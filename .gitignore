@@ -1,0 +1,26 @@
+# Game files: only the retail EXE in lst/ is committed (temporary, for convenience; it leaves the repo later). The build finds
+# it by SHA-1 and size. Never commit patches or other game files.
+*.exe
+*.EXE
+*.int
+*.INT
+*.dat
+*.DAT
+*.bin
+*.BIN
+*.ips
+*.bps
+*.patch
+*.lst
+*.idb
+*.i64
+# Generated
+output/
+Extracted/
+build/
+ref/
+__pycache__/
+*.pyc
+*.log
+.DS_Store
+!lst/HOCKEY.EXE

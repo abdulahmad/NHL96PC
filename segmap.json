@@ -1,0 +1,1709 @@
+{
+ "exe": {
+  "label": "NHL Hockey 96 PC retail HOCKEY.EXE (Watcom C/32, bound with DOS/4GW)",
+  "file": "HOCKEY.EXE",
+  "sha1": "426fb8c0c80088c6a2c56a9dac50509cb9c24540",
+  "crc32": "0E04F0D5",
+  "size": 1613291
+ },
+ "segments": [
+  {
+   "name": "dos16m_loader",
+   "off": 0,
+   "size": 62580,
+   "file": "stub/dos16m_loader.asm"
+  },
+  {
+   "name": "dos4gw_kernel",
+   "off": 62580,
+   "size": 94688,
+   "file": "stub/dos4gw_kernel.asm"
+  },
+  {
+   "name": "wstub",
+   "off": 157268,
+   "size": 10832,
+   "file": "stub/wstub.asm"
+  },
+  {
+   "name": "le_header",
+   "off": 168100,
+   "size": 305072,
+   "file": "le/le_header.asm"
+  },
+  {
+   "name": "obj1_00000",
+   "off": 473172,
+   "size": 4096,
+   "file": "obj1/obj1_00000.asm"
+  },
+  {
+   "name": "obj1_01000",
+   "off": 477268,
+   "size": 4096,
+   "file": "obj1/obj1_01000.asm"
+  },
+  {
+   "name": "obj1_02000",
+   "off": 481364,
+   "size": 4096,
+   "file": "obj1/obj1_02000.asm"
+  },
+  {
+   "name": "obj1_03000",
+   "off": 485460,
+   "size": 4096,
+   "file": "obj1/obj1_03000.asm"
+  },
+  {
+   "name": "obj1_04000",
+   "off": 489556,
+   "size": 4096,
+   "file": "obj1/obj1_04000.asm"
+  },
+  {
+   "name": "obj1_05000",
+   "off": 493652,
+   "size": 4096,
+   "file": "obj1/obj1_05000.asm"
+  },
+  {
+   "name": "obj1_06000",
+   "off": 497748,
+   "size": 4096,
+   "file": "obj1/obj1_06000.asm"
+  },
+  {
+   "name": "obj1_07000",
+   "off": 501844,
+   "size": 4096,
+   "file": "obj1/obj1_07000.asm"
+  },
+  {
+   "name": "obj1_08000",
+   "off": 505940,
+   "size": 4096,
+   "file": "obj1/obj1_08000.asm"
+  },
+  {
+   "name": "obj1_09000",
+   "off": 510036,
+   "size": 4096,
+   "file": "obj1/obj1_09000.asm"
+  },
+  {
+   "name": "obj1_0A000",
+   "off": 514132,
+   "size": 4096,
+   "file": "obj1/obj1_0A000.asm"
+  },
+  {
+   "name": "obj1_0B000",
+   "off": 518228,
+   "size": 4096,
+   "file": "obj1/obj1_0B000.asm"
+  },
+  {
+   "name": "obj1_0C000",
+   "off": 522324,
+   "size": 4096,
+   "file": "obj1/obj1_0C000.asm"
+  },
+  {
+   "name": "obj1_0D000",
+   "off": 526420,
+   "size": 4096,
+   "file": "obj1/obj1_0D000.asm"
+  },
+  {
+   "name": "obj1_0E000",
+   "off": 530516,
+   "size": 4096,
+   "file": "obj1/obj1_0E000.asm"
+  },
+  {
+   "name": "obj1_0F000",
+   "off": 534612,
+   "size": 4096,
+   "file": "obj1/obj1_0F000.asm"
+  },
+  {
+   "name": "obj1_10000",
+   "off": 538708,
+   "size": 4096,
+   "file": "obj1/obj1_10000.asm"
+  },
+  {
+   "name": "obj1_11000",
+   "off": 542804,
+   "size": 4096,
+   "file": "obj1/obj1_11000.asm"
+  },
+  {
+   "name": "obj1_12000",
+   "off": 546900,
+   "size": 4096,
+   "file": "obj1/obj1_12000.asm"
+  },
+  {
+   "name": "obj1_13000",
+   "off": 550996,
+   "size": 4096,
+   "file": "obj1/obj1_13000.asm"
+  },
+  {
+   "name": "obj1_14000",
+   "off": 555092,
+   "size": 4096,
+   "file": "obj1/obj1_14000.asm"
+  },
+  {
+   "name": "obj1_15000",
+   "off": 559188,
+   "size": 4096,
+   "file": "obj1/obj1_15000.asm"
+  },
+  {
+   "name": "obj1_16000",
+   "off": 563284,
+   "size": 4096,
+   "file": "obj1/obj1_16000.asm"
+  },
+  {
+   "name": "obj1_17000",
+   "off": 567380,
+   "size": 4096,
+   "file": "obj1/obj1_17000.asm"
+  },
+  {
+   "name": "obj1_18000",
+   "off": 571476,
+   "size": 4096,
+   "file": "obj1/obj1_18000.asm"
+  },
+  {
+   "name": "obj1_19000",
+   "off": 575572,
+   "size": 4096,
+   "file": "obj1/obj1_19000.asm"
+  },
+  {
+   "name": "obj1_1A000",
+   "off": 579668,
+   "size": 4096,
+   "file": "obj1/obj1_1A000.asm"
+  },
+  {
+   "name": "obj1_1B000",
+   "off": 583764,
+   "size": 4096,
+   "file": "obj1/obj1_1B000.asm"
+  },
+  {
+   "name": "obj1_1C000",
+   "off": 587860,
+   "size": 4096,
+   "file": "obj1/obj1_1C000.asm"
+  },
+  {
+   "name": "obj1_1D000",
+   "off": 591956,
+   "size": 4096,
+   "file": "obj1/obj1_1D000.asm"
+  },
+  {
+   "name": "obj1_1E000",
+   "off": 596052,
+   "size": 4096,
+   "file": "obj1/obj1_1E000.asm"
+  },
+  {
+   "name": "obj1_1F000",
+   "off": 600148,
+   "size": 4096,
+   "file": "obj1/obj1_1F000.asm"
+  },
+  {
+   "name": "obj1_20000",
+   "off": 604244,
+   "size": 4096,
+   "file": "obj1/obj1_20000.asm"
+  },
+  {
+   "name": "obj1_21000",
+   "off": 608340,
+   "size": 4096,
+   "file": "obj1/obj1_21000.asm"
+  },
+  {
+   "name": "obj1_22000",
+   "off": 612436,
+   "size": 4096,
+   "file": "obj1/obj1_22000.asm"
+  },
+  {
+   "name": "obj1_23000",
+   "off": 616532,
+   "size": 4096,
+   "file": "obj1/obj1_23000.asm"
+  },
+  {
+   "name": "obj1_24000",
+   "off": 620628,
+   "size": 4096,
+   "file": "obj1/obj1_24000.asm"
+  },
+  {
+   "name": "obj1_25000",
+   "off": 624724,
+   "size": 4096,
+   "file": "obj1/obj1_25000.asm"
+  },
+  {
+   "name": "obj1_26000",
+   "off": 628820,
+   "size": 4096,
+   "file": "obj1/obj1_26000.asm"
+  },
+  {
+   "name": "obj1_27000",
+   "off": 632916,
+   "size": 4096,
+   "file": "obj1/obj1_27000.asm"
+  },
+  {
+   "name": "obj1_28000",
+   "off": 637012,
+   "size": 4096,
+   "file": "obj1/obj1_28000.asm"
+  },
+  {
+   "name": "obj1_29000",
+   "off": 641108,
+   "size": 4096,
+   "file": "obj1/obj1_29000.asm"
+  },
+  {
+   "name": "obj1_2A000",
+   "off": 645204,
+   "size": 4096,
+   "file": "obj1/obj1_2A000.asm"
+  },
+  {
+   "name": "obj1_2B000",
+   "off": 649300,
+   "size": 4096,
+   "file": "obj1/obj1_2B000.asm"
+  },
+  {
+   "name": "obj1_2C000",
+   "off": 653396,
+   "size": 4096,
+   "file": "obj1/obj1_2C000.asm"
+  },
+  {
+   "name": "obj1_2D000",
+   "off": 657492,
+   "size": 4096,
+   "file": "obj1/obj1_2D000.asm"
+  },
+  {
+   "name": "obj1_2E000",
+   "off": 661588,
+   "size": 4096,
+   "file": "obj1/obj1_2E000.asm"
+  },
+  {
+   "name": "obj1_2F000",
+   "off": 665684,
+   "size": 4096,
+   "file": "obj1/obj1_2F000.asm"
+  },
+  {
+   "name": "obj1_30000",
+   "off": 669780,
+   "size": 4096,
+   "file": "obj1/obj1_30000.asm"
+  },
+  {
+   "name": "obj1_31000",
+   "off": 673876,
+   "size": 4096,
+   "file": "obj1/obj1_31000.asm"
+  },
+  {
+   "name": "obj1_32000",
+   "off": 677972,
+   "size": 4096,
+   "file": "obj1/obj1_32000.asm"
+  },
+  {
+   "name": "obj1_33000",
+   "off": 682068,
+   "size": 4096,
+   "file": "obj1/obj1_33000.asm"
+  },
+  {
+   "name": "obj1_34000",
+   "off": 686164,
+   "size": 4096,
+   "file": "obj1/obj1_34000.asm"
+  },
+  {
+   "name": "obj1_35000",
+   "off": 690260,
+   "size": 4096,
+   "file": "obj1/obj1_35000.asm"
+  },
+  {
+   "name": "obj1_36000",
+   "off": 694356,
+   "size": 4096,
+   "file": "obj1/obj1_36000.asm"
+  },
+  {
+   "name": "obj1_37000",
+   "off": 698452,
+   "size": 4096,
+   "file": "obj1/obj1_37000.asm"
+  },
+  {
+   "name": "obj1_38000",
+   "off": 702548,
+   "size": 4096,
+   "file": "obj1/obj1_38000.asm"
+  },
+  {
+   "name": "obj1_39000",
+   "off": 706644,
+   "size": 4096,
+   "file": "obj1/obj1_39000.asm"
+  },
+  {
+   "name": "obj1_3A000",
+   "off": 710740,
+   "size": 4096,
+   "file": "obj1/obj1_3A000.asm"
+  },
+  {
+   "name": "obj1_3B000",
+   "off": 714836,
+   "size": 4096,
+   "file": "obj1/obj1_3B000.asm"
+  },
+  {
+   "name": "obj1_3C000",
+   "off": 718932,
+   "size": 4096,
+   "file": "obj1/obj1_3C000.asm"
+  },
+  {
+   "name": "obj1_3D000",
+   "off": 723028,
+   "size": 4096,
+   "file": "obj1/obj1_3D000.asm"
+  },
+  {
+   "name": "obj1_3E000",
+   "off": 727124,
+   "size": 4096,
+   "file": "obj1/obj1_3E000.asm"
+  },
+  {
+   "name": "obj1_3F000",
+   "off": 731220,
+   "size": 4096,
+   "file": "obj1/obj1_3F000.asm"
+  },
+  {
+   "name": "obj1_40000",
+   "off": 735316,
+   "size": 4096,
+   "file": "obj1/obj1_40000.asm"
+  },
+  {
+   "name": "obj1_41000",
+   "off": 739412,
+   "size": 4096,
+   "file": "obj1/obj1_41000.asm"
+  },
+  {
+   "name": "obj1_42000",
+   "off": 743508,
+   "size": 4096,
+   "file": "obj1/obj1_42000.asm"
+  },
+  {
+   "name": "obj1_43000",
+   "off": 747604,
+   "size": 4096,
+   "file": "obj1/obj1_43000.asm"
+  },
+  {
+   "name": "obj1_44000",
+   "off": 751700,
+   "size": 4096,
+   "file": "obj1/obj1_44000.asm"
+  },
+  {
+   "name": "obj1_45000",
+   "off": 755796,
+   "size": 4096,
+   "file": "obj1/obj1_45000.asm"
+  },
+  {
+   "name": "obj1_46000",
+   "off": 759892,
+   "size": 4096,
+   "file": "obj1/obj1_46000.asm"
+  },
+  {
+   "name": "obj1_47000",
+   "off": 763988,
+   "size": 4096,
+   "file": "obj1/obj1_47000.asm"
+  },
+  {
+   "name": "obj1_48000",
+   "off": 768084,
+   "size": 4096,
+   "file": "obj1/obj1_48000.asm"
+  },
+  {
+   "name": "obj1_49000",
+   "off": 772180,
+   "size": 4096,
+   "file": "obj1/obj1_49000.asm"
+  },
+  {
+   "name": "obj1_4A000",
+   "off": 776276,
+   "size": 4096,
+   "file": "obj1/obj1_4A000.asm"
+  },
+  {
+   "name": "obj1_4B000",
+   "off": 780372,
+   "size": 4096,
+   "file": "obj1/obj1_4B000.asm"
+  },
+  {
+   "name": "obj1_4C000",
+   "off": 784468,
+   "size": 4096,
+   "file": "obj1/obj1_4C000.asm"
+  },
+  {
+   "name": "obj1_4D000",
+   "off": 788564,
+   "size": 4096,
+   "file": "obj1/obj1_4D000.asm"
+  },
+  {
+   "name": "obj1_4E000",
+   "off": 792660,
+   "size": 4096,
+   "file": "obj1/obj1_4E000.asm"
+  },
+  {
+   "name": "obj1_4F000",
+   "off": 796756,
+   "size": 4096,
+   "file": "obj1/obj1_4F000.asm"
+  },
+  {
+   "name": "obj1_50000",
+   "off": 800852,
+   "size": 4096,
+   "file": "obj1/obj1_50000.asm"
+  },
+  {
+   "name": "obj1_51000",
+   "off": 804948,
+   "size": 4096,
+   "file": "obj1/obj1_51000.asm"
+  },
+  {
+   "name": "obj1_52000",
+   "off": 809044,
+   "size": 4096,
+   "file": "obj1/obj1_52000.asm"
+  },
+  {
+   "name": "obj1_53000",
+   "off": 813140,
+   "size": 4096,
+   "file": "obj1/obj1_53000.asm"
+  },
+  {
+   "name": "obj1_54000",
+   "off": 817236,
+   "size": 4096,
+   "file": "obj1/obj1_54000.asm"
+  },
+  {
+   "name": "obj1_55000",
+   "off": 821332,
+   "size": 4096,
+   "file": "obj1/obj1_55000.asm"
+  },
+  {
+   "name": "obj1_56000",
+   "off": 825428,
+   "size": 4096,
+   "file": "obj1/obj1_56000.asm"
+  },
+  {
+   "name": "obj1_57000",
+   "off": 829524,
+   "size": 4096,
+   "file": "obj1/obj1_57000.asm"
+  },
+  {
+   "name": "obj1_58000",
+   "off": 833620,
+   "size": 4096,
+   "file": "obj1/obj1_58000.asm"
+  },
+  {
+   "name": "obj1_59000",
+   "off": 837716,
+   "size": 4096,
+   "file": "obj1/obj1_59000.asm"
+  },
+  {
+   "name": "obj1_5A000",
+   "off": 841812,
+   "size": 4096,
+   "file": "obj1/obj1_5A000.asm"
+  },
+  {
+   "name": "obj1_5B000",
+   "off": 845908,
+   "size": 4096,
+   "file": "obj1/obj1_5B000.asm"
+  },
+  {
+   "name": "obj1_5C000",
+   "off": 850004,
+   "size": 4096,
+   "file": "obj1/obj1_5C000.asm"
+  },
+  {
+   "name": "obj1_5D000",
+   "off": 854100,
+   "size": 4096,
+   "file": "obj1/obj1_5D000.asm"
+  },
+  {
+   "name": "obj1_5E000",
+   "off": 858196,
+   "size": 4096,
+   "file": "obj1/obj1_5E000.asm"
+  },
+  {
+   "name": "obj1_5F000",
+   "off": 862292,
+   "size": 4096,
+   "file": "obj1/obj1_5F000.asm"
+  },
+  {
+   "name": "obj1_60000",
+   "off": 866388,
+   "size": 4096,
+   "file": "obj1/obj1_60000.asm"
+  },
+  {
+   "name": "obj1_61000",
+   "off": 870484,
+   "size": 4096,
+   "file": "obj1/obj1_61000.asm"
+  },
+  {
+   "name": "obj1_62000",
+   "off": 874580,
+   "size": 4096,
+   "file": "obj1/obj1_62000.asm"
+  },
+  {
+   "name": "obj1_63000",
+   "off": 878676,
+   "size": 4096,
+   "file": "obj1/obj1_63000.asm"
+  },
+  {
+   "name": "obj1_64000",
+   "off": 882772,
+   "size": 4096,
+   "file": "obj1/obj1_64000.asm"
+  },
+  {
+   "name": "obj1_65000",
+   "off": 886868,
+   "size": 4096,
+   "file": "obj1/obj1_65000.asm"
+  },
+  {
+   "name": "obj1_66000",
+   "off": 890964,
+   "size": 4096,
+   "file": "obj1/obj1_66000.asm"
+  },
+  {
+   "name": "obj1_67000",
+   "off": 895060,
+   "size": 4096,
+   "file": "obj1/obj1_67000.asm"
+  },
+  {
+   "name": "obj1_68000",
+   "off": 899156,
+   "size": 4096,
+   "file": "obj1/obj1_68000.asm"
+  },
+  {
+   "name": "obj1_69000",
+   "off": 903252,
+   "size": 4096,
+   "file": "obj1/obj1_69000.asm"
+  },
+  {
+   "name": "obj1_6A000",
+   "off": 907348,
+   "size": 4096,
+   "file": "obj1/obj1_6A000.asm"
+  },
+  {
+   "name": "obj1_6B000",
+   "off": 911444,
+   "size": 4096,
+   "file": "obj1/obj1_6B000.asm"
+  },
+  {
+   "name": "obj1_6C000",
+   "off": 915540,
+   "size": 4096,
+   "file": "obj1/obj1_6C000.asm"
+  },
+  {
+   "name": "obj1_6D000",
+   "off": 919636,
+   "size": 4096,
+   "file": "obj1/obj1_6D000.asm"
+  },
+  {
+   "name": "obj1_6E000",
+   "off": 923732,
+   "size": 4096,
+   "file": "obj1/obj1_6E000.asm"
+  },
+  {
+   "name": "obj1_6F000",
+   "off": 927828,
+   "size": 4096,
+   "file": "obj1/obj1_6F000.asm"
+  },
+  {
+   "name": "obj1_70000",
+   "off": 931924,
+   "size": 4096,
+   "file": "obj1/obj1_70000.asm"
+  },
+  {
+   "name": "obj1_71000",
+   "off": 936020,
+   "size": 4096,
+   "file": "obj1/obj1_71000.asm"
+  },
+  {
+   "name": "obj1_72000",
+   "off": 940116,
+   "size": 4096,
+   "file": "obj1/obj1_72000.asm"
+  },
+  {
+   "name": "obj1_73000",
+   "off": 944212,
+   "size": 4096,
+   "file": "obj1/obj1_73000.asm"
+  },
+  {
+   "name": "obj1_74000",
+   "off": 948308,
+   "size": 4096,
+   "file": "obj1/obj1_74000.asm"
+  },
+  {
+   "name": "obj1_75000",
+   "off": 952404,
+   "size": 4096,
+   "file": "obj1/obj1_75000.asm"
+  },
+  {
+   "name": "obj1_76000",
+   "off": 956500,
+   "size": 4096,
+   "file": "obj1/obj1_76000.asm"
+  },
+  {
+   "name": "obj1_77000",
+   "off": 960596,
+   "size": 4096,
+   "file": "obj1/obj1_77000.asm"
+  },
+  {
+   "name": "obj1_78000",
+   "off": 964692,
+   "size": 4096,
+   "file": "obj1/obj1_78000.asm"
+  },
+  {
+   "name": "obj1_79000",
+   "off": 968788,
+   "size": 4096,
+   "file": "obj1/obj1_79000.asm"
+  },
+  {
+   "name": "obj1_7A000",
+   "off": 972884,
+   "size": 4096,
+   "file": "obj1/obj1_7A000.asm"
+  },
+  {
+   "name": "obj1_7B000",
+   "off": 976980,
+   "size": 4096,
+   "file": "obj1/obj1_7B000.asm"
+  },
+  {
+   "name": "obj1_7C000",
+   "off": 981076,
+   "size": 4096,
+   "file": "obj1/obj1_7C000.asm"
+  },
+  {
+   "name": "obj1_7D000",
+   "off": 985172,
+   "size": 4096,
+   "file": "obj1/obj1_7D000.asm"
+  },
+  {
+   "name": "obj1_7E000",
+   "off": 989268,
+   "size": 4096,
+   "file": "obj1/obj1_7E000.asm"
+  },
+  {
+   "name": "obj1_7F000",
+   "off": 993364,
+   "size": 4096,
+   "file": "obj1/obj1_7F000.asm"
+  },
+  {
+   "name": "obj1_80000",
+   "off": 997460,
+   "size": 4096,
+   "file": "obj1/obj1_80000.asm"
+  },
+  {
+   "name": "obj1_81000",
+   "off": 1001556,
+   "size": 4096,
+   "file": "obj1/obj1_81000.asm"
+  },
+  {
+   "name": "obj1_82000",
+   "off": 1005652,
+   "size": 4096,
+   "file": "obj1/obj1_82000.asm"
+  },
+  {
+   "name": "obj1_83000",
+   "off": 1009748,
+   "size": 4096,
+   "file": "obj1/obj1_83000.asm"
+  },
+  {
+   "name": "obj1_84000",
+   "off": 1013844,
+   "size": 4096,
+   "file": "obj1/obj1_84000.asm"
+  },
+  {
+   "name": "obj1_85000",
+   "off": 1017940,
+   "size": 4096,
+   "file": "obj1/obj1_85000.asm"
+  },
+  {
+   "name": "obj1_86000",
+   "off": 1022036,
+   "size": 4096,
+   "file": "obj1/obj1_86000.asm"
+  },
+  {
+   "name": "obj1_87000",
+   "off": 1026132,
+   "size": 4096,
+   "file": "obj1/obj1_87000.asm"
+  },
+  {
+   "name": "obj1_88000",
+   "off": 1030228,
+   "size": 4096,
+   "file": "obj1/obj1_88000.asm"
+  },
+  {
+   "name": "obj1_89000",
+   "off": 1034324,
+   "size": 4096,
+   "file": "obj1/obj1_89000.asm"
+  },
+  {
+   "name": "obj1_8A000",
+   "off": 1038420,
+   "size": 4096,
+   "file": "obj1/obj1_8A000.asm"
+  },
+  {
+   "name": "obj1_8B000",
+   "off": 1042516,
+   "size": 4096,
+   "file": "obj1/obj1_8B000.asm"
+  },
+  {
+   "name": "obj1_8C000",
+   "off": 1046612,
+   "size": 4096,
+   "file": "obj1/obj1_8C000.asm"
+  },
+  {
+   "name": "obj1_8D000",
+   "off": 1050708,
+   "size": 4096,
+   "file": "obj1/obj1_8D000.asm"
+  },
+  {
+   "name": "obj1_8E000",
+   "off": 1054804,
+   "size": 4096,
+   "file": "obj1/obj1_8E000.asm"
+  },
+  {
+   "name": "obj1_8F000",
+   "off": 1058900,
+   "size": 4096,
+   "file": "obj1/obj1_8F000.asm"
+  },
+  {
+   "name": "obj1_90000",
+   "off": 1062996,
+   "size": 4096,
+   "file": "obj1/obj1_90000.asm"
+  },
+  {
+   "name": "obj1_91000",
+   "off": 1067092,
+   "size": 4096,
+   "file": "obj1/obj1_91000.asm"
+  },
+  {
+   "name": "obj1_92000",
+   "off": 1071188,
+   "size": 4096,
+   "file": "obj1/obj1_92000.asm"
+  },
+  {
+   "name": "obj1_93000",
+   "off": 1075284,
+   "size": 4096,
+   "file": "obj1/obj1_93000.asm"
+  },
+  {
+   "name": "obj1_94000",
+   "off": 1079380,
+   "size": 4096,
+   "file": "obj1/obj1_94000.asm"
+  },
+  {
+   "name": "obj1_95000",
+   "off": 1083476,
+   "size": 4096,
+   "file": "obj1/obj1_95000.asm"
+  },
+  {
+   "name": "obj1_96000",
+   "off": 1087572,
+   "size": 4096,
+   "file": "obj1/obj1_96000.asm"
+  },
+  {
+   "name": "obj1_97000",
+   "off": 1091668,
+   "size": 4096,
+   "file": "obj1/obj1_97000.asm"
+  },
+  {
+   "name": "obj1_98000",
+   "off": 1095764,
+   "size": 4096,
+   "file": "obj1/obj1_98000.asm"
+  },
+  {
+   "name": "obj1_99000",
+   "off": 1099860,
+   "size": 4096,
+   "file": "obj1/obj1_99000.asm"
+  },
+  {
+   "name": "obj1_9A000",
+   "off": 1103956,
+   "size": 4096,
+   "file": "obj1/obj1_9A000.asm"
+  },
+  {
+   "name": "obj1_9B000",
+   "off": 1108052,
+   "size": 4096,
+   "file": "obj1/obj1_9B000.asm"
+  },
+  {
+   "name": "obj1_9C000",
+   "off": 1112148,
+   "size": 4096,
+   "file": "obj1/obj1_9C000.asm"
+  },
+  {
+   "name": "obj1_9D000",
+   "off": 1116244,
+   "size": 4096,
+   "file": "obj1/obj1_9D000.asm"
+  },
+  {
+   "name": "obj1_9E000",
+   "off": 1120340,
+   "size": 4096,
+   "file": "obj1/obj1_9E000.asm"
+  },
+  {
+   "name": "obj1_9F000",
+   "off": 1124436,
+   "size": 4096,
+   "file": "obj1/obj1_9F000.asm"
+  },
+  {
+   "name": "obj1_A0000",
+   "off": 1128532,
+   "size": 4096,
+   "file": "obj1/obj1_A0000.asm"
+  },
+  {
+   "name": "obj1_A1000",
+   "off": 1132628,
+   "size": 4096,
+   "file": "obj1/obj1_A1000.asm"
+  },
+  {
+   "name": "obj1_A2000",
+   "off": 1136724,
+   "size": 4096,
+   "file": "obj1/obj1_A2000.asm"
+  },
+  {
+   "name": "obj1_A3000",
+   "off": 1140820,
+   "size": 4096,
+   "file": "obj1/obj1_A3000.asm"
+  },
+  {
+   "name": "obj1_A4000",
+   "off": 1144916,
+   "size": 4096,
+   "file": "obj1/obj1_A4000.asm"
+  },
+  {
+   "name": "obj1_A5000",
+   "off": 1149012,
+   "size": 4096,
+   "file": "obj1/obj1_A5000.asm"
+  },
+  {
+   "name": "obj1_A6000",
+   "off": 1153108,
+   "size": 4096,
+   "file": "obj1/obj1_A6000.asm"
+  },
+  {
+   "name": "obj1_A7000",
+   "off": 1157204,
+   "size": 4096,
+   "file": "obj1/obj1_A7000.asm"
+  },
+  {
+   "name": "obj1_A8000",
+   "off": 1161300,
+   "size": 4096,
+   "file": "obj1/obj1_A8000.asm"
+  },
+  {
+   "name": "obj1_A9000",
+   "off": 1165396,
+   "size": 4096,
+   "file": "obj1/obj1_A9000.asm"
+  },
+  {
+   "name": "obj1_AA000",
+   "off": 1169492,
+   "size": 4096,
+   "file": "obj1/obj1_AA000.asm"
+  },
+  {
+   "name": "obj1_AB000",
+   "off": 1173588,
+   "size": 4096,
+   "file": "obj1/obj1_AB000.asm"
+  },
+  {
+   "name": "obj1_AC000",
+   "off": 1177684,
+   "size": 4096,
+   "file": "obj1/obj1_AC000.asm"
+  },
+  {
+   "name": "obj1_AD000",
+   "off": 1181780,
+   "size": 4096,
+   "file": "obj1/obj1_AD000.asm"
+  },
+  {
+   "name": "obj1_AE000",
+   "off": 1185876,
+   "size": 4096,
+   "file": "obj1/obj1_AE000.asm"
+  },
+  {
+   "name": "obj1_AF000",
+   "off": 1189972,
+   "size": 4096,
+   "file": "obj1/obj1_AF000.asm"
+  },
+  {
+   "name": "obj1_B0000",
+   "off": 1194068,
+   "size": 4096,
+   "file": "obj1/obj1_B0000.asm"
+  },
+  {
+   "name": "obj1_B1000",
+   "off": 1198164,
+   "size": 4096,
+   "file": "obj1/obj1_B1000.asm"
+  },
+  {
+   "name": "obj1_B2000",
+   "off": 1202260,
+   "size": 4096,
+   "file": "obj1/obj1_B2000.asm"
+  },
+  {
+   "name": "obj1_B3000",
+   "off": 1206356,
+   "size": 4096,
+   "file": "obj1/obj1_B3000.asm"
+  },
+  {
+   "name": "obj1_B4000",
+   "off": 1210452,
+   "size": 4096,
+   "file": "obj1/obj1_B4000.asm"
+  },
+  {
+   "name": "obj1_B5000",
+   "off": 1214548,
+   "size": 4096,
+   "file": "obj1/obj1_B5000.asm"
+  },
+  {
+   "name": "obj1_B6000",
+   "off": 1218644,
+   "size": 4096,
+   "file": "obj1/obj1_B6000.asm"
+  },
+  {
+   "name": "obj1_B7000",
+   "off": 1222740,
+   "size": 4096,
+   "file": "obj1/obj1_B7000.asm"
+  },
+  {
+   "name": "obj1_B8000",
+   "off": 1226836,
+   "size": 4096,
+   "file": "obj1/obj1_B8000.asm"
+  },
+  {
+   "name": "obj1_B9000",
+   "off": 1230932,
+   "size": 4096,
+   "file": "obj1/obj1_B9000.asm"
+  },
+  {
+   "name": "obj1_BA000",
+   "off": 1235028,
+   "size": 4096,
+   "file": "obj1/obj1_BA000.asm"
+  },
+  {
+   "name": "obj1_BB000",
+   "off": 1239124,
+   "size": 4096,
+   "file": "obj1/obj1_BB000.asm"
+  },
+  {
+   "name": "obj1_BC000",
+   "off": 1243220,
+   "size": 4096,
+   "file": "obj1/obj1_BC000.asm"
+  },
+  {
+   "name": "obj1_BD000",
+   "off": 1247316,
+   "size": 4096,
+   "file": "obj1/obj1_BD000.asm"
+  },
+  {
+   "name": "obj1_BE000",
+   "off": 1251412,
+   "size": 4096,
+   "file": "obj1/obj1_BE000.asm"
+  },
+  {
+   "name": "obj1_BF000",
+   "off": 1255508,
+   "size": 4096,
+   "file": "obj1/obj1_BF000.asm"
+  },
+  {
+   "name": "obj1_C0000",
+   "off": 1259604,
+   "size": 4096,
+   "file": "obj1/obj1_C0000.asm"
+  },
+  {
+   "name": "obj1_C1000",
+   "off": 1263700,
+   "size": 4096,
+   "file": "obj1/obj1_C1000.asm"
+  },
+  {
+   "name": "obj1_C2000",
+   "off": 1267796,
+   "size": 4096,
+   "file": "obj1/obj1_C2000.asm"
+  },
+  {
+   "name": "obj1_C3000",
+   "off": 1271892,
+   "size": 4096,
+   "file": "obj1/obj1_C3000.asm"
+  },
+  {
+   "name": "obj1_C4000",
+   "off": 1275988,
+   "size": 4096,
+   "file": "obj1/obj1_C4000.asm"
+  },
+  {
+   "name": "obj1_C5000",
+   "off": 1280084,
+   "size": 4096,
+   "file": "obj1/obj1_C5000.asm"
+  },
+  {
+   "name": "obj1_C6000",
+   "off": 1284180,
+   "size": 4096,
+   "file": "obj1/obj1_C6000.asm"
+  },
+  {
+   "name": "obj1_C7000",
+   "off": 1288276,
+   "size": 4096,
+   "file": "obj1/obj1_C7000.asm"
+  },
+  {
+   "name": "obj1_C8000",
+   "off": 1292372,
+   "size": 4096,
+   "file": "obj1/obj1_C8000.asm"
+  },
+  {
+   "name": "obj1_C9000",
+   "off": 1296468,
+   "size": 4096,
+   "file": "obj1/obj1_C9000.asm"
+  },
+  {
+   "name": "obj1_CA000",
+   "off": 1300564,
+   "size": 4096,
+   "file": "obj1/obj1_CA000.asm"
+  },
+  {
+   "name": "obj1_CB000",
+   "off": 1304660,
+   "size": 4096,
+   "file": "obj1/obj1_CB000.asm"
+  },
+  {
+   "name": "obj1_CC000",
+   "off": 1308756,
+   "size": 4096,
+   "file": "obj1/obj1_CC000.asm"
+  },
+  {
+   "name": "obj1_CD000",
+   "off": 1312852,
+   "size": 4096,
+   "file": "obj1/obj1_CD000.asm"
+  },
+  {
+   "name": "obj1_CE000",
+   "off": 1316948,
+   "size": 4096,
+   "file": "obj1/obj1_CE000.asm"
+  },
+  {
+   "name": "obj1_CF000",
+   "off": 1321044,
+   "size": 4096,
+   "file": "obj1/obj1_CF000.asm"
+  },
+  {
+   "name": "obj1_D0000",
+   "off": 1325140,
+   "size": 4096,
+   "file": "obj1/obj1_D0000.asm"
+  },
+  {
+   "name": "obj1_D1000",
+   "off": 1329236,
+   "size": 4096,
+   "file": "obj1/obj1_D1000.asm"
+  },
+  {
+   "name": "obj1_D2000",
+   "off": 1333332,
+   "size": 4096,
+   "file": "obj1/obj1_D2000.asm"
+  },
+  {
+   "name": "obj2_00000",
+   "off": 1337428,
+   "size": 4096,
+   "file": "obj2/obj2_00000.asm"
+  },
+  {
+   "name": "obj3_00000",
+   "off": 1341524,
+   "size": 4096,
+   "file": "obj3/obj3_00000.asm"
+  },
+  {
+   "name": "obj4_00000",
+   "off": 1345620,
+   "size": 4096,
+   "file": "obj4/obj4_00000.asm"
+  },
+  {
+   "name": "obj4_01000",
+   "off": 1349716,
+   "size": 4096,
+   "file": "obj4/obj4_01000.asm"
+  },
+  {
+   "name": "obj4_02000",
+   "off": 1353812,
+   "size": 4096,
+   "file": "obj4/obj4_02000.asm"
+  },
+  {
+   "name": "obj4_03000",
+   "off": 1357908,
+   "size": 4096,
+   "file": "obj4/obj4_03000.asm"
+  },
+  {
+   "name": "obj4_04000",
+   "off": 1362004,
+   "size": 4096,
+   "file": "obj4/obj4_04000.asm"
+  },
+  {
+   "name": "obj4_05000",
+   "off": 1366100,
+   "size": 4096,
+   "file": "obj4/obj4_05000.asm"
+  },
+  {
+   "name": "obj4_06000",
+   "off": 1370196,
+   "size": 4096,
+   "file": "obj4/obj4_06000.asm"
+  },
+  {
+   "name": "obj4_07000",
+   "off": 1374292,
+   "size": 4096,
+   "file": "obj4/obj4_07000.asm"
+  },
+  {
+   "name": "obj4_08000",
+   "off": 1378388,
+   "size": 4096,
+   "file": "obj4/obj4_08000.asm"
+  },
+  {
+   "name": "obj4_09000",
+   "off": 1382484,
+   "size": 4096,
+   "file": "obj4/obj4_09000.asm"
+  },
+  {
+   "name": "obj4_0A000",
+   "off": 1386580,
+   "size": 4096,
+   "file": "obj4/obj4_0A000.asm"
+  },
+  {
+   "name": "obj4_0B000",
+   "off": 1390676,
+   "size": 4096,
+   "file": "obj4/obj4_0B000.asm"
+  },
+  {
+   "name": "obj4_0C000",
+   "off": 1394772,
+   "size": 4096,
+   "file": "obj4/obj4_0C000.asm"
+  },
+  {
+   "name": "obj4_0D000",
+   "off": 1398868,
+   "size": 4096,
+   "file": "obj4/obj4_0D000.asm"
+  },
+  {
+   "name": "obj4_0E000",
+   "off": 1402964,
+   "size": 4096,
+   "file": "obj4/obj4_0E000.asm"
+  },
+  {
+   "name": "obj4_0F000",
+   "off": 1407060,
+   "size": 4096,
+   "file": "obj4/obj4_0F000.asm"
+  },
+  {
+   "name": "obj4_10000",
+   "off": 1411156,
+   "size": 4096,
+   "file": "obj4/obj4_10000.asm"
+  },
+  {
+   "name": "obj4_11000",
+   "off": 1415252,
+   "size": 4096,
+   "file": "obj4/obj4_11000.asm"
+  },
+  {
+   "name": "obj4_12000",
+   "off": 1419348,
+   "size": 4096,
+   "file": "obj4/obj4_12000.asm"
+  },
+  {
+   "name": "obj4_13000",
+   "off": 1423444,
+   "size": 4096,
+   "file": "obj4/obj4_13000.asm"
+  },
+  {
+   "name": "obj4_14000",
+   "off": 1427540,
+   "size": 4096,
+   "file": "obj4/obj4_14000.asm"
+  },
+  {
+   "name": "obj4_15000",
+   "off": 1431636,
+   "size": 4096,
+   "file": "obj4/obj4_15000.asm"
+  },
+  {
+   "name": "obj4_16000",
+   "off": 1435732,
+   "size": 4096,
+   "file": "obj4/obj4_16000.asm"
+  },
+  {
+   "name": "obj4_17000",
+   "off": 1439828,
+   "size": 4096,
+   "file": "obj4/obj4_17000.asm"
+  },
+  {
+   "name": "obj4_18000",
+   "off": 1443924,
+   "size": 4096,
+   "file": "obj4/obj4_18000.asm"
+  },
+  {
+   "name": "obj4_19000",
+   "off": 1448020,
+   "size": 4096,
+   "file": "obj4/obj4_19000.asm"
+  },
+  {
+   "name": "obj4_1A000",
+   "off": 1452116,
+   "size": 4096,
+   "file": "obj4/obj4_1A000.asm"
+  },
+  {
+   "name": "obj4_1B000",
+   "off": 1456212,
+   "size": 4096,
+   "file": "obj4/obj4_1B000.asm"
+  },
+  {
+   "name": "obj4_1C000",
+   "off": 1460308,
+   "size": 4096,
+   "file": "obj4/obj4_1C000.asm"
+  },
+  {
+   "name": "obj4_1D000",
+   "off": 1464404,
+   "size": 4096,
+   "file": "obj4/obj4_1D000.asm"
+  },
+  {
+   "name": "obj4_1E000",
+   "off": 1468500,
+   "size": 4096,
+   "file": "obj4/obj4_1E000.asm"
+  },
+  {
+   "name": "obj4_1F000",
+   "off": 1472596,
+   "size": 4096,
+   "file": "obj4/obj4_1F000.asm"
+  },
+  {
+   "name": "obj4_20000",
+   "off": 1476692,
+   "size": 4096,
+   "file": "obj4/obj4_20000.asm"
+  },
+  {
+   "name": "obj4_21000",
+   "off": 1480788,
+   "size": 4096,
+   "file": "obj4/obj4_21000.asm"
+  },
+  {
+   "name": "obj4_22000",
+   "off": 1484884,
+   "size": 4096,
+   "file": "obj4/obj4_22000.asm"
+  },
+  {
+   "name": "obj4_23000",
+   "off": 1488980,
+   "size": 4096,
+   "file": "obj4/obj4_23000.asm"
+  },
+  {
+   "name": "obj4_24000",
+   "off": 1493076,
+   "size": 4096,
+   "file": "obj4/obj4_24000.asm"
+  },
+  {
+   "name": "obj4_25000",
+   "off": 1497172,
+   "size": 4096,
+   "file": "obj4/obj4_25000.asm"
+  },
+  {
+   "name": "obj4_26000",
+   "off": 1501268,
+   "size": 4096,
+   "file": "obj4/obj4_26000.asm"
+  },
+  {
+   "name": "obj4_27000",
+   "off": 1505364,
+   "size": 4096,
+   "file": "obj4/obj4_27000.asm"
+  },
+  {
+   "name": "obj4_28000",
+   "off": 1509460,
+   "size": 4096,
+   "file": "obj4/obj4_28000.asm"
+  },
+  {
+   "name": "obj4_29000",
+   "off": 1513556,
+   "size": 4096,
+   "file": "obj4/obj4_29000.asm"
+  },
+  {
+   "name": "obj4_2A000",
+   "off": 1517652,
+   "size": 4096,
+   "file": "obj4/obj4_2A000.asm"
+  },
+  {
+   "name": "obj4_2B000",
+   "off": 1521748,
+   "size": 4096,
+   "file": "obj4/obj4_2B000.asm"
+  },
+  {
+   "name": "obj4_2C000",
+   "off": 1525844,
+   "size": 4096,
+   "file": "obj4/obj4_2C000.asm"
+  },
+  {
+   "name": "obj4_2D000",
+   "off": 1529940,
+   "size": 4096,
+   "file": "obj4/obj4_2D000.asm"
+  },
+  {
+   "name": "obj4_2E000",
+   "off": 1534036,
+   "size": 4096,
+   "file": "obj4/obj4_2E000.asm"
+  },
+  {
+   "name": "obj4_2F000",
+   "off": 1538132,
+   "size": 4096,
+   "file": "obj4/obj4_2F000.asm"
+  },
+  {
+   "name": "obj4_30000",
+   "off": 1542228,
+   "size": 4096,
+   "file": "obj4/obj4_30000.asm"
+  },
+  {
+   "name": "obj4_31000",
+   "off": 1546324,
+   "size": 4096,
+   "file": "obj4/obj4_31000.asm"
+  },
+  {
+   "name": "obj4_32000",
+   "off": 1550420,
+   "size": 4096,
+   "file": "obj4/obj4_32000.asm"
+  },
+  {
+   "name": "obj4_33000",
+   "off": 1554516,
+   "size": 4096,
+   "file": "obj4/obj4_33000.asm"
+  },
+  {
+   "name": "obj4_34000",
+   "off": 1558612,
+   "size": 4096,
+   "file": "obj4/obj4_34000.asm"
+  },
+  {
+   "name": "obj4_35000",
+   "off": 1562708,
+   "size": 4096,
+   "file": "obj4/obj4_35000.asm"
+  },
+  {
+   "name": "obj4_36000",
+   "off": 1566804,
+   "size": 4096,
+   "file": "obj4/obj4_36000.asm"
+  },
+  {
+   "name": "obj4_37000",
+   "off": 1570900,
+   "size": 4096,
+   "file": "obj4/obj4_37000.asm"
+  },
+  {
+   "name": "obj4_38000",
+   "off": 1574996,
+   "size": 4096,
+   "file": "obj4/obj4_38000.asm"
+  },
+  {
+   "name": "obj4_39000",
+   "off": 1579092,
+   "size": 4096,
+   "file": "obj4/obj4_39000.asm"
+  },
+  {
+   "name": "obj4_3A000",
+   "off": 1583188,
+   "size": 4096,
+   "file": "obj4/obj4_3A000.asm"
+  },
+  {
+   "name": "obj4_3B000",
+   "off": 1587284,
+   "size": 4096,
+   "file": "obj4/obj4_3B000.asm"
+  },
+  {
+   "name": "obj4_3C000",
+   "off": 1591380,
+   "size": 4096,
+   "file": "obj4/obj4_3C000.asm"
+  },
+  {
+   "name": "obj4_3D000",
+   "off": 1595476,
+   "size": 4096,
+   "file": "obj4/obj4_3D000.asm"
+  },
+  {
+   "name": "obj4_3E000",
+   "off": 1599572,
+   "size": 4096,
+   "file": "obj4/obj4_3E000.asm"
+  },
+  {
+   "name": "obj4_3F000",
+   "off": 1603668,
+   "size": 4096,
+   "file": "obj4/obj4_3F000.asm"
+  },
+  {
+   "name": "obj4_40000",
+   "off": 1607764,
+   "size": 4096,
+   "file": "obj4/obj4_40000.asm"
+  },
+  {
+   "name": "obj4_41000",
+   "off": 1611860,
+   "size": 1431,
+   "file": "obj4/obj4_41000.asm"
+  }
+ ]
+}

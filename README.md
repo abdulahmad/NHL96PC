@@ -2,7 +2,7 @@
 
 > **🤝 Making a mod, hack, port or other derivative work from this repo? You must credit me and everyone credited in this repo, clearly, in your own repo and in every release. See [Credits and derivative works](#credits-and-derivative-works).**
 
-> **Temporary:** the retail HOCKEY.EXE is committed in `lst/` for convenience while the repo is young. It will be removed as the repo gets closer to final; after that you supply your own copy (the build finds it by SHA-1 and size, any file name, and tells you exactly what it needs when it is missing). Patch files are never committed.
+> **Temporary:** the retail HOCKEY.EXE is committed in `lst/` for convenience while the repo is young. It will be removed as the repo gets closer to final; after that you supply your own copy (the build finds it by SHA-1 and size, any file name, and tells you exactly what it needs when it is missing). The IDA listing `lst/HOCKEY.EXE.lst` is committed on the same temporary basis. Patch files are never committed.
 
 > **📀 The other game files are needed to run the game.** This repo builds `HOCKEY.EXE` only; the game's data (`*.VIV`, `*.FSH`, `*.ASF`, `*.QFS` and the rest of the install) is not here.
 
@@ -18,6 +18,7 @@
 | | |
 |---|---|
 | File | `lst/HOCKEY.EXE` (any name in the repo folder works) |
+| IDA listing | `lst/HOCKEY.EXE.lst` (reference for contributors; the build does not use it) |
 | Size | 1,613,291 bytes |
 | SHA-1 | `426fb8c0c80088c6a2c56a9dac50509cb9c24540` |
 | CRC32 | `0E04F0D5` |

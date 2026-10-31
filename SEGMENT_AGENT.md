@@ -36,6 +36,7 @@ obj1_00000. <- CURRENT
 ## Sources
 
 - Reference EXE: `lst/HOCKEY.EXE` (committed for now, temporary).
+- IDA listing: `lst/HOCKEY.EXE.lst` (committed for now, temporary). The starting point for every page; see IDA listing below.
 - File layout: 0x000000 DOS/16M loader stub (MZ), 0x00F474 DOS/4GW kernel ('BW'), 0x026654 Watcom wstub (MZ, e_lfanew -> LE),
   0x0290A4 LE header, object table, page map, resident names, entry table, fixup page table and fixup records, then
   the object pages from 0x073854 (the LE data-pages offset is counted from the wstub). The same structure as NHL95PC (see its
@@ -43,6 +44,37 @@ obj1_00000. <- CURRENT
 - Segments: one per 4 KB LE page (the last page of object 4 is short). Pages are split further as routines are found.
 - Names: NHL95PC (https://github.com/abdulahmad/NHL95PC: `src/inc/symbols.inc`, `name_map_94.csv`, `EXE_SEGMAP95PC.md`),
   NHL96Genesis (https://github.com/abdulahmad/NHL96Genesis).
+
+## IDA listing (`lst/HOCKEY.EXE.lst`)
+
+Abdul's IDA Pro listing of this EXE (LE loader, MetaPC, MASM syntax, CRLF, no opcode-bytes column). Committed for now, like the EXE
+(temporary). Header: CRC32 `0E04F0D5`, the same EXE. It is the **starting point for every page**: take IDA's code/data split, its
+cross-references and its auto names (`sub_`, `loc_`, `dword_`, `off_`, `a...` strings) from it, then rename by purpose
+(NHL95PC first, NHL96Genesis as a fallback, see Current rules). The listing is a reference only: never edit it, and the build never reads it.
+
+Its addresses are the repo's linear addresses (checked 2026-10-31):
+
+| Object | IDA segment | Linear range in IDA | Repo section / pages | First page file offset |
+|---|---|---|---|---|
+| 1 code | `cseg01` (use32) | 0x10000-0xE289F (align to 0xE28A0) | `obj1` vstart 0x10000, obj1_00000-obj1_D2000 | 0x073854 |
+| 2 code | `cseg02` (use16) | offsets 0x0000-0x0033 = linear 0xF0000-0xF0033 | `obj2` vstart 0xF0000, obj2_00000 | 0x146854 |
+| 3 data | `dseg03` | 0x100000-0x100FFF | `obj3` vstart 0x100000, obj3_00000 | 0x147854 |
+| 4 data | `dseg04` | 0x110000-0x1A925F | `obj4` vstart 0x110000, obj4_00000-obj4_41000 | 0x148854 |
+
+A page's file offset = 0x073854 + 0x1000 x (its page number in the LE page map, counting from obj1_00000); its linear address is the
+stub's `org`. Spot checks agree byte for byte (obj2 `push ax / push dx / mov al, 20h`, obj3 `87 83 81 82`, obj4 `01 01 01 00 'PATH'`).
+
+Offset differences to know about:
+- IDA's header line `Program Entry Point (CS:EIP) 1:000A6308h` is object-relative. In the listing and the repo, `start` is at linear
+  0xB6308 (obj1_A6000 + 0x308).
+- `cseg02` is printed with 16-bit offsets (`cseg02:0000`), not linear; its auto names use linear (`loc_F0000`). Add 0xF0000.
+- `dseg03` shows a whole 4 KB page (to 0x100FFF), but object 3 is only 0x18 bytes; the rest is page padding in the file.
+- `dseg04` is labelled "Uninitialized / STACK" but its first 66 pages (0x110000-0x151FFF) are initialized data in the file. From
+  0x152000 to 0x1A925F IDA shows `db ?`: that is BSS (not in the file, no repo segment).
+- 233 functions are **collapsed** (`COLLAPSED FUNCTION <name>`, e.g. `start`): their bodies are not in the listing. Disassemble those
+  ranges yourself (objdump/ndisasm) and keep IDA's name and bounds.
+- The listing is MASM: translate to NASM (`dword ptr` -> `dword`, `offset x` -> `x`, `dup`, `align`, segment directives dropped).
+  IDA's `align` padding and `db N dup(90h)` must keep the exact retail bytes.
 
 ## Build and verify
 
@@ -64,6 +96,7 @@ obj1_00000. <- CURRENT
 
 - 2026-10-31: bootstrap. 283 incbin segments (3 extender parts, LE header area, 279 object pages), a stub per segment, prebuild
   EXE check, extractor, NASM build and verify (MATCH). Trial: LE header fields and object table as source, `start` entry label.
+- 2026-10-31: added Abdul's IDA listing `lst/HOCKEY.EXE.lst`; its addresses match the repo layout (see IDA listing). It is now the starting point for each page.
 
 ## Segment map
 

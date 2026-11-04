@@ -129,8 +129,9 @@ static int host_path(const char *dos, char *out, size_t n)
 
 /* GLOBAL.SET: the settings file SETUP writes and HOCKEY.EXE reads at start (sub_6A341). The game only checks that it opens and that
  * its first dword is 160BDh; otherwise it prints "You must first use the SETUP program..." and waits for ESC. Layout: a 0BCh-byte block
- * (read to 17C9A4h), the install path as a C string (17CA60h, at most 20 chars), then 0B9h bytes (17CA75h). Sound is not in it: the game
- * takes the card from BLASTER / ULTRASND, which cstart.c supplies. When the file is in neither the game folder nor $NHL96_CD, write the
+ * (read to 17C9A4h), the install path as a C string (17CA60h, at most 20 chars), then 0B9h bytes (17CA75h). The sound card is bits 0-2
+ * of 17CA1Ch (sub_694B9 via sub_C157F): 4 (as SETUP writes it here) is the Sound Blaster 16 driver, which needs DSP 4.xx and the
+ * BLASTER H channel; the ports, IRQ and DMA come from BLASTER, which cstart.c supplies. When the file is in neither the game folder nor $NHL96_CD, write the
  * values of a real SETUP-written GLOBAL.SET (377 bytes; it matches the game's own defaults at 6A451h-6A5DFh but for a few option bits), with install mode 0 (bits 0-1
  * of 17C9A8h: every file read from the current folder, so the CD data files are used in place). The user can replace it with SETUP's. */
 void dos_default_config(void)

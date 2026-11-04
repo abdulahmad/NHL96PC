@@ -9,7 +9,7 @@ typedef void (*audio_render_fn)(int32_t *stereo, int frames, int rate);
 
 /* Where the emulated cards are when the host does not set BLASTER / ULTRASND; the game is given the same values (cstart.c), since its
  * drivers look for the cards there. */
-#define DEFAULT_BLASTER "A220 I7 D1 T3"
+#define DEFAULT_BLASTER "A220 I7 D1 H5 T6"   /* Sound Blaster 16: GLOBAL.SET's card 4 is the SB16 driver (CF2D8), which needs DSP 4.xx */
 #define DEFAULT_ULTRASND "240,1,1,5,5"
 
 void audio_init(void);
@@ -32,7 +32,7 @@ void opl_init(void);
 uint32_t opl_in(unsigned port);
 void opl_out(unsigned port, uint32_t val);
 
-void sb_init(int base, int irq, int dma, int version);
+void sb_init(int base, int irq, int dma, int hdma, int version);
 uint32_t sb_in(unsigned port);
 void sb_out(unsigned port, uint32_t val);
 int mpu_roms_missing(void);            /* main thread: true once when the MT-32 was selected but its ROMs were not found */

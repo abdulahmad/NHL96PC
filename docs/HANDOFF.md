@@ -1,5 +1,13 @@
 # Handoff
 
+## Now
+
+- Stage / unit: CONTRIBUTING.md rewrite; added `docs/RULES.md`. Stay on `claude/project-thread-ggw7zu`.
+- Branch: `claude/project-thread-ggw7zu`
+- Last check: docs-only
+- Next: do not merge to main. Disassembly next is still obj1_00000.
+- Open PRs: (this unit)
+
 ## State (2026-10-31)
 
 - Full build MATCH (SHA-1 `426fb8c0c80088c6a2c56a9dac50509cb9c24540`, 1,613,291 bytes); `tools/verify_all.sh` MATCH (full build and all 283 segments built on

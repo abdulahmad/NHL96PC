@@ -30,12 +30,25 @@ void patch_jmp(void *from, void *to)
 }
 
 #ifdef _WIN32
-/* __setenvp_ would load FS with a DOS/4GW selector. Build the table from the flat block. */
+/* __setenvp_ (D7C08) would load FS with the DOS/4GW environment selector (FS is the TEB on Windows). Build the same table from the flat
+ * block (cstart.c): environ at 14F09C, the flag bytes at 14F0A0, the block pointer at 12442D. This was an empty stub, so environ stayed 0,
+ * getenv_ (C2CF7) returned 0 for everything and the sound code (CE0CB: BLASTER, D6128: ULTRASND) found no card: no sound on Windows. */
+#define ORIG_ENVIRON  0x14F09Cu
+#define ORIG_ENVFLAGS 0x14F0A0u
 void host_setenvp(void)
 {
     static char *env[65];
     static uint8_t flags[64];
-    (void)env; (void)flags;
+    uint32_t blk;
+    char *p;
+    int n = 0;
+    if (*(uint32_t *)GAME_ADDR(ORIG_ENVIRON)) return;
+    memcpy(&blk, GAME_ADDR(ORIG_CRT_ENV), 4);
+    p = (char *)(uintptr_t)blk;
+    for (; p && *p && n < 64; p += strlen(p) + 1) { env[n++] = p; TRACE("env %s\n", p); }
+    env[n] = 0;
+    *(uint32_t *)GAME_ADDR(ORIG_ENVIRON) = (uint32_t)(uintptr_t)env;
+    *(uint32_t *)GAME_ADDR(ORIG_ENVFLAGS) = (uint32_t)(uintptr_t)flags;
 }
 
 __attribute__((naked)) static void setenvp_entry(void)

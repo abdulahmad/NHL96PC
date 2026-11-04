@@ -3,6 +3,7 @@
 #include "host.h"
 #include "audio.h"
 #include <stdarg.h>
+#include <math.h>
 
 #define MAX_SOURCES 8
 #define CHUNK 1024
@@ -15,6 +16,12 @@ static int out_rate = 44100;
 static FILE *wav;
 static uint32_t wav_bytes;
 static int64_t pump_last;
+int alog_on;
+static FILE *alog_f;
+static double alog_sq;                  /* the output of the last second: sum of squares, samples, peak */
+static uint32_t alog_n;
+static int alog_peak;
+static int beep_frames;                 /* NHL96_BEEP: a test tone at start-up, to tell the output from the emulation */
 
 int audio_rate(void) { return out_rate; }
 void audio_lock(void) { if (mutex) SDL_LockMutex(mutex); }
@@ -105,10 +112,19 @@ static void mix(int16_t *out, int frames)
         SDL_LockMutex(mutex);
         for (i = 0; i < nsources; i++) sources[i](acc, n, out_rate);
         SDL_UnlockMutex(mutex);
+        if (beep_frames > 0) {
+            static uint32_t ph;
+            for (i = 0; i < n && beep_frames > 0; i++, beep_frames--, ph++) {
+                int32_t v = (ph / 50) & 1 ? 6000 : -6000;          /* 441 Hz square wave */
+                acc[2 * i] += v; acc[2 * i + 1] += v;
+            }
+        }
         for (i = 0; i < n * 2; i++) {
             int32_t v = acc[i];
+            if (alog_on) { int a = v < 0 ? -v : v; alog_sq += (double)v * v; if (a > alog_peak) alog_peak = a; }
             out[i] = audio_muted ? 0 : v > 32767 ? 32767 : v < -32768 ? -32768 : (int16_t)v;
         }
+        if (alog_on) alog_n += n * 2;
         SDL_LockMutex(mutex);
         if (wav) { fwrite(out, 4, n, wav); wav_bytes += n * 4; wav_header(); fseek(wav, 0, SEEK_END); }
         SDL_UnlockMutex(mutex);
@@ -125,19 +141,75 @@ static void SDLCALL callback(void *user, Uint8 *stream, int len)
     mix((int16_t *)stream, len / 4);
 }
 
+void alog(const char *fmt, ...)
+{
+    static int64_t t0;
+    va_list ap;
+    if (!alog_on) return;
+    if (!alog_f) {
+        char path[1100];
+        out_path(path, sizeof path, "nhl96-audiolog.txt");
+        alog_f = fopen(path, "w");
+        if (!alog_f) alog_f = fopen("nhl96-audiolog.txt", "w");
+        if (!alog_f) { alog_on = 0; return; }
+        t0 = plat_now_ns();
+    }
+    fprintf(alog_f, "%7.3f ", (plat_now_ns() - t0) / 1e9);
+    va_start(ap, fmt);
+    vfprintf(alog_f, fmt, ap);
+    va_end(ap);
+    fputc('\n', alog_f);
+    fflush(alog_f);
+}
+
+/* once a second: what the mixer put out, the Sound Blaster and its DMA channel, the interrupts, and the game's own sound state */
+void alog_second(void)
+{
+    static int64_t last;
+    int64_t now = plat_now_ns();
+    char sb[256], d1[128], d5[128], iq[256];
+    double rms;
+    int peak, i, timers = 0;
+    uint32_t n;
+    if (!alog_on || now - last < 1000000000LL) return;
+    last = now;
+    audio_lock();
+    n = alog_n; rms = n ? sqrt(alog_sq / n) : 0; peak = alog_peak;
+    alog_sq = 0; alog_n = 0; alog_peak = 0;
+    sb_log_state(sb, sizeof sb);
+    audio_unlock();
+    dma_log_state(1, d1, sizeof d1);
+    dma_log_state(5, d5, sizeof d5);
+    irq_log_state(iq, sizeof iq);
+    for (i = 0; i < 8; i++) if (((volatile uint32_t *)GAME_ADDR(ORIG_TIMER_LIST))[i]) timers++;
+    alog("out: %u samples rms %.0f peak %d%s | %s | dma1 %s | dma5 %s | %s | game: card %d driver %d flags %x opts %08x timer callbacks %d",
+         n, rms, peak, audio_muted ? " MUTED" : "", sb, d1, d5, iq,
+         *(volatile int32_t *)GAME_ADDR(ORIG_SND_CARD), *(volatile int32_t *)GAME_ADDR(ORIG_SND_DRIVER),
+         (unsigned)*(volatile int32_t *)GAME_ADDR(ORIG_SND_FLAGS), (unsigned)*(volatile uint32_t *)GAME_ADDR(ORIG_CFG_SOUND), timers);
+}
+
 void audio_init(void)
 {
     SDL_AudioSpec want, have;
     const char *w = getenv("NHL96_WAV");
+    const char *e = getenv("NHL96_AUDIOLOG");
+    alog_on = e && *e && *e != '0';
+    e = getenv("NHL96_BEEP");
     mutex = SDL_CreateMutex();
     memset(&want, 0, sizeof want);
     want.freq = 44100; want.format = AUDIO_S16SYS; want.channels = 2; want.samples = getenv("NHL96_AUDIO_FRAMES") ? atoi(getenv("NHL96_AUDIO_FRAMES")) : 512; want.callback = callback;
     dev = SDL_OpenAudioDevice(0, 0, &want, &have, 0);
     if (dev) {
         out_rate = have.freq; SDL_PauseAudioDevice(dev, 0);
+        alog("SDL audio driver %s: device open, %d Hz, %d channels, format %04x, %d frames", SDL_GetCurrentAudioDriver() ? SDL_GetCurrentAudioDriver() : "?",
+             have.freq, have.channels, (unsigned)have.format, have.samples);
         audio_log("audio device: %d Hz, buffer %d frames (%.1f ms)", have.freq, have.samples, 1000.0 * have.samples / have.freq);
     }
-    else fprintf(stderr, "no audio device (%s): sound is mixed but not played\n", SDL_GetError());
+    else {
+        fprintf(stderr, "no audio device (%s): sound is mixed but not played\n", SDL_GetError());
+        alog("NO AUDIO DEVICE: %s (SDL audio driver %s)", SDL_GetError(), SDL_GetCurrentAudioDriver() ? SDL_GetCurrentAudioDriver() : "none");
+    }
+    if (e && *e && *e != '0') { beep_frames = out_rate * 2; alog("NHL96_BEEP: 2 s test tone"); }
     if (w) { wav = fopen(w, "wb"); if (wav) wav_header(); }
     pump_last = plat_now_ns();
     speaker_init();

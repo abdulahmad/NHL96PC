@@ -41,6 +41,11 @@
 #define ORIG_CRT_ENV       0x12442Du
 #define ORIG_CRT_ENVSEL    0x124431u
 #define ORIG_CRT_NO87      0x124428u
+#define ORIG_SND_CARD      0x11D1DAu  /* dword_11D1DA: the sound driver sub_694B9 started (-1: none) */
+#define ORIG_SND_DRIVER    0x1248CCu  /* dword_1248CC: the driver table index sub_C157F made current (0: none) */
+#define ORIG_SND_FLAGS     0x11D1DEu  /* dword_11D1DE: the sound code's state bits */
+#define ORIG_TIMER_LIST    0x18566Cu  /* dword_18566C: the 8 callbacks the timer interrupt (sub_AA5C4) calls */
+#define ORIG_CFG_SOUND     0x17CA1Cu  /* dword_17CA1C: GLOBAL.SET options (bits 0-2 the card) */
 #define ORIG_GETDS_SEL     0xB65DDu   /* __GETDS: mov ds, cs:[this word] (interrupt handlers) */
 
 extern uint8_t *game_image;            /* mapped bytes for orig OBJ1_BASE .. end */

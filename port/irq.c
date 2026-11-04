@@ -16,6 +16,7 @@ static int pic_icw[2], pic_icw_left[2];
 volatile int vif = 1;                   /* the game's interrupt flag (cli / sti) */
 volatile uint8_t isr_active;
 static volatile unsigned pit_divisor = 0x10000;
+static volatile uint32_t taken[16], raised[16];   /* NHL96_AUDIOLOG: per second */
 
 /* Entered by the handler's iret: re-enable delivery and continue at the interrupted address (it is on the stack). The iret
  * restores the interrupt flag the interrupted code had, which was set (an interrupt is only taken then): the game's interrupt flag
@@ -51,6 +52,7 @@ void pic_out(unsigned port, uint32_t val)
     if (chip) pic_mask = (pic_mask & 0x00FF) | ((val & 0xFF) << 8);
     else pic_mask = (pic_mask & 0xFF00) | (val & 0xFF);
     TRACE("PIC mask %04x\n", (unsigned)pic_mask);
+    alog("pic: mask %04x", (unsigned)pic_mask);
 }
 
 /* Timing of the interrupt path, appended to nhl96-audio.log every 10 s while a sound interrupt (IRQ 2 and up) is in use: how long an
@@ -88,6 +90,7 @@ int irq_try_deliver(ctx_t *c)
         isr_start_ns = now; isr_class = cl;
     }
     { extern volatile uint32_t trap_ring[256]; extern volatile unsigned trap_ring_n; trap_ring[trap_ring_n++ & 255] = 0x80000000u | vec; }
+    taken[irq]++;
     if (stats_on) stats_irq(irq, 1);
     if (irq > 1) TRACE("irq %d -> vector %02x\n", irq, vec);
     sp = (uint32_t *)R(c, ESP) - 4;
@@ -106,6 +109,7 @@ int irq_try_deliver(ctx_t *c)
 void irq_raise(int irq)
 {
     if (stats_on) stats_irq(irq, 0);
+    raised[irq]++;
     if (irq == 0 && ticks_queued < MAX_TICKS_QUEUED) __sync_fetch_and_add(&ticks_queued, 1);
     if (!(pending & (1u << irq))) raise_ns[irq] = plat_now_ns();
     __sync_fetch_and_or(&pending, 1u << irq);
@@ -148,6 +152,7 @@ void irq_poll(void)
             memset(&idg, 0, sizeof idg);
         }
     }
+    alog_second();
     if (irq_deliverable()) plat_kick_game();
     if (trace_on && plat_now_ns() - last > 2000000000LL) {
         last = plat_now_ns();
@@ -172,4 +177,12 @@ void irq_pit_divisor(unsigned divisor)
 unsigned irq_pit_hz(void)
 {
     return 1193182u / pit_divisor;
+}
+
+void irq_log_state(char *buf, int n)
+{
+    int i, k = snprintf(buf, n, "pic mask %04x vif %d in handler %d pit %u Hz, irqs raised/taken:", (unsigned)pic_mask, vif, isr_active, irq_pit_hz());
+    for (i = 0; i < 16 && k < n; i++)
+        if (raised[i] || taken[i]) k += snprintf(buf + k, n - k, " %d:%u/%u%s", i, (unsigned)raised[i], (unsigned)taken[i], pm_vec[i < 8 ? 8 + i : 0x70 + i - 8].off ? "" : "(no handler)");
+    memset((void *)raised, 0, sizeof raised); memset((void *)taken, 0, sizeof taken);
 }

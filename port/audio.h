@@ -21,7 +21,14 @@ int audio_rate(void);
 void audio_log(const char *fmt, ...);   /* append a line to nhl96-audio.log next to the program */
 extern volatile int audio_muted;       /* silence the output while a window menu is open */
 int audio_debug(void);                 /* NHL96_AUDIO_DEBUG: the log and the Ctrl+F11 recording are on */
-void audio_capture_toggle(void);        /* Ctrl+F11: record the mixed sound to nhl96-capture-N.wav */
+void audio_capture_toggle(void);
+/* NHL96_AUDIOLOG=1: a compact sound log, nhl96-audiolog.txt next to the program (DSP commands, DMA, interrupts, output level each second) */
+extern int alog_on;
+void alog(const char *fmt, ...);
+void alog_second(void);                /* main thread: the once-a-second summary */
+void sb_log_state(char *buf, int n);
+uint32_t dma_log_state(int ch, char *buf, int n);
+void irq_log_state(char *buf, int n);        /* Ctrl+F11: record the mixed sound to nhl96-capture-N.wav */
 
 /* devices (each has ports in sound_ports.c) */
 void speaker_init(void);

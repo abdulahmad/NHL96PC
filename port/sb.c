@@ -8,6 +8,7 @@ static int base = 0x220, irq = 7, dma = 1, hdma = 5, version = 0x0302;
 static int sb16_rate;                    /* 41h/42h: the sample rate itself (0: from the time constant) */
 static int fmt16, fmt_stereo, fmt_signed; /* the format of a 0Bxh/0Cxh transfer */
 static int irq16_pending;
+static uint32_t n_cmds, n_irqs, n_resets, n_reads;   /* NHL96_AUDIOLOG counters */
 static uint8_t outbuf[64];
 static int out_n;
 static int resetting;
@@ -59,12 +60,14 @@ static double sample_rate(void)
 
 static void raise_irq(void)
 {
+    n_irqs++;
     irq_pending = 1;
     irq_raise(irq);
 }
 
 static void dsp_reset(void)
 {
+    if (n_resets++ < 20) alog("sb: DSP reset");
     active = autoinit = paused = high_speed = silence = 0;
     remaining = 0;
     irq_pending = 0;
@@ -102,6 +105,9 @@ static void start_block(int len_minus_one, int auto_init, int high)
     silence = 0;
     acc = 1.0;
     pump_last_ns = plat_now_ns(); pump_acc = 0;                  /* the clock starts with the block */
+    alog("sb: start %s%s %s block %d rate %.0f%s dma%d (channel %s, speaker %s)", auto_init ? "auto-init" : "single", high ? " high-speed" : "",
+         fmt16 ? "16-bit" : "8-bit", len_minus_one + 1, sample_rate(), stereo() ? " stereo" : "", fmt16 ? hdma : dma,
+         dma_masked(fmt16 ? hdma : dma) ? "MASKED" : "unmasked", speaker_on ? "on" : "off");
     TRACE("sb: start %s%s block %d rate %.0f%s dma%d\n", auto_init ? "auto-init " : "single ", high ? "high-speed" : "", len_minus_one + 1,
           sample_rate(), stereo() ? " stereo" : "", fmt16 ? hdma : dma);
 }
@@ -109,6 +115,12 @@ static void start_block(int len_minus_one, int auto_init, int high)
 static void run_command(int c)
 {
     uint8_t *d = cmd_data;
+    if (++n_cmds <= 400 || c < 0x10 || (c >= 0x14 && c <= 0x1F) || (c >= 0x90 && c <= 0xCF)) {
+        int k, np = cmd_params(c);
+        char ps[16] = "";
+        for (k = 0; k < np; k++) sprintf(ps + 3 * k, " %02x", d[k]);
+        alog("sb: DSP %02x%s", c, ps);
+    }
     if (c >= 0xB0 && c <= 0xCF) {               /* SB16 transfer: command bit 2 auto-init, mode byte bit 4 signed, bit 5 stereo */
         fmt16 = c < 0xC0; fmt_stereo = (d[0] >> 5) & 1; fmt_signed = (d[0] >> 4) & 1;
         block_size = d[1] | (d[2] << 8);
@@ -269,6 +281,7 @@ uint32_t sb_in(unsigned port)
         if (mixer_idx == 0x82) v = (irq_pending ? 1 : 0) | (irq16_pending ? 2 : 0);
         break;
     case 0xA:
+        n_reads++;
         if (out_n) { v = outbuf[0]; memmove(outbuf, outbuf + 1, --out_n); }
         break;
     case 0xC: v = 0x7F; break;                              /* ready for a command */
@@ -301,4 +314,13 @@ void sb_out(unsigned port, uint32_t val)
         break;
     }
     audio_unlock();
+}
+
+/* NHL96_AUDIOLOG: one line of state (audio lock held) */
+void sb_log_state(char *buf, int n)
+{
+    snprintf(buf, n, "sb: %s%s%s rate %.0f left %lld speaker %s, %u DSP commands, %u data reads, %u irqs raised, irq pending %d/%d",
+             active ? (autoinit ? "playing auto-init" : "playing single") : "idle", paused ? " PAUSED" : "", silence ? " silence" : "",
+             sample_rate(), (long long)remaining, speaker_on ? "on" : "off", n_cmds, n_reads, n_irqs, irq_pending, irq16_pending);
+    n_cmds = n_reads = n_irqs = 0;
 }

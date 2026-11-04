@@ -44,6 +44,26 @@ int soundtest(void)
     PO(0x224, 0x82);
     if (!(PI(0x225) & 1)) { printf("FAIL sb no completion\n"); fails++; } else printf("PASS sb dma block\n");
 
+    /* Sound Blaster 16, as the game's SB16 driver (GLOBAL.SET card 4) plays: DSP 4.xx, rate by 41h, 0B6h 16-bit signed stereo
+     * auto-init on DMA channel 5, then the 16-bit interrupt (mixer 82h bit 1, acknowledged by reading base+0Fh) */
+    PO(0x22C, 0xE1);
+    i = PI(0x22A); i = (i << 8) | PI(0x22A);
+    if (i < 0x400) { printf("FAIL sb16 dsp version %x\n", i); fails++; } else printf("PASS sb16 dsp version %x\n", i);
+    {
+        int16_t *w = (int16_t *)0x40000;
+        for (i = 0; i < 4410; i++) w[2 * i] = w[2 * i + 1] = (int16_t)(8000 * sin(i * 2 * M_PI * 440 / 22050));
+        PO(0xD4, 5); PO(0xD8, 0); PO(0xD6, 0x59); PO(0xC4, 0); PO(0xC4, 0); PO(0x8B, 4);
+        PO(0xC6, (8820 - 1) & 0xFF); PO(0xC6, (8820 - 1) >> 8); PO(0xD4, 1);
+        PO(0x22C, 0x41); PO(0x22C, 22050 >> 8); PO(0x22C, 22050 & 0xFF);
+        PO(0x22C, 0xB6); PO(0x22C, 0x30); PO(0x22C, (8820 - 1) & 0xFF); PO(0x22C, (8820 - 1) >> 8);
+        wait_ms(500);
+        PO(0x224, 0x82);
+        if (!(PI(0x225) & 2)) { printf("FAIL sb16 no 16-bit interrupt\n"); fails++; } else printf("PASS sb16 dma block\n");
+        PI(0x22F);
+        PO(0x22C, 0xD9);
+        wait_ms(300);
+    }
+
     /* GUS: a sine into sample RAM, voice 0 looping at its native pitch (fc 0x400 = one sample per output step) */
 #define GREG(r, v) do { PO(0x343, r); PO(0x344, (v) & 0xFF); PO(0x345, ((v) >> 8) & 0xFF); } while (0)
 #define GREG8(r, v) do { PO(0x343, r); PO(0x345, v); } while (0)

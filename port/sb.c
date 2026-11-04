@@ -1,10 +1,13 @@
-/* The Sound Blaster (Pro compatible): the DSP at base+6..0xE, the mixer at base+4/5, and 8-bit PCM played from a DMA channel. The FM
+/* The Sound Blaster (Pro, or 16 when BLASTER says T6: DSP 4.05 with the 0Bxh/0Cxh commands and 16-bit DMA on the H channel): the DSP at base+6..0xE, the mixer at base+4/5, and 8-bit PCM played from a DMA channel. The FM
  * ports (base+0..3, base+8/9) go to the OPL in sound_ports.c. */
 #include "host.h"
 #include "audio.h"
 #include <math.h>
 
-static int base = 0x220, irq = 7, dma = 1, version = 0x0302;
+static int base = 0x220, irq = 7, dma = 1, hdma = 5, version = 0x0302;
+static int sb16_rate;                    /* 41h/42h: the sample rate itself (0: from the time constant) */
+static int fmt16, fmt_stereo, fmt_signed; /* the format of a 0Bxh/0Cxh transfer */
+static int irq16_pending;
 static uint8_t outbuf[64];
 static int out_n;
 static int resetting;
@@ -35,20 +38,22 @@ static void mixer_reset(void)
 
 static void sb_render(int32_t *out, int frames, int rate);
 
-void sb_init(int b, int i, int d, int v)
+void sb_init(int b, int i, int d, int h, int v)
 {
-    base = b; irq = i; dma = d; version = v;
+    base = b; irq = i; dma = d; hdma = h; version = v;
     mixer_reset();
     audio_add_source(sb_render);
 }
 
 int sb_base(void) { return base; }
 
-static int stereo(void) { return (mixer[0x0E] >> 1) & 1; }
+static int stereo(void) { return fmt_stereo || ((mixer[0x0E] >> 1) & 1); }
 
 static double sample_rate(void)
 {
-    double r = 1000000.0 / (256 - time_constant);
+    double r;
+    if (sb16_rate) return sb16_rate;
+    r = 1000000.0 / (256 - time_constant);
     return stereo() ? r / 2 : r;
 }
 
@@ -69,6 +74,7 @@ static void dsp_reset(void)
     outbuf[out_n++] = 0xAA;
     time_constant = 0xA6;
     block_size = 0x7FF;
+    sb16_rate = 0; fmt16 = fmt_stereo = fmt_signed = 0; irq16_pending = 0;
     mixer_reset();
 }
 
@@ -82,7 +88,7 @@ static int cmd_params(int c)
     switch (c) {
     case 0x10: case 0x40: case 0xE0: case 0xE4: case 0x38: return 1;
     case 0x14: case 0x16: case 0x17: case 0x48: case 0x80: case 0x41: case 0x42: case 0x24: return 2;
-    default: return 0;
+    default: return (c >= 0xB0 && c <= 0xCF) ? 3 : 0;
     }
 }
 
@@ -97,12 +103,21 @@ static void start_block(int len_minus_one, int auto_init, int high)
     acc = 1.0;
     pump_last_ns = plat_now_ns(); pump_acc = 0;                  /* the clock starts with the block */
     TRACE("sb: start %s%s block %d rate %.0f%s dma%d\n", auto_init ? "auto-init " : "single ", high ? "high-speed" : "", len_minus_one + 1,
-          sample_rate(), stereo() ? " stereo" : "", dma);
+          sample_rate(), stereo() ? " stereo" : "", fmt16 ? hdma : dma);
 }
 
 static void run_command(int c)
 {
     uint8_t *d = cmd_data;
+    if (c >= 0xB0 && c <= 0xCF) {               /* SB16 transfer: command bit 2 auto-init, mode byte bit 4 signed, bit 5 stereo */
+        fmt16 = c < 0xC0; fmt_stereo = (d[0] >> 5) & 1; fmt_signed = (d[0] >> 4) & 1;
+        block_size = d[1] | (d[2] << 8);
+        if (!sb16_rate) sb16_rate = (int)(1000000.0 / (256 - time_constant));
+        start_block(block_size, (c >> 2) & 1, 0);
+        return;
+    }
+    if (c == 0x14 || c == 0x1C || c == 0x90 || c == 0x91) fmt16 = fmt_signed = fmt_stereo = 0;    /* an 8-bit SB/SB Pro transfer */
+    if (c == 0x40) sb16_rate = 0;
     switch (c) {
     case 0x10: direct_level = d[0]; break;
     case 0x14: start_block(d[0] | (d[1] << 8), 0, 0); break;
@@ -110,11 +125,11 @@ static void run_command(int c)
     case 0x91: start_block(block_size, 0, 1); break;
     case 0x90: start_block(block_size, 1, 1); break;
     case 0x40: time_constant = d[0]; break;
-    case 0x41: case 0x42: { double r = (d[0] << 8) | d[1]; time_constant = (int)(256 - 1000000.0 / (r ? r : 1)); if (time_constant < 0) time_constant = 0; break; }
+    case 0x41: case 0x42: sb16_rate = (d[0] << 8) | d[1]; if (!sb16_rate) sb16_rate = 5000; break;
     case 0x48: block_size = d[0] | (d[1] << 8); break;
     case 0x80: remaining = (d[0] | (d[1] << 8)) + 1; silence = 1; active = 1; autoinit = 0; acc = 1.0; pump_last_ns = plat_now_ns(); pump_acc = 0; break;
-    case 0xD0: paused = 1; break;
-    case 0xD4: paused = 0; break;
+    case 0xD0: case 0xD5: paused = 1; break;
+    case 0xD4: case 0xD6: paused = 0; break;
     case 0xDA: case 0xD9: autoinit = 0; break;
     case 0xD1: speaker_on = 1; break;
     case 0xD3: speaker_on = 0; break;
@@ -149,6 +164,23 @@ static void fifo_push(int l, int r)
 
 extern volatile int intro_skip;
 
+/* one sample from the DMA channel of the transfer, as a signed 16-bit value */
+static int take_sample(void)
+{
+    int v;
+    if (fmt16) {
+        uint8_t *p = (uint8_t *)dma_address(hdma);
+        v = (int16_t)(p[0] | (p[1] << 8));
+        if (!fmt_signed) v -= 32768;
+        dma_advance(hdma, 1);
+    } else {
+        uint8_t *p = (uint8_t *)dma_address(dma);
+        v = fmt_signed ? (int8_t)p[0] << 8 : (p[0] - 128) << 8;
+        dma_advance(dma, 1);
+    }
+    return v;
+}
+
 static void sb_pump_locked(void)
 {
     int64_t now = plat_now_ns(), dt = now - pump_last_ns;
@@ -164,15 +196,12 @@ static void sb_pump_locked(void)
         int l = cur_l, r = cur_r;
         if (paused) { l = r = 0; }
         else if (silence) { l = r = 0; remaining--; }
-        else if (dma_masked(dma)) { /* the card has nothing to play: hold the last sample */ }
+        else if (dma_masked(fmt16 ? hdma : dma)) { /* the card has nothing to play: hold the last sample */ }
         else {
-            uint8_t *p = (uint8_t *)dma_address(dma);
-            l = (p[0] - 128) << 8; r = l;
-            dma_advance(dma, 1);
+            l = take_sample(); r = l;
             remaining--;
             if (stereo() && remaining > 0) {
-                r = (*(uint8_t *)dma_address(dma) - 128) << 8;
-                dma_advance(dma, 1);
+                r = take_sample();
                 remaining--;
             }
         }
@@ -184,7 +213,7 @@ static void sb_pump_locked(void)
         }
         fifo_push(l, r);
         if (!paused && remaining <= 0) {
-            raise_irq();
+            if (fmt16) { irq16_pending = 1; irq_raise(irq); } else raise_irq();
             if (autoinit && !silence) remaining = (int64_t)block_size + 1;
             else { active = 0; silence = 0; }
         }
@@ -221,7 +250,7 @@ static void sb_render(int32_t *out, int frames, int rate)
             /* an empty queue repeats the last sample */
         }
         t = acc > 1.0 ? 1.0 : acc;              /* the part of the sample period since the last sample was taken: ramp from the previous one */
-        if (speaker_on) {                       /* to this one (one sample of delay), not back toward the previous */
+        if (speaker_on || version >= 0x0400) {  /* (the SB16 ignores D1h/D3h) to this one (one sample of delay), not back toward the previous */
             out[2 * i] += (int32_t)(prev_l + (out_l - prev_l) * t);
             out[2 * i + 1] += (int32_t)(prev_r + (out_r - prev_r) * t);
         }
@@ -236,15 +265,15 @@ uint32_t sb_in(unsigned port)
     switch (port - base) {
     case 0x5: v = mixer[mixer_idx];
         if (mixer_idx == 0x80) v = irq == 2 ? 1 : irq == 5 ? 2 : irq == 7 ? 4 : 8;
-        if (mixer_idx == 0x81) v = 1 << dma;
-        if (mixer_idx == 0x82) v = irq_pending ? 1 : 0;
+        if (mixer_idx == 0x81) v = (1 << dma) | (version >= 0x0400 && hdma >= 5 ? 1 << hdma : 0);
+        if (mixer_idx == 0x82) v = (irq_pending ? 1 : 0) | (irq16_pending ? 2 : 0);
         break;
     case 0xA:
         if (out_n) { v = outbuf[0]; memmove(outbuf, outbuf + 1, --out_n); }
         break;
     case 0xC: v = 0x7F; break;                              /* ready for a command */
     case 0xE: v = (out_n ? 0x80 : 0) | 0x7F; irq_pending = 0; break;
-    case 0xF: v = 0x7F; break;
+    case 0xF: v = 0x7F; irq16_pending = 0; break;            /* SB16: acknowledges the 16-bit interrupt */
     case 0x6: v = 0xFF; break;
     }
     audio_unlock();

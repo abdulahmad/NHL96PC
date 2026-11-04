@@ -19,7 +19,7 @@ static void build_environment(const char *program)
         const char *v = getenv(pass[i]);
         if (!v && !(none && !strcmp(none, "none"))) {
             if (!strcmp(pass[i], "BLASTER")) v = DEFAULT_BLASTER;
-            if (!strcmp(pass[i], "ULTRASND")) v = DEFAULT_ULTRASND;
+            if (!strcmp(pass[i], "ULTRASND") && getenv("NHL96_GUS") && !strcmp(getenv("NHL96_GUS"), "1")) v = DEFAULT_ULTRASND;   /* GUS opt-in */
         }
         if (v) p += sprintf(p, "%s=%s", pass[i], v) + 1;
     }

@@ -39,12 +39,19 @@ void host_cstart(int argc, char **argv)
     __asm__ volatile("mov %%ds, %0" : "=r"(ds));
     __asm__ volatile("mov %%esp, %0" : "=r"(espv));
     espv &= ~3u;
+#ifndef _WIN32
     /* FS/ES must be a usable data selector: Watcom start copies DS into the CRT
-     * selector words and the C library then does `mov fs, [word]; mov es, fs`. */
+     * selector words and the C library then does `mov fs, [word]; mov es, fs`.
+     * Not on Windows: FS selects the thread's TEB there, and the C library and
+     * ntdll read it (fs:[18h]) - loading DS into it makes the next getenv()
+     * crash inside ntdll. ES already equals DS, and the game's own loads of FS
+     * happen in its code, as in the NHL 95 port. */
     __asm__ volatile("mov %0, %%fs" :: "r"(ds) : "memory");
     __asm__ volatile("mov %0, %%es" :: "r"(ds) : "memory");
+#endif
 
     store16(ORIG_CRT_SEL, ds);
+    store16(ORIG_GETDS_SEL, ds);     /* the code keeps a copy of the data selector for its interrupt handlers (__GETDS) */
     store16(ORIG_CRT_ENVSEL, ds);
     store32(ORIG_CRT_ESP, espv);
     store32(ORIG_CRT_ESP2, espv);

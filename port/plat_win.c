@@ -72,6 +72,21 @@ static LONG WINAPI crash_filter(EXCEPTION_POINTERS *ep)
                   IN_GAME_CODE(c->Eip) ? "game code" : "not game code", c->Eax, c->Ebx, c->Ecx, c->Edx, c->Esi, c->Edi, c->Ebp, c->Esp,
                   c->SegCs, c->SegDs, c->SegEs, c->SegFs, c->SegGs, vif, (int)isr_active);
     WriteFile(GetStdHandle(STD_ERROR_HANDLE), line, n, &n, 0);
+    {   /* return addresses on the stack: game code as original addresses (g), host image as is (h) */
+        MEMORY_BASIC_INFORMATION mbi;
+        uint32_t *sp = (uint32_t *)c->Esp;
+        uintptr_t hb = (uintptr_t)GetModuleHandleA(0);
+        int i, k = 0;
+        n = wsprintfA(line, "stack:");
+        if (VirtualQuery(sp, &mbi, sizeof mbi) && mbi.State == MEM_COMMIT)
+            for (i = 0; i < 256 && (uintptr_t)(sp + i + 1) <= (uintptr_t)mbi.BaseAddress + mbi.RegionSize && k < 24 && n < 360; i++) {
+                uint32_t v = sp[i];
+                if (IN_GAME_CODE(v)) { n += wsprintfA(line + n, " g%05lx", (unsigned long)ORIG_FROM(v)); k++; }
+                else if (v >= hb + 0x1000 && v < hb + 0x400000) { n += wsprintfA(line + n, " h%08lx", (unsigned long)v); k++; }
+            }
+        n += wsprintfA(line + n, "\r\n");
+        WriteFile(GetStdHandle(STD_ERROR_HANDLE), line, n, &n, 0);
+    }
     TerminateProcess(GetCurrentProcess(), 1);           /* not host_exit: it uses the C library */
     return EXCEPTION_EXECUTE_HANDLER;
 }

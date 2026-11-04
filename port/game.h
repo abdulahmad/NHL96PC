@@ -41,6 +41,7 @@
 #define ORIG_CRT_ENV       0x12442Du
 #define ORIG_CRT_ENVSEL    0x124431u
 #define ORIG_CRT_NO87      0x124428u
+#define ORIG_GETDS_SEL     0xB65DDu   /* __GETDS: mov ds, cs:[this word] (interrupt handlers) */
 
 extern uint8_t *game_image;            /* mapped bytes for orig OBJ1_BASE .. end */
 extern int32_t game_slide;             /* runtime_addr - original_linear */

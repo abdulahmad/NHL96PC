@@ -312,6 +312,32 @@ static int int31(ctx_t *c)
         }
         SET_CF(c, 0); return 1;
     }
+    case 0x0300: case 0x0302: {                     /* simulate a real-mode interrupt: the registers are in a DPMI call structure at ES:EDI */
+        uint8_t *rm = (uint8_t *)R(c, EDI);
+        ctx_t t = *c;
+        uint32_t v;
+        int vec = R(c, EBX) & 0xFF, ok;
+        uint16_t es, fl;
+        memcpy(&es, rm + 0x22, 2);
+        memcpy(&v, rm + 0x00, 4); R(&t, EDI) = ((uint32_t)es << 4) + (v & 0xFFFF);   /* ES:DI as a flat address */
+        memcpy(&v, rm + 0x04, 4); R(&t, ESI) = v;
+        memcpy(&v, rm + 0x08, 4); R(&t, EBP) = v;
+        memcpy(&v, rm + 0x10, 4); R(&t, EBX) = v;
+        memcpy(&v, rm + 0x14, 4); R(&t, EDX) = v;
+        memcpy(&v, rm + 0x18, 4); R(&t, ECX) = v;
+        memcpy(&v, rm + 0x1C, 4); R(&t, EAX) = v;
+        TRACE("real-mode int %02xh ax=%04x es:di=%08x\n", vec, (unsigned)(R(&t, EAX) & 0xFFFF), (unsigned)R(&t, EDI));
+        ok = AX(c) == 0x0300 ? dos_int(&t, vec) : 0;
+        if (!ok) { SETAX(c, 0x8001); SET_CF(c, 1); return 1; }
+        v = R(&t, ESI); memcpy(rm + 0x04, &v, 4);
+        v = R(&t, EBP); memcpy(rm + 0x08, &v, 4);
+        v = R(&t, EBX); memcpy(rm + 0x10, &v, 4);
+        v = R(&t, EDX); memcpy(rm + 0x14, &v, 4);
+        v = R(&t, ECX); memcpy(rm + 0x18, &v, 4);
+        v = R(&t, EAX); memcpy(rm + 0x1C, &v, 4);
+        fl = (uint16_t)R(&t, EFL); memcpy(rm + 0x20, &fl, 2);
+        SET_CF(c, 0); return 1;
+    }
     case 0x0900: SETAL(c, 1); SET_CF(c, 0); return 1;   /* disable virtual interrupts: they were enabled */
     case 0x0901: SETAL(c, 1); SET_CF(c, 0); return 1;
     case 0x0902: SETAL(c, 1); SET_CF(c, 0); return 1;
@@ -377,6 +403,8 @@ static int int21(ctx_t *c)
         return 1;
     }
     case 0x41: host_path((char *)R(c, EDX), path, sizeof path); if (unlink(path)) dos_error(c, errno); else SET_CF(c, 0); return 1;
+    case 0x47:                                                 /* current directory: the root (DOS paths resolve below the game folder) */
+        *(char *)R(c, ESI) = 0; SET_CF(c, 0); return 1;
     case 0x43: {                                               /* get/set file attributes */
         struct stat st;
         host_path((char *)R(c, EDX), path, sizeof path);

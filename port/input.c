@@ -222,7 +222,7 @@ static void intro_skip_poll(void)
     static int down;
     int64_t now = plat_now_ns();
     if (!skipping) return;
-    if (game_pointer_ns() || now - skip_start > 15000000000LL) intro_skip = 0;      /* the front end is reached (or the time is up) */
+    if (game_pointer_ns() || now - skip_start > 15000000000LL) intro_skip = 0;
     if (!intro_skip) {                           /* the screen that was skipped is over (the game says so: overrides.c, emu.c) */
         skipping = 0;
         audio_muted = 0;
@@ -240,9 +240,15 @@ extern volatile int intro_title;
 
 static void intro_skip_start(void)
 {
+    static int enabled = -1;
+    /* Off by default: in 96 game_pointer_ns() is never set (the menu pointer hook is not ported), so every key or click started a 15 s
+     * skip that ran the PIT 20x fast, muted the sound and pressed F12. NHL96_SKIPINTRO=1 turns it on. */
+    if (enabled < 0) { const char *e = getenv("NHL96_SKIPINTRO"); enabled = e && *e && *e != '0'; }
+    if (!enabled) return;
     if (skipping || intro_title || game_pointer_ns()) return;       /* the title screen has its own skip */
     skipping = 1;
     intro_skip = 1;
+    TRACE("intro skip started (NHL96_SKIPINTRO)\n");
     audio_muted = 1;                            /* the sound of the splash screens, sped up, is not worth hearing */
     skip_start = plat_now_ns();
     skip_next = skip_start + 300000000LL;

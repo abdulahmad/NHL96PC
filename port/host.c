@@ -46,6 +46,7 @@ int main(int argc, char **argv)
     sound_init();
     if (map_low_memory()) fprintf(stderr, "cannot map DOS memory below 1 MB\n");
     if (getenv("NHL96_SOUNDTEST")) { extern int soundtest(void); return soundtest(); }
+    dos_default_config();
     if (game_load()) return 1;
     plat_make_image_writable();
     install_overrides();

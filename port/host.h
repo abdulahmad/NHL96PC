@@ -78,6 +78,7 @@ int emulate_low_memory(ctx_t *c, uint8_t *ip);         /* an access below 0x1000
 int accesses_low_memory(ctx_t *c, uint8_t *ip);
 /* software interrupts: DOS, BIOS, DPMI, mouse (dos.c) */
 int dos_int(ctx_t *c, int vec);
+void dos_default_config(void);   /* write GLOBAL.SET if there is none */
 struct vec { uint32_t off; uint32_t sel; };
 extern struct vec pm_vec[256];
 /* I/O ports (ports.c) */

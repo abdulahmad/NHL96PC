@@ -127,6 +127,48 @@ static int host_path(const char *dos, char *out, size_t n)
     return 0;
 }
 
+/* GLOBAL.SET: the settings file SETUP writes and HOCKEY.EXE reads at start (sub_6A341). The game only checks that it opens and that
+ * its first dword is 160BDh; otherwise it prints "You must first use the SETUP program..." and waits for ESC. Layout: a 0BCh-byte block
+ * (read to 17C9A4h), the install path as a C string (17CA60h, at most 20 chars), then 0B9h bytes (17CA75h). Sound is not in it: the game
+ * takes the card from BLASTER / ULTRASND, which cstart.c supplies. When the file is in neither the game folder nor $NHL96_CD, write the
+ * values of a real SETUP-written GLOBAL.SET (377 bytes; it matches the game's own defaults at 6A451h-6A5DFh but for a few option bits), with install mode 0 (bits 0-1
+ * of 17C9A8h: every file read from the current folder, so the CD data files are used in place). The user can replace it with SETUP's. */
+void dos_default_config(void)
+{
+    unsigned char b[0xBC + 4 + 0xB9];
+    char path[1100];
+    struct stat st;
+    FILE *f;
+    int i;
+    host_path("GLOBAL.SET", path, sizeof path);
+    if (!stat(path, &st)) return;
+    memset(b, 0, sizeof b);
+#define D32(o, v) do { uint32_t v_ = (v); memcpy(b + (o), &v_, 4); } while (0)
+#define D16(o, v) do { uint16_t v_ = (v); memcpy(b + (o), &v_, 2); } while (0)
+    D32(0x00, 0x160BD);                     /* magic */
+    b[0x04] = 0x90;                         /* 17C9A8: install mode 0 (all files in the current folder); a real SETUP file has 93h = mode 3, CD at the path below */
+    D16(0x08, 1); D16(0x0A, 1);             /* 17C9AC */
+    D16(0x0C, 0); D16(0x0E, 0); D16(0x10, 1); D16(0x12, 0);
+    memcpy(b + 0x14, "5552362337", 11);      /* modem: phone number */
+    memcpy(b + 0x28, "AT &F", 6);            /* modem: init string */
+    D32(0x50, 0x445441);                    /* modem: "ATD" */
+    D32(0x78, 0x1AFAFAF4);                  /* 17CA1C: game options, as a real SETUP-written file has them */
+    D32(0x7C, 0x57FF);                      /* 17CA20 */
+    for (i = 0; i < 8; i++) b[0xB0 + i] = (i & 1) ? 2 : 1;    /* 17CA54-5B */
+    D32(0xB8, 0x223FF);                     /* 17CA5C (as SETUP writes it on a Pentium) */
+    memcpy(b + 0xBC, "C:\\", 4);            /* install path (unused in mode 0) */
+    D32(0xBC + 4 + 1, 0x18655F);            /* 17CA76 */
+    for (i = 0; i < 4; i++) D16(0xBC + 4 + 9 + 2 * i, 1);   /* 17CA7E-84 */
+#undef D32
+#undef D16
+    snprintf(path, sizeof path, "%s/GLOBAL.SET", root());
+    f = fopen(path, "wb");
+    if (!f) { fprintf(stderr, "cannot write default %s\n", path); return; }
+    fwrite(b, 1, sizeof b, f);
+    fclose(f);
+    fprintf(stderr, "wrote default %s\n", path);
+}
+
 static void dos_error(ctx_t *c, int err)
 {
     int code = 1;

@@ -96,7 +96,15 @@ static void key_event(SDL_Scancode s, int down) { key_xt(xt_scancode(s), down); 
 
 /* Host stand-ins until the 96 addresses of these game variables are named. curperiod=-1 means "not in a game". */
 int32_t curperiod = -1;
-int32_t mousex, mousey, dword_D2FEC, dword_D2FF0, dword_D2FF4, dword_D2FF8, dword_D3028, inputinstalled, dword_CCC9C;
+int32_t dword_D3028, inputinstalled, dword_CCC9C;
+/* The mouse driver's state in 96 (sub_DF9B7 reads int 33h 0Bh into these, the same code as 95's): the pointer and its range. */
+#define G32(a) (*(volatile int32_t *)GAME_ADDR(a))
+#define mousex      G32(0x11F5A8u)
+#define mousey      G32(0x11F5ACu)
+#define dword_D2FEC G32(0x11F568u)      /* min x */
+#define dword_D2FF0 G32(0x11F56Cu)      /* min y */
+#define dword_D2FF4 G32(0x11F570u)      /* max x (exclusive) */
+#define dword_D2FF8 G32(0x11F574u)      /* max y (exclusive) */
 uint8_t pad1dev, pad2dev;
 uint32_t ctl1dev, ctl2dev, ctl1side, ctl2side;
 
@@ -484,6 +492,8 @@ int input_port_out(unsigned port, uint32_t val)
 /* int 33h, the mouse driver: position and buttons are in game screen pixels */
 int input_mouse(ctx_t *c)
 {
+    if ((R(c, EAX) & 0xFFFF) != 3 && (R(c, EAX) & 0xFFFF) != 0x0B)
+        TRACE("int 33h ax=%04X bx=%04X cx=%04X dx=%04X\n", R(c, EAX) & 0xFFFF, R(c, EBX) & 0xFFFF, R(c, ECX) & 0xFFFF, R(c, EDX) & 0xFFFF);
     switch (R(c, EAX) & 0xFFFF) {
     case 0x00: R(c, EAX) = (R(c, EAX) & ~0xFFFFu) | 0xFFFF; R(c, EBX) = (R(c, EBX) & ~0xFFFFu) | 2; return 1;
     case 0x01: case 0x02: case 0x0A: case 0x0C: case 0x10: case 0x13: case 0x1A: return 1;
@@ -504,6 +514,7 @@ int input_mouse(ctx_t *c)
             mickey_x = cx; mickey_y = cy;
         }
         R(c, ECX) = (R(c, ECX) & ~0xFFFFu) | (mickey_x & 0xFFFF); R(c, EDX) = (R(c, EDX) & ~0xFFFFu) | (mickey_y & 0xFFFF);
+        if (mickey_x || mickey_y) TRACE("int 33h 0Bh mickeys %d,%d pointer %d,%d range %d,%d-%d,%d\n", (int16_t)mickey_x, (int16_t)mickey_y, mousex, mousey, dword_D2FEC, dword_D2FF0, dword_D2FF4, dword_D2FF8);
         mickey_x = mickey_y = 0;
         return 1;
     case 0x1B: R(c, EBX) = (R(c, EBX) & ~0xFFFFu) | 8; R(c, ECX) = (R(c, ECX) & ~0xFFFFu) | 8; R(c, EDX) = (R(c, EDX) & ~0xFFFFu) | 8; return 1;

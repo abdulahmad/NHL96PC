@@ -1,0 +1,291 @@
+/* Windows platform layer (32-bit, built with mingw-w64): the faults the game causes arrive in a vectored exception handler, and an
+ * interrupt is delivered by suspending the game thread, changing its context and resuming it. */
+#include "host.h"
+#include <pdh.h>
+#include <pdhmsg.h>
+#include <SDL.h>
+
+static HANDLE game_handle;
+static volatile DWORD resume_eip;     /* where the exception handler last let the game continue */
+
+/* Windows does not load segment registers from a changed exception context. When the emulation sets ES (int 21h 35h returns the
+ * old vector in ES:EBX), the game continues here with the selector and its return address on the stack. */
+__attribute__((naked)) static void load_es_stub(void)
+{
+    __asm__ volatile("pop %es\n\tret");
+}
+
+static LONG CALLBACK veh(EXCEPTION_POINTERS *ep)
+{
+    CONTEXT *c = ep->ContextRecord;
+    DWORD code = ep->ExceptionRecord->ExceptionCode;
+    uint8_t *ip = (uint8_t *)c->Eip;
+    DWORD es = c->SegEs;
+    int len;
+    if (code == EXCEPTION_BREAKPOINT) {             /* an int3 that replaced pushf / popf: continue from its address */
+        ip = (uint8_t *)ep->ExceptionRecord->ExceptionAddress;
+        c->Eip = (DWORD)ip;
+    }
+    if (!IN_GAME_CODE(ip)) return EXCEPTION_CONTINUE_SEARCH;
+    if (code != EXCEPTION_PRIV_INSTRUCTION && code != EXCEPTION_ACCESS_VIOLATION && code != EXCEPTION_ILLEGAL_INSTRUCTION &&
+        code != EXCEPTION_BREAKPOINT)
+        return EXCEPTION_CONTINUE_SEARCH;
+    __asm__ volatile("cld");
+    c->EFlags &= ~0x40000u;
+    len = emulate_privileged(c, ip);
+    if (len > 0) {
+        c->Eip += len;
+        if ((c->SegEs & 0xFFFF) != (es & 0xFFFF)) {
+            uint32_t *sp = (uint32_t *)c->Esp - 2;
+            sp[0] = c->SegEs & 0xFFFF;
+            sp[1] = c->Eip;
+            c->Esp = (DWORD)sp;
+            c->Eip = (DWORD)load_es_stub;
+            c->SegEs = es;
+        }
+        irq_try_deliver(c);             /* the safe place to take a pending interrupt (see plat_kick_game) */
+        resume_eip = c->Eip;
+        return EXCEPTION_CONTINUE_EXECUTION;
+    }
+    if (code == EXCEPTION_ACCESS_VIOLATION && ep->ExceptionRecord->ExceptionInformation[1] < 0x10000 && emulate_low_memory(c, ip))
+        return EXCEPTION_CONTINUE_EXECUTION;
+    fprintf(stderr, "UNHANDLED exception %08lx eip=%08x bytes=%02x %02x %02x %02x eax=%08x ebx=%08x ecx=%08x edx=%08x esp=%08x cs=%x ds=%x es=%x fs=%x\n",
+            code, (unsigned)c->Eip, ip[0], ip[1], ip[2], ip[3], (unsigned)c->Eax, (unsigned)c->Ebx, (unsigned)c->Ecx, (unsigned)c->Edx, (unsigned)c->Esp,
+            (unsigned)c->SegCs, (unsigned)c->SegDs, (unsigned)c->SegEs, (unsigned)c->SegFs);
+    host_exit(1);
+    return EXCEPTION_CONTINUE_SEARCH;
+}
+
+/* A fault the emulation did not handle, in the host's own code or elsewhere: say where it is (map the address with addr2line / nm). */
+extern volatile uint8_t isr_active;
+
+static LONG WINAPI crash_filter(EXCEPTION_POINTERS *ep)
+{
+    EXCEPTION_RECORD *r = ep->ExceptionRecord;
+    CONTEXT *c = ep->ContextRecord;
+    char line[400];
+    DWORD n;
+    /* plain Win32 calls only: the C library may not work any more (a clobbered FS, a broken stack) */
+    n = wsprintfA(line, "CRASH exception %08lx at eip=%08lx, address %08lx (%s) eax=%08lx ebx=%08lx ecx=%08lx edx=%08lx esi=%08lx edi=%08lx "
+                  "ebp=%08lx esp=%08lx cs=%lx ds=%lx es=%lx fs=%lx gs=%lx vif=%d isr_active=%d\r\n",
+                  r->ExceptionCode, c->Eip, r->NumberParameters > 1 ? (unsigned long)r->ExceptionInformation[1] : 0UL,
+                  IN_GAME_CODE(c->Eip) ? "game code" : "not game code", c->Eax, c->Ebx, c->Ecx, c->Edx, c->Esi, c->Edi, c->Ebp, c->Esp,
+                  c->SegCs, c->SegDs, c->SegEs, c->SegFs, c->SegGs, vif, (int)isr_active);
+    WriteFile(GetStdHandle(STD_ERROR_HANDLE), line, n, &n, 0);
+    TerminateProcess(GetCurrentProcess(), 1);           /* not host_exit: it uses the C library */
+    return EXCEPTION_EXECUTE_HANDLER;
+}
+
+/* the same report as the last handler of the vectored chain, which sees the faults before the stack is unwound (a stack overflow or
+ * a fault inside a handler never reaches the unhandled exception filter) */
+static LONG CALLBACK crash_veh(EXCEPTION_POINTERS *ep)
+{
+    switch (ep->ExceptionRecord->ExceptionCode) {
+    case EXCEPTION_ACCESS_VIOLATION: case EXCEPTION_STACK_OVERFLOW: case EXCEPTION_ILLEGAL_INSTRUCTION: case EXCEPTION_PRIV_INSTRUCTION:
+    case EXCEPTION_INT_DIVIDE_BY_ZERO: case EXCEPTION_ARRAY_BOUNDS_EXCEEDED: case EXCEPTION_IN_PAGE_ERROR:
+        return crash_filter(ep);
+    }
+    return EXCEPTION_CONTINUE_SEARCH;
+}
+
+void plat_install_traps(void)
+{
+    SetUnhandledExceptionFilter(crash_filter);
+    AddVectoredExceptionHandler(0, crash_veh);          /* called after the one below */
+    AddVectoredExceptionHandler(1, veh);
+}
+
+void plat_make_image_writable(void)
+{
+    MEMORY_BASIC_INFORMATION mbi;
+    uint8_t *base = (uint8_t *)GetModuleHandleA(0);
+    IMAGE_NT_HEADERS *nt = (IMAGE_NT_HEADERS *)(base + ((IMAGE_DOS_HEADER *)base)->e_lfanew);
+    IMAGE_SECTION_HEADER *sec = IMAGE_FIRST_SECTION(nt);
+    DWORD old;
+    int i;
+    (void)mbi;
+    if (game_image)
+        VirtualProtect(game_image, (GAME_SPAN + 0xFFF) & ~0xFFFu, PAGE_EXECUTE_READWRITE, &old);
+    VirtualProtect(base, nt->OptionalHeader.SizeOfImage, PAGE_EXECUTE_READWRITE, &old);
+    /* the host's read-only data (jump tables, strings, the exception tables) stays read-only: a stray write of the game then faults
+     * where it happens, instead of damaging the host (see NHL96_NOROPROTECT) */
+    if (!getenv("NHL96_NOROPROTECT"))
+        for (i = 0; i < nt->FileHeader.NumberOfSections; i++)
+            if (!(sec[i].Characteristics & (IMAGE_SCN_MEM_WRITE | IMAGE_SCN_MEM_EXECUTE)) && sec[i].Misc.VirtualSize)
+                VirtualProtect(base + sec[i].VirtualAddress, sec[i].Misc.VirtualSize, PAGE_READONLY, &old);
+}
+
+/* Windows puts the process parameters, the NLS tables and a thread stack below 1 MB before main runs, so DOS memory cannot be
+ * allocated there. The program is linked at 0x10000 with an uninitialized section .lowmem from 0x11000 to 0x100000 (see
+ * build-win.sh), which the loader maps before anything else: a range inside the program's own image is already there. */
+void *plat_map_fixed(uintptr_t addr, size_t size)
+{
+    MEMORY_BASIC_INFORMATION mbi;
+    void *m = VirtualAlloc((void *)addr, size, MEM_RESERVE | MEM_COMMIT, PAGE_EXECUTE_READWRITE);
+    if (m) return m;
+    if (addr < 0x11000) { size -= 0x11000 - addr; addr = 0x11000; }    /* the image headers */
+    if (VirtualQuery((void *)addr, &mbi, sizeof mbi) && mbi.AllocationBase == GetModuleHandleA(0) &&
+        (uintptr_t)mbi.BaseAddress + mbi.RegionSize >= addr + size) {
+        DWORD old;
+        VirtualProtect((void *)addr, size, PAGE_EXECUTE_READWRITE, &old);
+        return (void *)addr;
+    }
+    return 0;
+}
+
+void *plat_map_any(size_t size)
+{
+    /* below 2 GB (the Watcom heap compares addresses as signed numbers); a 32-bit process without the large-address flag has no more */
+    static uintptr_t next = 0x10000000;
+    size_t len = (size + 0xFFF) & ~0xFFFu;
+    void *m = 0;
+    while (!m && next + len + 0x10000 <= 0x7F000000u) {
+        m = VirtualAlloc((void *)next, len, MEM_RESERVE | MEM_COMMIT, PAGE_EXECUTE_READWRITE);
+        next += m ? len + 0x1000 : 0x10000;
+    }
+    return m;
+}
+
+void plat_unmap(void *addr, size_t size)
+{
+    (void)size;
+    VirtualFree(addr, 0, MEM_RELEASE);
+}
+
+static DWORD WINAPI thread_main(LPVOID arg)
+{
+    int argc;
+    char **argv;
+    extern void game_args(int *, char ***);
+    (void)arg;
+    game_args(&argc, &argv);
+    game_run(argc, argv);
+    return 0;
+}
+
+void plat_start_game(void)
+{
+    game_handle = CreateThread(0, 16 << 20, thread_main, 0, 0, 0);
+}
+
+/* Called from the main thread when an interrupt is pending: only when the game thread is executing game code (not the host, not
+ * a system call) is its context changed. Not when it is at an instruction that traps: it may be on its way into the exception
+ * handler, which has (or will take) a copy of the context, so a change here would be lost or would reach the handler as a
+ * fault at the interrupt handler's first instruction. Nor when it is where the exception handler let it continue: it may still be
+ * in NtContinue, which would overwrite the change. Nor just after an int3 (a pushf / popf of the game): Windows reports a
+ * breakpoint with the address after the instruction, and the handler has not emulated it yet. The exception handler delivers the
+ * interrupt instead. */
+void plat_kick_game(void)
+{
+    CONTEXT c;
+    if (!game_handle) return;
+    if (SuspendThread(game_handle) == (DWORD)-1) return;
+    memset(&c, 0, sizeof c);
+    c.ContextFlags = CONTEXT_CONTROL | CONTEXT_INTEGER | CONTEXT_SEGMENTS;
+    /* nothing in here may take a lock: the game thread may hold one (the C library's, the heap's) */
+    if (GetThreadContext(game_handle, &c) && IN_GAME_CODE(c.Eip) && c.Eip != resume_eip && !traps((uint8_t *)c.Eip) && ((uint8_t *)c.Eip)[-1] != 0xCC &&
+        !accesses_low_memory(&c, (uint8_t *)c.Eip) && irq_try_deliver(&c))
+        SetThreadContext(game_handle, &c);
+    ResumeThread(game_handle);
+}
+
+/* NHL96_TRACE: where the game thread is (registers and the top of its stack) */
+void plat_trace_game(void)
+{
+    CONTEXT c;
+    uint32_t s[8] = { 0 };
+    if (!game_handle || SuspendThread(game_handle) == (DWORD)-1) return;
+    memset(&c, 0, sizeof c);
+    c.ContextFlags = CONTEXT_CONTROL | CONTEXT_INTEGER;
+    GetThreadContext(game_handle, &c);
+    ResumeThread(game_handle);
+    ReadProcessMemory(GetCurrentProcess(), (void *)c.Esp, s, sizeof s, 0);
+    fprintf(stderr, "game thread: eip=%08x esp=%08x eax=%08x ebx=%08x ecx=%08x edx=%08x stack %08x %08x %08x %08x %08x %08x\n",
+            (unsigned)c.Eip, (unsigned)c.Esp, (unsigned)c.Eax, (unsigned)c.Ebx, (unsigned)c.Ecx, (unsigned)c.Edx,
+            s[0], s[1], s[2], s[3], s[4], s[5]);
+}
+
+void plat_thread_times(uint64_t *user_ns, uint64_t *kernel_ns)
+{
+    FILETIME create, exit_t, kernel, user;
+    if (!game_handle || !GetThreadTimes(game_handle, &create, &exit_t, &kernel, &user)) return;
+    *user_ns = (((uint64_t)user.dwHighDateTime << 32) | user.dwLowDateTime) * 100;
+    *kernel_ns = (((uint64_t)kernel.dwHighDateTime << 32) | kernel.dwLowDateTime) * 100;
+}
+
+int64_t plat_now_ns(void)
+{
+    static LARGE_INTEGER freq;
+    LARGE_INTEGER t;
+    if (!freq.QuadPart) QueryPerformanceFrequency(&freq);
+    QueryPerformanceCounter(&t);
+    return (int64_t)((double)t.QuadPart * 1e9 / (double)freq.QuadPart);
+}
+
+/* A high-resolution waitable timer (Windows 10 1803 and later) wakes up when asked, also when the process is not in the foreground,
+ * where Sleep and SDL_Delay round up to the 15.6 ms system tick. */
+#ifndef CREATE_WAITABLE_TIMER_HIGH_RESOLUTION
+#define CREATE_WAITABLE_TIMER_HIGH_RESOLUTION 0x2
+#endif
+
+void plat_sleep_ms(int ms)
+{
+    static __thread HANDLE timer;
+    static __thread int tried;
+    LARGE_INTEGER due;
+    if (!tried) {
+        typedef HANDLE (WINAPI *create_fn)(LPSECURITY_ATTRIBUTES, LPCWSTR, DWORD, DWORD);
+        create_fn create = (create_fn)GetProcAddress(GetModuleHandleA("kernel32.dll"), "CreateWaitableTimerExW");
+        tried = 1;
+        if (create) timer = create(0, 0, CREATE_WAITABLE_TIMER_HIGH_RESOLUTION, TIMER_ALL_ACCESS);
+    }
+    if (timer) {
+        due.QuadPart = -(int64_t)ms * 10000;
+        if (SetWaitableTimer(timer, &due, 0, 0, 0, 0)) { WaitForSingleObject(timer, INFINITE); return; }
+    }
+    SDL_Delay(ms);
+}
+
+/* NHL96 stats display: CPU and GPU use */
+int plat_cpu_percent(void)
+{
+    static ULONGLONG last_cpu, last_wall;
+    FILETIME c, e, k, u, now;
+    SYSTEM_INFO si;
+    ULONGLONG cpu, wall;
+    int pct = -1;
+    if (!GetProcessTimes(GetCurrentProcess(), &c, &e, &k, &u)) return -1;
+    GetSystemTimeAsFileTime(&now);
+    GetSystemInfo(&si);
+    cpu = (((ULONGLONG)k.dwHighDateTime << 32) | k.dwLowDateTime) + (((ULONGLONG)u.dwHighDateTime << 32) | u.dwLowDateTime);
+    wall = ((ULONGLONG)now.dwHighDateTime << 32) | now.dwLowDateTime;
+    if (last_wall && wall > last_wall && si.dwNumberOfProcessors) pct = (int)((cpu - last_cpu) * 100 / ((wall - last_wall) * si.dwNumberOfProcessors));
+    last_cpu = cpu; last_wall = wall;
+    return pct > 100 ? 100 : pct;
+}
+
+/* the GPU engines of this process, from the performance counters Task Manager uses (Windows 10 and later) */
+int plat_gpu_percent(void)
+{
+    static PDH_HQUERY q;
+    static PDH_HCOUNTER counter;
+    static int tried;
+    DWORD size = 0, count = 0, i;
+    PDH_FMT_COUNTERVALUE_ITEM_W *items;
+    double sum = 0;
+    if (!tried) {
+        wchar_t path[128];
+        tried = 1;
+        _snwprintf(path, 128, L"\\GPU Engine(pid_%lu*engtype_3D)\\Utilization Percentage", (unsigned long)GetCurrentProcessId());
+        if (PdhOpenQueryW(NULL, 0, &q) != ERROR_SUCCESS || PdhAddEnglishCounterW(q, path, 0, &counter) != ERROR_SUCCESS) { q = NULL; return -1; }
+    }
+    if (!q) return -1;
+    if (PdhCollectQueryData(q) != ERROR_SUCCESS) return -1;
+    if (PdhGetFormattedCounterArrayW(counter, PDH_FMT_DOUBLE, &size, &count, NULL) != PDH_MORE_DATA || !size) return 0;
+    items = malloc(size);
+    if (!items) return -1;
+    if (PdhGetFormattedCounterArrayW(counter, PDH_FMT_DOUBLE, &size, &count, items) == ERROR_SUCCESS)
+        for (i = 0; i < count; i++) sum += items[i].FmtValue.doubleValue;
+    free(items);
+    return sum > 100 ? 100 : (int)(sum + 0.5);
+}

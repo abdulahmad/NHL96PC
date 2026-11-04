@@ -2,10 +2,10 @@
 
 ## Now
 
-- Stage / unit: CONTRIBUTING.md rewrite; added `docs/RULES.md`. Stay on `claude/project-thread-ggw7zu`.
-- Branch: `claude/project-thread-ggw7zu`
-- Last check: docs-only
-- Next: do not merge to main. Disassembly next is still obj1_00000.
+- Stage / unit: SDL2 native port (`port/`, `make sdl2`). Stay on `sdl2-port` / the PR that targets it. Do not merge to `main`.
+- Branch: `sdl2-port` (work may land via `cursor/sdl2-port-a19a`)
+- Last check: `./build.sh` MATCH; `make sdl2` -> `build/hockey-linux`
+- Next: run with real game data; name 96 addresses for mouse/curperiod/intro hooks. Disassembly next is still obj1_00000.
 - Open PRs: (this unit)
 
 ## State (2026-10-31)

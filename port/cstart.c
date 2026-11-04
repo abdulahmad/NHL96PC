@@ -51,6 +51,7 @@ void host_cstart(int argc, char **argv)
 #endif
 
     store16(ORIG_CRT_SEL, ds);
+    store16(ORIG_GETDS_SEL, ds);     /* the code keeps a copy of the data selector for its interrupt handlers (__GETDS) */
     store16(ORIG_CRT_ENVSEL, ds);
     store32(ORIG_CRT_ESP, espv);
     store32(ORIG_CRT_ESP2, espv);

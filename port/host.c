@@ -11,8 +11,10 @@ int trace_on;
 static int g_argc;
 static char **g_argv;
 
+void sndinit_test(void);
 void game_run(int argc, char **argv)
 {
+    if (getenv("NHL96_SNDINIT")) sndinit_test();
     host_cstart(argc, argv);
     __asm__ volatile(
         "movl $0xFF, %%eax\n\t"
@@ -22,6 +24,41 @@ void game_run(int argc, char **argv)
         :
         : "r"(GAME_ADDR(ORIG_INITRTNS)), "r"(GAME_ADDR(ORIG_CMAIN))
         : "eax", "edx", "ecx", "ebp", "memory");
+    host_exit(0);
+}
+
+/* NHL96_SNDINIT=1: after the C library start-up, call the game's getenv_ (C2CF7) for BLASTER, its BLASTER parser (sub_CE0A9) and the
+ * sound start (sub_C157F with the driver sub_694B9 picks for the card in GLOBAL.SET), log what they return, and exit. */
+static uint32_t gcall(uint32_t fn, uint32_t a, uint32_t d, uint32_t b, uint32_t c)
+{
+    uint32_t r;
+    __asm__ volatile("push %%ebp\n\tcall *%5\n\tpop %%ebp" : "=a"(r), "+d"(d), "+b"(b), "+c"(c) : "0"(a), "r"(GAME_ADDR(fn)) : "esi", "edi", "memory", "cc");
+    return r;
+}
+
+void sndinit_test(void)
+{
+    static char name[] = "BLASTER";
+    static int32_t v[4];
+    uint32_t r;
+    host_cstart(g_argc, g_argv);
+    __asm__ volatile("movl $0xFF, %%eax\n\tcall *%0" : : "r"(GAME_ADDR(ORIG_INITRTNS)) : "eax", "edx", "ecx", "ebx", "esi", "edi", "memory");
+    r = gcall(0xC2CF7, (uint32_t)(uintptr_t)name, 0, 0, 0);
+    alog("sndinit: environ %08x, getenv(BLASTER) -> %08x %s", *(uint32_t *)GAME_ADDR(0x14F09Cu), r, r ? (char *)(uintptr_t)r : "(null)");
+    printf("getenv(BLASTER) -> %s\n", r ? (char *)(uintptr_t)r : "(null)");
+    r = gcall(0xCE0A9, (uint32_t)(uintptr_t)&v[0], (uint32_t)(uintptr_t)&v[1], (uint32_t)(uintptr_t)&v[2], (uint32_t)(uintptr_t)&v[3]);
+    printf("parse -> %d: A %x I %d D %d H %d\n", (int)r, v[0], v[1], v[2], v[3]);
+    alog("sndinit: sub_CE0A9 -> %d A %x I %d D %d H %d", (int)r, v[0], v[1], v[2], v[3]);
+    {
+        const char *c = getenv("NHL96_SNDINIT");
+        int drv = atoi(c) > 1 ? atoi(c) : 5;
+        r = gcall(0xC157F, drv, 0xFFFFFFFFu, 0, 0);
+        printf("driver %d init -> %d, current driver %d\n", drv, (int)r, *(int32_t *)GAME_ADDR(ORIG_SND_DRIVER));
+        printf("image at %p; sb16: version %x, dmabuf %08x/%08x, buffer len %d\n", (void *)GAME_ADDR(0x10000), *(int32_t *)GAME_ADDR(0x1A107Cu),
+               *(uint32_t *)GAME_ADDR(0x1A1078u), *(uint32_t *)GAME_ADDR(0x14F05Cu), *(int32_t *)GAME_ADDR(0x1A105Cu));
+        alog("sndinit: sub_C157F(%d) -> %d, dword_1248CC %d", drv, (int)r, *(int32_t *)GAME_ADDR(ORIG_SND_DRIVER));
+    }
+    fflush(stdout);
     host_exit(0);
 }
 

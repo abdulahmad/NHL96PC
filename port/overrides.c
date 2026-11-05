@@ -113,4 +113,5 @@ void install_overrides(void)
     if (GAME_ADDR(ORIG_SETDEADLINE)[0] == 0x8B) patch_jmp(GAME_ADDR(ORIG_SETDEADLINE), set_deadline_entry);
     if (GAME_ADDR(ORIG_WAITTICKS)[0] == 0x8B) patch_jmp(GAME_ADDR(ORIG_WAITTICKS), wait_ticks_entry);
     install_flag_traps();
+    { extern void install_sound_hooks(void); install_sound_hooks(); }
 }

@@ -65,14 +65,14 @@ void host_cstart(int argc, char **argv)
     GAME_ADDR(ORIG_CRT_FLAT)[0] = 0;
 
     build_environment("HOCKEY.EXE");
-    memcpy((void *)0x32000, envblock, sizeof envblock);
-    store32(ORIG_CRT_ENV, 0x32000);
+    memcpy((void *)LOW_ENVBLOCK, envblock, sizeof envblock);
+    store32(ORIG_CRT_ENV, LOW_ENVBLOCK);
 
     /* Watcom __CMain treats the command-line pointer as an alloca size compared
      * with (esp - cmdend). Relocated object-4 addresses are ~500 MB, which
      * subtracts the pthread stack into unmapped memory. Keep these pointers in
      * the DOS hole below 1 MB, like the 95 port's original-address image. */
-    dst = (char *)0x30000;
+    dst = (char *)LOW_CMDLINE;
     memset(dst, 0, 0x1000);
     dst = (char *)(((uintptr_t)dst + 0xF) & ~0xFu);
     store32(ORIG_CRT_CMDLINAL, (uint32_t)(uintptr_t)dst);

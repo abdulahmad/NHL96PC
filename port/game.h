@@ -41,6 +41,12 @@
 #define ORIG_CRT_ENV       0x12442Du
 #define ORIG_CRT_ENVSEL    0x124431u
 #define ORIG_CRT_NO87      0x124428u
+/* Below 1 MB: the command line and the environment strings the C library keeps pointers into, then the DOS memory pool
+ * (dos.c). The pool must not overlap them: the game takes all the DOS memory it can get and writes over it, which erased the
+ * environment, so the sound driver's getenv("BLASTER") found nothing and the game started without sound. */
+#define LOW_CMDLINE        0x20000u
+#define LOW_ENVBLOCK       0x22000u
+#define LOW_DOS_POOL       0x24000u
 #define ORIG_SND_CARD      0x11D1DAu  /* dword_11D1DA: the sound driver sub_694B9 started (-1: none) */
 #define ORIG_SND_DRIVER    0x1248CCu  /* dword_1248CC: the driver table index sub_C157F made current (0: none) */
 #define ORIG_SND_FLAGS     0x11D1DEu  /* dword_11D1DE: the sound code's state bits */

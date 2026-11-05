@@ -145,6 +145,8 @@ void alog(const char *fmt, ...)
 {
     static int64_t t0;
     va_list ap;
+    static int checked;
+    if (!checked) { const char *e = getenv("NHL96_AUDIOLOG"); checked = 1; if (e && *e && *e != '0') alog_on = 1; }
     if (!alog_on) return;
     if (!alog_f) {
         char path[1100];

@@ -421,6 +421,7 @@ static int int21(ctx_t *c)
         else flags = (AL(c) & 3) == 0 ? O_RDONLY : (AL(c) & 3) == 1 ? O_WRONLY : O_RDWR;
         fd = open(path, flags | O_BINARY, 0666);
         TRACE("open %s -> %d\n", path, fd);
+        if (strstr(path, ".SET") || strstr(path, ".set")) alog("open %s -> %d", path, fd);
         {                                               /* nhl96-audio.log: the music, instrument and sound files the game uses */
             const char *dot = strrchr(path, '.');
             static int n_open_logged;

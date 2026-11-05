@@ -12,7 +12,9 @@ static void store32(uint32_t orig, uint32_t v) { memcpy(GAME_ADDR(orig), &v, 4);
 static void build_environment(const char *program)
 {
     char *p = envblock;
-    static const char *const pass[] = { "PATH", "TEMP", "TMP", "NO87", "BLASTER", "ULTRASND", "ULTRADIR", "NHL96_SOUND", 0 };
+    /* No PATH: the game does not search it, and a Windows PATH (often several KB) overflowed this block and the game's view of the
+     * variables after it, so its sound driver's getenv("BLASTER") failed and the sound never started. Values are capped as well. */
+    static const char *const pass[] = { "BLASTER", "ULTRASND", "ULTRADIR", "NHL96_SOUND", "NO87", "TEMP", "TMP", 0 };
     int i;
     const char *none = getenv("NHL96_SOUND");
     for (i = 0; pass[i]; i++) {
@@ -21,7 +23,8 @@ static void build_environment(const char *program)
             if (!strcmp(pass[i], "BLASTER")) v = DEFAULT_BLASTER;
             if (!strcmp(pass[i], "ULTRASND") && getenv("NHL96_GUS") && !strcmp(getenv("NHL96_GUS"), "1")) v = DEFAULT_ULTRASND;   /* GUS opt-in */
         }
-        if (v) p += sprintf(p, "%s=%s", pass[i], v) + 1;
+        if (v && strlen(v) < 200 && p + strlen(pass[i]) + strlen(v) + 2 < envblock + sizeof envblock - 64) p += sprintf(p, "%s=%s", pass[i], v) + 1;
+        alog("env %s=%s%s", pass[i], v ? v : "(unset)", v && strlen(v) >= 200 ? " (too long, left out)" : "");
     }
     *p++ = 0;
     *p++ = 1;

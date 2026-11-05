@@ -170,6 +170,24 @@ void dos_default_config(void)
     fprintf(stderr, "wrote default %s\n", path);
 }
 
+/* The game saves seasons, playoffs and exhibition stats in folders below its own (SEASON\00001KEY.DB, PLAYOFF\, EXHIBIT\, USER\,
+ * HILITES\) that its installer made. A copied game folder may not have them: creating a file there failed (path not found), and the
+ * game reported that as "out of disk space" when a season was created. Make the missing folders when a file is created. */
+static int make_parents(const char *path)
+{
+    char dir[1100];
+    char *p;
+    int made = 0;
+    snprintf(dir, sizeof dir, "%s", path);
+    for (p = dir + 1; *p; p++) {
+        if (*p != '/' && *p != '\\') continue;
+        *p = 0;
+        if (!MKDIR(dir)) made = 1;
+        *p = '/';
+    }
+    return made;
+}
+
 static void dos_error(ctx_t *c, int err)
 {
     int code = 1;
@@ -408,8 +426,8 @@ static int int21(ctx_t *c)
         R(c, ECX) = (tm->tm_hour << 8) | tm->tm_min; R(c, EDX) = (tm->tm_sec << 8) | (ms / 10); return 1;
     }
     case 0x30: SETAX(c, 0x0005); R(c, EBX) = 0; R(c, ECX) = 0; return 1;      /* DOS 5.0 */
-    case 0x36: {                                                /* free disk space: 4 GB of 32 KB clusters */
-        SETAX(c, 64); R(c, EBX) = 60000; R(c, ECX) = 512; R(c, EDX) = 65000; return 1;
+    case 0x36: {                                                /* free disk space: 64 x 512-byte sectors per cluster */
+        SETAX(c, 64); R(c, EBX) = 0xFFFF; R(c, ECX) = 512; R(c, EDX) = 0xFFFF; SET_CF(c, 0); return 1;   /* 2 GB free (the most FAT16 can say) */
     }
     case 0x39: host_path((char *)R(c, EDX), path, sizeof path); if (MKDIR(path)) dos_error(c, errno); else SET_CF(c, 0); return 1;
     case 0x3A: host_path((char *)R(c, EDX), path, sizeof path); if (rmdir(path)) dos_error(c, errno); else SET_CF(c, 0); return 1;
@@ -420,6 +438,7 @@ static int int21(ctx_t *c)
         if (AH(c) == 0x3C) flags = O_RDWR | O_CREAT | O_TRUNC;
         else flags = (AL(c) & 3) == 0 ? O_RDONLY : (AL(c) & 3) == 1 ? O_WRONLY : O_RDWR;
         fd = open(path, flags | O_BINARY, 0666);
+        if (fd < 0 && errno == ENOENT && (flags & O_CREAT) && make_parents(path)) fd = open(path, flags | O_BINARY, 0666);
         TRACE("open %s -> %d\n", path, fd);
         if (strstr(path, ".SET") || strstr(path, ".set")) alog("open %s -> %d", path, fd);
         {                                               /* nhl96-audio.log: the music, instrument and sound files the game uses */
@@ -491,7 +510,9 @@ static int int21(ctx_t *c)
         if (!finds[0].dir || !find_next(c, &finds[0])) { SETAX(c, 18); SET_CF(c, 1); } else SET_CF(c, 0);
         return 1;
     case 0x5B: host_path((char *)R(c, EDX), path, sizeof path);               /* create new file */
-        { int fd = open(path, O_RDWR | O_CREAT | O_EXCL | O_BINARY, 0666); if (fd < 0) dos_error(c, errno); else { R(c, EAX) = fd; SET_CF(c, 0); } }
+        { int fd = open(path, O_RDWR | O_CREAT | O_EXCL | O_BINARY, 0666);
+          if (fd < 0 && errno == ENOENT && make_parents(path)) fd = open(path, O_RDWR | O_CREAT | O_EXCL | O_BINARY, 0666);
+          if (fd < 0) dos_error(c, errno); else { R(c, EAX) = fd; SET_CF(c, 0); } }
         return 1;
     }
     return 0;

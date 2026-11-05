@@ -131,7 +131,7 @@ void host_wait_retrace(void)
         if (14285714LL - ph > 2000000) plat_sleep_ms((int)((14285714LL - ph) / 1000000));
         else plat_sleep_ms(0);
     }
-    video_latch_palette();
+    video_on_retrace();                     /* apply pending page flip when no TGV palette chunk follows */
     *(uint32_t *)GAME_ADDR(0x123AC4) = 0x186A0;
     host_allow_irq = 0;
 }

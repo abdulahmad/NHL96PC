@@ -227,11 +227,11 @@ static int find_next(ctx_t *c, struct find *f)
 
 /* ---- DOS memory (below 1 MB) ----
  * DOS/4GW lets a flat program reach conventional memory at its physical address. The host maps 0x10000-0xFFFFF the same way (the
- * VGA window at 0xA0000 is plain memory that the video code presents) and hands out real-mode buffers from 0x20000-0x9FFFF.
+ * VGA window at 0xA0000 is plain memory that the video code presents) and hands out real-mode buffers from LOW_DOS_POOL (above the command line and environment) to 0x9FFFF.
  * Every block gets the same selector (the flat data selector), so a free cannot name its block: it gives back the most recent one.
  * That is how the game uses it: it takes the largest block and the rest, then frees the rest so that the sound driver's DMA
  * buffer fits. */
-#define DOS_POOL_LO 0x20000u
+#define DOS_POOL_LO LOW_DOS_POOL
 #define DOS_POOL_HI 0xA0000u
 static uint32_t dos_next = DOS_POOL_LO;
 static uint32_t dos_blocks[64];         /* start of each block still allocated, in order */

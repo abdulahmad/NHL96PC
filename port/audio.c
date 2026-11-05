@@ -184,6 +184,12 @@ void alog_second(void)
     dma_log_state(5, d5, sizeof d5);
     irq_log_state(iq, sizeof iq);
     for (i = 0; i < 8; i++) if (((volatile uint32_t *)GAME_ADDR(ORIG_TIMER_LIST))[i]) timers++;
+    {
+        uint32_t envp = *(volatile uint32_t *)GAME_ADDR(0x14F09Cu);   /* the C library's environ (overrides.c) */
+        const char *e0 = envp && *(uint32_t *)(uintptr_t)envp ? (const char *)(uintptr_t)*(uint32_t *)(uintptr_t)envp : "";
+        static char last[48];
+        if (strncmp(last, e0, sizeof last - 1)) { snprintf(last, sizeof last, "%.40s", e0); alog("game environ[0] now \"%s\"", last); }
+    }
     alog("out: %u samples rms %.0f peak %d%s | %s | dma1 %s | dma5 %s | %s | game: card %d driver %d flags %x opts %08x timer callbacks %d",
          n, rms, peak, audio_muted ? " MUTED" : "", sb, d1, d5, iq,
          *(volatile int32_t *)GAME_ADDR(ORIG_SND_CARD), *(volatile int32_t *)GAME_ADDR(ORIG_SND_DRIVER),

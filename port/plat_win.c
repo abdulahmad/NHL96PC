@@ -198,8 +198,9 @@ void plat_kick_game(void)
     memset(&c, 0, sizeof c);
     c.ContextFlags = CONTEXT_CONTROL | CONTEXT_INTEGER | CONTEXT_SEGMENTS;
     /* nothing in here may take a lock: the game thread may hold one (the C library's, the heap's) */
-    if (GetThreadContext(game_handle, &c) && IN_GAME_CODE(c.Eip) && c.Eip != resume_eip && !traps((uint8_t *)c.Eip) && ((uint8_t *)c.Eip)[-1] != 0xCC &&
-        !accesses_low_memory(&c, (uint8_t *)c.Eip) && irq_try_deliver(&c))
+    if (GetThreadContext(game_handle, &c) && (IN_GAME_CODE(c.Eip) || host_allow_irq) && c.Eip != resume_eip &&
+        (host_allow_irq || (!traps((uint8_t *)c.Eip) && ((uint8_t *)c.Eip)[-1] != 0xCC && !accesses_low_memory(&c, (uint8_t *)c.Eip))) &&
+        irq_try_deliver(&c))
         SetThreadContext(game_handle, &c);
     ResumeThread(game_handle);
 }

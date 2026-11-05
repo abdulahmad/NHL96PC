@@ -22,6 +22,9 @@
 #define ORIG_SETENVP       0xD7C08u
 #define ORIG_SETDEADLINE   0xDFEE1u
 #define ORIG_WAITTICKS     0xDFF0Fu
+#define ORIG_WAITRETRACE   0xDDE7Bu   /* sub_DDE7B: busy-wait for VGA vertical retrace (TGV palette frames) */
+#define ORIG_WAITRETRACE2  0xDDEBCu   /* sub_DDEBC: same, always both edges */
+#define ORIG_WAITRETRACE3  0xDDEE7u   /* wait display-enable then retrace */
 #define ORIG_VIDSAVE       0xE2484u
 #define ORIG_VIDRESTORE    0xE24C4u
 #define ORIG_TICKCOUNT     0x11F9A4u

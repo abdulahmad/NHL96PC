@@ -248,6 +248,8 @@ static int emulate_one(ctx_t *c, uint8_t *ip)
         int size = (op & 1) ? (o16 ? 2 : 4) : 1;
         uint32_t count = rep ? R(c, ECX) : 1;
         int dir = (R(c, EFL) & 0x400) ? -1 : 1;
+        int dac_burst = (op >= 0x6E) && ((R(c, EDX) & 0xFFFF) == 0x3C9);
+        if (dac_burst) video_palette_lock();
         while (count--) {
             if (op < 0x6E) {
                 uint32_t v = port_in(c, R(c, EDX) & 0xFFFF, size);
@@ -260,6 +262,7 @@ static int emulate_one(ctx_t *c, uint8_t *ip)
                 R(c, ESI) += dir * size;
             }
         }
+        if (dac_burst) video_palette_unlock();
         if (rep) R(c, ECX) = 0;
         return n + 1;
     }

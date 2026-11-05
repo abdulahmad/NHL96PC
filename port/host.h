@@ -101,6 +101,7 @@ int video_port_out(unsigned port, uint32_t val);
 void video_palette_lock(void);                 /* hold across a burst of DAC writes (rep outsb to 3C9) */
 void video_palette_unlock(void);
 void video_latch_palette(void);                /* copy the live DAC into the display latch */
+void video_on_retrace(void);                   /* VGA-like: apply pending CRTC start if no palette chunk follows */
 void video_init(void);
 void video_set_title(const char *title);
 void video_view(int *vx, int *vy, int *vw, int *vh);   /* where the 4:3 picture is in the window (window coordinates) */

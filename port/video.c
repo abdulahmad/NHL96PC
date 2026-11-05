@@ -11,7 +11,7 @@
 
 #define BANK 0x10000
 static uint8_t vram[0x800000];
-static uint8_t dac[256][3];
+static uint8_t dac[256][3], dac_latched[256][3];
 static unsigned dac_wr, dac_rd, dac_comp, dac_rcomp;
 static int cur_bank;
 static int mode_w = 640, mode_h = 480, mode_num = 0x101;
@@ -633,8 +633,24 @@ static void set_mode(int mode, int clear)
     TRACE("video mode %x: %dx%d\n", mode_num, mode_w, mode_h);
 }
 
+/* ---- palette latch ----
+ * The TGV player writes all 256 DAC colours with `rep outsb` during vertical blank. video_present runs on the main thread and
+ * used to read dac[] in the middle of that burst, so every palette keyframe flashed a mixed palette for one frame. The display
+ * path uses dac_latched[], updated only when a colour write is not in progress (and again at the start of retrace). Holding the
+ * video mutex across a 3C9 burst keeps present from interleaving mid-write. */
+static int pal_lock_depth;
+void video_palette_lock(void) { if (!pal_lock_depth++) SDL_LockMutex(lock); }
+void video_palette_unlock(void) { if (pal_lock_depth && !--pal_lock_depth) SDL_UnlockMutex(lock); }
+void video_latch_palette(void)
+{
+    video_palette_lock();
+    if (dac_comp == 0) memcpy(dac_latched, dac, sizeof dac);
+    video_palette_unlock();
+}
+
 /* ---- ports ---- */
 extern volatile int intro_skip;
+
 
 uint32_t video_port_in(unsigned port)
 {
@@ -682,10 +698,19 @@ int video_port_out(unsigned port, uint32_t val)
         return 1;
     case 0x3CE: gc_idx = val & 0xFF; return 1;
     case 0x3CF: if (gc_idx < sizeof gc) gc[gc_idx] = val & 0xFF; return 1;
-    case 0x3C8: dac_wr = val; dac_comp = 0; return 1;
+    case 0x3C8:
+        video_palette_lock();
+        dac_wr = val; dac_comp = 0;
+        video_palette_unlock();
+        return 1;
     case 0x3C9:
+        video_palette_lock();
         dac[dac_wr & 255][dac_comp] = val & 63;
-        if (++dac_comp == 3) { dac_comp = 0; dac_wr++; }
+        if (++dac_comp == 3) {
+            dac_comp = 0; dac_wr++;
+            if ((dac_wr & 255) == 0) memcpy(dac_latched, dac, sizeof dac);   /* full 256-colour load finished */
+        }
+        video_palette_unlock();
         return 1;
     }
     return 0;
@@ -887,8 +912,9 @@ void video_present(void)
     SDL_LockMutex(lock);
     window_save();
     w = mode_w; h = mode_h;
+    if (dac_comp == 0) memcpy(dac_latched, dac, sizeof dac);   /* live copy when not mid-colour */
     for (x = 0; x < 256; x++) {
-        unsigned r = dac[x][0] << 2 | dac[x][0] >> 4, g = dac[x][1] << 2 | dac[x][1] >> 4, b = dac[x][2] << 2 | dac[x][2] >> 4;
+        unsigned r = dac_latched[x][0] << 2 | dac_latched[x][0] >> 4, g = dac_latched[x][1] << 2 | dac_latched[x][1] >> 4, b = dac_latched[x][2] << 2 | dac_latched[x][2] >> 4;
         pal[x] = 0xFF000000u | r << 16 | g << 8 | b;
     }
     for (y = 0; y < h; y++) {

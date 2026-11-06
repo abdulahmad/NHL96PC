@@ -25,3 +25,4 @@ rule in the same commit as the fix that confirmed it, newest last: `- YYYY-MM-DD
 
 ## Learned
 - 2026-11-04 contributing: CONTRIBUTING.md must not contradict History: lineage lives only in `docs/name_map.csv`, never in source comments. (CONTRIBUTING rewrite vs RULES History row)
+- 2026-11-04 sdl2-port: NHL96PC cannot ELF-link `src/` the way NHL95PC does (incbin pages have no LE fixups applied). Load `HOCKEY.EXE` with `port/le_load.c` at `0x20000000` and skip Watcom `start` (selector 0x24 / ES:0x5C). (`port/` vs 95 ELF objects)

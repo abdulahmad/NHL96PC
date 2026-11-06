@@ -19,6 +19,9 @@ output/
 Extracted/
 build/
 ref/
+port/third_party/
+run-nhl96.sh
+SDL2-*/
 __pycache__/
 *.pyc
 *.log

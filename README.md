@@ -46,6 +46,19 @@ NHL '96 PC is based on [NHL95PC](https://github.com/abdulahmad/NHL95PC) and [NHL
 
 Needs NASM 2.15+ and Python 3. `./build.sh` ends with `MATCH output/HOCKEY.EXE`. `sh tools/verify_all.sh` is the clean check (last line MATCH).
 
+## Running the game on a modern PC (SDL2 port)
+
+The branch `sdl2-port` runs the game's own 32-bit code natively, with DOS, BIOS, sound, video and input hardware emulated by the host
+in `port/`. Build and details: [docs/SDL2_PORT.md](docs/SDL2_PORT.md). `src/` is untouched, so `./build.sh` still ends with `MATCH`.
+
+```
+make sdl2                 # build/hockey-linux (needs gcc-multilib and libsdl2-dev:i386)
+NHL96_ROOT=/path/to/game  # installed NHL 96 data files
+build/hockey-linux
+```
+
+The host loads `lst/HOCKEY.EXE` (or `NHL96_EXE`) at a relocated address so it does not overlap VGA memory.
+
 ## AI assistance
 
 This project is AI-assisted. The work is directed by a strict ruleset and curated by hand, with the aim of producing clean, correct, correctly labelled and commented code that closely matches what the original developers likely had. We can't guarantee it's perfect, and ultimately this will always be a work in progress. If you see something that needs fixing, raise an issue, or even better, raise a PR.

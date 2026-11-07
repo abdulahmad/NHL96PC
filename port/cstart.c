@@ -39,11 +39,6 @@ void host_cstart(int argc, char **argv)
     __asm__ volatile("mov %%ds, %0" : "=r"(ds));
     __asm__ volatile("mov %%esp, %0" : "=r"(espv));
     espv &= ~3u;
-    /* FS/ES must be a usable data selector: Watcom start copies DS into the CRT
-     * selector words and the C library then does `mov fs, [word]; mov es, fs`. */
-    __asm__ volatile("mov %0, %%fs" :: "r"(ds) : "memory");
-    __asm__ volatile("mov %0, %%es" :: "r"(ds) : "memory");
-
     store16(ORIG_CRT_SEL, ds);
     store16(ORIG_CRT_ENVSEL, ds);
     store32(ORIG_CRT_ESP, espv);
@@ -83,4 +78,10 @@ void host_cstart(int argc, char **argv)
     store16(ORIG_CRT_NO87, (uint16_t)no87);
     store32(ORIG_CRT_CMDEND, (uint32_t)(uintptr_t)cmd);
     store32(ORIG_CRT_CMD, (uint32_t)(uintptr_t)dst);
+    /* FS/ES must be a usable data selector: Watcom start copies DS into the CRT
+     * selector words and the C library then does `mov fs, [word]; mov es, fs`.
+     * Loaded last: on Windows FS is the thread's TEB, and the C runtime calls above
+     * (getenv's exception frame reads fs:0) crash once it holds DS. */
+    __asm__ volatile("mov %0, %%fs" :: "r"(ds) : "memory");
+    __asm__ volatile("mov %0, %%es" :: "r"(ds) : "memory");
 }

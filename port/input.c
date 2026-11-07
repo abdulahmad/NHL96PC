@@ -3,6 +3,7 @@
 #include "host.h"
 #include "audio.h"
 #include "bindings.h"
+#include "overbar_client.h"
 #include <SDL.h>
 
 #define QSIZE 256
@@ -254,8 +255,11 @@ static void cursor_update(void)
     video_confine_mouse(active && (fs || play_mouse));
     SDL_GetMouseState(&px, &py);
     over = active && SDL_GetMouseFocus() != 0 && px >= vx && px < vx + vw && py >= vy && py < vy + vh;
-    hide = over && (video_pointer_mode() == 0 ? drawn : video_pointer_mode() == 2);
-    if (video_pointer_mode() == 0 && active && fs && curperiod != -1) hide = 1;    /* automatic: always hidden during a game in fullscreen */
+    if (overbar_client_open()) hide = 0;
+    else {
+        hide = over && (video_pointer_mode() == 0 ? drawn : video_pointer_mode() == 2);
+        if (video_pointer_mode() == 0 && active && fs && curperiod != -1) hide = 1;    /* automatic: always hidden during a game in fullscreen */
+    }
     { static int was = -1; if (drawn != was) TRACE("game pointer %d (play with the mouse %d)\n", drawn, play_mouse); was = drawn; }
     if (hide != hidden) { SDL_ShowCursor(hide ? SDL_DISABLE : SDL_ENABLE); hidden = hide; }
 }
@@ -276,6 +280,22 @@ static void mouse_follow(int *cx, int *cy)
 }
 
 /* main thread */
+static void overlay_mouse(int wx, int wy, int what)
+{
+    int vx, vy, vw, vh, mw, mh, r;
+    if (!overbar_client_open() || what < 0) return;
+    video_view(&vx, &vy, &vw, &vh);
+    video_mode_size(&mw, &mh);
+    if (vw <= 0 || vh <= 0 || mw <= 0 || mh <= 0) return;
+    if (wx < vx || wy < vy || wx >= vx + vw || wy >= vy + vh) return;
+    r = overbar_client_pointer((wx - vx) * mw / vw, (wy - vy) * mh / vh, mw, mh, what);
+#ifdef _WIN32
+    if (what != 0 && r == OB_ID_CONTROLLERS) bindings_dialog_open(NULL);
+#else
+    (void)r;
+#endif
+}
+
 void input_poll(void)
 {
     SDL_Event e;
@@ -298,25 +318,57 @@ void input_poll(void)
                 if (!e.key.repeat) audio_capture_toggle();
                 break;
             }
-            if (e.key.keysym.scancode == SDL_SCANCODE_GRAVE && !(e.key.keysym.mod & (KMOD_CTRL | KMOD_ALT))) {      /* the key ` (tilde): the stats display */
-                if (!e.key.repeat) video_command(CMD_STATS);
+            if (!e.key.repeat && overbar_client_key(e.key.keysym.scancode)) break;   /* ` / F11 overlay, F12 stats */
+            if (overbar_client_open()) {
+                int in = -1;
+                SDL_Scancode k = e.key.keysym.scancode;
+                if (k == SDL_SCANCODE_UP) in = MDRT_MENU_UP;
+                else if (k == SDL_SCANCODE_DOWN) in = MDRT_MENU_DOWN;
+                else if (k == SDL_SCANCODE_LEFT) in = MDRT_MENU_LEFT;
+                else if (k == SDL_SCANCODE_RIGHT) in = MDRT_MENU_RIGHT;
+                else if (k == SDL_SCANCODE_RETURN || k == SDL_SCANCODE_KP_ENTER) in = MDRT_MENU_OK;
+                else if (k == SDL_SCANCODE_ESCAPE) in = MDRT_MENU_BACK;
+                if (in >= 0) {
+                    int r = overbar_client_input(in);
+#ifdef _WIN32
+                    if (r == OB_ID_CONTROLLERS) bindings_dialog_open(NULL);
+#else
+                    (void)r;
+#endif
+                }
                 break;
             }
             if (!e.key.repeat) { key_physical(e.key.keysym.scancode, 1); intro_skip_start(); }
             break;
         case SDL_KEYUP:
-            if (e.key.keysym.scancode == SDL_SCANCODE_GRAVE) break;
+            if (e.key.keysym.scancode == SDL_SCANCODE_GRAVE || e.key.keysym.scancode == SDL_SCANCODE_F11
+                || e.key.keysym.scancode == SDL_SCANCODE_F12) break;
+            if (overbar_client_open()) break;
             key_physical(e.key.keysym.scancode, 0);
             break;
         case SDL_SYSWMEVENT: menu_event(e.syswm.msg); break;      /* the window's menu (Windows) */
         case SDL_MOUSEMOTION: {
             int gx, gy;
+            if (overbar_client_open()) { overlay_mouse(e.motion.x, e.motion.y, 0); break; }
             video_window_to_game(e.motion.x, e.motion.y, &gx, &gy);
             mouse_x = gx; mouse_y = gy;
             win_x = e.motion.x; win_y = e.motion.y; win_moved = 1;
             break;
         }
+        case SDL_MOUSEWHEEL:
+            if (overbar_client_open()) {
+                int mx, my;
+                SDL_GetMouseState(&mx, &my);
+                overlay_mouse(mx, my, e.wheel.y > 0 ? 3 : e.wheel.y < 0 ? 4 : -1);
+            }
+            break;
         case SDL_MOUSEBUTTONDOWN: case SDL_MOUSEBUTTONUP: {
+            if (overbar_client_open()) {
+                if (e.type == SDL_MOUSEBUTTONDOWN)
+                    overlay_mouse(e.button.x, e.button.y, e.button.button == SDL_BUTTON_LEFT ? 1
+                                  : e.button.button == SDL_BUTTON_RIGHT ? 2 : -1);
+                break;
+            }
             static unsigned char mdown[8];
             int btn = e.button.button;
             if (btn >= 1 && btn <= 5) mdown[btn] = e.type == SDL_MOUSEBUTTONDOWN;
@@ -381,9 +433,43 @@ static void joy_scan(void)                      /* at start and when a device is
     }
 }
 
+static void joy_overlay(void)
+{
+    static int prev, back_was;
+    int i, btns = 0, back = 0;
+    for (i = 0; i < 2; i++) {
+        SDL_GameController *g = joy[i].gc;
+        if (!g) continue;
+        if (SDL_GameControllerGetButton(g, SDL_CONTROLLER_BUTTON_BACK)) back = 1;
+        if (!overbar_client_open()) continue;
+        if (SDL_GameControllerGetButton(g, SDL_CONTROLLER_BUTTON_DPAD_UP)
+            || SDL_GameControllerGetAxis(g, SDL_CONTROLLER_AXIS_LEFTY) < -16384) btns |= 1;
+        if (SDL_GameControllerGetButton(g, SDL_CONTROLLER_BUTTON_DPAD_DOWN)
+            || SDL_GameControllerGetAxis(g, SDL_CONTROLLER_AXIS_LEFTY) > 16384) btns |= 2;
+        if (SDL_GameControllerGetButton(g, SDL_CONTROLLER_BUTTON_DPAD_LEFT)
+            || SDL_GameControllerGetAxis(g, SDL_CONTROLLER_AXIS_LEFTX) < -16384) btns |= 4;
+        if (SDL_GameControllerGetButton(g, SDL_CONTROLLER_BUTTON_DPAD_RIGHT)
+            || SDL_GameControllerGetAxis(g, SDL_CONTROLLER_AXIS_LEFTX) > 16384) btns |= 8;
+        if (SDL_GameControllerGetButton(g, SDL_CONTROLLER_BUTTON_A)
+            || SDL_GameControllerGetButton(g, SDL_CONTROLLER_BUTTON_START)) btns |= 16;
+    }
+    if (back && !back_was) overbar_client_pad_back();
+    back_was = back;
+    if (overbar_client_open()) {
+        if ((btns & 1) && !(prev & 1)) overbar_client_input(MDRT_MENU_UP);
+        if ((btns & 2) && !(prev & 2)) overbar_client_input(MDRT_MENU_DOWN);
+        if ((btns & 4) && !(prev & 4)) overbar_client_input(MDRT_MENU_LEFT);
+        if ((btns & 8) && !(prev & 8)) overbar_client_input(MDRT_MENU_RIGHT);
+        if ((btns & 16) && !(prev & 16)) overbar_client_input(MDRT_MENU_OK);
+    }
+    prev = btns;
+}
+
 static void joy_update(void)                    /* main thread, every pass of the loop */
 {
     int i;
+    joy_overlay();
+    if (overbar_client_open()) return;
     for (i = 0; i < 2; i++) {
         int x = 0, y = 0, b1 = 0, b2 = 0;
         if (joy[i].gc) {

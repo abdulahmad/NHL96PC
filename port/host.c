@@ -4,6 +4,7 @@
  * the platform layer hands them to the emulation here. The main thread owns SDL. */
 #include "host.h"
 #include "audio.h"
+#include "overbar_client.h"
 void sound_init(void);
 #include <SDL.h>
 
@@ -64,8 +65,9 @@ int main(int argc, char **argv)
             next_frame += video_present_ns();
             if (now - next_frame > 100000000) next_frame = now;
         }
+        if (overbar_client_quit()) host_exit(0);
         while (now >= next_tick) {
-            irq_raise(0);
+            if (!overbar_client_open()) irq_raise(0);           /* overlay open: the game clock waits */
             next_tick += 1000000000LL / irq_pit_hz() / (intro_skip ? 20 : 1);
             if (now - next_tick > 200000000) { next_tick = now; break; }
         }

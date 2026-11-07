@@ -35,6 +35,10 @@ addresses as signed numbers) and at most 32 MB each.
 
 ## Build and run (Linux)
 
+The host menu, overlay and scaler are [Overbar](https://github.com/abdulahmad/overbar), the git submodule `port/overbar`:
+clone with `--recurse-submodules`, or run `git submodule update --init` once after a plain clone. The build scripts
+read Overbar's file list from `port/overbar/sources.txt`.
+
 ```
 # or: port/setup.sh /path/to/game/files
 sudo dpkg --add-architecture i386 && sudo apt update

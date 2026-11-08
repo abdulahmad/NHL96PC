@@ -31,6 +31,7 @@
 #define ORIG_CRT_ESP2      0x1243FCu
 #define ORIG_CRT_ESP3      0x1243F8u
 #define ORIG_CRT_SEL       0x124408u
+#define ORIG_GETDS_SEL     0xB65DDu   /* the DS that __GETDS loads (interrupt and driver callbacks); Watcom start set it */
 #define ORIG_CRT_CMD       0x124414u
 #define ORIG_CRT_CMDEND    0x12440Cu
 #define ORIG_CRT_CMDLINAL  0x124400u

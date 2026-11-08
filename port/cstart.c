@@ -41,6 +41,7 @@ void host_cstart(int argc, char **argv)
     espv &= ~3u;
     store16(ORIG_CRT_SEL, ds);
     store16(ORIG_CRT_ENVSEL, ds);
+    store16(ORIG_GETDS_SEL, ds);
     store32(ORIG_CRT_ESP, espv);
     store32(ORIG_CRT_ESP2, espv);
     store32(ORIG_CRT_ESP3, espv);

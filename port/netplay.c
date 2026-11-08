@@ -215,7 +215,8 @@ static void log_step(uint32_t cnt)
     lock();
     if (nh_net) ob_net_status(nh_net, line, sizeof line);
     unlock();
-    fprintf(stderr, "rollback: at %.1f s, step %u; %s; %s\n", plat_now_ns() / 1e9, (unsigned)cnt, ob_rollback_stats(nh_rb), line);
+    fprintf(stderr, "rollback: at %.1f s, step %u, period %d; %s; %s\n", plat_now_ns() / 1e9, (unsigned)cnt,
+            (int)*(volatile int16_t *)GAME_ADDR(0x1178FEu) + 1, ob_rollback_stats(nh_rb), line);   /* word_1178FE: the period, from 0 */
     if (nh_regions_log) {
         uint64_t h[64];
         int n = ob_rollback_region_hashes(nh_rb, h, 64), i;

@@ -13,6 +13,11 @@ void overbar_client_init(ob_profile profile, void (*apply_host)(ob_host *h));
 void overbar_client_free(void);
 ob_host *overbar_client_host(void);
 int overbar_client_open(void);
+void overbar_client_close(void);
+void overbar_client_online_open(void);
+int overbar_client_editing(void);               /* a field of the Online page is being typed into */
+int overbar_client_text(const char *utf8);
+void netplay_online_setup(ob_host *h);          /* netplay.c: the Online page's hooks */
 int overbar_client_quit(void);
 int overbar_client_key(int scancode);           /* 1 if overlay/stats consumed it */
 int overbar_client_pad_back(void);

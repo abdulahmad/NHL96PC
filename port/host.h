@@ -69,6 +69,7 @@ int64_t plat_now_ns(void);
 int plat_cpu_percent(void);                            /* this program's share of all the CPUs since the last call, or -1 */
 int plat_gpu_percent(void);                            /* this program's 3D engine use of the GPU since the last call, or -1 */
 void plat_sleep_ms(int ms);
+int plat_write_watch(void *addr, size_t size, void **pages, size_t *n, int reset);   /* pages of a plat_map_any block written since the last reset: 0, or -1 (not available) */
 
 /* privileged instructions the game executes (emu.c) */
 int emulate_privileged(ctx_t *c, uint8_t *ip);
@@ -145,4 +146,13 @@ void input_poll(void);                 /* main thread: SDL events */
 uint32_t input_port_in(unsigned port);
 int input_port_out(unsigned port, uint32_t val);
 int input_mouse(ctx_t *c);
+/* online play (netplay.c) */
+void netplay_install(void);                      /* after install_overrides, before the game thread */
+void netplay_main_poll(void);                    /* main thread, every pass of the loop */
+int netplay_running(void);                       /* a session drives the game: its steps go on while the overlay is open */
+extern volatile int nh_quiet;                    /* a rollback plays steps again: nothing of them is shown */
+void snap_set_stack_base(void *base);            /* the game thread's first host frame (netplay.c) */
+struct ob_snap_region;
+int dos_snap_regions(struct ob_snap_region *r, int n, int max);   /* dos.c: its tables, the DOS memory in use and the DPMI blocks, after r[0..n) */
+
 #endif

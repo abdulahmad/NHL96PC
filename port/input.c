@@ -310,6 +310,16 @@ static void overlay_mouse(int wx, int wy, int what)
 #endif
 }
 
+/* A field of the Online page (Name, Address, Port) takes typed text: SDL's text input is on while one is edited */
+static void text_input_sync(void)
+{
+    static int on;
+    int want = overbar_client_editing();
+    if (want && !on) SDL_StartTextInput();
+    else if (!want && on) SDL_StopTextInput();
+    on = want;
+}
+
 void input_poll(void)
 {
     SDL_Event e;
@@ -317,12 +327,14 @@ void input_poll(void)
     joy_update();
     cursor_update();
     intro_skip_poll();
+    text_input_sync();
     while (SDL_PollEvent(&e)) {
         switch (e.type) {
         case SDL_QUIT: quit_requested = 1; break;
         case SDL_JOYDEVICEADDED: case SDL_JOYDEVICEREMOVED: case SDL_CONTROLLERDEVICEADDED: case SDL_CONTROLLERDEVICEREMOVED:
             if (!getenv("NHL96_JOY")) joy_scan();
             break;
+        case SDL_TEXTINPUT: overbar_client_text(e.text.text); break;     /* typed into a field of the Online page */
         case SDL_KEYDOWN:
             if (e.key.keysym.scancode == SDL_SCANCODE_RETURN && (e.key.keysym.mod & KMOD_ALT)) {    /* Alt+Enter: fullscreen */
                 if (!e.key.repeat) video_toggle_fullscreen();
@@ -333,6 +345,17 @@ void input_poll(void)
                 break;
             }
             if (!e.key.repeat && overbar_client_key(e.key.keysym.scancode)) break;   /* ` / F11 overlay, F12 stats */
+            if (overbar_client_editing()) {                     /* a field: its text comes as SDL_TEXTINPUT; only these keys */
+                SDL_Scancode k = e.key.keysym.scancode;
+                int in = k == SDL_SCANCODE_BACKSPACE ? MDRT_MENU_LEFT : k == SDL_SCANCODE_RETURN || k == SDL_SCANCODE_KP_ENTER ? MDRT_MENU_OK
+                       : k == SDL_SCANCODE_ESCAPE ? MDRT_MENU_BACK : -1;
+                if (k == SDL_SCANCODE_V && (e.key.keysym.mod & (KMOD_CTRL | KMOD_GUI))) {     /* paste */
+                    char *clip = SDL_GetClipboardText();
+                    if (clip) { overbar_client_text(clip); SDL_free(clip); }
+                } else if (in >= 0) overbar_client_input(in);
+                text_input_sync();
+                break;
+            }
             if (overbar_client_open()) {
                 int in = -1;
                 SDL_Scancode k = e.key.keysym.scancode;

@@ -15,7 +15,7 @@
  *   - The game's clock (tickcount, dword_11F9A4), which the game reads all over (timers, the announcer, key repeat), counts 4 a
  *     step in a session instead of the timer interrupt's ticks, so it is the same on both machines and goes back with a state.
  *   - What would open a local screen is left out in a session: the menus the loop opens (sub_6A7D3: the pre-game menu, pause,
- *     instant replay), the intermission (sub_4B05E) and the hot keys read straight from the keyboard (sub_609C6). The game goes on.
+ *     instant replay) and the hot keys read straight from the keyboard (sub_609C6). The game goes on.
  *   - Start: a new game (sub_17494 with eax < 0) on both machines, after the Online page's Host / Connect. The host's game set-up
  *     (the structure dword_17C9A0 points at: the teams, the controller slots), its options (dword_17CA20 .. 17CA75, dword_17C9A8)
  *     and both random seeds (EA's dword_117934 and the C library's) go to the guest; slot 0 plays the host's team, slot 1 the other,
@@ -49,7 +49,7 @@
 #define O_MENU         0x6A7D3u    /* sub_6A7D3: the menu dword_11D7A0 asks for */
 #define C_MENU1        0x175C4u    /*   before the first faceoff */
 #define C_MENU2        0x17255u    /*   in the loop */
-#define O_INTER        0x4B05Eu    /* sub_4B05E: between periods */
+#define O_INTER        0x4B05Eu    /* sub_4B05E: the next period (period count, ends, stats): game logic, runs online as offline */
 #define C_INTER        0x1728Bu
 #define O_HOTKEYS      0x609C6u    /* sub_609C6: keys read straight from the keyboard */
 #define C_HOTKEYS      0x17201u
@@ -478,10 +478,6 @@ __attribute__((naked)) static void menu_stub(void)
         "1:\n\tjmp *" SYM("nh_menu"));
 }
 
-__attribute__((naked)) static void inter_stub(void)
-{
-    __asm__ volatile("cmpl $0, " SYM("nh_sim") "\n\tje 1f\n\tret\n1:\n\tjmp *" SYM("nh_inter"));
-}
 
 __attribute__((naked)) static void hotkeys_stub(void)
 {
@@ -567,7 +563,6 @@ void netplay_install(void)
     set_call(C_INITPADS, (void *)initpads_stub);
     set_call(C_MENU1, (void *)menu_stub);
     set_call(C_MENU2, (void *)menu_stub);
-    set_call(C_INTER, (void *)inter_stub);
     set_call(C_HOTKEYS, (void *)hotkeys_stub);
     set_call(C_OVER, (void *)over_stub);
     nh_ok = 1;

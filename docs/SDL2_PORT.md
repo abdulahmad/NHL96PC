@@ -73,7 +73,7 @@ reading its own controller. It plays with rollback (Overbar's `overbar/net.h` an
 - the game's clock (tickcount, 11F9A4) counts 4 a step from the first step, not the timer interrupt's ticks;
 - a state is the game's image and DOS / DPMI memory (write-watched on Windows) without the live keyboard and stick input, plus the
   game thread's stack; a wrong guess loads one and plays the steps since again, with nothing shown;
-- online there are no menus from the loop (pre-game menu, pause, instant replay), no intermission and no direct hot keys.
+- online there are no menus from the loop (pre-game menu, pause, instant replay) and no direct hot keys (between periods the game goes straight on).
 
 Test aid (two copies on one machine): `NHL96_ONLINE=host` and `NHL96_ONLINE=join` (port `NHL96_PORT`, default 41960),
 `NHL96_NETSIM=delay,jitter,loss%`, `NHL96_AUTOPAD=1` (made-up buttons), `NHL96_REGIONS=1` (per-region hashes every 200 steps in

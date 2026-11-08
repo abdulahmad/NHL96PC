@@ -16,6 +16,8 @@ void sndinit_test(void);
 void game_run(int argc, char **argv)
 {
     if (getenv("NHL96_SNDINIT")) sndinit_test();
+    volatile char base_mark = 0;
+    snap_set_stack_base((void *)&base_mark);      /* online play's states hold the game thread's stack from here down */
     host_cstart(argc, argv);
     __asm__ volatile(
         "movl $0xFF, %%eax\n\t"
@@ -88,6 +90,7 @@ int main(int argc, char **argv)
     if (game_load()) return 1;
     plat_make_image_writable();
     install_overrides();
+    netplay_install();
     plat_install_traps();
     if (getenv("NHL96_CRASHTEST")) { volatile int *p = 0; *p = 1; }
     plat_start_game();
@@ -105,7 +108,7 @@ int main(int argc, char **argv)
         }
         if (overbar_client_quit()) host_exit(0);
         while (now >= next_tick) {
-            if (!overbar_client_open()) irq_raise(0);           /* overlay open: the game clock waits */
+            if (!overbar_client_open() || netplay_running()) irq_raise(0);     /* overlay open: the game clock waits (not online) */
             next_tick += 1000000000LL / irq_pit_hz() / (intro_skip ? 20 : 1);
             if (now - next_tick > 200000000) { next_tick = now; break; }
         }
@@ -118,6 +121,7 @@ int main(int argc, char **argv)
                 "or set NHL96_MT32_ROMS to the folder that has them.", 0);
         audio_pump();
         irq_poll();
+        netplay_main_poll();
         stats_report();
         plat_sleep_ms(1);
     }

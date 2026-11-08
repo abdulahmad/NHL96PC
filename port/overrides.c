@@ -1,4 +1,5 @@
 /* Game routines that talk to hardware are replaced at their entry by a jump to host code (or by a plain ret). */
+#include <stdio.h>
 #include "host.h"
 #include <string.h>
 #include <SDL.h>
@@ -78,9 +79,49 @@ void host_wait_ticks(uint32_t ticks)
     uint32_t until;
     if (intro_skip) ticks = 0;
     until = *count + ticks;
+    if (netplay_vtime_wait(until, 0)) return;   /* online: the clock is the steps' (netplay.c) */
     host_allow_irq = 1;
     while ((int32_t)(*count - until) < 0) plat_sleep_ms(1);
     host_allow_irq = 0;
+}
+
+/* sub_DFEF1: wait for the deadline sub_DFEE1 set (the CD audio's 5-tick pauses, the disk speed test) */
+void host_wait_deadline(void)
+{
+    uint32_t *count = (uint32_t *)GAME_ADDR(ORIG_TICKCOUNT);
+    uint32_t until = *(uint32_t *)GAME_ADDR(ORIG_TICKDEADLINE);
+    if (netplay_vtime_wait(until, 0)) return;
+    host_allow_irq = 1;
+    while ((int32_t)(*count - until) < 0) plat_sleep_ms(1);
+    host_allow_irq = 0;
+}
+
+/* sub_DFEFF: 1 once tickcount has reached the deadline (unsigned, as the original's sbb), else 0. The callers spin on it
+ * (fades, palette steps); online the clock only moves with the steps, so each poll that is not there yet moves it one tick. */
+uint32_t host_deadline_passed(void)
+{
+    volatile uint32_t *count = (volatile uint32_t *)GAME_ADDR(ORIG_TICKCOUNT);
+    uint32_t until = *(uint32_t *)GAME_ADDR(ORIG_TICKDEADLINE);
+    if (*count < until) netplay_vtime_wait(until, 1);
+    return *count >= until;
+}
+
+__attribute__((naked)) static void wait_deadline_entry(void)
+{
+    __asm__ volatile(
+        "pushal\n\t"
+        "call " SYM("host_wait_deadline") "\n\t"
+        "popal\n\t"
+        "ret");
+}
+
+__attribute__((naked)) static void deadline_passed_entry(void)     /* eax the answer; ebx clobbered, as the original's */
+{
+    __asm__ volatile(
+        "push %ecx\n\tpush %edx\n\t"
+        "call " SYM("host_deadline_passed") "\n\t"
+        "pop %edx\n\tpop %ecx\n\t"
+        "ret");
 }
 
 __attribute__((naked)) static void set_deadline_entry(void)
@@ -156,6 +197,11 @@ void install_overrides(void)
     stub_zero(GAME_ADDR(ORIG_VIDRESTORE));
     if (GAME_ADDR(ORIG_SETDEADLINE)[0] == 0x8B) patch_jmp(GAME_ADDR(ORIG_SETDEADLINE), set_deadline_entry);
     if (GAME_ADDR(ORIG_WAITTICKS)[0] == 0x8B) patch_jmp(GAME_ADDR(ORIG_WAITTICKS), wait_ticks_entry);
+    if (GAME_ADDR(ORIG_WAITDEADLINE)[0] == 0xA1) patch_jmp(GAME_ADDR(ORIG_WAITDEADLINE), wait_deadline_entry);
+    else fprintf(stderr, "overrides: sub_DFEF1 starts %02X, not patched\n", GAME_ADDR(ORIG_WAITDEADLINE)[0]);
+    if (GAME_ADDR(ORIG_DEADLINEPASSED)[0] == 0x8B && GAME_ADDR(ORIG_DEADLINEPASSED)[1] == 0x1D)
+        patch_jmp(GAME_ADDR(ORIG_DEADLINEPASSED), deadline_passed_entry);
+    else fprintf(stderr, "overrides: sub_DFEFF starts %02X %02X, not patched\n", GAME_ADDR(ORIG_DEADLINEPASSED)[0], GAME_ADDR(ORIG_DEADLINEPASSED)[1]);
     if (GAME_ADDR(ORIG_WAITRETRACE)[0] == 0xBA) patch_jmp(GAME_ADDR(ORIG_WAITRETRACE), wait_retrace_entry);
     if (GAME_ADDR(ORIG_WAITRETRACE2)[0] == 0xBA) patch_jmp(GAME_ADDR(ORIG_WAITRETRACE2), wait_retrace_entry);
     if (GAME_ADDR(ORIG_WAITRETRACE3)[0] == 0xBA) patch_jmp(GAME_ADDR(ORIG_WAITRETRACE3), wait_retrace_entry);

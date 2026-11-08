@@ -127,6 +127,8 @@ static void joy_update(void);
 static void joy_set_test(int x, int y, int b1, int b2);
 static struct { int64_t at; SDL_Scancode key; int down; int kind, x, y, b1, b2; } script[256];     /* kind 0: key, 1: move the mouse, 2: left button, 3: stick A */
 static int script_n, script_pos;
+static volatile int win_x, win_y, win_moved;
+static int script_mouse;                            /* the script has moved the mouse: the host's is left alone until it ends */
 
 static void script_load(void)
 {
@@ -177,7 +179,16 @@ static void script_poll(void)
     if (!start) { start = plat_now_ns(); script_load(); }
     while (script_pos < script_n && plat_now_ns() - start >= script[script_pos].at) {
         if (script[script_pos].kind == 1) {
-            mickey_x += script[script_pos].x - mouse_x; mickey_y += script[script_pos].y - mouse_y;
+            /* as the host's pointer would: the next 0Bh gives the mickeys from the game's own pointer to here (x counts half) */
+            int vx, vy, vw, vh, mw, mh;
+            video_view(&vx, &vy, &vw, &vh);
+            video_mode_size(&mw, &mh);
+            if (mw > 0 && mh > 0) {
+                win_x = vx + (2 * script[script_pos].x + 1) * vw / (2 * mw);     /* the middle of the game pixel */
+                win_y = vy + (2 * script[script_pos].y + 1) * vh / (2 * mh);
+                win_moved = 1;
+            }
+            script_mouse = 1;
             mouse_x = script[script_pos].x; mouse_y = script[script_pos].y;
             TRACE("NHL96_KEYS: mouse %d,%d\n", mouse_x, mouse_y);
         } else if (script[script_pos].kind == 3) {
@@ -209,7 +220,6 @@ static void script_poll(void)
  * curperiod is not -1, and dword_CCC9C, set while it is paused or replaying, is 0), where it is kept on the picture, and in fullscreen,
  * where it is always kept on the picture. */
 /* 1 is the mouse. The game's controllers: the device (2 Joystick One, 4 Joystick Two, 8 keyboard, 1 mouse) and the side (0 home). */
-static volatile int win_x, win_y, win_moved;
 
 /* Any key or mouse button before the front end skips the pioneer and EA Sports screens and the title screen (see overrides.c): the waits are cut to
  * nothing, and F12, which nothing in the game uses, is pressed now and then for the title screen's "any key". It ends when the menus ask for input. */
@@ -310,6 +320,16 @@ static void overlay_mouse(int wx, int wy, int what)
 #endif
 }
 
+/* A field of the Online page (Name, Address, Port) takes typed text: SDL's text input is on while one is edited */
+static void text_input_sync(void)
+{
+    static int on;
+    int want = overbar_client_editing();
+    if (want && !on) SDL_StartTextInput();
+    else if (!want && on) SDL_StopTextInput();
+    on = want;
+}
+
 void input_poll(void)
 {
     SDL_Event e;
@@ -317,12 +337,14 @@ void input_poll(void)
     joy_update();
     cursor_update();
     intro_skip_poll();
+    text_input_sync();
     while (SDL_PollEvent(&e)) {
         switch (e.type) {
         case SDL_QUIT: quit_requested = 1; break;
         case SDL_JOYDEVICEADDED: case SDL_JOYDEVICEREMOVED: case SDL_CONTROLLERDEVICEADDED: case SDL_CONTROLLERDEVICEREMOVED:
             if (!getenv("NHL96_JOY")) joy_scan();
             break;
+        case SDL_TEXTINPUT: overbar_client_text(e.text.text); break;     /* typed into a field of the Online page */
         case SDL_KEYDOWN:
             if (e.key.keysym.scancode == SDL_SCANCODE_RETURN && (e.key.keysym.mod & KMOD_ALT)) {    /* Alt+Enter: fullscreen */
                 if (!e.key.repeat) video_toggle_fullscreen();
@@ -333,6 +355,17 @@ void input_poll(void)
                 break;
             }
             if (!e.key.repeat && overbar_client_key(e.key.keysym.scancode)) break;   /* ` / F11 overlay, F12 stats */
+            if (overbar_client_editing()) {                     /* a field: its text comes as SDL_TEXTINPUT; only these keys */
+                SDL_Scancode k = e.key.keysym.scancode;
+                int in = k == SDL_SCANCODE_BACKSPACE ? MDRT_MENU_LEFT : k == SDL_SCANCODE_RETURN || k == SDL_SCANCODE_KP_ENTER ? MDRT_MENU_OK
+                       : k == SDL_SCANCODE_ESCAPE ? MDRT_MENU_BACK : -1;
+                if (k == SDL_SCANCODE_V && (e.key.keysym.mod & (KMOD_CTRL | KMOD_GUI))) {     /* paste */
+                    char *clip = SDL_GetClipboardText();
+                    if (clip) { overbar_client_text(clip); SDL_free(clip); }
+                } else if (in >= 0) overbar_client_input(in);
+                text_input_sync();
+                break;
+            }
             if (overbar_client_open()) {
                 int in = -1;
                 SDL_Scancode k = e.key.keysym.scancode;
@@ -364,6 +397,7 @@ void input_poll(void)
         case SDL_MOUSEMOTION: {
             int gx, gy;
             if (overbar_client_open()) { overlay_mouse(e.motion.x, e.motion.y, 0); break; }
+            if (script_mouse && script_pos < script_n) break;
             video_window_to_game(e.motion.x, e.motion.y, &gx, &gy);
             mouse_x = gx; mouse_y = gy;
             win_x = e.motion.x; win_y = e.motion.y; win_moved = 1;
@@ -383,6 +417,7 @@ void input_poll(void)
                                   : e.button.button == SDL_BUTTON_RIGHT ? 2 : -1);
                 break;
             }
+            if (script_mouse && script_pos < script_n) break;
             static unsigned char mdown[8];
             int btn = e.button.button;
             if (btn >= 1 && btn <= 5) mdown[btn] = e.type == SDL_MOUSEBUTTONDOWN;

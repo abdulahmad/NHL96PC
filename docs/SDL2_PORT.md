@@ -61,6 +61,24 @@ port/build-win.sh
 
 The result is `build/win/hockey-win32.exe` and `SDL2.dll`. Run it in the folder with the game's data, or set `NHL96_ROOT`.
 
+## Online play
+
+Overbar's Online page (`` ` `` or F11, then Online) hosts or joins; then both players start a new game from the menus. The host's
+teams, options, controller slots and random seeds go to the guest, slot 0 plays the host's team and slot 1 the other, each machine
+reading its own controller. It plays with rollback (Overbar's `overbar/net.h` and `overbar/rollback.h`, the session glue in
+`overbar/netgame.h`); `port/netplay.c` is the game's part:
+
+- each pass of the game loop (sub_17025) is one step: its "is there an input record?" (170A5) asks netplay.c, which makes the
+  record from every machine's buttons (32 bits a slot, two Overbar pads) with 4 ticks; the record timer (sub_16C4D) does nothing;
+- the game's clock (tickcount, 11F9A4) counts 4 a step from the first step, not the timer interrupt's ticks;
+- a state is the game's image and DOS / DPMI memory (write-watched on Windows) without the live keyboard and stick input, plus the
+  game thread's stack; a wrong guess loads one and plays the steps since again, with nothing shown;
+- online there are no menus from the loop (pre-game menu, pause, instant replay) and no direct hot keys (between periods the game goes straight on).
+
+Test aid (two copies on one machine): `NHL96_ONLINE=host` and `NHL96_ONLINE=join` (port `NHL96_PORT`, default 41960),
+`NHL96_NETSIM=delay,jitter,loss%`, `NHL96_AUTOPAD=1` (made-up buttons), `NHL96_REGIONS=1` (per-region hashes every 200 steps in
+the log), `NHL96_SOUND=none` (the sound cards are not in the states yet).
+
 ## Diagnostics
 
 `NHL96_TRACE=1` logs interrupts and port accesses. `NHL96_STATS=1` prints trap counts every 2 s. `NHL96_SOUNDTEST=1` drives each

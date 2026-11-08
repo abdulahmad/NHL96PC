@@ -22,6 +22,8 @@
 #define ORIG_SETENVP       0xD7C08u
 #define ORIG_SETDEADLINE   0xDFEE1u
 #define ORIG_WAITTICKS     0xDFF0Fu
+#define ORIG_WAITDEADLINE  0xDFEF1u   /* sub_DFEF1: spin until tickcount reaches the deadline */
+#define ORIG_DEADLINEPASSED 0xDFEFFu  /* sub_DFEFF: has tickcount reached the deadline? */
 #define ORIG_WAITRETRACE   0xDDE7Bu   /* sub_DDE7B: busy-wait for VGA vertical retrace (TGV palette frames) */
 #define ORIG_WAITRETRACE2  0xDDEBCu   /* sub_DDEBC: same, always both edges */
 #define ORIG_WAITRETRACE3  0xDDEE7u   /* wait display-enable then retrace */

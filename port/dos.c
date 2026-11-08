@@ -247,6 +247,41 @@ static int dpmi_free(uint32_t handle)
 #define SIDI(c) ((R(c, ESI) << 16) | (R(c, EDI) & 0xFFFF))
 #define SETSIDI(c, v) do { R(c, ESI) = (R(c, ESI) & ~0xFFFFu) | ((v) >> 16); R(c, EDI) = (R(c, EDI) & ~0xFFFFu) | ((v) & 0xFFFF); } while (0)
 
+/* DPMI 0300h, simulate a real-mode interrupt: BL is the interrupt, ES:EDI the real-mode register block (EDI 00h, ESI 04h, EBP 08h,
+ * EBX 10h, EDX 14h, ECX 18h, EAX 1Ch, flags 20h, ES 22h, DS 24h). 96 makes its VESA calls (int 10h 4F00h / 4F01h into a DOS
+ * buffer) and its CD-ROM calls (int 2Fh 15xxh, int 21h on a DOS buffer) this way. The call is answered by the same handlers as a
+ * direct interrupt, on a copy of the context that holds the block's registers. The DOS memory below 1 MB is mapped at its own
+ * address, so a real-mode seg:off pointer becomes the flat address seg * 16 + off for the handlers that take one. */
+static int simulate_rm_int(ctx_t *c)
+{
+    static ctx_t t;
+    uint8_t *rm = (uint8_t *)R(c, EDI);
+    int vec = R(c, EBX) & 0xFF, ah;
+    uint32_t es = *(uint16_t *)(rm + 0x22), ds = *(uint16_t *)(rm + 0x24), *fl;
+    int ptr_di = 0, ptr_dx = 0;
+    t = *c;
+    R(&t, EDI) = *(uint32_t *)(rm + 0x00); R(&t, ESI) = *(uint32_t *)(rm + 0x04); R(&t, EBP) = *(uint32_t *)(rm + 0x08);
+    R(&t, EBX) = *(uint32_t *)(rm + 0x10); R(&t, EDX) = *(uint32_t *)(rm + 0x14); R(&t, ECX) = *(uint32_t *)(rm + 0x18);
+    R(&t, EAX) = *(uint32_t *)(rm + 0x1C);
+    ah = (R(&t, EAX) >> 8) & 0xFF;
+    if (vec == 0x10 && ah == 0x4F && (AL(&t) == 0x00 || AL(&t) == 0x01)) ptr_di = 1;        /* VESA info into ES:DI */
+    if (vec == 0x21 && (ah == 0x09 || ah == 0x1A || ah == 0x39 || ah == 0x3A || ah == 0x3B || ah == 0x3C || ah == 0x3D ||
+                        ah == 0x3F || ah == 0x40 || ah == 0x41 || ah == 0x43 || ah == 0x4E || ah == 0x5B)) ptr_dx = 1;  /* DS:DX */
+    if (ptr_di) R(&t, EDI) = es * 16 + (R(&t, EDI) & 0xFFFF);
+    if (ptr_dx) R(&t, EDX) = ds * 16 + (R(&t, EDX) & 0xFFFF);
+    TRACE("simulate real-mode int %02xh ax=%04x\n", vec, (unsigned)AX(&t));
+    SET_CF(&t, 0);
+    if (!dos_int(&t, vec)) SET_CF(&t, 1);                   /* dos_int has reported it; the game sees a failed call */
+    if (!ptr_di) *(uint32_t *)(rm + 0x00) = R(&t, EDI);
+    if (!ptr_dx) *(uint32_t *)(rm + 0x14) = R(&t, EDX);
+    *(uint32_t *)(rm + 0x04) = R(&t, ESI); *(uint32_t *)(rm + 0x08) = R(&t, EBP);
+    *(uint32_t *)(rm + 0x10) = R(&t, EBX); *(uint32_t *)(rm + 0x18) = R(&t, ECX); *(uint32_t *)(rm + 0x1C) = R(&t, EAX);
+    fl = (uint32_t *)(rm + 0x20);
+    *(uint16_t *)fl = (*(uint16_t *)fl & ~1u) | (R(&t, EFL) & 1);
+    SET_CF(c, 0);
+    return 1;
+}
+
 static int int31(ctx_t *c)
 {
     switch (AX(c)) {
@@ -273,6 +308,7 @@ static int int31(ctx_t *c)
     case 0x0204: R(c, ECX) = (R(c, ECX) & ~0xFFFFu) | (R(c, CS) & 0xFFFF); R(c, EDX) = pm_vec[R(c, EBX) & 0xFF].off ? pm_vec[R(c, EBX) & 0xFF].off : (uint32_t)old_vector_stub; SET_CF(c, 0); return 1;
     case 0x0205: pm_vec[R(c, EBX) & 0xFF].off = R(c, EDX); pm_vec[R(c, EBX) & 0xFF].sel = R(c, ECX) & 0xFFFF; SET_CF(c, 0);
         TRACE("pm vector %02x -> %04x:%08x\n", (unsigned)(R(c, EBX) & 0xFF), (unsigned)(R(c, ECX) & 0xFFFF), (unsigned)R(c, EDX)); return 1;
+    case 0x0300: return simulate_rm_int(c);
     case 0x0400: SETAX(c, 0x005A); R(c, EBX) = 3; R(c, ECX) = (R(c, ECX) & ~0xFF) | 4; R(c, EDX) = 0x0870; SET_CF(c, 0); return 1;
     case 0x0500: {                                  /* free memory information */
         uint32_t *info = (uint32_t *)R(c, EDI);

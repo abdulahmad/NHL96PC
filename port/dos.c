@@ -432,6 +432,8 @@ static int int21(ctx_t *c)
     case 0x44:                                                 /* IOCTL: device info for the C library */
         if (AL(c) == 0) { R(c, EDX) = R(c, EBX) <= 2 ? 0x80D3 : 0x0002; SET_CF(c, 0); return 1; }
         break;
+    case 0x47:                                                 /* current directory of drive DL: the root ($NHL96_ROOT) */
+        *(char *)R(c, ESI) = 0; SET_CF(c, 0); return 1;
     case 0x48: SETAX(c, 8); R(c, EBX) = 0; SET_CF(c, 1); return 1;         /* allocate memory: none (the heap uses DPMI blocks) */
     case 0x49: case 0x4A: SET_CF(c, 0); return 1;
     case 0x4C: TRACE("exit %d\n", AL(c)); host_exit(AL(c)); return 1;

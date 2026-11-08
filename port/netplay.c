@@ -224,6 +224,20 @@ static void log_step(uint32_t cnt)
     }
 }
 
+int netplay_vtime_wait(uint32_t until, int one)
+{
+    int32_t left;
+    unsigned hz;
+    if (!nh_vtime || !nh_tick_ptr) return 0;
+    left = (int32_t)(until - *nh_tick_ptr);
+    if (left <= 0) return 1;
+    if (one) left = 1;
+    hz = irq_pit_hz() ? irq_pit_hz() : 91;
+    if (!nh_quiet) plat_sleep_ms((int)((uint64_t)left * 1000u / hz) > 0 ? (int)((uint64_t)left * 1000u / hz) : 1);
+    *nh_tick_ptr += (uint32_t)left;                 /* the same on both machines: the same waits at the same points */
+    return 1;
+}
+
 /* the session has ended in the game: it plays on here alone (the other slot gets no more buttons) */
 static void go_local(void)
 {
@@ -238,6 +252,7 @@ static int make_step(void)
 {
     uint32_t cnt;
     int r;
+    int64_t wait_from = 0;
     for (;;) {
         lock();
         cnt = nh_net ? ob_net_step_count(nh_net) : 0;
@@ -251,11 +266,21 @@ static int make_step(void)
                 nh_rt_ticks = *nh_tick_ptr;
                 *nh_tick_ptr = VTIME_START;
                 nh_vtime = 1;
+                if (ob_netgame_test()) fprintf(stderr, "online: first step at %.1f s (game clock was %u)\n", plat_now_ns() / 1e9, (unsigned)nh_rt_ticks);
             }
         }
         r = ob_rollback_frame(nh_rb, nh_frame, NULL);
         if (r == OB_NET_RUN) break;
         if (r < 0) return -1;
+        if (!wait_from) wait_from = plat_now_ns();
+        else if (wait_from > 0 && plat_now_ns() - wait_from > 3000000000LL && ob_netgame_test()) {
+            char line[200];
+            lock();
+            if (nh_net) ob_net_status(nh_net, line, sizeof line); else line[0] = 0;
+            unlock();
+            fprintf(stderr, "online: step %u waits over 3 s: %s\n", (unsigned)cnt, line);
+            wait_from = -1;                         /* once a step */
+        }
         plat_sleep_ms(1);                           /* OB_NET_WAIT: the others are behind */
     }
     lock();

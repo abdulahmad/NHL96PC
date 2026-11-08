@@ -148,7 +148,10 @@ int input_port_out(unsigned port, uint32_t val);
 int input_mouse(ctx_t *c);
 /* online play (netplay.c) */
 void netplay_install(void);                      /* after install_overrides, before the game thread */
-void netplay_main_poll(void);                    /* main thread, every pass of the loop */
+void netplay_main_poll(void);
+/* online, where the game waits on tickcount (until; one: a poll, which moves it one tick): moves the step clock there as the time
+ * passes (none while it catches up). 0: not online, wait as usual */
+int netplay_vtime_wait(uint32_t until, int one);                    /* main thread, every pass of the loop */
 int netplay_running(void);                       /* a session drives the game: its steps go on while the overlay is open */
 extern volatile int nh_quiet;                    /* a rollback plays steps again: nothing of them is shown */
 void snap_set_stack_base(void *base);            /* the game thread's first host frame (netplay.c) */

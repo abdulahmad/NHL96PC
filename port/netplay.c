@@ -116,10 +116,10 @@ static volatile uint32_t *cseed_ptr(void)
     return (volatile uint32_t *)(uintptr_t)a;
 }
 
-/* a game routine without arguments (Watcom: it keeps every register but eax) */
+/* a game routine without arguments: Watcom's code keeps every register but eax, more than a C call needs */
 static void game_call0(void *fn)
 {
-    __asm__ volatile("pushl %%ebp\n\tcall *%0\n\tpopl %%ebp" : : "r"(fn) : "eax", "ebx", "ecx", "edx", "esi", "edi", "memory", "cc");
+    ((void (*)(void))fn)();
 }
 
 /* ---- the states: the game's image (its code too: it patches itself) without the input it reads live, the host's step

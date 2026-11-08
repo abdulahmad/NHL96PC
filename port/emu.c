@@ -51,6 +51,10 @@ static int flagop_kind(const uint8_t *ip)
 }
 
 #define FLAGS_POPPED 0xCD5u                   /* CF PF AF ZF SF DF OF: what popf may change in a user process, besides IF */
+/* AC and ID are kept apart from the real flags, like IF: the game's CPU check (sub_B32E0) toggles AC to tell a 486 from a 386 and ID
+ * to find cpuid, and reads them back with pushf. Setting AC for real would turn on alignment checking. */
+#define FLAGS_VIRTUAL 0x240000u
+static uint32_t vflags;
 
 static int emulate_flagop(ctx_t *c, uint8_t *ip)
 {
@@ -60,7 +64,7 @@ static int emulate_flagop(ctx_t *c, uint8_t *ip)
     switch (kind) {
     case 0:
         R(c, ESP) -= 4;
-        *(uint32_t *)R(c, ESP) = (efl & ~0x10200u) | (vif ? 0x200 : 0);
+        *(uint32_t *)R(c, ESP) = (efl & ~(0x10200u | FLAGS_VIRTUAL)) | (vif ? 0x200 : 0) | vflags;
         return 1;
     case 2:
         R(c, ESP) -= 2;
@@ -71,6 +75,7 @@ static int emulate_flagop(ctx_t *c, uint8_t *ip)
         else { v = *(uint16_t *)R(c, ESP); R(c, ESP) += 2; }
         R(c, EFL) = (efl & ~FLAGS_POPPED) | (v & FLAGS_POPPED);
         vif = (v >> 9) & 1;
+        if (kind == 1) vflags = v & FLAGS_VIRTUAL;
         return kind == 1 ? 1 : 2;
     }
     return 0;

@@ -41,6 +41,7 @@
 /* ---- the game's code and data (original linear addresses, lst/HOCKEY.EXE.lst) ---- */
 #define O_PLAYGAME     0x17494u    /* sub_17494(eax): a game; eax < 0 a new one. push ebx, ecx, edx, esi; mov esi, eax (6 bytes) */
 #define O_AVAIL        0x170A5u    /* sub_17025: cmp dword_114BA4, 0 (7 bytes), then jz the drawing */
+#define O_AVAIL2       0x2DE99u    /* sub_2DE30, the same loop for a set time (dword_176BC8) before play: the line-up at a faceoff */
 #define O_SAMPLER      0x16C4Du    /* sub_16C4D, the record timer: push ebx, ecx, edx, esi, edi, ebp */
 #define O_READPADS     0x10AF1u    /* sub_10AF1: the controllers into the slot table */
 #define O_INITPADS     0x108BBu    /* sub_108BB: the slot table from the set-up */
@@ -301,7 +302,7 @@ static int make_step(void)
     return 0;
 }
 
-/* the loop's "is there a record?" (170A5): in a session, one step a pass */
+/* the loops' "is there a record?" (170A5, and 2DE99 in the line-up loop): in a session, one step a pass */
 uint32_t nh_avail(void)
 {
     uint32_t c = G32(D_QCOUNT);
@@ -527,7 +528,7 @@ static int has_addr(uint32_t at, uint32_t orig)          /* the 4 bytes at at ar
 void netplay_install(void)
 {
     static const uint8_t pg_head[6] = { 0x53, 0x51, 0x52, 0x56, 0x89, 0xC6 }, sit_head[5] = { 0x53, 0x51, 0x52, 0x56, 0x57 };
-    const uint8_t *t = GAME_ADDR(O_TICK_ISR), *a = GAME_ADDR(O_AVAIL);
+    const uint8_t *t = GAME_ADDR(O_TICK_ISR), *a = GAME_ADDR(O_AVAIL), *a2 = GAME_ADDR(O_AVAIL2);
     int ok = 1;
     if (!nh_lock) nh_lock = SDL_CreateMutex();
     nh_regions_log = getenv("NHL96_REGIONS") != NULL;
@@ -535,6 +536,7 @@ void netplay_install(void)
     if (t[0] != 0x8B || t[1] != 0x15 || !has_addr(O_TICK_ISR + 2, ORIG_TICKCOUNT) || t[6] != 0x42 || t[7] != 0xBB || t[8] != 5 ||
         t[12] != 0x89 || t[13] != 0x15 || !has_addr(O_TICK_ISR + 14, ORIG_TICKCOUNT)) ok = 0;
     if (a[0] != 0x83 || a[1] != 0x3D || !has_addr(O_AVAIL + 2, D_QCOUNT) || a[6] != 0 || a[7] != 0x0F || a[8] != 0x84) ok = 0;
+    if (a2[0] != 0x83 || a2[1] != 0x3D || !has_addr(O_AVAIL2 + 2, D_QCOUNT) || a2[6] != 0 || a2[7] != 0x0F || a2[8] != 0x84) ok = 0;
     if (!call_to(C_INITPADS, O_INITPADS) || !call_to(C_MENU1, O_MENU) || !call_to(C_MENU2, O_MENU) || !call_to(C_INTER, O_INTER) ||
         !call_to(C_HOTKEYS, O_HOTKEYS) || !call_to(C_OVER, O_OVER) || !cseed_ptr() || !nh_lock) ok = 0;
     if (!ok) { fprintf(stderr, "online play: the game's code is not as expected, not available\n"); return; }
@@ -558,6 +560,9 @@ void netplay_install(void)
         memset(code, 0x90, 7);
         code[0] = 0xE8; memcpy(code + 1, &rel, 4);
         patch_bytes(GAME_ADDR(O_AVAIL), code, 7);
+        rel = (int32_t)((uintptr_t)avail_stub - ((uintptr_t)GAME_ADDR(O_AVAIL2) + 5));
+        memcpy(code + 1, &rel, 4);
+        patch_bytes(GAME_ADDR(O_AVAIL2), code, 7);
     }
     set_call(C_INITPADS, (void *)initpads_stub);
     set_call(C_MENU1, (void *)menu_stub);

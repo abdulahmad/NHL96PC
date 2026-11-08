@@ -107,6 +107,9 @@ int main(int argc, char **argv)
             if (now - next_frame > 100000000) next_frame = now;
         }
         if (overbar_client_quit()) host_exit(0);
+#ifdef _WIN32
+        if (menu_resync) { menu_resync = 0; next_tick = now; }        /* a menu bar loop ran: no catching up */
+#endif
         while (now >= next_tick) {
             if (!overbar_client_open() || netplay_running()) irq_raise(0);     /* overlay open: the game clock waits (not online) */
             next_tick += 1000000000LL / irq_pit_hz() / (intro_skip ? 20 : 1);

@@ -1034,14 +1034,16 @@ void video_init(void)
     if (getenv("NHL96_PRESET")) { const char *t = getenv("NHL96_PRESET"); apply_preset(t[0] == 'l', t + 2); settings_save(); }      /* a test aid: h:path or l:path of a preset */
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
     if (!getenv("NHL96_NOGL") && SDL_strcmp(SDL_GetCurrentVideoDriver(), "dummy")) {        /* the OpenGL path: shader scaling */
-        win = SDL_CreateWindow("NHL Hockey 96", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, getenv("NHL96_WINDOW_W") ? atoi(getenv("NHL96_WINDOW_W")) : 960, getenv("NHL96_WINDOW_H") ? atoi(getenv("NHL96_WINDOW_H")) : 720, SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
-        if (win && vgl_init(win)) { use_gl = 1; vgl_set_vsync(vsync_on); menu_init(win); title_refresh(); if (getenv("NHL96_MAXIMIZE")) SDL_MaximizeWindow(win); return; }
+        win = shell_open("NHL Hockey 96", getenv("NHL96_WINDOW_W") ? atoi(getenv("NHL96_WINDOW_W")) : 960, getenv("NHL96_WINDOW_H") ? atoi(getenv("NHL96_WINDOW_H")) : 720, 1);
+        if (win && vgl_init(win)) { use_gl = 1; vgl_set_vsync(vsync_on); title_refresh(); if (getenv("NHL96_MAXIMIZE")) SDL_MaximizeWindow(win); return; }
         fprintf(stderr, "OpenGL scaling is not available, using SDL's renderer\n");
         vgl_quit();
-        if (win) SDL_DestroyWindow(win);
+        if (win) shell_close();
         win = 0;
+        SDL_FlushEvent(SDL_QUIT);
+        SDL_FlushEvent(SDL_WINDOWEVENT);
     }
-    win = SDL_CreateWindow("NHL Hockey 96", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 960, 720, SDL_WINDOW_RESIZABLE);
+    win = shell_open("NHL Hockey 96", 960, 720, 0);
     if (!win) { fprintf(stderr, "SDL window: %s\n", SDL_GetError()); exit(1); }
     ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     if (!ren) ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_SOFTWARE);

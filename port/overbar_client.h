@@ -14,6 +14,7 @@ void overbar_client_free(void);
 ob_host *overbar_client_host(void);
 int overbar_client_open(void);
 void overbar_client_close(void);
+void overbar_client_apply(void);              /* run apply_host on the ob_host: a change made outside the overlay (the menu bar) */
 void overbar_client_online_open(void);
 int overbar_client_editing(void);               /* a field of the Online page is being typed into */
 int overbar_client_text(const char *utf8);

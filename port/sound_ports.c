@@ -21,23 +21,25 @@ static int hexopt(const char *env, char key, int def, int base)
 void sound_init(void)
 {
     const char *blaster = getenv("BLASTER"), *ultra = getenv("ULTRASND"), *none = getenv("NHL96_SOUND");
-    int irq = 7, dma = 1, type = 3, version = 0x0302;
+    int irq = 7, dma = 1, hdma = 5, type = 6, version = 0x0302;
     int gb = 0x240, gd1 = 1, gd2 = 1, gi1 = 5, gi2 = 5;
     audio_init();
     if (none && !strcmp(none, "none")) return;
     if (!blaster) blaster = DEFAULT_BLASTER;
-    if (!ultra) ultra = DEFAULT_ULTRASND;
     sb_b = hexopt(blaster, 'A', 0x220, 16);
     irq = hexopt(blaster, 'I', 7, 10);
     dma = hexopt(blaster, 'D', 1, 10);
-    type = hexopt(blaster, 'T', 3, 10);
+    hdma = hexopt(blaster, 'H', 5, 10);
+    type = hexopt(blaster, 'T', 6, 10);
     mpu_b = hexopt(blaster, 'P', 0x330, 16);
     version = type == 1 ? 0x0105 : type == 2 ? 0x0201 : type >= 6 ? 0x0405 : 0x0302;
-    sb_init(sb_b, irq, dma, version);
+    sb_init(sb_b, irq, dma, hdma, version);
     have_sb = 1;
     mpu_init(mpu_b);
     have_mpu = 1;
-    if (ultra) {
+    if (!ultra && getenv("NHL96_GUS") && !strcmp(getenv("NHL96_GUS"), "1")) ultra = DEFAULT_ULTRASND;
+    if (!ultra) return;     /* the Gravis only when ULTRASND is set (or NHL96_GUS=1, see cstart.c) */
+    {
         gb = (int)strtol(ultra, 0, 16);
         sscanf(ultra, "%x,%d,%d,%d,%d", &gb, &gd1, &gd2, &gi1, &gi2);
     }

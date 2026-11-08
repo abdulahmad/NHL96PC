@@ -8,6 +8,7 @@ struct dma_chan {
     uint32_t base_addr, cur_addr;      /* in units of the channel (bytes, or words for channels 4-7) */
     uint32_t base_count, cur_count;    /* transfer length minus one, in the same units */
     uint8_t page, mode, masked, tc;
+    uint32_t reads;                    /* NHL96_AUDIOLOG: count register reads (the drivers poll the position) */
 };
 
 static struct dma_chan chan[8] = { { .masked = 1 }, { .masked = 1 }, { .masked = 1 }, { .masked = 1 },
@@ -31,6 +32,7 @@ uint32_t dma_in(unsigned port)
         reg = ctl ? ((port - 0xC0) >> 1) : port;
         ch = (ctl ? 4 : 0) + (reg >> 1);
         c = &chan[ch];
+        if (reg & 1) chan[ch].reads++;
         if (!flip[ctl]) sb_pump();      /* the position the game reads is the one of this moment (not on the high byte: it would tear) */
         v = (reg & 1) ? c->cur_count : c->cur_addr;
         v = flip[ctl] ? (v >> 8) & 0xFF : v & 0xFF;
@@ -71,7 +73,9 @@ void dma_out(unsigned port, uint32_t val)
     }
     ctl = (port >= 0xD0);
     switch (ctl ? 0x08 + ((port - 0xD0) >> 1) : port) {
-    case 0x0A: ch = (ctl ? 4 : 0) + (val & 3); chan[ch].masked = (val >> 2) & 1; TRACE("dma ch%d mask %d\\n", ch, chan[ch].masked); break;
+    case 0x0A: ch = (ctl ? 4 : 0) + (val & 3); chan[ch].masked = (val >> 2) & 1;
+        if (ch == 1 || ch >= 5) alog("dma: ch%d %s, addr %05x count %u mode %02x", ch, chan[ch].masked ? "masked" : "unmasked", (unsigned)dma_address(ch), (unsigned)chan[ch].base_count + 1, chan[ch].mode);
+        TRACE("dma ch%d mask %d\\n", ch, chan[ch].masked); break;
     case 0x0B: ch = (ctl ? 4 : 0) + (val & 3); chan[ch].mode = val;
         TRACE("dma ch%d mode %02x\\n", ch, (unsigned)val); break;
     case 0x0C: flip[ctl] = 0; break;
@@ -110,4 +114,14 @@ uint32_t dma_advance(int ch, uint32_t n)
     }
     (void)unit;
     return done;
+}
+
+uint32_t dma_log_state(int ch, char *buf, int n)
+{
+    struct dma_chan *c = &chan[ch];
+    uint32_t r = c->reads;
+    snprintf(buf, n, "%s mode %02x page %02x addr %04x/%04x count %u/%u, %u position reads", c->masked ? "masked" : "on", c->mode, c->page,
+             (unsigned)c->cur_addr, (unsigned)c->base_addr, (unsigned)c->cur_count + 1, (unsigned)c->base_count + 1, (unsigned)r);
+    c->reads = 0;
+    return r;
 }

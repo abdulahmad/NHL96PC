@@ -13,7 +13,7 @@
 
 #define BANK 0x10000
 static uint8_t vram[0x800000];
-static uint8_t dac[256][3];
+static uint8_t dac[256][3], dac_latched[256][3];
 static unsigned dac_wr, dac_rd, dac_comp, dac_rcomp;
 static int cur_bank;
 static int mode_w = 640, mode_h = 480, mode_num = 0x101;
@@ -674,8 +674,70 @@ static struct { int mode, w, h; } modes[] = {
     { 0x100, 640, 400 }, { 0x101, 640, 480 }, { 0x103, 800, 600 }, { 0x105, 1024, 768 }, { 0x107, 1280, 1024 }, { 0x13, 320, 200 }
 };
 
-static void window_save(void) { memcpy(vram + (size_t)cur_bank * BANK, WINDOW, BANK); }
-static void window_load(void) { memcpy(WINDOW, vram + (size_t)cur_bank * BANK, BANK); }
+/* ---- unchained 256-colour mode ("mode X") ----
+ * The intro movies (TGV) and the mode-2 screens start in mode 13h, then sub_DDF94 clears Chain-4 (sequencer reg 4 bit 3), sub_DE01A
+ * programs a 320x240 CRTC and the player (C2290) writes each of the 4 planes in turn through the map mask (sequencer reg 2) and flips
+ * pages with the CRTC start address (sub_DDF24). The window at A0000 is plain memory here, so it stands for the plane(s) the map
+ * mask selects: when the mask changes the window is stored into those planes and the window gets the first newly selected plane.
+ * The picture is pixel x,y = plane[x & 3][start + y * 80 + x / 4]. Without this the planar bytes were shown as a chained 320x200
+ * picture: 4 squeezed copies side by side, the two 240-line pages one above the other (the 4x2 grid of the intro). */
+static uint8_t seq_idx, seq[8] = { 3, 1, 0x0F, 0, 0x0E }, crtc_idx, crtc[0x19], gc_idx, gc[9];
+static uint8_t planes[4][BANK];
+static int planar, planar_mask = 0x0F;
+static unsigned crtc_start_disp;           /* latched CRTC start; see palette latch notes */
+static int dac_dirty;                     /* live dac[] changed since last display latch */
+
+static int planar_height(void)
+{
+    int vde = crtc[0x12] | (crtc[7] & 2) << 7 | (crtc[7] & 0x40) << 3, lines = vde + 1, msl = crtc[9] & 0x1F;
+    lines /= (msl + 1) * ((crtc[9] & 0x80) ? 2 : 1);
+    return lines >= 100 && lines <= 480 ? lines : 200;
+}
+
+static void planar_commit(void)
+{
+    int p;
+    for (p = 0; p < 4; p++) if (planar_mask & (1 << p)) memcpy(planes[p], WINDOW, BANK);
+}
+
+static void planar_load(void)
+{
+    int p;
+    for (p = 0; p < 4; p++) if (planar_mask & (1 << p)) { memcpy(WINDOW, planes[p], BANK); return; }
+}
+
+static void planar_compose(void)
+{
+    unsigned start = crtc_start_disp & 0xFFFF;
+    int x, y, h = mode_h;
+    for (y = 0; y < h; y++) {
+        uint8_t *d = vram + (size_t)y * 320;
+        unsigned row = start + (unsigned)y * 80;
+        for (x = 0; x < 320; x++) d[x] = planes[x & 3][(row + (x >> 2)) & 0xFFFF];
+    }
+}
+
+static void planar_set(int on)
+{
+    if (on == planar) return;
+    if (on) {                                   /* chained memory: byte n is plane n & 3, address n >> 2 */
+        int i;
+        for (i = 0; i < BANK; i++) planes[i & 3][i >> 2] = WINDOW[i];
+        planar_mask = seq[2] & 0x0F;
+    } else planar_commit();
+    planar = on;
+    if (on) { mode_h = planar_height(); planar_load(); }
+    disp_x = disp_y = 0;
+    resize_pending = 1;
+    TRACE("video: %s (%dx%d)\n", on ? "unchained (mode X)" : "chained", mode_w, mode_h);
+}
+
+static void window_save(void)
+{
+    if (planar) { planar_commit(); planar_compose(); return; }
+    memcpy(vram + (size_t)cur_bank * BANK, WINDOW, BANK);
+}
+static void window_load(void) { if (planar) { planar_load(); return; } memcpy(WINDOW, vram + (size_t)cur_bank * BANK, BANK); }
 
 static void set_bank(int bank)
 {
@@ -692,7 +754,11 @@ static void set_mode(int mode, int clear)
     SDL_LockMutex(lock);
     for (i = 0; i < sizeof modes / sizeof *modes; i++)
         if (modes[i].mode == (mode & 0x1FF)) { mode_w = modes[i].w; mode_h = modes[i].h; mode_num = modes[i].mode; }
-    if (clear) { memset(vram, 0, sizeof vram); memset(WINDOW, 0, BANK); }
+    if (planar) { planar = 0; planar_mask = 0x0F; }
+    seq[2] = 0x0F; seq[4] = 0x0E;
+    crtc[7] = 0x1F; crtc[9] = 0x41; crtc[0x12] = 0x8F; crtc[0x0C] = crtc[0x0D] = 0;
+    crtc_start_disp = 0;
+    if (clear) { memset(vram, 0, sizeof vram); memset(WINDOW, 0, BANK); memset(planes, 0, sizeof planes); }
     else window_save();
     cur_bank = 0;
     window_load();
@@ -702,20 +768,63 @@ static void set_mode(int mode, int clear)
     TRACE("video mode %x: %dx%d\n", mode_num, mode_w, mode_h);
 }
 
+/* ---- palette + CRTC start latch ----
+ * Present must never show a half-updated DAC or a new Mode-X page with the previous palette. dac_latched[] is the only palette
+ * present reads; it updates under the video lock when a full 256-colour load finishes — never by copying live dac[] every frame
+ * (that was still flashing). CRTC start is double-buffered: 0x0C/0x0D writes are deferred while dword_17C96C (TGV palette-pending)
+ * is set, then applied in the same latch as the new DAC so page and palette change together. */
+static int pal_lock_depth;
+void video_palette_lock(void) { if (!pal_lock_depth++) SDL_LockMutex(lock); }
+void video_palette_unlock(void) { if (pal_lock_depth && !--pal_lock_depth) SDL_UnlockMutex(lock); }
+static void latch_dac_and_crtc_unlocked(void)
+{
+    if (dac_comp != 0) return;
+    memcpy(dac_latched, dac, sizeof dac);
+    crtc_start_disp = (crtc[0x0C] << 8 | crtc[0x0D]) & 0xFFFF;
+    dac_dirty = 0;
+}
+void video_latch_palette(void)
+{
+    video_palette_lock();
+    latch_dac_and_crtc_unlocked();
+    video_palette_unlock();
+}
+void video_on_retrace(void)
+{
+    video_palette_lock();
+    if (!*(uint32_t *)GAME_ADDR(ORIG_TGV_PALFLAG)) {
+        crtc_start_disp = (crtc[0x0C] << 8 | crtc[0x0D]) & 0xFFFF;
+        if (dac_dirty) latch_dac_and_crtc_unlocked();   /* fades / partial DAC loads */
+    }
+    video_palette_unlock();
+}
+
 /* ---- ports ---- */
 extern volatile int intro_skip;
+
 
 uint32_t video_port_in(unsigned port)
 {
     switch (port) {
     case 0x3C7: return 3;
+    case 0x3C4: return seq_idx;
+    case 0x3C5: return seq_idx < 8 ? seq[seq_idx] : 0xFF;
+    case 0x3D4: return crtc_idx;
+    case 0x3D5: return crtc_idx < sizeof crtc ? crtc[crtc_idx] : 0xFF;
+    case 0x3CE: return gc_idx;
+    case 0x3CF: return gc_idx < sizeof gc ? gc[gc_idx] : 0xFF;
     case 0x3C9: {
         uint32_t v = dac[dac_rd & 255][dac_rcomp];
         if (++dac_rcomp == 3) { dac_rcomp = 0; dac_rd++; }
         return v;
     }
-    case 0x3DA:                                 /* input status 1: vertical retrace for the first part of each 70 Hz frame */
-        return (((intro_skip ? plat_now_ns() * 40 : plat_now_ns()) % 14285714) < 1200000) ? 9 : 0;        /* skipping the splash screens: the fades run fast too */
+    case 0x3DA: {                               /* input status 1: vertical retrace for the first part of each 70 Hz frame */
+        static int was_retrace;
+        int in_retrace = (((intro_skip ? plat_now_ns() * 40 : plat_now_ns()) % 14285714) < 1200000);
+        if (in_retrace && !was_retrace) video_on_retrace();
+        was_retrace = in_retrace;
+        return in_retrace ? 9 : 0;              /* skipping the splash screens: the fades run fast too */
+    }
     }
     return 0xFF;
 }
@@ -724,10 +833,48 @@ int video_port_out(unsigned port, uint32_t val)
 {
     switch (port) {
     case 0x3C7: dac_rd = val; dac_rcomp = 0; return 1;
-    case 0x3C8: dac_wr = val; dac_comp = 0; return 1;
+    case 0x3C4: seq_idx = val & 0xFF; return 1;
+    case 0x3C5:
+        if (seq_idx >= 8) return 1;
+        SDL_LockMutex(lock);
+        if (seq_idx == 2 && planar && (val & 0x0F) != planar_mask) { planar_commit(); planar_mask = val & 0x0F; planar_load(); }
+        seq[seq_idx] = val & 0xFF;
+        if (seq_idx == 4 && mode_num == 0x13) planar_set(!(val & 8));
+        SDL_UnlockMutex(lock);
+        return 1;
+    case 0x3D4: crtc_idx = val & 0xFF; return 1;
+    case 0x3D5:
+        if (crtc_idx >= sizeof crtc) return 1;
+        SDL_LockMutex(lock);
+        crtc[crtc_idx] = val & 0xFF;
+        if (crtc_idx == 0x0C || crtc_idx == 0x0D) {
+            unsigned pend = (crtc[0x0C] << 8 | crtc[0x0D]) & 0xFFFF;
+            /* TGV sets dword_17C96C before the page flip when a palette chunk follows: keep showing the old page
+             * until the DAC latch so present never pairs the new page with the old palette. */
+            if (!*(uint32_t *)GAME_ADDR(ORIG_TGV_PALFLAG)) crtc_start_disp = pend;
+        }
+        if (planar && (crtc_idx == 7 || crtc_idx == 9 || crtc_idx == 0x12) && planar_height() != mode_h) {
+            mode_h = planar_height(); resize_pending = 1; TRACE("video: mode X height %d\n", mode_h);
+        }
+        SDL_UnlockMutex(lock);
+        return 1;
+
+    case 0x3CE: gc_idx = val & 0xFF; return 1;
+    case 0x3CF: if (gc_idx < sizeof gc) gc[gc_idx] = val & 0xFF; return 1;
+    case 0x3C8:
+        video_palette_lock();
+        dac_wr = val; dac_comp = 0;
+        video_palette_unlock();
+        return 1;
     case 0x3C9:
+        video_palette_lock();
         dac[dac_wr & 255][dac_comp] = val & 63;
-        if (++dac_comp == 3) { dac_comp = 0; dac_wr++; }
+        dac_dirty = 1;
+        if (++dac_comp == 3) {
+            dac_comp = 0; dac_wr++;
+            if ((dac_wr & 255) == 0) latch_dac_and_crtc_unlocked();   /* full load: new page + new palette together */
+        }
+        video_palette_unlock();
         return 1;
     }
     return 0;
@@ -932,8 +1079,9 @@ void video_present(void)
     SDL_LockMutex(lock);
     window_save();
     w = mode_w; h = mode_h;
+    /* dac_latched only — never sample live dac[] here (partial updates and page-flip races) */
     for (x = 0; x < 256; x++) {
-        unsigned r = dac[x][0] << 2 | dac[x][0] >> 4, g = dac[x][1] << 2 | dac[x][1] >> 4, b = dac[x][2] << 2 | dac[x][2] >> 4;
+        unsigned r = dac_latched[x][0] << 2 | dac_latched[x][0] >> 4, g = dac_latched[x][1] << 2 | dac_latched[x][1] >> 4, b = dac_latched[x][2] << 2 | dac_latched[x][2] >> 4;
         pal[x] = 0xFF000000u | r << 16 | g << 8 | b;
     }
     for (y = 0; y < h; y++) {

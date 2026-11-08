@@ -51,8 +51,9 @@ static int flagop_kind(const uint8_t *ip)
 }
 
 #define FLAGS_POPPED 0xCD5u                   /* CF PF AF ZF SF DF OF: what popf may change in a user process, besides IF */
-/* AC and ID are kept apart from the real flags, like IF: the game's CPU check (sub_B32E0) toggles AC to tell a 486 from a 386 and ID
- * to find cpuid, and reads them back with pushf. Setting AC for real would turn on alignment checking. */
+/* AC (bit 18) and ID (bit 21) are kept virtually like IF. The startup CPU check (sub_B32E0) toggles AC with pushf / popf to
+ * tell a 486 from a 386, then ID for CPUID; with them dropped it saw a 386 and refused to run ("requires at least a 486 CPU").
+ * Setting the real AC would make misaligned accesses fault where the OS enables alignment checking, so it is never set. */
 #define FLAGS_VIRTUAL 0x240000u
 static uint32_t vflags;
 
@@ -247,6 +248,8 @@ static int emulate_one(ctx_t *c, uint8_t *ip)
         int size = (op & 1) ? (o16 ? 2 : 4) : 1;
         uint32_t count = rep ? R(c, ECX) : 1;
         int dir = (R(c, EFL) & 0x400) ? -1 : 1;
+        int dac_burst = (op >= 0x6E) && ((R(c, EDX) & 0xFFFF) == 0x3C9);
+        if (dac_burst) video_palette_lock();
         while (count--) {
             if (op < 0x6E) {
                 uint32_t v = port_in(c, R(c, EDX) & 0xFFFF, size);
@@ -259,6 +262,7 @@ static int emulate_one(ctx_t *c, uint8_t *ip)
                 R(c, ESI) += dir * size;
             }
         }
+        if (dac_burst) video_palette_unlock();
         if (rep) R(c, ECX) = 0;
         return n + 1;
     }

@@ -78,6 +78,7 @@ int emulate_low_memory(ctx_t *c, uint8_t *ip);         /* an access below 0x1000
 int accesses_low_memory(ctx_t *c, uint8_t *ip);
 /* software interrupts: DOS, BIOS, DPMI, mouse (dos.c) */
 int dos_int(ctx_t *c, int vec);
+void dos_default_config(void);   /* write GLOBAL.SET if there is none */
 struct vec { uint32_t off; uint32_t sel; };
 extern struct vec pm_vec[256];
 /* I/O ports (ports.c) */
@@ -92,10 +93,15 @@ void irq_pit_divisor(unsigned divisor);
 unsigned irq_pit_hz(void);
 int irq_deliverable(void);
 extern volatile int vif;
+extern volatile int host_allow_irq;              /* host_wait_ticks / host_wait_retrace: plat_kick may deliver into host EIP */
 /* video (video.c) */
 int video_int10(ctx_t *c);
 uint32_t video_port_in(unsigned port);
 int video_port_out(unsigned port, uint32_t val);
+void video_palette_lock(void);                 /* hold across a burst of DAC writes (rep outsb to 3C9) */
+void video_palette_unlock(void);
+void video_latch_palette(void);                /* copy the live DAC into the display latch */
+void video_on_retrace(void);                   /* VGA-like: apply pending CRTC start if no palette chunk follows */
 void video_init(void);
 void video_set_title(const char *title);
 void video_view(int *vx, int *vy, int *vw, int *vh);   /* where the 4:3 picture is in the window (window coordinates) */

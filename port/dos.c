@@ -127,6 +127,67 @@ static int host_path(const char *dos, char *out, size_t n)
     return 0;
 }
 
+/* GLOBAL.SET: the settings file SETUP writes and HOCKEY.EXE reads at start (sub_6A341). The game only checks that it opens and that
+ * its first dword is 160BDh; otherwise it prints "You must first use the SETUP program..." and waits for ESC. Layout: a 0BCh-byte block
+ * (read to 17C9A4h), the install path as a C string (17CA60h, at most 20 chars), then 0B9h bytes (17CA75h). The sound card is bits 0-2
+ * of 17CA1Ch (sub_694B9 via sub_C157F): 4 (as SETUP writes it here) is the Sound Blaster 16 driver, which needs DSP 4.xx and the
+ * BLASTER H channel; the ports, IRQ and DMA come from BLASTER, which cstart.c supplies. When the file is in neither the game folder nor $NHL96_CD, write the
+ * values of a real SETUP-written GLOBAL.SET (377 bytes; it matches the game's own defaults at 6A451h-6A5DFh but for a few option bits), with install mode 0 (bits 0-1
+ * of 17C9A8h: every file read from the current folder, so the CD data files are used in place). The user can replace it with SETUP's. */
+void dos_default_config(void)
+{
+    unsigned char b[0xBC + 4 + 0xB9];
+    char path[1100];
+    struct stat st;
+    FILE *f;
+    int i;
+    host_path("GLOBAL.SET", path, sizeof path);
+    if (!stat(path, &st)) return;
+    memset(b, 0, sizeof b);
+#define D32(o, v) do { uint32_t v_ = (v); memcpy(b + (o), &v_, 4); } while (0)
+#define D16(o, v) do { uint16_t v_ = (v); memcpy(b + (o), &v_, 2); } while (0)
+    D32(0x00, 0x160BD);                     /* magic */
+    b[0x04] = 0x90;                         /* 17C9A8: install mode 0 (all files in the current folder); a real SETUP file has 93h = mode 3, CD at the path below */
+    D16(0x08, 1); D16(0x0A, 1);             /* 17C9AC */
+    D16(0x0C, 0); D16(0x0E, 0); D16(0x10, 1); D16(0x12, 0);
+    memcpy(b + 0x14, "5552362337", 11);      /* modem: phone number */
+    memcpy(b + 0x28, "AT &F", 6);            /* modem: init string */
+    D32(0x50, 0x445441);                    /* modem: "ATD" */
+    D32(0x78, 0x1AFAFAF4);                  /* 17CA1C: game options, as a real SETUP-written file has them */
+    D32(0x7C, 0x57FF);                      /* 17CA20 */
+    for (i = 0; i < 8; i++) b[0xB0 + i] = (i & 1) ? 2 : 1;    /* 17CA54-5B */
+    D32(0xB8, 0x223FF);                     /* 17CA5C (as SETUP writes it on a Pentium) */
+    memcpy(b + 0xBC, "C:\\", 4);            /* install path (unused in mode 0) */
+    D32(0xBC + 4 + 1, 0x18655F);            /* 17CA76 */
+    for (i = 0; i < 4; i++) D16(0xBC + 4 + 9 + 2 * i, 1);   /* 17CA7E-84 */
+#undef D32
+#undef D16
+    snprintf(path, sizeof path, "%s/GLOBAL.SET", root());
+    f = fopen(path, "wb");
+    if (!f) { fprintf(stderr, "cannot write default %s\n", path); return; }
+    fwrite(b, 1, sizeof b, f);
+    fclose(f);
+    fprintf(stderr, "wrote default %s\n", path);
+}
+
+/* The game saves seasons, playoffs and exhibition stats in folders below its own (SEASON\00001KEY.DB, PLAYOFF\, EXHIBIT\, USER\,
+ * HILITES\) that its installer made. A copied game folder may not have them: creating a file there failed (path not found), and the
+ * game reported that as "out of disk space" when a season was created. Make the missing folders when a file is created. */
+static int make_parents(const char *path)
+{
+    char dir[1100];
+    char *p;
+    int made = 0;
+    snprintf(dir, sizeof dir, "%s", path);
+    for (p = dir + 1; *p; p++) {
+        if (*p != '/' && *p != '\\') continue;
+        *p = 0;
+        if (!MKDIR(dir)) made = 1;
+        *p = '/';
+    }
+    return made;
+}
+
 static void dos_error(ctx_t *c, int err)
 {
     int code = 1;
@@ -184,11 +245,11 @@ static int find_next(ctx_t *c, struct find *f)
 
 /* ---- DOS memory (below 1 MB) ----
  * DOS/4GW lets a flat program reach conventional memory at its physical address. The host maps 0x10000-0xFFFFF the same way (the
- * VGA window at 0xA0000 is plain memory that the video code presents) and hands out real-mode buffers from 0x20000-0x9FFFF.
+ * VGA window at 0xA0000 is plain memory that the video code presents) and hands out real-mode buffers from LOW_DOS_POOL (above the command line and environment) to 0x9FFFF.
  * Every block gets the same selector (the flat data selector), so a free cannot name its block: it gives back the most recent one.
  * That is how the game uses it: it takes the largest block and the rest, then frees the rest so that the sound driver's DMA
  * buffer fits. */
-#define DOS_POOL_LO 0x20000u
+#define DOS_POOL_LO LOW_DOS_POOL
 #define DOS_POOL_HI 0xA0000u
 static uint32_t dos_next = DOS_POOL_LO;
 static uint32_t dos_blocks[64];         /* start of each block still allocated, in order */
@@ -247,41 +308,6 @@ static int dpmi_free(uint32_t handle)
 #define SIDI(c) ((R(c, ESI) << 16) | (R(c, EDI) & 0xFFFF))
 #define SETSIDI(c, v) do { R(c, ESI) = (R(c, ESI) & ~0xFFFFu) | ((v) >> 16); R(c, EDI) = (R(c, EDI) & ~0xFFFFu) | ((v) & 0xFFFF); } while (0)
 
-/* DPMI 0300h, simulate a real-mode interrupt: BL is the interrupt, ES:EDI the real-mode register block (EDI 00h, ESI 04h, EBP 08h,
- * EBX 10h, EDX 14h, ECX 18h, EAX 1Ch, flags 20h, ES 22h, DS 24h). 96 makes its VESA calls (int 10h 4F00h / 4F01h into a DOS
- * buffer) and its CD-ROM calls (int 2Fh 15xxh, int 21h on a DOS buffer) this way. The call is answered by the same handlers as a
- * direct interrupt, on a copy of the context that holds the block's registers. The DOS memory below 1 MB is mapped at its own
- * address, so a real-mode seg:off pointer becomes the flat address seg * 16 + off for the handlers that take one. */
-static int simulate_rm_int(ctx_t *c)
-{
-    static ctx_t t;
-    uint8_t *rm = (uint8_t *)R(c, EDI);
-    int vec = R(c, EBX) & 0xFF, ah;
-    uint32_t es = *(uint16_t *)(rm + 0x22), ds = *(uint16_t *)(rm + 0x24), *fl;
-    int ptr_di = 0, ptr_dx = 0;
-    t = *c;
-    R(&t, EDI) = *(uint32_t *)(rm + 0x00); R(&t, ESI) = *(uint32_t *)(rm + 0x04); R(&t, EBP) = *(uint32_t *)(rm + 0x08);
-    R(&t, EBX) = *(uint32_t *)(rm + 0x10); R(&t, EDX) = *(uint32_t *)(rm + 0x14); R(&t, ECX) = *(uint32_t *)(rm + 0x18);
-    R(&t, EAX) = *(uint32_t *)(rm + 0x1C);
-    ah = (R(&t, EAX) >> 8) & 0xFF;
-    if (vec == 0x10 && ah == 0x4F && (AL(&t) == 0x00 || AL(&t) == 0x01)) ptr_di = 1;        /* VESA info into ES:DI */
-    if (vec == 0x21 && (ah == 0x09 || ah == 0x1A || ah == 0x39 || ah == 0x3A || ah == 0x3B || ah == 0x3C || ah == 0x3D ||
-                        ah == 0x3F || ah == 0x40 || ah == 0x41 || ah == 0x43 || ah == 0x4E || ah == 0x5B)) ptr_dx = 1;  /* DS:DX */
-    if (ptr_di) R(&t, EDI) = es * 16 + (R(&t, EDI) & 0xFFFF);
-    if (ptr_dx) R(&t, EDX) = ds * 16 + (R(&t, EDX) & 0xFFFF);
-    TRACE("simulate real-mode int %02xh ax=%04x\n", vec, (unsigned)AX(&t));
-    SET_CF(&t, 0);
-    if (!dos_int(&t, vec)) SET_CF(&t, 1);                   /* dos_int has reported it; the game sees a failed call */
-    if (!ptr_di) *(uint32_t *)(rm + 0x00) = R(&t, EDI);
-    if (!ptr_dx) *(uint32_t *)(rm + 0x14) = R(&t, EDX);
-    *(uint32_t *)(rm + 0x04) = R(&t, ESI); *(uint32_t *)(rm + 0x08) = R(&t, EBP);
-    *(uint32_t *)(rm + 0x10) = R(&t, EBX); *(uint32_t *)(rm + 0x18) = R(&t, ECX); *(uint32_t *)(rm + 0x1C) = R(&t, EAX);
-    fl = (uint32_t *)(rm + 0x20);
-    *(uint16_t *)fl = (*(uint16_t *)fl & ~1u) | (R(&t, EFL) & 1);
-    SET_CF(c, 0);
-    return 1;
-}
-
 static int int31(ctx_t *c)
 {
     switch (AX(c)) {
@@ -308,7 +334,6 @@ static int int31(ctx_t *c)
     case 0x0204: R(c, ECX) = (R(c, ECX) & ~0xFFFFu) | (R(c, CS) & 0xFFFF); R(c, EDX) = pm_vec[R(c, EBX) & 0xFF].off ? pm_vec[R(c, EBX) & 0xFF].off : (uint32_t)old_vector_stub; SET_CF(c, 0); return 1;
     case 0x0205: pm_vec[R(c, EBX) & 0xFF].off = R(c, EDX); pm_vec[R(c, EBX) & 0xFF].sel = R(c, ECX) & 0xFFFF; SET_CF(c, 0);
         TRACE("pm vector %02x -> %04x:%08x\n", (unsigned)(R(c, EBX) & 0xFF), (unsigned)(R(c, ECX) & 0xFFFF), (unsigned)R(c, EDX)); return 1;
-    case 0x0300: return simulate_rm_int(c);
     case 0x0400: SETAX(c, 0x005A); R(c, EBX) = 3; R(c, ECX) = (R(c, ECX) & ~0xFF) | 4; R(c, EDX) = 0x0870; SET_CF(c, 0); return 1;
     case 0x0500: {                                  /* free memory information */
         uint32_t *info = (uint32_t *)R(c, EDI);
@@ -348,6 +373,32 @@ static int int31(ctx_t *c)
         }
         SET_CF(c, 0); return 1;
     }
+    case 0x0300: case 0x0302: {                     /* simulate a real-mode interrupt: the registers are in a DPMI call structure at ES:EDI */
+        uint8_t *rm = (uint8_t *)R(c, EDI);
+        ctx_t t = *c;
+        uint32_t v;
+        int vec = R(c, EBX) & 0xFF, ok;
+        uint16_t es, fl;
+        memcpy(&es, rm + 0x22, 2);
+        memcpy(&v, rm + 0x00, 4); R(&t, EDI) = ((uint32_t)es << 4) + (v & 0xFFFF);   /* ES:DI as a flat address */
+        memcpy(&v, rm + 0x04, 4); R(&t, ESI) = v;
+        memcpy(&v, rm + 0x08, 4); R(&t, EBP) = v;
+        memcpy(&v, rm + 0x10, 4); R(&t, EBX) = v;
+        memcpy(&v, rm + 0x14, 4); R(&t, EDX) = v;
+        memcpy(&v, rm + 0x18, 4); R(&t, ECX) = v;
+        memcpy(&v, rm + 0x1C, 4); R(&t, EAX) = v;
+        TRACE("real-mode int %02xh ax=%04x es:di=%08x\n", vec, (unsigned)(R(&t, EAX) & 0xFFFF), (unsigned)R(&t, EDI));
+        ok = AX(c) == 0x0300 ? dos_int(&t, vec) : 0;
+        if (!ok) { SETAX(c, 0x8001); SET_CF(c, 1); return 1; }
+        v = R(&t, ESI); memcpy(rm + 0x04, &v, 4);
+        v = R(&t, EBP); memcpy(rm + 0x08, &v, 4);
+        v = R(&t, EBX); memcpy(rm + 0x10, &v, 4);
+        v = R(&t, EDX); memcpy(rm + 0x14, &v, 4);
+        v = R(&t, ECX); memcpy(rm + 0x18, &v, 4);
+        v = R(&t, EAX); memcpy(rm + 0x1C, &v, 4);
+        fl = (uint16_t)R(&t, EFL); memcpy(rm + 0x20, &fl, 2);
+        SET_CF(c, 0); return 1;
+    }
     case 0x0900: SETAL(c, 1); SET_CF(c, 0); return 1;   /* disable virtual interrupts: they were enabled */
     case 0x0901: SETAL(c, 1); SET_CF(c, 0); return 1;
     case 0x0902: SETAL(c, 1); SET_CF(c, 0); return 1;
@@ -375,8 +426,8 @@ static int int21(ctx_t *c)
         R(c, ECX) = (tm->tm_hour << 8) | tm->tm_min; R(c, EDX) = (tm->tm_sec << 8) | (ms / 10); return 1;
     }
     case 0x30: SETAX(c, 0x0005); R(c, EBX) = 0; R(c, ECX) = 0; return 1;      /* DOS 5.0 */
-    case 0x36: {                                                /* free disk space: 4 GB of 32 KB clusters */
-        SETAX(c, 64); R(c, EBX) = 60000; R(c, ECX) = 512; R(c, EDX) = 65000; return 1;
+    case 0x36: {                                                /* free disk space: 64 x 512-byte sectors per cluster */
+        SETAX(c, 64); R(c, EBX) = 0xFFFF; R(c, ECX) = 512; R(c, EDX) = 0xFFFF; SET_CF(c, 0); return 1;   /* 2 GB free (the most FAT16 can say) */
     }
     case 0x39: host_path((char *)R(c, EDX), path, sizeof path); if (MKDIR(path)) dos_error(c, errno); else SET_CF(c, 0); return 1;
     case 0x3A: host_path((char *)R(c, EDX), path, sizeof path); if (rmdir(path)) dos_error(c, errno); else SET_CF(c, 0); return 1;
@@ -387,7 +438,9 @@ static int int21(ctx_t *c)
         if (AH(c) == 0x3C) flags = O_RDWR | O_CREAT | O_TRUNC;
         else flags = (AL(c) & 3) == 0 ? O_RDONLY : (AL(c) & 3) == 1 ? O_WRONLY : O_RDWR;
         fd = open(path, flags | O_BINARY, 0666);
+        if (fd < 0 && errno == ENOENT && (flags & O_CREAT) && make_parents(path)) fd = open(path, flags | O_BINARY, 0666);
         TRACE("open %s -> %d\n", path, fd);
+        if (strstr(path, ".SET") || strstr(path, ".set")) alog("open %s -> %d", path, fd);
         {                                               /* nhl96-audio.log: the music, instrument and sound files the game uses */
             const char *dot = strrchr(path, '.');
             static int n_open_logged;
@@ -413,6 +466,8 @@ static int int21(ctx_t *c)
         return 1;
     }
     case 0x41: host_path((char *)R(c, EDX), path, sizeof path); if (unlink(path)) dos_error(c, errno); else SET_CF(c, 0); return 1;
+    case 0x47:                                                 /* current directory: the root (DOS paths resolve below the game folder) */
+        *(char *)R(c, ESI) = 0; SET_CF(c, 0); return 1;
     case 0x43: {                                               /* get/set file attributes */
         struct stat st;
         host_path((char *)R(c, EDX), path, sizeof path);
@@ -432,8 +487,6 @@ static int int21(ctx_t *c)
     case 0x44:                                                 /* IOCTL: device info for the C library */
         if (AL(c) == 0) { R(c, EDX) = R(c, EBX) <= 2 ? 0x80D3 : 0x0002; SET_CF(c, 0); return 1; }
         break;
-    case 0x47:                                                 /* current directory of drive DL: the root ($NHL96_ROOT) */
-        *(char *)R(c, ESI) = 0; SET_CF(c, 0); return 1;
     case 0x48: SETAX(c, 8); R(c, EBX) = 0; SET_CF(c, 1); return 1;         /* allocate memory: none (the heap uses DPMI blocks) */
     case 0x49: case 0x4A: SET_CF(c, 0); return 1;
     case 0x4C: TRACE("exit %d\n", AL(c)); host_exit(AL(c)); return 1;
@@ -457,7 +510,9 @@ static int int21(ctx_t *c)
         if (!finds[0].dir || !find_next(c, &finds[0])) { SETAX(c, 18); SET_CF(c, 1); } else SET_CF(c, 0);
         return 1;
     case 0x5B: host_path((char *)R(c, EDX), path, sizeof path);               /* create new file */
-        { int fd = open(path, O_RDWR | O_CREAT | O_EXCL | O_BINARY, 0666); if (fd < 0) dos_error(c, errno); else { R(c, EAX) = fd; SET_CF(c, 0); } }
+        { int fd = open(path, O_RDWR | O_CREAT | O_EXCL | O_BINARY, 0666);
+          if (fd < 0 && errno == ENOENT && make_parents(path)) fd = open(path, O_RDWR | O_CREAT | O_EXCL | O_BINARY, 0666);
+          if (fd < 0) dos_error(c, errno); else { R(c, EAX) = fd; SET_CF(c, 0); } }
         return 1;
     }
     return 0;

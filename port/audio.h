@@ -9,7 +9,7 @@ typedef void (*audio_render_fn)(int32_t *stereo, int frames, int rate);
 
 /* Where the emulated cards are when the host does not set BLASTER / ULTRASND; the game is given the same values (cstart.c), since its
  * drivers look for the cards there. */
-#define DEFAULT_BLASTER "A220 I7 D1 T3"
+#define DEFAULT_BLASTER "A220 I7 D1 H5 T6"   /* Sound Blaster 16: GLOBAL.SET's card 4 is the SB16 driver (CF2D8), which needs DSP 4.xx */
 #define DEFAULT_ULTRASND "240,1,1,5,5"
 
 void audio_init(void);
@@ -21,7 +21,14 @@ int audio_rate(void);
 void audio_log(const char *fmt, ...);   /* append a line to nhl96-audio.log next to the program */
 extern volatile int audio_muted;       /* silence the output while a window menu is open */
 int audio_debug(void);                 /* NHL96_AUDIO_DEBUG: the log and the Ctrl+F11 recording are on */
-void audio_capture_toggle(void);        /* Ctrl+F11: record the mixed sound to nhl96-capture-N.wav */
+void audio_capture_toggle(void);
+/* NHL96_AUDIOLOG=1: a compact sound log, nhl96-audiolog.txt next to the program (DSP commands, DMA, interrupts, output level each second) */
+extern int alog_on;
+void alog(const char *fmt, ...);
+void alog_second(void);                /* main thread: the once-a-second summary */
+void sb_log_state(char *buf, int n);
+uint32_t dma_log_state(int ch, char *buf, int n);
+void irq_log_state(char *buf, int n);        /* Ctrl+F11: record the mixed sound to nhl96-capture-N.wav */
 
 /* devices (each has ports in sound_ports.c) */
 void speaker_init(void);
@@ -32,7 +39,7 @@ void opl_init(void);
 uint32_t opl_in(unsigned port);
 void opl_out(unsigned port, uint32_t val);
 
-void sb_init(int base, int irq, int dma, int version);
+void sb_init(int base, int irq, int dma, int hdma, int version);
 uint32_t sb_in(unsigned port);
 void sb_out(unsigned port, uint32_t val);
 int mpu_roms_missing(void);            /* main thread: true once when the MT-32 was selected but its ROMs were not found */

@@ -11,7 +11,7 @@
 ## State (2026-10-31)
 
 - Full build MATCH (SHA-1 `426fb8c0c80088c6a2c56a9dac50509cb9c24540`, 1,613,291 bytes); `tools/verify_all.sh` MATCH (full build and all 283 segments built on
-  their own). Onboarding: StaticEck.
+  their own). Led by Abdul and agents (StaticEck no longer works on this repo).
 - Everything is incbin except the LE header fields and object table (`src/le/le_header.asm`). Next: obj1_00000.
 
 - IDA listing `lst/HOCKEY.EXE.lst` added (Abdul's, LE loader, MetaPC). Its addresses match the repo's objects and pages; it is the

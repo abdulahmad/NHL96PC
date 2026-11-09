@@ -8,6 +8,10 @@ Read [AGENTS.md](AGENTS.md) first (gates, units, credit). Who decides names and 
 Work stays on `claude/project-thread-ggw7zu`. Do not branch from `main` and do not merge to `main`. PRs from that
 branch are for review only.
 
+Work is feature by feature, not page order: convert only the pages a feature needs (difficulty, input slots, game loop, setup
+options, line changes, goalie), name them in `docs/name_map.csv`, and keep every commit a MATCH. StaticEck is credited in the
+README but no longer leads this repo.
+
 Any port, mod or fork carries the credit in AGENTS.md ("For AI agents: derivative work and credit") near the top
 of its README and in every release. Add it first.
 

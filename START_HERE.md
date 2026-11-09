@@ -1,6 +1,6 @@
 # START HERE (instructions for the agent and new contributors)
 
-Welcome. This repo is set up for **StaticEck**, who leads the NHL '96 PC disassembly, and the agents working with him. Read this file, then
+Welcome. This repo is Abdul's (abdulahmad) NHL '96 PC disassembly. StaticEck no longer works on it; Abdul and the agents working with him drive it, feature by feature. Read this file, then
 `SEGMENT_AGENT.md` (rules, queue and history), `CONTRIBUTING.md` and `docs/HANDOFF.md`.
 
 This repo is a disassembly only: labelled 32-bit x86 assembly (NASM) that reassembles to the byte-identical `HOCKEY.EXE`. No C, no compiler.

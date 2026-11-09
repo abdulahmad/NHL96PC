@@ -372,6 +372,8 @@ void input_event(const SDL_Event *ep)
 
 void input_osk_key(int scancode, int down) { key_physical((SDL_Scancode)scancode, down); }
 
+void osk_poll(void);
+
 void input_poll(void)
 {
     script_poll();
@@ -379,6 +381,7 @@ void input_poll(void)
     cursor_update();
     intro_skip_poll();
     plat_probe_game();
+    osk_poll();
     ob_plat_pump();
     if (quit_requested) host_exit(0);
 }

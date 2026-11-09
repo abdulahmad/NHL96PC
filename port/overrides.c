@@ -186,8 +186,11 @@ __attribute__((naked)) static void wait_retrace_entry(void)
         "ret");
 }
 
+void osk_hook_install(void);
+
 void install_overrides(void)
 {
+    osk_hook_install();
 #ifdef _WIN32
     patch_jmp(GAME_ADDR(ORIG_SETENVP), setenvp_entry);
 #endif

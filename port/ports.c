@@ -6,6 +6,10 @@
 static int pit_state;           /* 0: next byte is the low byte of channel 0's divisor */
 static unsigned pit_lo;
 
+/* the COM ports when the online room carries the game's modem play (modem.c) */
+int modem_port_in(unsigned port, uint32_t *v);
+int modem_port_out(unsigned port, uint32_t val);
+
 /* Sound Blaster, MPU-401 and Gravis UltraSound ports, wherever the configuration put them (sound_ports.c) */
 int sound_port_in(unsigned port, uint32_t *v);
 int sound_port_out(unsigned port, uint32_t val);
@@ -27,6 +31,7 @@ uint32_t port_in(ctx_t *c, unsigned port, int size)
     else if (port < 0x10 || (port >= 0x80 && port < 0x90) || (port >= 0xC0 && port < 0xE0)) v = dma_in(port);
     else if ((port >= 0x388 && port <= 0x38B)) v = opl_in(port);
     else if (sound_port_in(port, &v)) {}
+    else if (modem_port_in(port, &v)) {}
     else v = 0xFF;
     if (stats_on) stats_port(port, 0);
     TRACE("in  %03x -> %02x\n", port, v & 0xFF);
@@ -52,6 +57,7 @@ void port_out(ctx_t *c, unsigned port, uint32_t val, int size)
     if (port < 0x10 || (port >= 0x80 && port < 0x90) || (port >= 0xC0 && port < 0xE0)) { dma_out(port, val); return; }
     if (port >= 0x388 && port <= 0x38B) { opl_out(port, val); return; }
     if (sound_port_out(port, val)) return;
+    if (modem_port_out(port, val)) return;
     if (port == 0x43) { if ((val >> 6) == 0) pit_state = 0; else speaker_out(port, val); return; }
     if (port == 0x40) {
         if (pit_state == 0) { pit_lo = val; pit_state = 1; }

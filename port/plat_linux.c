@@ -148,6 +148,10 @@ void plat_trace_game(void)
 {
 }
 
+void plat_probe_game(void)
+{
+}
+
 int64_t plat_now_ns(void)
 {
     struct timespec ts;

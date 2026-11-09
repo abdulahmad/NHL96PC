@@ -51,6 +51,7 @@ void plat_make_image_writable(void);                   /* the game patches its o
 void plat_install_traps(void);                         /* int, in, out, cli, sti and friends end up in emulate_privileged */
 void plat_start_game(void);                            /* start the game thread */
 void plat_kick_game(void);                             /* let the game thread take a pending interrupt */
+void plat_probe_game(void);                            /* OVERBAR_PROBE=file: sample where the game thread is, to find a routine */
 void plat_trace_game(void);                            /* NHL96_TRACE: print where the game thread is */
 void plat_thread_times(uint64_t *user_ns, uint64_t *kernel_ns);   /* NHL96_STATS: CPU time of the game thread */
 

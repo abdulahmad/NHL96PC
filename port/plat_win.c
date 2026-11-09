@@ -233,6 +233,74 @@ void plat_trace_game(void)
             s[0], s[1], s[2], s[3], s[4], s[5]);
 }
 
+/* OVERBAR_PROBE=file: find a routine of the game by sampling. Every 20 ms the game thread's EIP and the game-code words on its stack
+ * (return addresses, as listing addresses) are counted; every 3 s the frames seen in the most samples are appended to the file. */
+void plat_probe_game(void)
+{
+    static const char *path;
+    static int64_t last, report;
+    static int init, samples;
+    static struct { uint32_t a; int n; } tab[512];
+    static int ntab;
+    CONTEXT c;
+    uint32_t s[96];
+    SIZE_T got = 0;
+    int i;
+    int64_t now;
+    if (!init) { init = 1; path = getenv("OVERBAR_PROBE"); }
+    if (!path || !game_handle) return;
+    now = plat_now_ns();
+    if (now - last < 20000000LL) return;
+    last = now;
+    if (!report) report = now;
+    if (SuspendThread(game_handle) == (DWORD)-1) return;
+    memset(&c, 0, sizeof c);
+    c.ContextFlags = CONTEXT_CONTROL | CONTEXT_INTEGER;
+    GetThreadContext(game_handle, &c);
+    memset(s, 0, sizeof s);
+    ReadProcessMemory(GetCurrentProcess(), (void *)c.Esp, s, sizeof s, &got);
+    ResumeThread(game_handle);
+    samples++;
+    {
+        uint32_t seen[100];
+        int ns = 0, k;
+        uint32_t cand[97];
+        cand[0] = (uint32_t)c.Eip;
+        memcpy(cand + 1, s, sizeof s);
+        for (k = 0; k < 97; k++) {
+            uint32_t v = cand[k], o;
+            int j, dup = 0;
+            if (!IN_GAME_CODE(v)) continue;
+            o = (uint32_t)ORIG_FROM(v);
+            for (j = 0; j < ns; j++) if (seen[j] == o) dup = 1;
+            if (dup) continue;
+            seen[ns++] = o;
+            for (j = 0; j < ntab && tab[j].a != o; j++) ;
+            if (j == ntab && ntab < 512) { tab[ntab].a = o; tab[ntab].n = 0; ntab++; }
+            if (j < ntab) tab[j].n++;
+        }
+    }
+    if (now - report > 3000000000LL) {
+        FILE *f = fopen(path, "a");
+        int j, k;
+        report = now;
+        if (f) {
+            fprintf(f, "probe: %d samples; frames seen in most samples (listing address, share):\n", samples);
+            for (k = 0; k < 14; k++) {
+                int b = -1;
+                for (j = 0; j < ntab; j++) if (tab[j].n > 0 && (b < 0 || tab[j].n > tab[b].n)) b = j;
+                if (b < 0) break;
+                fprintf(f, "  cseg01:%08x  %d%%\n", tab[b].a, tab[b].n * 100 / samples);
+                tab[b].n = -tab[b].n;
+            }
+            fprintf(f, "\n");
+            fclose(f);
+        }
+        for (j = 0; j < ntab; j++) tab[j].n = 0;
+        ntab = 0; samples = 0;
+    }
+}
+
 void plat_thread_times(uint64_t *user_ns, uint64_t *kernel_ns)
 {
     FILETIME create, exit_t, kernel, user;

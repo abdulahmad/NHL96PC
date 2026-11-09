@@ -29,30 +29,21 @@ static SDL_Texture *tex;
 static int tex_w, tex_h;
 static int use_gl;                              /* the OpenGL path (video_gl.c) instead of SDL's renderer */
 #ifdef HAVE_GL
-int vgl_init(SDL_Window *win);
-void vgl_draw(SDL_Window *win, const uint32_t *argb, int w, int h, int vx, int vy, int vw, int vh);
-void vgl_quit(void);
-void vgl_set_vsync(int on);
-void vgl_set_look(int pre, float sigma, float gain, float center, int period, int style);
-void vgl_set_target(int w, int h);
-void vgl_mister_tables(const float horiz[64][4], const float vert[2][256][4], const float gamma[256]);
-void vgl_mister_mask(const float *rgb, int w, int h);
-void vgl_set_custom(float dark, float gamma, float mask, float sharp);
-void vgl_set_bright(float b, float maskscale);
-void vgl_osd_set(const char *l1, const char *l2, const char *l3);
+#include <overbar/gl.h>
 #else                                           /* the Linux build has no OpenGL path yet: SDL's renderer only */
-static int vgl_init(SDL_Window *win) { (void)win; return 0; }
-static void vgl_draw(SDL_Window *win, const uint32_t *argb, int w, int h, int vx, int vy, int vw, int vh)
+static const char *ob_gl_filter;
+static int ob_gl_init(SDL_Window *win) { (void)win; return 0; }
+static void ob_gl_draw(SDL_Window *win, const uint32_t *argb, int w, int h, int vx, int vy, int vw, int vh)
 { (void)win; (void)argb; (void)w; (void)h; (void)vx; (void)vy; (void)vw; (void)vh; }
-static void vgl_quit(void) {}
-static void vgl_set_vsync(int on) { (void)on; }
-static void vgl_set_look(int pre, float sigma, float gain, float center, int period, int style) { (void)pre; (void)sigma; (void)gain; (void)center; (void)period; (void)style; }
-static void vgl_set_target(int w, int h) { (void)w; (void)h; }
-static void vgl_mister_tables(const float horiz[64][4], const float vert[2][256][4], const float gamma[256]) { (void)horiz; (void)vert; (void)gamma; }
-static void vgl_mister_mask(const float *rgb, int w, int h) { (void)rgb; (void)w; (void)h; }
-static void vgl_set_custom(float dark, float gamma, float mask, float sharp) { (void)dark; (void)gamma; (void)mask; (void)sharp; }
-static void vgl_set_bright(float b, float maskscale) { (void)b; (void)maskscale; }
-static void vgl_osd_set(const char *l1, const char *l2, const char *l3) { (void)l1; (void)l2; (void)l3; }
+static void ob_gl_quit(void) {}
+static void ob_gl_set_vsync(int on) { (void)on; }
+static void ob_gl_set_look(int pre, float sigma, float gain, float center, int period, int style) { (void)pre; (void)sigma; (void)gain; (void)center; (void)period; (void)style; }
+static void ob_gl_set_target(int w, int h) { (void)w; (void)h; }
+static void ob_gl_mister_tables(const float horiz[64][4], const float vert[2][256][4], const float gamma[256]) { (void)horiz; (void)vert; (void)gamma; }
+static void ob_gl_mister_mask(const float *rgb, int w, int h) { (void)rgb; (void)w; (void)h; }
+static void ob_gl_set_custom(float dark, float gamma, float mask, float sharp) { (void)dark; (void)gamma; (void)mask; (void)sharp; }
+static void ob_gl_set_bright(float b, float maskscale) { (void)b; (void)maskscale; }
+static void ob_gl_osd_set(const char *l1, const char *l2, const char *l3) { (void)l1; (void)l2; (void)l3; }
 #endif
 static uint32_t argb[1280 * 1024];
 
@@ -234,14 +225,14 @@ static void mister_mask_for(int height, int cls)
     if (height == m_mask_for && cls == m_class_up) return;
     m_mask_for = height;
     for (i = 0; i < m_nmasks[cls]; i++) if (m_masks[cls][i].res <= height && m_masks[cls][i].res >= m_masks[cls][best].res) best = i;
-    vgl_mister_mask(m_masks[cls][best].rgb, m_masks[cls][best].w, m_masks[cls][best].h);
+    ob_gl_mister_mask(m_masks[cls][best].rgb, m_masks[cls][best].w, m_masks[cls][best].h);
 }
 
 /* the tables of this class are on the GPU, and the mask pattern for this output height */
 static void mister_upload(int cls, int height)
 {
     if (m_class_up != cls) {
-        vgl_mister_tables((const float (*)[4])m_horiz[cls], (const float (*)[256][4])m_vert[cls], m_gamma[cls]);
+        ob_gl_mister_tables((const float (*)[4])m_horiz[cls], (const float (*)[256][4])m_vert[cls], m_gamma[cls]);
         m_class_up = cls;
         m_mask_for = -1;
     }
@@ -603,7 +594,7 @@ void video_command(int id)
     else if (id >= CMD_VSCALE_HI && id < CMD_VSCALE_HI + 4) vscale_hi = id - CMD_VSCALE_HI;
     else if (id >= CMD_VSCALE_LO && id < CMD_VSCALE_LO + 4) vscale_lo = id - CMD_VSCALE_LO;
     else return;
-    if (use_gl) vgl_set_vsync(vsync_on);
+    if (use_gl) ob_gl_set_vsync(vsync_on);
     settings_save();
     menu_sync();
     title_refresh();
@@ -667,7 +658,7 @@ static void title_refresh(void)
         else snprintf(l2, sizeof l2, "%dHZ VSYNC %s", present_hz, vsync_on ? "ON" : "OFF");
         if (cpu_pct < 0) snprintf(l3, sizeof l3, "CPU --"); else snprintf(l3, sizeof l3, "CPU %d%%", cpu_pct);
         if (gpu_pct >= 0) snprintf(l3 + strlen(l3), sizeof l3 - strlen(l3), " GPU %d%%", gpu_pct); else snprintf(l3 + strlen(l3), sizeof l3 - strlen(l3), " GPU --");
-        vgl_osd_set(osd_on ? l1 : NULL, l2, l3);
+        ob_gl_osd_set(osd_on ? l1 : NULL, l2, l3);
     }
 }
 
@@ -1033,12 +1024,13 @@ void video_init(void)
     overbar_client_init(ob_profile_detect(SDL_GetCurrentVideoDriver(), ob_handheld_env()), overbar_apply_host);
     overbar_capture_host();
     if (getenv("NHL96_PRESET")) { const char *t = getenv("NHL96_PRESET"); apply_preset(t[0] == 'l', t + 2); settings_save(); }      /* a test aid: h:path or l:path of a preset */
+    ob_gl_filter = getenv("NHL96_FILTER");
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
     if (!getenv("NHL96_NOGL") && SDL_strcmp(SDL_GetCurrentVideoDriver(), "dummy")) {        /* the OpenGL path: shader scaling */
         win = shell_open("NHL Hockey 96", getenv("NHL96_WINDOW_W") ? atoi(getenv("NHL96_WINDOW_W")) : 960, getenv("NHL96_WINDOW_H") ? atoi(getenv("NHL96_WINDOW_H")) : 720, 1);
-        if (win && vgl_init(win)) { use_gl = 1; vgl_set_vsync(vsync_on); title_refresh(); if (getenv("NHL96_MAXIMIZE")) SDL_MaximizeWindow(win); return; }
+        if (win && ob_gl_init(win)) { use_gl = 1; ob_gl_set_vsync(vsync_on); title_refresh(); if (getenv("NHL96_MAXIMIZE")) SDL_MaximizeWindow(win); return; }
         fprintf(stderr, "OpenGL scaling is not available, using SDL's renderer\n");
-        vgl_quit();
+        ob_gl_quit();
         if (win) shell_close();
         win = 0;
         SDL_FlushEvent(SDL_QUIT);
@@ -1136,13 +1128,13 @@ void video_present(void)
                 unit = h * (period == 2 ? 2 : 1);
                 rows = (vh * dh / wh + unit / 2) / unit;
                 scan_rows(scan, rows, &center, &gain);
-                vgl_set_target(dw, dh);
-                vgl_set_look(pre, scan, gain, center, period, style);
+                ob_gl_set_target(dw, dh);
+                ob_gl_set_look(pre, scan, gain, center, period, style);
                 if (style == 3) { int c = w == 320; if (m_dirty[c]) mister_load(c); mister_upload(c, wh); }
-                vgl_set_custom(c_dark, c_gamma, c_mask, c_sharp);
-                vgl_set_bright(mcfg[w == 320].bright, (float)mcfg[w == 320].mask_scale);
+                ob_gl_set_custom(c_dark, c_gamma, c_mask, c_sharp);
+                ob_gl_set_bright(mcfg[w == 320].bright, (float)mcfg[w == 320].mask_scale);
             }
-            vgl_draw(win, argb, w, h, vx * dw / ww, (wh - vy - vh) * dh / wh, vw * dw / ww, vh * dh / wh);
+            ob_gl_draw(win, argb, w, h, vx * dw / ww, (wh - vy - vh) * dh / wh, vw * dw / ww, vh * dh / wh);
         } else {
             SDL_Rect dst = { vx, vy, vw, vh };
             SDL_UpdateTexture(tex, 0, argb, w * 4);

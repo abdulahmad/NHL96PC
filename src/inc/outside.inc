@@ -1,0 +1,26 @@
+; Names of items that live in pages which are still bytes (so no label exists yet). Remove a line when its page becomes source.
+DemoMode	equ	0x11A3E8
+GameLoopActive	equ	0x114F08
+InGameMenuRequest	equ	0x11D7A0
+InputPlaybackFlags	equ	0x114CE0
+InputRecordBusy	equ	0x114F0C
+InputRecordCount	equ	0x114BA4
+InputRecordHead	equ	0x114BA0
+InputRecordPhase	equ	0x114F0E
+InputRecordRing	equ	0x1515D4
+InputRecordTicks	equ	0x114F04
+LineChangeLine	equ	0x1656D4
+LineChangeLine1	equ	0x1656D6
+LineChangeReq	equ	0x1656D0
+LineChangeReq1	equ	0x1656D2
+PauseReplayPending	equ	0x114F1A
+PlaybackInputRecord	equ	0x13407
+PollControllers	equ	0x10AF1
+PullGoalie	equ	0x3CBAF
+SlotButtons	equ	0x114B8C
+SlotButtons0	equ	0x1515B7
+SlotButtons1	equ	0x1515BE
+SlotButtons2	equ	0x1515C5
+SlotButtons3	equ	0x1515CC
+dword_1150FC	equ	0x1150FC
+sub_68E31	equ	0x68E31

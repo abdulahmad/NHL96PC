@@ -5,6 +5,7 @@
 ; disassembled; build.sh checks every byte against the retail EXE.
 
 %include "inc/le_objects.inc"
+%include "inc/outside.inc"
 
 section exe start=0
 	bits	16

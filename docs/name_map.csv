@@ -1,1 +1,22 @@
 address,name,auto_name,source,confidence,evidence,file
+16C4D,InputRecordTimer,sub_16C4D,new,high,timer callback; every 4th tick pushes 0x12-byte record (4 slot dwords + ticks) into ring of 5,src/obj1/obj1_06000.asm
+16D76,HandleSlotButtons,sub_16D76,new,high,"reads the 4 slot dwords; bit0 pause, bit1 replay, bits10-13/14-17 line change per team, bits18/19 goalie pull",src/obj1/obj1_06000.asm
+16F09,RunSimFrames,sub_16F09,new,medium,runs n sim frames after HandleSlotButtons; stops on menu request,(bytes)
+10AF1,PollControllers,sub_10AF1,new,high,fills 4-entry slot table (7 bytes each) from keyboard/joystick by device word and setup slot team,(bytes)
+3CBAF,PullGoalie,sub_3CBAF,new,medium,called per team from HandleSlotButtons on goalie pull bit; edits team struct (0x136 bytes),(bytes)
+13407,PlaybackInputRecord,sub_13407,new,low,called by the timer instead of recording when playback flag bit0 set,(bytes)
+1515D4,InputRecordRing,dword_1515D4,new,high,ring of 5 records x 0x12 bytes,(data)
+114BA0,InputRecordHead,dword_114BA0,new,high,ring write index,(data)
+114BA4,InputRecordCount,dword_114BA4,new,high,records in ring (max 5),(data)
+114F04,InputRecordTicks,dword_114F04,new,high,"ticks since last record, capped 0x3E8",(data)
+114F0E,InputRecordPhase,dword_114F0E,new,high,3..0 down counter; record on 0,(data)
+114F0C,InputRecordBusy,word_114F0C,new,high,re-entry guard of the timer,(data)
+114F08,GameLoopActive,dword_114F08,new,medium,1 while the in-game loop runs,(data)
+114B8C,SlotButtons,dword_114B8C,new,high,the 4 slot button dwords of the current frame,(data)
+1515B4,SlotTable,byte_1515B4,new,high,"4 entries x 7 bytes: on byte, device word, buttons dword",(data)
+114F1A,PauseReplayPending,word_114F1A,new,medium,"bit0 pause, bit1 replay seen",(data)
+11A3E8,DemoMode,dword_11A3E8,new,medium,1 during the attract demo,(data)
+11D7A0,InGameMenuRequest,dword_11D7A0,new,medium,"1 pause menu, 2 replay menu, 3 other",(data)
+114CE0,InputPlaybackFlags,word_114CE0,new,low,bit0: input comes from a recording,(data)
+1656D0,LineChangeReq,word_1656D0,new,medium,per team (2 words): line change requested,(data)
+1656D4,LineChangeLine,word_1656D4,new,medium,per team (2 words): which line (0-3),(data)

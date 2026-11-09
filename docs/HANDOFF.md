@@ -8,6 +8,12 @@
 - Next: do not merge to main. Disassembly next is still obj1_00000.
 - Open PRs: (this unit)
 
+## Feature log (2026-11-09)
+
+- Input slots: 4 controller slots (96 PC is 4-player ready). `PollControllers` fills `SlotTable`; `InputRecordTimer` pushes records of 4 slot dwords every 4 ticks; `HandleSlotButtons` decodes pause, replay, line change (per team, line 0-3) and goalie pull. Names in `docs/name_map.csv`.
+- Rule found: absolute data addresses in the file are object-relative (fixups add the base), so source writes `name - obj4_base`.
+- Next: difficulty, setup options, game loop (`docs/FEATURES.md` lists what is known and what is not).
+
 ## State (2026-10-31)
 
 - Full build MATCH (SHA-1 `426fb8c0c80088c6a2c56a9dac50509cb9c24540`, 1,613,291 bytes); `tools/verify_all.sh` MATCH (full build and all 283 segments built on

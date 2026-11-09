@@ -97,6 +97,7 @@ Offset differences to know about:
 - 2026-10-31: bootstrap. 283 incbin segments (3 extender parts, LE header area, 279 object pages), a stub per segment, prebuild
   EXE check, extractor, NASM build and verify (MATCH). Trial: LE header fields and object table as source, `start` entry label.
 - 2026-10-31: added Abdul's IDA listing `lst/HOCKEY.EXE.lst`; its addresses match the repo layout (see IDA listing). It is now the starting point for each page.
+- 2026-11-09: feature-by-feature work (input slots). obj1_06000 split: InputRecordTimer and HandleSlotButtons are source (MATCH). Items in still-incbin pages are named by equates in `src/inc/outside.inc`. Data refs are object-relative in the file, so write `name - obj4_base`; Watcom's long encodings need `strict dword`/`near`.
 
 ## Segment map
 
@@ -112,7 +113,7 @@ Offset differences to know about:
 | obj1_03000 | incbin | 0x076854 | 4096 |
 | obj1_04000 | incbin | 0x077854 | 4096 |
 | obj1_05000 | incbin | 0x078854 | 4096 |
-| obj1_06000 | incbin | 0x079854 | 4096 |
+| obj1_06000 | partial (0x16C4D-0x16F08 source, rest incbin) | 0x079854 | 4096 |
 | obj1_07000 | incbin | 0x07A854 | 4096 |
 | obj1_08000 | incbin | 0x07B854 | 4096 |
 | obj1_09000 | incbin | 0x07C854 | 4096 |

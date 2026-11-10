@@ -123,7 +123,7 @@ void modem_test_open(void)
     on.here = 1;
     on.all = 2;
     g.identity = "NHL96PC modem line";
-    g.pads = 1;
+    g.pads = 2;                         /* (the core takes 2 to 16; no match is played on this room) */
     g.room = 1;
     tnet = ob_net_new(&on, &g, err, sizeof err);
     if (!tnet) { fprintf(stderr, "NHL96_MODEM: %s\n", err); return; }

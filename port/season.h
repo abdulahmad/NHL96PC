@@ -3,7 +3,7 @@
  *
  * Online season hooks for the SDL2 host. The game stays in the DOS box; Overbar
  * copies the league folder as a team file. Overlay Season / File screens come
- * from Overbar once that pin includes them; until then the same actions sit as addons.
+ * from Overbar (ob_season_set).
  */
 #ifndef PORT_SEASON_H
 #define PORT_SEASON_H

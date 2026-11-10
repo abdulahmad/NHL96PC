@@ -2,7 +2,7 @@
  * Copyright (c) 2026 abdulahmad and contributors
  *
  * Per-game season hooks: copy the league folder (the original's floppy) without
- * the game's disk prompts. Overbar carries .obt files and the room.
+ * the game's disk prompts. Overbar carries the copies through the room (no file names).
  */
 #include "season.h"
 
@@ -31,7 +31,7 @@ static ob_files g_files;
 static ob_vdrive g_vdrive;
 static ob_room g_room;
 static ob_net *g_net;
-static char g_work[260], g_teams[260], g_root[260];
+static char g_work[260], g_root[260];
 static int g_ready;
 
 static const char *game_root(void)
@@ -171,9 +171,7 @@ void port_season_setup(ob_host *h)
     if (!h || g_ready) return;
     snprintf(g_root, sizeof g_root, "%s", game_root());
     snprintf(g_work, sizeof g_work, "%s/overbar-season", g_root);
-    snprintf(g_teams, sizeof g_teams, "%s/teams", g_root);
     MKDIR(g_work);
-    MKDIR(g_teams);
     ob_vdrive_init(&g_vdrive);
     memset(&ops, 0, sizeof ops);
     ops.league = op_league;
@@ -185,7 +183,7 @@ void port_season_setup(ob_host *h)
     me = h->online.name[0] ? h->online.name : "player";
     ob_files_init(&g_files, files_send, NULL);
     ob_season_init(&g_season, &ops, g_work, me, &g_files, season_send, NULL);
-    ob_season_set(h, &g_season, 0, g_teams);
+    ob_season_set(h, &g_season, 0, NULL);
     g_ready = 1;
 }
 

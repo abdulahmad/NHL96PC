@@ -148,6 +148,8 @@ int input_mouse(ctx_t *c);
 /* online play (netplay.c) */
 void netplay_install(void);                      /* after install_overrides, before the game thread */
 void netplay_main_poll(void);
+void modem_test_open(void);   /* test aid NHL96_MODEM: a room for Modem play (modem.c) */
+void modem_test_poll(void);   /* main thread, every pass */
 /* online, where the game waits on tickcount (until; one: a poll, which moves it one tick): moves the step clock there as the time
  * passes (none while it catches up). 0: not online, wait as usual */
 int netplay_vtime_wait(uint32_t until, int one);                    /* main thread, every pass of the loop */

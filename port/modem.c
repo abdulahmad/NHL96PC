@@ -77,3 +77,84 @@ void modem_poll(void)
     raise_if();
     modem_unlock();
 }
+
+/* ---- test aid: a two-machine room for Modem play, and a log of the line (the modem season trace) ----
+ * NHL96_MODEM=host|join[:ADDR] opens a room on NHL96_MODEM_PORT (default 41996; join: 127.0.0.1 unless ADDR) with this port's
+ * serial line in it (a Hayes modem: the game's Modem play screens, Answer on one, Dial on the other). NHL96_MODEM_LOG=FILE
+ * writes every chunk this machine sends down the line, its time in ms and the bytes in hex. Until the Online page opens rooms
+ * (online play phase 1) this is the only way in. */
+#include "overbar/net.h"
+#include "overbar/room.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+static ob_net *tnet;
+static ob_room troom;
+static ob_serial tser;
+static FILE *tlog;
+
+static void tsend(void *ud, const void *data, size_t size)
+{
+    if (tlog) {
+        const uint8_t *b = (const uint8_t *)data;
+        size_t i;
+        fprintf(tlog, "%u out %u:", (unsigned)SDL_GetTicks(), (unsigned)size);
+        for (i = 0; i < size; i++) fprintf(tlog, " %02X", b[i]);
+        fputc('\n', tlog);
+        fflush(tlog);
+    }
+    ob_room_serial_send(ud, data, size);
+}
+
+void modem_test_open(void)
+{
+    const char *v = getenv("NHL96_MODEM"), *lp = getenv("NHL96_MODEM_LOG"), *pp = getenv("NHL96_MODEM_PORT");
+    ob_online on;
+    ob_net_game g;
+    char err[200];
+    if (!v || tnet) return;
+    memset(&on, 0, sizeof on);
+    memset(&g, 0, sizeof g);
+    on.role = strncmp(v, "host", 4) ? 1 : 0;
+    snprintf(on.name, sizeof on.name, "%s", on.role ? "Dial" : "Answer");
+    snprintf(on.addr, sizeof on.addr, "%s", strchr(v, ':') ? strchr(v, ':') + 1 : "127.0.0.1");
+    on.port = pp && atoi(pp) > 0 ? atoi(pp) : 41996;
+    on.here = 1;
+    on.all = 2;
+    g.identity = "NHL96PC modem line";
+    g.pads = 1;
+    g.room = 1;
+    tnet = ob_net_new(&on, &g, err, sizeof err);
+    if (!tnet) { fprintf(stderr, "NHL96_MODEM: %s\n", err); return; }
+    if (lp) tlog = fopen(lp, "w");
+    ob_room_init(&troom, tnet, NULL, NULL);
+    ob_serial_init(&tser, OB_SERIAL_MODEM, tsend, tnet);
+    ob_room_serial(&troom, &tser);
+    modem_attach(&tser);
+    fprintf(stderr, "NHL96_MODEM: room open (%s, port %d); pick Modem play in the game\n", on.role ? "dial side" : "answer side", on.port);
+}
+
+void modem_test_poll(void)
+{
+    static uint32_t said;
+    if (!tnet) return;
+    modem_lock();
+    if (ob_net_poll(tnet) == OB_NET_ENDED) {
+        fprintf(stderr, "NHL96_MODEM: %s\n", ob_net_why(tnet));
+        ob_serial_peer(&tser, 0);
+        modem_unlock();
+        ob_net_free(tnet);
+        tnet = NULL;
+        return;
+    }
+    ob_room_poll(&troom, NULL, NULL);
+    modem_unlock();
+    modem_poll();
+    if (SDL_GetTicks() - said > 5000) {
+        char st[96];
+        said = SDL_GetTicks();
+        ob_serial_status(&tser, st, sizeof st);
+        fprintf(stderr, "NHL96_MODEM: %s, %u in the room\n", st, (unsigned)__builtin_popcount(ob_net_members(tnet)));
+    }
+}

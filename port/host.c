@@ -91,6 +91,7 @@ int main(int argc, char **argv)
     plat_make_image_writable();
     install_overrides();
     netplay_install();
+    modem_test_open();
     plat_install_traps();
     if (getenv("NHL96_CRASHTEST")) { volatile int *p = 0; *p = 1; }
     plat_start_game();
@@ -125,6 +126,7 @@ int main(int argc, char **argv)
         audio_pump();
         irq_poll();
         netplay_main_poll();
+        modem_test_poll();
         stats_report();
         plat_sleep_ms(1);
     }

@@ -14,7 +14,7 @@ mkdir -p build
 OVERBAR_SRCS=$(tr -d '\r' < port/overbar/sources.txt | sed 's|^|port/overbar/|')
 gcc -m32 -no-pie -g -O1 -Wall -Wno-format-truncation -DOB_SDL_BASE -Iport/overbar/include -o build/hockey-linux port/host.c port/stats.c port/emu.c port/ports.c port/dos.c port/video.c port/bindings.c port/input.c port/shell.c \
   port/irq.c port/audio.c port/dma.c port/speaker.c port/opl.c port/sb.c port/mpu.c port/gus.c port/sound_ports.c port/modem.c port/soundtest.c -lm port/third_party/nuked-opl3/opl3.c \
-  port/overbar_client.c $OVERBAR_SRCS \
+  port/overbar_client.c port/season.c $OVERBAR_SRCS \
   -DHAVE_MUNT -Ibuild/munt-linux/inc -Iport/third_party/munt/mt32emu/src port/cstart.c port/overrides.c port/osk_hook.c port/netplay.c port/soundhooks.c port/le_load.c port/plat_linux.c $(pkg-config --cflags --libs sdl2) build/munt-linux/libmt32emu.a -lstdc++ -lm -lpthread 2>&1 \
   | grep -v "warning: \(relocation\|creating\)\|GNU-stack\|NOTE: This"
 test -x build/hockey-linux

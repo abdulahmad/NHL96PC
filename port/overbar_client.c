@@ -6,6 +6,7 @@
  * on the menu and fall back to Sharp in the existing scaler.
  */
 #include "overbar_client.h"
+#include "season.h"
 
 #include <string.h>
 
@@ -16,11 +17,13 @@ void overbar_client_init(ob_profile profile, void (*apply)(ob_host *h))
 {
     ob_host_init(&host, OB_PORT_PC96, profile);
     netplay_online_setup(&host);        /* the Online page (netplay.c); before the menu bar, which greys it out otherwise */
+    port_season_setup(&host);
     apply_host = apply;
 }
 
 void overbar_client_free(void)
 {
+    port_season_free();
     ob_host_free(&host);
 }
 

@@ -23,6 +23,7 @@
  * The hooks run in the game thread; the main thread polls the socket (netplay_main_poll). */
 #include "host.h"
 #include "overbar_client.h"
+#include "season.h"
 #include "overbar/net.h"
 #include "overbar/netgame.h"
 #include "overbar/rollback.h"
@@ -389,11 +390,13 @@ void nh_playgame_enter(int32_t which)
     g.states = ob_rollback_states(nh_rb);
     nh_net = ob_netgame_begin(&g);
     if (!nh_net) return;
+    port_season_bind_net(nh_net);
     lock();
     theirs = (const nh_settings *)ob_net_settings(nh_net, &size);
     nh_me = (ob_net_my_pads(nh_net) & 1) ? 0 : 1;
     unlock();
     if (!theirs || size != sizeof *theirs || theirs->magic != NH_MAGIC || theirs->version != 1) {
+        port_season_unbind_net();
         lock(); ob_net_quit(nh_net); unlock();
         ob_netgame_end("the host's settings are not this version's");
         nh_net = NULL;
@@ -433,6 +436,7 @@ void nh_playgame_exit(void)
     if (!nh_net) return;
     nh_sim = 0; nh_vtime = 0; nh_quiet = 0;
     ob_rollback_reset(nh_rb);
+    port_season_unbind_net();
     ob_netgame_end(nh_dead ? NULL : "the game is over");
     nh_net = NULL;
     memcpy(setup_ptr(), nh_saved.setup, SETUP_N);
@@ -570,7 +574,14 @@ void netplay_install(void)
 }
 
 /* ---- the main thread ---- */
-void netplay_main_poll(void) { if (nh_lock) ob_netgame_main_poll(); }
+void netplay_main_poll(void)
+{
+    if (nh_lock) ob_netgame_main_poll();
+    if (nh_lock && SDL_TryLockMutex(nh_lock) == 0) {
+        port_season_poll();
+        SDL_UnlockMutex(nh_lock);
+    }
+}
 
 static int page_is_open(void) { return overbar_client_open(); }
 

@@ -39,6 +39,9 @@ void modem_attach(ob_serial *s)
     modem_unlock();
 }
 
+/* (test aid NHL96_MODEM_LOG) the game's side of the line: what it writes to the UART and reads from it, a line a CR */
+static void tlog_char(int dir, uint8_t c);
+
 static void raise_if(void)
 {
     if (ser && ob_serial_irq_edge(ser)) irq_raise(com_irq);
@@ -51,6 +54,7 @@ int modem_port_in(unsigned port, uint32_t *v)
     modem_lock();
     if (!com_base) { com_base = base; com_irq = (base == 0x3F8 || base == 0x3E8) ? 4 : 3; }
     *v = ob_serial_in(ser, (int)(port - base));
+    if (port - base == 0 && !(ser->lcr & 0x80)) tlog_char(1, (uint8_t)*v);
     raise_if();
     modem_unlock();
     return 1;
@@ -62,6 +66,7 @@ int modem_port_out(unsigned port, uint32_t v)
     if (!ser || !com_of(port, &base) || (com_base && base != com_base)) return 0;
     modem_lock();
     if (!com_base) { com_base = base; com_irq = (base == 0x3F8 || base == 0x3E8) ? 4 : 3; }
+    if (port - base == 0 && !(ser->lcr & 0x80)) tlog_char(0, (uint8_t)v);
     ob_serial_out(ser, (int)(port - base), (uint8_t)v);
     raise_if();
     modem_unlock();
@@ -93,6 +98,23 @@ static ob_net *tnet;
 static ob_room troom;
 static ob_serial tser;
 static FILE *tlog;
+
+static void tlog_char(int dir, uint8_t c)
+{
+    static char line[2][256];
+    static int n[2];
+    if (!tlog) return;
+    if (n[dir] < 250) {
+        if (c >= 32 && c < 127) line[dir][n[dir]++] = (char)c;
+        else n[dir] += sprintf(line[dir] + n[dir], "<%02X>", c);
+    }
+    if (c == '\r' || c == '\n' || n[dir] >= 250) {
+        line[dir][n[dir]] = 0;
+        fprintf(tlog, "%u game %s %s\n", (unsigned)SDL_GetTicks(), dir ? "reads" : "writes", line[dir]);
+        fflush(tlog);
+        n[dir] = 0;
+    }
+}
 
 static void tsend(void *ud, const void *data, size_t size)
 {

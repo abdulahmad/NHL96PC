@@ -16,7 +16,7 @@
 1 465BA 4B7BB 20993 hockey engine/hockey/hockey.asm
 1 4B7BB 4DED8 10013 skate engine/skate/skate.asm
 1 4DED8 4F453 5499 engine_4DED8 engine/engine_4DED8.asm
-1 4F453 50154 3329 skate_2 engine/skate/skate_2.asm
+1 4F453 50154 3329 gamelog engine/gamelog/gamelog.asm
 1 50154 51F18 7620 penalty engine/penalty/penalty.asm
 1 51F18 54519 9729 lines engine/lines/lines.asm
 1 54519 584A0 16263 replay_controls front/replay_controls/replay_controls.asm

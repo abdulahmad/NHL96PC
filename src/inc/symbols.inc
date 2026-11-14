@@ -397,10 +397,10 @@
 ;  4F2A8  sub_4F2A8                                engine/engine_4DED8.asm                      1
 ;  4F385  sub_4F385                                engine/engine_4DED8.asm                      2
 ;  4F452  sub_4F452                                engine/engine_4DED8.asm                      3
-;  4F453  FormatPlayerName                         engine/skate/skate_2.asm                     1
-;  4FB38  sub_4FB38                                engine/skate/skate_2.asm                     1
-;  4FDC0  sub_4FDC0                                engine/skate/skate_2.asm                     1
-;  500D4  sub_500D4                                engine/skate/skate_2.asm                     1
+;  4F453  FormatPlayerName                         engine/gamelog/gamelog.asm                   1
+;  4FB38  sub_4FB38                                engine/gamelog/gamelog.asm                   1
+;  4FDC0  sub_4FDC0                                engine/gamelog/gamelog.asm                   1
+;  500D4  sub_500D4                                engine/gamelog/gamelog.asm                   1
 ;  50154  AddPenalty                               engine/penalty/penalty.asm                   3
 ;  501EC  sub_501EC                                engine/penalty/penalty.asm                   4
 ;  50CB5  sub_50CB5                                engine/penalty/penalty.asm                   2

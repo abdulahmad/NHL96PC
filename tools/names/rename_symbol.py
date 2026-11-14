@@ -1,41 +1,32 @@
 #!/usr/bin/env python3
 """rename_symbol.py - rename one label or equate consistently across src/, rebuild, and record the name.
 
-  python3 tools/names/rename_symbol.py OLD NEW [--evidence TEXT] [--source-game 93G] [--source-file logic93_5.asm]
-                                 [--file94 logic94.asm] [--other-names TEXT] [--confidence high] [--method manual-trace]
+  python3 tools/names/rename_symbol.py OLD NEW [--evidence TEXT] [--source 95PC] [--confidence high]
                                  [--no-record] [--no-build] [--dry-run]
   python3 tools/names/rename_symbol.py --batch renames.txt [same options]
         one rename per line: OLD NEW [{key=value,...}] [evidence text ...]; a line starting with '#' is a comment.
-        {...} overrides the command-line options for that line only: source_game, source_file, file94, other_names,
-        confidence, method, no_record (e.g. {source_game=PC-new,confidence=medium} or {no_record} for an IDA sub_
-        label that is really a shared epilogue tail). All renames are applied in order,
-        then one build; a failure anywhere restores everything. Use it for the many loc_ -> .local renames.
+        {...} overrides the command-line options for that line only: source, confidence, no_record. All renames are
+        applied in order, then one build; a failure anywhere restores everything. Use it for the many loc_ -> .local
+        renames.
 
 What it does
-  1. Builds the tree first (make): the rename starts from a MATCHing build, and the old address comes from build/obj.
-  2. Checks NEW: a NASM identifier, not an instruction or register (nasm is asked), not defined anywhere in src/
-     (labels, locals, equates in src/inc). A name that differs from an existing one only in case is a warning.
+  1. Builds the tree first (./build.sh): the rename starts from a MATCHing build; the old address comes from build/obj.
+  2. Checks NEW: a NASM identifier, not an instruction or register (nasm is asked), not defined anywhere in src/.
+     A name that differs from an existing one only in case is a warning.
   3. Replaces OLD as a whole token in every src/**/*.asm and src/inc/*.inc file (code, global/extern lists and
-     comments; never inside an ';IDA:' note), and in src/{engine,front,pc}/**/*.c and src/include/*.h so a matched C
-     function keeps the asm label. OLD.local references follow the rename (NEW.local).
+     comments). OLD.local references follow the rename (NEW.local).
      NEW starting with '.' makes OLD a NASM local label of the global label above it: references in that scope
      become .NEW, all others parent.NEW; it leaves the global list unless another file uses it.
-  4. When OLD is the IDA name of the address (docs/name_map.csv ida_name, not an auto name) the definition line gets
-     ';IDA: OLD', as in the Genesis repos.
-  5. Records the name so the maps stay in step with src/:
-       function entry in cseg01 (sub_ name, or a docs/name_map.csv row) -> tools/names/manual_names.csv + docs/name_map.csv
-                                                                          (the same row matcher.py would merge)
-       label in dseg02 (data / BSS)                                    -> tools/names/global_map.csv
-       equate in src/inc/structs.inc                                   -> tools/names/struct_fieldmap.csv (genesis_field)
-       other code labels (loc_, jpt_ ... and locals)                    -> nothing (they live in src/ only)
-     A function rename needs --evidence (what the routine does / which Genesis routine it matches), unless --no-record.
+  4. Records the name in docs/name_map.csv (address,name,auto_name,source,confidence,evidence,file): function
+     entries and data labels get a row; loc_/jpt_ labels and locals live in src/ only. A function rename needs
+     --evidence (what the routine does / which NHL95PC or NHL96Genesis routine it matches), unless --no-record.
+     --source is 95PC, 96G, 95G, 94G, 93G, 92G, WATCOM, EACSNDF, EACLIB or new (the default).
   NEW of the form BASE+k / BASE-k (k decimal, 0x.. or ..h) folds an alias label into an expression: OLD must be
-     a bare label line at BASE's address + k in the same file (e.g. the Watcom -5r label dword_E03BA = regd0-2, or a
-     table's second column word_C90E2 = dirtab+2). Every use becomes BASE+k, the OLD label line is removed (the bytes
-     stay), the global/extern lists follow, and a tools/names/global_map.csv row for OLD is dropped.
-  6. make again: it must print MATCH, else every file is restored and the exit status is 1. Then src/inc/symbols.inc
-     is regenerated (tools/build/update_symbols.py).
-Needs the same as make: nasm, python3, your HOCKEY.EXE."""
+     a bare label line at BASE's address + k in the same file. Every use becomes BASE+k and the OLD label line is
+     removed (the bytes stay).
+  5. ./build.sh again: it must print MATCH, else every file is restored and the exit status is 1. Then
+     src/inc/symbols.inc is regenerated (tools/build/update_symbols.py).
+Needs the same as the build: nasm, python3, your HOCKEY.EXE."""
 import os, re, sys, csv, io, argparse, subprocess, tempfile
 HERE = os.path.dirname(os.path.abspath(__file__))
 _td = HERE
@@ -55,7 +46,7 @@ LOCAL = re.compile(r'^\.[A-Za-z0-9_$#@~?][A-Za-z0-9_$#@~?.]*$')
 AUTO = re.compile(r'^(sub|loc|locret|nullsub|j_sub|unk|off|asc|byte|word|dword|qword|tbyte|jpt|stru|algn|flt|dbl)_[0-9A-F]+$')
 LABEL_DEF = re.compile(r'^([A-Za-z_?][A-Za-z0-9_$#@~?.]*):')
 LOCAL_DEF = re.compile(r'^(\.[A-Za-z0-9_$#@~?.]+):')
-LINE_OPTS = ('source_game', 'source_file', 'file94', 'other_names', 'confidence', 'method', 'no_record')
+LINE_OPTS = ('source', 'confidence', 'no_record')
 FOLD = re.compile(r'^([A-Za-z_?][A-Za-z0-9_$#@~?]*)([+-](?:[0-9]+|0[xX][0-9A-Fa-f]+|[0-9][0-9A-Fa-f]*[hH]))$')
 EQU_DEF = re.compile(r'^\s*([A-Za-z_?.][A-Za-z0-9_$#@~?.]*)\s+equ\b', re.I)
 
@@ -81,7 +72,7 @@ def sub_code(text, rx, new):
 
 def make():
     # the link step checks the sha1 and fails (removing the EXE) on a mismatch, so success == MATCH
-    r = subprocess.run(['make', '-s', '-j%s' % (os.cpu_count() or 1)], cwd=ROOT, capture_output=True, text=True)
+    r = subprocess.run(['sh', 'build.sh'], cwd=ROOT, capture_output=True, text=True)
     ok = r.returncode == 0 and os.path.exists(os.path.join(ROOT, 'build/HOCKEY.EXE')) and 'MISMATCH' not in r.stdout
     return ok, r.stdout[-1500:] + r.stderr[-1500:]
 
@@ -209,55 +200,26 @@ class Session:
         self.rewrite_c(old, new if not local else full)
         if addr is not None: self.addr[full] = self.addr.pop(old)
         for n in [n for n in self.addr if n.startswith(old + '.')]: self.addr[full + n[len(old):]] = self.addr.pop(n)
-        # ;IDA: note on the definition when OLD is the listing's name for this address
-        nm_cols, nm_rows, _ = self.table('docs/name_map.csv')
-        nm_row = next((r for r in nm_rows if addr is not None and int(r['pc_address'], 16) == addr), None)
-        if nm_row and ident(nm_row['ida_name']) == old and not AUTO.match(old) and not is_equ:
-            t = texts[deff].split('\n')
-            k = next(i for i, l in enumerate(t) if l.startswith(new + ':'))
-            if ';IDA:' not in t[k]: t[k] = t[k] + '\t;IDA: ' + nm_row['ida_name']
-            texts[deff] = '\n'.join(t)
-        # ---- record
+        # ---- record: one row per named address in docs/name_map.csv (functions and data alike)
         seg = next((s for s in self.segs if addr is not None and s['start'] <= addr < s['end']), None)
         rec = ''
-        if not a.no_record and not local:
+        is_item = seg is not None and (seg['obj'] != 1 or old.startswith('sub_') or not AUTO.match(old))
+        if not a.no_record and not local and not is_equ and is_item:
             evidence = evidence or a.evidence
-            if is_equ and deff.endswith('structs.inc'):
-                cols, rows, _ = self.table('tools/names/struct_fieldmap.csv')
-                for r in rows:
-                    if r['genesis_field'] == old: r['genesis_field'] = new
-                self.csvs[os.path.join(ROOT, 'tools/names/struct_fieldmap.csv')][2] = True; rec = 'tools/names/struct_fieldmap.csv'
-            elif seg and seg['obj'] == 1 and (old.startswith('sub_') or (nm_row and nm_row['method'] != 'data')):
-                if not evidence: raise Fail('%s: a function rename needs evidence (what it does / which Genesis routine it matches), or --no-record' % old)
-                cols, rows, _ = self.table('tools/names/manual_names.csv')
-                mr = next((r for r in rows if int(r['pc_address'], 16) == addr), None)
-                if mr is None:
-                    mr = {c: '' for c in cols}
-                    if nm_row: mr.update({c: nm_row.get(c, '') for c in cols})
-                    mr['pc_address'] = '%08X' % addr; rows.append(mr)
-                if not mr.get('ida_name'): mr['ida_name'] = old if AUTO.match(old) else (nm_row or {}).get('ida_name', '')
-                mr['proposed_name'] = new; mr['segment'] = mr.get('segment') or seg['module']
-                for c, v in (('source_game', a.source_game), ('source_file', a.source_file), ('94_source_file', a.file94),
-                             ('other_game_names', a.other_names), ('confidence', a.confidence), ('evidence', evidence)):
-                    if v is not None: mr[c] = v
-                if not mr.get('confidence') or mr['confidence'] == 'none': mr['confidence'] = 'high'
-                if not mr.get('source_game'): mr['source_game'] = 'PC-new'
-                mr['method'] = a.method
-                rows.sort(key=lambda r: int(r['pc_address'], 16))
-                self.csvs[os.path.join(ROOT, 'tools/names/manual_names.csv')][2] = True
-                nrow = {c: mr.get(c, '') for c in nm_cols}      # the row matcher.py would merge
-                nm_rows[:] = sorted([r for r in nm_rows if int(r['pc_address'], 16) != addr] + [nrow], key=lambda r: r['pc_address'])
-                self.csvs[self.nm_path][2] = True; rec = 'tools/names/manual_names.csv, docs/name_map.csv'
-            elif seg and seg['obj'] == 2:
-                cols, rows, _ = self.table('tools/names/global_map.csv')
-                gr = next((r for r in rows if r['genesis_symbol'] == old and int(r['pc_address'], 16) == addr), None)
-                if gr is None:
-                    same = [r for r in rows if int(r['pc_address'], 16) == addr]
-                    gr = same[0] if len(same) == 1 else {'pc_address': '%X' % addr}
-                    if gr not in rows: rows.append(gr)
-                gr['genesis_symbol'] = new
-                gr['evidence'] = evidence or gr.get('evidence') or 'named in src/ (%s)' % seg['module']
-                self.csvs[os.path.join(ROOT, 'tools/names/global_map.csv')][2] = True; rec = 'tools/names/global_map.csv'
+            nm_cols, nm_rows, _ = self.table('docs/name_map.csv')
+            row = next((r for r in nm_rows if int(r['address'], 16) == addr), None)
+            if seg['obj'] == 1 and not evidence and not (row and row['evidence']):
+                raise Fail('%s: a function rename needs evidence (what it does / which NHL95PC or 96G routine it matches), or --no-record' % old)
+            if row is None:
+                row = {c: '' for c in nm_cols}; row['address'] = '%05X' % addr; nm_rows.append(row)
+            if not row.get('auto_name'): row['auto_name'] = old if AUTO.match(old) else ''
+            row['name'] = new
+            row['source'] = a.source or row.get('source') or 'new'
+            row['confidence'] = a.confidence or row.get('confidence') or 'high'
+            if evidence: row['evidence'] = evidence
+            row['file'] = 'src/' + seg['src']
+            nm_rows.sort(key=lambda r: int(r['address'], 16))
+            self.csvs[self.nm_path][2] = True; rec = 'docs/name_map.csv'
         self.log.append('%s -> %s%s: %d file(s)%s%s' % (old, full, ' (local %s)' % new if local else '', len(changed),
                         '' if addr is None else ', %05X %s' % (addr, seg['module'] if seg else '?'), ', recorded in ' + rec if rec else ''))
 
@@ -300,9 +262,9 @@ class Session:
         self.rewrite_c(old, base + off)
         rec = ''
         if not self.a.no_record:
-            cols, rows, _ = self.table('tools/names/global_map.csv')
-            n0 = len(rows); rows[:] = [r for r in rows if r['genesis_symbol'] != old]
-            if len(rows) != n0: self.csvs[os.path.join(ROOT, 'tools/names/global_map.csv')][2] = True; rec = ' (its tools/names/global_map.csv row removed)'
+            cols, rows, _ = self.table('docs/name_map.csv')
+            n0 = len(rows); rows[:] = [r for r in rows if r['name'] != old]
+            if len(rows) != n0: self.csvs[self.nm_path][2] = True; rec = ' (its docs/name_map.csv row removed)'
         self.log.append('%s -> %s%s (alias folded, label line removed): %d file(s)%s' % (old, base, off, len(changed), rec))
 
     def rewrite_c(self, old, new):
@@ -342,8 +304,7 @@ class Session:
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split('\n')[0])
     ap.add_argument('old', nargs='?'); ap.add_argument('new', nargs='?'); ap.add_argument('--batch')
-    ap.add_argument('--evidence'); ap.add_argument('--source-game'); ap.add_argument('--source-file'); ap.add_argument('--file94')
-    ap.add_argument('--other-names'); ap.add_argument('--confidence'); ap.add_argument('--method', default='manual-trace')
+    ap.add_argument('--evidence'); ap.add_argument('--source', help='95PC, 96G, 95G, 94G, 93G, 92G, WATCOM, EACSNDF, EACLIB or new'); ap.add_argument('--confidence')
     ap.add_argument('--no-record', action='store_true'); ap.add_argument('--no-build', action='store_true'); ap.add_argument('--dry-run', action='store_true')
     a = ap.parse_args()
     pairs = []

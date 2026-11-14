@@ -131,10 +131,10 @@
   {
    "start": 324691,
    "end": 328020,
-   "module": "skate_2",
+   "module": "gamelog",
    "obj": 1,
-   "file": "engine/skate/skate_2.asm",
-   "note": "NHL95PC module (matched functions)"
+   "file": "engine/gamelog/gamelog.asm",
+   "note": "goal and penalty log lines; holds a matched NHL95PC gamelog function"
   },
   {
    "start": 328020,

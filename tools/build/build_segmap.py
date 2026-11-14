@@ -25,6 +25,7 @@ HAND = {
  0x10010: ('front/front_10010', 'placeholder'),
  0x186DC: ('front/main/main', 'holds main_ (FLIRT); startup, CDSTREAM, asset loading'),
  0x22522: ('front/rink_model/rink_model', 'rink and stands model parts by name (zamboni, glass, boards, crowd)'),
+ 0x4F453: ('engine/gamelog/gamelog', 'goal and penalty log lines; holds a matched NHL95PC gamelog function'),
  0x54519: ('front/replay_controls/replay_controls', 'replay control buttons (rew, play, fwd, camera); 95PC module name'),
  0x6A891: ('front/pause_menu/pause_menu', 'pause menu buttons (PAUSREG, quit, return, replay, controls, stats)'),
  0x711ED: ('front/modem_setup/modem_setup', 'modem setup screens (Generic Hayes-Compatible, tone/pulse)'),

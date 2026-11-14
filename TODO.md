@@ -1,5 +1,7 @@
 # TODO
 
-- Port NHL95PC's LE parsing (tools/le_parse.py, rebuild_exe.py) to list each page's fixups, so page disassembly can write labels for them.
-- Name map from NHL95PC symbols and NHL96Genesis for matching routines.
-- MZ headers of the extender stubs as source (fields only; the bodies stay incbin).
+- Segment queue (SEGMENT_AGENT.md): name every routine, local and data item.
+- Re-run tools/names/match95.py as names are confirmed; import new trustworthy rows.
+- Name the placeholder files; prove the front-end module boundaries.
+- Structure field equates (`src/inc/structs.inc`), aligned with NHL95PC.
+- Re-cut the data files by owner once the code files are named.

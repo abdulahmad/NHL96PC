@@ -12,6 +12,7 @@ file)]) where each function has
   loose           one token per instruction: mnemonic + registers (no constants)
   calls           near call/jmp targets that leave the function, in order
   refs            (instruction index, target) for every fixup field, in order
+  consts          immediates of 100h and up that carry no fixup, in order
 """
 import os, sys, pickle, bisect
 
@@ -32,7 +33,7 @@ def main():
     for fi, f0 in enumerate(fe):
         f1 = fe[fi + 1] if fi + 1 < len(fe) else A.CE
         i0 = bisect.bisect_left(starts, f0); i1 = bisect.bisect_left(starts, f1)
-        strict = []; loose = []; calls = []; refs = []
+        strict = []; loose = []; calls = []; refs = []; consts = []
         for a, n, kind, ins in ins_list[i0:i1]:
             raw = bytearray(A.byte(a, n))
             j0 = bisect.bisect_left(srcs, a); fx = []
@@ -56,9 +57,13 @@ def main():
                 ok = ins.op_kind(o)
                 if ok == I.OpKind.REGISTER: ops.append(REG[ins.op_register(o)])
                 elif ok == I.OpKind.MEMORY: ops.append('[%s,%s]' % (REG[ins.memory_base], REG[ins.memory_index]))
-                else: ops.append('i')
+                else:
+                    ops.append('i')
+                    if ok in (I.OpKind.IMMEDIATE32, I.OpKind.IMMEDIATE16, I.OpKind.IMMEDIATE8TO32, I.OpKind.IMMEDIATE8, I.OpKind.IMMEDIATE8TO16) and not fx:
+                        v = ins.immediate(o) & 0xFFFFFFFF
+                        if 0x100 <= v < 0xFFFFFF00: consts.append(v)
             loose.append(' '.join(ops))
-        funcs.append(dict(start=f0, end=f1, strict=strict, loose=loose, calls=calls, refs=refs))
+        funcs.append(dict(start=f0, end=f1, strict=strict, loose=loose, calls=calls, refs=refs, consts=consts))
     names = dict(A.names); files = []
     seg_txt = os.path.join(repo, 'src/segments.txt')
     if os.path.exists(seg_txt) and os.path.isdir(os.path.join(repo, 'build/obj0')) or os.path.isdir(os.path.join(repo, 'build/obj')):
@@ -70,7 +75,7 @@ def main():
         files = [(s['start'], s['end'], s['src'], s['module']) for s in segs]
     else:
         files = [(s[0], s[1], '', s[2]) for s in A.segs]
-    objs = {k: (o['base'], o['vsize'], o['base'] + len(o['img'])) for k, o in A.objs.items()}
+    objs = {k: (o['base'], o['vsize'], bytes(o['img'])) for k, o in A.objs.items()}
     pickle.dump(dict(funcs=funcs, names=names, files=files, objs=objs, tgt_code=None), open(out, 'wb'))
     print(repo, 'functions', len(funcs), 'names', len(names), 'files', len(files))
 

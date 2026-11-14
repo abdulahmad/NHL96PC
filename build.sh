@@ -1,14 +1,19 @@
 #!/bin/sh
-# build.sh: check the EXE (tools/prebuild.py, which also cuts Extracted/ on the first run), assemble src/hockey96pc.asm with nasm into
-# output/HOCKEY.EXE, and compare it byte for byte with the retail EXE. The last line is MATCH or MISMATCH.
+# One-command build: HOCKEY.EXE from src/ + sha1 check.  Usage: ./build.sh [path/to/HOCKEY.EXE]
+# Steps: extract the third-party stubs and LE metadata from your EXE, nasm every src/ file, link, sha1 check.
+# The last line is MATCH or MISMATCH. See docs/ASM_BUILD.md.
+set -e
 cd "$(dirname "$0")"
+PY="${PYTHON:-python3}"
 NASM="${NASM:-nasm}"
-command -v "$NASM" >/dev/null || { echo "nasm not found (apt install nasm / brew install nasm; or set NASM=)"; exit 1; }
-python3 tools/prebuild.py || exit 1
-mkdir -p output; rm -f output/HOCKEY.EXE
-"$NASM" -f bin -I src/ -o output/HOCKEY.EXE src/hockey96pc.asm || { echo "MISMATCH (assembly failed)"; exit 1; }
-ref=$(python3 tools/exefile.py) || exit 1
-if command -v sha1sum >/dev/null; then SHA="sha1sum"; else SHA="shasum -a 1"; fi
-a=$($SHA "$ref" | cut -d' ' -f1); b=$($SHA output/HOCKEY.EXE | cut -d' ' -f1)
-echo "ref $a  $(wc -c <"$ref") bytes"; echo "out $b  $(wc -c <output/HOCKEY.EXE) bytes"
-if [ "$a" = "$b" ]; then echo "MATCH output/HOCKEY.EXE"; else echo MISMATCH; cmp -l "$ref" output/HOCKEY.EXE | head -20; exit 1; fi
+EXE="${1:-lst/HOCKEY.EXE}"
+[ -f "$EXE" ] || { echo "HOCKEY.EXE not found: expected lst/HOCKEY.EXE (1613291 bytes, SHA-1 426fb8c0c80088c6a2c56a9dac50509cb9c24540) or pass a path" >&2; exit 1; }
+command -v "$NASM" >/dev/null || { echo "nasm not found (apt install nasm / brew install nasm; or set NASM=)" >&2; exit 1; }
+"$PY" tools/build/rebuild_exe.py extract "$EXE" build/parts
+JOBS="$(getconf _NPROCESSORS_ONLN 2>/dev/null || echo 4)"
+SRCS="$(awk '!/^#/ && NF {print "src/" $6}' src/segments.txt)"
+echo "assembling $(echo "$SRCS" | wc -l) files with $JOBS jobs"
+echo "$SRCS" | xargs -P "$JOBS" -I{} sh -c '
+  o="build/obj/${1#src/}"; o="${o%.asm}.o"; mkdir -p "$(dirname "$o")"
+  if [ ! -f "$o" ] || [ "$1" -nt "$o" ] || [ -n "$(find src/inc -newer "$o" -print -quit)" ]; then '"$NASM"' -O0 -f elf32 -I src/inc/ -o "$o" "$1"; fi' _ {}
+"$PY" tools/build/link_src.py --obj build/obj --parts build/parts --out build/HOCKEY.EXE

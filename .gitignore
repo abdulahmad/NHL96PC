@@ -15,9 +15,9 @@
 *.idb
 *.i64
 # Generated
-output/
+/output/
 Extracted/
-build/
+/build/
 ref/
 __pycache__/
 *.pyc
@@ -25,3 +25,4 @@ __pycache__/
 .DS_Store
 !lst/HOCKEY.EXE
 !lst/HOCKEY.EXE.lst
+*.pkl

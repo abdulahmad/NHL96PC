@@ -22,7 +22,7 @@ extern word_1178AE, word_1178B4, word_1178B6, word_1178B8, word_1178BE, word_117
 extern word_1178CC, word_1178CE, word_1178D0, word_1178F4, word_1178F6, word_1178F8, word_1178FA, word_1178FC
 extern word_1178FE, word_117902, word_118E8F, word_118E91, word_118E93, word_118E9F, word_118EA3, word_118EA5
 extern word_118EA7, word_118EA9, word_118EAB, word_118EAF, word_118EB1, word_118EB3, word_118EB7, word_118FAF
-extern word_118FB1, word_11910B, word_11910D, word_11910F, word_119111, word_119113, Pencntdwn2, word_119169
+extern word_118FB1, word_11910B, refhitcount, word_11910F, word_119111, word_119113, Pencntdwn2, word_119169
 extern word_11916B, word_11918B, word_11B274, word_11B276, word_11D3A2, word_16474C, word_16474E, word_164792
 extern word_164794, word_1656D2, word_1656D6, word_165942, word_16594E, word_165950, word_176B44, word_176B7C
 extern word_176B80, word_176B88, word_176B8A, word_176B8C, word_176B8E
@@ -277,7 +277,7 @@ mov dx, word [word_11910B]	; 4E18B
 mov word [eax], dx	; 4E192
 inc eax	; 4E195
 inc eax	; 4E196
-mov dx, word [word_11910D]	; 4E197
+mov dx, word [refhitcount]	; 4E197
 mov word [eax], dx	; 4E19E
 inc eax	; 4E1A1
 inc eax	; 4E1A2
@@ -972,7 +972,7 @@ mov word [word_11910B], dx	; 4E9A5
 mov dx, word [eax]	; 4E9AC
 inc eax	; 4E9AF
 inc eax	; 4E9B0
-mov word [word_11910D], dx	; 4E9B1
+mov word [refhitcount], dx	; 4E9B1
 mov dx, word [eax]	; 4E9B8
 inc eax	; 4E9BB
 inc eax	; 4E9BC

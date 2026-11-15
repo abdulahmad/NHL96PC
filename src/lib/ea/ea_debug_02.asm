@@ -16,12 +16,12 @@ extern dword_11F5C0, dword_11F5C4, dword_1210CC, dword_15139C, dword_1513A0, dwo
 extern dword_1513B8, dword_1513BC, dword_1513C0, dword_1513C4, dword_1513C8, dword_1513CC, dword_1513D4, dword_18568C
 extern dword_185690, dword_185738, dword_18573C, dword_185848, dword_1A11BC, dword_1A11C0, dword_1A11C4, dword_1A11C8
 extern dword_1A11CC, dword_1A11D0, dword_1A11D4, dword_1A11D8, dword_1A11DC, dword_1A11E0, fclose_, fopen_
-extern fprintf_, min_, off_1513B0, sprintf_, strncpy_, sub_AAB40, sub_AADA4, sub_ABF88
-extern sub_AC194, sub_AC574, sub_AC6D4, sub_ACA3C, sub_ACCF8, sub_ACD24, sub_ACD38, sub_AD680
+extern fprintf_, min_, off_1513B0, sprintf_, strncpy_, PutBlock, sub_AADA4, sub_ABF88
+extern sub_AC194, sub_AC574, sub_AC6D4, sub_ACA3C, sub_ACCF8, sub_ACD24, sub_ACD38, FillRect
 extern sub_ADA80, sub_AFFD0, sub_B0254, sub_B026C, sub_B0284, sub_B31C0, sub_BF02C, sub_BF034
 extern sub_BF04B, initgraphics, sub_C2AEC, sub_C5D00, sub_C6000, sub_CFE0C, sub_CFE8C, sub_D0650
 extern sub_D1368, sub_DC158, sub_DC17C, sub_DC780, sub_DC830, sub_DCB90, sub_DD6C4, sub_DD6E0
-extern sub_DD724, sub_DD760, sub_DD7B8, sub_DFF28, sub_DFF7C, sub_E04E0, sub_E0584, sub_E1927
+extern sub_DD724, SetClipWindow, sub_DD7B8, sub_DFF28, sub_DFF7C, sub_E04E0, sub_E0584, sub_E1927
 extern sub_E193C, sub_E1956, sub_E1970, unk_114440, unk_11444C, unk_114570, unk_114594, unk_11466C
 extern unk_114670, unk_1146A0, unk_1146A4, unk_1146CC, str_Un, unk_114930, unk_1213DC
 global loc_D7DE0, loc_D7DFD, loc_D7E04, loc_D7E6D, loc_D7EF7, loc_D7F3A, loc_D7F4A, loc_D7F52
@@ -697,7 +697,7 @@ mov ebx, dword [dword_11F5C0]	; D858E
 push ebx	; D8594
 push byte 0	; D8595
 push byte 0	; D8597
-call sub_AD680	; D8599
+call FillRect	; D8599
 add esp, byte 14h	; D859E
 push byte 0	; D85A1
 push byte 0	; D85A3
@@ -713,7 +713,7 @@ mov esi, dword [dword_11F5C0]	; D85BF
 push esi	; D85C5
 push byte 8	; D85C6
 push byte 0	; D85C8
-call sub_AD680	; D85CA
+call FillRect	; D85CA
 add esp, byte 14h	; D85CF
 push byte 9	; D85D2
 push byte 0	; D85D4
@@ -729,7 +729,7 @@ mov eax, dword [dword_11F5C0]	; D85F3
 push eax	; D85F8
 push byte 11h	; D85F9
 push byte 0	; D85FB
-call sub_AD680	; D85FD
+call FillRect	; D85FD
 add esp, byte 14h	; D8602
 push byte 12h	; D8605
 push byte 0	; D8607
@@ -745,7 +745,7 @@ mov ebx, dword [dword_11F5C0]	; D8626
 push ebx	; D862C
 push byte 1Ah	; D862D
 push byte 0	; D862F
-call sub_AD680	; D8631
+call FillRect	; D8631
 add esp, byte 14h	; D8636
 call sub_CFE0C	; D8639
 jmp near loc_D871F	; D863E
@@ -1114,7 +1114,7 @@ mov edx, dword [dword_11F5C0]	; D8A46
 push edx	; D8A4C
 push byte 0	; D8A4D
 loc_D8A4F:
-call sub_DD760	; D8A4F
+call SetClipWindow	; D8A4F
 add esp, byte 10h	; D8A54
 mov eax, dword [dword_15139C]	; D8A57
 push eax	; D8A5C
@@ -1317,7 +1317,7 @@ push byte 6Ah	; D8C54
 push dword 0E0h	; D8C56
 push byte 39h	; D8C5B
 push byte 30h	; D8C5D
-call sub_AD680	; D8C5F
+call FillRect	; D8C5F
 add esp, byte 14h	; D8C64
 mov esi, dword [dword_15139C]	; D8C67
 push esi	; D8C6D
@@ -2305,7 +2305,7 @@ loc_D970E:
 push ebx	; D970E
 push ebx	; D970F
 push edi	; D9710
-call sub_AAB40	; D9711
+call PutBlock	; D9711
 add esp, byte 0Ch	; D9716
 jmp short loc_D9733	; D9719
 loc_D971B:
@@ -2886,7 +2886,7 @@ push dword 0A3h	; D9D9E
 push dword 120h	; D9DA3
 push byte 16h	; D9DA8
 push byte 18h	; D9DAA
-call sub_AD680	; D9DAC
+call FillRect	; D9DAC
 add esp, byte 14h	; D9DB1
 call sub_CFE0C	; D9DB4
 mov edx, 19h	; D9DB9
@@ -2904,7 +2904,7 @@ push byte 8	; D9DE4
 push ebp	; D9DE6
 push esi	; D9DE7
 inc edi	; D9DE8
-call sub_AD680	; D9DE9
+call FillRect	; D9DE9
 add esi, byte 12h	; D9DEE
 add esp, byte 14h	; D9DF1
 cmp esi, 13Dh	; D9DF4
@@ -3349,7 +3349,7 @@ push byte 0	; DA394
 mov ebx, dword [dword_11F5C0]	; DA396
 push ebx	; DA39C
 push byte 0	; DA39D
-call sub_DD760	; DA39F
+call SetClipWindow	; DA39F
 add esp, byte 10h	; DA3A4
 lea eax, [byte esp+060h]	; DA3A7
 push eax	; DA3AB
@@ -3403,7 +3403,7 @@ loc_DA436:
 push edx	; DA436
 push edx	; DA437
 push esi	; DA438
-call sub_AAB40	; DA439
+call PutBlock	; DA439
 add esp, byte 0Ch	; DA43E
 jmp short loc_DA458	; DA441
 loc_DA443:

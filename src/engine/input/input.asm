@@ -12,7 +12,7 @@ extern off_117898, off_11789C, passplayer, penshotlive, penshotmode, puckvx, puc
 extern randomd0, regd2, regd3, setpersonel, sflags, skatetopuck, sub_3330A, sub_349D1
 extern sub_3509F, sub_3E665, sub_3E6EC, sub_3F5E4, sub_406A0, sub_40B2A, sub_40C14, sub_4137F
 extern sub_415FF, sub_441EF, sub_442B3, sub_44418, sub_44609, sub_464A6, sub_46593, sub_4666C
-extern sub_4A047, sub_4B7BB, sub_4C860, sub_4DD1B, sub_4DE6E, sub_68E31, sub_69105, sub_DF928
+extern sub_4A047, sub_4B7BB, sub_4C860, sub_4DD1B, sub_4DE6E, sub_68E31, sub_69105, MouseRead
 extern sub_E14C8, unk_164754, unk_164B5C, vtoa, word_1178A8, word_1178AC, word_1178AE, word_1178B4
 extern word_1178BE, word_1178C0, word_1178C6, word_1178CA, word_1178D2, word_1178FE, word_118EA5, word_118EA9
 extern word_118EB1, word_119EDA, word_16474C, word_164794, word_165078, word_165082, word_1656E8, word_165704
@@ -2197,7 +2197,7 @@ push eax	; 39940
 mov eax, dword [dword_11F5C0]	; 39941
 sar eax, 1	; 39946
 push eax	; 39948
-call sub_DF928	; 39949
+call MouseRead	; 39949
 add esp, byte 8	; 3994E
 pop edx	; 39951
 pop ecx	; 39952

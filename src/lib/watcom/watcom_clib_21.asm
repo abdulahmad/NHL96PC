@@ -3,8 +3,8 @@ bits 32
 %include "hockey.inc"
 section s_DCC25 progbits alloc exec nowrite align=1
 extern __CHP, byte_122794, byte_123988, str_Inf, str_Nan, dword_114AD8, dword_114ADC, dword_114AE0
-extern dword_114AE4, dword_1210C0, dword_1228F4, qword_1149BC, qword_114AC8, qword_114AD0, qword_114AF2, sub_AAB40
-extern sub_B2B30, sub_BF02C, sub_BF034, sub_BF04B, sub_BF8A8, sub_DF6A7, sub_DF810, sub_E0520
+extern dword_114AE4, dword_1210C0, dword_1228F4, qword_1149BC, qword_114AC8, qword_114AD0, qword_114AF2, PutBlock
+extern DrawArtOpaque, sub_BF02C, sub_BF034, sub_BF04B, sub_BF8A8, sub_DF6A7, sub_DF810, sub_E0520
 extern unk_114AF0
 global _Scale10V_, _Scale_, __Bin2String, __CmpBigInt, __Nan_Inf_, __Rnd2Int, __cvt_, floor_
 global frexp_, loc_DCC5D, loc_DCC90, loc_DCC96, loc_DCC9F, loc_DCCA1, loc_DCCD8, loc_DCD0B
@@ -599,7 +599,7 @@ mov esi, sub_DD580	; DD147
 push edx	; DD14C
 mov edi, sub_E0520	; DD14D
 mov dword [dword_1210C0], esi	; DD152
-call sub_AAB40	; DD158
+call PutBlock	; DD158
 add esp, byte 0Ch	; DD15D
 mov dword [dword_1210C0], edi	; DD160
 pop edi	; DD166
@@ -631,7 +631,7 @@ mov esi, sub_DD580	; DD198
 push ebx	; DD19D
 mov edi, sub_E0520	; DD19E
 mov dword [dword_1210C0], esi	; DD1A3
-call sub_AAB40	; DD1A9
+call PutBlock	; DD1A9
 add esp, byte 0Ch	; DD1AE
 mov dword [dword_1210C0], edi	; DD1B1
 pop edi	; DD1B7
@@ -668,7 +668,7 @@ mov esi, sub_DD580	; DD1F7
 push eax	; DD1FC
 mov edi, sub_E0520	; DD1FD
 mov dword [dword_1210C0], esi	; DD202
-call sub_AAB40	; DD208
+call PutBlock	; DD208
 add esp, byte 0Ch	; DD20D
 mov dword [dword_1210C0], edi	; DD210
 pop edi	; DD216
@@ -1062,7 +1062,7 @@ mov esi, sub_DD580	; DD5EF
 push edx	; DD5F4
 mov edi, sub_E0520	; DD5F5
 mov dword [dword_1210C0], esi	; DD5FA
-call sub_B2B30	; DD600
+call DrawArtOpaque	; DD600
 add esp, byte 0Ch	; DD605
 mov dword [dword_1210C0], edi	; DD608
 pop edi	; DD60E
@@ -1094,7 +1094,7 @@ mov esi, sub_DD580	; DD640
 push ebx	; DD645
 mov edi, sub_E0520	; DD646
 mov dword [dword_1210C0], esi	; DD64B
-call sub_B2B30	; DD651
+call DrawArtOpaque	; DD651
 add esp, byte 0Ch	; DD656
 mov dword [dword_1210C0], edi	; DD659
 pop edi	; DD65F
@@ -1131,7 +1131,7 @@ mov esi, sub_DD580	; DD69F
 push eax	; DD6A4
 mov edi, sub_E0520	; DD6A5
 mov dword [dword_1210C0], esi	; DD6AA
-call sub_B2B30	; DD6B0
+call DrawArtOpaque	; DD6B0
 add esp, byte 0Ch	; DD6B5
 mov dword [dword_1210C0], edi	; DD6B8
 pop edi	; DD6BE

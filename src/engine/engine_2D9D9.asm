@@ -20,7 +20,7 @@ extern sub_4B59F, sub_4C294, sub_4C3B7, sub_4C860, sub_4F452, sub_5439F, sub_5A5
 extern sub_5DBC0, sub_606B9, sub_60777, sub_612BC, sub_62311, sub_63998, sub_63A5B, sub_63F79
 extern sub_63FEF, sub_64054, sub_640D3, sub_641D4, sub_68E72, sub_68EC9, sub_6904C, sub_69105
 extern sub_69141, sub_69161, sub_692E9, sub_69312, sub_6934E, sub_69A9B, sub_77355, sub_ADA80
-extern sub_AFFD0, sub_B0284, sub_B58D8, sub_B6140, sub_DD724, sub_DD760, sub_DD7B8, sub_DD8B0
+extern sub_AFFD0, sub_B0284, sub_B58D8, sub_B6140, sub_DD724, SetClipWindow, sub_DD7B8, sub_DD8B0
 extern sub_DFEC6, sub_E0520, sub_E0992, sub_E14C8, sub_E15AC, unk_119D0A, unk_119D22, unk_119D36
 extern unk_119D4E, unk_156E6C, unk_157B82, unk_16443C, unk_164B5C, unk_164E7C, unk_165354, unk_17D3E8
 extern vtoa, word_1178A0, word_1178A2, word_1178B4, word_1178B6, word_1178C6, word_1178CA, word_1178D2
@@ -767,7 +767,7 @@ push dword [dword_11F5C4]	; 2E395
 push byte 0	; 2E39B
 push dword [dword_11F5C0]	; 2E39D
 push byte 0	; 2E3A3
-call sub_DD760	; 2E3A5
+call SetClipWindow	; 2E3A5
 add esp, byte 10h	; 2E3AA
 loc_2E3AD:
 push unk_17D3E8	; 2E3AD

@@ -6,7 +6,7 @@ extern FatalError, asc_113110, str_LOWMEM, str_HIGHMEM, str_GAP, asc_11316C, dwo
 extern dword_1210C0, dword_1210C8, dword_1210CC, dword_1228D0, dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4
 extern dword_1228F4, dword_1228FC, dword_122930, dword_123934, dword_18568C, dword_185690, dword_185730, dword_185734
 extern dword_18573C, strncpy_, sub_AA7E0, sub_AB87C, getmemblock, sub_C24D0, sub_C3A48, sub_C3BD0
-extern sub_C3BE0, sub_C3C04, sub_DD6C4, sub_DD760, sub_DE3D8, sub_DE4C7, sub_DE643, sub_DE7DB
+extern sub_C3BE0, sub_C3C04, sub_DD6C4, SetClipWindow, sub_DE3D8, sub_DE4C7, sub_DE643, sub_DE7DB
 extern sub_DE97C, sub_DE9F3, sub_DEB94, sub_E0520, sub_E193C, sub_E1956
 global loc_AAA65, loc_AAAB6, loc_AAB15, loc_AAB6B, loc_AABAA, loc_AABBE, loc_AABE1, loc_AAC07
 global loc_AAC58, loc_AAC7E, loc_AAC96, loc_AACBB, loc_AACE0, loc_AAD40, loc_AAD5A, loc_AAD83
@@ -16,7 +16,7 @@ global loc_AB05A, loc_AB0D5, loc_AB11C, loc_AB13A, loc_AB164, loc_AB18B, loc_AB1
 global loc_AB1D7, loc_AB273, loc_AB28C, loc_AB299, loc_AB412, loc_AB432, loc_AB506, loc_AB517
 global loc_AB529, loc_AB557, loc_AB571, loc_AB592, loc_AB5B5, loc_AB5EF, loc_AB640, loc_AB64D
 global loc_AB688, loc_AB6A2, loc_AB6A8, loc_AB6BE, loc_AB7DC, loc_AB82D, sub_AA988, sub_AA9CC
-global sub_AAA40, sub_AAA8C, sub_AAADC, sub_AAB40, sub_AADA4, sub_AADC0, sub_AADE8, sub_AAF28
+global sub_AAA40, sub_AAA8C, sub_AAADC, PutBlock, sub_AADA4, sub_AADC0, sub_AADE8, sub_AAF28
 global sub_AB0A8, sub_AB2EC, sub_AB3B4, sub_AB440, sub_AB5BC, sub_AB660, sub_AB6D8, sub_AB718
 global sub_AB758, sub_AB798
 sub_AA988:
@@ -67,7 +67,7 @@ push edi	; AAA01
 add eax, ebp	; AAA02
 push eax	; AAA04
 push ebp	; AAA05
-call sub_DD760	; AAA06
+call SetClipWindow	; AAA06
 add esp, byte 10h	; AAA0B
 mov eax, edi	; AAA0E
 sub eax, dword [byte esp+07Ch]	; AAA10
@@ -112,7 +112,7 @@ mov esi, sub_C24D0	; AAA67
 push edx	; AAA6C
 mov edi, sub_E0520	; AAA6D
 mov dword [dword_1210C0], esi	; AAA72
-call sub_AAB40	; AAA78
+call PutBlock	; AAA78
 add esp, byte 0Ch	; AAA7D
 mov dword [dword_1210C0], edi	; AAA80
 pop edi	; AAA86
@@ -145,7 +145,7 @@ mov esi, sub_C24D0	; AAAB8
 push ebx	; AAABD
 mov edi, sub_E0520	; AAABE
 mov dword [dword_1210C0], esi	; AAAC3
-call sub_AAB40	; AAAC9
+call PutBlock	; AAAC9
 add esp, byte 0Ch	; AAACE
 mov dword [dword_1210C0], edi	; AAAD1
 pop edi	; AAAD7
@@ -183,14 +183,14 @@ mov esi, sub_C24D0	; AAB17
 push eax	; AAB1C
 mov edi, sub_E0520	; AAB1D
 mov dword [dword_1210C0], esi	; AAB22
-call sub_AAB40	; AAB28
+call PutBlock	; AAB28
 add esp, byte 0Ch	; AAB2D
 mov dword [dword_1210C0], edi	; AAB30
 pop edi	; AAB36
 pop esi	; AAB37
 ret	; AAB38
 db 00h,00h,00h,00h,00h,00h,00h
-sub_AAB40:
+PutBlock:
 push esi	; AAB40
 push edi	; AAB41
 push ebp	; AAB42
@@ -411,7 +411,7 @@ mov eax, dword [byte edx+0Ah]	; AADAF
 sar eax, 10h	; AADB2
 push eax	; AADB5
 push edx	; AADB6
-call sub_AAB40	; AADB7
+call PutBlock	; AADB7
 add esp, byte 0Ch	; AADBC
 ret	; AADBF
 sub_AADC0:
@@ -427,7 +427,7 @@ sar eax, 10h	; AADD8
 sub ebx, eax	; AADDB
 push ebx	; AADDD
 push edx	; AADDE
-call sub_AAB40	; AADDF
+call PutBlock	; AADDF
 add esp, byte 0Ch	; AADE4
 ret	; AADE7
 sub_AADE8:
@@ -484,7 +484,7 @@ mov esi, sub_AADE8	; AAE53
 push edx	; AAE58
 mov edi, sub_E0520	; AAE59
 mov dword [dword_1210C0], esi	; AAE5E
-call sub_AAB40	; AAE64
+call PutBlock	; AAE64
 add esp, byte 0Ch	; AAE69
 mov dword [dword_1210C0], edi	; AAE6C
 pop edi	; AAE72
@@ -516,7 +516,7 @@ mov esi, sub_AADE8	; AAEA4
 push ebx	; AAEA9
 mov edi, sub_E0520	; AAEAA
 mov dword [dword_1210C0], esi	; AAEAF
-call sub_AAB40	; AAEB5
+call PutBlock	; AAEB5
 add esp, byte 0Ch	; AAEBA
 mov dword [dword_1210C0], edi	; AAEBD
 pop edi	; AAEC3
@@ -553,7 +553,7 @@ mov esi, sub_AADE8	; AAF03
 push eax	; AAF08
 mov edi, sub_E0520	; AAF09
 mov dword [dword_1210C0], esi	; AAF0E
-call sub_AAB40	; AAF14
+call PutBlock	; AAF14
 add esp, byte 0Ch	; AAF19
 mov dword [dword_1210C0], edi	; AAF1C
 pop edi	; AAF22

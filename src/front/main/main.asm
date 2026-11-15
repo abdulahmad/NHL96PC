@@ -45,12 +45,12 @@ extern sub_64721, sub_64E54, sub_64E64, sub_64F59, sub_66373, sub_66589, sub_689
 extern sub_68C33, sub_68CFE, sub_68EC9, sub_68F82, sub_6941E, sub_694B9, sub_699D0, sub_69A94
 extern sub_69A9B, sub_6A341, sub_6A5EB, sub_6A675, sub_73BA5, sub_771F0, sub_77292, sub_77355
 extern sub_78E9E, sub_78EFA, sub_7BA57, sub_88509, sub_A4961, sub_A4FD7, sub_AA500, sub_AA664
-extern sub_AA7E0, sub_AAB40, sub_AADA4, sub_AB6D8, sub_AB758, sub_AB798, sub_ABF4C, sub_ABF88
-extern sub_AC838, sub_AC868, sub_AD35C, sub_AD620, sub_AD680, sub_ADA50, sub_ADA80, sub_ADBEC
+extern sub_AA7E0, PutBlock, sub_AADA4, sub_AB6D8, sub_AB758, sub_AB798, sub_ABF4C, sub_ABF88
+extern sub_AC838, sub_AC868, sub_AD35C, sub_AD620, FillRect, sub_ADA50, sub_ADA80, sub_ADBEC
 extern unpack, sub_AFCD0, sub_AFD00, sub_AFFD0, sub_B0284, sub_B0474, sub_B047B, sub_B0494
 extern sub_B049E, sub_B1121, sub_B11F8, sub_B1294, sub_B12AF, sub_B1328, sub_B13BB, sub_B1451
 extern sub_B147A, sub_B1830, sub_B1C0E, sub_B20D0, sub_B20EC, sub_B2128, sub_B2140, sub_B22E0
-extern sub_B2B0C, sub_B2B30, sub_B3100, sub_B3145, sub_B3160, sub_B31C0, sub_B32E0, sub_B3420
+extern sub_B2B0C, DrawArtOpaque, sub_B3100, sub_B3145, sub_B3160, sub_B31C0, sub_B32E0, sub_B3420
 extern sub_B67BC, sub_B680C, sub_B6824, sub_B68C8, sub_B6964, sub_B69EC, sub_B6A14, sub_B6B10
 extern sub_B71D4, sub_B71F1, sub_B7256, sub_B7310, sub_B73C4, sub_B7498, sub_B74B0, sub_B74D0
 extern sub_B7638, sub_B7654, sub_B7690, sub_B76A8, sub_B7810, sub_DD6C4, sub_DD6E0, sub_DD800
@@ -64,7 +64,7 @@ extern unk_157B1C, unk_157B82, unk_157F9C, unk_157FDA, unk_1580AD, unk_1582F5, u
 extern unk_158658, unk_18584C, vtoa, str_dbgL, word_11510D, word_11512D, word_1178A8, word_1178AC
 extern word_1178AE, word_1178F4, word_1178F6, word_1178F8, word_1178FA, word_1178FC, word_1178FE, word_118E8F
 extern word_118E91, word_118E93, word_118E9F, word_118EA3, word_118EA5, word_118EA7, word_118EA9, word_118EAB
-extern word_118EAF, word_118EB1, word_118EB3, word_118EB7, word_1190D7, word_1190D9, word_11910B, word_11910D
+extern word_118EAF, word_118EB1, word_118EB3, word_118EB7, word_1190D7, word_1190D9, word_11910B, refhitcount
 extern word_11910F, word_119113, Pencntdwn2, word_156E6E, word_156E70, word_156E72, word_156E74, word_156E76
 extern word_156E78, word_156E7A, word_157AFA, word_157AFC, word_1656D2, word_1656D6, word_1656E8, word_165710
 extern word_165758, word_16578A, word_16581E, word_165846, word_165964, word_16597C, word_165980, word_176B68
@@ -1963,7 +1963,7 @@ push dword [byte ebp+03Eh]	; 19C0D
 mov eax, dword [byte ebp+022h]	; 19C10
 push dword [byte ebp+032h]	; 19C13
 push dword [byte eax+02Ch]	; 19C16
-call sub_AAB40	; 19C19
+call PutBlock	; 19C19
 add esp, byte 0Ch	; 19C1E
 push byte 0	; 19C21
 movzx eax, byte [esi]	; 19C23
@@ -1991,7 +1991,7 @@ dec eax	; 19C55
 push eax	; 19C56
 mov dword [byte ebp+012h], edx	; 19C57
 mov dword [byte ebp+0Ah], eax	; 19C5A
-call sub_AD680	; 19C5D
+call FillRect	; 19C5D
 add esp, byte 14h	; 19C62
 movzx eax, byte [esi]	; 19C65
 push eax	; 19C68
@@ -2062,7 +2062,7 @@ push dword [byte ebp+026h]	; 19D10
 push dword [byte ebp+052h]	; 19D13
 push edx	; 19D16
 mov dword [byte ebp-012h], edx	; 19D17
-call sub_AD680	; 19D1A
+call FillRect	; 19D1A
 mov eax, dword [byte ebp+05Ah]	; 19D1F
 add esp, byte 14h	; 19D22
 add eax, edi	; 19D25
@@ -2114,7 +2114,7 @@ push eax	; 19D9C
 push dword [byte ebp+026h]	; 19D9D
 push dword [byte ebp-01Eh]	; 19DA0
 push dword [byte ebp-012h]	; 19DA3
-call sub_AD680	; 19DA6
+call FillRect	; 19DA6
 add esp, byte 14h	; 19DAB
 push byte 0	; 19DAE
 movzx eax, byte [esi]	; 19DB0
@@ -2175,7 +2175,7 @@ push eax	; 19E50
 push dword [byte ebp-0Ah]	; 19E51
 push dword [byte ebp+016h]	; 19E54
 push dword [byte ebp-01Ah]	; 19E57
-call sub_AD680	; 19E5A
+call FillRect	; 19E5A
 add esp, byte 14h	; 19E5F
 push byte 0	; 19E62
 movzx eax, byte [esi]	; 19E64
@@ -2255,7 +2255,7 @@ push eax	; 19F32
 push dword [byte ebp-0Ah]	; 19F33
 push dword [byte ebp-016h]	; 19F36
 push dword [byte ebp+01Eh]	; 19F39
-call sub_AD680	; 19F3C
+call FillRect	; 19F3C
 add esp, byte 14h	; 19F41
 push byte 0	; 19F44
 movzx eax, byte [esi]	; 19F46
@@ -2327,7 +2327,7 @@ call sub_DD6C4	; 19FFB
 push dword [byte ebp+03Eh]	; 1A000
 push dword [byte ebp+032h]	; 1A003
 push dword [byte ebp+02Eh]	; 1A006
-call sub_AAB40	; 1A009
+call PutBlock	; 1A009
 add esp, byte 0Ch	; 1A00E
 push dword [byte ebp+022h]	; 1A011
 call sub_ADBEC	; 1A014
@@ -2685,7 +2685,7 @@ push byte 0	; 1A420
 mov eax, dword [eax]	; 1A422
 push byte 0	; 1A424
 push dword [byte eax+02Ch]	; 1A426
-call sub_AAB40	; 1A429
+call PutBlock	; 1A429
 add esp, byte 0Ch	; 1A42E
 push unk_152B3C	; 1A431
 lea eax, [dword ebp-033Ch]	; 1A436
@@ -3068,7 +3068,7 @@ push dword [byte eax+0Ch]	; 1A918
 push dword [byte eax+08h]	; 1A91B
 mov eax, dword [byte eax+04h]	; 1A91E
 push dword [byte eax+02Ch]	; 1A921
-call sub_AAB40	; 1A924
+call PutBlock	; 1A924
 add esp, byte 0Ch	; 1A929
 loc_1A92C:
 push byte 1	; 1A92C
@@ -3115,7 +3115,7 @@ push dword [byte eax+0Ch]	; 1A9B2
 push dword [byte eax+08h]	; 1A9B5
 mov eax, dword [eax]	; 1A9B8
 push dword [byte eax+02Ch]	; 1A9BA
-call sub_B2B30	; 1A9BD
+call DrawArtOpaque	; 1A9BD
 mov eax, dword [dword_152C3C]	; 1A9C2
 add esp, byte 0Ch	; 1A9C7
 push dword [byte eax+04h]	; 1A9CA
@@ -3282,7 +3282,7 @@ sub edx, eax	; 1ABF0
 push edx	; 1ABF2
 push dword [byte ebp-08h]	; 1ABF3
 push dword [byte edi+02Ch]	; 1ABF6
-call sub_AAB40	; 1ABF9
+call PutBlock	; 1ABF9
 add esp, byte 0Ch	; 1ABFE
 push edi	; 1AC01
 call sub_ADBEC	; 1AC02
@@ -3418,7 +3418,7 @@ push edx	; 1ADC3
 movsx eax, word [byte eax+0Ch]	; 1ADC4
 push eax	; 1ADC8
 push dword [byte esi+02Ch]	; 1ADC9
-call sub_AAB40	; 1ADCC
+call PutBlock	; 1ADCC
 add esp, byte 0Ch	; 1ADD1
 push esi	; 1ADD4
 call sub_ADBEC	; 1ADD5
@@ -3452,7 +3452,7 @@ add eax, esi	; 1AE31
 add esp, byte 4	; 1AE33
 dec eax	; 1AE36
 push eax	; 1AE37
-call sub_AD680	; 1AE38
+call FillRect	; 1AE38
 add esp, byte 14h	; 1AE3D
 mov eax, dword [byte ebp+076h]	; 1AE40
 push byte 0	; 1AE43
@@ -3535,7 +3535,7 @@ call fputchar	; 1AF31
 add esp, byte 4	; 1AF36
 add eax, dword [byte ebp-04h]	; 1AF39
 push eax	; 1AF3C
-call sub_AD680	; 1AF3D
+call FillRect	; 1AF3D
 add esp, byte 14h	; 1AF42
 movzx eax, byte [byte_152C40]	; 1AF45
 push eax	; 1AF4C
@@ -3568,7 +3568,7 @@ add eax, esi	; 1AF9F
 add esp, byte 4	; 1AFA1
 inc eax	; 1AFA4
 push eax	; 1AFA5
-call sub_AD680	; 1AFA6
+call FillRect	; 1AFA6
 add esp, byte 14h	; 1AFAB
 push byte 0	; 1AFAE
 movzx eax, byte [byte_152C41]	; 1AFB0
@@ -6773,7 +6773,7 @@ mov dword [dword_164748], 0	; 1DB39
 mov dword [dword_164744], 0	; 1DB43
 mov word [word_119113], 0	; 1DB4D
 mov word [word_11910F], 0	; 1DB56
-mov word [word_11910D], 0	; 1DB5F
+mov word [refhitcount], 0	; 1DB5F
 mov dword [penshotmode], 0	; 1DB68
 mov dword [penshotlive], 0	; 1DB72
 mov dword [penshotstart], 0	; 1DB7C

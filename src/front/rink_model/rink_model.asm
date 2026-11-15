@@ -62,7 +62,7 @@ extern str_Puck, strcpy_, sub_10D17, sub_1DF34, sub_1DF55, sub_1DFEA, sub_1E643,
 extern sub_21C1A, sub_21D14, sub_220FB, sub_22159, sub_221AE, sub_22268, sub_22299, sub_2234B
 extern sub_223BA, sub_2242A, sub_22494, sub_224AE, sub_224D1, sub_224DB, sub_49300, sub_4B38C
 extern sub_4B4F3, sub_59349, sub_625AA, sub_64721, sub_64F59, sub_66373, sub_68AB1, sub_69A94
-extern sub_69A9B, sub_77355, sub_873AE, sub_87DD6, sub_AA988, sub_AAA40, sub_AAB40, sub_AADA4
+extern sub_69A9B, sub_77355, sub_873AE, sub_87DD6, sub_AA988, sub_AAA40, PutBlock, sub_AADA4
 extern sub_AB758, sub_ABF4C, sub_AD35C, sub_AD620, sub_AD824, sub_ADBEC, sub_B049E, sub_B31C0
 extern sub_B74B0, sub_B7810, sub_B78C0, sub_B78DC, sub_B79C8, sub_B79E0, sub_B7A70, sub_B81D0
 extern sub_B82F0, sub_B98E0, sub_B9928, sub_B9A18, sub_B9B34, sub_B9B70, sub_B9BB0, sub_B9C08
@@ -9108,7 +9108,7 @@ push dword [dword_15EA04]	; 29CDE
 call sub_E04E0	; 29CE4
 add esp, byte 8	; 29CE9
 push eax	; 29CEC
-call sub_AAB40	; 29CED
+call PutBlock	; 29CED
 mov eax, dword [byte ebp+06Ah]	; 29CF2
 mov edx, dword [byte ebp+062h]	; 29CF5
 add esp, byte 0Ch	; 29CF8
@@ -9119,7 +9119,7 @@ push byte 0	; 29D06
 sub edx, eax	; 29D08
 push edx	; 29D0A
 push dword [byte ebp+062h]	; 29D0B
-call sub_AAB40	; 29D0E
+call PutBlock	; 29D0E
 mov eax, dword [byte ebp+06Ah]	; 29D13
 mov eax, dword [byte eax+02Ch]	; 29D16
 movsx eax, word [byte eax+0Ch]	; 29D19

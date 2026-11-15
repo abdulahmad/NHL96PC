@@ -39,11 +39,11 @@ extern sub_63B0C, sub_63DC4, sub_63F79, sub_64054, sub_640D3, sub_6423E, sub_642
 extern sub_64721, sub_64F59, sub_66373, sub_67A63, sub_686DF, sub_689D1, sub_68A10, sub_68AB1
 extern sub_68BFA, sub_68C33, sub_68C8F, sub_68E31, sub_68E72, sub_68EC9, sub_68F82, sub_6904C
 extern sub_692E9, sub_69312, sub_6934E, sub_695CB, sub_6986B, sub_69A94, sub_69A9B, sub_6A5EB
-extern sub_6A7D3, sub_77355, sub_8C51B, sub_AA664, sub_AA988, sub_AAA40, sub_AAB40, sub_AADA4
+extern sub_6A7D3, sub_77355, sub_8C51B, sub_AA664, sub_AA988, sub_AAA40, PutBlock, sub_AADA4
 extern sub_AB758, sub_ABF4C, sub_AD35C, sub_ADA50, sub_ADBEC, sub_AFCD0, sub_B0284, sub_B0430
 extern sub_B0494, sub_B0CA8, sub_B103C, sub_B1121, sub_B11F8, sub_B1255, sub_B1279, sub_B12AF
 extern sub_B1328, sub_B13BB, sub_B13D2, sub_B13F1, sub_B1451, sub_B151E, sub_B178B, sub_B1830
-extern sub_DD6C4, sub_DD6E0, sub_DD7B8, sub_DF98F, sub_DFEC6, sub_DFF0F, sub_E04E0, sub_E0520
+extern sub_DD6C4, sub_DD6E0, sub_DD7B8, SetViewRect, sub_DFEC6, sub_DFF0F, sub_E04E0, sub_E0520
 extern sub_E0584, str_D20, str_T, str_feP, unk_1102DD, unk_1102E3, unk_144BD, unk_144C3
 extern unk_144C9, unk_144D5, unk_144ED, unk_151B88, unk_152748, unk_152798, unk_1527C0, unk_16443C
 extern unk_17CA75, unk_17CB2E, unk_17CED5, unk_17D272, unk_17D32C, word_114CE0, word_114DD2, word_114DD4
@@ -118,7 +118,7 @@ add esp, byte 4	; 14594
 push byte 0	; 14597
 push byte 0	; 14599
 push esi	; 1459B
-call sub_AAB40	; 1459C
+call PutBlock	; 1459C
 add esp, byte 0Ch	; 145A1
 mov edx, 0FEh	; 145A4
 mov eax, 0FCh	; 145A9
@@ -953,7 +953,7 @@ dec eax	; 15325
 push eax	; 15326
 push byte 0	; 15327
 push dword [byte edi+02Ch]	; 15329
-call sub_AAB40	; 1532C
+call PutBlock	; 1532C
 add esp, byte 0Ch	; 15331
 push edi	; 15334
 call sub_ADBEC	; 15335
@@ -1519,7 +1519,7 @@ add esp, byte 4	; 15B35
 push byte 0	; 15B38
 push byte 0	; 15B3A
 push dword [dword_151B64]	; 15B3C
-call sub_AAB40	; 15B42
+call PutBlock	; 15B42
 mov ax, word [word_114EF8]	; 15B47
 add esp, byte 0Ch	; 15B4D
 cmp ax, 6	; 15B50
@@ -1539,7 +1539,7 @@ push dword [dword_151AE8]	; 15B7A
 mov eax, dword [dword_151B4C]	; 15B80
 push dword [dword_151AE4]	; 15B85
 push dword [byte eax+02Ch]	; 15B8B
-call sub_AAB40	; 15B8E
+call PutBlock	; 15B8E
 dec word [word_114EF8]	; 15B93
 add esp, byte 0Ch	; 15B9A
 jmp near loc_15E71	; 15B9D
@@ -1957,7 +1957,7 @@ push dword [byte esi+ebp-06h]	; 16194
 mov eax, dword [byte ebp+04Eh]	; 16198
 push dword [byte esi+ebp-0Ah]	; 1619B
 push dword [byte eax+02Ch]	; 1619F
-call sub_AAB40	; 161A2
+call PutBlock	; 161A2
 add esp, byte 0Ch	; 161A7
 push dword [byte ebp+04Eh]	; 161AA
 call sub_ADBEC	; 161AD
@@ -2067,7 +2067,7 @@ push byte 0	; 162FF
 mov edx, dword [byte ebp+06Eh]	; 16301
 push dword [byte ebp+072h]	; 16304
 mov dword [dword edx+dword_151AEC], eax	; 16307
-call sub_AAB40	; 1630D
+call PutBlock	; 1630D
 mov edx, dword [byte ebp+06Eh]	; 16312
 mov eax, 0C000h	; 16315
 add esp, byte 0Ch	; 1631A
@@ -3205,7 +3205,7 @@ push dword 1E0h	; 1746C
 push dword 280h	; 17471
 push byte 0	; 17476
 push byte 0	; 17478
-call sub_DF98F	; 1747A
+call SetViewRect	; 1747A
 add esp, byte 10h	; 1747F
 cmp dword [dword_1150FC], byte 2	; 17482
 sete al	; 17489
@@ -3337,7 +3337,7 @@ push dword 1E0h	; 17655
 push dword 280h	; 1765A
 push byte 0	; 1765F
 push byte 0	; 17661
-call sub_DF98F	; 17663
+call SetViewRect	; 17663
 mov eax, 1	; 17668
 add esp, byte 10h	; 1766D
 pop esi	; 17670

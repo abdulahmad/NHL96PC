@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_51F18 progbits alloc exec nowrite align=1
 extern DemoMode, FatalError, PBnum, SetDrawBitmap, SortCords, _dos_gettime_, str_GloL, str_GloR
-extern str_FhiL, str_FhiR, str_Pal30, str_ZONEMGR, str_ZM1ContactLance, str_ZM2ContactLance, str_ZMOverflowContactLance, byte_11A310
+extern str_FhiL, str_FhiR, str_Pal30, str_ZONEMGR, str_ZM1ContactLance, str_ZM2ContactLance, str_ZMOverflowContactLance, dressbystatus
 extern byte_11A319, byte_11A3B4, byte_11BB20, hmrosterpos, byte_1647E0, byte_176B83, defsort_d, dressflags
 extern byte_176DEC, byte_176DED, offsort_fwd, byte_176ED7, byte_176ED9, byte_17CA5D, crowdlevel, dword_1150D4
 extern dword_1175B5, dword_1175B9, dword_1176E1, dword_117934, dword_119D04, dword_11A3F2, dword_11B234, dword_11B294
@@ -15,11 +15,11 @@ extern dword_1770F0, dword_1770F4, dword_1770F8, dword_1770FC, dword_177100, dwo
 extern dword_17C9A8, dword_17CA5C, gameclock, gameopts, gmode, hmroster, off_11786C, off_11787C
 extern off_117888, off_11788C, puckvx, puckvz, puckz, rand_, sflags, sub_1739F
 extern sub_1E7F6, sub_1F771, sub_4B4F3, sub_51CBA, sub_51D44, sub_51DD2, sub_625F7, sub_62ED9
-extern sub_63B0C, sub_695CB, sub_6986B, sub_AADA4, sub_AB758, sub_ABF4C, sub_DD6C4, sub_DD760
+extern sub_63B0C, sub_695CB, sub_6986B, sub_AADA4, sub_AB758, sub_ABF4C, sub_DD6C4, SetClipWindow
 extern sub_E04E0, sub_E0584, unk_157B82, unk_157F9C, unk_158610, unk_176CA8, unk_176CDA, unk_176D0C
 extern unk_176D3E, unk_176DA2, unk_176E38, unk_176E6A, unk_176E9C, unk_176ED4, unk_17CA75, word_1178C6
 extern word_1178CA, word_1178CC, word_1178CE, word_1178D0, word_117902, word_11A3EE, word_11A3F0, word_11D3A2
-extern word_16597C, word_176ECE, word_176ED0, word_176ED2, word_176EDB
+extern word_16597C, word_176ECE, word_176ED0, dressedskaters, word_176EDB
 global FillDressedSlots, NormalizeDressFlags, PickExtraSkater, PickForLineSlot, RemoveFromLines, SetupTeamLines, loc_51F33, loc_51F3A
 global loc_51F5E, loc_51F82, loc_52028, loc_52029, loc_5212E, loc_52154, loc_5216A, loc_5216F
 global loc_52173, loc_52187, loc_521A8, loc_521D7, loc_521DC, loc_5222C, loc_52233, loc_52266
@@ -231,7 +231,7 @@ movsx esi, word [byte ebp+07Eh]	; 52131
 imul edi, esi, dword 4B4h	; 52135
 imul esi, byte 19h	; 5213B
 movzx edx, byte [dword edx+edi+hmroster]	; 5213E
-mov dl, byte [dword edx+byte_11A310]	; 52146
+mov dl, byte [dword edx+dressbystatus]	; 52146
 inc ebx	; 5214C
 mov byte [dword esi+eax+dressflags], dl	; 5214D
 loc_52154:
@@ -297,7 +297,7 @@ mov dword [byte ebp-010h], eax	; 521F2
 imul eax, byte 2Bh	; 521F5
 add eax, dword [byte ebp-018h]	; 521F8
 movzx eax, byte [dword eax+hmroster]	; 521FB
-movsx ax, byte [dword eax+byte_11A310]	; 52202
+movsx ax, byte [dword eax+dressbystatus]	; 52202
 test ax, ax	; 5220A
 je near loc_524BC	; 5220D
 cwde	; 52213
@@ -590,7 +590,7 @@ je near loc_525E4	; 52509
 movsx eax, byte [dword ecx+dressflags]	; 5250F
 cmp eax, byte 2	; 52516
 jne near loc_525DD	; 52519
-movsx eax, word [word_176ED2]	; 5251F
+movsx eax, word [dressedskaters]	; 5251F
 cmp eax, byte 12h	; 52526
 jge near loc_525E4	; 52529
 imul edx, dword [byte ebp-0Ch], dword 4B4h	; 5252F
@@ -636,7 +636,7 @@ movsx ecx, si	; 525AB
 mov byte [dword ecx+eax+dressflags], 1	; 525AE
 imul eax, ecx, byte 2Bh	; 525B6
 movzx eax, byte [dword edx+eax+hmrosterpos]	; 525B9
-inc word [word_176ED2]	; 525C1
+inc word [dressedskaters]	; 525C1
 cmp eax, byte 44h	; 525C8
 jne short loc_525D6	; 525CB
 inc word [word_176ED0]	; 525CD
@@ -1053,7 +1053,7 @@ add edx, esi	; 52A53
 movzx si, byte [dword edx+hmroster]	; 52A55
 mov dword [byte ebp-08h], esi	; 52A5D
 movzx esi, byte [dword edx+hmroster]	; 52A60
-movsx esi, byte [dword esi+byte_11A310]	; 52A67
+movsx esi, byte [dword esi+dressbystatus]	; 52A67
 cmp esi, byte 1	; 52A6E
 jne short loc_52A7A	; 52A71
 loc_52A73:
@@ -1126,7 +1126,7 @@ movsx esi, byte [byte eax+027h]	; 52B0E
 imul esi, byte 2Bh	; 52B12
 add esi, dword [byte ebp-0Ch]	; 52B15
 movzx esi, byte [dword esi+hmroster]	; 52B18
-movsx esi, byte [dword esi+byte_11A310]	; 52B1F
+movsx esi, byte [dword esi+dressbystatus]	; 52B1F
 movsx dx, byte [byte eax+027h]	; 52B26
 cmp esi, byte 1	; 52B2B
 jne short loc_52B35	; 52B2E
@@ -1147,7 +1147,7 @@ movsx eax, dx	; 52B51
 imul eax, byte 2Bh	; 52B54
 add eax, dword [byte ebp-0Ch]	; 52B57
 movzx eax, byte [dword eax+hmroster]	; 52B5A
-movsx eax, byte [dword eax+byte_11A310]	; 52B61
+movsx eax, byte [dword eax+dressbystatus]	; 52B61
 cmp eax, byte 1	; 52B68
 jne short loc_52B72	; 52B6B
 mov byte [byte ebx+026h], dl	; 52B6D
@@ -1178,7 +1178,7 @@ movsx esi, dx	; 52BAB
 imul esi, byte 2Bh	; 52BAE
 add esi, dword [byte ebp-0Ch]	; 52BB1
 movzx esi, byte [dword esi+hmroster]	; 52BB4
-movsx esi, byte [dword esi+byte_11A310]	; 52BBB
+movsx esi, byte [dword esi+dressbystatus]	; 52BBB
 cmp esi, byte 1	; 52BC2
 jne short loc_52BD9	; 52BC5
 movsx si, byte [byte ebx+026h]	; 52BC7
@@ -1277,7 +1277,7 @@ imul edx, dword 4B4h	; 52CC6
 cwde	; 52CCC
 imul eax, byte 2Bh	; 52CCD
 movzx eax, byte [dword edx+eax+hmroster]	; 52CD0
-movsx eax, byte [dword eax+byte_11A310]	; 52CD8
+movsx eax, byte [dword eax+dressbystatus]	; 52CD8
 cmp eax, byte 1	; 52CDF
 jne short loc_52CEB	; 52CE2
 inc word [word_176ED0]	; 52CE4
@@ -1304,7 +1304,7 @@ imul edx, dword 4B4h	; 52D1D
 cwde	; 52D23
 imul eax, byte 2Bh	; 52D24
 movzx eax, byte [dword edx+eax+hmroster]	; 52D27
-movsx eax, byte [dword eax+byte_11A310]	; 52D2F
+movsx eax, byte [dword eax+dressbystatus]	; 52D2F
 cmp eax, byte 1	; 52D36
 jne short loc_52D42	; 52D39
 inc word [word_176ECE]	; 52D3B
@@ -1550,7 +1550,7 @@ imul ebx, dword 4B4h	; 52FA8
 movsx edx, dx	; 52FAE
 imul edx, byte 2Bh	; 52FB1
 movzx edx, byte [dword edx+ebx+hmroster]	; 52FB4
-movsx edx, byte [dword edx+byte_11A310]	; 52FBC
+movsx edx, byte [dword edx+dressbystatus]	; 52FBC
 cmp edx, byte 1	; 52FC3
 jne short loc_52FCF	; 52FC6
 inc word [word_176ED0]	; 52FC8
@@ -1575,7 +1575,7 @@ imul ebx, dword 4B4h	; 52FFA
 movsx edx, dx	; 53000
 imul edx, byte 2Bh	; 53003
 movzx edx, byte [dword edx+ebx+hmroster]	; 53006
-movsx edx, byte [dword edx+byte_11A310]	; 5300E
+movsx edx, byte [dword edx+dressbystatus]	; 5300E
 cmp edx, byte 1	; 53015
 jne short loc_53021	; 53018
 inc word [word_176ECE]	; 5301A
@@ -1588,7 +1588,7 @@ jl short loc_52FE5	; 53028
 loc_5302A:
 mov ax, word [word_176ECE]	; 5302A
 add ax, word [word_176ED0]	; 53030
-mov word [word_176ED2], ax	; 53037
+mov word [dressedskaters], ax	; 53037
 xor eax, eax	; 5303D
 jmp short loc_5304D	; 5303F
 loc_53041:
@@ -3154,7 +3154,7 @@ push dword [byte esi+0Ch]	; 54295
 push dword [byte esi+08h]	; 54298
 push dword [byte esi+04h]	; 5429B
 push dword [esi]	; 5429E
-call sub_DD760	; 542A0
+call SetClipWindow	; 542A0
 mov eax, dword [dword_11B234]	; 542A5
 add esp, byte 10h	; 542AA
 push dword [byte eax+02Ch]	; 542AD
@@ -3171,7 +3171,7 @@ push dword [byte esi+0Ch]	; 542CD
 push dword [byte esi+08h]	; 542D0
 push dword [byte esi+04h]	; 542D3
 push dword [esi]	; 542D6
-call sub_DD760	; 542D8
+call SetClipWindow	; 542D8
 add esp, byte 10h	; 542DD
 push byte 0	; 542E0
 call sub_E0584	; 542E2
@@ -3181,7 +3181,7 @@ push dword [byte esi+0Ch]	; 542EF
 push dword [byte esi+08h]	; 542F2
 push dword [byte esi+04h]	; 542F5
 push dword [esi]	; 542F8
-call sub_DD760	; 542FA
+call SetClipWindow	; 542FA
 add esp, byte 10h	; 542FF
 push byte 0	; 54302
 call sub_E0584	; 54304
@@ -3218,7 +3218,7 @@ push dword [byte esi+08h]	; 5436C
 push dword [byte esi+04h]	; 5436F
 push dword [esi]	; 54372
 loc_54374:
-call sub_DD760	; 54374
+call SetClipWindow	; 54374
 mov eax, dword [dword_11B234]	; 54379
 add esp, byte 10h	; 5437E
 push dword [byte eax+02Ch]	; 54381
@@ -3302,7 +3302,7 @@ push dword [dword_11F5C4]	; 54453
 push byte 0	; 54459
 push dword [dword_11F5C0]	; 5445B
 push byte 0	; 54461
-call sub_DD760	; 54463
+call SetClipWindow	; 54463
 add esp, byte 10h	; 54468
 push byte 0	; 5446B
 call sub_E0584	; 5446D

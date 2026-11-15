@@ -14,7 +14,7 @@ extern dword_1A0FF4, dword_1A0FF8, dword_1A0FFC, dword_1A1004, dword_1A100A, dwo
 extern dword_1A101C, dword_1A1020, dword_1A1024, dword_1A1028, dword_1A1030, dword_1A1034, dword_1A1038, dword_1A103C
 extern dword_1A1040, dword_1A1044, dword_1A1048, dword_1A104C, dword_1A1052, dword_1A1058, dword_1A105C, dword_1A1060
 extern dword_1A1064, dword_1A1068, dword_1A106C, dword_1A1070, dword_1A1074, dword_1A1078, dword_1A107C, dword_1A1084
-extern dword_1A108A, getenv_, loc_D79E7, loc_D7A04, sub_AB798, sub_ABF4C, sub_B178B, sub_B2B30
+extern dword_1A108A, getenv_, loc_D79E7, loc_D7A04, sub_AB798, sub_ABF4C, sub_B178B, DrawArtOpaque
 extern sub_BF950, sub_BFC91, sub_BFE4C, sub_C03F8, sub_C0BCD, sub_C1322, sub_C1811, sub_CBEB7
 extern sub_CBFC2, sub_CC15A, sub_D5B1E, sub_D5B7C, sub_D5B96, sub_D5BB1, sub_D5E50, sub_D5E7D
 extern sub_D5F5A, sub_D5F84, sub_D5F95, sub_D5FD4, sub_D6005, sub_D6027, sub_D60D2, sub_D6120
@@ -2609,7 +2609,7 @@ mov esi, sub_CFCC0	; CFD1F
 push edx	; CFD24
 mov edi, sub_E0520	; CFD25
 mov dword [dword_1210C0], esi	; CFD2A
-call sub_B2B30	; CFD30
+call DrawArtOpaque	; CFD30
 add esp, byte 0Ch	; CFD35
 mov dword [dword_1210C0], edi	; CFD38
 pop edi	; CFD3E
@@ -2641,7 +2641,7 @@ mov esi, sub_CFCC0	; CFD70
 push ebx	; CFD75
 mov edi, sub_E0520	; CFD76
 mov dword [dword_1210C0], esi	; CFD7B
-call sub_B2B30	; CFD81
+call DrawArtOpaque	; CFD81
 add esp, byte 0Ch	; CFD86
 mov dword [dword_1210C0], edi	; CFD89
 pop edi	; CFD8F
@@ -2678,7 +2678,7 @@ mov esi, sub_CFCC0	; CFDCF
 push eax	; CFDD4
 mov edi, sub_E0520	; CFDD5
 mov dword [dword_1210C0], esi	; CFDDA
-call sub_B2B30	; CFDE0
+call DrawArtOpaque	; CFDE0
 add esp, byte 0Ch	; CFDE5
 mov dword [dword_1210C0], edi	; CFDE8
 pop edi	; CFDEE

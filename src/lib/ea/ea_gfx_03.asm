@@ -3,9 +3,9 @@ bits 32
 %include "hockey.inc"
 section s_B2B30 progbits alloc exec nowrite align=1
 extern dword_1210C0, dword_1228D0, dword_1228F4, dword_1228FC, dword_122930, sub_DE3D8, sub_DEEE3
-global loc_B2B5B, loc_B2BB0, loc_B2C11, loc_B2C2B, loc_B2C44, loc_B2C4D, sub_B2B30, sub_B2C54
+global loc_B2B5B, loc_B2BB0, loc_B2C11, loc_B2C2B, loc_B2C44, loc_B2C4D, DrawArtOpaque, sub_B2C54
 global sub_B2C70
-sub_B2B30:
+DrawArtOpaque:
 push esi	; B2B30
 push edi	; B2B31
 push ebp	; B2B32
@@ -114,7 +114,7 @@ mov eax, dword [byte edx+0Ah]	; B2C5F
 sar eax, 10h	; B2C62
 push eax	; B2C65
 push edx	; B2C66
-call sub_B2B30	; B2C67
+call DrawArtOpaque	; B2C67
 add esp, byte 0Ch	; B2C6C
 ret	; B2C6F
 sub_B2C70:
@@ -130,6 +130,6 @@ sar eax, 10h	; B2C88
 sub ebx, eax	; B2C8B
 push ebx	; B2C8D
 push edx	; B2C8E
-call sub_B2B30	; B2C8F
+call DrawArtOpaque	; B2C8F
 add esp, byte 0Ch	; B2C94
 ret	; B2C97

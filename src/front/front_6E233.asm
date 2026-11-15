@@ -13,7 +13,7 @@ extern sub_1377E, sub_1B05E, sub_1E7F6, sub_2A502, sub_62A0F, sub_62AF7, sub_62D
 extern sub_62E72, sub_62F90, sub_63968, sub_63998, sub_63A5B, sub_63B0C, sub_63F79, sub_63FEF
 extern sub_64054, sub_64296, sub_64721, sub_64F59, sub_66373, sub_68AB1, sub_68BFA, sub_68C8F
 extern sub_68E31, sub_69A94, sub_69A9B, sub_6CF0D, sub_6CF1B, sub_6D350, sub_6D828, sub_6DB5C
-extern sub_6DC2F, sub_6DD1E, sub_77355, sub_8733C, sub_9CDDA, sub_AA988, sub_AAA40, sub_AAB40
+extern sub_6DC2F, sub_6DD1E, sub_77355, sub_8733C, sub_9CDDA, sub_AA988, sub_AAA40, PutBlock
 extern sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C, sub_ADA50, sub_ADBEC, sub_B0284, sub_DD6C4
 extern sub_E04E0, unk_11DE50, unk_11DE90, unk_152C44, word_114CE0, word_114CE4, word_11D92C, word_11D92E
 extern str_feO, word_11D96C, word_11D9A8, word_11D9AC, word_11DA10, word_11DA14, word_160ACC, word_17D560
@@ -1074,7 +1074,7 @@ call sub_DD6C4	; 6F1D0
 push edi	; 6F1D5
 push dword [byte ebp-08h]	; 6F1D6
 push dword [byte esi+02Ch]	; 6F1D9
-call sub_AAB40	; 6F1DC
+call PutBlock	; 6F1DC
 mov eax, 1FBh	; 6F1E1
 sub eax, dword [byte ebp-03Ch]	; 6F1E6
 mov dword [byte ebp-08h], eax	; 6F1E9
@@ -1105,7 +1105,7 @@ call sub_DD6C4	; 6F239
 push edi	; 6F23E
 push dword [byte ebp-08h]	; 6F23F
 push dword [byte esi+02Ch]	; 6F242
-call sub_AAB40	; 6F245
+call PutBlock	; 6F245
 add esp, byte 0Ch	; 6F24A
 push esi	; 6F24D
 call sub_ADBEC	; 6F24E

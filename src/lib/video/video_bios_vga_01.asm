@@ -14,7 +14,7 @@ global loc_DDBA8, loc_DDBE2, loc_DDC10, loc_DDC26, loc_DDC63, loc_DDCE0, loc_DDC
 global loc_DDD12, loc_DDD25, loc_DDD29, loc_DDD2E, loc_DDD60, loc_DDD75, loc_DDDAC, loc_DDDF3
 global loc_DDDF8, loc_DDE14, loc_DDE19, loc_DDE25, loc_DDE69, loc_DDE90, loc_DDE9B, loc_DDEA6
 global loc_DDEB1, loc_DDEC6, loc_DDED1, loc_DDEF1, loc_DDEFC, loc_DE057, sub_DD6C4, sub_DD6E0
-global sub_DD724, sub_DD760, sub_DD7B8, sub_DD800, sub_DD830, sub_DD87C, sub_DD8B0, sub_DD8C8
+global sub_DD724, SetClipWindow, sub_DD7B8, sub_DD800, sub_DD830, sub_DD87C, sub_DD8B0, sub_DD8C8
 global sub_DD908, sub_DD920, sub_DD960, sub_DD975, sub_DD982, sub_DDA44, sub_DDB22, sub_DDB68
 global sub_DDBB4, sub_DDC2A, sub_DDE74, sub_DDE7B, sub_DDEBC, sub_DDF24, sub_DDF4F, sub_DDF94
 global sub_DE01A, unk_DE06D
@@ -86,7 +86,7 @@ add esp, byte 4	; DD75B
 loc_DD75E:
 leave	; DD75E
 ret	; DD75F
-sub_DD760:
+SetClipWindow:
 mov eax, dword [byte esp+04h]	; DD760
 mov edx, dword [byte esp+08h]	; DD764
 mov ecx, dword [byte esp+0Ch]	; DD768

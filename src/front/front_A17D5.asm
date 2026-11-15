@@ -39,8 +39,8 @@ extern sub_686DF, sub_689D1, sub_68A10, sub_68AB1, sub_68BFA, sub_68C33, sub_68C
 extern sub_68E72, sub_68EC9, sub_68F7C, sub_68F82, sub_6904C, sub_69105, sub_69141, sub_6934E
 extern sub_695CB, sub_6986B, sub_69A94, sub_69A9B, sub_6B486, sub_6C64B, sub_6F056, sub_70840
 extern sub_75E0C, sub_75E2C, sub_77355, sub_8C51B, sub_9C866, sub_9CDDA, sub_AA988, sub_AAA40
-extern sub_AAB40, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C, sub_ADA50, sub_ADBEC, sub_B0284
-extern sub_B0CA8, sub_B2B30, sub_B58D8, sub_DD6C4, sub_DD760, sub_DF98F, sub_E04E0, sub_E0584
+extern PutBlock, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C, sub_ADA50, sub_ADBEC, sub_B0284
+extern sub_B0CA8, DrawArtOpaque, sub_B58D8, sub_DD6C4, SetClipWindow, SetViewRect, sub_E04E0, sub_E0584
 extern str_D13, str_7GM, str_5GM, str_3GM, str_1GM, unk_11D7A4, unk_11D7BC, unk_11D7D4
 extern unk_11D7EC, unk_11D804, unk_11D80A, unk_11D810, unk_11D816, unk_11D81C, unk_11D89C, unk_152C44
 extern unk_16443C, unk_17D272, unk_17D3E8, unk_18440C, unk_184688, unk_184692, word_114CE0, word_114F14
@@ -97,7 +97,7 @@ push byte 0	; A181C
 mov eax, dword [dword_184684]	; A181E
 push byte 0	; A1823
 push dword [byte eax+02Ch]	; A1825
-call sub_B2B30	; A1828
+call DrawArtOpaque	; A1828
 add esp, byte 0Ch	; A182D
 mov eax, esi	; A1830
 call sub_2929F	; A1832
@@ -634,7 +634,7 @@ push byte 0	; A1FD6
 mov esi, dword [byte ebp-04h]	; A1FD8
 push byte 0	; A1FDB
 push dword [byte esi+02Ch]	; A1FDD
-call sub_AAB40	; A1FE0
+call PutBlock	; A1FE0
 add esp, byte 0Ch	; A1FE5
 loc_A1FE8:
 leave	; A1FE8
@@ -930,13 +930,13 @@ push byte 0	; A24BC
 mov eax, dword [byte ebp+072h]	; A24BE
 push byte 0	; A24C1
 push dword [byte eax+02Ch]	; A24C3
-call sub_AAB40	; A24C6
+call PutBlock	; A24C6
 add esp, byte 0Ch	; A24CB
 push dword [dword_11F5C4]	; A24CE
 push dword [dword_11F5C0]	; A24D4
 push byte 0	; A24DA
 push byte 0	; A24DC
-call sub_DF98F	; A24DE
+call SetViewRect	; A24DE
 add esp, byte 10h	; A24E3
 mov edx, dword [dword ebp-0104h]	; A24E6
 mov eax, dword [dword ebp-0108h]	; A24EC
@@ -1142,7 +1142,7 @@ push dword [dword_11F5C4]	; A2831
 push byte 0	; A2837
 push dword [dword_11F5C0]	; A2839
 push byte 0	; A283F
-call sub_DD760	; A2841
+call SetClipWindow	; A2841
 add esp, byte 10h	; A2846
 cmp dword [dword_1150FC], byte 1	; A2849
 jne near loc_A28BE	; A2850
@@ -1484,7 +1484,7 @@ push dword [dword_11F5C4]	; A2E05
 push dword [dword_11F5C0]	; A2E0B
 push byte 0	; A2E11
 push byte 0	; A2E13
-call sub_DF98F	; A2E15
+call SetViewRect	; A2E15
 add esp, byte 10h	; A2E1A
 mov edx, dword [dword_1844B0]	; A2E1D
 mov eax, dword [dword_1844AC]	; A2E23
@@ -2272,7 +2272,7 @@ add esp, byte 4	; A3A26
 push byte 0	; A3A29
 push byte 0	; A3A2B
 push dword [dword_11ED60]	; A3A2D
-call sub_AAB40	; A3A33
+call PutBlock	; A3A33
 mov eax, dword [dword_17D273]	; A3A38
 add esp, byte 0Ch	; A3A3D
 shl eax, 0Fh	; A3A40
@@ -2307,7 +2307,7 @@ push byte 0	; A3AA7
 xor esi, esi	; A3AA9
 push dword [dword_11ED70]	; A3AAB
 xor edi, edi	; A3AB1
-call sub_AAB40	; A3AB3
+call PutBlock	; A3AB3
 add esp, byte 0Ch	; A3AB8
 loc_A3ABB:
 mov eax, dword [dword_17D273]	; A3ABB
@@ -2350,7 +2350,7 @@ sub ecx, eax	; A3B3A
 mov eax, dword [dword_11ED58]	; A3B3C
 push ecx	; A3B41
 push dword [byte eax+02Ch]	; A3B42
-call sub_AAB40	; A3B45
+call PutBlock	; A3B45
 mov esi, dword [dword_11ED70]	; A3B4A
 add esp, byte 0Ch	; A3B50
 movsx eax, word [byte esi+0Eh]	; A3B53
@@ -2360,7 +2360,7 @@ push eax	; A3B5C
 mov eax, dword [dword_11ED68]	; A3B5D
 loc_A3B62:
 push dword [byte eax+02Ch]	; A3B62
-call sub_AAB40	; A3B65
+call PutBlock	; A3B65
 add esp, byte 0Ch	; A3B6A
 leave	; A3B6D
 loc_A3B6E:
@@ -2384,7 +2384,7 @@ add esp, byte 4	; A3B89
 push byte 0	; A3B8C
 push byte 0	; A3B8E
 push dword [dword_11ED64]	; A3B90
-call sub_AAB40	; A3B96
+call PutBlock	; A3B96
 mov eax, dword [dword_17D273]	; A3B9B
 add esp, byte 0Ch	; A3BA0
 shl eax, 0Ah	; A3BA3
@@ -2419,7 +2419,7 @@ push byte 0	; A3C0A
 xor esi, esi	; A3C0C
 push dword [dword_11ED74]	; A3C0E
 xor edi, edi	; A3C14
-call sub_AAB40	; A3C16
+call PutBlock	; A3C16
 add esp, byte 0Ch	; A3C1B
 loc_A3C1E:
 mov eax, dword [dword_17D273]	; A3C1E
@@ -2464,7 +2464,7 @@ sub edx, eax	; A3CA7
 mov eax, dword [dword_11ED5C]	; A3CA9
 push edx	; A3CAE
 push dword [byte eax+02Ch]	; A3CAF
-call sub_AAB40	; A3CB2
+call PutBlock	; A3CB2
 mov esi, dword [dword_11ED74]	; A3CB7
 add esp, byte 0Ch	; A3CBD
 movsx eax, word [byte esi+0Eh]	; A3CC0

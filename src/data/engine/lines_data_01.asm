@@ -2,9 +2,9 @@
 bits 32
 %include "hockey.inc"
 section s_11A310 progbits alloc noexec write align=1
-global DemoMode, byte_11A310, byte_11A319, byte_11A3B4, byte_11A3F9, byte_11A3FB, dword_11A3F2, dword_11A3F8
+global DemoMode, dressbystatus, byte_11A319, byte_11A3B4, byte_11A3F9, byte_11A3FB, dword_11A3F2, dword_11A3F8
 global dword_11A3FC, dword_11A400, dword_11A404, dword_11A408, word_11A3EE, word_11A3F0, word_11A40C
-byte_11A310:
+dressbystatus:
 db 00h,00h,02h,01h,01h,00h,00h,01h,00h
 byte_11A319:
 db 00h,03h,06h,09h,0FFh,01h,04h,07h,0Ah,0FFh,02h,05h,08h,0Bh,0FFh,0Ch

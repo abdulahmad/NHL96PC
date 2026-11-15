@@ -13,8 +13,8 @@ extern dword_17BD48, dword_17C9A4, dword_17CA1C, dword_17CA20, dword_17D590, dwo
 extern sub_10010, sub_1E7F6, sub_21596, sub_62AF7, sub_62D9B, sub_62E0E, sub_62F90, sub_63968
 extern sub_63998, sub_63A5B, sub_63B0C, sub_64721, sub_64F59, sub_67531, sub_689D1, sub_68A0B
 extern sub_68AB1, sub_68BCD, sub_68BFA, sub_68C33, sub_68E31, sub_69A94, sub_69A9B, sub_6A5EB
-extern sub_AA988, sub_AAA40, sub_AAA8C, sub_AAB40, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C
-extern sub_ADA50, sub_ADBEC, sub_DD6C4, sub_DF928, sub_DFE9C, sub_E04E0, unk_17D598, unk_708A9
+extern sub_AA988, sub_AAA40, sub_AAA8C, PutBlock, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C
+extern sub_ADA50, sub_ADBEC, sub_DD6C4, MouseRead, sub_DFE9C, sub_E04E0, unk_17D598, unk_708A9
 extern unk_70901, unk_70BC1, unk_70BCB, unk_70BD5, unk_70C4D, unk_70CED
 global jpt_7130F, jpt_715AF, jpt_715D3, loc_71229, loc_7124B, loc_7125E, loc_71273, loc_712B2
 global loc_712C9, loc_712DA, loc_712E3, loc_712FD, loc_71365, loc_71389, loc_7138F, loc_713C7
@@ -692,7 +692,7 @@ mov byte [dword eax+050Dh], 0Ch	; 71B7F
 mov eax, dword [dword_17D594]	; 71B86
 push dword [dword eax+0506h]	; 71B8B
 push dword [dword eax+0502h]	; 71B91
-call sub_DF928	; 71B97
+call MouseRead	; 71B97
 mov ebx, 3	; 71B9C
 mov edx, dword [byte ebp+06Eh]	; 71BA1
 add esp, byte 8	; 71BA4
@@ -1554,7 +1554,7 @@ add esp, byte 4	; 7281B
 push byte 0	; 7281E
 push byte 0	; 72820
 push esi	; 72822
-call sub_AAB40	; 72823
+call PutBlock	; 72823
 add esp, byte 0Ch	; 72828
 lea eax, [byte ebp+01Eh]	; 7282B
 push eax	; 7282E
@@ -1590,7 +1590,7 @@ push byte 0	; 72879
 mov edx, dword [byte ebp+062h]	; 7287B
 push edi	; 7287E
 mov dword [byte edx+ebp-012h], eax	; 7287F
-call sub_AAB40	; 72883
+call PutBlock	; 72883
 add esp, byte 0Ch	; 72888
 lea eax, [byte ebp+01Eh]	; 7288B
 push eax	; 7288E
@@ -1660,7 +1660,7 @@ add esp, byte 4	; 72942
 push byte 0	; 72945
 push byte 0	; 72947
 push esi	; 72949
-call sub_AAB40	; 7294A
+call PutBlock	; 7294A
 add esp, byte 0Ch	; 7294F
 lea eax, [byte ebp+01Eh]	; 72952
 push eax	; 72955
@@ -1696,7 +1696,7 @@ push byte 0	; 729A0
 mov edx, dword [byte ebp+062h]	; 729A2
 push edi	; 729A5
 mov dword [byte edx+ebp-06h], eax	; 729A6
-call sub_AAB40	; 729AA
+call PutBlock	; 729AA
 add esp, byte 0Ch	; 729AF
 lea eax, [byte ebp+01Eh]	; 729B2
 push eax	; 729B5
@@ -1972,7 +1972,7 @@ push dword [dword ebp-0668h]	; 72E8F
 mov byte [dword ebp-0662h], 13h	; 72E95
 push dword [dword ebp-066Ch]	; 72E9C
 mov byte [dword ebp-0661h], 14h	; 72EA2
-call sub_DF928	; 72EA9
+call MouseRead	; 72EA9
 mov ebx, 3	; 72EAE
 mov edx, dword [byte ebp+02Eh]	; 72EB3
 add esp, byte 8	; 72EB6
@@ -2105,7 +2105,7 @@ mov eax, dword [byte ebp-026h]	; 7308B
 movsx eax, word [byte eax+0Ch]	; 7308E
 push eax	; 73092
 push dword [byte ebp-026h]	; 73093
-call sub_AAB40	; 73096
+call PutBlock	; 73096
 mov eax, dword [byte ebp-026h]	; 7309B
 movsx eax, word [byte eax+04h]	; 7309E
 sar eax, 1	; 730A2
@@ -2247,7 +2247,7 @@ mov eax, dword [byte ebp-022h]	; 73295
 movsx eax, word [byte eax+0Ch]	; 73298
 push eax	; 7329C
 push dword [byte ebp-022h]	; 7329D
-call sub_AAB40	; 732A0
+call PutBlock	; 732A0
 mov eax, dword [byte ebp-022h]	; 732A5
 movsx eax, word [byte eax+04h]	; 732A8
 sar eax, 1	; 732AC
@@ -2385,7 +2385,7 @@ mov eax, dword [byte ebp-01Eh]	; 73499
 movsx eax, word [byte eax+0Ch]	; 7349C
 push eax	; 734A0
 push dword [byte ebp-01Eh]	; 734A1
-call sub_AAB40	; 734A4
+call PutBlock	; 734A4
 mov eax, dword [byte ebp-01Eh]	; 734A9
 movsx eax, word [byte eax+04h]	; 734AC
 sar eax, 1	; 734B0
@@ -2523,7 +2523,7 @@ mov eax, dword [byte ebp-01Ah]	; 736A3
 movsx eax, word [byte eax+0Ch]	; 736A6
 push eax	; 736AA
 push dword [byte ebp-01Ah]	; 736AB
-call sub_AAB40	; 736AE
+call PutBlock	; 736AE
 mov eax, dword [byte ebp-01Ah]	; 736B3
 movsx eax, word [byte eax+04h]	; 736B6
 sar eax, 1	; 736BA
@@ -2674,7 +2674,7 @@ mov eax, dword [byte ebp-016h]	; 738E7
 movsx eax, word [byte eax+0Ch]	; 738EA
 push eax	; 738EE
 push dword [byte ebp-016h]	; 738EF
-call sub_AAB40	; 738F2
+call PutBlock	; 738F2
 mov eax, dword [byte ebp-016h]	; 738F7
 movsx eax, word [byte eax+04h]	; 738FA
 sar eax, 1	; 738FE

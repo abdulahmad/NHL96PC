@@ -36,7 +36,7 @@ global loc_DF608, loc_DF614, loc_DF619, loc_DF61F, loc_DF628, loc_DF63E, loc_DF6
 global loc_DF65A, loc_DF661, loc_DF663, loc_DF676, loc_DF67B, loc_DF6D9, loc_DF6FB, loc_DF6FF
 global loc_DF72C, loc_DF75A, loc_DF77D, loc_DF783, loc_DF7B4, loc_DF7B7, loc_DF7C8, loc_DF7D8
 global loc_DF7DC, loc_DF7E6, loc_DF844, loc_DF877, loc_DF87A, loc_DF88B, loc_DF89B, loc_DF89F
-global sub_DE084, sub_DE10D, sub_DE15C, sub_DE18C, sub_DE247, sub_DE3D8, sub_DE44E, sub_DE45F
+global sub_DE084, PlotPixel, sub_DE15C, sub_DE18C, sub_DE247, sub_DE3D8, sub_DE44E, sub_DE45F
 global sub_DE4C7, sub_DE643, sub_DE7DB, sub_DE97C, sub_DE9F3, sub_DEB94, sub_DEC41, sub_DED6D
 global sub_DEE68, sub_DEEE3, sub_DEF74, sub_DEFD7, sub_DF058, sub_DF22C, sub_DF2CC, sub_DF38C
 global sub_DF44C, sub_DF50C, sub_DF55C, sub_DF596, sub_DF5C0, sub_DF6A7, sub_DF810
@@ -90,7 +90,7 @@ cmp edx, dword [dword_1228E4]	; DE104
 jl short loc_DE115	; DE10A
 loc_DE10C:
 ret	; DE10C
-sub_DE10D:
+PlotPixel:
 mov eax, dword [byte esp+04h]	; DE10D
 mov edx, dword [byte esp+08h]	; DE111
 loc_DE115:

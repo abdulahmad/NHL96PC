@@ -24,10 +24,10 @@ extern sub_62D9B, sub_62E0E, sub_62E72, sub_62F90, sub_63968, sub_63998, sub_63A
 extern sub_63F79, sub_63FC8, sub_64054, sub_640D3, sub_6423E, sub_64296, sub_6448D, sub_64721
 extern sub_64F59, sub_66373, sub_67A63, sub_686DF, sub_68AB1, sub_69A94, sub_69A9B, sub_6A2A8
 extern sub_77355, sub_78E9E, sub_88E09, sub_8C51B, sub_90AF8, sub_93E6A, sub_9C866, sub_AA988
-extern sub_AAA8C, sub_AAB40, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C, sub_AD824, sub_ADA50
+extern sub_AAA8C, PutBlock, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C, sub_AD824, sub_ADA50
 extern sub_ADBEC, sub_B0254, sub_B026C, sub_B0284, sub_B0430, sub_B0494, sub_B31C0, sub_B7638
-extern sub_B9BB0, sub_C2600, sub_DD6C4, sub_DD760, sub_DD908, sub_DD920, sub_DE10D, sub_DE18C
-extern sub_DF928, sub_E04E0, sub_E0584, str_dbgSpace, unk_112523, str_000, str_SEA2, str_PLY2
+extern sub_B9BB0, sub_C2600, sub_DD6C4, SetClipWindow, sub_DD908, sub_DD920, PlotPixel, sub_DE18C
+extern MouseRead, sub_E04E0, sub_E0584, str_dbgSpace, unk_112523, str_000, str_SEA2, str_PLY2
 extern str_LEA, str_DIV, str_CON, str_WES, str_EAS, str_PAC, str_NOR, str_CEN
 extern str_ATL, unk_152C44, unk_849C1, unk_849C7, unk_849CB, unk_849D1, word_114CE0, word_11D1D0
 extern word_11E5FC
@@ -280,7 +280,7 @@ loc_84CC0:
 call sub_DD6C4	; 84CC0
 push dword [byte ebp-04Eh]	; 84CC5
 push dword [byte ebp-052h]	; 84CC8
-call sub_DF928	; 84CCB
+call MouseRead	; 84CCB
 mov ebx, 2	; 84CD0
 mov edx, dword [byte ebp+07Ah]	; 84CD5
 add esp, byte 8	; 84CD8
@@ -597,7 +597,7 @@ call sub_DD6C4	; 850D0
 push dword [byte ebp+03Ah]	; 850D5
 push dword [byte ebp+02Eh]	; 850D8
 push dword [byte esi+02Ch]	; 850DB
-call sub_AAB40	; 850DE
+call PutBlock	; 850DE
 mov eax, 1EAh	; 850E3
 sub eax, edi	; 850E8
 mov dword [byte ebp+056h], eax	; 850EA
@@ -649,7 +649,7 @@ call sub_DD6C4	; 85186
 push dword [byte ebp+03Ah]	; 8518B
 push dword [byte ebp+056h]	; 8518E
 push dword [byte esi+02Ch]	; 85191
-call sub_AAB40	; 85194
+call PutBlock	; 85194
 add esp, byte 0Ch	; 85199
 push esi	; 8519C
 call sub_ADBEC	; 8519D
@@ -1411,7 +1411,7 @@ jge short loc_85B83	; 85B40
 push dword [byte ebp+062h]	; 85B42
 push edi	; 85B45
 push esi	; 85B46
-call sub_AAB40	; 85B47
+call PutBlock	; 85B47
 movsx ecx, word [byte esi+04h]	; 85B4C
 add edi, ecx	; 85B50
 add esp, byte 0Ch	; 85B52
@@ -1471,7 +1471,7 @@ push dword 89h	; 85BFC
 mov eax, dword [byte ebp+06Eh]	; 85C01
 push byte 36h	; 85C04
 push dword [byte eax+02Ch]	; 85C06
-call sub_AAB40	; 85C09
+call PutBlock	; 85C09
 add esp, byte 0Ch	; 85C0E
 push dword [byte ebp+046h]	; 85C11
 call sub_ABF4C	; 85C14
@@ -1595,7 +1595,7 @@ jge short loc_85DD1	; 85D8E
 push dword [byte ebp+05Eh]	; 85D90
 push edi	; 85D93
 push esi	; 85D94
-call sub_AAB40	; 85D95
+call PutBlock	; 85D95
 movsx ecx, word [byte esi+04h]	; 85D9A
 add edi, ecx	; 85D9E
 add esp, byte 0Ch	; 85DA0
@@ -1655,7 +1655,7 @@ push dword 89h	; 85E4A
 mov eax, dword [byte ebp+06Eh]	; 85E4F
 push dword 1B0h	; 85E52
 push dword [byte eax+02Ch]	; 85E57
-call sub_AAB40	; 85E5A
+call PutBlock	; 85E5A
 add esp, byte 0Ch	; 85E5F
 push dword [byte ebp+04Ah]	; 85E62
 call sub_ABF4C	; 85E65
@@ -2367,7 +2367,7 @@ mov eax, dword [byte ebp+06Ah]	; 86797
 add esi, byte 8	; 8679A
 push dword [byte eax+02Ch]	; 8679D
 inc edi	; 867A0
-call sub_AAB40	; 867A1
+call PutBlock	; 867A1
 add esp, byte 0Ch	; 867A6
 cmp edi, byte 6	; 867A9
 jl short loc_86744	; 867AC
@@ -2897,7 +2897,7 @@ mov eax, dword [byte ebp+06Ah]	; 86F04
 add esi, byte 8	; 86F07
 push dword [byte eax+02Ch]	; 86F0A
 inc edi	; 86F0D
-call sub_AAB40	; 86F0E
+call PutBlock	; 86F0E
 add esp, byte 0Ch	; 86F13
 cmp edi, byte 4	; 86F16
 jl short loc_86EAF	; 86F19
@@ -3667,7 +3667,7 @@ cmp esi, eax	; 8795F
 jle short loc_87992	; 87961
 push dword [byte ebp-04h]	; 87963
 push esi	; 87966
-call sub_DE10D	; 87967
+call PlotPixel	; 87967
 mov edx, dword [byte ebp-0Ch]	; 8796C
 shl edx, 8	; 8796F
 add eax, edx	; 87972
@@ -3704,7 +3704,7 @@ mov esi, dword [byte ebp-08h]	; 879C6
 push edi	; 879C9
 loc_879CA:
 shl esi, 8	; 879CA
-call sub_DE10D	; 879CD
+call PlotPixel	; 879CD
 add esi, eax	; 879D2
 mov eax, dword [dword_17DC5C]	; 879D4
 add esp, byte 8	; 879D9
@@ -3864,7 +3864,7 @@ test eax, eax	; 87BCE
 jle near loc_87C98	; 87BD0
 push esi	; 87BD6
 push edi	; 87BD7
-call sub_DE10D	; 87BD8
+call PlotPixel	; 87BD8
 mov edx, dword [byte ebp-08h]	; 87BDD
 shl edx, 8	; 87BE0
 add edx, eax	; 87BE3
@@ -3882,7 +3882,7 @@ cmp esi, eax	; 87C09
 jle short loc_87C38	; 87C0B
 push esi	; 87C0D
 push edi	; 87C0E
-call sub_DE10D	; 87C0F
+call PlotPixel	; 87C0F
 mov edx, dword [byte ebp-08h]	; 87C14
 shl edx, 8	; 87C17
 add eax, edx	; 87C1A
@@ -3916,7 +3916,7 @@ cmp eax, dword [byte ebp-04h]	; 87C65
 jle short loc_87C98	; 87C68
 push dword [byte ebp-04h]	; 87C6A
 push edi	; 87C6D
-call sub_DE10D	; 87C6E
+call PlotPixel	; 87C6E
 mov edx, dword [byte ebp-0Ch]	; 87C73
 shl edx, 8	; 87C76
 add edx, eax	; 87C79
@@ -4352,7 +4352,7 @@ movsx eax, word [dword_1228E0]	; 88220
 push eax	; 88227
 movsx eax, word [dword_1228D8]	; 88228
 push eax	; 8822F
-call sub_DD760	; 88230
+call SetClipWindow	; 88230
 add esp, byte 10h	; 88235
 movsx eax, word [dword_1228DC]	; 88238
 shl eax, 10h	; 8823F
@@ -4489,7 +4489,7 @@ movsx eax, word [dword_1228E0]	; 8845A
 push eax	; 88461
 movsx eax, word [dword_1228D8]	; 88462
 push eax	; 88469
-call sub_DD760	; 8846A
+call SetClipWindow	; 8846A
 movsx eax, word [dword_1228DC]	; 8846F
 shl eax, 10h	; 88476
 mov dword [dword_17DC68], 0	; 88479
@@ -4859,7 +4859,7 @@ push dword [byte esi+02Ah]	; 88B87
 push dword [byte esi+026h]	; 88B8A
 add eax, dword [byte ebp-08h]	; 88B8D
 push dword [dword eax+dword_17DF14]	; 88B90
-call sub_AAB40	; 88B96
+call PutBlock	; 88B96
 add esp, byte 0Ch	; 88B9B
 push byte 4	; 88B9E
 call SetTickDeadline	; 88BA0
@@ -4881,7 +4881,7 @@ push dword [byte esi+02Ah]	; 88BCA
 mov eax, dword [byte ebp-04h]	; 88BCD
 push dword [byte esi+026h]	; 88BD0
 push dword [dword eax+dword_17DC74]	; 88BD3
-call sub_AAB40	; 88BD9
+call PutBlock	; 88BD9
 add esp, byte 0Ch	; 88BDE
 push byte 4	; 88BE1
 call SetTickDeadline	; 88BE3
@@ -4925,7 +4925,7 @@ push dword [byte esi+02Ah]	; 88C48
 push dword [byte esi+026h]	; 88C4B
 add eax, dword [byte ebp-04h]	; 88C4E
 push dword [dword eax+dword_17DF14]	; 88C51
-call sub_AAB40	; 88C57
+call PutBlock	; 88C57
 add esp, byte 0Ch	; 88C5C
 loc_88C5F:
 cmp dword [byte ebp-08h], byte 0FFFFFFFFh	; 88C5F
@@ -4936,7 +4936,7 @@ push dword [byte edi+02Ah]	; 88C6B
 push dword [byte edi+026h]	; 88C6E
 add eax, dword [byte ebp-04h]	; 88C71
 push dword [dword eax+dword_17DF14]	; 88C74
-call sub_AAB40	; 88C7A
+call PutBlock	; 88C7A
 add esp, byte 0Ch	; 88C7F
 loc_88C82:
 cmp dword [byte ebp+018h], byte 0FFFFFFFFh	; 88C82
@@ -4948,7 +4948,7 @@ mov eax, dword [byte ebp+01Ch]	; 88C91
 imul eax, dword [eax], byte 0Ch	; 88C94
 add eax, dword [byte ebp-04h]	; 88C97
 push dword [dword eax+dword_17DF14]	; 88C9A
-call sub_AAB40	; 88CA0
+call PutBlock	; 88CA0
 add esp, byte 0Ch	; 88CA5
 loc_88CA8:
 push byte 4	; 88CA8
@@ -4979,7 +4979,7 @@ push dword [byte esi+02Ah]	; 88CF0
 mov eax, dword [byte ebp-018h]	; 88CF3
 push dword [byte esi+026h]	; 88CF6
 push dword [dword eax+dword_17DC74]	; 88CF9
-call sub_AAB40	; 88CFF
+call PutBlock	; 88CFF
 add esp, byte 0Ch	; 88D04
 loc_88D07:
 cmp dword [byte ebp-08h], byte 0FFFFFFFFh	; 88D07
@@ -4988,7 +4988,7 @@ push dword [byte edi+02Ah]	; 88D0D
 mov eax, dword [byte ebp-014h]	; 88D10
 push dword [byte edi+026h]	; 88D13
 push dword [dword eax+dword_17DC74]	; 88D16
-call sub_AAB40	; 88D1C
+call PutBlock	; 88D1C
 add esp, byte 0Ch	; 88D21
 loc_88D24:
 cmp dword [byte ebp+018h], byte 0FFFFFFFFh	; 88D24
@@ -4998,7 +4998,7 @@ push dword [byte eax+02Ah]	; 88D2D
 push dword [byte eax+026h]	; 88D30
 mov eax, dword [byte ebp-010h]	; 88D33
 push dword [dword eax+dword_17DC74]	; 88D36
-call sub_AAB40	; 88D3C
+call PutBlock	; 88D3C
 add esp, byte 0Ch	; 88D41
 loc_88D44:
 push byte 4	; 88D44

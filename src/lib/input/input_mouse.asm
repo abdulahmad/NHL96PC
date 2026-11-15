@@ -8,7 +8,7 @@ extern dword_11F6F6, dword_11F6FC, loc_DFCA2, mousepollfn, off_11F5F4, off_11F5F
 extern sub_C2C7C, sub_C2C94, sub_DFC33, sub_DFDDE, sub_DFE28, sub_E04D0, unk_DFDDD, word_11F580
 extern word_11F582, word_11F584, word_11F6F4, word_11F6FA, word_11F700, word_11F702
 global loc_DF8CB, loc_DF8D2, loc_DF906, loc_DF926, loc_DFA09, loc_DFA1A, loc_DFA28, loc_DFA37
-global loc_DFA5F, loc_DFAF3, loc_DFB7D, loc_DFC32, sub_DF8AC, sub_DF8E8, sub_DF928, sub_DF98F
+global loc_DFA5F, loc_DFAF3, loc_DFB7D, loc_DFC32, sub_DF8AC, sub_DF8E8, MouseRead, SetViewRect
 global sub_DF9B7, sub_DFA6C, sub_DFA73, sub_DFA7A, sub_DFA98, sub_DFB84, sub_DFB88
 sub_DF8AC:
 LD xor, eax, eax	; DF8AC
@@ -56,7 +56,7 @@ int 33h	; DF924
 loc_DF926:
 leave	; DF926
 ret	; DF927
-sub_DF928:
+MouseRead:
 push ebp	; DF928
 LD mov, ebp, esp	; DF929
 mov eax, dword [byte ebp+08h]	; DF92B
@@ -94,7 +94,7 @@ mov dword [dword_11F56C], eax	; DF982
 mov dword [dword_11F574], edx	; DF987
 leave	; DF98D
 ret	; DF98E
-sub_DF98F:
+SetViewRect:
 push ebp	; DF98F
 LD mov, ebp, esp	; DF990
 mov eax, dword [byte ebp+08h]	; DF992
@@ -196,7 +196,7 @@ push dword [dword_11F5C4]	; DFAF3
 push dword [dword_11F5C0]	; DFAF9
 push byte 0	; DFAFF
 push byte 0	; DFB01
-call sub_DF98F	; DFB03
+call SetViewRect	; DFB03
 mov eax, dword [dword_11F5C4]	; DFB08
 shr eax, 2	; DFB0D
 mov dword [dword_11F5A8], eax	; DFB10

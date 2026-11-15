@@ -28,7 +28,7 @@ extern sub_BFA45, sub_BFAF5, sub_BFB53, sub_BFB74, sub_BFB7C, sub_BFBE3, sub_BFC
 extern sub_BFE4C, sub_BFF8F, sub_C0252, sub_C02D6, sub_C032E, sub_C03EA, sub_C0423, sub_C04AE
 extern sub_C04C3, sub_C0578, sub_C061E, sub_C08F5, sub_C0902, sub_C0D7E, sub_C0E2D, sub_C0E3C
 extern sub_C0E49, sub_C0F09, sub_C0F30, sub_C1008, sub_C144B, sub_C157F, sub_C17C6, sub_C181F
-extern sub_C1FC0, sub_C1FEC, sub_C204C, sub_C2268, sub_C2290, sub_C2440, sub_C2442, sub_DD760
+extern sub_C1FC0, sub_C1FEC, sub_C204C, sub_C2268, sub_C2290, sub_C2440, sub_C2442, SetClipWindow
 extern sub_DD830, sub_DDE7B, sub_DDF24, sub_DFEC6, sub_DFF0F, sub_E0520, sub_E0686, sub_E069C
 extern sub_E07B8, sub_E07C8, sub_E07CC, sub_E081C, str_backslash, unk_17C474, unk_17C644, unk_17C9B8
 extern unk_17C9CC, unk_17CA75, unk_17D32C, word_11D1D0, word_11D23A, word_11D23C, word_11D356, word_11D382
@@ -4066,7 +4066,7 @@ imul eax, dword [dword_11F5C4]	; 6A142
 push eax	; 6A149
 push dword 140h	; 6A14A
 push byte 0	; 6A14F
-call sub_DD760	; 6A151
+call SetClipWindow	; 6A151
 mov eax, dword [byte ebp-04h]	; 6A156
 imul eax, dword [dword_11F5C4]	; 6A159
 add esp, byte 10h	; 6A160

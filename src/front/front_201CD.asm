@@ -16,9 +16,9 @@ extern sub_1118B, sub_111ED, sub_11A88, sub_1A109, sub_1E7F6, sub_62AF7, sub_62D
 extern sub_62F90, sub_63968, sub_63998, sub_63A5B, sub_63B0C, sub_63F79, sub_63FEF, sub_64054
 extern sub_640D3, sub_64721, sub_64F59, sub_66373, sub_68AB1, sub_69A94, sub_69A9B, sub_77355
 extern sub_87DD6, sub_8805A, sub_AA988, sub_AADA4, sub_AB758, sub_ABF4C, sub_AC868, sub_AD35C
-extern sub_AD680, sub_ADA50, sub_ADA80, unpack, sub_AFD00, sub_B0284, sub_B0494, sub_B20D0
+extern FillRect, sub_ADA50, sub_ADA80, unpack, sub_AFD00, sub_B0284, sub_B0494, sub_B20D0
 extern sub_B31C0, sub_B7810, sub_B9870, sub_B98E0, sub_B9B70, sub_B9BD0, sub_BA2F0, sub_BA344
-extern sub_BA420, sub_BA4F0, sub_BA5D0, sub_BB384, sub_DD6C4, sub_DD724, sub_DF928, sub_DFF28
+extern sub_BA420, sub_BA4F0, sub_BA5D0, sub_BB384, sub_DD6C4, sub_DD724, MouseRead, sub_DFF28
 extern sub_E04E0, sub_E0520, sub_E0898, str_A, str_feB, str_D3, unk_121FC8, unk_151648
 extern unk_1516B8, unk_151720, unk_2018D, word_11758C, word_151768, word_158CBA, word_158CBC, word_158D34
 extern word_158D3C, word_158D44, word_158D46, word_158D74, word_158D76
@@ -79,7 +79,7 @@ movsx edx, word [dword esi+word_158D3C]	; 20238
 push edx	; 2023F
 add eax, eax	; 20240
 push eax	; 20242
-call sub_AD680	; 20243
+call FillRect	; 20243
 add esp, byte 14h	; 20248
 push byte 2	; 2024B
 movsx eax, word [word_158D76]	; 2024D
@@ -101,7 +101,7 @@ push eax	; 2027A
 movsx edx, word [dword esi+word_158D3C]	; 2027B
 push edx	; 20282
 push eax	; 20283
-call sub_AD680	; 20284
+call FillRect	; 20284
 add esp, byte 14h	; 20289
 movsx eax, word [word_158D76]	; 2028C
 push eax	; 20293
@@ -121,7 +121,7 @@ movsx edx, word [dword esi+word_158D3C]	; 202AF
 push edx	; 202B6
 add eax, eax	; 202B7
 push eax	; 202B9
-call sub_AD680	; 202BA
+call FillRect	; 202BA
 add esp, byte 14h	; 202BF
 movsx edi, word [word_158D76]	; 202C2
 push edi	; 202C9
@@ -132,7 +132,7 @@ push eax	; 202D3
 lea eax, [edi+edi]	; 202D4
 add eax, edi	; 202D7
 push eax	; 202D9
-call sub_AD680	; 202DA
+call FillRect	; 202DA
 add esp, byte 14h	; 202DF
 push byte 2	; 202E2
 movsx eax, word [word_158D76]	; 202E4
@@ -144,7 +144,7 @@ push edx	; 202F6
 add eax, eax	; 202F7
 loc_202F9:
 push eax	; 202F9
-call sub_AD680	; 202FA
+call FillRect	; 202FA
 add esp, byte 14h	; 202FF
 push byte 2	; 20302
 movsx eax, word [word_158D76]	; 20304
@@ -156,7 +156,7 @@ add edx, eax	; 20317
 push edx	; 20319
 add eax, eax	; 2031A
 push eax	; 2031C
-call sub_AD680	; 2031D
+call FillRect	; 2031D
 add esp, byte 14h	; 20322
 push byte 2	; 20325
 movsx eax, word [word_158D76]	; 20327
@@ -180,7 +180,7 @@ movsx edx, word [dword esi+word_158D3C]	; 2035C
 push edx	; 20363
 add eax, eax	; 20364
 push eax	; 20366
-call sub_AD680	; 20367
+call FillRect	; 20367
 add esp, byte 14h	; 2036C
 push byte 2	; 2036F
 movsx eax, word [word_158D76]	; 20371
@@ -192,7 +192,7 @@ add edx, eax	; 20384
 push edx	; 20386
 add eax, eax	; 20387
 push eax	; 20389
-call sub_AD680	; 2038A
+call FillRect	; 2038A
 add esp, byte 14h	; 2038F
 test byte [byte ebp-04h], 8	; 20392
 je short loc_203D6	; 20396
@@ -205,7 +205,7 @@ add eax, eax	; 203A9
 add edx, eax	; 203AB
 push edx	; 203AD
 push eax	; 203AE
-call sub_AD680	; 203AF
+call FillRect	; 203AF
 add esp, byte 14h	; 203B4
 push byte 2	; 203B7
 movsx edi, word [word_158D76]	; 203B9
@@ -229,7 +229,7 @@ push eax	; 203EF
 add edx, eax	; 203F0
 push edx	; 203F2
 push eax	; 203F3
-call sub_AD680	; 203F4
+call FillRect	; 203F4
 add esp, byte 14h	; 203F9
 movsx eax, word [word_158D76]	; 203FC
 push eax	; 20403
@@ -252,7 +252,7 @@ add eax, eax	; 2042B
 add edx, eax	; 2042D
 push edx	; 2042F
 push eax	; 20430
-call sub_AD680	; 20431
+call FillRect	; 20431
 add esp, byte 14h	; 20436
 movsx eax, word [word_158D76]	; 20439
 push eax	; 20440
@@ -264,7 +264,7 @@ add ebx, edx	; 2044D
 push ebx	; 2044F
 add eax, edx	; 20450
 push eax	; 20452
-call sub_AD680	; 20453
+call FillRect	; 20453
 add esp, byte 14h	; 20458
 push byte 2	; 2045B
 movsx eax, word [word_158D76]	; 2045D
@@ -279,7 +279,7 @@ movsx edx, word [dword esi+word_158D3C]	; 20474
 push edx	; 2047B
 add eax, eax	; 2047C
 push eax	; 2047E
-call sub_AD680	; 2047F
+call FillRect	; 2047F
 add esp, byte 14h	; 20484
 test byte [byte ebp-04h], 8	; 20487
 je short loc_204CB	; 2048B
@@ -292,7 +292,7 @@ add edx, eax	; 2049E
 push edx	; 204A0
 add eax, eax	; 204A1
 push eax	; 204A3
-call sub_AD680	; 204A4
+call FillRect	; 204A4
 add esp, byte 14h	; 204A9
 push byte 2	; 204AC
 movsx eax, word [word_158D76]	; 204AE
@@ -316,7 +316,7 @@ push edx	; 204E5
 add eax, ebx	; 204E6
 push eax	; 204E8
 push edx	; 204E9
-call sub_AD680	; 204EA
+call FillRect	; 204EA
 add esp, byte 14h	; 204EF
 movsx eax, word [word_158D76]	; 204F2
 push eax	; 204F9
@@ -338,7 +338,7 @@ add edx, eax	; 2051E
 push edx	; 20520
 add eax, eax	; 20521
 push eax	; 20523
-call sub_AD680	; 20524
+call FillRect	; 20524
 add esp, byte 14h	; 20529
 movsx edi, word [word_158D76]	; 2052C
 push edi	; 20533
@@ -350,7 +350,7 @@ push eax	; 2053F
 lea eax, [edi+edi]	; 20540
 add eax, edi	; 20543
 push eax	; 20545
-call sub_AD680	; 20546
+call FillRect	; 20546
 add esp, byte 14h	; 2054B
 push byte 2	; 2054E
 movsx eax, word [word_158D76]	; 20550
@@ -363,7 +363,7 @@ push edx	; 20564
 add eax, eax	; 20565
 loc_20567:
 push eax	; 20567
-call sub_AD680	; 20568
+call FillRect	; 20568
 add esp, byte 14h	; 2056D
 push byte 2	; 20570
 movsx eax, word [word_158D76]	; 20572
@@ -376,7 +376,7 @@ add edx, eax	; 20587
 push edx	; 20589
 loc_2058A:
 push eax	; 2058A
-call sub_AD680	; 2058B
+call FillRect	; 2058B
 add esp, byte 14h	; 20590
 mov edx, dword [byte ebp-018h]	; 20593
 mov eax, dword [byte ebp-04h]	; 20596
@@ -415,7 +415,7 @@ push ebx	; 205F3
 push edx	; 205F4
 inc eax	; 205F5
 push eax	; 205F6
-call sub_AD680	; 205F7
+call FillRect	; 205F7
 add esp, byte 14h	; 205FC
 movzx ebx, byte [byte_11FA2F]	; 205FF
 movsx eax, word [word_158D76]	; 20606
@@ -524,7 +524,7 @@ push eax	; 20717
 push edx	; 20718
 push dword [byte ebp-024h]	; 20719
 push ebx	; 2071C
-call sub_AD680	; 2071D
+call FillRect	; 2071D
 add esp, byte 14h	; 20722
 movzx edx, byte [byte_11FA2F]	; 20725
 movsx eax, word [word_158D76]	; 2072C
@@ -758,7 +758,7 @@ push eax	; 209B3
 push dword [dword_11F5C0]	; 209B4
 push byte 0	; 209BA
 push byte 0	; 209BC
-call sub_AD680	; 209BE
+call FillRect	; 209BE
 mov eax, 1B0h	; 209C3
 add esp, byte 14h	; 209C8
 mov ebx, 1	; 209CB
@@ -1727,7 +1727,7 @@ mov byte [byte ebp-03Bh], 2	; 217AF
 call sub_DD6C4	; 217B3
 push dword [byte ebp-040h]	; 217B8
 push dword [byte ebp-044h]	; 217BB
-call sub_DF928	; 217BE
+call MouseRead	; 217BE
 mov ebx, 2	; 217C3
 mov edx, dword [byte ebp+06Eh]	; 217C8
 add esp, byte 8	; 217CB

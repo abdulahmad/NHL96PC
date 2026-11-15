@@ -3,8 +3,8 @@ bits 32
 %include "hockey.inc"
 section s_C27F8 progbits alloc exec nowrite align=1
 extern SetDrawBitmap, str_EXITTODOSY, str_PAUSEPRESSANYKEY, dword_11F994, dword_122900, joycalactive, mousepollfn, off_11F5F4
-extern off_11F5F8, off_11F5FC, off_14F074, off_14F078, sub_AD35C, sub_AD680, sub_ADA80, sub_ADBEC
-extern sub_AFFD0, sub_B0254, sub_B026C, sub_B0284, sub_B2B30, sub_B31C0, sub_BF120, sub_CFE0C
+extern off_11F5F8, off_11F5FC, off_14F074, off_14F078, sub_AD35C, FillRect, sub_ADA80, sub_ADBEC
+extern sub_AFFD0, sub_B0254, sub_B026C, sub_B0284, DrawArtOpaque, sub_B31C0, sub_BF120, sub_CFE0C
 extern sub_CFE20, sub_CFE70, sub_DD6C4, sub_DE084, sub_DFF28, sub_E193C, sub_E1956, sub_E270C
 extern unk_1213DC
 global loc_C29C4, loc_C29CE, loc_C29EE, loc_C2A04, loc_C2AEB, sub_C27F8, sub_C2AC4, sub_C2AEC
@@ -89,7 +89,7 @@ mov eax, dword [dword esp+0C4h]	; C292B
 push eax	; C2932
 mov edx, dword [dword esp+0C4h]	; C2933
 push edx	; C293A
-call sub_AD680	; C293B
+call FillRect	; C293B
 add esp, byte 14h	; C2940
 push dword 0A80000h	; C2943
 call sub_B31C0	; C2948
@@ -171,7 +171,7 @@ mov eax, dword [dword esp+0ACh]	; C2A54
 push ebx	; C2A5B
 mov ecx, dword [byte eax+02Ch]	; C2A5C
 push ecx	; C2A5F
-call sub_B2B30	; C2A60
+call DrawArtOpaque	; C2A60
 add esp, byte 0Ch	; C2A65
 call dword [off_11F5FC]	; C2A68
 lea eax, [byte esp+060h]	; C2A6E
@@ -271,7 +271,7 @@ push byte 0Ah	; C2BA3
 push dword 140h	; C2BA5
 push dword 0BEh	; C2BAA
 push byte 0	; C2BAF
-call sub_AD680	; C2BB1
+call FillRect	; C2BB1
 add esp, byte 14h	; C2BB6
 push byte 0	; C2BB9
 push dword 0FCFCFCh	; C2BBB
@@ -296,7 +296,7 @@ push dword 0BEh	; C2C07
 push byte 0	; C2C0C
 mov eax, dword [byte esi+02Ch]	; C2C0E
 push eax	; C2C11
-call sub_B2B30	; C2C12
+call DrawArtOpaque	; C2C12
 add esp, byte 0Ch	; C2C17
 call dword [off_11F5FC]	; C2C1A
 lea eax, [byte esp+060h]	; C2C20

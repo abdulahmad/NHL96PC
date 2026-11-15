@@ -30,8 +30,8 @@ extern sub_1AA62, sub_1DCDC, sub_1DED8, sub_1DF18, sub_1DF55, sub_1DFEA, sub_1E5
 extern sub_2A5B5, sub_2A645, sub_62AF7, sub_62E0E, sub_62F90, sub_63998, sub_63A5B, sub_63E7C
 extern sub_63EB5, sub_63F79, sub_63FEF, sub_64103, sub_64721, sub_64F59, sub_68E31, sub_69A9B
 extern sub_77355, sub_7CCB8, sub_7D2CE, sub_7D2DC, sub_7D325, sub_7D346, sub_7D349, sub_8B7BB
-extern sub_AA7E0, sub_AAB40, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C, sub_AD620, sub_ADBEC
-extern sub_AFFD0, sub_B0254, sub_B026C, sub_B0284, sub_DD6C4, sub_DD8B0, sub_DF928, sub_DFF0F
+extern sub_AA7E0, PutBlock, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C, sub_AD620, sub_ADBEC
+extern sub_AFFD0, sub_B0254, sub_B026C, sub_B0284, sub_DD6C4, sub_DD8B0, MouseRead, sub_DFF0F
 extern sub_E04E0, sub_E15AC, str_D4, str_dbgS, str_wt, unk_160B50, unk_2A3D6, unk_2A3E2
 extern unk_2A3EE, unk_2A3F6, unk_2A402, unk_2A442, unk_2A482, word_160ACC, word_1656DA, word_1656DC
 extern word_1656E8, word_165810, word_165812, word_16581E
@@ -314,7 +314,7 @@ push dword 0FFFFFEF0h	; 2A97C
 push dword 0FFFFFEA2h	; 2A981
 push dword [byte ebp-014h]	; 2A986
 mov dword [byte ebp-018h], 0	; 2A989
-call sub_AAB40	; 2A990
+call PutBlock	; 2A990
 add esp, byte 0Ch	; 2A995
 lea eax, [byte esi+06Eh]	; 2A998
 cmp dword [byte esi+066h], byte 0Ah	; 2A99B
@@ -388,7 +388,7 @@ call sub_DD6C4	; 2AA61
 push dword 110h	; 2AA66
 push dword 15Eh	; 2AA6B
 push dword [byte edi+02Ch]	; 2AA70
-call sub_AAB40	; 2AA73
+call PutBlock	; 2AA73
 add esp, byte 0Ch	; 2AA78
 leave	; 2AA7B
 pop edi	; 2AA7C
@@ -787,7 +787,7 @@ mov ebx, dword [byte edi+02Ch]	; 2B07B
 call sub_2A963	; 2B07E
 push dword [dword ebp-0C14h]	; 2B083
 push dword [dword ebp-0C18h]	; 2B089
-call sub_DF928	; 2B08F
+call MouseRead	; 2B08F
 mov eax, word_160ACC	; 2B094
 mov dword [byte ebp-018h], 0	; 2B099
 add eax, esi	; 2B0A0
@@ -2278,7 +2278,7 @@ jg near loc_2BEE2	; 2C20E
 push dword [dword_17BCA6]	; 2C214
 push dword [dword_17BCA2]	; 2C21A
 push dword [dword_17BC96]	; 2C220
-call sub_AAB40	; 2C226
+call PutBlock	; 2C226
 add esp, byte 0Ch	; 2C22B
 test edi, edi	; 2C22E
 jne short loc_2C27D	; 2C230
@@ -3614,7 +3614,7 @@ cmp dword [byte ebp+072h], byte 19h	; 2D538
 jl near loc_2D35B	; 2D53C
 push dword [dword_160D26]	; 2D542
 push dword [dword_160D22]	; 2D548
-call sub_DF928	; 2D54E
+call MouseRead	; 2D54E
 mov ecx, dword [byte ebp+03Eh]	; 2D553
 mov edx, dword [byte ebp+03Ah]	; 2D556
 add esp, byte 8	; 2D559

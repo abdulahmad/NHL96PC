@@ -4,7 +4,7 @@ bits 32
 section s_176CA8 nobits alloc noexec write align=1
 global defsort_d, dressflags, byte_176DEC, byte_176DED, offsort_fwd, byte_176ED7, byte_176ED9, dword_176ED5
 global dword_176F90, unk_176CA8, unk_176CDA, unk_176D0C, unk_176D3E, unk_176DA2, unk_176E38, unk_176E6A
-global unk_176E9C, unk_176ED4, word_176ECE, word_176ED0, word_176ED2, word_176EDB
+global unk_176E9C, unk_176ED4, word_176ECE, word_176ED0, dressedskaters, word_176EDB
 unk_176CA8:
 resb 50
 unk_176CDA:
@@ -35,7 +35,7 @@ word_176ECE:
 resb 2
 word_176ED0:
 resb 2
-word_176ED2:
+dressedskaters:
 resb 2
 unk_176ED4:
 resb 1

@@ -8,7 +8,7 @@ global shotongoal, unk_118EB9, unk_118EC9, unk_118EE9, unk_118EF9, unk_118F09, u
 global unk_118F39, unk_118F49, unk_118F59, unk_118F69, unk_118FA5, word_118E8F, word_118E91, word_118E93
 global word_118E95, word_118E9F, word_118EA3, word_118EA5, word_118EA7, word_118EA9, word_118EAB, word_118EAF
 global word_118EB1, word_118EB3, word_118EB7, word_118FAF, word_118FB1, word_1190D7, word_1190D9, word_1190E7
-global word_1190E9, word_11910B, word_11910D, word_11910F, word_119111, word_119113, Pencntdwn2, word_119117
+global word_1190E9, word_11910B, refhitcount, word_11910F, word_119111, word_119113, Pencntdwn2, word_119117
 global word_11911F, word_119127, word_119169, word_11916B
 byte_118E82:
 db 00h,01h,02h,04h,03h,05h,06h
@@ -122,7 +122,7 @@ db 00h,01h,02h,03h,04h,05h,06h,00h,00h,01h,05h,03h,04h,02h,00h,00h
 db 00h,03h,05h,01h,04h,00h,00h,00h
 word_11910B:
 db 0FFh,0FFh
-word_11910D:
+refhitcount:
 db 00h,00h
 word_11910F:
 db 00h,00h

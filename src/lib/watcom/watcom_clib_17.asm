@@ -10,9 +10,9 @@ extern dword_1A10A8, dword_1A10B0, dword_1A10B4, dword_1A10C0, dword_1A10C4, dwo
 extern dword_1A10D4, dword_1A10D8, dword_1A10DC, dword_1A10E0, dword_1A10E4, dword_1A10E8, dword_1A10EC, dword_1A10F0
 extern dword_1A10F4, dword_1A10F8, dword_1A10FC, dword_1A1100, fputchar, loc_D7DE0, loc_D7FE8, loc_E2390
 extern loc_E23B6, mousepollfn, off_11F5F4, off_11F5F8, off_11F5FC, off_14FAD0, off_14FAD4, sprintf_
-extern sub_AA7E0, sub_AAB40, sub_AB6D8, sub_ABF4C, sub_ABF88, sub_AC9CC, sub_AD2B4, sub_AD824
-extern sub_ADBEC, sub_B0240, sub_B049E, sub_B2400, sub_B2B30, sub_BF290, sub_C2AC4, sub_C2C5C
-extern sub_C5410, sub_C59E0, sub_CFE8C, sub_DA338, sub_DD6C4, sub_DD760, sub_DF55C, sub_DF596
+extern sub_AA7E0, PutBlock, sub_AB6D8, sub_ABF4C, sub_ABF88, sub_AC9CC, sub_AD2B4, sub_AD824
+extern sub_ADBEC, sub_B0240, sub_B049E, sub_B2400, DrawArtOpaque, sub_BF290, sub_C2AC4, sub_C2C5C
+extern sub_C5410, sub_C59E0, sub_CFE8C, sub_DA338, sub_DD6C4, SetClipWindow, sub_DF55C, sub_DF596
 extern sub_DF9B7, sub_DFA98, sub_E0520, sub_E193C, sub_E1956, sub_E2335, unk_D1552, word_14FADC
 global __CHK, __GRO, __STK, __int386x_, loc_D06D6, loc_D06F3, loc_D0770, loc_D07C8
 global loc_D07F2, loc_D0846, loc_D08DD, loc_D08E6, loc_D090F, loc_D0937, loc_D093E, loc_D0940
@@ -218,7 +218,7 @@ mov eax, dword [dword_1A10C4]	; D087C
 push byte 0	; D0881
 mov ecx, dword [byte eax+02Ch]	; D0883
 push ecx	; D0886
-call sub_B2B30	; D0887
+call DrawArtOpaque	; D0887
 mov eax, dword [dword_1A10F8]	; D088C
 add esp, byte 0Ch	; D0891
 and eax, byte 7	; D0894
@@ -255,7 +255,7 @@ push eax	; D08F2
 mov eax, dword [dword_1A10F0]	; D08F3
 mov edx, dword [byte eax+02Ch]	; D08F8
 push edx	; D08FB
-call sub_AAB40	; D08FC
+call PutBlock	; D08FC
 add esp, byte 0Ch	; D0901
 mov eax, esp	; D0904
 push eax	; D0906
@@ -381,7 +381,7 @@ mov ebp, dword [dword_1A10D4]	; D0A7D
 push ebp	; D0A83
 mov edx, dword [byte esi+02Ch]	; D0A84
 push edx	; D0A87
-call sub_AAB40	; D0A88
+call PutBlock	; D0A88
 add esp, byte 0Ch	; D0A8D
 loc_D0A90:
 mov eax, esp	; D0A90
@@ -442,7 +442,7 @@ loc_D0B21:
 push eax	; D0B21
 mov ebx, dword [dword_1A10E8]	; D0B22
 push ebx	; D0B28
-call sub_DD760	; D0B29
+call SetClipWindow	; D0B29
 mov ecx, dword [dword_1A10C4]	; D0B2E
 add esp, byte 10h	; D0B34
 test ecx, ecx	; D0B37
@@ -508,7 +508,7 @@ mov edx, dword [dword esp+084h]	; D0BD4
 push edx	; D0BDB
 push esi	; D0BDC
 push ebp	; D0BDD
-call sub_DD760	; D0BDE
+call SetClipWindow	; D0BDE
 mov ebx, dword [dword_1A10C4]	; D0BE3
 add esp, byte 10h	; D0BE9
 test ebx, ebx	; D0BEC
@@ -519,7 +519,7 @@ mov esi, dword [byte esp+074h]	; D0BF5
 push esi	; D0BF9
 mov edi, dword [byte ebx+02Ch]	; D0BFA
 push edi	; D0BFD
-call sub_AAB40	; D0BFE
+call PutBlock	; D0BFE
 add esp, byte 0Ch	; D0C03
 loc_D0C06:
 mov eax, esp	; D0C06
@@ -609,7 +609,7 @@ push eax	; D0D26
 mov eax, dword [dword_1A10C4]	; D0D27
 mov edx, dword [byte eax+02Ch]	; D0D2C
 push edx	; D0D2F
-call sub_AAB40	; D0D30
+call PutBlock	; D0D30
 add esp, byte 0Ch	; D0D35
 mov eax, esp	; D0D38
 push eax	; D0D3A

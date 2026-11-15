@@ -20,8 +20,8 @@ extern dword_19B6D8, dword_19B6DC, dword_19B6E0, dword_19B6E4, dword_19B724, dwo
 extern dword_19B778, dword_19B77C, dword_19B784, dword_19B788, dword_19B8F0, dword_19B8F4, dword_19B8F8, dword_19B8FC
 extern dword_19B900, dword_19BA30, dword_1A0B2C, dword_1A0DA0, dword_1A0DA4, off_123CE0, off_123CE4, off_123CE8
 extern off_123CEC, off_123D68, off_123D6C, off_123D70, off_123D74, off_123D78, off_123D7C, off_123D80
-extern off_123D84, off_123D88, strncpy_, sub_1CA28, sub_1D658, sub_AA664, sub_AAB40, sub_AB758
-extern sub_ABF4C, sub_AC9CC, sub_ACA3C, sub_AFCD0, sub_B2B30, sub_B65D4, sub_BF120, sub_C5D00
+extern off_123D84, off_123D88, strncpy_, sub_1CA28, sub_1D658, sub_AA664, PutBlock, sub_AB758
+extern sub_ABF4C, sub_AC9CC, sub_ACA3C, sub_AFCD0, DrawArtOpaque, sub_B65D4, sub_BF120, sub_C5D00
 extern sub_CAA80, sub_CAB58, sub_CAB78, sub_CABA9, sub_CBEA8, sub_CC048, sub_CC15A, sub_CC17B
 extern sub_CC1B5, sub_CC200, sub_CE0A9, sub_CE2E8, sub_CE709, sub_CE780, sub_CF6C9, sub_CF7C0
 extern sub_CF864, sub_CF918, sub_CFA64, sub_CFB14, sub_CFCC0, sub_DD6C4, sub_DDF4F, sub_DFB84
@@ -4215,7 +4215,7 @@ mov esi, sub_C24D0	; C2527
 push edx	; C252C
 mov edi, sub_E0520	; C252D
 mov dword [dword_1210C0], esi	; C2532
-call sub_B2B30	; C2538
+call DrawArtOpaque	; C2538
 add esp, byte 0Ch	; C253D
 mov dword [dword_1210C0], edi	; C2540
 pop edi	; C2546
@@ -4248,7 +4248,7 @@ mov esi, sub_C24D0	; C2578
 push ebx	; C257D
 mov edi, sub_E0520	; C257E
 mov dword [dword_1210C0], esi	; C2583
-call sub_B2B30	; C2589
+call DrawArtOpaque	; C2589
 add esp, byte 0Ch	; C258E
 mov dword [dword_1210C0], edi	; C2591
 pop edi	; C2597
@@ -4285,7 +4285,7 @@ mov esi, sub_C24D0	; C25D7
 push eax	; C25DC
 mov edi, sub_E0520	; C25DD
 mov dword [dword_1210C0], esi	; C25E2
-call sub_B2B30	; C25E8
+call DrawArtOpaque	; C25E8
 add esp, byte 0Ch	; C25ED
 mov dword [dword_1210C0], edi	; C25F0
 pop edi	; C25F6
@@ -4315,7 +4315,7 @@ mov esi, sub_CFCC0	; C2627
 push edx	; C262C
 mov edi, sub_E0520	; C262D
 mov dword [dword_1210C0], esi	; C2632
-call sub_AAB40	; C2638
+call PutBlock	; C2638
 add esp, byte 0Ch	; C263D
 mov dword [dword_1210C0], edi	; C2640
 pop edi	; C2646
@@ -4347,7 +4347,7 @@ mov esi, sub_CFCC0	; C2678
 push ebx	; C267D
 mov edi, sub_E0520	; C267E
 mov dword [dword_1210C0], esi	; C2683
-call sub_AAB40	; C2689
+call PutBlock	; C2689
 add esp, byte 0Ch	; C268E
 mov dword [dword_1210C0], edi	; C2691
 pop edi	; C2697
@@ -4384,7 +4384,7 @@ mov esi, sub_CFCC0	; C26D7
 push eax	; C26DC
 mov edi, sub_E0520	; C26DD
 mov dword [dword_1210C0], esi	; C26E2
-call sub_AAB40	; C26E8
+call PutBlock	; C26E8
 add esp, byte 0Ch	; C26ED
 mov dword [dword_1210C0], edi	; C26F0
 pop edi	; C26F6
@@ -4506,7 +4506,7 @@ push ebp	; C27E3
 push edi	; C27E4
 mov edx, dword [byte esi+02Ch]	; C27E5
 push edx	; C27E8
-call sub_B2B30	; C27E9
+call DrawArtOpaque	; C27E9
 add esp, byte 0Ch	; C27EE
 pop ebp	; C27F1
 pop edi	; C27F2

@@ -17,7 +17,7 @@ extern sub_46A0B, sub_4704A, sub_470AD, sub_4711E, sub_4786F, sub_4806A, sub_4B7
 extern sub_4F452, sub_500D4, sub_501EC, sub_50CB5, sub_51C45, sub_5316C, sub_606B9, sub_68E31
 extern sub_69105, sub_69141, sub_BE960, sub_E14C8, threat, unk_164B5C, unk_1657BC, unk_1658F2
 extern vtoa, wcradiusx, word_1178A0, word_1178A6, word_1178A8, word_1178AC, word_1178AE, word_1178B4
-extern word_1178B6, word_1178C6, word_1178CA, word_1178FE, word_117902, word_117914, word_117916, word_11910D
+extern word_1178B6, word_1178C6, word_1178CA, word_1178FE, word_117902, word_117914, word_117916, refhitcount
 extern word_11910F, word_119111, word_119113, word_11916B, word_119F98, word_119F9A, word_119FB8, word_119FC8
 extern word_119FCA, word_164794, word_1647A2, word_165144, word_16514A, word_16514C, word_165710, word_165846
 extern word_165964, regd5, word_165970, word_16597C, word_165980, word_176B24, word_176B6A, word_176B80
@@ -994,11 +994,11 @@ and al, 8	; 3EFF2
 movzx eax, al	; 3EFF4
 test eax, eax	; 3EFF7
 je near loc_3F1F7	; 3EFF9
-inc word [word_11910D]	; 3EFFF
-movsx eax, word [word_11910D]	; 3F006
+inc word [refhitcount]	; 3EFFF
+movsx eax, word [refhitcount]	; 3F006
 cmp eax, byte 3	; 3F00D
 jl near loc_3F1EE	; 3F010
-mov word [word_11910D], 0	; 3F016
+mov word [refhitcount], 0	; 3F016
 jmp near loc_3F1EE	; 3F01F
 loc_3F024:
 mov al, byte [gmode]	; 3F024

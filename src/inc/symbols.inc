@@ -837,7 +837,7 @@
 ;  AAA40  sub_AAA40                                lib/ea/ea_gfx_01.asm                         20
 ;  AAA8C  sub_AAA8C                                lib/ea/ea_gfx_01.asm                         10
 ;  AAADC  sub_AAADC                                lib/ea/ea_gfx_01.asm                         2
-;  AAB40  sub_AAB40                                lib/ea/ea_gfx_01.asm                         28
+;  AAB40  PutBlock                                 lib/ea/ea_gfx_01.asm                         28
 ;  AADA4  sub_AADA4                                lib/ea/ea_gfx_01.asm                         20
 ;  AADC0  sub_AADC0                                lib/ea/ea_gfx_01.asm                         1
 ;  AB2EC  sub_AB2EC                                lib/ea/ea_gfx_01.asm                         1
@@ -879,7 +879,7 @@
 ;  AD35C  sub_AD35C                                lib/ea/ea_debug_01.asm                       28
 ;  AD5C8  sub_AD5C8                                lib/ea/ea_debug_01.asm                       4
 ;  AD620  sub_AD620                                lib/ea/ea_debug_01.asm                       10
-;  AD680  sub_AD680                                lib/ea/ea_gfx_02.asm                         15
+;  AD680  FillRect                                 lib/ea/ea_gfx_02.asm                         15
 ;  AD824  sub_AD824                                lib/ea/ea_gfx_02.asm                         3
 ;  AD9DC  sub_AD9DC                                lib/ea/ea_gfx_02.asm                         1
 ;  ADA50  sub_ADA50                                lib/ea/ea_gfx_02.asm                         12
@@ -948,7 +948,7 @@
 ;  B2374  savefileblocka                           lib/ea/ea_fileblock_02.asm                   1
 ;  B2400  sub_B2400                                lib/ea/ea_fileblock_02.asm                   1
 ;  B2B0C  sub_B2B0C                                lib/ea/ea_fileblock_02.asm                   4
-;  B2B30  sub_B2B30                                lib/ea/ea_gfx_03.asm                         11
+;  B2B30  DrawArtOpaque                            lib/ea/ea_gfx_03.asm                         11
 ;  B2C54  sub_B2C54                                lib/ea/ea_gfx_03.asm                         13
 ;  B2C70  sub_B2C70                                lib/ea/ea_gfx_03.asm                         2
 ;  B2C98  printf_                                  lib/watcom/watcom_clib_05.asm                2
@@ -1081,7 +1081,7 @@
 ;  BE926  sub_BE926                                lib/ea/ea_fileblock_03.asm                   3
 ;  BE93C  fprintf_                                 lib/ea/ea_fileblock_03.asm                   5
 ;  BE960  sub_BE960                                lib/ea/ea_fileblock_03.asm                   2
-;  BEA30  sub_BEA30                                lib/ea/ea_fileblock_03.asm                   4
+;  BEA30  SortIndices                              lib/ea/ea_fileblock_03.asm                   4
 ;  BEAE4  sub_BEAE4                                lib/ea/ea_fileblock_03.asm                   3
 ;  BEB48  sub_BEB48                                lib/ea/ea_fileblock_03.asm                   1
 ;  BEF44  sub_BEF44                                lib/ea/ea_fileblock_03.asm                   1
@@ -1597,7 +1597,7 @@
 ;  DD6E0  sub_DD6E0                                lib/video/video_bios_vga_01.asm              5
 ;  DD708  SetDrawBitmap                            lib/video/video_bios_vga_01.asm              30
 ;  DD724  sub_DD724                                lib/video/video_bios_vga_01.asm              9
-;  DD760  sub_DD760                                lib/video/video_bios_vga_01.asm              15
+;  DD760  SetClipWindow                            lib/video/video_bios_vga_01.asm              15
 ;  DD7B8  sub_DD7B8                                lib/video/video_bios_vga_01.asm              7
 ;  DD800  sub_DD800                                lib/video/video_bios_vga_01.asm              1
 ;  DD830  sub_DD830                                lib/video/video_bios_vga_01.asm              3
@@ -1621,7 +1621,7 @@
 ;  DDF94  sub_DDF94                                lib/video/video_bios_vga_01.asm              1
 ;  DE01A  sub_DE01A                                lib/video/video_bios_vga_01.asm              1
 ;  DE084  sub_DE084                                lib/video/vesa_banked_blit_02.asm            3
-;  DE10D  sub_DE10D                                lib/video/vesa_banked_blit_02.asm            3
+;  DE10D  PlotPixel                                lib/video/vesa_banked_blit_02.asm            3
 ;  DE15C  sub_DE15C                                lib/video/vesa_banked_blit_02.asm            2
 ;  DE18C  sub_DE18C                                lib/video/vesa_banked_blit_02.asm            3
 ;  DE247  sub_DE247                                lib/video/vesa_banked_blit_02.asm            1
@@ -1651,8 +1651,8 @@
 ;  DF5C0  sub_DF5C0                                lib/video/vesa_banked_blit_02.asm            1
 ;  DF6A7  sub_DF6A7                                lib/video/vesa_banked_blit_02.asm            1
 ;  DF810  sub_DF810                                lib/video/vesa_banked_blit_02.asm            1
-;  DF928  sub_DF928                                lib/input/input_mouse.asm                    13
-;  DF98F  sub_DF98F                                lib/input/input_mouse.asm                    8
+;  DF928  MouseRead                                lib/input/input_mouse.asm                    13
+;  DF98F  SetViewRect                              lib/input/input_mouse.asm                    8
 ;  DF9B7  sub_DF9B7                                lib/input/input_mouse.asm                    1
 ;  DFA98  sub_DFA98                                lib/input/input_mouse.asm                    3
 ;  DFB84  sub_DFB84                                lib/input/input_mouse.asm                    4
@@ -4062,7 +4062,7 @@
 ;  1190E9  word_1190E9                              data/engine/hockey_data_01.asm               1
 ;  1190F3  byte_1190F3                              data/engine/hockey_data_01.asm               2
 ;  11910B  word_11910B                              data/engine/hockey_data_01.asm               6
-;  11910D  word_11910D                              data/engine/hockey_data_01.asm               3
+;  11910D  refhitcount                              data/engine/hockey_data_01.asm               3
 ;  11910F  word_11910F                              data/engine/hockey_data_01.asm               6
 ;  119111  word_119111                              data/engine/hockey_data_01.asm               7
 ;  119113  word_119113                              data/engine/hockey_data_01.asm               7
@@ -4162,7 +4162,7 @@
 ;  11A236  word_11A236                              data/engine/input_data_01.asm                1
 ;  11A26C  word_11A26C                              data/engine/input_data_01.asm                1
 ;  11A2F8  dword_11A2F8                             data/engine/input_data_01.asm                1
-;  11A310  byte_11A310                              data/engine/lines_data_01.asm                1
+;  11A310  dressbystatus                            data/engine/lines_data_01.asm                1
 ;  11A319  byte_11A319                              data/engine/lines_data_01.asm                1
 ;  11A3B4  byte_11A3B4                              data/engine/lines_data_01.asm                1
 ;  11A3E8  DemoMode                                 data/engine/lines_data_01.asm                4
@@ -6196,7 +6196,7 @@
 ;  176E9C  unk_176E9C                               data/engine/lines_bss_01.asm                 2
 ;  176ECE  word_176ECE                              data/engine/lines_bss_01.asm                 1
 ;  176ED0  word_176ED0                              data/engine/lines_bss_01.asm                 1
-;  176ED2  word_176ED2                              data/engine/lines_bss_01.asm                 1
+;  176ED2  dressedskaters                           data/engine/lines_bss_01.asm                 1
 ;  176ED4  unk_176ED4                               data/engine/lines_bss_01.asm                 1
 ;  176ED5  dword_176ED5                             data/engine/lines_bss_01.asm                 1
 ;  176ED7  byte_176ED7                              data/engine/lines_bss_01.asm                 1

@@ -8,7 +8,7 @@ extern dword_11F908, dword_11F928, dword_11F92C, dword_11F930, dword_11F934, dwo
 extern dword_11F947, dword_11F94B, dword_11F94F, dword_11F953, dword_11F957, dword_11F95B, str_P2, dword_11F963
 extern dword_11F967, dword_11F96B, dword_11F96F, dword_11F973, dword_11F977, dword_11F97B, dword_11F97F, dword_1210D0
 extern dword_1210D6, dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4, exit_, joyenablemask, off_11F618
-extern sub_AD680, sub_B65D4, sub_C2C7C, sub_C2C94, sub_E0898, tickcount, tickdeadline, unk_AA7B0
+extern FillRect, sub_B65D4, sub_C2C7C, sub_C2C94, sub_E0898, tickcount, tickdeadline, unk_AA7B0
 extern word_11F910, word_11F914, word_11F918, word_11F91C, word_1210D4, word_1210DA
 global GetTicks, SetTickDeadline, TickDeadlinePassed, TicksSince, WaitKey, WaitTickDeadline, loc_DFF1B, loc_DFF36
 global loc_DFF44, loc_DFF59, loc_DFF5F, loc_DFF87, loc_DFF9F, loc_DFFB1, loc_DFFC8, loc_E0001
@@ -670,7 +670,7 @@ push edx	; E05A4
 push eax	; E05A5
 push ebx	; E05A6
 push ecx	; E05A7
-call sub_AD680	; E05A8
+call FillRect	; E05A8
 add esp, byte 14h	; E05AD
 ret	; E05B0
 db 00h,00h,00h

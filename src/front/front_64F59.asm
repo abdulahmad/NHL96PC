@@ -15,8 +15,8 @@ extern dword_17C440, dword_17C448, dword_17C44C, dword_17C450, dword_17C454, dwo
 extern sprintf_, sub_10010, sub_1290C, sub_193E8, sub_19522, sub_1A109, sub_1E5FC, sub_1E7F6
 extern sub_62AF7, sub_62D9B, sub_62E0E, sub_62F90, sub_63968, sub_63998, sub_63A5B, sub_63B0C
 extern sub_64721, sub_64776, sub_68AB1, sub_68BFA, sub_68C33, sub_68C8F, sub_68E31, sub_69A94
-extern sub_69A9B, sub_77355, sub_AA7E0, sub_AAA40, sub_AAB40, sub_AADA4, sub_ABF4C, sub_AD35C
-extern sub_ADA50, sub_ADBEC, sub_BF8D0, sub_DD6C4, sub_DDE7B, sub_DDEBC, sub_DF928, sub_DF98F
+extern sub_69A9B, sub_77355, sub_AA7E0, sub_AAA40, PutBlock, sub_AADA4, sub_ABF4C, sub_AD35C
+extern sub_ADA50, sub_ADBEC, sub_BF8D0, sub_DD6C4, sub_DDE7B, sub_DDEBC, MouseRead, SetViewRect
 extern sub_E04E0, sub_E0584, word_114CE0, word_114CE4, word_11D1B4, word_11D1B6, word_11D1B8, word_17C464
 extern word_17C466, word_17C468, word_17C46A, word_17C46C, word_17C46E, word_17C470
 global jpt_66539, jpt_66549, jpt_66569, jpt_66579, loc_64FB8, loc_64FD4, loc_64FF9, loc_6500F
@@ -91,7 +91,7 @@ sub edx, eax	; 64FD4
 push edx	; 64FD6
 push byte 0	; 64FD7
 push byte 0	; 64FD9
-call sub_DF98F	; 64FDB
+call SetViewRect	; 64FDB
 add esp, byte 10h	; 64FE0
 movsx eax, word [word_11D1B4]	; 64FE3
 mov dword [byte ebp-06h], eax	; 64FEA
@@ -150,7 +150,7 @@ cmp eax, dword [edx]	; 650C1
 jne short loc_650D3	; 650C3
 push dword [byte esi+03Eh]	; 650C5
 push dword [byte esi+03Ah]	; 650C8
-call sub_DF928	; 650CB
+call MouseRead	; 650CB
 add esp, byte 8	; 650D0
 loc_650D3:
 mov dword [byte esi+0Ch], 0	; 650D3
@@ -233,7 +233,7 @@ push byte 0	; 651B8
 mov eax, dword [dword_17C41C]	; 651BA
 push byte 0	; 651BF
 push dword [byte eax+02Ch]	; 651C1
-call sub_AAB40	; 651C4
+call PutBlock	; 651C4
 add esp, byte 0Ch	; 651C9
 loc_651CC:
 cmp word [word_17C46C], byte 0	; 651CC
@@ -391,7 +391,7 @@ push dword [byte ebp+052h]	; 653BF
 push dword [byte ebp+04Eh]	; 653C2
 push dword [dword_152F5C]	; 653C5
 loc_653CB:
-call sub_AAB40	; 653CB
+call PutBlock	; 653CB
 add esp, byte 0Ch	; 653D0
 mov dword [byte ebp+056h], 0	; 653D3
 loc_653DA:
@@ -417,7 +417,7 @@ push dword [byte ebp+062h]	; 65410
 push dword [byte ebp+05Eh]	; 65413
 push dword [dword_152F54]	; 65416
 loc_6541C:
-call sub_AAB40	; 6541C
+call PutBlock	; 6541C
 add esp, byte 0Ch	; 65421
 jmp short loc_6542D	; 65424
 loc_65426:
@@ -461,7 +461,7 @@ push edx	; 654A4
 loc_654A5:
 push byte 0	; 654A5
 push byte 0	; 654A7
-call sub_DF98F	; 654A9
+call SetViewRect	; 654A9
 add esp, byte 10h	; 654AE
 loc_654B1:
 mov eax, dword [dword_11D1A8]	; 654B1
@@ -547,7 +547,7 @@ push dword [byte ebp+052h]	; 655AC
 push dword [byte ebp+04Eh]	; 655AF
 push dword [dword_152F5C]	; 655B2
 loc_655B8:
-call sub_AAB40	; 655B8
+call PutBlock	; 655B8
 add esp, byte 0Ch	; 655BD
 mov dword [byte ebp+056h], 0	; 655C0
 loc_655C7:
@@ -573,7 +573,7 @@ push dword [byte ebp+062h]	; 655FD
 push dword [byte ebp+05Eh]	; 65600
 push dword [dword_152F54]	; 65603
 loc_65609:
-call sub_AAB40	; 65609
+call PutBlock	; 65609
 add esp, byte 0Ch	; 6560E
 mov dword [byte ebp+05Ah], 0	; 65611
 loc_65618:
@@ -728,7 +728,7 @@ lea eax, [byte edx+01h]	; 657E3
 push eax	; 657E6
 push dword [byte edi+04Eh]	; 657E7
 push dword [byte edi+04Ah]	; 657EA
-call sub_DF98F	; 657ED
+call SetViewRect	; 657ED
 add esp, byte 10h	; 657F2
 push byte 0	; 657F5
 push dword [dword_17C40C]	; 657F7
@@ -780,7 +780,7 @@ push eax	; 658B4
 mov eax, dword [byte edi+026h]	; 658B5
 push eax	; 658B8
 mov dword [dword_11D1A8], eax	; 658B9
-call sub_DF928	; 658BE
+call MouseRead	; 658BE
 mov eax, dword [byte ebp+02Ah]	; 658C3
 add esp, byte 8	; 658C6
 mov dword [byte ebp+04Ah], eax	; 658C9
@@ -846,7 +846,7 @@ mov eax, dword [dword_17C410]	; 65983
 push dword [dword_11D1AC]	; 65988
 add dword [dword_11D1A8], eax	; 6598E
 push dword [dword_11D1A8]	; 65994
-call sub_DF928	; 6599A
+call MouseRead	; 6599A
 add esp, byte 8	; 6599F
 cmp word [word_11D1B4], byte 0	; 659A2
 je short loc_659D8	; 659AA
@@ -877,7 +877,7 @@ push edx	; 659F6
 loc_659F7:
 push byte 0	; 659F7
 push byte 0	; 659F9
-call sub_DF98F	; 659FB
+call SetViewRect	; 659FB
 add esp, byte 10h	; 65A00
 mov esi, dword [byte ebp-01Eh]	; 65A03
 mov dword [byte ebp+026h], 0	; 65A06
@@ -1363,7 +1363,7 @@ movsx eax, word [word_17C46E]	; 65FCC
 push eax	; 65FD3
 push dword [dword_11D1A8]	; 65FD4
 mov dword [dword_11D1AC], eax	; 65FDA
-call sub_DF928	; 65FDF
+call MouseRead	; 65FDF
 mov word [word_11D1B6], 0	; 65FE4
 add esp, byte 8	; 65FED
 loc_65FF0:
@@ -1557,7 +1557,7 @@ push dword [byte ebp+052h]	; 662BF
 push dword [byte ebp+04Eh]	; 662C2
 push dword [dword_152F5C]	; 662C5
 loc_662CB:
-call sub_AAB40	; 662CB
+call PutBlock	; 662CB
 add esp, byte 0Ch	; 662D0
 loc_662D3:
 cmp dword [byte ebp+05Ah], byte 0	; 662D3
@@ -1582,7 +1582,7 @@ push dword [byte ebp+062h]	; 66309
 push dword [byte ebp+05Eh]	; 6630C
 push dword [dword_152F54]	; 6630F
 loc_66315:
-call sub_AAB40	; 66315
+call PutBlock	; 66315
 add esp, byte 0Ch	; 6631A
 loc_6631D:
 mov edx, dword [dword ebp+086h]	; 6631D
@@ -1633,7 +1633,7 @@ push edx	; 663A1
 push eax	; 663A2
 mov dword [dword_11D1A8], eax	; 663A3
 mov dword [dword_11D1AC], edx	; 663A8
-call sub_DF928	; 663AE
+call MouseRead	; 663AE
 add esp, byte 8	; 663B3
 pop ecx	; 663B6
 pop ebx	; 663B7
@@ -1992,7 +1992,7 @@ call sub_68BFA	; 66B0D
 loc_66B12:
 push dword [dword ebp-0182h]	; 66B12
 push dword [dword ebp-0186h]	; 66B18
-call sub_DF928	; 66B1E
+call MouseRead	; 66B1E
 mov ebx, 3	; 66B23
 mov edx, dword [byte ebp+06Eh]	; 66B28
 add esp, byte 8	; 66B2B

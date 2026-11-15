@@ -24,8 +24,8 @@ extern sub_17B72, sub_1802B, sub_1803B, sub_1804B, sub_18234, sub_183CD, sub_185
 extern sub_1891A, sub_1A109, sub_1AA27, sub_1AA62, sub_619E2, sub_63B0C, sub_63F79, sub_63FEF
 extern sub_640D3, sub_641D4, sub_689D1, sub_68A0B, sub_68AB1, sub_68BFA, sub_68C33, sub_69A94
 extern sub_69A9B, sub_77355, sub_AA664, sub_AA988, sub_AAA8C, sub_AADA4, sub_AB758, sub_ABF4C
-extern sub_AD35C, sub_AD620, sub_AD680, sub_ADA80, sub_ADBEC, sub_DD6C4, sub_DD6E0, sub_DD724
-extern sub_DD760, sub_DF928, sub_DF98F, sub_DFA98, sub_DFE9C, sub_DFF28, sub_E0051, sub_E0456
+extern sub_AD35C, sub_AD620, FillRect, sub_ADA80, sub_ADBEC, sub_DD6C4, sub_DD6E0, sub_DD724
+extern SetClipWindow, MouseRead, SetViewRect, sub_DFA98, sub_DFE9C, sub_DFF28, sub_E0051, sub_E0456
 extern sub_E04D0, sub_E04E0, str_Rb2, unk_114BA8, unk_114C00, unk_114CE6, unk_114D46, unk_114D6E
 extern unk_151648, unk_1516B8, unk_151784, unk_15179C, unk_1519C0, unk_151A04, unk_151A44, unk_151A94
 extern unk_151ADC, unk_17C9B8, unk_17C9CC, unk_17CA75, unk_17D272, str_X3, word_114B40, word_114B42
@@ -902,11 +902,11 @@ push dword 0C8h	; 109F1
 push dword 140h	; 109F6
 push byte 0	; 109FB
 push byte 0	; 109FD
-call sub_DF98F	; 109FF
+call SetViewRect	; 109FF
 add esp, byte 10h	; 10A04
 push byte 64h	; 10A07
 push dword 0A0h	; 10A09
-call sub_DF928	; 10A0E
+call MouseRead	; 10A0E
 add esp, byte 8	; 10A13
 call dword [mousepollfn]	; 10A16
 loc_10A1C:
@@ -938,7 +938,7 @@ push dword [dword_11F5C4]	; 10A80
 push dword [dword_11F5C0]	; 10A86
 push byte 0	; 10A8C
 push byte 0	; 10A8E
-call sub_DF98F	; 10A90
+call SetViewRect	; 10A90
 mov eax, dword [dword_11F5C4]	; 10A95
 add esp, byte 10h	; 10A9A
 sar eax, 1	; 10A9D
@@ -946,7 +946,7 @@ push eax	; 10A9F
 mov eax, dword [dword_11F5C0]	; 10AA0
 sar eax, 1	; 10AA5
 push eax	; 10AA7
-call sub_DF928	; 10AA8
+call MouseRead	; 10AA8
 add esp, byte 8	; 10AAD
 call dword [mousepollfn]	; 10AB0
 loc_10AB6:
@@ -4641,7 +4641,7 @@ mov eax, dword [byte ebp-040h]	; 139D3
 push eax	; 139D6
 mov eax, dword [byte ebp-044h]	; 139D7
 push eax	; 139DA
-call sub_AD680	; 139DB
+call FillRect	; 139DB
 add esp, byte 14h	; 139E0
 mov ebx, dword [byte ebp-040h]	; 139E3
 add ebx, byte 3	; 139E6
@@ -4776,7 +4776,7 @@ push eax	; 13B5C
 mov eax, dword [byte ebp-044h]	; 13B5D
 add eax, byte 3	; 13B60
 push eax	; 13B63
-call sub_AD680	; 13B64
+call FillRect	; 13B64
 add esp, byte 14h	; 13B69
 movsx eax, word [byte ebp-010h]	; 13B6C
 push eax	; 13B70
@@ -4796,7 +4796,7 @@ push eax	; 13B90
 mov eax, dword [byte ebp-044h]	; 13B91
 add eax, byte 3	; 13B94
 push eax	; 13B97
-call sub_AD680	; 13B98
+call FillRect	; 13B98
 add esp, byte 14h	; 13B9D
 call sub_69A9B	; 13BA0
 call GetTicks	; 13BA5
@@ -4882,7 +4882,7 @@ mov edx, dword [byte ebp-044h]	; 13C9D
 add edx, byte 3	; 13CA0
 add eax, edx	; 13CA3
 push eax	; 13CA5
-call sub_DD760	; 13CA6
+call SetClipWindow	; 13CA6
 add esp, byte 10h	; 13CAB
 mov eax, dword [byte ebp-02Ch]	; 13CAE
 push dword [byte eax+02Ch]	; 13CB1
@@ -4892,7 +4892,7 @@ push dword [dword_11F5C4]	; 13CBC
 push byte 0	; 13CC2
 push dword [dword_11F5C0]	; 13CC4
 push byte 0	; 13CCA
-call sub_DD760	; 13CCC
+call SetClipWindow	; 13CCC
 add esp, byte 10h	; 13CD1
 jmp short loc_13D16	; 13CD4
 loc_13CD6:
@@ -4918,7 +4918,7 @@ mov edx, dword [byte ebp-044h]	; 13D05
 add edx, byte 3	; 13D08
 add eax, edx	; 13D0B
 push eax	; 13D0D
-call sub_AD680	; 13D0E
+call FillRect	; 13D0E
 add esp, byte 14h	; 13D13
 loc_13D16:
 movsx eax, word [byte ebp-020h]	; 13D16
@@ -4996,7 +4996,7 @@ push eax	; 13DEB
 mov eax, dword [byte ebp-044h]	; 13DEC
 add eax, byte 3	; 13DEF
 push eax	; 13DF2
-call sub_DD760	; 13DF3
+call SetClipWindow	; 13DF3
 add esp, byte 10h	; 13DF8
 mov eax, dword [byte ebp-02Ch]	; 13DFB
 push dword [byte eax+02Ch]	; 13DFE
@@ -5006,7 +5006,7 @@ push dword [dword_11F5C4]	; 13E09
 push byte 0	; 13E0F
 push dword [dword_11F5C0]	; 13E11
 push byte 0	; 13E17
-call sub_DD760	; 13E19
+call SetClipWindow	; 13E19
 add esp, byte 10h	; 13E1E
 jmp short loc_13E54	; 13E21
 loc_13E23:
@@ -5027,7 +5027,7 @@ push eax	; 13E44
 mov eax, dword [byte ebp-044h]	; 13E45
 add eax, byte 3	; 13E48
 push eax	; 13E4B
-call sub_AD680	; 13E4C
+call FillRect	; 13E4C
 add esp, byte 14h	; 13E51
 loc_13E54:
 xor eax, eax	; 13E54
@@ -5069,7 +5069,7 @@ push eax	; 13EB9
 mov eax, dword [byte ebp-044h]	; 13EBA
 add eax, byte 3	; 13EBD
 push eax	; 13EC0
-call sub_DD760	; 13EC1
+call SetClipWindow	; 13EC1
 add esp, byte 10h	; 13EC6
 mov eax, dword [byte ebp-02Ch]	; 13EC9
 push dword [byte eax+02Ch]	; 13ECC
@@ -5079,7 +5079,7 @@ push dword [dword_11F5C4]	; 13ED7
 push byte 0	; 13EDD
 push dword [dword_11F5C0]	; 13EDF
 push byte 0	; 13EE5
-call sub_DD760	; 13EE7
+call SetClipWindow	; 13EE7
 add esp, byte 10h	; 13EEC
 jmp short loc_13F22	; 13EEF
 loc_13EF1:
@@ -5100,7 +5100,7 @@ push eax	; 13F12
 mov eax, dword [byte ebp-044h]	; 13F13
 add eax, byte 3	; 13F16
 push eax	; 13F19
-call sub_AD680	; 13F1A
+call FillRect	; 13F1A
 add esp, byte 14h	; 13F1F
 loc_13F22:
 movsx eax, word [byte ebp-014h]	; 13F22
@@ -5126,7 +5126,7 @@ mov edx, dword [byte ebp-044h]	; 13F53
 add edx, byte 3	; 13F56
 add eax, edx	; 13F59
 push eax	; 13F5B
-call sub_AD680	; 13F5C
+call FillRect	; 13F5C
 add esp, byte 14h	; 13F61
 loc_13F64:
 jmp near loc_13FE4	; 13F64
@@ -5287,7 +5287,7 @@ mov edx, dword [byte ebp-044h]	; 14160
 add edx, byte 3	; 14163
 add eax, edx	; 14166
 push eax	; 14168
-call sub_DD760	; 14169
+call SetClipWindow	; 14169
 add esp, byte 10h	; 1416E
 mov eax, dword [byte ebp-02Ch]	; 14171
 push dword [byte eax+02Ch]	; 14174
@@ -5297,7 +5297,7 @@ push dword [dword_11F5C4]	; 1417F
 push byte 0	; 14185
 push dword [dword_11F5C0]	; 14187
 push byte 0	; 1418D
-call sub_DD760	; 1418F
+call SetClipWindow	; 1418F
 add esp, byte 10h	; 14194
 jmp short loc_141D9	; 14197
 loc_14199:
@@ -5323,7 +5323,7 @@ mov edx, dword [byte ebp-044h]	; 141C8
 add edx, byte 3	; 141CB
 add eax, edx	; 141CE
 push eax	; 141D0
-call sub_AD680	; 141D1
+call FillRect	; 141D1
 add esp, byte 14h	; 141D6
 loc_141D9:
 movsx eax, word [byte ebp-08h]	; 141D9
@@ -5401,7 +5401,7 @@ push eax	; 142AE
 mov eax, dword [byte ebp-044h]	; 142AF
 add eax, byte 3	; 142B2
 push eax	; 142B5
-call sub_DD760	; 142B6
+call SetClipWindow	; 142B6
 add esp, byte 10h	; 142BB
 mov eax, dword [byte ebp-02Ch]	; 142BE
 push dword [byte eax+02Ch]	; 142C1
@@ -5411,7 +5411,7 @@ push dword [dword_11F5C4]	; 142CC
 push byte 0	; 142D2
 push dword [dword_11F5C0]	; 142D4
 push byte 0	; 142DA
-call sub_DD760	; 142DC
+call SetClipWindow	; 142DC
 add esp, byte 10h	; 142E1
 jmp short loc_14317	; 142E4
 loc_142E6:
@@ -5432,7 +5432,7 @@ push eax	; 14307
 mov eax, dword [byte ebp-044h]	; 14308
 add eax, byte 3	; 1430B
 push eax	; 1430E
-call sub_AD680	; 1430F
+call FillRect	; 1430F
 add esp, byte 14h	; 14314
 loc_14317:
 xor eax, eax	; 14317
@@ -5474,7 +5474,7 @@ push eax	; 1437C
 mov eax, dword [byte ebp-044h]	; 1437D
 add eax, byte 3	; 14380
 push eax	; 14383
-call sub_DD760	; 14384
+call SetClipWindow	; 14384
 add esp, byte 10h	; 14389
 mov eax, dword [byte ebp-02Ch]	; 1438C
 push dword [byte eax+02Ch]	; 1438F
@@ -5484,7 +5484,7 @@ push dword [dword_11F5C4]	; 1439A
 push byte 0	; 143A0
 push dword [dword_11F5C0]	; 143A2
 push byte 0	; 143A8
-call sub_DD760	; 143AA
+call SetClipWindow	; 143AA
 add esp, byte 10h	; 143AF
 jmp short loc_143E5	; 143B2
 loc_143B4:
@@ -5505,7 +5505,7 @@ push eax	; 143D5
 mov eax, dword [byte ebp-044h]	; 143D6
 add eax, byte 3	; 143D9
 push eax	; 143DC
-call sub_AD680	; 143DD
+call FillRect	; 143DD
 add esp, byte 14h	; 143E2
 loc_143E5:
 movsx eax, word [byte ebp-010h]	; 143E5
@@ -5531,7 +5531,7 @@ mov edx, dword [byte ebp-044h]	; 14416
 add edx, byte 3	; 14419
 add eax, edx	; 1441C
 push eax	; 1441E
-call sub_AD680	; 1441F
+call FillRect	; 1441F
 add esp, byte 14h	; 14424
 loc_14427:
 mov eax, dword [byte ebp-054h]	; 14427

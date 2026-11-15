@@ -4,7 +4,7 @@ bits 32
 section s_DBFA8 progbits alloc exec nowrite align=1
 extern SetDrawBitmap, str_Unpackf, str_Targa, dword_1228D4, dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4
 extern dword_123AC8, off_151524, sub_AB758, sub_AB798, sub_ABF4C, sub_AD9DC, sub_B22E0, sub_BEFF0
-extern sub_C4C6C, sub_D7D44, sub_DD220, sub_DD2A0, sub_DE10D, sub_DF5C0, sub_E0520
+extern sub_C4C6C, sub_D7D44, sub_DD220, sub_DD2A0, PlotPixel, sub_DF5C0, sub_E0520
 global loc_DBFE3, loc_DC026, loc_DC045, loc_DC047, loc_DC058, loc_DC096, loc_DC0AE, loc_DC0DD
 global loc_DC116, loc_DC126, loc_DC14C, loc_DC79C, loc_DC7B9, loc_DC867, loc_DC87D, loc_DC898
 global loc_DCA08, loc_DCA43, loc_DCA5A, loc_DCA6C, loc_DCAA1, loc_DCAB3, loc_DCB05, loc_DCB26
@@ -902,7 +902,7 @@ loc_DCA6C:
 mov ebx, dword [byte ebp-04h]	; DCA6C
 push ebx	; DCA6F
 push edi	; DCA70
-call sub_DE10D	; DCA71
+call PlotPixel	; DCA71
 mov ecx, dword [byte ebp-030h]	; DCA76
 add esp, byte 8	; DCA79
 mov ebx, eax	; DCA7C

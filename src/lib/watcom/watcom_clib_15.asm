@@ -4,7 +4,7 @@ bits 32
 section s_CFDF1 progbits alloc exec nowrite align=1
 extern _EFG_Format_, __IOMode_, __STOSB, __cnvs2d_, __fatal_runtime_error_, __set_errno_, __set_errno_dos_, __shutdown_stream_
 extern _nmalloc_, str_NotEnoughMemoryTo, byte_123E35, dword_1228D0, dword_1228D4, dword_1228D8, dword_1228E0, dword_14F0A4
-extern dword_19BA3C, dword_19BA40, fputchar, loc_C2E7B, off_14FAA8, off_14FAAC, sub_B2B0C, sub_DD760
+extern dword_19BA3C, dword_19BA40, fputchar, loc_C2E7B, off_14FAA8, off_14FAAC, sub_B2B0C, SetClipWindow
 extern sub_DE084, unk_123DF4, unk_123E76
 global __InitFiles_, __full_io_exit_, __qwrite_, __setEFGfmt_, docloseall_, fcloseall_, loc_CFEEC, loc_CFF1B
 global loc_CFF2F, loc_CFF73, loc_CFF90, loc_CFF96, loc_CFF98, loc_CFFE0, loc_CFFE7, loc_D0007
@@ -70,7 +70,7 @@ push byte 0	; CFE93
 mov ebx, dword [dword_1228D0]	; CFE95
 push ebx	; CFE9B
 push byte 0	; CFE9C
-call sub_DD760	; CFE9E
+call SetClipWindow	; CFE9E
 add esp, byte 10h	; CFEA3
 ret	; CFEA6
 db 00h,00h,00h,00h,00h,00h,00h,00h,00h

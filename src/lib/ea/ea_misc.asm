@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_C3E38 progbits alloc exec nowrite align=1
-extern dword_1228F4, sub_AD680, sub_DE18C, sub_DF058, unk_C3E10
+extern dword_1228F4, FillRect, sub_DE18C, sub_DF058, unk_C3E10
 global loc_C3E59, loc_C3EE4, loc_C3F05, loc_C3F29, loc_C3F2C, loc_C3F49, loc_C3F4C, loc_C3F69
 global loc_C3F81, loc_C3FBA, loc_C3FD2, loc_C400B, loc_C401E, loc_C4055, loc_C4068, loc_C409B
 global loc_C40AA, sub_C3E38
@@ -63,7 +63,7 @@ push byte 1	; C3EF1
 push esi	; C3EF3
 push ebp	; C3EF4
 push edi	; C3EF5
-call sub_AD680	; C3EF6
+call FillRect	; C3EF6
 add esp, byte 14h	; C3EFB
 add esp, byte 2Ch	; C3EFE
 pop ebp	; C3F01
@@ -80,7 +80,7 @@ push esi	; C3F15
 push byte 1	; C3F16
 push eax	; C3F18
 push edi	; C3F19
-call sub_AD680	; C3F1A
+call FillRect	; C3F1A
 add esp, byte 14h	; C3F1F
 add esp, byte 2Ch	; C3F22
 pop ebp	; C3F25

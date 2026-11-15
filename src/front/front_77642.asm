@@ -17,8 +17,8 @@ extern sub_1955B, sub_19799, sub_197ED, sub_1A109, sub_1AC0E, sub_1AE8C, sub_1B0
 extern sub_1DED8, sub_1DF18, sub_1DF55, sub_1DFEA, sub_1E08B, sub_1E222, sub_1E268, sub_1E3E8
 extern sub_1E5FC, sub_1E7F6, sub_1E969, sub_1EFFF, sub_29B9F, sub_62AF7, sub_62D9B, sub_62E0E
 extern sub_62F90, sub_63998, sub_63A5B, sub_63F79, sub_640D3, sub_64296, sub_64721, sub_64F59
-extern sub_68AB1, sub_69A94, sub_77355, sub_77535, sub_AAA8C, sub_AAB40, sub_AB758, sub_ABF4C
-extern sub_AD35C, sub_AD620, sub_ADBEC, sub_B0284, sub_B20D0, sub_B22B0, sub_B2B30, sub_B2C54
+extern sub_68AB1, sub_69A94, sub_77355, sub_77535, sub_AAA8C, PutBlock, sub_AB758, sub_ABF4C
+extern sub_AD35C, sub_AD620, sub_ADBEC, sub_B0284, sub_B20D0, sub_B22B0, DrawArtOpaque, sub_B2C54
 extern sub_B7256, sub_B7810, sub_C254C, sub_C2600, sub_DD6C4, sub_DD908, sub_E04E0, sub_E0584
 extern unk_11E33C, unk_11E354, unk_152C44, unk_17CA75, unk_17CB2E, unk_17CC1F, unk_17CED5, unk_77442
 extern unk_7745A
@@ -439,7 +439,7 @@ push dword [byte ebp+062h]	; 77CB3
 call sub_E04E0	; 77CB6
 add esp, byte 8	; 77CBB
 push eax	; 77CBE
-call sub_AAB40	; 77CBF
+call PutBlock	; 77CBF
 add esp, byte 0Ch	; 77CC4
 call sub_DD6C4	; 77CC7
 mov eax, dword [byte ebp+072h]	; 77CCC
@@ -483,7 +483,7 @@ add esp, byte 8	; 77D2E
 movsx eax, word [byte eax+0Ch]	; 77D31
 push eax	; 77D35
 push dword [byte edi+02Ch]	; 77D36
-call sub_B2B30	; 77D39
+call DrawArtOpaque	; 77D39
 add esp, byte 0Ch	; 77D3E
 lea eax, [byte ebp+052h]	; 77D41
 push eax	; 77D44
@@ -742,7 +742,7 @@ push dword [dword ebp-0148h]	; 7808B
 call sub_E04E0	; 78091
 add esp, byte 8	; 78096
 push eax	; 78099
-call sub_AAB40	; 7809A
+call PutBlock	; 7809A
 imul eax, edi, byte 7	; 7809F
 add esp, byte 0Ch	; 780A2
 lea ebx, [byte esi+042h]	; 780A5
@@ -1170,7 +1170,7 @@ push dword [byte ebp+018h]	; 78617
 mov eax, dword [dword ebp-014Ch]	; 7861A
 push dword [byte ebp+014h]	; 78620
 push dword [byte eax+02Ch]	; 78623
-call sub_AAB40	; 78626
+call PutBlock	; 78626
 add esp, byte 0Ch	; 7862B
 leave	; 7862E
 pop edi	; 7862F

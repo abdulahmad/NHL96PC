@@ -11,7 +11,7 @@ extern gameclock, gameopts, gmode, hmtmstruct, off_11787C, off_117888, off_11788
 extern penmintab, penshotlive, penshotmode, penshotplayer, penshotstart, penshottimer, puckvx, puckvz
 extern puckx, pucky, puckz, randomd0, regd2, regd3, shotongoal, shotontarget
 extern sprintf_, sub_464A6, sub_4812E, sub_481B1, sub_4FDC0, sub_5316C, sub_68E21, sub_68E31
-extern sub_69105, sub_69141, sub_77355, sub_BEA30, sub_E14C8, unk_157F9C, unk_158610, word_1178C6
+extern sub_69105, sub_69141, sub_77355, SortIndices, sub_E14C8, unk_157F9C, unk_158610, word_1178C6
 extern word_1178F4, word_1178F6, word_1178F8, word_1178FA, word_1178FC, word_1178FE, word_117902, word_118E8F
 extern word_1190E7, word_1190E9, word_11910B, word_11910F, word_119111, word_119113, Pencntdwn2, word_11A224
 extern word_11A26C, word_1656E8, word_165710, word_16581E, word_165846, word_165980, word_176B80, word_176B88
@@ -335,7 +335,7 @@ push eax	; 504A3
 lea eax, [byte ebp-020h]	; 504A4
 push eax	; 504A7
 push esi	; 504A8
-call sub_BEA30	; 504A9
+call SortIndices	; 504A9
 imul eax, dword [byte ebp+esi*4-03Ch], dword 0A0h	; 504AE
 add esp, byte 0Ch	; 504B6
 add eax, SortCords	; 504B9
@@ -2153,7 +2153,7 @@ jl short loc_51CC9	; 51D03
 push dword_176C44	; 51D05
 push dword_176BE0	; 51D0A
 push byte 19h	; 51D0F
-call sub_BEA30	; 51D11
+call SortIndices	; 51D11
 mov edx, dword [byte ebp-08h]	; 51D16
 add esp, byte 0Ch	; 51D19
 xor eax, eax	; 51D1C
@@ -2208,7 +2208,7 @@ jl short loc_51D53	; 51D91
 push dword_176C44	; 51D93
 push dword_176BE0	; 51D98
 push byte 19h	; 51D9D
-call sub_BEA30	; 51D9F
+call SortIndices	; 51D9F
 mov edx, dword [byte ebp-08h]	; 51DA4
 add esp, byte 0Ch	; 51DA7
 xor eax, eax	; 51DAA
@@ -2328,7 +2328,7 @@ push dword_176C44	; 51EE9
 lea eax, [byte ebp-048h]	; 51EEE
 push eax	; 51EF1
 push byte 4	; 51EF2
-call sub_BEA30	; 51EF4
+call SortIndices	; 51EF4
 add esp, byte 0Ch	; 51EF9
 xor eax, eax	; 51EFC
 loc_51EFE:

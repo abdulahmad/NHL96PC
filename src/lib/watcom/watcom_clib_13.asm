@@ -11,13 +11,13 @@ extern dword_11F5C8, dword_11F8E8, dword_1210CC, dword_1228D8, dword_1228DC, dwo
 extern dword_1228F8, dword_1228FC, dword_124109, dword_124124, dword_124178, dword_12417C, dword_1241A0, dword_124414
 extern dword_124418, dword_12443C, dword_124440, dword_19F2D0, dword_19F2D4, dword_19F2D8, dword_1A1094, dword_1A1098
 extern exit_, fputc_, getcwd_, joycalactive, joyenablemask, loc_E185F, main_, off_14F074
-extern off_14F078, sprintf_, stricmp_, sub_AA9CC, sub_AC838, sub_AD35C, sub_AD680, sub_ADBEC
+extern off_14F078, sprintf_, stricmp_, sub_AA9CC, sub_AC838, sub_AD35C, FillRect, sub_ADBEC
 extern sub_AFFD0, sub_B0254, sub_B026C, sub_B0284, sub_B2C54, sub_B30E4, sub_B3145, sub_B31C0
 extern sub_B7810, sub_B9C08, sub_B9C70, sub_BD86C, sub_BEAE4, initgraphics, sub_C2AEC, sub_C4CCC
 extern sub_C4D80, sub_CA6E0, sub_D0650, sub_D0692, sub_D069B, sub_D06FC, sub_D077C, sub_D1080
 extern sub_D1280, sub_D1368, sub_D1860, sub_D1920, sub_D19BC, sub_D1A88, sub_D1B3C, sub_D1BEC
-extern sub_D1CE0, sub_DD6C4, sub_DD760, sub_DD830, sub_DD87C, sub_DD960, sub_DD982, sub_DDB22
-extern sub_DDC2A, sub_DE10D, sub_DE18C, sub_DE3D8, sub_DF22C, sub_DF2CC, sub_DF38C, sub_DF44C
+extern sub_D1CE0, sub_DD6C4, SetClipWindow, sub_DD830, sub_DD87C, sub_DD960, sub_DD982, sub_DDB22
+extern sub_DDC2A, PlotPixel, sub_DE18C, sub_DE3D8, sub_DF22C, sub_DF2CC, sub_DF38C, sub_DF44C
 extern sub_DF50C, sub_DFB84, sub_DFB88, sub_DFF28, sub_DFF60, sub_DFF7C, sub_E0158, sub_E0456
 extern sub_E0486, sub_E04D0, sub_E0584, sub_E05DA, sub_E14C8, sub_E1638, sub_E167A, sub_E193C
 extern sub_E1956, sub_E24C4, sub_E272C, sub_E2824, tolower_, unk_1210DC, unk_1213DC, unk_15155C
@@ -245,7 +245,7 @@ mov ebx, dword [byte esp+01Ch]	; C5009
 mov esi, 10000h	; C500D
 push ebx	; C5012
 sub esi, eax	; C5013
-call sub_DE10D	; C5015
+call PlotPixel	; C5015
 add esp, byte 8	; C501A
 push eax	; C501D
 call sub_C4D80	; C501E
@@ -745,7 +745,7 @@ idiv ebx	; C5568
 push byte 0	; C556A
 push eax	; C556C
 push byte 0	; C556D
-call sub_DD760	; C556F
+call SetClipWindow	; C556F
 add esp, byte 10h	; C5574
 push byte 0	; C5577
 call sub_E0584	; C5579
@@ -843,7 +843,7 @@ mov eax, edx	; C56B1
 sar edx, 1Fh	; C56B3
 idiv ebx	; C56B6
 push eax	; C56B8
-call sub_AD680	; C56B9
+call FillRect	; C56B9
 add esp, byte 14h	; C56BE
 push dword 3FFFFFCh	; C56C1
 call sub_B31C0	; C56C6
@@ -884,7 +884,7 @@ mov eax, edx	; C5736
 sar edx, 1Fh	; C5738
 idiv ebx	; C573B
 push eax	; C573D
-call sub_AD680	; C573E
+call FillRect	; C573E
 add esp, byte 14h	; C5743
 push dword 3FFFFFCh	; C5746
 call sub_B31C0	; C574B
@@ -930,7 +930,7 @@ mov ebx, 140h	; C57C3
 sar edx, 1Fh	; C57C8
 idiv ebx	; C57CB
 push eax	; C57CD
-call sub_AD680	; C57CE
+call FillRect	; C57CE
 add esp, byte 14h	; C57D3
 push dword 3FFFFFCh	; C57D6
 call sub_B31C0	; C57DB
@@ -975,7 +975,7 @@ mov ebx, 140h	; C584B
 sar edx, 1Fh	; C5850
 idiv ebx	; C5853
 push eax	; C5855
-call sub_AD680	; C5856
+call FillRect	; C5856
 add esp, byte 14h	; C585B
 push byte 2	; C585E
 mov esi, 0FFFFFFFFh	; C5860
@@ -1026,7 +1026,7 @@ sar edx, 1Fh	; C58F4
 idiv ebx	; C58F7
 push eax	; C58F9
 add esi, byte 4	; C58FA
-call sub_AD680	; C58FD
+call FillRect	; C58FD
 add esp, byte 14h	; C5902
 cmp esi, byte 24h	; C5905
 jne short loc_C5898	; C5908
@@ -1064,7 +1064,7 @@ sar edx, 1Fh	; C5976
 idiv ebx	; C5979
 push eax	; C597B
 mov esi, edi	; C597C
-call sub_AD680	; C597E
+call FillRect	; C597E
 add esp, byte 14h	; C5983
 jmp near loc_C586D	; C5986
 loc_C598B:
@@ -7124,7 +7124,7 @@ mov ecx, dword [byte esp+024h]	; CA00B
 push ecx	; CA00F
 push ebx	; CA010
 inc edi	; CA011
-call sub_AD680	; CA012
+call FillRect	; CA012
 add esp, byte 14h	; CA017
 add esi, byte 4	; CA01A
 mov edx, dword [byte esp+018h]	; CA01D

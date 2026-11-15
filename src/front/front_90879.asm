@@ -21,7 +21,7 @@ extern sub_1F2DF, sub_1F2EA, sub_1F2F5, sub_62AF7, sub_62E0E, sub_62F90, sub_639
 extern sub_63F79, sub_63FEF, sub_640D3, sub_6423E, sub_64296, sub_64721, sub_64F59, sub_68AB1
 extern sub_68BFA, sub_68C8F, sub_69A94, sub_77355, sub_7CF78, sub_7D2CE, sub_7D2DC, sub_7D325
 extern sub_7D346, sub_7D349, sub_7D49C, sub_88735, sub_8B7BB, sub_9066F, sub_9C060, sub_AAA40
-extern sub_AAB40, sub_AADA4, sub_AADC0, sub_AB758, sub_ABF4C, sub_AD35C, sub_AD680, sub_ADBEC
+extern PutBlock, sub_AADA4, sub_AADC0, sub_AB758, sub_ABF4C, sub_AD35C, FillRect, sub_ADBEC
 extern sub_B0430, sub_B0494, sub_B2C54, sub_C2600, sub_DD6C4, sub_DD7B8, sub_DD908, sub_E04E0
 extern str_fmtpd, str_Wt4, unk_1129C2, unk_1129E4, str_S5, unk_1129F7, unk_152C44, unk_903B5
 extern unk_903F5, unk_90401, unk_90501
@@ -159,13 +159,13 @@ push dword [dword_18210C]	; 90950
 call sub_E04E0	; 90956
 add esp, byte 8	; 9095B
 push eax	; 9095E
-call sub_AAB40	; 9095F
+call PutBlock	; 9095F
 add esp, byte 0Ch	; 90964
 push byte 33h	; 90967
 mov eax, dword [byte ebp-0Ch]	; 90969
 push byte 7	; 9096C
 push dword [byte eax+02Ch]	; 9096E
-call sub_AAB40	; 90971
+call PutBlock	; 90971
 add esp, byte 0Ch	; 90976
 push dword [byte ebp-0Ch]	; 90979
 call sub_ADBEC	; 9097C
@@ -249,13 +249,13 @@ push dword [dword_18210C]	; 90A52
 call sub_E04E0	; 90A58
 add esp, byte 8	; 90A5D
 push eax	; 90A60
-call sub_AAB40	; 90A61
+call PutBlock	; 90A61
 add esp, byte 0Ch	; 90A66
 push byte 33h	; 90A69
 mov eax, dword [byte ebp-0Ch]	; 90A6B
 push byte 7	; 90A6E
 push dword [byte eax+02Ch]	; 90A70
-call sub_AAB40	; 90A73
+call PutBlock	; 90A73
 add esp, byte 0Ch	; 90A78
 push dword [byte ebp-0Ch]	; 90A7B
 call sub_ADBEC	; 90A7E
@@ -458,7 +458,7 @@ push dword [dword_18210C]	; 90D4D
 call sub_E04E0	; 90D53
 add esp, byte 8	; 90D58
 push eax	; 90D5B
-call sub_AAB40	; 90D5C
+call PutBlock	; 90D5C
 add esp, byte 0Ch	; 90D61
 call sub_DD6C4	; 90D64
 push str_HBAL3	; 90D69
@@ -859,7 +859,7 @@ push dword [dword_18210C]	; 91436
 call sub_E04E0	; 9143C
 add esp, byte 8	; 91441
 push eax	; 91444
-call sub_AAB40	; 91445
+call PutBlock	; 91445
 add esp, byte 0Ch	; 9144A
 push byte 0	; 9144D
 push byte 0	; 9144F
@@ -941,7 +941,7 @@ push byte 5Dh	; 91576
 mov eax, dword [dword_182120]	; 91578
 push byte 61h	; 9157D
 push dword [byte eax+02Ch]	; 9157F
-call sub_AAB40	; 91582
+call PutBlock	; 91582
 mov eax, dword [dword ebp-0430h]	; 91587
 shl eax, 2	; 9158D
 mov ecx, dword [dword ebp-0860h]	; 91590
@@ -1407,14 +1407,14 @@ push dword [dword_18210C]	; 91CA6
 call sub_E04E0	; 91CAC
 add esp, byte 8	; 91CB1
 push eax	; 91CB4
-call sub_AAB40	; 91CB5
+call PutBlock	; 91CB5
 add esp, byte 0Ch	; 91CBA
 call sub_DD6C4	; 91CBD
 push dword 8Ch	; 91CC2
 mov eax, dword [byte ebp-02Ch]	; 91CC7
 push dword 16Dh	; 91CCA
 push dword [byte eax+02Ch]	; 91CCF
-call sub_AAB40	; 91CD2
+call PutBlock	; 91CD2
 add esp, byte 0Ch	; 91CD7
 mov eax, 1	; 91CDA
 call sub_77355	; 91CDF
@@ -1541,7 +1541,7 @@ mov eax, dword [byte ebp-014h]	; 91E79
 push edx	; 91E7C
 add eax, byte 0Fh	; 91E7D
 push eax	; 91E80
-call sub_AD680	; 91E81
+call FillRect	; 91E81
 mov eax, dword [byte ebp+010h]	; 91E86
 add eax, byte 5	; 91E89
 lea eax, [eax+eax*4]	; 91E8C
@@ -1571,7 +1571,7 @@ push byte 0Dh	; 91EC4
 push dword [byte ebp-018h]	; 91EC6
 push dword [byte ebp-04h]	; 91EC9
 add edi, byte 0Dh	; 91ECC
-call sub_AD680	; 91ECF
+call FillRect	; 91ECF
 add dword [byte ebp-04h], byte 0Dh	; 91ED4
 add esp, byte 14h	; 91ED8
 loc_91EDB:
@@ -1685,7 +1685,7 @@ push dword [byte ebp-0Ah]	; 92035
 call sub_E04E0	; 92038
 add esp, byte 8	; 9203D
 push eax	; 92040
-call sub_AAB40	; 92041
+call PutBlock	; 92041
 add esp, byte 0Ch	; 92046
 cmp dword [byte ebp-02h], byte 1	; 92049
 jb short loc_92060	; 9204D
@@ -2535,7 +2535,7 @@ push dword 8Ch	; 92A49
 mov eax, dword [byte ebp-0Eh]	; 92A4E
 push dword 16Dh	; 92A51
 push dword [byte eax+02Ch]	; 92A56
-call sub_AAB40	; 92A59
+call PutBlock	; 92A59
 add esp, byte 0Ch	; 92A5E
 lea esp, [byte ebp+07Eh]	; 92A61
 pop ebp	; 92A64
@@ -2686,7 +2686,7 @@ push dword [dword_18210C]	; 92C5E
 call sub_E04E0	; 92C64
 add esp, byte 8	; 92C69
 push eax	; 92C6C
-call sub_AAB40	; 92C6D
+call PutBlock	; 92C6D
 add esp, byte 0Ch	; 92C72
 cmp dword [byte ebp-034h], 3E7h	; 92C75
 jle short loc_92C8E	; 92C7C
@@ -2727,7 +2727,7 @@ push dword [dword_18210C]	; 92CF1
 call sub_E04E0	; 92CF7
 add esp, byte 8	; 92CFC
 push eax	; 92CFF
-call sub_AAB40	; 92D00
+call PutBlock	; 92D00
 add esp, byte 0Ch	; 92D05
 push byte 14h	; 92D08
 push byte 0Ah	; 92D0A
@@ -2744,7 +2744,7 @@ push byte 0	; 92D2D
 mov eax, dword [dword_18211C]	; 92D2F
 push byte 0	; 92D34
 push dword [byte eax+02Ch]	; 92D36
-call sub_AAB40	; 92D39
+call PutBlock	; 92D39
 add esp, byte 0Ch	; 92D3E
 mov eax, dword [byte ebp-02Ch]	; 92D41
 mov eax, dword [nosplit eax*4+dword_17EEF0]	; 92D44
@@ -2780,7 +2780,7 @@ push dword [byte ebp-03Ch]	; 92D92
 call sub_E04E0	; 92D95
 add esp, byte 8	; 92D9A
 push eax	; 92D9D
-call sub_AAB40	; 92D9E
+call PutBlock	; 92D9E
 mov eax, dword [dword_1820E8]	; 92DA3
 add esp, byte 0Ch	; 92DA8
 mov ebx, esi	; 92DAB
@@ -2961,7 +2961,7 @@ call sub_DD6C4	; 92FB6
 push dword 173h	; 92FBB
 push byte 65h	; 92FC0
 push dword [byte edi+02Ch]	; 92FC2
-call sub_AAB40	; 92FC5
+call PutBlock	; 92FC5
 mov byte [byte_182124], 0	; 92FCA
 mov ecx, esi	; 92FD1
 add esp, byte 0Ch	; 92FD3
@@ -3000,13 +3000,13 @@ push dword [byte ebp-03Ch]	; 9303A
 call sub_E04E0	; 9303D
 add esp, byte 8	; 93042
 push eax	; 93045
-call sub_AAB40	; 93046
+call PutBlock	; 93046
 add esp, byte 0Ch	; 9304B
 call sub_DD6C4	; 9304E
 push byte 64h	; 93053
 push dword 118h	; 93055
 push dword [byte esi+02Ch]	; 9305A
-call sub_AAB40	; 9305D
+call PutBlock	; 9305D
 add esp, byte 0Ch	; 93062
 push esi	; 93065
 call sub_ADBEC	; 93066
@@ -4021,7 +4021,7 @@ push byte 0	; 93B98
 fistp dword [byte ebp-010h]	; 93B9A
 push dword [byte ebp-010h]	; 93B9D
 push esi	; 93BA0
-call sub_AAB40	; 93BA1
+call PutBlock	; 93BA1
 add esp, byte 0Ch	; 93BA6
 push dword [byte ebp-0Ch]	; 93BA9
 call SetDrawBitmap	; 93BAC

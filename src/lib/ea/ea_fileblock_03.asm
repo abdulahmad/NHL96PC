@@ -11,7 +11,7 @@ global loc_BEB1A, loc_BEB7B, loc_BEB8F, loc_BEB9C, loc_BEBA9, loc_BEBB6, loc_BEC
 global loc_BEC92, loc_BECAA, loc_BECAE, loc_BECF4, loc_BECF6, loc_BED18, loc_BED36, loc_BED49
 global loc_BED6E, loc_BED88, loc_BEDCC, loc_BEDFB, loc_BEE58, loc_BEE78, loc_BEE9C, loc_BEEBE
 global loc_BEF11, loc_BEF15, loc_BEF57, loc_BEF5B, loc_BEF97, loc_BEFB5, loc_BF00C, loc_BF01C
-global sub_BE926, sub_BE960, sub_BEA30, sub_BEAE4, sub_BEB48, sub_BEC30, sub_BEF44, sub_BEFF0
+global sub_BE926, sub_BE960, SortIndices, sub_BEAE4, sub_BEB48, sub_BEC30, sub_BEF44, sub_BEFF0
 imul32:
 jmp near __sys_fini_387_emulator	; BE8C5
 db 00h,00h
@@ -163,7 +163,7 @@ movzx eax, ax	; BEA1D
 pop edi	; BEA20
 ret	; BEA21
 db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-sub_BEA30:
+SortIndices:
 push esi	; BEA30
 push edi	; BEA31
 push ebp	; BEA32

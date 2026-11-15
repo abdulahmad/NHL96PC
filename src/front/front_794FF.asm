@@ -25,9 +25,9 @@ extern sub_63FEF, sub_640D3, sub_64103, sub_64721, sub_64F59, sub_68AB1, sub_68B
 extern sub_69A94, sub_70840, sub_77355, sub_77642, sub_77FF2, sub_78029, sub_78E9E, sub_78EFA
 extern sub_79060, sub_7D580, sub_7FF7F, sub_80E4D, sub_81D7C, sub_81EEA, sub_88509, sub_971E9
 extern sub_A6B94, sub_A7A09, sub_A7B4B, sub_A7CC4, sub_A7E6D, sub_A800A, sub_A8AC5, sub_A8B9B
-extern sub_AAA40, sub_AAA8C, sub_AAADC, sub_AAB40, sub_AADA4, sub_ABF4C, sub_AD35C, sub_AD5C8
+extern sub_AAA40, sub_AAA8C, sub_AAADC, PutBlock, sub_AADA4, sub_ABF4C, sub_AD35C, sub_AD5C8
 extern sub_ADA80, sub_ADBEC, sub_B0284, sub_B0430, sub_B178B, sub_B20D0, sub_B20EC, sub_B22B0
-extern sub_B2B30, sub_B2C54, sub_B2C70, sub_B7256, sub_B7810, sub_DD6C4, sub_DD7B8, sub_E04E0
+extern DrawArtOpaque, sub_B2C54, sub_B2C70, sub_B7256, sub_B7810, sub_DD6C4, sub_DD7B8, sub_E04E0
 extern sub_E0584, str_star, str_D6, str_dbgDash, unk_152C44, unk_17CB2E, unk_17CC1F, unk_17CED5
 extern unk_17CF9A, unk_792EB, unk_79303, unk_79483, unk_794C3
 global jpt_7BA27, jpt_7D568, loc_79663, loc_7968A, loc_7969A, loc_796A2, loc_796AE, loc_796B8
@@ -624,7 +624,7 @@ push dword [byte ebp+072h]	; 79DC9
 call sub_E04E0	; 79DCC
 add esp, byte 8	; 79DD1
 push eax	; 79DD4
-call sub_AAB40	; 79DD5
+call PutBlock	; 79DD5
 add esp, byte 0Ch	; 79DDA
 call sub_DD6C4	; 79DDD
 imul esi, dword [dword_11E39C], byte 9	; 79DE2
@@ -667,7 +667,7 @@ add esp, byte 8	; 79E4B
 movsx eax, word [byte eax+0Ch]	; 79E4E
 push eax	; 79E52
 push dword [byte edi+02Ch]	; 79E53
-call sub_B2B30	; 79E56
+call DrawArtOpaque	; 79E56
 add esp, byte 0Ch	; 79E5B
 lea eax, [byte ebp+052h]	; 79E5E
 push eax	; 79E61
@@ -896,7 +896,7 @@ push dword [dword eax+ebp-055Eh]	; 7A173
 push dword [dword eax+ebp-0562h]	; 7A17A
 mov eax, dword [byte ebp+05Eh]	; 7A181
 push dword [byte eax+02Ch]	; 7A184
-call sub_AAB40	; 7A187
+call PutBlock	; 7A187
 add esp, byte 0Ch	; 7A18C
 loc_7A18F:
 imul eax, dword [dword_11E39C], byte 7	; 7A18F
@@ -943,7 +943,7 @@ add eax, byte 32h	; 7A22E
 push eax	; 7A231
 mov eax, dword [byte ebp+076h]	; 7A232
 push dword [byte eax+02Ch]	; 7A235
-call sub_AAB40	; 7A238
+call PutBlock	; 7A238
 add esp, byte 0Ch	; 7A23D
 call sub_DD6C4	; 7A240
 jmp near loc_79CE2	; 7A245
@@ -1174,7 +1174,7 @@ push dword [byte ebp+07Eh]	; 7A567
 call sub_E04E0	; 7A56A
 add esp, byte 8	; 7A56F
 push eax	; 7A572
-call sub_AAB40	; 7A573
+call PutBlock	; 7A573
 add esp, byte 0Ch	; 7A578
 call sub_DD6C4	; 7A57B
 cmp dword [byte ebp+07Ah], byte 0	; 7A580
@@ -1204,7 +1204,7 @@ add esp, byte 8	; 7A5CE
 movsx eax, word [byte eax+0Ch]	; 7A5D1
 push eax	; 7A5D5
 push dword [byte esi+02Ch]	; 7A5D6
-call sub_B2B30	; 7A5D9
+call DrawArtOpaque	; 7A5D9
 add esp, byte 0Ch	; 7A5DE
 lea eax, [byte ebp+05Ah]	; 7A5E1
 push eax	; 7A5E4
@@ -1267,7 +1267,7 @@ add esp, byte 8	; 7A693
 movsx eax, word [byte eax+0Ch]	; 7A696
 push eax	; 7A69A
 push dword [byte esi+02Ch]	; 7A69B
-call sub_B2B30	; 7A69E
+call DrawArtOpaque	; 7A69E
 add esp, byte 0Ch	; 7A6A3
 lea eax, [byte ebp+05Ah]	; 7A6A6
 push eax	; 7A6A9
@@ -1534,7 +1534,7 @@ mov esi, 1	; 7A9CD
 push eax	; 7A9D2
 mov dword [byte ebp+05Eh], 0	; 7A9D3
 mov dword [byte ebp+046h], 0	; 7A9DA
-call sub_AAB40	; 7A9E1
+call PutBlock	; 7A9E1
 mov edi, dword [dword_1174F0]	; 7A9E6
 add esp, byte 0Ch	; 7A9EC
 loc_7A9EF:
@@ -2085,7 +2085,7 @@ push dword 82h	; 7B138
 mov eax, dword [dword ebp-0232h]	; 7B13D
 push byte 64h	; 7B143
 push dword [byte eax+02Ch]	; 7B145
-call sub_AAB40	; 7B148
+call PutBlock	; 7B148
 add esp, byte 0Ch	; 7B14D
 lea esp, [dword ebp+082h]	; 7B150
 pop ebp	; 7B156
@@ -3927,7 +3927,7 @@ call sub_E04E0	; 7CC0D
 add esp, byte 8	; 7CC12
 push eax	; 7CC15
 mov dword [byte ebp-0Ch], 0	; 7CC16
-call sub_AAB40	; 7CC1D
+call PutBlock	; 7CC1D
 add esp, byte 0Ch	; 7CC22
 lea eax, [byte esi+06Eh]	; 7CC25
 cmp dword [byte esi+066h], byte 9	; 7CC28
@@ -3978,7 +3978,7 @@ call sub_DD6C4	; 7CC9B
 push dword 0BAh	; 7CCA0
 push byte 5Ch	; 7CCA5
 push dword [byte edi+02Ch]	; 7CCA7
-call sub_AAB40	; 7CCAA
+call PutBlock	; 7CCAA
 add esp, byte 0Ch	; 7CCAF
 leave	; 7CCB2
 pop edi	; 7CCB3
@@ -4034,7 +4034,7 @@ movsx eax, word [byte edi+0Ch]	; 7CD43
 neg eax	; 7CD47
 push eax	; 7CD49
 push dword [byte ebp+014h]	; 7CD4A
-call sub_AAB40	; 7CD4D
+call PutBlock	; 7CD4D
 add esp, byte 0Ch	; 7CD52
 push byte 0	; 7CD55
 push byte 0	; 7CD57
@@ -4245,7 +4245,7 @@ movsx eax, word [byte edi+0Ch]	; 7D003
 neg eax	; 7D007
 push eax	; 7D009
 push dword [byte ebp+014h]	; 7D00A
-call sub_AAB40	; 7D00D
+call PutBlock	; 7D00D
 add esp, byte 0Ch	; 7D012
 push byte 0	; 7D015
 push byte 0	; 7D017
@@ -4446,7 +4446,7 @@ push dword [byte esi+08h]	; 7D2B4
 mov eax, dword [byte esi+014h]	; 7D2B7
 push dword [byte esi+04h]	; 7D2BA
 push dword [byte eax+02Ch]	; 7D2BD
-call sub_AAB40	; 7D2C0
+call PutBlock	; 7D2C0
 add esp, byte 0Ch	; 7D2C5
 leave	; 7D2C8
 pop esi	; 7D2C9

@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_151418 progbits alloc noexec write align=1
-extern __InitFiles_, __chk8087_, __full_io_exit_, __setEFGfmt_, __setenvp_, imul32, sub_AAA40, sub_AAB40
+extern __InitFiles_, __chk8087_, __full_io_exit_, __setEFGfmt_, __setenvp_, imul32, sub_AAA40, PutBlock
 extern sub_BE8C0, sub_D142C, sub_D6CA4, sub_DB58C, sub_DD120
 global byte_151426, byte_151430, byte_151514, byte_151520, byte_15155A, dword_151444, dword_1514C4, dword_1514E4
 global dword_1514E8, dword_1514EC, dword_1514F0, dword_1514F4, dword_1514F8, dword_1514FC, dword_151500, dword_151504
@@ -79,8 +79,8 @@ db 011h,00h,00h,00h
 byte_151520:
 db 00h,00h,00h,00h
 off_151524:
-dd sub_AAB40
-dd sub_AAB40
+dd PutBlock
+dd PutBlock
 dd sub_AAA40
 dd sub_DD120
 db 044h,0ACh,0C8h,0A0h,0BBh,096h,0DDh,08Dh,0FCh,085h,0EEh,07Eh,096h,078h,0D8h,072h

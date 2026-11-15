@@ -10,7 +10,7 @@ extern dword_1956B4, dword_1956B8, dword_1956BC, dword_1956C0, dword_1956C4, dwo
 extern dword_19838C, dword_198390, dword_198394, dword_198398, dword_19839C, dword_1983A0, dword_1983A4, dword_1983A8
 extern dword_1983B4, dword_19F2D8, min_, off_1222E0, off_1222EC, off_1222F8, off_122304, off_122310
 extern strncpy_, sub_AB758, sub_ABF4C, sub_B20EC, sub_B78C0, sub_B78DC, sub_B7924, sub_B79C8
-extern sub_B79E0, sub_B9A18, sub_B9C3C, sub_BA344, sub_BD594, sub_BEA30, sub_C85F0, sub_C9E70
+extern sub_B79E0, sub_B9A18, sub_B9C3C, sub_BA344, sub_BD594, SortIndices, sub_C85F0, sub_C9E70
 extern sub_C9F8A, sub_CA0B0, sub_CA288, sub_CA584, sub_CA650, sub_DD724, sub_DD960, sub_DD982
 extern sub_E1824, unk_122320, unk_122344, unk_122898, unk_1228BC, unk_191AB0, unk_1938B0, unk_196380
 extern unk_196388, unk_196390, unk_196398, unk_197050, unk_19705C, unk_197068, unk_197074, unk_1983B8
@@ -2472,7 +2472,7 @@ lea eax, [byte esp+04h]	; BBE30
 push eax	; BBE34
 mov ecx, dword [dword esp+0FC4h]	; BBE35
 push ecx	; BBE3C
-call sub_BEA30	; BBE3D
+call SortIndices	; BBE3D
 add esp, byte 0Ch	; BBE42
 add esp, 0FA8h	; BBE45
 loc_BBE4B:

@@ -38,11 +38,11 @@ extern sub_2E1BE, sub_400B1, sub_4B38C, sub_4B4F3, sub_53BD7, sub_53C6F, sub_542
 extern sub_5439F, sub_54427, sub_5DBC0, sub_5E21C, sub_606B9, sub_60823, sub_61C18, sub_61C88
 extern sub_61D2E, sub_62065, sub_62343, sub_625AA, sub_63E7C, sub_63EB5, sub_63F79, sub_63FEF
 extern sub_64054, sub_640D3, sub_64103, sub_6AA3B, sub_77355, sub_873AE, sub_AAA40, sub_AAADC
-extern sub_AB758, sub_ABF4C, sub_AD35C, sub_AD620, sub_AD680, sub_AFFD0, sub_B0284, sub_B0CA8
+extern sub_AB758, sub_ABF4C, sub_AD35C, sub_AD620, FillRect, sub_AFFD0, sub_B0284, sub_B0CA8
 extern sub_B0F7C, sub_B58D8, sub_B6140, sub_B6148, sub_BA3D0, sub_BB470, sub_BB570, sub_BB924
 extern sub_BBA41, sub_BBC04, sub_BC3A0, sub_BC3F4, sub_BC610, sub_BC674, sub_BC6D8, sub_BC760
-extern sub_BD86C, sub_BE926, sub_BE960, sub_BEA30, sub_BEF44, sub_BEFF0, sub_DD6C4, sub_DD760
-extern sub_DD8B0, sub_DD908, sub_DD960, sub_DD975, sub_DDBB4, sub_DF928, sub_DF98F, sub_E0486
+extern sub_BD86C, sub_BE926, sub_BE960, SortIndices, sub_BEF44, sub_BEFF0, sub_DD6C4, SetClipWindow
+extern sub_DD8B0, sub_DD908, sub_DD960, sub_DD975, sub_DDBB4, MouseRead, SetViewRect, sub_E0486
 extern sub_E04E0, sub_E0584, sub_E162A, sub_E1638, unk_111024, str_12, str_24, str_32
 extern str_42, unk_11B2AC, unk_122320, unk_157FDA, unk_157FF8, unk_1582F5, unk_158313, unk_16443C
 extern unk_1782AC, unk_1786AC, unk_178AAC, unk_1798C0, unk_179980, unk_179AC0, unk_179BBC, unk_179CCC
@@ -593,7 +593,7 @@ push dword [dword_11F5C4]	; 589E7
 push byte 0	; 589ED
 push dword [dword_11F5C0]	; 589EF
 push byte 0	; 589F5
-call sub_DD760	; 589F7
+call SetClipWindow	; 589F7
 add esp, byte 10h	; 589FC
 pop edx	; 589FF
 pop ecx	; 58A00
@@ -745,7 +745,7 @@ push dword [dword_11F5C4]	; 58C56
 push byte 0	; 58C5C
 push dword [dword_11F5C0]	; 58C5E
 push byte 0	; 58C64
-call sub_DD760	; 58C66
+call SetClipWindow	; 58C66
 add esp, byte 10h	; 58C6B
 push byte 0	; 58C6E
 call sub_E0584	; 58C70
@@ -878,11 +878,11 @@ mov byte [byte_1655E0], 0	; 58ECF
 push byte 0	; 58ED6
 mov byte [byte_1655A4], 0	; 58ED8
 mov byte [byte_16561C], 0	; 58EDF
-call sub_DF98F	; 58EE6
+call SetViewRect	; 58EE6
 add esp, byte 10h	; 58EEB
 push dword [dword_11B324]	; 58EEE
 push dword [dword_11B320]	; 58EF4
-call sub_DF928	; 58EFA
+call MouseRead	; 58EFA
 add esp, byte 8	; 58EFF
 call sub_5AF42	; 58F02
 mov eax, dword [gameopts]	; 58F07
@@ -2542,7 +2542,7 @@ push dword [dword_11F5C4]	; 5A53E
 push byte 0	; 5A544
 push dword [dword_11F5C0]	; 5A546
 push byte 0	; 5A54C
-call sub_DD760	; 5A54E
+call SetClipWindow	; 5A54E
 add esp, byte 10h	; 5A553
 lea edx, [byte ebp-06Ch]	; 5A556
 mov eax, dword_179E13	; 5A559
@@ -2753,7 +2753,7 @@ jl short loc_5A805	; 5A812
 push dword_179A7C	; 5A814
 push dword_179934	; 5A819
 push byte 11h	; 5A81E
-call sub_BEA30	; 5A820
+call SortIndices	; 5A820
 movsx ebx, word [gameclock]	; 5A825
 mov eax, ebx	; 5A82C
 mov ecx, 3Ch	; 5A82E
@@ -2806,7 +2806,7 @@ push dword [dword_11B32C]	; 5A8DB
 add eax, dword [dword_11B318]	; 5A8E1
 push eax	; 5A8E7
 push dword [dword_11B328]	; 5A8E8
-call sub_DD760	; 5A8EE
+call SetClipWindow	; 5A8EE
 add esp, byte 10h	; 5A8F3
 lea edx, [byte ebp+03Ah]	; 5A8F6
 mov eax, dword_179E13	; 5A8F9
@@ -2948,7 +2948,7 @@ push dword [dword_11F5C4]	; 5AAFD
 push byte 0	; 5AB03
 push dword [dword_11F5C0]	; 5AB05
 push byte 0	; 5AB0B
-call sub_DD760	; 5AB0D
+call SetClipWindow	; 5AB0D
 add esp, byte 10h	; 5AB12
 cmp dword [dword_11D91F], byte 0	; 5AB15
 je short loc_5AB25	; 5AB1C
@@ -3125,7 +3125,7 @@ sub edx, eax	; 5AD28
 push edx	; 5AD2A
 push esi	; 5AD2B
 push edi	; 5AD2C
-call sub_AD680	; 5AD2D
+call FillRect	; 5AD2D
 mov eax, 2	; 5AD32
 mov edx, 4	; 5AD37
 add esp, byte 14h	; 5AD3C
@@ -3143,7 +3143,7 @@ sub edx, eax	; 5AD57
 push edx	; 5AD59
 add eax, edi	; 5AD5A
 push eax	; 5AD5C
-call sub_AD680	; 5AD5D
+call FillRect	; 5AD5D
 mov eax, 2	; 5AD62
 mov edx, dword [byte ebp-08h]	; 5AD67
 mov cl, byte [dword_1798A8]	; 5AD6A
@@ -3158,7 +3158,7 @@ push edx	; 5AD7E
 mov edx, dword [byte ebp-010h]	; 5AD7F
 sub edx, eax	; 5AD82
 push edx	; 5AD84
-call sub_AD680	; 5AD85
+call FillRect	; 5AD85
 add esp, byte 14h	; 5AD8A
 cmp dword [byte ebp-014h], byte 0	; 5AD8D
 jl short loc_5ADBC	; 5AD91
@@ -3539,7 +3539,7 @@ sub edx, eax	; 5B260
 push edx	; 5B262
 push dword [byte ebp-04h]	; 5B263
 push esi	; 5B266
-call sub_AD680	; 5B267
+call FillRect	; 5B267
 mov eax, 2	; 5B26C
 mov edx, 4	; 5B271
 add esp, byte 14h	; 5B276
@@ -3557,7 +3557,7 @@ sub edx, eax	; 5B291
 push edx	; 5B293
 add eax, esi	; 5B294
 push eax	; 5B296
-call sub_AD680	; 5B297
+call FillRect	; 5B297
 mov eax, 2	; 5B29C
 mov edx, dword [byte ebp-08h]	; 5B2A1
 mov cl, byte [dword_1798A8]	; 5B2A4
@@ -3574,13 +3574,13 @@ push edx	; 5B2BC
 mov edx, edi	; 5B2BD
 sub edx, eax	; 5B2BF
 push edx	; 5B2C1
-call sub_AD680	; 5B2C2
+call FillRect	; 5B2C2
 add esp, byte 14h	; 5B2C7
 push dword [dword_11F5C4]	; 5B2CA
 push byte 0	; 5B2D0
 push dword [dword_11F5C0]	; 5B2D2
 push byte 0	; 5B2D8
-call sub_DD760	; 5B2DA
+call SetClipWindow	; 5B2DA
 mov eax, dword [byte ebp-04h]	; 5B2DF
 mov ecx, dword [byte ebp-04h]	; 5B2E2
 inc dword [dword_177108]	; 5B2E5
@@ -4206,7 +4206,7 @@ sub edx, eax	; 5BB70
 push edx	; 5BB72
 push esi	; 5BB73
 push edi	; 5BB74
-call sub_AD680	; 5BB75
+call FillRect	; 5BB75
 mov eax, 2	; 5BB7A
 mov edx, 4	; 5BB7F
 add esp, byte 14h	; 5BB84
@@ -4224,7 +4224,7 @@ sub edx, eax	; 5BB9F
 push edx	; 5BBA1
 add eax, edi	; 5BBA2
 push eax	; 5BBA4
-call sub_AD680	; 5BBA5
+call FillRect	; 5BBA5
 mov eax, 2	; 5BBAA
 mov edx, dword [byte ebp-010h]	; 5BBAF
 mov cl, byte [dword_1798A8]	; 5BBB2
@@ -4239,7 +4239,7 @@ push edx	; 5BBC6
 mov edx, dword [byte ebp-08h]	; 5BBC7
 sub edx, eax	; 5BBCA
 push edx	; 5BBCC
-call sub_AD680	; 5BBCD
+call FillRect	; 5BBCD
 mov ebx, dword [byte ebp-08h]	; 5BBD2
 inc dword [dword_177108]	; 5BBD5
 add esp, byte 14h	; 5BBDB
@@ -4728,7 +4728,7 @@ sub edx, eax	; 5C2C3
 push edx	; 5C2C5
 push esi	; 5C2C6
 push edi	; 5C2C7
-call sub_AD680	; 5C2C8
+call FillRect	; 5C2C8
 mov eax, 2	; 5C2CD
 mov edx, 4	; 5C2D2
 add esp, byte 14h	; 5C2D7
@@ -4746,7 +4746,7 @@ sub edx, eax	; 5C2F2
 push edx	; 5C2F4
 add eax, edi	; 5C2F5
 push eax	; 5C2F7
-call sub_AD680	; 5C2F8
+call FillRect	; 5C2F8
 mov eax, 2	; 5C2FD
 mov edx, dword [byte ebp-010h]	; 5C302
 mov cl, byte [dword_1798A8]	; 5C305
@@ -4761,7 +4761,7 @@ push edx	; 5C319
 mov edx, dword [byte ebp-08h]	; 5C31A
 sub edx, eax	; 5C31D
 push edx	; 5C31F
-call sub_AD680	; 5C320
+call FillRect	; 5C320
 mov ebx, dword [byte ebp-08h]	; 5C325
 inc dword [dword_177108]	; 5C328
 add esp, byte 14h	; 5C32E
@@ -5612,7 +5612,7 @@ sar eax, cl	; 5CE2B
 push dword [byte ebp+014h]	; 5CE2D
 add eax, dword [byte ebp+010h]	; 5CE30
 push eax	; 5CE33
-call sub_AD680	; 5CE34
+call FillRect	; 5CE34
 add esp, byte 14h	; 5CE39
 leave	; 5CE3C
 pop edi	; 5CE3D
@@ -5837,7 +5837,7 @@ sar eax, cl	; 5D0E6
 push dword [byte ebp-028h]	; 5D0E8
 add eax, dword [byte ebp-08h]	; 5D0EB
 push eax	; 5D0EE
-call sub_DD760	; 5D0EF
+call SetClipWindow	; 5D0EF
 add esp, byte 10h	; 5D0F4
 cmp dword [byte ebp-010h], byte 0	; 5D0F7
 je short loc_5D106	; 5D0FB
@@ -5860,7 +5860,7 @@ sub eax, dword [byte ebp-028h]	; 5D12C
 push eax	; 5D12F
 push esi	; 5D130
 push dword [byte ebp-08h]	; 5D131
-call sub_AD680	; 5D134
+call FillRect	; 5D134
 mov cl, byte [byte ebp-010h]	; 5D139
 mov eax, 4	; 5D13C
 mov edx, dword [byte ebp-014h]	; 5D141
@@ -5877,7 +5877,7 @@ push eax	; 5D159
 mov eax, dword [byte ebp-08h]	; 5D15A
 add eax, dword [byte ebp-028h]	; 5D15D
 push eax	; 5D160
-call sub_AD680	; 5D161
+call FillRect	; 5D161
 add esp, byte 14h	; 5D166
 push byte 4	; 5D169
 push dword [byte ebp-024h]	; 5D16B
@@ -5890,13 +5890,13 @@ add eax, dword [byte ebp-014h]	; 5D17A
 mov dword [byte ebp-024h], eax	; 5D17D
 sub eax, dword [byte ebp-028h]	; 5D180
 push eax	; 5D183
-call sub_AD680	; 5D184
+call FillRect	; 5D184
 add esp, byte 14h	; 5D189
 push dword [dword_11F5C4]	; 5D18C
 push byte 0	; 5D192
 push dword [dword_11F5C0]	; 5D194
 push byte 0	; 5D19A
-call sub_DD760	; 5D19C
+call SetClipWindow	; 5D19C
 mov eax, dword [byte ebp-0Ch]	; 5D1A1
 mov ebx, dword [byte ebp-024h]	; 5D1A4
 mov edx, dword [byte ebp-08h]	; 5D1A7

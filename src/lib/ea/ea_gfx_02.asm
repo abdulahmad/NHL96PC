@@ -11,9 +11,9 @@ global loc_AD7D6, loc_AD7FD, loc_AD80F, loc_AD81A, loc_AD847, loc_AD858, loc_AD8
 global loc_AD892, loc_AD895, loc_AD898, loc_AD8ED, loc_AD927, loc_AD943, loc_AD953, loc_AD975
 global loc_AD985, loc_AD98B, loc_AD995, loc_AD9A5, loc_AD9A9, loc_AD9C2, loc_AD9D3, loc_AD9FF
 global loc_ADA10, loc_ADA20, loc_ADA31, loc_ADA4A, loc_ADA9C, loc_ADAB9, loc_ADB5D, loc_ADB83
-global loc_ADB91, loc_ADB9A, loc_ADBA2, loc_ADBA4, loc_ADBAD, mem_putc_, sub_AD680, sub_AD824
+global loc_ADB91, loc_ADB9A, loc_ADBA2, loc_ADBA4, loc_ADBAD, mem_putc_, FillRect, sub_AD824
 global sub_AD8A8, sub_AD9DC, sub_ADA50, sub_ADA80, sub_ADB30, sub_ADBEC
-sub_AD680:
+FillRect:
 push esi	; AD680
 push edi	; AD681
 push ebp	; AD682
@@ -204,7 +204,7 @@ push edx	; AD886
 push eax	; AD887
 push ecx	; AD888
 push esi	; AD889
-call sub_AD680	; AD88A
+call FillRect	; AD88A
 add esp, byte 14h	; AD88F
 loc_AD892:
 pop ebp	; AD892

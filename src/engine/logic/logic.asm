@@ -6,7 +6,7 @@ extern AddPenalty, ChkOffsides, ChkPullGoalieLate, CwdExciteLvl, DemoMode, Evade
 extern OOlist, PBnum, PenShotAssign, Pencntdwn, PuckIChk, RemoveFromLines, SortCords, awtmstruct
 extern byte_1178C8, byte_119DF7, byte_119FF0, byte_157B95, byte_157DA2, byte_1647E3, byte_16514E, byte_16597D
 extern byte_176AE2, byte_176AE3, byte_176B83, byte_176B84, byte_176B85, goalevent, byte_176B9E, byte_176B9F
-extern check4bench, chk4lc, chk4pass, crowdlevel, dword_1178DA, dword_1178DE, dword_1178EA, dword_1178EE
+extern check4bench, chk4lc, chk4pass, crowdlevel, hmslotcount, awslotcount, dword_1178EA, dword_1178EE
 extern dword_119173, dword_119183, dword_1191AF, dword_1191B3, dword_1191B7, dword_1191BB, dword_1191BF, dword_1191C3
 extern dword_1191E7, dword_1191EB, dword_1191F3, dword_119DE4, str_wildcard, dword_119E8E, dword_119E92, dword_16523C
 extern dword_165240, dword_165244, dword_165248, dword_16524C, dword_165718, dword_16584E, findpc, fox
@@ -14,7 +14,7 @@ extern foy, gameclock, gameopts, getlchoice, gmode, hmtmstruct, lasttouch, lcbli
 extern lcboxon, lcline, off_11787C, puckc, off_11788C, off_117890, off_117894, passplayer
 extern penshotlive, penshotmode, penshotplayer, penshotstart, psendcount, puckvx, puckvz, puckx
 extern pucky, puckz, randomd0, regd2, regd3, sflags, shotongoal, skatetopuck
-extern sub_28459, sub_30309, sub_30340, sub_30873, sub_30E6B, assgoalie, check4check, checkob
+extern sub_28459, GetPartner, sub_30340, sub_30873, sub_30E6B, assgoalie, check4check, checkob
 extern checkpuckcoll, sub_402AD, sub_409D5, chk4shot, SetShotMode, ShotMode, Findhittype, doshot
 extern SetSPA, SprSort, changeplayer, GetHot, Setplass, setplayer, updateanim, SetExitGame
 extern sub_4B4F3, doplayeracc, EvadePC, skateto, PostGoalEvent, AddPenalty2, EndPenaltyShot, sub_68E21
@@ -150,7 +150,7 @@ global loc_37E1B, loc_37E34, loc_37E35, loc_37E50, loc_37E55, loc_37E64, loc_37E
 global loc_37E9A, loc_37E9F, loc_37EA4, loc_37EAB, loc_37ECC, loc_37EF5, loc_37EF8, loc_37EFF
 global loc_37F0E, loc_37F51, loc_37F5E, loc_37F83, loc_37FBC, loc_37FC3, loc_37FEF, loc_38011
 global loc_3801E, loc_3802D, loc_3803E, loc_38041, loc_3804F, pucknorm, pucknorm_body, sub_313D2
-global asswingo, asscenterd, asscentero, sub_31BA9, sub_31C40, asspuckc, asspuckc_chkdir, sub_324C8
+global asswingo, asscenterd, asscentero, SwapPosition, sub_31C40, asspuckc, asspuckc_chkdir, sub_324C8
 global sub_3251A, assnearest, donothing, assscore, asseben, assleaveice, asspenalty, assdopen
 global assepen, assbench, assfaceoff, assfaceoffpl, pucknothing, SetLCmode, StartFaceoffLineChange, sub_3509F
 global sub_350A5, puckflip, assrefatdot, assreffollow, SkateToSpot, CrowdOnStoppage, assrefwhistle, assrefsignal
@@ -590,7 +590,7 @@ mov byte [byte ebx+eax+01Eh], dl	; 31908
 mov eax, ebx	; 3190C
 movsx edx, word [byte ebx+01Ah]	; 3190E
 or byte [byte ebx+044h], 2	; 31912
-call sub_31BA9	; 31916
+call SwapPosition	; 31916
 pop edx	; 3191B
 pop ebx	; 3191C
 ret	; 3191D
@@ -788,7 +788,7 @@ mov byte [byte ebx+eax+01Eh], dl	; 31B58
 mov edx, 4	; 31B5C
 mov eax, ebx	; 31B61
 or byte [byte ebx+044h], 2	; 31B63
-call sub_31BA9	; 31B67
+call SwapPosition	; 31B67
 pop edx	; 31B6C
 pop ebx	; 31B6D
 ret	; 31B6E
@@ -812,7 +812,7 @@ loc_31BA6:
 pop edx	; 31BA6
 pop ebx	; 31BA7
 ret	; 31BA8
-sub_31BA9:
+SwapPosition:
 push ebx	; 31BA9
 push ecx	; 31BAA
 push esi	; 31BAB
@@ -941,7 +941,7 @@ loc_31CFB:
 mov edx, 4	; 31CFB
 loc_31D00:
 mov eax, ebx	; 31D00
-call sub_31BA9	; 31D02
+call SwapPosition	; 31D02
 movsx edx, word [dword ebx+086h]	; 31D07
 cmp eax, edx	; 31D0E
 je near loc_3668C	; 31D10
@@ -996,7 +996,7 @@ loc_31DAD:
 mov edx, 4	; 31DAD
 loc_31DB2:
 mov eax, ebx	; 31DB2
-call sub_31BA9	; 31DB4
+call SwapPosition	; 31DB4
 jmp near loc_3668C	; 31DB9
 asspuckc:
 push ebx	; 31DBE
@@ -1570,7 +1570,7 @@ push ebx	; 324C8
 push ecx	; 324C9
 push edx	; 324CA
 mov ebx, eax	; 324CB
-call sub_30309	; 324CD
+call GetPartner	; 324CD
 mov dl, byte [byte ebx+044h]	; 324D2
 and dl, 80h	; 324D5
 movzx edx, dl	; 324D8
@@ -1589,7 +1589,7 @@ xor edx, ecx	; 324FD
 je short loc_32514	; 324FF
 mov edx, dword [byte eax+066h]	; 32501
 mov eax, ebx	; 32504
-call sub_31BA9	; 32506
+call SwapPosition	; 32506
 mov eax, 1	; 3250B
 pop edx	; 32510
 pop ecx	; 32511
@@ -1760,7 +1760,7 @@ movzx ebx, bl	; 32707
 xor eax, ebx	; 3270A
 je near loc_3279A	; 3270C
 mov eax, ecx	; 32712
-call sub_30309	; 32714
+call GetPartner	; 32714
 mov ebx, eax	; 32719
 test eax, eax	; 3271B
 je near loc_325D1	; 3271D
@@ -3088,10 +3088,10 @@ sub eax, ecx	; 337CC
 mov ecx, eax	; 337CE
 test edx, edx	; 337D0
 je short loc_337DB	; 337D2
-mov eax, dword [dword_1178DE]	; 337D4
+mov eax, dword [awslotcount]	; 337D4
 jmp short loc_337E0	; 337D9
 loc_337DB:
-mov eax, dword [dword_1178DA]	; 337DB
+mov eax, dword [hmslotcount]	; 337DB
 loc_337E0:
 cmp ecx, eax	; 337E0
 jne short loc_3380B	; 337E2
@@ -3628,10 +3628,10 @@ sub eax, edx	; 33E7C
 mov edx, eax	; 33E7E
 test ecx, ecx	; 33E80
 je short loc_33E8B	; 33E82
-mov eax, dword [dword_1178DE]	; 33E84
+mov eax, dword [awslotcount]	; 33E84
 jmp short loc_33E90	; 33E89
 loc_33E8B:
-mov eax, dword [dword_1178DA]	; 33E8B
+mov eax, dword [hmslotcount]	; 33E8B
 loc_33E90:
 cmp edx, eax	; 33E90
 jne short loc_33EBB	; 33E92

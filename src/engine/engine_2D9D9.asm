@@ -6,15 +6,15 @@ extern DoGameFrame, GameLoopActive, GetTicks, InGameMenuRequest, InputRecordCoun
 extern ReadJoy1, RunSimFrames, SlotButtons, SortCords, str_MightyDucks, str_fmt2d, str_OfAnaheim, assinsert
 extern assreplace, awtmstruct, byte_119D76, byte_119D79, byte_164920, byte_164CE0, byte_1655A4, byte_1655E0
 extern byte_16561C, byte_165658, byte_165694, byte_176B83, byte_17CA5D, check4bench, crowdlevel, curperiod
-extern dword_114B90, dword_114B94, dword_114B98, dword_114B9C, dword_114F16, dword_1150FC, dword_1178DA, dword_1178DE
-extern dword_1178E2, dword_1178E6, dword_118E89, dword_119D04, dword_11B310, dword_11F5C0, dword_11F5C4, dword_1515D8
+extern dword_114B90, dword_114B94, dword_114B98, dword_114B9C, dword_114F16, dword_1150FC, hmslotcount, awslotcount
+extern hmfirstslot, awfirstslot, dword_118E89, dword_119D04, dword_11B310, dword_11F5C0, dword_11F5C4, dword_1515D8
 extern dword_1515DC, dword_1515E0, dword_152F4C, dword_164956, dword_164D16, dword_16523C, dword_165240, dword_165244
 extern dword_165248, dword_176BC4, lineuptime, dword_176BCC, dword_177108, dword_179918, dword_179920, dword_179924
 extern dword_179DBD, optblock, energywarn, fadeinpending, fox, foy, gameopts, gmode
 extern hmroster, hmtmstruct, lasttouch, lcblink, off_11787C, puckc, off_11788C, off_117890
 extern off_117894, off_11D44C, off_11D4BC, off_11D52C, puckx, pucky, qsort_, randomd0
 extern reenergizeteam, regd2, regd3, resetplstuff, setpersonel, sflags, sprintf_, sub_13338
-extern sub_1B05E, IsCupClinched, sub_1F300, sub_313D2, sub_31BA9, donothing, sub_3509F, SkateToSpot
+extern sub_1B05E, IsCupClinched, sub_1F300, sub_313D2, SwapPosition, donothing, sub_3509F, SkateToSpot
 extern sub_37ED0, check4check, SetSPA, SprSort, sub_493D4, updateanim, SetExitGame, forcepldata
 extern sub_4B59F, EvadePC, skateto, playeracc, sub_4F452, sub_5439F, sub_5A572, sub_5BD7D
 extern sub_5DBC0, CloseTextOverlay, sub_60777, sub_612BC, sub_62311, sub_63998, sub_63A5B, sub_63F79
@@ -23,7 +23,7 @@ extern sub_69141, sub_69161, sub_692E9, sub_69312, sub_6934E, sub_69A9B, sub_773
 extern sub_AFFD0, TextSetFont, sub_B58D8, sub_B6140, sub_DD724, SetClipWindow, sub_DD7B8, sub_DD8B0
 extern sub_DFEC6, sub_E0520, sub_E0992, vecdist, sub_E15AC, unk_119D0A, unk_119D22, unk_119D36
 extern unk_119D4E, unk_156E6C, unk_157B82, unk_16443C, unk_164B5C, unk_164E7C, unk_165354, unk_17D3E8
-extern vtoa, word_1178A0, word_1178A2, word_1178B4, word_1178B6, gmode2, word_1178CA, word_1178D2
+extern vtoa, word_1178A0, word_1178A2, word_1178B4, word_1178B6, gmode2, word_1178CA, slotteam
 extern word_1178F8, exitgame, word_118E9F, word_118EA3, word_119D08, word_119D62, word_11D604, word_1515E4
 extern word_156E6E, word_157AFA, word_157AFC, word_157B00, word_157B06, word_1647CA, word_165366, word_16536C
 extern word_165462, word_165468, word_16548C, word_165492, word_1656E8, word_16570A, word_165758, word_16581E
@@ -81,8 +81,8 @@ global loc_3103C, loc_31051, loc_31081, loc_3109E, loc_310B5, loc_310F0, loc_311
 global loc_3111F, loc_311B8, loc_311D2, loc_311E4, loc_311F3, loc_31215, loc_3126E, loc_3129D
 global loc_312BD, loc_31313, loc_31346, loc_3139B, loc_313B2, loc_313CF, sub_2D9D9, sub_2DE30
 global sub_2E0C5, sub_2E127, sub_2E171, sub_2E1BE, StartPreGame, assintroline, StarEligible, StarCompare
-global sub_2F029, sub_2F3DF, sub_2F41D, assboxenter, assbenchside, assstanley, sub_2FB3D, sub_2FDE3
-global sub_2FF84, sub_30274, sub_30309, sub_30340, assdefo, sub_305C2, sub_30873, assdefd
+global sub_2F029, TurnToward, SkateToTarget, assboxenter, assbenchside, assstanley, sub_2FB3D, sub_2FDE3
+global sub_2FF84, sub_30274, GetPartner, sub_30340, assdefo, sub_305C2, sub_30873, assdefd
 global sub_30CDA, sub_30E6B, asswingd
 sub_2D9D9:
 push ebx	; 2D9D9
@@ -1262,16 +1262,16 @@ call sub_2DE30	; 2E9DB
 mov edx, eax	; 2E9E0
 mov eax, 8	; 2E9E2
 call sub_60777	; 2E9E7
-cmp dword [dword_1178DA], byte 0	; 2E9EC
+cmp dword [hmslotcount], byte 0	; 2E9EC
 je short loc_2EA10	; 2E9F3
-mov eax, dword [dword_1178E2]	; 2E9F5
+mov eax, dword [hmfirstslot]	; 2E9F5
 and byte [byte_164920], 0F7h	; 2E9FA
 mov dword [dword_164956], eax	; 2EA01
 mov word [nosplit eax*2+word_1178CA], 2	; 2EA06
 loc_2EA10:
-cmp dword [dword_1178DE], byte 0	; 2EA10
+cmp dword [awslotcount], byte 0	; 2EA10
 je short loc_2EA34	; 2EA17
-mov eax, dword [dword_1178E6]	; 2EA19
+mov eax, dword [awfirstslot]	; 2EA19
 and byte [byte_164CE0], 0F7h	; 2EA1E
 mov dword [dword_164D16], eax	; 2EA25
 mov word [nosplit eax*2+word_1178CA], 8	; 2EA2A
@@ -2092,7 +2092,7 @@ loc_2F3D3:
 lea esp, [dword ebp+082h]	; 2F3D3
 pop ebp	; 2F3D9
 jmp near loc_2DE2A	; 2F3DA
-sub_2F3DF:
+TurnToward:
 push ebx	; 2F3DF
 dec word [byte eax+026h]	; 2F3E0
 cmp word [byte eax+026h], byte 0	; 2F3E4
@@ -2117,7 +2117,7 @@ mov word [byte eax+036h], dx	; 2F417
 loc_2F41B:
 pop ebx	; 2F41B
 ret	; 2F41C
-sub_2F41D:
+SkateToTarget:
 push ebx	; 2F41D
 push ecx	; 2F41E
 push edx	; 2F41F
@@ -2157,7 +2157,7 @@ loc_2F496:
 cmp edx, byte 7	; 2F496
 jg short loc_2F4A2	; 2F499
 mov eax, ebx	; 2F49B
-call sub_2F3DF	; 2F49D
+call TurnToward	; 2F49D
 loc_2F4A2:
 movsx eax, word [regd0]	; 2F4A2
 cmp eax, byte 7	; 2F4A9
@@ -2439,7 +2439,7 @@ loc_2F859:
 xor edx, edx	; 2F859
 xor ebx, ebx	; 2F85B
 loc_2F85D:
-cmp word [dword ebx+word_1178D2], byte 0	; 2F85D
+cmp word [dword ebx+slotteam], byte 0	; 2F85D
 je short loc_2F882	; 2F865
 mov eax, edx	; 2F867
 call ReadJoy1	; 2F869
@@ -2670,12 +2670,12 @@ cwde	; 2FB1B
 call vtoa	; 2FB1C
 movsx edx, ax	; 2FB21
 mov eax, esi	; 2FB24
-call sub_2F3DF	; 2FB26
+call TurnToward	; 2FB26
 loc_2FB2B:
 cmp dword [byte esi+072h], byte 64h	; 2FB2B
 je short loc_2FB38	; 2FB2F
 mov eax, esi	; 2FB31
-call sub_2F41D	; 2FB33
+call SkateToTarget	; 2FB33
 loc_2FB38:
 pop esi	; 2FB38
 pop edx	; 2FB39
@@ -2784,7 +2784,7 @@ cmp word [byte esi+01Ah], byte 0	; 2FC76
 jne short loc_2FCDC	; 2FC7B
 mov eax, esi	; 2FC7D
 or byte [byte esi+048h], 3	; 2FC7F
-call sub_2F41D	; 2FC83
+call SkateToTarget	; 2FC83
 movsx eax, word [byte esi+0Eh]	; 2FC88
 push eax	; 2FC8C
 movsx eax, word [byte esi+0Ch]	; 2FC8D
@@ -2809,11 +2809,11 @@ cwde	; 2FCC7
 call vtoa	; 2FCC8
 movsx edx, ax	; 2FCCD
 mov eax, esi	; 2FCD0
-call sub_2F3DF	; 2FCD2
+call TurnToward	; 2FCD2
 jmp near loc_2DE2A	; 2FCD7
 loc_2FCDC:
 mov eax, esi	; 2FCDC
-call sub_2F41D	; 2FCDE
+call SkateToTarget	; 2FCDE
 movsx eax, word [byte esi+0Eh]	; 2FCE3
 push eax	; 2FCE7
 movsx eax, word [byte esi+0Ch]	; 2FCE8
@@ -3014,11 +3014,11 @@ jmp near loc_2DE29	; 2FF65
 loc_2FF6A:
 mov edx, eax	; 2FF6A
 mov eax, esi	; 2FF6C
-call sub_2F3DF	; 2FF6E
+call TurnToward	; 2FF6E
 jmp near loc_2DE29	; 2FF73
 loc_2FF78:
 mov eax, esi	; 2FF78
-call sub_2F41D	; 2FF7A
+call SkateToTarget	; 2FF7A
 jmp near loc_2DE29	; 2FF7F
 sub_2FF84:
 push ebx	; 2FF84
@@ -3296,7 +3296,7 @@ xor eax, eax	; 30304
 pop edx	; 30306
 pop ebx	; 30307
 ret	; 30308
-sub_30309:
+GetPartner:
 push edx	; 30309
 mov edx, dword [byte eax+066h]	; 3030A
 cmp edx, byte 1	; 3030D
@@ -3508,7 +3508,7 @@ cmp edx, dword [byte ebx+066h]	; 3056D
 je short loc_30579	; 30570
 mov eax, ebx	; 30572
 loc_30574:
-call sub_31BA9	; 30574
+call SwapPosition	; 30574
 loc_30579:
 dec dword [byte ebx+072h]	; 30579
 cmp dword [byte ebx+072h], byte 0	; 3057C
@@ -3585,7 +3585,7 @@ mov eax, ebx	; 3063B
 movsx edx, word [byte ebx+01Ah]	; 3063D
 mov dword [byte ebx+06Ah], 0FFFFFFFFh	; 30641
 loc_30648:
-call sub_31BA9	; 30648
+call SwapPosition	; 30648
 mov ax, word [byte ebx+01Ch]	; 3064D
 inc eax	; 30651
 xor ah, ah	; 30652
@@ -3980,7 +3980,7 @@ cmp dword [byte ebx+066h], byte 2	; 30B43
 jle short loc_30B54	; 30B47
 mov eax, ebx	; 30B49
 movsx edx, word [byte ebx+01Ah]	; 30B4B
-call sub_31BA9	; 30B4F
+call SwapPosition	; 30B4F
 loc_30B54:
 mov dword [byte ebx+06Ah], 0FFFFFFFFh	; 30B54
 mov dword [byte ecx+06Ah], 0FFFFFFFFh	; 30B5B
@@ -4158,7 +4158,7 @@ mov eax, ebx	; 30D5E
 movsx edx, word [byte ebx+01Ah]	; 30D60
 mov dword [byte ebx+06Ah], 0FFFFFFFFh	; 30D64
 loc_30D6B:
-call sub_31BA9	; 30D6B
+call SwapPosition	; 30D6B
 mov ax, word [byte ebx+01Ch]	; 30D70
 inc eax	; 30D74
 loc_30D75:
@@ -4192,7 +4192,7 @@ cmp dword [byte ecx+066h], byte 2	; 30DC1
 jle short loc_30DD2	; 30DC5
 mov eax, ecx	; 30DC7
 movsx edx, word [byte ecx+01Ah]	; 30DC9
-call sub_31BA9	; 30DCD
+call SwapPosition	; 30DCD
 loc_30DD2:
 mov ax, word [byte ebx+01Ch]	; 30DD2
 inc eax	; 30DD6

@@ -4,7 +4,7 @@ bits 32
 section s_38070 progbits alloc exec nowrite align=1
 extern LineChangeLine, LineChangeReq, Pencntdwn, RequestLineChange, SlotButtons, SortCords, a2touchpuck, byte_114B4C
 extern byte_119EEA, byte_119F4A, byte_119F4B, byte_119F5A, byte_119F5B, byte_164741, byte_16507A, byte_165250
-extern byte_16571E, crowdlevel, dword_1178DA, dword_1178DE, dword_1178E2, dword_1178E6, dword_1178EA, dword_1178EE
+extern byte_16571E, crowdlevel, hmslotcount, awslotcount, hmfirstslot, awfirstslot, dword_1178EA, dword_1178EE
 extern dword_119173, dword_1191C7, dword_1191D7, dword_1191E7, dword_1191EB, dword_119FEC, dword_11F5C0, dword_11F5C4
 extern dword_164744, dword_164748, dword_164750, dword_165254, dword_1797B4, gameclock, gameopts, gmode
 extern hmtmstruct, introskipped, lcblink, lcboxon, lcline, off_11787C, puckc, off_11788C
@@ -14,7 +14,7 @@ extern sub_3509F, sub_3E665, BlockShotDive, checkob, dopass, passmode, setpassmo
 extern sub_415FF, SetShotMode, ShotMode, Findhittype, doshot, SetSPA, sub_46593, changeplayer
 extern updateanim, doplayeracc, playeracc, sub_4DD1B, burst, sub_68E31, sfx, MouseRead
 extern vecdist, unk_164754, unk_164B5C, vtoa, word_1178A8, word_1178AC, word_1178AE, word_1178B4
-extern word_1178BE, word_1178C0, gmode2, word_1178CA, word_1178D2, gsp, word_118EA5, word_118EA9
+extern word_1178BE, word_1178C0, gmode2, word_1178CA, slotteam, gsp, word_118EA5, word_118EA9
 extern word_118EB1, word_119EDA, word_16474C, word_164794, word_165078, word_165082, word_1656E8, word_165704
 extern word_165710, regd0, regd1
 global Acheck, CtlSwapScoreFix, CtlSwapTeamFlag, OppInReach, ReadJoy1, ReassignCtlPlayer, asspassrec, getlchoice
@@ -58,7 +58,7 @@ global loc_3A506, loc_3A550, loc_3A555, loc_3A55C, loc_3A57B, loc_3A5D4, loc_3A5
 global loc_3A613, loc_3A61F, loc_3A625, loc_3A648, loc_3A65F, loc_3A674, loc_3A6B4, loc_3A6C2
 global loc_3A6CB, loc_3A6DD, loc_3A709, loc_3A744, loc_3A75A, loc_3A76E, loc_3A789, loc_3A7A0
 global sub_38202, sub_3832F, CanBlockShot, Holdplayer, sub_38AAF, sub_38BFA, doinput, sub_39847
-global sub_3987A, CenterMouse, PassCompleted, assonetimer, OneTimerChk, sub_39E93, sub_3A2F6, sub_3A609
+global SlotToJoy, CenterMouse, PassCompleted, assonetimer, OneTimerChk, sub_39E93, CountTeamSlots, sub_3A609
 global sub_3A6F3
 lineinput:
 push ebx	; 38070
@@ -1419,19 +1419,19 @@ cmp dword [penshotlive], byte 0	; 39008
 jne near loc_3908D	; 3900F
 test edi, edi	; 39015
 je short loc_39020	; 39017
-mov eax, dword [dword_1178DE]	; 39019
+mov eax, dword [awslotcount]	; 39019
 jmp short loc_39025	; 3901E
 loc_39020:
-mov eax, dword [dword_1178DA]	; 39020
+mov eax, dword [hmslotcount]	; 39020
 loc_39025:
 cmp eax, byte 1	; 39025
 je short loc_39041	; 39028
 test edi, edi	; 3902A
 je short loc_39035	; 3902C
-mov eax, dword [dword_1178E6]	; 3902E
+mov eax, dword [awfirstslot]	; 3902E
 jmp short loc_3903A	; 39033
 loc_39035:
-mov eax, dword [dword_1178E2]	; 39035
+mov eax, dword [hmfirstslot]	; 39035
 loc_3903A:
 movsx edx, cx	; 3903A
 cmp eax, edx	; 3903D
@@ -2122,7 +2122,7 @@ mov dword [dword eax+dword_164750], 0	; 3986A
 cmp eax, byte 40h	; 39874
 jne short loc_39849	; 39877
 ret	; 39879
-sub_3987A:
+SlotToJoy:
 push ebx	; 3987A
 push edx	; 3987B
 mov ebx, dword [nosplit eax*4+SlotButtons]	; 3987C
@@ -2168,7 +2168,7 @@ ReadJoy1:
 push ebx	; 398DB
 push edx	; 398DC
 mov ebx, eax	; 398DD
-call sub_3987A	; 398DF
+call SlotToJoy	; 398DF
 mov edx, eax	; 398E4
 mov word [regd0], ax	; 398E6
 xor ah, ah	; 398EC
@@ -2830,10 +2830,10 @@ and al, 40h	; 3A16A
 movzx eax, al	; 3A16C
 test eax, eax	; 3A16F
 je short loc_3A17A	; 3A171
-mov eax, dword [dword_1178DE]	; 3A173
+mov eax, dword [awslotcount]	; 3A173
 jmp short loc_3A17F	; 3A178
 loc_3A17A:
-mov eax, dword [dword_1178DA]	; 3A17A
+mov eax, dword [hmslotcount]	; 3A17A
 loc_3A17F:
 test eax, eax	; 3A17F
 jne short loc_3A198	; 3A181
@@ -2958,35 +2958,35 @@ pop edx	; 3A2F2
 pop ecx	; 3A2F3
 pop ebx	; 3A2F4
 ret	; 3A2F5
-sub_3A2F6:
+CountTeamSlots:
 push ebx	; 3A2F6
 push edx	; 3A2F7
-mov dword [dword_1178DE], 0	; 3A2F8
-mov dword [dword_1178DA], 0	; 3A302
-mov dword [dword_1178E6], 0FFFFFFFFh	; 3A30C
-mov dword [dword_1178E2], 0FFFFFFFFh	; 3A316
+mov dword [awslotcount], 0	; 3A2F8
+mov dword [hmslotcount], 0	; 3A302
+mov dword [awfirstslot], 0FFFFFFFFh	; 3A30C
+mov dword [hmfirstslot], 0FFFFFFFFh	; 3A316
 mov dword [dword_1178EE], 0FFFFFFFFh	; 3A320
 mov dword [dword_1178EA], 0FFFFFFFFh	; 3A32A
 xor eax, eax	; 3A334
 xor edx, edx	; 3A336
 loc_3A338:
-movsx ebx, word [dword edx+word_1178D2]	; 3A338
+movsx ebx, word [dword edx+slotteam]	; 3A338
 cmp ebx, byte 1	; 3A33F
 jne short loc_3A35A	; 3A342
-cmp dword [dword_1178E2], byte 0	; 3A344
+cmp dword [hmfirstslot], byte 0	; 3A344
 jge short loc_3A352	; 3A34B
-mov dword [dword_1178E2], eax	; 3A34D
+mov dword [hmfirstslot], eax	; 3A34D
 loc_3A352:
-inc dword [dword_1178DA]	; 3A352
+inc dword [hmslotcount]	; 3A352
 jmp short loc_3A373	; 3A358
 loc_3A35A:
 cmp ebx, byte 2	; 3A35A
 jne short loc_3A373	; 3A35D
-cmp dword [dword_1178E6], byte 0	; 3A35F
+cmp dword [awfirstslot], byte 0	; 3A35F
 jge short loc_3A36D	; 3A366
-mov dword [dword_1178E6], eax	; 3A368
+mov dword [awfirstslot], eax	; 3A368
 loc_3A36D:
-inc dword [dword_1178DE]	; 3A36D
+inc dword [awslotcount]	; 3A36D
 loc_3A373:
 inc eax	; 3A373
 inc edx	; 3A374
@@ -3105,7 +3105,7 @@ push edi	; 3A4A0
 enter 10h, 0	; 3A4A1
 mov ebx, eax	; 3A4A5
 lea edx, [eax+eax]	; 3A4A7
-mov eax, word_1178D2	; 3A4AA
+mov eax, slotteam	; 3A4AA
 add eax, edx	; 3A4AF
 add edx, word_1178CA	; 3A4B1
 cmp word [eax], byte 0	; 3A4B7
@@ -3225,10 +3225,10 @@ xor eax, eax	; 3A611
 loc_3A613:
 test esi, esi	; 3A613
 je short loc_3A61F	; 3A615
-mov edx, dword [dword_1178DE]	; 3A617
+mov edx, dword [awslotcount]	; 3A617
 jmp short loc_3A625	; 3A61D
 loc_3A61F:
-mov edx, dword [dword_1178DA]	; 3A61F
+mov edx, dword [hmslotcount]	; 3A61F
 loc_3A625:
 test edx, edx	; 3A625
 jne near loc_3A6DD	; 3A627
@@ -3295,9 +3295,9 @@ sub_3A6F3:
 push ebx	; 3A6F3
 push ecx	; 3A6F4
 push edx	; 3A6F5
-mov ebx, dword [dword_1178DA]	; 3A6F6
-mov ecx, dword [dword_1178DE]	; 3A6FC
-call sub_3A2F6	; 3A702
+mov ebx, dword [hmslotcount]	; 3A6F6
+mov ecx, dword [awslotcount]	; 3A6FC
+call CountTeamSlots	; 3A702
 xor edx, edx	; 3A707
 loc_3A709:
 mov eax, edx	; 3A709
@@ -3310,7 +3310,7 @@ movsx edx, word [word_165078]	; 3A71B
 movsx edx, byte [dword edx+byte_16507A]	; 3A722
 cmp edx, byte 1Bh	; 3A729
 jne short loc_3A744	; 3A72C
-cmp dword [dword_1178DA], byte 0	; 3A72E
+cmp dword [hmslotcount], byte 0	; 3A72E
 je short loc_3A744	; 3A735
 test ebx, ebx	; 3A737
 jne short loc_3A744	; 3A739
@@ -3318,7 +3318,7 @@ mov word [word_165082], 0	; 3A73B
 loc_3A744:
 test ebx, ebx	; 3A744
 je short loc_3A75A	; 3A746
-cmp dword [dword_1178DA], byte 0	; 3A748
+cmp dword [hmslotcount], byte 0	; 3A748
 jne short loc_3A75A	; 3A74F
 xor eax, eax	; 3A751
 call CtlSwapScoreFix	; 3A753
@@ -3326,14 +3326,14 @@ jmp short loc_3A76E	; 3A758
 loc_3A75A:
 test ebx, ebx	; 3A75A
 jne short loc_3A76E	; 3A75C
-cmp dword [dword_1178DA], byte 0	; 3A75E
+cmp dword [hmslotcount], byte 0	; 3A75E
 je short loc_3A76E	; 3A765
 xor eax, eax	; 3A767
 call CtlSwapTeamFlag	; 3A769
 loc_3A76E:
 test ecx, ecx	; 3A76E
 je short loc_3A789	; 3A770
-cmp dword [dword_1178DE], byte 0	; 3A772
+cmp dword [awslotcount], byte 0	; 3A772
 jne short loc_3A789	; 3A779
 mov eax, 1	; 3A77B
 call CtlSwapScoreFix	; 3A780
@@ -3344,7 +3344,7 @@ ret	; 3A788
 loc_3A789:
 test ecx, ecx	; 3A789
 jne short loc_3A7A0	; 3A78B
-cmp dword [dword_1178DE], byte 0	; 3A78D
+cmp dword [awslotcount], byte 0	; 3A78D
 je short loc_3A7A0	; 3A794
 mov eax, 1	; 3A796
 call CtlSwapTeamFlag	; 3A79B

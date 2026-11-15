@@ -23,15 +23,19 @@ address,name,auto_name,source,confidence,evidence,file
 2EDB1,StarEligible,sub_2EDB1,95PC,medium,first after AddStar as in NHL95PC,src/engine/engine_2D9D9.asm
 2EE07,StarCompare,sub_2EE07,95PC,medium,"second after AddStar as in NHL95PC, before PickThreeStars",src/engine/engine_2D9D9.asm
 2F02A,PickThreeStars,,95PC,medium,NHL95PC 48AC8 (sem): D:176B86; C:1339; D:152FE8; D:17C9A0,
+2F3DF,TurnToward,sub_2F3DF,new,medium,every 8 ticks turns the facing direction (+36h) one step toward direction edx,src/engine/engine_2D9D9.asm
+2F41D,SkateToTarget,sub_2F41D,new,medium,"direction to the target point (+2Ah, +2Ch) with vtoa, TurnToward, then playeracc",src/engine/engine_2D9D9.asm
 2F4E2,assboxenter,sub_2F4E2,95PC,high,"asstab entry 42, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/engine_2D9D9.asm
 2F763,assbenchside,sub_2F763,95PC,high,"asstab entry 43, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/engine_2D9D9.asm
 2F8BF,assstanley,sub_2F8BF,95PC,high,"asstab entry 8, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/engine_2D9D9.asm
+30309,GetPartner,sub_30309,new,medium,"returns the SortCords entry of the other player of a pair (position 1 or 2) through the team position map, else 0",src/engine/engine_2D9D9.asm
 30483,assdefo,sub_30483,95PC,high,"asstab entry 1, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/engine_2D9D9.asm
 30A9B,assdefd,sub_30A9B,95PC,high,"asstab entry 2, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/engine_2D9D9.asm
 312D7,asswingd,sub_312D7,95PC,high,"asstab entry 3, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/engine_2D9D9.asm
 31805,asswingo,sub_31805,95PC,high,"asstab entry 4, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
 31958,asscenterd,sub_31958,95PC,high,"asstab entry 5, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
 31A53,asscentero,sub_31A53,95PC,high,"asstab entry 6, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
+31BA9,SwapPosition,sub_31BA9,new,medium,"gives the player (eax) position edx and hands his old position to the teammate who held it (struct +66h, team position map +102h)",src/engine/logic/logic.asm
 31DBE,asspuckc,sub_31DBE,95PC,high,"asstab entry 16, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
 32158,asspuckc_chkdir,sub_32158,95PC,high,"named references of NHL95PC asspuckc_chkdir (11 of 11), between asspuckc and assnearest in both",src/engine/logic/logic.asm
 327A2,assnearest,sub_327A2,95PC,high,"asstab entry 17, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
@@ -81,12 +85,14 @@ address,name,auto_name,source,confidence,evidence,file
 38F9F,doinput,sub_38F9F,95PC,medium,"called from updateplayers, before getlchoice as NHL95PC doinput; Holdplayer, SetLCmode, burst, checkob",src/engine/input/input.asm
 39769,getlchoice,,95PC,medium,NHL95PC 50908 (sem): R:400; R:441,
 397C0,lcfound,,95PC,medium,NHL95PC 50975 (sem): C:589; D:16595C; R:429; R:465,
+3987A,SlotToJoy,sub_3987A,new,medium,called from ReadJoy1: SlotButtons of one slot to a direction and button bits,src/engine/input/input.asm
 398DB,ReadJoy1,,95PC,medium,NHL95PC 50A05 (sem): D:165960; D:16595C,
 39936,CenterMouse,sub_39936,95PC,medium,"its call lines up with the NHL95PC call in puckfaceoff2, and its address keeps the NHL95PC module order",src/engine/input/input.asm
 39955,PassCompleted,sub_39955,95PC,medium,"same named references as NHL95PC PassCompleted (4 of 4), same length, between CenterMouse and asspassrec in both",src/engine/input/input.asm
 399AB,assonetimer,sub_399AB,95PC,medium,"first after PassCompleted as in NHL95PC; Findhittype, doshot, passplayer",src/engine/input/input.asm
 39DB8,OneTimerChk,sub_39DB8,95PC,medium,second after PassCompleted as in NHL95PC,src/engine/input/input.asm
 3A0D2,asspassrec,,95PC,medium,NHL95PC 50F3F (sem): C:623; D:117874; D:1178C3; K:168,
+3A2F6,CountTeamSlots,sub_3A2F6,new,medium,counts the controller slots of each team and notes the first slot of each,src/engine/input/input.asm
 3A37E,CtlSwapScoreFix,,95PC,medium,NHL95PC 7CBB3 (sem): C:589; D:1656D8; D:117900; D:1178C3,
 3A433,CtlSwapTeamFlag,,95PC,medium,NHL95PC 7CC8A (sem): D:1656D8; D:1178C3,
 3A49C,ReassignCtlPlayer,,95PC,medium,NHL95PC 7CCE5 (sem): K:10000000; D:117870; D:117878; D:16479C,
@@ -138,6 +144,8 @@ address,name,auto_name,source,confidence,evidence,file
 41B41,MarkTwoLinePlayers,,95PC,medium,"NHL95PC 55C6F (neighbour): between ChkOffsides and setInjuryType, mnemonic similarity 0.85",
 41BFC,ChkShotStat,sub_41BFC,95PC,medium,"between MarkTwoLinePlayers and setInjuryType as in NHL95PC; shares CwdExciteLvl, crowdlevel",src/engine/collide/collide.asm
 41E46,setInjuryType,,95PC,medium,NHL95PC 55E72 (sem): K:FFFD; K:FFFC; C:809; K:3E8,
+41FDA,FallFrameByDir,sub_41FDA,new,low,called from FallDown and NetCollide: picks one of four fall frames from the hit direction relative to facing,src/engine/collide/collide.asm
+4203B,FallFrameByFacing,sub_4203B,new,low,called from FallDown: picks one of two fall frames from the facing direction,src/engine/collide/collide.asm
 42072,NetCollide,sub_42072,95PC,medium,"last before FallDown as in NHL95PC; vecdist, 233/222 lines",src/engine/collide/collide.asm
 42342,FallDown,sub_42342,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: Bcheck,src/engine/collide/collide.asm
 42DC4,Bcheck,,95PC,medium,NHL95PC 56A54 (sem): C:810; C:809; D:17C9A0; R:492,
@@ -169,6 +177,7 @@ address,name,auto_name,source,confidence,evidence,file
 4666C,changeplayer,sub_4666C,95PC,medium,"its calls line up with the NHL95PC calls 2 time(s) in: assleaveice,puckfaceoff2",src/engine/hockey/hockey.asm
 46988,restorepl,sub_46988,95PC,medium,between changeplayer and AvgCline as in NHL95PC; same named references,src/engine/hockey/hockey.asm
 46A0B,AvgCline,sub_46A0B,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: chk4lc,src/engine/hockey/hockey.asm
+46A6F,AvgLinePair,sub_46A6F,new,medium,called from CompLine: mean of one attribute of the two players of a line pair,src/engine/hockey/hockey.asm
 46A9D,CompLine,,95PC,medium,NHL95PC 5A0A3 (sem): C:563; C:559; R:502; K:F33,
 46E93,TeamLineEnergy,,95PC,medium,"NHL95PC 5A2EE (neighbour): between ChkPullGoalieLate and findpc, mnemonic similarity 0.86",
 46EA7,getlinee,sub_46EA7,95PC,medium,"sits between TeamLineEnergy and findpc as in the NHL95PC module, with the same count of routines between them and a like size (n95=18 n96=12) and call count",src/engine/hockey/hockey.asm
@@ -2388,6 +2397,11 @@ E24C4,RestoreTextMode,sub_E24C4,95PC,high,video library: restore the text mode a
 1178C3,gmode,,95PC,medium,NHL95PC C90BB (refset): referenced by the same 11 matched functions,
 1178C4,sflags,,95PC,medium,NHL95PC C90BC (refset): referenced by the same 4 matched functions,
 1178C6,gmode2,word_1178C6,95PC,high,assfaceoff tests bit 0 as NHL95PC assfaceoff tests gmode2 bit 0; lines up in TryBlockShot and chkprogress too,src/data/front/front_2A692_data_02.asm
+1178D2,slotteam,word_1178D2,new,medium,"4 words read by CountTeamSlots: 1 home, 2 away",src/data/front/front_2A692_data_02.asm
+1178DA,hmslotcount,dword_1178DA,new,medium,CountTeamSlots: slots with slotteam 1,src/data/front/front_2A692_data_02.asm
+1178DE,awslotcount,dword_1178DE,new,medium,CountTeamSlots: slots with slotteam 2,src/data/front/front_2A692_data_02.asm
+1178E2,hmfirstslot,dword_1178E2,new,medium,"CountTeamSlots: first slot with slotteam 1, -1 none",src/data/front/front_2A692_data_02.asm
+1178E6,awfirstslot,dword_1178E6,new,medium,"CountTeamSlots: first slot with slotteam 2, -1 none",src/data/front/front_2A692_data_02.asm
 1178F2,Pencntdwn,,95PC,medium,NHL95PC C90CE (refset): referenced by the same 5 matched functions,
 1178FE,gsp,word_1178FE,95PC,medium,"the period number from 0 (the port reads it for the netplay log), as NHL95PC gsp",src/data/front/front_2A692_data_02.asm
 117900,gameclock,,95PC,medium,NHL95PC C90DC (refset): referenced by the same 4 matched functions,

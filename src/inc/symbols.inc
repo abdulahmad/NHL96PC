@@ -224,7 +224,7 @@
 ;  2E95C  StartPreGame                             engine/engine_2D9D9.asm                      1
 ;  2EA39  assintrostand                            engine/engine_2D9D9.asm                      1
 ;  2EAEB  assintroline                             engine/engine_2D9D9.asm                      1
-;  2F029  sub_2F029                                engine/engine_2D9D9.asm                      1
+;  2F029  assextra1                                engine/engine_2D9D9.asm                      1
 ;  2F02A  PickThreeStars                           engine/engine_2D9D9.asm                      1
 ;  2F4E2  assboxenter                              engine/engine_2D9D9.asm                      1
 ;  2F763  assbenchside                             engine/engine_2D9D9.asm                      1
@@ -232,7 +232,7 @@
 ;  2FB3D  asscupfollow                             engine/engine_2D9D9.asm                      1
 ;  2FDE3  asscuptake                               engine/engine_2D9D9.asm                      1
 ;  2FF84  asscupleave                              engine/engine_2D9D9.asm                      1
-;  30274  sub_30274                                engine/engine_2D9D9.asm                      1
+;  30274  assextra2                                engine/engine_2D9D9.asm                      1
 ;  30309  GetPartner                               engine/engine_2D9D9.asm                      1
 ;  30340  defotarget                               engine/engine_2D9D9.asm                      1
 ;  30483  assdefo                                  engine/engine_2D9D9.asm                      1
@@ -240,9 +240,9 @@
 ;  30873  defdtarget                               engine/engine_2D9D9.asm                      1
 ;  30A9B  assdefd                                  engine/engine_2D9D9.asm                      1
 ;  30CDA  asscoverdefd                             engine/engine_2D9D9.asm                      1
-;  30E6B  sub_30E6B                                engine/engine_2D9D9.asm                      1
+;  30E6B  assextra3                                engine/engine_2D9D9.asm                      1
 ;  312D7  asswingd                                 engine/engine_2D9D9.asm                      1
-;  313D2  sub_313D2                                engine/logic/logic.asm                       1
+;  313D2  assextra4                                engine/logic/logic.asm                       1
 ;  31805  asswingo                                 engine/logic/logic.asm                       1
 ;  31958  asscenterd                               engine/logic/logic.asm                       1
 ;  31A53  asscentero                               engine/logic/logic.asm                       1
@@ -282,7 +282,7 @@
 ;  36D37  asspenshooter                            engine/logic/logic.asm                       1
 ;  37410  assfight                                 engine/logic/logic.asm                       1
 ;  37AA5  assfwatch                                engine/logic/logic.asm                       1
-;  37ED0  sub_37ED0                                engine/logic/logic.asm                       2
+;  37ED0  assextra6                                engine/logic/logic.asm                       2
 ;  3804E  assreplace                               engine/logic/logic.asm                       5
 ;  3805F  assinsert                                engine/logic/logic.asm                       6
 ;  385BC  Acheck                                   engine/input/input.asm                       1

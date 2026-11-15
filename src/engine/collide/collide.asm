@@ -12,7 +12,7 @@ extern gameclock, gameopts, gmode, hmtmstruct, lastplayer, lasttouch, off_11787C
 extern off_11788C, off_117898, off_11789C, passplayer, penshotctl, penshotlive, penshotmode, penshotplayer
 extern penshotstart, puckvx, puckvz, puckx, pucky, puckz, randomd0, regd2
 extern regd3, setpersonel, sflags, shotongoal, shotontarget, sub_235F2, sub_23965, sub_23E06
-extern sub_23E4E, sub_30274, sub_3509F, puckflip, CanBlockShot, PassCompleted, changeplayer, restorepl
+extern sub_23E4E, assextra2, sub_3509F, puckflip, CanBlockShot, PassCompleted, changeplayer, restorepl
 extern AvgCline, GetHot, GetHotStick, GetHotOrStick, Goal, GiveControl, doplayeracc, burst
 extern sub_4F452, PostInjuryEvent, AddPenalty2, Stop4Pen, EndPenaltyShot, CanRemovePlayer, CloseTextOverlay, sub_68E31
 extern sfx, sub_69141, sub_BE960, vecdist, threat, unk_164B5C, unk_1657BC, unk_1658F2
@@ -7446,7 +7446,7 @@ movzx eax, al	; 440CB
 test eax, eax	; 440CE
 jne near loc_3E813	; 440D0
 mov eax, ebx	; 440D6
-call sub_30274	; 440D8
+call assextra2	; 440D8
 test eax, eax	; 440DD
 je near loc_3E813	; 440DF
 mov eax, 1	; 440E5

@@ -21,7 +21,7 @@ extern hmroster, hmtmgoalie, hmtmstruct, lastplayer, lasttouch, lcblink, lcboxon
 extern off_11786C, off_11787C, puckc, off_11788C, off_117890, off_117894, off_117898, off_11789C
 extern asstab, off_118F79, penshotlive, penshotmode, penshotplayer, penshotstart, penshottimer, puckvx
 extern puckx, pucky, puckz, randomd0, regd2, regd3, sflags, shotongoal
-extern shotontarget, IsCupClinched, sub_23F05, SwapPosition, sub_37ED0, doinput, sub_39847, CountTeamSlots
+extern shotontarget, IsCupClinched, sub_23F05, SwapPosition, assextra6, doinput, sub_39847, CountTeamSlots
 extern sub_3A7A4, asspsclear, sub_3E6D4, ChkShotStat, checkcoll, SetSPA, sub_4F452, AddPenalty2
 extern PenGoalStuff, EndPenaltyShot, sub_535D5, sub_53640, CloseTextOverlay, sub_622CD, sub_67A63, sub_68D25
 extern sub_68E31, sfx, sub_69141, sub_69161, sub_6934E, vecdist, threat, unk_117A9C
@@ -4376,7 +4376,7 @@ loc_49A52:
 movsx eax, word [byte ebp-04h]	; 49A52
 cmp eax, byte 0Ch	; 49A56
 jl near loc_4998E	; 49A59
-call sub_37ED0	; 49A5F
+call assextra6	; 49A5F
 mov esi, SortCords	; 49A64
 mov dword [byte ebp-08h], 0	; 49A69
 jmp near loc_49F24	; 49A70

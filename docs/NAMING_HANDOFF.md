@@ -12,7 +12,7 @@ and the Overbar branches (see "Merging"). No decompilation. Skip Watcom internal
 ## Remaining queue
 1. NHL96PC engine: about 77 `sub_` routines in `src/engine/` are left. Every routine with a partner in an earlier
    game is named, the fights from NHLPA 93 Genesis (checkfight, SetInst, assfight, chkhit, assfwatch, fightinput).
-   The new assignments (asstab 2Fh-35h) and the goalie helpers have `source=new` names. Still unnamed in the AI:
+   The new assignments (asstab 2Fh-35h) and the goalie helpers have `source=new` names. Placeholder names assextra1-6 (Abdul 2026-11-15; rename when read):
    `sub_30E6B` (forwards on defence, 271 lines), `sub_313D2` (offence, 307 lines), `sub_3251A`, `sub_37ED0` and
    `sub_30274` (a zone analysis in dword_165248..), `sub_2F029` (empty asstab slots 14h/15h). The rest is drawing
    helpers in `lines.asm` and save file name helpers after LoadGameState. Check NHL94Genesis, NHL94SNES and

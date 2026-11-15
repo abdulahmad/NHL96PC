@@ -21,10 +21,10 @@ extern hmroster, hmtmgoalie, hmtmstruct, lastplayer, lasttouch, lcblink, lcboxon
 extern off_11786C, off_11787C, off_117888, off_11788C, off_117890, off_117894, off_117898, off_11789C
 extern asstab, off_118F79, penshotlive, penshotmode, penshotplayer, penshotstart, penshottimer, puckvx
 extern puckx, pucky, puckz, randomd0, regd2, regd3, sflags, shotongoal
-extern shotontarget, sub_1E33C, sub_23F05, sub_31BA9, sub_37ED0, sub_38F9F, sub_39847, sub_3A2F6
-extern sub_3A7A4, asspsclear, sub_3E6D4, sub_41BFC, sub_44B99, sub_464A6, sub_4F452, sub_501EC
-extern sub_51522, sub_51C45, sub_535D5, sub_53640, sub_606B9, sub_622CD, sub_67A63, sub_68D25
-extern sub_68E31, sub_69105, sub_69141, sub_69161, sub_6934E, sub_E14C8, threat, unk_117A9C
+extern shotontarget, IsCupClinched, sub_23F05, sub_31BA9, sub_37ED0, sub_38F9F, sub_39847, sub_3A2F6
+extern sub_3A7A4, asspsclear, sub_3E6D4, sub_41BFC, sub_44B99, SetSPA, sub_4F452, AddPenalty2
+extern sub_51522, EndPenaltyShot, sub_535D5, sub_53640, CloseTextOverlay, sub_622CD, sub_67A63, sub_68D25
+extern sub_68E31, sfx, sub_69141, sub_69161, sub_6934E, vecdist, threat, unk_117A9C
 extern unk_118FA5, unk_156E6C, unk_156FFC, unk_157AF8, unk_157B0A, unk_157B1C, unk_157B4F, unk_157B82
 extern unk_157D8F, unk_157F9C, unk_157FDA, unk_1582F5, unk_158610, unk_164B5C, unk_165258, unk_165354
 extern unk_176D0C, unk_176E9C, vtoa, word_1178A0, word_1178A2, word_1178A8, word_1178B4, word_1178B6
@@ -128,12 +128,12 @@ global loc_4B465, loc_4B46A, loc_4B49B, loc_4B4B0, loc_4B4DF, loc_4B4EC, loc_4B5
 global loc_4B57F, loc_4B596, loc_4B5D5, loc_4B5E5, loc_4B604, loc_4B60B, loc_4B62C, loc_4B651
 global loc_4B663, loc_4B67D, loc_4B69C, loc_4B6CD, loc_4B6E0, loc_4B716, loc_4B728, loc_4B72B
 global loc_4B735, loc_4B73F, loc_4B744, loc_4B780, loc_4B784, loc_4B793, loc_4B797, loc_4B7AB
-global loc_4B7B3, reenergizeteam, resetplstuff, setpersonel, setupice, sub_465BA, sub_4666C, sub_46988
-global sub_46A0B, sub_46A6F, sub_46EA7, sub_46FA3, sub_4704A, sub_470AD, sub_4711E, sub_4729D
-global sub_47788, sub_47813, sub_4786F, sub_4806A, sub_4812E, sub_481B1, sub_48897, sub_488E9
-global sub_48922, sub_489CF, sub_48A4D, sub_48ACC, sub_49300, sub_493D4, sub_494F7, sub_49526
-global sub_495A1, sub_49645, sub_497A7, sub_49848, sub_4A047, sub_4A7C3, sub_4A91D, sub_4AE4F
-global sub_4AF57, sub_4AF6B, sub_4AFEB, sub_4B05E, sub_4B145, sub_4B247, sub_4B2C3, sub_4B38C
+global loc_4B7B3, reenergizeteam, resetplstuff, setpersonel, setupice, sub_465BA, changeplayer, sub_46988
+global AvgCline, sub_46A6F, sub_46EA7, sub_46FA3, GetHot, sub_470AD, sub_4711E, SetCoachMode
+global sub_47788, sub_47813, sub_4786F, sub_4806A, Setplass, setplayer, sub_48897, sub_488E9
+global sub_48922, sub_489CF, sub_48A4D, defaultsprites_0, sub_49300, sub_493D4, sub_494F7, checkwindow
+global sub_495A1, periodicevents, sub_497A7, updateplayers, sub_4A047, sub_4A7C3, sub_4A91D, sub_4AE4F
+global sub_4AF57, sub_4AF6B, sub_4AFEB, sub_4B05E, ResetBench, sub_4B247, forcepldata, sub_4B38C
 global sub_4B4F3, sub_4B59F, sub_4B748
 sub_465BA:
 push ebx	; 465BA
@@ -201,7 +201,7 @@ pop edx	; 46668
 pop ecx	; 46669
 pop ebx	; 4666A
 ret	; 4666B
-sub_4666C:
+changeplayer:
 push ebx	; 4666C
 push ecx	; 4666D
 push esi	; 4666E
@@ -495,7 +495,7 @@ pop esi	; 46A07
 pop ecx	; 46A08
 pop ebx	; 46A09
 ret	; 46A0A
-sub_46A0B:
+AvgCline:
 push ebx	; 46A0B
 push ecx	; 46A0C
 push edx	; 46A0D
@@ -632,7 +632,7 @@ movzx eax, al	; 46B82
 test eax, eax	; 46B85
 jne short loc_46BCD	; 46B87
 mov eax, ebx	; 46B89
-call sub_46A0B	; 46B8B
+call AvgCline	; 46B8B
 mov ax, word [byte ebx+038h]	; 46B90
 cmp ax, word [byte esi+038h]	; 46B94
 jne short loc_46BA2	; 46B98
@@ -1079,7 +1079,7 @@ pop edx	; 47046
 pop ecx	; 47047
 pop ebx	; 47048
 ret	; 47049
-sub_4704A:
+GetHot:
 push ebx	; 4704A
 push edx	; 4704B
 mov edx, eax	; 4704C
@@ -1233,7 +1233,7 @@ call sub_470AD	; 47263
 mov bx, word [word_16597C]	; 47268
 mov eax, edx	; 4726F
 mov cx, word [word_165980]	; 47271
-call sub_4704A	; 47278
+call GetHot	; 47278
 sub bx, word [word_16597C]	; 4727D
 sub cx, word [word_165980]	; 47284
 mov word [word_16597C], bx	; 4728B
@@ -1243,7 +1243,7 @@ pop edx	; 47299
 pop ecx	; 4729A
 pop ebx	; 4729B
 ret	; 4729C
-sub_4729D:
+SetCoachMode:
 push edx	; 4729D
 mov edx, eax	; 4729E
 mov ax, word [word_1656E8]	; 472A0
@@ -1315,9 +1315,9 @@ jmp short loc_4740A	; 473C3
 loc_473C5:
 jne short loc_473DA	; 473C5
 xor eax, eax	; 473C7
-call sub_4729D	; 473C9
+call SetCoachMode	; 473C9
 mov eax, 1	; 473CE
-call sub_4729D	; 473D3
+call SetCoachMode	; 473D3
 jmp short loc_4740A	; 473D8
 loc_473DA:
 mov dword [dword_1657B0], 0CCCh	; 473DA
@@ -1363,14 +1363,14 @@ cmp eax, 258h	; 47497
 jg near loc_47552	; 4749C
 xor eax, eax	; 474A2
 mov bl, byte [byte_1657AF]	; 474A4
-call sub_4729D	; 474AA
+call SetCoachMode	; 474AA
 cmp bl, byte [byte_1657AF]	; 474AF
 je short loc_474BE	; 474B5
 or byte [byte_1657AE], 40h	; 474B7
 loc_474BE:
 mov eax, 1	; 474BE
 mov bl, byte [byte_1658E5]	; 474C3
-call sub_4729D	; 474C9
+call SetCoachMode	; 474C9
 cmp bl, byte [byte_1658E5]	; 474CE
 je short loc_474DD	; 474D4
 or byte [byte_1658E4], 40h	; 474D6
@@ -1474,7 +1474,7 @@ and byte [byte_1657AE], 0FEh	; 47650
 jmp short loc_47660	; 47657
 loc_47659:
 xor eax, eax	; 47659
-call sub_4729D	; 4765B
+call SetCoachMode	; 4765B
 loc_47660:
 cmp bl, byte [byte_1657AF]	; 47660
 je short loc_4766F	; 47666
@@ -1546,7 +1546,7 @@ mov byte [byte_1658E3], 2	; 47760
 jmp near loc_476E5	; 47767
 loc_4776C:
 mov eax, 1	; 4776C
-call sub_4729D	; 47771
+call SetCoachMode	; 47771
 loc_47776:
 cmp bl, byte [byte_1658E5]	; 47776
 je short loc_47785	; 4777C
@@ -1804,7 +1804,7 @@ loc_47A5A:
 mov edx, 1Bh	; 47A5A
 mov eax, dword [dword esi+012Eh]	; 47A5F
 loc_47A65:
-call sub_501EC	; 47A65
+call AddPenalty2	; 47A65
 loc_47A6A:
 leave	; 47A6A
 loc_47A6B:
@@ -1820,7 +1820,7 @@ je short loc_47A8C	; 47A78
 mov eax, dword [byte ebp-018h]	; 47A7A
 cmp eax, dword [dword_119183]	; 47A7D
 je short loc_47A8C	; 47A83
-call sub_51C45	; 47A85
+call EndPenaltyShot	; 47A85
 jmp short loc_47A6A	; 47A8A
 loc_47A8C:
 inc word [byte ebx+010h]	; 47A8C
@@ -1909,13 +1909,13 @@ mov eax, 3Dh	; 47BB5
 loc_47BBA:
 call sub_69161	; 47BBA
 mov eax, 8	; 47BBF
-call sub_69105	; 47BC4
+call sfx	; 47BC4
 mov eax, 7Fh	; 47BC9
 call sub_69141	; 47BCE
 jmp short loc_47BDF	; 47BD3
 loc_47BD5:
 mov eax, 5	; 47BD5
-call sub_69105	; 47BDA
+call sfx	; 47BDA
 loc_47BDF:
 movsx edx, di	; 47BDF
 mov eax, edx	; 47BE2
@@ -2161,13 +2161,13 @@ movzx eax, al	; 47F2D
 call sub_23F05	; 47F30
 mov edx, 7	; 47F35
 mov eax, dword [dword esi+012Eh]	; 47F3A
-call sub_501EC	; 47F40
+call AddPenalty2	; 47F40
 mov al, byte [gmode]	; 47F45
 and al, 10h	; 47F4A
 movsx eax, al	; 47F4C
 test eax, eax	; 47F4F
 jne near loc_47A6A	; 47F51
-call sub_51C45	; 47F57
+call EndPenaltyShot	; 47F57
 mov edx, 1Fh	; 47F5C
 mov eax, dword [off_117894]	; 47F61
 call assreplace	; 47F66
@@ -2310,7 +2310,7 @@ pop edx	; 4812A
 pop ecx	; 4812B
 pop ebx	; 4812C
 ret	; 4812D
-sub_4812E:
+Setplass:
 push ebx	; 4812E
 push ecx	; 4812F
 push edx	; 48130
@@ -2351,7 +2351,7 @@ pop edx	; 481AD
 pop ecx	; 481AE
 pop ebx	; 481AF
 ret	; 481B0
-sub_481B1:
+setplayer:
 push ebx	; 481B1
 push ecx	; 481B2
 push esi	; 481B3
@@ -3134,7 +3134,7 @@ add esi, byte 7Eh	; 48ABF
 cmp ecx, byte 2	; 48AC2
 jl short loc_48A6B	; 48AC5
 jmp near loc_47A6A	; 48AC7
-sub_48ACC:
+defaultsprites_0:
 push ebx	; 48ACC
 push ecx	; 48ACD
 push edx	; 48ACE
@@ -3720,13 +3720,13 @@ and byte [sflags], 0AFh	; 49258
 mov dword [dword_16596C], eax	; 4925F
 call sub_535D5	; 49264
 mov word [word_11D3A2], 0FFFFh	; 49269
-call sub_49645	; 49272
-call sub_49848	; 49277
-call sub_49526	; 4927C
+call periodicevents	; 49272
+call updateplayers	; 49277
+call checkwindow	; 4927C
 call sub_53640	; 49281
-call sub_49645	; 49286
-call sub_49848	; 4928B
-call sub_49526	; 49290
+call periodicevents	; 49286
+call updateplayers	; 4928B
+call checkwindow	; 49290
 call sub_53640	; 49295
 movsx eax, word [word_1178FE]	; 4929A
 mov word [CwdExciteLvl], 10h	; 492A1
@@ -3946,7 +3946,7 @@ mov word [byte edx+018h], ax	; 49520
 loc_49524:
 pop edx	; 49524
 ret	; 49525
-sub_49526:
+checkwindow:
 push ebx	; 49526
 push ecx	; 49527
 push edx	; 49528
@@ -3996,9 +3996,9 @@ pop ecx	; 4958A
 pop ebx	; 4958B
 ret	; 4958C
 DoGameFrame:
-call sub_49645	; 4958D
-call sub_49848	; 49592
-call sub_49526	; 49597
+call periodicevents	; 4958D
+call updateplayers	; 49592
+call checkwindow	; 49597
 jmp near sub_53640	; 4959C
 sub_495A1:
 push ebx	; 495A1
@@ -4055,7 +4055,7 @@ jge short loc_49644	; 49639
 mov word [CwdExciteLvl], 0	; 4963B
 loc_49644:
 ret	; 49644
-sub_49645:
+periodicevents:
 push ebx	; 49645
 push ecx	; 49646
 push edx	; 49647
@@ -4169,7 +4169,7 @@ jg short loc_497EB	; 497CE
 sub eax, 164h	; 497D0
 push eax	; 497D5
 push edx	; 497D6
-call sub_E14C8	; 497D7
+call vecdist	; 497D7
 add esp, byte 8	; 497DC
 cmp eax, byte 18h	; 497DF
 ja short loc_497EB	; 497E2
@@ -4199,7 +4199,7 @@ jl short loc_4982D	; 49810
 add eax, 164h	; 49812
 push eax	; 49817
 push edx	; 49818
-call sub_E14C8	; 49819
+call vecdist	; 49819
 add esp, byte 8	; 4981E
 cmp eax, byte 18h	; 49821
 ja short loc_4982D	; 49824
@@ -4220,7 +4220,7 @@ pop edx	; 49844
 pop ecx	; 49845
 pop ebx	; 49846
 ret	; 49847
-sub_49848:
+updateplayers:
 push ebx	; 49848
 push ecx	; 49849
 push edx	; 4984A
@@ -4281,7 +4281,7 @@ mov edi, dword [puckx]	; 4991D
 push eax	; 49923
 movsx eax, word [edi]	; 49924
 push eax	; 49927
-call sub_E14C8	; 49928
+call vecdist	; 49928
 add esp, byte 8	; 4992D
 cmp eax, byte 18h	; 49930
 ja short loc_49941	; 49933
@@ -4299,7 +4299,7 @@ push edi	; 49960
 mov edi, dword [puckx]	; 49961
 movsx eax, word [edi]	; 49967
 push eax	; 4996A
-call sub_E14C8	; 4996B
+call vecdist	; 4996B
 add esp, byte 8	; 49970
 cmp eax, byte 18h	; 49973
 ja short loc_49982	; 49976
@@ -4321,7 +4321,7 @@ push eax	; 499AD
 mov edi, dword [dword esi+088h]	; 499AE
 push dword [byte ebp-0Ch]	; 499B4
 mov dword [byte ebp-010h], eax	; 499B7
-call sub_E14C8	; 499BA
+call vecdist	; 499BA
 movsx edx, word [byte ebp-010h]	; 499BF
 add esp, byte 8	; 499C3
 mov word [byte esi+04Eh], ax	; 499C6
@@ -4910,7 +4910,7 @@ or byte [byte esi+044h], 20h	; 4A17F
 mov eax, esi	; 4A183
 or byte [byte esi+045h], 2	; 4A185
 loc_4A189:
-call sub_464A6	; 4A189
+call SetSPA	; 4A189
 jmp near loc_47A6A	; 4A18E
 loc_4A193:
 cmp eax, 3BFh	; 4A193
@@ -4956,7 +4956,7 @@ mov eax, 3D5h	; 4A220
 loc_4A225:
 movsx edx, ax	; 4A225
 mov eax, esi	; 4A228
-call sub_464A6	; 4A22A
+call SetSPA	; 4A22A
 mov eax, esi	; 4A22F
 call sub_4A047	; 4A231
 xor edx, edx	; 4A236
@@ -5270,7 +5270,7 @@ movsx eax, word [byte esi+0Eh]	; 4A5E7
 push eax	; 4A5EB
 movsx eax, word [byte esi+0Ch]	; 4A5EC
 push eax	; 4A5F0
-call sub_E14C8	; 4A5F1
+call vecdist	; 4A5F1
 add esp, byte 8	; 4A5F6
 mov dword [byte ebp-010h], eax	; 4A5F9
 cmp eax, 0BB8h	; 4A5FC
@@ -5301,7 +5301,7 @@ movsx eax, word [byte esi+0Eh]	; 4A63C
 push eax	; 4A640
 movsx eax, word [byte esi+0Ch]	; 4A641
 push eax	; 4A645
-call sub_E14C8	; 4A646
+call vecdist	; 4A646
 add esp, byte 8	; 4A64B
 mov dword [byte ebp-010h], eax	; 4A64E
 cmp eax, 0BB8h	; 4A651
@@ -5453,7 +5453,7 @@ push ebx	; 4A8A4
 push edx	; 4A8A5
 mov word [word_1178A0], 0	; 4A8A6
 mov word [word_1178A2], 0	; 4A8AF
-call sub_48ACC	; 4A8B8
+call defaultsprites_0	; 4A8B8
 mov al, byte [gmode]	; 4A8BD
 and al, 2	; 4A8C2
 movsx eax, al	; 4A8C4
@@ -5514,7 +5514,7 @@ loc_4A955:
 movsx edx, word [word_16581E]	; 4A955
 movsx eax, word [word_1656E8]	; 4A95C
 mov word [word_16597C], 7	; 4A963
-call sub_1E33C	; 4A96C
+call IsCupClinched	; 4A96C
 test eax, eax	; 4A971
 je short loc_4A97E	; 4A973
 mov word [word_16597C], 8	; 4A975
@@ -5648,7 +5648,7 @@ movsx edx, si	; 4AB6D
 mov word [byte ecx+01Ah], ax	; 4AB70
 mov eax, ecx	; 4AB74
 mov esi, 1	; 4AB76
-call sub_481B1	; 4AB7B
+call setplayer	; 4AB7B
 loc_4AB80:
 movsx eax, si	; 4AB80
 add eax, dword [byte ebp-08h]	; 4AB83
@@ -5728,7 +5728,7 @@ mov eax, ebx	; 4ACA0
 call assinsert	; 4ACA2
 mov eax, 2	; 4ACA7
 movsx edx, si	; 4ACAC
-call sub_606B9	; 4ACAF
+call CloseTextOverlay	; 4ACAF
 jmp near loc_4AD6E	; 4ACB4
 loc_4ACB9:
 mov edx, 7	; 4ACB9
@@ -5770,7 +5770,7 @@ inc word [word_165980]	; 4AD3A
 call assinsert	; 4AD41
 movsx edx, di	; 4AD46
 mov eax, ebx	; 4AD49
-call sub_481B1	; 4AD4B
+call setplayer	; 4AD4B
 mov edi, 1	; 4AD50
 loc_4AD55:
 movsx ecx, di	; 4AD55
@@ -5790,7 +5790,7 @@ cmp eax, byte 8	; 4AD88
 je short loc_4AD9A	; 4AD8B
 mov eax, 3	; 4AD8D
 movsx edx, si	; 4AD92
-call sub_606B9	; 4AD95
+call CloseTextOverlay	; 4AD95
 loc_4AD9A:
 call ClearPenaltyBuffer	; 4AD9A
 mov ax, word [word_1656E8]	; 4AD9F
@@ -5809,19 +5809,19 @@ movsx eax, word [word_16597C]	; 4ADDC
 cmp eax, byte 8	; 4ADE3
 jne short loc_4ADFD	; 4ADE6
 mov eax, 0Ah	; 4ADE8
-call sub_69105	; 4ADED
+call sfx	; 4ADED
 add word [crowdlevel], 320h	; 4ADF2
 jmp short loc_4AE07	; 4ADFB
 loc_4ADFD:
 mov eax, 9	; 4ADFD
-call sub_69105	; 4AE02
+call sfx	; 4AE02
 loc_4AE07:
 mov eax, 7Fh	; 4AE07
 call sub_69141	; 4AE0C
 jmp short loc_4AE34	; 4AE11
 loc_4AE13:
 mov eax, 5	; 4AE13
-call sub_69105	; 4AE18
+call sfx	; 4AE18
 movsx eax, word [crowdlevel]	; 4AE1D
 cmp eax, 320h	; 4AE24
 jge short loc_4AE34	; 4AE29
@@ -5841,7 +5841,7 @@ je short loc_4AE77	; 4AE59
 dec dword [penshottimer]	; 4AE5B
 cmp dword [penshottimer], byte 0	; 4AE61
 jg near loc_4AF53	; 4AE68
-call sub_51C45	; 4AE6E
+call EndPenaltyShot	; 4AE6E
 pop edx	; 4AE73
 pop ecx	; 4AE74
 pop ebx	; 4AE75
@@ -5926,7 +5926,7 @@ SetupTeamForIntermission:
 push ebx	; 4AF89
 push ecx	; 4AF8A
 push edx	; 4AF8B
-call sub_4B145	; 4AF8C
+call ResetBench	; 4AF8C
 mov edx, hmtmstruct	; 4AF91
 mov ebx, awtmstruct	; 4AF96
 xor ecx, ecx	; 4AF9B
@@ -6050,7 +6050,7 @@ call StartPer	; 4B139
 call sub_3A7A4	; 4B13E
 pop edx	; 4B143
 ret	; 4B144
-sub_4B145:
+ResetBench:
 push ebx	; 4B145
 push ecx	; 4B146
 push edx	; 4B147
@@ -6120,7 +6120,7 @@ cmp word [byte ebx+01Ah], byte 0	; 4B200
 jl short loc_4B225	; 4B205
 mov edx, 1	; 4B207
 mov eax, ebx	; 4B20C
-call sub_464A6	; 4B20E
+call SetSPA	; 4B20E
 mov word [byte ebx+03Eh], 0	; 4B213
 and byte [byte ebx+044h], 0C2h	; 4B219
 mov ax, word [byte ebx+03Eh]	; 4B21D
@@ -6165,11 +6165,11 @@ forceteams:
 mov eax, hmtmstruct	; 4B2A0
 call setpersonel	; 4B2A5
 mov eax, hmtmstruct	; 4B2AA
-call sub_4B2C3	; 4B2AF
+call forcepldata	; 4B2AF
 mov eax, awtmstruct	; 4B2B4
 call setpersonel	; 4B2B9
 mov eax, awtmstruct	; 4B2BE
-sub_4B2C3:
+forcepldata:
 push ebx	; 4B2C3
 push ecx	; 4B2C4
 push edx	; 4B2C5
@@ -6183,7 +6183,7 @@ mov word [byte ebx+01Ah], ax	; 4B2D9
 test ax, ax	; 4B2DD
 jl short loc_4B332	; 4B2E0
 mov eax, ebx	; 4B2E2
-call sub_4812E	; 4B2E4
+call Setplass	; 4B2E4
 movsx eax, word [byte ebx+01Ah]	; 4B2E9
 cmp eax, byte 4	; 4B2ED
 jne short loc_4B2FE	; 4B2F0
@@ -6199,7 +6199,7 @@ mov edx, dword [dword ecx+0126h]	; 4B313
 mov byte [edx+eax], 4	; 4B319
 mov eax, ebx	; 4B31D
 movsx edx, byte [byte ebx+043h]	; 4B31F
-call sub_481B1	; 4B323
+call setplayer	; 4B323
 mov dword [dword ebx+09Ch], 0	; 4B328
 loc_4B332:
 add ebx, 0A0h	; 4B332
@@ -6527,7 +6527,7 @@ loc_4B69C:
 sub edx, 164h	; 4B69C
 push edx	; 4B6A2
 push ebx	; 4B6A3
-call sub_E14C8	; 4B6A4
+call vecdist	; 4B6A4
 imul eax, byte 60h	; 4B6A9
 mov ebx, 126h	; 4B6AC
 xor edx, edx	; 4B6B1
@@ -6553,7 +6553,7 @@ jge short loc_4B716	; 4B6E3
 add edx, 164h	; 4B6E5
 push edx	; 4B6EB
 push ebx	; 4B6EC
-call sub_E14C8	; 4B6ED
+call vecdist	; 4B6ED
 mov ebx, 126h	; 4B6F2
 shl eax, 5	; 4B6F7
 xor edx, edx	; 4B6FA

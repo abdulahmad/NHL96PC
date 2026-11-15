@@ -38,16 +38,16 @@ extern pucky, qsort_, read_, regd2, rmdir_, shotongoal, shotontarget, sprintf_
 extern srand_, strcat_, strcmp_, strcpy_, stricmp_, strlen_, strncpy_, sub_10095
 extern sub_1124D, sub_13288, sub_168FA, sub_1779C, sub_1780A, sub_17887, sub_178C0, sub_17B9A
 extern sub_17CC8, sub_17E8C, sub_17EE1, sub_1807B, sub_18090, sub_180DC, sub_1812E, sub_18165
-extern sub_18234, sub_2090F, sub_2A52F, sub_2CB9D, sub_2E95C, sub_464A6, sub_48922, sub_4AF57
-extern sub_4B247, sub_51F18, sub_57F0A, sub_583B8, sub_6215A, sub_625F7, sub_62ED9, sub_63076
+extern sub_18234, sub_2090F, sub_2A52F, sub_2CB9D, StartPreGame, SetSPA, sub_48922, sub_4AF57
+extern sub_4B247, BuildDefaultLines, sub_57F0A, sub_583B8, sub_6215A, sub_625F7, sub_62ED9, sub_63076
 extern sub_63955, sub_63B0C, sub_63B6A, sub_63DC4, sub_63EB5, sub_63F79, sub_640D3, sub_641D4
 extern sub_64721, sub_64E54, sub_64E64, sub_64F59, sub_66373, sub_66589, sub_689D1, sub_68AB1
-extern sub_68C33, sub_68CFE, sub_68EC9, sub_68F82, sub_6941E, sub_694B9, sub_699D0, sub_69A94
+extern sub_68C33, sub_68CFE, CrowdNoiseReset, sub_68F82, sub_6941E, sub_694B9, sub_699D0, sub_69A94
 extern sub_69A9B, sub_6A341, sub_6A5EB, sub_6A675, sub_73BA5, sub_771F0, sub_77292, sub_77355
 extern sub_78E9E, sub_78EFA, sub_7BA57, sub_88509, sub_A4961, sub_A4FD7, sub_AA500, sub_AA664
 extern sub_AA7E0, PutBlock, sub_AADA4, sub_AB6D8, sub_AB758, sub_AB798, sub_ABF4C, sub_ABF88
 extern sub_AC838, sub_AC868, sub_AD35C, sub_AD620, FillRect, sub_ADA50, sub_ADA80, sub_ADBEC
-extern unpack, sub_AFCD0, sub_AFD00, sub_AFFD0, sub_B0284, sub_B0474, sub_B047B, sub_B0494
+extern unpack, sub_AFCD0, sub_AFD00, sub_AFFD0, TextSetFont, sub_B0474, sub_B047B, sub_B0494
 extern sub_B049E, sub_B1121, sub_B11F8, sub_B1294, sub_B12AF, sub_B1328, sub_B13BB, sub_B1451
 extern sub_B147A, sub_B1830, sub_B1C0E, sub_B20D0, sub_B20EC, sub_B2128, sub_B2140, sub_B22E0
 extern sub_B2B0C, DrawArtOpaque, sub_B3100, sub_B3145, sub_B3160, sub_B31C0, sub_B32E0, sub_B3420
@@ -167,7 +167,7 @@ global sub_1BD67, sub_1BE50, sub_1BE72, sub_1C51E, sub_1C56B, sub_1C5F3, sub_1C6
 global sub_1C711, sub_1C729, sub_1C957, sub_1C9DC, sub_1CA02, sub_1CA28, sub_1CA52, sub_1CA78
 global sub_1CAF0, sub_1CB54, sub_1D53B, sub_1D54E, sub_1D582, sub_1D5A9, sub_1D5D1, sub_1D658
 global sub_1D6C1, sub_1DC65, sub_1DCDC, sub_1DED8, sub_1DEFC, sub_1DF18, sub_1DF34, sub_1DF55
-global sub_1DFEA, sub_1E08B, sub_1E222, sub_1E268, sub_1E33C, sub_1E383, sub_1E3A7, sub_1E3E8
+global sub_1DFEA, sub_1E08B, sub_1E222, sub_1E268, IsCupClinched, sub_1E383, sub_1E3A7, sub_1E3E8
 global sub_1E5FC, sub_1E643, sub_1E715, sub_1E73F, sub_1E779, sub_1E7F6, sub_1E8E9, sub_1E969
 global sub_1EA14, sub_1EBBC, sub_1ECDB, sub_1EE7C, sub_1EFFF, sub_1F15E, sub_1F2C9, sub_1F2D4
 global sub_1F2DF, sub_1F2EA, sub_1F2F5, sub_1F300, sub_1F362, sub_1F771, sub_1F8A6, sub_1FACB
@@ -3982,7 +3982,7 @@ push byte 0	; 1B47C
 call sub_DD830	; 1B47E
 add esp, byte 0Ch	; 1B483
 push unk_1213DC	; 1B486
-call sub_B0284	; 1B48B
+call TextSetFont	; 1B48B
 add esp, byte 4	; 1B490
 push dword 0FF000000h	; 1B493
 call sub_B31C0	; 1B498
@@ -6633,7 +6633,7 @@ and byte [byte ebx+045h], 0FBh	; 1D876
 and byte [byte ebx+044h], 0DFh	; 1D87A
 mov eax, ebx	; 1D87E
 movsx edx, word [word_165980]	; 1D880
-call sub_464A6	; 1D887
+call SetSPA	; 1D887
 loc_1D88C:
 add ebx, 0A0h	; 1D88C
 dec word [regd2]	; 1D892
@@ -6644,7 +6644,7 @@ pop ebx	; 1D8A0
 ret	; 1D8A1
 SetupGame:
 push edx	; 1D8A2
-call sub_51F18	; 1D8A3
+call BuildDefaultLines	; 1D8A3
 xor eax, eax	; 1D8A8
 call SetupTeamLines	; 1D8AA
 mov eax, 1	; 1D8AF
@@ -6656,7 +6656,7 @@ mov dword [introskipped], 0	; 1D8CD
 call ResetGameVars	; 1D8D7
 xor eax, eax	; 1D8DC
 mov word [crowdlevel], 0	; 1D8DE
-call sub_2E95C	; 1D8E7
+call StartPreGame	; 1D8E7
 test eax, eax	; 1D8EC
 jge short loc_1D8F7	; 1D8EE
 mov eax, 0FFFFFFFFh	; 1D8F0
@@ -6691,7 +6691,7 @@ pop edx	; 1D953
 ret	; 1D954
 SetupDemoGame:
 push edx	; 1D955
-call sub_51F18	; 1D956
+call BuildDefaultLines	; 1D956
 xor eax, eax	; 1D95B
 call SetupTeamLines	; 1D95D
 mov eax, 1	; 1D962
@@ -6701,12 +6701,12 @@ mov eax, dword [dword_17CA20]	; 1D96E
 mov word [word_1178FE], 0FFFFh	; 1D973
 and eax, byte 7Fh	; 1D97C
 mov word [crowdlevel], 0	; 1D97F
-call sub_68EC9	; 1D988
+call CrowdNoiseReset	; 1D988
 mov dword [introskipped], 0	; 1D98D
 call ResetGameVars	; 1D997
 xor eax, eax	; 1D99C
 mov word [crowdlevel], 0	; 1D99E
-call sub_2E95C	; 1D9A7
+call StartPreGame	; 1D9A7
 test eax, eax	; 1D9AC
 jge short loc_1D9B7	; 1D9AE
 mov eax, 0FFFFFFFFh	; 1D9B0
@@ -7392,7 +7392,7 @@ jmp near loc_1E209	; 1E333
 xor eax, eax	; 1E338
 ret	; 1E33A
 ret	; 1E33B
-sub_1E33C:
+IsCupClinched:
 push ebx	; 1E33C
 cmp eax, edx	; 1E33D
 jle short loc_1E34F	; 1E33F

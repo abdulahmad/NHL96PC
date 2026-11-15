@@ -4,8 +4,8 @@ bits 32
 section s_4B7BB progbits alloc exec nowrite align=1
 extern SortCords, dword_11A11C, dword_11A15C, dword_11A19C, dword_165254, dword_176BDC, dword_17C9A8, gameopts
 extern gmode, off_11787C, off_117888, off_11788C, passplayer, puckvx, puckx, pucky
-extern randomd0, regd2, regd3, sub_3E6D4, sub_464A6, sub_4704A, sub_4B748, sub_68E31
-extern sub_E14C8, vtoa, word_1178B4, word_1178B6, word_1178C6, word_1178F6, word_117914, word_117916
+extern randomd0, regd2, regd3, sub_3E6D4, SetSPA, GetHot, sub_4B748, sub_68E31
+extern vecdist, vtoa, word_1178B4, word_1178B6, word_1178C6, word_1178F6, word_117914, word_117916
 extern word_165964, word_16597C, word_165980
 global EvadePlayers, avdgoal_box, loc_4B7E6, loc_4B7FC, loc_4B80F, loc_4B850, loc_4B857, loc_4B85E
 global loc_4B867, loc_4B895, loc_4B8C3, loc_4B8D2, loc_4B934, loc_4B970, loc_4B9AA, loc_4B9F5
@@ -57,9 +57,9 @@ global loc_4DB48, loc_4DB4D, loc_4DB51, loc_4DB61, loc_4DB66, loc_4DB68, loc_4DB
 global loc_4DBDA, loc_4DBE1, loc_4DBE8, loc_4DBEF, loc_4DC20, loc_4DC2F, loc_4DC80, loc_4DC87
 global loc_4DC8E, loc_4DCA7, loc_4DCB3, loc_4DCBA, loc_4DCCD, loc_4DCD2, loc_4DCFA, loc_4DD09
 global loc_4DD16, loc_4DD64, loc_4DD66, loc_4DD80, loc_4DDE4, loc_4DE05, loc_4DE26, loc_4DE48
-global loc_4DE61, loc_4DE96, loc_4DECA, skatetopuck, sub_4B7BB, sub_4C294, sub_4C3B7, sub_4C860
-global sub_4CE07, sub_4D3F8, sub_4D7F1, sub_4D881, sub_4DA09, sub_4DD1B, sub_4DE6E
-sub_4B7BB:
+global loc_4DE61, loc_4DE96, loc_4DECA, skatetopuck, doplayeracc, sub_4C294, skateto, playeracc
+global avdgoal, sub_4D3F8, sub_4D7F1, goalieacc, noturn0, sub_4DD1B, burst
+doplayeracc:
 push ebx	; 4B7BB
 push ecx	; 4B7BC
 push esi	; 4B7BD
@@ -73,7 +73,7 @@ cmp word [byte ecx+01Ah], byte 0	; 4B7D1
 jne short loc_4B7E6	; 4B7D6
 mov edx, eax	; 4B7D8
 mov eax, ecx	; 4B7DA
-call sub_4D881	; 4B7DC
+call goalieacc	; 4B7DC
 jmp near loc_4BFAF	; 4B7E1
 loc_4B7E6:
 mov al, byte [byte ecx+045h]	; 4B7E6
@@ -156,7 +156,7 @@ or byte [byte ecx+045h], 2	; 4B8BF
 loc_4B8C3:
 movsx edx, bx	; 4B8C3
 mov eax, ecx	; 4B8C6
-call sub_464A6	; 4B8C8
+call SetSPA	; 4B8C8
 jmp near loc_4BFAF	; 4B8CD
 loc_4B8D2:
 mov eax, dword [byte ebp-08h]	; 4B8D2
@@ -269,7 +269,7 @@ cmp dword [nosplit edx*4+dword_11A19C], byte 0	; 4BA0C
 jne short loc_4BA26	; 4BA14
 mov eax, ecx	; 4BA16
 movsx ebx, word [byte ecx+036h]	; 4BA18
-call sub_4DA09	; 4BA1C
+call noturn0	; 4BA1C
 jmp near loc_4BFAF	; 4BA21
 loc_4BA26:
 movsx edx, word [byte ecx+0Ch]	; 4BA26
@@ -717,7 +717,7 @@ cmp eax, 375h	; 4BF71
 je short loc_4BF82	; 4BF76
 movsx edx, bx	; 4BF78
 mov eax, ecx	; 4BF7B
-call sub_464A6	; 4BF7D
+call SetSPA	; 4BF7D
 loc_4BF82:
 cmp word [regd3], byte 2	; 4BF82
 jbe short loc_4BFAF	; 4BF8A
@@ -735,7 +735,7 @@ movsx eax, word [byte ecx+036h]	; 4BFA1
 loc_4BFA5:
 movsx edx, ax	; 4BFA5
 mov eax, ecx	; 4BFA8
-call sub_4C860	; 4BFAA
+call playeracc	; 4BFAA
 loc_4BFAF:
 leave	; 4BFAF
 pop edi	; 4BFB0
@@ -1069,7 +1069,7 @@ jmp near loc_4C28D	; 4C3A4
 loc_4C3A9:
 mov word [word_16597C], 6	; 4C3A9
 jmp near loc_4C28D	; 4C3B2
-sub_4C3B7:
+skateto:
 push ebx	; 4C3B7
 push ecx	; 4C3B8
 push esi	; 4C3B9
@@ -1083,7 +1083,7 @@ jge near loc_4C582	; 4C3CB
 movsx edx, word [word_16597C]	; 4C3D1
 movsx ecx, word [word_165980]	; 4C3D8
 add byte [byte eax+029h], 0Ch	; 4C3DF
-call sub_4CE07	; 4C3E3
+call avdgoal	; 4C3E3
 movsx esi, word [byte ebx+0Ch]	; 4C3E8
 movsx eax, word [byte ebx+02h]	; 4C3EC
 sar esi, 8	; 4C3F0
@@ -1207,7 +1207,7 @@ mov word [byte ebx+036h], ax	; 4C57E
 loc_4C582:
 mov eax, ebx	; 4C582
 movsx edx, byte [byte ebx+028h]	; 4C584
-call sub_4B7BB	; 4C588
+call doplayeracc	; 4C588
 jmp near loc_4BFAF	; 4C58D
 skatetopuck:
 push ebx	; 4C592
@@ -1248,7 +1248,7 @@ movsx edx, byte [eax]	; 4C5FC
 add edx, ebx	; 4C5FF
 mov byte [eax], dl	; 4C601
 mov eax, esi	; 4C603
-call sub_4CE07	; 4C605
+call avdgoal	; 4C605
 mov ax, word [word_165980]	; 4C60A
 mov dword [byte ebp-04h], eax	; 4C610
 mov eax, dword [off_117888]	; 4C613
@@ -1285,13 +1285,13 @@ movsx edx, di	; 4C667
 movsx eax, word [byte esi+02h]	; 4C66A
 sub edx, eax	; 4C66E
 push edx	; 4C670
-call sub_E14C8	; 4C671
+call vecdist	; 4C671
 add esp, byte 8	; 4C676
 cmp eax, byte 18h	; 4C679
 jbe short loc_4C6D4	; 4C67C
 loc_4C67E:
 mov eax, esi	; 4C67E
-call sub_4704A	; 4C680
+call GetHot	; 4C680
 movsx dx, byte [word_16597C]	; 4C685
 movsx ax, byte [byte esi+0Dh]	; 4C68D
 add eax, edx	; 4C692
@@ -1424,9 +1424,9 @@ jmp near loc_4C28D	; 4C84B
 loc_4C850:
 mov eax, esi	; 4C850
 movsx edx, byte [byte esi+028h]	; 4C852
-call sub_4B7BB	; 4C856
+call doplayeracc	; 4C856
 jmp near loc_4C28D	; 4C85B
-sub_4C860:
+playeracc:
 push ebx	; 4C860
 push ecx	; 4C861
 push esi	; 4C862
@@ -1883,7 +1883,7 @@ leave	; 4CE01
 pop edi	; 4CE02
 pop esi	; 4CE03
 ret 8	; 4CE04
-sub_4CE07:
+avdgoal:
 push ebx	; 4CE07
 push ecx	; 4CE08
 push edx	; 4CE09
@@ -2390,7 +2390,7 @@ movsx eax, word [byte eax+0Eh]	; 4D3FE
 push eax	; 4D402
 movsx eax, word [byte esi+0Ch]	; 4D403
 push eax	; 4D407
-call sub_E14C8	; 4D408
+call vecdist	; 4D408
 mov ecx, eax	; 4D40D
 mov al, byte [gmode]	; 4D40F
 and al, 1	; 4D414
@@ -2724,7 +2724,7 @@ loc_4D7D9:
 mov edx, 763h	; 4D7D9
 loc_4D7DE:
 mov eax, esi	; 4D7DE
-call sub_464A6	; 4D7E0
+call SetSPA	; 4D7E0
 loc_4D7E5:
 mov eax, esi	; 4D7E5
 call sub_4D7F1	; 4D7E7
@@ -2787,7 +2787,7 @@ loc_4D87E:
 pop edx	; 4D87E
 pop ebx	; 4D87F
 ret	; 4D880
-sub_4D881:
+goalieacc:
 push ebx	; 4D881
 push ecx	; 4D882
 mov ebx, eax	; 4D883
@@ -2828,7 +2828,7 @@ cmp eax, 6F7h	; 4D8DB
 je near loc_4DA06	; 4D8E0
 mov edx, 5E3h	; 4D8E6
 mov eax, ebx	; 4D8EB
-call sub_464A6	; 4D8ED
+call SetSPA	; 4D8ED
 pop ecx	; 4D8F2
 pop ebx	; 4D8F3
 ret	; 4D8F4
@@ -2890,7 +2890,7 @@ test eax, eax	; 4D995
 jne short loc_4D9A5	; 4D997
 mov edx, 5E3h	; 4D999
 mov eax, ebx	; 4D99E
-call sub_464A6	; 4D9A0
+call SetSPA	; 4D9A0
 loc_4D9A5:
 movsx edx, cx	; 4D9A5
 mov eax, ebx	; 4D9A8
@@ -2925,17 +2925,17 @@ test edx, edx	; 4D9ED
 jne short loc_4D9FB	; 4D9EF
 movsx edx, ax	; 4D9F1
 mov eax, ebx	; 4D9F4
-call sub_464A6	; 4D9F6
+call SetSPA	; 4D9F6
 loc_4D9FB:
 mov eax, ebx	; 4D9FB
 movsx edx, word [byte ebx+036h]	; 4D9FD
 loc_4DA01:
-call sub_4C860	; 4DA01
+call playeracc	; 4DA01
 loc_4DA06:
 pop ecx	; 4DA06
 pop ebx	; 4DA07
 ret	; 4DA08
-sub_4DA09:
+noturn0:
 push ecx	; 4DA09
 push esi	; 4DA0A
 push edi	; 4DA0B
@@ -2998,7 +2998,7 @@ movsx eax, word [byte esi+0Eh]	; 4DAB2
 push eax	; 4DAB6
 movsx eax, word [byte esi+0Ch]	; 4DAB7
 push eax	; 4DABB
-call sub_E14C8	; 4DABC
+call vecdist	; 4DABC
 add esp, byte 8	; 4DAC1
 cmp eax, 500h	; 4DAC4
 jbe short loc_4DAD7	; 4DAC9
@@ -3130,7 +3130,7 @@ or byte [byte esi+045h], 2	; 4DC1C
 loc_4DC20:
 movsx edx, ax	; 4DC20
 mov eax, esi	; 4DC23
-call sub_464A6	; 4DC25
+call SetSPA	; 4DC25
 leave	; 4DC2A
 pop edi	; 4DC2B
 pop esi	; 4DC2C
@@ -3209,7 +3209,7 @@ jne short loc_4DCFA	; 4DCEA
 movsx edx, ax	; 4DCEC
 mov eax, esi	; 4DCEF
 or byte [byte esi+045h], 2	; 4DCF1
-call sub_464A6	; 4DCF5
+call SetSPA	; 4DCF5
 loc_4DCFA:
 mov al, byte [byte esi+044h]	; 4DCFA
 and al, 10h	; 4DCFD
@@ -3221,7 +3221,7 @@ loc_4DD09:
 movsx eax, di	; 4DD09
 movsx edx, ax	; 4DD0C
 mov eax, esi	; 4DD0F
-call sub_4C860	; 4DD11
+call playeracc	; 4DD11
 loc_4DD16:
 leave	; 4DD16
 pop edi	; 4DD17
@@ -3240,7 +3240,7 @@ movsx eax, word [byte eax+0Eh]	; 4DD27
 push eax	; 4DD2B
 movsx eax, word [byte esi+0Ch]	; 4DD2C
 push eax	; 4DD30
-call sub_E14C8	; 4DD31
+call vecdist	; 4DD31
 mov dword [byte ebp-04h], eax	; 4DD36
 movsx edx, byte [byte esi+047h]	; 4DD39
 mov eax, dword [dword esi+088h]	; 4DD3D
@@ -3343,7 +3343,7 @@ loc_4DE61:
 add word [byte esi+0Ch], ax	; 4DE61
 add word [byte esi+0Eh], dx	; 4DE65
 jmp near loc_4BFAF	; 4DE69
-sub_4DE6E:
+burst:
 push ebx	; 4DE6E
 push ecx	; 4DE6F
 push edx	; 4DE70
@@ -3373,12 +3373,12 @@ mov edx, 2C3h	; 4DEB2
 or byte [byte ebx+044h], 20h	; 4DEB7
 mov eax, ebx	; 4DEBB
 or byte [byte ebx+045h], 2	; 4DEBD
-call sub_464A6	; 4DEC1
+call SetSPA	; 4DEC1
 mov byte [byte ebx+046h], 1	; 4DEC6
 loc_4DECA:
 movsx edx, cx	; 4DECA
 mov eax, ebx	; 4DECD
-call sub_4B7BB	; 4DECF
+call doplayeracc	; 4DECF
 pop edx	; 4DED4
 pop ecx	; 4DED5
 pop ebx	; 4DED6

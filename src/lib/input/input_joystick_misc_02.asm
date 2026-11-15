@@ -29,7 +29,7 @@ global loc_E1394, loc_E139D, loc_E13A3, loc_E13AC, loc_E13B2, loc_E13FA, loc_E13
 global loc_E1415, loc_E1419, loc_E141C, loc_E1434, loc_E1439, loc_E143C, loc_E144E, loc_E1451
 global loc_E145C, loc_E1476, loc_E1487, loc_E1498, loc_E14C4, loc_E14DF, loc_E14ED, loc_E1508
 global loc_E1511, loc_E1525, loc_E15E2, loc_E1603, loc_E16A7, loc_E173F, loc_E17A2, loc_E17EB
-global sub_E0898, sub_E0959, sub_E0992, sub_E0B9B, sub_E0C59, sub_E0D8B, sub_E14C8, sub_E1530
+global sub_E0898, sub_E0959, sub_E0992, sub_E0B9B, sub_E0C59, sub_E0D8B, vecdist, sub_E1530
 global sub_E1575, sub_E15AC, sub_E15D7, sub_E162A, sub_E1638, sub_E167A, sub_E17B8
 sub_E0898:
 mov eax, dword [dword_1222DC]	; E0898
@@ -1284,7 +1284,7 @@ pop edi	; E14C4
 pop esi	; E14C5
 leave	; E14C6
 ret	; E14C7
-sub_E14C8:
+vecdist:
 push ebp	; E14C8
 LD mov, ebp, esp	; E14C9
 push dword [byte ebp+08h]	; E14CB

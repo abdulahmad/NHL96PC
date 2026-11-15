@@ -32,15 +32,15 @@ extern sprintf_, str_D02d2, str_DD, str_DDD, strcat_, strcpy_, strlen_, strncmp_
 extern strstr_, sub_108BB, sub_10A65, sub_13146, sub_13338, sub_13407, sub_1377E, sub_187CF
 extern sub_188AE, sub_189CD, sub_18A31, sub_18A81, sub_1A109, sub_1D6C1, sub_1E643, sub_1E7F6
 extern sub_1EA14, sub_1EBBC, sub_1ECDB, sub_1EE7C, sub_1EFFF, sub_1F15E, sub_1F300, sub_1F771
-extern sub_2B4B9, sub_3A6F3, sub_4AE4F, sub_4B05E, sub_4B59F, sub_4E6C3, sub_51F18, sub_5358E
+extern sub_2B4B9, sub_3A6F3, sub_4AE4F, sub_4B05E, sub_4B59F, sub_4E6C3, BuildDefaultLines, sub_5358E
 extern sub_58A58, sub_59188, sub_5A572, sub_5AF42, sub_609C6, sub_612BC, sub_62311, sub_625F7
 extern sub_62AF7, sub_62D9B, sub_62E72, sub_62ED9, sub_62F90, sub_63968, sub_63998, sub_63A5B
 extern sub_63B0C, sub_63DC4, sub_63F79, sub_64054, sub_640D3, sub_6423E, sub_64296, sub_6448D
 extern sub_64721, sub_64F59, sub_66373, sub_67A63, sub_686DF, sub_689D1, sub_68A10, sub_68AB1
-extern sub_68BFA, sub_68C33, sub_68C8F, sub_68E31, sub_68E72, sub_68EC9, sub_68F82, sub_6904C
+extern sub_68BFA, sub_68C33, sub_68C8F, sub_68E31, sub_68E72, CrowdNoiseReset, sub_68F82, sub_6904C
 extern sub_692E9, sub_69312, sub_6934E, sub_695CB, sub_6986B, sub_69A94, sub_69A9B, sub_6A5EB
 extern sub_6A7D3, sub_77355, sub_8C51B, sub_AA664, sub_AA988, sub_AAA40, PutBlock, sub_AADA4
-extern sub_AB758, sub_ABF4C, sub_AD35C, sub_ADA50, sub_ADBEC, sub_AFCD0, sub_B0284, sub_B0430
+extern sub_AB758, sub_ABF4C, sub_AD35C, sub_ADA50, sub_ADBEC, sub_AFCD0, TextSetFont, sub_B0430
 extern sub_B0494, sub_B0CA8, sub_B103C, sub_B1121, sub_B11F8, sub_B1255, sub_B1279, sub_B12AF
 extern sub_B1328, sub_B13BB, sub_B13D2, sub_B13F1, sub_B1451, sub_B151E, sub_B178B, sub_B1830
 extern sub_DD6C4, sub_DD6E0, sub_DD7B8, SetViewRect, sub_DFEC6, sub_DFF0F, sub_E04E0, sub_E0520
@@ -1121,7 +1121,7 @@ mov eax, 2Fh	; 15528
 call sub_1E7F6	; 1552D
 push eax	; 15532
 mov dword [byte ebp+076h], eax	; 15533
-call sub_B0284	; 15536
+call TextSetFont	; 15536
 add esp, byte 4	; 1553B
 mov edx, 0FEh	; 1553E
 mov eax, 0FCh	; 15543
@@ -1431,7 +1431,7 @@ jmp short loc_15A31	; 159F3
 loc_159F5:
 call sub_62E72	; 159F5
 push dword [dword_17BC78]	; 159FA
-call sub_B0284	; 15A00
+call TextSetFont	; 15A00
 add esp, byte 4	; 15A05
 mov ecx, 0FCh	; 15A08
 mov ebx, 0FAh	; 15A0D
@@ -1440,7 +1440,7 @@ mov edx, 0F7h	; 15A17
 mov eax, 1	; 15A1C
 call sub_1377E	; 15A21
 push dword [byte ebp+076h]	; 15A26
-call sub_B0284	; 15A29
+call TextSetFont	; 15A29
 add esp, byte 4	; 15A2E
 loc_15A31:
 cmp dword [byte ebp+06Eh], byte 0	; 15A31
@@ -1926,7 +1926,7 @@ xor edi, edi	; 1612C
 call sub_63F79	; 1612E
 push dword [dword_17BC74]	; 16133
 xor esi, esi	; 16139
-call sub_B0284	; 1613B
+call TextSetFont	; 1613B
 add esp, byte 4	; 16140
 loc_16143:
 push byte 0	; 16143
@@ -2362,7 +2362,7 @@ jmp short loc_167FA	; 167C7
 loc_167C9:
 call sub_62E72	; 167C9
 push dword [dword_17BC78]	; 167CE
-call sub_B0284	; 167D4
+call TextSetFont	; 167D4
 add esp, byte 4	; 167D9
 mov ecx, 0FCh	; 167DC
 mov ebx, 0FAh	; 167E1
@@ -2395,7 +2395,7 @@ mov eax, 3	; 16850
 call sub_63A5B	; 16855
 call sub_686DF	; 1685A
 push dword [dword_17BC78]	; 1685F
-call sub_B0284	; 16865
+call TextSetFont	; 16865
 mov eax, dword [byte ebp+076h]	; 1686A
 add esp, byte 4	; 1686D
 jmp near loc_15A66	; 16870
@@ -3275,7 +3275,7 @@ call sub_13338	; 1754B
 test esi, esi	; 17550
 jl near loc_17606	; 17552
 call sub_3A6F3	; 17558
-call sub_51F18	; 1755D
+call BuildDefaultLines	; 1755D
 call NormalizeDressFlags	; 17562
 xor eax, eax	; 17567
 call SetupTeamLines	; 17569
@@ -3283,7 +3283,7 @@ mov eax, 1	; 1756E
 call SetupTeamLines	; 17573
 mov eax, dword [dword_17CA20]	; 17578
 and eax, byte 7Fh	; 1757D
-call sub_68EC9	; 17580
+call CrowdNoiseReset	; 17580
 mov eax, dword [gameopts]	; 17585
 mov al, byte [eax]	; 1758A
 shl al, 7	; 1758C

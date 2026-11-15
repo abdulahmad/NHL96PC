@@ -34,11 +34,11 @@ extern off_11788C, off_11B278, puckz, rand_, sprintf_, strcmp_, strcpy_, sub_18E
 extern sub_1B05E, sub_1E7F6, sub_23812, sub_23B16, sub_23F6A, sub_24F36, sub_24F75, sub_2500F
 extern sub_2503F, sub_25226, sub_25502, sub_25820, sub_25E4D, sub_25E7B, sub_25EB3, sub_261A6
 extern sub_2751C, sub_2767F, sub_27BF1, sub_28A87, sub_28C50, sub_28D97, sub_297C9, sub_299CF
-extern sub_2E1BE, sub_400B1, sub_4B38C, sub_4B4F3, sub_53BD7, sub_53C6F, sub_54237, sub_54391
-extern sub_5439F, sub_54427, sub_5DBC0, sub_5E21C, sub_606B9, sub_60823, sub_61C18, sub_61C88
+extern sub_2E1BE, GetLowestPen, sub_4B38C, sub_4B4F3, sub_53BD7, sub_53C6F, sub_54237, sub_54391
+extern sub_5439F, sub_54427, sub_5DBC0, sub_5E21C, CloseTextOverlay, sub_60823, sub_61C18, sub_61C88
 extern sub_61D2E, sub_62065, sub_62343, sub_625AA, sub_63E7C, sub_63EB5, sub_63F79, sub_63FEF
 extern sub_64054, sub_640D3, sub_64103, sub_6AA3B, sub_77355, sub_873AE, sub_AAA40, sub_AAADC
-extern sub_AB758, sub_ABF4C, sub_AD35C, sub_AD620, FillRect, sub_AFFD0, sub_B0284, sub_B0CA8
+extern sub_AB758, sub_ABF4C, sub_AD35C, sub_AD620, FillRect, sub_AFFD0, TextSetFont, sub_B0CA8
 extern sub_B0F7C, sub_B58D8, sub_B6140, sub_B6148, sub_BA3D0, sub_BB470, sub_BB570, sub_BB924
 extern sub_BBA41, sub_BBC04, sub_BC3A0, sub_BC3F4, sub_BC610, sub_BC674, sub_BC6D8, sub_BC760
 extern sub_BD86C, sub_BE926, sub_BE960, SortIndices, sub_BEF44, sub_BEFF0, sub_DD6C4, SetClipWindow
@@ -863,7 +863,7 @@ cmp word [word_11B274], byte 0	; 58E75
 jl short loc_58EA4	; 58E7D
 movsx edx, word [word_11B276]	; 58E7F
 movsx eax, word [word_11B274]	; 58E86
-call sub_606B9	; 58E8D
+call CloseTextOverlay	; 58E8D
 mov word [word_11B276], 0FFFFh	; 58E92
 mov word [word_11B274], 0FFFFh	; 58E9B
 loc_58EA4:
@@ -1091,7 +1091,7 @@ mov esi, edx	; 5925D
 mov dword [byte ebp-04h], ebx	; 5925F
 mov edi, ecx	; 59262
 push dword [dword_179918]	; 59264
-call sub_B0284	; 5926A
+call TextSetFont	; 5926A
 add esp, byte 4	; 5926F
 push dword 0FFh	; 59272
 push byte 4	; 59277
@@ -1126,7 +1126,7 @@ mov esi, edx	; 592C1
 mov edi, ebx	; 592C3
 mov dword [byte ebp-04h], ecx	; 592C5
 push dword [dword_179918]	; 592C8
-call sub_B0284	; 592CE
+call TextSetFont	; 592CE
 add esp, byte 4	; 592D3
 push dword 0FFh	; 592D6
 push byte 4	; 592DB
@@ -3230,7 +3230,7 @@ lea edi, [byte ebp-02Ch]	; 5AE56
 mov esi, unk_58468	; 5AE59
 rep movsd	; 5AE5E
 push dword [dword_179920]	; 5AE60
-call sub_B0284	; 5AE66
+call TextSetFont	; 5AE66
 mov edx, 6	; 5AE6B
 add esp, byte 4	; 5AE70
 mov eax, 0ADh	; 5AE73
@@ -3359,7 +3359,7 @@ call sub_77355	; 5B029
 push dword [dword_179920]	; 5B02E
 mov dword [byte ebp-010h], eax	; 5B034
 mov dword [byte ebp-0Ch], eax	; 5B037
-call sub_B0284	; 5B03A
+call TextSetFont	; 5B03A
 mov edx, 6	; 5B03F
 add esp, byte 4	; 5B044
 mov eax, 0ADh	; 5B047
@@ -3427,7 +3427,7 @@ enter 14h, 0	; 5B0FD
 mov edi, eax	; 5B101
 mov esi, edx	; 5B103
 push dword [dword_179914]	; 5B105
-call sub_B0284	; 5B10B
+call TextSetFont	; 5B10B
 add esp, byte 4	; 5B110
 push dword 0FFh	; 5B113
 push byte 41h	; 5B118
@@ -3628,7 +3628,7 @@ add ebx, ecx	; 5B365
 mov ecx, 1	; 5B367
 call sub_5AB8A	; 5B36C
 push dword [dword_179918]	; 5B371
-call sub_B0284	; 5B377
+call TextSetFont	; 5B377
 add esp, byte 4	; 5B37C
 mov edx, 70h	; 5B37F
 mov eax, 7Ah	; 5B384
@@ -3650,7 +3650,7 @@ add edx, dword [edi]	; 5B3BA
 call sub_77355	; 5B3BC
 call sub_63FEF	; 5B3C1
 push dword [dword_179914]	; 5B3C6
-call sub_B0284	; 5B3CC
+call TextSetFont	; 5B3CC
 add esp, byte 4	; 5B3D1
 push dword 0FFh	; 5B3D4
 push byte 41h	; 5B3D9
@@ -3700,7 +3700,7 @@ and al, 20h	; 5B45F
 cwde	; 5B461
 test eax, eax	; 5B462
 je short loc_5B4B2	; 5B464
-call sub_400B1	; 5B466
+call GetLowestPen	; 5B466
 cwde	; 5B46B
 test eax, eax	; 5B46C
 jle short loc_5B4B2	; 5B46E
@@ -3783,7 +3783,7 @@ mov eax, dword [dword_177108]	; 5B557
 call sub_54391	; 5B55C
 push dword [dword_179920]	; 5B561
 mov dword [byte ebp-04h], eax	; 5B567
-call sub_B0284	; 5B56A
+call TextSetFont	; 5B56A
 add esp, byte 4	; 5B56F
 mov edx, 70h	; 5B572
 mov eax, 7Ah	; 5B577
@@ -3808,7 +3808,7 @@ mov eax, 7Eh	; 5B5B3
 call sub_77355	; 5B5B8
 call sub_64054	; 5B5BD
 push dword [dword_179918]	; 5B5C2
-call sub_B0284	; 5B5C8
+call TextSetFont	; 5B5C8
 add esp, byte 4	; 5B5CD
 mov edx, 6	; 5B5D0
 mov eax, 0ADh	; 5B5D5
@@ -3847,7 +3847,7 @@ jne short loc_5B667	; 5B65B
 mov dword [dword_11B2F4], 44Ch	; 5B65D
 loc_5B667:
 push dword [dword_179920]	; 5B667
-call sub_B0284	; 5B66D
+call TextSetFont	; 5B66D
 add esp, byte 4	; 5B672
 mov edx, 70h	; 5B675
 mov eax, 7Ah	; 5B67A
@@ -3890,7 +3890,7 @@ add ebx, dword [byte esi+08h]	; 5B6FD
 call sub_77355	; 5B700
 call sub_64054	; 5B705
 push dword [dword_179918]	; 5B70A
-call sub_B0284	; 5B710
+call TextSetFont	; 5B710
 add esp, byte 4	; 5B715
 mov edx, 6	; 5B718
 mov eax, 0ADh	; 5B71D
@@ -4132,7 +4132,7 @@ mov dword [dword_11B240], 0FFFFFF9Dh	; 5BA6E
 jmp short loc_5BA17	; 5BA78
 loc_5BA7A:
 push dword [dword_179920]	; 5BA7A
-call sub_B0284	; 5BA80
+call TextSetFont	; 5BA80
 add esp, byte 4	; 5BA85
 mov edx, 70h	; 5BA88
 mov eax, 7Ah	; 5BA8D
@@ -4267,7 +4267,7 @@ lea eax, [byte ebp-060h]	; 5BC1F
 add edx, dword [esi]	; 5BC22
 call sub_63FEF	; 5BC24
 push dword [dword_179918]	; 5BC29
-call sub_B0284	; 5BC2F
+call TextSetFont	; 5BC2F
 add esp, byte 4	; 5BC34
 mov edx, 6	; 5BC37
 mov eax, 0ADh	; 5BC3C
@@ -4498,7 +4498,7 @@ call sub_54391	; 5BF60
 push dword [dword_179918]	; 5BF65
 mov esi, eax	; 5BF6B
 mov edi, eax	; 5BF6D
-call sub_B0284	; 5BF6F
+call TextSetFont	; 5BF6F
 add esp, byte 4	; 5BF74
 mov edx, 6	; 5BF77
 mov eax, 0ADh	; 5BF7C
@@ -4585,7 +4585,7 @@ call sub_64054	; 5C094
 lea eax, [byte ebp-060h]	; 5C099
 call sub_5BD7D	; 5C09C
 push dword [dword_179920]	; 5C0A1
-call sub_B0284	; 5C0A7
+call TextSetFont	; 5C0A7
 add esp, byte 4	; 5C0AC
 mov edx, 70h	; 5C0AF
 mov eax, 7Ah	; 5C0B4
@@ -4786,7 +4786,7 @@ dec edx	; 5C36C
 add eax, dword [esi]	; 5C36D
 call sub_5B0F9	; 5C36F
 push dword [dword_179918]	; 5C374
-call sub_B0284	; 5C37A
+call TextSetFont	; 5C37A
 add esp, byte 4	; 5C37F
 mov edx, 6	; 5C382
 mov eax, 0ADh	; 5C387
@@ -4902,7 +4902,7 @@ lea eax, [byte ebp-060h]	; 5C4FF
 call strcpy_	; 5C502
 loc_5C507:
 push dword [dword_179920]	; 5C507
-call sub_B0284	; 5C50D
+call TextSetFont	; 5C50D
 add esp, byte 4	; 5C512
 mov edx, 70h	; 5C515
 mov eax, 7Ah	; 5C51A
@@ -4940,7 +4940,7 @@ mov eax, dword [dword_177108]	; 5C58C
 call sub_54391	; 5C591
 push dword [dword_179920]	; 5C596
 mov esi, eax	; 5C59C
-call sub_B0284	; 5C59E
+call TextSetFont	; 5C59E
 add esp, byte 4	; 5C5A3
 mov edx, 70h	; 5C5A6
 mov eax, 7Ah	; 5C5AB
@@ -4973,7 +4973,7 @@ mov edx, eax	; 5C601
 mov eax, byte_1655E0	; 5C603
 call sub_64054	; 5C608
 push dword [dword_179918]	; 5C60D
-call sub_B0284	; 5C613
+call TextSetFont	; 5C613
 mov edx, 6	; 5C618
 add esp, byte 4	; 5C61D
 mov eax, 0ADh	; 5C620
@@ -5040,7 +5040,7 @@ mov edx, unk_111024	; 5C70F
 lea eax, [byte ebp-028h]	; 5C714
 call FormatPlayerName	; 5C717
 push dword [dword_179920]	; 5C71C
-call sub_B0284	; 5C722
+call TextSetFont	; 5C722
 add esp, byte 4	; 5C727
 mov edx, 70h	; 5C72A
 mov eax, 7Ah	; 5C72F
@@ -5073,7 +5073,7 @@ mov edx, eax	; 5C781
 lea eax, [byte ebp-028h]	; 5C783
 call strcpy_	; 5C786
 push dword [dword_179918]	; 5C78B
-call sub_B0284	; 5C791
+call TextSetFont	; 5C791
 mov edx, 6	; 5C796
 add esp, byte 4	; 5C79B
 mov eax, 0ADh	; 5C79E
@@ -5116,7 +5116,7 @@ mov eax, dword [dword_177108]	; 5C82D
 call sub_54391	; 5C832
 push dword [dword_179920]	; 5C837
 mov esi, eax	; 5C83D
-call sub_B0284	; 5C83F
+call TextSetFont	; 5C83F
 add esp, byte 4	; 5C844
 mov edx, 70h	; 5C847
 mov eax, 7Ah	; 5C84C
@@ -5150,7 +5150,7 @@ mov edx, eax	; 5C8A4
 mov eax, byte_165694	; 5C8A6
 call sub_64054	; 5C8AB
 push dword [dword_179918]	; 5C8B0
-call sub_B0284	; 5C8B6
+call TextSetFont	; 5C8B6
 mov edx, 6	; 5C8BB
 add esp, byte 4	; 5C8C0
 mov eax, 0ADh	; 5C8C3
@@ -5182,7 +5182,7 @@ mov eax, dword [dword_177108]	; 5C92C
 call sub_54391	; 5C931
 push dword [dword_179920]	; 5C936
 mov esi, eax	; 5C93C
-call sub_B0284	; 5C93E
+call TextSetFont	; 5C93E
 add esp, byte 4	; 5C943
 mov edx, 70h	; 5C946
 mov eax, 7Ah	; 5C94B
@@ -5205,7 +5205,7 @@ mov edx, eax	; 5C97E
 mov eax, byte_1655A4	; 5C980
 call sub_64054	; 5C985
 push dword [dword_179918]	; 5C98A
-call sub_B0284	; 5C990
+call TextSetFont	; 5C990
 mov edx, 6	; 5C995
 add esp, byte 4	; 5C99A
 mov eax, 0ADh	; 5C99D
@@ -5286,7 +5286,7 @@ mov eax, dword [dword_177108]	; 5CAA1
 call sub_54391	; 5CAA6
 push dword [dword_179920]	; 5CAAB
 mov esi, eax	; 5CAB1
-call sub_B0284	; 5CAB3
+call TextSetFont	; 5CAB3
 add esp, byte 4	; 5CAB8
 mov edx, 70h	; 5CABB
 mov eax, 7Ah	; 5CAC0
@@ -5315,7 +5315,7 @@ mov edx, eax	; 5CB0C
 lea eax, [byte ebp-050h]	; 5CB0E
 call sub_64054	; 5CB11
 push dword [dword_179918]	; 5CB16
-call sub_B0284	; 5CB1C
+call TextSetFont	; 5CB1C
 add esp, byte 4	; 5CB21
 mov edx, 6	; 5CB24
 mov eax, 0ADh	; 5CB29
@@ -5952,7 +5952,7 @@ mov eax, dword [dword_177108]	; 5D23B
 call sub_54391	; 5D240
 push dword [dword_179918]	; 5D245
 mov dword [byte ebp-020h], eax	; 5D24B
-call sub_B0284	; 5D24E
+call TextSetFont	; 5D24E
 add esp, byte 4	; 5D253
 mov edx, 70h	; 5D256
 mov eax, 7Ah	; 5D25B

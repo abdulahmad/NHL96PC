@@ -14,7 +14,7 @@ extern sub_62E72, sub_62F90, sub_63968, sub_63998, sub_63A5B, sub_63B0C, sub_63F
 extern sub_64054, sub_64296, sub_64721, sub_64F59, sub_66373, sub_68AB1, sub_68BFA, sub_68C8F
 extern sub_68E31, sub_69A94, sub_69A9B, sub_6CF0D, sub_6CF1B, sub_6D350, sub_6D828, sub_6DB5C
 extern sub_6DC2F, sub_6DD1E, sub_77355, sub_8733C, sub_9CDDA, sub_AA988, sub_AAA40, PutBlock
-extern sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C, sub_ADA50, sub_ADBEC, sub_B0284, sub_DD6C4
+extern sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C, sub_ADA50, sub_ADBEC, TextSetFont, sub_DD6C4
 extern sub_E04E0, unk_11DE50, unk_11DE90, unk_152C44, word_114CE0, word_114CE4, word_11D92C, word_11D92E
 extern str_feO, word_11D96C, word_11D9A8, word_11D9AC, word_11DA10, word_11DA14, word_160ACC, word_17D560
 extern word_17D562, word_17D568, word_17D570, word_17D578, word_17D58C, word_17D58E
@@ -328,7 +328,7 @@ mov esi, dword [byte ebp-028h]	; 6E647
 dec esi	; 6E64A
 imul esi, byte 66h	; 6E64B
 push dword [dword_17BC74]	; 6E64E
-call sub_B0284	; 6E654
+call TextSetFont	; 6E654
 add esp, byte 4	; 6E659
 push str_Usri	; 6E65C
 push dword [dword_17D588]	; 6E661
@@ -422,7 +422,7 @@ inc eax	; 6E7A6
 inc eax	; 6E7A7
 call sub_63FEF	; 6E7A8
 push dword [dword_17BC78]	; 6E7AD
-call sub_B0284	; 6E7B3
+call TextSetFont	; 6E7B3
 add esp, byte 4	; 6E7B8
 cmp dword [dword esi+dword_11D930], byte 0	; 6E7BB
 jne short loc_6E7E7	; 6E7C2
@@ -462,7 +462,7 @@ push dword [byte esi+eax+01Ah]	; 6E848
 call sub_AAA40	; 6E84C
 add esp, byte 0Ch	; 6E851
 push dword [dword_17BC78]	; 6E854
-call sub_B0284	; 6E85A
+call TextSetFont	; 6E85A
 add esp, byte 4	; 6E85F
 mov edx, 1	; 6E862
 xor eax, eax	; 6E867
@@ -783,7 +783,7 @@ mov esi, dword [byte ebp-028h]	; 6EDB5
 inc esi	; 6EDB8
 imul esi, byte 66h	; 6EDB9
 push dword [dword_17BC74]	; 6EDBC
-call sub_B0284	; 6EDC2
+call TextSetFont	; 6EDC2
 add esp, byte 4	; 6EDC7
 push str_Usri	; 6EDCA
 push dword [dword_17D588]	; 6EDCF
@@ -878,7 +878,7 @@ inc eax	; 6EF16
 inc eax	; 6EF17
 call sub_64054	; 6EF18
 push dword [dword_17BC78]	; 6EF1D
-call sub_B0284	; 6EF23
+call TextSetFont	; 6EF23
 add esp, byte 4	; 6EF28
 cmp dword [dword esi+dword_11D930], byte 0	; 6EF2B
 jne short loc_6EF56	; 6EF32
@@ -918,7 +918,7 @@ push dword [byte edi+eax+01Ah]	; 6EFB7
 call sub_AAA40	; 6EFBB
 add esp, byte 0Ch	; 6EFC0
 push dword [dword_17BC78]	; 6EFC3
-call sub_B0284	; 6EFC9
+call TextSetFont	; 6EFC9
 mov edx, 1	; 6EFCE
 add esp, byte 4	; 6EFD3
 mov eax, edx	; 6EFD6
@@ -1314,7 +1314,7 @@ cmp word [word_114CE4], byte 0	; 6F55C
 jne near loc_6F71F	; 6F564
 loc_6F56A:
 push dword [dword_17BC74]	; 6F56A
-call sub_B0284	; 6F570
+call TextSetFont	; 6F570
 add esp, byte 4	; 6F575
 push str_Usri	; 6F578
 push dword [dword_17D588]	; 6F57D
@@ -1422,7 +1422,7 @@ push dword [byte eax+01Ah]	; 6F706
 call sub_AAA40	; 6F709
 add esp, byte 0Ch	; 6F70E
 push dword [dword_17BC78]	; 6F711
-call sub_B0284	; 6F717
+call TextSetFont	; 6F717
 add esp, byte 4	; 6F71C
 loc_6F71F:
 imul edx, dword [byte ebp-04Ch], byte 66h	; 6F71F
@@ -1595,7 +1595,7 @@ cmp word [word_114CE4], byte 0	; 6F9B8
 jne near loc_6FB7C	; 6F9C0
 loc_6F9C6:
 push dword [dword_17BC74]	; 6F9C6
-call sub_B0284	; 6F9CC
+call TextSetFont	; 6F9CC
 add esp, byte 4	; 6F9D1
 push str_Usri	; 6F9D4
 push dword [dword_17D588]	; 6F9D9
@@ -1703,7 +1703,7 @@ push dword [byte eax+01Ah]	; 6FB63
 call sub_AAA40	; 6FB66
 add esp, byte 0Ch	; 6FB6B
 push dword [dword_17BC78]	; 6FB6E
-call sub_B0284	; 6FB74
+call TextSetFont	; 6FB74
 add esp, byte 4	; 6FB79
 loc_6FB7C:
 imul edx, dword [byte ebp-04Ch], byte 66h	; 6FB7C
@@ -2144,7 +2144,7 @@ mov edx, 0FEh	; 70293
 mov eax, 0FDh	; 70298
 call sub_63F79	; 7029D
 push dword [dword_17BC74]	; 702A2
-call sub_B0284	; 702A8
+call TextSetFont	; 702A8
 add esp, byte 4	; 702AD
 cmp dword [dword esi+dword_11D940], byte 0	; 702B0
 je short loc_702D5	; 702B7
@@ -2254,7 +2254,7 @@ mov eax, esi	; 7042C
 call sub_64054	; 7042E
 loc_70433:
 push dword [dword_17BC78]	; 70433
-call sub_B0284	; 70439
+call TextSetFont	; 70439
 mov eax, dword [byte ebp-048h]	; 7043E
 add esp, byte 4	; 70441
 lea edx, [eax+eax*4]	; 70444

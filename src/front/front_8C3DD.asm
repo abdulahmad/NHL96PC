@@ -42,7 +42,7 @@ extern sub_63F79, sub_63FEF, sub_640D3, sub_64103, sub_64721, sub_64F59, sub_68A
 extern sub_68C8F, sub_69A94, sub_69A9B, sub_77355, sub_7CCB8, sub_7CF78, sub_7D2CE, sub_7D2DC
 extern sub_7D2ED, sub_7D308, sub_7D325, sub_7D346, sub_7D349, sub_7D49C, sub_8B7BB, sub_8BF56
 extern sub_8C006, sub_8C210, sub_90879, sub_908FC, sub_909FE, sub_92A6A, sub_AAA40, PutBlock
-extern sub_AB758, sub_ABF4C, sub_AD35C, sub_AD5C8, sub_AD620, sub_ADBEC, sub_B0284, sub_B0430
+extern sub_AB758, sub_ABF4C, sub_AD35C, sub_AD5C8, sub_AD620, sub_ADBEC, TextSetFont, sub_B0430
 extern sub_B2C54, sub_B2C70, sub_C2500, sub_DD6C4, sub_DD908, sub_E04E0, str_Space, str_S3
 extern str_D10, str_Wt3, unk_11282F, str_RAT, str_SEA4, str_PLY4, unk_11E71A, unk_17FDF8
 extern unk_17FE5E, unk_17FEC4, unk_17FF2A, unk_17FF90, unk_180128, unk_1802C0, unk_8B87F, unk_8BD9F
@@ -1624,7 +1624,7 @@ test eax, eax	; 8DB67
 je short loc_8DBA2	; 8DB69
 call sub_62E72	; 8DB6B
 push dword [dword_17BC78]	; 8DB70
-call sub_B0284	; 8DB76
+call TextSetFont	; 8DB76
 mov eax, 0FEh	; 8DB7B
 add esp, byte 4	; 8DB80
 mov ecx, 0FCh	; 8DB83

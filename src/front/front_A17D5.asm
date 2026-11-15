@@ -30,16 +30,16 @@ extern loc_A50B8, loc_A50D9, loc_A50EC, sprintf_, strcat_, strcpy_, sub_108BB, s
 extern sub_13146, sub_1377E, sub_15344, sub_19384, sub_193E8, sub_19522, sub_1955B, sub_19799
 extern sub_197ED, sub_1A109, sub_1B05E, sub_1E383, sub_1E3A7, sub_1E5FC, sub_1E7F6, sub_1EE7C
 extern sub_1EFFF, sub_21BE3, sub_25087, sub_251E6, sub_25EB3, sub_28459, sub_2929F, sub_29B9F
-extern sub_2E1BE, sub_3A6F3, sub_5A4FF, sub_5A572, sub_606B9, sub_60777, sub_60823, sub_612BC
+extern sub_2E1BE, sub_3A6F3, sub_5A4FF, sub_5A572, CloseTextOverlay, sub_60777, sub_60823, sub_612BC
 extern sub_621D9, sub_62201, sub_6225D, sub_62285, sub_62311, sub_625F7, sub_62A0F, sub_62AF7
 extern sub_62D9B, sub_62E0E, sub_62E72, sub_62ED9, sub_62F90, sub_63968, sub_63998, sub_63A5B
 extern sub_63B0C, sub_63DC4, sub_63F79, sub_640D3, sub_64103, sub_641D4, sub_6423E, sub_64296
 extern sub_64721, sub_64E74, sub_64F59, sub_66373, sub_674C7, sub_674FE, sub_6755B, sub_67A63
 extern sub_686DF, sub_689D1, sub_68A10, sub_68AB1, sub_68BFA, sub_68C33, sub_68C8F, sub_68D25
-extern sub_68E72, sub_68EC9, sub_68F7C, sub_68F82, sub_6904C, sub_69105, sub_69141, sub_6934E
+extern sub_68E72, CrowdNoiseReset, sub_68F7C, sub_68F82, sub_6904C, sfx, sub_69141, sub_6934E
 extern sub_695CB, sub_6986B, sub_69A94, sub_69A9B, sub_6B486, sub_6C64B, sub_6F056, sub_70840
 extern sub_75E0C, sub_75E2C, sub_77355, sub_8C51B, sub_9C866, sub_9CDDA, sub_AA988, sub_AAA40
-extern PutBlock, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C, sub_ADA50, sub_ADBEC, sub_B0284
+extern PutBlock, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C, sub_ADA50, sub_ADBEC, TextSetFont
 extern sub_B0CA8, DrawArtOpaque, sub_B58D8, sub_DD6C4, SetClipWindow, SetViewRect, sub_E04E0, sub_E0584
 extern str_D13, str_7GM, str_5GM, str_3GM, str_1GM, unk_11D7A4, unk_11D7BC, unk_11D7D4
 extern unk_11D7EC, unk_11D804, unk_11D80A, unk_11D810, unk_11D816, unk_11D81C, unk_11D89C, unk_152C44
@@ -173,7 +173,7 @@ push unk_184692	; A1945
 call sprintf_	; A194A
 add esp, byte 0Ch	; A194F
 push dword [dword_179920]	; A1952
-call sub_B0284	; A1958
+call TextSetFont	; A1958
 add esp, byte 4	; A195D
 test byte [byte_17CA5D], 20h	; A1960
 je short loc_A1970	; A1967
@@ -202,7 +202,7 @@ push edx	; A19B5
 movsx edx, word [esi]	; A19B6
 call sub_641D4	; A19B9
 push dword [dword_179918]	; A19BE
-call sub_B0284	; A19C4
+call TextSetFont	; A19C4
 movzx edx, byte [byte_11D91D]	; A19C9
 add esp, byte 4	; A19D0
 movzx eax, byte [byte_11D91C]	; A19D3
@@ -302,7 +302,7 @@ push unk_184692	; A1B34
 call sprintf_	; A1B39
 add esp, byte 0Ch	; A1B3E
 push dword [dword_179920]	; A1B41
-call sub_B0284	; A1B47
+call TextSetFont	; A1B47
 add esp, byte 4	; A1B4C
 test byte [byte_17CA5D], 20h	; A1B4F
 je short loc_A1B5F	; A1B56
@@ -331,7 +331,7 @@ push edx	; A1BA4
 movsx edx, word [byte esi+0Ah]	; A1BA5
 call sub_641D4	; A1BA9
 push dword [dword_179918]	; A1BAE
-call sub_B0284	; A1BB4
+call TextSetFont	; A1BB4
 movzx edx, byte [byte_11D91D]	; A1BB9
 add esp, byte 4	; A1BC0
 movzx eax, byte [byte_11D91C]	; A1BC3
@@ -384,7 +384,7 @@ movsx edx, word [byte eax+010h]	; A1C6F
 mov eax, unk_17D3E8	; A1C73
 call sub_641D4	; A1C78
 push dword [dword_179918]	; A1C7D
-call sub_B0284	; A1C83
+call TextSetFont	; A1C83
 movzx edx, byte [byte_11D91D]	; A1C88
 add esp, byte 4	; A1C8F
 movzx eax, byte [byte_11D91C]	; A1C92
@@ -924,7 +924,7 @@ cmp dword [byte ebp+07Eh], byte 3	; A249F
 jl near loc_A23D2	; A24A3
 call sub_DD6C4	; A24A9
 push dword [dword_179918]	; A24AE
-call sub_B0284	; A24B4
+call TextSetFont	; A24B4
 add esp, byte 4	; A24B9
 push byte 0	; A24BC
 mov eax, dword [byte ebp+072h]	; A24BE
@@ -1058,7 +1058,7 @@ mov eax, unk_16443C	; A2675
 mov edx, 0FFFFFFFFh	; A267A
 call sub_6423E	; A267F
 mov eax, 9	; A2684
-call sub_606B9	; A2689
+call CloseTextOverlay	; A2689
 mov eax, 15Eh	; A268E
 call sub_68E72	; A2693
 xor edx, edx	; A2698
@@ -1800,12 +1800,12 @@ mov eax, 1	; A3276
 call sub_13146	; A327B
 mov eax, dword [byte ebp-014h]	; A3280
 xor edx, edx	; A3283
-call sub_68EC9	; A3285
+call CrowdNoiseReset	; A3285
 loc_A328A:
 mov dword [dword_11D3A6], 0	; A328A
 mov eax, 2	; A3294
 inc edx	; A3299
-call sub_69105	; A329A
+call sfx	; A329A
 cmp edx, byte 0Ah	; A329F
 jl short loc_A328A	; A32A2
 mov eax, 9	; A32A4
@@ -1830,7 +1830,7 @@ test eax, eax	; A32EF
 je short loc_A3323	; A32F1
 call sub_A1F6C	; A32F3
 push dword [dword_179918]	; A32F8
-call sub_B0284	; A32FE
+call TextSetFont	; A32FE
 add esp, byte 4	; A3303
 mov ecx, 30h	; A3306
 mov ebx, 7Eh	; A330B
@@ -3160,7 +3160,7 @@ jmp short loc_A48A1	; A486E
 loc_A4870:
 call sub_62E72	; A4870
 push dword [dword_17BC78]	; A4875
-call sub_B0284	; A487B
+call TextSetFont	; A487B
 add esp, byte 4	; A4880
 mov ecx, 0FCh	; A4883
 mov ebx, 0FAh	; A4888

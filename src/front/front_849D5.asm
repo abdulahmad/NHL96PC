@@ -25,7 +25,7 @@ extern sub_63F79, sub_63FC8, sub_64054, sub_640D3, sub_6423E, sub_64296, sub_644
 extern sub_64F59, sub_66373, sub_67A63, sub_686DF, sub_68AB1, sub_69A94, sub_69A9B, sub_6A2A8
 extern sub_77355, sub_78E9E, sub_88E09, sub_8C51B, sub_90AF8, sub_93E6A, sub_9C866, sub_AA988
 extern sub_AAA8C, PutBlock, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C, sub_AD824, sub_ADA50
-extern sub_ADBEC, sub_B0254, sub_B026C, sub_B0284, sub_B0430, sub_B0494, sub_B31C0, sub_B7638
+extern sub_ADBEC, sub_B0254, sub_B026C, TextSetFont, sub_B0430, sub_B0494, sub_B31C0, sub_B7638
 extern sub_B9BB0, sub_C2600, sub_DD6C4, SetClipWindow, sub_DD908, sub_DD920, PlotPixel, sub_DE18C
 extern MouseRead, sub_E04E0, sub_E0584, str_dbgSpace, unk_112523, str_000, str_SEA2, str_PLY2
 extern str_LEA, str_DIV, str_CON, str_WES, str_EAS, str_PAC, str_NOR, str_CEN
@@ -162,7 +162,7 @@ mov eax, 2Eh	; 84AE6
 call sub_1E7F6	; 84AEB
 push eax	; 84AF0
 mov esi, eax	; 84AF1
-call sub_B0284	; 84AF3
+call TextSetFont	; 84AF3
 add esp, byte 4	; 84AF8
 mov eax, dword [byte ebp+07Ah]	; 84AFB
 call sub_63FC8	; 84AFE
@@ -230,7 +230,7 @@ mov edx, 0B9h	; 84BF1
 lea eax, [byte ebp+042h]	; 84BF6
 call sub_640D3	; 84BF9
 push dword [dword_17BC78]	; 84BFE
-call sub_B0284	; 84C04
+call TextSetFont	; 84C04
 add esp, byte 4	; 84C09
 push esi	; 84C0C
 call sub_ABF4C	; 84C0D
@@ -412,7 +412,7 @@ jmp short loc_84E94	; 84E61
 loc_84E63:
 call sub_62E72	; 84E63
 push dword [dword_17BC78]	; 84E68
-call sub_B0284	; 84E6E
+call TextSetFont	; 84E6E
 add esp, byte 4	; 84E73
 mov ecx, 0FCh	; 84E76
 mov ebx, 0FAh	; 84E7B
@@ -1208,7 +1208,7 @@ jmp short loc_858BF	; 8588C
 loc_8588E:
 call sub_62E72	; 8588E
 push dword [dword_17BC78]	; 85893
-call sub_B0284	; 85899
+call TextSetFont	; 85899
 add esp, byte 4	; 8589E
 mov ecx, 0FCh	; 858A1
 mov ebx, 0FAh	; 858A6
@@ -2102,7 +2102,7 @@ jmp short loc_863FC	; 863C9
 loc_863CB:
 call sub_62E72	; 863CB
 push dword [dword_17BC78]	; 863D0
-call sub_B0284	; 863D6
+call TextSetFont	; 863D6
 add esp, byte 4	; 863DB
 mov ecx, 0FCh	; 863DE
 mov ebx, 0FAh	; 863E3
@@ -2479,7 +2479,7 @@ add esp, byte 4	; 8691A
 xor edi, edi	; 8691D
 push dword [dword_17BC74]	; 8691F
 xor esi, esi	; 86925
-call sub_B0284	; 86927
+call TextSetFont	; 86927
 add esp, byte 4	; 8692C
 loc_8692F:
 mov eax, dword [byte esi+ebp+036h]	; 8692F
@@ -2649,7 +2649,7 @@ jmp short loc_86BB8	; 86B85
 loc_86B87:
 call sub_62E72	; 86B87
 push dword [dword_17BC78]	; 86B8C
-call sub_B0284	; 86B92
+call TextSetFont	; 86B92
 add esp, byte 4	; 86B97
 mov ecx, 0FCh	; 86B9A
 mov ebx, 0FAh	; 86B9F
@@ -3008,7 +3008,7 @@ add esp, byte 4	; 87085
 xor edi, edi	; 87088
 push dword [dword_17BC74]	; 8708A
 xor esi, esi	; 87090
-call sub_B0284	; 87092
+call TextSetFont	; 87092
 add esp, byte 4	; 87097
 loc_8709A:
 mov eax, dword [byte esi+ebp+03Eh]	; 8709A
@@ -3173,7 +3173,7 @@ jmp short loc_872FC	; 872C9
 loc_872CB:
 call sub_62E72	; 872CB
 push dword [dword_17BC78]	; 872D0
-call sub_B0284	; 872D6
+call TextSetFont	; 872D6
 add esp, byte 4	; 872DB
 mov ecx, 0FCh	; 872DE
 mov ebx, 0FAh	; 872E3

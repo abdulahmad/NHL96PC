@@ -31,7 +31,7 @@ extern sub_2A5B5, sub_2A645, sub_62AF7, sub_62E0E, sub_62F90, sub_63998, sub_63A
 extern sub_63EB5, sub_63F79, sub_63FEF, sub_64103, sub_64721, sub_64F59, sub_68E31, sub_69A9B
 extern sub_77355, sub_7CCB8, sub_7D2CE, sub_7D2DC, sub_7D325, sub_7D346, sub_7D349, sub_8B7BB
 extern sub_AA7E0, PutBlock, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C, sub_AD620, sub_ADBEC
-extern sub_AFFD0, sub_B0254, sub_B026C, sub_B0284, sub_DD6C4, sub_DD8B0, MouseRead, sub_DFF0F
+extern sub_AFFD0, sub_B0254, sub_B026C, TextSetFont, sub_DD6C4, sub_DD8B0, MouseRead, sub_DFF0F
 extern sub_E04E0, sub_E15AC, str_D4, str_dbgS, str_wt, unk_160B50, unk_2A3D6, unk_2A3E2
 extern unk_2A3EE, unk_2A3F6, unk_2A402, unk_2A442, unk_2A482, word_160ACC, word_1656DA, word_1656DC
 extern word_1656E8, word_165810, word_165812, word_16581E
@@ -536,7 +536,7 @@ push eax	; 2ABE0
 call sub_B0254	; 2ABE1
 add esp, byte 4	; 2ABE6
 push dword [dword_17BC74]	; 2ABE9
-call sub_B0284	; 2ABEF
+call TextSetFont	; 2ABEF
 add esp, byte 4	; 2ABF4
 lea edx, [dword ebp-0CB8h]	; 2ABF7
 mov eax, 11h	; 2ABFD
@@ -886,7 +886,7 @@ sar ebx, 1	; 2B1C8
 call sub_77355	; 2B1CA
 call sub_1AA62	; 2B1CF
 push dword [dword_17BC74]	; 2B1D4
-call sub_B0284	; 2B1DA
+call TextSetFont	; 2B1DA
 add esp, byte 4	; 2B1DF
 loc_2B1E2:
 call sub_10D17	; 2B1E2
@@ -993,7 +993,7 @@ movzx eax, al	; 2B35C
 push dword [dword_17BC74]	; 2B35F
 mov dword [byte ebp-020h], eax	; 2B365
 mov dword [byte ebp-018h], eax	; 2B368
-call sub_B0284	; 2B36B
+call TextSetFont	; 2B36B
 add esp, byte 4	; 2B370
 cmp dword [byte ebp-020h], byte 0	; 2B373
 je near loc_2B407	; 2B377
@@ -1023,7 +1023,7 @@ sar ebx, 1	; 2B3CA
 call sub_77355	; 2B3CC
 call sub_1AA62	; 2B3D1
 push dword [dword_17BC74]	; 2B3D6
-call sub_B0284	; 2B3DC
+call TextSetFont	; 2B3DC
 add esp, byte 4	; 2B3E1
 loc_2B3E4:
 call sub_10D17	; 2B3E4
@@ -3178,7 +3178,7 @@ push eax	; 2CDC0
 call sub_B0254	; 2CDC1
 add esp, byte 4	; 2CDC6
 push dword [dword_17BC74]	; 2CDC9
-call sub_B0284	; 2CDCF
+call TextSetFont	; 2CDCF
 add esp, byte 4	; 2CDD4
 mov eax, 133h	; 2CDD7
 xor edx, edx	; 2CDDC
@@ -3734,7 +3734,7 @@ loc_2D6C7:
 mov dword [byte ebp+02Eh], 0	; 2D6C7
 loc_2D6CE:
 push dword [dword_17BC74]	; 2D6CE
-call sub_B0284	; 2D6D4
+call TextSetFont	; 2D6D4
 mov ecx, dword [byte ebp+03Eh]	; 2D6D9
 mov edx, dword [byte ebp+03Ah]	; 2D6DC
 add esp, byte 4	; 2D6DF
@@ -3749,7 +3749,7 @@ add esp, byte 4	; 2D6F5
 call sub_2C65C	; 2D6F8
 loc_2D6FD:
 push dword [dword_17BC74]	; 2D6FD
-call sub_B0284	; 2D703
+call TextSetFont	; 2D703
 add esp, byte 4	; 2D708
 jmp near loc_2D8AC	; 2D70B
 loc_2D710:

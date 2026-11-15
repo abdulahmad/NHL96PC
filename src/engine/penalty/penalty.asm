@@ -10,8 +10,8 @@ extern dword_11918F, dword_119193, dword_11A2F8, dword_11B310, dword_176BE0, dwo
 extern gameclock, gameopts, gmode, hmtmstruct, off_11787C, off_117888, off_11788C, off_117894
 extern penmintab, penshotlive, penshotmode, penshotplayer, penshotstart, penshottimer, puckvx, puckvz
 extern puckx, pucky, puckz, randomd0, regd2, regd3, shotongoal, shotontarget
-extern sprintf_, sub_464A6, sub_4812E, sub_481B1, sub_4FDC0, sub_5316C, sub_68E21, sub_68E31
-extern sub_69105, sub_69141, sub_77355, SortIndices, sub_E14C8, unk_157F9C, unk_158610, word_1178C6
+extern sprintf_, SetSPA, Setplass, setplayer, sub_4FDC0, CanRemovePlayer, sub_68E21, sub_68E31
+extern sfx, sub_69141, sub_77355, SortIndices, vecdist, unk_157F9C, unk_158610, word_1178C6
 extern word_1178F4, word_1178F6, word_1178F8, word_1178FA, word_1178FC, word_1178FE, word_117902, word_118E8F
 extern word_1190E7, word_1190E9, word_11910B, word_11910F, word_119111, word_119113, Pencntdwn2, word_11A224
 extern word_11A26C, word_1656E8, word_165710, word_16581E, word_165846, word_165980, word_176B80, word_176B88
@@ -46,9 +46,9 @@ global loc_51B33, loc_51B37, loc_51B50, loc_51B9D, loc_51BA2, loc_51BAF, loc_51B
 global loc_51C44, loc_51CB8, loc_51CC9, loc_51CEE, loc_51CF7, loc_51D1E, loc_51D2E, loc_51D35
 global loc_51D53, loc_51D7C, loc_51D85, loc_51DAC, loc_51DBC, loc_51DC3, loc_51DF2, loc_51DF7
 global loc_51E17, loc_51E33, loc_51E47, loc_51E54, loc_51E60, loc_51E7D, loc_51E80, loc_51E8B
-global loc_51ED3, loc_51EE9, loc_51EFE, releasepl, sub_501EC, sub_503DE, sub_504C5, sub_50CB5
+global loc_51ED3, loc_51EE9, loc_51EFE, releasepl, AddPenalty2, sub_503DE, sub_504C5, sub_50CB5
 global sub_50F7B, sub_511CC, sub_51360, sub_51361, sub_513E6, sub_51474, sub_51522, sub_51BB5
-global sub_51C45, sub_51CBA, sub_51D44, sub_51DD2
+global EndPenaltyShot, sub_51CBA, sub_51D44, sub_51DD2
 AddPenalty:
 push ebx	; 50154
 mov ebx, eax	; 50155
@@ -90,18 +90,18 @@ movsx eax, byte [dword eax+PBnum]	; 501C9
 cmp eax, byte 8	; 501D0
 jge short loc_501EA	; 501D3
 mov eax, ebx	; 501D5
-call sub_5316C	; 501D7
+call CanRemovePlayer	; 501D7
 test eax, eax	; 501DC
 loc_501DE:
 je short loc_501EA	; 501DE
 loc_501E0:
 movsx edx, dx	; 501E0
 mov eax, ebx	; 501E3
-call sub_501EC	; 501E5
+call AddPenalty2	; 501E5
 loc_501EA:
 pop ebx	; 501EA
 ret	; 501EB
-sub_501EC:
+AddPenalty2:
 push ebx	; 501EC
 push ecx	; 501ED
 push esi	; 501EE
@@ -201,7 +201,7 @@ setne al	; 5032D
 movzx eax, al	; 50330
 add eax, byte 5	; 50333
 loc_50336:
-call sub_69105	; 50336
+call sfx	; 50336
 loc_5033B:
 xor esi, esi	; 5033B
 jmp short loc_50395	; 5033D
@@ -1091,7 +1091,7 @@ jne short loc_50F78	; 50F63
 or byte [byte eax+044h], 20h	; 50F65
 mov edx, 7E5h	; 50F69
 mov eax, dword [off_117894]	; 50F6E
-call sub_464A6	; 50F73
+call SetSPA	; 50F73
 loc_50F78:
 pop edx	; 50F78
 pop ebx	; 50F79
@@ -1236,9 +1236,9 @@ movsx ax, byte [dword ecx+eax+byte_118E81]	; 51154
 mov word [byte ebx+01Ah], ax	; 5115D
 mov eax, ebx	; 51161
 movsx edx, dx	; 51163
-call sub_4812E	; 51166
+call Setplass	; 51166
 mov eax, ebx	; 5116B
-call sub_481B1	; 5116D
+call setplayer	; 5116D
 or byte [byte ebx+045h], 4	; 51172
 pop ecx	; 51176
 pop ebx	; 51177
@@ -1807,7 +1807,7 @@ mov word [byte ebx+034h], ax	; 51890
 mov word [byte ebx+032h], ax	; 51894
 mov eax, 2	; 51898
 add word [crowdlevel], byte 64h	; 5189D
-call sub_69105	; 518A5
+call sfx	; 518A5
 cmp dword [penshotplayer], byte 6	; 518AA
 jge short loc_518BA	; 518B1
 mov eax, 50h	; 518B3
@@ -1873,7 +1873,7 @@ push edx	; 5196F
 sub eax, 164h	; 51970
 push eax	; 51975
 add edi, byte 4	; 51976
-call sub_E14C8	; 51979
+call vecdist	; 51979
 add esp, byte 8	; 5197E
 mov ebx, eax	; 51981
 xor edx, edx	; 51983
@@ -1904,7 +1904,7 @@ jl short loc_519E7	; 519CD
 push edx	; 519CF
 sub eax, 164h	; 519D0
 push eax	; 519D5
-call sub_E14C8	; 519D6
+call vecdist	; 519D6
 add esp, byte 8	; 519DB
 cmp eax, dword [byte ebp-010h]	; 519DE
 jle near loc_51932	; 519E1
@@ -1922,7 +1922,7 @@ push edx	; 51A03
 add eax, 164h	; 51A04
 push eax	; 51A09
 sub edi, byte 4	; 51A0A
-call sub_E14C8	; 51A0D
+call vecdist	; 51A0D
 add esp, byte 8	; 51A12
 mov ebx, eax	; 51A15
 xor edx, edx	; 51A17
@@ -1953,7 +1953,7 @@ jg short loc_51A7B	; 51A61
 push edx	; 51A63
 add eax, 164h	; 51A64
 push eax	; 51A69
-call sub_E14C8	; 51A6A
+call vecdist	; 51A6A
 add esp, byte 8	; 51A6F
 cmp eax, dword [byte ebp-0Ch]	; 51A72
 jle near loc_51932	; 51A75
@@ -2041,7 +2041,7 @@ mov dword [shotongoal], eax	; 51B5D
 test eax, eax	; 51B62
 je short loc_51BAF	; 51B64
 mov eax, 2	; 51B66
-call sub_69105	; 51B6B
+call sfx	; 51B6B
 add word [crowdlevel], byte 64h	; 51B70
 cmp dword [penshotmode], byte 0	; 51B78
 jne short loc_51BAF	; 51B7F
@@ -2096,7 +2096,7 @@ mov word [fox], 0	; 51C36
 mov dword [dword_119193], eax	; 51C3F
 loc_51C44:
 ret	; 51C44
-sub_51C45:
+EndPenaltyShot:
 push edx	; 51C45
 cmp dword [penshotlive], byte 0	; 51C46
 je short loc_51CB8	; 51C4D
@@ -2107,7 +2107,7 @@ mov dword [penshotlive], 0	; 51C62
 mov edx, 5	; 51C6C
 mov eax, dword [off_11788C]	; 51C71
 mov dword [penshotplayer], 0FFFFFFFFh	; 51C76
-call sub_501EC	; 51C80
+call AddPenalty2	; 51C80
 mov ax, word [dword_11918F]	; 51C85
 mov word [word_176B8E], ax	; 51C8B
 mov word [word_176B88], ax	; 51C91

@@ -53,12 +53,12 @@ extern sub_587B7, sub_589E4, sub_5CC12, sub_5D707, sub_5D82C, sub_5D87E, sub_5D8
 extern sub_689D1, sub_68A10, sub_68AB1, sub_68B37, sub_68BA4, sub_68BFA, sub_68C33, sub_68E31
 extern sub_69A94, sub_69A9B, sub_6A229, sub_77355, sub_AA7E0, PutBlock, sub_AADA4, sub_AB758
 extern sub_AB798, sub_ABF4C, sub_AC838, sub_AD35C, sub_AD620, FillRect, sub_ADA50, sub_ADA80
-extern sub_ADBEC, unpack, sub_AFCD0, sub_AFD00, sub_AFFD0, sub_B0254, sub_B026C, sub_B0284
+extern sub_ADBEC, unpack, sub_AFCD0, sub_AFD00, sub_AFFD0, sub_B0254, sub_B026C, TextSetFont
 extern sub_B0CA8, sub_B0F7C, sub_B20D0, sub_B2B0C, sub_B3360, sub_B3420, sub_B3458, sub_B58D8
 extern sub_B6140, sub_B7638, sub_BA420, sub_BB9C4, sub_BC674, sub_BEAE4, sub_BEFF0, sub_BF02C
 extern sub_BF034, sub_BF120, sub_BF2C4, initgraphics, sub_BF8A8, sub_BF8D0, sub_DD6C4, sub_DD6E0
 extern SetClipWindow, sub_DD7B8, sub_DDE7B, sub_DDEBC, sub_DDF4F, sub_DDF94, sub_DE01A, sub_DE084
-extern MouseRead, SetViewRect, sub_DFE9C, sub_DFF28, sub_E04E0, sub_E0520, sub_E0584, sub_E14C8
+extern MouseRead, SetViewRect, sub_DFE9C, sub_DFF28, sub_E04E0, sub_E0520, sub_E0584, vecdist
 extern sub_E1638, sub_E167A, sub_E1824, unk_11B673, unk_11B6B8, unk_11B6FD, unk_11B811, unk_11B856
 extern unk_11B89B, unk_11B8E0, unk_11B925, unk_11B96A, unk_11B9AF, unk_11BCE8, unk_11BD28, unk_11BD68
 extern unk_11BFA4, unk_121FC8, unk_16443C, unk_164688, unk_1781E4, unk_179CCC, unk_179E02, unk_179E48
@@ -166,7 +166,7 @@ global loc_64EB4, loc_64EC8, loc_64EFF, loc_64F04, loc_64F23, loc_64F2D, loc_64F
 global sub_5D993, sub_5DBC0, sub_5DCDD, sub_5DCF8, sub_5DD85, sub_5DF3E, sub_5E0CC, sub_5E21C
 global sub_5E23E, sub_5E78F, sub_5E8D2, sub_5EA75, sub_5ED4B, sub_5EFC8, sub_5F40A, sub_5F5D3
 global sub_5F7AB, sub_5FB02, sub_5FB98, sub_5FC3D, sub_5FD46, sub_5FFC5, sub_60096, sub_60159
-global sub_602B9, sub_603FF, sub_6042C, sub_60543, sub_606B9, sub_60777, sub_60823, sub_609C6
+global sub_602B9, sub_603FF, sub_6042C, sub_60543, CloseTextOverlay, sub_60777, sub_60823, sub_609C6
 global sub_612BC, sub_619E2, sub_61AD1, sub_61B03, sub_61B6F, sub_61C18, sub_61C88, sub_61D2E
 global sub_61DDF, sub_61E53, sub_61F2E, sub_62065, sub_6215A, sub_621D9, sub_62201, sub_6225D
 global sub_62285, sub_622CD, sub_62311, sub_62343, sub_625AA, sub_625F7, sub_62A0F, sub_62A4F
@@ -420,7 +420,7 @@ mov eax, dword [eax]	; 5DD03
 push edx	; 5DD05
 sub eax, dword [esi]	; 5DD06
 push eax	; 5DD08
-call sub_E14C8	; 5DD09
+call vecdist	; 5DD09
 add esp, byte 8	; 5DD0E
 push eax	; 5DD11
 push dword [byte esi+04h]	; 5DD12
@@ -443,7 +443,7 @@ push eax	; 5DD31
 mov eax, dword [esi]	; 5DD32
 sub eax, dword [edx]	; 5DD34
 push eax	; 5DD36
-call sub_E14C8	; 5DD37
+call vecdist	; 5DD37
 add esp, byte 8	; 5DD3C
 push eax	; 5DD3F
 mov eax, dword [byte edi+04h]	; 5DD40
@@ -1191,7 +1191,7 @@ push eax	; 5E87D
 mov eax, dword [dword_179D50]	; 5E87E
 sub eax, dword [dword_179DCE]	; 5E883
 push eax	; 5E889
-call sub_E14C8	; 5E88A
+call vecdist	; 5E88A
 add esp, byte 8	; 5E88F
 push eax	; 5E892
 push dword [dword_179DD2]	; 5E893
@@ -1281,7 +1281,7 @@ test ebx, ebx	; 5E9DD
 je short loc_5EA2B	; 5E9DF
 push eax	; 5E9E1
 push edx	; 5E9E2
-call sub_E14C8	; 5E9E3
+call vecdist	; 5E9E3
 add esp, byte 8	; 5E9E8
 push eax	; 5E9EB
 push dword [dword_179DD2]	; 5E9EC
@@ -1307,7 +1307,7 @@ ret	; 5EA2A
 loc_5EA2B:
 push eax	; 5EA2B
 push edx	; 5EA2C
-call sub_E14C8	; 5EA2D
+call vecdist	; 5EA2D
 add esp, byte 8	; 5EA32
 push eax	; 5EA35
 push dword [dword_179DD2]	; 5EA36
@@ -1431,7 +1431,7 @@ push eax	; 5EC06
 mov eax, dword [dword_179D50]	; 5EC07
 sub eax, dword [dword_179DCE]	; 5EC0C
 push eax	; 5EC12
-call sub_E14C8	; 5EC13
+call vecdist	; 5EC13
 add esp, byte 8	; 5EC18
 push eax	; 5EC1B
 push dword [dword_179DD2]	; 5EC1C
@@ -1499,7 +1499,7 @@ push eax	; 5ECF6
 mov eax, dword [dword_179D50]	; 5ECF7
 sub eax, dword [dword_179DCE]	; 5ECFC
 push eax	; 5ED02
-call sub_E14C8	; 5ED03
+call vecdist	; 5ED03
 add esp, byte 8	; 5ED08
 push eax	; 5ED0B
 push dword [dword_179DD2]	; 5ED0C
@@ -1605,7 +1605,7 @@ push eax	; 5EE64
 mov eax, dword [dword_179D50]	; 5EE65
 sub eax, dword [dword_179DCE]	; 5EE6A
 push eax	; 5EE70
-call sub_E14C8	; 5EE71
+call vecdist	; 5EE71
 add esp, byte 8	; 5EE76
 push eax	; 5EE79
 push dword [dword_179DD2]	; 5EE7A
@@ -1680,7 +1680,7 @@ push eax	; 5EF6D
 mov eax, dword [dword_179D50]	; 5EF6E
 sub eax, dword [dword_179DCE]	; 5EF73
 push eax	; 5EF79
-call sub_E14C8	; 5EF7A
+call vecdist	; 5EF7A
 add esp, byte 8	; 5EF7F
 push eax	; 5EF82
 push dword [dword_179DD2]	; 5EF83
@@ -1991,7 +1991,7 @@ loc_5F3CB:
 sub ebx, dword [dword_179DCE]	; 5F3CB
 push ebx	; 5F3D1
 loc_5F3D2:
-call sub_E14C8	; 5F3D2
+call vecdist	; 5F3D2
 add esp, byte 8	; 5F3D7
 push eax	; 5F3DA
 push dword [dword_179DD2]	; 5F3DB
@@ -2467,7 +2467,7 @@ push eax	; 5FAAD
 mov eax, dword [dword_179D50]	; 5FAAE
 sub eax, dword [dword_179DCE]	; 5FAB3
 push eax	; 5FAB9
-call sub_E14C8	; 5FABA
+call vecdist	; 5FABA
 add esp, byte 8	; 5FABF
 push eax	; 5FAC2
 push dword [dword_179DD2]	; 5FAC3
@@ -2497,7 +2497,7 @@ push eax	; 5FB15
 mov eax, dword [dword_179D50]	; 5FB16
 sub eax, dword [dword_179DCE]	; 5FB1B
 push eax	; 5FB21
-call sub_E14C8	; 5FB22
+call vecdist	; 5FB22
 add esp, byte 8	; 5FB27
 push eax	; 5FB2A
 push dword [dword_179DD2]	; 5FB2B
@@ -2553,7 +2553,7 @@ push eax	; 5FBE7
 mov eax, dword [dword_179D50]	; 5FBE8
 sub eax, dword [dword_179DCE]	; 5FBED
 push eax	; 5FBF3
-call sub_E14C8	; 5FBF4
+call vecdist	; 5FBF4
 add esp, byte 8	; 5FBF9
 push eax	; 5FBFC
 push dword [dword_179DD2]	; 5FBFD
@@ -2786,7 +2786,7 @@ sub eax, dword [dword_179DCE]	; 5FF68
 push eax	; 5FF6E
 mov dword [dword_179DD2], 0C8h	; 5FF6F
 loc_5FF79:
-call sub_E14C8	; 5FF79
+call vecdist	; 5FF79
 add esp, byte 8	; 5FF7E
 push eax	; 5FF81
 push dword [dword_179DD2]	; 5FF82
@@ -3020,7 +3020,7 @@ mov eax, dword [byte ebp-0Ch]	; 60267
 sub eax, dword [dword_179DCE]	; 6026A
 push eax	; 60270
 mov dword [dword_179DD2], 190h	; 60271
-call sub_E14C8	; 6027B
+call vecdist	; 6027B
 add esp, byte 8	; 60280
 push eax	; 60283
 push dword [dword_179DD2]	; 60284
@@ -3083,7 +3083,7 @@ push eax	; 60377
 mov eax, dword [dword_179D50]	; 60378
 sub eax, dword [dword_179DCE]	; 6037D
 push eax	; 60383
-call sub_E14C8	; 60384
+call vecdist	; 60384
 add esp, byte 8	; 60389
 push eax	; 6038C
 mov eax, dword [dword_179DD2]	; 6038D
@@ -3169,7 +3169,7 @@ sub eax, dword [dword_179DCE]	; 604CE
 push eax	; 604D4
 mov dword [dword_179D54], 4B0h	; 604D5
 loc_604DF:
-call sub_E14C8	; 604DF
+call vecdist	; 604DF
 add esp, byte 8	; 604E4
 push eax	; 604E7
 push dword [dword_179DD2]	; 604E8
@@ -3299,7 +3299,7 @@ loc_606B6:
 pop edi	; 606B6
 pop esi	; 606B7
 ret	; 606B8
-sub_606B9:
+CloseTextOverlay:
 push ebx	; 606B9
 push ecx	; 606BA
 push esi	; 606BB
@@ -5785,7 +5785,7 @@ mov dword [dword_17BD00], eax	; 629E4
 call sub_B0254	; 629E9
 add esp, byte 4	; 629EE
 push dword [dword_17BC78]	; 629F1
-call sub_B0284	; 629F7
+call TextSetFont	; 629F7
 add esp, byte 4	; 629FC
 mov eax, dword [dword_17BC6C]	; 629FF
 call sub_6423E	; 62A04
@@ -6797,7 +6797,7 @@ mov eax, dword [byte esi+04h]	; 636AB
 call sub_1E7F6	; 636AE
 push eax	; 636B3
 mov dword [byte ebp-08h], eax	; 636B4
-call sub_B0284	; 636B7
+call TextSetFont	; 636B7
 jmp near loc_638CF	; 636BC
 loc_636C1:
 mov eax, dword [byte esi+04h]	; 636C1
@@ -8848,7 +8848,7 @@ push eax	; 64DBA
 mov eax, dword [dword_11D1A8]	; 64DBB
 sub eax, dword [byte esi+03Ah]	; 64DC0
 push eax	; 64DC3
-call sub_E14C8	; 64DC4
+call vecdist	; 64DC4
 mov edx, dword [byte ebp-08h]	; 64DC9
 imul edx, eax	; 64DCC
 add esp, byte 8	; 64DCF

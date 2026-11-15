@@ -63,11 +63,11 @@ global loc_540F8, loc_54100, loc_5410C, loc_54121, loc_54128, loc_54151, loc_541
 global loc_541C2, loc_541F1, loc_541FB, loc_5420B, loc_5422B, loc_54230, loc_54231, loc_54289
 global loc_542BA, loc_5430C, loc_54318, loc_54336, loc_54351, loc_54363, loc_54374, loc_543C4
 global loc_543DB, loc_543DE, loc_543F1, loc_543FA, loc_54410, loc_54412, loc_54453, loc_54475
-global loc_544AD, loc_544DA, loc_544EB, loc_544FE, sub_51F18, sub_521C1, sub_529F3, sub_52BE7
-global sub_5316C, sub_53260, sub_5358E, sub_535D5, sub_535F2, sub_5360D, sub_53640, sub_53BD7
+global loc_544AD, loc_544DA, loc_544EB, loc_544FE, BuildDefaultLines, CanFillLineSlot, PickGoalie, sub_52BE7
+global CanRemovePlayer, sub_53260, sub_5358E, sub_535D5, sub_535F2, sub_5360D, sub_53640, sub_53BD7
 global sub_53C6F, sub_53C84, sub_53D26, sub_53F6E, sub_53FE6, sub_54024, sub_54060, sub_540C4
 global sub_54237, sub_54391, sub_5439F, sub_54427
-sub_51F18:
+BuildDefaultLines:
 push ebx	; 51F18
 push ecx	; 51F19
 push edx	; 51F1A
@@ -273,7 +273,7 @@ jl near loc_51F33	; 521AF
 lea esp, [dword ebp+082h]	; 521B5
 pop ebp	; 521BB
 jmp near loc_53135	; 521BC
-sub_521C1:
+CanFillLineSlot:
 push ecx	; 521C1
 push esi	; 521C2
 push edi	; 521C3
@@ -584,7 +584,7 @@ je near loc_525E4	; 524F2
 movsx edx, word [byte ebp-08h]	; 524F8
 mov ebx, eax	; 524FC
 mov eax, dword [byte ebp-0Ch]	; 524FE
-call sub_521C1	; 52501
+call CanFillLineSlot	; 52501
 test ax, ax	; 52506
 je near loc_525E4	; 52509
 movsx eax, byte [dword ecx+dressflags]	; 5250F
@@ -706,7 +706,7 @@ movsx ebx, byte [eax]	; 52668
 mov dword [byte ebp-04h], edx	; 5266B
 movsx eax, cx	; 5266E
 movsx edx, si	; 52671
-call sub_521C1	; 52674
+call CanFillLineSlot	; 52674
 test ax, ax	; 52679
 je short loc_5264D	; 5267C
 mov eax, dword [byte ebp-04h]	; 5267E
@@ -895,7 +895,7 @@ movsx ebx, byte [eax]	; 528B1
 mov dword [byte ebp-08h], edx	; 528B4
 movsx eax, cx	; 528B7
 movsx edx, si	; 528BA
-call sub_521C1	; 528BD
+call CanFillLineSlot	; 528BD
 test ax, ax	; 528C2
 je short loc_528CF	; 528C5
 mov eax, dword [byte ebp-08h]	; 528C7
@@ -945,7 +945,7 @@ jl short loc_52960	; 52938
 movsx ebx, di	; 5293A
 movsx eax, cx	; 5293D
 movsx edx, si	; 52940
-call sub_521C1	; 52943
+call CanFillLineSlot	; 52943
 test ax, ax	; 52948
 je short loc_52954	; 5294B
 loc_5294D:
@@ -999,7 +999,7 @@ jl short loc_529EB	; 529C6
 movsx ebx, di	; 529C8
 movsx edx, si	; 529CB
 movsx eax, cx	; 529CE
-call sub_521C1	; 529D1
+call CanFillLineSlot	; 529D1
 test ax, ax	; 529D6
 jne near loc_5294D	; 529D9
 inc dword [byte ebp-018h]	; 529DF
@@ -1016,7 +1016,7 @@ pop esi	; 529EF
 pop ecx	; 529F0
 pop ebx	; 529F1
 ret	; 529F2
-sub_529F3:
+PickGoalie:
 push ecx	; 529F3
 push esi	; 529F4
 enter 8, 0	; 529F5
@@ -1511,7 +1511,7 @@ jne short loc_52F59	; 52F49
 movsx eax, word [byte ebp-034h]	; 52F4B
 movsx edx, di	; 52F4F
 xor ebx, ebx	; 52F52
-call sub_529F3	; 52F54
+call PickGoalie	; 52F54
 loc_52F59:
 inc edi	; 52F59
 inc ecx	; 52F5A
@@ -1651,7 +1651,7 @@ loc_530E3:
 mov ebx, 1	; 530E3
 movsx edx, si	; 530E8
 movsx eax, cx	; 530EB
-call sub_529F3	; 530EE
+call PickGoalie	; 530EE
 loc_530F3:
 inc esi	; 530F3
 loc_530F4:
@@ -1704,7 +1704,7 @@ cmp eax, byte 19h	; 53165
 jl short loc_5313E	; 53168
 pop edx	; 5316A
 ret	; 5316B
-sub_5316C:
+CanRemovePlayer:
 push ebx	; 5316C
 push ecx	; 5316D
 push edx	; 5316E

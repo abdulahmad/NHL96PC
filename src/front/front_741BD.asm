@@ -22,7 +22,7 @@ extern sub_1377E, sub_197ED, sub_1A109, sub_1B05E, sub_1E3E8, sub_1E715, sub_1E7
 extern sub_62A0F, sub_62AF7, sub_62D9B, sub_62E0E, sub_62E72, sub_62F90, sub_63968, sub_63998
 extern sub_63A5B, sub_63B0C, sub_63F79, sub_63FEF, sub_64296, sub_64721, sub_64F59, sub_66373
 extern sub_68AB1, sub_69A94, sub_69A9B, sub_AA988, sub_AAA40, sub_AAA8C, PutBlock, sub_AADA4
-extern sub_AB758, sub_ABF4C, sub_AD35C, sub_ADA50, sub_ADBEC, sub_B0284, sub_DD6C4, MouseRead
+extern sub_AB758, sub_ABF4C, sub_AD35C, sub_ADA50, sub_ADBEC, TextSetFont, sub_DD6C4, MouseRead
 extern sub_DFE9C, sub_DFF28, sub_E04E0, str_Rb, unk_152C44, unk_17C9B8, unk_17C9CC, unk_17CA75
 extern unk_73BD5, unk_73C35, unk_73F35, unk_73F7D, word_114CE0, word_11E270, word_11E280, word_17C9AC
 extern word_17C9AE, word_17C9B0, word_17C9B2, word_17C9B4, word_17C9B6
@@ -391,7 +391,7 @@ add esp, byte 0Ch	; 745ED
 cmp dword [byte ebp+066h], byte 0Ch	; 745F0
 jl near loc_74525	; 745F4
 push dword [dword_17BC78]	; 745FA
-call sub_B0284	; 74600
+call TextSetFont	; 74600
 add esp, byte 4	; 74605
 mov edx, 0FEh	; 74608
 mov eax, 0FCh	; 7460D
@@ -1729,7 +1729,7 @@ mov eax, dword [dword_17D684]	; 75A0B
 jmp near loc_7594B	; 75A10
 loc_75A15:
 push dword [dword_17BC78]	; 75A15
-call sub_B0284	; 75A1B
+call TextSetFont	; 75A1B
 add esp, byte 4	; 75A20
 mov edx, unk_17C9B8	; 75A23
 lea eax, [byte ebp+036h]	; 75A28
@@ -2153,7 +2153,7 @@ jmp short loc_7604A	; 76017
 loc_76019:
 call sub_62E72	; 76019
 push dword [dword_17BC78]	; 7601E
-call sub_B0284	; 76024
+call TextSetFont	; 76024
 add esp, byte 4	; 76029
 mov ecx, 0FCh	; 7602C
 mov ebx, 0FAh	; 76031

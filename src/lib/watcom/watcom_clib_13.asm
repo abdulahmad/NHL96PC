@@ -12,14 +12,14 @@ extern dword_1228F8, dword_1228FC, dword_124109, dword_124124, dword_124178, dwo
 extern dword_124418, dword_12443C, dword_124440, dword_19F2D0, dword_19F2D4, dword_19F2D8, dword_1A1094, dword_1A1098
 extern exit_, fputc_, getcwd_, joycalactive, joyenablemask, loc_E185F, main_, off_14F074
 extern off_14F078, sprintf_, stricmp_, sub_AA9CC, sub_AC838, sub_AD35C, FillRect, sub_ADBEC
-extern sub_AFFD0, sub_B0254, sub_B026C, sub_B0284, sub_B2C54, sub_B30E4, sub_B3145, sub_B31C0
+extern sub_AFFD0, sub_B0254, sub_B026C, TextSetFont, sub_B2C54, sub_B30E4, sub_B3145, sub_B31C0
 extern sub_B7810, sub_B9C08, sub_B9C70, sub_BD86C, sub_BEAE4, initgraphics, sub_C2AEC, sub_C4CCC
 extern sub_C4D80, sub_CA6E0, sub_D0650, sub_D0692, sub_D069B, sub_D06FC, sub_D077C, sub_D1080
 extern sub_D1280, sub_D1368, sub_D1860, sub_D1920, sub_D19BC, sub_D1A88, sub_D1B3C, sub_D1BEC
 extern sub_D1CE0, sub_DD6C4, SetClipWindow, sub_DD830, sub_DD87C, sub_DD960, sub_DD982, sub_DDB22
 extern sub_DDC2A, PlotPixel, sub_DE18C, sub_DE3D8, sub_DF22C, sub_DF2CC, sub_DF38C, sub_DF44C
 extern sub_DF50C, sub_DFB84, sub_DFB88, sub_DFF28, sub_DFF60, sub_DFF7C, sub_E0158, sub_E0456
-extern sub_E0486, sub_E04D0, sub_E0584, sub_E05DA, sub_E14C8, sub_E1638, sub_E167A, sub_E193C
+extern sub_E0486, sub_E04D0, sub_E0584, sub_E05DA, vecdist, sub_E1638, sub_E167A, sub_E193C
 extern sub_E1956, sub_E24C4, sub_E272C, sub_E2824, tolower_, unk_1210DC, unk_1213DC, unk_15155C
 extern unk_151580, unk_15158C, unk_18584C, vsprintf_, word_14FC74
 global __CMain, __FiniRtns, __HeapManager_expand_, __IOMode_, __InitRtns, __SetIOMode_, __doserror_, __fprtf_
@@ -667,7 +667,7 @@ push eax	; C5462
 call sub_B0254	; C5463
 add esp, byte 4	; C5468
 push unk_1213DC	; C546B
-call sub_B0284	; C5470
+call TextSetFont	; C5470
 mov edx, dword [dword_11F5C4]	; C5475
 lea eax, [nosplit edx*4+00h]	; C547B
 sub eax, edx	; C5482
@@ -1341,7 +1341,7 @@ push byte 0	; C5C2F
 call sub_DD830	; C5C31
 add esp, byte 0Ch	; C5C36
 push unk_1213DC	; C5C39
-call sub_B0284	; C5C3E
+call TextSetFont	; C5C3E
 add esp, byte 4	; C5C43
 push dword 0FF000000h	; C5C46
 call sub_B31C0	; C5C4B
@@ -6833,10 +6833,10 @@ mov ebx, dword [byte eax+04h]	; C9D58
 push ebx	; C9D5B
 mov ecx, dword [eax]	; C9D5C
 push ecx	; C9D5E
-call sub_E14C8	; C9D5F
+call vecdist	; C9D5F
 add esp, byte 8	; C9D64
 push eax	; C9D67
-call sub_E14C8	; C9D68
+call vecdist	; C9D68
 add esp, byte 8	; C9D6D
 ret	; C9D70
 db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h

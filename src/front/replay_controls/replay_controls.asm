@@ -58,9 +58,9 @@ extern sub_5FB02, sub_60823, sub_612BC, sub_621D9, sub_62201, sub_622CD, sub_623
 extern sub_625F7, sub_62ED9, sub_63998, sub_63A5B, sub_63B0C, sub_63DC4, sub_63E7C, sub_63E8A
 extern sub_64721, sub_64E74, sub_64F47, sub_64F59, sub_66373, sub_674C7, sub_674FE, sub_686DF
 extern sub_689D1, sub_68A10, sub_68AB1, sub_68BFA, sub_68C33, sub_68C8F, sub_68E31, sub_68E72
-extern sub_68EC9, sub_68FB5, sub_68FFE, sub_6934E, sub_695CB, sub_6986B, sub_69A94, sub_69A9B
+extern CrowdNoiseReset, sub_68FB5, sub_68FFE, sub_6934E, sub_695CB, sub_6986B, sub_69A94, sub_69A9B
 extern sub_77355, sub_7BFAF, sub_AA988, sub_AAA40, sub_AAA8C, PutBlock, sub_AADA4, sub_AB758
-extern sub_ABF4C, sub_AD35C, FillRect, sub_ADBEC, sub_AFFD0, sub_B0254, sub_B026C, sub_B0284
+extern sub_ABF4C, sub_AD35C, FillRect, sub_ADBEC, sub_AFFD0, sub_B0254, sub_B026C, TextSetFont
 extern sub_B0CA8, sub_B2B0C, sub_B58D8, sub_B6140, sub_BA3D0, sub_BB470, sub_BB570, sub_BB924
 extern sub_BB9C4, sub_BBA41, sub_BC3A0, sub_BC610, sub_BC674, sub_BC6D8, SortIndices, sub_BEAE4
 extern sub_DD6C4, SetClipWindow, MouseRead, SetViewRect, sub_DFEC6, sub_E04E0, sub_E0584, sub_E1638
@@ -154,7 +154,7 @@ mov dword [dword_1778FC], eax	; 5459E
 call sub_B0254	; 545A3
 add esp, byte 4	; 545A8
 push dword [dword_1778FC]	; 545AB
-call sub_B0284	; 545B1
+call TextSetFont	; 545B1
 add esp, byte 4	; 545B6
 test byte [byte_17CA5D], 20h	; 545B9
 sete al	; 545C0
@@ -1504,7 +1504,7 @@ mov eax, 3	; 558CD
 loc_558D2:
 push dword [dword_179914]	; 558D2
 mov dword [byte ebp-010h], eax	; 558D8
-call sub_B0284	; 558DB
+call TextSetFont	; 558DB
 add esp, byte 4	; 558E0
 push dword 0FFh	; 558E3
 push byte 41h	; 558E8
@@ -1537,7 +1537,7 @@ add ebx, dword [byte ebp-010h]	; 55931
 add edx, dword [byte ebp-0Ch]	; 55934
 call sub_63E7C	; 55937
 push dword [dword_1778FC]	; 5593C
-call sub_B0284	; 55942
+call TextSetFont	; 55942
 add esp, byte 4	; 55947
 jmp near loc_55831	; 5594A
 sub_5594F:
@@ -3420,7 +3420,7 @@ cwde	; 575BE
 test eax, eax	; 575BF
 je short loc_575EE	; 575C1
 push dword [dword_179918]	; 575C3
-call sub_B0284	; 575C9
+call TextSetFont	; 575C9
 add esp, byte 4	; 575CE
 mov ecx, 30h	; 575D1
 mov ebx, 7Eh	; 575D6
@@ -3854,7 +3854,7 @@ add esp, byte 4	; 57C74
 lea edi, [byte ebp-0Ah]	; 57C77
 push dword [dword_1778FC]	; 57C7A
 mov esi, str_HILITES	; 57C80
-call sub_B0284	; 57C85
+call TextSetFont	; 57C85
 mov edx, str_HILITESNDX2	; 57C8A
 lea eax, [byte ebp-0Ah]	; 57C8F
 add esp, byte 4	; 57C92
@@ -4176,7 +4176,7 @@ call sub_63DC4	; 58120
 call sub_58A58	; 58125
 mov eax, dword [dword_17CA20]	; 5812A
 and eax, byte 7Fh	; 5812F
-call sub_68EC9	; 58132
+call CrowdNoiseReset	; 58132
 call sub_68FB5	; 58137
 call sub_DD6C4	; 5813C
 push byte 0	; 58141

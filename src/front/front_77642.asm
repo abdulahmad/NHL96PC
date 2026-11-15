@@ -18,7 +18,7 @@ extern sub_1DED8, sub_1DF18, sub_1DF55, sub_1DFEA, sub_1E08B, sub_1E222, sub_1E2
 extern sub_1E5FC, sub_1E7F6, sub_1E969, sub_1EFFF, sub_29B9F, sub_62AF7, sub_62D9B, sub_62E0E
 extern sub_62F90, sub_63998, sub_63A5B, sub_63F79, sub_640D3, sub_64296, sub_64721, sub_64F59
 extern sub_68AB1, sub_69A94, sub_77355, sub_77535, sub_AAA8C, PutBlock, sub_AB758, sub_ABF4C
-extern sub_AD35C, sub_AD620, sub_ADBEC, sub_B0284, sub_B20D0, sub_B22B0, DrawArtOpaque, sub_B2C54
+extern sub_AD35C, sub_AD620, sub_ADBEC, TextSetFont, sub_B20D0, sub_B22B0, DrawArtOpaque, sub_B2C54
 extern sub_B7256, sub_B7810, sub_C254C, sub_C2600, sub_DD6C4, sub_DD908, sub_E04E0, sub_E0584
 extern unk_11E33C, unk_11E354, unk_152C44, unk_17CA75, unk_17CB2E, unk_17CC1F, unk_17CED5, unk_77442
 extern unk_7745A
@@ -1710,7 +1710,7 @@ push eax	; 78D4F
 imul esi, dword [byte ebp-010h], byte 1Ah	; 78D50
 push dword [dword_17BC78]	; 78D54
 mov edi, unk_17CC1F	; 78D5A
-call sub_B0284	; 78D5F
+call TextSetFont	; 78D5F
 add esp, byte 4	; 78D64
 add edi, esi	; 78D67
 lea eax, [byte ebp-0Ch]	; 78D69

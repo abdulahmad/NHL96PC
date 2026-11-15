@@ -71,7 +71,7 @@ extern sub_BB470, sub_BB570, sub_BB924, sub_BB9C4, sub_BBAA0, sub_BBB70, sub_BBB
 extern sub_BBC04, sub_BBC14, sub_BBC80, sub_BBE50, sub_BC040, sub_BC0C4, sub_BC150, sub_BC3A0
 extern sub_BC3F4, sub_BC5C0, sub_BC674, sub_BC760, sub_BC7F0, sub_BC838, sub_BD86C, sub_BD9AC
 extern sub_BE6E0, sub_BE8AC, sub_BE926, sub_DD6C4, sub_DD8B0, sub_DD8C8, sub_DD908, sub_DD960
-extern sub_DDB68, sub_E04E0, sub_E0898, sub_E0959, sub_E14C8, sub_E1575, sub_E162A, unk_1175BD
+extern sub_DDB68, sub_E04E0, sub_E0898, sub_E0959, vecdist, sub_E1575, sub_E162A, unk_1175BD
 extern unk_117605, unk_11764D, unk_1176AD, unk_1176CD, unk_1176EC, unk_158DA8, unk_158F28, unk_158F48
 extern unk_158F50, unk_158F68, unk_158F70, unk_158F88, unk_158FF4, unk_159000, unk_159018, unk_159024
 extern unk_15903C, unk_159108, unk_159148, unk_159190, unk_1591D8, unk_159238, unk_159338, unk_159368
@@ -1193,7 +1193,7 @@ push eax	; 231A1
 mov eax, dword [byte ebp-038h]	; 231A2
 sub eax, dword [edx]	; 231A5
 push eax	; 231A7
-call sub_E14C8	; 231A8
+call vecdist	; 231A8
 add esp, byte 8	; 231AD
 cmp eax, dword [byte ebp-014h]	; 231B0
 jge short loc_231C8	; 231B3
@@ -1828,7 +1828,7 @@ mov eax, dword [eax]	; 23919
 push edx	; 2391B
 sub eax, dword [edi]	; 2391C
 push eax	; 2391E
-call sub_E14C8	; 2391F
+call vecdist	; 2391F
 add esp, byte 8	; 23924
 cmp eax, dword [byte ebp-010h]	; 23927
 jge short loc_2393F	; 2392A

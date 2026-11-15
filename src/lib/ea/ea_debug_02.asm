@@ -18,7 +18,7 @@ extern dword_185690, dword_185738, dword_18573C, dword_185848, dword_1A11BC, dwo
 extern dword_1A11CC, dword_1A11D0, dword_1A11D4, dword_1A11D8, dword_1A11DC, dword_1A11E0, fclose_, fopen_
 extern fprintf_, min_, off_1513B0, sprintf_, strncpy_, PutBlock, sub_AADA4, sub_ABF88
 extern sub_AC194, sub_AC574, sub_AC6D4, sub_ACA3C, sub_ACCF8, sub_ACD24, sub_ACD38, FillRect
-extern sub_ADA80, sub_AFFD0, sub_B0254, sub_B026C, sub_B0284, sub_B31C0, sub_BF02C, sub_BF034
+extern sub_ADA80, sub_AFFD0, sub_B0254, sub_B026C, TextSetFont, sub_B31C0, sub_BF02C, sub_BF034
 extern sub_BF04B, initgraphics, sub_C2AEC, sub_C5D00, sub_C6000, sub_CFE0C, sub_CFE8C, sub_D0650
 extern sub_D1368, sub_DC158, sub_DC17C, sub_DC780, sub_DC830, sub_DCB90, sub_DD6C4, sub_DD6E0
 extern sub_DD724, SetClipWindow, sub_DD7B8, sub_DFF28, sub_DFF7C, sub_E04E0, sub_E0584, sub_E1927
@@ -117,7 +117,7 @@ push eax	; D7E2C
 call sub_B0254	; D7E2D
 add esp, byte 4	; D7E32
 push unk_1213DC	; D7E35
-call sub_B0284	; D7E3A
+call TextSetFont	; D7E3A
 add esp, byte 4	; D7E3F
 mov al, byte [byte_11F9D8]	; D7E42
 push byte 0	; D7E47

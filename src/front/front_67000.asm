@@ -97,8 +97,8 @@ global loc_6A817, loc_6A82B, loc_6A832, loc_6A861, loc_6A874, sub_67000, sub_670
 global sub_67140, sub_67329, sub_67430, sub_674C7, sub_674FE, sub_67531, sub_6755B, sub_6758C
 global sub_67600, sub_67636, sub_676D4, sub_67A63, sub_686DF, sub_689D1, sub_68A0B, sub_68A10
 global sub_68AB1, sub_68B37, sub_68BA4, sub_68BCD, sub_68BFA, sub_68C33, sub_68C8F, sub_68CB7
-global sub_68CFE, sub_68D25, sub_68E21, sub_68E31, sub_68E72, sub_68EC9, sub_68F7C, sub_68F82
-global sub_68FB5, sub_68FFE, sub_6904C, sub_69105, sub_69141, sub_69161, sub_69234, sub_692E9
+global sub_68CFE, sub_68D25, sub_68E21, sub_68E31, sub_68E72, CrowdNoiseReset, sub_68F7C, sub_68F82
+global sub_68FB5, sub_68FFE, sub_6904C, sfx, sub_69141, sub_69161, sub_69234, sub_692E9
 global sub_69312, sub_6934E, sub_693B9, sub_6941E, sub_694B9, sub_695CB, sub_6986B, sub_699D0
 global sub_69A94, sub_69A9B, sub_69AB2, sub_69B1E, sub_69B99, sub_69C98, sub_69D61, sub_6A0D4
 global sub_6A229, sub_6A2A8, sub_6A341, sub_6A5EB, sub_6A675, sub_6A7D3, unk_67981, unk_679D3
@@ -2680,7 +2680,7 @@ call sub_C0F09	; 68EC2
 loc_68EC7:
 pop edx	; 68EC7
 ret	; 68EC8
-sub_68EC9:
+CrowdNoiseReset:
 push ebx	; 68EC9
 push ecx	; 68ECA
 push edx	; 68ECB
@@ -2858,7 +2858,7 @@ ret	; 69101
 loc_69102:
 xor eax, eax	; 69102
 ret	; 69104
-sub_69105:
+sfx:
 push ecx	; 69105
 push edx	; 69106
 test eax, eax	; 69107

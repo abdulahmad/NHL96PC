@@ -10,8 +10,8 @@ extern byte_176B98, byte_176B99, byte_176B9A, goalevent, byte_179DC1, byte_17CA5
 extern dword_11917F, dword_119183, dword_11A1BC, dword_11B310, dword_1571B3, dword_164124, dword_1657EA, dword_1798AC
 extern dword_179918, dword_179920, dword_17C9A8, fputchar, gameclock, gameopts, gmode, hmroster
 extern hmtmgoalie, hmtmstruct, penshotplayer, sprintf_, str_FmtNumFirstLast, str_FmtNumInitialLast, str_FmtNumName, str_FmtNumNameSuffix
-extern str_FmtParenD, strcat_, strcpy_, strlen_, sub_5CC12, sub_606B9, sub_60777, sub_67A63
-extern sub_77355, sub_B0284, unk_110E2D, str_S8, unk_156E6C, word_1178FE, word_11A236, word_1656E8
+extern str_FmtParenD, strcat_, strcpy_, strlen_, sub_5CC12, CloseTextOverlay, sub_60777, sub_67A63
+extern sub_77355, TextSetFont, unk_110E2D, str_S8, unk_156E6C, word_1178FE, word_11A236, word_1656E8
 extern word_16581E, word_165942, word_176B6C, word_176B7A, word_176B80
 global FormatPlayerName, loc_4F475, loc_4F47C, loc_4F54F, loc_4F56D, loc_4F588, loc_4F5B0, loc_4F5B7
 global loc_4F622, loc_4F641, loc_4F648, loc_4F66A, loc_4F6A5, loc_4F728, loc_4F730, loc_4F79F
@@ -20,8 +20,8 @@ global loc_4F9AC, loc_4FA3F, loc_4FA58, loc_4FA82, loc_4FB27, loc_4FB31, loc_4FC
 global loc_4FC73, loc_4FC79, loc_4FCB8, loc_4FCC3, loc_4FCD8, loc_4FD10, loc_4FD1B, loc_4FD2D
 global loc_4FD6F, loc_4FD7A, loc_4FD8A, loc_4FE34, loc_4FE48, loc_4FE75, loc_4FF4E, loc_4FF59
 global loc_4FF61, loc_50010, loc_5001B, loc_5001E, loc_5003E, loc_5005F, loc_5009C, loc_500A7
-global loc_500C2, loc_500CE, loc_5012D, sub_4F58E, sub_4F626, sub_4F735, sub_4FB38, sub_4FDC0
-global sub_500D4
+global loc_500C2, loc_500CE, loc_5012D, sub_4F58E, sub_4F626, BuildEventLines, sub_4FB38, sub_4FDC0
+global PostInjuryEvent
 FormatPlayerName:
 push esi	; 4F453
 push edi	; 4F454
@@ -38,7 +38,7 @@ loc_4F475:
 mov dword [byte ebp-08h], 96h	; 4F475
 loc_4F47C:
 push dword [dword_179920]	; 4F47C
-call sub_B0284	; 4F482
+call TextSetFont	; 4F482
 add esp, byte 4	; 4F487
 push dword [byte ebp+014h]	; 4F48A
 push dword [byte ebp+010h]	; 4F48D
@@ -147,7 +147,7 @@ loc_4F5B0:
 mov dword [byte ebp-0Ch], 96h	; 4F5B0
 loc_4F5B7:
 push dword [dword_179920]	; 4F5B7
-call sub_B0284	; 4F5BD
+call TextSetFont	; 4F5BD
 add esp, byte 4	; 4F5C2
 push dword [byte ebp-08h]	; 4F5C5
 push dword [byte ebp-04h]	; 4F5C8
@@ -244,7 +244,7 @@ push byte_1655E0	; 4F6C9
 call sprintf_	; 4F6CE
 add esp, byte 18h	; 4F6D3
 push dword [dword_179918]	; 4F6D6
-call sub_B0284	; 4F6DC
+call TextSetFont	; 4F6DC
 add esp, byte 4	; 4F6E1
 push byte_1655E0	; 4F6E4
 call fputchar	; 4F6E9
@@ -272,7 +272,7 @@ pop edi	; 4F731
 pop esi	; 4F732
 pop ecx	; 4F733
 ret	; 4F734
-sub_4F735:
+BuildEventLines:
 push ebx	; 4F735
 push ecx	; 4F736
 push edx	; 4F737
@@ -624,7 +624,7 @@ loc_4FC79:
 imul esi, dword [byte ebp-04h], dword 4B4h	; 4FC79
 mov edx, dword [byte ebp-08h]	; 4FC80
 mov eax, 4	; 4FC83
-call sub_606B9	; 4FC88
+call CloseTextOverlay	; 4FC88
 imul eax, dword [byte ebp-08h], byte 2Bh	; 4FC8D
 add eax, esi	; 4FC91
 test ebx, ebx	; 4FC93
@@ -708,7 +708,7 @@ push byte 10h	; 4FD80
 call sub_67A63	; 4FD82
 add esp, byte 24h	; 4FD87
 loc_4FD8A:
-call sub_4F735	; 4FD8A
+call BuildEventLines	; 4FD8A
 mov ax, word [GameLoopActive]	; 4FD8F
 mov edi, goalevent	; 4FD95
 mov esi, byte_176B90	; 4FD9A
@@ -747,7 +747,7 @@ mov byte [byte_176B96], al	; 4FE01
 mov al, byte [byte ebp+0Ch]	; 4FE06
 mov byte [byte_176B94], cl	; 4FE09
 mov byte [byte_176B97], al	; 4FE0F
-call sub_4F735	; 4FE14
+call BuildEventLines	; 4FE14
 cmp ebx, byte 17h	; 4FE19
 jne short loc_4FE34	; 4FE1C
 movzx eax, byte [byte_179DC1]	; 4FE1E
@@ -760,7 +760,7 @@ cmp ebx, byte 11h	; 4FE34
 je short loc_4FE48	; 4FE37
 mov edx, 0FFFFFFFFh	; 4FE39
 mov eax, 5	; 4FE3E
-call sub_606B9	; 4FE43
+call CloseTextOverlay	; 4FE43
 loc_4FE48:
 mov ax, word [GameLoopActive]	; 4FE48
 mov word [word_176B6C], ax	; 4FE4E
@@ -873,7 +873,7 @@ call sub_67A63	; 50021
 add esp, byte 1Ch	; 50026
 mov eax, 1	; 50029
 mov edx, dword [penshotplayer]	; 5002E
-call sub_606B9	; 50034
+call CloseTextOverlay	; 50034
 jmp near loc_500C2	; 50039
 loc_5003E:
 cmp dword [byte ebp+010h], byte 0	; 5003E
@@ -921,7 +921,7 @@ loc_500CE:
 xor eax, eax	; 500CE
 leave	; 500D0
 ret 0Ch	; 500D1
-sub_500D4:
+PostInjuryEvent:
 push ebp	; 500D4
 mov ebp, esp	; 500D5
 push eax	; 500D7
@@ -941,9 +941,9 @@ mov byte [byte_176B94], al	; 5010C
 mov al, byte [byte ebp+08h]	; 50111
 mov edx, 0FFFFFFFFh	; 50114
 mov byte [byte_176B96], al	; 50119
-call sub_4F735	; 5011E
+call BuildEventLines	; 5011E
 mov eax, 6	; 50123
-call sub_606B9	; 50128
+call CloseTextOverlay	; 50128
 loc_5012D:
 xor eax, eax	; 5012D
 leave	; 5012F

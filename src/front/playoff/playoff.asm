@@ -27,7 +27,7 @@ extern sub_62F90, sub_63998, sub_63A5B, sub_63F79, sub_63FEF, sub_64054, sub_640
 extern sub_64721, sub_64F59, sub_68AB1, sub_68BFA, sub_68C8F, sub_69A94, sub_70840, sub_77355
 extern sub_78E9E, sub_78EFA, sub_7BFAF, sub_7FF7F, sub_81D7C, sub_81EEA, sub_88509, sub_971E9
 extern sub_A8B9B, sub_A8C75, sub_A9BAC, sub_AAA40, PutBlock, sub_AB758, sub_ABF4C, sub_AD35C
-extern sub_ADA80, sub_ADBEC, sub_B0284, sub_B0430, sub_B20D0, sub_B22B0, DrawArtOpaque, sub_B2C54
+extern sub_ADA80, sub_ADBEC, TextSetFont, sub_B0430, sub_B20D0, sub_B22B0, DrawArtOpaque, sub_B2C54
 extern sub_B7810, sub_C2500, sub_DD6C4, MouseRead, sub_E04E0, sub_E0584, str_S6, str_D17
 extern unk_11EF90, unk_11EFDC, unk_11F39C, unk_11F3DC, unk_11F41C, unk_11F45C, unk_152C44, unk_17CA75
 extern unk_17CED5, unk_17CF9A, unk_A49D1, unk_A4A69, unk_A4F69, unk_A4F79, unk_A4F89, unk_A4FA9
@@ -1776,14 +1776,14 @@ loc_A683C:
 xor edx, edx	; A683C
 call sub_63F79	; A683E
 push dword [dword_17BC74]	; A6843
-call sub_B0284	; A6849
+call TextSetFont	; A6849
 mov edx, 14h	; A684E
 add esp, byte 4	; A6853
 mov eax, dword [byte ebp-028h]	; A6856
 xor ebx, ebx	; A6859
 call sub_63FEF	; A685B
 push dword [dword_17BC78]	; A6860
-call sub_B0284	; A6866
+call TextSetFont	; A6866
 add esp, byte 4	; A686B
 call sub_DD6C4	; A686E
 mov eax, dword [byte ebp-02Ch]	; A6873
@@ -3864,7 +3864,7 @@ loc_A8542:
 xor edx, edx	; A8542
 call sub_63F79	; A8544
 push dword [dword_17BC74]	; A8549
-call sub_B0284	; A854F
+call TextSetFont	; A854F
 add esp, byte 4	; A8554
 cmp dword [byte ebp-04h], byte 1Eh	; A8557
 je short loc_A8598	; A855B
@@ -3889,7 +3889,7 @@ mov eax, 0FCh	; A8598
 xor edx, edx	; A859D
 call sub_63F79	; A859F
 push dword [dword_17BC78]	; A85A4
-call sub_B0284	; A85AA
+call TextSetFont	; A85AA
 add esp, byte 4	; A85AF
 push dword [dword esi+dword_17D166]	; A85B2
 push str_D17	; A85B8

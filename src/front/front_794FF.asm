@@ -26,7 +26,7 @@ extern sub_69A94, sub_70840, sub_77355, sub_77642, sub_77FF2, sub_78029, sub_78E
 extern sub_79060, sub_7D580, sub_7FF7F, sub_80E4D, sub_81D7C, sub_81EEA, sub_88509, sub_971E9
 extern sub_A6B94, sub_A7A09, sub_A7B4B, sub_A7CC4, sub_A7E6D, sub_A800A, sub_A8AC5, sub_A8B9B
 extern sub_AAA40, sub_AAA8C, sub_AAADC, PutBlock, sub_AADA4, sub_ABF4C, sub_AD35C, sub_AD5C8
-extern sub_ADA80, sub_ADBEC, sub_B0284, sub_B0430, sub_B178B, sub_B20D0, sub_B20EC, sub_B22B0
+extern sub_ADA80, sub_ADBEC, TextSetFont, sub_B0430, sub_B178B, sub_B20D0, sub_B20EC, sub_B22B0
 extern DrawArtOpaque, sub_B2C54, sub_B2C70, sub_B7256, sub_B7810, sub_DD6C4, sub_DD7B8, sub_E04E0
 extern sub_E0584, str_star, str_D6, str_dbgDash, unk_152C44, unk_17CB2E, unk_17CC1F, unk_17CED5
 extern unk_17CF9A, unk_792EB, unk_79303, unk_79483, unk_794C3
@@ -1056,7 +1056,7 @@ add esp, byte 0Ch	; 7A3BB
 mov dword [byte ebp+066h], eax	; 7A3BE
 push dword [dword_17BC78]	; 7A3C1
 lea edi, [dword ebp-0106h]	; 7A3C7
-call sub_B0284	; 7A3CD
+call TextSetFont	; 7A3CD
 add esp, byte 4	; 7A3D2
 mov esi, dword_17BD48	; 7A3D5
 mov ecx, 66h	; 7A3DA
@@ -1326,7 +1326,7 @@ push dword [byte ebp+066h]	; 7A754
 call sub_ADBEC	; 7A757
 add esp, byte 4	; 7A75C
 push dword [dword_17BC78]	; 7A75F
-call sub_B0284	; 7A765
+call TextSetFont	; 7A765
 add esp, byte 4	; 7A76A
 mov eax, 3	; 7A76D
 call sub_63A5B	; 7A772

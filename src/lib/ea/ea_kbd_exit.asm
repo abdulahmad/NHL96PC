@@ -4,7 +4,7 @@ bits 32
 section s_C27F8 progbits alloc exec nowrite align=1
 extern SetDrawBitmap, str_EXITTODOSY, str_PAUSEPRESSANYKEY, dword_11F994, dword_122900, joycalactive, mousepollfn, off_11F5F4
 extern off_11F5F8, off_11F5FC, off_14F074, off_14F078, sub_AD35C, FillRect, sub_ADA80, sub_ADBEC
-extern sub_AFFD0, sub_B0254, sub_B026C, sub_B0284, DrawArtOpaque, sub_B31C0, sub_BF120, sub_CFE0C
+extern sub_AFFD0, sub_B0254, sub_B026C, TextSetFont, DrawArtOpaque, sub_B31C0, sub_BF120, sub_CFE0C
 extern sub_CFE20, sub_CFE70, sub_DD6C4, sub_DE084, sub_DFF28, sub_E193C, sub_E1956, sub_E270C
 extern unk_1213DC
 global loc_C29C4, loc_C29CE, loc_C29EE, loc_C2A04, loc_C2AEB, sub_C27F8, sub_C2AC4, sub_C2AEC
@@ -46,7 +46,7 @@ push eax	; C2881
 call sub_B0254	; C2882
 add esp, byte 4	; C2887
 push unk_1213DC	; C288A
-call sub_B0284	; C288F
+call TextSetFont	; C288F
 add esp, byte 4	; C2894
 mov eax, dword [dword esp+0B8h]	; C2897
 add eax, dword [dword esp+0D0h]	; C289E
@@ -242,7 +242,7 @@ push eax	; C2B38
 call sub_B0254	; C2B39
 add esp, byte 4	; C2B3E
 push unk_1213DC	; C2B41
-call sub_B0284	; C2B46
+call TextSetFont	; C2B46
 add esp, byte 4	; C2B4B
 push esi	; C2B4E
 call SetDrawBitmap	; C2B4F

@@ -27,7 +27,7 @@ global loc_B016D, loc_B0236, loc_B02EE, loc_B02F0, loc_B0305, loc_B0317, loc_B03
 global loc_B03C6, loc_B03E9, sub_AEE40, sub_AEE84, sub_AF08C, sub_AF104, sub_AF1C0, sub_AF240
 global sub_AF2C0, sub_AF354, sub_AF4F8, sub_AF5D0, sub_AF610, sub_AF654, sub_AF85C, sub_AF890
 global unpack, sub_AFCD0, sub_AFD00, sub_AFD40, sub_AFF44, sub_AFFD0, sub_B0240, sub_B0254
-global sub_B026C, sub_B0284
+global sub_B026C, TextSetFont
 sub_AEE40:
 push ebx	; AEE40
 push edx	; AEE41
@@ -1892,7 +1892,7 @@ pop edi	; B027E
 pop esi	; B027F
 ret	; B0280
 db 08Dh,040h,00h
-sub_B0284:
+TextSetFont:
 push esi	; B0284
 mov edx, dword [byte esp+08h]	; B0285
 mov ebx, dword [edx]	; B0289

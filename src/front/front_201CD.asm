@@ -16,7 +16,7 @@ extern sub_1118B, sub_111ED, sub_11A88, sub_1A109, sub_1E7F6, sub_62AF7, sub_62D
 extern sub_62F90, sub_63968, sub_63998, sub_63A5B, sub_63B0C, sub_63F79, sub_63FEF, sub_64054
 extern sub_640D3, sub_64721, sub_64F59, sub_66373, sub_68AB1, sub_69A94, sub_69A9B, sub_77355
 extern sub_87DD6, sub_8805A, sub_AA988, sub_AADA4, sub_AB758, sub_ABF4C, sub_AC868, sub_AD35C
-extern FillRect, sub_ADA50, sub_ADA80, unpack, sub_AFD00, sub_B0284, sub_B0494, sub_B20D0
+extern FillRect, sub_ADA50, sub_ADA80, unpack, sub_AFD00, TextSetFont, sub_B0494, sub_B20D0
 extern sub_B31C0, sub_B7810, sub_B9870, sub_B98E0, sub_B9B70, sub_B9BD0, sub_BA2F0, sub_BA344
 extern sub_BA420, sub_BA4F0, sub_BA5D0, sub_BB384, sub_DD6C4, sub_DD724, MouseRead, sub_DFF28
 extern sub_E04E0, sub_E0520, sub_E0898, str_A, str_feB, str_D3, unk_121FC8, unk_151648
@@ -749,7 +749,7 @@ push byte 1	; 2098F
 call sub_ADA50	; 20991
 add esp, byte 4	; 20996
 push dword [dword_17BC78]	; 20999
-call sub_B0284	; 2099F
+call TextSetFont	; 2099F
 add esp, byte 4	; 209A4
 movzx eax, byte [byte_11FA2F]	; 209A7
 push byte 4	; 209AE
@@ -1459,7 +1459,7 @@ push edx	; 21381
 push esi	; 21382
 push edi	; 21383
 push dword [dword_17BC78]	; 21384
-call sub_B0284	; 2138A
+call TextSetFont	; 2138A
 add esp, byte 4	; 2138F
 call sub_10010	; 21392
 mov edx, eax	; 21397

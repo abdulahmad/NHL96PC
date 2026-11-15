@@ -20,14 +20,14 @@ extern hmtmstruct, sprintf_, strcat_, strcpy_, sub_10010, sub_108BB, sub_10A65, 
 extern sub_1377E, sub_15344, sub_19384, sub_193E8, sub_19522, sub_1955B, sub_19799, sub_197ED
 extern sub_1A109, sub_1B05E, sub_1DF34, sub_1DF55, sub_1DFEA, sub_1E5FC, sub_1EA14, sub_1EBBC
 extern sub_1ECDB, sub_1EE7C, sub_1EFFF, sub_2AB8F, sub_3A6F3, sub_4DED8, sub_5360D, sub_5439F
-extern sub_564A4, sub_5A572, sub_5B0F9, sub_606B9, sub_60777, sub_612BC, sub_621D9, sub_62201
+extern sub_564A4, sub_5A572, sub_5B0F9, CloseTextOverlay, sub_60777, sub_612BC, sub_621D9, sub_62201
 extern sub_6225D, sub_62285, sub_62311, sub_625F7, sub_62ED9, sub_63998, sub_63A5B, sub_63B0C
 extern sub_63DC4, sub_63F79, sub_640D3, sub_64103, sub_641D4, sub_6423E, sub_64296, sub_64721
 extern sub_64F59, sub_66373, sub_674C7, sub_674FE, sub_689D1, sub_68A10, sub_68C33, sub_68D25
-extern sub_68E72, sub_68EC9, sub_68F7C, sub_68F82, sub_68FB5, sub_68FFE, sub_6934E, sub_693B9
+extern sub_68E72, CrowdNoiseReset, sub_68F7C, sub_68F82, sub_68FB5, sub_68FFE, sub_6934E, sub_693B9
 extern sub_695CB, sub_6986B, sub_69A9B, sub_6F056, sub_77355, sub_78E9E, sub_78EFA, sub_9CDDA
 extern sub_AA7E0, sub_AA988, sub_AAA40, PutBlock, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C
-extern sub_ADBEC, sub_B0284, sub_B0CA8, sub_B22E0, sub_B2C54, sub_B58D8, sub_BB8E0, sub_DD6C4
+extern sub_ADBEC, TextSetFont, sub_B0CA8, sub_B22E0, sub_B2C54, sub_B58D8, sub_BB8E0, sub_DD6C4
 extern SetClipWindow, MouseRead, SetViewRect, sub_E04E0, sub_E0584, str_D16, unk_11D7A4, unk_11D7BC
 extern unk_11D7D4, unk_11D7EC, unk_11D804, unk_11D80A, unk_11D810, unk_11D816, unk_11D81C, unk_11D89C
 extern unk_16443C, unk_17CA75, unk_17CB2E, unk_17CED5, unk_17D3E8, unk_17D52C, word_114CE0, word_114CE4
@@ -354,7 +354,7 @@ push unk_17D52C	; 6AC07
 call sprintf_	; 6AC0C
 add esp, byte 0Ch	; 6AC11
 push dword [dword_179920]	; 6AC14
-call sub_B0284	; 6AC1A
+call TextSetFont	; 6AC1A
 add esp, byte 4	; 6AC1F
 test byte [byte_17CA5D], 20h	; 6AC22
 je short loc_6AC32	; 6AC29
@@ -386,7 +386,7 @@ mov eax, unk_17D3E8	; 6AC75
 mov edx, esi	; 6AC7A
 call sub_641D4	; 6AC7C
 push dword [dword_179918]	; 6AC81
-call sub_B0284	; 6AC87
+call TextSetFont	; 6AC87
 add esp, byte 4	; 6AC8C
 mov eax, 30h	; 6AC8F
 xor edx, edx	; 6AC94
@@ -519,7 +519,7 @@ push unk_17D52C	; 6AE4A
 call sprintf_	; 6AE4F
 add esp, byte 0Ch	; 6AE54
 push dword [dword_179920]	; 6AE57
-call sub_B0284	; 6AE5D
+call TextSetFont	; 6AE5D
 add esp, byte 4	; 6AE62
 test byte [byte_17CA5D], 20h	; 6AE65
 je short loc_6AE75	; 6AE6C
@@ -551,7 +551,7 @@ mov eax, unk_17D3E8	; 6AEB9
 mov edx, esi	; 6AEBE
 call sub_641D4	; 6AEC0
 push dword [dword_179918]	; 6AEC5
-call sub_B0284	; 6AECB
+call TextSetFont	; 6AECB
 add esp, byte 4	; 6AED0
 mov eax, 30h	; 6AED3
 xor edx, edx	; 6AED8
@@ -636,7 +636,7 @@ add edx, esi	; 6AFE6
 movsx eax, word [byte eax+012h]	; 6AFE8
 call sub_5B0F9	; 6AFEC
 push dword [dword_179918]	; 6AFF1
-call sub_B0284	; 6AFF7
+call TextSetFont	; 6AFF7
 add esp, byte 4	; 6AFFC
 mov eax, 30h	; 6AFFF
 xor edx, edx	; 6B004
@@ -962,7 +962,7 @@ test eax, eax	; 6B40E
 je short loc_6B423	; 6B410
 mov edx, 0FFFFFFFFh	; 6B412
 mov eax, 0Ah	; 6B417
-call sub_606B9	; 6B41C
+call CloseTextOverlay	; 6B41C
 jmp short loc_6B42D	; 6B421
 loc_6B423:
 mov eax, 0Ah	; 6B423
@@ -1604,7 +1604,7 @@ cmp edi, ebx	; 6BE20
 jl near loc_6BD2C	; 6BE22
 call sub_DD6C4	; 6BE28
 push dword [dword_179918]	; 6BE2D
-call sub_B0284	; 6BE33
+call TextSetFont	; 6BE33
 add esp, byte 4	; 6BE38
 push dword [dword_11F5C4]	; 6BE3B
 push dword [dword_11F5C0]	; 6BE41
@@ -2143,7 +2143,7 @@ add esp, byte 4	; 6C5DD
 mov dword [dword_17D518], esi	; 6C5E0
 call sub_62285	; 6C5E6
 xor eax, eax	; 6C5EB
-call sub_68EC9	; 6C5ED
+call CrowdNoiseReset	; 6C5ED
 call sub_DD6C4	; 6C5F2
 push byte 0	; 6C5F7
 mov eax, dword [dword_17D518]	; 6C5F9
@@ -2364,7 +2364,7 @@ je short loc_6C960	; 6C91E
 mov edx, 0FFFFFFFFh	; 6C920
 mov eax, 0Ah	; 6C925
 mov esi, 0FAh	; 6C92A
-call sub_606B9	; 6C92F
+call CloseTextOverlay	; 6C92F
 loc_6C934:
 test esi, esi	; 6C934
 je short loc_6C957	; 6C936

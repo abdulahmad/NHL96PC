@@ -2,14 +2,14 @@
 bits 32
 %include "hockey.inc"
 section s_A17D5 progbits alloc exec nowrite align=1
-extern GetTicks, SetDrawBitmap, asc_112E37, asc_112E3C, asc_112E41, asc_112E46, asc_112E4B, asc_112E50
-extern asc_112E55, asc_112E5A, asc_112E5F, asc_112E64, asc_112E69, asc_112E6E, asc_112E73, asc_112E78
-extern asc_112E7D, asc_112E82, asc_112E87, asc_112E8C, asc_112E91, asc_112E96, asc_112E9F, asc_112EA4
-extern asc_112EA9, asc_112EAE, asc_112EB3, asc_112EB8, asc_112EBD, asc_112EC2, asc_112EC7, asc_112ECC
-extern asc_112ED1, asc_112ED6, asc_112EDB, asc_112EE0, asc_112EEC, asc_112EF1, asc_112EF6, asc_112F00
-extern asc_112F07, asc_112F0C, asc_112F11, asc_112F16, asc_112F1B, asc_112F20, asc_112F25, asc_112F2A
-extern asc_112F2F, asc_112F34, asc_112F39, asc_112F3E, asc_112F43, asc_112F48, asc_112F4D, asc_112F52
-extern asc_112F57, asc_112F5C, asc_112F61, asc_112F66, asc_112F6E, asc_112F76, asc_112F7B, awtmstruct
+extern GetTicks, SetDrawBitmap, str_Intr, str_Sid1, str_Sid2, str_Bot1, str_Bot2, str_Bot3
+extern str_Gam0, str_FhiL3, str_FhiR3, str_GloL2, str_GloR2, str_GhiL2, str_GhiR2, str_Ret0
+extern str_Ret1, str_Ret2, str_Gam1, str_Ply02, str_Ply1, str_INTERREG, str_Qui0, str_Qui1
+extern str_Qui2, str_Cht0, str_Cht1, str_Edt0, str_Edt1, str_Ctr0, str_Ctr1, str_Sts0
+extern str_Sts1, str_Sav0, str_Sav1, str_EXHIBITNDX2, str_08d2, str_05d3, str_CsgDb2, str_Rk02d
+extern str_Pal29, str_Bkgd21, str_Ahl0, str_Ahl1, str_Ahl2, str_Ahr0, str_Ahr1, str_Ahr2
+extern str_Aal0, str_Aal1, str_Aal2, str_Aar0, str_Aar1, str_Aar2, str_Swt0, str_Swt12
+extern str_Rul13, str_Rul23, str_Rul33, str_HaBck02, str_HaBck12, str_Rk222, str_SwtD2, awtmstruct
 extern byte_1175A4, byte_1175A5, byte_1175A6, byte_1175A7, byte_1175A8, byte_1175A9, byte_11D91C, byte_11D91D
 extern byte_11FA2F, byte_17CA5D, byte_17D275, byte_17D283, byte_1820F1, byte_1843CC, byte_18444E, byte_184451
 extern byte_1844B4, byte_1844B6, byte_18451B, byte_184580, byte_184581, byte_184583, byte_1845E6, byte_1845E7
@@ -41,7 +41,7 @@ extern sub_695CB, sub_6986B, sub_69A94, sub_69A9B, sub_6B486, sub_6C64B, sub_6F0
 extern sub_75E0C, sub_75E2C, sub_77355, sub_8C51B, sub_9C866, sub_9CDDA, sub_AA988, sub_AAA40
 extern sub_AAB40, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C, sub_ADA50, sub_ADBEC, sub_B0284
 extern sub_B0CA8, sub_B2B30, sub_B58D8, sub_DD6C4, sub_DD760, sub_DF98F, sub_E04E0, sub_E0584
-extern unk_112E34, unk_112F84, unk_112F88, unk_112F8C, unk_112F90, unk_11D7A4, unk_11D7BC, unk_11D7D4
+extern str_D13, str_7GM, str_5GM, str_3GM, str_1GM, unk_11D7A4, unk_11D7BC, unk_11D7D4
 extern unk_11D7EC, unk_11D804, unk_11D80A, unk_11D810, unk_11D816, unk_11D81C, unk_11D89C, unk_152C44
 extern unk_16443C, unk_17D272, unk_17D3E8, unk_18440C, unk_184688, unk_184692, word_114CE0, word_114F14
 extern word_1178FE, word_11ED34, word_11ED38, word_1656E8, word_16581E
@@ -168,7 +168,7 @@ movsx edx, word [esi]	; A1930
 call sub_641D4	; A1933
 movsx eax, word [word_1656E8]	; A1938
 push eax	; A193F
-push unk_112E34	; A1940
+push str_D13	; A1940
 push unk_184692	; A1945
 call sprintf_	; A194A
 add esp, byte 0Ch	; A194F
@@ -225,7 +225,7 @@ call sub_77355	; A1A0F
 call sub_640D3	; A1A14
 movsx eax, word [hmtmstruct]	; A1A19
 push eax	; A1A20
-push unk_112E34	; A1A21
+push str_D13	; A1A21
 push unk_184692	; A1A26
 call sprintf_	; A1A2B
 movzx edx, byte [byte_11FA2F]	; A1A30
@@ -297,7 +297,7 @@ movsx edx, word [byte esi+0Ah]	; A1B1E
 call sub_641D4	; A1B22
 movsx eax, word [word_16581E]	; A1B27
 push eax	; A1B2E
-push unk_112E34	; A1B2F
+push str_D13	; A1B2F
 push unk_184692	; A1B34
 call sprintf_	; A1B39
 add esp, byte 0Ch	; A1B3E
@@ -355,7 +355,7 @@ call sub_77355	; A1BFF
 call sub_640D3	; A1C04
 movsx eax, word [awtmstruct]	; A1C09
 push eax	; A1C10
-push unk_112E34	; A1C11
+push str_D13	; A1C11
 push unk_184692	; A1C16
 call sprintf_	; A1C1B
 movzx edx, byte [byte_11FA2F]	; A1C20
@@ -432,7 +432,7 @@ movsx ebx, word [byte ebx+0Eh]	; A1D20
 movsx edx, word [byte edx+06h]	; A1D24
 mov eax, unk_17D3E8	; A1D28
 call sub_64103	; A1D2D
-push asc_112E37	; A1D32
+push str_Intr	; A1D32
 push dword [dword_17D528]	; A1D37
 call sub_E04E0	; A1D3D
 mov esi, eax	; A1D42
@@ -446,7 +446,7 @@ push eax	; A1D5A
 push esi	; A1D5B
 call sub_AAA40	; A1D5C
 add esp, byte 0Ch	; A1D61
-push asc_112E3C	; A1D64
+push str_Sid1	; A1D64
 push dword [dword_17D528]	; A1D69
 call sub_E04E0	; A1D6F
 movsx edx, word [byte eax+0Eh]	; A1D74
@@ -468,7 +468,7 @@ push edx	; A1DA6
 push eax	; A1DA7
 call sub_AAA40	; A1DA8
 add esp, byte 0Ch	; A1DAD
-push asc_112E41	; A1DB0
+push str_Sid2	; A1DB0
 push dword [dword_17D528]	; A1DB5
 call sub_E04E0	; A1DBB
 movsx ebx, word [byte eax+0Eh]	; A1DC0
@@ -490,7 +490,7 @@ push ebx	; A1DF2
 push eax	; A1DF3
 call sub_AAA40	; A1DF4
 add esp, byte 0Ch	; A1DF9
-push asc_112E46	; A1DFC
+push str_Bot1	; A1DFC
 push dword [dword_17D528]	; A1E01
 call sub_E04E0	; A1E07
 movsx edx, word [byte eax+0Eh]	; A1E0C
@@ -512,7 +512,7 @@ push edx	; A1E3E
 push eax	; A1E3F
 call sub_AAA40	; A1E40
 add esp, byte 0Ch	; A1E45
-push asc_112E4B	; A1E48
+push str_Bot2	; A1E48
 push dword [dword_17D528]	; A1E4D
 call sub_E04E0	; A1E53
 movsx edx, word [byte eax+0Eh]	; A1E58
@@ -535,7 +535,7 @@ push edx	; A1E8C
 push eax	; A1E8D
 call sub_AAA40	; A1E8E
 add esp, byte 0Ch	; A1E93
-push asc_112E50	; A1E96
+push str_Bot3	; A1E96
 push dword [dword_17D528]	; A1E9B
 call sub_E04E0	; A1EA1
 movsx ebx, word [byte eax+0Eh]	; A1EA6
@@ -559,7 +559,7 @@ call sub_AAA40	; A1EDA
 add esp, byte 0Ch	; A1EDF
 cmp word [word_11ED34], byte 0	; A1EE2
 je short loc_A1F55	; A1EEA
-push asc_112E55	; A1EEC
+push str_Gam0	; A1EEC
 push dword [dword_17D528]	; A1EF1
 call sub_E04E0	; A1EF7
 mov ebx, 11h	; A1EFC
@@ -664,11 +664,11 @@ mov eax, 2	; A2024
 call sub_69A94	; A2029
 call sub_68AB1	; A202E
 call sub_674C7	; A2033
-push asc_112E5A	; A2038
+push str_FhiL3	; A2038
 push dword [dword_1150D4]	; A203D
 call sub_E04E0	; A2043
 add esp, byte 8	; A2048
-push asc_112E5F	; A204B
+push str_FhiR3	; A204B
 push dword [dword_1150D4]	; A2050
 mov dword [dword_152F58], eax	; A2056
 call sub_E04E0	; A205B
@@ -717,11 +717,11 @@ add esp, byte 4	; A20FC
 push dword [dword_152F5C]	; A20FF
 call sub_ABF4C	; A2105
 add esp, byte 4	; A210A
-push asc_112E64	; A210D
+push str_GloL2	; A210D
 push dword [dword_1150D4]	; A2112
 call sub_E04E0	; A2118
 add esp, byte 8	; A211D
-push asc_112E69	; A2120
+push str_GloR2	; A2120
 push dword [dword_1150D4]	; A2125
 mov dword [dword_152F58], eax	; A212B
 call sub_E04E0	; A2130
@@ -737,11 +737,11 @@ call sub_63B0C	; A215B
 mov dword [dword_152F5C], eax	; A2160
 jmp short loc_A2197	; A2165
 loc_A2167:
-push asc_112E6E	; A2167
+push str_GhiL2	; A2167
 push dword [dword_1150D4]	; A216C
 call sub_E04E0	; A2172
 add esp, byte 8	; A2177
-push asc_112E73	; A217A
+push str_GhiR2	; A217A
 push dword [dword_1150D4]	; A217F
 mov dword [dword_152F58], eax	; A2185
 call sub_E04E0	; A218A
@@ -791,16 +791,16 @@ lea edx, [dword ebp-0142h]	; A2223
 call sub_A17D5	; A2229
 mov eax, 3	; A222E
 call sub_64721	; A2233
-push asc_112E78	; A2238
+push str_Ret0	; A2238
 push dword [dword_17D528]	; A223D
 call sub_E04E0	; A2243
 add esp, byte 8	; A2248
-push asc_112E7D	; A224B
+push str_Ret1	; A224B
 push dword [dword_17D528]	; A2250
 mov dword [dword ebp-0128h], eax	; A2256
 call sub_E04E0	; A225C
 add esp, byte 8	; A2261
-push asc_112E82	; A2264
+push str_Ret2	; A2264
 push dword [dword_17D528]	; A2269
 mov dword [dword ebp-0124h], eax	; A226F
 call sub_E04E0	; A2275
@@ -835,11 +835,11 @@ mov byte [dword ebp-0100h], 2	; A22FF
 mov dword [dword ebp-0104h], edx	; A2306
 call sub_AAA40	; A230C
 add esp, byte 0Ch	; A2311
-push asc_112E55	; A2314
+push str_Gam0	; A2314
 push dword [dword_17D528]	; A2319
 call sub_E04E0	; A231F
 add esp, byte 8	; A2324
-push asc_112E87	; A2327
+push str_Gam1	; A2327
 push dword [dword_17D528]	; A232C
 mov dword [dword ebp-0C2h], eax	; A2332
 call sub_E04E0	; A2338
@@ -848,7 +848,7 @@ mov eax, dword [dword_184670]	; A2343
 mov edi, 0FFFFFFFFh	; A2348
 add esp, byte 8	; A234D
 movsx eax, word [byte eax+04h]	; A2350
-push asc_112E8C	; A2354
+push str_Ply02	; A2354
 mov dword [byte ebp-0Eh], eax	; A2359
 mov eax, dword [dword_184674]	; A235C
 push dword [dword_17D528]	; A2361
@@ -859,7 +859,7 @@ mov dword [byte ebp-0Ah], eax	; A2378
 call sub_E04E0	; A237B
 add esp, byte 8	; A2380
 mov dword [byte ebp-05Ch], eax	; A2383
-push asc_112E91	; A2386
+push str_Ply1	; A2386
 push dword [dword_17D528]	; A238B
 call sub_E04E0	; A2391
 mov dword [byte ebp-058h], eax	; A2396
@@ -1093,7 +1093,7 @@ mov word [byte ebp-024h], ax	; A273B
 call sub_60823	; A273F
 push byte 20h	; A2744
 push dword 180h	; A2746
-push asc_112E96	; A274B
+push str_INTERREG	; A274B
 call sub_AB758	; A2750
 mov dword [dword_184408], eax	; A2755
 mov eax, dword [dword_11B234]	; A275A
@@ -1244,16 +1244,16 @@ sub eax, byte 0Ah	; A29B7
 call sub_66373	; A29BA
 jmp near loc_A2E34	; A29BF
 loc_A29C4:
-push asc_112E9F	; A29C4
+push str_Qui0	; A29C4
 push dword [dword_17D528]	; A29C9
 call sub_E04E0	; A29CF
 add esp, byte 8	; A29D4
-push asc_112EA4	; A29D7
+push str_Qui1	; A29D7
 push dword [dword_17D528]	; A29DC
 mov dword [dword_184426], eax	; A29E2
 call sub_E04E0	; A29E7
 add esp, byte 8	; A29EC
-push asc_112EA9	; A29EF
+push str_Qui2	; A29EF
 push dword [dword_17D528]	; A29F4
 mov dword [dword_18442A], eax	; A29FA
 call sub_E04E0	; A29FF
@@ -1271,7 +1271,7 @@ mov ebx, dword [dword_184432]	; A2A3A
 sar edx, 2	; A2A40
 add esp, byte 8	; A2A43
 add edx, ebx	; A2A46
-push asc_112E78	; A2A48
+push str_Ret0	; A2A48
 mov dword [dword_184446], edx	; A2A4D
 push dword [dword_17D528]	; A2A53
 movsx eax, word [byte eax+06h]	; A2A59
@@ -1283,12 +1283,12 @@ mov byte [byte_18444E], 3	; A2A6E
 mov dword [dword_18444A], eax	; A2A75
 call sub_E04E0	; A2A7A
 add esp, byte 8	; A2A7F
-push asc_112E7D	; A2A82
+push str_Ret1	; A2A82
 push dword [dword_17D528]	; A2A87
 mov dword [dword_18448C], eax	; A2A8D
 call sub_E04E0	; A2A92
 add esp, byte 8	; A2A97
-push asc_112E82	; A2A9A
+push str_Ret2	; A2A9A
 push dword [dword_17D528]	; A2A9F
 mov dword [dword_184490], eax	; A2AA5
 call sub_E04E0	; A2AAA
@@ -1322,18 +1322,18 @@ cwde	; A2B22
 mov byte [byte_1844B6], 0	; A2B23
 test eax, eax	; A2B2A
 je short loc_A2B48	; A2B2C
-push asc_112EAE	; A2B2E
+push str_Cht0	; A2B2E
 push dword [dword_17D528]	; A2B33
 call sub_E04E0	; A2B39
 add esp, byte 8	; A2B3E
-push asc_112EB3	; A2B41
+push str_Cht1	; A2B41
 jmp short loc_A2B60	; A2B46
 loc_A2B48:
-push asc_112EB8	; A2B48
+push str_Edt0	; A2B48
 push dword [dword_17D528]	; A2B4D
 call sub_E04E0	; A2B53
 add esp, byte 8	; A2B58
-push asc_112EBD	; A2B5B
+push str_Edt1	; A2B5B
 loc_A2B60:
 push dword [dword_17D528]	; A2B60
 mov dword [dword_1844F2], eax	; A2B66
@@ -1347,13 +1347,13 @@ mov dword [dword eax+080h], edx	; A2B86
 mov eax, dword [dword_184674]	; A2B8C
 movsx edx, word [eax]	; A2B91
 mov eax, dword [dword_184408]	; A2B94
-push asc_112EC2	; A2B99
+push str_Ctr0	; A2B99
 mov dword [dword eax+084h], edx	; A2B9E
 push dword [dword_17D528]	; A2BA4
 mov byte [byte_18451B], 4	; A2BAA
 call sub_E04E0	; A2BB1
 add esp, byte 8	; A2BB6
-push asc_112EC7	; A2BB9
+push str_Ctr1	; A2BB9
 push dword [dword_17D528]	; A2BBE
 mov dword [dword_184558], eax	; A2BC4
 call sub_E04E0	; A2BC9
@@ -1367,14 +1367,14 @@ movsx edx, word [byte eax+02h]	; A2BEB
 mov eax, dword [dword_184408]	; A2BEF
 add esp, byte 8	; A2BF4
 mov dword [dword eax+0C4h], edx	; A2BF7
-push asc_112ECC	; A2BFD
+push str_Sts0	; A2BFD
 mov byte [byte_184583], 4	; A2C02
 mov byte [byte_184580], 2	; A2C09
 push dword [dword_17D528]	; A2C10
 mov byte [byte_184581], 0	; A2C16
 call sub_E04E0	; A2C1D
 add esp, byte 8	; A2C22
-push asc_112ED1	; A2C25
+push str_Sts1	; A2C25
 push dword [dword_17D528]	; A2C2A
 mov dword [dword_1845BE], eax	; A2C30
 call sub_E04E0	; A2C35
@@ -1397,11 +1397,11 @@ cwde	; A2C82
 mov byte [byte_1845E7], 1	; A2C83
 test eax, eax	; A2C8A
 jne short loc_A2D09	; A2C8C
-push asc_112ED6	; A2C8E
+push str_Sav0	; A2C8E
 push dword [dword_17D528]	; A2C93
 call sub_E04E0	; A2C99
 add esp, byte 8	; A2C9E
-push asc_112EDB	; A2CA1
+push str_Sav1	; A2CA1
 push dword [dword_17D528]	; A2CA6
 mov dword [dword_184624], eax	; A2CAC
 call sub_E04E0	; A2CB1
@@ -2036,13 +2036,13 @@ mov edx, 5	; A35A8
 mov eax, unk_184692	; A35AD
 xor ebx, ebx	; A35B2
 call sub_1E5FC	; A35B4
-mov edx, asc_112EE0	; A35B9
+mov edx, str_EXHIBITNDX2	; A35B9
 mov eax, unk_184692	; A35BE
 call sub_193E8	; A35C3
 mov esi, eax	; A35C8
 test eax, eax	; A35CA
 jne short loc_A35DF	; A35CC
-mov edx, asc_112EE0	; A35CE
+mov edx, str_EXHIBITNDX2	; A35CE
 mov eax, unk_184692	; A35D3
 call sub_19384	; A35D8
 mov esi, eax	; A35DD
@@ -2050,7 +2050,7 @@ loc_A35DF:
 mov eax, esi	; A35DF
 call sub_19799	; A35E1
 push eax	; A35E6
-push asc_112EEC	; A35E7
+push str_08d2	; A35E7
 jmp near loc_A36CB	; A35EC
 loc_A35F1:
 mov eax, dword [dword_17C9A8]	; A35F1
@@ -2062,7 +2062,7 @@ mov eax, unk_184692	; A3603
 xor ebx, ebx	; A3608
 call sub_1E5FC	; A360A
 push dword [dword_17CBE7]	; A360F
-push asc_112EF1	; A3615
+push str_05d3	; A3615
 push unk_184688	; A361A
 call sprintf_	; A361F
 add esp, byte 0Ch	; A3624
@@ -2074,7 +2074,7 @@ shl eax, 0Fh	; A363B
 shr eax, 1Bh	; A363E
 add eax, byte 41h	; A3641
 push eax	; A3644
-push asc_112EF6	; A3645
+push str_CsgDb2	; A3645
 jmp near loc_A36CB	; A364A
 loc_A364F:
 cmp eax, byte 20h	; A364F
@@ -2087,7 +2087,7 @@ xor ebx, ebx	; A3667
 call sub_1E5FC	; A3669
 push dword [dword_17CBE7]	; A366E
 loc_A3674:
-push asc_112EF1	; A3674
+push str_05d3	; A3674
 push unk_184688	; A3679
 call sprintf_	; A367E
 add esp, byte 0Ch	; A3683
@@ -2112,7 +2112,7 @@ shl eax, 0Fh	; A36BC
 shr eax, 1Bh	; A36BF
 add eax, byte 41h	; A36C2
 push eax	; A36C5
-push asc_112EF6	; A36C6
+push str_CsgDb2	; A36C6
 loc_A36CB:
 push unk_184688	; A36CB
 call sprintf_	; A36D0
@@ -2315,7 +2315,7 @@ shl eax, 0Fh	; A3AC0
 shr eax, 1Bh	; A3AC3
 movsx eax, byte [dword edi+eax+byte_17D283]	; A3AC6
 push eax	; A3ACE
-push asc_112F00	; A3ACF
+push str_Rk02d	; A3ACF
 lea eax, [byte ebp-0Ch]	; A3AD4
 push eax	; A3AD7
 call sprintf_	; A3AD8
@@ -2427,7 +2427,7 @@ shl eax, 0Ah	; A3C23
 shr eax, 1Bh	; A3C26
 movsx eax, byte [dword edi+eax+byte_17D283]	; A3C29
 push eax	; A3C31
-push asc_112F00	; A3C32
+push str_Rk02d	; A3C32
 lea eax, [byte ebp-08h]	; A3C37
 push eax	; A3C3A
 call sprintf_	; A3C3B
@@ -2523,7 +2523,7 @@ mov dword [dword_1846F4], eax	; A3D77
 mov eax, dword [dword_1846F8]	; A3D7C
 imul eax, dword [dword_1846F4]	; A3D81
 mov esi, unk_152C44	; A3D88
-push asc_112F07	; A3D8D
+push str_Pal29	; A3D8D
 add esi, 1F2h	; A3D92
 push dword [byte ebp+076h]	; A3D98
 mov dword [dword_1846F0], eax	; A3D9B
@@ -2537,7 +2537,7 @@ mov eax, edx	; A3DB8
 mov dword [byte ebp+07Ah], edx	; A3DBA
 call sub_62F90	; A3DBD
 call sub_DD6C4	; A3DC2
-push asc_112F0C	; A3DC7
+push str_Bkgd21	; A3DC7
 push dword [byte ebp+076h]	; A3DCC
 call sub_E04E0	; A3DCF
 add esp, byte 8	; A3DD4
@@ -2547,17 +2547,17 @@ add esp, byte 4	; A3DDD
 lea edx, [dword ebp-0556h]	; A3DE0
 mov eax, 9	; A3DE6
 call sub_64721	; A3DEB
-push asc_112F11	; A3DF0
+push str_Ahl0	; A3DF0
 push dword [byte ebp+076h]	; A3DF5
 mov dword [byte ebp+07Eh], 0FFFFFFFFh	; A3DF8
 call sub_E04E0	; A3DFF
 add esp, byte 8	; A3E04
 mov dword [dword ebp-053Ch], eax	; A3E07
-push asc_112F16	; A3E0D
+push str_Ahl1	; A3E0D
 push dword [byte ebp+076h]	; A3E12
 call sub_E04E0	; A3E15
 add esp, byte 8	; A3E1A
-push asc_112F1B	; A3E1D
+push str_Ahl2	; A3E1D
 push dword [byte ebp+076h]	; A3E22
 mov dword [dword ebp-0538h], eax	; A3E25
 call sub_E04E0	; A3E2B
@@ -2568,7 +2568,7 @@ mov eax, dword [dword ebp-053Ch]	; A3E42
 mov dword [dword ebp-0546h], 3	; A3E48
 add esp, byte 8	; A3E52
 movsx eax, word [byte eax+0Ch]	; A3E55
-push asc_112F20	; A3E59
+push str_Ahr0	; A3E59
 mov dword [dword ebp-0530h], eax	; A3E5E
 mov eax, dword [dword ebp-053Ch]	; A3E64
 push dword [byte ebp+076h]	; A3E6A
@@ -2580,12 +2580,12 @@ mov byte [dword ebp-0511h], 1	; A3E8C
 mov dword [dword ebp-052Ch], eax	; A3E93
 call sub_E04E0	; A3E99
 add esp, byte 8	; A3E9E
-push asc_112F25	; A3EA1
+push str_Ahr1	; A3EA1
 push dword [byte ebp+076h]	; A3EA6
 mov dword [dword ebp-04D6h], eax	; A3EA9
 call sub_E04E0	; A3EAF
 add esp, byte 8	; A3EB4
-push asc_112F2A	; A3EB7
+push str_Ahr2	; A3EB7
 push dword [byte ebp+076h]	; A3EBC
 mov dword [dword ebp-04D2h], eax	; A3EBF
 call sub_E04E0	; A3EC5
@@ -2596,7 +2596,7 @@ mov eax, dword [dword ebp-04D6h]	; A3EDC
 mov dword [dword ebp-04E0h], 3	; A3EE2
 add esp, byte 8	; A3EEC
 movsx eax, word [byte eax+0Ch]	; A3EEF
-push asc_112F2F	; A3EF3
+push str_Aal0	; A3EF3
 mov dword [dword ebp-04CAh], eax	; A3EF8
 mov eax, dword [dword ebp-04D6h]	; A3EFE
 push dword [byte ebp+076h]	; A3F04
@@ -2609,12 +2609,12 @@ mov byte [dword ebp-04ABh], 5	; A3F2D
 mov dword [dword ebp-04C6h], eax	; A3F34
 call sub_E04E0	; A3F3A
 add esp, byte 8	; A3F3F
-push asc_112F34	; A3F42
+push str_Aal1	; A3F42
 push dword [byte ebp+076h]	; A3F47
 mov dword [dword ebp-0470h], eax	; A3F4A
 call sub_E04E0	; A3F50
 add esp, byte 8	; A3F55
-push asc_112F39	; A3F58
+push str_Aal2	; A3F58
 push dword [byte ebp+076h]	; A3F5D
 mov dword [dword ebp-046Ch], eax	; A3F60
 call sub_E04E0	; A3F66
@@ -2626,7 +2626,7 @@ mov dword [dword ebp-047Ah], 3	; A3F83
 movsx eax, word [byte eax+0Ch]	; A3F8D
 add esp, byte 8	; A3F91
 mov dword [dword ebp-0464h], eax	; A3F94
-push asc_112F3E	; A3F9A
+push str_Aar0	; A3F9A
 mov eax, dword [dword ebp-0470h]	; A3F9F
 push dword [byte ebp+076h]	; A3FA5
 movsx eax, word [byte eax+0Eh]	; A3FA8
@@ -2638,12 +2638,12 @@ mov byte [dword ebp-0445h], 3	; A3FCE
 mov dword [dword ebp-0460h], eax	; A3FD5
 call sub_E04E0	; A3FDB
 add esp, byte 8	; A3FE0
-push asc_112F43	; A3FE3
+push str_Aar1	; A3FE3
 push dword [byte ebp+076h]	; A3FE8
 mov dword [dword ebp-040Ah], eax	; A3FEB
 call sub_E04E0	; A3FF1
 add esp, byte 8	; A3FF6
-push asc_112F48	; A3FF9
+push str_Aar2	; A3FF9
 push dword [byte ebp+076h]	; A3FFE
 mov dword [dword ebp-0406h], eax	; A4001
 call sub_E04E0	; A4007
@@ -2654,7 +2654,7 @@ mov eax, dword [dword ebp-040Ah]	; A401E
 mov dword [dword ebp-0414h], 3	; A4024
 add esp, byte 8	; A402E
 movsx eax, word [byte eax+0Ch]	; A4031
-push asc_112F4D	; A4035
+push str_Swt0	; A4035
 mov dword [dword ebp-03FEh], eax	; A403A
 mov eax, dword [dword ebp-040Ah]	; A4040
 push dword [byte ebp+076h]	; A4046
@@ -2667,7 +2667,7 @@ mov byte [dword ebp-03E0h], 2	; A406F
 mov dword [dword ebp-03FAh], eax	; A4076
 call sub_E04E0	; A407C
 add esp, byte 8	; A4081
-push asc_112F52	; A4084
+push str_Swt12	; A4084
 push dword [byte ebp+076h]	; A4089
 mov dword [dword ebp-03A4h], eax	; A408C
 call sub_E04E0	; A4092
@@ -2678,7 +2678,7 @@ mov eax, dword [dword ebp-03A4h]	; A40A6
 mov dword [dword ebp-03AEh], 6	; A40AC
 add esp, byte 8	; A40B6
 movsx eax, word [byte eax+0Ch]	; A40B9
-push asc_112F57	; A40BD
+push str_Rul13	; A40BD
 mov dword [dword ebp-0398h], eax	; A40C2
 mov eax, dword [dword ebp-03A4h]	; A40C8
 push dword [byte ebp+076h]	; A40CE
@@ -2692,12 +2692,12 @@ mov dword [dword ebp-038Ch], 35h	; A40FE
 mov dword [dword ebp-0394h], eax	; A4108
 call sub_E04E0	; A410E
 add esp, byte 8	; A4113
-push asc_112F5C	; A4116
+push str_Rul23	; A4116
 push dword [byte ebp+076h]	; A411B
 mov dword [dword ebp-033Eh], eax	; A411E
 call sub_E04E0	; A4124
 add esp, byte 8	; A4129
-push asc_112F61	; A412C
+push str_Rul33	; A412C
 push dword [byte ebp+076h]	; A4131
 mov dword [dword ebp-033Ah], eax	; A4134
 call sub_E04E0	; A413A
@@ -2758,7 +2758,7 @@ mov eax, dword [dword_1846F0]	; A4260
 push byte 0	; A4265
 add eax, byte 10h	; A4267
 push eax	; A426A
-push asc_112F66	; A426B
+push str_HaBck02	; A426B
 call sub_AB758	; A4270
 mov edx, dword [dword_11ED58]	; A4275
 mov dword [dword_11ED60], eax	; A427B
@@ -2795,7 +2795,7 @@ mov eax, dword [dword_1846F0]	; A42E4
 push byte 0	; A42E9
 add eax, byte 10h	; A42EB
 push eax	; A42EE
-push asc_112F6E	; A42EF
+push str_HaBck12	; A42EF
 call sub_AB758	; A42F4
 add esp, byte 0Ch	; A42F9
 mov dword [dword_11ED64], eax	; A42FC
@@ -2824,7 +2824,7 @@ call sub_AA988	; A4345
 add esp, byte 4	; A434A
 push byte 0	; A434D
 push dword 0A0h	; A434F
-push asc_112F76	; A4354
+push str_Rk222	; A4354
 push dword [byte ebp+076h]	; A4359
 call sub_E04E0	; A435C
 movsx eax, word [byte eax+04h]	; A4361
@@ -2849,7 +2849,7 @@ call sub_AA988	; A43A8
 add esp, byte 4	; A43AD
 push byte 0	; A43B0
 push dword 0A0h	; A43B2
-push asc_112F76	; A43B7
+push str_Rk222	; A43B7
 push dword [byte ebp+076h]	; A43BC
 call sub_E04E0	; A43BF
 movsx eax, word [byte eax+04h]	; A43C4
@@ -3094,7 +3094,7 @@ loc_A4782:
 mov esi, 2	; A4782
 loc_A4787:
 push esi	; A4787
-push asc_112F7B	; A4788
+push str_SwtD2	; A4788
 lea eax, [byte ebp+066h]	; A478D
 push eax	; A4790
 call sprintf_	; A4791
@@ -3116,7 +3116,7 @@ jl short loc_A47B9	; A47C0
 inc esi	; A47C2
 cmp esi, byte 5	; A47C3
 jl short loc_A4787	; A47C6
-push asc_112F52	; A47C8
+push str_Swt12	; A47C8
 push dword [byte ebp+072h]	; A47CD
 call sub_E04E0	; A47D0
 add esp, byte 8	; A47D5
@@ -3347,10 +3347,10 @@ db 08Bh,01h,00h,00h,06Ch,00h,00h,00h,093h,01h,00h,00h,073h,00h,00h,00h
 db 093h,01h,00h,00h,084h,00h,00h,00h,08Bh,01h,00h,00h,08Bh,00h,00h,00h
 db 0F8h,00h,00h,00h,08Ah,00h,00h,00h,0F0h,00h,00h,00h,082h,00h,00h,00h
 unk_A4F69:
-dd unk_112F84
-dd unk_112F88
-dd unk_112F8C
-dd unk_112F90
+dd str_7GM
+dd str_5GM
+dd str_3GM
+dd str_1GM
 unk_A4F79:
 db 06h,05h,03h,014h,013h,017h,04h,016h,012h,0Eh,010h,02h,011h,018h,0Ch,01h
 unk_A4F89:

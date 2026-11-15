@@ -2,15 +2,15 @@
 bits 32
 %include "hockey.inc"
 section s_B75A0 progbits alloc exec nowrite align=1
-extern DebugPrintf, FatalError, __STOSD, _os_handle_0, _os_handle_1, asc_11388C, asc_11389C, asc_1138C8
-extern asc_1138F4, asc_113924, byte_190EC0, byte_191300, dword_11F5F0, dword_12231C, dword_122350, dword_122390
+extern DebugPrintf, FatalError, __STOSD, _os_handle_0, _os_handle_1, str_UpsideDown, asc_11389C, str_OrisetmaterialcolorInval
+extern asc_1138F4, str_OrisetmaterialdrawfnInva, byte_190EC0, byte_191300, dword_11F5F0, dword_12231C, dword_122350, dword_122390
 extern dword_122894, dword_1228D0, dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4, dword_1228FC, dword_123AA4
 extern dword_123AA8, dword_123AC0, dword_190E90, dword_190E94, dword_190E98, dword_190E9C, dword_190EA0, dword_190EA4
 extern dword_190EA8, dword_190EAC, dword_190EB0, dword_190EB4, dword_190EB8, dword_190EBC, dword_190EC4, dword_190EC8
 extern dword_190ECC, dword_190ED0, dword_190ED4, dword_1912DC, dword_1912E0, dword_1912E4, dword_1912E8, dword_1912EC
 extern dword_1912F4, dword_1912F8, dword_1912FC, dword_191304, dword_191308, dword_19130C, dword_191310, dword_191314
 extern dword_19131C, dword_191320, dword_191A9C, dword_191AA0, dword_191AA4, strnicmp_, sub_AB834, sub_ABD64
-extern sub_AC484, sub_AFB88, sub_AFD00, sub_B31C0, sub_BBA41, sub_BBB70, sub_BD594, sub_BD92C
+extern sub_AC484, unpack, sub_AFD00, sub_B31C0, sub_BBA41, sub_BBB70, sub_BD594, sub_BD92C
 extern sub_BDC74, sub_C4C6C, sub_C65A0, sub_C6FA4, sub_C7A54, sub_C8504, sub_C85F0, sub_C8D50
 extern sub_C955C, sub_C972C, sub_C98FC, sub_C9A20, sub_C9A80, sub_C9AD8, sub_C9D50, sub_C9D80
 extern sub_DD724, sub_E04E7, sub_E0520, sub_E0671, sub_E07B8, sub_E07CC, sub_E081C, sub_E0959
@@ -273,7 +273,7 @@ push ebp	; B77BD
 mov ecx, dword [esi]	; B77BE
 push ecx	; B77C0
 push edi	; B77C1
-call sub_AFB88	; B77C2
+call unpack	; B77C2
 jmp short loc_B77D7	; B77C7
 loc_B77C9:
 mov edx, dword [byte esp+08h]	; B77C9
@@ -1568,7 +1568,7 @@ cmp ecx, ebp	; B8471
 jl short loc_B8484	; B8473
 jmp short loc_B8458	; B8475
 loc_B8477:
-push asc_11388C	; B8477
+push str_UpsideDown	; B8477
 call DebugPrintf	; B847C
 add esp, byte 4	; B8481
 loc_B8484:
@@ -3455,7 +3455,7 @@ cmp ebx, dword [byte ecx+0Ch]	; B9B0A
 jle short loc_B9B1D	; B9B0D
 loc_B9B0F:
 push ebx	; B9B0F
-push asc_1138C8	; B9B10
+push str_OrisetmaterialcolorInval	; B9B10
 call FatalError	; B9B15
 add esp, byte 8	; B9B1A
 loc_B9B1D:
@@ -3508,7 +3508,7 @@ cmp ebx, dword [byte ecx+0Ch]	; B9B8E
 jle short loc_B9BA1	; B9B91
 loc_B9B93:
 push ebx	; B9B93
-push asc_113924	; B9B94
+push str_OrisetmaterialdrawfnInva	; B9B94
 call FatalError	; B9B99
 add esp, byte 8	; B9B9E
 loc_B9BA1:

@@ -2,20 +2,20 @@
 bits 32
 %include "hockey.inc"
 section s_11D1C8 progbits alloc noexec write align=1
-extern unk_111964, unk_111968, unk_11196C, unk_111970, unk_111974, unk_111978, unk_11197C, unk_111980
-extern unk_111984, unk_111988, unk_11198C, unk_11198F, unk_111993, unk_111996, unk_11199A, unk_11199E
-extern unk_1119A2, unk_1119A6, unk_1119AA, unk_1119AE, unk_1119B2, unk_1119B5, unk_1119B8, unk_1119BC
-extern unk_1119C0, unk_1119C4, unk_1119C8, unk_1119CC, unk_1119D0, unk_1119D8, unk_1119DF, unk_1119E7
-extern unk_1119EF, unk_1119F7, unk_1119FE, unk_111A06, unk_111A0F, unk_111A17, unk_111A20, unk_111A2C
-extern unk_111A35, unk_111A40, unk_111A49, unk_111A50, unk_111A5D, unk_111A68, unk_111A6F, unk_111A78
-extern unk_111A81, unk_111A8B, unk_111A93, unk_111A9D, unk_111AA8, unk_111AB1, unk_111AB9, unk_111AC1
-extern unk_111AD5, unk_111AEB, unk_111AFD, unk_111B0E, unk_111B20, unk_111B2E, unk_111B40, unk_111B52
-extern unk_111B61, unk_111B77, unk_111B8D, unk_111B9E, unk_111BB4, unk_111BC8, unk_111BDB, unk_111BEB
-extern unk_111BFC, unk_111C0B, unk_111C1F, unk_111C33, unk_111C48, unk_111C57, unk_111C68, unk_111C78
-extern unk_111C8B, unk_111C9E, unk_111CAB, unk_111CB2, unk_111CB9, unk_111CC0, unk_111CCB, unk_111CD1
-extern unk_111CDB, unk_111CE2, unk_111CEB, unk_111CF3, unk_111CF9, unk_111D03, unk_111D0A, unk_111D14
-extern unk_111D1C, unk_111D25, unk_111D2C, unk_111D35, unk_111D3F, unk_111D45, unk_111D4C, unk_111D56
-extern unk_111D62, unk_111D6A, unk_111D73, unk_111D78
+extern str_ANA2, str_BOS2, str_BUF4, str_CGY2, str_CHI2, str_DAL2, str_DET2, str_EDM2
+extern str_FLA2, str_HFD2, str_LA2, str_MTL2, str_NJ2, str_NYI2, str_NYR2, str_OTT2
+extern str_PHI2, str_PIT2, str_QUE2, str_STL2, str_SJ2, str_TB2, str_TOR2, str_VAN2
+extern str_WSH2, str_WPG2, str_ASW2, str_ASE2, str_Anaheim, str_Boston, str_Buffalo, str_Calgary
+extern str_Chicago, str_Dallas, str_Detroit, str_Edmonton, str_Florida, str_Hartford, str_LosAngeles, str_Montreal
+extern str_NewJersey, str_NewYork, str_Ottawa, str_Philadelphia, str_Pittsburgh, str_Quebec, str_StLouis, str_SanJose
+extern str_TampaBay, str_Toronto, str_Vancouver, str_Washington, str_Winnipeg, str_Western, str_Eastern, str_AnaheimCalifornia
+extern str_BostonMassachusetts, str_BuffaloNewYork, str_CalgaryAlberta, str_ChicagoIllinois, str_DallasTexas, str_DetroitMichigan, str_EdmontonAlberta, str_MiamiFlorida
+extern str_HartfordConnecticut, str_InglewoodCalifornia, str_MontrealQuebec, str_EastRutherfordNJ, str_UniondaleNewYork, str_NewYorkNewYork, str_OttawaOntario, str_PhiladelphiaPA
+extern str_PittsburghPA, str_QuebecCityQuebec, str_StLouisMissouri, str_SanJoseCalifornia, str_TampaFlorida, str_TorontoOntario, str_VancouverBC, str_LandoverMaryland
+extern str_WinnipegManitoba, str_MightyDucks2, str_Bruins, str_Sabres, str_Flames, str_Blackhawks, str_Stars, str_RedWings
+extern str_Oilers, str_Panthers, str_Whalers, str_Kings, str_Canadiens, str_Devils, str_Islanders, str_Rangers
+extern str_Senators, str_Flyers, str_Penguins, str_Nordiques, str_Blues, str_Sharks, str_Lightning, str_MapleLeafs
+extern str_Canucks, str_Capitals, str_Jets, str_AllStars
 global byte_11D1DE, byte_11D20A, byte_11D392, byte_11D74B, dword_11D1C8, dword_11D1CC, dword_11D1D2, dword_11D1D6
 global dword_11D1DA, dword_11D1E2, dword_11D1E6, dword_11D1EA, dword_11D1EE, dword_11D1F2, dword_11D1F6, dword_11D1FA
 global dword_11D1FE, dword_11D202, dword_11D206, dword_11D232, dword_11D236, dword_11D23E, dword_11D242, dword_11D376
@@ -139,121 +139,121 @@ dword_11D3C8:
 db 00h,00h,00h,00h,019h,01h,00h,00h,01Ah,01h,00h,00h,01Bh,01h,00h,00h
 db 01Ch,01h,00h,00h
 off_11D3DC:
-dd unk_111964
-dd unk_111968
-dd unk_11196C
-dd unk_111970
-dd unk_111974
-dd unk_111978
-dd unk_11197C
-dd unk_111980
-dd unk_111984
-dd unk_111988
-dd unk_11198C
-dd unk_11198F
-dd unk_111993
-dd unk_111996
-dd unk_11199A
-dd unk_11199E
-dd unk_1119A2
-dd unk_1119A6
-dd unk_1119AA
-dd unk_1119AE
-dd unk_1119B2
-dd unk_1119B5
-dd unk_1119B8
-dd unk_1119BC
-dd unk_1119C0
-dd unk_1119C4
-dd unk_1119C8
-dd unk_1119CC
+dd str_ANA2
+dd str_BOS2
+dd str_BUF4
+dd str_CGY2
+dd str_CHI2
+dd str_DAL2
+dd str_DET2
+dd str_EDM2
+dd str_FLA2
+dd str_HFD2
+dd str_LA2
+dd str_MTL2
+dd str_NJ2
+dd str_NYI2
+dd str_NYR2
+dd str_OTT2
+dd str_PHI2
+dd str_PIT2
+dd str_QUE2
+dd str_STL2
+dd str_SJ2
+dd str_TB2
+dd str_TOR2
+dd str_VAN2
+dd str_WSH2
+dd str_WPG2
+dd str_ASW2
+dd str_ASE2
 off_11D44C:
-dd unk_1119D0
-dd unk_1119D8
-dd unk_1119DF
-dd unk_1119E7
-dd unk_1119EF
-dd unk_1119F7
-dd unk_1119FE
-dd unk_111A06
-dd unk_111A0F
-dd unk_111A17
-dd unk_111A20
-dd unk_111A2C
-dd unk_111A35
-dd unk_111A40
-dd unk_111A40
-dd unk_111A49
-dd unk_111A50
-dd unk_111A5D
-dd unk_111A68
-dd unk_111A6F
-dd unk_111A78
-dd unk_111A81
-dd unk_111A8B
-dd unk_111A93
-dd unk_111A9D
-dd unk_111AA8
-dd unk_111AB1
-dd unk_111AB9
+dd str_Anaheim
+dd str_Boston
+dd str_Buffalo
+dd str_Calgary
+dd str_Chicago
+dd str_Dallas
+dd str_Detroit
+dd str_Edmonton
+dd str_Florida
+dd str_Hartford
+dd str_LosAngeles
+dd str_Montreal
+dd str_NewJersey
+dd str_NewYork
+dd str_NewYork
+dd str_Ottawa
+dd str_Philadelphia
+dd str_Pittsburgh
+dd str_Quebec
+dd str_StLouis
+dd str_SanJose
+dd str_TampaBay
+dd str_Toronto
+dd str_Vancouver
+dd str_Washington
+dd str_Winnipeg
+dd str_Western
+dd str_Eastern
 off_11D4BC:
-dd unk_111AC1
-dd unk_111AD5
-dd unk_111AEB
-dd unk_111AFD
-dd unk_111B0E
-dd unk_111B20
-dd unk_111B2E
-dd unk_111B40
-dd unk_111B52
-dd unk_111B61
-dd unk_111B77
-dd unk_111B8D
-dd unk_111B9E
-dd unk_111BB4
-dd unk_111BC8
-dd unk_111BDB
-dd unk_111BEB
-dd unk_111BFC
-dd unk_111C0B
-dd unk_111C1F
-dd unk_111C33
-dd unk_111C48
-dd unk_111C57
-dd unk_111C68
-dd unk_111C78
-dd unk_111C8B
-dd unk_111C33
-dd unk_111C33
+dd str_AnaheimCalifornia
+dd str_BostonMassachusetts
+dd str_BuffaloNewYork
+dd str_CalgaryAlberta
+dd str_ChicagoIllinois
+dd str_DallasTexas
+dd str_DetroitMichigan
+dd str_EdmontonAlberta
+dd str_MiamiFlorida
+dd str_HartfordConnecticut
+dd str_InglewoodCalifornia
+dd str_MontrealQuebec
+dd str_EastRutherfordNJ
+dd str_UniondaleNewYork
+dd str_NewYorkNewYork
+dd str_OttawaOntario
+dd str_PhiladelphiaPA
+dd str_PittsburghPA
+dd str_QuebecCityQuebec
+dd str_StLouisMissouri
+dd str_SanJoseCalifornia
+dd str_TampaFlorida
+dd str_TorontoOntario
+dd str_VancouverBC
+dd str_LandoverMaryland
+dd str_WinnipegManitoba
+dd str_SanJoseCalifornia
+dd str_SanJoseCalifornia
 off_11D52C:
-dd unk_111C9E
-dd unk_111CAB
-dd unk_111CB2
-dd unk_111CB9
-dd unk_111CC0
-dd unk_111CCB
-dd unk_111CD1
-dd unk_111CDB
-dd unk_111CE2
-dd unk_111CEB
-dd unk_111CF3
-dd unk_111CF9
-dd unk_111D03
-dd unk_111D0A
-dd unk_111D14
-dd unk_111D1C
-dd unk_111D25
-dd unk_111D2C
-dd unk_111D35
-dd unk_111D3F
-dd unk_111D45
-dd unk_111D4C
-dd unk_111D56
-dd unk_111D62
-dd unk_111D6A
-dd unk_111D73
-dd unk_111D78
-dd unk_111D78
+dd str_MightyDucks2
+dd str_Bruins
+dd str_Sabres
+dd str_Flames
+dd str_Blackhawks
+dd str_Stars
+dd str_RedWings
+dd str_Oilers
+dd str_Panthers
+dd str_Whalers
+dd str_Kings
+dd str_Canadiens
+dd str_Devils
+dd str_Islanders
+dd str_Rangers
+dd str_Senators
+dd str_Flyers
+dd str_Penguins
+dd str_Nordiques
+dd str_Blues
+dd str_Sharks
+dd str_Lightning
+dd str_MapleLeafs
+dd str_Canucks
+dd str_Capitals
+dd str_Jets
+dd str_AllStars
+dd str_AllStars
 dword_11D59C:
 db 01h,00h,00h,00h,04h,00h,00h,00h,04h,00h,00h,00h,01h,00h,00h,00h
 db 02h,00h,00h,00h,02h,00h,00h,00h,02h,00h,00h,00h,01h,00h,00h,00h

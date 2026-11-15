@@ -2,46 +2,46 @@
 bits 32
 %include "hockey.inc"
 section s_1123AC progbits alloc noexec write align=1
-global asc_1123AC, asc_1123B1, asc_1123B6, asc_1123BB, asc_1123C0, asc_1123C6, asc_1123D0, asc_1123DC
-global asc_1123F7, asc_1123FE, asc_112406, asc_11240E, asc_112417, asc_11241E, asc_112433, asc_11243D
-global asc_112442, asc_112488, asc_11248E, asc_112493, asc_112498, asc_11249E, asc_1124A3, asc_1124AB
+global str_Tttt, str_Llll, str_Wwww, asc_1123BB, str_DarD, asc_1123C6, str_05dCNZDB, str_S05dCNZDB
+global str_Pblank, str_Pgblank, str_Tmstats, str_Tmgstats, str_Tmdata, str_Aps, asc_112433, str_Tset
+global str_GSUMMARYDB, str_H07d, str_FSH, str_Down, str_A07d, str_Home, str_PalFsh, str_Pal3
 global dword_1123CB, qword_11244E, qword_112456, qword_11245E, qword_112466, qword_11246E, qword_112476, qword_11247E
-global tag_agset, tag_apset, tag_gset, tag_pset, unk_1123EC, unk_1123EF, unk_112428, unk_11242B
-asc_1123AC:
+global tag_agset, tag_apset, tag_gset, tag_pset, str_Pk, str_Ps, unk_112428, unk_11242B
+str_Tttt:
 db 074h,074h,074h,074h,00h
-asc_1123B1:
+str_Llll:
 db 06Ch,06Ch,06Ch,06Ch,00h
-asc_1123B6:
+str_Wwww:
 db 077h,077h,077h,077h,00h
 asc_1123BB:
 db 03Ah,03Ah,03Ah,03Ah,00h
-asc_1123C0:
+str_DarD:
 db 064h,061h,072h,025h,064h,00h
 asc_1123C6:
 db 02Dh,02Dh,02Dh,02Dh,00h
 dword_1123CB:
 db 00h,00h,080h,047h,00h
-asc_1123D0:
+str_05dCNZDB:
 db 025h,030h,035h,064h,025h,063h,04Eh,05Ah,02Eh,044h,042h,00h
-asc_1123DC:
+str_S05dCNZDB:
 db 025h,073h,025h,030h,035h,064h,025h,063h,04Eh,05Ah,02Eh,044h,042h,00h,00h,00h
-unk_1123EC:
+str_Pk:
 db 070h,06Bh,00h
-unk_1123EF:
+str_Ps:
 db 070h,073h,00h
 tag_pset:
 db 070h,073h,065h,074h,00h
-asc_1123F7:
+str_Pblank:
 db 070h,062h,06Ch,061h,06Eh,06Bh,00h
-asc_1123FE:
+str_Pgblank:
 db 070h,067h,062h,06Ch,061h,06Eh,06Bh,00h
-asc_112406:
+str_Tmstats:
 db 074h,06Dh,073h,074h,061h,074h,073h,00h
-asc_11240E:
+str_Tmgstats:
 db 074h,06Dh,067h,073h,074h,061h,074h,073h,00h
-asc_112417:
+str_Tmdata:
 db 074h,06Dh,064h,061h,074h,061h,00h
-asc_11241E:
+str_Aps:
 db 061h,070h,073h,00h
 tag_apset:
 db 061h,070h,073h,065h,074h,00h
@@ -55,9 +55,9 @@ asc_112433:
 db 061h,067h,073h,00h
 tag_agset:
 db 061h,067h,073h,065h,074h,00h
-asc_11243D:
+str_Tset:
 db 074h,073h,065h,074h,00h
-asc_112442:
+str_GSUMMARYDB:
 db 047h,053h,055h,04Dh,04Dh,041h,052h,059h,02Eh,044h,042h,00h
 qword_11244E:
 db 055h,055h,055h,055h,055h,055h,0D5h,03Fh
@@ -73,17 +73,17 @@ qword_112476:
 db 00h,00h,00h,00h,00h,00h,024h,040h
 qword_11247E:
 db 00h,00h,00h,00h,00h,040h,08Fh,040h,00h,00h
-asc_112488:
+str_H07d:
 db 048h,025h,030h,037h,064h,00h
-asc_11248E:
+str_FSH:
 db 02Eh,046h,053h,048h,00h
-asc_112493:
+str_Down:
 db 064h,06Fh,077h,06Eh,00h
-asc_112498:
+str_A07d:
 db 041h,025h,030h,037h,064h,00h
-asc_11249E:
+str_Home:
 db 068h,06Fh,06Dh,065h,00h
-asc_1124A3:
+str_PalFsh:
 db 070h,061h,06Ch,02Eh,066h,073h,068h,00h
-asc_1124AB:
+str_Pal3:
 db 021h,070h,061h,06Ch,00h

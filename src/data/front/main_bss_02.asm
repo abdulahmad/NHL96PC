@@ -4,11 +4,11 @@ bits 32
 section s_176B68 nobits alloc noexec write align=1
 global CwdExciteLvl, OOlist, PBnum, byte_176B83, byte_176B84, byte_176B85, byte_176B90, byte_176B91
 global byte_176B92, byte_176B93, byte_176B94, byte_176B95, byte_176B96, byte_176B97, byte_176B98, byte_176B99
-global byte_176B9A, byte_176B9B, byte_176B9E, byte_176B9F, byte_176BA5, byte_176BA7, dword_176BC4, dword_176BC8
+global byte_176B9A, goalevent, byte_176B9E, byte_176B9F, byte_176BA5, byte_176BA7, dword_176BC4, dword_176BC8
 global dword_176BCC, dword_176BD0, dword_176BD8, dword_176BDC, dword_176BE0, dword_176C44, lasttouch, word_176B68
 global word_176B6A, word_176B6C, word_176B6E, word_176B70, word_176B72, word_176B76, word_176B78, word_176B7A
 global word_176B7C, word_176B7E, word_176B80, word_176B88, word_176B8A, word_176B8C, word_176B8E, word_176BB8
-global word_176BBA, word_176BD4
+global word_176BBA, lastimpact
 word_176B68:
 resb 2
 word_176B6A:
@@ -75,7 +75,7 @@ byte_176B99:
 resb 1
 byte_176B9A:
 resb 1
-byte_176B9B:
+goalevent:
 resb 3
 byte_176B9E:
 resb 1
@@ -99,7 +99,7 @@ dword_176BCC:
 resb 4
 dword_176BD0:
 resb 4
-word_176BD4:
+lastimpact:
 resb 4
 dword_176BD8:
 resb 4

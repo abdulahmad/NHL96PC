@@ -2,19 +2,19 @@
 bits 32
 %include "hockey.inc"
 section s_115098 progbits alloc noexec write align=1
-extern unk_110324
-global asc_11509C, byte_115109, byte_11510A, byte_11510B, byte_11510C, byte_115114, byte_115115, byte_115116
+extern str_KWKJSKxxxxxx
+global str_0123456789abcdefghijklmn, byte_115109, byte_11510A, byte_11510B, byte_11510C, byte_115114, byte_115115, byte_115116
 global byte_115117, byte_117575, byte_1175A4, byte_1175A5, byte_1175A6, byte_1175A7, byte_1175A8, byte_1175A9
 global byte_1175AA, byte_1175AB, byte_1175AC, dword_115098, dword_1150C4, dword_1150C8, dword_1150CC, dword_1150D0
 global dword_1150D4, dword_1150D8, dword_1150DC, dword_1150E0, dword_1150E4, dword_1150E8, dword_1150EC, dword_1150F0
 global dword_1150F4, dword_1150F8, dword_1150FC, dword_1174E0, dword_1174E4, dword_1174E8, dword_1174EC, dword_1174F0
 global dword_1174F4, dword_1174F8, dword_1174FC, dword_117500, dword_117504, dword_117508, dword_11750C, dword_117510
 global dword_117514, dword_117518, dword_11751C, dword_117588, unk_115108, unk_115113, unk_115120, unk_1151A7
-global unk_115333, unk_117478, unk_11747C, unk_117483, unk_117487, unk_117490, unk_117496, unk_11749D
+global unk_115333, str_KEY3, str_CAREER2, str_ATT, str_CARTEAMS, str_TEAMS3, str_SEASON4, unk_11749D
 global unk_117522, word_11510D, word_11512D, word_11758C
 dword_115098:
 db 00h,00h,00h,00h
-asc_11509C:
+str_0123456789abcdefghijklmn:
 db 030h,031h,032h,033h,034h,035h,036h,037h,038h,039h,061h,062h,063h,064h,065h,066h
 db 067h,068h,069h,06Ah,06Bh,06Ch,06Dh,06Eh,06Fh,070h,071h,072h,073h,074h,075h,076h
 db 077h,078h,079h,07Ah,0Ah,00h,00h,00h
@@ -31,7 +31,7 @@ db 00h,00h,00h,00h
 dword_1150D8:
 db 0FFh,0FFh,0FFh,0FFh
 dword_1150DC:
-dd unk_110324
+dd str_KWKJSKxxxxxx
 dword_1150E0:
 db 00h,00h,00h,00h
 dword_1150E4:
@@ -641,26 +641,26 @@ db 0FFh,0FFh,00h,00h,00h,00h,00h,063h,072h,065h,064h,069h,074h,073h,02Eh,066h
 db 073h,068h,00h,00h,0F0h,0FFh,0FFh,0FFh,00h,00h,00h,00h,00h,063h,072h,064h
 db 074h,02Eh,066h,073h,068h,00h,00h,00h,00h,00h,0F0h,0FFh,0FFh,0FFh,00h,00h
 db 00h,00h,00h,00h,00h
-unk_117478:
+str_KEY3:
 db 04Bh,045h,059h,00h
-unk_11747C:
+str_CAREER2:
 db 043h,041h,052h,045h,045h,052h,00h
-unk_117483:
+str_ATT:
 db 041h,054h,054h,00h
-unk_117487:
+str_CARTEAMS:
 db 043h,041h,052h,054h,045h,041h,04Dh,053h,00h
-unk_117490:
+str_TEAMS3:
 db 054h,045h,041h,04Dh,053h,00h
-unk_117496:
+str_SEASON4:
 db 053h,045h,041h,053h,04Fh,04Eh,00h
 unk_11749D:
 db 053h,043h,048h,045h,044h,055h,04Ch,045h,00h
-dd unk_117478
-dd unk_11747C
-dd unk_117483
-dd unk_117487
-dd unk_117490
-dd unk_117496
+dd str_KEY3
+dd str_CAREER2
+dd str_ATT
+dd str_CARTEAMS
+dd str_TEAMS3
+dd str_SEASON4
 dd unk_11749D
 db 050h,049h,04Eh,046h,04Fh,00h,050h,04Ch,041h,059h,045h,052h,00h,04Ch,053h,053h
 db 043h,048h,045h,044h,00h,050h,047h,053h,00h,047h,041h,04Dh,045h,00h

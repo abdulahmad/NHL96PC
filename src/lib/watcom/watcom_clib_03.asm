@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_B03F2 progbits alloc exec nowrite align=1
 extern GetTicks, TicksSince, _IsTable, __IOMode_, __SetIOMode_, __close_, __set_errno_, __set_errno_dos_
-extern asc_1135E8, asc_1135F4, byte_1219A8, dword_1219A4, dword_123FFD, dword_124120, dword_1857B4, dword_1857B8
+extern asc_1135E8, str_Inversetmp, byte_1219A8, dword_1219A4, dword_123FFD, dword_124120, dword_1857B4, dword_1857B8
 extern dword_1857BC, dword_1857C0, dword_1857C4, dword_1857C8, dword_1857CC, dword_1857D0, dword_1857D4, dword_1857D8
 extern dword_1857DC, dword_1857E0, dword_1857E4, dword_1857E8, dword_1857EC, dword_1857F0, dword_1857F4, dword_1857F8
 extern dword_1857FC, dword_185800, dword_185804, dword_185808, dword_18580C, dword_185810, dword_185814, dword_185818
@@ -780,7 +780,7 @@ test eax, eax	; B0CE7
 je short loc_B0D28	; B0CE9
 push byte 0	; B0CEB
 push dword 20000h	; B0CED
-push asc_1135F4	; B0CF2
+push str_Inversetmp	; B0CF2
 call sub_AB798	; B0CF7
 mov esi, eax	; B0CFC
 add esp, byte 0Ch	; B0CFE

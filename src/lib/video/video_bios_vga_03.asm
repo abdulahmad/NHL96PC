@@ -2,12 +2,12 @@
 bits 32
 %include "hockey.inc"
 section s_E19F0 progbits alloc exec nowrite align=1
-extern asc_1243D0, asc_1243D9, asc_1243E3, asc_1243EC, byte_11F670, byte_1241C4, byte_124244, byte_12445C
+extern str_MUSICON, str_MUSICOFF, str_SOUNDON, str_SOUNDOFF, byte_11F670, byte_1241C4, byte_124244, byte_12445C
 extern byte_12445D, byte_124460, byte_14FAC0, byte_14FAC1, byte_14FAC2, byte_14FAC3, byte_14FAC5, byte_14FAC6
 extern byte_14FAC8, byte_14FAC9, byte_14FACB, byte_14FACC, byte_14FAF0, dword_11F9A8, dword_121F90, dword_122390
 extern dword_122790, dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4, dword_122B90, dword_123390, dword_1242CA
 extern dword_1242CE, dword_124444, dword_124448, dword_12444C, dword_124450, dword_124454, dword_124458, dword_1248C8
-extern dword_14F098, dword_14F0AC, joyenablemask, off_14F07C, off_14F080, off_14F084, off_14F088, off_14F08C
+extern dword_14F098, str_28, joyenablemask, off_14F07C, off_14F080, off_14F084, off_14F088, off_14F08C
 extern off_14F090, off_14F0B0, printf_, sprintf_, sub_ADA50, sub_C2AEC, sub_E0158, sub_E04D0
 extern word_12445E
 global jpt_E1B6F, jpt_E1BCE, jpt_E1CBA, jpt_E1DA4, jpt_E1F8A, loc_E1A0A, loc_E1A45, loc_E1A51
@@ -154,7 +154,7 @@ mov byte [byte esi+034h], 8	; E1B00
 loc_E1B04:
 xchg ecx, edx	; E1B04
 loc_E1B06:
-cmp ecx, dword [dword_14F0AC]	; E1B06
+cmp ecx, dword [str_28]	; E1B06
 jge short loc_E1B20	; E1B0C
 LD mov, ebx, ecx	; E1B0E
 mov ebx, dword [nosplit ebx*4+off_14F0B0]	; E1B10
@@ -966,11 +966,11 @@ jne short loc_E23A2	; E2398
 jmp short loc_E23AF	; E239A
 call dword [off_14F07C]	; E239C
 loc_E23A2:
-mov eax, asc_1243E3	; E23A2
+mov eax, str_SOUNDON	; E23A2
 jmp short loc_E23DA	; E23A7
 call dword [off_14F080]	; E23A9
 loc_E23AF:
-mov eax, asc_1243EC	; E23AF
+mov eax, str_SOUNDOFF	; E23AF
 jmp short loc_E23DA	; E23B4
 loc_E23B6:
 call dword [off_14F090]	; E23B6
@@ -979,11 +979,11 @@ jne short loc_E23C8	; E23BE
 jmp short loc_E23D5	; E23C0
 call dword [off_14F088]	; E23C2
 loc_E23C8:
-mov eax, asc_1243D0	; E23C8
+mov eax, str_MUSICON	; E23C8
 jmp short loc_E23DA	; E23CD
 call dword [off_14F08C]	; E23CF
 loc_E23D5:
-mov eax, asc_1243D9	; E23D5
+mov eax, str_MUSICOFF	; E23D5
 loc_E23DA:
 push byte 8	; E23DA
 push eax	; E23DC

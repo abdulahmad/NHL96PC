@@ -2,34 +2,34 @@
 bits 32
 %include "hockey.inc"
 section s_11309C progbits alloc noexec write align=1
-global asc_11309C, asc_1130A1, asc_1130A6, asc_1130AB, asc_1130B0, asc_1130BC, asc_1130C1, asc_1130C6
-global asc_1130CF, asc_1130D5, asc_1130E0, asc_1130E7, asc_1130F0, str_AddtimerLISTFULL, asc_113110, str_LOWMEM
-global str_HIGHMEM, asc_113168, asc_11316C
-asc_11309C:
+global str_Pal19, str_Bkgd27, str_FSH6, str_Plyr4, str_PROFILEFSH4, str_Card4, str_Ard4, str_DSS5
+global str_SD8, str_SDD, str_S0, str_SDD2, str_0000, str_AddtimerLISTFULL, asc_113110, str_LOWMEM
+global str_HIGHMEM, str_GAP, asc_11316C
+str_Pal19:
 db 021h,070h,061h,06Ch,00h
-asc_1130A1:
+str_Bkgd27:
 db 062h,06Bh,067h,064h,00h
-asc_1130A6:
+str_FSH6:
 db 02Eh,046h,053h,048h,00h
-asc_1130AB:
+str_Plyr4:
 db 070h,06Ch,079h,072h,00h
-asc_1130B0:
+str_PROFILEFSH4:
 db 050h,052h,04Fh,046h,049h,04Ch,045h,02Eh,046h,053h,048h,00h
-asc_1130BC:
+str_Card4:
 db 063h,061h,072h,064h,00h
-asc_1130C1:
+str_Ard4:
 db 021h,061h,072h,064h,00h
-asc_1130C6:
+str_DSS5:
 db 025h,064h,020h,025h,073h,020h,025h,073h,00h
-asc_1130CF:
+str_SD8:
 db 025h,073h,020h,025h,064h,00h
-asc_1130D5:
+str_SDD:
 db 025h,073h,020h,025h,064h,02Eh,025h,064h,025h,025h,00h
-asc_1130E0:
+str_S0:
 db 025h,073h,020h,030h,025h,025h,00h
-asc_1130E7:
+str_SDD2:
 db 025h,073h,020h,025h,064h,02Eh,025h,064h,00h
-asc_1130F0:
+str_0000:
 db 030h,030h,030h,030h,00h,00h,00h,00h
 str_AddtimerLISTFULL:
 db 061h,064h,064h,074h,069h,06Dh,065h,072h,020h,02Dh,020h,04Ch,049h,053h,054h,020h
@@ -44,7 +44,7 @@ str_LOWMEM:
 db 04Ch,04Fh,057h,020h,04Dh,045h,04Dh,00h
 str_HIGHMEM:
 db 048h,049h,047h,048h,020h,04Dh,045h,04Dh,00h,079h,031h,02Ch
-asc_113168:
+str_GAP:
 db 047h,041h,050h,00h
 asc_11316C:
 db 075h,06Eh,06Ch,069h,06Eh,06Bh,06Dh,065h,06Dh,063h,06Ch,061h,073h,073h,061h,072h

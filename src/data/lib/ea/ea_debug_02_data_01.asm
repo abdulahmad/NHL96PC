@@ -2,15 +2,15 @@
 bits 32
 %include "hockey.inc"
 section s_114330 progbits alloc noexec write align=1
-global asc_114330, asc_11436C, asc_1143A4, str_Used7uFree7u, asc_1143E8, asc_114414, asc_114444, asc_114450
-global asc_114454, asc_11445C, asc_114478, asc_114494, asc_1144BC, asc_1144E0, asc_1144F8, asc_114510
+global asc_114330, asc_11436C, str_Used77xFree77xLargst77x, str_Used7uFree7u, asc_1143E8, str_IDXNAMESIZEADRFLAG, asc_114444, str_S9
+global asc_114454, asc_11445C, asc_114478, asc_114494, asc_1144BC, str_1212s10x8s8s, asc_1144F8, asc_114510
 global asc_11453C, str_MEMMANAGER, str_044X00000000, str_SYSTEM, str_SPACE3, str_HIGHMemoryBlock, str_LOWMemoryBlock, str_ConventionalMemory
-global str_RelocatableBlock, str_NonRelocatableBlock, str_ALIGNFlagIsSet, str_PRIORITY1d, str_SequenceD, str_BlockIsPURGABLE, asc_11465C, asc_114664
+global str_RelocatableBlock, str_NonRelocatableBlock, str_ALIGNFlagIsSet, str_PRIORITY1d, str_SequenceD, str_BlockIsPURGABLE, str_04x2, str_02x
 global asc_114674, str_FILES2, str_DATES2, str_TIMES3, str_HexmemdspOS, str_XxMMAPTXT, str_ErrorDumpingMemoryMap, str_ShapeFileIsInvalid
 global str_NumDPackedD, str_ThereAreNoShapes, str_44s05x, str_Bad, str_CxCy3d3d, str_NotDrawn, str_Bytes3dRows3d, str_Spacked
 global str_Packed, asc_114808, asc_114814, asc_11482C, str_ShapeIsInvalidDraw, str_MEMSHPTXT, str_ErrorDumpingShapesList, str_ShapeFileName0
 global str_ShapeFileSizeLd, str_NumberOfShapesD, str_44s66ld, str_Bytes3dRows3d2, str_XY3d3d, str_033d022X, str_R022d, str_G022d
-global str_B022d, asc_114968, str_SCREEN2, asc_11497C, asc_114984, asc_114994, str_Unpackf, asc_1149AC
+global str_B022d, asc_114968, str_SCREEN2, asc_11497C, asc_114984, str_2d02d02d, str_Unpackf, str_Targa
 global unk_114440, unk_11444C, unk_114570, unk_114594, unk_11466C, unk_114670, unk_1146A0, unk_1146A4
 global unk_1146CC, str_Un, unk_114930
 asc_114330:
@@ -23,7 +23,7 @@ db 020h,020h,048h,057h,03Dh,025h,02Dh,037h,075h,020h,050h,06Fh,06Fh,06Ch,03Dh,02
 db 02Dh,037h,075h,020h,04Dh,061h,078h,03Dh,025h,02Dh,037h,075h,020h,044h,04Fh,053h
 db 048h,057h,03Dh,025h,02Dh,037h,075h,020h,044h,04Fh,053h,050h,06Fh,06Fh,06Ch,03Dh
 db 025h,02Dh,037h,075h,00h,02Ah,02Ah,02Ah
-asc_1143A4:
+str_Used77xFree77xLargst77x:
 db 055h,073h,065h,064h,03Dh,025h,037h,02Eh,037h,078h,020h,046h,072h,065h,065h,03Dh
 db 025h,037h,02Eh,037h,078h,020h,04Ch,061h,072h,067h,073h,074h,03Dh,025h,037h,02Eh
 db 037h,078h,020h,00h
@@ -34,7 +34,7 @@ asc_1143E8:
 db 020h,020h,020h,020h,04Eh,041h,04Dh,045h,020h,020h,020h,020h,020h,020h,053h,049h
 db 05Ah,045h,020h,020h,020h,020h,020h,020h,020h,041h,044h,052h,020h,020h,020h,020h
 db 020h,020h,046h,04Ch,041h,047h,020h,020h,00h,02Eh,037h,078h
-asc_114414:
+str_IDXNAMESIZEADRFLAG:
 db 049h,044h,058h,020h,020h,020h,020h,020h,04Eh,041h,04Dh,045h,020h,020h,020h,020h
 db 020h,020h,020h,020h,020h,020h,020h,053h,049h,05Ah,045h,020h,020h,020h,020h,041h
 db 044h,052h,020h,020h,020h,020h,046h,04Ch,041h,047h,00h,00h
@@ -44,7 +44,7 @@ asc_114444:
 db 025h,02Dh,038h,030h,073h,00h,020h,044h
 unk_11444C:
 db 00h,053h,050h,06Fh
-asc_114450:
+str_S9:
 db 025h,073h,0Ah,00h
 asc_114454:
 db 025h,073h,0Ah,0Ah,00h,02Ah,02Ah,055h
@@ -62,7 +62,7 @@ asc_1144BC:
 db 020h,020h,020h,020h,020h,020h,020h,053h,050h,041h,043h,045h,020h,020h,020h,020h
 db 020h,025h,031h,030h,064h,020h,025h,038h,02Eh,038h,073h,020h,025h,038h,02Eh,038h
 db 073h,00h,020h,020h
-asc_1144E0:
+str_1212s10x8s8s:
 db 025h,02Dh,031h,032h,02Eh,031h,032h,073h,020h,025h,031h,030h,078h,020h,025h,038h
 db 073h,020h,025h,038h,073h,00h,00h,00h
 asc_1144F8:
@@ -114,9 +114,9 @@ db 053h,065h,071h,075h,065h,06Eh,063h,065h,020h,023h,025h,064h,00h,053h,059h,053
 str_BlockIsPURGABLE:
 db 042h,06Ch,06Fh,063h,06Bh,020h,069h,073h,020h,050h,055h,052h,047h,041h,042h,04Ch
 db 045h,00h,00h,00h
-asc_11465C:
+str_04x2:
 db 025h,030h,034h,078h,020h,020h,020h,00h
-asc_114664:
+str_02x:
 db 025h,030h,032h,078h,00h,06Dh,065h,06Dh
 unk_11466C:
 db 02Ah,00h,079h,020h
@@ -230,9 +230,9 @@ asc_11497C:
 db 02Eh,074h,067h,061h,00h,065h,072h,020h
 asc_114984:
 db 025h,030h,032h,064h,02Dh,025h,033h,073h,02Dh,025h,030h,032h,064h,00h,0Ah,00h
-asc_114994:
+str_2d02d02d:
 db 025h,032h,064h,03Ah,025h,030h,032h,064h,03Ah,025h,030h,032h,064h,00h,00h,00h
 str_Unpackf:
 db 075h,06Eh,070h,061h,063h,06Bh,066h,00h
-asc_1149AC:
+str_Targa:
 db 054h,061h,072h,067h,061h,00h,00h,00h

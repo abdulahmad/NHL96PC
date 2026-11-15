@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_2D9D9 progbits alloc exec nowrite align=1
 extern DoGameFrame, GameLoopActive, GetTicks, InGameMenuRequest, InputRecordCount, InputRecordRing, PBnum, Pencntdwn
-extern ReadJoy1, RunSimFrames, SlotButtons, SortCords, asc_110D88, asc_110D95, asc_110D99, assinsert
+extern ReadJoy1, RunSimFrames, SlotButtons, SortCords, str_MightyDucks, str_fmt2d, str_OfAnaheim, assinsert
 extern assreplace, awtmstruct, byte_119D76, byte_119D79, byte_164920, byte_164CE0, byte_1655A4, byte_1655E0
 extern byte_16561C, byte_165658, byte_165694, byte_176B83, byte_17CA5D, check4bench, crowdlevel, curperiod
 extern dword_114B90, dword_114B94, dword_114B98, dword_114B9C, dword_114F16, dword_1150FC, dword_1178DA, dword_1178DE
@@ -947,7 +947,7 @@ loc_2E5BF:
 movsx eax, word [byte ebp-018h]	; 2E5BF
 movsx edx, word [byte ebp-01Ch]	; 2E5C3
 add ebx, eax	; 2E5C7
-mov eax, asc_110D88	; 2E5C9
+mov eax, str_MightyDucks	; 2E5C9
 jmp short loc_2E604	; 2E5CE
 loc_2E5D0:
 test byte [byte_17CA5D], 20h	; 2E5D0
@@ -982,7 +982,7 @@ loc_2E636:
 movsx ebx, word [byte ebp-010h]	; 2E636
 movsx edx, word [byte ebp-01Ch]	; 2E63A
 add ebx, eax	; 2E63E
-mov eax, asc_110D88	; 2E640
+mov eax, str_MightyDucks	; 2E640
 jmp short loc_2E67B	; 2E645
 loc_2E647:
 test byte [byte_17CA5D], 20h	; 2E647
@@ -1004,7 +1004,7 @@ loc_2E67B:
 call sub_63FEF	; 2E67B
 movsx eax, word [word_1656E8]	; 2E680
 push eax	; 2E687
-push asc_110D95	; 2E688
+push str_fmt2d	; 2E688
 lea eax, [byte ebp-058h]	; 2E68D
 push eax	; 2E690
 call sprintf_	; 2E691
@@ -1023,7 +1023,7 @@ lea eax, [byte ebp-058h]	; 2E6B8
 call sub_64054	; 2E6BB
 movsx eax, word [word_16581E]	; 2E6C0
 push eax	; 2E6C7
-push asc_110D95	; 2E6C8
+push str_fmt2d	; 2E6C8
 lea eax, [byte ebp-058h]	; 2E6CD
 push eax	; 2E6D0
 call sprintf_	; 2E6D1
@@ -1054,7 +1054,7 @@ loc_2E720:
 movsx ebx, word [byte ebp-010h]	; 2E720
 movsx edx, word [byte ebp-01Ah]	; 2E724
 add ebx, eax	; 2E728
-mov eax, asc_110D88	; 2E72A
+mov eax, str_MightyDucks	; 2E72A
 jmp short loc_2E765	; 2E72F
 loc_2E731:
 test byte [byte_17CA5D], 20h	; 2E731
@@ -1090,7 +1090,7 @@ loc_2E798:
 movsx eax, word [byte ebp-014h]	; 2E798
 movsx edx, word [byte ebp-01Ch]	; 2E79C
 add ebx, eax	; 2E7A0
-mov eax, asc_110D99	; 2E7A2
+mov eax, str_OfAnaheim	; 2E7A2
 jmp short loc_2E7DD	; 2E7A7
 loc_2E7A9:
 test byte [byte_17CA5D], 20h	; 2E7A9
@@ -1125,7 +1125,7 @@ loc_2E80B:
 movsx eax, word [byte ebp-0Ch]	; 2E80B
 movsx edx, word [byte ebp-01Ch]	; 2E80F
 add ebx, eax	; 2E813
-mov eax, asc_110D99	; 2E815
+mov eax, str_OfAnaheim	; 2E815
 loc_2E81A:
 call sub_63FEF	; 2E81A
 jmp near loc_2E8C2	; 2E81F
@@ -1140,7 +1140,7 @@ loc_2E839:
 movsx eax, word [byte ebp-0Ch]	; 2E839
 movsx edx, word [byte ebp-01Ah]	; 2E83D
 add ebx, eax	; 2E841
-mov eax, asc_110D99	; 2E843
+mov eax, str_OfAnaheim	; 2E843
 jmp near loc_2E8BD	; 2E848
 loc_2E84D:
 cmp dword [byte ebp-05Ch], byte 0	; 2E84D

@@ -4,7 +4,7 @@ bits 32
 section s_AD680 progbits alloc exec nowrite align=1
 extern byte_11FA2C, byte_11FA2D, byte_11FA2E, byte_11FA30, dword_11FA34, dword_11FA3C, dword_1228D0, dword_1228D8
 extern dword_1228DC, dword_1228E0, dword_1228E4, dword_1228F4, dword_1228FC, dword_122930, dword_123934, sub_ABF4C
-extern sub_ABF88, sub_C3D80, sub_DD6C4, sub_DE3D8, sub_DEC41, sub_DED6D, sub_E0584, sub_E1824
+extern sub_ABF88, removewindow, sub_DD6C4, sub_DE3D8, sub_DEC41, sub_DED6D, sub_E0584, sub_E1824
 extern sub_E193C, sub_E1956
 global fputchar, loc_AD6C5, loc_AD710, loc_AD72B, loc_AD743, loc_AD75F, loc_AD786, loc_AD7CD
 global loc_AD7D6, loc_AD7FD, loc_AD80F, loc_AD81A, loc_AD847, loc_AD858, loc_AD868, loc_AD879
@@ -554,7 +554,7 @@ mov edx, dword [byte esp+04h]	; ADBD0
 mov eax, dword [edx]	; ADBD4
 mov eax, dword [byte eax+028h]	; ADBD6
 sub eax, byte 8	; ADBD9
-call sub_C3D80	; ADBDC
+call removewindow	; ADBDC
 push edx	; ADBE1
 call sub_ABF88	; ADBE2
 add esp, byte 4	; ADBE7
@@ -564,7 +564,7 @@ sub_ADBEC:
 mov edx, dword [byte esp+04h]	; ADBEC
 mov eax, dword [byte edx+028h]	; ADBF0
 sub eax, byte 8	; ADBF3
-call sub_C3D80	; ADBF6
+call removewindow	; ADBF6
 push edx	; ADBFB
 call sub_ABF4C	; ADBFC
 add esp, byte 4	; ADC01

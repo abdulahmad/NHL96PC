@@ -2,35 +2,35 @@
 bits 32
 %include "hockey.inc"
 section s_1122A8 progbits alloc noexec write align=1
-global asc_1122A8, asc_1122AD, asc_1122B2, asc_1122B7, asc_1122BC, asc_1122C1, asc_1122C6, asc_1122CB
-global asc_1122D0, asc_1122D5, asc_1122E3, asc_1122F1, asc_112308, asc_112315, asc_112326, asc_11232E
-global asc_11233B, asc_112340, asc_112345, asc_11234A, asc_112351, asc_112356, asc_11235B, asc_112362
-global asc_112367, asc_11236C, asc_112371, asc_112376, asc_11237B, asc_112380, asc_112386, asc_11238A
-global asc_11238E, asc_112393, asc_112398, asc_11239D, asc_1123A2, asc_1123A7, dword_1122F8, dword_1122FC
+global str_BT105, str_BT115, str_BT122, str_SLDR, str_BALL3, str_AR00, str_AR01, str_AR10
+global str_AR11, str_S05dCsgDb3, str_S05dCnzDb5, str_S, str_MonthChoice, str_CalendarChoices, str_Regions, str_Monthregions
+global str_DK00, str_Bkgd12, str_Pal17, str_DK02d, str_LFDK, str_RTDK, str_LT02d, str_LFLT
+global str_RTLT, str_Sim1, str_Sim2, str_Sim3, str_Hmaw, str_WhtD, str_Rd, str_Bl
+global str_Disk, str_SD, str_Octo, str_Aprl, str_Junn, str_Bar, dword_1122F8, dword_1122FC
 global dword_112300, dword_112304
-asc_1122A8:
+str_BT105:
 db 042h,054h,031h,030h,00h
-asc_1122AD:
+str_BT115:
 db 042h,054h,031h,031h,00h
-asc_1122B2:
+str_BT122:
 db 042h,054h,031h,032h,00h
-asc_1122B7:
+str_SLDR:
 db 053h,04Ch,044h,052h,00h
-asc_1122BC:
+str_BALL3:
 db 042h,041h,04Ch,04Ch,00h
-asc_1122C1:
+str_AR00:
 db 041h,052h,030h,030h,00h
-asc_1122C6:
+str_AR01:
 db 041h,052h,030h,031h,00h
-asc_1122CB:
+str_AR10:
 db 041h,052h,031h,030h,00h
-asc_1122D0:
+str_AR11:
 db 041h,052h,031h,031h,00h
-asc_1122D5:
+str_S05dCsgDb3:
 db 025h,073h,025h,030h,035h,064h,025h,063h,073h,067h,02Eh,064h,062h,00h
-asc_1122E3:
+str_S05dCnzDb5:
 db 025h,073h,025h,030h,035h,064h,025h,063h,06Eh,07Ah,02Eh,064h,062h,00h
-asc_1122F1:
+str_S:
 db 03Eh,025h,073h,00h,00h,00h,00h
 dword_1122F8:
 db 00h,00h,00h,03Fh
@@ -40,56 +40,56 @@ dword_112300:
 db 00h,00h,0F0h,041h
 dword_112304:
 db 00h,00h,00h,03Fh
-asc_112308:
+str_MonthChoice:
 db 04Dh,06Fh,06Eh,074h,068h,020h,043h,068h,06Fh,069h,063h,065h,00h
-asc_112315:
+str_CalendarChoices:
 db 043h,061h,06Ch,065h,06Eh,064h,061h,072h,020h,043h,068h,06Fh,069h,063h,065h,073h
 db 00h
-asc_112326:
+str_Regions:
 db 072h,065h,067h,069h,06Fh,06Eh,073h,00h
-asc_11232E:
+str_Monthregions:
 db 06Dh,06Fh,06Eh,074h,068h,072h,065h,067h,069h,06Fh,06Eh,073h,00h
-asc_11233B:
+str_DK00:
 db 044h,04Bh,030h,030h,00h
-asc_112340:
+str_Bkgd12:
 db 062h,06Bh,067h,064h,00h
-asc_112345:
+str_Pal17:
 db 021h,070h,061h,06Ch,00h
-asc_11234A:
+str_DK02d:
 db 044h,04Bh,025h,030h,032h,064h,00h
-asc_112351:
+str_LFDK:
 db 04Ch,046h,044h,04Bh,00h
-asc_112356:
+str_RTDK:
 db 052h,054h,044h,04Bh,00h
-asc_11235B:
+str_LT02d:
 db 04Ch,054h,025h,030h,032h,064h,00h
-asc_112362:
+str_LFLT:
 db 04Ch,046h,04Ch,054h,00h
-asc_112367:
+str_RTLT:
 db 052h,054h,04Ch,054h,00h
-asc_11236C:
+str_Sim1:
 db 073h,069h,06Dh,031h,00h
-asc_112371:
+str_Sim2:
 db 073h,069h,06Dh,032h,00h
-asc_112376:
+str_Sim3:
 db 073h,069h,06Dh,033h,00h
-asc_11237B:
+str_Hmaw:
 db 068h,06Dh,061h,077h,00h
-asc_112380:
+str_WhtD:
 db 077h,068h,074h,025h,064h,00h
-asc_112386:
+str_Rd:
 db 072h,064h,02Dh,00h
-asc_11238A:
+str_Bl:
 db 062h,06Ch,02Dh,00h
-asc_11238E:
+str_Disk:
 db 064h,069h,073h,06Bh,00h
-asc_112393:
+str_SD:
 db 025h,073h,025h,064h,00h
-asc_112398:
+str_Octo:
 db 06Fh,063h,074h,06Fh,00h
-asc_11239D:
+str_Aprl:
 db 061h,070h,072h,06Ch,00h
-asc_1123A2:
+str_Junn:
 db 06Ah,075h,06Eh,06Eh,00h
-asc_1123A7:
+str_Bar:
 db 062h,061h,072h,020h,00h

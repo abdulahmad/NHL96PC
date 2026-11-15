@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_CE06B progbits alloc exec nowrite align=1
-extern str_BLASTER, asc_1140F0, asc_1140FB, asc_114104, asc_114110, asc_11411C, asc_114124, byte_123988
+extern str_BLASTER, str_DMABUFFER, str_WSSDMA, str_DMABUFFER2, str_DMABUFFER3, str_DMABUF, str_DMABUF2, byte_123988
 extern byte_1248D0, byte_1248D1, byte_14F024, byte_14F025, byte_14F026, byte_14F054, byte_14F055, byte_14F064
 extern byte_14F065, byte_14F066, byte_14F067, byte_14F070, byte_1A0FD4, byte_1A0FD5, dword_11F5E4, dword_1210C0
 extern dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4, dword_1228F0, dword_1228F4, dword_1228F8, dword_1228FC
@@ -484,7 +484,7 @@ mov eax, dword [dword_1A0FC0]	; CE4AE
 push dword 200h	; CE4B3
 add eax, eax	; CE4B8
 push eax	; CE4BA
-push asc_1140F0	; CE4BB
+push str_DMABUFFER	; CE4BB
 call sub_AB798	; CE4C0
 add esp, byte 0Ch	; CE4C5
 mov dword [dword_1A0FC4], eax	; CE4C8
@@ -663,7 +663,7 @@ jne short loc_CE6C9	; CE6BD
 mov eax, 0FFFFFFFBh	; CE6BF
 jmp near loc_CE5CE	; CE6C4
 loc_CE6C9:
-mov eax, asc_1140FB	; CE6C9
+mov eax, str_WSSDMA	; CE6C9
 call getenv_	; CE6CE
 test eax, eax	; CE6D3
 je short loc_CE6DE	; CE6D5
@@ -783,7 +783,7 @@ test eax, eax	; CE7C7
 jl near loc_CE90A	; CE7C9
 push dword 200h	; CE7CF
 push dword 2000h	; CE7D4
-push asc_114104	; CE7D9
+push str_DMABUFFER2	; CE7D9
 call sub_AB798	; CE7DE
 add esp, byte 0Ch	; CE7E3
 mov dword [dword_1A0FDC], eax	; CE7E6
@@ -1038,7 +1038,7 @@ mov eax, dword [dword_1A0FE4]	; CEB00
 push dword 200h	; CEB05
 add eax, eax	; CEB0A
 push eax	; CEB0C
-push asc_114110	; CEB0D
+push str_DMABUFFER3	; CEB0D
 call sub_AB798	; CEB12
 add esp, byte 0Ch	; CEB17
 mov dword [dword_1A0FF8], eax	; CEB1A
@@ -1337,7 +1337,7 @@ mov eax, dword [dword_1A1024]	; CEEDA
 push dword 200h	; CEEDF
 add eax, eax	; CEEE4
 push eax	; CEEE6
-push asc_11411C	; CEEE7
+push str_DMABUF	; CEEE7
 call sub_AB798	; CEEEC
 add esp, byte 0Ch	; CEEF1
 mov dword [dword_1A103C], eax	; CEEF4
@@ -1711,7 +1711,7 @@ mov eax, dword [dword_1A105C]	; CF3F5
 push dword 200h	; CF3FA
 add eax, eax	; CF3FF
 push eax	; CF401
-push asc_114124	; CF402
+push str_DMABUF2	; CF402
 call sub_AB798	; CF407
 add esp, byte 0Ch	; CF40C
 mov dword [dword_1A1078], eax	; CF40F

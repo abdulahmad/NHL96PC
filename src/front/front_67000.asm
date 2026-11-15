@@ -3,11 +3,11 @@ bits 32
 %include "hockey.inc"
 section s_67000 progbits alloc exec nowrite align=1
 extern FileReadAt, GameLoopActive, GetTicks, InGameMenuRequest, SetTickDeadline, TickDeadlinePassed, WaitTickDeadline, _dos_close_
-extern _dos_gettime_, _dos_open_, asc_11192C, asc_111938, asc_111940, asc_11194B, asc_111958, byte_11D1DE
+extern _dos_gettime_, _dos_open_, str_SPEECHBUF, str_TEMP, str_5552362337, str_ATF, str_EXHIBITNDX, byte_11D1DE
 extern byte_11D20A, byte_11D392, byte_17C60C, byte_17C95C, byte_17C9A9, byte_17CA1D, byte_17CA1E, byte_17CA1F
 extern byte_17CA24, byte_17CA3C, byte_17CA54, byte_17CA55, byte_17CA56, byte_17CA57, byte_17CA58, byte_17CA59
 extern byte_17CA5A, byte_17CA5B, byte_17CA5D, byte_17CA5F, byte_17CA60, byte_17CA73, byte_17CA7A, curperiod
-extern dword_111951, dword_1150D8, dword_1150FC, dword_11D1C8, dword_11D1CC, dword_11D1D2, dword_11D1D6, dword_11D1DA
+extern str_ATD2, dword_1150D8, dword_1150FC, dword_11D1C8, dword_11D1CC, dword_11D1D2, dword_11D1D6, dword_11D1DA
 extern dword_11D1E2, dword_11D1E6, dword_11D1EA, dword_11D1EE, dword_11D1F2, dword_11D1F6, dword_11D1FA, dword_11D1FE
 extern dword_11D202, dword_11D206, dword_11D232, dword_11D236, dword_11D23E, dword_11D242, dword_11D376, dword_11D37A
 extern dword_11D37E, dword_11D38A, dword_11D38E, dword_11D3A6, dword_11D3AA, dword_11D3AE, dword_11D3B2, dword_11D3B8
@@ -30,7 +30,7 @@ extern sub_C04C3, sub_C0578, sub_C061E, sub_C08F5, sub_C0902, sub_C0D7E, sub_C0E
 extern sub_C0E49, sub_C0F09, sub_C0F30, sub_C1008, sub_C144B, sub_C157F, sub_C17C6, sub_C181F
 extern sub_C1FC0, sub_C1FEC, sub_C204C, sub_C2268, sub_C2290, sub_C2440, sub_C2442, sub_DD760
 extern sub_DD830, sub_DDE7B, sub_DDF24, sub_DFEC6, sub_DFF0F, sub_E0520, sub_E0686, sub_E069C
-extern sub_E07B8, sub_E07C8, sub_E07CC, sub_E081C, unk_111955, unk_17C474, unk_17C644, unk_17C9B8
+extern sub_E07B8, sub_E07C8, sub_E07CC, sub_E081C, str_backslash, unk_17C474, unk_17C644, unk_17C9B8
 extern unk_17C9CC, unk_17CA75, unk_17D32C, word_11D1D0, word_11D23A, word_11D23C, word_11D356, word_11D382
 extern word_11D384, word_11D386, word_11D388, word_11D3A2, word_11D3A4, word_11D3B6, word_17C49C, word_17C49E
 extern word_17C63E, word_17C640, word_17C9AC, word_17C9AE, word_17C9B0, word_17C9B2, word_17C9B4, word_17C9B6
@@ -408,7 +408,7 @@ mov word [word_11D384], 0	; 673BF
 call sub_670E7	; 673C8
 push byte 0	; 673CD
 push dword 56AEAh	; 673CF
-push asc_11192C	; 673D4
+push str_SPEECHBUF	; 673D4
 call sub_AB758	; 673D9
 add esp, byte 0Ch	; 673DE
 mov dword [dword_11D37A], eax	; 673E1
@@ -504,7 +504,7 @@ cmp dword [dword_11D37E], byte 0FFFFFFFEh	; 67501
 jne short loc_6752D	; 67508
 push byte 0	; 6750A
 push dword 56AEAh	; 6750C
-push asc_11192C	; 67511
+push str_SPEECHBUF	; 67511
 call sub_AB758	; 67516
 mov dword [dword_11D37E], 1	; 6751B
 add esp, byte 0Ch	; 67525
@@ -3656,7 +3656,7 @@ mov edi, eax	; 69B9E
 call sub_C1FC0	; 69BA0
 push byte 20h	; 69BA5
 push dword 35C60h	; 69BA7
-push asc_111938	; 69BAC
+push str_TEMP	; 69BAC
 mov dword [dword_17C994], eax	; 69BB1
 call sub_AB758	; 69BB6
 add esp, byte 0Ch	; 69BBB
@@ -4286,7 +4286,7 @@ mov word [word_17C9B4], 1	; 6A474
 mov word [word_17C9B0], 0	; 6A47D
 mov word [word_17C9B2], 0	; 6A486
 mov edi, unk_17C9B8	; 6A48F
-mov esi, asc_111940	; 6A494
+mov esi, str_5552362337	; 6A494
 and byte [byte_17C9A9], 0FEh	; 6A499
 or byte [dword_17C9A8], 80h	; 6A4A0
 movsd	; 6A4A7
@@ -4294,12 +4294,12 @@ movsd	; 6A4A8
 movsw	; 6A4A9
 movsb	; 6A4AB
 mov edi, unk_17C9CC	; 6A4AC
-mov esi, asc_11194B	; 6A4B1
+mov esi, str_ATF	; 6A4B1
 mov word [word_17C9B6], 0	; 6A4B6
 mov ecx, 18h	; 6A4BF
 movsd	; 6A4C4
 movsw	; 6A4C5
-mov eax, dword [dword_111951]	; 6A4C7
+mov eax, dword [str_ATD2]	; 6A4C7
 mov edi, byte_17CA24	; 6A4CC
 and dword [dword_17CA1C], 0E0000000h	; 6A4D1
 or word [dword_17CA20], 577Fh	; 6A4DB
@@ -4338,7 +4338,7 @@ call strlen_	; 6A591
 movsx eax, byte [dword eax+byte_17CA5F]	; 6A596
 cmp eax, byte 5Ch	; 6A59D
 je short loc_6A5B1	; 6A5A0
-mov edx, unk_111955	; 6A5A2
+mov edx, str_backslash	; 6A5A2
 mov eax, byte_17CA60	; 6A5A7
 call strcat_	; 6A5AC
 loc_6A5B1:
@@ -4427,7 +4427,7 @@ mov dword [gameopts], unk_17CA75	; 6A691
 call sub_9C866	; 6A69B
 lea eax, [byte ebp-038h]	; 6A6A0
 call sub_1E5FC	; 6A6A3
-mov edx, asc_111958	; 6A6A8
+mov edx, str_EXHIBITNDX	; 6A6A8
 lea eax, [byte ebp-038h]	; 6A6AD
 call sub_193E8	; 6A6B0
 mov dword [byte ebp-04h], eax	; 6A6B5

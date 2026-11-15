@@ -6,7 +6,7 @@ extern FatalError, str_RemovewindowROWSPACE, dword_11F9BC, dword_18572C, loc_C3E
 extern loc_C3F69, loc_C3FBA, loc_C400B, loc_C4055, loc_C409B
 global loc_C3CE5, loc_C3D0D, loc_C3D13, loc_C3D25, loc_C3D36, loc_C3D49, loc_C3D60, loc_C3D6C
 global loc_C3D76, loc_C3D78, loc_C3DA3, loc_C3DB3, loc_C3DC4, loc_C3DE9, loc_C3DFA, sub_C3CC0
-global sub_C3D80, unk_C3E10
+global removewindow, unk_C3E10
 sub_C3CC0:
 push ecx	; C3CC0
 push esi	; C3CC1
@@ -99,7 +99,7 @@ pop edi	; C3D7C
 pop esi	; C3D7D
 pop ecx	; C3D7E
 ret	; C3D7F
-sub_C3D80:
+removewindow:
 push ebx	; C3D80
 push ecx	; C3D81
 push edx	; C3D82

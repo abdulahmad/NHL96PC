@@ -2,10 +2,10 @@
 bits 32
 %include "hockey.inc"
 section s_AA988 progbits alloc exec nowrite align=1
-extern FatalError, asc_113110, str_LOWMEM, str_HIGHMEM, asc_113168, asc_11316C, dword_11F9B8, dword_11F9BC
+extern FatalError, asc_113110, str_LOWMEM, str_HIGHMEM, str_GAP, asc_11316C, dword_11F9B8, dword_11F9BC
 extern dword_1210C0, dword_1210C8, dword_1210CC, dword_1228D0, dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4
 extern dword_1228F4, dword_1228FC, dword_122930, dword_123934, dword_18568C, dword_185690, dword_185730, dword_185734
-extern dword_18573C, strncpy_, sub_AA7E0, sub_AB87C, sub_AC990, sub_C24D0, sub_C3A48, sub_C3BD0
+extern dword_18573C, strncpy_, sub_AA7E0, sub_AB87C, getmemblock, sub_C24D0, sub_C3A48, sub_C3BD0
 extern sub_C3BE0, sub_C3C04, sub_DD6C4, sub_DD760, sub_DE3D8, sub_DE4C7, sub_DE643, sub_DE7DB
 extern sub_DE97C, sub_DE9F3, sub_DEB94, sub_E0520, sub_E193C, sub_E1956
 global loc_AAA65, loc_AAAB6, loc_AAB15, loc_AAB6B, loc_AABAA, loc_AABBE, loc_AABE1, loc_AAC07
@@ -936,7 +936,7 @@ dec eax	; AB31C
 mov dword [byte esi+0Ch], eax	; AB31D
 mov eax, dword [byte esp+020h]	; AB320
 mov dword [byte esi+010h], eax	; AB324
-call sub_AC990	; AB327
+call getmemblock	; AB327
 mov ebx, 0Ch	; AB32C
 mov edx, str_LOWMEM	; AB331
 mov ecx, eax	; AB336
@@ -952,7 +952,7 @@ mov dword [byte ecx+024h], 0	; AB355
 or ah, 80h	; AB35C
 mov dword [byte ecx+018h], eax	; AB35F
 mov dword [esi], ecx	; AB362
-call sub_AC990	; AB364
+call getmemblock	; AB364
 mov ebx, 0Ch	; AB369
 mov edx, str_HIGHMEM	; AB36E
 mov ecx, eax	; AB373
@@ -1045,7 +1045,7 @@ add ecx, eax	; AB454
 mov esi, dword_18568C	; AB456
 shl ecx, 2	; AB45B
 add esi, ecx	; AB45E
-call sub_AC990	; AB460
+call getmemblock	; AB460
 mov ebx, 0Ch	; AB465
 mov edx, str_HIGHMEM	; AB46A
 mov ecx, eax	; AB46F
@@ -1061,7 +1061,7 @@ or ax, 8020h	; AB498
 mov dword [byte ecx+018h], eax	; AB49C
 mov ebx, 0Ch	; AB49F
 mov eax, dword [byte esi+04h]	; AB4A4
-mov edx, asc_113168	; AB4A7
+mov edx, str_GAP	; AB4A7
 add eax, byte 4	; AB4AC
 call strncpy_	; AB4AF
 mov eax, dword [byte esi+04h]	; AB4B4

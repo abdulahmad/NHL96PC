@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_DBFA8 progbits alloc exec nowrite align=1
-extern SetDrawBitmap, str_Unpackf, asc_1149AC, dword_1228D4, dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4
+extern SetDrawBitmap, str_Unpackf, str_Targa, dword_1228D4, dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4
 extern dword_123AC8, off_151524, sub_AB758, sub_AB798, sub_ABF4C, sub_AD9DC, sub_B22E0, sub_BEFF0
 extern sub_C4C6C, sub_D7D44, sub_DD220, sub_DD2A0, sub_DE10D, sub_DF5C0, sub_E0520
 global loc_DBFE3, loc_DC026, loc_DC045, loc_DC047, loc_DC058, loc_DC096, loc_DC0AE, loc_DC0DD
@@ -766,7 +766,7 @@ xor eax, eax	; DC8D5
 push eax	; DC8D7
 mov edx, dword [byte ebp-010h]	; DC8D8
 push edx	; DC8DB
-push asc_1149AC	; DC8DC
+push str_Targa	; DC8DC
 mov dword [byte ebp-01Ch], eax	; DC8E1
 call sub_AB798	; DC8E4
 mov esi, eax	; DC8E9

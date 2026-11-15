@@ -11,8 +11,8 @@ global loc_BF55D, loc_BF56B, loc_BF574, loc_BF589, loc_BF5A8, loc_BF5C4, loc_BF5
 global loc_BF61E, loc_BF63A, loc_BF64F, loc_BF665, loc_BF68A, loc_BF6A0, loc_BF6CF, loc_BF6E4
 global loc_BF6F8, loc_BF70A, loc_BF716, loc_BF724, loc_BF730, loc_BF755, loc_BF781, loc_BF797
 global loc_BF7B5, loc_BF835, loc_BF844, loc_BF84B, loc_BF88D, loc_BF8B9, loc_BF8C4, loc_BF8F3
-global loc_BF900, loc_BF931, loc_BF93D, loc_BF942, sub_BF534, sub_BF8A8, sub_BF8D0
-sub_BF534:
+global loc_BF900, loc_BF931, loc_BF93D, loc_BF942, initgraphics, sub_BF8A8, sub_BF8D0
+initgraphics:
 push esi	; BF534
 push edi	; BF535
 push ebp	; BF536

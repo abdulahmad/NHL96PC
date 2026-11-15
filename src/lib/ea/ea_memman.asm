@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_AB834 progbits alloc exec nowrite align=1
-extern FatalError, asc_11319C, str_ReservememINVALIDSIZE, asc_11321C, asc_113270, asc_1132AC, str_ReservememINVALIDTYPEFLAGS, str_ResizememINVALIDSIZE
+extern FatalError, str_ReservememMEMORYMANAGERN, str_ReservememINVALIDSIZE, str_ReservememMEMORYMANAGERB, asc_113270, asc_1132AC, str_ReservememINVALIDTYPEFLAGS, str_ResizememINVALIDSIZE
 extern str_ResizememblockNOROOMTO, str_FindmemblockBLOCKNOTFOUND, asc_1133C0, str_GetmemblockNOMEMORYBLOCKS, dword_11F9B4, dword_11F9C0, dword_11F9C4, dword_1210CC
 extern dword_18568C, dword_185690, dword_185730, dword_185734, dword_185738, dword_18573C, strncmp_, strncpy_
 extern sub_AA564, sub_C3BE0, sub_C3C04, sub_E0520
@@ -23,7 +23,7 @@ global loc_AC8DE, loc_AC8EF, loc_AC91D, loc_AC926, loc_AC92D, loc_AC93D, loc_AC9
 global loc_AC964, loc_AC971, loc_AC9A6, sub_AB834, sub_AB87C, sub_ABD64, sub_ABF4C, sub_ABF88
 global sub_ABFB4, sub_AC0C4, sub_AC194, sub_AC244, sub_AC2B4, sub_AC360, sub_AC470, sub_AC484
 global sub_AC574, sub_AC5AC, sub_AC6D4, sub_AC70C, sub_AC838, sub_AC868, sub_AC89C, sub_AC950
-global sub_AC990, sub_AC9B8, sub_AC9CC, sub_AC9D4, type_info__raw_name
+global getmemblock, sub_AC9B8, sub_AC9CC, sub_AC9D4, type_info__raw_name
 sub_AB834:
 push esi	; AB834
 push edi	; AB835
@@ -64,7 +64,7 @@ cmp dword [byte esp+028h], byte 0	; AB88B
 je near loc_ABCC4	; AB890
 mov esi, dword [byte esp+020h]	; AB896
 push esi	; AB89A
-push asc_11319C	; AB89B
+push str_ReservememMEMORYMANAGERN	; AB89B
 call FatalError	; AB8A0
 add esp, byte 8	; AB8A5
 jmp near loc_ABCC4	; AB8A8
@@ -131,7 +131,7 @@ push dword 8000h	; AB960
 push edx	; AB965
 mov eax, dword [byte esp+028h]	; AB966
 push eax	; AB96A
-push asc_11321C	; AB96B
+push str_ReservememMEMORYMANAGERB	; AB96B
 call FatalError	; AB970
 add esp, byte 10h	; AB975
 xor eax, eax	; AB978
@@ -198,7 +198,7 @@ jmp short loc_AB9D9	; ABA00
 loc_ABA02:
 cmp edx, dword [byte esp+08h]	; ABA02
 jl near loc_ABAA7	; ABA06
-call sub_AC990	; ABA0C
+call getmemblock	; ABA0C
 mov edx, dword [byte esp+020h]	; ABA11
 mov esi, eax	; ABA15
 mov dword [esp], eax	; ABA17
@@ -344,7 +344,7 @@ jmp short loc_ABB5C	; ABB92
 loc_ABB94:
 cmp ebx, dword [byte esp+08h]	; ABB94
 jl near loc_ABC3E	; ABB98
-call sub_AC990	; ABB9E
+call getmemblock	; ABB9E
 mov edx, dword [byte esp+020h]	; ABBA3
 mov esi, eax	; ABBA7
 mov dword [byte esp+04h], eax	; ABBA9
@@ -1747,7 +1747,7 @@ mov dword [dword_185730], edx	; AC985
 mov dword [byte edx+020h], eax	; AC98B
 ret	; AC98E
 db 090h
-sub_AC990:
+getmemblock:
 cmp dword [dword_185730], byte 0	; AC990
 jne short loc_AC9A6	; AC997
 push str_GetmemblockNOMEMORYBLOCKS	; AC999

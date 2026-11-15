@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_BA3D0 progbits alloc exec nowrite align=1
-extern FatalError, asc_113954, asc_113960, asc_11396C, asc_113974, dword_11F5C0, dword_11F5C4, dword_11F5F0
+extern FatalError, str_ORIINST, asc_113960, asc_11396C, str_OriloadCouldNotLoadORIGA, dword_11F5C0, dword_11F5C4, dword_11F5F0
 extern dword_122378, dword_122384, dword_122388, dword_12238C, dword_122390, dword_122894, dword_1228D0, dword_1228D8
 extern dword_1228DC, dword_1228E0, dword_1228E4, dword_1228F8, dword_1228FC, dword_123AA4, dword_123AA8, dword_123ABC
 extern dword_123AC0, dword_124464, dword_124468, dword_17DC18, dword_17DC1C, dword_17DC24, dword_17DC28, dword_1956B0
@@ -2827,7 +2827,7 @@ shl edx, 2	; BC1E4
 push ebp	; BC1E7
 add eax, edx	; BC1E8
 push eax	; BC1EA
-push asc_113954	; BC1EB
+push str_ORIINST	; BC1EB
 call sub_AB758	; BC1F0
 add esp, byte 0Ch	; BC1F5
 mov ebp, eax	; BC1F8
@@ -3233,7 +3233,7 @@ mov esi, eax	; BC5CA
 test eax, eax	; BC5CC
 jne short loc_BC5DE	; BC5CE
 push ebx	; BC5D0
-push asc_113974	; BC5D1
+push str_OriloadCouldNotLoadORIGA	; BC5D1
 call FatalError	; BC5D6
 add esp, byte 8	; BC5DB
 loc_BC5DE:

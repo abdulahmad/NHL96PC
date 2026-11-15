@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_1512F0 progbits alloc noexec write align=1
-extern unk_1142C4, unk_1142D0, unk_1142FC, unk_114300, unk_114304, unk_114308, unk_11430C, unk_114310
-extern unk_114314, unk_114318, unk_11431C, unk_114320, unk_114324, unk_114328, unk_11432C
+extern str_ULTRASND, unk_1142D0, str_Fs, str_Jan2, str_Feb3, str_Mar2, str_Apr2, str_May2
+extern str_Jun2, str_Jul2, str_Aug2, str_Sep2, str_Oct2, str_Nov2, str_Dec2
 global byte_1512F0, byte_1512F8, byte_151300, byte_151308, byte_151310, byte_151318, byte_15132C, byte_151360
 global byte_151364, byte_151368, dword_151320, dword_151324, dword_151328, dword_15133C, dword_151340, dword_151344
 global dword_151348, dword_15134C, dword_151350, dword_151354, dword_151358, dword_15135C, dword_15136C, dword_151370
@@ -26,7 +26,7 @@ db 01h,03h,05h,07h,0C2h,0C6h,0CAh,0CEh
 dword_151320:
 db 0FFh,0FFh,0FFh,0FFh
 dword_151324:
-dd unk_1142C4
+dd str_ULTRASND
 dword_151328:
 db 00h,00h,00h,00h
 byte_15132C:
@@ -97,7 +97,7 @@ dword_1513AC:
 db 02h,00h,00h,00h
 off_1513B0:
 dd unk_1142D0
-dd unk_1142FC
+dd str_Fs
 dword_1513B8:
 db 00h,00h,00h,00h
 dword_1513BC:
@@ -112,18 +112,18 @@ dword_1513CC:
 db 0FFh,0FFh,00h,00h,0AAh,0AAh,00h,00h
 dword_1513D4:
 db 055h,055h,00h,00h
-dd unk_114300
-dd unk_114304
-dd unk_114308
-dd unk_11430C
-dd unk_114310
-dd unk_114314
-dd unk_114318
-dd unk_11431C
-dd unk_114320
-dd unk_114324
-dd unk_114328
-dd unk_11432C
+dd str_Jan2
+dd str_Feb3
+dd str_Mar2
+dd str_Apr2
+dd str_May2
+dd str_Jun2
+dd str_Jul2
+dd str_Aug2
+dd str_Sep2
+dd str_Oct2
+dd str_Nov2
+dd str_Dec2
 db 00h,00h,00h,00h
 word_15140C:
 db 020h,02h

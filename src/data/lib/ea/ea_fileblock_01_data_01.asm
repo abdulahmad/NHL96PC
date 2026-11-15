@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_113438 progbits alloc noexec write align=1
-global str_DBUGTXT, str_FILES, str_DATES, str_TIMES, str_CLOSED, str_TIMES2, asc_113484, asc_113494
-global asc_1134A4, asc_1134F4, asc_1134FC, asc_113540, asc_113570, unk_113444
+global str_DBUGTXT, str_FILES, str_DATES, str_TIMES, str_CLOSED, str_TIMES2, asc_113484, str_2d02d02d2
+global asc_1134A4, asc_1134F4, asc_1134FC, str_CreatewindowblockBADBLOC, str_CreatewindowblockOUTOFRO, unk_113444
 str_DBUGTXT:
 db 044h,042h,055h,047h,03Fh,03Fh,02Eh,054h,058h,054h,00h,072h
 unk_113444:
@@ -20,7 +20,7 @@ str_TIMES2:
 db 054h,049h,04Dh,045h,03Ah,020h,025h,073h,0Ah,00h,02Ch,069h
 asc_113484:
 db 025h,030h,032h,064h,02Dh,025h,033h,073h,02Dh,025h,030h,032h,064h,00h,063h,064h
-asc_113494:
+str_2d02d02d2:
 db 025h,032h,064h,03Ah,025h,030h,032h,064h,03Ah,025h,030h,032h,064h,00h,00h,00h
 asc_1134A4:
 db 063h,072h,065h,061h,074h,065h,077h,069h,06Eh,064h,06Fh,077h,062h,06Ch,06Fh,063h
@@ -36,11 +36,11 @@ db 06Bh,020h,02Dh,020h,04Fh,055h,054h,020h,04Fh,046h,020h,04Dh,045h,04Dh,04Fh,05
 db 059h,0Ah,072h,065h,071h,075h,065h,073h,074h,065h,064h,03Ah,020h,025h,064h,078h
 db 025h,064h,020h,061h,076h,061h,069h,06Ch,061h,062h,06Ch,065h,03Ah,020h,025h,06Ch
 db 064h,0Ah,00h,06Eh
-asc_113540:
+str_CreatewindowblockBADBLOC:
 db 063h,072h,065h,061h,074h,065h,077h,069h,06Eh,064h,06Fh,077h,062h,06Ch,06Fh,063h
 db 06Bh,020h,02Dh,020h,042h,041h,044h,020h,042h,04Ch,04Fh,043h,04Bh,0Ah,072h,065h
 db 071h,075h,065h,073h,074h,065h,064h,03Ah,020h,025h,064h,078h,025h,064h,0Ah,00h
-asc_113570:
+str_CreatewindowblockOUTOFRO:
 db 063h,072h,065h,061h,074h,065h,077h,069h,06Eh,064h,06Fh,077h,062h,06Ch,06Fh,063h
 db 06Bh,020h,02Dh,020h,04Fh,055h,054h,020h,04Fh,046h,020h,052h,04Fh,057h,020h,053h
 db 050h,041h,043h,045h,0Ah,072h,065h,071h,075h,065h,073h,074h,065h,064h,03Ah,020h

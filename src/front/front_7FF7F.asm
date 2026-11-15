@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_7FF7F progbits alloc exec nowrite align=1
-extern asc_1123D0, asc_1123DC, byte_16580A, byte_16580B, byte_165940, byte_17BDAE, byte_17CC1E, byte_17CC36
+extern str_05dCNZDB, str_S05dCNZDB, byte_16580A, byte_16580B, byte_165940, byte_17BDAE, byte_17CC1E, byte_17CC36
 extern byte_17CFB1, byte_17D262, byte_17D26F, byte_17D270, byte_17D271, dword_1174E0, dword_1174EC, dword_1174F0
 extern dword_117500, dword_117510, dword_11E4B8, dword_1657EA, dword_1657F6, dword_1657FA, dword_1657FE, dword_17CB2F
 extern dword_17CBE7, dword_17CC13, dword_17CC17, dword_17CEC3, dword_17CED1, dword_17CED6, dword_17D162, dword_17D1E2
@@ -94,7 +94,7 @@ add eax, byte 41h	; 8001A
 push eax	; 8001D
 push dword [dword_17D162]	; 8001E
 loc_80024:
-push asc_1123D0	; 80024
+push str_05dCNZDB	; 80024
 lea eax, [byte ebp-052h]	; 80029
 push eax	; 8002C
 call sprintf_	; 8002D
@@ -1576,7 +1576,7 @@ push dword [byte ebp+036h]	; 81134
 push dword [dword_17CBE7]	; 81137
 lea eax, [byte ebp-062h]	; 8113D
 push eax	; 81140
-push asc_1123DC	; 81141
+push str_S05dCNZDB	; 81141
 lea eax, [byte ebp-042h]	; 81146
 push eax	; 81149
 call sprintf_	; 8114A
@@ -2601,7 +2601,7 @@ push eax	; 81DC9
 push dword [dword_17CBE7]	; 81DCA
 lea eax, [byte ebp-05Ch]	; 81DD0
 push eax	; 81DD3
-push asc_1123DC	; 81DD4
+push str_S05dCNZDB	; 81DD4
 lea eax, [byte ebp-034h]	; 81DD9
 push eax	; 81DDC
 call sprintf_	; 81DDD
@@ -2629,7 +2629,7 @@ push eax	; 81E24
 push dword [dword_17D162]	; 81E25
 lea eax, [byte ebp-05Ch]	; 81E2B
 push eax	; 81E2E
-push asc_1123DC	; 81E2F
+push str_S05dCNZDB	; 81E2F
 lea eax, [byte ebp-034h]	; 81E34
 push eax	; 81E37
 xor edi, edi	; 81E38

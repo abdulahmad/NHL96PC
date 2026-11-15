@@ -5,10 +5,10 @@ section s_313D2 progbits alloc exec nowrite align=1
 extern AddPenalty, ChkOffsides, ChkPullGoalieLate, CwdExciteLvl, DemoMode, EvadePlayers, GameLoopActive, MarkTwoLinePlayers
 extern OOlist, PBnum, PenShotAssign, Pencntdwn, PuckIChk, RemoveFromLines, SortCords, awtmstruct
 extern byte_1178C8, byte_119DF7, byte_119FF0, byte_157B95, byte_157DA2, byte_1647E3, byte_16514E, byte_16597D
-extern byte_176AE2, byte_176AE3, byte_176B83, byte_176B84, byte_176B85, byte_176B9B, byte_176B9E, byte_176B9F
+extern byte_176AE2, byte_176AE3, byte_176B83, byte_176B84, byte_176B85, goalevent, byte_176B9E, byte_176B9F
 extern check4bench, chk4lc, chk4pass, crowdlevel, dword_1178DA, dword_1178DE, dword_1178EA, dword_1178EE
 extern dword_119173, dword_119183, dword_1191AF, dword_1191B3, dword_1191B7, dword_1191BB, dword_1191BF, dword_1191C3
-extern dword_1191E7, dword_1191EB, dword_1191F3, dword_119DE4, dword_119E8A, dword_119E8E, dword_119E92, dword_16523C
+extern dword_1191E7, dword_1191EB, dword_1191F3, dword_119DE4, str_wildcard, dword_119E8E, dword_119E92, dword_16523C
 extern dword_165240, dword_165244, dword_165248, dword_16524C, dword_165718, dword_16584E, findpc, fox
 extern foy, gameclock, gameopts, getlchoice, gmode, hmtmstruct, lasttouch, lcblink
 extern lcboxon, lcline, off_11787C, off_117888, off_11788C, off_117890, off_117894, passplayer
@@ -6303,7 +6303,7 @@ call sub_464A6	; 35F69
 movsx eax, word [word_11910B]	; 35F6E
 cmp eax, 0ECh	; 35F75
 jl near loc_3668B	; 35F7A
-movsx eax, byte [byte_176B9B]	; 35F80
+movsx eax, byte [goalevent]	; 35F80
 cmp eax, byte 1	; 35F87
 jne near loc_3668B	; 35F8A
 movzx eax, byte [byte_176B9E]	; 35F90
@@ -6317,7 +6317,7 @@ mov word [word_176B6C], ax	; 35FBC
 cwde	; 35FC2
 mov dword [GameLoopActive], eax	; 35FC3
 movsx eax, word [word_1178FE]	; 35FC8
-mov byte [byte_176B9B], 0FFh	; 35FCF
+mov byte [goalevent], 0FFh	; 35FCF
 cmp eax, byte 3	; 35FD6
 jl near loc_3668B	; 35FD9
 mov word [word_11910B], 38h	; 35FDF
@@ -7279,7 +7279,7 @@ jmp near loc_36686	; 36BF3
 sub_36BF8:
 push edx	; 36BF8
 imul edx, dword [dword_1191BB], byte 3	; 36BF9
-mov eax, dword [nosplit edx*4+dword_119E8A]	; 36C00
+mov eax, dword [nosplit edx*4+str_wildcard]	; 36C00
 cmp dword [dword_1191BF], byte 0	; 36C07
 jge short loc_36C12	; 36C0E
 neg eax	; 36C10

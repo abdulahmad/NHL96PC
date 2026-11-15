@@ -2,9 +2,9 @@
 bits 32
 %include "hockey.inc"
 section s_11D92C progbits alloc noexec write align=1
-global dword_11D930, dword_11D940, dword_11D950, dword_11D954, dword_11DED0, dword_11DED4, dword_11DF70, dword_11DF74
+global dword_11D930, dword_11D940, str_dbgO, dword_11D954, dword_11DED0, dword_11DED4, dword_11DF70, dword_11DF74
 global dword_11DF78, dword_11DF7C, dword_11DF80, dword_11DF84, unk_11DE50, unk_11DE90, word_11D92C, word_11D92E
-global word_11D968, word_11D96C, word_11D9A8, word_11D9AC, word_11DA10, word_11DA14
+global str_feO, word_11D96C, word_11D9A8, word_11D9AC, word_11DA10, word_11DA14
 word_11D92C:
 db 00h,00h
 word_11D92E:
@@ -13,12 +13,12 @@ dword_11D930:
 db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 dword_11D940:
 db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-dword_11D950:
+str_dbgO:
 db 04Fh,00h,00h,00h
 dword_11D954:
 db 0F5h,00h,00h,00h,077h,00h,00h,00h,0F5h,00h,00h,00h,077h,00h,00h,00h
 db 023h,01h,00h,00h
-word_11D968:
+str_feO:
 db 04Fh,00h,00h,00h
 word_11D96C:
 db 023h,01h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h

@@ -2,10 +2,10 @@
 bits 32
 %include "hockey.inc"
 section s_11E624 progbits alloc noexec write align=1
-extern unk_11267C, unk_112681, unk_112686, unk_11268B, unk_112690, unk_112695, unk_11269A, unk_11269F
-extern unk_11284C, unk_112851, unk_112856, unk_11285B, unk_112860, unk_112865, unk_11286A, unk_11286F
-extern unk_112874, unk_112879, unk_11287E, unk_112883, unk_112888, unk_11288D, unk_112892, unk_112897
-extern unk_11289C, unk_1128A1, unk_1128A6, unk_1128AB, unk_1128B0
+extern str_FLM0, str_FLM1, str_FLM2, str_FLM3, str_FLM4, str_FLM5, str_FLM6, str_FLM7
+extern str_0410, str_0707, str_0177, str_1230, str_2314, str_2309, str_0427, str_2293
+extern str_1931, str_0109, str_1688, str_1404, str_2316, str_1033, str_0509, str_0844
+extern str_1227, str_2409, str_1720, str_0009, str_0834
 global byte_11E700, byte_11E844, byte_11E852, dword_11E624, dword_11E664, dword_11E668, dword_11E66C, dword_11E670
 global dword_11E674, dword_11E678, dword_11E67C, dword_11E684, dword_11E6AC, dword_11E6B4, dword_11E75A, dword_11E75E
 global dword_11E7E0, dword_11E85B, dword_11E87F, dword_11E883, dword_11E887, dword_11E88B, off_11E6E0, off_11E764
@@ -40,14 +40,14 @@ db 0E8h,00h,00h,00h,0E9h,00h,00h,00h,0EAh,00h,00h,00h,0EBh,00h,00h,00h
 db 0ECh,00h,00h,00h,0EDh,00h,00h,00h,0EEh,00h,00h,00h,0EFh,00h,00h,00h
 db 0F0h,00h,00h,00h,0F1h,00h,00h,00h,0F2h,00h,00h,00h
 off_11E6E0:
-dd unk_11267C
-dd unk_112681
-dd unk_112686
-dd unk_11268B
-dd unk_112690
-dd unk_112695
-dd unk_11269A
-dd unk_11269F
+dd str_FLM0
+dd str_FLM1
+dd str_FLM2
+dd str_FLM3
+dd str_FLM4
+dd str_FLM5
+dd str_FLM6
+dd str_FLM7
 byte_11E700:
 db 01h,00h,00h,00h,01h,00h,01h,00h,00h,00h,00h,00h,01h,00h,00h,00h
 db 01h,01h,01h,01h,01h,00h,00h,01h,00h,00h
@@ -61,27 +61,27 @@ db 00h,00h,00h,00h
 dword_11E75E:
 db 00h,00h,00h,00h,00h,00h
 off_11E764:
-dd unk_11284C
-dd unk_112851
-dd unk_112856
-dd unk_11285B
-dd unk_112860
-dd unk_112865
-dd unk_11286A
-dd unk_11286F
-dd unk_112874
-dd unk_112879
-dd unk_11287E
-dd unk_112883
-dd unk_112888
-dd unk_11288D
-dd unk_112892
-dd unk_112897
-dd unk_11289C
-dd unk_1128A1
-dd unk_1128A6
-dd unk_1128AB
-dd unk_1128B0
+dd str_0410
+dd str_0707
+dd str_0177
+dd str_1230
+dd str_2314
+dd str_2309
+dd str_0427
+dd str_2293
+dd str_1931
+dd str_0109
+dd str_1688
+dd str_1404
+dd str_2316
+dd str_1033
+dd str_0509
+dd str_0844
+dd str_1227
+dd str_2409
+dd str_1720
+dd str_0009
+dd str_0834
 db 099h,00h,00h,00h,09Ah,00h,00h,00h,09Bh,00h,00h,00h,09Ch,00h,00h,00h
 db 09Dh,00h,00h,00h,09Eh,00h,00h,00h,09Fh,00h,00h,00h,0A0h,00h,00h,00h
 db 0A1h,00h,00h,00h,0A2h,00h,00h,00h

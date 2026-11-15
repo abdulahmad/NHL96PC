@@ -2,24 +2,24 @@
 bits 32
 %include "hockey.inc"
 section s_1140E8 progbits alloc noexec write align=1
-global str_BLASTER, asc_1140F0, asc_1140FB, asc_114104, asc_114110, asc_11411C, asc_114124, str_NotEnoughMemoryTo
-global str_FloatingPointSupportNot, asc_114180, asc_114194, asc_1141A4, asc_1141B4, asc_1141F0, asc_114230, asc_11426C
-global str_RATIONALDOS4G, asc_1142B8, unk_11418C, unk_1142C4, unk_1142D0, unk_1142FC, unk_114300, unk_114304
-global unk_114308, unk_11430C, unk_114310, unk_114314, unk_114318, unk_11431C, unk_114320, unk_114324
-global unk_114328, unk_11432C
+global str_BLASTER, str_DMABUFFER, str_WSSDMA, str_DMABUFFER2, str_DMABUFFER3, str_DMABUF, str_DMABUF2, str_NotEnoughMemoryTo
+global str_FloatingPointSupportNot, str_SaveText, asc_114194, str_Ptr0ptr1ptr2, asc_1141B4, str_BuildfixedtableminLinear, str_BuildtableminLinearmapfE, str_BuildtableminLinearmapfE2
+global str_RATIONALDOS4G, str_RMHandler, unk_11418C, str_ULTRASND, unk_1142D0, str_Fs, str_Jan2, str_Feb3
+global str_Mar2, str_Apr2, str_May2, str_Jun2, str_Jul2, str_Aug2, str_Sep2, str_Oct2
+global str_Nov2, str_Dec2
 str_BLASTER:
 db 042h,04Ch,041h,053h,054h,045h,052h,00h
-asc_1140F0:
+str_DMABUFFER:
 db 044h,04Dh,041h,020h,042h,055h,046h,046h,045h,052h,00h
-asc_1140FB:
+str_WSSDMA:
 db 057h,053h,053h,044h,04Dh,041h,00h,00h,00h
-asc_114104:
+str_DMABUFFER2:
 db 044h,04Dh,041h,020h,042h,055h,046h,046h,045h,052h,00h,00h
-asc_114110:
+str_DMABUFFER3:
 db 044h,04Dh,041h,020h,042h,055h,046h,046h,045h,052h,00h,00h
-asc_11411C:
+str_DMABUF:
 db 044h,04Dh,041h,042h,055h,046h,00h,00h
-asc_114124:
+str_DMABUF2:
 db 044h,04Dh,041h,042h,055h,046h,00h,00h
 str_NotEnoughMemoryTo:
 db 04Eh,06Fh,074h,020h,065h,06Eh,06Fh,075h,067h,068h,020h,06Dh,065h,06Dh,06Fh,072h
@@ -29,67 +29,67 @@ str_FloatingPointSupportNot:
 db 046h,06Ch,06Fh,061h,074h,069h,06Eh,067h,02Dh,070h,06Fh,069h,06Eh,074h,020h,073h
 db 075h,070h,070h,06Fh,072h,074h,020h,06Eh,06Fh,074h,020h,06Ch,06Fh,061h,064h,065h
 db 064h,0Dh,0Ah,00h
-asc_114180:
+str_SaveText:
 db 053h,061h,076h,065h,020h,054h,065h,078h,074h,00h,00h,00h
 unk_11418C:
 db 06Dh,06Fh,075h,073h,065h,00h,069h,064h
 asc_114194:
 db 063h,03Ah,05Ch,075h,074h,069h,06Ch,05Ch,06Dh,06Fh,075h,073h,065h,00h,075h,061h
-asc_1141A4:
+str_Ptr0ptr1ptr2:
 db 070h,074h,072h,030h,070h,074h,072h,031h,070h,074h,072h,032h,00h,00h,00h,00h
 asc_1141B4:
 db 062h,075h,069h,06Ch,064h,074h,061h,062h,06Ch,065h,06Dh,069h,06Eh,020h,028h,06Ch
 db 069h,06Eh,065h,061h,072h,06Dh,061h,070h,066h,029h,020h,02Dh,020h,065h,078h,063h
 db 065h,065h,064h,065h,064h,020h,037h,036h,038h,020h,06Dh,061h,078h,020h,068h,065h
 db 069h,067h,068h,074h,020h,028h,025h,064h,029h,0Ah,00h,020h
-asc_1141F0:
+str_BuildfixedtableminLinear:
 db 062h,075h,069h,06Ch,064h,066h,069h,078h,065h,064h,074h,061h,062h,06Ch,065h,06Dh
 db 069h,06Eh,020h,028h,06Ch,069h,06Eh,065h,061h,072h,06Dh,061h,070h,066h,029h,020h
 db 02Dh,020h,065h,078h,063h,065h,065h,064h,065h,064h,020h,037h,036h,038h,020h,06Dh
 db 061h,078h,020h,068h,065h,069h,067h,068h,074h,020h,028h,025h,064h,029h,0Ah,00h
-asc_114230:
+str_BuildtableminLinearmapfE:
 db 062h,075h,069h,06Ch,064h,074h,061h,062h,06Ch,065h,06Dh,069h,06Eh,020h,028h,06Ch
 db 069h,06Eh,065h,061h,072h,06Dh,061h,070h,066h,029h,020h,02Dh,020h,065h,078h,063h
 db 065h,065h,064h,065h,064h,020h,037h,036h,038h,020h,06Dh,061h,078h,020h,068h,065h
 db 069h,067h,068h,074h,020h,028h,025h,064h,029h,0Ah,00h,00h
-asc_11426C:
+str_BuildtableminLinearmapfE2:
 db 062h,075h,069h,06Ch,064h,074h,061h,062h,06Ch,065h,06Dh,069h,06Eh,020h,028h,06Ch
 db 069h,06Eh,065h,061h,072h,06Dh,061h,070h,066h,029h,020h,02Dh,020h,065h,078h,063h
 db 065h,065h,064h,065h,064h,020h,037h,036h,038h,020h,06Dh,061h,078h,020h,068h,065h
 db 069h,067h,068h,074h,020h,028h,025h,064h,029h,0Ah,00h,00h
 str_RATIONALDOS4G:
 db 052h,041h,054h,049h,04Fh,04Eh,041h,04Ch,020h,044h,04Fh,053h,02Fh,034h,047h,00h
-asc_1142B8:
+str_RMHandler:
 db 052h,04Dh,048h,061h,06Eh,064h,06Ch,065h,072h,00h,00h,00h
-unk_1142C4:
+str_ULTRASND:
 db 055h,04Ch,054h,052h,041h,053h,04Eh,044h,00h,00h,00h,00h
 unk_1142D0:
 db 02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah
 db 02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah
 db 02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,00h,064h,065h,064h
-unk_1142FC:
+str_Fs:
 db 025h,046h,073h,00h
-unk_114300:
+str_Jan2:
 db 04Ah,061h,06Eh,00h
-unk_114304:
+str_Feb3:
 db 046h,065h,062h,00h
-unk_114308:
+str_Mar2:
 db 04Dh,061h,072h,00h
-unk_11430C:
+str_Apr2:
 db 041h,070h,072h,00h
-unk_114310:
+str_May2:
 db 04Dh,061h,079h,00h
-unk_114314:
+str_Jun2:
 db 04Ah,075h,06Eh,00h
-unk_114318:
+str_Jul2:
 db 04Ah,075h,06Ch,00h
-unk_11431C:
+str_Aug2:
 db 041h,075h,067h,00h
-unk_114320:
+str_Sep2:
 db 053h,065h,070h,00h
-unk_114324:
+str_Oct2:
 db 04Fh,063h,074h,00h
-unk_114328:
+str_Nov2:
 db 04Eh,06Fh,076h,00h
-unk_11432C:
+str_Dec2:
 db 044h,065h,063h,00h

@@ -2,64 +2,64 @@
 bits 32
 %include "hockey.inc"
 section s_110B48 progbits alloc noexec write align=1
-global asc_110B49, asc_110B4E, asc_110B58, asc_110B5D, asc_110B62, asc_110B67, asc_110B6C, asc_110B71
-global asc_110B76, asc_110B7B, asc_110B80, asc_110B85, asc_110B8A, asc_110B8F, asc_110B9B, asc_110BA7
-global asc_110BAF, asc_110BBD, asc_110BC1, asc_110BC6, asc_110BCE, asc_110C09, asc_110C4B, asc_110C51
-global asc_110C57, asc_110C5D, asc_110C7F, asc_110CA2, asc_110CAC, asc_110CB6, asc_110CBF, asc_110CC8
-global asc_110CD3, asc_110CDA, asc_110CE1, asc_110CEA, asc_110CF2, asc_110CF8, asc_110CFE, asc_110D03
-global asc_110D07, asc_110D0B, asc_110D0F, asc_110D13, asc_110D17, asc_110D1F, asc_110D28, asc_110D2E
-global asc_110D33, asc_110D39, asc_110D41, asc_110D49, asc_110D4E, asc_110D56, asc_110D5B, asc_110D60
-global asc_110D65, asc_110D6A, asc_110D6F, asc_110D74, asc_110D79, asc_110D7E, asc_110D83, asc_110D88
-global asc_110D95, asc_110D99, byte_110B48, str_fmtTenths, unk_110B95, unk_110B98, unk_110BCB
+global str_08d, str_LOCALNDX, str_Ulxn, str_Ulxh, str_Ulyn, str_Ulyh, str_Slid, str_Ball
+global str_Slu1, str_Slu2, str_Sld1, str_Sld2, str_BKGD2, str_TXTD, str_3d3d3d, str_3d3d
+global str_1000, str_00, str_FL00, str_FL01, asc_110BCE, asc_110C09, str_20s, str_sp3s
+global asc_110C57, str_sp3d3d3d3d3d3d3d3d, str_sp3d3d2d2d2d, str_sp3s2, asc_110CAC, str_sp00, str_sp1000, str_sp3d1d
+global str_sp002, str_sp10002, str_sp3d1d2, str_spD, str_Uname, str_Urate, str_Upts, str_Ugf
+global str_Uga, str_Upp, str_Upk, str_Uso, str_Ustreak, str_Ulstreak, str_Uteam, str_Uopp
+global str_Usort, str_Logname, str_Logbook, str_Pal5, str_Shadtbl, str_BT002, str_BT012, str_BT022
+global str_BT10, str_BT11, str_BT12, str_TB01, str_TB00, str_TB11, str_TB10, str_MightyDucks
+global str_fmt2d, str_OfAnaheim, byte_110B48, str_fmtTenths, str_D4, str_dbgS, str_wt
 byte_110B48:
 db 00h
-asc_110B49:
+str_08d:
 db 025h,030h,038h,064h,00h
-asc_110B4E:
+str_LOCALNDX:
 db 04Ch,04Fh,043h,041h,04Ch,02Eh,04Eh,044h,058h,00h
-asc_110B58:
+str_Ulxn:
 db 075h,06Ch,078h,06Eh,00h
-asc_110B5D:
+str_Ulxh:
 db 075h,06Ch,078h,068h,00h
-asc_110B62:
+str_Ulyn:
 db 075h,06Ch,079h,06Eh,00h
-asc_110B67:
+str_Ulyh:
 db 075h,06Ch,079h,068h,00h
-asc_110B6C:
+str_Slid:
 db 073h,06Ch,069h,064h,00h
-asc_110B71:
+str_Ball:
 db 062h,061h,06Ch,06Ch,00h
-asc_110B76:
+str_Slu1:
 db 073h,06Ch,075h,031h,00h
-asc_110B7B:
+str_Slu2:
 db 073h,06Ch,075h,032h,00h
-asc_110B80:
+str_Sld1:
 db 073h,06Ch,064h,031h,00h
-asc_110B85:
+str_Sld2:
 db 073h,06Ch,064h,032h,00h
-asc_110B8A:
+str_BKGD2:
 db 042h,04Bh,047h,044h,00h
-asc_110B8F:
+str_TXTD:
 db 054h,058h,054h,025h,064h,00h
-unk_110B95:
+str_D4:
 db 025h,064h,00h
-unk_110B98:
+str_dbgS:
 db 025h,073h,00h
-asc_110B9B:
+str_3d3d3d:
 db 025h,033h,064h,02Dh,025h,033h,064h,02Dh,025h,033h,064h,00h
-asc_110BA7:
+str_3d3d:
 db 025h,033h,064h,02Dh,025h,033h,064h,00h
-asc_110BAF:
+str_1000:
 db 031h,030h,030h,02Eh,030h,00h
 str_fmtTenths:
 db 025h,033h,064h,02Eh,025h,031h,064h,00h
-asc_110BBD:
+str_00:
 db 030h,02Eh,030h,00h
-asc_110BC1:
+str_FL00:
 db 046h,04Ch,030h,030h,00h
-asc_110BC6:
+str_FL01:
 db 046h,04Ch,030h,031h,00h
-unk_110BCB:
+str_wt:
 db 077h,074h,00h
 asc_110BCE:
 db 02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh
@@ -72,95 +72,95 @@ db 02Dh,020h,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,020h,02Dh,02Dh,02Dh,02Dh,02Dh,02
 db 02Dh,020h,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,020h,02Dh,02Dh,02Dh,02Dh,02Dh
 db 020h,02Dh,02Dh,02Dh,02Dh,02Dh,020h,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh
 db 0Ah,00h
-asc_110C4B:
+str_20s:
 db 025h,02Dh,032h,030h,073h,00h
-asc_110C51:
+str_sp3s:
 db 020h,020h,025h,033h,073h,00h
 asc_110C57:
 db 020h,020h,020h,020h,020h,00h
-asc_110C5D:
+str_sp3d3d3d3d3d3d3d3d:
 db 020h,020h,025h,033h,064h,02Dh,025h,033h,064h,02Dh,025h,033h,064h,020h,025h,033h
 db 064h,02Dh,025h,033h,064h,02Dh,025h,033h,064h,020h,025h,033h,064h,02Dh,025h,033h
 db 064h,00h
-asc_110C7F:
+str_sp3d3d2d2d2d:
 db 020h,025h,033h,064h,020h,025h,033h,064h,020h,020h,020h,020h,025h,032h,064h,020h
 db 020h,020h,020h,020h,020h,020h,025h,032h,064h,020h,020h,020h,020h,020h,020h,025h
 db 032h,064h,00h
-asc_110CA2:
+str_sp3s2:
 db 020h,020h,020h,020h,020h,020h,025h,033h,073h,00h
 asc_110CAC:
 db 020h,020h,020h,020h,020h,020h,020h,020h,020h,00h
-asc_110CB6:
+str_sp00:
 db 020h,020h,020h,020h,020h,030h,02Eh,030h,00h
-asc_110CBF:
+str_sp1000:
 db 020h,020h,020h,031h,030h,030h,02Eh,030h,00h
-asc_110CC8:
+str_sp3d1d:
 db 020h,020h,020h,025h,033h,064h,02Eh,025h,031h,064h,00h
-asc_110CD3:
+str_sp002:
 db 020h,020h,020h,030h,02Eh,030h,00h
-asc_110CDA:
+str_sp10002:
 db 020h,031h,030h,030h,02Eh,030h,00h
-asc_110CE1:
+str_sp3d1d2:
 db 020h,025h,033h,064h,02Eh,025h,031h,064h,00h
-asc_110CEA:
+str_spD:
 db 020h,020h,020h,020h,025h,064h,0Ah,00h
-asc_110CF2:
+str_Uname:
 db 075h,06Eh,061h,06Dh,065h,00h
-asc_110CF8:
+str_Urate:
 db 075h,072h,061h,074h,065h,00h
-asc_110CFE:
+str_Upts:
 db 075h,070h,074h,073h,00h
-asc_110D03:
+str_Ugf:
 db 075h,067h,066h,00h
-asc_110D07:
+str_Uga:
 db 075h,067h,061h,00h
-asc_110D0B:
+str_Upp:
 db 075h,070h,070h,00h
-asc_110D0F:
+str_Upk:
 db 075h,070h,06Bh,00h
-asc_110D13:
+str_Uso:
 db 075h,073h,06Fh,00h
-asc_110D17:
+str_Ustreak:
 db 075h,073h,074h,072h,065h,061h,06Bh,00h
-asc_110D1F:
+str_Ulstreak:
 db 075h,06Ch,073h,074h,072h,065h,061h,06Bh,00h
-asc_110D28:
+str_Uteam:
 db 075h,074h,065h,061h,06Dh,00h
-asc_110D2E:
+str_Uopp:
 db 075h,06Fh,070h,070h,00h
-asc_110D33:
+str_Usort:
 db 075h,073h,06Fh,072h,074h,00h
-asc_110D39:
+str_Logname:
 db 06Ch,06Fh,067h,06Eh,061h,06Dh,065h,00h
-asc_110D41:
+str_Logbook:
 db 06Ch,06Fh,067h,062h,06Fh,06Fh,06Bh,00h
-asc_110D49:
+str_Pal5:
 db 021h,070h,061h,06Ch,00h
-asc_110D4E:
+str_Shadtbl:
 db 073h,068h,061h,064h,074h,062h,06Ch,00h
-asc_110D56:
+str_BT002:
 db 042h,054h,030h,030h,00h
-asc_110D5B:
+str_BT012:
 db 042h,054h,030h,031h,00h
-asc_110D60:
+str_BT022:
 db 042h,054h,030h,032h,00h
-asc_110D65:
+str_BT10:
 db 042h,054h,031h,030h,00h
-asc_110D6A:
+str_BT11:
 db 042h,054h,031h,031h,00h
-asc_110D6F:
+str_BT12:
 db 042h,054h,031h,032h,00h
-asc_110D74:
+str_TB01:
 db 054h,042h,030h,031h,00h
-asc_110D79:
+str_TB00:
 db 054h,042h,030h,030h,00h
-asc_110D7E:
+str_TB11:
 db 054h,042h,031h,031h,00h
-asc_110D83:
+str_TB10:
 db 054h,042h,031h,030h,00h
-asc_110D88:
+str_MightyDucks:
 db 04Dh,069h,067h,068h,074h,079h,020h,044h,075h,063h,06Bh,073h,00h
-asc_110D95:
+str_fmt2d:
 db 025h,032h,064h,00h
-asc_110D99:
+str_OfAnaheim:
 db 06Fh,066h,020h,041h,06Eh,061h,068h,065h,069h,06Dh,00h

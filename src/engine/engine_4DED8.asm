@@ -3,8 +3,8 @@ bits 32
 %include "hockey.inc"
 section s_4DED8 progbits alloc exec nowrite align=1
 extern FileReadAt, LineChangeLine, LineChangeReq, OOlist, PBnum, Pencntdwn, PlList, SortCords
-extern asc_110DA4, asc_110DA9, asc_110DB1, awtmstruct, byte_1178C8, byte_157640, byte_15864E, byte_15864F
-extern byte_158650, byte_158651, byte_158652, byte_176AE2, byte_176B84, byte_176B90, byte_176B9B, byte_17CC37
+extern str_05d, str_CsgDb, str_05dCsg, awtmstruct, byte_1178C8, byte_157640, byte_15864E, byte_15864F
+extern byte_158650, byte_158651, byte_158652, byte_176AE2, byte_176B84, byte_176B90, goalevent, byte_17CC37
 extern collflag, curperiod, dword_114F16, dword_1150D8, dword_117934, dword_118E89, dword_119173, dword_11917F
 extern dword_119183, dword_11918F, dword_119193, dword_1191AF, dword_1191B3, dword_1191B7, dword_1191BB, dword_1191BF
 extern dword_1191C3, dword_11B364, dword_151B84, dword_1657EA, dword_1657EE, dword_1657F2, dword_1657F6, dword_1657FA
@@ -15,14 +15,14 @@ extern gameopts, gmode, hmroster, hmtmstruct, lastplayer, lasttouch, lcblink, lc
 extern lcline, off_11786C, passplayer, penshotctl, penshotlive, penshotmode, penshotplayer, penshotstart
 extern penshottimer, psendcount, sflags, shotongoal, shotontarget, sprintf_, strcat_, sub_1DC65
 extern sub_1DCDC, sub_1DED8, sub_1DF55, sub_1DFEA, sub_1E5FC, sub_1F362, sub_465BA, sub_488E9
-extern sub_48A4D, sub_535D5, sub_B7256, threat, unk_110DBA, unk_115108, unk_115113, unk_156E6C
+extern sub_48A4D, sub_535D5, sub_B7256, threat, str_DB, unk_115108, unk_115113, unk_156E6C
 extern unk_156FFC, unk_157AF8, unk_157B0A, unk_157B1C, unk_157B4F, unk_157B82, unk_157D8F, unk_157F9C
 extern unk_157FDA, unk_1582F5, unk_158610, unk_164B5C, unk_17CB2E, unk_17CED5, word_1178A8, word_1178AC
 extern word_1178AE, word_1178B4, word_1178B6, word_1178B8, word_1178BE, word_1178C0, word_1178C6, word_1178CA
 extern word_1178CC, word_1178CE, word_1178D0, word_1178F4, word_1178F6, word_1178F8, word_1178FA, word_1178FC
 extern word_1178FE, word_117902, word_118E8F, word_118E91, word_118E93, word_118E9F, word_118EA3, word_118EA5
 extern word_118EA7, word_118EA9, word_118EAB, word_118EAF, word_118EB1, word_118EB3, word_118EB7, word_118FAF
-extern word_118FB1, word_11910B, word_11910D, word_11910F, word_119111, word_119113, word_119115, word_119169
+extern word_118FB1, word_11910B, word_11910D, word_11910F, word_119111, word_119113, Pencntdwn2, word_119169
 extern word_11916B, word_11918B, word_11B274, word_11B276, word_11D3A2, word_16474C, word_16474E, word_164792
 extern word_164794, word_1656D2, word_1656D6, word_165942, word_16594E, word_165950, word_176B44, word_176B7C
 extern word_176B80, word_176B88, word_176B8A, word_176B8C, word_176B8E
@@ -451,7 +451,7 @@ mov dx, word [word_11D3A2]	; 4E399
 mov word [eax], dx	; 4E3A0
 inc eax	; 4E3A3
 inc eax	; 4E3A4
-mov dx, word [word_119115]	; 4E3A5
+mov dx, word [Pencntdwn2]	; 4E3A5
 mov word [eax], dx	; 4E3AC
 inc eax	; 4E3AF
 inc eax	; 4E3B0
@@ -594,7 +594,7 @@ test ebx, ebx	; 4E545
 jne short loc_4E562	; 4E547
 mov ecx, 0Bh	; 4E549
 mov ebx, 0FFFFFFFFh	; 4E54E
-mov edx, byte_176B9B	; 4E553
+mov edx, goalevent	; 4E553
 mov eax, dword [byte ebp-01Eh]	; 4E558
 call sub_1DFEA	; 4E55B
 mov ebx, eax	; 4E560
@@ -1150,7 +1150,7 @@ inc eax	; 4EBCA
 mov dx, word [eax]	; 4EBCB
 inc eax	; 4EBCE
 inc eax	; 4EBCF
-mov word [word_119115], dx	; 4EBD0
+mov word [Pencntdwn2], dx	; 4EBD0
 movsx edx, word [eax]	; 4EBD7
 inc eax	; 4EBDA
 inc eax	; 4EBDB
@@ -1268,7 +1268,7 @@ test ebx, ebx	; 4ED18
 jne short loc_4ED35	; 4ED1A
 mov ecx, 0Bh	; 4ED1C
 mov ebx, 0FFFFFFFFh	; 4ED21
-mov edx, byte_176B9B	; 4ED26
+mov edx, goalevent	; 4ED26
 mov eax, dword [byte ebp-01Eh]	; 4ED2B
 call FileReadAt	; 4ED2E
 mov ebx, eax	; 4ED33
@@ -1505,7 +1505,7 @@ xor ebx, ebx	; 4F0A3
 mov dword [gameopts], unk_17CB2E	; 4F0A5
 call sub_1E5FC	; 4F0AF
 push dword [dword_17CBE7]	; 4F0B4
-push asc_110DA4	; 4F0BA
+push str_05d	; 4F0BA
 lea eax, [byte ebp-010h]	; 4F0BF
 push eax	; 4F0C2
 call sprintf_	; 4F0C3
@@ -1518,7 +1518,7 @@ shl eax, 0Fh	; 4F0DB
 shr eax, 1Bh	; 4F0DE
 add eax, byte 41h	; 4F0E1
 push eax	; 4F0E4
-push asc_110DA9	; 4F0E5
+push str_CsgDb	; 4F0E5
 lea eax, [byte ebp-010h]	; 4F0EA
 push eax	; 4F0ED
 call sprintf_	; 4F0EE
@@ -1583,7 +1583,7 @@ xor ebx, ebx	; 4F19D
 call sub_1E5FC	; 4F19F
 push dword [dword_17D162]	; 4F1A4
 loc_4F1AA:
-push asc_110DA4	; 4F1AA
+push str_05d	; 4F1AA
 lea eax, [byte ebp-010h]	; 4F1AF
 push eax	; 4F1B2
 call sprintf_	; 4F1B3
@@ -1593,7 +1593,7 @@ lea eax, [byte ebp-044h]	; 4F1BE
 call strcat_	; 4F1C1
 add esi, byte 41h	; 4F1C6
 push esi	; 4F1C9
-push asc_110DA9	; 4F1CA
+push str_CsgDb	; 4F1CA
 lea eax, [byte ebp-010h]	; 4F1CF
 push eax	; 4F1D2
 call sprintf_	; 4F1D3
@@ -1660,7 +1660,7 @@ lea eax, [byte ebp-040h]	; 4F2B3
 xor ebx, ebx	; 4F2B6
 call sub_1E5FC	; 4F2B8
 push dword [dword_17CBE7]	; 4F2BD
-push asc_110DA4	; 4F2C3
+push str_05d	; 4F2C3
 lea eax, [byte ebp-0Ch]	; 4F2C8
 push eax	; 4F2CB
 call sprintf_	; 4F2CC
@@ -1673,7 +1673,7 @@ shl eax, 0Fh	; 4F2E4
 shr eax, 1Bh	; 4F2E7
 add eax, byte 41h	; 4F2EA
 push eax	; 4F2ED
-push asc_110DA9	; 4F2EE
+push str_CsgDb	; 4F2EE
 lea eax, [byte ebp-0Ch]	; 4F2F3
 push eax	; 4F2F6
 call sprintf_	; 4F2F7
@@ -1693,10 +1693,10 @@ mov eax, dword [dword_17CEC3]	; 4F326
 add eax, byte 41h	; 4F32B
 push eax	; 4F32E
 push dword [dword_17CBE7]	; 4F32F
-push asc_110DB1	; 4F335
+push str_05dCsg	; 4F335
 lea eax, [byte ebp-0Ch]	; 4F33A
 push eax	; 4F33D
-mov ebx, unk_110DBA	; 4F33E
+mov ebx, str_DB	; 4F33E
 call sprintf_	; 4F343
 add esp, byte 10h	; 4F348
 lea edx, [byte ebp-0Ch]	; 4F34B
@@ -1729,7 +1729,7 @@ lea eax, [byte ebp-040h]	; 4F399
 xor ebx, ebx	; 4F39C
 call sub_1E5FC	; 4F39E
 push dword [dword_17CBE7]	; 4F3A3
-push asc_110DA4	; 4F3A9
+push str_05d	; 4F3A9
 lea eax, [byte ebp-0Ch]	; 4F3AE
 push eax	; 4F3B1
 call sprintf_	; 4F3B2
@@ -1752,7 +1752,7 @@ lea eax, [byte ebp-040h]	; 4F3EC
 xor ebx, ebx	; 4F3EF
 call sub_1E5FC	; 4F3F1
 push dword [dword_17D162]	; 4F3F6
-push asc_110DA4	; 4F3FC
+push str_05d	; 4F3FC
 lea eax, [byte ebp-0Ch]	; 4F401
 push eax	; 4F404
 call sprintf_	; 4F405
@@ -1767,7 +1767,7 @@ shl eax, 0Fh	; 4F420
 shr eax, 1Bh	; 4F423
 add eax, byte 41h	; 4F426
 push eax	; 4F429
-push asc_110DA9	; 4F42A
+push str_CsgDb	; 4F42A
 lea eax, [byte ebp-0Ch]	; 4F42F
 push eax	; 4F432
 call sprintf_	; 4F433

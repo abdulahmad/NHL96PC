@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_121B38 progbits alloc noexec write align=1
-global asc_121FC0, dword_121B38, dword_121B48, dword_121B4C, dword_121B50, dword_121B54, dword_121B58, dword_121B5C
+global str_Viv, dword_121B38, dword_121B48, dword_121B4C, dword_121B50, dword_121B54, dword_121B58, dword_121B5C
 global dword_121B6C, dword_121F90, dword_121FBC, unk_121B3C, unk_121FC8
 dword_121B38:
 db 00h,08h,00h,00h
@@ -94,7 +94,7 @@ db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 dword_121FBC:
 db 00h,00h,00h,00h
-asc_121FC0:
+str_Viv:
 db 02Eh,076h,069h,076h,00h,00h,00h,00h
 unk_121FC8:
 db 00h,00h,00h,00h,00h,02Ah,00h,02Ah,00h,00h,02Ah,02Ah,02Ah,00h,00h,02Ah

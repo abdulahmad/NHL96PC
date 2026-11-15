@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_124244 progbits alloc noexec write align=1
 extern sub_C5AE2
-global asc_1243D0, asc_1243D9, asc_1243E3, asc_1243EC, byte_124244, byte_12442A, byte_12442B, byte_12442C
+global str_MUSICON, str_MUSICOFF, str_SOUNDON, str_SOUNDOFF, byte_124244, byte_12442A, byte_12442B, byte_12442C
 global byte_124433, byte_124434, byte_12445C, byte_12445D, byte_124460, byte_1248C4, byte_1248D0, byte_1248D1
 global byte_1248DA, dword_1242CA, dword_1242CE, dword_1243F8, dword_1243FC, dword_124400, dword_124404, dword_12440C
 global dword_124410, dword_124414, dword_124418, dword_12441C, dword_12442D, dword_124435, dword_12443C, dword_124440
@@ -40,13 +40,13 @@ db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 db 00h,00h
-asc_1243D0:
+str_MUSICON:
 db 04Dh,055h,053h,049h,043h,020h,04Fh,04Eh,00h
-asc_1243D9:
+str_MUSICOFF:
 db 04Dh,055h,053h,049h,043h,020h,04Fh,046h,046h,00h
-asc_1243E3:
+str_SOUNDON:
 db 053h,04Fh,055h,04Eh,044h,020h,04Fh,04Eh,00h
-asc_1243EC:
+str_SOUNDOFF:
 db 053h,04Fh,055h,04Eh,044h,020h,04Fh,046h,046h,00h,00h,00h
 dword_1243F8:
 db 00h,00h,00h,00h

@@ -6,7 +6,7 @@ extern sub_D02A8, sub_DFB84
 global str_SHPI2, byte_14F024, byte_14F025, byte_14F026, byte_14F054, byte_14F055, byte_14F064, byte_14F065
 global byte_14F066, byte_14F067, byte_14F070, dword_14F01C, dword_14F020, dword_14F030, dword_14F034, dword_14F038
 global dword_14F03C, dword_14F040, dword_14F044, dword_14F048, dword_14F04C, dword_14F050, dword_14F058, dword_14F05C
-global dword_14F060, dword_14F098, dword_14F09C, dword_14F0A0, dword_14F0A4, dword_14F0A8, dword_14F0AC, off_14F074
+global dword_14F060, dword_14F098, dword_14F09C, dword_14F0A0, dword_14F0A4, dword_14F0A8, str_28, off_14F074
 global off_14F078, off_14F07C, off_14F080, off_14F084, off_14F088, off_14F08C, off_14F090, off_14F0B0
 global off_14F176, off_14FAA8, off_14FAAC, unk_14F178, unk_14F17C, unk_14F182, unk_14F18A, unk_14F194
 global unk_14F1A0, unk_14F1AE, unk_14F1BE, unk_14F1D0, unk_14F1E4, unk_14F1FA, unk_14F212, unk_14F22C
@@ -90,7 +90,7 @@ dword_14F0A4:
 db 01h,00h,00h,00h
 dword_14F0A8:
 db 010h,00h,00h,00h
-dword_14F0AC:
+str_28:
 db 032h,00h,00h,00h
 off_14F0B0:
 dd off_14F176

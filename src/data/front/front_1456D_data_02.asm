@@ -2,20 +2,20 @@
 bits 32
 %include "hockey.inc"
 section s_114DD2 progbits alloc noexec write align=1
-extern unk_11011C, unk_110120, unk_110124, unk_110126, unk_11012F, unk_110133, unk_110135, unk_11013B
-extern unk_11013F, unk_110141, unk_11014D, unk_110151, unk_110153, unk_11015A, unk_11015E, unk_110160
-extern unk_11016E, unk_110172, unk_110174, unk_110181, unk_110185, unk_110187, unk_110195, unk_11019B
-extern unk_11019F, unk_1101A1, unk_1101AC, unk_1101B0, unk_1101B2, unk_1101C0, unk_1101C5, unk_1101C8
-extern unk_1101D6, unk_1101DB, unk_1101DE, unk_1101F0, unk_1101F5, unk_1101F8, unk_11020A, unk_11020F
-extern unk_110212, unk_110228, unk_11022D, unk_110230, unk_11023F, unk_110244, unk_110247, unk_11025A
-extern unk_11025F, unk_110262, unk_110275, unk_11027A, unk_11027D, unk_110294, unk_110299
+extern str_OK, str_0, unk_110124, str_CONNECT, str_1, str_fe1, str_RING, str_2
+extern str_fe2, str_NOCARRIER, str_3, str_fe3, str_ERROR, str_4, str_fe4, str_CONNECT1200
+extern str_5, str_fe5, str_NODIALTONE, str_6, unk_110185, str_NODIALTONE2, str_BUSY, str_7
+extern str_fe7, str_NOANSWER, str_8, str_fe8, str_CONNECT2400, str_10, str_102, str_CONNECT9600
+extern str_13, str_132, str_CONNECT9600ARQ, str_17, str_172, str_CONNECT9600HST, str_23, str_232
+extern str_CONNECT9600ARQHST, str_27, str_272, str_CONNECT14400, str_25, str_252, str_CONNECT14400ARQ, str_26
+extern str_262, str_CONNECT14400HST, str_35, str_352, str_CONNECT14400ARQHST, str_36, str_362
 global GameLoopActive, InputRecordBusy, InputRecordPhase, InputRecordTicks, PauseReplayPending, byte_115084, dword_114DE8, dword_114DF0
 global dword_114DF4, dword_114DFC, dword_114EB0, dword_114EB4, dword_114ED0, dword_114ED4, dword_114EE8, dword_114EEC
 global dword_114EF0, dword_114EF4, dword_114F16, dword_115000, dword_115004, dword_115008, dword_11500C, dword_115010
 global dword_115014, dword_115018, dword_11501C, dword_115020, dword_115024, dword_115028, dword_11502C, dword_115030
 global dword_115034, dword_115038, dword_11503C, dword_115040, dword_115044, dword_115048, dword_11504C, dword_115050
-global dword_115054, dword_115058, dword_11505C, dword_115060, dword_115064, dword_115068, dword_11506C, dword_115070
-global dword_115074, dword_115078, dword_11507C, dword_115080, off_114F1C, off_114F24, word_114DD2, word_114DD4
+global dword_115054, dword_115058, dword_11505C, dword_115060, dword_115064, dword_115068, str_ctl06, str_22
+global dword_115074, str_newline, dword_11507C, dword_115080, off_114F1C, off_114F24, word_114DD2, word_114DD4
 global word_114DD6, word_114DD8, word_114DDC, word_114DE4, word_114DE6, word_114EA8, word_114EAC, word_114EF8
 global word_114EFA, word_114EFC, word_114EFE, word_114F00, word_114F14
 word_114DD2:
@@ -97,64 +97,64 @@ db 00h,00h,00h,00h
 PauseReplayPending:
 db 00h,00h
 off_114F1C:
-dd unk_11011C
-dd unk_110120
+dd str_OK
+dd str_0
 off_114F24:
 dd unk_110124
-dd unk_110126
-dd unk_11012F
-dd unk_110133
-dd unk_110135
-dd unk_11013B
-dd unk_11013F
-dd unk_110141
-dd unk_11014D
-dd unk_110151
-dd unk_110153
-dd unk_11015A
-dd unk_11015E
-dd unk_110160
-dd unk_11016E
-dd unk_110172
-dd unk_110174
-dd unk_110181
+dd str_CONNECT
+dd str_1
+dd str_fe1
+dd str_RING
+dd str_2
+dd str_fe2
+dd str_NOCARRIER
+dd str_3
+dd str_fe3
+dd str_ERROR
+dd str_4
+dd str_fe4
+dd str_CONNECT1200
+dd str_5
+dd str_fe5
+dd str_NODIALTONE
+dd str_6
 dd unk_110185
-dd unk_110187
-dd unk_110181
+dd str_NODIALTONE2
+dd str_6
 dd unk_110185
-dd unk_110195
-dd unk_11019B
-dd unk_11019F
-dd unk_1101A1
-dd unk_1101AC
-dd unk_1101B0
-dd unk_1101B2
-dd unk_1101C0
-dd unk_1101C5
-dd unk_1101C8
-dd unk_1101D6
-dd unk_1101DB
-dd unk_1101DE
-dd unk_1101F0
-dd unk_1101F5
-dd unk_1101F8
-dd unk_11020A
-dd unk_11020F
-dd unk_110212
-dd unk_110228
-dd unk_11022D
-dd unk_110230
-dd unk_11023F
-dd unk_110244
-dd unk_110247
-dd unk_11025A
-dd unk_11025F
-dd unk_110262
-dd unk_110275
-dd unk_11027A
-dd unk_11027D
-dd unk_110294
-dd unk_110299
+dd str_BUSY
+dd str_7
+dd str_fe7
+dd str_NOANSWER
+dd str_8
+dd str_fe8
+dd str_CONNECT2400
+dd str_10
+dd str_102
+dd str_CONNECT9600
+dd str_13
+dd str_132
+dd str_CONNECT9600ARQ
+dd str_17
+dd str_172
+dd str_CONNECT9600HST
+dd str_23
+dd str_232
+dd str_CONNECT9600ARQHST
+dd str_27
+dd str_272
+dd str_CONNECT14400
+dd str_25
+dd str_252
+dd str_CONNECT14400ARQ
+dd str_26
+dd str_262
+dd str_CONNECT14400HST
+dd str_35
+dd str_352
+dd str_CONNECT14400ARQHST
+dd str_36
+dd str_362
 dword_115000:
 db 013h,00h,00h,00h
 dword_115004:
@@ -209,13 +209,13 @@ dword_115064:
 db 00h,00h,00h,00h
 dword_115068:
 db 00h,00h,00h,00h
-dword_11506C:
+str_ctl06:
 db 06h,00h,00h,00h
-dword_115070:
+str_22:
 db 032h,00h,00h,00h
 dword_115074:
 db 064h,00h,00h,00h
-dword_115078:
+str_newline:
 db 0Ah,00h,00h,00h
 dword_11507C:
 db 00h,00h,00h,00h

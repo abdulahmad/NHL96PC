@@ -8,7 +8,7 @@ extern awtmstruct, byte_1178C8, byte_118E82, byte_11916A, byte_119203, byte_1192
 extern byte_119FF0, byte_119FF7, byte_11A028, byte_157640, byte_164797, byte_16479B, byte_1647E0, byte_164920
 extern byte_164CE0, byte_165790, byte_1657AC, byte_1657AD, byte_1657AE, byte_1657AF, byte_1657B4, byte_1658C6
 extern byte_1658E2, byte_1658E3, byte_1658E4, byte_1658E5, byte_1658EA, byte_16594A, byte_176AE2, byte_176AE3
-extern byte_176B9B, byte_176D70, byte_176E06, chkprogress, collflag, crowdlevel, curperiod, dword_1178DA
+extern goalevent, defsort_d, offsort_fwd, chkprogress, collflag, crowdlevel, curperiod, dword_1178DA
 extern dword_1178DE, dword_1178E2, dword_1178E6, dword_1178EA, dword_1178EE, dword_119173, dword_119183, dword_11918F
 extern dword_119193, dword_1191C7, dword_1191EB, dword_1191F3, dword_1191FB, dword_1191FF, dword_119FEC, dword_11A004
 extern dword_11A3F8, dword_11B23C, dword_11D3A6, dword_11D674, dword_164806, dword_164816, dword_164956, dword_164D16
@@ -34,7 +34,7 @@ extern word_118E9F, word_118EA3, word_118EAF, word_118EB7, word_11910B, word_119
 extern word_11916B, word_119FF8, word_11A008, word_11A01A, word_11A0D9, word_11D3A2, word_164794, word_16479E
 extern word_1647B6, word_1647E4, word_165144, word_165146, word_165148, word_1656D2, word_1656E8, word_165704
 extern word_165706, word_165708, word_165710, word_16571C, word_1657D8, word_16581E, word_16583A, word_16583C
-extern word_16583E, word_165852, word_16590E, word_165964, word_165968, word_165970, word_16597C, word_165980
+extern word_16583E, word_165852, word_16590E, word_165964, regd5, word_165970, word_16597C, word_165980
 extern word_176B24, word_176B6A, word_176B70, word_176B72, word_176B78, word_176B7C, word_176B80, word_176B88
 extern word_176B8A, word_176B8C, word_176B8E
 global ClearSortCords, CompLine, DoGameFrame, InitCoachModes, SetPlList, SetupTeamForIntermission, StartPer, TeamLineEnergy
@@ -3462,7 +3462,7 @@ jmp short loc_48EC5	; 48E94
 loc_48E96:
 movsx eax, bx	; 48E96
 imul eax, byte 19h	; 48E99
-add eax, byte_176E06	; 48E9C
+add eax, offsort_fwd	; 48E9C
 jmp short loc_48EC5	; 48EA1
 loc_48EA3:
 cmp eax, byte 1	; 48EA3
@@ -3472,7 +3472,7 @@ jne short loc_48EBA	; 48EAB
 loc_48EAD:
 movsx eax, bx	; 48EAD
 imul eax, byte 19h	; 48EB0
-add eax, byte_176D70	; 48EB3
+add eax, defsort_d	; 48EB3
 jmp short loc_48EC5	; 48EB8
 loc_48EBA:
 movsx eax, bx	; 48EBA
@@ -3695,7 +3695,7 @@ and byte [byte_164CE0], 0F7h	; 491A4
 mov dword [dword_164D16], eax	; 491AB
 mov word [nosplit eax*2+word_1178CA], 8	; 491B0
 loc_491BA:
-mov byte [byte_176B9B], 0FFh	; 491BA
+mov byte [goalevent], 0FFh	; 491BA
 mov word [word_119111], 0FFFFh	; 491C1
 mov word [word_119113], 0	; 491CA
 mov word [word_11910B], 0FFFFh	; 491D3
@@ -5425,7 +5425,7 @@ ret	; 4A7C2
 sub_4A7C3:
 mov dword [dword_165978], 0	; 4A7C3
 mov dword [word_165970], 0	; 4A7CD
-mov dword [word_165968], 0	; 4A7D7
+mov dword [regd5], 0	; 4A7D7
 mov dword [word_165964], 0	; 4A7E1
 mov dword [regd3], 0	; 4A7EB
 mov dword [regd2], 0	; 4A7F5

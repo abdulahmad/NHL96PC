@@ -3,15 +3,15 @@ bits 32
 %include "hockey.inc"
 section s_D7DB0 progbits alloc exec nowrite align=1
 extern DebugPrintf, SetTickDeadline, WaitTickDeadline, _dos_getdate_, _dos_gettime_, _os_handle, _os_handle_1, asc_114330
-extern asc_11436C, asc_1143A4, str_Used7uFree7u, asc_1143E8, asc_114414, asc_114444, asc_114450, asc_114454
-extern asc_11445C, asc_114478, asc_114494, asc_1144BC, asc_1144E0, asc_1144F8, asc_114510, asc_11453C
+extern asc_11436C, str_Used77xFree77xLargst77x, str_Used7uFree7u, asc_1143E8, str_IDXNAMESIZEADRFLAG, asc_114444, str_S9, asc_114454
+extern asc_11445C, asc_114478, asc_114494, asc_1144BC, str_1212s10x8s8s, asc_1144F8, asc_114510, asc_11453C
 extern str_MEMMANAGER, str_044X00000000, str_SYSTEM, str_SPACE3, str_HIGHMemoryBlock, str_LOWMemoryBlock, str_ConventionalMemory, str_RelocatableBlock
-extern str_NonRelocatableBlock, str_ALIGNFlagIsSet, str_PRIORITY1d, str_SequenceD, str_BlockIsPURGABLE, asc_11465C, asc_114664, asc_114674
+extern str_NonRelocatableBlock, str_ALIGNFlagIsSet, str_PRIORITY1d, str_SequenceD, str_BlockIsPURGABLE, str_04x2, str_02x, asc_114674
 extern str_FILES2, str_DATES2, str_TIMES3, str_HexmemdspOS, str_XxMMAPTXT, str_ErrorDumpingMemoryMap, str_ShapeFileIsInvalid, str_NumDPackedD
 extern str_ThereAreNoShapes, str_44s05x, str_Bad, str_CxCy3d3d, str_NotDrawn, str_Bytes3dRows3d, str_Spacked, str_Packed
 extern asc_114808, asc_114814, asc_11482C, str_ShapeIsInvalidDraw, str_MEMSHPTXT, str_ErrorDumpingShapesList, str_ShapeFileName0, str_ShapeFileSizeLd
 extern str_NumberOfShapesD, str_44s66ld, str_Bytes3dRows3d2, str_XY3d3d, str_033d022X, str_R022d, str_G022d, str_B022d
-extern asc_114968, str_SCREEN2, asc_11497C, asc_114984, asc_114994, byte_11F9D8, byte_1A11D9, dword_11F5A0
+extern asc_114968, str_SCREEN2, asc_11497C, asc_114984, str_2d02d02d, byte_11F9D8, byte_1A11D9, dword_11F5A0
 extern dword_11F5C0, dword_11F5C4, dword_1210CC, dword_15139C, dword_1513A0, dword_1513A4, dword_1513A8, dword_1513AC
 extern dword_1513B8, dword_1513BC, dword_1513C0, dword_1513C4, dword_1513C8, dword_1513CC, dword_1513D4, dword_18568C
 extern dword_185690, dword_185738, dword_18573C, dword_185848, dword_1A11BC, dword_1A11C0, dword_1A11C4, dword_1A11C8
@@ -19,7 +19,7 @@ extern dword_1A11CC, dword_1A11D0, dword_1A11D4, dword_1A11D8, dword_1A11DC, dwo
 extern fprintf_, min_, off_1513B0, sprintf_, strncpy_, sub_AAB40, sub_AADA4, sub_ABF88
 extern sub_AC194, sub_AC574, sub_AC6D4, sub_ACA3C, sub_ACCF8, sub_ACD24, sub_ACD38, sub_AD680
 extern sub_ADA80, sub_AFFD0, sub_B0254, sub_B026C, sub_B0284, sub_B31C0, sub_BF02C, sub_BF034
-extern sub_BF04B, sub_BF534, sub_C2AEC, sub_C5D00, sub_C6000, sub_CFE0C, sub_CFE8C, sub_D0650
+extern sub_BF04B, initgraphics, sub_C2AEC, sub_C5D00, sub_C6000, sub_CFE0C, sub_CFE8C, sub_D0650
 extern sub_D1368, sub_DC158, sub_DC17C, sub_DC780, sub_DC830, sub_DCB90, sub_DD6C4, sub_DD6E0
 extern sub_DD724, sub_DD760, sub_DD7B8, sub_DFF28, sub_DFF7C, sub_E04E0, sub_E0584, sub_E1927
 extern sub_E193C, sub_E1956, sub_E1970, unk_114440, unk_11444C, unk_114570, unk_114594, unk_11466C
@@ -93,7 +93,7 @@ jne short loc_D7DFD	; D7DE7
 push byte 0	; D7DE9
 push dword 0C8h	; D7DEB
 push dword 140h	; D7DF0
-call sub_BF534	; D7DF5
+call initgraphics	; D7DF5
 add esp, byte 0Ch	; D7DFA
 loc_D7DFD:
 mov eax, dword [dword_1513BC]	; D7DFD
@@ -665,7 +665,7 @@ mov esi, dword [dword_1513B8]	; D8526
 push ecx	; D852C
 test esi, esi	; D852D
 je short loc_D8538	; D852F
-mov eax, asc_1143A4	; D8531
+mov eax, str_Used77xFree77xLargst77x	; D8531
 jmp short loc_D853D	; D8536
 loc_D8538:
 mov eax, str_Used7uFree7u	; D8538
@@ -752,7 +752,7 @@ jmp near loc_D871F	; D863E
 loc_D8643:
 mov ecx, 0Ah	; D8643
 lea edi, [dword ebp-0D6h]	; D8648
-mov esi, asc_114414	; D864E
+mov esi, str_IDXNAMESIZEADRFLAG	; D864E
 mov eax, dword [byte ebp+07Eh]	; D8653
 rep movsd	; D8656
 movsw	; D8658
@@ -796,14 +796,14 @@ cmp eax, byte 2	; D86CC
 jne short loc_D871F	; D86CF
 lea eax, [byte ebp-02Eh]	; D86D1
 push eax	; D86D4
-push asc_114450	; D86D5
+push str_S9	; D86D5
 mov ebx, dword [dword_1A11D0]	; D86DA
 push ebx	; D86E0
 call fprintf_	; D86E1
 add esp, byte 0Ch	; D86E6
 lea eax, [dword ebp-082h]	; D86E9
 push eax	; D86EF
-push asc_114450	; D86F0
+push str_S9	; D86F0
 mov ecx, dword [dword_1A11D0]	; D86F5
 push ecx	; D86FB
 call fprintf_	; D86FC
@@ -943,7 +943,7 @@ cmp eax, byte 2	; D886E
 jne short loc_D888B	; D8871
 lea eax, [byte ebp-02Eh]	; D8873
 push eax	; D8876
-push asc_114450	; D8877
+push str_S9	; D8877
 mov ebx, dword [dword_1A11D0]	; D887C
 push ebx	; D8882
 call fprintf_	; D8883
@@ -993,7 +993,7 @@ mov eax, dword [dword_1513B8]	; D88F7
 push ecx	; D88FC
 test eax, eax	; D88FD
 je short loc_D8908	; D88FF
-mov eax, asc_1144E0	; D8901
+mov eax, str_1212s10x8s8s	; D8901
 jmp short loc_D890D	; D8906
 loc_D8908:
 mov eax, asc_1144F8	; D8908
@@ -1074,7 +1074,7 @@ cmp eax, byte 2	; D89DB
 jne short loc_D89FB	; D89DE
 lea eax, [dword ebp-082h]	; D89E0
 push eax	; D89E6
-push asc_114450	; D89E7
+push str_S9	; D89E7
 mov ebx, dword [dword_1A11D0]	; D89EC
 push ebx	; D89F2
 call fprintf_	; D89F3
@@ -1821,7 +1821,7 @@ jle near loc_D92E4	; D919F
 loc_D91A5:
 mov edi, dword [byte esp+04h]	; D91A5
 push edi	; D91A9
-push asc_11465C	; D91AA
+push str_04x2	; D91AA
 call DebugPrintf	; D91AF
 xor edi, edi	; D91B4
 add esp, byte 8	; D91B6
@@ -1837,7 +1837,7 @@ loc_D91CE:
 xor eax, eax	; D91CE
 mov al, byte [esi]	; D91D0
 push eax	; D91D2
-push asc_114664	; D91D3
+push str_02x	; D91D3
 call DebugPrintf	; D91D8
 add esp, byte 8	; D91DD
 cmp edi, dword [esp]	; D91E0
@@ -1955,7 +1955,7 @@ lea edx, [byte esp+014h]	; D9328
 call sub_DA48C	; D932C
 mov edx, dword [off_1513B0]	; D9331
 push edx	; D9337
-push asc_114450	; D9338
+push str_S9	; D9338
 mov ebx, dword [dword_1A11D0]	; D933D
 push ebx	; D9343
 call fprintf_	; D9344
@@ -1983,7 +1983,7 @@ call fprintf_	; D938D
 add esp, byte 0Ch	; D9392
 mov eax, dword [off_1513B0]	; D9395
 push eax	; D939A
-push asc_114450	; D939B
+push str_S9	; D939B
 mov edx, dword [dword_1A11D0]	; D93A0
 push edx	; D93A6
 call fprintf_	; D93A7
@@ -2707,7 +2707,7 @@ mov dword [dword_18573C], esi	; D9B5F
 call sub_DA48C	; D9B65
 mov edx, dword [off_1513B0]	; D9B6A
 push edx	; D9B70
-push asc_114450	; D9B71
+push str_S9	; D9B71
 mov ebx, dword [dword_1A11D0]	; D9B76
 push ebx	; D9B7C
 call fprintf_	; D9B7D
@@ -2735,7 +2735,7 @@ call fprintf_	; D9BC6
 add esp, byte 0Ch	; D9BCB
 mov ebp, dword [off_1513B0]	; D9BCE
 push ebp	; D9BD4
-push asc_114450	; D9BD5
+push str_S9	; D9BD5
 mov eax, dword [dword_1A11D0]	; D9BDA
 push eax	; D9BDF
 call fprintf_	; D9BE0
@@ -3479,7 +3479,7 @@ push eax	; DA4EA
 xor eax, eax	; DA4EB
 mov al, byte [byte esp+010h]	; DA4ED
 push eax	; DA4F1
-push asc_114994	; DA4F2
+push str_2d02d02d	; DA4F2
 push ecx	; DA4F7
 call sprintf_	; DA4F8
 add esp, byte 14h	; DA4FD

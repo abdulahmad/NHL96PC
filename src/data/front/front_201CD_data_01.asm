@@ -2,73 +2,73 @@
 bits 32
 %include "hockey.inc"
 section s_110730 progbits alloc noexec write align=1
-global asc_110734, asc_11073C, asc_110748, asc_11074D, asc_110752, asc_110758, asc_11075D, asc_110762
-global asc_110768, asc_11076D, asc_110771, asc_110779, asc_11077E, asc_110796, asc_1107A0, asc_1107A6
-global asc_1107B0, asc_1107BA, asc_1107C8, asc_1107D7, asc_1107DE, asc_1107F5, asc_11080E, asc_110816
-global asc_11081E, asc_110826, asc_11082E, qword_110786, qword_11078E, unk_110730, unk_110732, unk_110745
-unk_110730:
+global str_GRIPCON, str_RGRIPCON, str_Pal4, str_BKGD, str_LTD0, str_BT00, str_BT01, str_BT02
+global str_FSH2, str_Ice, str_IceFsh, str_Crud, str_Zamboni, str_Glassline, str_Glass, str_Topboards
+global str_Botboards, str_FatRedLines, str_FatBlueLines, str_SideD, str_SideNotFoundInRink, str_SideNotFoundInStands, str_Gt002d, str_Gt102d
+global str_Gt202d, str_Gt302d, str_Icelogo, qword_110786, qword_11078E, str_A, str_feB, str_D3
+str_A:
 db 041h,00h
-unk_110732:
+str_feB:
 db 042h,00h
-asc_110734:
+str_GRIPCON:
 db 047h,052h,049h,050h,043h,04Fh,04Eh,00h
-asc_11073C:
+str_RGRIPCON:
 db 052h,047h,052h,049h,050h,043h,04Fh,04Eh,00h
-unk_110745:
+str_D3:
 db 025h,064h,00h
-asc_110748:
+str_Pal4:
 db 021h,070h,061h,06Ch,00h
-asc_11074D:
+str_BKGD:
 db 042h,04Bh,047h,044h,00h
-asc_110752:
+str_LTD0:
 db 04Ch,054h,025h,064h,030h,00h
-asc_110758:
+str_BT00:
 db 042h,054h,030h,030h,00h
-asc_11075D:
+str_BT01:
 db 042h,054h,030h,031h,00h
-asc_110762:
+str_BT02:
 db 042h,054h,030h,032h,00h,00h
-asc_110768:
+str_FSH2:
 db 02Eh,046h,053h,048h,00h
-asc_11076D:
+str_Ice:
 db 069h,063h,065h,00h
-asc_110771:
+str_IceFsh:
 db 069h,063h,065h,02Eh,066h,073h,068h,00h
-asc_110779:
+str_Crud:
 db 063h,072h,075h,064h,00h
-asc_11077E:
+str_Zamboni:
 db 07Ah,061h,06Dh,062h,06Fh,06Eh,069h,00h
 qword_110786:
 db 016h,06Ch,0C1h,016h,06Ch,0C1h,056h,03Fh
 qword_11078E:
 db 00h,00h,00h,00h,00h,00h,0F0h,040h
-asc_110796:
+str_Glassline:
 db 067h,06Ch,061h,073h,073h,06Ch,069h,06Eh,065h,00h
-asc_1107A0:
+str_Glass:
 db 067h,06Ch,061h,073h,073h,00h
-asc_1107A6:
+str_Topboards:
 db 074h,06Fh,070h,062h,06Fh,061h,072h,064h,073h,00h
-asc_1107B0:
+str_Botboards:
 db 062h,06Fh,074h,062h,06Fh,061h,072h,064h,073h,00h
-asc_1107BA:
+str_FatRedLines:
 db 066h,061h,074h,05Fh,072h,065h,064h,05Fh,06Ch,069h,06Eh,065h,073h,00h
-asc_1107C8:
+str_FatBlueLines:
 db 066h,061h,074h,05Fh,062h,06Ch,075h,065h,05Fh,06Ch,069h,06Eh,065h,073h,00h
-asc_1107D7:
+str_SideD:
 db 073h,069h,064h,065h,025h,064h,00h
-asc_1107DE:
+str_SideNotFoundInRink:
 db 053h,069h,064h,065h,020h,06Eh,06Fh,074h,020h,066h,06Fh,075h,06Eh,064h,020h,069h
 db 06Eh,020h,072h,069h,06Eh,06Bh,00h
-asc_1107F5:
+str_SideNotFoundInStands:
 db 053h,069h,064h,065h,020h,06Eh,06Fh,074h,020h,066h,06Fh,075h,06Eh,064h,020h,069h
 db 06Eh,020h,073h,074h,061h,06Eh,064h,073h,00h
-asc_11080E:
+str_Gt002d:
 db 067h,074h,030h,025h,030h,032h,064h,00h
-asc_110816:
+str_Gt102d:
 db 067h,074h,031h,025h,030h,032h,064h,00h
-asc_11081E:
+str_Gt202d:
 db 067h,074h,032h,025h,030h,032h,064h,00h
-asc_110826:
+str_Gt302d:
 db 067h,074h,033h,025h,030h,032h,064h,00h
-asc_11082E:
+str_Icelogo:
 db 069h,063h,065h,06Ch,06Fh,067h,06Fh,00h

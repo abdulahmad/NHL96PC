@@ -2,11 +2,11 @@
 bits 32
 %include "hockey.inc"
 section s_9CFE3 progbits alloc exec nowrite align=1
-extern SetDrawBitmap, SetTeamGoalie, SetTickDeadline, TickDeadlinePassed, asc_112D7C, asc_112D81, asc_112D86, asc_112D8B
-extern asc_112D90, asc_112D95, asc_112D9A, asc_112D9F, asc_112DA4, asc_112DA9, asc_112DAE, asc_112DB3
-extern asc_112DB8, asc_112DBD, asc_112DC2, asc_112DC7, asc_112DCC, asc_112DD1, asc_112DD6, asc_112DDB
-extern asc_112DE0, asc_112DE5, asc_112DEA, asc_112DEF, asc_112DF6, asc_112DFB, asc_112E00, asc_112E05
-extern asc_112E10, asc_112E15, asc_112E1A, asc_112E1F, asc_112E24, asc_112E2A, byte_157191, byte_157192
+extern SetDrawBitmap, SetTeamGoalie, SetTickDeadline, TickDeadlinePassed, str_Bt092, str_Bh09, str_Bkgd20, str_Slid2
+extern str_Ball6, str_Slu12, str_Slup, str_Sld12, str_Sldw, str_Pal28, str_Nhl1, str_Nhl2
+extern str_Nhl3, str_Scr12, str_Scr22, str_Scr3, str_Drs1, str_Drs2, str_Drs3, str_Sta13
+extern str_Sta23, str_Sta33, str_Bh17, str_Bt02d4, str_Bt17, str_Bh01, str_Bt018, str_LinesSort
+extern str_Bkpp, str_Bkpk, str_Jers, str_Jrhl, str_CD2, str_CS4, byte_157191, hmrosterpos
 extern byte_16580A, byte_17BDAE, byte_17EBF0, byte_183098, byte_183099, byte_18309A, byte_183D0A, byte_1843B8
 extern byte_1843B9, byte_1843BA, byte_1843C4, byte_1843C5, byte_1843CA, byte_1843CB, byte_1843CC, byte_1843CD
 extern byte_1843CE, byte_1843D4, byte_1843D5, byte_1843D6, byte_1843D7, byte_1843DC, byte_1843DD, byte_1843DE
@@ -170,24 +170,24 @@ lea edx, [dword ebp-017EEh]	; 9D0D3
 mov dword [byte ebp+062h], eax	; 9D0D9
 mov eax, 2Dh	; 9D0DC
 call sub_64721	; 9D0E1
-push asc_112D7C	; 9D0E6
+push str_Bt092	; 9D0E6
 lea eax, [dword ebp-0246h]	; 9D0EB
 push esi	; 9D0F1
 mov dword [dword ebp-017DEh], 4	; 9D0F2
 mov dword [dword ebp-017DAh], eax	; 9D0FC
 call sub_E04E0	; 9D102
 add esp, byte 8	; 9D107
-push asc_112D81	; 9D10A
+push str_Bh09	; 9D10A
 push esi	; 9D10F
 mov dword [dword ebp-017D4h], eax	; 9D110
 call sub_E04E0	; 9D116
 add esp, byte 8	; 9D11B
-push asc_112D7C	; 9D11E
+push str_Bt092	; 9D11E
 push esi	; 9D123
 mov dword [dword ebp-017D0h], eax	; 9D124
 call sub_E04E0	; 9D12A
 add esp, byte 8	; 9D12F
-push asc_112D7C	; 9D132
+push str_Bt092	; 9D132
 movsx eax, word [byte eax+0Ch]	; 9D137
 push esi	; 9D13B
 mov dword [dword ebp-017C8h], eax	; 9D13C
@@ -324,7 +324,7 @@ imul ebx, dword [byte ebp+03Eh], byte 3Ch	; 9D3A8
 imul edx, dword [dword_1843AC], dword 4B4h	; 9D3AC
 mov eax, dword [byte ebp+07Eh]	; 9D3B6
 mov cl, byte [dword edx+eax+byte_157191]	; 9D3B9
-mov al, byte [dword edx+eax+byte_157192]	; 9D3C0
+mov al, byte [dword edx+eax+hmrosterpos]	; 9D3C0
 add edx, hmroster	; 9D3C7
 mov byte [dword ebx+byte_18309A], al	; 9D3CD
 add edx, dword [byte ebp+07Eh]	; 9D3D3
@@ -390,7 +390,7 @@ push eax	; 9D4B5
 lea edx, [dword ebp-0146h]	; 9D4B6
 mov eax, dword [byte ebp+032h]	; 9D4BC
 call sub_A0355	; 9D4BF
-push asc_112D86	; 9D4C4
+push str_Bkgd20	; 9D4C4
 push dword [byte ebp+062h]	; 9D4C9
 call sub_E04E0	; 9D4CC
 mov edx, 0FEh	; 9D4D1
@@ -398,17 +398,17 @@ add esp, byte 8	; 9D4D6
 mov esi, eax	; 9D4D9
 mov eax, 0Fh	; 9D4DB
 call sub_63F79	; 9D4E0
-push asc_112D90	; 9D4E5
+push str_Ball6	; 9D4E5
 push dword [byte ebp+05Eh]	; 9D4EA
 call sub_E04E0	; 9D4ED
 add esp, byte 8	; 9D4F2
 push eax	; 9D4F5
-push asc_112D8B	; 9D4F6
+push str_Slid2	; 9D4F6
 push dword [byte ebp+05Eh]	; 9D4FB
 call sub_E04E0	; 9D4FE
 add esp, byte 8	; 9D503
 push eax	; 9D506
-push asc_112D86	; 9D507
+push str_Bkgd20	; 9D507
 push dword [byte ebp+062h]	; 9D50C
 call sub_E04E0	; 9D50F
 add esp, byte 8	; 9D514
@@ -419,56 +419,56 @@ push byte 0	; 9D520
 lea edx, [dword ebp-015F0h]	; 9D522
 lea eax, [dword ebp-037Eh]	; 9D528
 call sub_7CCB8	; 9D52E
-push asc_112D95	; 9D533
+push str_Slu12	; 9D533
 push dword [byte ebp+05Eh]	; 9D538
 call sub_E04E0	; 9D53B
 add esp, byte 8	; 9D540
-push asc_112D9A	; 9D543
+push str_Slup	; 9D543
 push dword [byte ebp+05Eh]	; 9D548
 mov dword [dword ebp-015D6h], eax	; 9D54B
 call sub_E04E0	; 9D551
 add esp, byte 8	; 9D556
-push asc_112D95	; 9D559
+push str_Slu12	; 9D559
 push dword [byte ebp+05Eh]	; 9D55E
 mov dword [dword ebp-015D2h], eax	; 9D561
 call sub_E04E0	; 9D567
 add esp, byte 8	; 9D56C
-push asc_112D95	; 9D56F
+push str_Slu12	; 9D56F
 movsx eax, word [byte eax+0Ch]	; 9D574
 push dword [byte ebp+05Eh]	; 9D578
 mov dword [dword ebp-015CAh], eax	; 9D57B
 call sub_E04E0	; 9D581
 add esp, byte 8	; 9D586
-push asc_112D9F	; 9D589
+push str_Sld12	; 9D589
 movsx eax, word [byte eax+0Eh]	; 9D58E
 push dword [byte ebp+05Eh]	; 9D592
 mov dword [dword ebp-015C6h], eax	; 9D595
 call sub_E04E0	; 9D59B
 add esp, byte 8	; 9D5A0
-push asc_112DA4	; 9D5A3
+push str_Sldw	; 9D5A3
 push dword [byte ebp+05Eh]	; 9D5A8
 mov dword [dword ebp-014A4h], eax	; 9D5AB
 call sub_E04E0	; 9D5B1
 add esp, byte 8	; 9D5B6
-push asc_112D9F	; 9D5B9
+push str_Sld12	; 9D5B9
 push dword [byte ebp+05Eh]	; 9D5BE
 mov dword [dword ebp-014A0h], eax	; 9D5C1
 call sub_E04E0	; 9D5C7
 add esp, byte 8	; 9D5CC
-push asc_112D9F	; 9D5CF
+push str_Sld12	; 9D5CF
 movsx eax, word [byte eax+0Ch]	; 9D5D4
 push dword [byte ebp+05Eh]	; 9D5D8
 mov dword [dword ebp-01498h], eax	; 9D5DB
 call sub_E04E0	; 9D5E1
 add esp, byte 8	; 9D5E6
-push asc_112D8B	; 9D5E9
+push str_Slid2	; 9D5E9
 movsx eax, word [byte eax+0Eh]	; 9D5EE
 push dword [byte ebp+05Eh]	; 9D5F2
 mov dword [dword ebp-01494h], eax	; 9D5F5
 call sub_E04E0	; 9D5FB
 add esp, byte 8	; 9D600
 movsx eax, word [byte eax+0Ch]	; 9D603
-push asc_112D8B	; 9D607
+push str_Slid2	; 9D607
 add eax, byte 5	; 9D60C
 push dword [byte ebp+05Eh]	; 9D60F
 mov dword [dword ebp-01484h], eax	; 9D612
@@ -476,13 +476,13 @@ mov dword [dword ebp-015B6h], eax	; 9D618
 call sub_E04E0	; 9D61E
 add esp, byte 8	; 9D623
 movsx eax, word [byte eax+0Eh]	; 9D626
-push asc_112D8B	; 9D62A
+push str_Slid2	; 9D62A
 add eax, byte 5	; 9D62F
 push dword [byte ebp+05Eh]	; 9D632
 mov dword [dword ebp-015B2h], eax	; 9D635
 call sub_E04E0	; 9D63B
 add esp, byte 8	; 9D640
-push asc_112D8B	; 9D643
+push str_Slid2	; 9D643
 push dword [byte ebp+05Eh]	; 9D648
 movsx edi, word [byte eax+0Eh]	; 9D64B
 call sub_E04E0	; 9D64F
@@ -500,12 +500,12 @@ mov byte [dword ebp-0147Ah], 13h	; 9D684
 mov dword [dword ebp-01480h], eax	; 9D68B
 call sub_B2C54	; 9D691
 add esp, byte 4	; 9D696
-push asc_112DA9	; 9D699
+push str_Pal28	; 9D699
 push dword [byte ebp+062h]	; 9D69E
 call sub_E04E0	; 9D6A1
 add esp, byte 8	; 9D6A6
 mov dword [byte ebp+03Eh], 0	; 9D6A9
-push asc_112DA9	; 9D6B0
+push str_Pal28	; 9D6B0
 mov esi, eax	; 9D6B5
 add eax, byte 10h	; 9D6B7
 push dword [byte ebp+05Eh]	; 9D6BA
@@ -552,13 +552,13 @@ xor esi, esi	; 9D735
 call sub_62AF7	; 9D737
 loc_9D73C:
 push byte 0	; 9D73C
-push asc_112DAE	; 9D73E
+push str_Nhl1	; 9D73E
 push dword [byte ebp+05Eh]	; 9D743
 call sub_E04E0	; 9D746
 add esp, byte 8	; 9D74B
 movsx eax, word [byte eax+06h]	; 9D74E
 push eax	; 9D752
-push asc_112DAE	; 9D753
+push str_Nhl1	; 9D753
 push dword [byte ebp+05Eh]	; 9D758
 call sub_E04E0	; 9D75B
 add esp, byte 8	; 9D760
@@ -570,21 +570,21 @@ push eax	; 9D770
 mov dword [byte esi+ebp-032h], eax	; 9D771
 call SetDrawBitmap	; 9D775
 add esp, byte 4	; 9D77A
-push asc_112DAE	; 9D77D
+push str_Nhl1	; 9D77D
 push dword [byte ebp+05Eh]	; 9D782
 call sub_E04E0	; 9D785
 movsx eax, word [byte eax+0Eh]	; 9D78A
 add esp, byte 8	; 9D78E
 neg eax	; 9D791
 push eax	; 9D793
-push asc_112DAE	; 9D794
+push str_Nhl1	; 9D794
 push dword [byte ebp+05Eh]	; 9D799
 call sub_E04E0	; 9D79C
 movsx eax, word [byte eax+0Ch]	; 9D7A1
 add esp, byte 8	; 9D7A5
 neg eax	; 9D7A8
 push eax	; 9D7AA
-push asc_112D86	; 9D7AB
+push str_Bkgd20	; 9D7AB
 push dword [byte ebp+062h]	; 9D7B0
 call sub_E04E0	; 9D7B3
 add esp, byte 8	; 9D7B8
@@ -597,7 +597,7 @@ jne near loc_9D73C	; 9D7CA
 push dword [byte ebp-032h]	; 9D7D0
 call SetDrawBitmap	; 9D7D3
 add esp, byte 4	; 9D7D8
-push asc_112DAE	; 9D7DB
+push str_Nhl1	; 9D7DB
 push dword [byte ebp+05Eh]	; 9D7E0
 call sub_E04E0	; 9D7E3
 add esp, byte 8	; 9D7E8
@@ -609,7 +609,7 @@ call sub_64296	; 9D7F6
 push dword [byte ebp-02Eh]	; 9D7FB
 call SetDrawBitmap	; 9D7FE
 add esp, byte 4	; 9D803
-push asc_112DB3	; 9D806
+push str_Nhl2	; 9D806
 push dword [byte ebp+05Eh]	; 9D80B
 call sub_E04E0	; 9D80E
 add esp, byte 8	; 9D813
@@ -621,7 +621,7 @@ call sub_64296	; 9D821
 push dword [byte ebp-02Ah]	; 9D826
 call SetDrawBitmap	; 9D829
 add esp, byte 4	; 9D82E
-push asc_112DB8	; 9D831
+push str_Nhl3	; 9D831
 push dword [byte ebp+05Eh]	; 9D836
 call sub_E04E0	; 9D839
 add esp, byte 8	; 9D83E
@@ -632,13 +632,13 @@ mov eax, 0FAE1h	; 9D847
 call sub_64296	; 9D84C
 loc_9D851:
 push byte 0	; 9D851
-push asc_112DBD	; 9D853
+push str_Scr12	; 9D853
 push dword [byte ebp+05Eh]	; 9D858
 call sub_E04E0	; 9D85B
 add esp, byte 8	; 9D860
 movsx eax, word [byte eax+06h]	; 9D863
 push eax	; 9D867
-push asc_112DBD	; 9D868
+push str_Scr12	; 9D868
 push dword [byte ebp+05Eh]	; 9D86D
 call sub_E04E0	; 9D870
 add esp, byte 8	; 9D875
@@ -650,21 +650,21 @@ push eax	; 9D885
 mov dword [byte esi+ebp-032h], eax	; 9D886
 call SetDrawBitmap	; 9D88A
 add esp, byte 4	; 9D88F
-push asc_112DBD	; 9D892
+push str_Scr12	; 9D892
 push dword [byte ebp+05Eh]	; 9D897
 call sub_E04E0	; 9D89A
 movsx eax, word [byte eax+0Eh]	; 9D89F
 add esp, byte 8	; 9D8A3
 neg eax	; 9D8A6
 push eax	; 9D8A8
-push asc_112DBD	; 9D8A9
+push str_Scr12	; 9D8A9
 push dword [byte ebp+05Eh]	; 9D8AE
 call sub_E04E0	; 9D8B1
 movsx eax, word [byte eax+0Ch]	; 9D8B6
 add esp, byte 8	; 9D8BA
 neg eax	; 9D8BD
 push eax	; 9D8BF
-push asc_112D86	; 9D8C0
+push str_Bkgd20	; 9D8C0
 push dword [byte ebp+062h]	; 9D8C5
 call sub_E04E0	; 9D8C8
 add esp, byte 8	; 9D8CD
@@ -677,7 +677,7 @@ jne near loc_9D851	; 9D8DF
 push dword [byte ebp-026h]	; 9D8E5
 call SetDrawBitmap	; 9D8E8
 add esp, byte 4	; 9D8ED
-push asc_112DBD	; 9D8F0
+push str_Scr12	; 9D8F0
 push dword [byte ebp+05Eh]	; 9D8F5
 call sub_E04E0	; 9D8F8
 add esp, byte 8	; 9D8FD
@@ -689,7 +689,7 @@ call sub_64296	; 9D90B
 push dword [byte ebp-022h]	; 9D910
 call SetDrawBitmap	; 9D913
 add esp, byte 4	; 9D918
-push asc_112DC2	; 9D91B
+push str_Scr22	; 9D91B
 push dword [byte ebp+05Eh]	; 9D920
 call sub_E04E0	; 9D923
 add esp, byte 8	; 9D928
@@ -701,7 +701,7 @@ call sub_64296	; 9D936
 push dword [byte ebp-01Eh]	; 9D93B
 call SetDrawBitmap	; 9D93E
 add esp, byte 4	; 9D943
-push asc_112DC7	; 9D946
+push str_Scr3	; 9D946
 push dword [byte ebp+05Eh]	; 9D94B
 call sub_E04E0	; 9D94E
 add esp, byte 8	; 9D953
@@ -712,13 +712,13 @@ mov eax, 0FAE1h	; 9D95C
 call sub_64296	; 9D961
 loc_9D966:
 push byte 0	; 9D966
-push asc_112DCC	; 9D968
+push str_Drs1	; 9D968
 push dword [byte ebp+05Eh]	; 9D96D
 call sub_E04E0	; 9D970
 add esp, byte 8	; 9D975
 movsx eax, word [byte eax+06h]	; 9D978
 push eax	; 9D97C
-push asc_112DCC	; 9D97D
+push str_Drs1	; 9D97D
 push dword [byte ebp+05Eh]	; 9D982
 call sub_E04E0	; 9D985
 add esp, byte 8	; 9D98A
@@ -730,21 +730,21 @@ push eax	; 9D99A
 mov dword [byte esi+ebp-032h], eax	; 9D99B
 call SetDrawBitmap	; 9D99F
 add esp, byte 4	; 9D9A4
-push asc_112DCC	; 9D9A7
+push str_Drs1	; 9D9A7
 push dword [byte ebp+05Eh]	; 9D9AC
 call sub_E04E0	; 9D9AF
 movsx eax, word [byte eax+0Eh]	; 9D9B4
 add esp, byte 8	; 9D9B8
 neg eax	; 9D9BB
 push eax	; 9D9BD
-push asc_112DCC	; 9D9BE
+push str_Drs1	; 9D9BE
 push dword [byte ebp+05Eh]	; 9D9C3
 call sub_E04E0	; 9D9C6
 movsx eax, word [byte eax+0Ch]	; 9D9CB
 add esp, byte 8	; 9D9CF
 neg eax	; 9D9D2
 push eax	; 9D9D4
-push asc_112D86	; 9D9D5
+push str_Bkgd20	; 9D9D5
 push dword [byte ebp+062h]	; 9D9DA
 call sub_E04E0	; 9D9DD
 add esp, byte 8	; 9D9E2
@@ -757,7 +757,7 @@ jne near loc_9D966	; 9D9F4
 push dword [byte ebp-01Ah]	; 9D9FA
 call SetDrawBitmap	; 9D9FD
 add esp, byte 4	; 9DA02
-push asc_112DCC	; 9DA05
+push str_Drs1	; 9DA05
 push dword [byte ebp+05Eh]	; 9DA0A
 call sub_E04E0	; 9DA0D
 add esp, byte 8	; 9DA12
@@ -769,7 +769,7 @@ call sub_64296	; 9DA20
 push dword [byte ebp-016h]	; 9DA25
 call SetDrawBitmap	; 9DA28
 add esp, byte 4	; 9DA2D
-push asc_112DD1	; 9DA30
+push str_Drs2	; 9DA30
 push dword [byte ebp+05Eh]	; 9DA35
 call sub_E04E0	; 9DA38
 add esp, byte 8	; 9DA3D
@@ -781,7 +781,7 @@ call sub_64296	; 9DA4B
 push dword [byte ebp-012h]	; 9DA50
 call SetDrawBitmap	; 9DA53
 add esp, byte 4	; 9DA58
-push asc_112DD6	; 9DA5B
+push str_Drs3	; 9DA5B
 push dword [byte ebp+05Eh]	; 9DA60
 call sub_E04E0	; 9DA63
 add esp, byte 8	; 9DA68
@@ -792,13 +792,13 @@ mov eax, 0FAE1h	; 9DA71
 call sub_64296	; 9DA76
 loc_9DA7B:
 push byte 0	; 9DA7B
-push asc_112DDB	; 9DA7D
+push str_Sta13	; 9DA7D
 push dword [byte ebp+05Eh]	; 9DA82
 call sub_E04E0	; 9DA85
 add esp, byte 8	; 9DA8A
 movsx eax, word [byte eax+06h]	; 9DA8D
 push eax	; 9DA91
-push asc_112DDB	; 9DA92
+push str_Sta13	; 9DA92
 push dword [byte ebp+05Eh]	; 9DA97
 call sub_E04E0	; 9DA9A
 add esp, byte 8	; 9DA9F
@@ -810,21 +810,21 @@ push eax	; 9DAAF
 mov dword [byte esi+ebp-032h], eax	; 9DAB0
 call SetDrawBitmap	; 9DAB4
 add esp, byte 4	; 9DAB9
-push asc_112DDB	; 9DABC
+push str_Sta13	; 9DABC
 push dword [byte ebp+05Eh]	; 9DAC1
 call sub_E04E0	; 9DAC4
 movsx eax, word [byte eax+0Eh]	; 9DAC9
 add esp, byte 8	; 9DACD
 neg eax	; 9DAD0
 push eax	; 9DAD2
-push asc_112DDB	; 9DAD3
+push str_Sta13	; 9DAD3
 push dword [byte ebp+05Eh]	; 9DAD8
 call sub_E04E0	; 9DADB
 movsx eax, word [byte eax+0Ch]	; 9DAE0
 add esp, byte 8	; 9DAE4
 neg eax	; 9DAE7
 push eax	; 9DAE9
-push asc_112D86	; 9DAEA
+push str_Bkgd20	; 9DAEA
 push dword [byte ebp+062h]	; 9DAEF
 call sub_E04E0	; 9DAF2
 add esp, byte 8	; 9DAF7
@@ -837,7 +837,7 @@ jne near loc_9DA7B	; 9DB09
 push dword [byte ebp-0Eh]	; 9DB0F
 call SetDrawBitmap	; 9DB12
 add esp, byte 4	; 9DB17
-push asc_112DDB	; 9DB1A
+push str_Sta13	; 9DB1A
 push dword [byte ebp+05Eh]	; 9DB1F
 call sub_E04E0	; 9DB22
 add esp, byte 8	; 9DB27
@@ -849,7 +849,7 @@ call sub_64296	; 9DB35
 push dword [byte ebp-0Ah]	; 9DB3A
 call SetDrawBitmap	; 9DB3D
 add esp, byte 4	; 9DB42
-push asc_112DE0	; 9DB45
+push str_Sta23	; 9DB45
 push dword [byte ebp+05Eh]	; 9DB4A
 call sub_E04E0	; 9DB4D
 add esp, byte 8	; 9DB52
@@ -861,7 +861,7 @@ call sub_64296	; 9DB60
 push dword [byte ebp-06h]	; 9DB65
 call SetDrawBitmap	; 9DB68
 add esp, byte 4	; 9DB6D
-push asc_112DE5	; 9DB70
+push str_Sta33	; 9DB70
 push dword [byte ebp+05Eh]	; 9DB75
 lea edi, [dword ebp-0F90h]	; 9DB78
 call sub_E04E0	; 9DB7E
@@ -903,13 +903,13 @@ mov eax, dword [byte ebp-02Eh]	; 9DC32
 mov eax, dword [byte eax+02Ch]	; 9DC35
 mov dword [dword ebp-0176Ah], eax	; 9DC38
 mov eax, dword [byte ebp-02Ah]	; 9DC3E
-push asc_112DAE	; 9DC41
+push str_Nhl1	; 9DC41
 mov eax, dword [byte eax+02Ch]	; 9DC46
 push dword [byte ebp+05Eh]	; 9DC49
 mov dword [dword ebp-01766h], eax	; 9DC4C
 call sub_E04E0	; 9DC52
 add esp, byte 8	; 9DC57
-push asc_112DAE	; 9DC5A
+push str_Nhl1	; 9DC5A
 movsx eax, word [byte eax+0Ch]	; 9DC5F
 push dword [byte ebp+05Eh]	; 9DC63
 mov dword [dword ebp-01762h], eax	; 9DC66
@@ -936,13 +936,13 @@ mov eax, dword [byte eax+02Ch]	; 9DCD3
 add esp, byte 8	; 9DCD6
 mov dword [dword ebp-01704h], eax	; 9DCD9
 mov eax, dword [byte ebp-01Eh]	; 9DCDF
-push asc_112DBD	; 9DCE2
+push str_Scr12	; 9DCE2
 mov eax, dword [byte eax+02Ch]	; 9DCE7
 push dword [byte ebp+05Eh]	; 9DCEA
 mov dword [dword ebp-01700h], eax	; 9DCED
 call sub_E04E0	; 9DCF3
 add esp, byte 8	; 9DCF8
-push asc_112DBD	; 9DCFB
+push str_Scr12	; 9DCFB
 movsx eax, word [byte eax+0Ch]	; 9DD00
 push dword [byte ebp+05Eh]	; 9DD04
 mov dword [dword ebp-016FCh], eax	; 9DD07
@@ -973,13 +973,13 @@ mov eax, dword [byte ebp-0Ah]	; 9DD88
 mov eax, dword [byte eax+02Ch]	; 9DD8B
 mov dword [dword ebp-0169Eh], eax	; 9DD8E
 mov eax, dword [byte ebp-06h]	; 9DD94
-push asc_112DDB	; 9DD97
+push str_Sta13	; 9DD97
 mov eax, dword [byte eax+02Ch]	; 9DD9C
 push dword [byte ebp+05Eh]	; 9DD9F
 mov dword [dword ebp-0169Ah], eax	; 9DDA2
 call sub_E04E0	; 9DDA8
 add esp, byte 8	; 9DDAD
-push asc_112DDB	; 9DDB0
+push str_Sta13	; 9DDB0
 movsx eax, word [byte eax+0Ch]	; 9DDB5
 push dword [byte ebp+05Eh]	; 9DDB9
 mov dword [dword ebp-01696h], eax	; 9DDBC
@@ -1123,14 +1123,14 @@ loc_9DFF1:
 cmp dword [byte ebp+042h], byte 0	; 9DFF1
 jne near loc_9EF5C	; 9DFF5
 push byte 0	; 9DFFB
-mov eax, asc_112D81	; 9DFFD
+mov eax, str_Bh09	; 9DFFD
 push eax	; 9E002
 push dword [byte ebp+05Eh]	; 9E003
 call sub_E04E0	; 9E006
 add esp, byte 8	; 9E00B
 movsx eax, word [byte eax+06h]	; 9E00E
 push eax	; 9E012
-mov eax, asc_112D81	; 9E013
+mov eax, str_Bh09	; 9E013
 push eax	; 9E018
 push dword [byte ebp+05Eh]	; 9E019
 call sub_E04E0	; 9E01C
@@ -1143,7 +1143,7 @@ push eax	; 9E031
 mov edi, eax	; 9E032
 call SetDrawBitmap	; 9E034
 add esp, byte 4	; 9E039
-mov eax, asc_112D81	; 9E03C
+mov eax, str_Bh09	; 9E03C
 push eax	; 9E041
 push dword [byte ebp+05Eh]	; 9E042
 call sub_E04E0	; 9E045
@@ -1151,7 +1151,7 @@ movsx eax, word [byte eax+0Eh]	; 9E04A
 add esp, byte 8	; 9E04E
 neg eax	; 9E051
 push eax	; 9E053
-mov eax, asc_112D81	; 9E054
+mov eax, str_Bh09	; 9E054
 push eax	; 9E059
 push dword [byte ebp+05Eh]	; 9E05A
 call sub_E04E0	; 9E05D
@@ -1159,7 +1159,7 @@ movsx eax, word [byte eax+0Ch]	; 9E062
 add esp, byte 8	; 9E066
 neg eax	; 9E069
 push eax	; 9E06B
-mov eax, asc_112D86	; 9E06C
+mov eax, str_Bkgd20	; 9E06C
 push eax	; 9E071
 push dword [byte ebp+062h]	; 9E072
 call sub_E04E0	; 9E075
@@ -1173,7 +1173,7 @@ call sub_DD6C4	; 9E094
 loc_9E099:
 cmp dword [byte ebp+03Eh], byte 11h	; 9E099
 jne short loc_9E0B2	; 9E09D
-push asc_112DEA	; 9E09F
+push str_Bh17	; 9E09F
 lea eax, [byte ebp+026h]	; 9E0A4
 push eax	; 9E0A7
 call sprintf_	; 9E0A8
@@ -1181,19 +1181,19 @@ add esp, byte 8	; 9E0AD
 jmp short loc_9E0C6	; 9E0B0
 loc_9E0B2:
 push dword [byte ebp+03Eh]	; 9E0B2
-push asc_112DEF	; 9E0B5
+push str_Bt02d4	; 9E0B5
 lea eax, [byte ebp+026h]	; 9E0BA
 push eax	; 9E0BD
 call sprintf_	; 9E0BE
 add esp, byte 0Ch	; 9E0C3
 loc_9E0C6:
-push asc_112D81	; 9E0C6
+push str_Bh09	; 9E0C6
 push dword [byte ebp+05Eh]	; 9E0CB
 call sub_E04E0	; 9E0CE
 add esp, byte 8	; 9E0D3
 movsx eax, word [byte eax+0Eh]	; 9E0D6
 push eax	; 9E0DA
-push asc_112D81	; 9E0DB
+push str_Bh09	; 9E0DB
 push dword [byte ebp+05Eh]	; 9E0E0
 call sub_E04E0	; 9E0E3
 add esp, byte 8	; 9E0E8
@@ -1226,11 +1226,11 @@ jl near loc_9E099	; 9E134
 push edi	; 9E13A
 call sub_ADBEC	; 9E13B
 add esp, byte 4	; 9E140
-push asc_112DF6	; 9E143
+push str_Bt17	; 9E143
 push dword [byte ebp+05Eh]	; 9E148
 call sub_E04E0	; 9E14B
 add esp, byte 8	; 9E150
-push asc_112DEA	; 9E153
+push str_Bh17	; 9E153
 loc_9E158:
 push dword [byte ebp+05Eh]	; 9E158
 mov dword [dword ebp-017D4h], eax	; 9E15B
@@ -1251,14 +1251,14 @@ mov byte [dword ebp-0F4Eh], 2Ah	; 9E190
 jmp near loc_9EF5C	; 9E197
 loc_9E19C:
 push byte 0	; 9E19C
-mov eax, asc_112D81	; 9E19E
+mov eax, str_Bh09	; 9E19E
 push eax	; 9E1A3
 push dword [byte ebp+05Eh]	; 9E1A4
 call sub_E04E0	; 9E1A7
 add esp, byte 8	; 9E1AC
 movsx eax, word [byte eax+06h]	; 9E1AF
 push eax	; 9E1B3
-mov eax, asc_112D81	; 9E1B4
+mov eax, str_Bh09	; 9E1B4
 push eax	; 9E1B9
 push dword [byte ebp+05Eh]	; 9E1BA
 call sub_E04E0	; 9E1BD
@@ -1271,7 +1271,7 @@ push eax	; 9E1D2
 mov edi, eax	; 9E1D3
 call SetDrawBitmap	; 9E1D5
 add esp, byte 4	; 9E1DA
-mov eax, asc_112D81	; 9E1DD
+mov eax, str_Bh09	; 9E1DD
 push eax	; 9E1E2
 push dword [byte ebp+05Eh]	; 9E1E3
 call sub_E04E0	; 9E1E6
@@ -1279,7 +1279,7 @@ movsx eax, word [byte eax+0Eh]	; 9E1EB
 add esp, byte 8	; 9E1EF
 neg eax	; 9E1F2
 push eax	; 9E1F4
-mov eax, asc_112D81	; 9E1F5
+mov eax, str_Bh09	; 9E1F5
 push eax	; 9E1FA
 push dword [byte ebp+05Eh]	; 9E1FB
 call sub_E04E0	; 9E1FE
@@ -1287,7 +1287,7 @@ movsx eax, word [byte eax+0Ch]	; 9E203
 add esp, byte 8	; 9E207
 neg eax	; 9E20A
 push eax	; 9E20C
-mov eax, asc_112D86	; 9E20D
+mov eax, str_Bkgd20	; 9E20D
 push eax	; 9E212
 push dword [byte ebp+062h]	; 9E213
 call sub_E04E0	; 9E216
@@ -1301,7 +1301,7 @@ call sub_DD6C4	; 9E235
 loc_9E23A:
 cmp dword [byte ebp+03Eh], byte 19h	; 9E23A
 jne short loc_9E253	; 9E23E
-push asc_112DFB	; 9E240
+push str_Bh01	; 9E240
 lea eax, [byte ebp+026h]	; 9E245
 push eax	; 9E248
 call sprintf_	; 9E249
@@ -1309,19 +1309,19 @@ add esp, byte 8	; 9E24E
 jmp short loc_9E267	; 9E251
 loc_9E253:
 push dword [byte ebp+03Eh]	; 9E253
-push asc_112DEF	; 9E256
+push str_Bt02d4	; 9E256
 lea eax, [byte ebp+026h]	; 9E25B
 push eax	; 9E25E
 call sprintf_	; 9E25F
 add esp, byte 0Ch	; 9E264
 loc_9E267:
-push asc_112D81	; 9E267
+push str_Bh09	; 9E267
 push dword [byte ebp+05Eh]	; 9E26C
 call sub_E04E0	; 9E26F
 add esp, byte 8	; 9E274
 movsx eax, word [byte eax+0Eh]	; 9E277
 push eax	; 9E27B
-push asc_112D81	; 9E27C
+push str_Bh09	; 9E27C
 push dword [byte ebp+05Eh]	; 9E281
 call sub_E04E0	; 9E284
 add esp, byte 8	; 9E289
@@ -1354,11 +1354,11 @@ jl near loc_9E23A	; 9E2D5
 push edi	; 9E2DB
 call sub_ADBEC	; 9E2DC
 add esp, byte 4	; 9E2E1
-push asc_112E00	; 9E2E4
+push str_Bt018	; 9E2E4
 push dword [byte ebp+05Eh]	; 9E2E9
 call sub_E04E0	; 9E2EC
 add esp, byte 8	; 9E2F1
-push asc_112DFB	; 9E2F4
+push str_Bh01	; 9E2F4
 push dword [byte ebp+05Eh]	; 9E2F9
 mov dword [dword ebp-017D4h], eax	; 9E2FC
 call sub_E04E0	; 9E302
@@ -1378,14 +1378,14 @@ mov byte [dword ebp-0F4Eh], 23h	; 9E331
 jmp near loc_9EF5C	; 9E338
 loc_9E33D:
 push byte 0	; 9E33D
-mov eax, asc_112D81	; 9E33F
+mov eax, str_Bh09	; 9E33F
 push eax	; 9E344
 push dword [byte ebp+05Eh]	; 9E345
 call sub_E04E0	; 9E348
 add esp, byte 8	; 9E34D
 movsx eax, word [byte eax+06h]	; 9E350
 push eax	; 9E354
-mov eax, asc_112D81	; 9E355
+mov eax, str_Bh09	; 9E355
 push eax	; 9E35A
 push dword [byte ebp+05Eh]	; 9E35B
 call sub_E04E0	; 9E35E
@@ -1398,7 +1398,7 @@ push eax	; 9E373
 mov edi, eax	; 9E374
 call SetDrawBitmap	; 9E376
 add esp, byte 4	; 9E37B
-mov eax, asc_112D81	; 9E37E
+mov eax, str_Bh09	; 9E37E
 push eax	; 9E383
 push dword [byte ebp+05Eh]	; 9E384
 call sub_E04E0	; 9E387
@@ -1406,7 +1406,7 @@ movsx eax, word [byte eax+0Eh]	; 9E38C
 add esp, byte 8	; 9E390
 neg eax	; 9E393
 push eax	; 9E395
-mov eax, asc_112D81	; 9E396
+mov eax, str_Bh09	; 9E396
 push eax	; 9E39B
 push dword [byte ebp+05Eh]	; 9E39C
 call sub_E04E0	; 9E39F
@@ -1414,7 +1414,7 @@ movsx eax, word [byte eax+0Ch]	; 9E3A4
 add esp, byte 8	; 9E3A8
 neg eax	; 9E3AB
 push eax	; 9E3AD
-mov eax, asc_112D86	; 9E3AE
+mov eax, str_Bkgd20	; 9E3AE
 push eax	; 9E3B3
 push dword [byte ebp+062h]	; 9E3B4
 call sub_E04E0	; 9E3B7
@@ -1428,7 +1428,7 @@ call sub_DD6C4	; 9E3D6
 loc_9E3DB:
 cmp dword [byte ebp+03Eh], byte 9	; 9E3DB
 jne short loc_9E3F4	; 9E3DF
-push asc_112D81	; 9E3E1
+push str_Bh09	; 9E3E1
 lea eax, [byte ebp+026h]	; 9E3E6
 push eax	; 9E3E9
 call sprintf_	; 9E3EA
@@ -1436,19 +1436,19 @@ add esp, byte 8	; 9E3EF
 jmp short loc_9E408	; 9E3F2
 loc_9E3F4:
 push dword [byte ebp+03Eh]	; 9E3F4
-push asc_112DEF	; 9E3F7
+push str_Bt02d4	; 9E3F7
 lea eax, [byte ebp+026h]	; 9E3FC
 push eax	; 9E3FF
 call sprintf_	; 9E400
 add esp, byte 0Ch	; 9E405
 loc_9E408:
-push asc_112D81	; 9E408
+push str_Bh09	; 9E408
 push dword [byte ebp+05Eh]	; 9E40D
 call sub_E04E0	; 9E410
 add esp, byte 8	; 9E415
 movsx eax, word [byte eax+0Eh]	; 9E418
 push eax	; 9E41C
-push asc_112D81	; 9E41D
+push str_Bh09	; 9E41D
 push dword [byte ebp+05Eh]	; 9E422
 call sub_E04E0	; 9E425
 add esp, byte 8	; 9E42A
@@ -1481,11 +1481,11 @@ jl near loc_9E3DB	; 9E476
 push edi	; 9E47C
 call sub_ADBEC	; 9E47D
 add esp, byte 4	; 9E482
-push asc_112D7C	; 9E485
+push str_Bt092	; 9E485
 push dword [byte ebp+05Eh]	; 9E48A
 call sub_E04E0	; 9E48D
 add esp, byte 8	; 9E492
-push asc_112D81	; 9E495
+push str_Bh09	; 9E495
 jmp near loc_9E158	; 9E49A
 loc_9E49F:
 mov ecx, 3Eh	; 9E49F
@@ -1972,7 +1972,7 @@ jmp near loc_9EF5C	; 9EBBD
 loc_9EBC2:
 push byte 0	; 9EBC2
 push byte 70h	; 9EBC4
-push asc_112E05	; 9EBC6
+push str_LinesSort	; 9EBC6
 mov dword [byte ebp+03Eh], 0	; 9EBCB
 call sub_AB758	; 9EBD2
 mov ebx, unk_183D08	; 9EBD7
@@ -2968,7 +2968,7 @@ cmp dword [byte ebp-016h], byte 0	; 9F77C
 jne near loc_9FDEA	; 9F780
 push byte 0FFFFFF86h	; 9F786
 push edi	; 9F788
-push asc_112D86	; 9F789
+push str_Bkgd20	; 9F789
 mov eax, dword [dword ebp+08Eh]	; 9F78E
 push esi	; 9F794
 mov byte [dword eax+0A8h], 2Bh	; 9F795
@@ -3138,7 +3138,7 @@ jmp short loc_9F957	; 9F9C7
 loc_9F9C9:
 push edi	; 9F9C9
 push edi	; 9F9CA
-push asc_112E10	; 9F9CB
+push str_Bkpp	; 9F9CB
 push esi	; 9F9D0
 call sub_E04E0	; 9F9D1
 add esp, byte 8	; 9F9D6
@@ -3295,7 +3295,7 @@ jmp short loc_9FB74	; 9FBD5
 loc_9FBD7:
 push edi	; 9FBD7
 push edi	; 9FBD8
-push asc_112E15	; 9FBD9
+push str_Bkpk	; 9FBD9
 mov eax, dword [dword ebp+08Eh]	; 9FBDE
 push esi	; 9FBE4
 mov byte [dword eax+0A8h], 25h	; 9FBE5
@@ -3475,7 +3475,7 @@ mov esi, eax	; 9FE60
 mov edi, edx	; 9FE62
 mov dword [byte ebp-04h], ebx	; 9FE64
 mov byte [byte ebp-011h], 20h	; 9FE67
-push asc_112E1A	; 9FE6B
+push str_Jers	; 9FE6B
 mov byte [byte ebp-012h], 20h	; 9FE70
 mov byte [byte ebp-013h], 20h	; 9FE74
 push ecx	; 9FE78
@@ -3490,7 +3490,7 @@ mov eax, 0FAE1h	; 9FE8F
 call sub_64296	; 9FE94
 cmp dword [byte ebp+014h], byte 0	; 9FE99
 je short loc_9FEBF	; 9FE9D
-push asc_112E1F	; 9FE9F
+push str_Jrhl	; 9FE9F
 push dword [byte ebp+010h]	; 9FEA4
 call sub_E04E0	; 9FEA7
 add esp, byte 8	; 9FEAC
@@ -3575,7 +3575,7 @@ call SetDrawBitmap	; 9FF75
 add esp, byte 4	; 9FF7A
 push dword 0FFFFFF65h	; 9FF7D
 push dword 0FFFFFE3Eh	; 9FF82
-push asc_112D86	; 9FF87
+push str_Bkgd20	; 9FF87
 push dword [byte ebp+014h]	; 9FF8C
 call sub_E04E0	; 9FF8F
 add esp, byte 8	; 9FF94
@@ -3660,7 +3660,7 @@ push eax	; A0062
 movsx eax, byte [byte ebp-04h]	; A0063
 loc_A0067:
 push eax	; A0067
-push asc_112E24	; A0068
+push str_CD2	; A0068
 lea eax, [byte ebp-020h]	; A006D
 push eax	; A0070
 call sprintf_	; A0071
@@ -3675,7 +3675,7 @@ lea edi, [byte eax+013h]	; A008E
 push edi	; A0091
 movsx eax, byte [byte eax+03h]	; A0092
 push eax	; A0096
-push asc_112E2A	; A0097
+push str_CS4	; A0097
 lea eax, [byte ebp-020h]	; A009C
 mov edx, 28h	; A009F
 push eax	; A00A4

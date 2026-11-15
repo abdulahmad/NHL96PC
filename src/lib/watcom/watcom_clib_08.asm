@@ -2,10 +2,10 @@
 bits 32
 %include "hockey.inc"
 section s_BF949 progbits alloc exec nowrite align=1
-extern FatalError, GetTicks, __set_errno_, _nmalloc_, addtimer, asc_113B10, asc_113B1E, asc_113B3B
-extern asc_113B59, asc_113B68, asc_113B7A, asc_113B92, asc_113BAA, asc_113BCC, asc_113BE1, asc_113C00
-extern asc_113C17, asc_113C2D, asc_113C43, asc_113C56, asc_113C82, asc_113C96, asc_113CB8, asc_113CD3
-extern asc_113CED, asc_113E28, asc_113E2C, asc_113E4C, byte_123BB8, byte_123C04, byte_123C05, byte_123C22
+extern FatalError, GetTicks, __set_errno_, _nmalloc_, addtimer, str_UnknownError, str_EnvironmentVariableNotSe, str_ErrorInEnvironmentVariab
+extern str_InvalidDriver, str_CardNotDetected, str_ErrorAllocatingMemory, str_ErrorInitializingCard, str_ErrorInitializingSoftwar, str_ErrorInDMAChannel, str_ErrorNotAnEACSFormatFile, str_ErrorInvalidChannel
+extern str_ErrorInvalidVolume, str_ErrorInvalidHandle, str_ErrorInvalidPan, str_ErrorUnsupportedAudioTyp, str_ErrorInvalidBend, str_ErrorCouldNotResolveSfxB, str_ErrorInvalidBankNumber, str_ErrorInvalidSfxNumber
+extern str_NoFreeChannelToPlayOn, asc_113E28, str_TgvdecodeInvalidChunkTyp, str_RateDDAvgDD, byte_123BB8, byte_123C04, byte_123C05, byte_123C22
 extern byte_1248D0, byte_1248D1, byte_1248DA, byte_19B734, byte_19B739, byte_1A0B2B, byte_1A0B31, byte_1A0B36
 extern byte_1A0B37, byte_1A0B44, byte_1A0B46, byte_1A0B47, dword_11F5CC, dword_11F5D0, dword_11F9C8, dword_1210C0
 extern dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4, dword_1228F4, dword_123B10, dword_123B14, dword_123BB0
@@ -2640,84 +2640,84 @@ dd loc_C14FD
 dd loc_C14F6
 push edx	; C14DC
 add eax, byte 14h	; C14DD
-mov edx, asc_113B10	; C14E0
+mov edx, str_UnknownError	; C14E0
 cmp eax, byte 12h	; C14E5
 ja near loc_C157B	; C14E8
 jmp dword [nosplit cs:eax*4+jpt_C1490]	; C14EE
 loc_C14F6:
-mov eax, asc_113B1E	; C14F6
+mov eax, str_EnvironmentVariableNotSe	; C14F6
 pop edx	; C14FB
 ret	; C14FC
 loc_C14FD:
-mov eax, asc_113B3B	; C14FD
+mov eax, str_ErrorInEnvironmentVariab	; C14FD
 pop edx	; C1502
 ret	; C1503
 loc_C1504:
-mov eax, asc_113B59	; C1504
+mov eax, str_InvalidDriver	; C1504
 pop edx	; C1509
 ret	; C150A
 loc_C150B:
-mov eax, asc_113B68	; C150B
+mov eax, str_CardNotDetected	; C150B
 pop edx	; C1510
 ret	; C1511
 loc_C1512:
-mov eax, asc_113B7A	; C1512
+mov eax, str_ErrorAllocatingMemory	; C1512
 pop edx	; C1517
 ret	; C1518
 loc_C1519:
-mov eax, asc_113B92	; C1519
+mov eax, str_ErrorInitializingCard	; C1519
 pop edx	; C151E
 ret	; C151F
 loc_C1520:
-mov eax, asc_113BAA	; C1520
+mov eax, str_ErrorInitializingSoftwar	; C1520
 pop edx	; C1525
 ret	; C1526
 loc_C1527:
-mov eax, asc_113BCC	; C1527
+mov eax, str_ErrorInDMAChannel	; C1527
 pop edx	; C152C
 ret	; C152D
 loc_C152E:
-mov eax, asc_113BE1	; C152E
+mov eax, str_ErrorNotAnEACSFormatFile	; C152E
 pop edx	; C1533
 ret	; C1534
 loc_C1535:
-mov eax, asc_113C00	; C1535
+mov eax, str_ErrorInvalidChannel	; C1535
 pop edx	; C153A
 ret	; C153B
 loc_C153C:
-mov eax, asc_113C17	; C153C
+mov eax, str_ErrorInvalidVolume	; C153C
 pop edx	; C1541
 ret	; C1542
 loc_C1543:
-mov eax, asc_113C2D	; C1543
+mov eax, str_ErrorInvalidHandle	; C1543
 pop edx	; C1548
 ret	; C1549
 loc_C154A:
-mov eax, asc_113C43	; C154A
+mov eax, str_ErrorInvalidPan	; C154A
 pop edx	; C154F
 ret	; C1550
 loc_C1551:
-mov eax, asc_113C56	; C1551
+mov eax, str_ErrorUnsupportedAudioTyp	; C1551
 pop edx	; C1556
 ret	; C1557
 loc_C1558:
-mov eax, asc_113C82	; C1558
+mov eax, str_ErrorInvalidBend	; C1558
 pop edx	; C155D
 ret	; C155E
 loc_C155F:
-mov eax, asc_113C96	; C155F
+mov eax, str_ErrorCouldNotResolveSfxB	; C155F
 pop edx	; C1564
 ret	; C1565
 loc_C1566:
-mov eax, asc_113CB8	; C1566
+mov eax, str_ErrorInvalidBankNumber	; C1566
 pop edx	; C156B
 ret	; C156C
 loc_C156D:
-mov eax, asc_113CD3	; C156D
+mov eax, str_ErrorInvalidSfxNumber	; C156D
 pop edx	; C1572
 ret	; C1573
 loc_C1574:
-mov eax, asc_113CED	; C1574
+mov eax, str_NoFreeChannelToPlayOn	; C1574
 pop edx	; C1579
 ret	; C157A
 loc_C157B:
@@ -3728,7 +3728,7 @@ mov eax, dword [byte esi+028h]	; C2034
 pop esi	; C2037
 ret	; C2038
 loc_C2039:
-push asc_113E2C	; C2039
+push str_TgvdecodeInvalidChunkTyp	; C2039
 call FatalError	; C203E
 add esp, byte 4	; C2043
 mov eax, dword [byte esi+028h]	; C2046
@@ -3886,7 +3886,7 @@ mov eax, ebx	; C21DF
 sar edx, 1Fh	; C21E1
 idiv esi	; C21E4
 push eax	; C21E6
-push asc_113E4C	; C21E7
+push str_RateDDAvgDD	; C21E7
 mov esi, dword [dword_11F5D0]	; C21EC
 push esi	; C21F2
 mov ebp, dword [dword_11F5CC]	; C21F3

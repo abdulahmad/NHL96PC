@@ -194,7 +194,7 @@ func,AA988,91538,sub_91538,lib/ea/ea_gfx_06.asm,similar,0.889,mnemonic similarit
 func,AAB40,903F0,sub_903F0,lib/ea/ea_gfx_01.asm,sem,1.0,C:2284; R:2174; R:2167; K:10000
 func,AAF28,90720,sub_90720,lib/ea/ea_gfx_01.asm,sem,1.0,C:2287
 func,AB834,8CD04,sub_8CD04,lib/ea/ea_memman_01.asm,similar,0.929,mnemonic similarity 0.93 over 28 instructions
-func,AB87C,8CD4C,sub_8CD4C,lib/ea/ea_memman_01.asm,sem,0.59,"S:reservemem - INVALID SIZE REQUESTED
+func,AB87C,8CD4C,reservemem,lib/ea/ea_memman_01.asm,sem,0.59,"S:reservemem - INVALID SIZE REQUESTED
 re; D:1131D8; S:reservemem - OUT OF MEMORY
 requested: ; S:reservemem - INVALID TYPE FLAGS (%04x)"
 func,ABD64,8D15C,sub_8D15C,lib/ea/ea_memman_01.asm,sem,0.91,"S:resizemem - INVALID SIZE REQUESTED
@@ -207,7 +207,7 @@ func,AC0C4,8D3D4,sub_8D3D4,lib/ea/ea_memman_02.asm,sem,0.703,D:11F9C0; C:1215; R
 func,AC360,8D604,sub_8D604,lib/ea/ea_memman_02.asm,similar,0.894,mnemonic similarity 0.89 over 104 instructions
 func,AC470,8D714,sub_8D714,lib/ea/ea_memman_02.asm,exact,1.0,8 instructions
 func,AC484,8D728,sub_8D728,lib/ea/ea_memman_02.asm,callsite,0.9,called at the same place of sub_8D714
-func,AC990,8DB8C,sub_8DB8C,lib/ea/ea_memman_02.asm,sem,0.732,"S:getmemblock - NO MEMORY BLOCKS LEFT
+func,AC990,8DB8C,getmemblock,lib/ea/ea_memman_02.asm,sem,0.732,"S:getmemblock - NO MEMORY BLOCKS LEFT
 ; D:1133E0; C:2357"
 func,AC9B8,8DBC0,sub_8DBC0,lib/ea/ea_memman_02.asm,sem,1.0,C:1215; R:1420
 func,AC9D4,8DBDC,sub_8DBDC,lib/ea/ea_memman_02.asm,exact,1.0,3 instructions
@@ -230,7 +230,7 @@ func,AEE84,97A38,sub_97A38,lib/ea/ea_unpack.asm,sem,0.521,K:47FB; R:1281; K:100
 func,AF08C,97BB8,sub_97BB8,lib/ea/ea_unpack.asm,sem,1.0,K:62FB; K:66FB
 func,AF85C,97300,sub_97300,lib/ea/ea_unpack.asm,similar,0.964,mnemonic similarity 0.96 over 28 instructions
 func,AF890,97350,sub_97350,lib/ea/ea_unpack.asm,similar,0.954,mnemonic similarity 0.95 over 267 instructions
-func,AFB88,97EB8,sub_97EB8,lib/ea/ea_unpack.asm,sem,1.0,"S:unpack - INVALID PACK CODE (%x)
+func,AFB88,97EB8,unpack,lib/ea/ea_unpack.asm,sem,1.0,"S:unpack - INVALID PACK CODE (%x)
 ; D:1135B8; C:1279; C:2357"
 func,AFCD0,98028,sub_98028,lib/ea/ea_unpack.asm,sem,1.0,C:1281
 func,B03F2,8EB21,sub_8EB21,lib/watcom/watcom_clib_06.asm,callsite,0.9,called at the same place of rand_
@@ -254,7 +254,7 @@ func,B1C91,9244C,qsort_,lib/watcom/watcom_clib_16.asm,similar,0.996,mnemonic sim
 func,B2158,8E920,sub_8E920,lib/ea/ea_window.asm,similar,0.969,mnemonic similarity 0.97 over 65 instructions
 func,B2200,91F00,strcmp_,lib/watcom/watcom_clib_15.asm,similar,0.993,mnemonic similarity 0.99 over 69 instructions
 func,B22E0,93308,sub_93308,lib/ea/ea_fileblock.asm,sem,0.75,C:1348
-func,B2374,9336C,sub_9336C,lib/ea/ea_fileblock.asm,similar,0.941,mnemonic similarity 0.94 over 51 instructions
+func,B2374,9336C,savefileblocka,lib/ea/ea_fileblock.asm,similar,0.941,mnemonic similarity 0.94 over 51 instructions
 func,B2B30,910E0,sub_910E0,lib/ea/ea_gfx_05.asm,sem,0.868,C:2293; K:10000; K:FFFF
 func,B2C98,8DC1C,printf_,lib/watcom/watcom_clib_03.asm,exact,1.0,13 instructions
 func,B2CE0,8DCC0,sub_8DCC0,lib/ea/ea_memman_03.asm,sem,0.945,C:1734; C:1180; C:1178; K:4000000
@@ -286,7 +286,7 @@ func,BF02C,90354,sub_90354,lib/ea/ea_sound_hl_02.asm,exact,1.0,3 instructions
 func,BF034,9035C,sub_9035C,lib/ea/ea_sound_hl_02.asm,exact,1.0,9 instructions
 func,BF070,902B0,__STOSB,lib/watcom/watcom_clib_07.asm,callsite,0.9,called at the same place of memset_
 func,BF0A7,902E7,__STOSD,lib/watcom/watcom_clib_07.asm,loose,1.0,49 instructions
-func,BF534,8E080,sub_8E080,lib/ea/ea_vesa_init.asm,sem,0.937,S:initgraphics - INITMEMMAN REQUIRED BEF; D:113A50; S:initgraphics - INVALID SCREEN SIZE (%d; D:113A88
+func,BF534,8E080,initgraphics,lib/ea/ea_vesa_init.asm,sem,0.937,S:initgraphics - INITMEMMAN REQUIRED BEF; D:113A50; S:initgraphics - INVALID SCREEN SIZE (%d; D:113A88
 func,BF949,A2AC8,abs_,lib/watcom/watcom_clib_40.asm,exact,1.0,4 instructions
 func,C271E,980E5,utoa_,lib/watcom/watcom_clib_24.asm,exact,1.0,35 instructions
 func,C2768,9812F,itoa_,lib/watcom/watcom_clib_24.asm,callsite,0.9,called at the same place of fmt4hex_
@@ -339,7 +339,7 @@ func,C3C22,9C576,vsprintf_,lib/watcom/watcom_clib_34.asm,sem,1.0,C:1709; R:1240;
 func,C3C37,9C58C,j___fprtf_,lib/watcom/watcom_clib_34.asm,sem,1.0,C:1733; R:1246
 func,C3C3C,91E72,fputs_,lib/watcom/watcom_clib_15.asm,similar,0.952,mnemonic similarity 0.95 over 65 instructions
 func,C3CC0,98D20,sub_98D20,lib/ea/ea_shapes.asm,similar,0.893,mnemonic similarity 0.89 over 78 instructions
-func,C3D80,98DD8,sub_98DD8,lib/ea/ea_shapes.asm,similar,0.927,mnemonic similarity 0.93 over 53 instructions
+func,C3D80,98DD8,removewindow,lib/ea/ea_shapes.asm,similar,0.927,mnemonic similarity 0.93 over 53 instructions
 func,C3E38,9B498,sub_9B498,lib/ea/ea_misc_01.asm,similar,0.908,mnemonic similarity 0.91 over 212 instructions
 func,C40B4,99D1C,__prtf_,lib/watcom/watcom_clib_30.asm,exact,1.0,223 instructions
 func,C4335,99F9D,getprintspecs_,lib/watcom/watcom_clib_30.asm,exact,1.0,135 instructions
@@ -584,7 +584,7 @@ func,E0658,B3B00,sub_B3B00,lib/ea/ea_fileio.asm,exact,1.0,14 instructions
 func,E0671,B3B19,sub_B3B19,lib/ea/ea_fileio.asm,exact,1.0,7 instructions
 func,E0686,B3B2E,sub_B3B2E,lib/ea/ea_fileio.asm,exact,1.0,6 instructions
 func,E069C,B3B44,sub_B3B44,lib/ea/ea_fileio.asm,exact,1.0,6 instructions
-func,E06B2,B3B5A,sub_B3B5A,lib/ea/ea_fileio.asm,exact,1.0,87 instructions
+func,E06B2,B3B5A,openhandle,lib/ea/ea_fileio.asm,exact,1.0,87 instructions
 func,E07B8,B3C60,sub_B3C60,lib/ea/ea_fileio.asm,exact,1.0,9 instructions
 func,E07CC,B3C74,sub_B3C74,lib/ea/ea_fileio.asm,sem,1.0,R:1344; R:1420; R:1429; K:4000
 func,E081C,B3CB3,sub_B3CB3,lib/ea/ea_fileio.asm,sem,1.0,C:2348; K:4200
@@ -673,8 +673,8 @@ data,114614,C43BC,str_ALIGNFlagIsSet,data/lib/ea/ealib_13.asm,string,1.0,'ALIGN 
 data,114628,C43D0,str_PRIORITY1d,data/lib/ea/ealib_13.asm,string,1.0,'PRIORITY #%1d'
 data,114638,C43E0,str_SequenceD,data/lib/ea/ealib_13.asm,string,1.0,'Sequence #%d'
 data,114648,C43F0,str_BlockIsPURGABLE,data/lib/ea/ealib_13.asm,string,1.0,'Block is PURGABLE'
-data,11465C,C4404,asc_C4404,data/lib/ea/ealib_13.asm,string,1.0,'%04x   '
-data,114664,C440C,asc_C440C,data/lib/ea/ealib_13.asm,string,1.0,'%02x'
+data,11465C,C4404,str_04x2,data/lib/ea/ealib_13.asm,string,1.0,'%04x   '
+data,114664,C440C,str_02x,data/lib/ea/ealib_13.asm,string,1.0,'%02x'
 data,11467C,C4424,str_FILES2,data/lib/ea/ealib_13.asm,string,1.0,'* FILE: %s\n'
 data,114688,C4430,str_DATES2,data/lib/ea/ealib_13.asm,string,1.0,'* DATE: %s\n'
 data,114694,C443C,str_TIMES3,data/lib/ea/ealib_13.asm,string,1.0,'* TIME: %s\n'
@@ -746,7 +746,7 @@ data,118EAD,CBC62,lcline,data/engine/engine_35.asm,refset,0.8,referenced by the 
 data,118EAF,CBC64,,data/engine/engine_35.asm,refset,0.8,referenced by the same 2 matched functions
 data,118EB5,CBC6A,lcboxon,data/engine/engine_35.asm,refset,0.8,referenced by the same 2 matched functions
 data,11910D,CBEC2,word_CBEC2,data/engine/engine_35.asm,refset,0.8,referenced by the same 2 matched functions
-data,119115,CC0B0,word_CC0B0,data/engine/engine_37.asm,refset,0.8,referenced by the same 3 matched functions
+data,119115,CC0B0,Pencntdwn2,data/engine/engine_37.asm,refset,0.8,referenced by the same 3 matched functions
 data,11916D,CC0DE,crowdlevel,data/engine/engine_37.asm,refset,0.8,referenced by the same 3 matched functions
 data,11916F,CC0F0,introskipped,data/engine/engine_37.asm,refset,0.8,referenced by the same 3 matched functions
 data,119177,CC0F8,shotongoal,data/engine/engine_37.asm,refset,0.8,referenced by the same 5 matched functions
@@ -758,7 +758,7 @@ data,11919F,CC120,penshottimer,data/engine/engine_37.asm,refset,0.8,referenced b
 data,1191A3,CC124,shotontarget,data/engine/engine_37.asm,refset,0.8,referenced by the same 4 matched functions
 data,1191A7,CC128,penshotlive,data/engine/engine_37.asm,refset,0.8,referenced by the same 6 matched functions
 data,1191AB,CC12C,psendcount,data/engine/engine_37.asm,refset,0.8,referenced by the same 2 matched functions
-data,119F94,CCC2C,dword_CCC2C,data/engine/engine_37.asm,refset,0.8,referenced by the same 3 matched functions
+data,119F94,CCC2C,nethit,data/engine/engine_37.asm,refset,0.8,referenced by the same 3 matched functions
 data,119FEC,CCC9C,dword_CCC9C,data/engine/engine_37.asm,refset,0.8,referenced by the same 2 matched functions
 data,11A310,CD418,byte_CD418,data/engine/engine_39.asm,refset,0.8,referenced by the same 3 matched functions
 data,11F568,D2FEC,dword_D2FEC,data/lib/ea/ealib_60.asm,position,1.0,same fixup of sub_B2E1B
@@ -807,11 +807,11 @@ data,1213DC,D45D8,unk_D45D8,data/lib/ea/ealib_60.asm,refset,0.8,referenced by th
 data,121AD8,D41F4,dword_D41F4,data/lib/ea/ealib_60.asm,position,1.0,same fixup of __sys_fini_387_emulator
 data,121ADC,D41F8,word_D41F8,data/lib/ea/ealib_60.asm,position,1.0,same fixup of __sys_fini_387_emulator
 data,121AE0,D43F4,str_OpenhandleSFILEERROR,data/lib/ea/ealib_60.asm,string,1.0,'openhandle - %s FILE ERROR\r'
-data,121AFC,D4410,byte_D4410,data/lib/ea/ealib_60.asm,position,1.0,same fixup of sub_B3B5A
-data,121B24,D4438,dword_D4438,data/lib/ea/ealib_60.asm,position,1.0,same fixup of sub_B3B5A
-data,121B28,D443C,dword_D443C,data/lib/ea/ealib_60.asm,position,1.0,same fixup of sub_B3B5A
-data,121B2C,D4440,dword_D4440,data/lib/ea/ealib_60.asm,position,1.0,same fixup of sub_B3B5A
-data,121B30,D4444,dword_D4444,data/lib/ea/ealib_60.asm,position,1.0,same fixup of sub_B3B5A
+data,121AFC,D4410,byte_D4410,data/lib/ea/ealib_60.asm,position,1.0,same fixup of openhandle
+data,121B24,D4438,dword_D4438,data/lib/ea/ealib_60.asm,position,1.0,same fixup of openhandle
+data,121B28,D443C,dword_D443C,data/lib/ea/ealib_60.asm,position,1.0,same fixup of openhandle
+data,121B2C,D4440,dword_D4440,data/lib/ea/ealib_60.asm,position,1.0,same fixup of openhandle
+data,121B30,D4444,dword_D4444,data/lib/ea/ealib_60.asm,position,1.0,same fixup of openhandle
 data,1228D0,D30A4,dword_D30A4,data/lib/ea/ealib_60.asm,refset,0.8,referenced by the same 7 matched functions
 data,1228F0,D30C4,dword_D30C4,data/lib/ea/ealib_60.asm,refset,0.8,referenced by the same 6 matched functions
 data,1228F4,D30C8,dword_D30C8,data/lib/ea/ealib_60.asm,refset,0.8,referenced by the same 7 matched functions
@@ -908,7 +908,7 @@ data,151598,D8B68,kaufmfont,data/front/frontend_72.asm,position,1.0,same fixup o
 data,151B80,CBEC4,fadeinpending,data/engine/engine_35.asm,refset,0.8,referenced by the same 2 matched functions
 data,152FE8,D8C84,curperiod,data/front/frontend_72.asm,refset,0.8,referenced by the same 2 matched functions
 data,15718C,DB3A8,hmroster,data/engine/engine_77.asm,refset,0.8,referenced by the same 3 matched functions
-data,157192,DB3AE,byte_DB3AE,data/engine/engine_77.asm,refset,0.8,referenced by the same 3 matched functions
+data,157192,DB3AE,hmrosterpos,data/engine/engine_77.asm,refset,0.8,referenced by the same 3 matched functions
 data,16479C,DF81C,SortCords,data/engine/engine_85.asm,refset,0.8,referenced by the same 10 matched functions
 data,1656D8,DF614,hmtmstruct,data/front/frontend_82.asm,refset,0.8,referenced by the same 21 matched functions
 data,165712,DF64C,hmtmgoalie,data/engine/engine_83.asm,refset,0.8,referenced by the same 3 matched functions
@@ -918,18 +918,18 @@ data,165944,E0384,PlList,data/engine/engine_85.asm,refset,0.8,referenced by the 
 data,16594A,E038A,byte_E038A,data/engine/engine_85.asm,refset,0.8,referenced by the same 2 matched functions
 data,16595C,E03AC,regd2,data/engine/engine_85.asm,refset,0.8,referenced by the same 5 matched functions
 data,165960,E03B0,regd3,data/engine/engine_85.asm,refset,0.8,referenced by the same 6 matched functions
-data,165968,E03B8,word_E03B8,data/engine/engine_85.asm,refset,0.8,referenced by the same 4 matched functions
+data,165968,E03B8,regd5,data/engine/engine_85.asm,refset,0.8,referenced by the same 4 matched functions
 data,165970,E03A0,word_E03A0,data/engine/engine_85.asm,refset,0.8,referenced by the same 2 matched functions
 data,176B46,E9A7A,OOlistpos,data/engine/engine_87.asm,refset,0.8,referenced by the same 4 matched functions
 data,176B74,E9AA8,CwdExciteLvl,data/engine/engine_87.asm,refset,0.8,referenced by the same 2 matched functions
 data,176B82,E9ABA,PBnum,data/engine/engine_87.asm,refset,0.8,referenced by the same 2 matched functions
 data,176B86,E9AC2,lasttouch,data/engine/engine_87.asm,refset,0.8,referenced by the same 3 matched functions
-data,176B9B,E9AD3,byte_E9AD3,data/engine/engine_87.asm,refset,0.8,referenced by the same 3 matched functions
+data,176B9B,E9AD3,goalevent,data/engine/engine_87.asm,refset,0.8,referenced by the same 3 matched functions
 data,176BA6,E9ADE,OOlist,data/engine/engine_87.asm,refset,0.8,referenced by the same 2 matched functions
-data,176BD4,E9B28,word_E9B28,data/engine/engine_87.asm,refset,0.8,referenced by the same 2 matched functions
-data,176D70,E9DB4,byte_E9DB4,data/engine/engine_87.asm,refset,0.8,referenced by the same 5 matched functions
-data,176DD4,E9E18,byte_E9E18,data/engine/engine_87.asm,refset,0.8,referenced by the same 2 matched functions
-data,176E06,E9E4A,byte_E9E4A,data/engine/engine_87.asm,refset,0.8,referenced by the same 6 matched functions
+data,176BD4,E9B28,lastimpact,data/engine/engine_87.asm,refset,0.8,referenced by the same 2 matched functions
+data,176D70,E9DB4,defsort_d,data/engine/engine_87.asm,refset,0.8,referenced by the same 5 matched functions
+data,176DD4,E9E18,dressflags,data/engine/engine_87.asm,refset,0.8,referenced by the same 2 matched functions
+data,176E06,E9E4A,offsort_fwd,data/engine/engine_87.asm,refset,0.8,referenced by the same 6 matched functions
 data,176ED2,E9F16,dword_E9F16,data/engine/engine_87.asm,refset,0.8,referenced by the same 2 matched functions
 data,17C9A0,C53FF,gameopts,data/front/frontend_16.asm,refset,0.8,referenced by the same 7 matched functions
 data,18566C,EDCDC,timercallbacks,data/lib/ea/ealib_92.asm,refset,0.8,referenced by the same 2 matched functions

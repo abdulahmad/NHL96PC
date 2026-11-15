@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_B2200 progbits alloc exec nowrite align=1
-extern sub_B2374
+extern savefileblocka
 global loc_B2208, loc_B2274, loc_B2279, loc_B229A, strcmp_, sub_B22B0
 strcmp_:
 push ebx	; B2200
@@ -90,7 +90,7 @@ mov ebx, dword [byte esp+034h]	; B22C9
 xor edx, edx	; B22CD
 push ebx	; B22CF
 mov dword [byte esp+024h], edx	; B22D0
-call sub_B2374	; B22D4
+call savefileblocka	; B22D4
 add esp, byte 0Ch	; B22D9
 add esp, byte 28h	; B22DC
 ret	; B22DF

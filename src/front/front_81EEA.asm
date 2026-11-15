@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_81EEA progbits alloc exec nowrite align=1
-extern __CHP, asc_1123F7, asc_1123FE, asc_112406, asc_11240E, asc_112417, asc_11241E, asc_112433
-extern asc_11243D, asc_112442, awtmgoalie, byte_16580A, byte_16580B, byte_16580C, byte_165940, byte_17CC36
+extern __CHP, str_Pblank, str_Pgblank, str_Tmstats, str_Tmgstats, str_Tmdata, str_Aps, asc_112433
+extern str_Tset, str_GSUMMARYDB, awtmgoalie, byte_16580A, byte_16580B, byte_16580C, byte_165940, byte_17CC36
 extern byte_17CFB1, byte_17D26F, byte_17DADF, byte_17DAE0, byte_17DB12, byte_17DB44, byte_17DB78, dword_1174E0
 extern dword_1174E8, dword_1174F0, dword_11E4B8, dword_11E4C4, dword_11E514, dword_1657EA, dword_1657F6, dword_1657FA
 extern dword_1657FE, dword_17C9A8, dword_17CB2F, dword_17CEC3, dword_17CED6, dword_17D1E2, dword_17D928, dword_17D930
@@ -14,7 +14,7 @@ extern dword_17DA9C, dword_17DAA0, dword_17DAA4, dword_17DAA8, dword_17DAAC, dwo
 extern dword_17DABC, dword_17DAC0, dword_17DAC4, dword_17DAC8, dword_17DACC, dword_17DAD0, dword_17DAD4, dword_17DAD8
 extern dword_17DADC, gameopts, hmtmgoalie, qword_11244E, qword_112456, qword_11245E, qword_112466, qword_11246E
 extern qword_112476, qword_11247E, rand_, sub_1F15E, sub_1F2C9, sub_1F2D4, sub_7FF7F, sub_AB758
-extern sub_ABF4C, sub_B7256, tag_agset, tag_apset, tag_gset, tag_pset, unk_1123EC, unk_1123EF
+extern sub_ABF4C, sub_B7256, tag_agset, tag_apset, tag_gset, tag_pset, str_Pk, str_Ps
 extern unk_112428, unk_11242B, unk_81ED1, word_1656DC, word_1656E2, word_1656E8, word_165812, word_16581E
 extern word_17DB76
 global loc_81F13, loc_81F19, loc_81F83, loc_81F9B, loc_81FDD, loc_82038, loc_8208B, loc_82268
@@ -106,12 +106,12 @@ mov byte [byte eax+05h], 0	; 81FD9
 loc_81FDD:
 push byte 0	; 81FDD
 push byte 64h	; 81FDF
-push unk_1123EC	; 81FE1
+push str_Pk	; 81FE1
 call sub_AB758	; 81FE6
 add esp, byte 0Ch	; 81FEB
 push byte 0	; 81FEE
 push byte 64h	; 81FF0
-push unk_1123EF	; 81FF2
+push str_Ps	; 81FF2
 mov dword [dword esi+dword_17DA90], eax	; 81FF7
 call sub_AB758	; 81FFD
 add esp, byte 0Ch	; 82002
@@ -129,7 +129,7 @@ mov dword [dword ebp+08Eh], eax	; 82032
 loc_82038:
 push byte 0	; 82038
 push byte 2Fh	; 8203A
-push asc_1123F7	; 8203C
+push str_Pblank	; 8203C
 call sub_AB758	; 82041
 mov edx, dword [dword ebp+08Ah]	; 82046
 mov ecx, 2Fh	; 8204C
@@ -149,7 +149,7 @@ mov dword [dword ebp+096h], eax	; 82085
 loc_8208B:
 push byte 0	; 8208B
 push byte 36h	; 8208D
-push asc_1123FE	; 8208F
+push str_Pgblank	; 8208F
 call sub_AB758	; 82094
 mov edx, dword [dword ebp+092h]	; 82099
 mov ecx, 36h	; 8209F
@@ -164,18 +164,18 @@ cmp eax, dword [dword ebp+096h]	; 820C0
 jne short loc_8208B	; 820C6
 push byte 0	; 820C8
 push dword 190h	; 820CA
-push asc_112406	; 820CF
+push str_Tmstats	; 820CF
 call sub_AB758	; 820D4
 add esp, byte 0Ch	; 820D9
 push byte 0	; 820DC
 push byte 12h	; 820DE
-push asc_11240E	; 820E0
+push str_Tmgstats	; 820E0
 mov dword [dword esi+dword_17DA18], eax	; 820E5
 call sub_AB758	; 820EB
 add esp, byte 0Ch	; 820F0
 push byte 0	; 820F3
 push dword 433h	; 820F5
-push asc_112417	; 820FA
+push str_Tmdata	; 820FA
 mov dword [dword esi+dword_17D928], eax	; 820FF
 call sub_AB758	; 82105
 mov ecx, 190h	; 8210A
@@ -207,7 +207,7 @@ mov byte [dword edx+byte_16580C], 0	; 8218D
 push dword 497h	; 82194
 mov dword [dword edx+dword_1657EA], eax	; 82199
 mov eax, dword [dword esi+dword_17DA38]	; 8219F
-push asc_11241E	; 821A5
+push str_Aps	; 821A5
 mov dword [dword edx+dword_1657FE], eax	; 821AA
 call sub_AB758	; 821B0
 add esp, byte 0Ch	; 821B5
@@ -252,7 +252,7 @@ cmp dword [dword ebp-012Eh], byte 0	; 82248
 je short loc_82268	; 8224F
 push byte 0	; 82251
 push byte 12h	; 82253
-push asc_11243D	; 82255
+push str_Tset	; 82255
 call sub_AB758	; 8225A
 add esp, byte 0Ch	; 8225F
 mov dword [dword esi+dword_17DA50], eax	; 82262
@@ -2566,7 +2566,7 @@ je near loc_84355	; 84429
 loc_8442F:
 cmp dword [dword ebp-012Eh], byte 0	; 8442F
 je near loc_84861	; 84436
-mov eax, asc_112442	; 8443C
+mov eax, str_GSUMMARYDB	; 8443C
 mov dword [dword ebp-08Eh], 0	; 84441
 mov dword [dword ebp-08Ah], 0	; 8444B
 call sub_B7256	; 84455

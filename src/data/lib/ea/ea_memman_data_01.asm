@@ -2,10 +2,10 @@
 bits 32
 %include "hockey.inc"
 section s_11319C progbits alloc noexec write align=1
-global asc_11319C, str_ReservememINVALIDSIZE, asc_11321C, asc_113270, asc_1132AC, str_ReservememINVALIDTYPEFLAGS, str_ResizememINVALIDSIZE, str_ResizememblockNOROOMTO
-global str_FindmemblockBLOCKNOTFOUND, asc_1133C0, str_GetmemblockNOMEMORYBLOCKS, unk_113408, unk_11340C, unk_113410, unk_113414, unk_113418
-global unk_11341C, unk_113420, unk_113424, unk_113428, unk_11342C, unk_113430, unk_113434
-asc_11319C:
+global str_ReservememMEMORYMANAGERN, str_ReservememINVALIDSIZE, str_ReservememMEMORYMANAGERB, asc_113270, asc_1132AC, str_ReservememINVALIDTYPEFLAGS, str_ResizememINVALIDSIZE, str_ResizememblockNOROOMTO
+global str_FindmemblockBLOCKNOTFOUND, asc_1133C0, str_GetmemblockNOMEMORYBLOCKS, str_Jan, str_Feb2, str_Mar, str_Apr, str_May
+global str_Jun, str_Jul, str_Aug, str_Sep, str_Oct, str_Nov, str_Dec
+str_ReservememMEMORYMANAGERN:
 db 072h,065h,073h,065h,072h,076h,065h,06Dh,065h,06Dh,020h,02Dh,020h,04Dh,045h,04Dh
 db 04Fh,052h,059h,020h,04Dh,041h,04Eh,041h,047h,045h,052h,020h,04Eh,04Fh,054h,020h
 db 049h,04Eh,049h,054h,049h,041h,04Ch,049h,05Ah,045h,044h,0Ah,072h,065h,071h,075h
@@ -16,7 +16,7 @@ db 041h,04Ch,049h,044h,020h,053h,049h,05Ah,045h,020h,052h,045h,051h,055h,045h,05
 db 054h,045h,044h,0Ah,072h,065h,071h,075h,065h,073h,074h,065h,064h,03Ah,020h,025h
 db 06Ch,064h,020h,061h,076h,061h,069h,06Ch,061h,062h,06Ch,065h,03Ah,020h,025h,06Ch
 db 064h,0Ah,00h,020h
-asc_11321C:
+str_ReservememMEMORYMANAGERB:
 db 072h,065h,073h,065h,072h,076h,065h,06Dh,065h,06Dh,020h,02Dh,020h,04Dh,045h,04Dh
 db 04Fh,052h,059h,020h,04Dh,041h,04Eh,041h,047h,045h,052h,020h,042h,04Ch,04Fh,043h
 db 04Bh,053h,020h,043h,04Fh,052h,052h,055h,050h,054h,045h,044h,0Ah,072h,065h,071h
@@ -60,27 +60,27 @@ str_GetmemblockNOMEMORYBLOCKS:
 db 067h,065h,074h,06Dh,065h,06Dh,062h,06Ch,06Fh,063h,06Bh,020h,02Dh,020h,04Eh,04Fh
 db 020h,04Dh,045h,04Dh,04Fh,052h,059h,020h,042h,04Ch,04Fh,043h,04Bh,053h,020h,04Ch
 db 045h,046h,054h,0Ah,00h,00h,00h,00h
-unk_113408:
+str_Jan:
 db 04Ah,061h,06Eh,00h
-unk_11340C:
+str_Feb2:
 db 046h,065h,062h,00h
-unk_113410:
+str_Mar:
 db 04Dh,061h,072h,00h
-unk_113414:
+str_Apr:
 db 041h,070h,072h,00h
-unk_113418:
+str_May:
 db 04Dh,061h,079h,00h
-unk_11341C:
+str_Jun:
 db 04Ah,075h,06Eh,00h
-unk_113420:
+str_Jul:
 db 04Ah,075h,06Ch,00h
-unk_113424:
+str_Aug:
 db 041h,075h,067h,00h
-unk_113428:
+str_Sep:
 db 053h,065h,070h,00h
-unk_11342C:
+str_Oct:
 db 04Fh,063h,074h,00h
-unk_113430:
+str_Nov:
 db 04Eh,06Fh,076h,00h
-unk_113434:
+str_Dec:
 db 044h,065h,063h,00h

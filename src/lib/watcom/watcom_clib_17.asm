@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_D069B progbits alloc exec nowrite align=1
-extern SetDrawBitmap, __fatal_runtime_error_, asc_114180, asc_114194, asc_1141A4, str_StackOverflow, byte_11FA2F, dword_11F5A4
+extern SetDrawBitmap, __fatal_runtime_error_, str_SaveText, asc_114194, str_Ptr0ptr1ptr2, str_StackOverflow, byte_11FA2F, dword_11F5A4
 extern dword_11F5A8, dword_11F5AC, dword_11F5B0, dword_11F5B4, dword_11F5C0, dword_11F5C4, dword_11F5C8, dword_11F61C
 extern dword_11FA18, dword_11FA1C, dword_11FA20, dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4, dword_1228FC
 extern dword_122900, dword_12440C, dword_14F0A8, dword_14FAD8, dword_1A1098, dword_1A109C, dword_1A10A0, dword_1A10A4
@@ -85,7 +85,7 @@ add edi, edi	; D0721
 push ebp	; D0723
 lea eax, [byte edi+018h]	; D0724
 push eax	; D0727
-push asc_114180	; D0728
+push str_SaveText	; D0728
 call sub_AB6D8	; D072D
 add esp, byte 0Ch	; D0732
 push eax	; D0735
@@ -969,7 +969,7 @@ test eax, eax	; D117D
 je short loc_D119D	; D117F
 lea eax, [dword esp+080h]	; D1181
 push eax	; D1188
-push asc_1141A4	; D1189
+push str_Ptr0ptr1ptr2	; D1189
 mov edx, dword [dword_1A10D8]	; D118E
 push edx	; D1194
 call sub_BF290	; D1195

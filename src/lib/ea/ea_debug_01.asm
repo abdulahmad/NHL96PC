@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_ACED8 progbits alloc exec nowrite align=1
-extern FatalError, _dos_getdate_, _dos_gettime_, asc_113484, asc_113494, asc_1134A4, asc_1134F4, asc_1134FC
-extern asc_113540, asc_113570, byte_11FA4F, byte_11FA50, byte_1219A7, byte_1219A8, dword_11F5C8, dword_11F9C8
+extern FatalError, _dos_getdate_, _dos_gettime_, asc_113484, str_2d02d02d2, asc_1134A4, asc_1134F4, asc_1134FC
+extern str_CreatewindowblockBADBLOC, str_CreatewindowblockOUTOFRO, byte_11FA4F, byte_11FA50, byte_1219A7, byte_1219A8, dword_11F5C8, dword_11F9C8
 extern dword_11F9DC, dword_185740, dword_185744, dword_185748, dword_18574C, dword_185750, dword_185754, dword_185758
 extern dword_18575C, fputs_, sprintf_, sub_AB718, sub_AC838, sub_ACAD0, sub_C3C37, sub_C3CC0
 extern sub_E1836, sub_E1970, vsprintf_
@@ -180,7 +180,7 @@ push eax	; AD06A
 xor eax, eax	; AD06B
 mov al, byte [byte esp+010h]	; AD06D
 push eax	; AD071
-push asc_113494	; AD072
+push str_2d02d02d2	; AD072
 push ecx	; AD077
 call sprintf_	; AD078
 add esp, byte 14h	; AD07D
@@ -271,7 +271,7 @@ cmp dword [byte esp+030h], byte 0	; AD159
 je short loc_AD16F	; AD15E
 push edi	; AD160
 push ebp	; AD161
-push asc_113540	; AD162
+push str_CreatewindowblockBADBLOC	; AD162
 call FatalError	; AD167
 add esp, byte 0Ch	; AD16C
 loc_AD16F:
@@ -346,7 +346,7 @@ cmp dword [byte esp+030h], byte 0	; AD215
 je short loc_AD22B	; AD21A
 push edi	; AD21C
 push ebp	; AD21D
-push asc_113570	; AD21E
+push str_CreatewindowblockOUTOFRO	; AD21E
 call FatalError	; AD223
 add esp, byte 0Ch	; AD228
 loc_AD22B:

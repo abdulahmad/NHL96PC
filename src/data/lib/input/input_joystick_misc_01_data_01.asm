@@ -2,15 +2,15 @@
 bits 32
 %include "hockey.inc"
 section s_11F8DC progbits alloc noexec write align=1
-extern dword_18568C, sub_E04D9, sub_E1927, unk_113408, unk_11340C, unk_113410, unk_113414, unk_113418
-extern unk_11341C, unk_113420, unk_113424, unk_113428, unk_11342C, unk_113430, unk_113434, unk_1213DC
+extern dword_18568C, sub_E04D9, sub_E1927, str_Jan, str_Feb2, str_Mar, str_Apr, str_May
+extern str_Jun, str_Jul, str_Aug, str_Sep, str_Oct, str_Nov, str_Dec, unk_1213DC
 extern unk_1213FC, unk_1215B8
 global byte_11F90C, byte_11F920, byte_11F924, byte_11F940, byte_11F941, byte_11F942, byte_11F983, byte_11F9D8
 global byte_11F9D9, byte_11F9DA, byte_11FA2C, byte_11FA2D, byte_11FA2E, byte_11FA2F, byte_11FA30, byte_11FA31
-global byte_11FA32, byte_11FA4F, byte_11FA50, byte_11FB50, byte_11FC50, dword_11F8E0, dword_11F8E4, dword_11F8E8
+global str_ctl07, byte_11FA4F, byte_11FA50, byte_11FB50, byte_11FC50, dword_11F8E0, dword_11F8E4, dword_11F8E8
 global dword_11F8EC, dword_11F8F0, dword_11F8F4, dword_11F8F8, dword_11F8FC, dword_11F900, dword_11F904, dword_11F908
-global dword_11F928, dword_11F92C, dword_11F930, dword_11F934, dword_11F938, dword_11F93C, dword_11F943, dword_11F947
-global dword_11F94B, dword_11F94F, dword_11F953, dword_11F957, dword_11F95B, dword_11F95F, dword_11F963, dword_11F967
+global dword_11F928, dword_11F92C, dword_11F930, dword_11F934, dword_11F938, dword_11F93C, str_P, dword_11F947
+global dword_11F94B, dword_11F94F, dword_11F953, dword_11F957, dword_11F95B, str_P2, dword_11F963, dword_11F967
 global dword_11F96B, dword_11F96F, dword_11F973, dword_11F977, dword_11F97B, dword_11F97F, dword_11F994, dword_11F9A8
 global dword_11F9B4, dword_11F9B8, dword_11F9BC, dword_11F9C0, dword_11F9C4, dword_11F9C8, dword_11F9D0, dword_11F9D4
 global dword_11F9DC, dword_11FA14, dword_11FA18, dword_11FA1C, dword_11FA20, dword_11FA24, dword_11FA28, dword_11FA34
@@ -73,7 +73,7 @@ byte_11F941:
 db 00h
 byte_11F942:
 db 00h
-dword_11F943:
+str_P:
 db 050h,00h,00h,00h
 dword_11F947:
 db 00h,00h,00h,00h
@@ -87,7 +87,7 @@ dword_11F957:
 db 00h,00h,00h,00h
 dword_11F95B:
 db 00h,00h,00h,00h
-dword_11F95F:
+str_P2:
 db 050h,00h,00h,00h
 dword_11F963:
 db 00h,00h,00h,00h
@@ -145,18 +145,18 @@ byte_11F9DA:
 db 08h,063h
 dword_11F9DC:
 db 00h,00h,00h,00h
-dd unk_113408
-dd unk_11340C
-dd unk_113410
-dd unk_113414
-dd unk_113418
-dd unk_11341C
-dd unk_113420
-dd unk_113424
-dd unk_113428
-dd unk_11342C
-dd unk_113430
-dd unk_113434
+dd str_Jan
+dd str_Feb2
+dd str_Mar
+dd str_Apr
+dd str_May
+dd str_Jun
+dd str_Jul
+dd str_Aug
+dd str_Sep
+dd str_Oct
+dd str_Nov
+dd str_Dec
 off_11FA10:
 dd unk_1213DC
 dword_11FA14:
@@ -183,7 +183,7 @@ byte_11FA30:
 db 00h
 byte_11FA31:
 db 08h
-byte_11FA32:
+str_ctl07:
 db 07h,00h
 dword_11FA34:
 dd unk_1215B8

@@ -14,7 +14,7 @@ global loc_B2595, loc_B25AF, loc_B25B1, loc_B25CF, loc_B2617, loc_B2638, loc_B26
 global loc_B2666, loc_B26F7, loc_B2711, loc_B272B, loc_B2745, loc_B275F, loc_B2779, loc_B2793
 global loc_B27AD, loc_B27C7, loc_B2833, loc_B2847, loc_B2922, loc_B2977, loc_B29AC, loc_B29D6
 global loc_B29FD, loc_B2A01, loc_B2A29, loc_B2A4A, loc_B2A6E, loc_B2A82, loc_B2A91, loc_B2AC3
-global loc_B2AEA, loc_B2AF6, loc_B2B05, sub_B22E0, sub_B2374, sub_B2400, sub_B2B0C
+global loc_B2AEA, loc_B2AF6, loc_B2B05, sub_B22E0, savefileblocka, sub_B2400, sub_B2B0C
 sub_B22E0:
 sub esp, byte 28h	; B22E0
 mov eax, dword [byte esp+030h]	; B22E3
@@ -28,7 +28,7 @@ push eax	; B22F9
 mov ebx, dword [byte esp+034h]	; B22FA
 push ebx	; B22FE
 mov dword [byte esp+024h], edx	; B22FF
-call sub_B2374	; B2303
+call savefileblocka	; B2303
 add esp, byte 0Ch	; B2308
 add esp, byte 28h	; B230B
 ret	; B230E
@@ -46,7 +46,7 @@ mov ecx, dword [byte esp+034h]	; B232C
 xor edx, edx	; B2330
 push ecx	; B2332
 mov dword [byte esp+024h], edx	; B2333
-call sub_B2374	; B2337
+call savefileblocka	; B2337
 add esp, byte 0Ch	; B233C
 add esp, byte 28h	; B233F
 ret	; B2342
@@ -56,7 +56,7 @@ mov edx, dword [byte esp+0Ch]	; B2346
 push edx	; B234A
 mov ebx, dword [byte esp+0Ch]	; B234B
 push ebx	; B234F
-call sub_B2374	; B2350
+call savefileblocka	; B2350
 add esp, byte 0Ch	; B2355
 ret	; B2358
 db 08Dh,040h,00h
@@ -65,11 +65,11 @@ mov edx, dword [byte esp+0Ch]	; B235E
 push edx	; B2362
 mov ebx, dword [byte esp+0Ch]	; B2363
 push ebx	; B2367
-call sub_B2374	; B2368
+call savefileblocka	; B2368
 add esp, byte 0Ch	; B236D
 ret	; B2370
 db 08Dh,040h,00h
-sub_B2374:
+savefileblocka:
 push esi	; B2374
 push edi	; B2375
 push ebp	; B2376

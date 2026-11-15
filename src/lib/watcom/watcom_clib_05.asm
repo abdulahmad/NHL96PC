@@ -4,8 +4,8 @@ bits 32
 section s_B2C98 progbits alloc exec nowrite align=1
 extern FatalError, __CMain, __FiniRtns, __InitRtns, ___begtext, __doserror_, __fprtf_, __set_EINVAL_
 extern __set_errno_dos_, _nexpand_, _nfree_, _nmalloc_, _nmsize_, str_InitmemmanINSUFFICIENTROW, asc_113658, asc_113680
-extern asc_1136C4, asc_11370C, asc_113738, asc_113740, asc_113768, asc_113794, asc_1137A0, asc_1137B0
-extern asc_1137DC, asc_113810, asc_113834, asc_113854, asc_121FC0, byte_1219A8, byte_121AFC, byte_12442A
+extern asc_1136C4, str_InitmemmanDOSSUBMEMORYNO, str_AAPLUT, asc_113740, str_OpenblockhandleSPATHNAME, asc_113794, asc_1137A0, asc_1137B0
+extern asc_1137DC, asc_113810, asc_113834, str_CdromdirectoryentryERROR, str_Viv, byte_1219A8, byte_121AFC, byte_12442A
 extern byte_12442B, byte_124433, byte_124434, byte_18B0D0, dword_11F5DC, dword_11F5E0, dword_11F5E4, dword_11F5E8
 extern dword_11F5EC, dword_11F9B8, dword_11F9BC, dword_1210C8, dword_1210CC, dword_1219A0, dword_1219A4, dword_121AA8
 extern dword_121AD8, dword_121B24, dword_121B28, dword_121B2C, dword_121B30, dword_121B38, dword_121B48, dword_121B4C
@@ -452,7 +452,7 @@ mov eax, 31h	; B309A
 call int386_	; B309F
 cmp dword [byte esp+034h], byte 0	; B30A4
 je short loc_B30B8	; B30A9
-push asc_11370C	; B30AB
+push str_InitmemmanDOSSUBMEMORYNO	; B30AB
 call FatalError	; B30B0
 add esp, byte 4	; B30B5
 loc_B30B8:
@@ -755,7 +755,7 @@ mov esi, eax	; B3423
 mov edi, edx	; B3425
 push ebx	; B3427
 push dword 3400h	; B3428
-push asc_113738	; B342D
+push str_AAPLUT	; B342D
 call sub_AB758	; B3432
 add esp, byte 0Ch	; B3437
 mov edx, eax	; B343A
@@ -5085,7 +5085,7 @@ add esp, byte 0Ch	; B6669
 test eax, eax	; B666C
 jne short loc_B667E	; B666E
 push edi	; B6670
-push asc_113768	; B6671
+push str_OpenblockhandleSPATHNAME	; B6671
 call FatalError	; B6676
 add esp, byte 8	; B667B
 loc_B667E:
@@ -5956,7 +5956,7 @@ mov edi, dword [dword_18B08C]	; B716D
 push edi	; B7173
 mov ebp, dword [dword_18B0B8]	; B7174
 push ebp	; B717A
-push asc_113854	; B717B
+push str_CdromdirectoryentryERROR	; B717B
 call FatalError	; B7180
 add esp, byte 0Ch	; B7185
 loc_B7188:
@@ -6213,7 +6213,7 @@ LD sub, esi, esi	; B738D
 loc_B738F:
 test esi, esi	; B738F
 jne short loc_B73BA	; B7391
-mov esi, asc_121FC0	; B7393
+mov esi, str_Viv	; B7393
 push edi	; B7398
 LD sub, ecx, ecx	; B7399
 dec ecx	; B739B

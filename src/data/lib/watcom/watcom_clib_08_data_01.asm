@@ -2,73 +2,73 @@
 bits 32
 %include "hockey.inc"
 section s_113B10 progbits alloc noexec write align=1
-global asc_113B10, asc_113B1E, asc_113B3B, asc_113B59, asc_113B68, asc_113B7A, asc_113B92, asc_113BAA
-global asc_113BCC, asc_113BE1, asc_113C00, asc_113C17, asc_113C2D, asc_113C43, asc_113C56, asc_113C82
-global asc_113C96, asc_113CB8, asc_113CD3, asc_113CED, asc_113E28, asc_113E2C, asc_113E4C, str_EXITTODOSY
-global str_PAUSEPRESSANYKEY, str_RemovewindowROWSPACE, str_FshVshQfsQvs, str_Vsh, str_Qvs, unk_113D08, unk_113D81, unk_113D93
-global unk_113DA4, unk_113DB5, unk_113DC6, unk_113DDB, unk_113DF0, unk_113E00, unk_113E12
-asc_113B10:
+global str_UnknownError, str_EnvironmentVariableNotSe, str_ErrorInEnvironmentVariab, str_InvalidDriver, str_CardNotDetected, str_ErrorAllocatingMemory, str_ErrorInitializingCard, str_ErrorInitializingSoftwar
+global str_ErrorInDMAChannel, str_ErrorNotAnEACSFormatFile, str_ErrorInvalidChannel, str_ErrorInvalidVolume, str_ErrorInvalidHandle, str_ErrorInvalidPan, str_ErrorUnsupportedAudioTyp, str_ErrorInvalidBend
+global str_ErrorCouldNotResolveSfxB, str_ErrorInvalidBankNumber, str_ErrorInvalidSfxNumber, str_NoFreeChannelToPlayOn, asc_113E28, str_TgvdecodeInvalidChunkTyp, str_RateDDAvgDD, str_EXITTODOSY
+global str_PAUSEPRESSANYKEY, str_RemovewindowROWSPACE, str_FshVshQfsQvs, str_Vsh, str_Qvs, str_spEACSNDFLIB32BitSoundLibr, str_NoCardInstalled, str_SoundBlaster10
+global str_SoundBlaster15, str_SoundBlaster20, str_SoundBlasterPro10, str_SoundBlasterPro20, str_SoundBlaster16, str_GravisUltraSound, str_WindowsSoundSystem
+str_UnknownError:
 db 055h,06Eh,06Bh,06Eh,06Fh,077h,06Eh,020h,065h,072h,072h,06Fh,072h,00h
-asc_113B1E:
+str_EnvironmentVariableNotSe:
 db 045h,06Eh,076h,069h,072h,06Fh,06Eh,06Dh,065h,06Eh,074h,020h,076h,061h,072h,069h
 db 061h,062h,06Ch,065h,020h,06Eh,06Fh,074h,020h,073h,065h,074h,00h
-asc_113B3B:
+str_ErrorInEnvironmentVariab:
 db 045h,072h,072h,06Fh,072h,020h,069h,06Eh,020h,065h,06Eh,076h,069h,072h,06Fh,06Eh
 db 06Dh,065h,06Eh,074h,020h,076h,061h,072h,069h,061h,062h,06Ch,065h,00h
-asc_113B59:
+str_InvalidDriver:
 db 049h,06Eh,076h,061h,06Ch,069h,064h,020h,064h,072h,069h,076h,065h,072h,00h
-asc_113B68:
+str_CardNotDetected:
 db 043h,061h,072h,064h,020h,06Eh,06Fh,074h,020h,064h,065h,074h,065h,063h,074h,065h
 db 064h,00h
-asc_113B7A:
+str_ErrorAllocatingMemory:
 db 045h,072h,072h,06Fh,072h,020h,061h,06Ch,06Ch,06Fh,063h,061h,074h,069h,06Eh,067h
 db 020h,06Dh,065h,06Dh,06Fh,072h,079h,00h
-asc_113B92:
+str_ErrorInitializingCard:
 db 045h,072h,072h,06Fh,072h,020h,069h,06Eh,069h,074h,069h,061h,06Ch,069h,07Ah,069h
 db 06Eh,067h,020h,063h,061h,072h,064h,00h
-asc_113BAA:
+str_ErrorInitializingSoftwar:
 db 045h,072h,072h,06Fh,072h,020h,069h,06Eh,069h,074h,069h,061h,06Ch,069h,07Ah,069h
 db 06Eh,067h,020h,073h,06Fh,066h,074h,077h,061h,072h,065h,020h,06Dh,069h,078h,065h
 db 072h,00h
-asc_113BCC:
+str_ErrorInDMAChannel:
 db 045h,072h,072h,06Fh,072h,020h,069h,06Eh,020h,044h,04Dh,041h,020h,063h,068h,061h
 db 06Eh,06Eh,065h,06Ch,00h
-asc_113BE1:
+str_ErrorNotAnEACSFormatFile:
 db 045h,072h,072h,06Fh,072h,03Ah,020h,06Eh,06Fh,074h,020h,061h,06Eh,020h,045h,041h
 db 043h,053h,020h,066h,06Fh,072h,06Dh,061h,074h,020h,066h,069h,06Ch,065h,00h
-asc_113C00:
+str_ErrorInvalidChannel:
 db 045h,072h,072h,06Fh,072h,03Ah,020h,069h,06Eh,076h,061h,06Ch,069h,064h,020h,063h
 db 068h,061h,06Eh,06Eh,065h,06Ch,00h
-asc_113C17:
+str_ErrorInvalidVolume:
 db 045h,072h,072h,06Fh,072h,03Ah,020h,069h,06Eh,076h,061h,06Ch,069h,064h,020h,076h
 db 06Fh,06Ch,075h,06Dh,065h,00h
-asc_113C2D:
+str_ErrorInvalidHandle:
 db 045h,072h,072h,06Fh,072h,03Ah,020h,069h,06Eh,076h,061h,06Ch,069h,064h,020h,068h
 db 061h,06Eh,064h,06Ch,065h,00h
-asc_113C43:
+str_ErrorInvalidPan:
 db 045h,072h,072h,06Fh,072h,03Ah,020h,069h,06Eh,076h,061h,06Ch,069h,064h,020h,070h
 db 061h,06Eh,00h
-asc_113C56:
+str_ErrorUnsupportedAudioTyp:
 db 045h,072h,072h,06Fh,072h,03Ah,020h,075h,06Eh,073h,075h,070h,070h,06Fh,072h,074h
 db 065h,064h,020h,061h,075h,064h,069h,06Fh,020h,074h,079h,070h,065h,020h,074h,068h
 db 069h,073h,020h,066h,075h,06Eh,063h,074h,069h,06Fh,06Eh,00h
-asc_113C82:
+str_ErrorInvalidBend:
 db 045h,072h,072h,06Fh,072h,03Ah,020h,069h,06Eh,076h,061h,06Ch,069h,064h,020h,062h
 db 065h,06Eh,064h,00h
-asc_113C96:
+str_ErrorCouldNotResolveSfxB:
 db 045h,072h,072h,06Fh,072h,03Ah,020h,063h,06Fh,075h,06Ch,064h,020h,06Eh,06Fh,074h
 db 020h,072h,065h,073h,06Fh,06Ch,076h,065h,020h,073h,066h,078h,020h,062h,061h,06Eh
 db 06Bh,00h
-asc_113CB8:
+str_ErrorInvalidBankNumber:
 db 045h,072h,072h,06Fh,072h,03Ah,020h,069h,06Eh,076h,061h,06Ch,069h,064h,020h,062h
 db 061h,06Eh,06Bh,020h,06Eh,075h,06Dh,062h,065h,072h,00h
-asc_113CD3:
+str_ErrorInvalidSfxNumber:
 db 045h,072h,072h,06Fh,072h,03Ah,020h,069h,06Eh,076h,061h,06Ch,069h,064h,020h,073h
 db 066h,078h,020h,06Eh,075h,06Dh,062h,065h,072h,00h
-asc_113CED:
+str_NoFreeChannelToPlayOn:
 db 04Eh,06Fh,020h,066h,072h,065h,065h,020h,063h,068h,061h,06Eh,06Eh,065h,06Ch,020h
 db 074h,06Fh,020h,070h,06Ch,061h,079h,020h,06Fh,06Eh,00h
-unk_113D08:
+str_spEACSNDFLIB32BitSoundLibr:
 db 0Ah,045h,041h,043h,053h,04Eh,044h,046h,02Eh,04Ch,049h,042h,020h,033h,032h,020h
 db 042h,069h,074h,020h,053h,06Fh,075h,06Eh,064h,020h,04Ch,069h,062h,072h,061h,072h
 db 079h,020h,02Dh,020h,042h,075h,069h,06Ch,064h,03Ah,020h,041h,075h,067h,020h,032h
@@ -77,38 +77,38 @@ db 0Ah,028h,063h,029h,031h,039h,039h,034h,02Dh,039h,035h,02Ch,020h,045h,041h,043
 db 020h,049h,06Eh,063h,02Eh,020h,062h,079h,020h,044h,04Dh,02Ch,020h,041h,053h,02Ch
 db 020h,050h,043h,02Ch,020h,049h,04Dh,02Ch,020h,04Bh,048h,02Ch,020h,042h,050h,02Ch
 db 020h,065h,074h,020h,061h,06Ch,02Eh,0Dh,00h
-unk_113D81:
+str_NoCardInstalled:
 db 04Eh,06Fh,020h,063h,061h,072h,064h,020h,069h,06Eh,073h,074h,061h,06Ch,06Ch,065h
 db 064h,00h
-unk_113D93:
+str_SoundBlaster10:
 db 053h,06Fh,075h,06Eh,064h,042h,06Ch,061h,073h,074h,065h,072h,020h,031h,02Eh,030h
 db 00h
-unk_113DA4:
+str_SoundBlaster15:
 db 053h,06Fh,075h,06Eh,064h,042h,06Ch,061h,073h,074h,065h,072h,020h,031h,02Eh,035h
 db 00h
-unk_113DB5:
+str_SoundBlaster20:
 db 053h,06Fh,075h,06Eh,064h,042h,06Ch,061h,073h,074h,065h,072h,020h,032h,02Eh,030h
 db 00h
-unk_113DC6:
+str_SoundBlasterPro10:
 db 053h,06Fh,075h,06Eh,064h,042h,06Ch,061h,073h,074h,065h,072h,020h,050h,072h,06Fh
 db 020h,031h,02Eh,030h,00h
-unk_113DDB:
+str_SoundBlasterPro20:
 db 053h,06Fh,075h,06Eh,064h,042h,06Ch,061h,073h,074h,065h,072h,020h,050h,072h,06Fh
 db 020h,032h,02Eh,030h,00h
-unk_113DF0:
+str_SoundBlaster16:
 db 053h,06Fh,075h,06Eh,064h,042h,06Ch,061h,073h,074h,065h,072h,020h,031h,036h,00h
-unk_113E00:
+str_GravisUltraSound:
 db 047h,072h,061h,076h,069h,073h,020h,055h,06Ch,074h,072h,061h,053h,06Fh,075h,06Eh
 db 064h,00h
-unk_113E12:
+str_WindowsSoundSystem:
 db 057h,069h,06Eh,064h,06Fh,077h,073h,020h,053h,06Fh,075h,06Eh,064h,020h,053h,079h
 db 073h,074h,065h,06Dh,00h,00h
 asc_113E28:
 db 054h,047h,056h,00h
-asc_113E2C:
+str_TgvdecodeInvalidChunkTyp:
 db 074h,067h,076h,064h,065h,063h,06Fh,064h,065h,03Ah,020h,049h,06Eh,076h,061h,06Ch
 db 069h,064h,020h,063h,068h,075h,06Eh,06Bh,020h,074h,079h,070h,065h,00h,00h,00h
-asc_113E4C:
+str_RateDDAvgDD:
 db 072h,061h,074h,065h,03Dh,025h,064h,02Eh,025h,064h,020h,020h,061h,076h,067h,03Dh
 db 025h,064h,02Eh,025h,064h,0Ah,00h,00h
 str_EXITTODOSY:

@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_A8B9B progbits alloc exec nowrite align=1
-extern __STOSB, __set_errno_, access_, asc_11309C, asc_1130A1, asc_1130A6, asc_1130AB, asc_1130B0
-extern asc_1130BC, asc_1130C1, asc_1130C6, asc_1130CF, asc_1130D5, asc_1130E0, asc_1130E7, asc_1130F0
+extern __STOSB, __set_errno_, access_, str_Pal19, str_Bkgd27, str_FSH6, str_Plyr4, str_PROFILEFSH4
+extern str_Card4, str_Ard4, str_DSS5, str_SD8, str_SDD, str_S0, str_SDD2, str_0000
 extern byte_11F524, byte_11F52D, byte_184B3C, byte_184B3D, byte_184B3E, byte_1852C2, dword_1174E0, dword_1174EC
 extern dword_1174F0, dword_117500, dword_117510, dword_11F4BC, dword_11F4F0, dword_17BC7C, dword_17BD48, dword_17CBE7
 extern dword_17CC13, dword_17CF8E, dword_17D162, dword_17D252, dword_17D256, dword_17D25A, dword_184B38, getcwd_
@@ -539,7 +539,7 @@ sub ebp, 82h	; A91E7
 mov eax, dword [nosplit eax*4+dword_11F4BC]	; A91ED
 xor edx, edx	; A91F4
 call sub_1E8E9	; A91F6
-push asc_11309C	; A91FB
+push str_Pal19	; A91FB
 push eax	; A9200
 mov edi, eax	; A9201
 mov dword [byte ebp+076h], eax	; A9203
@@ -551,7 +551,7 @@ movsx eax, byte [dword eax+byte_11F524]	; A9217
 add esp, byte 8	; A921E
 cmp eax, byte 2	; A9221
 je near loc_A9A31	; A9224
-push asc_1130A1	; A922A
+push str_Bkgd27	; A922A
 push edi	; A922F
 call sub_E04E0	; A9230
 add esp, byte 8	; A9235
@@ -565,7 +565,7 @@ lea edi, [byte ebp+03Ah]	; A9252
 add eax, byte_184B3C	; A9255
 mov ecx, 4	; A925A
 lea esi, [byte eax+030h]	; A925F
-mov edx, asc_1130A6	; A9262
+mov edx, str_FSH6	; A9262
 rep movsb	; A9267
 lea eax, [byte ebp+03Ah]	; A9269
 mov byte [byte ebp+03Eh], 0	; A926C
@@ -596,7 +596,7 @@ call sub_B0494	; A92B5
 add esp, byte 8	; A92BA
 push byte 41h	; A92BD
 push dword 193h	; A92BF
-push asc_1130AB	; A92C4
+push str_Plyr4	; A92C4
 push eax	; A92C9
 mov esi, eax	; A92CA
 mov dword [byte ebp+07Ah], eax	; A92CC
@@ -605,16 +605,16 @@ add esp, byte 8	; A92D4
 push eax	; A92D7
 call sub_C2600	; A92D8
 add esp, byte 0Ch	; A92DD
-push asc_11309C	; A92E0
+push str_Pal19	; A92E0
 jmp short loc_A931D	; A92E5
 loc_A92E7:
 push eax	; A92E7
-push asc_1130B0	; A92E8
+push str_PROFILEFSH4	; A92E8
 call sub_B0494	; A92ED
 add esp, byte 8	; A92F2
 push byte 41h	; A92F5
 push dword 193h	; A92F7
-push asc_1130BC	; A92FC
+push str_Card4	; A92FC
 push eax	; A9301
 mov esi, eax	; A9302
 mov dword [byte ebp+07Ah], eax	; A9304
@@ -623,7 +623,7 @@ add esp, byte 8	; A930C
 push eax	; A930F
 call sub_C2600	; A9310
 add esp, byte 0Ch	; A9315
-push asc_1130C1	; A9318
+push str_Ard4	; A9318
 loc_A931D:
 push esi	; A931D
 call sub_E04E0	; A931E
@@ -652,7 +652,7 @@ add eax, byte 3	; A936B
 push eax	; A936E
 movzx eax, byte [dword ecx+byte_184B3D]	; A936F
 push eax	; A9376
-push asc_1130C6	; A9377
+push str_DSS5	; A9377
 lea eax, [byte ebp+03Ah]	; A937C
 push eax	; A937F
 mov ebx, 0FAh	; A9380
@@ -674,7 +674,7 @@ push eax	; A93C9
 mov eax, 0DCh	; A93CA
 call sub_77355	; A93CF
 push eax	; A93D4
-push asc_1130CF	; A93D5
+push str_SD8	; A93D5
 lea eax, [byte ebp+03Ah]	; A93DA
 push eax	; A93DD
 mov ebx, 140h	; A93DE
@@ -689,7 +689,7 @@ push eax	; A9402
 mov eax, 0DDh	; A9403
 call sub_77355	; A9408
 push eax	; A940D
-push asc_1130CF	; A940E
+push str_SD8	; A940E
 lea eax, [byte ebp+03Ah]	; A9413
 push eax	; A9416
 mov ebx, 154h	; A9417
@@ -704,7 +704,7 @@ push eax	; A943B
 mov eax, 0DEh	; A943C
 call sub_77355	; A9441
 push eax	; A9446
-push asc_1130CF	; A9447
+push str_SD8	; A9447
 lea eax, [byte ebp+03Ah]	; A944C
 push eax	; A944F
 mov ebx, 168h	; A9450
@@ -719,7 +719,7 @@ push eax	; A9474
 mov eax, 0DFh	; A9475
 call sub_77355	; A947A
 push eax	; A947F
-push asc_1130CF	; A9480
+push str_SD8	; A9480
 lea eax, [byte ebp+03Ah]	; A9485
 push eax	; A9488
 call sprintf_	; A9489
@@ -734,7 +734,7 @@ push eax	; A94AD
 mov eax, 0E3h	; A94AE
 call sub_77355	; A94B3
 push eax	; A94B8
-push asc_1130CF	; A94B9
+push str_SD8	; A94B9
 lea eax, [byte ebp+03Ah]	; A94BE
 push eax	; A94C1
 mov ebx, 154h	; A94C2
@@ -749,7 +749,7 @@ push eax	; A94E6
 mov eax, 0E2h	; A94E7
 call sub_77355	; A94EC
 push eax	; A94F1
-push asc_1130CF	; A94F2
+push str_SD8	; A94F2
 lea eax, [byte ebp+03Ah]	; A94F7
 push eax	; A94FA
 mov ebx, 168h	; A94FB
@@ -764,7 +764,7 @@ push eax	; A951F
 mov eax, 0E0h	; A9520
 call sub_77355	; A9525
 push eax	; A952A
-push asc_1130CF	; A952B
+push str_SD8	; A952B
 lea eax, [byte ebp+03Ah]	; A9530
 push eax	; A9533
 mov ebx, 140h	; A9534
@@ -779,7 +779,7 @@ push eax	; A9558
 mov eax, 0E1h	; A9559
 call sub_77355	; A955E
 push eax	; A9563
-push asc_1130CF	; A9564
+push str_SD8	; A9564
 lea eax, [byte ebp+03Ah]	; A9569
 push eax	; A956C
 mov ebx, 154h	; A956D
@@ -809,7 +809,7 @@ push eax	; A95B6
 mov eax, 0E5h	; A95B7
 call sub_77355	; A95BC
 push eax	; A95C1
-push asc_1130D5	; A95C2
+push str_SDD	; A95C2
 lea eax, [byte ebp+03Ah]	; A95C7
 push eax	; A95CA
 call sprintf_	; A95CB
@@ -822,7 +822,7 @@ loc_A95E2:
 mov eax, 0E5h	; A95E2
 call sub_77355	; A95E7
 push eax	; A95EC
-push asc_1130E0	; A95ED
+push str_S0	; A95ED
 lea eax, [byte ebp+03Ah]	; A95F2
 push eax	; A95F5
 call sprintf_	; A95F6
@@ -835,7 +835,7 @@ push eax	; A960A
 mov eax, 0DCh	; A960B
 call sub_77355	; A9610
 push eax	; A9615
-push asc_1130CF	; A9616
+push str_SD8	; A9616
 lea eax, [byte ebp+03Ah]	; A961B
 push eax	; A961E
 mov ebx, 140h	; A961F
@@ -850,7 +850,7 @@ push eax	; A9643
 mov eax, 0DDh	; A9644
 call sub_77355	; A9649
 push eax	; A964E
-push asc_1130CF	; A964F
+push str_SD8	; A964F
 lea eax, [byte ebp+03Ah]	; A9654
 push eax	; A9657
 mov ebx, 154h	; A9658
@@ -865,7 +865,7 @@ push eax	; A967C
 mov eax, 0DEh	; A967D
 call sub_77355	; A9682
 push eax	; A9687
-push asc_1130CF	; A9688
+push str_SD8	; A9688
 lea eax, [byte ebp+03Ah]	; A968D
 push eax	; A9690
 mov ebx, 168h	; A9691
@@ -880,7 +880,7 @@ push eax	; A96B5
 mov eax, 0DFh	; A96B6
 call sub_77355	; A96BB
 push eax	; A96C0
-push asc_1130CF	; A96C1
+push str_SD8	; A96C1
 lea eax, [byte ebp+03Ah]	; A96C6
 push eax	; A96C9
 call sprintf_	; A96CA
@@ -895,7 +895,7 @@ push eax	; A96EE
 mov eax, 0E3h	; A96EF
 call sub_77355	; A96F4
 push eax	; A96F9
-push asc_1130CF	; A96FA
+push str_SD8	; A96FA
 lea eax, [byte ebp+03Ah]	; A96FF
 push eax	; A9702
 mov ebx, 154h	; A9703
@@ -910,7 +910,7 @@ push eax	; A9727
 mov eax, 0E2h	; A9728
 call sub_77355	; A972D
 push eax	; A9732
-push asc_1130CF	; A9733
+push str_SD8	; A9733
 lea eax, [byte ebp+03Ah]	; A9738
 push eax	; A973B
 mov ebx, 168h	; A973C
@@ -925,7 +925,7 @@ push eax	; A9760
 mov eax, 0E0h	; A9761
 call sub_77355	; A9766
 push eax	; A976B
-push asc_1130CF	; A976C
+push str_SD8	; A976C
 lea eax, [byte ebp+03Ah]	; A9771
 push eax	; A9774
 mov ebx, 140h	; A9775
@@ -940,7 +940,7 @@ push eax	; A9799
 mov eax, 0E1h	; A979A
 call sub_77355	; A979F
 push eax	; A97A4
-push asc_1130CF	; A97A5
+push str_SD8	; A97A5
 lea eax, [byte ebp+03Ah]	; A97AA
 push eax	; A97AD
 mov ebx, 154h	; A97AE
@@ -973,7 +973,7 @@ push eax	; A9809
 mov eax, 0E8h	; A980A
 call sub_77355	; A980F
 push eax	; A9814
-push asc_1130CF	; A9815
+push str_SD8	; A9815
 lea eax, [byte ebp+03Ah]	; A981A
 push eax	; A981D
 mov ebx, 140h	; A981E
@@ -988,7 +988,7 @@ push eax	; A9842
 mov eax, 0EBh	; A9843
 call sub_77355	; A9848
 push eax	; A984D
-push asc_1130CF	; A984E
+push str_SD8	; A984E
 lea eax, [byte ebp+03Ah]	; A9853
 push eax	; A9856
 mov ebx, 154h	; A9857
@@ -1003,7 +1003,7 @@ push eax	; A987B
 mov eax, 0ECh	; A987C
 call sub_77355	; A9881
 push eax	; A9886
-push asc_1130CF	; A9887
+push str_SD8	; A9887
 lea eax, [byte ebp+03Ah]	; A988C
 push eax	; A988F
 mov ebx, 168h	; A9890
@@ -1018,7 +1018,7 @@ push eax	; A98B4
 mov eax, 0EDh	; A98B5
 call sub_77355	; A98BA
 push eax	; A98BF
-push asc_1130CF	; A98C0
+push str_SD8	; A98C0
 lea eax, [byte ebp+03Ah]	; A98C5
 push eax	; A98C8
 call sprintf_	; A98C9
@@ -1033,7 +1033,7 @@ push eax	; A98ED
 mov eax, 0EFh	; A98EE
 call sub_77355	; A98F3
 push eax	; A98F8
-push asc_1130CF	; A98F9
+push str_SD8	; A98F9
 lea eax, [byte ebp+03Ah]	; A98FE
 push eax	; A9901
 mov ebx, 140h	; A9902
@@ -1048,7 +1048,7 @@ push eax	; A9926
 mov eax, 0E9h	; A9927
 call sub_77355	; A992C
 push eax	; A9931
-push asc_1130CF	; A9932
+push str_SD8	; A9932
 lea eax, [byte ebp+03Ah]	; A9937
 push eax	; A993A
 mov ebx, 154h	; A993B
@@ -1071,7 +1071,7 @@ push eax	; A996F
 mov eax, 0EAh	; A9970
 call sub_77355	; A9975
 push eax	; A997A
-push asc_1130E7	; A997B
+push str_SDD2	; A997B
 lea eax, [byte ebp+03Ah]	; A9980
 push eax	; A9983
 mov ebx, 168h	; A9984
@@ -1094,7 +1094,7 @@ push eax	; A99B8
 mov eax, 0F2h	; A99B9
 call sub_77355	; A99BE
 push eax	; A99C3
-push asc_1130D5	; A99C4
+push str_SDD	; A99C4
 lea eax, [byte ebp+03Ah]	; A99C9
 push eax	; A99CC
 mov ebx, 17Ch	; A99CD
@@ -1119,7 +1119,7 @@ mov eax, dword [nosplit eax*4+dword_11F4F0]	; A9A20
 mov edx, 1E0h	; A9A27
 jmp near loc_A9AD3	; A9A2C
 loc_A9A31:
-push asc_1130F0	; A9A31
+push str_0000	; A9A31
 push edi	; A9A36
 call sub_E04E0	; A9A37
 add esp, byte 8	; A9A3C
@@ -1155,7 +1155,7 @@ loc_A9A95:
 lea eax, [dword esi+014Bh]	; A9A95
 xor edx, edx	; A9A9B
 call sub_1E8E9	; A9A9D
-push asc_1130F0	; A9AA2
+push str_0000	; A9AA2
 push eax	; A9AA7
 mov dword [byte ebp+072h], eax	; A9AA8
 call sub_E04E0	; A9AAB

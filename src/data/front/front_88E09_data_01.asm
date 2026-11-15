@@ -2,115 +2,115 @@
 bits 32
 %include "hockey.inc"
 section s_1125B2 progbits alloc noexec write align=1
-global asc_1125B2, asc_1125B7, asc_1125BC, asc_1125C1, asc_1125C6, asc_1125CB, asc_1125D0, asc_1125D5
-global asc_1125DA, asc_1125DF, asc_1125E4, asc_1125E9, asc_1125EE, asc_1125F3, asc_1125F8, asc_1125FD
-global asc_112602, asc_112607, asc_11260E, asc_112614, asc_11261A, asc_112623, asc_112635, asc_112639
-global asc_112640, asc_11264D, asc_112659, asc_112676, qword_11266E, unk_11260B, unk_11262B, unk_11262E
-global unk_112631, unk_112633, unk_11263E, unk_11266B, unk_11267C, unk_112681, unk_112686, unk_11268B
-global unk_112690, unk_112695, unk_11269A, unk_11269F, unk_1126A4, unk_1126A8, unk_1126AC, unk_1126B0
-global unk_1126B4, unk_1126B8, unk_1126BC, unk_1126C0
-asc_1125B2:
+global str_TEA0, str_TEA1, str_TEA2, str_AR30, str_AR31, str_AR20, str_AR21, str_AR002
+global str_AR012, str_AR102, str_AR112, str_HED2, str_HED1, str_VERT, str_VBAL, str_HORZ
+global str_HBAL, str_D5, str_10002, str_03d, str_DDD4, str_DD2, str_dbgD, str_D8
+global str_SavetimeOut, str_D42, str_spDDDD, str_TXT, qword_11266E, str_D7, str_Wt2, str_S2
+global str_Space2, unk_112633, unk_11263E, unk_11266B, str_FLM0, str_FLM1, str_FLM2, str_FLM3
+global str_FLM4, str_FLM5, str_FLM6, str_FLM7, str_DEF, str_ALL, str_FOR, str_GOL
+global str_PLR, str_PLY3, str_ROK, str_SEA3
+str_TEA0:
 db 054h,045h,041h,030h,00h
-asc_1125B7:
+str_TEA1:
 db 054h,045h,041h,031h,00h
-asc_1125BC:
+str_TEA2:
 db 054h,045h,041h,032h,00h
-asc_1125C1:
+str_AR30:
 db 041h,052h,033h,030h,00h
-asc_1125C6:
+str_AR31:
 db 041h,052h,033h,031h,00h
-asc_1125CB:
+str_AR20:
 db 041h,052h,032h,030h,00h
-asc_1125D0:
+str_AR21:
 db 041h,052h,032h,031h,00h
-asc_1125D5:
+str_AR002:
 db 041h,052h,030h,030h,00h
-asc_1125DA:
+str_AR012:
 db 041h,052h,030h,031h,00h
-asc_1125DF:
+str_AR102:
 db 041h,052h,031h,030h,00h
-asc_1125E4:
+str_AR112:
 db 041h,052h,031h,031h,00h
-asc_1125E9:
+str_HED2:
 db 048h,045h,044h,032h,00h
-asc_1125EE:
+str_HED1:
 db 048h,045h,044h,031h,00h
-asc_1125F3:
+str_VERT:
 db 056h,045h,052h,054h,00h
-asc_1125F8:
+str_VBAL:
 db 056h,042h,041h,04Ch,00h
-asc_1125FD:
+str_HORZ:
 db 048h,04Fh,052h,05Ah,00h
-asc_112602:
+str_HBAL:
 db 048h,042h,041h,04Ch,00h
-asc_112607:
+str_D5:
 db 025h,064h,02Eh,00h
-unk_11260B:
+str_D7:
 db 025h,064h,00h
-asc_11260E:
+str_10002:
 db 031h,02Eh,030h,030h,030h,00h
-asc_112614:
+str_03d:
 db 02Eh,025h,030h,033h,064h,00h
-asc_11261A:
+str_DDD4:
 db 025h,064h,02Dh,025h,064h,02Dh,025h,064h,00h
-asc_112623:
+str_DD2:
 db 025h,064h,02Eh,025h,064h,025h,025h,00h
-unk_11262B:
+str_Wt2:
 db 077h,074h,00h
-unk_11262E:
+str_S2:
 db 025h,073h,00h
-unk_112631:
+str_Space2:
 db 020h,00h
 unk_112633:
 db 0Ah,00h
-asc_112635:
+str_dbgD:
 db 025h,064h,020h,00h
-asc_112639:
+str_D8:
 db 02Eh,025h,064h,020h,00h
 unk_11263E:
 db 02Dh,00h
-asc_112640:
+str_SavetimeOut:
 db 073h,061h,076h,065h,074h,069h,06Dh,065h,02Eh,06Fh,075h,074h,00h
-asc_11264D:
+str_D42:
 db 05Bh,025h,064h,05Dh,05Bh,034h,05Dh,020h,03Dh,020h,07Bh,00h
-asc_112659:
+str_spDDDD:
 db 09h,09h,07Bh,025h,064h,02Ch,025h,064h,02Ch,025h,064h,02Ch,025h,064h,07Dh,02Ch
 db 0Ah,00h
 unk_11266B:
 db 07Dh,03Bh,00h
 qword_11266E:
 db 09Ah,099h,099h,099h,099h,099h,0B9h,03Fh
-asc_112676:
+str_TXT:
 db 02Eh,054h,058h,054h,00h,00h
-unk_11267C:
+str_FLM0:
 db 046h,04Ch,04Dh,030h,00h
-unk_112681:
+str_FLM1:
 db 046h,04Ch,04Dh,031h,00h
-unk_112686:
+str_FLM2:
 db 046h,04Ch,04Dh,032h,00h
-unk_11268B:
+str_FLM3:
 db 046h,04Ch,04Dh,033h,00h
-unk_112690:
+str_FLM4:
 db 046h,04Ch,04Dh,034h,00h
-unk_112695:
+str_FLM5:
 db 046h,04Ch,04Dh,035h,00h
-unk_11269A:
+str_FLM6:
 db 046h,04Ch,04Dh,036h,00h
-unk_11269F:
+str_FLM7:
 db 046h,04Ch,04Dh,037h,00h
-unk_1126A4:
+str_DEF:
 db 044h,045h,046h,00h
-unk_1126A8:
+str_ALL:
 db 041h,04Ch,04Ch,00h
-unk_1126AC:
+str_FOR:
 db 046h,04Fh,052h,00h
-unk_1126B0:
+str_GOL:
 db 047h,04Fh,04Ch,00h
-unk_1126B4:
+str_PLR:
 db 050h,04Ch,052h,00h
-unk_1126B8:
+str_PLY3:
 db 050h,04Ch,059h,00h
-unk_1126BC:
+str_ROK:
 db 052h,04Fh,04Bh,00h
-unk_1126C0:
+str_SEA3:
 db 053h,045h,041h,00h

@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_BC73C progbits alloc exec nowrite align=1
-extern FatalError, __sys_init_387_emulator, asc_1139A8, dword_122894, dword_1228D0, dword_1228D8, dword_1228DC, dword_1228E0
+extern FatalError, __sys_init_387_emulator, str_OrigetpartitionDIsAnInva, dword_122894, dword_1228D0, dword_1228D8, dword_1228DC, dword_1228E0
 extern dword_1228E4, dword_1228FC, dword_123AA4, dword_123AA8, dword_123AAC, dword_123AB0, dword_123ABC, dword_19869C
 extern dword_1986A0, dword_19A5E0, dword_19A5E4, dword_19A5E8, dword_19A5EC, dword_19A5F0, dword_19A5F4, dword_19A5F8
 extern dword_19A5FC, dword_19A600, dword_19A604, dword_19A608, dword_19A60C, dword_19A610, dword_19A614, dword_19A618
@@ -167,7 +167,7 @@ cmp ebp, dword [byte edi+048h]	; BC84C
 jl short loc_BC85F	; BC84F
 loc_BC851:
 push ebp	; BC851
-push asc_1139A8	; BC852
+push str_OrigetpartitionDIsAnInva	; BC852
 call FatalError	; BC857
 add esp, byte 8	; BC85C
 loc_BC85F:

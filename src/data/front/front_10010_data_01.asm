@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_114B40 progbits alloc noexec write align=1
-global InputRecordCount, InputRecordHead, SlotButtons, asc_114CB8, asc_114CC1, asc_114CC6, byte_114B48, byte_114B4C
+global InputRecordCount, InputRecordHead, SlotButtons, str_GRIPGLL, str_GRIP, str_CGRIP, byte_114B48, byte_114B4C
 global byte_114C58, byte_114D96, dword_114B5C, dword_114B60, dword_114B64, dword_114B68, dword_114B78, dword_114B7C
 global dword_114B80, dword_114B88, dword_114B90, dword_114B94, dword_114B98, dword_114B9C, dword_114CB0, dword_114CB4
 global dword_114CCF, dword_114CD3, dword_114CD7, dword_114CD9, dword_114CE2, dword_114D0E, dword_114D12, dword_114D1A
@@ -75,11 +75,11 @@ dword_114CB0:
 db 01h,00h,00h,00h
 dword_114CB4:
 db 01h,00h,00h,00h
-asc_114CB8:
+str_GRIPGLL:
 db 047h,052h,049h,050h,02Eh,047h,04Ch,04Ch,00h
-asc_114CC1:
+str_GRIP:
 db 047h,052h,049h,050h,00h
-asc_114CC6:
+str_CGRIP:
 db 043h,03Ah,05Ch,047h,052h,049h,050h,05Ch,00h
 dword_114CCF:
 db 00h,00h,00h,00h

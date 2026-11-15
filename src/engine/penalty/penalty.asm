@@ -4,7 +4,7 @@ bits 32
 section s_50154 progbits alloc exec nowrite align=1
 extern CwdExciteLvl, PBnum, Pencntdwn, SortCords, assinsert, assreplace, awtmstruct, byte_1178C8
 extern byte_1178F9, byte_117938, byte_117945, byte_11795B, byte_117968, byte_1179A1, byte_1179A5, byte_118E81
-extern byte_157192, byte_1647E1, byte_1647E3, byte_165694, byte_16571E, byte_1657AE, byte_165854, byte_1658E4
+extern hmrosterpos, byte_1647E1, byte_1647E3, byte_165694, byte_16571E, byte_1657AE, byte_165854, byte_1658E4
 extern byte_176AE0, byte_176AE2, byte_176AE3, crowdlevel, dword_1178EA, dword_1178EE, dword_11917F, dword_119183
 extern dword_11918F, dword_119193, dword_11A2F8, dword_11B310, dword_176BE0, dword_176C44, fox, foy
 extern gameclock, gameopts, gmode, hmtmstruct, off_11787C, off_117888, off_11788C, off_117894
@@ -13,7 +13,7 @@ extern puckx, pucky, puckz, randomd0, regd2, regd3, shotongoal, shotontarget
 extern sprintf_, sub_464A6, sub_4812E, sub_481B1, sub_4FDC0, sub_5316C, sub_68E21, sub_68E31
 extern sub_69105, sub_69141, sub_77355, sub_BEA30, sub_E14C8, unk_157F9C, unk_158610, word_1178C6
 extern word_1178F4, word_1178F6, word_1178F8, word_1178FA, word_1178FC, word_1178FE, word_117902, word_118E8F
-extern word_1190E7, word_1190E9, word_11910B, word_11910F, word_119111, word_119113, word_119115, word_11A224
+extern word_1190E7, word_1190E9, word_11910B, word_11910F, word_119111, word_119113, Pencntdwn2, word_11A224
 extern word_11A26C, word_1656E8, word_165710, word_16581E, word_165846, word_165980, word_176B80, word_176B88
 extern word_176B8A, word_176B8C, word_176B8E
 global AddPenalty, ClearPenaltyBuffer, CountShotOnGoal, QuickShotChk, SetupPenaltyShot, ShotLaneOpen, chkatop, chkprogress
@@ -869,7 +869,7 @@ movsx edx, ax	; 50C33
 movsx edx, byte [nosplit edx*2+byte_176AE0]	; 50C36
 cmp byte [dword edx+penmintab], 0	; 50C3E
 je short loc_50C21	; 50C45
-mov word [word_119115], 0FFFFh	; 50C47
+mov word [Pencntdwn2], 0FFFFh	; 50C47
 mov eax, dword [off_117888]	; 50C50
 mov word [word_118E8F], 1	; 50C55
 or byte [word_1178C6], 4	; 50C5E
@@ -1198,9 +1198,9 @@ movsx eax, bl	; 510DA
 movsx ax, byte [dword eax+byte_1179A1]	; 510DD
 shl eax, 5	; 510E5
 loc_510E8:
-cmp ax, word [word_119115]	; 510E8
+cmp ax, word [Pencntdwn2]	; 510E8
 jle short loc_510F7	; 510EF
-mov word [word_119115], ax	; 510F1
+mov word [Pencntdwn2], ax	; 510F1
 loc_510F7:
 inc edx	; 510F7
 loc_510F8:
@@ -1470,10 +1470,10 @@ and al, 1	; 5141E
 movsx eax, al	; 51420
 test eax, eax	; 51423
 je near loc_50CB3	; 51425
-cmp word [word_119115], byte 0	; 5142B
+cmp word [Pencntdwn2], byte 0	; 5142B
 jl short loc_5144D	; 51433
-dec word [word_119115]	; 51435
-cmp word [word_119115], byte 0	; 5143C
+dec word [Pencntdwn2]	; 51435
+cmp word [Pencntdwn2], byte 0	; 5143C
 jge short loc_5144D	; 51444
 or byte [word_1178C6], 4	; 51446
 loc_5144D:
@@ -2135,7 +2135,7 @@ loc_51CC9:
 movsx esi, word [byte ebp-04h]	; 51CC9
 imul esi, dword 4B4h	; 51CCD
 mov dword [dword eax+dword_176C44], ebx	; 51CD3
-cmp cl, byte [dword edi+esi+byte_157192]	; 51CD9
+cmp cl, byte [dword edi+esi+hmrosterpos]	; 51CD9
 je short loc_51CEE	; 51CE0
 mov dword [dword eax+dword_176BE0], 0FFFFFFFFh	; 51CE2
 jmp short loc_51CF7	; 51CEC
@@ -2188,7 +2188,7 @@ xor eax, eax	; 51D51
 loc_51D53:
 movsx esi, word [byte ebp-04h]	; 51D53
 imul esi, dword 4B4h	; 51D57
-movzx esi, byte [dword ecx+esi+byte_157192]	; 51D5D
+movzx esi, byte [dword ecx+esi+hmrosterpos]	; 51D5D
 mov dword [dword eax+dword_176C44], ebx	; 51D65
 cmp esi, byte 44h	; 51D6B
 jne short loc_51D7C	; 51D6E

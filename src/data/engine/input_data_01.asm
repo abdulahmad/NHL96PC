@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_119F4A progbits alloc noexec write align=1
 global byte_119F4A, byte_119F4B, byte_119F5A, byte_119F5B, byte_119FF0, byte_119FF7, byte_11A028, dword_119F6C
-global dword_119F90, dword_119F94, dword_119FEC, dword_11A004, dword_11A11C, dword_11A15C, dword_11A19C, dword_11A1BC
+global dword_119F90, nethit, dword_119FEC, dword_11A004, dword_11A11C, dword_11A15C, dword_11A19C, dword_11A1BC
 global dword_11A2F8, word_119F78, word_119F98, word_119F9A, word_119FB8, word_119FC8, word_119FCA, word_119FF8
 global word_11A008, word_11A01A, word_11A0D9, word_11A224, word_11A236, word_11A26C
 byte_119F4A:
@@ -22,7 +22,7 @@ db 0E7h,05h,0EDh,05h,0FFh,05h,011h,06h,0F3h,05h,0F9h,05h,05Fh,06h,04Dh,06h
 db 0ABh,06h,097h,06h,0A7h,06h,00h,00h
 dword_119F90:
 db 00h,00h,00h,00h
-dword_119F94:
+nethit:
 db 00h,00h,00h,00h
 word_119F98:
 db 092h,010h

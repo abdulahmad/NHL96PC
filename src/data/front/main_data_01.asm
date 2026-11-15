@@ -2,72 +2,72 @@
 bits 32
 %include "hockey.inc"
 section s_1102EC progbits alloc noexec write align=1
-global asc_1102EC, asc_1102F8, asc_1102FD, asc_110308, asc_11030C, asc_110313, asc_11031D, asc_110333
-global asc_110338, asc_11033D, asc_110342, asc_110347, asc_11034C, asc_110358, asc_110360, asc_110398
-global asc_1103B9, asc_1103D8, asc_110452, asc_1104B7, asc_1104BC, asc_1104C1, asc_1104CA, asc_1104D0
-global asc_11050E, asc_11054C, asc_110552, asc_11055D, asc_11058D, asc_1105BF, asc_1105F0, str_CDSTREAM
-global asc_110625, asc_110682, asc_110689, str_SECCDSTREAM, asc_1106B3, asc_1106EE, asc_1106F9, asc_11071C
-global asc_110729, unk_1102F6, unk_110302, unk_110304, unk_110306, unk_11031A, unk_110324, unk_110351
-global unk_110353, unk_110355, unk_11041A, unk_11048D, unk_1106E8, unk_1106EA, unk_1106EC, unk_110718
-global unk_110721, unk_110724, unk_110726, word_110331
-asc_1102EC:
+global str_NAMEINDEX, str_Temp3, str_Disp, str_BUT, str_BDREG, str_BDMEN, str_D14, str_LNPA
+global str_LNHL, str_LDON, str_LNEW, str_LSTA, str_LEAS, str_CLEARER, str_YouMustFirstUseTheSETUPP, str_HardwareBeforeRunningHOC
+global str_spPressESCToReturnToDOS, asc_1103D8, str_IhreHardwareZuKonfigurie, str_FhiL4, str_FhiR4, str_LOGOPACK, str_Lgo, str_SetasyncspeedSFILEISTOOS
+global str_SetasyncspeedSFILEISTOOS2, str_ASYNC, str_ASYNCFILE, str_AsyncreaderNOFILESPECIFI, str_AsyncreaderNOFILESPECIFI2, str_AsyncreaderNOFILESPECIFI3, str_GetasyncblockDNOASYNCBLO, str_CDSTREAM
+global str_SetstreamspeedSFILEISTOO, str_STREAM, str_DelstreamSTREAMNOTFOUND, str_SECCDSTREAM, str_StreamreaderILLEGALCHUNK, str_COPYBUFFER, str_ErrDiskFree2, str_07d
+global str_02d, str_backslash3, str_W, str_X, str_space4, str_02, str_KWKJSKxxxxxx, unk_110351
+global str_Dot, unk_110355, unk_11041A, unk_11048D, str_backslash4, str_dot2, unk_1106EC, str_backslash2
+global str_D15, str_dot3, str_DB2, str_dbgL
+str_NAMEINDEX:
 db 04Eh,041h,04Dh,045h,049h,04Eh,044h,045h,058h,00h
-unk_1102F6:
+str_backslash3:
 db 05Ch,00h
-asc_1102F8:
+str_Temp3:
 db 074h,065h,06Dh,070h,00h
-asc_1102FD:
+str_Disp:
 db 064h,069h,073h,070h,00h
-unk_110302:
+str_W:
 db 057h,00h
-unk_110304:
+str_X:
 db 058h,00h
-unk_110306:
+str_space4:
 db 020h,00h
-asc_110308:
+str_BUT:
 db 042h,055h,054h,00h
-asc_11030C:
+str_BDREG:
 db 042h,044h,05Fh,052h,045h,047h,00h
-asc_110313:
+str_BDMEN:
 db 042h,044h,05Fh,04Dh,045h,04Eh,00h
-unk_11031A:
+str_02:
 db 030h,025h,00h
-asc_11031D:
+str_D14:
 db 025h,064h,025h,025h,00h,00h,00h
-unk_110324:
+str_KWKJSKxxxxxx:
 db 04Bh,057h,04Bh,04Ah,053h,04Bh,078h,078h,078h,078h,078h,078h,00h
-word_110331:
+str_dbgL:
 db 04Ch,00h
-asc_110333:
+str_LNPA:
 db 04Ch,04Eh,050h,041h,00h
-asc_110338:
+str_LNHL:
 db 04Ch,04Eh,048h,04Ch,00h
-asc_11033D:
+str_LDON:
 db 04Ch,044h,04Fh,04Eh,00h
-asc_110342:
+str_LNEW:
 db 04Ch,04Eh,045h,057h,00h
-asc_110347:
+str_LSTA:
 db 04Ch,053h,054h,041h,00h
-asc_11034C:
+str_LEAS:
 db 04Ch,045h,041h,053h,00h
 unk_110351:
 db 030h,00h
-unk_110353:
+str_Dot:
 db 02Eh,00h
 unk_110355:
 db 02Eh,02Eh,00h
-asc_110358:
+str_CLEARER:
 db 043h,04Ch,045h,041h,052h,045h,052h,00h
-asc_110360:
+str_YouMustFirstUseTheSETUPP:
 db 059h,06Fh,075h,020h,06Dh,075h,073h,074h,020h,066h,069h,072h,073h,074h,020h,075h
 db 073h,065h,020h,074h,068h,065h,020h,053h,045h,054h,055h,050h,020h,070h,072h,06Fh
 db 067h,072h,061h,06Dh,020h,074h,06Fh,020h,063h,06Fh,06Eh,066h,069h,067h,075h,072h
 db 065h,020h,079h,06Fh,075h,072h,0Ah,00h
-asc_110398:
+str_HardwareBeforeRunningHOC:
 db 068h,061h,072h,064h,077h,061h,072h,065h,020h,062h,065h,066h,06Fh,072h,065h,020h
 db 072h,075h,06Eh,06Eh,069h,06Eh,067h,020h,048h,04Fh,043h,04Bh,045h,059h,02Eh,0Ah
 db 00h
-asc_1103B9:
+str_spPressESCToReturnToDOS:
 db 0Ah,050h,072h,065h,073h,073h,020h,045h,053h,043h,020h,074h,06Fh,020h,072h,065h
 db 074h,075h,072h,06Eh,020h,074h,06Fh,020h,044h,04Fh,053h,02Eh,0Ah,0Ah,00h
 asc_1103D8:
@@ -81,7 +81,7 @@ db 053h,069h,065h,020h,04Dh,09Ah,073h,073h,065h,06Eh,020h,065h,072h,073h,074h,02
 db 064h,061h,073h,020h,053h,045h,054h,055h,050h,020h,02Dh,020h,050h,072h,06Fh,067h
 db 072h,061h,06Dh,06Dh,020h,06Ch,061h,075h,066h,065h,06Eh,020h,06Ch,061h,073h,073h
 db 065h,06Eh,02Ch,020h,075h,06Dh,0Ah,00h
-asc_110452:
+str_IhreHardwareZuKonfigurie:
 db 049h,068h,072h,065h,020h,048h,061h,072h,064h,077h,061h,072h,065h,020h,07Ah,075h
 db 020h,06Bh,06Fh,06Eh,066h,069h,067h,075h,072h,069h,065h,072h,065h,06Eh,02Ch,020h
 db 062h,065h,076h,06Fh,072h,020h,053h,069h,065h,020h,048h,04Fh,043h,04Bh,045h,059h
@@ -90,87 +90,87 @@ unk_11048D:
 db 0Ah,045h,053h,043h,020h,064h,072h,09Ah,063h,06Bh,065h,06Eh,02Ch,020h,075h,06Dh
 db 020h,07Ah,075h,06Dh,020h,044h,04Fh,053h,020h,07Ah,075h,072h,09Ah,063h,06Bh,07Ah
 db 075h,06Bh,065h,068h,072h,065h,06Eh,02Eh,0Ah,00h
-asc_1104B7:
+str_FhiL4:
 db 046h,068h,069h,04Ch,00h
-asc_1104BC:
+str_FhiR4:
 db 046h,068h,069h,052h,00h
-asc_1104C1:
+str_LOGOPACK:
 db 04Ch,04Fh,047h,04Fh,050h,041h,043h,04Bh,00h
-asc_1104CA:
+str_Lgo:
 db 021h,06Ch,067h,06Fh,00h,00h
-asc_1104D0:
+str_SetasyncspeedSFILEISTOOS:
 db 073h,065h,074h,061h,073h,079h,06Eh,063h,073h,070h,065h,065h,064h,020h,02Dh,020h
 db 025h,073h,020h,046h,049h,04Ch,045h,020h,049h,053h,020h,054h,04Fh,04Fh,020h,053h
 db 04Dh,041h,04Ch,04Ch,020h,054h,04Fh,020h,045h,053h,054h,049h,04Dh,041h,054h,045h
 db 020h,041h,053h,059h,04Eh,043h,020h,053h,050h,045h,045h,044h,0Ah,00h
-asc_11050E:
+str_SetasyncspeedSFILEISTOOS2:
 db 073h,065h,074h,061h,073h,079h,06Eh,063h,073h,070h,065h,065h,064h,020h,02Dh,020h
 db 025h,073h,020h,046h,049h,04Ch,045h,020h,049h,053h,020h,054h,04Fh,04Fh,020h,053h
 db 04Dh,041h,04Ch,04Ch,020h,054h,04Fh,020h,045h,053h,054h,049h,04Dh,041h,054h,045h
 db 020h,041h,053h,059h,04Eh,043h,020h,053h,050h,045h,045h,044h,0Ah,00h
-asc_11054C:
+str_ASYNC:
 db 041h,053h,059h,04Eh,043h,00h
-asc_110552:
+str_ASYNCFILE:
 db 041h,053h,059h,04Eh,043h,020h,046h,049h,04Ch,045h,00h
-asc_11055D:
+str_AsyncreaderNOFILESPECIFI:
 db 061h,073h,079h,06Eh,063h,072h,065h,061h,064h,065h,072h,020h,02Dh,020h,04Eh,04Fh
 db 020h,046h,049h,04Ch,045h,020h,053h,050h,045h,043h,049h,046h,049h,045h,044h,020h
 db 046h,04Fh,052h,020h,043h,048h,055h,04Eh,04Bh,020h,052h,045h,041h,044h,0Ah,00h
-asc_11058D:
+str_AsyncreaderNOFILESPECIFI2:
 db 061h,073h,079h,06Eh,063h,072h,065h,061h,064h,065h,072h,020h,02Dh,020h,04Eh,04Fh
 db 020h,046h,049h,04Ch,045h,020h,053h,050h,045h,043h,049h,046h,049h,045h,044h,020h
 db 046h,04Fh,052h,020h,053h,045h,043h,054h,049h,04Fh,04Eh,020h,052h,045h,041h,044h
 db 0Ah,00h
-asc_1105BF:
+str_AsyncreaderNOFILESPECIFI3:
 db 061h,073h,079h,06Eh,063h,072h,065h,061h,064h,065h,072h,020h,02Dh,020h,04Eh,04Fh
 db 020h,046h,049h,04Ch,045h,020h,053h,050h,045h,043h,049h,046h,049h,045h,044h,020h
 db 046h,04Fh,052h,020h,048h,041h,04Eh,044h,04Ch,045h,020h,052h,045h,041h,044h,0Ah
 db 00h
-asc_1105F0:
+str_GetasyncblockDNOASYNCBLO:
 db 067h,065h,074h,061h,073h,079h,06Eh,063h,062h,06Ch,06Fh,063h,06Bh,05Bh,025h,064h
 db 05Dh,020h,02Dh,020h,04Eh,04Fh,020h,041h,053h,059h,04Eh,043h,020h,042h,04Ch,04Fh
 db 043h,04Bh,053h,020h,04Ch,045h,046h,054h,0Ah,00h,00h,00h
 str_CDSTREAM:
 db 043h,044h,053h,054h,052h,045h,041h,04Dh,00h
-asc_110625:
+str_SetstreamspeedSFILEISTOO:
 db 073h,065h,074h,073h,074h,072h,065h,061h,06Dh,073h,070h,065h,065h,064h,020h,02Dh
 db 020h,025h,073h,020h,046h,049h,04Ch,045h,020h,049h,053h,020h,054h,04Fh,04Fh,020h
 db 053h,04Dh,041h,04Ch,04Ch,020h,054h,04Fh,020h,045h,053h,054h,049h,04Dh,041h,054h
 db 045h,020h,044h,041h,054h,041h,020h,053h,054h,052h,045h,041h,04Dh,020h,053h,050h
 db 045h,045h,044h,0Ah,053h,069h,07Ah,065h,020h,069h,073h,020h,025h,064h,02Eh,020h
 db 052h,065h,071h,075h,069h,072h,065h,020h,025h,064h,02Eh,0Ah,00h
-asc_110682:
+str_STREAM:
 db 053h,054h,052h,045h,041h,04Dh,00h
-asc_110689:
+str_DelstreamSTREAMNOTFOUND:
 db 064h,065h,06Ch,073h,074h,072h,065h,061h,06Dh,020h,02Dh,020h,053h,054h,052h,045h
 db 041h,04Dh,020h,04Eh,04Fh,054h,020h,046h,04Fh,055h,04Eh,044h,0Ah,00h
 str_SECCDSTREAM:
 db 053h,045h,043h,043h,044h,053h,054h,052h,045h,041h,04Dh,00h
-asc_1106B3:
+str_StreamreaderILLEGALCHUNK:
 db 073h,074h,072h,065h,061h,06Dh,072h,065h,061h,064h,065h,072h,020h,02Dh,020h,049h
 db 04Ch,04Ch,045h,047h,041h,04Ch,020h,043h,048h,055h,04Eh,04Bh,020h,053h,049h,05Ah
 db 045h,020h,025h,064h,020h,042h,055h,046h,046h,045h,052h,053h,049h,05Ah,045h,020h
 db 025h,064h,0Ah,00h,00h
-unk_1106E8:
+str_backslash4:
 db 05Ch,00h
-unk_1106EA:
+str_dot2:
 db 02Eh,00h
 unk_1106EC:
 db 02Ah,00h
-asc_1106EE:
+str_COPYBUFFER:
 db 043h,04Fh,050h,059h,042h,055h,046h,046h,045h,052h,00h
-asc_1106F9:
+str_ErrDiskFree2:
 db 065h,072h,072h,06Fh,072h,020h,067h,065h,074h,074h,069h,06Eh,067h,020h,064h,069h
 db 073h,06Bh,020h,073h,070h,061h,063h,065h,020h,066h,072h,065h,065h,0Ah,00h
-unk_110718:
+str_backslash2:
 db 05Ch,00h,00h,00h
-asc_11071C:
+str_07d:
 db 025h,030h,037h,064h,00h
-unk_110721:
+str_D15:
 db 025h,064h,00h
-unk_110724:
+str_dot3:
 db 02Eh,00h
-unk_110726:
+str_DB2:
 db 044h,042h,00h
-asc_110729:
+str_02d:
 db 025h,030h,032h,064h,00h,00h,00h

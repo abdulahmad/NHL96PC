@@ -2,24 +2,24 @@
 bits 32
 %include "hockey.inc"
 section s_113EE0 progbits alloc noexec write align=1
-global asc_113EE0, asc_113F04, asc_113F2C, asc_113F44, asc_113F68, asc_113F74, asc_113F7C, asc_113F88
-global asc_113F90, asc_114004, asc_114030, asc_114058, asc_11407C, asc_1140A0, asc_1140C4
-asc_113EE0:
+global str_CalibrateYourJoystickByU, str_ToMoveTheJoystickPositio, asc_113F2C, str_PressJoystickButtonWhenC, str_KEYBOARDON, asc_113F74, asc_113F7C, asc_113F88
+global str_CheckextenderINCORRECTEX, str_LocatebigNOBIGFILESETNUL, asc_114030, str_LocatebigsFILENOTFOUNDS, asc_11407C, asc_1140A0, str_OriapplymorphObjectCanno
+str_CalibrateYourJoystickByU:
 db 043h,061h,06Ch,069h,062h,072h,061h,074h,065h,020h,079h,06Fh,075h,072h,020h,06Ah
 db 06Fh,079h,073h,074h,069h,063h,06Bh,020h,062h,079h,020h,075h,073h,069h,06Eh,067h
 db 020h,069h,074h,00h
-asc_113F04:
+str_ToMoveTheJoystickPositio:
 db 074h,06Fh,020h,06Dh,06Fh,076h,065h,020h,074h,068h,065h,020h,06Ah,06Fh,079h,073h
 db 074h,069h,063h,06Bh,020h,070h,06Fh,073h,069h,074h,069h,06Fh,06Eh,020h,069h,06Eh
 db 064h,069h,063h,061h,074h,06Fh,072h,00h
 asc_113F2C:
 db 062h,065h,06Ch,06Fh,077h,02Ch,020h,074h,06Fh,020h,061h,06Ch,06Ch,020h,073h,071h
 db 075h,061h,072h,065h,073h,00h,020h,079h
-asc_113F44:
+str_PressJoystickButtonWhenC:
 db 050h,072h,065h,073h,073h,020h,06Ah,06Fh,079h,073h,074h,069h,063h,06Bh,020h,062h
 db 075h,074h,074h,06Fh,06Eh,020h,077h,068h,065h,06Eh,020h,063h,06Fh,06Dh,070h,06Ch
 db 065h,074h,065h,00h
-asc_113F68:
+str_KEYBOARDON:
 db 04Bh,045h,059h,042h,04Fh,041h,052h,044h,020h,04Fh,04Eh,00h
 asc_113F74:
 db 050h,041h,054h,048h,00h,06Fh,069h,064h
@@ -27,7 +27,7 @@ asc_113F7C:
 db 044h,04Fh,053h,034h,047h,057h,02Eh,045h,058h,045h,00h,065h
 asc_113F88:
 db 063h,03Ah,05Ch,025h,073h,00h,069h,06Eh
-asc_113F90:
+str_CheckextenderINCORRECTEX:
 db 063h,068h,065h,063h,06Bh,065h,078h,074h,065h,06Eh,064h,065h,072h,020h,02Dh,020h
 db 049h,04Eh,043h,04Fh,052h,052h,045h,043h,054h,020h,045h,058h,054h,045h,04Eh,044h
 db 045h,052h,020h,056h,045h,052h,053h,049h,04Fh,04Eh,020h,049h,04Eh,053h,054h,041h
@@ -36,7 +36,7 @@ db 020h,043h,075h,072h,072h,065h,06Eh,074h,06Ch,079h,020h,025h,06Ch,064h,020h,06
 db 079h,074h,065h,073h,020h,069h,06Eh,020h,073h,069h,07Ah,065h,02Eh,0Ah,053h,068h
 db 06Fh,075h,06Ch,064h,020h,062h,065h,020h,025h,06Ch,064h,020h,062h,079h,074h,065h
 db 073h,02Eh,0Ah,00h
-asc_114004:
+str_LocatebigNOBIGFILESETNUL:
 db 06Ch,06Fh,063h,061h,074h,065h,062h,069h,067h,020h,02Dh,020h,04Eh,04Fh,020h,042h
 db 049h,047h,020h,046h,049h,04Ch,045h,020h,053h,045h,054h,020h,028h,04Eh,055h,04Ch
 db 04Ch,020h,050h,04Fh,049h,04Eh,054h,045h,052h,029h,0Ah,00h
@@ -44,7 +44,7 @@ asc_114030:
 db 06Ch,06Fh,063h,061h,074h,065h,062h,069h,067h,020h,02Dh,020h,046h,049h,04Ch,045h
 db 020h,049h,053h,020h,04Eh,04Fh,054h,020h,041h,020h,055h,04Eh,049h,054h,020h,046h
 db 049h,04Ch,045h,0Ah,00h,069h,06Eh,074h
-asc_114058:
+str_LocatebigsFILENOTFOUNDS:
 db 06Ch,06Fh,063h,061h,074h,065h,062h,069h,067h,073h,020h,02Dh,020h,046h,049h,04Ch
 db 045h,020h,04Eh,04Fh,054h,020h,046h,04Fh,055h,04Eh,044h,020h,03Ch,025h,073h,03Eh
 db 0Ah,00h,00h,00h
@@ -56,7 +56,7 @@ asc_1140A0:
 db 06Fh,072h,069h,061h,070h,070h,06Ch,079h,06Dh,06Fh,072h,070h,068h,03Ah,020h,06Fh
 db 062h,06Ah,065h,063h,074h,020h,063h,061h,06Eh,06Eh,06Fh,074h,020h,06Dh,06Fh,072h
 db 070h,068h,00h,064h
-asc_1140C4:
+str_OriapplymorphObjectCanno:
 db 06Fh,072h,069h,061h,070h,070h,06Ch,079h,06Dh,06Fh,072h,070h,068h,03Ah,020h,06Fh
 db 062h,06Ah,065h,063h,074h,020h,063h,061h,06Eh,06Eh,06Fh,074h,020h,06Dh,06Fh,072h
 db 070h,068h,00h,00h

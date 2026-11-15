@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_11B238 progbits alloc noexec write align=1
-extern unk_110FFC, unk_110FFE, unk_111000, unk_111002, unk_111004, unk_111006
+extern str_G5, str_feD, str_L, str_C6, str_R5, str_X2
 global dword_11B238, dword_11B23C, dword_11B240, dword_11B244, dword_11B248, dword_11B24C, dword_11B270, dword_11B294
 global dword_11B298, dword_11B2A8, dword_11B2E8, dword_11B2EC, dword_11B2F0, dword_11B2F4, dword_11B2F8, dword_11B2FC
 global dword_11B300, dword_11B304, dword_11B308, dword_11B310, dword_11B314, dword_11B318, dword_11B31C, dword_11B320
@@ -29,13 +29,13 @@ db 0FFh,0FFh
 word_11B276:
 db 0FFh,0FFh
 off_11B278:
-dd unk_110FFC
-dd unk_110FFE
-dd unk_110FFE
-dd unk_111000
-dd unk_111002
-dd unk_111004
-dd unk_111006
+dd str_G5
+dd str_feD
+dd str_feD
+dd str_L
+dd str_C6
+dd str_R5
+dd str_X2
 dword_11B294:
 db 00h,00h,00h,00h
 dword_11B298:

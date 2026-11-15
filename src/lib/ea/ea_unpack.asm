@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_AEE40 progbits alloc exec nowrite align=1
-extern FatalError, asc_1135A8, str_Copyright, str_UnpackINVALIDPACKCODE, asc_1135DC, byte_11FA2C, byte_11FA2D, byte_11FA2E
-extern byte_11FA2F, byte_11FA30, byte_11FA31, byte_11FA32, byte_11FB50, byte_11FC50, dword_11FA14, dword_11FA18
+extern FatalError, asc_1135A8, str_Copyright, str_UnpackINVALIDPACKCODE, str_TextTable, byte_11FA2C, byte_11FA2D, byte_11FA2E
+extern byte_11FA2F, byte_11FA30, byte_11FA31, str_ctl07, byte_11FB50, byte_11FC50, dword_11FA14, dword_11FA18
 extern dword_11FA1C, dword_11FA20, dword_11FA24, dword_11FA28, dword_11FA34, dword_11FA38, dword_11FA3C, dword_11FA40
 extern dword_11FA44, dword_11FA48, dword_11FA4C, dword_11FD50, dword_185760, dword_185764, dword_185768, dword_18576C
 extern dword_185770, memmove_, off_11FA10, strncmp_, sub_AB758, sub_ABF4C, sub_ADC50, sub_B31C0
@@ -26,7 +26,7 @@ global loc_AFE96, loc_AFEB6, loc_AFF67, loc_AFFEE, loc_B006A, loc_B006F, loc_B00
 global loc_B016D, loc_B0236, loc_B02EE, loc_B02F0, loc_B0305, loc_B0317, loc_B032C, loc_B033E
 global loc_B03C6, loc_B03E9, sub_AEE40, sub_AEE84, sub_AF08C, sub_AF104, sub_AF1C0, sub_AF240
 global sub_AF2C0, sub_AF354, sub_AF4F8, sub_AF5D0, sub_AF610, sub_AF654, sub_AF85C, sub_AF890
-global sub_AFB88, sub_AFCD0, sub_AFD00, sub_AFD40, sub_AFF44, sub_AFFD0, sub_B0240, sub_B0254
+global unpack, sub_AFCD0, sub_AFD00, sub_AFD40, sub_AFF44, sub_AFFD0, sub_B0240, sub_B0254
 global sub_B026C, sub_B0284
 sub_AEE40:
 push ebx	; AEE40
@@ -1296,7 +1296,7 @@ pop ecx	; AFB83
 pop ebx	; AFB84
 ret	; AFB85
 db 08Bh,0C0h
-sub_AFB88:
+unpack:
 push esi	; AFB88
 push edi	; AFB89
 push ebp	; AFB8A
@@ -1430,7 +1430,7 @@ mov edx, dword [byte esp+0Ch]	; AFCD2
 push edx	; AFCD6
 mov ebx, dword [byte esp+0Ch]	; AFCD7
 push ebx	; AFCDB
-call sub_AFB88	; AFCDC
+call unpack	; AFCDC
 add esp, byte 0Ch	; AFCE1
 ret	; AFCE4
 db 08Dh,040h,00h
@@ -1439,7 +1439,7 @@ mov edx, dword [byte esp+0Ch]	; AFCEA
 push edx	; AFCEE
 mov ebx, dword [byte esp+0Ch]	; AFCEF
 push ebx	; AFCF3
-call sub_AFB88	; AFCF4
+call unpack	; AFCF4
 add esp, byte 0Ch	; AFCF9
 ret	; AFCFC
 db 08Dh,040h,00h
@@ -1485,7 +1485,7 @@ test edx, edx	; AFD6B
 jne short loc_AFD88	; AFD6D
 push byte 20h	; AFD6F
 push dword 1000h	; AFD71
-push asc_1135DC	; AFD76
+push str_TextTable	; AFD76
 call sub_AB758	; AFD7B
 add esp, byte 0Ch	; AFD80
 mov dword [dword_11FD50], eax	; AFD83
@@ -1910,7 +1910,7 @@ mov byte [byte_11FA30], bl	; B02B8
 mov bl, byte [byte edx+09h]	; B02BE
 mov byte [byte_11FA31], bl	; B02C1
 mov bl, byte [byte edx+0Ah]	; B02C7
-mov byte [byte_11FA32], bl	; B02CA
+mov byte [str_ctl07], bl	; B02CA
 xor ebx, ebx	; B02D0
 mov dword [dword_11FA24], ebx	; B02D2
 mov ebx, dword [byte edx+010h]	; B02D8

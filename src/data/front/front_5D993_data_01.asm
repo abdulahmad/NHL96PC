@@ -2,342 +2,342 @@
 bits 32
 %include "hockey.inc"
 section s_1111DE progbits alloc noexec write align=1
-global asc_1111DE, asc_1111EA, asc_1111F4, asc_1111FE, asc_111209, asc_111214, asc_11121D, asc_111229
-global asc_11122E, asc_111239, asc_111241, asc_111248, asc_11124D, asc_111253, asc_111258, asc_11125E
-global asc_111264, asc_111269, asc_11126F, asc_111274, asc_11127A, asc_11127F, asc_111288, asc_11128D
-global asc_111292, asc_111296, asc_1112A0, asc_1112A5, asc_1112AA, asc_1112AF, asc_111810, asc_111818
-global asc_11181D, asc_111829, asc_111851, asc_111870, str_Pl1, unk_1112B4, unk_1112D5, unk_1112DA
-global unk_1112DF, unk_1112E4, unk_1112E9, unk_1112EE, unk_1112F3, unk_1112F8, unk_1112FD, unk_111302
-global unk_111307, unk_11130C, unk_111311, unk_111316, unk_11131B, unk_111320, unk_111325, unk_11132A
-global unk_11132F, unk_111334, unk_111339, unk_11133E, unk_111343, unk_111348, unk_11134D, unk_11135B
-global unk_111366, unk_111373, unk_111385, unk_111393, unk_1113A2, unk_1113AE, unk_1113BB, unk_1113C8
-global unk_1113DD, unk_1113E8, unk_1113F4, unk_111405, unk_111413, unk_11141F, unk_11142A, unk_111435
-global unk_11143E, unk_111450, unk_11145B, unk_111468, unk_111472, unk_11147C, unk_111488, unk_111498
-global unk_1114A5, unk_1114B8, unk_1114C6, unk_1114D6, unk_1114E8, unk_1114F6, unk_111501, unk_11150D
-global unk_111518, unk_111524, unk_111532, unk_11153E, unk_11154C, unk_11155B, unk_111569, unk_111578
-global unk_111583, unk_111592, unk_11159C, unk_1115A8, unk_1115B0, unk_1115BC, unk_1115CA, unk_1115D6
-global unk_1115E1, unk_1115EB, unk_1115F6, unk_111605, unk_111616, unk_111627, unk_111635, unk_111645
-global unk_111655, unk_11165E, unk_11166E, unk_111678, unk_111681, unk_11168A, unk_111697, unk_1116A2
-global unk_1116BE, unk_1116CA, unk_1116D8, unk_1116F1, unk_111701, unk_111716, unk_111721, unk_111730
-global unk_11173E, unk_111748, unk_111753, unk_11175E, unk_11176E, unk_11177B, unk_111788, unk_111792
-global unk_1117A0, unk_1117AB, unk_1117B6, unk_1117C1, unk_1117EA, unk_1117F4, unk_111800
-asc_1111DE:
+global str_TeampalQda, str_FightRef, str_TotalRef, str_OldshpQfs, str_OLDSHPQFS2, str_Unpacked, str_RinkpalQfs, str_Pal6
+global str_NewpalQfs, str_CupRef, str_UNPACK, str_Pal7, str_CHECK, str_XBUT, str_MODEM, str_Y03d
+global str_Yhil, str_X03d, str_Xhil, str_M03d, str_Mhil, str_TN02d, str_Scr1, str_Scr2
+global str_Pal2, str_Pl0, str_Bkgd3, str_Nhll, str_Nhlp, str_Pal8, str_Pal9, str_COPY
+global str_LIBBUGFIX, str_CouldNotAllocateLibraryB, str_NHLinitgraphicsfixNotCal, str_USETABLE, str_Pl1, str_EAW1EAW2EAW3EAW4EAW5EAW6, str_SH01, str_SH02
+global str_SH03, str_SH04, str_SH05, str_SH06, str_SH07, str_SH08, str_SH09, str_SH10
+global str_SH11, str_SH12, str_SH13, str_SH14, str_SH15, str_SH16, str_SH17, str_SH18
+global str_SH19, str_SH20, str_SH21, str_SH22, str_CRDT, str_BKGD4, str_VictoriaWong, str_LanceWall
+global str_KurtKennett, str_DFunkySwadling, str_JayMacDonald, str_SpencerCathey, str_EricPauker, str_PhillipChow, str_AndyGlavina, str_DejanStanisavljevic
+global str_GregAllen, str_ToddWilson, str_KristeneNielsen, str_CaseyOBrien, str_NorieMiura, str_TomGraham, str_PeterNash, str_JayPage
+global str_AndrewBrownsword, str_DaveLucas, str_RickFriesen, str_ErikKiss, str_JeffDyck, str_SteveRoyea, str_GlennZielinski, str_JamesBowers
+global str_MichaelJSokyrka, str_SerenaMcCabe, str_MichaelDonovan, str_SakiKaskamanidis, str_DeaneBennett, str_SamNelson, str_HannoLemke, str_KenSayler
+global str_FosterHall, str_DaveWarfield, str_RichardMul, str_RolfDBusch, str_BiancaNormann, str_MartinSiebel, str_FrankBarchard, str_GerryShaw
+global str_KurtMelnychuk, str_MikeMann, str_OceanYeung, str_JeffYu, str_JoshHolmes, str_DemianGordon, str_ByronWelch, str_OggyTalic
+global str_DavidLee, str_PeterHong, str_ZachSilverman, str_ScottFerrero, str_ShaneBerezowski, str_DarrenHagman, str_GordonThornton, str_MartinPeterken
+global str_GaryLam, str_PaulTambellini, str_JonBruce, str_RodHigo, str_KurtHsu, str_ScottGummer, str_LoriLeahy, str_BillTheHammerScheppler
+global str_DavidMauro, str_CoreyHiggins, str_SportsActionJimTurner, str_NHLProductions, str_NHLPABeAPlayer, str_StatsInc, str_SteveBabineau, str_BruceBennett
+global str_BradGour, str_DanielTeh, str_WilMozell, str_BrettBradstock, str_TaylorMoore, str_DaveMercier, str_TerryLee, str_JimmyHayward
+global str_AmoryWong, str_ChipLange, str_JohnSmith, str_AdvancedGravisComputerTe, str_RonSmith, str_JimHughson, str_GeoffCourtnall
+str_TeampalQda:
 db 074h,065h,061h,06Dh,070h,061h,06Ch,02Eh,071h,064h,061h,00h
-asc_1111EA:
+str_FightRef:
 db 066h,069h,067h,068h,074h,02Eh,072h,065h,066h,00h
-asc_1111F4:
+str_TotalRef:
 db 074h,06Fh,074h,061h,06Ch,02Eh,072h,065h,066h,00h
-asc_1111FE:
+str_OldshpQfs:
 db 06Fh,06Ch,064h,073h,068h,070h,02Eh,071h,066h,073h,00h
-asc_111209:
+str_OLDSHPQFS2:
 db 04Fh,04Ch,044h,053h,048h,050h,02Eh,051h,046h,053h,00h
-asc_111214:
+str_Unpacked:
 db 075h,06Eh,070h,061h,063h,06Bh,065h,064h,00h
-asc_11121D:
+str_RinkpalQfs:
 db 072h,069h,06Eh,06Bh,070h,061h,06Ch,02Eh,071h,066h,073h,00h
-asc_111229:
+str_Pal6:
 db 021h,070h,061h,06Ch,00h
-asc_11122E:
+str_NewpalQfs:
 db 06Eh,065h,077h,070h,061h,06Ch,02Eh,071h,066h,073h,00h
-asc_111239:
+str_CupRef:
 db 063h,075h,070h,02Eh,072h,065h,066h,00h
-asc_111241:
+str_UNPACK:
 db 055h,04Eh,050h,041h,043h,04Bh,00h
-asc_111248:
+str_Pal7:
 db 021h,070h,061h,06Ch,00h
-asc_11124D:
+str_CHECK:
 db 043h,048h,045h,043h,04Bh,00h
-asc_111253:
+str_XBUT:
 db 058h,042h,055h,054h,00h
-asc_111258:
+str_MODEM:
 db 04Dh,04Fh,044h,045h,04Dh,00h
-asc_11125E:
+str_Y03d:
 db 079h,025h,030h,033h,064h,00h
-asc_111264:
+str_Yhil:
 db 079h,068h,069h,06Ch,00h
-asc_111269:
+str_X03d:
 db 078h,025h,030h,033h,064h,00h
-asc_11126F:
+str_Xhil:
 db 078h,068h,069h,06Ch,00h
-asc_111274:
+str_M03d:
 db 06Dh,025h,030h,033h,064h,00h
-asc_11127A:
+str_Mhil:
 db 06Dh,068h,069h,06Ch,00h
-asc_11127F:
+str_TN02d:
 db 054h,04Eh,025h,030h,032h,064h,00h,00h,00h
-asc_111288:
+str_Scr1:
 db 073h,063h,072h,031h,00h
-asc_11128D:
+str_Scr2:
 db 073h,063h,072h,032h,00h
-asc_111292:
+str_Pal2:
 db 070h,061h,06Ch,00h
-asc_111296:
+str_Pl0:
 db 021h,070h,06Ch,030h,00h
 str_Pl1:
 db 021h,070h,06Ch,031h,00h
-asc_1112A0:
+str_Bkgd3:
 db 062h,06Bh,067h,064h,00h
-asc_1112A5:
+str_Nhll:
 db 06Eh,068h,06Ch,06Ch,00h
-asc_1112AA:
+str_Nhlp:
 db 06Eh,068h,06Ch,070h,00h
-asc_1112AF:
+str_Pal8:
 db 021h,070h,061h,06Ch,00h
-unk_1112B4:
+str_EAW1EAW2EAW3EAW4EAW5EAW6:
 db 045h,041h,057h,031h,045h,041h,057h,032h,045h,041h,057h,033h,045h,041h,057h,034h
 db 045h,041h,057h,035h,045h,041h,057h,036h,045h,041h,057h,037h,045h,041h,057h,038h
 db 00h
-unk_1112D5:
+str_SH01:
 db 053h,048h,030h,031h,00h
-unk_1112DA:
+str_SH02:
 db 053h,048h,030h,032h,00h
-unk_1112DF:
+str_SH03:
 db 053h,048h,030h,033h,00h
-unk_1112E4:
+str_SH04:
 db 053h,048h,030h,034h,00h
-unk_1112E9:
+str_SH05:
 db 053h,048h,030h,035h,00h
-unk_1112EE:
+str_SH06:
 db 053h,048h,030h,036h,00h
-unk_1112F3:
+str_SH07:
 db 053h,048h,030h,037h,00h
-unk_1112F8:
+str_SH08:
 db 053h,048h,030h,038h,00h
-unk_1112FD:
+str_SH09:
 db 053h,048h,030h,039h,00h
-unk_111302:
+str_SH10:
 db 053h,048h,031h,030h,00h
-unk_111307:
+str_SH11:
 db 053h,048h,031h,031h,00h
-unk_11130C:
+str_SH12:
 db 053h,048h,031h,032h,00h
-unk_111311:
+str_SH13:
 db 053h,048h,031h,033h,00h
-unk_111316:
+str_SH14:
 db 053h,048h,031h,034h,00h
-unk_11131B:
+str_SH15:
 db 053h,048h,031h,035h,00h
-unk_111320:
+str_SH16:
 db 053h,048h,031h,036h,00h
-unk_111325:
+str_SH17:
 db 053h,048h,031h,037h,00h
-unk_11132A:
+str_SH18:
 db 053h,048h,031h,038h,00h
-unk_11132F:
+str_SH19:
 db 053h,048h,031h,039h,00h
-unk_111334:
+str_SH20:
 db 053h,048h,032h,030h,00h
-unk_111339:
+str_SH21:
 db 053h,048h,032h,031h,00h
-unk_11133E:
+str_SH22:
 db 053h,048h,032h,032h,00h
-unk_111343:
+str_CRDT:
 db 043h,052h,044h,054h,00h
-unk_111348:
+str_BKGD4:
 db 042h,04Bh,047h,044h,00h
-unk_11134D:
+str_VictoriaWong:
 db 056h,069h,063h,074h,06Fh,072h,069h,061h,020h,057h,06Fh,06Eh,067h,00h
-unk_11135B:
+str_LanceWall:
 db 04Ch,061h,06Eh,063h,065h,020h,057h,061h,06Ch,06Ch,00h
-unk_111366:
+str_KurtKennett:
 db 04Bh,075h,072h,074h,020h,04Bh,065h,06Eh,06Eh,065h,074h,074h,00h
-unk_111373:
+str_DFunkySwadling:
 db 044h,02Eh,020h,046h,075h,06Eh,06Bh,079h,020h,053h,077h,061h,064h,06Ch,069h,06Eh
 db 067h,00h
-unk_111385:
+str_JayMacDonald:
 db 04Ah,061h,079h,020h,04Dh,061h,063h,044h,06Fh,06Eh,061h,06Ch,064h,00h
-unk_111393:
+str_SpencerCathey:
 db 053h,070h,065h,06Eh,063h,065h,072h,020h,043h,061h,074h,068h,065h,079h,00h
-unk_1113A2:
+str_EricPauker:
 db 045h,072h,069h,063h,020h,050h,061h,075h,06Bh,065h,072h,00h
-unk_1113AE:
+str_PhillipChow:
 db 050h,068h,069h,06Ch,06Ch,069h,070h,020h,043h,068h,06Fh,077h,00h
-unk_1113BB:
+str_AndyGlavina:
 db 041h,06Eh,064h,079h,020h,047h,06Ch,061h,076h,069h,06Eh,061h,00h
-unk_1113C8:
+str_DejanStanisavljevic:
 db 044h,065h,06Ah,061h,06Eh,020h,053h,074h,061h,06Eh,069h,073h,061h,076h,06Ch,06Ah
 db 065h,076h,069h,063h,00h
-unk_1113DD:
+str_GregAllen:
 db 047h,072h,065h,067h,020h,041h,06Ch,06Ch,065h,06Eh,00h
-unk_1113E8:
+str_ToddWilson:
 db 054h,06Fh,064h,064h,020h,057h,069h,06Ch,073h,06Fh,06Eh,00h
-unk_1113F4:
+str_KristeneNielsen:
 db 04Bh,072h,069h,073h,074h,065h,06Eh,065h,020h,04Eh,069h,065h,06Ch,073h,065h,06Eh
 db 00h
-unk_111405:
+str_CaseyOBrien:
 db 043h,061h,073h,065h,079h,020h,04Fh,027h,042h,072h,069h,065h,06Eh,00h
-unk_111413:
+str_NorieMiura:
 db 04Eh,06Fh,072h,069h,065h,020h,04Dh,069h,075h,072h,061h,00h
-unk_11141F:
+str_TomGraham:
 db 054h,06Fh,06Dh,020h,047h,072h,061h,068h,061h,06Dh,00h
-unk_11142A:
+str_PeterNash:
 db 050h,065h,074h,065h,072h,020h,04Eh,061h,073h,068h,00h
-unk_111435:
+str_JayPage:
 db 04Ah,061h,079h,020h,050h,061h,067h,065h,00h
-unk_11143E:
+str_AndrewBrownsword:
 db 041h,06Eh,064h,072h,065h,077h,020h,042h,072h,06Fh,077h,06Eh,073h,077h,06Fh,072h
 db 064h,00h
-unk_111450:
+str_DaveLucas:
 db 044h,061h,076h,065h,020h,04Ch,075h,063h,061h,073h,00h
-unk_11145B:
+str_RickFriesen:
 db 052h,069h,063h,06Bh,020h,046h,072h,069h,065h,073h,065h,06Eh,00h
-unk_111468:
+str_ErikKiss:
 db 045h,072h,069h,06Bh,020h,04Bh,069h,073h,073h,00h
-unk_111472:
+str_JeffDyck:
 db 04Ah,065h,066h,066h,020h,044h,079h,063h,06Bh,00h
-unk_11147C:
+str_SteveRoyea:
 db 053h,074h,065h,076h,065h,020h,052h,06Fh,079h,065h,061h,00h
-unk_111488:
+str_GlennZielinski:
 db 047h,06Ch,065h,06Eh,06Eh,020h,05Ah,069h,065h,06Ch,069h,06Eh,073h,06Bh,069h,00h
-unk_111498:
+str_JamesBowers:
 db 04Ah,061h,06Dh,065h,073h,020h,042h,06Fh,077h,065h,072h,073h,00h
-unk_1114A5:
+str_MichaelJSokyrka:
 db 04Dh,069h,063h,068h,061h,065h,06Ch,020h,04Ah,02Eh,020h,053h,06Fh,06Bh,079h,072h
 db 06Bh,061h,00h
-unk_1114B8:
+str_SerenaMcCabe:
 db 053h,065h,072h,065h,06Eh,061h,020h,04Dh,063h,043h,061h,062h,065h,00h
-unk_1114C6:
+str_MichaelDonovan:
 db 04Dh,069h,063h,068h,061h,065h,06Ch,020h,044h,06Fh,06Eh,06Fh,076h,061h,06Eh,00h
-unk_1114D6:
+str_SakiKaskamanidis:
 db 053h,061h,06Bh,069h,020h,04Bh,061h,073h,06Bh,061h,06Dh,061h,06Eh,069h,064h,069h
 db 073h,00h
-unk_1114E8:
+str_DeaneBennett:
 db 044h,065h,061h,06Eh,065h,020h,042h,065h,06Eh,06Eh,065h,074h,074h,00h
-unk_1114F6:
+str_SamNelson:
 db 053h,061h,06Dh,020h,04Eh,065h,06Ch,073h,06Fh,06Eh,00h
-unk_111501:
+str_HannoLemke:
 db 048h,061h,06Eh,06Eh,06Fh,020h,04Ch,065h,06Dh,06Bh,065h,00h
-unk_11150D:
+str_KenSayler:
 db 04Bh,065h,06Eh,020h,053h,061h,079h,06Ch,065h,072h,00h
-unk_111518:
+str_FosterHall:
 db 046h,06Fh,073h,074h,065h,072h,020h,048h,061h,06Ch,06Ch,00h
-unk_111524:
+str_DaveWarfield:
 db 044h,061h,076h,065h,020h,057h,061h,072h,066h,069h,065h,06Ch,064h,00h
-unk_111532:
+str_RichardMul:
 db 052h,069h,063h,068h,061h,072h,064h,020h,04Dh,075h,06Ch,00h
-unk_11153E:
+str_RolfDBusch:
 db 052h,06Fh,06Ch,066h,020h,044h,02Eh,020h,042h,075h,073h,063h,068h,00h
-unk_11154C:
+str_BiancaNormann:
 db 042h,069h,061h,06Eh,063h,061h,020h,04Eh,06Fh,072h,06Dh,061h,06Eh,06Eh,00h
-unk_11155B:
+str_MartinSiebel:
 db 04Dh,061h,072h,074h,069h,06Eh,020h,053h,069h,065h,062h,065h,06Ch,00h
-unk_111569:
+str_FrankBarchard:
 db 046h,072h,061h,06Eh,06Bh,020h,042h,061h,072h,063h,068h,061h,072h,064h,00h
-unk_111578:
+str_GerryShaw:
 db 047h,065h,072h,072h,079h,020h,053h,068h,061h,077h,00h
-unk_111583:
+str_KurtMelnychuk:
 db 04Bh,075h,072h,074h,020h,04Dh,065h,06Ch,06Eh,079h,063h,068h,075h,06Bh,00h
-unk_111592:
+str_MikeMann:
 db 04Dh,069h,06Bh,065h,020h,04Dh,061h,06Eh,06Eh,00h
-unk_11159C:
+str_OceanYeung:
 db 04Fh,063h,065h,061h,06Eh,020h,059h,065h,075h,06Eh,067h,00h
-unk_1115A8:
+str_JeffYu:
 db 04Ah,065h,066h,066h,020h,059h,075h,00h
-unk_1115B0:
+str_JoshHolmes:
 db 04Ah,06Fh,073h,068h,020h,048h,06Fh,06Ch,06Dh,065h,073h,00h
-unk_1115BC:
+str_DemianGordon:
 db 044h,065h,06Dh,069h,061h,06Eh,020h,047h,06Fh,072h,064h,06Fh,06Eh,00h
-unk_1115CA:
+str_ByronWelch:
 db 042h,079h,072h,06Fh,06Eh,020h,057h,065h,06Ch,063h,068h,00h
-unk_1115D6:
+str_OggyTalic:
 db 04Fh,067h,067h,079h,020h,054h,061h,06Ch,069h,063h,00h
-unk_1115E1:
+str_DavidLee:
 db 044h,061h,076h,069h,064h,020h,04Ch,065h,065h,00h
-unk_1115EB:
+str_PeterHong:
 db 050h,065h,074h,065h,072h,020h,048h,06Fh,06Eh,067h,00h
-unk_1115F6:
+str_ZachSilverman:
 db 05Ah,061h,063h,068h,020h,053h,069h,06Ch,076h,065h,072h,06Dh,061h,06Eh,00h
-unk_111605:
+str_ScottFerrero:
 db 053h,063h,06Fh,074h,074h,020h,046h,065h,072h,072h,065h,072h,06Fh,020h,020h,020h
 db 00h
-unk_111616:
+str_ShaneBerezowski:
 db 053h,068h,061h,06Eh,065h,020h,042h,065h,072h,065h,07Ah,06Fh,077h,073h,06Bh,069h
 db 00h
-unk_111627:
+str_DarrenHagman:
 db 044h,061h,072h,072h,065h,06Eh,020h,048h,061h,067h,06Dh,061h,06Eh,00h
-unk_111635:
+str_GordonThornton:
 db 047h,06Fh,072h,064h,06Fh,06Eh,020h,054h,068h,06Fh,072h,06Eh,074h,06Fh,06Eh,00h
-unk_111645:
+str_MartinPeterken:
 db 04Dh,061h,072h,074h,069h,06Eh,020h,050h,065h,074h,065h,072h,06Bh,065h,06Eh,00h
-unk_111655:
+str_GaryLam:
 db 047h,061h,072h,079h,020h,04Ch,061h,06Dh,00h
-unk_11165E:
+str_PaulTambellini:
 db 050h,061h,075h,06Ch,020h,054h,061h,06Dh,062h,065h,06Ch,06Ch,069h,06Eh,069h,00h
-unk_11166E:
+str_JonBruce:
 db 04Ah,06Fh,06Eh,020h,042h,072h,075h,063h,065h,00h
-unk_111678:
+str_RodHigo:
 db 052h,06Fh,064h,020h,048h,069h,067h,06Fh,00h
-unk_111681:
+str_KurtHsu:
 db 04Bh,075h,072h,074h,020h,048h,073h,075h,00h
-unk_11168A:
+str_ScottGummer:
 db 053h,063h,06Fh,074h,074h,020h,047h,075h,06Dh,06Dh,065h,072h,00h
-unk_111697:
+str_LoriLeahy:
 db 04Ch,06Fh,072h,069h,020h,04Ch,065h,061h,068h,079h,00h
-unk_1116A2:
+str_BillTheHammerScheppler:
 db 042h,069h,06Ch,06Ch,020h,022h,054h,068h,065h,020h,048h,061h,06Dh,06Dh,065h,072h
 db 022h,020h,053h,063h,068h,065h,070h,070h,06Ch,065h,072h,00h
-unk_1116BE:
+str_DavidMauro:
 db 044h,061h,076h,069h,064h,020h,04Dh,061h,075h,072h,06Fh,00h
-unk_1116CA:
+str_CoreyHiggins:
 db 043h,06Fh,072h,065h,079h,020h,048h,069h,067h,067h,069h,06Eh,073h,00h
-unk_1116D8:
+str_SportsActionJimTurner:
 db 053h,070h,06Fh,072h,074h,073h,020h,041h,063h,074h,069h,06Fh,06Eh,02Fh,04Ah,069h
 db 06Dh,020h,054h,075h,072h,06Eh,065h,072h,00h
-unk_1116F1:
+str_NHLProductions:
 db 04Eh,048h,04Ch,020h,050h,072h,06Fh,064h,075h,063h,074h,069h,06Fh,06Eh,073h,00h
-unk_111701:
+str_NHLPABeAPlayer:
 db 04Eh,048h,04Ch,050h,041h,020h,020h,022h,042h,065h,020h,041h,020h,050h,06Ch,061h
 db 079h,065h,072h,022h,00h
-unk_111716:
+str_StatsInc:
 db 053h,074h,061h,074h,073h,020h,049h,06Eh,063h,02Eh,00h
-unk_111721:
+str_SteveBabineau:
 db 053h,074h,065h,076h,065h,020h,042h,061h,062h,069h,06Eh,065h,061h,075h,00h
-unk_111730:
+str_BruceBennett:
 db 042h,072h,075h,063h,065h,020h,042h,065h,06Eh,06Eh,065h,074h,074h,00h
-unk_11173E:
+str_BradGour:
 db 042h,072h,061h,064h,020h,047h,06Fh,075h,072h,00h
-unk_111748:
+str_DanielTeh:
 db 044h,061h,06Eh,069h,065h,06Ch,020h,054h,065h,068h,00h
-unk_111753:
+str_WilMozell:
 db 057h,069h,06Ch,020h,04Dh,06Fh,07Ah,065h,06Ch,06Ch,00h
-unk_11175E:
+str_BrettBradstock:
 db 042h,072h,065h,074h,074h,020h,042h,072h,061h,064h,073h,074h,06Fh,063h,06Bh,00h
-unk_11176E:
+str_TaylorMoore:
 db 054h,061h,079h,06Ch,06Fh,072h,020h,04Dh,06Fh,06Fh,072h,065h,00h
-unk_11177B:
+str_DaveMercier:
 db 044h,061h,076h,065h,020h,04Dh,065h,072h,063h,069h,065h,072h,00h
-unk_111788:
+str_TerryLee:
 db 054h,065h,072h,072h,079h,020h,04Ch,065h,065h,00h
-unk_111792:
+str_JimmyHayward:
 db 04Ah,069h,06Dh,06Dh,079h,020h,048h,061h,079h,077h,061h,072h,064h,00h
-unk_1117A0:
+str_AmoryWong:
 db 041h,06Dh,06Fh,072h,079h,020h,057h,06Fh,06Eh,067h,00h
-unk_1117AB:
+str_ChipLange:
 db 043h,068h,069h,070h,020h,04Ch,061h,06Eh,067h,065h,00h
-unk_1117B6:
+str_JohnSmith:
 db 04Ah,06Fh,068h,06Eh,020h,053h,06Dh,069h,074h,068h,00h
-unk_1117C1:
+str_AdvancedGravisComputerTe:
 db 041h,064h,076h,061h,06Eh,063h,065h,064h,020h,047h,072h,061h,076h,069h,073h,020h
 db 043h,06Fh,06Dh,070h,075h,074h,065h,072h,020h,054h,065h,063h,068h,06Eh,06Fh,06Ch
 db 06Fh,067h,079h,020h,04Ch,074h,064h,02Eh,00h
-unk_1117EA:
+str_RonSmith:
 db 052h,06Fh,06Eh,020h,053h,06Dh,069h,074h,068h,00h
-unk_1117F4:
+str_JimHughson:
 db 04Ah,069h,06Dh,020h,048h,075h,067h,068h,073h,06Fh,06Eh,00h
-unk_111800:
+str_GeoffCourtnall:
 db 047h,065h,06Fh,066h,066h,020h,043h,06Fh,075h,072h,074h,06Eh,061h,06Ch,06Ch,00h
-asc_111810:
+str_Pal9:
 db 021h,070h,061h,06Ch,00h,00h,00h,00h
-asc_111818:
+str_COPY:
 db 043h,04Fh,050h,059h,00h
-asc_11181D:
+str_LIBBUGFIX:
 db 04Ch,049h,042h,020h,042h,055h,047h,020h,046h,049h,058h,00h
-asc_111829:
+str_CouldNotAllocateLibraryB:
 db 043h,06Fh,075h,06Ch,064h,020h,06Eh,06Fh,074h,020h,061h,06Ch,06Ch,06Fh,063h,061h
 db 074h,065h,020h,06Ch,069h,062h,072h,061h,072h,079h,020h,062h,075h,067h,020h,066h
 db 069h,078h,020h,072h,061h,06Dh,02Eh,00h
-asc_111851:
+str_NHLinitgraphicsfixNotCal:
 db 04Eh,048h,04Ch,069h,06Eh,069h,074h,067h,072h,061h,070h,068h,069h,063h,073h,066h
 db 069h,078h,020h,06Eh,06Fh,074h,020h,063h,061h,06Ch,06Ch,065h,064h,02Eh,00h
-asc_111870:
+str_USETABLE:
 db 055h,053h,045h,054h,041h,042h,04Ch,045h,00h,00h,00h,00h

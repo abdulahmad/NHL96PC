@@ -2,336 +2,336 @@
 bits 32
 %include "hockey.inc"
 section s_11187C progbits alloc noexec write align=1
-global asc_11187C, asc_111881, asc_111886, asc_11188B, asc_111890, asc_111895, asc_11189A, asc_11189F
-global asc_1118A4, asc_1118A9, asc_1118AE, asc_1118B3, asc_1118B8, asc_1118BD, asc_1118C2, asc_1118C7
-global asc_1118CC, asc_1118D1, asc_1118D6, asc_1118DB, asc_1118E0, asc_1118E5, asc_1118EA, asc_1118EF
-global asc_1118F4, asc_1118F9, asc_1118FE, asc_111903, asc_111908, asc_11190F, asc_111916, asc_111920
-global asc_11192C, asc_111938, asc_111940, asc_11194B, asc_111958, dword_111951, unk_111955, unk_111964
-global unk_111968, unk_11196C, unk_111970, unk_111974, unk_111978, unk_11197C, unk_111980, unk_111984
-global unk_111988, unk_11198C, unk_11198F, unk_111993, unk_111996, unk_11199A, unk_11199E, unk_1119A2
-global unk_1119A6, unk_1119AA, unk_1119AE, unk_1119B2, unk_1119B5, unk_1119B8, unk_1119BC, unk_1119C0
-global unk_1119C4, unk_1119C8, unk_1119CC, unk_1119D0, unk_1119D8, unk_1119DF, unk_1119E7, unk_1119EF
-global unk_1119F7, unk_1119FE, unk_111A06, unk_111A0F, unk_111A17, unk_111A20, unk_111A2C, unk_111A35
-global unk_111A40, unk_111A49, unk_111A50, unk_111A5D, unk_111A68, unk_111A6F, unk_111A78, unk_111A81
-global unk_111A8B, unk_111A93, unk_111A9D, unk_111AA8, unk_111AB1, unk_111AB9, unk_111AC1, unk_111AD5
-global unk_111AEB, unk_111AFD, unk_111B0E, unk_111B20, unk_111B2E, unk_111B40, unk_111B52, unk_111B61
-global unk_111B77, unk_111B8D, unk_111B9E, unk_111BB4, unk_111BC8, unk_111BDB, unk_111BEB, unk_111BFC
-global unk_111C0B, unk_111C1F, unk_111C33, unk_111C48, unk_111C57, unk_111C68, unk_111C78, unk_111C8B
-global unk_111C9E, unk_111CAB, unk_111CB2, unk_111CB9, unk_111CC0, unk_111CCB, unk_111CD1, unk_111CDB
-global unk_111CE2, unk_111CEB, unk_111CF3, unk_111CF9, unk_111D03, unk_111D0A, unk_111D14, unk_111D1C
-global unk_111D25, unk_111D2C, unk_111D35, unk_111D3F, unk_111D45, unk_111D4C, unk_111D56, unk_111D62
-global unk_111D6A, unk_111D73, unk_111D78
-asc_11187C:
+global str_Pal11, str_Bkgd5, str_Bt013, str_Bt023, str_Bt102, str_Bt112, str_Bt19, str_Bt20
+global str_Bt28, str_Bt29, str_Bb01, str_Bb02, str_Bb10, str_Bb11, str_Bb19, str_Bb20
+global str_Sta1, str_Sta2, str_Sta3, str_Use1, str_Use2, str_Use3, str_Opt1, str_Opt2
+global str_Opt3, str_Hig1, str_Hig2, str_Hig3, str_Bt02d, str_Bb02d, str_LOCALNDX2, str_HILITESNDX
+global str_SPEECHBUF, str_TEMP, str_5552362337, str_ATF, str_EXHIBITNDX, str_ATD2, str_backslash, str_ANA2
+global str_BOS2, str_BUF4, str_CGY2, str_CHI2, str_DAL2, str_DET2, str_EDM2, str_FLA2
+global str_HFD2, str_LA2, str_MTL2, str_NJ2, str_NYI2, str_NYR2, str_OTT2, str_PHI2
+global str_PIT2, str_QUE2, str_STL2, str_SJ2, str_TB2, str_TOR2, str_VAN2, str_WSH2
+global str_WPG2, str_ASW2, str_ASE2, str_Anaheim, str_Boston, str_Buffalo, str_Calgary, str_Chicago
+global str_Dallas, str_Detroit, str_Edmonton, str_Florida, str_Hartford, str_LosAngeles, str_Montreal, str_NewJersey
+global str_NewYork, str_Ottawa, str_Philadelphia, str_Pittsburgh, str_Quebec, str_StLouis, str_SanJose, str_TampaBay
+global str_Toronto, str_Vancouver, str_Washington, str_Winnipeg, str_Western, str_Eastern, str_AnaheimCalifornia, str_BostonMassachusetts
+global str_BuffaloNewYork, str_CalgaryAlberta, str_ChicagoIllinois, str_DallasTexas, str_DetroitMichigan, str_EdmontonAlberta, str_MiamiFlorida, str_HartfordConnecticut
+global str_InglewoodCalifornia, str_MontrealQuebec, str_EastRutherfordNJ, str_UniondaleNewYork, str_NewYorkNewYork, str_OttawaOntario, str_PhiladelphiaPA, str_PittsburghPA
+global str_QuebecCityQuebec, str_StLouisMissouri, str_SanJoseCalifornia, str_TampaFlorida, str_TorontoOntario, str_VancouverBC, str_LandoverMaryland, str_WinnipegManitoba
+global str_MightyDucks2, str_Bruins, str_Sabres, str_Flames, str_Blackhawks, str_Stars, str_RedWings, str_Oilers
+global str_Panthers, str_Whalers, str_Kings, str_Canadiens, str_Devils, str_Islanders, str_Rangers, str_Senators
+global str_Flyers, str_Penguins, str_Nordiques, str_Blues, str_Sharks, str_Lightning, str_MapleLeafs, str_Canucks
+global str_Capitals, str_Jets, str_AllStars
+str_Pal11:
 db 021h,070h,061h,06Ch,00h
-asc_111881:
+str_Bkgd5:
 db 062h,06Bh,067h,064h,00h
-asc_111886:
+str_Bt013:
 db 062h,074h,030h,031h,00h
-asc_11188B:
+str_Bt023:
 db 062h,074h,030h,032h,00h
-asc_111890:
+str_Bt102:
 db 062h,074h,031h,030h,00h
-asc_111895:
+str_Bt112:
 db 062h,074h,031h,031h,00h
-asc_11189A:
+str_Bt19:
 db 062h,074h,031h,039h,00h
-asc_11189F:
+str_Bt20:
 db 062h,074h,032h,030h,00h
-asc_1118A4:
+str_Bt28:
 db 062h,074h,032h,038h,00h
-asc_1118A9:
+str_Bt29:
 db 062h,074h,032h,039h,00h
-asc_1118AE:
+str_Bb01:
 db 062h,062h,030h,031h,00h
-asc_1118B3:
+str_Bb02:
 db 062h,062h,030h,032h,00h
-asc_1118B8:
+str_Bb10:
 db 062h,062h,031h,030h,00h
-asc_1118BD:
+str_Bb11:
 db 062h,062h,031h,031h,00h
-asc_1118C2:
+str_Bb19:
 db 062h,062h,031h,039h,00h
-asc_1118C7:
+str_Bb20:
 db 062h,062h,032h,030h,00h
-asc_1118CC:
+str_Sta1:
 db 073h,074h,061h,031h,00h
-asc_1118D1:
+str_Sta2:
 db 073h,074h,061h,032h,00h
-asc_1118D6:
+str_Sta3:
 db 073h,074h,061h,033h,00h
-asc_1118DB:
+str_Use1:
 db 075h,073h,065h,031h,00h
-asc_1118E0:
+str_Use2:
 db 075h,073h,065h,032h,00h
-asc_1118E5:
+str_Use3:
 db 075h,073h,065h,033h,00h
-asc_1118EA:
+str_Opt1:
 db 06Fh,070h,074h,031h,00h
-asc_1118EF:
+str_Opt2:
 db 06Fh,070h,074h,032h,00h
-asc_1118F4:
+str_Opt3:
 db 06Fh,070h,074h,033h,00h
-asc_1118F9:
+str_Hig1:
 db 068h,069h,067h,031h,00h
-asc_1118FE:
+str_Hig2:
 db 068h,069h,067h,032h,00h
-asc_111903:
+str_Hig3:
 db 068h,069h,067h,033h,00h
-asc_111908:
+str_Bt02d:
 db 062h,074h,025h,030h,032h,064h,00h
-asc_11190F:
+str_Bb02d:
 db 062h,062h,025h,030h,032h,064h,00h
-asc_111916:
+str_LOCALNDX2:
 db 04Ch,04Fh,043h,041h,04Ch,02Eh,04Eh,044h,058h,00h
-asc_111920:
+str_HILITESNDX:
 db 048h,049h,04Ch,049h,054h,045h,053h,02Eh,04Eh,044h,058h,00h
-asc_11192C:
+str_SPEECHBUF:
 db 053h,050h,045h,045h,043h,048h,042h,055h,046h,00h,00h,00h
-asc_111938:
+str_TEMP:
 db 054h,045h,04Dh,050h,00h,00h,00h,00h
-asc_111940:
+str_5552362337:
 db 035h,035h,035h,032h,033h,036h,032h,033h,033h,037h,00h
-asc_11194B:
+str_ATF:
 db 041h,054h,020h,026h,046h,00h
-dword_111951:
+str_ATD2:
 db 041h,054h,044h,00h
-unk_111955:
+str_backslash:
 db 05Ch,00h,00h
-asc_111958:
+str_EXHIBITNDX:
 db 045h,058h,048h,049h,042h,049h,054h,02Eh,04Eh,044h,058h,00h
-unk_111964:
+str_ANA2:
 db 041h,04Eh,041h,00h
-unk_111968:
+str_BOS2:
 db 042h,04Fh,053h,00h
-unk_11196C:
+str_BUF4:
 db 042h,055h,046h,00h
-unk_111970:
+str_CGY2:
 db 043h,047h,059h,00h
-unk_111974:
+str_CHI2:
 db 043h,048h,049h,00h
-unk_111978:
+str_DAL2:
 db 044h,041h,04Ch,00h
-unk_11197C:
+str_DET2:
 db 044h,045h,054h,00h
-unk_111980:
+str_EDM2:
 db 045h,044h,04Dh,00h
-unk_111984:
+str_FLA2:
 db 046h,04Ch,041h,00h
-unk_111988:
+str_HFD2:
 db 048h,046h,044h,00h
-unk_11198C:
+str_LA2:
 db 04Ch,041h,00h
-unk_11198F:
+str_MTL2:
 db 04Dh,054h,04Ch,00h
-unk_111993:
+str_NJ2:
 db 04Eh,04Ah,00h
-unk_111996:
+str_NYI2:
 db 04Eh,059h,049h,00h
-unk_11199A:
+str_NYR2:
 db 04Eh,059h,052h,00h
-unk_11199E:
+str_OTT2:
 db 04Fh,054h,054h,00h
-unk_1119A2:
+str_PHI2:
 db 050h,048h,049h,00h
-unk_1119A6:
+str_PIT2:
 db 050h,049h,054h,00h
-unk_1119AA:
+str_QUE2:
 db 051h,055h,045h,00h
-unk_1119AE:
+str_STL2:
 db 053h,054h,04Ch,00h
-unk_1119B2:
+str_SJ2:
 db 053h,04Ah,00h
-unk_1119B5:
+str_TB2:
 db 054h,042h,00h
-unk_1119B8:
+str_TOR2:
 db 054h,04Fh,052h,00h
-unk_1119BC:
+str_VAN2:
 db 056h,041h,04Eh,00h
-unk_1119C0:
+str_WSH2:
 db 057h,053h,048h,00h
-unk_1119C4:
+str_WPG2:
 db 057h,050h,047h,00h
-unk_1119C8:
+str_ASW2:
 db 041h,053h,057h,00h
-unk_1119CC:
+str_ASE2:
 db 041h,053h,045h,00h
-unk_1119D0:
+str_Anaheim:
 db 041h,06Eh,061h,068h,065h,069h,06Dh,00h
-unk_1119D8:
+str_Boston:
 db 042h,06Fh,073h,074h,06Fh,06Eh,00h
-unk_1119DF:
+str_Buffalo:
 db 042h,075h,066h,066h,061h,06Ch,06Fh,00h
-unk_1119E7:
+str_Calgary:
 db 043h,061h,06Ch,067h,061h,072h,079h,00h
-unk_1119EF:
+str_Chicago:
 db 043h,068h,069h,063h,061h,067h,06Fh,00h
-unk_1119F7:
+str_Dallas:
 db 044h,061h,06Ch,06Ch,061h,073h,00h
-unk_1119FE:
+str_Detroit:
 db 044h,065h,074h,072h,06Fh,069h,074h,00h
-unk_111A06:
+str_Edmonton:
 db 045h,064h,06Dh,06Fh,06Eh,074h,06Fh,06Eh,00h
-unk_111A0F:
+str_Florida:
 db 046h,06Ch,06Fh,072h,069h,064h,061h,00h
-unk_111A17:
+str_Hartford:
 db 048h,061h,072h,074h,066h,06Fh,072h,064h,00h
-unk_111A20:
+str_LosAngeles:
 db 04Ch,06Fh,073h,020h,041h,06Eh,067h,065h,06Ch,065h,073h,00h
-unk_111A2C:
+str_Montreal:
 db 04Dh,06Fh,06Eh,074h,072h,065h,061h,06Ch,00h
-unk_111A35:
+str_NewJersey:
 db 04Eh,065h,077h,020h,04Ah,065h,072h,073h,065h,079h,00h
-unk_111A40:
+str_NewYork:
 db 04Eh,065h,077h,020h,059h,06Fh,072h,06Bh,00h
-unk_111A49:
+str_Ottawa:
 db 04Fh,074h,074h,061h,077h,061h,00h
-unk_111A50:
+str_Philadelphia:
 db 050h,068h,069h,06Ch,061h,064h,065h,06Ch,070h,068h,069h,061h,00h
-unk_111A5D:
+str_Pittsburgh:
 db 050h,069h,074h,074h,073h,062h,075h,072h,067h,068h,00h
-unk_111A68:
+str_Quebec:
 db 051h,075h,065h,062h,065h,063h,00h
-unk_111A6F:
+str_StLouis:
 db 053h,074h,020h,04Ch,06Fh,075h,069h,073h,00h
-unk_111A78:
+str_SanJose:
 db 053h,061h,06Eh,020h,04Ah,06Fh,073h,065h,00h
-unk_111A81:
+str_TampaBay:
 db 054h,061h,06Dh,070h,061h,020h,042h,061h,079h,00h
-unk_111A8B:
+str_Toronto:
 db 054h,06Fh,072h,06Fh,06Eh,074h,06Fh,00h
-unk_111A93:
+str_Vancouver:
 db 056h,061h,06Eh,063h,06Fh,075h,076h,065h,072h,00h
-unk_111A9D:
+str_Washington:
 db 057h,061h,073h,068h,069h,06Eh,067h,074h,06Fh,06Eh,00h
-unk_111AA8:
+str_Winnipeg:
 db 057h,069h,06Eh,06Eh,069h,070h,065h,067h,00h
-unk_111AB1:
+str_Western:
 db 057h,065h,073h,074h,065h,072h,06Eh,00h
-unk_111AB9:
+str_Eastern:
 db 045h,061h,073h,074h,065h,072h,06Eh,00h
-unk_111AC1:
+str_AnaheimCalifornia:
 db 041h,06Eh,061h,068h,065h,069h,06Dh,02Ch,020h,043h,061h,06Ch,069h,066h,06Fh,072h
 db 06Eh,069h,061h,00h
-unk_111AD5:
+str_BostonMassachusetts:
 db 042h,06Fh,073h,074h,06Fh,06Eh,02Ch,020h,04Dh,061h,073h,073h,061h,063h,068h,075h
 db 073h,065h,074h,074h,073h,00h
-unk_111AEB:
+str_BuffaloNewYork:
 db 042h,075h,066h,066h,061h,06Ch,06Fh,02Ch,020h,04Eh,065h,077h,020h,059h,06Fh,072h
 db 06Bh,00h
-unk_111AFD:
+str_CalgaryAlberta:
 db 043h,061h,06Ch,067h,061h,072h,079h,02Ch,020h,041h,06Ch,062h,065h,072h,074h,061h
 db 00h
-unk_111B0E:
+str_ChicagoIllinois:
 db 043h,068h,069h,063h,061h,067h,06Fh,02Ch,020h,049h,06Ch,06Ch,069h,06Eh,06Fh,069h
 db 073h,00h
-unk_111B20:
+str_DallasTexas:
 db 044h,061h,06Ch,06Ch,061h,073h,02Ch,020h,054h,065h,078h,061h,073h,00h
-unk_111B2E:
+str_DetroitMichigan:
 db 044h,065h,074h,072h,06Fh,069h,074h,02Ch,020h,04Dh,069h,063h,068h,069h,067h,061h
 db 06Eh,00h
-unk_111B40:
+str_EdmontonAlberta:
 db 045h,064h,06Dh,06Fh,06Eh,074h,06Fh,06Eh,02Ch,020h,041h,06Ch,062h,065h,072h,074h
 db 061h,00h
-unk_111B52:
+str_MiamiFlorida:
 db 04Dh,069h,061h,06Dh,069h,02Ch,020h,046h,06Ch,06Fh,072h,069h,064h,061h,00h
-unk_111B61:
+str_HartfordConnecticut:
 db 048h,061h,072h,074h,066h,06Fh,072h,064h,02Ch,020h,043h,06Fh,06Eh,06Eh,065h,063h
 db 074h,069h,063h,075h,074h,00h
-unk_111B77:
+str_InglewoodCalifornia:
 db 049h,06Eh,067h,06Ch,065h,077h,06Fh,06Fh,064h,02Ch,020h,043h,061h,06Ch,069h,066h
 db 06Fh,072h,06Eh,069h,061h,00h
-unk_111B8D:
+str_MontrealQuebec:
 db 04Dh,06Fh,06Eh,074h,072h,065h,061h,06Ch,02Ch,020h,051h,075h,065h,062h,065h,063h
 db 00h
-unk_111B9E:
+str_EastRutherfordNJ:
 db 045h,061h,073h,074h,020h,052h,075h,074h,068h,065h,072h,066h,06Fh,072h,064h,02Ch
 db 020h,04Eh,02Eh,04Ah,02Eh,00h
-unk_111BB4:
+str_UniondaleNewYork:
 db 055h,06Eh,069h,06Fh,06Eh,064h,061h,06Ch,065h,02Ch,020h,04Eh,065h,077h,020h,059h
 db 06Fh,072h,06Bh,00h
-unk_111BC8:
+str_NewYorkNewYork:
 db 04Eh,065h,077h,020h,059h,06Fh,072h,06Bh,02Ch,020h,04Eh,065h,077h,020h,059h,06Fh
 db 072h,06Bh,00h
-unk_111BDB:
+str_OttawaOntario:
 db 04Fh,074h,074h,061h,077h,061h,02Ch,020h,04Fh,06Eh,074h,061h,072h,069h,06Fh,00h
-unk_111BEB:
+str_PhiladelphiaPA:
 db 050h,068h,069h,06Ch,061h,064h,065h,06Ch,070h,068h,069h,061h,02Ch,020h,050h,041h
 db 00h
-unk_111BFC:
+str_PittsburghPA:
 db 050h,069h,074h,074h,073h,062h,075h,072h,067h,068h,02Ch,020h,050h,041h,00h
-unk_111C0B:
+str_QuebecCityQuebec:
 db 051h,075h,065h,062h,065h,063h,020h,043h,069h,074h,079h,02Ch,020h,051h,075h,065h
 db 062h,065h,063h,00h
-unk_111C1F:
+str_StLouisMissouri:
 db 053h,074h,02Eh,020h,04Ch,06Fh,075h,069h,073h,02Ch,020h,04Dh,069h,073h,073h,06Fh
 db 075h,072h,069h,00h
-unk_111C33:
+str_SanJoseCalifornia:
 db 053h,061h,06Eh,020h,04Ah,06Fh,073h,065h,02Ch,020h,043h,061h,06Ch,069h,066h,06Fh
 db 072h,06Eh,069h,061h,00h
-unk_111C48:
+str_TampaFlorida:
 db 054h,061h,06Dh,070h,061h,02Ch,020h,046h,06Ch,06Fh,072h,069h,064h,061h,00h
-unk_111C57:
+str_TorontoOntario:
 db 054h,06Fh,072h,06Fh,06Eh,074h,06Fh,02Ch,020h,04Fh,06Eh,074h,061h,072h,069h,06Fh
 db 00h
-unk_111C68:
+str_VancouverBC:
 db 056h,061h,06Eh,063h,06Fh,075h,076h,065h,072h,02Ch,020h,042h,02Eh,043h,02Eh,00h
-unk_111C78:
+str_LandoverMaryland:
 db 04Ch,061h,06Eh,064h,06Fh,076h,065h,072h,02Ch,020h,04Dh,061h,072h,079h,06Ch,061h
 db 06Eh,064h,00h
-unk_111C8B:
+str_WinnipegManitoba:
 db 057h,069h,06Eh,06Eh,069h,070h,065h,067h,02Ch,020h,04Dh,061h,06Eh,069h,074h,06Fh
 db 062h,061h,00h
-unk_111C9E:
+str_MightyDucks2:
 db 04Dh,069h,067h,068h,074h,079h,020h,044h,075h,063h,06Bh,073h,00h
-unk_111CAB:
+str_Bruins:
 db 042h,072h,075h,069h,06Eh,073h,00h
-unk_111CB2:
+str_Sabres:
 db 053h,061h,062h,072h,065h,073h,00h
-unk_111CB9:
+str_Flames:
 db 046h,06Ch,061h,06Dh,065h,073h,00h
-unk_111CC0:
+str_Blackhawks:
 db 042h,06Ch,061h,063h,06Bh,068h,061h,077h,06Bh,073h,00h
-unk_111CCB:
+str_Stars:
 db 053h,074h,061h,072h,073h,00h
-unk_111CD1:
+str_RedWings:
 db 052h,065h,064h,020h,057h,069h,06Eh,067h,073h,00h
-unk_111CDB:
+str_Oilers:
 db 04Fh,069h,06Ch,065h,072h,073h,00h
-unk_111CE2:
+str_Panthers:
 db 050h,061h,06Eh,074h,068h,065h,072h,073h,00h
-unk_111CEB:
+str_Whalers:
 db 057h,068h,061h,06Ch,065h,072h,073h,00h
-unk_111CF3:
+str_Kings:
 db 04Bh,069h,06Eh,067h,073h,00h
-unk_111CF9:
+str_Canadiens:
 db 043h,061h,06Eh,061h,064h,069h,065h,06Eh,073h,00h
-unk_111D03:
+str_Devils:
 db 044h,065h,076h,069h,06Ch,073h,00h
-unk_111D0A:
+str_Islanders:
 db 049h,073h,06Ch,061h,06Eh,064h,065h,072h,073h,00h
-unk_111D14:
+str_Rangers:
 db 052h,061h,06Eh,067h,065h,072h,073h,00h
-unk_111D1C:
+str_Senators:
 db 053h,065h,06Eh,061h,074h,06Fh,072h,073h,00h
-unk_111D25:
+str_Flyers:
 db 046h,06Ch,079h,065h,072h,073h,00h
-unk_111D2C:
+str_Penguins:
 db 050h,065h,06Eh,067h,075h,069h,06Eh,073h,00h
-unk_111D35:
+str_Nordiques:
 db 04Eh,06Fh,072h,064h,069h,071h,075h,065h,073h,00h
-unk_111D3F:
+str_Blues:
 db 042h,06Ch,075h,065h,073h,00h
-unk_111D45:
+str_Sharks:
 db 053h,068h,061h,072h,06Bh,073h,00h
-unk_111D4C:
+str_Lightning:
 db 04Ch,069h,067h,068h,074h,06Eh,069h,06Eh,067h,00h
-unk_111D56:
+str_MapleLeafs:
 db 04Dh,061h,070h,06Ch,065h,020h,04Ch,065h,061h,066h,073h,00h
-unk_111D62:
+str_Canucks:
 db 043h,061h,06Eh,075h,063h,06Bh,073h,00h
-unk_111D6A:
+str_Capitals:
 db 043h,061h,070h,069h,074h,061h,06Ch,073h,00h
-unk_111D73:
+str_Jets:
 db 04Ah,065h,074h,073h,00h
-unk_111D78:
+str_AllStars:
 db 041h,06Ch,06Ch,020h,053h,074h,061h,072h,073h,00h,00h,00h

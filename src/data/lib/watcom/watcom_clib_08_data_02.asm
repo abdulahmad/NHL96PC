@@ -5,8 +5,8 @@ section s_123BB0 progbits alloc noexec write align=1
 extern sub_C187A, sub_C187C, sub_C187D, sub_C1882, sub_CE3B6, sub_CE5D5, sub_CE60C, sub_CE647
 extern sub_CE65F, sub_CE90E, sub_CE980, sub_CE9D9, sub_CEA10, sub_CEA28, sub_CEA3B, sub_CEB8D
 extern sub_CEC0A, sub_CEC45, sub_CEC5D, sub_CEDDE, sub_CEFEE, sub_CF025, sub_CF060, sub_CF078
-extern sub_CF2D8, sub_CF4CD, sub_CF534, sub_CF56F, sub_CF587, unk_113D08, unk_113D81, unk_113D93
-extern unk_113DA4, unk_113DB5, unk_113DC6, unk_113DDB, unk_113DF0, unk_113E00, unk_113E12
+extern sub_CF2D8, sub_CF4CD, sub_CF534, sub_CF56F, sub_CF587, str_spEACSNDFLIB32BitSoundLibr, str_NoCardInstalled, str_SoundBlaster10
+extern str_SoundBlaster15, str_SoundBlaster20, str_SoundBlasterPro10, str_SoundBlasterPro20, str_SoundBlaster16, str_GravisUltraSound, str_WindowsSoundSystem
 global byte_123BB8, byte_123C04, byte_123C05, byte_123C22, dword_123BB0, dword_123BB4, dword_123BB9, dword_123BBD
 global dword_123BC1, dword_123BC5, dword_123BCC, dword_123BD0, dword_123BD4, dword_123BD8, dword_123BDC, dword_123BE0
 global dword_123BE4, dword_123BE8, dword_123BEC, dword_123BF0, dword_123C06, dword_123C0A, dword_123C0E, dword_123C12
@@ -125,7 +125,7 @@ dd sub_CF4CD
 dd sub_CF534
 dd sub_CF56F
 dd sub_CF587
-dd unk_113D08
+dd str_spEACSNDFLIB32BitSoundLibr
 dword_123D5C:
 db 00h,00h,00h,00h
 dword_123D60:
@@ -133,23 +133,23 @@ db 00h,00h,00h,00h
 dword_123D64:
 db 00h,00h,00h,00h
 off_123D68:
-dd unk_113D81
+dd str_NoCardInstalled
 off_123D6C:
-dd unk_113D93
+dd str_SoundBlaster10
 off_123D70:
-dd unk_113DA4
+dd str_SoundBlaster15
 off_123D74:
-dd unk_113DB5
+dd str_SoundBlaster20
 off_123D78:
-dd unk_113DC6
+dd str_SoundBlasterPro10
 off_123D7C:
-dd unk_113DDB
+dd str_SoundBlasterPro20
 off_123D80:
-dd unk_113DF0
+dd str_SoundBlaster16
 off_123D84:
-dd unk_113E00
+dd str_GravisUltraSound
 off_123D88:
-dd unk_113E12
+dd str_WindowsSoundSystem
 dword_123D8C:
 db 00h,00h,00h,00h
 dword_123D90:

@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_D59DB progbits alloc exec nowrite align=1
-extern _IsTable, __set_errno_, _dos_getvect_, _dos_setvect_, asc_1142B8, byte_100000, byte_100004, byte_100008
+extern _IsTable, __set_errno_, _dos_getvect_, _dos_setvect_, str_RMHandler, byte_100000, byte_100004, byte_100008
 extern byte_10000C, byte_100010, byte_100014, byte_1512F0, byte_1512F8, byte_151300, byte_151308, byte_151310
 extern byte_151318, byte_1A1190, byte_1A1191, byte_1A1192, byte_1A1193, dword_151320, dword_1A0FB8, dword_1A0FC0
 extern dword_1A1188, dword_1A118C, dword_1A1194, dword_1A1198, int386_, sub_AB798, sub_ABF4C, tolower_
@@ -772,7 +772,7 @@ mov edx, dword [byte ebp+010h]	; D6067
 mov dword [ecx], eax	; D606A
 push dword [byte ebp+014h]	; D606C
 mov eax, dword [byte ebp-018h]	; D606F
-push asc_1142B8	; D6072
+push str_RMHandler	; D6072
 mov dword [edx], eax	; D6077
 call sub_AB798	; D6079
 mov dword [byte ebp-08h], eax	; D607E

@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_D14D1 progbits alloc exec nowrite align=1
-extern FatalError, asc_1141B4, asc_1141F0, asc_114230, asc_11426C, byte_122794, dword_1228D8, dword_1228DC
+extern FatalError, asc_1141B4, str_BuildfixedtableminLinear, str_BuildtableminLinearmapfE, str_BuildtableminLinearmapfE2, byte_122794, dword_1228D8, dword_1228DC
 extern dword_1228E0, dword_1228E4, dword_1228F8, dword_1228FC, sub_C9AD8, sub_D284C, sub_D2AAA, sub_D2AB0
 extern sub_D2AB6, sub_D2ABC, sub_D2AC2, sub_D2ACA, sub_D2AD0, sub_D2AD6, sub_D2ADC, sub_D2AE4
 extern sub_D2AEC, sub_D2AF4, sub_D2AFC, sub_D2B06, sub_D2B10, sub_D2B18, sub_D2B20, sub_D2B29
@@ -348,14 +348,14 @@ add ebp, ebx	; D1A3E
 cmp esi, 300h	; D1A40
 jle short loc_D1A56	; D1A46
 push esi	; D1A48
-push asc_1141F0	; D1A49
+push str_BuildfixedtableminLinear	; D1A49
 call FatalError	; D1A4E
 add esp, byte 8	; D1A53
 loc_D1A56:
 cmp esi, 300h	; D1A56
 jle short loc_D1A6C	; D1A5C
 push esi	; D1A5E
-push asc_114230	; D1A5F
+push str_BuildtableminLinearmapfE	; D1A5F
 call FatalError	; D1A64
 add esp, byte 8	; D1A69
 loc_D1A6C:
@@ -425,7 +425,7 @@ add ebp, ebx	; D1B0A
 cmp esi, 300h	; D1B0C
 jle short loc_D1B22	; D1B12
 push esi	; D1B14
-push asc_11426C	; D1B15
+push str_BuildtableminLinearmapfE2	; D1B15
 call FatalError	; D1B1A
 add esp, byte 8	; D1B1F
 loc_D1B22:

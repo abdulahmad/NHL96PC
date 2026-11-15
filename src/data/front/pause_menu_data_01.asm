@@ -2,105 +2,105 @@
 bits 32
 %include "hockey.inc"
 section s_111D84 progbits alloc noexec write align=1
-global asc_111D84, asc_111D89, asc_111D8E, asc_111D93, asc_111D98, asc_111D9D, asc_111DA2, asc_111DA7
-global asc_111DAF, asc_111DB4, asc_111DB9, asc_111DBE, asc_111DC3, asc_111DC8, asc_111DCD, asc_111DD5
-global asc_111DDA, asc_111DDF, asc_111DE4, asc_111DE9, asc_111DEE, asc_111DF3, asc_111DF8, asc_111DFD
-global asc_111E02, asc_111E07, asc_111E13, asc_111E18, asc_111E1D, asc_111E25, asc_111E2A, asc_111E2F
-global asc_111E34, asc_111E39, asc_111E3E, asc_111E44, asc_111E49, asc_111E4E, asc_111E54, asc_111E5A
-global asc_111E60, asc_111E66, asc_111E6C, asc_111E72, asc_111E78, asc_111E7E, asc_111E83, unk_111DAC
-asc_111D84:
+global str_Qui02, str_Ret02, str_Rep0, str_Ctr02, str_Sts02, str_Edt02, str_Sav02, str_Cht02
+global str_Paus, str_Sid12, str_Sid22, str_Bot12, str_Bot22, str_Bot32, str_PAUSREG, str_Qui12
+global str_Qui22, str_Ret12, str_Ret22, str_Cht12, str_Edt12, str_Rep1, str_Ctr12, str_Sts12
+global str_Sav12, str_EXHIBITNDX3, str_08d3, str_05d4, str_CsgDb3, str_FhiL5, str_FhiR5, str_GloL3
+global str_GloR3, str_GhiL3, str_GhiR3, str_Log7, str_Logx, str_PlyD, str_MseD2, str_Jy1D
+global str_Jy2D, str_Jy3D, str_Jy4D, str_KeyD2, str_MdmD, str_P11, str_P21, str_D16
+str_Qui02:
 db 071h,075h,069h,030h,00h
-asc_111D89:
+str_Ret02:
 db 072h,065h,074h,030h,00h
-asc_111D8E:
+str_Rep0:
 db 072h,065h,070h,030h,00h
-asc_111D93:
+str_Ctr02:
 db 063h,074h,072h,030h,00h
-asc_111D98:
+str_Sts02:
 db 073h,074h,073h,030h,00h
-asc_111D9D:
+str_Edt02:
 db 065h,064h,074h,030h,00h
-asc_111DA2:
+str_Sav02:
 db 073h,061h,076h,030h,00h
-asc_111DA7:
+str_Cht02:
 db 063h,068h,074h,030h,00h
-unk_111DAC:
+str_D16:
 db 025h,064h,00h
-asc_111DAF:
+str_Paus:
 db 070h,061h,075h,073h,00h
-asc_111DB4:
+str_Sid12:
 db 073h,069h,064h,031h,00h
-asc_111DB9:
+str_Sid22:
 db 073h,069h,064h,032h,00h
-asc_111DBE:
+str_Bot12:
 db 062h,06Fh,074h,031h,00h
-asc_111DC3:
+str_Bot22:
 db 062h,06Fh,074h,032h,00h
-asc_111DC8:
+str_Bot32:
 db 062h,06Fh,074h,033h,00h
-asc_111DCD:
+str_PAUSREG:
 db 050h,041h,055h,053h,052h,045h,047h,00h
-asc_111DD5:
+str_Qui12:
 db 071h,075h,069h,031h,00h
-asc_111DDA:
+str_Qui22:
 db 071h,075h,069h,032h,00h
-asc_111DDF:
+str_Ret12:
 db 072h,065h,074h,031h,00h
-asc_111DE4:
+str_Ret22:
 db 072h,065h,074h,032h,00h
-asc_111DE9:
+str_Cht12:
 db 063h,068h,074h,031h,00h
-asc_111DEE:
+str_Edt12:
 db 065h,064h,074h,031h,00h
-asc_111DF3:
+str_Rep1:
 db 072h,065h,070h,031h,00h
-asc_111DF8:
+str_Ctr12:
 db 063h,074h,072h,031h,00h
-asc_111DFD:
+str_Sts12:
 db 073h,074h,073h,031h,00h
-asc_111E02:
+str_Sav12:
 db 073h,061h,076h,031h,00h
-asc_111E07:
+str_EXHIBITNDX3:
 db 045h,058h,048h,049h,042h,049h,054h,02Eh,04Eh,044h,058h,00h
-asc_111E13:
+str_08d3:
 db 025h,030h,038h,064h,00h
-asc_111E18:
+str_05d4:
 db 025h,030h,035h,064h,00h
-asc_111E1D:
+str_CsgDb3:
 db 025h,063h,073h,067h,02Eh,064h,062h,00h
-asc_111E25:
+str_FhiL5:
 db 046h,068h,069h,04Ch,00h
-asc_111E2A:
+str_FhiR5:
 db 046h,068h,069h,052h,00h
-asc_111E2F:
+str_GloL3:
 db 047h,06Ch,06Fh,04Ch,00h
-asc_111E34:
+str_GloR3:
 db 047h,06Ch,06Fh,052h,00h
-asc_111E39:
+str_GhiL3:
 db 047h,068h,069h,04Ch,00h
-asc_111E3E:
+str_GhiR3:
 db 047h,068h,069h,052h,00h,00h
-asc_111E44:
+str_Log7:
 db 06Ch,06Fh,067h,037h,00h
-asc_111E49:
+str_Logx:
 db 06Ch,06Fh,067h,078h,00h
-asc_111E4E:
+str_PlyD:
 db 070h,06Ch,079h,025h,064h,00h
-asc_111E54:
+str_MseD2:
 db 06Dh,073h,065h,025h,064h,00h
-asc_111E5A:
+str_Jy1D:
 db 06Ah,079h,031h,025h,064h,00h
-asc_111E60:
+str_Jy2D:
 db 06Ah,079h,032h,025h,064h,00h
-asc_111E66:
+str_Jy3D:
 db 06Ah,079h,033h,025h,064h,00h
-asc_111E6C:
+str_Jy4D:
 db 06Ah,079h,034h,025h,064h,00h
-asc_111E72:
+str_KeyD2:
 db 06Bh,065h,079h,025h,064h,00h
-asc_111E78:
+str_MdmD:
 db 06Dh,064h,06Dh,025h,064h,00h
-asc_111E7E:
+str_P11:
 db 070h,031h,05Fh,031h,00h
-asc_111E83:
+str_P21:
 db 070h,032h,05Fh,031h,00h

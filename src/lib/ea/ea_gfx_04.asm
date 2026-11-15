@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_B7410 progbits alloc exec nowrite align=1
-extern _os_handle_0, _os_handle_1, sub_ABF4C, sub_AC470, sub_AC9B8, sub_AFB88, sub_B75A0, sub_E0520
+extern _os_handle_0, _os_handle_1, sub_ABF4C, sub_AC470, sub_AC9B8, unpack, sub_B75A0, sub_E0520
 extern sub_E0671, sub_E07B8, sub_E07CC
 global loc_B7448, loc_B748B, loc_B748E, loc_B7503, loc_B7533, loc_B753F, loc_B7595, sub_B7410
 global sub_B7498, sub_B74B0, sub_B74D0
@@ -157,7 +157,7 @@ push byte 0	; B7577
 mov ebp, dword [byte esp+024h]	; B7579
 push ebp	; B757D
 push esi	; B757E
-call sub_AFB88	; B757F
+call unpack	; B757F
 add esp, byte 0Ch	; B7584
 mov eax, dword [esp]	; B7587
 push eax	; B758A

@@ -4,7 +4,7 @@ bits 32
 section s_152920 nobits alloc noexec write align=1
 global byte_152920, byte_152921, byte_152922, byte_152923, byte_15292C, byte_15292D, byte_15292E, byte_15292F
 global byte_15293A, byte_152A44, byte_152C3B, byte_152C40, byte_152C41, byte_152C42, byte_157166, byte_157191
-global byte_157192, byte_157193, byte_157640, byte_157B95, byte_157DA2, byte_157FD2, byte_158646, byte_15864E
+global hmrosterpos, byte_157193, byte_157640, byte_157B95, byte_157DA2, byte_157FD2, byte_158646, byte_15864E
 global byte_15864F, byte_158650, byte_158651, byte_158652, curperiod, dword_152A6C, dword_152AD4, dword_152C3C
 global dword_152F44, dword_152F48, dword_152F4C, dword_152F50, dword_152F54, dword_152F58, dword_152F5C, dword_152F60
 global dword_152F64, dword_152F68, dword_152F6C, dword_152F70, dword_152F74, dword_152F78, dword_152F7C, dword_152F80
@@ -168,7 +168,7 @@ hmroster:
 resb 5
 byte_157191:
 resb 1
-byte_157192:
+hmrosterpos:
 resb 1
 byte_157193:
 resb 32

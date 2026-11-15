@@ -4,8 +4,8 @@ bits 32
 section s_C4EA1 progbits alloc exec nowrite align=1
 extern FatalError, InstallTimer, SetDrawBitmap, _IsTable, __CHK, __ExpandDGROUP_, __flush_, __int386x_
 extern __ioalloc_, __prtf_, __set_doserrno_, __set_errno_, _nfree_, _nmalloc_, _searchenv_, abs_
-extern asc_113EE0, asc_113F04, asc_113F2C, asc_113F44, asc_113F68, asc_113F74, asc_113F7C, asc_113F88
-extern asc_113F90, asc_114004, asc_114030, asc_114058, asc_11407C, asc_1140A0, asc_1140C4, byte_122794
+extern str_CalibrateYourJoystickByU, str_ToMoveTheJoystickPositio, asc_113F2C, str_PressJoystickButtonWhenC, str_KEYBOARDON, asc_113F74, asc_113F7C, asc_113F88
+extern str_CheckextenderINCORRECTEX, str_LocatebigNOBIGFILESETNUL, asc_114030, str_LocatebigsFILENOTFOUNDS, asc_11407C, asc_1140A0, str_OriapplymorphObjectCanno, byte_122794
 extern byte_12442A, byte_12442B, byte_124433, byte_19BA44, dword_11F5A0, dword_11F5A4, dword_11F5C0, dword_11F5C4
 extern dword_11F5C8, dword_11F8E8, dword_1210CC, dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4, dword_1228F4
 extern dword_1228F8, dword_1228FC, dword_124109, dword_124124, dword_124178, dword_12417C, dword_1241A0, dword_124414
@@ -13,7 +13,7 @@ extern dword_124418, dword_12443C, dword_124440, dword_19F2D0, dword_19F2D4, dwo
 extern exit_, fputc_, getcwd_, joycalactive, joyenablemask, loc_E185F, main_, off_14F074
 extern off_14F078, sprintf_, stricmp_, sub_AA9CC, sub_AC838, sub_AD35C, sub_AD680, sub_ADBEC
 extern sub_AFFD0, sub_B0254, sub_B026C, sub_B0284, sub_B2C54, sub_B30E4, sub_B3145, sub_B31C0
-extern sub_B7810, sub_B9C08, sub_B9C70, sub_BD86C, sub_BEAE4, sub_BF534, sub_C2AEC, sub_C4CCC
+extern sub_B7810, sub_B9C08, sub_B9C70, sub_BD86C, sub_BEAE4, initgraphics, sub_C2AEC, sub_C4CCC
 extern sub_C4D80, sub_CA6E0, sub_D0650, sub_D0692, sub_D069B, sub_D06FC, sub_D077C, sub_D1080
 extern sub_D1280, sub_D1368, sub_D1860, sub_D1920, sub_D19BC, sub_D1A88, sub_D1B3C, sub_D1BEC
 extern sub_D1CE0, sub_DD6C4, sub_DD760, sub_DD830, sub_DD87C, sub_DD960, sub_DD982, sub_DDB22
@@ -767,7 +767,7 @@ sar edx, 1Fh	; C55B1
 idiv ebx	; C55B4
 add esp, byte 8	; C55B6
 push eax	; C55B9
-push asc_113EE0	; C55BA
+push str_CalibrateYourJoystickByU	; C55BA
 call sub_D0650	; C55BF
 mov edx, dword [dword_11F5C4]	; C55C4
 lea eax, [nosplit edx*4+00h]	; C55CA
@@ -781,7 +781,7 @@ sar edx, 1Fh	; C55E1
 idiv ebx	; C55E4
 add esp, byte 8	; C55E6
 push eax	; C55E9
-push asc_113F04	; C55EA
+push str_ToMoveTheJoystickPositio	; C55EA
 call sub_D0650	; C55EF
 mov edx, dword [dword_11F5C4]	; C55F4
 lea eax, [nosplit edx*8+00h]	; C55FA
@@ -803,7 +803,7 @@ sar edx, 1Fh	; C5633
 idiv ebx	; C5636
 add esp, byte 8	; C5638
 push eax	; C563B
-push asc_113F44	; C563C
+push str_PressJoystickButtonWhenC	; C563C
 call sub_D0650	; C5641
 add esp, byte 8	; C5646
 push dword 3FFFFFCh	; C5649
@@ -1101,7 +1101,7 @@ db 00h
 sub_C59E0:
 push byte 8	; C59E0
 xor edx, edx	; C59E2
-push asc_113F68	; C59E4
+push str_KEYBOARDON	; C59E4
 mov dword [joyenablemask], edx	; C59E9
 call sub_C2AEC	; C59EF
 add esp, byte 8	; C59F4
@@ -1282,7 +1282,7 @@ push dword 40CCCh	; C5B7B
 push eax	; C5B80
 lea eax, [byte esp+08h]	; C5B81
 push eax	; C5B85
-push asc_113F90	; C5B86
+push str_CheckextenderINCORRECTEX	; C5B86
 call FatalError	; C5B8B
 add esp, byte 10h	; C5B90
 loc_C5B93:
@@ -1332,7 +1332,7 @@ mov edi, dword [dword_11F5C4]	; C5C0F
 push edi	; C5C15
 mov ebp, dword [dword_11F5C0]	; C5C16
 push ebp	; C5C1C
-call sub_BF534	; C5C1D
+call initgraphics	; C5C1D
 add esp, byte 0Ch	; C5C22
 loc_C5C25:
 push unk_1210DC	; C5C25
@@ -1781,7 +1781,7 @@ test eax, eax	; C6095
 jne short loc_C60A4	; C6097
 test edx, edx	; C6099
 je short loc_C60E5	; C609B
-push asc_114004	; C609D
+push str_LocatebigNOBIGFILESETNUL	; C609D
 jmp short loc_C60DD	; C60A2
 loc_C60A4:
 mov ecx, 2	; C60A4
@@ -2063,7 +2063,7 @@ jne short loc_C633F	; C6328
 cmp dword [byte esp+020h], byte 0	; C632A
 je short loc_C633F	; C632F
 push edi	; C6331
-push asc_114058	; C6332
+push str_LocatebigsFILENOTFOUNDS	; C6332
 call FatalError	; C6337
 add esp, byte 8	; C633C
 loc_C633F:
@@ -7540,7 +7540,7 @@ mov dl, byte [byte eax+010h]	; CA428
 mov ebp, dword [byte ebp+08h]	; CA42B
 test dl, 10h	; CA42E
 jne short loc_CA440	; CA431
-push asc_1140C4	; CA433
+push str_OriapplymorphObjectCanno	; CA433
 call FatalError	; CA438
 add esp, byte 4	; CA43D
 loc_CA440:

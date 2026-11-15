@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_11E2D4 progbits alloc noexec write align=1
-extern unk_112178, unk_11217C, unk_112180, unk_112184, unk_112188, unk_11218C, unk_112190, unk_112194
-extern unk_112198, unk_11219C, unk_1121A0
+extern str_KEY, str_CAR, str_ATT2, str_CRT, str_TEM, str_SEA, str_SCH, str_SET
+extern str_INC, str_TRD, str_PLY
 global byte_11E3A0, byte_11E3A1, byte_11E3A8, byte_11E3A9, dword_11E2D4, dword_11E2EC, dword_11E304, dword_11E320
 global dword_11E39C, dword_11E4B8, dword_11E4C4, dword_11E514, off_11E370, unk_11E33C, unk_11E354, unk_11E3B6
 global unk_11E3F6, unk_11E436, unk_11E476, word_11E5FC
@@ -26,17 +26,17 @@ unk_11E354:
 db 063h,04h,063h,01h,063h,05h,00h,02h,063h,06h,01h,03h,063h,06h,02h,063h
 db 01h,063h,063h,05h,02h,063h,04h,06h,03h,063h,05h,063h
 off_11E370:
-dd unk_112178
-dd unk_11217C
-dd unk_112180
-dd unk_112184
-dd unk_112188
-dd unk_11218C
-dd unk_112190
-dd unk_112194
-dd unk_112198
-dd unk_11219C
-dd unk_1121A0
+dd str_KEY
+dd str_CAR
+dd str_ATT2
+dd str_CRT
+dd str_TEM
+dd str_SEA
+dd str_SCH
+dd str_SET
+dd str_INC
+dd str_TRD
+dd str_PLY
 dword_11E39C:
 db 0FFh,0FFh,0FFh,0FFh
 byte_11E3A0:

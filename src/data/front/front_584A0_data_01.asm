@@ -2,58 +2,58 @@
 bits 32
 %include "hockey.inc"
 section s_111008 progbits alloc noexec write align=1
-global asc_111008, asc_11100C, asc_111011, asc_11101A, asc_11101F, asc_111025, asc_11102B, asc_111031
-global asc_111037, asc_111040, asc_111049, asc_111056, asc_111064, asc_111069, asc_11106D, asc_111073
-global asc_1110C4, qword_111084, qword_11108C, qword_111094, qword_11109C, qword_1110A4, qword_1110AC, qword_1110B4
-global qword_1110BC, unk_111024, unk_111079, unk_11107B, unk_11107D, unk_11107F, unk_1110D0, unk_1110D5
-global unk_1110DA, unk_1110DF, unk_1110E4, unk_1110E9, unk_1110EE, unk_1110F3, unk_1110F8, unk_1110FD
-global unk_111102, unk_111107, unk_11110C, unk_111111, unk_111116, unk_11111B, unk_111120, unk_111125
-global unk_11112A, unk_11112F, unk_111134, unk_111139, unk_11113E, unk_111143, unk_111148, unk_11114D
-global unk_111152, unk_111157, unk_11115C, unk_111161, unk_111166, unk_11116B, unk_111170, unk_111175
-global unk_11117A, unk_11117F, unk_111184, unk_111189, unk_11118E, unk_111193, unk_111198, unk_11119D
-global unk_1111A2, unk_1111A7, unk_1111AC, unk_1111B1, unk_1111B6, unk_1111BB, unk_1111C0, unk_1111C5
-global unk_1111CA, unk_1111CF, unk_1111D4, unk_1111D9
+global asc_111008, str_Logo, str_Priority, str_B001, str_B000, str_DS, str_Goal0, str_Goal1
+global str_2d02d2, str_2d01d, str_DDD2, str_DDD3, str_3s, str_2d, str_12s, str_SS2
+global str_Priority2, qword_111084, qword_11108C, qword_111094, qword_11109C, qword_1110A4, qword_1110AC, qword_1110B4
+global qword_1110BC, unk_111024, str_12, str_24, str_32, str_42, str_Anh, str_Ana
+global str_Bsh, str_Bsa, str_Bfh, str_Bfa, str_Cgh, str_Cga, str_Chh, str_Cha
+global str_Dlh, str_Dla, str_Dth, str_Dta, str_Edh, str_Eda, str_Flh, str_Fla
+global str_Hrh, str_Hra, str_Lah, str_Laa, str_Mth, str_Mta, str_Njh, str_Nja
+global str_Ilh, str_Ila, str_Rgh, str_Rga, str_Oth, str_Ota, str_Phh, str_Pha
+global str_Pth, str_Pta, str_Quh, str_Qua, str_Slh, str_Sla, str_Sjh, str_Sja
+global str_Tbh, str_Tba, str_Trh, str_Tra, str_Vnh, str_Vna, str_Wsh, str_Wsa
+global str_Wnh, str_Wna, str_Asw, str_Ase
 asc_111008:
 db 04Ch,055h,054h,00h
-asc_11100C:
+str_Logo:
 db 06Ch,06Fh,067h,06Fh,00h
-asc_111011:
+str_Priority:
 db 070h,072h,069h,06Fh,072h,069h,074h,079h,00h
-asc_11101A:
+str_B001:
 db 062h,030h,030h,031h,00h
-asc_11101F:
+str_B000:
 db 062h,030h,030h,030h,00h
 unk_111024:
 db 00h
-asc_111025:
+str_DS:
 db 025h,064h,020h,025h,073h,00h
-asc_11102B:
+str_Goal0:
 db 067h,06Fh,061h,06Ch,030h,00h
-asc_111031:
+str_Goal1:
 db 067h,06Fh,061h,06Ch,031h,00h
-asc_111037:
+str_2d02d2:
 db 025h,032h,064h,03Ah,025h,030h,032h,064h,00h
-asc_111040:
+str_2d01d:
 db 025h,032h,064h,02Eh,025h,030h,031h,064h,00h
-asc_111049:
+str_DDD2:
 db 025h,064h,02Eh,025h,064h,025h,025h,020h,028h,025h,064h,029h,00h
-asc_111056:
+str_DDD3:
 db 025h,064h,02Eh,025h,064h,025h,025h,020h,020h,028h,025h,064h,029h,00h
-asc_111064:
+str_3s:
 db 025h,02Dh,033h,073h,00h
-asc_111069:
+str_2d:
 db 025h,032h,064h,00h
-asc_11106D:
+str_12s:
 db 025h,02Dh,031h,032h,073h,00h
-asc_111073:
+str_SS2:
 db 025h,073h,020h,025h,073h,00h
-unk_111079:
+str_12:
 db 031h,00h
-unk_11107B:
+str_24:
 db 032h,00h
-unk_11107D:
+str_32:
 db 033h,00h
-unk_11107F:
+str_42:
 db 034h,00h,00h,00h,00h
 qword_111084:
 db 016h,06Ch,0C1h,016h,06Ch,0C1h,066h,03Fh
@@ -71,113 +71,113 @@ qword_1110B4:
 db 016h,06Ch,0C1h,016h,06Ch,0C1h,066h,03Fh
 qword_1110BC:
 db 00h,00h,00h,00h,00h,00h,0F0h,040h
-asc_1110C4:
+str_Priority2:
 db 070h,072h,069h,06Fh,072h,069h,074h,079h,00h,00h,00h,00h
-unk_1110D0:
+str_Anh:
 db 021h,061h,06Eh,068h,00h
-unk_1110D5:
+str_Ana:
 db 021h,061h,06Eh,061h,00h
-unk_1110DA:
+str_Bsh:
 db 021h,062h,073h,068h,00h
-unk_1110DF:
+str_Bsa:
 db 021h,062h,073h,061h,00h
-unk_1110E4:
+str_Bfh:
 db 021h,062h,066h,068h,00h
-unk_1110E9:
+str_Bfa:
 db 021h,062h,066h,061h,00h
-unk_1110EE:
+str_Cgh:
 db 021h,063h,067h,068h,00h
-unk_1110F3:
+str_Cga:
 db 021h,063h,067h,061h,00h
-unk_1110F8:
+str_Chh:
 db 021h,063h,068h,068h,00h
-unk_1110FD:
+str_Cha:
 db 021h,063h,068h,061h,00h
-unk_111102:
+str_Dlh:
 db 021h,064h,06Ch,068h,00h
-unk_111107:
+str_Dla:
 db 021h,064h,06Ch,061h,00h
-unk_11110C:
+str_Dth:
 db 021h,064h,074h,068h,00h
-unk_111111:
+str_Dta:
 db 021h,064h,074h,061h,00h
-unk_111116:
+str_Edh:
 db 021h,065h,064h,068h,00h
-unk_11111B:
+str_Eda:
 db 021h,065h,064h,061h,00h
-unk_111120:
+str_Flh:
 db 021h,066h,06Ch,068h,00h
-unk_111125:
+str_Fla:
 db 021h,066h,06Ch,061h,00h
-unk_11112A:
+str_Hrh:
 db 021h,068h,072h,068h,00h
-unk_11112F:
+str_Hra:
 db 021h,068h,072h,061h,00h
-unk_111134:
+str_Lah:
 db 021h,06Ch,061h,068h,00h
-unk_111139:
+str_Laa:
 db 021h,06Ch,061h,061h,00h
-unk_11113E:
+str_Mth:
 db 021h,06Dh,074h,068h,00h
-unk_111143:
+str_Mta:
 db 021h,06Dh,074h,061h,00h
-unk_111148:
+str_Njh:
 db 021h,06Eh,06Ah,068h,00h
-unk_11114D:
+str_Nja:
 db 021h,06Eh,06Ah,061h,00h
-unk_111152:
+str_Ilh:
 db 021h,069h,06Ch,068h,00h
-unk_111157:
+str_Ila:
 db 021h,069h,06Ch,061h,00h
-unk_11115C:
+str_Rgh:
 db 021h,072h,067h,068h,00h
-unk_111161:
+str_Rga:
 db 021h,072h,067h,061h,00h
-unk_111166:
+str_Oth:
 db 021h,06Fh,074h,068h,00h
-unk_11116B:
+str_Ota:
 db 021h,06Fh,074h,061h,00h
-unk_111170:
+str_Phh:
 db 021h,070h,068h,068h,00h
-unk_111175:
+str_Pha:
 db 021h,070h,068h,061h,00h
-unk_11117A:
+str_Pth:
 db 021h,070h,074h,068h,00h
-unk_11117F:
+str_Pta:
 db 021h,070h,074h,061h,00h
-unk_111184:
+str_Quh:
 db 021h,071h,075h,068h,00h
-unk_111189:
+str_Qua:
 db 021h,071h,075h,061h,00h
-unk_11118E:
+str_Slh:
 db 021h,073h,06Ch,068h,00h
-unk_111193:
+str_Sla:
 db 021h,073h,06Ch,061h,00h
-unk_111198:
+str_Sjh:
 db 021h,073h,06Ah,068h,00h
-unk_11119D:
+str_Sja:
 db 021h,073h,06Ah,061h,00h
-unk_1111A2:
+str_Tbh:
 db 021h,074h,062h,068h,00h
-unk_1111A7:
+str_Tba:
 db 021h,074h,062h,061h,00h
-unk_1111AC:
+str_Trh:
 db 021h,074h,072h,068h,00h
-unk_1111B1:
+str_Tra:
 db 021h,074h,072h,061h,00h
-unk_1111B6:
+str_Vnh:
 db 021h,076h,06Eh,068h,00h
-unk_1111BB:
+str_Vna:
 db 021h,076h,06Eh,061h,00h
-unk_1111C0:
+str_Wsh:
 db 021h,077h,073h,068h,00h
-unk_1111C5:
+str_Wsa:
 db 021h,077h,073h,061h,00h
-unk_1111CA:
+str_Wnh:
 db 021h,077h,06Eh,068h,00h
-unk_1111CF:
+str_Wna:
 db 021h,077h,06Eh,061h,00h
-unk_1111D4:
+str_Asw:
 db 021h,061h,073h,077h,00h
-unk_1111D9:
+str_Ase:
 db 021h,061h,073h,065h,00h

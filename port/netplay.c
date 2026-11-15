@@ -50,7 +50,7 @@
 #define O_MENU         SYM_RunInGameMenu    /* RunInGameMenu: the menu InGameMenuRequest asks for */
 #define C_MENU1        SYM_PlayGame_menucall    /*   before the first faceoff */
 #define C_MENU2        SYM_GameLoop_menucall    /*   in the loop */
-#define O_INTER        SYM_NextPeriod    /* NextPeriod: the next period (period count, ends, stats): game logic, runs online as offline */
+#define O_INTER        SYM_PeriodOver    /* PeriodOver: the next period (period count, ends, stats): game logic, runs online as offline */
 #define C_INTER        SYM_GameLoop_nextperiodcall
 #define O_HOTKEYS      SYM_ReadHotKeys    /* ReadHotKeys: keys read straight from the keyboard */
 #define C_HOTKEYS      SYM_GameLoop_hotkeyscall

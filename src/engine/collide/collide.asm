@@ -12,7 +12,7 @@ extern gameclock, gameopts, gmode, hmtmstruct, lastplayer, lasttouch, off_11787C
 extern off_11788C, off_117898, off_11789C, passplayer, penshotctl, penshotlive, penshotmode, penshotplayer
 extern penshotstart, puckvx, puckvz, puckx, pucky, puckz, randomd0, regd2
 extern regd3, setpersonel, sflags, shotongoal, shotontarget, sub_235F2, sub_23965, sub_23E06
-extern sub_23E4E, sub_30274, sub_3509F, sub_350D3, CanBlockShot, sub_39955, changeplayer, sub_46988
+extern sub_23E4E, sub_30274, sub_3509F, sub_350D3, CanBlockShot, PassCompleted, changeplayer, sub_46988
 extern AvgCline, GetHot, GetHotStick, sub_4711E, sub_4786F, sub_4806A, doplayeracc, burst
 extern sub_4F452, PostInjuryEvent, AddPenalty2, sub_50CB5, EndPenaltyShot, CanRemovePlayer, CloseTextOverlay, sub_68E31
 extern sfx, sub_69141, sub_BE960, vecdist, threat, unk_164B5C, unk_1657BC, unk_1658F2
@@ -147,12 +147,12 @@ global loc_46299, loc_462E8, loc_462F6, loc_4631F, loc_4636B, loc_46378, loc_463
 global loc_4639D, loc_463A9, loc_463BF, loc_463E0, loc_463E6, loc_463F6, loc_46401, loc_46446
 global loc_4644D, loc_46465, loc_4646B, loc_46498, loc_464E9, loc_46517, loc_46526, loc_4652D
 global loc_4654C, loc_46557, loc_4656A, loc_46571, loc_4658A, loc_46590, loc_465B7, passtoa0
-global setInjuryType, BlockShotDive, TryBlockShot, check4check, checkcheck, sub_3F212, checkint, checkob
-global ChkDelayedOffside, checkpuckcoll_ccx, checkpuckcoll, GetLowestPen, sub_402AD, sub_40524, sub_406A0, sub_409D5
+global setInjuryType, BlockShotDive, TryBlockShot, check4check, checkcheck, checkgoalp, checkint, checkob
+global ChkDelayedOffside, checkpuckcoll_ccx, checkpuckcoll, GetLowestPen, sub_402AD, ScatterPass, sub_406A0, sub_409D5
 global sub_40B2A, sub_40C14, sub_4137F, sub_41393, sub_41432, sub_415FF, sub_41642, CompShoot
 global sub_41BFC, sub_41FDA, sub_4203B, sub_42072, FallDown, sub_43026, puckshadow, sub_4334D
 global sub_43605, sub_437EB, sub_43C7E, sub_441EF, sub_442B3, Findhittype, sub_444A7, doshot
-global sub_44B99, sub_44D62, sub_456AF, sub_458E4, sub_459B2, sub_45A31, sub_45B60, ReturnGoalies
+global sub_44B99, checkwallcoll, wallcollb, sub_458E4, sub_459B2, sub_45A31, sub_45B60, ReturnGoalies
 global SetSPA, sub_46593, wallcoll
 BlockShotDive:
 push ebx	; 3E6EC
@@ -1162,7 +1162,7 @@ pop edi	; 3F20E
 pop esi	; 3F20F
 pop ecx	; 3F210
 ret	; 3F211
-sub_3F212:
+checkgoalp:
 push esi	; 3F212
 push edi	; 3F213
 enter 10h, 0	; 3F214
@@ -2710,7 +2710,7 @@ cmp esi, byte 3	; 40511
 jge near loc_403F3	; 40514
 mov eax, 1	; 4051A
 jmp near loc_3E813	; 4051F
-sub_40524:
+ScatterPass:
 push ebx	; 40524
 push ecx	; 40525
 mov ebx, eax	; 40526
@@ -2862,7 +2862,7 @@ mov edx, SortCords	; 40715
 add edx, eax	; 4071A
 loc_4071C:
 mov eax, ebx	; 4071C
-call sub_40524	; 4071E
+call ScatterPass	; 4071E
 jmp near loc_41378	; 40723
 loc_40728:
 cmp word [byte ebx+01Ah], byte 0	; 40728
@@ -3115,7 +3115,7 @@ test eax, eax	; 40A53
 je short loc_40A63	; 40A55
 mov edx, ecx	; 40A57
 mov eax, ebx	; 40A59
-call sub_40524	; 40A5B
+call ScatterPass	; 40A5B
 pop ecx	; 40A60
 pop ebx	; 40A61
 ret	; 40A62
@@ -6572,7 +6572,7 @@ loc_43543:
 call sub_68E31	; 43543
 loc_43548:
 mov eax, ebx	; 43548
-call sub_39955	; 4354A
+call PassCompleted	; 4354A
 and byte [sflags], 0F3h	; 4354F
 cmp word [byte ebx+01Ah], byte 0	; 43556
 jne short loc_43582	; 4355B
@@ -8361,7 +8361,7 @@ mov word [word_1178A6], ax	; 44BDC
 mov eax, ecx	; 44BE2
 movsx ebx, word [byte ecx+06h]	; 44BE4
 movsx edx, word [byte ecx+02h]	; 44BE8
-call sub_44D62	; 44BEC
+call checkwallcoll	; 44BEC
 movsx edx, word [byte ecx+030h]	; 44BF1
 movsx ebx, word [byte ecx+032h]	; 44BF5
 or edx, ebx	; 44BF9
@@ -8380,7 +8380,7 @@ mov ax, word [byte ecx+02h]	; 44C30
 add ax, word [word_16597C]	; 44C34
 movsx edx, ax	; 44C3B
 mov eax, ecx	; 44C3E
-call sub_44D62	; 44C40
+call checkwallcoll	; 44C40
 loc_44C45:
 movsx ebx, word [byte ebp-08h]	; 44C45
 movsx edx, si	; 44C49
@@ -8459,7 +8459,7 @@ pop edi	; 44D5E
 pop esi	; 44D5F
 pop ecx	; 44D60
 ret	; 44D61
-sub_44D62:
+checkwallcoll:
 push ecx	; 44D62
 push esi	; 44D63
 push edi	; 44D64
@@ -8522,7 +8522,7 @@ cdq	; 44E4C
 idiv ebx	; 44E4D
 mov word [word_165980], ax	; 44E4F
 mov eax, esi	; 44E55
-call sub_456AF	; 44E57
+call wallcollb	; 44E57
 jmp short loc_44E88	; 44E5C
 loc_44E5E:
 movsx ecx, di	; 44E5E
@@ -8560,7 +8560,7 @@ cmp ax, word [byte ebp-04h]	; 44EE3
 jg short loc_44EF0	; 44EE7
 loc_44EE9:
 mov eax, esi	; 44EE9
-call sub_456AF	; 44EEB
+call wallcollb	; 44EEB
 loc_44EF0:
 leave	; 44EF0
 pop edi	; 44EF1
@@ -8584,7 +8584,7 @@ movsx ecx, cx	; 44F1A
 movsx ebx, bx	; 44F1D
 mov edx, edi	; 44F20
 mov eax, esi	; 44F22
-call sub_3F212	; 44F24
+call checkgoalp	; 44F24
 leave	; 44F29
 pop edi	; 44F2A
 pop esi	; 44F2B
@@ -9095,7 +9095,7 @@ pop edx	; 456AB
 pop ecx	; 456AC
 pop ebx	; 456AD
 ret	; 456AE
-sub_456AF:
+wallcollb:
 push ebx	; 456AF
 push ecx	; 456B0
 push edx	; 456B1

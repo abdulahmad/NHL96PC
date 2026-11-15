@@ -150,7 +150,7 @@ global loc_37E1B, loc_37E34, loc_37E35, loc_37E50, loc_37E55, loc_37E64, loc_37E
 global loc_37E9A, loc_37E9F, loc_37EA4, loc_37EAB, loc_37ECC, loc_37EF5, loc_37EF8, loc_37EFF
 global loc_37F0E, loc_37F51, loc_37F5E, loc_37F83, loc_37FBC, loc_37FC3, loc_37FEF, loc_38011
 global loc_3801E, loc_3802D, loc_3803E, loc_38041, loc_3804F, pucknorm, pucknorm_body, sub_313D2
-global asswingo, asscenterd, asscentero, sub_31BA9, sub_31C40, asspuckc, sub_32158, sub_324C8
+global asswingo, asscenterd, asscentero, sub_31BA9, sub_31C40, asspuckc, asspuckc_chkdir, sub_324C8
 global sub_3251A, assnearest, donothing, assscore, asseben, assleaveice, asspenalty, assdopen
 global assepen, assbench, assfaceoff, assfaceoffpl, pucknothing, SetLCmode, StartFaceoffLineChange, sub_3509F
 global sub_350A5, sub_350D3, assrefatdot, assreffollow, SkateToSpot, CrowdOnStoppage, assrefwhistle, assrefsignal
@@ -1185,7 +1185,7 @@ mov eax, 4	; 32003
 call randomd0	; 32008
 mov word [byte ebx+02Ah], ax	; 3200D
 loc_32011:
-mov edx, sub_32158	; 32011
+mov edx, asspuckc_chkdir	; 32011
 mov eax, ebx	; 32016
 call skateto	; 32018
 loc_3201D:
@@ -1299,7 +1299,7 @@ pop edx	; 32154
 pop ecx	; 32155
 pop ebx	; 32156
 ret	; 32157
-sub_32158:
+asspuckc_chkdir:
 push ebx	; 32158
 push ecx	; 32159
 push edx	; 3215A

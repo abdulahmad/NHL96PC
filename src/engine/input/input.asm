@@ -58,7 +58,7 @@ global loc_3A506, loc_3A550, loc_3A555, loc_3A55C, loc_3A57B, loc_3A5D4, loc_3A5
 global loc_3A613, loc_3A61F, loc_3A625, loc_3A648, loc_3A65F, loc_3A674, loc_3A6B4, loc_3A6C2
 global loc_3A6CB, loc_3A6DD, loc_3A709, loc_3A744, loc_3A75A, loc_3A76E, loc_3A789, loc_3A7A0
 global sub_38202, sub_3832F, CanBlockShot, Holdplayer, sub_38AAF, sub_38BFA, sub_38F9F, sub_39847
-global sub_3987A, CenterMouse, sub_39955, sub_399AB, sub_39DB8, sub_39E93, sub_3A2F6, sub_3A609
+global sub_3987A, CenterMouse, PassCompleted, sub_399AB, sub_39DB8, sub_39E93, sub_3A2F6, sub_3A609
 global sub_3A6F3
 lineinput:
 push ebx	; 38070
@@ -2203,7 +2203,7 @@ pop edx	; 39951
 pop ecx	; 39952
 pop ebx	; 39953
 ret	; 39954
-sub_39955:
+PassCompleted:
 push ebx	; 39955
 push edx	; 39956
 cmp word [passplayer], byte 0	; 39957

@@ -31,6 +31,7 @@ address,name,auto_name,source,confidence,evidence,file
 31958,asscenterd,sub_31958,95PC,high,"asstab entry 5, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
 31A53,asscentero,sub_31A53,95PC,high,"asstab entry 6, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
 31DBE,asspuckc,sub_31DBE,95PC,high,"asstab entry 16, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
+32158,asspuckc_chkdir,sub_32158,95PC,high,"named references of NHL95PC asspuckc_chkdir (11 of 11), between asspuckc and assnearest in both",src/engine/logic/logic.asm
 327A2,assnearest,sub_327A2,95PC,high,"asstab entry 17, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
 33214,assshoot,,95PC,medium,NHL95PC 4D3F8 (sem): D:16595C; D:1178C4; C:809; K:12C,
 3330A,donothing,sub_3330A,95PC,high,"called at the same position as in NHL95PC in 2 routine(s) named in both: asscenterd,asswingd",src/engine/logic/logic.asm
@@ -78,6 +79,7 @@ address,name,auto_name,source,confidence,evidence,file
 397C0,lcfound,,95PC,medium,NHL95PC 50975 (sem): C:589; D:16595C; R:429; R:465,
 398DB,ReadJoy1,,95PC,medium,NHL95PC 50A05 (sem): D:165960; D:16595C,
 39936,CenterMouse,sub_39936,95PC,medium,"its call lines up with the NHL95PC call in puckfaceoff2, and its address keeps the NHL95PC module order",src/engine/input/input.asm
+39955,PassCompleted,sub_39955,95PC,medium,"same named references as NHL95PC PassCompleted (4 of 4), same length, between CenterMouse and asspassrec in both",src/engine/input/input.asm
 3A0D2,asspassrec,,95PC,medium,NHL95PC 50F3F (sem): C:623; D:117874; D:1178C3; K:168,
 3A37E,CtlSwapScoreFix,,95PC,medium,NHL95PC 7CBB3 (sem): C:589; D:1656D8; D:117900; D:1178C3,
 3A433,CtlSwapTeamFlag,,95PC,medium,NHL95PC 7CC8A (sem): D:1656D8; D:1178C3,
@@ -106,6 +108,7 @@ address,name,auto_name,source,confidence,evidence,file
 3EA92,checkagr,,95PC,medium,NHL95PC 5369F (sem): D:117870; C:809; D:117878; D:1178C3,
 3EB84,FacingBoards,,95PC,medium,NHL95PC 5378D (similar): mnemonic similarity 0.88 over 54 instructions,
 3EC30,checkcheck,sub_3EC30,95PC,medium,"its call lines up with the NHL95PC call in checkcx, and its address keeps the NHL95PC module order",src/engine/collide/collide.asm
+3F212,checkgoalp,sub_3F212,95PC,medium,"named references of NHL95PC checkgoalp (6 of 8), between checkcheck and checkint in both",src/engine/collide/collide.asm
 3F44A,checkint,sub_3F44A,95PC,medium,"its call lines up with the NHL95PC call in checkcx, and its address keeps the NHL95PC module order",src/engine/collide/collide.asm
 3F5E4,checkob,sub_3F5E4,95PC,medium,"sits between checkint and SkillForAnim as in the NHL95PC module, with the same count of routines between them and a like size (n95=122 n96=121) and call count",src/engine/collide/collide.asm
 3F7AC,SkillForAnim,,95PC,medium,"NHL95PC 54134 (neighbour): between checkgoalp and CheckBump, mnemonic similarity 0.83",
@@ -116,6 +119,7 @@ address,name,auto_name,source,confidence,evidence,file
 400B1,GetLowestPen,sub_400B1,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: chk4lc,src/engine/collide/collide.asm
 40189,chk4lc,,95PC,medium,"NHL95PC 54AF9 (neighbour): between CheckBump and passtoa0, mnemonic similarity 0.83",
 403CE,PassLaneChk,,95PC,medium,"NHL95PC 54C09 (neighbour): between CheckBump and passtoa0, mnemonic similarity 0.82",
+40524,ScatterPass,sub_40524,95PC,medium,"named references of NHL95PC ScatterPass (8 of 11), between PassLaneChk and passtoa0 in both",src/engine/collide/collide.asm
 40C2A,passtoa0,,95PC,medium,NHL95PC 551CF (sem): C:1544; C:809,
 40E82,chk4pass,,95PC,medium,NHL95PC 55493 (sem): C:504; C:506; D:16595C; D:117870,
 418E7,CompShoot,sub_418E7,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: chk4lc,src/engine/collide/collide.asm
@@ -129,8 +133,10 @@ address,name,auto_name,source,confidence,evidence,file
 4331A,puckshadow,sub_4331A,95PC,high,"asstab entry 25, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/collide/collide.asm
 44418,Findhittype,sub_44418,95PC,medium,"its call lines up with the NHL95PC call in asspenshooter, and its address keeps the NHL95PC module order",src/engine/collide/collide.asm
 44609,doshot,sub_44609,95PC,medium,"its call lines up with the NHL95PC call in asspenshooter, and its address keeps the NHL95PC module order",src/engine/collide/collide.asm
+44D62,checkwallcoll,sub_44D62,95PC,medium,"named references of NHL95PC checkwallcoll (7 of 7), between doshot and checkgoal in both",src/engine/collide/collide.asm
 44EF5,checkgoal,,95PC,medium,NHL95PC 584AA (sem): C:493; D:176B74; D:11916D; C:809,
 452BB,wallcoll,,95PC,medium,NHL95PC 587D3 (sem): D:119F94; C:668; K:FFFFFC00; K:FFFFFC7C,
+456AF,wallcollb,sub_456AF,95PC,high,"called twice from checkwallcoll as NHL95PC wallcollb, between wallcoll and checkcx in both",src/engine/collide/collide.asm
 45E3D,checkcx,,95PC,medium,NHL95PC 58DC7 (sem): C:494; C:492; D:176BD4; C:810,
 4629D,CPgoalie,,95PC,medium,NHL95PC 591C7 (sem): D:119197; C:589; D:117900,
 462F8,ChkGoalies,,95PC,medium,NHL95PC 59265 (sem): C:589; D:16580E; D:1656D8; D:117878,
@@ -148,6 +154,7 @@ address,name,auto_name,source,confidence,evidence,file
 4729D,SetCoachMode,sub_4729D,95PC,high,"called at the same position as in NHL95PC in 6 routine(s) named in both: InitCoachModes,UpdateCoachModes",src/engine/hockey/hockey.asm
 4735D,InitCoachModes,,95PC,medium,"NHL95PC 5A669 (neighbour): between findpc and UpdateCoachModes, mnemonic similarity 0.76",
 47461,UpdateCoachModes,,95PC,medium,NHL95PC 5A77C (sem): D:117900; R:604; D:1178C3,
+47788,PenTeamScored,sub_47788,95PC,medium,"same named references as NHL95PC PenTeamScored (6 of 6), between UpdateCoachModes and Setplass in both",src/engine/hockey/hockey.asm
 4812E,Setplass,sub_4812E,95PC,high,"called at the same position as in NHL95PC in 2 routine(s) named in both: check4bench,releasepl",src/engine/hockey/hockey.asm
 481B1,setplayer,sub_481B1,95PC,high,"called at the same position as in NHL95PC in 2 routine(s) named in both: assleavebox,releasepl",src/engine/hockey/hockey.asm
 48716,reenergizeteam,,95PC,medium,NHL95PC 5B826 (sem): R:607; K:FFFE; K:1000,
@@ -163,7 +170,9 @@ address,name,auto_name,source,confidence,evidence,file
 4958D,DoGameFrame,,95PC,medium,NHL95PC 5C1C4 (sem): C:597; C:599; R:54,
 49645,periodicevents,sub_49645,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: DoGameFrame,src/engine/hockey/hockey.asm
 49848,updateplayers,sub_49848,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: DoGameFrame,src/engine/hockey/hockey.asm
+4A7C3,cleargamevars,sub_4A7C3,95PC,medium,"named references of NHL95PC cleargamevars (11 of 11), between updateplayers and setupice in both",src/engine/hockey/hockey.asm
 4A8A4,setupice,,95PC,medium,NHL95PC 5D7F7 (sem): C:586; D:16479C; D:1178C3; R:590,
+4AE4F,ClockTick,sub_4AE4F,95PC,medium,"named references of NHL95PC ClockTick (7 of 7), between setupice and SetupTeamForIntermission in both",src/engine/hockey/hockey.asm
 4AF89,SetupTeamForIntermission,,95PC,medium,NHL95PC 5DDDA (similar): mnemonic similarity 0.91 over 32 instructions,
 4B05E,NextPeriod,sub_4B05E,new,medium,"moves the game to the next period (period count, ends, stats)",src/engine/hockey/hockey.asm
 4B145,ResetBench,sub_4B145,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: SetupTeamForIntermission,src/engine/hockey/hockey.asm
@@ -449,6 +458,7 @@ DD708,SetDrawBitmap,,95PC,medium,NHL95PC B4F70 (sem): D:1228D0; R:1652; R:1650,
 DD760,SetClipWindow,,95PC,medium,NHL95PC B4BC4 (similar): mnemonic similarity 0.89 over 26 instructions,
 DDE7B,WaitRetrace,sub_DDE7B,new,high,busy-wait for the VGA vertical retrace,src/lib/video/video_bios_vga_01.asm
 DDEBC,WaitRetraceEdges,sub_DDEBC,new,medium,"as WaitRetrace, always waiting for both edges",src/lib/video/video_bios_vga_01.asm
+DDEE7,WaitDisplayRetrace,,new,medium,"waits for display enable, then for the start of vertical retrace (port 3DAh, bit 3); entry after the ret of WaitRetraceEdges",src/lib/video/video_bios_vga_01.asm
 DDF24,SetCrtcStart,sub_DDF24,new,medium,page flip: set the CRTC start address,src/lib/video/video_bios_vga_01.asm
 DDF94,ClearChain4,sub_DDF94,new,medium,clear Chain-4 (sequencer register 4 bit 3) after mode 13h for the unchained pages,src/lib/video/video_bios_vga_01.asm
 DE10D,PlotPixel,,95PC,medium,NHL95PC B5DB0 (sem): D:12401C; D:122930; C:2281; D:1228F4,
@@ -2442,4 +2452,3 @@ E24C4,RestoreTextMode,sub_E24C4,95PC,high,video library: restore the text mode a
 17CA20,optblock,dword_17CA20,new,medium,start of the option block the port sends to the guest,src/data/front/front_10010_bss_02.asm
 17CA75,optblock_end,unk_17CA75,new,medium,end of the option block,src/data/front/front_10010_bss_02.asm
 18566C,timercallbacks,,95PC,medium,NHL95PC EDCDC (refset): referenced by the same 2 matched functions,
-DDEE7,WaitDisplayRetrace,,new,medium,"waits for display enable, then for the start of vertical retrace (port 3DAh, bit 3); entry after the ret of WaitRetraceEdges",src/lib/video/video_bios_vga_01.asm

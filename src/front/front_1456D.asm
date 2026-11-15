@@ -32,7 +32,7 @@ extern sprintf_, str_D02d2, str_DD, str_DDD, strcat_, strcpy_, strlen_, strncmp_
 extern strstr_, InitSlotTable, sub_10A65, sub_13146, sub_13338, sub_13407, sub_1377E, sub_187CF
 extern sub_188AE, sub_189CD, sub_18A31, sub_18A81, sub_1A109, sub_1D6C1, sub_1E643, sub_1E7F6
 extern sub_1EA14, sub_1EBBC, sub_1ECDB, sub_1EE7C, sub_1EFFF, sub_1F15E, sub_1F300, sub_1F771
-extern sub_2B4B9, sub_3A6F3, sub_4AE4F, NextPeriod, sub_4B59F, sub_4E6C3, BuildDefaultLines, sub_5358E
+extern sub_2B4B9, sub_3A6F3, ClockTick, NextPeriod, sub_4B59F, sub_4E6C3, BuildDefaultLines, sub_5358E
 extern sub_58A58, sub_59188, sub_5A572, sub_5AF42, ReadHotKeys, sub_612BC, sub_62311, sub_625F7
 extern sub_62AF7, sub_62D9B, sub_62E72, sub_62ED9, sub_62F90, sub_63968, sub_63998, sub_63A5B
 extern sub_63B0C, sub_63DC4, sub_63F79, sub_64054, sub_640D3, sub_6423E, sub_64296, sub_6448D
@@ -2915,7 +2915,7 @@ cmp dword [penshotlive], byte 0	; 16F3A
 jne short loc_16F4A	; 16F41
 add dword [dword_151B84], byte 64h	; 16F43
 loc_16F4A:
-call sub_4AE4F	; 16F4A
+call ClockTick	; 16F4A
 loc_16F4F:
 call DoGameFrame	; 16F4F
 xor eax, eax	; 16F54

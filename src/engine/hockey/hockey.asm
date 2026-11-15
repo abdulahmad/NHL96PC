@@ -130,9 +130,9 @@ global loc_4B663, loc_4B67D, loc_4B69C, loc_4B6CD, loc_4B6E0, loc_4B716, loc_4B7
 global loc_4B735, loc_4B73F, loc_4B744, loc_4B780, loc_4B784, loc_4B793, loc_4B797, loc_4B7AB
 global loc_4B7B3, reenergizeteam, resetplstuff, setpersonel, setupice, sub_465BA, changeplayer, sub_46988
 global AvgCline, sub_46A6F, getlinee, sub_46FA3, GetHot, GetHotStick, sub_4711E, SetCoachMode
-global sub_47788, sub_47813, sub_4786F, sub_4806A, Setplass, setplayer, restoreteams, sub_488E9
+global PenTeamScored, sub_47813, sub_4786F, sub_4806A, Setplass, setplayer, restoreteams, sub_488E9
 global sub_48922, sub_489CF, sub_48A4D, defaultsprites_0, sub_49300, sub_493D4, sub_494F7, checkwindow
-global sub_495A1, periodicevents, sub_497A7, updateplayers, sub_4A047, sub_4A7C3, sub_4A91D, sub_4AE4F
+global sub_495A1, periodicevents, sub_497A7, updateplayers, sub_4A047, cleargamevars, sub_4A91D, ClockTick
 global sub_4AF57, sub_4AF6B, sub_4AFEB, NextPeriod, ResetBench, sub_4B247, forcepldata, sub_4B38C
 global sub_4B4F3, sub_4B59F, sub_4B748
 sub_465BA:
@@ -1555,7 +1555,7 @@ loc_47785:
 pop edx	; 47785
 pop ebx	; 47786
 ret	; 47787
-sub_47788:
+PenTeamScored:
 push ebx	; 47788
 push edx	; 47789
 mov al, byte [gmode]	; 4778A
@@ -1721,7 +1721,7 @@ and al, 1	; 4792C
 movsx eax, al	; 4792E
 test eax, eax	; 47931
 jne short loc_47961	; 47933
-call sub_47788	; 47935
+call PenTeamScored	; 47935
 test eax, eax	; 4793A
 jne short loc_47961	; 4793C
 cmp dword [byte ebp-024h], byte 0	; 4793E
@@ -5422,7 +5422,7 @@ mov ax, word [word_1178A2]	; 4A7AF
 or byte [sflags], 40h	; 4A7B5
 mov word [word_1178B6], ax	; 4A7BC
 ret	; 4A7C2
-sub_4A7C3:
+cleargamevars:
 mov dword [dword_165978], 0	; 4A7C3
 mov dword [word_165970], 0	; 4A7CD
 mov dword [regd5], 0	; 4A7D7
@@ -5832,7 +5832,7 @@ or byte [gmode], 41h	; 4AE39
 mov eax, ebx	; 4AE40
 add word [CwdExciteLvl], byte 28h	; 4AE42
 jmp near loc_47A65	; 4AE4A
-sub_4AE4F:
+ClockTick:
 push ebx	; 4AE4F
 push ecx	; 4AE50
 push edx	; 4AE51
@@ -6145,7 +6145,7 @@ pop ebx	; 4B245
 ret	; 4B246
 sub_4B247:
 call sub_3A2F6	; 4B247
-call sub_4A7C3	; 4B24C
+call cleargamevars	; 4B24C
 call clearteams	; 4B251
 mov eax, dword [gameopts]	; 4B256
 mov dword [dword_1191FB], 0	; 4B25B

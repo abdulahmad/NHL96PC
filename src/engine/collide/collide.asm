@@ -148,7 +148,7 @@ global loc_4639D, loc_463A9, loc_463BF, loc_463E0, loc_463E6, loc_463F6, loc_464
 global loc_4644D, loc_46465, loc_4646B, loc_46498, loc_464E9, loc_46517, loc_46526, loc_4652D
 global loc_4654C, loc_46557, loc_4656A, loc_46571, loc_4658A, loc_46590, loc_465B7, passtoa0
 global setInjuryType, BlockShotDive, TryBlockShot, check4check, checkcheck, checkgoalp, checkint, checkob
-global ChkDelayedOffside, checkpuckcoll_ccx, checkpuckcoll, GetLowestPen, sub_402AD, ScatterPass, dopass, sub_409D5
+global ChkDelayedOffside, checkpuckcoll_ccx, checkpuckcoll, GetLowestPen, chk4lcauto, ScatterPass, dopass, CompPass
 global passmode, setpassmode, sub_4137F, sub_41393, sub_41432, sub_415FF, chk4shot, CompShoot
 global ChkShotStat, FallFrameByDir, FallFrameByFacing, NetCollide, FallDown, puckbody, puckshadow, puckglue
 global sub_43605, puckgoalie, puckstick, SetShotMode, ShotMode, Findhittype, shotdiradj, doshot
@@ -2482,7 +2482,7 @@ mov eax, ebx	; 4029C
 call CompShoot	; 4029E
 mov eax, 1	; 402A3
 jmp near loc_41379	; 402A8
-sub_402AD:
+chk4lcauto:
 push ebx	; 402AD
 push ecx	; 402AE
 push edx	; 402AF
@@ -3081,7 +3081,7 @@ mov eax, ebx	; 409C5
 movsx edx, word [byte ebx+07Ah]	; 409C7
 call changeplayer	; 409CB
 jmp near loc_41378	; 409D0
-sub_409D5:
+CompPass:
 push ebx	; 409D5
 push ecx	; 409D6
 mov ebx, eax	; 409D7

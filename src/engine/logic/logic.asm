@@ -14,8 +14,8 @@ extern foy, gameclock, gameopts, getlchoice, gmode, hmtmstruct, lasttouch, lcbli
 extern lcboxon, lcline, off_11787C, puckc, off_11788C, off_117890, off_117894, passplayer
 extern penshotlive, penshotmode, penshotplayer, penshotstart, psendcount, puckvx, puckvz, puckx
 extern pucky, puckz, randomd0, regd2, regd3, sflags, shotongoal, skatetopuck
-extern sub_28459, GetPartner, sub_30340, sub_30873, sub_30E6B, assgoalie, check4check, checkob
-extern checkpuckcoll, sub_402AD, sub_409D5, chk4shot, SetShotMode, ShotMode, Findhittype, doshot
+extern sub_28459, GetPartner, defotarget, defdtarget, sub_30E6B, assgoalie, check4check, checkob
+extern checkpuckcoll, chk4lcauto, CompPass, chk4shot, SetShotMode, ShotMode, Findhittype, doshot
 extern SetSPA, SprSort, changeplayer, GetHot, Setplass, setplayer, updateanim, SetExitGame
 extern sub_4B4F3, doplayeracc, EvadePC, skateto, PostGoalEvent, AddPenalty2, EndPenaltyShot, sub_68E21
 extern sub_68E31, sfx, sub_69141, sub_69161, sub_6934E, vecdist, threat, unk_119D7C
@@ -150,7 +150,7 @@ global loc_37E1B, loc_37E34, loc_37E35, loc_37E50, loc_37E55, loc_37E64, loc_37E
 global loc_37E9A, loc_37E9F, loc_37EA4, loc_37EAB, loc_37ECC, loc_37EF5, loc_37EF8, loc_37EFF
 global loc_37F0E, loc_37F51, loc_37F5E, loc_37F83, loc_37FBC, loc_37FC3, loc_37FEF, loc_38011
 global loc_3801E, loc_3802D, loc_3803E, loc_38041, loc_3804F, pucknorm, pucknorm_body, sub_313D2
-global asswingo, asscenterd, asscentero, SwapPosition, sub_31C40, asspuckc, asspuckc_chkdir, sub_324C8
+global asswingo, asscenterd, asscentero, SwapPosition, SwapDefWithFwd, asspuckc, asspuckc_chkdir, SwapPairSides
 global sub_3251A, assnearest, donothing, assscore, asseben, assleaveice, asspenalty, assdopen
 global assepen, assbench, assfaceoff, assfaceoffpl, pucknothing, SetLCmode, StartFaceoffLineChange, sub_3509F
 global sub_350A5, puckflip, assrefatdot, assreffollow, SkateToSpot, CrowdOnStoppage, assrefwhistle, assrefsignal
@@ -869,7 +869,7 @@ pop esi	; 31C3C
 pop ecx	; 31C3D
 pop ebx	; 31C3E
 ret	; 31C3F
-sub_31C40:
+SwapDefWithFwd:
 push ebx	; 31C40
 push ecx	; 31C41
 push edx	; 31C42
@@ -1116,7 +1116,7 @@ call chk4pass	; 31F0A
 test ax, ax	; 31F0F
 jne near loc_3201D	; 31F12
 mov eax, ebx	; 31F18
-call sub_31C40	; 31F1A
+call SwapDefWithFwd	; 31F1A
 jmp short loc_31F63	; 31F1F
 loc_31F21:
 cmp dword [dword ecx+dword_1191EB], byte 2	; 31F21
@@ -1126,7 +1126,7 @@ jl short loc_31F59	; 31F31
 imul edx, dword [dword ecx+dword_1191F3], dword 0A0h	; 31F33
 mov eax, ebx	; 31F3D
 add edx, SortCords	; 31F3F
-call sub_409D5	; 31F45
+call CompPass	; 31F45
 mov dword [dword ecx+dword_1191EB], 0	; 31F4A
 jmp near loc_31DE7	; 31F54
 loc_31F59:
@@ -1565,7 +1565,7 @@ pop edx	; 324C4
 pop ecx	; 324C5
 pop ebx	; 324C6
 ret	; 324C7
-sub_324C8:
+SwapPairSides:
 push ebx	; 324C8
 push ecx	; 324C9
 push edx	; 324CA
@@ -1677,7 +1677,7 @@ movzx eax, al	; 32603
 xor eax, edx	; 32606
 je near loc_3279A	; 32608
 mov eax, ecx	; 3260E
-call sub_324C8	; 32610
+call SwapPairSides	; 32610
 jmp near loc_3279A	; 32615
 loc_3261A:
 mov eax, dword [puckc]	; 3261A
@@ -1805,7 +1805,7 @@ cmp eax, byte 74h	; 3278A
 jg near loc_325D1	; 3278D
 loc_32793:
 mov eax, ecx	; 32793
-call sub_324C8	; 32795
+call SwapPairSides	; 32795
 loc_3279A:
 mov eax, 1	; 3279A
 pop esi	; 3279F
@@ -1880,9 +1880,9 @@ call assreplace	; 3287A
 jmp near loc_3668B	; 3287F
 loc_32884:
 mov eax, esi	; 32884
-call sub_31C40	; 32886
+call SwapDefWithFwd	; 32886
 mov eax, esi	; 3288B
-call sub_402AD	; 3288D
+call chk4lcauto	; 3288D
 jmp near loc_3668B	; 32892
 loc_32897:
 dec dword [byte esi+072h]	; 32897
@@ -2108,7 +2108,7 @@ call sub_313D2	; 32B81
 jmp short loc_32B8F	; 32B86
 loc_32B88:
 mov eax, esi	; 32B88
-call sub_30340	; 32B8A
+call defotarget	; 32B8A
 loc_32B8F:
 mov ax, word [byte esi+02Ah]	; 32B8F
 mov word [regd0], ax	; 32B93
@@ -2342,7 +2342,7 @@ cmp dword [byte esi+066h], byte 2	; 32E86
 jne short loc_32EA3	; 32E8A
 loc_32E8C:
 mov eax, esi	; 32E8C
-call sub_30873	; 32E8E
+call defdtarget	; 32E8E
 mov ax, word [byte esi+02Ah]	; 32E93
 mov word [regd0], ax	; 32E97
 mov ax, word [byte esi+02Ch]	; 32E9D

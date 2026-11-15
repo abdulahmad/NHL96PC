@@ -3,8 +3,8 @@ bits 32
 %include "hockey.inc"
 section s_117938 progbits alloc noexec write align=1
 extern assbenchwait, assintrostand, asspassrec, assrefdrop, assrefgoalpa, assrefpenshot, assshoot, asstakeposition
-extern puckfaceoff, pucknorm, assintroline, sub_2F029, assboxenter, assbenchside, assstanley, sub_2FB3D
-extern sub_2FDE3, sub_2FF84, assdefo, sub_305C2, assdefd, sub_30CDA, asswingd, asswingo
+extern puckfaceoff, pucknorm, assintroline, sub_2F029, assboxenter, assbenchside, assstanley, asscupfollow
+extern asscuptake, asscupleave, assdefo, asscoverdefo, assdefd, asscoverdefd, asswingd, asswingo
 extern asscenterd, asscentero, asspuckc, assnearest, assscore, asseben, assleaveice, asspenalty
 extern assdopen, assepen, assbench, assfaceoff, assfaceoffpl, pucknothing, assrefatdot, assreffollow
 extern assrefwhistle, assrefsignal, rtss, assrefgoalline, asspenshooter, assfight, assfwatch, assleavebox
@@ -78,13 +78,13 @@ dd assbenchside
 dd assrefpenshot
 dd asspsclear
 dd asspenshooter
-dd sub_30CDA
-dd sub_305C2
+dd asscoverdefd
+dd asscoverdefo
 dd assfight
 dd assfwatch
-dd sub_2FB3D
-dd sub_2FDE3
-dd sub_2FF84
+dd asscupfollow
+dd asscuptake
+dd asscupleave
 unk_117A9C:
 db 00h,00h,00h,00h,01h,00h
 word_117AA2:

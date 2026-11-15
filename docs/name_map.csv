@@ -28,16 +28,25 @@ address,name,auto_name,source,confidence,evidence,file
 2F4E2,assboxenter,sub_2F4E2,95PC,high,"asstab entry 42, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/engine_2D9D9.asm
 2F763,assbenchside,sub_2F763,95PC,high,"asstab entry 43, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/engine_2D9D9.asm
 2F8BF,assstanley,sub_2F8BF,95PC,high,"asstab entry 8, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/engine_2D9D9.asm
+2FB3D,asscupfollow,sub_2FB3D,new,medium,"asstab entry 33h, given by clockcont on a cup win and to a player who handed the cup on: skates around near the cup holder and celebrates",src/engine/engine_2D9D9.asm
+2FDE3,asscuptake,sub_2FDE3,new,medium,"asstab entry 34h, set by assstanley: skates to the cup holder, turns to face him and takes the cup (he gets 33h, the taker assignment 8)",src/engine/engine_2D9D9.asm
+2FF84,asscupleave,sub_2FF84,new,medium,"asstab entry 35h, given by clockcont to the losing team on a cup win: skates to the bench door, then is put on the bench",src/engine/engine_2D9D9.asm
 30309,GetPartner,sub_30309,new,medium,"returns the SortCords entry of the other player of a pair (position 1 or 2) through the team position map, else 0",src/engine/engine_2D9D9.asm
+30340,defotarget,sub_30340,new,low,"called from assdefo and assnearest: defenceman's target on offence, same shape as defdtarget",src/engine/engine_2D9D9.asm
 30483,assdefo,sub_30483,95PC,high,"asstab entry 1, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/engine_2D9D9.asm
+305C2,asscoverdefo,sub_305C2,new,medium,"asstab entry 30h, given by SwapDefWithFwd to the forward who takes over a defence spot: holds the point (y 84h) while his team attacks, else switches to 2Fh; swaps back when the link (+6Ah) ends",src/engine/engine_2D9D9.asm
+30873,defdtarget,sub_30873,new,medium,"called from assdefd, assnearest, asscoverdefd: defenceman's target on defence: his side (x 55h) and a y behind the deepest opponent",src/engine/engine_2D9D9.asm
 30A9B,assdefd,sub_30A9B,95PC,high,"asstab entry 2, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/engine_2D9D9.asm
+30CDA,asscoverdefd,sub_30CDA,new,medium,"asstab entry 2Fh, the defending half of asscoverdefo: target from defdtarget, skateto, check4check; swaps positions back when the link ends",src/engine/engine_2D9D9.asm
 312D7,asswingd,sub_312D7,95PC,high,"asstab entry 3, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/engine_2D9D9.asm
 31805,asswingo,sub_31805,95PC,high,"asstab entry 4, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
 31958,asscenterd,sub_31958,95PC,high,"asstab entry 5, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
 31A53,asscentero,sub_31A53,95PC,high,"asstab entry 6, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
 31BA9,SwapPosition,sub_31BA9,new,medium,"gives the player (eax) position edx and hands his old position to the teammate who held it (struct +66h, team position map +102h)",src/engine/logic/logic.asm
+31C40,SwapDefWithFwd,sub_31C40,new,medium,"called from asspuckc and assnearest: a defenceman deep in the attacking zone trades positions with a forward (SwapPosition), the forward gets assignment 30h and both store the other's number at +6Ah",src/engine/logic/logic.asm
 31DBE,asspuckc,sub_31DBE,95PC,high,"asstab entry 16, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
 32158,asspuckc_chkdir,sub_32158,95PC,high,"named references of NHL95PC asspuckc_chkdir (11 of 11), between asspuckc and assnearest in both",src/engine/logic/logic.asm
+324C8,SwapPairSides,sub_324C8,new,medium,swaps positions with GetPartner when the pair stands on the wrong sides; returns 1 when it did,src/engine/logic/logic.asm
 327A2,assnearest,sub_327A2,95PC,high,"asstab entry 17, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
 33214,assshoot,,95PC,medium,NHL95PC 4D3F8 (sem): D:16595C; D:1178C4; C:809; K:12C,
 3330A,donothing,sub_3330A,95PC,high,"called at the same position as in NHL95PC in 2 routine(s) named in both: asscenterd,asswingd",src/engine/logic/logic.asm
@@ -116,9 +125,14 @@ address,name,auto_name,source,confidence,evidence,file
 3CBAF,PullGoalie,sub_3CBAF,new,medium,called per team from HandleSlotButtons on goalie pull bit; edits team struct (0x136 bytes),
 3CC6D,SetTeamGoalie,,95PC,medium,NHL95PC 672F9 (sem): D:165712; C:589; D:1656D8; D:1178C3,
 3CD4A,GoalieToPuckVec,,95PC,medium,NHL95PC 4B467 (similar): mnemonic similarity 0.84 over 42 instructions,
+3CDBB,goaliechasepuck,sub_3CDBB,new,medium,"called from assgoalietopuck: every 5 ticks aims at the puck's next position through avdgoal and GetHot, then doplayeracc",src/engine/faceoff/faceoff.asm
 3CE8D,AdjustFacingDirection,,95PC,medium,NHL95PC 4B4E9 (similar): mnemonic similarity 0.88 over 75 instructions,
 3CF68,assgoalietopuck,sub_3CF68,95PC,high,"asstab entry 15, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/faceoff/faceoff.asm
 3D0B5,ClampYPosition,sub_3D0B5,95PC,high,"same body as NHL95PC ClampYPosition (rink limits scaled for the 96 rink), before assgoalie",src/engine/faceoff/faceoff.asm
+3D12A,goalieskateto,sub_3D12A,new,medium,"goalie moves to the target in regd0/regd2: stops inside 5 units (10 with the puck), freezes while the carrier winds up a shot",src/engine/faceoff/faceoff.asm
+3D427,goaliesave,sub_3D427,94G,medium,"NHL94Genesis logic94.asm goaliesave: picks the save animation from the direction of the puck's path relative to facing and the puck height (puckz, puckvz 800h), raises the crowd",src/engine/faceoff/faceoff.asm
+3D7F2,goaliehome,sub_3D7F2,new,medium,"target x from the crease table by side, or the post position by goalie level when the puck is behind the goal line, then goalieskateto",src/engine/faceoff/faceoff.asm
+3D86D,goalieposition,sub_3D86D,new,medium,"assgoalie's default action: positions the CPU goalie against the puck (ClampYPosition, GoalieToPuckVec, ShotLaneOpen, AdjustFacingDirection), calls goaliesave and goaliehome",src/engine/faceoff/faceoff.asm
 3DEBB,assgoalie,sub_3DEBB,95PC,high,"asstab entry 14, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/faceoff/faceoff.asm
 3E6EC,BlockShotDive,sub_3E6EC,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: TryBlockShot,src/engine/collide/collide.asm
 3E819,TryBlockShot,sub_3E819,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: check4check,src/engine/collide/collide.asm
@@ -136,9 +150,11 @@ address,name,auto_name,source,confidence,evidence,file
 3FFF3,CheckBump,,95PC,medium,NHL95PC 54990 (similar): mnemonic similarity 0.93 over 64 instructions,
 400B1,GetLowestPen,sub_400B1,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: chk4lc,src/engine/collide/collide.asm
 40189,chk4lc,,95PC,medium,"NHL95PC 54AF9 (neighbour): between CheckBump and passtoa0, mnemonic similarity 0.83",
+402AD,chk4lcauto,sub_402AD,new,low,"called from assnearest when the line option (gameopts +1 bits 4-5) is 20h: one time in four compares the lines (GetLowestPen, AvgCline, CompLine) and calls setpersonel",src/engine/collide/collide.asm
 403CE,PassLaneChk,,95PC,medium,"NHL95PC 54C09 (neighbour): between CheckBump and passtoa0, mnemonic similarity 0.82",
 40524,ScatterPass,sub_40524,95PC,medium,"named references of NHL95PC ScatterPass (8 of 11), between PassLaneChk and passtoa0 in both",src/engine/collide/collide.asm
 406A0,dopass,sub_406A0,95PC,medium,"first after ScatterPass as in NHL95PC; same named references (PassLaneChk, ScatterPass, passtoa0, lastplayer), 230/255 lines",src/engine/collide/collide.asm
+409D5,CompPass,sub_409D5,new,medium,"called from asspuckc: the computer's pass to player edx: releases the puck, PassLaneChk, ScatterPass or passtoa0",src/engine/collide/collide.asm
 40B2A,passmode,sub_40B2A,95PC,medium,"called from doinput, between dopass and setpassmode as NHL95PC passmode",src/engine/collide/collide.asm
 40C14,setpassmode,sub_40C14,95PC,medium,"6 lines on sflags as NHL95PC setpassmode, last before passtoa0",src/engine/collide/collide.asm
 40C2A,passtoa0,,95PC,medium,NHL95PC 551CF (sem): C:1544; C:809,

@@ -90,8 +90,8 @@ global loc_3E1B6, loc_3E201, loc_3E20D, loc_3E250, loc_3E255, loc_3E260, loc_3E2
 global loc_3E2C2, loc_3E2D1, loc_3E30C, loc_3E312, loc_3E31A, loc_3E33F, loc_3E34B, loc_3E3B4
 global loc_3E3BE, loc_3E405, loc_3E4E2, loc_3E4FB, loc_3E546, loc_3E549, loc_3E59C, loc_3E5C1
 global loc_3E5C4, loc_3E690, loc_3E695, loc_3E6CD, loc_3E6EA, puckfaceoff, sub_3A7A4, TakePlayerFromBox
-global sub_3A8BC, PenShotStart, assleavebox, sub_3AE48, sub_3B3C7, puckfaceoff2, asspsclear, sub_3CDBB
-global assgoalietopuck, ClampYPosition, sub_3D12A, sub_3D427, sub_3D7F2, sub_3D86D, assgoalie, sub_3E665
+global sub_3A8BC, PenShotStart, assleavebox, sub_3AE48, sub_3B3C7, puckfaceoff2, asspsclear, goaliechasepuck
+global assgoalietopuck, ClampYPosition, goalieskateto, goaliesave, goaliehome, goalieposition, assgoalie, sub_3E665
 global sub_3E6D4
 sub_3A7A4:
 push ebx	; 3A7A4
@@ -2902,7 +2902,7 @@ pop edx	; 3CDB7
 pop ecx	; 3CDB8
 pop ebx	; 3CDB9
 ret	; 3CDBA
-sub_3CDBB:
+goaliechasepuck:
 push ebx	; 3CDBB
 push ecx	; 3CDBC
 push edx	; 3CDBD
@@ -3163,7 +3163,7 @@ mov eax, ebx	; 3D09D
 call AdjustFacingDirection	; 3D09F
 mov eax, ebx	; 3D0A4
 shl byte [byte ebx+057h], 1	; 3D0A6
-call sub_3CDBB	; 3D0A9
+call goaliechasepuck	; 3D0A9
 shr byte [byte ebx+057h], 1	; 3D0AE
 loc_3D0B1:
 pop edx	; 3D0B1
@@ -3202,7 +3202,7 @@ mov ax, word [regd3]	; 3D11B
 sub word [regd1], ax	; 3D121
 pop edx	; 3D128
 ret	; 3D129
-sub_3D12A:
+goalieskateto:
 push ebx	; 3D12A
 push ecx	; 3D12B
 push edx	; 3D12C
@@ -3444,7 +3444,7 @@ pop edx	; 3D423
 pop ecx	; 3D424
 pop ebx	; 3D425
 ret	; 3D426
-sub_3D427:
+goaliesave:
 push ebx	; 3D427
 push ecx	; 3D428
 push edx	; 3D429
@@ -3734,12 +3734,12 @@ loc_3D7E0:
 mov word [regd0], dx	; 3D7E0
 loc_3D7E7:
 mov eax, ebx	; 3D7E7
-call sub_3D12A	; 3D7E9
+call goalieskateto	; 3D7E9
 pop edx	; 3D7EE
 pop ecx	; 3D7EF
 pop ebx	; 3D7F0
 ret	; 3D7F1
-sub_3D7F2:
+goaliehome:
 push ebx	; 3D7F2
 push edx	; 3D7F3
 mov edx, eax	; 3D7F4
@@ -3781,11 +3781,11 @@ loc_3D85D:
 mov word [regd0], ax	; 3D85D
 loc_3D863:
 mov eax, edx	; 3D863
-call sub_3D12A	; 3D865
+call goalieskateto	; 3D865
 pop edx	; 3D86A
 pop ebx	; 3D86B
 ret	; 3D86C
-sub_3D86D:
+goalieposition:
 push ebx	; 3D86D
 push ecx	; 3D86E
 push edx	; 3D86F
@@ -4058,11 +4058,11 @@ test byte [byte_165250], 20h	; 3DC11
 je short loc_3DC26	; 3DC18
 loc_3DC1A:
 mov eax, esi	; 3DC1A
-call sub_3D427	; 3DC1C
+call goaliesave	; 3DC1C
 jmp near loc_3DEB5	; 3DC21
 loc_3DC26:
 mov eax, esi	; 3DC26
-call sub_3D7F2	; 3DC28
+call goaliehome	; 3DC28
 jmp near loc_3DEB5	; 3DC2D
 loc_3DC32:
 mov ebx, dword [off_11787C]	; 3DC32
@@ -4285,7 +4285,7 @@ cmp eax, byte 14h	; 3DEA5
 jl near loc_3DC1A	; 3DEA8
 loc_3DEAE:
 mov eax, esi	; 3DEAE
-call sub_3D12A	; 3DEB0
+call goalieskateto	; 3DEB0
 loc_3DEB5:
 pop edi	; 3DEB5
 pop esi	; 3DEB6
@@ -4383,7 +4383,7 @@ loc_3DFB5:
 mov word [regd0], dx	; 3DFB5
 loc_3DFBC:
 mov eax, esi	; 3DFBC
-call sub_3D12A	; 3DFBE
+call goalieskateto	; 3DFBE
 jmp near loc_3DEB5	; 3DFC3
 loc_3DFC8:
 test edx, edx	; 3DFC8
@@ -4670,7 +4670,7 @@ test ax, ax	; 3E336
 jne near loc_3DEB5	; 3E339
 loc_3E33F:
 mov eax, esi	; 3E33F
-call sub_3D86D	; 3E341
+call goalieposition	; 3E341
 jmp near loc_3DEB5	; 3E346
 loc_3E34B:
 mov al, byte [byte esi+044h]	; 3E34B

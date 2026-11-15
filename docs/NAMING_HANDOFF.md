@@ -10,11 +10,14 @@ and the Overbar branches (see "Merging"). No decompilation. Skip Watcom internal
 - NHL95PC: strings, engine data, most front-end data, the most-called library routines, every symbol the port links.
 
 ## Remaining queue
-1. NHL96PC engine: about 100 `sub_` routines in `src/engine/` are left. Every routine with an NHL95PC partner is
-   named (call position, module order, shared references, callers). The rest is code new in 96 (extra assignment
-   routines in `asstab`, the goalie routines after assgoalie, the drawing helpers in `lines.asm`, save file name
-   helpers after LoadGameState) and each needs a full read; `source=new`. List them with their callers and
-   references before reading. Do not retry: dostop at 4B748, newcheck at 68E31, `sub_30E6B` as assreplace.
+1. NHL96PC engine: about 77 `sub_` routines in `src/engine/` are left. Every routine with a partner in an earlier
+   game is named, the fights from NHLPA 93 Genesis (checkfight, SetInst, assfight, chkhit, assfwatch, fightinput).
+   The new assignments (asstab 2Fh-35h) and the goalie helpers have `source=new` names. Still unnamed in the AI:
+   `sub_30E6B` (forwards on defence, 271 lines), `sub_313D2` (offence, 307 lines), `sub_3251A`, `sub_37ED0` and
+   `sub_30274` (a zone analysis in dword_165248..), `sub_2F029` (empty asstab slots 14h/15h). The rest is drawing
+   helpers in `lines.asm` and save file name helpers after LoadGameState. Check NHL94Genesis, NHL94SNES and
+   NHLPA93Genesis for the routine before inventing a name. Do not retry: dostop at 4B748, newcheck at 68E31,
+   `sub_30E6B` as assreplace; `clockcont_0` and `ClampYPosition` are real 94 Genesis labels.
    The 96 player struct differs from 95 (facing +36h, position +66h, id +86h, team +88h): name its fields first,
    NHL95PC has them as equates.
 2. NHL96PC: team struct fields (stride looks like 136h), then front-end files in SEGMENT_AGENT.md order.

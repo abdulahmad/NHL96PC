@@ -187,7 +187,7 @@ void alog_second(void)
     irq_log_state(iq, sizeof iq);
     for (i = 0; i < 8; i++) if (((volatile uint32_t *)GAME_ADDR(ORIG_TIMER_LIST))[i]) timers++;
     {
-        uint32_t envp = *(volatile uint32_t *)GAME_ADDR(0x14F09Cu);   /* the C library's environ (overrides.c) */
+        uint32_t envp = *(volatile uint32_t *)GAME_ADDR(SYM__environ);   /* the C library's environ (overrides.c) */
         const char *e0 = envp && *(uint32_t *)(uintptr_t)envp ? (const char *)(uintptr_t)*(uint32_t *)(uintptr_t)envp : "";
         static char last[48];
         if (strncmp(last, e0, sizeof last - 1)) { snprintf(last, sizeof last, "%.40s", e0); alog("game environ[0] now \"%s\"", last); }

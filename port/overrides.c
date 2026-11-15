@@ -34,8 +34,8 @@ void patch_jmp(void *from, void *to)
 /* __setenvp_ (D7C08) would load FS with the DOS/4GW environment selector (FS is the TEB on Windows). Build the same table from the flat
  * block (cstart.c): environ at 14F09C, the flag bytes at 14F0A0, the block pointer at 12442D. This was an empty stub, so environ stayed 0,
  * getenv_ (C2CF7) returned 0 for everything and the sound code (CE0CB: BLASTER, D6128: ULTRASND) found no card: no sound on Windows. */
-#define ORIG_ENVIRON  0x14F09Cu
-#define ORIG_ENVFLAGS 0x14F0A0u
+#define ORIG_ENVIRON  SYM__environ
+#define ORIG_ENVFLAGS SYM____env_mask
 void host_setenvp(void)
 {
     static char *env[65];
@@ -153,9 +153,9 @@ __attribute__((naked)) static void wait_ticks_entry(void)
  * video_present could sample the DAC mid-write (one wrong frame every few seconds). Sleep until the emulated retrace edge instead. */
 void host_wait_retrace(void)
 {
-    uint32_t mode = *(uint32_t *)GAME_ADDR(0x1248C8);
+    uint32_t mode = *(uint32_t *)GAME_ADDR(SYM_dword_1248C8);
     int64_t now, ph;
-    if (mode > 1) { *(uint32_t *)GAME_ADDR(0x123AC4) = 0x186A0; return; }
+    if (mode > 1) { *(uint32_t *)GAME_ADDR(SYM_dword_123AC4) = 0x186A0; return; }
     host_allow_irq = 1;
     if (mode != 1) {                             /* mode 0: leave retrace first (same as the original loopne) */
         for (;;) {
@@ -173,7 +173,7 @@ void host_wait_retrace(void)
         else plat_sleep_ms(0);
     }
     video_on_retrace();                     /* apply pending page flip when no TGV palette chunk follows */
-    *(uint32_t *)GAME_ADDR(0x123AC4) = 0x186A0;
+    *(uint32_t *)GAME_ADDR(SYM_dword_123AC4) = 0x186A0;
     host_allow_irq = 0;
 }
 

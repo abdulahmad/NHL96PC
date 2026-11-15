@@ -17,7 +17,7 @@
 
 #include "game.h"
 
-#define ORIG_EDITTEXT 0x197EDu          /* EditText: push esi, push edi, enter 394h,0; arguments in eax, edx, ebx, ecx and three on the stack (retn 0Ch) */
+#define ORIG_EDITTEXT SYM_EditText          /* EditText: push esi, push edi, enter 394h,0; arguments in eax, edx, ebx, ecx and three on the stack (retn 0Ch) */
 
 volatile int osk_text_wanted;                  /* the game is inside the text-edit routine */
 volatile uint32_t osk_ret, osk_tmp, osk_tramp;

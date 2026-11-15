@@ -100,12 +100,12 @@ int32_t curperiod = -1;
 int32_t dword_D3028, inputinstalled, playsuspended;
 /* The mouse driver's state in 96 (MouseReadMotion reads int 33h 0Bh into these, the same code as 95's): the pointer and its range. */
 #define G32(a) (*(volatile int32_t *)GAME_ADDR(a))
-#define mousex      G32(0x11F5A8u)
-#define mousey      G32(0x11F5ACu)
-#define mouseminx G32(0x11F568u)      /* min x */
-#define mouseminy G32(0x11F56Cu)      /* min y */
-#define mousemaxx G32(0x11F570u)      /* max x (exclusive) */
-#define mousemaxy G32(0x11F574u)      /* max y (exclusive) */
+#define mousex      G32(SYM_mousex)
+#define mousey      G32(SYM_mousey)
+#define mouseminx G32(SYM_mouseminx)      /* min x */
+#define mouseminy G32(SYM_mouseminy)      /* min y */
+#define mousemaxx G32(SYM_mousemaxx)      /* max x (exclusive) */
+#define mousemaxy G32(SYM_mousemaxy)      /* max y (exclusive) */
 uint8_t pad1dev, pad2dev;
 uint32_t ctl1dev, ctl2dev, ctl1side, ctl2side;
 

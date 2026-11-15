@@ -46,19 +46,19 @@ void sndinit_test(void)
     uint32_t r;
     host_cstart(g_argc, g_argv);
     __asm__ volatile("movl $0xFF, %%eax\n\tcall *%0" : : "r"(GAME_ADDR(ORIG_INITRTNS)) : "eax", "edx", "ecx", "ebx", "esi", "edi", "memory");
-    r = gcall(0xC2CF7, (uint32_t)(uintptr_t)name, 0, 0, 0);
-    alog("sndinit: environ %08x, getenv(BLASTER) -> %08x %s", *(uint32_t *)GAME_ADDR(0x14F09Cu), r, r ? (char *)(uintptr_t)r : "(null)");
+    r = gcall(SYM_getenv_, (uint32_t)(uintptr_t)name, 0, 0, 0);
+    alog("sndinit: environ %08x, getenv(BLASTER) -> %08x %s", *(uint32_t *)GAME_ADDR(SYM__environ), r, r ? (char *)(uintptr_t)r : "(null)");
     printf("getenv(BLASTER) -> %s\n", r ? (char *)(uintptr_t)r : "(null)");
-    r = gcall(0xCE0A9, (uint32_t)(uintptr_t)&v[0], (uint32_t)(uintptr_t)&v[1], (uint32_t)(uintptr_t)&v[2], (uint32_t)(uintptr_t)&v[3]);
+    r = gcall(SYM_ParseBlasterEnv, (uint32_t)(uintptr_t)&v[0], (uint32_t)(uintptr_t)&v[1], (uint32_t)(uintptr_t)&v[2], (uint32_t)(uintptr_t)&v[3]);
     printf("parse -> %d: A %x I %d D %d H %d\n", (int)r, v[0], v[1], v[2], v[3]);
     alog("sndinit: ParseBlasterEnv -> %d A %x I %d D %d H %d", (int)r, v[0], v[1], v[2], v[3]);
     {
         const char *c = getenv("NHL96_SNDINIT");
         int drv = atoi(c) > 1 ? atoi(c) : 5;
-        r = gcall(0xC157F, drv, 0xFFFFFFFFu, 0, 0);
+        r = gcall(SYM_SndSetDriver, drv, 0xFFFFFFFFu, 0, 0);
         printf("driver %d init -> %d, current driver %d\n", drv, (int)r, *(int32_t *)GAME_ADDR(ORIG_SND_DRIVER));
-        printf("image at %p; sb16: version %x, dmabuf %08x/%08x, buffer len %d\n", (void *)GAME_ADDR(0x10000), *(int32_t *)GAME_ADDR(0x1A107Cu),
-               *(uint32_t *)GAME_ADDR(0x1A1078u), *(uint32_t *)GAME_ADDR(0x14F05Cu), *(int32_t *)GAME_ADDR(0x1A105Cu));
+        printf("image at %p; sb16: version %x, dmabuf %08x/%08x, buffer len %d\n", (void *)GAME_ADDR(0x10000), *(int32_t *)GAME_ADDR(SYM_dword_1A107C),
+               *(uint32_t *)GAME_ADDR(SYM_dword_1A1078), *(uint32_t *)GAME_ADDR(SYM_dword_14F05C), *(int32_t *)GAME_ADDR(SYM_dword_1A105C));
         alog("sndinit: SndSetDriver(%d) -> %d, snddriver %d", drv, (int)r, *(int32_t *)GAME_ADDR(ORIG_SND_DRIVER));
     }
     fflush(stdout);

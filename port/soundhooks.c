@@ -13,15 +13,15 @@
 void patch_jmp(void *from, void *to);
 
 static const struct { uint32_t addr; int len; uint8_t first; const char *name; } hooks[] = {
-    { 0x694B9, 6, 0x53, "StartSoundCard sound start (eax card, edx flag)" },
-    { 0xC157F, 6, 0x53, "SndSetDriver driver start (eax driver, edx)" },
-    { 0xCEA3B, 8, 0x53, "sub_CEA3B SB driver init" },
-    { 0xCEDDE, 8, 0x53, "sub_CEDDE SB Pro driver init" },
-    { 0xCF2D8, 8, 0x53, "sub_CF2D8 SB16 driver init" },
-    { 0xCE0A9, 6, 0x56, "ParseBlasterEnv BLASTER parse" },
-    { 0xCE2E8, 6, 0x52, "sub_CE2E8 DSP version" },
-    { 0xAB798, 8, 0x56, "sub_AB798 DOS memory alloc" },
-    { 0xCF59A, 9, 0x53, "sub_CF59A SB16 start" },
+    { SYM_StartSoundCard, 6, 0x53, "StartSoundCard sound start (eax card, edx flag)" },
+    { SYM_SndSetDriver, 6, 0x53, "SndSetDriver driver start (eax driver, edx)" },
+    { SYM_sub_CEA3B, 8, 0x53, "sub_CEA3B SB driver init" },
+    { SYM_sub_CEDDE, 8, 0x53, "sub_CEDDE SB Pro driver init" },
+    { SYM_sub_CF2D8, 8, 0x53, "sub_CF2D8 SB16 driver init" },
+    { SYM_ParseBlasterEnv, 6, 0x56, "ParseBlasterEnv BLASTER parse" },
+    { SYM_sub_CE2E8, 6, 0x52, "sub_CE2E8 DSP version" },
+    { SYM_sub_AB798, 8, 0x56, "sub_AB798 DOS memory alloc" },
+    { SYM_sub_CF59A, 9, 0x53, "sub_CF59A SB16 start" },
 };
 #define NH (sizeof hooks / sizeof hooks[0])
 static uint32_t saved_ret[NH];

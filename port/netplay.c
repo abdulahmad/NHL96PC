@@ -40,34 +40,34 @@
 #endif
 
 /* ---- the game's code and data (original linear addresses, lst/HOCKEY.EXE.lst) ---- */
-#define O_PLAYGAME     0x17494u    /* PlayGame(eax): a game; eax < 0 a new one. push ebx, ecx, edx, esi; mov esi, eax (6 bytes) */
-#define O_AVAIL        0x170A5u    /* GameLoop: cmp InputRecordCount, 0 (7 bytes), then jz the drawing */
-#define O_AVAIL2       0x2DE99u    /* sub_2DE30, the same loop for a set time (lineuptime) before play: the line-up at a faceoff */
-#define O_SAMPLER      0x16C4Du    /* InputRecordTimer, the record timer: push ebx, ecx, edx, esi, edi, ebp */
-#define O_READPADS     0x10AF1u    /* PollControllers: the controllers into the slot table */
-#define O_INITPADS     0x108BBu    /* InitSlotTable: the slot table from the set-up */
-#define C_INITPADS     0x174FFu    /*   its call in PlayGame */
-#define O_MENU         0x6A7D3u    /* RunInGameMenu: the menu InGameMenuRequest asks for */
-#define C_MENU1        0x175C4u    /*   before the first faceoff */
-#define C_MENU2        0x17255u    /*   in the loop */
-#define O_INTER        0x4B05Eu    /* NextPeriod: the next period (period count, ends, stats): game logic, runs online as offline */
-#define C_INTER        0x1728Bu
-#define O_HOTKEYS      0x609C6u    /* ReadHotKeys: keys read straight from the keyboard */
-#define C_HOTKEYS      0x17201u
-#define O_OVER         0x62311u    /* sub_62311 */
-#define C_OVER         0x17324u    /*   the game is over */
-#define O_TICK_ISR     0xAA5D5u    /* TimerISR: mov edx, tickcount / inc edx / mov ebx, 5 / mov tickcount, edx (18 bytes) */
-#define O_CSEED_FN     0xB03F2u    /* mov eax, <the C library's rand state> / ret */
-#define D_EASEED       0x117934u   /* EA's random number state (randomd0) */
-#define D_QCOUNT       0x114BA4u
-#define D_QHEAD        0x114BA0u
-#define D_QRING        0x1515D4u
-#define D_PADTAB       0x1515B4u   /* 4 slots of 7 bytes: on, device (word: 1 none, 2 keys, 4.. sticks, 40h mouse), buttons */
-#define D_SETUP_PTR    0x17C9A0u   /* the game's set-up: +5+i slot i's team (0/1), +9+2i its device (1: nobody) */
-#define D_OPTS         0x17CA20u   /* the options (globalset, the sound card, stays each machine's) */
-#define D_OPTS_END     0x17CA75u
-#define D_OPTS2        0x17C9A8u
-#define D_MENUFLAG     0x11D7A0u
+#define O_PLAYGAME     SYM_PlayGame    /* PlayGame(eax): a game; eax < 0 a new one. push ebx, ecx, edx, esi; mov esi, eax (6 bytes) */
+#define O_AVAIL        SYM_GameLoop_inputcheck    /* GameLoop: cmp InputRecordCount, 0 (7 bytes), then jz the drawing */
+#define O_AVAIL2       SYM_loc_2DE99    /* sub_2DE30, the same loop for a set time (lineuptime) before play: the line-up at a faceoff */
+#define O_SAMPLER      SYM_InputRecordTimer    /* InputRecordTimer, the record timer: push ebx, ecx, edx, esi, edi, ebp */
+#define O_READPADS     SYM_PollControllers    /* PollControllers: the controllers into the slot table */
+#define O_INITPADS     SYM_InitSlotTable    /* InitSlotTable: the slot table from the set-up */
+#define C_INITPADS     SYM_PlayGame_initslotscall    /*   its call in PlayGame */
+#define O_MENU         SYM_RunInGameMenu    /* RunInGameMenu: the menu InGameMenuRequest asks for */
+#define C_MENU1        SYM_PlayGame_menucall    /*   before the first faceoff */
+#define C_MENU2        SYM_GameLoop_menucall    /*   in the loop */
+#define O_INTER        SYM_NextPeriod    /* NextPeriod: the next period (period count, ends, stats): game logic, runs online as offline */
+#define C_INTER        SYM_GameLoop_nextperiodcall
+#define O_HOTKEYS      SYM_ReadHotKeys    /* ReadHotKeys: keys read straight from the keyboard */
+#define C_HOTKEYS      SYM_GameLoop_hotkeyscall
+#define O_OVER         SYM_sub_62311    /* sub_62311 */
+#define C_OVER         SYM_GameLoop_gameovercall    /*   the game is over */
+#define O_TICK_ISR     SYM_TimerISR_tick    /* TimerISR: mov edx, tickcount / inc edx / mov ebx, 5 / mov tickcount, edx (18 bytes) */
+#define O_CSEED_FN     SYM_sub_B03F2    /* mov eax, <the C library's rand state> / ret */
+#define D_EASEED       SYM_seed   /* EA's random number state (randomd0) */
+#define D_QCOUNT       SYM_InputRecordCount
+#define D_QHEAD        SYM_InputRecordHead
+#define D_QRING        SYM_InputRecordRing
+#define D_PADTAB       SYM_SlotTable   /* 4 slots of 7 bytes: on, device (word: 1 none, 2 keys, 4.. sticks, 40h mouse), buttons */
+#define D_SETUP_PTR    SYM_gameopts   /* the game's set-up: +5+i slot i's team (0/1), +9+2i its device (1: nobody) */
+#define D_OPTS         SYM_optblock   /* the options (globalset, the sound card, stays each machine's) */
+#define D_OPTS_END     SYM_optblock_end
+#define D_OPTS2        SYM_optflags
+#define D_MENUFLAG     SYM_InGameMenuRequest
 #define SETUP_N        0x90u
 #define OPTS_N         (D_OPTS_END - D_OPTS)
 #define VTIME_START    0x01000000u /* tickcount at a session's first step (above anything the loading left) */
@@ -217,7 +217,7 @@ static void log_step(uint32_t cnt)
     if (nh_net) ob_net_status(nh_net, line, sizeof line);
     unlock();
     fprintf(stderr, "rollback: at %.1f s, step %u, period %d; %s; %s\n", plat_now_ns() / 1e9, (unsigned)cnt,
-            (int)*(volatile int16_t *)GAME_ADDR(0x1178FEu) + 1, ob_rollback_stats(nh_rb), line);   /* gsp: the period, from 0 */
+            (int)*(volatile int16_t *)GAME_ADDR(SYM_gsp) + 1, ob_rollback_stats(nh_rb), line);   /* gsp: the period, from 0 */
     if (nh_regions_log) {
         uint64_t h[64];
         int n = ob_rollback_region_hashes(nh_rb, h, 64), i;

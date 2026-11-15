@@ -11,7 +11,7 @@ extern gameclock, gameopts, gmode, hmtmstruct, off_11787C, off_117888, off_11788
 extern penmintab, penshotlive, penshotmode, penshotplayer, penshotstart, penshottimer, puckvx, puckvz
 extern puckx, pucky, puckz, randomd0, regd2, regd3, shotongoal, shotontarget
 extern sprintf_, SetSPA, Setplass, setplayer, sub_4FDC0, CanRemovePlayer, sub_68E21, sub_68E31
-extern sfx, sub_69141, sub_77355, SortIndices, vecdist, unk_157F9C, unk_158610, word_1178C6
+extern sfx, sub_69141, sub_77355, SortIndices, vecdist, unk_157F9C, unk_158610, gmode2
 extern word_1178F4, word_1178F6, word_1178F8, word_1178FA, word_1178FC, word_1178FE, word_117902, word_118E8F
 extern word_1190E7, word_1190E9, word_11910B, word_11910F, word_119111, word_119113, Pencntdwn2, word_11A224
 extern word_11A26C, word_1656E8, word_165710, word_16581E, word_165846, word_165980, word_176B80, word_176B88
@@ -872,7 +872,7 @@ je short loc_50C21	; 50C45
 mov word [Pencntdwn2], 0FFFFh	; 50C47
 mov eax, dword [off_117888]	; 50C50
 mov word [word_118E8F], 1	; 50C55
-or byte [word_1178C6], 4	; 50C5E
+or byte [gmode2], 4	; 50C5E
 mov byte [eax], 0FFh	; 50C65
 mov eax, dword [off_11788C]	; 50C68
 movsx edx, word [byte eax+01Ch]	; 50C6D
@@ -1063,7 +1063,7 @@ and al, 1	; 50F20
 movsx eax, al	; 50F22
 test eax, eax	; 50F25
 jne short loc_50F46	; 50F27
-mov ax, word [word_1178C6]	; 50F29
+mov ax, word [gmode2]	; 50F29
 xor ah, ah	; 50F2F
 and al, 80h	; 50F31
 cwde	; 50F33
@@ -1390,13 +1390,13 @@ loc_51323:
 mov eax, ebx	; 51323
 call sub_511CC	; 51325
 jmp near loc_504BE	; 5132A
-mov ax, word [word_1178C6]	; 5132F
+mov ax, word [gmode2]	; 5132F
 xor ah, ah	; 51335
 and al, 20h	; 51337
 cwde	; 51339
 test eax, eax	; 5133A
 je short sub_51360	; 5133C
-mov ax, word [word_1178C6]	; 5133E
+mov ax, word [gmode2]	; 5133E
 xor ah, ah	; 51344
 and al, 40h	; 51346
 cwde	; 51348
@@ -1426,13 +1426,13 @@ or byte [byte_1178C8], 40h	; 51390
 add word [word_1178F4], byte 18h	; 51397
 call sub_51474	; 5139F
 call chkatop	; 513A4
-mov ax, word [word_1178C6]	; 513A9
+mov ax, word [gmode2]	; 513A9
 xor ah, ah	; 513AF
 and al, 20h	; 513B1
 cwde	; 513B3
 test eax, eax	; 513B4
 je short loc_513D7	; 513B6
-mov ax, word [word_1178C6]	; 513B8
+mov ax, word [gmode2]	; 513B8
 xor ah, ah	; 513BE
 and al, 40h	; 513C0
 cwde	; 513C2
@@ -1475,7 +1475,7 @@ jl short loc_5144D	; 51433
 dec word [Pencntdwn2]	; 51435
 cmp word [Pencntdwn2], byte 0	; 5143C
 jge short loc_5144D	; 51444
-or byte [word_1178C6], 4	; 51446
+or byte [gmode2], 4	; 51446
 loc_5144D:
 mov al, byte [gmode]	; 5144D
 and al, 4	; 51452
@@ -1495,14 +1495,14 @@ mov cx, word [word_165710]	; 51477
 mov eax, awtmstruct	; 5147E
 sub cx, word [word_165846]	; 51483
 jne short loc_51497	; 5148A
-and byte [word_1178C6], 0DFh	; 5148C
+and byte [gmode2], 0DFh	; 5148C
 pop edx	; 51493
 pop ecx	; 51494
 pop ebx	; 51495
 ret	; 51496
 loc_51497:
-mov bx, word [word_1178C6]	; 51497
-mov dx, word [word_1178C6]	; 5149E
+mov bx, word [gmode2]	; 51497
+mov dx, word [gmode2]	; 5149E
 xor bh, bh	; 514A5
 and dl, 9Fh	; 514A7
 and bl, 40h	; 514AA
@@ -1517,18 +1517,18 @@ loc_514C0:
 movsx ebx, bx	; 514C0
 test ebx, ebx	; 514C3
 jne short loc_514D8	; 514C5
-mov word [word_1178C6], dx	; 514C7
+mov word [gmode2], dx	; 514C7
 or dl, 40h	; 514CE
 loc_514D1:
-mov word [word_1178C6], dx	; 514D1
+mov word [gmode2], dx	; 514D1
 loc_514D8:
-mov dx, word [word_1178C6]	; 514D8
+mov dx, word [gmode2]	; 514D8
 xor dh, dh	; 514DF
 and dl, 20h	; 514E1
 movsx edx, dx	; 514E4
 test edx, edx	; 514E7
 jne short loc_514F6	; 514E9
-or byte [word_1178C6], 20h	; 514EB
+or byte [gmode2], 20h	; 514EB
 inc word [byte eax+04h]	; 514F2
 loc_514F6:
 pop edx	; 514F6

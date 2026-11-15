@@ -2293,6 +2293,7 @@ E14C8,vecdist,sub_E14C8,95PC,high,called at the same position as in NHL95PC in 4
 1178C2,collflag,,95PC,medium,NHL95PC C90BA (refset): referenced by the same 6 matched functions,
 1178C3,gmode,,95PC,medium,NHL95PC C90BB (refset): referenced by the same 11 matched functions,
 1178C4,sflags,,95PC,medium,NHL95PC C90BC (refset): referenced by the same 4 matched functions,
+1178C6,gmode2,word_1178C6,95PC,high,assfaceoff tests bit 0 as NHL95PC assfaceoff tests gmode2 bit 0; lines up in TryBlockShot and chkprogress too,src/data/front/front_2A692_data_02.asm
 1178F2,Pencntdwn,,95PC,medium,NHL95PC C90CE (refset): referenced by the same 5 matched functions,
 117900,gameclock,,95PC,medium,NHL95PC C90DC (refset): referenced by the same 4 matched functions,
 11797E,penmintab,,95PC,medium,NHL95PC C9123 (refset): referenced by the same 3 matched functions,

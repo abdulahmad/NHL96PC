@@ -23,7 +23,7 @@ extern sub_69141, sub_69161, sub_692E9, sub_69312, sub_6934E, sub_69A9B, sub_773
 extern sub_AFFD0, TextSetFont, sub_B58D8, sub_B6140, sub_DD724, SetClipWindow, sub_DD7B8, sub_DD8B0
 extern sub_DFEC6, sub_E0520, sub_E0992, vecdist, sub_E15AC, unk_119D0A, unk_119D22, unk_119D36
 extern unk_119D4E, unk_156E6C, unk_157B82, unk_16443C, unk_164B5C, unk_164E7C, unk_165354, unk_17D3E8
-extern vtoa, word_1178A0, word_1178A2, word_1178B4, word_1178B6, word_1178C6, word_1178CA, word_1178D2
+extern vtoa, word_1178A0, word_1178A2, word_1178B4, word_1178B6, gmode2, word_1178CA, word_1178D2
 extern word_1178F8, word_118E91, word_118E9F, word_118EA3, word_119D08, word_119D62, word_11D604, word_1515E4
 extern word_156E6E, word_157AFA, word_157AFC, word_157B00, word_157B06, word_1647CA, word_165366, word_16536C
 extern word_165462, word_165468, word_16548C, word_165492, word_1656E8, word_16570A, word_165758, word_16581E
@@ -3354,7 +3354,7 @@ setl dl	; 303A8
 movzx edx, dl	; 303AB
 cmp edx, ebx	; 303AE
 jne short loc_303EE	; 303B0
-mov dx, word [word_1178C6]	; 303B2
+mov dx, word [gmode2]	; 303B2
 xor dh, dh	; 303B9
 and dl, 80h	; 303BB
 movsx edx, dx	; 303BE
@@ -3642,7 +3642,7 @@ setl al	; 306EE
 movzx eax, al	; 306F1
 cmp eax, edx	; 306F4
 jne short loc_3071D	; 306F6
-mov ax, word [word_1178C6]	; 306F8
+mov ax, word [gmode2]	; 306F8
 xor ah, ah	; 306FE
 and al, 80h	; 30700
 cwde	; 30702
@@ -3672,7 +3672,7 @@ loc_3073E:
 movsx eax, word [word_165980]	; 3073E
 cmp eax, byte 79h	; 30745
 jl short loc_30707	; 30748
-mov ax, word [word_1178C6]	; 3074A
+mov ax, word [gmode2]	; 3074A
 xor ah, ah	; 30750
 and al, 20h	; 30752
 cwde	; 30754
@@ -3681,7 +3681,7 @@ je short loc_30770	; 30757
 mov al, byte [byte ebx+044h]	; 30759
 and al, 40h	; 3075C
 movzx edx, al	; 3075E
-mov ax, word [word_1178C6]	; 30761
+mov ax, word [gmode2]	; 30761
 xor ah, ah	; 30767
 and al, 40h	; 30769
 cwde	; 3076B
@@ -4032,7 +4032,7 @@ setl al	; 30C0C
 movzx eax, al	; 30C0F
 cmp eax, edx	; 30C12
 jne short loc_30C6D	; 30C14
-mov ax, word [word_1178C6]	; 30C16
+mov ax, word [gmode2]	; 30C16
 xor ah, ah	; 30C1C
 and al, 20h	; 30C1E
 cwde	; 30C20
@@ -4041,7 +4041,7 @@ je short loc_30C3C	; 30C23
 mov al, byte [byte ebx+044h]	; 30C25
 and al, 40h	; 30C28
 movzx edx, al	; 30C2A
-mov ax, word [word_1178C6]	; 30C2D
+mov ax, word [gmode2]	; 30C2D
 xor ah, ah	; 30C33
 and al, 40h	; 30C35
 cwde	; 30C37
@@ -4055,7 +4055,7 @@ xor ecx, ecx	; 30C43
 loc_30C45:
 test ecx, ecx	; 30C45
 je short loc_30C6D	; 30C47
-mov ax, word [word_1178C6]	; 30C49
+mov ax, word [gmode2]	; 30C49
 xor ah, ah	; 30C4F
 and al, 80h	; 30C51
 cwde	; 30C53
@@ -4460,7 +4460,7 @@ setl dl	; 3118A
 movzx edx, dl	; 3118D
 cmp edx, ebx	; 31190
 jne short loc_311D2	; 31192
-mov dx, word [word_1178C6]	; 31194
+mov dx, word [gmode2]	; 31194
 xor dh, dh	; 3119B
 and dl, 80h	; 3119D
 movsx edx, dx	; 311A0
@@ -4506,7 +4506,7 @@ setl dl	; 3123C
 movzx edx, dl	; 3123F
 cmp edx, ebx	; 31242
 jne short loc_3126E	; 31244
-mov dx, word [word_1178C6]	; 31246
+mov dx, word [gmode2]	; 31246
 xor dh, dh	; 3124D
 and dl, 80h	; 3124F
 movsx edx, dx	; 31252

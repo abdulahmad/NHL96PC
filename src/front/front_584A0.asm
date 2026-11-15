@@ -47,7 +47,7 @@ extern sub_E04E0, sub_E0584, sub_E162A, sub_E1638, unk_111024, str_12, str_24, s
 extern str_42, unk_11B2AC, unk_122320, unk_157FDA, unk_157FF8, unk_1582F5, unk_158313, unk_16443C
 extern unk_1782AC, unk_1786AC, unk_178AAC, unk_1798C0, unk_179980, unk_179AC0, unk_179BBC, unk_179CCC
 extern unk_179CE4, unk_179CFC, unk_179D14, unk_179D2C, unk_17B248, unk_17B518, unk_17B830, unk_17B930
-extern unk_17D3E8, unk_58468, unk_5848C, vtoa, word_1178C6, word_1178CA, word_1178FE, word_117902
+extern unk_17D3E8, unk_58468, unk_5848C, vtoa, gmode2, word_1178CA, word_1178FE, word_117902
 extern word_119111, word_119117, word_11911F, word_119127, word_11B274, word_11B276, word_1515B5, word_1647A8
 extern word_1647AA, word_1650A6, word_165144, word_165146, word_165148, word_16514A, word_16514C, word_1656DA
 extern word_1656DC, word_1656E8, word_165704, word_165710, word_16581E, word_16583A, word_165846, word_17709C
@@ -3694,7 +3694,7 @@ call sub_63E7C	; 5B44C
 jmp near loc_5AF28	; 5B451
 sub_5B456:
 push edx	; 5B456
-mov ax, word [word_1178C6]	; 5B457
+mov ax, word [gmode2]	; 5B457
 xor ah, ah	; 5B45D
 and al, 20h	; 5B45F
 cwde	; 5B461
@@ -3716,7 +3716,7 @@ cmp eax, byte 14h	; 5B48C
 jg short loc_5B4B2	; 5B48F
 loc_5B491:
 mov edx, eax	; 5B491
-mov ax, word [word_1178C6]	; 5B493
+mov ax, word [gmode2]	; 5B493
 xor ah, ah	; 5B499
 and al, 40h	; 5B49B
 cwde	; 5B49D

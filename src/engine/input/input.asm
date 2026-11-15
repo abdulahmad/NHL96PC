@@ -14,7 +14,7 @@ extern sub_3509F, sub_3E665, BlockShotDive, sub_3F5E4, sub_406A0, sub_40B2A, sub
 extern sub_415FF, sub_441EF, sub_442B3, Findhittype, doshot, SetSPA, sub_46593, changeplayer
 extern sub_4A047, doplayeracc, playeracc, sub_4DD1B, burst, sub_68E31, sfx, MouseRead
 extern vecdist, unk_164754, unk_164B5C, vtoa, word_1178A8, word_1178AC, word_1178AE, word_1178B4
-extern word_1178BE, word_1178C0, word_1178C6, word_1178CA, word_1178D2, word_1178FE, word_118EA5, word_118EA9
+extern word_1178BE, word_1178C0, gmode2, word_1178CA, word_1178D2, word_1178FE, word_118EA5, word_118EA9
 extern word_118EB1, word_119EDA, word_16474C, word_164794, word_165078, word_165082, word_1656E8, word_165704
 extern word_165710, word_16597C, word_165980
 global Acheck, CtlSwapScoreFix, CtlSwapTeamFlag, OppInReach, ReadJoy1, ReassignCtlPlayer, asspassrec, getlchoice
@@ -1459,7 +1459,7 @@ mov word [dword esi+lcboxon], 0	; 3907A
 loc_39083:
 mov word [nosplit edi*2+LineChangeReq], 0	; 39083
 loc_3908D:
-mov ax, word [word_1178C6]	; 3908D
+mov ax, word [gmode2]	; 3908D
 xor ah, ah	; 39093
 and al, 1	; 39095
 cwde	; 39097

@@ -17,7 +17,7 @@ extern SetSPA, sub_46593, sub_465BA, changeplayer, GetHot, Setplass, setplayer, 
 extern sub_4A91D, sub_4AF6B, ResetBench, forcepldata, doplayeracc, sub_4C294, skateto, playeracc
 extern avdgoal, sub_4D7F1, AddPenalty2, sub_50CB5, sub_59A36, sub_68E31, sub_6934E, vecdist
 extern threat, unk_164B5C, vtoa, word_1178A0, word_1178A2, word_1178B4, word_1178B6, word_1178B8
-extern word_1178BE, word_1178C0, word_1178C6, word_1178CA, word_1178D2, word_1178F6, word_1178F8, word_1178FA
+extern word_1178BE, word_1178C0, gmode2, word_1178CA, word_1178D2, word_1178F6, word_1178F8, word_1178FA
 extern word_1178FC, word_1178FE, word_117902, word_118E8F, word_118E9F, word_118EA3, word_118EB7, word_1190D7
 extern word_1190D9, word_11910B, word_11910F, word_119111, word_119113, word_119F78, word_164716, word_16472A
 extern word_164794, word_165144, word_1656E8, word_165704, word_165706, word_165758, word_16581E, word_16583A
@@ -1411,7 +1411,7 @@ mov word [word_119113], 0	; 3B943
 mov word [word_165144], 0	; 3B94C
 and byte [sflags], 0F3h	; 3B955
 xor eax, eax	; 3B95C
-and byte [word_1178C6], 0EFh	; 3B95E
+and byte [gmode2], 0EFh	; 3B95E
 call sub_28459	; 3B965
 mov eax, 1	; 3B96A
 xor edx, edx	; 3B96F
@@ -1458,9 +1458,9 @@ mov byte [byte_176B84], 0	; 3BA20
 mov word [word_1178F6], 0	; 3BA27
 mov byte [byte_164797], 0FFh	; 3BA30
 mov byte [byte_16479B], 0FFh	; 3BA37
-and byte [word_1178C6], 7Ah	; 3BA3E
+and byte [gmode2], 7Ah	; 3BA3E
 mov word [passplayer], 0FFFFh	; 3BA45
-or byte [word_1178C6], 5	; 3BA4E
+or byte [gmode2], 5	; 3BA4E
 call sub_465BA	; 3BA55
 mov word [word_118E8F], 0	; 3BA5A
 mov ax, word [foy]	; 3BA63
@@ -1664,7 +1664,7 @@ jl short loc_3BD28	; 3BD71
 call CenterMouse	; 3BD73
 mov eax, 64h	; 3BD78
 call sub_6934E	; 3BD7D
-and byte [word_1178C6], 0FAh	; 3BD82
+and byte [gmode2], 0FAh	; 3BD82
 and byte [gmode], 0FEh	; 3BD89
 and byte [byte ecx+045h], 0FEh	; 3BD90
 mov edx, 18h	; 3BD94

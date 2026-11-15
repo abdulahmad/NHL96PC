@@ -5,7 +5,7 @@ section s_4B7BB progbits alloc exec nowrite align=1
 extern SortCords, dword_11A11C, dword_11A15C, dword_11A19C, dword_165254, dword_176BDC, dword_17C9A8, gameopts
 extern gmode, off_11787C, off_117888, off_11788C, passplayer, puckvx, puckx, pucky
 extern randomd0, regd2, regd3, sub_3E6D4, SetSPA, GetHot, sub_4B748, sub_68E31
-extern vecdist, vtoa, word_1178B4, word_1178B6, word_1178C6, word_1178F6, word_117914, word_117916
+extern vecdist, vtoa, word_1178B4, word_1178B6, gmode2, word_1178F6, word_117914, word_117916
 extern word_165964, word_16597C, word_165980
 global EvadePlayers, avdgoal_box, loc_4B7E6, loc_4B7FC, loc_4B80F, loc_4B850, loc_4B857, loc_4B85E
 global loc_4B867, loc_4B895, loc_4B8C3, loc_4B8D2, loc_4B934, loc_4B970, loc_4B9AA, loc_4B9F5
@@ -102,7 +102,7 @@ and al, 1	; 4B82A
 movsx eax, al	; 4B82C
 test eax, eax	; 4B82F
 jne short loc_4B857	; 4B831
-mov ax, word [word_1178C6]	; 4B833
+mov ax, word [gmode2]	; 4B833
 xor ah, ah	; 4B839
 and al, 80h	; 4B83B
 cwde	; 4B83D
@@ -363,7 +363,7 @@ and al, 1	; 4BB64
 movsx eax, al	; 4BB66
 test eax, eax	; 4BB69
 jne short loc_4BB94	; 4BB6B
-mov ax, word [word_1178C6]	; 4BB6D
+mov ax, word [gmode2]	; 4BB6D
 xor ah, ah	; 4BB73
 and al, 80h	; 4BB75
 cwde	; 4BB77
@@ -413,7 +413,7 @@ and al, 1	; 4BBF4
 movsx eax, al	; 4BBF6
 test eax, eax	; 4BBF9
 jne short loc_4BC21	; 4BBFB
-mov ax, word [word_1178C6]	; 4BBFD
+mov ax, word [gmode2]	; 4BBFD
 xor ah, ah	; 4BC03
 and al, 80h	; 4BC05
 cwde	; 4BC07
@@ -438,7 +438,7 @@ and al, 1	; 4BC37
 movsx eax, al	; 4BC39
 test eax, eax	; 4BC3C
 jne short loc_4BC64	; 4BC3E
-mov ax, word [word_1178C6]	; 4BC40
+mov ax, word [gmode2]	; 4BC40
 xor ah, ah	; 4BC46
 and al, 80h	; 4BC48
 cwde	; 4BC4A
@@ -543,7 +543,7 @@ and al, 1	; 4BD7F
 movsx eax, al	; 4BD81
 test eax, eax	; 4BD84
 jne short loc_4BDAF	; 4BD86
-mov ax, word [word_1178C6]	; 4BD88
+mov ax, word [gmode2]	; 4BD88
 xor ah, ah	; 4BD8E
 and al, 80h	; 4BD90
 cwde	; 4BD92
@@ -593,7 +593,7 @@ and al, 1	; 4BE0F
 movsx eax, al	; 4BE11
 test eax, eax	; 4BE14
 jne short loc_4BE3F	; 4BE16
-mov ax, word [word_1178C6]	; 4BE18
+mov ax, word [gmode2]	; 4BE18
 xor ah, ah	; 4BE1E
 and al, 80h	; 4BE20
 cwde	; 4BE22
@@ -618,7 +618,7 @@ and al, 1	; 4BE58
 movsx eax, al	; 4BE5A
 test eax, eax	; 4BE5D
 jne short loc_4BE88	; 4BE5F
-mov ax, word [word_1178C6]	; 4BE61
+mov ax, word [gmode2]	; 4BE61
 xor ah, ah	; 4BE67
 and al, 80h	; 4BE69
 cwde	; 4BE6B
@@ -2467,7 +2467,7 @@ and al, 1	; 4D4E7
 movsx eax, al	; 4D4E9
 test eax, eax	; 4D4EC
 jne short loc_4D517	; 4D4EE
-mov ax, word [word_1178C6]	; 4D4F0
+mov ax, word [gmode2]	; 4D4F0
 xor ah, ah	; 4D4F6
 and al, 80h	; 4D4F8
 cwde	; 4D4FA
@@ -2510,7 +2510,7 @@ and al, 1	; 4D56A
 movsx eax, al	; 4D56C
 test eax, eax	; 4D56F
 jne short loc_4D597	; 4D571
-mov ax, word [word_1178C6]	; 4D573
+mov ax, word [gmode2]	; 4D573
 xor ah, ah	; 4D579
 and al, 80h	; 4D57B
 cwde	; 4D57D
@@ -2615,7 +2615,7 @@ and al, 1	; 4D6A1
 movsx eax, al	; 4D6A3
 test eax, eax	; 4D6A6
 jne short loc_4D6CE	; 4D6A8
-mov ax, word [word_1178C6]	; 4D6AA
+mov ax, word [gmode2]	; 4D6AA
 xor ah, ah	; 4D6B0
 and al, 80h	; 4D6B2
 cwde	; 4D6B4
@@ -3092,7 +3092,7 @@ and al, 1	; 4DBB4
 movsx eax, al	; 4DBB6
 test eax, eax	; 4DBB9
 jne short loc_4DBE1	; 4DBBB
-mov ax, word [word_1178C6]	; 4DBBD
+mov ax, word [gmode2]	; 4DBBD
 xor ah, ah	; 4DBC3
 and al, 80h	; 4DBC5
 cwde	; 4DBC7
@@ -3152,7 +3152,7 @@ and al, 1	; 4DC5A
 movsx eax, al	; 4DC5C
 test eax, eax	; 4DC5F
 jne short loc_4DC87	; 4DC61
-mov ax, word [word_1178C6]	; 4DC63
+mov ax, word [gmode2]	; 4DC63
 xor ah, ah	; 4DC69
 and al, 80h	; 4DC6B
 cwde	; 4DC6D

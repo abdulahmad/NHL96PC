@@ -17,7 +17,7 @@ extern off_117888, off_11788C, puckvx, puckvz, puckz, rand_, sflags, sub_1739F
 extern sub_1E7F6, sub_1F771, sub_4B4F3, sub_51CBA, sub_51D44, sub_51DD2, sub_625F7, sub_62ED9
 extern sub_63B0C, sub_695CB, sub_6986B, sub_AADA4, sub_AB758, sub_ABF4C, sub_DD6C4, SetClipWindow
 extern sub_E04E0, sub_E0584, unk_157B82, unk_157F9C, unk_158610, unk_176CA8, unk_176CDA, unk_176D0C
-extern unk_176D3E, unk_176DA2, unk_176E38, unk_176E6A, unk_176E9C, unk_176ED4, unk_17CA75, word_1178C6
+extern unk_176D3E, unk_176DA2, unk_176E38, unk_176E6A, unk_176E9C, unk_176ED4, unk_17CA75, gmode2
 extern word_1178CA, word_1178CC, word_1178CE, word_1178D0, word_117902, word_11A3EE, word_11A3F0, word_11D3A2
 extern word_16597C, word_176ECE, word_176ED0, dressedskaters, word_176EDB
 global FillDressedSlots, NormalizeDressFlags, PickExtraSkater, PickForLineSlot, RemoveFromLines, SetupTeamLines, loc_51F33, loc_51F3A
@@ -2065,7 +2065,7 @@ and al, 10h	; 53651
 movsx eax, al	; 53653
 test eax, eax	; 53656
 jne near loc_53BD2	; 53658
-mov ax, word [word_1178C6]	; 5365E
+mov ax, word [gmode2]	; 5365E
 xor ah, ah	; 53664
 and al, 4	; 53666
 cwde	; 53668

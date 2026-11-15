@@ -3994,7 +3994,7 @@
 ;  1178C2  collflag                                 data/front/front_2A692_data_02.asm           3
 ;  1178C3  gmode                                    data/front/front_2A692_data_02.asm           17
 ;  1178C4  sflags                                   data/front/front_2A692_data_02.asm           10
-;  1178C6  word_1178C6                              data/front/front_2A692_data_02.asm           11
+;  1178C6  gmode2                                   data/front/front_2A692_data_02.asm           11
 ;  1178C8  byte_1178C8                              data/front/front_2A692_data_02.asm           6
 ;  1178CA  word_1178CA                              data/front/front_2A692_data_02.asm           9
 ;  1178CC  word_1178CC                              data/front/front_2A692_data_02.asm           2

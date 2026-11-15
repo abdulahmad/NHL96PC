@@ -10,7 +10,7 @@ global fox, foy, gameclock, gmode, lastplayer, off_11786C, off_11787C, off_11788
 global off_11788C, off_117890, off_117894, off_117898, off_11789C, passplayer, puckvx, puckvz
 global puckx, pucky, puckz, sflags, threat, wcradiusx, word_1178A0, word_1178A2
 global word_1178A6, word_1178A8, word_1178AC, word_1178AE, word_1178B4, word_1178B6, word_1178B8, word_1178BE
-global word_1178C0, word_1178C6, word_1178CA, word_1178CC, word_1178CE, word_1178D0, word_1178D2, word_1178F4
+global word_1178C0, gmode2, word_1178CA, word_1178CC, word_1178CE, word_1178D0, word_1178D2, word_1178F4
 global word_1178F6, word_1178F8, word_1178FA, word_1178FC, word_1178FE, word_117902, word_117914, word_117916
 global word_117936
 dword_1177F4:
@@ -95,7 +95,7 @@ gmode:
 db 00h
 sflags:
 db 00h,00h
-word_1178C6:
+gmode2:
 db 00h,00h
 byte_1178C8:
 db 00h,00h

@@ -14,11 +14,13 @@ share code. No C decompilation for now. All work is on the branch `fable-work`.
 
 ## Decisions and why
 
-1. **No NHL95PC naming or grouping pass first.** NHL95PC is already cut into proven modules
-   (`src/engine|front|pc|lib|data`, its docs/MODULE_LAYOUT.md) and its segment queue is complete. Renaming the 485
-   `sub_` library and helper routines it still has would not help 96: the names reach 96 through
-   `tools/names/match95.py`, which can be run again whenever 95 gains names, so nothing is lost by not waiting.
-   NHL95PC `fable-work` is created with no changes; its build was checked (MATCH) on 2026-11-14.
+1. **NHL95PC gets a naming pass first; no grouping pass.** NHL95PC is already cut into proven modules
+   (`src/engine|front|pc|lib|data`, its docs/MODULE_LAYOUT.md) and its segment queue is complete, so the files stay
+   as they are. Its game routines are all named, but on 2026-11-14 3,213 of its 6,302 cross-file symbols were still
+   auto names (data labels and library routines). The first plan here skipped that; the maintainer corrected it on
+   2026-11-15. The pass runs on NHL95PC `fable-work`: names come from 94 Genesis, 94 SNES or 95 Genesis where they
+   have one, and are PC names otherwise. After each batch `tools/names/match95.py` and `import_match95.py` carry the
+   new names into 96, so 96 file naming waits for the engine and front-end data of 95.
 2. **The NHL95PC pipeline replaces the page-per-incbin bootstrap.** Converting 279 pages by hand from the IDA
    listing would take months and write every address by hand. The 95 tools (LE split and rebuild, fixup labels,
    emitter, linker) were ported and generalised (four objects, 16:32 pointer fixups) and gave a full matching tree

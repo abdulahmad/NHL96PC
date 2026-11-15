@@ -2442,3 +2442,4 @@ E24C4,RestoreTextMode,sub_E24C4,95PC,high,video library: restore the text mode a
 17CA20,optblock,dword_17CA20,new,medium,start of the option block the port sends to the guest,src/data/front/front_10010_bss_02.asm
 17CA75,optblock_end,unk_17CA75,new,medium,end of the option block,src/data/front/front_10010_bss_02.asm
 18566C,timercallbacks,,95PC,medium,NHL95PC EDCDC (refset): referenced by the same 2 matched functions,
+DDEE7,WaitDisplayRetrace,,new,medium,"waits for display enable, then for the start of vertical retrace (port 3DAh, bit 3); entry after the ret of WaitRetraceEdges",src/lib/video/video_bios_vga_01.asm

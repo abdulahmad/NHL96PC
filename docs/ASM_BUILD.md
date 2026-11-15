@@ -26,6 +26,7 @@ Layout rules:
   in the file, as wlink leaves it.
 - A raw `db` line with an instruction in its comment is an encoding NASM would choose differently. Keep the bytes.
 - `src/inc/symbols.inc` is the generated index of cross-file labels (`tools/build/update_symbols.py`); never edit it.
+- `port/game_syms.h` (port branch only) is generated the same way by `tools/build/gen_port_syms.py`: the port writes a game address as `SYM_<label>`; run the tool after a rename, a missing label is an error.
 
 Tools:
 

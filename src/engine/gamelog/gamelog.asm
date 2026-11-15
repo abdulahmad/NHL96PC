@@ -20,7 +20,7 @@ global loc_4F9AC, loc_4FA3F, loc_4FA58, loc_4FA82, loc_4FB27, loc_4FB31, loc_4FC
 global loc_4FC73, loc_4FC79, loc_4FCB8, loc_4FCC3, loc_4FCD8, loc_4FD10, loc_4FD1B, loc_4FD2D
 global loc_4FD6F, loc_4FD7A, loc_4FD8A, loc_4FE34, loc_4FE48, loc_4FE75, loc_4FF4E, loc_4FF59
 global loc_4FF61, loc_50010, loc_5001B, loc_5001E, loc_5003E, loc_5005F, loc_5009C, loc_500A7
-global loc_500C2, loc_500CE, loc_5012D, sub_4F58E, sub_4F626, BuildEventLines, sub_4FB38, sub_4FDC0
+global loc_500C2, loc_500CE, loc_5012D, sub_4F58E, sub_4F626, BuildEventLines, PostGoalEvent, PostPenaltyEvent
 global PostInjuryEvent
 FormatPlayerName:
 push esi	; 4F453
@@ -536,7 +536,7 @@ pop edx	; 4FB34
 pop ecx	; 4FB35
 pop ebx	; 4FB36
 ret	; 4FB37
-sub_4FB38:
+PostGoalEvent:
 push esi	; 4FB38
 push edi	; 4FB39
 push ebp	; 4FB3A
@@ -724,7 +724,7 @@ leave	; 4FDBA
 pop edi	; 4FDBB
 pop esi	; 4FDBC
 ret 0Ch	; 4FDBD
-sub_4FDC0:
+PostPenaltyEvent:
 push ebp	; 4FDC0
 mov ebp, esp	; 4FDC1
 push eax	; 4FDC3

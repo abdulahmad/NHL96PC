@@ -4,7 +4,7 @@ bits 32
 section s_165953 nobits alloc noexec write align=1
 global OOlistpos, byte_165953, byte_165957, byte_16597D, byte_16597E, byte_165981, byte_176AE0, byte_176AE2
 global byte_176AE3, dword_16596C, dword_165974, dword_165978, regd2, regd3, unk_1659D6, word_165954
-global word_165956, word_165958, word_16595A, word_165964, regd5, word_165970, word_16597C, word_165980
+global word_165956, word_165958, word_16595A, word_165964, regd5, word_165970, regd0, regd1
 global word_176B24, word_176B44
 byte_165953:
 resb 1
@@ -34,13 +34,13 @@ dword_165974:
 resb 4
 dword_165978:
 resb 4
-word_16597C:
+regd0:
 resb 1
 byte_16597D:
 resb 1
 byte_16597E:
 resb 2
-word_165980:
+regd1:
 resb 1
 byte_165981:
 resb 85

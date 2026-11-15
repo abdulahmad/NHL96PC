@@ -67,7 +67,7 @@ extern sub_DD6C4, SetClipWindow, MouseRead, SetViewRect, sub_DFEC6, sub_E04E0, s
 extern sub_E167A, sub_E17B8, str_D19, str_dot4, unk_11A430, unk_11A770, unk_11A9B0, unk_11AB30
 extern unk_11AE70, unk_11B0B0, unk_11B230, unk_122344, unk_16443C, unk_1774C4, unk_177510, unk_1778C4
 extern unk_177908, unk_1781E4, unk_1781FE, unk_179980, unk_179AC0, unk_179E02, optblock_end, unk_17D32C
-extern word_114CE0, word_114CE4, word_119127, word_11A40C, word_11A410, word_11A414, word_16597C, word_165980
+extern word_114CE0, word_114CE4, word_119127, word_11A40C, word_11A410, word_11A414, regd0, regd1
 extern word_176FB8, word_176FD4, word_176FDA, word_176FF6, word_176FFA, word_176FFC, word_17704A, word_17704C
 extern word_17706C, word_17706E, word_17709C, word_1770AB, word_1770AD, word_1770AF, word_1770D3, word_1770D5
 extern word_177508, word_17750A, word_177CB6, word_177D1C, word_1781FC
@@ -505,7 +505,7 @@ loc_54B4E:
 mov ecx, dword [dword_165974]	; 54B4E
 mov esi, dword [ecx]	; 54B54
 add ecx, byte 3	; 54B56
-mov dword [word_16597C], esi	; 54B59
+mov dword [regd0], esi	; 54B59
 mov dword [dword_165974], ecx	; 54B5F
 test byte [byte_16597E], 40h	; 54B65
 setne cl	; 54B6C
@@ -513,10 +513,10 @@ mov byte [dword eax+byte_176F96], cl	; 54B6F
 test byte [byte_16597E], 80h	; 54B75
 setne cl	; 54B7C
 mov byte [dword eax+byte_176FA7], cl	; 54B7F
-mov cx, word [word_16597C]	; 54B85
+mov cx, word [regd0]	; 54B85
 and ch, 3	; 54B8C
-mov word [word_165980], cx	; 54B8F
-mov cx, word [word_16597C]	; 54B96
+mov word [regd1], cx	; 54B8F
+mov cx, word [regd0]	; 54B96
 xor cl, cl	; 54B9D
 and ch, 2	; 54B9F
 movsx ecx, cx	; 54BA2
@@ -524,13 +524,13 @@ test ecx, ecx	; 54BA5
 je short loc_54BB0	; 54BA7
 or byte [byte_165981], 0FCh	; 54BA9
 loc_54BB0:
-mov cx, word [word_165980]	; 54BB0
-sar dword [word_16597C], 0Ah	; 54BB7
+mov cx, word [regd1]	; 54BB0
+sar dword [regd0], 0Ah	; 54BB7
 mov word [dword edx+word_176FB8], cx	; 54BBE
-mov cx, word [word_16597C]	; 54BC5
+mov cx, word [regd0]	; 54BC5
 and ch, 3	; 54BCC
-mov word [word_165980], cx	; 54BCF
-mov cx, word [word_16597C]	; 54BD6
+mov word [regd1], cx	; 54BCF
+mov cx, word [regd0]	; 54BD6
 xor cl, cl	; 54BDD
 and ch, 2	; 54BDF
 movsx ecx, cx	; 54BE2
@@ -538,10 +538,10 @@ test ecx, ecx	; 54BE5
 je short loc_54BF0	; 54BE7
 or byte [byte_165981], 0FCh	; 54BE9
 loc_54BF0:
-mov cx, word [word_165980]	; 54BF0
-sar dword [word_16597C], 0Ah	; 54BF7
+mov cx, word [regd1]	; 54BF0
+sar dword [regd0], 0Ah	; 54BF7
 mov word [dword edx+word_176FDA], cx	; 54BFE
-mov cl, byte [word_16597C]	; 54C05
+mov cl, byte [regd0]	; 54C05
 and cl, 1	; 54C0B
 mov byte [dword eax+byte_17701E], cl	; 54C0E
 mov ecx, dword [dword_165974]	; 54C14
@@ -605,19 +605,19 @@ mov edx, dword [dword_165974]	; 54CBA
 lea ecx, [byte edx+01h]	; 54CC0
 mov dword [dword_165974], ecx	; 54CC3
 mov dl, byte [edx]	; 54CC9
-mov byte [word_16597C], dl	; 54CCB
+mov byte [regd0], dl	; 54CCB
 and dl, 0Fh	; 54CD1
-mov byte [word_165980], dl	; 54CD4
+mov byte [regd1], dl	; 54CD4
 movsx edx, dl	; 54CDA
 cmp edx, byte 0Fh	; 54CDD
 jne short loc_54CE7	; 54CE0
 mov edx, 0FFFFFFFFh	; 54CE2
 loc_54CE7:
 mov byte [dword eax+byte_177090], dl	; 54CE7
-movsx edx, byte [word_16597C]	; 54CED
+movsx edx, byte [regd0]	; 54CED
 sar edx, 4	; 54CF4
 and edx, byte 0Fh	; 54CF7
-mov byte [word_165980], dl	; 54CFA
+mov byte [regd1], dl	; 54CFA
 movsx edx, dl	; 54D00
 cmp edx, byte 0Fh	; 54D03
 jne short loc_54D0D	; 54D06
@@ -641,19 +641,19 @@ mov dword [dword_165974], eax	; 54D3F
 lea edx, [byte eax+01h]	; 54D44
 mov dword [dword_165974], edx	; 54D47
 mov al, byte [eax]	; 54D4D
-mov byte [word_16597C], al	; 54D4F
+mov byte [regd0], al	; 54D4F
 and al, 0Fh	; 54D54
-mov byte [word_165980], al	; 54D56
+mov byte [regd1], al	; 54D56
 movsx eax, al	; 54D5B
 cmp eax, byte 0Fh	; 54D5E
 jne short loc_54D68	; 54D61
 mov eax, 0FFFFFFFFh	; 54D63
 loc_54D68:
 mov byte [byte_1770A2], al	; 54D68
-movsx eax, byte [word_16597C]	; 54D6D
+movsx eax, byte [regd0]	; 54D6D
 sar eax, 4	; 54D74
 and eax, byte 0Fh	; 54D77
-mov byte [word_165980], al	; 54D7A
+mov byte [regd1], al	; 54D7A
 movsx eax, al	; 54D7F
 cmp eax, byte 0Fh	; 54D82
 jne short loc_54D8C	; 54D85
@@ -664,19 +664,19 @@ mov eax, dword [dword_165974]	; 54D91
 lea edx, [byte eax+01h]	; 54D96
 mov dword [dword_165974], edx	; 54D99
 mov al, byte [eax]	; 54D9F
-mov byte [word_16597C], al	; 54DA1
+mov byte [regd0], al	; 54DA1
 and al, 0Fh	; 54DA6
-mov byte [word_165980], al	; 54DA8
+mov byte [regd1], al	; 54DA8
 movsx eax, al	; 54DAD
 cmp eax, byte 0Fh	; 54DB0
 jne short loc_54DBA	; 54DB3
 mov eax, 0FFFFFFFFh	; 54DB5
 loc_54DBA:
 mov byte [byte_1770A4], al	; 54DBA
-movsx eax, byte [word_16597C]	; 54DBF
+movsx eax, byte [regd0]	; 54DBF
 sar eax, 4	; 54DC6
 and eax, byte 0Fh	; 54DC9
-mov byte [word_165980], al	; 54DCC
+mov byte [regd1], al	; 54DCC
 movsx eax, al	; 54DD1
 cmp eax, byte 0Fh	; 54DD4
 jne short loc_54DDE	; 54DD7
@@ -692,10 +692,10 @@ mov eax, edx	; 54DF8
 inc edx	; 54DFA
 mov dword [dword_165974], edx	; 54DFB
 mov al, byte [eax]	; 54E01
-mov byte [word_16597C], al	; 54E03
+mov byte [regd0], al	; 54E03
 and al, 0Fh	; 54E08
 mov byte [byte_1770A7], al	; 54E0A
-movsx eax, byte [word_16597C]	; 54E0F
+movsx eax, byte [regd0]	; 54E0F
 sar eax, 4	; 54E16
 and eax, byte 0Fh	; 54E19
 mov byte [byte_1770A8], al	; 54E1C
@@ -703,10 +703,10 @@ mov eax, edx	; 54E21
 inc edx	; 54E23
 mov dword [dword_165974], edx	; 54E24
 mov al, byte [eax]	; 54E2A
-mov byte [word_16597C], al	; 54E2C
+mov byte [regd0], al	; 54E2C
 and al, 0Fh	; 54E31
 mov byte [byte_1770A9], al	; 54E33
-movsx eax, byte [word_16597C]	; 54E38
+movsx eax, byte [regd0]	; 54E38
 sar eax, 4	; 54E3F
 and eax, byte 0Fh	; 54E42
 mov byte [byte_1770AA], al	; 54E45

@@ -13,13 +13,13 @@ extern dword_15E4AC, dword_15E4B0, dword_15E4B4, dword_15E4B8, dword_15E4BC, dwo
 extern dword_176ED5, dword_176F90, dword_1770D8, dword_1770DC, dword_1770E0, dword_1770E4, dword_1770E8, dword_1770EC
 extern dword_1770F0, dword_1770F4, dword_1770F8, dword_1770FC, dword_177100, dword_177104, dword_177108, dword_1798BC
 extern optflags, dword_17CA5C, gameclock, gameopts, gmode, hmroster, off_11786C, off_11787C
-extern off_117888, off_11788C, puckvx, puckvz, puckz, rand_, sflags, sub_1739F
+extern puckc, off_11788C, puckvx, puckvz, puckz, rand_, sflags, sub_1739F
 extern sub_1E7F6, sub_1F771, sub_4B4F3, sub_51CBA, sub_51D44, sub_51DD2, sub_625F7, sub_62ED9
 extern sub_63B0C, sub_695CB, sub_6986B, sub_AADA4, sub_AB758, sub_ABF4C, sub_DD6C4, SetClipWindow
 extern sub_E04E0, sub_E0584, unk_157B82, unk_157F9C, unk_158610, unk_176CA8, unk_176CDA, unk_176D0C
 extern unk_176D3E, unk_176DA2, unk_176E38, unk_176E6A, unk_176E9C, unk_176ED4, optblock_end, gmode2
 extern word_1178CA, word_1178CC, word_1178CE, word_1178D0, word_117902, word_11A3EE, word_11A3F0, word_11D3A2
-extern word_16597C, word_176ECE, word_176ED0, dressedskaters, word_176EDB
+extern regd0, word_176ECE, word_176ED0, dressedskaters, word_176EDB
 global FillDressedSlots, NormalizeDressFlags, PickExtraSkater, PickForLineSlot, RemoveFromLines, SetupTeamLines, loc_51F33, loc_51F3A
 global loc_51F5E, loc_51F82, loc_52028, loc_52029, loc_5212E, loc_52154, loc_5216A, loc_5216F
 global loc_52173, loc_52187, loc_521A8, loc_521D7, loc_521DC, loc_5222C, loc_52233, loc_52266
@@ -2214,27 +2214,27 @@ jmp short loc_5389B	; 5383C
 loc_5383E:
 cmp word [byte eax+01Ah], byte 0	; 5383E
 jge short loc_53850	; 53843
-mov word [word_16597C], 0Fh	; 53845
+mov word [regd0], 0Fh	; 53845
 jmp short loc_5385B	; 5384E
 loc_53850:
 mov dx, word [byte eax+01Ah]	; 53850
-mov word [word_16597C], dx	; 53854
+mov word [regd0], dx	; 53854
 loc_5385B:
 add eax, 0A0h	; 5385B
 cmp word [byte eax+01Ah], byte 0	; 53860
 jge short loc_53870	; 53865
-or byte [word_16597C], 0F0h	; 53867
+or byte [regd0], 0F0h	; 53867
 jmp short loc_5387E	; 5386E
 loc_53870:
 mov dx, word [byte eax+01Ah]	; 53870
 shl edx, 4	; 53874
-or word [word_16597C], dx	; 53877
+or word [regd0], dx	; 53877
 loc_5387E:
 mov edx, dword [dword_16596C]	; 5387E
 lea ecx, [byte edx+01h]	; 53884
 add eax, 0A0h	; 53887
 mov dword [dword_16596C], ecx	; 5388C
-mov cl, byte [word_16597C]	; 53892
+mov cl, byte [regd0]	; 53892
 inc ebx	; 53898
 mov byte [edx], cl	; 53899
 loc_5389B:
@@ -2285,7 +2285,7 @@ mov dword [dword_16596C], ebx	; 53951
 mov byte [eax], dl	; 53957
 mov eax, dword [dword_16596C]	; 53959
 lea ebx, [byte eax+01h]	; 5395E
-mov edx, dword [off_117888]	; 53961
+mov edx, dword [puckc]	; 53961
 mov dword [dword_16596C], ebx	; 53967
 mov dl, byte [edx]	; 5396D
 mov byte [eax], dl	; 5396F
@@ -2337,7 +2337,7 @@ mov eax, dword [dword_16596C]	; 53A1A
 lea ebx, [byte eax+01h]	; 53A1F
 mov dword [dword_16596C], ebx	; 53A22
 mov byte [eax], dl	; 53A28
-mov eax, dword [off_117888]	; 53A2A
+mov eax, dword [puckc]	; 53A2A
 cmp byte [eax], 0	; 53A2F
 jl short loc_53A3C	; 53A32
 movsx eax, byte [eax]	; 53A34

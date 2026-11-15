@@ -38,8 +38,8 @@ extern pucky, qsort_, read_, regd2, rmdir_, shotongoal, shotontarget, sprintf_
 extern srand_, strcat_, strcmp_, strcpy_, stricmp_, strlen_, strncpy_, sub_10095
 extern sub_1124D, sub_13288, sub_168FA, sub_1779C, sub_1780A, sub_17887, sub_178C0, sub_17B9A
 extern sub_17CC8, sub_17E8C, sub_17EE1, sub_1807B, sub_18090, sub_180DC, sub_1812E, sub_18165
-extern sub_18234, sub_2090F, sub_2A52F, sub_2CB9D, StartPreGame, SetSPA, sub_48922, sub_4AF57
-extern sub_4B247, BuildDefaultLines, sub_57F0A, sub_583B8, sub_6215A, sub_625F7, sub_62ED9, sub_63076
+extern sub_18234, sub_2090F, sub_2A52F, sub_2CB9D, StartPreGame, SetSPA, ResetClock, GameOver
+extern StartGame, BuildDefaultLines, sub_57F0A, sub_583B8, sub_6215A, sub_625F7, sub_62ED9, sub_63076
 extern sub_63955, sub_63B0C, sub_63B6A, sub_63DC4, sub_63EB5, sub_63F79, sub_640D3, sub_641D4
 extern sub_64721, sub_64E54, sub_64E64, sub_64F59, sub_66373, sub_66589, sub_689D1, sub_68AB1
 extern sub_68C33, sub_68CFE, CrowdNoiseReset, sub_68F82, sub_6941E, StartSoundCard, sub_699D0, sub_69A94
@@ -63,11 +63,11 @@ extern unk_1527C0, unk_152938, unk_152944, unk_152B3C, unk_152C44, unk_152FA8, u
 extern unk_157B1C, unk_157B82, unk_157F9C, unk_157FDA, unk_1580AD, unk_1582F5, unk_1583C8, unk_158610
 extern unk_158658, unk_18584C, vtoa, str_dbgL, word_11510D, word_11512D, word_1178A8, word_1178AC
 extern word_1178AE, word_1178F4, word_1178F6, word_1178F8, word_1178FA, word_1178FC, gsp, word_118E8F
-extern word_118E91, word_118E93, word_118E9F, word_118EA3, word_118EA5, word_118EA7, word_118EA9, word_118EAB
+extern exitgame, gameover, word_118E9F, word_118EA3, word_118EA5, word_118EA7, word_118EA9, word_118EAB
 extern word_118EAF, word_118EB1, word_118EB3, word_118EB7, word_1190D7, word_1190D9, word_11910B, refhitcount
 extern word_11910F, word_119113, Pencntdwn2, word_156E6E, word_156E70, word_156E72, word_156E74, word_156E76
 extern word_156E78, word_156E7A, word_157AFA, word_157AFC, word_1656D2, word_1656D6, word_1656E8, word_165710
-extern word_165758, word_16578A, word_16581E, word_165846, word_165964, word_16597C, word_165980, word_176B68
+extern word_165758, word_16578A, word_16581E, word_165846, word_165964, regd0, regd1, word_176B68
 extern word_176B6A, word_176B6C, word_176B6E, word_176B70, word_176B72, word_176B76, word_176B7A, word_176B7E
 global FileReadAt, PlacePlayersAtStart, ResetGameVars, SetupDemoGame, SetupGame, jpt_1B046, jpt_1BE62, jpt_1CB20
 global jpt_1E54A, jpt_1E633, loc_18700, loc_1872F, loc_18732, loc_1874A, loc_18754, loc_1875B
@@ -6558,7 +6558,7 @@ mov word [regd2], 0Ch	; 1D732
 loc_1D73B:
 mov word [byte ebx+02Eh], 0FF9Ch	; 1D73B
 mov ax, word [byte ebx+01Ah]	; 1D741
-mov word [word_165980], ax	; 1D745
+mov word [regd1], ax	; 1D745
 cwde	; 1D74B
 cmp eax, byte 4	; 1D74C
 sete al	; 1D74F
@@ -6567,7 +6567,7 @@ add eax, byte 16h	; 1D755
 movsx edx, ax	; 1D758
 mov eax, ebx	; 1D75B
 call assinsert	; 1D75D
-cmp word [word_165980], byte 0	; 1D762
+cmp word [regd1], byte 0	; 1D762
 jl near loc_1D88C	; 1D76A
 mov al, byte [byte ebx+044h]	; 1D770
 and al, 40h	; 1D773
@@ -6586,7 +6586,7 @@ add eax, 6	; 1D79D
 shl eax, 3	; 1D7A2
 mov word [word_165964], ax	; 1D7A5
 movsx edx, ax	; 1D7AB
-movsx eax, word [word_165980]	; 1D7AE
+movsx eax, word [regd1]	; 1D7AE
 movsx ax, byte [dword edx+eax+byte_1190F3]	; 1D7B5
 mov word [word_165964], ax	; 1D7BE
 add eax, eax	; 1D7C4
@@ -6594,45 +6594,45 @@ mov word [word_165964], ax	; 1D7C6
 cwde	; 1D7CC
 mov dx, word [nosplit eax*2+word_1190D7]	; 1D7CD
 mov ax, word [nosplit eax*2+word_1190D9]	; 1D7D5
-mov word [word_16597C], dx	; 1D7DD
-mov word [word_165980], ax	; 1D7E4
+mov word [regd0], dx	; 1D7DD
+mov word [regd1], ax	; 1D7E4
 mov al, byte [byte ebx+044h]	; 1D7EA
 and al, 80h	; 1D7ED
 movzx eax, al	; 1D7EF
 test eax, eax	; 1D7F2
 jne short loc_1D804	; 1D7F4
-neg word [word_16597C]	; 1D7F6
-neg word [word_165980]	; 1D7FD
+neg word [regd0]	; 1D7F6
+neg word [regd1]	; 1D7FD
 loc_1D804:
-mov ax, word [word_16597C]	; 1D804
+mov ax, word [regd0]	; 1D804
 mov word [byte ebx+02h], ax	; 1D80A
-mov ax, word [word_165980]	; 1D80E
+mov ax, word [regd1]	; 1D80E
 mov word [byte ebx+0Eh], 0	; 1D814
 mov word [byte ebx+06h], ax	; 1D81A
 mov ax, word [byte ebx+0Eh]	; 1D81E
 mov word [byte ebx+0Ch], ax	; 1D822
 mov eax, dword [pucky]	; 1D826
 mov ax, word [eax]	; 1D82B
-sub ax, word [word_165980]	; 1D82E
+sub ax, word [regd1]	; 1D82E
 movsx edx, ax	; 1D835
 mov eax, dword [puckx]	; 1D838
 mov ax, word [eax]	; 1D83D
-sub ax, word [word_16597C]	; 1D840
+sub ax, word [regd0]	; 1D840
 cwde	; 1D847
 call vtoa	; 1D848
 mov dword [dword ebx+09Ch], 0	; 1D84D
 mov word [byte ebx+036h], ax	; 1D857
 cmp word [byte ebx+01Ah], byte 0	; 1D85B
 jne short loc_1D86D	; 1D860
-mov word [word_165980], 6DFh	; 1D862
+mov word [regd1], 6DFh	; 1D862
 jmp short loc_1D876	; 1D86B
 loc_1D86D:
-mov word [word_165980], 1	; 1D86D
+mov word [regd1], 1	; 1D86D
 loc_1D876:
 and byte [byte ebx+045h], 0FBh	; 1D876
 and byte [byte ebx+044h], 0DFh	; 1D87A
 mov eax, ebx	; 1D87E
-movsx edx, word [word_165980]	; 1D880
+movsx edx, word [regd1]	; 1D880
 call SetSPA	; 1D887
 loc_1D88C:
 add ebx, 0A0h	; 1D88C
@@ -6721,7 +6721,7 @@ loc_1D9CB:
 mov word [gsp], 0	; 1D9CB
 call ResetGameVars	; 1D9D4
 mov eax, 5Ah	; 1D9D9
-call sub_48922	; 1D9DE
+call ResetClock	; 1D9DE
 mov eax, dword [gameopts]	; 1D9E3
 mov dword [introskipped], edx	; 1D9E8
 test byte [byte eax+02h], 8	; 1D9EE
@@ -6791,12 +6791,12 @@ mov dword [dword_1655A0], 0	; 1DBE3
 mov word [word_176B68], 0FFFFh	; 1DBED
 mov word [word_1656D6], 0	; 1DBF6
 mov word [LineChangeLine], 0	; 1DBFF
-call sub_4B247	; 1DC08
+call StartGame	; 1DC08
 mov dword [curperiod], 1	; 1DC0D
 mov dword [dword_1150FC], 0	; 1DC17
 mov dword [InGameMenuRequest], 0	; 1DC21
-mov word [word_118E91], 0	; 1DC2B
-mov word [word_118E93], 0	; 1DC34
+mov word [exitgame], 0	; 1DC2B
+mov word [gameover], 0	; 1DC34
 mov dword [dword_151B84], 0	; 1DC3D
 mov dword [dword_114F16], 0	; 1DC47
 mov dword [GameLoopActive], 0	; 1DC51
@@ -8683,7 +8683,7 @@ push ecx	; 1F301
 push edx	; 1F302
 xor eax, eax	; 1F303
 call sub_68F82	; 1F305
-call sub_4AF57	; 1F30A
+call GameOver	; 1F30A
 and byte [gmode], 7Fh	; 1F30F
 xor eax, eax	; 1F316
 loc_1F318:

@@ -4591,10 +4591,10 @@
 ;  11F549  off_11F549                               data/lib/lib_A8B9B_data_02.asm               1
 ;  11F551  off_11F551                               data/lib/lib_A8B9B_data_02.asm               1
 ;  11F555  off_11F555                               data/lib/lib_A8B9B_data_02.asm               1
-;  11F568  dword_11F568                             data/lib/lib_A8B9B_data_02.asm               2
-;  11F56C  dword_11F56C                             data/lib/lib_A8B9B_data_02.asm               2
-;  11F570  dword_11F570                             data/lib/lib_A8B9B_data_02.asm               2
-;  11F574  dword_11F574                             data/lib/lib_A8B9B_data_02.asm               2
+;  11F568  mouseminx                                data/lib/lib_A8B9B_data_02.asm               2
+;  11F56C  mouseminy                                data/lib/lib_A8B9B_data_02.asm               2
+;  11F570  mousemaxx                                data/lib/lib_A8B9B_data_02.asm               2
+;  11F574  mousemaxy                                data/lib/lib_A8B9B_data_02.asm               2
 ;  11F578  dword_11F578                             data/lib/lib_A8B9B_data_02.asm               1
 ;  11F57C  dword_11F57C                             data/lib/lib_A8B9B_data_02.asm               1
 ;  11F580  word_11F580                              data/lib/lib_A8B9B_data_02.asm               1
@@ -4603,8 +4603,8 @@
 ;  11F598  dword_11F598                             data/lib/lib_A8B9B_data_02.asm               1
 ;  11F5A0  dword_11F5A0                             data/lib/lib_A8B9B_data_02.asm               6
 ;  11F5A4  dword_11F5A4                             data/lib/lib_A8B9B_data_02.asm               3
-;  11F5A8  dword_11F5A8                             data/lib/lib_A8B9B_data_02.asm               16
-;  11F5AC  dword_11F5AC                             data/lib/lib_A8B9B_data_02.asm               16
+;  11F5A8  mousex                                   data/lib/lib_A8B9B_data_02.asm               16
+;  11F5AC  mousey                                   data/lib/lib_A8B9B_data_02.asm               16
 ;  11F5B0  dword_11F5B0                             data/lib/lib_A8B9B_data_02.asm               2
 ;  11F5B4  dword_11F5B4                             data/lib/lib_A8B9B_data_02.asm               2
 ;  11F5B8  dword_11F5B8                             data/lib/lib_A8B9B_data_02.asm               1

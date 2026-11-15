@@ -5,8 +5,8 @@ section s_6E233 progbits alloc exec nowrite align=1
 extern SetDrawBitmap, str_PlyD, str_P11, str_P21, str_Usri, str_Usrh, str_Utext, str_MCONTROL
 extern str_Pal12, str_Bkgd6, str_Key1, str_P12, str_P13, str_P1G, str_P22, str_P23
 extern str_P2G, byte_11FA2F, dword_1150D8, dword_11D910, dword_11D914, dword_11D930, dword_11D940, str_dbgO
-extern dword_11D954, dword_11DED0, dword_11DED4, dword_11DF70, dword_11DF74, dword_11DF78, dword_11DF7C, dword_11F5A8
-extern dword_11F5AC, dword_17BC74, dword_17BC78, dword_17BC7C, dword_17BCE2, dword_17BD48, optflags, dword_17CBE7
+extern dword_11D954, dword_11DED0, dword_11DED4, dword_11DF70, dword_11DF74, dword_11DF78, dword_11DF7C, mousex
+extern mousey, dword_17BC74, dword_17BC78, dword_17BC7C, dword_17BCE2, dword_17BD48, optflags, dword_17CBE7
 extern dword_17D162, dword_17D267, dword_17D564, dword_17D580, dword_17D584, dword_17D588, dword_1843AC, dword_1843B0
 extern dword_1843B4, fputchar, gameopts, loc_6CF13, sprintf_, sub_10010, sub_13146, sub_131EC
 extern sub_1377E, sub_1B05E, sub_1E7F6, sub_2A502, sub_62A0F, sub_62AF7, sub_62D9B, sub_62E0E
@@ -2053,10 +2053,10 @@ jle short loc_70183	; 70158
 imul eax, dword [byte ebp-044h], byte 66h	; 7015A
 mov edx, dword [dword_17D580]	; 7015E
 add eax, edx	; 70164
-mov edx, dword [dword_11F5A8]	; 70166
+mov edx, dword [mousex]	; 70166
 cmp edx, dword [byte eax+03Ah]	; 7016C
 jne short loc_7017C	; 7016F
-mov edx, dword [dword_11F5AC]	; 70171
+mov edx, dword [mousey]	; 70171
 cmp edx, dword [byte eax+03Eh]	; 70177
 je short loc_70183	; 7017A
 loc_7017C:

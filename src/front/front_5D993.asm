@@ -26,8 +26,8 @@ extern dword_11BAE8, dword_11BAEC, dword_11BAF0, dword_11BAF4, dword_11BAF8, dwo
 extern dword_11BB08, dword_11BB0C, dword_11BB10, dword_11BB14, dword_11BB18, dword_11BB1C, dword_11BB38, dword_11BB3C
 extern dword_11BB40, dword_11BB44, dword_11BCD1, dword_11BCD5, dword_11BCD9, dword_11BCE0, dword_11BCE4, dword_11D18C
 extern dword_11D190, dword_11D194, dword_11D198, dword_11D19C, dword_11D1A0, dword_11D1A4, dword_11D1A8, dword_11D1AC
-extern dword_11D1B0, dword_11D1BC, dword_11D1C0, dword_11F568, dword_11F56C, dword_11F570, dword_11F574, dword_11F5A0
-extern dword_11F5A8, dword_11F5AC, dword_11F5C0, dword_11F5C4, dword_11F5F0, dword_11FA14, dword_11FA18, dword_1219A4
+extern dword_11D1B0, dword_11D1BC, dword_11D1C0, mouseminx, mouseminy, mousemaxx, mousemaxy, dword_11F5A0
+extern mousex, mousey, dword_11F5C0, dword_11F5C4, dword_11F5F0, dword_11FA14, dword_11FA18, dword_1219A4
 extern dword_1228FC, dword_122900, dword_122904, dword_123AC0, dword_152FEC, dword_1647A0, dword_1647A4, dword_16505C
 extern dword_165060, dword_1781F0, dword_178243, dword_1798EC, dword_179978, dword_17997C, dword_179CBC, dword_179CC0
 extern dword_179CC4, dword_179CC8, dword_179D44, dword_179D48, dword_179D50, dword_179D54, dword_179D58, dword_179D5C
@@ -8366,9 +8366,9 @@ test al, 1	; 64790
 je short loc_647B3	; 64792
 call dword [mousepollfn]	; 64794
 mov dword [dword_11D1B0], eax	; 6479A
-mov eax, dword [dword_11F5A8]	; 6479F
+mov eax, dword [mousex]	; 6479F
 mov dword [dword_11D1A8], eax	; 647A4
-mov eax, dword [dword_11F5AC]	; 647A9
+mov eax, dword [mousey]	; 647A9
 mov dword [dword_11D1AC], eax	; 647AE
 loc_647B3:
 call sub_11589	; 647B3
@@ -8471,9 +8471,9 @@ mov eax, dword [dword_17C444]	; 64909
 add dword [dword_11D1A8], eax	; 6490E
 loc_64914:
 mov eax, dword [dword_11D1A8]	; 64914
-cmp eax, dword [dword_11F570]	; 64919
+cmp eax, dword [mousemaxx]	; 64919
 jl short loc_6492C	; 6491F
-mov eax, dword [dword_11F570]	; 64921
+mov eax, dword [mousemaxx]	; 64921
 dec eax	; 64926
 mov dword [dword_11D1A8], eax	; 64927
 loc_6492C:
@@ -8483,9 +8483,9 @@ mov eax, dword [dword_17C444]	; 64932
 sub dword [dword_11D1A8], eax	; 64937
 loc_6493D:
 mov eax, dword [dword_11D1A8]	; 6493D
-cmp eax, dword [dword_11F568]	; 64942
+cmp eax, dword [mouseminx]	; 64942
 jge short loc_64954	; 64948
-mov eax, dword [dword_11F568]	; 6494A
+mov eax, dword [mouseminx]	; 6494A
 mov dword [dword_11D1A8], eax	; 6494F
 loc_64954:
 test byte [byte ebp-04h], 1	; 64954
@@ -8494,9 +8494,9 @@ mov eax, dword [dword_17C444]	; 6495A
 sub dword [dword_11D1AC], eax	; 6495F
 loc_64965:
 mov eax, dword [dword_11D1AC]	; 64965
-cmp eax, dword [dword_11F574]	; 6496A
+cmp eax, dword [mousemaxy]	; 6496A
 jl short loc_6497D	; 64970
-mov eax, dword [dword_11F574]	; 64972
+mov eax, dword [mousemaxy]	; 64972
 dec eax	; 64977
 mov dword [dword_11D1AC], eax	; 64978
 loc_6497D:
@@ -8506,9 +8506,9 @@ mov eax, dword [dword_17C444]	; 64983
 add dword [dword_11D1AC], eax	; 64988
 loc_6498E:
 mov eax, dword [dword_11D1AC]	; 6498E
-cmp eax, dword [dword_11F56C]	; 64993
+cmp eax, dword [mouseminy]	; 64993
 jge short loc_649A5	; 64999
-mov eax, dword [dword_11F56C]	; 6499B
+mov eax, dword [mouseminy]	; 6499B
 mov dword [dword_11D1AC], eax	; 649A0
 loc_649A5:
 push dword [dword_11D1AC]	; 649A5
@@ -8884,9 +8884,9 @@ jl near loc_64C61	; 64E2D
 mov eax, dword [byte eax+02Eh]	; 64E33
 jmp near loc_64C73	; 64E36
 loc_64E3B:
-mov eax, dword [dword_11F5A8]	; 64E3B
+mov eax, dword [mousex]	; 64E3B
 mov dword [dword_11D1A8], eax	; 64E40
-mov eax, dword [dword_11F5AC]	; 64E45
+mov eax, dword [mousey]	; 64E45
 mov dword [dword_11D1AC], eax	; 64E4A
 loc_64E4F:
 leave	; 64E4F

@@ -20,7 +20,7 @@ extern dword_11500C, dword_115010, dword_115014, dword_115018, dword_11501C, dwo
 extern dword_11502C, dword_115030, dword_115034, dword_115038, dword_11503C, dword_115040, dword_115044, dword_115048
 extern dword_11504C, dword_115050, dword_115054, dword_115058, dword_11505C, dword_115060, dword_115064, dword_115068
 extern str_ctl06, str_22, dword_115074, str_newline, dword_11507C, dword_115080, dword_1150D4, dword_1150FC
-extern dword_1174E0, seed, dword_11B310, dword_11D3A6, dword_11D91F, dword_11F5A8, dword_11F5AC, dword_11F5C0
+extern dword_1174E0, seed, dword_11B310, dword_11D3A6, dword_11D91F, mousex, mousey, dword_11F5C0
 extern dword_11F5C4, dword_1515B7, dword_1515BE, dword_1515C5, dword_1515CC, dword_1515D8, dword_1515DC, dword_1515E0
 extern dword_151AE4, dword_151AE8, dword_151AEC, dword_151B08, dword_151B4C, dword_151B50, dword_151B64, dword_151B68
 extern dword_151B6C, dword_151B70, dword_151B74, dword_151B78, dword_151B7C, dword_151B84, dword_151D48, dword_151D4C
@@ -1363,10 +1363,10 @@ add eax, byte 3	; 15902
 cmp eax, dword [byte ebp+05Eh]	; 15905
 jle short loc_15933	; 15908
 imul eax, dword [byte ebp+05Eh], byte 66h	; 1590A
-mov edx, dword [dword_11F5A8]	; 1590E
+mov edx, dword [mousex]	; 1590E
 cmp edx, dword [dword eax+ebp-0188h]	; 15914
 jne short loc_1592C	; 1591B
-mov edx, dword [dword_11F5AC]	; 1591D
+mov edx, dword [mousey]	; 1591D
 cmp edx, dword [dword eax+ebp-0184h]	; 15923
 je short loc_15933	; 1592A
 loc_1592C:
@@ -2298,10 +2298,10 @@ add eax, byte 3	; 166EA
 cmp eax, dword [byte ebp+046h]	; 166ED
 jle short loc_1671B	; 166F0
 imul eax, dword [byte ebp+046h], byte 66h	; 166F2
-mov edx, dword [dword_11F5A8]	; 166F6
+mov edx, dword [mousex]	; 166F6
 cmp edx, dword [dword eax+ebp-0228h]	; 166FC
 jne short loc_16714	; 16703
-mov edx, dword [dword_11F5AC]	; 16705
+mov edx, dword [mousey]	; 16705
 cmp edx, dword [dword eax+ebp-0224h]	; 1670B
 je short loc_1671B	; 16712
 loc_16714:

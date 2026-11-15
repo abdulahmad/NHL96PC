@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_D069B progbits alloc exec nowrite align=1
 extern SetDrawBitmap, __fatal_runtime_error_, str_SaveText, asc_114194, str_Ptr0ptr1ptr2, str_StackOverflow, byte_11FA2F, dword_11F5A4
-extern dword_11F5A8, dword_11F5AC, dword_11F5B0, dword_11F5B4, dword_11F5C0, dword_11F5C4, dword_11F5C8, dword_11F61C
+extern mousex, mousey, dword_11F5B0, dword_11F5B4, dword_11F5C0, dword_11F5C4, dword_11F5C8, dword_11F61C
 extern dword_11FA18, dword_11FA1C, dword_11FA20, dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4, dword_1228FC
 extern dword_122900, _STACKLOW, dword_14F0A8, dword_14FAD8, dword_1A1098, dword_1A109C, dword_1A10A0, dword_1A10A4
 extern dword_1A10A8, dword_1A10B0, dword_1A10B4, dword_1A10C0, dword_1A10C4, dword_1A10C8, dword_1A10CC, dword_1A10D0
@@ -283,12 +283,12 @@ jmp short loc_D0940	; D093C
 loc_D093E:
 xor edx, edx	; D093E
 loc_D0940:
-mov ebx, dword [dword_11F5A8]	; D0940
+mov ebx, dword [mousex]	; D0940
 sub ebx, dword [nosplit edx*4+dword_1A10B4]	; D0946
 mov esi, dword [nosplit edx*4+dword_1A10A8]	; D094D
 mov eax, ebx	; D0954
 mov dword [dword_1A10F4], ebx	; D0956
-mov ebx, dword [dword_11F5AC]	; D095C
+mov ebx, dword [mousey]	; D095C
 and al, 0F8h	; D0962
 sub ebx, esi	; D0964
 mov dword [dword_1A10D4], eax	; D0966
@@ -541,8 +541,8 @@ sub esp, byte 68h	; D0C23
 cmp dword [dword_11F5B4], byte 1	; D0C26
 jl near loc_D0E83	; D0C2D
 mov esi, dword [dword_1A10C8]	; D0C33
-mov edi, dword [dword_11F5A8]	; D0C39
-mov eax, dword [dword_11F5AC]	; D0C3F
+mov edi, dword [mousex]	; D0C39
+mov eax, dword [mousey]	; D0C3F
 mov ebx, dword [nosplit esi*4+dword_1A10B4]	; D0C44
 mov ecx, dword [nosplit esi*4+dword_1A10A8]	; D0C4B
 mov esi, dword [dword_1A10F4]	; D0C52

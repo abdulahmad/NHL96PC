@@ -6,8 +6,8 @@ extern GetTicks, SetDrawBitmap, str_Pal11, str_Bkgd5, str_Bt013, str_Bt023, str_
 extern str_Bt19, str_Bt20, str_Bt28, str_Bt29, str_Bb01, str_Bb02, str_Bb10, str_Bb11
 extern str_Bb19, str_Bb20, str_Sta1, str_Sta2, str_Sta3, str_Use1, str_Use2, str_Use3
 extern str_Opt1, str_Opt2, str_Opt3, str_Hig1, str_Hig2, str_Hig3, str_Bt02d, str_Bb02d
-extern str_LOCALNDX2, str_HILITESNDX, byte_17BDAE, dword_11D1A8, dword_11D1AC, dword_11D1B0, dword_11D1C0, dword_11F5A8
-extern dword_11F5AC, dword_11F5C0, dword_11F5C4, dword_152F50, dword_152F54, dword_152F58, dword_152F5C, dword_17BC7C
+extern str_LOCALNDX2, str_HILITESNDX, byte_17BDAE, dword_11D1A8, dword_11D1AC, dword_11D1B0, dword_11D1C0, mousex
+extern mousey, dword_11F5C0, dword_11F5C4, dword_152F50, dword_152F54, dword_152F58, dword_152F5C, dword_17BC7C
 extern dword_17BD48, dword_17C3E4, dword_17C3E8, dword_17C3EC, dword_17C3F0, dword_17C3F4, dword_17C3F8, dword_17C3FC
 extern dword_17C400, dword_17C404, dword_17C408, dword_17C40C, dword_17C410, dword_17C414, dword_17C418, dword_17C41C
 extern dword_17C420, dword_17C424, dword_17C428, dword_17C42C, dword_17C430, dword_17C434, dword_17C438, dword_17C43C
@@ -111,9 +111,9 @@ mov dword [dword_11D1A8], 0	; 65018
 mov dword [dword_11D1AC], 0	; 65022
 jmp short loc_65042	; 6502C
 loc_6502E:
-mov eax, dword [dword_11F5A8]	; 6502E
+mov eax, dword [mousex]	; 6502E
 mov dword [dword_11D1A8], eax	; 65033
-mov eax, dword [dword_11F5AC]	; 65038
+mov eax, dword [mousey]	; 65038
 mov dword [dword_11D1AC], eax	; 6503D
 loc_65042:
 mov dword [byte ebp-0Eh], 0	; 65042
@@ -2006,10 +2006,10 @@ jl short loc_66B76	; 66B45
 cmp dword [byte ebp+06Ah], byte 8	; 66B47
 jge short loc_66B76	; 66B4B
 imul eax, dword [byte ebp+06Ah], byte 66h	; 66B4D
-mov edx, dword [dword_11F5A8]	; 66B51
+mov edx, dword [mousex]	; 66B51
 cmp edx, dword [dword eax+ebp-0450h]	; 66B57
 jne short loc_66B6F	; 66B5E
-mov edx, dword [dword_11F5AC]	; 66B60
+mov edx, dword [mousey]	; 66B60
 cmp edx, dword [dword eax+ebp-044Ch]	; 66B66
 je short loc_66B76	; 66B6D
 loc_66B6F:

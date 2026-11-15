@@ -16,7 +16,7 @@ extern dword_11B238, dword_11B23C, dword_11B240, dword_11B244, dword_11B248, dwo
 extern dword_11B298, dword_11B2A8, dword_11B2E8, dword_11B2EC, dword_11B2F0, dword_11B2F4, dword_11B2F8, dword_11B2FC
 extern dword_11B300, dword_11B304, dword_11B308, dword_11B310, dword_11B318, dword_11B31C, dword_11B320, dword_11B324
 extern dword_11B328, dword_11B32C, dword_11B330, dword_11B364, dword_11B374, dword_11B9F4, dword_11BB14, dword_11BB18
-extern dword_11BB1C, dword_11BC24, dword_11D91F, dword_11F5A8, dword_11F5AC, dword_11F5C0, dword_11F5C4, dword_1219A4
+extern dword_11BB1C, dword_11BC24, dword_11D91F, mousex, mousey, dword_11F5C0, dword_11F5C4, dword_1219A4
 extern dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4, dword_1228F8, dword_152F4C, dword_152FEC, dword_1531D0
 extern dword_15E4BC, dword_15E4C0, dword_15E8D8, dword_15E8E0, dword_15E8E4, dword_15E8F8, dword_15E8FC, dword_1647A0
 extern dword_1647A4, dword_164816, dword_164838, dword_16505C, dword_165060, dword_165064, dword_165166, dword_16516A
@@ -2866,10 +2866,10 @@ cmp dword [dword_119FEC], byte 0	; 5A9BC
 jne near loc_5AAFD	; 5A9C3
 cmp dword [curperiod], byte 0FFFFFFFFh	; 5A9C9
 je near loc_5AAFD	; 5A9D0
-mov edx, dword [dword_11F5A8]	; 5A9D6
+mov edx, dword [mousex]	; 5A9D6
 sub edx, dword [dword_11B320]	; 5A9DC
 imul edx, edx	; 5A9E2
-mov eax, dword [dword_11F5AC]	; 5A9E5
+mov eax, dword [mousey]	; 5A9E5
 sub eax, dword [dword_11B324]	; 5A9EA
 imul eax, eax	; 5A9F0
 add edx, eax	; 5A9F3
@@ -2887,18 +2887,18 @@ mov dword [byte ebp+07Eh], 0	; 5AA15
 mov eax, 8	; 5AA1C
 jmp short loc_5AA69	; 5AA21
 loc_5AA23:
-mov eax, dword [dword_11F5A8]	; 5AA23
+mov eax, dword [mousex]	; 5AA23
 sub eax, dword [dword_11B320]	; 5AA28
 sar eax, 2	; 5AA2E
 mov dword [byte ebp+07Eh], eax	; 5AA31
-mov eax, dword [dword_11F5AC]	; 5AA34
+mov eax, dword [mousey]	; 5AA34
 sub eax, dword [dword_11B324]	; 5AA39
 sar eax, 2	; 5AA3F
 mov dword [byte ebp+076h], eax	; 5AA42
 mov ax, word [dword_11B324]	; 5AA45
-sub ax, word [dword_11F5AC]	; 5AA4B
+sub ax, word [mousey]	; 5AA4B
 movsx edx, ax	; 5AA52
-mov ax, word [dword_11F5A8]	; 5AA55
+mov ax, word [mousex]	; 5AA55
 sub ax, word [dword_11B320]	; 5AA5B
 cwde	; 5AA62
 call vtoa	; 5AA63

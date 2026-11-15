@@ -7,8 +7,8 @@ extern str_Home, str_PalFsh, str_Pal3, str_Bkgd13, str_04d2, str_SCHEDULE2, str_
 extern str_FSH3, str_ProfileFsh, str_Ard, str_Card, str_Plyr, str_LG02d, str_SS3, str_MightyDucksOfAnaheim
 extern str_DSS, str_PALS, str_D2, str_CS3, str_AALIAS, byte_11FA2F, byte_17CFB1, byte_17D262
 extern byte_17DB78, byte_17DC14, byte_17DC15, byte_17DC16, byte_17DC17, byte_17DC70, dword_1174E0, dword_1174E4
-extern dword_1174E8, dword_1174F0, dword_1174F8, dword_117518, dword_11D674, dword_11E670, dword_11E678, dword_11F5A8
-extern dword_11F5AC, dword_1228D0, dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4, dword_1228F8, dword_1228FC
+extern dword_1174E8, dword_1174F0, dword_1174F8, dword_117518, dword_11D674, dword_11E670, dword_11E678, mousex
+extern mousey, dword_1228D0, dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4, dword_1228F8, dword_1228FC
 extern dword_17BC74, dword_17BC78, dword_17BC7C, dword_17BCE2, dword_17BD48, optflags, dword_17CBE7, dword_17CC13
 extern dword_17CEC3, dword_17CEC7, dword_17CED6, dword_17CF8E, dword_17CF92, dword_17CF96, dword_17D1E2, dword_17D26B
 extern dword_17DB7C, dword_17DBC0, dword_17DBC4, dword_17DC0C, dword_17DC10, dword_17DC18, dword_17DC1C, dword_17DC20
@@ -367,10 +367,10 @@ jl short loc_84E03	; 84DD2
 cmp dword [byte ebp+072h], byte 3	; 84DD4
 jge short loc_84E03	; 84DD8
 imul eax, dword [byte ebp+072h], byte 66h	; 84DDA
-mov edx, dword [dword_11F5A8]	; 84DDE
+mov edx, dword [mousex]	; 84DDE
 cmp edx, dword [dword eax+ebp-0B8h]	; 84DE4
 jne short loc_84DFC	; 84DEB
-mov edx, dword [dword_11F5AC]	; 84DED
+mov edx, dword [mousey]	; 84DED
 cmp edx, dword [dword eax+ebp-0B4h]	; 84DF3
 je short loc_84E03	; 84DFA
 loc_84DFC:
@@ -1163,10 +1163,10 @@ inc eax	; 857FC
 cmp eax, dword [byte ebp+046h]	; 857FD
 jle short loc_8582B	; 85800
 imul eax, dword [byte ebp+046h], byte 66h	; 85802
-mov edx, dword [dword_11F5A8]	; 85806
+mov edx, dword [mousex]	; 85806
 cmp edx, dword [dword eax+ebp-0118h]	; 8580C
 jne short loc_85824	; 85813
-mov edx, dword [dword_11F5AC]	; 85815
+mov edx, dword [mousey]	; 85815
 cmp edx, dword [dword eax+ebp-0114h]	; 8581B
 je short loc_8582B	; 85822
 loc_85824:
@@ -2057,10 +2057,10 @@ inc eax	; 8633C
 cmp eax, dword [byte ebp+036h]	; 8633D
 jle short loc_8636B	; 86340
 imul eax, dword [byte ebp+036h], byte 66h	; 86342
-mov edx, dword [dword_11F5A8]	; 86346
+mov edx, dword [mousex]	; 86346
 cmp edx, dword [dword eax+ebp-0ECh]	; 8634C
 jne short loc_86364	; 86353
-mov edx, dword [dword_11F5AC]	; 86355
+mov edx, dword [mousey]	; 86355
 cmp edx, dword [dword eax+ebp-0E8h]	; 8635B
 je short loc_8636B	; 86362
 loc_86364:
@@ -2604,10 +2604,10 @@ inc eax	; 86AF8
 cmp eax, dword [byte ebp+05Ah]	; 86AF9
 jle short loc_86B27	; 86AFC
 imul eax, dword [byte ebp+05Ah], byte 66h	; 86AFE
-mov edx, dword [dword_11F5A8]	; 86B02
+mov edx, dword [mousex]	; 86B02
 cmp edx, dword [dword eax+ebp-015Ch]	; 86B08
 jne short loc_86B20	; 86B0F
-mov edx, dword [dword_11F5AC]	; 86B11
+mov edx, dword [mousey]	; 86B11
 cmp edx, dword [dword eax+ebp-0158h]	; 86B17
 je short loc_86B27	; 86B1E
 loc_86B20:
@@ -3128,10 +3128,10 @@ inc eax	; 8723C
 cmp eax, dword [byte ebp+05Ah]	; 8723D
 jle short loc_8726B	; 87240
 imul eax, dword [byte ebp+05Ah], byte 66h	; 87242
-mov edx, dword [dword_11F5A8]	; 87246
+mov edx, dword [mousex]	; 87246
 cmp edx, dword [dword eax+ebp-0144h]	; 8724C
 jne short loc_87264	; 87253
-mov edx, dword [dword_11F5AC]	; 87255
+mov edx, dword [mousey]	; 87255
 cmp edx, dword [dword eax+ebp-0140h]	; 8725B
 je short loc_8726B	; 87262
 loc_87264:

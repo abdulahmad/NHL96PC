@@ -16,7 +16,7 @@ extern byte_1844B4, byte_1844B6, byte_18451B, byte_184580, byte_184581, byte_184
 extern byte_1845E8, byte_18464C, byte_18464E, byte_18464F, byte_1846C4, curperiod, dword_1150D4, dword_1150FC
 extern dword_11B234, dword_11B330, dword_11BC24, dword_11D3A6, dword_11D91F, dword_11ED30, dword_11ED3C, dword_11ED40
 extern dword_11ED58, dword_11ED5C, dword_11ED60, dword_11ED64, dword_11ED68, dword_11ED6C, dword_11ED70, dword_11ED74
-extern dword_11F5A8, dword_11F5AC, dword_11F5C0, dword_11F5C4, dword_152F4C, dword_152F50, dword_152F54, dword_152F58
+extern mousex, mousey, dword_11F5C0, dword_11F5C4, dword_152F4C, dword_152F50, dword_152F54, dword_152F58
 extern dword_152F5C, lineuptime, dword_179918, dword_179920, dword_17BC78, dword_17BC7C, dword_17BCE2, dword_17BD48
 extern optflags, dword_17CA5C, dword_17CB2F, dword_17CBE7, dword_17CC17, dword_17CED6, dword_17CF92, dword_17D162
 extern dword_17D273, dword_17D528, dword_1843AC, dword_1843B0, dword_1843B4, dword_1843C0, dword_1843D0, dword_1843E4
@@ -951,10 +951,10 @@ jl short loc_A253F	; A250E
 cmp dword [byte ebp+076h], byte 3	; A2510
 jge short loc_A253F	; A2514
 imul eax, dword [byte ebp+076h], byte 66h	; A2516
-mov edx, dword [dword_11F5A8]	; A251A
+mov edx, dword [mousex]	; A251A
 cmp edx, dword [dword eax+ebp-0108h]	; A2520
 jne short loc_A2538	; A2527
-mov edx, dword [dword_11F5AC]	; A2529
+mov edx, dword [mousey]	; A2529
 cmp edx, dword [dword eax+ebp-0104h]	; A252F
 je short loc_A253F	; A2536
 loc_A2538:
@@ -1623,10 +1623,10 @@ jl short loc_A300D	; A2FDE
 cmp dword [byte ebp-018h], byte 6	; A2FE0
 jge short loc_A300D	; A2FE4
 imul eax, dword [byte ebp-018h], byte 66h	; A2FE6
-mov edx, dword [dword_11F5A8]	; A2FEA
+mov edx, dword [mousex]	; A2FEA
 cmp edx, dword [dword eax+dword_184446]	; A2FF0
 jne short loc_A3006	; A2FF6
-mov edx, dword [dword_11F5AC]	; A2FF8
+mov edx, dword [mousey]	; A2FF8
 cmp edx, dword [dword eax+dword_18444A]	; A2FFE
 je short loc_A300D	; A3004
 loc_A3006:
@@ -2899,10 +2899,10 @@ jl short loc_A449F	; A446E
 cmp dword [byte ebp+06Eh], byte 9	; A4470
 jge short loc_A449F	; A4474
 imul eax, dword [byte ebp+06Eh], byte 66h	; A4476
-mov edx, dword [dword_11F5A8]	; A447A
+mov edx, dword [mousex]	; A447A
 cmp edx, dword [dword eax+ebp-051Ch]	; A4480
 jne short loc_A4498	; A4487
-mov edx, dword [dword_11F5AC]	; A4489
+mov edx, dword [mousey]	; A4489
 cmp edx, dword [dword eax+ebp-0518h]	; A448F
 je short loc_A449F	; A4496
 loc_A4498:

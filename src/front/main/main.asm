@@ -21,7 +21,7 @@ extern dword_115074, dword_11507C, dword_115080, dword_115098, dword_1150C4, dwo
 extern dword_1150D4, dword_1150D8, dword_1150DC, dword_1150E0, dword_1150E4, dword_1150E8, dword_1150EC, dword_1150F0
 extern dword_1150F4, dword_1150F8, dword_1150FC, dword_1174E0, dword_1174E4, dword_1174E8, dword_1174EC, dword_1174F0
 extern dword_1174F4, dword_1174F8, dword_1174FC, dword_117500, dword_117504, dword_117508, dword_11750C, dword_117510
-extern dword_117514, dword_117518, dword_11751C, dword_11D19C, dword_11D3C8, dword_11F5A8, dword_11F5AC, dword_11F5C0
+extern dword_117514, dword_117518, dword_11751C, dword_11D19C, dword_11D3C8, mousex, mousey, dword_11F5C0
 extern dword_11F5E4, dword_11F61C, dword_11F994, dword_11F9C8, dword_151B84, dword_151D48, dword_151D4C, dword_151D50
 extern dword_151D54, dword_152148, dword_15214C, dword_152150, dword_152A6C, dword_152AD4, dword_152C3C, dword_152F44
 extern dword_152F48, dword_152F4C, dword_152F50, dword_152F54, dword_152F58, dword_152F5C, dword_152F60, dword_152F64
@@ -3089,10 +3089,10 @@ imul edx, dword [byte ebp-03Ch], byte 66h	; 1A957
 mov eax, dword [dword_152C3C]	; 1A95B
 mov eax, dword [byte eax+024h]	; 1A960
 add eax, edx	; 1A963
-mov edx, dword [dword_11F5A8]	; 1A965
+mov edx, dword [mousex]	; 1A965
 cmp edx, dword [byte eax+03Ah]	; 1A96B
 jne short loc_1A97B	; 1A96E
-mov edx, dword [dword_11F5AC]	; 1A970
+mov edx, dword [mousey]	; 1A970
 cmp edx, dword [byte eax+03Eh]	; 1A976
 je short loc_1A982	; 1A979
 loc_1A97B:

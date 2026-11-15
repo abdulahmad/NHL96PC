@@ -3,8 +3,8 @@ bits 32
 %include "hockey.inc"
 section s_C2CB0 progbits alloc exec nowrite align=1
 extern __SetIOMode_, __qwrite_, _dosret0_, _nfree_, _nmalloc_, dword_11F8E8, dword_11F8EC, dword_124435
-extern dword_14F09C, dword_19BA3C, dword_19BA40, isatty_, lseek_, memset_, strnicmp_, unk_123DF4
-extern unk_123FFC, unk_19BA34, unk_19BA38, word_124408
+extern _environ, dword_19BA3C, dword_19BA40, isatty_, lseek_, memset_, strnicmp_, unk_123DF4
+extern unk_123FFC, unk_19BA34, unk_19BA38, _psp
 global __FPE_exception_, __MemAllocator, __MemFree, __allocfp_, __chktty_, __close_, __flush_, __freefp_
 global __set_EDOM_, __set_EINVAL_, __set_ERANGE_, __set_doserrno_, __set_errno_, __unlink_, access_, getenv_
 global loc_C2CD9, loc_C2D23, loc_C2D3F, loc_C2D42, loc_C2D48, loc_C2D4A, loc_C2D99, loc_C2DC2
@@ -57,7 +57,7 @@ push esi	; C2CFA
 push edi	; C2CFB
 push ebp	; C2CFC
 mov ebp, eax	; C2CFD
-mov esi, dword [dword_14F09C]	; C2CFF
+mov esi, dword [_environ]	; C2CFF
 test esi, esi	; C2D05
 je short loc_C2D48	; C2D07
 test eax, eax	; C2D09
@@ -353,7 +353,7 @@ pop edx	; C2F97
 pop ebx	; C2F98
 ret	; C2F99
 sub_C2F9A:
-mov eax, dword [word_124408]	; C2F9A
+mov eax, dword [_psp]	; C2F9A
 ret	; C2F9F
 __close_:
 push ebx	; C2FA0

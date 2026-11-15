@@ -1,10 +1,14 @@
 address,name,auto_name,source,confidence,evidence,file
 10003,___begtext,,WATCOM,high,IDA FLIRT library signature,
+108BB,InitSlotTable,sub_108BB,new,medium,builds the controller slot table (SlotTable) from the game set-up,src/front/front_10010.asm
 10AF1,PollControllers,sub_10AF1,new,high,fills 4-entry slot table (7 bytes each) from keyboard/joystick by device word and setup slot team,
 16C4D,InputRecordTimer,sub_16C4D,new,high,timer callback; every 4th tick pushes 0x12-byte record (4 slot dwords + ticks) into ring of 5,
 16D76,HandleSlotButtons,sub_16D76,new,high,"reads the 4 slot dwords; bit0 pause, bit1 replay, bits10-13/14-17 line change per team, bits18/19 goalie pull",
 16F09,RunSimFrames,sub_16F09,new,medium,runs n sim frames after HandleSlotButtons; stops on menu request,
+17025,GameLoop,sub_17025,new,medium,"the game loop PlayGame runs: takes input records out of the ring, then draws",src/front/front_1456D.asm
+17494,PlayGame,sub_17494,95PC,medium,"play a game (eax < 0: a new one); calls the slot table set-up and the game loop, as NHL95PC PlayGame",src/front/front_1456D.asm
 17675,putchar,,WATCOM,high,IDA FLIRT library signature,
+197ED,EditText,sub_197ED,new,high,the front end's text-edit routine every text entry goes through,src/front/main/main.asm
 1B7F8,main_,,WATCOM,high,IDA FLIRT library signature,
 1D6F0,PlacePlayersAtStart,,95PC,medium,NHL95PC 13C79 (sem): C:613; D:16595C; D:117870; C:810,
 1D8A2,SetupGame,,95PC,medium,NHL95PC 13E8F (sem): C:159; D:11916D; D:17C9A0,
@@ -161,6 +165,7 @@ address,name,auto_name,source,confidence,evidence,file
 49848,updateplayers,sub_49848,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: DoGameFrame,src/engine/hockey/hockey.asm
 4A8A4,setupice,,95PC,medium,NHL95PC 5D7F7 (sem): C:586; D:16479C; D:1178C3; R:590,
 4AF89,SetupTeamForIntermission,,95PC,medium,NHL95PC 5DDDA (similar): mnemonic similarity 0.91 over 32 instructions,
+4B05E,NextPeriod,sub_4B05E,new,medium,"moves the game to the next period (period count, ends, stats)",src/engine/hockey/hockey.asm
 4B145,ResetBench,sub_4B145,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: SetupTeamForIntermission,src/engine/hockey/hockey.asm
 4B1E1,resetplstuff,,95PC,medium,"NHL95PC 5E01A (neighbour): between SetupTeamForIntermission and skatetopuck, mnemonic similarity 0.81",
 4B2A0,forceteams,,95PC,medium,"NHL95PC 5E0B0 (neighbour): between SetupTeamForIntermission and skatetopuck, mnemonic similarity 0.88",
@@ -206,10 +211,15 @@ address,name,auto_name,source,confidence,evidence,file
 5313B,NormalizeDressFlags,,95PC,medium,NHL95PC 65B48 (sem): D:176DD4,
 5316C,CanRemovePlayer,sub_5316C,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: AddPenalty,src/engine/lines/lines.asm
 606B9,CloseTextOverlay,sub_606B9,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: PostInjuryEvent,src/front/front_5D993.asm
+609C6,ReadHotKeys,sub_609C6,95PC,medium,"the hot keys read straight from the keyboard in the game loop, as NHL95PC ReadHotKeys",src/front/front_5D993.asm
 61A18,randomd0,,95PC,medium,NHL95PC 8C230 (similar): mnemonic similarity 0.97 over 34 instructions,
 61A78,vtoa,,95PC,medium,NHL95PC 8C8E8 (similar): mnemonic similarity 0.97 over 41 instructions,
 68EC9,CrowdNoiseReset,sub_68EC9,95PC,medium,"its call lines up with the NHL95PC call in SetupDemoGame, and its address keeps the NHL95PC module order",src/front/front_67000.asm
 69105,sfx,sub_69105,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: setInjuryType,src/front/front_67000.asm
+694B9,StartSoundCard,sub_694B9,new,medium,picks the driver for the card in globalset and starts it through SndSetDriver,src/front/front_67000.asm
+69C98,PlayTGV,sub_69C98,new,medium,plays a TGV movie (ends with WaitTicks(1)),src/front/front_67000.asm
+6A341,ReadGlobalSet,sub_6A341,new,medium,"reads GLOBAL.SET, the settings file SETUP writes, at start",src/front/front_67000.asm
+6A7D3,RunInGameMenu,sub_6A7D3,new,medium,"opens the menu InGameMenuRequest asks for (pre-game menu, pause)",src/front/front_67000.asm
 A9BCC,_searchenv_,,WATCOM,high,IDA FLIRT library signature,
 A9CB3,strcpy_,,WATCOM,high,IDA FLIRT library signature,
 A9CD2,strcat_,,WATCOM,high,IDA FLIRT library signature,
@@ -272,6 +282,7 @@ B2374,savefileblocka,,95PC,medium,NHL95PC 9336C (similar): mnemonic similarity 0
 B2B30,DrawArtOpaque,,95PC,medium,NHL95PC 910E0 (sem): C:2293; K:10000; K:FFFF,
 B2C98,printf_,,WATCOM,high,IDA FLIRT library signature,
 B2CBA,chdir_,,WATCOM,high,IDA FLIRT library signature,
+B32E0,DetectCPU,sub_B32E0,95PC,high,"start-up CPU check that toggles the alignment-check flag, as NHL95PC DetectCPU",src/lib/watcom/watcom_clib_05.asm
 B6308,start,,WATCOM,high,IDA FLIRT library signature,
 B6991,strncpy_,,WATCOM,high,IDA FLIRT library signature,
 B71A6,_dos_close_,,WATCOM,high,IDA FLIRT library signature,
@@ -292,6 +303,7 @@ BF070,__STOSB,,WATCOM,high,IDA FLIRT library signature,
 BF0A7,__STOSD,,WATCOM,high,IDA FLIRT library signature,
 BF534,initgraphics,,95PC,medium,NHL95PC 8E080 (sem): S:initgraphics - INITMEMMAN REQUIRED BEF; D:113A50; S:initgraphics - INVALID SCREEN SIZE (,
 BF949,abs_,,WATCOM,high,IDA FLIRT library signature,
+C157F,SndSetDriver,sub_C157F,new,medium,sound library: make a driver table entry current,src/lib/watcom/watcom_clib_08.asm
 C2248,fini_void_,,WATCOM,high,IDA FLIRT library signature,
 C2444,getcwd_,,WATCOM,high,IDA FLIRT library signature,
 C26F9,_Alphabet,,WATCOM,high,IDA FLIRT library signature,
@@ -378,6 +390,7 @@ CA910,__rest_8087_,,WATCOM,high,IDA FLIRT library signature,
 CA914,__init_8087_,,WATCOM,high,IDA FLIRT library signature,
 CA945,_fpreset_,,WATCOM,high,IDA FLIRT library signature,
 CA94F,__chk8087_,,WATCOM,high,IDA FLIRT library signature,
+CE0A9,ParseBlasterEnv,sub_CE0A9,new,medium,parses the BLASTER environment string,src/lib/sound/snd_soundblaster.asm
 CFDF1,__setEFGfmt_,,WATCOM,high,IDA FLIRT library signature,
 CFEB0,memset_,,WATCOM,high,IDA FLIRT library signature,
 CFEC8,__InitFiles_,,WATCOM,high,IDA FLIRT library signature,
@@ -434,18 +447,27 @@ DD3EB,__Bin2String,,WATCOM,high,IDA FLIRT library signature,
 DD50C,frexp_,,WATCOM,high,IDA FLIRT library signature,
 DD708,SetDrawBitmap,,95PC,medium,NHL95PC B4F70 (sem): D:1228D0; R:1652; R:1650,
 DD760,SetClipWindow,,95PC,medium,NHL95PC B4BC4 (similar): mnemonic similarity 0.89 over 26 instructions,
+DDE7B,WaitRetrace,sub_DDE7B,new,high,busy-wait for the VGA vertical retrace,src/lib/video/video_bios_vga_01.asm
+DDEBC,WaitRetraceEdges,sub_DDEBC,new,medium,"as WaitRetrace, always waiting for both edges",src/lib/video/video_bios_vga_01.asm
+DDF24,SetCrtcStart,sub_DDF24,new,medium,page flip: set the CRTC start address,src/lib/video/video_bios_vga_01.asm
+DDF94,ClearChain4,sub_DDF94,new,medium,clear Chain-4 (sequencer register 4 bit 3) after mode 13h for the unchained pages,src/lib/video/video_bios_vga_01.asm
 DE10D,PlotPixel,,95PC,medium,NHL95PC B5DB0 (sem): D:12401C; D:122930; C:2281; D:1228F4,
 DF928,MouseRead,,95PC,medium,NHL95PC B2DCA (similar): mnemonic similarity 0.88 over 29 instructions,
 DF98F,SetViewRect,,95PC,high,NHL95PC B2E1B (exact): 12 instructions,
+DF9B7,MouseReadMotion,sub_DF9B7,new,medium,mouse library: reads int 33h 0Bh into the pointer state,src/lib/input/input_mouse.asm
 DFEB4,GetTicks,,95PC,medium,NHL95PC B395C (sem): D:11F9A4; R:2374,
 DFEBA,TicksSince,,95PC,high,NHL95PC B3962 (exact): 4 instructions,
 DFEE1,SetTickDeadline,,95PC,high,NHL95PC B3989 (exact): 4 instructions,
 DFEF1,WaitTickDeadline,,95PC,high,NHL95PC B3999 (exact): 4 instructions,
 DFEFF,TickDeadlinePassed,,95PC,medium,NHL95PC B39A7 (sem): D:11F8DC; D:11F9A4,
+DFF0F,WaitTicks,sub_DFF0F,95PC,high,"timer library: wait a number of ticks, beside SetTickDeadline / WaitTickDeadline / TickDeadlinePassed as in NHL95PC",src/lib/input/input_joystick_misc_01.asm
 DFF70,WaitKey,,95PC,high,NHL95PC B3A18 (exact): 4 instructions,
 E06B2,openhandle,,95PC,high,NHL95PC B3B5A (exact): 87 instructions,
 E0834,FatalError,,95PC,high,NHL95PC B2CD8 (callsite): called at the same place of sub_B30BB,
 E14C8,vecdist,sub_E14C8,95PC,high,called at the same position as in NHL95PC in 4 routine(s) named in both: ShotLaneOpen,src/lib/input/input_joystick_misc_02.asm
+E2484,SaveTextMode,sub_E2484,95PC,high,video library: save the text mode and BIOS data area (the port stubs it as in NHL95PC),src/lib/video/video_bios_vga_03.asm
+E24C4,RestoreTextMode,sub_E24C4,95PC,high,video library: restore the text mode and BIOS data area,src/lib/video/video_bios_vga_03.asm
+110000,__nullarea,unk_110000,95PC,medium,"Watcom _NULL area: the 01h-filled words at the first data address, as NHL95PC __nullarea",src/data/shared_data_01.asm
 110004,str_PATH,asc_110004,new,high,string 'PATH',src/data/shared_data_01.asm
 110009,str_Rb2,unk_110009,new,high,string 'rb',src/data/shared_data_01.asm
 11000C,str_HGwt,asc_11000C,new,high,string 'HGwt',src/data/shared_data_01.asm
@@ -2310,7 +2332,10 @@ E14C8,vecdist,sub_E14C8,95PC,high,called at the same position as in NHL95PC in 4
 1178C4,sflags,,95PC,medium,NHL95PC C90BC (refset): referenced by the same 4 matched functions,
 1178C6,gmode2,word_1178C6,95PC,high,assfaceoff tests bit 0 as NHL95PC assfaceoff tests gmode2 bit 0; lines up in TryBlockShot and chkprogress too,src/data/front/front_2A692_data_02.asm
 1178F2,Pencntdwn,,95PC,medium,NHL95PC C90CE (refset): referenced by the same 5 matched functions,
+1178FE,gsp,word_1178FE,95PC,medium,"the period number from 0 (the port reads it for the netplay log), as NHL95PC gsp",src/data/front/front_2A692_data_02.asm
 117900,gameclock,,95PC,medium,NHL95PC C90DC (refset): referenced by the same 4 matched functions,
+117934,seed,dword_117934,95PC,high,"randomd0's random number state, as NHL95PC seed",src/data/front/front_2A692_data_02.asm
+117936,seed_w2,word_117936,95PC,high,seed+2: the high word randomd0 reads,src/data/front/front_2A692_data_02.asm
 11797E,penmintab,,95PC,medium,NHL95PC C9123 (refset): referenced by the same 3 matched functions,
 1179C4,asstab,off_1179C4,95PC,high,"the assignment routine table: the routines already named sit at the same 14 indices as in NHL95PC asstab (assshoot 18, asspassrec 19, pucknorm 24, puckfaceoff 27 ...)",src/data/engine/penalty_data_01.asm
 118E9D,energywarn,,95PC,medium,NHL95PC CBC52 (refset): referenced by the same 3 matched functions,
@@ -2334,6 +2359,7 @@ E14C8,vecdist,sub_E14C8,95PC,high,called at the same position as in NHL95PC in 4
 119F94,nethit,,95PC,medium,NHL95PC CCC2C (refset): referenced by the same 3 matched functions,
 11A310,dressbystatus,,95PC,medium,NHL95PC CD418 (refset): referenced by the same 3 matched functions,
 11A3E8,DemoMode,dword_11A3E8,new,medium,1 during the attract demo,
+11D1DA,sndcard,dword_11D1DA,new,medium,the sound driver StartSoundCard started (-1: none),src/data/front/front_67000_data_01.asm
 11D7A0,InGameMenuRequest,dword_11D7A0,new,medium,"1 pause menu, 2 replay menu, 3 other",
 11D950,str_dbgO,dword_11D950,95PC,high,string 'O',src/data/front/front_6E233_data_02.asm
 11D968,str_feO,word_11D968,95PC,high,string 'O',src/data/front/front_6E233_data_02.asm
@@ -2354,6 +2380,22 @@ E14C8,vecdist,sub_E14C8,95PC,high,called at the same position as in NHL95PC in 4
 1243D9,str_MUSICOFF,asc_1243D9,new,high,string 'MUSIC OFF',src/data/lib/video/video_bios_vga_03_data_01.asm
 1243E3,str_SOUNDON,asc_1243E3,new,high,string 'SOUND ON',src/data/lib/video/video_bios_vga_03_data_01.asm
 1243EC,str_SOUNDOFF,asc_1243EC,new,high,string 'SOUND OFF',src/data/lib/video/video_bios_vga_03_data_01.asm
+1243F8,_dynend,dword_1243F8,95PC,medium,"Watcom cstart variable, same block layout as NHL95PC (_dynend .. _osminor)",src/data/lib/video/video_bios_vga_03_data_01.asm
+1243FC,_curbrk,dword_1243FC,95PC,high,"Watcom cstart variable, same block layout as NHL95PC",src/data/lib/video/video_bios_vga_03_data_01.asm
+124400,_LpCmdLine,dword_124400,95PC,medium,"Watcom cstart variable, same block layout as NHL95PC",src/data/lib/video/video_bios_vga_03_data_01.asm
+124408,_psp,word_124408,95PC,high,"Watcom cstart variable, same block layout as NHL95PC",src/data/lib/video/video_bios_vga_03_data_01.asm
+12440C,_STACKLOW,dword_12440C,95PC,high,"Watcom cstart variable, same block layout as NHL95PC",src/data/lib/video/video_bios_vga_03_data_01.asm
+124410,_STACKTOP,dword_124410,95PC,high,"Watcom cstart variable, same block layout as NHL95PC",src/data/lib/video/video_bios_vga_03_data_01.asm
+124428,__no87,word_124428,95PC,high,"Watcom cstart variable, same block layout as NHL95PC",src/data/lib/video/video_bios_vga_03_data_01.asm
+12442A,_Extender,byte_12442A,95PC,high,"Watcom cstart variable, same block layout as NHL95PC",src/data/lib/video/video_bios_vga_03_data_01.asm
+12442B,_ExtenderSubtype,byte_12442B,95PC,high,"Watcom cstart variable, same block layout as NHL95PC",src/data/lib/video/video_bios_vga_03_data_01.asm
+12442D,_Envptr,dword_12442D,95PC,high,"Watcom cstart variable, same block layout as NHL95PC",src/data/lib/video/video_bios_vga_03_data_01.asm
+124431,_Envptr_w4,word_124431,95PC,high,_Envptr+4: the selector half of the far pointer,src/data/lib/video/video_bios_vga_03_data_01.asm
+124433,_osmajor,byte_124433,95PC,high,"Watcom cstart variable, same block layout as NHL95PC",src/data/lib/video/video_bios_vga_03_data_01.asm
+124434,_osminor,byte_124434,95PC,high,"Watcom cstart variable, same block layout as NHL95PC",src/data/lib/video/video_bios_vga_03_data_01.asm
+1248CC,snddriver,dword_1248CC,new,medium,the driver table index SndSetDriver made current (0: none),src/data/lib/video/video_bios_vga_03_data_01.asm
+14F09C,_environ,dword_14F09C,95PC,medium,Watcom: the environment pointer table __setenvp_ builds,src/data/lib/sound/snd_soundblaster_data_02.asm
+14F0A0,___env_mask,dword_14F0A0,95PC,medium,Watcom: one flag byte per environ entry,src/data/lib/sound/snd_soundblaster_data_02.asm
 14F0AC,str_28,dword_14F0AC,new,high,string '2',src/data/lib/sound/snd_soundblaster_data_02.asm
 14FAB0,str_SHPI2,,95PC,high,NHL95PC D544C (string): 'SHPI',
 14FADE,str_StackOverflow,,95PC,high,NHL95PC D2F46 (string): 'Stack Overflow!\r\n',
@@ -2381,10 +2423,16 @@ E14C8,vecdist,sub_E14C8,95PC,high,called at the same position as in NHL95PC in 4
 176B86,lasttouch,,95PC,medium,NHL95PC E9AC2 (refset): referenced by the same 3 matched functions,
 176B9B,goalevent,,95PC,medium,NHL95PC E9AD3 (refset): referenced by the same 3 matched functions,
 176BA6,OOlist,,95PC,medium,NHL95PC E9ADE (refset): referenced by the same 2 matched functions,
+176BC8,lineuptime,dword_176BC8,new,medium,the set time the faceoff line-up loop (sub_2DE30) runs before play,src/data/front/main_bss_02.asm
 176BD4,lastimpact,,95PC,medium,NHL95PC E9B28 (refset): referenced by the same 2 matched functions,
 176D70,defsort_d,,95PC,medium,NHL95PC E9DB4 (refset): referenced by the same 5 matched functions,
 176DD4,dressflags,,95PC,medium,NHL95PC E9E18 (refset): referenced by the same 2 matched functions,
 176E06,offsort_fwd,,95PC,medium,NHL95PC E9E4A (refset): referenced by the same 6 matched functions,
 176ED2,dressedskaters,,95PC,medium,NHL95PC E9F16 (refset): referenced by the same 2 matched functions,
+17C96C,tgvpalpending,dword_17C96C,new,medium,the TGV player has a palette chunk for this frame,src/data/front/front_67000_bss_01.asm
 17C9A0,gameopts,,95PC,medium,NHL95PC C53FF (refset): referenced by the same 7 matched functions,
+17C9A8,optflags,dword_17C9A8,new,medium,"game option flags (bits 7-8 the skill level: 0 Rookie, 80h Pro, 100h All-Star)",src/data/front/front_67000_bss_01.asm
+17CA1C,globalset,dword_17CA1C,new,medium,GLOBAL.SET options (bits 0-2 the sound card),src/data/front/front_10010_bss_02.asm
+17CA20,optblock,dword_17CA20,new,medium,start of the option block the port sends to the guest,src/data/front/front_10010_bss_02.asm
+17CA75,optblock_end,unk_17CA75,new,medium,end of the option block,src/data/front/front_10010_bss_02.asm
 18566C,timercallbacks,,95PC,medium,NHL95PC EDCDC (refset): referenced by the same 2 matched functions,

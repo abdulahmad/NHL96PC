@@ -9,8 +9,8 @@ extern byte_16561C, byte_165658, byte_165694, byte_176B83, byte_17CA5D, check4be
 extern dword_114B90, dword_114B94, dword_114B98, dword_114B9C, dword_114F16, dword_1150FC, dword_1178DA, dword_1178DE
 extern dword_1178E2, dword_1178E6, dword_118E89, dword_119D04, dword_11B310, dword_11F5C0, dword_11F5C4, dword_1515D8
 extern dword_1515DC, dword_1515E0, dword_152F4C, dword_164956, dword_164D16, dword_16523C, dword_165240, dword_165244
-extern dword_165248, dword_176BC4, dword_176BC8, dword_176BCC, dword_177108, dword_179918, dword_179920, dword_179924
-extern dword_179DBD, dword_17CA20, energywarn, fadeinpending, fox, foy, gameopts, gmode
+extern dword_165248, dword_176BC4, lineuptime, dword_176BCC, dword_177108, dword_179918, dword_179920, dword_179924
+extern dword_179DBD, optblock, energywarn, fadeinpending, fox, foy, gameopts, gmode
 extern hmroster, hmtmstruct, lasttouch, lcblink, off_11787C, off_117888, off_11788C, off_117890
 extern off_117894, off_11D44C, off_11D4BC, off_11D52C, puckx, pucky, qsort_, randomd0
 extern reenergizeteam, regd2, regd3, resetplstuff, setpersonel, sflags, sprintf_, sub_13338
@@ -106,7 +106,7 @@ mov word [foy], 0	; 2DA31
 shl eax, 0Fh	; 2DA3A
 mov dword [dword_118E89], 0	; 2DA3D
 shr eax, 1Bh	; 2DA47
-mov dword [dword_176BC8], 334h	; 2DA4A
+mov dword [lineuptime], 334h	; 2DA4A
 mov ax, word [nosplit eax*4+word_11D604]	; 2DA54
 mov word [word_118E91], 0	; 2DA5C
 mov dword [byte ebp-08h], eax	; 2DA65
@@ -378,7 +378,7 @@ call sub_DFEC6	; 2DE39
 mov dword [InGameMenuRequest], 0	; 2DE3E
 mov dword [GameLoopActive], 1	; 2DE48
 loc_2DE52:
-cmp dword [dword_176BC8], byte 0	; 2DE52
+cmp dword [lineuptime], byte 0	; 2DE52
 je near loc_2E04D	; 2DE59
 cmp dword [dword_1150FC], byte 0	; 2DE5F
 jne near loc_2E04D	; 2DE66
@@ -396,7 +396,7 @@ xor esi, esi	; 2DE97
 loc_2DE99:
 cmp dword [InputRecordCount], byte 0	; 2DE99
 je near loc_2DFA8	; 2DEA0
-cmp dword [dword_176BC8], byte 0	; 2DEA6
+cmp dword [lineuptime], byte 0	; 2DEA6
 je near loc_2DFA8	; 2DEAD
 cmp dword [dword_1150FC], byte 0	; 2DEB3
 jne near loc_2DFA8	; 2DEBA
@@ -440,10 +440,10 @@ call sub_69A9B	; 2DF79
 mov dword [GameLoopActive], esi	; 2DF7E
 mov esi, ebx	; 2DF84
 loc_2DF86:
-sub dword [dword_176BC8], ecx	; 2DF86
-cmp dword [dword_176BC8], byte 0	; 2DF8C
+sub dword [lineuptime], ecx	; 2DF86
+cmp dword [lineuptime], byte 0	; 2DF8C
 jge near loc_2DE99	; 2DF93
-mov dword [dword_176BC8], 0	; 2DF99
+mov dword [lineuptime], 0	; 2DF99
 jmp near loc_2DE99	; 2DFA3
 loc_2DFA8:
 call sub_4B59F	; 2DFA8
@@ -455,7 +455,7 @@ call sub_69A9B	; 2DFC4
 mov dword [GameLoopActive], ecx	; 2DFC9
 cmp dword [dword_119D04], byte 0	; 2DFCF
 je short loc_2DFE4	; 2DFD6
-cmp dword [dword_176BC8], 2A8h	; 2DFD8
+cmp dword [lineuptime], 2A8h	; 2DFD8
 jge short loc_2DFEB	; 2DFE2
 loc_2DFE4:
 mov eax, ebx	; 2DFE4
@@ -477,7 +477,7 @@ mov dword [GameLoopActive], ecx	; 2E02B
 loc_2E031:
 cmp dword [InGameMenuRequest], byte 0	; 2E031
 je near loc_2DE52	; 2E038
-mov dword [dword_176BC8], 0	; 2E03E
+mov dword [lineuptime], 0	; 2E03E
 jmp near loc_2DE52	; 2E048
 loc_2E04D:
 mov dword [GameLoopActive], 0	; 2E04D
@@ -620,9 +620,9 @@ push esi	; 2E1C1
 push edi	; 2E1C2
 enter 58h, 0	; 2E1C3
 push eax	; 2E1C7
-cmp dword [dword_176BC8], 140h	; 2E1C8
+cmp dword [lineuptime], 140h	; 2E1C8
 jle near loc_2E940	; 2E1D2
-mov edi, dword [dword_176BC8]	; 2E1D8
+mov edi, dword [lineuptime]	; 2E1D8
 sub edi, 140h	; 2E1DE
 test byte [byte_17CA5D], 20h	; 2E1E4
 je short loc_2E1FB	; 2E1EB
@@ -1227,7 +1227,7 @@ StartPreGame:
 push ebx	; 2E95C
 push ecx	; 2E95D
 mov ebx, eax	; 2E95E
-mov eax, dword [dword_17CA20]	; 2E960
+mov eax, dword [optblock]	; 2E960
 and eax, byte 7Fh	; 2E965
 call CrowdNoiseReset	; 2E968
 mov eax, 7Fh	; 2E96D
@@ -1354,7 +1354,7 @@ jne near loc_2ED64	; 2EAFA
 movsx eax, word [byte ebx+02Eh]	; 2EB00
 cmp eax, byte 0FFFFFF9Ch	; 2EB04
 jne short loc_2EB44	; 2EB07
-cmp dword [dword_176BC8], byte 0Ah	; 2EB09
+cmp dword [lineuptime], byte 0Ah	; 2EB09
 jle near loc_2ED64	; 2EB10
 xor eax, eax	; 2EB16
 jmp short loc_2EB2F	; 2EB18
@@ -1366,7 +1366,7 @@ add eax, 0A0h	; 2EB2A
 loc_2EB2F:
 cmp eax, 780h	; 2EB2F
 jl short loc_2EB1A	; 2EB34
-mov dword [dword_176BC8], 0Ah	; 2EB36
+mov dword [lineuptime], 0Ah	; 2EB36
 pop edx	; 2EB40
 pop ecx	; 2EB41
 pop ebx	; 2EB42

@@ -12,7 +12,7 @@ extern byte_11F49C, byte_11F4A4, byte_11F4AC, byte_11F4B0, byte_11F4B4, byte_11F
 extern byte_17BDAE, byte_17CC37, byte_17CFB1, byte_17D13A, byte_17D262, byte_17D26F, byte_17D270, byte_17D271
 extern byte_184B24, byte_184B28, dword_1150D8, dword_1150FC, dword_11D1A8, dword_11D1AC, dword_11D59C, dword_11D674
 extern dword_11ED78, dword_11ED7C, dword_11ED9C, dword_11EDBC, dword_11EDCC, dword_11EDDC, dword_11EE18, dword_11EE94
-extern dword_11EF10, dword_11EF80, dword_11EF8C, dword_17BC74, dword_17BC78, dword_17BC7C, dword_17BD48, dword_17C9A8
+extern dword_11EF10, dword_11EF80, dword_11EF8C, dword_17BC74, dword_17BC78, dword_17BC7C, dword_17BD48, optflags
 extern dword_17CBE7, dword_17CC17, dword_17CEC3, dword_17CED6, dword_17CF8E, dword_17CF92, dword_17CF96, dword_17D162
 extern dword_17D166, dword_17D16A, dword_17D18E, dword_17D1D6, dword_17D1DA, dword_17D1DE, dword_17D1E2, dword_17D1E6
 extern dword_17D1EA, dword_17D202, dword_17D20A, dword_17D252, dword_17D256, dword_17D25A, dword_17D25E, dword_17D263
@@ -20,7 +20,7 @@ extern dword_17D267, dword_17D26B, dword_18210C, dword_1845FC, dword_184600, dwo
 extern dword_1846FC, dword_184700, dword_18470C, dword_184710, dword_184ABC, dword_184ADC, dword_184AFC, dword_184B00
 extern dword_184B04, dword_184B08, dword_184B0C, dword_184B10, dword_184B14, dword_184B1C, dword_184B20, gameopts
 extern jpt_A4FB7, off_11D44C, sprintf_, srand_, strcpy_, strlen_, sub_168FA, sub_19384
-extern sub_193E8, sub_19491, sub_19522, sub_1955B, sub_19799, sub_197ED, sub_1A109, sub_1AC0E
+extern sub_193E8, sub_19491, sub_19522, sub_1955B, sub_19799, EditText, sub_1A109, sub_1AC0E
 extern sub_1AE8C, sub_1B00B, sub_1B05E, sub_1E08B, sub_1E3E8, sub_1E5FC, sub_1E7F6, sub_1E8E9
 extern sub_1EA14, sub_1EBBC, sub_29B9F, sub_4F159, sub_4F385, sub_62AF7, sub_62D9B, sub_62E0E
 extern sub_62F90, sub_63998, sub_63A5B, sub_63F79, sub_63FEF, sub_64054, sub_640D3, sub_64296
@@ -29,7 +29,7 @@ extern sub_78E9E, sub_78EFA, sub_7BFAF, sub_7FF7F, sub_81D7C, sub_81EEA, sub_885
 extern sub_A8B9B, sub_A8C75, sub_A9BAC, sub_AAA40, PutBlock, sub_AB758, sub_ABF4C, sub_AD35C
 extern sub_ADA80, sub_ADBEC, TextSetFont, sub_B0430, sub_B20D0, sub_B22B0, DrawArtOpaque, sub_B2C54
 extern sub_B7810, sub_C2500, sub_DD6C4, MouseRead, sub_E04E0, sub_E0584, str_S6, str_D17
-extern unk_11EF90, unk_11EFDC, unk_11F39C, unk_11F3DC, unk_11F41C, unk_11F45C, unk_152C44, unk_17CA75
+extern unk_11EF90, unk_11EFDC, unk_11F39C, unk_11F3DC, unk_11F41C, unk_11F45C, unk_152C44, optblock_end
 extern unk_17CED5, unk_17CF9A, unk_A49D1, unk_A4A69, unk_A4F69, unk_A4F79, unk_A4F89, unk_A4FA9
 extern word_1656E8, word_16581E
 global loc_A5020, loc_A503C, loc_A5043, loc_A504A, loc_A5060, loc_A507B, loc_A507D, loc_A50A4
@@ -447,7 +447,7 @@ jne short loc_A54F0	; A54A6
 mov ecx, 39Dh	; A54A8
 mov edi, unk_17CED5	; A54AD
 xor eax, eax	; A54B2
-mov esi, unk_17CA75	; A54B4
+mov esi, optblock_end	; A54B4
 rep stosb	; A54B9
 mov ecx, 0B9h	; A54BB
 mov edi, unk_17CED5	; A54C0
@@ -1067,7 +1067,7 @@ mov ebx, byte_17BDAE	; A5EF4
 call sub_77355	; A5EF9
 mov edx, eax	; A5EFE
 xor eax, eax	; A5F00
-call sub_197ED	; A5F02
+call EditText	; A5F02
 cmp byte [byte_17D13A], 0	; A5F07
 je near loc_A600D	; A5F0E
 push byte 0	; A5F14
@@ -1838,7 +1838,7 @@ mov ebx, byte_17BDAE	; A68FF
 call sub_77355	; A6904
 mov edx, eax	; A6909
 xor eax, eax	; A690B
-call sub_197ED	; A690D
+call EditText	; A690D
 test eax, eax	; A6912
 je short loc_A6922	; A6914
 mov eax, dword [byte ebp-04h]	; A6916
@@ -2921,9 +2921,9 @@ cmp edx, byte 1Fh	; A7918
 jl near loc_A7584	; A791B
 jmp near loc_A72F0	; A7921
 loc_A7926:
-and byte [dword_17C9A8], 8Fh	; A7926
+and byte [optflags], 8Fh	; A7926
 push dword [byte ebp+076h]	; A792D
-or byte [dword_17C9A8], 20h	; A7930
+or byte [optflags], 20h	; A7930
 call sub_ADBEC	; A7937
 add esp, byte 4	; A793C
 push dword [dword_184B04]	; A793F
@@ -2975,9 +2975,9 @@ call sub_A9BAC	; A79E2
 mov eax, 2714h	; A79E7
 jmp near loc_A6555	; A79EC
 loc_A79F1:
-and byte [dword_17C9A8], 8Fh	; A79F1
+and byte [optflags], 8Fh	; A79F1
 mov eax, 2712h	; A79F8
-or byte [dword_17C9A8], 10h	; A79FD
+or byte [optflags], 10h	; A79FD
 jmp near loc_A6555	; A7A04
 sub_A7A09:
 push ebx	; A7A09

@@ -5,13 +5,13 @@ section s_B2C98 progbits alloc exec nowrite align=1
 extern FatalError, __CMain, __FiniRtns, __InitRtns, ___begtext, __doserror_, __fprtf_, __set_EINVAL_
 extern __set_errno_dos_, _nexpand_, _nfree_, _nmalloc_, _nmsize_, str_InitmemmanINSUFFICIENTROW, asc_113658, asc_113680
 extern asc_1136C4, str_InitmemmanDOSSUBMEMORYNO, str_AAPLUT, asc_113740, str_OpenblockhandleSPATHNAME, asc_113794, asc_1137A0, asc_1137B0
-extern asc_1137DC, asc_113810, asc_113834, str_CdromdirectoryentryERROR, str_Viv, byte_1219A8, byte_121AFC, byte_12442A
-extern byte_12442B, byte_124433, byte_124434, byte_18B0D0, dword_11F5DC, dword_11F5E0, dword_11F5E4, dword_11F5E8
+extern asc_1137DC, asc_113810, asc_113834, str_CdromdirectoryentryERROR, str_Viv, byte_1219A8, byte_121AFC, _Extender
+extern _ExtenderSubtype, _osmajor, _osminor, byte_18B0D0, dword_11F5DC, dword_11F5E0, dword_11F5E4, dword_11F5E8
 extern dword_11F5EC, dword_11F9B8, dword_11F9BC, dword_1210C8, dword_1210CC, dword_1219A0, dword_1219A4, dword_121AA8
 extern dword_121AD8, dword_121B24, dword_121B28, dword_121B2C, dword_121B30, dword_121B38, dword_121B48, dword_121B4C
 extern dword_121B50, dword_121B54, dword_121B58, dword_121B5C, dword_121B6C, dword_121FBC, dword_1228D0, dword_1228D6
-extern dword_1228DA, dword_1228DE, dword_1228E2, dword_1228F8, dword_1228FC, dword_1243F8, dword_1243FC, dword_124400
-extern dword_124404, dword_12440C, dword_124410, dword_12442D, dword_18572C, dword_185734, dword_185738, dword_18573C
+extern dword_1228DA, dword_1228DE, dword_1228E2, dword_1228F8, dword_1228FC, _dynend, _curbrk, _LpCmdLine
+extern dword_124404, _STACKLOW, _STACKTOP, _Envptr, dword_18572C, dword_185734, dword_185738, dword_18573C
 extern dword_185848, dword_185C4C, dword_18664C, dword_18B04C, dword_18B050, dword_18B054, dword_18B058, dword_18B05C
 extern dword_18B060, dword_18B064, dword_18B068, dword_18B06C, dword_18B070, dword_18B074, dword_18B07C, dword_18B080
 extern dword_18B084, dword_18B088, dword_18B08C, dword_18B090, dword_18B094, dword_18B09C, dword_18B0A0, dword_18B0AC
@@ -20,7 +20,7 @@ extern loc_E2390, loc_E23B6, segread_, sub_AB2EC, sub_AB3B4, sub_AB440, sub_AB5B
 extern sub_AB758, sub_ABF4C, sub_AC950, sub_BE926, sub_C2AC4, sub_C2C5C, sub_C3BD0, sub_C3BE0
 extern sub_C3C04, sub_C4C6C, sub_C5410, sub_C59E0, sub_C5D56, sub_C6000, sub_DFF4B, sub_E0520
 extern sub_E0671, sub_E07B8, sub_E07CC, sub_E081C, sub_E2335, unk_121B3C, unk_123E0E, unk_18704C
-extern unk_19BAD0, unk_1A1258, unlink_, word_121ADC, word_124408, word_124428, word_124431, word_18B078
+extern unk_19BAD0, unk_1A1258, unlink_, word_121ADC, _psp, __no87, _Envptr_w4, word_18B078
 extern word_18B098, word_18B0BC, word_18B0BE, word_18B0C0
 global _dos_close_, _dos_commit_, _dos_creat_, _dos_creatnew_, _dos_getdiskfree_, _dos_open_, _dos_read_, _dos_write_
 global chdir_, loc_B2CD5, loc_B2CED, loc_B2D04, loc_B2D0B, loc_B2D6F, loc_B2D73, loc_B2D80
@@ -94,14 +94,14 @@ global loc_B71CE, loc_B7232, loc_B7255, loc_B7276, loc_B7287, loc_B729B, loc_B72
 global loc_B72F8, loc_B72FD, loc_B735C, loc_B7374, loc_B7377, loc_B738D, loc_B738F, loc_B73A1
 global loc_B73B9, loc_B73BA, loc_B73CB, loc_B73DC, loc_B73E9, loc_B73F5, printf_, rmdir_
 global start, stricmp_, strncpy_, sub_B2CE0, sub_B2D2C, sub_B30E4, sub_B3100, sub_B3145
-global sub_B3160, sub_B31C0, sub_B32E0, sub_B3360, sub_B3420, sub_B3458, sub_B35E4, sub_B39C8
+global sub_B3160, sub_B31C0, DetectCPU, sub_B3360, sub_B3420, sub_B3458, sub_B35E4, sub_B39C8
 global sub_B3DA0, sub_B41A8, sub_B4580, sub_B4988, sub_B4D60, sub_B5168, sub_B5540, sub_B583C
 global sub_B58D8, sub_B59E8, sub_B6140, sub_B6148, sub_B621C, sub_B6599, sub_B65D4, sub_B65E0
 global sub_B67BC, sub_B680C, sub_B6824, sub_B6864, sub_B68C8, sub_B6900, sub_B6964, sub_B69C0
 global sub_B69EC, sub_B6A14, sub_B6A68, sub_B6B10, sub_B6D2C, sub_B6DFC, sub_B6FA0, sub_B7094
 global sub_B71D4, sub_B71F1, sub_B7210, sub_B7233, sub_B7256, sub_B7310, sub_B73C4, unk_B34D8
 global unk_B38BC, unk_B3C94, unk_B409C, unk_B4474, unk_B487C, unk_B4C54, unk_B505C, unk_B5434
-global unk_B58E0, unk_B5964, unk_B65DD
+global unk_B58E0, unk_B5964, __saved_DS
 printf_:
 push ebx	; B2C98
 push edx	; B2C99
@@ -629,7 +629,7 @@ pop edi	; B32D1
 pop esi	; B32D2
 ret	; B32D3
 db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-sub_B32E0:
+DetectCPU:
 mov dword [dword_11F5DC], 1	; B32E0
 mov dword [dword_11F5E0], 1	; B32EA
 smsw eax	; B32F4
@@ -4810,10 +4810,10 @@ loc_B6380:
 sti	; B6380
 and esp, byte 0FFFFFFFCh	; B6381
 mov ebx, esp	; B6384
-mov dword [dword_124410], ebx	; B6386
-mov dword [dword_1243FC], ebx	; B638C
+mov dword [_STACKTOP], ebx	; B6386
+mov dword [_curbrk], ebx	; B638C
 mov ax, 24h	; B6392
-mov word [word_124408], ax	; B6396
+mov word [_psp], ax	; B6396
 db 0BBh
 loc_B639D:
 push edx	; B639D
@@ -4823,8 +4823,8 @@ push eax	; B63A0
 sub eax, eax	; B63A1
 mov ah, 30h	; B63A3
 int 21h	; B63A5
-mov byte [byte_124433], al	; B63A7
-mov byte [byte_124434], ah	; B63AC
+mov byte [_osmajor], al	; B63A7
+mov byte [_osminor], ah	; B63AC
 mov ecx, eax	; B63B2
 loc_B63B4:
 sub esi, esi	; B63B4
@@ -4838,7 +4838,7 @@ sub bl, 30h	; B63C4
 mov al, bl	; B63C7
 mov ah, 0	; B63C9
 push eax	; B63CB
-o16 mov es, word [word_124408]	; B63CC
+o16 mov es, word [_psp]	; B63CC
 db 026h
 db 08Bh
 loc_B63D5:
@@ -4848,7 +4848,7 @@ and ebx, 0FFFFF000h	; B63E0
 db 089h
 db 01Dh
 loc_B63E8:
-dd dword_1243FC
+dd _curbrk
 shr ebx, 0Ch	; B63EC
 mov ax, ds	; B63EF
 mov es, eax	; B63F2
@@ -4869,7 +4869,7 @@ sub ebx, edx	; B6415
 mov ah, 4Ah	; B6417
 int 21h	; B6419
 mov bx, ds	; B641B
-o16 mov word [word_124408], ds	; B641E
+o16 mov word [_psp], ds	; B641E
 mov eax, dword [byte esi+010h]	; B6425
 add edi, eax	; B6428
 sub esi, esi	; B642A
@@ -4900,7 +4900,7 @@ or dx, cx	; B6466
 je short loc_B646D	; B6469
 mov ah, 1	; B646B
 loc_B646D:
-o16 mov word [word_124408], es	; B646D
+o16 mov word [_psp], es	; B646D
 db 066h,026h,08Bh,0Dh,02Ch,00h,00h,00h	; B6474 mov cx,[es:2Ch]
 jmp short loc_B6495	; B647C
 loc_B647E:
@@ -4913,15 +4913,15 @@ mov bx, 17h	; B648D
 mov al, 0	; B6491
 mov ah, 0	; B6493
 loc_B6495:
-mov byte [byte_12442A], al	; B6495
-mov byte [byte_12442B], ah	; B649A
+mov byte [_Extender], al	; B6495
+mov byte [_ExtenderSubtype], ah	; B649A
 mov es, ebx	; B64A0
 db 066h,026h,08Ch,01Dh	; B64A2 o16 mov [es:0A65DDh],ds
-dd unk_B65DD
-mov dword [dword_12442D], esi	; B64AA
-mov word [word_124431], cx	; B64B0
+dd __saved_DS
+mov dword [_Envptr], esi	; B64AA
+mov word [_Envptr_w4], cx	; B64B0
 push esi	; B64B7
-o16 mov es, word [word_124408]	; B64B8
+o16 mov es, word [_psp]	; B64B8
 db 03Eh,0BAh	; B64BF mov edx,91258h
 dd unk_1A1258
 add edx, byte 0Fh	; B64C5
@@ -4948,7 +4948,7 @@ pop esi	; B64EE
 dec edi	; B64EF
 push edi	; B64F0
 push edx	; B64F1
-o16 mov ds, word [es:word_124431]	; B64F2
+o16 mov ds, word [es:_Envptr_w4]	; B64F2
 sub ebp, ebp	; B64FA
 loc_B64FC:
 mov eax, dword [esi]	; B64FC
@@ -4974,15 +4974,15 @@ jne short loc_B651F	; B6523
 pop ds	; B6525
 pop esi	; B6526
 mov ebx, esp	; B6527
-mov word [word_124428], bp	; B6529
-mov dword [dword_12440C], edi	; B6530
-mov dword [dword_1243F8], ebx	; B6536
+mov word [__no87], bp	; B6529
+mov dword [_STACKLOW], edi	; B6530
+mov dword [_dynend], ebx	; B6536
 db 03Eh,0B9h	; B653C mov ecx,91258h
 dd unk_1A1258
 db 03Eh,0BFh	; B6542 mov edi,41598h
 dd kaufmfont
 sub ecx, edi	; B6548
-cmp byte [byte_12442A], 1	; B654A
+cmp byte [_Extender], 1	; B654A
 jne short loc_B6560	; B6551
 cmp ecx, 1000h	; B6553
 jbe short loc_B6560	; B6559
@@ -4999,7 +4999,7 @@ db 03Eh,0B8h	; B6570 mov eax,91258h
 dd unk_1A1258
 add eax, byte 0Fh	; B6576
 and al, 0F0h	; B6579
-mov dword [dword_124400], eax	; B657B
+mov dword [_LpCmdLine], eax	; B657B
 mov dword [dword_124404], esi	; B6580
 mov eax, 0FFh	; B6586
 call __InitRtns	; B658B
@@ -5039,9 +5039,9 @@ int 21h	; B65CF
 lea eax, [byte eax+00h]	; B65D1
 sub_B65D4:
 db 066h,02Eh,08Eh,01Dh	; B65D4 o16 mov ds,[cs:0A65DDh]
-dd unk_B65DD
+dd __saved_DS
 ret	; B65DC
-unk_B65DD:
+__saved_DS:
 db 00h,00h,00h
 sub_B65E0:
 push esi	; B65E0
@@ -6029,7 +6029,7 @@ ret	; B720C
 xor eax, eax	; B720D
 ret	; B720F
 sub_B7210:
-cmp byte [byte_12442A], 9	; B7210
+cmp byte [_Extender], 9	; B7210
 jne short loc_B7232	; B7217
 push eax	; B7219
 push ebx	; B721A
@@ -6050,7 +6050,7 @@ pop eax	; B7231
 loc_B7232:
 ret	; B7232
 sub_B7233:
-cmp byte [byte_12442A], 9	; B7233
+cmp byte [_Extender], 9	; B7233
 jne short loc_B7255	; B723A
 push eax	; B723C
 push ebx	; B723D

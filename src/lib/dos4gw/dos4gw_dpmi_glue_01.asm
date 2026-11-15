@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_C31C4 progbits alloc exec nowrite align=1
-extern __brk_, __unlink_, _nfree_, byte_12442A, byte_12442B, byte_12442C, dword_11F8E8, dword_1243FC
+extern __brk_, __unlink_, _nfree_, _Extender, _ExtenderSubtype, byte_12442C, dword_11F8E8, _curbrk
 extern dword_14F0A4, dword_14F0A8, dword_1A1090, word_1A1092
 global RationalAlloc_, __AdjustAmount_, __CreateNewNHeap_, __ExpandDGROUP_, __FreeDPMIBlocks_, __LastFree_, __LinkUpNewMHeap_, __ReAllocDPMIBlock_
 global loc_C31CF, loc_C320D, loc_C321D, loc_C323B, loc_C32B0, loc_C3307, loc_C330E, loc_C3312
@@ -214,7 +214,7 @@ je short loc_C33E2	; C33A3
 mov edx, dword [byte edx+024h]	; C33A5
 mov ebx, dword [edx]	; C33A8
 add ebx, edx	; C33AA
-mov ah, byte [byte_12442A]	; C33AC
+mov ah, byte [_Extender]	; C33AC
 add ebx, byte 4	; C33B2
 cmp ah, 2	; C33B5
 jb short loc_C33D5	; C33B8
@@ -226,9 +226,9 @@ xor eax, eax	; C33C8
 mov eax, ds	; C33CA
 lsl eax, eax	; C33CC
 inc eax	; C33CF
-mov dword [dword_1243FC], eax	; C33D0
+mov dword [_curbrk], eax	; C33D0
 loc_C33D5:
-cmp ebx, dword [dword_1243FC]	; C33D5
+cmp ebx, dword [_curbrk]	; C33D5
 jne short loc_C33E2	; C33DB
 mov eax, dword [edx]	; C33DD
 pop edx	; C33DF
@@ -343,13 +343,13 @@ loc_C34C9:
 xor eax, eax	; C34C9
 jmp short loc_C34B1	; C34CB
 loc_C34CD:
-cmp dword [dword_1243FC], byte 0FFFFFFFEh	; C34CD
+cmp dword [_curbrk], byte 0FFFFFFFEh	; C34CD
 je short loc_C34C9	; C34D4
 mov eax, esp	; C34D6
 call __AdjustAmount_	; C34D8
 test eax, eax	; C34DD
 je short loc_C34B1	; C34DF
-cmp byte [byte_12442A], 1	; C34E1
+cmp byte [_Extender], 1	; C34E1
 jne short loc_C3501	; C34E8
 mov eax, dword [esp]	; C34EA
 call RationalAlloc_	; C34ED
@@ -405,12 +405,12 @@ push edx	; C356B
 push esi	; C356C
 push ebp	; C356D
 push eax	; C356E
-cmp byte [byte_12442A], 1	; C356F
+cmp byte [_Extender], 1	; C356F
 jne short loc_C3581	; C3576
-cmp byte [byte_12442B], 0	; C3578
+cmp byte [_ExtenderSubtype], 0	; C3578
 je short loc_C358A	; C357F
 loc_C3581:
-cmp byte [byte_12442A], 9	; C3581
+cmp byte [_Extender], 9	; C3581
 jne short loc_C3597	; C3588
 loc_C358A:
 mov eax, dword [esp]	; C358A
@@ -423,13 +423,13 @@ loc_C35A0:
 xor eax, eax	; C35A0
 jmp near loc_C36A4	; C35A2
 loc_C35A7:
-cmp dword [dword_1243FC], byte 0FFFFFFFEh	; C35A7
+cmp dword [_curbrk], byte 0FFFFFFFEh	; C35A7
 je short loc_C35A0	; C35AE
 mov eax, esp	; C35B0
 call __AdjustAmount_	; C35B2
 test eax, eax	; C35B7
 je near loc_C36A4	; C35B9
-mov bl, byte [byte_12442A]	; C35BF
+mov bl, byte [_Extender]	; C35BF
 cmp bl, 2	; C35C5
 jb short loc_C35E5	; C35C8
 cmp bl, 8	; C35CA
@@ -440,10 +440,10 @@ xor eax, eax	; C35D8
 mov eax, ds	; C35DA
 lsl eax, eax	; C35DC
 inc eax	; C35DF
-mov dword [dword_1243FC], eax	; C35E0
+mov dword [_curbrk], eax	; C35E0
 loc_C35E5:
 mov edx, dword [esp]	; C35E5
-mov ecx, dword [dword_1243FC]	; C35E8
+mov ecx, dword [_curbrk]	; C35E8
 add edx, ecx	; C35EE
 cmp edx, ecx	; C35F0
 jae short loc_C35F9	; C35F2
@@ -541,12 +541,12 @@ pop edx	; C36C1
 pop ebx	; C36C2
 ret	; C36C3
 loc_C36C4:
-cmp byte [byte_12442A], 1	; C36C4
+cmp byte [_Extender], 1	; C36C4
 jne short loc_C36D6	; C36CB
-cmp byte [byte_12442B], 0	; C36CD
+cmp byte [_ExtenderSubtype], 0	; C36CD
 je short loc_C36DF	; C36D4
 loc_C36D6:
-cmp byte [byte_12442A], 9	; C36D6
+cmp byte [_Extender], 9	; C36D6
 jne short loc_C36E4	; C36DD
 loc_C36DF:
 add edx, byte 8	; C36DF

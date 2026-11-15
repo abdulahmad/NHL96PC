@@ -3,13 +3,13 @@ bits 32
 %include "hockey.inc"
 section s_124244 progbits alloc noexec write align=1
 extern sub_C5AE2
-global str_MUSICON, str_MUSICOFF, str_SOUNDON, str_SOUNDOFF, byte_124244, byte_12442A, byte_12442B, byte_12442C
-global byte_124433, byte_124434, byte_12445C, byte_12445D, byte_124460, byte_1248C4, byte_1248D0, byte_1248D1
-global byte_1248DA, dword_1242CA, dword_1242CE, dword_1243F8, dword_1243FC, dword_124400, dword_124404, dword_12440C
-global dword_124410, dword_124414, dword_124418, dword_12441C, dword_12442D, dword_124435, dword_12443C, dword_124440
+global str_MUSICON, str_MUSICOFF, str_SOUNDON, str_SOUNDOFF, byte_124244, _Extender, _ExtenderSubtype, byte_12442C
+global _osmajor, _osminor, byte_12445C, byte_12445D, byte_124460, byte_1248C4, byte_1248D0, byte_1248D1
+global byte_1248DA, dword_1242CA, dword_1242CE, _dynend, _curbrk, _LpCmdLine, dword_124404, _STACKLOW
+global _STACKTOP, dword_124414, dword_124418, dword_12441C, _Envptr, dword_124435, dword_12443C, dword_124440
 global dword_124444, dword_124448, dword_12444C, dword_124450, dword_124454, dword_124458, dword_124464, dword_124468
-global dword_124874, dword_124878, dword_12487C, dword_1248BC, dword_1248C8, dword_1248CC, dword_1248D2, dword_1248D6
-global word_124408, word_124428, word_124431, word_12445E, word_1248C0, word_1248C2
+global dword_124874, dword_124878, dword_12487C, dword_1248BC, dword_1248C8, snddriver, dword_1248D2, dword_1248D6
+global _psp, __no87, _Envptr_w4, word_12445E, word_1248C0, word_1248C2
 byte_124244:
 db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -48,19 +48,19 @@ str_SOUNDON:
 db 053h,04Fh,055h,04Eh,044h,020h,04Fh,04Eh,00h
 str_SOUNDOFF:
 db 053h,04Fh,055h,04Eh,044h,020h,04Fh,046h,046h,00h,00h,00h
-dword_1243F8:
+_dynend:
 db 00h,00h,00h,00h
-dword_1243FC:
+_curbrk:
 db 00h,00h,00h,00h
-dword_124400:
+_LpCmdLine:
 db 00h,00h,00h,00h
 dword_124404:
 db 00h,00h,00h,00h
-word_124408:
+_psp:
 db 00h,00h,00h,00h
-dword_12440C:
+_STACKLOW:
 db 00h,00h,00h,00h
-dword_124410:
+_STACKTOP:
 db 00h,00h,00h,00h
 dword_124414:
 db 00h,00h,00h,00h
@@ -68,21 +68,21 @@ dword_124418:
 db 00h,00h,00h,00h
 dword_12441C:
 db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-word_124428:
+__no87:
 db 00h,00h
-byte_12442A:
+_Extender:
 db 00h
-byte_12442B:
+_ExtenderSubtype:
 db 00h
 byte_12442C:
 db 00h
-dword_12442D:
+_Envptr:
 db 00h,00h,00h,00h
-word_124431:
+_Envptr_w4:
 db 00h,00h
-byte_124433:
+_osmajor:
 db 00h
-byte_124434:
+_osminor:
 db 00h
 dword_124435:
 dd sub_C5AE2
@@ -198,7 +198,7 @@ byte_1248C4:
 db 00h,00h,00h,00h
 dword_1248C8:
 db 00h,00h,00h,00h
-dword_1248CC:
+snddriver:
 db 00h,00h,00h,00h
 byte_1248D0:
 db 00h

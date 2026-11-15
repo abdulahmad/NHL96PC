@@ -5,7 +5,7 @@ section s_D069B progbits alloc exec nowrite align=1
 extern SetDrawBitmap, __fatal_runtime_error_, str_SaveText, asc_114194, str_Ptr0ptr1ptr2, str_StackOverflow, byte_11FA2F, dword_11F5A4
 extern dword_11F5A8, dword_11F5AC, dword_11F5B0, dword_11F5B4, dword_11F5C0, dword_11F5C4, dword_11F5C8, dword_11F61C
 extern dword_11FA18, dword_11FA1C, dword_11FA20, dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4, dword_1228FC
-extern dword_122900, dword_12440C, dword_14F0A8, dword_14FAD8, dword_1A1098, dword_1A109C, dword_1A10A0, dword_1A10A4
+extern dword_122900, _STACKLOW, dword_14F0A8, dword_14FAD8, dword_1A1098, dword_1A109C, dword_1A10A0, dword_1A10A4
 extern dword_1A10A8, dword_1A10B0, dword_1A10B4, dword_1A10C0, dword_1A10C4, dword_1A10C8, dword_1A10CC, dword_1A10D0
 extern dword_1A10D4, dword_1A10D8, dword_1A10DC, dword_1A10E0, dword_1A10E4, dword_1A10E8, dword_1A10EC, dword_1A10F0
 extern dword_1A10F4, dword_1A10F8, dword_1A10FC, dword_1A1100, fputchar, loc_D7DE0, loc_D7FE8, loc_E2390
@@ -13,7 +13,7 @@ extern loc_E23B6, mousepollfn, off_11F5F4, off_11F5F8, off_11F5FC, off_14FAD0, o
 extern sub_AA7E0, PutBlock, sub_AB6D8, sub_ABF4C, sub_ABF88, sub_AC9CC, sub_AD2B4, sub_AD824
 extern sub_ADBEC, sub_B0240, sub_B049E, sub_B2400, DrawArtOpaque, sub_BF290, sub_C2AC4, sub_C2C5C
 extern sub_C5410, sub_C59E0, sub_CFE8C, sub_DA338, sub_DD6C4, SetClipWindow, sub_DF55C, sub_DF596
-extern sub_DF9B7, sub_DFA98, sub_E0520, sub_E193C, sub_E1956, sub_E2335, unk_D1552, word_14FADC
+extern MouseReadMotion, sub_DFA98, sub_E0520, sub_E193C, sub_E1956, sub_E2335, unk_D1552, word_14FADC
 global __CHK, __GRO, __STK, __int386x_, loc_D06D6, loc_D06F3, loc_D0770, loc_D07C8
 global loc_D07F2, loc_D0846, loc_D08DD, loc_D08E6, loc_D090F, loc_D0937, loc_D093E, loc_D0940
 global loc_D09BC, loc_D09C5, loc_D09F8, loc_D0A3B, loc_D0A44, loc_D0A90, loc_D0A9B, loc_D0AA4
@@ -532,7 +532,7 @@ pop edi	; D0C15
 pop esi	; D0C16
 ret	; D0C17
 loc_D0C18:
-call sub_DF9B7	; D0C18
+call MouseReadMotion	; D0C18
 lea eax, [byte eax+00h]	; D0C1D
 push esi	; D0C20
 push edi	; D0C21
@@ -927,7 +927,7 @@ test esi, esi	; D10E7
 jne short loc_D10F7	; D10E9
 call sub_DFA98	; D10EB
 mov esi, eax	; D10F0
-call sub_DF9B7	; D10F2
+call MouseReadMotion	; D10F2
 loc_D10F7:
 cmp dword [dword_14FAD8], byte 0	; D10F7
 jne near loc_D11E8	; D10FE
@@ -1194,7 +1194,7 @@ cmp eax, esp	; D1447
 jae short loc_D1458	; D1449
 sub eax, esp	; D144B
 neg eax	; D144D
-cmp eax, dword [dword_12440C]	; D144F
+cmp eax, dword [_STACKLOW]	; D144F
 jbe short loc_D1458	; D1455
 ret	; D1457
 loc_D1458:

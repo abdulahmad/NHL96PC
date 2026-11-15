@@ -9,7 +9,7 @@ extern str_KeyD, str_Mse0, str_Mse1, str_Mse2, str_Key0, str_Key12, str_Key2, st
 extern str_Jy11, str_Jy12, str_Jy1x, str_Jy20, str_Jy21, str_Jy22, str_Jy2x, str_Det0
 extern str_Det1, str_Det22, byte_17CA1D, byte_17CA1E, byte_17CA1F, byte_17CA21, byte_17CA22, byte_17D650
 extern byte_17D651, dword_114CD3, dword_11D1A8, dword_11DF80, dword_11DF84, dword_11F5A8, dword_11F5AC, dword_17BC7C
-extern dword_17BD48, dword_17C9A4, dword_17CA1C, dword_17CA20, dword_17D590, dword_17D594, dword_17D654, sprintf_
+extern dword_17BD48, dword_17C9A4, globalset, optblock, dword_17D590, dword_17D594, dword_17D654, sprintf_
 extern sub_10010, sub_1E7F6, sub_21596, sub_62AF7, sub_62D9B, sub_62E0E, sub_62F90, sub_63968
 extern sub_63998, sub_63A5B, sub_63B0C, sub_64721, sub_64F59, sub_67531, sub_689D1, sub_68A0B
 extern sub_68AB1, sub_68BCD, sub_68BFA, sub_68C33, sub_68E31, sub_69A94, sub_69A9B, sub_6A5EB
@@ -1202,11 +1202,11 @@ cmp dword [byte ebp+03Eh], byte 3	; 722C7
 je short loc_72300	; 722CB
 jmp near loc_723AF	; 722CD
 loc_722D2:
-mov eax, dword [dword_17CA1C]	; 722D2
+mov eax, dword [globalset]	; 722D2
 shl eax, 0Bh	; 722D7
 shr eax, 1Fh	; 722DA
 mov dword [byte ebp+03Ah], eax	; 722DD
-mov eax, dword [dword_17CA1C]	; 722E0
+mov eax, dword [globalset]	; 722E0
 shl eax, 4	; 722E5
 shr eax, 19h	; 722E8
 imul eax, byte 7Ch	; 722EB
@@ -1216,11 +1216,11 @@ div ebx	; 722F5
 movsx ecx, word [byte ebp+06h]	; 722F7
 jmp near loc_723AA	; 722FB
 loc_72300:
-mov eax, dword [dword_17CA1C]	; 72300
+mov eax, dword [globalset]	; 72300
 shl eax, 3	; 72305
 shr eax, 1Fh	; 72308
 mov dword [byte ebp+03Ah], eax	; 7230B
-mov eax, dword [dword_17CA20]	; 7230E
+mov eax, dword [optblock]	; 7230E
 and eax, byte 7Fh	; 72313
 imul eax, byte 7Ch	; 72316
 mov ebx, 7Fh	; 72319
@@ -1229,11 +1229,11 @@ div ebx	; 72320
 movsx ecx, word [byte ebp+08h]	; 72322
 jmp near loc_723AA	; 72326
 loc_7232B:
-mov eax, dword [dword_17CA20]	; 7232B
+mov eax, dword [optblock]	; 7232B
 shl eax, 18h	; 72330
 shr eax, 1Fh	; 72333
 mov dword [byte ebp+03Ah], eax	; 72336
-mov eax, dword [dword_17CA20]	; 72339
+mov eax, dword [optblock]	; 72339
 shl eax, 11h	; 7233E
 shr eax, 19h	; 72341
 imul eax, byte 7Ch	; 72344
@@ -1243,11 +1243,11 @@ div ebx	; 7234E
 movsx ecx, word [byte ebp+0Ah]	; 72350
 jmp short loc_723AA	; 72354
 loc_72356:
-mov eax, dword [dword_17CA1C]	; 72356
+mov eax, dword [globalset]	; 72356
 shl eax, 1Bh	; 7235B
 shr eax, 1Fh	; 7235E
 mov dword [byte ebp+03Ah], eax	; 72361
-mov eax, dword [dword_17CA1C]	; 72364
+mov eax, dword [globalset]	; 72364
 shl eax, 14h	; 72369
 shr eax, 19h	; 7236C
 imul eax, byte 7Ch	; 7236F
@@ -1257,11 +1257,11 @@ div ebx	; 72379
 movsx ecx, word [byte ebp+0Ch]	; 7237B
 jmp short loc_723AA	; 7237F
 loc_72381:
-mov eax, dword [dword_17CA1C]	; 72381
+mov eax, dword [globalset]	; 72381
 shl eax, 13h	; 72386
 shr eax, 1Fh	; 72389
 mov dword [byte ebp+03Ah], eax	; 7238C
-mov eax, dword [dword_17CA1C]	; 7238F
+mov eax, dword [globalset]	; 7238F
 shl eax, 0Ch	; 72394
 shr eax, 19h	; 72397
 imul eax, byte 7Ch	; 7239A
@@ -1437,7 +1437,7 @@ mov dword [dword esi+ebp-0E84h], eax	; 7263D
 call sub_E04E0	; 72644
 add esp, byte 8	; 72649
 mov dword [dword esi+ebp-0E80h], eax	; 7264C
-test byte [dword_17CA1C], 7	; 72653
+test byte [globalset], 7	; 72653
 jne short loc_72666	; 7265A
 mov word [dword esi+ebp-0E86h], 2	; 7265C
 loc_72666:
@@ -2056,12 +2056,12 @@ idiv ebx	; 72FE5
 and eax, byte 7Fh	; 72FE7
 and word [byte_17CA1E], 0F01Fh	; 72FEA
 shl eax, 15h	; 72FF3
-or dword [dword_17CA1C], eax	; 72FF6
+or dword [globalset], eax	; 72FF6
 jmp short loc_73048	; 72FFC
 loc_72FFE:
-mov eax, dword [dword_17CA1C]	; 72FFE
-mov ecx, dword [dword_17CA1C]	; 73003
-mov edx, dword [dword_17CA1C]	; 73009
+mov eax, dword [globalset]	; 72FFE
+mov ecx, dword [globalset]	; 73003
+mov edx, dword [globalset]	; 73009
 and eax, 0F01FFFFFh	; 7300F
 shl edx, 4	; 73014
 and ecx, 0FE00000h	; 73017
@@ -2079,11 +2079,11 @@ inc edx	; 73035
 loc_73036:
 and edx, byte 7Fh	; 73036
 shl edx, 15h	; 73039
-mov dword [dword_17CA1C], eax	; 7303C
+mov dword [globalset], eax	; 7303C
 or eax, edx	; 73041
-mov dword [dword_17CA1C], eax	; 73043
+mov dword [globalset], eax	; 73043
 loc_73048:
-mov eax, dword [dword_17CA1C]	; 73048
+mov eax, dword [globalset]	; 73048
 shl eax, 4	; 7304D
 shr eax, 19h	; 73050
 imul eax, byte 7Ch	; 73053
@@ -2141,7 +2141,7 @@ call sub_AAA40	; 730F9
 add esp, byte 0Ch	; 730FE
 jmp near loc_73B46	; 73101
 loc_73106:
-test byte [dword_17CA1C], 7	; 73106
+test byte [globalset], 7	; 73106
 je near loc_73B46	; 7310D
 test byte [byte_17CA1E], 10h	; 73113
 sete al	; 7311A
@@ -2153,7 +2153,7 @@ mov eax, ecx	; 7312B
 and byte [byte_17CA1E], 0EFh	; 7312D
 shl eax, 14h	; 73134
 mov edx, dword [dword ebp-0DACh]	; 73137
-or dword [dword_17CA1C], eax	; 7313D
+or dword [globalset], eax	; 7313D
 mov eax, dword [byte ebp+032h]	; 73143
 call sub_711ED	; 73146
 test byte [byte_17CA1E], 10h	; 7314B
@@ -2201,13 +2201,13 @@ imul eax, edx, byte 7Fh	; 73202
 mov ebx, 7Ch	; 73205
 cdq	; 7320A
 idiv ebx	; 7320B
-and byte [dword_17CA20], 80h	; 7320D
+and byte [optblock], 80h	; 7320D
 and eax, byte 7Fh	; 73214
-or dword [dword_17CA20], eax	; 73217
+or dword [optblock], eax	; 73217
 jmp short loc_73255	; 7321D
 loc_7321F:
-mov esi, dword [dword_17CA20]	; 7321F
-mov eax, dword [dword_17CA20]	; 73225
+mov esi, dword [optblock]	; 7321F
+mov eax, dword [optblock]	; 73225
 and si, byte 0FF80h	; 7322A
 and eax, byte 7Fh	; 7322E
 cmp dword [byte ebp+046h], byte 3	; 73231
@@ -2222,11 +2222,11 @@ jae short loc_73255	; 73241
 inc eax	; 73243
 loc_73244:
 and eax, byte 7Fh	; 73244
-mov dword [dword_17CA20], esi	; 73247
+mov dword [optblock], esi	; 73247
 or esi, eax	; 7324D
-mov dword [dword_17CA20], esi	; 7324F
+mov dword [optblock], esi	; 7324F
 loc_73255:
-mov eax, dword [dword_17CA20]	; 73255
+mov eax, dword [optblock]	; 73255
 and eax, byte 7Fh	; 7325A
 imul eax, byte 7Ch	; 7325D
 mov ebx, 7Fh	; 73260
@@ -2273,7 +2273,7 @@ push eax	; 732E9
 mov eax, dword [byte ebp-022h]	; 732EA
 jmp near loc_730E3	; 732ED
 loc_732F2:
-test byte [dword_17CA1C], 7	; 732F2
+test byte [globalset], 7	; 732F2
 je near loc_73B46	; 732F9
 test byte [byte_17CA1F], 10h	; 732FF
 sete al	; 73306
@@ -2285,7 +2285,7 @@ mov eax, ecx	; 73317
 and byte [byte_17CA1F], 0EFh	; 73319
 shl eax, 1Ch	; 73320
 mov edx, dword [dword ebp-0C7Ah]	; 73323
-or dword [dword_17CA1C], eax	; 73329
+or dword [globalset], eax	; 73329
 mov eax, dword [byte ebp+032h]	; 7332F
 call sub_711ED	; 73332
 test byte [byte_17CA1F], 10h	; 73337
@@ -2317,7 +2317,7 @@ mov word [dword ebp-0D54h], 2	; 733A6
 mov word [dword ebp-0CEEh], 2	; 733AF
 jmp short loc_73375	; 733B8
 loc_733BA:
-test byte [dword_17CA20], 80h	; 733BA
+test byte [optblock], 80h	; 733BA
 je near loc_73B46	; 733C1
 movsx eax, word [byte ebp+0Ah]	; 733C7
 cmp eax, dword [dword_11D1A8]	; 733CB
@@ -2336,12 +2336,12 @@ idiv ebx	; 733F7
 and eax, byte 7Fh	; 733F9
 and byte [byte_17CA21], 80h	; 733FC
 shl eax, 8	; 73403
-or dword [dword_17CA20], eax	; 73406
+or dword [optblock], eax	; 73406
 jmp short loc_73456	; 7340C
 loc_7340E:
-mov eax, dword [dword_17CA20]	; 7340E
-mov ecx, dword [dword_17CA20]	; 73413
-mov edx, dword [dword_17CA20]	; 73419
+mov eax, dword [optblock]	; 7340E
+mov ecx, dword [optblock]	; 73413
+mov edx, dword [optblock]	; 73419
 and ah, 80h	; 7341F
 shl edx, 11h	; 73422
 and ecx, 7F00h	; 73425
@@ -2359,11 +2359,11 @@ inc edx	; 73443
 loc_73444:
 and edx, byte 7Fh	; 73444
 shl edx, 8	; 73447
-mov dword [dword_17CA20], eax	; 7344A
+mov dword [optblock], eax	; 7344A
 or eax, edx	; 7344F
-mov dword [dword_17CA20], eax	; 73451
+mov dword [optblock], eax	; 73451
 loc_73456:
-mov eax, dword [dword_17CA20]	; 73456
+mov eax, dword [optblock]	; 73456
 shl eax, 11h	; 7345B
 shr eax, 19h	; 7345E
 imul eax, byte 7Ch	; 73461
@@ -2410,22 +2410,22 @@ push eax	; 734EB
 mov eax, dword [byte ebp-01Eh]	; 734EC
 jmp near loc_730E3	; 734EF
 loc_734F4:
-test byte [dword_17CA1C], 7	; 734F4
+test byte [globalset], 7	; 734F4
 je near loc_73B46	; 734FB
-test byte [dword_17CA20], 80h	; 73501
+test byte [optblock], 80h	; 73501
 sete al	; 73508
 movzx eax, al	; 7350B
 mov ecx, eax	; 7350E
 and ecx, byte 1	; 73510
 mov ebx, dword [dword ebp-0B44h]	; 73513
 mov eax, ecx	; 73519
-and byte [dword_17CA20], 7Fh	; 7351B
+and byte [optblock], 7Fh	; 7351B
 shl eax, 7	; 73522
 mov edx, dword [dword ebp-0B48h]	; 73525
-or dword [dword_17CA20], eax	; 7352B
+or dword [optblock], eax	; 7352B
 mov eax, dword [byte ebp+032h]	; 73531
 call sub_711ED	; 73534
-test byte [dword_17CA20], 80h	; 73539
+test byte [optblock], 80h	; 73539
 je short loc_73585	; 73540
 push str_Onn0	; 73542
 push dword [byte ebp+032h]	; 73547
@@ -2454,7 +2454,7 @@ mov word [dword ebp-0C22h], 2	; 735A8
 mov word [dword ebp-0BBCh], 2	; 735B1
 jmp short loc_73577	; 735BA
 loc_735BC:
-test byte [dword_17CA1C], 10h	; 735BC
+test byte [globalset], 10h	; 735BC
 je near loc_73B46	; 735C3
 movsx eax, word [byte ebp+0Ch]	; 735C9
 cmp eax, dword [dword_11D1A8]	; 735CD
@@ -2471,14 +2471,14 @@ mov ebx, 7Ch	; 735F3
 cdq	; 735F8
 idiv ebx	; 735F9
 and eax, byte 7Fh	; 735FB
-and word [dword_17CA1C], 0F01Fh	; 735FE
+and word [globalset], 0F01Fh	; 735FE
 shl eax, 5	; 73607
-or dword [dword_17CA1C], eax	; 7360A
+or dword [globalset], eax	; 7360A
 jmp short loc_7365B	; 73610
 loc_73612:
-mov eax, dword [dword_17CA1C]	; 73612
-mov ecx, dword [dword_17CA1C]	; 73617
-mov edx, dword [dword_17CA1C]	; 7361D
+mov eax, dword [globalset]	; 73612
+mov ecx, dword [globalset]	; 73617
+mov edx, dword [globalset]	; 7361D
 and ax, 0F01Fh	; 73623
 shl edx, 14h	; 73627
 and ecx, 0FE0h	; 7362A
@@ -2496,12 +2496,12 @@ inc edx	; 73648
 loc_73649:
 and edx, byte 7Fh	; 73649
 shl edx, 5	; 7364C
-mov dword [dword_17CA1C], eax	; 7364F
+mov dword [globalset], eax	; 7364F
 or eax, edx	; 73654
-mov dword [dword_17CA1C], eax	; 73656
+mov dword [globalset], eax	; 73656
 loc_7365B:
 call sub_68BCD	; 7365B
-mov eax, dword [dword_17CA1C]	; 73660
+mov eax, dword [globalset]	; 73660
 shl eax, 14h	; 73665
 shr eax, 19h	; 73668
 imul eax, byte 7Ch	; 7366B
@@ -2548,34 +2548,34 @@ push eax	; 736F5
 mov eax, dword [byte ebp-01Ah]	; 736F6
 jmp near loc_730E3	; 736F9
 loc_736FE:
-test byte [dword_17CA1C], 7	; 736FE
+test byte [globalset], 7	; 736FE
 je near loc_73B46	; 73705
 mov ebx, dword [dword ebp-0A12h]	; 7370B
-test byte [dword_17CA1C], 10h	; 73711
+test byte [globalset], 10h	; 73711
 sete al	; 73718
 mov edx, dword [dword ebp-0A16h]	; 7371B
 movzx ecx, al	; 73721
 mov eax, dword [byte ebp+032h]	; 73724
 call sub_711ED	; 73727
-test byte [dword_17CA1C], 10h	; 7372C
+test byte [globalset], 10h	; 7372C
 je short loc_7374F	; 73733
 mov eax, 50h	; 73735
 xor edx, edx	; 7373A
-and byte [dword_17CA1C], 0EFh	; 7373C
+and byte [globalset], 0EFh	; 7373C
 call sub_68C33	; 73743
 call sub_689D1	; 73748
 jmp short loc_73778	; 7374D
 loc_7374F:
-test byte [dword_17CA1C], 7	; 7374F
+test byte [globalset], 7	; 7374F
 je short loc_73778	; 73756
-or byte [dword_17CA1C], 10h	; 73758
+or byte [globalset], 10h	; 73758
 call sub_68A0B	; 7375F
 mov eax, 2	; 73764
 call sub_69A94	; 73769
 call sub_68AB1	; 7376E
 call sub_68BFA	; 73773
 loc_73778:
-test byte [dword_17CA1C], 10h	; 73778
+test byte [globalset], 10h	; 73778
 je short loc_737C4	; 7377F
 push str_Onn0	; 73781
 push dword [byte ebp+032h]	; 73786
@@ -2619,14 +2619,14 @@ mov ebx, 7Ch	; 7382A
 cdq	; 7382F
 idiv ebx	; 73830
 and eax, byte 7Fh	; 73832
-and dword [dword_17CA1C], 0FFF01FFFh	; 73835
+and dword [globalset], 0FFF01FFFh	; 73835
 shl eax, 0Dh	; 7383F
-or dword [dword_17CA1C], eax	; 73842
+or dword [globalset], eax	; 73842
 jmp short loc_73894	; 73848
 loc_7384A:
-mov eax, dword [dword_17CA1C]	; 7384A
-mov ecx, dword [dword_17CA1C]	; 7384F
-mov edx, dword [dword_17CA1C]	; 73855
+mov eax, dword [globalset]	; 7384A
+mov ecx, dword [globalset]	; 7384F
+mov edx, dword [globalset]	; 73855
 and eax, 0FFF01FFFh	; 7385B
 shl edx, 0Ch	; 73860
 and ecx, 0FE000h	; 73863
@@ -2644,15 +2644,15 @@ inc edx	; 73881
 loc_73882:
 and edx, byte 7Fh	; 73882
 shl edx, 0Dh	; 73885
-mov dword [dword_17CA1C], eax	; 73888
+mov dword [globalset], eax	; 73888
 or eax, edx	; 7388D
-mov dword [dword_17CA1C], eax	; 7388F
+mov dword [globalset], eax	; 7388F
 loc_73894:
-mov eax, dword [dword_17CA1C]	; 73894
+mov eax, dword [globalset]	; 73894
 shl eax, 0Ch	; 73899
 shr eax, 19h	; 7389C
 call sub_67531	; 7389F
-mov eax, dword [dword_17CA1C]	; 738A4
+mov eax, dword [globalset]	; 738A4
 shl eax, 0Ch	; 738A9
 shr eax, 19h	; 738AC
 imul eax, byte 7Ch	; 738AF
@@ -2699,7 +2699,7 @@ push eax	; 73939
 mov eax, dword [byte ebp-016h]	; 7393A
 jmp near loc_730E3	; 7393D
 loc_73942:
-test byte [dword_17CA1C], 7	; 73942
+test byte [globalset], 7	; 73942
 je near loc_73B46	; 73949
 test byte [byte_17CA1D], 10h	; 7394F
 sete al	; 73956
@@ -2710,7 +2710,7 @@ mov eax, ecx	; 73965
 and byte [byte_17CA1D], 0EFh	; 73967
 shl eax, 0Ch	; 7396E
 mov edx, dword [dword ebp-08E4h]	; 73971
-or dword [dword_17CA1C], eax	; 73977
+or dword [globalset], eax	; 73977
 mov eax, dword [byte ebp+032h]	; 7397D
 call sub_711ED	; 73980
 test byte [byte_17CA1D], 10h	; 73985
@@ -2775,7 +2775,7 @@ and byte [byte_17CA22], 0FEh	; 73A7A
 shl eax, 10h	; 73A81
 mov dword [dword ebp-0898h], 1	; 73A84
 loc_73A8E:
-or dword [dword_17CA20], eax	; 73A8E
+or dword [optblock], eax	; 73A8E
 jmp near loc_73B46	; 73A94
 loc_73A99:
 test byte [byte_17CA21], 80h	; 73A99

@@ -9,7 +9,7 @@ extern sub_C2C7C, sub_C2C94, sub_DFC33, sub_DFDDE, sub_DFE28, sub_E04D0, unk_DFD
 extern word_11F582, word_11F584, word_11F6F4, word_11F6FA, word_11F700, word_11F702
 global loc_DF8CB, loc_DF8D2, loc_DF906, loc_DF926, loc_DFA09, loc_DFA1A, loc_DFA28, loc_DFA37
 global loc_DFA5F, loc_DFAF3, loc_DFB7D, loc_DFC32, sub_DF8AC, sub_DF8E8, MouseRead, SetViewRect
-global sub_DF9B7, sub_DFA6C, sub_DFA73, sub_DFA7A, sub_DFA98, sub_DFB84, sub_DFB88
+global MouseReadMotion, sub_DFA6C, sub_DFA73, sub_DFA7A, sub_DFA98, sub_DFB84, sub_DFB88
 sub_DF8AC:
 LD xor, eax, eax	; DF8AC
 dec dword [dword_11F57C]	; DF8AE
@@ -67,7 +67,7 @@ leave	; DF93C
 ret	; DF93D
 push ebp	; DF93E
 LD mov, ebp, esp	; DF93F
-call sub_DF9B7	; DF941
+call MouseReadMotion	; DF941
 db 08Bh,05Dh,08h	; DF946 mov ebx,[ebp+8]
 db 089h,03h	; DF949 mov [ebx],eax
 mov ecx, dword [dword_11F5A8]	; DF94B
@@ -107,7 +107,7 @@ mov dword [dword_11F570], ebx	; DF9A9
 mov dword [dword_11F574], ecx	; DF9AF
 leave	; DF9B5
 ret	; DF9B6
-sub_DF9B7:
+MouseReadMotion:
 pusha	; DF9B7
 dec dword [dword_11F57C]	; DF9B8
 jne near loc_DFA5F	; DF9BE
@@ -215,7 +215,7 @@ call sub_DF8E8	; DFB43
 mov dword [off_11F5F4], sub_DFA73	; DFB48
 mov dword [off_11F5F8], sub_DFA73	; DFB52
 mov dword [off_11F5FC], sub_DFA6C	; DFB5C
-mov dword [mousepollfn], sub_DF9B7	; DFB66
+mov dword [mousepollfn], MouseReadMotion	; DFB66
 push sub_DFA7A	; DFB70
 call sub_E04D0	; DFB75
 add esp, byte 20h	; DFB7A

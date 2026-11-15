@@ -8,10 +8,10 @@ extern byte_1655A4, byte_1655E0, byte_16561C, byte_165658, byte_165694, byte_165
 extern byte_176B90, byte_176B91, byte_176B92, byte_176B93, byte_176B94, byte_176B95, byte_176B96, byte_176B97
 extern byte_176B98, byte_176B99, byte_176B9A, goalevent, byte_179DC1, byte_17CA5D, crowdlevel, curperiod
 extern dword_11917F, dword_119183, dword_11A1BC, dword_11B310, dword_1571B3, dword_164124, dword_1657EA, dword_1798AC
-extern dword_179918, dword_179920, dword_17C9A8, fputchar, gameclock, gameopts, gmode, hmroster
+extern dword_179918, dword_179920, optflags, fputchar, gameclock, gameopts, gmode, hmroster
 extern hmtmgoalie, hmtmstruct, penshotplayer, sprintf_, str_FmtNumFirstLast, str_FmtNumInitialLast, str_FmtNumName, str_FmtNumNameSuffix
 extern str_FmtParenD, strcat_, strcpy_, strlen_, sub_5CC12, CloseTextOverlay, sub_60777, sub_67A63
-extern sub_77355, TextSetFont, unk_110E2D, str_S8, unk_156E6C, word_1178FE, word_11A236, word_1656E8
+extern sub_77355, TextSetFont, unk_110E2D, str_S8, unk_156E6C, gsp, word_11A236, word_1656E8
 extern word_16581E, word_165942, word_176B6C, word_176B7A, word_176B80
 global FormatPlayerName, loc_4F475, loc_4F47C, loc_4F54F, loc_4F56D, loc_4F588, loc_4F5B0, loc_4F5B7
 global loc_4F622, loc_4F641, loc_4F648, loc_4F66A, loc_4F6A5, loc_4F728, loc_4F730, loc_4F79F
@@ -325,9 +325,9 @@ mov eax, edx	; 4F7E3
 shl eax, 4	; 4F7E5
 add eax, ebx	; 4F7E8
 movsx ebx, word [dword eax+unk_156E6C]	; 4F7EA
-test byte [dword_17C9A8], 70h	; 4F7F1
+test byte [optflags], 70h	; 4F7F1
 je short loc_4F80E	; 4F7F8
-mov ecx, dword [dword_17C9A8]	; 4F7FA
+mov ecx, dword [optflags]	; 4F7FA
 and ecx, byte 70h	; 4F800
 cmp ecx, byte 30h	; 4F803
 je short loc_4F80E	; 4F806
@@ -953,7 +953,7 @@ mov ebp, esp	; 50134
 xor eax, eax	; 50136
 pop ebp	; 50138
 ret 0Ch	; 50139
-mov ax, word [word_1178FE]	; 5013C
+mov ax, word [gsp]	; 5013C
 shl eax, 0Eh	; 50142
 add ax, word [word_176B80]	; 50145
 sub ax, word [gameclock]	; 5014C

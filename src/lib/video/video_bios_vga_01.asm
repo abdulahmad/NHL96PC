@@ -16,7 +16,7 @@ global loc_DDDF8, loc_DDE14, loc_DDE19, loc_DDE25, loc_DDE69, loc_DDE90, loc_DDE
 global loc_DDEB1, loc_DDEC6, loc_DDED1, loc_DDEF1, loc_DDEFC, loc_DE057, sub_DD6C4, sub_DD6E0
 global sub_DD724, SetClipWindow, sub_DD7B8, sub_DD800, sub_DD830, sub_DD87C, sub_DD8B0, sub_DD8C8
 global sub_DD908, sub_DD920, sub_DD960, sub_DD975, sub_DD982, sub_DDA44, sub_DDB22, sub_DDB68
-global sub_DDBB4, sub_DDC2A, sub_DDE74, sub_DDE7B, sub_DDEBC, sub_DDF24, sub_DDF4F, sub_DDF94
+global sub_DDBB4, sub_DDC2A, sub_DDE74, WaitRetrace, WaitRetraceEdges, SetCrtcStart, sub_DDF4F, ClearChain4
 global sub_DE01A, unk_DE06D
 sub_DD6C4:
 LD mov, edx, edi	; DD6C4
@@ -842,7 +842,7 @@ LD mov, ah, al	; DDE75
 in al, dx	; DDE77
 LD and, al, ah	; DDE78
 ret	; DDE7A
-sub_DDE7B:
+WaitRetrace:
 mov dx, 3DAh	; DDE7B
 mov ecx, dword [dword_123AC4]	; DDE7F
 cmp dword [dword_1248C8], byte 1	; DDE85
@@ -864,7 +864,7 @@ ret	; DDEB0
 loc_DDEB1:
 mov dword [dword_123AC4], 2710h	; DDEB1
 ret	; DDEBB
-sub_DDEBC:
+WaitRetraceEdges:
 mov dx, 3DAh	; DDEBC
 mov ecx, dword [dword_123AC4]	; DDEC0
 loc_DDEC6:
@@ -899,7 +899,7 @@ and eax, byte 8	; DDF1B
 shr eax, 3	; DDF1E
 ret	; DDF21
 db 00h,00h
-sub_DDF24:
+SetCrtcStart:
 mov ebx, dword [byte esp+04h]	; DDF24
 mov edx, 3D4h	; DDF28
 mov al, 0Ch	; DDF2D
@@ -942,7 +942,7 @@ mov al, byte [byte esp+08h]	; DDF8C
 out dx, al	; DDF90
 ret	; DDF91
 db 00h,00h
-sub_DDF94:
+ClearChain4:
 mov dx, 3C4h	; DDF94
 mov al, 4	; DDF98
 out dx, al	; DDF9A

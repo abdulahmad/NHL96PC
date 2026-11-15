@@ -14,7 +14,7 @@ extern byte_11B563, byte_11B5A8, byte_11B5ED, byte_11B632, byte_11BB20, byte_11B
 extern byte_11FA2F, byte_1647E3, byte_176AE2, byte_1770A6, byte_1770B1, byte_179D7C, byte_179DC1, byte_179E47
 extern byte_17BB64, byte_17BCBE, byte_17BCBF, byte_17BCC0, byte_17BCC1, byte_17BD24, byte_17BD25, byte_17BD26
 extern byte_17BD27, byte_17BD8A, byte_17BD8B, byte_17BD8C, byte_17BD8D, byte_17BDAE, byte_17BDAF, byte_17BDB0
-extern byte_17CA1E, byte_17CA5D, dword_117934, dword_11A3F8, dword_11B234, dword_11B244, dword_11B314, dword_11B318
+extern byte_17CA1E, byte_17CA5D, seed, dword_11A3F8, dword_11B234, dword_11B244, dword_11B314, dword_11B318
 extern dword_11B31C, dword_11B320, dword_11B324, dword_11B328, dword_11B32C, dword_11B330, dword_11B334, dword_11B338
 extern dword_11B364, dword_11B368, dword_11B370, dword_11B374, dword_11B37C, dword_11B381, dword_11B3C1, dword_11B3C6
 extern dword_11B406, dword_11B40B, dword_11B44B, dword_11B450, dword_11B490, dword_11B495, dword_11B4D5, dword_11B4DA
@@ -57,14 +57,14 @@ extern sub_ADBEC, unpack, sub_AFCD0, sub_AFD00, sub_AFFD0, sub_B0254, sub_B026C,
 extern sub_B0CA8, sub_B0F7C, sub_B20D0, sub_B2B0C, sub_B3360, sub_B3420, sub_B3458, sub_B58D8
 extern sub_B6140, sub_B7638, sub_BA420, sub_BB9C4, sub_BC674, sub_BEAE4, sub_BEFF0, sub_BF02C
 extern sub_BF034, sub_BF120, sub_BF2C4, initgraphics, sub_BF8A8, sub_BF8D0, sub_DD6C4, sub_DD6E0
-extern SetClipWindow, sub_DD7B8, sub_DDE7B, sub_DDEBC, sub_DDF4F, sub_DDF94, sub_DE01A, sub_DE084
+extern SetClipWindow, sub_DD7B8, WaitRetrace, WaitRetraceEdges, sub_DDF4F, ClearChain4, sub_DE01A, sub_DE084
 extern MouseRead, SetViewRect, sub_DFE9C, sub_DFF28, sub_E04E0, sub_E0520, sub_E0584, vecdist
 extern sub_E1638, sub_E167A, sub_E1824, unk_11B673, unk_11B6B8, unk_11B6FD, unk_11B811, unk_11B856
 extern unk_11B89B, unk_11B8E0, unk_11B925, unk_11B96A, unk_11B9AF, unk_11BCE8, unk_11BD28, unk_11BD68
 extern unk_11BFA4, unk_121FC8, unk_16443C, unk_164688, unk_1781E4, unk_179CCC, unk_179E02, unk_179E48
 extern unk_17B248, unk_17B488, unk_17B518, unk_17B830, unk_17B930, unk_17BA58, unk_17BB24, unk_17BDE0
 extern unk_17C0E0, unk_5D549, unk_5D555, unk_5D561, unk_5D56D, unk_5D579, unk_5D585, unk_5D591
-extern unk_5D639, unk_5D65D, unk_5D681, word_117936, word_11D1B8, word_11D1BA, word_11D1C4, word_11D1D0
+extern unk_5D639, unk_5D65D, unk_5D681, seed_w2, word_11D1B8, word_11D1BA, word_11D1C4, word_11D1D0
 extern word_176B80, word_176FB8, word_176FDA, word_1770AB, word_1770AD, word_1770AF, word_179DC8, word_179DCC
 global jpt_609B6, jpt_61290, jpt_634F9, loc_5DA1F, loc_5DAF9, loc_5DB0E, loc_5DB20, loc_5DB35
 global loc_5DB47, loc_5DC5A, loc_5DC7D, loc_5DDD0, loc_5DDDD, loc_5DE0A, loc_5DE13, loc_5DE25
@@ -166,7 +166,7 @@ global loc_64EB4, loc_64EC8, loc_64EFF, loc_64F04, loc_64F23, loc_64F2D, loc_64F
 global sub_5D993, sub_5DBC0, sub_5DCDD, sub_5DCF8, sub_5DD85, sub_5DF3E, sub_5E0CC, sub_5E21C
 global sub_5E23E, sub_5E78F, sub_5E8D2, sub_5EA75, sub_5ED4B, sub_5EFC8, sub_5F40A, sub_5F5D3
 global sub_5F7AB, sub_5FB02, sub_5FB98, sub_5FC3D, sub_5FD46, sub_5FFC5, sub_60096, sub_60159
-global sub_602B9, sub_603FF, sub_6042C, sub_60543, CloseTextOverlay, sub_60777, sub_60823, sub_609C6
+global sub_602B9, sub_603FF, sub_6042C, sub_60543, CloseTextOverlay, sub_60777, sub_60823, ReadHotKeys
 global sub_612BC, sub_619E2, sub_61AD1, sub_61B03, sub_61B6F, sub_61C18, sub_61C88, sub_61D2E
 global sub_61DDF, sub_61E53, sub_61F2E, sub_62065, sub_6215A, sub_621D9, sub_62201, sub_6225D
 global sub_62285, sub_622CD, sub_62311, sub_62343, sub_625AA, sub_625F7, sub_62A0F, sub_62A4F
@@ -3500,7 +3500,7 @@ dd loc_610C1
 dd loc_6110E
 dd loc_61152
 dd loc_61195
-sub_609C6:
+ReadHotKeys:
 push ebx	; 609C6
 push ecx	; 609C7
 push edx	; 609C8
@@ -4502,11 +4502,11 @@ push ebx	; 61A1B
 push ecx	; 61A1C
 push edx	; 61A1D
 push ax	; 61A1E
-mov ax, word [word_117936]	; 61A20
+mov ax, word [seed_w2]	; 61A20
 mov dx, 0E62Dh	; 61A26
 mul dx	; 61A2A
 LD mov, bx, ax	; 61A2D
-mov ax, word [dword_117934]	; 61A30
+mov ax, word [seed]	; 61A30
 LD mov, cx, ax	; 61A36
 mov dx, 0BB40h	; 61A39
 mul dx	; 61A3D
@@ -4517,8 +4517,8 @@ mul dx	; 61A4A
 LD add, dx, bx	; 61A4D
 add ax, byte 1	; 61A50
 adc dx, byte 0	; 61A54
-mov word [dword_117934], ax	; 61A58
-mov word [word_117936], dx	; 61A5E
+mov word [seed], ax	; 61A58
+mov word [seed_w2], dx	; 61A5E
 LD mov, al, ah	; 61A65
 LD mov, ah, dl	; 61A67
 pop dx	; 61A69
@@ -7025,7 +7025,7 @@ mov ecx, 300h	; 6396C
 mov edi, unk_17C0E0	; 63971
 xor eax, eax	; 63976
 rep stosb	; 63978
-call sub_DDEBC	; 6397A
+call WaitRetraceEdges	; 6397A
 push unk_17C0E0	; 6397F
 push dword 100h	; 63984
 push byte 0	; 63989
@@ -7109,7 +7109,7 @@ cmp ebx, 300h	; 63A2A
 jb short loc_639E8	; 63A30
 test esi, esi	; 63A32
 je short loc_63A4D	; 63A34
-call sub_DDEBC	; 63A36
+call WaitRetraceEdges	; 63A36
 push dword [byte ebp-04h]	; 63A3B
 push dword 100h	; 63A3E
 push byte 0	; 63A43
@@ -7286,7 +7286,7 @@ mov esi, eax	; 63BC3
 call GetTicks	; 63BC5
 add eax, byte 28h	; 63BCA
 mov dword [byte ebp-04h], eax	; 63BCD
-call sub_DDE7B	; 63BD0
+call WaitRetrace	; 63BD0
 cmp dword [dword_11D198], byte 0	; 63BD5
 jne short loc_63BFE	; 63BDC
 push unk_121FC8	; 63BDE
@@ -7307,7 +7307,7 @@ mov ecx, 300h	; 63C16
 mov edi, unk_17C0E0	; 63C1B
 xor eax, eax	; 63C20
 rep stosb	; 63C22
-call sub_DDEBC	; 63C24
+call WaitRetraceEdges	; 63C24
 push unk_17C0E0	; 63C29
 push dword 100h	; 63C2E
 push byte 0	; 63C33
@@ -7334,7 +7334,7 @@ jmp near loc_63D46	; 63C7C
 loc_63C81:
 cmp esi, byte 2	; 63C81
 jne near loc_63D28	; 63C84
-call sub_DDE7B	; 63C8A
+call WaitRetrace	; 63C8A
 push byte 8	; 63C8F
 push dword 0C8h	; 63C91
 push dword 140h	; 63C96
@@ -7345,13 +7345,13 @@ add esp, byte 0Ch	; 63CAA
 xor eax, eax	; 63CAD
 mov dword [dword_11D194], 0	; 63CAF
 rep stosb	; 63CB9
-call sub_DDEBC	; 63CBB
+call WaitRetraceEdges	; 63CBB
 push unk_17C0E0	; 63CC0
 push dword 100h	; 63CC5
 push byte 0	; 63CCA
 call sub_DD7B8	; 63CCC
 add esp, byte 0Ch	; 63CD1
-call sub_DDF94	; 63CD4
+call ClearChain4	; 63CD4
 mov dword [dword_11F5C4], 0F0h	; 63CD9
 call sub_DE01A	; 63CE3
 mov eax, dword [dword_11F5C4]	; 63CE8
@@ -7368,7 +7368,7 @@ add esp, byte 14h	; 63D0A
 mov dword [dword_122904], eax	; 63D0D
 call sub_DD6C4	; 63D12
 mov dword [dword_11F5A0], 9	; 63D17
-call sub_DDE7B	; 63D21
+call WaitRetrace	; 63D21
 jmp short loc_63D46	; 63D26
 loc_63D28:
 push byte 0	; 63D28
@@ -7382,7 +7382,7 @@ mov ecx, 300h	; 63D46
 mov edi, unk_17C0E0	; 63D4B
 xor eax, eax	; 63D50
 rep stosb	; 63D52
-call sub_DDEBC	; 63D54
+call WaitRetraceEdges	; 63D54
 push unk_17C0E0	; 63D59
 push dword 100h	; 63D5E
 push byte 0	; 63D63
@@ -7434,7 +7434,7 @@ mov ecx, 300h	; 63DCB
 mov edi, unk_17C0E0	; 63DD0
 xor eax, eax	; 63DD5
 rep stosb	; 63DD7
-call sub_DDEBC	; 63DD9
+call WaitRetraceEdges	; 63DD9
 push unk_17C0E0	; 63DDE
 push dword 100h	; 63DE3
 push byte 0	; 63DE8
@@ -7458,7 +7458,7 @@ mov ecx, 300h	; 63E19
 mov edi, unk_17C0E0	; 63E1E
 xor eax, eax	; 63E23
 rep stosb	; 63E25
-call sub_DDEBC	; 63E27
+call WaitRetraceEdges	; 63E27
 push unk_17C0E0	; 63E2C
 push dword 100h	; 63E31
 push byte 0	; 63E36

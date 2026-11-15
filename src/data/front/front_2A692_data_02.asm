@@ -5,14 +5,14 @@ section s_1177F4 progbits alloc noexec write align=1
 extern dword_164F1C, dword_164FBC, dword_16505C, unk_16505E, unk_165062, unk_165066, unk_165068, unk_16506A
 extern unk_16506C, unk_16509E, unk_1650FC, unk_16519C, unk_1659D6
 global Pencntdwn, byte_1178C8, byte_1178F9, collflag, dword_1177F4, dword_1177F8, dword_1177FC, dword_117800
-global dword_117804, dword_1178DA, dword_1178DE, dword_1178E2, dword_1178E6, dword_1178EA, dword_1178EE, dword_117934
+global dword_117804, dword_1178DA, dword_1178DE, dword_1178E2, dword_1178E6, dword_1178EA, dword_1178EE, seed
 global fox, foy, gameclock, gmode, lastplayer, off_11786C, off_11787C, off_117888
 global off_11788C, off_117890, off_117894, off_117898, off_11789C, passplayer, puckvx, puckvz
 global puckx, pucky, puckz, sflags, threat, wcradiusx, word_1178A0, word_1178A2
 global word_1178A6, word_1178A8, word_1178AC, word_1178AE, word_1178B4, word_1178B6, word_1178B8, word_1178BE
 global word_1178C0, gmode2, word_1178CA, word_1178CC, word_1178CE, word_1178D0, word_1178D2, word_1178F4
-global word_1178F6, word_1178F8, word_1178FA, word_1178FC, word_1178FE, word_117902, word_117914, word_117916
-global word_117936
+global word_1178F6, word_1178F8, word_1178FA, word_1178FC, gsp, word_117902, word_117914, word_117916
+global seed_w2
 dword_1177F4:
 db 00h,00h,00h,00h
 dword_1177F8:
@@ -135,7 +135,7 @@ word_1178FA:
 db 00h,00h
 word_1178FC:
 db 0FFh,0FFh
-word_1178FE:
+gsp:
 db 00h,00h
 gameclock:
 db 00h,00h
@@ -147,7 +147,7 @@ db 00h,00h
 word_117916:
 db 0C8h,00h,08Dh,00h,08Dh,00h,0C8h,00h,00h,00h,08Dh,00h,073h,0FFh,00h,00h
 db 038h,0FFh,073h,0FFh,073h,0FFh,038h,0FFh,00h,00h,073h,0FFh,08Dh,00h
-dword_117934:
+seed:
 db 021h,043h
-word_117936:
+seed_w2:
 db 0CDh,0ABh

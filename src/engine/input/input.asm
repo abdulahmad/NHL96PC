@@ -14,7 +14,7 @@ extern sub_3509F, sub_3E665, BlockShotDive, checkob, sub_406A0, sub_40B2A, sub_4
 extern sub_415FF, sub_441EF, sub_442B3, Findhittype, doshot, SetSPA, sub_46593, changeplayer
 extern sub_4A047, doplayeracc, playeracc, sub_4DD1B, burst, sub_68E31, sfx, MouseRead
 extern vecdist, unk_164754, unk_164B5C, vtoa, word_1178A8, word_1178AC, word_1178AE, word_1178B4
-extern word_1178BE, word_1178C0, gmode2, word_1178CA, word_1178D2, word_1178FE, word_118EA5, word_118EA9
+extern word_1178BE, word_1178C0, gmode2, word_1178CA, word_1178D2, gsp, word_118EA5, word_118EA9
 extern word_118EB1, word_119EDA, word_16474C, word_164794, word_165078, word_165082, word_1656E8, word_165704
 extern word_165710, word_16597C, word_165980
 global Acheck, CtlSwapScoreFix, CtlSwapTeamFlag, OppInReach, ReadJoy1, ReassignCtlPlayer, asspassrec, getlchoice
@@ -3024,7 +3024,7 @@ test ecx, ecx	; 3A3CE
 jle short loc_3A3EF	; 3A3D0
 cmp ecx, byte 2	; 3A3D2
 jg short loc_3A3EF	; 3A3D5
-movsx edx, word [word_1178FE]	; 3A3D7
+movsx edx, word [gsp]	; 3A3D7
 cmp edx, byte 2	; 3A3DE
 jne short loc_3A3EF	; 3A3E1
 movsx edx, word [gameclock]	; 3A3E3

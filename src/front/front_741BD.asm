@@ -18,12 +18,12 @@ extern dword_17D688, dword_17D68C, dword_17D690, dword_17D694, dword_17D6A0, dwo
 extern dword_17D6C4, fclose_, fopen_, fputchar, fread_, fseek_, gameopts, loc_77C3D
 extern loc_77DAA, loc_77DDA, loc_77E07, loc_77E34, loc_77EF1, loc_77EFD, loc_77F0D, loc_77F22
 extern qsort_, sprintf_, strcpy_, strlen_, sub_122A6, sub_12A24, sub_13288, sub_13304
-extern sub_1377E, sub_197ED, sub_1A109, sub_1B05E, sub_1E3E8, sub_1E715, sub_1E7F6, sub_29B9F
+extern sub_1377E, EditText, sub_1A109, sub_1B05E, sub_1E3E8, sub_1E715, sub_1E7F6, sub_29B9F
 extern sub_62A0F, sub_62AF7, sub_62D9B, sub_62E0E, sub_62E72, sub_62F90, sub_63968, sub_63998
 extern sub_63A5B, sub_63B0C, sub_63F79, sub_63FEF, sub_64296, sub_64721, sub_64F59, sub_66373
 extern sub_68AB1, sub_69A94, sub_69A9B, sub_AA988, sub_AAA40, sub_AAA8C, PutBlock, sub_AADA4
 extern sub_AB758, sub_ABF4C, sub_AD35C, sub_ADA50, sub_ADBEC, TextSetFont, sub_DD6C4, MouseRead
-extern sub_DFE9C, sub_DFF28, sub_E04E0, str_Rb, unk_152C44, unk_17C9B8, unk_17C9CC, unk_17CA75
+extern sub_DFE9C, sub_DFF28, sub_E04E0, str_Rb, unk_152C44, unk_17C9B8, unk_17C9CC, optblock_end
 extern unk_73BD5, unk_73C35, unk_73F35, unk_73F7D, word_114CE0, word_11E270, word_11E280, word_17C9AC
 extern word_17C9AE, word_17C9B0, word_17C9B2, word_17C9B4, word_17C9B6
 global jpt_7510E, jpt_764F4, jpt_7761E, jpt_77632, loc_742DE, loc_74312, loc_74354, loc_74360
@@ -897,7 +897,7 @@ mov ebx, byte_17BDAE	; 74CED
 call sub_77355	; 74CF2
 mov edx, eax	; 74CF7
 xor eax, eax	; 74CF9
-call sub_197ED	; 74CFB
+call EditText	; 74CFB
 test eax, eax	; 74D00
 je near loc_74EBF	; 74D02
 lea eax, [byte ebp-0Eh]	; 74D08
@@ -973,7 +973,7 @@ mov ebx, byte_17BDAE	; 74E03
 call sub_77355	; 74E08
 mov edx, eax	; 74E0D
 xor eax, eax	; 74E0F
-call sub_197ED	; 74E11
+call EditText	; 74E11
 test eax, eax	; 74E16
 je near loc_74EBF	; 74E18
 lea eax, [byte ebp-0Eh]	; 74E1E
@@ -1744,7 +1744,7 @@ mov ebx, byte_17BDAE	; 75A48
 call sub_77355	; 75A4D
 mov edx, eax	; 75A52
 xor eax, eax	; 75A54
-call sub_197ED	; 75A56
+call EditText	; 75A56
 test eax, eax	; 75A5B
 je near loc_75DAD	; 75A5D
 lea edx, [byte ebp+036h]	; 75A63
@@ -2439,7 +2439,7 @@ mov esi, unk_76071	; 76532
 mov eax, 4	; 76537
 rep movsd	; 7653C
 xor edx, edx	; 7653E
-mov dword [gameopts], unk_17CA75	; 76540
+mov dword [gameopts], optblock_end	; 76540
 call sub_69A94	; 7654A
 call sub_68AB1	; 7654F
 mov eax, 57h	; 76554

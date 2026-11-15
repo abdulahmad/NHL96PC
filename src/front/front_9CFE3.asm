@@ -14,7 +14,7 @@ extern byte_1843DF, byte_1843E0, byte_1843E1, byte_1843E6, byte_1843E7, byte_184
 extern byte_1843EE, dword_1174EC, dword_1174F0, dword_11D1A8, dword_11D1AC, dword_11E670, dword_11E678, dword_11E91C
 extern dword_11E948, dword_11E970, dword_11E9C0, dword_11EA10, dword_11EA60, dword_11EAB0, dword_11EAFC, dword_11EB50
 extern dword_11EB88, dword_11EBC0, dword_11EBF8, dword_11ECE8, dword_11ECEC, dword_11ED2C, dword_152F54, dword_152F58
-extern dword_1657EA, dword_1657FE, dword_17BC7C, dword_17BC96, dword_17BCA2, dword_17BCA6, dword_17BD48, dword_17C9A8
+extern dword_1657EA, dword_1657FE, dword_17BC7C, dword_17BC96, dword_17BCA2, dword_17BCA6, dword_17BD48, optflags
 extern dword_17EEF0, dword_17FDF0, dword_17FDF4, dword_1820A8, dword_1820AC, dword_1820B0, dword_1820E4, dword_1820E8
 extern dword_1820EC, dword_183028, dword_1836E8, dword_1836EC, dword_1836F0, dword_1836F4, dword_1836F8, dword_1836FC
 extern dword_183700, dword_183704, dword_183728, dword_18372C, dword_183730, dword_183734, dword_183738, dword_18373C
@@ -2043,7 +2043,7 @@ mov eax, dword [byte ebp+02Eh]	; 9ECBB
 mov ecx, dword [byte ebp+03Eh]	; 9ECBE
 mov al, byte [dword eax+byte_183D0A]	; 9ECC1
 mov byte [dword ecx+byte_17EBF0], al	; 9ECC7
-mov eax, dword [dword_17C9A8]	; 9ECCD
+mov eax, dword [optflags]	; 9ECCD
 shl eax, 19h	; 9ECD2
 shr eax, 1Dh	; 9ECD5
 cmp eax, byte 1	; 9ECD8
@@ -3610,7 +3610,7 @@ mov edx, 0FEh	; 9FFE1
 mov eax, 0FDh	; 9FFE6
 call sub_63F79	; 9FFEB
 loc_9FFF0:
-test byte [dword_17C9A8], 0Ch	; 9FFF0
+test byte [optflags], 0Ch	; 9FFF0
 jne short loc_A0010	; 9FFF7
 mov eax, dword [ecx]	; 9FFF9
 mov eax, dword [nosplit eax*4+dword_183C28]	; 9FFFB

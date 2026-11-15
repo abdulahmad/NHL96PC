@@ -12,7 +12,7 @@ extern penmintab, penshotlive, penshotmode, penshotplayer, penshotstart, penshot
 extern puckx, pucky, puckz, randomd0, regd2, regd3, shotongoal, shotontarget
 extern sprintf_, SetSPA, Setplass, setplayer, sub_4FDC0, CanRemovePlayer, sub_68E21, sub_68E31
 extern sfx, sub_69141, sub_77355, SortIndices, vecdist, unk_157F9C, unk_158610, gmode2
-extern word_1178F4, word_1178F6, word_1178F8, word_1178FA, word_1178FC, word_1178FE, word_117902, word_118E8F
+extern word_1178F4, word_1178F6, word_1178F8, word_1178FA, word_1178FC, gsp, word_117902, word_118E8F
 extern word_1190E7, word_1190E9, word_11910B, word_11910F, word_119111, word_119113, Pencntdwn2, word_11A224
 extern word_11A26C, word_1656E8, word_165710, word_16581E, word_165846, word_165980, word_176B80, word_176B88
 extern word_176B8A, word_176B8C, word_176B8E
@@ -1624,7 +1624,7 @@ mov dword [byte ebp-04h], 0	; 515D7
 xor esi, esi	; 515DE
 jmp near loc_516C3	; 515E0
 loc_515E5:
-movsx eax, word [word_1178FE]	; 515E5
+movsx eax, word [gsp]	; 515E5
 cmp eax, byte 3	; 515EC
 jne short loc_51600	; 515EF
 mov ax, word [word_1656E8]	; 515F1

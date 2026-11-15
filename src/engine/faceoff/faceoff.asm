@@ -7,7 +7,7 @@ extern awtmstruct, byte_1178C8, byte_1190F3, byte_164797, byte_16479B, byte_1647
 extern byte_165713, byte_16571E, byte_165854, byte_165953, byte_165957, byte_176B84, chk4pass, crowdlevel
 extern curperiod, dword_1178DA, dword_1178DE, dword_1178E2, dword_1178E6, dword_119173, dword_119183, dword_1191C3
 extern dword_1191C7, dword_1191E7, dword_1191EB, dword_1191EF, dword_119F6C, dword_11B2A8, dword_15E4C4, dword_165254
-extern dword_176BD0, dword_17C9A8, energywarn, fadeinpending, fox, foy, gameclock, gameopts
+extern dword_176BD0, optflags, energywarn, fadeinpending, fox, foy, gameclock, gameopts
 extern gmode, hmroster, hmtmgoalie, hmtmstruct, introskipped, lcblink, lcboxon, lcfound
 extern off_11787C, off_117888, off_11788C, off_117890, off_117894, off_117898, off_11789C, passplayer
 extern penshotmode, penshotplayer, penshotstart, puckvx, puckvz, puckx, pucky, puckz
@@ -18,7 +18,7 @@ extern sub_4A91D, sub_4AF6B, ResetBench, forcepldata, doplayeracc, EvadePC, skat
 extern avdgoal, stopna, AddPenalty2, sub_50CB5, sub_59A36, sub_68E31, sub_6934E, vecdist
 extern threat, unk_164B5C, vtoa, word_1178A0, word_1178A2, word_1178B4, word_1178B6, word_1178B8
 extern word_1178BE, word_1178C0, gmode2, word_1178CA, word_1178D2, word_1178F6, word_1178F8, word_1178FA
-extern word_1178FC, word_1178FE, word_117902, word_118E8F, word_118E9F, word_118EA3, word_118EB7, word_1190D7
+extern word_1178FC, gsp, word_117902, word_118E8F, word_118E9F, word_118EA3, word_118EB7, word_1190D7
 extern word_1190D9, word_11910B, word_11910F, word_119111, word_119113, word_119F78, word_164716, word_16472A
 extern word_164794, word_165144, word_1656E8, word_165704, word_165706, word_165758, word_16581E, word_16583A
 extern word_16583C, word_165950, word_165952, word_165954, word_165956, word_165958, word_16595A, word_165964
@@ -277,7 +277,7 @@ mov edx, eax	; 3A9BD
 mov eax, dword [gameopts]	; 3A9BF
 test byte [byte eax+02h], 8	; 3A9C4
 jne short loc_3AA00	; 3A9C8
-cmp word [word_1178FE], byte 0	; 3A9CA
+cmp word [gsp], byte 0	; 3A9CA
 jne short loc_3AA00	; 3A9D2
 mov ax, word [gameclock]	; 3A9D4
 cmp ax, word [word_176B80]	; 3A9DA
@@ -763,7 +763,7 @@ loc_3AF6E:
 call sub_4AF6B	; 3AF6E
 jmp near loc_3A822	; 3AF73
 loc_3AF78:
-movsx eax, word [word_1178FE]	; 3AF78
+movsx eax, word [gsp]	; 3AF78
 cmp eax, byte 3	; 3AF7F
 jne short loc_3AF9D	; 3AF82
 mov ax, word [word_1656E8]	; 3AF84
@@ -942,7 +942,7 @@ call PenShotStart	; 3B21B
 mov eax, dword [gameopts]	; 3B220
 test byte [byte eax+02h], 8	; 3B225
 jne near loc_3B317	; 3B229
-cmp word [word_1178FE], byte 0	; 3B22F
+cmp word [gsp], byte 0	; 3B22F
 jne near loc_3B317	; 3B237
 mov ax, word [gameclock]	; 3B23D
 cmp ax, word [word_176B80]	; 3B243
@@ -979,7 +979,7 @@ call PenShotStart	; 3B2D3
 mov eax, dword [gameopts]	; 3B2D8
 test byte [byte eax+02h], 8	; 3B2DD
 jne short loc_3B317	; 3B2E1
-cmp word [word_1178FE], byte 0	; 3B2E3
+cmp word [gsp], byte 0	; 3B2E3
 jne short loc_3B317	; 3B2EB
 mov ax, word [gameclock]	; 3B2ED
 cmp ax, word [word_176B80]	; 3B2F3
@@ -1379,7 +1379,7 @@ cmp dword [introskipped], byte 0	; 3B885
 jne short loc_3B8E4	; 3B88C
 cmp word [word_11910F], byte 0	; 3B88E
 jne short loc_3B8E4	; 3B896
-cmp word [word_1178FE], byte 0	; 3B898
+cmp word [gsp], byte 0	; 3B898
 jne short loc_3B8BB	; 3B8A0
 cmp word [word_117902], byte 0	; 3B8A2
 jne short loc_3B8BB	; 3B8AA
@@ -1420,7 +1420,7 @@ call sub_3A8BC	; 3B976
 mov eax, dword [gameopts]	; 3B97B
 test byte [byte eax+02h], 8	; 3B980
 jne short loc_3B9B2	; 3B984
-cmp word [word_1178FE], byte 0	; 3B986
+cmp word [gsp], byte 0	; 3B986
 jne short loc_3B9B2	; 3B98E
 mov ax, word [gameclock]	; 3B990
 cmp ax, word [word_176B80]	; 3B996
@@ -3718,7 +3718,7 @@ movsx eax, word [eax]	; 3D7AC
 loc_3D7AF:
 cmp eax, 158h	; 3D7AF
 jle short loc_3D7E7	; 3D7B4
-mov eax, dword [dword_17C9A8]	; 3D7B6
+mov eax, dword [optflags]	; 3D7B6
 shl eax, 17h	; 3D7BB
 shr eax, 1Eh	; 3D7BE
 mov ecx, dword [puckx]	; 3D7C1
@@ -3765,7 +3765,7 @@ movsx eax, word [eax]	; 3D829
 loc_3D82C:
 cmp eax, 158h	; 3D82C
 jle short loc_3D863	; 3D831
-mov eax, dword [dword_17C9A8]	; 3D833
+mov eax, dword [optflags]	; 3D833
 shl eax, 17h	; 3D838
 shr eax, 1Eh	; 3D83B
 mov ebx, dword [puckx]	; 3D83E
@@ -3990,7 +3990,7 @@ jge short loc_3DB56	; 3DB0B
 call ShotLaneOpen	; 3DB0D
 test eax, eax	; 3DB12
 je short loc_3DB56	; 3DB14
-mov eax, dword [dword_17C9A8]	; 3DB16
+mov eax, dword [optflags]	; 3DB16
 shl eax, 17h	; 3DB1B
 shr eax, 1Eh	; 3DB1E
 shl eax, 2	; 3DB21
@@ -4007,7 +4007,7 @@ mov ax, word [dword eax+dword_119F6C]	; 3DB48
 add eax, 4	; 3DB4F
 jmp short loc_3DB91	; 3DB54
 loc_3DB56:
-mov eax, dword [dword_17C9A8]	; 3DB56
+mov eax, dword [optflags]	; 3DB56
 shl eax, 17h	; 3DB5B
 shr eax, 1Eh	; 3DB5E
 shl eax, 2	; 3DB61
@@ -4765,7 +4765,7 @@ sub edx, eax	; 3E4AF
 movsx eax, word [byte esi+0Eh]	; 3E4B1
 sar eax, 9	; 3E4B5
 sub edx, eax	; 3E4B8
-mov eax, dword [dword_17C9A8]	; 3E4BA
+mov eax, dword [optflags]	; 3E4BA
 mov edi, 100h	; 3E4BF
 and eax, 180h	; 3E4C4
 mov word [word_165980], dx	; 3E4C9

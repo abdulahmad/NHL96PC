@@ -6,18 +6,18 @@ extern DemoMode, FatalError, PBnum, SetDrawBitmap, SortCords, _dos_gettime_, str
 extern str_FhiL, str_FhiR, str_Pal30, str_ZONEMGR, str_ZM1ContactLance, str_ZM2ContactLance, str_ZMOverflowContactLance, dressbystatus
 extern byte_11A319, byte_11A3B4, byte_11BB20, hmrosterpos, byte_1647E0, byte_176B83, defsort_d, dressflags
 extern byte_176DEC, byte_176DED, offsort_fwd, byte_176ED7, byte_176ED9, byte_17CA5D, crowdlevel, dword_1150D4
-extern dword_1175B5, dword_1175B9, dword_1176E1, dword_117934, dword_119D04, dword_11A3F2, dword_11B234, dword_11B294
+extern dword_1175B5, dword_1175B9, dword_1176E1, seed, dword_119D04, dword_11A3F2, dword_11B234, dword_11B294
 extern dword_11B330, dword_11B364, dword_11D91F, dword_11F5C0, dword_11F5C4, dword_152F50, dword_152F54, dword_152F58
 extern dword_152F5C, dword_157AF4, dword_15E494, dword_15E498, dword_15E49C, dword_15E4A0, dword_15E4A4, dword_15E4A8
 extern dword_15E4AC, dword_15E4B0, dword_15E4B4, dword_15E4B8, dword_15E4BC, dword_15E4C0, dword_16596C, dword_176BE0
 extern dword_176ED5, dword_176F90, dword_1770D8, dword_1770DC, dword_1770E0, dword_1770E4, dword_1770E8, dword_1770EC
 extern dword_1770F0, dword_1770F4, dword_1770F8, dword_1770FC, dword_177100, dword_177104, dword_177108, dword_1798BC
-extern dword_17C9A8, dword_17CA5C, gameclock, gameopts, gmode, hmroster, off_11786C, off_11787C
+extern optflags, dword_17CA5C, gameclock, gameopts, gmode, hmroster, off_11786C, off_11787C
 extern off_117888, off_11788C, puckvx, puckvz, puckz, rand_, sflags, sub_1739F
 extern sub_1E7F6, sub_1F771, sub_4B4F3, sub_51CBA, sub_51D44, sub_51DD2, sub_625F7, sub_62ED9
 extern sub_63B0C, sub_695CB, sub_6986B, sub_AADA4, sub_AB758, sub_ABF4C, sub_DD6C4, SetClipWindow
 extern sub_E04E0, sub_E0584, unk_157B82, unk_157F9C, unk_158610, unk_176CA8, unk_176CDA, unk_176D0C
-extern unk_176D3E, unk_176DA2, unk_176E38, unk_176E6A, unk_176E9C, unk_176ED4, unk_17CA75, gmode2
+extern unk_176D3E, unk_176DA2, unk_176E38, unk_176E6A, unk_176E9C, unk_176ED4, optblock_end, gmode2
 extern word_1178CA, word_1178CC, word_1178CE, word_1178D0, word_117902, word_11A3EE, word_11A3F0, word_11D3A2
 extern word_16597C, word_176ECE, word_176ED0, dressedskaters, word_176EDB
 global FillDressedSlots, NormalizeDressFlags, PickExtraSkater, PickForLineSlot, RemoveFromLines, SetupTeamLines, loc_51F33, loc_51F3A
@@ -1817,7 +1817,7 @@ imul edx, eax	; 53291
 or word [dword_176ED5], 1CFh	; 53294
 mov esi, 1Ch	; 5329D
 and word [dword_176ED5], 0F1CFh	; 532A2
-mov dword [dword_117934], edx	; 532AB
+mov dword [seed], edx	; 532AB
 call rand_	; 532B1
 cdq	; 532B6
 idiv esi	; 532B7
@@ -1896,14 +1896,14 @@ shr eax, 1Ch	; 533CC
 mov dword [byte ebp-04h], eax	; 533CF
 mov eax, dword [dword_17CA5C]	; 533D2
 shl eax, 0Eh	; 533D7
-mov edi, dword [dword_17C9A8]	; 533DA
+mov edi, dword [optflags]	; 533DA
 shr eax, 1Ch	; 533E0
 xor edx, edx	; 533E3
 mov dword [byte ebp-08h], eax	; 533E5
 mov eax, dword [dword_17CA5C]	; 533E8
-and word [dword_17C9A8], 0FE0Fh	; 533ED
+and word [optflags], 0FE0Fh	; 533ED
 shl eax, 12h	; 533F6
-or word [dword_17C9A8], 140h	; 533F9
+or word [optflags], 140h	; 533F9
 shr eax, 1Fh	; 53402
 and dword [dword_17CA5C], 0FFFC01FFh	; 53405
 mov dword [byte ebp-0Ch], eax	; 5340F
@@ -1935,9 +1935,9 @@ mov dword [DemoMode], 1	; 53482
 mov dword [dword_152F5C], eax	; 5348C
 call sub_1739F	; 53491
 mov dword [DemoMode], 0	; 53496
-and word [dword_17C9A8], 0FE7Fh	; 534A0
+and word [optflags], 0FE7Fh	; 534A0
 mov esi, eax	; 534A9
-or dword [dword_17C9A8], edi	; 534AB
+or dword [optflags], edi	; 534AB
 mov eax, dword [byte ebp-08h]	; 534B1
 and eax, byte 0Fh	; 534B4
 and dword [dword_17CA5C], 0FFFC3FFFh	; 534B7
@@ -1950,7 +1950,7 @@ shl eax, 0Dh	; 534D7
 push str_FhiL	; 534DA
 or dword [dword_17CA5C], eax	; 534DF
 mov eax, dword [byte ebp-04h]	; 534E5
-and byte [dword_17C9A8], 8Fh	; 534E8
+and byte [optflags], 8Fh	; 534E8
 and eax, byte 0Fh	; 534EF
 and byte [byte_17CA5D], 0E1h	; 534F2
 shl eax, 9	; 534F9
@@ -1980,7 +1980,7 @@ mov eax, dword [dword_152F50]	; 53567
 call sub_63B0C	; 5356C
 mov dword [dword_152F5C], eax	; 53571
 call sub_625F7	; 53576
-mov dword [gameopts], unk_17CA75	; 5357B
+mov dword [gameopts], optblock_end	; 5357B
 mov eax, esi	; 53585
 leave	; 53587
 pop edi	; 53588

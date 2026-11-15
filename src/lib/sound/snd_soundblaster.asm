@@ -52,7 +52,7 @@ global loc_CFA28, loc_CFA2D, loc_CFA3C, loc_CFA98, loc_CFACD, loc_CFAD0, loc_CFA
 global loc_CFB48, loc_CFB6A, loc_CFB6F, loc_CFB9C, loc_CFBCA, loc_CFBED, loc_CFBF3, loc_CFC26
 global loc_CFC3D, loc_CFC3E, loc_CFC40, loc_CFC57, loc_CFC67, loc_CFC71, loc_CFC76, loc_CFC8D
 global loc_CFCA0, loc_CFCAE, loc_CFCD5, loc_CFCEE, loc_CFCF3, loc_CFD1D, loc_CFD6E, loc_CFDCD
-global sub_CE06B, sub_CE0A9, sub_CE1DA, sub_CE1F3, sub_CE220, sub_CE254, sub_CE285, sub_CE2B6
+global sub_CE06B, ParseBlasterEnv, sub_CE1DA, sub_CE1F3, sub_CE220, sub_CE254, sub_CE285, sub_CE2B6
 global sub_CE2E8, sub_CE31C, sub_CE3B6, sub_CE5D5, sub_CE60C, sub_CE647, sub_CE65F, sub_CE672
 global sub_CE709, sub_CE780, sub_CE7C4, sub_CE90E, sub_CE980, sub_CE9D9, sub_CEA10, sub_CEA28
 global sub_CEA3B, sub_CEB8D, sub_CEC0A, sub_CEC45, sub_CEC5D, sub_CEC6D, sub_CEDDE, sub_CEFEE
@@ -89,7 +89,7 @@ leave	; CE0A5
 pop esi	; CE0A6
 pop ecx	; CE0A7
 ret	; CE0A8
-sub_CE0A9:
+ParseBlasterEnv:
 push esi	; CE0A9
 push edi	; CE0AA
 enter 8, 0	; CE0AB
@@ -1014,7 +1014,7 @@ mov ebx, dword_1A0FF0	; CEA8D
 mov edx, dword_1A0FF4	; CEA92
 mov dword [dword_1A0FE4], eax	; CEA97
 mov eax, word_1A1000	; CEA9C
-call sub_CE0A9	; CEAA1
+call ParseBlasterEnv	; CEAA1
 test eax, eax	; CEAA6
 jl near loc_CEB89	; CEAA8
 cmp dword [dword_1A0FF4], byte 7	; CEAAE
@@ -1301,7 +1301,7 @@ shr eax, 1	; CEE62
 mov edx, dword_1A1038	; CEE64
 mov dword [dword_1A1020], eax	; CEE69
 mov eax, dword_1A1048	; CEE6E
-call sub_CE0A9	; CEE73
+call ParseBlasterEnv	; CEE73
 test eax, eax	; CEE78
 jl near loc_CEFEA	; CEE7A
 cmp dword [dword_1A1038], byte 7	; CEE80
@@ -1679,7 +1679,7 @@ shr eax, 1	; CF36A
 mov edx, dword_1A1074	; CF36C
 mov dword [dword_1A1060], eax	; CF371
 mov eax, word_1A1080	; CF376
-call sub_CE0A9	; CF37B
+call ParseBlasterEnv	; CF37B
 test eax, eax	; CF380
 jl near loc_CF4C9	; CF382
 cmp dword [dword_14F060], byte 2	; CF388

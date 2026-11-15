@@ -20,7 +20,7 @@ extern dword_17E3BC, dword_17E3C0, dword_17E3C4, dword_17E3C8, dword_17E3CC, dwo
 extern dword_17E3DC, dword_17E3E0, dword_17E8FC, dword_17E9D0, dword_17EA50, dword_17EA54, dword_17EB90, dword_17FDF0
 extern dword_18209C, dword_1820AC, dword_1820B0, dword_1820B4, dword_1820B8, dword_1820C4, dword_1820E8, dword_1820EC
 extern fclose_, fopen_, fprintf_, jpt_88DE1, jpt_88DF9, qsort_, qword_11266E, sprintf_
-extern strcat_, strcmp_, strlen_, sub_197ED, sub_1A109, sub_1AC0E, sub_1AE8C, sub_1B00B
+extern strcat_, strcmp_, strlen_, EditText, sub_1A109, sub_1AC0E, sub_1AE8C, sub_1B00B
 extern sub_1E7F6, sub_1EA14, sub_1EBBC, sub_1EE7C, sub_62AF7, sub_62E0E, sub_62F90, sub_63998
 extern sub_63A5B, sub_63F79, sub_63FEF, sub_640D3, sub_64103, sub_64721, sub_64F59, sub_77355
 extern sub_7CCB8, sub_7CF78, sub_7D2CE, sub_7D2DC, sub_7D325, sub_7D346, sub_7D349, sub_7D49C
@@ -2022,7 +2022,7 @@ mov ecx, 8	; 8A9DE
 call sub_77355	; 8A9E3
 mov edx, eax	; 8A9E8
 xor eax, eax	; 8A9EA
-call sub_197ED	; 8A9EC
+call EditText	; 8A9EC
 test eax, eax	; 8A9F1
 je near loc_8AE8A	; 8A9F3
 lea eax, [byte ebp-038h]	; 8A9F9

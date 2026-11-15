@@ -30,7 +30,7 @@ extern dword_152F8C, dword_152F90, dword_152F94, dword_152F98, dword_152F9C, dwo
 extern dword_152FB0, dword_152FB4, dword_152FB8, dword_152FBC, dword_152FC4, dword_152FC8, dword_152FCC, dword_152FD0
 extern dword_152FD4, dword_152FD8, dword_152FDC, dword_152FE0, dword_152FE4, dword_1571B3, dword_15803D, dword_1580A1
 extern dword_158654, dword_16411C, dword_164120, dword_164124, dword_164128, dword_164744, dword_164748, dword_164798
-extern dword_1655A0, dword_17C9A8, dword_17CA1C, dword_17CA20, dword_17CBE7, dword_17D162, dword_17D263, dword_17D267
+extern dword_1655A0, optflags, globalset, optblock, dword_17CBE7, dword_17D162, dword_17D263, dword_17D267
 extern energywarn, fadeinpending, forceteams, fox, foy, fputchar, gameopts, gmode
 extern hmroster, introskipped, lastplayer, lcblink, lcboxon, lcline, lseek_, off_11D3DC
 extern open_, passplayer, penshotlive, penshotmode, penshotplayer, penshotstart, printf_, puckx
@@ -42,15 +42,15 @@ extern sub_18234, sub_2090F, sub_2A52F, sub_2CB9D, StartPreGame, SetSPA, sub_489
 extern sub_4B247, BuildDefaultLines, sub_57F0A, sub_583B8, sub_6215A, sub_625F7, sub_62ED9, sub_63076
 extern sub_63955, sub_63B0C, sub_63B6A, sub_63DC4, sub_63EB5, sub_63F79, sub_640D3, sub_641D4
 extern sub_64721, sub_64E54, sub_64E64, sub_64F59, sub_66373, sub_66589, sub_689D1, sub_68AB1
-extern sub_68C33, sub_68CFE, CrowdNoiseReset, sub_68F82, sub_6941E, sub_694B9, sub_699D0, sub_69A94
-extern sub_69A9B, sub_6A341, sub_6A5EB, sub_6A675, sub_73BA5, sub_771F0, sub_77292, sub_77355
+extern sub_68C33, sub_68CFE, CrowdNoiseReset, sub_68F82, sub_6941E, StartSoundCard, sub_699D0, sub_69A94
+extern sub_69A9B, ReadGlobalSet, sub_6A5EB, sub_6A675, sub_73BA5, sub_771F0, sub_77292, sub_77355
 extern sub_78E9E, sub_78EFA, sub_7BA57, sub_88509, sub_A4961, sub_A4FD7, sub_AA500, sub_AA664
 extern sub_AA7E0, PutBlock, sub_AADA4, sub_AB6D8, sub_AB758, sub_AB798, sub_ABF4C, sub_ABF88
 extern sub_AC838, sub_AC868, sub_AD35C, sub_AD620, FillRect, sub_ADA50, sub_ADA80, sub_ADBEC
 extern unpack, sub_AFCD0, sub_AFD00, sub_AFFD0, TextSetFont, sub_B0474, sub_B047B, sub_B0494
 extern sub_B049E, sub_B1121, sub_B11F8, sub_B1294, sub_B12AF, sub_B1328, sub_B13BB, sub_B1451
 extern sub_B147A, sub_B1830, sub_B1C0E, sub_B20D0, sub_B20EC, sub_B2128, sub_B2140, sub_B22E0
-extern sub_B2B0C, DrawArtOpaque, sub_B3100, sub_B3145, sub_B3160, sub_B31C0, sub_B32E0, sub_B3420
+extern sub_B2B0C, DrawArtOpaque, sub_B3100, sub_B3145, sub_B3160, sub_B31C0, DetectCPU, sub_B3420
 extern sub_B67BC, sub_B680C, sub_B6824, sub_B68C8, sub_B6964, sub_B69EC, sub_B6A14, sub_B6B10
 extern sub_B71D4, sub_B71F1, sub_B7256, sub_B7310, sub_B73C4, sub_B7498, sub_B74B0, sub_B74D0
 extern sub_B7638, sub_B7654, sub_B7690, sub_B76A8, sub_B7810, sub_DD6C4, sub_DD6E0, sub_DD800
@@ -62,7 +62,7 @@ extern str_DB2, unk_115120, unk_1151A7, unk_115333, unk_117522, unk_1210DC, unk_
 extern unk_1527C0, unk_152938, unk_152944, unk_152B3C, unk_152C44, unk_152FA8, unk_156E6C, unk_157AF8
 extern unk_157B1C, unk_157B82, unk_157F9C, unk_157FDA, unk_1580AD, unk_1582F5, unk_1583C8, unk_158610
 extern unk_158658, unk_18584C, vtoa, str_dbgL, word_11510D, word_11512D, word_1178A8, word_1178AC
-extern word_1178AE, word_1178F4, word_1178F6, word_1178F8, word_1178FA, word_1178FC, word_1178FE, word_118E8F
+extern word_1178AE, word_1178F4, word_1178F6, word_1178F8, word_1178FA, word_1178FC, gsp, word_118E8F
 extern word_118E91, word_118E93, word_118E9F, word_118EA3, word_118EA5, word_118EA7, word_118EA9, word_118EAB
 extern word_118EAF, word_118EB1, word_118EB3, word_118EB7, word_1190D7, word_1190D9, word_11910B, refhitcount
 extern word_11910F, word_119113, Pencntdwn2, word_156E6E, word_156E70, word_156E72, word_156E74, word_156E76
@@ -160,7 +160,7 @@ global loc_1FFBD, loc_1FFC7, loc_20037, loc_200F4, loc_200FE, loc_2010A, loc_201
 global loc_20124, loc_2013B, loc_2014A, loc_2015D, loc_20167, main_, sub_186DC, sub_18736
 global sub_187A8, sub_187CF, sub_188AE, sub_1891A, sub_189CD, sub_18A31, sub_18A81, sub_18C75
 global sub_18DB7, sub_18E80, sub_19336, sub_1935C, sub_19384, sub_193E8, sub_19491, sub_19522
-global sub_1955B, sub_19659, sub_19706, sub_19731, sub_19799, sub_197ED, sub_1A04E, sub_1A109
+global sub_1955B, sub_19659, sub_19706, sub_19731, sub_19799, EditText, sub_1A04E, sub_1A109
 global sub_1AA27, sub_1AA62, sub_1AC0E, sub_1AE8C, sub_1B00B, sub_1B05E, sub_1B13D, sub_1B229
 global sub_1B22F, sub_1B311, sub_1B3AC, sub_1B4D2, sub_1B807, sub_1BA4D, sub_1BB20, sub_1BC7A
 global sub_1BD67, sub_1BE50, sub_1BE72, sub_1C51E, sub_1C56B, sub_1C5F3, sub_1C627, sub_1C6E0
@@ -1625,7 +1625,7 @@ pop edx	; 197E9
 pop ecx	; 197EA
 pop ebx	; 197EB
 ret	; 197EC
-sub_197ED:
+EditText:
 push esi	; 197ED
 push edi	; 197EE
 enter 394h, 0	; 197EF
@@ -4029,7 +4029,7 @@ mov dword [dword_11F61C], 0	; 1B51B
 call sub_ADA50	; 1B525
 add esp, byte 4	; 1B52A
 call sub_10095	; 1B52D
-call sub_6A341	; 1B532
+call ReadGlobalSet	; 1B532
 test eax, eax	; 1B537
 jne short loc_1B5AB	; 1B539
 call sub_DD800	; 1B53B
@@ -4061,11 +4061,11 @@ jne short loc_1B59B	; 1B5A3
 call dword [dword_11F994]	; 1B5A5
 loc_1B5AB:
 call sub_1B311	; 1B5AB
-mov eax, dword [dword_17C9A8]	; 1B5B0
+mov eax, dword [optflags]	; 1B5B0
 shl eax, 1Ch	; 1B5B5
 shr eax, 1Eh	; 1B5B8
 call sub_771F0	; 1B5BB
-call sub_B32E0	; 1B5C0
+call DetectCPU	; 1B5C0
 cmp dword [dword_11F5E4], byte 0	; 1B5C5
 jne short loc_1B609	; 1B5CC
 call sub_DD800	; 1B5CE
@@ -4146,12 +4146,12 @@ mov ebx, 20h	; 1B6F8
 mov edx, dword_11D19C	; 1B6FD
 mov eax, unk_152C44	; 1B702
 call sub_B3420	; 1B707
-mov edx, dword [dword_17CA1C]	; 1B70C
-mov eax, dword [dword_17CA1C]	; 1B712
+mov edx, dword [globalset]	; 1B70C
+mov eax, dword [globalset]	; 1B712
 shl edx, 1Ch	; 1B717
 and eax, byte 7	; 1B71A
 shr edx, 1Fh	; 1B71D
-call sub_694B9	; 1B720
+call StartSoundCard	; 1B720
 mov eax, 32h	; 1B725
 call sub_64E54	; 1B72A
 mov eax, 34h	; 1B72F
@@ -6650,7 +6650,7 @@ call SetupTeamLines	; 1D8AA
 mov eax, 1	; 1D8AF
 xor edx, edx	; 1D8B4
 call SetupTeamLines	; 1D8B6
-mov word [word_1178FE], 0FFFFh	; 1D8BB
+mov word [gsp], 0FFFFh	; 1D8BB
 mov word [crowdlevel], 0	; 1D8C4
 mov dword [introskipped], 0	; 1D8CD
 call ResetGameVars	; 1D8D7
@@ -6668,7 +6668,7 @@ test edx, edx	; 1D8FD
 je short loc_1D90B	; 1D8FF
 mov dword [fadeinpending], 1	; 1D901
 loc_1D90B:
-mov word [word_1178FE], 0	; 1D90B
+mov word [gsp], 0	; 1D90B
 call ResetGameVars	; 1D914
 mov eax, dword [gameopts]	; 1D919
 mov dword [introskipped], edx	; 1D91E
@@ -6697,8 +6697,8 @@ call SetupTeamLines	; 1D95D
 mov eax, 1	; 1D962
 xor edx, edx	; 1D967
 call SetupTeamLines	; 1D969
-mov eax, dword [dword_17CA20]	; 1D96E
-mov word [word_1178FE], 0FFFFh	; 1D973
+mov eax, dword [optblock]	; 1D96E
+mov word [gsp], 0FFFFh	; 1D973
 and eax, byte 7Fh	; 1D97C
 mov word [crowdlevel], 0	; 1D97F
 call CrowdNoiseReset	; 1D988
@@ -6718,7 +6718,7 @@ test edx, edx	; 1D9BD
 je short loc_1D9CB	; 1D9BF
 mov dword [fadeinpending], 1	; 1D9C1
 loc_1D9CB:
-mov word [word_1178FE], 0	; 1D9CB
+mov word [gsp], 0	; 1D9CB
 call ResetGameVars	; 1D9D4
 mov eax, 5Ah	; 1D9D9
 call sub_48922	; 1D9DE
@@ -7408,7 +7408,7 @@ and eax, byte 3	; 1E358
 test al, 1	; 1E35B
 je short loc_1E37F	; 1E35D
 loc_1E35F:
-mov eax, dword [dword_17C9A8]	; 1E35F
+mov eax, dword [optflags]	; 1E35F
 and eax, byte 70h	; 1E364
 cmp eax, byte 20h	; 1E367
 jne short loc_1E37F	; 1E36A
@@ -7464,7 +7464,7 @@ mov esi, eax	; 1E3EC
 mov ebx, edx	; 1E3EE
 imul edi, edx, byte 16h	; 1E3F0
 mov byte [eax], 0	; 1E3F3
-mov edx, dword [dword_17C9A8]	; 1E3F6
+mov edx, dword [optflags]	; 1E3F6
 and edx, byte 3	; 1E3FC
 mov eax, edx	; 1E3FF
 add edi, unk_115333	; 1E401
@@ -7497,7 +7497,7 @@ test eax, eax	; 1E44E
 je short loc_1E48C	; 1E450
 cmp eax, byte 8	; 1E452
 jge short loc_1E48C	; 1E455
-test byte [dword_17C9A8], 0Ch	; 1E457
+test byte [optflags], 0Ch	; 1E457
 je short loc_1E46F	; 1E45E
 cmp byte [ebx], 0	; 1E460
 je short loc_1E46F	; 1E463
@@ -7554,7 +7554,7 @@ test eax, eax	; 1E4EC
 je short loc_1E537	; 1E4EE
 cmp eax, byte 8	; 1E4F0
 jge short loc_1E537	; 1E4F3
-test byte [dword_17C9A8], 0Ch	; 1E4F5
+test byte [optflags], 0Ch	; 1E4F5
 je short loc_1E51A	; 1E4FC
 cmp byte [edi], 0	; 1E4FE
 je short loc_1E51A	; 1E501
@@ -7597,7 +7597,7 @@ push ecx	; 1E55B
 mov ebx, eax	; 1E55C
 imul edx, byte 16h	; 1E55E
 mov byte [eax], 0	; 1E561
-mov eax, dword [dword_17C9A8]	; 1E564
+mov eax, dword [optflags]	; 1E564
 mov ecx, unk_1151A7	; 1E569
 and eax, byte 3	; 1E56E
 add ecx, edx	; 1E571
@@ -7625,7 +7625,7 @@ test eax, eax	; 1E5A4
 je short loc_1E5EF	; 1E5A6
 cmp eax, byte 8	; 1E5A8
 jge short loc_1E5EF	; 1E5AB
-test byte [dword_17C9A8], 0Ch	; 1E5AD
+test byte [optflags], 0Ch	; 1E5AD
 je short loc_1E5D2	; 1E5B4
 cmp byte [ecx], 0	; 1E5B6
 je short loc_1E5D2	; 1E5B9
@@ -7689,7 +7689,7 @@ je near loc_1E707	; 1E650
 imul eax, byte 0FFFFFFEAh	; 1E656
 mov ebx, unk_1151A7	; 1E659
 add ebx, eax	; 1E65E
-mov eax, dword [dword_17C9A8]	; 1E660
+mov eax, dword [optflags]	; 1E660
 and eax, byte 3	; 1E665
 cmp eax, byte 3	; 1E668
 ja short loc_1E697	; 1E66B
@@ -7715,7 +7715,7 @@ test eax, eax	; 1E69A
 je short loc_1E6E8	; 1E69C
 cmp eax, byte 8	; 1E69E
 jge short loc_1E6E8	; 1E6A1
-test byte [dword_17C9A8], 0Ch	; 1E6A3
+test byte [optflags], 0Ch	; 1E6A3
 je short loc_1E6C9	; 1E6AA
 cmp byte [ebx], 0	; 1E6AC
 je short loc_1E6C9	; 1E6AF
@@ -8712,7 +8712,7 @@ push esi	; 1F365
 push edi	; 1F366
 enter 68h, 0	; 1F367
 push eax	; 1F36B
-mov eax, dword [dword_17C9A8]	; 1F36C
+mov eax, dword [optflags]	; 1F36C
 shl eax, 19h	; 1F371
 shr eax, 1Dh	; 1F374
 cmp eax, byte 1	; 1F377
@@ -8748,7 +8748,7 @@ loc_1F3CD:
 lea eax, [byte ebp-03Ch]	; 1F3CD
 call sub_1E3E8	; 1F3D0
 loc_1F3D5:
-test byte [dword_17C9A8], 70h	; 1F3D5
+test byte [optflags], 70h	; 1F3D5
 jne short loc_1F3EB	; 1F3DC
 cmp dword [dword_1150D8], byte 0FFFFFFFFh	; 1F3DE
 jne near loc_1F4C9	; 1F3E5
@@ -8831,7 +8831,7 @@ mov edx, unk_157FDA	; 1F4D3
 mov eax, dword [dword_1150D8]	; 1F4D8
 call FileReadAt	; 1F4DD
 loc_1F4E2:
-mov eax, dword [dword_17C9A8]	; 1F4E2
+mov eax, dword [optflags]	; 1F4E2
 shl eax, 19h	; 1F4E7
 shr eax, 1Dh	; 1F4EA
 cmp eax, byte 1	; 1F4ED
@@ -8867,7 +8867,7 @@ loc_1F543:
 lea eax, [byte ebp-03Ch]	; 1F543
 call sub_1E3E8	; 1F546
 loc_1F54B:
-test byte [dword_17C9A8], 70h	; 1F54B
+test byte [optflags], 70h	; 1F54B
 jne short loc_1F561	; 1F552
 cmp dword [dword_1150D8], byte 0FFFFFFFFh	; 1F554
 jne near loc_1F63F	; 1F55B
@@ -9131,7 +9131,7 @@ mov dword [byte ebp-04h], eax	; 1F8AF
 mov dword [byte ebp-0Ch], edx	; 1F8B2
 mov edi, ebx	; 1F8B5
 mov dword [byte ebp-08h], ecx	; 1F8B7
-test byte [dword_17C9A8], 70h	; 1F8BA
+test byte [optflags], 70h	; 1F8BA
 jne short loc_1F8D0	; 1F8C1
 cmp dword [dword_1150D8], byte 0FFFFFFFFh	; 1F8C3
 jne near loc_1F9B5	; 1F8CA
@@ -9310,7 +9310,7 @@ push eax	; 1FAD1
 mov esi, edx	; 1FAD2
 mov dword [byte ebp-04h], ebx	; 1FAD4
 mov edi, ecx	; 1FAD7
-mov eax, dword [dword_17C9A8]	; 1FAD9
+mov eax, dword [optflags]	; 1FAD9
 shl eax, 19h	; 1FADE
 shr eax, 1Dh	; 1FAE1
 cmp eax, byte 1	; 1FAE4
@@ -9369,7 +9369,7 @@ push eax	; 1FB78
 call FatalError	; 1FB79
 add esp, byte 4	; 1FB7E
 loc_1FB81:
-mov eax, dword [dword_17C9A8]	; 1FB81
+mov eax, dword [optflags]	; 1FB81
 shl eax, 19h	; 1FB86
 shr eax, 1Dh	; 1FB89
 cmp eax, byte 1	; 1FB8C
@@ -9428,7 +9428,7 @@ push eax	; 1FC27
 call FatalError	; 1FC28
 add esp, byte 4	; 1FC2D
 loc_1FC30:
-mov eax, dword [dword_17C9A8]	; 1FC30
+mov eax, dword [optflags]	; 1FC30
 shl eax, 19h	; 1FC35
 shr eax, 1Dh	; 1FC38
 cmp eax, byte 1	; 1FC3B
@@ -9493,7 +9493,7 @@ mov eax, dword [byte ebp+014h]	; 1FCE4
 mov dword [eax], 0	; 1FCE7
 jmp near loc_1FDAA	; 1FCED
 loc_1FCF2:
-mov eax, dword [dword_17C9A8]	; 1FCF2
+mov eax, dword [optflags]	; 1FCF2
 shl eax, 19h	; 1FCF7
 shr eax, 1Dh	; 1FCFA
 cmp eax, byte 1	; 1FCFD
@@ -9671,7 +9671,7 @@ movsd	; 1FF38
 movsb	; 1FF39
 test byte [dword ebp-0BEh], 6	; 1FF3A
 jne near loc_1FFC7	; 1FF41
-mov eax, dword [dword_17C9A8]	; 1FF47
+mov eax, dword [optflags]	; 1FF47
 and eax, byte 70h	; 1FF4C
 cmp eax, byte 10h	; 1FF4F
 jne short loc_1FF8F	; 1FF52

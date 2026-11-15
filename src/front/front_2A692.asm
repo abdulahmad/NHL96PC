@@ -22,16 +22,16 @@ extern dword_160BD8, dword_160BDC, dword_160BE0, dword_160BF0, dword_160BF4, dwo
 extern dword_160C3A, dword_160C3E, dword_160C42, dword_160C46, dword_160C56, dword_160C5A, dword_160C92, dword_160C96
 extern dword_160C9C, dword_160CA0, dword_160CA4, dword_160CA8, dword_160CAC, dword_160CBC, dword_160CC0, dword_160CF8
 extern dword_160CFC, dword_160D02, dword_160D06, dword_160D0A, dword_160D0E, dword_160D12, dword_160D22, dword_160D26
-extern dword_17BC74, dword_17BC7C, dword_17BC96, dword_17BCA2, dword_17BCA6, dword_17C9A8, fclose_, fopen_
+extern dword_17BC74, dword_17BC7C, dword_17BC96, dword_17BCA2, dword_17BCA6, optflags, fclose_, fopen_
 extern fprintf_, fputchar, gameopts, off_11D3DC, qsort_, sprintf_, str_fmtTenths, strcat_
 extern strcmp_, strcpy_, strlen_, sub_10D17, sub_19384, sub_193E8, sub_19491, sub_19522
-extern sub_1955B, sub_19659, sub_19706, sub_19731, sub_19799, sub_197ED, sub_1A109, sub_1AA27
+extern sub_1955B, sub_19659, sub_19706, sub_19731, sub_19799, EditText, sub_1A109, sub_1AA27
 extern sub_1AA62, sub_1DCDC, sub_1DED8, sub_1DF18, sub_1DF55, sub_1DFEA, sub_1E5FC, sub_1E7F6
 extern sub_2A5B5, sub_2A645, sub_62AF7, sub_62E0E, sub_62F90, sub_63998, sub_63A5B, sub_63E7C
 extern sub_63EB5, sub_63F79, sub_63FEF, sub_64103, sub_64721, sub_64F59, sub_68E31, sub_69A9B
 extern sub_77355, sub_7CCB8, sub_7D2CE, sub_7D2DC, sub_7D325, sub_7D346, sub_7D349, sub_8B7BB
 extern sub_AA7E0, PutBlock, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C, sub_AD620, sub_ADBEC
-extern sub_AFFD0, sub_B0254, sub_B026C, TextSetFont, sub_DD6C4, sub_DD8B0, MouseRead, sub_DFF0F
+extern sub_AFFD0, sub_B0254, sub_B026C, TextSetFont, sub_DD6C4, sub_DD8B0, MouseRead, WaitTicks
 extern sub_E04E0, sub_E15AC, str_D4, str_dbgS, str_wt, unk_160B50, unk_2A3D6, unk_2A3E2
 extern unk_2A3EE, unk_2A3F6, unk_2A402, unk_2A442, unk_2A482, word_160ACC, word_1656DA, word_1656DC
 extern word_1656E8, word_165810, word_165812, word_16581E
@@ -209,7 +209,7 @@ call sub_77355	; 2A834
 mov edx, eax	; 2A839
 xor eax, eax	; 2A83B
 mov edi, 1	; 2A83D
-call sub_197ED	; 2A842
+call EditText	; 2A842
 test eax, eax	; 2A847
 je near loc_2A95B	; 2A849
 lea eax, [byte ebp-034h]	; 2A84F
@@ -1142,7 +1142,7 @@ call FileReadAt	; 2B56B
 mov ecx, eax	; 2B570
 test eax, eax	; 2B572
 jne near loc_2B910	; 2B574
-mov esi, dword [dword_17C9A8]	; 2B57A
+mov esi, dword [optflags]	; 2B57A
 shl esi, 19h	; 2B580
 mov dword [byte ebp+072h], eax	; 2B583
 shr esi, 1Dh	; 2B586
@@ -1266,7 +1266,7 @@ add eax, 8000h	; 2B723
 adc edx, byte 0	; 2B728
 shrd eax, edx, 10h	; 2B72B
 add ebx, eax	; 2B72F
-mov eax, dword [dword_17C9A8]	; 2B731
+mov eax, dword [optflags]	; 2B731
 shl eax, 17h	; 2B736
 shr eax, 1Eh	; 2B739
 mov edx, dword [byte ebp+eax*4+03Ah]	; 2B73C
@@ -2346,7 +2346,7 @@ jle short loc_2C308	; 2C2FB
 push byte 7	; 2C2FD
 inc edi	; 2C2FF
 loc_2C300:
-call sub_DFF0F	; 2C300
+call WaitTicks	; 2C300
 add esp, byte 4	; 2C305
 loc_2C308:
 cmp edi, byte 0FFFFFFFEh	; 2C308
@@ -2601,7 +2601,7 @@ mov ebx, byte_17BDAE	; 2C685
 call sub_77355	; 2C68A
 mov edx, eax	; 2C68F
 xor eax, eax	; 2C691
-call sub_197ED	; 2C693
+call EditText	; 2C693
 test eax, eax	; 2C698
 je near loc_2A95D	; 2C69A
 lea eax, [byte ebp-014h]	; 2C6A0

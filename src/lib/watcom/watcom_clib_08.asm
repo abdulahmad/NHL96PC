@@ -13,7 +13,7 @@ extern dword_123BB4, dword_123BB9, dword_123BBD, dword_123BC1, dword_123BC5, dwo
 extern dword_123BD8, dword_123BDC, dword_123BE0, dword_123BE4, dword_123BE8, dword_123BEC, dword_123BF0, dword_123C06
 extern dword_123C0A, dword_123C0E, dword_123C12, dword_123C16, dword_123C1A, dword_123C1E, dword_123C9E, dword_123CA2
 extern dword_123CAE, dword_123CB2, dword_123CC2, dword_123CC8, dword_123CCC, dword_123D5C, dword_123D60, dword_123D64
-extern dword_123D8C, dword_123D90, dword_123D94, dword_123D98, dword_123D9C, dword_123DA0, dword_1248CC, dword_1248D6
+extern dword_123D8C, dword_123D90, dword_123D94, dword_123D98, dword_123D9C, dword_123DA0, snddriver, dword_1248D6
 extern dword_19B688, dword_19B68C, dword_19B690, dword_19B694, dword_19B698, dword_19B69C, dword_19B6A0, dword_19B6B4
 extern dword_19B6B8, dword_19B6BC, dword_19B6C0, dword_19B6C4, dword_19B6C8, dword_19B6CC, dword_19B6D0, dword_19B6D4
 extern dword_19B6D8, dword_19B6DC, dword_19B6E0, dword_19B6E4, dword_19B724, dword_19B760, dword_19B770, dword_19B774
@@ -23,7 +23,7 @@ extern off_123CEC, off_123D68, off_123D6C, off_123D70, off_123D74, off_123D78, o
 extern off_123D84, off_123D88, strncpy_, sub_1CA28, sub_1D658, sub_AA664, PutBlock, sub_AB758
 extern sub_ABF4C, sub_AC9CC, sub_ACA3C, sub_AFCD0, DrawArtOpaque, sub_B65D4, sub_BF120, sub_C5D00
 extern sub_CAA80, sub_CAB58, sub_CAB78, sub_CABA9, sub_CBEA8, sub_CC048, sub_CC15A, sub_CC17B
-extern sub_CC1B5, sub_CC200, sub_CE0A9, sub_CE2E8, sub_CE709, sub_CE780, sub_CF6C9, sub_CF7C0
+extern sub_CC1B5, sub_CC200, ParseBlasterEnv, sub_CE2E8, sub_CE709, sub_CE780, sub_CF6C9, sub_CF7C0
 extern sub_CF864, sub_CF918, sub_CFA64, sub_CFB14, sub_CFCC0, sub_DD6C4, sub_DDF4F, sub_DFB84
 extern sub_E04D0, sub_E0520, sub_E0898, unk_19B6A4, unk_19B720, unk_1A0B20, unk_CABE8
 global _Alphabet, abs_, fini_void_, getcwd_, itoa_, jpt_C1490, loc_BF94F, loc_BF9A6
@@ -80,7 +80,7 @@ global sub_BFFCE, sub_C011D, sub_C01C9, sub_C0252, sub_C02D6, sub_C032E, sub_C03
 global sub_C0423, sub_C04AE, sub_C04C3, sub_C0578, sub_C0603, sub_C061E, sub_C0641, sub_C0727
 global sub_C08DA, sub_C08F5, sub_C0902, sub_C0944, sub_C0AD7, sub_C0BCD, sub_C0D7E, sub_C0E2D
 global sub_C0E3C, sub_C0E49, sub_C0F09, sub_C0F30, sub_C1008, sub_C1051, sub_C1104, sub_C1183
-global sub_C11EF, sub_C12C8, sub_C1322, sub_C13B1, sub_C1410, sub_C144B, sub_C157F, sub_C1614
+global sub_C11EF, sub_C12C8, sub_C1322, sub_C13B1, sub_C1410, sub_C144B, SndSetDriver, sub_C1614
 global sub_C17C6, sub_C1811, sub_C181F, sub_C187A, sub_C187C, sub_C187D, sub_C1882, sub_C1890
 global sub_C1920, sub_C1A2C, sub_C1D48, sub_C1FC0, sub_C1FEC, sub_C204C, sub_C20E0, sub_C2268
 global sub_C2290, sub_C2440, sub_C2442, sub_C24D0, sub_C2500, sub_C254C, sub_C2600, sub_C27A4
@@ -171,9 +171,9 @@ push esi	; BFA46
 push edi	; BFA47
 mov ecx, eax	; BFA48
 mov esi, edx	; BFA4A
-cmp dword [dword_1248CC], byte 0	; BFA4C
+cmp dword [snddriver], byte 0	; BFA4C
 jle short loc_BFA5E	; BFA53
-cmp dword [dword_1248CC], byte 5	; BFA55
+cmp dword [snddriver], byte 5	; BFA55
 jle short loc_BFA67	; BFA5C
 loc_BFA5E:
 mov eax, 0FFFFFFFFh	; BFA5E
@@ -328,9 +328,9 @@ mov eax, 0FFFFFFF5h	; BFC24
 pop ecx	; BFC29
 ret	; BFC2A
 loc_BFC2B:
-cmp dword [dword_1248CC], byte 0	; BFC2B
+cmp dword [snddriver], byte 0	; BFC2B
 jle short loc_BFC3D	; BFC32
-cmp dword [dword_1248CC], byte 5	; BFC34
+cmp dword [snddriver], byte 5	; BFC34
 jle short loc_BFC44	; BFC3B
 loc_BFC3D:
 mov eax, 0FFFFFFFCh	; BFC3D
@@ -384,9 +384,9 @@ pop ecx	; BFCAB
 pop ebx	; BFCAC
 ret	; BFCAD
 loc_BFCAE:
-cmp dword [dword_1248CC], byte 0	; BFCAE
+cmp dword [snddriver], byte 0	; BFCAE
 jle short loc_BFCC0	; BFCB5
-cmp dword [dword_1248CC], byte 5	; BFCB7
+cmp dword [snddriver], byte 5	; BFCB7
 jle short loc_BFCC9	; BFCBE
 loc_BFCC0:
 mov eax, 0FFFFFFFCh	; BFCC0
@@ -449,9 +449,9 @@ pop ecx	; BFD3D
 pop ebx	; BFD3E
 ret	; BFD3F
 loc_BFD40:
-cmp dword [dword_1248CC], byte 0	; BFD40
+cmp dword [snddriver], byte 0	; BFD40
 jle short loc_BFD52	; BFD47
-cmp dword [dword_1248CC], byte 5	; BFD49
+cmp dword [snddriver], byte 5	; BFD49
 jle short loc_BFD5B	; BFD50
 loc_BFD52:
 mov eax, 0FFFFFFFCh	; BFD52
@@ -515,9 +515,9 @@ pop ecx	; BFDCE
 pop ebx	; BFDCF
 ret	; BFDD0
 loc_BFDD1:
-cmp dword [dword_1248CC], byte 0	; BFDD1
+cmp dword [snddriver], byte 0	; BFDD1
 jle short loc_BFDE3	; BFDD8
-cmp dword [dword_1248CC], byte 5	; BFDDA
+cmp dword [snddriver], byte 5	; BFDDA
 jle short loc_BFDEC	; BFDE1
 loc_BFDE3:
 mov eax, 0FFFFFFFCh	; BFDE3
@@ -585,9 +585,9 @@ pop ecx	; BFE60
 pop ebx	; BFE61
 ret	; BFE62
 loc_BFE63:
-cmp dword [dword_1248CC], byte 0	; BFE63
+cmp dword [snddriver], byte 0	; BFE63
 jle short loc_BFE75	; BFE6A
-cmp dword [dword_1248CC], byte 5	; BFE6C
+cmp dword [snddriver], byte 5	; BFE6C
 jle short loc_BFE7F	; BFE73
 loc_BFE75:
 mov eax, 0FFFFFFFCh	; BFE75
@@ -626,9 +626,9 @@ pop ebx	; BFEC8
 ret	; BFEC9
 push ebx	; BFECA
 push edx	; BFECB
-cmp dword [dword_1248CC], byte 0	; BFECC
+cmp dword [snddriver], byte 0	; BFECC
 jle short loc_BFEDE	; BFED3
-cmp dword [dword_1248CC], byte 5	; BFED5
+cmp dword [snddriver], byte 5	; BFED5
 jle short loc_BFEE6	; BFEDC
 loc_BFEDE:
 mov eax, 0FFFFFFFCh	; BFEDE
@@ -658,9 +658,9 @@ push ecx	; BFF0C
 push edx	; BFF0D
 and al, 7Fh	; BFF0E
 mov byte [byte_1248DA], al	; BFF10
-cmp dword [dword_1248CC], byte 0	; BFF15
+cmp dword [snddriver], byte 0	; BFF15
 jle short loc_BFF4E	; BFF1C
-cmp dword [dword_1248CC], byte 5	; BFF1E
+cmp dword [snddriver], byte 5	; BFF1E
 jg short loc_BFF4E	; BFF25
 xor ecx, ecx	; BFF27
 xor ebx, ebx	; BFF29
@@ -696,9 +696,9 @@ pop ecx	; BFF64
 pop ebx	; BFF65
 ret	; BFF66
 loc_BFF67:
-cmp dword [dword_1248CC], byte 0	; BFF67
+cmp dword [snddriver], byte 0	; BFF67
 jle short loc_BFF79	; BFF6E
-cmp dword [dword_1248CC], byte 5	; BFF70
+cmp dword [snddriver], byte 5	; BFF70
 jle short loc_BFF82	; BFF77
 loc_BFF79:
 mov eax, 0FFFFFFFCh	; BFF79
@@ -723,9 +723,9 @@ loc_BFF98:
 mov eax, 0FFFFFFF5h	; BFF98
 ret	; BFF9D
 loc_BFF9E:
-cmp dword [dword_1248CC], byte 0	; BFF9E
+cmp dword [snddriver], byte 0	; BFF9E
 jle short loc_BFFB0	; BFFA5
-cmp dword [dword_1248CC], byte 5	; BFFA7
+cmp dword [snddriver], byte 5	; BFFA7
 jle short loc_BFFB6	; BFFAE
 loc_BFFB0:
 mov eax, 0FFFFFFFCh	; BFFB0
@@ -975,9 +975,9 @@ mov dword [dword_123BDC], edx	; C02CD
 xor eax, eax	; C02D3
 ret	; C02D5
 sub_C02D6:
-cmp dword [dword_1248CC], byte 0	; C02D6
+cmp dword [snddriver], byte 0	; C02D6
 jle short loc_C02E8	; C02DD
-cmp dword [dword_1248CC], byte 5	; C02DF
+cmp dword [snddriver], byte 5	; C02DF
 jle short loc_C02EE	; C02E6
 loc_C02E8:
 mov eax, 0FFFFFFFFh	; C02E8
@@ -1449,9 +1449,9 @@ je short loc_C076B	; C075F
 mov eax, 0FFFFFFF6h	; C0761
 jmp near loc_C08B5	; C0766
 loc_C076B:
-cmp dword [dword_1248CC], byte 0	; C076B
+cmp dword [snddriver], byte 0	; C076B
 jle short loc_C077D	; C0772
-cmp dword [dword_1248CC], byte 5	; C0774
+cmp dword [snddriver], byte 5	; C0774
 jle short loc_C0787	; C077B
 loc_C077D:
 mov eax, 0FFFFFFFCh	; C077D
@@ -2001,9 +2001,9 @@ push esi	; C0E4C
 push edi	; C0E4D
 enter 4, 0	; C0E4E
 mov edx, eax	; C0E52
-cmp dword [dword_1248CC], byte 0	; C0E54
+cmp dword [snddriver], byte 0	; C0E54
 jle short loc_C0E66	; C0E5B
-cmp dword [dword_1248CC], byte 5	; C0E5D
+cmp dword [snddriver], byte 5	; C0E5D
 jle short loc_C0E70	; C0E64
 loc_C0E66:
 mov eax, 0FFFFFFFFh	; C0E66
@@ -2514,7 +2514,7 @@ lea ecx, [byte ebp-010h]	; C13B8
 lea ebx, [byte ebp-0Ch]	; C13BB
 lea edx, [byte ebp-08h]	; C13BE
 lea eax, [byte ebp-04h]	; C13C1
-call sub_CE0A9	; C13C4
+call ParseBlasterEnv	; C13C4
 cmp eax, byte 0FFFFFFFFh	; C13C9
 je short loc_C140B	; C13CC
 call sub_CE2E8	; C13CE
@@ -2724,7 +2724,7 @@ loc_C157B:
 mov eax, edx	; C157B
 pop edx	; C157D
 ret	; C157E
-sub_C157F:
+SndSetDriver:
 push ebx	; C157F
 push ecx	; C1580
 push esi	; C1581
@@ -2763,7 +2763,7 @@ mov eax, edi	; C15E2
 call dword [dword edx+off_123CE0]	; C15E4
 test eax, eax	; C15EA
 jge short loc_C15FD	; C15EC
-mov dword [dword_1248CC], 0	; C15EE
+mov dword [snddriver], 0	; C15EE
 pop edi	; C15F8
 pop esi	; C15F9
 pop ecx	; C15FA
@@ -2771,7 +2771,7 @@ pop ebx	; C15FB
 ret	; C15FC
 loc_C15FD:
 mov eax, dword [dword_123CC8]	; C15FD
-mov dword [dword_1248CC], esi	; C1602
+mov dword [snddriver], esi	; C1602
 call sub_C17C6	; C1608
 xor eax, eax	; C160D
 pop edi	; C160F
@@ -2851,9 +2851,9 @@ pop ebx	; C169C
 ret	; C169D
 push ebx	; C169E
 push edx	; C169F
-cmp dword [dword_1248CC], byte 0	; C16A0
+cmp dword [snddriver], byte 0	; C16A0
 jle short loc_C16B2	; C16A7
-cmp dword [dword_1248CC], byte 5	; C16A9
+cmp dword [snddriver], byte 5	; C16A9
 jle short loc_C16BA	; C16B0
 loc_C16B2:
 mov eax, dword [off_123D68]	; C16B2
@@ -2861,7 +2861,7 @@ pop edx	; C16B7
 pop ebx	; C16B8
 ret	; C16B9
 loc_C16BA:
-imul ebx, dword [dword_1248CC], byte 14h	; C16BA
+imul ebx, dword [snddriver], byte 14h	; C16BA
 mov eax, 3	; C16C1
 xor edx, edx	; C16C6
 call dword [dword ebx+off_123CEC]	; C16C8
@@ -2922,9 +2922,9 @@ push ebx	; C173F
 push ecx	; C1740
 push edx	; C1741
 mov ebx, eax	; C1742
-cmp dword [dword_1248CC], byte 0	; C1744
+cmp dword [snddriver], byte 0	; C1744
 jle short loc_C1756	; C174B
-cmp dword [dword_1248CC], byte 5	; C174D
+cmp dword [snddriver], byte 5	; C174D
 jle short loc_C175F	; C1754
 loc_C1756:
 mov eax, 0FFFFFFFCh	; C1756
@@ -2933,16 +2933,16 @@ pop ecx	; C175C
 pop ebx	; C175D
 ret	; C175E
 loc_C175F:
-imul ecx, dword [dword_1248CC], byte 14h	; C175F
+imul ecx, dword [snddriver], byte 14h	; C175F
 mov eax, 7	; C1766
 xor edx, edx	; C176B
 call dword [dword ecx+off_123CEC]	; C176D
-imul ecx, dword [dword_1248CC], byte 14h	; C1773
+imul ecx, dword [snddriver], byte 14h	; C1773
 xor edx, edx	; C177A
 mov dword [byte ebx+0Ch], eax	; C177C
 mov eax, 5	; C177F
 call dword [dword ecx+off_123CEC]	; C1784
-imul ecx, dword [dword_1248CC], byte 14h	; C178A
+imul ecx, dword [snddriver], byte 14h	; C178A
 xor edx, edx	; C1791
 mov dword [byte ebx+010h], eax	; C1793
 mov eax, 6	; C1796
@@ -2968,11 +2968,11 @@ push ecx	; C17C7
 push edx	; C17C8
 mov ecx, eax	; C17C9
 mov dword [dword_123CC8], eax	; C17CB
-cmp dword [dword_1248CC], byte 0	; C17D0
+cmp dword [snddriver], byte 0	; C17D0
 jle short loc_C1807	; C17D7
-cmp dword [dword_1248CC], byte 5	; C17D9
+cmp dword [snddriver], byte 5	; C17D9
 jg short loc_C1807	; C17E0
-imul ebx, dword [dword_1248CC], byte 14h	; C17E2
+imul ebx, dword [snddriver], byte 14h	; C17E2
 mov eax, 6	; C17E9
 xor edx, edx	; C17EE
 call dword [dword ebx+off_123CEC]	; C17F0
@@ -2993,7 +2993,7 @@ ret	; C180A
 mov dword [dword_1248D6], eax	; C180B
 ret	; C1810
 sub_C1811:
-imul eax, dword [dword_1248CC], byte 14h	; C1811
+imul eax, dword [snddriver], byte 14h	; C1811
 call dword [dword eax+off_123CE8]	; C1818
 ret	; C181E
 sub_C181F:
@@ -3008,10 +3008,10 @@ call sub_AA664	; C1831
 mov dword [dword_123D60], 0	; C1836
 add esp, byte 4	; C1840
 loc_C1843:
-imul eax, dword [dword_1248CC], byte 14h	; C1843
+imul eax, dword [snddriver], byte 14h	; C1843
 xor esi, esi	; C184A
 call dword [dword eax+off_123CE4]	; C184C
-mov dword [dword_1248CC], 0	; C1852
+mov dword [snddriver], 0	; C1852
 loc_C185C:
 push esi	; C185C
 call sub_CABA9	; C185D

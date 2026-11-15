@@ -18,13 +18,13 @@ extern dword_112CDE, dword_112CE2, dword_112CE6, dword_112CEA, dword_112CEE, dwo
 extern dword_112CFE, dword_112D02, dword_112D06, dword_112D0A, dword_112D0E, dword_112D12, dword_112D26, dword_1174E4
 extern dword_1174EC, dword_1174F0, dword_1174F4, dword_117504, dword_11750C, dword_117510, dword_117514, dword_11D1A8
 extern dword_11D1AC, dword_11E670, dword_11E678, dword_11E7E0, dword_11E85B, dword_11E8D4, dword_11E8F8, dword_11E8FC
-extern dword_11E900, dword_11E904, dword_11ED2C, dword_152F54, dword_152F58, dword_17BC7C, dword_17BD48, dword_17C9A8
+extern dword_11E900, dword_11E904, dword_11ED2C, dword_152F54, dword_152F58, dword_17BC7C, dword_17BD48, optflags
 extern dword_17CBE7, dword_17D162, dword_17EEF0, dword_17FDEC, dword_17FDF0, dword_17FDF4, dword_181EAC, dword_1820A8
 extern dword_1820AC, dword_1820B0, dword_1820E4, dword_1820E8, dword_1820EC, dword_182140, dword_182144, dword_1822B8
 extern dword_1822BC, dword_182FB4, dword_182FB8, dword_18301C, dword_183020, dword_183024, dword_183C28, dword_183C98
 extern dword_184398, dword_18439C, dword_1843A0, dword_1843A4, dword_1843A8, dword_1843B0, dword_1843B4, gameopts
 extern off_11E908, qsort_, qword_112D16, qword_112D1E, rand_, sprintf_, strcat_, strcmp_
-extern strcpy_, sub_197ED, sub_1A109, sub_1B05E, sub_1E3E8, sub_1E5FC, sub_1E7F6, sub_1EA14
+extern strcpy_, EditText, sub_1A109, sub_1B05E, sub_1E3E8, sub_1E5FC, sub_1E7F6, sub_1EA14
 extern sub_1ECDB, sub_1EE7C, sub_62A0F, sub_62AF7, sub_62D9B, sub_62E0E, sub_62F90, sub_63998
 extern sub_63A5B, sub_63F79, sub_63FEF, sub_64054, sub_64103, sub_64296, sub_64721, sub_64F59
 extern sub_77355, sub_78E9E, sub_7CCB8, sub_7D2CE, sub_7D2DC, sub_7D325, sub_7D346, sub_7D349
@@ -164,7 +164,7 @@ mov dword [dword_11E8F8], 1	; 972C4
 loc_972CE:
 cmp esi, 54CA39h	; 972CE
 jne near loc_97382	; 972D4
-mov eax, dword [dword_17C9A8]	; 972DA
+mov eax, dword [optflags]	; 972DA
 and eax, byte 70h	; 972DF
 cmp eax, byte 10h	; 972E2
 jne short loc_972F9	; 972E5
@@ -3386,7 +3386,7 @@ je near loc_9A457	; 9A3C9
 mov edi, dword [dword_1174EC]	; 9A3CF
 mov edx, dword [edx]	; 9A3D5
 add edx, edi	; 9A3D7
-test byte [dword_17C9A8], 0Ch	; 9A3D9
+test byte [optflags], 0Ch	; 9A3D9
 jne short loc_9A3E7	; 9A3E0
 mov bl, byte [byte edx+02h]	; 9A3E2
 jmp short loc_9A418	; 9A3E5
@@ -3461,7 +3461,7 @@ loc_9A488:
 mov edx, dword [dword_1174EC]	; 9A488
 inc dword [byte ebp-0Ch]	; 9A48E
 add edx, dword [byte esi+063h]	; 9A491
-test byte [dword_17C9A8], 0Ch	; 9A494
+test byte [optflags], 0Ch	; 9A494
 jne short loc_9A4A2	; 9A49B
 mov bl, byte [byte edx+02h]	; 9A49D
 jmp short loc_9A4D3	; 9A4A0
@@ -3533,7 +3533,7 @@ je near loc_9A5BA	; 9A52F
 mov edx, dword [dword_1174EC]	; 9A535
 inc dword [byte ebp-0Ch]	; 9A53B
 add edx, dword [dword ecx+0C7h]	; 9A53E
-test byte [dword_17C9A8], 0Ch	; 9A544
+test byte [optflags], 0Ch	; 9A544
 jne short loc_9A552	; 9A54B
 mov bl, byte [byte edx+02h]	; 9A54D
 jmp short loc_9A583	; 9A550
@@ -4200,7 +4200,7 @@ mov ebx, byte_17BDAE	; 9AC45
 push dword 140h	; 9AC4A
 lea edx, [byte ebp-022h]	; 9AC4F
 xor eax, eax	; 9AC52
-call sub_197ED	; 9AC54
+call EditText	; 9AC54
 jmp short loc_9AC19	; 9AC59
 loc_9AC5B:
 inc dword [byte ebp+06Eh]	; 9AC5B
@@ -5125,7 +5125,7 @@ mov ebx, byte_17BDAE	; 9BA02
 call sub_77355	; 9BA07
 mov edx, eax	; 9BA0C
 xor eax, eax	; 9BA0E
-call sub_197ED	; 9BA10
+call EditText	; 9BA10
 lea eax, [byte ebp+06h]	; 9BA15
 push eax	; 9BA18
 push dword 0F0h	; 9BA19
@@ -5136,7 +5136,7 @@ mov ebx, byte_17BDAE	; 9BA2D
 call sub_77355	; 9BA32
 mov edx, eax	; 9BA37
 xor eax, eax	; 9BA39
-call sub_197ED	; 9BA3B
+call EditText	; 9BA3B
 push byte 0	; 9BA40
 push byte 14h	; 9BA42
 push dword 140h	; 9BA44
@@ -5219,7 +5219,7 @@ mov ebx, byte_17BDAE	; 9BB45
 call sub_77355	; 9BB4A
 mov edx, eax	; 9BB4F
 xor eax, eax	; 9BB51
-call sub_197ED	; 9BB53
+call EditText	; 9BB53
 jmp short loc_9BB13	; 9BB58
 loc_9BB5A:
 lea eax, [byte ebp+016h]	; 9BB5A
@@ -6374,7 +6374,7 @@ push edx	; 9C868
 push esi	; 9C869
 push edi	; 9C86A
 enter 74h, 0	; 9C86B
-mov eax, dword [dword_17C9A8]	; 9C86F
+mov eax, dword [optflags]	; 9C86F
 and eax, byte 70h	; 9C874
 cmp eax, byte 10h	; 9C877
 je short loc_9C881	; 9C87A
@@ -6860,7 +6860,7 @@ mov edi, eax	; 9CEDF
 test eax, eax	; 9CEE1
 jne short loc_9CECB	; 9CEE3
 mov dword [dword_181EAC], eax	; 9CEE5
-mov eax, dword [dword_17C9A8]	; 9CEEA
+mov eax, dword [optflags]	; 9CEEA
 shl eax, 19h	; 9CEEF
 shr eax, 1Dh	; 9CEF2
 cmp eax, byte 1	; 9CEF5

@@ -11,13 +11,13 @@ extern str_MseD2, str_Jy1D, str_Jy2D, str_Jy3D, str_Jy4D, str_KeyD2, str_MdmD, a
 extern byte_11D91C, byte_11FA2F, byte_17CA5D, byte_17CC37, curperiod, dword_1150D4, dword_1150D8, dword_1150FC
 extern dword_1174EC, dword_1174F0, dword_1174F4, dword_11B234, dword_11B320, dword_11B324, dword_11BC24, dword_11D91F
 extern dword_11D923, dword_11F5A8, dword_11F5AC, dword_11F5C0, dword_11F5C4, dword_152F4C, dword_152F50, dword_152F54
-extern dword_152F58, dword_152F5C, dword_16596C, dword_177108, dword_179918, dword_179920, dword_17C9A8, dword_17CB2F
+extern dword_152F58, dword_152F5C, dword_16596C, dword_177108, dword_179918, dword_179920, optflags, dword_17CB2F
 extern dword_17CBE7, dword_17CC17, dword_17CED6, dword_17D162, dword_17D267, dword_17D4E8, dword_17D4EC, dword_17D4F0
 extern dword_17D4F4, dword_17D4F8, dword_17D4FC, dword_17D500, dword_17D504, dword_17D508, dword_17D50C, dword_17D510
 extern dword_17D514, dword_17D518, dword_17D51C, dword_17D520, dword_17D524, dword_17D528, dword_17D564, dword_17D56C
 extern dword_17D574, dword_17D57C, dword_17D580, dword_1843AC, dword_1843B0, dword_1843B4, gameclock, gameopts
-extern hmtmstruct, sprintf_, strcat_, strcpy_, sub_10010, sub_108BB, sub_10A65, sub_13146
-extern sub_1377E, sub_15344, sub_19384, sub_193E8, sub_19522, sub_1955B, sub_19799, sub_197ED
+extern hmtmstruct, sprintf_, strcat_, strcpy_, sub_10010, InitSlotTable, sub_10A65, sub_13146
+extern sub_1377E, sub_15344, sub_19384, sub_193E8, sub_19522, sub_1955B, sub_19799, EditText
 extern sub_1A109, sub_1B05E, sub_1DF34, sub_1DF55, sub_1DFEA, sub_1E5FC, sub_1EA14, sub_1EBBC
 extern sub_1ECDB, sub_1EE7C, sub_1EFFF, sub_2AB8F, sub_3A6F3, sub_4DED8, sub_5360D, sub_5439F
 extern sub_564A4, sub_5A572, sub_5B0F9, CloseTextOverlay, sub_60777, sub_612BC, sub_621D9, sub_62201
@@ -30,8 +30,8 @@ extern sub_AA7E0, sub_AA988, sub_AAA40, PutBlock, sub_AADA4, sub_AB758, sub_ABF4
 extern sub_ADBEC, TextSetFont, sub_B0CA8, sub_B22E0, sub_B2C54, sub_B58D8, sub_BB8E0, sub_DD6C4
 extern SetClipWindow, MouseRead, SetViewRect, sub_E04E0, sub_E0584, str_D16, unk_11D7A4, unk_11D7BC
 extern unk_11D7D4, unk_11D7EC, unk_11D804, unk_11D80A, unk_11D810, unk_11D816, unk_11D81C, unk_11D89C
-extern unk_16443C, unk_17CA75, unk_17CB2E, unk_17CED5, unk_17D3E8, unk_17D52C, word_114CE0, word_114CE4
-extern word_114F14, word_1178FE, word_117902, word_11D927, word_11D929, word_1656E8, word_16581E, word_17D58C
+extern unk_16443C, optblock_end, unk_17CB2E, unk_17CED5, unk_17D3E8, unk_17D52C, word_114CE0, word_114CE4
+extern word_114F14, gsp, word_117902, word_11D927, word_11D929, word_1656E8, word_16581E, word_17D58C
 extern word_17D58E
 global jpt_6B476, jpt_6B878, jpt_6C63B, jpt_6C680, jpt_6D32C, jpt_6DB38, loc_6A8A8, loc_6A8B6
 global loc_6AA04, loc_6AA1F, loc_6AA9C, loc_6AB19, loc_6AC32, loc_6AC37, loc_6ACAB, loc_6ACB0
@@ -652,13 +652,13 @@ jmp short loc_6B026	; 6B022
 loc_6B024:
 xor eax, eax	; 6B024
 loc_6B026:
-movsx edx, word [word_1178FE]	; 6B026
+movsx edx, word [gsp]	; 6B026
 cmp edx, byte 3	; 6B02D
 jl short loc_6B03C	; 6B030
 mov eax, 88h	; 6B032
 jmp near loc_6B0A5	; 6B037
 loc_6B03C:
-mov dx, word [word_1178FE]	; 6B03C
+mov dx, word [gsp]	; 6B03C
 cmp dx, byte 1	; 6B043
 jb short loc_6B056	; 6B047
 jbe short loc_6B06D	; 6B049
@@ -1010,7 +1010,7 @@ mov dword [byte ebp-04h], 1	; 6B492
 call sub_1DF34	; 6B499
 test eax, eax	; 6B49E
 jne near loc_6B869	; 6B4A0
-mov eax, dword [dword_17C9A8]	; 6B4A6
+mov eax, dword [optflags]	; 6B4A6
 shl eax, 19h	; 6B4AB
 shr eax, 1Dh	; 6B4AE
 cmp eax, byte 1	; 6B4B1
@@ -1043,7 +1043,7 @@ call sub_1EE7C	; 6B507
 loc_6B50C:
 mov ecx, 0B9h	; 6B50C
 mov ebx, 0FFFFFFFFh	; 6B511
-mov edx, unk_17CA75	; 6B516
+mov edx, optblock_end	; 6B516
 mov eax, dword [byte ebp-018h]	; 6B51B
 call sub_1DFEA	; 6B51E
 mov dword [byte ebp-04h], eax	; 6B523
@@ -1718,7 +1718,7 @@ mov dword [byte ebp+07Eh], 5	; 6BFD0
 jmp near loc_6C26D	; 6BFD7
 loc_6BFDC:
 xor esi, esi	; 6BFDC
-test byte [dword_17C9A8], 70h	; 6BFDE
+test byte [optflags], 70h	; 6BFDE
 jne short loc_6C030	; 6BFE5
 mov edx, 5	; 6BFE7
 mov eax, unk_17D52C	; 6BFEC
@@ -1741,7 +1741,7 @@ push eax	; 6C025
 push str_08d3	; 6C026
 jmp near loc_6C0FC	; 6C02B
 loc_6C030:
-mov eax, dword [dword_17C9A8]	; 6C030
+mov eax, dword [optflags]	; 6C030
 and eax, byte 70h	; 6C035
 cmp eax, byte 10h	; 6C038
 jne short loc_6C088	; 6C03B
@@ -1830,7 +1830,7 @@ mov ebx, byte_11D91C	; 6C153
 call sub_77355	; 6C158
 mov edx, eax	; 6C15D
 xor eax, eax	; 6C15F
-call sub_197ED	; 6C161
+call EditText	; 6C161
 test eax, eax	; 6C166
 sete al	; 6C168
 movzx eax, al	; 6C16B
@@ -1898,7 +1898,7 @@ mov eax, 61h	; 6C226
 mov edx, 1	; 6C22B
 call sub_77355	; 6C230
 call sub_1A109	; 6C235
-test byte [dword_17C9A8], 70h	; 6C23A
+test byte [optflags], 70h	; 6C23A
 je short loc_6C254	; 6C241
 mov dword [dword_1150FC], 2	; 6C243
 mov dword [byte ebp+07Eh], 0FFFFFFFEh	; 6C24D
@@ -2045,7 +2045,7 @@ call sub_E04E0	; 6C476
 add esp, byte 8	; 6C47B
 mov dword [dword_152F50], eax	; 6C47E
 loc_6C483:
-call sub_108BB	; 6C483
+call InitSlotTable	; 6C483
 call sub_3A6F3	; 6C488
 test byte [byte_17CA5D], 20h	; 6C48D
 jne short loc_6C49D	; 6C494
@@ -2172,7 +2172,7 @@ dd sub_6C663
 dd sub_6C66D
 dd sub_1EE7C
 sub_6C64B:
-mov eax, dword [dword_17C9A8]	; 6C64B
+mov eax, dword [optflags]	; 6C64B
 shl eax, 19h	; 6C650
 shr eax, 1Dh	; 6C653
 cmp eax, byte 3	; 6C656
@@ -3586,7 +3586,7 @@ push esi	; 6D82B
 enter 18h, 0	; 6D82C
 call sub_10010	; 6D830
 mov dword [byte ebp-010h], eax	; 6D835
-mov eax, dword [dword_17C9A8]	; 6D838
+mov eax, dword [optflags]	; 6D838
 and eax, byte 70h	; 6D83D
 mov dword [byte ebp-0Ch], 0	; 6D840
 cmp eax, byte 30h	; 6D847
@@ -3839,7 +3839,7 @@ push edi	; 6DB5E
 enter 0Ch, 0	; 6DB5F
 mov esi, eax	; 6DB63
 mov eax, edx	; 6DB65
-mov edx, dword [dword_17C9A8]	; 6DB67
+mov edx, dword [optflags]	; 6DB67
 and edx, byte 70h	; 6DB6D
 cmp edx, byte 30h	; 6DB70
 jne short loc_6DB98	; 6DB73
@@ -3936,7 +3936,7 @@ cmp dword [eax], byte 5	; 6DC35
 jge short loc_6DC6A	; 6DC38
 push dword [dword_17D564]	; 6DC3A
 call sub_AADA4	; 6DC40
-mov eax, dword [dword_17C9A8]	; 6DC45
+mov eax, dword [optflags]	; 6DC45
 and eax, byte 70h	; 6DC4A
 add esp, byte 4	; 6DC4D
 cmp eax, byte 30h	; 6DC50
@@ -3950,7 +3950,7 @@ cmp dword [eax], byte 0Ah	; 6DC6A
 jge short loc_6DCAD	; 6DC6D
 push dword [dword_17D56C]	; 6DC6F
 call sub_AADA4	; 6DC75
-mov eax, dword [dword_17C9A8]	; 6DC7A
+mov eax, dword [optflags]	; 6DC7A
 and eax, byte 70h	; 6DC7F
 add esp, byte 4	; 6DC82
 cmp eax, byte 30h	; 6DC85
@@ -3972,7 +3972,7 @@ cmp dword [eax], byte 0Fh	; 6DCAD
 jge short loc_6DCD7	; 6DCB0
 push dword [dword_17D574]	; 6DCB2
 call sub_AADA4	; 6DCB8
-mov eax, dword [dword_17C9A8]	; 6DCBD
+mov eax, dword [optflags]	; 6DCBD
 and eax, byte 70h	; 6DCC2
 add esp, byte 4	; 6DCC5
 cmp eax, byte 30h	; 6DCC8
@@ -3984,7 +3984,7 @@ cmp dword [eax], byte 14h	; 6DCD7
 jge short loc_6DD19	; 6DCDA
 push dword [dword_17D57C]	; 6DCDC
 call sub_AADA4	; 6DCE2
-mov eax, dword [dword_17C9A8]	; 6DCE7
+mov eax, dword [optflags]	; 6DCE7
 and eax, byte 70h	; 6DCEC
 add esp, byte 4	; 6DCEF
 cmp eax, byte 30h	; 6DCF2
@@ -4036,14 +4036,14 @@ cmp dword [dword eax+01B2h], byte 0	; 6DD6C
 setne dl	; 6DD73
 add dl, 3	; 6DD76
 mov byte [dword eax+0177h], dl	; 6DD79
-mov eax, dword [dword_17C9A8]	; 6DD7F
+mov eax, dword [optflags]	; 6DD7F
 and eax, byte 70h	; 6DD84
 cmp eax, byte 30h	; 6DD87
 jne short loc_6DD98	; 6DD8A
 mov eax, dword [dword_17D580]	; 6DD8C
 mov byte [dword eax+0174h], 18h	; 6DD91
 loc_6DD98:
-mov eax, dword [dword_17C9A8]	; 6DD98
+mov eax, dword [optflags]	; 6DD98
 and eax, byte 70h	; 6DD9D
 cmp eax, byte 30h	; 6DDA0
 jne short loc_6DDB1	; 6DDA3
@@ -4101,7 +4101,7 @@ je short loc_6DE7C	; 6DE71
 mov byte [dword eax+03D8h], 4	; 6DE73
 jmp short loc_6DE9A	; 6DE7A
 loc_6DE7C:
-mov edx, dword [dword_17C9A8]	; 6DE7C
+mov edx, dword [optflags]	; 6DE7C
 and edx, byte 70h	; 6DE82
 cmp edx, byte 30h	; 6DE85
 jne short loc_6DE93	; 6DE88
@@ -4171,7 +4171,7 @@ je short loc_6DF7A	; 6DF6F
 mov byte [dword eax+05D6h], 4	; 6DF71
 jmp short loc_6DF98	; 6DF78
 loc_6DF7A:
-mov edx, dword [dword_17C9A8]	; 6DF7A
+mov edx, dword [optflags]	; 6DF7A
 and edx, byte 70h	; 6DF80
 cmp edx, byte 30h	; 6DF83
 jne short loc_6DF91	; 6DF86
@@ -4238,7 +4238,7 @@ je short loc_6E06F	; 6E064
 mov byte [dword eax+07D4h], 4	; 6E066
 jmp short loc_6E08D	; 6E06D
 loc_6E06F:
-mov edx, dword [dword_17C9A8]	; 6E06F
+mov edx, dword [optflags]	; 6E06F
 and edx, byte 70h	; 6E075
 cmp edx, byte 30h	; 6E078
 jne short loc_6E086	; 6E07B
@@ -4270,7 +4270,7 @@ jmp short loc_6E0DE	; 6E0D5
 loc_6E0D7:
 mov byte [dword eax+0906h], 10h	; 6E0D7
 loc_6E0DE:
-mov eax, dword [dword_17C9A8]	; 6E0DE
+mov eax, dword [optflags]	; 6E0DE
 and eax, byte 70h	; 6E0E3
 cmp eax, byte 30h	; 6E0E6
 setne al	; 6E0E9
@@ -4312,7 +4312,7 @@ je short loc_6E175	; 6E16A
 mov byte [dword eax+096Ch], 4	; 6E16C
 jmp short loc_6E193	; 6E173
 loc_6E175:
-mov edx, dword [dword_17C9A8]	; 6E175
+mov edx, dword [optflags]	; 6E175
 and edx, byte 70h	; 6E17B
 cmp edx, byte 30h	; 6E17E
 jne short loc_6E18C	; 6E181
@@ -4321,7 +4321,7 @@ jmp short loc_6E193	; 6E18A
 loc_6E18C:
 mov byte [dword eax+096Ch], 12h	; 6E18C
 loc_6E193:
-mov eax, dword [dword_17C9A8]	; 6E193
+mov eax, dword [optflags]	; 6E193
 and eax, byte 70h	; 6E198
 cmp eax, byte 30h	; 6E19B
 setne al	; 6E19E

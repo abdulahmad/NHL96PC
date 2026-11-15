@@ -19,7 +19,7 @@ global loc_E0241, loc_E0257, loc_E0282, loc_E0294, loc_E02AA, loc_E02D3, loc_E02
 global loc_E031E, loc_E0339, loc_E0364, loc_E0376, loc_E038C, loc_E03B5, loc_E03C1, loc_E03E0
 global loc_E03EE, loc_E040C, loc_E0423, loc_E0435, loc_E043C, loc_E0442, loc_E044D, loc_E04AB
 global loc_E04C4, loc_E04E9, loc_E04FD, loc_E050F, loc_E051D, loc_E053E, loc_E0563, loc_E05B4
-global loc_E062D, loc_E0654, sub_DFEC6, sub_DFF0F, sub_DFF28, sub_DFF45, sub_DFF4B, sub_DFF60
+global loc_E062D, loc_E0654, sub_DFEC6, WaitTicks, sub_DFF28, sub_DFF45, sub_DFF4B, sub_DFF60
 global sub_DFF7C, sub_E0051, sub_E0158, sub_E0456, sub_E0486, sub_E04D0, sub_E04D9, sub_E04E0
 global sub_E04E7, sub_E0520, sub_E0584, sub_E05DA, sub_E062F
 GetTicks:
@@ -55,7 +55,7 @@ sub ebx, dword [tickdeadline]	; DFF05
 LD sbb, eax, eax	; DFF0B
 inc eax	; DFF0D
 ret	; DFF0E
-sub_DFF0F:
+WaitTicks:
 mov eax, dword [byte esp+04h]	; DFF0F
 mov ebx, dword [tickcount]	; DFF13
 LD add, eax, ebx	; DFF19

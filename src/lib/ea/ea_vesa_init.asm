@@ -6,7 +6,7 @@ extern FatalError, __STOSB, str_InitgraphicsINITMEMMAN, str_InitgraphicsINVALIDS
 extern dword_11F5CC, dword_11F5D0, dword_11F5D4, dword_11F5D8, dword_1210CC, dword_1228D0, dword_122900, dword_122904
 extern dword_122908, dword_12290C, dword_122910, dword_122914, dword_122918, dword_122920, dword_122924, dword_122930
 extern dword_123930, dword_123ACC, dword_123AD0, dword_124014, dword_124018, dword_19B650, dword_1A0B1C, sub_ADBEC
-extern sub_BF300, sub_BF42C, sub_DD6C4, sub_DE3D8, sub_DE44E, sub_DE45F, sub_E2484
+extern sub_BF300, sub_BF42C, sub_DD6C4, sub_DE3D8, sub_DE44E, sub_DE45F, SaveTextMode
 global loc_BF55D, loc_BF56B, loc_BF574, loc_BF589, loc_BF5A8, loc_BF5C4, loc_BF5E3, loc_BF602
 global loc_BF61E, loc_BF63A, loc_BF64F, loc_BF665, loc_BF68A, loc_BF6A0, loc_BF6CF, loc_BF6E4
 global loc_BF6F8, loc_BF70A, loc_BF716, loc_BF724, loc_BF730, loc_BF755, loc_BF781, loc_BF797
@@ -28,7 +28,7 @@ add esp, byte 4	; BF55A
 loc_BF55D:
 cmp dword [dword_11F5A0], byte 0	; BF55D
 jne short loc_BF56B	; BF564
-call sub_E2484	; BF566
+call SaveTextMode	; BF566
 loc_BF56B:
 test ebp, ebp	; BF56B
 jne short loc_BF574	; BF56D

@@ -9,7 +9,7 @@ extern str_DSS, str_PALS, str_D2, str_CS3, str_AALIAS, byte_11FA2F, byte_17CFB1,
 extern byte_17DB78, byte_17DC14, byte_17DC15, byte_17DC16, byte_17DC17, byte_17DC70, dword_1174E0, dword_1174E4
 extern dword_1174E8, dword_1174F0, dword_1174F8, dword_117518, dword_11D674, dword_11E670, dword_11E678, dword_11F5A8
 extern dword_11F5AC, dword_1228D0, dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4, dword_1228F8, dword_1228FC
-extern dword_17BC74, dword_17BC78, dword_17BC7C, dword_17BCE2, dword_17BD48, dword_17C9A8, dword_17CBE7, dword_17CC13
+extern dword_17BC74, dword_17BC78, dword_17BC7C, dword_17BCE2, dword_17BD48, optflags, dword_17CBE7, dword_17CC13
 extern dword_17CEC3, dword_17CEC7, dword_17CED6, dword_17CF8E, dword_17CF92, dword_17CF96, dword_17D1E2, dword_17D26B
 extern dword_17DB7C, dword_17DBC0, dword_17DBC4, dword_17DC0C, dword_17DC10, dword_17DC18, dword_17DC1C, dword_17DC20
 extern dword_17DC24, dword_17DC28, dword_17DC2C, dword_17DC30, dword_17DC34, dword_17DC38, dword_17DC3C, dword_17DC40
@@ -318,7 +318,7 @@ jb short loc_84D56	; 84D4D
 mov edx, 200h	; 84D4F
 jmp short loc_84D7C	; 84D54
 loc_84D56:
-mov eax, dword [dword_17C9A8]	; 84D56
+mov eax, dword [optflags]	; 84D56
 and eax, byte 70h	; 84D5B
 cmp eax, byte 10h	; 84D5E
 jne short loc_84D6A	; 84D61
@@ -343,7 +343,7 @@ shl eax, 0Ah	; 84D96
 push ebx	; 84D99
 shr eax, 1Bh	; 84D9A
 push eax	; 84D9D
-mov eax, dword [dword_17C9A8]	; 84D9E
+mov eax, dword [optflags]	; 84D9E
 and eax, byte 70h	; 84DA3
 push edx	; 84DA6
 cmp eax, byte 20h	; 84DA7
@@ -696,9 +696,9 @@ mov eax, dword [byte eax+01h]	; 85231
 shl eax, 0Fh	; 85234
 shr eax, 1Bh	; 85237
 movsx eax, byte [byte edx+eax+011h]	; 8523A
-test byte [dword_17C9A8], 70h	; 8523F
+test byte [optflags], 70h	; 8523F
 je short loc_85256	; 85246
-mov edx, dword [dword_17C9A8]	; 85248
+mov edx, dword [optflags]	; 85248
 and edx, byte 70h	; 8524E
 cmp edx, byte 30h	; 85251
 jne short loc_85260	; 85254
@@ -760,9 +760,9 @@ mov eax, dword [byte eax+01h]	; 852FC
 shl eax, 0Ah	; 852FF
 shr eax, 1Bh	; 85302
 movsx eax, byte [byte edx+eax+011h]	; 85305
-test byte [dword_17C9A8], 70h	; 8530A
+test byte [optflags], 70h	; 8530A
 je short loc_85321	; 85311
-mov edx, dword [dword_17C9A8]	; 85313
+mov edx, dword [optflags]	; 85313
 and edx, byte 70h	; 85319
 cmp edx, byte 30h	; 8531C
 jne short loc_8532B	; 8531F
@@ -873,7 +873,7 @@ mov ecx, 0Bh	; 854BE
 lea edi, [byte ebp+016h]	; 854C3
 xor eax, eax	; 854C6
 rep stosb	; 854C8
-mov eax, dword [dword_17C9A8]	; 854CA
+mov eax, dword [optflags]	; 854CA
 and eax, byte 70h	; 854CF
 cmp eax, byte 10h	; 854D2
 jne near loc_85640	; 854D5
@@ -997,7 +997,7 @@ push dword [dword_17CEC3]	; 85633
 push byte 4	; 85639
 jmp near loc_85760	; 8563B
 loc_85640:
-mov eax, dword [dword_17C9A8]	; 85640
+mov eax, dword [optflags]	; 85640
 and eax, byte 70h	; 85645
 cmp eax, byte 20h	; 85648
 jne near loc_857DE	; 8564B
@@ -1769,7 +1769,7 @@ call sub_640D3	; 85FD1
 movzx eax, byte [byte_11FA2F]	; 85FD6
 add eax, byte 3	; 85FDD
 add ecx, eax	; 85FE0
-mov eax, dword [dword_17C9A8]	; 85FE2
+mov eax, dword [optflags]	; 85FE2
 and eax, byte 70h	; 85FE7
 cmp eax, byte 10h	; 85FEA
 je short loc_85FF8	; 85FED
@@ -1805,7 +1805,7 @@ jmp near loc_860FD	; 8603B
 loc_86040:
 cmp word [eax], byte 0	; 86040
 je short loc_86074	; 86044
-mov edx, dword [dword_17C9A8]	; 86046
+mov edx, dword [optflags]	; 86046
 and edx, byte 70h	; 8604C
 cmp edx, byte 20h	; 8604F
 je short loc_86074	; 86052
@@ -1878,7 +1878,7 @@ mov edx, 86h	; 860FD
 lea eax, [byte ebp+0Eh]	; 86102
 mov ebx, ecx	; 86105
 call sub_640D3	; 86107
-mov eax, dword [dword_17C9A8]	; 8610C
+mov eax, dword [optflags]	; 8610C
 and eax, byte 70h	; 86111
 cmp eax, byte 10h	; 86114
 je short loc_86122	; 86117
@@ -1914,7 +1914,7 @@ jmp near loc_86227	; 86165
 loc_8616A:
 cmp word [eax], byte 0	; 8616A
 je short loc_8619E	; 8616E
-mov edx, dword [dword_17C9A8]	; 86170
+mov edx, dword [optflags]	; 86170
 and edx, byte 70h	; 86176
 cmp edx, byte 20h	; 86179
 je short loc_8619E	; 8617C

@@ -6,7 +6,7 @@ extern __CHP, str_Pblank, str_Pgblank, str_Tmstats, str_Tmgstats, str_Tmdata, st
 extern str_Tset, str_GSUMMARYDB, awtmgoalie, byte_16580A, byte_16580B, byte_16580C, byte_165940, byte_17CC36
 extern byte_17CFB1, byte_17D26F, byte_17DADF, byte_17DAE0, byte_17DB12, byte_17DB44, byte_17DB78, dword_1174E0
 extern dword_1174E8, dword_1174F0, dword_11E4B8, dword_11E4C4, dword_11E514, dword_1657EA, dword_1657F6, dword_1657FA
-extern dword_1657FE, dword_17C9A8, dword_17CB2F, dword_17CEC3, dword_17CED6, dword_17D1E2, dword_17D928, dword_17D930
+extern dword_1657FE, optflags, dword_17CB2F, dword_17CEC3, dword_17CED6, dword_17D1E2, dword_17D928, dword_17D930
 extern dword_17D938, dword_17D950, dword_17DA18, dword_17DA20, dword_17DA28, dword_17DA30, dword_17DA38, dword_17DA40
 extern dword_17DA48, dword_17DA50, dword_17DA54, dword_17DA58, dword_17DA5C, dword_17DA60, dword_17DA68, dword_17DA6C
 extern dword_17DA70, dword_17DA74, dword_17DA78, dword_17DA80, dword_17DA84, dword_17DA88, dword_17DA90, dword_17DA98
@@ -2432,7 +2432,7 @@ mov eax, dword [dword ebx+dword_17DA58]	; 8425D
 mov eax, dword [eax+edx*4]	; 84263
 cmp word [eax], byte 0	; 84266
 je short loc_842BD	; 8426A
-mov eax, dword [dword_17C9A8]	; 8426C
+mov eax, dword [optflags]	; 8426C
 and eax, byte 70h	; 84271
 cmp eax, byte 20h	; 84274
 jne short loc_84280	; 84277

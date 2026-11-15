@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_D002F progbits alloc exec nowrite align=1
-extern byte_12442A, byte_12442B, dword_1243FC, dword_124410, sub_C2CB0
+extern _Extender, _ExtenderSubtype, _curbrk, _STACKTOP, sub_C2CB0
 global __brk_, flushall_, loc_D0048, loc_D0057, loc_D0091, loc_D0093, loc_D00A2, loc_D00B3
 global loc_D00BE, loc_D00C5, loc_D00DC, loc_D00E8, loc_D0119, loc_D0143, loc_D0149, loc_D0155
 global loc_D0167, loc_D017C, loc_D0192, loc_D0198, loc_D01A6, sbrk_
@@ -13,19 +13,19 @@ push edx	; D0031
 push esi	; D0032
 push edi	; D0033
 mov ecx, eax	; D0034
-cmp byte [byte_12442A], 1	; D0036
+cmp byte [_Extender], 1	; D0036
 jne short loc_D0048	; D003D
-cmp byte [byte_12442B], 0	; D003F
+cmp byte [_ExtenderSubtype], 0	; D003F
 je short loc_D0057	; D0046
 loc_D0048:
-mov dh, byte [byte_12442A]	; D0048
+mov dh, byte [_Extender]	; D0048
 cmp dh, 9	; D004E
 jne near loc_D00C5	; D0051
 loc_D0057:
 test ecx, ecx	; D0057
 jle short loc_D00B3	; D0059
 add ecx, 0FFFh	; D005B
-mov al, byte [byte_12442A]	; D0061
+mov al, byte [_Extender]	; D0061
 and cx, 0F000h	; D0066
 cmp al, 1	; D006B
 jne short loc_D0093	; D006D
@@ -73,9 +73,9 @@ xor eax, eax	; D00CF
 mov eax, ds	; D00D1
 lsl eax, eax	; D00D3
 inc eax	; D00D6
-mov dword [dword_1243FC], eax	; D00D7
+mov dword [_curbrk], eax	; D00D7
 loc_D00DC:
-mov eax, dword [dword_1243FC]	; D00DC
+mov eax, dword [_curbrk]	; D00DC
 add eax, ecx	; D00E1
 call __brk_	; D00E3
 loc_D00E8:
@@ -94,9 +94,9 @@ push edi	; D00F2
 push es	; D00F3
 push ebp	; D00F4
 push eax	; D00F5
-cmp eax, dword [dword_124410]	; D00F6
+cmp eax, dword [_STACKTOP]	; D00F6
 jb short loc_D0155	; D00FC
-cmp byte [byte_12442A], 0	; D00FE
+cmp byte [_Extender], 0	; D00FE
 jne short loc_D0167	; D0105
 mov ebp, dword [esp]	; D0107
 add ebp, byte 0Fh	; D010A
@@ -147,10 +147,10 @@ test ebx, ebx	; D0173
 jne short loc_D017C	; D0175
 mov ebx, 0FFFFFh	; D0177
 loc_D017C:
-mov dl, byte [byte_12442A]	; D017C
+mov dl, byte [_Extender]	; D017C
 cmp dl, 1	; D0182
 jne short loc_D0192	; D0185
-cmp dl, byte [byte_12442B]	; D0187
+cmp dl, byte [_ExtenderSubtype]	; D0187
 jne short loc_D0192	; D018D
 shl ebx, 8	; D018F
 loc_D0192:
@@ -159,8 +159,8 @@ mov es, eax	; D0194
 jmp short loc_D0149	; D0196
 loc_D0198:
 mov ebx, dword [esp]	; D0198
-mov eax, dword [dword_1243FC]	; D019B
-mov dword [dword_1243FC], ebx	; D01A0
+mov eax, dword [_curbrk]	; D019B
+mov dword [_curbrk], ebx	; D01A0
 loc_D01A6:
 add esp, byte 4	; D01A6
 pop ebp	; D01A9

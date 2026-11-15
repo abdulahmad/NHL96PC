@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_C39C2 progbits alloc exec nowrite align=1
-extern byte_12442A, dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4, dword_1228F0, dword_1228F8, dword_1228FC
+extern _Extender, dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4, dword_1228F0, dword_1228F8, dword_1228FC
 extern dword_19BACC
 global _dos_getvect_, _dos_setvect_, loc_C39E3, loc_C3A0A, loc_C3A16, loc_C3A7C, loc_C3A9E, loc_C3AA3
 global loc_C3AD0, loc_C3AFE, loc_C3B21, loc_C3B27, loc_C3B5A, loc_C3B6B, loc_C3B6C, loc_C3B6E
@@ -11,7 +11,7 @@ global sub_C3BD0
 _dos_setvect_:
 push edx	; C39C2
 mov edx, ebx	; C39C3
-mov bl, byte [byte_12442A]	; C39C5
+mov bl, byte [_Extender]	; C39C5
 cmp bl, 2	; C39CB
 jb short loc_C39E3	; C39CE
 cmp bl, 8	; C39D0
@@ -37,7 +37,7 @@ _dos_getvect_:
 push ebx	; C39ED
 push ecx	; C39EE
 mov ebx, eax	; C39EF
-mov ah, byte [byte_12442A]	; C39F1
+mov ah, byte [_Extender]	; C39F1
 cmp ah, 2	; C39F7
 jb short loc_C3A0A	; C39FA
 cmp ah, 8	; C39FC

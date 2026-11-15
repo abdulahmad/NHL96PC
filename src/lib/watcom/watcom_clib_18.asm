@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_D7BB2 progbits alloc exec nowrite align=1
-extern __EnterWVIDEO_, _nfree_, _nmalloc_, dword_12442D, dword_14F09C, dword_14F0A0, memset_, strtod_
-extern sub_B6599, word_124431
+extern __EnterWVIDEO_, _nfree_, _nmalloc_, _Envptr, _environ, ___env_mask, memset_, strtod_
+extern sub_B6599, _Envptr_w4
 global __cnvs2d_, __exit_with_msg_, __fatal_runtime_error_, __setenvp_, forcedecpt_, loc_D7BBC, loc_D7BCF, loc_D7BDF
 global loc_D7BE7, loc_D7BED, loc_D7BF7, loc_D7C33, loc_D7C38, loc_D7C46, loc_D7C4B, loc_D7C54
 global loc_D7C87, loc_D7C96, loc_D7CA7, loc_D7CCC, loc_D7CD3, loc_D7CFB, loc_D7D0C, loc_D7D21
@@ -68,13 +68,13 @@ push esi	; D7C0B
 push edi	; D7C0C
 push es	; D7C0D
 push fs	; D7C0E
-cmp dword [dword_14F09C], byte 0	; D7C10
+cmp dword [_environ], byte 0	; D7C10
 jne near loc_D7CD3	; D7C17
-mov fs, word [word_124431]	; D7C1D
+mov fs, word [_Envptr_w4]	; D7C1D
 xor ecx, ecx	; D7C23
 xor dl, dl	; D7C25
 mov eax, fs	; D7C27
-mov edi, dword [dword_12442D]	; D7C29
+mov edi, dword [_Envptr]	; D7C29
 mov es, eax	; D7C2F
 mov eax, edi	; D7C31
 loc_D7C33:
@@ -108,7 +108,7 @@ add eax, ecx	; D7C6D
 call _nmalloc_	; D7C6F
 test eax, eax	; D7C74
 je short loc_D7CCC	; D7C76
-mov dword [dword_14F09C], eax	; D7C78
+mov dword [_environ], eax	; D7C78
 xor esi, esi	; D7C7D
 mov eax, fs	; D7C7F
 xor ecx, ecx	; D7C81
@@ -117,7 +117,7 @@ mov eax, edi	; D7C85
 loc_D7C87:
 cmp byte [es:eax], 0	; D7C87
 je short loc_D7CA7	; D7C8B
-mov edx, dword [dword_14F09C]	; D7C8D
+mov edx, dword [_environ]	; D7C8D
 mov dword [ecx+edx], ebx	; D7C93
 loc_D7C96:
 mov dl, byte [es:eax]	; D7C96
@@ -130,12 +130,12 @@ add ecx, byte 4	; D7CA1
 inc esi	; D7CA4
 jmp short loc_D7C87	; D7CA5
 loc_D7CA7:
-mov edx, dword [dword_14F09C]	; D7CA7
+mov edx, dword [_environ]	; D7CA7
 mov dword [ecx+edx], 0	; D7CAD
 add ecx, byte 4	; D7CB4
 add edx, ecx	; D7CB7
 mov ebx, esi	; D7CB9
-mov dword [dword_14F0A0], edx	; D7CBB
+mov dword [___env_mask], edx	; D7CBB
 mov eax, edx	; D7CC1
 xor edx, edx	; D7CC3
 call memset_	; D7CC5

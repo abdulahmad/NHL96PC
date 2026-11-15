@@ -10,12 +10,12 @@ extern str_9495, str_9394, str_DD6, str_002, str_DD7, str_FSH4, str_Card2, str_A
 extern str_Plyr2, str_PROFILEFSH2, str_DNRS, str_DSS2, str_DSS3, asc_1129CF, asc_1129E6, str_DD8
 extern byte_11E844, byte_11E852, byte_17BDAE, byte_17CBEB, byte_17D13A, byte_17EBF0, byte_182124, dword_1129FA
 extern dword_11E670, dword_11E684, dword_11E6B4, dword_11E7E0, dword_11E85B, dword_11E87F, dword_11E883, dword_11E887
-extern dword_11E88B, dword_17BC7C, dword_17C9A8, dword_17EEF0, dword_17FDF0, dword_17FDF4, dword_181EAC, dword_1820A4
+extern dword_11E88B, dword_17BC7C, optflags, dword_17EEF0, dword_17FDF0, dword_17FDF4, dword_181EAC, dword_1820A4
 extern dword_1820A8, dword_1820AC, dword_1820B0, dword_1820E4, dword_1820E8, dword_1820EC, dword_1820F4, dword_1820F8
 extern dword_1820FC, dword_182100, dword_182104, dword_182108, dword_18210C, dword_182110, dword_182114, dword_18211C
 extern dword_182120, fclose_, fopen_, fprintf_, loc_94C7B, loc_94CA5, loc_94CAE, loc_94CB7
 extern loc_94CC0, loc_94CC9, loc_94CD2, loc_94CDB, memcmp_, off_11E764, qword_1128CD, qword_1128D5
-extern qword_1129AF, qword_1129B7, qword_1129FE, sprintf_, strcat_, strlen_, sub_197ED, sub_1A109
+extern qword_1129AF, qword_1129B7, qword_1129FE, sprintf_, strcat_, strlen_, EditText, sub_1A109
 extern sub_1AC0E, sub_1AE8C, sub_1B00B, sub_1B05E, sub_1E643, sub_1E7F6, sub_1F2C9, sub_1F2D4
 extern sub_1F2DF, sub_1F2EA, sub_1F2F5, sub_62AF7, sub_62E0E, sub_62F90, sub_63998, sub_63A5B
 extern sub_63F79, sub_63FEF, sub_640D3, sub_6423E, sub_64296, sub_64721, sub_64F59, sub_68AB1
@@ -2882,7 +2882,7 @@ call sub_77355	; 92EBC
 call sub_63FEF	; 92EC1
 mov eax, esi	; 92EC6
 shl eax, 2	; 92EC8
-test byte [dword_17C9A8], 0Ch	; 92ECB
+test byte [optflags], 0Ch	; 92ECB
 jne short loc_92EF2	; 92ED2
 mov ebx, dword [dword_17FDF0]	; 92ED4
 mov ebx, dword [ebx+eax]	; 92EDA
@@ -2928,7 +2928,7 @@ xor edx, edx	; 92F45
 call sub_63FEF	; 92F47
 mov eax, esi	; 92F4C
 shl eax, 2	; 92F4E
-test byte [dword_17C9A8], 0Ch	; 92F51
+test byte [optflags], 0Ch	; 92F51
 jne short loc_92F69	; 92F58
 mov edx, dword [dword_17FDF4]	; 92F5A
 mov eax, dword [edx+eax]	; 92F60
@@ -3084,7 +3084,7 @@ mov ecx, 8	; 93148
 call sub_77355	; 9314D
 mov edx, eax	; 93152
 xor eax, eax	; 93154
-call sub_197ED	; 93156
+call EditText	; 93156
 test eax, eax	; 9315B
 je near loc_908F6	; 9315D
 lea eax, [byte ebp-030h]	; 93163

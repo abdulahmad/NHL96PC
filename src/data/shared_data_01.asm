@@ -7,8 +7,8 @@ global str_BKGD28, str_BANNER, str_04d, str_Pal25, str_SBACK, str_AR005, str_AR0
 global str_AR115, str_BALL7, str_PALS2, str_FSH7, str_ProfileFsh5, str_Ard5, str_Card5, str_Plyr5
 global str_fmtSS, str_ST10, str_STDD, str_STRD, str_METD, str_STRK, str_BT006, str_BT0110
 global str_BT028, str_BT108, str_BT118, str_BT124, str_GloL5, str_GloR5, str_004, str_D02d2
-global str_DD, str_DDD, unk_110000, str_Rb2, str_D20, str_X3
-unk_110000:
+global str_DD, str_DDD, __nullarea, str_Rb2, str_D20, str_X3
+__nullarea:
 db 01h,01h,01h,00h
 str_PATH:
 db 050h,041h,054h,048h,00h

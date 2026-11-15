@@ -8,7 +8,7 @@ extern str_RTLT, str_Sim1, str_Sim2, str_Sim3, str_Hmaw, str_WhtD, str_Rd, str_B
 extern str_Disk, str_SD, str_Octo, str_Aprl, str_Junn, str_Bar, str_Tttt, str_Llll
 extern str_Wwww, asc_1123BB, str_DarD, asc_1123C6, byte_11E3A0, byte_11E3A1, byte_11E3A8, byte_11E3A9
 extern byte_17BDAE, byte_17CC36, byte_17CC37, byte_17CC38, byte_17CECB, dword_1123CB, dword_1174E8, dword_1174F0
-extern dword_17BC7C, dword_17BD48, dword_17C9A8, dword_17CBE7, dword_17CC13, dword_17CC17, dword_17CC1B, dword_17CEC3
+extern dword_17BC7C, dword_17BD48, optflags, dword_17CBE7, dword_17CC13, dword_17CC17, dword_17CC1B, dword_17CEC3
 extern dword_17CEC7, dword_17D7D4, dword_17D804, dword_17D830, dword_17D834, dword_17D860, dword_17D864, dword_17D894
 extern dword_17D8C0, dword_17D8C4, dword_17D8F4, dword_17D8F8, dword_17D8FC, dword_17D900, dword_17D904, dword_17D908
 extern dword_17D90C, dword_17D910, dword_17D914, dword_17D918, dword_17D91C, dword_17D920, dword_17D924, gameopts
@@ -1557,9 +1557,9 @@ and edx, byte 1Fh	; 7EA7A
 and byte [byte eax+03h], 0C1h	; 7EA7D
 shl edx, 11h	; 7EA81
 or dword [byte eax+01h], edx	; 7EA84
-and byte [dword_17C9A8], 8Fh	; 7EA87
+and byte [optflags], 8Fh	; 7EA87
 mov dword [byte ebp-01Eh], 2715h	; 7EA8E
-or byte [dword_17C9A8], 10h	; 7EA95
+or byte [optflags], 10h	; 7EA95
 jmp near loc_7F45C	; 7EA9C
 loc_7EAA1:
 cmp dword [dword_17CC17], byte 0	; 7EAA1

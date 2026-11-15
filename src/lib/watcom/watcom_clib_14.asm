@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_CA835 progbits alloc exec nowrite align=1
-extern SetDrawBitmap, __init_80x87, __unhook387, byte_123984, byte_123985, byte_12442A, byte_12442C, byte_1248C4
-extern byte_1248DA, dword_11F5C0, dword_11F5C4, dword_11F5C8, dword_121AD8, dword_12487C, dword_1248BC, dword_1248CC
+extern SetDrawBitmap, __init_80x87, __unhook387, byte_123984, byte_123985, _Extender, byte_12442C, byte_1248C4
+extern byte_1248DA, dword_11F5C0, dword_11F5C4, dword_11F5C8, dword_121AD8, dword_12487C, dword_1248BC, snddriver
 extern dword_1248DC, dword_144F9C, dword_144FA0, dword_144FA4, dword_144FA8, dword_144FAC, dword_144FB0, dword_144FB4
 extern dword_144FB8, dword_144FBC, dword_144FC0, dword_144FC4, dword_144FC8, dword_144FCC, dword_144FD0, dword_144FD4
 extern dword_144FD8, dword_144FDC, dword_144FE0, dword_144FE4, dword_144FE8, dword_144FEC, dword_144FF0, dword_144FF4
@@ -12,7 +12,7 @@ extern dword_145018, dword_14EF9C, dword_14EFA0, dword_14EFA4, dword_14EFA8, dwo
 extern dword_14EFB8, dword_14EFBC, dword_14EFC4, dword_14EFC8, dword_14EFCC, dword_14EFD0, dword_14EFD4, dword_14EFD8
 extern dword_1A0B1C, off_14EFDC, off_14FC78, off_14FC7C, sub_AADA4, sub_ABF4C, sub_ABF88, sub_AD2B4
 extern sub_B65D4, sub_C01C9, sub_C1051, sub_C1183, sub_CE1DA, sub_CE1F3, sub_D57B4, sub_D585C
-extern sub_DD6C4, unk_146F9C, unk_1A0B20, word_121ADC, word_124428, word_1248C0, word_1248C2, word_14FC74
+extern sub_DD6C4, unk_146F9C, unk_1A0B20, word_121ADC, __no87, word_1248C0, word_1248C2, word_14FC74
 extern word_1A0FA0, word_1A0FA2, word_1A0FA4, word_1A0FA6, word_1A0FA8, word_1A0FAA, word_1A0FAC
 global __chk8087_, __init_8087_, __rest_8087_, __save_8087_, __sys_fini_387_emulator, _fpreset_, loc_CA83F, loc_CA857
 global loc_CA870, loc_CA880, loc_CA894, loc_CA8A4, loc_CA8D6, loc_CA8E9, loc_CA935, loc_CA978
@@ -45,7 +45,7 @@ loc_CA83F:
 push ecx	; CA83F
 push ebx	; CA840
 push edx	; CA841
-mov al, byte [byte_12442A]	; CA842
+mov al, byte [_Extender]	; CA842
 cmp byte [byte_12442C], 0	; CA847
 je short loc_CA857	; CA84E
 call sub_CA8EA	; CA850
@@ -92,7 +92,7 @@ push ds	; CA8BB
 o16 mov ds, word [word_1248C0]	; CA8BC
 int 21h	; CA8C3
 pop ds	; CA8C5
-cmp byte [byte_12442A], 3	; CA8C6
+cmp byte [_Extender], 3	; CA8C6
 jl short loc_CA8D6	; CA8CD
 call sub_CA8EA	; CA8CF
 jmp short loc_CA8E9	; CA8D4
@@ -162,7 +162,7 @@ jne short loc_CA978	; CA96F
 call __init_8087_	; CA971
 mov dl, al	; CA976
 loc_CA978:
-cmp byte [word_124428], 0	; CA978
+cmp byte [__no87], 0	; CA978
 jne short loc_CA98D	; CA97F
 mov byte [byte_123984], dl	; CA981
 mov byte [byte_123985], dl	; CA987
@@ -290,9 +290,9 @@ leave	; CAAA8
 pop esi	; CAAA9
 ret	; CAAAA
 loc_CAAAB:
-cmp dword [dword_1248CC], byte 0	; CAAAB
+cmp dword [snddriver], byte 0	; CAAAB
 jle short loc_CAABD	; CAAB2
-cmp dword [dword_1248CC], byte 5	; CAAB4
+cmp dword [snddriver], byte 5	; CAAB4
 jle short loc_CAAC5	; CAABB
 loc_CAABD:
 mov eax, 0FFFFFFFCh	; CAABD

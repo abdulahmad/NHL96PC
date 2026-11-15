@@ -18,7 +18,7 @@ extern dword_1516A8, dword_15170A, dword_15170C, dword_15170E, dword_151710, dwo
 extern dword_151722, dword_151724, dword_151726, dword_151728, dword_15172E, dword_151730, dword_151732, dword_151770
 extern dword_15178E, dword_151798, dword_15199C, dword_1519B4, dword_1519B8, dword_1519BC, dword_1519FC, dword_151A00
 extern dword_151A40, dword_151A80, dword_151A84, dword_151A88, dword_151A8C, dword_151A90, dword_151AD0, dword_151AD5
-extern dword_151ADE, dword_15291C, dword_17C9A8, dword_17C9AA, dword_17C9F4, fclose_, fopen_, fputchar
+extern dword_151ADE, dword_15291C, optflags, dword_17C9AA, dword_17C9F4, fclose_, fopen_, fputchar
 extern fread_, fseek_, ftell_, gameopts, kaufmfont, mousepollfn, strcat_, strcpy_
 extern sub_17B72, sub_1802B, sub_1803B, sub_1804B, sub_18234, sub_183CD, sub_18540, sub_186DC
 extern sub_1891A, sub_1A109, sub_1AA27, sub_1AA62, sub_619E2, sub_63B0C, sub_63F79, sub_63FEF
@@ -28,7 +28,7 @@ extern sub_AD35C, sub_AD620, FillRect, sub_ADA80, sub_ADBEC, sub_DD6C4, sub_DD6E
 extern SetClipWindow, MouseRead, SetViewRect, sub_DFA98, sub_DFE9C, sub_DFF28, sub_E0051, sub_E0456
 extern sub_E04D0, sub_E04E0, str_Rb2, unk_114BA8, unk_114C00, unk_114CE6, unk_114D46, unk_114D6E
 extern unk_151648, unk_1516B8, unk_151784, unk_15179C, unk_1519C0, unk_151A04, unk_151A44, unk_151A94
-extern unk_151ADC, unk_17C9B8, unk_17C9CC, unk_17CA75, unk_17D272, str_X3, word_114B40, word_114B42
+extern unk_151ADC, unk_17C9B8, unk_17C9CC, optblock_end, unk_17D272, str_X3, word_114B40, word_114B42
 extern word_114B44, word_114CDB, word_114CE0, word_114CE4, word_114DBE, word_114DC0, word_1178D2, word_11F910
 extern word_11F914, word_11F918, word_11F91C, word_1515B5, word_151634, word_151636, word_151638, word_15163A
 extern word_151712, word_151714, word_15171C, word_15171E, word_15172A, word_15172C, word_151734, word_151736
@@ -89,7 +89,7 @@ global loc_13F69, loc_13F86, loc_13FE4, loc_1400C, loc_14021, loc_14023, loc_140
 global loc_1407C, loc_14087, loc_140A7, loc_140BA, loc_140BF, loc_140D7, loc_140EC, loc_140F1
 global loc_14199, loc_141D9, loc_1421B, loc_14246, loc_14278, loc_142E6, loc_14317, loc_14346
 global loc_143B4, loc_143E5, loc_14427, loc_14432, loc_14450, loc_1446A, loc_14480, loc_144B5
-global sub_10010, sub_10095, sub_100F2, sub_1014B, sub_101D9, sub_104DC, sub_106CC, sub_108BB
+global sub_10010, sub_10095, sub_100F2, sub_1014B, sub_101D9, sub_104DC, sub_106CC, InitSlotTable
 global sub_10A65, sub_10C9B, sub_10D17, sub_10D66, sub_11107, sub_1110C, sub_1118B, sub_111ED
 global sub_1124D, sub_11378, sub_11589, sub_11782, sub_117C7, sub_11A88, sub_1214A, sub_1218A
 global sub_122A6, sub_1253E, sub_12577, sub_125FF, sub_126E9, sub_1272E, sub_1277B, sub_1290C
@@ -824,7 +824,7 @@ pop edi	; 108B7
 pop esi	; 108B8
 pop ecx	; 108B9
 ret	; 108BA
-sub_108BB:
+InitSlotTable:
 push ebx	; 108BB
 push ecx	; 108BC
 push edx	; 108BD
@@ -3603,15 +3603,15 @@ call sub_12FB3	; 12D7D
 mov edx, 4	; 12D82
 mov eax, dword_114DCA	; 12D87
 call sub_126E9	; 12D8C
-mov eax, dword [dword_17C9A8]	; 12D91
+mov eax, dword [optflags]	; 12D91
 shl eax, 17h	; 12D96
 shr eax, 1Eh	; 12D99
 mov dword [byte ebp-010h], eax	; 12D9C
 mov eax, dword [dword_114DCA]	; 12D9F
 and eax, byte 3	; 12DA4
-and word [dword_17C9A8], 0FE7Fh	; 12DA7
+and word [optflags], 0FE7Fh	; 12DA7
 shl eax, 7	; 12DB0
-or dword [dword_17C9A8], eax	; 12DB3
+or dword [optflags], eax	; 12DB3
 mov eax, dword [byte ebp-010h]	; 12DB9
 mov dword [dword_114DCA], eax	; 12DBC
 xor edx, edx	; 12DC1
@@ -3621,7 +3621,7 @@ call sub_12FB3	; 12DCE
 jmp short loc_12E38	; 12DD3
 loc_12DD5:
 mov ecx, 0B9h	; 12DD5
-mov esi, unk_17CA75	; 12DDA
+mov esi, optblock_end	; 12DDA
 mov edi, unk_17D272	; 12DDF
 rep movsb	; 12DE4
 mov edx, 0B9h	; 12DE6
@@ -3631,7 +3631,7 @@ xor edx, edx	; 12DF5
 inc dword [dword_114DA6]	; 12DF7
 mov eax, dword [dword_114DA6]	; 12DFD
 call sub_12FB3	; 12E02
-mov eax, dword [dword_17C9A8]	; 12E07
+mov eax, dword [optflags]	; 12E07
 shl eax, 17h	; 12E0C
 shr eax, 1Eh	; 12E0F
 mov dword [dword_114DCA], eax	; 12E12
@@ -4065,9 +4065,9 @@ test eax, eax	; 132A2
 je short loc_132CE	; 132A4
 mov eax, dword [dword_114DCA]	; 132A6
 and eax, byte 3	; 132AB
-and word [dword_17C9A8], 0FE7Fh	; 132AE
+and word [optflags], 0FE7Fh	; 132AE
 shl eax, 7	; 132B7
-or dword [dword_17C9A8], eax	; 132BA
+or dword [optflags], eax	; 132BA
 xor eax, eax	; 132C0
 call sub_1804B	; 132C2
 xor eax, eax	; 132C7

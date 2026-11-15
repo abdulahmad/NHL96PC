@@ -6,7 +6,7 @@ extern FatalError, InstallTimer, SetDrawBitmap, _IsTable, __CHK, __ExpandDGROUP_
 extern __ioalloc_, __prtf_, __set_doserrno_, __set_errno_, _nfree_, _nmalloc_, _searchenv_, abs_
 extern str_CalibrateYourJoystickByU, str_ToMoveTheJoystickPositio, asc_113F2C, str_PressJoystickButtonWhenC, str_KEYBOARDON, asc_113F74, asc_113F7C, asc_113F88
 extern str_CheckextenderINCORRECTEX, str_LocatebigNOBIGFILESETNUL, asc_114030, str_LocatebigsFILENOTFOUNDS, asc_11407C, asc_1140A0, str_OriapplymorphObjectCanno, byte_122794
-extern byte_12442A, byte_12442B, byte_124433, byte_19BA44, dword_11F5A0, dword_11F5A4, dword_11F5C0, dword_11F5C4
+extern _Extender, _ExtenderSubtype, _osmajor, byte_19BA44, dword_11F5A0, dword_11F5A4, dword_11F5C0, dword_11F5C4
 extern dword_11F5C8, dword_11F8E8, dword_1210CC, dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4, dword_1228F4
 extern dword_1228F8, dword_1228FC, dword_124109, dword_124124, dword_124178, dword_12417C, dword_1241A0, dword_124414
 extern dword_124418, dword_12443C, dword_124440, dword_19F2D0, dword_19F2D4, dword_19F2D8, dword_1A1094, dword_1A1098
@@ -20,7 +20,7 @@ extern sub_D1CE0, sub_DD6C4, SetClipWindow, sub_DD830, sub_DD87C, sub_DD960, sub
 extern sub_DDC2A, PlotPixel, sub_DE18C, sub_DE3D8, sub_DF22C, sub_DF2CC, sub_DF38C, sub_DF44C
 extern sub_DF50C, sub_DFB84, sub_DFB88, sub_DFF28, sub_DFF60, sub_DFF7C, sub_E0158, sub_E0456
 extern sub_E0486, sub_E04D0, sub_E0584, sub_E05DA, vecdist, sub_E1638, sub_E167A, sub_E193C
-extern sub_E1956, sub_E24C4, sub_E272C, sub_E2824, tolower_, unk_1210DC, unk_1213DC, unk_15155C
+extern sub_E1956, RestoreTextMode, sub_E272C, sub_E2824, tolower_, unk_1210DC, unk_1213DC, unk_15155C
 extern unk_151580, unk_15158C, unk_18584C, vsprintf_, word_14FC74
 global __CMain, __FiniRtns, __HeapManager_expand_, __IOMode_, __InitRtns, __SetIOMode_, __doserror_, __fprtf_
 global __set_errno_dos_, __sys_init_387_emulator, _dosret0_, _nexpand_, _nmsize_, file_putc_, int386_, int386x_
@@ -121,7 +121,7 @@ mov al, dl	; C4ED3
 call __set_doserrno_	; C4ED5
 cmp edx, 100h	; C4EDA
 jae short loc_C4F1A	; C4EE0
-cmp byte [byte_124433], 3	; C4EE2
+cmp byte [_osmajor], 3	; C4EE2
 jb short loc_C4F04	; C4EE9
 cmp dl, 50h	; C4EEB
 jne short loc_C4EF4	; C4EEE
@@ -587,12 +587,12 @@ ret	; C5378
 loc_C5379:
 cmp eax, byte 1	; C5379
 je short loc_C53D2	; C537C
-cmp byte [byte_12442A], 1	; C537E
+cmp byte [_Extender], 1	; C537E
 jne short loc_C5390	; C5385
-cmp byte [byte_12442B], 0	; C5387
+cmp byte [_ExtenderSubtype], 0	; C5387
 je short loc_C5399	; C538E
 loc_C5390:
-cmp byte [byte_12442A], 9	; C5390
+cmp byte [_Extender], 9	; C5390
 jne short loc_C539D	; C5397
 loc_C5399:
 xor edx, edx	; C5399
@@ -1234,7 +1234,7 @@ sub_C5AF0:
 push ebx	; C5AF0
 push ecx	; C5AF1
 push edx	; C5AF2
-call sub_E24C4	; C5AF3
+call RestoreTextMode	; C5AF3
 mov edx, dword [dword_12443C]	; C5AF8
 test edx, edx	; C5AFE
 je short loc_C5B11	; C5B00

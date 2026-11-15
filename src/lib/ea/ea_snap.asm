@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_CA6E0 progbits alloc exec nowrite align=1
-extern __hook387, __int7, __int7_pl3, byte_123984, byte_12442A, byte_12442C, byte_1248C4, dword_121AD8
+extern __hook387, __int7, __int7_pl3, byte_123984, _Extender, byte_12442C, byte_1248C4, dword_121AD8
 extern dword_12487C, dword_1248BC, word_121ADC, word_121ADE, word_1248C0, word_1248C2
 global loc_CA732, loc_CA756, loc_CA77E, loc_CA797, loc_CA7AA, loc_CA7FF, loc_CA814, sub_CA6E0
 global sub_CA7AB, sub_CA7C8, sub_CA815
@@ -26,7 +26,7 @@ mov dword [byte es:ebx+04h], ecx	; CA727
 call sub_CA815	; CA72B
 jmp short loc_CA7AA	; CA730
 loc_CA732:
-cmp byte [byte_12442A], 0	; CA732
+cmp byte [_Extender], 0	; CA732
 jne short loc_CA756	; CA739
 mov ax, 2507h	; CA73B
 push ds	; CA73F
@@ -40,7 +40,7 @@ mov ah, 0F3h	; CA750
 int 21h	; CA752
 jmp short loc_CA7AA	; CA754
 loc_CA756:
-cmp byte [byte_12442A], 9	; CA756
+cmp byte [_Extender], 9	; CA756
 jne short loc_CA77E	; CA75D
 call sub_CA7AB	; CA75F
 mov dword [ebx], edx	; CA764
@@ -51,7 +51,7 @@ mov ecx, dword [dword_121AD8]	; CA773
 call dword [byte ecx+030h]	; CA779
 jmp short loc_CA7AA	; CA77C
 loc_CA77E:
-cmp byte [byte_12442A], 1	; CA77E
+cmp byte [_Extender], 1	; CA77E
 jne short loc_CA797	; CA785
 mov dx, word [word_121ADC]	; CA787
 sub eax, eax	; CA78E
@@ -82,7 +82,7 @@ mov ax, 2502h	; CA7CA
 int 21h	; CA7CE
 mov dword [dword_1248BC], ebx	; CA7D0
 o16 mov word [word_1248C0], es	; CA7D6
-cmp byte [byte_12442A], 3	; CA7DD
+cmp byte [_Extender], 3	; CA7DD
 mov cl, 7	; CA7E4
 mov ax, 2504h	; CA7E6
 push ds	; CA7EA

@@ -13,14 +13,14 @@ extern dword_17D1E2, dword_17D267, dword_17D7C8, dword_17D7D0, gameopts, itoa_, 
 extern loc_79C93, loc_79CAB, loc_79D57, loc_79ED6, loc_79F06, loc_79F33, loc_79F60, loc_79FDE
 extern loc_79FEA, loc_79FF6, loc_7A07D, loc_7A104, loc_7A167, off_11E370, qword_112137, qword_11213F
 extern rand_, sprintf_, srand_, strcat_, strcpy_, strlen_, sub_19384, sub_19491
-extern sub_1955B, sub_19799, sub_197ED, sub_1A109, sub_1AC0E, sub_1AE8C, sub_1B00B, sub_1B05E
+extern sub_1955B, sub_19799, EditText, sub_1A109, sub_1AC0E, sub_1AE8C, sub_1B00B, sub_1B05E
 extern sub_1DED8, sub_1DF18, sub_1DF55, sub_1DFEA, sub_1E08B, sub_1E222, sub_1E268, sub_1E3E8
 extern sub_1E5FC, sub_1E7F6, sub_1E969, sub_1EFFF, sub_29B9F, sub_62AF7, sub_62D9B, sub_62E0E
 extern sub_62F90, sub_63998, sub_63A5B, sub_63F79, sub_640D3, sub_64296, sub_64721, sub_64F59
 extern sub_68AB1, sub_69A94, sub_77355, sub_77535, sub_AAA8C, PutBlock, sub_AB758, sub_ABF4C
 extern sub_AD35C, sub_AD620, sub_ADBEC, TextSetFont, sub_B20D0, sub_B22B0, DrawArtOpaque, sub_B2C54
 extern sub_B7256, sub_B7810, sub_C254C, sub_C2600, sub_DD6C4, sub_DD908, sub_E04E0, sub_E0584
-extern unk_11E33C, unk_11E354, unk_152C44, unk_17CA75, unk_17CB2E, unk_17CC1F, unk_17CED5, unk_77442
+extern unk_11E33C, unk_11E354, unk_152C44, optblock_end, unk_17CB2E, unk_17CC1F, unk_17CED5, unk_77442
 extern unk_7745A
 global jpt_794CB, jpt_794EF, loc_77691, loc_776E6, loc_776FB, loc_77703, loc_77A9F, loc_77B12
 global loc_77C0A, loc_77C28, loc_77C3D, loc_77CDA, loc_77CE2, loc_77CFA, loc_77D0C, loc_77D63
@@ -82,7 +82,7 @@ jne short loc_776FB	; 776B7
 mov ecx, 3A7h	; 776B9
 mov edi, unk_17CB2E	; 776BE
 xor eax, eax	; 776C3
-mov esi, unk_17CA75	; 776C5
+mov esi, optblock_end	; 776C5
 rep stosb	; 776CA
 mov ecx, 0B9h	; 776CC
 mov edi, unk_17CB2E	; 776D1
@@ -340,7 +340,7 @@ mov ebx, byte_17BDAE	; 77B38
 call sub_77355	; 77B3D
 mov edx, eax	; 77B42
 xor eax, eax	; 77B44
-call sub_197ED	; 77B46
+call EditText	; 77B46
 mov edx, eax	; 77B4B
 test eax, eax	; 77B4D
 je near loc_77C0A	; 77B4F
@@ -1726,7 +1726,7 @@ mov ebx, byte_17BDAE	; 78D8B
 call sub_77355	; 78D90
 mov edx, eax	; 78D95
 xor eax, eax	; 78D97
-call sub_197ED	; 78D99
+call EditText	; 78D99
 test eax, eax	; 78D9E
 je short loc_78DAE	; 78DA0
 lea eax, [byte ebp-0Ch]	; 78DA2

@@ -20,33 +20,33 @@ extern dword_11500C, dword_115010, dword_115014, dword_115018, dword_11501C, dwo
 extern dword_11502C, dword_115030, dword_115034, dword_115038, dword_11503C, dword_115040, dword_115044, dword_115048
 extern dword_11504C, dword_115050, dword_115054, dword_115058, dword_11505C, dword_115060, dword_115064, dword_115068
 extern str_ctl06, str_22, dword_115074, str_newline, dword_11507C, dword_115080, dword_1150D4, dword_1150FC
-extern dword_1174E0, dword_117934, dword_11B310, dword_11D3A6, dword_11D91F, dword_11F5A8, dword_11F5AC, dword_11F5C0
+extern dword_1174E0, seed, dword_11B310, dword_11D3A6, dword_11D91F, dword_11F5A8, dword_11F5AC, dword_11F5C0
 extern dword_11F5C4, dword_1515B7, dword_1515BE, dword_1515C5, dword_1515CC, dword_1515D8, dword_1515DC, dword_1515E0
 extern dword_151AE4, dword_151AE8, dword_151AEC, dword_151B08, dword_151B4C, dword_151B50, dword_151B64, dword_151B68
 extern dword_151B6C, dword_151B70, dword_151B74, dword_151B78, dword_151B7C, dword_151B84, dword_151D48, dword_151D4C
 extern dword_151D50, dword_151D54, dword_152130, dword_152134, dword_152138, dword_152148, dword_15214C, dword_152150
 extern dword_15291C, dword_152F50, dword_152F54, dword_152F58, dword_152F5C, dword_1571B3, dword_157AF4, dword_17BC74
-extern dword_17BC78, dword_17BCE2, dword_17BD48, dword_17C9A8, dword_17CA20, dword_17CBE7, dword_17D162, dword_17D267
+extern dword_17BC78, dword_17BCE2, dword_17BD48, optflags, optblock, dword_17CBE7, dword_17D162, dword_17D267
 extern fadeinpending, gameopts, gmode, hmtmstruct, off_114F1C, off_114F24, penshotlive, rand_
 extern sprintf_, str_D02d2, str_DD, str_DDD, strcat_, strcpy_, strlen_, strncmp_
-extern strstr_, sub_108BB, sub_10A65, sub_13146, sub_13338, sub_13407, sub_1377E, sub_187CF
+extern strstr_, InitSlotTable, sub_10A65, sub_13146, sub_13338, sub_13407, sub_1377E, sub_187CF
 extern sub_188AE, sub_189CD, sub_18A31, sub_18A81, sub_1A109, sub_1D6C1, sub_1E643, sub_1E7F6
 extern sub_1EA14, sub_1EBBC, sub_1ECDB, sub_1EE7C, sub_1EFFF, sub_1F15E, sub_1F300, sub_1F771
-extern sub_2B4B9, sub_3A6F3, sub_4AE4F, sub_4B05E, sub_4B59F, sub_4E6C3, BuildDefaultLines, sub_5358E
-extern sub_58A58, sub_59188, sub_5A572, sub_5AF42, sub_609C6, sub_612BC, sub_62311, sub_625F7
+extern sub_2B4B9, sub_3A6F3, sub_4AE4F, NextPeriod, sub_4B59F, sub_4E6C3, BuildDefaultLines, sub_5358E
+extern sub_58A58, sub_59188, sub_5A572, sub_5AF42, ReadHotKeys, sub_612BC, sub_62311, sub_625F7
 extern sub_62AF7, sub_62D9B, sub_62E72, sub_62ED9, sub_62F90, sub_63968, sub_63998, sub_63A5B
 extern sub_63B0C, sub_63DC4, sub_63F79, sub_64054, sub_640D3, sub_6423E, sub_64296, sub_6448D
 extern sub_64721, sub_64F59, sub_66373, sub_67A63, sub_686DF, sub_689D1, sub_68A10, sub_68AB1
 extern sub_68BFA, sub_68C33, sub_68C8F, sub_68E31, sub_68E72, CrowdNoiseReset, sub_68F82, sub_6904C
 extern sub_692E9, sub_69312, sub_6934E, sub_695CB, sub_6986B, sub_69A94, sub_69A9B, sub_6A5EB
-extern sub_6A7D3, sub_77355, sub_8C51B, sub_AA664, sub_AA988, sub_AAA40, PutBlock, sub_AADA4
+extern RunInGameMenu, sub_77355, sub_8C51B, sub_AA664, sub_AA988, sub_AAA40, PutBlock, sub_AADA4
 extern sub_AB758, sub_ABF4C, sub_AD35C, sub_ADA50, sub_ADBEC, sub_AFCD0, TextSetFont, sub_B0430
 extern sub_B0494, sub_B0CA8, sub_B103C, sub_B1121, sub_B11F8, sub_B1255, sub_B1279, sub_B12AF
 extern sub_B1328, sub_B13BB, sub_B13D2, sub_B13F1, sub_B1451, sub_B151E, sub_B178B, sub_B1830
-extern sub_DD6C4, sub_DD6E0, sub_DD7B8, SetViewRect, sub_DFEC6, sub_DFF0F, sub_E04E0, sub_E0520
+extern sub_DD6C4, sub_DD6E0, sub_DD7B8, SetViewRect, sub_DFEC6, WaitTicks, sub_E04E0, sub_E0520
 extern sub_E0584, str_D20, str_T, str_feP, unk_1102DD, unk_1102E3, unk_144BD, unk_144C3
 extern unk_144C9, unk_144D5, unk_144ED, unk_151B88, unk_152748, unk_152798, unk_1527C0, unk_16443C
-extern unk_17CA75, unk_17CB2E, unk_17CED5, unk_17D272, unk_17D32C, word_114CE0, word_114DD2, word_114DD4
+extern optblock_end, unk_17CB2E, unk_17CED5, unk_17D272, unk_17D32C, word_114CE0, word_114DD2, word_114DD4
 extern word_114DD6, word_114DD8, word_114DDC, word_114DE4, word_114DE6, word_114EA8, word_114EAC, word_114EF8
 extern word_114EFA, word_114EFC, word_114EFE, word_114F00, word_114F14, word_118E91, word_118E93, word_119111
 extern word_119113, word_1515E4, word_1656D2, word_1656D6, word_1656DA, word_1656DC, word_1656DE, word_1656E0
@@ -91,7 +91,7 @@ global loc_18214, loc_18220, loc_18226, loc_1822F, loc_18280, loc_1829E, loc_182
 global loc_182D4, loc_182DD, loc_182F2, loc_182FE, loc_18309, loc_18371, loc_183A4, loc_18464
 global loc_1849D, loc_184FA, loc_18537, loc_1857F, loc_185B3, loc_185BF, loc_185F8, loc_18620
 global loc_18654, loc_18660, loc_18699, loc_186A3, loc_186D8, putchar, sub_1456D, sub_15344
-global sub_15A8E, sub_15E93, sub_16875, sub_168FA, sub_17025, sub_1739F, sub_17494, sub_1768A
+global sub_15A8E, sub_15E93, sub_16875, sub_168FA, GameLoop, sub_1739F, PlayGame, sub_1768A
 global sub_1779C, sub_1780A, sub_17887, sub_178C0, sub_17906, sub_17A32, sub_17AC7, sub_17B72
 global sub_17B9A, sub_17BFC, sub_17C02, sub_17C68, sub_17CC8, sub_17E8C, sub_17EE1, sub_17F4E
 global sub_1802B, sub_1803B, sub_1804B, sub_1807B, sub_1808F, sub_18090, sub_180DC, sub_1812E
@@ -2472,7 +2472,7 @@ call sub_689D1	; 16932
 call sub_62ED9	; 16937
 call sub_1EFFF	; 1693C
 call sub_B0CA8	; 16941
-mov eax, dword [dword_17C9A8]	; 16946
+mov eax, dword [optflags]	; 16946
 shl eax, 19h	; 1694B
 mov dword [byte ebp-04h], 0	; 1694E
 shr eax, 1Dh	; 16955
@@ -2483,7 +2483,7 @@ jmp dword [nosplit cs:eax*4+jpt_168DA]	; 16967
 loc_1696F:
 xor edx, edx	; 1696F
 xor eax, eax	; 16971
-mov dword [gameopts], unk_17CA75	; 16973
+mov dword [gameopts], optblock_end	; 16973
 jmp short loc_169B7	; 1697D
 loc_1697F:
 movzx edx, byte [byte_17CECC]	; 1697F
@@ -2545,14 +2545,14 @@ call sub_E04E0	; 16A6C
 add esp, byte 8	; 16A71
 mov dword [dword_152F50], eax	; 16A74
 loc_16A79:
-mov eax, dword [dword_17C9A8]	; 16A79
+mov eax, dword [optflags]	; 16A79
 and eax, byte 70h	; 16A7E
 cmp eax, byte 30h	; 16A81
 je short loc_16A8B	; 16A84
 call sub_6A5EB	; 16A86
 loc_16A8B:
 mov eax, esi	; 16A8B
-call sub_17494	; 16A8D
+call PlayGame	; 16A8D
 push str_FhiL2	; 16A92
 push dword [dword_1150D4]	; 16A97
 mov dword [byte ebp-08h], eax	; 16A9D
@@ -2586,7 +2586,7 @@ call sub_63B0C	; 16B16
 mov dword [dword_152F5C], eax	; 16B1B
 loc_16B20:
 call sub_625F7	; 16B20
-mov eax, dword [dword_17C9A8]	; 16B25
+mov eax, dword [optflags]	; 16B25
 shl eax, 19h	; 16B2A
 shr eax, 1Dh	; 16B2D
 cmp eax, byte 3	; 16B30
@@ -2597,7 +2597,7 @@ test esi, esi	; 16B3D
 jl short loc_16B52	; 16B3F
 mov ecx, 0B9h	; 16B41
 mov esi, unk_17D32C	; 16B46
-mov edi, unk_17CA75	; 16B4B
+mov edi, optblock_end	; 16B4B
 rep movsb	; 16B50
 loc_16B52:
 call sub_1ECDB	; 16B52
@@ -2962,10 +2962,10 @@ mov edx, eax	; 17010
 call sub_612BC	; 17012
 mov eax, edx	; 17017
 call sub_5A572	; 17019
-call sub_609C6	; 1701E
+call ReadHotKeys	; 1701E
 pop edx	; 17023
 ret	; 17024
-sub_17025:
+GameLoop:
 push ebx	; 17025
 push ecx	; 17026
 push edx	; 17027
@@ -3069,7 +3069,7 @@ mov eax, ebx	; 171F3
 call sub_612BC	; 171F5
 mov eax, ebx	; 171FA
 call sub_5A572	; 171FC
-call sub_609C6	; 17201
+call ReadHotKeys	; 17201
 loc_17206:
 cmp dword [fadeinpending], byte 0	; 17206
 je short loc_1722D	; 1720D
@@ -3086,20 +3086,20 @@ cmp word [word_118E91], byte 0	; 1723A
 jne near loc_1705D	; 17242
 cmp dword [DemoMode], byte 0	; 17248
 jne near loc_1705D	; 1724F
-call sub_6A7D3	; 17255
+call RunInGameMenu	; 17255
 jmp near loc_1705D	; 1725A
 loc_1725F:
 mov dword [GameLoopActive], 0	; 1725F
 cmp dword [dword_1150FC], byte 0	; 17269
 jne near loc_172F7	; 17270
-mov eax, dword [dword_17C9A8]	; 17276
+mov eax, dword [optflags]	; 17276
 and eax, byte 70h	; 1727B
 cmp eax, byte 40h	; 1727E
 setne al	; 17281
 movzx eax, al	; 17284
 test eax, eax	; 17287
 je short loc_172F7	; 17289
-call sub_4B05E	; 1728B
+call NextPeriod	; 1728B
 cmp word [word_118E93], byte 0	; 17290
 jne short loc_172AF	; 17298
 cmp dword [InGameMenuRequest], byte 0	; 1729A
@@ -3117,7 +3117,7 @@ mov dword [dword_114F16], 0	; 172DE
 mov dword [dword_151B84], 0	; 172E8
 jmp near loc_17033	; 172F2
 loc_172F7:
-mov eax, dword [dword_17C9A8]	; 172F7
+mov eax, dword [optflags]	; 172F7
 and eax, byte 70h	; 172FC
 cmp eax, byte 40h	; 172FF
 jne near loc_1703D	; 17302
@@ -3135,7 +3135,7 @@ jne short loc_17368	; 17344
 cmp dword [DemoMode], byte 0	; 17346
 jne short loc_17368	; 1734D
 mov dword [InGameMenuRequest], 3	; 1734F
-call sub_6A7D3	; 17359
+call RunInGameMenu	; 17359
 call PickThreeStars	; 1735E
 call sub_2B4B9	; 17363
 loc_17368:
@@ -3169,8 +3169,8 @@ movzx edx, byte [byte ebp-02h]	; 173B9
 imul edx, eax	; 173BD
 movzx eax, byte [byte ebp-01h]	; 173C0
 imul edx, eax	; 173C4
-mov dword [dword_117934], edx	; 173C7
-call sub_108BB	; 173CD
+mov dword [seed], edx	; 173C7
+call InitSlotTable	; 173CD
 call sub_1D6C1	; 173D2
 mov eax, unk_16443C	; 173D7
 call sub_5358E	; 173DC
@@ -3189,7 +3189,7 @@ test eax, eax	; 17422
 jl short loc_17441	; 17424
 mov dword [InGameMenuRequest], 0	; 17426
 mov dword [dword_1150FC], 0	; 17430
-call sub_17025	; 1743A
+call GameLoop	; 1743A
 jmp short loc_1744B	; 1743F
 loc_17441:
 mov dword [dword_1150FC], 2	; 17441
@@ -3215,7 +3215,7 @@ pop edx	; 17490
 pop ecx	; 17491
 pop ebx	; 17492
 ret	; 17493
-sub_17494:
+PlayGame:
 push ebx	; 17494
 push ecx	; 17495
 push edx	; 17496
@@ -3239,11 +3239,11 @@ and al, 1	; 174B6
 cwde	; 174B8
 test eax, eax	; 174B9
 je short loc_174C9	; 174BB
-mov dword [dword_117934], 0ABCD4321h	; 174BD
+mov dword [seed], 0ABCD4321h	; 174BD
 jmp short loc_174D4	; 174C7
 loc_174C9:
 call rand_	; 174C9
-add dword [dword_117934], eax	; 174CE
+add dword [seed], eax	; 174CE
 loc_174D4:
 mov eax, dword [gameopts]	; 174D4
 mov edx, dword [byte eax+01h]	; 174D9
@@ -3255,9 +3255,9 @@ shl edx, 10h	; 174E8
 shr eax, 1Bh	; 174EB
 add edx, eax	; 174EE
 mov word [word_114F14], 0	; 174F0
-add dword [dword_117934], edx	; 174F9
+add dword [seed], edx	; 174F9
 loc_174FF:
-call sub_108BB	; 174FF
+call InitSlotTable	; 174FF
 call sub_1D6C1	; 17504
 mov eax, unk_16443C	; 17509
 call sub_5358E	; 1750E
@@ -3281,7 +3281,7 @@ xor eax, eax	; 17567
 call SetupTeamLines	; 17569
 mov eax, 1	; 1756E
 call SetupTeamLines	; 17573
-mov eax, dword [dword_17CA20]	; 17578
+mov eax, dword [optblock]	; 17578
 and eax, byte 7Fh	; 1757D
 call CrowdNoiseReset	; 17580
 mov eax, dword [gameopts]	; 17585
@@ -3298,16 +3298,16 @@ loc_175AC:
 mov dword [dword_1150FC], 0	; 175AC
 mov word [word_114F14], 1	; 175B6
 call sub_5AF42	; 175BF
-call sub_6A7D3	; 175C4
+call RunInGameMenu	; 175C4
 cmp dword [dword_1150FC], byte 0	; 175C9
 jne short loc_175F0	; 175D0
-mov eax, dword [dword_17CA20]	; 175D2
+mov eax, dword [optblock]	; 175D2
 and eax, byte 7Fh	; 175D7
 call sub_68F82	; 175DA
 mov eax, 7Fh	; 175DF
 call sub_68E72	; 175E4
 loc_175E9:
-call sub_17025	; 175E9
+call GameLoop	; 175E9
 jmp short loc_1762F	; 175EE
 loc_175F0:
 call sub_62311	; 175F0
@@ -3449,7 +3449,7 @@ movzx eax, byte [esi]	; 17780
 cmp eax, byte 7Eh	; 17783
 jne short loc_17731	; 17786
 push byte 64h	; 17788
-call sub_DFF0F	; 1778A
+call WaitTicks	; 1778A
 inc esi	; 1778F
 add esp, byte 4	; 17790
 jmp short loc_17731	; 17793
@@ -3794,7 +3794,7 @@ push esi	; 17AE6
 call sub_B1279	; 17AE7
 add esp, byte 4	; 17AEC
 push byte 69h	; 17AEF
-call sub_DFF0F	; 17AF1
+call WaitTicks	; 17AF1
 add esp, byte 4	; 17AF6
 push asc_1102DF	; 17AF9
 push byte 3	; 17AFE
@@ -3802,7 +3802,7 @@ push esi	; 17B00
 call sub_B1328	; 17B01
 add esp, byte 0Ch	; 17B06
 push byte 69h	; 17B09
-call sub_DFF0F	; 17B0B
+call WaitTicks	; 17B0B
 mov edx, unk_1102E3	; 17B10
 add esp, byte 4	; 17B15
 mov eax, esi	; 17B18
@@ -3822,7 +3822,7 @@ loc_17B3B:
 test edi, edi	; 17B3B
 je short loc_17AD3	; 17B3D
 push byte 64h	; 17B3F
-call sub_DFF0F	; 17B41
+call WaitTicks	; 17B41
 add esp, byte 4	; 17B46
 jmp short loc_17AD3	; 17B49
 loc_17B4B:

@@ -17,7 +17,7 @@ extern str_Oilers, str_Panthers, str_Whalers, str_Kings, str_Canadiens, str_Devi
 extern str_Senators, str_Flyers, str_Penguins, str_Nordiques, str_Blues, str_Sharks, str_Lightning, str_MapleLeafs
 extern str_Canucks, str_Capitals, str_Jets, str_AllStars
 global byte_11D1DE, byte_11D20A, byte_11D392, byte_11D74B, dword_11D1C8, dword_11D1CC, dword_11D1D2, dword_11D1D6
-global dword_11D1DA, dword_11D1E2, dword_11D1E6, dword_11D1EA, dword_11D1EE, dword_11D1F2, dword_11D1F6, dword_11D1FA
+global sndcard, dword_11D1E2, dword_11D1E6, dword_11D1EA, dword_11D1EE, dword_11D1F2, dword_11D1F6, dword_11D1FA
 global dword_11D1FE, dword_11D202, dword_11D206, dword_11D232, dword_11D236, dword_11D23E, dword_11D242, dword_11D376
 global dword_11D37A, dword_11D37E, dword_11D38A, dword_11D38E, dword_11D3A6, dword_11D3AA, dword_11D3AE, dword_11D3B2
 global dword_11D3B8, dword_11D3BC, dword_11D3C0, dword_11D3C4, dword_11D3C8, dword_11D59C, dword_11D674, dword_11D744
@@ -33,7 +33,7 @@ dword_11D1D2:
 db 00h,00h,00h,00h
 dword_11D1D6:
 db 00h,00h,00h,00h
-dword_11D1DA:
+sndcard:
 db 0FFh,0FFh,0FFh,0FFh
 byte_11D1DE:
 db 00h,00h,00h,00h

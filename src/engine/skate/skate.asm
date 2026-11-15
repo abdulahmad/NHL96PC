@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_4B7BB progbits alloc exec nowrite align=1
-extern SortCords, dword_11A11C, dword_11A15C, dword_11A19C, dword_165254, dword_176BDC, dword_17C9A8, gameopts
+extern SortCords, dword_11A11C, dword_11A15C, dword_11A19C, dword_165254, dword_176BDC, optflags, gameopts
 extern gmode, off_11787C, off_117888, off_11788C, passplayer, puckvx, puckx, pucky
 extern randomd0, regd2, regd3, sub_3E6D4, SetSPA, GetHot, sub_4B748, sub_68E31
 extern vecdist, vtoa, word_1178B4, word_1178B6, gmode2, word_1178F6, word_117914, word_117916
@@ -1463,7 +1463,7 @@ loc_4C8B8:
 movsx eax, word [dword ebx+086h]	; 4C8B8
 cmp eax, byte 10h	; 4C8BF
 je short loc_4C918	; 4C8C2
-mov eax, dword [dword_17C9A8]	; 4C8C4
+mov eax, dword [optflags]	; 4C8C4
 and eax, 180h	; 4C8C9
 cmp eax, 100h	; 4C8CE
 jne short loc_4C8E2	; 4C8D3
@@ -1474,7 +1474,7 @@ LD sbb, eax, edx	; 4C8DB
 sar eax, 3	; 4C8DD
 add ecx, eax	; 4C8E0
 loc_4C8E2:
-mov eax, dword [dword_17C9A8]	; 4C8E2
+mov eax, dword [optflags]	; 4C8E2
 and eax, 180h	; 4C8E7
 cmp eax, 80h	; 4C8EC
 jne short loc_4C900	; 4C8F1
@@ -1485,7 +1485,7 @@ LD sbb, eax, edx	; 4C8F9
 sar eax, 2	; 4C8FB
 sub ecx, eax	; 4C8FE
 loc_4C900:
-test word [dword_17C9A8], 180h	; 4C900
+test word [optflags], 180h	; 4C900
 jne short loc_4C918	; 4C909
 mov eax, ecx	; 4C90B
 cdq	; 4C90D
@@ -1681,7 +1681,7 @@ loc_4CB6C:
 movsx eax, word [regd2]	; 4CB6C
 mov eax, dword [nosplit eax*4+dword_11A15C]	; 4CB73
 mov dword [regd2], eax	; 4CB7A
-mov eax, dword [dword_17C9A8]	; 4CB7F
+mov eax, dword [optflags]	; 4CB7F
 and eax, 180h	; 4CB84
 cmp eax, 100h	; 4CB89
 jne short loc_4CBA4	; 4CB8E
@@ -1692,7 +1692,7 @@ LD sbb, eax, edx	; 4CB99
 sar eax, 3	; 4CB9B
 add dword [regd2], eax	; 4CB9E
 loc_4CBA4:
-mov eax, dword [dword_17C9A8]	; 4CBA4
+mov eax, dword [optflags]	; 4CBA4
 and eax, 180h	; 4CBA9
 cmp eax, 80h	; 4CBAE
 jne short loc_4CBC9	; 4CBB3
@@ -1703,7 +1703,7 @@ LD sbb, eax, edx	; 4CBBE
 sar eax, 2	; 4CBC0
 sub dword [regd2], eax	; 4CBC3
 loc_4CBC9:
-test word [dword_17C9A8], 180h	; 4CBC9
+test word [optflags], 180h	; 4CBC9
 jne short loc_4CBE8	; 4CBD2
 mov eax, dword [regd2]	; 4CBD4
 cdq	; 4CBD9
@@ -3320,7 +3320,7 @@ mov ebx, edx	; 4DE1F
 sar ebx, 6	; 4DE21
 sub edx, ebx	; 4DE24
 loc_4DE26:
-mov ebx, dword [dword_17C9A8]	; 4DE26
+mov ebx, dword [optflags]	; 4DE26
 and ebx, 180h	; 4DE2C
 cmp ebx, 80h	; 4DE32
 jne short loc_4DE48	; 4DE38
@@ -3331,7 +3331,7 @@ mov ebx, edx	; 4DE41
 sar ebx, 6	; 4DE43
 sub edx, ebx	; 4DE46
 loc_4DE48:
-test word [dword_17C9A8], 180h	; 4DE48
+test word [optflags], 180h	; 4DE48
 jne short loc_4DE61	; 4DE51
 mov ebx, eax	; 4DE53
 sar ebx, 6	; 4DE55

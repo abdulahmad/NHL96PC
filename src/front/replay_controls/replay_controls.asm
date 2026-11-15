@@ -45,10 +45,10 @@ extern dword_177DEE, dword_177DF2, dword_177DF6, dword_177DFA, dword_177E0A, dwo
 extern dword_1781D4, dword_1781D8, dword_1781DC, dword_1781E0, dword_1781F0, dword_1781F4, dword_1781F8, dword_178243
 extern dword_178248, dword_17824C, dword_178250, dword_178254, dword_1797F4, dword_1797F8, dword_1797FC, dword_179800
 extern dword_179908, dword_179914, dword_179918, dword_179934, dword_179978, dword_17997C, dword_179A7C, dword_179AC8
-extern dword_179DBD, dword_179E0B, dword_179E0F, dword_179E13, dword_179E17, dword_179E1B, dword_17BA54, dword_17C9A8
-extern dword_17CA20, dword_17CA5C, gameclock, gameopts, gmode, hmroster, off_11786C, off_11BA08
+extern dword_179DBD, dword_179E0B, dword_179E0F, dword_179E13, dword_179E17, dword_179E1B, dword_17BA54, optflags
+extern optblock, dword_17CA5C, gameclock, gameopts, gmode, hmroster, off_11786C, off_11BA08
 extern rand_, sflags, sprintf_, strcat_, strcpy_, strlen_, sub_125FF, sub_126E9
-extern sub_13146, sub_1377E, sub_19384, sub_193E8, sub_19522, sub_1955B, sub_19799, sub_197ED
+extern sub_13146, sub_1377E, sub_19384, sub_193E8, sub_19522, sub_1955B, sub_19799, EditText
 extern sub_1A109, sub_1D6C1, sub_1DF34, sub_1DF55, sub_1DFEA, sub_1E5FC, sub_1E7F6, sub_1EFFF
 extern sub_1F300, sub_23476, sub_2363D, sub_23820, sub_23AE5, sub_23C91, sub_2500F, sub_25502
 extern sub_25820, sub_2767F, sub_27BF1, sub_28327, sub_283C1, sub_28A87, sub_28C50, sub_2976B
@@ -66,7 +66,7 @@ extern sub_BB9C4, sub_BBA41, sub_BC3A0, sub_BC610, sub_BC674, sub_BC6D8, SortInd
 extern sub_DD6C4, SetClipWindow, MouseRead, SetViewRect, sub_DFEC6, sub_E04E0, sub_E0584, sub_E1638
 extern sub_E167A, sub_E17B8, str_D19, str_dot4, unk_11A430, unk_11A770, unk_11A9B0, unk_11AB30
 extern unk_11AE70, unk_11B0B0, unk_11B230, unk_122344, unk_16443C, unk_1774C4, unk_177510, unk_1778C4
-extern unk_177908, unk_1781E4, unk_1781FE, unk_179980, unk_179AC0, unk_179E02, unk_17CA75, unk_17D32C
+extern unk_177908, unk_1781E4, unk_1781FE, unk_179980, unk_179AC0, unk_179E02, optblock_end, unk_17D32C
 extern word_114CE0, word_114CE4, word_119127, word_11A40C, word_11A410, word_11A414, word_16597C, word_165980
 extern word_176FB8, word_176FD4, word_176FDA, word_176FF6, word_176FFA, word_176FFC, word_17704A, word_17704C
 extern word_17706C, word_17706E, word_17709C, word_1770AB, word_1770AD, word_1770AF, word_1770D3, word_1770D5
@@ -3826,7 +3826,7 @@ push esi	; 57BFA
 push edi	; 57BFB
 enter 8Ch, 0	; 57BFC
 sub ebp, 82h	; 57C00
-mov eax, dword [dword_17C9A8]	; 57C06
+mov eax, dword [optflags]	; 57C06
 shl eax, 19h	; 57C0B
 shr eax, 1Dh	; 57C0E
 mov esi, dword [gameopts]	; 57C11
@@ -3964,7 +3964,7 @@ mov ebx, unk_11B230	; 57DF7
 call sub_77355	; 57DFC
 mov edx, eax	; 57E01
 xor eax, eax	; 57E03
-call sub_197ED	; 57E05
+call EditText	; 57E05
 test eax, eax	; 57E0A
 je short loc_57E44	; 57E0C
 lea eax, [byte ebp+02Ah]	; 57E0E
@@ -4073,12 +4073,12 @@ add esp, byte 4	; 57F5F
 loc_57F62:
 call sub_695CB	; 57F62
 push unk_1774C4	; 57F67
-mov esi, unk_17CA75	; 57F6C
+mov esi, optblock_end	; 57F6C
 mov edi, unk_17D32C	; 57F71
 call sub_B0254	; 57F76
 add esp, byte 4	; 57F7B
 mov ecx, 0B9h	; 57F7E
-mov dword [gameopts], unk_17CA75	; 57F83
+mov dword [gameopts], optblock_end	; 57F83
 rep movsb	; 57F8D
 movsx edx, byte [byte_177505]	; 57F8F
 mov eax, dword [gameopts]	; 57F96
@@ -4174,7 +4174,7 @@ setne al	; 5811A
 movzx eax, al	; 5811D
 call sub_63DC4	; 58120
 call sub_58A58	; 58125
-mov eax, dword [dword_17CA20]	; 5812A
+mov eax, dword [optblock]	; 5812A
 and eax, byte 7Fh	; 5812F
 call CrowdNoiseReset	; 58132
 call sub_68FB5	; 58137
@@ -4211,7 +4211,7 @@ add esp, byte 4	; 581C5
 loc_581C8:
 mov ecx, 0B9h	; 581C8
 mov esi, unk_17D32C	; 581CD
-mov edi, unk_17CA75	; 581D2
+mov edi, optblock_end	; 581D2
 rep movsb	; 581D7
 push unk_1774C4	; 581D9
 call sub_B026C	; 581DE

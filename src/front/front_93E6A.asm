@@ -10,7 +10,7 @@ extern str_TR0D, str_DD9, str_DD10, str_NAV, str_003, str_FSH5, str_Plyr3, str_P
 extern str_Card3, str_Ard3, str_DSS4, byte_11E844, byte_11E852, byte_17EBF0, byte_17EC0C, dword_11E670
 extern dword_11E678, dword_11E684, dword_11E6B4, dword_11E7E0, dword_11E85B, dword_11E890, dword_11E894, dword_11E898
 extern dword_11E89C, dword_11E8A0, dword_11E8A4, dword_11E8A8, dword_11E8AC, dword_11E8FC, dword_11E900, dword_17BC7C
-extern dword_17C9A8, dword_17EEF0, dword_17FDF0, dword_17FDF4, dword_181EAC, dword_1820AC, dword_1820B0, dword_1820E4
+extern optflags, dword_17EEF0, dword_17FDF0, dword_17FDF4, dword_181EAC, dword_1820AC, dword_1820B0, dword_1820E4
 extern dword_1820E8, dword_1820EC, dword_18210C, dword_182128, dword_18212C, dword_182130, dword_182134, dword_182138
 extern dword_18213C, dword_182140, jpt_93E46, off_11E8B0, qword_112B02, qword_112B0A, sprintf_, sub_1E643
 extern sub_1E7F6, sub_1F2C9, sub_1F2D4, sub_1F2DF, sub_1F2EA, sub_1F2F5, sub_62AF7, sub_62E0E
@@ -3159,7 +3159,7 @@ call sub_77355	; 96821
 call sub_63FEF	; 96826
 mov eax, esi	; 9682B
 shl eax, 2	; 9682D
-test byte [dword_17C9A8], 0Ch	; 96830
+test byte [optflags], 0Ch	; 96830
 jne short loc_96857	; 96837
 mov ebx, dword [dword_17FDF0]	; 96839
 mov ebx, dword [ebx+eax]	; 9683F
@@ -3205,7 +3205,7 @@ xor edx, edx	; 968AA
 call sub_63FEF	; 968AC
 mov eax, esi	; 968B1
 shl eax, 2	; 968B3
-test byte [dword_17C9A8], 0Ch	; 968B6
+test byte [optflags], 0Ch	; 968B6
 jne short loc_968CE	; 968BD
 mov edx, dword [dword_17FDF4]	; 968BF
 mov eax, dword [edx+eax]	; 968C5

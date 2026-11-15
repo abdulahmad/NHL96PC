@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_E0834 progbits alloc exec nowrite align=1
 extern WaitKey, dword_11F5A0, dword_11F994, dword_121B34, dword_12443C, sub_C5D00, sub_DD6C4, sub_E2436
-extern sub_E24C4
+extern RestoreTextMode
 global FatalError, loc_E085D, loc_E0874
 FatalError:
 pop eax	; E0834
@@ -18,14 +18,14 @@ call sub_C5D00	; E0850
 add esp, byte 8	; E0855
 call WaitKey	; E0858
 loc_E085D:
-call sub_E24C4	; E085D
+call RestoreTextMode	; E085D
 call sub_E2436	; E0862
 LD xor, eax, eax	; E0867
 mov dword [dword_12443C], eax	; E0869
 call dword [dword_11F994]	; E086E
 loc_E0874:
 push dword [dword_121B34]	; E0874
-call sub_E24C4	; E087A
+call RestoreTextMode	; E087A
 call sub_E2436	; E087F
 call dword [dword_11F994]	; E0884
 ret	; E088A

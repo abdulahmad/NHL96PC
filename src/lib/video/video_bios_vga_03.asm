@@ -31,7 +31,7 @@ global loc_E2608, loc_E2620, loc_E264C, loc_E2653, loc_E2655, loc_E265E, loc_E26
 global loc_E2670, loc_E2677, loc_E26EE, loc_E271D, loc_E2741, loc_E2752, loc_E2763, loc_E2774
 global loc_E2785, loc_E2796, loc_E27A7, loc_E27B8, loc_E27C9, loc_E27DA, loc_E27E3, loc_E27FA
 global loc_E280C, loc_E2820, loc_E284F, loc_E286C, loc_E2885, sub_E19F0, sub_E19FE, sub_E22DC
-global sub_E2335, sub_E2436, sub_E2484, sub_E24C4, sub_E25E0, sub_E2680, sub_E26A2, sub_E270C
+global sub_E2335, sub_E2436, SaveTextMode, RestoreTextMode, sub_E25E0, sub_E2680, sub_E26A2, sub_E270C
 global sub_E272C, sub_E2824, unk_E262C
 sub_E19F0:
 push ebp	; E19F0
@@ -1020,7 +1020,7 @@ mov edx, dword [dword_12444C]	; E2471
 mov esi, dword [dword_124450]	; E2477
 mov edi, dword [dword_124454]	; E247D
 ret	; E2483
-sub_E2484:
+SaveTextMode:
 cmp byte [byte_12445C], 0	; E2484
 jne short loc_E24C3	; E248B
 mov ah, 0Fh	; E248D
@@ -1032,12 +1032,12 @@ mov ax, word [044Ah]	; E24A0
 mov word [word_12445E], ax	; E24A6
 mov al, byte [0484h]	; E24AC
 mov byte [byte_124460], al	; E24B1
-push sub_E24C4	; E24B6
+push RestoreTextMode	; E24B6
 call sub_E04D0	; E24BB
 add esp, byte 4	; E24C0
 loc_E24C3:
 ret	; E24C3
-sub_E24C4:
+RestoreTextMode:
 pusha	; E24C4
 cmp byte [byte_12445C], 0	; E24C5
 je near loc_E25DC	; E24CC

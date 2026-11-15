@@ -2,9 +2,9 @@
 bits 32
 %include "hockey.inc"
 section s_D0692 progbits alloc exec nowrite align=1
-extern dword_12440C
+extern _STACKLOW
 global sub_D0692
 sub_D0692:
 mov eax, esp	; D0692
-sub eax, dword [dword_12440C]	; D0694
+sub eax, dword [_STACKLOW]	; D0694
 ret	; D069A

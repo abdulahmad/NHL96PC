@@ -17,8 +17,8 @@ extern byte_1845E8, byte_18464C, byte_18464E, byte_18464F, byte_1846C4, curperio
 extern dword_11B234, dword_11B330, dword_11BC24, dword_11D3A6, dword_11D91F, dword_11ED30, dword_11ED3C, dword_11ED40
 extern dword_11ED58, dword_11ED5C, dword_11ED60, dword_11ED64, dword_11ED68, dword_11ED6C, dword_11ED70, dword_11ED74
 extern dword_11F5A8, dword_11F5AC, dword_11F5C0, dword_11F5C4, dword_152F4C, dword_152F50, dword_152F54, dword_152F58
-extern dword_152F5C, dword_176BC8, dword_179918, dword_179920, dword_17BC78, dword_17BC7C, dword_17BCE2, dword_17BD48
-extern dword_17C9A8, dword_17CA5C, dword_17CB2F, dword_17CBE7, dword_17CC17, dword_17CED6, dword_17CF92, dword_17D162
+extern dword_152F5C, lineuptime, dword_179918, dword_179920, dword_17BC78, dword_17BC7C, dword_17BCE2, dword_17BD48
+extern optflags, dword_17CA5C, dword_17CB2F, dword_17CBE7, dword_17CC17, dword_17CED6, dword_17CF92, dword_17D162
 extern dword_17D273, dword_17D528, dword_1843AC, dword_1843B0, dword_1843B4, dword_1843C0, dword_1843D0, dword_1843E4
 extern dword_1843F8, dword_1843FC, dword_184400, dword_184404, dword_184408, dword_18441C, dword_184420, dword_184426
 extern dword_18442A, dword_18442E, dword_184432, dword_184436, dword_184446, dword_18444A, dword_184482, dword_184486
@@ -26,9 +26,9 @@ extern dword_18448C, dword_184490, dword_184494, dword_184498, dword_18449C, dwo
 extern dword_1844F6, dword_184558, dword_18455C, dword_1845BE, dword_1845C2, dword_184624, dword_184628, dword_184670
 extern dword_184674, dword_184678, dword_18467C, dword_184680, dword_184684, dword_1846F0, dword_1846F4, dword_1846F8
 extern fadeinpending, gameopts, hmtmstruct, loc_A504A, loc_A5060, loc_A507D, loc_A50A4, loc_A50AD
-extern loc_A50B8, loc_A50D9, loc_A50EC, sprintf_, strcat_, strcpy_, sub_108BB, sub_10A65
+extern loc_A50B8, loc_A50D9, loc_A50EC, sprintf_, strcat_, strcpy_, InitSlotTable, sub_10A65
 extern sub_13146, sub_1377E, sub_15344, sub_19384, sub_193E8, sub_19522, sub_1955B, sub_19799
-extern sub_197ED, sub_1A109, sub_1B05E, sub_1E383, sub_1E3A7, sub_1E5FC, sub_1E7F6, sub_1EE7C
+extern EditText, sub_1A109, sub_1B05E, sub_1E383, sub_1E3A7, sub_1E5FC, sub_1E7F6, sub_1EE7C
 extern sub_1EFFF, sub_21BE3, sub_25087, sub_251E6, sub_25EB3, sub_28459, sub_2929F, sub_29B9F
 extern sub_2E1BE, sub_3A6F3, sub_5A4FF, sub_5A572, CloseTextOverlay, sub_60777, sub_60823, sub_612BC
 extern sub_621D9, sub_62201, sub_6225D, sub_62285, sub_62311, sub_625F7, sub_62A0F, sub_62AF7
@@ -44,7 +44,7 @@ extern sub_B0CA8, DrawArtOpaque, sub_B58D8, sub_DD6C4, SetClipWindow, SetViewRec
 extern str_D13, str_7GM, str_5GM, str_3GM, str_1GM, unk_11D7A4, unk_11D7BC, unk_11D7D4
 extern unk_11D7EC, unk_11D804, unk_11D80A, unk_11D810, unk_11D816, unk_11D81C, unk_11D89C, unk_152C44
 extern unk_16443C, unk_17D272, unk_17D3E8, unk_18440C, unk_184688, unk_184692, word_114CE0, word_114F14
-extern word_1178FE, word_11ED34, word_11ED38, word_1656E8, word_16581E
+extern gsp, word_11ED34, word_11ED38, word_1656E8, word_16581E
 global jpt_A25B5, jpt_A3CD4, jpt_A4FB7, loc_A17F9, loc_A1970, loc_A1975, loc_A19EF, loc_A19F4
 global loc_A1B5F, loc_A1B64, loc_A1BDF, loc_A1BE4, loc_A1CB1, loc_A1CC7, loc_A1CCE, loc_A1CD3
 global loc_A1CE4, loc_A1F41, loc_A1F55, loc_A1F61, loc_A1F99, loc_A1FB7, loc_A1FD1, loc_A1FE8
@@ -389,13 +389,13 @@ movzx edx, byte [byte_11D91D]	; A1C88
 add esp, byte 4	; A1C8F
 movzx eax, byte [byte_11D91C]	; A1C92
 call sub_63F79	; A1C99
-movsx eax, word [word_1178FE]	; A1C9E
+movsx eax, word [gsp]	; A1C9E
 cmp eax, byte 3	; A1CA5
 jl short loc_A1CB1	; A1CA8
 mov eax, 88h	; A1CAA
 jmp short loc_A1CD3	; A1CAF
 loc_A1CB1:
-mov ax, word [word_1178FE]	; A1CB1
+mov ax, word [gsp]	; A1CB1
 cmp ax, 1	; A1CB7
 jb short loc_A1CE4	; A1CBB
 jbe short loc_A1CC7	; A1CBD
@@ -583,7 +583,7 @@ call sub_640D3	; A1F3A
 jmp short loc_A1F55	; A1F3F
 loc_A1F41:
 mov eax, 2	; A1F41
-mov dword [dword_176BC8], 1D6h	; A1F46
+mov dword [lineuptime], 1D6h	; A1F46
 call sub_2E1BE	; A1F50
 loc_A1F55:
 mov eax, dword [dword_11B234]	; A1F55
@@ -750,7 +750,7 @@ mov dword [dword_152F50], eax	; A2192
 loc_A2197:
 mov eax, unk_16443C	; A2197
 call sub_6423E	; A219C
-call sub_108BB	; A21A1
+call InitSlotTable	; A21A1
 call sub_3A6F3	; A21A6
 test byte [byte_17CA5D], 20h	; A21AB
 jne short loc_A21BB	; A21B2
@@ -1543,7 +1543,7 @@ mov word [word_114F14], 0	; A2EE3
 loc_A2EEC:
 cmp dword [dword_1150FC], byte 1	; A2EEC
 jne near loc_A2FD5	; A2EF3
-mov eax, dword [dword_17C9A8]	; A2EF9
+mov eax, dword [optflags]	; A2EF9
 and eax, byte 70h	; A2EFE
 cmp eax, byte 20h	; A2F01
 jne near loc_A2FD5	; A2F04
@@ -1991,7 +1991,7 @@ xor eax, eax	; A3503
 call sub_6F056	; A3505
 jmp near loc_A33C4	; A350A
 loc_A350F:
-mov eax, dword [dword_17C9A8]	; A350F
+mov eax, dword [optflags]	; A350F
 and eax, byte 70h	; A3514
 cmp eax, byte 30h	; A3517
 jne short loc_A352B	; A351A
@@ -2030,7 +2030,7 @@ xor eax, eax	; A3590
 push dword [dword_184400]	; A3592
 xor esi, esi	; A3598
 call sub_64E74	; A359A
-test byte [dword_17C9A8], 70h	; A359F
+test byte [optflags], 70h	; A359F
 jne short loc_A35F1	; A35A6
 mov edx, 5	; A35A8
 mov eax, unk_184692	; A35AD
@@ -2053,7 +2053,7 @@ push eax	; A35E6
 push str_08d2	; A35E7
 jmp near loc_A36CB	; A35EC
 loc_A35F1:
-mov eax, dword [dword_17C9A8]	; A35F1
+mov eax, dword [optflags]	; A35F1
 and eax, byte 70h	; A35F6
 cmp eax, byte 10h	; A35F9
 jne short loc_A364F	; A35FC
@@ -2150,7 +2150,7 @@ mov ebx, byte_11D91C	; A373B
 call sub_77355	; A3740
 mov edx, eax	; A3745
 xor eax, eax	; A3747
-call sub_197ED	; A3749
+call EditText	; A3749
 test eax, eax	; A374E
 sete al	; A3750
 movzx eax, al	; A3753
@@ -2218,7 +2218,7 @@ mov eax, 61h	; A380A
 mov edx, 1	; A380F
 call sub_77355	; A3814
 call sub_1A109	; A3819
-test byte [dword_17C9A8], 70h	; A381E
+test byte [optflags], 70h	; A381E
 je short loc_A3838	; A3825
 mov dword [dword_1150FC], 2	; A3827
 mov dword [byte ebp-08h], 0	; A3831

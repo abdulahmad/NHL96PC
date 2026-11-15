@@ -20,7 +20,7 @@ extern SetSPA, sub_465BA, changeplayer, GetHot, Setplass, setplayer, sub_4A047, 
 extern sub_4B4F3, doplayeracc, EvadePC, skateto, sub_4FB38, AddPenalty2, EndPenaltyShot, sub_68E21
 extern sub_68E31, sfx, sub_69141, sub_69161, sub_6934E, vecdist, threat, unk_119D7C
 extern unk_119D9C, vtoa, word_1178A8, word_1178AC, word_1178AE, word_1178B4, word_1178B6, word_1178BE
-extern word_1178C0, gmode2, word_1178CA, word_1178F8, word_1178FA, word_1178FE, word_117902, word_117914
+extern word_1178C0, gmode2, word_1178CA, word_1178F8, word_1178FA, gsp, word_117902, word_117914
 extern word_117916, word_117AA2, word_118EA5, word_118EA9, word_118EB1, word_11910B, word_11910F, word_119DBC
 extern word_119DBE, word_119DE8, word_119DFE, word_119E44, word_119EBA, word_164796, word_16479A, word_16479E
 extern word_1647A2, word_1647B6, word_1647DA, word_1650A6, word_165144, word_1656E8, word_165710, word_16581E
@@ -3233,7 +3233,7 @@ mov eax, ebx	; 3398C
 call SetSPA	; 3398E
 mov word [byte ebx+026h], 64h	; 33993
 or byte [byte ebx+044h], 20h	; 33999
-movsx eax, word [word_1178FE]	; 3399D
+movsx eax, word [gsp]	; 3399D
 cmp eax, byte 4	; 339A4
 jge near loc_33A20	; 339A7
 mov al, byte [gmode]	; 339AD
@@ -5972,7 +5972,7 @@ jne short loc_35AEB	; 35ADF
 cmp word [word_117902], byte 0	; 35AE1
 je short loc_35B06	; 35AE9
 loc_35AEB:
-movsx eax, word [word_1178FE]	; 35AEB
+movsx eax, word [gsp]	; 35AEB
 cmp eax, byte 3	; 35AF2
 jne short loc_35B5F	; 35AF5
 mov ax, word [word_1656E8]	; 35AF7
@@ -6316,7 +6316,7 @@ mov dword [GameLoopActive], 0	; 35FB2
 mov word [word_176B6C], ax	; 35FBC
 cwde	; 35FC2
 mov dword [GameLoopActive], eax	; 35FC3
-movsx eax, word [word_1178FE]	; 35FC8
+movsx eax, word [gsp]	; 35FC8
 mov byte [goalevent], 0FFh	; 35FCF
 cmp eax, byte 3	; 35FD6
 jl near loc_3668B	; 35FD9
@@ -6383,7 +6383,7 @@ jne short loc_360A9	; 3609D
 cmp word [word_117902], byte 0	; 3609F
 je short loc_360C4	; 360A7
 loc_360A9:
-movsx eax, word [word_1178FE]	; 360A9
+movsx eax, word [gsp]	; 360A9
 cmp eax, byte 3	; 360B0
 jne short loc_36115	; 360B3
 mov ax, word [word_1656E8]	; 360B5
@@ -7145,7 +7145,7 @@ loc_36A5E:
 movsx edx, word [gameclock]	; 36A5E
 cmp edx, eax	; 36A65
 jl short loc_36A75	; 36A67
-movsx eax, word [word_1178FE]	; 36A69
+movsx eax, word [gsp]	; 36A69
 cmp eax, byte 3	; 36A70
 jl short loc_36A8B	; 36A73
 loc_36A75:

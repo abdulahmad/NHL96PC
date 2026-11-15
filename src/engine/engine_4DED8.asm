@@ -5,11 +5,11 @@ section s_4DED8 progbits alloc exec nowrite align=1
 extern FileReadAt, LineChangeLine, LineChangeReq, OOlist, PBnum, Pencntdwn, PlList, SortCords
 extern str_05d, str_CsgDb, str_05dCsg, awtmstruct, byte_1178C8, byte_157640, byte_15864E, byte_15864F
 extern byte_158650, byte_158651, byte_158652, byte_176AE2, byte_176B84, byte_176B90, goalevent, byte_17CC37
-extern collflag, curperiod, dword_114F16, dword_1150D8, dword_117934, dword_118E89, dword_119173, dword_11917F
+extern collflag, curperiod, dword_114F16, dword_1150D8, seed, dword_118E89, dword_119173, dword_11917F
 extern dword_119183, dword_11918F, dword_119193, dword_1191AF, dword_1191B3, dword_1191B7, dword_1191BB, dword_1191BF
 extern dword_1191C3, dword_11B364, dword_151B84, dword_1657EA, dword_1657EE, dword_1657F2, dword_1657F6, dword_1657FA
 extern dword_1657FE, dword_165802, dword_165806, dword_165920, dword_165924, dword_165928, dword_16592C, dword_165930
-extern dword_165934, dword_165938, dword_16593C, dword_16596C, dword_17C9A8, dword_17CB2F, dword_17CBE7, dword_17CC17
+extern dword_165934, dword_165938, dword_16593C, dword_16596C, optflags, dword_17CB2F, dword_17CBE7, dword_17CC17
 extern dword_17CEC3, dword_17D162, dword_17D267, energywarn, fadeinpending, fox, foy, gameclock
 extern gameopts, gmode, hmroster, hmtmstruct, lastplayer, lasttouch, lcblink, lcboxon
 extern lcline, off_11786C, passplayer, penshotctl, penshotlive, penshotmode, penshotplayer, penshotstart
@@ -20,7 +20,7 @@ extern unk_156FFC, unk_157AF8, unk_157B0A, unk_157B1C, unk_157B4F, unk_157B82, u
 extern unk_157FDA, unk_1582F5, unk_158610, unk_164B5C, unk_17CB2E, unk_17CED5, word_1178A8, word_1178AC
 extern word_1178AE, word_1178B4, word_1178B6, word_1178B8, word_1178BE, word_1178C0, gmode2, word_1178CA
 extern word_1178CC, word_1178CE, word_1178D0, word_1178F4, word_1178F6, word_1178F8, word_1178FA, word_1178FC
-extern word_1178FE, word_117902, word_118E8F, word_118E91, word_118E93, word_118E9F, word_118EA3, word_118EA5
+extern gsp, word_117902, word_118E8F, word_118E91, word_118E93, word_118E9F, word_118EA3, word_118EA5
 extern word_118EA7, word_118EA9, word_118EAB, word_118EAF, word_118EB1, word_118EB3, word_118EB7, word_118FAF
 extern word_118FB1, word_11910B, refhitcount, word_11910F, word_119111, word_119113, Pencntdwn2, word_119169
 extern word_11916B, word_11918B, word_11B274, word_11B276, word_11D3A2, word_16474C, word_16474E, word_164792
@@ -245,7 +245,7 @@ mov dx, word [word_1178FC]	; 4E12B
 mov word [eax], dx	; 4E132
 inc eax	; 4E135
 inc eax	; 4E136
-mov dx, word [word_1178FE]	; 4E137
+mov dx, word [gsp]	; 4E137
 mov word [eax], dx	; 4E13E
 inc eax	; 4E141
 inc eax	; 4E142
@@ -297,7 +297,7 @@ mov dx, word [word_119113]	; 4E1C7
 mov word [eax], dx	; 4E1CE
 inc eax	; 4E1D1
 inc eax	; 4E1D2
-mov edx, dword [dword_117934]	; 4E1D3
+mov edx, dword [seed]	; 4E1D3
 mov dword [eax], edx	; 4E1D9
 add eax, ebx	; 4E1DB
 mov dx, word [PBnum]	; 4E1DD
@@ -306,7 +306,7 @@ inc eax	; 4E1E7
 inc eax	; 4E1E8
 mov dx, word [byte_176B84]	; 4E1E9
 mov word [eax], dx	; 4E1F0
-mov edx, dword [dword_17C9A8]	; 4E1F3
+mov edx, dword [optflags]	; 4E1F3
 shl edx, 19h	; 4E1F9
 inc eax	; 4E1FC
 inc eax	; 4E1FD
@@ -938,7 +938,7 @@ inc eax	; 4E944
 inc eax	; 4E945
 mov word [word_1178FC], dx	; 4E946
 mov dx, word [eax]	; 4E94D
-mov word [word_1178FE], dx	; 4E950
+mov word [gsp], dx	; 4E950
 inc eax	; 4E957
 inc eax	; 4E958
 mov dx, word [eax]	; 4E959
@@ -991,7 +991,7 @@ inc eax	; 4E9E0
 mov word [word_119113], dx	; 4E9E1
 mov edx, dword [eax]	; 4E9E8
 add eax, byte 8	; 4E9EA
-mov dword [dword_117934], edx	; 4E9ED
+mov dword [seed], edx	; 4E9ED
 mov dx, word [eax]	; 4E9F3
 inc eax	; 4E9F6
 inc eax	; 4E9F7
@@ -1002,11 +1002,11 @@ inc eax	; 4EA03
 mov word [byte_176B84], dx	; 4EA04
 movsx edx, word [eax]	; 4EA0B
 and edx, byte 7	; 4EA0E
-and byte [dword_17C9A8], 8Fh	; 4EA11
+and byte [optflags], 8Fh	; 4EA11
 shl edx, 4	; 4EA18
 inc eax	; 4EA1B
 inc eax	; 4EA1C
-or dword [dword_17C9A8], edx	; 4EA1D
+or dword [optflags], edx	; 4EA1D
 mov dl, byte [eax]	; 4EA23
 mov byte [byte_158652], dl	; 4EA25
 mov dl, byte [byte eax+01h]	; 4EA2B
@@ -1365,7 +1365,7 @@ test ebx, ebx	; 4EE3E
 jne near loc_4F074	; 4EE40
 call sub_488E9	; 4EE46
 mov word [word_176B80], ax	; 4EE4B
-test byte [dword_17C9A8], 70h	; 4EE51
+test byte [optflags], 70h	; 4EE51
 je short loc_4EE64	; 4EE58
 mov eax, 1	; 4EE5A
 call sub_1F362	; 4EE5F

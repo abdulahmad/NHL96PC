@@ -10,13 +10,13 @@ and the Overbar branches (see "Merging"). No decompilation. Skip Watcom internal
 - NHL95PC: strings, engine data, most front-end data, the most-called library routines, every symbol the port links.
 
 ## Remaining queue
-1. NHL96PC engine: about 157 `sub_` routines in `src/engine/` (queue order: SEGMENT_AGENT.md, row 0
-   `src/engine/logic/logic.asm`). The scripted leads are used up; each one needs reading next to its NHL95PC
-   neighbour. Open leads that need a read first: `sub_41BFC` ChkShotStat, `sub_43026` puckbody, `sub_4711E`
-   GetHotOrStick, `sub_488E9` GetPeriodTime, `sub_48922` ResetClock, `sub_4B247` StartGame, `sub_4FB38` PostGoalEvent,
-   `sub_4FDC0` PostPenaltyEvent. Rejected (break the 95 module order, do not retry): dostop at 4B748, newcheck at
-   68E31, Stop4Pen, puckunflip at 3FF26, `sub_30E6B` as assreplace. `sub_3251A` (after asspuckc_chkdir) has no 95
-   partner.
+1. NHL96PC engine: about 95 `sub_` routines in `src/engine/` are left. Every routine with an NHL95PC partner is
+   named (call position, module order, shared references, callers). The rest is code new in 96 (extra assignment
+   routines in `asstab`, the goalie routines after assgoalie, the drawing helpers in `lines.asm`, save file name
+   helpers after LoadGameState) and each needs a full read; `source=new`. List them with their callers and
+   references before reading. Do not retry: dostop at 4B748, newcheck at 68E31, `sub_30E6B` as assreplace.
+   The 96 player struct differs from 95 (facing +36h, position +66h, id +86h, team +88h): name its fields first,
+   NHL95PC has them as equates.
 2. NHL96PC: team struct fields (stride looks like 136h), then front-end files in SEGMENT_AGENT.md order.
 3. NHL95PC: about 146 front-end data labels (`src/data/front`) and about 35 engine data labels. Take names from 94G
    `ram94`/`tables94`, 95G `ram95`, 94 SNES `ram94s.asm` first.

@@ -14,7 +14,7 @@ extern penshotmode, penshotplayer, penshotstart, puckvx, puckvz, puckx, pucky, p
 extern randomd0, regd2, regd3, resetplstuff, setpersonel, sflags, shotongoal, shotontarget
 extern sub_23656, sub_28459, StartFaceoffLineChange, sub_3509F, sub_350A5, SkateToSpot, CenterMouse, ReturnGoalies
 extern SetSPA, sub_46593, SprSort, changeplayer, GetHot, Setplass, setplayer, updateanim
-extern clockcont, SetExitGame, ResetBench, forcepldata, doplayeracc, EvadePC, skateto, playeracc
+extern clockcont_0, SetExitGame, ResetBench, forcepldata, doplayeracc, EvadePC, skateto, playeracc
 extern avdgoal, stopna, AddPenalty2, Stop4Pen, sub_59A36, sub_68E31, sub_6934E, vecdist
 extern threat, unk_164B5C, vtoa, word_1178A0, word_1178A2, word_1178B4, word_1178B6, word_1178B8
 extern word_1178BE, word_1178C0, gmode2, word_1178CA, slotteam, word_1178F6, word_1178F8, word_1178FA
@@ -769,7 +769,7 @@ jne short loc_3AF9D	; 3AF82
 mov ax, word [word_1656E8]	; 3AF84
 cmp ax, word [word_16581E]	; 3AF8A
 je short loc_3AF9D	; 3AF91
-call clockcont	; 3AF93
+call clockcont_0	; 3AF93
 jmp near loc_3A822	; 3AF98
 loc_3AF9D:
 mov al, byte [gmode]	; 3AF9D

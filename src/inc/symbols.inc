@@ -366,7 +366,7 @@
 ;  493D4  sub_493D4                                engine/hockey/hockey.asm                     1
 ;  4958D  DoGameFrame                              engine/hockey/hockey.asm                     2
 ;  4A047  updateanim                               engine/hockey/hockey.asm                     4
-;  4A91D  clockcont                                engine/hockey/hockey.asm                     1
+;  4A91D  clockcont_0                              engine/hockey/hockey.asm                     1
 ;  4AE4F  ClockTick                                engine/hockey/hockey.asm                     1
 ;  4AF57  GameOver                                 engine/hockey/hockey.asm                     1
 ;  4AF6B  SetExitGame                              engine/hockey/hockey.asm                     3

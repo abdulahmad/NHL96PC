@@ -132,7 +132,7 @@ global loc_4B7B3, reenergizeteam, resetplstuff, setpersonel, setupice, SprSort, 
 global AvgCline, AvgLinePair, getlinee, sub_46FA3, GetHot, GetHotStick, GetHotOrStick, SetCoachMode
 global PenTeamScored, sub_47813, Goal, GiveControl, Setplass, setplayer, restoreteams, GetPeriodTime
 global ResetClock, sub_489CF, sub_48A4D, defaultsprites_0, sub_49300, sub_493D4, sub_494F7, checkwindow
-global RestoreBenchEnergy, periodicevents, sub_497A7, updateplayers, updateanim, cleargamevars, clockcont, ClockTick
+global RestoreBenchEnergy, periodicevents, sub_497A7, updateplayers, updateanim, cleargamevars, clockcont_0, ClockTick
 global GameOver, SetExitGame, Intermission, PeriodOver, ResetBench, StartGame, forcepldata, sub_4B38C
 global sub_4B4F3, sub_4B59F, sub_4B748
 SprSort:
@@ -4079,7 +4079,7 @@ mov word [word_1178B4], ax	; 4968A
 mov ax, word [word_1178A2]	; 49690
 or byte [sflags], 40h	; 49696
 mov word [word_1178B6], ax	; 4969D
-call clockcont	; 496A3
+call clockcont_0	; 496A3
 loc_496A8:
 cmp word [word_118E8F], byte 0	; 496A8
 jne near loc_497A2	; 496B0
@@ -5493,7 +5493,7 @@ jl short loc_4A901	; 4A918
 pop edx	; 4A91A
 pop ebx	; 4A91B
 ret	; 4A91C
-clockcont:
+clockcont_0:
 push ebx	; 4A91D
 push ecx	; 4A91E
 push edx	; 4A91F

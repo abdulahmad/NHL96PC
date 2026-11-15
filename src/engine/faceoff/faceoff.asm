@@ -5,7 +5,7 @@ section s_3A7A4 progbits alloc exec nowrite align=1
 extern CompLine, Endfaceoff, PBnum, SetupPenaltyShot, ShotLaneOpen, SortCords, assinsert, assreplace
 extern awtmstruct, byte_1178C8, byte_1190F3, byte_164797, byte_16479B, byte_1647E0, byte_1647E1, byte_165250
 extern byte_165713, byte_16571E, byte_165854, byte_165953, byte_165957, byte_176B84, chk4pass, crowdlevel
-extern curperiod, dword_1178DA, dword_1178DE, dword_1178E2, dword_1178E6, dword_119173, dword_119183, dword_1191C3
+extern curperiod, hmslotcount, awslotcount, hmfirstslot, awfirstslot, dword_119173, dword_119183, dword_1191C3
 extern dword_1191C7, dword_1191E7, dword_1191EB, dword_1191EF, dword_119F6C, dword_11B2A8, dword_15E4C4, dword_165254
 extern dword_176BD0, optflags, energywarn, fadeinpending, fox, foy, gameclock, gameopts
 extern gmode, hmroster, hmtmgoalie, hmtmstruct, introskipped, lcblink, lcboxon, lcfound
@@ -17,7 +17,7 @@ extern SetSPA, sub_46593, SprSort, changeplayer, GetHot, Setplass, setplayer, up
 extern clockcont_0, SetExitGame, ResetBench, forcepldata, doplayeracc, EvadePC, skateto, playeracc
 extern avdgoal, stopna, AddPenalty2, Stop4Pen, sub_59A36, sub_68E31, sub_6934E, vecdist
 extern threat, unk_164B5C, vtoa, word_1178A0, word_1178A2, word_1178B4, word_1178B6, word_1178B8
-extern word_1178BE, word_1178C0, gmode2, word_1178CA, word_1178D2, word_1178F6, word_1178F8, word_1178FA
+extern word_1178BE, word_1178C0, gmode2, word_1178CA, slotteam, word_1178F6, word_1178F8, word_1178FA
 extern word_1178FC, gsp, word_117902, word_118E8F, word_118E9F, word_118EA3, word_118EB7, word_1190D7
 extern word_1190D9, word_11910B, word_11910F, word_119111, word_119113, word_119F78, word_164716, word_16472A
 extern word_164794, word_165144, word_1656E8, word_165704, word_165706, word_165758, word_16581E, word_16583A
@@ -661,11 +661,11 @@ push esi	; 3AE4B
 xor ecx, ecx	; 3AE4C
 xor ebx, ebx	; 3AE4E
 loc_3AE50:
-cmp word [dword ebx+word_1178D2], byte 0	; 3AE50
+cmp word [dword ebx+slotteam], byte 0	; 3AE50
 je short loc_3AEAD	; 3AE58
 cmp word [dword ebx+word_1178CA], byte 0	; 3AE5A
 jge short loc_3AEAD	; 3AE62
-movsx eax, word [dword ebx+word_1178D2]	; 3AE64
+movsx eax, word [dword ebx+slotteam]	; 3AE64
 cmp eax, byte 1	; 3AE6B
 jne short loc_3AE77	; 3AE6E
 mov eax, SortCords	; 3AE70
@@ -831,8 +831,8 @@ inc esi	; 3B092
 and byte [byte eax-05Bh], 0F7h	; 3B093
 cmp esi, byte 0Ch	; 3B097
 jl short loc_3B08D	; 3B09A
-mov eax, dword [dword_1178DA]	; 3B09C
-add eax, dword [dword_1178DE]	; 3B0A1
+mov eax, dword [hmslotcount]	; 3B09C
+add eax, dword [awslotcount]	; 3B0A1
 je short loc_3B0C8	; 3B0A7
 cmp word [word_118E8F], byte 0	; 3B0A9
 je short loc_3B0C8	; 3B0B1
@@ -845,13 +845,13 @@ mov eax, dword [byte eax+01h]	; 3B0CD
 and eax, byte 30h	; 3B0D0
 cmp eax, byte 10h	; 3B0D3
 jne near loc_3B177	; 3B0D6
-cmp dword [dword_1178DA], byte 0	; 3B0DC
+cmp dword [hmslotcount], byte 0	; 3B0DC
 je short loc_3B12A	; 3B0E3
-mov eax, dword [dword_1178E2]	; 3B0E5
+mov eax, dword [hmfirstslot]	; 3B0E5
 lea edx, [eax+eax]	; 3B0EA
 jmp short loc_3B125	; 3B0ED
 loc_3B0EF:
-movsx ecx, word [dword edx+word_1178D2]	; 3B0EF
+movsx ecx, word [dword edx+slotteam]	; 3B0EF
 cmp ecx, byte 1	; 3B0F6
 jne short loc_3B122	; 3B0F9
 cmp word [dword edx+word_1178CA], byte 0	; 3B0FB
@@ -871,13 +871,13 @@ loc_3B125:
 cmp edx, byte 8	; 3B125
 jl short loc_3B0EF	; 3B128
 loc_3B12A:
-cmp dword [dword_1178DE], byte 0	; 3B12A
+cmp dword [awslotcount], byte 0	; 3B12A
 je short loc_3B177	; 3B131
-mov eax, dword [dword_1178E6]	; 3B133
+mov eax, dword [awfirstslot]	; 3B133
 lea edx, [eax+eax]	; 3B138
 jmp short loc_3B172	; 3B13B
 loc_3B13D:
-movsx ecx, word [dword edx+word_1178D2]	; 3B13D
+movsx ecx, word [dword edx+slotteam]	; 3B13D
 cmp ecx, byte 2	; 3B144
 jne short loc_3B16F	; 3B147
 cmp word [dword edx+word_1178CA], byte 0	; 3B149
@@ -901,7 +901,7 @@ mov eax, dword [byte eax+01h]	; 3B17C
 and eax, byte 30h	; 3B17F
 cmp eax, byte 20h	; 3B182
 je short loc_3B190	; 3B185
-cmp dword [dword_1178DE], byte 0	; 3B187
+cmp dword [awslotcount], byte 0	; 3B187
 jne short loc_3B1B3	; 3B18E
 loc_3B190:
 mov edx, awtmstruct	; 3B190
@@ -1009,7 +1009,7 @@ cmp eax, byte 20h	; 3B34E
 je short loc_3B361	; 3B351
 cmp eax, byte 10h	; 3B353
 jne short loc_3B381	; 3B356
-cmp dword [dword_1178DA], byte 0	; 3B358
+cmp dword [hmslotcount], byte 0	; 3B358
 jne short loc_3B381	; 3B35F
 loc_3B361:
 mov edx, hmtmstruct	; 3B361
@@ -1590,7 +1590,7 @@ xor esi, esi	; 3BCA1
 xor eax, eax	; 3BCA3
 inc edx	; 3BCA5
 loc_3BCA6:
-movsx ebx, word [dword eax+word_1178D2]	; 3BCA6
+movsx ebx, word [dword eax+slotteam]	; 3BCA6
 cmp ebx, edx	; 3BCAD
 jne short loc_3BCC0	; 3BCAF
 mov edx, dword [penshotplayer]	; 3BCB1
@@ -1636,7 +1636,7 @@ xor esi, esi	; 3BD20
 and byte [byte ebx+044h], 0FBh	; 3BD22
 xor ebx, ebx	; 3BD26
 loc_3BD28:
-movsx eax, word [dword ebx+word_1178D2]	; 3BD28
+movsx eax, word [dword ebx+slotteam]	; 3BD28
 cmp dword [dword_119183], byte 0	; 3BD2F
 sete byte [byte ebp-04h]	; 3BD36
 movzx edx, byte [byte ebp-04h]	; 3BD3A
@@ -1850,9 +1850,9 @@ jne short loc_3C059	; 3C074
 xor esi, esi	; 3C076
 xor ebx, ebx	; 3C078
 loc_3C07A:
-cmp word [dword ebx+word_1178D2], byte 0	; 3C07A
+cmp word [dword ebx+slotteam], byte 0	; 3C07A
 je short loc_3C0A4	; 3C082
-movsx eax, word [dword ebx+word_1178D2]	; 3C084
+movsx eax, word [dword ebx+slotteam]	; 3C084
 movsx edx, si	; 3C08B
 cmp eax, byte 2	; 3C08E
 jne short loc_3C09A	; 3C091
@@ -2753,10 +2753,10 @@ cmp dword [curperiod], byte 0FFFFFFFFh	; 3CBC2
 je near loc_3CC69	; 3CBC9
 test ax, ax	; 3CBCF
 je short loc_3CBDC	; 3CBD2
-mov ebx, dword [dword_1178DE]	; 3CBD4
+mov ebx, dword [awslotcount]	; 3CBD4
 jmp short loc_3CBE2	; 3CBDA
 loc_3CBDC:
-mov ebx, dword [dword_1178DA]	; 3CBDC
+mov ebx, dword [hmslotcount]	; 3CBDC
 loc_3CBE2:
 test ebx, ebx	; 3CBE2
 je near loc_3CC69	; 3CBE4
@@ -2806,10 +2806,10 @@ imul edx, dword 136h	; 3CC74
 mov cx, word [dword edx+hmtmgoalie]	; 3CC7A
 test ax, ax	; 3CC81
 je short loc_3CC8E	; 3CC84
-mov edx, dword [dword_1178DE]	; 3CC86
+mov edx, dword [awslotcount]	; 3CC86
 jmp short loc_3CC94	; 3CC8C
 loc_3CC8E:
-mov edx, dword [dword_1178DA]	; 3CC8E
+mov edx, dword [hmslotcount]	; 3CC8E
 loc_3CC94:
 test edx, edx	; 3CC94
 je near loc_3CD47	; 3CC96

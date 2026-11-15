@@ -233,7 +233,7 @@
 ;  2FDE3  sub_2FDE3                                engine/engine_2D9D9.asm                      1
 ;  2FF84  sub_2FF84                                engine/engine_2D9D9.asm                      1
 ;  30274  sub_30274                                engine/engine_2D9D9.asm                      1
-;  30309  sub_30309                                engine/engine_2D9D9.asm                      1
+;  30309  GetPartner                               engine/engine_2D9D9.asm                      1
 ;  30340  sub_30340                                engine/engine_2D9D9.asm                      1
 ;  30483  assdefo                                  engine/engine_2D9D9.asm                      1
 ;  305C2  sub_305C2                                engine/engine_2D9D9.asm                      1
@@ -246,7 +246,7 @@
 ;  31805  asswingo                                 engine/logic/logic.asm                       1
 ;  31958  asscenterd                               engine/logic/logic.asm                       1
 ;  31A53  asscentero                               engine/logic/logic.asm                       1
-;  31BA9  sub_31BA9                                engine/logic/logic.asm                       2
+;  31BA9  SwapPosition                             engine/logic/logic.asm                       2
 ;  31DBE  asspuckc                                 engine/logic/logic.asm                       1
 ;  327A2  assnearest                               engine/logic/logic.asm                       1
 ;  33214  assshoot                                 engine/logic/logic.asm                       1
@@ -295,7 +295,7 @@
 ;  39936  CenterMouse                              engine/input/input.asm                       1
 ;  39955  PassCompleted                            engine/input/input.asm                       1
 ;  3A0D2  asspassrec                               engine/input/input.asm                       1
-;  3A2F6  sub_3A2F6                                engine/input/input.asm                       1
+;  3A2F6  CountTeamSlots                           engine/input/input.asm                       1
 ;  3A6F3  sub_3A6F3                                engine/input/input.asm                       3
 ;  3A7A4  sub_3A7A4                                engine/faceoff/faceoff.asm                   1
 ;  3AA02  PenShotAssign                            engine/faceoff/faceoff.asm                   1
@@ -4000,11 +4000,11 @@
 ;  1178CC  word_1178CC                              data/front/front_2A692_data_02.asm           2
 ;  1178CE  word_1178CE                              data/front/front_2A692_data_02.asm           2
 ;  1178D0  word_1178D0                              data/front/front_2A692_data_02.asm           2
-;  1178D2  word_1178D2                              data/front/front_2A692_data_02.asm           5
-;  1178DA  dword_1178DA                             data/front/front_2A692_data_02.asm           6
-;  1178DE  dword_1178DE                             data/front/front_2A692_data_02.asm           6
-;  1178E2  dword_1178E2                             data/front/front_2A692_data_02.asm           4
-;  1178E6  dword_1178E6                             data/front/front_2A692_data_02.asm           4
+;  1178D2  slotteam                                 data/front/front_2A692_data_02.asm           5
+;  1178DA  hmslotcount                              data/front/front_2A692_data_02.asm           6
+;  1178DE  awslotcount                              data/front/front_2A692_data_02.asm           6
+;  1178E2  hmfirstslot                              data/front/front_2A692_data_02.asm           4
+;  1178E6  awfirstslot                              data/front/front_2A692_data_02.asm           4
 ;  1178EA  dword_1178EA                             data/front/front_2A692_data_02.asm           4
 ;  1178EE  dword_1178EE                             data/front/front_2A692_data_02.asm           4
 ;  1178F2  Pencntdwn                                data/front/front_2A692_data_02.asm           7

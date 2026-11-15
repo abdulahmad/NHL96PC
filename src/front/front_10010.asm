@@ -29,7 +29,7 @@ extern SetClipWindow, MouseRead, SetViewRect, sub_DFA98, sub_DFE9C, sub_DFF28, s
 extern sub_E04D0, sub_E04E0, str_Rb2, unk_114BA8, unk_114C00, unk_114CE6, unk_114D46, unk_114D6E
 extern unk_151648, unk_1516B8, unk_151784, unk_15179C, unk_1519C0, unk_151A04, unk_151A44, unk_151A94
 extern unk_151ADC, unk_17C9B8, unk_17C9CC, optblock_end, unk_17D272, str_X3, word_114B40, word_114B42
-extern word_114B44, word_114CDB, word_114CE0, word_114CE4, word_114DBE, word_114DC0, word_1178D2, word_11F910
+extern word_114B44, word_114CDB, word_114CE0, word_114CE4, word_114DBE, word_114DC0, slotteam, word_11F910
 extern word_11F914, word_11F918, word_11F91C, word_1515B5, word_151634, word_151636, word_151638, word_15163A
 extern word_151712, word_151714, word_15171C, word_15171E, word_15172A, word_15172C, word_151734, word_151736
 extern word_151744, word_15175C, word_151766, word_15177E, word_151782, word_151788, word_15178A, word_15178C
@@ -880,15 +880,15 @@ loc_109A7:
 movsx ecx, word [dword edx+word_1515B5]	; 109A7
 cmp ecx, byte 1	; 109AE
 jne short loc_109BE	; 109B1
-mov word [dword eax+word_1178D2], 0	; 109B3
+mov word [dword eax+slotteam], 0	; 109B3
 jmp short loc_109D9	; 109BC
 loc_109BE:
 cmp byte [byte esi+ebx+05h], 0	; 109BE
 je short loc_109D0	; 109C3
-mov word [dword eax+word_1178D2], 1	; 109C5
+mov word [dword eax+slotteam], 1	; 109C5
 jmp short loc_109D9	; 109CE
 loc_109D0:
-mov word [dword eax+word_1178D2], 2	; 109D0
+mov word [dword eax+slotteam], 2	; 109D0
 loc_109D9:
 inc eax	; 109D9
 inc eax	; 109DA

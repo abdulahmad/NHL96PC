@@ -5,7 +5,7 @@ section s_3E6EC progbits alloc exec nowrite align=1
 extern Acheck, AddPenalty, CompLine, CountShotOnGoal, CwdExciteLvl, OOlist, OOlistpos, PBnum
 extern QuickShotChk, RemoveFromLines, ShotLaneOpen, SortCords, a2touchpuck, assinsert, assreplace, awtmstruct
 extern byte_115115, byte_115117, byte_1175A7, byte_1178C8, byte_16514E, byte_16514F, byte_16597D, byte_176AE2
-extern byte_176AE3, byte_176B84, byte_176BA5, byte_176BA7, collflag, crowdlevel, dword_1178DA, dword_1178DE
+extern byte_176AE3, byte_176B84, byte_176BA5, byte_176BA7, collflag, crowdlevel, hmslotcount, awslotcount
 extern dword_119173, dword_1191C7, dword_1191D7, dword_1191E7, dword_1191EB, dword_1191F3, dword_1191FB, dword_1191FF
 extern dword_119F90, nethit, dword_15E844, dword_16516E, dword_165172, dword_179D70, optflags, fox
 extern gameclock, gameopts, gmode, hmtmstruct, lastplayer, lasttouch, off_11787C, puckc
@@ -150,7 +150,7 @@ global loc_4654C, loc_46557, loc_4656A, loc_46571, loc_4658A, loc_46590, loc_465
 global setInjuryType, BlockShotDive, TryBlockShot, check4check, checkcheck, checkgoalp, checkint, checkob
 global ChkDelayedOffside, checkpuckcoll_ccx, checkpuckcoll, GetLowestPen, sub_402AD, ScatterPass, dopass, sub_409D5
 global passmode, setpassmode, sub_4137F, sub_41393, sub_41432, sub_415FF, chk4shot, CompShoot
-global ChkShotStat, sub_41FDA, sub_4203B, NetCollide, FallDown, puckbody, puckshadow, puckglue
+global ChkShotStat, FallFrameByDir, FallFrameByFacing, NetCollide, FallDown, puckbody, puckshadow, puckglue
 global sub_43605, puckgoalie, puckstick, SetShotMode, ShotMode, Findhittype, shotdiradj, doshot
 global checkcoll, checkwallcoll, wallcollb, checkplcoll, sub_459B2, sub_45A31, sub_45B60, ReturnGoalies
 global SetSPA, sub_46593, wallcoll
@@ -4846,7 +4846,7 @@ movzx ax, al	; 41FCB
 cwde	; 41FCF
 call RemoveFromLines	; 41FD0
 jmp near loc_41379	; 41FD5
-sub_41FDA:
+FallFrameByDir:
 push ecx	; 41FDA
 movsx edx, word [byte eax+036h]	; 41FDB
 mov ecx, edx	; 41FDF
@@ -4894,7 +4894,7 @@ loc_42034:
 mov eax, 165h	; 42034
 pop ecx	; 42039
 ret	; 4203A
-sub_4203B:
+FallFrameByFacing:
 push ebx	; 4203B
 movsx ebx, word [byte eax+036h]	; 4203C
 cmp ebx, byte 1	; 42040
@@ -5036,7 +5036,7 @@ movsx ebx, ax	; 4218F
 mov edx, edi	; 42192
 mov eax, esi	; 42194
 loc_42196:
-call sub_41FDA	; 42196
+call FallFrameByDir	; 42196
 leave	; 4219B
 pop edi	; 4219C
 pop esi	; 4219D
@@ -5375,7 +5375,7 @@ mov dword [byte ebp-0Ch], eax	; 425B1
 mov eax, ecx	; 425B4
 mov word [byte ecx+02h], 9Bh	; 425B6
 loc_425BC:
-call sub_41FDA	; 425BC
+call FallFrameByDir	; 425BC
 jmp short loc_42572	; 425C1
 loc_425C3:
 cmp eax, byte 0FFFFFF96h	; 425C3
@@ -5414,7 +5414,7 @@ movsx edx, di	; 4263D
 mov dword [byte ebp-0Ch], eax	; 42640
 mov eax, ecx	; 42643
 mov word [byte ecx+02h], 0FF62h	; 42645
-call sub_4203B	; 4264B
+call FallFrameByFacing	; 4264B
 jmp near loc_42572	; 42650
 loc_42655:
 movsx eax, word [byte ecx+02h]	; 42655
@@ -5481,7 +5481,7 @@ mov dword [byte ebp-0Ch], eax	; 4271B
 mov eax, ecx	; 4271E
 mov word [byte ecx+06h], 0FE7Fh	; 42720
 loc_42726:
-call sub_41FDA	; 42726
+call FallFrameByDir	; 42726
 mov ebx, eax	; 4272B
 mov word [byte ecx+0Eh], 0	; 4272D
 loc_42733:
@@ -10087,10 +10087,10 @@ jmp short loc_46392	; 46369
 loc_4636B:
 test cx, cx	; 4636B
 je short loc_46378	; 4636E
-mov edx, dword [dword_1178DE]	; 46370
+mov edx, dword [awslotcount]	; 46370
 jmp short loc_4637E	; 46376
 loc_46378:
-mov edx, dword [dword_1178DA]	; 46378
+mov edx, dword [hmslotcount]	; 46378
 loc_4637E:
 test edx, edx	; 4637E
 jne short loc_46392	; 46380
@@ -10130,10 +10130,10 @@ jne short loc_463F6	; 463CD
 mov byte [byte eax+03Bh], 0	; 463CF
 test cx, cx	; 463D3
 je short loc_463E0	; 463D6
-mov ebx, dword [dword_1178DE]	; 463D8
+mov ebx, dword [awslotcount]	; 463D8
 jmp short loc_463E6	; 463DE
 loc_463E0:
-mov ebx, dword [dword_1178DA]	; 463E0
+mov ebx, dword [hmslotcount]	; 463E0
 loc_463E6:
 test ebx, ebx	; 463E6
 jne short loc_463F6	; 463E8
@@ -10182,10 +10182,10 @@ cmp esi, byte 3Ch	; 46454
 jg short loc_46446	; 46457
 test edx, edx	; 46459
 je short loc_46465	; 4645B
-mov edx, dword [dword_1178DE]	; 4645D
+mov edx, dword [awslotcount]	; 4645D
 jmp short loc_4646B	; 46463
 loc_46465:
-mov edx, dword [dword_1178DA]	; 46465
+mov edx, dword [hmslotcount]	; 46465
 loc_4646B:
 test edx, edx	; 4646B
 jne short loc_46446	; 4646D

@@ -19,8 +19,8 @@ extern checkpuckcoll, sub_402AD, sub_409D5, chk4shot, SetShotMode, ShotMode, Fin
 extern SetSPA, SprSort, changeplayer, GetHot, Setplass, setplayer, updateanim, SetExitGame
 extern sub_4B4F3, doplayeracc, EvadePC, skateto, PostGoalEvent, AddPenalty2, EndPenaltyShot, sub_68E21
 extern sub_68E31, sfx, sub_69141, sub_69161, sub_6934E, vecdist, threat, unk_119D7C
-extern unk_119D9C, vtoa, word_1178A8, word_1178AC, word_1178AE, word_1178B4, word_1178B6, word_1178BE
-extern word_1178C0, gmode2, word_1178CA, word_1178F8, word_1178FA, gsp, word_117902, word_117914
+extern unk_119D9C, vtoa, word_1178A8, word_1178AC, word_1178AE, word_1178B4, yc1, fodir1
+extern fodir2, gmode2, word_1178CA, word_1178F8, word_1178FA, gsp, word_117902, word_117914
 extern word_117916, word_117AA2, word_118EA5, word_118EA9, word_118EB1, word_11910B, word_11910F, word_119DBC
 extern word_119DBE, word_119DE8, word_119DFE, word_119E44, word_119EBA, word_164796, word_16479A, word_16479E
 extern word_1647A2, word_1647B6, word_1647DA, word_1650A6, word_165144, word_1656E8, word_165710, word_16581E
@@ -154,7 +154,7 @@ global asswingo, asscenterd, asscentero, SwapPosition, sub_31C40, asspuckc, assp
 global sub_3251A, assnearest, donothing, assscore, asseben, assleaveice, asspenalty, assdopen
 global assepen, assbench, assfaceoff, assfaceoffpl, pucknothing, SetLCmode, StartFaceoffLineChange, sub_3509F
 global sub_350A5, puckflip, assrefatdot, assreffollow, SkateToSpot, CrowdOnStoppage, assrefwhistle, assrefsignal
-global rtss, assrefgoalline, NextPathPoint, asspenshooter, sub_36F55, sub_37410, sub_37AA5, sub_37ED0
+global rtss, assrefgoalline, NextPathPoint, asspenshooter, chkhit, assfight, assfwatch, sub_37ED0
 sub_313D2:
 push ebx	; 313D2
 push ecx	; 313D3
@@ -4199,7 +4199,7 @@ jmp short loc_3450A	; 34503
 loc_34505:
 mov edx, 6	; 34505
 loc_3450A:
-mov word [word_1178C0], dx	; 3450A
+mov word [fodir2], dx	; 3450A
 jmp short loc_34559	; 34511
 loc_34513:
 test ax, ax	; 34513
@@ -4228,7 +4228,7 @@ jmp short loc_34552	; 3454B
 loc_3454D:
 mov edx, 1	; 3454D
 loc_34552:
-mov word [word_1178BE], dx	; 34552
+mov word [fodir1], dx	; 34552
 loc_34559:
 cmp byte [byte ebx+065h], 0	; 34559
 setne dl	; 3455D
@@ -4741,11 +4741,11 @@ and edi, 800h	; 34BF0
 movsx eax, di	; 34BF6
 test eax, eax	; 34BF9
 je short loc_34C0E	; 34BFB
-mov ax, word [word_1178C0]	; 34BFD
+mov ax, word [fodir2]	; 34BFD
 mov word [word_165964], 0F800h	; 34C03
 jmp short loc_34C1D	; 34C0C
 loc_34C0E:
-mov ax, word [word_1178BE]	; 34C0E
+mov ax, word [fodir1]	; 34C0E
 mov word [word_165964], 800h	; 34C14
 loc_34C1D:
 mov word [regd3], ax	; 34C1D
@@ -5274,13 +5274,13 @@ loc_352BB:
 mov eax, 0AAh	; 352BB
 loc_352C0:
 mov word [byte ebx+02Ah], ax	; 352C0
-cmp word [word_1178B6], byte 0	; 352C4
+cmp word [yc1], byte 0	; 352C4
 jge short loc_352D9	; 352CC
-movsx eax, word [word_1178B6]	; 352CE
+movsx eax, word [yc1]	; 352CE
 neg eax	; 352D5
 jmp short loc_352E0	; 352D7
 loc_352D9:
-movsx eax, word [word_1178B6]	; 352D9
+movsx eax, word [yc1]	; 352D9
 loc_352E0:
 cmp eax, byte 74h	; 352E0
 jle short loc_352F0	; 352E3
@@ -5288,7 +5288,7 @@ mov word [byte ebx+02Ch], 0	; 352E5
 jmp near loc_35447	; 352EB
 loc_352F0:
 mov ax, word [byte ebx+06h]	; 352F0
-cmp ax, word [word_1178B6]	; 352F4
+cmp ax, word [yc1]	; 352F4
 jle short loc_35307	; 352FB
 mov eax, 0B0h	; 352FD
 jmp near loc_35443	; 35302
@@ -7547,7 +7547,7 @@ pop edx	; 36F51
 pop ecx	; 36F52
 pop ebx	; 36F53
 ret	; 36F54
-sub_36F55:
+chkhit:
 push ebx	; 36F55
 push ecx	; 36F56
 push esi	; 36F57
@@ -7916,7 +7916,7 @@ jge near loc_31C3A	; 373FE
 mov eax, ecx	; 37404
 call updateanim	; 37406
 jmp near loc_31C3A	; 3740B
-sub_37410:
+assfight:
 push ebx	; 37410
 push ecx	; 37411
 push edx	; 37412
@@ -8250,7 +8250,7 @@ call SetSPA	; 377E7
 loc_377EC:
 mov edx, edi	; 377EC
 mov eax, esi	; 377EE
-call sub_36F55	; 377F0
+call chkhit	; 377F0
 movsx eax, word [byte esi+038h]	; 377F5
 cmp eax, 56Dh	; 377F9
 je short loc_37825	; 377FE
@@ -8471,7 +8471,7 @@ cmp eax, 190h	; 37A63
 jge short loc_37A70	; 37A68
 mov word [byte esi+0Ch], 190h	; 37A6A
 loc_37A70:
-movsx eax, word [word_1178B6]	; 37A70
+movsx eax, word [yc1]	; 37A70
 movsx edx, word [byte esi+06h]	; 37A77
 sub eax, edx	; 37A7B
 mov edx, eax	; 37A7D
@@ -8486,7 +8486,7 @@ mov edx, 0FFFFF000h	; 37A97
 loc_37A9C:
 mov word [byte esi+0Eh], dx	; 37A9C
 jmp near loc_3668C	; 37AA0
-sub_37AA5:
+assfwatch:
 push ebx	; 37AA5
 push ecx	; 37AA6
 push edx	; 37AA7
@@ -8510,13 +8510,13 @@ mov byte [eax], 0FFh	; 37AE0
 mov word [byte ebx+03Eh], 78h	; 37AE3
 loc_37AE9:
 mov word [byte ebx+028h], 8	; 37AE9
-cmp word [word_1178B6], byte 0	; 37AEF
+cmp word [yc1], byte 0	; 37AEF
 jge short loc_37B04	; 37AF7
-movsx eax, word [word_1178B6]	; 37AF9
+movsx eax, word [yc1]	; 37AF9
 neg eax	; 37B00
 jmp short loc_37B0B	; 37B02
 loc_37B04:
-movsx eax, word [word_1178B6]	; 37B04
+movsx eax, word [yc1]	; 37B04
 loc_37B0B:
 cmp eax, byte 74h	; 37B0B
 jle short loc_37B4C	; 37B0E
@@ -8652,7 +8652,7 @@ mov word [regd1], ax	; 37C95
 movsx edx, ax	; 37C9B
 mov eax, ebx	; 37C9E
 call SetSPA	; 37CA0
-mov ax, word [word_1178B6]	; 37CA5
+mov ax, word [yc1]	; 37CA5
 sub ax, word [byte ebx+06h]	; 37CAB
 movsx edx, ax	; 37CAF
 mov ax, word [word_1178B4]	; 37CB2
@@ -8719,7 +8719,7 @@ mov ax, word [byte ebx+02Ah]	; 37D55
 mov word [regd0], ax	; 37D59
 mov ax, word [byte ebx+02Ch]	; 37D5F
 mov word [regd1], ax	; 37D63
-movsx eax, word [word_1178B6]	; 37D69
+movsx eax, word [yc1]	; 37D69
 movsx edx, word [byte ebx+06h]	; 37D70
 sub edx, eax	; 37D74
 mov eax, edx	; 37D76
@@ -8729,7 +8729,7 @@ neg eax	; 37D7C
 loc_37D7E:
 cmp eax, byte 1Eh	; 37D7E
 jl short loc_37DC1	; 37D81
-movsx eax, word [word_1178B6]	; 37D83
+movsx eax, word [yc1]	; 37D83
 movsx edx, word [byte ebx+06h]	; 37D8A
 sub edx, eax	; 37D8E
 mov eax, edx	; 37D90
@@ -8739,7 +8739,7 @@ neg eax	; 37D96
 loc_37D98:
 cmp eax, byte 50h	; 37D98
 jge near loc_37E64	; 37D9B
-movsx eax, word [word_1178B6]	; 37DA1
+movsx eax, word [yc1]	; 37DA1
 movsx ecx, word [byte ebx+06h]	; 37DA8
 movsx edx, word [regd1]	; 37DAC
 sub ecx, eax	; 37DB3
@@ -8758,7 +8758,7 @@ loc_37DD4:
 cmp eax, byte 3Ch	; 37DD4
 jge near loc_37E64	; 37DD7
 mov ax, word [byte ebx+02Ch]	; 37DDD
-cmp ax, word [word_1178B6]	; 37DE1
+cmp ax, word [yc1]	; 37DE1
 jle short loc_37DF1	; 37DE8
 mov eax, 1Eh	; 37DEA
 jmp short loc_37DF6	; 37DEF
@@ -8830,7 +8830,7 @@ loc_37EA4:
 mov eax, ebx	; 37EA4
 call SetSPA	; 37EA6
 loc_37EAB:
-mov ax, word [word_1178B6]	; 37EAB
+mov ax, word [yc1]	; 37EAB
 sub ax, word [byte ebx+06h]	; 37EB1
 movsx edx, ax	; 37EB5
 mov ax, word [word_1178B4]	; 37EB8

@@ -18,7 +18,7 @@ extern sub_1DCDC, sub_1DED8, sub_1DF55, sub_1DFEA, sub_1E5FC, sub_1F362, SprSort
 extern sub_48A4D, sub_535D5, sub_B7256, threat, str_DB, unk_115108, unk_115113, unk_156E6C
 extern unk_156FFC, unk_157AF8, unk_157B0A, unk_157B1C, unk_157B4F, unk_157B82, unk_157D8F, unk_157F9C
 extern unk_157FDA, unk_1582F5, unk_158610, unk_164B5C, unk_17CB2E, unk_17CED5, word_1178A8, word_1178AC
-extern word_1178AE, word_1178B4, word_1178B6, word_1178B8, word_1178BE, word_1178C0, gmode2, word_1178CA
+extern word_1178AE, word_1178B4, yc1, word_1178B8, fodir1, fodir2, gmode2, word_1178CA
 extern word_1178CC, word_1178CE, word_1178D0, word_1178F4, word_1178F6, word_1178F8, word_1178FA, word_1178FC
 extern gsp, word_117902, word_118E8F, exitgame, gameover, word_118E9F, word_118EA3, word_118EA5
 extern word_118EA7, word_118EA9, word_118EAB, word_118EAF, word_118EB1, word_118EB3, word_118EB7, word_118FAF
@@ -169,7 +169,7 @@ mov dx, word [word_1178B4]	; 4E047
 mov word [eax], dx	; 4E04E
 inc eax	; 4E051
 inc eax	; 4E052
-mov dx, word [word_1178B6]	; 4E053
+mov dx, word [yc1]	; 4E053
 mov word [eax], dx	; 4E05A
 inc eax	; 4E05D
 inc eax	; 4E05E
@@ -185,11 +185,11 @@ mov dx, word [fox]	; 4E077
 mov word [eax], dx	; 4E07E
 inc eax	; 4E081
 inc eax	; 4E082
-mov dx, word [word_1178BE]	; 4E083
+mov dx, word [fodir1]	; 4E083
 mov word [eax], dx	; 4E08A
 inc eax	; 4E08D
 inc eax	; 4E08E
-mov dx, word [word_1178C0]	; 4E08F
+mov dx, word [fodir2]	; 4E08F
 mov word [eax], dx	; 4E096
 inc eax	; 4E099
 inc eax	; 4E09A
@@ -864,7 +864,7 @@ mov word [word_1178B4], dx	; 4E862
 mov dx, word [eax]	; 4E869
 inc eax	; 4E86C
 inc eax	; 4E86D
-mov word [word_1178B6], dx	; 4E86E
+mov word [yc1], dx	; 4E86E
 mov dx, word [eax]	; 4E875
 inc eax	; 4E878
 inc eax	; 4E879
@@ -880,11 +880,11 @@ mov word [fox], dx	; 4E892
 mov dx, word [eax]	; 4E899
 inc eax	; 4E89C
 inc eax	; 4E89D
-mov word [word_1178BE], dx	; 4E89E
+mov word [fodir1], dx	; 4E89E
 mov dx, word [eax]	; 4E8A5
 inc eax	; 4E8A8
 inc eax	; 4E8A9
-mov word [word_1178C0], dx	; 4E8AA
+mov word [fodir2], dx	; 4E8AA
 mov dx, word [eax]	; 4E8B1
 inc eax	; 4E8B4
 inc eax	; 4E8B5

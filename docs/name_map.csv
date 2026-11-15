@@ -74,9 +74,14 @@ address,name,auto_name,source,confidence,evidence,file
 36BF8,NextPathPoint,sub_36BF8,95PC,high,"the routine between assrefgoalline and StartShootoutPath, as in NHL95PC logic.asm; called only from asspenshooter as in NHL95PC",src/engine/logic/logic.asm
 36C3A,StartShootoutPath,,95PC,medium,NHL95PC 4F9EF (similar): mnemonic similarity 0.87 over 65 instructions,
 36D37,asspenshooter,sub_36D37,95PC,high,"asstab entry 46, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
+36F55,chkhit,sub_36F55,93G,medium,"called only from assfight: acts when the animation frame changes, crowd and sfx on a hit, as NHLPA93Genesis chkhit",src/engine/logic/logic.asm
+37410,assfight,sub_37410,93G,high,"asstab entry 31h, the assignment checkfight_sf inserts; Pencntdwn < 0 ends it; calls chkhit as NHLPA93Genesis assfight",src/engine/logic/logic.asm
+37AA5,assfwatch,sub_37AA5,93G,high,"asstab entry 32h, the assignment checkfight gives every other player, as NHLPA93Genesis assfwatch",src/engine/logic/logic.asm
 3804E,assreplace,,95PC,medium,NHL95PC 11FF4 (sem): R:517; R:668; R:470; R:539,
 3805F,assinsert,,95PC,medium,NHL95PC 12011 (sem): R:577; R:461; R:159; R:510,
 38070,lineinput,,95PC,medium,NHL95PC 4FD8E (sem): D:118EB5; D:16595C,
+38202,faceoffinput,sub_38202,95PC,high,"same body as NHL95PC faceoffinput: assignment 17h, fodir1/fodir2 from regd0, SetSPA on the draw",src/engine/input/input.asm
+3832F,fightinput,sub_3832F,93G,medium,"called from doinput: returns when Pencntdwn < 0 or the player is still in SPA 46Bh (gloves off), then moves the fighter, as NHLPA93Genesis fightinput",src/engine/input/input.asm
 385BC,Acheck,,95PC,medium,NHL95PC 4FFAE (similar): mnemonic similarity 0.83 over 20 instructions,
 385F9,CanBlockShot,sub_385F9,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: TryBlockShot,src/engine/input/input.asm
 3891F,OppInReach,,95PC,medium,NHL95PC 5033D (similar): mnemonic similarity 0.80 over 54 instructions,
@@ -167,6 +172,9 @@ address,name,auto_name,source,confidence,evidence,file
 452BB,wallcoll,,95PC,medium,NHL95PC 587D3 (sem): D:119F94; C:668; K:FFFFFC00; K:FFFFFC7C,
 456AF,wallcollb,sub_456AF,95PC,high,"called twice from checkwallcoll as NHL95PC wallcollb, between wallcoll and checkcx in both",src/engine/collide/collide.asm
 458E4,checkplcoll,sub_458E4,95PC,medium,"after wallcollb as in NHL95PC; OOlistpos, checkcx, nosplit",src/engine/collide/collide.asm
+459B2,SetInst,sub_459B2,93G,high,"NHLPA93Genesis SetInst: fight rating test called twice from checkfight, sets the fight flag (+45h bit 0) on both",src/engine/collide/collide.asm
+45A31,checkfight_sf,sub_45A31,93G,high,"NHLPA93Genesis checkfight .sf: start the fight for one player: AddPenalty2 20h, assignment 31h, Xvel by facing, SetSPA 46Bh",src/engine/collide/collide.asm
+45B60,checkfight,sub_45B60,93G,high,"NHLPA93Genesis hockey93.asm checkfight: called from checkcx, impact >= 10 on both, SetInst both ways with 10 + max(0, 40 - count)/4, crowd +1000, fighters face each other, the others get the watch assignment 32h, the puck 1Ah",src/engine/collide/collide.asm
 45E3D,checkcx,,95PC,medium,NHL95PC 58DC7 (sem): C:494; C:492; D:176BD4; C:810,
 4629D,CPgoalie,,95PC,medium,NHL95PC 591C7 (sem): D:119197; C:589; D:117900,
 462F8,ChkGoalies,,95PC,medium,NHL95PC 59265 (sem): C:589; D:16580E; D:1656D8; D:117878,
@@ -2391,8 +2399,11 @@ E24C4,RestoreTextMode,sub_E24C4,95PC,high,video library: restore the text mode a
 1178AA,lastplayer,,95PC,medium,NHL95PC C90A2 (refset): referenced by the same 2 matched functions,
 1178B0,passplayer,,95PC,medium,NHL95PC C90A8 (refset): referenced by the same 5 matched functions,
 1178B2,threat,,95PC,medium,NHL95PC C90AA (refset): referenced by the same 2 matched functions,
+1178B6,yc1,word_1178B6,93G,medium,"checkfight sets it to the mean Ypos of the two fighters, clamped at the boards, as NHLPA93Genesis yc1",src/data/front/front_2A692_data_02.asm
 1178BA,foy,,95PC,medium,NHL95PC C90B4 (refset): referenced by the same 8 matched functions,
 1178BC,fox,,95PC,medium,NHL95PC C90B2 (refset): referenced by the same 9 matched functions,
+1178BE,fodir1,word_1178BE,95PC,high,faceoffinput stores regd0 for the home centre as NHL95PC fodir1,src/data/front/front_2A692_data_02.asm
+1178C0,fodir2,word_1178C0,95PC,high,faceoffinput stores regd0 for the away centre as NHL95PC fodir2,src/data/front/front_2A692_data_02.asm
 1178C2,collflag,,95PC,medium,NHL95PC C90BA (refset): referenced by the same 6 matched functions,
 1178C3,gmode,,95PC,medium,NHL95PC C90BB (refset): referenced by the same 11 matched functions,
 1178C4,sflags,,95PC,medium,NHL95PC C90BC (refset): referenced by the same 4 matched functions,

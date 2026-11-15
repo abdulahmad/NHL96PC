@@ -23,7 +23,7 @@ extern sub_69141, sub_69161, sub_692E9, sub_69312, sub_6934E, sub_69A9B, sub_773
 extern sub_AFFD0, TextSetFont, sub_B58D8, sub_B6140, sub_DD724, SetClipWindow, sub_DD7B8, sub_DD8B0
 extern sub_DFEC6, sub_E0520, sub_E0992, vecdist, sub_E15AC, unk_119D0A, unk_119D22, unk_119D36
 extern unk_119D4E, unk_156E6C, unk_157B82, unk_16443C, unk_164B5C, unk_164E7C, unk_165354, unk_17D3E8
-extern vtoa, word_1178A0, word_1178A2, word_1178B4, word_1178B6, gmode2, word_1178CA, slotteam
+extern vtoa, word_1178A0, word_1178A2, word_1178B4, yc1, gmode2, word_1178CA, slotteam
 extern word_1178F8, exitgame, word_118E9F, word_118EA3, word_119D08, word_119D62, word_11D604, word_1515E4
 extern word_156E6E, word_157AFA, word_157AFC, word_157B00, word_157B06, word_1647CA, word_165366, word_16536C
 extern word_165462, word_165468, word_16548C, word_165492, word_1656E8, word_16570A, word_165758, word_16581E
@@ -353,7 +353,7 @@ mov dword [GameLoopActive], 0	; 2DDD7
 mov word [word_1178A0], 0	; 2DDE1
 mov word [word_1178B4], 0	; 2DDEA
 mov word [word_1178A2], 0	; 2DDF3
-mov word [word_1178B6], 0	; 2DDFC
+mov word [yc1], 0	; 2DDFC
 mov word [word_118EA3], 0	; 2DE05
 mov word [lcblink], 0	; 2DE0E
 mov word [word_118E9F], 0	; 2DE17
@@ -1426,7 +1426,7 @@ and byte [byte ebx+044h], 0FDh	; 2EBFB
 mov eax, ebx	; 2EBFF
 or byte [byte ebx+045h], 20h	; 2EC01
 call SetSPA	; 2EC05
-mov word [word_1178B6], 0	; 2EC0A
+mov word [yc1], 0	; 2EC0A
 mov word [word_1178F8], 1	; 2EC13
 mov word [crowdlevel], 320h	; 2EC1C
 loc_2EC25:

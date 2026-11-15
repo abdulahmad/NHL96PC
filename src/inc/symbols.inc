@@ -280,8 +280,8 @@
 ;  36924  rtss                                     engine/logic/logic.asm                       1
 ;  36925  assrefgoalline                           engine/logic/logic.asm                       1
 ;  36D37  asspenshooter                            engine/logic/logic.asm                       1
-;  37410  sub_37410                                engine/logic/logic.asm                       1
-;  37AA5  sub_37AA5                                engine/logic/logic.asm                       1
+;  37410  assfight                                 engine/logic/logic.asm                       1
+;  37AA5  assfwatch                                engine/logic/logic.asm                       1
 ;  37ED0  sub_37ED0                                engine/logic/logic.asm                       2
 ;  3804E  assreplace                               engine/logic/logic.asm                       5
 ;  3805F  assinsert                                engine/logic/logic.asm                       6
@@ -3985,12 +3985,12 @@
 ;  1178B0  passplayer                               data/front/front_2A692_data_02.asm           8
 ;  1178B2  threat                                   data/front/front_2A692_data_02.asm           6
 ;  1178B4  word_1178B4                              data/front/front_2A692_data_02.asm           8
-;  1178B6  word_1178B6                              data/front/front_2A692_data_02.asm           7
+;  1178B6  yc1                                      data/front/front_2A692_data_02.asm           7
 ;  1178B8  word_1178B8                              data/front/front_2A692_data_02.asm           3
 ;  1178BA  foy                                      data/front/front_2A692_data_02.asm           8
 ;  1178BC  fox                                      data/front/front_2A692_data_02.asm           9
-;  1178BE  word_1178BE                              data/front/front_2A692_data_02.asm           5
-;  1178C0  word_1178C0                              data/front/front_2A692_data_02.asm           5
+;  1178BE  fodir1                                   data/front/front_2A692_data_02.asm           5
+;  1178C0  fodir2                                   data/front/front_2A692_data_02.asm           5
 ;  1178C2  collflag                                 data/front/front_2A692_data_02.asm           3
 ;  1178C3  gmode                                    data/front/front_2A692_data_02.asm           17
 ;  1178C4  sflags                                   data/front/front_2A692_data_02.asm           10

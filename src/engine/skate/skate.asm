@@ -5,7 +5,7 @@ section s_4B7BB progbits alloc exec nowrite align=1
 extern SortCords, dword_11A11C, dword_11A15C, dword_11A19C, dword_165254, dword_176BDC, optflags, gameopts
 extern gmode, off_11787C, puckc, off_11788C, passplayer, puckvx, puckx, pucky
 extern randomd0, regd2, regd3, sub_3E6D4, SetSPA, GetHot, sub_4B748, sub_68E31
-extern vecdist, vtoa, word_1178B4, word_1178B6, gmode2, word_1178F6, word_117914, word_117916
+extern vecdist, vtoa, word_1178B4, yc1, gmode2, word_1178F6, word_117914, word_117916
 extern word_165964, regd0, regd1
 global EvadePlayers, avdgoal_box, loc_4B7E6, loc_4B7FC, loc_4B80F, loc_4B850, loc_4B857, loc_4B85E
 global loc_4B867, loc_4B895, loc_4B8C3, loc_4B8D2, loc_4B934, loc_4B970, loc_4B9AA, loc_4B9F5
@@ -1173,7 +1173,7 @@ test eax, eax	; 4C4FC
 je short loc_4C514	; 4C4FE
 mov ax, word [word_1178B4]	; 4C500
 mov word [regd0], ax	; 4C506
-mov ax, word [word_1178B6]	; 4C50C
+mov ax, word [yc1]	; 4C50C
 jmp short loc_4C52C	; 4C512
 loc_4C514:
 mov edx, dword [puckx]	; 4C514

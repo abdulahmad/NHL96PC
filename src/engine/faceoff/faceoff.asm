@@ -16,8 +16,8 @@ extern sub_23656, sub_28459, StartFaceoffLineChange, sub_3509F, sub_350A5, Skate
 extern SetSPA, sub_46593, SprSort, changeplayer, GetHot, Setplass, setplayer, updateanim
 extern clockcont_0, SetExitGame, ResetBench, forcepldata, doplayeracc, EvadePC, skateto, playeracc
 extern avdgoal, stopna, AddPenalty2, Stop4Pen, sub_59A36, sub_68E31, sub_6934E, vecdist
-extern threat, unk_164B5C, vtoa, word_1178A0, word_1178A2, word_1178B4, word_1178B6, word_1178B8
-extern word_1178BE, word_1178C0, gmode2, word_1178CA, slotteam, word_1178F6, word_1178F8, word_1178FA
+extern threat, unk_164B5C, vtoa, word_1178A0, word_1178A2, word_1178B4, yc1, word_1178B8
+extern fodir1, fodir2, gmode2, word_1178CA, slotteam, word_1178F6, word_1178F8, word_1178FA
 extern word_1178FC, gsp, word_117902, word_118E8F, word_118E9F, word_118EA3, word_118EB7, word_1190D7
 extern word_1190D9, word_11910B, word_11910F, word_119111, word_119113, word_119F78, word_164716, word_16472A
 extern word_164794, word_165144, word_1656E8, word_165704, word_165706, word_165758, word_16581E, word_16583A
@@ -1468,7 +1468,7 @@ mov word [word_1178A2], 0	; 3BA69
 mov word [word_1178B4], ax	; 3BA72
 mov ax, word [fox]	; 3BA78
 mov word [word_1178A0], 0	; 3BA7E
-mov word [word_1178B6], ax	; 3BA87
+mov word [yc1], ax	; 3BA87
 cmp word [word_1178B4], byte 0	; 3BA8D
 jge short loc_3BAA2	; 3BA95
 movsx eax, word [word_1178B4]	; 3BA97
@@ -1488,19 +1488,19 @@ mov eax, 0FFFFFFE0h	; 3BABF
 loc_3BAC4:
 mov word [word_1178B4], ax	; 3BAC4
 loc_3BACA:
-movsx eax, word [word_1178B6]	; 3BACA
+movsx eax, word [yc1]	; 3BACA
 cmp eax, 0FFFFFF44h	; 3BAD1
 jg short loc_3BAE3	; 3BAD6
-mov word [word_1178B6], 0FF44h	; 3BAD8
+mov word [yc1], 0FF44h	; 3BAD8
 jmp short loc_3BAF3	; 3BAE1
 loc_3BAE3:
 cmp eax, 0ECh	; 3BAE3
 jl short loc_3BAF3	; 3BAE8
-mov word [word_1178B6], 0ECh	; 3BAEA
+mov word [yc1], 0ECh	; 3BAEA
 loc_3BAF3:
 mov ax, word [word_1178B4]	; 3BAF3
 mov word [word_1178A0], ax	; 3BAF9
-mov ax, word [word_1178B6]	; 3BAFF
+mov ax, word [yc1]	; 3BAFF
 mov word [word_1178A2], ax	; 3BB05
 mov eax, dword [puckx]	; 3BB0B
 mov word [word_1178B8], 0	; 3BB10
@@ -1887,8 +1887,8 @@ jne short loc_3C116	; 3C106
 xor byte [byte_165953], 8	; 3C108
 xor byte [byte_165957], 8	; 3C10F
 loc_3C116:
-mov word [word_1178C0], 0FFFFh	; 3C116
-mov word [word_1178BE], 0FFFFh	; 3C11F
+mov word [fodir2], 0FFFFh	; 3C116
+mov word [fodir1], 0FFFFh	; 3C11F
 jmp near loc_3A822	; 3C128
 loc_3C12D:
 dec word [byte ecx+026h]	; 3C12D

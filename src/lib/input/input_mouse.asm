@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_DF8AC progbits alloc exec nowrite align=1
-extern dword_11F568, dword_11F56C, dword_11F570, dword_11F574, dword_11F578, dword_11F57C, dword_11F598, dword_11F5A4
-extern dword_11F5A8, dword_11F5AC, dword_11F5B0, dword_11F5B4, dword_11F5B8, dword_11F5C0, dword_11F5C4, dword_11F6F0
+extern mouseminx, mouseminy, mousemaxx, mousemaxy, dword_11F578, dword_11F57C, dword_11F598, dword_11F5A4
+extern mousex, mousey, dword_11F5B0, dword_11F5B4, dword_11F5B8, dword_11F5C0, dword_11F5C4, dword_11F6F0
 extern dword_11F6F6, dword_11F6FC, loc_DFCA2, mousepollfn, off_11F5F4, off_11F5F8, off_11F5FC, off_11F618
 extern sub_C2C7C, sub_C2C94, sub_DFC33, sub_DFDDE, sub_DFE28, sub_E04D0, unk_DFDDD, word_11F580
 extern word_11F582, word_11F584, word_11F6F4, word_11F6FA, word_11F700, word_11F702
@@ -61,8 +61,8 @@ push ebp	; DF928
 LD mov, ebp, esp	; DF929
 mov eax, dword [byte ebp+08h]	; DF92B
 mov edx, dword [byte ebp+0Ch]	; DF92E
-mov dword [dword_11F5A8], eax	; DF931
-mov dword [dword_11F5AC], edx	; DF936
+mov dword [mousex], eax	; DF931
+mov dword [mousey], edx	; DF936
 leave	; DF93C
 ret	; DF93D
 push ebp	; DF93E
@@ -70,10 +70,10 @@ LD mov, ebp, esp	; DF93F
 call MouseReadMotion	; DF941
 db 08Bh,05Dh,08h	; DF946 mov ebx,[ebp+8]
 db 089h,03h	; DF949 mov [ebx],eax
-mov ecx, dword [dword_11F5A8]	; DF94B
+mov ecx, dword [mousex]	; DF94B
 mov ebx, dword [byte ebp+0Ch]	; DF951
 mov dword [ebx], ecx	; DF954
-mov edx, dword [dword_11F5AC]	; DF956
+mov edx, dword [mousey]	; DF956
 mov ebx, dword [byte ebp+010h]	; DF95C
 mov dword [ebx], edx	; DF95F
 leave	; DF961
@@ -82,16 +82,16 @@ push ebp	; DF963
 LD mov, ebp, esp	; DF964
 mov eax, dword [byte ebp+08h]	; DF966
 mov edx, dword [byte ebp+0Ch]	; DF969
-mov dword [dword_11F568], eax	; DF96C
-mov dword [dword_11F570], edx	; DF971
+mov dword [mouseminx], eax	; DF96C
+mov dword [mousemaxx], edx	; DF971
 leave	; DF977
 ret	; DF978
 push ebp	; DF979
 LD mov, ebp, esp	; DF97A
 mov eax, dword [byte ebp+08h]	; DF97C
 mov edx, dword [byte ebp+0Ch]	; DF97F
-mov dword [dword_11F56C], eax	; DF982
-mov dword [dword_11F574], edx	; DF987
+mov dword [mouseminy], eax	; DF982
+mov dword [mousemaxy], edx	; DF987
 leave	; DF98D
 ret	; DF98E
 SetViewRect:
@@ -101,10 +101,10 @@ mov eax, dword [byte ebp+08h]	; DF992
 mov edx, dword [byte ebp+0Ch]	; DF995
 mov ebx, dword [byte ebp+010h]	; DF998
 mov ecx, dword [byte ebp+014h]	; DF99B
-mov dword [dword_11F568], eax	; DF99E
-mov dword [dword_11F56C], edx	; DF9A3
-mov dword [dword_11F570], ebx	; DF9A9
-mov dword [dword_11F574], ecx	; DF9AF
+mov dword [mouseminx], eax	; DF99E
+mov dword [mouseminy], edx	; DF9A3
+mov dword [mousemaxx], ebx	; DF9A9
+mov dword [mousemaxy], ecx	; DF9AF
 leave	; DF9B5
 ret	; DF9B6
 MouseReadMotion:
@@ -118,37 +118,37 @@ mov eax, 0Bh	; DF9D1
 int 33h	; DF9D6
 movsx ecx, cx	; DF9D8
 movsx edx, dx	; DF9DB
-mov eax, dword [dword_11F5A8]	; DF9DE
+mov eax, dword [mousex]	; DF9DE
 mov ebx, dword [dword_11F578]	; DF9E3
 LD add, ebx, ebx	; DF9E9
 LD adc, eax, eax	; DF9EB
 LD add, ecx, eax	; DF9ED
 sar ecx, 1	; DF9EF
 rcr ebx, 1	; DF9F1
-add edx, dword [dword_11F5AC]	; DF9F3
-cmp ecx, dword [dword_11F568]	; DF9F9
+add edx, dword [mousey]	; DF9F3
+cmp ecx, dword [mouseminx]	; DF9F9
 jge short loc_DFA09	; DF9FF
-mov ecx, dword [dword_11F568]	; DFA01
+mov ecx, dword [mouseminx]	; DFA01
 LD xor, ebx, ebx	; DFA07
 loc_DFA09:
-cmp ecx, dword [dword_11F570]	; DFA09
+cmp ecx, dword [mousemaxx]	; DFA09
 jl short loc_DFA1A	; DFA0F
-mov ecx, dword [dword_11F570]	; DFA11
+mov ecx, dword [mousemaxx]	; DFA11
 dec ecx	; DFA17
 LD xor, ebx, ebx	; DFA18
 loc_DFA1A:
-cmp edx, dword [dword_11F56C]	; DFA1A
+cmp edx, dword [mouseminy]	; DFA1A
 jge short loc_DFA28	; DFA20
-mov edx, dword [dword_11F56C]	; DFA22
+mov edx, dword [mouseminy]	; DFA22
 loc_DFA28:
-cmp edx, dword [dword_11F574]	; DFA28
+cmp edx, dword [mousemaxy]	; DFA28
 jl short loc_DFA37	; DFA2E
-mov edx, dword [dword_11F574]	; DFA30
+mov edx, dword [mousemaxy]	; DFA30
 dec edx	; DFA36
 loc_DFA37:
 mov dword [dword_11F578], ebx	; DFA37
-mov dword [dword_11F5A8], ecx	; DFA3D
-mov dword [dword_11F5AC], edx	; DFA43
+mov dword [mousex], ecx	; DFA3D
+mov dword [mousey], edx	; DFA43
 inc dword [dword_11F57C]	; DFA49
 call sub_DF8AC	; DFA4F
 dec dword [dword_11F57C]	; DFA54
@@ -199,10 +199,10 @@ push byte 0	; DFB01
 call SetViewRect	; DFB03
 mov eax, dword [dword_11F5C4]	; DFB08
 shr eax, 2	; DFB0D
-mov dword [dword_11F5A8], eax	; DFB10
+mov dword [mousex], eax	; DFB10
 mov eax, dword [dword_11F5C0]	; DFB15
 shr eax, 2	; DFB1A
-mov dword [dword_11F5AC], eax	; DFB1D
+mov dword [mousey], eax	; DFB1D
 mov ax, 1Bh	; DFB22
 int 33h	; DFB26
 mov word [word_11F580], bx	; DFB28

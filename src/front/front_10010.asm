@@ -12,7 +12,7 @@ extern dword_114B68, dword_114B78, dword_114B7C, dword_114B80, dword_114B9C, dwo
 extern dword_114CD3, dword_114CD7, dword_114CD9, dword_114CE2, dword_114D0E, dword_114D12, dword_114D1A, dword_114D1E
 extern dword_114D36, dword_114D3A, dword_114D9A, dword_114D9E, dword_114DA2, dword_114DA6, dword_114DAA, dword_114DAE
 extern dword_114DB2, dword_114DB6, dword_114DBA, dword_114DCA, dword_115008, dword_1150D4, dword_11BCE4, dword_11D91F
-extern dword_11F5A8, dword_11F5AC, dword_11F5C0, dword_11F5C4, dword_15159C, dword_1515A8, dword_1515B0, dword_1515B7
+extern mousex, mousey, dword_11F5C0, dword_11F5C4, dword_15159C, dword_1515A8, dword_1515B0, dword_1515B7
 extern dword_1515BE, dword_1515C5, dword_1515CC, dword_1515D0, dword_151630, dword_151694, dword_151698, dword_1516A4
 extern dword_1516A8, dword_15170A, dword_15170C, dword_15170E, dword_151710, dword_151716, dword_151718, dword_15171A
 extern dword_151722, dword_151724, dword_151726, dword_151728, dword_15172E, dword_151730, dword_151732, dword_151770
@@ -612,37 +612,37 @@ loc_1061B:
 call dword [mousepollfn]	; 1061B
 test byte [byte_17CA5D], 20h	; 10621
 je short loc_10666	; 10628
-cmp dword [dword_11F5A8], 0A0h	; 1062A
+cmp dword [mousex], 0A0h	; 1062A
 jge short loc_1063B	; 10634
 or byte [esi], 20h	; 10636
 jmp short loc_1064A	; 10639
 loc_1063B:
-cmp dword [dword_11F5A8], 1E0h	; 1063B
+cmp dword [mousex], 1E0h	; 1063B
 jle short loc_1064A	; 10645
 or byte [esi], 10h	; 10647
 loc_1064A:
-cmp dword [dword_11F5AC], byte 78h	; 1064A
+cmp dword [mousey], byte 78h	; 1064A
 jge short loc_10658	; 10651
 loc_10653:
 or byte [esi], 4	; 10653
 jmp short loc_1069B	; 10656
 loc_10658:
-cmp dword [dword_11F5AC], 168h	; 10658
+cmp dword [mousey], 168h	; 10658
 jle short loc_1069B	; 10662
 jmp short loc_10698	; 10664
 loc_10666:
-cmp dword [dword_11F5A8], byte 50h	; 10666
+cmp dword [mousex], byte 50h	; 10666
 jge short loc_10674	; 1066D
 or byte [esi], 20h	; 1066F
 jmp short loc_10683	; 10672
 loc_10674:
-cmp dword [dword_11F5A8], 0F0h	; 10674
+cmp dword [mousex], 0F0h	; 10674
 jle short loc_10683	; 1067E
 or byte [esi], 10h	; 10680
 loc_10683:
-cmp dword [dword_11F5AC], byte 32h	; 10683
+cmp dword [mousey], byte 32h	; 10683
 jl short loc_10653	; 1068A
-cmp dword [dword_11F5AC], 96h	; 1068C
+cmp dword [mousey], 96h	; 1068C
 jle short loc_1069B	; 10696
 loc_10698:
 or byte [esi], 8	; 10698

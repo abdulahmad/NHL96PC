@@ -2364,6 +2364,12 @@ E24C4,RestoreTextMode,sub_E24C4,95PC,high,video library: restore the text mode a
 11D950,str_dbgO,dword_11D950,95PC,high,string 'O',src/data/front/front_6E233_data_02.asm
 11D968,str_feO,word_11D968,95PC,high,string 'O',src/data/front/front_6E233_data_02.asm
 11E2C8,str_LFERROR,asc_11E2C8,new,high,string 'LFERROR!!!',src/data/front/front_741BD_data_02.asm
+11F568,mouseminx,dword_11F568,95PC,high,"mouse library: pointer range, left; MouseReadMotion clamps to it (the same code as NHL95PC)",src/data/lib/lib_A8B9B_data_02.asm
+11F56C,mouseminy,dword_11F56C,95PC,high,"mouse library: pointer range, top",src/data/lib/lib_A8B9B_data_02.asm
+11F570,mousemaxx,dword_11F570,95PC,high,"mouse library: pointer range, right (exclusive)",src/data/lib/lib_A8B9B_data_02.asm
+11F574,mousemaxy,dword_11F574,95PC,high,"mouse library: pointer range, bottom (exclusive)",src/data/lib/lib_A8B9B_data_02.asm
+11F5A8,mousex,dword_11F5A8,95PC,high,"mouse library: pointer x, as NHL95PC mousex",src/data/lib/lib_A8B9B_data_02.asm
+11F5AC,mousey,dword_11F5AC,95PC,high,"mouse library: pointer y, as NHL95PC mousey",src/data/lib/lib_A8B9B_data_02.asm
 11F5BC,joyenablemask,,95PC,high,NHL95PC D3040 (position): same fixup of sub_B33DB,
 11F600,mousepollfn,,95PC,medium,NHL95PC D3078 (refset): referenced by the same 2 matched functions,
 11F8DC,tickdeadline,,95PC,high,NHL95PC D4294 (position): same fixup of SetTickDeadline,

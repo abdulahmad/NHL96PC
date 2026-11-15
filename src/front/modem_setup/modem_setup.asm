@@ -8,7 +8,7 @@ extern str_LOWD, str_Bkgd8, str_ALFB, str_ALFT, str_BALL2, str_ARHB, str_ARHT, s
 extern str_KeyD, str_Mse0, str_Mse1, str_Mse2, str_Key0, str_Key12, str_Key2, str_Jy10
 extern str_Jy11, str_Jy12, str_Jy1x, str_Jy20, str_Jy21, str_Jy22, str_Jy2x, str_Det0
 extern str_Det1, str_Det22, byte_17CA1D, byte_17CA1E, byte_17CA1F, byte_17CA21, byte_17CA22, byte_17D650
-extern byte_17D651, dword_114CD3, dword_11D1A8, dword_11DF80, dword_11DF84, dword_11F5A8, dword_11F5AC, dword_17BC7C
+extern byte_17D651, dword_114CD3, dword_11D1A8, dword_11DF80, dword_11DF84, mousex, mousey, dword_17BC7C
 extern dword_17BD48, dword_17C9A4, globalset, optblock, dword_17D590, dword_17D594, dword_17D654, sprintf_
 extern sub_10010, sub_1E7F6, sub_21596, sub_62AF7, sub_62D9B, sub_62E0E, sub_62F90, sub_63968
 extern sub_63998, sub_63A5B, sub_63B0C, sub_64721, sub_64F59, sub_67531, sub_689D1, sub_68A0B
@@ -708,10 +708,10 @@ jge short loc_71BEF	; 71BC4
 imul eax, dword [byte ebp+05Ah], byte 66h	; 71BC6
 mov edx, dword [dword_17D594]	; 71BCA
 add eax, edx	; 71BD0
-mov edx, dword [dword_11F5A8]	; 71BD2
+mov edx, dword [mousex]	; 71BD2
 cmp edx, dword [byte eax+03Ah]	; 71BD8
 jne short loc_71BE8	; 71BDB
-mov edx, dword [dword_11F5AC]	; 71BDD
+mov edx, dword [mousey]	; 71BDD
 cmp edx, dword [byte eax+03Eh]	; 71BE3
 je short loc_71BEF	; 71BE6
 loc_71BE8:
@@ -1986,10 +1986,10 @@ jl short loc_72F01	; 72ED0
 cmp dword [byte ebp+046h], byte 15h	; 72ED2
 jge short loc_72F01	; 72ED6
 imul eax, dword [byte ebp+046h], byte 66h	; 72ED8
-mov edx, dword [dword_11F5A8]	; 72EDC
+mov edx, dword [mousex]	; 72EDC
 cmp edx, dword [dword eax+ebp-0E64h]	; 72EE2
 jne short loc_72EFA	; 72EE9
-mov edx, dword [dword_11F5AC]	; 72EEB
+mov edx, dword [mousey]	; 72EEB
 cmp edx, dword [dword eax+ebp-0E60h]	; 72EF1
 je short loc_72F01	; 72EF8
 loc_72EFA:

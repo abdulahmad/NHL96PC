@@ -10,7 +10,7 @@ extern str_FhiR5, str_GloL3, str_GloR3, str_GhiL3, str_GhiR3, str_Log7, str_Logx
 extern str_MseD2, str_Jy1D, str_Jy2D, str_Jy3D, str_Jy4D, str_KeyD2, str_MdmD, awtmstruct
 extern byte_11D91C, byte_11FA2F, byte_17CA5D, byte_17CC37, curperiod, dword_1150D4, dword_1150D8, dword_1150FC
 extern dword_1174EC, dword_1174F0, dword_1174F4, dword_11B234, dword_11B320, dword_11B324, dword_11BC24, dword_11D91F
-extern dword_11D923, dword_11F5A8, dword_11F5AC, dword_11F5C0, dword_11F5C4, dword_152F4C, dword_152F50, dword_152F54
+extern dword_11D923, mousex, mousey, dword_11F5C0, dword_11F5C4, dword_152F4C, dword_152F50, dword_152F54
 extern dword_152F58, dword_152F5C, dword_16596C, dword_177108, dword_179918, dword_179920, optflags, dword_17CB2F
 extern dword_17CBE7, dword_17CC17, dword_17CED6, dword_17D162, dword_17D267, dword_17D4E8, dword_17D4EC, dword_17D4F0
 extern dword_17D4F4, dword_17D4F8, dword_17D4FC, dword_17D500, dword_17D504, dword_17D508, dword_17D50C, dword_17D510
@@ -1626,10 +1626,10 @@ jl short loc_6BEB3	; 6BE82
 cmp dword [byte ebp+07Ah], byte 7	; 6BE84
 jge short loc_6BEB3	; 6BE88
 imul eax, dword [byte ebp+07Ah], byte 66h	; 6BE8A
-mov edx, dword [dword_11F5A8]	; 6BE8E
+mov edx, dword [mousex]	; 6BE8E
 cmp edx, dword [dword eax+ebp-0250h]	; 6BE94
 jne short loc_6BEAC	; 6BE9B
-mov edx, dword [dword_11F5AC]	; 6BE9D
+mov edx, dword [mousey]	; 6BE9D
 cmp edx, dword [dword eax+ebp-024Ch]	; 6BEA3
 je short loc_6BEB3	; 6BEAA
 loc_6BEAC:

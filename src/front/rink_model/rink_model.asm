@@ -21,7 +21,7 @@ extern str_Rsd1, str_Rsd0, str_Saveback, str_WHD0, str_Rlxn, str_Rlxh, str_Rlyn,
 extern byte_1175A4, byte_1175A5, byte_1175A6, byte_1175A7, byte_1175A8, byte_1175A9, byte_1175AA, byte_1175AB
 extern byte_1175AC, byte_15EA03, byte_176F96, byte_17701E, byte_17703B, byte_1770A7, byte_1770B2, byte_1770B3
 extern byte_1770B4, byte_1770B5, byte_1770B6, byte_1770D7, dword_1175AD, dword_1175B1, dword_1175B5, dword_1175B9
-extern dword_1176DD, dword_1176E1, dword_1176E5, dword_1177EC, dword_1177F0, dword_11A3F8, dword_11F5A8, dword_11F5AC
+extern dword_1176DD, dword_1176E1, dword_1176E5, dword_1177EC, dword_1177F0, dword_11A3F8, mousex, mousey
 extern dword_11F5C0, dword_11F5C4, dword_11F5F0, dword_122390, dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4
 extern dword_1228F8, dword_152FEC, dword_158D78, dword_158D7C, dword_158D84, dword_158D88, dword_158D90, dword_158D94
 extern dword_158D9C, dword_158DA0, dword_158F24, dword_158F90, dword_159008, dword_159014, dword_15902C, dword_159038
@@ -9357,10 +9357,10 @@ jl short loc_2A179	; 2A148
 cmp dword [byte ebp+05Eh], byte 0Ch	; 2A14A
 jge short loc_2A179	; 2A14E
 imul eax, dword [byte ebp+05Eh], byte 66h	; 2A150
-mov edx, dword [dword_11F5A8]	; 2A154
+mov edx, dword [mousex]	; 2A154
 cmp edx, dword [dword eax+ebp-0738h]	; 2A15A
 jne short loc_2A172	; 2A161
-mov edx, dword [dword_11F5AC]	; 2A163
+mov edx, dword [mousey]	; 2A163
 cmp edx, dword [dword eax+ebp-0734h]	; 2A169
 je short loc_2A179	; 2A170
 loc_2A172:

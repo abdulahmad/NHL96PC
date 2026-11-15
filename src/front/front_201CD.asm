@@ -6,7 +6,7 @@ extern GetTicks, str_GRIPCON, str_RGRIPCON, str_Pal4, str_BKGD, str_LTD0, str_BT
 extern str_BT02, str_FSH2, str_Ice, str_IceFsh, str_Crud, byte_11FA2E, byte_11FA2F, byte_151708
 extern byte_151774, byte_151778, byte_158D2A, byte_158D2B, byte_158D2C, byte_158D2D, byte_159C57, byte_159C58
 extern byte_159C59, byte_159C5A, byte_159E5F, byte_159E60, byte_159E61, byte_17BDAE, byte_17CA24, byte_17CA3C
-extern byte_17CA54, dword_114CB0, dword_114CB4, dword_117588, dword_11F5A8, dword_11F5AC, dword_11F5C0, dword_11F5F0
+extern byte_17CA54, dword_114CB0, dword_114CB4, dword_117588, mousex, mousey, dword_11F5C0, dword_11F5F0
 extern dword_151698, dword_1516A8, dword_158CC0, dword_158CCC, dword_158CD0, dword_158CD4, dword_158D54, dword_158D64
 extern dword_158D68, dword_158D6C, dword_158D70, dword_15E698, dword_15E6B0, dword_15E6C0, dword_15E6C4, dword_15E6CC
 extern dword_15E6D0, dword_15E6D4, dword_15E810, dword_15E824, dword_15E84C, dword_15E86C, dword_15E8E4, dword_1798E4
@@ -1382,10 +1382,10 @@ jl short loc_212AC	; 2127C
 cmp dword [byte ebp-040h], byte 29h	; 2127E
 jge short loc_212AC	; 21282
 mov eax, dword [dword_158D70]	; 21284
-mov edx, dword [dword_11F5A8]	; 21289
+mov edx, dword [mousex]	; 21289
 cmp edx, dword [dword eax+0102Ah]	; 2128F
 jne short loc_212A5	; 21295
-mov edx, dword [dword_11F5AC]	; 21297
+mov edx, dword [mousey]	; 21297
 cmp edx, dword [dword eax+0102Eh]	; 2129D
 je short loc_212AC	; 212A3
 loc_212A5:
@@ -1752,10 +1752,10 @@ jl short loc_21841	; 21810
 cmp dword [byte ebp+062h], byte 3	; 21812
 jge short loc_21841	; 21816
 imul eax, dword [byte ebp+062h], byte 66h	; 21818
-mov edx, dword [dword_11F5A8]	; 2181C
+mov edx, dword [mousex]	; 2181C
 cmp edx, dword [dword eax+ebp-0110h]	; 21822
 jne short loc_2183A	; 21829
-mov edx, dword [dword_11F5AC]	; 2182B
+mov edx, dword [mousey]	; 2182B
 cmp edx, dword [dword eax+ebp-010Ch]	; 21831
 je short loc_21841	; 21838
 loc_2183A:

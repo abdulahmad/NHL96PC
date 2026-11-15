@@ -293,7 +293,7 @@
 ;  39847  sub_39847                                engine/input/input.asm                       1
 ;  398DB  ReadJoy1                                 engine/input/input.asm                       2
 ;  39936  CenterMouse                              engine/input/input.asm                       1
-;  39955  sub_39955                                engine/input/input.asm                       1
+;  39955  PassCompleted                            engine/input/input.asm                       1
 ;  3A0D2  asspassrec                               engine/input/input.asm                       1
 ;  3A2F6  sub_3A2F6                                engine/input/input.asm                       1
 ;  3A6F3  sub_3A6F3                                engine/input/input.asm                       3
@@ -367,7 +367,7 @@
 ;  4958D  DoGameFrame                              engine/hockey/hockey.asm                     2
 ;  4A047  sub_4A047                                engine/hockey/hockey.asm                     4
 ;  4A91D  sub_4A91D                                engine/hockey/hockey.asm                     1
-;  4AE4F  sub_4AE4F                                engine/hockey/hockey.asm                     1
+;  4AE4F  ClockTick                                engine/hockey/hockey.asm                     1
 ;  4AF57  sub_4AF57                                engine/hockey/hockey.asm                     1
 ;  4AF6B  sub_4AF6B                                engine/hockey/hockey.asm                     3
 ;  4B05E  NextPeriod                               engine/hockey/hockey.asm                     1

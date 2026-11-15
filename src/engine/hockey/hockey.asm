@@ -23,7 +23,7 @@ extern asstab, off_118F79, penshotlive, penshotmode, penshotplayer, penshotstart
 extern puckx, pucky, puckz, randomd0, regd2, regd3, sflags, shotongoal
 extern shotontarget, IsCupClinched, sub_23F05, sub_31BA9, sub_37ED0, sub_38F9F, sub_39847, sub_3A2F6
 extern sub_3A7A4, asspsclear, sub_3E6D4, sub_41BFC, sub_44B99, SetSPA, sub_4F452, AddPenalty2
-extern sub_51522, EndPenaltyShot, sub_535D5, sub_53640, CloseTextOverlay, sub_622CD, sub_67A63, sub_68D25
+extern PenGoalStuff, EndPenaltyShot, sub_535D5, sub_53640, CloseTextOverlay, sub_622CD, sub_67A63, sub_68D25
 extern sub_68E31, sfx, sub_69141, sub_69161, sub_6934E, vecdist, threat, unk_117A9C
 extern unk_118FA5, unk_156E6C, unk_156FFC, unk_157AF8, unk_157B0A, unk_157B1C, unk_157B4F, unk_157B82
 extern unk_157D8F, unk_157F9C, unk_157FDA, unk_1582F5, unk_158610, unk_164B5C, unk_165258, unk_165354
@@ -129,8 +129,8 @@ global loc_4B57F, loc_4B596, loc_4B5D5, loc_4B5E5, loc_4B604, loc_4B60B, loc_4B6
 global loc_4B663, loc_4B67D, loc_4B69C, loc_4B6CD, loc_4B6E0, loc_4B716, loc_4B728, loc_4B72B
 global loc_4B735, loc_4B73F, loc_4B744, loc_4B780, loc_4B784, loc_4B793, loc_4B797, loc_4B7AB
 global loc_4B7B3, reenergizeteam, resetplstuff, setpersonel, setupice, sub_465BA, changeplayer, sub_46988
-global AvgCline, sub_46A6F, sub_46EA7, sub_46FA3, GetHot, sub_470AD, sub_4711E, SetCoachMode
-global sub_47788, sub_47813, sub_4786F, sub_4806A, Setplass, setplayer, sub_48897, sub_488E9
+global AvgCline, sub_46A6F, getlinee, sub_46FA3, GetHot, GetHotStick, sub_4711E, SetCoachMode
+global sub_47788, sub_47813, sub_4786F, sub_4806A, Setplass, setplayer, restoreteams, sub_488E9
 global sub_48922, sub_489CF, sub_48A4D, defaultsprites_0, sub_49300, sub_493D4, sub_494F7, checkwindow
 global sub_495A1, periodicevents, sub_497A7, updateplayers, sub_4A047, sub_4A7C3, sub_4A91D, sub_4AE4F
 global sub_4AF57, sub_4AF6B, sub_4AFEB, sub_4B05E, ResetBench, sub_4B247, forcepldata, sub_4B38C
@@ -590,7 +590,7 @@ xor edi, edi	; 46B00
 loc_46B02:
 movsx edx, cx	; 46B02
 mov eax, ebx	; 46B05
-call sub_46EA7	; 46B07
+call getlinee	; 46B07
 add edi, 0F33h	; 46B0C
 mov esi, eax	; 46B12
 cwde	; 46B14
@@ -600,7 +600,7 @@ mov edi, ecx	; 46B19
 inc edi	; 46B1B
 mov eax, ebx	; 46B1C
 movsx edx, di	; 46B1E
-call sub_46EA7	; 46B21
+call getlinee	; 46B21
 cmp si, ax	; 46B26
 jge short loc_46B2D	; 46B29
 mov ecx, edi	; 46B2B
@@ -709,7 +709,7 @@ mov dword [byte ebp-0Ch], eax	; 46C66
 movsx edx, ax	; 46C69
 mov eax, ebx	; 46C6C
 mov ecx, 0FFFFFFFFh	; 46C6E
-call sub_46EA7	; 46C73
+call getlinee	; 46C73
 mov dword [byte ebp-08h], eax	; 46C78
 jmp short loc_46CD5	; 46C7B
 loc_46C7D:
@@ -731,7 +731,7 @@ add edx, eax	; 46CAC
 mov dword [byte ebp-010h], edx	; 46CAE
 mov eax, ebx	; 46CB1
 movsx edx, cx	; 46CB3
-call sub_46EA7	; 46CB6
+call getlinee	; 46CB6
 movsx edx, ax	; 46CBB
 cmp edx, dword [byte ebp-010h]	; 46CBE
 ja short loc_46CDD	; 46CC1
@@ -916,7 +916,7 @@ loc_46E9F:
 mov eax, hmtmstruct	; 46E9F
 loc_46EA4:
 movsx edx, dx	; 46EA4
-sub_46EA7:
+getlinee:
 push ebx	; 46EA7
 push ecx	; 46EA8
 push esi	; 46EA9
@@ -1108,7 +1108,7 @@ loc_470AA:
 pop edx	; 470AA
 pop ebx	; 470AB
 ret	; 470AC
-sub_470AD:
+GetHotStick:
 push ebx	; 470AD
 push edx	; 470AE
 mov edx, eax	; 470AF
@@ -1229,7 +1229,7 @@ pop ecx	; 47260
 pop ebx	; 47261
 ret	; 47262
 loc_47263:
-call sub_470AD	; 47263
+call GetHotStick	; 47263
 mov bx, word [word_16597C]	; 47268
 mov eax, edx	; 4726F
 mov cx, word [word_165980]	; 47271
@@ -2080,7 +2080,7 @@ cmp eax, byte 6	; 47DEC
 jl short loc_47D99	; 47DEF
 loc_47DF1:
 movsx eax, di	; 47DF1
-call sub_51522	; 47DF4
+call PenGoalStuff	; 47DF4
 jmp short loc_47E31	; 47DF9
 loc_47DFB:
 mov word [word_176B8A], 0	; 47DFB
@@ -2945,7 +2945,7 @@ pop edx	; 48893
 pop ecx	; 48894
 pop ebx	; 48895
 ret	; 48896
-sub_48897:
+restoreteams:
 push ebx	; 48897
 push ecx	; 48898
 push edx	; 48899
@@ -6154,7 +6154,7 @@ shl eax, 17h	; 4B268
 shr eax, 1Fh	; 4B26B
 mov word [word_1178FE], 0	; 4B26E
 mov dword [dword_1191FF], eax	; 4B277
-call sub_48897	; 4B27C
+call restoreteams	; 4B27C
 movsx eax, word [word_1178FE]	; 4B281
 cmp eax, byte 4	; 4B288
 je near sub_4AF57	; 4B28B

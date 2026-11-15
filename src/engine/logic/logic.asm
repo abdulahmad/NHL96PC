@@ -14,10 +14,10 @@ extern foy, gameclock, gameopts, getlchoice, gmode, hmtmstruct, lasttouch, lcbli
 extern lcboxon, lcline, off_11787C, off_117888, off_11788C, off_117890, off_117894, passplayer
 extern penshotlive, penshotmode, penshotplayer, penshotstart, psendcount, puckvx, puckvz, puckx
 extern pucky, puckz, randomd0, regd2, regd3, sflags, shotongoal, skatetopuck
-extern sub_28459, sub_30309, sub_30340, sub_30873, sub_30E6B, assgoalie, check4check, sub_3F5E4
-extern sub_3FF26, sub_402AD, sub_409D5, sub_41642, sub_441EF, sub_442B3, Findhittype, doshot
+extern sub_28459, sub_30309, sub_30340, sub_30873, sub_30E6B, assgoalie, check4check, checkob
+extern checkpuckcoll, sub_402AD, sub_409D5, sub_41642, sub_441EF, sub_442B3, Findhittype, doshot
 extern SetSPA, sub_465BA, changeplayer, GetHot, Setplass, setplayer, sub_4A047, sub_4AF6B
-extern sub_4B4F3, doplayeracc, sub_4C294, skateto, sub_4FB38, AddPenalty2, EndPenaltyShot, sub_68E21
+extern sub_4B4F3, doplayeracc, EvadePC, skateto, sub_4FB38, AddPenalty2, EndPenaltyShot, sub_68E21
 extern sub_68E31, sfx, sub_69141, sub_69161, sub_6934E, vecdist, threat, unk_119D7C
 extern unk_119D9C, vtoa, word_1178A8, word_1178AC, word_1178AE, word_1178B4, word_1178B6, word_1178BE
 extern word_1178C0, gmode2, word_1178CA, word_1178F8, word_1178FA, word_1178FE, word_117902, word_117914
@@ -606,7 +606,7 @@ loc_31935:
 mov ax, word [byte ebx+02Ah]	; 31935
 mov word [word_16597C], ax	; 31939
 mov ax, word [byte ebx+02Ch]	; 3193F
-mov edx, sub_4C294	; 31943
+mov edx, EvadePC	; 31943
 mov word [word_165980], ax	; 31948
 mov eax, ebx	; 3194E
 call skateto	; 31950
@@ -804,7 +804,7 @@ loc_31B86:
 mov ax, word [byte ebx+02Ah]	; 31B86
 mov word [word_16597C], ax	; 31B8A
 mov ax, word [byte ebx+02Ch]	; 31B90
-mov edx, sub_4C294	; 31B94
+mov edx, EvadePC	; 31B94
 mov word [word_165980], ax	; 31B99
 mov eax, ebx	; 31B9F
 call skateto	; 31BA1
@@ -1080,7 +1080,7 @@ jge near loc_31F63	; 31E9A
 movzx edx, byte [byte ebx+059h]	; 31EA0
 mov eax, ebx	; 31EA4
 mov dword [byte ebx+072h], edx	; 31EA6
-call sub_3F5E4	; 31EA9
+call checkob	; 31EA9
 cmp dword [shotongoal], byte 0	; 31EAE
 je short loc_31EE8	; 31EB5
 cmp word [byte ebx+06h], byte 0	; 31EB7
@@ -2113,7 +2113,7 @@ loc_32B8F:
 mov ax, word [byte esi+02Ah]	; 32B8F
 mov word [word_16597C], ax	; 32B93
 mov ax, word [byte esi+02Ch]	; 32B99
-mov edx, sub_4C294	; 32B9D
+mov edx, EvadePC	; 32B9D
 mov word [word_165980], ax	; 32BA2
 mov eax, esi	; 32BA8
 call skateto	; 32BAA
@@ -3880,7 +3880,7 @@ loc_34162:
 xor edx, edx	; 34162
 jmp short loc_3416B	; 34164
 loc_34166:
-mov edx, sub_4C294	; 34166
+mov edx, EvadePC	; 34166
 loc_3416B:
 mov eax, ebx	; 3416B
 call skateto	; 3416D
@@ -4502,7 +4502,7 @@ or byte [byte eax+036h], 4	; 348B0
 mov word [word_1650A6], 0	; 348B4
 loc_348BD:
 mov eax, ebx	; 348BD
-call sub_3FF26	; 348BF
+call checkpuckcoll	; 348BF
 pop esi	; 348C4
 pop edx	; 348C5
 pop ecx	; 348C6

@@ -47,7 +47,7 @@ global loc_51C44, loc_51CB8, loc_51CC9, loc_51CEE, loc_51CF7, loc_51D1E, loc_51D
 global loc_51D53, loc_51D7C, loc_51D85, loc_51DAC, loc_51DBC, loc_51DC3, loc_51DF2, loc_51DF7
 global loc_51E17, loc_51E33, loc_51E47, loc_51E54, loc_51E60, loc_51E7D, loc_51E80, loc_51E8B
 global loc_51ED3, loc_51EE9, loc_51EFE, releasepl, AddPenalty2, sub_503DE, sub_504C5, sub_50CB5
-global sub_50F7B, sub_511CC, sub_51360, sub_51361, sub_513E6, sub_51474, sub_51522, sub_51BB5
+global sub_50F7B, sub_511CC, sub_51360, sub_51361, sub_513E6, UpdatePowerPlayFlags, PenGoalStuff, StartPenaltyShot
 global EndPenaltyShot, sub_51CBA, sub_51D44, sub_51DD2
 AddPenalty:
 push ebx	; 50154
@@ -454,7 +454,7 @@ movsx edx, byte [dword eax+byte_176AE2]	; 5062F
 and byte [dword eax+byte_176AE3], 7Fh	; 50636
 cmp edx, byte 1Ah	; 5063D
 jne near loc_50747	; 50640
-call sub_51BB5	; 50646
+call StartPenaltyShot	; 50646
 mov dx, word [word_176B80]	; 5064B
 movsx eax, word [gameclock]	; 50652
 sub dx, word [gameclock]	; 50659
@@ -1424,7 +1424,7 @@ cmp word [word_1178F4], byte 0	; 51386
 jge short sub_51360	; 5138E
 or byte [byte_1178C8], 40h	; 51390
 add word [word_1178F4], byte 18h	; 51397
-call sub_51474	; 5139F
+call UpdatePowerPlayFlags	; 5139F
 call chkatop	; 513A4
 mov ax, word [gmode2]	; 513A9
 xor ah, ah	; 513AF
@@ -1487,7 +1487,7 @@ jge near loc_50BE0	; 51467
 call sub_504C5	; 5146D
 pop edx	; 51472
 ret	; 51473
-sub_51474:
+UpdatePowerPlayFlags:
 push ebx	; 51474
 push ecx	; 51475
 push edx	; 51476
@@ -1552,7 +1552,7 @@ jl short loc_51500	; 5151D
 pop edx	; 5151F
 pop ebx	; 51520
 ret	; 51521
-sub_51522:
+PenGoalStuff:
 push ebx	; 51522
 push ecx	; 51523
 push edx	; 51524
@@ -2067,7 +2067,7 @@ xor edx, edx	; 51BAF
 mov eax, edx	; 51BB1
 pop edx	; 51BB3
 ret	; 51BB4
-sub_51BB5:
+StartPenaltyShot:
 cmp dword [penshotmode], byte 0	; 51BB5
 jne near loc_51C44	; 51BBC
 cmp dword [penshotplayer], byte 5	; 51BC2

@@ -68,6 +68,7 @@ address,name,auto_name,source,confidence,evidence,file
 385BC,Acheck,,95PC,medium,NHL95PC 4FFAE (similar): mnemonic similarity 0.83 over 20 instructions,
 385F9,CanBlockShot,sub_385F9,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: TryBlockShot,src/engine/input/input.asm
 3891F,OppInReach,,95PC,medium,NHL95PC 5033D (similar): mnemonic similarity 0.80 over 54 instructions,
+389B6,Holdplayer,sub_389B6,95PC,medium,"sits between OppInReach and lcselect as in the NHL95PC module, with the same count of routines between them and a like size (n95=38 n96=33) and call count",src/engine/input/input.asm
 38A0F,lcselect,,95PC,medium,NHL95PC 50434 (sem): C:589; D:17C9A0,
 39769,getlchoice,,95PC,medium,NHL95PC 50908 (sem): R:400; R:441,
 397C0,lcfound,,95PC,medium,NHL95PC 50975 (sem): C:589; D:16595C; R:429; R:465,
@@ -102,7 +103,11 @@ address,name,auto_name,source,confidence,evidence,file
 3EB84,FacingBoards,,95PC,medium,NHL95PC 5378D (similar): mnemonic similarity 0.88 over 54 instructions,
 3EC30,checkcheck,sub_3EC30,95PC,medium,"its call lines up with the NHL95PC call in checkcx, and its address keeps the NHL95PC module order",src/engine/collide/collide.asm
 3F44A,checkint,sub_3F44A,95PC,medium,"its call lines up with the NHL95PC call in checkcx, and its address keeps the NHL95PC module order",src/engine/collide/collide.asm
+3F5E4,checkob,sub_3F5E4,95PC,medium,"sits between checkint and SkillForAnim as in the NHL95PC module, with the same count of routines between them and a like size (n95=122 n96=121) and call count",src/engine/collide/collide.asm
 3F7AC,SkillForAnim,,95PC,medium,"NHL95PC 54134 (neighbour): between checkgoalp and CheckBump, mnemonic similarity 0.83",
+3F825,ChkDelayedOffside,sub_3F825,95PC,medium,"sits between SkillForAnim and CheckBump as in the NHL95PC module, with the same count of routines between them and a like size (n95=57 n96=60) and call count",src/engine/collide/collide.asm
+3F8F4,checkpuckcoll_ccx,sub_3F8F4,95PC,high,called at the same position as in NHL95PC in 2 routine(s) named in both: checkpuckcoll,src/engine/collide/collide.asm
+3FF26,checkpuckcoll,sub_3FF26,95PC,medium,"sits between SkillForAnim and CheckBump as in the NHL95PC module, with the same count of routines between them and a like size (n95=69 n96=58) and call count",src/engine/collide/collide.asm
 3FFF3,CheckBump,,95PC,medium,NHL95PC 54990 (similar): mnemonic similarity 0.93 over 64 instructions,
 400B1,GetLowestPen,sub_400B1,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: chk4lc,src/engine/collide/collide.asm
 40189,chk4lc,,95PC,medium,"NHL95PC 54AF9 (neighbour): between CheckBump and passtoa0, mnemonic similarity 0.83",
@@ -125,14 +130,17 @@ address,name,auto_name,source,confidence,evidence,file
 45E3D,checkcx,,95PC,medium,NHL95PC 58DC7 (sem): C:494; C:492; D:176BD4; C:810,
 4629D,CPgoalie,,95PC,medium,NHL95PC 591C7 (sem): D:119197; C:589; D:117900,
 462F8,ChkGoalies,,95PC,medium,NHL95PC 59265 (sem): C:589; D:16580E; D:1656D8; D:117878,
+463AE,ReturnGoalies,sub_463AE,95PC,medium,"sits between ChkGoalies and ChkPullGoalieLate as in the NHL95PC module, with the same count of routines between them and a like size (n95=49 n96=33) and call count",src/engine/collide/collide.asm
 4640D,ChkPullGoalieLate,,95PC,medium,NHL95PC 593F5 (sem): D:117900; D:1656D8,
 464A6,SetSPA,sub_464A6,95PC,high,"called at the same position as in NHL95PC in 15 routine(s) named in both: Acheck,SkateToSpot,assintroline,assintrostand,assleavebox",src/engine/collide/collide.asm
 4666C,changeplayer,sub_4666C,95PC,medium,"its calls line up with the NHL95PC calls 2 time(s) in: assleaveice,puckfaceoff2",src/engine/hockey/hockey.asm
 46A0B,AvgCline,sub_46A0B,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: chk4lc,src/engine/hockey/hockey.asm
 46A9D,CompLine,,95PC,medium,NHL95PC 5A0A3 (sem): C:563; C:559; R:502; K:F33,
 46E93,TeamLineEnergy,,95PC,medium,"NHL95PC 5A2EE (neighbour): between ChkPullGoalieLate and findpc, mnemonic similarity 0.86",
+46EA7,getlinee,sub_46EA7,95PC,medium,"sits between TeamLineEnergy and findpc as in the NHL95PC module, with the same count of routines between them and a like size (n95=18 n96=12) and call count",src/engine/hockey/hockey.asm
 46EC9,findpc,,95PC,medium,NHL95PC 5A341 (sem): D:117874; D:117870; D:117878; R:397,
 4704A,GetHot,sub_4704A,95PC,medium,"its calls line up with the NHL95PC calls 2 time(s) in: pucknorm_body,skatetopuck",src/engine/hockey/hockey.asm
+470AD,GetHotStick,sub_470AD,95PC,medium,"sits between GetHot and SetCoachMode as in the NHL95PC module, with the same count of routines between them and a like size (n95=37 n96=29) and call count",src/engine/hockey/hockey.asm
 4729D,SetCoachMode,sub_4729D,95PC,high,"called at the same position as in NHL95PC in 6 routine(s) named in both: InitCoachModes,UpdateCoachModes",src/engine/hockey/hockey.asm
 4735D,InitCoachModes,,95PC,medium,"NHL95PC 5A669 (neighbour): between findpc and UpdateCoachModes, mnemonic similarity 0.76",
 47461,UpdateCoachModes,,95PC,medium,NHL95PC 5A77C (sem): D:117900; R:604; D:1178C3,
@@ -140,6 +148,7 @@ address,name,auto_name,source,confidence,evidence,file
 481B1,setplayer,sub_481B1,95PC,high,"called at the same position as in NHL95PC in 2 routine(s) named in both: assleavebox,releasepl",src/engine/hockey/hockey.asm
 48716,reenergizeteam,,95PC,medium,NHL95PC 5B826 (sem): R:607; K:FFFE; K:1000,
 4875E,clearteams,,95PC,medium,"NHL95PC 5B881 (neighbour): between reenergizeteam and setpersonel, mnemonic similarity 0.75",
+48897,restoreteams,sub_48897,95PC,medium,"sits between clearteams and ClearSortCords as in the NHL95PC module, with the same count of routines between them and a like size (n95=32 n96=32) and call count",src/engine/hockey/hockey.asm
 4899C,ClearSortCords,,95PC,medium,"NHL95PC 5BA4E (neighbour): between reenergizeteam and setpersonel, mnemonic similarity 0.79",
 48ACC,defaultsprites_0,sub_48ACC,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: setupice,src/engine/hockey/hockey.asm
 48BFF,TryAddPlayerToList,,95PC,medium,"NHL95PC 5BB9E (neighbour): between reenergizeteam and setpersonel, mnemonic similarity 0.76",
@@ -158,11 +167,13 @@ address,name,auto_name,source,confidence,evidence,file
 4B2C3,forcepldata,sub_4B2C3,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: forceteams,src/engine/hockey/hockey.asm
 4B7BB,doplayeracc,sub_4B7BB,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: lineinput,src/engine/skate/skate.asm
 4BFB5,EvadePlayers,,95PC,medium,"NHL95PC 5E4C4 (neighbour): between SetupTeamForIntermission and skatetopuck, mnemonic similarity 0.78",
+4C294,EvadePC,sub_4C294,95PC,medium,"sits between EvadePlayers and skateto as in the NHL95PC module, with the same count of routines between them and a like size (n95=80 n96=81) and call count",src/engine/skate/skate.asm
 4C3B7,skateto,sub_4C3B7,95PC,high,"called at the same position as in NHL95PC in 5 routine(s) named in both: SkateToSpot,asscenterd,assintroline,assleavebox,asswingd",src/engine/skate/skate.asm
 4C592,skatetopuck,,95PC,medium,NHL95PC 5EB17 (sem): K:5A4; C:810; K:384; C:809,
 4C860,playeracc,sub_4C860,95PC,medium,"its call lines up with the NHL95PC call in doplayeracc, and its address keeps the NHL95PC module order",src/engine/skate/skate.asm
 4CD50,avdgoal_box,,95PC,medium,"NHL95PC 5F04E (neighbour): between skatetopuck and FormatPlayerName, mnemonic similarity 0.82",
 4CE07,avdgoal,sub_4CE07,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: skateto,src/engine/skate/skate.asm
+4D7F1,stopna,sub_4D7F1,95PC,medium,"sits between avdgoal and goalieacc as in the NHL95PC module, with the same count of routines between them and a like size (n95=43 n96=44) and call count",src/engine/skate/skate.asm
 4D881,goalieacc,sub_4D881,95PC,medium,"its call lines up with the NHL95PC call in doplayeracc, and its address keeps the NHL95PC module order",src/engine/skate/skate.asm
 4DA09,noturn0,sub_4DA09,95PC,medium,"its call lines up with the NHL95PC call in doplayeracc, and its address keeps the NHL95PC module order",src/engine/skate/skate.asm
 4DE6E,burst,sub_4DE6E,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: check4check,src/engine/skate/skate.asm
@@ -174,11 +185,14 @@ address,name,auto_name,source,confidence,evidence,file
 5110E,releasepl,,95PC,medium,"NHL95PC 6392A (neighbour): between Stop4Pen and SetupPenaltyShot, mnemonic similarity 0.84",
 51179,chkatop,,95PC,medium,"NHL95PC 639A4 (neighbour): between Stop4Pen and SetupPenaltyShot, mnemonic similarity 0.80",
 5140E,chkprogress,,95PC,medium,NHL95PC 63C0C (sem): C:650; D:119115; D:1178F2; D:1178C3,
+51474,UpdatePowerPlayFlags,sub_51474,95PC,medium,"sits between chkprogress and ClearPenaltyBuffer as in the NHL95PC module, with the same count of routines between them and a like size (n95=57 n96=42) and call count",src/engine/penalty/penalty.asm
 514FA,ClearPenaltyBuffer,,95PC,medium,"NHL95PC 63D3C (neighbour): between Stop4Pen and SetupPenaltyShot, mnemonic similarity 0.80",
+51522,PenGoalStuff,sub_51522,95PC,medium,"sits between ClearPenaltyBuffer and SetupPenaltyShot as in the NHL95PC module, with the same count of routines between them and a like size (n95=139 n96=154) and call count",src/engine/penalty/penalty.asm
 5176A,SetupPenaltyShot,,95PC,medium,NHL95PC 63F72 (sem): D:117884; D:117880; D:11919B; D:1191A7,
 51915,ShotLaneOpen,,95PC,medium,NHL95PC 64102 (sem): R:504; R:666; D:16479C,
 51A9E,QuickShotChk,,95PC,medium,"NHL95PC 6427F (neighbour): between ShotLaneOpen and CountShotOnGoal, mnemonic similarity 0.79",
 51B52,CountShotOnGoal,,95PC,medium,NHL95PC 64338 (similar): mnemonic similarity 0.86 over 28 instructions,
+51BB5,StartPenaltyShot,sub_51BB5,95PC,medium,"sits between CountShotOnGoal and EndPenaltyShot as in the NHL95PC module, with the same count of routines between them and a like size (n95=37 n96=25) and call count",src/engine/penalty/penalty.asm
 51C45,EndPenaltyShot,sub_51C45,95PC,medium,"its call lines up with the NHL95PC call in pucknorm_body, and its address keeps the NHL95PC module order",src/engine/penalty/penalty.asm
 51F18,BuildDefaultLines,sub_51F18,95PC,medium,"its call lines up with the NHL95PC call in SetupDemoGame, and its address keeps the NHL95PC module order",src/engine/lines/lines.asm
 521C1,CanFillLineSlot,sub_521C1,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: FillDressedSlots,src/engine/lines/lines.asm
@@ -186,6 +200,7 @@ address,name,auto_name,source,confidence,evidence,file
 5260A,PickForLineSlot,,95PC,medium,NHL95PC 64E60 (sem): C:673; D:157192; R:678,
 529F3,PickGoalie,sub_529F3,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: SetupTeamLines,src/engine/lines/lines.asm
 52AC8,PickExtraSkater,,95PC,medium,NHL95PC 653BE (sem): D:11A310; R:679; D:15718C,
+52BE7,RefillLineSlots,sub_52BE7,95PC,medium,"sits between PickExtraSkater and RemoveFromLines as in the NHL95PC module, with the same count of routines between them and a like size (n95=56 n96=43) and call count",src/engine/lines/lines.asm
 52C67,RemoveFromLines,,95PC,medium,NHL95PC 655CC (sem): D:15718C; R:521,
 52F68,SetupTeamLines,,95PC,medium,NHL95PC 658F3 (sem): C:676; C:679; D:11A310; D:176DD4,
 5313B,NormalizeDressFlags,,95PC,medium,NHL95PC 65B48 (sem): D:176DD4,

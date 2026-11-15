@@ -16,7 +16,7 @@ extern off_117894, off_11D44C, off_11D4BC, off_11D52C, puckx, pucky, qsort_, ran
 extern reenergizeteam, regd2, regd3, resetplstuff, setpersonel, sflags, sprintf_, sub_13338
 extern sub_1B05E, IsCupClinched, sub_1F300, sub_313D2, sub_31BA9, donothing, sub_3509F, SkateToSpot
 extern sub_37ED0, check4check, SetSPA, sub_465BA, sub_493D4, sub_4A047, sub_4AF6B, forcepldata
-extern sub_4B59F, sub_4C294, skateto, playeracc, sub_4F452, sub_5439F, sub_5A572, sub_5BD7D
+extern sub_4B59F, EvadePC, skateto, playeracc, sub_4F452, sub_5439F, sub_5A572, sub_5BD7D
 extern sub_5DBC0, CloseTextOverlay, sub_60777, sub_612BC, sub_62311, sub_63998, sub_63A5B, sub_63F79
 extern sub_63FEF, sub_64054, sub_640D3, sub_641D4, sub_68E72, CrowdNoiseReset, sub_6904C, sfx
 extern sub_69141, sub_69161, sub_692E9, sub_69312, sub_6934E, sub_69A9B, sub_77355, sub_ADA80
@@ -3159,7 +3159,7 @@ loc_3013A:
 xor edx, edx	; 3013A
 jmp short loc_30143	; 3013C
 loc_3013E:
-mov edx, sub_4C294	; 3013E
+mov edx, EvadePC	; 3013E
 loc_30143:
 mov eax, ebx	; 30143
 call skateto	; 30145
@@ -3527,7 +3527,7 @@ loc_3059F:
 mov ax, word [byte ebx+02Ah]	; 3059F
 mov word [word_16597C], ax	; 305A3
 mov ax, word [byte ebx+02Ch]	; 305A9
-mov edx, sub_4C294	; 305AD
+mov edx, EvadePC	; 305AD
 mov word [word_165980], ax	; 305B2
 mov eax, ebx	; 305B8
 call skateto	; 305BA
@@ -3757,7 +3757,7 @@ loc_3084E:
 mov ax, word [byte ebx+02Ah]	; 3084E
 mov word [word_16597C], ax	; 30852
 mov ax, word [byte ebx+02Ch]	; 30858
-mov edx, sub_4C294	; 3085C
+mov edx, EvadePC	; 3085C
 mov word [word_165980], ax	; 30861
 mov eax, ebx	; 30867
 call skateto	; 30869
@@ -4233,7 +4233,7 @@ loc_30E40:
 mov ax, word [byte ebx+02Ah]	; 30E40
 mov word [word_16597C], ax	; 30E44
 mov ax, word [byte ebx+02Ch]	; 30E4A
-mov edx, sub_4C294	; 30E4E
+mov edx, EvadePC	; 30E4E
 mov word [word_165980], ax	; 30E53
 mov eax, ebx	; 30E59
 call skateto	; 30E5B

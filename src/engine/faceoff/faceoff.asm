@@ -12,10 +12,10 @@ extern gmode, hmroster, hmtmgoalie, hmtmstruct, introskipped, lcblink, lcboxon, 
 extern off_11787C, off_117888, off_11788C, off_117890, off_117894, off_117898, off_11789C, passplayer
 extern penshotmode, penshotplayer, penshotstart, puckvx, puckvz, puckx, pucky, puckz
 extern randomd0, regd2, regd3, resetplstuff, setpersonel, sflags, shotongoal, shotontarget
-extern sub_23656, sub_28459, StartFaceoffLineChange, sub_3509F, sub_350A5, SkateToSpot, CenterMouse, sub_463AE
+extern sub_23656, sub_28459, StartFaceoffLineChange, sub_3509F, sub_350A5, SkateToSpot, CenterMouse, ReturnGoalies
 extern SetSPA, sub_46593, sub_465BA, changeplayer, GetHot, Setplass, setplayer, sub_4A047
-extern sub_4A91D, sub_4AF6B, ResetBench, forcepldata, doplayeracc, sub_4C294, skateto, playeracc
-extern avdgoal, sub_4D7F1, AddPenalty2, sub_50CB5, sub_59A36, sub_68E31, sub_6934E, vecdist
+extern sub_4A91D, sub_4AF6B, ResetBench, forcepldata, doplayeracc, EvadePC, skateto, playeracc
+extern avdgoal, stopna, AddPenalty2, sub_50CB5, sub_59A36, sub_68E31, sub_6934E, vecdist
 extern threat, unk_164B5C, vtoa, word_1178A0, word_1178A2, word_1178B4, word_1178B6, word_1178B8
 extern word_1178BE, word_1178C0, gmode2, word_1178CA, word_1178D2, word_1178F6, word_1178F8, word_1178FA
 extern word_1178FC, word_1178FE, word_117902, word_118E8F, word_118E9F, word_118EA3, word_118EB7, word_1190D7
@@ -807,7 +807,7 @@ cmp dword [penshotstart], byte 0	; 3B02F
 je short loc_3B03D	; 3B036
 call sub_3AE48	; 3B038
 loc_3B03D:
-call sub_463AE	; 3B03D
+call ReturnGoalies	; 3B03D
 mov eax, dword [gameopts]	; 3B042
 test byte [byte eax+01h], 30h	; 3B047
 jne short loc_3B061	; 3B04B
@@ -2502,7 +2502,7 @@ loc_3C8AA:
 xor edx, edx	; 3C8AA
 jmp short loc_3C8B3	; 3C8AC
 loc_3C8AE:
-mov edx, sub_4C294	; 3C8AE
+mov edx, EvadePC	; 3C8AE
 loc_3C8B3:
 mov eax, ebx	; 3C8B3
 call skateto	; 3C8B5
@@ -3337,7 +3337,7 @@ cwde	; 3D2EA
 cmp eax, byte 7	; 3D2EB
 jle short loc_3D2FC	; 3D2EE
 mov eax, esi	; 3D2F0
-call sub_4D7F1	; 3D2F2
+call stopna	; 3D2F2
 pop esi	; 3D2F7
 pop edx	; 3D2F8
 pop ecx	; 3D2F9
@@ -4478,7 +4478,7 @@ loc_3E0B6:
 cmp dword [dword_165254], byte 8	; 3E0B6
 jne short loc_3E0C6	; 3E0BD
 mov eax, esi	; 3E0BF
-call sub_4D7F1	; 3E0C1
+call stopna	; 3E0C1
 loc_3E0C6:
 mov al, byte [byte esi+045h]	; 3E0C6
 and al, 2	; 3E0C9
@@ -4572,7 +4572,7 @@ mov word [regd2], ax	; 3E1EA
 cmp edx, byte 7	; 3E1F0
 jle short loc_3E201	; 3E1F3
 mov eax, esi	; 3E1F5
-call sub_4D7F1	; 3E1F7
+call stopna	; 3E1F7
 jmp near loc_3DEB5	; 3E1FC
 loc_3E201:
 mov eax, esi	; 3E201

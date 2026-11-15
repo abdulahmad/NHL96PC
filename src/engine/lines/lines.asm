@@ -63,7 +63,7 @@ global loc_540F8, loc_54100, loc_5410C, loc_54121, loc_54128, loc_54151, loc_541
 global loc_541C2, loc_541F1, loc_541FB, loc_5420B, loc_5422B, loc_54230, loc_54231, loc_54289
 global loc_542BA, loc_5430C, loc_54318, loc_54336, loc_54351, loc_54363, loc_54374, loc_543C4
 global loc_543DB, loc_543DE, loc_543F1, loc_543FA, loc_54410, loc_54412, loc_54453, loc_54475
-global loc_544AD, loc_544DA, loc_544EB, loc_544FE, BuildDefaultLines, CanFillLineSlot, PickGoalie, sub_52BE7
+global loc_544AD, loc_544DA, loc_544EB, loc_544FE, BuildDefaultLines, CanFillLineSlot, PickGoalie, RefillLineSlots
 global CanRemovePlayer, sub_53260, sub_5358E, sub_535D5, sub_535F2, sub_5360D, sub_53640, sub_53BD7
 global sub_53C6F, sub_53C84, sub_53D26, sub_53F6E, sub_53FE6, sub_54024, sub_54060, sub_540C4
 global sub_54237, sub_54391, sub_5439F, sub_54427
@@ -1193,7 +1193,7 @@ movsx esi, ax	; 52BDA
 cmp esi, byte 19h	; 52BDD
 jl short loc_52B8F	; 52BE0
 jmp near loc_529ED	; 52BE2
-sub_52BE7:
+RefillLineSlots:
 push esi	; 52BE7
 push edi	; 52BE8
 enter 10h, 0	; 52BE9
@@ -1331,7 +1331,7 @@ movsx ebx, word [byte ebp-04h]	; 52D68
 movsx eax, word [byte ebp-034h]	; 52D6C
 mov ecx, 4	; 52D70
 movsx edx, di	; 52D75
-call sub_52BE7	; 52D78
+call RefillLineSlots	; 52D78
 loc_52D7D:
 inc dword [byte ebp-028h]	; 52D7D
 inc edi	; 52D80
@@ -1359,7 +1359,7 @@ movsx ebx, word [byte ebp-014h]	; 52DB5
 movsx eax, word [byte ebp-034h]	; 52DB9
 mov ecx, 3	; 52DBD
 movsx edx, di	; 52DC2
-call sub_52BE7	; 52DC5
+call RefillLineSlots	; 52DC5
 loc_52DCA:
 inc dword [byte ebp-020h]	; 52DCA
 inc edi	; 52DCD
@@ -1387,7 +1387,7 @@ movsx ebx, word [byte ebp-08h]	; 52E02
 movsx eax, word [byte ebp-034h]	; 52E06
 mov ecx, 2	; 52E0A
 movsx edx, di	; 52E0F
-call sub_52BE7	; 52E12
+call RefillLineSlots	; 52E12
 loc_52E17:
 inc dword [byte ebp-01Ch]	; 52E17
 inc edi	; 52E1A
@@ -1415,7 +1415,7 @@ movsx ebx, word [byte ebp-010h]	; 52E4F
 movsx eax, word [byte ebp-034h]	; 52E53
 mov ecx, 2	; 52E57
 movsx edx, di	; 52E5C
-call sub_52BE7	; 52E5F
+call RefillLineSlots	; 52E5F
 loc_52E64:
 inc dword [byte ebp-02Ch]	; 52E64
 inc edi	; 52E67
@@ -1460,7 +1460,7 @@ movsx ebx, word [byte ebp-0Ch]	; 52EC1
 movsx eax, word [byte ebp-034h]	; 52EC5
 mov ecx, 2	; 52EC9
 movsx edx, di	; 52ECE
-call sub_52BE7	; 52ED1
+call RefillLineSlots	; 52ED1
 loc_52ED6:
 inc dword [byte ebp-030h]	; 52ED6
 inc edi	; 52ED9
@@ -1488,7 +1488,7 @@ movsx ebx, word [byte ebp-018h]	; 52F0E
 movsx eax, word [byte ebp-034h]	; 52F12
 mov ecx, 2	; 52F16
 movsx edx, di	; 52F1B
-call sub_52BE7	; 52F1E
+call RefillLineSlots	; 52F1E
 loc_52F23:
 inc dword [byte ebp-024h]	; 52F23
 inc edi	; 52F26

@@ -315,8 +315,8 @@
 ;  3E6D4  sub_3E6D4                                engine/faceoff/faceoff.asm                   2
 ;  3E6EC  BlockShotDive                            engine/collide/collide.asm                   1
 ;  3E885  check4check                              engine/collide/collide.asm                   2
-;  3F5E4  sub_3F5E4                                engine/collide/collide.asm                   2
-;  3FF26  sub_3FF26                                engine/collide/collide.asm                   1
+;  3F5E4  checkob                                  engine/collide/collide.asm                   2
+;  3FF26  checkpuckcoll                            engine/collide/collide.asm                   1
 ;  400B1  GetLowestPen                             engine/collide/collide.asm                   1
 ;  40189  chk4lc                                   engine/collide/collide.asm                   1
 ;  402AD  sub_402AD                                engine/collide/collide.asm                   1
@@ -339,7 +339,7 @@
 ;  44609  doshot                                   engine/collide/collide.asm                   2
 ;  44B99  sub_44B99                                engine/collide/collide.asm                   1
 ;  462F8  ChkGoalies                               engine/collide/collide.asm                   1
-;  463AE  sub_463AE                                engine/collide/collide.asm                   1
+;  463AE  ReturnGoalies                            engine/collide/collide.asm                   1
 ;  4640D  ChkPullGoalieLate                        engine/collide/collide.asm                   1
 ;  464A6  SetSPA                                   engine/collide/collide.asm                   8
 ;  46593  sub_46593                                engine/collide/collide.asm                   2
@@ -351,7 +351,7 @@
 ;  46E93  TeamLineEnergy                           engine/hockey/hockey.asm                     1
 ;  46EC9  findpc                                   engine/hockey/hockey.asm                     1
 ;  4704A  GetHot                                   engine/hockey/hockey.asm                     4
-;  470AD  sub_470AD                                engine/hockey/hockey.asm                     1
+;  470AD  GetHotStick                              engine/hockey/hockey.asm                     1
 ;  4711E  sub_4711E                                engine/hockey/hockey.asm                     1
 ;  4786F  sub_4786F                                engine/hockey/hockey.asm                     1
 ;  4806A  sub_4806A                                engine/hockey/hockey.asm                     1
@@ -382,12 +382,12 @@
 ;  4B748  sub_4B748                                engine/hockey/hockey.asm                     1
 ;  4B7BB  doplayeracc                              engine/skate/skate.asm                       4
 ;  4BFB5  EvadePlayers                             engine/skate/skate.asm                       1
-;  4C294  sub_4C294                                engine/skate/skate.asm                       3
+;  4C294  EvadePC                                  engine/skate/skate.asm                       3
 ;  4C3B7  skateto                                  engine/skate/skate.asm                       3
 ;  4C592  skatetopuck                              engine/skate/skate.asm                       2
 ;  4C860  playeracc                                engine/skate/skate.asm                       3
 ;  4CE07  avdgoal                                  engine/skate/skate.asm                       1
-;  4D7F1  sub_4D7F1                                engine/skate/skate.asm                       1
+;  4D7F1  stopna                                   engine/skate/skate.asm                       1
 ;  4DD1B  sub_4DD1B                                engine/skate/skate.asm                       1
 ;  4DE6E  burst                                    engine/skate/skate.asm                       2
 ;  4DED8  sub_4DED8                                engine/engine_4DED8.asm                      1
@@ -406,7 +406,7 @@
 ;  50CB5  sub_50CB5                                engine/penalty/penalty.asm                   2
 ;  5140E  chkprogress                              engine/penalty/penalty.asm                   1
 ;  514FA  ClearPenaltyBuffer                       engine/penalty/penalty.asm                   1
-;  51522  sub_51522                                engine/penalty/penalty.asm                   1
+;  51522  PenGoalStuff                             engine/penalty/penalty.asm                   1
 ;  5176A  SetupPenaltyShot                         engine/penalty/penalty.asm                   1
 ;  51915  ShotLaneOpen                             engine/penalty/penalty.asm                   2
 ;  51A9E  QuickShotChk                             engine/penalty/penalty.asm                   1

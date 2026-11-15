@@ -10,7 +10,7 @@ extern dword_164744, dword_164748, dword_164750, dword_165254, dword_1797B4, gam
 extern hmtmstruct, introskipped, lcblink, lcboxon, lcline, off_11787C, off_117888, off_11788C
 extern off_117898, off_11789C, passplayer, penshotlive, penshotmode, puckvx, puckx, pucky
 extern randomd0, regd2, regd3, setpersonel, sflags, skatetopuck, donothing, SetLCmode
-extern sub_3509F, sub_3E665, BlockShotDive, sub_3F5E4, sub_406A0, sub_40B2A, sub_40C14, sub_4137F
+extern sub_3509F, sub_3E665, BlockShotDive, checkob, sub_406A0, sub_40B2A, sub_40C14, sub_4137F
 extern sub_415FF, sub_441EF, sub_442B3, Findhittype, doshot, SetSPA, sub_46593, changeplayer
 extern sub_4A047, doplayeracc, playeracc, sub_4DD1B, burst, sub_68E31, sfx, MouseRead
 extern vecdist, unk_164754, unk_164B5C, vtoa, word_1178A8, word_1178AC, word_1178AE, word_1178B4
@@ -57,7 +57,7 @@ global loc_3A373, loc_3A3EF, loc_3A42A, loc_3A42F, loc_3A494, loc_3A499, loc_3A4
 global loc_3A506, loc_3A550, loc_3A555, loc_3A55C, loc_3A57B, loc_3A5D4, loc_3A5EB, loc_3A5FA
 global loc_3A613, loc_3A61F, loc_3A625, loc_3A648, loc_3A65F, loc_3A674, loc_3A6B4, loc_3A6C2
 global loc_3A6CB, loc_3A6DD, loc_3A709, loc_3A744, loc_3A75A, loc_3A76E, loc_3A789, loc_3A7A0
-global sub_38202, sub_3832F, CanBlockShot, sub_389B6, sub_38AAF, sub_38BFA, sub_38F9F, sub_39847
+global sub_38202, sub_3832F, CanBlockShot, Holdplayer, sub_38AAF, sub_38BFA, sub_38F9F, sub_39847
 global sub_3987A, CenterMouse, sub_39955, sub_399AB, sub_39DB8, sub_39E93, sub_3A2F6, sub_3A609
 global sub_3A6F3
 lineinput:
@@ -847,7 +847,7 @@ add ecx, 0A0h	; 389A5
 cmp dword [byte ebp-04h], byte 6	; 389AB
 jl short loc_38953	; 389AF
 jmp near loc_38916	; 389B1
-sub_389B6:
+Holdplayer:
 push ebx	; 389B6
 push edx	; 389B7
 mov ebx, eax	; 389B8
@@ -1752,7 +1752,7 @@ movsx ax, byte [eax]	; 3941C
 cmp ax, word [dword ebx+086h]	; 39420
 jne near loc_39536	; 39427
 mov eax, ebx	; 3942D
-call sub_3F5E4	; 3942F
+call checkob	; 3942F
 cmp word [byte ebx+01Ah], byte 0	; 39434
 jne short loc_3944B	; 39439
 mov al, byte [byte ebx+045h]	; 3943B
@@ -1882,7 +1882,7 @@ cwde	; 39554
 test eax, eax	; 39555
 je short loc_39565	; 39557
 mov eax, ebx	; 39559
-call sub_389B6	; 3955B
+call Holdplayer	; 3955B
 pop edi	; 39560
 pop esi	; 39561
 pop ecx	; 39562

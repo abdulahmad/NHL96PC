@@ -57,8 +57,8 @@ global loc_4DB48, loc_4DB4D, loc_4DB51, loc_4DB61, loc_4DB66, loc_4DB68, loc_4DB
 global loc_4DBDA, loc_4DBE1, loc_4DBE8, loc_4DBEF, loc_4DC20, loc_4DC2F, loc_4DC80, loc_4DC87
 global loc_4DC8E, loc_4DCA7, loc_4DCB3, loc_4DCBA, loc_4DCCD, loc_4DCD2, loc_4DCFA, loc_4DD09
 global loc_4DD16, loc_4DD64, loc_4DD66, loc_4DD80, loc_4DDE4, loc_4DE05, loc_4DE26, loc_4DE48
-global loc_4DE61, loc_4DE96, loc_4DECA, skatetopuck, doplayeracc, sub_4C294, skateto, playeracc
-global avdgoal, sub_4D3F8, sub_4D7F1, goalieacc, noturn0, sub_4DD1B, burst
+global loc_4DE61, loc_4DE96, loc_4DECA, skatetopuck, doplayeracc, EvadePC, skateto, playeracc
+global avdgoal, sub_4D3F8, stopna, goalieacc, noturn0, sub_4DD1B, burst
 doplayeracc:
 push ebx	; 4B7BB
 push ecx	; 4B7BC
@@ -980,7 +980,7 @@ pop edx	; 4C290
 pop ecx	; 4C291
 pop ebx	; 4C292
 ret	; 4C293
-sub_4C294:
+EvadePC:
 push ebx	; 4C294
 push ecx	; 4C295
 push edx	; 4C296
@@ -2727,13 +2727,13 @@ mov eax, esi	; 4D7DE
 call SetSPA	; 4D7E0
 loc_4D7E5:
 mov eax, esi	; 4D7E5
-call sub_4D7F1	; 4D7E7
+call stopna	; 4D7E7
 pop esi	; 4D7EC
 pop edx	; 4D7ED
 pop ecx	; 4D7EE
 pop ebx	; 4D7EF
 ret	; 4D7F0
-sub_4D7F1:
+stopna:
 push ebx	; 4D7F1
 push edx	; 4D7F2
 mov dl, byte [gmode]	; 4D7F3
@@ -2811,7 +2811,7 @@ or eax, edx	; 4D8AE
 je short loc_4D8BC	; 4D8B0
 loc_4D8B2:
 mov eax, ebx	; 4D8B2
-call sub_4D7F1	; 4D8B4
+call stopna	; 4D8B4
 pop ecx	; 4D8B9
 pop ebx	; 4D8BA
 ret	; 4D8BB

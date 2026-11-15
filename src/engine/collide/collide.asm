@@ -13,7 +13,7 @@ extern off_11788C, off_117898, off_11789C, passplayer, penshotctl, penshotlive, 
 extern penshotstart, puckvx, puckvz, puckx, pucky, puckz, randomd0, regd2
 extern regd3, setpersonel, sflags, shotongoal, shotontarget, sub_235F2, sub_23965, sub_23E06
 extern sub_23E4E, sub_30274, sub_3509F, sub_350D3, CanBlockShot, sub_39955, changeplayer, sub_46988
-extern AvgCline, GetHot, sub_470AD, sub_4711E, sub_4786F, sub_4806A, doplayeracc, burst
+extern AvgCline, GetHot, GetHotStick, sub_4711E, sub_4786F, sub_4806A, doplayeracc, burst
 extern sub_4F452, PostInjuryEvent, AddPenalty2, sub_50CB5, EndPenaltyShot, CanRemovePlayer, CloseTextOverlay, sub_68E31
 extern sfx, sub_69141, sub_BE960, vecdist, threat, unk_164B5C, unk_1657BC, unk_1658F2
 extern vtoa, wcradiusx, word_1178A0, word_1178A6, word_1178A8, word_1178AC, word_1178AE, word_1178B4
@@ -147,12 +147,12 @@ global loc_46299, loc_462E8, loc_462F6, loc_4631F, loc_4636B, loc_46378, loc_463
 global loc_4639D, loc_463A9, loc_463BF, loc_463E0, loc_463E6, loc_463F6, loc_46401, loc_46446
 global loc_4644D, loc_46465, loc_4646B, loc_46498, loc_464E9, loc_46517, loc_46526, loc_4652D
 global loc_4654C, loc_46557, loc_4656A, loc_46571, loc_4658A, loc_46590, loc_465B7, passtoa0
-global setInjuryType, BlockShotDive, TryBlockShot, check4check, checkcheck, sub_3F212, checkint, sub_3F5E4
-global sub_3F825, sub_3F8F4, sub_3FF26, GetLowestPen, sub_402AD, sub_40524, sub_406A0, sub_409D5
+global setInjuryType, BlockShotDive, TryBlockShot, check4check, checkcheck, sub_3F212, checkint, checkob
+global ChkDelayedOffside, checkpuckcoll_ccx, checkpuckcoll, GetLowestPen, sub_402AD, sub_40524, sub_406A0, sub_409D5
 global sub_40B2A, sub_40C14, sub_4137F, sub_41393, sub_41432, sub_415FF, sub_41642, CompShoot
 global sub_41BFC, sub_41FDA, sub_4203B, sub_42072, FallDown, sub_43026, puckshadow, sub_4334D
 global sub_43605, sub_437EB, sub_43C7E, sub_441EF, sub_442B3, Findhittype, sub_444A7, doshot
-global sub_44B99, sub_44D62, sub_456AF, sub_458E4, sub_459B2, sub_45A31, sub_45B60, sub_463AE
+global sub_44B99, sub_44D62, sub_456AF, sub_458E4, sub_459B2, sub_45A31, sub_45B60, ReturnGoalies
 global SetSPA, sub_46593, wallcoll
 BlockShotDive:
 push ebx	; 3E6EC
@@ -1482,7 +1482,7 @@ pop esi	; 3F5E0
 pop ecx	; 3F5E1
 pop ebx	; 3F5E2
 ret	; 3F5E3
-sub_3F5E4:
+checkob:
 push ebx	; 3F5E4
 push ecx	; 3F5E5
 push edx	; 3F5E6
@@ -1673,7 +1673,7 @@ loc_3F81F:
 movzx eax, byte [byte eax+05Bh]	; 3F81F
 pop edx	; 3F823
 ret	; 3F824
-sub_3F825:
+ChkDelayedOffside:
 push edx	; 3F825
 mov edx, dword [gameopts]	; 3F826
 test byte [byte edx+01h], 2	; 3F82C
@@ -1739,7 +1739,7 @@ call AddPenalty2	; 3F8E8
 mov eax, 1	; 3F8ED
 pop edx	; 3F8F2
 ret	; 3F8F3
-sub_3F8F4:
+checkpuckcoll_ccx:
 push ebx	; 3F8F4
 push ecx	; 3F8F5
 push esi	; 3F8F6
@@ -1947,7 +1947,7 @@ mov ax, word [word_165980]	; 3FBD7
 cmp ax, word [word_16597C]	; 3FBDD
 jl near loc_3FBFA	; 3FBE4
 mov eax, esi	; 3FBEA
-call sub_3F825	; 3FBEC
+call ChkDelayedOffside	; 3FBEC
 mov edx, esi	; 3FBF1
 mov eax, edi	; 3FBF3
 call sub_43C7E	; 3FBF5
@@ -2060,7 +2060,7 @@ add eax, edx	; 3FD76
 cmp eax, byte 64h	; 3FD78
 ja near loc_3E813	; 3FD7B
 mov eax, esi	; 3FD81
-call sub_3F825	; 3FD83
+call ChkDelayedOffside	; 3FD83
 mov edx, esi	; 3FD88
 mov eax, edi	; 3FD8A
 call sub_437EB	; 3FD8C
@@ -2077,7 +2077,7 @@ movsx eax, word [eax]	; 3FDB8
 cmp eax, byte 8	; 3FDBB
 jge near loc_3FE82	; 3FDBE
 mov eax, esi	; 3FDC4
-call sub_470AD	; 3FDC6
+call GetHotStick	; 3FDC6
 sar word [word_16597C], 1	; 3FDCB
 sar word [word_165980], 1	; 3FDD2
 cmp word [word_16597C], byte 0	; 3FDD9
@@ -2177,7 +2177,7 @@ mov edx, esi	; 3FF18
 mov eax, edi	; 3FF1A
 call sub_43026	; 3FF1C
 jmp near loc_3E813	; 3FF21
-sub_3FF26:
+checkpuckcoll:
 push ebx	; 3FF26
 push ecx	; 3FF27
 push edx	; 3FF28
@@ -2213,7 +2213,7 @@ cmp eax, byte 28h	; 3FF8F
 jg short loc_3FFA7	; 3FF92
 movsx edx, dx	; 3FF94
 mov eax, ebx	; 3FF97
-call sub_3F8F4	; 3FF99
+call checkpuckcoll_ccx	; 3FF99
 inc ecx	; 3FF9E
 loc_3FF9F:
 movsx eax, cx	; 3FF9F
@@ -2235,7 +2235,7 @@ cmp eax, byte 28h	; 3FFDB
 jg short loc_3FFEE	; 3FFDE
 movsx edx, si	; 3FFE0
 mov eax, ebx	; 3FFE3
-call sub_3F8F4	; 3FFE5
+call checkpuckcoll_ccx	; 3FFE5
 dec cx	; 3FFEA
 jne short loc_3FFBB	; 3FFEC
 loc_3FFEE:
@@ -10112,7 +10112,7 @@ pop edx	; 463AA
 pop ecx	; 463AB
 pop ebx	; 463AC
 ret	; 463AD
-sub_463AE:
+ReturnGoalies:
 push ebx	; 463AE
 push ecx	; 463AF
 push edx	; 463B0

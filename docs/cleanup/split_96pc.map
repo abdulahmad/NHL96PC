@@ -1,0 +1,4 @@
+# Source cleanup phase 2 (2026-11-15), NHL 96 PC: input of tools/build/split_modules.py. Only text moves; ./build.sh must print MATCH.
+rename engine/engine_2D9D9 engine/threestars Pre-game intro skate and the three stars (95 PC engine/intro, 94G hockey94).
+cut TurnToward engine/assign Skater assignments: box, bench, Stanley Cup skate, defence and wings (94G logic94).
+rename engine/engine_4DED8 engine/savestate Saved game state: save and load the game in progress (95 PC pc/game_saveload).

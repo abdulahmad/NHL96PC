@@ -66,11 +66,21 @@
   },
   {
    "start": 186841,
-   "end": 201682,
+   "end": 193503,
    "module": "engine_2D9D9",
    "obj": 1,
-   "file": "engine/engine_2D9D9.asm",
+   "file": "engine/threestars/threestars.asm",
    "note": "placeholder"
+  },
+  {
+   "obj": 1,
+   "start": 193503,
+   "end": 201682,
+   "module": "engine_assign",
+   "file": "engine/assign/assign.asm",
+   "desc": "Skater assignments: box, bench, Stanley Cup skate, defence and wings (94G logic94).",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "engine"
   },
   {
    "start": 201682,
@@ -125,7 +135,7 @@
    "end": 324691,
    "module": "engine_4DED8",
    "obj": 1,
-   "file": "engine/engine_4DED8.asm",
+   "file": "engine/savestate/savestate.asm",
    "note": "placeholder"
   },
   {

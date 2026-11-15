@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_AA5C4 progbits alloc exec nowrite align=1
-extern FatalError, __STOSD, _dos_getvect_, _dos_setvect_, asc_1130F8, dword_11F9A8, dword_1228D0, dword_1228D8
+extern FatalError, __STOSD, _dos_getvect_, _dos_setvect_, str_AddtimerLISTFULL, dword_11F9A8, dword_1228D0, dword_1228D8
 extern dword_1228DC, dword_1228E0, dword_1228E4, dword_1228F4, dword_1228FC, dword_122930, oldint8off, oldint8sel
 extern sub_B65D4, sub_DE247, sub_DE3D8, sub_E04D0, sub_E0520, tickcount, timercallbacks
 global InstallTimer, RestoreTimer, TimerISR, addtimer, loc_AA601, loc_AA609, loc_AA60B, loc_AA61C
@@ -71,7 +71,7 @@ cmp dword [dword eax+timercallbacks], byte 0	; AA64B
 je short loc_AA638	; AA652
 jmp short loc_AA643	; AA654
 loc_AA656:
-push asc_1130F8	; AA656
+push str_AddtimerLISTFULL	; AA656
 call FatalError	; AA65B
 add esp, byte 4	; AA660
 ret	; AA663

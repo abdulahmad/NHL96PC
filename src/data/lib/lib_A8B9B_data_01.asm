@@ -3,8 +3,8 @@ bits 32
 %include "hockey.inc"
 section s_11309C progbits alloc noexec write align=1
 global asc_11309C, asc_1130A1, asc_1130A6, asc_1130AB, asc_1130B0, asc_1130BC, asc_1130C1, asc_1130C6
-global asc_1130CF, asc_1130D5, asc_1130E0, asc_1130E7, asc_1130F0, asc_1130F8, asc_113110, asc_113154
-global asc_11315C, asc_113168, asc_11316C
+global asc_1130CF, asc_1130D5, asc_1130E0, asc_1130E7, asc_1130F0, str_AddtimerLISTFULL, asc_113110, str_LOWMEM
+global str_HIGHMEM, asc_113168, asc_11316C
 asc_11309C:
 db 021h,070h,061h,06Ch,00h
 asc_1130A1:
@@ -31,7 +31,7 @@ asc_1130E7:
 db 025h,073h,020h,025h,064h,02Eh,025h,064h,00h
 asc_1130F0:
 db 030h,030h,030h,030h,00h,00h,00h,00h
-asc_1130F8:
+str_AddtimerLISTFULL:
 db 061h,064h,064h,074h,069h,06Dh,065h,072h,020h,02Dh,020h,04Ch,049h,053h,054h,020h
 db 046h,055h,04Ch,04Ch,0Ah,00h,00h,00h
 asc_113110:
@@ -40,9 +40,9 @@ db 049h,04Eh,053h,055h,046h,046h,049h,043h,049h,045h,04Eh,054h,020h,04Dh,045h,04
 db 04Fh,052h,059h,020h,054h,04Fh,020h,049h,04Eh,049h,054h,049h,041h,04Ch,049h,05Ah
 db 045h,020h,04Dh,045h,04Dh,04Fh,052h,059h,020h,04Dh,041h,04Eh,041h,047h,045h,052h
 db 0Ah,00h,063h,06Fh
-asc_113154:
+str_LOWMEM:
 db 04Ch,04Fh,057h,020h,04Dh,045h,04Dh,00h
-asc_11315C:
+str_HIGHMEM:
 db 048h,049h,047h,048h,020h,04Dh,045h,04Dh,00h,079h,031h,02Ch
 asc_113168:
 db 047h,041h,050h,00h

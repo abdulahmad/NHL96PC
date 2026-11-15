@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_DCC25 progbits alloc exec nowrite align=1
-extern __CHP, byte_122794, byte_123988, dword_1149B4, dword_1149B8, dword_114AD8, dword_114ADC, dword_114AE0
+extern __CHP, byte_122794, byte_123988, str_Inf, str_Nan, dword_114AD8, dword_114ADC, dword_114AE0
 extern dword_114AE4, dword_1210C0, dword_1228F4, qword_1149BC, qword_114AC8, qword_114AD0, qword_114AF2, sub_AAB40
 extern sub_B2B30, sub_BF02C, sub_BF034, sub_BF04B, sub_BF8A8, sub_DF6A7, sub_DF810, sub_E0520
 extern unk_114AF0
@@ -53,10 +53,10 @@ xor bh, bh	; DCC7C
 and ebx, 0FFFFh	; DCC7E
 or edx, ebx	; DCC84
 jne short loc_DCC90	; DCC86
-mov edx, dword [dword_1149B4]	; DCC88
+mov edx, dword [str_Inf]	; DCC88
 jmp short loc_DCC96	; DCC8E
 loc_DCC90:
-mov edx, dword [dword_1149B8]	; DCC90
+mov edx, dword [str_Nan]	; DCC90
 loc_DCC96:
 mov dword [eax], edx	; DCC96
 mov eax, 1	; DCC98

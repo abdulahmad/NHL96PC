@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_14FAC0 progbits alloc noexec write align=1
 extern sub_CFCF8, unk_11418C
-global asc_14FADE, byte_14FAC0, byte_14FAC1, byte_14FAC2, byte_14FAC3, byte_14FAC5, byte_14FAC6, byte_14FAC8
+global str_StackOverflow, byte_14FAC0, byte_14FAC1, byte_14FAC2, byte_14FAC3, byte_14FAC5, byte_14FAC6, byte_14FAC8
 global byte_14FAC9, byte_14FACB, byte_14FACC, byte_14FAF0, dword_14FAD8, off_14FAD0, off_14FAD4, word_14FADC
 byte_14FAC0:
 db 039h
@@ -33,7 +33,7 @@ dword_14FAD8:
 db 00h,00h,00h,00h
 word_14FADC:
 db 00h,00h
-asc_14FADE:
+str_StackOverflow:
 db 053h,074h,061h,063h,06Bh,020h,04Fh,076h,065h,072h,066h,06Ch,06Fh,077h,021h,0Dh
 db 0Ah,00h
 byte_14FAF0:

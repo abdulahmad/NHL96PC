@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_D069B progbits alloc exec nowrite align=1
-extern SetDrawBitmap, __fatal_runtime_error_, asc_114180, asc_114194, asc_1141A4, asc_14FADE, byte_11FA2F, dword_11F5A4
+extern SetDrawBitmap, __fatal_runtime_error_, asc_114180, asc_114194, asc_1141A4, str_StackOverflow, byte_11FA2F, dword_11F5A4
 extern dword_11F5A8, dword_11F5AC, dword_11F5B0, dword_11F5B4, dword_11F5C0, dword_11F5C4, dword_11F5C8, dword_11F61C
 extern dword_11FA18, dword_11FA1C, dword_11FA20, dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4, dword_1228FC
 extern dword_122900, dword_12440C, dword_14F0A8, dword_14FAD8, dword_1A1098, dword_1A109C, dword_1A10A0, dword_1A10A4
@@ -1203,7 +1203,7 @@ cmp ax, word [word_14FADC]	; D145B
 je short loc_D1465	; D1462
 ret	; D1464
 loc_D1465:
-mov eax, asc_14FADE	; D1465
+mov eax, str_StackOverflow	; D1465
 mov edx, 1	; D146A
 call __fatal_runtime_error_	; D146F
 __int386x_:

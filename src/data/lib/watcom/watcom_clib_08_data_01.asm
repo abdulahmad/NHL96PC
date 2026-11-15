@@ -4,8 +4,8 @@ bits 32
 section s_113B10 progbits alloc noexec write align=1
 global asc_113B10, asc_113B1E, asc_113B3B, asc_113B59, asc_113B68, asc_113B7A, asc_113B92, asc_113BAA
 global asc_113BCC, asc_113BE1, asc_113C00, asc_113C17, asc_113C2D, asc_113C43, asc_113C56, asc_113C82
-global asc_113C96, asc_113CB8, asc_113CD3, asc_113CED, asc_113E28, asc_113E2C, asc_113E4C, asc_113E64
-global asc_113E78, asc_113E98, asc_113EBC, asc_113ED0, asc_113ED8, unk_113D08, unk_113D81, unk_113D93
+global asc_113C96, asc_113CB8, asc_113CD3, asc_113CED, asc_113E28, asc_113E2C, asc_113E4C, str_EXITTODOSY
+global str_PAUSEPRESSANYKEY, str_RemovewindowROWSPACE, str_FshVshQfsQvs, str_Vsh, str_Qvs, unk_113D08, unk_113D81, unk_113D93
 global unk_113DA4, unk_113DB5, unk_113DC6, unk_113DDB, unk_113DF0, unk_113E00, unk_113E12
 asc_113B10:
 db 055h,06Eh,06Bh,06Eh,06Fh,077h,06Eh,020h,065h,072h,072h,06Fh,072h,00h
@@ -111,20 +111,20 @@ db 069h,064h,020h,063h,068h,075h,06Eh,06Bh,020h,074h,079h,070h,065h,00h,00h,00h
 asc_113E4C:
 db 072h,061h,074h,065h,03Dh,025h,064h,02Eh,025h,064h,020h,020h,061h,076h,067h,03Dh
 db 025h,064h,02Eh,025h,064h,0Ah,00h,00h
-asc_113E64:
+str_EXITTODOSY:
 db 045h,058h,049h,054h,020h,054h,04Fh,020h,044h,04Fh,053h,020h,028h,059h,02Fh,04Eh
 db 029h,00h,020h,020h
-asc_113E78:
+str_PAUSEPRESSANYKEY:
 db 050h,041h,055h,053h,045h,020h,02Dh,020h,050h,052h,045h,053h,053h,020h,041h,04Eh
 db 059h,020h,04Bh,045h,059h,020h,054h,04Fh,020h,052h,045h,053h,055h,04Dh,045h,00h
-asc_113E98:
+str_RemovewindowROWSPACE:
 db 072h,065h,06Dh,06Fh,076h,065h,077h,069h,06Eh,064h,06Fh,077h,020h,02Dh,020h,052h
 db 04Fh,057h,020h,053h,050h,041h,043h,045h,020h,043h,04Fh,052h,052h,055h,050h,054h
 db 045h,044h,0Ah,00h
-asc_113EBC:
+str_FshVshQfsQvs:
 db 02Eh,066h,073h,068h,02Eh,076h,073h,068h,02Eh,071h,066h,073h,02Eh,071h,076h,073h
 db 00h,06Ch,020h,073h
-asc_113ED0:
+str_Vsh:
 db 02Eh,076h,073h,068h,00h,071h,075h,061h
-asc_113ED8:
+str_Qvs:
 db 02Eh,071h,076h,073h,00h,00h,00h,00h

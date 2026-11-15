@@ -2,11 +2,11 @@
 bits 32
 %include "hockey.inc"
 section s_1149B4 progbits alloc noexec write align=1
-global _IsTable, dword_1149B4, dword_1149B8, dword_114AD8, dword_114ADC, dword_114AE0, dword_114AE4, dword_114AE8
+global _IsTable, str_Inf, str_Nan, dword_114AD8, dword_114ADC, dword_114AE0, dword_114AE4, dword_114AE8
 global dword_114AEC, qword_1149BC, qword_114AC8, qword_114AD0, qword_114AF2, unk_114AF0
-dword_1149B4:
+str_Inf:
 db 069h,06Eh,066h,00h
-dword_1149B8:
+str_Nan:
 db 06Eh,061h,06Eh,00h
 qword_1149BC:
 db 00h,00h,00h,00h,00h,00h,0F0h,0BFh

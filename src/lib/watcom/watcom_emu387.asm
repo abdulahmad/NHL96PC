@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_D284C progbits alloc exec nowrite align=1
-extern __int7, _dos_setvect_, asc_1142A8, byte_14FC70, byte_14FC71, dword_124435, dword_14FC80, dword_1512C0
+extern __int7, _dos_setvect_, str_RATIONALDOS4G, byte_14FC70, byte_14FC71, dword_124435, dword_14FC80, dword_1512C0
 extern dword_1512E0, dword_1512E4, dword_1512E8, dword_1512EC, jpt_D25B8, jpt_D26B8, sub_B65D4, unk_14FBF4
 extern unk_1A1104, unk_D2440, unk_D2444, unk_D2448, unk_D244A, unk_D244C, unk_D244E, unk_D249A
 extern unk_D249C, unk_D24A0, unk_D24A2, unk_D24EA, unk_D24EE, unk_D24F8, unk_D2558
@@ -4059,7 +4059,7 @@ jne short loc_D56D8	; D56D1
 test dx, dx	; D56D3
 je short loc_D5724	; D56D6
 loc_D56D8:
-mov esi, asc_1142A8	; D56D8
+mov esi, str_RATIONALDOS4G	; D56D8
 mov eax, 0A00h	; D56DD
 push es	; D56E2
 int 31h	; D56E3

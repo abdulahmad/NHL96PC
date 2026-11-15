@@ -5,8 +5,8 @@ section s_1102EC progbits alloc noexec write align=1
 global asc_1102EC, asc_1102F8, asc_1102FD, asc_110308, asc_11030C, asc_110313, asc_11031D, asc_110333
 global asc_110338, asc_11033D, asc_110342, asc_110347, asc_11034C, asc_110358, asc_110360, asc_110398
 global asc_1103B9, asc_1103D8, asc_110452, asc_1104B7, asc_1104BC, asc_1104C1, asc_1104CA, asc_1104D0
-global asc_11050E, asc_11054C, asc_110552, asc_11055D, asc_11058D, asc_1105BF, asc_1105F0, asc_11061C
-global asc_110625, asc_110682, asc_110689, asc_1106A7, asc_1106B3, asc_1106EE, asc_1106F9, asc_11071C
+global asc_11050E, asc_11054C, asc_110552, asc_11055D, asc_11058D, asc_1105BF, asc_1105F0, str_CDSTREAM
+global asc_110625, asc_110682, asc_110689, str_SECCDSTREAM, asc_1106B3, asc_1106EE, asc_1106F9, asc_11071C
 global asc_110729, unk_1102F6, unk_110302, unk_110304, unk_110306, unk_11031A, unk_110324, unk_110351
 global unk_110353, unk_110355, unk_11041A, unk_11048D, unk_1106E8, unk_1106EA, unk_1106EC, unk_110718
 global unk_110721, unk_110724, unk_110726, word_110331
@@ -130,7 +130,7 @@ asc_1105F0:
 db 067h,065h,074h,061h,073h,079h,06Eh,063h,062h,06Ch,06Fh,063h,06Bh,05Bh,025h,064h
 db 05Dh,020h,02Dh,020h,04Eh,04Fh,020h,041h,053h,059h,04Eh,043h,020h,042h,04Ch,04Fh
 db 043h,04Bh,053h,020h,04Ch,045h,046h,054h,0Ah,00h,00h,00h
-asc_11061C:
+str_CDSTREAM:
 db 043h,044h,053h,054h,052h,045h,041h,04Dh,00h
 asc_110625:
 db 073h,065h,074h,073h,074h,072h,065h,061h,06Dh,073h,070h,065h,065h,064h,020h,02Dh
@@ -144,7 +144,7 @@ db 053h,054h,052h,045h,041h,04Dh,00h
 asc_110689:
 db 064h,065h,06Ch,073h,074h,072h,065h,061h,06Dh,020h,02Dh,020h,053h,054h,052h,045h
 db 041h,04Dh,020h,04Eh,04Fh,054h,020h,046h,04Fh,055h,04Eh,044h,0Ah,00h
-asc_1106A7:
+str_SECCDSTREAM:
 db 053h,045h,043h,043h,044h,053h,054h,052h,045h,041h,04Dh,00h
 asc_1106B3:
 db 073h,074h,072h,065h,061h,06Dh,072h,065h,061h,064h,065h,072h,020h,02Dh,020h,049h

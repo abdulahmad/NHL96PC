@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_CFDF1 progbits alloc exec nowrite align=1
 extern _EFG_Format_, __IOMode_, __STOSB, __cnvs2d_, __fatal_runtime_error_, __set_errno_, __set_errno_dos_, __shutdown_stream_
-extern _nmalloc_, asc_11412C, byte_123E35, dword_1228D0, dword_1228D4, dword_1228D8, dword_1228E0, dword_14F0A4
+extern _nmalloc_, str_NotEnoughMemoryTo, byte_123E35, dword_1228D0, dword_1228D4, dword_1228D8, dword_1228E0, dword_14F0A4
 extern dword_19BA3C, dword_19BA40, fputchar, loc_C2E7B, off_14FAA8, off_14FAAC, sub_B2B0C, sub_DD760
 extern sub_DE084, unk_123DF4, unk_123E76
 global __InitFiles_, __full_io_exit_, __qwrite_, __setEFGfmt_, docloseall_, fcloseall_, loc_CFEEC, loc_CFF1B
@@ -110,7 +110,7 @@ call _nmalloc_	; CFF01
 mov ebx, eax	; CFF06
 test eax, eax	; CFF08
 jne short loc_CFF1B	; CFF0A
-mov eax, asc_11412C	; CFF0C
+mov eax, str_NotEnoughMemoryTo	; CFF0C
 mov edx, 1	; CFF11
 call __fatal_runtime_error_	; CFF16
 loc_CFF1B:

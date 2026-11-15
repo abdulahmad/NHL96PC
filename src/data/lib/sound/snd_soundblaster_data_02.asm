@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_14F01C progbits alloc noexec write align=1
 extern sub_D02A8, sub_DFB84
-global asc_14FAB0, byte_14F024, byte_14F025, byte_14F026, byte_14F054, byte_14F055, byte_14F064, byte_14F065
+global str_SHPI2, byte_14F024, byte_14F025, byte_14F026, byte_14F054, byte_14F055, byte_14F064, byte_14F065
 global byte_14F066, byte_14F067, byte_14F070, dword_14F01C, dword_14F020, dword_14F030, dword_14F034, dword_14F038
 global dword_14F03C, dword_14F040, dword_14F044, dword_14F048, dword_14F04C, dword_14F050, dword_14F058, dword_14F05C
 global dword_14F060, dword_14F098, dword_14F09C, dword_14F0A0, dword_14F0A4, dword_14F0A8, dword_14F0AC, off_14F074
@@ -363,5 +363,5 @@ off_14FAA8:
 dd sub_D02A8
 off_14FAAC:
 dd sub_D02A8
-asc_14FAB0:
+str_SHPI2:
 db 053h,048h,050h,049h,00h,00h,00h,00h,00h,00h,00h,00h,053h,050h,049h,054h

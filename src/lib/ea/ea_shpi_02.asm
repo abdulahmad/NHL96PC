@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_D0360 progbits alloc exec nowrite align=1
-extern asc_14FAB0, dword_1228D8, dword_1228E0, fputchar, strncpy_, sub_B0430, sub_D1368, sub_D7D44
+extern str_SHPI2, dword_1228D8, dword_1228E0, fputchar, strncpy_, sub_B0430, sub_D1368, sub_D7D44
 extern sub_E0520
 global loc_D0370, loc_D0388, loc_D038B, loc_D03A1, loc_D03A3, loc_D03AB, loc_D03C1, loc_D03C3
 global loc_D03CD, loc_D03EE, loc_D0403, loc_D040C, loc_D042D, loc_D0437, loc_D0529, loc_D0633
@@ -156,7 +156,7 @@ test edx, edx	; D048E
 je near loc_D0633	; D0490
 push byte 10h	; D0496
 push edx	; D0498
-push asc_14FAB0	; D0499
+push str_SHPI2	; D0499
 call sub_E0520	; D049E
 add esp, byte 0Ch	; D04A3
 push byte 4	; D04A6

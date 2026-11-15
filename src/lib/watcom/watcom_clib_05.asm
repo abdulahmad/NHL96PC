@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_B2C98 progbits alloc exec nowrite align=1
 extern FatalError, __CMain, __FiniRtns, __InitRtns, ___begtext, __doserror_, __fprtf_, __set_EINVAL_
-extern __set_errno_dos_, _nexpand_, _nfree_, _nmalloc_, _nmsize_, asc_11362C, asc_113658, asc_113680
+extern __set_errno_dos_, _nexpand_, _nfree_, _nmalloc_, _nmsize_, str_InitmemmanINSUFFICIENTROW, asc_113658, asc_113680
 extern asc_1136C4, asc_11370C, asc_113738, asc_113740, asc_113768, asc_113794, asc_1137A0, asc_1137B0
 extern asc_1137DC, asc_113810, asc_113834, asc_113854, asc_121FC0, byte_1219A8, byte_121AFC, byte_12442A
 extern byte_12442B, byte_124433, byte_124434, byte_18B0D0, dword_11F5DC, dword_11F5E0, dword_11F5E4, dword_11F5E8
@@ -213,7 +213,7 @@ mov dword [dword_11F9BC], unk_19BAD0	; B2DA2
 loc_B2DAC:
 cmp dword [dword_11F9B8], 0CCh	; B2DAC
 jge short loc_B2DC5	; B2DB6
-push asc_11362C	; B2DB8
+push str_InitmemmanINSUFFICIENTROW	; B2DB8
 call FatalError	; B2DBD
 add esp, byte 4	; B2DC2
 loc_B2DC5:

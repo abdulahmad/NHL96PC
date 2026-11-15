@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_AB834 progbits alloc exec nowrite align=1
-extern FatalError, asc_11319C, asc_1131D8, asc_11321C, asc_113270, asc_1132AC, asc_1132E8, asc_113310
-extern asc_113354, asc_113398, asc_1133C0, asc_1133E0, dword_11F9B4, dword_11F9C0, dword_11F9C4, dword_1210CC
+extern FatalError, asc_11319C, str_ReservememINVALIDSIZE, asc_11321C, asc_113270, asc_1132AC, str_ReservememINVALIDTYPEFLAGS, str_ResizememINVALIDSIZE
+extern str_ResizememblockNOROOMTO, str_FindmemblockBLOCKNOTFOUND, asc_1133C0, str_GetmemblockNOMEMORYBLOCKS, dword_11F9B4, dword_11F9C0, dword_11F9C4, dword_1210CC
 extern dword_18568C, dword_185690, dword_185730, dword_185734, dword_185738, dword_18573C, strncmp_, strncpy_
 extern sub_AA564, sub_C3BE0, sub_C3C04, sub_E0520
 global findmemblock, loc_AB8AD, loc_AB8E5, loc_AB92A, loc_AB935, loc_AB981, loc_AB9A9, loc_AB9C6
@@ -79,7 +79,7 @@ add esp, byte 4	; AB8C6
 push eax	; AB8C9
 mov ebx, dword [byte esp+024h]	; AB8CA
 push ebx	; AB8CE
-push asc_1131D8	; AB8CF
+push str_ReservememINVALIDSIZE	; AB8CF
 call FatalError	; AB8D4
 add esp, byte 0Ch	; AB8D9
 xor eax, eax	; AB8DC
@@ -439,7 +439,7 @@ cmp dword [byte esp+028h], byte 0	; ABCAB
 je short loc_ABCC4	; ABCB0
 mov edi, dword [byte esp+024h]	; ABCB2
 push edi	; ABCB6
-push asc_1132E8	; ABCB7
+push str_ReservememINVALIDTYPEFLAGS	; ABCB7
 call FatalError	; ABCBC
 add esp, byte 8	; ABCC1
 loc_ABCC4:
@@ -554,7 +554,7 @@ add esp, byte 4	; ABDED
 push eax	; ABDF0
 mov esi, ebp	; ABDF1
 push esi	; ABDF3
-push asc_113310	; ABDF4
+push str_ResizememINVALIDSIZE	; ABDF4
 call FatalError	; ABDF9
 add esp, byte 0Ch	; ABDFE
 jmp near loc_ABEE0	; ABE01
@@ -639,7 +639,7 @@ je short loc_ABEE0	; ABECC
 mov esi, dword [esp]	; ABECE
 push esi	; ABED1
 push ebp	; ABED2
-push asc_113354	; ABED3
+push str_ResizememblockNOROOMTO	; ABED3
 call FatalError	; ABED8
 add esp, byte 0Ch	; ABEDD
 loc_ABEE0:
@@ -680,7 +680,7 @@ add ecx, byte 14h	; ABF2B
 cmp ecx, 0A0h	; ABF2E
 jl short loc_ABEF9	; ABF34
 push ebx	; ABF36
-push asc_113398	; ABF37
+push str_FindmemblockBLOCKNOTFOUND	; ABF37
 call FatalError	; ABF3C
 add esp, byte 8	; ABF41
 xor eax, eax	; ABF44
@@ -1750,7 +1750,7 @@ db 090h
 sub_AC990:
 cmp dword [dword_185730], byte 0	; AC990
 jne short loc_AC9A6	; AC997
-push asc_1133E0	; AC999
+push str_GetmemblockNOMEMORYBLOCKS	; AC999
 call FatalError	; AC99E
 add esp, byte 4	; AC9A3
 loc_AC9A6:

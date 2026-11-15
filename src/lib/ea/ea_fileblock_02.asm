@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_B22E0 progbits alloc exec nowrite align=1
-extern FatalError, asc_113600, byte_11FA2C, byte_11FA2D, byte_11FA2E, byte_11FA2F, byte_11FA30, dword_11FA14
+extern FatalError, str_SavefileblockaOPENFAILEDFOR, byte_11FA2C, byte_11FA2D, byte_11FA2E, byte_11FA2F, byte_11FA30, dword_11FA14
 extern dword_11FA1C, dword_11FA20, dword_11FA24, dword_11FA28, dword_11FA34, dword_11FA38, dword_11FA3C, dword_11FA40
 extern dword_11FA44, dword_11FA48, dword_11FA4C, dword_1228D0, dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4
 extern dword_1228E8, dword_1228F4, dword_1228F8, dword_1228FC, dword_185774, off_11FA10, sub_AC9CC, sub_AC9D4
@@ -100,7 +100,7 @@ cmp dword [byte esp+024h], byte 0	; B23B6
 je short loc_B23CF	; B23BB
 mov ebp, dword [byte esp+01Ch]	; B23BD
 push ebp	; B23C1
-push asc_113600	; B23C2
+push str_SavefileblockaOPENFAILEDFOR	; B23C2
 call FatalError	; B23C7
 add esp, byte 8	; B23CC
 loc_B23CF:

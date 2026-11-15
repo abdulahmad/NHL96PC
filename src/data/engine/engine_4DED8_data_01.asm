@@ -4,7 +4,7 @@ bits 32
 section s_110DA4 progbits alloc noexec write align=1
 global asc_110DA4, asc_110DA9, asc_110DB1, asc_110DF1, asc_110DF9, asc_110E02, asc_110E07, asc_110E10
 global asc_110E1E, asc_110E25, asc_110E37, asc_110E3B, asc_110E44, asc_110E49, asc_110E4E, asc_110E53
-global asc_110E58, asc_110E60, asc_110E68, asc_110E7E, asc_110E94, str_FmtNumFirstLast, str_FmtNumInitialLast, str_FmtNumName
+global asc_110E58, str_ZONEMGR, asc_110E68, asc_110E7E, asc_110E94, str_FmtNumFirstLast, str_FmtNumInitialLast, str_FmtNumName
 global str_FmtNumNameSuffix, str_FmtParenD, unk_110DBA, unk_110E2D, unk_110E2E
 asc_110DA4:
 db 025h,030h,035h,064h,00h
@@ -56,7 +56,7 @@ asc_110E53:
 db 046h,068h,069h,052h,00h
 asc_110E58:
 db 021h,070h,061h,06Ch,00h,00h,00h,00h
-asc_110E60:
+str_ZONEMGR:
 db 05Ah,04Fh,04Eh,045h,04Dh,047h,052h,00h
 asc_110E68:
 db 05Ah,04Dh,028h,031h,029h,03Ah,020h,043h,06Fh,06Eh,074h,061h,063h,074h,020h,04Ch

@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_D01B5 progbits alloc exec nowrite align=1
-extern __fatal_runtime_error_, __flush_, __ioalloc_, __set_errno_, asc_11415C, dword_12441C, dword_19BA40
+extern __fatal_runtime_error_, __flush_, __ioalloc_, __set_errno_, str_FloatingPointSupportNot, dword_12441C, dword_19BA40
 global __flushall_, fputc_, getche_, loc_D01C4, loc_D01D8, loc_D01DA, loc_D01FF, loc_D021C
 global loc_D0226, loc_D0233, loc_D0270, loc_D0290, loc_D029B, loc_D029F, loc_D02F4, loc_D0314
 global loc_D033A, loc_D0350, ltoa_, sub_D02A8, toupper_, ultoa_, unk_D02BA
@@ -122,7 +122,7 @@ ret	; D02A4
 db 00h,00h,00h
 sub_D02A8:
 push edx	; D02A8
-mov eax, asc_11415C	; D02A9
+mov eax, str_FloatingPointSupportNot	; D02A9
 mov edx, 1	; D02AE
 call __fatal_runtime_error_	; D02B3
 pop edx	; D02B8

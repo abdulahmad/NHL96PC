@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_C4DE0 progbits alloc exec nowrite align=1
-extern asc_113EBC, asc_113ED0, asc_113ED8, stricmp_, sub_AB834, sub_ABF88, sub_AC484, sub_B76C0
+extern str_FshVshQfsQvs, str_Vsh, str_Qvs, stricmp_, sub_AB834, sub_ABF88, sub_AC484, sub_B76C0
 extern sub_D0360, sub_D0440, sub_D0640
 global loc_C4E3A, loc_C4E8B, loc_C4E9A, sub_C4DE0
 sub_C4DE0:
@@ -12,7 +12,7 @@ push ebp	; C4DE2
 sub esp, byte 64h	; C4DE3
 mov ebp, dword [byte esp+078h]	; C4DE6
 mov edi, dword [byte esp+07Ch]	; C4DEA
-push asc_113EBC	; C4DEE
+push str_FshVshQfsQvs	; C4DEE
 lea eax, [byte esp+04h]	; C4DF3
 push eax	; C4DF7
 mov edx, dword [byte esp+07Ch]	; C4DF8
@@ -26,12 +26,12 @@ call sub_AC484	; C4E0A
 add esp, byte 4	; C4E0F
 test eax, eax	; C4E12
 jne near loc_C4E9A	; C4E14
-mov edx, asc_113ED0	; C4E1A
+mov edx, str_Vsh	; C4E1A
 mov eax, esi	; C4E1F
 call stricmp_	; C4E21
 test eax, eax	; C4E26
 je short loc_C4E3A	; C4E28
-mov edx, asc_113ED8	; C4E2A
+mov edx, str_Qvs	; C4E2A
 mov eax, esi	; C4E2F
 call stricmp_	; C4E31
 test eax, eax	; C4E36

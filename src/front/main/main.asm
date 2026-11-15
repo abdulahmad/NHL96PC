@@ -8,7 +8,7 @@ extern _dos_open_, _dos_read_, _dos_write_, addtimer, asc_1102EC, asc_1102F8, as
 extern asc_11030C, asc_110313, asc_11031D, asc_110333, asc_110338, asc_11033D, asc_110342, asc_110347
 extern asc_11034C, asc_110358, asc_110360, asc_110398, asc_1103B9, asc_1103D8, asc_110452, asc_1104B7
 extern asc_1104BC, asc_1104C1, asc_1104CA, asc_1104D0, asc_11050E, asc_11054C, asc_110552, asc_11055D
-extern asc_11058D, asc_1105BF, asc_1105F0, asc_11061C, asc_110625, asc_110682, asc_110689, asc_1106A7
+extern asc_11058D, asc_1105BF, asc_1105F0, str_CDSTREAM, asc_110625, asc_110682, asc_110689, str_SECCDSTREAM
 extern asc_1106B3, asc_1106EE, asc_1106F9, asc_11071C, asc_110729, asc_11509C, assinsert, byte_115109
 extern byte_11510A, byte_11510B, byte_11510C, byte_115114, byte_115115, byte_115116, byte_115117, byte_117575
 extern byte_1190F3, byte_11FA2F, byte_151B8E, byte_152157, byte_152920, byte_152921, byte_152922, byte_152923
@@ -5188,7 +5188,7 @@ mov esi, dword [byte ebp+0Ch]	; 1C6E4
 push dword [byte ebp+014h]	; 1C6E7
 add esi, 100h	; 1C6EA
 push esi	; 1C6F0
-push asc_11061C	; 1C6F1
+push str_CDSTREAM	; 1C6F1
 call sub_AB758	; 1C6F6
 add esp, byte 0Ch	; 1C6FB
 push dword [byte ebp+018h]	; 1C6FE
@@ -5547,7 +5547,7 @@ mov esi, dword [byte ebp+014h]	; 1CAF4
 push dword [byte ebp+018h]	; 1CAF7
 add esi, 100h	; 1CAFA
 push esi	; 1CB00
-push asc_1106A7	; 1CB01
+push str_SECCDSTREAM	; 1CB01
 call sub_AB758	; 1CB06
 add esp, byte 0Ch	; 1CB0B
 push esi	; 1CB0E

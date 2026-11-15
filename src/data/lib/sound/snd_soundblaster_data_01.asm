@@ -2,12 +2,12 @@
 bits 32
 %include "hockey.inc"
 section s_1140E8 progbits alloc noexec write align=1
-global asc_1140E8, asc_1140F0, asc_1140FB, asc_114104, asc_114110, asc_11411C, asc_114124, asc_11412C
-global asc_11415C, asc_114180, asc_114194, asc_1141A4, asc_1141B4, asc_1141F0, asc_114230, asc_11426C
-global asc_1142A8, asc_1142B8, unk_11418C, unk_1142C4, unk_1142D0, unk_1142FC, unk_114300, unk_114304
+global str_BLASTER, asc_1140F0, asc_1140FB, asc_114104, asc_114110, asc_11411C, asc_114124, str_NotEnoughMemoryTo
+global str_FloatingPointSupportNot, asc_114180, asc_114194, asc_1141A4, asc_1141B4, asc_1141F0, asc_114230, asc_11426C
+global str_RATIONALDOS4G, asc_1142B8, unk_11418C, unk_1142C4, unk_1142D0, unk_1142FC, unk_114300, unk_114304
 global unk_114308, unk_11430C, unk_114310, unk_114314, unk_114318, unk_11431C, unk_114320, unk_114324
 global unk_114328, unk_11432C
-asc_1140E8:
+str_BLASTER:
 db 042h,04Ch,041h,053h,054h,045h,052h,00h
 asc_1140F0:
 db 044h,04Dh,041h,020h,042h,055h,046h,046h,045h,052h,00h
@@ -21,11 +21,11 @@ asc_11411C:
 db 044h,04Dh,041h,042h,055h,046h,00h,00h
 asc_114124:
 db 044h,04Dh,041h,042h,055h,046h,00h,00h
-asc_11412C:
+str_NotEnoughMemoryTo:
 db 04Eh,06Fh,074h,020h,065h,06Eh,06Fh,075h,067h,068h,020h,06Dh,065h,06Dh,06Fh,072h
 db 079h,020h,074h,06Fh,020h,061h,06Ch,06Ch,06Fh,063h,061h,074h,065h,020h,066h,069h
 db 06Ch,065h,020h,073h,074h,072h,075h,063h,074h,075h,072h,065h,073h,0Dh,0Ah,00h
-asc_11415C:
+str_FloatingPointSupportNot:
 db 046h,06Ch,06Fh,061h,074h,069h,06Eh,067h,02Dh,070h,06Fh,069h,06Eh,074h,020h,073h
 db 075h,070h,070h,06Fh,072h,074h,020h,06Eh,06Fh,074h,020h,06Ch,06Fh,061h,064h,065h
 db 064h,0Dh,0Ah,00h
@@ -57,7 +57,7 @@ db 062h,075h,069h,06Ch,064h,074h,061h,062h,06Ch,065h,06Dh,069h,06Eh,020h,028h,06
 db 069h,06Eh,065h,061h,072h,06Dh,061h,070h,066h,029h,020h,02Dh,020h,065h,078h,063h
 db 065h,065h,064h,065h,064h,020h,037h,036h,038h,020h,06Dh,061h,078h,020h,068h,065h
 db 069h,067h,068h,074h,020h,028h,025h,064h,029h,0Ah,00h,00h
-asc_1142A8:
+str_RATIONALDOS4G:
 db 052h,041h,054h,049h,04Fh,04Eh,041h,04Ch,020h,044h,04Fh,053h,02Fh,034h,047h,00h
 asc_1142B8:
 db 052h,04Dh,048h,061h,06Eh,064h,06Ch,065h,072h,00h,00h,00h

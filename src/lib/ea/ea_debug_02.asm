@@ -3,15 +3,15 @@ bits 32
 %include "hockey.inc"
 section s_D7DB0 progbits alloc exec nowrite align=1
 extern DebugPrintf, SetTickDeadline, WaitTickDeadline, _dos_getdate_, _dos_gettime_, _os_handle, _os_handle_1, asc_114330
-extern asc_11436C, asc_1143A4, asc_1143C8, asc_1143E8, asc_114414, asc_114444, asc_114450, asc_114454
+extern asc_11436C, asc_1143A4, str_Used7uFree7u, asc_1143E8, asc_114414, asc_114444, asc_114450, asc_114454
 extern asc_11445C, asc_114478, asc_114494, asc_1144BC, asc_1144E0, asc_1144F8, asc_114510, asc_11453C
-extern asc_114564, asc_114574, asc_114598, asc_1145A4, asc_1145AC, asc_1145C0, asc_1145D4, asc_1145E8
-extern asc_1145FC, asc_114614, asc_114628, asc_114638, asc_114648, asc_11465C, asc_114664, asc_114674
-extern asc_11467C, asc_114688, asc_114694, asc_1146A8, asc_1146BC, asc_1146D0, asc_1146EC, asc_114714
-extern asc_114754, asc_11477C, asc_11478C, asc_114794, asc_1147A8, asc_1147B4, asc_1147F0, asc_1147FC
-extern asc_114808, asc_114814, asc_11482C, asc_114844, asc_114868, asc_114878, asc_114894, asc_1148B0
-extern asc_1148C8, asc_1148E0, asc_1148F4, asc_114910, asc_114934, asc_114944, asc_114950, asc_11495C
-extern asc_114968, asc_114970, asc_11497C, asc_114984, asc_114994, byte_11F9D8, byte_1A11D9, dword_11F5A0
+extern str_MEMMANAGER, str_044X00000000, str_SYSTEM, str_SPACE3, str_HIGHMemoryBlock, str_LOWMemoryBlock, str_ConventionalMemory, str_RelocatableBlock
+extern str_NonRelocatableBlock, str_ALIGNFlagIsSet, str_PRIORITY1d, str_SequenceD, str_BlockIsPURGABLE, asc_11465C, asc_114664, asc_114674
+extern str_FILES2, str_DATES2, str_TIMES3, str_HexmemdspOS, str_XxMMAPTXT, str_ErrorDumpingMemoryMap, str_ShapeFileIsInvalid, str_NumDPackedD
+extern str_ThereAreNoShapes, str_44s05x, str_Bad, str_CxCy3d3d, str_NotDrawn, str_Bytes3dRows3d, str_Spacked, str_Packed
+extern asc_114808, asc_114814, asc_11482C, str_ShapeIsInvalidDraw, str_MEMSHPTXT, str_ErrorDumpingShapesList, str_ShapeFileName0, str_ShapeFileSizeLd
+extern str_NumberOfShapesD, str_44s66ld, str_Bytes3dRows3d2, str_XY3d3d, str_033d022X, str_R022d, str_G022d, str_B022d
+extern asc_114968, str_SCREEN2, asc_11497C, asc_114984, asc_114994, byte_11F9D8, byte_1A11D9, dword_11F5A0
 extern dword_11F5C0, dword_11F5C4, dword_1210CC, dword_15139C, dword_1513A0, dword_1513A4, dword_1513A8, dword_1513AC
 extern dword_1513B8, dword_1513BC, dword_1513C0, dword_1513C4, dword_1513C8, dword_1513CC, dword_1513D4, dword_18568C
 extern dword_185690, dword_185738, dword_18573C, dword_185848, dword_1A11BC, dword_1A11C0, dword_1A11C4, dword_1A11C8
@@ -23,7 +23,7 @@ extern sub_BF04B, sub_BF534, sub_C2AEC, sub_C5D00, sub_C6000, sub_CFE0C, sub_CFE
 extern sub_D1368, sub_DC158, sub_DC17C, sub_DC780, sub_DC830, sub_DCB90, sub_DD6C4, sub_DD6E0
 extern sub_DD724, sub_DD760, sub_DD7B8, sub_DFF28, sub_DFF7C, sub_E04E0, sub_E0584, sub_E1927
 extern sub_E193C, sub_E1956, sub_E1970, unk_114440, unk_11444C, unk_114570, unk_114594, unk_11466C
-extern unk_114670, unk_1146A0, unk_1146A4, unk_1146CC, unk_1147EC, unk_114930, unk_1213DC
+extern unk_114670, unk_1146A0, unk_1146A4, unk_1146CC, str_Un, unk_114930, unk_1213DC
 global loc_D7DE0, loc_D7DFD, loc_D7E04, loc_D7E6D, loc_D7EF7, loc_D7F3A, loc_D7F4A, loc_D7F52
 global loc_D7F8B, loc_D7FC5, loc_D7FCC, loc_D7FE8, loc_D8020, loc_D8029, loc_D8046, loc_D8068
 global loc_D808C, loc_D80A6, loc_D80AD, loc_D80CF, loc_D80DB, loc_D80EB, loc_D810D, loc_D812A
@@ -668,7 +668,7 @@ je short loc_D8538	; D852F
 mov eax, asc_1143A4	; D8531
 jmp short loc_D853D	; D8536
 loc_D8538:
-mov eax, asc_1143C8	; D8538
+mov eax, str_Used7uFree7u	; D8538
 loc_D853D:
 push eax	; D853D
 lea eax, [dword ebp-082h]	; D853E
@@ -1221,7 +1221,7 @@ add eax, ebp	; D8B48
 shl eax, 2	; D8B4A
 test edi, edi	; D8B4D
 jne short loc_D8B85	; D8B4F
-mov dword [edx], asc_114564	; D8B51
+mov dword [edx], str_MEMMANAGER	; D8B51
 mov edx, dword [dword_1210CC]	; D8B57
 mov dword [ebx], edx	; D8B5D
 mov eax, dword [dword eax+dword_18568C]	; D8B5F
@@ -1327,7 +1327,7 @@ call sub_AFFD0	; D8C75
 add esp, byte 8	; D8C7A
 mov ebp, dword [byte esp+08h]	; D8C7D
 push ebp	; D8C81
-push asc_114574	; D8C82
+push str_044X00000000	; D8C82
 push byte 3Dh	; D8C87
 push byte 38h	; D8C89
 call sub_C5D00	; D8C8B
@@ -1380,7 +1380,7 @@ call sub_DD724	; D8D16
 add esp, byte 14h	; D8D1B
 push esi	; D8D1E
 push edi	; D8D1F
-push asc_114598	; D8D20
+push str_SYSTEM	; D8D20
 call sub_D1368	; D8D25
 add esp, byte 0Ch	; D8D2A
 mov esi, 55h	; D8D2D
@@ -1400,7 +1400,7 @@ call sub_DD724	; D8D4F
 add esp, byte 14h	; D8D54
 push esi	; D8D57
 push edi	; D8D58
-push asc_1145A4	; D8D59
+push str_SPACE3	; D8D59
 call sub_D1368	; D8D5E
 add esp, byte 0Ch	; D8D63
 add esi, byte 8	; D8D66
@@ -1422,12 +1422,12 @@ test bl, 20h	; D8D94
 je short loc_D8DA2	; D8D97
 push esi	; D8D99
 push edi	; D8D9A
-push asc_1145AC	; D8D9B
+push str_HIGHMemoryBlock	; D8D9B
 jmp short loc_D8DA9	; D8DA0
 loc_D8DA2:
 push esi	; D8DA2
 push edi	; D8DA3
-push asc_1145C0	; D8DA4
+push str_LOWMemoryBlock	; D8DA4
 loc_D8DA9:
 call sub_D1368	; D8DA9
 add esp, byte 0Ch	; D8DAE
@@ -1435,7 +1435,7 @@ mov esi, ebp	; D8DB1
 call sub_CFE0C	; D8DB3
 push esi	; D8DB8
 push edi	; D8DB9
-push asc_1145D4	; D8DBA
+push str_ConventionalMemory	; D8DBA
 call sub_D1368	; D8DBF
 add esp, byte 0Ch	; D8DC4
 lea ebp, [byte esi+014h]	; D8DC7
@@ -1446,12 +1446,12 @@ test bh, 10h	; D8DD6
 je short loc_D8DE4	; D8DD9
 push esi	; D8DDB
 push edi	; D8DDC
-push asc_1145E8	; D8DDD
+push str_RelocatableBlock	; D8DDD
 jmp short loc_D8DEB	; D8DE2
 loc_D8DE4:
 push esi	; D8DE4
 push edi	; D8DE5
-push asc_1145FC	; D8DE6
+push str_NonRelocatableBlock	; D8DE6
 loc_D8DEB:
 call sub_D1368	; D8DEB
 add esp, byte 0Ch	; D8DF0
@@ -1461,7 +1461,7 @@ test byte [byte esp+08h], 40h	; D8DFA
 je short loc_D8E18	; D8DFF
 push esi	; D8E01
 push edi	; D8E02
-push asc_114614	; D8E03
+push str_ALIGNFlagIsSet	; D8E03
 call sub_D1368	; D8E08
 add esp, byte 0Ch	; D8E0D
 add esi, byte 0Ah	; D8E10
@@ -1472,7 +1472,7 @@ je short loc_D8E3E	; D8E1D
 mov eax, dword [byte esp+08h]	; D8E1F
 and eax, byte 7	; D8E23
 push eax	; D8E26
-push asc_114628	; D8E27
+push str_PRIORITY1d	; D8E27
 push esi	; D8E2C
 push edi	; D8E2D
 call sub_C5D00	; D8E2E
@@ -1482,7 +1482,7 @@ call sub_CFE0C	; D8E39
 loc_D8E3E:
 mov edx, dword [byte esp+04h]	; D8E3E
 push edx	; D8E42
-push asc_114638	; D8E43
+push str_SequenceD	; D8E43
 push esi	; D8E48
 push edi	; D8E49
 call sub_C5D00	; D8E4A
@@ -1494,7 +1494,7 @@ test al, 8	; D8E5E
 je short loc_D8E76	; D8E60
 push esi	; D8E62
 push edi	; D8E63
-push asc_114648	; D8E64
+push str_BlockIsPURGABLE	; D8E64
 call sub_D1368	; D8E69
 add esp, byte 0Ch	; D8E6E
 call sub_CFE0C	; D8E71
@@ -1962,21 +1962,21 @@ call fprintf_	; D9344
 add esp, byte 0Ch	; D9349
 mov ecx, dword [byte esp+03Ch]	; D934C
 push ecx	; D9350
-push asc_11467C	; D9351
+push str_FILES2	; D9351
 mov esi, dword [dword_1A11D0]	; D9356
 push esi	; D935C
 call fprintf_	; D935D
 add esp, byte 0Ch	; D9362
 mov eax, esp	; D9365
 push eax	; D9367
-push asc_114688	; D9368
+push str_DATES2	; D9368
 mov edi, dword [dword_1A11D0]	; D936D
 push edi	; D9373
 call fprintf_	; D9374
 add esp, byte 0Ch	; D9379
 lea eax, [byte esp+014h]	; D937C
 push eax	; D9380
-push asc_114694	; D9381
+push str_TIMES3	; D9381
 mov ebp, dword [dword_1A11D0]	; D9386
 push ebp	; D938C
 call fprintf_	; D938D
@@ -1997,7 +1997,7 @@ loc_D93C0:
 mov eax, unk_1146A4	; D93C0
 loc_D93C5:
 push eax	; D93C5
-push asc_1146A8	; D93C6
+push str_HexmemdspOS	; D93C6
 mov ecx, dword [dword_1A11D0]	; D93CB
 push ecx	; D93D1
 call fprintf_	; D93D2
@@ -2034,7 +2034,7 @@ push esi	; D9413
 push edi	; D9414
 sub esp, byte 40h	; D9415
 mov edi, esp	; D9418
-mov esi, asc_1146BC	; D941A
+mov esi, str_XxMMAPTXT	; D941A
 mov ah, 4Dh	; D941F
 movsd	; D9421
 movsd	; D9422
@@ -2064,7 +2064,7 @@ jne short loc_D9489	; D9467
 cmp dword [dword_11F5A0], byte 0	; D9469
 je short loc_D9481	; D9470
 push byte 14h	; D9472
-push asc_1146D0	; D9474
+push str_ErrorDumpingMemoryMap	; D9474
 call sub_C2AEC	; D9479
 add esp, byte 8	; D947E
 loc_D9481:
@@ -2144,7 +2144,7 @@ call sub_AFFD0	; D953F
 add esp, byte 8	; D9544
 call sub_CFE0C	; D9547
 push byte 60h	; D954C
-push asc_1146EC	; D954E
+push str_ShapeFileIsInvalid	; D954E
 call sub_D0650	; D9553
 add esp, byte 8	; D9558
 call sub_CFE0C	; D955B
@@ -2206,12 +2206,12 @@ mov eax, dword [byte esp+040h]	; D95E5
 push eax	; D95E9
 mov edx, dword [byte esp+048h]	; D95EA
 push edx	; D95EE
-push asc_114714	; D95EF
+push str_NumDPackedD	; D95EF
 call DebugPrintf	; D95F4
 add esp, byte 14h	; D95F9
 cmp edi, dword [byte esp+03Ch]	; D95FC
 jne short loc_D9614	; D9600
-push asc_114754	; D9602
+push str_ThereAreNoShapes	; D9602
 call DebugPrintf	; D9607
 add esp, byte 4	; D960C
 jmp near loc_D986D	; D960F
@@ -2258,7 +2258,7 @@ push eax	; D9674
 mov dword [byte esp+02Ch], eax	; D9675
 lea eax, [byte esp+04h]	; D9679
 push eax	; D967D
-push asc_11477C	; D967E
+push str_44s05x	; D967E
 call DebugPrintf	; D9683
 add esp, byte 0Ch	; D9688
 mov ecx, dword [dword_15139C]	; D968B
@@ -2271,7 +2271,7 @@ mov edx, dword [byte esp+028h]	; D96A0
 push edx	; D96A4
 lea eax, [byte esp+04h]	; D96A5
 push eax	; D96A9
-push asc_11477C	; D96AA
+push str_44s05x	; D96AA
 push dword 0C0h	; D96AF
 push byte 0	; D96B4
 call sub_C5D00	; D96B6
@@ -2323,7 +2323,7 @@ loc_D9733:
 call sub_CFE0C	; D9733
 jmp near loc_D97BC	; D9738
 loc_D973D:
-push asc_11478C	; D973D
+push str_Bad	; D973D
 call DebugPrintf	; D9742
 add esp, byte 4	; D9747
 mov eax, dword [dword_15139C]	; D974A
@@ -2339,10 +2339,10 @@ push eax	; D9765
 mov eax, dword [byte edi+06h]	; D9766
 sar eax, 10h	; D9769
 push eax	; D976C
-push asc_114794	; D976D
+push str_CxCy3d3d	; D976D
 call DebugPrintf	; D9772
 add esp, byte 0Ch	; D9777
-push asc_1147A8	; D977A
+push str_NotDrawn	; D977A
 call DebugPrintf	; D977F
 add esp, byte 4	; D9784
 cmp ebp, byte 5Bh	; D9787
@@ -2517,7 +2517,7 @@ push eax	; D991E
 mov eax, dword [byte esi+02h]	; D991F
 sar eax, 10h	; D9922
 push eax	; D9925
-push asc_1147B4	; D9926
+push str_Bytes3dRows3d	; D9926
 call DebugPrintf	; D992B
 mov eax, dword [esi]	; D9930
 and eax, 0FFh	; D9932
@@ -2527,17 +2527,17 @@ je short loc_D9945	; D993C
 mov eax, unk_11444C	; D993E
 jmp short loc_D994A	; D9943
 loc_D9945:
-mov eax, unk_1147EC	; D9945
+mov eax, str_Un	; D9945
 loc_D994A:
 push eax	; D994A
-push asc_1147F0	; D994B
+push str_Spacked	; D994B
 call DebugPrintf	; D9950
 mov eax, dword [esi]	; D9955
 and eax, 0FFh	; D9957
 add esp, byte 8	; D995C
 test al, 80h	; D995F
 je short loc_D996A	; D9961
-mov eax, asc_1147FC	; D9963
+mov eax, str_Packed	; D9963
 jmp short loc_D996F	; D9968
 loc_D996A:
 mov eax, asc_114808	; D996A
@@ -2621,7 +2621,7 @@ push edi	; D9A5D
 call sub_AFFD0	; D9A5E
 add esp, byte 8	; D9A63
 push byte 60h	; D9A66
-push asc_114844	; D9A68
+push str_ShapeIsInvalidDraw	; D9A68
 call sub_D0650	; D9A6D
 add esp, byte 8	; D9A72
 call sub_CFE0C	; D9A75
@@ -2672,7 +2672,7 @@ mov eax, dword [eax]	; D9AE8
 mov edi, esp	; D9AEA
 mov dword [dword esp+088h], eax	; D9AEC
 xor ah, ah	; D9AF3
-mov esi, asc_114868	; D9AF5
+mov esi, str_MEMSHPTXT	; D9AF5
 mov byte [byte esp+06Ch], ah	; D9AFA
 mov eax, esp	; D9AFE
 movsd	; D9B00
@@ -2694,7 +2694,7 @@ mov dword [dword_1A11D0], eax	; D9B2F
 test eax, eax	; D9B34
 jne short loc_D9B57	; D9B36
 push byte 14h	; D9B38
-push asc_114878	; D9B3A
+push str_ErrorDumpingShapesList	; D9B3A
 call sub_C2AEC	; D9B3F
 add esp, byte 8	; D9B44
 call sub_CFE0C	; D9B47
@@ -2714,21 +2714,21 @@ call fprintf_	; D9B7D
 add esp, byte 0Ch	; D9B82
 mov eax, esp	; D9B85
 push eax	; D9B87
-push asc_11467C	; D9B88
+push str_FILES2	; D9B88
 mov ecx, dword [dword_1A11D0]	; D9B8D
 push ecx	; D9B93
 call fprintf_	; D9B94
 add esp, byte 0Ch	; D9B99
 lea eax, [byte esp+040h]	; D9B9C
 push eax	; D9BA0
-push asc_114688	; D9BA1
+push str_DATES2	; D9BA1
 mov esi, dword [dword_1A11D0]	; D9BA6
 push esi	; D9BAC
 call fprintf_	; D9BAD
 add esp, byte 0Ch	; D9BB2
 lea eax, [byte esp+054h]	; D9BB5
 push eax	; D9BB9
-push asc_114694	; D9BBA
+push str_TIMES3	; D9BBA
 mov edi, dword [dword_1A11D0]	; D9BBF
 push edi	; D9BC5
 call fprintf_	; D9BC6
@@ -2742,7 +2742,7 @@ call fprintf_	; D9BE0
 add esp, byte 0Ch	; D9BE5
 mov edx, dword [dword_1A11C0]	; D9BE8
 push edx	; D9BEE
-push asc_114894	; D9BEF
+push str_ShapeFileName0	; D9BEF
 mov ebx, dword [dword_1A11D0]	; D9BF4
 push ebx	; D9BFA
 call fprintf_	; D9BFB
@@ -2750,14 +2750,14 @@ add esp, byte 0Ch	; D9C00
 mov eax, dword [dword esp+080h]	; D9C03
 mov ecx, dword [eax]	; D9C0A
 push ecx	; D9C0C
-push asc_1148B0	; D9C0D
+push str_ShapeFileSizeLd	; D9C0D
 mov esi, dword [dword_1A11D0]	; D9C12
 push esi	; D9C18
 call fprintf_	; D9C19
 add esp, byte 0Ch	; D9C1E
 mov edi, dword [dword esp+088h]	; D9C21
 push edi	; D9C28
-push asc_1148C8	; D9C29
+push str_NumberOfShapesD	; D9C29
 mov ebp, dword [dword_1A11D0]	; D9C2E
 push ebp	; D9C34
 xor esi, esi	; D9C35
@@ -2785,7 +2785,7 @@ push ebp	; D9C77
 mov edx, eax	; D9C78
 lea eax, [byte esp+06Ch]	; D9C7A
 push eax	; D9C7E
-push asc_1148E0	; D9C7F
+push str_44s66ld	; D9C7F
 mov ebx, dword [dword_1A11D0]	; D9C84
 push ebx	; D9C8A
 call fprintf_	; D9C8B
@@ -2796,7 +2796,7 @@ push eax	; D9C99
 mov eax, dword [byte edx+02h]	; D9C9A
 sar eax, 10h	; D9C9D
 push eax	; D9CA0
-push asc_1148F4	; D9CA1
+push str_Bytes3dRows3d2	; D9CA1
 mov ecx, dword [dword_1A11D0]	; D9CA6
 push ecx	; D9CAC
 call fprintf_	; D9CAD
@@ -2813,7 +2813,7 @@ push eax	; D9CC9
 mov eax, dword [byte edx+0Ah]	; D9CCA
 sar eax, 10h	; D9CCD
 push eax	; D9CD0
-push asc_114910	; D9CD1
+push str_XY3d3d	; D9CD1
 mov ebp, dword [dword_1A11D0]	; D9CD6
 push ebp	; D9CDC
 call fprintf_	; D9CDD
@@ -2825,10 +2825,10 @@ je short loc_D9CF7	; D9CEE
 mov eax, unk_11444C	; D9CF0
 jmp short loc_D9CFC	; D9CF5
 loc_D9CF7:
-mov eax, unk_1147EC	; D9CF7
+mov eax, str_Un	; D9CF7
 loc_D9CFC:
 push eax	; D9CFC
-push asc_1147F0	; D9CFD
+push str_Spacked	; D9CFD
 mov edx, dword [dword_1A11D0]	; D9D02
 push edx	; D9D08
 call fprintf_	; D9D09
@@ -3214,7 +3214,7 @@ add esp, byte 8	; DA1F4
 mov ecx, dword [dword esp+0318h]	; DA1F7
 push ecx	; DA1FE
 push ecx	; DA1FF
-push asc_114934	; DA200
+push str_033d022X	; DA200
 push dword 0C0h	; DA205
 push byte 44h	; DA20A
 call sub_C5D00	; DA20C
@@ -3227,7 +3227,7 @@ call sub_AFFD0	; DA222
 add esp, byte 8	; DA227
 mov ebx, dword [dword esp+032Ch]	; DA22A
 push ebx	; DA231
-push asc_114944	; DA232
+push str_R022d	; DA232
 push dword 0C0h	; DA237
 push dword 8Ch	; DA23C
 call sub_C5D00	; DA241
@@ -3240,7 +3240,7 @@ call sub_AFFD0	; DA257
 add esp, byte 8	; DA25C
 mov eax, dword [dword esp+0328h]	; DA25F
 push eax	; DA266
-push asc_114950	; DA267
+push str_G022d	; DA267
 push dword 0C0h	; DA26C
 push dword 0B4h	; DA271
 call sub_C5D00	; DA276
@@ -3253,7 +3253,7 @@ call sub_AFFD0	; DA28C
 add esp, byte 8	; DA291
 mov ebx, dword [dword esp+0324h]	; DA294
 push ebx	; DA29B
-push asc_11495C	; DA29C
+push str_B022d	; DA29C
 push dword 0C0h	; DA2A1
 push dword 0DCh	; DA2A6
 call sub_C5D00	; DA2AB
@@ -3320,7 +3320,7 @@ push edi	; DA339
 push ebp	; DA33A
 sub esp, 0A0h	; DA33B
 lea edi, [byte esp+060h]	; DA341
-mov esi, asc_114970	; DA345
+mov esi, str_SCREEN2	; DA345
 lea eax, [byte esp+060h]	; DA34A
 mov ebp, dword [dword_18573C]	; DA34E
 movsd	; DA354

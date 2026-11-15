@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_51F18 progbits alloc exec nowrite align=1
 extern DemoMode, FatalError, PBnum, SetDrawBitmap, SortCords, _dos_gettime_, asc_110E44, asc_110E49
-extern asc_110E4E, asc_110E53, asc_110E58, asc_110E60, asc_110E68, asc_110E7E, asc_110E94, byte_11A310
+extern asc_110E4E, asc_110E53, asc_110E58, str_ZONEMGR, asc_110E68, asc_110E7E, asc_110E94, byte_11A310
 extern byte_11A319, byte_11A3B4, byte_11BB20, byte_157192, byte_1647E0, byte_176B83, byte_176D70, byte_176DD4
 extern byte_176DEC, byte_176DED, byte_176E06, byte_176ED7, byte_176ED9, byte_17CA5D, crowdlevel, dword_1150D4
 extern dword_1175B5, dword_1175B9, dword_1176E1, dword_117934, dword_119D04, dword_11A3F2, dword_11B234, dword_11B294
@@ -2445,7 +2445,7 @@ mov esi, eax	; 53BDB
 imul eax, byte 50h	; 53BDD
 push byte 20h	; 53BE0
 push eax	; 53BE2
-push asc_110E60	; 53BE3
+push str_ZONEMGR	; 53BE3
 call sub_AB758	; 53BE8
 mov edx, esi	; 53BED
 mov dword [dword_177104], eax	; 53BEF

@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_AEE40 progbits alloc exec nowrite align=1
-extern FatalError, asc_1135A8, asc_1135AC, asc_1135B8, asc_1135DC, byte_11FA2C, byte_11FA2D, byte_11FA2E
+extern FatalError, asc_1135A8, str_Copyright, str_UnpackINVALIDPACKCODE, asc_1135DC, byte_11FA2C, byte_11FA2D, byte_11FA2E
 extern byte_11FA2F, byte_11FA30, byte_11FA31, byte_11FA32, byte_11FB50, byte_11FC50, dword_11FA14, dword_11FA18
 extern dword_11FA1C, dword_11FA20, dword_11FA24, dword_11FA28, dword_11FA34, dword_11FA38, dword_11FA3C, dword_11FA40
 extern dword_11FA44, dword_11FA48, dword_11FA4C, dword_11FD50, dword_185760, dword_185764, dword_185768, dword_18576C
@@ -958,7 +958,7 @@ push esi	; AF85F
 push edi	; AF860
 mov esi, eax	; AF861
 mov ebx, 9	; AF863
-mov edx, asc_1135AC	; AF868
+mov edx, str_Copyright	; AF868
 call strncmp_	; AF86D
 test eax, eax	; AF872
 jne short loc_AF885	; AF874
@@ -1414,7 +1414,7 @@ je short loc_AFCC9	; AFCB5
 xor eax, eax	; AFCB7
 mov al, byte [edi]	; AFCB9
 push eax	; AFCBB
-push asc_1135B8	; AFCBC
+push str_UnpackINVALIDPACKCODE	; AFCBC
 call FatalError	; AFCC1
 add esp, byte 8	; AFCC6
 loc_AFCC9:

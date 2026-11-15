@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_BF070 progbits alloc exec nowrite align=1
-extern FatalError, asc_1139D8, asc_1139E4, asc_113A0C, asc_113A14, dword_1228D0, dword_1228F4, dword_1228FC
+extern FatalError, asc_1139D8, asc_1139E4, str_VESA, asc_113A14, dword_1228D0, dword_1228F4, dword_1228FC
 extern dword_122930, dword_123B0C, dword_19B654, dword_19B66C, dword_19B670, int386x_, segread_, strncmp_
 extern sub_AB758, sub_ABF4C, sub_DE3D8, sub_DEFD7, sub_E04E0, sub_E04E7, sub_E0520, word_19B676
 global __STOSB, __STOSD, loc_BF076, loc_BF083, loc_BF0A0, loc_BF0AB, loc_BF0B7, loc_BF0C0
@@ -339,7 +339,7 @@ call int386x_	; BF3C2
 mov ecx, 100h	; BF3C7
 mov ebx, 4	; BF3CC
 mov esi, dword [dword_123B0C]	; BF3D1
-mov edx, asc_113A0C	; BF3D7
+mov edx, str_VESA	; BF3D7
 rep movsb	; BF3DC
 mov eax, ebp	; BF3DE
 call strncmp_	; BF3E0

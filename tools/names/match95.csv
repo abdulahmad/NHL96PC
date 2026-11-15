@@ -603,8 +603,8 @@ func,E25E0,B49C0,sub_B49C0,lib/video/video_bios_vga.asm,similar,0.962,mnemonic s
 data,11003D,C16DA,str_DD,data/front/frontend_03.asm,string,1.0,'%d/%d'
 data,110043,C16E0,str_D02d2,data/front/frontend_03.asm,string,1.0,'%d:%02d'
 data,11004B,C16E8,str_DDD,data/front/frontend_03.asm,string,1.0,'%d/%d (%d%%)'
-data,11061C,C09BC,asc_C09BC,data/lib/ea/eagfx_02.asm,string,1.0,'CDSTREAM'
-data,1106A7,C09E6,asc_C09E6,data/lib/ea/eagfx_02.asm,string,1.0,'SECCDSTREAM'
+data,11061C,C09BC,str_CDSTREAM,data/lib/ea/eagfx_02.asm,string,1.0,'CDSTREAM'
+data,1106A7,C09E6,str_SECCDSTREAM,data/lib/ea/eagfx_02.asm,string,1.0,'SECCDSTREAM'
 data,110883,C27E7,str_Puck,data/front/frontend_08.asm,string,1.0,'puck'
 data,1108B2,C1880,str_Back,data/front/frontend_03.asm,string,1.0,'back'
 data,110BB5,C6913,str_fmtTenths,data/front/frontend_18.asm,string,1.0,'%3d.%1d'
@@ -613,104 +613,104 @@ data,110DCE,C1C78,str_FmtNumInitialLast,data/engine/engine_06.asm,string,1.0,'%s
 data,110DDD,C1C87,str_FmtNumNameSuffix,data/engine/engine_06.asm,string,1.0,'%s#%d %s%s'
 data,110DE8,C1C92,str_FmtNumName,data/engine/engine_06.asm,string,1.0,'%s#%d %s'
 data,110E31,C1CB3,str_FmtParenD,data/engine/engine_06.asm,string,1.0,' (%d)'
-data,110E60,C27C2,asc_C27C2,data/lib/ea/eagfx_07.asm,string,1.0,'ZONEMGR'
+data,110E60,C27C2,str_ZONEMGR,data/lib/ea/eagfx_07.asm,string,1.0,'ZONEMGR'
 data,11129B,C08AB,str_Pl1,data/front/frontend_01.asm,string,1.0,'!pl1'
 data,1123F2,C1AAF,tag_pset,data/front/frontend_05.asm,string,1.0,'pset'
 data,112422,C1AB8,tag_apset,data/front/frontend_05.asm,string,1.0,'apset'
 data,11242E,C1AC4,tag_gset,data/front/frontend_05.asm,string,1.0,'gset'
 data,112437,C1ACD,tag_agset,data/front/frontend_05.asm,string,1.0,'agset'
 data,112808,C5286,str_D02d,data/front/frontend_16.asm,string,1.0,'%d.%02d'
-data,1130F8,C3F5C,asc_C3F5C,data/lib/ea/ealib_13.asm,string,1.0,'addtimer - LIST FULL\n'
-data,113154,C3B98,asc_C3B98,data/lib/ea/ealib_13.asm,string,1.0,'LOW MEM'
-data,11315C,C3BA0,asc_C3BA0,data/lib/ea/ealib_13.asm,string,1.0,'HIGH MEM'
-data,1131D8,C3BCC,asc_C3BCC,data/lib/ea/ealib_13.asm,string,1.0,'reservemem - INVALID SIZE REQUESTED\nrequested: %ld availab
-data,1132E8,C3C88,asc_C3C88,data/lib/ea/ealib_13.asm,string,1.0,'reservemem - INVALID TYPE FLAGS (%04x)\n'
-data,113310,C3CB0,asc_C3CB0,data/lib/ea/ealib_13.asm,string,1.0,'resizemem - INVALID SIZE REQUESTED\nrequested: %ld availabl
-data,113354,C3CF4,asc_C3CF4,data/lib/ea/ealib_13.asm,string,1.0,'resizememblock - NO ROOM TO RESIZE\nrequested: %ld availabl
-data,113398,C3D38,asc_C3D38,data/lib/ea/ealib_13.asm,string,1.0,'findmemblock - BLOCK NOT FOUND (%p)\n'
-data,1133E0,C3D60,asc_C3D60,data/lib/ea/ealib_13.asm,string,1.0,'getmemblock - NO MEMORY BLOCKS LEFT\n'
-data,113438,C4034,asc_C4034,data/lib/ea/ealib_13.asm,string,1.0,'DBUG??.TXT'
-data,113448,C4044,asc_C4044,data/lib/ea/ealib_13.asm,string,1.0,'FILE: %s\n'
-data,113454,C4050,asc_C4050,data/lib/ea/ealib_13.asm,string,1.0,'DATE: %s\n'
-data,113460,C405C,asc_C405C,data/lib/ea/ealib_13.asm,string,1.0,'TIME: %s\n\n'
-data,11346C,C4068,asc_C4068,data/lib/ea/ealib_13.asm,string,1.0,'\nCLOSED\n'
-data,113478,C4074,asc_C4074,data/lib/ea/ealib_13.asm,string,1.0,'TIME: %s\n'
-data,1135AC,C47B8,asc_C47B8,data/lib/ea/ealib_13.asm,string,1.0,'Copyright'
-data,1135B8,C47C4,asc_C47C4,data/lib/ea/ealib_13.asm,string,1.0,'unpack - INVALID PACK CODE (%x)\n'
-data,113600,C3FD8,asc_C3FD8,data/lib/ea/ealib_13.asm,string,1.0,'savefileblocka - OPEN FAILED FOR FILE <%s>\n'
-data,11362C,C3D88,asc_C3D88,data/lib/ea/ealib_13.asm,string,1.0,'initmemman - INSUFFICIENT ROW TABLE SPACE\n'
-data,113A0C,C3E94,asc_C3E94,data/lib/ea/ealib_13.asm,string,1.0,'VESA'
-data,113A50,C3E9C,asc_C3E9C,data/lib/ea/ealib_13.asm,string,1.0,'initgraphics - INITMEMMAN REQUIRED BEFORE INITGRAPHICS\n'
-data,113A88,C3ED4,asc_C3ED4,data/lib/ea/ealib_13.asm,string,1.0,"'initgraphics - INVALID SCREEN SIZE (%d,%d)\n'"
-data,113AB4,C3F00,asc_C3F00,data/lib/ea/ealib_13.asm,string,1.0,'VESA video bios driver required.\nPlease install a driver f
-data,113E64,C47E8,asc_C47E8,data/lib/ea/ealib_13.asm,string,1.0,'EXIT TO DOS (Y/N)'
-data,113E78,C47FC,asc_C47FC,data/lib/ea/ealib_13.asm,string,1.0,'PAUSE - PRESS ANY KEY TO RESUME'
-data,113E98,C481C,asc_C481C,data/lib/ea/ealib_13.asm,string,1.0,'removewindow - ROW SPACE CORRUPTED\n'
-data,113EBC,C4840,asc_C4840,data/lib/ea/ealib_13.asm,string,1.0,'.fsh.vsh.qfs.qvs'
-data,113ED0,C4854,asc_C4854,data/lib/ea/ealib_13.asm,string,1.0,'.vsh'
-data,113ED8,C485C,asc_C485C,data/lib/ea/ealib_13.asm,string,1.0,'.qvs'
-data,1140E8,C4A94,asc_C4A94,data/lib/ea/ealib_13.asm,string,1.0,'BLASTER'
-data,11412C,C4B00,asc_C4B00,data/lib/watcom/watcom_14.asm,string,1.0,'Not enough memory to allocate file structures\r\n'
-data,11415C,C4ADC,asc_C4ADC,data/lib/watcom/watcom_14.asm,string,1.0,'Floating-point support not loaded\r\n'
-data,1142A8,C4B30,asc_C4B30,data/lib/watcom/watcom_14.asm,string,1.0,'RATIONAL DOS/4G'
-data,1143C8,C417C,asc_C417C,data/lib/ea/ealib_13.asm,string,1.0,'Used=%-7u Free=%-7u Largst=%-7u'
+data,1130F8,C3F5C,str_AddtimerLISTFULL,data/lib/ea/ealib_13.asm,string,1.0,'addtimer - LIST FULL\n'
+data,113154,C3B98,str_LOWMEM,data/lib/ea/ealib_13.asm,string,1.0,'LOW MEM'
+data,11315C,C3BA0,str_HIGHMEM,data/lib/ea/ealib_13.asm,string,1.0,'HIGH MEM'
+data,1131D8,C3BCC,str_ReservememINVALIDSIZE,data/lib/ea/ealib_13.asm,string,1.0,'reservemem - INVALID SIZE REQUESTED\nrequested: %ld availab
+data,1132E8,C3C88,str_ReservememINVALIDTYPEFLAGS,data/lib/ea/ealib_13.asm,string,1.0,'reservemem - INVALID TYPE FLAGS (%04x)\n'
+data,113310,C3CB0,str_ResizememINVALIDSIZE,data/lib/ea/ealib_13.asm,string,1.0,'resizemem - INVALID SIZE REQUESTED\nrequested: %ld availabl
+data,113354,C3CF4,str_ResizememblockNOROOMTO,data/lib/ea/ealib_13.asm,string,1.0,'resizememblock - NO ROOM TO RESIZE\nrequested: %ld availabl
+data,113398,C3D38,str_FindmemblockBLOCKNOTFOUND,data/lib/ea/ealib_13.asm,string,1.0,'findmemblock - BLOCK NOT FOUND (%p)\n'
+data,1133E0,C3D60,str_GetmemblockNOMEMORYBLOCKS,data/lib/ea/ealib_13.asm,string,1.0,'getmemblock - NO MEMORY BLOCKS LEFT\n'
+data,113438,C4034,str_DBUGTXT,data/lib/ea/ealib_13.asm,string,1.0,'DBUG??.TXT'
+data,113448,C4044,str_FILES,data/lib/ea/ealib_13.asm,string,1.0,'FILE: %s\n'
+data,113454,C4050,str_DATES,data/lib/ea/ealib_13.asm,string,1.0,'DATE: %s\n'
+data,113460,C405C,str_TIMES,data/lib/ea/ealib_13.asm,string,1.0,'TIME: %s\n\n'
+data,11346C,C4068,str_CLOSED,data/lib/ea/ealib_13.asm,string,1.0,'\nCLOSED\n'
+data,113478,C4074,str_TIMES2,data/lib/ea/ealib_13.asm,string,1.0,'TIME: %s\n'
+data,1135AC,C47B8,str_Copyright,data/lib/ea/ealib_13.asm,string,1.0,'Copyright'
+data,1135B8,C47C4,str_UnpackINVALIDPACKCODE,data/lib/ea/ealib_13.asm,string,1.0,'unpack - INVALID PACK CODE (%x)\n'
+data,113600,C3FD8,str_SavefileblockaOPENFAILEDFOR,data/lib/ea/ealib_13.asm,string,1.0,'savefileblocka - OPEN FAILED FOR FILE <%s>\n'
+data,11362C,C3D88,str_InitmemmanINSUFFICIENTROW,data/lib/ea/ealib_13.asm,string,1.0,'initmemman - INSUFFICIENT ROW TABLE SPACE\n'
+data,113A0C,C3E94,str_VESA,data/lib/ea/ealib_13.asm,string,1.0,'VESA'
+data,113A50,C3E9C,str_InitgraphicsINITMEMMAN,data/lib/ea/ealib_13.asm,string,1.0,'initgraphics - INITMEMMAN REQUIRED BEFORE INITGRAPHICS\n'
+data,113A88,C3ED4,str_InitgraphicsINVALIDSCREEN,data/lib/ea/ealib_13.asm,string,1.0,"'initgraphics - INVALID SCREEN SIZE (%d,%d)\n'"
+data,113AB4,C3F00,str_VESAVideoBiosDriver,data/lib/ea/ealib_13.asm,string,1.0,'VESA video bios driver required.\nPlease install a driver f
+data,113E64,C47E8,str_EXITTODOSY,data/lib/ea/ealib_13.asm,string,1.0,'EXIT TO DOS (Y/N)'
+data,113E78,C47FC,str_PAUSEPRESSANYKEY,data/lib/ea/ealib_13.asm,string,1.0,'PAUSE - PRESS ANY KEY TO RESUME'
+data,113E98,C481C,str_RemovewindowROWSPACE,data/lib/ea/ealib_13.asm,string,1.0,'removewindow - ROW SPACE CORRUPTED\n'
+data,113EBC,C4840,str_FshVshQfsQvs,data/lib/ea/ealib_13.asm,string,1.0,'.fsh.vsh.qfs.qvs'
+data,113ED0,C4854,str_Vsh,data/lib/ea/ealib_13.asm,string,1.0,'.vsh'
+data,113ED8,C485C,str_Qvs,data/lib/ea/ealib_13.asm,string,1.0,'.qvs'
+data,1140E8,C4A94,str_BLASTER,data/lib/ea/ealib_13.asm,string,1.0,'BLASTER'
+data,11412C,C4B00,str_NotEnoughMemoryTo,data/lib/watcom/watcom_14.asm,string,1.0,'Not enough memory to allocate file structures\r\n'
+data,11415C,C4ADC,str_FloatingPointSupportNot,data/lib/watcom/watcom_14.asm,string,1.0,'Floating-point support not loaded\r\n'
+data,1142A8,C4B30,str_RATIONALDOS4G,data/lib/watcom/watcom_14.asm,string,1.0,'RATIONAL DOS/4G'
+data,1143C8,C417C,str_Used7uFree7u,data/lib/ea/ealib_13.asm,string,1.0,'Used=%-7u Free=%-7u Largst=%-7u'
 data,114440,C41F0,unk_C41F0,data/lib/ea/ealib_13.asm,refset,0.8,referenced by the same 2 matched functions
 data,114444,C41F4,asc_C41F4,data/lib/ea/ealib_13.asm,string,1.0,'%-80s'
 data,11444C,C41FC,unk_C41FC,data/lib/ea/ealib_13.asm,refset,0.8,referenced by the same 4 matched functions
 data,114450,C4200,asc_C4200,data/lib/ea/ealib_13.asm,refset,0.8,referenced by the same 3 matched functions
 data,114454,C4204,asc_C4204,data/lib/ea/ealib_13.asm,string,1.0,'%s\n\n'
-data,114564,C430C,asc_C430C,data/lib/ea/ealib_13.asm,string,1.0,'MEM MANAGER'
+data,114564,C430C,str_MEMMANAGER,data/lib/ea/ealib_13.asm,string,1.0,'MEM MANAGER'
 data,114570,C4318,unk_C4318,data/lib/ea/ealib_13.asm,position,1.0,same fixup of sub_948D4
-data,114574,C431C,asc_C431C,data/lib/ea/ealib_13.asm,string,1.0,'%04.4X (0000 0000 0000 0000)'
-data,114598,C4340,asc_C4340,data/lib/ea/ealib_13.asm,string,1.0,' SYSTEM '
-data,1145A4,C434C,asc_C434C,data/lib/ea/ealib_13.asm,string,1.0,' SPACE '
-data,1145AC,C4354,asc_C4354,data/lib/ea/ealib_13.asm,string,1.0,'HIGH memory block'
-data,1145C0,C4368,asc_C4368,data/lib/ea/ealib_13.asm,string,1.0,'LOW memory block'
-data,1145D4,C437C,asc_C437C,data/lib/ea/ealib_13.asm,string,1.0,'Conventional memory'
-data,1145E8,C4390,asc_C4390,data/lib/ea/ealib_13.asm,string,1.0,'Relocatable block'
-data,1145FC,C43A4,asc_C43A4,data/lib/ea/ealib_13.asm,string,1.0,'Non-Relocatable block'
-data,114614,C43BC,asc_C43BC,data/lib/ea/ealib_13.asm,string,1.0,'ALIGN flag is set'
-data,114628,C43D0,asc_C43D0,data/lib/ea/ealib_13.asm,string,1.0,'PRIORITY #%1d'
-data,114638,C43E0,asc_C43E0,data/lib/ea/ealib_13.asm,string,1.0,'Sequence #%d'
-data,114648,C43F0,asc_C43F0,data/lib/ea/ealib_13.asm,string,1.0,'Block is PURGABLE'
+data,114574,C431C,str_044X00000000,data/lib/ea/ealib_13.asm,string,1.0,'%04.4X (0000 0000 0000 0000)'
+data,114598,C4340,str_SYSTEM,data/lib/ea/ealib_13.asm,string,1.0,' SYSTEM '
+data,1145A4,C434C,str_SPACE3,data/lib/ea/ealib_13.asm,string,1.0,' SPACE '
+data,1145AC,C4354,str_HIGHMemoryBlock,data/lib/ea/ealib_13.asm,string,1.0,'HIGH memory block'
+data,1145C0,C4368,str_LOWMemoryBlock,data/lib/ea/ealib_13.asm,string,1.0,'LOW memory block'
+data,1145D4,C437C,str_ConventionalMemory,data/lib/ea/ealib_13.asm,string,1.0,'Conventional memory'
+data,1145E8,C4390,str_RelocatableBlock,data/lib/ea/ealib_13.asm,string,1.0,'Relocatable block'
+data,1145FC,C43A4,str_NonRelocatableBlock,data/lib/ea/ealib_13.asm,string,1.0,'Non-Relocatable block'
+data,114614,C43BC,str_ALIGNFlagIsSet,data/lib/ea/ealib_13.asm,string,1.0,'ALIGN flag is set'
+data,114628,C43D0,str_PRIORITY1d,data/lib/ea/ealib_13.asm,string,1.0,'PRIORITY #%1d'
+data,114638,C43E0,str_SequenceD,data/lib/ea/ealib_13.asm,string,1.0,'Sequence #%d'
+data,114648,C43F0,str_BlockIsPURGABLE,data/lib/ea/ealib_13.asm,string,1.0,'Block is PURGABLE'
 data,11465C,C4404,asc_C4404,data/lib/ea/ealib_13.asm,string,1.0,'%04x   '
 data,114664,C440C,asc_C440C,data/lib/ea/ealib_13.asm,string,1.0,'%02x'
-data,11467C,C4424,asc_C4424,data/lib/ea/ealib_13.asm,string,1.0,'* FILE: %s\n'
-data,114688,C4430,asc_C4430,data/lib/ea/ealib_13.asm,string,1.0,'* DATE: %s\n'
-data,114694,C443C,asc_C443C,data/lib/ea/ealib_13.asm,string,1.0,'* TIME: %s\n'
-data,1146A8,C4450,asc_C4450,data/lib/ea/ealib_13.asm,string,1.0,'hexmemdsp = O%s\n\n'
-data,1146BC,C4464,asc_C4464,data/lib/ea/ealib_13.asm,string,1.0,'xxMMAP??.TXT'
+data,11467C,C4424,str_FILES2,data/lib/ea/ealib_13.asm,string,1.0,'* FILE: %s\n'
+data,114688,C4430,str_DATES2,data/lib/ea/ealib_13.asm,string,1.0,'* DATE: %s\n'
+data,114694,C443C,str_TIMES3,data/lib/ea/ealib_13.asm,string,1.0,'* TIME: %s\n'
+data,1146A8,C4450,str_HexmemdspOS,data/lib/ea/ealib_13.asm,string,1.0,'hexmemdsp = O%s\n\n'
+data,1146BC,C4464,str_XxMMAPTXT,data/lib/ea/ealib_13.asm,string,1.0,'xxMMAP??.TXT'
 data,1146CC,C4474,unk_C4474,data/lib/ea/ealib_13.asm,refset,0.8,referenced by the same 2 matched functions
-data,1146D0,C4478,asc_C4478,data/lib/ea/ealib_13.asm,string,1.0,'Error Dumping Memory Map'
-data,1146EC,C4494,asc_C4494,data/lib/ea/ealib_13.asm,string,1.0,'Shape file is invalid.  Work with it?'
-data,114714,C44BC,asc_C44BC,data/lib/ea/ealib_13.asm,string,1.0,"'Num = %d, # packed = %d, # not packed = %d, # no shows = %d"
-data,114754,C44FC,asc_C44FC,data/lib/ea/ealib_13.asm,string,1.0,'There are no shapes that can be shown!'
-data,11477C,C4524,asc_C4524,data/lib/ea/ealib_13.asm,string,1.0,"""'%4.4s' %05x: """
-data,11478C,C4534,asc_C4534,data/lib/ea/ealib_13.asm,string,1.0,'Bad.\n'
-data,114794,C453C,asc_C453C,data/lib/ea/ealib_13.asm,string,1.0,'cx/cy = %3d/%3d - '
-data,1147A8,C4550,asc_C4550,data/lib/ea/ealib_13.asm,string,1.0,'Not drawn.\n'
-data,1147B4,C455C,asc_C455C,data/lib/ea/ealib_13.asm,string,1.0,"'bytes = %3d, rows = %3d, x/y = %3d/%3d, cx/cy = %3d/%3d'"
-data,1147EC,C4594,unk_C4594,data/lib/ea/ealib_13.asm,refset,0.8,referenced by the same 2 matched functions
-data,1147F0,C4598,asc_C4598,data/lib/ea/ealib_13.asm,string,1.0,' %spacked\n'
-data,1147FC,C45A4,asc_C45A4,data/lib/ea/ealib_13.asm,string,1.0,'packed  '
+data,1146D0,C4478,str_ErrorDumpingMemoryMap,data/lib/ea/ealib_13.asm,string,1.0,'Error Dumping Memory Map'
+data,1146EC,C4494,str_ShapeFileIsInvalid,data/lib/ea/ealib_13.asm,string,1.0,'Shape file is invalid.  Work with it?'
+data,114714,C44BC,str_NumDPackedD,data/lib/ea/ealib_13.asm,string,1.0,"'Num = %d, # packed = %d, # not packed = %d, # no shows = %d"
+data,114754,C44FC,str_ThereAreNoShapes,data/lib/ea/ealib_13.asm,string,1.0,'There are no shapes that can be shown!'
+data,11477C,C4524,str_44s05x,data/lib/ea/ealib_13.asm,string,1.0,"""'%4.4s' %05x: """
+data,11478C,C4534,str_Bad,data/lib/ea/ealib_13.asm,string,1.0,'Bad.\n'
+data,114794,C453C,str_CxCy3d3d,data/lib/ea/ealib_13.asm,string,1.0,'cx/cy = %3d/%3d - '
+data,1147A8,C4550,str_NotDrawn,data/lib/ea/ealib_13.asm,string,1.0,'Not drawn.\n'
+data,1147B4,C455C,str_Bytes3dRows3d,data/lib/ea/ealib_13.asm,string,1.0,"'bytes = %3d, rows = %3d, x/y = %3d/%3d, cx/cy = %3d/%3d'"
+data,1147EC,C4594,str_Un,data/lib/ea/ealib_13.asm,refset,0.8,referenced by the same 2 matched functions
+data,1147F0,C4598,str_Spacked,data/lib/ea/ealib_13.asm,string,1.0,' %spacked\n'
+data,1147FC,C45A4,str_Packed,data/lib/ea/ealib_13.asm,string,1.0,'packed  '
 data,114814,C45BC,asc_C45BC,data/lib/ea/ealib_13.asm,string,1.0,"'%3d/%3d, %3d/%3d, %s'"
-data,114844,C45D4,asc_C45D4,data/lib/ea/ealib_13.asm,string,1.0,'Shape is invalid.  Draw it anyways?'
-data,114868,C45F8,asc_C45F8,data/lib/ea/ealib_13.asm,string,1.0,'MEMSHP??.TXT'
-data,114878,C4608,asc_C4608,data/lib/ea/ealib_13.asm,string,1.0,'Error Dumping Shapes List'
-data,114894,C4624,asc_C4624,data/lib/ea/ealib_13.asm,string,1.0,'Shape file name: %0.12s\n'
-data,1148B0,C4640,asc_C4640,data/lib/ea/ealib_13.asm,string,1.0,'Shape file size: %ld\n'
-data,1148C8,C4658,asc_C4658,data/lib/ea/ealib_13.asm,string,1.0,'Number of shapes: %d\n\n'
-data,1148E0,C4670,asc_C4670,data/lib/ea/ealib_13.asm,string,1.0,"""'%-4.4s' @ %6.6ld, """
-data,1148F4,C4684,asc_C4684,data/lib/ea/ealib_13.asm,string,1.0,"'bytes = %3d, rows = %3d, '"
-data,114910,C46A0,asc_C46A0,data/lib/ea/ealib_13.asm,string,1.0,"'x/y = %3d/%3d, cx/cy = %3d/%3d'"
-data,114934,C46C4,asc_C46C4,data/lib/ea/ealib_13.asm,string,1.0,'%03.3d (%02.2X)'
-data,114944,C46D4,asc_C46D4,data/lib/ea/ealib_13.asm,string,1.0,'R=%02.2d'
-data,114950,C46E0,asc_C46E0,data/lib/ea/ealib_13.asm,string,1.0,'G=%02.2d'
-data,11495C,C46EC,asc_C46EC,data/lib/ea/ealib_13.asm,string,1.0,'B=%02.2d'
-data,114970,C4700,asc_C4700,data/lib/ea/ealib_13.asm,string,1.0,'SCREEN??.*'
-data,1149A4,C48FC,asc_C48FC,data/lib/ea/ealib_13.asm,string,1.0,'unpackf'
-data,1149B4,C4B5C,dword_C4B5C,data/lib/watcom/watcom_14.asm,position,1.0,same fixup of __Nan_Inf_
-data,1149B8,C4B60,dword_C4B60,data/lib/watcom/watcom_14.asm,position,1.0,same fixup of __Nan_Inf_
+data,114844,C45D4,str_ShapeIsInvalidDraw,data/lib/ea/ealib_13.asm,string,1.0,'Shape is invalid.  Draw it anyways?'
+data,114868,C45F8,str_MEMSHPTXT,data/lib/ea/ealib_13.asm,string,1.0,'MEMSHP??.TXT'
+data,114878,C4608,str_ErrorDumpingShapesList,data/lib/ea/ealib_13.asm,string,1.0,'Error Dumping Shapes List'
+data,114894,C4624,str_ShapeFileName0,data/lib/ea/ealib_13.asm,string,1.0,'Shape file name: %0.12s\n'
+data,1148B0,C4640,str_ShapeFileSizeLd,data/lib/ea/ealib_13.asm,string,1.0,'Shape file size: %ld\n'
+data,1148C8,C4658,str_NumberOfShapesD,data/lib/ea/ealib_13.asm,string,1.0,'Number of shapes: %d\n\n'
+data,1148E0,C4670,str_44s66ld,data/lib/ea/ealib_13.asm,string,1.0,"""'%-4.4s' @ %6.6ld, """
+data,1148F4,C4684,str_Bytes3dRows3d2,data/lib/ea/ealib_13.asm,string,1.0,"'bytes = %3d, rows = %3d, '"
+data,114910,C46A0,str_XY3d3d,data/lib/ea/ealib_13.asm,string,1.0,"'x/y = %3d/%3d, cx/cy = %3d/%3d'"
+data,114934,C46C4,str_033d022X,data/lib/ea/ealib_13.asm,string,1.0,'%03.3d (%02.2X)'
+data,114944,C46D4,str_R022d,data/lib/ea/ealib_13.asm,string,1.0,'R=%02.2d'
+data,114950,C46E0,str_G022d,data/lib/ea/ealib_13.asm,string,1.0,'G=%02.2d'
+data,11495C,C46EC,str_B022d,data/lib/ea/ealib_13.asm,string,1.0,'B=%02.2d'
+data,114970,C4700,str_SCREEN2,data/lib/ea/ealib_13.asm,string,1.0,'SCREEN??.*'
+data,1149A4,C48FC,str_Unpackf,data/lib/ea/ealib_13.asm,string,1.0,'unpackf'
+data,1149B4,C4B5C,str_Inf,data/lib/watcom/watcom_14.asm,position,1.0,same fixup of __Nan_Inf_
+data,1149B8,C4B60,str_Nan,data/lib/watcom/watcom_14.asm,position,1.0,same fixup of __Nan_Inf_
 data,1149BC,C4B64,qword_C4B64,data/lib/watcom/watcom_14.asm,position,1.0,same fixup of floor_
 data,1149C4,C4B6C,byte_C4B6C,data/lib/ea/ealib_15.asm,position,1.0,same fixup of sub_A6BE1
 data,114AC8,C4C80,qword_C4C80,data/lib/ea/ealib_15.asm,position,1.0,same fixup of _Scale10V_
@@ -806,7 +806,7 @@ data,1210C0,D43E4,dword_D43E4,data/lib/ea/ealib_60.asm,refset,0.8,referenced by 
 data,1213DC,D45D8,unk_D45D8,data/lib/ea/ealib_60.asm,refset,0.8,referenced by the same 2 matched functions
 data,121AD8,D41F4,dword_D41F4,data/lib/ea/ealib_60.asm,position,1.0,same fixup of __sys_fini_387_emulator
 data,121ADC,D41F8,word_D41F8,data/lib/ea/ealib_60.asm,position,1.0,same fixup of __sys_fini_387_emulator
-data,121AE0,D43F4,asc_D43F4,data/lib/ea/ealib_60.asm,string,1.0,'openhandle - %s FILE ERROR\r'
+data,121AE0,D43F4,str_OpenhandleSFILEERROR,data/lib/ea/ealib_60.asm,string,1.0,'openhandle - %s FILE ERROR\r'
 data,121AFC,D4410,byte_D4410,data/lib/ea/ealib_60.asm,position,1.0,same fixup of sub_B3B5A
 data,121B24,D4438,dword_D4438,data/lib/ea/ealib_60.asm,position,1.0,same fixup of sub_B3B5A
 data,121B28,D443C,dword_D443C,data/lib/ea/ealib_60.asm,position,1.0,same fixup of sub_B3B5A
@@ -865,8 +865,8 @@ data,14F0A4,D5670,dword_D5670,data/lib/ea/ealib_65.asm,position,1.0,same fixup o
 data,14F0A8,D5674,dword_D5674,data/lib/ea/ealib_65.asm,position,1.0,same fixup of __AdjustAmount_
 data,14FAA8,D5668,off_D5668,data/lib/ea/ealib_65.asm,position,1.0,same fixup of __setEFGfmt_
 data,14FAAC,D566C,off_D566C,data/lib/ea/ealib_65.asm,position,1.0,same fixup of __setEFGfmt_
-data,14FAB0,D544C,asc_D544C,data/lib/ea/ealib_65.asm,string,1.0,'SHPI'
-data,14FADE,D2F46,asc_D2F46,data/lib/ea/ealib_60.asm,string,1.0,'Stack Overflow!\r\n'
+data,14FAB0,D544C,str_SHPI2,data/lib/ea/ealib_65.asm,string,1.0,'SHPI'
+data,14FADE,D2F46,str_StackOverflow,data/lib/ea/ealib_60.asm,string,1.0,'Stack Overflow!\r\n'
 data,14FC70,D65F8,byte_D65F8,data/lib/watcom/watcom_66.asm,position,1.0,same fixup of __hook387
 data,14FC71,D65F9,byte_D65F9,data/lib/watcom/watcom_66.asm,position,1.0,same fixup of __hook387
 data,14FC74,D65FC,word_D65FC,data/lib/watcom/watcom_66.asm,position,1.0,same fixup of __sys_init_387_emulator

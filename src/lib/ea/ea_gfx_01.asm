@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_AA988 progbits alloc exec nowrite align=1
-extern FatalError, asc_113110, asc_113154, asc_11315C, asc_113168, asc_11316C, dword_11F9B8, dword_11F9BC
+extern FatalError, asc_113110, str_LOWMEM, str_HIGHMEM, asc_113168, asc_11316C, dword_11F9B8, dword_11F9BC
 extern dword_1210C0, dword_1210C8, dword_1210CC, dword_1228D0, dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4
 extern dword_1228F4, dword_1228FC, dword_122930, dword_123934, dword_18568C, dword_185690, dword_185730, dword_185734
 extern dword_18573C, strncpy_, sub_AA7E0, sub_AB87C, sub_AC990, sub_C24D0, sub_C3A48, sub_C3BD0
@@ -938,7 +938,7 @@ mov eax, dword [byte esp+020h]	; AB320
 mov dword [byte esi+010h], eax	; AB324
 call sub_AC990	; AB327
 mov ebx, 0Ch	; AB32C
-mov edx, asc_113154	; AB331
+mov edx, str_LOWMEM	; AB331
 mov ecx, eax	; AB336
 add eax, byte 4	; AB338
 call strncpy_	; AB33B
@@ -954,7 +954,7 @@ mov dword [byte ecx+018h], eax	; AB35F
 mov dword [esi], ecx	; AB362
 call sub_AC990	; AB364
 mov ebx, 0Ch	; AB369
-mov edx, asc_11315C	; AB36E
+mov edx, str_HIGHMEM	; AB36E
 mov ecx, eax	; AB373
 add eax, byte 4	; AB375
 call strncpy_	; AB378
@@ -1047,7 +1047,7 @@ shl ecx, 2	; AB45B
 add esi, ecx	; AB45E
 call sub_AC990	; AB460
 mov ebx, 0Ch	; AB465
-mov edx, asc_11315C	; AB46A
+mov edx, str_HIGHMEM	; AB46A
 mov ecx, eax	; AB46F
 add eax, byte 4	; AB471
 call strncpy_	; AB474

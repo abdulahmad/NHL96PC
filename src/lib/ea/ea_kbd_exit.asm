@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_C27F8 progbits alloc exec nowrite align=1
-extern SetDrawBitmap, asc_113E64, asc_113E78, dword_11F994, dword_122900, joycalactive, mousepollfn, off_11F5F4
+extern SetDrawBitmap, str_EXITTODOSY, str_PAUSEPRESSANYKEY, dword_11F994, dword_122900, joycalactive, mousepollfn, off_11F5F4
 extern off_11F5F8, off_11F5FC, off_14F074, off_14F078, sub_AD35C, sub_AD680, sub_ADA80, sub_ADBEC
 extern sub_AFFD0, sub_B0254, sub_B026C, sub_B0284, sub_B2B30, sub_B31C0, sub_BF120, sub_CFE0C
 extern sub_CFE20, sub_CFE70, sub_DD6C4, sub_DE084, sub_DFF28, sub_E193C, sub_E1956, sub_E270C
@@ -206,7 +206,7 @@ mov ecx, 0A0h	; C2AC6
 mov ebx, 58h	; C2ACB
 push byte 18h	; C2AD0
 mov edx, 50h	; C2AD2
-mov eax, asc_113E64	; C2AD7
+mov eax, str_EXITTODOSY	; C2AD7
 call sub_C27F8	; C2ADC
 test eax, eax	; C2AE1
 je short loc_C2AEB	; C2AE3
@@ -326,7 +326,7 @@ mov ecx, 120h	; C2C5E
 mov ebx, 58h	; C2C63
 push byte 18h	; C2C68
 mov edx, 10h	; C2C6A
-mov eax, asc_113E78	; C2C6F
+mov eax, str_PAUSEPRESSANYKEY	; C2C6F
 call sub_C27F8	; C2C74
 ret	; C2C79
 db 00h,00h

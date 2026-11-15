@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_CE06B progbits alloc exec nowrite align=1
-extern asc_1140E8, asc_1140F0, asc_1140FB, asc_114104, asc_114110, asc_11411C, asc_114124, byte_123988
+extern str_BLASTER, asc_1140F0, asc_1140FB, asc_114104, asc_114110, asc_11411C, asc_114124, byte_123988
 extern byte_1248D0, byte_1248D1, byte_14F024, byte_14F025, byte_14F026, byte_14F054, byte_14F055, byte_14F064
 extern byte_14F065, byte_14F066, byte_14F067, byte_14F070, byte_1A0FD4, byte_1A0FD5, dword_11F5E4, dword_1210C0
 extern dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4, dword_1228F0, dword_1228F4, dword_1228F8, dword_1228FC
@@ -100,7 +100,7 @@ mov dword [byte ebp-08h], ecx	; CE0B6
 mov dword [eax], 0	; CE0B9
 mov dword [edx], 0	; CE0BF
 mov dword [ebx], 0	; CE0C5
-mov eax, asc_1140E8	; CE0CB
+mov eax, str_BLASTER	; CE0CB
 mov dword [ecx], 0	; CE0D0
 call getenv_	; CE0D6
 mov ecx, eax	; CE0DB

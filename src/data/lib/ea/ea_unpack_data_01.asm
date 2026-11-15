@@ -2,13 +2,13 @@
 bits 32
 %include "hockey.inc"
 section s_1135A8 progbits alloc noexec write align=1
-global asc_1135A8, asc_1135AC, asc_1135B8, asc_1135DC, asc_1135E8, asc_1135F4, asc_113600, asc_11362C
+global asc_1135A8, str_Copyright, str_UnpackINVALIDPACKCODE, asc_1135DC, asc_1135E8, asc_1135F4, str_SavefileblockaOPENFAILEDFOR, str_InitmemmanINSUFFICIENTROW
 global asc_113658, asc_113680
 asc_1135A8:
 db 06Ch,07Ah,068h,00h
-asc_1135AC:
+str_Copyright:
 db 043h,06Fh,070h,079h,072h,069h,067h,068h,074h,00h,020h,073h
-asc_1135B8:
+str_UnpackINVALIDPACKCODE:
 db 075h,06Eh,070h,061h,063h,06Bh,020h,02Dh,020h,049h,04Eh,056h,041h,04Ch,049h,044h
 db 020h,050h,041h,043h,04Bh,020h,043h,04Fh,044h,045h,020h,028h,025h,078h,029h,0Ah
 db 00h,00h,00h,00h
@@ -18,11 +18,11 @@ asc_1135E8:
 db 069h,06Eh,076h,065h,072h,073h,065h,074h,062h,06Ch,00h,0Dh
 asc_1135F4:
 db 069h,06Eh,076h,065h,072h,073h,065h,074h,06Dh,070h,00h,00h
-asc_113600:
+str_SavefileblockaOPENFAILEDFOR:
 db 073h,061h,076h,065h,066h,069h,06Ch,065h,062h,06Ch,06Fh,063h,06Bh,061h,020h,02Dh
 db 020h,04Fh,050h,045h,04Eh,020h,046h,041h,049h,04Ch,045h,044h,020h,046h,04Fh,052h
 db 020h,046h,049h,04Ch,045h,020h,03Ch,025h,073h,03Eh,0Ah,00h
-asc_11362C:
+str_InitmemmanINSUFFICIENTROW:
 db 069h,06Eh,069h,074h,06Dh,065h,06Dh,06Dh,061h,06Eh,020h,02Dh,020h,049h,04Eh,053h
 db 055h,046h,046h,049h,043h,049h,045h,04Eh,054h,020h,052h,04Fh,057h,020h,054h,041h
 db 042h,04Ch,045h,020h,053h,050h,041h,043h,045h,0Ah,00h,069h

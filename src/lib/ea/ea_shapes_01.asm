@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_C3CC0 progbits alloc exec nowrite align=1
-extern FatalError, asc_113E98, dword_11F9BC, dword_18572C, loc_C3EE4, loc_C3F05, loc_C3F29, loc_C3F49
+extern FatalError, str_RemovewindowROWSPACE, dword_11F9BC, dword_18572C, loc_C3EE4, loc_C3F05, loc_C3F29, loc_C3F49
 extern loc_C3F69, loc_C3FBA, loc_C400B, loc_C4055, loc_C409B
 global loc_C3CE5, loc_C3D0D, loc_C3D13, loc_C3D25, loc_C3D36, loc_C3D49, loc_C3D60, loc_C3D6C
 global loc_C3D76, loc_C3D78, loc_C3DA3, loc_C3DB3, loc_C3DC4, loc_C3DE9, loc_C3DFA, sub_C3CC0
@@ -127,7 +127,7 @@ jb short loc_C3DA3	; C3DB1
 loc_C3DB3:
 cmp esi, edx	; C3DB3
 je short loc_C3DC4	; C3DB5
-push asc_113E98	; C3DB7
+push str_RemovewindowROWSPACE	; C3DB7
 call FatalError	; C3DBC
 add esp, byte 4	; C3DC1
 loc_C3DC4:

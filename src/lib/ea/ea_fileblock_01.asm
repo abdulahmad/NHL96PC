@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_AC9F0 progbits alloc exec nowrite align=1
-extern asc_113438, asc_113448, asc_113454, asc_113460, asc_11346C, asc_113478, byte_11F9D8, byte_11F9D9
+extern str_DBUGTXT, str_FILES, str_DATES, str_TIMES, str_CLOSED, str_TIMES2, byte_11F9D8, byte_11F9D9
 extern byte_11F9DA, dword_11F9C8, dword_11F9D0, dword_11F9D4, dword_11F9DC, fclose_, fopen_, sub_ACED8
 extern sub_ACF68, sub_AD00C, sub_E0520, sub_E1836, unk_113444, vsprintf_
 global DebugPrintf, loc_ACA32, loc_ACA81, loc_ACAB4, loc_ACB17, loc_ACB3A, loc_ACB75, loc_ACBA5
@@ -340,7 +340,7 @@ mov byte [esp+eax], 5Ch	; ACDC2
 xor dh, dh	; ACDC6
 mov byte [byte esp+eax+01h], dh	; ACDC8
 loc_ACDCC:
-mov esi, asc_113438	; ACDCC
+mov esi, str_DBUGTXT	; ACDCC
 mov edi, esp	; ACDD1
 push edi	; ACDD3
 LD sub, ecx, ecx	; ACDD4
@@ -374,17 +374,17 @@ lea eax, [dword esp+088h]	; ACE18
 call sub_AD00C	; ACE1F
 mov eax, esp	; ACE24
 push eax	; ACE26
-push asc_113448	; ACE27
+push str_FILES	; ACE27
 call sub_ACED8	; ACE2C
 add esp, byte 8	; ACE31
 lea eax, [dword esp+088h]	; ACE34
 push eax	; ACE3B
-push asc_113454	; ACE3C
+push str_DATES	; ACE3C
 call sub_ACED8	; ACE41
 add esp, byte 8	; ACE46
 lea eax, [dword esp+09Ch]	; ACE49
 push eax	; ACE50
-push asc_113460	; ACE51
+push str_TIMES	; ACE51
 call sub_ACED8	; ACE56
 add esp, byte 8	; ACE5B
 jmp short loc_ACE65	; ACE5E
@@ -408,17 +408,17 @@ je short loc_ACECF	; ACE81
 mov edx, esp	; ACE83
 lea eax, [byte esp+014h]	; ACE85
 call sub_AD00C	; ACE89
-push asc_11346C	; ACE8E
+push str_CLOSED	; ACE8E
 call sub_ACED8	; ACE93
 add esp, byte 4	; ACE98
 lea eax, [byte esp+014h]	; ACE9B
 push eax	; ACE9F
-push asc_113454	; ACEA0
+push str_DATES	; ACEA0
 call sub_ACED8	; ACEA5
 add esp, byte 8	; ACEAA
 mov eax, esp	; ACEAD
 push eax	; ACEAF
-push asc_113478	; ACEB0
+push str_TIMES2	; ACEB0
 call sub_ACED8	; ACEB5
 add esp, byte 8	; ACEBA
 mov eax, dword [dword_11F9DC]	; ACEBD

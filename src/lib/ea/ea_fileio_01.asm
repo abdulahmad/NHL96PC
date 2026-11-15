@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_E0658 progbits alloc exec nowrite align=1
-extern FatalError, asc_121AE0, byte_121AFC, dword_121B24, dword_121B28, dword_121B2C, dword_121B30
+extern FatalError, str_OpenhandleSFILEERROR, byte_121AFC, dword_121B24, dword_121B28, dword_121B2C, dword_121B30
 global loc_E06C6, loc_E0711, loc_E0746, loc_E0783, loc_E07AB, loc_E07C6, loc_E07CE, loc_E07E4
 global loc_E07FB, loc_E0810, loc_E0817, sub_E0658, sub_E0671, sub_E0686, sub_E069C, sub_E06B2
 global sub_E07B8, sub_E07C8, sub_E07CC, sub_E081C
@@ -134,7 +134,7 @@ leave	; E07A9
 ret	; E07AA
 loc_E07AB:
 push dword [byte ebp+08h]	; E07AB
-push asc_121AE0	; E07AE
+push str_OpenhandleSFILEERROR	; E07AE
 call FatalError	; E07B3
 sub_E07B8:
 push ebp	; E07B8

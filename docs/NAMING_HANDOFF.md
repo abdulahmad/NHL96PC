@@ -10,7 +10,7 @@ and the Overbar branches (see "Merging"). No decompilation. Skip Watcom internal
 - NHL95PC: strings, engine data, most front-end data, the most-called library routines, every symbol the port links.
 
 ## Remaining queue
-1. NHL96PC engine: about 95 `sub_` routines in `src/engine/` are left. Every routine with an NHL95PC partner is
+1. NHL96PC engine: about 100 `sub_` routines in `src/engine/` are left. Every routine with an NHL95PC partner is
    named (call position, module order, shared references, callers). The rest is code new in 96 (extra assignment
    routines in `asstab`, the goalie routines after assgoalie, the drawing helpers in `lines.asm`, save file name
    helpers after LoadGameState) and each needs a full read; `source=new`. List them with their callers and

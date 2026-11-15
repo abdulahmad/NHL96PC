@@ -14,7 +14,7 @@ extern foy, gameclock, gameopts, getlchoice, gmode, hmtmstruct, lasttouch, lcbli
 extern lcboxon, lcline, off_11787C, puckc, off_11788C, off_117890, off_117894, passplayer
 extern penshotlive, penshotmode, penshotplayer, penshotstart, psendcount, puckvx, puckvz, puckx
 extern pucky, puckz, randomd0, regd2, regd3, sflags, shotongoal, skatetopuck
-extern sub_28459, GetPartner, defotarget, defdtarget, sub_30E6B, assgoalie, check4check, checkob
+extern sub_28459, GetPartner, defotarget, defdtarget, assextra3, assgoalie, check4check, checkob
 extern checkpuckcoll, chk4lcauto, CompPass, chk4shot, SetShotMode, ShotMode, Findhittype, doshot
 extern SetSPA, SprSort, changeplayer, GetHot, Setplass, setplayer, updateanim, SetExitGame
 extern sub_4B4F3, doplayeracc, EvadePC, skateto, PostGoalEvent, AddPenalty2, EndPenaltyShot, sub_68E21
@@ -149,13 +149,13 @@ global loc_37D55, loc_37D7E, loc_37D98, loc_37DC1, loc_37DD4, loc_37DF1, loc_37D
 global loc_37E1B, loc_37E34, loc_37E35, loc_37E50, loc_37E55, loc_37E64, loc_37E71, loc_37E95
 global loc_37E9A, loc_37E9F, loc_37EA4, loc_37EAB, loc_37ECC, loc_37EF5, loc_37EF8, loc_37EFF
 global loc_37F0E, loc_37F51, loc_37F5E, loc_37F83, loc_37FBC, loc_37FC3, loc_37FEF, loc_38011
-global loc_3801E, loc_3802D, loc_3803E, loc_38041, loc_3804F, pucknorm, pucknorm_body, sub_313D2
+global loc_3801E, loc_3802D, loc_3803E, loc_38041, loc_3804F, pucknorm, pucknorm_body, assextra4
 global asswingo, asscenterd, asscentero, SwapPosition, SwapDefWithFwd, asspuckc, asspuckc_chkdir, SwapPairSides
-global sub_3251A, assnearest, donothing, assscore, asseben, assleaveice, asspenalty, assdopen
+global assextra5, assnearest, donothing, assscore, asseben, assleaveice, asspenalty, assdopen
 global assepen, assbench, assfaceoff, assfaceoffpl, pucknothing, SetLCmode, StartFaceoffLineChange, sub_3509F
 global sub_350A5, puckflip, assrefatdot, assreffollow, SkateToSpot, CrowdOnStoppage, assrefwhistle, assrefsignal
-global rtss, assrefgoalline, NextPathPoint, asspenshooter, chkhit, assfight, assfwatch, sub_37ED0
-sub_313D2:
+global rtss, assrefgoalline, NextPathPoint, asspenshooter, chkhit, assfight, assfwatch, assextra6
+assextra4:
 push ebx	; 313D2
 push ecx	; 313D3
 push edx	; 313D4
@@ -601,7 +601,7 @@ jge short loc_31935	; 31925
 movzx eax, byte [byte ebx+059h]	; 31927
 mov dword [byte ebx+072h], eax	; 3192B
 mov eax, ebx	; 3192E
-call sub_313D2	; 31930
+call assextra4	; 31930
 loc_31935:
 mov ax, word [byte ebx+02Ah]	; 31935
 mov word [regd0], ax	; 31939
@@ -688,7 +688,7 @@ jge short loc_31A33	; 31A23
 movzx eax, byte [byte ebx+05Ah]	; 31A25
 mov dword [byte ebx+06Eh], eax	; 31A29
 mov eax, ebx	; 31A2C
-call sub_30E6B	; 31A2E
+call assextra3	; 31A2E
 loc_31A33:
 mov ax, word [byte ebx+02Ah]	; 31A33
 mov word [regd0], ax	; 31A37
@@ -799,7 +799,7 @@ jge short loc_31B86	; 31B76
 movzx eax, byte [byte ebx+059h]	; 31B78
 mov dword [byte ebx+072h], eax	; 31B7C
 mov eax, ebx	; 31B7F
-call sub_313D2	; 31B81
+call assextra4	; 31B81
 loc_31B86:
 mov ax, word [byte ebx+02Ah]	; 31B86
 mov word [regd0], ax	; 31B8A
@@ -1601,7 +1601,7 @@ pop edx	; 32516
 pop ecx	; 32517
 pop ebx	; 32518
 ret	; 32519
-sub_3251A:
+assextra5:
 push ecx	; 3251A
 push esi	; 3251B
 mov ecx, eax	; 3251C
@@ -2104,7 +2104,7 @@ jg short loc_32BB4	; 32B77
 cmp dword [byte esi+066h], byte 2	; 32B79
 jle short loc_32B88	; 32B7D
 mov eax, esi	; 32B7F
-call sub_313D2	; 32B81
+call assextra4	; 32B81
 jmp short loc_32B8F	; 32B86
 loc_32B88:
 mov eax, esi	; 32B88
@@ -2398,7 +2398,7 @@ movsx eax, word [eax]	; 32F33
 mov ebx, 1	; 32F36
 add edx, eax	; 32F3B
 mov eax, esi	; 32F3D
-call sub_3251A	; 32F3F
+call assextra5	; 32F3F
 test eax, eax	; 32F44
 je short loc_32F54	; 32F46
 mov eax, esi	; 32F48
@@ -2450,7 +2450,7 @@ je short loc_32FF7	; 32FCB
 cmp dword [byte esi+066h], byte 2	; 32FCD
 je short loc_32FF7	; 32FD1
 mov eax, esi	; 32FD3
-call sub_30E6B	; 32FD5
+call assextra3	; 32FD5
 mov ax, word [byte esi+02Ah]	; 32FDA
 mov word [regd0], ax	; 32FDE
 mov ax, word [byte esi+02Ch]	; 32FE4
@@ -2516,7 +2516,7 @@ loc_330A8:
 movsx edx, word [regd0]	; 330A8
 mov eax, esi	; 330AF
 xor ebx, ebx	; 330B1
-call sub_3251A	; 330B3
+call assextra5	; 330B3
 test eax, eax	; 330B8
 jne short loc_330C5	; 330BA
 mov word [regd0], 0	; 330BC
@@ -8843,7 +8843,7 @@ pop edx	; 37ECC
 pop ecx	; 37ECD
 pop ebx	; 37ECE
 ret	; 37ECF
-sub_37ED0:
+assextra6:
 push ebx	; 37ED0
 push ecx	; 37ED1
 push edx	; 37ED2

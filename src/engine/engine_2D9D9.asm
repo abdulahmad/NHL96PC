@@ -14,8 +14,8 @@ extern dword_179DBD, optblock, energywarn, fadeinpending, fox, foy, gameopts, gm
 extern hmroster, hmtmstruct, lasttouch, lcblink, off_11787C, puckc, off_11788C, off_117890
 extern off_117894, off_11D44C, off_11D4BC, off_11D52C, puckx, pucky, qsort_, randomd0
 extern reenergizeteam, regd2, regd3, resetplstuff, setpersonel, sflags, sprintf_, sub_13338
-extern sub_1B05E, IsCupClinched, sub_1F300, sub_313D2, SwapPosition, donothing, sub_3509F, SkateToSpot
-extern sub_37ED0, check4check, SetSPA, SprSort, sub_493D4, updateanim, SetExitGame, forcepldata
+extern sub_1B05E, IsCupClinched, sub_1F300, assextra4, SwapPosition, donothing, sub_3509F, SkateToSpot
+extern assextra6, check4check, SetSPA, SprSort, sub_493D4, updateanim, SetExitGame, forcepldata
 extern sub_4B59F, EvadePC, skateto, playeracc, sub_4F452, sub_5439F, sub_5A572, sub_5BD7D
 extern sub_5DBC0, CloseTextOverlay, sub_60777, sub_612BC, sub_62311, sub_63998, sub_63A5B, sub_63F79
 extern sub_63FEF, sub_64054, sub_640D3, sub_641D4, sub_68E72, CrowdNoiseReset, sub_6904C, sfx
@@ -81,9 +81,9 @@ global loc_3103C, loc_31051, loc_31081, loc_3109E, loc_310B5, loc_310F0, loc_311
 global loc_3111F, loc_311B8, loc_311D2, loc_311E4, loc_311F3, loc_31215, loc_3126E, loc_3129D
 global loc_312BD, loc_31313, loc_31346, loc_3139B, loc_313B2, loc_313CF, sub_2D9D9, sub_2DE30
 global sub_2E0C5, sub_2E127, sub_2E171, sub_2E1BE, StartPreGame, assintroline, StarEligible, StarCompare
-global sub_2F029, TurnToward, SkateToTarget, assboxenter, assbenchside, assstanley, asscupfollow, asscuptake
-global asscupleave, sub_30274, GetPartner, defotarget, assdefo, asscoverdefo, defdtarget, assdefd
-global asscoverdefd, sub_30E6B, asswingd
+global assextra1, TurnToward, SkateToTarget, assboxenter, assbenchside, assstanley, asscupfollow, asscuptake
+global asscupleave, assextra2, GetPartner, defotarget, assdefo, asscoverdefo, defdtarget, assdefd
+global asscoverdefd, assextra3, asswingd
 sub_2D9D9:
 push ebx	; 2D9D9
 push ecx	; 2D9DA
@@ -1804,7 +1804,7 @@ pop edi	; 2F025
 pop esi	; 2F026
 pop ecx	; 2F027
 pop ebx	; 2F028
-sub_2F029:
+assextra1:
 ret	; 2F029
 PickThreeStars:
 push ebx	; 2F02A
@@ -3242,7 +3242,7 @@ pop edx	; 30270
 pop ecx	; 30271
 pop ebx	; 30272
 ret	; 30273
-sub_30274:
+assextra2:
 push ebx	; 30274
 push edx	; 30275
 mov edx, eax	; 30276
@@ -3277,7 +3277,7 @@ movsx eax, word [byte edx+06h]	; 302C2
 loc_302C6:
 cmp eax, 15Ah	; 302C6
 jge short loc_30304	; 302CB
-call sub_37ED0	; 302CD
+call assextra6	; 302CD
 cmp dword [dword_165248], byte 0	; 302D2
 je short loc_30304	; 302D9
 cmp dword [dword_16523C], byte 1	; 302DB
@@ -3518,7 +3518,7 @@ mov dword [byte ebx+072h], eax	; 30586
 cmp dword [byte ebx+066h], byte 2	; 30589
 jle short loc_30598	; 3058D
 mov eax, ebx	; 3058F
-call sub_313D2	; 30591
+call assextra4	; 30591
 jmp short loc_3059F	; 30596
 loc_30598:
 mov eax, ebx	; 30598
@@ -4244,7 +4244,7 @@ pop edx	; 30E67
 pop ecx	; 30E68
 pop ebx	; 30E69
 ret	; 30E6A
-sub_30E6B:
+assextra3:
 push ebx	; 30E6B
 push ecx	; 30E6C
 push edx	; 30E6D
@@ -4618,7 +4618,7 @@ jge short loc_313B2	; 313A2
 movzx eax, byte [byte ebx+05Ah]	; 313A4
 mov dword [byte ebx+06Eh], eax	; 313A8
 mov eax, ebx	; 313AB
-call sub_30E6B	; 313AD
+call assextra3	; 313AD
 loc_313B2:
 mov ax, word [byte ebx+02Ah]	; 313B2
 mov word [regd0], ax	; 313B6

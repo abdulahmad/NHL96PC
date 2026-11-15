@@ -22,6 +22,7 @@ address,name,auto_name,source,confidence,evidence,file
 2ED68,AddStar,,95PC,medium,NHL95PC 48789 (similar): mnemonic similarity 0.84 over 28 instructions,
 2EDB1,StarEligible,sub_2EDB1,95PC,medium,first after AddStar as in NHL95PC,src/engine/engine_2D9D9.asm
 2EE07,StarCompare,sub_2EE07,95PC,medium,"second after AddStar as in NHL95PC, before PickThreeStars",src/engine/engine_2D9D9.asm
+2F029,assextra1,sub_2F029,new,low,placeholder (Abdul 2026-11-15): empty routine in asstab slots 14h and 15h,src/engine/engine_2D9D9.asm
 2F02A,PickThreeStars,,95PC,medium,NHL95PC 48AC8 (sem): D:176B86; C:1339; D:152FE8; D:17C9A0,
 2F3DF,TurnToward,sub_2F3DF,new,medium,every 8 ticks turns the facing direction (+36h) one step toward direction edx,src/engine/engine_2D9D9.asm
 2F41D,SkateToTarget,sub_2F41D,new,medium,"direction to the target point (+2Ah, +2Ch) with vtoa, TurnToward, then playeracc",src/engine/engine_2D9D9.asm
@@ -31,6 +32,7 @@ address,name,auto_name,source,confidence,evidence,file
 2FB3D,asscupfollow,sub_2FB3D,new,medium,"asstab entry 33h, given by clockcont on a cup win and to a player who handed the cup on: skates around near the cup holder and celebrates",src/engine/engine_2D9D9.asm
 2FDE3,asscuptake,sub_2FDE3,new,medium,"asstab entry 34h, set by assstanley: skates to the cup holder, turns to face him and takes the cup (he gets 33h, the taker assignment 8)",src/engine/engine_2D9D9.asm
 2FF84,asscupleave,sub_2FF84,new,medium,"asstab entry 35h, given by clockcont to the losing team on a cup win: skates to the bench door, then is put on the bench",src/engine/engine_2D9D9.asm
+30274,assextra2,sub_30274,new,low,placeholder (Abdul 2026-11-15): called from puckstick; tests the zone analysis of assextra6 for this player,src/engine/engine_2D9D9.asm
 30309,GetPartner,sub_30309,new,medium,"returns the SortCords entry of the other player of a pair (position 1 or 2) through the team position map, else 0",src/engine/engine_2D9D9.asm
 30340,defotarget,sub_30340,new,low,"called from assdefo and assnearest: defenceman's target on offence, same shape as defdtarget",src/engine/engine_2D9D9.asm
 30483,assdefo,sub_30483,95PC,high,"asstab entry 1, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/engine_2D9D9.asm
@@ -38,7 +40,9 @@ address,name,auto_name,source,confidence,evidence,file
 30873,defdtarget,sub_30873,new,medium,"called from assdefd, assnearest, asscoverdefd: defenceman's target on defence: his side (x 55h) and a y behind the deepest opponent",src/engine/engine_2D9D9.asm
 30A9B,assdefd,sub_30A9B,95PC,high,"asstab entry 2, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/engine_2D9D9.asm
 30CDA,asscoverdefd,sub_30CDA,new,medium,"asstab entry 2Fh, the defending half of asscoverdefo: target from defdtarget, skateto, check4check; swaps positions back when the link ends",src/engine/engine_2D9D9.asm
+30E6B,assextra3,sub_30E6B,new,low,"placeholder (Abdul 2026-11-15): called from asscenterd, asswingd, assnearest; forwards' positioning on defence, not read yet",src/engine/engine_2D9D9.asm
 312D7,asswingd,sub_312D7,95PC,high,"asstab entry 3, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/engine_2D9D9.asm
+313D2,assextra4,sub_313D2,new,low,"placeholder (Abdul 2026-11-15): called from asscentero, asswingo, assdefo, assnearest; positioning on offence, not read yet",src/engine/logic/logic.asm
 31805,asswingo,sub_31805,95PC,high,"asstab entry 4, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
 31958,asscenterd,sub_31958,95PC,high,"asstab entry 5, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
 31A53,asscentero,sub_31A53,95PC,high,"asstab entry 6, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
@@ -47,6 +51,7 @@ address,name,auto_name,source,confidence,evidence,file
 31DBE,asspuckc,sub_31DBE,95PC,high,"asstab entry 16, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
 32158,asspuckc_chkdir,sub_32158,95PC,high,"named references of NHL95PC asspuckc_chkdir (11 of 11), between asspuckc and assnearest in both",src/engine/logic/logic.asm
 324C8,SwapPairSides,sub_324C8,new,medium,swaps positions with GetPartner when the pair stands on the wrong sides; returns 1 when it did,src/engine/logic/logic.asm
+3251A,assextra5,sub_3251A,new,low,"placeholder (Abdul 2026-11-15): called from assnearest; uses GetPartner, SwapPairSides and the zone analysis, not read yet",src/engine/logic/logic.asm
 327A2,assnearest,sub_327A2,95PC,high,"asstab entry 17, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
 33214,assshoot,,95PC,medium,NHL95PC 4D3F8 (sem): D:16595C; D:1178C4; C:809; K:12C,
 3330A,donothing,sub_3330A,95PC,high,"called at the same position as in NHL95PC in 2 routine(s) named in both: asscenterd,asswingd",src/engine/logic/logic.asm
@@ -86,6 +91,7 @@ address,name,auto_name,source,confidence,evidence,file
 36F55,chkhit,sub_36F55,93G,medium,"called only from assfight: acts when the animation frame changes, crowd and sfx on a hit, as NHLPA93Genesis chkhit",src/engine/logic/logic.asm
 37410,assfight,sub_37410,93G,high,"asstab entry 31h, the assignment checkfight_sf inserts; Pencntdwn < 0 ends it; calls chkhit as NHLPA93Genesis assfight",src/engine/logic/logic.asm
 37AA5,assfwatch,sub_37AA5,93G,high,"asstab entry 32h, the assignment checkfight gives every other player, as NHLPA93Genesis assfwatch",src/engine/logic/logic.asm
+37ED0,assextra6,sub_37ED0,new,low,"placeholder (Abdul 2026-11-15): called from updateplayers and assextra2; zone analysis into dword_165248.., not read yet",src/engine/logic/logic.asm
 3804E,assreplace,,95PC,medium,NHL95PC 11FF4 (sem): R:517; R:668; R:470; R:539,
 3805F,assinsert,,95PC,medium,NHL95PC 12011 (sem): R:577; R:461; R:159; R:510,
 38070,lineinput,,95PC,medium,NHL95PC 4FD8E (sem): D:118EB5; D:16595C,

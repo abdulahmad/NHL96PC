@@ -7,60 +7,60 @@ global dword_198388, dword_19838C, dword_198390, dword_198394, dword_198398, dwo
 global dword_1983A8, dword_1983B4, unk_191AB0, unk_1938B0, unk_196380, unk_196388, unk_196390, unk_196398
 global unk_197050, unk_19705C, unk_197068, unk_197074, unk_1983B8
 unk_191AB0:
-resb 7680
+        resb 7680
 unk_1938B0:
-resb 7680
+        resb 7680
 dword_1956B0:
-resb 4
+        resb 4
 dword_1956B4:
-resb 4
+        resb 4
 dword_1956B8:
-resb 4
+        resb 4
 dword_1956BC:
-resb 4
+        resb 4
 dword_1956C0:
-resb 4
+        resb 4
 dword_1956C4:
-resb 4
+        resb 4
 dword_1956C8:
-resb 4
+        resb 4
 dword_1956CC:
-resb 3252
+        resb 3252
 unk_196380:
-resb 8
+        resb 8
 unk_196388:
-resb 8
+        resb 8
 unk_196390:
-resb 8
+        resb 8
 unk_196398:
-resb 3256
+        resb 3256
 unk_197050:
-resb 12
+        resb 12
 unk_19705C:
-resb 12
+        resb 12
 unk_197068:
-resb 12
+        resb 12
 unk_197074:
-resb 4884
+        resb 4884
 dword_198388:
-resb 4
+        resb 4
 dword_19838C:
-resb 4
+        resb 4
 dword_198390:
-resb 4
+        resb 4
 dword_198394:
-resb 4
+        resb 4
 dword_198398:
-resb 4
+        resb 4
 dword_19839C:
-resb 4
+        resb 4
 dword_1983A0:
-resb 4
+        resb 4
 dword_1983A4:
-resb 4
+        resb 4
 dword_1983A8:
-resb 12
+        resb 12
 dword_1983B4:
-resb 4
+        resb 4
 unk_1983B8:
-resb 40
+        resb 40

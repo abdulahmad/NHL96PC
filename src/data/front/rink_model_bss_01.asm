@@ -11,116 +11,116 @@ global unk_15903C, unk_159108, unk_159148, unk_159190, unk_1591D8, unk_159238, u
 global unk_159398, unk_1593F8, unk_159458, unk_159500, unk_159508, unk_159510, unk_159518, unk_159520
 global unk_159528
 dword_158F24:
-resb 4
+        resb 4
 unk_158F28:
-resb 32
+        resb 32
 unk_158F48:
-resb 8
+        resb 8
 unk_158F50:
-resb 24
+        resb 24
 unk_158F68:
-resb 8
+        resb 8
 unk_158F70:
-resb 24
+        resb 24
 unk_158F88:
-resb 8
+        resb 8
 dword_158F90:
-resb 100
+        resb 100
 unk_158FF4:
-resb 12
+        resb 12
 unk_159000:
-resb 8
+        resb 8
 dword_159008:
-resb 12
+        resb 12
 dword_159014:
-resb 4
+        resb 4
 unk_159018:
-resb 12
+        resb 12
 unk_159024:
-resb 8
+        resb 8
 dword_15902C:
-resb 12
+        resb 12
 dword_159038:
-resb 4
+        resb 4
 unk_15903C:
-resb 204
+        resb 204
 unk_159108:
-resb 64
+        resb 64
 unk_159148:
-resb 72
+        resb 72
 unk_159190:
-resb 60
+        resb 60
 dword_1591CC:
-resb 4
+        resb 4
 dword_1591D0:
-resb 4
+        resb 4
 dword_1591D4:
-resb 4
+        resb 4
 unk_1591D8:
-resb 88
+        resb 88
 dword_159230:
-resb 4
+        resb 4
 dword_159234:
-resb 4
+        resb 4
 unk_159238:
-resb 252
+        resb 252
 dword_159334:
-resb 4
+        resb 4
 unk_159338:
-resb 8
+        resb 8
 dword_159340:
-resb 12
+        resb 12
 dword_15934C:
-resb 28
+        resb 28
 unk_159368:
-resb 8
+        resb 8
 dword_159370:
-resb 12
+        resb 12
 dword_15937C:
-resb 28
+        resb 28
 unk_159398:
-resb 96
+        resb 96
 unk_1593F8:
-resb 96
+        resb 96
 unk_159458:
-resb 96
+        resb 96
 dword_1594B8:
-resb 4
+        resb 4
 dword_1594BC:
-resb 68
+        resb 68
 unk_159500:
-resb 8
+        resb 8
 unk_159508:
-resb 8
+        resb 8
 unk_159510:
-resb 8
+        resb 8
 unk_159518:
-resb 8
+        resb 8
 unk_159520:
-resb 8
+        resb 8
 unk_159528:
-resb 8
+        resb 8
 dword_159530:
-resb 4
+        resb 4
 dword_159534:
-resb 132
+        resb 132
 dword_1595B8:
-resb 4
+        resb 4
 dword_1595BC:
-resb 4
+        resb 4
 dword_1595C0:
-resb 4
+        resb 4
 dword_1595C4:
-resb 4
+        resb 4
 dword_1595C8:
-resb 4
+        resb 4
 dword_1595CC:
-resb 4
+        resb 4
 dword_1595D0:
-resb 376
+        resb 376
 dword_159748:
-resb 4
+        resb 4
 dword_15974C:
-resb 4
+        resb 4
 dword_159750:
-resb 1287
+        resb 1287

@@ -26,356 +26,356 @@ global dword_1781F8, dword_178243, dword_178248, dword_17824C, dword_178250, dwo
 global unk_1778C4, unk_177908, unk_1781E4, unk_1781FE, word_177508, word_17750A, word_177CB6, word_177D1C
 global word_1781FC
 unk_1774C4:
-resb 64
+        resb 64
 byte_177504:
-resb 1
+        resb 1
 byte_177505:
-resb 1
+        resb 1
 byte_177506:
-resb 1
+        resb 1
 byte_177507:
-resb 1
+        resb 1
 word_177508:
-resb 2
+        resb 2
 word_17750A:
-resb 2
+        resb 2
 dword_17750C:
-resb 4
+        resb 4
 unk_177510:
-resb 948
+        resb 948
 unk_1778C4:
-resb 36
+        resb 36
 dword_1778E8:
-resb 4
+        resb 4
 dword_1778EC:
-resb 4
+        resb 4
 dword_1778F0:
-resb 4
+        resb 4
 dword_1778F4:
-resb 4
+        resb 4
 dword_1778F8:
-resb 4
+        resb 4
 dword_1778FC:
-resb 4
+        resb 4
 dword_177900:
-resb 4
+        resb 4
 dword_177904:
-resb 4
+        resb 4
 unk_177908:
-resb 4
+        resb 4
 dword_17790C:
-resb 8
+        resb 8
 dword_177914:
-resb 4
+        resb 4
 dword_177918:
-resb 4
+        resb 4
 dword_17791C:
-resb 6
+        resb 6
 dword_177922:
-resb 4
+        resb 4
 dword_177926:
-resb 4
+        resb 4
 dword_17792A:
-resb 4
+        resb 4
 dword_17792E:
-resb 4
+        resb 4
 dword_177932:
-resb 16
+        resb 16
 dword_177942:
-resb 4
+        resb 4
 dword_177946:
-resb 4
+        resb 4
 byte_17794A:
-resb 1
+        resb 1
 byte_17794B:
-resb 1
+        resb 1
 byte_17794C:
-resb 1
+        resb 1
 byte_17794D:
-resb 1
+        resb 1
 byte_17794E:
-resb 48
+        resb 48
 dword_17797E:
-resb 4
+        resb 4
 dword_177982:
-resb 6
+        resb 6
 dword_177988:
-resb 4
+        resb 4
 dword_17798C:
-resb 4
+        resb 4
 dword_177990:
-resb 4
+        resb 4
 dword_177994:
-resb 4
+        resb 4
 dword_177998:
-resb 16
+        resb 16
 dword_1779A8:
-resb 4
+        resb 4
 dword_1779AC:
-resb 5
+        resb 5
 byte_1779B1:
-resb 1
+        resb 1
 byte_1779B2:
-resb 1
+        resb 1
 byte_1779B3:
-resb 1
+        resb 1
 byte_1779B4:
-resb 48
+        resb 48
 dword_1779E4:
-resb 4
+        resb 4
 dword_1779E8:
-resb 6
+        resb 6
 dword_1779EE:
-resb 4
+        resb 4
 dword_1779F2:
-resb 4
+        resb 4
 dword_1779F6:
-resb 4
+        resb 4
 dword_1779FA:
-resb 4
+        resb 4
 dword_1779FE:
-resb 16
+        resb 16
 dword_177A0E:
-resb 4
+        resb 4
 dword_177A12:
-resb 6
+        resb 6
 byte_177A18:
-resb 1
+        resb 1
 byte_177A19:
-resb 1
+        resb 1
 byte_177A1A:
-resb 36
+        resb 36
 dword_177A3E:
-resb 8
+        resb 8
 dword_177A46:
-resb 4
+        resb 4
 dword_177A4A:
-resb 4
+        resb 4
 dword_177A4E:
-resb 6
+        resb 6
 dword_177A54:
-resb 4
+        resb 4
 dword_177A58:
-resb 4
+        resb 4
 dword_177A5C:
-resb 4
+        resb 4
 dword_177A60:
-resb 4
+        resb 4
 dword_177A64:
-resb 16
+        resb 16
 dword_177A74:
-resb 4
+        resb 4
 dword_177A78:
-resb 6
+        resb 6
 byte_177A7E:
-resb 1
+        resb 1
 byte_177A7F:
-resb 1
+        resb 1
 byte_177A80:
-resb 44
+        resb 44
 dword_177AAC:
-resb 4
+        resb 4
 dword_177AB0:
-resb 4
+        resb 4
 dword_177AB4:
-resb 6
+        resb 6
 dword_177ABA:
-resb 4
+        resb 4
 dword_177ABE:
-resb 4
+        resb 4
 dword_177AC2:
-resb 4
+        resb 4
 dword_177AC6:
-resb 4
+        resb 4
 dword_177ACA:
-resb 16
+        resb 16
 dword_177ADA:
-resb 4
+        resb 4
 dword_177ADE:
-resb 6
+        resb 6
 byte_177AE4:
-resb 1
+        resb 1
 byte_177AE5:
-resb 1
+        resb 1
 byte_177AE6:
-resb 48
+        resb 48
 dword_177B16:
-resb 4
+        resb 4
 dword_177B1A:
-resb 6
+        resb 6
 dword_177B20:
-resb 4
+        resb 4
 dword_177B24:
-resb 4
+        resb 4
 dword_177B28:
-resb 4
+        resb 4
 dword_177B2C:
-resb 4
+        resb 4
 dword_177B30:
-resb 16
+        resb 16
 dword_177B40:
-resb 4
+        resb 4
 dword_177B44:
-resb 6
+        resb 6
 byte_177B4A:
-resb 1
+        resb 1
 byte_177B4B:
-resb 1
+        resb 1
 byte_177B4C:
-resb 48
+        resb 48
 dword_177B7C:
-resb 4
+        resb 4
 dword_177B80:
-resb 6
+        resb 6
 dword_177B86:
-resb 4
+        resb 4
 dword_177B8A:
-resb 4
+        resb 4
 dword_177B8E:
-resb 4
+        resb 4
 dword_177B92:
-resb 4
+        resb 4
 dword_177B96:
-resb 16
+        resb 16
 dword_177BA6:
-resb 4
+        resb 4
 dword_177BAA:
-resb 6
+        resb 6
 byte_177BB0:
-resb 1
+        resb 1
 byte_177BB1:
-resb 1
+        resb 1
 byte_177BB2:
-resb 48
+        resb 48
 dword_177BE2:
-resb 4
+        resb 4
 dword_177BE6:
-resb 6
+        resb 6
 dword_177BEC:
-resb 4
+        resb 4
 dword_177BF0:
-resb 4
+        resb 4
 dword_177BF4:
-resb 4
+        resb 4
 dword_177BF8:
-resb 4
+        resb 4
 dword_177BFC:
-resb 16
+        resb 16
 dword_177C0C:
-resb 4
+        resb 4
 dword_177C10:
-resb 5
+        resb 5
 byte_177C15:
-resb 1
+        resb 1
 byte_177C16:
-resb 50
+        resb 50
 dword_177C48:
-resb 4
+        resb 4
 dword_177C4C:
-resb 6
+        resb 6
 dword_177C52:
-resb 4
+        resb 4
 dword_177C56:
-resb 4
+        resb 4
 dword_177C5A:
-resb 4
+        resb 4
 dword_177C5E:
-resb 4
+        resb 4
 dword_177C62:
-resb 16
+        resb 16
 dword_177C72:
-resb 4
+        resb 4
 dword_177C76:
-resb 4
+        resb 4
 byte_177C7A:
-resb 2
+        resb 2
 byte_177C7C:
-resb 58
+        resb 58
 word_177CB6:
-resb 102
+        resb 102
 word_177D1C:
-resb 94
+        resb 94
 dword_177D7A:
-resb 4
+        resb 4
 dword_177D7E:
-resb 6
+        resb 6
 dword_177D84:
-resb 4
+        resb 4
 dword_177D88:
-resb 4
+        resb 4
 dword_177D8C:
-resb 4
+        resb 4
 dword_177D90:
-resb 4
+        resb 4
 dword_177D94:
-resb 16
+        resb 16
 dword_177DA4:
-resb 4
+        resb 4
 dword_177DA8:
-resb 4
+        resb 4
 byte_177DAC:
-resb 1
+        resb 1
 byte_177DAD:
-resb 2
+        resb 2
 byte_177DAF:
-resb 45
+        resb 45
 dword_177DDC:
-resb 4
+        resb 4
 dword_177DE0:
-resb 4
+        resb 4
 dword_177DE4:
-resb 6
+        resb 6
 dword_177DEA:
-resb 4
+        resb 4
 dword_177DEE:
-resb 4
+        resb 4
 dword_177DF2:
-resb 4
+        resb 4
 dword_177DF6:
-resb 4
+        resb 4
 dword_177DFA:
-resb 16
+        resb 16
 dword_177E0A:
-resb 4
+        resb 4
 dword_177E0E:
-resb 4
+        resb 4
 byte_177E12:
-resb 954
+        resb 954
 dword_1781CC:
-resb 4
+        resb 4
 dword_1781D0:
-resb 4
+        resb 4
 dword_1781D4:
-resb 4
+        resb 4
 dword_1781D8:
-resb 4
+        resb 4
 dword_1781DC:
-resb 4
+        resb 4
 dword_1781E0:
-resb 4
+        resb 4
 unk_1781E4:
-resb 12
+        resb 12
 dword_1781F0:
-resb 4
+        resb 4
 dword_1781F4:
-resb 4
+        resb 4
 dword_1781F8:
-resb 4
+        resb 4
 word_1781FC:
-resb 2
+        resb 2
 unk_1781FE:
-resb 69
+        resb 69
 dword_178243:
-resb 4
+        resb 4
 byte_178247:
-resb 1
+        resb 1
 dword_178248:
-resb 4
+        resb 4
 dword_17824C:
-resb 4
+        resb 4
 dword_178250:
-resb 4
+        resb 4
 dword_178254:
-resb 52
+        resb 52
 byte_178288:
-resb 4
+        resb 4

@@ -4,5 +4,5 @@ bits 32
 section s_C3724 progbits alloc exec nowrite align=1
 global sub_C3724
 sub_C3724:
-xor eax, eax	; C3724
-ret	; C3726
+        xor eax, eax
+        ret

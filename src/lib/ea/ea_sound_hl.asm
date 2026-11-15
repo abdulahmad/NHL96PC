@@ -2,34 +2,34 @@
 bits 32
 %include "hockey.inc"
 section s_BF02C progbits alloc exec nowrite align=1
-global loc_BF048, loc_BF065, sub_BF02C, sub_BF034, sub_BF04B
+global sub_BF02C, sub_BF034, sub_BF04B
 sub_BF02C:
-mov ebx, dword [byte esp+04h]	; BF02C
-mov eax, dword [byte ebx+08h]	; BF030
-ret	; BF033
+        mov ebx, dword [byte esp+04h]
+        mov eax, dword [byte ebx+08h]
+        ret
 sub_BF034:
-mov eax, dword [byte esp+04h]	; BF034
-mov ebx, dword [byte esp+08h]	; BF038
-mov ecx, dword [byte eax+08h]	; BF03C
-LD cmp, ebx, ecx	; BF03F
-jae short loc_BF048	; BF041
-add eax, dword [byte eax+ebx*8+014h]	; BF043
-ret	; BF047
-loc_BF048:
-LD xor, eax, eax	; BF048
-ret	; BF04A
+        mov eax, dword [byte esp+04h]
+        mov ebx, dword [byte esp+08h]
+        mov ecx, dword [byte eax+08h]
+        LD cmp, ebx, ecx
+        jae short .1
+        add eax, dword [byte eax+ebx*8+014h]
+        ret
+.1:
+        LD xor, eax, eax
+        ret
 sub_BF04B:
-mov ebx, dword [byte esp+04h]	; BF04B
-mov eax, dword [byte esp+08h]	; BF04F
-mov edx, dword [byte esp+0Ch]	; BF053
-mov ecx, dword [byte ebx+08h]	; BF057
-LD cmp, eax, ecx	; BF05A
-jae short loc_BF065	; BF05C
-mov eax, dword [byte ebx+eax*8+010h]	; BF05E
-mov dword [edx], eax	; BF062
-ret	; BF064
-loc_BF065:
-LD xor, eax, eax	; BF065
-mov dword [edx], eax	; BF067
-ret	; BF069
-db 00h,00h,00h,00h,00h,00h
+        mov ebx, dword [byte esp+04h]
+        mov eax, dword [byte esp+08h]
+        mov edx, dword [byte esp+0Ch]
+        mov ecx, dword [byte ebx+08h]
+        LD cmp, eax, ecx
+        jae short .1
+        mov eax, dword [byte ebx+eax*8+010h]
+        mov dword [edx], eax
+        ret
+.1:
+        LD xor, eax, eax
+        mov dword [edx], eax
+        ret
+        db 00h,00h,00h,00h,00h,00h

@@ -9,84 +9,84 @@ global dword_17C974, dword_17C978, dword_17C97C, dword_17C980, dword_17C984, dwo
 global dword_17C994, dword_17C998, dword_17C99C, dword_17C9A4, optflags, gameopts, unk_17C644, word_17C63E
 global word_17C640
 dword_17C5BC:
-resb 4
+        resb 4
 dword_17C5C0:
-resb 4
+        resb 4
 dword_17C5C4:
-resb 4
+        resb 4
 dword_17C5C8:
-resb 4
+        resb 4
 dword_17C5CC:
-resb 4
+        resb 4
 dword_17C5D0:
-resb 44
+        resb 44
 dword_17C5FC:
-resb 4
+        resb 4
 dword_17C600:
-resb 4
+        resb 4
 dword_17C604:
-resb 4
+        resb 4
 dword_17C608:
-resb 4
+        resb 4
 byte_17C60C:
-resb 50
+        resb 50
 word_17C63E:
-resb 2
+        resb 2
 word_17C640:
-resb 4
+        resb 4
 unk_17C644:
-resb 768
+        resb 768
 dword_17C944:
-resb 4
+        resb 4
 dword_17C948:
-resb 4
+        resb 4
 dword_17C94C:
-resb 4
+        resb 4
 dword_17C950:
-resb 4
+        resb 4
 dword_17C954:
-resb 4
+        resb 4
 dword_17C958:
-resb 4
+        resb 4
 byte_17C95C:
-resb 4
+        resb 4
 dword_17C960:
-resb 4
+        resb 4
 dword_17C964:
-resb 4
+        resb 4
 dword_17C968:
-resb 4
+        resb 4
 tgvpalpending:
-resb 4
+        resb 4
 dword_17C970:
-resb 4
+        resb 4
 dword_17C974:
-resb 4
+        resb 4
 dword_17C978:
-resb 4
+        resb 4
 dword_17C97C:
-resb 4
+        resb 4
 dword_17C980:
-resb 4
+        resb 4
 dword_17C984:
-resb 4
+        resb 4
 dword_17C988:
-resb 4
+        resb 4
 dword_17C98C:
-resb 4
+        resb 4
 dword_17C990:
-resb 4
+        resb 4
 dword_17C994:
-resb 4
+        resb 4
 dword_17C998:
-resb 4
+        resb 4
 dword_17C99C:
-resb 4
+        resb 4
 gameopts:
-resb 4
+        resb 4
 dword_17C9A4:
-resb 4
+        resb 4
 optflags:
-resb 1
+        resb 1
 byte_17C9A9:
-resb 1
+        resb 1

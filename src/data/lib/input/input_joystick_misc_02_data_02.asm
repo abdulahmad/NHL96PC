@@ -7,52 +7,52 @@ global dword_123A94, dword_123A98, dword_123A9C, dword_123AA0, dword_123AA4, dwo
 global dword_123AB4, dword_123AB8, dword_123ABC, dword_123AC0, dword_123AC4, dword_123AC8, dword_123ACC, dword_123AD0
 global dword_123B0C, dword_123B10, dword_123B14
 dword_123A94:
-db 0A0h,00h,00h,00h
+        db 0A0h,00h,00h,00h
 dword_123A98:
-db 064h,00h,00h,00h
+        db 064h,00h,00h,00h
 dword_123A9C:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_123AA0:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_123AA4:
-db 0A0h,00h,00h,00h
+        db 0A0h,00h,00h,00h
 dword_123AA8:
-db 064h,00h,00h,00h
+        db 064h,00h,00h,00h
 dword_123AAC:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_123AB0:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_123AB4:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_123AB8:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_123ABC:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_123AC0:
-dd unk_19A650
+        dd unk_19A650
 dword_123AC4:
-db 0A0h,086h,01h,00h
+        db 0A0h,086h,01h,00h
 dword_123AC8:
-db 02h,00h,00h,00h
+        db 02h,00h,00h,00h
 dword_123ACC:
-db 080h,02h,00h,00h
+        db 080h,02h,00h,00h
 dword_123AD0:
-db 090h,01h,00h,00h,080h,02h,00h,00h,0E0h,01h,00h,00h,00h,00h,00h,00h
-db 00h,00h,00h,00h,020h,03h,00h,00h,058h,02h,00h,00h,00h,00h,00h,00h
-db 00h,00h,00h,00h,00h,04h,00h,00h,00h,03h,00h,00h,00h,00h,00h,00h
-db 00h,00h,00h,00h,00h,05h,00h,00h,00h,04h,00h,00h
+        db 090h,01h,00h,00h,080h,02h,00h,00h,0E0h,01h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,020h,03h,00h,00h,058h,02h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,04h,00h,00h,00h,03h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,05h,00h,00h,00h,04h,00h,00h
 dword_123B0C:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_123B10:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_123B14:
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h

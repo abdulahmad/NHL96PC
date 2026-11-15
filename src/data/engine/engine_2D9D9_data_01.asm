@@ -5,47 +5,47 @@ section s_119D08 progbits alloc noexec write align=1
 global byte_119D76, byte_119D79, byte_119DF7, dword_119DE4, unk_119D0A, unk_119D22, unk_119D36, unk_119D4E
 global unk_119D7C, unk_119D9C, word_119D08, word_119D62, word_119DBC, word_119DBE, word_119DE8, word_119DFE
 word_119D08:
-db 00h,00h
+        db 00h,00h
 unk_119D0A:
-db 043h,00h,047h,00h,0FEh,00h,017h,01h,02h,01h,024h,00h,03Dh,00h,039h,00h
-db 0F4h,00h,0F8h,00h,070h,00h,0C1h,00h
+        db 043h,00h,047h,00h,0FEh,00h,017h,01h,02h,01h,024h,00h,03Dh,00h,039h,00h
+        db 0F4h,00h,0F8h,00h,070h,00h,0C1h,00h
 unk_119D22:
-db 024h,00h,037h,00h,03Dh,00h,04Eh,00h,061h,00h,074h,00h,07Ah,00h,08Bh,00h
-db 09Bh,00h,0A9h,00h
+        db 024h,00h,037h,00h,03Dh,00h,04Eh,00h,061h,00h,074h,00h,07Ah,00h,08Bh,00h
+        db 09Bh,00h,0A9h,00h
 unk_119D36:
-db 086h,00h,08Eh,00h,0FCh,01h,02Eh,02h,04h,02h,048h,00h,07Ah,00h,072h,00h
-db 0E8h,01h,0F0h,01h,0E0h,00h,082h,01h
+        db 086h,00h,08Eh,00h,0FCh,01h,02Eh,02h,04h,02h,048h,00h,07Ah,00h,072h,00h
+        db 0E8h,01h,0F0h,01h,0E0h,00h,082h,01h
 unk_119D4E:
-db 056h,00h,084h,00h,092h,00h,0BBh,00h,0E9h,00h,016h,01h,025h,01h,04Eh,01h
-db 074h,01h,095h,01h
+        db 056h,00h,084h,00h,092h,00h,0BBh,00h,0E9h,00h,016h,01h,025h,01h,04Eh,01h
+        db 074h,01h,095h,01h
 word_119D62:
-db 05h,00h,00h,00h,05h,00h,00h,00h,05h,00h,00h,00h,05h,00h,00h,00h
-db 05h,00h,00h,00h
+        db 05h,00h,00h,00h,05h,00h,00h,00h,05h,00h,00h,00h,05h,00h,00h,00h
+        db 05h,00h,00h,00h
 byte_119D76:
-db 0Ah,0Fh,014h
+        db 0Ah,0Fh,014h
 byte_119D79:
-db 0Ah,014h,028h
+        db 0Ah,014h,028h
 unk_119D7C:
-db 00h,00h,055h,00h,0A0h,0FFh,0Ah,00h,00h,00h,055h,00h,056h,00h,0Ah,00h
-db 00h,00h,038h,00h,0ECh,00h,01Eh,00h,00h,00h,071h,00h,0ECh,00h,014h,00h
+        db 00h,00h,055h,00h,0A0h,0FFh,0Ah,00h,00h,00h,055h,00h,056h,00h,0Ah,00h
+        db 00h,00h,038h,00h,0ECh,00h,01Eh,00h,00h,00h,071h,00h,0ECh,00h,014h,00h
 unk_119D9C:
-db 071h,00h,014h,00h,0A0h,0FFh,0Ah,00h,07Fh,00h,014h,00h,03Ah,00h,05h,00h
-db 03Fh,00h,032h,00h,046h,01h,014h,00h,071h,00h,01Eh,00h,050h,01h,014h,00h
+        db 071h,00h,014h,00h,0A0h,0FFh,0Ah,00h,07Fh,00h,014h,00h,03Ah,00h,05h,00h
+        db 03Fh,00h,032h,00h,046h,01h,014h,00h,071h,00h,01Eh,00h,050h,01h,014h,00h
 word_119DBC:
-db 08Fh,0FFh
+        db 08Fh,0FFh
 word_119DBE:
-db 0ECh,0FFh,0B0h,00h,0ECh,0FFh,081h,0FFh,024h,00h,03Ah,00h,024h,00h,07Fh,00h
-db 024h,00h,0C6h,0FFh,024h,00h,0C8h,0FFh,048h,01h,00h,00h,038h,01h,022h,00h
-db 042h,01h,02Ah,00h,042h,01h
+        db 0ECh,0FFh,0B0h,00h,0ECh,0FFh,081h,0FFh,024h,00h,03Ah,00h,024h,00h,07Fh,00h
+        db 024h,00h,0C6h,0FFh,024h,00h,0C8h,0FFh,048h,01h,00h,00h,038h,01h,022h,00h
+        db 042h,01h,02Ah,00h,042h,01h
 dword_119DE4:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 word_119DE8:
-db 0D9h,03h,00h,00h,0E3h,03h,00h,00h,0F1h,03h,00h,00h,0F9h,03h,00h
+        db 0D9h,03h,00h,00h,0E3h,03h,00h,00h,0F1h,03h,00h,00h,0F9h,03h,00h
 byte_119DF7:
-db 00h,00h,08h,010h,00h,08h,010h
+        db 00h,00h,08h,010h,00h,08h,010h
 word_119DFE:
-db 0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh
-db 0FFh,0FFh,06h,00h,0FFh,0FFh,06h,00h,05h,00h,06h,00h,05h,00h,05h,00h
-db 06h,00h,05h,00h,05h,00h,05h,00h,06h,00h,05h,00h,06h,00h,06h,00h
-db 06h,00h,05h,00h,06h,00h,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,06h,00h
-db 06h,00h,06h,00h,06h,00h
+        db 0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh
+        db 0FFh,0FFh,06h,00h,0FFh,0FFh,06h,00h,05h,00h,06h,00h,05h,00h,05h,00h
+        db 06h,00h,05h,00h,05h,00h,05h,00h,06h,00h,05h,00h,06h,00h,06h,00h
+        db 06h,00h,05h,00h,06h,00h,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,06h,00h
+        db 06h,00h,06h,00h,06h,00h

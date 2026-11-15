@@ -9,98 +9,98 @@ global str_Sav12, str_EXHIBITNDX3, str_08d3, str_05d4, str_CsgDb3, str_FhiL5, st
 global str_GloR3, str_GhiL3, str_GhiR3, str_Log7, str_Logx, str_PlyD, str_MseD2, str_Jy1D
 global str_Jy2D, str_Jy3D, str_Jy4D, str_KeyD2, str_MdmD, str_P11, str_P21, str_D16
 str_Qui02:
-db 071h,075h,069h,030h,00h
+        db 071h,075h,069h,030h,00h
 str_Ret02:
-db 072h,065h,074h,030h,00h
+        db 072h,065h,074h,030h,00h
 str_Rep0:
-db 072h,065h,070h,030h,00h
+        db 072h,065h,070h,030h,00h
 str_Ctr02:
-db 063h,074h,072h,030h,00h
+        db 063h,074h,072h,030h,00h
 str_Sts02:
-db 073h,074h,073h,030h,00h
+        db 073h,074h,073h,030h,00h
 str_Edt02:
-db 065h,064h,074h,030h,00h
+        db 065h,064h,074h,030h,00h
 str_Sav02:
-db 073h,061h,076h,030h,00h
+        db 073h,061h,076h,030h,00h
 str_Cht02:
-db 063h,068h,074h,030h,00h
+        db 063h,068h,074h,030h,00h
 str_D16:
-db 025h,064h,00h
+        db 025h,064h,00h
 str_Paus:
-db 070h,061h,075h,073h,00h
+        db 070h,061h,075h,073h,00h
 str_Sid12:
-db 073h,069h,064h,031h,00h
+        db 073h,069h,064h,031h,00h
 str_Sid22:
-db 073h,069h,064h,032h,00h
+        db 073h,069h,064h,032h,00h
 str_Bot12:
-db 062h,06Fh,074h,031h,00h
+        db 062h,06Fh,074h,031h,00h
 str_Bot22:
-db 062h,06Fh,074h,032h,00h
+        db 062h,06Fh,074h,032h,00h
 str_Bot32:
-db 062h,06Fh,074h,033h,00h
+        db 062h,06Fh,074h,033h,00h
 str_PAUSREG:
-db 050h,041h,055h,053h,052h,045h,047h,00h
+        db 050h,041h,055h,053h,052h,045h,047h,00h
 str_Qui12:
-db 071h,075h,069h,031h,00h
+        db 071h,075h,069h,031h,00h
 str_Qui22:
-db 071h,075h,069h,032h,00h
+        db 071h,075h,069h,032h,00h
 str_Ret12:
-db 072h,065h,074h,031h,00h
+        db 072h,065h,074h,031h,00h
 str_Ret22:
-db 072h,065h,074h,032h,00h
+        db 072h,065h,074h,032h,00h
 str_Cht12:
-db 063h,068h,074h,031h,00h
+        db 063h,068h,074h,031h,00h
 str_Edt12:
-db 065h,064h,074h,031h,00h
+        db 065h,064h,074h,031h,00h
 str_Rep1:
-db 072h,065h,070h,031h,00h
+        db 072h,065h,070h,031h,00h
 str_Ctr12:
-db 063h,074h,072h,031h,00h
+        db 063h,074h,072h,031h,00h
 str_Sts12:
-db 073h,074h,073h,031h,00h
+        db 073h,074h,073h,031h,00h
 str_Sav12:
-db 073h,061h,076h,031h,00h
+        db 073h,061h,076h,031h,00h
 str_EXHIBITNDX3:
-db 045h,058h,048h,049h,042h,049h,054h,02Eh,04Eh,044h,058h,00h
+        db 045h,058h,048h,049h,042h,049h,054h,02Eh,04Eh,044h,058h,00h
 str_08d3:
-db 025h,030h,038h,064h,00h
+        db 025h,030h,038h,064h,00h
 str_05d4:
-db 025h,030h,035h,064h,00h
+        db 025h,030h,035h,064h,00h
 str_CsgDb3:
-db 025h,063h,073h,067h,02Eh,064h,062h,00h
+        db 025h,063h,073h,067h,02Eh,064h,062h,00h
 str_FhiL5:
-db 046h,068h,069h,04Ch,00h
+        db 046h,068h,069h,04Ch,00h
 str_FhiR5:
-db 046h,068h,069h,052h,00h
+        db 046h,068h,069h,052h,00h
 str_GloL3:
-db 047h,06Ch,06Fh,04Ch,00h
+        db 047h,06Ch,06Fh,04Ch,00h
 str_GloR3:
-db 047h,06Ch,06Fh,052h,00h
+        db 047h,06Ch,06Fh,052h,00h
 str_GhiL3:
-db 047h,068h,069h,04Ch,00h
+        db 047h,068h,069h,04Ch,00h
 str_GhiR3:
-db 047h,068h,069h,052h,00h,00h
+        db 047h,068h,069h,052h,00h,00h
 str_Log7:
-db 06Ch,06Fh,067h,037h,00h
+        db 06Ch,06Fh,067h,037h,00h
 str_Logx:
-db 06Ch,06Fh,067h,078h,00h
+        db 06Ch,06Fh,067h,078h,00h
 str_PlyD:
-db 070h,06Ch,079h,025h,064h,00h
+        db 070h,06Ch,079h,025h,064h,00h
 str_MseD2:
-db 06Dh,073h,065h,025h,064h,00h
+        db 06Dh,073h,065h,025h,064h,00h
 str_Jy1D:
-db 06Ah,079h,031h,025h,064h,00h
+        db 06Ah,079h,031h,025h,064h,00h
 str_Jy2D:
-db 06Ah,079h,032h,025h,064h,00h
+        db 06Ah,079h,032h,025h,064h,00h
 str_Jy3D:
-db 06Ah,079h,033h,025h,064h,00h
+        db 06Ah,079h,033h,025h,064h,00h
 str_Jy4D:
-db 06Ah,079h,034h,025h,064h,00h
+        db 06Ah,079h,034h,025h,064h,00h
 str_KeyD2:
-db 06Bh,065h,079h,025h,064h,00h
+        db 06Bh,065h,079h,025h,064h,00h
 str_MdmD:
-db 06Dh,064h,06Dh,025h,064h,00h
+        db 06Dh,064h,06Dh,025h,064h,00h
 str_P11:
-db 070h,031h,05Fh,031h,00h
+        db 070h,031h,05Fh,031h,00h
 str_P21:
-db 070h,032h,05Fh,031h,00h
+        db 070h,032h,05Fh,031h,00h

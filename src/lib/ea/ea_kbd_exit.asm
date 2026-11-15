@@ -7,367 +7,366 @@ extern off_11F5F8, off_11F5FC, off_14F074, off_14F078, sub_AD35C, FillRect, sub_
 extern sub_AFFD0, sub_B0254, sub_B026C, TextSetFont, DrawArtOpaque, sub_B31C0, sub_BF120, sub_CFE0C
 extern sub_CFE20, sub_CFE70, sub_DD6C4, sub_DE084, sub_DFF28, sub_E193C, sub_E1956, sub_E270C
 extern unk_1213DC
-global loc_C29C4, loc_C29CE, loc_C29EE, loc_C2A04, loc_C2AEB, sub_C27F8, sub_C2AC4, sub_C2AEC
-global sub_C2C5C, sub_C2C7C, sub_C2C94
+global sub_C27F8, sub_C2AC4, sub_C2AEC, sub_C2C5C, sub_C2C7C, sub_C2C94
 sub_C27F8:
-push esi	; C27F8
-push edi	; C27F9
-push ebp	; C27FA
-sub esp, 0C0h	; C27FB
-mov ebp, dword [dword esp+0D4h]	; C2801
-mov dword [dword esp+0A4h], eax	; C2808
-mov dword [dword esp+0B4h], edx	; C280F
-mov dword [dword esp+0B8h], ebx	; C2816
-mov dword [dword esp+0B0h], ecx	; C281D
-mov dword [joycalactive], 1	; C2824
-call dword [off_14F074]	; C282E
-push byte 0FFFFFFFFh	; C2834
-call sub_CFE0C	; C2836
-add esp, byte 4	; C283B
-push byte 0	; C283E
-mov dword [dword esp+0A4h], eax	; C2840
-call sub_CFE0C	; C2847
-add esp, byte 4	; C284C
-push byte 0	; C284F
-mov ebx, dword [dword esp+0D4h]	; C2851
-push ebx	; C2858
-mov ecx, dword [dword esp+0B8h]	; C2859
-push ecx	; C2860
-call sub_AD35C	; C2861
-add esp, byte 0Ch	; C2866
-mov esi, eax	; C2869
-mov dword [dword esp+0A8h], eax	; C286B
-mov eax, esp	; C2872
-push eax	; C2874
-call sub_E193C	; C2875
-add esp, byte 4	; C287A
-lea eax, [byte esp+060h]	; C287D
-push eax	; C2881
-call sub_B0254	; C2882
-add esp, byte 4	; C2887
-push unk_1213DC	; C288A
-call TextSetFont	; C288F
-add esp, byte 4	; C2894
-mov eax, dword [dword esp+0B8h]	; C2897
-add eax, dword [dword esp+0D0h]	; C289E
-mov edx, dword [dword esp+0B8h]	; C28A5
-push eax	; C28AC
-mov ebx, dword [dword esp+0B4h]	; C28AD
-mov edi, dword [dword esp+0B8h]	; C28B4
-push edx	; C28BB
-add edi, ebx	; C28BC
-push edi	; C28BE
-mov ecx, dword [dword esp+0C0h]	; C28BF
-push ecx	; C28C6
-push dword_122900	; C28C7
-mov dword [dword esp+0C0h], eax	; C28CC
-call sub_DE084	; C28D3
-add esp, byte 14h	; C28D8
-call dword [off_11F5F8]	; C28DB
-push esi	; C28E1
-call SetDrawBitmap	; C28E2
-add esp, byte 4	; C28E7
-call sub_DD6C4	; C28EA
-mov eax, dword [dword esp+0B8h]	; C28EF
-push eax	; C28F6
-mov edx, dword [dword esp+0B8h]	; C28F7
-push edx	; C28FE
-mov ebx, dword [byte esi+02Ch]	; C28FF
-push ebx	; C2902
-call sub_BF120	; C2903
-add esp, byte 0Ch	; C2908
-call sub_DD6C4	; C290B
-push byte 0	; C2910
-call sub_B31C0	; C2912
-add esp, byte 4	; C2917
-push eax	; C291A
-mov ecx, dword [dword esp+0D4h]	; C291B
-push ecx	; C2922
-mov esi, dword [dword esp+0B8h]	; C2923
-push esi	; C292A
-mov eax, dword [dword esp+0C4h]	; C292B
-push eax	; C2932
-mov edx, dword [dword esp+0C4h]	; C2933
-push edx	; C293A
-call FillRect	; C293B
-add esp, byte 14h	; C2940
-push dword 0A80000h	; C2943
-call sub_B31C0	; C2948
-add esp, byte 4	; C294D
-push eax	; C2950
-mov eax, dword [dword esp+0B0h]	; C2951
-sub eax, byte 4	; C2958
-push eax	; C295B
-sub edi, byte 5	; C295C
-mov eax, dword [dword esp+0C0h]	; C295F
-push edi	; C2966
-add eax, byte 4	; C2967
-push eax	; C296A
-mov eax, dword [dword esp+0C4h]	; C296B
-add eax, byte 4	; C2972
-push eax	; C2975
-call sub_ADA80	; C2976
-add esp, byte 14h	; C297B
-push byte 0	; C297E
-push dword 0FCFCFCh	; C2980
-call sub_B31C0	; C2985
-add esp, byte 4	; C298A
-push eax	; C298D
-call sub_AFFD0	; C298E
-add esp, byte 8	; C2993
-mov eax, dword [dword esp+0B8h]	; C2996
-add eax, byte 9	; C299D
-push eax	; C29A0
-mov ebx, dword [dword esp+0A8h]	; C29A1
-push ebx	; C29A8
-call sub_CFE20	; C29A9
-add esp, byte 8	; C29AE
-call dword [off_11F5FC]	; C29B1
-push dword_122900	; C29B7
-call sub_CFE70	; C29BC
-add esp, byte 4	; C29C1
-loc_C29C4:
-call dword [mousepollfn]	; C29C4
-test eax, ebp	; C29CA
-jne short loc_C29C4	; C29CC
-loc_C29CE:
-call sub_DFF28	; C29CE
-mov esi, eax	; C29D3
-mov dword [dword esp+0BCh], eax	; C29D5
-call dword [mousepollfn]	; C29DC
-mov edi, eax	; C29E2
-and edi, ebp	; C29E4
-test esi, esi	; C29E6
-jne short loc_C29EE	; C29E8
-test edi, edi	; C29EA
-je short loc_C29CE	; C29EC
-loc_C29EE:
-mov eax, dword [dword esp+0BCh]	; C29EE
-or al, 20h	; C29F5
-and edi, byte 1	; C29F7
-cmp eax, byte 79h	; C29FA
-jne short loc_C2A04	; C29FD
-mov edi, 1	; C29FF
-loc_C2A04:
-mov eax, dword [dword esp+0B8h]	; C2A04
-add eax, dword [dword esp+0D0h]	; C2A0B
-mov esi, dword [dword esp+0B8h]	; C2A12
-push eax	; C2A19
-mov ebp, dword [dword esp+0B4h]	; C2A1A
-mov eax, dword [dword esp+0B8h]	; C2A21
-push esi	; C2A28
-add eax, ebp	; C2A29
-push eax	; C2A2B
-mov eax, dword [dword esp+0C0h]	; C2A2C
-push eax	; C2A33
-push dword_122900	; C2A34
-call sub_DE084	; C2A39
-add esp, byte 14h	; C2A3E
-call dword [off_11F5F4]	; C2A41
-call sub_DD6C4	; C2A47
-push esi	; C2A4C
-mov ebx, dword [dword esp+0B8h]	; C2A4D
-mov eax, dword [dword esp+0ACh]	; C2A54
-push ebx	; C2A5B
-mov ecx, dword [byte eax+02Ch]	; C2A5C
-push ecx	; C2A5F
-call DrawArtOpaque	; C2A60
-add esp, byte 0Ch	; C2A65
-call dword [off_11F5FC]	; C2A68
-lea eax, [byte esp+060h]	; C2A6E
-push eax	; C2A72
-call sub_B026C	; C2A73
-add esp, byte 4	; C2A78
-mov eax, esp	; C2A7B
-push eax	; C2A7D
-call sub_E1956	; C2A7E
-add esp, byte 4	; C2A83
-mov esi, dword [dword esp+0A8h]	; C2A86
-push esi	; C2A8D
-call sub_ADBEC	; C2A8E
-add esp, byte 4	; C2A93
-mov ebp, dword [dword esp+0A0h]	; C2A96
-push ebp	; C2A9D
-call sub_CFE0C	; C2A9E
-add esp, byte 4	; C2AA3
-call dword [off_14F078]	; C2AA6
-xor eax, eax	; C2AAC
-mov dword [joycalactive], eax	; C2AAE
-mov eax, edi	; C2AB3
-add esp, 0C0h	; C2AB5
-pop ebp	; C2ABB
-pop edi	; C2ABC
-pop esi	; C2ABD
-ret 8	; C2ABE
-db 08Dh,040h,00h
+        push esi
+        push edi
+        push ebp
+        sub esp, 0C0h
+        mov ebp, dword [dword esp+0D4h]
+        mov dword [dword esp+0A4h], eax
+        mov dword [dword esp+0B4h], edx
+        mov dword [dword esp+0B8h], ebx
+        mov dword [dword esp+0B0h], ecx
+        mov dword [joycalactive], 1
+        call dword [off_14F074]
+        push byte 0FFFFFFFFh
+        call sub_CFE0C
+        add esp, byte 4
+        push byte 0
+        mov dword [dword esp+0A4h], eax
+        call sub_CFE0C
+        add esp, byte 4
+        push byte 0
+        mov ebx, dword [dword esp+0D4h]
+        push ebx
+        mov ecx, dword [dword esp+0B8h]
+        push ecx
+        call sub_AD35C
+        add esp, byte 0Ch
+        mov esi, eax
+        mov dword [dword esp+0A8h], eax
+        mov eax, esp
+        push eax
+        call sub_E193C
+        add esp, byte 4
+        lea eax, [byte esp+060h]
+        push eax
+        call sub_B0254
+        add esp, byte 4
+        push unk_1213DC
+        call TextSetFont
+        add esp, byte 4
+        mov eax, dword [dword esp+0B8h]
+        add eax, dword [dword esp+0D0h]
+        mov edx, dword [dword esp+0B8h]
+        push eax
+        mov ebx, dword [dword esp+0B4h]
+        mov edi, dword [dword esp+0B8h]
+        push edx
+        add edi, ebx
+        push edi
+        mov ecx, dword [dword esp+0C0h]
+        push ecx
+        push dword_122900
+        mov dword [dword esp+0C0h], eax
+        call sub_DE084
+        add esp, byte 14h
+        call dword [off_11F5F8]
+        push esi
+        call SetDrawBitmap
+        add esp, byte 4
+        call sub_DD6C4
+        mov eax, dword [dword esp+0B8h]
+        push eax
+        mov edx, dword [dword esp+0B8h]
+        push edx
+        mov ebx, dword [byte esi+02Ch]
+        push ebx
+        call sub_BF120
+        add esp, byte 0Ch
+        call sub_DD6C4
+        push byte 0
+        call sub_B31C0
+        add esp, byte 4
+        push eax
+        mov ecx, dword [dword esp+0D4h]
+        push ecx
+        mov esi, dword [dword esp+0B8h]
+        push esi
+        mov eax, dword [dword esp+0C4h]
+        push eax
+        mov edx, dword [dword esp+0C4h]
+        push edx
+        call FillRect
+        add esp, byte 14h
+        push dword 0A80000h
+        call sub_B31C0
+        add esp, byte 4
+        push eax
+        mov eax, dword [dword esp+0B0h]
+        sub eax, byte 4
+        push eax
+        sub edi, byte 5
+        mov eax, dword [dword esp+0C0h]
+        push edi
+        add eax, byte 4
+        push eax
+        mov eax, dword [dword esp+0C4h]
+        add eax, byte 4
+        push eax
+        call sub_ADA80
+        add esp, byte 14h
+        push byte 0
+        push dword 0FCFCFCh
+        call sub_B31C0
+        add esp, byte 4
+        push eax
+        call sub_AFFD0
+        add esp, byte 8
+        mov eax, dword [dword esp+0B8h]
+        add eax, byte 9
+        push eax
+        mov ebx, dword [dword esp+0A8h]
+        push ebx
+        call sub_CFE20
+        add esp, byte 8
+        call dword [off_11F5FC]
+        push dword_122900
+        call sub_CFE70
+        add esp, byte 4
+.1:
+        call dword [mousepollfn]
+        test eax, ebp
+        jne short .1
+.2:
+        call sub_DFF28
+        mov esi, eax
+        mov dword [dword esp+0BCh], eax
+        call dword [mousepollfn]
+        mov edi, eax
+        and edi, ebp
+        test esi, esi
+        jne short .3
+        test edi, edi
+        je short .2
+.3:
+        mov eax, dword [dword esp+0BCh]
+        or al, 20h
+        and edi, byte 1
+        cmp eax, byte 79h
+        jne short .4
+        mov edi, 1
+.4:
+        mov eax, dword [dword esp+0B8h]
+        add eax, dword [dword esp+0D0h]
+        mov esi, dword [dword esp+0B8h]
+        push eax
+        mov ebp, dword [dword esp+0B4h]
+        mov eax, dword [dword esp+0B8h]
+        push esi
+        add eax, ebp
+        push eax
+        mov eax, dword [dword esp+0C0h]
+        push eax
+        push dword_122900
+        call sub_DE084
+        add esp, byte 14h
+        call dword [off_11F5F4]
+        call sub_DD6C4
+        push esi
+        mov ebx, dword [dword esp+0B8h]
+        mov eax, dword [dword esp+0ACh]
+        push ebx
+        mov ecx, dword [byte eax+02Ch]
+        push ecx
+        call DrawArtOpaque
+        add esp, byte 0Ch
+        call dword [off_11F5FC]
+        lea eax, [byte esp+060h]
+        push eax
+        call sub_B026C
+        add esp, byte 4
+        mov eax, esp
+        push eax
+        call sub_E1956
+        add esp, byte 4
+        mov esi, dword [dword esp+0A8h]
+        push esi
+        call sub_ADBEC
+        add esp, byte 4
+        mov ebp, dword [dword esp+0A0h]
+        push ebp
+        call sub_CFE0C
+        add esp, byte 4
+        call dword [off_14F078]
+        xor eax, eax
+        mov dword [joycalactive], eax
+        mov eax, edi
+        add esp, 0C0h
+        pop ebp
+        pop edi
+        pop esi
+        ret 8
+        db 08Dh,040h,00h
 sub_C2AC4:
-push byte 7	; C2AC4
-mov ecx, 0A0h	; C2AC6
-mov ebx, 58h	; C2ACB
-push byte 18h	; C2AD0
-mov edx, 50h	; C2AD2
-mov eax, str_EXITTODOSY	; C2AD7
-call sub_C27F8	; C2ADC
-test eax, eax	; C2AE1
-je short loc_C2AEB	; C2AE3
-call dword [dword_11F994]	; C2AE5
-loc_C2AEB:
-ret	; C2AEB
+        push byte 7
+        mov ecx, 0A0h
+        mov ebx, 58h
+        push byte 18h
+        mov edx, 50h
+        mov eax, str_EXITTODOSY
+        call sub_C27F8
+        test eax, eax
+        je short .1
+        call dword [dword_11F994]
+.1:
+        ret
 sub_C2AEC:
-push esi	; C2AEC
-push edi	; C2AED
-push ebp	; C2AEE
-sub esp, 0A0h	; C2AEF
-mov edx, 1	; C2AF5
-push byte 0FFFFFFFFh	; C2AFA
-mov dword [joycalactive], edx	; C2AFC
-call sub_CFE0C	; C2B02
-add esp, byte 4	; C2B07
-push byte 0	; C2B0A
-mov edi, eax	; C2B0C
-call sub_CFE0C	; C2B0E
-add esp, byte 4	; C2B13
-push byte 0	; C2B16
-push byte 0Ah	; C2B18
-push dword 140h	; C2B1A
-call sub_AD35C	; C2B1F
-add esp, byte 0Ch	; C2B24
-mov esi, eax	; C2B27
-mov eax, esp	; C2B29
-push eax	; C2B2B
-call sub_E193C	; C2B2C
-add esp, byte 4	; C2B31
-lea eax, [byte esp+060h]	; C2B34
-push eax	; C2B38
-call sub_B0254	; C2B39
-add esp, byte 4	; C2B3E
-push unk_1213DC	; C2B41
-call TextSetFont	; C2B46
-add esp, byte 4	; C2B4B
-push esi	; C2B4E
-call SetDrawBitmap	; C2B4F
-add esp, byte 4	; C2B54
-push dword 0C8h	; C2B57
-push dword 0BEh	; C2B5C
-push dword 140h	; C2B61
-push byte 0	; C2B66
-push dword_122900	; C2B68
-call sub_DE084	; C2B6D
-add esp, byte 14h	; C2B72
-call dword [off_11F5F8]	; C2B75
-call sub_DD6C4	; C2B7B
-push dword 0BEh	; C2B80
-push byte 0	; C2B85
-mov ebx, dword [byte esi+02Ch]	; C2B87
-push ebx	; C2B8A
-call sub_BF120	; C2B8B
-add esp, byte 0Ch	; C2B90
-call sub_DD6C4	; C2B93
-push byte 0	; C2B98
-call sub_B31C0	; C2B9A
-add esp, byte 4	; C2B9F
-push eax	; C2BA2
-push byte 0Ah	; C2BA3
-push dword 140h	; C2BA5
-push dword 0BEh	; C2BAA
-push byte 0	; C2BAF
-call FillRect	; C2BB1
-add esp, byte 14h	; C2BB6
-push byte 0	; C2BB9
-push dword 0FCFCFCh	; C2BBB
-call sub_B31C0	; C2BC0
-add esp, byte 4	; C2BC5
-push eax	; C2BC8
-call sub_AFFD0	; C2BC9
-add esp, byte 8	; C2BCE
-push dword 0BFh	; C2BD1
-mov ecx, dword [dword esp+0B4h]	; C2BD6
-push ecx	; C2BDD
-call sub_CFE20	; C2BDE
-add esp, byte 8	; C2BE3
-mov ebp, dword [dword esp+0B4h]	; C2BE6
-call dword [off_11F5FC]	; C2BED
-push ebp	; C2BF3
-call sub_E270C	; C2BF4
-add esp, byte 4	; C2BF9
-call dword [off_11F5F4]	; C2BFC
-call sub_DD6C4	; C2C02
-push dword 0BEh	; C2C07
-push byte 0	; C2C0C
-mov eax, dword [byte esi+02Ch]	; C2C0E
-push eax	; C2C11
-call DrawArtOpaque	; C2C12
-add esp, byte 0Ch	; C2C17
-call dword [off_11F5FC]	; C2C1A
-lea eax, [byte esp+060h]	; C2C20
-push eax	; C2C24
-call sub_B026C	; C2C25
-add esp, byte 4	; C2C2A
-mov eax, esp	; C2C2D
-push eax	; C2C2F
-call sub_E1956	; C2C30
-add esp, byte 4	; C2C35
-push esi	; C2C38
-call sub_ADBEC	; C2C39
-add esp, byte 4	; C2C3E
-push edi	; C2C41
-call sub_CFE0C	; C2C42
-xor edx, edx	; C2C47
-add esp, byte 4	; C2C49
-mov dword [joycalactive], edx	; C2C4C
-add esp, 0A0h	; C2C52
-pop ebp	; C2C58
-pop edi	; C2C59
-pop esi	; C2C5A
-ret	; C2C5B
+        push esi
+        push edi
+        push ebp
+        sub esp, 0A0h
+        mov edx, 1
+        push byte 0FFFFFFFFh
+        mov dword [joycalactive], edx
+        call sub_CFE0C
+        add esp, byte 4
+        push byte 0
+        mov edi, eax
+        call sub_CFE0C
+        add esp, byte 4
+        push byte 0
+        push byte 0Ah
+        push dword 140h
+        call sub_AD35C
+        add esp, byte 0Ch
+        mov esi, eax
+        mov eax, esp
+        push eax
+        call sub_E193C
+        add esp, byte 4
+        lea eax, [byte esp+060h]
+        push eax
+        call sub_B0254
+        add esp, byte 4
+        push unk_1213DC
+        call TextSetFont
+        add esp, byte 4
+        push esi
+        call SetDrawBitmap
+        add esp, byte 4
+        push dword 0C8h
+        push dword 0BEh
+        push dword 140h
+        push byte 0
+        push dword_122900
+        call sub_DE084
+        add esp, byte 14h
+        call dword [off_11F5F8]
+        call sub_DD6C4
+        push dword 0BEh
+        push byte 0
+        mov ebx, dword [byte esi+02Ch]
+        push ebx
+        call sub_BF120
+        add esp, byte 0Ch
+        call sub_DD6C4
+        push byte 0
+        call sub_B31C0
+        add esp, byte 4
+        push eax
+        push byte 0Ah
+        push dword 140h
+        push dword 0BEh
+        push byte 0
+        call FillRect
+        add esp, byte 14h
+        push byte 0
+        push dword 0FCFCFCh
+        call sub_B31C0
+        add esp, byte 4
+        push eax
+        call sub_AFFD0
+        add esp, byte 8
+        push dword 0BFh
+        mov ecx, dword [dword esp+0B4h]
+        push ecx
+        call sub_CFE20
+        add esp, byte 8
+        mov ebp, dword [dword esp+0B4h]
+        call dword [off_11F5FC]
+        push ebp
+        call sub_E270C
+        add esp, byte 4
+        call dword [off_11F5F4]
+        call sub_DD6C4
+        push dword 0BEh
+        push byte 0
+        mov eax, dword [byte esi+02Ch]
+        push eax
+        call DrawArtOpaque
+        add esp, byte 0Ch
+        call dword [off_11F5FC]
+        lea eax, [byte esp+060h]
+        push eax
+        call sub_B026C
+        add esp, byte 4
+        mov eax, esp
+        push eax
+        call sub_E1956
+        add esp, byte 4
+        push esi
+        call sub_ADBEC
+        add esp, byte 4
+        push edi
+        call sub_CFE0C
+        xor edx, edx
+        add esp, byte 4
+        mov dword [joycalactive], edx
+        add esp, 0A0h
+        pop ebp
+        pop edi
+        pop esi
+        ret
 sub_C2C5C:
-push byte 1	; C2C5C
-mov ecx, 120h	; C2C5E
-mov ebx, 58h	; C2C63
-push byte 18h	; C2C68
-mov edx, 10h	; C2C6A
-mov eax, str_PAUSEPRESSANYKEY	; C2C6F
-call sub_C27F8	; C2C74
-ret	; C2C79
-db 00h,00h
+        push byte 1
+        mov ecx, 120h
+        mov ebx, 58h
+        push byte 18h
+        mov edx, 10h
+        mov eax, str_PAUSEPRESSANYKEY
+        call sub_C27F8
+        ret
+        db 00h,00h
 sub_C2C7C:
-push ebx	; C2C7C
-push es	; C2C7D
-push ds	; C2C7E
-push esi	; C2C7F
-push edi	; C2C80
-push ebp	; C2C81
-LD mov, al, bl	; C2C82
-mov ah, 35h	; C2C84
-int 21h	; C2C86
-pop ebp	; C2C88
-pop edi	; C2C89
-pop esi	; C2C8A
-pop ds	; C2C8B
-LD mov, eax, ebx	; C2C8C
-mov dx, es	; C2C8E
-pop es	; C2C91
-pop ebx	; C2C92
-ret	; C2C93
+        push ebx
+        push es
+        push ds
+        push esi
+        push edi
+        push ebp
+        LD mov, al, bl
+        mov ah, 35h
+        int 21h
+        pop ebp
+        pop edi
+        pop esi
+        pop ds
+        LD mov, eax, ebx
+        mov dx, es
+        pop es
+        pop ebx
+        ret
 sub_C2C94:
-push es	; C2C94
-push ds	; C2C95
-push esi	; C2C96
-push edi	; C2C97
-push ebp	; C2C98
-push eax	; C2C99
-push edx	; C2C9A
-mov ds, dx	; C2C9B
-LD mov, edx, eax	; C2C9E
-LD mov, al, bl	; C2CA0
-mov ah, 25h	; C2CA2
-int 21h	; C2CA4
-pop edx	; C2CA6
-pop eax	; C2CA7
-pop ebp	; C2CA8
-pop edi	; C2CA9
-pop esi	; C2CAA
-pop ds	; C2CAB
-pop es	; C2CAC
-ret	; C2CAD
-db 00h,00h
+        push es
+        push ds
+        push esi
+        push edi
+        push ebp
+        push eax
+        push edx
+        mov ds, dx
+        LD mov, edx, eax
+        LD mov, al, bl
+        mov ah, 25h
+        int 21h
+        pop edx
+        pop eax
+        pop ebp
+        pop edi
+        pop esi
+        pop ds
+        pop es
+        ret
+        db 00h,00h

@@ -16,202 +16,202 @@ global word_151712, word_151714, word_15171C, word_15171E, word_15172A, word_151
 global word_151744, word_15175C, word_151766, word_151768, word_15177E, word_151782, word_151788, word_15178A
 global word_15178C, word_151792, word_151AE0, word_151AE2
 dword_15159C:
-resb 12
+        resb 12
 dword_1515A8:
-resb 8
+        resb 8
 dword_1515B0:
-resb 4
+        resb 4
 SlotTable:
-resb 1
+        resb 1
 word_1515B5:
-resb 2
+        resb 2
 dword_1515B7:
-resb 4
+        resb 4
 byte_1515BB:
-resb 3
+        resb 3
 dword_1515BE:
-resb 4
+        resb 4
 byte_1515C2:
-resb 3
+        resb 3
 dword_1515C5:
-resb 4
+        resb 4
 byte_1515C9:
-resb 3
+        resb 3
 dword_1515CC:
-resb 4
+        resb 4
 dword_1515D0:
-resb 4
+        resb 4
 InputRecordRing:
-resb 4
+        resb 4
 dword_1515D8:
-resb 4
+        resb 4
 dword_1515DC:
-resb 4
+        resb 4
 dword_1515E0:
-resb 4
+        resb 4
 word_1515E4:
-resb 76
+        resb 76
 dword_151630:
-resb 4
+        resb 4
 word_151634:
-resb 2
+        resb 2
 word_151636:
-resb 2
+        resb 2
 word_151638:
-resb 2
+        resb 2
 word_15163A:
-resb 14
+        resb 14
 unk_151648:
-resb 76
+        resb 76
 dword_151694:
-resb 4
+        resb 4
 dword_151698:
-resb 12
+        resb 12
 dword_1516A4:
-resb 4
+        resb 4
 dword_1516A8:
-resb 16
+        resb 16
 unk_1516B8:
-resb 80
+        resb 80
 byte_151708:
-resb 2
+        resb 2
 dword_15170A:
-resb 2
+        resb 2
 dword_15170C:
-resb 2
+        resb 2
 dword_15170E:
-resb 2
+        resb 2
 dword_151710:
-resb 2
+        resb 2
 word_151712:
-resb 2
+        resb 2
 word_151714:
-resb 2
+        resb 2
 dword_151716:
-resb 2
+        resb 2
 dword_151718:
-resb 2
+        resb 2
 dword_15171A:
-resb 2
+        resb 2
 word_15171C:
-resb 2
+        resb 2
 word_15171E:
-resb 2
+        resb 2
 unk_151720:
-resb 2
+        resb 2
 dword_151722:
-resb 2
+        resb 2
 dword_151724:
-resb 2
+        resb 2
 dword_151726:
-resb 2
+        resb 2
 dword_151728:
-resb 2
+        resb 2
 word_15172A:
-resb 2
+        resb 2
 word_15172C:
-resb 2
+        resb 2
 dword_15172E:
-resb 2
+        resb 2
 dword_151730:
-resb 2
+        resb 2
 dword_151732:
-resb 2
+        resb 2
 word_151734:
-resb 2
+        resb 2
 word_151736:
-resb 14
+        resb 14
 word_151744:
-resb 24
+        resb 24
 word_15175C:
-resb 10
+        resb 10
 word_151766:
-resb 2
+        resb 2
 word_151768:
-resb 8
+        resb 8
 dword_151770:
-resb 3
+        resb 3
 byte_151773:
-resb 1
+        resb 1
 byte_151774:
-resb 4
+        resb 4
 byte_151778:
-resb 1
+        resb 1
 byte_151779:
-resb 3
+        resb 3
 byte_15177C:
-resb 2
+        resb 2
 word_15177E:
-resb 4
+        resb 4
 word_151782:
-resb 2
+        resb 2
 unk_151784:
-resb 4
+        resb 4
 word_151788:
-resb 2
+        resb 2
 word_15178A:
-resb 2
+        resb 2
 word_15178C:
-resb 2
+        resb 2
 dword_15178E:
-resb 4
+        resb 4
 word_151792:
-resb 2
+        resb 2
 byte_151794:
-resb 4
+        resb 4
 dword_151798:
-resb 4
+        resb 4
 unk_15179C:
-resb 512
+        resb 512
 dword_15199C:
-resb 4
+        resb 4
 byte_1519A0:
-resb 20
+        resb 20
 dword_1519B4:
-resb 4
+        resb 4
 dword_1519B8:
-resb 4
+        resb 4
 dword_1519BC:
-resb 4
+        resb 4
 unk_1519C0:
-resb 60
+        resb 60
 dword_1519FC:
-resb 4
+        resb 4
 dword_151A00:
-resb 4
+        resb 4
 unk_151A04:
-resb 60
+        resb 60
 dword_151A40:
-resb 4
+        resb 4
 unk_151A44:
-resb 60
+        resb 60
 dword_151A80:
-resb 4
+        resb 4
 dword_151A84:
-resb 4
+        resb 4
 dword_151A88:
-resb 4
+        resb 4
 dword_151A8C:
-resb 4
+        resb 4
 dword_151A90:
-resb 4
+        resb 4
 unk_151A94:
-resb 60
+        resb 60
 dword_151AD0:
-resb 4
+        resb 4
 byte_151AD4:
-resb 1
+        resb 1
 dword_151AD5:
-resb 5
+        resb 5
 byte_151ADA:
-resb 1
+        resb 1
 byte_151ADB:
-resb 1
+        resb 1
 unk_151ADC:
-resb 2
+        resb 2
 dword_151ADE:
-resb 2
+        resb 2
 word_151AE0:
-resb 2
+        resb 2
 word_151AE2:
-resb 2
+        resb 2

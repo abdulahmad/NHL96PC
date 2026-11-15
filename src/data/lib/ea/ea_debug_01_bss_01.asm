@@ -10,102 +10,102 @@ global dword_1857FC, dword_185800, dword_185804, dword_185808, dword_18580C, dwo
 global dword_18581C, dword_185820, dword_185824, dword_185828, dword_18582C, dword_185830, dword_185834, dword_185838
 global dword_185848, unk_18584C
 dword_185740:
-resb 4
+        resb 4
 dword_185744:
-resb 4
+        resb 4
 dword_185748:
-resb 4
+        resb 4
 dword_18574C:
-resb 4
+        resb 4
 dword_185750:
-resb 4
+        resb 4
 dword_185754:
-resb 4
+        resb 4
 dword_185758:
-resb 4
+        resb 4
 dword_18575C:
-resb 4
+        resb 4
 dword_185760:
-resb 4
+        resb 4
 dword_185764:
-resb 4
+        resb 4
 dword_185768:
-resb 4
+        resb 4
 dword_18576C:
-resb 4
+        resb 4
 dword_185770:
-resb 4
+        resb 4
 dword_185774:
-resb 64
+        resb 64
 dword_1857B4:
-resb 4
+        resb 4
 dword_1857B8:
-resb 4
+        resb 4
 dword_1857BC:
-resb 4
+        resb 4
 dword_1857C0:
-resb 4
+        resb 4
 dword_1857C4:
-resb 4
+        resb 4
 dword_1857C8:
-resb 4
+        resb 4
 dword_1857CC:
-resb 4
+        resb 4
 dword_1857D0:
-resb 4
+        resb 4
 dword_1857D4:
-resb 4
+        resb 4
 dword_1857D8:
-resb 4
+        resb 4
 dword_1857DC:
-resb 4
+        resb 4
 dword_1857E0:
-resb 4
+        resb 4
 dword_1857E4:
-resb 4
+        resb 4
 dword_1857E8:
-resb 4
+        resb 4
 dword_1857EC:
-resb 4
+        resb 4
 dword_1857F0:
-resb 4
+        resb 4
 dword_1857F4:
-resb 4
+        resb 4
 dword_1857F8:
-resb 4
+        resb 4
 dword_1857FC:
-resb 4
+        resb 4
 dword_185800:
-resb 4
+        resb 4
 dword_185804:
-resb 4
+        resb 4
 dword_185808:
-resb 4
+        resb 4
 dword_18580C:
-resb 4
+        resb 4
 dword_185810:
-resb 4
+        resb 4
 dword_185814:
-resb 4
+        resb 4
 dword_185818:
-resb 4
+        resb 4
 dword_18581C:
-resb 4
+        resb 4
 dword_185820:
-resb 4
+        resb 4
 dword_185824:
-resb 4
+        resb 4
 dword_185828:
-resb 4
+        resb 4
 dword_18582C:
-resb 4
+        resb 4
 dword_185830:
-resb 4
+        resb 4
 dword_185834:
-resb 4
+        resb 4
 dword_185838:
-resb 16
+        resb 16
 dword_185848:
-resb 4
+        resb 4
 unk_18584C:
-resb 1024
+        resb 1024

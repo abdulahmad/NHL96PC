@@ -10,100 +10,100 @@ global dword_17DAA0, dword_17DAA4, dword_17DAA8, dword_17DAAC, dword_17DAB0, dwo
 global dword_17DAC0, dword_17DAC4, dword_17DAC8, dword_17DACC, dword_17DAD0, dword_17DAD4, dword_17DAD8, dword_17DADC
 global word_17DB76
 dword_17D928:
-resb 8
+        resb 8
 dword_17D930:
-resb 8
+        resb 8
 dword_17D938:
-resb 24
+        resb 24
 dword_17D950:
-resb 200
+        resb 200
 dword_17DA18:
-resb 8
+        resb 8
 dword_17DA20:
-resb 8
+        resb 8
 dword_17DA28:
-resb 8
+        resb 8
 dword_17DA30:
-resb 8
+        resb 8
 dword_17DA38:
-resb 8
+        resb 8
 dword_17DA40:
-resb 8
+        resb 8
 dword_17DA48:
-resb 8
+        resb 8
 dword_17DA50:
-resb 4
+        resb 4
 dword_17DA54:
-resb 4
+        resb 4
 dword_17DA58:
-resb 4
+        resb 4
 dword_17DA5C:
-resb 4
+        resb 4
 dword_17DA60:
-resb 8
+        resb 8
 dword_17DA68:
-resb 4
+        resb 4
 dword_17DA6C:
-resb 4
+        resb 4
 dword_17DA70:
-resb 4
+        resb 4
 dword_17DA74:
-resb 4
+        resb 4
 dword_17DA78:
-resb 8
+        resb 8
 dword_17DA80:
-resb 4
+        resb 4
 dword_17DA84:
-resb 4
+        resb 4
 dword_17DA88:
-resb 8
+        resb 8
 dword_17DA90:
-resb 8
+        resb 8
 dword_17DA98:
-resb 4
+        resb 4
 dword_17DA9C:
-resb 4
+        resb 4
 dword_17DAA0:
-resb 4
+        resb 4
 dword_17DAA4:
-resb 4
+        resb 4
 dword_17DAA8:
-resb 4
+        resb 4
 dword_17DAAC:
-resb 4
+        resb 4
 dword_17DAB0:
-resb 4
+        resb 4
 dword_17DAB4:
-resb 4
+        resb 4
 dword_17DAB8:
-resb 4
+        resb 4
 dword_17DABC:
-resb 4
+        resb 4
 dword_17DAC0:
-resb 4
+        resb 4
 dword_17DAC4:
-resb 4
+        resb 4
 dword_17DAC8:
-resb 4
+        resb 4
 dword_17DACC:
-resb 4
+        resb 4
 dword_17DAD0:
-resb 4
+        resb 4
 dword_17DAD4:
-resb 4
+        resb 4
 dword_17DAD8:
-resb 4
+        resb 4
 dword_17DADC:
-resb 3
+        resb 3
 byte_17DADF:
-resb 1
+        resb 1
 byte_17DAE0:
-resb 50
+        resb 50
 byte_17DB12:
-resb 50
+        resb 50
 byte_17DB44:
-resb 50
+        resb 50
 word_17DB76:
-resb 2
+        resb 2
 byte_17DB78:
-resb 4
+        resb 4

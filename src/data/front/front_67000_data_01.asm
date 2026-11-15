@@ -24,267 +24,267 @@ global dword_11D3B8, dword_11D3BC, dword_11D3C0, dword_11D3C4, dword_11D3C8, dwo
 global off_11D3DC, off_11D44C, off_11D4BC, off_11D52C, word_11D1D0, word_11D23A, word_11D23C, word_11D356
 global word_11D382, word_11D384, word_11D386, word_11D388, word_11D3A2, word_11D3A4, word_11D3B6, word_11D604
 dword_11D1C8:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_11D1CC:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 word_11D1D0:
-db 00h,00h
+        db 00h,00h
 dword_11D1D2:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_11D1D6:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 sndcard:
-db 0FFh,0FFh,0FFh,0FFh
+        db 0FFh,0FFh,0FFh,0FFh
 byte_11D1DE:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_11D1E2:
-db 0FFh,0FFh,0FFh,0FFh
+        db 0FFh,0FFh,0FFh,0FFh
 dword_11D1E6:
-db 0FFh,0FFh,0FFh,0FFh
+        db 0FFh,0FFh,0FFh,0FFh
 dword_11D1EA:
-db 0FFh,0FFh,0FFh,0FFh
+        db 0FFh,0FFh,0FFh,0FFh
 dword_11D1EE:
-db 0FFh,0FFh,0FFh,0FFh
+        db 0FFh,0FFh,0FFh,0FFh
 dword_11D1F2:
-db 0FFh,0FFh,0FFh,0FFh
+        db 0FFh,0FFh,0FFh,0FFh
 dword_11D1F6:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_11D1FA:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_11D1FE:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_11D202:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_11D206:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 byte_11D20A:
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-db 00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h
 dword_11D232:
-db 0FFh,0FFh,0FFh,0FFh
+        db 0FFh,0FFh,0FFh,0FFh
 dword_11D236:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 word_11D23A:
-db 00h,00h
+        db 00h,00h
 word_11D23C:
-db 00h,00h
+        db 00h,00h
 dword_11D23E:
-db 05Ah,00h,00h,00h
+        db 05Ah,00h,00h,00h
 dword_11D242:
-db 00h,00h,00h,00h,03Ch,00h,00h,00h,054h,06h,00h,00h,090h,06h,00h,00h
-db 0CCh,06h,00h,00h,0E4h,0Ch,00h,00h,020h,0Dh,00h,00h,038h,013h,00h,00h
-db 074h,013h,00h,00h,0B0h,013h,00h,00h,0C8h,019h,00h,00h,04h,01Ah,00h,00h
-db 040h,01Ah,00h,00h,058h,020h,00h,00h,094h,020h,00h,00h,0D0h,020h,00h,00h
-db 0ACh,026h,00h,00h,0E8h,026h,00h,00h,00h,02Dh,00h,00h,03Ch,02Dh,00h,00h
-db 078h,02Dh,00h,00h,090h,033h,00h,00h,0CCh,033h,00h,00h,0E4h,039h,00h,00h
-db 020h,03Ah,00h,00h,038h,040h,00h,00h,074h,040h,00h,00h,0B0h,040h,00h,00h
-db 0C8h,046h,00h,00h,04h,047h,00h,00h,01Ch,04Dh,00h,00h,058h,04Dh,00h,00h
-db 034h,053h,00h,00h,070h,053h,00h,00h,0ACh,053h,00h,00h,0C4h,059h,00h,00h
-db 00h,05Ah,00h,00h,0DCh,05Fh,00h,00h,018h,060h,00h,00h,054h,060h,00h,00h
-db 06Ch,066h,00h,00h,0A8h,066h,00h,00h,0C0h,06Ch,00h,00h,0FCh,06Ch,00h,00h
-db 038h,06Dh,00h,00h,050h,073h,00h,00h,08Ch,073h,00h,00h,0C8h,073h,00h,00h
-db 0E0h,079h,00h,00h,01Ch,07Ah,00h,00h,034h,080h,00h,00h,070h,080h,00h,00h
-db 088h,086h,00h,00h,0C4h,086h,00h,00h,0A0h,08Ch,00h,00h,0DCh,08Ch,00h,00h
-db 0F4h,092h,00h,00h,030h,093h,00h,00h,048h,099h,00h,00h,084h,099h,00h,00h
-db 0C0h,099h,00h,00h,0D8h,09Fh,00h,00h,014h,0A0h,00h,00h,0F0h,0A5h,00h,00h
-db 02Ch,0A6h,00h,00h,068h,0A6h,00h,00h,0CCh,0ABh,00h,00h,08h,0ACh,00h,00h
-db 044h,0ACh,00h,00h
+        db 00h,00h,00h,00h,03Ch,00h,00h,00h,054h,06h,00h,00h,090h,06h,00h,00h
+        db 0CCh,06h,00h,00h,0E4h,0Ch,00h,00h,020h,0Dh,00h,00h,038h,013h,00h,00h
+        db 074h,013h,00h,00h,0B0h,013h,00h,00h,0C8h,019h,00h,00h,04h,01Ah,00h,00h
+        db 040h,01Ah,00h,00h,058h,020h,00h,00h,094h,020h,00h,00h,0D0h,020h,00h,00h
+        db 0ACh,026h,00h,00h,0E8h,026h,00h,00h,00h,02Dh,00h,00h,03Ch,02Dh,00h,00h
+        db 078h,02Dh,00h,00h,090h,033h,00h,00h,0CCh,033h,00h,00h,0E4h,039h,00h,00h
+        db 020h,03Ah,00h,00h,038h,040h,00h,00h,074h,040h,00h,00h,0B0h,040h,00h,00h
+        db 0C8h,046h,00h,00h,04h,047h,00h,00h,01Ch,04Dh,00h,00h,058h,04Dh,00h,00h
+        db 034h,053h,00h,00h,070h,053h,00h,00h,0ACh,053h,00h,00h,0C4h,059h,00h,00h
+        db 00h,05Ah,00h,00h,0DCh,05Fh,00h,00h,018h,060h,00h,00h,054h,060h,00h,00h
+        db 06Ch,066h,00h,00h,0A8h,066h,00h,00h,0C0h,06Ch,00h,00h,0FCh,06Ch,00h,00h
+        db 038h,06Dh,00h,00h,050h,073h,00h,00h,08Ch,073h,00h,00h,0C8h,073h,00h,00h
+        db 0E0h,079h,00h,00h,01Ch,07Ah,00h,00h,034h,080h,00h,00h,070h,080h,00h,00h
+        db 088h,086h,00h,00h,0C4h,086h,00h,00h,0A0h,08Ch,00h,00h,0DCh,08Ch,00h,00h
+        db 0F4h,092h,00h,00h,030h,093h,00h,00h,048h,099h,00h,00h,084h,099h,00h,00h
+        db 0C0h,099h,00h,00h,0D8h,09Fh,00h,00h,014h,0A0h,00h,00h,0F0h,0A5h,00h,00h
+        db 02Ch,0A6h,00h,00h,068h,0A6h,00h,00h,0CCh,0ABh,00h,00h,08h,0ACh,00h,00h
+        db 044h,0ACh,00h,00h
 word_11D356:
-db 09h,01h,0Bh,01h,017h,03h,06h,04h,013h,04h,016h,06h,03h,07h,00h,0Ah
-db 012h,0Bh,016h,0Bh,0Ch,0Eh,0Dh,0Eh,010h,011h,08h,015h,0Eh,016h,0Eh,017h
+        db 09h,01h,0Bh,01h,017h,03h,06h,04h,013h,04h,016h,06h,03h,07h,00h,0Ah
+        db 012h,0Bh,016h,0Bh,0Ch,0Eh,0Dh,0Eh,010h,011h,08h,015h,0Eh,016h,0Eh,017h
 dword_11D376:
-db 05Bh,00h,00h,00h
+        db 05Bh,00h,00h,00h
 dword_11D37A:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_11D37E:
-db 0FFh,0FFh,0FFh,0FFh
+        db 0FFh,0FFh,0FFh,0FFh
 word_11D382:
-db 00h,00h
+        db 00h,00h
 word_11D384:
-db 00h,00h
+        db 00h,00h
 word_11D386:
-db 00h,00h
+        db 00h,00h
 word_11D388:
-db 00h,00h
+        db 00h,00h
 dword_11D38A:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_11D38E:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 byte_11D392:
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 word_11D3A2:
-db 0FFh,0FFh
+        db 0FFh,0FFh
 word_11D3A4:
-db 00h,00h
+        db 00h,00h
 dword_11D3A6:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_11D3AA:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_11D3AE:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_11D3B2:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 word_11D3B6:
-db 00h,00h
+        db 00h,00h
 dword_11D3B8:
-db 0Fh,00h,00h,00h
+        db 0Fh,00h,00h,00h
 dword_11D3BC:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_11D3C0:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_11D3C4:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_11D3C8:
-db 00h,00h,00h,00h,019h,01h,00h,00h,01Ah,01h,00h,00h,01Bh,01h,00h,00h
-db 01Ch,01h,00h,00h
+        db 00h,00h,00h,00h,019h,01h,00h,00h,01Ah,01h,00h,00h,01Bh,01h,00h,00h
+        db 01Ch,01h,00h,00h
 off_11D3DC:
-dd str_ANA2
-dd str_BOS2
-dd str_BUF4
-dd str_CGY2
-dd str_CHI2
-dd str_DAL2
-dd str_DET2
-dd str_EDM2
-dd str_FLA2
-dd str_HFD2
-dd str_LA2
-dd str_MTL2
-dd str_NJ2
-dd str_NYI2
-dd str_NYR2
-dd str_OTT2
-dd str_PHI2
-dd str_PIT2
-dd str_QUE2
-dd str_STL2
-dd str_SJ2
-dd str_TB2
-dd str_TOR2
-dd str_VAN2
-dd str_WSH2
-dd str_WPG2
-dd str_ASW2
-dd str_ASE2
+        dd str_ANA2
+        dd str_BOS2
+        dd str_BUF4
+        dd str_CGY2
+        dd str_CHI2
+        dd str_DAL2
+        dd str_DET2
+        dd str_EDM2
+        dd str_FLA2
+        dd str_HFD2
+        dd str_LA2
+        dd str_MTL2
+        dd str_NJ2
+        dd str_NYI2
+        dd str_NYR2
+        dd str_OTT2
+        dd str_PHI2
+        dd str_PIT2
+        dd str_QUE2
+        dd str_STL2
+        dd str_SJ2
+        dd str_TB2
+        dd str_TOR2
+        dd str_VAN2
+        dd str_WSH2
+        dd str_WPG2
+        dd str_ASW2
+        dd str_ASE2
 off_11D44C:
-dd str_Anaheim
-dd str_Boston
-dd str_Buffalo
-dd str_Calgary
-dd str_Chicago
-dd str_Dallas
-dd str_Detroit
-dd str_Edmonton
-dd str_Florida
-dd str_Hartford
-dd str_LosAngeles
-dd str_Montreal
-dd str_NewJersey
-dd str_NewYork
-dd str_NewYork
-dd str_Ottawa
-dd str_Philadelphia
-dd str_Pittsburgh
-dd str_Quebec
-dd str_StLouis
-dd str_SanJose
-dd str_TampaBay
-dd str_Toronto
-dd str_Vancouver
-dd str_Washington
-dd str_Winnipeg
-dd str_Western
-dd str_Eastern
+        dd str_Anaheim
+        dd str_Boston
+        dd str_Buffalo
+        dd str_Calgary
+        dd str_Chicago
+        dd str_Dallas
+        dd str_Detroit
+        dd str_Edmonton
+        dd str_Florida
+        dd str_Hartford
+        dd str_LosAngeles
+        dd str_Montreal
+        dd str_NewJersey
+        dd str_NewYork
+        dd str_NewYork
+        dd str_Ottawa
+        dd str_Philadelphia
+        dd str_Pittsburgh
+        dd str_Quebec
+        dd str_StLouis
+        dd str_SanJose
+        dd str_TampaBay
+        dd str_Toronto
+        dd str_Vancouver
+        dd str_Washington
+        dd str_Winnipeg
+        dd str_Western
+        dd str_Eastern
 off_11D4BC:
-dd str_AnaheimCalifornia
-dd str_BostonMassachusetts
-dd str_BuffaloNewYork
-dd str_CalgaryAlberta
-dd str_ChicagoIllinois
-dd str_DallasTexas
-dd str_DetroitMichigan
-dd str_EdmontonAlberta
-dd str_MiamiFlorida
-dd str_HartfordConnecticut
-dd str_InglewoodCalifornia
-dd str_MontrealQuebec
-dd str_EastRutherfordNJ
-dd str_UniondaleNewYork
-dd str_NewYorkNewYork
-dd str_OttawaOntario
-dd str_PhiladelphiaPA
-dd str_PittsburghPA
-dd str_QuebecCityQuebec
-dd str_StLouisMissouri
-dd str_SanJoseCalifornia
-dd str_TampaFlorida
-dd str_TorontoOntario
-dd str_VancouverBC
-dd str_LandoverMaryland
-dd str_WinnipegManitoba
-dd str_SanJoseCalifornia
-dd str_SanJoseCalifornia
+        dd str_AnaheimCalifornia
+        dd str_BostonMassachusetts
+        dd str_BuffaloNewYork
+        dd str_CalgaryAlberta
+        dd str_ChicagoIllinois
+        dd str_DallasTexas
+        dd str_DetroitMichigan
+        dd str_EdmontonAlberta
+        dd str_MiamiFlorida
+        dd str_HartfordConnecticut
+        dd str_InglewoodCalifornia
+        dd str_MontrealQuebec
+        dd str_EastRutherfordNJ
+        dd str_UniondaleNewYork
+        dd str_NewYorkNewYork
+        dd str_OttawaOntario
+        dd str_PhiladelphiaPA
+        dd str_PittsburghPA
+        dd str_QuebecCityQuebec
+        dd str_StLouisMissouri
+        dd str_SanJoseCalifornia
+        dd str_TampaFlorida
+        dd str_TorontoOntario
+        dd str_VancouverBC
+        dd str_LandoverMaryland
+        dd str_WinnipegManitoba
+        dd str_SanJoseCalifornia
+        dd str_SanJoseCalifornia
 off_11D52C:
-dd str_MightyDucks2
-dd str_Bruins
-dd str_Sabres
-dd str_Flames
-dd str_Blackhawks
-dd str_Stars
-dd str_RedWings
-dd str_Oilers
-dd str_Panthers
-dd str_Whalers
-dd str_Kings
-dd str_Canadiens
-dd str_Devils
-dd str_Islanders
-dd str_Rangers
-dd str_Senators
-dd str_Flyers
-dd str_Penguins
-dd str_Nordiques
-dd str_Blues
-dd str_Sharks
-dd str_Lightning
-dd str_MapleLeafs
-dd str_Canucks
-dd str_Capitals
-dd str_Jets
-dd str_AllStars
-dd str_AllStars
+        dd str_MightyDucks2
+        dd str_Bruins
+        dd str_Sabres
+        dd str_Flames
+        dd str_Blackhawks
+        dd str_Stars
+        dd str_RedWings
+        dd str_Oilers
+        dd str_Panthers
+        dd str_Whalers
+        dd str_Kings
+        dd str_Canadiens
+        dd str_Devils
+        dd str_Islanders
+        dd str_Rangers
+        dd str_Senators
+        dd str_Flyers
+        dd str_Penguins
+        dd str_Nordiques
+        dd str_Blues
+        dd str_Sharks
+        dd str_Lightning
+        dd str_MapleLeafs
+        dd str_Canucks
+        dd str_Capitals
+        dd str_Jets
+        dd str_AllStars
+        dd str_AllStars
 dword_11D59C:
-db 01h,00h,00h,00h,04h,00h,00h,00h,04h,00h,00h,00h,01h,00h,00h,00h
-db 02h,00h,00h,00h,02h,00h,00h,00h,02h,00h,00h,00h,01h,00h,00h,00h
-db 08h,00h,00h,00h,04h,00h,00h,00h,01h,00h,00h,00h,04h,00h,00h,00h
-db 08h,00h,00h,00h,08h,00h,00h,00h,08h,00h,00h,00h,04h,00h,00h,00h
-db 08h,00h,00h,00h,04h,00h,00h,00h,04h,00h,00h,00h,02h,00h,00h,00h
-db 01h,00h,00h,00h,08h,00h,00h,00h,02h,00h,00h,00h,01h,00h,00h,00h
-db 08h,00h,00h,00h,02h,00h,00h,00h
+        db 01h,00h,00h,00h,04h,00h,00h,00h,04h,00h,00h,00h,01h,00h,00h,00h
+        db 02h,00h,00h,00h,02h,00h,00h,00h,02h,00h,00h,00h,01h,00h,00h,00h
+        db 08h,00h,00h,00h,04h,00h,00h,00h,01h,00h,00h,00h,04h,00h,00h,00h
+        db 08h,00h,00h,00h,08h,00h,00h,00h,08h,00h,00h,00h,04h,00h,00h,00h
+        db 08h,00h,00h,00h,04h,00h,00h,00h,04h,00h,00h,00h,02h,00h,00h,00h
+        db 01h,00h,00h,00h,08h,00h,00h,00h,02h,00h,00h,00h,01h,00h,00h,00h
+        db 08h,00h,00h,00h,02h,00h,00h,00h
 word_11D604:
-db 01h,00h,00h,00h,01h,00h,00h,00h,01h,00h,00h,00h,00h,00h,00h,00h
-db 01h,00h,00h,00h,01h,00h,00h,00h,01h,00h,00h,00h,00h,00h,00h,00h
-db 01h,00h,00h,00h,01h,00h,00h,00h,01h,00h,00h,00h,00h,00h,00h,00h
-db 01h,00h,00h,00h,01h,00h,00h,00h,01h,00h,00h,00h,00h,00h,00h,00h
-db 01h,00h,00h,00h,01h,00h,00h,00h,00h,00h,00h,00h,01h,00h,00h,00h
-db 01h,00h,00h,00h,01h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-db 01h,00h,00h,00h,00h,00h,00h,00h,01h,00h,00h,00h,01h,00h,00h,00h
+        db 01h,00h,00h,00h,01h,00h,00h,00h,01h,00h,00h,00h,00h,00h,00h,00h
+        db 01h,00h,00h,00h,01h,00h,00h,00h,01h,00h,00h,00h,00h,00h,00h,00h
+        db 01h,00h,00h,00h,01h,00h,00h,00h,01h,00h,00h,00h,00h,00h,00h,00h
+        db 01h,00h,00h,00h,01h,00h,00h,00h,01h,00h,00h,00h,00h,00h,00h,00h
+        db 01h,00h,00h,00h,01h,00h,00h,00h,00h,00h,00h,00h,01h,00h,00h,00h
+        db 01h,00h,00h,00h,01h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 01h,00h,00h,00h,00h,00h,00h,00h,01h,00h,00h,00h,01h,00h,00h,00h
 dword_11D674:
-db 03h,00h,00h,00h,0Ch,00h,00h,00h,0Ch,00h,00h,00h,03h,00h,00h,00h
-db 03h,00h,00h,00h,03h,00h,00h,00h,03h,00h,00h,00h,03h,00h,00h,00h
-db 0Ch,00h,00h,00h,0Ch,00h,00h,00h,03h,00h,00h,00h,0Ch,00h,00h,00h
-db 0Ch,00h,00h,00h,0Ch,00h,00h,00h,0Ch,00h,00h,00h,0Ch,00h,00h,00h
-db 0Ch,00h,00h,00h,0Ch,00h,00h,00h,0Ch,00h,00h,00h,03h,00h,00h,00h
-db 03h,00h,00h,00h,0Ch,00h,00h,00h,03h,00h,00h,00h,03h,00h,00h,00h
-db 0Ch,00h,00h,00h,03h,00h,00h,00h,00h,00h,00h,00h,03h,00h,00h,00h
-db 07h,00h,00h,00h,0Ah,00h,00h,00h,014h,00h,00h,00h,017h,00h,00h,00h
-db 04h,00h,00h,00h,05h,00h,00h,00h,06h,00h,00h,00h,013h,00h,00h,00h
-db 016h,00h,00h,00h,019h,00h,00h,00h,01h,00h,00h,00h,02h,00h,00h,00h
-db 09h,00h,00h,00h,0Bh,00h,00h,00h,0Fh,00h,00h,00h,011h,00h,00h,00h
-db 012h,00h,00h,00h,08h,00h,00h,00h,0Ch,00h,00h,00h,0Dh,00h,00h,00h
-db 0Eh,00h,00h,00h,010h,00h,00h,00h,015h,00h,00h,00h,018h,00h,00h,00h
+        db 03h,00h,00h,00h,0Ch,00h,00h,00h,0Ch,00h,00h,00h,03h,00h,00h,00h
+        db 03h,00h,00h,00h,03h,00h,00h,00h,03h,00h,00h,00h,03h,00h,00h,00h
+        db 0Ch,00h,00h,00h,0Ch,00h,00h,00h,03h,00h,00h,00h,0Ch,00h,00h,00h
+        db 0Ch,00h,00h,00h,0Ch,00h,00h,00h,0Ch,00h,00h,00h,0Ch,00h,00h,00h
+        db 0Ch,00h,00h,00h,0Ch,00h,00h,00h,0Ch,00h,00h,00h,03h,00h,00h,00h
+        db 03h,00h,00h,00h,0Ch,00h,00h,00h,03h,00h,00h,00h,03h,00h,00h,00h
+        db 0Ch,00h,00h,00h,03h,00h,00h,00h,00h,00h,00h,00h,03h,00h,00h,00h
+        db 07h,00h,00h,00h,0Ah,00h,00h,00h,014h,00h,00h,00h,017h,00h,00h,00h
+        db 04h,00h,00h,00h,05h,00h,00h,00h,06h,00h,00h,00h,013h,00h,00h,00h
+        db 016h,00h,00h,00h,019h,00h,00h,00h,01h,00h,00h,00h,02h,00h,00h,00h
+        db 09h,00h,00h,00h,0Bh,00h,00h,00h,0Fh,00h,00h,00h,011h,00h,00h,00h
+        db 012h,00h,00h,00h,08h,00h,00h,00h,0Ch,00h,00h,00h,0Dh,00h,00h,00h
+        db 0Eh,00h,00h,00h,010h,00h,00h,00h,015h,00h,00h,00h,018h,00h,00h,00h
 dword_11D744:
-db 06h,00h,00h,00h,06h,00h,00h
+        db 06h,00h,00h,00h,06h,00h,00h
 byte_11D74B:
-db 00h,07h,00h,00h
+        db 00h,07h,00h,00h

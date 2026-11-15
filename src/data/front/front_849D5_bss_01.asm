@@ -8,70 +8,70 @@ global dword_17DC30, dword_17DC34, dword_17DC38, dword_17DC3C, dword_17DC40, dwo
 global dword_17DC50, dword_17DC54, dword_17DC58, dword_17DC5C, dword_17DC60, dword_17DC64, dword_17DC68, dword_17DC6C
 global dword_17DC74, dword_17DC78
 dword_17DB7C:
-resb 68
+        resb 68
 dword_17DBC0:
-resb 4
+        resb 4
 dword_17DBC4:
-resb 72
+        resb 72
 dword_17DC0C:
-resb 4
+        resb 4
 dword_17DC10:
-resb 4
+        resb 4
 byte_17DC14:
-resb 1
+        resb 1
 byte_17DC15:
-resb 1
+        resb 1
 byte_17DC16:
-resb 1
+        resb 1
 byte_17DC17:
-resb 1
+        resb 1
 dword_17DC18:
-resb 4
+        resb 4
 dword_17DC1C:
-resb 4
+        resb 4
 dword_17DC20:
-resb 4
+        resb 4
 dword_17DC24:
-resb 4
+        resb 4
 dword_17DC28:
-resb 4
+        resb 4
 dword_17DC2C:
-resb 4
+        resb 4
 dword_17DC30:
-resb 4
+        resb 4
 dword_17DC34:
-resb 4
+        resb 4
 dword_17DC38:
-resb 4
+        resb 4
 dword_17DC3C:
-resb 4
+        resb 4
 dword_17DC40:
-resb 4
+        resb 4
 dword_17DC44:
-resb 4
+        resb 4
 dword_17DC48:
-resb 4
+        resb 4
 dword_17DC4C:
-resb 4
+        resb 4
 dword_17DC50:
-resb 4
+        resb 4
 dword_17DC54:
-resb 4
+        resb 4
 dword_17DC58:
-resb 4
+        resb 4
 dword_17DC5C:
-resb 4
+        resb 4
 dword_17DC60:
-resb 4
+        resb 4
 dword_17DC64:
-resb 4
+        resb 4
 dword_17DC68:
-resb 4
+        resb 4
 dword_17DC6C:
-resb 4
+        resb 4
 byte_17DC70:
-resb 4
+        resb 4
 dword_17DC74:
-resb 4
+        resb 4
 dword_17DC78:
-resb 4
+        resb 4

@@ -5,6 +5,6 @@ section s_D0692 progbits alloc exec nowrite align=1
 extern _STACKLOW
 global sub_D0692
 sub_D0692:
-mov eax, esp	; D0692
-sub eax, dword [_STACKLOW]	; D0694
-ret	; D069A
+        mov eax, esp
+        sub eax, dword [_STACKLOW]
+        ret

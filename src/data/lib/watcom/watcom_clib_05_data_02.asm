@@ -8,74 +8,74 @@ global dword_11F5E0, dword_11F5E4, dword_11F5E8, dword_11F5EC, dword_11F5F0, dwo
 global dword_11F664, dword_11F66C, dword_11F6F0, dword_11F6F6, dword_11F6FC, mousepollfn, off_11F5F4, off_11F5F8
 global off_11F5FC, off_11F618, word_11F6F4, word_11F6FA, word_11F700, word_11F702
 dword_11F5DC:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_11F5E0:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_11F5E4:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_11F5E8:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_11F5EC:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_11F5F0:
-db 0Ah,00h,00h,00h
+        db 0Ah,00h,00h,00h
 off_11F5F4:
-dd sub_DFB84
+        dd sub_DFB84
 off_11F5F8:
-dd sub_DFB84
+        dd sub_DFB84
 off_11F5FC:
-dd sub_DFB84
+        dd sub_DFB84
 mousepollfn:
-dd sub_DFB84
-dd sub_DFB84
-dd sub_DFB84
-dd sub_DFB84
-dd sub_DFB84
-dd sub_DFB84
+        dd sub_DFB84
+        dd sub_DFB84
+        dd sub_DFB84
+        dd sub_DFB84
+        dd sub_DFB84
+        dd sub_DFB84
 off_11F618:
-dd sub_DFEAB
+        dd sub_DFEAB
 dword_11F61C:
-db 01h,00h,00h,00h
+        db 01h,00h,00h,00h
 dword_11F620:
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 dword_11F660:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_11F664:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 byte_11F668:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_11F66C:
-db 01h,00h,00h,00h
+        db 01h,00h,00h,00h
 byte_11F670:
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 byte_11F68D:
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 byte_11F69A:
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 byte_11F6A6:
-db 00h,00h
+        db 00h,00h
 byte_11F6A8:
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 byte_11F6C3:
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 dword_11F6F0:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 word_11F6F4:
-db 00h,00h
+        db 00h,00h
 dword_11F6F6:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 word_11F6FA:
-db 00h,00h
+        db 00h,00h
 dword_11F6FC:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 word_11F700:
-db 00h,00h
+        db 00h,00h
 word_11F702:
-db 00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h

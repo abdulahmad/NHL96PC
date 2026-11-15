@@ -7,68 +7,68 @@ global str_FSH2, str_Ice, str_IceFsh, str_Crud, str_Zamboni, str_Glassline, str_
 global str_Botboards, str_FatRedLines, str_FatBlueLines, str_SideD, str_SideNotFoundInRink, str_SideNotFoundInStands, str_Gt002d, str_Gt102d
 global str_Gt202d, str_Gt302d, str_Icelogo, qword_110786, qword_11078E, str_A, str_feB, str_D3
 str_A:
-db 041h,00h
+        db 041h,00h
 str_feB:
-db 042h,00h
+        db 042h,00h
 str_GRIPCON:
-db 047h,052h,049h,050h,043h,04Fh,04Eh,00h
+        db 047h,052h,049h,050h,043h,04Fh,04Eh,00h
 str_RGRIPCON:
-db 052h,047h,052h,049h,050h,043h,04Fh,04Eh,00h
+        db 052h,047h,052h,049h,050h,043h,04Fh,04Eh,00h
 str_D3:
-db 025h,064h,00h
+        db 025h,064h,00h
 str_Pal4:
-db 021h,070h,061h,06Ch,00h
+        db 021h,070h,061h,06Ch,00h
 str_BKGD:
-db 042h,04Bh,047h,044h,00h
+        db 042h,04Bh,047h,044h,00h
 str_LTD0:
-db 04Ch,054h,025h,064h,030h,00h
+        db 04Ch,054h,025h,064h,030h,00h
 str_BT00:
-db 042h,054h,030h,030h,00h
+        db 042h,054h,030h,030h,00h
 str_BT01:
-db 042h,054h,030h,031h,00h
+        db 042h,054h,030h,031h,00h
 str_BT02:
-db 042h,054h,030h,032h,00h,00h
+        db 042h,054h,030h,032h,00h,00h
 str_FSH2:
-db 02Eh,046h,053h,048h,00h
+        db 02Eh,046h,053h,048h,00h
 str_Ice:
-db 069h,063h,065h,00h
+        db 069h,063h,065h,00h
 str_IceFsh:
-db 069h,063h,065h,02Eh,066h,073h,068h,00h
+        db 069h,063h,065h,02Eh,066h,073h,068h,00h
 str_Crud:
-db 063h,072h,075h,064h,00h
+        db 063h,072h,075h,064h,00h
 str_Zamboni:
-db 07Ah,061h,06Dh,062h,06Fh,06Eh,069h,00h
+        db 07Ah,061h,06Dh,062h,06Fh,06Eh,069h,00h
 qword_110786:
-db 016h,06Ch,0C1h,016h,06Ch,0C1h,056h,03Fh
+        db 016h,06Ch,0C1h,016h,06Ch,0C1h,056h,03Fh
 qword_11078E:
-db 00h,00h,00h,00h,00h,00h,0F0h,040h
+        db 00h,00h,00h,00h,00h,00h,0F0h,040h
 str_Glassline:
-db 067h,06Ch,061h,073h,073h,06Ch,069h,06Eh,065h,00h
+        db 067h,06Ch,061h,073h,073h,06Ch,069h,06Eh,065h,00h
 str_Glass:
-db 067h,06Ch,061h,073h,073h,00h
+        db 067h,06Ch,061h,073h,073h,00h
 str_Topboards:
-db 074h,06Fh,070h,062h,06Fh,061h,072h,064h,073h,00h
+        db 074h,06Fh,070h,062h,06Fh,061h,072h,064h,073h,00h
 str_Botboards:
-db 062h,06Fh,074h,062h,06Fh,061h,072h,064h,073h,00h
+        db 062h,06Fh,074h,062h,06Fh,061h,072h,064h,073h,00h
 str_FatRedLines:
-db 066h,061h,074h,05Fh,072h,065h,064h,05Fh,06Ch,069h,06Eh,065h,073h,00h
+        db 066h,061h,074h,05Fh,072h,065h,064h,05Fh,06Ch,069h,06Eh,065h,073h,00h
 str_FatBlueLines:
-db 066h,061h,074h,05Fh,062h,06Ch,075h,065h,05Fh,06Ch,069h,06Eh,065h,073h,00h
+        db 066h,061h,074h,05Fh,062h,06Ch,075h,065h,05Fh,06Ch,069h,06Eh,065h,073h,00h
 str_SideD:
-db 073h,069h,064h,065h,025h,064h,00h
+        db 073h,069h,064h,065h,025h,064h,00h
 str_SideNotFoundInRink:
-db 053h,069h,064h,065h,020h,06Eh,06Fh,074h,020h,066h,06Fh,075h,06Eh,064h,020h,069h
-db 06Eh,020h,072h,069h,06Eh,06Bh,00h
+        db 053h,069h,064h,065h,020h,06Eh,06Fh,074h,020h,066h,06Fh,075h,06Eh,064h,020h,069h
+        db 06Eh,020h,072h,069h,06Eh,06Bh,00h
 str_SideNotFoundInStands:
-db 053h,069h,064h,065h,020h,06Eh,06Fh,074h,020h,066h,06Fh,075h,06Eh,064h,020h,069h
-db 06Eh,020h,073h,074h,061h,06Eh,064h,073h,00h
+        db 053h,069h,064h,065h,020h,06Eh,06Fh,074h,020h,066h,06Fh,075h,06Eh,064h,020h,069h
+        db 06Eh,020h,073h,074h,061h,06Eh,064h,073h,00h
 str_Gt002d:
-db 067h,074h,030h,025h,030h,032h,064h,00h
+        db 067h,074h,030h,025h,030h,032h,064h,00h
 str_Gt102d:
-db 067h,074h,031h,025h,030h,032h,064h,00h
+        db 067h,074h,031h,025h,030h,032h,064h,00h
 str_Gt202d:
-db 067h,074h,032h,025h,030h,032h,064h,00h
+        db 067h,074h,032h,025h,030h,032h,064h,00h
 str_Gt302d:
-db 067h,074h,033h,025h,030h,032h,064h,00h
+        db 067h,074h,033h,025h,030h,032h,064h,00h
 str_Icelogo:
-db 069h,063h,065h,06Ch,06Fh,067h,06Fh,00h
+        db 069h,063h,065h,06Ch,06Fh,067h,06Fh,00h

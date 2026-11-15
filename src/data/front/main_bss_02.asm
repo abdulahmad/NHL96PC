@@ -10,102 +10,102 @@ global word_176B6A, word_176B6C, word_176B6E, word_176B70, word_176B72, word_176
 global word_176B7C, word_176B7E, word_176B80, word_176B88, word_176B8A, word_176B8C, word_176B8E, word_176BB8
 global word_176BBA, lastimpact
 word_176B68:
-resb 2
+        resb 2
 word_176B6A:
-resb 2
+        resb 2
 word_176B6C:
-resb 2
+        resb 2
 word_176B6E:
-resb 2
+        resb 2
 word_176B70:
-resb 2
+        resb 2
 word_176B72:
-resb 2
+        resb 2
 CwdExciteLvl:
-resb 2
+        resb 2
 word_176B76:
-resb 2
+        resb 2
 word_176B78:
-resb 2
+        resb 2
 word_176B7A:
-resb 2
+        resb 2
 word_176B7C:
-resb 2
+        resb 2
 word_176B7E:
-resb 2
+        resb 2
 word_176B80:
-resb 2
+        resb 2
 PBnum:
-resb 1
+        resb 1
 byte_176B83:
-resb 1
+        resb 1
 byte_176B84:
-resb 1
+        resb 1
 byte_176B85:
-resb 1
+        resb 1
 lasttouch:
-resb 2
+        resb 2
 word_176B88:
-resb 2
+        resb 2
 word_176B8A:
-resb 2
+        resb 2
 word_176B8C:
-resb 2
+        resb 2
 word_176B8E:
-resb 2
+        resb 2
 byte_176B90:
-resb 1
+        resb 1
 byte_176B91:
-resb 1
+        resb 1
 byte_176B92:
-resb 1
+        resb 1
 byte_176B93:
-resb 1
+        resb 1
 byte_176B94:
-resb 1
+        resb 1
 byte_176B95:
-resb 1
+        resb 1
 byte_176B96:
-resb 1
+        resb 1
 byte_176B97:
-resb 1
+        resb 1
 byte_176B98:
-resb 1
+        resb 1
 byte_176B99:
-resb 1
+        resb 1
 byte_176B9A:
-resb 1
+        resb 1
 goalevent:
-resb 3
+        resb 3
 byte_176B9E:
-resb 1
+        resb 1
 byte_176B9F:
-resb 6
+        resb 6
 byte_176BA5:
-resb 1
+        resb 1
 OOlist:
-resb 1
+        resb 1
 byte_176BA7:
-resb 17
+        resb 17
 word_176BB8:
-resb 2
+        resb 2
 word_176BBA:
-resb 10
+        resb 10
 dword_176BC4:
-resb 4
+        resb 4
 lineuptime:
-resb 4
+        resb 4
 dword_176BCC:
-resb 4
+        resb 4
 dword_176BD0:
-resb 4
+        resb 4
 lastimpact:
-resb 4
+        resb 4
 dword_176BD8:
-resb 4
+        resb 4
 dword_176BDC:
-resb 4
+        resb 4
 dword_176BE0:
-resb 100
+        resb 100
 dword_176C44:
-resb 100
+        resb 100

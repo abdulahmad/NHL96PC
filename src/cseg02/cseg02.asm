@@ -4,10 +4,10 @@ bits 32
 section s_F0000 progbits alloc noexec write align=1
 global unk_F0000, unk_F000D, unk_F001A, unk_F0027
 unk_F0000:
-db 050h,052h,0B0h,020h,0E6h,020h,0BAh,02Eh,02h,0ECh,05Ah,058h,0CFh
+        db 050h,052h,0B0h,020h,0E6h,020h,0BAh,02Eh,02h,0ECh,05Ah,058h,0CFh
 unk_F000D:
-db 050h,052h,0B0h,020h,0E6h,020h,0BAh,04Eh,02h,0ECh,05Ah,058h,0CFh
+        db 050h,052h,0B0h,020h,0E6h,020h,0BAh,04Eh,02h,0ECh,05Ah,058h,0CFh
 unk_F001A:
-db 050h,052h,0B0h,020h,0E6h,0A0h,0BAh,02Eh,02h,0ECh,05Ah,058h,0CFh
+        db 050h,052h,0B0h,020h,0E6h,0A0h,0BAh,02Eh,02h,0ECh,05Ah,058h,0CFh
 unk_F0027:
-db 050h,052h,0B0h,020h,0E6h,0A0h,0BAh,04Eh,02h,0ECh,05Ah,058h,0CFh
+        db 050h,052h,0B0h,020h,0E6h,0A0h,0BAh,04Eh,02h,0ECh,05Ah,058h,0CFh

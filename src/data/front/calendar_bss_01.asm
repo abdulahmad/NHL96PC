@@ -6,46 +6,46 @@ global dword_17D7D4, dword_17D804, dword_17D830, dword_17D834, dword_17D860, dwo
 global dword_17D8C4, dword_17D8F4, dword_17D8F8, dword_17D8FC, dword_17D900, dword_17D904, dword_17D908, dword_17D90C
 global dword_17D910, dword_17D914, dword_17D918, dword_17D91C, dword_17D920, dword_17D924
 dword_17D7D4:
-resb 48
+        resb 48
 dword_17D804:
-resb 44
+        resb 44
 dword_17D830:
-resb 4
+        resb 4
 dword_17D834:
-resb 44
+        resb 44
 dword_17D860:
-resb 4
+        resb 4
 dword_17D864:
-resb 48
+        resb 48
 dword_17D894:
-resb 44
+        resb 44
 dword_17D8C0:
-resb 4
+        resb 4
 dword_17D8C4:
-resb 48
+        resb 48
 dword_17D8F4:
-resb 4
+        resb 4
 dword_17D8F8:
-resb 4
+        resb 4
 dword_17D8FC:
-resb 4
+        resb 4
 dword_17D900:
-resb 4
+        resb 4
 dword_17D904:
-resb 4
+        resb 4
 dword_17D908:
-resb 4
+        resb 4
 dword_17D90C:
-resb 4
+        resb 4
 dword_17D910:
-resb 4
+        resb 4
 dword_17D914:
-resb 4
+        resb 4
 dword_17D918:
-resb 4
+        resb 4
 dword_17D91C:
-resb 4
+        resb 4
 dword_17D920:
-resb 4
+        resb 4
 dword_17D924:
-resb 4
+        resb 4

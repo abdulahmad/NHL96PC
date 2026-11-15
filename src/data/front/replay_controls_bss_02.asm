@@ -10,104 +10,104 @@ global dword_1770C7, dword_1770CB, dword_1770CF, word_176FB8, word_176FD4, word_
 global word_176FFC, word_17704A, word_17704C, word_17706C, word_17706E, word_17709C, word_1770AB, word_1770AD
 global word_1770AF, word_1770D3, word_1770D5
 byte_176F94:
-resb 1
+        resb 1
 byte_176F95:
-resb 1
+        resb 1
 byte_176F96:
-resb 17
+        resb 17
 byte_176FA7:
-resb 17
+        resb 17
 word_176FB8:
-resb 28
+        resb 28
 word_176FD4:
-resb 6
+        resb 6
 word_176FDA:
-resb 28
+        resb 28
 word_176FF6:
-resb 4
+        resb 4
 word_176FFA:
-resb 2
+        resb 2
 word_176FFC:
-resb 34
+        resb 34
 byte_17701E:
-resb 16
+        resb 16
 byte_17702E:
-resb 1
+        resb 1
 byte_17702F:
-resb 11
+        resb 11
 byte_17703A:
-resb 1
+        resb 1
 byte_17703B:
-resb 15
+        resb 15
 word_17704A:
-resb 2
+        resb 2
 word_17704C:
-resb 32
+        resb 32
 word_17706C:
-resb 2
+        resb 2
 word_17706E:
-resb 33
+        resb 33
 byte_17708F:
-resb 1
+        resb 1
 byte_177090:
-resb 12
+        resb 12
 word_17709C:
-resb 2
+        resb 2
 dword_17709E:
-resb 4
+        resb 4
 byte_1770A2:
-resb 1
+        resb 1
 byte_1770A3:
-resb 1
+        resb 1
 byte_1770A4:
-resb 1
+        resb 1
 byte_1770A5:
-resb 1
+        resb 1
 byte_1770A6:
-resb 1
+        resb 1
 byte_1770A7:
-resb 1
+        resb 1
 byte_1770A8:
-resb 1
+        resb 1
 byte_1770A9:
-resb 1
+        resb 1
 byte_1770AA:
-resb 1
+        resb 1
 word_1770AB:
-resb 2
+        resb 2
 word_1770AD:
-resb 2
+        resb 2
 word_1770AF:
-resb 2
+        resb 2
 byte_1770B1:
-resb 1
+        resb 1
 byte_1770B2:
-resb 1
+        resb 1
 byte_1770B3:
-resb 1
+        resb 1
 byte_1770B4:
-resb 1
+        resb 1
 byte_1770B5:
-resb 1
+        resb 1
 byte_1770B6:
-resb 1
+        resb 1
 dword_1770B7:
-resb 4
+        resb 4
 dword_1770BB:
-resb 4
+        resb 4
 dword_1770BF:
-resb 4
+        resb 4
 dword_1770C3:
-resb 4
+        resb 4
 dword_1770C7:
-resb 4
+        resb 4
 dword_1770CB:
-resb 4
+        resb 4
 dword_1770CF:
-resb 4
+        resb 4
 word_1770D3:
-resb 2
+        resb 2
 word_1770D5:
-resb 2
+        resb 2
 byte_1770D7:
-resb 1
+        resb 1

@@ -3,71 +3,71 @@ bits 32
 %include "hockey.inc"
 section s_B2158 progbits alloc exec nowrite align=1
 extern sub_AB834, sub_AC484, sub_E0671, sub_E07B8, sub_E07CC
-global loc_B219B, loc_B21C9, loc_B21EC, sub_B2158
+global sub_B2158
 sub_B2158:
-push esi	; B2158
-push edi	; B2159
-sub esp, byte 0Ch	; B215A
-mov esi, dword [byte esp+018h]	; B215D
-push esi	; B2161
-call sub_AC484	; B2162
-add esp, byte 4	; B2167
-test eax, eax	; B216A
-jne near loc_B21EC	; B216C
-mov edx, dword [byte esp+020h]	; B2172
-push edx	; B2176
-lea eax, [byte esp+0Ch]	; B2177
-push eax	; B217B
-lea eax, [byte esp+0Ch]	; B217C
-push eax	; B2180
-lea eax, [byte esp+0Ch]	; B2181
-push eax	; B2185
-push esi	; B2186
-call sub_E0671	; B2187
-add esp, byte 14h	; B218C
-mov ebx, dword [byte esp+08h]	; B218F
-test ebx, ebx	; B2193
-jne short loc_B219B	; B2195
-xor eax, eax	; B2197
-jmp short loc_B21EC	; B2199
-loc_B219B:
-mov ecx, dword [byte esp+020h]	; B219B
-push ecx	; B219F
-mov edi, dword [byte esp+020h]	; B21A0
-push edi	; B21A4
-push ebx	; B21A5
-push esi	; B21A6
-call sub_AB834	; B21A7
-mov esi, eax	; B21AC
-add esp, byte 10h	; B21AE
-test eax, eax	; B21B1
-jne short loc_B21C9	; B21B3
-mov esi, dword [esp]	; B21B5
-push esi	; B21B8
-call sub_E07B8	; B21B9
-add esp, byte 4	; B21BE
-xor eax, eax	; B21C1
-add esp, byte 0Ch	; B21C3
-pop edi	; B21C6
-pop esi	; B21C7
-ret	; B21C8
-loc_B21C9:
-mov eax, dword [byte esp+08h]	; B21C9
-push eax	; B21CD
-mov edx, dword [esi]	; B21CE
-push edx	; B21D0
-mov ebx, dword [byte esp+08h]	; B21D1
-push ebx	; B21D5
-call sub_E07CC	; B21D6
-add esp, byte 0Ch	; B21DB
-mov ecx, dword [esp]	; B21DE
-push ecx	; B21E1
-call sub_E07B8	; B21E2
-add esp, byte 4	; B21E7
-mov eax, esi	; B21EA
-loc_B21EC:
-add esp, byte 0Ch	; B21EC
-pop edi	; B21EF
-pop esi	; B21F0
-ret	; B21F1
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        push esi
+        push edi
+        sub esp, byte 0Ch
+        mov esi, dword [byte esp+018h]
+        push esi
+        call sub_AC484
+        add esp, byte 4
+        test eax, eax
+        jne near .3
+        mov edx, dword [byte esp+020h]
+        push edx
+        lea eax, [byte esp+0Ch]
+        push eax
+        lea eax, [byte esp+0Ch]
+        push eax
+        lea eax, [byte esp+0Ch]
+        push eax
+        push esi
+        call sub_E0671
+        add esp, byte 14h
+        mov ebx, dword [byte esp+08h]
+        test ebx, ebx
+        jne short .1
+        xor eax, eax
+        jmp short .3
+.1:
+        mov ecx, dword [byte esp+020h]
+        push ecx
+        mov edi, dword [byte esp+020h]
+        push edi
+        push ebx
+        push esi
+        call sub_AB834
+        mov esi, eax
+        add esp, byte 10h
+        test eax, eax
+        jne short .2
+        mov esi, dword [esp]
+        push esi
+        call sub_E07B8
+        add esp, byte 4
+        xor eax, eax
+        add esp, byte 0Ch
+        pop edi
+        pop esi
+        ret
+.2:
+        mov eax, dword [byte esp+08h]
+        push eax
+        mov edx, dword [esi]
+        push edx
+        mov ebx, dword [byte esp+08h]
+        push ebx
+        call sub_E07CC
+        add esp, byte 0Ch
+        mov ecx, dword [esp]
+        push ecx
+        call sub_E07B8
+        add esp, byte 4
+        mov eax, esi
+.3:
+        add esp, byte 0Ch
+        pop edi
+        pop esi
+        ret
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h

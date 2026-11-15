@@ -20,8 +20,12 @@ of its README and in every release. Add it first.
   (`address,name,auto_name,source,confidence,evidence,file`; `source` is `95PC`, `96G`, `95G`, `94G`, `93G`, `92G`, `WATCOM`, `EACSNDF`,
   `EACLIB` or `new`). Lineage lives only in that file: never write `92 <name>`, `from 92 <name>`, or another game's name
   in source comments.
-- Comments: no IDA artefacts (`sub_`, `loc_`), no hardcoded addresses in comments you write (the generated `; <address>` at the
-  end of an instruction line stays); every routine gets a header comment (what, args, result).
+- Comments: no IDA artefacts (`sub_`, `loc_`), no hardcoded addresses in comments you write; every routine gets a header comment (what, args, result).
+- Source style (2026-11-15 cleanup, same as NHL95PC): no address on each line (`tools/build/asmaddr.py` prints it),
+  instructions indented 8 spaces, comments after an instruction at column 48, `db ...  ; insn: ...` for an instruction
+  kept as bytes, a header between rule lines on every game routine (`; Name  ADDRESS  SOURCE`, then what it does;
+  `tools/build/format_asm.py --headers`), jump targets as local labels (`.1`; `tools/names/localize_labels.py`) unless
+  another routine jumps there (`<Routine>_<offset>`). `tools/build/format_asm.py --check` must pass.
 - No macros except `LD` (docs/ASM_BUILD.md). Labels instead of addresses wherever NASM can compute them.
 - Comment layout as in NHL94SNES CONTRIBUTING.md (tabs, trailing comments at column 36, 110 columns).
 - Do not commit game data, `build/`, other `*.lst` files or patches (`lst/HOCKEY.EXE` and its IDA listing are committed temporarily).

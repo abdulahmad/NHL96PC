@@ -5,30 +5,30 @@ section s_E193C progbits alloc exec nowrite align=1
 extern dword_1228D0
 global sub_E193C, sub_E1956
 sub_E193C:
-push ebp	; E193C
-LD mov, ebp, esp	; E193D
-push esi	; E193F
-push edi	; E1940
-lea esi, [dword_1228D0]	; E1941
-mov edi, dword [byte ebp+08h]	; E1947
-mov ecx, 18h	; E194A
-cld	; E194F
-rep movsd	; E1950
-pop edi	; E1952
-pop esi	; E1953
-leave	; E1954
-ret	; E1955
+        push ebp
+        LD mov, ebp, esp
+        push esi
+        push edi
+        lea esi, [dword_1228D0]
+        mov edi, dword [byte ebp+08h]
+        mov ecx, 18h
+        cld
+        rep movsd
+        pop edi
+        pop esi
+        leave
+        ret
 sub_E1956:
-push ebp	; E1956
-LD mov, ebp, esp	; E1957
-push esi	; E1959
-push edi	; E195A
-mov esi, dword [byte ebp+08h]	; E195B
-lea edi, [dword_1228D0]	; E195E
-mov ecx, 18h	; E1964
-cld	; E1969
-rep movsd	; E196A
-pop edi	; E196C
-pop esi	; E196D
-leave	; E196E
-ret	; E196F
+        push ebp
+        LD mov, ebp, esp
+        push esi
+        push edi
+        mov esi, dword [byte ebp+08h]
+        lea edi, [dword_1228D0]
+        mov ecx, 18h
+        cld
+        rep movsd
+        pop edi
+        pop esi
+        leave
+        ret

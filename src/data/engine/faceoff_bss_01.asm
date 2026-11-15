@@ -7,54 +7,54 @@ global byte_176AE3, dword_16596C, dword_165974, dword_165978, regd2, regd3, unk_
 global word_165956, word_165958, word_16595A, word_165964, regd5, word_165970, regd0, regd1
 global word_176B24, word_176B44
 byte_165953:
-resb 1
+        resb 1
 word_165954:
-resb 2
+        resb 2
 word_165956:
-resb 1
+        resb 1
 byte_165957:
-resb 1
+        resb 1
 word_165958:
-resb 2
+        resb 2
 word_16595A:
-resb 2
+        resb 2
 regd2:
-resb 4
+        resb 4
 regd3:
-resb 4
+        resb 4
 word_165964:
-resb 4
+        resb 4
 regd5:
-resb 4
+        resb 4
 dword_16596C:
-resb 4
+        resb 4
 word_165970:
-resb 4
+        resb 4
 dword_165974:
-resb 4
+        resb 4
 dword_165978:
-resb 4
+        resb 4
 regd0:
-resb 1
+        resb 1
 byte_16597D:
-resb 1
+        resb 1
 byte_16597E:
-resb 2
+        resb 2
 regd1:
-resb 1
+        resb 1
 byte_165981:
-resb 85
+        resb 85
 unk_1659D6:
-resb 69898
+        resb 69898
 byte_176AE0:
-resb 2
+        resb 2
 byte_176AE2:
-resb 1
+        resb 1
 byte_176AE3:
-resb 65
+        resb 65
 word_176B24:
-resb 32
+        resb 32
 word_176B44:
-resb 2
+        resb 2
 OOlistpos:
-resb 34
+        resb 34

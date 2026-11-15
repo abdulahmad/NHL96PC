@@ -12,134 +12,134 @@ global dword_1A108A, dword_1A1090, dword_1A1094, dword_1A1098, dword_1A109C, dwo
 global unk_1A0FEC, unk_1A102C, word_1A0FD0, word_1A0FD2, word_1A1000, word_1A1008, word_1A1050, word_1A1080
 global word_1A1088, word_1A1092
 dword_1A0FB0:
-resb 4
+        resb 4
 dword_1A0FB4:
-resb 4
+        resb 4
 dword_1A0FB8:
-resb 4
+        resb 4
 dword_1A0FBC:
-resb 4
+        resb 4
 dword_1A0FC0:
-resb 4
+        resb 4
 dword_1A0FC4:
-resb 4
+        resb 4
 dword_1A0FC8:
-resb 4
+        resb 4
 dword_1A0FCC:
-resb 4
+        resb 4
 word_1A0FD0:
-resb 2
+        resb 2
 word_1A0FD2:
-resb 2
+        resb 2
 byte_1A0FD4:
-resb 1
+        resb 1
 byte_1A0FD5:
-resb 3
+        resb 3
 dword_1A0FD8:
-resb 4
+        resb 4
 dword_1A0FDC:
-resb 4
+        resb 4
 dword_1A0FE0:
-resb 4
+        resb 4
 dword_1A0FE4:
-resb 4
+        resb 4
 dword_1A0FE8:
-resb 4
+        resb 4
 unk_1A0FEC:
-resb 4
+        resb 4
 dword_1A0FF0:
-resb 4
+        resb 4
 dword_1A0FF4:
-resb 4
+        resb 4
 dword_1A0FF8:
-resb 4
+        resb 4
 dword_1A0FFC:
-resb 4
+        resb 4
 word_1A1000:
-resb 4
+        resb 4
 dword_1A1004:
-resb 4
+        resb 4
 word_1A1008:
-resb 2
+        resb 2
 dword_1A100A:
-resb 6
+        resb 6
 dword_1A1010:
-resb 4
+        resb 4
 dword_1A1014:
-resb 4
+        resb 4
 dword_1A1018:
-resb 4
+        resb 4
 dword_1A101C:
-resb 4
+        resb 4
 dword_1A1020:
-resb 4
+        resb 4
 dword_1A1024:
-resb 4
+        resb 4
 dword_1A1028:
-resb 4
+        resb 4
 unk_1A102C:
-resb 4
+        resb 4
 dword_1A1030:
-resb 4
+        resb 4
 dword_1A1034:
-resb 4
+        resb 4
 dword_1A1038:
-resb 4
+        resb 4
 dword_1A103C:
-resb 4
+        resb 4
 dword_1A1040:
-resb 4
+        resb 4
 dword_1A1044:
-resb 4
+        resb 4
 dword_1A1048:
-resb 4
+        resb 4
 dword_1A104C:
-resb 4
+        resb 4
 word_1A1050:
-resb 2
+        resb 2
 dword_1A1052:
-resb 6
+        resb 6
 dword_1A1058:
-resb 4
+        resb 4
 dword_1A105C:
-resb 4
+        resb 4
 dword_1A1060:
-resb 4
+        resb 4
 dword_1A1064:
-resb 4
+        resb 4
 dword_1A1068:
-resb 4
+        resb 4
 dword_1A106C:
-resb 4
+        resb 4
 dword_1A1070:
-resb 4
+        resb 4
 dword_1A1074:
-resb 4
+        resb 4
 dword_1A1078:
-resb 4
+        resb 4
 dword_1A107C:
-resb 4
+        resb 4
 word_1A1080:
-resb 4
+        resb 4
 dword_1A1084:
-resb 4
+        resb 4
 word_1A1088:
-resb 2
+        resb 2
 dword_1A108A:
-resb 6
+        resb 6
 dword_1A1090:
-resb 2
+        resb 2
 word_1A1092:
-resb 2
+        resb 2
 dword_1A1094:
-resb 4
+        resb 4
 dword_1A1098:
-resb 4
+        resb 4
 dword_1A109C:
-resb 4
+        resb 4
 dword_1A10A0:
-resb 4
+        resb 4
 dword_1A10A4:
-resb 4
+        resb 4
 dword_1A10A8:
-resb 8
+        resb 8

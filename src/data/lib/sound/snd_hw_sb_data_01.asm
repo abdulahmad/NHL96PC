@@ -12,124 +12,124 @@ global dword_15139C, dword_1513A0, dword_1513A4, dword_1513A8, dword_1513AC, dwo
 global dword_1513C4, dword_1513C8, dword_1513CC, dword_1513D4, off_1513B0, word_151390, word_151392, word_151396
 global word_151398, word_15139A, word_15140C, word_15140E, word_151414, word_151416
 byte_1512F0:
-db 087h,083h,081h,082h,08Fh,08Bh,089h,08Ah
+        db 087h,083h,081h,082h,08Fh,08Bh,089h,08Ah
 byte_1512F8:
-db 0Ah,0Ah,0Ah,0Ah,0D4h,0D4h,0D4h,0D4h
+        db 0Ah,0Ah,0Ah,0Ah,0D4h,0D4h,0D4h,0D4h
 byte_151300:
-db 0Bh,0Bh,0Bh,0Bh,0D6h,0D6h,0D6h,0D6h
+        db 0Bh,0Bh,0Bh,0Bh,0D6h,0D6h,0D6h,0D6h
 byte_151308:
-db 0Ch,0Ch,0Ch,0Ch,0D8h,0D8h,0D8h,0D8h
+        db 0Ch,0Ch,0Ch,0Ch,0D8h,0D8h,0D8h,0D8h
 byte_151310:
-db 00h,02h,04h,06h,0C0h,0C4h,0C8h,0CCh
+        db 00h,02h,04h,06h,0C0h,0C4h,0C8h,0CCh
 byte_151318:
-db 01h,03h,05h,07h,0C2h,0C6h,0CAh,0CEh
+        db 01h,03h,05h,07h,0C2h,0C6h,0CAh,0CEh
 dword_151320:
-db 0FFh,0FFh,0FFh,0FFh
+        db 0FFh,0FFh,0FFh,0FFh
 dword_151324:
-dd str_ULTRASND
+        dd str_ULTRASND
 dword_151328:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 byte_15132C:
-db 00h,00h,01h,03h,00h,02h,00h,04h,00h,00h,00h,05h,06h,00h,00h,07h
+        db 00h,00h,01h,03h,00h,02h,00h,04h,00h,00h,00h,05h,06h,00h,00h,07h
 dword_15133C:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_151340:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_151344:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_151348:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_15134C:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_151350:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_151354:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_151358:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_15135C:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 byte_151360:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 byte_151364:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 byte_151368:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_15136C:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_151370:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_151374:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_151378:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_15137C:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_151380:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_151384:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_151388:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_15138C:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 word_151390:
-db 00h,00h
+        db 00h,00h
 word_151392:
-db 00h,00h
+        db 00h,00h
 dword_151394:
-db 00h,00h
+        db 00h,00h
 word_151396:
-db 00h,00h
+        db 00h,00h
 word_151398:
-db 00h,00h
+        db 00h,00h
 word_15139A:
-db 00h,00h
+        db 00h,00h
 dword_15139C:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_1513A0:
-db 03h,00h,00h,00h
+        db 03h,00h,00h,00h
 dword_1513A4:
-db 03h,00h,00h,00h
+        db 03h,00h,00h,00h
 dword_1513A8:
-db 01h,00h,00h,00h
+        db 01h,00h,00h,00h
 dword_1513AC:
-db 02h,00h,00h,00h
+        db 02h,00h,00h,00h
 off_1513B0:
-dd unk_1142D0
-dd str_Fs
+        dd unk_1142D0
+        dd str_Fs
 dword_1513B8:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_1513BC:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_1513C0:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_1513C4:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_1513C8:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_1513CC:
-db 0FFh,0FFh,00h,00h,0AAh,0AAh,00h,00h
+        db 0FFh,0FFh,00h,00h,0AAh,0AAh,00h,00h
 dword_1513D4:
-db 055h,055h,00h,00h
-dd str_Jan2
-dd str_Feb3
-dd str_Mar2
-dd str_Apr2
-dd str_May2
-dd str_Jun2
-dd str_Jul2
-dd str_Aug2
-dd str_Sep2
-dd str_Oct2
-dd str_Nov2
-dd str_Dec2
-db 00h,00h,00h,00h
+        db 055h,055h,00h,00h
+        dd str_Jan2
+        dd str_Feb3
+        dd str_Mar2
+        dd str_Apr2
+        dd str_May2
+        dd str_Jun2
+        dd str_Jul2
+        dd str_Aug2
+        dd str_Sep2
+        dd str_Oct2
+        dd str_Nov2
+        dd str_Dec2
+        db 00h,00h,00h,00h
 word_15140C:
-db 020h,02h
+        db 020h,02h
 word_15140E:
-db 026h,02h,028h,02h,029h,02h
+        db 026h,02h,028h,02h,029h,02h
 word_151414:
-db 02Bh,02h
+        db 02Bh,02h
 word_151416:
-db 02Fh,02h
+        db 02Fh,02h

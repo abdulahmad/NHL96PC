@@ -6,36 +6,36 @@ global byte_17D6C8, dword_17D678, dword_17D67C, dword_17D680, dword_17D684, dwor
 global dword_17D694, dword_17D6A0, dword_17D6A4, dword_17D6B0, dword_17D6B4, dword_17D6C4, dword_17D7C8, dword_17D7CC
 global dword_17D7D0
 dword_17D678:
-resb 4
+        resb 4
 dword_17D67C:
-resb 4
+        resb 4
 dword_17D680:
-resb 4
+        resb 4
 dword_17D684:
-resb 4
+        resb 4
 dword_17D688:
-resb 4
+        resb 4
 dword_17D68C:
-resb 4
+        resb 4
 dword_17D690:
-resb 4
+        resb 4
 dword_17D694:
-resb 12
+        resb 12
 dword_17D6A0:
-resb 4
+        resb 4
 dword_17D6A4:
-resb 12
+        resb 12
 dword_17D6B0:
-resb 4
+        resb 4
 dword_17D6B4:
-resb 16
+        resb 16
 dword_17D6C4:
-resb 4
+        resb 4
 byte_17D6C8:
-resb 256
+        resb 256
 dword_17D7C8:
-resb 4
+        resb 4
 dword_17D7CC:
-resb 4
+        resb 4
 dword_17D7D0:
-resb 4
+        resb 4

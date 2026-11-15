@@ -6,47 +6,47 @@ global str_Pal19, str_Bkgd27, str_FSH6, str_Plyr4, str_PROFILEFSH4, str_Card4, s
 global str_SD8, str_SDD, str_S0, str_SDD2, str_0000, str_AddtimerLISTFULL, asc_113110, str_LOWMEM
 global str_HIGHMEM, str_GAP, asc_11316C
 str_Pal19:
-db 021h,070h,061h,06Ch,00h
+        db 021h,070h,061h,06Ch,00h
 str_Bkgd27:
-db 062h,06Bh,067h,064h,00h
+        db 062h,06Bh,067h,064h,00h
 str_FSH6:
-db 02Eh,046h,053h,048h,00h
+        db 02Eh,046h,053h,048h,00h
 str_Plyr4:
-db 070h,06Ch,079h,072h,00h
+        db 070h,06Ch,079h,072h,00h
 str_PROFILEFSH4:
-db 050h,052h,04Fh,046h,049h,04Ch,045h,02Eh,046h,053h,048h,00h
+        db 050h,052h,04Fh,046h,049h,04Ch,045h,02Eh,046h,053h,048h,00h
 str_Card4:
-db 063h,061h,072h,064h,00h
+        db 063h,061h,072h,064h,00h
 str_Ard4:
-db 021h,061h,072h,064h,00h
+        db 021h,061h,072h,064h,00h
 str_DSS5:
-db 025h,064h,020h,025h,073h,020h,025h,073h,00h
+        db 025h,064h,020h,025h,073h,020h,025h,073h,00h
 str_SD8:
-db 025h,073h,020h,025h,064h,00h
+        db 025h,073h,020h,025h,064h,00h
 str_SDD:
-db 025h,073h,020h,025h,064h,02Eh,025h,064h,025h,025h,00h
+        db 025h,073h,020h,025h,064h,02Eh,025h,064h,025h,025h,00h
 str_S0:
-db 025h,073h,020h,030h,025h,025h,00h
+        db 025h,073h,020h,030h,025h,025h,00h
 str_SDD2:
-db 025h,073h,020h,025h,064h,02Eh,025h,064h,00h
+        db 025h,073h,020h,025h,064h,02Eh,025h,064h,00h
 str_0000:
-db 030h,030h,030h,030h,00h,00h,00h,00h
+        db 030h,030h,030h,030h,00h,00h,00h,00h
 str_AddtimerLISTFULL:
-db 061h,064h,064h,074h,069h,06Dh,065h,072h,020h,02Dh,020h,04Ch,049h,053h,054h,020h
-db 046h,055h,04Ch,04Ch,0Ah,00h,00h,00h
+        db 061h,064h,064h,074h,069h,06Dh,065h,072h,020h,02Dh,020h,04Ch,049h,053h,054h,020h
+        db 046h,055h,04Ch,04Ch,0Ah,00h,00h,00h
 asc_113110:
-db 069h,06Eh,069h,074h,06Dh,065h,06Dh,06Dh,061h,06Eh,061h,064h,072h,020h,02Dh,020h
-db 049h,04Eh,053h,055h,046h,046h,049h,043h,049h,045h,04Eh,054h,020h,04Dh,045h,04Dh
-db 04Fh,052h,059h,020h,054h,04Fh,020h,049h,04Eh,049h,054h,049h,041h,04Ch,049h,05Ah
-db 045h,020h,04Dh,045h,04Dh,04Fh,052h,059h,020h,04Dh,041h,04Eh,041h,047h,045h,052h
-db 0Ah,00h,063h,06Fh
+        db 069h,06Eh,069h,074h,06Dh,065h,06Dh,06Dh,061h,06Eh,061h,064h,072h,020h,02Dh,020h
+        db 049h,04Eh,053h,055h,046h,046h,049h,043h,049h,045h,04Eh,054h,020h,04Dh,045h,04Dh
+        db 04Fh,052h,059h,020h,054h,04Fh,020h,049h,04Eh,049h,054h,049h,041h,04Ch,049h,05Ah
+        db 045h,020h,04Dh,045h,04Dh,04Fh,052h,059h,020h,04Dh,041h,04Eh,041h,047h,045h,052h
+        db 0Ah,00h,063h,06Fh
 str_LOWMEM:
-db 04Ch,04Fh,057h,020h,04Dh,045h,04Dh,00h
+        db 04Ch,04Fh,057h,020h,04Dh,045h,04Dh,00h
 str_HIGHMEM:
-db 048h,049h,047h,048h,020h,04Dh,045h,04Dh,00h,079h,031h,02Ch
+        db 048h,049h,047h,048h,020h,04Dh,045h,04Dh,00h,079h,031h,02Ch
 str_GAP:
-db 047h,041h,050h,00h
+        db 047h,041h,050h,00h
 asc_11316C:
-db 075h,06Eh,06Ch,069h,06Eh,06Bh,06Dh,065h,06Dh,063h,06Ch,061h,073h,073h,061h,072h
-db 065h,061h,020h,02Dh,020h,052h,065h,06Ch,065h,061h,073h,065h,020h,04Dh,065h,06Dh
-db 06Fh,072h,079h,020h,04Eh,06Fh,074h,020h,046h,06Fh,075h,06Eh,064h,0Ah,00h,064h
+        db 075h,06Eh,06Ch,069h,06Eh,06Bh,06Dh,065h,06Dh,063h,06Ch,061h,073h,073h,061h,072h
+        db 065h,061h,020h,02Dh,020h,052h,065h,06Ch,065h,061h,073h,065h,020h,04Dh,065h,06Dh
+        db 06Fh,072h,079h,020h,04Eh,06Fh,074h,020h,046h,06Fh,075h,06Eh,064h,0Ah,00h,064h

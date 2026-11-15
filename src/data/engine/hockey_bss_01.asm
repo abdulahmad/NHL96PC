@@ -7,64 +7,64 @@ global byte_1658EA, byte_165940, byte_165941, byte_16594A, dword_16584E, dword_1
 global dword_165928, dword_16592C, dword_165930, dword_165934, dword_165938, dword_16593C, unk_1658F2, word_16583E
 global word_165846, word_165852, word_16590E, word_165942, word_16594E, word_165950, word_165952
 word_16583E:
-resb 8
+        resb 8
 word_165846:
-resb 2
+        resb 2
 awtmgoalie:
-resb 6
+        resb 6
 dword_16584E:
-resb 4
+        resb 4
 word_165852:
-resb 2
+        resb 2
 byte_165854:
-resb 114
+        resb 114
 byte_1658C6:
-resb 28
+        resb 28
 byte_1658E2:
-resb 1
+        resb 1
 byte_1658E3:
-resb 1
+        resb 1
 byte_1658E4:
-resb 1
+        resb 1
 byte_1658E5:
-resb 1
+        resb 1
 dword_1658E6:
-resb 4
+        resb 4
 byte_1658EA:
-resb 8
+        resb 8
 unk_1658F2:
-resb 28
+        resb 28
 word_16590E:
-resb 18
+        resb 18
 dword_165920:
-resb 4
+        resb 4
 dword_165924:
-resb 4
+        resb 4
 dword_165928:
-resb 4
+        resb 4
 dword_16592C:
-resb 4
+        resb 4
 dword_165930:
-resb 4
+        resb 4
 dword_165934:
-resb 4
+        resb 4
 dword_165938:
-resb 4
+        resb 4
 dword_16593C:
-resb 4
+        resb 4
 byte_165940:
-resb 1
+        resb 1
 byte_165941:
-resb 1
+        resb 1
 word_165942:
-resb 2
+        resb 2
 PlList:
-resb 6
+        resb 6
 byte_16594A:
-resb 4
+        resb 4
 word_16594E:
-resb 2
+        resb 2
 word_165950:
-resb 2
+        resb 2
 word_165952:
-resb 1
+        resb 1

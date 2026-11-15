@@ -6,40 +6,40 @@ global LineChangeLine, LineChangeReq, byte_1655A4, byte_1655E0, byte_16561C, byt
 global hmtmstruct, word_165366, word_16536C, word_165462, word_165468, word_16548C, word_165492, word_1656D2
 global word_1656D6, word_1656DA, word_1656DC
 word_165366:
-resb 6
+        resb 6
 word_16536C:
-resb 246
+        resb 246
 word_165462:
-resb 6
+        resb 6
 word_165468:
-resb 36
+        resb 36
 word_16548C:
-resb 6
+        resb 6
 word_165492:
-resb 270
+        resb 270
 dword_1655A0:
-resb 4
+        resb 4
 byte_1655A4:
-resb 60
+        resb 60
 byte_1655E0:
-resb 60
+        resb 60
 byte_16561C:
-resb 60
+        resb 60
 byte_165658:
-resb 60
+        resb 60
 byte_165694:
-resb 60
+        resb 60
 LineChangeReq:
-resb 2
+        resb 2
 word_1656D2:
-resb 2
+        resb 2
 LineChangeLine:
-resb 2
+        resb 2
 word_1656D6:
-resb 2
+        resb 2
 hmtmstruct:
-resb 2
+        resb 2
 word_1656DA:
-resb 2
+        resb 2
 word_1656DC:
-resb 2
+        resb 2

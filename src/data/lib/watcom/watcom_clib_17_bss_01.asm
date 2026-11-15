@@ -7,66 +7,66 @@ global dword_1A10C8, dword_1A10CC, dword_1A10D0, dword_1A10D4, dword_1A10D8, dwo
 global dword_1A10E8, dword_1A10EC, dword_1A10F0, dword_1A10F4, dword_1A10F8, dword_1A10FC, dword_1A1100, dword_1A1188
 global dword_1A118C, dword_1A1194, dword_1A1198, dword_1A119C, unk_1A1104, word_1A1184, word_1A1186, word_1A11B8
 dword_1A10B0:
-resb 4
+        resb 4
 dword_1A10B4:
-resb 12
+        resb 12
 dword_1A10C0:
-resb 4
+        resb 4
 dword_1A10C4:
-resb 4
+        resb 4
 dword_1A10C8:
-resb 4
+        resb 4
 dword_1A10CC:
-resb 4
+        resb 4
 dword_1A10D0:
-resb 4
+        resb 4
 dword_1A10D4:
-resb 4
+        resb 4
 dword_1A10D8:
-resb 4
+        resb 4
 dword_1A10DC:
-resb 4
+        resb 4
 dword_1A10E0:
-resb 4
+        resb 4
 dword_1A10E4:
-resb 4
+        resb 4
 dword_1A10E8:
-resb 4
+        resb 4
 dword_1A10EC:
-resb 4
+        resb 4
 dword_1A10F0:
-resb 4
+        resb 4
 dword_1A10F4:
-resb 4
+        resb 4
 dword_1A10F8:
-resb 4
+        resb 4
 dword_1A10FC:
-resb 4
+        resb 4
 dword_1A1100:
-resb 4
+        resb 4
 unk_1A1104:
-resb 128
+        resb 128
 word_1A1184:
-resb 2
+        resb 2
 word_1A1186:
-resb 2
+        resb 2
 dword_1A1188:
-resb 4
+        resb 4
 dword_1A118C:
-resb 4
+        resb 4
 byte_1A1190:
-resb 1
+        resb 1
 byte_1A1191:
-resb 1
+        resb 1
 byte_1A1192:
-resb 1
+        resb 1
 byte_1A1193:
-resb 1
+        resb 1
 dword_1A1194:
-resb 4
+        resb 4
 dword_1A1198:
-resb 4
+        resb 4
 dword_1A119C:
-resb 28
+        resb 28
 word_1A11B8:
-resb 4
+        resb 4

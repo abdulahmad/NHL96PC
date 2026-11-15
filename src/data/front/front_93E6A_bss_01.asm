@@ -5,22 +5,22 @@ section s_182128 nobits alloc noexec write align=1
 global dword_182128, dword_18212C, dword_182130, dword_182134, dword_182138, dword_18213C, dword_182140, dword_182144
 global unk_1821B4, unk_182224
 dword_182128:
-resb 4
+        resb 4
 dword_18212C:
-resb 4
+        resb 4
 dword_182130:
-resb 4
+        resb 4
 dword_182134:
-resb 4
+        resb 4
 dword_182138:
-resb 4
+        resb 4
 dword_18213C:
-resb 4
+        resb 4
 dword_182140:
-resb 4
+        resb 4
 dword_182144:
-resb 112
+        resb 112
 unk_1821B4:
-resb 112
+        resb 112
 unk_182224:
-resb 112
+        resb 112

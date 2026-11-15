@@ -4,4 +4,4 @@ bits 32
 section s_151598 nobits alloc noexec write align=1
 global kaufmfont
 kaufmfont:
-resb 4
+        resb 4

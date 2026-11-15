@@ -5,32 +5,32 @@ section s_1770D8 nobits alloc noexec write align=1
 global byte_1770FB, byte_17710C, dword_1770D8, dword_1770DC, dword_1770E0, dword_1770E4, dword_1770E8, dword_1770EC
 global dword_1770F0, dword_1770F4, dword_1770F8, dword_1770FC, dword_177100, dword_177104, dword_177108
 dword_1770D8:
-resb 4
+        resb 4
 dword_1770DC:
-resb 4
+        resb 4
 dword_1770E0:
-resb 4
+        resb 4
 dword_1770E4:
-resb 4
+        resb 4
 dword_1770E8:
-resb 4
+        resb 4
 dword_1770EC:
-resb 4
+        resb 4
 dword_1770F0:
-resb 4
+        resb 4
 dword_1770F4:
-resb 4
+        resb 4
 dword_1770F8:
-resb 3
+        resb 3
 byte_1770FB:
-resb 1
+        resb 1
 dword_1770FC:
-resb 4
+        resb 4
 dword_177100:
-resb 4
+        resb 4
 dword_177104:
-resb 4
+        resb 4
 dword_177108:
-resb 4
+        resb 4
 byte_17710C:
-resb 952
+        resb 952

@@ -3,94 +3,94 @@ bits 32
 %include "hockey.inc"
 section s_B2200 progbits alloc exec nowrite align=1
 extern savefileblocka
-global loc_B2208, loc_B2274, loc_B2279, loc_B229A, strcmp_, sub_B22B0
+global strcmp_, sub_B22B0
 strcmp_:
-push ebx	; B2200
-push ecx	; B2201
-mov ebx, eax	; B2202
-cmp eax, edx	; B2204
-je short loc_B2274	; B2206
-loc_B2208:
-mov eax, dword [ebx]	; B2208
-mov ecx, dword [edx]	; B220A
-cmp ecx, eax	; B220C
-jne short loc_B2279	; B220E
-not ecx	; B2210
-add eax, 0FEFEFEFFh	; B2212
-and eax, ecx	; B2217
-and eax, 80808080h	; B2219
-jne short loc_B2274	; B221E
-mov eax, dword [byte ebx+04h]	; B2220
-mov ecx, dword [byte edx+04h]	; B2223
-cmp ecx, eax	; B2226
-jne short loc_B2279	; B2228
-not ecx	; B222A
-add eax, 0FEFEFEFFh	; B222C
-and eax, ecx	; B2231
-and eax, 80808080h	; B2233
-jne short loc_B2274	; B2238
-mov eax, dword [byte ebx+08h]	; B223A
-mov ecx, dword [byte edx+08h]	; B223D
-cmp ecx, eax	; B2240
-jne short loc_B2279	; B2242
-not ecx	; B2244
-add eax, 0FEFEFEFFh	; B2246
-and eax, ecx	; B224B
-and eax, 80808080h	; B224D
-jne short loc_B2274	; B2252
-mov eax, dword [byte ebx+0Ch]	; B2254
-mov ecx, dword [byte edx+0Ch]	; B2257
-cmp ecx, eax	; B225A
-jne short loc_B2279	; B225C
-add ebx, byte 10h	; B225E
-add edx, byte 10h	; B2261
-not ecx	; B2264
-add eax, 0FEFEFEFFh	; B2266
-and eax, ecx	; B226B
-and eax, 80808080h	; B226D
-je short loc_B2208	; B2272
-loc_B2274:
-sub eax, eax	; B2274
-pop ecx	; B2276
-pop ebx	; B2277
-ret	; B2278
-loc_B2279:
-cmp al, cl	; B2279
-jne short loc_B229A	; B227B
-cmp al, 0	; B227D
-je short loc_B2274	; B227F
-cmp ah, ch	; B2281
-jne short loc_B229A	; B2283
-cmp ah, 0	; B2285
-je short loc_B2274	; B2288
-shr eax, 10h	; B228A
-shr ecx, 10h	; B228D
-cmp al, cl	; B2290
-jne short loc_B229A	; B2292
-cmp al, 0	; B2294
-je short loc_B2274	; B2296
-cmp ah, ch	; B2298
-loc_B229A:
-sbb eax, eax	; B229A
-or al, 1	; B229C
-pop ecx	; B229E
-pop ebx	; B229F
-ret	; B22A0
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        push ebx
+        push ecx
+        mov ebx, eax
+        cmp eax, edx
+        je short .2
+.1:
+        mov eax, dword [ebx]
+        mov ecx, dword [edx]
+        cmp ecx, eax
+        jne short .3
+        not ecx
+        add eax, 0FEFEFEFFh
+        and eax, ecx
+        and eax, 80808080h
+        jne short .2
+        mov eax, dword [byte ebx+04h]
+        mov ecx, dword [byte edx+04h]
+        cmp ecx, eax
+        jne short .3
+        not ecx
+        add eax, 0FEFEFEFFh
+        and eax, ecx
+        and eax, 80808080h
+        jne short .2
+        mov eax, dword [byte ebx+08h]
+        mov ecx, dword [byte edx+08h]
+        cmp ecx, eax
+        jne short .3
+        not ecx
+        add eax, 0FEFEFEFFh
+        and eax, ecx
+        and eax, 80808080h
+        jne short .2
+        mov eax, dword [byte ebx+0Ch]
+        mov ecx, dword [byte edx+0Ch]
+        cmp ecx, eax
+        jne short .3
+        add ebx, byte 10h
+        add edx, byte 10h
+        not ecx
+        add eax, 0FEFEFEFFh
+        and eax, ecx
+        and eax, 80808080h
+        je short .1
+.2:
+        sub eax, eax
+        pop ecx
+        pop ebx
+        ret
+.3:
+        cmp al, cl
+        jne short .4
+        cmp al, 0
+        je short .2
+        cmp ah, ch
+        jne short .4
+        cmp ah, 0
+        je short .2
+        shr eax, 10h
+        shr ecx, 10h
+        cmp al, cl
+        jne short .4
+        cmp al, 0
+        je short .2
+        cmp ah, ch
+.4:
+        sbb eax, eax
+        or al, 1
+        pop ecx
+        pop ebx
+        ret
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 sub_B22B0:
-sub esp, byte 28h	; B22B0
-mov eax, dword [byte esp+030h]	; B22B3
-mov dword [esp], eax	; B22B7
-mov eax, dword [byte esp+034h]	; B22BA
-push byte 1	; B22BE
-mov dword [byte esp+018h], eax	; B22C0
-lea eax, [byte esp+04h]	; B22C4
-push eax	; B22C8
-mov ebx, dword [byte esp+034h]	; B22C9
-xor edx, edx	; B22CD
-push ebx	; B22CF
-mov dword [byte esp+024h], edx	; B22D0
-call savefileblocka	; B22D4
-add esp, byte 0Ch	; B22D9
-add esp, byte 28h	; B22DC
-ret	; B22DF
+        sub esp, byte 28h
+        mov eax, dword [byte esp+030h]
+        mov dword [esp], eax
+        mov eax, dword [byte esp+034h]
+        push byte 1
+        mov dword [byte esp+018h], eax
+        lea eax, [byte esp+04h]
+        push eax
+        mov ebx, dword [byte esp+034h]
+        xor edx, edx
+        push ebx
+        mov dword [byte esp+024h], edx
+        call savefileblocka
+        add esp, byte 0Ch
+        add esp, byte 28h
+        ret

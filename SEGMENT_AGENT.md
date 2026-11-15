@@ -21,8 +21,8 @@ Naming lineage: 92G -> 93G -> 94G -> 95G -> 96G; 94PC -> **95PC -> 96PC** (96PC 
 
 Source style (same as the sibling repos):
 - No rename-history, provenance or origin-tag comments ("was X", "from 93G", "renamed"). That history lives in `docs/name_map.csv` only.
-- No hardcoded addresses in comments you write, and no hand-kept derived counts the assembler can compute. (The `; <address>` at the
-  end of each instruction line is the generated EXE address: leave it.)
+- No hardcoded addresses in comments you write, and no hand-kept derived counts the assembler can compute. (Instruction lines carry no
+  address since the 2026-11-15 cleanup: `python3 tools/build/asmaddr.py ADDR|FILE:LINE|LABEL` and `--show FILE` give it.)
 - Never write an address where a label works: pointers, table offsets and sizes are label expressions.
 - No macros, except `LD` (src/inc/x86enc.inc, see docs/ASM_BUILD.md). Plain instructions and data directives only.
 - Local labels in 92 style: `.loop`, `.next`, `.done`, `.exit`, and plain numbers for trivial jumps.

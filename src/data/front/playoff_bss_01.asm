@@ -7,58 +7,58 @@ global dword_17D18E, dword_17D1D6, dword_17D1DA, dword_17D1DE, dword_17D1E2, dwo
 global dword_17D20A, dword_17D252, dword_17D256, dword_17D25A, dword_17D25E, dword_17D263, dword_17D267, dword_17D26B
 global dword_17D273, unk_17D272, unk_17D32C, unk_17D3E8
 dword_17D166:
-resb 4
+        resb 4
 dword_17D16A:
-resb 36
+        resb 36
 dword_17D18E:
-resb 72
+        resb 72
 dword_17D1D6:
-resb 4
+        resb 4
 dword_17D1DA:
-resb 4
+        resb 4
 dword_17D1DE:
-resb 4
+        resb 4
 dword_17D1E2:
-resb 4
+        resb 4
 dword_17D1E6:
-resb 4
+        resb 4
 dword_17D1EA:
-resb 24
+        resb 24
 dword_17D202:
-resb 8
+        resb 8
 dword_17D20A:
-resb 72
+        resb 72
 dword_17D252:
-resb 4
+        resb 4
 dword_17D256:
-resb 4
+        resb 4
 dword_17D25A:
-resb 4
+        resb 4
 dword_17D25E:
-resb 4
+        resb 4
 byte_17D262:
-resb 1
+        resb 1
 dword_17D263:
-resb 4
+        resb 4
 dword_17D267:
-resb 4
+        resb 4
 dword_17D26B:
-resb 4
+        resb 4
 byte_17D26F:
-resb 1
+        resb 1
 byte_17D270:
-resb 1
+        resb 1
 byte_17D271:
-resb 1
+        resb 1
 unk_17D272:
-resb 1
+        resb 1
 dword_17D273:
-resb 2
+        resb 2
 byte_17D275:
-resb 14
+        resb 14
 byte_17D283:
-resb 169
+        resb 169
 unk_17D32C:
-resb 188
+        resb 188
 unk_17D3E8:
-resb 256
+        resb 256

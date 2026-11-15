@@ -11,116 +11,116 @@ global dword_17CC13, dword_17CC17, dword_17CC1B, dword_17CEC3, dword_17CEC7, unk
 global unk_17CB2E, unk_17CC1F, word_17C9AC, word_17C9AE, word_17C9B0, word_17C9B2, word_17C9B4, word_17C9B6
 global word_17CA7C
 dword_17C9AA:
-resb 2
+        resb 2
 word_17C9AC:
-resb 2
+        resb 2
 word_17C9AE:
-resb 2
+        resb 2
 word_17C9B0:
-resb 2
+        resb 2
 word_17C9B2:
-resb 2
+        resb 2
 word_17C9B4:
-resb 2
+        resb 2
 word_17C9B6:
-resb 2
+        resb 2
 unk_17C9B8:
-resb 20
+        resb 20
 unk_17C9CC:
-resb 40
+        resb 40
 dword_17C9F4:
-resb 40
+        resb 40
 globalset:
-resb 1
+        resb 1
 byte_17CA1D:
-resb 1
+        resb 1
 byte_17CA1E:
-resb 1
+        resb 1
 byte_17CA1F:
-resb 1
+        resb 1
 optblock:
-resb 1
+        resb 1
 byte_17CA21:
-resb 1
+        resb 1
 byte_17CA22:
-resb 2
+        resb 2
 byte_17CA24:
-resb 24
+        resb 24
 byte_17CA3C:
-resb 24
+        resb 24
 byte_17CA54:
-resb 1
+        resb 1
 byte_17CA55:
-resb 1
+        resb 1
 byte_17CA56:
-resb 1
+        resb 1
 byte_17CA57:
-resb 1
+        resb 1
 byte_17CA58:
-resb 1
+        resb 1
 byte_17CA59:
-resb 1
+        resb 1
 byte_17CA5A:
-resb 1
+        resb 1
 byte_17CA5B:
-resb 1
+        resb 1
 dword_17CA5C:
-resb 1
+        resb 1
 byte_17CA5D:
-resb 1
+        resb 1
 byte_17CA5E:
-resb 1
+        resb 1
 byte_17CA5F:
-resb 1
+        resb 1
 byte_17CA60:
-resb 19
+        resb 19
 byte_17CA73:
-resb 2
+        resb 2
 optblock_end:
-resb 1
+        resb 1
 dword_17CA76:
-resb 2
+        resb 2
 byte_17CA78:
-resb 2
+        resb 2
 byte_17CA7A:
-resb 2
+        resb 2
 word_17CA7C:
-resb 10
+        resb 10
 byte_17CA86:
-resb 168
+        resb 168
 unk_17CB2E:
-resb 1
+        resb 1
 dword_17CB2F:
-resb 184
+        resb 184
 dword_17CBE7:
-resb 4
+        resb 4
 byte_17CBEB:
-resb 40
+        resb 40
 dword_17CC13:
-resb 4
+        resb 4
 dword_17CC17:
-resb 4
+        resb 4
 dword_17CC1B:
-resb 2
+        resb 2
 byte_17CC1D:
-resb 1
+        resb 1
 byte_17CC1E:
-resb 1
+        resb 1
 unk_17CC1F:
-resb 22
+        resb 22
 byte_17CC35:
-resb 1
+        resb 1
 byte_17CC36:
-resb 1
+        resb 1
 byte_17CC37:
-resb 1
+        resb 1
 byte_17CC38:
-resb 651
+        resb 651
 dword_17CEC3:
-resb 4
+        resb 4
 dword_17CEC7:
-resb 4
+        resb 4
 byte_17CECB:
-resb 1
+        resb 1
 byte_17CECC:
-resb 1
+        resb 1

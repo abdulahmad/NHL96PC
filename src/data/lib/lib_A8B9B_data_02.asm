@@ -10,87 +10,87 @@ global dword_11F5B4, dword_11F5B8, dword_11F5C0, dword_11F5C4, dword_11F5C8, dwo
 global dword_11F5D8, joyenablemask, off_11F531, off_11F535, off_11F539, off_11F53D, off_11F541, off_11F545
 global off_11F549, off_11F551, off_11F555, word_11F580, word_11F582, word_11F584
 dword_11F4BC:
-db 040h,01h,00h,00h,043h,01h,00h,00h,042h,01h,00h,00h,044h,01h,00h,00h
-db 046h,01h,00h,00h,041h,01h,00h,00h,03Eh,01h,00h,00h,048h,01h,00h,00h
-db 045h,01h,00h,00h,03Fh,01h,00h,00h,047h,01h,00h,00h,04Ah,01h,00h,00h
-db 049h,01h,00h,00h
+        db 040h,01h,00h,00h,043h,01h,00h,00h,042h,01h,00h,00h,044h,01h,00h,00h
+        db 046h,01h,00h,00h,041h,01h,00h,00h,03Eh,01h,00h,00h,048h,01h,00h,00h
+        db 045h,01h,00h,00h,03Fh,01h,00h,00h,047h,01h,00h,00h,04Ah,01h,00h,00h
+        db 049h,01h,00h,00h
 dword_11F4F0:
-db 03Ch,01h,00h,00h,03Dh,01h,00h,00h,03Eh,01h,00h,00h,03Fh,01h,00h,00h
-db 040h,01h,00h,00h,041h,01h,00h,00h,042h,01h,00h,00h,043h,01h,00h,00h
-db 044h,01h,00h,00h,045h,01h,00h,00h,046h,01h,00h,00h,047h,01h,00h,00h
-db 048h,01h,00h,00h
+        db 03Ch,01h,00h,00h,03Dh,01h,00h,00h,03Eh,01h,00h,00h,03Fh,01h,00h,00h
+        db 040h,01h,00h,00h,041h,01h,00h,00h,042h,01h,00h,00h,043h,01h,00h,00h
+        db 044h,01h,00h,00h,045h,01h,00h,00h,046h,01h,00h,00h,047h,01h,00h,00h
+        db 048h,01h,00h,00h
 byte_11F524:
-db 01h,01h,01h,01h,00h,00h,01h,02h,01h
+        db 01h,01h,01h,01h,00h,00h,01h,02h,01h
 byte_11F52D:
-db 01h,02h,02h,02h
+        db 01h,02h,02h,02h
 off_11F531:
-dd unk_18563A
+        dd unk_18563A
 off_11F535:
-dd unk_18560B
+        dd unk_18560B
 off_11F539:
-dd unk_184F19
+        dd unk_184F19
 off_11F53D:
-dd unk_1855AD
+        dd unk_1855AD
 off_11F541:
-dd unk_184EB4
+        dd unk_184EB4
 off_11F545:
-dd unk_184E7E
+        dd unk_184E7E
 off_11F549:
-dd unk_1855DC
-db 00h,00h,00h,00h
+        dd unk_1855DC
+        db 00h,00h,00h,00h
 off_11F551:
-dd unk_184EEA
+        dd unk_184EEA
 off_11F555:
-dd unk_184F48
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        dd unk_184F48
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 mouseminx:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 mouseminy:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 mousemaxx:
-db 040h,01h,00h,00h
+        db 040h,01h,00h,00h
 mousemaxy:
-db 0C8h,00h,00h,00h
+        db 0C8h,00h,00h,00h
 dword_11F578:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_11F57C:
-db 01h,00h,00h,00h
+        db 01h,00h,00h,00h
 word_11F580:
-db 00h,00h
+        db 00h,00h
 word_11F582:
-db 00h,00h
+        db 00h,00h
 word_11F584:
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_11F598:
-db 00h,00h,00h,00h,01h,00h,00h,00h
+        db 00h,00h,00h,00h,01h,00h,00h,00h
 dword_11F5A0:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_11F5A4:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 mousex:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 mousey:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_11F5B0:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_11F5B4:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_11F5B8:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 joyenablemask:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_11F5C0:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_11F5C4:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_11F5C8:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_11F5CC:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_11F5D0:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_11F5D4:
-db 040h,01h,00h,00h
+        db 040h,01h,00h,00h
 dword_11F5D8:
-db 0C8h,00h,00h,00h
+        db 0C8h,00h,00h,00h

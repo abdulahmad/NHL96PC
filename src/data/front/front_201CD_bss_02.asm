@@ -4,16 +4,16 @@ bits 32
 section s_159C57 nobits alloc noexec write align=1
 global byte_159C57, byte_159C58, byte_159C59, byte_159C5A, byte_159E5F, byte_159E60, byte_159E61
 byte_159C57:
-resb 1
+        resb 1
 byte_159C58:
-resb 1
+        resb 1
 byte_159C59:
-resb 1
+        resb 1
 byte_159C5A:
-resb 517
+        resb 517
 byte_159E5F:
-resb 1
+        resb 1
 byte_159E60:
-resb 1
+        resb 1
 byte_159E61:
-resb 247
+        resb 247

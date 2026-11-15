@@ -8,68 +8,68 @@ global dword_18B084, dword_18B088, dword_18B08C, dword_18B090, dword_18B094, dwo
 global dword_18B0B0, dword_18B0B4, dword_18B0B8, unk_18704C, word_18B078, word_18B098, word_18B0BC, word_18B0BE
 global word_18B0C0
 dword_185C4C:
-resb 2560
+        resb 2560
 dword_18664C:
-resb 2560
+        resb 2560
 unk_18704C:
-resb 16384
+        resb 16384
 dword_18B04C:
-resb 4
+        resb 4
 dword_18B050:
-resb 4
+        resb 4
 dword_18B054:
-resb 4
+        resb 4
 dword_18B058:
-resb 4
+        resb 4
 dword_18B05C:
-resb 4
+        resb 4
 dword_18B060:
-resb 4
+        resb 4
 dword_18B064:
-resb 4
+        resb 4
 dword_18B068:
-resb 4
+        resb 4
 dword_18B06C:
-resb 4
+        resb 4
 dword_18B070:
-resb 4
+        resb 4
 dword_18B074:
-resb 4
+        resb 4
 word_18B078:
-resb 4
+        resb 4
 dword_18B07C:
-resb 4
+        resb 4
 dword_18B080:
-resb 4
+        resb 4
 dword_18B084:
-resb 4
+        resb 4
 dword_18B088:
-resb 4
+        resb 4
 dword_18B08C:
-resb 4
+        resb 4
 dword_18B090:
-resb 4
+        resb 4
 dword_18B094:
-resb 4
+        resb 4
 word_18B098:
-resb 4
+        resb 4
 dword_18B09C:
-resb 4
+        resb 4
 dword_18B0A0:
-resb 12
+        resb 12
 dword_18B0AC:
-resb 4
+        resb 4
 dword_18B0B0:
-resb 4
+        resb 4
 dword_18B0B4:
-resb 4
+        resb 4
 dword_18B0B8:
-resb 4
+        resb 4
 word_18B0BC:
-resb 2
+        resb 2
 word_18B0BE:
-resb 2
+        resb 2
 word_18B0C0:
-resb 16
+        resb 16
 byte_18B0D0:
-resb 24000
+        resb 24000

@@ -4,113 +4,112 @@ bits 32
 section s_CA6E0 progbits alloc exec nowrite align=1
 extern __hook387, __int7, __int7_pl3, byte_123984, _Extender, byte_12442C, byte_1248C4, dword_121AD8
 extern dword_12487C, dword_1248BC, word_121ADC, word_121ADE, word_1248C0, word_1248C2
-global loc_CA732, loc_CA756, loc_CA77E, loc_CA797, loc_CA7AA, loc_CA7FF, loc_CA814, sub_CA6E0
-global sub_CA7AB, sub_CA7C8, sub_CA815
+global sub_CA6E0, sub_CA7AB, sub_CA7C8, sub_CA815
 sub_CA6E0:
-mov byte [byte_123984], 3	; CA6E0
-mov byte [byte_1248C4], 1	; CA6E7
-db 066h,0Fh,01h,025h
-dd word_1248C2
-and word [word_1248C2], byte 6	; CA6F6
-sub esp, byte 8	; CA6FE
-sidt [esp]	; CA701
-mov ebx, dword [byte esp+02h]	; CA705
-add ebx, byte 38h	; CA709
-add esp, byte 8	; CA70C
-cmp byte [byte_12442C], 0	; CA70F
-je short loc_CA732	; CA716
-call sub_CA7AB	; CA718
-o16 mov es, word [word_121ADE]	; CA71D
-mov dword [es:ebx], edx	; CA724
-mov dword [byte es:ebx+04h], ecx	; CA727
-call sub_CA815	; CA72B
-jmp short loc_CA7AA	; CA730
-loc_CA732:
-cmp byte [_Extender], 0	; CA732
-jne short loc_CA756	; CA739
-mov ax, 2507h	; CA73B
-push ds	; CA73F
-mov cx, cs	; CA740
-mov ds, ecx	; CA743
-lea edx, [__int7]	; CA745
-int 21h	; CA74B
-pop ds	; CA74D
-mov al, 4	; CA74E
-mov ah, 0F3h	; CA750
-int 21h	; CA752
-jmp short loc_CA7AA	; CA754
-loc_CA756:
-cmp byte [_Extender], 9	; CA756
-jne short loc_CA77E	; CA75D
-call sub_CA7AB	; CA75F
-mov dword [ebx], edx	; CA764
-mov dword [byte ebx+04h], ecx	; CA766
-mov eax, 0E02h	; CA769
-mov ebx, 4	; CA76E
-mov ecx, dword [dword_121AD8]	; CA773
-call dword [byte ecx+030h]	; CA779
-jmp short loc_CA7AA	; CA77C
-loc_CA77E:
-cmp byte [_Extender], 1	; CA77E
-jne short loc_CA797	; CA785
-mov dx, word [word_121ADC]	; CA787
-sub eax, eax	; CA78E
-call __hook387	; CA790
-jmp short loc_CA7AA	; CA795
-loc_CA797:
-sub dx, dx	; CA797
-sub eax, eax	; CA79A
-call __hook387	; CA79C
-cmp al, 1	; CA7A1
-je short loc_CA7AA	; CA7A3
-call sub_CA7C8	; CA7A5
-loc_CA7AA:
-ret	; CA7AA
+        mov byte [byte_123984], 3
+        mov byte [byte_1248C4], 1
+        db 066h,0Fh,01h,025h
+        dd word_1248C2
+        and word [word_1248C2], byte 6
+        sub esp, byte 8
+        sidt [esp]
+        mov ebx, dword [byte esp+02h]
+        add ebx, byte 38h
+        add esp, byte 8
+        cmp byte [byte_12442C], 0
+        je short .1
+        call sub_CA7AB
+        o16 mov es, word [word_121ADE]
+        mov dword [es:ebx], edx
+        mov dword [byte es:ebx+04h], ecx
+        call sub_CA815
+        jmp short .5
+.1:
+        cmp byte [_Extender], 0
+        jne short .2
+        mov ax, 2507h
+        push ds
+        mov cx, cs
+        mov ds, ecx
+        lea edx, [__int7]
+        int 21h
+        pop ds
+        mov al, 4
+        mov ah, 0F3h
+        int 21h
+        jmp short .5
+.2:
+        cmp byte [_Extender], 9
+        jne short .3
+        call sub_CA7AB
+        mov dword [ebx], edx
+        mov dword [byte ebx+04h], ecx
+        mov eax, 0E02h
+        mov ebx, 4
+        mov ecx, dword [dword_121AD8]
+        call dword [byte ecx+030h]
+        jmp short .5
+.3:
+        cmp byte [_Extender], 1
+        jne short .4
+        mov dx, word [word_121ADC]
+        sub eax, eax
+        call __hook387
+        jmp short .5
+.4:
+        sub dx, dx
+        sub eax, eax
+        call __hook387
+        cmp al, 1
+        je short .5
+        call sub_CA7C8
+.5:
+        ret
 sub_CA7AB:
-lea ecx, [__int7]	; CA7AB
-mov dx, cs	; CA7B1
-shl edx, 10h	; CA7B4
-mov dx, cx	; CA7B7
-mov cx, cs	; CA7BA
-and cl, 3	; CA7BD
-shl cx, 0Dh	; CA7C0
-or ch, 8Eh	; CA7C4
-ret	; CA7C7
+        lea ecx, [__int7]
+        mov dx, cs
+        shl edx, 10h
+        mov dx, cx
+        mov cx, cs
+        and cl, 3
+        shl cx, 0Dh
+        or ch, 8Eh
+        ret
 sub_CA7C8:
-mov cl, 7	; CA7C8
-mov ax, 2502h	; CA7CA
-int 21h	; CA7CE
-mov dword [dword_1248BC], ebx	; CA7D0
-o16 mov word [word_1248C0], es	; CA7D6
-cmp byte [_Extender], 3	; CA7DD
-mov cl, 7	; CA7E4
-mov ax, 2504h	; CA7E6
-push ds	; CA7EA
-push cs	; CA7EB
-pop ds	; CA7EC
-jl short loc_CA7FF	; CA7ED
-lea edx, [__int7_pl3]	; CA7EF
-int 21h	; CA7F5
-pop ds	; CA7F7
-call sub_CA815	; CA7F8
-jmp short loc_CA814	; CA7FD
-loc_CA7FF:
-lea edx, [__int7]	; CA7FF
-int 21h	; CA805
-pop ds	; CA807
-mov ecx, cr0	; CA808
-or ecx, byte 4	; CA80B
-and ecx, byte 0FFFFFFFDh	; CA80E
-mov cr0, ecx	; CA811
-loc_CA814:
-ret	; CA814
+        mov cl, 7
+        mov ax, 2502h
+        int 21h
+        mov dword [dword_1248BC], ebx
+        o16 mov word [word_1248C0], es
+        cmp byte [_Extender], 3
+        mov cl, 7
+        mov ax, 2504h
+        push ds
+        push cs
+        pop ds
+        jl short .1
+        lea edx, [__int7_pl3]
+        int 21h
+        pop ds
+        call sub_CA815
+        jmp short .2
+.1:
+        lea edx, [__int7]
+        int 21h
+        pop ds
+        mov ecx, cr0
+        or ecx, byte 4
+        and ecx, byte 0FFFFFFFDh
+        mov cr0, ecx
+.2:
+        ret
 sub_CA815:
-xor ebx, ebx	; CA815
-lea edx, [dword_12487C]	; CA817
-mov ax, 2535h	; CA81D
-int 21h	; CA821
-or dword [dword_12487C], byte 4	; CA823
-and dword [dword_12487C], byte 0FFFFFFFDh	; CA82A
-inc ebx	; CA831
-int 21h	; CA832
-ret	; CA834
+        xor ebx, ebx
+        lea edx, [dword_12487C]
+        mov ax, 2535h
+        int 21h
+        or dword [dword_12487C], byte 4
+        and dword [dword_12487C], byte 0FFFFFFFDh
+        inc ebx
+        int 21h
+        ret

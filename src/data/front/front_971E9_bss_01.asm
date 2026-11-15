@@ -5,20 +5,20 @@ section s_182294 nobits alloc noexec write align=1
 global byte_182296, dword_1822B8, dword_1822BC, dword_182FB4, dword_182FB8, dword_18301C, dword_183020, dword_183024
 global unk_182294
 unk_182294:
-resb 2
+        resb 2
 byte_182296:
-resb 34
+        resb 34
 dword_1822B8:
-resb 4
+        resb 4
 dword_1822BC:
-resb 3320
+        resb 3320
 dword_182FB4:
-resb 4
+        resb 4
 dword_182FB8:
-resb 100
+        resb 100
 dword_18301C:
-resb 4
+        resb 4
 dword_183020:
-resb 4
+        resb 4
 dword_183024:
-resb 4
+        resb 4

@@ -8,68 +8,68 @@ global unk_184C2C, unk_184C68, unk_184CA4, unk_184D1C, unk_184D58, unk_184E48, u
 global unk_184EEA, unk_184F19, unk_184F48, unk_184F77, unk_185292, unk_1855AD, unk_1855DC, unk_18560B
 global unk_18563A
 dword_184B38:
-resb 4
+        resb 4
 byte_184B3C:
-resb 1
+        resb 1
 byte_184B3D:
-resb 1
+        resb 1
 byte_184B3E:
-resb 58
+        resb 58
 unk_184B78:
-resb 60
+        resb 60
 unk_184BB4:
-resb 60
+        resb 60
 unk_184BF0:
-resb 60
+        resb 60
 unk_184C2C:
-resb 60
+        resb 60
 unk_184C68:
-resb 60
+        resb 60
 unk_184CA4:
-resb 120
+        resb 120
 unk_184D1C:
-resb 60
+        resb 60
 unk_184D58:
-resb 240
+        resb 240
 unk_184E48:
-resb 54
+        resb 54
 unk_184E7E:
-resb 54
+        resb 54
 unk_184EB4:
-resb 54
+        resb 54
 unk_184EEA:
-resb 47
+        resb 47
 unk_184F19:
-resb 47
+        resb 47
 unk_184F48:
-resb 47
+        resb 47
 unk_184F77:
-resb 795
+        resb 795
 unk_185292:
-resb 48
+        resb 48
 byte_1852C2:
-resb 747
+        resb 747
 unk_1855AD:
-resb 47
+        resb 47
 unk_1855DC:
-resb 47
+        resb 47
 unk_18560B:
-resb 47
+        resb 47
 unk_18563A:
-resb 50
+        resb 50
 timercallbacks:
-resb 32
+        resb 32
 dword_18568C:
-resb 4
+        resb 4
 dword_185690:
-resb 156
+        resb 156
 dword_18572C:
-resb 4
+        resb 4
 dword_185730:
-resb 4
+        resb 4
 dword_185734:
-resb 4
+        resb 4
 dword_185738:
-resb 4
+        resb 4
 dword_18573C:
-resb 4
+        resb 4

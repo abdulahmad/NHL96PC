@@ -7,62 +7,62 @@ global dword_158D54, dword_158D64, dword_158D68, dword_158D6C, dword_158D70, dwo
 global dword_158D88, dword_158D90, dword_158D94, dword_158D9C, dword_158DA0, unk_158DA8, word_158CBA, word_158CBC
 global word_158D34, word_158D3C, word_158D44, word_158D46, word_158D74, word_158D76
 word_158CBA:
-resb 2
+        resb 2
 word_158CBC:
-resb 4
+        resb 4
 dword_158CC0:
-resb 12
+        resb 12
 dword_158CCC:
-resb 4
+        resb 4
 dword_158CD0:
-resb 4
+        resb 4
 dword_158CD4:
-resb 86
+        resb 86
 byte_158D2A:
-resb 1
+        resb 1
 byte_158D2B:
-resb 1
+        resb 1
 byte_158D2C:
-resb 1
+        resb 1
 byte_158D2D:
-resb 7
+        resb 7
 word_158D34:
-resb 8
+        resb 8
 word_158D3C:
-resb 8
+        resb 8
 word_158D44:
-resb 2
+        resb 2
 word_158D46:
-resb 14
+        resb 14
 dword_158D54:
-resb 16
+        resb 16
 dword_158D64:
-resb 4
+        resb 4
 dword_158D68:
-resb 4
+        resb 4
 dword_158D6C:
-resb 4
+        resb 4
 dword_158D70:
-resb 4
+        resb 4
 word_158D74:
-resb 2
+        resb 2
 word_158D76:
-resb 2
+        resb 2
 dword_158D78:
-resb 4
+        resb 4
 dword_158D7C:
-resb 8
+        resb 8
 dword_158D84:
-resb 4
+        resb 4
 dword_158D88:
-resb 8
+        resb 8
 dword_158D90:
-resb 4
+        resb 4
 dword_158D94:
-resb 8
+        resb 8
 dword_158D9C:
-resb 4
+        resb 4
 dword_158DA0:
-resb 8
+        resb 8
 unk_158DA8:
-resb 380
+        resb 380

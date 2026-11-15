@@ -17,226 +17,226 @@ global unk_157B1C, unk_157B4F, unk_157B82, unk_157D8F, unk_157F9C, unk_157FDA, u
 global unk_1582F5, unk_158313, unk_1583C8, unk_158610, unk_158658, word_156E6E, word_156E70, word_156E72
 global word_156E74, word_156E76, word_156E78, word_156E7A, word_157AFA, word_157AFC, word_157B00, word_157B06
 byte_152920:
-resb 1
+        resb 1
 byte_152921:
-resb 1
+        resb 1
 byte_152922:
-resb 1
+        resb 1
 byte_152923:
-resb 9
+        resb 9
 byte_15292C:
-resb 1
+        resb 1
 byte_15292D:
-resb 1
+        resb 1
 byte_15292E:
-resb 1
+        resb 1
 byte_15292F:
-resb 9
+        resb 9
 unk_152938:
-resb 2
+        resb 2
 byte_15293A:
-resb 10
+        resb 10
 unk_152944:
-resb 256
+        resb 256
 byte_152A44:
-resb 40
+        resb 40
 dword_152A6C:
-resb 104
+        resb 104
 dword_152AD4:
-resb 104
+        resb 104
 unk_152B3C:
-resb 255
+        resb 255
 byte_152C3B:
-resb 1
+        resb 1
 dword_152C3C:
-resb 4
+        resb 4
 byte_152C40:
-resb 1
+        resb 1
 byte_152C41:
-resb 1
+        resb 1
 byte_152C42:
-resb 2
+        resb 2
 unk_152C44:
-resb 498
+        resb 498
 unk_152E36:
-resb 270
+        resb 270
 dword_152F44:
-resb 4
+        resb 4
 dword_152F48:
-resb 4
+        resb 4
 dword_152F4C:
-resb 4
+        resb 4
 dword_152F50:
-resb 4
+        resb 4
 dword_152F54:
-resb 4
+        resb 4
 dword_152F58:
-resb 4
+        resb 4
 dword_152F5C:
-resb 4
+        resb 4
 dword_152F60:
-resb 4
+        resb 4
 dword_152F64:
-resb 4
+        resb 4
 dword_152F68:
-resb 4
+        resb 4
 dword_152F6C:
-resb 4
+        resb 4
 dword_152F70:
-resb 4
+        resb 4
 dword_152F74:
-resb 4
+        resb 4
 dword_152F78:
-resb 4
+        resb 4
 dword_152F7C:
-resb 4
+        resb 4
 dword_152F80:
-resb 8
+        resb 8
 dword_152F88:
-resb 4
+        resb 4
 dword_152F8C:
-resb 4
+        resb 4
 dword_152F90:
-resb 4
+        resb 4
 dword_152F94:
-resb 4
+        resb 4
 dword_152F98:
-resb 4
+        resb 4
 dword_152F9C:
-resb 4
+        resb 4
 dword_152FA0:
-resb 4
+        resb 4
 dword_152FA4:
-resb 4
+        resb 4
 unk_152FA8:
-resb 4
+        resb 4
 dword_152FAC:
-resb 4
+        resb 4
 dword_152FB0:
-resb 4
+        resb 4
 dword_152FB4:
-resb 4
+        resb 4
 dword_152FB8:
-resb 4
+        resb 4
 dword_152FBC:
-resb 8
+        resb 8
 dword_152FC4:
-resb 4
+        resb 4
 dword_152FC8:
-resb 4
+        resb 4
 dword_152FCC:
-resb 4
+        resb 4
 dword_152FD0:
-resb 4
+        resb 4
 dword_152FD4:
-resb 4
+        resb 4
 dword_152FD8:
-resb 4
+        resb 4
 dword_152FDC:
-resb 4
+        resb 4
 dword_152FE0:
-resb 4
+        resb 4
 dword_152FE4:
-resb 4
+        resb 4
 curperiod:
-resb 4
+        resb 4
 dword_152FEC:
-resb 484
+        resb 484
 dword_1531D0:
-resb 15516
+        resb 15516
 unk_156E6C:
-resb 2
+        resb 2
 word_156E6E:
-resb 2
+        resb 2
 word_156E70:
-resb 2
+        resb 2
 word_156E72:
-resb 2
+        resb 2
 word_156E74:
-resb 2
+        resb 2
 word_156E76:
-resb 2
+        resb 2
 word_156E78:
-resb 2
+        resb 2
 word_156E7A:
-resb 386
+        resb 386
 unk_156FFC:
-resb 362
+        resb 362
 byte_157166:
-resb 38
+        resb 38
 hmroster:
-resb 5
+        resb 5
 byte_157191:
-resb 1
+        resb 1
 hmrosterpos:
-resb 1
+        resb 1
 byte_157193:
-resb 32
+        resb 32
 dword_1571B3:
-resb 1165
+        resb 1165
 byte_157640:
-resb 1204
+        resb 1204
 dword_157AF4:
-resb 4
+        resb 4
 unk_157AF8:
-resb 2
+        resb 2
 word_157AFA:
-resb 2
+        resb 2
 word_157AFC:
-resb 4
+        resb 4
 word_157B00:
-resb 6
+        resb 6
 word_157B06:
-resb 4
+        resb 4
 unk_157B0A:
-resb 18
+        resb 18
 unk_157B1C:
-resb 51
+        resb 51
 unk_157B4F:
-resb 51
+        resb 51
 unk_157B82:
-resb 19
+        resb 19
 byte_157B95:
-resb 506
+        resb 506
 unk_157D8F:
-resb 19
+        resb 19
 byte_157DA2:
-resb 506
+        resb 506
 unk_157F9C:
-resb 54
+        resb 54
 byte_157FD2:
-resb 8
+        resb 8
 unk_157FDA:
-resb 30
+        resb 30
 unk_157FF8:
-resb 69
+        resb 69
 dword_15803D:
-resb 100
+        resb 100
 dword_1580A1:
-resb 12
+        resb 12
 unk_1580AD:
-resb 584
+        resb 584
 unk_1582F5:
-resb 30
+        resb 30
 unk_158313:
-resb 181
+        resb 181
 unk_1583C8:
-resb 584
+        resb 584
 unk_158610:
-resb 54
+        resb 54
 byte_158646:
-resb 8
+        resb 8
 byte_15864E:
-resb 1
+        resb 1
 byte_15864F:
-resb 1
+        resb 1
 byte_158650:
-resb 1
+        resb 1
 byte_158651:
-resb 1
+        resb 1
 byte_158652:
-resb 2
+        resb 2
 dword_158654:
-resb 4
+        resb 4
 unk_158658:
-resb 1634
+        resb 1634

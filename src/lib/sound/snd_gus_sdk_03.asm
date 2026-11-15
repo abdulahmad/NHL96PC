@@ -2,57 +2,57 @@
 bits 32
 %include "hockey.inc"
 section s_DCBB0 progbits alloc exec nowrite align=1
-global loc_DCC1E, sub_DCBB0
+global sub_DCBB0
 sub_DCBB0:
-push ebp	; DCBB0
-mov ebp, esp	; DCBB1
-push edx	; DCBB3
-mov edx, eax	; DCBB4
-and eax, 3FFFFh	; DCBB6
-and edx, 0FFFC0000h	; DCBBB
-sar eax, 1	; DCBC1
-or eax, edx	; DCBC3
-lea esp, [byte ebp-04h]	; DCBC5
-pop edx	; DCBC8
-pop ebp	; DCBC9
-ret	; DCBCA
-db 090h
-push ebp	; DCBCC
-mov ebp, esp	; DCBCD
-push ecx	; DCBCF
-push esi	; DCBD0
-mov ecx, eax	; DCBD1
-xor eax, eax	; DCBD3
-mov ax, dx	; DCBD5
-sar eax, 9	; DCBD8
-and dh, 1	; DCBDB
-mov esi, eax	; DCBDE
-xor eax, eax	; DCBE0
-mov ax, dx	; DCBE2
-xor edx, edx	; DCBE5
-mov dx, cx	; DCBE7
-sar edx, 9	; DCBEA
-shl eax, 7	; DCBED
-and edx, byte 7Fh	; DCBF0
-or eax, edx	; DCBF3
-mov ecx, eax	; DCBF5
-xor eax, eax	; DCBF7
-mov ax, si	; DCBF9
-mov edx, eax	; DCBFC
-xor eax, eax	; DCBFE
-shl edx, 10h	; DCC00
-mov ax, cx	; DCC03
-add eax, edx	; DCC06
-test bl, 1	; DCC08
-je short loc_DCC1E	; DCC0B
-mov edx, eax	; DCC0D
-add eax, eax	; DCC0F
-and edx, 0C0000h	; DCC11
-and eax, 3FFFFh	; DCC17
-or eax, edx	; DCC1C
-loc_DCC1E:
-lea esp, [byte ebp-08h]	; DCC1E
-pop esi	; DCC21
-pop ecx	; DCC22
-pop ebp	; DCC23
-ret	; DCC24
+        push ebp
+        mov ebp, esp
+        push edx
+        mov edx, eax
+        and eax, 3FFFFh
+        and edx, 0FFFC0000h
+        sar eax, 1
+        or eax, edx
+        lea esp, [byte ebp-04h]
+        pop edx
+        pop ebp
+        ret
+        db 090h
+        push ebp
+        mov ebp, esp
+        push ecx
+        push esi
+        mov ecx, eax
+        xor eax, eax
+        mov ax, dx
+        sar eax, 9
+        and dh, 1
+        mov esi, eax
+        xor eax, eax
+        mov ax, dx
+        xor edx, edx
+        mov dx, cx
+        sar edx, 9
+        shl eax, 7
+        and edx, byte 7Fh
+        or eax, edx
+        mov ecx, eax
+        xor eax, eax
+        mov ax, si
+        mov edx, eax
+        xor eax, eax
+        shl edx, 10h
+        mov ax, cx
+        add eax, edx
+        test bl, 1
+        je short .1
+        mov edx, eax
+        add eax, eax
+        and edx, 0C0000h
+        and eax, 3FFFFh
+        or eax, edx
+.1:
+        lea esp, [byte ebp-08h]
+        pop esi
+        pop ecx
+        pop ebp
+        ret

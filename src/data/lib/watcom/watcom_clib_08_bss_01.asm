@@ -9,92 +9,92 @@ global dword_19BA48, dword_19BAC8, dword_19BACC, dword_19F2D0, dword_19F2D4, dwo
 global dword_1A0DA0, dword_1A0DA4, unk_19BA34, unk_19BA38, unk_19BAD0, unk_1A0B20, word_1A0FA0, word_1A0FA2
 global word_1A0FA4, word_1A0FA6, word_1A0FA8, word_1A0FAA, word_1A0FAC
 dword_19B760:
-resb 16
+        resb 16
 dword_19B770:
-resb 4
+        resb 4
 dword_19B774:
-resb 4
+        resb 4
 dword_19B778:
-resb 4
+        resb 4
 dword_19B77C:
-resb 8
+        resb 8
 dword_19B784:
-resb 4
+        resb 4
 dword_19B788:
-resb 360
+        resb 360
 dword_19B8F0:
-resb 4
+        resb 4
 dword_19B8F4:
-resb 4
+        resb 4
 dword_19B8F8:
-resb 4
+        resb 4
 dword_19B8FC:
-resb 4
+        resb 4
 dword_19B900:
-resb 304
+        resb 304
 dword_19BA30:
-resb 4
+        resb 4
 unk_19BA34:
-resb 4
+        resb 4
 unk_19BA38:
-resb 4
+        resb 4
 dword_19BA3C:
-resb 4
+        resb 4
 dword_19BA40:
-resb 4
+        resb 4
 byte_19BA44:
-resb 1
+        resb 1
 byte_19BA45:
-resb 3
+        resb 3
 dword_19BA48:
-resb 128
+        resb 128
 dword_19BAC8:
-resb 4
+        resb 4
 dword_19BACC:
-resb 4
+        resb 4
 unk_19BAD0:
-resb 14336
+        resb 14336
 dword_19F2D0:
-resb 4
+        resb 4
 dword_19F2D4:
-resb 4
+        resb 4
 dword_19F2D8:
-resb 6212
+        resb 6212
 dword_1A0B1C:
-resb 4
+        resb 4
 unk_1A0B20:
-resb 11
+        resb 11
 byte_1A0B2B:
-resb 1
+        resb 1
 dword_1A0B2C:
-resb 5
+        resb 5
 byte_1A0B31:
-resb 5
+        resb 5
 byte_1A0B36:
-resb 1
+        resb 1
 byte_1A0B37:
-resb 13
+        resb 13
 byte_1A0B44:
-resb 2
+        resb 2
 byte_1A0B46:
-resb 1
+        resb 1
 byte_1A0B47:
-resb 601
+        resb 601
 dword_1A0DA0:
-resb 4
+        resb 4
 dword_1A0DA4:
-resb 508
+        resb 508
 word_1A0FA0:
-resb 2
+        resb 2
 word_1A0FA2:
-resb 2
+        resb 2
 word_1A0FA4:
-resb 2
+        resb 2
 word_1A0FA6:
-resb 2
+        resb 2
 word_1A0FA8:
-resb 2
+        resb 2
 word_1A0FAA:
-resb 2
+        resb 2
 word_1A0FAC:
-resb 4
+        resb 4

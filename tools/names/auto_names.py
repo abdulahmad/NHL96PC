@@ -20,13 +20,14 @@ import paths
 ROOT = paths.ROOT
 # sys.path: tools/paths.add_path()
 from link_src import read_layout
+import asmaddr  # addresses of source lines (the source no longer carries them)
 from update_symbols import decl_lists
 AUTO = re.compile(r'\b((?:sub|loc|locret|nullsub|j_sub|unk|off|asc|byte|word|dword|qword|tbyte|jpt|stru|algn)_[0-9A-F]{5,8})\b')
 DEF = re.compile(r'^([A-Za-z_?][\w$#@~?.]*)(?::|\s+equ\b)')
 STRUCT_OP = re.compile(r'\[(?:byte|dword) e(?:ax|bx|cx|dx|si|di)\+0[0-9A-F]+h\]')   # not ebp/esp: stack frame
 
 def analyse(sg, segs):
-    t = open(os.path.join(ROOT, 'src', sg['src'])).read()
+    t = asmaddr.legacy_text(os.path.join(ROOT, 'src', sg['src']))
     code = [l.split(';')[0] for l in t.split('\n')]
     defined = [m.group(1) for l in code for m in [DEF.match(l)] if m and AUTO.fullmatch(m.group(1))]
     g, e = decl_lists(t)
@@ -36,7 +37,7 @@ def analyse(sg, segs):
         return next((o for s0, s1, o in starts if s0 <= a < s1), 0)
     ext = sorted({n for n in e if AUTO.fullmatch(n)})
     data = [n for n in ext if obj_of(n) == 2]; codex = [n for n in ext if obj_of(n) == 1]
-    sops = ['%s %s' % ((re.search(r';\s*([0-9A-F]{5})\b', l) or re.match('()', '')).group(1), o) for l in t.split('\n') for o in STRUCT_OP.findall(l.split(';')[0])]
+    sops = ['%s %s' % ((re.search(r';\s*([0-9A-F]{5,6})\b', l) or re.match('()', '')).group(1), o) for l in t.split('\n') for o in STRUCT_OP.findall(l.split(';')[0])]
     return defined, data, codex, sops
 
 def main():

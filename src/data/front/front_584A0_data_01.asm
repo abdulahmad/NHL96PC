@@ -14,170 +14,170 @@ global str_Pth, str_Pta, str_Quh, str_Qua, str_Slh, str_Sla, str_Sjh, str_Sja
 global str_Tbh, str_Tba, str_Trh, str_Tra, str_Vnh, str_Vna, str_Wsh, str_Wsa
 global str_Wnh, str_Wna, str_Asw, str_Ase
 asc_111008:
-db 04Ch,055h,054h,00h
+        db 04Ch,055h,054h,00h
 str_Logo:
-db 06Ch,06Fh,067h,06Fh,00h
+        db 06Ch,06Fh,067h,06Fh,00h
 str_Priority:
-db 070h,072h,069h,06Fh,072h,069h,074h,079h,00h
+        db 070h,072h,069h,06Fh,072h,069h,074h,079h,00h
 str_B001:
-db 062h,030h,030h,031h,00h
+        db 062h,030h,030h,031h,00h
 str_B000:
-db 062h,030h,030h,030h,00h
+        db 062h,030h,030h,030h,00h
 unk_111024:
-db 00h
+        db 00h
 str_DS:
-db 025h,064h,020h,025h,073h,00h
+        db 025h,064h,020h,025h,073h,00h
 str_Goal0:
-db 067h,06Fh,061h,06Ch,030h,00h
+        db 067h,06Fh,061h,06Ch,030h,00h
 str_Goal1:
-db 067h,06Fh,061h,06Ch,031h,00h
+        db 067h,06Fh,061h,06Ch,031h,00h
 str_2d02d2:
-db 025h,032h,064h,03Ah,025h,030h,032h,064h,00h
+        db 025h,032h,064h,03Ah,025h,030h,032h,064h,00h
 str_2d01d:
-db 025h,032h,064h,02Eh,025h,030h,031h,064h,00h
+        db 025h,032h,064h,02Eh,025h,030h,031h,064h,00h
 str_DDD2:
-db 025h,064h,02Eh,025h,064h,025h,025h,020h,028h,025h,064h,029h,00h
+        db 025h,064h,02Eh,025h,064h,025h,025h,020h,028h,025h,064h,029h,00h
 str_DDD3:
-db 025h,064h,02Eh,025h,064h,025h,025h,020h,020h,028h,025h,064h,029h,00h
+        db 025h,064h,02Eh,025h,064h,025h,025h,020h,020h,028h,025h,064h,029h,00h
 str_3s:
-db 025h,02Dh,033h,073h,00h
+        db 025h,02Dh,033h,073h,00h
 str_2d:
-db 025h,032h,064h,00h
+        db 025h,032h,064h,00h
 str_12s:
-db 025h,02Dh,031h,032h,073h,00h
+        db 025h,02Dh,031h,032h,073h,00h
 str_SS2:
-db 025h,073h,020h,025h,073h,00h
+        db 025h,073h,020h,025h,073h,00h
 str_12:
-db 031h,00h
+        db 031h,00h
 str_24:
-db 032h,00h
+        db 032h,00h
 str_32:
-db 033h,00h
+        db 033h,00h
 str_42:
-db 034h,00h,00h,00h,00h
+        db 034h,00h,00h,00h,00h
 qword_111084:
-db 016h,06Ch,0C1h,016h,06Ch,0C1h,066h,03Fh
+        db 016h,06Ch,0C1h,016h,06Ch,0C1h,066h,03Fh
 qword_11108C:
-db 00h,00h,00h,00h,00h,00h,0F0h,040h
+        db 00h,00h,00h,00h,00h,00h,0F0h,040h
 qword_111094:
-db 016h,06Ch,0C1h,016h,06Ch,0C1h,066h,03Fh
+        db 016h,06Ch,0C1h,016h,06Ch,0C1h,066h,03Fh
 qword_11109C:
-db 00h,00h,00h,00h,00h,00h,0F0h,040h
+        db 00h,00h,00h,00h,00h,00h,0F0h,040h
 qword_1110A4:
-db 016h,06Ch,0C1h,016h,06Ch,0C1h,066h,03Fh
+        db 016h,06Ch,0C1h,016h,06Ch,0C1h,066h,03Fh
 qword_1110AC:
-db 00h,00h,00h,00h,00h,00h,0F0h,040h
+        db 00h,00h,00h,00h,00h,00h,0F0h,040h
 qword_1110B4:
-db 016h,06Ch,0C1h,016h,06Ch,0C1h,066h,03Fh
+        db 016h,06Ch,0C1h,016h,06Ch,0C1h,066h,03Fh
 qword_1110BC:
-db 00h,00h,00h,00h,00h,00h,0F0h,040h
+        db 00h,00h,00h,00h,00h,00h,0F0h,040h
 str_Priority2:
-db 070h,072h,069h,06Fh,072h,069h,074h,079h,00h,00h,00h,00h
+        db 070h,072h,069h,06Fh,072h,069h,074h,079h,00h,00h,00h,00h
 str_Anh:
-db 021h,061h,06Eh,068h,00h
+        db 021h,061h,06Eh,068h,00h
 str_Ana:
-db 021h,061h,06Eh,061h,00h
+        db 021h,061h,06Eh,061h,00h
 str_Bsh:
-db 021h,062h,073h,068h,00h
+        db 021h,062h,073h,068h,00h
 str_Bsa:
-db 021h,062h,073h,061h,00h
+        db 021h,062h,073h,061h,00h
 str_Bfh:
-db 021h,062h,066h,068h,00h
+        db 021h,062h,066h,068h,00h
 str_Bfa:
-db 021h,062h,066h,061h,00h
+        db 021h,062h,066h,061h,00h
 str_Cgh:
-db 021h,063h,067h,068h,00h
+        db 021h,063h,067h,068h,00h
 str_Cga:
-db 021h,063h,067h,061h,00h
+        db 021h,063h,067h,061h,00h
 str_Chh:
-db 021h,063h,068h,068h,00h
+        db 021h,063h,068h,068h,00h
 str_Cha:
-db 021h,063h,068h,061h,00h
+        db 021h,063h,068h,061h,00h
 str_Dlh:
-db 021h,064h,06Ch,068h,00h
+        db 021h,064h,06Ch,068h,00h
 str_Dla:
-db 021h,064h,06Ch,061h,00h
+        db 021h,064h,06Ch,061h,00h
 str_Dth:
-db 021h,064h,074h,068h,00h
+        db 021h,064h,074h,068h,00h
 str_Dta:
-db 021h,064h,074h,061h,00h
+        db 021h,064h,074h,061h,00h
 str_Edh:
-db 021h,065h,064h,068h,00h
+        db 021h,065h,064h,068h,00h
 str_Eda:
-db 021h,065h,064h,061h,00h
+        db 021h,065h,064h,061h,00h
 str_Flh:
-db 021h,066h,06Ch,068h,00h
+        db 021h,066h,06Ch,068h,00h
 str_Fla:
-db 021h,066h,06Ch,061h,00h
+        db 021h,066h,06Ch,061h,00h
 str_Hrh:
-db 021h,068h,072h,068h,00h
+        db 021h,068h,072h,068h,00h
 str_Hra:
-db 021h,068h,072h,061h,00h
+        db 021h,068h,072h,061h,00h
 str_Lah:
-db 021h,06Ch,061h,068h,00h
+        db 021h,06Ch,061h,068h,00h
 str_Laa:
-db 021h,06Ch,061h,061h,00h
+        db 021h,06Ch,061h,061h,00h
 str_Mth:
-db 021h,06Dh,074h,068h,00h
+        db 021h,06Dh,074h,068h,00h
 str_Mta:
-db 021h,06Dh,074h,061h,00h
+        db 021h,06Dh,074h,061h,00h
 str_Njh:
-db 021h,06Eh,06Ah,068h,00h
+        db 021h,06Eh,06Ah,068h,00h
 str_Nja:
-db 021h,06Eh,06Ah,061h,00h
+        db 021h,06Eh,06Ah,061h,00h
 str_Ilh:
-db 021h,069h,06Ch,068h,00h
+        db 021h,069h,06Ch,068h,00h
 str_Ila:
-db 021h,069h,06Ch,061h,00h
+        db 021h,069h,06Ch,061h,00h
 str_Rgh:
-db 021h,072h,067h,068h,00h
+        db 021h,072h,067h,068h,00h
 str_Rga:
-db 021h,072h,067h,061h,00h
+        db 021h,072h,067h,061h,00h
 str_Oth:
-db 021h,06Fh,074h,068h,00h
+        db 021h,06Fh,074h,068h,00h
 str_Ota:
-db 021h,06Fh,074h,061h,00h
+        db 021h,06Fh,074h,061h,00h
 str_Phh:
-db 021h,070h,068h,068h,00h
+        db 021h,070h,068h,068h,00h
 str_Pha:
-db 021h,070h,068h,061h,00h
+        db 021h,070h,068h,061h,00h
 str_Pth:
-db 021h,070h,074h,068h,00h
+        db 021h,070h,074h,068h,00h
 str_Pta:
-db 021h,070h,074h,061h,00h
+        db 021h,070h,074h,061h,00h
 str_Quh:
-db 021h,071h,075h,068h,00h
+        db 021h,071h,075h,068h,00h
 str_Qua:
-db 021h,071h,075h,061h,00h
+        db 021h,071h,075h,061h,00h
 str_Slh:
-db 021h,073h,06Ch,068h,00h
+        db 021h,073h,06Ch,068h,00h
 str_Sla:
-db 021h,073h,06Ch,061h,00h
+        db 021h,073h,06Ch,061h,00h
 str_Sjh:
-db 021h,073h,06Ah,068h,00h
+        db 021h,073h,06Ah,068h,00h
 str_Sja:
-db 021h,073h,06Ah,061h,00h
+        db 021h,073h,06Ah,061h,00h
 str_Tbh:
-db 021h,074h,062h,068h,00h
+        db 021h,074h,062h,068h,00h
 str_Tba:
-db 021h,074h,062h,061h,00h
+        db 021h,074h,062h,061h,00h
 str_Trh:
-db 021h,074h,072h,068h,00h
+        db 021h,074h,072h,068h,00h
 str_Tra:
-db 021h,074h,072h,061h,00h
+        db 021h,074h,072h,061h,00h
 str_Vnh:
-db 021h,076h,06Eh,068h,00h
+        db 021h,076h,06Eh,068h,00h
 str_Vna:
-db 021h,076h,06Eh,061h,00h
+        db 021h,076h,06Eh,061h,00h
 str_Wsh:
-db 021h,077h,073h,068h,00h
+        db 021h,077h,073h,068h,00h
 str_Wsa:
-db 021h,077h,073h,061h,00h
+        db 021h,077h,073h,061h,00h
 str_Wnh:
-db 021h,077h,06Eh,068h,00h
+        db 021h,077h,06Eh,068h,00h
 str_Wna:
-db 021h,077h,06Eh,061h,00h
+        db 021h,077h,06Eh,061h,00h
 str_Asw:
-db 021h,061h,073h,077h,00h
+        db 021h,061h,073h,077h,00h
 str_Ase:
-db 021h,061h,073h,065h,00h
+        db 021h,061h,073h,065h,00h

@@ -8,78 +8,78 @@ global dword_190ECC, dword_190ED0, dword_190ED4, dword_1912DC, dword_1912E0, dwo
 global dword_1912F4, dword_1912F8, dword_1912FC, dword_191304, dword_191308, dword_19130C, dword_191310, dword_191314
 global dword_19131C, dword_191320, dword_191A9C, dword_191AA0, dword_191AA4, unk_190EDC
 dword_190E90:
-resb 4
+        resb 4
 dword_190E94:
-resb 4
+        resb 4
 dword_190E98:
-resb 4
+        resb 4
 dword_190E9C:
-resb 4
+        resb 4
 dword_190EA0:
-resb 4
+        resb 4
 dword_190EA4:
-resb 4
+        resb 4
 dword_190EA8:
-resb 4
+        resb 4
 dword_190EAC:
-resb 4
+        resb 4
 dword_190EB0:
-resb 4
+        resb 4
 dword_190EB4:
-resb 4
+        resb 4
 dword_190EB8:
-resb 4
+        resb 4
 dword_190EBC:
-resb 4
+        resb 4
 byte_190EC0:
-resb 4
+        resb 4
 dword_190EC4:
-resb 4
+        resb 4
 dword_190EC8:
-resb 4
+        resb 4
 dword_190ECC:
-resb 4
+        resb 4
 dword_190ED0:
-resb 4
+        resb 4
 dword_190ED4:
-resb 8
+        resb 8
 unk_190EDC:
-resb 1024
+        resb 1024
 dword_1912DC:
-resb 4
+        resb 4
 dword_1912E0:
-resb 4
+        resb 4
 dword_1912E4:
-resb 4
+        resb 4
 dword_1912E8:
-resb 4
+        resb 4
 dword_1912EC:
-resb 8
+        resb 8
 dword_1912F4:
-resb 4
+        resb 4
 dword_1912F8:
-resb 4
+        resb 4
 dword_1912FC:
-resb 4
+        resb 4
 byte_191300:
-resb 4
+        resb 4
 dword_191304:
-resb 4
+        resb 4
 dword_191308:
-resb 4
+        resb 4
 dword_19130C:
-resb 4
+        resb 4
 dword_191310:
-resb 4
+        resb 4
 dword_191314:
-resb 8
+        resb 8
 dword_19131C:
-resb 4
+        resb 4
 dword_191320:
-resb 1916
+        resb 1916
 dword_191A9C:
-resb 4
+        resb 4
 dword_191AA0:
-resb 4
+        resb 4
 dword_191AA4:
-resb 12
+        resb 12

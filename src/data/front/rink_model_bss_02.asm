@@ -34,488 +34,488 @@ global unk_15BF20, unk_15D0E0, unk_15D1D0, unk_15D340, unk_15D450, unk_15DB38, u
 global unk_15E130, unk_15E230, unk_15E330, unk_15E44C, unk_15E4C8, unk_15E534, unk_15E5A0, unk_15E618
 global unk_15E88C, unk_15E904, word_15E472
 unk_159F58:
-resb 3888
+        resb 3888
 unk_15AE88:
-resb 3888
+        resb 3888
 dword_15BDB8:
-resb 200
+        resb 200
 dword_15BE80:
-resb 160
+        resb 160
 unk_15BF20:
-resb 3888
+        resb 3888
 dword_15CE50:
-resb 600
+        resb 600
 dword_15D0A8:
-resb 28
+        resb 28
 dword_15D0C4:
-resb 24
+        resb 24
 dword_15D0DC:
-resb 4
+        resb 4
 unk_15D0E0:
-resb 200
+        resb 200
 dword_15D1A8:
-resb 36
+        resb 36
 dword_15D1CC:
-resb 4
+        resb 4
 unk_15D1D0:
-resb 104
+        resb 104
 dword_15D238:
-resb 28
+        resb 28
 dword_15D254:
-resb 68
+        resb 68
 dword_15D298:
-resb 12
+        resb 12
 dword_15D2A4:
-resb 4
+        resb 4
 dword_15D2A8:
-resb 12
+        resb 12
 dword_15D2B4:
-resb 4
+        resb 4
 dword_15D2B8:
-resb 4
+        resb 4
 dword_15D2BC:
-resb 4
+        resb 4
 dword_15D2C0:
-resb 92
+        resb 92
 dword_15D31C:
-resb 28
+        resb 28
 dword_15D338:
-resb 4
+        resb 4
 dword_15D33C:
-resb 4
+        resb 4
 unk_15D340:
-resb 4
+        resb 4
 dword_15D344:
-resb 4
+        resb 4
 dword_15D348:
-resb 120
+        resb 120
 dword_15D3C0:
-resb 4
+        resb 4
 dword_15D3C4:
-resb 4
+        resb 4
 dword_15D3C8:
-resb 4
+        resb 4
 dword_15D3CC:
-resb 4
+        resb 4
 dword_15D3D0:
-resb 92
+        resb 92
 dword_15D42C:
-resb 28
+        resb 28
 dword_15D448:
-resb 4
+        resb 4
 dword_15D44C:
-resb 4
+        resb 4
 unk_15D450:
-resb 4
+        resb 4
 dword_15D454:
-resb 4
+        resb 4
 dword_15D458:
-resb 120
+        resb 120
 dword_15D4D0:
-resb 4
+        resb 4
 dword_15D4D4:
-resb 1636
+        resb 1636
 unk_15DB38:
-resb 272
+        resb 272
 dword_15DC48:
-resb 200
+        resb 200
 dword_15DD10:
-resb 400
+        resb 400
 dword_15DEA0:
-resb 60
+        resb 60
 dword_15DEDC:
-resb 4
+        resb 4
 dword_15DEE0:
-resb 64
+        resb 64
 unk_15DF20:
-resb 256
+        resb 256
 unk_15E020:
-resb 256
+        resb 256
 dword_15E120:
-resb 4
+        resb 4
 dword_15E124:
-resb 4
+        resb 4
 dword_15E128:
-resb 4
+        resb 4
 dword_15E12C:
-resb 4
+        resb 4
 unk_15E130:
-resb 256
+        resb 256
 unk_15E230:
-resb 256
+        resb 256
 unk_15E330:
-resb 256
+        resb 256
 dword_15E430:
-resb 4
+        resb 4
 dword_15E434:
-resb 4
+        resb 4
 dword_15E438:
-resb 4
+        resb 4
 dword_15E43C:
-resb 4
+        resb 4
 dword_15E440:
-resb 4
+        resb 4
 dword_15E444:
-resb 4
+        resb 4
 dword_15E448:
-resb 4
+        resb 4
 unk_15E44C:
-resb 36
+        resb 36
 dword_15E470:
-resb 2
+        resb 2
 word_15E472:
-resb 2
+        resb 2
 dword_15E474:
-resb 4
+        resb 4
 dword_15E478:
-resb 4
+        resb 4
 dword_15E47C:
-resb 4
+        resb 4
 dword_15E480:
-resb 4
+        resb 4
 dword_15E484:
-resb 4
+        resb 4
 dword_15E488:
-resb 4
+        resb 4
 dword_15E48C:
-resb 4
+        resb 4
 dword_15E490:
-resb 4
+        resb 4
 dword_15E494:
-resb 4
+        resb 4
 dword_15E498:
-resb 4
+        resb 4
 dword_15E49C:
-resb 4
+        resb 4
 dword_15E4A0:
-resb 4
+        resb 4
 dword_15E4A4:
-resb 4
+        resb 4
 dword_15E4A8:
-resb 4
+        resb 4
 dword_15E4AC:
-resb 4
+        resb 4
 dword_15E4B0:
-resb 4
+        resb 4
 dword_15E4B4:
-resb 4
+        resb 4
 dword_15E4B8:
-resb 4
+        resb 4
 dword_15E4BC:
-resb 4
+        resb 4
 dword_15E4C0:
-resb 4
+        resb 4
 dword_15E4C4:
-resb 4
+        resb 4
 unk_15E4C8:
-resb 108
+        resb 108
 unk_15E534:
-resb 108
+        resb 108
 unk_15E5A0:
-resb 108
+        resb 108
 dword_15E60C:
-resb 4
+        resb 4
 dword_15E610:
-resb 4
+        resb 4
 dword_15E614:
-resb 4
+        resb 4
 unk_15E618:
-resb 108
+        resb 108
 dword_15E684:
-resb 4
+        resb 4
 dword_15E688:
-resb 4
+        resb 4
 dword_15E68C:
-resb 4
+        resb 4
 dword_15E690:
-resb 4
+        resb 4
 dword_15E694:
-resb 4
+        resb 4
 dword_15E698:
-resb 4
+        resb 4
 dword_15E69C:
-resb 4
+        resb 4
 dword_15E6A0:
-resb 4
+        resb 4
 dword_15E6A4:
-resb 4
+        resb 4
 dword_15E6A8:
-resb 4
+        resb 4
 dword_15E6AC:
-resb 4
+        resb 4
 dword_15E6B0:
-resb 4
+        resb 4
 dword_15E6B4:
-resb 4
+        resb 4
 dword_15E6B8:
-resb 4
+        resb 4
 dword_15E6BC:
-resb 4
+        resb 4
 dword_15E6C0:
-resb 4
+        resb 4
 dword_15E6C4:
-resb 4
+        resb 4
 dword_15E6C8:
-resb 4
+        resb 4
 dword_15E6CC:
-resb 4
+        resb 4
 dword_15E6D0:
-resb 4
+        resb 4
 dword_15E6D4:
-resb 4
+        resb 4
 dword_15E6D8:
-resb 4
+        resb 4
 dword_15E6DC:
-resb 4
+        resb 4
 dword_15E6E0:
-resb 4
+        resb 4
 dword_15E6E4:
-resb 4
+        resb 4
 dword_15E6E8:
-resb 4
+        resb 4
 dword_15E6EC:
-resb 4
+        resb 4
 dword_15E6F0:
-resb 4
+        resb 4
 dword_15E6F4:
-resb 4
+        resb 4
 dword_15E6F8:
-resb 4
+        resb 4
 dword_15E6FC:
-resb 4
+        resb 4
 dword_15E700:
-resb 4
+        resb 4
 dword_15E704:
-resb 4
+        resb 4
 dword_15E708:
-resb 4
+        resb 4
 dword_15E70C:
-resb 4
+        resb 4
 dword_15E710:
-resb 4
+        resb 4
 dword_15E714:
-resb 4
+        resb 4
 dword_15E718:
-resb 4
+        resb 4
 dword_15E71C:
-resb 4
+        resb 4
 dword_15E720:
-resb 4
+        resb 4
 dword_15E724:
-resb 4
+        resb 4
 dword_15E728:
-resb 12
+        resb 12
 dword_15E734:
-resb 4
+        resb 4
 dword_15E738:
-resb 4
+        resb 4
 dword_15E73C:
-resb 12
+        resb 12
 dword_15E748:
-resb 4
+        resb 4
 dword_15E74C:
-resb 4
+        resb 4
 dword_15E750:
-resb 4
+        resb 4
 dword_15E754:
-resb 4
+        resb 4
 dword_15E758:
-resb 4
+        resb 4
 dword_15E75C:
-resb 4
+        resb 4
 dword_15E760:
-resb 4
+        resb 4
 dword_15E764:
-resb 4
+        resb 4
 dword_15E768:
-resb 4
+        resb 4
 dword_15E76C:
-resb 4
+        resb 4
 dword_15E770:
-resb 4
+        resb 4
 dword_15E774:
-resb 4
+        resb 4
 dword_15E778:
-resb 8
+        resb 8
 dword_15E780:
-resb 4
+        resb 4
 dword_15E784:
-resb 4
+        resb 4
 dword_15E788:
-resb 4
+        resb 4
 dword_15E78C:
-resb 4
+        resb 4
 dword_15E790:
-resb 4
+        resb 4
 dword_15E794:
-resb 8
+        resb 8
 dword_15E79C:
-resb 4
+        resb 4
 dword_15E7A0:
-resb 4
+        resb 4
 dword_15E7A4:
-resb 4
+        resb 4
 dword_15E7A8:
-resb 4
+        resb 4
 dword_15E7AC:
-resb 4
+        resb 4
 dword_15E7B0:
-resb 4
+        resb 4
 dword_15E7B4:
-resb 4
+        resb 4
 dword_15E7B8:
-resb 4
+        resb 4
 dword_15E7BC:
-resb 4
+        resb 4
 dword_15E7C0:
-resb 4
+        resb 4
 dword_15E7C4:
-resb 4
+        resb 4
 dword_15E7C8:
-resb 4
+        resb 4
 dword_15E7CC:
-resb 4
+        resb 4
 dword_15E7D0:
-resb 4
+        resb 4
 dword_15E7D4:
-resb 4
+        resb 4
 dword_15E7D8:
-resb 4
+        resb 4
 dword_15E7DC:
-resb 4
+        resb 4
 dword_15E7E0:
-resb 4
+        resb 4
 dword_15E7E4:
-resb 4
+        resb 4
 dword_15E7E8:
-resb 4
+        resb 4
 dword_15E7EC:
-resb 4
+        resb 4
 dword_15E7F0:
-resb 4
+        resb 4
 dword_15E7F4:
-resb 4
+        resb 4
 dword_15E7F8:
-resb 4
+        resb 4
 dword_15E7FC:
-resb 4
+        resb 4
 dword_15E800:
-resb 4
+        resb 4
 dword_15E804:
-resb 4
+        resb 4
 dword_15E808:
-resb 4
+        resb 4
 dword_15E80C:
-resb 4
+        resb 4
 dword_15E810:
-resb 4
+        resb 4
 dword_15E814:
-resb 4
+        resb 4
 dword_15E818:
-resb 4
+        resb 4
 dword_15E81C:
-resb 4
+        resb 4
 dword_15E820:
-resb 4
+        resb 4
 dword_15E824:
-resb 4
+        resb 4
 dword_15E828:
-resb 4
+        resb 4
 dword_15E82C:
-resb 4
+        resb 4
 dword_15E830:
-resb 4
+        resb 4
 dword_15E834:
-resb 4
+        resb 4
 dword_15E838:
-resb 4
+        resb 4
 dword_15E83C:
-resb 4
+        resb 4
 dword_15E840:
-resb 4
+        resb 4
 dword_15E844:
-resb 4
+        resb 4
 dword_15E848:
-resb 4
+        resb 4
 dword_15E84C:
-resb 8
+        resb 8
 dword_15E854:
-resb 4
+        resb 4
 dword_15E858:
-resb 4
+        resb 4
 dword_15E85C:
-resb 4
+        resb 4
 dword_15E860:
-resb 4
+        resb 4
 dword_15E864:
-resb 4
+        resb 4
 dword_15E868:
-resb 4
+        resb 4
 dword_15E86C:
-resb 4
+        resb 4
 dword_15E870:
-resb 4
+        resb 4
 dword_15E874:
-resb 4
+        resb 4
 dword_15E878:
-resb 4
+        resb 4
 dword_15E87C:
-resb 4
+        resb 4
 dword_15E880:
-resb 4
+        resb 4
 dword_15E884:
-resb 4
+        resb 4
 dword_15E888:
-resb 4
+        resb 4
 unk_15E88C:
-resb 36
+        resb 36
 dword_15E8B0:
-resb 4
+        resb 4
 dword_15E8B4:
-resb 4
+        resb 4
 dword_15E8B8:
-resb 4
+        resb 4
 dword_15E8BC:
-resb 4
+        resb 4
 dword_15E8C0:
-resb 4
+        resb 4
 dword_15E8C4:
-resb 4
+        resb 4
 dword_15E8C8:
-resb 4
+        resb 4
 dword_15E8CC:
-resb 4
+        resb 4
 dword_15E8D0:
-resb 4
+        resb 4
 dword_15E8D4:
-resb 4
+        resb 4
 dword_15E8D8:
-resb 4
+        resb 4
 dword_15E8DC:
-resb 4
+        resb 4
 dword_15E8E0:
-resb 4
+        resb 4
 dword_15E8E4:
-resb 4
+        resb 4
 dword_15E8E8:
-resb 4
+        resb 4
 dword_15E8EC:
-resb 4
+        resb 4
 dword_15E8F0:
-resb 4
+        resb 4
 dword_15E8F4:
-resb 4
+        resb 4
 dword_15E8F8:
-resb 4
+        resb 4
 dword_15E8FC:
-resb 4
+        resb 4
 dword_15E900:
-resb 4
+        resb 4
 unk_15E904:
-resb 255
+        resb 255
 byte_15EA03:
-resb 1
+        resb 1
 dword_15EA04:
-resb 4
+        resb 4
 dword_15EA08:
-resb 4
+        resb 4

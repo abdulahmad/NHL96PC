@@ -3,292 +3,289 @@ bits 32
 %include "hockey.inc"
 section s_C3727 progbits alloc exec nowrite align=1
 extern __chktty_, __flushall_, __set_errno_, __set_errno_dos_, _nmalloc_, byte_19BA44, dword_19BA48, dword_19BAC8
-extern getche_, loc_B6597, off_124008, off_12400C, off_124010
+extern getche_, start_28F, off_124008, off_12400C, off_124010
 global _Full_at_exit_rtn_, __filbuf_, __fill_buffer_, __ioalloc_, __null_int23_exit_, __qread_, _exit_, atexit_
-global exit_, fgetc_, loc_C3747, loc_C3755, loc_C375C, loc_C378B, loc_C378F, loc_C37BB
-global loc_C37E3, loc_C37F7, loc_C3803, loc_C3822, loc_C382E, loc_C3841, loc_C385D, loc_C3886
-global loc_C389D, loc_C38DD, loc_C38EA, loc_C38ED, loc_C38FA, loc_C3909, loc_C3918, loc_C393B
-global loc_C3951, loc_C398A
+global exit_, fgetc_
 __ioalloc_:
-push ecx	; C3727
-push edx	; C3728
-mov edx, eax	; C3729
-call __chktty_	; C372B
-cmp dword [byte edx+014h], byte 0	; C3730
-jne short loc_C375C	; C3734
-mov ah, byte [byte edx+0Dh]	; C3736
-test ah, 2	; C3739
-je short loc_C3747	; C373C
-mov dword [byte edx+014h], 86h	; C373E
-jmp short loc_C375C	; C3745
-loc_C3747:
-test ah, 4	; C3747
-je short loc_C3755	; C374A
-mov dword [byte edx+014h], 1	; C374C
-jmp short loc_C375C	; C3753
-loc_C3755:
-mov dword [byte edx+014h], 1000h	; C3755
-loc_C375C:
-mov eax, dword [byte edx+014h]	; C375C
-call _nmalloc_	; C375F
-mov dword [byte edx+08h], eax	; C3764
-test eax, eax	; C3767
-jne short loc_C378B	; C3769
-lea eax, [byte edx+018h]	; C376B
-mov cl, byte [byte edx+0Dh]	; C376E
-mov dword [byte edx+014h], 1	; C3771
-and cl, 0F8h	; C3778
-mov dword [byte edx+08h], eax	; C377B
-mov ch, cl	; C377E
-mov byte [byte edx+0Dh], cl	; C3780
-or ch, 4	; C3783
-mov byte [byte edx+0Dh], ch	; C3786
-jmp short loc_C378F	; C3789
-loc_C378B:
-or byte [byte edx+0Ch], 8	; C378B
-loc_C378F:
-mov eax, dword [byte edx+08h]	; C378F
-mov dword [byte edx+04h], 0	; C3792
-mov dword [edx], eax	; C3799
-pop edx	; C379B
-pop ecx	; C379C
-ret	; C379D
+        push ecx
+        push edx
+        mov edx, eax
+        call __chktty_
+        cmp dword [byte edx+014h], byte 0
+        jne short .3
+        mov ah, byte [byte edx+0Dh]
+        test ah, 2
+        je short .1
+        mov dword [byte edx+014h], 86h
+        jmp short .3
+.1:
+        test ah, 4
+        je short .2
+        mov dword [byte edx+014h], 1
+        jmp short .3
+.2:
+        mov dword [byte edx+014h], 1000h
+.3:
+        mov eax, dword [byte edx+014h]
+        call _nmalloc_
+        mov dword [byte edx+08h], eax
+        test eax, eax
+        jne short .4
+        lea eax, [byte edx+018h]
+        mov cl, byte [byte edx+0Dh]
+        mov dword [byte edx+014h], 1
+        and cl, 0F8h
+        mov dword [byte edx+08h], eax
+        mov ch, cl
+        mov byte [byte edx+0Dh], cl
+        or ch, 4
+        mov byte [byte edx+0Dh], ch
+        jmp short .5
+.4:
+        or byte [byte edx+0Ch], 8
+.5:
+        mov eax, dword [byte edx+08h]
+        mov dword [byte edx+04h], 0
+        mov dword [edx], eax
+        pop edx
+        pop ecx
+        ret
 __qread_:
-push ecx	; C379E
-mov ecx, ebx	; C379F
-mov ebx, eax	; C37A1
-mov ah, 3Fh	; C37A3
-int 21h	; C37A5
-rcl eax, 1	; C37A7
-ror eax, 1	; C37A9
-mov edx, eax	; C37AB
-test eax, eax	; C37AD
-jge short loc_C37BB	; C37AF
-and eax, 0FFFFh	; C37B1
-call __set_errno_dos_	; C37B6
-loc_C37BB:
-pop ecx	; C37BB
-ret	; C37BC
+        push ecx
+        mov ecx, ebx
+        mov ebx, eax
+        mov ah, 3Fh
+        int 21h
+        rcl eax, 1
+        ror eax, 1
+        mov edx, eax
+        test eax, eax
+        jge short .1
+        and eax, 0FFFFh
+        call __set_errno_dos_
+.1:
+        pop ecx
+        ret
 fgetc_:
-push ebx	; C37BD
-push ecx	; C37BE
-push edx	; C37BF
-push esi	; C37C0
-mov edx, eax	; C37C1
-test byte [byte eax+0Ch], 1	; C37C3
-jne short loc_C37E3	; C37C7
-mov eax, 4	; C37C9
-call __set_errno_	; C37CE
-mov bl, byte [byte edx+0Ch]	; C37D3
-or bl, 20h	; C37D6
-mov eax, 0FFFFFFFFh	; C37D9
-mov byte [byte edx+0Ch], bl	; C37DE
-jmp short loc_C3803	; C37E1
-loc_C37E3:
-mov ebx, dword [byte edx+04h]	; C37E3
-dec ebx	; C37E6
-mov dword [byte edx+04h], ebx	; C37E7
-test ebx, ebx	; C37EA
-jge short loc_C37F7	; C37EC
-mov eax, edx	; C37EE
-call __filbuf_	; C37F0
-jmp short loc_C3803	; C37F5
-loc_C37F7:
-mov ebx, dword [edx]	; C37F7
-mov al, byte [ebx]	; C37F9
-inc ebx	; C37FB
-and eax, 0FFh	; C37FC
-mov dword [edx], ebx	; C3801
-loc_C3803:
-test byte [byte edx+0Ch], 40h	; C3803
-jne short loc_C3841	; C3807
-cmp eax, byte 0Dh	; C3809
-jne short loc_C382E	; C380C
-mov esi, dword [byte edx+04h]	; C380E
-dec esi	; C3811
-mov dword [byte edx+04h], esi	; C3812
-test esi, esi	; C3815
-jge short loc_C3822	; C3817
-mov eax, edx	; C3819
-call __filbuf_	; C381B
-jmp short loc_C382E	; C3820
-loc_C3822:
-mov ebx, dword [edx]	; C3822
-mov al, byte [ebx]	; C3824
-inc ebx	; C3826
-and eax, 0FFh	; C3827
-mov dword [edx], ebx	; C382C
-loc_C382E:
-cmp eax, byte 1Ah	; C382E
-jne short loc_C3841	; C3831
-mov cl, byte [byte edx+0Ch]	; C3833
-or cl, 10h	; C3836
-mov eax, 0FFFFFFFFh	; C3839
-mov byte [byte edx+0Ch], cl	; C383E
-loc_C3841:
-pop esi	; C3841
-pop edx	; C3842
-pop ecx	; C3843
-pop ebx	; C3844
-ret	; C3845
+        push ebx
+        push ecx
+        push edx
+        push esi
+        mov edx, eax
+        test byte [byte eax+0Ch], 1
+        jne short .1
+        mov eax, 4
+        call __set_errno_
+        mov bl, byte [byte edx+0Ch]
+        or bl, 20h
+        mov eax, 0FFFFFFFFh
+        mov byte [byte edx+0Ch], bl
+        jmp short .3
+.1:
+        mov ebx, dword [byte edx+04h]
+        dec ebx
+        mov dword [byte edx+04h], ebx
+        test ebx, ebx
+        jge short .2
+        mov eax, edx
+        call __filbuf_
+        jmp short .3
+.2:
+        mov ebx, dword [edx]
+        mov al, byte [ebx]
+        inc ebx
+        and eax, 0FFh
+        mov dword [edx], ebx
+.3:
+        test byte [byte edx+0Ch], 40h
+        jne short .6
+        cmp eax, byte 0Dh
+        jne short .5
+        mov esi, dword [byte edx+04h]
+        dec esi
+        mov dword [byte edx+04h], esi
+        test esi, esi
+        jge short .4
+        mov eax, edx
+        call __filbuf_
+        jmp short .5
+.4:
+        mov ebx, dword [edx]
+        mov al, byte [ebx]
+        inc ebx
+        and eax, 0FFh
+        mov dword [edx], ebx
+.5:
+        cmp eax, byte 1Ah
+        jne short .6
+        mov cl, byte [byte edx+0Ch]
+        or cl, 10h
+        mov eax, 0FFFFFFFFh
+        mov byte [byte edx+0Ch], cl
+.6:
+        pop esi
+        pop edx
+        pop ecx
+        pop ebx
+        ret
 __filbuf_:
-push ebx	; C3846
-push ecx	; C3847
-push edx	; C3848
-mov edx, eax	; C3849
-call __fill_buffer_	; C384B
-test eax, eax	; C3850
-jne short loc_C385D	; C3852
-mov eax, 0FFFFFFFFh	; C3854
-pop edx	; C3859
-pop ecx	; C385A
-pop ebx	; C385B
-ret	; C385C
-loc_C385D:
-mov ebx, dword [byte edx+04h]	; C385D
-mov ecx, dword [edx]	; C3860
-dec ebx	; C3862
-inc ecx	; C3863
-mov dword [byte edx+04h], ebx	; C3864
-mov dword [edx], ecx	; C3867
-mov al, byte [byte ecx-01h]	; C3869
-and eax, 0FFh	; C386C
-pop edx	; C3871
-pop ecx	; C3872
-pop ebx	; C3873
-ret	; C3874
+        push ebx
+        push ecx
+        push edx
+        mov edx, eax
+        call __fill_buffer_
+        test eax, eax
+        jne short .1
+        mov eax, 0FFFFFFFFh
+        pop edx
+        pop ecx
+        pop ebx
+        ret
+.1:
+        mov ebx, dword [byte edx+04h]
+        mov ecx, dword [edx]
+        dec ebx
+        inc ecx
+        mov dword [byte edx+04h], ebx
+        mov dword [edx], ecx
+        mov al, byte [byte ecx-01h]
+        and eax, 0FFh
+        pop edx
+        pop ecx
+        pop ebx
+        ret
 __fill_buffer_:
-push ebx	; C3875
-push ecx	; C3876
-push edx	; C3877
-push esi	; C3878
-mov ecx, eax	; C3879
-cmp dword [byte eax+08h], byte 0	; C387B
-jne short loc_C3886	; C387F
-call __ioalloc_	; C3881
-loc_C3886:
-mov ah, byte [byte ecx+0Dh]	; C3886
-test ah, 20h	; C3889
-je short loc_C389D	; C388C
-test ah, 6	; C388E
-je short loc_C389D	; C3891
-mov eax, 2000h	; C3893
-call __flushall_	; C3898
-loc_C389D:
-mov edx, dword [byte ecx+0Ch]	; C389D
-mov bl, byte [byte ecx+0Ch]	; C38A0
-mov eax, dword [byte ecx+08h]	; C38A3
-and bl, 0FBh	; C38A6
-mov dword [ecx], eax	; C38A9
-and edx, 2400h	; C38AB
-mov byte [byte ecx+0Ch], bl	; C38B1
-cmp edx, 2400h	; C38B4
-jne short loc_C38DD	; C38BA
-mov ebx, dword [byte ecx+010h]	; C38BC
-test ebx, ebx	; C38BF
-jne short loc_C38DD	; C38C1
-mov dword [byte ecx+04h], ebx	; C38C3
-call getche_	; C38C6
-cmp eax, byte 0FFFFFFFFh	; C38CB
-je short loc_C38FA	; C38CE
-mov ebx, dword [ecx]	; C38D0
-mov byte [ebx], al	; C38D2
-mov dword [byte ecx+04h], 1	; C38D4
-jmp short loc_C38FA	; C38DB
-loc_C38DD:
-test byte [byte ecx+0Dh], 4	; C38DD
-je short loc_C38EA	; C38E1
-mov ebx, 1	; C38E3
-jmp short loc_C38ED	; C38E8
-loc_C38EA:
-mov ebx, dword [byte ecx+014h]	; C38EA
-loc_C38ED:
-mov edx, dword [ecx]	; C38ED
-mov eax, dword [byte ecx+010h]	; C38EF
-call __qread_	; C38F2
-mov dword [byte ecx+04h], eax	; C38F7
-loc_C38FA:
-mov esi, dword [byte ecx+04h]	; C38FA
-test esi, esi	; C38FD
-jg short loc_C3918	; C38FF
-jne short loc_C3909	; C3901
-or byte [byte ecx+0Ch], 10h	; C3903
-jmp short loc_C3918	; C3907
-loc_C3909:
-mov al, byte [byte ecx+0Ch]	; C3909
-mov dword [byte ecx+04h], 0	; C390C
-or al, 20h	; C3913
-mov byte [byte ecx+0Ch], al	; C3915
-loc_C3918:
-mov eax, dword [byte ecx+04h]	; C3918
-pop esi	; C391B
-pop edx	; C391C
-pop ecx	; C391D
-pop ebx	; C391E
-ret	; C391F
+        push ebx
+        push ecx
+        push edx
+        push esi
+        mov ecx, eax
+        cmp dword [byte eax+08h], byte 0
+        jne short .1
+        call __ioalloc_
+.1:
+        mov ah, byte [byte ecx+0Dh]
+        test ah, 20h
+        je short .2
+        test ah, 6
+        je short .2
+        mov eax, 2000h
+        call __flushall_
+.2:
+        mov edx, dword [byte ecx+0Ch]
+        mov bl, byte [byte ecx+0Ch]
+        mov eax, dword [byte ecx+08h]
+        and bl, 0FBh
+        mov dword [ecx], eax
+        and edx, 2400h
+        mov byte [byte ecx+0Ch], bl
+        cmp edx, 2400h
+        jne short .3
+        mov ebx, dword [byte ecx+010h]
+        test ebx, ebx
+        jne short .3
+        mov dword [byte ecx+04h], ebx
+        call getche_
+        cmp eax, byte 0FFFFFFFFh
+        je short .6
+        mov ebx, dword [ecx]
+        mov byte [ebx], al
+        mov dword [byte ecx+04h], 1
+        jmp short .6
+.3:
+        test byte [byte ecx+0Dh], 4
+        je short .4
+        mov ebx, 1
+        jmp short .5
+.4:
+        mov ebx, dword [byte ecx+014h]
+.5:
+        mov edx, dword [ecx]
+        mov eax, dword [byte ecx+010h]
+        call __qread_
+        mov dword [byte ecx+04h], eax
+.6:
+        mov esi, dword [byte ecx+04h]
+        test esi, esi
+        jg short .8
+        jne short .7
+        or byte [byte ecx+0Ch], 10h
+        jmp short .8
+.7:
+        mov al, byte [byte ecx+0Ch]
+        mov dword [byte ecx+04h], 0
+        or al, 20h
+        mov byte [byte ecx+0Ch], al
+.8:
+        mov eax, dword [byte ecx+04h]
+        pop esi
+        pop edx
+        pop ecx
+        pop ebx
+        ret
 _Full_at_exit_rtn_:
-push ebx	; C3920
-push edx	; C3921
-sub esp, byte 4	; C3922
-mov edx, 20h	; C3925
-mov ebx, dword [dword_19BAC8]	; C392A
-mov dword [dword_19BAC8], edx	; C3930
-mov edx, ebx	; C3936
-shl edx, 2	; C3938
-loc_C393B:
-test edx, edx	; C393B
-je short loc_C3951	; C393D
-mov eax, dword [dword edx+byte_19BA44]	; C393F
-sub edx, byte 4	; C3945
-mov dword [esp], eax	; C3948
-dec ebx	; C394B
-call dword [esp]	; C394C
-jmp short loc_C393B	; C394F
-loc_C3951:
-add esp, byte 4	; C3951
-pop edx	; C3954
-pop ebx	; C3955
-ret	; C3956
+        push ebx
+        push edx
+        sub esp, byte 4
+        mov edx, 20h
+        mov ebx, dword [dword_19BAC8]
+        mov dword [dword_19BAC8], edx
+        mov edx, ebx
+        shl edx, 2
+.1:
+        test edx, edx
+        je short .2
+        mov eax, dword [dword edx+byte_19BA44]
+        sub edx, byte 4
+        mov dword [esp], eax
+        dec ebx
+        call dword [esp]
+        jmp short .1
+.2:
+        add esp, byte 4
+        pop edx
+        pop ebx
+        ret
 atexit_:
-push ebx	; C3957
-push ecx	; C3958
-push edx	; C3959
-mov ebx, eax	; C395A
-mov edx, _Full_at_exit_rtn_	; C395C
-mov ecx, dword [dword_19BAC8]	; C3961
-mov dword [off_124008], edx	; C3967
-cmp ecx, byte 20h	; C396D
-jge short loc_C398A	; C3970
-mov eax, ecx	; C3972
-lea edx, [byte ecx+01h]	; C3974
-mov dword [nosplit ecx*4+dword_19BA48], ebx	; C3977
-mov dword [dword_19BAC8], edx	; C397E
-xor eax, ecx	; C3984
-pop edx	; C3986
-pop ecx	; C3987
-pop ebx	; C3988
-ret	; C3989
-loc_C398A:
-mov eax, 0FFFFFFFFh	; C398A
-pop edx	; C398F
-pop ecx	; C3990
-pop ebx	; C3991
-ret	; C3992
+        push ebx
+        push ecx
+        push edx
+        mov ebx, eax
+        mov edx, _Full_at_exit_rtn_
+        mov ecx, dword [dword_19BAC8]
+        mov dword [off_124008], edx
+        cmp ecx, byte 20h
+        jge short .1
+        mov eax, ecx
+        lea edx, [byte ecx+01h]
+        mov dword [nosplit ecx*4+dword_19BA48], ebx
+        mov dword [dword_19BAC8], edx
+        xor eax, ecx
+        pop edx
+        pop ecx
+        pop ebx
+        ret
+.1:
+        mov eax, 0FFFFFFFFh
+        pop edx
+        pop ecx
+        pop ebx
+        ret
 __null_int23_exit_:
-ret	; C3993
+        ret
 exit_:
-push edx	; C3994
-mov edx, eax	; C3995
-call dword [off_124008]	; C3997
-call dword [off_12400C]	; C399D
-mov eax, edx	; C39A3
-call _exit_	; C39A5
-pop edx	; C39AA
-ret	; C39AB
+        push edx
+        mov edx, eax
+        call dword [off_124008]
+        call dword [off_12400C]
+        mov eax, edx
+        call _exit_
+        pop edx
+        ret
 _exit_:
-push edx	; C39AC
-mov edx, eax	; C39AD
-call dword [off_12400C]	; C39AF
-call dword [off_124010]	; C39B5
-mov eax, edx	; C39BB
-jmp near loc_B6597	; C39BD
+        push edx
+        mov edx, eax
+        call dword [off_12400C]
+        call dword [off_124010]
+        mov eax, edx
+        jmp near start_28F

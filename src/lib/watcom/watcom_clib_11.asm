@@ -3,113 +3,112 @@ bits 32
 %include "hockey.inc"
 section s_C3BE0 progbits alloc exec nowrite align=1
 extern __flush_, __fprtf_, __ioalloc_, __prtf_, fputc_
-global fputs_, loc_C3BF8, loc_C3C52, loc_C3C71, loc_C3C75, loc_C3C8C, loc_C3CAD, loc_C3CB5
-global mem_putc__0, sub_C3BE0, sub_C3C04, sub_C3C37, vsprintf_
+global fputs_, mem_putc__0, sub_C3BE0, sub_C3C04, sub_C3C37, vsprintf_
 sub_C3BE0:
-mov eax, dword [byte esp+04h]	; C3BE0
-mov dword [eax], 1	; C3BE4
-ret	; C3BEA
-db 090h
-mov eax, dword [byte esp+04h]	; C3BEC
-cmp dword [eax], byte 0	; C3BF0
-je short loc_C3BF8	; C3BF3
-xor eax, eax	; C3BF5
-ret	; C3BF7
-loc_C3BF8:
-mov dword [eax], 1	; C3BF8
-mov eax, 1	; C3BFE
-ret	; C3C03
+        mov eax, dword [byte esp+04h]
+        mov dword [eax], 1
+        ret
+        db 090h
+        mov eax, dword [byte esp+04h]
+        cmp dword [eax], byte 0
+        je short .1
+        xor eax, eax
+        ret
+.1:
+        mov dword [eax], 1
+        mov eax, 1
+        ret
 sub_C3C04:
-mov eax, dword [byte esp+04h]	; C3C04
-mov dword [eax], 0	; C3C08
-ret	; C3C0E
+        mov eax, dword [byte esp+04h]
+        mov dword [eax], 0
+        ret
 mem_putc__0:
-push ebx	; C3C0F
-push ecx	; C3C10
-mov bl, dl	; C3C11
-mov edx, dword [eax]	; C3C13
-lea ecx, [byte edx+01h]	; C3C15
-mov dword [eax], ecx	; C3C18
-mov byte [edx], bl	; C3C1A
-inc dword [byte eax+010h]	; C3C1C
-pop ecx	; C3C1F
-pop ebx	; C3C20
-ret	; C3C21
+        push ebx
+        push ecx
+        mov bl, dl
+        mov edx, dword [eax]
+        lea ecx, [byte edx+01h]
+        mov dword [eax], ecx
+        mov byte [edx], bl
+        inc dword [byte eax+010h]
+        pop ecx
+        pop ebx
+        ret
 vsprintf_:
-push ecx	; C3C22
-push esi	; C3C23
-mov esi, eax	; C3C24
-mov ecx, mem_putc__0	; C3C26
-call __prtf_	; C3C2B
-mov byte [esi+eax], 0	; C3C30
-pop esi	; C3C34
-pop ecx	; C3C35
-ret	; C3C36
+        push ecx
+        push esi
+        mov esi, eax
+        mov ecx, mem_putc__0
+        call __prtf_
+        mov byte [esi+eax], 0
+        pop esi
+        pop ecx
+        ret
 sub_C3C37:
-jmp near __fprtf_	; C3C37
+        jmp near __fprtf_
 fputs_:
-push ebx	; C3C3C
-push ecx	; C3C3D
-push esi	; C3C3E
-push edi	; C3C3F
-push ebp	; C3C40
-mov ecx, eax	; C3C41
-mov ebx, edx	; C3C43
-cmp dword [byte edx+08h], byte 0	; C3C45
-jne short loc_C3C52	; C3C49
-mov eax, ebx	; C3C4B
-call __ioalloc_	; C3C4D
-loc_C3C52:
-mov ah, byte [byte ebx+0Dh]	; C3C52
-xor edi, edi	; C3C55
-test ah, 4	; C3C57
-je short loc_C3C71	; C3C5A
-mov dl, ah	; C3C5C
-and dl, 0F9h	; C3C5E
-mov dh, dl	; C3C61
-mov byte [byte ebx+0Dh], dl	; C3C63
-or dh, 2	; C3C66
-mov edi, 1	; C3C69
-mov byte [byte ebx+0Dh], dh	; C3C6E
-loc_C3C71:
-mov ebp, ecx	; C3C71
-xor esi, esi	; C3C73
-loc_C3C75:
-xor eax, eax	; C3C75
-mov al, byte [ecx]	; C3C77
-test eax, eax	; C3C79
-je short loc_C3C8C	; C3C7B
-mov edx, ebx	; C3C7D
-inc ecx	; C3C7F
-call fputc_	; C3C80
-cmp eax, byte 0FFFFFFFFh	; C3C85
-jne short loc_C3C75	; C3C88
-mov esi, eax	; C3C8A
-loc_C3C8C:
-test edi, edi	; C3C8C
-je short loc_C3CAD	; C3C8E
-mov al, byte [byte ebx+0Dh]	; C3C90
-and al, 0F9h	; C3C93
-mov ah, al	; C3C95
-mov byte [byte ebx+0Dh], al	; C3C97
-or ah, 4	; C3C9A
-mov byte [byte ebx+0Dh], ah	; C3C9D
-test esi, esi	; C3CA0
-jne short loc_C3CAD	; C3CA2
-mov eax, ebx	; C3CA4
-call __flush_	; C3CA6
-mov esi, eax	; C3CAB
-loc_C3CAD:
-test esi, esi	; C3CAD
-jne short loc_C3CB5	; C3CAF
-mov esi, ecx	; C3CB1
-sub esi, ebp	; C3CB3
-loc_C3CB5:
-mov eax, esi	; C3CB5
-pop ebp	; C3CB7
-pop edi	; C3CB8
-pop esi	; C3CB9
-pop ecx	; C3CBA
-pop ebx	; C3CBB
-ret	; C3CBC
-db 00h,00h,00h
+        push ebx
+        push ecx
+        push esi
+        push edi
+        push ebp
+        mov ecx, eax
+        mov ebx, edx
+        cmp dword [byte edx+08h], byte 0
+        jne short .1
+        mov eax, ebx
+        call __ioalloc_
+.1:
+        mov ah, byte [byte ebx+0Dh]
+        xor edi, edi
+        test ah, 4
+        je short .2
+        mov dl, ah
+        and dl, 0F9h
+        mov dh, dl
+        mov byte [byte ebx+0Dh], dl
+        or dh, 2
+        mov edi, 1
+        mov byte [byte ebx+0Dh], dh
+.2:
+        mov ebp, ecx
+        xor esi, esi
+.3:
+        xor eax, eax
+        mov al, byte [ecx]
+        test eax, eax
+        je short .4
+        mov edx, ebx
+        inc ecx
+        call fputc_
+        cmp eax, byte 0FFFFFFFFh
+        jne short .3
+        mov esi, eax
+.4:
+        test edi, edi
+        je short .5
+        mov al, byte [byte ebx+0Dh]
+        and al, 0F9h
+        mov ah, al
+        mov byte [byte ebx+0Dh], al
+        or ah, 4
+        mov byte [byte ebx+0Dh], ah
+        test esi, esi
+        jne short .5
+        mov eax, ebx
+        call __flush_
+        mov esi, eax
+.5:
+        test esi, esi
+        jne short .6
+        mov esi, ecx
+        sub esi, ebp
+.6:
+        mov eax, esi
+        pop ebp
+        pop edi
+        pop esi
+        pop ecx
+        pop ebx
+        ret
+        db 00h,00h,00h

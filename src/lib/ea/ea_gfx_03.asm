@@ -3,133 +3,132 @@ bits 32
 %include "hockey.inc"
 section s_B2B30 progbits alloc exec nowrite align=1
 extern dword_1210C0, dword_1228D0, dword_1228F4, dword_1228FC, dword_122930, sub_DE3D8, sub_DEEE3
-global loc_B2B5B, loc_B2BB0, loc_B2C11, loc_B2C2B, loc_B2C44, loc_B2C4D, DrawArtOpaque, sub_B2C54
-global sub_B2C70
+global DrawArtOpaque, sub_B2C54, sub_B2C70
 DrawArtOpaque:
-push esi	; B2B30
-push edi	; B2B31
-push ebp	; B2B32
-sub esp, byte 14h	; B2B33
-mov eax, dword [byte esp+024h]	; B2B36
-mov edx, dword [byte esp+028h]	; B2B3A
-mov edi, dword [byte esp+02Ch]	; B2B3E
-cmp dword [dword_1228F4], byte 0	; B2B42
-jne short loc_B2B5B	; B2B49
-push edi	; B2B4B
-push edx	; B2B4C
-push eax	; B2B4D
-call sub_DEEE3	; B2B4E
-add esp, byte 0Ch	; B2B53
-jmp near loc_B2C4D	; B2B56
-loc_B2B5B:
-lea esi, [byte eax+010h]	; B2B5B
-mov ebp, dword [byte eax+04h]	; B2B5E
-mov ecx, dword [nosplit edi*4+dword_122930]	; B2B61
-mov eax, dword [byte eax+02h]	; B2B68
-sar ebp, 10h	; B2B6B
-sar eax, 10h	; B2B6E
-add edx, ecx	; B2B71
-mov dword [byte esp+0Ch], eax	; B2B73
-mov eax, dword [dword_1228FC]	; B2B77
-mov edi, dword [byte esp+0Ch]	; B2B7C
-mov dword [byte esp+04h], eax	; B2B80
-mov eax, dword [dword_1228D0]	; B2B84
-mov dword [byte esp+08h], ebp	; B2B89
-sub eax, edi	; B2B8D
-mov edi, edx	; B2B8F
-mov ebp, dword [byte esp+0Ch]	; B2B91
-shr edi, 10h	; B2B95
-mov dword [esp], eax	; B2B98
-mov eax, edi	; B2B9B
-and edx, 0FFFFh	; B2B9D
-call sub_DE3D8	; B2BA3
-test ebp, ebp	; B2BA8
-jle near loc_B2C4D	; B2BAA
-loc_B2BB0:
-cmp dword [byte esp+08h], byte 0	; B2BB0
-jle near loc_B2C4D	; B2BB5
-mov eax, dword [byte esp+0Ch]	; B2BBB
-add eax, edx	; B2BBF
-mov dword [byte esp+010h], eax	; B2BC1
-mov eax, dword [byte esp+04h]	; B2BC5
-mov bl, byte [byte esp+012h]	; B2BC9
-add eax, edx	; B2BCD
-test bl, 1	; B2BCF
-je short loc_B2C11	; B2BD2
-mov ebp, 10000h	; B2BD4
-sub ebp, edx	; B2BD9
-push ebp	; B2BDB
-push eax	; B2BDC
-push esi	; B2BDD
-inc edi	; B2BDE
-call dword [dword_1210C0]	; B2BDF
-add esp, byte 0Ch	; B2BE5
-add esi, ebp	; B2BE8
-mov ebp, dword [byte esp+010h]	; B2BEA
-mov eax, edi	; B2BEE
-and ebp, 0FFFFh	; B2BF0
-call sub_DE3D8	; B2BF6
-push ebp	; B2BFB
-mov ecx, dword [byte esp+08h]	; B2BFC
-push ecx	; B2C00
-push esi	; B2C01
-call dword [dword_1210C0]	; B2C02
-add esp, byte 0Ch	; B2C08
-mov edx, ebp	; B2C0B
-add esi, ebp	; B2C0D
-jmp short loc_B2C2B	; B2C0F
-loc_B2C11:
-mov edx, dword [byte esp+0Ch]	; B2C11
-push edx	; B2C15
-push eax	; B2C16
-push esi	; B2C17
-call dword [dword_1210C0]	; B2C18
-add esp, byte 0Ch	; B2C1E
-mov ebx, dword [byte esp+0Ch]	; B2C21
-mov edx, dword [byte esp+010h]	; B2C25
-add esi, ebx	; B2C29
-loc_B2C2B:
-add edx, dword [esp]	; B2C2B
-test edx, 10000h	; B2C2E
-je short loc_B2C44	; B2C34
-inc edi	; B2C36
-mov eax, edi	; B2C37
-and edx, 0FFFFh	; B2C39
-call sub_DE3D8	; B2C3F
-loc_B2C44:
-dec dword [byte esp+08h]	; B2C44
-jmp near loc_B2BB0	; B2C48
-loc_B2C4D:
-add esp, byte 14h	; B2C4D
-pop ebp	; B2C50
-pop edi	; B2C51
-pop esi	; B2C52
-ret	; B2C53
+        push esi
+        push edi
+        push ebp
+        sub esp, byte 14h
+        mov eax, dword [byte esp+024h]
+        mov edx, dword [byte esp+028h]
+        mov edi, dword [byte esp+02Ch]
+        cmp dword [dword_1228F4], byte 0
+        jne short .1
+        push edi
+        push edx
+        push eax
+        call sub_DEEE3
+        add esp, byte 0Ch
+        jmp near .6
+.1:
+        lea esi, [byte eax+010h]
+        mov ebp, dword [byte eax+04h]
+        mov ecx, dword [nosplit edi*4+dword_122930]
+        mov eax, dword [byte eax+02h]
+        sar ebp, 10h
+        sar eax, 10h
+        add edx, ecx
+        mov dword [byte esp+0Ch], eax
+        mov eax, dword [dword_1228FC]
+        mov edi, dword [byte esp+0Ch]
+        mov dword [byte esp+04h], eax
+        mov eax, dword [dword_1228D0]
+        mov dword [byte esp+08h], ebp
+        sub eax, edi
+        mov edi, edx
+        mov ebp, dword [byte esp+0Ch]
+        shr edi, 10h
+        mov dword [esp], eax
+        mov eax, edi
+        and edx, 0FFFFh
+        call sub_DE3D8
+        test ebp, ebp
+        jle near .6
+.2:
+        cmp dword [byte esp+08h], byte 0
+        jle near .6
+        mov eax, dword [byte esp+0Ch]
+        add eax, edx
+        mov dword [byte esp+010h], eax
+        mov eax, dword [byte esp+04h]
+        mov bl, byte [byte esp+012h]
+        add eax, edx
+        test bl, 1
+        je short .3
+        mov ebp, 10000h
+        sub ebp, edx
+        push ebp
+        push eax
+        push esi
+        inc edi
+        call dword [dword_1210C0]
+        add esp, byte 0Ch
+        add esi, ebp
+        mov ebp, dword [byte esp+010h]
+        mov eax, edi
+        and ebp, 0FFFFh
+        call sub_DE3D8
+        push ebp
+        mov ecx, dword [byte esp+08h]
+        push ecx
+        push esi
+        call dword [dword_1210C0]
+        add esp, byte 0Ch
+        mov edx, ebp
+        add esi, ebp
+        jmp short .4
+.3:
+        mov edx, dword [byte esp+0Ch]
+        push edx
+        push eax
+        push esi
+        call dword [dword_1210C0]
+        add esp, byte 0Ch
+        mov ebx, dword [byte esp+0Ch]
+        mov edx, dword [byte esp+010h]
+        add esi, ebx
+.4:
+        add edx, dword [esp]
+        test edx, 10000h
+        je short .5
+        inc edi
+        mov eax, edi
+        and edx, 0FFFFh
+        call sub_DE3D8
+.5:
+        dec dword [byte esp+08h]
+        jmp near .2
+.6:
+        add esp, byte 14h
+        pop ebp
+        pop edi
+        pop esi
+        ret
 sub_B2C54:
-mov edx, dword [byte esp+04h]	; B2C54
-mov eax, dword [byte edx+0Ch]	; B2C58
-sar eax, 10h	; B2C5B
-push eax	; B2C5E
-mov eax, dword [byte edx+0Ah]	; B2C5F
-sar eax, 10h	; B2C62
-push eax	; B2C65
-push edx	; B2C66
-call DrawArtOpaque	; B2C67
-add esp, byte 0Ch	; B2C6C
-ret	; B2C6F
+        mov edx, dword [byte esp+04h]
+        mov eax, dword [byte edx+0Ch]
+        sar eax, 10h
+        push eax
+        mov eax, dword [byte edx+0Ah]
+        sar eax, 10h
+        push eax
+        push edx
+        call DrawArtOpaque
+        add esp, byte 0Ch
+        ret
 sub_B2C70:
-mov edx, dword [byte esp+04h]	; B2C70
-mov eax, dword [byte edx+08h]	; B2C74
-mov ebx, dword [byte esp+0Ch]	; B2C77
-sar eax, 10h	; B2C7B
-sub ebx, eax	; B2C7E
-push ebx	; B2C80
-mov eax, dword [byte edx+06h]	; B2C81
-mov ebx, dword [byte esp+0Ch]	; B2C84
-sar eax, 10h	; B2C88
-sub ebx, eax	; B2C8B
-push ebx	; B2C8D
-push edx	; B2C8E
-call DrawArtOpaque	; B2C8F
-add esp, byte 0Ch	; B2C94
-ret	; B2C97
+        mov edx, dword [byte esp+04h]
+        mov eax, dword [byte edx+08h]
+        mov ebx, dword [byte esp+0Ch]
+        sar eax, 10h
+        sub ebx, eax
+        push ebx
+        mov eax, dword [byte edx+06h]
+        mov ebx, dword [byte esp+0Ch]
+        sar eax, 10h
+        sub ebx, eax
+        push ebx
+        push edx
+        call DrawArtOpaque
+        add esp, byte 0Ch
+        ret

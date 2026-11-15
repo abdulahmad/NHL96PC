@@ -2,174 +2,172 @@
 bits 32
 %include "hockey.inc"
 section s_C3CC0 progbits alloc exec nowrite align=1
-extern FatalError, str_RemovewindowROWSPACE, dword_11F9BC, dword_18572C, loc_C3EE4, loc_C3F05, loc_C3F29, loc_C3F49
-extern loc_C3F69, loc_C3FBA, loc_C400B, loc_C4055, loc_C409B
-global loc_C3CE5, loc_C3D0D, loc_C3D13, loc_C3D25, loc_C3D36, loc_C3D49, loc_C3D60, loc_C3D6C
-global loc_C3D76, loc_C3D78, loc_C3DA3, loc_C3DB3, loc_C3DC4, loc_C3DE9, loc_C3DFA, sub_C3CC0
-global removewindow, unk_C3E10
+extern FatalError, str_RemovewindowROWSPACE, dword_11F9BC, dword_18572C, sub_C3E38_AC, sub_C3E38_CD, sub_C3E38_F1, sub_C3E38_111
+extern sub_C3E38_131, sub_C3E38_182, sub_C3E38_1D3, sub_C3E38_21D, sub_C3E38_263
+global sub_C3CC0, removewindow, unk_C3E10
 sub_C3CC0:
-push ecx	; C3CC0
-push esi	; C3CC1
-push edi	; C3CC2
-push ebp	; C3CC3
-sub esp, byte 4	; C3CC4
-mov ecx, eax	; C3CC7
-mov edi, edx	; C3CC9
-mov esi, ebx	; C3CCB
-mov eax, dword [dword_11F9BC]	; C3CCD
-mov edx, dword [dword_18572C]	; C3CD2
-xor ebx, ebx	; C3CD8
-cmp eax, edx	; C3CDA
-jae short loc_C3D25	; C3CDC
-mov edx, ecx	; C3CDE
-add edx, edi	; C3CE0
-mov dword [esp], edx	; C3CE2
-loc_C3CE5:
-mov edx, dword [eax]	; C3CE5
-cmp edx, esi	; C3CE7
-jl short loc_C3D13	; C3CE9
-cmp dword [byte eax+04h], byte 0	; C3CEB
-jbe short loc_C3D0D	; C3CEF
-cmp ecx, dword [byte eax+08h]	; C3CF1
-jne short loc_C3D13	; C3CF4
-mov ebp, dword [byte eax+0Ch]	; C3CF6
-cmp ebp, dword [esp]	; C3CF9
-jne short loc_C3D13	; C3CFC
-mov edx, dword [byte eax+04h]	; C3CFE
-add eax, byte 8	; C3D01
-inc edx	; C3D04
-mov dword [byte eax-04h], edx	; C3D05
-jmp near loc_C3D78	; C3D08
-loc_C3D0D:
-test ebx, ebx	; C3D0D
-jne short loc_C3D13	; C3D0F
-mov ebx, eax	; C3D11
-loc_C3D13:
-shl edx, 2	; C3D13
-add edx, byte 8	; C3D16
-mov ebp, dword [dword_18572C]	; C3D19
-add eax, edx	; C3D1F
-cmp eax, ebp	; C3D21
-jb short loc_C3CE5	; C3D23
-loc_C3D25:
-test ebx, ebx	; C3D25
-je short loc_C3D76	; C3D27
-lea edx, [byte esi+08h]	; C3D29
-mov eax, dword [ebx]	; C3D2C
-cmp eax, edx	; C3D2E
-jge short loc_C3D36	; C3D30
-mov esi, eax	; C3D32
-jmp short loc_C3D49	; C3D34
-loc_C3D36:
-mov edx, eax	; C3D36
-sub edx, esi	; C3D38
-mov dword [byte ebx+esi*4+0Ch], 0	; C3D3A
-sub edx, byte 2	; C3D42
-mov dword [byte ebx+esi*4+08h], edx	; C3D45
-loc_C3D49:
-add ebx, byte 4	; C3D49
-mov dword [byte ebx-04h], esi	; C3D4C
-xor edx, edx	; C3D4F
-mov dword [ebx], 1	; C3D51
-add ebx, byte 4	; C3D57
-test esi, esi	; C3D5A
-jle short loc_C3D6C	; C3D5C
-mov eax, ebx	; C3D5E
-loc_C3D60:
-inc edx	; C3D60
-mov dword [eax], ecx	; C3D61
-add eax, byte 4	; C3D63
-add ecx, edi	; C3D66
-cmp edx, esi	; C3D68
-jl short loc_C3D60	; C3D6A
-loc_C3D6C:
-mov eax, ebx	; C3D6C
-add esp, byte 4	; C3D6E
-pop ebp	; C3D71
-pop edi	; C3D72
-pop esi	; C3D73
-pop ecx	; C3D74
-ret	; C3D75
-loc_C3D76:
-xor eax, eax	; C3D76
-loc_C3D78:
-add esp, byte 4	; C3D78
-pop ebp	; C3D7B
-pop edi	; C3D7C
-pop esi	; C3D7D
-pop ecx	; C3D7E
-ret	; C3D7F
+        push ecx
+        push esi
+        push edi
+        push ebp
+        sub esp, byte 4
+        mov ecx, eax
+        mov edi, edx
+        mov esi, ebx
+        mov eax, dword [dword_11F9BC]
+        mov edx, dword [dword_18572C]
+        xor ebx, ebx
+        cmp eax, edx
+        jae short .4
+        mov edx, ecx
+        add edx, edi
+        mov dword [esp], edx
+.1:
+        mov edx, dword [eax]
+        cmp edx, esi
+        jl short .3
+        cmp dword [byte eax+04h], byte 0
+        jbe short .2
+        cmp ecx, dword [byte eax+08h]
+        jne short .3
+        mov ebp, dword [byte eax+0Ch]
+        cmp ebp, dword [esp]
+        jne short .3
+        mov edx, dword [byte eax+04h]
+        add eax, byte 8
+        inc edx
+        mov dword [byte eax-04h], edx
+        jmp near .10
+.2:
+        test ebx, ebx
+        jne short .3
+        mov ebx, eax
+.3:
+        shl edx, 2
+        add edx, byte 8
+        mov ebp, dword [dword_18572C]
+        add eax, edx
+        cmp eax, ebp
+        jb short .1
+.4:
+        test ebx, ebx
+        je short .9
+        lea edx, [byte esi+08h]
+        mov eax, dword [ebx]
+        cmp eax, edx
+        jge short .5
+        mov esi, eax
+        jmp short .6
+.5:
+        mov edx, eax
+        sub edx, esi
+        mov dword [byte ebx+esi*4+0Ch], 0
+        sub edx, byte 2
+        mov dword [byte ebx+esi*4+08h], edx
+.6:
+        add ebx, byte 4
+        mov dword [byte ebx-04h], esi
+        xor edx, edx
+        mov dword [ebx], 1
+        add ebx, byte 4
+        test esi, esi
+        jle short .8
+        mov eax, ebx
+.7:
+        inc edx
+        mov dword [eax], ecx
+        add eax, byte 4
+        add ecx, edi
+        cmp edx, esi
+        jl short .7
+.8:
+        mov eax, ebx
+        add esp, byte 4
+        pop ebp
+        pop edi
+        pop esi
+        pop ecx
+        ret
+.9:
+        xor eax, eax
+.10:
+        add esp, byte 4
+        pop ebp
+        pop edi
+        pop esi
+        pop ecx
+        ret
 removewindow:
-push ebx	; C3D80
-push ecx	; C3D81
-push edx	; C3D82
-push esi	; C3D83
-push edi	; C3D84
-push ebp	; C3D85
-mov edx, eax	; C3D86
-mov ebx, dword [byte eax+04h]	; C3D88
-dec ebx	; C3D8B
-mov dword [byte eax+04h], ebx	; C3D8C
-test ebx, ebx	; C3D8F
-ja near loc_C3DFA	; C3D91
-mov esi, dword [dword_11F9BC]	; C3D97
-xor edi, edi	; C3D9D
-cmp esi, eax	; C3D9F
-jae short loc_C3DB3	; C3DA1
-loc_C3DA3:
-mov eax, dword [esi]	; C3DA3
-add eax, byte 2	; C3DA5
-shl eax, 2	; C3DA8
-mov edi, esi	; C3DAB
-add esi, eax	; C3DAD
-cmp esi, edx	; C3DAF
-jb short loc_C3DA3	; C3DB1
-loc_C3DB3:
-cmp esi, edx	; C3DB3
-je short loc_C3DC4	; C3DB5
-push str_RemovewindowROWSPACE	; C3DB7
-call FatalError	; C3DBC
-add esp, byte 4	; C3DC1
-loc_C3DC4:
-mov eax, dword [esi]	; C3DC4
-add eax, byte 2	; C3DC6
-shl eax, 2	; C3DC9
-mov ebp, dword [dword_18572C]	; C3DCC
-add eax, esi	; C3DD2
-cmp eax, ebp	; C3DD4
-jae short loc_C3DE9	; C3DD6
-cmp dword [byte eax+04h], byte 0	; C3DD8
-ja short loc_C3DE9	; C3DDC
-mov eax, dword [eax]	; C3DDE
-mov ebx, dword [esi]	; C3DE0
-add eax, byte 2	; C3DE2
-add ebx, eax	; C3DE5
-mov dword [esi], ebx	; C3DE7
-loc_C3DE9:
-test edi, edi	; C3DE9
-je short loc_C3DFA	; C3DEB
-cmp dword [byte edi+04h], byte 0	; C3DED
-ja short loc_C3DFA	; C3DF1
-mov eax, dword [esi]	; C3DF3
-add eax, byte 2	; C3DF5
-add dword [edi], eax	; C3DF8
-loc_C3DFA:
-pop ebp	; C3DFA
-pop edi	; C3DFB
-pop esi	; C3DFC
-pop edx	; C3DFD
-pop ecx	; C3DFE
-pop ebx	; C3DFF
-ret	; C3E00
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        push ebx
+        push ecx
+        push edx
+        push esi
+        push edi
+        push ebp
+        mov edx, eax
+        mov ebx, dword [byte eax+04h]
+        dec ebx
+        mov dword [byte eax+04h], ebx
+        test ebx, ebx
+        ja near .5
+        mov esi, dword [dword_11F9BC]
+        xor edi, edi
+        cmp esi, eax
+        jae short .2
+.1:
+        mov eax, dword [esi]
+        add eax, byte 2
+        shl eax, 2
+        mov edi, esi
+        add esi, eax
+        cmp esi, edx
+        jb short .1
+.2:
+        cmp esi, edx
+        je short .3
+        push str_RemovewindowROWSPACE
+        call FatalError
+        add esp, byte 4
+.3:
+        mov eax, dword [esi]
+        add eax, byte 2
+        shl eax, 2
+        mov ebp, dword [dword_18572C]
+        add eax, esi
+        cmp eax, ebp
+        jae short .4
+        cmp dword [byte eax+04h], byte 0
+        ja short .4
+        mov eax, dword [eax]
+        mov ebx, dword [esi]
+        add eax, byte 2
+        add ebx, eax
+        mov dword [esi], ebx
+.4:
+        test edi, edi
+        je short .5
+        cmp dword [byte edi+04h], byte 0
+        ja short .5
+        mov eax, dword [esi]
+        add eax, byte 2
+        add dword [edi], eax
+.5:
+        pop ebp
+        pop edi
+        pop esi
+        pop edx
+        pop ecx
+        pop ebx
+        ret
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 unk_C3E10:
-dd loc_C3EE4
-dd loc_C3EE4
-dd loc_C3F05
-dd loc_C3F29
-dd loc_C3F49
-dd loc_C3F69
-dd loc_C3FBA
-dd loc_C400B
-dd loc_C4055
-dd loc_C409B
+        dd sub_C3E38_AC
+        dd sub_C3E38_AC
+        dd sub_C3E38_CD
+        dd sub_C3E38_F1
+        dd sub_C3E38_111
+        dd sub_C3E38_131
+        dd sub_C3E38_182
+        dd sub_C3E38_1D3
+        dd sub_C3E38_21D
+        dd sub_C3E38_263

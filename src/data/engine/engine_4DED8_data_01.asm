@@ -7,63 +7,63 @@ global str_CS2, str_spCS, str_D, str_2d02d, str_GloL, str_GloR, str_FhiL, str_Fh
 global str_Pal30, str_ZONEMGR, str_ZM1ContactLance, str_ZM2ContactLance, str_ZMOverflowContactLance, str_FmtNumFirstLast, str_FmtNumInitialLast, str_FmtNumName
 global str_FmtNumNameSuffix, str_FmtParenD, str_DB, unk_110E2D, str_S8
 str_05d:
-db 025h,030h,035h,064h,00h
+        db 025h,030h,035h,064h,00h
 str_CsgDb:
-db 025h,063h,073h,067h,02Eh,064h,062h,00h
+        db 025h,063h,073h,067h,02Eh,064h,062h,00h
 str_05dCsg:
-db 025h,030h,035h,064h,025h,063h,073h,067h,00h
+        db 025h,030h,035h,064h,025h,063h,073h,067h,00h
 str_DB:
-db 044h,042h,00h,00h,00h,00h
+        db 044h,042h,00h,00h,00h,00h
 str_FmtNumFirstLast:
-db 025h,073h,023h,025h,064h,020h,025h,073h,020h,025h,073h,025h,073h,00h
+        db 025h,073h,023h,025h,064h,020h,025h,073h,020h,025h,073h,025h,073h,00h
 str_FmtNumInitialLast:
-db 025h,073h,023h,025h,064h,020h,025h,063h,02Eh,020h,025h,073h,025h,073h,00h
+        db 025h,073h,023h,025h,064h,020h,025h,063h,02Eh,020h,025h,073h,025h,073h,00h
 str_FmtNumNameSuffix:
-db 025h,073h,023h,025h,064h,020h,025h,073h,025h,073h,00h
+        db 025h,073h,023h,025h,064h,020h,025h,073h,025h,073h,00h
 str_FmtNumName:
-db 025h,073h,023h,025h,064h,020h,025h,073h,00h
+        db 025h,073h,023h,025h,064h,020h,025h,073h,00h
 str_SSS:
-db 025h,073h,020h,025h,073h,025h,073h,00h
+        db 025h,073h,020h,025h,073h,025h,073h,00h
 str_CSS:
-db 025h,063h,02Eh,020h,025h,073h,025h,073h,00h
+        db 025h,063h,02Eh,020h,025h,073h,025h,073h,00h
 str_SS:
-db 025h,073h,025h,073h,00h
+        db 025h,073h,025h,073h,00h
 str_CS:
-db 028h,025h,063h,02Eh,020h,025h,073h,029h,00h
+        db 028h,025h,063h,02Eh,020h,025h,073h,029h,00h
 str_CSCS:
-db 028h,025h,063h,02Eh,025h,073h,02Ch,025h,063h,02Eh,025h,073h,029h,00h
+        db 028h,025h,063h,02Eh,025h,073h,02Ch,025h,063h,02Eh,025h,073h,029h,00h
 str_CS2:
-db 028h,025h,063h,02Eh,025h,073h,00h
+        db 028h,025h,063h,02Eh,025h,073h,00h
 str_spCS:
-db 020h,025h,063h,02Eh,025h,073h,029h,00h
+        db 020h,025h,063h,02Eh,025h,073h,029h,00h
 unk_110E2D:
-db 00h
+        db 00h
 str_S8:
-db 025h,073h,00h
+        db 025h,073h,00h
 str_FmtParenD:
-db 020h,028h,025h,064h,029h,00h
+        db 020h,028h,025h,064h,029h,00h
 str_D:
-db 023h,025h,064h,00h
+        db 023h,025h,064h,00h
 str_2d02d:
-db 025h,032h,064h,03Ah,025h,030h,032h,064h,00h
+        db 025h,032h,064h,03Ah,025h,030h,032h,064h,00h
 str_GloL:
-db 047h,06Ch,06Fh,04Ch,00h
+        db 047h,06Ch,06Fh,04Ch,00h
 str_GloR:
-db 047h,06Ch,06Fh,052h,00h
+        db 047h,06Ch,06Fh,052h,00h
 str_FhiL:
-db 046h,068h,069h,04Ch,00h
+        db 046h,068h,069h,04Ch,00h
 str_FhiR:
-db 046h,068h,069h,052h,00h
+        db 046h,068h,069h,052h,00h
 str_Pal30:
-db 021h,070h,061h,06Ch,00h,00h,00h,00h
+        db 021h,070h,061h,06Ch,00h,00h,00h,00h
 str_ZONEMGR:
-db 05Ah,04Fh,04Eh,045h,04Dh,047h,052h,00h
+        db 05Ah,04Fh,04Eh,045h,04Dh,047h,052h,00h
 str_ZM1ContactLance:
-db 05Ah,04Dh,028h,031h,029h,03Ah,020h,043h,06Fh,06Eh,074h,061h,063h,074h,020h,04Ch
-db 061h,06Eh,063h,065h,021h,00h
+        db 05Ah,04Dh,028h,031h,029h,03Ah,020h,043h,06Fh,06Eh,074h,061h,063h,074h,020h,04Ch
+        db 061h,06Eh,063h,065h,021h,00h
 str_ZM2ContactLance:
-db 05Ah,04Dh,028h,032h,029h,03Ah,020h,043h,06Fh,06Eh,074h,061h,063h,074h,020h,04Ch
-db 061h,06Eh,063h,065h,021h,00h
+        db 05Ah,04Dh,028h,032h,029h,03Ah,020h,043h,06Fh,06Eh,074h,061h,063h,074h,020h,04Ch
+        db 061h,06Eh,063h,065h,021h,00h
 str_ZMOverflowContactLance:
-db 05Ah,04Dh,020h,04Fh,076h,065h,072h,066h,06Ch,06Fh,077h,03Ah,020h,043h,06Fh,06Eh
-db 074h,061h,063h,074h,020h,04Ch,061h,06Eh,063h,065h,021h,00h
+        db 05Ah,04Dh,020h,04Fh,076h,065h,072h,066h,06Ch,06Fh,077h,03Ah,020h,043h,06Fh,06Eh
+        db 074h,061h,063h,074h,020h,04Ch,061h,06Eh,063h,065h,021h,00h

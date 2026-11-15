@@ -4,111 +4,110 @@ bits 32
 section s_E1824 progbits alloc exec nowrite align=1
 extern GetTicks, TicksSince, byte_123DE8, dword_123DA4, dword_123DEB, mousepollfn, sub_DFF28, sub_E0158
 extern sub_E22DC, word_123DE4, word_123DE6, word_123DE9
-global loc_E183C, loc_E185F, loc_E1887, loc_E1893, loc_E1898, loc_E18A7, loc_E18B1, loc_E18BF
-global loc_E18C3, loc_E18E6, loc_E1907, loc_E1918, loc_E1939, sub_E1824, sub_E1836, sub_E1927
+global sub_E1836_6, sub_E1836_29, sub_E1824, sub_E1836, sub_E1927
 sub_E1824:
-push ebp	; E1824
-LD mov, ebp, esp	; E1825
-push edi	; E1827
-mov edx, dword [byte ebp+010h]	; E1828
-LD mov, dh, dl	; E182B
-shrd eax, edx, 10h	; E182D
-LD mov, ax, dx	; E1831
-jmp short loc_E183C	; E1834
+        push ebp
+        LD mov, ebp, esp
+        push edi
+        mov edx, dword [byte ebp+010h]
+        LD mov, dh, dl
+        shrd eax, edx, 10h
+        LD mov, ax, dx
+        jmp short sub_E1836_6
 sub_E1836:
-push ebp	; E1836
-LD mov, ebp, esp	; E1837
-push edi	; E1839
-LD xor, eax, eax	; E183A
-loc_E183C:
-cld	; E183C
-mov edi, dword [byte ebp+08h]	; E183D
-mov ecx, dword [byte ebp+0Ch]	; E1840
-shr ecx, 2	; E1843
-rep stosd	; E1846
-mov ecx, dword [byte ebp+0Ch]	; E1848
-and ecx, byte 3	; E184B
-rep stosb	; E184E
-pop edi	; E1850
-leave	; E1851
-ret	; E1852
-db 00h
-call sub_DFF28	; E1854
-LD or, ax, ax	; E1859
-je short loc_E1893	; E185C
-ret	; E185E
-loc_E185F:
-call sub_DFF28	; E185F
-LD or, ax, ax	; E1864
-je short loc_E1893	; E1867
-push eax	; E1869
-call sub_E22DC	; E186A
-add esp, byte 4	; E186F
-ret	; E1872
-call sub_DFF28	; E1873
-LD or, ax, ax	; E1878
-je short loc_E1887	; E187B
-push eax	; E187D
-call sub_E22DC	; E187E
-add esp, byte 4	; E1883
-ret	; E1886
-loc_E1887:
-call dword [mousepollfn]	; E1887
-shl ax, 4	; E188D
-jne short loc_E1898	; E1891
-loc_E1893:
-call sub_E0158	; E1893
-loc_E1898:
-LD mov, bx, ax	; E1898
-test ax, 30h	; E189B
-je short loc_E18A7	; E189F
-mov ax, 0Dh	; E18A1
-jmp short loc_E18B1	; E18A5
-loc_E18A7:
-and ebx, byte 0Fh	; E18A7
-mov eax, dword [nosplit ebx*2+dword_123DA4]	; E18AA
-loc_E18B1:
-db 066h,03Bh,05h	; E18B1 cmp ax,[13DE4h]
-dd word_123DE4
-db 075h, loc_E18E6-($+2)
-LD or, ax, ax	; E18BA
-jne short loc_E18C3	; E18BD
-loc_E18BF:
-LD xor, ax, ax	; E18BF
-ret	; E18C2
-loc_E18C3:
-push dword [dword_123DEB]	; E18C3
-call TicksSince	; E18C9
-add esp, byte 4	; E18CE
-cmp ax, word [word_123DE9]	; E18D1
-jl short loc_E18BF	; E18D8
-mov ax, 0Fh	; E18DA
-mov word [word_123DE9], ax	; E18DE
-jmp short loc_E1907	; E18E4
-loc_E18E6:
-cmp ax, word [word_123DE6]	; E18E6
-jne short loc_E1918	; E18ED
-dec byte [byte_123DE8]	; E18EF
-jg short loc_E18BF	; E18F5
-mov word [word_123DE4], ax	; E18F7
-mov ax, 46h	; E18FD
-mov word [word_123DE9], ax	; E1901
-loc_E1907:
-call GetTicks	; E1907
-mov dword [dword_123DEB], eax	; E190C
-mov ax, word [word_123DE4]	; E1911
-ret	; E1917
-loc_E1918:
-mov byte [byte_123DE8], 3	; E1918
-mov word [word_123DE6], ax	; E191F
-jmp short loc_E18BF	; E1925
+        push ebp
+        LD mov, ebp, esp
+        push edi
+        LD xor, eax, eax
+sub_E1836_6:
+        cld
+        mov edi, dword [byte ebp+08h]
+        mov ecx, dword [byte ebp+0Ch]
+        shr ecx, 2
+        rep stosd
+        mov ecx, dword [byte ebp+0Ch]
+        and ecx, byte 3
+        rep stosb
+        pop edi
+        leave
+        ret
+        db 00h
+        call sub_DFF28
+        LD or, ax, ax
+        je short sub_E1836_29.2
+        ret
+sub_E1836_29:
+        call sub_DFF28
+        LD or, ax, ax
+        je short .2
+        push eax
+        call sub_E22DC
+        add esp, byte 4
+        ret
+        call sub_DFF28
+        LD or, ax, ax
+        je short .1
+        push eax
+        call sub_E22DC
+        add esp, byte 4
+        ret
+.1:
+        call dword [mousepollfn]
+        shl ax, 4
+        jne short .3
+.2:
+        call sub_E0158
+.3:
+        LD mov, bx, ax
+        test ax, 30h
+        je short .4
+        mov ax, 0Dh
+        jmp short .5
+.4:
+        and ebx, byte 0Fh
+        mov eax, dword [nosplit ebx*2+dword_123DA4]
+.5:
+        db 066h,03Bh,05h                        ; insn: cmp ax,[13DE4h]
+        dd word_123DE4
+        db 075h, .8-($+2)
+        LD or, ax, ax
+        jne short .7
+.6:
+        LD xor, ax, ax
+        ret
+.7:
+        push dword [dword_123DEB]
+        call TicksSince
+        add esp, byte 4
+        cmp ax, word [word_123DE9]
+        jl short .6
+        mov ax, 0Fh
+        mov word [word_123DE9], ax
+        jmp short .9
+.8:
+        cmp ax, word [word_123DE6]
+        jne short .10
+        dec byte [byte_123DE8]
+        jg short .6
+        mov word [word_123DE4], ax
+        mov ax, 46h
+        mov word [word_123DE9], ax
+.9:
+        call GetTicks
+        mov dword [dword_123DEB], eax
+        mov ax, word [word_123DE4]
+        ret
+.10:
+        mov byte [byte_123DE8], 3
+        mov word [word_123DE6], ax
+        jmp short .6
 sub_E1927:
-call sub_DFF28	; E1927
-LD or, eax, eax	; E192C
-je short loc_E1939	; E192E
-push eax	; E1930
-call sub_E22DC	; E1931
-add esp, byte 4	; E1936
-loc_E1939:
-ret	; E1939
-db 00h,00h
+        call sub_DFF28
+        LD or, eax, eax
+        je short .1
+        push eax
+        call sub_E22DC
+        add esp, byte 4
+.1:
+        ret
+        db 00h,00h

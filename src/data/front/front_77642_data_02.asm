@@ -6,66 +6,66 @@ global InGameMenuRequest, byte_11D74F, byte_11D754, byte_11D91C, byte_11D91D, dw
 global dword_11D923, unk_11D7A4, unk_11D7BC, unk_11D7D4, unk_11D7EC, unk_11D804, unk_11D80A, unk_11D810
 global unk_11D816, unk_11D81C, unk_11D89C, word_11D927, word_11D929
 byte_11D74F:
-db 00h,07h,00h,00h,00h
+        db 00h,07h,00h,00h,00h
 byte_11D754:
-db 00h,03h,07h,0Ah,014h,017h,063h,04h,05h,06h,013h,016h,019h,063h,01h,02h
-db 09h,0Bh,0Fh,011h,012h,08h,0Ch,0Dh,0Eh,010h,015h,018h,01Dh,01h,00h,00h
-db 01Eh,01h,00h,00h,01Fh,01h,00h,00h,020h,01h,00h,00h,021h,01h,00h,00h
-db 022h,01h,00h,00h,023h,01h,00h,00h,024h,01h,00h,00h,025h,01h,00h,00h
-db 026h,01h,00h,00h,027h,01h,00h,00h,028h,01h,00h,00h
+        db 00h,03h,07h,0Ah,014h,017h,063h,04h,05h,06h,013h,016h,019h,063h,01h,02h
+        db 09h,0Bh,0Fh,011h,012h,08h,0Ch,0Dh,0Eh,010h,015h,018h,01Dh,01h,00h,00h
+        db 01Eh,01h,00h,00h,01Fh,01h,00h,00h,020h,01h,00h,00h,021h,01h,00h,00h
+        db 022h,01h,00h,00h,023h,01h,00h,00h,024h,01h,00h,00h,025h,01h,00h,00h
+        db 026h,01h,00h,00h,027h,01h,00h,00h,028h,01h,00h,00h
 InGameMenuRequest:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 unk_11D7A4:
-db 04h,00h,01Bh,00h,032h,00h,037h,00h,08h,01h,0Dh,01h,023h,01h,03Bh,01h
-db 042h,00h,047h,00h,0BFh,00h,0FBh,00h
+        db 04h,00h,01Bh,00h,032h,00h,037h,00h,08h,01h,0Dh,01h,023h,01h,03Bh,01h
+        db 042h,00h,047h,00h,0BFh,00h,0FBh,00h
 unk_11D7BC:
-db 02h,00h,016h,00h,02Ah,00h,02Ch,00h,03Ah,00h,049h,00h,060h,00h,0Fh,00h
-db 0A8h,00h,0ADh,00h,0AFh,00h,0C3h,00h
+        db 02h,00h,016h,00h,02Ah,00h,02Ch,00h,03Ah,00h,049h,00h,060h,00h,0Fh,00h
+        db 0A8h,00h,0ADh,00h,0AFh,00h,0C3h,00h
 unk_11D7D4:
-db 09h,00h,038h,00h,066h,00h,06Dh,00h,010h,02h,019h,02h,048h,02h,076h,02h
-db 087h,00h,095h,00h,07Bh,01h,0F6h,01h
+        db 09h,00h,038h,00h,066h,00h,06Dh,00h,010h,02h,019h,02h,048h,02h,076h,02h
+        db 087h,00h,095h,00h,07Bh,01h,0F6h,01h
 unk_11D7EC:
-db 06h,00h,036h,00h,064h,00h,06Ah,00h,08Ah,00h,098h,00h,0C4h,00h,022h,00h
-db 093h,01h,09Dh,01h,0A1h,01h,0CEh,01h
+        db 06h,00h,036h,00h,064h,00h,06Ah,00h,08Ah,00h,098h,00h,0C4h,00h,022h,00h
+        db 093h,01h,09Dh,01h,0A1h,01h,0CEh,01h
 unk_11D804:
-db 04Eh,00h,0A7h,00h,07Dh,00h
+        db 04Eh,00h,0A7h,00h,07Dh,00h
 unk_11D80A:
-db 046h,00h,05Dh,00h,07Fh,00h
+        db 046h,00h,05Dh,00h,07Fh,00h
 unk_11D810:
-db 088h,00h,046h,01h,0EBh,00h
+        db 088h,00h,046h,01h,0EBh,00h
 unk_11D816:
-db 0ABh,00h,0EBh,00h,02Dh,01h
+        db 0ABh,00h,0EBh,00h,02Dh,01h
 unk_11D81C:
-db 03Bh,00h,00h,00h,080h,00h,00h,00h,06Dh,00h,00h,00h,0A1h,00h,00h,00h
-db 03Ch,00h,00h,00h,0A3h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-db 01h,01h,00h,00h,080h,00h,00h,00h,00h,01h,00h,00h,0A1h,00h,00h,00h
-db 0D1h,00h,00h,00h,0A0h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 03Bh,00h,00h,00h,080h,00h,00h,00h,06Dh,00h,00h,00h,0A1h,00h,00h,00h
+        db 03Ch,00h,00h,00h,0A3h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 01h,01h,00h,00h,080h,00h,00h,00h,00h,01h,00h,00h,0A1h,00h,00h,00h
+        db 0D1h,00h,00h,00h,0A0h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 unk_11D89C:
-db 07Bh,00h,00h,00h,031h,01h,00h,00h,0DDh,00h,00h,00h,079h,01h,00h,00h
-db 079h,00h,00h,00h,079h,01h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-db 0FEh,01h,00h,00h,033h,01h,00h,00h,0FFh,01h,00h,00h,07Ch,01h,00h,00h
-db 09Bh,01h,00h,00h,07Ch,01h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-db 00h,00h,00h,00h
+        db 07Bh,00h,00h,00h,031h,01h,00h,00h,0DDh,00h,00h,00h,079h,01h,00h,00h
+        db 079h,00h,00h,00h,079h,01h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 0FEh,01h,00h,00h,033h,01h,00h,00h,0FFh,01h,00h,00h,07Ch,01h,00h,00h
+        db 09Bh,01h,00h,00h,07Ch,01h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_11D910:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_11D914:
-db 00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h
 byte_11D91C:
-db 030h
+        db 030h
 byte_11D91D:
-db 00h,041h
+        db 00h,041h
 dword_11D91F:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_11D923:
-db 01h,00h,00h,00h
+        db 01h,00h,00h,00h
 word_11D927:
-db 01h,00h
+        db 01h,00h
 word_11D929:
-db 00h,00h,00h
+        db 00h,00h,00h

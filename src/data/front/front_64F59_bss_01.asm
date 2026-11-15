@@ -8,80 +8,80 @@ global dword_17C438, dword_17C43C, dword_17C440, dword_17C444, dword_17C448, dwo
 global dword_17C458, dword_17C45C, dword_17C460, dword_17C4A0, dword_17C4A4, unk_17C474, word_17C464, word_17C466
 global word_17C468, word_17C46A, word_17C46C, word_17C46E, word_17C470, word_17C49C, word_17C49E
 dword_17C3F8:
-resb 4
+        resb 4
 dword_17C3FC:
-resb 4
+        resb 4
 dword_17C400:
-resb 4
+        resb 4
 dword_17C404:
-resb 4
+        resb 4
 dword_17C408:
-resb 4
+        resb 4
 dword_17C40C:
-resb 4
+        resb 4
 dword_17C410:
-resb 4
+        resb 4
 dword_17C414:
-resb 4
+        resb 4
 dword_17C418:
-resb 4
+        resb 4
 dword_17C41C:
-resb 4
+        resb 4
 dword_17C420:
-resb 4
+        resb 4
 dword_17C424:
-resb 4
+        resb 4
 dword_17C428:
-resb 4
+        resb 4
 dword_17C42C:
-resb 4
+        resb 4
 dword_17C430:
-resb 4
+        resb 4
 dword_17C434:
-resb 4
+        resb 4
 dword_17C438:
-resb 4
+        resb 4
 dword_17C43C:
-resb 4
+        resb 4
 dword_17C440:
-resb 4
+        resb 4
 dword_17C444:
-resb 4
+        resb 4
 dword_17C448:
-resb 4
+        resb 4
 dword_17C44C:
-resb 4
+        resb 4
 dword_17C450:
-resb 4
+        resb 4
 dword_17C454:
-resb 4
+        resb 4
 dword_17C458:
-resb 4
+        resb 4
 dword_17C45C:
-resb 4
+        resb 4
 dword_17C460:
-resb 4
+        resb 4
 word_17C464:
-resb 2
+        resb 2
 word_17C466:
-resb 2
+        resb 2
 word_17C468:
-resb 2
+        resb 2
 word_17C46A:
-resb 2
+        resb 2
 word_17C46C:
-resb 2
+        resb 2
 word_17C46E:
-resb 2
+        resb 2
 word_17C470:
-resb 4
+        resb 4
 unk_17C474:
-resb 40
+        resb 40
 word_17C49C:
-resb 2
+        resb 2
 word_17C49E:
-resb 2
+        resb 2
 dword_17C4A0:
-resb 4
+        resb 4
 dword_17C4A4:
-resb 280
+        resb 280

@@ -19,208 +19,208 @@ global dword_115074, str_newline, dword_11507C, dword_115080, off_114F1C, off_11
 global word_114DD6, word_114DD8, word_114DDC, word_114DE4, word_114DE6, word_114EA8, word_114EAC, word_114EF8
 global word_114EFA, word_114EFC, word_114EFE, word_114F00, word_114F14
 word_114DD2:
-db 03Ch,01h
+        db 03Ch,01h
 word_114DD4:
-db 082h,00h
+        db 082h,00h
 word_114DD6:
-db 0FCh,01h
+        db 0FCh,01h
 word_114DD8:
-db 0A9h,00h,037h,01h
+        db 0A9h,00h,037h,01h
 word_114DDC:
-db 07Eh,00h,0ABh,00h,0D8h,00h,08h,01h
+        db 07Eh,00h,0ABh,00h,0D8h,00h,08h,01h
 word_114DE4:
-db 038h,01h
+        db 038h,01h
 word_114DE6:
-db 00h,00h
+        db 00h,00h
 dword_114DE8:
-db 00h,00h,00h,00h,05Ah,00h,00h,00h
+        db 00h,00h,00h,00h,05Ah,00h,00h,00h
 dword_114DF0:
-db 040h,01h,00h,00h
+        db 040h,01h,00h,00h
 dword_114DF4:
-db 05Ah,00h,00h,00h,040h,01h,00h,00h
+        db 05Ah,00h,00h,00h,040h,01h,00h,00h
 dword_114DFC:
-db 0DAh,00h,00h,00h,00h,00h,00h,00h,0DBh,00h,00h,00h,00h,00h,00h,00h
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,07h,02h,00h,00h
-db 04Ch,00h,00h,00h,07Fh,02h,00h,00h,04Ch,00h,00h,00h,07Fh,02h,00h,00h
-db 01Fh,01h,00h,00h,07h,02h,00h,00h,01Fh,01h,00h,00h,00h,00h,00h,00h
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,01Eh,01h,00h,00h
-db 05h,01h,00h,00h,0A9h,01h,00h,00h,05h,01h,00h,00h,0A9h,01h,00h,00h
-db 04Fh,01h,00h,00h,01Eh,01h,00h,00h,04Fh,01h,00h,00h,00h,00h,00h,00h
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 0DAh,00h,00h,00h,00h,00h,00h,00h,0DBh,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,07h,02h,00h,00h
+        db 04Ch,00h,00h,00h,07Fh,02h,00h,00h,04Ch,00h,00h,00h,07Fh,02h,00h,00h
+        db 01Fh,01h,00h,00h,07h,02h,00h,00h,01Fh,01h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,01Eh,01h,00h,00h
+        db 05h,01h,00h,00h,0A9h,01h,00h,00h,05h,01h,00h,00h,0A9h,01h,00h,00h
+        db 04Fh,01h,00h,00h,01Eh,01h,00h,00h,04Fh,01h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 word_114EA8:
-db 0FEh,00h,00h,00h
+        db 0FEh,00h,00h,00h
 word_114EAC:
-db 09Dh,00h,00h,00h
+        db 09Dh,00h,00h,00h
 dword_114EB0:
-db 036h,02h,00h,00h
+        db 036h,02h,00h,00h
 dword_114EB4:
-db 0A0h,00h,00h,00h,0EAh,00h,00h,00h,0ABh,01h,00h,00h,0F6h,01h,00h,00h
-db 0D8h,00h,00h,00h,01Eh,02h,00h,00h,0B8h,01h,00h,00h
+        db 0A0h,00h,00h,00h,0EAh,00h,00h,00h,0ABh,01h,00h,00h,0F6h,01h,00h,00h
+        db 0D8h,00h,00h,00h,01Eh,02h,00h,00h,0B8h,01h,00h,00h
 dword_114ED0:
-db 0EBh,00h,00h,00h
+        db 0EBh,00h,00h,00h
 dword_114ED4:
-db 05h,01h,00h,00h,06Ah,01h,00h,00h,0D8h,00h,00h,00h,019h,02h,00h,00h
-db 03Fh,01h,00h,00h
+        db 05h,01h,00h,00h,06Ah,01h,00h,00h,0D8h,00h,00h,00h,019h,02h,00h,00h
+        db 03Fh,01h,00h,00h
 dword_114EE8:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_114EEC:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_114EF0:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_114EF4:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 word_114EF8:
-db 00h,00h
+        db 00h,00h
 word_114EFA:
-db 00h,00h
+        db 00h,00h
 word_114EFC:
-db 00h,00h
+        db 00h,00h
 word_114EFE:
-db 00h,00h
+        db 00h,00h
 word_114F00:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 InputRecordTicks:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 GameLoopActive:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 InputRecordBusy:
-db 00h,00h
+        db 00h,00h
 InputRecordPhase:
-db 00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h
 word_114F14:
-db 00h,00h
+        db 00h,00h
 dword_114F16:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 PauseReplayPending:
-db 00h,00h
+        db 00h,00h
 off_114F1C:
-dd str_OK
-dd str_0
+        dd str_OK
+        dd str_0
 off_114F24:
-dd unk_110124
-dd str_CONNECT
-dd str_1
-dd str_fe1
-dd str_RING
-dd str_2
-dd str_fe2
-dd str_NOCARRIER
-dd str_3
-dd str_fe3
-dd str_ERROR
-dd str_4
-dd str_fe4
-dd str_CONNECT1200
-dd str_5
-dd str_fe5
-dd str_NODIALTONE
-dd str_6
-dd unk_110185
-dd str_NODIALTONE2
-dd str_6
-dd unk_110185
-dd str_BUSY
-dd str_7
-dd str_fe7
-dd str_NOANSWER
-dd str_8
-dd str_fe8
-dd str_CONNECT2400
-dd str_10
-dd str_102
-dd str_CONNECT9600
-dd str_13
-dd str_132
-dd str_CONNECT9600ARQ
-dd str_17
-dd str_172
-dd str_CONNECT9600HST
-dd str_23
-dd str_232
-dd str_CONNECT9600ARQHST
-dd str_27
-dd str_272
-dd str_CONNECT14400
-dd str_25
-dd str_252
-dd str_CONNECT14400ARQ
-dd str_26
-dd str_262
-dd str_CONNECT14400HST
-dd str_35
-dd str_352
-dd str_CONNECT14400ARQHST
-dd str_36
-dd str_362
+        dd unk_110124
+        dd str_CONNECT
+        dd str_1
+        dd str_fe1
+        dd str_RING
+        dd str_2
+        dd str_fe2
+        dd str_NOCARRIER
+        dd str_3
+        dd str_fe3
+        dd str_ERROR
+        dd str_4
+        dd str_fe4
+        dd str_CONNECT1200
+        dd str_5
+        dd str_fe5
+        dd str_NODIALTONE
+        dd str_6
+        dd unk_110185
+        dd str_NODIALTONE2
+        dd str_6
+        dd unk_110185
+        dd str_BUSY
+        dd str_7
+        dd str_fe7
+        dd str_NOANSWER
+        dd str_8
+        dd str_fe8
+        dd str_CONNECT2400
+        dd str_10
+        dd str_102
+        dd str_CONNECT9600
+        dd str_13
+        dd str_132
+        dd str_CONNECT9600ARQ
+        dd str_17
+        dd str_172
+        dd str_CONNECT9600HST
+        dd str_23
+        dd str_232
+        dd str_CONNECT9600ARQHST
+        dd str_27
+        dd str_272
+        dd str_CONNECT14400
+        dd str_25
+        dd str_252
+        dd str_CONNECT14400ARQ
+        dd str_26
+        dd str_262
+        dd str_CONNECT14400HST
+        dd str_35
+        dd str_352
+        dd str_CONNECT14400ARQHST
+        dd str_36
+        dd str_362
 dword_115000:
-db 013h,00h,00h,00h
+        db 013h,00h,00h,00h
 dword_115004:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_115008:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_11500C:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_115010:
-db 09h,00h,00h,00h
+        db 09h,00h,00h,00h
 dword_115014:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_115018:
-db 01h,00h,00h,00h
+        db 01h,00h,00h,00h
 dword_11501C:
-db 01h,00h,00h,00h
+        db 01h,00h,00h,00h
 dword_115020:
-db 01h,00h,00h,00h
+        db 01h,00h,00h,00h
 dword_115024:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_115028:
-db 04h,00h,00h,00h
+        db 04h,00h,00h,00h
 dword_11502C:
-db 01h,00h,00h,00h
+        db 01h,00h,00h,00h
 dword_115030:
-db 01h,00h,00h,00h
+        db 01h,00h,00h,00h
 dword_115034:
-db 01h,00h,00h,00h
+        db 01h,00h,00h,00h
 dword_115038:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_11503C:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_115040:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_115044:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_115048:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_11504C:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_115050:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_115054:
-db 0FFh,0FFh,0FFh,0FFh
+        db 0FFh,0FFh,0FFh,0FFh
 dword_115058:
-db 0FFh,0FFh,0FFh,0FFh
+        db 0FFh,0FFh,0FFh,0FFh
 dword_11505C:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_115060:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_115064:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_115068:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 str_ctl06:
-db 06h,00h,00h,00h
+        db 06h,00h,00h,00h
 str_22:
-db 032h,00h,00h,00h
+        db 032h,00h,00h,00h
 dword_115074:
-db 064h,00h,00h,00h
+        db 064h,00h,00h,00h
 str_newline:
-db 0Ah,00h,00h,00h
+        db 0Ah,00h,00h,00h
 dword_11507C:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_115080:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 byte_115084:
-db 03Ah,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-db 00h,00h,00h,00h
+        db 03Ah,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h

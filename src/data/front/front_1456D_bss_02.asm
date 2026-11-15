@@ -12,144 +12,144 @@ global word_16578A, word_1657D8, word_165810, word_165812, word_165814, word_165
 global word_16581C, word_16581E, word_165820, word_165822, word_165828, word_16582A, word_16582C, word_16582E
 global word_165830, word_165832, word_165834, word_165836, word_165838, word_16583A, word_16583C
 word_1656DE:
-resb 2
+        resb 2
 word_1656E0:
-resb 2
+        resb 2
 word_1656E2:
-resb 2
+        resb 2
 word_1656E4:
-resb 2
+        resb 2
 word_1656E6:
-resb 2
+        resb 2
 word_1656E8:
-resb 2
+        resb 2
 word_1656EA:
-resb 2
+        resb 2
 word_1656EC:
-resb 6
+        resb 6
 word_1656F2:
-resb 2
+        resb 2
 word_1656F4:
-resb 2
+        resb 2
 word_1656F6:
-resb 2
+        resb 2
 word_1656F8:
-resb 2
+        resb 2
 word_1656FA:
-resb 2
+        resb 2
 word_1656FC:
-resb 2
+        resb 2
 word_1656FE:
-resb 2
+        resb 2
 word_165700:
-resb 2
+        resb 2
 word_165702:
-resb 2
+        resb 2
 word_165704:
-resb 2
+        resb 2
 word_165706:
-resb 2
+        resb 2
 word_165708:
-resb 2
+        resb 2
 word_16570A:
-resb 6
+        resb 6
 word_165710:
-resb 2
+        resb 2
 hmtmgoalie:
-resb 1
+        resb 1
 byte_165713:
-resb 5
+        resb 5
 dword_165718:
-resb 4
+        resb 4
 word_16571C:
-resb 2
+        resb 2
 byte_16571E:
-resb 58
+        resb 58
 word_165758:
-resb 50
+        resb 50
 word_16578A:
-resb 6
+        resb 6
 byte_165790:
-resb 28
+        resb 28
 byte_1657AC:
-resb 1
+        resb 1
 byte_1657AD:
-resb 1
+        resb 1
 byte_1657AE:
-resb 1
+        resb 1
 byte_1657AF:
-resb 1
+        resb 1
 dword_1657B0:
-resb 4
+        resb 4
 byte_1657B4:
-resb 8
+        resb 8
 unk_1657BC:
-resb 28
+        resb 28
 word_1657D8:
-resb 18
+        resb 18
 dword_1657EA:
-resb 4
+        resb 4
 dword_1657EE:
-resb 4
+        resb 4
 dword_1657F2:
-resb 4
+        resb 4
 dword_1657F6:
-resb 4
+        resb 4
 dword_1657FA:
-resb 4
+        resb 4
 dword_1657FE:
-resb 4
+        resb 4
 dword_165802:
-resb 4
+        resb 4
 dword_165806:
-resb 4
+        resb 4
 byte_16580A:
-resb 1
+        resb 1
 byte_16580B:
-resb 1
+        resb 1
 byte_16580C:
-resb 2
+        resb 2
 awtmstruct:
-resb 2
+        resb 2
 word_165810:
-resb 2
+        resb 2
 word_165812:
-resb 2
+        resb 2
 word_165814:
-resb 2
+        resb 2
 word_165816:
-resb 2
+        resb 2
 word_165818:
-resb 2
+        resb 2
 word_16581A:
-resb 2
+        resb 2
 word_16581C:
-resb 2
+        resb 2
 word_16581E:
-resb 2
+        resb 2
 word_165820:
-resb 2
+        resb 2
 word_165822:
-resb 6
+        resb 6
 word_165828:
-resb 2
+        resb 2
 word_16582A:
-resb 2
+        resb 2
 word_16582C:
-resb 2
+        resb 2
 word_16582E:
-resb 2
+        resb 2
 word_165830:
-resb 2
+        resb 2
 word_165832:
-resb 2
+        resb 2
 word_165834:
-resb 2
+        resb 2
 word_165836:
-resb 2
+        resb 2
 word_165838:
-resb 2
+        resb 2
 word_16583A:
-resb 2
+        resb 2
 word_16583C:
-resb 2
+        resb 2

@@ -4,241 +4,240 @@ bits 32
 section s_CFDF1 progbits alloc exec nowrite align=1
 extern _EFG_Format_, __IOMode_, __STOSB, __cnvs2d_, __fatal_runtime_error_, __set_errno_, __set_errno_dos_, __shutdown_stream_
 extern _nmalloc_, str_NotEnoughMemoryTo, byte_123E35, dword_1228D0, dword_1228D4, dword_1228D8, dword_1228E0, dword_14F0A4
-extern dword_19BA3C, dword_19BA40, fputchar, loc_C2E7B, off_14FAA8, off_14FAAC, sub_B2B0C, SetClipWindow
+extern dword_19BA3C, dword_19BA40, fputchar, __freefp__39, off_14FAA8, off_14FAAC, sub_B2B0C, SetClipWindow
 extern sub_DE084, unk_123DF4, unk_123E76
-global __InitFiles_, __full_io_exit_, __qwrite_, __setEFGfmt_, docloseall_, fcloseall_, loc_CFEEC, loc_CFF1B
-global loc_CFF2F, loc_CFF73, loc_CFF90, loc_CFF96, loc_CFF98, loc_CFFE0, loc_CFFE7, loc_D0007
-global loc_D0015, loc_D0017, memset_, sub_CFE0C, sub_CFE20, sub_CFE70, sub_CFE8C
+global __InitFiles_, __full_io_exit_, __qwrite_, __setEFGfmt_, docloseall_, fcloseall_, memset_, sub_CFE0C
+global sub_CFE20, sub_CFE70, sub_CFE8C
 __setEFGfmt_:
-push ebx	; CFDF1
-push edx	; CFDF2
-mov edx, _EFG_Format_	; CFDF3
-mov ebx, __cnvs2d_	; CFDF8
-mov dword [off_14FAA8], edx	; CFDFD
-mov dword [off_14FAAC], ebx	; CFE03
-pop edx	; CFE09
-pop ebx	; CFE0A
-ret	; CFE0B
+        push ebx
+        push edx
+        mov edx, _EFG_Format_
+        mov ebx, __cnvs2d_
+        mov dword [off_14FAA8], edx
+        mov dword [off_14FAAC], ebx
+        pop edx
+        pop ebx
+        ret
 sub_CFE0C:
-mov eax, 0	; CFE0C
-ret	; CFE11
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        mov eax, 0
+        ret
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 sub_CFE20:
-push esi	; CFE20
-push edi	; CFE21
-mov ebx, dword [byte esp+0Ch]	; CFE22
-mov esi, dword [dword_1228E0]	; CFE26
-mov edx, dword [dword_1228D8]	; CFE2C
-push ebx	; CFE32
-sub esi, edx	; CFE33
-call fputchar	; CFE35
-sub esi, eax	; CFE3A
-mov ecx, dword [dword_1228D8]	; CFE3C
-mov eax, esi	; CFE42
-add esp, byte 4	; CFE44
-sar eax, 1	; CFE47
-mov esi, dword [byte esp+010h]	; CFE49
-add eax, ecx	; CFE4D
-push esi	; CFE4F
-inc eax	; CFE50
-push eax	; CFE51
-mov edi, dword [byte esp+014h]	; CFE52
-push edi	; CFE56
-call sub_B2B0C	; CFE57
-add esp, byte 0Ch	; CFE5C
-pop edi	; CFE5F
-pop esi	; CFE60
-ret	; CFE61
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        push esi
+        push edi
+        mov ebx, dword [byte esp+0Ch]
+        mov esi, dword [dword_1228E0]
+        mov edx, dword [dword_1228D8]
+        push ebx
+        sub esi, edx
+        call fputchar
+        sub esi, eax
+        mov ecx, dword [dword_1228D8]
+        mov eax, esi
+        add esp, byte 4
+        sar eax, 1
+        mov esi, dword [byte esp+010h]
+        add eax, ecx
+        push esi
+        inc eax
+        push eax
+        mov edi, dword [byte esp+014h]
+        push edi
+        call sub_B2B0C
+        add esp, byte 0Ch
+        pop edi
+        pop esi
+        ret
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 sub_CFE70:
-mov eax, dword [byte esp+04h]	; CFE70
-mov edx, dword [byte eax+04h]	; CFE74
-push edx	; CFE77
-push byte 0	; CFE78
-mov ebx, dword [eax]	; CFE7A
-push ebx	; CFE7C
-push byte 0	; CFE7D
-push eax	; CFE7F
-call sub_DE084	; CFE80
-add esp, byte 14h	; CFE85
-ret	; CFE88
-db 08Dh,040h,00h
+        mov eax, dword [byte esp+04h]
+        mov edx, dword [byte eax+04h]
+        push edx
+        push byte 0
+        mov ebx, dword [eax]
+        push ebx
+        push byte 0
+        push eax
+        call sub_DE084
+        add esp, byte 14h
+        ret
+        db 08Dh,040h,00h
 sub_CFE8C:
-mov edx, dword [dword_1228D4]	; CFE8C
-push edx	; CFE92
-push byte 0	; CFE93
-mov ebx, dword [dword_1228D0]	; CFE95
-push ebx	; CFE9B
-push byte 0	; CFE9C
-call SetClipWindow	; CFE9E
-add esp, byte 10h	; CFEA3
-ret	; CFEA6
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h
+        mov edx, dword [dword_1228D4]
+        push edx
+        push byte 0
+        mov ebx, dword [dword_1228D0]
+        push ebx
+        push byte 0
+        call SetClipWindow
+        add esp, byte 10h
+        ret
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h
 memset_:
-push eax	; CFEB0
-push ecx	; CFEB1
-mov dh, dl	; CFEB2
-shl edx, 8	; CFEB4
-mov dl, dh	; CFEB7
-shl edx, 8	; CFEB9
-mov dl, dh	; CFEBC
-mov ecx, ebx	; CFEBE
-call __STOSB	; CFEC0
-pop ecx	; CFEC5
-pop eax	; CFEC6
-ret	; CFEC7
+        push eax
+        push ecx
+        mov dh, dl
+        shl edx, 8
+        mov dl, dh
+        shl edx, 8
+        mov dl, dh
+        mov ecx, ebx
+        call __STOSB
+        pop ecx
+        pop eax
+        ret
 __InitFiles_:
-push ebx	; CFEC8
-push ecx	; CFEC9
-push edx	; CFECA
-mov ah, byte [byte_123E35]	; CFECB
-and ah, 0F8h	; CFED1
-mov dl, ah	; CFED4
-mov byte [byte_123E35], ah	; CFED6
-or dl, 4	; CFEDC
-mov ecx, unk_123DF4	; CFEDF
-mov byte [byte_123E35], dl	; CFEE4
-jmp short loc_CFF2F	; CFEEA
-loc_CFEEC:
-mov eax, 8	; CFEEC
-call _nmalloc_	; CFEF1
-mov ebx, eax	; CFEF6
-test eax, eax	; CFEF8
-jne short loc_CFF1B	; CFEFA
-mov eax, 8	; CFEFC
-call _nmalloc_	; CFF01
-mov ebx, eax	; CFF06
-test eax, eax	; CFF08
-jne short loc_CFF1B	; CFF0A
-mov eax, str_NotEnoughMemoryTo	; CFF0C
-mov edx, 1	; CFF11
-call __fatal_runtime_error_	; CFF16
-loc_CFF1B:
-mov edx, dword [dword_19BA40]	; CFF1B
-mov dword [byte ebx+04h], ecx	; CFF21
-mov dword [dword_19BA40], ebx	; CFF24
-add ecx, byte 1Ah	; CFF2A
-mov dword [ebx], edx	; CFF2D
-loc_CFF2F:
-mov edx, dword [byte ecx+0Ch]	; CFF2F
-test edx, edx	; CFF32
-jne short loc_CFEEC	; CFF34
-mov dword [dword_19BA3C], edx	; CFF36
-pop edx	; CFF3C
-pop ecx	; CFF3D
-pop ebx	; CFF3E
-ret	; CFF3F
+        push ebx
+        push ecx
+        push edx
+        mov ah, byte [byte_123E35]
+        and ah, 0F8h
+        mov dl, ah
+        mov byte [byte_123E35], ah
+        or dl, 4
+        mov ecx, unk_123DF4
+        mov byte [byte_123E35], dl
+        jmp short .3
+.1:
+        mov eax, 8
+        call _nmalloc_
+        mov ebx, eax
+        test eax, eax
+        jne short .2
+        mov eax, 8
+        call _nmalloc_
+        mov ebx, eax
+        test eax, eax
+        jne short .2
+        mov eax, str_NotEnoughMemoryTo
+        mov edx, 1
+        call __fatal_runtime_error_
+.2:
+        mov edx, dword [dword_19BA40]
+        mov dword [byte ebx+04h], ecx
+        mov dword [dword_19BA40], ebx
+        add ecx, byte 1Ah
+        mov dword [ebx], edx
+.3:
+        mov edx, dword [byte ecx+0Ch]
+        test edx, edx
+        jne short .1
+        mov dword [dword_19BA3C], edx
+        pop edx
+        pop ecx
+        pop ebx
+        ret
 __full_io_exit_:
-xor eax, eax	; CFF40
-call docloseall_	; CFF42
-jmp near loc_C2E7B	; CFF47
+        xor eax, eax
+        call docloseall_
+        jmp near __freefp__39
 fcloseall_:
-mov eax, 5	; CFF4C
+        mov eax, 5
 docloseall_:
-push ebx	; CFF51
-push ecx	; CFF52
-push edx	; CFF53
-push esi	; CFF54
-mov edx, eax	; CFF55
-shl eax, 2	; CFF57
-sub eax, edx	; CFF5A
-shl eax, 2	; CFF5C
-add eax, edx	; CFF5F
-mov esi, unk_123DF4	; CFF61
-add eax, eax	; CFF66
-xor ebx, ebx	; CFF68
-add esi, eax	; CFF6A
-mov eax, dword [dword_19BA40]	; CFF6C
-jmp short loc_CFF98	; CFF71
-loc_CFF73:
-mov ecx, dword [eax]	; CFF73
-mov eax, dword [byte eax+04h]	; CFF75
-mov edx, 1	; CFF78
-test byte [byte eax+0Dh], 40h	; CFF7D
-jne short loc_CFF90	; CFF81
-cmp eax, esi	; CFF83
-jb short loc_CFF96	; CFF85
-cmp eax, unk_123E76	; CFF87
-jae short loc_CFF90	; CFF8C
-xor edx, edx	; CFF8E
-loc_CFF90:
-call __shutdown_stream_	; CFF90
-inc ebx	; CFF95
-loc_CFF96:
-mov eax, ecx	; CFF96
-loc_CFF98:
-test eax, eax	; CFF98
-jne short loc_CFF73	; CFF9A
-mov eax, ebx	; CFF9C
-pop esi	; CFF9E
-pop edx	; CFF9F
-pop ecx	; CFFA0
-pop ebx	; CFFA1
-ret	; CFFA2
+        push ebx
+        push ecx
+        push edx
+        push esi
+        mov edx, eax
+        shl eax, 2
+        sub eax, edx
+        shl eax, 2
+        add eax, edx
+        mov esi, unk_123DF4
+        add eax, eax
+        xor ebx, ebx
+        add esi, eax
+        mov eax, dword [dword_19BA40]
+        jmp short .4
+.1:
+        mov ecx, dword [eax]
+        mov eax, dword [byte eax+04h]
+        mov edx, 1
+        test byte [byte eax+0Dh], 40h
+        jne short .2
+        cmp eax, esi
+        jb short .3
+        cmp eax, unk_123E76
+        jae short .2
+        xor edx, edx
+.2:
+        call __shutdown_stream_
+        inc ebx
+.3:
+        mov eax, ecx
+.4:
+        test eax, eax
+        jne short .1
+        mov eax, ebx
+        pop esi
+        pop edx
+        pop ecx
+        pop ebx
+        ret
 __qwrite_:
-push ecx	; CFFA3
-push esi	; CFFA4
-push edi	; CFFA5
-push ebp	; CFFA6
-sub esp, byte 4	; CFFA7
-mov esi, eax	; CFFAA
-mov dword [esp], edx	; CFFAC
-mov ebp, ebx	; CFFAF
-call __IOMode_	; CFFB1
-test al, 80h	; CFFB6
-je short loc_CFFE7	; CFFB8
-mov al, 2	; CFFBA
-mov ebx, esi	; CFFBC
-xor edx, edx	; CFFBE
-mov ah, 42h	; CFFC0
-mov ecx, edx	; CFFC2
-shr ecx, 10h	; CFFC4
-int 21h	; CFFC7
-rcl dx, 1	; CFFC9
-ror dx, 1	; CFFCC
-shl edx, 10h	; CFFCF
-mov dx, ax	; CFFD2
-mov edi, edx	; CFFD5
-test edx, edx	; CFFD7
-jge short loc_CFFE7	; CFFD9
-xor eax, eax	; CFFDB
-mov ax, dx	; CFFDD
-loc_CFFE0:
-call __set_errno_dos_	; CFFE0
-jmp short loc_D0017	; CFFE5
-loc_CFFE7:
-mov edx, dword [esp]	; CFFE7
-mov ebx, esi	; CFFEA
-mov ecx, ebp	; CFFEC
-mov ah, 40h	; CFFEE
-int 21h	; CFFF0
-rcl eax, 1	; CFFF2
-ror eax, 1	; CFFF4
-mov esi, eax	; CFFF6
-mov edi, eax	; CFFF8
-mov edx, eax	; CFFFA
-test eax, eax	; CFFFC
-jge short loc_D0007	; CFFFE
-xor eax, eax	; D0000
-mov ax, si	; D0002
-jmp short loc_CFFE0	; D0005
-loc_D0007:
-cmp eax, ebp	; D0007
-je short loc_D0015	; D0009
-mov eax, 0Ch	; D000B
-call __set_errno_	; D0010
-loc_D0015:
-mov eax, edx	; D0015
-loc_D0017:
-add esp, byte 4	; D0017
-pop ebp	; D001A
-pop edi	; D001B
-pop esi	; D001C
-pop ecx	; D001D
-ret	; D001E
-push edx	; D001F
-mov edx, eax	; D0020
-mov eax, dword [dword_14F0A4]	; D0022
-mov dword [dword_14F0A4], edx	; D0027
-pop edx	; D002D
-ret	; D002E
+        push ecx
+        push esi
+        push edi
+        push ebp
+        sub esp, byte 4
+        mov esi, eax
+        mov dword [esp], edx
+        mov ebp, ebx
+        call __IOMode_
+        test al, 80h
+        je short .2
+        mov al, 2
+        mov ebx, esi
+        xor edx, edx
+        mov ah, 42h
+        mov ecx, edx
+        shr ecx, 10h
+        int 21h
+        rcl dx, 1
+        ror dx, 1
+        shl edx, 10h
+        mov dx, ax
+        mov edi, edx
+        test edx, edx
+        jge short .2
+        xor eax, eax
+        mov ax, dx
+.1:
+        call __set_errno_dos_
+        jmp short .5
+.2:
+        mov edx, dword [esp]
+        mov ebx, esi
+        mov ecx, ebp
+        mov ah, 40h
+        int 21h
+        rcl eax, 1
+        ror eax, 1
+        mov esi, eax
+        mov edi, eax
+        mov edx, eax
+        test eax, eax
+        jge short .3
+        xor eax, eax
+        mov ax, si
+        jmp short .1
+.3:
+        cmp eax, ebp
+        je short .4
+        mov eax, 0Ch
+        call __set_errno_
+.4:
+        mov eax, edx
+.5:
+        add esp, byte 4
+        pop ebp
+        pop edi
+        pop esi
+        pop ecx
+        ret
+        push edx
+        mov edx, eax
+        mov eax, dword [dword_14F0A4]
+        mov dword [dword_14F0A4], edx
+        pop edx
+        ret

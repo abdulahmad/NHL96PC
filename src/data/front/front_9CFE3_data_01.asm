@@ -10,100 +10,100 @@ global str_CD2, str_CS4, str_Intr, str_Sid1, str_Sid2, str_Bot1, str_Bot2, str_B
 global str_Gam0, str_FhiL3, str_FhiR3, str_GloL2, str_GloR2, str_GhiL2, str_GhiR2, str_Ret0
 global str_D13
 str_Bt092:
-db 062h,074h,030h,039h,00h
+        db 062h,074h,030h,039h,00h
 str_Bh09:
-db 062h,068h,030h,039h,00h
+        db 062h,068h,030h,039h,00h
 str_Bkgd20:
-db 062h,06Bh,067h,064h,00h
+        db 062h,06Bh,067h,064h,00h
 str_Slid2:
-db 073h,06Ch,069h,064h,00h
+        db 073h,06Ch,069h,064h,00h
 str_Ball6:
-db 062h,061h,06Ch,06Ch,00h
+        db 062h,061h,06Ch,06Ch,00h
 str_Slu12:
-db 073h,06Ch,075h,031h,00h
+        db 073h,06Ch,075h,031h,00h
 str_Slup:
-db 073h,06Ch,075h,070h,00h
+        db 073h,06Ch,075h,070h,00h
 str_Sld12:
-db 073h,06Ch,064h,031h,00h
+        db 073h,06Ch,064h,031h,00h
 str_Sldw:
-db 073h,06Ch,064h,077h,00h
+        db 073h,06Ch,064h,077h,00h
 str_Pal28:
-db 021h,070h,061h,06Ch,00h
+        db 021h,070h,061h,06Ch,00h
 str_Nhl1:
-db 06Eh,068h,06Ch,031h,00h
+        db 06Eh,068h,06Ch,031h,00h
 str_Nhl2:
-db 06Eh,068h,06Ch,032h,00h
+        db 06Eh,068h,06Ch,032h,00h
 str_Nhl3:
-db 06Eh,068h,06Ch,033h,00h
+        db 06Eh,068h,06Ch,033h,00h
 str_Scr12:
-db 073h,063h,072h,031h,00h
+        db 073h,063h,072h,031h,00h
 str_Scr22:
-db 073h,063h,072h,032h,00h
+        db 073h,063h,072h,032h,00h
 str_Scr3:
-db 073h,063h,072h,033h,00h
+        db 073h,063h,072h,033h,00h
 str_Drs1:
-db 064h,072h,073h,031h,00h
+        db 064h,072h,073h,031h,00h
 str_Drs2:
-db 064h,072h,073h,032h,00h
+        db 064h,072h,073h,032h,00h
 str_Drs3:
-db 064h,072h,073h,033h,00h
+        db 064h,072h,073h,033h,00h
 str_Sta13:
-db 073h,074h,061h,031h,00h
+        db 073h,074h,061h,031h,00h
 str_Sta23:
-db 073h,074h,061h,032h,00h
+        db 073h,074h,061h,032h,00h
 str_Sta33:
-db 073h,074h,061h,033h,00h
+        db 073h,074h,061h,033h,00h
 str_Bh17:
-db 062h,068h,031h,037h,00h
+        db 062h,068h,031h,037h,00h
 str_Bt02d4:
-db 062h,074h,025h,030h,032h,064h,00h
+        db 062h,074h,025h,030h,032h,064h,00h
 str_Bt17:
-db 062h,074h,031h,037h,00h
+        db 062h,074h,031h,037h,00h
 str_Bh01:
-db 062h,068h,030h,031h,00h
+        db 062h,068h,030h,031h,00h
 str_Bt018:
-db 062h,074h,030h,031h,00h
+        db 062h,074h,030h,031h,00h
 str_LinesSort:
-db 04Ch,069h,06Eh,065h,073h,020h,053h,06Fh,072h,074h,00h
+        db 04Ch,069h,06Eh,065h,073h,020h,053h,06Fh,072h,074h,00h
 str_Bkpp:
-db 062h,06Bh,070h,070h,00h
+        db 062h,06Bh,070h,070h,00h
 str_Bkpk:
-db 062h,06Bh,070h,06Bh,00h
+        db 062h,06Bh,070h,06Bh,00h
 str_Jers:
-db 06Ah,065h,072h,073h,00h
+        db 06Ah,065h,072h,073h,00h
 str_Jrhl:
-db 06Ah,072h,068h,06Ch,00h
+        db 06Ah,072h,068h,06Ch,00h
 str_CD2:
-db 025h,063h,020h,025h,064h,00h
+        db 025h,063h,020h,025h,064h,00h
 str_CS4:
-db 025h,063h,02Eh,020h,025h,073h,00h,00h,00h,00h
+        db 025h,063h,02Eh,020h,025h,073h,00h,00h,00h,00h
 str_D13:
-db 025h,064h,00h
+        db 025h,064h,00h
 str_Intr:
-db 069h,06Eh,074h,072h,00h
+        db 069h,06Eh,074h,072h,00h
 str_Sid1:
-db 073h,069h,064h,031h,00h
+        db 073h,069h,064h,031h,00h
 str_Sid2:
-db 073h,069h,064h,032h,00h
+        db 073h,069h,064h,032h,00h
 str_Bot1:
-db 062h,06Fh,074h,031h,00h
+        db 062h,06Fh,074h,031h,00h
 str_Bot2:
-db 062h,06Fh,074h,032h,00h
+        db 062h,06Fh,074h,032h,00h
 str_Bot3:
-db 062h,06Fh,074h,033h,00h
+        db 062h,06Fh,074h,033h,00h
 str_Gam0:
-db 067h,061h,06Dh,030h,00h
+        db 067h,061h,06Dh,030h,00h
 str_FhiL3:
-db 046h,068h,069h,04Ch,00h
+        db 046h,068h,069h,04Ch,00h
 str_FhiR3:
-db 046h,068h,069h,052h,00h
+        db 046h,068h,069h,052h,00h
 str_GloL2:
-db 047h,06Ch,06Fh,04Ch,00h
+        db 047h,06Ch,06Fh,04Ch,00h
 str_GloR2:
-db 047h,06Ch,06Fh,052h,00h
+        db 047h,06Ch,06Fh,052h,00h
 str_GhiL2:
-db 047h,068h,069h,04Ch,00h
+        db 047h,068h,069h,04Ch,00h
 str_GhiR2:
-db 047h,068h,069h,052h,00h
+        db 047h,068h,069h,052h,00h
 str_Ret0:
-db 072h,065h,074h,030h,00h
+        db 072h,065h,074h,030h,00h

@@ -12,132 +12,132 @@ global dword_183C28, dword_183C98, dword_183D2C, dword_183D30, dword_183D34, dwo
 global dword_1843A4, dword_1843A8, dword_1843AC, dword_1843B0, dword_1843B4, dword_1843C0, dword_1843D0, dword_1843E4
 global unk_183D08
 dword_183028:
-resb 112
+        resb 112
 byte_183098:
-resb 1
+        resb 1
 byte_183099:
-resb 1
+        resb 1
 byte_18309A:
-resb 1614
+        resb 1614
 dword_1836E8:
-resb 4
+        resb 4
 dword_1836EC:
-resb 4
+        resb 4
 dword_1836F0:
-resb 4
+        resb 4
 dword_1836F4:
-resb 4
+        resb 4
 dword_1836F8:
-resb 4
+        resb 4
 dword_1836FC:
-resb 4
+        resb 4
 dword_183700:
-resb 4
+        resb 4
 dword_183704:
-resb 36
+        resb 36
 dword_183728:
-resb 4
+        resb 4
 dword_18372C:
-resb 4
+        resb 4
 dword_183730:
-resb 4
+        resb 4
 dword_183734:
-resb 4
+        resb 4
 dword_183738:
-resb 4
+        resb 4
 dword_18373C:
-resb 4
+        resb 4
 dword_183740:
-resb 4
+        resb 4
 dword_183744:
-resb 1152
+        resb 1152
 dword_183BC4:
-resb 100
+        resb 100
 dword_183C28:
-resb 112
+        resb 112
 dword_183C98:
-resb 112
+        resb 112
 unk_183D08:
-resb 2
+        resb 2
 byte_183D0A:
-resb 34
+        resb 34
 dword_183D2C:
-resb 4
+        resb 4
 dword_183D30:
-resb 4
+        resb 4
 dword_183D34:
-resb 1636
+        resb 1636
 dword_184398:
-resb 4
+        resb 4
 dword_18439C:
-resb 4
+        resb 4
 dword_1843A0:
-resb 4
+        resb 4
 dword_1843A4:
-resb 4
+        resb 4
 dword_1843A8:
-resb 4
+        resb 4
 dword_1843AC:
-resb 4
+        resb 4
 dword_1843B0:
-resb 4
+        resb 4
 dword_1843B4:
-resb 4
+        resb 4
 byte_1843B8:
-resb 1
+        resb 1
 byte_1843B9:
-resb 1
+        resb 1
 byte_1843BA:
-resb 6
+        resb 6
 dword_1843C0:
-resb 4
+        resb 4
 byte_1843C4:
-resb 1
+        resb 1
 byte_1843C5:
-resb 5
+        resb 5
 byte_1843CA:
-resb 1
+        resb 1
 byte_1843CB:
-resb 1
+        resb 1
 byte_1843CC:
-resb 1
+        resb 1
 byte_1843CD:
-resb 1
+        resb 1
 byte_1843CE:
-resb 2
+        resb 2
 dword_1843D0:
-resb 4
+        resb 4
 byte_1843D4:
-resb 1
+        resb 1
 byte_1843D5:
-resb 1
+        resb 1
 byte_1843D6:
-resb 1
+        resb 1
 byte_1843D7:
-resb 5
+        resb 5
 byte_1843DC:
-resb 1
+        resb 1
 byte_1843DD:
-resb 1
+        resb 1
 byte_1843DE:
-resb 1
+        resb 1
 byte_1843DF:
-resb 1
+        resb 1
 byte_1843E0:
-resb 1
+        resb 1
 byte_1843E1:
-resb 3
+        resb 3
 dword_1843E4:
-resb 2
+        resb 2
 byte_1843E6:
-resb 1
+        resb 1
 byte_1843E7:
-resb 1
+        resb 1
 byte_1843E8:
-resb 4
+        resb 4
 byte_1843EC:
-resb 1
+        resb 1
 byte_1843ED:
-resb 1
+        resb 1
 byte_1843EE:
-resb 10
+        resb 10

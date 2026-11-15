@@ -4,14 +4,14 @@ bits 32
 section s_100000 progbits alloc noexec write align=1
 global byte_100000, byte_100004, byte_100008, byte_10000C, byte_100010, byte_100014
 byte_100000:
-db 087h,083h,081h,082h
+        db 087h,083h,081h,082h
 byte_100004:
-db 0Ah,0Ah,0Ah,0Ah
+        db 0Ah,0Ah,0Ah,0Ah
 byte_100008:
-db 0Bh,0Bh,0Bh,0Bh
+        db 0Bh,0Bh,0Bh,0Bh
 byte_10000C:
-db 0Ch,0Ch,0Ch,0Ch
+        db 0Ch,0Ch,0Ch,0Ch
 byte_100010:
-db 00h,02h,04h,06h
+        db 00h,02h,04h,06h
 byte_100014:
-db 01h,03h,05h,07h
+        db 01h,03h,05h,07h

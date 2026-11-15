@@ -10,100 +10,100 @@ global str_Bkgd23, str_Rk02d2, str_Pal10, str_Bkgd24, str_Ahl02, str_Ahl12, str_
 global str_Ahr12, str_Ahr22, str_Aal02, str_Aal12, str_Aal22, str_Aar02, str_Aar12, str_Aar22
 global str_Swt02
 str_Jy2x:
-db 06Ah,079h,032h,078h,00h
+        db 06Ah,079h,032h,078h,00h
 str_Det0:
-db 064h,065h,074h,030h,00h
+        db 064h,065h,074h,030h,00h
 str_Det1:
-db 064h,065h,074h,031h,00h
+        db 064h,065h,074h,031h,00h
 str_Det22:
-db 064h,065h,074h,032h,00h,00h
+        db 064h,065h,074h,032h,00h,00h
 str_PICKS2:
-db 050h,049h,043h,04Bh,053h,00h
+        db 050h,049h,043h,04Bh,053h,00h
 str_bangpal:
-db 021h,070h,061h,06Ch,00h
+        db 021h,070h,061h,06Ch,00h
 str_BKGD22:
-db 042h,04Bh,047h,044h,00h
+        db 042h,04Bh,047h,044h,00h
 str_01D0:
-db 030h,031h,025h,064h,030h,00h
+        db 030h,031h,025h,064h,030h,00h
 str_02D0:
-db 030h,032h,025h,064h,030h,00h
+        db 030h,032h,025h,064h,030h,00h
 str_0D00:
-db 030h,025h,064h,030h,030h,00h
+        db 030h,025h,064h,030h,030h,00h
 str_TONE:
-db 054h,04Fh,04Eh,045h,00h
+        db 054h,04Fh,04Eh,045h,00h
 str_PULS:
-db 050h,055h,04Ch,053h,00h
+        db 050h,055h,04Ch,053h,00h
 str_02D2:
-db 030h,032h,025h,064h,032h,00h
+        db 030h,032h,025h,064h,032h,00h
 str_01D2:
-db 030h,031h,025h,064h,032h,00h
+        db 030h,031h,025h,064h,032h,00h
 str_NUMD:
-db 04Eh,055h,04Dh,025h,064h,00h
+        db 04Eh,055h,04Dh,025h,064h,00h
 str_NMD0:
-db 04Eh,04Dh,025h,064h,030h,00h
+        db 04Eh,04Dh,025h,064h,030h,00h
 str_NMD1:
-db 04Eh,04Dh,025h,064h,031h,00h
+        db 04Eh,04Dh,025h,064h,031h,00h
 str_MAK2:
-db 04Dh,041h,04Bh,032h,00h
+        db 04Dh,041h,04Bh,032h,00h
 str_MAK0:
-db 04Dh,041h,04Bh,030h,00h
+        db 04Dh,041h,04Bh,030h,00h
 str_MAK1:
-db 04Dh,041h,04Bh,031h,00h
+        db 04Dh,041h,04Bh,031h,00h
 str_WFC2:
-db 057h,046h,043h,032h,00h
+        db 057h,046h,043h,032h,00h
 str_WFC0:
-db 057h,046h,043h,030h,00h
+        db 057h,046h,043h,030h,00h
 str_WFC1:
-db 057h,046h,043h,031h,00h
+        db 057h,046h,043h,031h,00h
 str_YES0:
-db 059h,045h,053h,030h,00h
+        db 059h,045h,053h,030h,00h
 str_YES1:
-db 059h,045h,053h,031h,00h
+        db 059h,045h,053h,031h,00h
 str_NOO0:
-db 04Eh,04Fh,04Fh,030h,00h
+        db 04Eh,04Fh,04Fh,030h,00h
 str_NOO1:
-db 04Eh,04Fh,04Fh,031h,00h
+        db 04Eh,04Fh,04Fh,031h,00h
 str_CMD02:
-db 043h,04Dh,025h,064h,030h,00h
+        db 043h,04Dh,025h,064h,030h,00h
 str_SET02:
-db 053h,045h,054h,030h,00h
+        db 053h,045h,054h,030h,00h
 str_SET13:
-db 053h,045h,054h,031h,00h
+        db 053h,045h,054h,031h,00h
 str_SET23:
-db 053h,045h,054h,032h,00h
+        db 053h,045h,054h,032h,00h
 str_CMD2:
-db 043h,04Dh,025h,064h,032h,00h
+        db 043h,04Dh,025h,064h,032h,00h
 str_Bkgd23:
-db 062h,06Bh,067h,064h,00h
+        db 062h,06Bh,067h,064h,00h
 str_Rk02d2:
-db 072h,06Bh,025h,030h,032h,064h,00h
+        db 072h,06Bh,025h,030h,032h,064h,00h
 str_Pal10:
-db 021h,070h,061h,06Ch,00h
+        db 021h,070h,061h,06Ch,00h
 str_Bkgd24:
-db 062h,06Bh,067h,064h,00h
+        db 062h,06Bh,067h,064h,00h
 str_Ahl02:
-db 061h,068h,06Ch,030h,00h
+        db 061h,068h,06Ch,030h,00h
 str_Ahl12:
-db 061h,068h,06Ch,031h,00h
+        db 061h,068h,06Ch,031h,00h
 str_Ahl22:
-db 061h,068h,06Ch,032h,00h
+        db 061h,068h,06Ch,032h,00h
 str_Ahr02:
-db 061h,068h,072h,030h,00h
+        db 061h,068h,072h,030h,00h
 str_Ahr12:
-db 061h,068h,072h,031h,00h
+        db 061h,068h,072h,031h,00h
 str_Ahr22:
-db 061h,068h,072h,032h,00h
+        db 061h,068h,072h,032h,00h
 str_Aal02:
-db 061h,061h,06Ch,030h,00h
+        db 061h,061h,06Ch,030h,00h
 str_Aal12:
-db 061h,061h,06Ch,031h,00h
+        db 061h,061h,06Ch,031h,00h
 str_Aal22:
-db 061h,061h,06Ch,032h,00h
+        db 061h,061h,06Ch,032h,00h
 str_Aar02:
-db 061h,061h,072h,030h,00h
+        db 061h,061h,072h,030h,00h
 str_Aar12:
-db 061h,061h,072h,031h,00h
+        db 061h,061h,072h,031h,00h
 str_Aar22:
-db 061h,061h,072h,032h,00h
+        db 061h,061h,072h,032h,00h
 str_Swt02:
-db 073h,077h,074h,030h,00h
+        db 073h,077h,074h,030h,00h

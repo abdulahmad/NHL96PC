@@ -4,34 +4,34 @@ bits 32
 section s_E0834 progbits alloc exec nowrite align=1
 extern WaitKey, dword_11F5A0, dword_11F994, dword_121B34, dword_12443C, sub_C5D00, sub_DD6C4, sub_E2436
 extern RestoreTextMode
-global FatalError, loc_E085D, loc_E0874
+global FatalError
 FatalError:
-pop eax	; E0834
-cmp dword [dword_121B34], byte 0	; E0835
-jne short loc_E0874	; E083C
-cmp dword [dword_11F5A0], byte 0	; E083E
-je short loc_E085D	; E0845
-call sub_DD6C4	; E0847
-push byte 0	; E084C
-push byte 0	; E084E
-call sub_C5D00	; E0850
-add esp, byte 8	; E0855
-call WaitKey	; E0858
-loc_E085D:
-call RestoreTextMode	; E085D
-call sub_E2436	; E0862
-LD xor, eax, eax	; E0867
-mov dword [dword_12443C], eax	; E0869
-call dword [dword_11F994]	; E086E
-loc_E0874:
-push dword [dword_121B34]	; E0874
-call RestoreTextMode	; E087A
-call sub_E2436	; E087F
-call dword [dword_11F994]	; E0884
-ret	; E088A
-push ebp	; E088B
-LD mov, ebp, esp	; E088C
-mov eax, dword [byte ebp+08h]	; E088E
-mov dword [dword_121B34], eax	; E0891
-leave	; E0896
-ret	; E0897
+        pop eax
+        cmp dword [dword_121B34], byte 0
+        jne short .2
+        cmp dword [dword_11F5A0], byte 0
+        je short .1
+        call sub_DD6C4
+        push byte 0
+        push byte 0
+        call sub_C5D00
+        add esp, byte 8
+        call WaitKey
+.1:
+        call RestoreTextMode
+        call sub_E2436
+        LD xor, eax, eax
+        mov dword [dword_12443C], eax
+        call dword [dword_11F994]
+.2:
+        push dword [dword_121B34]
+        call RestoreTextMode
+        call sub_E2436
+        call dword [dword_11F994]
+        ret
+        push ebp
+        LD mov, ebp, esp
+        mov eax, dword [byte ebp+08h]
+        mov dword [dword_121B34], eax
+        leave
+        ret

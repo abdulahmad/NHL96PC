@@ -14,140 +14,140 @@ global fodir2, gmode2, word_1178CA, word_1178CC, word_1178CE, word_1178D0, slott
 global word_1178F6, word_1178F8, word_1178FA, word_1178FC, gsp, word_117902, word_117914, word_117916
 global seed_w2
 dword_1177F4:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_1177F8:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_1177FC:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 dword_117800:
-db 06Ah,00h,00h,00h
+        db 06Ah,00h,00h,00h
 dword_117804:
-db 076h,00h,00h,00h,082h,00h,00h,00h,08Eh,00h,00h,00h,09Bh,00h,00h,00h
-db 0A7h,00h,00h,00h,0B3h,00h,00h,00h,0BFh,00h,00h,00h,0CBh,00h,00h,00h
-db 0D7h,00h,00h,00h,0E3h,00h,00h,00h,0EFh,00h,00h,00h,0FCh,00h,00h,00h
-db 08h,01h,00h,00h,015h,01h,00h,00h,021h,01h,00h,00h,02Dh,01h,00h,00h
-db 039h,01h,00h,00h,046h,01h,00h,00h,052h,01h,00h,00h,05Eh,01h,00h,00h
-db 06Ah,01h,00h,00h,076h,01h,00h,00h,082h,01h,00h,00h,08Fh,01h,00h,00h
-db 09Bh,01h,00h,00h,0A7h,01h,00h,00h
+        db 076h,00h,00h,00h,082h,00h,00h,00h,08Eh,00h,00h,00h,09Bh,00h,00h,00h
+        db 0A7h,00h,00h,00h,0B3h,00h,00h,00h,0BFh,00h,00h,00h,0CBh,00h,00h,00h
+        db 0D7h,00h,00h,00h,0E3h,00h,00h,00h,0EFh,00h,00h,00h,0FCh,00h,00h,00h
+        db 08h,01h,00h,00h,015h,01h,00h,00h,021h,01h,00h,00h,02Dh,01h,00h,00h
+        db 039h,01h,00h,00h,046h,01h,00h,00h,052h,01h,00h,00h,05Eh,01h,00h,00h
+        db 06Ah,01h,00h,00h,076h,01h,00h,00h,082h,01h,00h,00h,08Fh,01h,00h,00h
+        db 09Bh,01h,00h,00h,0A7h,01h,00h,00h
 off_11786C:
-dd unk_1659D6
+        dd unk_1659D6
 puckx:
-dd unk_16505E
+        dd unk_16505E
 puckvx:
-dd unk_165068
+        dd unk_165068
 pucky:
-dd unk_165062
+        dd unk_165062
 off_11787C:
-dd unk_16506A
+        dd unk_16506A
 puckz:
-dd unk_165066
+        dd unk_165066
 puckvz:
-dd unk_16506C
+        dd unk_16506C
 puckc:
-dd unk_16509E
+        dd unk_16509E
 off_11788C:
-dd dword_16505C
+        dd dword_16505C
 off_117890:
-dd unk_1650FC
+        dd unk_1650FC
 off_117894:
-dd unk_16519C
+        dd unk_16519C
 off_117898:
-dd dword_164F1C
+        dd dword_164F1C
 off_11789C:
-dd dword_164FBC
+        dd dword_164FBC
 word_1178A0:
-db 00h,00h
+        db 00h,00h
 word_1178A2:
-db 00h,00h
+        db 00h,00h
 wcradiusx:
-db 00h,00h
+        db 00h,00h
 word_1178A6:
-db 00h,00h
+        db 00h,00h
 word_1178A8:
-db 00h,00h
+        db 00h,00h
 lastplayer:
-db 00h,00h
+        db 00h,00h
 word_1178AC:
-db 00h,00h
+        db 00h,00h
 word_1178AE:
-db 00h,00h
+        db 00h,00h
 passplayer:
-db 00h,00h
+        db 00h,00h
 threat:
-db 00h,00h
+        db 00h,00h
 word_1178B4:
-db 00h,00h
+        db 00h,00h
 yc1:
-db 00h,00h
+        db 00h,00h
 word_1178B8:
-db 00h,00h
+        db 00h,00h
 foy:
-db 00h,00h
+        db 00h,00h
 fox:
-db 00h,00h
+        db 00h,00h
 fodir1:
-db 00h,00h
+        db 00h,00h
 fodir2:
-db 00h,00h
+        db 00h,00h
 collflag:
-db 00h
+        db 00h
 gmode:
-db 00h
+        db 00h
 sflags:
-db 00h,00h
+        db 00h,00h
 gmode2:
-db 00h,00h
+        db 00h,00h
 byte_1178C8:
-db 00h,00h
+        db 00h,00h
 word_1178CA:
-db 0FFh,0FFh
+        db 0FFh,0FFh
 word_1178CC:
-db 0FFh,0FFh
+        db 0FFh,0FFh
 word_1178CE:
-db 0FFh,0FFh
+        db 0FFh,0FFh
 word_1178D0:
-db 0FFh,0FFh
+        db 0FFh,0FFh
 slotteam:
-db 00h,00h,00h,00h,00h,00h,00h,00h
+        db 00h,00h,00h,00h,00h,00h,00h,00h
 hmslotcount:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 awslotcount:
-db 00h,00h,00h,00h
+        db 00h,00h,00h,00h
 hmfirstslot:
-db 0FFh,0FFh,0FFh,0FFh
+        db 0FFh,0FFh,0FFh,0FFh
 awfirstslot:
-db 0FFh,0FFh,0FFh,0FFh
+        db 0FFh,0FFh,0FFh,0FFh
 dword_1178EA:
-db 0FFh,0FFh,0FFh,0FFh
+        db 0FFh,0FFh,0FFh,0FFh
 dword_1178EE:
-db 0FFh,0FFh,0FFh,0FFh
+        db 0FFh,0FFh,0FFh,0FFh
 Pencntdwn:
-db 0FFh,0FFh
+        db 0FFh,0FFh
 word_1178F4:
-db 00h,00h
+        db 00h,00h
 word_1178F6:
-db 00h,00h
+        db 00h,00h
 word_1178F8:
-db 0FFh
+        db 0FFh
 byte_1178F9:
-db 0FFh
+        db 0FFh
 word_1178FA:
-db 00h,00h
+        db 00h,00h
 word_1178FC:
-db 0FFh,0FFh
+        db 0FFh,0FFh
 gsp:
-db 00h,00h
+        db 00h,00h
 gameclock:
-db 00h,00h
+        db 00h,00h
 word_117902:
-db 00h,00h,040h,01h,00h,00h,0C8h,00h,00h,00h,0A0h,00h,00h,00h,064h,00h
-db 00h,00h
+        db 00h,00h,040h,01h,00h,00h,0C8h,00h,00h,00h,0A0h,00h,00h,00h,064h,00h
+        db 00h,00h
 word_117914:
-db 00h,00h
+        db 00h,00h
 word_117916:
-db 0C8h,00h,08Dh,00h,08Dh,00h,0C8h,00h,00h,00h,08Dh,00h,073h,0FFh,00h,00h
-db 038h,0FFh,073h,0FFh,073h,0FFh,038h,0FFh,00h,00h,073h,0FFh,08Dh,00h
+        db 0C8h,00h,08Dh,00h,08Dh,00h,0C8h,00h,00h,00h,08Dh,00h,073h,0FFh,00h,00h
+        db 038h,0FFh,073h,0FFh,073h,0FFh,038h,0FFh,00h,00h,073h,0FFh,08Dh,00h
 seed:
-db 021h,043h
+        db 021h,043h
 seed_w2:
-db 0CDh,0ABh
+        db 0CDh,0ABh

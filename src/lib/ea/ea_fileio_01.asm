@@ -3,193 +3,192 @@ bits 32
 %include "hockey.inc"
 section s_E0658 progbits alloc exec nowrite align=1
 extern FatalError, str_OpenhandleSFILEERROR, byte_121AFC, dword_121B24, dword_121B28, dword_121B2C, dword_121B30
-global loc_E06C6, loc_E0711, loc_E0746, loc_E0783, loc_E07AB, loc_E07C6, loc_E07CE, loc_E07E4
-global loc_E07FB, loc_E0810, loc_E0817, sub_E0658, sub_E0671, sub_E0686, sub_E069C, openhandle
-global sub_E07B8, sub_E07C8, sub_E07CC, sub_E081C
+global openhandle_14, sub_E07CC_2, sub_E0658, sub_E0671, sub_E0686, sub_E069C, openhandle, sub_E07B8
+global sub_E07C8, sub_E07CC, sub_E081C
 sub_E0658:
-push ecx	; E0658
-push edx	; E0659
-LD mov, ecx, edx	; E065A
-shr ecx, 10h	; E065C
-movzx edx, dx	; E065F
-int 21h	; E0662
-pushf	; E0664
-shl edx, 10h	; E0665
-LD mov, dx, ax	; E0668
-LD mov, eax, edx	; E066B
-popf	; E066D
-pop edx	; E066E
-pop ecx	; E066F
-ret	; E0670
+        push ecx
+        push edx
+        LD mov, ecx, edx
+        shr ecx, 10h
+        movzx edx, dx
+        int 21h
+        pushf
+        shl edx, 10h
+        LD mov, dx, ax
+        LD mov, eax, edx
+        popf
+        pop edx
+        pop ecx
+        ret
 sub_E0671:
-push ebp	; E0671
-LD mov, ebp, esp	; E0672
-add esp, byte 0FFFFFFF8h	; E0674
-mov eax, dword [byte ebp+018h]	; E0677
-mov dword [byte ebp-04h], eax	; E067A
-mov dword [byte ebp-08h], 3D00h	; E067D
-jmp short loc_E06C6	; E0684
+        push ebp
+        LD mov, ebp, esp
+        add esp, byte 0FFFFFFF8h
+        mov eax, dword [byte ebp+018h]
+        mov dword [byte ebp-04h], eax
+        mov dword [byte ebp-08h], 3D00h
+        jmp short openhandle_14
 sub_E0686:
-push ebp	; E0686
-LD mov, ebp, esp	; E0687
-add esp, byte 0FFFFFFF8h	; E0689
-mov dword [byte ebp-04h], 0	; E068C
-mov dword [byte ebp-08h], 3D00h	; E0693
-jmp short loc_E06C6	; E069A
+        push ebp
+        LD mov, ebp, esp
+        add esp, byte 0FFFFFFF8h
+        mov dword [byte ebp-04h], 0
+        mov dword [byte ebp-08h], 3D00h
+        jmp short openhandle_14
 sub_E069C:
-push ebp	; E069C
-LD mov, ebp, esp	; E069D
-add esp, byte 0FFFFFFF8h	; E069F
-mov dword [byte ebp-04h], 0	; E06A2
-mov dword [byte ebp-08h], 3C00h	; E06A9
-jmp short loc_E06C6	; E06B0
+        push ebp
+        LD mov, ebp, esp
+        add esp, byte 0FFFFFFF8h
+        mov dword [byte ebp-04h], 0
+        mov dword [byte ebp-08h], 3C00h
+        jmp short openhandle_14
 openhandle:
-push ebp	; E06B2
-LD mov, ebp, esp	; E06B3
-add esp, byte 0FFFFFFF8h	; E06B5
-mov dword [byte ebp-04h], 1	; E06B8
-mov dword [byte ebp-08h], 3D00h	; E06BF
-loc_E06C6:
-mov ebx, dword [byte ebp+0Ch]	; E06C6
-mov dword [ebx], 0	; E06C9
-mov edx, dword [byte ebp+08h]	; E06CF
-mov eax, dword [byte ebp-08h]	; E06D2
-LD xor, ecx, ecx	; E06D5
-int 21h	; E06D7
-jb short loc_E0711	; E06D9
-mov ebx, dword [byte ebp+0Ch]	; E06DB
-mov dword [ebx], eax	; E06DE
-LD mov, ebx, eax	; E06E0
-mov eax, 4202h	; E06E2
-LD xor, edx, edx	; E06E7
-call sub_E0658	; E06E9
-db 072h, loc_E0711-($+2)
-db 08Bh,05Dh,014h	; E06F0 mov ebx,[ebp+14h]
-mov dword [ebx], eax	; E06F3
-mov ebx, dword [byte ebp+0Ch]	; E06F5
-mov ebx, dword [ebx]	; E06F8
-db 0B8h,00h,042h,00h,00h	; E06FA mov eax,4200h
-LD xor, edx, edx	; E06FF
-call sub_E0658	; E0701
-jb short loc_E0711	; E0706
-mov ebx, dword [byte ebp+010h]	; E0708
-LD xor, eax, eax	; E070B
-mov dword [ebx], eax	; E070D
-leave	; E070F
-ret	; E0710
-loc_E0711:
-cmp byte [byte_121AFC], 0	; E0711
-je short loc_E0783	; E0718
-mov edx, byte_121AFC	; E071A
-mov eax, dword [byte ebp-08h]	; E071F
-LD xor, ecx, ecx	; E0722
-int 21h	; E0724
-jb short loc_E0783	; E0726
-mov ebx, dword [byte ebp+0Ch]	; E0728
-mov dword [ebx], eax	; E072B
-LD mov, ebx, eax	; E072D
-mov edx, dword [dword_121B24]	; E072F
-cmp byte [edx], 0	; E0735
-jne short loc_E0746	; E0738
-mov ecx, dword [dword_121B30]	; E073A
-mov ah, 3Fh	; E0740
-int 21h	; E0742
-jb short loc_E0783	; E0744
-loc_E0746:
-push dword [byte ebp+08h]	; E0746
-push dword [dword_121B24]	; E0749
-call dword [dword_121B28]	; E074F
-add esp, byte 8	; E0755
-LD or, eax, eax	; E0758
-je short loc_E0783	; E075A
-mov ebx, dword [byte ebp+010h]	; E075C
-mov dword [ebx], eax	; E075F
-mov ebx, dword [dword_121B2C]	; E0761
-mov ecx, dword [ebx]	; E0767
-mov ebx, dword [byte ebp+014h]	; E0769
-mov dword [ebx], ecx	; E076C
-LD mov, edx, eax	; E076E
-mov eax, 4200h	; E0770
-mov ebx, dword [byte ebp+0Ch]	; E0775
-mov ebx, dword [ebx]	; E0778
-call sub_E0658	; E077A
-jb short loc_E0783	; E077F
-leave	; E0781
-ret	; E0782
-loc_E0783:
-mov ebx, dword [byte ebp+0Ch]	; E0783
-mov eax, dword [ebx]	; E0786
-mov dword [ebx], 0	; E0788
-push eax	; E078E
-call sub_E07B8	; E078F
-add esp, byte 4	; E0794
-cmp dword [byte ebp-04h], byte 0	; E0797
-jne short loc_E07AB	; E079B
-mov ebx, dword [byte ebp+014h]	; E079D
-LD xor, eax, eax	; E07A0
-mov dword [ebx], eax	; E07A2
-mov ebx, dword [byte ebp+010h]	; E07A4
-mov dword [ebx], eax	; E07A7
-leave	; E07A9
-ret	; E07AA
-loc_E07AB:
-push dword [byte ebp+08h]	; E07AB
-push str_OpenhandleSFILEERROR	; E07AE
-call FatalError	; E07B3
+        push ebp
+        LD mov, ebp, esp
+        add esp, byte 0FFFFFFF8h
+        mov dword [byte ebp-04h], 1
+        mov dword [byte ebp-08h], 3D00h
+openhandle_14:
+        mov ebx, dword [byte ebp+0Ch]
+        mov dword [ebx], 0
+        mov edx, dword [byte ebp+08h]
+        mov eax, dword [byte ebp-08h]
+        LD xor, ecx, ecx
+        int 21h
+        jb short .1
+        mov ebx, dword [byte ebp+0Ch]
+        mov dword [ebx], eax
+        LD mov, ebx, eax
+        mov eax, 4202h
+        LD xor, edx, edx
+        call sub_E0658
+        db 072h, .1-($+2)
+        db 08Bh,05Dh,014h                       ; insn: mov ebx,[ebp+14h]
+        mov dword [ebx], eax
+        mov ebx, dword [byte ebp+0Ch]
+        mov ebx, dword [ebx]
+        db 0B8h,00h,042h,00h,00h                ; insn: mov eax,4200h
+        LD xor, edx, edx
+        call sub_E0658
+        jb short .1
+        mov ebx, dword [byte ebp+010h]
+        LD xor, eax, eax
+        mov dword [ebx], eax
+        leave
+        ret
+.1:
+        cmp byte [byte_121AFC], 0
+        je short .3
+        mov edx, byte_121AFC
+        mov eax, dword [byte ebp-08h]
+        LD xor, ecx, ecx
+        int 21h
+        jb short .3
+        mov ebx, dword [byte ebp+0Ch]
+        mov dword [ebx], eax
+        LD mov, ebx, eax
+        mov edx, dword [dword_121B24]
+        cmp byte [edx], 0
+        jne short .2
+        mov ecx, dword [dword_121B30]
+        mov ah, 3Fh
+        int 21h
+        jb short .3
+.2:
+        push dword [byte ebp+08h]
+        push dword [dword_121B24]
+        call dword [dword_121B28]
+        add esp, byte 8
+        LD or, eax, eax
+        je short .3
+        mov ebx, dword [byte ebp+010h]
+        mov dword [ebx], eax
+        mov ebx, dword [dword_121B2C]
+        mov ecx, dword [ebx]
+        mov ebx, dword [byte ebp+014h]
+        mov dword [ebx], ecx
+        LD mov, edx, eax
+        mov eax, 4200h
+        mov ebx, dword [byte ebp+0Ch]
+        mov ebx, dword [ebx]
+        call sub_E0658
+        jb short .3
+        leave
+        ret
+.3:
+        mov ebx, dword [byte ebp+0Ch]
+        mov eax, dword [ebx]
+        mov dword [ebx], 0
+        push eax
+        call sub_E07B8
+        add esp, byte 4
+        cmp dword [byte ebp-04h], byte 0
+        jne short .4
+        mov ebx, dword [byte ebp+014h]
+        LD xor, eax, eax
+        mov dword [ebx], eax
+        mov ebx, dword [byte ebp+010h]
+        mov dword [ebx], eax
+        leave
+        ret
+.4:
+        push dword [byte ebp+08h]
+        push str_OpenhandleSFILEERROR
+        call FatalError
 sub_E07B8:
-push ebp	; E07B8
-LD mov, ebp, esp	; E07B9
-mov ebx, dword [byte ebp+08h]	; E07BB
-LD or, ebx, ebx	; E07BE
-je short loc_E07C6	; E07C0
-mov ah, 3Eh	; E07C2
-int 21h	; E07C4
-loc_E07C6:
-leave	; E07C6
-ret	; E07C7
+        push ebp
+        LD mov, ebp, esp
+        mov ebx, dword [byte ebp+08h]
+        LD or, ebx, ebx
+        je short .1
+        mov ah, 3Eh
+        int 21h
+.1:
+        leave
+        ret
 sub_E07C8:
-mov ah, 40h	; E07C8
-jmp short loc_E07CE	; E07CA
+        mov ah, 40h
+        jmp short sub_E07CC_2
 sub_E07CC:
-mov ah, 3Fh	; E07CC
-loc_E07CE:
-push ebp	; E07CE
-LD mov, ebp, esp	; E07CF
-add esp, byte 0FFFFFFF4h	; E07D1
-mov dword [byte ebp-0Ch], 0	; E07D4
-mov dword [byte ebp-08h], eax	; E07DB
-mov eax, dword [byte ebp+0Ch]	; E07DE
-mov dword [byte ebp-04h], eax	; E07E1
-loc_E07E4:
-mov eax, 1	; E07E4
-mov edx, dword [byte ebp-04h]	; E07E9
-mov ecx, 4000h	; E07EC
-sub dword [byte ebp+010h], ecx	; E07F1
-jge short loc_E07FB	; E07F4
-add ecx, dword [byte ebp+010h]	; E07F6
-jle short loc_E0817	; E07F9
-loc_E07FB:
-mov ebx, dword [byte ebp+08h]	; E07FB
-mov eax, dword [byte ebp-08h]	; E07FE
-int 21h	; E0801
-jb short loc_E0810	; E0803
-movzx eax, ax	; E0805
-add dword [byte ebp-0Ch], eax	; E0808
-add dword [byte ebp-04h], eax	; E080B
-jmp short loc_E07E4	; E080E
-loc_E0810:
-mov dword [byte ebp-0Ch], 0	; E0810
-loc_E0817:
-mov eax, dword [byte ebp-0Ch]	; E0817
-leave	; E081A
-ret	; E081B
+        mov ah, 3Fh
+sub_E07CC_2:
+        push ebp
+        LD mov, ebp, esp
+        add esp, byte 0FFFFFFF4h
+        mov dword [byte ebp-0Ch], 0
+        mov dword [byte ebp-08h], eax
+        mov eax, dword [byte ebp+0Ch]
+        mov dword [byte ebp-04h], eax
+.1:
+        mov eax, 1
+        mov edx, dword [byte ebp-04h]
+        mov ecx, 4000h
+        sub dword [byte ebp+010h], ecx
+        jge short .2
+        add ecx, dword [byte ebp+010h]
+        jle short .4
+.2:
+        mov ebx, dword [byte ebp+08h]
+        mov eax, dword [byte ebp-08h]
+        int 21h
+        jb short .3
+        movzx eax, ax
+        add dword [byte ebp-0Ch], eax
+        add dword [byte ebp-04h], eax
+        jmp short .1
+.3:
+        mov dword [byte ebp-0Ch], 0
+.4:
+        mov eax, dword [byte ebp-0Ch]
+        leave
+        ret
 sub_E081C:
-push ebp	; E081C
-LD mov, ebp, esp	; E081D
-mov ebx, dword [byte ebp+08h]	; E081F
-mov eax, 4200h	; E0822
-mov edx, dword [byte ebp+0Ch]	; E0827
-call sub_E0658	; E082A
-leave	; E082F
-ret	; E0830
-db 00h,00h,00h
+        push ebp
+        LD mov, ebp, esp
+        mov ebx, dword [byte ebp+08h]
+        mov eax, 4200h
+        mov edx, dword [byte ebp+0Ch]
+        call sub_E0658
+        leave
+        ret
+        db 00h,00h,00h

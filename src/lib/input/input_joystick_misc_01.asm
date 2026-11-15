@@ -10,728 +10,720 @@ extern dword_11F967, dword_11F96B, dword_11F96F, dword_11F973, dword_11F977, dwo
 extern dword_1210D6, dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4, exit_, joyenablemask, off_11F618
 extern FillRect, sub_B65D4, sub_C2C7C, sub_C2C94, sub_E0898, tickcount, tickdeadline, unk_AA7B0
 extern word_11F910, word_11F914, word_11F918, word_11F91C, word_1210D4, word_1210DA
-global GetTicks, SetTickDeadline, TickDeadlinePassed, TicksSince, WaitKey, WaitTickDeadline, loc_DFF1B, loc_DFF36
-global loc_DFF44, loc_DFF59, loc_DFF5F, loc_DFF87, loc_DFF9F, loc_DFFB1, loc_DFFC8, loc_E0001
-global loc_E0015, loc_E001E, loc_E0042, loc_E0099, loc_E00BB, loc_E00C4, loc_E00CD, loc_E00D6
-global loc_E00DD, loc_E00E9, loc_E00ED, loc_E0109, loc_E011E, loc_E0124, loc_E0137, loc_E0146
-global loc_E01A1, loc_E01A7, loc_E01B9, loc_E01C0, loc_E01DF, loc_E01F7, loc_E0211, loc_E0227
-global loc_E0241, loc_E0257, loc_E0282, loc_E0294, loc_E02AA, loc_E02D3, loc_E02F2, loc_E0300
-global loc_E031E, loc_E0339, loc_E0364, loc_E0376, loc_E038C, loc_E03B5, loc_E03C1, loc_E03E0
-global loc_E03EE, loc_E040C, loc_E0423, loc_E0435, loc_E043C, loc_E0442, loc_E044D, loc_E04AB
-global loc_E04C4, loc_E04E9, loc_E04FD, loc_E050F, loc_E051D, loc_E053E, loc_E0563, loc_E05B4
-global loc_E062D, loc_E0654, sub_DFEC6, WaitTicks, sub_DFF28, sub_DFF45, sub_DFF4B, sub_DFF60
-global sub_DFF7C, sub_E0051, sub_E0158, sub_E0456, sub_E0486, sub_E04D0, sub_E04D9, sub_E04E0
-global sub_E04E7, sub_E0520, sub_E0584, sub_E05DA, sub_E062F
+global GetTicks, SetTickDeadline, TickDeadlinePassed, TicksSince, WaitKey, WaitTickDeadline, sub_E04E7_2, sub_E0584_30
+global sub_DFEC6, WaitTicks, sub_DFF28, sub_DFF45, sub_DFF4B, sub_DFF60, sub_DFF7C, sub_E0051
+global sub_E0158, sub_E0456, sub_E0486, sub_E04D0, sub_E04D9, sub_E04E0, sub_E04E7, sub_E0520
+global sub_E0584, sub_E05DA, sub_E062F
 GetTicks:
-mov eax, dword [tickcount]	; DFEB4
-ret	; DFEB9
+        mov eax, dword [tickcount]
+        ret
 TicksSince:
-mov ecx, dword [byte esp+04h]	; DFEBA
-mov eax, dword [tickcount]	; DFEBE
-LD sub, eax, ecx	; DFEC3
-ret	; DFEC5
+        mov ecx, dword [byte esp+04h]
+        mov eax, dword [tickcount]
+        LD sub, eax, ecx
+        ret
 sub_DFEC6:
-mov ebx, dword [dword_11F8E0]	; DFEC6
-mov eax, dword [tickcount]	; DFECC
-mov dword [dword_11F8E0], eax	; DFED1
-LD sub, eax, ebx	; DFED6
-ret	; DFED8
-LD xor, eax, eax	; DFED9
-mov dword [tickcount], eax	; DFEDB
-ret	; DFEE0
+        mov ebx, dword [dword_11F8E0]
+        mov eax, dword [tickcount]
+        mov dword [dword_11F8E0], eax
+        LD sub, eax, ebx
+        ret
+        LD xor, eax, eax
+        mov dword [tickcount], eax
+        ret
 SetTickDeadline:
-mov eax, dword [byte esp+04h]	; DFEE1
-add eax, dword [tickcount]	; DFEE5
-mov dword [tickdeadline], eax	; DFEEB
-ret	; DFEF0
+        mov eax, dword [byte esp+04h]
+        add eax, dword [tickcount]
+        mov dword [tickdeadline], eax
+        ret
 WaitTickDeadline:
-mov eax, dword [tickcount]	; DFEF1
-sub eax, dword [tickdeadline]	; DFEF6
-js short WaitTickDeadline	; DFEFC
-ret	; DFEFE
+        mov eax, dword [tickcount]
+        sub eax, dword [tickdeadline]
+        js short WaitTickDeadline
+        ret
 TickDeadlinePassed:
-mov ebx, dword [tickcount]	; DFEFF
-sub ebx, dword [tickdeadline]	; DFF05
-LD sbb, eax, eax	; DFF0B
-inc eax	; DFF0D
-ret	; DFF0E
+        mov ebx, dword [tickcount]
+        sub ebx, dword [tickdeadline]
+        LD sbb, eax, eax
+        inc eax
+        ret
 WaitTicks:
-mov eax, dword [byte esp+04h]	; DFF0F
-mov ebx, dword [tickcount]	; DFF13
-LD add, eax, ebx	; DFF19
-loc_DFF1B:
-mov ebx, dword [tickcount]	; DFF1B
-LD sub, ebx, eax	; DFF21
-js short loc_DFF1B	; DFF23
-ret	; DFF25
-db 00h,00h
+        mov eax, dword [byte esp+04h]
+        mov ebx, dword [tickcount]
+        LD add, eax, ebx
+.1:
+        mov ebx, dword [tickcount]
+        LD sub, ebx, eax
+        js short .1
+        ret
+        db 00h,00h
 sub_DFF28:
-mov ah, 1	; DFF28
-call dword [off_11F618]	; DFF2A
-db 075h, loc_DFF36-($+2)
-LD xor, ax, ax	; DFF32
-ret	; DFF35
-loc_DFF36:
-LD xor, ah, ah	; DFF36
-call dword [off_11F618]	; DFF38
-LD or, al, al	; DFF3E
-je short loc_DFF44	; DFF40
-LD xor, ah, ah	; DFF42
-loc_DFF44:
-ret	; DFF44
+        mov ah, 1
+        call dword [off_11F618]
+        db 075h, .1-($+2)
+        LD xor, ax, ax
+        ret
+.1:
+        LD xor, ah, ah
+        call dword [off_11F618]
+        LD or, al, al
+        je short .2
+        LD xor, ah, ah
+.2:
+        ret
 sub_DFF45:
-jmp dword [dword_11F8E4]	; DFF45
+        jmp dword [dword_11F8E4]
 sub_DFF4B:
-mov ah, 1	; DFF4B
-call dword [off_11F618]	; DFF4D
-jne short loc_DFF59	; DFF53
-LD xor, ax, ax	; DFF55
-ret	; DFF58
-loc_DFF59:
-LD or, al, al	; DFF59
-je short loc_DFF5F	; DFF5B
-LD xor, ah, ah	; DFF5D
-loc_DFF5F:
-ret	; DFF5F
+        mov ah, 1
+        call dword [off_11F618]
+        jne short .1
+        LD xor, ax, ax
+        ret
+.1:
+        LD or, al, al
+        je short .2
+        LD xor, ah, ah
+.2:
+        ret
 sub_DFF60:
-mov eax, dword [byte esp+04h]	; DFF60
-mov dword [dword_11F8E4], eax	; DFF64
-ret	; DFF69
-mov eax, dword [dword_11F8E4]	; DFF6A
-ret	; DFF6F
+        mov eax, dword [byte esp+04h]
+        mov dword [dword_11F8E4], eax
+        ret
+        mov eax, dword [dword_11F8E4]
+        ret
 WaitKey:
-call dword [dword_11F8E4]	; DFF70
-LD or, ax, ax	; DFF76
-je short WaitKey	; DFF79
-ret	; DFF7B
+        call dword [dword_11F8E4]
+        LD or, ax, ax
+        je short WaitKey
+        ret
 sub_DFF7C:
-call sub_DFF28	; DFF7C
-LD or, ax, ax	; DFF81
-jne short sub_DFF7C	; DFF84
-ret	; DFF86
-loc_DFF87:
-call dword [dword_11F8E4]	; DFF87
-LD or, ax, ax	; DFF8D
-jne short loc_DFF9F	; DFF90
-call TickDeadlinePassed	; DFF92
-LD or, ax, ax	; DFF97
-je short loc_DFF87	; DFF9A
-LD xor, ax, ax	; DFF9C
-loc_DFF9F:
-ret	; DFF9F
-push ebp	; DFFA0
-LD mov, ebp, esp	; DFFA1
-add esp, byte 0FFFFFFFCh	; DFFA3
-call GetTicks	; DFFA6
-add eax, dword [byte ebp+08h]	; DFFAB
-mov dword [byte ebp-04h], eax	; DFFAE
-loc_DFFB1:
-LD xor, eax, eax	; DFFB1
-call sub_DFF45	; DFFB3
-LD or, eax, eax	; DFFB8
-jne short loc_DFFC8	; DFFBA
-call GetTicks	; DFFBC
-sub eax, dword [byte ebp-04h]	; DFFC1
-js short loc_DFFB1	; DFFC4
-LD xor, eax, eax	; DFFC6
-loc_DFFC8:
-leave	; DFFC8
-ret	; DFFC9
-push ebx	; DFFCA
-push ecx	; DFFCB
-push edx	; DFFCC
-push esi	; DFFCD
-push edi	; DFFCE
-push ebp	; DFFCF
-push ds	; DFFD0
-push es	; DFFD1
-mov ah, 2	; DFFD2
-int 16h	; DFFD4
-pop es	; DFFD6
-pop ds	; DFFD7
-pop ebp	; DFFD8
-pop edi	; DFFD9
-pop esi	; DFFDA
-pop edx	; DFFDB
-pop ecx	; DFFDC
-pop ebx	; DFFDD
-ret	; DFFDE
-db 00h
-push ebp	; DFFE0
-push esi	; DFFE1
-push edi	; DFFE2
-LD xor, eax, eax	; DFFE3
-mov ah, byte [byte_11F924]	; DFFE5
-mov ecx, 2710h	; DFFEB
-mov edx, 201h	; DFFF0
-LD xor, ebx, ebx	; DFFF5
-LD mov, ebp, ebx	; DFFF7
-LD mov, esi, ebx	; DFFF9
-LD mov, edi, ebx	; DFFFB
-cli	; DFFFD
-out dx, al	; DFFFE
-jmp short loc_E0015	; DFFFF
-loc_E0001:
-shr al, 1	; E0001
-adc ebp, byte 0	; E0003
-shr al, 1	; E0006
-adc esi, byte 0	; E0008
-shr al, 1	; E000B
-adc edi, byte 0	; E000D
-shr al, 1	; E0010
-adc ebx, byte 0	; E0012
-loc_E0015:
-in al, dx	; E0015
-test ah, al	; E0016
-loopne loc_E0001	; E0018
-sti	; E001A
-jcxz loc_E0042	; E001B
-loc_E001E:
-shr al, 4	; E001E
-mov byte [byte_11F920], al	; E0021
-mov dword [word_11F910], ebp	; E0026
-mov dword [word_11F914], esi	; E002C
-mov dword [word_11F918], edi	; E0032
-mov dword [word_11F91C], ebx	; E0038
-pop edi	; E003E
-pop esi	; E003F
-pop ebp	; E0040
-ret	; E0041
-loc_E0042:
-LD mov, ah, al	; E0042
-not ah	; E0044
-and ah, 0Fh	; E0046
-mov byte [byte_11F924], ah	; E0049
-jmp short loc_E001E	; E004F
+        call sub_DFF28
+        LD or, ax, ax
+        jne short sub_DFF7C
+        ret
+.1:
+        call dword [dword_11F8E4]
+        LD or, ax, ax
+        jne short .2
+        call TickDeadlinePassed
+        LD or, ax, ax
+        je short .1
+        LD xor, ax, ax
+.2:
+        ret
+        push ebp
+        LD mov, ebp, esp
+        add esp, byte 0FFFFFFFCh
+        call GetTicks
+        add eax, dword [byte ebp+08h]
+        mov dword [byte ebp-04h], eax
+.3:
+        LD xor, eax, eax
+        call sub_DFF45
+        LD or, eax, eax
+        jne short .4
+        call GetTicks
+        sub eax, dword [byte ebp-04h]
+        js short .3
+        LD xor, eax, eax
+.4:
+        leave
+        ret
+        push ebx
+        push ecx
+        push edx
+        push esi
+        push edi
+        push ebp
+        push ds
+        push es
+        mov ah, 2
+        int 16h
+        pop es
+        pop ds
+        pop ebp
+        pop edi
+        pop esi
+        pop edx
+        pop ecx
+        pop ebx
+        ret
+        db 00h
+        push ebp
+        push esi
+        push edi
+        LD xor, eax, eax
+        mov ah, byte [byte_11F924]
+        mov ecx, 2710h
+        mov edx, 201h
+        LD xor, ebx, ebx
+        LD mov, ebp, ebx
+        LD mov, esi, ebx
+        LD mov, edi, ebx
+        cli
+        out dx, al
+        jmp short .6
+.5:
+        shr al, 1
+        adc ebp, byte 0
+        shr al, 1
+        adc esi, byte 0
+        shr al, 1
+        adc edi, byte 0
+        shr al, 1
+        adc ebx, byte 0
+.6:
+        in al, dx
+        test ah, al
+        loopne .5
+        sti
+        jcxz .8
+.7:
+        shr al, 4
+        mov byte [byte_11F920], al
+        mov dword [word_11F910], ebp
+        mov dword [word_11F914], esi
+        mov dword [word_11F918], edi
+        mov dword [word_11F91C], ebx
+        pop edi
+        pop esi
+        pop ebp
+        ret
+.8:
+        LD mov, ah, al
+        not ah
+        and ah, 0Fh
+        mov byte [byte_11F924], ah
+        jmp short .7
 sub_E0051:
-call sub_E0898	; E0051
-LD mov, bh, al	; E0056
-LD xor, eax, eax	; E0058
-mov ecx, 2710h	; E005A
-mov edx, 201h	; E005F
-pushf	; E0064
-cli	; E0065
-out dx, al	; E0066
-LD xor, eax, eax	; E0067
-out 43h, al	; E0069
-in al, 40h	; E006B
-LD mov, ah, al	; E006D
-in al, 40h	; E006F
-xchg al, ah	; E0071
-mov dword [dword_11F8F4], eax	; E0073
-mov dword [dword_11F8FC], eax	; E0078
-mov dword [dword_11F900], eax	; E007D
-mov dword [dword_11F904], eax	; E0082
-mov dword [dword_11F908], eax	; E0087
-mov byte [byte_11F90C], 0	; E008C
-mov bl, byte [byte_11F924]	; E0093
-loc_E0099:
-in al, dx	; E0099
-LD mov, ah, al	; E009A
-LD and, al, bl	; E009C
-not al	; E009E
-LD and, al, bl	; E00A0
-je short loc_E00DD	; E00A2
-LD mov, edx, eax	; E00A4
-LD xor, eax, eax	; E00A6
-out 43h, al	; E00A8
-in al, 40h	; E00AA
-LD mov, ah, al	; E00AC
-in al, 40h	; E00AE
-xchg al, ah	; E00B0
-shr dl, 1	; E00B2
-jae short loc_E00BB	; E00B4
-mov dword [dword_11F8FC], eax	; E00B6
-loc_E00BB:
-shr dl, 1	; E00BB
-jae short loc_E00C4	; E00BD
-mov dword [dword_11F900], eax	; E00BF
-loc_E00C4:
-shr dl, 1	; E00C4
-jae short loc_E00CD	; E00C6
-mov dword [dword_11F904], eax	; E00C8
-loc_E00CD:
-shr dl, 1	; E00CD
-jae short loc_E00D6	; E00CF
-mov dword [dword_11F908], eax	; E00D1
-loc_E00D6:
-LD mov, eax, edx	; E00D6
-mov edx, 201h	; E00D8
-loc_E00DD:
-sub ecx, byte 1	; E00DD
-je short loc_E0137	; E00E0
-inc bh	; E00E2
-and bh, 3Fh	; E00E4
-je short loc_E0146	; E00E7
-loc_E00E9:
-LD and, bl, ah	; E00E9
-jne short loc_E0099	; E00EB
-loc_E00ED:
-popf	; E00ED
-shr ah, 4	; E00EE
-mov byte [byte_11F920], ah	; E00F1
-cmp byte [byte_11F90C], 0	; E00F7
-jne near sub_E0051	; E00FE
-mov ebx, 0Ch	; E0104
-loc_E0109:
-mov eax, dword [dword_11F8F4]	; E0109
-sub eax, dword [dword ebx+dword_11F8FC]	; E010E
-jge short loc_E011E	; E0114
-add eax, dword [dword_11F8F8]	; E0116
-jl short loc_E0124	; E011C
-loc_E011E:
-mov dword [dword ebx+word_11F910], eax	; E011E
-loc_E0124:
-sub ebx, byte 4	; E0124
-jge short loc_E0109	; E0127
-LD xor, eax, eax	; E0129
-mov al, byte [byte_11F920]	; E012B
-mov ah, byte [byte_11F924]	; E0130
-ret	; E0136
-loc_E0137:
-LD mov, bl, ah	; E0137
-not bl	; E0139
-and bl, 0Fh	; E013B
-mov byte [byte_11F924], bl	; E013E
-jmp short loc_E00ED	; E0144
-loc_E0146:
-popf	; E0146
-nop	; E0147
-pushf	; E0148
-cli	; E0149
-in al, dx	; E014A
-LD xor, al, ah	; E014B
-LD and, al, bl	; E014D
-or byte [byte_11F90C], al	; E014F
-jmp short loc_E00E9	; E0155
-db 00h
+        call sub_E0898
+        LD mov, bh, al
+        LD xor, eax, eax
+        mov ecx, 2710h
+        mov edx, 201h
+        pushf
+        cli
+        out dx, al
+        LD xor, eax, eax
+        out 43h, al
+        in al, 40h
+        LD mov, ah, al
+        in al, 40h
+        xchg al, ah
+        mov dword [dword_11F8F4], eax
+        mov dword [dword_11F8FC], eax
+        mov dword [dword_11F900], eax
+        mov dword [dword_11F904], eax
+        mov dword [dword_11F908], eax
+        mov byte [byte_11F90C], 0
+        mov bl, byte [byte_11F924]
+.1:
+        in al, dx
+        LD mov, ah, al
+        LD and, al, bl
+        not al
+        LD and, al, bl
+        je short .6
+        LD mov, edx, eax
+        LD xor, eax, eax
+        out 43h, al
+        in al, 40h
+        LD mov, ah, al
+        in al, 40h
+        xchg al, ah
+        shr dl, 1
+        jae short .2
+        mov dword [dword_11F8FC], eax
+.2:
+        shr dl, 1
+        jae short .3
+        mov dword [dword_11F900], eax
+.3:
+        shr dl, 1
+        jae short .4
+        mov dword [dword_11F904], eax
+.4:
+        shr dl, 1
+        jae short .5
+        mov dword [dword_11F908], eax
+.5:
+        LD mov, eax, edx
+        mov edx, 201h
+.6:
+        sub ecx, byte 1
+        je short .12
+        inc bh
+        and bh, 3Fh
+        je short .13
+.7:
+        LD and, bl, ah
+        jne short .1
+.8:
+        popf
+        shr ah, 4
+        mov byte [byte_11F920], ah
+        cmp byte [byte_11F90C], 0
+        jne near sub_E0051
+        mov ebx, 0Ch
+.9:
+        mov eax, dword [dword_11F8F4]
+        sub eax, dword [dword ebx+dword_11F8FC]
+        jge short .10
+        add eax, dword [dword_11F8F8]
+        jl short .11
+.10:
+        mov dword [dword ebx+word_11F910], eax
+.11:
+        sub ebx, byte 4
+        jge short .9
+        LD xor, eax, eax
+        mov al, byte [byte_11F920]
+        mov ah, byte [byte_11F924]
+        ret
+.12:
+        LD mov, bl, ah
+        not bl
+        and bl, 0Fh
+        mov byte [byte_11F924], bl
+        jmp short .8
+.13:
+        popf
+        nop
+        pushf
+        cli
+        in al, dx
+        LD xor, al, ah
+        LD and, al, bl
+        or byte [byte_11F90C], al
+        jmp short .7
+        db 00h
 sub_E0158:
-mov byte [byte_11F942], 0	; E0158
-test byte [joyenablemask], 1	; E015F
-je near loc_E0442	; E0166
-mov dx, 201h	; E016C
-in al, dx	; E0170
-and al, 30h	; E0171
-mov byte [byte_11F941], al	; E0173
-mov bl, 3	; E0178
-cli	; E017A
-out dx, al	; E017B
-mov al, 0	; E017C
-out 43h, al	; E017E
-LD xor, eax, eax	; E0180
-in al, 40h	; E0182
-LD mov, ah, al	; E0184
-in al, 40h	; E0186
-xchg al, ah	; E0188
-mov dword [dword_11F92C], eax	; E018A
-add eax, byte 50h	; E018F
-mov dword [dword_11F930], eax	; E0192
-mov dword [dword_11F934], eax	; E0197
-mov ecx, 14h	; E019C
-loc_E01A1:
-dec ecx	; E01A1
-jne short loc_E01A1	; E01A2
-sti	; E01A4
-LD xor, ecx, ecx	; E01A5
-loc_E01A7:
-in al, dx	; E01A7
-LD and, al, bl	; E01A8
-LD xor, al, bl	; E01AA
-jne short loc_E01B9	; E01AC
-inc ecx	; E01AE
-cmp ecx, 0FA0h	; E01AF
-jl short loc_E01A7	; E01B5
-jmp short loc_E01F7	; E01B7
-loc_E01B9:
-LD mov, bh, al	; E01B9
-test bh, 1	; E01BB
-jne short loc_E01DF	; E01BE
-loc_E01C0:
-test bh, 2	; E01C0
-je short loc_E01A7	; E01C3
-mov al, 0	; E01C5
-out 43h, al	; E01C7
-LD xor, eax, eax	; E01C9
-in al, 40h	; E01CB
-LD mov, ah, al	; E01CD
-in al, 40h	; E01CF
-xchg al, ah	; E01D1
-mov dword [dword_11F934], eax	; E01D3
-and bl, 1	; E01D8
-jne short loc_E01A7	; E01DB
-jmp short loc_E01F7	; E01DD
-loc_E01DF:
-mov al, 0	; E01DF
-out 43h, al	; E01E1
-LD xor, eax, eax	; E01E3
-in al, 40h	; E01E5
-LD mov, ah, al	; E01E7
-in al, 40h	; E01E9
-xchg al, ah	; E01EB
-mov dword [dword_11F930], eax	; E01ED
-and bl, 2	; E01F2
-jne short loc_E01C0	; E01F5
-loc_E01F7:
-mov eax, dword [dword_11F92C]	; E01F7
-cmp eax, dword [dword_11F930]	; E01FC
-jl short loc_E0211	; E0202
-sub eax, dword [dword_11F930]	; E0204
-mov dword [dword_11F938], eax	; E020A
-jmp short loc_E0227	; E020F
-loc_E0211:
-mov dword [dword_11F938], eax	; E0211
-mov eax, dword [dword_11F928]	; E0216
-sub eax, dword [dword_11F930]	; E021B
-add dword [dword_11F938], eax	; E0221
-loc_E0227:
-mov eax, dword [dword_11F92C]	; E0227
-cmp eax, dword [dword_11F934]	; E022C
-jl short loc_E0241	; E0232
-sub eax, dword [dword_11F934]	; E0234
-mov dword [dword_11F93C], eax	; E023A
-jmp short loc_E0257	; E023F
-loc_E0241:
-mov dword [dword_11F93C], eax	; E0241
-mov eax, dword [dword_11F928]	; E0246
-sub eax, dword [dword_11F934]	; E024B
-add dword [dword_11F93C], eax	; E0251
-loc_E0257:
-mov eax, dword [dword_11F938]	; E0257
-cmp eax, dword [str_P]	; E025C
-jge short loc_E02D3	; E0262
-dec dword [dword_11F953]	; E0264
-jle short loc_E0282	; E026A
-cmp eax, dword [dword_11F947]	; E026C
-jl near loc_E031E	; E0272
-mov dword [dword_11F947], eax	; E0278
-jmp near loc_E031E	; E027D
-loc_E0282:
-mov ebx, dword [dword_11F947]	; E0282
-mov dword [str_P], ebx	; E0288
-mov ebx, dword [dword_11F94B]	; E028E
-loc_E0294:
-sub ebx, dword [str_P]	; E0294
-jle short loc_E02AA	; E029A
-LD xor, edx, edx	; E029C
-mov eax, 4000h	; E029E
-div ebx	; E02A3
-mov dword [dword_11F97B], eax	; E02A5
-loc_E02AA:
-LD mov, eax, ebx	; E02AA
-mov dx, 201h	; E02AC
-shr eax, 1	; E02B0
-LD mov, ebx, eax	; E02B2
-shr ebx, 1	; E02B4
-add eax, dword [str_P]	; E02B6
-LD add, eax, ebx	; E02BC
-mov dword [dword_11F95B], eax	; E02BE
-LD sub, eax, ebx	; E02C3
-LD sub, eax, ebx	; E02C5
-mov dword [dword_11F957], eax	; E02C7
-mov eax, dword [dword_11F938]	; E02CC
-jmp short loc_E0300	; E02D1
-loc_E02D3:
-cmp eax, dword [dword_11F94B]	; E02D3
-jle short loc_E0300	; E02D9
-dec dword [dword_11F953]	; E02DB
-jle short loc_E02F2	; E02E1
-cmp eax, dword [dword_11F94F]	; E02E3
-jge short loc_E031E	; E02E9
-mov dword [dword_11F94F], eax	; E02EB
-jmp short loc_E031E	; E02F0
-loc_E02F2:
-mov ebx, dword [dword_11F94F]	; E02F2
-mov dword [dword_11F94B], ebx	; E02F8
-jmp short loc_E0294	; E02FE
-loc_E0300:
-mov dword [dword_11F953], 14h	; E0300
-mov dword [dword_11F94F], 4E20h	; E030A
-mov dword [dword_11F947], 0	; E0314
-loc_E031E:
-cmp eax, dword [dword_11F957]	; E031E
-jl near loc_E03B5	; E0324
-cmp eax, dword [dword_11F95B]	; E032A
-jl short loc_E0339	; E0330
-or byte [byte_11F942], 4	; E0332
-loc_E0339:
-mov eax, dword [dword_11F93C]	; E0339
-cmp eax, dword [str_P2]	; E033E
-jae short loc_E03C1	; E0344
-dec dword [dword_11F96F]	; E0346
-jle short loc_E0364	; E034C
-cmp eax, dword [dword_11F963]	; E034E
-jl near loc_E040C	; E0354
-mov dword [dword_11F963], eax	; E035A
-jmp near loc_E040C	; E035F
-loc_E0364:
-mov ebx, dword [dword_11F963]	; E0364
-mov dword [str_P2], ebx	; E036A
-mov ebx, dword [dword_11F967]	; E0370
-loc_E0376:
-sub ebx, dword [str_P2]	; E0376
-jle short loc_E038C	; E037C
-LD xor, edx, edx	; E037E
-mov eax, 4000h	; E0380
-div ebx	; E0385
-mov dword [dword_11F97F], eax	; E0387
-loc_E038C:
-LD mov, eax, ebx	; E038C
-mov dx, 201h	; E038E
-shr eax, 1	; E0392
-LD mov, ebx, eax	; E0394
-shr ebx, 1	; E0396
-add eax, dword [str_P2]	; E0398
-LD add, eax, ebx	; E039E
-mov dword [dword_11F977], eax	; E03A0
-LD sub, eax, ebx	; E03A5
-LD sub, eax, ebx	; E03A7
-mov dword [dword_11F973], eax	; E03A9
-mov eax, dword [dword_11F93C]	; E03AE
-jmp short loc_E03EE	; E03B3
-loc_E03B5:
-or byte [byte_11F942], 8	; E03B5
-jmp near loc_E0339	; E03BC
-loc_E03C1:
-cmp eax, dword [dword_11F967]	; E03C1
-jle short loc_E03EE	; E03C7
-dec dword [dword_11F96F]	; E03C9
-je short loc_E03E0	; E03CF
-cmp eax, dword [dword_11F96B]	; E03D1
-jge short loc_E040C	; E03D7
-mov dword [dword_11F96B], eax	; E03D9
-jmp short loc_E040C	; E03DE
-loc_E03E0:
-mov ebx, dword [dword_11F96B]	; E03E0
-mov dword [dword_11F967], ebx	; E03E6
-jmp short loc_E0376	; E03EC
-loc_E03EE:
-mov dword [dword_11F96F], 14h	; E03EE
-mov dword [dword_11F96B], 4E20h	; E03F8
-mov dword [dword_11F963], 0	; E0402
-loc_E040C:
-cmp eax, dword [dword_11F973]	; E040C
-jb short loc_E044D	; E0412
-cmp eax, dword [dword_11F977]	; E0414
-jb short loc_E0423	; E041A
-or byte [byte_11F942], 2	; E041C
-loc_E0423:
-in al, dx	; E0423
-and al, 30h	; E0424
-cmp al, byte [byte_11F941]	; E0426
-je short loc_E0435	; E042C
-mov al, byte [byte_11F940]	; E042E
-jmp short loc_E043C	; E0433
-loc_E0435:
-xor al, 30h	; E0435
-mov byte [byte_11F940], al	; E0437
-loc_E043C:
-or byte [byte_11F942], al	; E043C
-loc_E0442:
-mov al, byte [byte_11F942]	; E0442
-LD xor, ah, ah	; E0447
-movzx eax, ax	; E0449
-ret	; E044C
-loc_E044D:
-or byte [byte_11F942], 1	; E044D
-jmp short loc_E0423	; E0454
+        mov byte [byte_11F942], 0
+        test byte [joyenablemask], 1
+        je near .30
+        mov dx, 201h
+        in al, dx
+        and al, 30h
+        mov byte [byte_11F941], al
+        mov bl, 3
+        cli
+        out dx, al
+        mov al, 0
+        out 43h, al
+        LD xor, eax, eax
+        in al, 40h
+        LD mov, ah, al
+        in al, 40h
+        xchg al, ah
+        mov dword [dword_11F92C], eax
+        add eax, byte 50h
+        mov dword [dword_11F930], eax
+        mov dword [dword_11F934], eax
+        mov ecx, 14h
+.1:
+        dec ecx
+        jne short .1
+        sti
+        LD xor, ecx, ecx
+.2:
+        in al, dx
+        LD and, al, bl
+        LD xor, al, bl
+        jne short .3
+        inc ecx
+        cmp ecx, 0FA0h
+        jl short .2
+        jmp short .6
+.3:
+        LD mov, bh, al
+        test bh, 1
+        jne short .5
+.4:
+        test bh, 2
+        je short .2
+        mov al, 0
+        out 43h, al
+        LD xor, eax, eax
+        in al, 40h
+        LD mov, ah, al
+        in al, 40h
+        xchg al, ah
+        mov dword [dword_11F934], eax
+        and bl, 1
+        jne short .2
+        jmp short .6
+.5:
+        mov al, 0
+        out 43h, al
+        LD xor, eax, eax
+        in al, 40h
+        LD mov, ah, al
+        in al, 40h
+        xchg al, ah
+        mov dword [dword_11F930], eax
+        and bl, 2
+        jne short .4
+.6:
+        mov eax, dword [dword_11F92C]
+        cmp eax, dword [dword_11F930]
+        jl short .7
+        sub eax, dword [dword_11F930]
+        mov dword [dword_11F938], eax
+        jmp short .8
+.7:
+        mov dword [dword_11F938], eax
+        mov eax, dword [dword_11F928]
+        sub eax, dword [dword_11F930]
+        add dword [dword_11F938], eax
+.8:
+        mov eax, dword [dword_11F92C]
+        cmp eax, dword [dword_11F934]
+        jl short .9
+        sub eax, dword [dword_11F934]
+        mov dword [dword_11F93C], eax
+        jmp short .10
+.9:
+        mov dword [dword_11F93C], eax
+        mov eax, dword [dword_11F928]
+        sub eax, dword [dword_11F934]
+        add dword [dword_11F93C], eax
+.10:
+        mov eax, dword [dword_11F938]
+        cmp eax, dword [str_P]
+        jge short .14
+        dec dword [dword_11F953]
+        jle short .11
+        cmp eax, dword [dword_11F947]
+        jl near .17
+        mov dword [dword_11F947], eax
+        jmp near .17
+.11:
+        mov ebx, dword [dword_11F947]
+        mov dword [str_P], ebx
+        mov ebx, dword [dword_11F94B]
+.12:
+        sub ebx, dword [str_P]
+        jle short .13
+        LD xor, edx, edx
+        mov eax, 4000h
+        div ebx
+        mov dword [dword_11F97B], eax
+.13:
+        LD mov, eax, ebx
+        mov dx, 201h
+        shr eax, 1
+        LD mov, ebx, eax
+        shr ebx, 1
+        add eax, dword [str_P]
+        LD add, eax, ebx
+        mov dword [dword_11F95B], eax
+        LD sub, eax, ebx
+        LD sub, eax, ebx
+        mov dword [dword_11F957], eax
+        mov eax, dword [dword_11F938]
+        jmp short .16
+.14:
+        cmp eax, dword [dword_11F94B]
+        jle short .16
+        dec dword [dword_11F953]
+        jle short .15
+        cmp eax, dword [dword_11F94F]
+        jge short .17
+        mov dword [dword_11F94F], eax
+        jmp short .17
+.15:
+        mov ebx, dword [dword_11F94F]
+        mov dword [dword_11F94B], ebx
+        jmp short .12
+.16:
+        mov dword [dword_11F953], 14h
+        mov dword [dword_11F94F], 4E20h
+        mov dword [dword_11F947], 0
+.17:
+        cmp eax, dword [dword_11F957]
+        jl near .22
+        cmp eax, dword [dword_11F95B]
+        jl short .18
+        or byte [byte_11F942], 4
+.18:
+        mov eax, dword [dword_11F93C]
+        cmp eax, dword [str_P2]
+        jae short .23
+        dec dword [dword_11F96F]
+        jle short .19
+        cmp eax, dword [dword_11F963]
+        jl near .26
+        mov dword [dword_11F963], eax
+        jmp near .26
+.19:
+        mov ebx, dword [dword_11F963]
+        mov dword [str_P2], ebx
+        mov ebx, dword [dword_11F967]
+.20:
+        sub ebx, dword [str_P2]
+        jle short .21
+        LD xor, edx, edx
+        mov eax, 4000h
+        div ebx
+        mov dword [dword_11F97F], eax
+.21:
+        LD mov, eax, ebx
+        mov dx, 201h
+        shr eax, 1
+        LD mov, ebx, eax
+        shr ebx, 1
+        add eax, dword [str_P2]
+        LD add, eax, ebx
+        mov dword [dword_11F977], eax
+        LD sub, eax, ebx
+        LD sub, eax, ebx
+        mov dword [dword_11F973], eax
+        mov eax, dword [dword_11F93C]
+        jmp short .25
+.22:
+        or byte [byte_11F942], 8
+        jmp near .18
+.23:
+        cmp eax, dword [dword_11F967]
+        jle short .25
+        dec dword [dword_11F96F]
+        je short .24
+        cmp eax, dword [dword_11F96B]
+        jge short .26
+        mov dword [dword_11F96B], eax
+        jmp short .26
+.24:
+        mov ebx, dword [dword_11F96B]
+        mov dword [dword_11F967], ebx
+        jmp short .20
+.25:
+        mov dword [dword_11F96F], 14h
+        mov dword [dword_11F96B], 4E20h
+        mov dword [dword_11F963], 0
+.26:
+        cmp eax, dword [dword_11F973]
+        jb short .31
+        cmp eax, dword [dword_11F977]
+        jb short .27
+        or byte [byte_11F942], 2
+.27:
+        in al, dx
+        and al, 30h
+        cmp al, byte [byte_11F941]
+        je short .28
+        mov al, byte [byte_11F940]
+        jmp short .29
+.28:
+        xor al, 30h
+        mov byte [byte_11F940], al
+.29:
+        or byte [byte_11F942], al
+.30:
+        mov al, byte [byte_11F942]
+        LD xor, ah, ah
+        movzx eax, ax
+        ret
+.31:
+        or byte [byte_11F942], 1
+        jmp short .27
 sub_E0456:
-mov byte [joyenablemask], 1	; E0456
-mov dword [str_P], 50h	; E045D
-mov dword [dword_11F94B], 0	; E0467
-mov dword [str_P2], 50h	; E0471
-mov dword [dword_11F967], 0	; E047B
-ret	; E0485
+        mov byte [joyenablemask], 1
+        mov dword [str_P], 50h
+        mov dword [dword_11F94B], 0
+        mov dword [str_P2], 50h
+        mov dword [dword_11F967], 0
+        ret
 sub_E0486:
-push ebp	; E0486
-LD mov, ebp, esp	; E0487
-mov ebx, dword [byte ebp+08h]	; E0489
-and ebx, byte 0Fh	; E048C
-mov al, byte [dword ebx+byte_11F983]	; E048F
-LD xor, ah, ah	; E0495
-movzx eax, ax	; E0497
-leave	; E049A
-ret	; E049B
-mov eax, dword [dword_11F938]	; E049C
-sub eax, dword [str_P]	; E04A1
-jge short loc_E04AB	; E04A7
-LD xor, eax, eax	; E04A9
-loc_E04AB:
-mul dword [dword_11F97B]	; E04AB
-sub eax, byte 1Fh	; E04B1
-ret	; E04B4
-mov eax, dword [dword_11F93C]	; E04B5
-sub eax, dword [str_P2]	; E04BA
-jge short loc_E04C4	; E04C0
-LD xor, eax, eax	; E04C2
-loc_E04C4:
-mul dword [dword_11F97F]	; E04C4
-sub eax, byte 1Fh	; E04CA
-ret	; E04CD
-db 00h,00h
+        push ebp
+        LD mov, ebp, esp
+        mov ebx, dword [byte ebp+08h]
+        and ebx, byte 0Fh
+        mov al, byte [dword ebx+byte_11F983]
+        LD xor, ah, ah
+        movzx eax, ax
+        leave
+        ret
+        mov eax, dword [dword_11F938]
+        sub eax, dword [str_P]
+        jge short .1
+        LD xor, eax, eax
+.1:
+        mul dword [dword_11F97B]
+        sub eax, byte 1Fh
+        ret
+        mov eax, dword [dword_11F93C]
+        sub eax, dword [str_P2]
+        jge short .2
+        LD xor, eax, eax
+.2:
+        mul dword [dword_11F97F]
+        sub eax, byte 1Fh
+        ret
+        db 00h,00h
 sub_E04D0:
-mov eax, dword [byte esp+04h]	; E04D0
-jmp near atexit_	; E04D4
+        mov eax, dword [byte esp+04h]
+        jmp near atexit_
 sub_E04D9:
-LD xor, eax, eax	; E04D9
-call exit_	; E04DB
+        LD xor, eax, eax
+        call exit_
 sub_E04E0:
-mov ebx, unk_AA7B0	; E04E0
-jmp short loc_E04E9	; E04E5
+        mov ebx, unk_AA7B0
+        jmp short sub_E04E7_2
 sub_E04E7:
-LD xor, ebx, ebx	; E04E7
-loc_E04E9:
-mov edx, dword [byte esp+04h]	; E04E9
-mov eax, dword [byte esp+08h]	; E04ED
-mov eax, dword [eax]	; E04F1
-mov ecx, dword [byte edx+08h]	; E04F3
-add edx, byte 10h	; E04F6
-LD or, ecx, ecx	; E04F9
-jle short loc_E050F	; E04FB
-loc_E04FD:
-add edx, byte 8	; E04FD
-cmp eax, dword [byte edx-08h]	; E0500
-loopne loc_E04FD	; E0503
-jne short loc_E050F	; E0505
-mov eax, dword [byte edx-04h]	; E0507
-add eax, dword [byte esp+04h]	; E050A
-ret	; E050E
-loc_E050F:
-LD or, ebx, ebx	; E050F
-je short loc_E051D	; E0511
-push dword [byte esp+08h]	; E0513
-push ebx	; E0517
-call FatalError	; E0518
-loc_E051D:
-LD xor, eax, eax	; E051D
-ret	; E051F
+        LD xor, ebx, ebx
+sub_E04E7_2:
+        mov edx, dword [byte esp+04h]
+        mov eax, dword [byte esp+08h]
+        mov eax, dword [eax]
+        mov ecx, dword [byte edx+08h]
+        add edx, byte 10h
+        LD or, ecx, ecx
+        jle short .2
+.1:
+        add edx, byte 8
+        cmp eax, dword [byte edx-08h]
+        loopne .1
+        jne short .2
+        mov eax, dword [byte edx-04h]
+        add eax, dword [byte esp+04h]
+        ret
+.2:
+        LD or, ebx, ebx
+        je short .3
+        push dword [byte esp+08h]
+        push ebx
+        call FatalError
+.3:
+        LD xor, eax, eax
+        ret
 sub_E0520:
-push ebp	; E0520
-LD mov, ebp, esp	; E0521
-push esi	; E0523
-push edi	; E0524
-mov esi, dword [byte ebp+08h]	; E0525
-mov edi, dword [byte ebp+0Ch]	; E0528
-mov ecx, dword [byte ebp+010h]	; E052B
-LD cmp, edi, esi	; E052E
-ja short loc_E0563	; E0530
-cld	; E0532
-cmp ecx, byte 10h	; E0533
-jge short loc_E053E	; E0536
-rep movsb	; E0538
-pop edi	; E053A
-pop esi	; E053B
-leave	; E053C
-ret	; E053D
-loc_E053E:
-LD mov, eax, edi	; E053E
-mov edx, dword [esi]	; E0540
-neg eax	; E0542
-mov dword [edi], edx	; E0544
-and eax, byte 3	; E0546
-lea esi, [eax+esi]	; E0549
-lea edi, [eax+edi]	; E054C
-LD sub, ecx, eax	; E054F
-LD mov, ebx, ecx	; E0551
-shr ecx, 2	; E0553
-rep movsd	; E0556
-LD mov, ecx, ebx	; E0558
-and ecx, byte 3	; E055A
-rep movsb	; E055D
-pop edi	; E055F
-pop esi	; E0560
-leave	; E0561
-ret	; E0562
-loc_E0563:
-std	; E0563
-lea esi, [byte ecx+esi-04h]	; E0564
-lea edi, [byte ecx+edi-04h]	; E0568
-shr ecx, 2	; E056C
-rep movsd	; E056F
-mov ecx, dword [byte ebp+010h]	; E0571
-and ecx, byte 3	; E0574
-lea esi, [byte esi+03h]	; E0577
-lea edi, [byte edi+03h]	; E057A
-rep movsb	; E057D
-cld	; E057F
-pop edi	; E0580
-pop esi	; E0581
-leave	; E0582
-ret	; E0583
+        push ebp
+        LD mov, ebp, esp
+        push esi
+        push edi
+        mov esi, dword [byte ebp+08h]
+        mov edi, dword [byte ebp+0Ch]
+        mov ecx, dword [byte ebp+010h]
+        LD cmp, edi, esi
+        ja short .2
+        cld
+        cmp ecx, byte 10h
+        jge short .1
+        rep movsb
+        pop edi
+        pop esi
+        leave
+        ret
+.1:
+        LD mov, eax, edi
+        mov edx, dword [esi]
+        neg eax
+        mov dword [edi], edx
+        and eax, byte 3
+        lea esi, [eax+esi]
+        lea edi, [eax+edi]
+        LD sub, ecx, eax
+        LD mov, ebx, ecx
+        shr ecx, 2
+        rep movsd
+        LD mov, ecx, ebx
+        and ecx, byte 3
+        rep movsb
+        pop edi
+        pop esi
+        leave
+        ret
+.2:
+        std
+        lea esi, [byte ecx+esi-04h]
+        lea edi, [byte ecx+edi-04h]
+        shr ecx, 2
+        rep movsd
+        mov ecx, dword [byte ebp+010h]
+        and ecx, byte 3
+        lea esi, [byte esi+03h]
+        lea edi, [byte edi+03h]
+        rep movsb
+        cld
+        pop edi
+        pop esi
+        leave
+        ret
 sub_E0584:
-mov eax, dword [byte esp+04h]	; E0584
-push eax	; E0588
-mov edx, dword [dword_1228E4]	; E0589
-mov ebx, dword [dword_1228DC]	; E058F
-LD sub, edx, ebx	; E0595
-mov eax, dword [dword_1228E0]	; E0597
-mov ecx, dword [dword_1228D8]	; E059C
-LD sub, eax, ecx	; E05A2
-push edx	; E05A4
-push eax	; E05A5
-push ebx	; E05A6
-push ecx	; E05A7
-call FillRect	; E05A8
-add esp, byte 14h	; E05AD
-ret	; E05B0
-db 00h,00h,00h
-loc_E05B4:
-sti	; E05B4
-push ebx	; E05B5
-push ecx	; E05B6
-push edx	; E05B7
-push esi	; E05B8
-push edi	; E05B9
-push ebp	; E05BA
-push ds	; E05BB
-push es	; E05BC
-push fs	; E05BD
-push gs	; E05BF
-call sub_B65D4	; E05C1
-call dword [cs:dword_1210D6]	; E05C6
-pop gs	; E05CD
-pop fs	; E05CF
-pop es	; E05D1
-pop ds	; E05D2
-pop ebp	; E05D3
-pop edi	; E05D4
-pop esi	; E05D5
-pop edx	; E05D6
-pop ecx	; E05D7
-pop ebx	; E05D8
-iret	; E05D9
+        mov eax, dword [byte esp+04h]
+        push eax
+        mov edx, dword [dword_1228E4]
+        mov ebx, dword [dword_1228DC]
+        LD sub, edx, ebx
+        mov eax, dword [dword_1228E0]
+        mov ecx, dword [dword_1228D8]
+        LD sub, eax, ecx
+        push edx
+        push eax
+        push ebx
+        push ecx
+        call FillRect
+        add esp, byte 14h
+        ret
+        db 00h,00h,00h
+sub_E0584_30:
+        sti
+        push ebx
+        push ecx
+        push edx
+        push esi
+        push edi
+        push ebp
+        push ds
+        push es
+        push fs
+        push gs
+        call sub_B65D4
+        call dword [cs:dword_1210D6]
+        pop gs
+        pop fs
+        pop es
+        pop ds
+        pop ebp
+        pop edi
+        pop esi
+        pop edx
+        pop ecx
+        pop ebx
+        iret
 sub_E05DA:
-push ebp	; E05DA
-LD mov, ebp, esp	; E05DB
-mov eax, dword [byte ebp+08h]	; E05DD
-mov dword [dword_1210D6], eax	; E05E0
-mov ax, cs	; E05E5
-mov word [word_1210DA], ax	; E05E8
-cmp word [word_1210D4], byte 0	; E05EE
-jne short loc_E062D	; E05F6
-mov ebx, 24h	; E05F8
-call sub_C2C7C	; E05FD
-mov dword [dword_1210D0], eax	; E0602
-mov word [word_1210D4], dx	; E0607
-mov ebx, 24h	; E060E
-mov dx, cs	; E0613
-mov eax, loc_E05B4	; E0616
-call sub_C2C94	; E061B
-push sub_E062F	; E0620
-call sub_E04D0	; E0625
-add esp, byte 4	; E062A
-loc_E062D:
-leave	; E062D
-ret	; E062E
+        push ebp
+        LD mov, ebp, esp
+        mov eax, dword [byte ebp+08h]
+        mov dword [dword_1210D6], eax
+        mov ax, cs
+        mov word [word_1210DA], ax
+        cmp word [word_1210D4], byte 0
+        jne short .1
+        mov ebx, 24h
+        call sub_C2C7C
+        mov dword [dword_1210D0], eax
+        mov word [word_1210D4], dx
+        mov ebx, 24h
+        mov dx, cs
+        mov eax, sub_E0584_30
+        call sub_C2C94
+        push sub_E062F
+        call sub_E04D0
+        add esp, byte 4
+.1:
+        leave
+        ret
 sub_E062F:
-pusha	; E062F
-mov ebx, 24h	; E0630
-mov dx, word [word_1210D4]	; E0635
-mov eax, dword [dword_1210D0]	; E063C
-LD or, dx, dx	; E0641
-je short loc_E0654	; E0644
-call sub_C2C94	; E0646
-mov word [word_1210D4], 0	; E064B
-loc_E0654:
-popa	; E0654
-ret	; E0655
-db 00h,00h
+        pusha
+        mov ebx, 24h
+        mov dx, word [word_1210D4]
+        mov eax, dword [dword_1210D0]
+        LD or, dx, dx
+        je short .1
+        call sub_C2C94
+        mov word [word_1210D4], 0
+.1:
+        popa
+        ret
+        db 00h,00h

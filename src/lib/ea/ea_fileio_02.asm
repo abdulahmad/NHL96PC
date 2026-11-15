@@ -3,64 +3,64 @@ bits 32
 %include "hockey.inc"
 section s_E1970 progbits alloc exec nowrite align=1
 extern dword_124084, unk_124020, unk_124088, unk_1240A6
-global loc_E199C, loc_E19AE, loc_E19B4, loc_E19B7, loc_E19CF, loc_E19D3, sub_E1970
+global sub_E1970
 sub_E1970:
-push ebp	; E1970
-LD mov, ebp, esp	; E1971
-push esi	; E1973
-push edi	; E1974
-mov edx, unk_124088	; E1975
-mov ah, 1Ah	; E197A
-int 21h	; E197C
-mov edx, dword [byte ebp+08h]	; E197E
-mov cl, 6	; E1981
-mov ah, 4Eh	; E1983
-int 21h	; E1985
-jb short loc_E19D3	; E1987
-mov edi, unk_124020	; E1989
-mov dword [dword_124084], edi	; E198E
-mov esi, dword [byte ebp+08h]	; E1994
-mov ecx, 57h	; E1997
-loc_E199C:
-mov al, byte [esi]	; E199C
-inc esi	; E199E
-mov byte [edi], al	; E199F
-inc edi	; E19A1
-cmp al, 0	; E19A2
-je short loc_E19B7	; E19A4
-cmp al, 3Ah	; E19A6
-je short loc_E19AE	; E19A8
-cmp al, 5Ch	; E19AA
-jne short loc_E19B4	; E19AC
-loc_E19AE:
-mov dword [dword_124084], edi	; E19AE
-loc_E19B4:
-dec ecx	; E19B4
-jne short loc_E199C	; E19B5
-loc_E19B7:
-mov esi, unk_1240A6	; E19B7
-mov edi, dword [dword_124084]	; E19BC
-mov ecx, 0Dh	; E19C2
-cld	; E19C7
-rep movsb	; E19C8
-mov eax, unk_124020	; E19CA
-loc_E19CF:
-pop edi	; E19CF
-pop esi	; E19D0
-leave	; E19D1
-ret	; E19D2
-loc_E19D3:
-LD xor, eax, eax	; E19D3
-jmp short loc_E19CF	; E19D5
-push ebp	; E19D7
-LD mov, ebp, esp	; E19D8
-push esi	; E19DA
-push edi	; E19DB
-mov edx, unk_124088	; E19DC
-mov ah, 1Ah	; E19E1
-int 21h	; E19E3
-mov ah, 4Fh	; E19E5
-int 21h	; E19E7
-jb short loc_E19D3	; E19E9
-jmp short loc_E19B7	; E19EB
-db 00h,00h,00h
+        push ebp
+        LD mov, ebp, esp
+        push esi
+        push edi
+        mov edx, unk_124088
+        mov ah, 1Ah
+        int 21h
+        mov edx, dword [byte ebp+08h]
+        mov cl, 6
+        mov ah, 4Eh
+        int 21h
+        jb short .6
+        mov edi, unk_124020
+        mov dword [dword_124084], edi
+        mov esi, dword [byte ebp+08h]
+        mov ecx, 57h
+.1:
+        mov al, byte [esi]
+        inc esi
+        mov byte [edi], al
+        inc edi
+        cmp al, 0
+        je short .4
+        cmp al, 3Ah
+        je short .2
+        cmp al, 5Ch
+        jne short .3
+.2:
+        mov dword [dword_124084], edi
+.3:
+        dec ecx
+        jne short .1
+.4:
+        mov esi, unk_1240A6
+        mov edi, dword [dword_124084]
+        mov ecx, 0Dh
+        cld
+        rep movsb
+        mov eax, unk_124020
+.5:
+        pop edi
+        pop esi
+        leave
+        ret
+.6:
+        LD xor, eax, eax
+        jmp short .5
+        push ebp
+        LD mov, ebp, esp
+        push esi
+        push edi
+        mov edx, unk_124088
+        mov ah, 1Ah
+        int 21h
+        mov ah, 4Fh
+        int 21h
+        jb short .6
+        jmp short .4
+        db 00h,00h,00h

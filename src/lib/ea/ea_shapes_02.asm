@@ -4,83 +4,83 @@ bits 32
 section s_C4DE0 progbits alloc exec nowrite align=1
 extern str_FshVshQfsQvs, str_Vsh, str_Qvs, stricmp_, sub_AB834, sub_ABF88, sub_AC484, sub_B76C0
 extern sub_D0360, sub_D0440, sub_D0640
-global loc_C4E3A, loc_C4E8B, loc_C4E9A, sub_C4DE0
+global sub_C4DE0
 sub_C4DE0:
-push esi	; C4DE0
-push edi	; C4DE1
-push ebp	; C4DE2
-sub esp, byte 64h	; C4DE3
-mov ebp, dword [byte esp+078h]	; C4DE6
-mov edi, dword [byte esp+07Ch]	; C4DEA
-push str_FshVshQfsQvs	; C4DEE
-lea eax, [byte esp+04h]	; C4DF3
-push eax	; C4DF7
-mov edx, dword [byte esp+07Ch]	; C4DF8
-push edx	; C4DFC
-call sub_D0360	; C4DFD
-add esp, byte 0Ch	; C4E02
-mov esi, eax	; C4E05
-mov eax, esp	; C4E07
-push eax	; C4E09
-call sub_AC484	; C4E0A
-add esp, byte 4	; C4E0F
-test eax, eax	; C4E12
-jne near loc_C4E9A	; C4E14
-mov edx, str_Vsh	; C4E1A
-mov eax, esi	; C4E1F
-call stricmp_	; C4E21
-test eax, eax	; C4E26
-je short loc_C4E3A	; C4E28
-mov edx, str_Qvs	; C4E2A
-mov eax, esi	; C4E2F
-call stricmp_	; C4E31
-test eax, eax	; C4E36
-jne short loc_C4E8B	; C4E38
-loc_C4E3A:
-mov eax, ebp	; C4E3A
-push edi	; C4E3C
-xor al, 20h	; C4E3D
-push eax	; C4E3F
-lea eax, [byte esp+08h]	; C4E40
-push eax	; C4E44
-call sub_B76C0	; C4E45
-mov esi, eax	; C4E4A
-add esp, byte 0Ch	; C4E4C
-test eax, eax	; C4E4F
-je short loc_C4E9A	; C4E51
-mov ebx, dword [eax]	; C4E53
-push ebx	; C4E55
-call sub_D0640	; C4E56
-add esp, byte 4	; C4E5B
-push edi	; C4E5E
-push ebp	; C4E5F
-push eax	; C4E60
-lea eax, [byte esp+0Ch]	; C4E61
-push eax	; C4E65
-call sub_AB834	; C4E66
-add esp, byte 10h	; C4E6B
-mov ecx, dword [eax]	; C4E6E
-push ecx	; C4E70
-mov ebp, dword [esi]	; C4E71
-push ebp	; C4E73
-mov edi, eax	; C4E74
-call sub_D0440	; C4E76
-add esp, byte 8	; C4E7B
-push esi	; C4E7E
-call sub_ABF88	; C4E7F
-add esp, byte 4	; C4E84
-mov eax, edi	; C4E87
-jmp short loc_C4E9A	; C4E89
-loc_C4E8B:
-push edi	; C4E8B
-push ebp	; C4E8C
-lea eax, [byte esp+08h]	; C4E8D
-push eax	; C4E91
-call sub_B76C0	; C4E92
-add esp, byte 0Ch	; C4E97
-loc_C4E9A:
-add esp, byte 64h	; C4E9A
-pop ebp	; C4E9D
-pop edi	; C4E9E
-pop esi	; C4E9F
-ret	; C4EA0
+        push esi
+        push edi
+        push ebp
+        sub esp, byte 64h
+        mov ebp, dword [byte esp+078h]
+        mov edi, dword [byte esp+07Ch]
+        push str_FshVshQfsQvs
+        lea eax, [byte esp+04h]
+        push eax
+        mov edx, dword [byte esp+07Ch]
+        push edx
+        call sub_D0360
+        add esp, byte 0Ch
+        mov esi, eax
+        mov eax, esp
+        push eax
+        call sub_AC484
+        add esp, byte 4
+        test eax, eax
+        jne near .3
+        mov edx, str_Vsh
+        mov eax, esi
+        call stricmp_
+        test eax, eax
+        je short .1
+        mov edx, str_Qvs
+        mov eax, esi
+        call stricmp_
+        test eax, eax
+        jne short .2
+.1:
+        mov eax, ebp
+        push edi
+        xor al, 20h
+        push eax
+        lea eax, [byte esp+08h]
+        push eax
+        call sub_B76C0
+        mov esi, eax
+        add esp, byte 0Ch
+        test eax, eax
+        je short .3
+        mov ebx, dword [eax]
+        push ebx
+        call sub_D0640
+        add esp, byte 4
+        push edi
+        push ebp
+        push eax
+        lea eax, [byte esp+0Ch]
+        push eax
+        call sub_AB834
+        add esp, byte 10h
+        mov ecx, dword [eax]
+        push ecx
+        mov ebp, dword [esi]
+        push ebp
+        mov edi, eax
+        call sub_D0440
+        add esp, byte 8
+        push esi
+        call sub_ABF88
+        add esp, byte 4
+        mov eax, edi
+        jmp short .3
+.2:
+        push edi
+        push ebp
+        lea eax, [byte esp+08h]
+        push eax
+        call sub_B76C0
+        add esp, byte 0Ch
+.3:
+        add esp, byte 64h
+        pop ebp
+        pop edi
+        pop esi
+        ret

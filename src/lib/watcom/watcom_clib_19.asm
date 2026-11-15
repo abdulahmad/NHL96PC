@@ -4,21 +4,21 @@ bits 32
 section s_DA5AF progbits alloc exec nowrite align=1
 global inp_, outp_
 outp_:
-push ebx	; DA5AF
-push ecx	; DA5B0
-mov ebx, eax	; DA5B1
-mov ecx, edx	; DA5B3
-mov edx, eax	; DA5B5
-mov al, cl	; DA5B7
-out dx, al	; DA5B9
-pop ecx	; DA5BA
-pop ebx	; DA5BB
-ret	; DA5BC
+        push ebx
+        push ecx
+        mov ebx, eax
+        mov ecx, edx
+        mov edx, eax
+        mov al, cl
+        out dx, al
+        pop ecx
+        pop ebx
+        ret
 inp_:
-push edx	; DA5BD
-mov edx, eax	; DA5BE
-sub eax, eax	; DA5C0
-in al, dx	; DA5C2
-pop edx	; DA5C3
-ret	; DA5C4
-db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+        push edx
+        mov edx, eax
+        sub eax, eax
+        in al, dx
+        pop edx
+        ret
+        db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h

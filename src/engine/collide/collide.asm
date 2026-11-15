@@ -17,7 +17,7 @@ extern AvgCline, GetHot, GetHotStick, GetHotOrStick, Goal, GiveControl, doplayer
 extern sub_4F452, PostInjuryEvent, AddPenalty2, Stop4Pen, EndPenaltyShot, CanRemovePlayer, CloseTextOverlay, sub_68E31
 extern sfx, sub_69141, sub_BE960, vecdist, threat, unk_164B5C, unk_1657BC, unk_1658F2
 extern vtoa, wcradiusx, word_1178A0, word_1178A6, word_1178A8, word_1178AC, word_1178AE, word_1178B4
-extern word_1178B6, gmode2, word_1178CA, gsp, word_117902, word_117914, word_117916, refhitcount
+extern yc1, gmode2, word_1178CA, gsp, word_117902, word_117914, word_117916, refhitcount
 extern word_11910F, word_119111, word_119113, word_11916B, word_119F98, word_119F9A, word_119FB8, word_119FC8
 extern word_119FCA, word_164794, word_1647A2, word_165144, word_16514A, word_16514C, word_165710, word_165846
 extern word_165964, regd5, word_165970, regd0, regd1, word_176B24, word_176B6A, word_176B80
@@ -148,11 +148,11 @@ global loc_4639D, loc_463A9, loc_463BF, loc_463E0, loc_463E6, loc_463F6, loc_464
 global loc_4644D, loc_46465, loc_4646B, loc_46498, loc_464E9, loc_46517, loc_46526, loc_4652D
 global loc_4654C, loc_46557, loc_4656A, loc_46571, loc_4658A, loc_46590, loc_465B7, passtoa0
 global setInjuryType, BlockShotDive, TryBlockShot, check4check, checkcheck, checkgoalp, checkint, checkob
-global ChkDelayedOffside, checkpuckcoll_ccx, checkpuckcoll, GetLowestPen, sub_402AD, ScatterPass, dopass, sub_409D5
+global ChkDelayedOffside, checkpuckcoll_ccx, checkpuckcoll, GetLowestPen, chk4lcauto, ScatterPass, dopass, CompPass
 global passmode, setpassmode, sub_4137F, sub_41393, sub_41432, sub_415FF, chk4shot, CompShoot
 global ChkShotStat, FallFrameByDir, FallFrameByFacing, NetCollide, FallDown, puckbody, puckshadow, puckglue
 global sub_43605, puckgoalie, puckstick, SetShotMode, ShotMode, Findhittype, shotdiradj, doshot
-global checkcoll, checkwallcoll, wallcollb, checkplcoll, sub_459B2, sub_45A31, sub_45B60, ReturnGoalies
+global checkcoll, checkwallcoll, wallcollb, checkplcoll, SetInst, checkfight_sf, checkfight, ReturnGoalies
 global SetSPA, sub_46593, wallcoll
 BlockShotDive:
 push ebx	; 3E6EC
@@ -2482,7 +2482,7 @@ mov eax, ebx	; 4029C
 call CompShoot	; 4029E
 mov eax, 1	; 402A3
 jmp near loc_41379	; 402A8
-sub_402AD:
+chk4lcauto:
 push ebx	; 402AD
 push ecx	; 402AE
 push edx	; 402AF
@@ -3081,7 +3081,7 @@ mov eax, ebx	; 409C5
 movsx edx, word [byte ebx+07Ah]	; 409C7
 call changeplayer	; 409CB
 jmp near loc_41378	; 409D0
-sub_409D5:
+CompPass:
 push ebx	; 409D5
 push ecx	; 409D6
 mov ebx, eax	; 409D7
@@ -4759,11 +4759,11 @@ call sfx	; 41E8C
 mov ax, word [byte esi+02h]	; 41E91
 mov word [word_1178B4], ax	; 41E95
 mov ax, word [byte esi+06h]	; 41E9B
-mov word [word_1178B6], ax	; 41E9F
+mov word [yc1], ax	; 41E9F
 mov ax, word [byte esi+02h]	; 41EA5
 cmp ax, word [word_1178A0]	; 41EA9
 jge short loc_41EBA	; 41EB0
-add word [word_1178B6], byte 32h	; 41EB2
+add word [yc1], byte 32h	; 41EB2
 loc_41EBA:
 or byte [sflags], 40h	; 41EBA
 movsx eax, byte [byte esi+047h]	; 41EC1
@@ -9329,7 +9329,7 @@ pop edi	; 459AE
 pop esi	; 459AF
 pop ecx	; 459B0
 ret	; 459B1
-sub_459B2:
+SetInst:
 push ecx	; 459B2
 push esi	; 459B3
 mov ecx, eax	; 459B4
@@ -9375,7 +9375,7 @@ loc_45A2E:
 pop esi	; 45A2E
 pop ecx	; 45A2F
 ret	; 45A30
-sub_45A31:
+checkfight_sf:
 push ebx	; 45A31
 push ecx	; 45A32
 mov ebx, eax	; 45A33
@@ -9469,7 +9469,7 @@ mov byte [byte_16514F], al	; 45B58
 pop ecx	; 45B5D
 pop ebx	; 45B5E
 ret	; 45B5F
-sub_45B60:
+checkfight:
 push ebx	; 45B60
 push ecx	; 45B61
 push esi	; 45B62
@@ -9543,11 +9543,11 @@ mov edx, esi	; 45C62
 add edi, byte 0Ah	; 45C64
 mov eax, ecx	; 45C67
 mov ebx, edi	; 45C69
-call sub_459B2	; 45C6B
+call SetInst	; 45C6B
 mov ebx, edi	; 45C70
 mov edx, ecx	; 45C72
 mov eax, esi	; 45C74
-call sub_459B2	; 45C76
+call SetInst	; 45C76
 mov al, byte [byte ecx+045h]	; 45C7B
 and al, 1	; 45C7E
 movzx eax, al	; 45C80
@@ -9579,7 +9579,7 @@ add eax, edx	; 45CE7
 cdq	; 45CE9
 LD sub, eax, edx	; 45CEA
 sar eax, 1	; 45CEC
-mov word [word_1178B6], ax	; 45CEE
+mov word [yc1], ax	; 45CEE
 test ax, ax	; 45CF4
 jge short loc_45CFE	; 45CF7
 cwde	; 45CF9
@@ -9590,27 +9590,27 @@ cwde	; 45CFE
 loc_45CFF:
 cmp eax, 15Ch	; 45CFF
 jle near loc_45D84	; 45D04
-cmp word [word_1178B6], byte 0	; 45D0A
+cmp word [yc1], byte 0	; 45D0A
 jge short loc_45D1F	; 45D12
-movsx eax, word [word_1178B6]	; 45D14
+movsx eax, word [yc1]	; 45D14
 neg eax	; 45D1B
 jmp short loc_45D26	; 45D1D
 loc_45D1F:
-movsx eax, word [word_1178B6]	; 45D1F
+movsx eax, word [yc1]	; 45D1F
 loc_45D26:
 cmp eax, 178h	; 45D26
 jge short loc_45D84	; 45D2B
-cmp word [word_1178B6], byte 0	; 45D2D
+cmp word [yc1], byte 0	; 45D2D
 jge short loc_45D42	; 45D35
-movsx eax, word [word_1178B6]	; 45D37
+movsx eax, word [yc1]	; 45D37
 neg eax	; 45D3E
 jmp short loc_45D49	; 45D40
 loc_45D42:
-movsx eax, word [word_1178B6]	; 45D42
+movsx eax, word [yc1]	; 45D42
 loc_45D49:
 cmp eax, 16Ch	; 45D49
 jle short loc_45D68	; 45D4E
-cmp word [word_1178B6], byte 0	; 45D50
+cmp word [yc1], byte 0	; 45D50
 jge short loc_45D61	; 45D58
 mov eax, 0FFFFFEA4h	; 45D5A
 jmp short loc_45D7E	; 45D5F
@@ -9618,14 +9618,14 @@ loc_45D61:
 mov eax, 15Ch	; 45D61
 jmp short loc_45D7E	; 45D66
 loc_45D68:
-cmp word [word_1178B6], byte 0	; 45D68
+cmp word [yc1], byte 0	; 45D68
 jge short loc_45D79	; 45D70
 mov eax, 0FFFFFE88h	; 45D72
 jmp short loc_45D7E	; 45D77
 loc_45D79:
 mov eax, 178h	; 45D79
 loc_45D7E:
-mov word [word_1178B6], ax	; 45D7E
+mov word [yc1], ax	; 45D7E
 loc_45D84:
 or byte [sflags], 40h	; 45D84
 mov ax, word [byte ecx+02h]	; 45D8B
@@ -9648,10 +9648,10 @@ loc_45DBB:
 mov edx, esi	; 45DBB
 mov word [byte esi+036h], ax	; 45DBD
 mov eax, ecx	; 45DC1
-call sub_45A31	; 45DC3
+call checkfight_sf	; 45DC3
 mov edx, ecx	; 45DC8
 mov eax, esi	; 45DCA
-call sub_45A31	; 45DCC
+call checkfight_sf	; 45DCC
 mov ecx, SortCords	; 45DD1
 xor esi, esi	; 45DD6
 loc_45DD8:
@@ -9850,7 +9850,7 @@ mov eax, esi	; 46054
 call checkcheck	; 46056
 mov edx, ecx	; 4605B
 mov eax, esi	; 4605D
-call sub_45B60	; 4605F
+call checkfight	; 4605F
 loc_46064:
 mov ax, word [regd1]	; 46064
 mov word [word_165964], ax	; 4606A

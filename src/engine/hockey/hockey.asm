@@ -27,8 +27,8 @@ extern PenGoalStuff, EndPenaltyShot, sub_535D5, sub_53640, CloseTextOverlay, sub
 extern sub_68E31, sfx, sub_69141, sub_69161, sub_6934E, vecdist, threat, unk_117A9C
 extern unk_118FA5, unk_156E6C, unk_156FFC, unk_157AF8, unk_157B0A, unk_157B1C, unk_157B4F, unk_157B82
 extern unk_157D8F, unk_157F9C, unk_157FDA, unk_1582F5, unk_158610, unk_164B5C, unk_165258, unk_165354
-extern unk_176D0C, unk_176E9C, vtoa, word_1178A0, word_1178A2, word_1178A8, word_1178B4, word_1178B6
-extern word_1178B8, word_1178BE, word_1178C0, gmode2, word_1178CA, slotteam, word_1178F4, word_1178F8
+extern unk_176D0C, unk_176E9C, vtoa, word_1178A0, word_1178A2, word_1178A8, word_1178B4, yc1
+extern word_1178B8, fodir1, fodir2, gmode2, word_1178CA, slotteam, word_1178F4, word_1178F8
 extern gsp, word_117902, word_117914, word_117916, word_118E8F, exitgame, gameover, word_118E95
 extern word_118E9F, word_118EA3, word_118EAF, word_118EB7, word_11910B, word_119111, word_119113, word_119169
 extern word_11916B, word_119FF8, word_11A008, word_11A01A, word_11A0D9, word_11D3A2, word_164794, word_16479E
@@ -1893,7 +1893,7 @@ mov ax, word [word_1178A0]	; 47B72
 mov word [word_1178B4], ax	; 47B78
 mov ax, word [word_1178A2]	; 47B7E
 or byte [sflags], 40h	; 47B84
-mov word [word_1178B6], ax	; 47B8B
+mov word [yc1], ax	; 47B8B
 test di, di	; 47B91
 jne short loc_47BD5	; 47B94
 mov eax, dword [gameopts]	; 47B96
@@ -3739,7 +3739,7 @@ mov byte [eax], 0FFh	; 492BB
 mov word [word_1178A2], 0	; 492BE
 mov word [word_1178A0], 0	; 492C7
 mov word [word_1178B8], 0	; 492D0
-mov word [word_1178B6], 0	; 492D9
+mov word [yc1], 0	; 492D9
 mov word [word_1178B4], 0	; 492E2
 mov dword [fadeinpending], 1	; 492EB
 mov word [word_165144], 0	; 492F5
@@ -4078,7 +4078,7 @@ mov ax, word [word_1178A0]	; 49684
 mov word [word_1178B4], ax	; 4968A
 mov ax, word [word_1178A2]	; 49690
 or byte [sflags], 40h	; 49696
-mov word [word_1178B6], ax	; 4969D
+mov word [yc1], ax	; 4969D
 call clockcont_0	; 496A3
 loc_496A8:
 cmp word [word_118E8F], byte 0	; 496A8
@@ -5420,7 +5420,7 @@ mov ax, word [word_1178A0]	; 4A7A3
 mov word [word_1178B4], ax	; 4A7A9
 mov ax, word [word_1178A2]	; 4A7AF
 or byte [sflags], 40h	; 4A7B5
-mov word [word_1178B6], ax	; 4A7BC
+mov word [yc1], ax	; 4A7BC
 ret	; 4A7C2
 cleargamevars:
 mov dword [dword_165978], 0	; 4A7C3
@@ -5432,12 +5432,12 @@ mov dword [regd2], 0	; 4A7F5
 mov dword [regd1], 0	; 4A7FF
 mov dword [regd0], 0	; 4A809
 mov word [word_1178B4], 0	; 4A813
-mov word [word_1178B6], 0	; 4A81C
+mov word [yc1], 0	; 4A81C
 mov word [word_1178B8], 0	; 4A825
 mov word [foy], 0	; 4A82E
 mov word [fox], 0	; 4A837
-mov word [word_1178BE], 0	; 4A840
-mov word [word_1178C0], 0	; 4A849
+mov word [fodir1], 0	; 4A840
+mov word [fodir2], 0	; 4A849
 mov byte [collflag], 0	; 4A852
 mov word [threat], 0	; 4A859
 mov word [word_119169], 0	; 4A862

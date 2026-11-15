@@ -23,7 +23,7 @@ extern sub_69141, sub_69161, sub_692E9, sub_69312, sub_6934E, sub_69A9B, sub_773
 extern sub_AFFD0, TextSetFont, sub_B58D8, sub_B6140, sub_DD724, SetClipWindow, sub_DD7B8, sub_DD8B0
 extern sub_DFEC6, sub_E0520, sub_E0992, vecdist, sub_E15AC, unk_119D0A, unk_119D22, unk_119D36
 extern unk_119D4E, unk_156E6C, unk_157B82, unk_16443C, unk_164B5C, unk_164E7C, unk_165354, unk_17D3E8
-extern vtoa, word_1178A0, word_1178A2, word_1178B4, word_1178B6, gmode2, word_1178CA, slotteam
+extern vtoa, word_1178A0, word_1178A2, word_1178B4, yc1, gmode2, word_1178CA, slotteam
 extern word_1178F8, exitgame, word_118E9F, word_118EA3, word_119D08, word_119D62, word_11D604, word_1515E4
 extern word_156E6E, word_157AFA, word_157AFC, word_157B00, word_157B06, word_1647CA, word_165366, word_16536C
 extern word_165462, word_165468, word_16548C, word_165492, word_1656E8, word_16570A, word_165758, word_16581E
@@ -81,9 +81,9 @@ global loc_3103C, loc_31051, loc_31081, loc_3109E, loc_310B5, loc_310F0, loc_311
 global loc_3111F, loc_311B8, loc_311D2, loc_311E4, loc_311F3, loc_31215, loc_3126E, loc_3129D
 global loc_312BD, loc_31313, loc_31346, loc_3139B, loc_313B2, loc_313CF, sub_2D9D9, sub_2DE30
 global sub_2E0C5, sub_2E127, sub_2E171, sub_2E1BE, StartPreGame, assintroline, StarEligible, StarCompare
-global sub_2F029, TurnToward, SkateToTarget, assboxenter, assbenchside, assstanley, sub_2FB3D, sub_2FDE3
-global sub_2FF84, sub_30274, GetPartner, sub_30340, assdefo, sub_305C2, sub_30873, assdefd
-global sub_30CDA, sub_30E6B, asswingd
+global sub_2F029, TurnToward, SkateToTarget, assboxenter, assbenchside, assstanley, asscupfollow, asscuptake
+global asscupleave, sub_30274, GetPartner, defotarget, assdefo, asscoverdefo, defdtarget, assdefd
+global asscoverdefd, sub_30E6B, asswingd
 sub_2D9D9:
 push ebx	; 2D9D9
 push ecx	; 2D9DA
@@ -353,7 +353,7 @@ mov dword [GameLoopActive], 0	; 2DDD7
 mov word [word_1178A0], 0	; 2DDE1
 mov word [word_1178B4], 0	; 2DDEA
 mov word [word_1178A2], 0	; 2DDF3
-mov word [word_1178B6], 0	; 2DDFC
+mov word [yc1], 0	; 2DDFC
 mov word [word_118EA3], 0	; 2DE05
 mov word [lcblink], 0	; 2DE0E
 mov word [word_118E9F], 0	; 2DE17
@@ -1426,7 +1426,7 @@ and byte [byte ebx+044h], 0FDh	; 2EBFB
 mov eax, ebx	; 2EBFF
 or byte [byte ebx+045h], 20h	; 2EC01
 call SetSPA	; 2EC05
-mov word [word_1178B6], 0	; 2EC0A
+mov word [yc1], 0	; 2EC0A
 mov word [word_1178F8], 1	; 2EC13
 mov word [crowdlevel], 320h	; 2EC1C
 loc_2EC25:
@@ -2682,7 +2682,7 @@ pop edx	; 2FB39
 pop ecx	; 2FB3A
 pop ebx	; 2FB3B
 ret	; 2FB3C
-sub_2FB3D:
+asscupfollow:
 push ebx	; 2FB3D
 push ecx	; 2FB3E
 push edx	; 2FB3F
@@ -2893,7 +2893,7 @@ mov eax, esi	; 2FDD7
 loc_2FDD9:
 call SetSPA	; 2FDD9
 jmp near loc_2DE2A	; 2FDDE
-sub_2FDE3:
+asscuptake:
 push ebx	; 2FDE3
 push ecx	; 2FDE4
 push edx	; 2FDE5
@@ -3020,7 +3020,7 @@ loc_2FF78:
 mov eax, esi	; 2FF78
 call SkateToTarget	; 2FF7A
 jmp near loc_2DE29	; 2FF7F
-sub_2FF84:
+asscupleave:
 push ebx	; 2FF84
 push ecx	; 2FF85
 push edx	; 2FF86
@@ -3317,7 +3317,7 @@ imul eax, edx, dword 0A0h	; 30333
 add eax, SortCords	; 30339
 pop edx	; 3033E
 ret	; 3033F
-sub_30340:
+defotarget:
 push ebx	; 30340
 push ecx	; 30341
 push edx	; 30342
@@ -3522,7 +3522,7 @@ call sub_313D2	; 30591
 jmp short loc_3059F	; 30596
 loc_30598:
 mov eax, ebx	; 30598
-call sub_30340	; 3059A
+call defotarget	; 3059A
 loc_3059F:
 mov ax, word [byte ebx+02Ah]	; 3059F
 mov word [regd0], ax	; 305A3
@@ -3535,7 +3535,7 @@ loc_305BF:
 pop edx	; 305BF
 pop ebx	; 305C0
 ret	; 305C1
-sub_305C2:
+asscoverdefo:
 push ebx	; 305C2
 push ecx	; 305C3
 push edx	; 305C4
@@ -3767,7 +3767,7 @@ pop edx	; 3086F
 pop ecx	; 30870
 pop ebx	; 30871
 ret	; 30872
-sub_30873:
+defdtarget:
 push ebx	; 30873
 push ecx	; 30874
 push edx	; 30875
@@ -4076,7 +4076,7 @@ jge short loc_30C84	; 30C74
 movzx eax, byte [byte ebx+05Ah]	; 30C76
 mov dword [byte ebx+06Eh], eax	; 30C7A
 mov eax, ebx	; 30C7D
-call sub_30873	; 30C7F
+call defdtarget	; 30C7F
 loc_30C84:
 mov ax, word [byte ebx+02Ah]	; 30C84
 mov word [regd0], ax	; 30C88
@@ -4108,7 +4108,7 @@ pop edx	; 30CD6
 pop ecx	; 30CD7
 pop ebx	; 30CD8
 ret	; 30CD9
-sub_30CDA:
+asscoverdefd:
 push ebx	; 30CDA
 push ecx	; 30CDB
 push edx	; 30CDC
@@ -4228,7 +4228,7 @@ jge short loc_30E40	; 30E30
 movzx eax, byte [byte ebx+05Ah]	; 30E32
 mov dword [byte ebx+06Eh], eax	; 30E36
 mov eax, ebx	; 30E39
-call sub_30873	; 30E3B
+call defdtarget	; 30E3B
 loc_30E40:
 mov ax, word [byte ebx+02Ah]	; 30E40
 mov word [regd0], ax	; 30E44

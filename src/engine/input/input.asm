@@ -14,7 +14,7 @@ extern sub_3509F, sub_3E665, BlockShotDive, checkob, dopass, passmode, setpassmo
 extern sub_415FF, SetShotMode, ShotMode, Findhittype, doshot, SetSPA, sub_46593, changeplayer
 extern updateanim, doplayeracc, playeracc, sub_4DD1B, burst, sub_68E31, sfx, MouseRead
 extern vecdist, unk_164754, unk_164B5C, vtoa, word_1178A8, word_1178AC, word_1178AE, word_1178B4
-extern word_1178BE, word_1178C0, gmode2, word_1178CA, slotteam, gsp, word_118EA5, word_118EA9
+extern fodir1, fodir2, gmode2, word_1178CA, slotteam, gsp, word_118EA5, word_118EA9
 extern word_118EB1, word_119EDA, word_16474C, word_164794, word_165078, word_165082, word_1656E8, word_165704
 extern word_165710, regd0, regd1
 global Acheck, CtlSwapScoreFix, CtlSwapTeamFlag, OppInReach, ReadJoy1, ReassignCtlPlayer, asspassrec, getlchoice
@@ -57,7 +57,7 @@ global loc_3A373, loc_3A3EF, loc_3A42A, loc_3A42F, loc_3A494, loc_3A499, loc_3A4
 global loc_3A506, loc_3A550, loc_3A555, loc_3A55C, loc_3A57B, loc_3A5D4, loc_3A5EB, loc_3A5FA
 global loc_3A613, loc_3A61F, loc_3A625, loc_3A648, loc_3A65F, loc_3A674, loc_3A6B4, loc_3A6C2
 global loc_3A6CB, loc_3A6DD, loc_3A709, loc_3A744, loc_3A75A, loc_3A76E, loc_3A789, loc_3A7A0
-global sub_38202, sub_3832F, CanBlockShot, Holdplayer, sub_38AAF, sub_38BFA, doinput, sub_39847
+global faceoffinput, fightinput, CanBlockShot, Holdplayer, sub_38AAF, sub_38BFA, doinput, sub_39847
 global SlotToJoy, CenterMouse, PassCompleted, assonetimer, OneTimerChk, sub_39E93, CountTeamSlots, sub_3A609
 global sub_3A6F3
 lineinput:
@@ -168,7 +168,7 @@ movsx edx, word [regd0]	; 381EF
 mov eax, ecx	; 381F6
 call doplayeracc	; 381F8
 jmp near loc_38919	; 381FD
-sub_38202:
+faceoffinput:
 push ebx	; 38202
 push edx	; 38203
 mov ebx, eax	; 38204
@@ -186,11 +186,11 @@ movzx edx, dl	; 38229
 test edx, edx	; 3822C
 je short loc_38240	; 3822E
 mov dx, word [regd0]	; 38230
-mov word [word_1178C0], dx	; 38237
+mov word [fodir2], dx	; 38237
 jmp short loc_3824E	; 3823E
 loc_38240:
 mov dx, word [regd0]	; 38240
-mov word [word_1178BE], dx	; 38247
+mov word [fodir1], dx	; 38247
 loc_3824E:
 mov dl, byte [byte ebx+045h]	; 3824E
 and dl, 2	; 38251
@@ -271,7 +271,7 @@ loc_3832C:
 pop edx	; 3832C
 pop ebx	; 3832D
 ret	; 3832E
-sub_3832F:
+fightinput:
 push ebx	; 3832F
 push ecx	; 38330
 push esi	; 38331
@@ -1466,7 +1466,7 @@ cwde	; 39097
 test eax, eax	; 39098
 je short loc_390A8	; 3909A
 mov eax, ebx	; 3909C
-call sub_38202	; 3909E
+call faceoffinput	; 3909E
 pop edi	; 390A3
 pop esi	; 390A4
 pop ecx	; 390A5
@@ -1525,7 +1525,7 @@ test eax, eax	; 39125
 je short loc_39138	; 39127
 movsx edx, cx	; 39129
 mov eax, ebx	; 3912C
-call sub_3832F	; 3912E
+call fightinput	; 3912E
 pop edi	; 39133
 pop esi	; 39134
 pop ecx	; 39135

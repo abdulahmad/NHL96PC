@@ -390,8 +390,8 @@
 ;  4D7F1  stopna                                   engine/skate/skate.asm                       1
 ;  4DD1B  sub_4DD1B                                engine/skate/skate.asm                       1
 ;  4DE6E  burst                                    engine/skate/skate.asm                       2
-;  4DED8  sub_4DED8                                engine/engine_4DED8.asm                      1
-;  4E6C3  sub_4E6C3                                engine/engine_4DED8.asm                      1
+;  4DED8  SaveGameState                            engine/engine_4DED8.asm                      1
+;  4E6C3  LoadGameState                            engine/engine_4DED8.asm                      1
 ;  4F08B  sub_4F08B                                engine/engine_4DED8.asm                      1
 ;  4F159  sub_4F159                                engine/engine_4DED8.asm                      2
 ;  4F2A8  sub_4F2A8                                engine/engine_4DED8.asm                      1

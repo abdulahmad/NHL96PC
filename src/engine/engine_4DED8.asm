@@ -35,9 +35,9 @@ global loc_4ED35, loc_4ED52, loc_4ED6F, loc_4ED7D, loc_4EDA5, loc_4EDC0, loc_4ED
 global loc_4EE3E, loc_4EE64, loc_4EF34, loc_4EF6E, loc_4EF73, loc_4EF8D, loc_4EF92, loc_4EFD0
 global loc_4EFDC, loc_4EFF0, loc_4EFF9, loc_4F00D, loc_4F016, loc_4F033, loc_4F03D, loc_4F074
 global loc_4F13D, loc_4F14D, loc_4F14F, loc_4F153, loc_4F195, loc_4F1AA, loc_4F22B, loc_4F23D
-global loc_4F256, loc_4F286, loc_4F381, loc_4F3E7, loc_4F40D, sub_4DED8, sub_4E6C3, sub_4F08B
+global loc_4F256, loc_4F286, loc_4F381, loc_4F3E7, loc_4F40D, SaveGameState, LoadGameState, sub_4F08B
 global sub_4F159, sub_4F2A8, sub_4F385, sub_4F452
-sub_4DED8:
+SaveGameState:
 push ebx	; 4DED8
 push ecx	; 4DED9
 push edx	; 4DEDA
@@ -718,7 +718,7 @@ mov eax, ebx	; 4E6B5
 lea esp, [dword ebp+082h]	; 4E6B7
 pop ebp	; 4E6BD
 jmp near loc_4F153	; 4E6BE
-sub_4E6C3:
+LoadGameState:
 push ebx	; 4E6C3
 push ecx	; 4E6C4
 push edx	; 4E6C5

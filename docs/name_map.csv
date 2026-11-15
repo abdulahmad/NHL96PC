@@ -228,6 +228,8 @@ address,name,auto_name,source,confidence,evidence,file
 4D881,goalieacc,sub_4D881,95PC,medium,"its call lines up with the NHL95PC call in doplayeracc, and its address keeps the NHL95PC module order",src/engine/skate/skate.asm
 4DA09,noturn0,sub_4DA09,95PC,medium,"its call lines up with the NHL95PC call in doplayeracc, and its address keeps the NHL95PC module order",src/engine/skate/skate.asm
 4DE6E,burst,sub_4DE6E,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: check4check,src/engine/skate/skate.asm
+4DED8,SaveGameState,sub_4DED8,95PC,medium,"writes the same variable list LoadGameState reads, directly before it as NHL95PC SaveGameState",src/engine/engine_4DED8.asm
+4E6C3,LoadGameState,sub_4E6C3,95PC,medium,"called from PlayGame, reads the whole game state with FileReadAt as NHL95PC LoadGameState",src/engine/engine_4DED8.asm
 4F453,FormatPlayerName,,95PC,medium,NHL95PC 61D48 (sem): S:%s#%d %s %s%s; D:110DC0; S:%s#%d %c. %s%s; D:110DCE,
 4F735,BuildEventLines,sub_4F735,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: PostInjuryEvent,src/engine/gamelog/gamelog.asm
 4FB38,PostGoalEvent,sub_4FB38,95PC,medium,"first after BuildEventLines as NHL95PC PostGoalEvent; goalevent, hmtmgoalie",src/engine/gamelog/gamelog.asm

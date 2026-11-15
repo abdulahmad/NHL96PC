@@ -19,7 +19,7 @@ extern dword_17D574, dword_17D57C, dword_17D580, dword_1843AC, dword_1843B0, dwo
 extern hmtmstruct, sprintf_, strcat_, strcpy_, sub_10010, InitSlotTable, sub_10A65, sub_13146
 extern sub_1377E, sub_15344, sub_19384, sub_193E8, sub_19522, sub_1955B, sub_19799, EditText
 extern sub_1A109, sub_1B05E, sub_1DF34, sub_1DF55, sub_1DFEA, sub_1E5FC, sub_1EA14, sub_1EBBC
-extern sub_1ECDB, sub_1EE7C, sub_1EFFF, sub_2AB8F, sub_3A6F3, sub_4DED8, sub_5360D, sub_5439F
+extern sub_1ECDB, sub_1EE7C, sub_1EFFF, sub_2AB8F, sub_3A6F3, SaveGameState, sub_5360D, sub_5439F
 extern sub_564A4, sub_5A572, sub_5B0F9, CloseTextOverlay, sub_60777, sub_612BC, sub_621D9, sub_62201
 extern sub_6225D, sub_62285, sub_62311, sub_625F7, sub_62ED9, sub_63998, sub_63A5B, sub_63B0C
 extern sub_63DC4, sub_63F79, sub_640D3, sub_64103, sub_641D4, sub_6423E, sub_64296, sub_64721
@@ -1269,7 +1269,7 @@ loc_6B850:
 cmp dword [byte ebp-04h], byte 0	; 6B850
 jne short loc_6B861	; 6B854
 mov eax, dword [byte ebp-018h]	; 6B856
-call sub_4DED8	; 6B859
+call SaveGameState	; 6B859
 mov dword [byte ebp-04h], eax	; 6B85E
 loc_6B861:
 lea eax, [byte ebp-018h]	; 6B861

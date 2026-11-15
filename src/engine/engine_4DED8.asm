@@ -14,13 +14,13 @@ extern dword_17CEC3, dword_17D162, dword_17D267, energywarn, fadeinpending, fox,
 extern gameopts, gmode, hmroster, hmtmstruct, lastplayer, lasttouch, lcblink, lcboxon
 extern lcline, off_11786C, passplayer, penshotctl, penshotlive, penshotmode, penshotplayer, penshotstart
 extern penshottimer, psendcount, sflags, shotongoal, shotontarget, sprintf_, strcat_, sub_1DC65
-extern sub_1DCDC, sub_1DED8, sub_1DF55, sub_1DFEA, sub_1E5FC, sub_1F362, sub_465BA, sub_488E9
+extern sub_1DCDC, sub_1DED8, sub_1DF55, sub_1DFEA, sub_1E5FC, sub_1F362, sub_465BA, GetPeriodTime
 extern sub_48A4D, sub_535D5, sub_B7256, threat, str_DB, unk_115108, unk_115113, unk_156E6C
 extern unk_156FFC, unk_157AF8, unk_157B0A, unk_157B1C, unk_157B4F, unk_157B82, unk_157D8F, unk_157F9C
 extern unk_157FDA, unk_1582F5, unk_158610, unk_164B5C, unk_17CB2E, unk_17CED5, word_1178A8, word_1178AC
 extern word_1178AE, word_1178B4, word_1178B6, word_1178B8, word_1178BE, word_1178C0, gmode2, word_1178CA
 extern word_1178CC, word_1178CE, word_1178D0, word_1178F4, word_1178F6, word_1178F8, word_1178FA, word_1178FC
-extern gsp, word_117902, word_118E8F, word_118E91, word_118E93, word_118E9F, word_118EA3, word_118EA5
+extern gsp, word_117902, word_118E8F, exitgame, gameover, word_118E9F, word_118EA3, word_118EA5
 extern word_118EA7, word_118EA9, word_118EAB, word_118EAF, word_118EB1, word_118EB3, word_118EB7, word_118FAF
 extern word_118FB1, word_11910B, refhitcount, word_11910F, word_119111, word_119113, Pencntdwn2, word_119169
 extern word_11916B, word_11918B, word_11B274, word_11B276, word_11D3A2, word_16474C, word_16474E, word_164792
@@ -265,11 +265,11 @@ mov dx, word [word_118E8F]	; 4E167
 mov word [eax], dx	; 4E16E
 inc eax	; 4E171
 inc eax	; 4E172
-mov dx, word [word_118E91]	; 4E173
+mov dx, word [exitgame]	; 4E173
 mov word [eax], dx	; 4E17A
 inc eax	; 4E17D
 inc eax	; 4E17E
-mov dx, word [word_118E93]	; 4E17F
+mov dx, word [gameover]	; 4E17F
 mov word [eax], dx	; 4E186
 inc eax	; 4E189
 inc eax	; 4E18A
@@ -960,11 +960,11 @@ mov word [word_118E8F], dx	; 4E981
 mov dx, word [eax]	; 4E988
 inc eax	; 4E98B
 inc eax	; 4E98C
-mov word [word_118E91], dx	; 4E98D
+mov word [exitgame], dx	; 4E98D
 mov dx, word [eax]	; 4E994
 inc eax	; 4E997
 inc eax	; 4E998
-mov word [word_118E93], dx	; 4E999
+mov word [gameover], dx	; 4E999
 mov dx, word [eax]	; 4E9A0
 inc eax	; 4E9A3
 inc eax	; 4E9A4
@@ -1363,7 +1363,7 @@ jl short loc_4EE06	; 4EE3C
 loc_4EE3E:
 test ebx, ebx	; 4EE3E
 jne near loc_4F074	; 4EE40
-call sub_488E9	; 4EE46
+call GetPeriodTime	; 4EE46
 mov word [word_176B80], ax	; 4EE4B
 test byte [optflags], 70h	; 4EE51
 je short loc_4EE64	; 4EE58

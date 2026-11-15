@@ -5,7 +5,7 @@ section s_118E82 progbits alloc noexec write align=1
 global byte_118E82, byte_1190F3, byte_11916A, crowdlevel, dword_118E89, dword_119173, dword_11917F, dword_119183
 global energywarn, introskipped, lcblink, lcboxon, lcline, off_118F79, penshotctl, penshotplayer
 global shotongoal, unk_118EB9, unk_118EC9, unk_118EE9, unk_118EF9, unk_118F09, unk_118F19, unk_118F29
-global unk_118F39, unk_118F49, unk_118F59, unk_118F69, unk_118FA5, word_118E8F, word_118E91, word_118E93
+global unk_118F39, unk_118F49, unk_118F59, unk_118F69, unk_118FA5, word_118E8F, exitgame, gameover
 global word_118E95, word_118E9F, word_118EA3, word_118EA5, word_118EA7, word_118EA9, word_118EAB, word_118EAF
 global word_118EB1, word_118EB3, word_118EB7, word_118FAF, word_118FB1, word_1190D7, word_1190D9, word_1190E7
 global word_1190E9, word_11910B, refhitcount, word_11910F, word_119111, word_119113, Pencntdwn2, word_119117
@@ -16,9 +16,9 @@ dword_118E89:
 db 00h,00h,00h,00h,00h,00h
 word_118E8F:
 db 00h,00h
-word_118E91:
+exitgame:
 db 01h,00h
-word_118E93:
+gameover:
 db 01h,00h
 word_118E95:
 db 02Ch,01h,058h,02h,0B0h,04h,0B0h,04h

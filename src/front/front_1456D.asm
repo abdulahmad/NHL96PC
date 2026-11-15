@@ -32,7 +32,7 @@ extern sprintf_, str_D02d2, str_DD, str_DDD, strcat_, strcpy_, strlen_, strncmp_
 extern strstr_, InitSlotTable, sub_10A65, sub_13146, sub_13338, sub_13407, sub_1377E, sub_187CF
 extern sub_188AE, sub_189CD, sub_18A31, sub_18A81, sub_1A109, sub_1D6C1, sub_1E643, sub_1E7F6
 extern sub_1EA14, sub_1EBBC, sub_1ECDB, sub_1EE7C, sub_1EFFF, sub_1F15E, sub_1F300, sub_1F771
-extern sub_2B4B9, sub_3A6F3, ClockTick, NextPeriod, sub_4B59F, sub_4E6C3, BuildDefaultLines, sub_5358E
+extern sub_2B4B9, sub_3A6F3, ClockTick, PeriodOver, sub_4B59F, sub_4E6C3, BuildDefaultLines, sub_5358E
 extern sub_58A58, sub_59188, sub_5A572, sub_5AF42, ReadHotKeys, sub_612BC, sub_62311, sub_625F7
 extern sub_62AF7, sub_62D9B, sub_62E72, sub_62ED9, sub_62F90, sub_63968, sub_63998, sub_63A5B
 extern sub_63B0C, sub_63DC4, sub_63F79, sub_64054, sub_640D3, sub_6423E, sub_64296, sub_6448D
@@ -48,7 +48,7 @@ extern sub_E0584, str_D20, str_T, str_feP, unk_1102DD, unk_1102E3, unk_144BD, un
 extern unk_144C9, unk_144D5, unk_144ED, unk_151B88, unk_152748, unk_152798, unk_1527C0, unk_16443C
 extern optblock_end, unk_17CB2E, unk_17CED5, unk_17D272, unk_17D32C, word_114CE0, word_114DD2, word_114DD4
 extern word_114DD6, word_114DD8, word_114DDC, word_114DE4, word_114DE6, word_114EA8, word_114EAC, word_114EF8
-extern word_114EFA, word_114EFC, word_114EFE, word_114F00, word_114F14, word_118E91, word_118E93, word_119111
+extern word_114EFA, word_114EFC, word_114EFE, word_114F00, word_114F14, exitgame, gameover, word_119111
 extern word_119113, word_1515E4, word_1656D2, word_1656D6, word_1656DA, word_1656DC, word_1656DE, word_1656E0
 extern word_1656E2, word_1656E4, word_1656E6, word_1656E8, word_1656EA, word_1656EC, word_1656F2, word_1656F4
 extern word_1656F6, word_1656F8, word_1656FA, word_1656FC, word_1656FE, word_165700, word_165702, word_165810
@@ -2949,9 +2949,9 @@ mov byte [byte_16561C], 0	; 16FDF
 loc_16FE6:
 cmp dword [InGameMenuRequest], byte 0	; 16FE6
 jne short loc_1700C	; 16FED
-cmp word [word_118E91], byte 0	; 16FEF
+cmp word [exitgame], byte 0	; 16FEF
 jne short loc_1700C	; 16FF7
-cmp word [word_118E93], byte 0	; 16FF9
+cmp word [gameover], byte 0	; 16FF9
 jne short loc_1700C	; 17001
 inc edx	; 17003
 loc_17004:
@@ -2980,13 +2980,13 @@ call sub_DFEC6	; 1702E
 loc_17033:
 mov dword [GameLoopActive], 1	; 17033
 loc_1703D:
-cmp word [word_118E93], byte 0	; 1703D
+cmp word [gameover], byte 0	; 1703D
 jne near GameLoop_gameovercall	; 17045
 cmp dword [dword_1150FC], byte 0	; 1704B
 jne near GameLoop_gameovercall	; 17052
 call sub_5AF42	; 17058
 loc_1705D:
-cmp word [word_118E91], byte 0	; 1705D
+cmp word [exitgame], byte 0	; 1705D
 jne near loc_1725F	; 17065
 cmp dword [dword_1150FC], byte 0	; 1706B
 jne near loc_1725F	; 17072
@@ -3087,7 +3087,7 @@ add esp, byte 0Ch	; 1722A
 loc_1722D:
 cmp dword [InGameMenuRequest], byte 0	; 1722D
 je near loc_1705D	; 17234
-cmp word [word_118E91], byte 0	; 1723A
+cmp word [exitgame], byte 0	; 1723A
 jne near loc_1705D	; 17242
 cmp dword [DemoMode], byte 0	; 17248
 jne near loc_1705D	; 1724F
@@ -3106,8 +3106,8 @@ movzx eax, al	; 17284
 test eax, eax	; 17287
 je short loc_172F7	; 17289
 GameLoop_nextperiodcall:
-call NextPeriod	; 1728B
-cmp word [word_118E93], byte 0	; 17290
+call PeriodOver	; 1728B
+cmp word [gameover], byte 0	; 17290
 jne short loc_172AF	; 17298
 cmp dword [InGameMenuRequest], byte 0	; 1729A
 je short loc_172AF	; 172A1
@@ -3119,7 +3119,7 @@ loc_172B9:
 mov word [word_1656D2], 0	; 172B9
 mov word [LineChangeReq], 0	; 172C2
 mov dword [fadeinpending], 1	; 172CB
-mov word [word_118E91], 0	; 172D5
+mov word [exitgame], 0	; 172D5
 mov dword [dword_114F16], 0	; 172DE
 mov dword [dword_151B84], 0	; 172E8
 jmp near loc_17033	; 172F2

@@ -29,7 +29,7 @@ extern dword_179908, dword_17990C, dword_179910, dword_179914, dword_179918, dwo
 extern dword_17992C, dword_179930, dword_179934, dword_179978, dword_17997C, dword_179A7C, dword_179AC8, dword_179C88
 extern dword_179C8C, dword_179C90, dword_179D48, dword_179DCE, dword_179E0B, dword_179E0F, dword_179E13, dword_179E17
 extern dword_179E1B, dword_17BA4C, dword_17BA50, dword_17BA54, optflags, dword_17CA5C, dword_17D528, fputchar
-extern gameclock, gameopts, gmode, hmroster, hmtmstruct, lcboxon, lcline, off_117888
+extern gameclock, gameopts, gmode, hmroster, hmtmstruct, lcboxon, lcline, puckc
 extern off_11788C, off_11B278, puckz, rand_, sprintf_, strcmp_, strcpy_, sub_18E80
 extern sub_1B05E, sub_1E7F6, sub_23812, sub_23B16, sub_23F6A, sub_24F36, sub_24F75, sub_2500F
 extern sub_2503F, sub_25226, sub_25502, sub_25820, sub_25E4D, sub_25E7B, sub_25EB3, sub_261A6
@@ -1681,7 +1681,7 @@ push edi	; 5993F
 enter 48h, 0	; 59940
 cmp word [word_1650A6], byte 0	; 59944
 je near loc_599E3	; 5994C
-mov eax, dword [off_117888]	; 59952
+mov eax, dword [puckc]	; 59952
 cmp byte [eax], 0	; 59957
 jge near loc_59161	; 5995A
 mov eax, dword [puckz]	; 59960
@@ -1777,7 +1777,7 @@ mov eax, 18000h	; 59AA2
 loc_59AA7:
 cmp eax, 10000h	; 59AA7
 jge short loc_59AE0	; 59AAC
-mov edx, dword [off_117888]	; 59AAE
+mov edx, dword [puckc]	; 59AAE
 movsx edx, byte [edx]	; 59AB4
 mov ecx, dword [nosplit edx*8+dword_179800]	; 59AB7
 mov ebx, dword [nosplit edx*8+dword_1797FC]	; 59ABE
@@ -1788,7 +1788,7 @@ mov edx, dword [nosplit edx*4+dword_152FEC]	; 59AD2
 call sub_B6140	; 59AD9
 jmp short loc_59B16	; 59ADE
 loc_59AE0:
-mov edx, dword [off_117888]	; 59AE0
+mov edx, dword [puckc]	; 59AE0
 movsx edx, byte [edx]	; 59AE6
 mov ebx, dword [nosplit edx*8+dword_179800]	; 59AE9
 sar ebx, 10h	; 59AF0
@@ -1810,7 +1810,7 @@ movsx edx, word [byte edi+012h]	; 59B24
 mov eax, edi	; 59B28
 cmp edx, byte 0FFFFFFFFh	; 59B2A
 je near loc_59C2B	; 59B2D
-mov edx, dword [off_117888]	; 59B33
+mov edx, dword [puckc]	; 59B33
 movsx dx, byte [edx]	; 59B39
 cmp dx, word [dword edi+086h]	; 59B3D
 je short loc_59B59	; 59B44
@@ -1966,7 +1966,7 @@ movsx eax, al	; 59D45
 test eax, eax	; 59D48
 jne short loc_59D86	; 59D4A
 loc_59D4C:
-mov eax, dword [off_117888]	; 59D4C
+mov eax, dword [puckc]	; 59D4C
 movsx eax, byte [eax]	; 59D51
 cmp eax, byte 10h	; 59D54
 je near loc_59F65	; 59D57
@@ -2483,14 +2483,14 @@ mov dword [byte ebp-01Ch], 0	; 5A457
 call sub_B58D8	; 5A45E
 mov dword [dword_11BC24], 0FFFFFFFFh	; 5A463
 loc_5A46D:
-mov eax, dword [off_117888]	; 5A46D
+mov eax, dword [puckc]	; 5A46D
 movsx edx, byte [eax]	; 5A472
 mov eax, dword [byte ebp-01Ch]	; 5A475
 inc dword [byte ebp-01Ch]	; 5A478
 call sub_5961F	; 5A47B
 cmp dword [byte ebp-01Ch], byte 4	; 5A480
 jl short loc_5A46D	; 5A484
-mov eax, dword [off_117888]	; 5A486
+mov eax, dword [puckc]	; 5A486
 cmp byte [eax], 0	; 5A48B
 jl near loc_59B16	; 5A48E
 movsx edx, byte [eax]	; 5A494

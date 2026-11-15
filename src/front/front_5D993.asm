@@ -44,7 +44,7 @@ extern dword_17BD48, dword_17BD58, dword_17BD5C, dword_17BD62, dword_17BD66, dwo
 extern dword_17BD82, dword_17BD86, dword_17BDD4, dword_17BDD8, dword_17BDDC, dword_17C3E4, dword_17C3E8, dword_17C3EC
 extern dword_17C3F0, dword_17C3F4, dword_17C3FC, dword_17C434, dword_17C444, dword_17C448, dword_17C44C, dword_17C450
 extern dword_17C454, dword_17C458, dword_17C45C, dword_17C460, dword_17CA5C, fox, foy, fputchar
-extern gameclock, gameopts, gmode, loc_5D615, mousepollfn, off_11787C, off_117888, off_117890
+extern gameclock, gameopts, gmode, loc_5D615, mousepollfn, off_11787C, puckc, off_117890
 extern off_117894, off_11BB4C, off_11BDA8, passplayer, penshotlive, penshotmode, penshotstart, puckvx
 extern puckvz, qword_111084, qword_11108C, qword_111094, qword_11109C, qword_1110A4, qword_1110AC, qword_1110B4
 extern qword_1110BC, rand_, sflags, sprintf_, str_Pl1, sub_10010, sub_10D17, sub_11589
@@ -632,7 +632,7 @@ jl short loc_5DFFD	; 5DFF2
 movsx eax, word [passplayer]	; 5DFF4
 jmp short loc_5E00A	; 5DFFB
 loc_5DFFD:
-mov eax, dword [off_117888]	; 5DFFD
+mov eax, dword [puckc]	; 5DFFD
 cmp byte [eax], 0	; 5E002
 jl short loc_5E00F	; 5E005
 movsx eax, byte [eax]	; 5E007
@@ -671,7 +671,7 @@ jmp short loc_5E09A	; 5E093
 loc_5E095:
 mov dword [dword_11B370], eax	; 5E095
 loc_5E09A:
-mov eax, dword [off_117888]	; 5E09A
+mov eax, dword [puckc]	; 5E09A
 cmp byte [eax], 0	; 5E09F
 setge al	; 5E0A2
 movzx ecx, al	; 5E0A5

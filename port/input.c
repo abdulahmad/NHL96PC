@@ -97,15 +97,15 @@ static void key_event(SDL_Scancode s, int down) { key_xt(xt_scancode(s), down); 
 
 /* Host stand-ins until the 96 addresses of these game variables are named. curperiod=-1 means "not in a game". */
 int32_t curperiod = -1;
-int32_t dword_D3028, inputinstalled, dword_CCC9C;
-/* The mouse driver's state in 96 (sub_DF9B7 reads int 33h 0Bh into these, the same code as 95's): the pointer and its range. */
+int32_t dword_D3028, inputinstalled, playsuspended;
+/* The mouse driver's state in 96 (MouseReadMotion reads int 33h 0Bh into these, the same code as 95's): the pointer and its range. */
 #define G32(a) (*(volatile int32_t *)GAME_ADDR(a))
 #define mousex      G32(0x11F5A8u)
 #define mousey      G32(0x11F5ACu)
-#define dword_D2FEC G32(0x11F568u)      /* min x */
-#define dword_D2FF0 G32(0x11F56Cu)      /* min y */
-#define dword_D2FF4 G32(0x11F570u)      /* max x (exclusive) */
-#define dword_D2FF8 G32(0x11F574u)      /* max y (exclusive) */
+#define mouseminx G32(0x11F568u)      /* min x */
+#define mouseminy G32(0x11F56Cu)      /* min y */
+#define mousemaxx G32(0x11F570u)      /* max x (exclusive) */
+#define mousemaxy G32(0x11F574u)      /* max y (exclusive) */
 uint8_t pad1dev, pad2dev;
 uint32_t ctl1dev, ctl2dev, ctl1side, ctl2side;
 
@@ -217,7 +217,7 @@ static void script_poll(void)
  *   lo-res screens: the glove of the replay (and of the other menus there: a mouse range other than the whole screen, or EventToPointer),
  *                   and the green pointer of play when a player has the mouse as a control device (pad1dev, pad2dev).
  * Otherwise it shows. It may leave the picture and the window, except in play with the mouse as a control device (the game is running:
- * curperiod is not -1, and dword_CCC9C, set while it is paused or replaying, is 0), where it is kept on the picture, and in fullscreen,
+ * curperiod is not -1, and playsuspended, set while it is paused or replaying, is 0), where it is kept on the picture, and in fullscreen,
  * where it is always kept on the picture. */
 /* 1 is the mouse. The game's controllers: the device (2 Joystick One, 4 Joystick Two, 8 keyboard, 1 mouse) and the side (0 home). */
 
@@ -273,9 +273,9 @@ static void cursor_update(void)
     int mouse_pad = pad1dev == 1 || pad2dev == 1;
     video_mode_size(&mw, &mh);
     video_view(&vx, &vy, &vw, &vh);
-    play_mouse = mw == 320 && mouse_pad && curperiod != -1 && dword_CCC9C == 0;
+    play_mouse = mw == 320 && mouse_pad && curperiod != -1 && playsuspended == 0;
     drawn = (hk && plat_now_ns() - hk < 300000000LL) ||
-            (mw == 320 && (mouse_pad || dword_D2FEC != 0 || dword_D2FF0 != 0 || dword_D2FF4 != mw || dword_D2FF8 != mh));
+            (mw == 320 && (mouse_pad || mouseminx != 0 || mouseminy != 0 || mousemaxx != mw || mousemaxy != mh));
     video_confine_mouse(active && (fs || play_mouse));
     SDL_GetMouseState(&px, &py);
     over = active && SDL_GetMouseFocus() != 0 && px >= vx && px < vx + vw && py >= vy && py < vy + vh;
@@ -296,10 +296,10 @@ static void mouse_follow(int *cx, int *cy)
     video_mode_size(&mw, &mh);
     if (vw <= 0 || vh <= 0) { *cx = *cy = 0; return; }
     tx = (win_x - vx) * mw / vw; ty = (win_y - vy) * mh / vh;      /* screen pixels, then into the game's range (the pointer's size is taken off it) */
-    if (tx < dword_D2FEC) tx = dword_D2FEC;
-    if (tx > dword_D2FF4 - 1) tx = dword_D2FF4 - 1;
-    if (ty < dword_D2FF0) ty = dword_D2FF0;
-    if (ty > dword_D2FF8 - 1) ty = dword_D2FF8 - 1;
+    if (tx < mouseminx) tx = mouseminx;
+    if (tx > mousemaxx - 1) tx = mousemaxx - 1;
+    if (ty < mouseminy) ty = mouseminy;
+    if (ty > mousemaxy - 1) ty = mousemaxy - 1;
     *cx = 2 * (tx - mousex); *cy = ty - mousey;     /* x counts half */
 }
 
@@ -596,7 +596,7 @@ int input_mouse(ctx_t *c)
             mickey_x = cx; mickey_y = cy;
         }
         R(c, ECX) = (R(c, ECX) & ~0xFFFFu) | (mickey_x & 0xFFFF); R(c, EDX) = (R(c, EDX) & ~0xFFFFu) | (mickey_y & 0xFFFF);
-        if (mickey_x || mickey_y) TRACE("int 33h 0Bh mickeys %d,%d pointer %d,%d range %d,%d-%d,%d\n", (int16_t)mickey_x, (int16_t)mickey_y, mousex, mousey, dword_D2FEC, dword_D2FF0, dword_D2FF4, dword_D2FF8);
+        if (mickey_x || mickey_y) TRACE("int 33h 0Bh mickeys %d,%d pointer %d,%d range %d,%d-%d,%d\n", (int16_t)mickey_x, (int16_t)mickey_y, mousex, mousey, mouseminx, mouseminy, mousemaxx, mousemaxy);
         mickey_x = mickey_y = 0;
         return 1;
     case 0x1B: R(c, EBX) = (R(c, EBX) & ~0xFFFFu) | 8; R(c, ECX) = (R(c, ECX) & ~0xFFFFu) | 8; R(c, EDX) = (R(c, EDX) & ~0xFFFFu) | 8; return 1;

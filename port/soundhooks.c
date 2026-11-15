@@ -13,12 +13,12 @@
 void patch_jmp(void *from, void *to);
 
 static const struct { uint32_t addr; int len; uint8_t first; const char *name; } hooks[] = {
-    { 0x694B9, 6, 0x53, "sub_694B9 sound start (eax card, edx flag)" },
-    { 0xC157F, 6, 0x53, "sub_C157F driver start (eax driver, edx)" },
+    { 0x694B9, 6, 0x53, "StartSoundCard sound start (eax card, edx flag)" },
+    { 0xC157F, 6, 0x53, "SndSetDriver driver start (eax driver, edx)" },
     { 0xCEA3B, 8, 0x53, "sub_CEA3B SB driver init" },
     { 0xCEDDE, 8, 0x53, "sub_CEDDE SB Pro driver init" },
     { 0xCF2D8, 8, 0x53, "sub_CF2D8 SB16 driver init" },
-    { 0xCE0A9, 6, 0x56, "sub_CE0A9 BLASTER parse" },
+    { 0xCE0A9, 6, 0x56, "ParseBlasterEnv BLASTER parse" },
     { 0xCE2E8, 6, 0x52, "sub_CE2E8 DSP version" },
     { 0xAB798, 8, 0x56, "sub_AB798 DOS memory alloc" },
     { 0xCF59A, 9, 0x53, "sub_CF59A SB16 start" },

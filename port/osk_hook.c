@@ -1,5 +1,5 @@
 /* The on-screen keyboard opens by itself while the game edits a line of text (league names, owner names, created players, passwords):
- * every one of those goes through the game's text-edit routine (sub_197ED, original address 197ED). Its entry is wrapped so that the keyboard is asked for when it starts and asked to go when
+ * every one of those goes through the game's text-edit routine (EditText, original address 197ED). Its entry is wrapped so that the keyboard is asked for when it starts and asked to go when
  * it returns; the wrapper keeps the game's registers and stack (the routine takes its arguments on the stack and returns its result in eax).
  * The game thread only sets a flag; the main thread opens and closes the keyboard (osk_poll, from input_poll). If the routine's first
  * instructions are not ones that can be copied as they are, nothing is patched and F9 still opens the keyboard by hand. */
@@ -17,7 +17,7 @@
 
 #include "game.h"
 
-#define ORIG_EDITTEXT 0x197EDu          /* sub_197ED: push esi, push edi, enter 394h,0; arguments in eax, edx, ebx, ecx and three on the stack (retn 0Ch) */
+#define ORIG_EDITTEXT 0x197EDu          /* EditText: push esi, push edi, enter 394h,0; arguments in eax, edx, ebx, ecx and three on the stack (retn 0Ch) */
 
 volatile int osk_text_wanted;                  /* the game is inside the text-edit routine */
 volatile uint32_t osk_ret, osk_tmp, osk_tramp;

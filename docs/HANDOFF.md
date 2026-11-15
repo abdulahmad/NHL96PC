@@ -2,32 +2,28 @@
 
 ## Now
 
-- Stage / unit: SDL2 native port (`port/`, `make sdl2`). Stay on `sdl2-port` / the PR that targets it. Do not merge to `main`.
-- Branch: `sdl2-port` (work may land via `cursor/sdl2-port-a19a`)
-- Last check: `./build.sh` MATCH; `make sdl2` -> `build/hockey-linux`
-- Next: run with real game data; name 96 addresses for mouse/curperiod/intro hooks. Disassembly next is still obj1_00000.
-- Open PRs: (this unit)
+- Port: SDL2 native port (`port/`, `make sdl2` -> `build/hockey-linux`), on the overbar branch.
+- Disassembly: named on `fable-work`, merged into `main` and this branch (2026-11-15). The port loads `lst/HOCKEY.EXE` and uses original addresses; the names in its comments follow `src/inc/symbols.inc`.
+- Last check: `./build.sh` MATCH.
+- Next: the engine naming queue (SEGMENT_AGENT.md); run the port with real game data.
 
-## State (2026-10-31)
+## State (2026-11-14)
 
-- Full build MATCH (SHA-1 `426fb8c0c80088c6a2c56a9dac50509cb9c24540`, 1,613,291 bytes); `tools/verify_all.sh` MATCH (full build and all 283 segments built on
-  their own). Onboarding: StaticEck.
-- Everything is incbin except the LE header fields and object table (`src/le/le_header.asm`). Next: obj1_00000.
-
-- IDA listing `lst/HOCKEY.EXE.lst` added (Abdul's, LE loader, MetaPC). Its addresses match the repo's objects and pages; it is the
-  starting point for each page (SEGMENT_AGENT.md, IDA listing).
+- The whole EXE is NASM source: 112 code files, 134 data files, `cseg02` and `dseg03`; the LE fixup tables are regenerated
+  from the labels. Only the extender parts and LE header fields come from the EXE. Details: docs/PLAN.md, docs/ASM_BUILD.md.
+- 7,845 cross-file symbols, 297 named: FLIRT library names (source WATCOM), the discovery thread's names (new), and the
+  trustworthy NHL95PC matches (95PC; `medium` rows are behaviour matches to confirm).
+- 78 code files follow an NHL95PC module by matching, 8 are named by theme, 25 are placeholders named by address.
 
 ## Known facts
 
-- Watcom C/C++32 runtime string "(c) Copyright by WATCOM International Corp. 1988-1994": the 10.0 family, like NHL95PC (10.5 says
-  1988-1995). EACSNDF.LIB "32 Bit Sound Library - Build: Aug 28 1995". DOS/4GW Professional (Rational Systems 1990-1994).
-- Entry point `start` in object 1 (the same name NHL95PC gives its entry). Stack: top of object 4.
-- No C work here: the toolchain is NASM 2.15+ and Python 3 only.
-
-- IDA: the entry `1:000A6308h` is object-relative (linear 0xB6308); `cseg02` is printed with offsets (add 0xF0000); `dseg04` from
-  0x152000 is BSS; 233 functions are collapsed in the listing (bodies must be disassembled from the EXE).
+- Watcom C/C++32 10.0-family runtime, like NHL95PC. EACSNDF.LIB "32 Bit Sound Library - Build: Aug 28 1995". DOS/4GW Professional.
+- Entry point `start` in object 1. Stack: top of object 4. Object 4 is file data to 0x151597, then BSS.
+- 96 game code was compiled without stack checks; see docs/RULES.md (Learned).
+- Code layout: front end 10010-2D9D9, engine 2D9D9-53260, front end 53260-A8B9B, libraries from A8B9B.
 
 ## Unsure / open
 
-- Object 2 (52 bytes) and object 3 (24 bytes): what they hold.
-- Fixup records stay incbin until generated from labels.
+- Object 2 (52 bytes of 16-bit code: `push ax / push dx / mov al, 20h`, an interrupt stub) and object 3 (24 bytes starting
+  87 83 81 82): named after their objects for now.
+- Front-end module boundaries are provisional (docs/PLAN.md, decision 4).

@@ -71,7 +71,7 @@ void host_set_deadline(uint32_t ticks)
 }
 
 /* Spinning on tickcount in host code deadlocks on Windows: plat_kick_game only delivers IRQs when EIP is in the game image, so
- * the PIT handler never runs and WaitTicks(1) at the end of a TGV (sub_69C98) hangs forever. That matched "freeze after Pioneer /
+ * the PIT handler never runs and WaitTicks(1) at the end of a TGV (PlayTGV) hangs forever. That matched "freeze after Pioneer /
  * freeze when skipping EA or Pioneer". Allow the kick while we wait, and sleep so the main thread can raise the timer and poll input. */
 void host_wait_ticks(uint32_t ticks)
 {
@@ -85,7 +85,7 @@ void host_wait_ticks(uint32_t ticks)
     host_allow_irq = 0;
 }
 
-/* sub_DFEF1: wait for the deadline sub_DFEE1 set (the CD audio's 5-tick pauses, the disk speed test) */
+/* WaitTickDeadline: wait for the deadline SetTickDeadline set (the CD audio's 5-tick pauses, the disk speed test) */
 void host_wait_deadline(void)
 {
     uint32_t *count = (uint32_t *)GAME_ADDR(ORIG_TICKCOUNT);
@@ -96,7 +96,7 @@ void host_wait_deadline(void)
     host_allow_irq = 0;
 }
 
-/* sub_DFEFF: 1 once tickcount has reached the deadline (unsigned, as the original's sbb), else 0. The callers spin on it
+/* TickDeadlinePassed: 1 once tickcount has reached the deadline (unsigned, as the original's sbb), else 0. The callers spin on it
  * (fades, palette steps); online the clock only moves with the steps, so each poll that is not there yet moves it one tick. */
 uint32_t host_deadline_passed(void)
 {
@@ -148,7 +148,7 @@ __attribute__((naked)) static void wait_ticks_entry(void)
         "ret");
 }
 
-/* The TGV player waits for vertical retrace before writing a palette chunk (sub_DDE7B then 256× outsb to 3C9). The original busy-waits
+/* The TGV player waits for vertical retrace before writing a palette chunk (WaitRetrace then 256× outsb to 3C9). The original busy-waits
  * with ~100000 port reads; each `in` is a privilege trap here, so a palette keyframe stalled for seconds and looked like a freeze, and
  * video_present could sample the DAC mid-write (one wrong frame every few seconds). Sleep until the emulated retrace edge instead. */
 void host_wait_retrace(void)
@@ -201,10 +201,10 @@ void install_overrides(void)
     if (GAME_ADDR(ORIG_SETDEADLINE)[0] == 0x8B) patch_jmp(GAME_ADDR(ORIG_SETDEADLINE), set_deadline_entry);
     if (GAME_ADDR(ORIG_WAITTICKS)[0] == 0x8B) patch_jmp(GAME_ADDR(ORIG_WAITTICKS), wait_ticks_entry);
     if (GAME_ADDR(ORIG_WAITDEADLINE)[0] == 0xA1) patch_jmp(GAME_ADDR(ORIG_WAITDEADLINE), wait_deadline_entry);
-    else fprintf(stderr, "overrides: sub_DFEF1 starts %02X, not patched\n", GAME_ADDR(ORIG_WAITDEADLINE)[0]);
+    else fprintf(stderr, "overrides: WaitTickDeadline starts %02X, not patched\n", GAME_ADDR(ORIG_WAITDEADLINE)[0]);
     if (GAME_ADDR(ORIG_DEADLINEPASSED)[0] == 0x8B && GAME_ADDR(ORIG_DEADLINEPASSED)[1] == 0x1D)
         patch_jmp(GAME_ADDR(ORIG_DEADLINEPASSED), deadline_passed_entry);
-    else fprintf(stderr, "overrides: sub_DFEFF starts %02X %02X, not patched\n", GAME_ADDR(ORIG_DEADLINEPASSED)[0], GAME_ADDR(ORIG_DEADLINEPASSED)[1]);
+    else fprintf(stderr, "overrides: TickDeadlinePassed starts %02X %02X, not patched\n", GAME_ADDR(ORIG_DEADLINEPASSED)[0], GAME_ADDR(ORIG_DEADLINEPASSED)[1]);
     if (GAME_ADDR(ORIG_WAITRETRACE)[0] == 0xBA) patch_jmp(GAME_ADDR(ORIG_WAITRETRACE), wait_retrace_entry);
     if (GAME_ADDR(ORIG_WAITRETRACE2)[0] == 0xBA) patch_jmp(GAME_ADDR(ORIG_WAITRETRACE2), wait_retrace_entry);
     if (GAME_ADDR(ORIG_WAITRETRACE3)[0] == 0xBA) patch_jmp(GAME_ADDR(ORIG_WAITRETRACE3), wait_retrace_entry);

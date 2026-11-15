@@ -671,9 +671,9 @@ static struct { int mode, w, h; } modes[] = {
 };
 
 /* ---- unchained 256-colour mode ("mode X") ----
- * The intro movies (TGV) and the mode-2 screens start in mode 13h, then sub_DDF94 clears Chain-4 (sequencer reg 4 bit 3), sub_DE01A
+ * The intro movies (TGV) and the mode-2 screens start in mode 13h, then ClearChain4 clears Chain-4 (sequencer reg 4 bit 3), sub_DE01A
  * programs a 320x240 CRTC and the player (C2290) writes each of the 4 planes in turn through the map mask (sequencer reg 2) and flips
- * pages with the CRTC start address (sub_DDF24). The window at A0000 is plain memory here, so it stands for the plane(s) the map
+ * pages with the CRTC start address (SetCrtcStart). The window at A0000 is plain memory here, so it stands for the plane(s) the map
  * mask selects: when the mask changes the window is stored into those planes and the window gets the first newly selected plane.
  * The picture is pixel x,y = plane[x & 3][start + y * 80 + x / 4]. Without this the planar bytes were shown as a chained 320x200
  * picture: 4 squeezed copies side by side, the two 240-line pages one above the other (the 4x2 grid of the intro). */
@@ -767,7 +767,7 @@ static void set_mode(int mode, int clear)
 /* ---- palette + CRTC start latch ----
  * Present must never show a half-updated DAC or a new Mode-X page with the previous palette. dac_latched[] is the only palette
  * present reads; it updates under the video lock when a full 256-colour load finishes — never by copying live dac[] every frame
- * (that was still flashing). CRTC start is double-buffered: 0x0C/0x0D writes are deferred while dword_17C96C (TGV palette-pending)
+ * (that was still flashing). CRTC start is double-buffered: 0x0C/0x0D writes are deferred while tgvpalpending (TGV palette-pending)
  * is set, then applied in the same latch as the new DAC so page and palette change together. */
 static int pal_lock_depth;
 void video_palette_lock(void) { if (!pal_lock_depth++) SDL_LockMutex(lock); }
@@ -845,7 +845,7 @@ int video_port_out(unsigned port, uint32_t val)
         crtc[crtc_idx] = val & 0xFF;
         if (crtc_idx == 0x0C || crtc_idx == 0x0D) {
             unsigned pend = (crtc[0x0C] << 8 | crtc[0x0D]) & 0xFFFF;
-            /* TGV sets dword_17C96C before the page flip when a palette chunk follows: keep showing the old page
+            /* TGV sets tgvpalpending before the page flip when a palette chunk follows: keep showing the old page
              * until the DAC latch so present never pairs the new page with the old palette. */
             if (!*(uint32_t *)GAME_ADDR(ORIG_TGV_PALFLAG)) crtc_start_disp = pend;
         }

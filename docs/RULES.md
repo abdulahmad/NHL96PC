@@ -20,9 +20,13 @@ rule in the same commit as the fix that confirmed it, newest last: `- YYYY-MM-DD
 ## This repo
 
 - Names: 95PC, then 96G, then library names, then behaviour. See SEGMENT_AGENT.md.
-- Layout: one segment at a time; overlays wait until they are source.
+- Layout: files follow the NHL95PC module of their code (same path under `src/`); one file per session; a placeholder file is
+  renamed when its purpose is clear (SEGMENT_AGENT.md). The plan: docs/PLAN.md.
 - CONTRIBUTING.md must not contradict History.
 
 ## Learned
 - 2026-11-04 contributing: CONTRIBUTING.md must not contradict History: lineage lives only in `docs/name_map.csv`, never in source comments. (CONTRIBUTING rewrite vs RULES History row)
 - 2026-11-04 sdl2-port: NHL96PC cannot ELF-link `src/` the way NHL95PC does (incbin pages have no LE fixups applied). Load `HOCKEY.EXE` with `port/le_load.c` at `0x20000000` and skip Watcom `start` (selector 0x24 / ES:0x5C). (`port/` vs 95 ELF objects)
+- 2026-11-14 matching: 96 game code has no `__CHK` stack-check prologue, so a 95PC routine never matches byte for byte; only the libraries do. Match game code by calls, constants, data and order. (tools/names/match95.py: 245 byte-equal library functions, 0 game functions)
+- 2026-11-14 fixups: a 16:32 pointer fixup leaves its offset field zero in the file and is written `jmp 0:label wrt ..gotoff`. (four far jumps in the serial interrupt code; link MATCH)
+- 2026-11-14 layout: initialised data and BSS never share a file, except that a fixup dword straddling the end of the file data stays whole. (snd_gus_sdk data file did not round-trip when cut at the file end)

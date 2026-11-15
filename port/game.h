@@ -22,12 +22,12 @@
 #define ORIG_SETENVP       0xD7C08u
 #define ORIG_SETDEADLINE   0xDFEE1u
 #define ORIG_WAITTICKS     0xDFF0Fu
-#define ORIG_WAITDEADLINE  0xDFEF1u   /* sub_DFEF1: spin until tickcount reaches the deadline */
-#define ORIG_DEADLINEPASSED 0xDFEFFu  /* sub_DFEFF: has tickcount reached the deadline? */
-#define ORIG_WAITRETRACE   0xDDE7Bu   /* sub_DDE7B: busy-wait for VGA vertical retrace (TGV palette frames) */
-#define ORIG_WAITRETRACE2  0xDDEBCu   /* sub_DDEBC: same, always both edges */
+#define ORIG_WAITDEADLINE  0xDFEF1u   /* WaitTickDeadline: spin until tickcount reaches the deadline */
+#define ORIG_DEADLINEPASSED 0xDFEFFu  /* TickDeadlinePassed: has tickcount reached the deadline? */
+#define ORIG_WAITRETRACE   0xDDE7Bu   /* WaitRetrace: busy-wait for VGA vertical retrace (TGV palette frames) */
+#define ORIG_WAITRETRACE2  0xDDEBCu   /* WaitRetraceEdges: same, always both edges */
 #define ORIG_WAITRETRACE3  0xDDEE7u   /* wait display-enable then retrace */
-#define ORIG_TGV_PALFLAG   0x17C96Cu  /* dword_17C96C: TGV has a palette chunk for this frame */
+#define ORIG_TGV_PALFLAG   0x17C96Cu  /* tgvpalpending: TGV has a palette chunk for this frame */
 #define ORIG_VIDSAVE       0xE2484u
 #define ORIG_VIDRESTORE    0xE24C4u
 #define ORIG_TICKCOUNT     0x11F9A4u
@@ -53,11 +53,11 @@
 #define LOW_CMDLINE        0x20000u
 #define LOW_ENVBLOCK       0x22000u
 #define LOW_DOS_POOL       0x24000u
-#define ORIG_SND_CARD      0x11D1DAu  /* dword_11D1DA: the sound driver sub_694B9 started (-1: none) */
-#define ORIG_SND_DRIVER    0x1248CCu  /* dword_1248CC: the driver table index sub_C157F made current (0: none) */
+#define ORIG_SND_CARD      0x11D1DAu  /* sndcard: the sound driver StartSoundCard started (-1: none) */
+#define ORIG_SND_DRIVER    0x1248CCu  /* snddriver: the driver table index SndSetDriver made current (0: none) */
 #define ORIG_SND_FLAGS     0x11D1DEu  /* dword_11D1DE: the sound code's state bits */
-#define ORIG_TIMER_LIST    0x18566Cu  /* dword_18566C: the 8 callbacks the timer interrupt (sub_AA5C4) calls */
-#define ORIG_CFG_SOUND     0x17CA1Cu  /* dword_17CA1C: GLOBAL.SET options (bits 0-2 the card) */
+#define ORIG_TIMER_LIST    0x18566Cu  /* timercallbacks: the 8 callbacks the timer interrupt (TimerISR) calls */
+#define ORIG_CFG_SOUND     0x17CA1Cu  /* globalset: GLOBAL.SET options (bits 0-2 the card) */
 #define ORIG_GETDS_SEL     0xB65DDu   /* __GETDS: mov ds, cs:[this word] (interrupt handlers) */
 
 extern uint8_t *game_image;            /* mapped bytes for orig OBJ1_BASE .. end */

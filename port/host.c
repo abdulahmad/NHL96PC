@@ -30,8 +30,8 @@ void game_run(int argc, char **argv)
     host_exit(0);
 }
 
-/* NHL96_SNDINIT=1: after the C library start-up, call the game's getenv_ (C2CF7) for BLASTER, its BLASTER parser (sub_CE0A9) and the
- * sound start (sub_C157F with the driver sub_694B9 picks for the card in GLOBAL.SET), log what they return, and exit. */
+/* NHL96_SNDINIT=1: after the C library start-up, call the game's getenv_ (C2CF7) for BLASTER, its BLASTER parser (ParseBlasterEnv) and the
+ * sound start (SndSetDriver with the driver StartSoundCard picks for the card in GLOBAL.SET), log what they return, and exit. */
 static uint32_t gcall(uint32_t fn, uint32_t a, uint32_t d, uint32_t b, uint32_t c)
 {
     uint32_t r;
@@ -51,7 +51,7 @@ void sndinit_test(void)
     printf("getenv(BLASTER) -> %s\n", r ? (char *)(uintptr_t)r : "(null)");
     r = gcall(0xCE0A9, (uint32_t)(uintptr_t)&v[0], (uint32_t)(uintptr_t)&v[1], (uint32_t)(uintptr_t)&v[2], (uint32_t)(uintptr_t)&v[3]);
     printf("parse -> %d: A %x I %d D %d H %d\n", (int)r, v[0], v[1], v[2], v[3]);
-    alog("sndinit: sub_CE0A9 -> %d A %x I %d D %d H %d", (int)r, v[0], v[1], v[2], v[3]);
+    alog("sndinit: ParseBlasterEnv -> %d A %x I %d D %d H %d", (int)r, v[0], v[1], v[2], v[3]);
     {
         const char *c = getenv("NHL96_SNDINIT");
         int drv = atoi(c) > 1 ? atoi(c) : 5;
@@ -59,7 +59,7 @@ void sndinit_test(void)
         printf("driver %d init -> %d, current driver %d\n", drv, (int)r, *(int32_t *)GAME_ADDR(ORIG_SND_DRIVER));
         printf("image at %p; sb16: version %x, dmabuf %08x/%08x, buffer len %d\n", (void *)GAME_ADDR(0x10000), *(int32_t *)GAME_ADDR(0x1A107Cu),
                *(uint32_t *)GAME_ADDR(0x1A1078u), *(uint32_t *)GAME_ADDR(0x14F05Cu), *(int32_t *)GAME_ADDR(0x1A105Cu));
-        alog("sndinit: sub_C157F(%d) -> %d, dword_1248CC %d", drv, (int)r, *(int32_t *)GAME_ADDR(ORIG_SND_DRIVER));
+        alog("sndinit: SndSetDriver(%d) -> %d, snddriver %d", drv, (int)r, *(int32_t *)GAME_ADDR(ORIG_SND_DRIVER));
     }
     fflush(stdout);
     host_exit(0);

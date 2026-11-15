@@ -1,0 +1,962 @@
+kind,addr96,addr95,name95,file95,method,score,evidence
+func,16F09,1149A,RunGameFrames,front/main/main.asm,sem,0.893,C:604; D:1191A7; D:1178C3
+func,1D6F0,13C79,PlacePlayersAtStart,pc/asset_loading/asset_loading.asm,sem,0.743,C:613; D:16595C; D:117870; C:810
+func,1D8A2,13E8F,SetupGame,pc/asset_loading/asset_loading.asm,sem,0.769,C:159; D:11916D; D:17C9A0
+func,1D955,13FA7,SetupDemoGame,pc/asset_loading/asset_loading.asm,sem,0.884,C:162; D:151B80; D:11916D
+func,1DA02,14056,ResetGameVars,pc/asset_loading/asset_loading.asm,sem,0.759,D:1191A3; D:1178AA; D:11919B; D:11917B
+func,1DF7D,145A2,FileReadAt,pc/file_utils/file_utils.asm,sem,0.893,C:1414; C:1334; R:201; R:199
+func,1F362,1BBCC,LoadGameTeams,front/team_db/team_db.asm,sem,0.568,C:203; C:1406; C:1334; D:15718C
+func,1F8A6,1C0AF,ReadPlayerRecs,front/team_db/team_db.asm,sem,0.548,R:203; C:1334; C:2357
+func,1FDB0,1C3F6,LoadTeamRoster,front/team_db/team_db.asm,sem,0.524,K:130; C:1162
+func,2EA39,4842A,assintrostand,engine/intro/intro.asm,sem,0.895,C:428; C:809
+func,2EAEB,484DA,assintroline,engine/intro/intro.asm,sem,0.55,K:FFF1; C:622; D:11916D; D:16595C
+func,2ED68,48789,AddStar,engine/intro/intro.asm,similar,0.842,mnemonic similarity 0.84 over 28 instructions
+func,2F02A,48AC8,PickThreeStars,engine/intro/intro.asm,sem,0.666,D:176B86; C:1339; D:152FE8; D:17C9A0
+func,33214,4D3F8,assshoot,engine/logic/logic.asm,sem,0.882,D:16595C; D:1178C4; C:809; K:12C
+func,345B1,4D6B4,pucknorm_body,engine/logic/logic.asm,sem,0.769,C:518; C:519; C:499; D:1191A7
+func,348C9,4D8C7,pucknorm,engine/logic/logic.asm,sem,0.835,C:397
+func,3492A,4D938,RequestLineChange,engine/logic/logic.asm,sem,0.91,D:118EA1; D:118EB5; D:16580E; D:1656D8
+func,34A8B,4DA7B,Endfaceoff,engine/logic/logic.asm,sem,0.697,K:FFFFFB00; K:500; C:809; K:800
+func,34D49,4DCDD,a2offsides,engine/logic/logic.asm,sem,0.892,D:11919B; D:1191A7; D:117878; D:17C9A0
+func,34DD3,4DD51,ChkTwoLinePass,engine/logic/logic.asm,sem,0.9,D:176B86; D:117878; D:17C9A0; D:1178C3
+func,34EA6,4DE14,a2touchpuck,engine/logic/logic.asm,sem,0.816,C:405; C:404; C:647; D:176B86
+func,35232,4E0BD,assreffollow,engine/logic/logic.asm,sem,0.453,D:117900; D:117870; D:117878; D:16479C
+func,35A8D,4E8EF,assrefwhistle,engine/logic/logic.asm,sem,0.483,C:461; D:117900; D:16595C
+func,35E4D,4ED7C,assrefgoalpa,engine/logic/logic.asm,sem,0.677,C:461; D:117884; D:117880; D:117874
+func,36692,4F5BF,assrefdrop,engine/logic/logic.asm,sem,0.67,D:117884; D:117880; D:119197; D:117874
+func,36C3A,4F9EF,StartShootoutPath,engine/logic/logic.asm,similar,0.87,mnemonic similarity 0.87 over 65 instructions
+func,36D37,4FAE8,asspenshooter,engine/logic/logic.asm,sem,0.517,C:421; C:810; C:809
+func,3804E,11FF4,assreplace,front/main/main.asm,sem,0.774,R:517; R:668; R:470; R:539
+func,3805F,12011,assinsert,front/main/main.asm,sem,0.937,R:577; R:461; R:159; R:510
+func,38070,4FD8E,lineinput,engine/input/input.asm,sem,0.85,D:118EB5; D:16595C
+func,385BC,4FFAE,Acheck,engine/input/input.asm,similar,0.829,mnemonic similarity 0.83 over 20 instructions
+func,3891F,5033D,OppInReach,engine/input/input.asm,similar,0.8,mnemonic similarity 0.80 over 54 instructions
+func,389B6,503CD,Holdplayer,engine/input/input.asm,sem,0.532,C:434; C:432; D:16479C
+func,38A0F,50434,lcselect,engine/input/input.asm,sem,0.817,C:589; D:17C9A0
+func,39769,50908,getlchoice,engine/input/input.asm,sem,0.824,R:400; R:441
+func,397C0,50975,lcfound,engine/input/input.asm,sem,0.874,C:589; D:16595C; R:429; R:465
+func,398DB,50A05,ReadJoy1,engine/input/input.asm,sem,0.878,D:165960; D:16595C
+func,399AB,50B55,assonetimer,engine/input/input.asm,sem,0.452,C:539; D:117874; D:11916D; D:117870
+func,39DB8,50E5C,OneTimerChk,engine/input/input.asm,sem,0.587,C:809; D:16479C; R:450
+func,3A0D2,50F3F,asspassrec,engine/input/input.asm,sem,0.687,C:623; D:117874; D:1178C3; K:168
+func,3A37E,7CBB3,CtlSwapScoreFix,pc/settings_dialogs/settings_dialogs.asm,sem,0.711,C:589; D:1656D8; D:117900; D:1178C3
+func,3A433,7CC8A,CtlSwapTeamFlag,pc/settings_dialogs/settings_dialogs.asm,sem,0.701,D:1656D8; D:1178C3
+func,3A49C,7CCE5,ReassignCtlPlayer,pc/settings_dialogs/settings_dialogs.asm,sem,0.799,K:10000000; D:117870; D:117878; D:16479C
+func,3A925,511B4,PenShotStart,engine/faceoff/faceoff.asm,sem,0.58,D:11919B; D:119197; C:428; C:427
+func,3AA02,512A7,PenShotAssign,engine/faceoff/faceoff.asm,sem,0.862,D:11919B; D:16479C; D:17C9A0
+func,3ABAE,51440,AllInPlace,engine/faceoff/faceoff.asm,similar,0.889,mnemonic similarity 0.89 over 24 instructions
+func,3AEBA,516E1,puckfaceoff,engine/faceoff/faceoff.asm,sem,0.743,C:603; D:11919B; D:117900; D:16595C
+func,3B847,51BDB,puckfaceoff2,engine/faceoff/faceoff.asm,sem,0.482,C:663; C:403; C:610; C:611
+func,3C19A,526ED,assbenchwait,engine/faceoff/faceoff.asm,similar,0.812,mnemonic similarity 0.81 over 15 instructions
+func,3C1D3,52720,asstakeposition,engine/faceoff/faceoff.asm,sem,0.793,C:622; D:16595C; C:810; K:FF9C
+func,3C48C,52BB6,check4bench,engine/faceoff/faceoff.asm,sem,0.92,D:11919B; D:117900; D:1178C3
+func,3C8D2,52FB0,assrefpenshot,engine/faceoff/faceoff.asm,sem,0.689,D:117884; D:117880; D:16595C; D:117870
+func,3CBAF,671E8,ShowGoalieBanner,engine/hud/hud.asm,sem,0.734,K:FFF0; D:152FE8; K:FF00
+func,3CC6D,672F9,SetTeamGoalie,engine/hud/hud.asm,sem,0.852,D:165712; C:589; D:1656D8; D:1178C3
+func,3CD4A,4B467,GoalieToPuckVec,engine/logic/logic.asm,similar,0.842,mnemonic similarity 0.84 over 42 instructions
+func,3CE8D,4B4E9,AdjustFacingDirection,engine/logic/logic.asm,similar,0.885,mnemonic similarity 0.88 over 75 instructions
+func,3EA92,5369F,checkagr,engine/collide/collide.asm,sem,0.879,D:117870; C:809; D:117878; D:1178C3
+func,3EB84,5378D,FacingBoards,engine/collide/collide.asm,similar,0.877,mnemonic similarity 0.88 over 54 instructions
+func,3EC30,5382C,checkcheck,engine/collide/collide.asm,neighbour,0.648,"between FacingBoards and checkgoalp, mnemonic similarity 0.65"
+func,3F212,53CE5,checkgoalp,engine/collide/collide.asm,sem,0.571,C:500
+func,3F44A,53E6A,checkint,engine/collide/collide.asm,neighbour,0.607,"between checkgoalp and CheckBump, mnemonic similarity 0.61"
+func,3F5E4,53F8C,checkob,engine/collide/collide.asm,neighbour,0.749,"between checkgoalp and CheckBump, mnemonic similarity 0.75"
+func,3F7AC,54134,SkillForAnim,engine/collide/collide.asm,neighbour,0.831,"between checkgoalp and CheckBump, mnemonic similarity 0.83"
+func,3F825,541CA,ChkDelayedOffside,engine/collide/collide.asm,neighbour,0.718,"between checkgoalp and CheckBump, mnemonic similarity 0.72"
+func,3F8F4,5428A,checkpuckcoll_ccx,engine/collide/collide.asm,neighbour,0.677,"between checkgoalp and CheckBump, mnemonic similarity 0.68"
+func,3FF26,548AC,checkpuckcoll,engine/collide/collide.asm,neighbour,0.74,"between checkgoalp and CheckBump, mnemonic similarity 0.74"
+func,3FFF3,54990,CheckBump,engine/collide/collide.asm,similar,0.93,mnemonic similarity 0.93 over 64 instructions
+func,400B1,54A53,GetLowestPen,engine/collide/collide.asm,neighbour,0.733,"between CheckBump and passtoa0, mnemonic similarity 0.73"
+func,40189,54AF9,chk4lc,engine/collide/collide.asm,neighbour,0.826,"between CheckBump and passtoa0, mnemonic similarity 0.83"
+func,403CE,54C09,PassLaneChk,engine/collide/collide.asm,neighbour,0.824,"between CheckBump and passtoa0, mnemonic similarity 0.82"
+func,406A0,54DF4,dopass,engine/collide/collide.asm,neighbour,0.625,"between CheckBump and passtoa0, mnemonic similarity 0.62"
+func,40C14,551AF,setpassmode,engine/collide/collide.asm,neighbour,0.714,"between CheckBump and passtoa0, mnemonic similarity 0.71"
+func,40C2A,551CF,passtoa0,engine/collide/collide.asm,sem,0.855,C:1544; C:809
+func,40E82,55493,chk4pass,engine/collide/collide.asm,sem,0.74,C:504; C:506; D:16595C; D:117870
+func,41642,55804,chk4shot,engine/collide/collide.asm,sem,0.578,C:810; C:809; K:2710
+func,418E7,55A35,CompShoot,engine/collide/collide.asm,neighbour,0.735,"between chk4shot and ChkOffsides, mnemonic similarity 0.73"
+func,41942,55A9F,ChkOffsides,engine/collide/collide.asm,sem,0.911,C:666
+func,41B41,55C6F,MarkTwoLinePlayers,engine/collide/collide.asm,neighbour,0.846,"between ChkOffsides and setInjuryType, mnemonic similarity 0.85"
+func,41E46,55E72,setInjuryType,engine/collide/collide.asm,sem,0.785,K:FFFD; K:FFFC; C:809; K:3E8
+func,42DC4,56A54,Bcheck,engine/collide/collide.asm,sem,0.853,C:810; C:809; D:17C9A0; R:492
+func,42EC3,56B79,holdcheck,engine/collide/collide.asm,neighbour,0.794,"between Bcheck and doshot, mnemonic similarity 0.79"
+func,43294,56E52,PuckIChk,engine/collide/collide.asm,neighbour,0.779,"between Bcheck and doshot, mnemonic similarity 0.78"
+func,441EF,5786E,SetShotMode,engine/collide/collide.asm,neighbour,0.694,"between Bcheck and doshot, mnemonic similarity 0.69"
+func,444A7,57A98,shotdiradj,engine/collide/collide.asm,neighbour,0.735,"between Bcheck and doshot, mnemonic similarity 0.73"
+func,44609,57C0B,doshot,engine/collide/collide.asm,sem,0.506,K:5249; K:B33; K:1800; D:117884
+func,44B99,580F5,checkcoll,engine/collide/collide.asm,neighbour,0.719,"between doshot and checkgoal, mnemonic similarity 0.72"
+func,44D62,582C9,checkwallcoll,engine/collide/collide.asm,neighbour,0.739,"between doshot and checkgoal, mnemonic similarity 0.74"
+func,44EF5,584AA,checkgoal,engine/collide/collide.asm,sem,0.837,C:493; D:176B74; D:11916D; C:809
+func,452BB,587D3,wallcoll,engine/collide/collide.asm,sem,0.623,D:119F94; C:668; K:FFFFFC00; K:FFFFFC7C
+func,458E4,58CE2,checkplcoll,engine/collide/collide.asm,neighbour,0.699,"between checkgoal and checkcx, mnemonic similarity 0.70"
+func,45E3D,58DC7,checkcx,engine/collide/collide.asm,sem,0.896,C:494; C:492; D:176BD4; C:810
+func,4629D,591C7,CPgoalie,engine/collide/collide.asm,sem,0.69,D:119197; C:589; D:117900
+func,462F8,59265,ChkGoalies,engine/collide/collide.asm,sem,0.94,C:589; D:16580E; D:1656D8; D:117878
+func,4640D,593F5,ChkPullGoalieLate,engine/collide/collide.asm,sem,0.735,D:117900; D:1656D8
+func,46593,59981,StopDigiSample,engine/sound/sound.asm,neighbour,0.667,"between ChkPullGoalieLate and findpc, mnemonic similarity 0.67"
+func,465BA,59D9A,SetSPA,engine/hockey/hockey.asm,neighbour,0.678,"between ChkPullGoalieLate and findpc, mnemonic similarity 0.68"
+func,46988,59FE1,restorepl,engine/hockey/hockey.asm,neighbour,0.625,"between ChkPullGoalieLate and findpc, mnemonic similarity 0.62"
+func,46A0B,5A03B,AvgCline,engine/hockey/hockey.asm,neighbour,0.743,"between ChkPullGoalieLate and findpc, mnemonic similarity 0.74"
+func,46A9D,5A0A3,CompLine,engine/hockey/hockey.asm,sem,0.606,C:563; C:559; R:502; K:F33
+func,46E93,5A2EE,TeamLineEnergy,engine/hockey/hockey.asm,neighbour,0.857,"between ChkPullGoalieLate and findpc, mnemonic similarity 0.86"
+func,46EA7,5A30C,getlinee,engine/hockey/hockey.asm,neighbour,0.667,"between ChkPullGoalieLate and findpc, mnemonic similarity 0.67"
+func,46EC9,5A341,findpc,engine/hockey/hockey.asm,sem,0.797,D:117874; D:117870; D:117878; R:397
+func,470AD,5A4AD,GetHotStick,engine/hockey/hockey.asm,neighbour,0.638,"between findpc and UpdateCoachModes, mnemonic similarity 0.64"
+func,4729D,5A581,SetCoachMode,engine/hockey/hockey.asm,neighbour,0.722,"between findpc and UpdateCoachModes, mnemonic similarity 0.72"
+func,4735D,5A669,InitCoachModes,engine/hockey/hockey.asm,neighbour,0.762,"between findpc and UpdateCoachModes, mnemonic similarity 0.76"
+func,47461,5A77C,UpdateCoachModes,engine/hockey/hockey.asm,sem,0.88,D:117900; R:604; D:1178C3
+func,47788,5AAAE,PenTeamScored,engine/hockey/hockey.asm,neighbour,0.674,"between UpdateCoachModes and reenergizeteam, mnemonic similarity 0.67"
+func,4786F,5AB36,Goal,engine/hockey/hockey.asm,neighbour,0.602,"between UpdateCoachModes and reenergizeteam, mnemonic similarity 0.60"
+func,481B1,5B2C5,setplayer,engine/hockey/hockey.asm,neighbour,0.611,"between UpdateCoachModes and reenergizeteam, mnemonic similarity 0.61"
+func,48716,5B826,reenergizeteam,engine/hockey/hockey.asm,sem,0.845,R:607; K:FFFE; K:1000
+func,4875E,5B881,clearteams,engine/hockey/hockey.asm,neighbour,0.752,"between reenergizeteam and setpersonel, mnemonic similarity 0.75"
+func,48897,5B97A,restoreteams,engine/hockey/hockey.asm,neighbour,0.656,"between reenergizeteam and setpersonel, mnemonic similarity 0.66"
+func,488E9,5B9D1,GetPeriodTime,engine/hockey/hockey.asm,neighbour,0.714,"between reenergizeteam and setpersonel, mnemonic similarity 0.71"
+func,4899C,5BA4E,ClearSortCords,engine/hockey/hockey.asm,neighbour,0.792,"between reenergizeteam and setpersonel, mnemonic similarity 0.79"
+func,48ACC,5BA89,defaultsprites_0,engine/hockey/hockey.asm,neighbour,0.725,"between reenergizeteam and setpersonel, mnemonic similarity 0.73"
+func,48BFF,5BB9E,TryAddPlayerToList,engine/hockey/hockey.asm,neighbour,0.757,"between reenergizeteam and setpersonel, mnemonic similarity 0.76"
+func,48C79,5BBFA,SetPlList,engine/hockey/hockey.asm,sem,0.978,C:587; D:165944; D:119197; R:589
+func,48F65,5BEF4,setpersonel,engine/hockey/hockey.asm,sem,0.605,R:613; R:502; R:465
+func,490F5,5C010,StartPer,engine/hockey/hockey.asm,sem,0.728,D:1191A3; D:11919B; D:11917B; D:119177
+func,4958D,5C1C4,DoGameFrame,engine/hockey/hockey.asm,sem,0.827,C:597; C:599; R:54
+func,495A1,5C1E2,RestoreBenchEnergy,engine/hockey/hockey.asm,neighbour,0.714,"between StartPer and clockcont_0, mnemonic similarity 0.71"
+func,49645,5C302,periodicevents,engine/hockey/hockey.asm,neighbour,0.667,"between StartPer and clockcont_0, mnemonic similarity 0.67"
+func,49848,5C40F,updateplayers,engine/hockey/hockey.asm,neighbour,0.668,"between StartPer and clockcont_0, mnemonic similarity 0.67"
+func,4A8A4,5D7F7,setupice,engine/hockey/hockey.asm,sem,0.775,C:586; D:16479C; D:1178C3; R:590
+func,4A91D,5D852,clockcont_0,engine/hockey/hockey.asm,sem,0.492,K:9C40; K:5DC; K:4B0
+func,4AE4F,5DC10,ClockTick,engine/hockey/hockey.asm,neighbour,0.613,"between clockcont_0 and SetupTeamForIntermission, mnemonic similarity 0.61"
+func,4AF89,5DDDA,SetupTeamForIntermission,engine/hockey/hockey.asm,similar,0.906,mnemonic similarity 0.91 over 32 instructions
+func,4B05E,5DEA6,PeriodOver,engine/hockey/hockey.asm,sem,0.535,D:118E9D; D:118EA1; D:118EB5; D:1178C3
+func,4B145,5DF86,ResetBench,engine/hockey/hockey.asm,neighbour,0.717,"between SetupTeamForIntermission and skatetopuck, mnemonic similarity 0.72"
+func,4B1E1,5E01A,resetplstuff,engine/hockey/hockey.asm,neighbour,0.806,"between SetupTeamForIntermission and skatetopuck, mnemonic similarity 0.81"
+func,4B2A0,5E0B0,forceteams,engine/hockey/hockey.asm,neighbour,0.875,"between SetupTeamForIntermission and skatetopuck, mnemonic similarity 0.88"
+func,4B2C3,5E0DD,forcepldata,engine/hockey/hockey.asm,sem,0.496,C:577; R:613; C:428; K:FFFF
+func,4BFB5,5E4C4,EvadePlayers,engine/skate/skate.asm,neighbour,0.784,"between SetupTeamForIntermission and skatetopuck, mnemonic similarity 0.78"
+func,4C294,5E7FE,EvadePC,engine/skate/skate.asm,neighbour,0.719,"between SetupTeamForIntermission and skatetopuck, mnemonic similarity 0.72"
+func,4C3B7,5E93B,skateto,engine/skate/skate.asm,neighbour,0.662,"between SetupTeamForIntermission and skatetopuck, mnemonic similarity 0.66"
+func,4C592,5EB17,skatetopuck,engine/skate/skate.asm,sem,0.717,K:5A4; C:810; K:384; C:809
+func,4CD50,5F04E,avdgoal_box,engine/skate/skate.asm,neighbour,0.818,"between skatetopuck and FormatPlayerName, mnemonic similarity 0.82"
+func,4CE07,5F151,avdgoal,engine/skate/skate.asm,neighbour,0.713,"between skatetopuck and FormatPlayerName, mnemonic similarity 0.71"
+func,4F453,61D48,FormatPlayerName,engine/gamelog/gamelog.asm,sem,0.968,S:%s#%d %s %s%s; D:110DC0; S:%s#%d %c. %s%s; D:110DCE
+func,50154,62CF9,AddPenalty,engine/penalty/penalty.asm,sem,0.914,R:494; D:1191A7; D:17C9A0; D:1178C3
+func,501EC,62D80,AddPenalty2,engine/penalty/penalty.asm,sem,0.535,R:497; R:500; D:176B74; D:11919B
+func,504C5,62EE9,InProgress,engine/penalty/penalty.asm,sem,0.495,D:11797E; C:667; K:FFFB; D:118E8F
+func,50CB5,63543,Stop4Pen,engine/penalty/penalty.asm,sem,0.576,K:FFFFFDA8; D:11919B; D:117870; D:117878
+func,50F7B,637B5,checkfornewpen,engine/penalty/penalty.asm,neighbour,0.716,"between Stop4Pen and SetupPenaltyShot, mnemonic similarity 0.72"
+func,5110E,6392A,releasepl,engine/penalty/penalty.asm,neighbour,0.842,"between Stop4Pen and SetupPenaltyShot, mnemonic similarity 0.84"
+func,51179,639A4,chkatop,engine/penalty/penalty.asm,neighbour,0.8,"between Stop4Pen and SetupPenaltyShot, mnemonic similarity 0.80"
+func,5140E,63C0C,chkprogress,engine/penalty/penalty.asm,sem,0.61,C:650; D:119115; D:1178F2; D:1178C3
+func,51474,63C73,UpdatePowerPlayFlags,engine/penalty/penalty.asm,neighbour,0.687,"between Stop4Pen and SetupPenaltyShot, mnemonic similarity 0.69"
+func,514FA,63D3C,ClearPenaltyBuffer,engine/penalty/penalty.asm,neighbour,0.8,"between Stop4Pen and SetupPenaltyShot, mnemonic similarity 0.80"
+func,51522,63D69,PenGoalStuff,engine/penalty/penalty.asm,neighbour,0.635,"between Stop4Pen and SetupPenaltyShot, mnemonic similarity 0.63"
+func,5176A,63F72,SetupPenaltyShot,engine/penalty/penalty.asm,sem,0.938,D:117884; D:117880; D:11919B; D:1191A7
+func,51915,64102,ShotLaneOpen,engine/penalty/penalty.asm,sem,0.814,R:504; R:666; D:16479C
+func,51A9E,6427F,QuickShotChk,engine/penalty/penalty.asm,neighbour,0.79,"between ShotLaneOpen and CountShotOnGoal, mnemonic similarity 0.79"
+func,51B52,64338,CountShotOnGoal,engine/penalty/penalty.asm,similar,0.862,mnemonic similarity 0.86 over 28 instructions
+func,51BB5,64398,StartPenaltyShot,engine/penalty/penalty.asm,neighbour,0.645,"between CountShotOnGoal and EndPenaltyShot, mnemonic similarity 0.65"
+func,51C45,64439,EndPenaltyShot,engine/penalty/penalty.asm,sem,0.599,D:1191A7; R:604
+func,521C1,64A0B,CanFillLineSlot,engine/lines/lines.asm,neighbour,0.643,"between EndPenaltyShot and RemoveFromLines, mnemonic similarity 0.64"
+func,524C1,64CA8,FillDressedSlots,engine/lines/lines.asm,sem,0.907,C:673; D:176DD4; D:157192; D:15718C
+func,5260A,64E60,PickForLineSlot,engine/lines/lines.asm,sem,0.806,C:673; D:157192; R:678
+func,529F3,652D6,PickGoalie,engine/lines/lines.asm,neighbour,0.732,"between EndPenaltyShot and RemoveFromLines, mnemonic similarity 0.73"
+func,52AC8,653BE,PickExtraSkater,engine/lines/lines.asm,sem,0.896,D:11A310; R:679; D:15718C
+func,52BE7,6552E,RefillLineSlots,engine/lines/lines.asm,neighbour,0.667,"between EndPenaltyShot and RemoveFromLines, mnemonic similarity 0.67"
+func,52C67,655CC,RemoveFromLines,engine/lines/lines.asm,sem,0.718,D:15718C; R:521
+func,52F68,658F3,SetupTeamLines,engine/lines/lines.asm,sem,0.938,C:676; C:679; D:11A310; D:176DD4
+func,5313B,65B48,NormalizeDressFlags,engine/lines/lines.asm,sem,0.858,D:176DD4
+func,5316C,65B83,CanRemovePlayer,engine/lines/lines.asm,neighbour,0.611,"between NormalizeDressFlags and sub_6A9CE, mnemonic similarity 0.61"
+func,53BD7,6A9CE,sub_6A9CE,lib/zonemgr.asm,sem,0.911,S:ZONEMGR; D:110E60
+func,61A18,8C230,randomd0,engine/asm_helpers/asm_helpers.asm,similar,0.971,mnemonic similarity 0.97 over 34 instructions
+func,61A78,8C8E8,vtoa,engine/asm_helpers/asm_helpers.asm,similar,0.975,mnemonic similarity 0.97 over 41 instructions
+func,A9CB3,90392,strcpy_,lib/watcom/watcom_clib_08.asm,exact,1.0,15 instructions
+func,A9CD2,903B1,strcat_,lib/watcom/watcom_clib_08.asm,exact,1.0,31 instructions
+func,A9D09,91ADE,__open_flags_,lib/watcom/watcom_clib_14.asm,exact,1.0,69 instructions
+func,A9DBD,91B92,__doopen_,lib/watcom/watcom_clib_14.asm,exact,1.0,71 instructions
+func,A9E85,91C5A,_fsopen_,lib/watcom/watcom_clib_14.asm,exact,1.0,13 instructions
+func,A9EA0,91C75,fopen_,lib/watcom/watcom_clib_14.asm,exact,1.0,5 instructions
+func,A9EAA,91C7F,close_file_,lib/watcom/watcom_clib_14.asm,similar,0.851,mnemonic similarity 0.85 over 58 instructions
+func,A9F36,9B0BD,__update_buffer_,lib/watcom/watcom_clib_32.asm,exact,1.0,32 instructions
+func,A9F78,9B0FF,fseek_,lib/watcom/watcom_clib_32.asm,exact,1.0,101 instructions
+func,AA074,9B2F1,ftell_,lib/watcom/watcom_clib_32.asm,exact,1.0,25 instructions
+func,AA0A4,91D0B,fclose_,lib/watcom/watcom_clib_15.asm,exact,1.0,21 instructions
+func,AA0D3,91D3A,__shutdown_stream_,lib/watcom/watcom_clib_15.asm,exact,1.0,9 instructions
+func,AA0E8,91D4F,__hex_,lib/watcom/watcom_clib_15.asm,exact,1.0,5 instructions
+func,AA0F4,91D5B,__MkTmpFile_,lib/watcom/watcom_clib_15.asm,exact,1.0,40 instructions
+func,AA15D,91DC4,__doclose_,lib/watcom/watcom_clib_15.asm,exact,1.0,51 instructions
+func,AA1E6,91984,_nmalloc_,lib/watcom/watcom_clib_14.asm,exact,1.0,84 instructions
+func,AA493,91A67,_nfree_,lib/watcom/watcom_clib_14.asm,callsite,0.9,called at the same place of __doclose_
+func,AA5C4,8E45C,TimerISR,lib/ea/ea_timer.asm,sem,1.0,D:18566C; D:11F9A4
+func,AA62C,8E4C0,addtimer,lib/ea/ea_timer.asm,sem,1.0,"S:addtimer - LIST FULL
+; D:1130F8; C:2357"
+func,AA6D0,8E554,RestoreTimer,lib/ea/ea_timer.asm,sem,1.0,C:1696
+func,AA734,8E5AC,InstallTimer,lib/ea/ea_timer.asm,sem,1.0,C:1696; C:2340; C:1555
+func,AA988,91538,sub_91538,lib/ea/ea_gfx_06.asm,similar,0.889,mnemonic similarity 0.89 over 28 instructions
+func,AAB40,903F0,PutBlock,lib/ea/ea_gfx_01.asm,sem,1.0,C:2284; R:2174; R:2167; K:10000
+func,AAF28,90720,sub_90720,lib/ea/ea_gfx_01.asm,sem,1.0,C:2287
+func,AB834,8CD04,sub_8CD04,lib/ea/ea_memman_01.asm,similar,0.929,mnemonic similarity 0.93 over 28 instructions
+func,AB87C,8CD4C,reservemem,lib/ea/ea_memman_01.asm,sem,0.59,"S:reservemem - INVALID SIZE REQUESTED
+re; D:1131D8; S:reservemem - OUT OF MEMORY
+requested: ; S:reservemem - INVALID TYPE FLAGS (%04x)"
+func,ABD64,8D15C,sub_8D15C,lib/ea/ea_memman_01.asm,sem,0.91,"S:resizemem - INVALID SIZE REQUESTED
+req; D:113310; S:resizememblock - NO ROOM TO RESIZE
+req; D:113354"
+func,ABEEC,8D2A0,findmemblock,lib/ea/ea_memman_01.asm,sem,0.941,"S:findmemblock - BLOCK NOT FOUND (%p)
+; D:113398; C:2357"
+func,ABF88,8D2F0,sub_8D2F0,lib/ea/ea_memman_02.asm,exact,1.0,13 instructions
+func,AC0C4,8D3D4,sub_8D3D4,lib/ea/ea_memman_02.asm,sem,0.703,D:11F9C0; C:1215; R:1223; K:700
+func,AC360,8D604,sub_8D604,lib/ea/ea_memman_02.asm,similar,0.894,mnemonic similarity 0.89 over 104 instructions
+func,AC470,8D714,sub_8D714,lib/ea/ea_memman_02.asm,exact,1.0,8 instructions
+func,AC484,8D728,sub_8D728,lib/ea/ea_memman_02.asm,callsite,0.9,called at the same place of sub_8D714
+func,AC990,8DB8C,getmemblock,lib/ea/ea_memman_02.asm,sem,0.732,"S:getmemblock - NO MEMORY BLOCKS LEFT
+; D:1133E0; C:2357"
+func,AC9B8,8DBC0,sub_8DBC0,lib/ea/ea_memman_02.asm,sem,1.0,C:1215; R:1420
+func,AC9D4,8DBDC,sub_8DBDC,lib/ea/ea_memman_02.asm,exact,1.0,3 instructions
+func,AC9F0,935E0,DebugPrintf,lib/ea/ea_fileblock.asm,sem,1.0,R:2164; K:104; R:2158; R:2167
+func,ACA3C,9362C,sub_9362C,lib/ea/ea_fileblock.asm,similar,0.941,mnemonic similarity 0.94 over 34 instructions
+func,ACC74,93844,sub_93844,lib/ea/ea_fileblock.asm,similar,0.854,mnemonic similarity 0.85 over 40 instructions
+func,ACCF8,938C8,sub_938C8,lib/ea/ea_fileblock.asm,sem,1.0,R:2163; K:FA0; R:2174; R:2167
+func,ACD24,938F4,sub_938F4,lib/ea/ea_fileblock.asm,sem,1.0,D:11F9D8; R:2154; R:2155
+func,ACD38,93908,sub_93908,lib/ea/ea_fileblock.asm,similar,0.948,mnemonic similarity 0.95 over 143 instructions
+func,ACED8,93AA4,sub_93AA4,lib/ea/ea_debug.asm,similar,0.921,mnemonic similarity 0.92 over 38 instructions
+func,ACF68,93B34,sub_93B34,lib/ea/ea_debug.asm,similar,0.859,mnemonic similarity 0.86 over 73 instructions
+func,AD00C,93BD4,sub_93BD4,lib/ea/ea_debug.asm,sem,0.799,D:11F9DC; S:%02d-%3s-%02d; S:%2d:%02d:%02d; C:1308
+func,AD680,90D20,FillRect,lib/ea/ea_gfx_05.asm,sem,0.873,C:2290; C:2373; R:1708; R:2162
+func,ADA50,910B0,sub_910B0,lib/ea/ea_gfx_05.asm,exact,1.0,17 instructions
+func,ADB30,90A40,sub_90A40,lib/ea/ea_gfx_02.asm,similar,0.83,mnemonic similarity 0.83 over 46 instructions
+func,ADBEC,9132C,sub_9132C,lib/ea/ea_gfx_05.asm,sem,1.0,C:1707; R:1650
+func,ADC18,90AEA,sprintf_,lib/watcom/watcom_clib_10.asm,callsite,0.9,called at the same place of sub_948D4
+func,AEE40,979F8,sub_979F8,lib/ea/ea_unpack.asm,similar,0.93,mnemonic similarity 0.93 over 21 instructions
+func,AEE84,97A38,sub_97A38,lib/ea/ea_unpack.asm,sem,0.521,K:47FB; R:1281; K:100
+func,AF08C,97BB8,sub_97BB8,lib/ea/ea_unpack.asm,sem,1.0,K:62FB; K:66FB
+func,AF85C,97300,sub_97300,lib/ea/ea_unpack.asm,similar,0.964,mnemonic similarity 0.96 over 28 instructions
+func,AF890,97350,sub_97350,lib/ea/ea_unpack.asm,similar,0.954,mnemonic similarity 0.95 over 267 instructions
+func,AFB88,97EB8,unpack,lib/ea/ea_unpack.asm,sem,1.0,"S:unpack - INVALID PACK CODE (%x)
+; D:1135B8; C:1279; C:2357"
+func,AFCD0,98028,sub_98028,lib/ea/ea_unpack.asm,sem,1.0,C:1281
+func,B03F2,8EB21,sub_8EB21,lib/watcom/watcom_clib_06.asm,callsite,0.9,called at the same place of rand_
+func,B03F8,8EB27,rand_,lib/watcom/watcom_clib_06.asm,exact,1.0,12 instructions
+func,B041C,8EB4B,srand_,lib/watcom/watcom_clib_06.asm,sem,1.0,C:1291
+func,B0430,98A40,sub_98A40,lib/ea/ea_kbd_exit_03.asm,sem,1.0,C:2350; C:2353
+func,B1004,8EAEC,_dos_getdate_,lib/watcom/watcom_clib_06.asm,exact,1.0,15 instructions
+func,B101F,8EB07,_dos_gettime_,lib/watcom/watcom_clib_06.asm,sem,1.0,R:2175; R:1248
+func,B178B,92D7C,unknown_libname_4,lib/watcom/watcom_clib_17.asm,similar,0.914,mnemonic similarity 0.91 over 44 instructions
+func,B17E2,91AC5,strlen_,lib/watcom/watcom_clib_14.asm,exact,1.0,17 instructions
+func,B17FB,98A9F,strncmp_,lib/watcom/watcom_clib_28.asm,similar,0.98,mnemonic similarity 0.98 over 24 instructions
+func,B186C,92068,open_,lib/watcom/watcom_clib_16.asm,exact,1.0,16 instructions
+func,B1890,9208C,sopen_,lib/watcom/watcom_clib_16.asm,exact,1.0,159 instructions
+func,B1A55,92251,__set_binary_,lib/watcom/watcom_clib_16.asm,exact,1.0,46 instructions
+func,B1ABA,90CA8,lseek_,lib/watcom/watcom_clib_12.asm,callsite,0.9,called at the same place of __doclose_
+func,B1AFB,922B6,read_,lib/watcom/watcom_clib_16.asm,exact,1.0,103 instructions
+func,B1C0E,923C9,j___close_,lib/watcom/watcom_clib_16.asm,sem,1.0,C:1673
+func,B1C13,923CE,byteswap_,lib/watcom/watcom_clib_16.asm,exact,1.0,22 instructions
+func,B1C39,923F4,med3_,lib/watcom/watcom_clib_16.asm,exact,1.0,44 instructions
+func,B1C91,9244C,qsort_,lib/watcom/watcom_clib_16.asm,similar,0.996,mnemonic similarity 1.00 over 342 instructions
+func,B2158,8E920,sub_8E920,lib/ea/ea_window.asm,similar,0.969,mnemonic similarity 0.97 over 65 instructions
+func,B2200,91F00,strcmp_,lib/watcom/watcom_clib_15.asm,similar,0.993,mnemonic similarity 0.99 over 69 instructions
+func,B22E0,93308,sub_93308,lib/ea/ea_fileblock.asm,sem,0.75,C:1348
+func,B2374,9336C,savefileblocka,lib/ea/ea_fileblock.asm,similar,0.941,mnemonic similarity 0.94 over 51 instructions
+func,B2B30,910E0,DrawArtOpaque,lib/ea/ea_gfx_05.asm,sem,0.868,C:2293; K:10000; K:FFFF
+func,B2C98,8DC1C,printf_,lib/watcom/watcom_clib_03.asm,exact,1.0,13 instructions
+func,B2CE0,8DCC0,sub_8DCC0,lib/ea/ea_memman_03.asm,sem,0.945,C:1734; C:1180; C:1178; K:4000000
+func,B6308,8FFD4,start,lib/watcom/watcom_clib_07.asm,similar,0.962,mnemonic similarity 0.96 over 223 instructions
+func,B6599,90267,sub_90267,lib/watcom/watcom_clib_07.asm,similar,0.962,mnemonic similarity 0.96 over 26 instructions
+func,B6991,91E4D,strncpy_,lib/watcom/watcom_clib_15.asm,similar,0.979,mnemonic similarity 0.98 over 23 instructions
+func,B71A6,90C52,_dos_close_,lib/watcom/watcom_clib_12.asm,exact,1.0,7 instructions
+func,B71B5,90C61,_dos_commit_,lib/watcom/watcom_clib_12.asm,exact,1.0,8 instructions
+func,B71C5,90C71,_dos_open_,lib/watcom/watcom_clib_12.asm,exact,1.0,7 instructions
+func,B71D4,90BB0,unknown_libname_1,lib/watcom/watcom_clib_11.asm,exact,1.0,15 instructions
+func,B71F1,90BCD,unknown_libname_2,lib/watcom/watcom_clib_11.asm,exact,1.0,13 instructions
+func,B7210,90BEC,sub_90BEC,lib/watcom/watcom_clib_11.asm,exact,1.0,19 instructions
+func,B7233,90C0F,sub_90C0F,lib/ea/ea_gfx_04.asm,exact,1.0,19 instructions
+func,B725B,930A7,mkdir_,lib/watcom/watcom_clib_19.asm,loose,1.0,15 instructions
+func,B72A2,90CEA,_dos_read_,lib/watcom/watcom_clib_12.asm,exact,1.0,17 instructions
+func,B72D4,8DC6E,_dos_getdiskfree_,lib/watcom/watcom_clib_03.asm,loose,1.0,21 instructions
+func,B73CA,92D21,stricmp_,lib/watcom/watcom_clib_17.asm,similar,0.982,mnemonic similarity 0.98 over 28 instructions
+func,B7410,92E40,sub_92E40,lib/ea/ea_gfx_10.asm,similar,0.881,mnemonic similarity 0.88 over 64 instructions
+func,B75A0,A26B0,sub_A26B0,lib/ea/ea_shpi.asm,sem,1.0,C:2356; C:2355; R:1429; K:100
+func,B76C0,A27C4,sub_A27C4,lib/ea/ea_shpi.asm,similar,0.882,mnemonic similarity 0.88 over 123 instructions
+func,BA3D0,90B80,sub_90B80,lib/ea/ea_gfx_03.asm,similar,0.837,mnemonic similarity 0.84 over 22 instructions
+func,BC73C,961D0,__CHP,lib/watcom/watcom_clib_21.asm,loose,1.0,13 instructions
+func,BE8C0,961EE,j___sys_init_387_emulator,lib/watcom/watcom_clib_21.asm,sem,1.0,C:1785
+func,BE8C5,933F0,imul32,lib/ea/ea_fileblock.asm,similar,0.819,mnemonic similarity 0.82 over 47 instructions
+func,BE93C,96185,fprintf_,lib/watcom/watcom_clib_21.asm,sem,1.0,C:1733; R:2170; R:2158
+func,BE960,93470,sub_93470,lib/ea/ea_fileblock.asm,similar,0.954,mnemonic similarity 0.95 over 90 instructions
+func,BEA30,93540,SortIndices,lib/ea/ea_fileblock.asm,similar,0.828,mnemonic similarity 0.83 over 62 instructions
+func,BF02C,90354,sub_90354,lib/ea/ea_sound_hl_02.asm,exact,1.0,3 instructions
+func,BF034,9035C,sub_9035C,lib/ea/ea_sound_hl_02.asm,exact,1.0,9 instructions
+func,BF070,902B0,__STOSB,lib/watcom/watcom_clib_07.asm,callsite,0.9,called at the same place of memset_
+func,BF0A7,902E7,__STOSD,lib/watcom/watcom_clib_07.asm,loose,1.0,49 instructions
+func,BF534,8E080,initgraphics,lib/ea/ea_vesa_init.asm,sem,0.937,S:initgraphics - INITMEMMAN REQUIRED BEF; D:113A50; S:initgraphics - INVALID SCREEN SIZE (%d; D:113A88
+func,BF949,A2AC8,abs_,lib/watcom/watcom_clib_40.asm,exact,1.0,4 instructions
+func,C271E,980E5,utoa_,lib/watcom/watcom_clib_24.asm,exact,1.0,35 instructions
+func,C2768,9812F,itoa_,lib/watcom/watcom_clib_24.asm,callsite,0.9,called at the same place of fmt4hex_
+func,C2784,91FBC,memcmp_,lib/watcom/watcom_clib_15.asm,similar,0.905,mnemonic similarity 0.90 over 22 instructions
+func,C27F8,981F8,sub_981F8,lib/ea/ea_kbd_exit_01.asm,similar,0.879,mnemonic similarity 0.88 over 185 instructions
+func,C2AEC,984D0,sub_984D0,lib/ea/ea_kbd_exit_01.asm,sem,0.654,C:1876; D:122900; D:1213DC; C:2376
+func,C2C7C,9864C,sub_9864C,lib/ea/ea_kbd_exit_01.asm,exact,1.0,18 instructions
+func,C2C94,98664,sub_98664,lib/ea/ea_kbd_exit_01.asm,similar,0.952,mnemonic similarity 0.95 over 21 instructions
+func,C2CB0,9D66B,sub_9D66B,lib/watcom/watcom_clib_37.asm,callsite,0.9,called at the same place of __brk_
+func,C2CB6,9D671,sub_9D671,lib/watcom/watcom_clib_37.asm,callsite,0.9,called at the same place of __set_doserrno_
+func,C2CF7,A6B87,getenv_,lib/watcom/watcom_clib_43.asm,exact,1.0,48 instructions
+func,C2D56,9878A,__set_errno_,lib/watcom/watcom_clib_26.asm,callsite,0.9,called at the same place of __open_flags_
+func,C2D62,98796,__set_ERANGE_,lib/watcom/watcom_clib_26.asm,sem,1.0,C:1661; R:2220
+func,C2D69,9879D,__set_EINVAL_,lib/watcom/watcom_clib_26.asm,exact,1.0,4 instructions
+func,C2D79,987AD,__set_doserrno_,lib/watcom/watcom_clib_26.asm,callsite,0.9,called at the same place of __set_errno_dos_
+func,C2D8C,9AFB0,tolower_,lib/watcom/watcom_clib_32.asm,exact,1.0,6 instructions
+func,C2D9A,9AFBE,__allocfp_,lib/watcom/watcom_clib_32.asm,exact,1.0,57 instructions
+func,C2E42,9B066,__freefp_,lib/watcom/watcom_clib_32.asm,exact,1.0,36 instructions
+func,C2E99,9B1FB,__chktty_,lib/watcom/watcom_clib_32.asm,exact,1.0,22 instructions
+func,C2ECA,9B232,__flush_,lib/watcom/watcom_clib_32.asm,exact,1.0,68 instructions
+func,C2F89,A2D16,tell_,lib/watcom/watcom_clib_41.asm,exact,1.0,8 instructions
+func,C2F9A,9B22C,sub_9B22C,lib/watcom/watcom_clib_32.asm,callsite,0.9,called at the same place of __MkTmpFile_
+func,C2FA0,9B321,__close_,lib/watcom/watcom_clib_32.asm,exact,1.0,23 instructions
+func,C2FD2,9A874,__MemAllocator,lib/watcom/watcom_clib_31.asm,exact,1.0,74 instructions
+func,C307A,9A91C,__MemFree,lib/watcom/watcom_clib_31.asm,exact,1.0,119 instructions
+func,C3185,9AA27,__unlink_,lib/watcom/watcom_clib_31.asm,exact,1.0,23 instructions
+func,C31C4,9AA66,__FreeDPMIBlocks_,lib/dos4gw/dos4gw_dpmi_glue_04.asm,exact,1.0,41 instructions
+func,C3222,9AAC4,__ReAllocDPMIBlock_,lib/dos4gw/dos4gw_dpmi_glue_04.asm,similar,0.927,mnemonic similarity 0.93 over 84 instructions
+func,C3325,9ABAE,__LinkUpNewMHeap_,lib/dos4gw/dos4gw_dpmi_glue_04.asm,exact,1.0,39 instructions
+func,C3399,9AC22,__LastFree_,lib/dos4gw/dos4gw_dpmi_glue_04.asm,exact,1.0,31 instructions
+func,C33E7,9AC70,RationalAlloc_,lib/dos4gw/dos4gw_dpmi_glue_04.asm,exact,1.0,84 instructions
+func,C34BA,9AD43,__CreateNewNHeap_,lib/dos4gw/dos4gw_dpmi_glue_04.asm,exact,1.0,63 instructions
+func,C3569,9ADF2,__ExpandDGROUP_,lib/dos4gw/dos4gw_dpmi_glue_04.asm,exact,1.0,111 instructions
+func,C36AD,9AF36,__AdjustAmount_,lib/dos4gw/dos4gw_dpmi_glue_04.asm,exact,1.0,47 instructions
+func,C3724,9AFAD,sub_9AFAD,lib/ea/ea_mcga_window_02.asm,callsite,0.9,called at the same place of _nmalloc_
+func,C3727,9B353,__ioalloc_,lib/watcom/watcom_clib_32.asm,exact,1.0,38 instructions
+func,C379E,A2ED1,__qread_,lib/watcom/watcom_clib_41.asm,exact,1.0,14 instructions
+func,C37BD,9B833,fgetc_,lib/watcom/watcom_clib_33.asm,exact,1.0,55 instructions
+func,C3846,9B8BC,__filbuf_,lib/watcom/watcom_clib_33.asm,exact,1.0,24 instructions
+func,C3875,9B8EB,__fill_buffer_,lib/watcom/watcom_clib_33.asm,exact,1.0,60 instructions
+func,C3920,99BBF,_Full_at_exit_rtn_,lib/watcom/watcom_clib_30.asm,exact,1.0,20 instructions
+func,C3957,99BF6,atexit_,lib/watcom/watcom_clib_30.asm,exact,1.0,23 instructions
+func,C3994,8DC3F,exit_,lib/watcom/watcom_clib_03.asm,exact,1.0,8 instructions
+func,C39AC,8DC57,_exit_,lib/watcom/watcom_clib_03.asm,callsite,0.9,called at the same place of exit_
+func,C39C2,98AC8,_dos_setvect_,lib/dos4gw/dos4gw_dpmi_glue_03.asm,exact,1.0,23 instructions
+func,C39ED,98AF3,_dos_getvect_,lib/dos4gw/dos4gw_dpmi_glue_03.asm,sem,1.0,D:12442A; K:2502
+func,C3BE0,986C0,unknown_libname_22,lib/watcom/watcom_clib_25.asm,callsite,0.9,called at the same place of sub_8D2F0
+func,C3C04,986E4,sub_986E4,lib/ea/ea_kbd_exit_02.asm,exact,1.0,3 instructions
+func,C3C22,9C576,vsprintf_,lib/watcom/watcom_clib_34.asm,sem,1.0,C:1709; R:1240; R:1246
+func,C3C37,9C58C,j___fprtf_,lib/watcom/watcom_clib_34.asm,sem,1.0,C:1733; R:1246
+func,C3C3C,91E72,fputs_,lib/watcom/watcom_clib_15.asm,similar,0.952,mnemonic similarity 0.95 over 65 instructions
+func,C3CC0,98D20,sub_98D20,lib/ea/ea_shapes.asm,similar,0.893,mnemonic similarity 0.89 over 78 instructions
+func,C3D80,98DD8,removewindow,lib/ea/ea_shapes.asm,similar,0.927,mnemonic similarity 0.93 over 53 instructions
+func,C3E38,9B498,sub_9B498,lib/ea/ea_misc_01.asm,similar,0.908,mnemonic similarity 0.91 over 212 instructions
+func,C40B4,99D1C,__prtf_,lib/watcom/watcom_clib_30.asm,exact,1.0,223 instructions
+func,C4335,99F9D,getprintspecs_,lib/watcom/watcom_clib_30.asm,exact,1.0,135 instructions
+func,C4468,9A0D0,evalflags_,lib/watcom/watcom_clib_30.asm,exact,1.0,38 instructions
+func,C44C3,9A12B,far_strlen_,lib/watcom/watcom_clib_30.asm,exact,1.0,23 instructions
+func,C44E7,9A14F,far_other_strlen_,lib/watcom/watcom_clib_30.asm,exact,1.0,18 instructions
+func,C450A,9A172,fmt4hex_,lib/watcom/watcom_clib_30.asm,exact,1.0,50 instructions
+func,C456B,9A1D3,FixedPoint_Format_,lib/watcom/watcom_clib_30.asm,exact,1.0,90 instructions
+func,C4646,9A2AE,float_format_,lib/watcom/watcom_clib_30.asm,callsite,0.9,called at the same place of formstring_
+func,C464D,9A2B5,formstring_,lib/watcom/watcom_clib_30.asm,exact,1.0,371 instructions
+func,C4A96,9A6FE,zupstr_,lib/watcom/watcom_clib_30.asm,exact,1.0,12 instructions
+func,C4DE0,98E50,sub_98E50,lib/ea/ea_shapes.asm,similar,0.873,mnemonic similarity 0.87 over 90 instructions
+func,C4EA1,9B710,isatty_,lib/watcom/watcom_clib_33.asm,exact,1.0,16 instructions
+func,C4ECB,9A735,__set_errno_dos_,lib/watcom/watcom_clib_30.asm,callsite,0.9,called at the same place of sopen_
+func,C4F31,9B72E,__IOMode_,lib/watcom/watcom_clib_33.asm,exact,1.0,35 instructions
+func,C4F86,9B783,__SetIOMode_,lib/watcom/watcom_clib_33.asm,callsite,0.9,called at the same place of sopen_
+func,C511C,986EF,file_putc_,lib/watcom/watcom_clib_26.asm,exact,1.0,8 instructions
+func,C512D,98700,__fprtf_,lib/watcom/watcom_clib_26.asm,callsite,0.9,called at the same place of printf_
+func,C51B2,98801,_nexpand_,lib/watcom/watcom_clib_27.asm,exact,1.0,21 instructions
+func,C51EA,98839,__HeapManager_expand_,lib/watcom/watcom_clib_27.asm,exact,1.0,173 instructions
+func,C59F8,99C32,__CMain,lib/watcom/watcom_clib_30.asm,sem,1.0,C:1694; R:1382
+func,C5A48,99C82,__InitRtns,lib/watcom/watcom_clib_30.asm,exact,1.0,38 instructions
+func,C5A93,99CCD,__FiniRtns,lib/watcom/watcom_clib_30.asm,exact,1.0,39 instructions
+func,C6011,987C0,segread_,lib/dos4gw/dos4gw_dpmi_glue_02.asm,exact,1.0,16 instructions
+func,C6039,987E8,int386x_,lib/dos4gw/dos4gw_dpmi_glue_02.asm,exact,1.0,14 instructions
+func,C6052,9A716,__doserror_,lib/watcom/watcom_clib_30.asm,callsite,0.9,called at the same place of unknown_libname_1
+func,C9CF8,909E0,strnicmp_,lib/watcom/watcom_clib_09.asm,callsite,0.9,called at the same place of getenv_
+func,CA6B0,9D322,__sys_init_387_emulator,lib/watcom/watcom_clib_35.asm,exact,1.0,26 instructions
+func,CA6E0,9D352,sub_9D352,lib/ea/ea_snap_02.asm,callsite,0.9,called at the same place of __sys_init_387_emulator
+func,CA7AB,9D41D,sub_9D41D,lib/ea/ea_snap_02.asm,exact,1.0,9 instructions
+func,CA7C8,9D43A,sub_9D43A,lib/ea/ea_snap_02.asm,exact,1.0,25 instructions
+func,CA815,9D487,sub_9D487,lib/ea/ea_snap_02.asm,exact,1.0,9 instructions
+func,CA835,9D4A7,__sys_fini_387_emulator,lib/watcom/watcom_clib_36.asm,exact,1.0,40 instructions
+func,CA8AF,9D521,sub_9D521,lib/ea/ea_snap_03.asm,exact,1.0,17 instructions
+func,CA8EA,9D55C,sub_9D55C,lib/ea/ea_snap_03.asm,callsite,0.9,called at the same place of __sys_fini_387_emulator
+func,CA914,9D586,__init_8087_,lib/watcom/watcom_clib_37.asm,sem,1.0,D:14FC74
+func,CE06B,9F34C,sub_9F34C,lib/sound/snd_soundblaster.asm,sem,1.0,C:2099
+func,CE0A9,9F226,sub_9F226,lib/sound/snd_soundblaster.asm,sem,1.0,S:BLASTER; D:1140E8; C:1659
+func,CFDF1,9D307,__setEFGfmt_,lib/watcom/watcom_clib_35.asm,exact,1.0,9 instructions
+func,CFE0C,9C5A8,sub_9C5A8,lib/ea/ea_unpackf_blit.asm,sem,0.827,R:2170; R:2172; R:2173; R:2163
+func,CFEB0,91350,memset_,lib/watcom/watcom_clib_13.asm,callsite,0.9,called at the same place of __allocfp_
+func,CFEC8,A2D27,__InitFiles_,lib/watcom/watcom_clib_41.asm,exact,1.0,37 instructions
+func,CFF40,A2D9F,__full_io_exit_,lib/watcom/watcom_clib_41.asm,sem,1.0,C:1884
+func,CFF51,A2DB0,docloseall_,lib/watcom/watcom_clib_41.asm,exact,1.0,36 instructions
+func,CFFA3,A2E02,__qwrite_,lib/watcom/watcom_clib_41.asm,callsite,0.9,called at the same place of __flush_
+func,D002F,A2B95,sbrk_,lib/dos4gw/dos4gw_dpmi_glue_08.asm,similar,0.964,mnemonic similarity 0.96 over 69 instructions
+func,D00EE,A2C54,__brk_,lib/dos4gw/dos4gw_dpmi_glue_08.asm,exact,1.0,71 instructions
+func,D01B5,A2E85,__flushall_,lib/watcom/watcom_clib_41.asm,exact,1.0,22 instructions
+func,D01E4,A2EB4,getche_,lib/watcom/watcom_clib_41.asm,exact,1.0,11 instructions
+func,D0201,9B3CA,fputc_,lib/watcom/watcom_clib_32.asm,callsite,0.9,called at the same place of file_putc_
+func,D02DF,A2B13,ultoa_,lib/watcom/watcom_clib_40.asm,exact,1.0,33 instructions
+func,D0328,A2B5C,ltoa_,lib/watcom/watcom_clib_40.asm,callsite,0.9,called at the same place of formstring_
+func,D0360,A2610,sub_A2610,lib/ea/ea_shpi.asm,sem,1.0,C:1294; R:1724
+func,D0440,A28F0,sub_A28F0,lib/ea/ea_shpi.asm,callsite,0.9,called at the same place of sub_A2AB8
+func,D0640,A2AB8,sub_A2AB8,lib/ea/ea_shpi.asm,exact,1.0,6 instructions
+func,D0692,9D68E,sub_9D68E,lib/sound/snd_pcspeaker.asm,sem,1.0,D:12440C; R:1740
+func,D069B,A2ACF,sub_A2ACF,lib/watcom/watcom_clib_40.asm,sem,1.0,D:14F0A8
+func,D1434,8C94C,__CHK,lib/watcom/watcom_clib_01.asm,exact,1.0,4 instructions
+func,D1447,8C95F,__STK,lib/watcom/watcom_clib_01.asm,callsite,0.9,called at the same place of __CHK
+func,D1474,A189E,__int386x_,lib/dos4gw/dos4gw_dpmi_glue_06.asm,exact,1.0,28 instructions
+func,D14AC,A18D6,sub_A18D6,lib/watcom/watcom_clib_39.asm,exact,1.0,13 instructions
+func,D14D1,A18FB,_DoINTR_,lib/dos4gw/dos4gw_dpmi_glue_07.asm,exact,1.0,34 instructions
+func,D284C,A3680,sub_A3680,lib/watcom/watcom_emu387.asm,similar,0.811,mnemonic similarity 0.81 over 157 instructions
+func,D3F62,A4D96,sub_A4D96,lib/watcom/watcom_emu387.asm,exact,1.0,6 instructions
+func,D3F70,A4DA4,sub_A4DA4,lib/watcom/watcom_emu387.asm,sem,1.0,C:2061
+func,D3F9A,A4DCE,sub_A4DCE,lib/watcom/watcom_emu387.asm,exact,1.0,18 instructions
+func,D3FCA,A4DFE,sub_A4DFE,lib/watcom/watcom_emu387.asm,exact,1.0,149 instructions
+func,D4136,A4F6A,sub_A4F6A,lib/watcom/watcom_emu387.asm,exact,1.0,61 instructions
+func,D41CF,A5003,sub_A5003,lib/watcom/watcom_emu387.asm,callsite,0.9,called at the same place of sub_A5820
+func,D41F9,A502D,sub_A502D,lib/watcom/watcom_emu387.asm,exact,1.0,177 instructions
+func,D43A4,A51D8,sub_A51D8,lib/watcom/watcom_emu387.asm,callsite,0.9,called at the same place of sub_A5C21
+func,D43CE,A5202,sub_A5202,lib/watcom/watcom_emu387.asm,callsite,0.9,called at the same place of sub_A58D6
+func,D451F,A5353,sub_A5353,lib/watcom/watcom_emu387.asm,exact,1.0,3 instructions
+func,D4524,A5358,sub_A5358,lib/watcom/watcom_emu387.asm,exact,1.0,49 instructions
+func,D458E,A53C2,sub_A53C2,lib/watcom/watcom_emu387.asm,exact,1.0,8 instructions
+func,D459F,A53D3,sub_A53D3,lib/watcom/watcom_emu387.asm,exact,1.0,25 instructions
+func,D45D4,A5408,sub_A5408,lib/watcom/watcom_emu387.asm,exact,1.0,48 instructions
+func,D4654,A5488,sub_A5488,lib/watcom/watcom_emu387.asm,exact,1.0,48 instructions
+func,D46D3,A5507,sub_A5507,lib/watcom/watcom_emu387.asm,exact,1.0,74 instructions
+func,D485F,A5693,sub_A5693,lib/watcom/watcom_emu387.asm,similar,0.857,mnemonic similarity 0.86 over 139 instructions
+func,D49EC,A5820,sub_A5820,lib/watcom/watcom_emu387.asm,exact,1.0,53 instructions
+func,D4AA2,A58D6,sub_A58D6,lib/watcom/watcom_emu387.asm,exact,1.0,116 instructions
+func,D4C05,A5A39,sub_A5A39,lib/watcom/watcom_emu387.asm,exact,1.0,46 instructions
+func,D4C6B,A5A9F,sub_A5A9F,lib/watcom/watcom_emu387.asm,exact,1.0,54 instructions
+func,D4DD4,A5C08,sub_A5C08,lib/watcom/watcom_emu387.asm,exact,1.0,11 instructions
+func,D4DED,A5C21,sub_A5C21,lib/watcom/watcom_emu387.asm,exact,1.0,29 instructions
+func,D4E30,A5C64,sub_A5C64,lib/watcom/watcom_emu387.asm,callsite,0.9,called at the same place of sub_A5C21
+func,D50C8,A5EFC,sub_A5EFC,lib/watcom/watcom_emu387.asm,callsite,0.9,called at the same place of sub_A60F3
+func,D52BF,A60F3,sub_A60F3,lib/watcom/watcom_emu387.asm,exact,1.0,5 instructions
+func,D52C9,A60FD,sub_A60FD,lib/watcom/watcom_emu387.asm,exact,1.0,5 instructions
+func,D530C,A6140,sub_A6140,lib/watcom/watcom_emu387.asm,exact,1.0,163 instructions
+func,D54E0,A6314,sub_A6314,lib/watcom/watcom_emu387.asm,exact,1.0,102 instructions
+func,D55CC,A6400,sub_A6400,lib/watcom/watcom_emu387.asm,exact,1.0,32 instructions
+func,D561E,A6452,sub_A6452,lib/watcom/watcom_emu387.asm,exact,1.0,30 instructions
+func,D5666,A649A,__hook387,lib/watcom/watcom_emu387.asm,exact,1.0,86 instructions
+func,D5730,A6564,__unhook387,lib/watcom/watcom_emu387.asm,exact,1.0,41 instructions
+func,D578A,A65BE,__init_80x87,lib/watcom/watcom_emu387.asm,similar,0.977,mnemonic similarity 0.98 over 22 instructions
+func,D59DB,A6BE1,sub_A6BE1,lib/sound/snd_hw_sb.asm,exact,1.0,120 instructions
+func,D5B1E,A6D24,sub_A6D24,lib/sound/snd_hw_sb.asm,exact,1.0,3 instructions
+func,D5B26,A6D2C,sub_A6D2C,lib/sound/snd_hw_sb.asm,callsite,0.9,called at the same place of sub_A6BE1
+func,D6120,AF1D0,sub_AF1D0,lib/sound/snd_gus_sdk_02.asm,similar,0.95,mnemonic similarity 0.95 over 83 instructions
+func,D6230,AF2E0,sub_AF2E0,lib/sound/snd_gus_sdk_02.asm,exact,1.0,35 instructions
+func,D6290,AA7E0,sub_AA7E0,lib/sound/snd_gus_sdk_01.asm,similar,0.983,mnemonic similarity 0.98 over 60 instructions
+func,D6370,AA8C0,sub_AA8C0,lib/sound/snd_gus_sdk_01.asm,sem,1.0,C:2185; R:2130
+func,D6390,AA8E0,sub_AA8E0,lib/sound/snd_gus_sdk_01.asm,sem,1.0,C:2184; R:2127
+func,D63C0,AA910,sub_AA910,lib/sound/snd_gus_sdk_01.asm,similar,0.983,mnemonic similarity 0.98 over 59 instructions
+func,D6470,AA9C0,sub_AA9C0,lib/sound/snd_gus_sdk_01.asm,similar,0.991,mnemonic similarity 0.99 over 108 instructions
+func,D660C,AAB5C,sub_AAB5C,lib/sound/snd_gus_sdk_01.asm,similar,0.989,mnemonic similarity 0.99 over 88 instructions
+func,D66F8,AAC48,sub_AAC48,lib/sound/snd_gus_sdk_01.asm,similar,0.969,mnemonic similarity 0.97 over 32 instructions
+func,D675C,AACAC,sub_AACAC,lib/sound/snd_gus_sdk_01.asm,similar,0.991,mnemonic similarity 0.99 over 117 instructions
+func,D68F0,AAE40,sub_AAE40,lib/sound/snd_gus_sdk_01.asm,similar,0.993,mnemonic similarity 0.99 over 208 instructions
+func,D6C30,AD3C0,sub_AD3C0,lib/sound/snd_gus_sdk_01.asm,similar,0.967,mnemonic similarity 0.97 over 30 instructions
+func,D6C6C,AD3FC,sub_AD3FC,lib/sound/snd_gus_sdk_01.asm,similar,0.963,mnemonic similarity 0.96 over 27 instructions
+func,D6CA4,AD434,sub_AD434,lib/sound/snd_gus_sdk_01.asm,similar,0.982,mnemonic similarity 0.98 over 57 instructions
+func,D7042,AF198,sub_AF198,lib/sound/snd_gus_sdk_02.asm,exact,1.0,3 instructions
+func,D721B,AE9EB,sub_AE9EB,lib/sound/snd_gus_sdk_02.asm,sem,1.0,D:15134C; D:151358
+func,D7267,AEA23,sub_AEA23,lib/sound/snd_gus_sdk_02.asm,sem,0.47,D:151424; K:FFFC000; D:151420; D:151422
+func,D7A44,B77F4,sub_B77F4,lib/video/vesa_banked_blit.asm,similar,0.862,mnemonic similarity 0.86 over 62 instructions
+func,D7BB2,A321C,forcedecpt_,lib/watcom/watcom_clib_42.asm,exact,1.0,37 instructions
+func,D7C08,AF6D3,__setenvp_,lib/watcom/watcom_clib_46.asm,exact,1.0,81 instructions
+func,D7DB0,93CA0,sub_93CA0,lib/ea/ea_debug.asm,sem,0.528,D:15139C; D:1513A0; D:1513A4; D:1513AC
+func,D7FFC,93E4C,sub_93E4C,lib/ea/ea_debug.asm,sem,0.945,C:2163; C:2162; C:2166; C:2167
+func,D83B8,94114,sub_94114,lib/ea/ea_debug.asm,similar,0.951,mnemonic similarity 0.95 over 30 instructions
+func,D84AC,94188,sub_94188,lib/ea/ea_debug.asm,similar,0.908,mnemonic similarity 0.91 over 487 instructions
+func,D8AC4,9477C,sub_9477C,lib/ea/ea_debug.asm,similar,0.929,mnemonic similarity 0.93 over 41 instructions
+func,D8B2C,947D8,sub_947D8,lib/ea/ea_debug.asm,sem,1.0,S:MEM MANAGER; D:114564; R:2158; K:8000
+func,D8BEC,948D4,sub_948D4,lib/ea/ea_debug.asm,exact,1.0,6 instructions
+func,D8BFC,948E4,sub_948E4,lib/ea/ea_debug.asm,similar,0.924,mnemonic similarity 0.92 over 206 instructions
+func,D8E98,94B6C,sub_94B6C,lib/ea/ea_debug.asm,similar,0.942,mnemonic similarity 0.94 over 240 instructions
+func,D9170,94E34,sub_94E34,lib/ea/ea_debug.asm,similar,0.863,mnemonic similarity 0.86 over 120 instructions
+func,D930C,94FBC,sub_94FBC,lib/ea/ea_debug.asm,sem,1.0,"S:* FILE: %s
+; D:11467C; S:* DATE: %s
+; D:114688"
+func,D9410,950AC,sub_950AC,lib/ea/ea_debug.asm,similar,0.86,mnemonic similarity 0.86 over 54 instructions
+func,D94C0,95158,sub_95158,lib/ea/ea_debug.asm,similar,0.894,mnemonic similarity 0.89 over 279 instructions
+func,D9874,954C8,sub_954C8,lib/ea/ea_debug.asm,similar,0.922,mnemonic similarity 0.92 over 51 instructions
+func,D98F4,95548,sub_95548,lib/ea/ea_debug.asm,sem,0.901,"S:bytes = %3d, rows = %3d, x/y = %3d/%3d; D:1147B4; S: %spacked
+; D:1147F0"
+func,D9AAC,956C0,sub_956C0,lib/ea/ea_debug.asm,similar,0.903,mnemonic similarity 0.90 over 201 instructions
+func,D9D5C,9596C,sub_9596C,lib/ea/ea_debug.asm,similar,0.896,mnemonic similarity 0.90 over 363 instructions
+func,DA2D4,95ECC,sub_95ECC,lib/ea/ea_debug.asm,similar,0.878,mnemonic similarity 0.88 over 41 instructions
+func,DA338,95F30,sub_95F30,lib/ea/ea_debug.asm,sem,0.512,S:SCREEN??.*; D:114970; R:2171; R:2174
+func,DA3D0,95F84,sub_95F84,lib/ea/ea_debug.asm,similar,0.912,mnemonic similarity 0.91 over 60 instructions
+func,DA48C,96030,sub_96030,lib/ea/ea_debug.asm,neighbour,0.915,"between sub_95F84 and sub_960AC, mnemonic similarity 0.91"
+func,DA508,960AC,sub_960AC,lib/ea/ea_debug.asm,sem,1.0,C:2378; R:2166; R:2170
+func,DA5AF,AA200,outp_,lib/watcom/watcom_clib_44.asm,callsite,0.9,called at the same place of sub_AF2E0
+func,DA5D0,B07D0,sub_B07D0,lib/sound/snd_gus_sdk_05.asm,callsite,0.9,called at the same place of sub_B0C10
+func,DA65C,B085C,sub_B085C,lib/sound/snd_gus_sdk_05.asm,exact,1.0,101 instructions
+func,DA8A4,B0AA4,sub_B0AA4,lib/sound/snd_gus_sdk_05.asm,sem,1.0,C:1696; R:2185; R:2184
+func,DA8B0,B0AB0,sub_B0AB0,lib/sound/snd_gus_sdk_05.asm,sem,1.0,C:1697; R:2184
+func,DA8BC,B0ABC,sub_B0ABC,lib/sound/snd_gus_sdk_05.asm,similar,0.981,mnemonic similarity 0.98 over 52 instructions
+func,DA95C,B0B5C,sub_B0B5C,lib/sound/snd_gus_sdk_05.asm,similar,0.977,mnemonic similarity 0.98 over 43 instructions
+func,DA9E4,B0BE4,sub_B0BE4,lib/sound/snd_gus_sdk_05.asm,exact,1.0,16 instructions
+func,DAB11,B13A1,sub_B13A1,lib/sound/snd_gus_sdk_06.asm,exact,1.0,9 instructions
+func,DAB25,B13B5,sub_B13B5,lib/sound/snd_gus_sdk_06.asm,similar,0.946,mnemonic similarity 0.95 over 38 instructions
+func,DAB70,B121C,sub_B121C,lib/sound/snd_gus_sdk_05.asm,exact,1.0,3 instructions
+func,DAB83,B122F,sub_B122F,lib/sound/snd_gus_sdk_05.asm,exact,1.0,13 instructions
+func,DABAA,B1256,sub_B1256,lib/sound/snd_gus_sdk_05.asm,exact,1.0,20 instructions
+func,DABE0,B1400,sub_B1400,lib/sound/snd_gus_sdk_06.asm,sem,1.0,D:1514EC; D:1514F0; D:1514F4; D:1514F8
+func,DAC3C,B145C,sub_B145C,lib/sound/snd_gus_sdk_06.asm,callsite,0.9,called at the same place of sub_B14AC
+func,DAC64,B1484,sub_B1484,lib/sound/snd_gus_sdk_06.asm,similar,0.95,mnemonic similarity 0.95 over 20 instructions
+func,DAC8C,B14AC,sub_B14AC,lib/sound/snd_gus_sdk_06.asm,callsite,0.9,called at the same place of sub_B0C5C
+func,DACC4,B1554,sub_B1554,lib/sound/snd_gus_sdk_06.asm,sem,0.473,D:151504; D:151508; C:2196
+func,DADD8,B15F8,sub_B15F8,lib/sound/snd_gus_sdk_06.asm,callsite,0.9,called at the same place of sub_B1680
+func,DAE60,B1680,sub_B1680,lib/sound/snd_gus_sdk_06.asm,exact,1.0,24 instructions
+func,DAE9C,B16BC,sub_B16BC,lib/sound/snd_gus_sdk_06.asm,exact,1.0,188 instructions
+func,DB13C,B195C,sub_B195C,lib/sound/snd_gus_sdk_07.asm,exact,1.0,58 instructions
+func,DB1A7,B19C7,outpw_,lib/watcom/watcom_clib_51.asm,callsite,0.9,called at the same place of sub_B1F9C
+func,DB2BC,B1F9C,sub_B1F9C,lib/sound/snd_gus_sdk_08.asm,exact,1.0,74 instructions
+func,DB394,B2074,sub_B2074,lib/sound/snd_gus_sdk_08.asm,similar,0.994,mnemonic similarity 0.99 over 174 instructions
+func,DB540,B0C10,sub_B0C10,lib/sound/snd_gus_sdk_05.asm,callsite,0.9,called at the same place of sub_B0C5C
+func,DB564,B0C34,sub_B0C34,lib/sound/snd_gus_sdk_05.asm,callsite,0.9,called at the same place of sub_B0C5C
+func,DB58C,B0C5C,sub_B0C5C,lib/sound/snd_gus_sdk_05.asm,exact,1.0,33 instructions
+func,DB5E8,B0CB8,sub_B0CB8,lib/sound/snd_gus_sdk_05.asm,similar,0.981,mnemonic similarity 0.98 over 53 instructions
+func,DB69C,B0D6C,sub_B0D6C,lib/sound/snd_gus_sdk_05.asm,similar,0.989,mnemonic similarity 0.99 over 92 instructions
+func,DB7AC,B0FA8,sub_B0FA8,lib/sound/snd_gus_sdk_05.asm,sem,0.656,D:15140E; D:151518; C:2201; D:1A11E6
+func,DB9FA,B028E,DoEFormat_,lib/watcom/watcom_clib_48.asm,exact,1.0,71 instructions
+func,DBAA1,B0335,DoFFormat_,lib/watcom/watcom_clib_48.asm,exact,1.0,56 instructions
+func,DBB04,B0398,AdjField_,lib/watcom/watcom_clib_48.asm,exact,1.0,49 instructions
+func,DBB6F,B0403,_FtoS_,lib/watcom/watcom_clib_48.asm,exact,1.0,217 instructions
+func,DBD93,B0627,strtod_,lib/watcom/watcom_clib_48.asm,similar,0.901,mnemonic similarity 0.90 over 167 instructions
+func,DBFA8,9C8E8,sub_9C8E8,lib/ea/ea_unpackf_blit.asm,sem,0.722,S:unpackf; D:1149A4; C:2304; R:2224
+func,DC158,9CA6C,sub_9CA6C,lib/ea/ea_unpackf_blit.asm,neighbour,0.909,"between sub_9C8E8 and sub_9CA90, mnemonic similarity 0.91"
+func,DC17C,9CA90,sub_9CA90,lib/ea/ea_unpackf_blit.asm,similar,0.877,mnemonic similarity 0.88 over 454 instructions
+func,DCBB0,B2720,sub_B2720,lib/sound/snd_gus_sdk_09.asm,similar,0.926,mnemonic similarity 0.93 over 57 instructions
+func,DCC25,B2220,__Nan_Inf_,lib/watcom/watcom_clib_52.asm,exact,1.0,43 instructions
+func,DCCA9,B22A4,floor_,lib/watcom/watcom_clib_52.asm,exact,1.0,28 instructions
+func,DCCE5,B22E0,_Scale_,lib/watcom/watcom_clib_52.asm,exact,1.0,31 instructions
+func,DCD26,B2321,_Scale10V_,lib/watcom/watcom_clib_52.asm,exact,1.0,76 instructions
+func,DCE0D,B2408,__cvt_,lib/watcom/watcom_clib_52.asm,callsite,0.9,called at the same place of _FtoS_
+func,DCFF4,B25EE,unknown_libname_5,lib/watcom/watcom_clib_52.asm,exact,1.0,63 instructions
+func,DD084,B267E,unknown_libname_6,lib/watcom/watcom_clib_52.asm,exact,1.0,40 instructions
+func,DD0CF,B26C9,sub_B26C9,lib/watcom/watcom_clib_52.asm,callsite,0.9,called at the same place of unknown_libname_5
+func,DD32C,B27A0,modf_,lib/watcom/watcom_clib_53.asm,exact,1.0,11 instructions
+func,DD346,B27BA,__CmpBigInt,lib/watcom/watcom_clib_53.asm,exact,1.0,26 instructions
+func,DD380,B27F4,__Rnd2Int,lib/watcom/watcom_clib_53.asm,exact,1.0,48 instructions
+func,DD3EB,B285F,__Bin2String,lib/watcom/watcom_clib_53.asm,exact,1.0,55 instructions
+func,DD50C,B2980,frexp_,lib/watcom/watcom_clib_54.asm,loose,1.0,36 instructions
+func,DD6C4,B4BA8,sub_B4BA8,lib/video/video_bios_vga.asm,callsite,0.9,called at the same place of sub_910B0
+func,DD708,B4F70,SetDrawBitmap,lib/video/vga_blitters.asm,sem,1.0,D:1228D0; R:1652; R:1650
+func,DD724,B4FAC,sub_B4FAC,lib/video/vga_blitters.asm,sem,1.0,C:1708; C:2380; R:2162
+func,DD760,B4BC4,SetClipWindow,lib/video/video_bios_vga.asm,similar,0.894,mnemonic similarity 0.89 over 26 instructions
+func,DD800,B4B58,sub_B4B58,lib/video/video_bios_vga.asm,exact,1.0,12 instructions
+func,DD960,B72D4,sub_B72D4,lib/video/vesa_banked_blit.asm,exact,1.0,8 instructions
+func,DDE7B,B4C33,sub_B4C33,lib/video/video_bios_vga.asm,similar,0.812,mnemonic similarity 0.81 over 15 instructions
+func,DE10D,B5DB0,PlotPixel,lib/video/vesa_banked_blit.asm,sem,0.875,D:12401C; D:122930; C:2281; D:1228F4
+func,DE247,B6DF7,sub_B6DF7,lib/video/vesa_banked_blit.asm,similar,0.997,mnemonic similarity 1.00 over 154 instructions
+func,DE3D8,B5E04,sub_B5E04,lib/video/vesa_banked_blit.asm,sem,0.763,R:2289; R:2287; K:4F05
+func,DE44E,B5EA7,sub_B5EA7,lib/video/vesa_banked_blit.asm,exact,1.0,10 instructions
+func,DE45F,B5EB8,sub_B5EB8,lib/video/vesa_banked_blit.asm,sem,1.0,K:4F07; K:4F05
+func,DE4C7,B5F0F,sub_B5F0F,lib/video/vesa_banked_blit.asm,similar,0.994,mnemonic similarity 0.99 over 156 instructions
+func,DE97C,B63AC,sub_B63AC,lib/video/vesa_banked_blit.asm,similar,0.947,mnemonic similarity 0.95 over 38 instructions
+func,DEB94,B65B8,sub_B65B8,lib/video/vesa_banked_blit.asm,similar,0.965,mnemonic similarity 0.96 over 57 instructions
+func,DEC41,B6665,sub_B6665,lib/video/vesa_banked_blit.asm,similar,0.878,mnemonic similarity 0.88 over 112 instructions
+func,DEEE3,B6887,sub_B6887,lib/video/vesa_banked_blit.asm,similar,0.878,mnemonic similarity 0.88 over 82 instructions
+func,DEFD7,B6B3F,sub_B6B3F,lib/video/vesa_banked_blit.asm,similar,0.838,mnemonic similarity 0.84 over 67 instructions
+func,DF058,B704C,sub_B704C,lib/video/vesa_banked_blit.asm,similar,0.928,mnemonic similarity 0.93 over 156 instructions
+func,DF5C0,B7218,sub_B7218,lib/video/vesa_banked_blit.asm,similar,0.882,mnemonic similarity 0.88 over 93 instructions
+func,DF8AC,B2D38,sub_B2D38,lib/input/input_mouse.asm,exact,1.0,18 instructions
+func,DF8E8,B2D74,sub_B2D74,lib/input/input_mouse.asm,exact,1.0,22 instructions
+func,DF928,B2DCA,MouseRead,lib/input/input_mouse.asm,similar,0.879,mnemonic similarity 0.88 over 29 instructions
+func,DF98F,B2E1B,SetViewRect,lib/input/input_mouse.asm,exact,1.0,12 instructions
+func,DF9B7,B2E43,sub_B2E43,lib/input/input_mouse.asm,similar,0.86,mnemonic similarity 0.86 over 55 instructions
+func,DFA98,B2F22,sub_B2F22,lib/input/input_mouse.asm,sem,1.0,C:2308; D:11F5A4; C:2340; C:2310
+func,DFC33,B29F0,sub_B29F0,lib/input/input_keyboard_02.asm,sem,0.597,D:11F69A; D:11F6A6; D:11F660; D:11F620
+func,DFE28,B2C4A,sub_B2C4A,lib/input/input_keyboard_02.asm,exact,1.0,36 instructions
+func,DFE9C,B2CBE,KeyDown,lib/input/input_keyboard_02.asm,neighbour,0.706,"between sub_B2C4A and FatalError, mnemonic similarity 0.71"
+func,DFEB4,B395C,GetTicks,lib/input/input_joystick_misc.asm,sem,1.0,D:11F9A4; R:2374
+func,DFEBA,B3962,TicksSince,lib/input/input_joystick_misc.asm,exact,1.0,4 instructions
+func,DFEE1,B3989,SetTickDeadline,lib/input/input_joystick_misc.asm,exact,1.0,4 instructions
+func,DFEF1,B3999,WaitTickDeadline,lib/input/input_joystick_misc.asm,exact,1.0,4 instructions
+func,DFEFF,B39A7,TickDeadlinePassed,lib/input/input_joystick_misc.asm,sem,1.0,D:11F8DC; D:11F9A4
+func,DFF28,B39D0,sub_B39D0,lib/input/input_joystick_misc.asm,exact,1.0,11 instructions
+func,DFF70,B3A18,WaitKey,lib/input/input_joystick_misc.asm,exact,1.0,4 instructions
+func,E0158,B3168,sub_B3168,lib/input/input_joystick_misc.asm,sem,0.927,D:11F938; D:11F93C; D:11F943; D:11F94B
+func,E0456,B33DB,sub_B33DB,lib/input/input_joystick_misc.asm,exact,1.0,6 instructions
+func,E0486,B340B,sub_B340B,lib/input/input_joystick_misc.asm,loose,1.0,24 instructions
+func,E04D0,B3454,sub_B3454,lib/input/input_joystick_misc.asm,callsite,0.9,called at the same place of sub_B3E98
+func,E04E7,B30BB,sub_B30BB,lib/input/input_joystick_misc.asm,exact,1.0,22 instructions
+func,E0520,B3ABC,sub_B3ABC,lib/input/input_joystick_misc.asm,sem,0.867,R:1242; R:1897; R:1223; R:1420
+func,E0658,B3B00,sub_B3B00,lib/ea/ea_fileio.asm,exact,1.0,14 instructions
+func,E0671,B3B19,sub_B3B19,lib/ea/ea_fileio.asm,exact,1.0,7 instructions
+func,E0686,B3B2E,sub_B3B2E,lib/ea/ea_fileio.asm,exact,1.0,6 instructions
+func,E069C,B3B44,sub_B3B44,lib/ea/ea_fileio.asm,exact,1.0,6 instructions
+func,E06B2,B3B5A,openhandle,lib/ea/ea_fileio.asm,exact,1.0,87 instructions
+func,E07B8,B3C60,sub_B3C60,lib/ea/ea_fileio.asm,exact,1.0,9 instructions
+func,E07CC,B3C74,sub_B3C74,lib/ea/ea_fileio.asm,sem,1.0,R:1344; R:1420; R:1429; K:4000
+func,E081C,B3CB3,sub_B3CB3,lib/ea/ea_fileio.asm,sem,1.0,C:2348; K:4200
+func,E0834,B2CD8,FatalError,lib/input/input_keyboard_02.asm,callsite,0.9,called at the same place of sub_B30BB
+func,E1530,B392C,ClearScreen,lib/input/input_joystick_misc.asm,neighbour,0.619,"between FatalError and sub_B3A88, mnemonic similarity 0.62"
+func,E1824,B3FB0,sub_B3FB0,lib/video/video_bios_vga.asm,exact,1.0,8 instructions
+func,E1836,B3FC2,sub_B3FC2,lib/video/video_bios_vga.asm,sem,0.641,C:2337; C:2324; R:1242; D:11F600
+func,E193C,B3A88,sub_B3A88,lib/input/input_joystick_misc.asm,callsite,0.9,called at the same place of sub_910B0
+func,E1956,B3AA1,sub_B3AA1,lib/input/input_joystick_misc.asm,callsite,0.9,called at the same place of sub_910B0
+func,E1970,B3CC8,sub_B3CC8,lib/ea/ea_fileio.asm,similar,0.885,mnemonic similarity 0.88 over 51 instructions
+func,E19FE,B40E2,sub_B40E2,lib/video/video_bios_vga.asm,similar,0.988,mnemonic similarity 0.99 over 700 instructions
+func,E2436,B3E4A,sub_B3E4A,lib/video/video_bios_vga.asm,exact,1.0,14 instructions
+func,E2484,B3E98,sub_B3E98,lib/video/video_bios_vga.asm,exact,1.0,15 instructions
+func,E24C4,B3ED8,sub_B3ED8,lib/video/video_bios_vga.asm,callsite,0.9,called at the same place of FatalError
+func,E25E0,B49C0,sub_B49C0,lib/video/video_bios_vga.asm,similar,0.962,mnemonic similarity 0.96 over 53 instructions
+data,11003D,C16DA,str_DD,data/front/frontend_03.asm,string,1.0,'%d/%d'
+data,110043,C16E0,str_D02d2,data/front/frontend_03.asm,string,1.0,'%d:%02d'
+data,11004B,C16E8,str_DDD,data/front/frontend_03.asm,string,1.0,'%d/%d (%d%%)'
+data,11061C,C09BC,str_CDSTREAM,data/lib/ea/eagfx_02.asm,string,1.0,'CDSTREAM'
+data,1106A7,C09E6,str_SECCDSTREAM,data/lib/ea/eagfx_02.asm,string,1.0,'SECCDSTREAM'
+data,110883,C27E7,str_Puck,data/front/frontend_08.asm,string,1.0,'puck'
+data,1108B2,C1880,str_Back,data/front/frontend_03.asm,string,1.0,'back'
+data,110BB5,C6913,str_fmtTenths,data/front/frontend_18.asm,string,1.0,'%3d.%1d'
+data,110DC0,C1C6A,str_FmtNumFirstLast,data/engine/engine_06.asm,string,1.0,'%s#%d %s %s%s'
+data,110DCE,C1C78,str_FmtNumInitialLast,data/engine/engine_06.asm,string,1.0,'%s#%d %c. %s%s'
+data,110DDD,C1C87,str_FmtNumNameSuffix,data/engine/engine_06.asm,string,1.0,'%s#%d %s%s'
+data,110DE8,C1C92,str_FmtNumName,data/engine/engine_06.asm,string,1.0,'%s#%d %s'
+data,110E31,C1CB3,str_FmtParenD,data/engine/engine_06.asm,string,1.0,' (%d)'
+data,110E60,C27C2,str_ZONEMGR,data/lib/ea/eagfx_07.asm,string,1.0,'ZONEMGR'
+data,11129B,C08AB,str_Pl1,data/front/frontend_01.asm,string,1.0,'!pl1'
+data,1123F2,C1AAF,tag_pset,data/front/frontend_05.asm,string,1.0,'pset'
+data,112422,C1AB8,tag_apset,data/front/frontend_05.asm,string,1.0,'apset'
+data,11242E,C1AC4,tag_gset,data/front/frontend_05.asm,string,1.0,'gset'
+data,112437,C1ACD,tag_agset,data/front/frontend_05.asm,string,1.0,'agset'
+data,112808,C5286,str_D02d,data/front/frontend_16.asm,string,1.0,'%d.%02d'
+data,1130F8,C3F5C,str_AddtimerLISTFULL,data/lib/ea/ealib_13.asm,string,1.0,'addtimer - LIST FULL\n'
+data,113154,C3B98,str_LOWMEM,data/lib/ea/ealib_13.asm,string,1.0,'LOW MEM'
+data,11315C,C3BA0,str_HIGHMEM,data/lib/ea/ealib_13.asm,string,1.0,'HIGH MEM'
+data,1131D8,C3BCC,str_ReservememINVALIDSIZE,data/lib/ea/ealib_13.asm,string,1.0,'reservemem - INVALID SIZE REQUESTED\nrequested: %ld availab
+data,1132E8,C3C88,str_ReservememINVALIDTYPEFLAGS,data/lib/ea/ealib_13.asm,string,1.0,'reservemem - INVALID TYPE FLAGS (%04x)\n'
+data,113310,C3CB0,str_ResizememINVALIDSIZE,data/lib/ea/ealib_13.asm,string,1.0,'resizemem - INVALID SIZE REQUESTED\nrequested: %ld availabl
+data,113354,C3CF4,str_ResizememblockNOROOMTO,data/lib/ea/ealib_13.asm,string,1.0,'resizememblock - NO ROOM TO RESIZE\nrequested: %ld availabl
+data,113398,C3D38,str_FindmemblockBLOCKNOTFOUND,data/lib/ea/ealib_13.asm,string,1.0,'findmemblock - BLOCK NOT FOUND (%p)\n'
+data,1133E0,C3D60,str_GetmemblockNOMEMORYBLOCKS,data/lib/ea/ealib_13.asm,string,1.0,'getmemblock - NO MEMORY BLOCKS LEFT\n'
+data,113438,C4034,str_DBUGTXT,data/lib/ea/ealib_13.asm,string,1.0,'DBUG??.TXT'
+data,113448,C4044,str_FILES,data/lib/ea/ealib_13.asm,string,1.0,'FILE: %s\n'
+data,113454,C4050,str_DATES,data/lib/ea/ealib_13.asm,string,1.0,'DATE: %s\n'
+data,113460,C405C,str_TIMES,data/lib/ea/ealib_13.asm,string,1.0,'TIME: %s\n\n'
+data,11346C,C4068,str_CLOSED,data/lib/ea/ealib_13.asm,string,1.0,'\nCLOSED\n'
+data,113478,C4074,str_TIMES2,data/lib/ea/ealib_13.asm,string,1.0,'TIME: %s\n'
+data,1135AC,C47B8,str_Copyright,data/lib/ea/ealib_13.asm,string,1.0,'Copyright'
+data,1135B8,C47C4,str_UnpackINVALIDPACKCODE,data/lib/ea/ealib_13.asm,string,1.0,'unpack - INVALID PACK CODE (%x)\n'
+data,113600,C3FD8,str_SavefileblockaOPENFAILEDFOR,data/lib/ea/ealib_13.asm,string,1.0,'savefileblocka - OPEN FAILED FOR FILE <%s>\n'
+data,11362C,C3D88,str_InitmemmanINSUFFICIENTROW,data/lib/ea/ealib_13.asm,string,1.0,'initmemman - INSUFFICIENT ROW TABLE SPACE\n'
+data,113A0C,C3E94,str_VESA,data/lib/ea/ealib_13.asm,string,1.0,'VESA'
+data,113A50,C3E9C,str_InitgraphicsINITMEMMAN,data/lib/ea/ealib_13.asm,string,1.0,'initgraphics - INITMEMMAN REQUIRED BEFORE INITGRAPHICS\n'
+data,113A88,C3ED4,str_InitgraphicsINVALIDSCREEN,data/lib/ea/ealib_13.asm,string,1.0,"'initgraphics - INVALID SCREEN SIZE (%d,%d)\n'"
+data,113AB4,C3F00,str_VESAVideoBiosDriver,data/lib/ea/ealib_13.asm,string,1.0,'VESA video bios driver required.\nPlease install a driver f
+data,113E64,C47E8,str_EXITTODOSY,data/lib/ea/ealib_13.asm,string,1.0,'EXIT TO DOS (Y/N)'
+data,113E78,C47FC,str_PAUSEPRESSANYKEY,data/lib/ea/ealib_13.asm,string,1.0,'PAUSE - PRESS ANY KEY TO RESUME'
+data,113E98,C481C,str_RemovewindowROWSPACE,data/lib/ea/ealib_13.asm,string,1.0,'removewindow - ROW SPACE CORRUPTED\n'
+data,113EBC,C4840,str_FshVshQfsQvs,data/lib/ea/ealib_13.asm,string,1.0,'.fsh.vsh.qfs.qvs'
+data,113ED0,C4854,str_Vsh,data/lib/ea/ealib_13.asm,string,1.0,'.vsh'
+data,113ED8,C485C,str_Qvs,data/lib/ea/ealib_13.asm,string,1.0,'.qvs'
+data,1140E8,C4A94,str_BLASTER,data/lib/ea/ealib_13.asm,string,1.0,'BLASTER'
+data,11412C,C4B00,str_NotEnoughMemoryTo,data/lib/watcom/watcom_14.asm,string,1.0,'Not enough memory to allocate file structures\r\n'
+data,11415C,C4ADC,str_FloatingPointSupportNot,data/lib/watcom/watcom_14.asm,string,1.0,'Floating-point support not loaded\r\n'
+data,1142A8,C4B30,str_RATIONALDOS4G,data/lib/watcom/watcom_14.asm,string,1.0,'RATIONAL DOS/4G'
+data,1143C8,C417C,str_Used7uFree7u,data/lib/ea/ealib_13.asm,string,1.0,'Used=%-7u Free=%-7u Largst=%-7u'
+data,114440,C41F0,unk_C41F0,data/lib/ea/ealib_13.asm,refset,0.8,referenced by the same 2 matched functions
+data,114444,C41F4,asc_C41F4,data/lib/ea/ealib_13.asm,string,1.0,'%-80s'
+data,11444C,C41FC,unk_C41FC,data/lib/ea/ealib_13.asm,refset,0.8,referenced by the same 4 matched functions
+data,114450,C4200,asc_C4200,data/lib/ea/ealib_13.asm,refset,0.8,referenced by the same 3 matched functions
+data,114454,C4204,asc_C4204,data/lib/ea/ealib_13.asm,string,1.0,'%s\n\n'
+data,114564,C430C,str_MEMMANAGER,data/lib/ea/ealib_13.asm,string,1.0,'MEM MANAGER'
+data,114570,C4318,unk_C4318,data/lib/ea/ealib_13.asm,position,1.0,same fixup of sub_948D4
+data,114574,C431C,str_044X00000000,data/lib/ea/ealib_13.asm,string,1.0,'%04.4X (0000 0000 0000 0000)'
+data,114598,C4340,str_SYSTEM,data/lib/ea/ealib_13.asm,string,1.0,' SYSTEM '
+data,1145A4,C434C,str_SPACE3,data/lib/ea/ealib_13.asm,string,1.0,' SPACE '
+data,1145AC,C4354,str_HIGHMemoryBlock,data/lib/ea/ealib_13.asm,string,1.0,'HIGH memory block'
+data,1145C0,C4368,str_LOWMemoryBlock,data/lib/ea/ealib_13.asm,string,1.0,'LOW memory block'
+data,1145D4,C437C,str_ConventionalMemory,data/lib/ea/ealib_13.asm,string,1.0,'Conventional memory'
+data,1145E8,C4390,str_RelocatableBlock,data/lib/ea/ealib_13.asm,string,1.0,'Relocatable block'
+data,1145FC,C43A4,str_NonRelocatableBlock,data/lib/ea/ealib_13.asm,string,1.0,'Non-Relocatable block'
+data,114614,C43BC,str_ALIGNFlagIsSet,data/lib/ea/ealib_13.asm,string,1.0,'ALIGN flag is set'
+data,114628,C43D0,str_PRIORITY1d,data/lib/ea/ealib_13.asm,string,1.0,'PRIORITY #%1d'
+data,114638,C43E0,str_SequenceD,data/lib/ea/ealib_13.asm,string,1.0,'Sequence #%d'
+data,114648,C43F0,str_BlockIsPURGABLE,data/lib/ea/ealib_13.asm,string,1.0,'Block is PURGABLE'
+data,11465C,C4404,str_04x2,data/lib/ea/ealib_13.asm,string,1.0,'%04x   '
+data,114664,C440C,str_02x,data/lib/ea/ealib_13.asm,string,1.0,'%02x'
+data,11467C,C4424,str_FILES2,data/lib/ea/ealib_13.asm,string,1.0,'* FILE: %s\n'
+data,114688,C4430,str_DATES2,data/lib/ea/ealib_13.asm,string,1.0,'* DATE: %s\n'
+data,114694,C443C,str_TIMES3,data/lib/ea/ealib_13.asm,string,1.0,'* TIME: %s\n'
+data,1146A8,C4450,str_HexmemdspOS,data/lib/ea/ealib_13.asm,string,1.0,'hexmemdsp = O%s\n\n'
+data,1146BC,C4464,str_XxMMAPTXT,data/lib/ea/ealib_13.asm,string,1.0,'xxMMAP??.TXT'
+data,1146CC,C4474,unk_C4474,data/lib/ea/ealib_13.asm,refset,0.8,referenced by the same 2 matched functions
+data,1146D0,C4478,str_ErrorDumpingMemoryMap,data/lib/ea/ealib_13.asm,string,1.0,'Error Dumping Memory Map'
+data,1146EC,C4494,str_ShapeFileIsInvalid,data/lib/ea/ealib_13.asm,string,1.0,'Shape file is invalid.  Work with it?'
+data,114714,C44BC,str_NumDPackedD,data/lib/ea/ealib_13.asm,string,1.0,"'Num = %d, # packed = %d, # not packed = %d, # no shows = %d"
+data,114754,C44FC,str_ThereAreNoShapes,data/lib/ea/ealib_13.asm,string,1.0,'There are no shapes that can be shown!'
+data,11477C,C4524,str_44s05x,data/lib/ea/ealib_13.asm,string,1.0,"""'%4.4s' %05x: """
+data,11478C,C4534,str_Bad,data/lib/ea/ealib_13.asm,string,1.0,'Bad.\n'
+data,114794,C453C,str_CxCy3d3d,data/lib/ea/ealib_13.asm,string,1.0,'cx/cy = %3d/%3d - '
+data,1147A8,C4550,str_NotDrawn,data/lib/ea/ealib_13.asm,string,1.0,'Not drawn.\n'
+data,1147B4,C455C,str_Bytes3dRows3d,data/lib/ea/ealib_13.asm,string,1.0,"'bytes = %3d, rows = %3d, x/y = %3d/%3d, cx/cy = %3d/%3d'"
+data,1147EC,C4594,str_Un,data/lib/ea/ealib_13.asm,refset,0.8,referenced by the same 2 matched functions
+data,1147F0,C4598,str_Spacked,data/lib/ea/ealib_13.asm,string,1.0,' %spacked\n'
+data,1147FC,C45A4,str_Packed,data/lib/ea/ealib_13.asm,string,1.0,'packed  '
+data,114814,C45BC,asc_C45BC,data/lib/ea/ealib_13.asm,string,1.0,"'%3d/%3d, %3d/%3d, %s'"
+data,114844,C45D4,str_ShapeIsInvalidDraw,data/lib/ea/ealib_13.asm,string,1.0,'Shape is invalid.  Draw it anyways?'
+data,114868,C45F8,str_MEMSHPTXT,data/lib/ea/ealib_13.asm,string,1.0,'MEMSHP??.TXT'
+data,114878,C4608,str_ErrorDumpingShapesList,data/lib/ea/ealib_13.asm,string,1.0,'Error Dumping Shapes List'
+data,114894,C4624,str_ShapeFileName0,data/lib/ea/ealib_13.asm,string,1.0,'Shape file name: %0.12s\n'
+data,1148B0,C4640,str_ShapeFileSizeLd,data/lib/ea/ealib_13.asm,string,1.0,'Shape file size: %ld\n'
+data,1148C8,C4658,str_NumberOfShapesD,data/lib/ea/ealib_13.asm,string,1.0,'Number of shapes: %d\n\n'
+data,1148E0,C4670,str_44s66ld,data/lib/ea/ealib_13.asm,string,1.0,"""'%-4.4s' @ %6.6ld, """
+data,1148F4,C4684,str_Bytes3dRows3d2,data/lib/ea/ealib_13.asm,string,1.0,"'bytes = %3d, rows = %3d, '"
+data,114910,C46A0,str_XY3d3d,data/lib/ea/ealib_13.asm,string,1.0,"'x/y = %3d/%3d, cx/cy = %3d/%3d'"
+data,114934,C46C4,str_033d022X,data/lib/ea/ealib_13.asm,string,1.0,'%03.3d (%02.2X)'
+data,114944,C46D4,str_R022d,data/lib/ea/ealib_13.asm,string,1.0,'R=%02.2d'
+data,114950,C46E0,str_G022d,data/lib/ea/ealib_13.asm,string,1.0,'G=%02.2d'
+data,11495C,C46EC,str_B022d,data/lib/ea/ealib_13.asm,string,1.0,'B=%02.2d'
+data,114970,C4700,str_SCREEN2,data/lib/ea/ealib_13.asm,string,1.0,'SCREEN??.*'
+data,1149A4,C48FC,str_Unpackf,data/lib/ea/ealib_13.asm,string,1.0,'unpackf'
+data,1149B4,C4B5C,str_Inf,data/lib/watcom/watcom_14.asm,position,1.0,same fixup of __Nan_Inf_
+data,1149B8,C4B60,str_Nan,data/lib/watcom/watcom_14.asm,position,1.0,same fixup of __Nan_Inf_
+data,1149BC,C4B64,qword_C4B64,data/lib/watcom/watcom_14.asm,position,1.0,same fixup of floor_
+data,1149C4,C4B6C,byte_C4B6C,data/lib/ea/ealib_15.asm,position,1.0,same fixup of sub_A6BE1
+data,114AC8,C4C80,qword_C4C80,data/lib/ea/ealib_15.asm,position,1.0,same fixup of _Scale10V_
+data,114AD0,C4C88,qword_C4C88,data/lib/ea/ealib_15.asm,position,1.0,same fixup of _Scale10V_
+data,114AD8,C4C90,dword_C4C90,data/lib/ea/ealib_15.asm,position,1.0,same fixup of _Scale10V_
+data,114ADC,C4C94,dword_C4C94,data/lib/ea/ealib_15.asm,position,1.0,same fixup of _Scale10V_
+data,114AE0,C4C98,dword_C4C98,data/lib/ea/ealib_15.asm,position,1.0,same fixup of _Scale10V_
+data,114AE4,C4C9C,dword_C4C9C,data/lib/ea/ealib_15.asm,position,1.0,same fixup of _Scale10V_
+data,114AF0,C4CA8,unk_C4CA8,data/lib/ea/ealib_15.asm,position,1.0,same fixup of _Scale10V_
+data,114AF2,C4CAA,qword_C4CAA,data/lib/ea/ealib_15.asm,position,1.0,same fixup of _Scale10V_
+data,117870,C907C,puckx,data/engine/engine_35.asm,refset,0.8,referenced by the same 6 matched functions
+data,117874,C9080,puckvx,data/engine/engine_35.asm,refset,0.8,referenced by the same 9 matched functions
+data,117878,C9084,pucky,data/engine/engine_35.asm,refset,0.8,referenced by the same 11 matched functions
+data,117880,C908C,puckz,data/engine/engine_35.asm,refset,0.8,referenced by the same 2 matched functions
+data,117884,C9090,puckvz,data/engine/engine_35.asm,refset,0.8,referenced by the same 2 matched functions
+data,117894,DF860,,data/engine/engine_85.asm,refset,0.8,referenced by the same 2 matched functions
+data,1178A4,C909C,wcradiusx,data/engine/engine_35.asm,refset,0.8,referenced by the same 4 matched functions
+data,1178AA,C90A2,lastplayer,data/engine/engine_35.asm,refset,0.8,referenced by the same 2 matched functions
+data,1178B0,C90A8,passplayer,data/engine/engine_35.asm,refset,0.8,referenced by the same 5 matched functions
+data,1178B2,C90AA,threat,data/engine/engine_35.asm,refset,0.8,referenced by the same 2 matched functions
+data,1178BA,C90B4,foy,data/engine/engine_35.asm,refset,0.8,referenced by the same 8 matched functions
+data,1178BC,C90B2,fox,data/engine/engine_35.asm,refset,0.8,referenced by the same 9 matched functions
+data,1178C2,C90BA,collflag,data/engine/engine_35.asm,refset,0.8,referenced by the same 6 matched functions
+data,1178C3,C90BB,gmode,data/engine/engine_35.asm,refset,0.8,referenced by the same 11 matched functions
+data,1178C4,C90BC,sflags,data/engine/engine_35.asm,refset,0.8,referenced by the same 4 matched functions
+data,1178F2,C90CE,Pencntdwn,data/engine/engine_35.asm,refset,0.8,referenced by the same 5 matched functions
+data,117900,C90DC,gameclock,data/engine/engine_35.asm,refset,0.8,referenced by the same 4 matched functions
+data,11797E,C9123,penmintab,data/engine/engine_35.asm,refset,0.8,referenced by the same 3 matched functions
+data,118E8F,CBC44,word_CBC44,data/engine/engine_35.asm,refset,0.8,referenced by the same 3 matched functions
+data,118E9D,CBC52,energywarn,data/engine/engine_35.asm,refset,0.8,referenced by the same 3 matched functions
+data,118EA1,CBC56,lcblink,data/engine/engine_35.asm,refset,0.8,referenced by the same 3 matched functions
+data,118EAD,CBC62,lcline,data/engine/engine_35.asm,refset,0.8,referenced by the same 4 matched functions
+data,118EAF,CBC64,,data/engine/engine_35.asm,refset,0.8,referenced by the same 2 matched functions
+data,118EB5,CBC6A,lcboxon,data/engine/engine_35.asm,refset,0.8,referenced by the same 2 matched functions
+data,11910D,CBEC2,refhitcount,data/engine/engine_35.asm,refset,0.8,referenced by the same 2 matched functions
+data,119115,CC0B0,Pencntdwn2,data/engine/engine_37.asm,refset,0.8,referenced by the same 3 matched functions
+data,11916D,CC0DE,crowdlevel,data/engine/engine_37.asm,refset,0.8,referenced by the same 3 matched functions
+data,11916F,CC0F0,introskipped,data/engine/engine_37.asm,refset,0.8,referenced by the same 3 matched functions
+data,119177,CC0F8,shotongoal,data/engine/engine_37.asm,refset,0.8,referenced by the same 5 matched functions
+data,11917B,CC0FC,penshotplayer,data/engine/engine_37.asm,refset,0.8,referenced by the same 10 matched functions
+data,119187,CC108,penshotctl,data/engine/engine_37.asm,refset,0.8,referenced by the same 3 matched functions
+data,119197,CC118,penshotmode,data/engine/engine_37.asm,refset,0.8,referenced by the same 7 matched functions
+data,11919B,CC11C,penshotstart,data/engine/engine_37.asm,refset,0.8,referenced by the same 3 matched functions
+data,11919F,CC120,penshottimer,data/engine/engine_37.asm,refset,0.8,referenced by the same 2 matched functions
+data,1191A3,CC124,shotontarget,data/engine/engine_37.asm,refset,0.8,referenced by the same 4 matched functions
+data,1191A7,CC128,penshotlive,data/engine/engine_37.asm,refset,0.8,referenced by the same 6 matched functions
+data,1191AB,CC12C,psendcount,data/engine/engine_37.asm,refset,0.8,referenced by the same 2 matched functions
+data,119F94,CCC2C,nethit,data/engine/engine_37.asm,refset,0.8,referenced by the same 3 matched functions
+data,119FEC,CCC9C,dword_CCC9C,data/engine/engine_37.asm,refset,0.8,referenced by the same 2 matched functions
+data,11A310,CD418,dressbystatus,data/engine/engine_39.asm,refset,0.8,referenced by the same 3 matched functions
+data,11F568,D2FEC,dword_D2FEC,data/lib/ea/ealib_60.asm,position,1.0,same fixup of SetViewRect
+data,11F56C,D2FF0,dword_D2FF0,data/lib/ea/ealib_60.asm,position,1.0,same fixup of SetViewRect
+data,11F570,D2FF4,dword_D2FF4,data/lib/ea/ealib_60.asm,position,1.0,same fixup of SetViewRect
+data,11F574,D2FF8,dword_D2FF8,data/lib/ea/ealib_60.asm,position,1.0,same fixup of SetViewRect
+data,11F57C,D3000,dword_D3000,data/lib/ea/ealib_60.asm,position,1.0,same fixup of sub_B2D38
+data,11F5A0,D3024,dword_D3024,data/lib/ea/ealib_60.asm,position,1.0,same fixup of sub_B4B58
+data,11F5A4,D3028,dword_D3028,data/lib/ea/ealib_60.asm,position,1.0,same fixup of sub_B2D38
+data,11F5BC,D3040,joyenablemask,data/lib/ea/ealib_60.asm,position,1.0,same fixup of sub_B33DB
+data,11F600,D3078,mousepollfn,data/lib/ea/ealib_60.asm,refset,0.8,referenced by the same 2 matched functions
+data,11F618,D2C84,dword_D2C84,data/lib/ea/ealib_60.asm,position,1.0,same fixup of sub_B39D0
+data,11F620,D2C8C,dword_D2C8C,data/lib/ea/ealib_60.asm,position,1.0,same fixup of sub_B2C4A
+data,11F660,D2CCC,dword_D2CCC,data/lib/ea/ealib_60.asm,position,1.0,same fixup of sub_B2C4A
+data,11F664,D2CD0,dword_D2CD0,data/lib/ea/ealib_60.asm,position,1.0,same fixup of sub_B2C4A
+data,11F66C,D2CD8,dword_D2CD8,data/lib/ea/ealib_60.asm,position,1.0,same fixup of sub_B2C4A
+data,11F670,D2CDC,byte_D2CDC,data/lib/ea/ealib_60.asm,refset,0.8,referenced by the same 2 matched functions
+data,11F69A,D2D06,byte_D2D06,data/lib/ea/ealib_60.asm,position,1.0,same fixup of sub_B2C4A
+data,11F6A6,D2D12,byte_D2D12,data/lib/ea/ealib_60.asm,position,1.0,same fixup of sub_B2C4A
+data,11F8DC,D4294,tickdeadline,data/lib/ea/ealib_60.asm,position,1.0,same fixup of SetTickDeadline
+data,11F8E4,D42A0,off_D42A0,data/lib/ea/ealib_60.asm,position,1.0,same fixup of WaitKey
+data,11F8E8,D43E8,dword_D43E8,data/lib/ea/ealib_60.asm,position,1.0,same fixup of _nmalloc_
+data,11F8EC,D43EC,dword_D43EC,data/lib/ea/ealib_60.asm,position,1.0,same fixup of _nmalloc_
+data,11F8F0,D43F0,dword_D43F0,data/lib/ea/ealib_60.asm,position,1.0,same fixup of _nmalloc_
+data,11F938,D416C,dword_D416C,data/lib/ea/ealib_60.asm,position,1.0,same fixup of sub_B340B
+data,11F93C,D4170,dword_D4170,data/lib/ea/ealib_60.asm,position,1.0,same fixup of sub_B340B
+data,11F943,D4177,dword_D4177,data/lib/ea/ealib_60.asm,position,1.0,same fixup of sub_B33DB
+data,11F94B,D417F,dword_D417F,data/lib/ea/ealib_60.asm,position,1.0,same fixup of sub_B33DB
+data,11F95F,D4193,dword_D4193,data/lib/ea/ealib_60.asm,position,1.0,same fixup of sub_B33DB
+data,11F967,D419B,dword_D419B,data/lib/ea/ealib_60.asm,position,1.0,same fixup of sub_B33DB
+data,11F97B,D41AF,dword_D41AF,data/lib/ea/ealib_60.asm,position,1.0,same fixup of sub_B340B
+data,11F97F,D41B3,dword_D41B3,data/lib/ea/ealib_60.asm,position,1.0,same fixup of sub_B340B
+data,11F983,D41B7,byte_D41B7,data/lib/ea/ealib_60.asm,position,1.0,same fixup of sub_B340B
+data,11F9A0,D2FD8,joycalactive,data/lib/ea/ealib_60.asm,refset,0.8,referenced by the same 2 matched functions
+data,11F9A4,D2FDC,tickcount,data/lib/ea/ealib_60.asm,position,1.0,same fixup of TicksSince
+data,11F9AC,D2FE4,oldint8off,data/lib/ea/ealib_60.asm,refset,0.8,referenced by the same 3 matched functions
+data,11F9B0,D2FE8,oldint8sel,data/lib/ea/ealib_60.asm,refset,0.8,referenced by the same 2 matched functions
+data,11F9C0,D2F64,dword_D2F64,data/lib/ea/ealib_60.asm,refset,0.8,referenced by the same 2 matched functions
+data,11F9C8,D4534,dword_D4534,data/lib/ea/ealib_60.asm,refset,0.8,referenced by the same 4 matched functions
+data,11F9D0,D453C,dword_D453C,data/lib/ea/ealib_60.asm,refset,0.8,referenced by the same 3 matched functions
+data,11F9D4,D4540,dword_D4540,data/lib/ea/ealib_60.asm,refset,0.8,referenced by the same 2 matched functions
+data,11F9D8,D4544,byte_D4544,data/lib/ea/ealib_60.asm,refset,0.8,referenced by the same 2 matched functions
+data,11F9DC,D4548,dword_D4548,data/lib/ea/ealib_60.asm,refset,0.8,referenced by the same 2 matched functions
+data,1210C0,D43E4,dword_D43E4,data/lib/ea/ealib_60.asm,refset,0.8,referenced by the same 2 matched functions
+data,1213DC,D45D8,unk_D45D8,data/lib/ea/ealib_60.asm,refset,0.8,referenced by the same 2 matched functions
+data,121AD8,D41F4,dword_D41F4,data/lib/ea/ealib_60.asm,position,1.0,same fixup of __sys_fini_387_emulator
+data,121ADC,D41F8,word_D41F8,data/lib/ea/ealib_60.asm,position,1.0,same fixup of __sys_fini_387_emulator
+data,121AE0,D43F4,str_OpenhandleSFILEERROR,data/lib/ea/ealib_60.asm,string,1.0,'openhandle - %s FILE ERROR\r'
+data,121AFC,D4410,byte_D4410,data/lib/ea/ealib_60.asm,position,1.0,same fixup of openhandle
+data,121B24,D4438,dword_D4438,data/lib/ea/ealib_60.asm,position,1.0,same fixup of openhandle
+data,121B28,D443C,dword_D443C,data/lib/ea/ealib_60.asm,position,1.0,same fixup of openhandle
+data,121B2C,D4440,dword_D4440,data/lib/ea/ealib_60.asm,position,1.0,same fixup of openhandle
+data,121B30,D4444,dword_D4444,data/lib/ea/ealib_60.asm,position,1.0,same fixup of openhandle
+data,1228D0,D30A4,dword_D30A4,data/lib/ea/ealib_60.asm,refset,0.8,referenced by the same 7 matched functions
+data,1228F0,D30C4,dword_D30C4,data/lib/ea/ealib_60.asm,refset,0.8,referenced by the same 6 matched functions
+data,1228F4,D30C8,dword_D30C8,data/lib/ea/ealib_60.asm,refset,0.8,referenced by the same 7 matched functions
+data,1228F8,D30CC,dword_D30CC,data/lib/ea/ealib_60.asm,refset,0.8,referenced by the same 8 matched functions
+data,1228FC,D30D0,dword_D30D0,data/lib/ea/ealib_60.asm,refset,0.8,referenced by the same 11 matched functions
+data,122900,D30D4,dword_D30D4,data/lib/ea/ealib_60.asm,refset,0.8,referenced by the same 3 matched functions
+data,122930,D3104,dword_D3104,data/lib/ea/ealib_60.asm,refset,0.8,referenced by the same 6 matched functions
+data,123A8C,D86B8,dword_D86B8,data/lib/sound/sounddrv_69.asm,position,1.0,same fixup of sub_B72D4
+data,123A90,D86BC,dword_D86BC,data/lib/sound/sounddrv_69.asm,position,1.0,same fixup of sub_B72D4
+data,123DF4,D4D18,unk_D4D18,data/lib/watcom/watcom_62.asm,position,1.0,same fixup of __allocfp_
+data,123E0E,D4D32,unk_D4D32,data/lib/watcom/watcom_62.asm,position,1.0,same fixup of printf_
+data,123E35,D4D59,byte_D4D59,data/lib/watcom/watcom_62.asm,position,1.0,same fixup of __InitFiles_
+data,123E76,D4D9A,unk_D4D9A,data/lib/watcom/watcom_62.asm,position,1.0,same fixup of docloseall_
+data,123FFC,D4F20,unk_D4F20,data/lib/watcom/watcom_62.asm,position,1.0,same fixup of __allocfp_
+data,123FFD,D4F21,dword_D4F21,data/lib/watcom/watcom_62.asm,position,1.0,same fixup of __open_flags_
+data,124008,D2F68,off_D2F68,data/lib/ea/ealib_60.asm,position,1.0,same fixup of exit_
+data,12400C,D2F6C,off_D2F6C,data/lib/ea/ealib_60.asm,position,1.0,same fixup of exit_
+data,12401C,D4F54,byte_D4F54,data/lib/watcom/watcom_62.asm,refset,0.8,referenced by the same 3 matched functions
+data,124120,D5008,dword_D5008,data/lib/ea/ealib_63.asm,position,1.0,same fixup of sopen_
+data,124124,D500C,dword_D500C,data/lib/ea/ealib_63.asm,position,1.0,same fixup of __IOMode_
+data,124178,D5060,dword_D5060,data/lib/ea/ealib_63.asm,position,1.0,same fixup of __IOMode_
+data,1243FC,D4CD8,dword_D4CD8,data/lib/sound/eacsndf_61.asm,position,1.0,same fixup of __LastFree_
+data,124408,D4CE4,word_D4CE4,data/lib/sound/eacsndf_61.asm,refset,0.8,referenced by the same 2 matched functions
+data,12440C,D4CE8,dword_D4CE8,data/lib/sound/eacsndf_61.asm,refset,0.8,referenced by the same 2 matched functions
+data,124410,D4CEC,dword_D4CEC,data/lib/sound/eacsndf_61.asm,position,1.0,same fixup of __brk_
+data,12441C,D4CF8,dword_D4CF8,data/lib/sound/eacsndf_61.asm,position,1.0,same fixup of getche_
+data,12442A,D4D06,byte_D4D06,data/lib/sound/eacsndf_61.asm,position,1.0,same fixup of sub_90BEC
+data,12442B,D4D07,byte_D4D07,data/lib/sound/eacsndf_61.asm,position,1.0,same fixup of __HeapManager_expand_
+data,12442C,D4D08,byte_D4D08,data/lib/sound/eacsndf_61.asm,position,1.0,same fixup of __LastFree_
+data,12442D,D4D09,dword_D4D09,data/lib/sound/eacsndf_61.asm,position,1.0,same fixup of __setenvp_
+data,124431,D4D0D,word_D4D0D,data/lib/sound/eacsndf_61.asm,position,1.0,same fixup of __setenvp_
+data,124433,D4D0F,byte_D4D0F,data/lib/watcom/watcom_62.asm,refset,0.8,referenced by the same 2 matched functions
+data,124444,D4F2C,dword_D4F2C,data/lib/watcom/watcom_62.asm,position,1.0,same fixup of sub_B3E4A
+data,124448,D4F30,dword_D4F30,data/lib/watcom/watcom_62.asm,position,1.0,same fixup of sub_B3E4A
+data,12444C,D4F34,dword_D4F34,data/lib/watcom/watcom_62.asm,position,1.0,same fixup of sub_B3E4A
+data,124450,D4F38,dword_D4F38,data/lib/watcom/watcom_62.asm,position,1.0,same fixup of sub_B3E4A
+data,124454,D4F3C,dword_D4F3C,data/lib/watcom/watcom_62.asm,position,1.0,same fixup of sub_B3E4A
+data,124458,D4F40,dword_D4F40,data/lib/watcom/watcom_62.asm,position,1.0,same fixup of sub_B3E4A
+data,12445C,D4F44,byte_D4F44,data/lib/watcom/watcom_62.asm,position,1.0,same fixup of sub_B3E98
+data,12445D,D4F45,byte_D4F45,data/lib/watcom/watcom_62.asm,position,1.0,same fixup of sub_B3E98
+data,12445E,D4F46,word_D4F46,data/lib/watcom/watcom_62.asm,position,1.0,same fixup of sub_B3E98
+data,124460,D4F48,byte_D4F48,data/lib/watcom/watcom_62.asm,position,1.0,same fixup of sub_B3E98
+data,12487C,D5194,dword_D5194,data/lib/ea/ealib_63.asm,position,1.0,same fixup of sub_9D487
+data,1248BC,D51D4,dword_D51D4,data/lib/ea/ealib_63.asm,position,1.0,same fixup of sub_9D43A
+data,1248C0,D51D8,word_D51D8,data/lib/ea/ealib_63.asm,position,1.0,same fixup of sub_9D43A
+data,1248C2,D51DA,word_D51DA,data/lib/ea/ealib_63.asm,position,1.0,same fixup of __sys_fini_387_emulator
+data,1248C4,D51DC,byte_D51DC,data/lib/ea/ealib_63.asm,position,1.0,same fixup of __sys_fini_387_emulator
+data,14F09C,D5444,dword_D5444,data/lib/sound/sounddrv_64.asm,position,1.0,same fixup of getenv_
+data,14F0A0,D5448,dword_D5448,data/lib/sound/sounddrv_64.asm,position,1.0,same fixup of __setenvp_
+data,14F0A4,D5670,dword_D5670,data/lib/ea/ealib_65.asm,position,1.0,same fixup of __CreateNewNHeap_
+data,14F0A8,D5674,dword_D5674,data/lib/ea/ealib_65.asm,position,1.0,same fixup of __AdjustAmount_
+data,14FAA8,D5668,off_D5668,data/lib/ea/ealib_65.asm,position,1.0,same fixup of __setEFGfmt_
+data,14FAAC,D566C,off_D566C,data/lib/ea/ealib_65.asm,position,1.0,same fixup of __setEFGfmt_
+data,14FAB0,D544C,str_SHPI2,data/lib/ea/ealib_65.asm,string,1.0,'SHPI'
+data,14FADE,D2F46,str_StackOverflow,data/lib/ea/ealib_60.asm,string,1.0,'Stack Overflow!\r\n'
+data,14FC70,D65F8,byte_D65F8,data/lib/watcom/watcom_66.asm,position,1.0,same fixup of __hook387
+data,14FC71,D65F9,byte_D65F9,data/lib/watcom/watcom_66.asm,position,1.0,same fixup of __hook387
+data,14FC74,D65FC,word_D65FC,data/lib/watcom/watcom_66.asm,position,1.0,same fixup of __sys_init_387_emulator
+data,151328,D7A28,dword_D7A28,data/lib/sound/sounddrv_69.asm,refset,0.8,referenced by the same 2 matched functions
+data,15132C,D7A2C,byte_D7A2C,data/lib/sound/sounddrv_69.asm,refset,0.8,referenced by the same 2 matched functions
+data,15134C,D7AFC,dword_D7AFC,data/lib/sound/sounddrv_69.asm,position,1.0,same fixup of sub_AF198
+data,151358,D7B08,dword_D7B08,data/lib/sound/sounddrv_69.asm,position,1.0,same fixup of sub_AF198
+data,15139C,D457C,dword_D457C,data/lib/ea/ealib_60.asm,refset,0.8,referenced by the same 9 matched functions
+data,1513A0,D4580,dword_D4580,data/lib/ea/ealib_60.asm,refset,0.8,referenced by the same 3 matched functions
+data,1513A4,D4584,dword_D4584,data/lib/ea/ealib_60.asm,refset,0.8,referenced by the same 5 matched functions
+data,1513A8,D4588,dword_D4588,data/lib/ea/ealib_60.asm,refset,0.8,referenced by the same 2 matched functions
+data,1513AC,D458C,dword_D458C,data/lib/ea/ealib_60.asm,refset,0.8,referenced by the same 2 matched functions
+data,1513B8,D4590,dword_D4590,data/lib/ea/ealib_60.asm,refset,0.8,referenced by the same 3 matched functions
+data,15140C,D8760,word_D8760,data/lib/sound/sounddrv_69.asm,refset,0.8,referenced by the same 2 matched functions
+data,15140E,D8762,word_D8762,data/lib/sound/sounddrv_69.asm,position,1.0,same fixup of sub_B1680
+data,15141C,D8770,word_D8770,data/lib/sound/sounddrv_69.asm,refset,0.8,referenced by the same 3 matched functions
+data,15141E,D8772,word_D8772,data/lib/sound/sounddrv_69.asm,position,1.0,same fixup of sub_B16BC
+data,151420,D8774,word_D8774,data/lib/sound/sounddrv_69.asm,position,1.0,same fixup of sub_B1F9C
+data,151422,D8776,word_D8776,data/lib/sound/sounddrv_69.asm,position,1.0,same fixup of sub_B16BC
+data,151424,D8778,word_D8778,data/lib/sound/sounddrv_69.asm,position,1.0,same fixup of sub_B13A1
+data,151426,D877A,byte_D877A,data/lib/sound/sounddrv_69.asm,refset,0.8,referenced by the same 3 matched functions
+data,1514CC,D8788,word_D8788,data/lib/sound/sounddrv_69.asm,position,1.0,same fixup of sub_B121C
+data,1514E4,D87A8,dword_D87A8,data/lib/sound/sounddrv_69.asm,refset,0.8,referenced by the same 2 matched functions
+data,1514E8,D87AC,dword_D87AC,data/lib/sound/sounddrv_69.asm,refset,0.8,referenced by the same 2 matched functions
+data,1514EC,D87B0,dword_D87B0,data/lib/sound/sounddrv_69.asm,position,1.0,same fixup of sub_B16BC
+data,1514F0,D87B4,dword_D87B4,data/lib/sound/sounddrv_69.asm,position,1.0,same fixup of sub_B16BC
+data,1514F4,D87B8,dword_D87B8,data/lib/sound/sounddrv_69.asm,position,1.0,same fixup of sub_B16BC
+data,1514F8,D87BC,dword_D87BC,data/lib/sound/sounddrv_69.asm,position,1.0,same fixup of sub_B16BC
+data,1514FC,D87C0,dword_D87C0,data/lib/sound/sounddrv_69.asm,position,1.0,same fixup of sub_B16BC
+data,151500,D87C4,dword_D87C4,data/lib/sound/sounddrv_69.asm,position,1.0,same fixup of sub_B16BC
+data,151504,D87C8,dword_D87C8,data/lib/sound/sounddrv_69.asm,position,1.0,same fixup of sub_B16BC
+data,151508,D87CC,dword_D87CC,data/lib/sound/sounddrv_69.asm,position,1.0,same fixup of sub_B16BC
+data,151518,D8784,dword_D8784,data/lib/sound/sounddrv_69.asm,position,1.0,same fixup of sub_B0C5C
+data,15155A,D8AE4,byte_D8AE4,data/lib/sound/sounddrv_71.asm,position,1.0,same fixup of sub_B0C5C
+data,15155C,D8B14,unk_D8B14,data/lib/sound/sounddrv_71.asm,position,1.0,same fixup of __InitRtns
+data,151580,D8B3E,unk_D8B3E,data/lib/sound/sounddrv_71.asm,position,1.0,same fixup of __InitRtns
+data,15158C,D8B4A,unk_D8B4A,data/lib/sound/sounddrv_71.asm,position,1.0,same fixup of __FiniRtns
+data,151598,D8B68,kaufmfont,data/front/frontend_72.asm,position,1.0,same fixup of sub_B195C
+data,151B80,CBEC4,fadeinpending,data/engine/engine_35.asm,refset,0.8,referenced by the same 2 matched functions
+data,152FE8,D8C84,curperiod,data/front/frontend_72.asm,refset,0.8,referenced by the same 2 matched functions
+data,15718C,DB3A8,hmroster,data/engine/engine_77.asm,refset,0.8,referenced by the same 3 matched functions
+data,157192,DB3AE,hmrosterpos,data/engine/engine_77.asm,refset,0.8,referenced by the same 3 matched functions
+data,16479C,DF81C,SortCords,data/engine/engine_85.asm,refset,0.8,referenced by the same 10 matched functions
+data,1656D8,DF614,hmtmstruct,data/front/frontend_82.asm,refset,0.8,referenced by the same 21 matched functions
+data,165712,DF64C,hmtmgoalie,data/engine/engine_83.asm,refset,0.8,referenced by the same 3 matched functions
+data,16580E,DF714,awtmstruct,data/engine/engine_83.asm,refset,0.8,referenced by the same 19 matched functions
+data,165848,DF74C,awtmgoalie,data/engine/engine_83.asm,refset,0.8,referenced by the same 2 matched functions
+data,165944,E0384,PlList,data/engine/engine_85.asm,refset,0.8,referenced by the same 2 matched functions
+data,16594A,E038A,byte_E038A,data/engine/engine_85.asm,refset,0.8,referenced by the same 2 matched functions
+data,16595C,E03AC,regd2,data/engine/engine_85.asm,refset,0.8,referenced by the same 5 matched functions
+data,165960,E03B0,regd3,data/engine/engine_85.asm,refset,0.8,referenced by the same 6 matched functions
+data,165968,E03B8,regd5,data/engine/engine_85.asm,refset,0.8,referenced by the same 4 matched functions
+data,165970,E03A0,word_E03A0,data/engine/engine_85.asm,refset,0.8,referenced by the same 2 matched functions
+data,176B46,E9A7A,OOlistpos,data/engine/engine_87.asm,refset,0.8,referenced by the same 4 matched functions
+data,176B74,E9AA8,CwdExciteLvl,data/engine/engine_87.asm,refset,0.8,referenced by the same 2 matched functions
+data,176B82,E9ABA,PBnum,data/engine/engine_87.asm,refset,0.8,referenced by the same 2 matched functions
+data,176B86,E9AC2,lasttouch,data/engine/engine_87.asm,refset,0.8,referenced by the same 3 matched functions
+data,176B9B,E9AD3,goalevent,data/engine/engine_87.asm,refset,0.8,referenced by the same 3 matched functions
+data,176BA6,E9ADE,OOlist,data/engine/engine_87.asm,refset,0.8,referenced by the same 2 matched functions
+data,176BD4,E9B28,lastimpact,data/engine/engine_87.asm,refset,0.8,referenced by the same 2 matched functions
+data,176D70,E9DB4,defsort_d,data/engine/engine_87.asm,refset,0.8,referenced by the same 5 matched functions
+data,176DD4,E9E18,dressflags,data/engine/engine_87.asm,refset,0.8,referenced by the same 2 matched functions
+data,176E06,E9E4A,offsort_fwd,data/engine/engine_87.asm,refset,0.8,referenced by the same 6 matched functions
+data,176ED2,E9F16,dressedskaters,data/engine/engine_87.asm,refset,0.8,referenced by the same 2 matched functions
+data,17C9A0,C53FF,gameopts,data/front/frontend_16.asm,refset,0.8,referenced by the same 7 matched functions
+data,18566C,EDCDC,timercallbacks,data/lib/ea/ealib_92.asm,refset,0.8,referenced by the same 2 matched functions
+data,185734,EDAB0,dword_EDAB0,data/lib/ea/ealib_92.asm,position,1.0,same fixup of sub_8D2F0
+data,19BA3C,EDF00,dword_EDF00,data/lib/sound/eacsndf_93.asm,position,1.0,same fixup of __allocfp_
+data,19BA40,F24C8,dword_F24C8,data/lib/sound/eacsndf_101.asm,position,1.0,same fixup of fclose_
+data,19BA44,F24C4,byte_F24C4,data/lib/sound/eacsndf_101.asm,position,1.0,same fixup of __HeapManager_expand_
+data,19BA44,F243C,dword_F243C,data/lib/sound/eacsndf_101.asm,position,1.0,same fixup of _Full_at_exit_rtn_
+data,19BA45,F24C5,byte_F24C5,data/lib/sound/eacsndf_101.asm,position,1.0,same fixup of _nmalloc_
+data,19BA48,F2440,dword_F2440,data/lib/sound/eacsndf_101.asm,position,1.0,same fixup of atexit_
+data,19BAC8,F24C0,dword_F24C0,data/lib/sound/eacsndf_101.asm,position,1.0,same fixup of _Full_at_exit_rtn_
+data,1A1090,F58E0,dword_F58E0,data/lib/sound/sounddrv_102.asm,position,1.0,same fixup of RationalAlloc_
+data,1A1092,F58E2,word_F58E2,data/lib/sound/sounddrv_102.asm,position,1.0,same fixup of RationalAlloc_
+data,1A1104,F58E4,unk_F58E4,data/lib/sound/sounddrv_102.asm,position,1.0,same fixup of __hook387
+data,1A11BC,EDE60,dword_EDE60,data/lib/sound/eacsndf_93.asm,refset,0.8,referenced by the same 3 matched functions
+data,1A11C0,EDE64,dword_EDE64,data/lib/sound/eacsndf_93.asm,refset,0.8,referenced by the same 3 matched functions
+data,1A11C8,EDE6C,dword_EDE6C,data/lib/sound/eacsndf_93.asm,refset,0.8,referenced by the same 2 matched functions
+data,1A11CC,EDE70,dword_EDE70,data/lib/sound/eacsndf_93.asm,refset,0.8,referenced by the same 2 matched functions
+data,1A11D0,EDE74,dword_EDE74,data/lib/sound/eacsndf_93.asm,refset,0.8,referenced by the same 4 matched functions
+data,1A11DC,EDE80,dword_EDE80,data/lib/sound/eacsndf_93.asm,refset,0.8,referenced by the same 3 matched functions
+data,1A11E6,F799E,word_F799E,data/lib/sound/sounddrv_104.asm,position,1.0,same fixup of sub_B1256
+data,1A11E8,F79A0,word_F79A0,data/lib/sound/sounddrv_104.asm,refset,0.8,referenced by the same 2 matched functions
+data,1A11EA,F79A2,word_F79A2,data/lib/sound/sounddrv_104.asm,position,1.0,same fixup of sub_B121C
+data,1A11EC,F79A4,byte_F79A4,data/lib/sound/sounddrv_104.asm,position,1.0,same fixup of sub_B0C5C
+data,1A11ED,F79A5,byte_F79A5,data/lib/sound/sounddrv_104.asm,refset,0.8,referenced by the same 2 matched functions
+data,1A11EE,F79A6,byte_F79A6,data/lib/sound/sounddrv_104.asm,position,1.0,same fixup of sub_B0C5C
+data,1A11EF,F79A7,byte_F79A7,data/lib/sound/sounddrv_104.asm,position,1.0,same fixup of sub_B1680
+data,1A11F0,F79A8,byte_F79A8,data/lib/sound/sounddrv_104.asm,position,1.0,same fixup of sub_B1680
+data,1A11F8,F7978,unk_F7978,data/lib/sound/sounddrv_104.asm,position,1.0,same fixup of sub_B085C
+data,1A1228,F79D8,byte_F79D8,data/lib/sound/sounddrv_104.asm,position,1.0,same fixup of sub_B16BC

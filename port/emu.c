@@ -51,7 +51,7 @@ static int flagop_kind(const uint8_t *ip)
 }
 
 #define FLAGS_POPPED 0xCD5u                   /* CF PF AF ZF SF DF OF: what popf may change in a user process, besides IF */
-/* AC (bit 18) and ID (bit 21) are kept virtually like IF. The startup CPU check (sub_B32E0) toggles AC with pushf / popf to
+/* AC (bit 18) and ID (bit 21) are kept virtually like IF. The startup CPU check (DetectCPU) toggles AC with pushf / popf to
  * tell a 486 from a 386, then ID for CPUID; with them dropped it saw a 386 and refused to run ("requires at least a 486 CPU").
  * Setting the real AC would make misaligned accesses fault where the OS enables alignment checking, so it is never set. */
 #define FLAGS_VIRTUAL 0x240000u

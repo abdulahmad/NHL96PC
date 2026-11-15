@@ -6,19 +6,19 @@
  * steps since are played again (overbar/rollback.h: the game's memory and the game thread's stack). The session glue (Online page,
  * its settings file, waiting for the other machine) is Overbar's overbar/netgame.h. This file is NHL 96's part:
  *
- *   - Input records. The timer callback sub_16C4D pushes a record every 4 ticks into a ring of 5 (dword_1515D4, 0x12 bytes: the
- *     buttons of the 4 controller slots, then the ticks since the last record), and the game loop sub_17025 takes them out
- *     (dword_114BA4 is the count): each record runs the simulation (sub_16F09) for that many ticks, then the loop draws a frame. In
+ *   - Input records. The timer callback InputRecordTimer pushes a record every 4 ticks into a ring of 5 (InputRecordRing, 0x12 bytes: the
+ *     buttons of the 4 controller slots, then the ticks since the last record), and the game loop GameLoop takes them out
+ *     (InputRecordCount is the count): each record runs the simulation (RunSimFrames) for that many ticks, then the loop draws a frame. In
  *     a session the callback does nothing, and the loop's "is there a record" (170A5) asks this file instead: once per pass of the
  *     loop it is one step of the session, with every machine's buttons (host: slot 0, guest: slot 1) and 4 ticks. That point is the
  *     resumable one: the states are taken there.
- *   - The game's clock (tickcount, dword_11F9A4), which the game reads all over (timers, the announcer, key repeat), counts 4 a
+ *   - The game's clock (tickcount, tickcount), which the game reads all over (timers, the announcer, key repeat), counts 4 a
  *     step in a session instead of the timer interrupt's ticks, so it is the same on both machines and goes back with a state.
- *   - What would open a local screen is left out in a session: the menus the loop opens (sub_6A7D3: the pre-game menu, pause,
- *     instant replay) and the hot keys read straight from the keyboard (sub_609C6). The game goes on.
- *   - Start: a new game (sub_17494 with eax < 0) on both machines, after the Online page's Host / Connect. The host's game set-up
- *     (the structure dword_17C9A0 points at: the teams, the controller slots), its options (dword_17CA20 .. 17CA75, dword_17C9A8)
- *     and both random seeds (EA's dword_117934 and the C library's) go to the guest; slot 0 plays the host's team, slot 1 the other,
+ *   - What would open a local screen is left out in a session: the menus the loop opens (RunInGameMenu: the pre-game menu, pause,
+ *     instant replay) and the hot keys read straight from the keyboard (ReadHotKeys). The game goes on.
+ *   - Start: a new game (PlayGame with eax < 0) on both machines, after the Online page's Host / Connect. The host's game set-up
+ *     (the structure gameopts points at: the teams, the controller slots), its options (optblock .. 17CA75, optflags)
+ *     and both random seeds (EA's seed and the C library's) go to the guest; slot 0 plays the host's team, slot 1 the other,
  *     each machine reads its own controller into its slot. Each machine's own set-up comes back when that game is over.
  * The hooks run in the game thread; the main thread polls the socket (netplay_main_poll). */
 #include "host.h"
@@ -40,31 +40,31 @@
 #endif
 
 /* ---- the game's code and data (original linear addresses, lst/HOCKEY.EXE.lst) ---- */
-#define O_PLAYGAME     0x17494u    /* sub_17494(eax): a game; eax < 0 a new one. push ebx, ecx, edx, esi; mov esi, eax (6 bytes) */
-#define O_AVAIL        0x170A5u    /* sub_17025: cmp dword_114BA4, 0 (7 bytes), then jz the drawing */
-#define O_AVAIL2       0x2DE99u    /* sub_2DE30, the same loop for a set time (dword_176BC8) before play: the line-up at a faceoff */
-#define O_SAMPLER      0x16C4Du    /* sub_16C4D, the record timer: push ebx, ecx, edx, esi, edi, ebp */
-#define O_READPADS     0x10AF1u    /* sub_10AF1: the controllers into the slot table */
-#define O_INITPADS     0x108BBu    /* sub_108BB: the slot table from the set-up */
-#define C_INITPADS     0x174FFu    /*   its call in sub_17494 */
-#define O_MENU         0x6A7D3u    /* sub_6A7D3: the menu dword_11D7A0 asks for */
+#define O_PLAYGAME     0x17494u    /* PlayGame(eax): a game; eax < 0 a new one. push ebx, ecx, edx, esi; mov esi, eax (6 bytes) */
+#define O_AVAIL        0x170A5u    /* GameLoop: cmp InputRecordCount, 0 (7 bytes), then jz the drawing */
+#define O_AVAIL2       0x2DE99u    /* sub_2DE30, the same loop for a set time (lineuptime) before play: the line-up at a faceoff */
+#define O_SAMPLER      0x16C4Du    /* InputRecordTimer, the record timer: push ebx, ecx, edx, esi, edi, ebp */
+#define O_READPADS     0x10AF1u    /* PollControllers: the controllers into the slot table */
+#define O_INITPADS     0x108BBu    /* InitSlotTable: the slot table from the set-up */
+#define C_INITPADS     0x174FFu    /*   its call in PlayGame */
+#define O_MENU         0x6A7D3u    /* RunInGameMenu: the menu InGameMenuRequest asks for */
 #define C_MENU1        0x175C4u    /*   before the first faceoff */
 #define C_MENU2        0x17255u    /*   in the loop */
-#define O_INTER        0x4B05Eu    /* sub_4B05E: the next period (period count, ends, stats): game logic, runs online as offline */
+#define O_INTER        0x4B05Eu    /* NextPeriod: the next period (period count, ends, stats): game logic, runs online as offline */
 #define C_INTER        0x1728Bu
-#define O_HOTKEYS      0x609C6u    /* sub_609C6: keys read straight from the keyboard */
+#define O_HOTKEYS      0x609C6u    /* ReadHotKeys: keys read straight from the keyboard */
 #define C_HOTKEYS      0x17201u
 #define O_OVER         0x62311u    /* sub_62311 */
 #define C_OVER         0x17324u    /*   the game is over */
-#define O_TICK_ISR     0xAA5D5u    /* sub_AA5C4: mov edx, tickcount / inc edx / mov ebx, 5 / mov tickcount, edx (18 bytes) */
+#define O_TICK_ISR     0xAA5D5u    /* TimerISR: mov edx, tickcount / inc edx / mov ebx, 5 / mov tickcount, edx (18 bytes) */
 #define O_CSEED_FN     0xB03F2u    /* mov eax, <the C library's rand state> / ret */
-#define D_EASEED       0x117934u   /* EA's random number state (sub_61A18) */
+#define D_EASEED       0x117934u   /* EA's random number state (randomd0) */
 #define D_QCOUNT       0x114BA4u
 #define D_QHEAD        0x114BA0u
 #define D_QRING        0x1515D4u
 #define D_PADTAB       0x1515B4u   /* 4 slots of 7 bytes: on, device (word: 1 none, 2 keys, 4.. sticks, 40h mouse), buttons */
 #define D_SETUP_PTR    0x17C9A0u   /* the game's set-up: +5+i slot i's team (0/1), +9+2i its device (1: nobody) */
-#define D_OPTS         0x17CA20u   /* the options (dword_17CA1C, the sound card, stays each machine's) */
+#define D_OPTS         0x17CA20u   /* the options (globalset, the sound card, stays each machine's) */
 #define D_OPTS_END     0x17CA75u
 #define D_OPTS2        0x17C9A8u
 #define D_MENUFLAG     0x11D7A0u
@@ -217,7 +217,7 @@ static void log_step(uint32_t cnt)
     if (nh_net) ob_net_status(nh_net, line, sizeof line);
     unlock();
     fprintf(stderr, "rollback: at %.1f s, step %u, period %d; %s; %s\n", plat_now_ns() / 1e9, (unsigned)cnt,
-            (int)*(volatile int16_t *)GAME_ADDR(0x1178FEu) + 1, ob_rollback_stats(nh_rb), line);   /* word_1178FE: the period, from 0 */
+            (int)*(volatile int16_t *)GAME_ADDR(0x1178FEu) + 1, ob_rollback_stats(nh_rb), line);   /* gsp: the period, from 0 */
     if (nh_regions_log) {
         uint64_t h[64];
         int n = ob_rollback_region_hashes(nh_rb, h, 64), i;
@@ -412,7 +412,7 @@ void nh_playgame_enter(int32_t which)
     if (ob_netgame_test()) fprintf(stderr, "online: session on, this machine plays slot %d (team %d, device %u)\n", nh_me, nh_me ? !theirs->host_team : (int)theirs->host_team, (unsigned)my_dev);
 }
 
-/* sub_108BB has made the slot table from the set-up: here only this machine's slot reads a controller, its own */
+/* InitSlotTable has made the slot table from the set-up: here only this machine's slot reads a controller, its own */
 void nh_initpads_after(void)
 {
     int i;
@@ -447,7 +447,7 @@ void nh_playgame_exit(void)
 void nh_menu_skip(void) { G32(D_MENUFLAG) = 0; }
 
 /* ---- the stubs ---- */
-__attribute__((naked)) static void pg_entry(void)        /* sub_17494(eax): around the whole game */
+__attribute__((naked)) static void pg_entry(void)        /* PlayGame(eax): around the whole game */
 {
     __asm__ volatile(
         "pushal\n\tpushl %eax\n\tcall " SYM("nh_playgame_enter") "\n\taddl $4, %esp\n\tpopal\n\t"
@@ -456,7 +456,7 @@ __attribute__((naked)) static void pg_entry(void)        /* sub_17494(eax): arou
         "2:\n\tpushal\n\tcall " SYM("nh_playgame_exit") "\n\tpopal\n\tret");
 }
 
-__attribute__((naked)) static void sit_entry(void)       /* sub_16C4D, the record timer: nothing in a session */
+__attribute__((naked)) static void sit_entry(void)       /* InputRecordTimer, the record timer: nothing in a session */
 {
     __asm__ volatile(
         "cmpl $0, " SYM("nh_sim") "\n\tjne 1f\n\t"
@@ -464,7 +464,7 @@ __attribute__((naked)) static void sit_entry(void)       /* sub_16C4D, the recor
         "1:\n\tret");
 }
 
-__attribute__((naked)) static void avail_stub(void)      /* replaces cmp dword_114BA4, 0: the flags as that would leave them */
+__attribute__((naked)) static void avail_stub(void)      /* replaces cmp InputRecordCount, 0: the flags as that would leave them */
 {
     __asm__ volatile(
         "pushal\n\tcall " SYM("nh_avail") "\n\tmovl %eax, " SYM("nh_avail_ret") "\n\tpopal\n\t"

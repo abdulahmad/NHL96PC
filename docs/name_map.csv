@@ -212,7 +212,7 @@ address,name,auto_name,source,confidence,evidence,file
 4A047,updateanim,sub_4A047,95PC,medium,"called from assonetimer, asspenshooter, updateplayers as NHL95PC updateanim; after updateplayers",src/engine/hockey/hockey.asm
 4A7C3,cleargamevars,sub_4A7C3,95PC,medium,"named references of NHL95PC cleargamevars (11 of 11), between updateplayers and setupice in both",src/engine/hockey/hockey.asm
 4A8A4,setupice,,95PC,medium,NHL95PC 5D7F7 (sem): C:586; D:16479C; D:1178C3; R:590,
-4A91D,clockcont_0,sub_4A91D,95PC,medium,"between setupice and ClockTick as in NHL95PC; IsCupClinched, ClearPenaltyBuffer, assinsert",src/engine/hockey/hockey.asm
+4A91D,clockcont,sub_4A91D,95PC,medium,"NHL94Genesis hockey94.asm clockcont (period clock events); between setupice and ClockTick as in NHL95PC; IsCupClinched, ClearPenaltyBuffer, assinsert",src/engine/hockey/hockey.asm
 4AE4F,ClockTick,sub_4AE4F,95PC,medium,"named references of NHL95PC ClockTick (7 of 7), between setupice and SetupTeamForIntermission in both",src/engine/hockey/hockey.asm
 4AF57,GameOver,sub_4AF57,95PC,high,"same body as NHL95PC GameOver, before SetExitGame and SetupTeamForIntermission",src/engine/hockey/hockey.asm
 4AF6B,SetExitGame,sub_4AF6B,95PC,high,"NHL95PC SetExitGame plus the menu request, before SetupTeamForIntermission",src/engine/hockey/hockey.asm

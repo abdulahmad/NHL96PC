@@ -19,10 +19,10 @@ extern dword_16593C, dword_16596C, dword_165978, dword_176BD8, dword_1797B4, dwo
 extern dword_17C9A8, energywarn, fadeinpending, fox, foy, gameclock, gameopts, gmode
 extern hmroster, hmtmgoalie, hmtmstruct, lastplayer, lasttouch, lcblink, lcboxon, lcline
 extern off_11786C, off_11787C, off_117888, off_11788C, off_117890, off_117894, off_117898, off_11789C
-extern off_1179C4, off_118F79, penshotlive, penshotmode, penshotplayer, penshotstart, penshottimer, puckvx
+extern asstab, off_118F79, penshotlive, penshotmode, penshotplayer, penshotstart, penshottimer, puckvx
 extern puckx, pucky, puckz, randomd0, regd2, regd3, sflags, shotongoal
 extern shotontarget, sub_1E33C, sub_23F05, sub_31BA9, sub_37ED0, sub_38F9F, sub_39847, sub_3A2F6
-extern sub_3A7A4, sub_3C692, sub_3E6D4, sub_41BFC, sub_44B99, sub_464A6, sub_4F452, sub_501EC
+extern sub_3A7A4, asspsclear, sub_3E6D4, sub_41BFC, sub_44B99, sub_464A6, sub_4F452, sub_501EC
 extern sub_51522, sub_51C45, sub_535D5, sub_53640, sub_606B9, sub_622CD, sub_67A63, sub_68D25
 extern sub_68E31, sub_69105, sub_69141, sub_69161, sub_6934E, sub_E14C8, threat, unk_117A9C
 extern unk_118FA5, unk_156E6C, unk_156FFC, unk_157AF8, unk_157B0A, unk_157B1C, unk_157B4F, unk_157B82
@@ -3630,7 +3630,7 @@ mov edx, 2Dh	; 4907E
 mov eax, ebx	; 49083
 call assreplace	; 49085
 mov eax, ebx	; 4908A
-call sub_3C692	; 4908C
+call asspsclear	; 4908C
 mov ax, word [byte ebx+02Ah]	; 49091
 mov word [byte ebx+026h], 64h	; 49095
 mov word [byte ebx+02h], ax	; 4909B
@@ -4621,7 +4621,7 @@ movsx edi, byte [byte edi+esi+01Eh]	; 49DC8
 test edi, edi	; 49DCD
 je short loc_49DDA	; 49DCF
 mov eax, esi	; 49DD1
-call dword [nosplit edi*4+off_1179C4]	; 49DD3
+call dword [nosplit edi*4+asstab]	; 49DD3
 loc_49DDA:
 movsx eax, word [dword esi+086h]	; 49DDA
 cmp eax, byte 0Ch	; 49DE1

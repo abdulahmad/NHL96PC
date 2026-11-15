@@ -14,7 +14,7 @@ extern dword_179DBD, dword_17CA20, energywarn, fadeinpending, fox, foy, gameopts
 extern hmroster, hmtmstruct, lasttouch, lcblink, off_11787C, off_117888, off_11788C, off_117890
 extern off_117894, off_11D44C, off_11D4BC, off_11D52C, puckx, pucky, qsort_, randomd0
 extern reenergizeteam, regd2, regd3, resetplstuff, setpersonel, sflags, sprintf_, sub_13338
-extern sub_1B05E, sub_1E33C, sub_1F300, sub_313D2, sub_31BA9, sub_3330A, sub_3509F, sub_354D0
+extern sub_1B05E, sub_1E33C, sub_1F300, sub_313D2, sub_31BA9, sub_3330A, sub_3509F, SkateToSpot
 extern sub_37ED0, sub_3E885, sub_464A6, sub_465BA, sub_493D4, sub_4A047, sub_4AF6B, sub_4B2C3
 extern sub_4B59F, sub_4C294, sub_4C3B7, sub_4C860, sub_4F452, sub_5439F, sub_5A572, sub_5BD7D
 extern sub_5DBC0, sub_606B9, sub_60777, sub_612BC, sub_62311, sub_63998, sub_63A5B, sub_63F79
@@ -80,10 +80,10 @@ global loc_30F76, loc_30FD0, loc_30FD3, loc_30FE3, loc_30FEF, loc_30FF4, loc_30F
 global loc_3103C, loc_31051, loc_31081, loc_3109E, loc_310B5, loc_310F0, loc_3110E, loc_3111A
 global loc_3111F, loc_311B8, loc_311D2, loc_311E4, loc_311F3, loc_31215, loc_3126E, loc_3129D
 global loc_312BD, loc_31313, loc_31346, loc_3139B, loc_313B2, loc_313CF, sub_2D9D9, sub_2DE30
-global sub_2E0C5, sub_2E127, sub_2E171, sub_2E1BE, sub_2E95C, sub_2EAEB, sub_2EDB1, sub_2EE07
-global sub_2F029, sub_2F3DF, sub_2F41D, sub_2F4E2, sub_2F763, sub_2F8BF, sub_2FB3D, sub_2FDE3
-global sub_2FF84, sub_30274, sub_30309, sub_30340, sub_30483, sub_305C2, sub_30873, sub_30A9B
-global sub_30CDA, sub_30E6B, sub_312D7
+global sub_2E0C5, sub_2E127, sub_2E171, sub_2E1BE, sub_2E95C, assintroline, sub_2EDB1, sub_2EE07
+global sub_2F029, sub_2F3DF, sub_2F41D, assboxenter, assbenchside, assstanley, sub_2FB3D, sub_2FDE3
+global sub_2FF84, sub_30274, sub_30309, sub_30340, assdefo, sub_305C2, sub_30873, assdefd
+global sub_30CDA, sub_30E6B, asswingd
 sub_2D9D9:
 push ebx	; 2D9D9
 push ecx	; 2D9DA
@@ -1341,7 +1341,7 @@ pop edx	; 2EAE7
 pop ecx	; 2EAE8
 pop ebx	; 2EAE9
 ret	; 2EAEA
-sub_2EAEB:
+assintroline:
 push ebx	; 2EAEB
 push ecx	; 2EAEC
 push edx	; 2EAED
@@ -1535,7 +1535,7 @@ ret	; 2ED5A
 loc_2ED5B:
 mov eax, ebx	; 2ED5B
 xor edx, edx	; 2ED5D
-call sub_354D0	; 2ED5F
+call SkateToSpot	; 2ED5F
 loc_2ED64:
 pop edx	; 2ED64
 pop ecx	; 2ED65
@@ -2181,7 +2181,7 @@ pop edx	; 2F4DE
 pop ecx	; 2F4DF
 pop ebx	; 2F4E0
 ret	; 2F4E1
-sub_2F4E2:
+assboxenter:
 push ebx	; 2F4E2
 push edx	; 2F4E3
 mov ebx, eax	; 2F4E4
@@ -2356,12 +2356,12 @@ mov ax, word [byte ebx+02Ch]	; 2F74D
 xor edx, edx	; 2F751
 mov word [word_165980], ax	; 2F753
 mov eax, ebx	; 2F759
-call sub_354D0	; 2F75B
+call SkateToSpot	; 2F75B
 loc_2F760:
 pop edx	; 2F760
 pop ebx	; 2F761
 ret	; 2F762
-sub_2F763:
+assbenchside:
 push ebx	; 2F763
 push edx	; 2F764
 mov ebx, eax	; 2F765
@@ -2474,7 +2474,7 @@ loc_2F8BC:
 pop edx	; 2F8BC
 pop ebx	; 2F8BD
 ret	; 2F8BE
-sub_2F8BF:
+assstanley:
 push ebx	; 2F8BF
 push ecx	; 2F8C0
 push edx	; 2F8C1
@@ -3421,7 +3421,7 @@ pop edx	; 3047F
 pop ecx	; 30480
 pop ebx	; 30481
 ret	; 30482
-sub_30483:
+assdefo:
 push ebx	; 30483
 push edx	; 30484
 mov ebx, eax	; 30485
@@ -3917,7 +3917,7 @@ pop edx	; 30A97
 pop ecx	; 30A98
 pop ebx	; 30A99
 ret	; 30A9A
-sub_30A9B:
+assdefd:
 push ebx	; 30A9B
 push ecx	; 30A9C
 push edx	; 30A9D
@@ -4544,7 +4544,7 @@ pop edx	; 312D3
 pop ecx	; 312D4
 pop ebx	; 312D5
 ret	; 312D6
-sub_312D7:
+asswingd:
 push ebx	; 312D7
 push edx	; 312D8
 mov ebx, eax	; 312D9

@@ -9,7 +9,7 @@ extern dword_119173, dword_1191C7, dword_1191D7, dword_1191E7, dword_1191EB, dwo
 extern dword_164744, dword_164748, dword_164750, dword_165254, dword_1797B4, gameclock, gameopts, gmode
 extern hmtmstruct, introskipped, lcblink, lcboxon, lcline, off_11787C, off_117888, off_11788C
 extern off_117898, off_11789C, passplayer, penshotlive, penshotmode, puckvx, puckx, pucky
-extern randomd0, regd2, regd3, setpersonel, sflags, skatetopuck, sub_3330A, sub_349D1
+extern randomd0, regd2, regd3, setpersonel, sflags, skatetopuck, sub_3330A, SetLCmode
 extern sub_3509F, sub_3E665, sub_3E6EC, sub_3F5E4, sub_406A0, sub_40B2A, sub_40C14, sub_4137F
 extern sub_415FF, sub_441EF, sub_442B3, sub_44418, sub_44609, sub_464A6, sub_46593, sub_4666C
 extern sub_4A047, sub_4B7BB, sub_4C860, sub_4DD1B, sub_4DE6E, sub_68E31, sub_69105, MouseRead
@@ -1830,7 +1830,7 @@ je short loc_394E8	; 394D1
 cmp dword [penshotlive], byte 0	; 394D3
 jne short loc_394E8	; 394DA
 mov eax, ebx	; 394DC
-call sub_349D1	; 394DE
+call SetLCmode	; 394DE
 pop edi	; 394E3
 pop esi	; 394E4
 pop ecx	; 394E5

@@ -3,13 +3,13 @@ bits 32
 %include "hockey.inc"
 section s_117938 progbits alloc noexec write align=1
 extern assbenchwait, assintrostand, asspassrec, assrefdrop, assrefgoalpa, assrefpenshot, assshoot, asstakeposition
-extern puckfaceoff, pucknorm, sub_2EAEB, sub_2F029, sub_2F4E2, sub_2F763, sub_2F8BF, sub_2FB3D
-extern sub_2FDE3, sub_2FF84, sub_30483, sub_305C2, sub_30A9B, sub_30CDA, sub_312D7, sub_31805
-extern sub_31958, sub_31A53, sub_31DBE, sub_327A2, sub_33478, sub_336BC, sub_3380F, sub_33A23
-extern sub_33C84, sub_33D20, sub_33EBF, sub_34300, sub_34335, sub_348F8, sub_35149, sub_35232
-extern sub_35A8D, sub_35CBC, sub_36924, sub_36925, sub_36D37, sub_37410, sub_37AA5, sub_3ABDF
-extern sub_3B847, sub_3C692, sub_3CF68, sub_3DEBB, sub_4331A
-global byte_117938, byte_117945, byte_11795B, byte_117968, byte_1179A1, byte_1179A5, byte_118E81, off_1179C4
+extern puckfaceoff, pucknorm, assintroline, sub_2F029, assboxenter, assbenchside, assstanley, sub_2FB3D
+extern sub_2FDE3, sub_2FF84, assdefo, sub_305C2, assdefd, sub_30CDA, asswingd, asswingo
+extern asscenterd, asscentero, asspuckc, assnearest, assscore, asseben, assleaveice, asspenalty
+extern assdopen, assepen, assbench, assfaceoff, assfaceoffpl, pucknothing, assrefatdot, assreffollow
+extern assrefwhistle, assrefsignal, rtss, assrefgoalline, asspenshooter, sub_37410, sub_37AA5, assleavebox
+extern puckfaceoff2, asspsclear, assgoalietopuck, assgoalie, puckshadow
+global byte_117938, byte_117945, byte_11795B, byte_117968, byte_1179A1, byte_1179A5, byte_118E81, asstab
 global penmintab, unk_117A9C, word_117AA2
 byte_117938:
 db 00h,0Ah,0Ah,03h,01h,00h,01h,01h,01h,0Ah,0Ah,04h,04h
@@ -30,54 +30,54 @@ db 00h,02h,02h,02h
 byte_1179A5:
 db 02h,00h,02h,04h,02h,06h,02h,02h,02h,02h,02h,02h,02h,02h,02h,02h
 db 02h,02h,02h,02h,02h,02h,02h,00h,02h,02h,02h,02h,00h,00h,00h
-off_1179C4:
-dd sub_36924
-dd sub_30483
-dd sub_30A9B
-dd sub_312D7
-dd sub_31805
-dd sub_31958
-dd sub_31A53
-dd sub_33478
-dd sub_2F8BF
-dd sub_336BC
-dd sub_33D20
-dd sub_33EBF
-dd sub_33A23
-dd sub_33C84
-dd sub_3DEBB
-dd sub_3CF68
-dd sub_31DBE
-dd sub_327A2
+asstab:
+dd rtss
+dd assdefo
+dd assdefd
+dd asswingd
+dd asswingo
+dd asscenterd
+dd asscentero
+dd assscore
+dd assstanley
+dd asseben
+dd assepen
+dd assbench
+dd asspenalty
+dd assdopen
+dd assgoalie
+dd assgoalietopuck
+dd asspuckc
+dd assnearest
 dd assshoot
 dd asspassrec
 dd sub_2F029
 dd sub_2F029
-dd sub_34300
-dd sub_34335
+dd assfaceoff
+dd assfaceoffpl
 dd pucknorm
-dd sub_4331A
-dd sub_348F8
+dd puckshadow
+dd pucknothing
 dd puckfaceoff
-dd sub_3B847
-dd sub_3380F
-dd sub_35149
-dd sub_35232
-dd sub_35CBC
+dd puckfaceoff2
+dd assleaveice
+dd assrefatdot
+dd assreffollow
+dd assrefsignal
 dd assrefgoalpa
 dd assrefdrop
-dd sub_36925
-dd sub_35A8D
+dd assrefgoalline
+dd assrefwhistle
 dd assintrostand
-dd sub_2EAEB
+dd assintroline
 dd asstakeposition
-dd sub_3ABDF
+dd assleavebox
 dd assbenchwait
-dd sub_2F4E2
-dd sub_2F763
+dd assboxenter
+dd assbenchside
 dd assrefpenshot
-dd sub_3C692
-dd sub_36D37
+dd asspsclear
+dd asspenshooter
 dd sub_30CDA
 dd sub_305C2
 dd sub_37410

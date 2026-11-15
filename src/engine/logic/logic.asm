@@ -14,7 +14,7 @@ extern foy, gameclock, gameopts, getlchoice, gmode, hmtmstruct, lasttouch, lcbli
 extern lcboxon, lcline, off_11787C, off_117888, off_11788C, off_117890, off_117894, passplayer
 extern penshotlive, penshotmode, penshotplayer, penshotstart, psendcount, puckvx, puckvz, puckx
 extern pucky, puckz, randomd0, regd2, regd3, sflags, shotongoal, skatetopuck
-extern sub_28459, sub_30309, sub_30340, sub_30873, sub_30E6B, sub_3DEBB, sub_3E885, sub_3F5E4
+extern sub_28459, sub_30309, sub_30340, sub_30873, sub_30E6B, assgoalie, sub_3E885, sub_3F5E4
 extern sub_3FF26, sub_402AD, sub_409D5, sub_41642, sub_441EF, sub_442B3, sub_44418, sub_44609
 extern sub_464A6, sub_465BA, sub_4666C, sub_4704A, sub_4812E, sub_481B1, sub_4A047, sub_4AF6B
 extern sub_4B4F3, sub_4B7BB, sub_4C294, sub_4C3B7, sub_4FB38, sub_501EC, sub_51C45, sub_68E21
@@ -74,7 +74,7 @@ global loc_33EBB, loc_33EFD, loc_33F08, loc_33F93, loc_33FBC, loc_33FC1, loc_33F
 global loc_34016, loc_34021, loc_34056, loc_34057, loc_3407E, loc_34083, loc_340B1, loc_340B6
 global loc_340C3, loc_3410C, loc_34111, loc_34129, loc_34162, loc_34166, loc_3416B, loc_34176
 global loc_341BA, loc_341E0, loc_34214, loc_34235, loc_34286, loc_34288, loc_34297, loc_342B8
-global loc_342BB, loc_342DE, loc_342E1, loc_342ED, loc_342F3, loc_34321, loc_34333, loc_34374
+global loc_342BB, loc_342DE, loc_342E1, loc_342ED, loc_342F3, assexit, loc_34333, loc_34374
 global loc_343BE, loc_343C4, loc_343D8, loc_34402, loc_3440D, loc_3442A, loc_34435, loc_3443E
 global loc_3444C, loc_3449D, loc_344B6, loc_344DA, loc_344E4, loc_34505, loc_3450A, loc_34513
 global loc_3451F, loc_34526, loc_3453A, loc_34541, loc_3454D, loc_34552, loc_34559, loc_3458B
@@ -150,11 +150,11 @@ global loc_37E1B, loc_37E34, loc_37E35, loc_37E50, loc_37E55, loc_37E64, loc_37E
 global loc_37E9A, loc_37E9F, loc_37EA4, loc_37EAB, loc_37ECC, loc_37EF5, loc_37EF8, loc_37EFF
 global loc_37F0E, loc_37F51, loc_37F5E, loc_37F83, loc_37FBC, loc_37FC3, loc_37FEF, loc_38011
 global loc_3801E, loc_3802D, loc_3803E, loc_38041, loc_3804F, pucknorm, pucknorm_body, sub_313D2
-global sub_31805, sub_31958, sub_31A53, sub_31BA9, sub_31C40, sub_31DBE, sub_32158, sub_324C8
-global sub_3251A, sub_327A2, sub_3330A, sub_33478, sub_336BC, sub_3380F, sub_33A23, sub_33C84
-global sub_33D20, sub_33EBF, sub_34300, sub_34335, sub_348F8, sub_349D1, sub_34A0C, sub_3509F
-global sub_350A5, sub_350D3, sub_35149, sub_35232, sub_354D0, sub_35951, sub_35A8D, sub_35CBC
-global sub_36924, sub_36925, sub_36BF8, sub_36D37, sub_36F55, sub_37410, sub_37AA5, sub_37ED0
+global asswingo, asscenterd, asscentero, sub_31BA9, sub_31C40, asspuckc, sub_32158, sub_324C8
+global sub_3251A, assnearest, sub_3330A, assscore, asseben, assleaveice, asspenalty, assdopen
+global assepen, assbench, assfaceoff, assfaceoffpl, pucknothing, SetLCmode, sub_34A0C, sub_3509F
+global sub_350A5, sub_350D3, assrefatdot, assreffollow, SkateToSpot, CrowdOnStoppage, assrefwhistle, assrefsignal
+global rtss, assrefgoalline, NextPathPoint, asspenshooter, sub_36F55, sub_37410, sub_37AA5, sub_37ED0
 sub_313D2:
 push ebx	; 313D2
 push ecx	; 313D3
@@ -502,7 +502,7 @@ mov eax, 0FFFFFE84h	; 317F7
 loc_317FC:
 mov word [byte ebx+02Ch], ax	; 317FC
 jmp near loc_3668B	; 31800
-sub_31805:
+asswingo:
 push ebx	; 31805
 push edx	; 31806
 mov ebx, eax	; 31807
@@ -614,7 +614,7 @@ loc_31955:
 pop edx	; 31955
 pop ebx	; 31956
 ret	; 31957
-sub_31958:
+asscenterd:
 push ebx	; 31958
 push edx	; 31959
 mov ebx, eax	; 3195A
@@ -701,7 +701,7 @@ loc_31A50:
 pop edx	; 31A50
 pop ebx	; 31A51
 ret	; 31A52
-sub_31A53:
+asscentero:
 push ebx	; 31A53
 push edx	; 31A54
 mov ebx, eax	; 31A55
@@ -998,7 +998,7 @@ loc_31DB2:
 mov eax, ebx	; 31DB2
 call sub_31BA9	; 31DB4
 jmp near loc_3668C	; 31DB9
-sub_31DBE:
+asspuckc:
 push ebx	; 31DBE
 push ecx	; 31DBF
 push edx	; 31DC0
@@ -1811,7 +1811,7 @@ mov eax, 1	; 3279A
 pop esi	; 3279F
 pop ecx	; 327A0
 ret	; 327A1
-sub_327A2:
+assnearest:
 push ebx	; 327A2
 push ecx	; 327A3
 push edx	; 327A4
@@ -1852,7 +1852,7 @@ jne short loc_32897	; 3282B
 cmp word [byte esi+01Ah], byte 0	; 3282D
 jne short loc_32840	; 32832
 mov eax, esi	; 32834
-call sub_3DEBB	; 32836
+call assgoalie	; 32836
 jmp near loc_3668B	; 3283B
 loc_32840:
 mov al, byte [byte esi+044h]	; 32840
@@ -2833,7 +2833,7 @@ loc_3346C:
 mov eax, esi	; 3346C
 call sub_4B7BB	; 3346E
 jmp near loc_3668B	; 33473
-sub_33478:
+assscore:
 push ebx	; 33478
 push ecx	; 33479
 push edx	; 3347A
@@ -3005,7 +3005,7 @@ pop edx	; 336B8
 pop ecx	; 336B9
 pop ebx	; 336BA
 ret	; 336BB
-sub_336BC:
+asseben:
 push ebx	; 336BC
 push ecx	; 336BD
 push edx	; 336BE
@@ -3113,7 +3113,7 @@ pop edx	; 3380B
 pop ecx	; 3380C
 pop ebx	; 3380D
 ret	; 3380E
-sub_3380F:
+assleaveice:
 push ebx	; 3380F
 push edx	; 33810
 mov ebx, eax	; 33811
@@ -3280,7 +3280,7 @@ loc_33A20:
 pop edx	; 33A20
 pop ebx	; 33A21
 ret	; 33A22
-sub_33A23:
+asspenalty:
 push ebx	; 33A23
 push edx	; 33A24
 mov ebx, eax	; 33A25
@@ -3462,12 +3462,12 @@ mov ax, word [byte ebx+02Ch]	; 33C6E
 xor edx, edx	; 33C72
 mov word [word_165980], ax	; 33C74
 mov eax, ebx	; 33C7A
-call sub_354D0	; 33C7C
+call SkateToSpot	; 33C7C
 loc_33C81:
 pop edx	; 33C81
 pop ebx	; 33C82
 ret	; 33C83
-sub_33C84:
+assdopen:
 push ebx	; 33C84
 push edx	; 33C85
 mov ebx, eax	; 33C86
@@ -3523,7 +3523,7 @@ loc_33D1D:
 pop edx	; 33D1D
 pop ebx	; 33D1E
 ret	; 33D1F
-sub_33D20:
+assepen:
 push ebx	; 33D20
 push ecx	; 33D21
 push edx	; 33D22
@@ -3653,7 +3653,7 @@ pop edx	; 33EBB
 pop ecx	; 33EBC
 pop ebx	; 33EBD
 ret	; 33EBE
-sub_33EBF:
+assbench:
 push ebx	; 33EBF
 push ecx	; 33EC0
 push edx	; 33EC1
@@ -4020,7 +4020,7 @@ movsx edx, bx	; 342F3
 cmp edx, byte 6	; 342F6
 jl short loc_34297	; 342F9
 jmp near loc_32152	; 342FB
-sub_34300:
+assfaceoff:
 push edx	; 34300
 mov dl, byte [byte eax+044h]	; 34301
 and dl, 20h	; 34304
@@ -4033,7 +4033,7 @@ and dl, 1	; 34317
 movsx edx, dx	; 3431A
 test edx, edx	; 3431D
 jne short loc_34333	; 3431F
-loc_34321:
+assexit:
 mov dx, word [byte eax+01Ch]	; 34321
 inc edx	; 34325
 xor dh, dh	; 34326
@@ -4043,7 +4043,7 @@ mov word [byte eax+01Ch], dx	; 3432F
 loc_34333:
 pop edx	; 34333
 ret	; 34334
-sub_34335:
+assfaceoffpl:
 push ebx	; 34335
 push ecx	; 34336
 push edx	; 34337
@@ -4523,7 +4523,7 @@ loc_348F1:
 call pucknorm_body	; 348F1
 pop edx	; 348F6
 ret	; 348F7
-sub_348F8:
+pucknothing:
 push ebx	; 348F8
 push edx	; 348F9
 mov edx, eax	; 348FA
@@ -4582,7 +4582,7 @@ mov word [nosplit eax*2+lcboxon], 1	; 349C4
 pop edx	; 349CE
 pop ebx	; 349CF
 ret	; 349D0
-sub_349D1:
+SetLCmode:
 push ebx	; 349D1
 push edx	; 349D2
 mov edx, dword [gameopts]	; 349D3
@@ -5098,7 +5098,7 @@ pop ebx	; 3509D
 ret	; 3509E
 sub_3509F:
 push edx	; 3509F
-jmp near loc_34321	; 350A0
+jmp near assexit	; 350A0
 sub_350A5:
 push edx	; 350A5
 movsx edx, word [byte eax+03Ah]	; 350A6
@@ -5152,7 +5152,7 @@ mov word [word_1650A6], 1	; 3513D
 pop edx	; 35146
 pop ebx	; 35147
 ret	; 35148
-sub_35149:
+assrefatdot:
 push ebx	; 35149
 push edx	; 3514A
 mov ebx, eax	; 3514B
@@ -5223,7 +5223,7 @@ loc_3522F:
 pop edx	; 3522F
 pop ebx	; 35230
 ret	; 35231
-sub_35232:
+assreffollow:
 push ebx	; 35232
 push ecx	; 35233
 push edx	; 35234
@@ -5453,7 +5453,7 @@ pop edx	; 354CC
 pop ecx	; 354CD
 pop ebx	; 354CE
 ret	; 354CF
-sub_354D0:
+SkateToSpot:
 push ebx	; 354D0
 push ecx	; 354D1
 push esi	; 354D2
@@ -5834,7 +5834,7 @@ add eax, edx	; 35943
 and eax, byte 7	; 35945
 mov word [byte ebx+036h], ax	; 35948
 jmp near loc_31C3A	; 3594C
-sub_35951:
+CrowdOnStoppage:
 push ebx	; 35951
 push ecx	; 35952
 push edx	; 35953
@@ -5941,7 +5941,7 @@ pop edx	; 35A89
 pop ecx	; 35A8A
 pop ebx	; 35A8B
 ret	; 35A8C
-sub_35A8D:
+assrefwhistle:
 push ebx	; 35A8D
 push ecx	; 35A8E
 push edx	; 35A8F
@@ -6009,7 +6009,7 @@ and byte [byte ebx+044h], 0FDh	; 35B68
 cmp dword [byte ebx+076h], byte 0	; 35B6C
 jne short loc_35B7C	; 35B70
 call PenShotAssign	; 35B72
-call sub_35951	; 35B77
+call CrowdOnStoppage	; 35B77
 loc_35B7C:
 mov word [byte ebx+028h], 8	; 35B7C
 mov word [byte ebx+02Ch], 0	; 35B82
@@ -6092,14 +6092,14 @@ mov ax, word [byte ebx+02Ch]	; 35CA4
 xor edx, edx	; 35CA8
 mov word [word_165980], ax	; 35CAA
 mov eax, ebx	; 35CB0
-call sub_354D0	; 35CB2
+call SkateToSpot	; 35CB2
 loc_35CB7:
 leave	; 35CB7
 pop edx	; 35CB8
 pop ecx	; 35CB9
 pop ebx	; 35CBA
 ret	; 35CBB
-sub_35CBC:
+assrefsignal:
 push ebx	; 35CBC
 push edx	; 35CBD
 mov ebx, eax	; 35CBE
@@ -6213,7 +6213,7 @@ mov ax, word [byte ebx+02Ch]	; 35E37
 xor edx, edx	; 35E3B
 mov word [word_165980], ax	; 35E3D
 mov eax, ebx	; 35E43
-call sub_354D0	; 35E45
+call SkateToSpot	; 35E45
 loc_35E4A:
 pop edx	; 35E4A
 pop ebx	; 35E4B
@@ -6421,7 +6421,7 @@ mov word [byte ebx+032h], 0	; 3614B
 mov eax, ebx	; 36151
 or byte [byte ebx+045h], 20h	; 36153
 call sub_464A6	; 36157
-call sub_35951	; 3615C
+call CrowdOnStoppage	; 3615C
 movsx eax, word [word_11910B]	; 36161
 cmp eax, 100h	; 36168
 jne short loc_36178	; 3616D
@@ -6827,7 +6827,7 @@ xor edx, edx	; 3667C
 mov word [word_165980], ax	; 3667E
 mov eax, ebx	; 36684
 loc_36686:
-call sub_354D0	; 36686
+call SkateToSpot	; 36686
 loc_3668B:
 leave	; 3668B
 loc_3668C:
@@ -7028,14 +7028,14 @@ mov ax, word [byte ebx+02Ch]	; 3690E
 xor edx, edx	; 36912
 mov word [word_165980], ax	; 36914
 mov eax, ebx	; 3691A
-call sub_354D0	; 3691C
+call SkateToSpot	; 3691C
 loc_36921:
 pop edx	; 36921
 pop ecx	; 36922
 pop ebx	; 36923
-sub_36924:
+rtss:
 ret	; 36924
-sub_36925:
+assrefgoalline:
 push ebx	; 36925
 push ecx	; 36926
 push edx	; 36927
@@ -7276,7 +7276,7 @@ xor edx, edx	; 36BE9
 mov word [word_165980], ax	; 36BEB
 mov eax, esi	; 36BF1
 jmp near loc_36686	; 36BF3
-sub_36BF8:
+NextPathPoint:
 push edx	; 36BF8
 imul edx, dword [dword_1191BB], byte 3	; 36BF9
 mov eax, dword [nosplit edx*4+str_wildcard]	; 36C00
@@ -7372,7 +7372,7 @@ mov dword [dword_1191AF], edx	; 36D29
 mov dword [dword_1191BF], edx	; 36D2F
 pop ebx	; 36D35
 ret	; 36D36
-sub_36D37:
+asspenshooter:
 push ebx	; 36D37
 push ecx	; 36D38
 push edx	; 36D39
@@ -7523,7 +7523,7 @@ ret	; 36F02
 loc_36F03:
 cmp ecx, dword [dword_1191B7]	; 36F03
 jl short loc_36F19	; 36F09
-call sub_36BF8	; 36F0B
+call NextPathPoint	; 36F0B
 movsx eax, word [byte ebx+036h]	; 36F10
 mov dword [dword_1191C3], eax	; 36F14
 loc_36F19:

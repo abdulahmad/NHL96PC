@@ -12,19 +12,52 @@ address,name,auto_name,source,confidence,evidence,file
 1DA02,ResetGameVars,,95PC,medium,NHL95PC 14056 (sem): D:1191A3; D:1178AA; D:11919B; D:11917B,
 1DF7D,FileReadAt,,95PC,medium,NHL95PC 145A2 (sem): C:1414; C:1334; R:201; R:199,
 2EA39,assintrostand,,95PC,medium,NHL95PC 4842A (sem): C:428; C:809,
+2EAEB,assintroline,sub_2EAEB,95PC,high,"asstab entry 38, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/engine_2D9D9.asm
 2ED68,AddStar,,95PC,medium,NHL95PC 48789 (similar): mnemonic similarity 0.84 over 28 instructions,
 2F02A,PickThreeStars,,95PC,medium,NHL95PC 48AC8 (sem): D:176B86; C:1339; D:152FE8; D:17C9A0,
+2F4E2,assboxenter,sub_2F4E2,95PC,high,"asstab entry 42, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/engine_2D9D9.asm
+2F763,assbenchside,sub_2F763,95PC,high,"asstab entry 43, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/engine_2D9D9.asm
+2F8BF,assstanley,sub_2F8BF,95PC,high,"asstab entry 8, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/engine_2D9D9.asm
+30483,assdefo,sub_30483,95PC,high,"asstab entry 1, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/engine_2D9D9.asm
+30A9B,assdefd,sub_30A9B,95PC,high,"asstab entry 2, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/engine_2D9D9.asm
+312D7,asswingd,sub_312D7,95PC,high,"asstab entry 3, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/engine_2D9D9.asm
+31805,asswingo,sub_31805,95PC,high,"asstab entry 4, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
+31958,asscenterd,sub_31958,95PC,high,"asstab entry 5, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
+31A53,asscentero,sub_31A53,95PC,high,"asstab entry 6, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
+31DBE,asspuckc,sub_31DBE,95PC,high,"asstab entry 16, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
+327A2,assnearest,sub_327A2,95PC,high,"asstab entry 17, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
 33214,assshoot,,95PC,medium,NHL95PC 4D3F8 (sem): D:16595C; D:1178C4; C:809; K:12C,
+33478,assscore,sub_33478,95PC,high,"asstab entry 7, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
+336BC,asseben,sub_336BC,95PC,high,"asstab entry 9, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
+3380F,assleaveice,sub_3380F,95PC,high,"asstab entry 29, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
+33A23,asspenalty,sub_33A23,95PC,high,"asstab entry 12, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
+33C84,assdopen,sub_33C84,95PC,high,"asstab entry 13, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
+33D20,assepen,sub_33D20,95PC,high,"asstab entry 10, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
+33EBF,assbench,sub_33EBF,95PC,high,"asstab entry 11, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
+34300,assfaceoff,sub_34300,95PC,high,"asstab entry 22, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
+34335,assfaceoffpl,sub_34335,95PC,high,"asstab entry 23, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
 345B1,pucknorm_body,,95PC,medium,NHL95PC 4D6B4 (sem): C:518; C:519; C:499; D:1191A7,
 348C9,pucknorm,,95PC,medium,NHL95PC 4D8C7 (sem): C:397,
+348F8,pucknothing,sub_348F8,95PC,high,"asstab entry 26, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
 3492A,RequestLineChange,,95PC,medium,NHL95PC 4D938 (sem): D:118EA1; D:118EB5; D:16580E; D:1656D8,
+349D1,SetLCmode,sub_349D1,95PC,medium,"follows RequestLineChange as in NHL95PC, same size and the same single call",src/engine/logic/logic.asm
 34A8B,Endfaceoff,,95PC,medium,NHL95PC 4DA7B (sem): K:FFFFFB00; K:500; C:809; K:800,
 34D49,a2offsides,,95PC,medium,NHL95PC 4DCDD (sem): D:11919B; D:1191A7; D:117878; D:17C9A0,
 34DD3,ChkTwoLinePass,,95PC,medium,NHL95PC 4DD51 (sem): D:176B86; D:117878; D:17C9A0; D:1178C3,
 34EA6,a2touchpuck,,95PC,medium,NHL95PC 4DE14 (sem): C:405; C:404; C:647; D:176B86,
+35149,assrefatdot,sub_35149,95PC,high,"asstab entry 30, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
+35232,assreffollow,sub_35232,95PC,high,"asstab entry 31, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
+354D0,SkateToSpot,sub_354D0,95PC,high,"the routine after assreffollow, as in NHL95PC logic.asm; the referee assignments call it; called from assintroline, assboxenter, assrefsignal, assrefwhistle as in NHL95PC",src/engine/logic/logic.asm
+35951,CrowdOnStoppage,sub_35951,95PC,high,"the routine between SkateToSpot and assrefwhistle, as in NHL95PC logic.asm; called from assrefwhistle as in NHL95PC",src/engine/logic/logic.asm
+35A8D,assrefwhistle,sub_35A8D,95PC,high,"asstab entry 36, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
+35CBC,assrefsignal,sub_35CBC,95PC,high,"asstab entry 32, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
 35E4D,assrefgoalpa,,95PC,medium,NHL95PC 4ED7C (sem): C:461; D:117884; D:117880; D:117874,
 36692,assrefdrop,,95PC,medium,NHL95PC 4F5BF (sem): D:117884; D:117880; D:119197; D:117874,
+36924,rtss,sub_36924,95PC,high,"asstab entry 0, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
+36925,assrefgoalline,sub_36925,95PC,high,"asstab entry 35, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
+36BF8,NextPathPoint,sub_36BF8,95PC,high,"the routine between assrefgoalline and StartShootoutPath, as in NHL95PC logic.asm; called only from asspenshooter as in NHL95PC",src/engine/logic/logic.asm
 36C3A,StartShootoutPath,,95PC,medium,NHL95PC 4F9EF (similar): mnemonic similarity 0.87 over 65 instructions,
+36D37,asspenshooter,sub_36D37,95PC,high,"asstab entry 46, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
 3804E,assreplace,,95PC,medium,NHL95PC 11FF4 (sem): R:517; R:668; R:470; R:539,
 3805F,assinsert,,95PC,medium,NHL95PC 12011 (sem): R:577; R:461; R:159; R:510,
 38070,lineinput,,95PC,medium,NHL95PC 4FD8E (sem): D:118EB5; D:16595C,
@@ -40,15 +73,20 @@ address,name,auto_name,source,confidence,evidence,file
 3A49C,ReassignCtlPlayer,,95PC,medium,NHL95PC 7CCE5 (sem): K:10000000; D:117870; D:117878; D:16479C,
 3AA02,PenShotAssign,,95PC,medium,NHL95PC 512A7 (sem): D:11919B; D:16479C; D:17C9A0,
 3ABAE,AllInPlace,,95PC,medium,NHL95PC 51440 (similar): mnemonic similarity 0.89 over 24 instructions,
+3ABDF,assleavebox,sub_3ABDF,95PC,high,"asstab entry 40, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/faceoff/faceoff.asm
 3AEBA,puckfaceoff,,95PC,medium,NHL95PC 516E1 (sem): C:603; D:11919B; D:117900; D:16595C,
+3B847,puckfaceoff2,sub_3B847,95PC,high,"asstab entry 28, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/faceoff/faceoff.asm
 3C19A,assbenchwait,,95PC,medium,NHL95PC 526ED (similar): mnemonic similarity 0.81 over 15 instructions,
 3C1D3,asstakeposition,,95PC,medium,NHL95PC 52720 (sem): C:622; D:16595C; C:810; K:FF9C,
 3C48C,check4bench,,95PC,medium,NHL95PC 52BB6 (sem): D:11919B; D:117900; D:1178C3,
+3C692,asspsclear,sub_3C692,95PC,high,"asstab entry 45, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/faceoff/faceoff.asm
 3C8D2,assrefpenshot,,95PC,medium,NHL95PC 52FB0 (sem): D:117884; D:117880; D:16595C; D:117870,
 3CBAF,PullGoalie,sub_3CBAF,new,medium,called per team from HandleSlotButtons on goalie pull bit; edits team struct (0x136 bytes),
 3CC6D,SetTeamGoalie,,95PC,medium,NHL95PC 672F9 (sem): D:165712; C:589; D:1656D8; D:1178C3,
 3CD4A,GoalieToPuckVec,,95PC,medium,NHL95PC 4B467 (similar): mnemonic similarity 0.84 over 42 instructions,
 3CE8D,AdjustFacingDirection,,95PC,medium,NHL95PC 4B4E9 (similar): mnemonic similarity 0.88 over 75 instructions,
+3CF68,assgoalietopuck,sub_3CF68,95PC,high,"asstab entry 15, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/faceoff/faceoff.asm
+3DEBB,assgoalie,sub_3DEBB,95PC,high,"asstab entry 14, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/faceoff/faceoff.asm
 3EA92,checkagr,,95PC,medium,NHL95PC 5369F (sem): D:117870; C:809; D:117878; D:1178C3,
 3EB84,FacingBoards,,95PC,medium,NHL95PC 5378D (similar): mnemonic similarity 0.88 over 54 instructions,
 3F7AC,SkillForAnim,,95PC,medium,"NHL95PC 54134 (neighbour): between checkgoalp and CheckBump, mnemonic similarity 0.83",
@@ -63,6 +101,7 @@ address,name,auto_name,source,confidence,evidence,file
 42DC4,Bcheck,,95PC,medium,NHL95PC 56A54 (sem): C:810; C:809; D:17C9A0; R:492,
 42EC3,holdcheck,,95PC,medium,"NHL95PC 56B79 (neighbour): between Bcheck and doshot, mnemonic similarity 0.79",
 43294,PuckIChk,,95PC,medium,"NHL95PC 56E52 (neighbour): between Bcheck and doshot, mnemonic similarity 0.78",
+4331A,puckshadow,sub_4331A,95PC,high,"asstab entry 25, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/collide/collide.asm
 44EF5,checkgoal,,95PC,medium,NHL95PC 584AA (sem): C:493; D:176B74; D:11916D; C:809,
 452BB,wallcoll,,95PC,medium,NHL95PC 587D3 (sem): D:119F94; C:668; K:FFFFFC00; K:FFFFFC7C,
 45E3D,checkcx,,95PC,medium,NHL95PC 58DC7 (sem): C:494; C:492; D:176BD4; C:810,
@@ -2206,6 +2245,7 @@ E0834,FatalError,,95PC,high,NHL95PC B2CD8 (callsite): called at the same place o
 1178F2,Pencntdwn,,95PC,medium,NHL95PC C90CE (refset): referenced by the same 5 matched functions,
 117900,gameclock,,95PC,medium,NHL95PC C90DC (refset): referenced by the same 4 matched functions,
 11797E,penmintab,,95PC,medium,NHL95PC C9123 (refset): referenced by the same 3 matched functions,
+1179C4,asstab,off_1179C4,95PC,high,"the assignment routine table: the routines already named sit at the same 14 indices as in NHL95PC asstab (assshoot 18, asspassrec 19, pucknorm 24, puckfaceoff 27 ...)",src/data/engine/penalty_data_01.asm
 118E9D,energywarn,,95PC,medium,NHL95PC CBC52 (refset): referenced by the same 3 matched functions,
 118EA1,lcblink,,95PC,medium,NHL95PC CBC56 (refset): referenced by the same 3 matched functions,
 118EAD,lcline,,95PC,medium,NHL95PC CBC62 (refset): referenced by the same 4 matched functions,

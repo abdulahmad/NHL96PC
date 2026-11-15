@@ -12,7 +12,7 @@ extern gmode, hmroster, hmtmgoalie, hmtmstruct, introskipped, lcblink, lcboxon, 
 extern off_11787C, off_117888, off_11788C, off_117890, off_117894, off_117898, off_11789C, passplayer
 extern penshotmode, penshotplayer, penshotstart, puckvx, puckvz, puckx, pucky, puckz
 extern randomd0, regd2, regd3, resetplstuff, setpersonel, sflags, shotongoal, shotontarget
-extern sub_23656, sub_28459, sub_34A0C, sub_3509F, sub_350A5, sub_354D0, sub_39936, sub_463AE
+extern sub_23656, sub_28459, sub_34A0C, sub_3509F, sub_350A5, SkateToSpot, sub_39936, sub_463AE
 extern sub_464A6, sub_46593, sub_465BA, sub_4666C, sub_4704A, sub_4812E, sub_481B1, sub_4A047
 extern sub_4A91D, sub_4AF6B, sub_4B145, sub_4B2C3, sub_4B7BB, sub_4C294, sub_4C3B7, sub_4C860
 extern sub_4CE07, sub_4D7F1, sub_501EC, sub_50CB5, sub_59A36, sub_68E31, sub_6934E, sub_E14C8
@@ -90,8 +90,8 @@ global loc_3E1B6, loc_3E201, loc_3E20D, loc_3E250, loc_3E255, loc_3E260, loc_3E2
 global loc_3E2C2, loc_3E2D1, loc_3E30C, loc_3E312, loc_3E31A, loc_3E33F, loc_3E34B, loc_3E3B4
 global loc_3E3BE, loc_3E405, loc_3E4E2, loc_3E4FB, loc_3E546, loc_3E549, loc_3E59C, loc_3E5C1
 global loc_3E5C4, loc_3E690, loc_3E695, loc_3E6CD, loc_3E6EA, puckfaceoff, sub_3A7A4, sub_3A829
-global sub_3A8BC, sub_3A925, sub_3ABDF, sub_3AE48, sub_3B3C7, sub_3B847, sub_3C692, sub_3CDBB
-global sub_3CF68, sub_3D0B5, sub_3D12A, sub_3D427, sub_3D7F2, sub_3D86D, sub_3DEBB, sub_3E665
+global sub_3A8BC, sub_3A925, assleavebox, sub_3AE48, sub_3B3C7, puckfaceoff2, asspsclear, sub_3CDBB
+global assgoalietopuck, sub_3D0B5, sub_3D12A, sub_3D427, sub_3D7F2, sub_3D86D, assgoalie, sub_3E665
 global sub_3E6D4
 sub_3A7A4:
 push ebx	; 3A7A4
@@ -456,7 +456,7 @@ mov eax, 1	; 3ABD7
 pop edx	; 3ABDC
 pop ebx	; 3ABDD
 ret	; 3ABDE
-sub_3ABDF:
+assleavebox:
 push ebx	; 3ABDF
 push edx	; 3ABE0
 mov ebx, eax	; 3ABE1
@@ -1353,7 +1353,7 @@ pop edx	; 3B843
 pop ecx	; 3B844
 pop ebx	; 3B845
 ret	; 3B846
-sub_3B847:
+puckfaceoff2:
 push ebx	; 3B847
 push ecx	; 3B848
 push edx	; 3B849
@@ -2164,7 +2164,7 @@ ret	; 3C47E
 loc_3C47F:
 mov eax, ebx	; 3C47F
 xor edx, edx	; 3C481
-call sub_354D0	; 3C483
+call SkateToSpot	; 3C483
 loc_3C488:
 pop edx	; 3C488
 pop ecx	; 3C489
@@ -2340,7 +2340,7 @@ mov eax, 1	; 3C68A
 pop edx	; 3C68F
 pop ebx	; 3C690
 ret	; 3C691
-sub_3C692:
+asspsclear:
 push ebx	; 3C692
 push edx	; 3C693
 mov ebx, eax	; 3C694
@@ -2736,7 +2736,7 @@ mov ax, word [byte ebx+02Ch]	; 3CB98
 xor edx, edx	; 3CB9C
 mov word [word_165980], ax	; 3CB9E
 mov eax, ebx	; 3CBA4
-call sub_354D0	; 3CBA6
+call SkateToSpot	; 3CBA6
 loc_3CBAB:
 pop edx	; 3CBAB
 pop ecx	; 3CBAC
@@ -3050,7 +3050,7 @@ pop esi	; 3CF64
 pop ecx	; 3CF65
 pop ebx	; 3CF66
 ret	; 3CF67
-sub_3CF68:
+assgoalietopuck:
 push ebx	; 3CF68
 push ecx	; 3CF69
 push edx	; 3CF6A
@@ -4293,7 +4293,7 @@ pop edx	; 3DEB7
 pop ecx	; 3DEB8
 pop ebx	; 3DEB9
 ret	; 3DEBA
-sub_3DEBB:
+assgoalie:
 push ebx	; 3DEBB
 push ecx	; 3DEBC
 push edx	; 3DEBD

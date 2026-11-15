@@ -150,7 +150,7 @@ global loc_4654C, loc_46557, loc_4656A, loc_46571, loc_4658A, loc_46590, loc_465
 global setInjuryType, sub_3E6EC, sub_3E819, sub_3E885, sub_3EC30, sub_3F212, sub_3F44A, sub_3F5E4
 global sub_3F825, sub_3F8F4, sub_3FF26, sub_400B1, sub_402AD, sub_40524, sub_406A0, sub_409D5
 global sub_40B2A, sub_40C14, sub_4137F, sub_41393, sub_41432, sub_415FF, sub_41642, sub_418E7
-global sub_41BFC, sub_41FDA, sub_4203B, sub_42072, sub_42342, sub_43026, sub_4331A, sub_4334D
+global sub_41BFC, sub_41FDA, sub_4203B, sub_42072, sub_42342, sub_43026, puckshadow, sub_4334D
 global sub_43605, sub_437EB, sub_43C7E, sub_441EF, sub_442B3, sub_44418, sub_444A7, sub_44609
 global sub_44B99, sub_44D62, sub_456AF, sub_458E4, sub_459B2, sub_45A31, sub_45B60, sub_463AE
 global sub_464A6, sub_46593, wallcoll
@@ -6412,7 +6412,7 @@ loc_43312:
 or byte [byte_176B84], 1	; 43312
 loc_43319:
 ret	; 43319
-sub_4331A:
+puckshadow:
 push edx	; 4331A
 movsx edx, word [byte eax+012h]	; 4331B
 cmp edx, 0ED9h	; 4331F

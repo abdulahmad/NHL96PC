@@ -18,6 +18,7 @@ global sub_DD724, SetClipWindow, sub_DD7B8, sub_DD800, sub_DD830, sub_DD87C, sub
 global sub_DD908, sub_DD920, sub_DD960, sub_DD975, sub_DD982, sub_DDA44, sub_DDB22, sub_DDB68
 global sub_DDBB4, sub_DDC2A, sub_DDE74, WaitRetrace, WaitRetraceEdges, SetCrtcStart, sub_DDF4F, ClearChain4
 global sub_DE01A, unk_DE06D
+global WaitDisplayRetrace
 sub_DD6C4:
 LD mov, edx, edi	; DD6C4
 LD mov, eax, esi	; DD6C6
@@ -879,6 +880,7 @@ loope loc_DDED1	; DDED8
 jecxz loc_DDEB1	; DDEDA
 mov dword [dword_123AC4], 186A0h	; DDEDC
 ret	; DDEE6
+WaitDisplayRetrace:
 mov dx, 3DAh	; DDEE7
 mov ecx, dword [dword_123AC4]	; DDEEB
 loc_DDEF1:

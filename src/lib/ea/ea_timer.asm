@@ -9,6 +9,7 @@ global InstallTimer, RestoreTimer, TimerISR, addtimer, loc_AA601, loc_AA609, loc
 global loc_AA638, loc_AA643, loc_AA656, loc_AA675, loc_AA67F, loc_AA691, loc_AA698, loc_AA6A2
 global loc_AA6E6, loc_AA72D, loc_AA7AD, loc_AA80B, loc_AA84F, loc_AA860, loc_AA884, loc_AA8AA
 global loc_AA8DF, loc_AA93E, loc_AA957, loc_AA978, loc_AA981, sub_AA664, sub_AA7E0, unk_AA7B0
+global TimerISR_tick
 TimerISR:
 pusha	; AA5C4
 push ds	; AA5C5
@@ -20,6 +21,7 @@ cld	; AA5CD
 call sub_B65D4	; AA5CE
 sti	; AA5D3
 cld	; AA5D4
+TimerISR_tick:
 mov edx, dword [tickcount]	; AA5D5
 inc edx	; AA5DB
 mov ebx, 5	; AA5DC

@@ -73,9 +73,9 @@ global loc_16D6D, loc_16D81, loc_16DAD, loc_16DBE, loc_16DCF, loc_16DFE, loc_16E
 global loc_16E53, loc_16E5F, loc_16E69, loc_16E79, loc_16E8A, loc_16E96, loc_16EA5, loc_16EB2
 global loc_16EC2, loc_16EDB, loc_16EF7, loc_16F03, loc_16F1B, loc_16F2C, loc_16F4A, loc_16F4F
 global loc_16F56, loc_16FA1, loc_16FE6, loc_17004, loc_1700C, loc_17033, loc_1703D, loc_1705D
-global loc_170A1, loc_170A5, loc_1717E, loc_171C1, loc_171EA, loc_17206, loc_1722D, loc_1725F
-global loc_172AF, loc_172B9, loc_172F7, loc_17324, loc_17368, loc_17384, loc_17394, loc_17441
-global loc_1744B, loc_174AE, loc_174C9, loc_174D4, loc_174FF, loc_175A2, loc_175AC, loc_175E9
+global loc_170A1, GameLoop_inputcheck, loc_1717E, loc_171C1, loc_171EA, loc_17206, loc_1722D, loc_1725F
+global loc_172AF, loc_172B9, loc_172F7, GameLoop_gameovercall, loc_17368, loc_17384, loc_17394, loc_17441
+global loc_1744B, loc_174AE, loc_174C9, loc_174D4, PlayGame_initslotscall, loc_175A2, loc_175AC, loc_175E9
 global loc_175F0, loc_17606, loc_17625, loc_1762F, loc_176A5, loc_176AE, loc_17731, loc_17739
 global loc_1774E, loc_17780, loc_17795, loc_177AD, loc_177B4, loc_177CC, loc_177F0, loc_17831
 global loc_17836, loc_17884, loc_178E0, loc_178E4, loc_17902, loc_17917, loc_17951, loc_17967
@@ -96,6 +96,10 @@ global sub_1779C, sub_1780A, sub_17887, sub_178C0, sub_17906, sub_17A32, sub_17A
 global sub_17B9A, sub_17BFC, sub_17C02, sub_17C68, sub_17CC8, sub_17E8C, sub_17EE1, sub_17F4E
 global sub_1802B, sub_1803B, sub_1804B, sub_1807B, sub_1808F, sub_18090, sub_180DC, sub_1812E
 global sub_18165, sub_18186, sub_18234, sub_1830D, sub_1832F, sub_183CD, sub_18540
+global PlayGame_menucall
+global GameLoop_menucall
+global GameLoop_nextperiodcall
+global GameLoop_hotkeyscall
 sub_1456D:
 push ebx	; 1456D
 push ecx	; 1456E
@@ -2977,9 +2981,9 @@ loc_17033:
 mov dword [GameLoopActive], 1	; 17033
 loc_1703D:
 cmp word [word_118E93], byte 0	; 1703D
-jne near loc_17324	; 17045
+jne near GameLoop_gameovercall	; 17045
 cmp dword [dword_1150FC], byte 0	; 1704B
-jne near loc_17324	; 17052
+jne near GameLoop_gameovercall	; 17052
 call sub_5AF42	; 17058
 loc_1705D:
 cmp word [word_118E91], byte 0	; 1705D
@@ -2997,7 +3001,7 @@ call sub_69312	; 1709C
 loc_170A1:
 xor ebx, ebx	; 170A1
 xor esi, esi	; 170A3
-loc_170A5:
+GameLoop_inputcheck:
 cmp dword [InputRecordCount], byte 0	; 170A5
 je near loc_1717E	; 170AC
 cmp dword [InGameMenuRequest], byte 0	; 170B2
@@ -3032,13 +3036,13 @@ call RunSimFrames	; 1714A
 mov eax, ebx	; 1714F
 sub eax, esi	; 17151
 cmp eax, byte 3	; 17153
-jle near loc_170A5	; 17156
+jle near GameLoop_inputcheck	; 17156
 mov ecx, dword [GameLoopActive]	; 1715C
 mov esi, ebx	; 17162
 mov dword [GameLoopActive], 0	; 17164
 call sub_69A9B	; 1716E
 mov dword [GameLoopActive], ecx	; 17173
-jmp near loc_170A5	; 17179
+jmp near GameLoop_inputcheck	; 17179
 loc_1717E:
 call sub_4B59F	; 1717E
 mov eax, ebx	; 17183
@@ -3069,6 +3073,7 @@ mov eax, ebx	; 171F3
 call sub_612BC	; 171F5
 mov eax, ebx	; 171FA
 call sub_5A572	; 171FC
+GameLoop_hotkeyscall:
 call ReadHotKeys	; 17201
 loc_17206:
 cmp dword [fadeinpending], byte 0	; 17206
@@ -3086,6 +3091,7 @@ cmp word [word_118E91], byte 0	; 1723A
 jne near loc_1705D	; 17242
 cmp dword [DemoMode], byte 0	; 17248
 jne near loc_1705D	; 1724F
+GameLoop_menucall:
 call RunInGameMenu	; 17255
 jmp near loc_1705D	; 1725A
 loc_1725F:
@@ -3099,6 +3105,7 @@ setne al	; 17281
 movzx eax, al	; 17284
 test eax, eax	; 17287
 je short loc_172F7	; 17289
+GameLoop_nextperiodcall:
 call NextPeriod	; 1728B
 cmp word [word_118E93], byte 0	; 17290
 jne short loc_172AF	; 17298
@@ -3125,7 +3132,7 @@ cmp dword [dword_1150FC], byte 2	; 17308
 je near loc_1703D	; 1730F
 mov dword [dword_1150FC], 1	; 17315
 jmp near loc_1703D	; 1731F
-loc_17324:
+GameLoop_gameovercall:
 call sub_62311	; 17324
 mov eax, 50h	; 17329
 mov dword [GameLoopActive], 0	; 1732E
@@ -3225,7 +3232,7 @@ test eax, eax	; 1749A
 jl short loc_174AE	; 1749C
 call sub_4E6C3	; 1749E
 test eax, eax	; 174A3
-je short loc_174FF	; 174A5
+je short PlayGame_initslotscall	; 174A5
 xor eax, eax	; 174A7
 pop esi	; 174A9
 pop edx	; 174AA
@@ -3256,7 +3263,7 @@ shr eax, 1Bh	; 174EB
 add edx, eax	; 174EE
 mov word [word_114F14], 0	; 174F0
 add dword [seed], edx	; 174F9
-loc_174FF:
+PlayGame_initslotscall:
 call InitSlotTable	; 174FF
 call sub_1D6C1	; 17504
 mov eax, unk_16443C	; 17509
@@ -3298,6 +3305,7 @@ loc_175AC:
 mov dword [dword_1150FC], 0	; 175AC
 mov word [word_114F14], 1	; 175B6
 call sub_5AF42	; 175BF
+PlayGame_menucall:
 call RunInGameMenu	; 175C4
 cmp dword [dword_1150FC], byte 0	; 175C9
 jne short loc_175F0	; 175D0

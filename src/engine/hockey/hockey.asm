@@ -21,7 +21,7 @@ extern hmroster, hmtmgoalie, hmtmstruct, lastplayer, lasttouch, lcblink, lcboxon
 extern off_11786C, off_11787C, puckc, off_11788C, off_117890, off_117894, off_117898, off_11789C
 extern asstab, off_118F79, penshotlive, penshotmode, penshotplayer, penshotstart, penshottimer, puckvx
 extern puckx, pucky, puckz, randomd0, regd2, regd3, sflags, shotongoal
-extern shotontarget, IsCupClinched, sub_23F05, sub_31BA9, sub_37ED0, sub_38F9F, sub_39847, sub_3A2F6
+extern shotontarget, IsCupClinched, sub_23F05, sub_31BA9, sub_37ED0, doinput, sub_39847, sub_3A2F6
 extern sub_3A7A4, asspsclear, sub_3E6D4, ChkShotStat, checkcoll, SetSPA, sub_4F452, AddPenalty2
 extern PenGoalStuff, EndPenaltyShot, sub_535D5, sub_53640, CloseTextOverlay, sub_622CD, sub_67A63, sub_68D25
 extern sub_68E31, sfx, sub_69141, sub_69161, sub_6934E, vecdist, threat, unk_117A9C
@@ -128,14 +128,14 @@ global loc_4B465, loc_4B46A, loc_4B49B, loc_4B4B0, loc_4B4DF, loc_4B4EC, loc_4B5
 global loc_4B57F, loc_4B596, loc_4B5D5, loc_4B5E5, loc_4B604, loc_4B60B, loc_4B62C, loc_4B651
 global loc_4B663, loc_4B67D, loc_4B69C, loc_4B6CD, loc_4B6E0, loc_4B716, loc_4B728, loc_4B72B
 global loc_4B735, loc_4B73F, loc_4B744, loc_4B780, loc_4B784, loc_4B793, loc_4B797, loc_4B7AB
-global loc_4B7B3, reenergizeteam, resetplstuff, setpersonel, setupice, sub_465BA, changeplayer, restorepl
-global AvgCline, sub_46A6F, getlinee, sub_46FA3, GetHot, GetHotStick, sub_4711E, SetCoachMode
-global PenTeamScored, sub_47813, Goal, sub_4806A, Setplass, setplayer, restoreteams, GetPeriodTime
+global loc_4B7B3, reenergizeteam, resetplstuff, setpersonel, setupice, SprSort, changeplayer, restorepl
+global AvgCline, sub_46A6F, getlinee, sub_46FA3, GetHot, GetHotStick, GetHotOrStick, SetCoachMode
+global PenTeamScored, sub_47813, Goal, GiveControl, Setplass, setplayer, restoreteams, GetPeriodTime
 global ResetClock, sub_489CF, sub_48A4D, defaultsprites_0, sub_49300, sub_493D4, sub_494F7, checkwindow
-global RestoreBenchEnergy, periodicevents, sub_497A7, updateplayers, sub_4A047, cleargamevars, clockcont_0, ClockTick
+global RestoreBenchEnergy, periodicevents, sub_497A7, updateplayers, updateanim, cleargamevars, clockcont_0, ClockTick
 global GameOver, SetExitGame, Intermission, PeriodOver, ResetBench, StartGame, forcepldata, sub_4B38C
 global sub_4B4F3, sub_4B59F, sub_4B748
-sub_465BA:
+SprSort:
 push ebx	; 465BA
 push ecx	; 465BB
 push edx	; 465BC
@@ -1140,7 +1140,7 @@ loc_4711B:
 pop edx	; 4711B
 pop ebx	; 4711C
 ret	; 4711D
-sub_4711E:
+GetHotOrStick:
 push ebx	; 4711E
 push ecx	; 4711F
 push edx	; 47120
@@ -2241,7 +2241,7 @@ dec byte [byte_1658E3]	; 4805A
 loc_48060:
 call UpdateCoachModes	; 48060
 jmp near loc_47A6A	; 48065
-sub_4806A:
+GiveControl:
 push ebx	; 4806A
 push ecx	; 4806B
 push edx	; 4806C
@@ -3232,7 +3232,7 @@ mov byte [byte eax+057h], 0Fh	; 48BDA
 mov eax, dword [off_117894]	; 48BDE
 mov byte [byte eax+058h], 0Fh	; 48BE3
 mov word [word_1178F8], 0FFFFh	; 48BE7
-call sub_465BA	; 48BF0
+call SprSort	; 48BF0
 call sub_48A4D	; 48BF5
 jmp near loc_47A6B	; 48BFA
 TryAddPlayerToList:
@@ -4394,7 +4394,7 @@ cmp eax, byte 10h	; 49A9D
 jne near loc_49F0D	; 49AA0
 loc_49AA6:
 mov eax, esi	; 49AA6
-call sub_4A047	; 49AA8
+call updateanim	; 49AA8
 dec word [byte esi+03Eh]	; 49AAD
 cmp word [byte esi+03Eh], byte 0	; 49AB1
 jge short loc_49ABE	; 49AB6
@@ -4614,7 +4614,7 @@ mov eax, dword [byte esi+07Ah]	; 49DB1
 call ReadJoy1	; 49DB4
 mov eax, esi	; 49DB9
 movsx edx, word [byte esi+07Ah]	; 49DBB
-call sub_38F9F	; 49DBF
+call doinput	; 49DBF
 loc_49DC4:
 movsx edi, word [byte esi+01Ch]	; 49DC4
 movsx edi, byte [byte edi+esi+01Eh]	; 49DC8
@@ -4797,7 +4797,7 @@ jle near loc_47A6A	; 4A031
 mov esi, dword [off_11787C]	; 4A037
 mov word [esi], 0	; 4A03D
 jmp near loc_47A6A	; 4A042
-sub_4A047:
+updateanim:
 push ebx	; 4A047
 push ecx	; 4A048
 push edx	; 4A049
@@ -4958,7 +4958,7 @@ movsx edx, ax	; 4A225
 mov eax, esi	; 4A228
 call SetSPA	; 4A22A
 mov eax, esi	; 4A22F
-call sub_4A047	; 4A231
+call updateanim	; 4A231
 xor edx, edx	; 4A236
 mov eax, esi	; 4A238
 jmp near loc_4A189	; 4A23A

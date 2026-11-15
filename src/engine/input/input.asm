@@ -10,9 +10,9 @@ extern dword_164744, dword_164748, dword_164750, dword_165254, dword_1797B4, gam
 extern hmtmstruct, introskipped, lcblink, lcboxon, lcline, off_11787C, puckc, off_11788C
 extern off_117898, off_11789C, passplayer, penshotlive, penshotmode, puckvx, puckx, pucky
 extern randomd0, regd2, regd3, setpersonel, sflags, skatetopuck, donothing, SetLCmode
-extern sub_3509F, sub_3E665, BlockShotDive, checkob, dopass, sub_40B2A, setpassmode, sub_4137F
+extern sub_3509F, sub_3E665, BlockShotDive, checkob, dopass, passmode, setpassmode, sub_4137F
 extern sub_415FF, SetShotMode, ShotMode, Findhittype, doshot, SetSPA, sub_46593, changeplayer
-extern sub_4A047, doplayeracc, playeracc, sub_4DD1B, burst, sub_68E31, sfx, MouseRead
+extern updateanim, doplayeracc, playeracc, sub_4DD1B, burst, sub_68E31, sfx, MouseRead
 extern vecdist, unk_164754, unk_164B5C, vtoa, word_1178A8, word_1178AC, word_1178AE, word_1178B4
 extern word_1178BE, word_1178C0, gmode2, word_1178CA, word_1178D2, gsp, word_118EA5, word_118EA9
 extern word_118EB1, word_119EDA, word_16474C, word_164794, word_165078, word_165082, word_1656E8, word_165704
@@ -57,7 +57,7 @@ global loc_3A373, loc_3A3EF, loc_3A42A, loc_3A42F, loc_3A494, loc_3A499, loc_3A4
 global loc_3A506, loc_3A550, loc_3A555, loc_3A55C, loc_3A57B, loc_3A5D4, loc_3A5EB, loc_3A5FA
 global loc_3A613, loc_3A61F, loc_3A625, loc_3A648, loc_3A65F, loc_3A674, loc_3A6B4, loc_3A6C2
 global loc_3A6CB, loc_3A6DD, loc_3A709, loc_3A744, loc_3A75A, loc_3A76E, loc_3A789, loc_3A7A0
-global sub_38202, sub_3832F, CanBlockShot, Holdplayer, sub_38AAF, sub_38BFA, sub_38F9F, sub_39847
+global sub_38202, sub_3832F, CanBlockShot, Holdplayer, sub_38AAF, sub_38BFA, doinput, sub_39847
 global sub_3987A, CenterMouse, PassCompleted, assonetimer, OneTimerChk, sub_39E93, sub_3A2F6, sub_3A609
 global sub_3A6F3
 lineinput:
@@ -426,7 +426,7 @@ movsx edx, ax	; 384E4
 mov eax, ebx	; 384E7
 call SetSPA	; 384E9
 mov eax, ebx	; 384EE
-call sub_4A047	; 384F0
+call updateanim	; 384F0
 movsx eax, word [byte ebx+012h]	; 384F5
 cmp eax, 0BE9h	; 384F9
 jl short loc_38507	; 384FE
@@ -452,7 +452,7 @@ or byte [byte ecx+045h], 2	; 38536
 cmp ax, word [dword ebx+086h]	; 3853A
 jge near loc_385B6	; 38541
 mov eax, ecx	; 38547
-call sub_4A047	; 38549
+call updateanim	; 38549
 jmp near loc_385B6	; 3854E
 loc_38553:
 test byte [byte ebp-04h], 20h	; 38553
@@ -1381,7 +1381,7 @@ mov dword [byte edi+04h], 8	; 38F87
 mov eax, 1	; 38F8E
 mov dword [byte edi+08h], 0	; 38F93
 jmp near loc_385B6	; 38F9A
-sub_38F9F:
+doinput:
 push ebx	; 38F9F
 push ecx	; 38FA0
 push esi	; 38FA1
@@ -1769,7 +1769,7 @@ test eax, eax	; 39456
 je short loc_39469	; 39458
 movsx edx, cx	; 3945A
 mov eax, ebx	; 3945D
-call sub_40B2A	; 3945F
+call passmode	; 3945F
 pop edi	; 39464
 pop esi	; 39465
 pop ecx	; 39466
@@ -2389,7 +2389,7 @@ jge short loc_39BDA	; 39BCB
 loc_39BCD:
 mov eax, ebx	; 39BCD
 mov word [byte ebx+03Ch], 0	; 39BCF
-call sub_4A047	; 39BD5
+call updateanim	; 39BD5
 loc_39BDA:
 cmp edx, 90h	; 39BDA
 jle short loc_39BFB	; 39BE0
@@ -2413,7 +2413,7 @@ mov word [word_1178AE], ax	; 39C1C
 mov word [byte ebx+03Ah], 4	; 39C22
 mov eax, ebx	; 39C28
 mov word [byte ebx+03Ch], 4	; 39C2A
-call sub_4A047	; 39C30
+call updateanim	; 39C30
 mov eax, dword [dword ebx+088h]	; 39C35
 inc word [byte eax+01Ah]	; 39C3B
 mov eax, 2	; 39C3F

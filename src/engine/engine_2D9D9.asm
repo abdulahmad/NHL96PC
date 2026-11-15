@@ -15,7 +15,7 @@ extern hmroster, hmtmstruct, lasttouch, lcblink, off_11787C, puckc, off_11788C, 
 extern off_117894, off_11D44C, off_11D4BC, off_11D52C, puckx, pucky, qsort_, randomd0
 extern reenergizeteam, regd2, regd3, resetplstuff, setpersonel, sflags, sprintf_, sub_13338
 extern sub_1B05E, IsCupClinched, sub_1F300, sub_313D2, sub_31BA9, donothing, sub_3509F, SkateToSpot
-extern sub_37ED0, check4check, SetSPA, sub_465BA, sub_493D4, sub_4A047, SetExitGame, forcepldata
+extern sub_37ED0, check4check, SetSPA, SprSort, sub_493D4, updateanim, SetExitGame, forcepldata
 extern sub_4B59F, EvadePC, skateto, playeracc, sub_4F452, sub_5439F, sub_5A572, sub_5BD7D
 extern sub_5DBC0, CloseTextOverlay, sub_60777, sub_612BC, sub_62311, sub_63998, sub_63A5B, sub_63F79
 extern sub_63FEF, sub_64054, sub_640D3, sub_641D4, sub_68E72, CrowdNoiseReset, sub_6904C, sfx
@@ -250,7 +250,7 @@ and byte [byte ebx+044h], 0F7h	; 2DC30
 call SetSPA	; 2DC34
 mov eax, ebx	; 2DC39
 mov edx, 25h	; 2DC3B
-call sub_4A047	; 2DC40
+call updateanim	; 2DC40
 loc_2DC45:
 mov eax, ebx	; 2DC45
 call assreplace	; 2DC47
@@ -345,7 +345,7 @@ jl short loc_2DD61	; 2DDAD
 or byte [sflags], 40h	; 2DDAF
 call DoGameFrame	; 2DDB6
 call DoGameFrame	; 2DDBB
-call sub_465BA	; 2DDC0
+call SprSort	; 2DDC0
 mov eax, dword [puckc]	; 2DDC5
 mov dword [dword_114F16], 0	; 2DDCA
 mov byte [eax], 0FFh	; 2DDD4
@@ -2236,7 +2236,7 @@ mov eax, ebx	; 2F5A3
 or byte [byte ebx+044h], 20h	; 2F5A5
 call SetSPA	; 2F5A9
 mov eax, ebx	; 2F5AE
-call sub_4A047	; 2F5B0
+call updateanim	; 2F5B0
 mov al, byte [byte ebx+044h]	; 2F5B5
 and al, 40h	; 2F5B8
 movzx eax, al	; 2F5BA
@@ -2278,7 +2278,7 @@ mov eax, ebx	; 2F641
 or byte [byte ebx+044h], 20h	; 2F643
 call SetSPA	; 2F647
 mov eax, ebx	; 2F64C
-call sub_4A047	; 2F64E
+call updateanim	; 2F64E
 mov word [byte ebx+026h], 0C8h	; 2F653
 pop edx	; 2F659
 pop ebx	; 2F65A

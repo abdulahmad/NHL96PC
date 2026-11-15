@@ -287,7 +287,7 @@
 ;  3805F  assinsert                                engine/logic/logic.asm                       6
 ;  385BC  Acheck                                   engine/input/input.asm                       1
 ;  385F9  CanBlockShot                             engine/input/input.asm                       1
-;  38F9F  sub_38F9F                                engine/input/input.asm                       1
+;  38F9F  doinput                                  engine/input/input.asm                       1
 ;  39769  getlchoice                               engine/input/input.asm                       1
 ;  397C0  lcfound                                  engine/input/input.asm                       1
 ;  39847  sub_39847                                engine/input/input.asm                       1
@@ -322,7 +322,7 @@
 ;  402AD  sub_402AD                                engine/collide/collide.asm                   1
 ;  406A0  dopass                                   engine/collide/collide.asm                   1
 ;  409D5  sub_409D5                                engine/collide/collide.asm                   1
-;  40B2A  sub_40B2A                                engine/collide/collide.asm                   1
+;  40B2A  passmode                                 engine/collide/collide.asm                   1
 ;  40C14  setpassmode                              engine/collide/collide.asm                   1
 ;  40E82  chk4pass                                 engine/collide/collide.asm                   2
 ;  4137F  sub_4137F                                engine/collide/collide.asm                   1
@@ -343,7 +343,7 @@
 ;  4640D  ChkPullGoalieLate                        engine/collide/collide.asm                   1
 ;  464A6  SetSPA                                   engine/collide/collide.asm                   8
 ;  46593  sub_46593                                engine/collide/collide.asm                   2
-;  465BA  sub_465BA                                engine/hockey/hockey.asm                     4
+;  465BA  SprSort                                  engine/hockey/hockey.asm                     4
 ;  4666C  changeplayer                             engine/hockey/hockey.asm                     4
 ;  46988  restorepl                                engine/hockey/hockey.asm                     1
 ;  46A0B  AvgCline                                 engine/hockey/hockey.asm                     1
@@ -352,9 +352,9 @@
 ;  46EC9  findpc                                   engine/hockey/hockey.asm                     1
 ;  4704A  GetHot                                   engine/hockey/hockey.asm                     4
 ;  470AD  GetHotStick                              engine/hockey/hockey.asm                     1
-;  4711E  sub_4711E                                engine/hockey/hockey.asm                     1
+;  4711E  GetHotOrStick                            engine/hockey/hockey.asm                     1
 ;  4786F  Goal                                     engine/hockey/hockey.asm                     1
-;  4806A  sub_4806A                                engine/hockey/hockey.asm                     1
+;  4806A  GiveControl                              engine/hockey/hockey.asm                     1
 ;  4812E  Setplass                                 engine/hockey/hockey.asm                     3
 ;  481B1  setplayer                                engine/hockey/hockey.asm                     3
 ;  48716  reenergizeteam                           engine/hockey/hockey.asm                     1
@@ -365,7 +365,7 @@
 ;  49300  sub_49300                                engine/hockey/hockey.asm                     1
 ;  493D4  sub_493D4                                engine/hockey/hockey.asm                     1
 ;  4958D  DoGameFrame                              engine/hockey/hockey.asm                     2
-;  4A047  sub_4A047                                engine/hockey/hockey.asm                     4
+;  4A047  updateanim                               engine/hockey/hockey.asm                     4
 ;  4A91D  clockcont_0                              engine/hockey/hockey.asm                     1
 ;  4AE4F  ClockTick                                engine/hockey/hockey.asm                     1
 ;  4AF57  GameOver                                 engine/hockey/hockey.asm                     1
@@ -398,8 +398,8 @@
 ;  4F385  sub_4F385                                engine/engine_4DED8.asm                      2
 ;  4F452  sub_4F452                                engine/engine_4DED8.asm                      3
 ;  4F453  FormatPlayerName                         engine/gamelog/gamelog.asm                   1
-;  4FB38  sub_4FB38                                engine/gamelog/gamelog.asm                   1
-;  4FDC0  sub_4FDC0                                engine/gamelog/gamelog.asm                   1
+;  4FB38  PostGoalEvent                            engine/gamelog/gamelog.asm                   1
+;  4FDC0  PostPenaltyEvent                         engine/gamelog/gamelog.asm                   1
 ;  500D4  PostInjuryEvent                          engine/gamelog/gamelog.asm                   1
 ;  50154  AddPenalty                               engine/penalty/penalty.asm                   3
 ;  501EC  AddPenalty2                              engine/penalty/penalty.asm                   4

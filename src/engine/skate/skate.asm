@@ -58,7 +58,7 @@ global loc_4DBDA, loc_4DBE1, loc_4DBE8, loc_4DBEF, loc_4DC20, loc_4DC2F, loc_4DC
 global loc_4DC8E, loc_4DCA7, loc_4DCB3, loc_4DCBA, loc_4DCCD, loc_4DCD2, loc_4DCFA, loc_4DD09
 global loc_4DD16, loc_4DD64, loc_4DD66, loc_4DD80, loc_4DDE4, loc_4DE05, loc_4DE26, loc_4DE48
 global loc_4DE61, loc_4DE96, loc_4DECA, skatetopuck, doplayeracc, EvadePC, skateto, playeracc
-global avdgoal, sub_4D3F8, stopna, goalieacc, noturn0, sub_4DD1B, burst
+global avdgoal, dostop, stopna, goalieacc, noturn0, sub_4DD1B, burst
 doplayeracc:
 push ebx	; 4B7BB
 push ecx	; 4B7BC
@@ -136,7 +136,7 @@ movsx eax, word [byte ecx+0Eh]	; 4B881
 or eax, edx	; 4B885
 je short loc_4B895	; 4B887
 mov eax, ecx	; 4B889
-call sub_4D3F8	; 4B88B
+call dostop	; 4B88B
 jmp near loc_4BFAF	; 4B890
 loc_4B895:
 mov al, byte [byte ecx+045h]	; 4B895
@@ -2380,7 +2380,7 @@ jne near loc_4C28D	; 4D3E6
 loc_4D3EC:
 mov word [regd1], dx	; 4D3EC
 jmp near loc_4C28D	; 4D3F3
-sub_4D3F8:
+dostop:
 push ebx	; 4D3F8
 push ecx	; 4D3F9
 push edx	; 4D3FA
@@ -3004,7 +3004,7 @@ cmp eax, 500h	; 4DAC4
 jbe short loc_4DAD7	; 4DAC9
 loc_4DACB:
 mov eax, esi	; 4DACB
-call sub_4D3F8	; 4DACD
+call dostop	; 4DACD
 leave	; 4DAD2
 pop edi	; 4DAD3
 pop esi	; 4DAD4

@@ -13,7 +13,7 @@ extern off_11787C, puckc, off_11788C, off_117890, off_117894, off_117898, off_11
 extern penshotmode, penshotplayer, penshotstart, puckvx, puckvz, puckx, pucky, puckz
 extern randomd0, regd2, regd3, resetplstuff, setpersonel, sflags, shotongoal, shotontarget
 extern sub_23656, sub_28459, StartFaceoffLineChange, sub_3509F, sub_350A5, SkateToSpot, CenterMouse, ReturnGoalies
-extern SetSPA, sub_46593, sub_465BA, changeplayer, GetHot, Setplass, setplayer, sub_4A047
+extern SetSPA, sub_46593, SprSort, changeplayer, GetHot, Setplass, setplayer, updateanim
 extern clockcont_0, SetExitGame, ResetBench, forcepldata, doplayeracc, EvadePC, skateto, playeracc
 extern avdgoal, stopna, AddPenalty2, Stop4Pen, sub_59A36, sub_68E31, sub_6934E, vecdist
 extern threat, unk_164B5C, vtoa, word_1178A0, word_1178A2, word_1178B4, word_1178B6, word_1178B8
@@ -837,7 +837,7 @@ je short loc_3B0C8	; 3B0A7
 cmp word [word_118E8F], byte 0	; 3B0A9
 je short loc_3B0C8	; 3B0B1
 or byte [sflags], 40h	; 3B0B3
-call sub_465BA	; 3B0BA
+call SprSort	; 3B0BA
 mov word [word_118E8F], 0	; 3B0BF
 loc_3B0C8:
 mov eax, dword [gameopts]	; 3B0C8
@@ -1461,7 +1461,7 @@ mov byte [byte_16479B], 0FFh	; 3BA37
 and byte [gmode2], 7Ah	; 3BA3E
 mov word [passplayer], 0FFFFh	; 3BA45
 or byte [gmode2], 5	; 3BA4E
-call sub_465BA	; 3BA55
+call SprSort	; 3BA55
 mov word [word_118E8F], 0	; 3BA5A
 mov ax, word [foy]	; 3BA63
 mov word [word_1178A2], 0	; 3BA69
@@ -1570,7 +1570,7 @@ mov word [byte eax+012h], 0EDAh	; 3BC5C
 and byte [sflags], 0BFh	; 3BC62
 cmp dword [penshotmode], byte 0	; 3BC69
 je near loc_3BDB5	; 3BC70
-call sub_465BA	; 3BC76
+call SprSort	; 3BC76
 xor esi, esi	; 3BC7B
 xor eax, eax	; 3BC7D
 loc_3BC7F:
@@ -1792,7 +1792,7 @@ cwde	; 3BF70
 call vtoa	; 3BF71
 mov word [byte ebx+036h], ax	; 3BF76
 mov eax, ebx	; 3BF7A
-call sub_4A047	; 3BF7C
+call updateanim	; 3BF7C
 mov word [byte ebx+048h], 0	; 3BF81
 mov word [byte ebx+04Ch], 0	; 3BF87
 mov word [byte ebx+04Ah], 0	; 3BF8D
@@ -1836,8 +1836,8 @@ mov eax, dword [off_117894]	; 3C03C
 call SetSPA	; 3C041
 mov eax, dword [off_117894]	; 3C046
 xor ebx, ebx	; 3C04B
-call sub_4A047	; 3C04D
-call sub_465BA	; 3C052
+call updateanim	; 3C04D
+call SprSort	; 3C052
 xor eax, eax	; 3C057
 loc_3C059:
 add eax, byte 4	; 3C059

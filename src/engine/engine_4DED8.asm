@@ -14,7 +14,7 @@ extern dword_17CEC3, dword_17D162, dword_17D267, energywarn, fadeinpending, fox,
 extern gameopts, gmode, hmroster, hmtmstruct, lastplayer, lasttouch, lcblink, lcboxon
 extern lcline, off_11786C, passplayer, penshotctl, penshotlive, penshotmode, penshotplayer, penshotstart
 extern penshottimer, psendcount, sflags, shotongoal, shotontarget, sprintf_, strcat_, sub_1DC65
-extern sub_1DCDC, sub_1DED8, sub_1DF55, sub_1DFEA, sub_1E5FC, sub_1F362, sub_465BA, GetPeriodTime
+extern sub_1DCDC, sub_1DED8, sub_1DF55, sub_1DFEA, sub_1E5FC, sub_1F362, SprSort, GetPeriodTime
 extern sub_48A4D, sub_535D5, sub_B7256, threat, str_DB, unk_115108, unk_115113, unk_156E6C
 extern unk_156FFC, unk_157AF8, unk_157B0A, unk_157B1C, unk_157B4F, unk_157B82, unk_157D8F, unk_157F9C
 extern unk_157FDA, unk_1582F5, unk_158610, unk_164B5C, unk_17CB2E, unk_17CED5, word_1178A8, word_1178AC
@@ -1485,7 +1485,7 @@ mov word [dword esi+word_176B44], cx	; 4F059
 cmp dword [byte ebp+07Eh], byte 11h	; 4F060
 jl near loc_4EF34	; 4F064
 call sub_48A4D	; 4F06A
-call sub_465BA	; 4F06F
+call SprSort	; 4F06F
 loc_4F074:
 lea eax, [byte ebp-01Eh]	; 4F074
 call sub_1DF55	; 4F077

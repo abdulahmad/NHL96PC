@@ -10,7 +10,7 @@ extern dword_11918F, dword_119193, dword_11A2F8, dword_11B310, dword_176BE0, dwo
 extern gameclock, gameopts, gmode, hmtmstruct, off_11787C, puckc, off_11788C, off_117894
 extern penmintab, penshotlive, penshotmode, penshotplayer, penshotstart, penshottimer, puckvx, puckvz
 extern puckx, pucky, puckz, randomd0, regd2, regd3, shotongoal, shotontarget
-extern sprintf_, SetSPA, Setplass, setplayer, sub_4FDC0, CanRemovePlayer, sub_68E21, sub_68E31
+extern sprintf_, SetSPA, Setplass, setplayer, PostPenaltyEvent, CanRemovePlayer, sub_68E21, sub_68E31
 extern sfx, sub_69141, sub_77355, SortIndices, vecdist, unk_157F9C, unk_158610, gmode2
 extern word_1178F4, word_1178F6, word_1178F8, word_1178FA, word_1178FC, gsp, word_117902, word_118E8F
 extern word_1190E7, word_1190E9, word_11910B, word_11910F, word_119111, word_119113, Pencntdwn2, word_11A224
@@ -47,7 +47,7 @@ global loc_51C44, loc_51CB8, loc_51CC9, loc_51CEE, loc_51CF7, loc_51D1E, loc_51D
 global loc_51D53, loc_51D7C, loc_51D85, loc_51DAC, loc_51DBC, loc_51DC3, loc_51DF2, loc_51DF7
 global loc_51E17, loc_51E33, loc_51E47, loc_51E54, loc_51E60, loc_51E7D, loc_51E80, loc_51E8B
 global loc_51ED3, loc_51EE9, loc_51EFE, releasepl, AddPenalty2, sub_503DE, InProgress, Stop4Pen
-global checkfornewpen, sub_511CC, sub_51360, sub_51361, sub_513E6, UpdatePowerPlayFlags, PenGoalStuff, StartPenaltyShot
+global checkfornewpen, sub_511CC, sub_51360, updatepentime, updatePPTeamTime, UpdatePowerPlayFlags, PenGoalStuff, StartPenaltyShot
 global EndPenaltyShot, sub_51CBA, sub_51D44, sub_51DD2
 AddPenalty:
 push ebx	; 50154
@@ -492,7 +492,7 @@ test eax, eax	; 506C7
 setne al	; 506C9
 xor ecx, ecx	; 506CC
 movzx eax, al	; 506CE
-call sub_4FDC0	; 506D1
+call PostPenaltyEvent	; 506D1
 movsx eax, word [nosplit edi*2+word_11A224]	; 506D6
 cmp eax, byte 0FFFFFFFFh	; 506DE
 je short loc_50700	; 506E1
@@ -590,7 +590,7 @@ movsx edx, byte [byte esi+047h]	; 50830
 test eax, eax	; 50834
 setne al	; 50836
 movzx eax, al	; 50839
-call sub_4FDC0	; 5083C
+call PostPenaltyEvent	; 5083C
 movsx eax, word [nosplit edi*2+word_11A224]	; 50841
 cmp eax, byte 0FFFFFFFFh	; 50849
 je short loc_5086B	; 5084C
@@ -669,7 +669,7 @@ movsx edx, byte [byte esi+047h]	; 50972
 test eax, eax	; 50976
 setne al	; 50978
 movzx eax, al	; 5097B
-call sub_4FDC0	; 5097E
+call PostPenaltyEvent	; 5097E
 mov eax, dword [byte ebp-018h]	; 50983
 movsx eax, word [nosplit eax*2+word_11A224]	; 50986
 cmp eax, byte 0FFFFFFFFh	; 5098E
@@ -1410,7 +1410,7 @@ mov eax, awtmstruct	; 51357
 inc word [byte eax+08h]	; 5135C
 sub_51360:
 ret	; 51360
-sub_51361:
+updatepentime:
 mov al, byte [gmode]	; 51361
 and al, 1	; 51366
 movsx eax, al	; 51368
@@ -1446,9 +1446,9 @@ loc_513D3:
 inc word [byte eax+08h]	; 513D3
 loc_513D7:
 mov eax, hmtmstruct	; 513D7
-call sub_513E6	; 513DC
+call updatePPTeamTime	; 513DC
 mov eax, awtmstruct	; 513E1
-sub_513E6:
+updatePPTeamTime:
 push ebx	; 513E6
 push ecx	; 513E7
 push edx	; 513E8
@@ -1462,7 +1462,7 @@ xor esi, esi	; 51405
 xor edx, edx	; 51407
 jmp near loc_512DD	; 51409
 chkprogress:
-call sub_51361	; 5140E
+call updatepentime	; 5140E
 call checkfornewpen	; 51413
 push edx	; 51418
 mov al, byte [gmode]	; 51419

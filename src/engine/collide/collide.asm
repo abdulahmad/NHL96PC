@@ -13,7 +13,7 @@ extern off_11788C, off_117898, off_11789C, passplayer, penshotctl, penshotlive, 
 extern penshotstart, puckvx, puckvz, puckx, pucky, puckz, randomd0, regd2
 extern regd3, setpersonel, sflags, shotongoal, shotontarget, sub_235F2, sub_23965, sub_23E06
 extern sub_23E4E, sub_30274, sub_3509F, puckflip, CanBlockShot, PassCompleted, changeplayer, restorepl
-extern AvgCline, GetHot, GetHotStick, sub_4711E, Goal, sub_4806A, doplayeracc, burst
+extern AvgCline, GetHot, GetHotStick, GetHotOrStick, Goal, GiveControl, doplayeracc, burst
 extern sub_4F452, PostInjuryEvent, AddPenalty2, Stop4Pen, EndPenaltyShot, CanRemovePlayer, CloseTextOverlay, sub_68E31
 extern sfx, sub_69141, sub_BE960, vecdist, threat, unk_164B5C, unk_1657BC, unk_1658F2
 extern vtoa, wcradiusx, word_1178A0, word_1178A6, word_1178A8, word_1178AC, word_1178AE, word_1178B4
@@ -149,7 +149,7 @@ global loc_4644D, loc_46465, loc_4646B, loc_46498, loc_464E9, loc_46517, loc_465
 global loc_4654C, loc_46557, loc_4656A, loc_46571, loc_4658A, loc_46590, loc_465B7, passtoa0
 global setInjuryType, BlockShotDive, TryBlockShot, check4check, checkcheck, checkgoalp, checkint, checkob
 global ChkDelayedOffside, checkpuckcoll_ccx, checkpuckcoll, GetLowestPen, sub_402AD, ScatterPass, dopass, sub_409D5
-global sub_40B2A, setpassmode, sub_4137F, sub_41393, sub_41432, sub_415FF, chk4shot, CompShoot
+global passmode, setpassmode, sub_4137F, sub_41393, sub_41432, sub_415FF, chk4shot, CompShoot
 global ChkShotStat, sub_41FDA, sub_4203B, NetCollide, FallDown, puckbody, puckshadow, puckglue
 global sub_43605, puckgoalie, puckstick, SetShotMode, ShotMode, Findhittype, shotdiradj, doshot
 global checkcoll, checkwallcoll, wallcollb, checkplcoll, sub_459B2, sub_45A31, sub_45B60, ReturnGoalies
@@ -1807,7 +1807,7 @@ jle short loc_3F9C8	; 3F9BF
 mov dword [byte ebp-04h], 4	; 3F9C1
 loc_3F9C8:
 mov eax, esi	; 3F9C8
-call sub_4711E	; 3F9CA
+call GetHotOrStick	; 3F9CA
 cmp word [regd0], byte 0	; 3F9CF
 jge short loc_3F9E4	; 3F9D7
 movsx eax, word [regd0]	; 3F9D9
@@ -3190,7 +3190,7 @@ call sub_68E31	; 40B22
 pop ecx	; 40B27
 pop ebx	; 40B28
 ret	; 40B29
-sub_40B2A:
+passmode:
 push ebx	; 40B2A
 push ecx	; 40B2B
 mov ebx, edx	; 40B2C
@@ -6613,7 +6613,7 @@ shl edx, 2	; 435BF
 cmp dword [dword edx+dword_1191EB], byte 0	; 435C2
 jne short loc_435D7	; 435C9
 movsx eax, word [regd0]	; 435CB
-call sub_4806A	; 435D2
+call GiveControl	; 435D2
 loc_435D7:
 mov edx, dword [off_11788C]	; 435D7
 mov word [byte edx+048h], 0	; 435DD
@@ -9387,7 +9387,7 @@ mov eax, ebx	; 45A47
 call AddPenalty2	; 45A49
 movsx eax, word [dword ebx+086h]	; 45A4E
 mov edx, 31h	; 45A55
-call sub_4806A	; 45A5A
+call GiveControl	; 45A5A
 mov eax, ebx	; 45A5F
 call assinsert	; 45A61
 mov eax, dword [puckc]	; 45A66

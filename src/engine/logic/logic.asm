@@ -16,8 +16,8 @@ extern penshotlive, penshotmode, penshotplayer, penshotstart, psendcount, puckvx
 extern pucky, puckz, randomd0, regd2, regd3, sflags, shotongoal, skatetopuck
 extern sub_28459, sub_30309, sub_30340, sub_30873, sub_30E6B, assgoalie, check4check, checkob
 extern checkpuckcoll, sub_402AD, sub_409D5, chk4shot, SetShotMode, ShotMode, Findhittype, doshot
-extern SetSPA, sub_465BA, changeplayer, GetHot, Setplass, setplayer, sub_4A047, SetExitGame
-extern sub_4B4F3, doplayeracc, EvadePC, skateto, sub_4FB38, AddPenalty2, EndPenaltyShot, sub_68E21
+extern SetSPA, SprSort, changeplayer, GetHot, Setplass, setplayer, updateanim, SetExitGame
+extern sub_4B4F3, doplayeracc, EvadePC, skateto, PostGoalEvent, AddPenalty2, EndPenaltyShot, sub_68E21
 extern sub_68E31, sfx, sub_69141, sub_69161, sub_6934E, vecdist, threat, unk_119D7C
 extern unk_119D9C, vtoa, word_1178A8, word_1178AC, word_1178AE, word_1178B4, word_1178B6, word_1178BE
 extern word_1178C0, gmode2, word_1178CA, word_1178F8, word_1178FA, gsp, word_117902, word_117914
@@ -3596,7 +3596,7 @@ or byte [byte ebx+044h], 20h	; 33E05
 call sub_28459	; 33E09
 mov eax, 22h	; 33E0E
 call sub_68E31	; 33E13
-call sub_465BA	; 33E18
+call SprSort	; 33E18
 pop edx	; 33E1D
 pop ecx	; 33E1E
 pop ebx	; 33E1F
@@ -4082,7 +4082,7 @@ mov eax, ebx	; 3438B
 and byte [byte ebx+044h], 0FDh	; 3438D
 call SetSPA	; 34391
 mov eax, ebx	; 34396
-call sub_4A047	; 34398
+call updateanim	; 34398
 mov al, byte [byte ebx+044h]	; 3439D
 and al, 40h	; 343A0
 movzx eax, al	; 343A2
@@ -7134,7 +7134,7 @@ loc_36A41:
 movsx edx, word [byte ebx+032h]	; 36A41
 mov ebx, eax	; 36A45
 mov eax, edi	; 36A47
-call sub_4FB38	; 36A49
+call PostGoalEvent	; 36A49
 test edi, edi	; 36A4E
 je short loc_36A59	; 36A50
 mov eax, 0Ah	; 36A52
@@ -7512,7 +7512,7 @@ movsx edx, cx	; 36EE1
 mov eax, ebx	; 36EE4
 call SetSPA	; 36EE6
 mov eax, ebx	; 36EEB
-call sub_4A047	; 36EED
+call updateanim	; 36EED
 mov eax, ebx	; 36EF2
 mov word [byte ebx+03Ch], 2	; 36EF4
 call doshot	; 36EFA
@@ -7640,7 +7640,7 @@ mov eax, ebx	; 37059
 and byte [byte ebx+045h], 0FDh	; 3705B
 call SetSPA	; 3705F
 mov eax, ebx	; 37064
-call sub_4A047	; 37066
+call updateanim	; 37066
 loc_3706B:
 cmp esi, 4B1h	; 3706B
 jne short loc_37078	; 37071
@@ -7679,7 +7679,7 @@ or byte [byte ecx+045h], 2	; 370DE
 cmp ax, word [dword ebx+086h]	; 370E2
 jge short loc_370F2	; 370E9
 mov eax, ecx	; 370EB
-call sub_4A047	; 370ED
+call updateanim	; 370ED
 loc_370F2:
 cmp esi, 57Fh	; 370F2
 mov eax, 78h	; 370F8
@@ -7771,7 +7771,7 @@ mov eax, ebx	; 3721E
 or byte [byte ebx+044h], 20h	; 37220
 call SetSPA	; 37224
 mov eax, ebx	; 37229
-call sub_4A047	; 3722B
+call updateanim	; 3722B
 jmp short loc_37248	; 37230
 loc_37232:
 mov al, byte [byte ebx+044h]	; 37232
@@ -7914,7 +7914,7 @@ mov ax, word [dword ecx+086h]	; 373F0
 cmp ax, word [dword ebx+086h]	; 373F7
 jge near loc_31C3A	; 373FE
 mov eax, ecx	; 37404
-call sub_4A047	; 37406
+call updateanim	; 37406
 jmp near loc_31C3A	; 3740B
 sub_37410:
 push ebx	; 37410
@@ -8069,7 +8069,7 @@ mov eax, esi	; 375DB
 call SetSPA	; 375DD
 mov eax, esi	; 375E2
 or byte [byte esi+045h], 2	; 375E4
-call sub_4A047	; 375E8
+call updateanim	; 375E8
 xor edx, edx	; 375ED
 mov eax, edi	; 375EF
 call SetSPA	; 375F1
@@ -8088,7 +8088,7 @@ or byte [byte edi+045h], 2	; 37617
 cmp ax, word [dword esi+086h]	; 3761B
 jge near loc_377EC	; 37622
 mov eax, edi	; 37628
-call sub_4A047	; 3762A
+call updateanim	; 3762A
 jmp near loc_377EC	; 3762F
 loc_37634:
 jge short loc_3766E	; 37634

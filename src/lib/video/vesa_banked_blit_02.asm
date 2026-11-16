@@ -4,17 +4,19 @@ bits 32
 section s_DE084 progbits alloc exec nowrite align=1
 extern RemapTable, VesaBankShift, dword_11FD50, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, dword_1228F0
 extern KeyedDraw, DrawDestBuffer, dword_1228FC, dword_122930, VesaBank, VesaBankFunc
-global VesaSetBankJumpTable, jpt_DEC90, jpt_DEDBC, jpt_DF09B, PlotPixel_8, PlotPixelClipped_C, sub_DE247_3A, jpt_DE3F8_27
-global sub_DE4C7_32, sub_DE643_32, sub_DE7DB_32, sub_DE97C_C, sub_DE9F3_32, sub_DEB94_C, sub_DEB94_AA, sub_DEC41_4
-global jpt_DEC90_DA, sub_DED6D_4, sub_DEEE3_32, sub_DEFD7_3A, sub_DF6A7_32, sub_DF810_34, sub_DE084, PlotPixel
-global sub_DE15C, PlotPixelClipped, sub_DE247, VesaSetBank, sub_DE44E, sub_DE45F, sub_DE4C7, sub_DE643
-global sub_DE7DB, sub_DE97C, sub_DE9F3, sub_DEB94, sub_DEC41, sub_DED6D, sub_DEE68, sub_DEEE3
-global sub_DEF74, sub_DEFD7, sub_DF058, sub_DF22C, sub_DF2CC, sub_DF38C, sub_DF44C, sub_DF50C
-global SaveVideoState, RestoreVideoState, sub_DF5C0, sub_DF6A7, sub_DF810
+global VesaSetBankJumpTable, FillRectJumpTable, XorRectJumpTable, FillRectSpansJumpTable, PlotPixel_8, PlotPixelClipped_C, BlitShapeClipped_3A, jpt_DE3F8_27
+global BlitBlock_32, BlitBlockXor_32, BlitBlockAnd_32, AndPixel_C, BlitBlockOr_32, OrPixel_C, OrPixel_AA, FillRectCore_4
+global jpt_DEC90_DA, XorRectCore_4, BlitArtOpaque_32, BlitShapeFast_3A, BlitBlockShadow_32, CopyRowShadowFast_34, SetClipRect, PlotPixel
+global PutPixel, PlotPixelClipped, BlitShapeClipped, VesaSetBank, VesaSetMode, VgaSetModeTwice, BlitBlock, BlitBlockXor
+global BlitBlockAnd, AndPixel, BlitBlockOr, OrPixel, FillRectCore, XorRectCore, BlitFontNibbles, BlitArtOpaque
+global ReverseBytes, BlitShapeFast, FillRectSpansCore, FillSpansSet, FillSpansXor, FillSpansAnd, FillSpansOr, RemapSpans
+global SaveVideoState, RestoreVideoState, UnpackArtRle, BlitBlockShadow, CopyRowShadowFast
 ;-----------------------------------------------------------------------------
-; sub_DE084                                                            DE084  
+; SetClipRect                                  DE084  96 PC, medium confidence
+; Sets a bitmap's clip rectangle (left, top, right, bottom), and the current
+; clip when it is the draw target
 ;-----------------------------------------------------------------------------
-sub_DE084:
+SetClipRect:
         push ebp
         LD mov, ebp, esp
         push esi
@@ -93,9 +95,10 @@ PlotPixel_8:
         ret
         db 00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_DE15C                                                            DE15C  
+; PutPixel                                        DE15C  96 PC, low confidence
+; Plots a pixel of a colour at x, y when it is inside the clip rectangle
 ;-----------------------------------------------------------------------------
-sub_DE15C:
+PutPixel:
         mov eax, dword [byte esp+04h]
         mov edx, dword [byte esp+08h]
         mov ebx, dword [byte esp+0Ch]
@@ -178,11 +181,13 @@ PlotPixelClipped_C:
         sub ax, word [byte edi+0Ah]
         movsx eax, ax
         mov dword [byte ebp-08h], eax
-        jmp short sub_DE247_3A
+        jmp short BlitShapeClipped_3A
 ;-----------------------------------------------------------------------------
-; sub_DE247                                                            DE247  
+; BlitShapeClipped                                DE247  96 PC, low confidence
+; Stores a shape's position and copies it to the draw target, clipped
+; (opaque)
 ;-----------------------------------------------------------------------------
-sub_DE247:
+BlitShapeClipped:
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFE4h
@@ -195,7 +200,7 @@ sub_DE247:
         mov eax, dword [byte ebp+010h]
         mov dword [byte ebp-08h], eax
         mov word [byte edi+0Eh], ax
-        jmp short sub_DE247_3A
+        jmp short BlitShapeClipped_3A
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFE4h
@@ -206,7 +211,7 @@ sub_DE247:
         mov dword [byte ebp-04h], eax
         movsx eax, word [byte edi+0Eh]
         mov dword [byte ebp-08h], eax
-sub_DE247_3A:
+BlitShapeClipped_3A:
         mov ebx, dword [byte ebp-08h]
         movsx ecx, word [byte edi+06h]
         lea edx, [byte edi+010h]
@@ -414,9 +419,10 @@ jpt_DE3F8_27:
         pop edx
         ret
 ;-----------------------------------------------------------------------------
-; sub_DE44E                                                            DE44E  
+; VesaSetMode                                  DE44E  96 PC, medium confidence
+; Sets a VESA video mode (int 10h, 4F02h)
 ;-----------------------------------------------------------------------------
-sub_DE44E:
+VesaSetMode:
         mov ebx, dword [byte esp+04h]
         mov ax, 4F02h
         push ebp
@@ -428,9 +434,10 @@ sub_DE44E:
         pop ebp
         ret
 ;-----------------------------------------------------------------------------
-; sub_DE45F                                                            DE45F  
+; VgaSetModeTwice                                 DE45F  96 PC, low confidence
+; Sets mode 12h without clearing, then the given video mode
 ;-----------------------------------------------------------------------------
-sub_DE45F:
+VgaSetModeTwice:
         push ebp
         push esi
         push edi
@@ -482,11 +489,12 @@ sub_DE45F:
         sub ax, word [byte esi+0Ah]
         movsx eax, ax
         mov dword [byte ebp-08h], eax
-        jmp short sub_DE4C7_32
+        jmp short BlitBlock_32
 ;-----------------------------------------------------------------------------
-; sub_DE4C7                                                            DE4C7  
+; BlitBlock                                       DE4C7  96 PC, low confidence
+; Copies a block to the draw target at x, y, clipped (opaque)
 ;-----------------------------------------------------------------------------
-sub_DE4C7:
+BlitBlock:
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFE4h
@@ -497,7 +505,7 @@ sub_DE4C7:
         mov dword [byte ebp-04h], eax
         mov eax, dword [byte ebp+010h]
         mov dword [byte ebp-08h], eax
-        jmp short sub_DE4C7_32
+        jmp short BlitBlock_32
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFE4h
@@ -508,7 +516,7 @@ sub_DE4C7:
         mov dword [byte ebp-04h], eax
         movsx eax, word [byte esi+0Eh]
         mov dword [byte ebp-08h], eax
-sub_DE4C7_32:
+BlitBlock_32:
         mov ebx, dword [byte ebp-08h]
         movsx ecx, word [byte esi+06h]
         lea edx, [byte esi+010h]
@@ -654,11 +662,12 @@ sub_DE4C7_32:
         sub ax, word [byte esi+0Ah]
         movsx eax, ax
         mov dword [byte ebp-08h], eax
-        jmp short sub_DE643_32
+        jmp short BlitBlockXor_32
 ;-----------------------------------------------------------------------------
-; sub_DE643                                                            DE643  
+; BlitBlockXor                                    DE643  96 PC, low confidence
+; XORs a block onto the draw target at x, y, clipped
 ;-----------------------------------------------------------------------------
-sub_DE643:
+BlitBlockXor:
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFE4h
@@ -669,7 +678,7 @@ sub_DE643:
         mov dword [byte ebp-04h], eax
         mov eax, dword [byte ebp+010h]
         mov dword [byte ebp-08h], eax
-        jmp short sub_DE643_32
+        jmp short BlitBlockXor_32
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFE4h
@@ -680,7 +689,7 @@ sub_DE643:
         mov dword [byte ebp-04h], eax
         movsx eax, word [byte esi+0Eh]
         mov dword [byte ebp-08h], eax
-sub_DE643_32:
+BlitBlockXor_32:
         mov ebx, dword [byte ebp-08h]
         movsx ecx, word [byte esi+06h]
         lea edx, [byte esi+010h]
@@ -840,11 +849,12 @@ sub_DE643_32:
         sub ax, word [byte esi+0Ah]
         movsx eax, ax
         mov dword [byte ebp-08h], eax
-        jmp short sub_DE7DB_32
+        jmp short BlitBlockAnd_32
 ;-----------------------------------------------------------------------------
-; sub_DE7DB                                                            DE7DB  
+; BlitBlockAnd                                    DE7DB  96 PC, low confidence
+; ANDs a block onto the draw target at x, y, clipped
 ;-----------------------------------------------------------------------------
-sub_DE7DB:
+BlitBlockAnd:
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFE4h
@@ -855,7 +865,7 @@ sub_DE7DB:
         mov dword [byte ebp-04h], eax
         mov eax, dword [byte ebp+010h]
         mov dword [byte ebp-08h], eax
-        jmp short sub_DE7DB_32
+        jmp short BlitBlockAnd_32
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFE4h
@@ -866,7 +876,7 @@ sub_DE7DB:
         mov dword [byte ebp-04h], eax
         movsx eax, word [byte esi+0Eh]
         mov dword [byte ebp-08h], eax
-sub_DE7DB_32:
+BlitBlockAnd_32:
         mov ebx, dword [byte ebp-08h]
         movsx ecx, word [byte esi+06h]
         lea edx, [byte esi+010h]
@@ -1022,18 +1032,19 @@ sub_DE7DB_32:
         cmp edx, dword [ClipLeftCol]
         jl short .15
         cmp edx, dword [ScreenHeight]
-        jl short sub_DE97C_C
+        jl short AndPixel_C
 .15:
         ret
         db 02Eh,08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_DE97C                                                            DE97C  
+; AndPixel                                        DE97C  96 PC, low confidence
+; ANDs a pixel of the draw target with a mask, on a linear or banked screen
 ;-----------------------------------------------------------------------------
-sub_DE97C:
+AndPixel:
         mov eax, dword [byte esp+04h]
         mov edx, dword [byte esp+08h]
         mov ebx, dword [byte esp+0Ch]
-sub_DE97C_C:
+AndPixel_C:
         cmp dword [KeyedDraw], byte 0
         jne short .2
         mov ecx, dword [DrawDestBuffer]
@@ -1070,11 +1081,12 @@ sub_DE97C_C:
         sub ax, word [byte esi+0Ah]
         movsx eax, ax
         mov dword [byte ebp-08h], eax
-        jmp short sub_DE9F3_32
+        jmp short BlitBlockOr_32
 ;-----------------------------------------------------------------------------
-; sub_DE9F3                                                            DE9F3  
+; BlitBlockOr                                     DE9F3  96 PC, low confidence
+; ORs a block onto the draw target at x, y, clipped
 ;-----------------------------------------------------------------------------
-sub_DE9F3:
+BlitBlockOr:
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFE4h
@@ -1085,7 +1097,7 @@ sub_DE9F3:
         mov dword [byte ebp-04h], eax
         mov eax, dword [byte ebp+010h]
         mov dword [byte ebp-08h], eax
-        jmp short sub_DE9F3_32
+        jmp short BlitBlockOr_32
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFE4h
@@ -1096,7 +1108,7 @@ sub_DE9F3:
         mov dword [byte ebp-04h], eax
         movsx eax, word [byte esi+0Eh]
         mov dword [byte ebp-08h], eax
-sub_DE9F3_32:
+BlitBlockOr_32:
         mov ebx, dword [byte ebp-08h]
         movsx ecx, word [byte esi+06h]
         lea edx, [byte esi+010h]
@@ -1252,18 +1264,19 @@ sub_DE9F3_32:
         cmp edx, dword [ClipLeftCol]
         jl short .15
         cmp edx, dword [ScreenHeight]
-        jl short sub_DEB94_C
+        jl short OrPixel_C
 .15:
         ret
         db 02Eh,08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_DEB94                                                            DEB94  
+; OrPixel                                         DEB94  96 PC, low confidence
+; ORs a pixel of the draw target with a mask, on a linear or banked screen
 ;-----------------------------------------------------------------------------
-sub_DEB94:
+OrPixel:
         mov eax, dword [byte esp+04h]
         mov edx, dword [byte esp+08h]
         mov ebx, dword [byte esp+0Ch]
-sub_DEB94_C:
+OrPixel_C:
         cmp dword [KeyedDraw], byte 0
         jne short .2
         mov ecx, dword [DrawDestBuffer]
@@ -1295,20 +1308,20 @@ sub_DEB94_C:
         jle short .3
         mov dword [byte ebp+08h], edx
         sub dword [byte ebp+010h], eax
-        jle short sub_DEB94_AA
+        jle short OrPixel_AA
 .3:
         mov eax, dword [byte ebp+08h]
         add eax, dword [byte ebp+010h]
         sub eax, dword [ClipRight]
         jle short .4
         sub dword [byte ebp+010h], eax
-        jle short sub_DEB94_AA
+        jle short OrPixel_AA
 .4:
         mov eax, dword [ClipLeftCol]
         sub eax, dword [byte ebp+0Ch]
         jle short .5
         sub dword [byte ebp+014h], eax
-        jle short sub_DEB94_AA
+        jle short OrPixel_AA
         mov eax, dword [ClipLeftCol]
         mov dword [byte ebp+0Ch], eax
 .5:
@@ -1316,29 +1329,30 @@ sub_DEB94_C:
         add eax, dword [byte ebp+014h]
         mov ebx, dword [ScreenHeight]
         LD sub, eax, ebx
-        jle short sub_DEC41_4
+        jle short FillRectCore_4
         sub dword [byte ebp+014h], eax
-        jle short sub_DEB94_AA
-        jmp short sub_DEC41_4
-sub_DEB94_AA:
+        jle short OrPixel_AA
+        jmp short FillRectCore_4
+OrPixel_AA:
         pop edi
         leave
         ret
 ;-----------------------------------------------------------------------------
-; sub_DEC41                                                            DEC41  
+; FillRectCore                                    DEC41  96 PC, low confidence
+; Clips a rectangle and fills it with a colour on the draw target
 ;-----------------------------------------------------------------------------
-sub_DEC41:
+FillRectCore:
         push ebp
         LD mov, ebp, esp
         push edi
-sub_DEC41_4:
+FillRectCore_4:
         cld
         mov ebx, dword [byte ebp+014h]
         mov ecx, dword [byte ebp+010h]
         cmp ecx, byte 0
-        jle short sub_DEB94_AA
+        jle short OrPixel_AA
         cmp ebx, byte 0
-        jle short sub_DEB94_AA
+        jle short OrPixel_AA
         mov dl, byte [byte ebp+018h]
         LD mov, dh, dl
         LD mov, eax, edx
@@ -1353,9 +1367,9 @@ sub_DEC41_4:
         LD sub, edx, ecx
         shr dword [byte ebp+010h], 2
         and ecx, byte 3
-        jmp dword [nosplit ecx*4+jpt_DEC90]
+        jmp dword [nosplit ecx*4+FillRectJumpTable]
         db 02Eh,08Bh,0C0h
-jpt_DEC90:
+FillRectJumpTable:
         dd .1
         dd .3
         dd .5
@@ -1459,10 +1473,10 @@ jpt_DEC90:
         add eax, dword [byte ebp+014h]
         mov ebx, dword [ScreenHeight]
         LD sub, eax, ebx
-        jle short sub_DED6D_4
+        jle short XorRectCore_4
         sub dword [byte ebp+014h], eax
         jle short jpt_DEC90_DA
-        jmp short sub_DED6D_4
+        jmp short XorRectCore_4
 ;-----------------------------------------------------------------------------
 ; jpt_DEC90_DA                                                         DED6A  
 ;-----------------------------------------------------------------------------
@@ -1471,13 +1485,14 @@ jpt_DEC90_DA:
         leave
         ret
 ;-----------------------------------------------------------------------------
-; sub_DED6D                                                            DED6D  
+; XorRectCore                                     DED6D  96 PC, low confidence
+; XORs a rectangle of the draw target with a colour
 ;-----------------------------------------------------------------------------
-sub_DED6D:
+XorRectCore:
         push ebp
         LD mov, ebp, esp
         push edi
-sub_DED6D_4:
+XorRectCore_4:
         cld
         mov ebx, dword [byte ebp+014h]
         mov ecx, dword [byte ebp+010h]
@@ -1499,9 +1514,9 @@ sub_DED6D_4:
         LD sub, edx, ecx
         shr dword [byte ebp+010h], 2
         and ecx, byte 3
-        jmp dword [nosplit ecx*4+jpt_DEDBC]
+        jmp dword [nosplit ecx*4+XorRectJumpTable]
         db 02Eh,08Bh,0C0h
-jpt_DEDBC:
+XorRectJumpTable:
         dd .1
         dd .5
         dd .9
@@ -1605,9 +1620,10 @@ jpt_DEDBC:
         ret
         db 00h
 ;-----------------------------------------------------------------------------
-; sub_DEE68                                                            DEE68  
+; BlitFontNibbles                                 DEE68  96 PC, low confidence
+; Draws 4-bit font pixels through the text colour table, two pixels a byte
 ;-----------------------------------------------------------------------------
-sub_DEE68:
+BlitFontNibbles:
         push ebp
         LD mov, ebp, esp
         push esi
@@ -1661,11 +1677,12 @@ sub_DEE68:
         sub ax, word [byte esi+0Ah]
         movsx eax, ax
         mov dword [byte ebp-08h], eax
-        jmp short sub_DEEE3_32
+        jmp short BlitArtOpaque_32
 ;-----------------------------------------------------------------------------
-; sub_DEEE3                                                            DEEE3  
+; BlitArtOpaque                                   DEEE3  96 PC, low confidence
+; Copies art opaque to the draw target, clipped
 ;-----------------------------------------------------------------------------
-sub_DEEE3:
+BlitArtOpaque:
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFE4h
@@ -1676,7 +1693,7 @@ sub_DEEE3:
         mov dword [byte ebp-04h], eax
         mov eax, dword [byte ebp+010h]
         mov dword [byte ebp-08h], eax
-        jmp short sub_DEEE3_32
+        jmp short BlitArtOpaque_32
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFE4h
@@ -1687,7 +1704,7 @@ sub_DEEE3:
         mov dword [byte ebp-04h], eax
         movsx eax, word [byte esi+0Eh]
         mov dword [byte ebp-08h], eax
-sub_DEEE3_32:
+BlitArtOpaque_32:
         mov ebx, dword [byte ebp-08h]
         shl ebx, 2
         add ebx, dword [DrawDestBuffer]
@@ -1739,9 +1756,10 @@ sub_DEEE3_32:
         ret
         db 00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_DEF74                                                            DEF74  
+; ReverseBytes                                 DEF74  96 PC, medium confidence
+; Reverses the order of the bytes in a buffer
 ;-----------------------------------------------------------------------------
-sub_DEF74:
+ReverseBytes:
         push ebx
         push ecx
         lea ebx, [byte edx+eax-04h]
@@ -1789,11 +1807,13 @@ sub_DEF74:
         sub ax, word [byte edi+0Ah]
         movsx eax, ax
         mov dword [byte ebp-08h], eax
-        jmp short sub_DEFD7_3A
+        jmp short BlitShapeFast_3A
 ;-----------------------------------------------------------------------------
-; sub_DEFD7                                                            DEFD7  
+; BlitShapeFast                                   DEFD7  96 PC, low confidence
+; Stores a shape's position and copies it to the draw target a dword at a
+; time
 ;-----------------------------------------------------------------------------
-sub_DEFD7:
+BlitShapeFast:
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFF4h
@@ -1806,7 +1826,7 @@ sub_DEFD7:
         mov eax, dword [byte ebp+010h]
         mov dword [byte ebp-08h], eax
         mov word [byte edi+0Eh], ax
-        jmp short sub_DEFD7_3A
+        jmp short BlitShapeFast_3A
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFF4h
@@ -1817,7 +1837,7 @@ sub_DEFD7:
         mov dword [byte ebp-04h], eax
         movsx eax, word [byte edi+0Eh]
         mov dword [byte ebp-08h], eax
-sub_DEFD7_3A:
+BlitShapeFast_3A:
         movsx eax, word [byte edi+04h]
         mov dword [byte ebp-0Ch], eax
         movsx edx, word [byte edi+06h]
@@ -1849,9 +1869,10 @@ sub_DEFD7_3A:
         ret
         db 00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_DF058                                                            DF058  
+; FillRectSpansCore                               DF058  96 PC, low confidence
+; Fills the spans of a rectangle with a colour
 ;-----------------------------------------------------------------------------
-sub_DF058:
+FillRectSpansCore:
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFF0h
@@ -1873,8 +1894,8 @@ sub_DF058:
         mov ecx, dword [byte esi+018h]
         mov al, byte [byte esi+01Ch]
         mov ebx, dword [byte esi+034h]
-        jmp dword [nosplit cs:ebx*4+jpt_DF09B]
-jpt_DF09B:
+        jmp dword [nosplit cs:ebx*4+FillRectSpansJumpTable]
+FillRectSpansJumpTable:
         dd .2
         dd .2
         dd .4
@@ -2048,9 +2069,10 @@ jpt_DF09B:
         jmp short .21
         db 00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_DF22C                                                            DF22C  
+; FillSpansSet                                    DF22C  96 PC, low confidence
+; Fills a list of horizontal spans with a colour
 ;-----------------------------------------------------------------------------
-sub_DF22C:
+FillSpansSet:
         push ebp
         LD mov, ebp, esp
         push esi
@@ -2125,9 +2147,10 @@ sub_DF22C:
         jmp short .4
         db 00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_DF2CC                                                            DF2CC  
+; FillSpansXor                                    DF2CC  96 PC, low confidence
+; XORs a list of horizontal spans with a colour
 ;-----------------------------------------------------------------------------
-sub_DF2CC:
+FillSpansXor:
         push ebp
         LD mov, ebp, esp
         push esi
@@ -2221,9 +2244,10 @@ sub_DF2CC:
         jg short .3
         jmp short .6
 ;-----------------------------------------------------------------------------
-; sub_DF38C                                                            DF38C  
+; FillSpansAnd                                    DF38C  96 PC, low confidence
+; ANDs a list of horizontal spans with a colour
 ;-----------------------------------------------------------------------------
-sub_DF38C:
+FillSpansAnd:
         push ebp
         LD mov, ebp, esp
         push esi
@@ -2317,9 +2341,10 @@ sub_DF38C:
         jg short .3
         jmp short .6
 ;-----------------------------------------------------------------------------
-; sub_DF44C                                                            DF44C  
+; FillSpansOr                                     DF44C  96 PC, low confidence
+; ORs a list of horizontal spans with a colour
 ;-----------------------------------------------------------------------------
-sub_DF44C:
+FillSpansOr:
         push ebp
         LD mov, ebp, esp
         push esi
@@ -2413,9 +2438,10 @@ sub_DF44C:
         jg short .3
         jmp short .6
 ;-----------------------------------------------------------------------------
-; sub_DF50C                                                            DF50C  
+; RemapSpans                                      DF50C  96 PC, low confidence
+; Passes a list of horizontal spans through the remap table (shadows)
 ;-----------------------------------------------------------------------------
-sub_DF50C:
+RemapSpans:
         push ebp
         LD mov, ebp, esp
         push esi
@@ -2508,9 +2534,10 @@ RestoreVideoState:
         ret
         db 00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_DF5C0                                                            DF5C0  
+; UnpackArtRle                                    DF5C0  96 PC, low confidence
+; Copies an art header and unpacks its run length coded rows
 ;-----------------------------------------------------------------------------
-sub_DF5C0:
+UnpackArtRle:
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFFCh
@@ -2636,11 +2663,12 @@ sub_DF5C0:
         sub ax, word [byte esi+0Ah]
         movsx eax, ax
         mov dword [byte ebp-08h], eax
-        jmp short sub_DF6A7_32
+        jmp short BlitBlockShadow_32
 ;-----------------------------------------------------------------------------
-; sub_DF6A7                                                            DF6A7  
+; BlitBlockShadow                                 DF6A7  96 PC, low confidence
+; Draws a block with shadow pixels: FFh skipped, FEh remapped, others copied
 ;-----------------------------------------------------------------------------
-sub_DF6A7:
+BlitBlockShadow:
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFE8h
@@ -2651,7 +2679,7 @@ sub_DF6A7:
         mov dword [byte ebp-04h], eax
         mov eax, dword [byte ebp+010h]
         mov dword [byte ebp-08h], eax
-        jmp short sub_DF6A7_32
+        jmp short BlitBlockShadow_32
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFE8h
@@ -2662,7 +2690,7 @@ sub_DF6A7:
         mov dword [byte ebp-04h], eax
         movsx eax, word [byte esi+0Eh]
         mov dword [byte ebp-08h], eax
-sub_DF6A7_32:
+BlitBlockShadow_32:
         mov ebx, dword [byte ebp-08h]
         movsx ecx, word [byte esi+06h]
         lea edx, [byte esi+010h]
@@ -2799,11 +2827,12 @@ sub_DF6A7_32:
         sub ax, word [byte esi+0Ah]
         cwde
         mov dword [byte ebp-08h], eax
-        jmp short sub_DF810_34
+        jmp short CopyRowShadowFast_34
 ;-----------------------------------------------------------------------------
-; sub_DF810                                                            DF810  
+; CopyRowShadowFast                               DF810  96 PC, low confidence
+; Copies a row with shadow pixels to a linear screen
 ;-----------------------------------------------------------------------------
-sub_DF810:
+CopyRowShadowFast:
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFECh
@@ -2815,7 +2844,7 @@ sub_DF810:
         mov dword [byte ebp-04h], eax
         mov eax, dword [byte ebp+010h]
         mov dword [byte ebp-08h], eax
-        jmp short sub_DF810_34
+        jmp short CopyRowShadowFast_34
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFECh
@@ -2827,7 +2856,7 @@ sub_DF810:
         mov dword [byte ebp-04h], eax
         movsx eax, word [byte esi+0Eh]
         mov dword [byte ebp-08h], eax
-sub_DF810_34:
+CopyRowShadowFast_34:
         mov ebx, dword [byte ebp-08h]
         shl ebx, 2
         add ebx, dword [DrawDestBuffer]

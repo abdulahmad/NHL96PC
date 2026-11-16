@@ -4,8 +4,8 @@ bits 32
 section s_BF070 progbits alloc exec nowrite align=1
 extern FatalError, asc_1139D8, asc_1139E4, str_VESA, asc_113A14, ScreenWidth, KeyedDraw, dword_1228FC
 extern dword_122930, dword_123B0C, dword_19B654, dword_19B66C, dword_19B670, int386x_, segread_, strncmp_
-extern AllocMemBlock, FreeMemBlock, VesaSetBank, sub_DEFD7, FindShape, FindShapeQuiet, bcopy, word_19B676
-global __STOSB, __STOSD, sub_BF120, sub_BF290, sub_BF2C4, sub_BF300, sub_BF42C
+extern AllocMemBlock, FreeMemBlock, VesaSetBank, BlitShapeFast, FindShape, FindShapeQuiet, bcopy, word_19B676
+global __STOSB, __STOSD, DrawArtFast, sub_BF290, sub_BF2C4, sub_BF300, sub_BF42C
 ;-----------------------------------------------------------------------------
 ; __STOSB                                                       BF070  library
 ;-----------------------------------------------------------------------------
@@ -99,9 +99,11 @@ __STOSD:
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_BF120                                                            BF120  
+; DrawArtFast                                     BF120  96 PC, low confidence
+; Stores art's position and copies it to the draw target without row copy
+; routines
 ;-----------------------------------------------------------------------------
-sub_BF120:
+DrawArtFast:
         push esi
         push edi
         push ebp
@@ -114,7 +116,7 @@ sub_BF120:
         push edi
         push edx
         push eax
-        call sub_DEFD7
+        call BlitShapeFast
         add esp, byte 0Ch
         jmp near .6
 .1:
@@ -212,7 +214,7 @@ sub_BF120:
         sar eax, 10h
         push eax
         push edx
-        call sub_BF120
+        call DrawArtFast
         add esp, byte 0Ch
         ret
         mov edx, dword [byte esp+04h]
@@ -227,7 +229,7 @@ sub_BF120:
         sub ebx, eax
         push ebx
         push edx
-        call sub_BF120
+        call DrawArtFast
         add esp, byte 0Ch
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h

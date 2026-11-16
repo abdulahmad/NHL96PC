@@ -42,7 +42,7 @@ extern DrawColorText, DrawColorTextRight, DrawColorTextCentred, FillBox, DrawPau
 extern sub_AAADC, AllocMemBlock, FreeMemBlock, CreateBitmap, sub_AD620, TextSetColor, sub_B0CA8, sub_B0F7C
 extern SetAaPalLut, DrawArtAaScaledInt, DrawArtAaScaled, ProjectPointList, DrawFlatPoly, DrawPolyOutline, DrawArtScaledHotspot, MultiplyMatrix
 extern SetScreenScale, OriSetObjectMatrix, OriSetObjectPosition, MakeRotXMatrix, MakeRotYMatrix, MakeRotZMatrix, OriFindGroup, InitReciprocalTable
-extern FixedInverse, sub_BE960, sub_BEF44, sub_BEFF0, SetScreenTarget, SetRemapTable, sub_DD908, SetBlitSource
+extern FixedInverse, sub_BE960, sub_BEF44, FlipArtHorizontal, SetScreenTarget, SetRemapTable, sub_DD908, SetBlitSource
 extern sub_DD975, sub_DDBB4, sub_E0486, FindShape, sub_E0584, sub_E162A, SetViewScreenOrigin, TeamLineEnergy
 extern TextSetFont, unk_111024, unk_11B2AC, unk_122320, unk_157FDA, unk_157FF8, unk_1582F5, unk_158313
 extern unk_16443C, unk_1782AC, unk_1786AC, unk_178AAC, unk_1798C0, unk_179980, unk_179AC0, unk_179BBC
@@ -1575,7 +1575,7 @@ DrawControlMarker_41:
         je short .16
         push dword [nosplit eax*4+dword_152FEC]
         mov esi, eax
-        call sub_BEFF0
+        call FlipArtHorizontal
         add esp, byte 4
         push dword [byte ebp-08h]
         push edi
@@ -1592,7 +1592,7 @@ DrawControlMarker_41:
         mov eax, dword [byte ebp-0Ch]
         add esp, byte 10h
         push dword [nosplit eax*4+dword_152FEC]
-        call sub_BEFF0
+        call FlipArtHorizontal
         add esp, byte 4
         jmp near DrawOverlayCaption_E1
 .16:
@@ -2981,7 +2981,7 @@ DrawGameFrame:
         cmp eax, byte 8
         jge short .30
         push dword [nosplit esi*4+dword_152FEC]
-        call sub_BEFF0
+        call FlipArtHorizontal
         add esp, byte 4
         push dword [byte ebp+076h]
         push dword [byte ebp+07Eh]
@@ -2989,7 +2989,7 @@ DrawGameFrame:
         call sub_AAADC
         add esp, byte 0Ch
         push dword [nosplit esi*4+dword_152FEC]
-        call sub_BEFF0
+        call FlipArtHorizontal
         add esp, byte 4
         jmp short .31
 .30:

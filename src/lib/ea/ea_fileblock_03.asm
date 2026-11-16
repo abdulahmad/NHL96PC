@@ -4,9 +4,9 @@ bits 32
 section s_BE8C5 progbits alloc exec nowrite align=1
 extern __fprtf_, __sys_fini_387_emulator, str_Punct_DrawRinkSurface, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight
 extern DrawDestBuffer, ViewCenterY, str_D_ProjectPointsPersp, dword_123AAC, dword_123ABC, dword_123AC0, ScaledRowBuffer, Mul32To64
-extern Sar64, BuildSpanOffsets, SetBlitSource, sub_DDA44, sub_DEF74
+extern Sar64, BuildSpanOffsets, SetBlitSource, sub_DDA44, ReverseBytes
 global fprintf_, imul32, FixedInverse, sub_BE960, SortIndices, sub_BEAE4, ProjectPointWide, sub_BEC30
-global sub_BEF44, sub_BEFF0
+global sub_BEF44, FlipArtHorizontal
 ;-----------------------------------------------------------------------------
 ; imul32                                       BE8C5  95 PC, medium confidence
 ;-----------------------------------------------------------------------------
@@ -748,9 +748,10 @@ sub_BEF44:
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_BEFF0                                                            BEFF0  
+; FlipArtHorizontal                               BEFF0  96 PC, low confidence
+; Mirrors art left to right and moves its hotspot to match
 ;-----------------------------------------------------------------------------
-sub_BEFF0:
+FlipArtHorizontal:
         push esi
         push edi
         push ebp
@@ -766,7 +767,7 @@ sub_BEFF0:
 .1:
         mov edx, ecx
         mov eax, ebx
-        call sub_DEF74
+        call ReverseBytes
         inc esi
         add ebx, ecx
         cmp esi, edi

@@ -8,7 +8,7 @@ extern dword_1986A0, dword_19A5E0, dword_19A5E4, dword_19A5E8, dword_19A5EC, dwo
 extern dword_19A5FC, dword_19A600, dword_19A604, dword_19A608, dword_19A60C, dword_19A610, dword_19A614, dword_19A618
 extern dword_19A61C, dword_19A620, dword_19A624, dword_19A628, dword_19A630, dword_19A634, dword_19A638, dword_19A63C
 extern dword_19A640, dword_19A644, dword_19A648, dword_19A64C, strnicmp_, FixedDivide, ProjectPointWide, DrawMappedTriangle
-extern TexSpanFill, FillRectColor, sub_DE15C, sub_E0959, sub_E15D7, unk_1983E0
+extern TexSpanFill, FillRectColor, PutPixel, sub_E0959, sub_E15D7, unk_1983E0
 global __CHP, ShadedPolyStepEdge_19F, FillShadedTriRight_1C9, OriFindGroup, OriFindPartition, OriGetPartition, ShadedPolyStepEdge, ShadedSpansLeftClipped
 global ShadedSpansLeft, ShadedSpansRightClipped, ShadedSpansRight, FillShadedTriRight, FillShadedTriRightClipped, FillShadedTriLeft, FillShadedTriLeftClipped, FillShadedPoly
 global InitReciprocalTable, ClipEdgeAtZ, ClipAndProjectEdge, PolySideTest, ClipPolyNearZ, ClipEdgeAtZTex, DrawTexturedPolyCore, SubdivideMappedTriangle
@@ -2329,7 +2329,7 @@ DrawTexturedPolyCore:
         push edx
         mov ebx, dword [eax]
         push ebx
-        call sub_DE15C
+        call PutPixel
         add esp, byte 0Ch
         pop ecx
         pop ebx
@@ -2346,7 +2346,7 @@ DrawTexturedPolyCore:
         push edx
         mov ebx, dword [eax]
         push ebx
-        call sub_DE15C
+        call PutPixel
         add esp, byte 0Ch
         push edi
         mov ecx, dword [byte esi+04h]
@@ -2354,7 +2354,7 @@ DrawTexturedPolyCore:
         push ecx
         inc eax
         push eax
-        call sub_DE15C
+        call PutPixel
         add esp, byte 0Ch
         mov eax, dword [byte esi+04h]
         push edi
@@ -2363,7 +2363,7 @@ DrawTexturedPolyCore:
         mov eax, dword [esi]
         inc eax
         push eax
-        call sub_DE15C
+        call PutPixel
         add esp, byte 0Ch
         mov eax, dword [byte esi+04h]
         push edi
@@ -2371,7 +2371,7 @@ DrawTexturedPolyCore:
         push eax
         mov edi, dword [esi]
         push edi
-        call sub_DE15C
+        call PutPixel
         add esp, byte 0Ch
         pop edi
         pop esi

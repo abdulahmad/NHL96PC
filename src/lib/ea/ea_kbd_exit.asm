@@ -4,8 +4,8 @@ bits 32
 section s_C27F8 progbits alloc exec nowrite align=1
 extern SetDrawBitmap, str_EXITTODOSY, str_PAUSEPRESSANYKEY, dword_11F994, BackBufferWidth, joycalactive, mousepollfn, off_11F5F4
 extern off_11F5F8, off_11F5FC, off_14F074, off_14F078, CreateBitmap, FillRect, sub_ADA80, FreeBitmap
-extern TextSetColor, SaveTextState, SetDrawTarget, TextSetFont, DrawArtOpaque, NearestColour, sub_BF120, sub_CFE0C
-extern sub_CFE20, sub_CFE70, SetScreenTarget, sub_DE084, KbdGetKey, sub_E193C, sub_E1956, DebugLineCount
+extern TextSetColor, SaveTextState, SetDrawTarget, TextSetFont, DrawArtOpaque, NearestColour, DrawArtFast, sub_CFE0C
+extern sub_CFE20, sub_CFE70, SetScreenTarget, SetClipRect, KbdGetKey, sub_E193C, sub_E1956, DebugLineCount
 extern unk_1213DC
 global sub_C27F8, sub_C2AC4, sub_C2AEC, sub_C2C5C, DosGetVector, DosSetVector
 ;-----------------------------------------------------------------------------
@@ -63,7 +63,7 @@ sub_C27F8:
         push ecx
         push BackBufferWidth
         mov dword [dword esp+0C0h], eax
-        call sub_DE084
+        call SetClipRect
         add esp, byte 14h
         call dword [off_11F5F8]
         push esi
@@ -76,7 +76,7 @@ sub_C27F8:
         push edx
         mov ebx, dword [byte esi+02Ch]
         push ebx
-        call sub_BF120
+        call DrawArtFast
         add esp, byte 0Ch
         call SetScreenTarget
         push byte 0
@@ -163,7 +163,7 @@ sub_C27F8:
         mov eax, dword [dword esp+0C0h]
         push eax
         push BackBufferWidth
-        call sub_DE084
+        call SetClipRect
         add esp, byte 14h
         call dword [off_11F5F4]
         call SetScreenTarget
@@ -260,7 +260,7 @@ sub_C2AEC:
         push dword 140h
         push byte 0
         push BackBufferWidth
-        call sub_DE084
+        call SetClipRect
         add esp, byte 14h
         call dword [off_11F5F8]
         call SetScreenTarget
@@ -268,7 +268,7 @@ sub_C2AEC:
         push byte 0
         mov ebx, dword [byte esi+02Ch]
         push ebx
-        call sub_BF120
+        call DrawArtFast
         add esp, byte 0Ch
         call SetScreenTarget
         push byte 0

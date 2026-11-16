@@ -1,0 +1,39 @@
+sub_DE084 SetClipRect {confidence=medium,source=new} sets a bitmap's clip rectangle (left, top, right, bottom), and the current clip when it is the draw target
+sub_DE15C PutPixel {confidence=low,source=new} plots a pixel of a colour at x, y when it is inside the clip rectangle
+sub_DE247 BlitShapeClipped {confidence=low,source=new} stores a shape's position and copies it to the draw target, clipped (opaque)
+sub_DE4C7 BlitBlock {confidence=low,source=new} copies a block to the draw target at x, y, clipped (opaque)
+sub_DE643 BlitBlockXor {confidence=low,source=new} XORs a block onto the draw target at x, y, clipped
+sub_DE7DB BlitBlockAnd {confidence=low,source=new} ANDs a block onto the draw target at x, y, clipped
+sub_DE9F3 BlitBlockOr {confidence=low,source=new} ORs a block onto the draw target at x, y, clipped
+sub_DE97C AndPixel {confidence=low,source=new} ANDs a pixel of the draw target with a mask, on a linear or banked screen
+sub_DEB94 OrPixel {confidence=low,source=new} ORs a pixel of the draw target with a mask, on a linear or banked screen
+sub_DEC41 FillRectCore {confidence=low,source=new} clips a rectangle and fills it with a colour on the draw target
+jpt_DEC90 FillRectJumpTable {confidence=low,source=new} jump table of FillRectCore, by the rectangle's start alignment
+sub_DED6D XorRectCore {confidence=low,source=new} XORs a rectangle of the draw target with a colour
+jpt_DEDBC XorRectJumpTable {confidence=low,source=new} jump table of XorRectCore, by the rectangle's start alignment
+sub_DEE68 BlitFontNibbles {confidence=low,source=new} draws 4-bit font pixels through the text colour table, two pixels a byte
+sub_DEEE3 BlitArtOpaque {confidence=low,source=new} copies art opaque to the draw target, clipped
+sub_DEF74 ReverseBytes {confidence=medium,source=new} reverses the order of the bytes in a buffer
+sub_DEFD7 BlitShapeFast {confidence=low,source=new} stores a shape's position and copies it to the draw target a dword at a time
+sub_DF058 FillRectSpansCore {confidence=low,source=new} fills the spans of a rectangle with a colour
+jpt_DF09B FillRectSpansJumpTable {confidence=low,source=new} jump table of FillRectSpansCore, by the span's start alignment
+sub_DF22C FillSpansSet {confidence=low,source=new} fills a list of horizontal spans with a colour
+sub_DF2CC FillSpansXor {confidence=low,source=new} XORs a list of horizontal spans with a colour
+sub_DF38C FillSpansAnd {confidence=low,source=new} ANDs a list of horizontal spans with a colour
+sub_DF44C FillSpansOr {confidence=low,source=new} ORs a list of horizontal spans with a colour
+sub_DF50C RemapSpans {confidence=low,source=new} passes a list of horizontal spans through the remap table (shadows)
+min__10 FillSpanList {confidence=low,source=new} fills a list of horizontal spans, directly or one FillRect per row when keyed drawing is on
+BuildSpanOffsets_6C RemapSpanList {confidence=low,source=new} remaps a list of horizontal spans, directly or row by row when keyed drawing is on
+sub_DF5C0 UnpackArtRle {confidence=low,source=new} copies an art header and unpacks its run length coded rows
+sub_DF6A7 BlitBlockShadow {confidence=low,source=new} draws a block with shadow pixels: FFh skipped, FEh remapped, others copied
+sub_DF810 CopyRowShadowFast {confidence=low,source=new} copies a row with shadow pixels to a linear screen
+sub_DE44E VesaSetMode {confidence=medium,source=new} sets a VESA video mode (int 10h, 4F02h)
+sub_DE45F VgaSetModeTwice {confidence=low,source=new} sets mode 12h without clearing, then the given video mode
+sub_AADE8 CopyRowXor {confidence=low,source=new} row copy routine that XORs the source row onto the destination
+sub_AAF28 DrawArtAnd {confidence=low,source=new} ANDs art onto the draw target at x, y, pixel by pixel when keyed drawing is on
+sub_AB0A8 DrawArtOr {confidence=low,source=new} ORs art onto the draw target at x, y, pixel by pixel when keyed drawing is on
+sub_AD8A8 XorRect {confidence=low,source=new} XORs a rectangle of the draw target with a colour
+sub_DD120 DrawArtShadow {confidence=low,source=new} draws art with shadow pixels at x, y (FFh skipped, FEh darkened)
+sub_DD580 CopyRowShadow {confidence=low,source=new} row copy routine for shadow art: FFh skipped, FEh remapped, others copied
+sub_BF120 DrawArtFast {confidence=low,source=new} stores art's position and copies it to the draw target without row copy routines
+sub_BEFF0 FlipArtHorizontal {confidence=low,source=new} mirrors art left to right and moves its hotspot to match

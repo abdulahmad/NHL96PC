@@ -4,7 +4,7 @@ bits 32
 section s_AA5C4 progbits alloc exec nowrite align=1
 extern FatalError, __STOSD, _dos_getvect_, _dos_setvect_, str_AddtimerLISTFULL, TimerTickStep, ScreenWidth, ClipTopRow
 extern ClipLeftCol, ClipRight, ScreenHeight, KeyedDraw, dword_1228FC, dword_122930, oldint8off, oldint8sel
-extern RestoreDS, sub_DE247, VesaSetBank, AddExitHandler, bcopy, tickcount, timercallbacks
+extern RestoreDS, BlitShapeClipped, VesaSetBank, AddExitHandler, bcopy, tickcount, timercallbacks
 global InstallTimer, RestoreTimer, TimerISR, addtimer, RemoveTimerCallback, DrawShapeCore, unk_AA7B0, TimerISR_tick
 ;-----------------------------------------------------------------------------
 ; TimerISR                                     AA5C4  95 PC, medium confidence
@@ -239,7 +239,7 @@ DrawShapeCore:
         push eax
         push edx
         push edi
-        call sub_DE247
+        call BlitShapeClipped
         add esp, byte 0Ch
         jmp near .10
 .1:

@@ -6,7 +6,7 @@ extern FatalError, str_SavefileblockaOPENFAILEDFOR, byte_11FA2C, byte_11FA2D, by
 extern TextOriginX, TextOriginY, dword_11FA24, dword_11FA28, dword_11FA34, dword_11FA38, dword_11FA3C, dword_11FA40
 extern dword_11FA44, dword_11FA48, dword_11FA4C, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight
 extern dword_1228E8, KeyedDraw, DrawDestBuffer, dword_1228FC, dword_185774, off_11FA10, MemDescPtr, MemDescSize
-extern SetTextOrigin, ArtBitDepth, PixelToRgb, DrawEllipseClipped, sub_DE15C, sub_DEE68, sub_E069C, DosCloseFile
+extern SetTextOrigin, ArtBitDepth, PixelToRgb, DrawEllipseClipped, PutPixel, BlitFontNibbles, sub_E069C, DosCloseFile
 extern DosWriteFile
 global SaveDataFile, savefileblocka, sub_B2400, sub_B2B0C
 ;-----------------------------------------------------------------------------
@@ -378,7 +378,7 @@ sub_B2400:
         push esi
         mov edx, dword [byte esp+06Ch]
         push edx
-        call sub_DE15C
+        call PutPixel
         add esp, byte 0Ch
 .24:
         mov al, byte [edi]
@@ -389,7 +389,7 @@ sub_B2400:
         push esi
         mov ebx, dword [byte esp+044h]
         push ebx
-        call sub_DE15C
+        call PutPixel
         add esp, byte 0Ch
 .25:
         mov al, byte [edi]
@@ -400,7 +400,7 @@ sub_B2400:
         push esi
         mov ecx, dword [byte esp+060h]
         push ecx
-        call sub_DE15C
+        call PutPixel
         add esp, byte 0Ch
 .26:
         mov al, byte [edi]
@@ -411,7 +411,7 @@ sub_B2400:
         push esi
         mov eax, dword [byte esp+058h]
         push eax
-        call sub_DE15C
+        call PutPixel
         add esp, byte 0Ch
 .27:
         mov al, byte [edi]
@@ -422,7 +422,7 @@ sub_B2400:
         push esi
         mov edx, dword [byte esp+05Ch]
         push edx
-        call sub_DE15C
+        call PutPixel
         add esp, byte 0Ch
 .28:
         mov al, byte [edi]
@@ -433,7 +433,7 @@ sub_B2400:
         push esi
         mov ebx, dword [byte esp+034h]
         push ebx
-        call sub_DE15C
+        call PutPixel
         add esp, byte 0Ch
 .29:
         mov al, byte [edi]
@@ -444,7 +444,7 @@ sub_B2400:
         push esi
         mov ecx, dword [byte esp+030h]
         push ecx
-        call sub_DE15C
+        call PutPixel
         add esp, byte 0Ch
 .30:
         mov al, byte [edi]
@@ -455,7 +455,7 @@ sub_B2400:
         push esi
         mov eax, dword [byte esp+050h]
         push eax
-        call sub_DE15C
+        call PutPixel
         add esp, byte 0Ch
 .31:
         mov ecx, dword [byte esp+03Ch]
@@ -545,7 +545,7 @@ sub_B2400:
         push edx
         mov edi, dword [byte esp+054h]
         push edi
-        call sub_DEE68
+        call BlitFontNibbles
         add esp, byte 18h
         mov eax, dword [byte esp+024h]
         add dword [TextOriginX], eax
@@ -631,7 +631,7 @@ sub_B2400:
         push esi
         mov eax, dword [byte esp+040h]
         push eax
-        call sub_DE15C
+        call PutPixel
         add esp, byte 0Ch
 .40:
         mov al, byte [edi]
@@ -643,7 +643,7 @@ sub_B2400:
         push esi
         mov ebx, dword [byte esp+064h]
         push ebx
-        call sub_DE15C
+        call PutPixel
         add esp, byte 0Ch
 .41:
         mov ecx, dword [byte esp+05Ch]
@@ -700,7 +700,7 @@ sub_B2400:
         push esi
         mov ebx, dword [byte esp+068h]
         push ebx
-        call sub_DE15C
+        call PutPixel
         add esp, byte 0Ch
 .46:
         mov ecx, dword [byte esp+060h]

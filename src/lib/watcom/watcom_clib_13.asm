@@ -17,14 +17,14 @@ extern FileSizeByName, AddVec3, OriScaleVector, InitReciprocalTable, sub_BEAE4, 
 extern PixelToRgb, InitFpuFlags, sub_D0650, CMainHook, __CommonInit_, sub_D06FC, sub_D077C, sub_D1080
 extern sub_D1280, DrawTextBoxedAt, sub_D1860, sub_D1920, sub_D19BC, sub_D1A88, sub_D1B3C, sub_D1BEC
 extern sub_D1CE0, SetScreenTarget, SetClipWindow, sub_DD830, sub_DD87C, SetBlitSource, CopyMappedSpan, CopyScaledSpanShadow
-extern CopyScaledSpan, PlotPixel, PlotPixelClipped, VesaSetBank, sub_DF22C, sub_DF2CC, sub_DF38C, sub_DF44C
-extern sub_DF50C, sub_DFB84, sub_DFB88, KbdGetKey, SetKbdIdleHook, sub_DFF7C, ReadJoystickPorts, sub_E0456
+extern CopyScaledSpan, PlotPixel, PlotPixelClipped, VesaSetBank, FillSpansSet, FillSpansXor, FillSpansAnd, FillSpansOr
+extern RemapSpans, sub_DFB84, sub_DFB88, KbdGetKey, SetKbdIdleHook, sub_DFF7C, ReadJoystickPorts, sub_E0456
 extern sub_E0486, AddExitHandler, sub_E0584, InstallBreakHandler, vecdist, SetViewScreenOrigin, SetCameraAngles, sub_E193C
 extern sub_E1956, RestoreTextMode, sub_E272C, SinCosLookup, tolower_, unk_1210DC, unk_1213DC, InitRtnsEntry
 extern FiniRtnsEntry, unk_15158C, unk_18584C, vsprintf_, DefaultControlWord
 global __CMain, __FiniRtns, __HeapManager_expand_, __IOMode_, __InitRtns, __SetIOMode_, __doserror_, __fprtf_
 global __set_errno_dos_, __sys_init_387_emulator, _dosret0_, _nexpand_, _nmsize_, file_putc_, int386_, int386x_
-global isatty_, _nexpand__10, __HeapManager_expand__18F, __HeapManager_expand__1EA, LocateBigEntry_168, min__10, BuildSpanOffsets_6C, min_
+global isatty_, _nexpand__10, __HeapManager_expand__18F, __HeapManager_expand__1EA, LocateBigEntry_168, FillSpanList, RemapSpanList, min_
 global segread_, strnicmp_, DrawEllipse, DrawEllipseClipped, JoystickCalibrateScreen, ShowKeyboardOn, FpuHookStub, ShutdownSystem
 global InitSystem, PrintBoxedText, CdDirSearch, ToUpperChar, BigFileType, LocateBigEntry, LocateBigData, LocateBigs
 global WalkBigFile, PolyCrossProduct, RasterMappedTriangle, DrawMappedTriangle, RasterMappedTriangleShadow, DrawMappedTriangleShadow, RasterShapeTriangle, DrawShapeTriangleMapped
@@ -7237,7 +7237,12 @@ min_:
 .1:
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h
-min__10:
+;-----------------------------------------------------------------------------
+; FillSpanList                                    C9FC0  96 PC, low confidence
+; Fills a list of horizontal spans, directly or one FillRect per row when
+; keyed drawing is on
+;-----------------------------------------------------------------------------
+FillSpanList:
         push esi
         push edi
         push ebp
@@ -7253,7 +7258,7 @@ min__10:
         push eax
         push ebp
         push esi
-        call sub_DF22C
+        call FillSpansSet
         add esp, byte 14h
         pop ebp
         pop edi
@@ -7305,7 +7310,7 @@ min__10:
         push esi
         mov edi, dword [byte esp+01Ch]
         push edi
-        call sub_DF2CC
+        call FillSpansXor
         add esp, byte 14h
         pop edi
         pop esi
@@ -7323,7 +7328,7 @@ min__10:
         push esi
         mov edi, dword [byte esp+01Ch]
         push edi
-        call sub_DF38C
+        call FillSpansAnd
         add esp, byte 14h
         pop edi
         pop esi
@@ -7341,7 +7346,7 @@ min__10:
         push esi
         mov edi, dword [byte esp+01Ch]
         push edi
-        call sub_DF44C
+        call FillSpansOr
         add esp, byte 14h
         pop edi
         pop esi
@@ -7399,7 +7404,12 @@ BuildSpanOffsets:
         pop ebx
         ret
         db 08Dh,040h,00h
-BuildSpanOffsets_6C:
+;-----------------------------------------------------------------------------
+; RemapSpanList                                   CA11C  96 PC, low confidence
+; Remaps a list of horizontal spans, directly or row by row when keyed
+; drawing is on
+;-----------------------------------------------------------------------------
+RemapSpanList:
         push esi
         push edi
         push ebp
@@ -7414,7 +7424,7 @@ BuildSpanOffsets_6C:
         push esi
         mov edi, dword [byte esp+020h]
         push edi
-        call sub_DF50C
+        call RemapSpans
         add esp, byte 10h
         jmp near .13
 .5:

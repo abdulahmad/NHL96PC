@@ -5,7 +5,7 @@ section s_CFDF1 progbits alloc exec nowrite align=1
 extern _EFG_Format_, __IOMode_, __STOSB, __cnvs2d_, __fatal_runtime_error_, __set_errno_, __set_errno_dos_, __shutdown_stream_
 extern _nmalloc_, str_NotEnoughMemoryTo, __iob_flags, ScreenWidth, ClipBottom, ClipTopRow, ClipRight, __nheapbeg
 extern __OpenStreams, __ClosedStreams, fputchar, __freefp__39, __EFG_printf, __EFG_scanf, sub_B2B0C, SetClipWindow
-extern sub_DE084, __iob, __iob_end
+extern SetClipRect, __iob, __iob_end
 global __InitFiles_, __full_io_exit_, __qwrite_, __setEFGfmt_, docloseall_, fcloseall_, memset_, sub_CFE0C
 global sub_CFE20, sub_CFE70, sub_CFE8C
 ;-----------------------------------------------------------------------------
@@ -70,7 +70,7 @@ sub_CFE70:
         push ebx
         push byte 0
         push eax
-        call sub_DE084
+        call SetClipRect
         add esp, byte 14h
         ret
         db 08Dh,040h,00h

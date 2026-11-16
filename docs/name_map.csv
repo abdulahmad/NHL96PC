@@ -1173,6 +1173,9 @@ AAA8C,DrawShape,sub_AAA8C,new,medium,"draws art at its own position; keyed when 
 AAB40,PutBlock,,95PC,medium,NHL95PC 903F0 (sem): C:2284; R:2174; R:2167; K:10000,
 AADA4,PutBlockAtOwnPos,sub_AADA4,new,low,copies a block to the screen at the position stored in its header,src/lib/ea/ea_gfx_01.asm
 AADC0,BlitShapeAt,sub_AADC0,new,low,"graphics library: draws a shape with transparency at x, y less its hot spot",src/lib/ea/ea_gfx_01.asm
+AADE8,CopyRowXor,sub_AADE8,new,low,row copy routine that XORs the source row onto the destination,src/lib/ea/ea_gfx_01.asm
+AAF28,DrawArtAnd,sub_AAF28,new,low,"ANDs art onto the draw target at x, y, pixel by pixel when keyed drawing is on",src/lib/ea/ea_gfx_01.asm
+AB0A8,DrawArtOr,sub_AB0A8,new,low,"ORs art onto the draw target at x, y, pixel by pixel when keyed drawing is on",src/lib/ea/ea_gfx_01.asm
 AB2EC,AddMemRegion,sub_AB2EC,new,low,adds a region of memory to a memory list as a named LOW block range,src/lib/ea/ea_gfx_01.asm
 AB3B4,AddMemRegions,sub_AB3B4,new,low,adds each region of a list of memory areas to the memory lists,src/lib/ea/ea_gfx_01.asm
 AB440,AddHighMemRegion,sub_AB440,new,low,adds the HIGHMEM region to a memory list with a GAP block for the hole below it,src/lib/ea/ea_gfx_01.asm
@@ -1213,6 +1216,7 @@ AD35C,CreateBitmap,sub_AD35C,new,medium,creates a bitmap at the screen's pixel d
 AD420,TintRowPixels,sub_AD420,new,low,tints one row of pixels by the current colour multipliers,src/lib/ea/ea_debug_01.asm
 AD5C8,TintRows,sub_AD5C8,new,low,tints each row of a rectangle,src/lib/ea/ea_debug_01.asm
 AD680,FillRect,,95PC,medium,NHL95PC 90D20 (sem): C:2290; C:2373; R:1708; R:2162,
+AD8A8,XorRect,sub_AD8A8,new,low,XORs a rectangle of the draw target with a colour,src/lib/ea/ea_gfx_02.asm
 ADBB4,fputchar,,WATCOM,high,IDA FLIRT library signature,
 ADBEC,FreeBitmap,sub_ADBEC,new,medium,removes a bitmap's window and frees its memory,src/lib/ea/ea_gfx_02.asm
 ADC05,mem_putc_,,WATCOM,high,IDA FLIRT library signature,
@@ -1478,8 +1482,10 @@ BE926,FixedInverse,sub_BE926,new,low,returns 1/x in 16.16 fixed point,src/lib/ea
 BE93C,fprintf_,,WATCOM,high,IDA FLIRT library signature,
 BEA30,SortIndices,,95PC,medium,NHL95PC 93540 (similar): mnemonic similarity 0.83 over 62 instructions,
 BEB48,ProjectPointWide,sub_BEB48,new,low,projects one 3D point with perspective using 64-bit maths,src/lib/ea/ea_fileblock_03.asm
+BEFF0,FlipArtHorizontal,sub_BEFF0,new,low,mirrors art left to right and moves its hotspot to match,src/lib/ea/ea_fileblock_03.asm
 BF070,__STOSB,,WATCOM,high,IDA FLIRT library signature,
 BF0A7,__STOSD,,WATCOM,high,IDA FLIRT library signature,
+BF120,DrawArtFast,sub_BF120,new,low,stores art's position and copies it to the draw target without row copy routines,src/lib/watcom/watcom_clib_07.asm
 BF534,initgraphics,,95PC,medium,NHL95PC 8E080 (sem): S:initgraphics - INITMEMMAN REQUIRED BEF; D:113A50; S:initgraphics - INVALID SCREEN SIZE (,
 BF8A8,TranslatePixels,sub_BF8A8,new,low,translates a run of 8-bit pixels through a table,src/lib/ea/ea_vesa_init.asm
 BF8D0,SumRingRange,sub_BF8D0,new,low,sums a range of entries of a circular table,src/lib/ea/ea_vesa_init.asm
@@ -1694,7 +1700,9 @@ C9E70,Div64By32,sub_C9E70,new,medium,divides a 64-bit value by a 32-bit one; fol
 C9F3A,Sar64,sub_C9F3A,new,medium,"shifts a 64-bit number right, keeping the sign",src/lib/watcom/watcom_clib_13.asm
 C9F8A,Shl64,sub_C9F8A,new,low,shifts a 64-bit value left,src/lib/watcom/watcom_clib_13.asm
 C9FB0,min_,,WATCOM,high,IDA FLIRT library signature,
+C9FC0,FillSpanList,,new,low,"fills a list of horizontal spans, directly or one FillRect per row when keyed drawing is on",src/lib/watcom/watcom_clib_13.asm
 CA0B0,BuildSpanOffsets,sub_CA0B0,new,medium,fills the column offset table by stepping source coordinates in 16.16 fixed point,src/lib/watcom/watcom_clib_13.asm
+CA11C,RemapSpanList,,new,low,"remaps a list of horizontal spans, directly or row by row when keyed drawing is on",src/lib/watcom/watcom_clib_13.asm
 CA288,OriApplyMorph,sub_CA288,new,medium,morphs an object's points between its key shapes,src/lib/watcom/watcom_clib_13.asm
 CA584,OriRotateY,sub_CA584,new,low,rotates points around the vertical axis,src/lib/watcom/watcom_clib_13.asm
 CA650,FixedSinCos,sub_CA650,new,low,graphics library: sine and cosine of a fixed-point angle from the table,src/lib/watcom/watcom_clib_13.asm
@@ -2114,6 +2122,7 @@ DCE0D,__cvt_,,WATCOM,high,IDA FLIRT library signature,
 DCFF4,ModfCore,sub_DCFF4,new,low,splits a double into its integer and fraction parts,src/lib/watcom/watcom_clib_21.asm
 DD084,DecimalToInt64,sub_DD084,new,low,converts a string of decimal digits to a 64-bit integer,src/lib/watcom/watcom_clib_21.asm
 DD0CF,NormalizeDouble,sub_DD0CF,new,low,normalises a 64-bit mantissa and exponent into a double,src/lib/watcom/watcom_clib_21.asm
+DD120,DrawArtShadow,sub_DD120,new,low,"draws art with shadow pixels at x, y (FFh skipped, FEh darkened)",src/lib/watcom/watcom_clib_21.asm
 DD32C,modf_,,WATCOM,high,IDA FLIRT library signature,
 DD346,__CmpBigInt,,WATCOM,high,IDA FLIRT library signature,
 DD380,__Rnd2Int,,WATCOM,high,IDA FLIRT library signature,
@@ -2121,6 +2130,7 @@ DD3EB,__Bin2String,,WATCOM,high,IDA FLIRT library signature,
 DD455,BigIntCallHook,sub_DD455,new,low,calls the empty big-integer compare hook,src/lib/watcom/watcom_clib_21.asm
 DD50A,BigIntNullHook,sub_DD50A,new,low,empty big-integer compare hook,src/lib/watcom/watcom_clib_21.asm
 DD50C,frexp_,,WATCOM,high,IDA FLIRT library signature,
+DD580,CopyRowShadow,sub_DD580,new,low,"row copy routine for shadow art: FFh skipped, FEh remapped, others copied",src/lib/watcom/watcom_clib_21.asm
 DD6C4,SetScreenTarget,sub_DD6C4,new,low,same code as in the next game,src/lib/video/video_bios_vga_01.asm
 DD6E0,GetPaletteRange,sub_DD6E0,new,low,reads a range of palette entries from the VGA DAC into a buffer,src/lib/video/video_bios_vga_01.asm
 DD708,SetDrawBitmap,,95PC,medium,NHL95PC B4F70 (sem): D:1228D0; R:1652; R:1650,
@@ -2138,11 +2148,37 @@ DDEBC,WaitRetraceEdges,sub_DDEBC,new,medium,"as WaitRetrace, always waiting for 
 DDEE7,WaitDisplayRetrace,,new,medium,"waits for display enable, then for the start of vertical retrace (port 3DAh, bit 3); entry after the ret of WaitRetraceEdges",src/lib/video/video_bios_vga_01.asm
 DDF24,SetCrtcStart,sub_DDF24,new,medium,page flip: set the CRTC start address,src/lib/video/video_bios_vga_01.asm
 DDF94,ClearChain4,sub_DDF94,new,medium,clear Chain-4 (sequencer register 4 bit 3) after mode 13h for the unchained pages,src/lib/video/video_bios_vga_01.asm
+DE084,SetClipRect,sub_DE084,new,medium,"sets a bitmap's clip rectangle (left, top, right, bottom), and the current clip when it is the draw target",src/lib/video/vesa_banked_blit_02.asm
 DE10D,PlotPixel,,95PC,medium,NHL95PC B5DB0 (sem): D:12401C; D:122930; C:2281; D:1228F4,
+DE15C,PutPixel,sub_DE15C,new,low,"plots a pixel of a colour at x, y when it is inside the clip rectangle",src/lib/video/vesa_banked_blit_02.asm
 DE18C,PlotPixelClipped,sub_DE18C,new,low,plots one pixel when it lies inside the clip window,src/lib/video/vesa_banked_blit_02.asm
+DE247,BlitShapeClipped,sub_DE247,new,low,"stores a shape's position and copies it to the draw target, clipped (opaque)",src/lib/video/vesa_banked_blit_02.asm
 DE3D8,VesaSetBank,sub_DE3D8,new,low,switches the VESA bank window when the wanted bank differs,src/lib/video/vesa_banked_blit_02.asm
+DE44E,VesaSetMode,sub_DE44E,new,medium,"sets a VESA video mode (int 10h, 4F02h)",src/lib/video/vesa_banked_blit_02.asm
+DE45F,VgaSetModeTwice,sub_DE45F,new,low,"sets mode 12h without clearing, then the given video mode",src/lib/video/vesa_banked_blit_02.asm
+DE4C7,BlitBlock,sub_DE4C7,new,low,"copies a block to the draw target at x, y, clipped (opaque)",src/lib/video/vesa_banked_blit_02.asm
+DE643,BlitBlockXor,sub_DE643,new,low,"XORs a block onto the draw target at x, y, clipped",src/lib/video/vesa_banked_blit_02.asm
+DE7DB,BlitBlockAnd,sub_DE7DB,new,low,"ANDs a block onto the draw target at x, y, clipped",src/lib/video/vesa_banked_blit_02.asm
+DE97C,AndPixel,sub_DE97C,new,low,"ANDs a pixel of the draw target with a mask, on a linear or banked screen",src/lib/video/vesa_banked_blit_02.asm
+DE9F3,BlitBlockOr,sub_DE9F3,new,low,"ORs a block onto the draw target at x, y, clipped",src/lib/video/vesa_banked_blit_02.asm
+DEB94,OrPixel,sub_DEB94,new,low,"ORs a pixel of the draw target with a mask, on a linear or banked screen",src/lib/video/vesa_banked_blit_02.asm
+DEC41,FillRectCore,sub_DEC41,new,low,clips a rectangle and fills it with a colour on the draw target,src/lib/video/vesa_banked_blit_02.asm
+DED6D,XorRectCore,sub_DED6D,new,low,XORs a rectangle of the draw target with a colour,src/lib/video/vesa_banked_blit_02.asm
+DEE68,BlitFontNibbles,sub_DEE68,new,low,"draws 4-bit font pixels through the text colour table, two pixels a byte",src/lib/video/vesa_banked_blit_02.asm
+DEEE3,BlitArtOpaque,sub_DEEE3,new,low,"copies art opaque to the draw target, clipped",src/lib/video/vesa_banked_blit_02.asm
+DEF74,ReverseBytes,sub_DEF74,new,medium,reverses the order of the bytes in a buffer,src/lib/video/vesa_banked_blit_02.asm
+DEFD7,BlitShapeFast,sub_DEFD7,new,low,stores a shape's position and copies it to the draw target a dword at a time,src/lib/video/vesa_banked_blit_02.asm
+DF058,FillRectSpansCore,sub_DF058,new,low,fills the spans of a rectangle with a colour,src/lib/video/vesa_banked_blit_02.asm
+DF22C,FillSpansSet,sub_DF22C,new,low,fills a list of horizontal spans with a colour,src/lib/video/vesa_banked_blit_02.asm
+DF2CC,FillSpansXor,sub_DF2CC,new,low,XORs a list of horizontal spans with a colour,src/lib/video/vesa_banked_blit_02.asm
+DF38C,FillSpansAnd,sub_DF38C,new,low,ANDs a list of horizontal spans with a colour,src/lib/video/vesa_banked_blit_02.asm
+DF44C,FillSpansOr,sub_DF44C,new,low,ORs a list of horizontal spans with a colour,src/lib/video/vesa_banked_blit_02.asm
+DF50C,RemapSpans,sub_DF50C,new,low,passes a list of horizontal spans through the remap table (shadows),src/lib/video/vesa_banked_blit_02.asm
 DF55C,SaveVideoState,sub_DF55C,new,low,"saves the BIOS video mode, rows, columns and cursor",src/lib/video/vesa_banked_blit_02.asm
 DF596,RestoreVideoState,sub_DF596,new,low,restores the saved BIOS video state,src/lib/video/vesa_banked_blit_02.asm
+DF5C0,UnpackArtRle,sub_DF5C0,new,low,copies an art header and unpacks its run length coded rows,src/lib/video/vesa_banked_blit_02.asm
+DF6A7,BlitBlockShadow,sub_DF6A7,new,low,"draws a block with shadow pixels: FFh skipped, FEh remapped, others copied",src/lib/video/vesa_banked_blit_02.asm
+DF810,CopyRowShadowFast,sub_DF810,new,low,copies a row with shadow pixels to a linear screen,src/lib/video/vesa_banked_blit_02.asm
 DF8AC,MouseReadButtons,sub_DF8AC,new,low,reads the mouse buttons through the mouse driver,src/lib/input/input_mouse.asm
 DF928,MouseRead,,95PC,medium,NHL95PC B2DCA (similar): mnemonic similarity 0.88 over 29 instructions,
 DF98F,SetViewRect,,95PC,high,NHL95PC B2E1B (exact): 12 instructions,

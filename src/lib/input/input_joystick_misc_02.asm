@@ -5,7 +5,7 @@ section s_E0898 progbits alloc exec nowrite align=1
 extern str_Punct_DrawRinkSurface, dword_1222C8, dword_1222CC, dword_1222D0, dword_1222D4, dword_1222D8, dword_1222DC, ClipTopRow
 extern ClipLeftCol, ClipRight, ScreenHeight, ViewCenterX, str_D_SetCameraAngles, CameraYaw, CameraPitch, ViewCenterY
 extern str_D_ProjectPointsPersp, dword_123AAC, dword_123AB0, CameraOriginX, CameraOriginY, dword_123ABC, ShadowFillFunc, TitleBandFunc
-extern min__10, BuildSpanOffsets_6C, FillRectSpans, FillRectColor, sub_E19F0, SetupRectFill, AngleFromDelta, SinLookup
+extern FillSpanList, RemapSpanList, FillRectSpans, FillRectColor, sub_E19F0, SetupRectFill, AngleFromDelta, SinLookup
 extern CosLookup
 global FillBandRowsJumpTable, FillBandRowsBlendJumpTable, FillBandRowsPlainJumpTable, sub_E0959_F, sub_E0992_F, sub_E0992_26, jpt_E0C7A_38, jpt_E0DBA_3B
 global jpt_E0F93_22F, sub_E15D7_B, SetCameraAngles_2D, Random32, sub_E0959, sub_E0992, FillBandEdges, FillBandRows
@@ -77,7 +77,7 @@ sub_E0959:
         push edi
         mov byte [byte ebp-011h], 0
 sub_E0959_F:
-        mov eax, min__10
+        mov eax, FillSpanList
         mov dword [ShadowFillFunc], eax
         mov eax, FillRectColor
         mov dword [TitleBandFunc], eax
@@ -101,7 +101,7 @@ sub_E0992:
         push edi
         mov byte [byte ebp-011h], 0
 sub_E0992_F:
-        mov eax, min__10
+        mov eax, FillSpanList
         mov dword [ShadowFillFunc], eax
         mov eax, FillRectColor
         mov dword [TitleBandFunc], eax
@@ -1063,7 +1063,7 @@ jpt_E0F93_22F:
         push esi
         push edi
         mov byte [byte ebp-011h], 1
-        mov eax, min__10
+        mov eax, FillSpanList
         mov dword [ShadowFillFunc], eax
         mov eax, FillRectSpans
         mov dword [TitleBandFunc], eax
@@ -1074,7 +1074,7 @@ jpt_E0F93_22F:
         push esi
         push edi
         mov byte [byte ebp-011h], 0
-        mov eax, min__10
+        mov eax, FillSpanList
         mov dword [ShadowFillFunc], eax
         mov eax, FillRectSpans
         mov dword [TitleBandFunc], eax
@@ -1351,7 +1351,7 @@ sub_E1530:
         push edi
         mov esi, dword [byte ebp+010h]
         mov byte [byte ebp-011h], al
-        mov eax, BuildSpanOffsets_6C
+        mov eax, RemapSpanList
         mov dword [ShadowFillFunc], eax
         mov eax, FillRectColor
         mov dword [TitleBandFunc], eax

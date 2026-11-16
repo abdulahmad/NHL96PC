@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_151418 progbits alloc noexec write align=1
 extern __InitFiles_, __chk8087_, __full_io_exit_, __setEFGfmt_, __setenvp_, imul32, DrawArt, PutBlock
-extern Init387Emulator, sub_D142C, GusSizeDram, GusInitDma, sub_DD120
+extern Init387Emulator, sub_D142C, GusSizeDram, GusInitDma, DrawArtShadow
 global GusDmaLatchBits, GusDmaPageTable, GusDramSized, WVideoActive, GusDmaReady, GusIrqOldHandler, GusMidiPending, GusMidiIrqCount
 global GusTimerCallback, GusDmaDoneCallback, GusRecordDoneCallback, GusWaveCallback, GusVolumeCallback, GusTimer1Callback, GusTimer2Callback, GusWaveIrqCallback
 global GusVolumeIrqCallback, GusMidiXmitCallback, GusMidiRecvCallback, GusDmaBusy, dword_15151C, off_151524, InitRtnsEntry, FiniRtnsEntry
@@ -82,7 +82,7 @@ off_151524:
         dd PutBlock
         dd PutBlock
         dd DrawArt
-        dd sub_DD120
+        dd DrawArtShadow
         db 044h,0ACh,0C8h,0A0h,0BBh,096h,0DDh,08Dh,0FCh,085h,0EEh,07Eh,096h,078h,0D8h,072h
         db 09Fh,06Dh,0DBh,068h,07Dh,064h,078h,060h,0C2h,05Ch,052h,059h,022h,056h,029h,053h
         db 064h,050h,0CCh,04Dh,05Dh,04Bh

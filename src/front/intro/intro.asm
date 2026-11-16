@@ -8,7 +8,7 @@ extern MakeDataPath, off_11BDA8, OpenMusicStream, PaEvent, PlayMovie, PlayMusic,
 extern rand_, SetScreenColors, SetScreenMode, SetTextColors, SetTickDeadline, SoundIdle, SoundSecondsToBytes, StopMusic
 extern str_Bkgd3, str_Nhll, str_Nhlp, str_Pal2, str_Pal8, str_Pal9, str_Pl0, str_Pl1
 extern str_Scr1, str_Scr2, RunAttractMode, GetLangText, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, CreateBitmap
-extern FreeBitmap, SaveTextState, SetDrawTarget, sub_BF120, sub_BF2C4, SetScreenTarget, sub_DD7B8, KbdGetKey
+extern FreeBitmap, SaveTextState, SetDrawTarget, DrawArtFast, sub_BF2C4, SetScreenTarget, sub_DD7B8, KbdGetKey
 extern FindShape, sub_E0584, TextSetFont, TickDeadlinePassed, unk_11BFA4, word_11D1D0
 global PlayIntroMovies, RunIntro, WaitOrSkip, LoadSlideImage, RunSlideEvents, jpt_634F9, RunSlideShow, RunSlideShow_78
 global RunSlideShow_A3, RunSlideShow_C7, RunSlideShow_E2, RunSlideShow_118, RunSlideShow_127, RunSlideShow_145, RunSlideShow_180, RunSlideShow_1A1
@@ -553,7 +553,7 @@ RunSlideShow_C7:
         push dword [eax]
         mov eax, dword [byte ebp-04h]
         push dword [byte eax+02Ch]
-        call sub_BF120
+        call DrawArtFast
 .3:
         add esp, byte 0Ch
         jmp near RunSlideShow_2E0.12
@@ -736,7 +736,7 @@ RunSlideShow_2E0:
         push edx
         push dword [byte eax+02Ch]
         mov dword [byte ebp-014h], eax
-        call sub_BF120
+        call DrawArtFast
         add esp, byte 0Ch
         push dword [byte edi+08h]
         push dword [byte edi+04h]

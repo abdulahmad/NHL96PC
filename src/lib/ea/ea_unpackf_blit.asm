@@ -3,8 +3,8 @@ bits 32
 %include "hockey.inc"
 section s_DBFA8 progbits alloc exec nowrite align=1
 extern SetDrawBitmap, str_Unpackf, str_Targa, ClipBottom, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight
-extern dword_123AC8, off_151524, AllocMemBlock, AllocMemLocked, FreeMemBlock, sub_AD9DC, SaveDataFile, sub_BEFF0
-extern GetPalette, sub_D7D44, sub_DD220, sub_DD2A0, PlotPixel, sub_DF5C0, bcopy
+extern dword_123AC8, off_151524, AllocMemBlock, AllocMemLocked, FreeMemBlock, sub_AD9DC, SaveDataFile, FlipArtHorizontal
+extern GetPalette, sub_D7D44, sub_DD220, sub_DD2A0, PlotPixel, UnpackArtRle, bcopy
 global sub_DBFA8, sub_DC158, sub_DC17C, sub_DC780, sub_DC830, sub_DCB90
 ;-----------------------------------------------------------------------------
 ; sub_DBFA8                                                            DBFA8  
@@ -52,7 +52,7 @@ sub_DBFA8:
         push byte 0
         push eax
         push edi
-        call sub_DF5C0
+        call UnpackArtRle
         add esp, byte 0Ch
         jmp short .4
 .2:
@@ -122,7 +122,7 @@ sub_DBFA8:
         shrd eax, edx, 10h
         push esi
         sub ebp, eax
-        call sub_BEFF0
+        call FlipArtHorizontal
         add esp, byte 4
 .8:
         mov edx, dword [byte esp+028h]

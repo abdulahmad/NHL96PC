@@ -21,7 +21,7 @@ extern CrowdLayerCurBend, CrowdLayerThreshold, CrowdLayerMinVolume, CrowdLayerMa
 extern CrowdEventSfx, CrowdRampRate, SndChannelRate, SfxTable, SfxTableNext, SndDriverTable, SndDriverClose, SndDriverService
 extern SndDriverQuery, SndCardNameNone, SndCardNameSb10, SndCardNameSb15, SndCardNameSb20, SndCardNameSbPro10, SndCardNameSbPro20, SndCardNameSb16
 extern SndCardNameGus, SndCardNameWss, strncpy_, CdStreamSeek, CdStreamFreePacket, RemoveTimerCallback, PutBlock, AllocMemBlock
-extern FreeMemBlock, MemDescPtr, DebugSetLine, UnpackTo, DrawArtOpaque, RestoreDS, sub_BF120, PrintBoxedText
+extern FreeMemBlock, MemDescPtr, DebugSetLine, UnpackTo, DrawArtOpaque, RestoreDS, DrawArtFast, PrintBoxedText
 extern PlaySampleOnChannel, FreeBankMemory, UpdateChannelGain, ResetMixChannel, SetMixerMode, MixerStartChannel, MixerStopChannel, MixerSetChannelVolumes
 extern MixerSetChannelRate, MixerSamplesLeft, ParseBlasterEnv, SbDspVersion, WssProbePort, GusDetect, SndTimerCallback, TgvCopyBlock
 extern TgvFillBlock, GatherPlaneBytes, DrawArtKeyedAt, PutBlockKeyedAt, CopyRowKeyedRemap, SetScreenTarget, sub_DDF4F, sub_DFB84
@@ -4788,7 +4788,7 @@ PrintScreenInt:
         push edi
         mov edx, dword [byte esi+02Ch]
         push edx
-        call sub_BF120
+        call DrawArtFast
         add esp, byte 0Ch
         pop ebp
         pop edi

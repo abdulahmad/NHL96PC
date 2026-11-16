@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_B2B30 progbits alloc exec nowrite align=1
-extern RowCopyFunc, ScreenWidth, KeyedDraw, dword_1228FC, dword_122930, VesaSetBank, sub_DEEE3
+extern RowCopyFunc, ScreenWidth, KeyedDraw, dword_1228FC, dword_122930, VesaSetBank, BlitArtOpaque
 global DrawArtOpaque, DrawArtOpaqueAtOwnPos, sub_B2C70
 ;-----------------------------------------------------------------------------
 ; DrawArtOpaque                                B2B30  95 PC, medium confidence
@@ -20,7 +20,7 @@ DrawArtOpaque:
         push edi
         push edx
         push eax
-        call sub_DEEE3
+        call BlitArtOpaque
         add esp, byte 0Ch
         jmp near .6
 .1:

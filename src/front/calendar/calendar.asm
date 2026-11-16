@@ -16,7 +16,7 @@ extern jpt_7D568, sprintf_, MessageBox, LoadTeamLogo, LoadPackedFile, LoadDataFi
 extern SlideInTitleBar, SlideInSideBar, SetScreenColors, FadePalette, FadeOut, SetTextColors, FillBox, DrawFrameAt
 extern InitMenuItems, RunMenu, GetLangText, MakeSeasonDbPath, SimSeasonGames, SimulateGame, DrawArt, DrawShape
 extern PutBlock, AllocMemBlock, FreeMemBlock, CreateBitmap, sub_AD620, FillRect, sub_ADA80, FreeBitmap
-extern OpenArtArchiveErr, DrawArtOpaqueAtOwnPos, sub_BF120, PutBlockKeyed, SetScreenTarget, sub_DD908, FindShape, sub_E0584
+extern OpenArtArchiveErr, DrawArtOpaqueAtOwnPos, DrawArtFast, PutBlockKeyed, SetScreenTarget, sub_DD908, FindShape, sub_E0584
 extern unk_11E3B6, unk_11E3F6, unk_11E436, unk_11E476, unk_152C44, unk_17CB2E, unk_7D4F4, unk_7D500
 global CalendarScreen_13D3, CalendarScreen_13E4, CalendarScreen_153A, CalendarScreen_1AC2, CalendarScreen_1B49, CalendarScreen_1B6C, CalendarScreen, DrawCalendar
 global unk_7FF77
@@ -276,7 +276,7 @@ CalendarScreen:
         mov eax, dword [dword_17D8F8]
         push dword [byte ebp-06h]
         push dword [byte eax+02Ch]
-        call sub_BF120
+        call DrawArtFast
         add esp, byte 0Ch
         mov eax, dword [byte ebp-0Ah]
         push dword 0FDh
@@ -1691,19 +1691,19 @@ CalendarScreen_153A:
         mov eax, dword [dword esi+dword_17D7D4]
         push dword [byte ebp+072h]
         push dword [byte eax+02Ch]
-        call sub_BF120
+        call DrawArtFast
         add esp, byte 0Ch
         push dword [byte ebp+06Eh]
         mov eax, dword [dword esi+dword_17D804]
         push dword [byte ebp+072h]
         push dword [byte eax+02Ch]
-        call sub_BF120
+        call DrawArtFast
         add esp, byte 0Ch
         push dword [byte ebp+06Eh]
         mov eax, dword [dword esi+dword_17D894]
         push dword [byte ebp+072h]
         push dword [byte eax+02Ch]
-        call sub_BF120
+        call DrawArtFast
         add esp, byte 0Ch
         push dword [byte ebp+06Eh]
         push dword [byte ebp+072h]
@@ -2234,7 +2234,7 @@ CalendarScreen_1B6C:
         push dword [byte ebp+072h]
         push dword [byte eax+02Ch]
         mov dword [byte ebp+06Eh], edx
-        call sub_BF120
+        call DrawArtFast
         add esp, byte 0Ch
         mov eax, dword [byte ebp+06Eh]
         push dword 0FDh
@@ -2287,7 +2287,7 @@ CalendarScreen_1B6C:
         mov eax, dword [dword_17D8F8]
         push dword [byte ebp+072h]
         push dword [byte eax+02Ch]
-        call sub_BF120
+        call DrawArtFast
         add esp, byte 0Ch
         mov eax, dword [byte ebp+06Eh]
         push dword 0FDh
@@ -2348,7 +2348,7 @@ CalendarScreen_1B6C:
         push dword [byte ebp+072h]
         mov eax, dword [dword_17D8F8]
         push dword [byte eax+02Ch]
-        call sub_BF120
+        call DrawArtFast
         add esp, byte 0Ch
         mov eax, dword [byte ebp+06Eh]
         push dword 0FDh

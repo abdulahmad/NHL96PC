@@ -8,7 +8,7 @@ extern dword_122904, FatalError, fputchar, GetTicks, initgraphics, SetViewRect, 
 extern str_CouldNotAllocateLibraryB, str_LIBBUGFIX, str_NHLinitgraphicsfixNotCal, str_USETABLE, AllocMemBlock, AllocMemLocked, FreeMemBlock, sub_ADA50
 extern sub_ADA80, TextSetColor, sub_B0CA8, sub_B0F7C, sub_B2B0C, BuildAaPalLut, CreateAaPalLut, BuildPaletteShadeTable
 extern SetAaPalLut, DrawArtAaScaledInt, TranslatePixels, SetScreenTarget, GetPaletteRange, sub_DD7B8, sub_DDF4F, sub_DE01A
-extern sub_DE084, bcopy, FillMem, unk_121FC8, IntroPalette, unk_17C0E0, WaitRetrace, WaitRetraceEdges
+extern SetClipRect, bcopy, FillMem, unk_121FC8, IntroPalette, unk_17C0E0, WaitRetrace, WaitRetraceEdges
 global BlackPalette, FadePalette, FadeOut, CopyBitmapRows, CopyBitmapRows_76, CopyBitmap, InitGraphicsFix, SetGraphicsMode
 global SetGraphicsMode_204, SetScreenMode, DrawText, DrawTextRight, DrawTextRight_17, DrawTextCentred, FindTextColors, SetTextColors
 global SetTextColorsRgb, DrawColorText, DrawColorTextRight, DrawColorTextRight_29, DrawColorTextRight_72, DrawColorTextCentred, FillBox, DrawBox
@@ -387,7 +387,7 @@ SetGraphicsMode:
         push dword 140h
         push byte 0
         push BackBufferWidth
-        call sub_DE084
+        call SetClipRect
         mov eax, dword [dword_11F5C4]
         add eax, eax
         add esp, byte 14h

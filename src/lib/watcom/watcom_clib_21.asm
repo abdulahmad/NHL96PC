@@ -4,11 +4,11 @@ bits 32
 section s_DCC25 progbits alloc exec nowrite align=1
 extern __CHP, RemapTable, ColourRemap, str_Inf, str_Nan, DblMaxLow, DblMaxHigh, DblMinusMaxLow
 extern DblMinusMaxHigh, RowCopyFunc, KeyedDraw, F64_neg1_floor_, F64_Scale10Max, F64_Scale10Min, Pow10Table, PutBlock
-extern DrawArtOpaque, sub_BF02C, sub_BF034, sub_BF04B, TranslatePixels, sub_DF6A7, sub_DF810, bcopy
+extern DrawArtOpaque, sub_BF02C, sub_BF034, sub_BF04B, TranslatePixels, BlitBlockShadow, CopyRowShadowFast, bcopy
 extern Scale10Count
 global _Scale10V_, _Scale_, __Bin2String, __CmpBigInt, __Nan_Inf_, __Rnd2Int, __cvt_, floor_
-global frexp_, modf_, ModfCore, DecimalToInt64, NormalizeDouble, sub_DD120, sub_DD220, sub_DD2A0
-global BigIntCallHook, BigIntNullHook, sub_DD580
+global frexp_, modf_, ModfCore, DecimalToInt64, NormalizeDouble, DrawArtShadow, sub_DD220, sub_DD2A0
+global BigIntCallHook, BigIntNullHook, CopyRowShadow
 ;-----------------------------------------------------------------------------
 ; __Nan_Inf_                                                    DCC25  library
 ;-----------------------------------------------------------------------------
@@ -594,9 +594,10 @@ NormalizeDouble:
 .5:
         ret
 ;-----------------------------------------------------------------------------
-; sub_DD120                                                            DD120  
+; DrawArtShadow                                   DD120  96 PC, low confidence
+; Draws art with shadow pixels at x, y (FFh skipped, FEh darkened)
 ;-----------------------------------------------------------------------------
-sub_DD120:
+DrawArtShadow:
         push esi
         push edi
         mov edx, dword [byte esp+0Ch]
@@ -607,7 +608,7 @@ sub_DD120:
         push eax
         push ebx
         push edx
-        call sub_DF6A7
+        call BlitBlockShadow
         add esp, byte 0Ch
         pop edi
         pop esi
@@ -615,7 +616,7 @@ sub_DD120:
 .1:
         push eax
         push ebx
-        mov esi, sub_DD580
+        mov esi, CopyRowShadow
         push edx
         mov edi, bcopy
         mov dword [RowCopyFunc], esi
@@ -639,7 +640,7 @@ sub_DD120:
         push eax
         push edx
         push ebx
-        call sub_DF6A7
+        call BlitBlockShadow
         add esp, byte 0Ch
         pop edi
         pop esi
@@ -647,7 +648,7 @@ sub_DD120:
 .2:
         push eax
         push edx
-        mov esi, sub_DD580
+        mov esi, CopyRowShadow
         push ebx
         mov edi, bcopy
         mov dword [RowCopyFunc], esi
@@ -676,7 +677,7 @@ sub_DD120:
         push edx
         push ebx
         push eax
-        call sub_DF6A7
+        call BlitBlockShadow
         add esp, byte 0Ch
         pop edi
         pop esi
@@ -684,7 +685,7 @@ sub_DD120:
 .3:
         push edx
         push ebx
-        mov esi, sub_DD580
+        mov esi, CopyRowShadow
         push eax
         mov edi, bcopy
         mov dword [RowCopyFunc], esi
@@ -1056,9 +1057,10 @@ frexp_:
         ret 0Ch
         db 00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_DD580                                                            DD580  
+; CopyRowShadow                                   DD580  96 PC, low confidence
+; Row copy routine for shadow art: FFh skipped, FEh remapped, others copied
 ;-----------------------------------------------------------------------------
-sub_DD580:
+CopyRowShadow:
         push esi
         mov esi, dword [byte esp+010h]
         mov edx, dword [byte esp+08h]
@@ -1102,7 +1104,7 @@ sub_DD580:
         push eax
         push ebx
         push edx
-        call sub_DF810
+        call CopyRowShadowFast
         add esp, byte 0Ch
         pop edi
         pop esi
@@ -1110,7 +1112,7 @@ sub_DD580:
 .5:
         push eax
         push ebx
-        mov esi, sub_DD580
+        mov esi, CopyRowShadow
         push edx
         mov edi, bcopy
         mov dword [RowCopyFunc], esi
@@ -1134,7 +1136,7 @@ sub_DD580:
         push eax
         push edx
         push ebx
-        call sub_DF810
+        call CopyRowShadowFast
         add esp, byte 0Ch
         pop edi
         pop esi
@@ -1142,7 +1144,7 @@ sub_DD580:
 .6:
         push eax
         push edx
-        mov esi, sub_DD580
+        mov esi, CopyRowShadow
         push ebx
         mov edi, bcopy
         mov dword [RowCopyFunc], esi
@@ -1171,7 +1173,7 @@ sub_DD580:
         push edx
         push ebx
         push eax
-        call sub_DF810
+        call CopyRowShadowFast
         add esp, byte 0Ch
         pop edi
         pop esi
@@ -1179,7 +1181,7 @@ sub_DD580:
 .7:
         push edx
         push ebx
-        mov esi, sub_DD580
+        mov esi, CopyRowShadow
         push eax
         mov edi, bcopy
         mov dword [RowCopyFunc], esi

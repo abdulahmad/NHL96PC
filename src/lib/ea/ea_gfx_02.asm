@@ -4,9 +4,9 @@ bits 32
 section s_AD680 progbits alloc exec nowrite align=1
 extern byte_11FA2C, byte_11FA2D, byte_11FA2E, byte_11FA30, dword_11FA34, dword_11FA3C, ScreenWidth, ClipTopRow
 extern ClipLeftCol, ClipRight, ScreenHeight, KeyedDraw, dword_1228FC, dword_122930, dword_123934, FreeMemBlock
-extern sub_ABF88, removewindow, SetScreenTarget, VesaSetBank, sub_DEC41, sub_DED6D, sub_E0584, FillMem
+extern sub_ABF88, removewindow, SetScreenTarget, VesaSetBank, FillRectCore, XorRectCore, sub_E0584, FillMem
 extern sub_E193C, sub_E1956
-global fputchar, mem_putc_, FillRect, sub_AD824, sub_AD8A8, sub_AD9DC, sub_ADA50, sub_ADA80
+global fputchar, mem_putc_, FillRect, sub_AD824, XorRect, sub_AD9DC, sub_ADA50, sub_ADA80
 global sub_ADB30, FreeBitmap
 ;-----------------------------------------------------------------------------
 ; FillRect                                     AD680  95 PC, medium confidence
@@ -32,7 +32,7 @@ FillRect:
         mov ecx, dword [byte esp+034h]
         push ecx
         push esi
-        call sub_DEC41
+        call FillRectCore
         add esp, byte 14h
         jmp near .11
 .1:
@@ -224,9 +224,10 @@ sub_AD824:
         mov byte [byte eax-01h], bh
         jmp short .7
 ;-----------------------------------------------------------------------------
-; sub_AD8A8                                                            AD8A8  
+; XorRect                                         AD8A8  96 PC, low confidence
+; XORs a rectangle of the draw target with a colour
 ;-----------------------------------------------------------------------------
-sub_AD8A8:
+XorRect:
         push esi
         push edi
         push ebp
@@ -247,7 +248,7 @@ sub_AD8A8:
         push edi
         push ecx
         push eax
-        call sub_DED6D
+        call XorRectCore
         add esp, byte 14h
         jmp near .12
 .1:
@@ -393,7 +394,7 @@ sub_AD9DC:
         push eax
         push ecx
         push esi
-        call sub_AD8A8
+        call XorRect
         add esp, byte 14h
 .5:
         pop ebp

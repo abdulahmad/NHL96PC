@@ -6,10 +6,10 @@ extern FatalError, asc_113110, str_LOWMEM, str_HIGHMEM, str_GAP, asc_11316C, dwo
 extern RowCopyFunc, dword_1210C8, dword_1210CC, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight
 extern KeyedDraw, dword_1228FC, dword_122930, dword_123934, memlist1, MemBlockGuards, MemDescriptorTop, MemLockHandle
 extern dword_18573C, strncpy_, DrawShapeCore, AllocMemBlockEx, getmemblock, CopyRowKeyed, DrawShapeOpaque, ResetMemLock
-extern MemLock, MemUnlock, SetScreenTarget, SetClipWindow, VesaSetBank, sub_DE4C7, sub_DE643, sub_DE7DB
-extern sub_DE97C, sub_DE9F3, sub_DEB94, bcopy, sub_E193C, sub_E1956
-global PutBlock_25F, sub_AAF28_132, DrawShapeAtOwnPos, sub_AA9CC, DrawArt, DrawShape, sub_AAADC, PutBlock
-global PutBlockAtOwnPos, BlitShapeAt, sub_AADE8, sub_AAF28, sub_AB0A8, AddMemRegion, AddMemRegions, AddHighMemRegion
+extern MemLock, MemUnlock, SetScreenTarget, SetClipWindow, VesaSetBank, BlitBlock, BlitBlockXor, BlitBlockAnd
+extern AndPixel, BlitBlockOr, OrPixel, bcopy, sub_E193C, sub_E1956
+global PutBlock_25F, DrawArtAnd_132, DrawShapeAtOwnPos, sub_AA9CC, DrawArt, DrawShape, sub_AAADC, PutBlock
+global PutBlockAtOwnPos, BlitShapeAt, CopyRowXor, DrawArtAnd, DrawArtOr, AddMemRegion, AddMemRegions, AddHighMemRegion
 global TrimMemList, MemListEnd, sub_AB6D8, AllocMemBlockLocked, AllocMemBlock, AllocMemLocked
 ;-----------------------------------------------------------------------------
 ; DrawShapeAtOwnPos                               AA988  96 PC, low confidence
@@ -219,7 +219,7 @@ PutBlock:
         push edx
         push esi
         push eax
-        call sub_DE4C7
+        call BlitBlock
         add esp, byte 0Ch
         jmp near .14
 .1:
@@ -455,9 +455,10 @@ BlitShapeAt:
         add esp, byte 0Ch
         ret
 ;-----------------------------------------------------------------------------
-; sub_AADE8                                                            AADE8  
+; CopyRowXor                                      AADE8  96 PC, low confidence
+; Row copy routine that XORs the source row onto the destination
 ;-----------------------------------------------------------------------------
-sub_AADE8:
+CopyRowXor:
         push esi
         mov edx, dword [byte esp+08h]
         mov ebx, dword [byte esp+010h]
@@ -499,7 +500,7 @@ sub_AADE8:
         push eax
         push ebx
         push edx
-        call sub_DE643
+        call BlitBlockXor
         add esp, byte 0Ch
         pop edi
         pop esi
@@ -507,7 +508,7 @@ sub_AADE8:
 .4:
         push eax
         push ebx
-        mov esi, sub_AADE8
+        mov esi, CopyRowXor
         push edx
         mov edi, bcopy
         mov dword [RowCopyFunc], esi
@@ -531,7 +532,7 @@ sub_AADE8:
         push eax
         push edx
         push ebx
-        call sub_DE643
+        call BlitBlockXor
         add esp, byte 0Ch
         pop edi
         pop esi
@@ -539,7 +540,7 @@ sub_AADE8:
 .5:
         push eax
         push edx
-        mov esi, sub_AADE8
+        mov esi, CopyRowXor
         push ebx
         mov edi, bcopy
         mov dword [RowCopyFunc], esi
@@ -568,7 +569,7 @@ sub_AADE8:
         push edx
         push ebx
         push eax
-        call sub_DE643
+        call BlitBlockXor
         add esp, byte 0Ch
         pop edi
         pop esi
@@ -576,7 +577,7 @@ sub_AADE8:
 .6:
         push edx
         push ebx
-        mov esi, sub_AADE8
+        mov esi, CopyRowXor
         push eax
         mov edi, bcopy
         mov dword [RowCopyFunc], esi
@@ -588,9 +589,11 @@ sub_AADE8:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_AAF28                                                            AAF28  
+; DrawArtAnd                                      AAF28  96 PC, low confidence
+; ANDs art onto the draw target at x, y, pixel by pixel when keyed drawing is
+; on
 ;-----------------------------------------------------------------------------
-sub_AAF28:
+DrawArtAnd:
         push esi
         push edi
         push ebp
@@ -603,9 +606,9 @@ sub_AAF28:
         push esi
         push edi
         push eax
-        call sub_DE7DB
+        call BlitBlockAnd
         add esp, byte 0Ch
-        jmp near sub_AAF28_132
+        jmp near DrawArtAnd_132
 .1:
         mov ecx, dword [byte esp+028h]
         lea esi, [byte eax+010h]
@@ -672,15 +675,15 @@ sub_AAF28:
         mov dword [byte esp+08h], edx
 .5:
         cmp dword [byte esp+08h], byte 0
-        jle short sub_AAF28_132
+        jle short DrawArtAnd_132
         cmp dword [byte esp+0Ch], byte 0
-        jle short sub_AAF28_132
+        jle short DrawArtAnd_132
 .6:
         mov edi, dword [byte esp+0Ch]
         dec edi
         mov dword [byte esp+0Ch], edi
         cmp edi, byte 0FFFFFFFFh
-        je short sub_AAF28_132
+        je short DrawArtAnd_132
         mov ebp, dword [esp]
         mov edi, dword [byte esp+08h]
 .7:
@@ -694,7 +697,7 @@ sub_AAF28:
         push ebx
         push ebp
         inc esi
-        call sub_DE97C
+        call AndPixel
         inc ebp
         add esp, byte 0Ch
         jmp short .7
@@ -705,7 +708,7 @@ sub_AAF28:
         add esi, edx
         mov dword [byte esp+028h], eax
         jmp short .6
-sub_AAF28_132:
+DrawArtAnd_132:
         add esp, byte 10h
         pop ebp
         pop edi
@@ -720,7 +723,7 @@ sub_AAF28_132:
         sar eax, 10h
         push eax
         push edx
-        call sub_AAF28
+        call DrawArtAnd
         add esp, byte 0Ch
         ret
         mov edx, dword [byte esp+04h]
@@ -735,13 +738,15 @@ sub_AAF28_132:
         sub ebx, eax
         push ebx
         push edx
-        call sub_AAF28
+        call DrawArtAnd
         add esp, byte 0Ch
         ret
 ;-----------------------------------------------------------------------------
-; sub_AB0A8                                                            AB0A8  
+; DrawArtOr                                       AB0A8  96 PC, low confidence
+; ORs art onto the draw target at x, y, pixel by pixel when keyed drawing is
+; on
 ;-----------------------------------------------------------------------------
-sub_AB0A8:
+DrawArtOr:
         push esi
         push edi
         push ebp
@@ -754,7 +759,7 @@ sub_AB0A8:
         push esi
         push edi
         push eax
-        call sub_DE9F3
+        call BlitBlockOr
         add esp, byte 0Ch
         add esp, byte 10h
         pop ebp
@@ -827,15 +832,15 @@ sub_AB0A8:
         mov dword [byte esp+08h], edx
 .5:
         cmp dword [byte esp+08h], byte 0
-        jle near sub_AAF28_132
+        jle near DrawArtAnd_132
         cmp dword [byte esp+0Ch], byte 0
-        jle near sub_AAF28_132
+        jle near DrawArtAnd_132
 .6:
         mov edi, dword [byte esp+0Ch]
         dec edi
         mov dword [byte esp+0Ch], edi
         cmp edi, byte 0FFFFFFFFh
-        je near sub_AAF28_132
+        je near DrawArtAnd_132
         mov ebp, dword [esp]
         mov edi, dword [byte esp+08h]
 .7:
@@ -849,7 +854,7 @@ sub_AB0A8:
         push ebx
         push ebp
         inc esi
-        call sub_DEB94
+        call OrPixel
         inc ebp
         add esp, byte 0Ch
         jmp short .7
@@ -868,7 +873,7 @@ sub_AB0A8:
         sar eax, 10h
         push eax
         push edx
-        call sub_AB0A8
+        call DrawArtOr
         add esp, byte 0Ch
         ret
         mov edx, dword [byte esp+04h]
@@ -883,7 +888,7 @@ sub_AB0A8:
         sub ebx, eax
         push ebx
         push edx
-        call sub_AB0A8
+        call DrawArtOr
         add esp, byte 0Ch
         ret
         db 00h,00h,00h,00h

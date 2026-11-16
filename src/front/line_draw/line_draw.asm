@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_873AE progbits alloc exec nowrite align=1
-extern byte_17DC70, dword_1228D0, dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4, dword_1228F8, dword_1228FC
+extern byte_17DC70, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, dword_1228F8, dword_1228FC
 extern dword_17DC18, dword_17DC1C, dword_17DC20, dword_17DC24, dword_17DC28, dword_17DC2C, dword_17DC30, dword_17DC34
 extern dword_17DC38, dword_17DC3C, dword_17DC40, dword_17DC44, dword_17DC48, dword_17DC4C, dword_17DC50, dword_17DC54
 extern dword_17DC58, dword_17DC5C, dword_17DC60, dword_17DC64, dword_17DC68, dword_17DC6C, PlotPixel, SetClipWindow
@@ -400,22 +400,22 @@ DrawLineYPlot:
         jge near DrawLineYPlot_186
         mov edi, dword [dword_17DC44]
         mov esi, dword [dword_17DC50]
-        movsx eax, word [dword_1228D8]
+        movsx eax, word [ClipTopRow]
         sar esi, 10h
         sar edi, 10h
         cmp esi, eax
         jl short .2
-        movsx eax, word [dword_1228E0]
+        movsx eax, word [ClipRight]
         cmp edi, eax
         jl near DrawLineYPlot_186
 .2:
-        movsx eax, word [dword_1228D8]
+        movsx eax, word [ClipTopRow]
         cmp esi, eax
         jge short .3
         cmp edi, eax
         jl near DrawLineYPlot_186
 .3:
-        movsx eax, word [dword_1228E0]
+        movsx eax, word [ClipRight]
         cmp esi, eax
         jl short .4
         cmp edi, eax
@@ -446,7 +446,7 @@ DrawLineYPlot:
 .5:
         cmp dword [byte ebp-0Ch], byte 0
         je short .6
-        movsx eax, word [dword_1228D8]
+        movsx eax, word [ClipTopRow]
         cmp esi, eax
         jle short .6
         push dword [byte ebp-04h]
@@ -480,7 +480,7 @@ DrawLineYPlot:
 .7:
         cmp dword [byte ebp-08h], byte 0
         je short .9
-        movsx eax, word [dword_1228E0]
+        movsx eax, word [ClipRight]
         cmp edi, eax
         jge short .9
         push dword [byte ebp-04h]
@@ -616,20 +616,20 @@ DrawLineXPlot:
         sar eax, 10h
         sar esi, 10h
         mov dword [byte ebp-04h], eax
-        movsx eax, word [dword_1228DC]
+        movsx eax, word [ClipLeftCol]
         cmp esi, eax
         jl short .2
-        movsx eax, word [dword_1228E4]
+        movsx eax, word [ScreenHeight]
         cmp eax, dword [byte ebp-04h]
         jg near DrawLineYPlot_186
 .2:
-        movsx eax, word [dword_1228DC]
+        movsx eax, word [ClipLeftCol]
         cmp esi, eax
         jge short .3
         cmp eax, dword [byte ebp-04h]
         jg near DrawLineYPlot_186
 .3:
-        movsx eax, word [dword_1228E4]
+        movsx eax, word [ScreenHeight]
         cmp esi, eax
         jl short .4
         cmp eax, dword [byte ebp-04h]
@@ -669,7 +669,7 @@ DrawLineXPlot:
 .5:
         cmp dword [byte ebp-08h], byte 0
         je short .6
-        movsx eax, word [dword_1228DC]
+        movsx eax, word [ClipLeftCol]
         cmp esi, eax
         jle short .6
         push esi
@@ -703,7 +703,7 @@ DrawLineXPlot:
 .7:
         cmp dword [byte ebp-0Ch], byte 0
         je short .9
-        movsx eax, word [dword_1228E4]
+        movsx eax, word [ScreenHeight]
         cmp eax, dword [byte ebp-04h]
         jle short .9
         push dword [byte ebp-04h]
@@ -792,7 +792,7 @@ DrawLineX:
 .3:
         mov byte [eax], dl
 .4:
-        add eax, dword [dword_1228D0]
+        add eax, dword [ScreenWidth]
         dec ebx
         je short .5
         mov dl, byte [byte_17DC70]
@@ -1116,9 +1116,9 @@ DrawFixedLineClip:
         cmp dword [dword_17DC68], byte 0
         je near .18
 .13:
-        movsx eax, word [dword_1228E4]
+        movsx eax, word [ScreenHeight]
         mov dword [byte ebp-04h], eax
-        movsx eax, word [dword_1228DC]
+        movsx eax, word [ClipLeftCol]
         mov dword [byte ebp-0Ch], 1
         mov dword [byte ebp-010h], eax
         cmp edi, esi
@@ -1131,7 +1131,7 @@ DrawFixedLineClip:
 .14:
         push eax
         mov eax, esi
-        movsx edx, word [dword_1228DC]
+        movsx edx, word [ClipLeftCol]
         sar eax, 10h
         cmp edx, eax
         jle short .17
@@ -1146,23 +1146,23 @@ DrawFixedLineClip:
 .16:
         push eax
         mov edx, edi
-        movsx eax, word [dword_1228DC]
+        movsx eax, word [ClipLeftCol]
         sar edx, 10h
         cmp eax, edx
         jg short .17
         mov eax, edx
 .17:
         push eax
-        movsx eax, word [dword_1228E0]
+        movsx eax, word [ClipRight]
         push eax
-        movsx eax, word [dword_1228D8]
+        movsx eax, word [ClipTopRow]
         push eax
         call SetClipWindow
         add esp, byte 10h
-        movsx eax, word [dword_1228DC]
+        movsx eax, word [ClipLeftCol]
         shl eax, 10h
         mov dword [dword_17DC24], eax
-        movsx eax, word [dword_1228E4]
+        movsx eax, word [ScreenHeight]
         shl eax, 10h
         mov dword [dword_17DC1C], eax
 .18:
@@ -1290,16 +1290,16 @@ DrawFixedLineClip:
         je short .31
         push dword [byte ebp-04h]
         push dword [byte ebp-010h]
-        movsx eax, word [dword_1228E0]
+        movsx eax, word [ClipRight]
         push eax
-        movsx eax, word [dword_1228D8]
+        movsx eax, word [ClipTopRow]
         push eax
         call SetClipWindow
-        movsx eax, word [dword_1228DC]
+        movsx eax, word [ClipLeftCol]
         shl eax, 10h
         mov dword [dword_17DC68], 0
         mov dword [dword_17DC24], eax
-        movsx eax, word [dword_1228E4]
+        movsx eax, word [ScreenHeight]
         mov dword [dword_17DC6C], 0
         shl eax, 10h
         add esp, byte 10h

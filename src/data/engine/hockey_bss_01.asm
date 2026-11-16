@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_16583E nobits alloc noexec write align=1
-global PlList, awtmgoalie, byte_165854, byte_1658C6, byte_1658E2, byte_1658E3, byte_1658E4, byte_1658E5
+global PlList, awtmgoalie, AwPlayerFlags, byte_1658C6, byte_1658E2, byte_1658E3, AwCoachGoalie, byte_1658E5
 global byte_1658EA, byte_165940, byte_165941, byte_16594A, dword_16584E, dword_1658E6, dword_165920, dword_165924
 global dword_165928, dword_16592C, dword_165930, dword_165934, dword_165938, dword_16593C, unk_1658F2, word_16583E
 global word_165846, word_165852, word_16590E, word_165942, word_16594E, word_165950, word_165952
@@ -16,7 +16,7 @@ dword_16584E:
         resb 4
 word_165852:
         resb 2
-byte_165854:
+AwPlayerFlags:
         resb 114
 byte_1658C6:
         resb 28
@@ -24,7 +24,7 @@ byte_1658E2:
         resb 1
 byte_1658E3:
         resb 1
-byte_1658E4:
+AwCoachGoalie:
         resb 1
 byte_1658E5:
         resb 1

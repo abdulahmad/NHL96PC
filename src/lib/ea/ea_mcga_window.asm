@@ -2,7 +2,11 @@
 bits 32
 %include "hockey.inc"
 section s_C3724 progbits alloc exec nowrite align=1
-global sub_C3724
-sub_C3724:
+global McgaNoWindow
+;-----------------------------------------------------------------------------
+; McgaNoWindow                                    C3724  96 PC, low confidence
+; Returns 0: the MCGA screen needs no window
+;-----------------------------------------------------------------------------
+McgaNoWindow:
         xor eax, eax
         ret

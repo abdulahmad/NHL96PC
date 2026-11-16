@@ -18,16 +18,19 @@ extern dword_185690, dword_185738, dword_18573C, dword_185848, dword_1A11BC, dwo
 extern dword_1A11CC, dword_1A11D0, dword_1A11D4, dword_1A11D8, dword_1A11DC, dword_1A11E0, fclose_, fopen_
 extern fprintf_, min_, off_1513B0, sprintf_, strncpy_, PutBlock, sub_AADA4, sub_ABF88
 extern sub_AC194, sub_AC574, sub_AC6D4, sub_ACA3C, sub_ACCF8, sub_ACD24, sub_ACD38, FillRect
-extern sub_ADA80, sub_AFFD0, sub_B0254, sub_B026C, TextSetFont, sub_B31C0, sub_BF02C, sub_BF034
+extern sub_ADA80, sub_AFFD0, SaveTextState, SetDrawTarget, TextSetFont, sub_B31C0, sub_BF02C, sub_BF034
 extern sub_BF04B, initgraphics, sub_C2AEC, sub_C5D00, sub_C6000, sub_CFE0C, sub_CFE8C, sub_D0650
-extern sub_D1368, sub_DC158, sub_DC17C, sub_DC780, sub_DC830, sub_DCB90, sub_DD6C4, sub_DD6E0
-extern sub_DD724, SetClipWindow, sub_DD7B8, sub_DFF28, sub_DFF7C, sub_E04E0, sub_E0584, sub_E1927
+extern sub_D1368, sub_DC158, sub_DC17C, sub_DC780, sub_DC830, sub_DCB90, SetScreenTarget, GetPaletteRange
+extern FillRectColor, SetClipWindow, sub_DD7B8, sub_DFF28, sub_DFF7C, sub_E04E0, sub_E0584, sub_E1927
 extern sub_E193C, sub_E1956, sub_E1970, unk_114440, unk_11444C, unk_114570, unk_114594, unk_11466C
 extern unk_114670, unk_1146A0, unk_1146A4, unk_1146CC, str_Un, unk_114930, unk_1213DC
 global sub_D7DB0_30, sub_D7DB0_147, sub_D7DB0_238, sub_D7FFC_2D, sub_D7FFC_4A, sub_D7DB0, sub_D7FFC, sub_D83B8
 global sub_D842C, sub_D84AC, sub_D8AC4, sub_D8B2C, sub_D8BEC, sub_D8BFC, sub_D8E98, sub_D9170
 global sub_D930C, sub_D9410, sub_D94C0, sub_D9874, sub_D98F4, sub_D9AAC, sub_D9D5C, sub_DA2D4
 global sub_DA338, sub_DA3D0, sub_DA48C, sub_DA508
+;-----------------------------------------------------------------------------
+; sub_D7DB0                                                            D7DB0  
+;-----------------------------------------------------------------------------
 sub_D7DB0:
         push ebx
         push ecx
@@ -80,7 +83,7 @@ sub_D7DB0_30:
         add esp, byte 4
         lea eax, [byte esp+060h]
         push eax
-        call sub_B0254
+        call SaveTextState
         add esp, byte 4
         push unk_1213DC
         call TextSetFont
@@ -199,6 +202,9 @@ sub_D7DB0_238:
         mov dword [dword_1513BC], edx
         jmp near sub_D7DB0_30.2
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_D7FFC                                                            D7FFC  
+;-----------------------------------------------------------------------------
 sub_D7FFC:
         push ebx
         push edx
@@ -285,7 +291,7 @@ sub_D7FFC_4A:
 .9:
         cmp edi, byte 43h
         jne short .10
-        call sub_DD6C4
+        call SetScreenTarget
         mov eax, dword [dword_15139C]
         push eax
         call sub_E0584
@@ -441,7 +447,7 @@ sub_D7FFC_4A:
         call sub_DFF7C
         cmp dword [dword esp+0BCh], byte 0
         je short .33
-        call sub_DD6C4
+        call SetScreenTarget
         mov eax, dword [dword_15139C]
         push eax
         call sub_E0584
@@ -455,7 +461,7 @@ sub_D7FFC_4A:
         add esp, byte 4
         lea eax, [byte esp+060h]
         push eax
-        call sub_B026C
+        call SetDrawTarget
         add esp, byte 4
         mov eax, esp
         push eax
@@ -492,6 +498,9 @@ sub_D7FFC_4A:
         pop ebx
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_D83B8                                                            D83B8  
+;-----------------------------------------------------------------------------
 sub_D83B8:
         cmp edx, byte 2
         je short .4
@@ -528,6 +537,9 @@ sub_D83B8:
 .4:
         xor eax, eax
         ret 10h
+;-----------------------------------------------------------------------------
+; sub_D842C                                                            D842C  
+;-----------------------------------------------------------------------------
 sub_D842C:
         push ebx
         test al, 20h
@@ -582,6 +594,9 @@ sub_D842C:
         pop ebx
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_D84AC                                                            D84AC  
+;-----------------------------------------------------------------------------
 sub_D84AC:
         push esi
         push edi
@@ -649,7 +664,7 @@ sub_D84AC:
         mov esi, asc_1143E8
         rep movsd
         movsb
-        call sub_DD6C4
+        call SetScreenTarget
         mov edi, dword [dword_15139C]
         push edi
         mov eax, dword [dword_1513A4]
@@ -1124,6 +1139,9 @@ sub_D84AC:
         pop esi
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_D8AC4                                                            D8AC4  
+;-----------------------------------------------------------------------------
 sub_D8AC4:
         push esi
         push edi
@@ -1172,6 +1190,9 @@ sub_D8AC4:
         pop esi
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_D8B2C                                                            D8B2C  
+;-----------------------------------------------------------------------------
 sub_D8B2C:
         push esi
         push edi
@@ -1244,6 +1265,9 @@ sub_D8B2C:
         pop edi
         pop esi
         ret 10h
+;-----------------------------------------------------------------------------
+; sub_D8BEC                                                            D8BEC  
+;-----------------------------------------------------------------------------
 sub_D8BEC:
         push eax
         push unk_114570
@@ -1251,6 +1275,9 @@ sub_D8BEC:
         call sprintf_
         add esp, byte 0Ch
         ret
+;-----------------------------------------------------------------------------
+; sub_D8BFC                                                            D8BFC  
+;-----------------------------------------------------------------------------
 sub_D8BFC:
         push ecx
         push esi
@@ -1260,7 +1287,7 @@ sub_D8BFC:
         mov dword [byte esp+08h], eax
         mov dword [byte esp+04h], edx
         mov dword [esp], ebx
-        call sub_DD6C4
+        call SetScreenTarget
         mov edx, dword [dword_1513A0]
         push edx
         push dword 0A4h
@@ -1342,7 +1369,7 @@ sub_D8BFC:
         push dword 8Fh
         push byte 4Ch
         push edi
-        call sub_DD724
+        call FillRectColor
         add esp, byte 14h
         push esi
         push edi
@@ -1362,7 +1389,7 @@ sub_D8BFC:
         push edx
         push eax
         push edi
-        call sub_DD724
+        call FillRectColor
         add esp, byte 14h
         push esi
         push edi
@@ -1481,6 +1508,9 @@ sub_D8BFC:
         pop ecx
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_D8E98                                                            D8E98  
+;-----------------------------------------------------------------------------
 sub_D8E98:
         push ecx
         push esi
@@ -1765,6 +1795,9 @@ sub_D8E98:
         pop ecx
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_D9170                                                            D9170  
+;-----------------------------------------------------------------------------
 sub_D9170:
         push esi
         push edi
@@ -1906,6 +1939,9 @@ sub_D9170:
         pop edi
         pop esi
         ret 8
+;-----------------------------------------------------------------------------
+; sub_D930C                                                            D930C  
+;-----------------------------------------------------------------------------
 sub_D930C:
         push esi
         push edi
@@ -1992,6 +2028,9 @@ sub_D930C:
         pop esi
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_D9410                                                            D9410  
+;-----------------------------------------------------------------------------
 sub_D9410:
         push ebx
         push ecx
@@ -2064,6 +2103,9 @@ sub_D9410:
         pop ebx
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_D94C0                                                            D94C0  
+;-----------------------------------------------------------------------------
 sub_D94C0:
         push esi
         push edi
@@ -2096,7 +2138,7 @@ sub_D94C0:
         cmp dword [eax], byte 0
         jge short .3
 .1:
-        call sub_DD6C4
+        call SetScreenTarget
         mov eax, dword [dword_15139C]
         push eax
         call sub_E0584
@@ -2255,7 +2297,7 @@ sub_D94C0:
         mov eax, dword [edi]
         and eax, 80h
         mov dword [byte esp+044h], eax
-        call sub_DD6C4
+        call SetScreenTarget
         cmp dword [byte esp+040h], byte 2
         jne short .15
         mov ebx, dword [byte esp+044h]
@@ -2377,7 +2419,7 @@ sub_D94C0:
 .30:
         cmp ebp, byte 43h
         jne short .31
-        call sub_DD6C4
+        call SetScreenTarget
         mov eax, dword [dword_15139C]
         push eax
         call sub_E0584
@@ -2405,6 +2447,9 @@ sub_D94C0:
         pop edi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; sub_D9874                                                            D9874  
+;-----------------------------------------------------------------------------
 sub_D9874:
         push esi
         push edi
@@ -2457,6 +2502,9 @@ sub_D9874:
         pop esi
         ret 0Ch
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_D98F4                                                            D98F4  
+;-----------------------------------------------------------------------------
 sub_D98F4:
         push ebx
         push ecx
@@ -2574,7 +2622,7 @@ sub_D98F4:
         cmp eax, ebp
         jle short .8
 .5:
-        call sub_DD6C4
+        call SetScreenTarget
         mov eax, dword [dword_15139C]
         push eax
         call sub_E0584
@@ -2615,6 +2663,9 @@ sub_D98F4:
         pop ebx
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_D9AAC                                                            D9AAC  
+;-----------------------------------------------------------------------------
 sub_D9AAC:
         push ebx
         push ecx
@@ -2825,6 +2876,9 @@ sub_D9AAC:
         pop ebx
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_D9D5C                                                            D9D5C  
+;-----------------------------------------------------------------------------
 sub_D9D5C:
         push ebx
         push ecx
@@ -2837,9 +2891,9 @@ sub_D9D5C:
         push eax
         push dword 100h
         push byte 0
-        call sub_DD6E0
+        call GetPaletteRange
         add esp, byte 0Ch
-        call sub_DD6C4
+        call SetScreenTarget
         mov eax, dword [dword_15139C]
         push eax
         call sub_E0584
@@ -3237,6 +3291,9 @@ sub_D9D5C:
         pop ebx
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_DA2D4                                                            DA2D4  
+;-----------------------------------------------------------------------------
 sub_DA2D4:
         push ebx
         push ecx
@@ -3280,6 +3337,9 @@ sub_DA2D4:
         pop ebx
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_DA338                                                            DA338  
+;-----------------------------------------------------------------------------
 sub_DA338:
         push esi
         push edi
@@ -3308,7 +3368,7 @@ sub_DA338:
         push eax
         call sub_E193C
         add esp, byte 4
-        call sub_DD6C4
+        call SetScreenTarget
         mov edx, dword [dword_11F5C4]
         push edx
         push byte 0
@@ -3332,12 +3392,15 @@ sub_DA338:
         pop esi
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_DA3D0                                                            DA3D0  
+;-----------------------------------------------------------------------------
 sub_DA3D0:
         push ebx
         push ecx
         push esi
         call sub_ACCF8
-        call sub_DD6C4
+        call SetScreenTarget
         mov eax, dword [dword_15139C]
         push eax
         call sub_E0584
@@ -3348,7 +3411,7 @@ sub_DA3D0:
         call sub_DCB90
         add esp, byte 4
         mov esi, dword [byte eax+02Ch]
-        call sub_DD6C4
+        call SetScreenTarget
         mov eax, esi
         call sub_D98F4
         test eax, eax
@@ -3407,6 +3470,9 @@ sub_DA3D0:
         pop ebx
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_DA48C                                                            DA48C  
+;-----------------------------------------------------------------------------
 sub_DA48C:
         push ebx
         push ecx
@@ -3455,6 +3521,9 @@ sub_DA48C:
         pop ebx
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_DA508                                                            DA508  
+;-----------------------------------------------------------------------------
 sub_DA508:
         push ebx
         push ecx

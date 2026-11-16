@@ -155,7 +155,7 @@ void host_wait_retrace(void)
 {
     uint32_t mode = *(uint32_t *)GAME_ADDR(SYM_dword_1248C8);
     int64_t now, ph;
-    if (mode > 1) { *(uint32_t *)GAME_ADDR(SYM_dword_123AC4) = 0x186A0; return; }
+    if (mode > 1) { *(uint32_t *)GAME_ADDR(SYM_RetraceTimeout) = 0x186A0; return; }
     host_allow_irq = 1;
     if (mode != 1) {                             /* mode 0: leave retrace first (same as the original loopne) */
         for (;;) {
@@ -173,7 +173,7 @@ void host_wait_retrace(void)
         else plat_sleep_ms(0);
     }
     video_on_retrace();                     /* apply pending page flip when no TGV palette chunk follows */
-    *(uint32_t *)GAME_ADDR(SYM_dword_123AC4) = 0x186A0;
+    *(uint32_t *)GAME_ADDR(SYM_RetraceTimeout) = 0x186A0;
     host_allow_irq = 0;
 }
 

@@ -3,36 +3,45 @@ bits 32
 %include "hockey.inc"
 section s_CFDF1 progbits alloc exec nowrite align=1
 extern _EFG_Format_, __IOMode_, __STOSB, __cnvs2d_, __fatal_runtime_error_, __set_errno_, __set_errno_dos_, __shutdown_stream_
-extern _nmalloc_, str_NotEnoughMemoryTo, byte_123E35, dword_1228D0, dword_1228D4, dword_1228D8, dword_1228E0, dword_14F0A4
-extern dword_19BA3C, dword_19BA40, fputchar, __freefp__39, off_14FAA8, off_14FAAC, sub_B2B0C, SetClipWindow
-extern sub_DE084, unk_123DF4, unk_123E76
+extern _nmalloc_, str_NotEnoughMemoryTo, __iob_flags, ScreenWidth, ClipBottom, ClipTopRow, ClipRight, __nheapbeg
+extern __OpenStreams, __ClosedStreams, fputchar, __freefp__39, __EFG_printf, __EFG_scanf, sub_B2B0C, SetClipWindow
+extern sub_DE084, __iob, __iob_end
 global __InitFiles_, __full_io_exit_, __qwrite_, __setEFGfmt_, docloseall_, fcloseall_, memset_, sub_CFE0C
 global sub_CFE20, sub_CFE70, sub_CFE8C
+;-----------------------------------------------------------------------------
+; __setEFGfmt_                                                  CFDF1  library
+;-----------------------------------------------------------------------------
 __setEFGfmt_:
         push ebx
         push edx
         mov edx, _EFG_Format_
         mov ebx, __cnvs2d_
-        mov dword [off_14FAA8], edx
-        mov dword [off_14FAAC], ebx
+        mov dword [__EFG_printf], edx
+        mov dword [__EFG_scanf], ebx
         pop edx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_CFE0C                                                            CFE0C  
+;-----------------------------------------------------------------------------
 sub_CFE0C:
         mov eax, 0
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_CFE20                                                            CFE20  
+;-----------------------------------------------------------------------------
 sub_CFE20:
         push esi
         push edi
         mov ebx, dword [byte esp+0Ch]
-        mov esi, dword [dword_1228E0]
-        mov edx, dword [dword_1228D8]
+        mov esi, dword [ClipRight]
+        mov edx, dword [ClipTopRow]
         push ebx
         sub esi, edx
         call fputchar
         sub esi, eax
-        mov ecx, dword [dword_1228D8]
+        mov ecx, dword [ClipTopRow]
         mov eax, esi
         add esp, byte 4
         sar eax, 1
@@ -49,6 +58,9 @@ sub_CFE20:
         pop esi
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_CFE70                                                            CFE70  
+;-----------------------------------------------------------------------------
 sub_CFE70:
         mov eax, dword [byte esp+04h]
         mov edx, dword [byte eax+04h]
@@ -62,17 +74,23 @@ sub_CFE70:
         add esp, byte 14h
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_CFE8C                                                            CFE8C  
+;-----------------------------------------------------------------------------
 sub_CFE8C:
-        mov edx, dword [dword_1228D4]
+        mov edx, dword [ClipBottom]
         push edx
         push byte 0
-        mov ebx, dword [dword_1228D0]
+        mov ebx, dword [ScreenWidth]
         push ebx
         push byte 0
         call SetClipWindow
         add esp, byte 10h
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; memset_                                                       CFEB0  library
+;-----------------------------------------------------------------------------
 memset_:
         push eax
         push ecx
@@ -86,17 +104,20 @@ memset_:
         pop ecx
         pop eax
         ret
+;-----------------------------------------------------------------------------
+; __InitFiles_                                                  CFEC8  library
+;-----------------------------------------------------------------------------
 __InitFiles_:
         push ebx
         push ecx
         push edx
-        mov ah, byte [byte_123E35]
+        mov ah, byte [__iob_flags]
         and ah, 0F8h
         mov dl, ah
-        mov byte [byte_123E35], ah
+        mov byte [__iob_flags], ah
         or dl, 4
-        mov ecx, unk_123DF4
-        mov byte [byte_123E35], dl
+        mov ecx, __iob
+        mov byte [__iob_flags], dl
         jmp short .3
 .1:
         mov eax, 8
@@ -113,26 +134,35 @@ __InitFiles_:
         mov edx, 1
         call __fatal_runtime_error_
 .2:
-        mov edx, dword [dword_19BA40]
+        mov edx, dword [__ClosedStreams]
         mov dword [byte ebx+04h], ecx
-        mov dword [dword_19BA40], ebx
+        mov dword [__ClosedStreams], ebx
         add ecx, byte 1Ah
         mov dword [ebx], edx
 .3:
         mov edx, dword [byte ecx+0Ch]
         test edx, edx
         jne short .1
-        mov dword [dword_19BA3C], edx
+        mov dword [__OpenStreams], edx
         pop edx
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; __full_io_exit_                                               CFF40  library
+;-----------------------------------------------------------------------------
 __full_io_exit_:
         xor eax, eax
         call docloseall_
         jmp near __freefp__39
+;-----------------------------------------------------------------------------
+; fcloseall_                                                    CFF4C  library
+;-----------------------------------------------------------------------------
 fcloseall_:
         mov eax, 5
+;-----------------------------------------------------------------------------
+; docloseall_                                                   CFF51  library
+;-----------------------------------------------------------------------------
 docloseall_:
         push ebx
         push ecx
@@ -143,11 +173,11 @@ docloseall_:
         sub eax, edx
         shl eax, 2
         add eax, edx
-        mov esi, unk_123DF4
+        mov esi, __iob
         add eax, eax
         xor ebx, ebx
         add esi, eax
-        mov eax, dword [dword_19BA40]
+        mov eax, dword [__ClosedStreams]
         jmp short .4
 .1:
         mov ecx, dword [eax]
@@ -157,7 +187,7 @@ docloseall_:
         jne short .2
         cmp eax, esi
         jb short .3
-        cmp eax, unk_123E76
+        cmp eax, __iob_end
         jae short .2
         xor edx, edx
 .2:
@@ -174,6 +204,9 @@ docloseall_:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; __qwrite_                                                     CFFA3  library
+;-----------------------------------------------------------------------------
 __qwrite_:
         push ecx
         push esi
@@ -237,7 +270,7 @@ __qwrite_:
         ret
         push edx
         mov edx, eax
-        mov eax, dword [dword_14F0A4]
-        mov dword [dword_14F0A4], edx
+        mov eax, dword [__nheapbeg]
+        mov dword [__nheapbeg], edx
         pop edx
         ret

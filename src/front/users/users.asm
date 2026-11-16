@@ -30,8 +30,8 @@ extern str_Uopp, str_Upk, str_Upp, str_Upts, str_Urate, str_Uso, str_Usort, str_
 extern str_Uteam, str_wt, strcat_, strcmp_, strcpy_, strlen_, OpenScreen, SlideInSideBar
 extern SetScreenColors, FadePalette, FadeOut, DrawText, DrawTextCentred, SetTextColors, DrawColorText, FillBox
 extern InitMenuItems, RunMenu, PlaySfx, SoundIdle, GetLangText, InitVScrollBar, ScrollBarUp, ScrollBarDown
-extern FreeScrollBar, SetScrollBarPos, DrawScrollBar, CheckExportName, sub_AA7E0, sub_AADA4, sub_AB758, sub_ABF4C
-extern sub_AD35C, sub_AD620, sub_ADBEC, sub_AFFD0, sub_B0254, sub_B026C, sub_DD6C4, sub_DD8B0
+extern FreeScrollBar, SetScrollBarPos, DrawScrollBar, CheckExportName, sub_AA7E0, sub_AADA4, sub_AB758, FreeMemBlock
+extern sub_AD35C, sub_AD620, sub_ADBEC, sub_AFFD0, SaveTextState, SetDrawTarget, SetScreenTarget, SetRemapTable
 extern sub_E04E0, sub_E15AC, TextSetFont, unk_160B50, WaitTicks, word_160ACC, word_1656DA, word_1656DC
 extern word_1656E8, word_165810, word_165812, word_16581E
 global unk_2A3D6, unk_2A3E2, unk_2A3EE, unk_2A3F6, unk_2A402, unk_2A442, unk_2A482, ClearSlotUser
@@ -580,7 +580,7 @@ DrawUserList:
         mov eax, dword [byte ebp-04h]
         cmp eax, dword [byte ebp-010h]
         jl near .3
-        call sub_DD6C4
+        call SetScreenTarget
         push dword 110h
         push dword 15Eh
         push dword [byte edi+02Ch]
@@ -747,7 +747,7 @@ PickUsersScreen:
         mov dword [byte ebp-030h], eax
         lea eax, [byte ebp-078h]
         push eax
-        call sub_B0254
+        call SaveTextState
         add esp, byte 4
         push dword [dword_17BC74]
         call TextSetFont
@@ -1089,7 +1089,7 @@ PickUsersScreen:
         je short .17
         lea eax, [byte ebp-078h]
         push eax
-        call sub_B026C
+        call SetDrawTarget
         mov eax, 71h
         mov edx, byte_17BDAE
         mov ecx, dword [dword_11F5C4]
@@ -1197,7 +1197,7 @@ PickUsersScreen:
         jge short .26
         lea eax, [byte ebp-078h]
         push eax
-        call sub_B026C
+        call SetDrawTarget
         add esp, byte 4
         lea eax, [byte ebp-028h]
         call NewUser
@@ -1226,7 +1226,7 @@ PickUsersScreen:
 .26:
         lea eax, [byte ebp-078h]
         push eax
-        call sub_B026C
+        call SetDrawTarget
         mov eax, 70h
         mov edx, byte_17BDAE
         mov ecx, dword [dword_11F5C4]
@@ -1277,7 +1277,7 @@ PickUsersScreen:
         mov edx, dword [byte ebp-028h]
         mov eax, 1
         call NameIndexFree
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [byte edi+02Ch]
         call sub_AADA4
         add esp, byte 4
@@ -1286,7 +1286,7 @@ PickUsersScreen:
         add esp, byte 4
         lea eax, [byte ebp-078h]
         push eax
-        call sub_B026C
+        call SetDrawTarget
         add esp, byte 4
         push dword [byte ebp-030h]
         call sub_ADBEC
@@ -2561,7 +2561,7 @@ DrawUserRecords_3F0:
         call sub_AADA4
         add esp, byte 4
         push dword [byte ebp-074h]
-        call sub_DD8B0
+        call SetRemapTable
         add esp, byte 4
         push dword 1AFh
         push dword 0EEh
@@ -2583,7 +2583,7 @@ DrawUserRecords_3F0:
         call sub_AADA4
         add esp, byte 4
         push dword [byte ebp-074h]
-        call sub_DD8B0
+        call SetRemapTable
         add esp, byte 4
         push dword 1AFh
         push dword 0A7h
@@ -2598,7 +2598,7 @@ DrawUserRecords_3F0:
         call sub_E15AC
         add esp, byte 24h
 .29:
-        call sub_DD6C4
+        call SetScreenTarget
         mov eax, dword [byte ebp-068h]
         push dword [byte eax+02Ch]
         call sub_AADA4
@@ -3462,7 +3462,7 @@ UserRecordsScreen:
         mov dword [dword_1177F8], eax
         lea eax, [byte ebp-016h]
         push eax
-        call sub_B0254
+        call SaveTextState
         add esp, byte 4
         push dword [dword_17BC74]
         call TextSetFont
@@ -3490,7 +3490,7 @@ UserRecordsScreen:
         mov dword [byte ebp+03Eh], eax
         call sub_AD620
         add esp, byte 0Ch
-        call sub_DD6C4
+        call SetScreenTarget
         push str_BKGD2
         push dword [byte ebp+042h]
         call sub_E04E0
@@ -3941,7 +3941,7 @@ UserRecordsScreen_A2B:
         jl near UserRecordsScreen_CC6.42
         lea eax, [byte ebp-016h]
         push eax
-        call sub_B026C
+        call SetDrawTarget
         mov edx, dword [dword_1177F8]
         add esp, byte 4
         mov eax, dword_160AB4
@@ -4031,7 +4031,7 @@ UserRecordsScreen_AD5:
 UserRecordsScreen_B4F:
         lea eax, [byte ebp-016h]
         push eax
-        call sub_B026C
+        call SetDrawTarget
         add esp, byte 4
         call ExportUserRecords
 .29:
@@ -4178,62 +4178,62 @@ UserRecordsScreen_CC6:
         cmp dword [byte ebp+02Eh], byte 0FFFFFFFFh
         je near UserRecordsScreen.22
         push dword [dword_160A8C]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_160AB8]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_160ABC]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_160AC4]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_160AC8]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_160A90]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_160AA4]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_160A9C]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_160A98]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_160A94]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_160AA0]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_160AA8]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_160AC0]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_160AB0]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_160AAC]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [byte ebp+032h]
         call sub_ADBEC
         add esp, byte 4
         push dword [byte ebp+03Eh]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [byte ebp+03Ah]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         lea eax, [byte ebp-016h]
         push eax
-        call sub_B026C
+        call SetDrawTarget
         add esp, byte 4
         mov eax, 1
         mov edx, dword [dword_160AB4]

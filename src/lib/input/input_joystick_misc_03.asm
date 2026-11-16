@@ -2,14 +2,17 @@
 bits 32
 %include "hockey.inc"
 section s_E193C progbits alloc exec nowrite align=1
-extern dword_1228D0
+extern ScreenWidth
 global sub_E193C, sub_E1956
+;-----------------------------------------------------------------------------
+; sub_E193C                                                            E193C  
+;-----------------------------------------------------------------------------
 sub_E193C:
         push ebp
         LD mov, ebp, esp
         push esi
         push edi
-        lea esi, [dword_1228D0]
+        lea esi, [ScreenWidth]
         mov edi, dword [byte ebp+08h]
         mov ecx, 18h
         cld
@@ -18,13 +21,16 @@ sub_E193C:
         pop esi
         leave
         ret
+;-----------------------------------------------------------------------------
+; sub_E1956                                                            E1956  
+;-----------------------------------------------------------------------------
 sub_E1956:
         push ebp
         LD mov, ebp, esp
         push esi
         push edi
         mov esi, dword [byte ebp+08h]
-        lea edi, [dword_1228D0]
+        lea edi, [ScreenWidth]
         mov ecx, 18h
         cld
         rep movsd

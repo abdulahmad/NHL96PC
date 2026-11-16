@@ -2,25 +2,29 @@
 bits 32
 %include "hockey.inc"
 section s_DF8AC progbits alloc exec nowrite align=1
-extern mouseminx, mouseminy, mousemaxx, mousemaxy, dword_11F578, dword_11F57C, dword_11F598, dword_11F5A4
-extern mousex, mousey, dword_11F5B0, dword_11F5B4, dword_11F5B8, dword_11F5C0, dword_11F5C4, dword_11F6F0
-extern dword_11F6F6, dword_11F6FC, sub_DFC33_6F, mousepollfn, off_11F5F4, off_11F5F8, off_11F5FC, off_11F618
-extern sub_C2C7C, sub_C2C94, sub_DFC33, sub_DFDDE, sub_DFE28, sub_E04D0, unk_DFDDD, word_11F580
+extern mouseminx, mouseminy, mousemaxx, mousemaxy, MouseDeltaX, MouseButtonState, dword_11F598, MousePresent
+extern mousex, mousey, MouseMoved, dword_11F5B4, dword_11F5B8, dword_11F5C0, dword_11F5C4, dword_11F6F0
+extern dword_11F6F6, dword_11F6FC, sub_DFC33_6F, mousepollfn, off_11F5F4, off_11F5F8, off_11F5FC, BiosKeyFunc
+extern DosGetVector, DosSetVector, sub_DFC33, Int16Handler, Int16Service, AddExitHandler, unk_DFDDD, word_11F580
 extern word_11F582, word_11F584, word_11F6F4, word_11F6FA, word_11F700, word_11F702
-global sub_DF8AC, sub_DF8E8, MouseRead, SetViewRect, MouseReadMotion, sub_DFA6C, sub_DFA73, sub_DFA7A
+global MouseReadButtons, sub_DF8E8, MouseRead, SetViewRect, MouseReadMotion, sub_DFA6C, sub_DFA73, sub_DFA7A
 global sub_DFA98, sub_DFB84, sub_DFB88
-sub_DF8AC:
+;-----------------------------------------------------------------------------
+; MouseReadButtons                                DF8AC  96 PC, low confidence
+; Reads the mouse buttons through the mouse driver
+;-----------------------------------------------------------------------------
+MouseReadButtons:
         LD xor, eax, eax
-        dec dword [dword_11F57C]
+        dec dword [MouseButtonState]
         jne short .1
-        cmp dword [dword_11F5A4], byte 1
+        cmp dword [MousePresent], byte 1
         jb short .1
         ja short .2
         mov eax, 3
         int 33h
         movsx eax, bx
 .1:
-        inc dword [dword_11F57C]
+        inc dword [MouseButtonState]
         ret
 .2:
         mov eax, 3
@@ -28,12 +32,15 @@ sub_DF8AC:
         and eax, byte 1
         and ebx, byte 2
         LD or, eax, ebx
-        inc dword [dword_11F57C]
+        inc dword [MouseButtonState]
         ret
+;-----------------------------------------------------------------------------
+; sub_DF8E8                                                            DF8E8  
+;-----------------------------------------------------------------------------
 sub_DF8E8:
         push ebp
         LD mov, ebp, esp
-        cmp dword [dword_11F5A4], byte 0
+        cmp dword [MousePresent], byte 0
         je short .1
         mov ax, 1Ah
         mov bx, word [byte ebp+08h]
@@ -45,7 +52,7 @@ sub_DF8E8:
         ret
         push ebp
         LD mov, ebp, esp
-        cmp dword [dword_11F5A4], byte 0
+        cmp dword [MousePresent], byte 0
         je short .2
         mov ax, 1Ah
         mov bx, word [byte ebp+08h]
@@ -55,6 +62,9 @@ sub_DF8E8:
 .2:
         leave
         ret
+;-----------------------------------------------------------------------------
+; MouseRead                                    DF928  95 PC, medium confidence
+;-----------------------------------------------------------------------------
 MouseRead:
         push ebp
         LD mov, ebp, esp
@@ -93,6 +103,9 @@ MouseRead:
         mov dword [mousemaxy], edx
         leave
         ret
+;-----------------------------------------------------------------------------
+; SetViewRect                                                     DF98F  95 PC
+;-----------------------------------------------------------------------------
 SetViewRect:
         push ebp
         LD mov, ebp, esp
@@ -106,11 +119,15 @@ SetViewRect:
         mov dword [mousemaxy], ecx
         leave
         ret
+;-----------------------------------------------------------------------------
+; MouseReadMotion                              DF9B7  96 PC, medium confidence
+; Mouse library: reads int 33h 0Bh into the pointer state
+;-----------------------------------------------------------------------------
 MouseReadMotion:
         pusha
-        dec dword [dword_11F57C]
+        dec dword [MouseButtonState]
         jne near .5
-        mov eax, dword [dword_11F5A4]
+        mov eax, dword [MousePresent]
         LD or, eax, eax
         je near .5
         mov eax, 0Bh
@@ -118,7 +135,7 @@ MouseReadMotion:
         movsx ecx, cx
         movsx edx, dx
         mov eax, dword [mousex]
-        mov ebx, dword [dword_11F578]
+        mov ebx, dword [MouseDeltaX]
         LD add, ebx, ebx
         LD adc, eax, eax
         LD add, ecx, eax
@@ -145,24 +162,33 @@ MouseReadMotion:
         mov edx, dword [mousemaxy]
         dec edx
 .4:
-        mov dword [dword_11F578], ebx
+        mov dword [MouseDeltaX], ebx
         mov dword [mousex], ecx
         mov dword [mousey], edx
-        inc dword [dword_11F57C]
-        call sub_DF8AC
-        dec dword [dword_11F57C]
-        mov dword [dword_11F5B0], eax
+        inc dword [MouseButtonState]
+        call MouseReadButtons
+        dec dword [MouseButtonState]
+        mov dword [MouseMoved], eax
 .5:
         popa
-        mov eax, dword [dword_11F5B0]
-        inc dword [dword_11F57C]
+        mov eax, dword [MouseMoved]
+        inc dword [MouseButtonState]
         ret
+;-----------------------------------------------------------------------------
+; sub_DFA6C                                                            DFA6C  
+;-----------------------------------------------------------------------------
 sub_DFA6C:
         inc dword [dword_11F5B4]
         ret
+;-----------------------------------------------------------------------------
+; sub_DFA73                                                            DFA73  
+;-----------------------------------------------------------------------------
 sub_DFA73:
         dec dword [dword_11F5B4]
         ret
+;-----------------------------------------------------------------------------
+; sub_DFA7A                                                            DFA7A  
+;-----------------------------------------------------------------------------
 sub_DFA7A:
         pusha
         mov ax, 1Ah
@@ -172,16 +198,19 @@ sub_DFA7A:
         int 33h
         popa
         ret
+;-----------------------------------------------------------------------------
+; sub_DFA98                                                            DFA98  
+;-----------------------------------------------------------------------------
 sub_DFA98:
         pusha
-        mov dword [dword_11F5A4], 0
+        mov dword [MousePresent], 0
         mov dword [dword_11F5B4], 0
         mov dword [dword_11F5B8], 0
         LD xor, eax, eax
         int 33h
         LD or, ax, ax
         je near .2
-        inc dword [dword_11F5A4]
+        inc dword [MousePresent]
         cmp dword [dword_11F598], byte 0
         je short .1
         mov dword [dword_11F5B8], 2
@@ -189,7 +218,7 @@ sub_DFA98:
         int 33h
         LD or, ax, ax
         jne short .1
-        mov dword [dword_11F5A4], 2
+        mov dword [MousePresent], 2
 .1:
         push dword [dword_11F5C4]
         push dword [dword_11F5C0]
@@ -216,16 +245,22 @@ sub_DFA98:
         mov dword [off_11F5FC], sub_DFA6C
         mov dword [mousepollfn], MouseReadMotion
         push sub_DFA7A
-        call sub_E04D0
+        call AddExitHandler
         add esp, byte 20h
 .2:
         popa
-        mov eax, dword [dword_11F5A4]
+        mov eax, dword [MousePresent]
         ret
+;-----------------------------------------------------------------------------
+; sub_DFB84                                                            DFB84  
+;-----------------------------------------------------------------------------
 sub_DFB84:
         LD xor, eax, eax
         ret
         db 00h
+;-----------------------------------------------------------------------------
+; sub_DFB88                                                            DFB88  
+;-----------------------------------------------------------------------------
 sub_DFB88:
         cmp word [word_11F702], byte 0
         jne near .1
@@ -235,34 +270,34 @@ sub_DFB88:
         or al, 3
         out 21h, al
         mov ebx, 9
-        call sub_C2C7C
+        call DosGetVector
         mov dword [dword_11F6F0], eax
         mov word [word_11F6F4], dx
         mov ebx, 16h
-        call sub_C2C7C
+        call DosGetVector
         mov dword [dword_11F6F6], eax
         mov word [word_11F6FA], dx
         mov ebx, 23h
-        call sub_C2C7C
+        call DosGetVector
         mov dword [dword_11F6FC], eax
         mov word [word_11F700], dx
         mov dx, cs
         mov ebx, 9
         mov eax, sub_DFC33_6F
-        call sub_C2C94
+        call DosSetVector
         mov dx, cs
         mov ebx, 16h
-        mov eax, sub_DFDDE
+        mov eax, Int16Handler
         mov dx, cs
         mov ebx, 23h
         mov eax, unk_DFDDD
-        call sub_C2C94
+        call DosSetVector
         pop eax
         out 21h, al
-        mov ebx, sub_DFE28
-        mov dword [off_11F618], ebx
+        mov ebx, Int16Service
+        mov dword [BiosKeyFunc], ebx
         push sub_DFC33
-        call sub_E04D0
+        call AddExitHandler
         add esp, byte 4
 .1:
         ret

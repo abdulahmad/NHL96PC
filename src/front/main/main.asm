@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_1B046 progbits alloc exec nowrite align=1
 extern _dos_gettime_, asc_1103D8, chdir_, DetectCPU, dword_114CD3, dword_1150D4, dword_1150D8, dword_1150DC
-extern dword_11D19C, dword_11F5E4, dword_11F61C, dword_11F994, dword_11F9C8, dword_152F44, dword_152F48, dword_152F4C
+extern dword_11D19C, CpuType, dword_11F61C, dword_11F994, dword_11F9C8, dword_152F44, dword_152F48, dword_152F4C
 extern dword_152F50, dword_152F54, dword_152F58, dword_152F5C, globalset, InitInputDevices, InstallTimer, LoadDataFile
 extern LoadGripLibrary, LoadPackedFile, MakeDataPath, ModemGameClose, off_11D3DC, optflags, PlayMenuGame, printf_
 extern ReadGlobalSet, srand_, StartSoundCard, str_CLEARER, str_dbgL, str_Dot, str_FhiL4, str_FhiR4
@@ -12,10 +12,10 @@ extern str_LOGOPACK, str_LSTA, str_spPressESCToReturnToDOS, str_YouMustFirstUseT
 extern ClearSlotUsers, UserRecordsScreen, WatchHighlight, HighlightsMenu, LoadFrontEndArt, FreeFrontEndArt, RunIntro, RunCredits
 extern CopyBitmap, InitGraphicsFix, SetScreenMode, SetMenuMoveSfx, SetMenuSelectSfx, MainMenuScreen, StopMusic, FadeOutMusic
 extern TestCdSpeed, ShutdownSound, WriteGlobalSet, RunExhibitionMenus, RunControlSetup, LoadLangText, FreeLangText, GetLangText
-extern RunSeasonMenus, RunStatsMenu, RunModemGameSetup, RunPlayoffMenus, sub_AB758, sub_ABF4C, sub_AC868, sub_ADA50
-extern sub_AFCD0, sub_AFFD0, sub_B3100, sub_B3145, sub_B3160, sub_B31C0, sub_B3420, sub_DD6C4
-extern sub_DD800, sub_DD830, sub_DD87C, sub_DFA98, sub_DFB88, sub_DFF28, sub_E04D0, sub_E04E0
-extern sub_E0520, sub_E05DA, TextSetFont, unk_110351, unk_110355, unk_11041A, unk_11048D, unk_115120
+extern RunSeasonMenus, RunStatsMenu, RunModemGameSetup, RunPlayoffMenus, sub_AB758, FreeMemBlock, sub_AC868, sub_ADA50
+extern sub_AFCD0, sub_AFFD0, sub_B3100, sub_B3145, sub_B3160, sub_B31C0, sub_B3420, SetScreenTarget
+extern sub_DD800, sub_DD830, sub_DD87C, sub_DFA98, sub_DFB88, sub_DFF28, AddExitHandler, sub_E04E0
+extern sub_E0520, sub_E05DA, TextSetFont, unk_110351, unk_110355, unk_11041A, unk_11048D, DataDirPath
 extern unk_1210DC, unk_1213DC, unk_152C44, unk_18584C
 global jpt_1B046, LoadTeamLogo, LoadTeamLogo_3B, LoadTeamLogo_45, LoadTeamLogo_4F, LoadTeamLogo_59, LoadTeamLogo_63, LoadTeamLogo_6D
 global LoadTeamLogo_ret, RunFrontEnd, ReturnTrue, CheckFreeMemory, CheckGameDirs, InitHardware, StartUp, ShutDown
@@ -307,7 +307,7 @@ CheckGameDirs:
         cmp ebx, byte 8
         jge short .4
         imul ecx, ebx, byte 0Fh
-        add ecx, unk_115120
+        add ecx, DataDirPath
         mov eax, ecx
         call chdir_
         test eax, eax
@@ -381,7 +381,7 @@ InitHardware:
         mov edi, edx
         rep stosb
         push edx
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword 220h
         call sub_AC868
@@ -398,7 +398,7 @@ InitHardware:
         mov edi, edx
         rep stosb
         push edx
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push byte 64h
         call InstallTimer
@@ -430,7 +430,7 @@ InitHardware:
         push eax
         call sub_AFFD0
         add esp, byte 8
-        call sub_DD6C4
+        call SetScreenTarget
         push unk_18584C
         push dword 100h
         push byte 0
@@ -462,7 +462,7 @@ StartUp:
         movzx eax, byte [byte ebp-02h]
         imul eax, edx
         call srand_
-        mov dword [dword_11F5E4], 1
+        mov dword [CpuType], 1
         inc dword [dword_1150DC]
         call InitHardware
         push byte 0
@@ -508,7 +508,7 @@ StartUp:
         shr eax, 1Eh
         call LoadLangText
         call DetectCPU
-        cmp dword [dword_11F5E4], byte 0
+        cmp dword [CpuType], byte 0
         jne short .4
         call sub_DD800
         mov eax, 1D5h
@@ -616,7 +616,7 @@ StartUp:
         call RunIntro
         call ClearSlotUsers
         push ModemGameClose
-        call sub_E04D0
+        call AddExitHandler
         add esp, byte 4
         jmp near LoadTeamLogo_ret
         push ebx
@@ -633,16 +633,16 @@ ShutDown:
         call ShutdownSound
         call FreeLangText
         push dword [dword_152F44]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_152F54]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_152F5C]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_1150D4]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 ShutDown_51:
         call dword [dword_11F994]

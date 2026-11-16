@@ -33,12 +33,12 @@
 #define ORIG_VIDRESTORE    SYM_RestoreTextMode
 #define ORIG_TICKCOUNT     SYM_tickcount
 #define ORIG_TICKDEADLINE  SYM_tickdeadline
-#define ORIG_CMDLINE       SYM_unk_1A1258
+#define ORIG_CMDLINE       SYM_StartupStack
 #define ORIG_CRT_ESP       SYM__STACKTOP
 #define ORIG_CRT_ESP2      SYM__curbrk
 #define ORIG_CRT_ESP3      SYM__dynend
 #define ORIG_CRT_SEL       SYM__psp
-#define ORIG_CRT_CMD       SYM_dword_124414
+#define ORIG_CRT_CMD       SYM_CMainEnv
 #define ORIG_CRT_CMDEND    SYM__STACKLOW
 #define ORIG_CRT_CMDLINAL  SYM__LpCmdLine
 #define ORIG_CRT_DOSMAJ    SYM__osmajor

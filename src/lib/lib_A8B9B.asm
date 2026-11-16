@@ -10,8 +10,8 @@ extern dword_17CC13, dword_17CF8E, dword_17D162, dword_17D252, dword_17D256, dwo
 extern getenv_, off_11F531, off_11F535, off_11F539, off_11F53D, off_11F541, off_11F545, off_11F549
 extern off_11F551, off_11F555, sprintf_, strcat_, strcpy_, strlen_, SelectDataLibrary, LoadDataFileLib
 extern OpenScreen, SlideInTitleBar, SlideInSideBar, SetScreenColors, FadePalette, FadeOut, DrawColorText, DrawColorTextCentred
-extern RunMenu, GetLangText, MakeSeasonDbPath, MakePlayoffDbPath, sub_ABF4C, sub_B0430, sub_B0494, sub_B22B0
-extern sub_B2C54, sub_C254C, sub_C2600, sub_C2CB0, sub_DD908, sub_E04E0, unk_17CED5, unk_184B78
+extern RunMenu, GetLangText, MakeSeasonDbPath, MakePlayoffDbPath, FreeMemBlock, sub_B0430, LoadResourceDataShared, sub_B22B0
+extern sub_B2C54, sub_C254C, sub_C2600, ErrnoPtr, sub_DD908, sub_E04E0, unk_17CED5, unk_184B78
 extern unk_184BB4, unk_184BF0, unk_184C2C, unk_184C68, unk_184CA4, unk_184D1C, unk_184D58, unk_184E48
 extern unk_184F48, unk_184F77, unk_185292
 global _searchenv_, sub_A8C81_555, sub_A8B9B, sub_A8C75, sub_A8C81, sub_A91DD, sub_A9BAC
@@ -594,7 +594,7 @@ sub_A91DD:
         push byte 0
         lea eax, [byte ebp+03Ah]
         push eax
-        call sub_B0494
+        call LoadResourceDataShared
         add esp, byte 8
         push byte 41h
         push dword 193h
@@ -612,7 +612,7 @@ sub_A91DD:
 .2:
         push eax
         push str_PROFILEFSH4
-        call sub_B0494
+        call LoadResourceDataShared
         add esp, byte 8
         push byte 41h
         push dword 193h
@@ -1215,7 +1215,7 @@ sub_A91DD:
         mov eax, 3
         call FadeOut
         push dword [byte ebp+076h]
-        call sub_ABF4C
+        call FreeMemBlock
         mov eax, dword [dword ebp-0196h]
         movsx eax, byte [dword eax+byte_11F524]
         add esp, byte 4
@@ -1226,7 +1226,7 @@ sub_A91DD:
 .23:
         push dword [byte ebp+072h]
 .24:
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov eax, dword [byte ebp+06Eh]
         lea esp, [dword ebp+082h]
@@ -1263,7 +1263,7 @@ _searchenv_:
         mov ecx, eax
         mov edi, edx
         mov esi, ebx
-        call sub_C2CB0
+        call ErrnoPtr
         mov eax, dword [eax]
         xor edx, edx
         mov dword [byte ebp-04h], eax

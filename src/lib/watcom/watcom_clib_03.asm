@@ -3,30 +3,37 @@ bits 32
 %include "hockey.inc"
 section s_B03F2 progbits alloc exec nowrite align=1
 extern GetTicks, TicksSince, _IsTable, __IOMode_, __SetIOMode_, __close_, __set_errno_, __set_errno_dos_
-extern asc_1135E8, str_Inversetmp, byte_1219A8, dword_1219A4, dword_123FFD, dword_124120, dword_1857B4, dword_1857B8
-extern dword_1857BC, dword_1857C0, dword_1857C4, dword_1857C8, dword_1857CC, dword_1857D0, dword_1857D4, dword_1857D8
-extern dword_1857DC, dword_1857E0, dword_1857E4, dword_1857E8, dword_1857EC, dword_1857F0, dword_1857F4, dword_1857F8
-extern dword_1857FC, dword_185800, dword_185804, dword_185808, dword_18580C, dword_185810, dword_185814, dword_185818
-extern dword_18581C, dword_185820, dword_185824, dword_185828, dword_18582C, dword_185830, dword_185834, dword_185838
-extern isatty_, off_11FD58, off_11FD5C, off_11FD60, sub_AB798, sub_ABF4C, sub_B2158, sub_C2C7C
-extern sub_C2C94, sub_C4DE0, sub_DD87C, sub_E04D0, sub_E0686, sub_E07B8, unk_11FD54, unk_11FD6A
+extern asc_1135E8, str_Inversetmp, QuantizeTable, dword_1219A4, _fmode, dword_124120, InvTabDist, InvTabRStep
+extern InvTabGStep, InvTabBStep, InvTabRMin, InvTabOut, InvTabDistBuf, InvTabGMin, InvTabGCenter, InvTabBCenter
+extern InvTabCell, InvTabRCenter, InvTabR, InvTabG, InvTabB, InvTabColor, InvTabRMax, InvTabGMax
+extern InvTabBMin, InvTabBMax, InvTabRow, InvTabPass, InvTabGLo, InvTabGHi, InvTabBLo, InvTabBHi
+extern InvTabGInc, InvTabBInc, InvTabDistInc, InvTabDistStart, dword_18582C, dword_185830, dword_185834, dword_185838
+extern isatty_, off_11FD58, off_11FD5C, off_11FD60, sub_AB798, FreeMemBlock, sub_B2158, DosGetVector
+extern DosSetVector, sub_C4DE0, sub_DD87C, AddExitHandler, sub_E0686, DosCloseFile, unk_11FD54, unk_11FD6A
 extern unk_11FD74, unk_1201B6, unk_1201C0, unk_120602, unk_12060C, unk_120A4E, unk_120A58, word_11FD68
 extern word_120E9A, word_120EC0
-global __set_binary_, _dos_getdate_, _dos_gettime_, byteswap_, sub_B047B_8, sub_B049E_D, sub_B12AF_75, sub_B1328_5
+global __set_binary_, _dos_getdate_, _dos_gettime_, byteswap_, LoadResourceData_8, sub_B049E_D, sub_B12AF_75, SerialWrite_5
 global sub_B147A_1A, sub_B153D_9, sub_B153D_12, sub_B153D_1B, sub_B153D_85, unk_B15DE_10, med3__4F, lseek_
 global med3_, open_, qsort_, rand_, read_, sopen_, srand_, strlen_
-global strncmp_, strstr_, sub_B03F2, sub_B0430, sub_B0474, sub_B047B, sub_B0494, sub_B049E
-global sub_B04D0, sub_B06E8, sub_B086C, sub_B0B10, sub_B0CA8, sub_B0CCC, sub_B0D98, sub_B0E68
-global sub_B0F7C, sub_B103C, sub_B1121, sub_B11F8, sub_B1241, sub_B1255, sub_B1279, sub_B1294
-global sub_B12AF, sub_B1328, sub_B13BB, sub_B13D2, sub_B13F1, sub_B1451, sub_B147A, sub_B151E
-global sub_B153D, sub_B178B, sub_B1830, sub_B1C0E, sub_B20D0, sub_B20EC, sub_B2128, sub_B2140
+global strncmp_, strstr_, GetRandState, sub_B0430, LoadResourceBlockShared, LoadResourceData, LoadResourceDataShared, sub_B049E
+global InverseTableSlice, InverseTablePass, InverseTableScan, InverseTableFill, sub_B0CA8, sub_B0CCC, sub_B0D98, sub_B0E68
+global sub_B0F7C, sub_B103C, sub_B1121, SerialClose, SerialCloseAll, sub_B1255, SerialRaiseDtr, sub_B1294
+global sub_B12AF, SerialWrite, sub_B13BB, SerialFlushTx, SerialWaitTxEmpty, sub_B1451, sub_B147A, sub_B151E
+global sub_B153D, sub_B178B, sub_B1830, sub_B1C0E, OpenArtArchiveErr, OpenArtArchive, LoadDataFileErr, LoadFileAllocQuiet
 global unk_B15DE
-sub_B03F2:
+;-----------------------------------------------------------------------------
+; GetRandState                                                    B03F2  96 PC
+; Returns the C library's rand state address
+;-----------------------------------------------------------------------------
+GetRandState:
         mov eax, unk_11FD54
         ret
+;-----------------------------------------------------------------------------
+; rand_                                                         B03F8  library
+;-----------------------------------------------------------------------------
 rand_:
         push edx
-        call sub_B03F2
+        call GetRandState
         test eax, eax
         je short .1
         imul edx, dword [eax], dword 41C64E6Dh
@@ -38,10 +45,13 @@ rand_:
 .1:
         pop edx
         ret
+;-----------------------------------------------------------------------------
+; srand_                                                        B041C  library
+;-----------------------------------------------------------------------------
 srand_:
         push edx
         mov edx, eax
-        call sub_B03F2
+        call GetRandState
         test eax, eax
         je short .1
         mov dword [eax], edx
@@ -49,6 +59,9 @@ srand_:
         pop edx
         ret
         db 00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_B0430                                                            B0430  
+;-----------------------------------------------------------------------------
 sub_B0430:
         sub esp, byte 0Ch
         mov eax, esp
@@ -63,7 +76,7 @@ sub_B0430:
         add esp, byte 10h
         mov ebx, dword [byte esp+08h]
         push ebx
-        call sub_E07B8
+        call DosCloseFile
         add esp, byte 4
         cmp dword [byte esp+08h], byte 0
         je short .1
@@ -73,16 +86,24 @@ sub_B0430:
         add esp, byte 0Ch
         ret
         db 00h,00h,00h
-sub_B0474:
+;-----------------------------------------------------------------------------
+; LoadResourceBlockShared                         B0474  96 PC, low confidence
+; Loads a resource file in shared mode and returns its memory block
+;-----------------------------------------------------------------------------
+LoadResourceBlockShared:
         push ebp
         LD mov, ebp, esp
         LD xor, eax, eax
-        jmp short sub_B047B_8
-sub_B047B:
+        jmp short LoadResourceData_8
+;-----------------------------------------------------------------------------
+; LoadResourceData                                B047B  96 PC, low confidence
+; Loads a resource file and returns its data pointer
+;-----------------------------------------------------------------------------
+LoadResourceData:
         push ebp
         LD mov, ebp, esp
         mov eax, 1
-sub_B047B_8:
+LoadResourceData_8:
         push eax
         push dword [byte ebp+0Ch]
         push dword [byte ebp+08h]
@@ -90,11 +111,18 @@ sub_B047B_8:
         add esp, byte 0Ch
         leave
         ret
-sub_B0494:
+;-----------------------------------------------------------------------------
+; LoadResourceDataShared                          B0494  96 PC, low confidence
+; Loads a resource file in shared mode and returns its data pointer
+;-----------------------------------------------------------------------------
+LoadResourceDataShared:
         push ebp
         LD mov, ebp, esp
         mov eax, 1
         jmp short sub_B049E_D
+;-----------------------------------------------------------------------------
+; sub_B049E                                                            B049E  
+;-----------------------------------------------------------------------------
 sub_B049E:
         push ebp
         LD mov, ebp, esp
@@ -117,7 +145,11 @@ sub_B049E_D:
         ret
         jmp near sub_C4DE0
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h
-sub_B04D0:
+;-----------------------------------------------------------------------------
+; InverseTableSlice                               B04D0  96 PC, low confidence
+; Builds one slice of the inverse colour table
+;-----------------------------------------------------------------------------
+InverseTableSlice:
         push esi
         push edi
         push ebp
@@ -133,18 +165,18 @@ sub_B04D0:
         mov ebx, 1
         shl eax, cl
         mov cl, byte [byte esp+0Ch]
-        mov dword [dword_1857C8], eax
+        mov dword [InvTabOut], eax
         shl ebx, cl
         mov ecx, dword [byte esp+0Ch]
         mov eax, 1
         add ecx, ecx
         shl eax, cl
-        mov dword [dword_1857CC], eax
-        mov eax, dword [dword_1857C8]
-        mov dword [dword_1857DC], eax
+        mov dword [InvTabDistBuf], eax
+        mov eax, dword [InvTabOut]
+        mov dword [InvTabCell], eax
         imul eax, eax
-        mov dword [dword_1857E0], eax
-        mov eax, dword [dword_1857C8]
+        mov dword [InvTabRCenter], eax
+        mov eax, dword [InvTabOut]
         mov edx, eax
         imul edx, eax
         imul eax, edx
@@ -160,12 +192,12 @@ sub_B04D0:
 .2:
         xor edx, edx
         mov ecx, dword [byte esp+04h]
-        mov dword [dword_1857BC], edx
+        mov dword [InvTabGStep], edx
         test ecx, ecx
         jle near .5
 .3:
-        mov eax, dword [dword_1857BC]
-        cmp byte [dword eax+byte_1219A8], 0
+        mov eax, dword [InvTabGStep]
+        cmp byte [dword eax+QuantizeTable], 0
         je near .4
         mov edi, dword [esp]
         shl eax, 2
@@ -175,33 +207,33 @@ sub_B04D0:
         mov eax, ebp
         sar eax, cl
         movzx esi, byte [byte edi+01h]
-        mov dword [dword_1857FC], eax
+        mov dword [InvTabBMin], eax
         mov eax, esi
         sar eax, cl
         movzx edi, byte [edi]
-        mov dword [dword_1857F0], eax
+        mov dword [InvTabColor], eax
         mov eax, edi
         mov edx, ebx
         sar eax, cl
         sar edx, 1Fh
-        mov dword [dword_1857F4], eax
+        mov dword [InvTabRMax], eax
         mov eax, ebx
         LD sub, eax, edx
         sar eax, 1
-        mov ecx, dword [dword_1857FC]
+        mov ecx, dword [InvTabBMin]
         imul ecx, ebx
         lea edx, [ecx+eax]
         mov ecx, ebp
         imul ebp, ebx
         sub ecx, edx
-        mov edx, dword [dword_1857F0]
+        mov edx, dword [InvTabColor]
         imul edx, ebx
-        mov dword [dword_185800], ecx
+        mov dword [InvTabBMax], ecx
         mov ecx, esi
         imul esi, ebx
         add edx, eax
         sub ecx, edx
-        mov edx, dword [dword_1857F4]
+        mov edx, dword [InvTabRMax]
         imul edx, ebx
         add eax, edx
         mov edx, edi
@@ -209,149 +241,153 @@ sub_B04D0:
         sub edx, eax
         mov eax, ecx
         imul eax, ecx
-        mov dword [dword_1857F8], edx
-        mov edx, dword [dword_185800]
+        mov dword [InvTabGMax], edx
+        mov edx, dword [InvTabBMax]
         imul edx, edx
         add edx, eax
-        mov eax, dword [dword_1857F8]
+        mov eax, dword [InvTabGMax]
         imul eax, eax
         add edx, eax
-        mov eax, dword [dword_1857FC]
-        mov dword [dword_1857F8], edx
-        mov edx, dword [dword_1857CC]
+        mov eax, dword [InvTabBMin]
+        mov dword [InvTabGMax], edx
+        mov edx, dword [InvTabDistBuf]
         inc eax
         imul eax, edx
         sub eax, ebp
         add eax, eax
-        mov dword [dword_1857E4], eax
-        mov eax, dword [dword_1857F0]
+        mov dword [InvTabR], eax
+        mov eax, dword [InvTabColor]
         inc eax
         imul eax, edx
         sub eax, esi
         add eax, eax
-        mov dword [dword_1857EC], eax
-        mov eax, dword [dword_1857F4]
+        mov dword [InvTabB], eax
+        mov eax, dword [InvTabRMax]
         inc eax
         imul eax, edx
-        mov esi, dword [dword_1857FC]
+        mov esi, dword [InvTabBMin]
         sub eax, edi
-        imul esi, dword [dword_1857E0]
-        mov dword [dword_185804], ecx
+        imul esi, dword [InvTabRCenter]
+        mov dword [InvTabRow], ecx
         add eax, eax
-        mov ecx, dword [dword_1857DC]
-        mov dword [dword_1857E8], eax
-        mov eax, dword [dword_1857F0]
+        mov ecx, dword [InvTabCell]
+        mov dword [InvTabG], eax
+        mov eax, dword [InvTabColor]
         imul eax, ecx
         mov ebp, dword [byte esp+08h]
         lea edx, [nosplit esi*4+00h]
         add edx, ebp
         lea edi, [nosplit eax*4+00h]
         add edx, edi
-        mov edi, dword [dword_1857F4]
+        mov edi, dword [InvTabRMax]
         shl edi, 2
         add edx, edi
         mov edi, dword [byte esp+020h]
-        mov dword [dword_1857B8], edx
+        mov dword [InvTabRStep], edx
         add esi, edi
-        mov edx, dword [dword_1857F4]
+        mov edx, dword [InvTabRMax]
         add eax, esi
         add edx, eax
-        mov dword [dword_1857C4], ebx
-        mov dword [dword_1857C0], edx
-        call sub_B06E8
-        mov ebx, dword [dword_1857C4]
+        mov dword [InvTabRMin], ebx
+        mov dword [InvTabBStep], edx
+        call InverseTablePass
+        mov ebx, dword [InvTabRMin]
 .4:
-        mov esi, dword [dword_1857BC]
+        mov esi, dword [InvTabGStep]
         inc esi
         mov edi, dword [byte esp+04h]
-        mov dword [dword_1857BC], esi
+        mov dword [InvTabGStep], esi
         cmp esi, edi
         jl near .3
 .5:
-        mov dword [dword_1857C4], ebx
+        mov dword [InvTabRMin], ebx
         add esp, byte 10h
         pop ebp
         pop edi
         pop esi
         ret 4
         db 08Dh,040h,00h
-sub_B06E8:
+;-----------------------------------------------------------------------------
+; InverseTablePass                                B06E8  96 PC, low confidence
+; Runs one pass of the inverse colour table
+;-----------------------------------------------------------------------------
+InverseTablePass:
         push ebx
         push ecx
         push edx
         push esi
         push edi
         push ebp
-        mov ecx, dword [dword_1857CC]
-        mov ebx, dword [dword_1857FC]
-        mov eax, dword [dword_1857F8]
-        mov esi, dword [dword_1857E4]
-        mov edi, dword [dword_1857C8]
-        mov dword [dword_185800], eax
-        mov eax, dword [dword_1857B8]
+        mov ecx, dword [InvTabDistBuf]
+        mov ebx, dword [InvTabBMin]
+        mov eax, dword [InvTabGMax]
+        mov esi, dword [InvTabR]
+        mov edi, dword [InvTabOut]
+        mov dword [InvTabBMax], eax
+        mov eax, dword [InvTabRStep]
         xor edx, edx
-        mov dword [dword_1857B4], eax
-        mov eax, dword [dword_1857C0]
+        mov dword [InvTabDist], eax
+        mov eax, dword [InvTabBStep]
         add ecx, ecx
-        mov dword [dword_1857D4], eax
+        mov dword [InvTabGCenter], eax
         mov eax, 1
         cmp ebx, edi
         jge near .4
-        mov dword [dword_185808], esi
+        mov dword [InvTabPass], esi
 .1:
-        call sub_B086C
+        call InverseTableScan
         test eax, eax
         je short .2
         mov edx, 1
-        mov esi, dword [dword_185808]
+        mov esi, dword [InvTabPass]
         jmp short .3
 .2:
-        mov esi, dword [dword_185808]
+        mov esi, dword [InvTabPass]
         test edx, edx
         jne short .4
 .3:
-        mov eax, dword [dword_1857E0]
-        mov ebp, dword [dword_1857B4]
-        mov edi, dword [dword_1857D4]
+        mov eax, dword [InvTabRCenter]
+        mov ebp, dword [InvTabDist]
+        mov edi, dword [InvTabGCenter]
         shl eax, 2
         inc ebx
         add ebp, eax
-        mov eax, dword [dword_1857E0]
-        mov dword [dword_1857B4], ebp
+        mov eax, dword [InvTabRCenter]
+        mov dword [InvTabDist], ebp
         add edi, eax
-        mov ebp, dword [dword_185800]
-        mov dword [dword_1857D4], edi
+        mov ebp, dword [InvTabBMax]
+        mov dword [InvTabGCenter], edi
         add ebp, esi
         xor eax, eax
-        mov edi, dword [dword_1857C8]
+        mov edi, dword [InvTabOut]
         add esi, ecx
-        mov dword [dword_185800], ebp
-        mov dword [dword_185808], esi
+        mov dword [InvTabBMax], ebp
+        mov dword [InvTabPass], esi
         cmp ebx, edi
         jl short .1
 .4:
-        mov esi, dword [dword_1857E4]
-        mov eax, dword [dword_1857F8]
+        mov esi, dword [InvTabR]
+        mov eax, dword [InvTabGMax]
         sub esi, ecx
-        mov edi, dword [dword_1857E0]
+        mov edi, dword [InvTabRCenter]
         sub eax, esi
         shl edi, 2
-        mov dword [dword_185800], eax
-        mov eax, dword [dword_1857B8]
-        mov ebx, dword [dword_1857FC]
+        mov dword [InvTabBMax], eax
+        mov eax, dword [InvTabRStep]
+        mov ebx, dword [InvTabBMin]
         sub eax, edi
-        mov ebp, dword [dword_1857E0]
-        mov dword [dword_1857B4], eax
-        mov eax, dword [dword_1857C0]
+        mov ebp, dword [InvTabRCenter]
+        mov dword [InvTabDist], eax
+        mov eax, dword [InvTabBStep]
         dec ebx
         sub eax, ebp
-        mov dword [dword_185808], esi
-        mov dword [dword_1857D4], eax
+        mov dword [InvTabPass], esi
+        mov dword [InvTabGCenter], eax
         mov eax, 1
         test ebx, ebx
         jl short .8
 .5:
-        call sub_B086C
+        call InverseTableScan
         test eax, eax
         je short .6
         mov edx, 1
@@ -360,28 +396,28 @@ sub_B06E8:
         test edx, edx
         jne short .8
 .7:
-        mov eax, dword [dword_1857E0]
-        mov esi, dword [dword_1857B4]
-        mov edi, dword [dword_1857D4]
-        mov ebp, dword [dword_185800]
+        mov eax, dword [InvTabRCenter]
+        mov esi, dword [InvTabDist]
+        mov edi, dword [InvTabGCenter]
+        mov ebp, dword [InvTabBMax]
         shl eax, 2
         dec ebx
         sub esi, eax
-        mov eax, dword [dword_1857E0]
-        mov dword [dword_1857B4], esi
-        mov esi, dword [dword_185808]
+        mov eax, dword [InvTabRCenter]
+        mov dword [InvTabDist], esi
+        mov esi, dword [InvTabPass]
         sub edi, eax
         sub esi, ecx
-        mov dword [dword_1857D4], edi
-        mov dword [dword_185808], esi
+        mov dword [InvTabGCenter], edi
+        mov dword [InvTabPass], esi
         sub ebp, esi
         mov eax, esi
-        mov dword [dword_185800], ebp
+        mov dword [InvTabBMax], ebp
         xor eax, esi
         test ebx, ebx
         jge short .5
 .8:
-        mov esi, dword [dword_185808]
+        mov esi, dword [InvTabPass]
         mov eax, edx
         pop ebp
         pop edi
@@ -391,175 +427,179 @@ sub_B06E8:
         pop ebx
         ret
         db 08Dh,040h,00h
-sub_B086C:
+;-----------------------------------------------------------------------------
+; InverseTableScan                                B086C  96 PC, low confidence
+; Scans the colours for the inverse table
+;-----------------------------------------------------------------------------
+InverseTableScan:
         push ebx
         push ecx
         push edx
         push esi
         push edi
         push ebp
-        mov esi, dword [dword_1857CC]
+        mov esi, dword [InvTabDistBuf]
         add esi, esi
         test eax, eax
         je short .1
-        mov eax, dword [dword_1857F0]
-        mov dword [dword_185828], eax
-        mov eax, dword [dword_1857C8]
+        mov eax, dword [InvTabColor]
+        mov dword [InvTabDistStart], eax
+        mov eax, dword [InvTabOut]
         dec eax
         xor ebx, ebx
-        mov dword [dword_185820], eax
-        mov eax, dword [dword_1857EC]
-        mov dword [dword_185824], ebx
-        mov dword [dword_18581C], eax
+        mov dword [InvTabBInc], eax
+        mov eax, dword [InvTabB]
+        mov dword [InvTabDistInc], ebx
+        mov dword [InvTabGInc], eax
 .1:
-        mov ebx, dword [dword_185828]
-        mov eax, dword [dword_185800]
-        mov ecx, dword [dword_18581C]
-        mov dword [dword_185804], eax
-        mov dword [dword_185814], eax
-        mov eax, dword [dword_1857B4]
-        mov edi, dword [dword_185820]
-        mov dword [dword_1857D0], eax
-        mov dword [dword_185810], eax
-        mov eax, dword [dword_1857D4]
+        mov ebx, dword [InvTabDistStart]
+        mov eax, dword [InvTabBMax]
+        mov ecx, dword [InvTabGInc]
+        mov dword [InvTabRow], eax
+        mov dword [InvTabBLo], eax
+        mov eax, dword [InvTabDist]
+        mov edi, dword [InvTabBInc]
+        mov dword [InvTabGMin], eax
+        mov dword [InvTabGHi], eax
+        mov eax, dword [InvTabGCenter]
         xor edx, edx
-        mov dword [dword_1857D8], eax
-        mov dword [dword_18580C], eax
+        mov dword [InvTabBCenter], eax
+        mov dword [InvTabGLo], eax
         mov eax, 1
         cmp ebx, edi
         jg near .6
-        mov dword [dword_185818], ecx
+        mov dword [InvTabBHi], ecx
 .2:
-        call sub_B0B10
+        call InverseTableFill
         test eax, eax
         je short .4
-        mov ecx, dword [dword_185818]
+        mov ecx, dword [InvTabBHi]
         test edx, edx
         jne short .5
-        cmp ebx, dword [dword_185828]
+        cmp ebx, dword [InvTabDistStart]
         jle short .3
-        mov eax, dword [dword_185810]
-        mov dword [dword_1857B4], eax
-        mov eax, dword [dword_18580C]
-        mov dword [dword_185828], ebx
-        mov dword [dword_1857D4], eax
-        mov eax, dword [dword_185814]
-        mov dword [dword_18581C], ecx
-        mov dword [dword_185800], eax
+        mov eax, dword [InvTabGHi]
+        mov dword [InvTabDist], eax
+        mov eax, dword [InvTabGLo]
+        mov dword [InvTabDistStart], ebx
+        mov dword [InvTabGCenter], eax
+        mov eax, dword [InvTabBLo]
+        mov dword [InvTabGInc], ecx
+        mov dword [InvTabBMax], eax
 .3:
         mov edx, 1
         jmp short .5
 .4:
-        mov ecx, dword [dword_185818]
+        mov ecx, dword [InvTabBHi]
         test edx, edx
         jne short .6
 .5:
-        mov eax, dword [dword_1857DC]
-        mov ebp, dword [dword_1857D0]
-        mov edi, dword [dword_185810]
+        mov eax, dword [InvTabCell]
+        mov ebp, dword [InvTabGMin]
+        mov edi, dword [InvTabGHi]
         shl eax, 2
         inc ebx
         add ebp, eax
         add edi, eax
-        mov eax, dword [dword_1857DC]
-        mov dword [dword_1857D0], ebp
-        mov dword [dword_185810], edi
-        mov ebp, dword [dword_1857D8]
-        mov edi, dword [dword_18580C]
+        mov eax, dword [InvTabCell]
+        mov dword [InvTabGMin], ebp
+        mov dword [InvTabGHi], edi
+        mov ebp, dword [InvTabBCenter]
+        mov edi, dword [InvTabGLo]
         add ebp, eax
         add edi, eax
-        mov dword [dword_1857D8], ebp
-        mov dword [dword_18580C], edi
+        mov dword [InvTabBCenter], ebp
+        mov dword [InvTabGLo], edi
         xor eax, eax
-        mov ebp, dword [dword_185804]
-        mov edi, dword [dword_185814]
+        mov ebp, dword [InvTabRow]
+        mov edi, dword [InvTabBLo]
         add ebp, ecx
         add edi, ecx
-        mov dword [dword_185804], ebp
-        mov dword [dword_185814], edi
+        mov dword [InvTabRow], ebp
+        mov dword [InvTabBLo], edi
         add ecx, esi
-        mov ebp, dword [dword_185820]
-        mov dword [dword_185818], ecx
+        mov ebp, dword [InvTabBInc]
+        mov dword [InvTabBHi], ecx
         cmp ebx, ebp
         jle near .2
 .6:
-        mov ebx, dword [dword_185828]
-        mov ecx, dword [dword_18581C]
-        mov eax, dword [dword_185800]
+        mov ebx, dword [InvTabDistStart]
+        mov ecx, dword [InvTabGInc]
+        mov eax, dword [InvTabBMax]
         sub ecx, esi
-        mov edi, dword [dword_1857DC]
+        mov edi, dword [InvTabCell]
         sub eax, ecx
         shl edi, 2
-        mov dword [dword_185804], eax
-        mov dword [dword_185814], eax
-        mov eax, dword [dword_1857B4]
-        mov ebp, dword [dword_185824]
+        mov dword [InvTabRow], eax
+        mov dword [InvTabBLo], eax
+        mov eax, dword [InvTabDist]
+        mov ebp, dword [InvTabDistInc]
         sub eax, edi
-        mov edi, dword [dword_1857DC]
-        mov dword [dword_1857D0], eax
-        mov dword [dword_185810], eax
-        mov eax, dword [dword_1857D4]
+        mov edi, dword [InvTabCell]
+        mov dword [InvTabGMin], eax
+        mov dword [InvTabGHi], eax
+        mov eax, dword [InvTabGCenter]
         dec ebx
         sub eax, edi
-        mov dword [dword_185818], ecx
-        mov dword [dword_1857D8], eax
-        mov dword [dword_18580C], eax
+        mov dword [InvTabBHi], ecx
+        mov dword [InvTabBCenter], eax
+        mov dword [InvTabGLo], eax
         mov eax, 1
         cmp ebx, ebp
         jl near .10
 .7:
-        call sub_B0B10
+        call InverseTableFill
         test eax, eax
         je short .8
         test edx, edx
         jne short .9
         mov edx, 1
-        mov eax, dword [dword_185810]
-        mov ecx, dword [dword_185818]
-        mov dword [dword_1857B4], eax
-        mov eax, dword [dword_18580C]
-        mov dword [dword_185828], ebx
-        mov dword [dword_1857D4], eax
-        mov eax, dword [dword_185814]
-        mov dword [dword_18581C], ecx
-        mov dword [dword_185800], eax
+        mov eax, dword [InvTabGHi]
+        mov ecx, dword [InvTabBHi]
+        mov dword [InvTabDist], eax
+        mov eax, dword [InvTabGLo]
+        mov dword [InvTabDistStart], ebx
+        mov dword [InvTabGCenter], eax
+        mov eax, dword [InvTabBLo]
+        mov dword [InvTabGInc], ecx
+        mov dword [InvTabBMax], eax
         jmp short .9
 .8:
         test edx, edx
         jne near .10
 .9:
-        mov eax, dword [dword_1857DC]
-        mov ecx, dword [dword_1857D0]
-        mov edi, dword [dword_185810]
-        mov ebp, dword [dword_1857D8]
+        mov eax, dword [InvTabCell]
+        mov ecx, dword [InvTabGMin]
+        mov edi, dword [InvTabGHi]
+        mov ebp, dword [InvTabBCenter]
         shl eax, 2
         dec ebx
         sub ecx, eax
         sub edi, eax
-        mov eax, dword [dword_1857DC]
-        mov dword [dword_1857D0], ecx
-        mov dword [dword_185810], edi
-        mov ecx, dword [dword_18580C]
-        mov edi, dword [dword_185804]
+        mov eax, dword [InvTabCell]
+        mov dword [InvTabGMin], ecx
+        mov dword [InvTabGHi], edi
+        mov ecx, dword [InvTabGLo]
+        mov edi, dword [InvTabRow]
         sub ecx, eax
         sub ebp, eax
-        mov dword [dword_18580C], ecx
-        mov ecx, dword [dword_185818]
-        mov dword [dword_1857D8], ebp
+        mov dword [InvTabGLo], ecx
+        mov ecx, dword [InvTabBHi]
+        mov dword [InvTabBCenter], ebp
         sub ecx, esi
-        mov ebp, dword [dword_185814]
-        mov dword [dword_185818], ecx
+        mov ebp, dword [InvTabBLo]
+        mov dword [InvTabBHi], ecx
         mov eax, ecx
         sub edi, ecx
         sub ebp, ecx
-        mov dword [dword_185804], edi
-        mov dword [dword_185814], ebp
-        mov edi, dword [dword_185824]
+        mov dword [InvTabRow], edi
+        mov dword [InvTabBLo], ebp
+        mov edi, dword [InvTabDistInc]
         xor eax, ecx
         cmp ebx, edi
         jge near .7
 .10:
-        mov ecx, dword [dword_185818]
+        mov ecx, dword [InvTabBHi]
         mov eax, edx
         pop ebp
         pop edi
@@ -568,7 +608,11 @@ sub_B086C:
         pop ecx
         pop ebx
         ret
-sub_B0B10:
+;-----------------------------------------------------------------------------
+; InverseTableFill                                B0B10  96 PC, low confidence
+; Fills the inverse colour table
+;-----------------------------------------------------------------------------
+InverseTableFill:
         push ebx
         push ecx
         push edx
@@ -576,30 +620,30 @@ sub_B0B10:
         push edi
         push ebp
         sub esp, byte 10h
-        mov edx, dword [dword_1857BC]
-        mov ebp, dword [dword_1857CC]
+        mov edx, dword [InvTabGStep]
+        mov ebp, dword [InvTabDistBuf]
         mov dword [byte esp+04h], edx
         add ebp, ebp
         test eax, eax
         je short .1
-        mov eax, dword [dword_1857F4]
+        mov eax, dword [InvTabRMax]
         mov dword [dword_185838], eax
-        mov eax, dword [dword_1857C8]
+        mov eax, dword [InvTabOut]
         dec eax
         xor ebx, ebx
         mov dword [dword_185830], eax
-        mov eax, dword [dword_1857E8]
+        mov eax, dword [InvTabG]
         mov dword [dword_185834], ebx
         mov dword [dword_18582C], eax
 .1:
         mov ebx, dword [dword_185838]
-        mov eax, dword [dword_185804]
+        mov eax, dword [InvTabRow]
         mov esi, dword [dword_18582C]
         xor ecx, ecx
-        mov edx, dword [dword_1857D0]
+        mov edx, dword [InvTabGMin]
         mov dword [esp], ecx
         mov ecx, dword [dword_185830]
-        mov edi, dword [dword_1857D8]
+        mov edi, dword [InvTabBCenter]
         mov dword [byte esp+0Ch], ecx
         cmp ebx, ecx
         jg short .6
@@ -609,9 +653,9 @@ sub_B0B10:
         cmp ebx, dword [dword_185838]
         jle short .3
         mov dword [dword_185838], ebx
-        mov dword [dword_1857D0], edx
-        mov dword [dword_1857D8], edi
-        mov dword [dword_185804], eax
+        mov dword [InvTabGMin], edx
+        mov dword [InvTabBCenter], edi
+        mov dword [InvTabRow], eax
         mov dword [dword_18582C], esi
 .3:
         mov dword [esp], 1
@@ -645,13 +689,13 @@ sub_B0B10:
         mov eax, dword [dword_185834]
         mov esi, dword [dword_185838]
         mov ebx, dword [dword_18582C]
-        mov edx, dword [dword_185804]
-        mov edi, dword [dword_1857D8]
+        mov edx, dword [InvTabRow]
+        mov edi, dword [InvTabBCenter]
         mov dword [byte esp+08h], eax
         dec esi
         dec edi
         sub ebx, ebp
-        mov eax, dword [dword_1857D0]
+        mov eax, dword [InvTabGMin]
         sub edx, ebx
         sub eax, byte 4
         test ecx, ecx
@@ -662,9 +706,9 @@ sub_B0B10:
         jae short .9
         mov ecx, 1
         mov dword [dword_185838], esi
-        mov dword [dword_1857D0], eax
-        mov dword [dword_1857D8], edi
-        mov dword [dword_185804], edx
+        mov dword [InvTabGMin], eax
+        mov dword [InvTabBCenter], edi
+        mov dword [InvTabRow], edx
         mov dword [dword_18582C], ebx
         mov dword [esp], ecx
         jmp short .12
@@ -720,6 +764,9 @@ sub_B0B10:
         pop ebx
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_B0CA8                                                            B0CA8  
+;-----------------------------------------------------------------------------
 sub_B0CA8:
         push ebx
         push ecx
@@ -728,7 +775,7 @@ sub_B0CA8:
         test edx, edx
         je short .1
         push edx
-        call sub_ABF4C
+        call FreeMemBlock
         xor ecx, ecx
         add esp, byte 4
         mov dword [dword_1219A4], ecx
@@ -738,6 +785,9 @@ sub_B0CA8:
         pop ebx
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_B0CCC                                                            B0CCC  
+;-----------------------------------------------------------------------------
 sub_B0CCC:
         push esi
         push edi
@@ -764,9 +814,9 @@ sub_B0CCC:
         push edi
         mov ecx, eax
         mov eax, 100h
-        call sub_B04D0
+        call InverseTableSlice
         push esi
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         jmp short .2
 .1:
@@ -821,6 +871,9 @@ sub_B0CCC:
         pop esi
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_B0D98                                                            B0D98  
+;-----------------------------------------------------------------------------
 sub_B0D98:
         push esi
         push edi
@@ -908,6 +961,9 @@ sub_B0D98:
         pop esi
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_B0E68                                                            B0E68  
+;-----------------------------------------------------------------------------
 sub_B0E68:
         push esi
         push edi
@@ -1020,6 +1076,9 @@ sub_B0E68:
         add esp, byte 4
         add esp, 400h
         ret
+;-----------------------------------------------------------------------------
+; sub_B0F7C                                                            B0F7C  
+;-----------------------------------------------------------------------------
 sub_B0F7C:
         sub esp, 400h
         mov eax, esp
@@ -1042,7 +1101,7 @@ sub_B0F7C:
         test edx, edx
         je short .1
         push edx
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov dword [dword_1219A4], esi
 .1:
@@ -1066,6 +1125,9 @@ sub_B0F7C:
         pop esi
         ret
         db 00h
+;-----------------------------------------------------------------------------
+; _dos_getdate_                                                 B1004  library
+;-----------------------------------------------------------------------------
 _dos_getdate_:
         push edx
         push ecx
@@ -1082,6 +1144,9 @@ _dos_getdate_:
         pop ecx
         pop edx
         ret
+;-----------------------------------------------------------------------------
+; _dos_gettime_                                                 B101F  library
+;-----------------------------------------------------------------------------
 _dos_gettime_:
         push edx
         push ecx
@@ -1099,6 +1164,9 @@ _dos_gettime_:
         pop edx
         ret
         db 00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_B103C                                                            B103C  
+;-----------------------------------------------------------------------------
 sub_B103C:
         push ebp
         LD mov, ebp, esp
@@ -1184,6 +1252,9 @@ sub_B103C:
         mov eax, dword [byte ebx+044h]
         leave
         ret
+;-----------------------------------------------------------------------------
+; sub_B1121                                                            B1121  
+;-----------------------------------------------------------------------------
 sub_B1121:
         push ebp
         LD mov, ebp, esp
@@ -1213,7 +1284,7 @@ sub_B1121:
         LD xor, eax, eax
         mov ax, word [byte ebx+04h]
         LD mov, ebx, eax
-        call sub_C2C7C
+        call DosGetVector
         mov ebx, dword [byte ebp-04h]
         mov dword [byte ebx+0Ah], eax
         mov word [byte ebx+0Eh], dx
@@ -1222,7 +1293,7 @@ sub_B1121:
         LD xor, ecx, ecx
         mov cx, word [byte ebx+04h]
         LD mov, ebx, ecx
-        call sub_C2C94
+        call DosSetVector
         mov ebx, dword [byte ebp-04h]
         mov dword [byte ebx+010h], 1
         lea eax, [byte ebx+04Ch]
@@ -1253,14 +1324,18 @@ sub_B1121:
         LD and, al, dl
         out 21h, al
         popf
-        push sub_B1241
-        call sub_E04D0
+        push SerialCloseAll
+        call AddExitHandler
         add esp, byte 4
 .1:
         pop esi
         leave
         ret
-sub_B11F8:
+;-----------------------------------------------------------------------------
+; SerialClose                                     B11F8  96 PC, low confidence
+; Serial port: disables the port and restores its interrupt
+;-----------------------------------------------------------------------------
+SerialClose:
         push ebp
         LD mov, ebp, esp
         mov eax, dword [byte ebp+08h]
@@ -1277,7 +1352,7 @@ sub_B11F8:
         LD xor, ecx, ecx
         mov cx, word [byte ebx+04h]
         LD mov, ebx, ecx
-        call sub_C2C94
+        call DosSetVector
         mov eax, dword [byte ebp+08h]
         mov ebx, dword [nosplit eax*4+off_11FD58]
         push dword [byte ebx+018h]
@@ -1285,15 +1360,22 @@ sub_B11F8:
 .1:
         leave
         ret
-sub_B1241:
+;-----------------------------------------------------------------------------
+; SerialCloseAll                                  B1241  96 PC, low confidence
+; Serial port: closes both ports
+;-----------------------------------------------------------------------------
+SerialCloseAll:
         pusha
         push byte 0
-        call sub_B11F8
+        call SerialClose
         push byte 1
-        call sub_B11F8
+        call SerialClose
         add esp, byte 8
         popa
         ret
+;-----------------------------------------------------------------------------
+; sub_B1255                                                            B1255  
+;-----------------------------------------------------------------------------
 sub_B1255:
         push ebp
         LD mov, ebp, esp
@@ -1309,7 +1391,11 @@ sub_B1255:
         mov word [byte ebx+04h], dx
         leave
         ret
-sub_B1279:
+;-----------------------------------------------------------------------------
+; SerialRaiseDtr                                  B1279  96 PC, low confidence
+; Serial port: raises DTR
+;-----------------------------------------------------------------------------
+SerialRaiseDtr:
         push ebp
         LD mov, ebp, esp
         mov eax, dword [byte ebp+08h]
@@ -1321,6 +1407,9 @@ sub_B1279:
         out dx, al
         leave
         ret
+;-----------------------------------------------------------------------------
+; sub_B1294                                                            B1294  
+;-----------------------------------------------------------------------------
 sub_B1294:
         push ebp
         LD mov, ebp, esp
@@ -1333,6 +1422,9 @@ sub_B1294:
         out dx, al
         leave
         ret
+;-----------------------------------------------------------------------------
+; sub_B12AF                                                            B12AF  
+;-----------------------------------------------------------------------------
 sub_B12AF:
         push ebp
         LD mov, ebp, esp
@@ -1360,7 +1452,7 @@ sub_B12AF:
         mov eax, 200h
         sub eax, dword [byte ebx+028h]
         cmp eax, dword [byte ebp+0Ch]
-        jge short sub_B1328_5
+        jge short SerialWrite_5
         push esi
         call TicksSince
         add esp, byte 4
@@ -1380,19 +1472,23 @@ sub_B12AF:
         mov eax, 200h
         sub eax, dword [byte ebx+028h]
         cmp eax, dword [byte ebp+0Ch]
-        jge short sub_B1328_5
+        jge short SerialWrite_5
         LD xor, ax, ax
 sub_B12AF_75:
         pop edi
         pop esi
         leave
         ret
-sub_B1328:
+;-----------------------------------------------------------------------------
+; SerialWrite                                     B1328  96 PC, low confidence
+; Serial port: puts bytes in the send buffer and starts sending
+;-----------------------------------------------------------------------------
+SerialWrite:
         push ebp
         LD mov, ebp, esp
         push esi
         push edi
-sub_B1328_5:
+SerialWrite_5:
         mov eax, dword [byte ebp+08h]
         mov ebx, dword [nosplit eax*4+off_11FD58]
         pushf
@@ -1460,6 +1556,9 @@ sub_B1328_5:
         mov eax, dword [byte ebx+028h]
         leave
         ret
+;-----------------------------------------------------------------------------
+; sub_B13BB                                                            B13BB  
+;-----------------------------------------------------------------------------
 sub_B13BB:
         push ebp
         LD mov, ebp, esp
@@ -1469,7 +1568,11 @@ sub_B13BB:
         sub eax, dword [byte ebx+028h]
         leave
         ret
-sub_B13D2:
+;-----------------------------------------------------------------------------
+; SerialFlushTx                                   B13D2  96 PC, low confidence
+; Serial port: empties the send buffer
+;-----------------------------------------------------------------------------
+SerialFlushTx:
         push ebp
         LD mov, ebp, esp
         mov eax, dword [byte ebp+08h]
@@ -1482,7 +1585,11 @@ sub_B13D2:
         popf
         leave
         ret
-sub_B13F1:
+;-----------------------------------------------------------------------------
+; SerialWaitTxEmpty                               B13F1  96 PC, low confidence
+; Serial port: waits until the send buffer is empty or the time runs out
+;-----------------------------------------------------------------------------
+SerialWaitTxEmpty:
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFFCh
@@ -1523,6 +1630,9 @@ sub_B13F1:
         pop edi
         leave
         ret
+;-----------------------------------------------------------------------------
+; sub_B1451                                                            B1451  
+;-----------------------------------------------------------------------------
 sub_B1451:
         push ebp
         LD mov, ebp, esp
@@ -1544,6 +1654,9 @@ sub_B1451:
         jle short sub_B147A_1A
         mov ecx, dword [byte ebp+0Ch]
         jmp short sub_B147A_1A
+;-----------------------------------------------------------------------------
+; sub_B147A                                                            B147A  
+;-----------------------------------------------------------------------------
 sub_B147A:
         push ebp
         LD mov, ebp, esp
@@ -1631,6 +1744,9 @@ sub_B147A_1A:
         pop edi
         leave
         ret
+;-----------------------------------------------------------------------------
+; sub_B151E                                                            B151E  
+;-----------------------------------------------------------------------------
 sub_B151E:
         push ebp
         LD mov, ebp, esp
@@ -1644,6 +1760,9 @@ sub_B151E:
         popf
         leave
         ret
+;-----------------------------------------------------------------------------
+; sub_B153D                                                            B153D  
+;-----------------------------------------------------------------------------
 sub_B153D:
         push ebx
         lea ebx, [unk_11FD6A]
@@ -1709,6 +1828,9 @@ unk_B15DE:
         dd unk_B15DE_10.6
         dd unk_B15DE_10.12
         dd unk_B15DE_10.12
+;-----------------------------------------------------------------------------
+; unk_B15DE_10                                                         B15EE  
+;-----------------------------------------------------------------------------
 unk_B15DE_10:
         mov al, 20h
         out 20h, al
@@ -1814,6 +1936,9 @@ unk_B15DE_10:
         add dword [byte ebx+040h], 10000h
 .16:
         jmp near sub_B153D_85
+;-----------------------------------------------------------------------------
+; strstr_                                                       B16C9  library
+;-----------------------------------------------------------------------------
 strstr_:
         push ebx
         push ecx
@@ -1930,6 +2055,9 @@ strstr_:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_B178B                                                            B178B  
+;-----------------------------------------------------------------------------
 sub_B178B:
         push ebx
         push ecx
@@ -1975,6 +2103,9 @@ sub_B178B:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; strlen_                                                       B17E2  library
+;-----------------------------------------------------------------------------
 strlen_:
         push ecx
         push edi
@@ -1993,6 +2124,9 @@ strlen_:
         pop edi
         pop ecx
         ret
+;-----------------------------------------------------------------------------
+; strncmp_                                                      B17FB  library
+;-----------------------------------------------------------------------------
 strncmp_:
         push ecx
 .1:
@@ -2023,6 +2157,9 @@ strncmp_:
         dec ebx
         jmp short .1
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_B1830                                                            B1830  
+;-----------------------------------------------------------------------------
 sub_B1830:
         push esi
         mov ebx, dword [byte esp+08h]
@@ -2049,6 +2186,9 @@ sub_B1830:
         mov eax, edx
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; open_                                                         B186C  library
+;-----------------------------------------------------------------------------
 open_:
         push ebx
         push edx
@@ -2066,6 +2206,9 @@ open_:
         pop edx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sopen_                                                        B1890  library
+;-----------------------------------------------------------------------------
 sopen_:
         push ebx
         push ecx
@@ -2228,7 +2371,7 @@ sopen_:
         je short .17
         jmp short .16
 .15:
-        cmp dword [dword_123FFD], 200h
+        cmp dword [_fmode], 200h
         jne short .17
 .16:
         mov edx, eax
@@ -2244,6 +2387,9 @@ sopen_:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; __set_binary_                                                 B1A55  library
+;-----------------------------------------------------------------------------
 __set_binary_:
         push ebx
         push ecx
@@ -2295,6 +2441,9 @@ __set_binary_:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; lseek_                                                        B1ABA  library
+;-----------------------------------------------------------------------------
 lseek_:
         push ecx
         push edi
@@ -2324,6 +2473,9 @@ lseek_:
         pop edi
         pop ecx
         ret
+;-----------------------------------------------------------------------------
+; read_                                                         B1AFB  library
+;-----------------------------------------------------------------------------
 read_:
         push ecx
         push esi
@@ -2441,8 +2593,14 @@ read_:
         pop esi
         pop ecx
         ret
+;-----------------------------------------------------------------------------
+; sub_B1C0E                                                            B1C0E  
+;-----------------------------------------------------------------------------
 sub_B1C0E:
         jmp near __close_
+;-----------------------------------------------------------------------------
+; byteswap_                                                     B1C13  library
+;-----------------------------------------------------------------------------
 byteswap_:
         push es
         push ds
@@ -2470,6 +2628,9 @@ byteswap_:
 .4:
         pop es
         ret
+;-----------------------------------------------------------------------------
+; med3_                                                         B1C39  library
+;-----------------------------------------------------------------------------
 med3_:
         push esi
         push edi
@@ -2520,6 +2681,9 @@ med3__4F:
         pop edi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; qsort_                                                        B1C91  library
+;-----------------------------------------------------------------------------
 qsort_:
         push esi
         push edi
@@ -2905,7 +3069,11 @@ qsort_:
         inc dword [byte ebp-010h]
         jmp near .3
         db 00h,00h
-sub_B20D0:
+;-----------------------------------------------------------------------------
+; OpenArtArchiveErr                               B20D0  96 PC, low confidence
+; Opens an art archive file with the error message
+;-----------------------------------------------------------------------------
+OpenArtArchiveErr:
         push byte 1
         mov edx, dword [byte esp+0Ch]
         push edx
@@ -2919,7 +3087,11 @@ sub_B20D0:
 .1:
         ret
         db 090h
-sub_B20EC:
+;-----------------------------------------------------------------------------
+; OpenArtArchive                                  B20EC  96 PC, low confidence
+; Opens an art archive file
+;-----------------------------------------------------------------------------
+OpenArtArchive:
         push byte 0
         mov edx, dword [byte esp+0Ch]
         push edx
@@ -2947,7 +3119,11 @@ sub_B20EC:
 .2:
         ret
         db 08Bh,0C0h
-sub_B2128:
+;-----------------------------------------------------------------------------
+; LoadDataFileErr                                 B2128  96 PC, low confidence
+; Loads a data file with the error message
+;-----------------------------------------------------------------------------
+LoadDataFileErr:
         push byte 1
         mov edx, dword [byte esp+0Ch]
         push edx
@@ -2957,7 +3133,11 @@ sub_B2128:
         add esp, byte 0Ch
         ret
         db 08Dh,040h,00h
-sub_B2140:
+;-----------------------------------------------------------------------------
+; LoadFileAllocQuiet                              B2140  96 PC, low confidence
+; Loads a file into a new block without the error message
+;-----------------------------------------------------------------------------
+LoadFileAllocQuiet:
         push byte 0
         mov edx, dword [byte esp+0Ch]
         push edx

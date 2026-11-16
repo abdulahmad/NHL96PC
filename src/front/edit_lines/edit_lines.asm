@@ -27,7 +27,7 @@ extern str_Drs1, str_Drs2, str_Drs3, str_FName3, str_HeightNWeight3, str_Jers, s
 extern str_LName3, str_Nhl1, str_Nhl2, str_Nhl3, str_Pal28, str_Player3, str_Profiles3, str_Scr12
 extern str_Scr22, str_Scr3, str_Sld12, str_Sldw, str_Slid2, str_Slu12, str_Slup, str_Sta13
 extern str_Sta23, str_Sta33, str_StatDBPTRs3, strcmp_, strcpy_, LoadDataFileLib, PlayerDbRecord, StatsDb2Record
-extern sub_AAA40, sub_AAA8C, sub_AB758, sub_ABF4C, sub_AD35C, sub_ADBEC, sub_B2C54, sub_DD6C4
+extern sub_AAA40, sub_AAA8C, sub_AB758, FreeMemBlock, sub_AD35C, sub_ADBEC, sub_B2C54, SetScreenTarget
 extern sub_E04E0, sub_E0584, TickDeadlinePassed, unk_157B1C, unk_157B82, unk_157FDA, unk_183D08, word_11D1B4
 extern word_1656E8, word_16581E
 global unk_9CB19, CompareRosterOrder, ComparePlayerPos, PositionOrder, sub_9CD61, RunEditLines, EditLinesScreen, LinesValid
@@ -348,7 +348,7 @@ RunEditLines:
         mov edi, 1
         push dword [dword_11E678]
         mov dword [byte ebp-04h], 0
-        call sub_ABF4C
+        call FreeMemBlock
         mov dword [dword_11E678], 0
         add esp, byte 4
         jmp near .3
@@ -356,27 +356,27 @@ RunEditLines:
         test esi, esi
         je short .10
         push dword [dword_11E670]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_1820E4]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_1820AC]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_1820EC]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_1820E8]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_1820B0]
         xor esi, esi
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .9:
         push dword [dword esi+dword_17FDF0]
-        call sub_ABF4C
+        call FreeMemBlock
         add esi, byte 4
         add esp, byte 4
         cmp esi, byte 8
@@ -384,7 +384,7 @@ RunEditLines:
         mov dword [dword_11E670], 0
 .10:
         push dword [dword_1820A8]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         leave
         pop edi
@@ -1371,7 +1371,7 @@ EditLinesScreen:
         push dword [dword_152F58]
         call sub_AAA40
         add esp, byte 0Ch
-        call sub_DD6C4
+        call SetScreenTarget
         mov dword [dword_11ED2C], 1
         cmp dword [dword_1843B0], byte 3
         jne short .38
@@ -1480,7 +1480,7 @@ EditLinesScreen:
         add esp, byte 0Ch
         mov dword [byte ebp+042h], 1
         mov dword [byte ebp+03Eh], 0Ah
-        call sub_DD6C4
+        call SetScreenTarget
 .44:
         cmp dword [byte ebp+03Eh], byte 11h
         jne short .45
@@ -1608,7 +1608,7 @@ EditLinesScreen:
         add esp, byte 0Ch
         mov dword [byte ebp+042h], 2
         mov dword [byte ebp+03Eh], 12h
-        call sub_DD6C4
+        call SetScreenTarget
 .51:
         cmp dword [byte ebp+03Eh], byte 19h
         jne short .52
@@ -1735,7 +1735,7 @@ EditLinesScreen:
         add esp, byte 0Ch
         mov dword [byte ebp+042h], 0
         mov dword [byte ebp+03Eh], 1
-        call sub_DD6C4
+        call SetScreenTarget
 .57:
         cmp dword [byte ebp+03Eh], byte 9
         jne short .58
@@ -1946,7 +1946,7 @@ EditLinesScreen:
         push dword [dword_152F58]
         call sub_AAA40
         add esp, byte 0Ch
-        call sub_DD6C4
+        call SetScreenTarget
         mov dword [dword_11ED2C], 1
         jmp near .120
 .72:
@@ -2515,7 +2515,7 @@ EditLinesScreen:
         push dword [dword_152F58]
         call sub_AAA40
         add esp, byte 0Ch
-        call sub_DD6C4
+        call SetScreenTarget
         mov dword [dword_11ED2C], 1
         jmp short .118
 .117:
@@ -2588,10 +2588,10 @@ EditLinesScreen:
         jmp near .119
 .125:
         push dword [byte ebp+062h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [byte ebp+05Eh]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [byte ebp+04Ah]
         call sub_ADBEC
@@ -3782,7 +3782,7 @@ DrawLinesPanel:
         push dword [dword_17BC96]
         call sub_AAA40
         add esp, byte 0Ch
-        call sub_DD6C4
+        call SetScreenTarget
         push byte 7Ah
         mov eax, dword [byte ebp-01Ah]
         push byte 0
@@ -4024,7 +4024,7 @@ DrawLinesPlayerList:
         call DrawColorText
         cmp ecx, dword [byte ebp-0Ch]
         jne near .1
-        call sub_DD6C4
+        call SetScreenTarget
         push dword 9Bh
         mov eax, dword [byte ebp+010h]
         push dword 1C2h

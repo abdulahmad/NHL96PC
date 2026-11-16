@@ -16,8 +16,8 @@ extern str_Ard, str_Bkgd13, str_BKGD14, str_Card, str_CS3, str_D2, str_dbgSpace,
 extern str_DSS, str_FSH, str_FSH3, str_H07d, str_Home, str_LG02d, str_MightyDucksOfAnaheim, str_Pal3
 extern str_PalFsh, str_PALS, str_Plyr, str_ProfileFsh, str_SCHEDULE2, str_SS3, str_Xlate, strcat_
 extern WriteDbRecord6, SelectDataLibrary, PlayerDbRecord, ComputeTeamRanks, sub_AA988, sub_AAA8C, sub_AADA4, sub_AB758
-extern sub_ABF4C, sub_AD35C, sub_ADA50, sub_ADBEC, sub_B0254, sub_B026C, sub_B0430, sub_B0494
-extern sub_B7638, sub_C2600, sub_DD6C4, sub_DD908, sub_DD920, sub_E04E0, sub_E0584, TextSetFont
+extern FreeMemBlock, sub_AD35C, sub_ADA50, sub_ADBEC, SaveTextState, SetDrawTarget, sub_B0430, LoadResourceDataShared
+extern sub_B7638, sub_C2600, SetScreenTarget, sub_DD908, sub_DD920, sub_E04E0, sub_E0584, TextSetFont
 extern unk_112523, unk_152C44, unk_849C1, unk_849C7, unk_849CB, unk_849D1, word_114CE0
 global PreGameMatchupScreen, PreGameMatchupScreen_4E6, CycleScreenPalettes, PreGameTeamsScreen, PreGameCardsA, PreGameCardsB, PreGameCardsC, jpt_87328
 global PreGameScreens, PreGameScreens_24, PreGameScreens_44, PreGameScreens_4B, PreGameScreens_52, PreGameScreens_59
@@ -63,7 +63,7 @@ PreGameMatchupScreen:
         call sub_AAA8C
         add esp, byte 4
         push esi
-        call sub_ABF4C
+        call FreeMemBlock
         mov eax, dword [gameopts]
         mov eax, dword [byte eax+01h]
         shl eax, 0Ah
@@ -92,7 +92,7 @@ PreGameMatchupScreen:
         call sub_AAA8C
         add esp, byte 4
         push esi
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push byte 0
         push str_PalFsh
@@ -186,7 +186,7 @@ PreGameMatchupScreen:
         call TextSetFont
         add esp, byte 4
         push esi
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         lea edx, [dword ebp-0F2h]
         mov eax, 3
@@ -230,7 +230,7 @@ PreGameMatchupScreen:
         mov byte [dword ebp-0B0h], 2
         mov byte [byte ebp-04Ah], 2
 .3:
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [byte ebp-04Eh]
         push dword [byte ebp-052h]
         call MouseRead
@@ -377,7 +377,7 @@ PreGameMatchupScreen:
         cmp dword [byte ebp+07Eh], byte 0
         je near .13
         push dword [byte ebp+076h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov eax, 2
         call FadeOut
@@ -462,7 +462,7 @@ PreGameTeamsScreen:
         mov dword [byte ebp+066h], edx
         call SetScreenColors
         call ComputeTeamRanks
-        call sub_DD6C4
+        call SetScreenTarget
         push str_Bkgd13
         push dword [byte ebp+056h]
         call sub_E04E0
@@ -554,7 +554,7 @@ PreGameTeamsScreen:
         mov edx, eax
         mov eax, 0FAE1h
         call DrawFrameAt
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [byte ebp+03Ah]
         push dword [byte ebp+02Eh]
         push dword [byte esi+02Ch]
@@ -606,7 +606,7 @@ PreGameTeamsScreen:
         mov edx, eax
         mov eax, 0FAE1h
         call DrawFrameAt
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [byte ebp+03Ah]
         push dword [byte ebp+056h]
         push dword [byte esi+02Ch]
@@ -640,7 +640,7 @@ PreGameTeamsScreen:
         mov eax, dword [byte edi+02Ch]
         add esp, byte 8
         mov word [byte eax+0Eh], 0EBh
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [byte edi+02Ch]
         call sub_AA988
         add esp, byte 4
@@ -704,7 +704,7 @@ PreGameTeamsScreen:
         mov word [byte eax+0Ch], 19Dh
         mov eax, dword [byte edi+02Ch]
         mov word [byte eax+0Eh], 0EBh
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [byte edi+02Ch]
         call sub_AA988
         add esp, byte 4
@@ -770,7 +770,7 @@ PreGameTeamsScreen:
         mov dword [dword edx+byte_17DB78], eax
         cmp dword [byte ebp+04Ah], byte 13h
         jl near .2
-        call sub_DD6C4
+        call SetScreenTarget
         push edi
         call sub_ADBEC
         add esp, byte 4
@@ -944,7 +944,7 @@ PreGameTeamsScreen:
         lea eax, [byte ebp+042h]
         call FileClose
         push edi
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         jmp short .30
 .29:
@@ -1183,16 +1183,16 @@ PreGameTeamsScreen:
         xor esi, esi
 .63:
         push dword [dword esi+dword_17DBC4]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword esi+dword_17DB7C]
         add esi, byte 4
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         cmp esi, byte 48h
         jne short .63
         push dword [byte ebp+032h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov eax, 3
         call FadeOut
@@ -1292,7 +1292,7 @@ PreGameCardsA:
         jne short .1
         push eax
         push str_ProfileFsh
-        call sub_B0494
+        call LoadResourceDataShared
         add esp, byte 8
         push str_Ard
         push eax
@@ -1309,7 +1309,7 @@ PreGameCardsA:
         push byte 0
         lea eax, [byte ebp+0Eh]
         push eax
-        call sub_B0494
+        call LoadResourceDataShared
         add esp, byte 8
         push str_Pal3
         push eax
@@ -1431,7 +1431,7 @@ PreGameCardsA:
         mov eax, 10000h
         mov edx, dword [byte edx+02Ch]
         call DrawFrameAt
-        call sub_DD6C4
+        call SetScreenTarget
         push dword 89h
         mov eax, dword [byte ebp+06Eh]
         push byte 36h
@@ -1439,7 +1439,7 @@ PreGameCardsA:
         call PutBlock
         add esp, byte 0Ch
         push dword [byte ebp+046h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov eax, 2
         call SoundSecondsToBytes
@@ -1476,7 +1476,7 @@ PreGameCardsA:
         jne short .8
         push eax
         push str_ProfileFsh
-        call sub_B0494
+        call LoadResourceDataShared
         add esp, byte 8
         push str_Ard
         push eax
@@ -1493,7 +1493,7 @@ PreGameCardsA:
         push byte 0
         lea eax, [byte ebp+0Eh]
         push eax
-        call sub_B0494
+        call LoadResourceDataShared
         add esp, byte 8
         push str_Pal3
         push eax
@@ -1615,7 +1615,7 @@ PreGameCardsA:
         mov eax, 10000h
         mov edx, dword [byte edx+02Ch]
         call DrawFrameAt
-        call sub_DD6C4
+        call SetScreenTarget
         push dword 89h
         mov eax, dword [byte ebp+06Eh]
         push dword 1B0h
@@ -1623,7 +1623,7 @@ PreGameCardsA:
         call PutBlock
         add esp, byte 0Ch
         push dword [byte ebp+04Ah]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [byte ebp+066h]
         call sub_ADBEC
@@ -1632,7 +1632,7 @@ PreGameCardsA:
         call sub_ADBEC
         add esp, byte 4
         push dword [byte ebp+07Ah]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         xor eax, eax
         call SelectDataLibrary
@@ -2079,7 +2079,7 @@ PreGameCardsA:
         cmp dword [byte ebp+05Ah], byte 0
         je near .34
         push dword [byte ebp+056h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov eax, 3
         call FadeOut
@@ -2184,7 +2184,7 @@ PreGameCardsB:
         call FillMusicStream
         push byte 0
         push str_ProfileFsh
-        call sub_B0494
+        call LoadResourceDataShared
         add esp, byte 8
         push str_Ard
         mov edi, dword [byte ebp+07Ah]
@@ -2206,7 +2206,7 @@ PreGameCardsB:
         push byte 0
         lea eax, [byte ebp+0Eh]
         push eax
-        call sub_B0494
+        call LoadResourceDataShared
         add esp, byte 8
         push str_Pal3
         mov edi, dword [byte ebp+07Ah]
@@ -2232,7 +2232,7 @@ PreGameCardsB:
         add dword [byte ebp+072h], byte 4
         add dword [byte ebp+07Ah], byte 8
         add dword [byte ebp+066h], 300h
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         cmp dword [byte ebp+072h], byte 18h
         jne near .1
@@ -2286,7 +2286,7 @@ PreGameCardsB:
         add esp, byte 44h
         push dword [byte ebp-01Eh]
         mov dword [byte ebp+06Eh], edx
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov eax, dword [byte ebp+06Eh]
         call SetScreenPalette
@@ -2318,9 +2318,9 @@ PreGameCardsB:
         xor ebx, ebx
         call DrawFrameAt
         push dword [byte esi+ebp-022h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
-        call sub_DD6C4
+        call SetScreenTarget
         mov eax, edi
         mov ebx, 3
         cdq
@@ -2391,7 +2391,7 @@ PreGameCardsB:
         mov ebx, eax
         mov eax, 0FD70h
         call DrawFrameAt
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [byte esi+02Ch]
         call sub_AADA4
         mov eax, dword [gameopts]
@@ -2434,7 +2434,7 @@ PreGameCardsB:
         sub ebx, eax
         mov eax, 0FD70h
         call DrawFrameAt
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [byte esi+02Ch]
         call sub_AADA4
         add esp, byte 4
@@ -2443,7 +2443,7 @@ PreGameCardsB:
         add esp, byte 4
         lea eax, [byte ebp-062h]
         push eax
-        call sub_B0254
+        call SaveTextState
         add esp, byte 4
         xor edi, edi
         push dword [dword_17BC74]
@@ -2503,7 +2503,7 @@ PreGameCardsB:
         jl near .5
         lea eax, [byte ebp-062h]
         push eax
-        call sub_B026C
+        call SetDrawTarget
         mov ax, word [word_114CE0]
         xor ah, ah
         lea edi, [dword ebp-0196h]
@@ -2630,7 +2630,7 @@ PreGameCardsB:
         cmp dword [byte ebp+076h], byte 0
         je near .7
         push dword [byte ebp+05Eh]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov eax, 3
         call FadeOut
@@ -2724,7 +2724,7 @@ PreGameCardsC:
         jne short .2
         push eax
         push str_ProfileFsh
-        call sub_B0494
+        call LoadResourceDataShared
         add esp, byte 8
         push str_Ard
         mov edi, dword [byte ebp+07Ah]
@@ -2743,7 +2743,7 @@ PreGameCardsC:
         push byte 0
         lea eax, [byte ebp-0Ah]
         push eax
-        call sub_B0494
+        call LoadResourceDataShared
         add esp, byte 8
         push str_Pal3
         mov edi, dword [byte ebp+07Ah]
@@ -2769,7 +2769,7 @@ PreGameCardsC:
         add dword [byte ebp+072h], byte 4
         add dword [byte ebp+07Ah], byte 8
         add dword [byte ebp+066h], 300h
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         cmp dword [byte ebp+072h], byte 10h
         jne near .1
@@ -2819,7 +2819,7 @@ PreGameCardsC:
         add esp, byte 34h
         push dword [byte ebp+022h]
         mov dword [byte ebp+076h], edx
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov eax, dword [byte ebp+076h]
         call SetScreenPalette
@@ -2851,9 +2851,9 @@ PreGameCardsC:
         xor ebx, ebx
         call DrawFrameAt
         push dword [byte esi+ebp+01Eh]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
-        call sub_DD6C4
+        call SetScreenTarget
         mov eax, edi
         cdq
         LD sub, eax, edx
@@ -2924,7 +2924,7 @@ PreGameCardsC:
         sub ebx, eax
         mov eax, 0FD70h
         call DrawFrameAt
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [byte esi+02Ch]
         call sub_AADA4
         mov eax, dword [gameopts]
@@ -2967,7 +2967,7 @@ PreGameCardsC:
         sub ebx, eax
         mov eax, 0FD70h
         call DrawFrameAt
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [byte esi+02Ch]
         call sub_AADA4
         add esp, byte 4
@@ -2976,7 +2976,7 @@ PreGameCardsC:
         add esp, byte 4
         lea eax, [byte ebp-04Ah]
         push eax
-        call sub_B0254
+        call SaveTextState
         add esp, byte 4
         xor edi, edi
         push dword [dword_17BC74]
@@ -3037,7 +3037,7 @@ PreGameCardsC:
         jl near .5
         lea eax, [byte ebp-04Ah]
         push eax
-        call sub_B026C
+        call SetDrawTarget
         mov ax, word [word_114CE0]
         xor ah, ah
         lea edi, [dword ebp-017Eh]
@@ -3158,7 +3158,7 @@ PreGameCardsC:
         cmp dword [byte ebp+06Eh], byte 0
         je near .7
         push dword [byte ebp+05Eh]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov eax, 3
         call FadeOut

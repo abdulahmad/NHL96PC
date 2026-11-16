@@ -8,7 +8,7 @@ extern dword_11D1D6, dword_11D1E2, dword_11D1E6, dword_11D1EA, dword_11D1EE, dwo
 extern dword_11D1FE, dword_11D202, dword_11D206, dword_11D236, dword_11D37E, dword_11D3A6, dword_11D3AA, dword_11D3AE
 extern dword_11D3B2, dword_17C604, dword_17C608, FadeOutMusic, FeedMusicStream, FindClipIndex_55, FindTeamPairClip_85, GetTicks
 extern globalset, InitSpeech, MakeDataPath, OpenSpeechBanks, optblock, setstreamspeed, SetTickDeadline, ShutdownSpeech
-extern sndcard, SndSetDriver, StopSpeech, StopSpeech_1FA, StopSpeech_207, LoadDataFileFlag0, LoadDataFileHandle, sub_ABF4C
+extern sndcard, SndSetDriver, StopSpeech, StopSpeech_1FA, StopSpeech_207, LoadDataFileFlag0, LoadDataFileHandle, FreeMemBlock
 extern sub_AC838, sub_AC868, sub_B69EC, sub_B6A14, sub_B6A68, sub_BFB53, sub_BFC16, sub_BFC91
 extern sub_BFE4C, sub_C0252, sub_C02D6, sub_C032E, sub_C0423, sub_C04C3, sub_C0578, sub_C061E
 extern sub_C08F5, sub_C0902, sub_C0D7E, sub_C0E2D, sub_C0E3C, sub_C0E49, sub_C0F09, sub_C0F30
@@ -1062,7 +1062,7 @@ EndGameSound:
         mov dword [dword_11D1F6], 0
 .5:
         push dword [dword_11D206]
-        call sub_ABF4C
+        call FreeMemBlock
         mov dword [dword_11D206], 0
         add esp, byte 4
 .6:

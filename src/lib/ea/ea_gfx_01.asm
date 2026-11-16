@@ -2,15 +2,18 @@
 bits 32
 %include "hockey.inc"
 section s_AA988 progbits alloc exec nowrite align=1
-extern FatalError, asc_113110, str_LOWMEM, str_HIGHMEM, str_GAP, asc_11316C, dword_11F9B8, dword_11F9BC
-extern dword_1210C0, dword_1210C8, dword_1210CC, dword_1228D0, dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4
+extern FatalError, asc_113110, str_LOWMEM, str_HIGHMEM, str_GAP, asc_11316C, dword_11F9B8, RowTable
+extern dword_1210C0, dword_1210C8, dword_1210CC, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight
 extern dword_1228F4, dword_1228FC, dword_122930, dword_123934, dword_18568C, dword_185690, dword_185730, dword_185734
-extern dword_18573C, strncpy_, sub_AA7E0, sub_AB87C, getmemblock, sub_C24D0, sub_C3A48, sub_C3BD0
-extern sub_C3BE0, sub_C3C04, sub_DD6C4, SetClipWindow, sub_DE3D8, sub_DE4C7, sub_DE643, sub_DE7DB
+extern dword_18573C, strncpy_, sub_AA7E0, sub_AB87C, getmemblock, sub_C24D0, sub_C3A48, ResetMemLock
+extern MemLock, sub_C3C04, SetScreenTarget, SetClipWindow, VesaSetBank, sub_DE4C7, sub_DE643, sub_DE7DB
 extern sub_DE97C, sub_DE9F3, sub_DEB94, sub_E0520, sub_E193C, sub_E1956
 global PutBlock_25F, sub_AAF28_132, sub_AA988, sub_AA9CC, sub_AAA40, sub_AAA8C, sub_AAADC, PutBlock
 global sub_AADA4, sub_AADC0, sub_AADE8, sub_AAF28, sub_AB0A8, sub_AB2EC, sub_AB3B4, sub_AB440
 global sub_AB5BC, sub_AB660, sub_AB6D8, sub_AB718, sub_AB758, sub_AB798
+;-----------------------------------------------------------------------------
+; sub_AA988                                                            AA988  
+;-----------------------------------------------------------------------------
 sub_AA988:
         mov edx, dword [byte esp+04h]
         mov eax, dword [byte edx+0Ch]
@@ -38,6 +41,9 @@ sub_AA988:
         call sub_AA7E0
         add esp, byte 0Ch
         ret
+;-----------------------------------------------------------------------------
+; sub_AA9CC                                                            AA9CC  
+;-----------------------------------------------------------------------------
 sub_AA9CC:
         push esi
         push edi
@@ -50,7 +56,7 @@ sub_AA9CC:
         call sub_E193C
         add esp, byte 4
         mov esi, dword [dword_1228FC]
-        call sub_DD6C4
+        call SetScreenTarget
         mov eax, dword [dword esp+084h]
         add eax, edi
         push eax
@@ -81,6 +87,9 @@ sub_AA9CC:
         pop esi
         ret
         db 00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_AAA40                                                            AAA40  
+;-----------------------------------------------------------------------------
 sub_AAA40:
         push esi
         push edi
@@ -111,6 +120,9 @@ sub_AAA40:
         pop esi
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_AAA8C                                                            AAA8C  
+;-----------------------------------------------------------------------------
 sub_AAA8C:
         push esi
         push edi
@@ -144,6 +156,9 @@ sub_AAA8C:
         pop esi
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_AAADC                                                            AAADC  
+;-----------------------------------------------------------------------------
 sub_AAADC:
         push esi
         push edi
@@ -182,6 +197,9 @@ sub_AAADC:
         pop esi
         ret
         db 00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; PutBlock                                     AAB40  95 PC, medium confidence
+;-----------------------------------------------------------------------------
 PutBlock:
         push esi
         push edi
@@ -208,7 +226,7 @@ PutBlock:
         sar edx, 10h
         sar ebp, 10h
         mov dword [byte esp+01Ch], eax
-        mov eax, dword [dword_1228DC]
+        mov eax, dword [ClipLeftCol]
         mov dword [byte esp+04h], ebx
         sub eax, ecx
         mov dword [byte esp+020h], edx
@@ -221,14 +239,14 @@ PutBlock:
         mov dword [byte esp+03Ch], edx
 .2:
         mov eax, dword [byte esp+03Ch]
-        mov ebx, dword [dword_1228E4]
+        mov ebx, dword [ScreenHeight]
         add eax, ebp
         sub eax, ebx
         test eax, eax
         jle short .3
         sub ebp, eax
 .3:
-        mov eax, dword [dword_1228D8]
+        mov eax, dword [ClipTopRow]
         sub eax, esi
         test eax, eax
         jle short .4
@@ -242,7 +260,7 @@ PutBlock:
         mov dword [byte esp+04h], edx
 .4:
         mov eax, dword [byte esp+020h]
-        mov ebx, dword [dword_1228E0]
+        mov ebx, dword [ClipRight]
         add eax, esi
         sub eax, ebx
         test eax, eax
@@ -257,7 +275,7 @@ PutBlock:
         mov eax, dword [byte esp+03Ch]
         mov ecx, dword [byte esp+020h]
         mov ebx, dword [nosplit eax*4+dword_122930]
-        mov eax, dword [dword_1228D0]
+        mov eax, dword [ScreenWidth]
         sub eax, ecx
         add esi, ebx
         mov dword [esp], eax
@@ -266,7 +284,7 @@ PutBlock:
         shr eax, 10h
         and esi, 0FFFFh
         mov dword [byte esp+010h], eax
-        call sub_DE3D8
+        call VesaSetBank
         test ecx, ecx
         jle near .14
         mov ebx, dword [esp]
@@ -321,7 +339,7 @@ PutBlock:
         and esi, 0FFFFh
         mov eax, ebp
         mov dword [byte esp+010h], ebp
-        call sub_DE3D8
+        call VesaSetBank
 .10:
         mov eax, dword [byte esp+020h]
         add eax, esi
@@ -344,7 +362,7 @@ PutBlock:
         mov ebp, dword [byte esp+08h]
         mov eax, ecx
         and ebp, 0FFFFh
-        call sub_DE3D8
+        call VesaSetBank
         push ebp
         mov esi, dword [byte esp+020h]
         push esi
@@ -377,7 +395,7 @@ PutBlock:
         and esi, 0FFFFh
         mov eax, edx
         mov dword [byte esp+010h], edx
-        call sub_DE3D8
+        call VesaSetBank
 .13:
         mov ebx, dword [byte esp+0Ch]
         mov ecx, dword [byte esp+03Ch]
@@ -394,6 +412,9 @@ PutBlock_25F:
         pop esi
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_AADA4                                                            AADA4  
+;-----------------------------------------------------------------------------
 sub_AADA4:
         mov edx, dword [byte esp+04h]
         mov eax, dword [byte edx+0Ch]
@@ -406,6 +427,9 @@ sub_AADA4:
         call PutBlock
         add esp, byte 0Ch
         ret
+;-----------------------------------------------------------------------------
+; sub_AADC0                                                            AADC0  
+;-----------------------------------------------------------------------------
 sub_AADC0:
         mov edx, dword [byte esp+04h]
         mov eax, dword [byte edx+08h]
@@ -422,6 +446,9 @@ sub_AADC0:
         call PutBlock
         add esp, byte 0Ch
         ret
+;-----------------------------------------------------------------------------
+; sub_AADE8                                                            AADE8  
+;-----------------------------------------------------------------------------
 sub_AADE8:
         push esi
         mov edx, dword [byte esp+08h]
@@ -552,6 +579,9 @@ sub_AADE8:
         pop esi
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_AAF28                                                            AAF28  
+;-----------------------------------------------------------------------------
 sub_AAF28:
         push esi
         push edi
@@ -578,7 +608,7 @@ sub_AAF28:
         sar eax, 10h
         sar ebp, 10h
         mov dword [byte esp+0Ch], eax
-        mov eax, dword [dword_1228DC]
+        mov eax, dword [ClipLeftCol]
         mov dword [byte esp+04h], ebx
         sub eax, ecx
         mov dword [byte esp+08h], ebp
@@ -595,7 +625,7 @@ sub_AAF28:
 .2:
         mov eax, dword [byte esp+028h]
         mov edx, dword [byte esp+0Ch]
-        mov ebx, dword [dword_1228E4]
+        mov ebx, dword [ScreenHeight]
         add eax, edx
         sub eax, ebx
         test eax, eax
@@ -605,7 +635,7 @@ sub_AAF28:
         mov dword [byte esp+0Ch], ecx
 .3:
         mov edi, dword [esp]
-        mov eax, dword [dword_1228D8]
+        mov eax, dword [ClipTopRow]
         sub eax, edi
         test eax, eax
         jle short .4
@@ -621,7 +651,7 @@ sub_AAF28:
 .4:
         mov eax, dword [esp]
         mov ecx, dword [byte esp+08h]
-        mov edi, dword [dword_1228E0]
+        mov edi, dword [ClipRight]
         add eax, ecx
         sub eax, edi
         test eax, eax
@@ -700,6 +730,9 @@ sub_AAF28_132:
         call sub_AAF28
         add esp, byte 0Ch
         ret
+;-----------------------------------------------------------------------------
+; sub_AB0A8                                                            AB0A8  
+;-----------------------------------------------------------------------------
 sub_AB0A8:
         push esi
         push edi
@@ -730,7 +763,7 @@ sub_AB0A8:
         sar eax, 10h
         sar ebp, 10h
         mov dword [byte esp+0Ch], eax
-        mov eax, dword [dword_1228DC]
+        mov eax, dword [ClipLeftCol]
         mov dword [byte esp+04h], ebx
         sub eax, ecx
         mov dword [byte esp+08h], ebp
@@ -747,7 +780,7 @@ sub_AB0A8:
 .2:
         mov eax, dword [byte esp+028h]
         mov edx, dword [byte esp+0Ch]
-        mov ebx, dword [dword_1228E4]
+        mov ebx, dword [ScreenHeight]
         add eax, edx
         sub eax, ebx
         test eax, eax
@@ -757,7 +790,7 @@ sub_AB0A8:
         mov dword [byte esp+0Ch], ecx
 .3:
         mov edi, dword [esp]
-        mov eax, dword [dword_1228D8]
+        mov eax, dword [ClipTopRow]
         sub eax, edi
         test eax, eax
         jle short .4
@@ -773,7 +806,7 @@ sub_AB0A8:
 .4:
         mov eax, dword [esp]
         mov ecx, dword [byte esp+08h]
-        mov edi, dword [dword_1228E0]
+        mov edi, dword [ClipRight]
         add eax, ecx
         sub eax, edi
         test eax, eax
@@ -848,10 +881,10 @@ sub_AB0A8:
         db 00h,00h,00h,00h
         push esi
         push edi
-        call sub_C3BD0
+        call ResetMemLock
         push eax
         mov dword [dword_185734], eax
-        call sub_C3BE0
+        call MemLock
         add esp, byte 4
         mov edx, dword [byte esp+0Ch]
         lea esi, [nosplit edx*4+00h]
@@ -908,6 +941,9 @@ sub_AB0A8:
         pop edi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; sub_AB2EC                                                            AB2EC  
+;-----------------------------------------------------------------------------
 sub_AB2EC:
         push esi
         push edi
@@ -968,6 +1004,9 @@ sub_AB2EC:
         pop esi
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_AB3B4                                                            AB3B4  
+;-----------------------------------------------------------------------------
 sub_AB3B4:
         push esi
         push edi
@@ -1027,6 +1066,9 @@ sub_AB3B4:
         pop esi
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_AB440                                                            AB440  
+;-----------------------------------------------------------------------------
 sub_AB440:
         push esi
         mov eax, dword [byte esp+08h]
@@ -1154,6 +1196,9 @@ sub_AB440:
         pop esi
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_AB5BC                                                            AB5BC  
+;-----------------------------------------------------------------------------
 sub_AB5BC:
         push esi
         push edi
@@ -1216,6 +1261,9 @@ sub_AB5BC:
         pop esi
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_AB660                                                            AB660  
+;-----------------------------------------------------------------------------
 sub_AB660:
         mov edx, dword [byte esp+04h]
         and edx, 700h
@@ -1258,17 +1306,20 @@ sub_AB660:
         ret
         db 08Dh,040h,00h
         mov eax, dword [byte esp+04h]
-        mov dword [dword_11F9BC], eax
+        mov dword [RowTable], eax
         mov eax, dword [byte esp+08h]
         mov dword [dword_11F9B8], eax
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_AB6D8                                                            AB6D8  
+;-----------------------------------------------------------------------------
 sub_AB6D8:
         push esi
         push edi
         mov edx, dword [dword_185734]
         push edx
-        call sub_C3BE0
+        call MemLock
         add esp, byte 4
         push byte 1
         mov ebx, dword [byte esp+018h]
@@ -1288,12 +1339,15 @@ sub_AB6D8:
         pop edi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; sub_AB718                                                            AB718  
+;-----------------------------------------------------------------------------
 sub_AB718:
         push esi
         push edi
         mov edx, dword [dword_185734]
         push edx
-        call sub_C3BE0
+        call MemLock
         add esp, byte 4
         push byte 0
         mov ebx, dword [byte esp+018h]
@@ -1313,12 +1367,15 @@ sub_AB718:
         pop edi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; sub_AB758                                                            AB758  
+;-----------------------------------------------------------------------------
 sub_AB758:
         push esi
         push edi
         mov edx, dword [dword_185734]
         push edx
-        call sub_C3BE0
+        call MemLock
         add esp, byte 4
         push byte 1
         mov ebx, dword [byte esp+018h]
@@ -1338,12 +1395,15 @@ sub_AB758:
         pop edi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; sub_AB798                                                            AB798  
+;-----------------------------------------------------------------------------
 sub_AB798:
         push esi
         push edi
         mov edx, dword [dword_185734]
         push edx
-        call sub_C3BE0
+        call MemLock
         add esp, byte 4
         push byte 0
         mov ebx, dword [byte esp+018h]
@@ -1376,7 +1436,7 @@ sub_AB798:
         push ebp
         mov edx, dword [dword_185734]
         push edx
-        call sub_C3BE0
+        call MemLock
         add esp, byte 4
         mov ebx, dword [byte esp+01Ch]
         push ebx

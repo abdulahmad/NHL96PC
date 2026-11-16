@@ -2,11 +2,11 @@
 bits 32
 %include "hockey.inc"
 section s_1E3C8 progbits alloc exec nowrite align=1
-extern dword_11D3C8, optflags, sprintf_, str_02d, str_07d, str_backslash2, str_D15, str_DB2
-extern str_dot3, strcat_, stricmp_, SyncMusicStream, sub_AB758, sub_ABF4C, sub_AC838, sub_AFD00
-extern sub_B0474, sub_B047B, sub_B0494, sub_B049E, sub_B20D0, sub_B20EC, sub_B2128, sub_B2140
-extern sub_B7310, sub_B73C4, sub_B7498, sub_B74B0, sub_B74D0, sub_B7638, sub_B7654, sub_B7690
-extern sub_B76A8, unk_115120, unk_1151A7, unk_115333, unk_158658, unpack, word_11512D
+extern DirPathTable, optflags, sprintf_, str_02d, str_07d, str_backslash2, str_D15, str_DB2
+extern str_dot3, strcat_, stricmp_, SyncMusicStream, sub_AB758, FreeMemBlock, sub_AC838, sub_AFD00
+extern LoadResourceBlockShared, LoadResourceData, LoadResourceDataShared, sub_B049E, OpenArtArchiveErr, OpenArtArchive, LoadDataFileErr, LoadFileAllocQuiet
+extern sub_B7310, sub_B73C4, LoadFileInto, LoadFileToBlockShared, LoadFileToBlockPlain, sub_B7638, sub_B7654, sub_B7690
+extern sub_B76A8, DataDirPath, unk_1151A7, unk_115333, DataFilePath, unpack, word_11512D
 global jpt_1E3C8, jpt_1E3D8, MakeDataPath, MakeDataPath_42, MakeDataPath_4A, MakeDataPath_50, MakeDataPath_63, MakeDataPath_E0
 global MakeDataPath_E8, MakeDataPath_EE, MakeDataPath_101, jpt_1E54A, MakeDirPath, jpt_1E633, SelectDataLibrary, SelectDataLibrary_32
 global SelectDataLibrary_3A, SelectDataLibrary_40, SelectDataLibrary_54, LoadDataFile, LoadDataFile_1B, LoadDataFileFlag0, LoadDataFileHandle, LoadPackedFile
@@ -24,7 +24,7 @@ jpt_1E3D8:
 ;-----------------------------------------------------------------------------
 ; MakeDataPath                                                    1E3E8  96 PC
 ; (out, file id): the path of a game data file: the language prefix (optflags
-; & 3) where the file has one, its directory (table unk_115120) and name
+; & 3) where the file has one, its directory (table DataDirPath) and name
 ; (table unk_115333, 16h-byte entries)
 ;-----------------------------------------------------------------------------
 MakeDataPath:
@@ -60,7 +60,7 @@ MakeDataPath_50:
         test byte [byte ebx+012h], 4
         jne short MakeDataPath_63
 .2:
-        mov edx, dword [dword_11D3C8]
+        mov edx, dword [DirPathTable]
         mov eax, esi
         call strcat_
 MakeDataPath_63:
@@ -77,7 +77,7 @@ MakeDataPath_63:
         movsx eax, word [dword eax+word_11512D]
 .3:
         imul eax, byte 0Fh
-        mov edx, unk_115120
+        mov edx, DataDirPath
         add edx, eax
         mov eax, esi
         call strcat_
@@ -117,7 +117,7 @@ MakeDataPath_EE:
         test byte [byte edi+012h], 4
         jne short MakeDataPath_101
 .8:
-        mov edx, dword [dword_11D3C8]
+        mov edx, dword [DirPathTable]
         mov eax, esi
         call strcat_
 MakeDataPath_101:
@@ -134,11 +134,11 @@ MakeDataPath_101:
         movsx edx, word [dword eax+word_11512D]
         imul edx, byte 0Fh
         mov eax, esi
-        add edx, unk_115120
+        add edx, DataDirPath
         jmp short .10
 .9:
         imul eax, byte 0Fh
-        mov edx, unk_115120
+        mov edx, DataDirPath
         add edx, eax
         mov eax, esi
 .10:
@@ -188,7 +188,7 @@ jpt_1E54A:
         test byte [byte ecx+012h], 4
         jne short .6
 .5:
-        mov edx, dword [dword_11D3C8]
+        mov edx, dword [DirPathTable]
         mov eax, ebx
         call strcat_
 .6:
@@ -205,11 +205,11 @@ jpt_1E54A:
         movsx edx, word [dword eax+word_11512D]
         imul edx, byte 0Fh
         mov eax, ebx
-        add edx, unk_115120
+        add edx, DataDirPath
         jmp short .8
 .7:
         imul eax, byte 0Fh
-        mov edx, unk_115120
+        mov edx, DataDirPath
         add edx, eax
         mov eax, ebx
 .8:
@@ -227,7 +227,7 @@ jpt_1E54A:
 ;-----------------------------------------------------------------------------
 ; MakeDirPath                                                     1E5FC  96 PC
 ; (out, dir, language): a game directory path (language prefix, directory
-; from unk_115120, backslash)
+; from DataDirPath, backslash)
 ;-----------------------------------------------------------------------------
 MakeDirPath:
         push ecx
@@ -237,12 +237,12 @@ MakeDirPath:
         mov byte [eax], 0
         test ebx, ebx
         je short .1
-        mov edx, dword [dword_11D3C8]
+        mov edx, dword [DirPathTable]
         call strcat_
 .1:
         imul edx, esi, byte 0Fh
         mov eax, ecx
-        add edx, unk_115120
+        add edx, DataDirPath
         call strcat_
         mov edx, str_backslash2
         mov eax, ecx
@@ -290,7 +290,7 @@ SelectDataLibrary_40:
         jne short SelectDataLibrary_54
 .2:
         lea eax, [byte ebp-028h]
-        mov edx, dword [dword_11D3C8]
+        mov edx, dword [DirPathTable]
         call strcat_
 SelectDataLibrary_54:
         mov eax, dword [byte ebx+0Eh]
@@ -306,11 +306,11 @@ SelectDataLibrary_54:
         movsx edx, word [dword eax+word_11512D]
         imul edx, byte 0Fh
         lea eax, [byte ebp-028h]
-        add edx, unk_115120
+        add edx, DataDirPath
         jmp short .4
 .3:
         imul eax, byte 0Fh
-        mov edx, unk_115120
+        mov edx, DataDirPath
         add edx, eax
         lea eax, [byte ebp-028h]
 .4:
@@ -348,11 +348,11 @@ LoadDataFile:
         push ecx
         mov ebx, edx
         mov edx, eax
-        mov eax, unk_158658
+        mov eax, DataFilePath
         call MakeDataPath
         push ebx
-        push unk_158658
-        call sub_B20D0
+        push DataFilePath
+        call OpenArtArchiveErr
 LoadDataFile_1B:
         add esp, byte 8
         mov edx, eax
@@ -363,32 +363,32 @@ LoadDataFile_1B:
         ret
 ;-----------------------------------------------------------------------------
 ; LoadDataFileFlag0                               1E73F  96 PC, low confidence
-; LoadDataFile through the same loader with flag 0 (sub_B20EC)
+; LoadDataFile through the same loader with flag 0 (OpenArtArchive)
 ;-----------------------------------------------------------------------------
 LoadDataFileFlag0:
         push ebx
         push ecx
         mov ebx, edx
         mov edx, eax
-        mov eax, unk_158658
+        mov eax, DataFilePath
         call MakeDataPath
         push ebx
-        push unk_158658
-        call sub_B20EC
+        push DataFilePath
+        call OpenArtArchive
         jmp short LoadDataFile_1B
         push ebx
         push ecx
         mov ebx, edx
         mov edx, eax
-        mov eax, unk_158658
+        mov eax, DataFilePath
         call MakeDataPath
         push ebx
-        push unk_158658
-        call sub_B2128
+        push DataFilePath
+        call LoadDataFileErr
         jmp short LoadDataFile_1B
 ;-----------------------------------------------------------------------------
 ; LoadDataFileHandle                              1E779  96 PC, low confidence
-; LoadDataFile returning the loader's handle (sub_B2140), for the sound banks
+; LoadDataFile returning the loader's handle (LoadFileAllocQuiet), for the sound banks
 ; (sub_C04C3)
 ;-----------------------------------------------------------------------------
 LoadDataFileHandle:
@@ -396,41 +396,41 @@ LoadDataFileHandle:
         push ecx
         mov ebx, edx
         mov edx, eax
-        mov eax, unk_158658
+        mov eax, DataFilePath
         call MakeDataPath
         push ebx
-        push unk_158658
-        call sub_B2140
+        push DataFilePath
+        call LoadFileAllocQuiet
         jmp short LoadDataFile_1B
         push ebx
         push ecx
         mov ebx, edx
         mov edx, eax
-        mov eax, unk_158658
+        mov eax, DataFilePath
         call MakeDataPath
         push ebx
-        push unk_158658
-        call sub_B7498
+        push DataFilePath
+        call LoadFileInto
         jmp near LoadDataFile_1B
         push ebx
         push ecx
         mov ebx, edx
         mov edx, eax
-        mov eax, unk_158658
+        mov eax, DataFilePath
         call MakeDataPath
         push ebx
-        push unk_158658
-        call sub_B74B0
+        push DataFilePath
+        call LoadFileToBlockShared
         jmp near LoadDataFile_1B
         push ebx
         push ecx
         mov ebx, edx
         mov edx, eax
-        mov eax, unk_158658
+        mov eax, DataFilePath
         call MakeDataPath
         push ebx
-        push unk_158658
-        call sub_B74D0
+        push DataFilePath
+        call LoadFileToBlockPlain
         jmp near LoadDataFile_1B
 ;-----------------------------------------------------------------------------
 ; LoadPackedFile                               1E7F6  96 PC, medium confidence
@@ -444,14 +444,14 @@ LoadPackedFile:
         enter 8, 0
         mov edi, edx
         mov edx, eax
-        mov eax, unk_158658
+        mov eax, DataFilePath
         xor esi, esi
         call MakeDataPath
         cmp edi, byte 20h
         jne short .2
         push esi
-        push unk_158658
-        call sub_B20D0
+        push DataFilePath
+        call OpenArtArchiveErr
         add esp, byte 8
         push eax
         mov edi, eax
@@ -464,7 +464,7 @@ LoadPackedFile:
         jl short .1
         push byte 20h
         push dword [byte ebp-04h]
-        push unk_158658
+        push DataFilePath
         call sub_AB758
         add esp, byte 0Ch
         push byte 0
@@ -475,13 +475,13 @@ LoadPackedFile:
         add esp, byte 0Ch
 .1:
         push dword [byte ebp-08h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .2:
         test esi, esi
         jne short .3
         push byte 20h
-        push unk_158658
+        push DataFilePath
         call sub_B7638
         add esp, byte 8
         mov esi, eax
@@ -498,35 +498,35 @@ LoadPackedFile:
         push ecx
         mov ebx, edx
         mov edx, eax
-        mov eax, unk_158658
+        mov eax, DataFilePath
         call MakeDataPath
         push ebx
-        push unk_158658
+        push DataFilePath
         call sub_B7654
         jmp near LoadDataFile_1B
         push ebx
         push ecx
         mov ebx, edx
         mov edx, eax
-        mov eax, unk_158658
+        mov eax, DataFilePath
         call MakeDataPath
         push ebx
-        push unk_158658
+        push DataFilePath
         call sub_B7690
         jmp near LoadDataFile_1B
         push ebx
         push ecx
         mov ebx, edx
         mov edx, eax
-        mov eax, unk_158658
+        mov eax, DataFilePath
         call MakeDataPath
         push ebx
-        push unk_158658
+        push DataFilePath
         call sub_B76A8
         jmp near LoadDataFile_1B
 ;-----------------------------------------------------------------------------
 ; LoadDataFileLib                                 1E8E9  96 PC, low confidence
-; LoadDataFile through the other library loader (sub_B0494 -> sub_C4DE0, flag
+; LoadDataFile through the other library loader (LoadResourceDataShared -> sub_C4DE0, flag
 ; 1)
 ;-----------------------------------------------------------------------------
 LoadDataFileLib:
@@ -534,41 +534,41 @@ LoadDataFileLib:
         push ecx
         mov ebx, edx
         mov edx, eax
-        mov eax, unk_158658
+        mov eax, DataFilePath
         call MakeDataPath
         push ebx
-        push unk_158658
-        call sub_B0494
+        push DataFilePath
+        call LoadResourceDataShared
         jmp near LoadDataFile_1B
         push ebx
         push ecx
         mov ebx, edx
         mov edx, eax
-        mov eax, unk_158658
+        mov eax, DataFilePath
         call MakeDataPath
         push ebx
-        push unk_158658
+        push DataFilePath
         call sub_B049E
         jmp near LoadDataFile_1B
         push ebx
         push ecx
         mov ebx, edx
         mov edx, eax
-        mov eax, unk_158658
+        mov eax, DataFilePath
         call MakeDataPath
         push ebx
-        push unk_158658
-        call sub_B047B
+        push DataFilePath
+        call LoadResourceData
         jmp near LoadDataFile_1B
         push ebx
         push ecx
         mov ebx, edx
         mov edx, eax
-        mov eax, unk_158658
+        mov eax, DataFilePath
         call MakeDataPath
         push ebx
-        push unk_158658
-        call sub_B0474
+        push DataFilePath
+        call LoadResourceBlockShared
         jmp near LoadDataFile_1B
 ;-----------------------------------------------------------------------------
 ; MakeDatabasePath                             1E969  96 PC, medium confidence

@@ -3,36 +3,36 @@ bits 32
 %include "hockey.inc"
 section s_151418 progbits alloc noexec write align=1
 extern __InitFiles_, __chk8087_, __full_io_exit_, __setEFGfmt_, __setenvp_, imul32, sub_AAA40, PutBlock
-extern sub_BE8C0, sub_D142C, sub_D6CA4, sub_DB58C, sub_DD120
-global byte_151426, byte_151430, byte_151514, byte_151520, byte_15155A, dword_151444, dword_1514C4, dword_1514E4
-global dword_1514E8, dword_1514EC, dword_1514F0, dword_1514F4, dword_1514F8, dword_1514FC, dword_151500, dword_151504
-global dword_151508, dword_15150C, dword_151510, dword_151518, dword_15151C, off_151524, unk_15155C, unk_151580
-global unk_15158C, word_151418, word_15141A, word_15141C, word_15141E, word_151420, word_151422, word_151424
-global word_151442, word_151448, word_1514CC
-word_151418:
+extern sub_BE8C0, sub_D142C, GusSizeDram, GusInitDma, sub_DD120
+global GusDmaLatchBits, GusDmaPageTable, GusDramSized, WVideoActive, GusDmaReady, GusIrqOldHandler, GusMidiPending, GusMidiIrqCount
+global GusTimerCallback, GusDmaDoneCallback, GusRecordDoneCallback, GusWaveCallback, GusVolumeCallback, GusTimer1Callback, GusTimer2Callback, GusWaveIrqCallback
+global GusVolumeIrqCallback, GusMidiXmitCallback, GusMidiRecvCallback, GusDmaBusy, dword_15151C, off_151524, InitRtnsEntry, FiniRtnsEntry
+global unk_15158C, GusMidiControlPort, GusMidiDataPort, GusVoiceSelectPort, GusRegSelectPort, GusDataLowPort, GusDataHighPort, GusDramPort
+global GusIrqVectorTable, GusIrqOldSelector, word_1514CC
+GusMidiControlPort:
         db 020h,03h
-word_15141A:
+GusMidiDataPort:
         db 021h,03h
-word_15141C:
+GusVoiceSelectPort:
         db 022h,03h
-word_15141E:
+GusRegSelectPort:
         db 023h,03h
-word_151420:
+GusDataLowPort:
         db 024h,03h
-word_151422:
+GusDataHighPort:
         db 025h,03h
-word_151424:
+GusDramPort:
         db 027h,03h
-byte_151426:
+GusDmaLatchBits:
         db 00h,01h,00h,02h,00h,03h,04h,05h,00h,00h
-byte_151430:
+GusDmaPageTable:
         db 087h,00h,083h,00h,081h,00h,082h,00h,08Fh,00h,08Bh,00h,089h,00h,08Ah,00h
         db 00h,00h
-word_151442:
+GusIrqVectorTable:
         db 08h,00h
-dword_151444:
+GusIrqOldHandler:
         db 00h,00h,00h,00h
-word_151448:
+GusIrqOldSelector:
         db 00h,00h,09h,00h,00h,00h,00h,00h,00h,00h,0Ah,00h,00h,00h,00h,00h
         db 00h,00h,0Bh,00h,00h,00h,00h,00h,00h,00h,0Ch,00h,00h,00h,00h,00h
         db 00h,00h,0Dh,00h,00h,00h,00h,00h,00h,00h,0Eh,00h,00h,00h,00h,00h
@@ -41,42 +41,42 @@ word_151448:
         db 00h,00h,073h,00h,00h,00h,00h,00h,00h,00h,074h,00h,00h,00h,00h,00h
         db 00h,00h,075h,00h,00h,00h,00h,00h,00h,00h,076h,00h,00h,00h,00h,00h
         db 00h,00h,077h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-dword_1514C4:
+GusMidiPending:
         db 00h,00h,00h,00h,00h,00h,00h,00h
 word_1514CC:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h
-dword_1514E4:
+GusMidiIrqCount:
         db 00h,00h,00h,00h
-dword_1514E8:
+GusTimerCallback:
         db 00h,00h,00h,00h
-dword_1514EC:
+GusDmaDoneCallback:
         db 00h,00h,00h,00h
-dword_1514F0:
+GusRecordDoneCallback:
         db 00h,00h,00h,00h
-dword_1514F4:
+GusWaveCallback:
         db 00h,00h,00h,00h
-dword_1514F8:
+GusVolumeCallback:
         db 00h,00h,00h,00h
-dword_1514FC:
+GusTimer1Callback:
         db 00h,00h,00h,00h
-dword_151500:
+GusTimer2Callback:
         db 00h,00h,00h,00h
-dword_151504:
+GusWaveIrqCallback:
         db 00h,00h,00h,00h
-dword_151508:
+GusVolumeIrqCallback:
         db 00h,00h,00h,00h
-dword_15150C:
+GusMidiXmitCallback:
         db 00h,00h,00h,00h
-dword_151510:
+GusMidiRecvCallback:
         db 00h,00h,00h,00h
-byte_151514:
+GusDramSized:
         db 00h,00h,00h,00h
-dword_151518:
+GusDmaBusy:
         db 01h,00h,00h,00h
 dword_15151C:
         db 011h,00h,00h,00h
-byte_151520:
+WVideoActive:
         db 00h,00h,00h,00h
 off_151524:
         dd PutBlock
@@ -86,9 +86,9 @@ off_151524:
         db 044h,0ACh,0C8h,0A0h,0BBh,096h,0DDh,08Dh,0FCh,085h,0EEh,07Eh,096h,078h,0D8h,072h
         db 09Fh,06Dh,0DBh,068h,07Dh,064h,078h,060h,0C2h,05Ch,052h,059h,022h,056h,029h,053h
         db 064h,050h,0CCh,04Dh,05Dh,04Bh
-byte_15155A:
+GusDmaReady:
         db 00h,00h
-unk_15155C:
+InitRtnsEntry:
         db 00h,01h
         dd sub_BE8C0
         db 00h,02h
@@ -101,13 +101,13 @@ unk_15155C:
         dd __setenvp_
         db 00h,020h
         dd sub_D142C
-unk_151580:
+FiniRtnsEntry:
         db 00h,01h
         dd imul32
         db 00h,020h
         dd __full_io_exit_
 unk_15158C:
         db 00h,00h
-        dd sub_D6CA4
+        dd GusSizeDram
         db 00h,00h
-        dd sub_DB58C
+        dd GusInitDma

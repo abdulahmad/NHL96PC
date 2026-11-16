@@ -2,10 +2,15 @@
 bits 32
 %include "hockey.inc"
 section s_C3CC0 progbits alloc exec nowrite align=1
-extern FatalError, str_RemovewindowROWSPACE, dword_11F9BC, dword_18572C, sub_C3E38_AC, sub_C3E38_CD, sub_C3E38_F1, sub_C3E38_111
+extern FatalError, str_RemovewindowROWSPACE, RowTable, RowTableSize, sub_C3E38_AC, sub_C3E38_CD, sub_C3E38_F1, sub_C3E38_111
 extern sub_C3E38_131, sub_C3E38_182, sub_C3E38_1D3, sub_C3E38_21D, sub_C3E38_263
-global sub_C3CC0, removewindow, unk_C3E10
-sub_C3CC0:
+global FillRowTable, removewindow, unk_C3E10
+;-----------------------------------------------------------------------------
+; FillRowTable                                    C3CC0  96 PC, low confidence
+; Fills the screen row address table for a range of rows of the current
+; screen
+;-----------------------------------------------------------------------------
+FillRowTable:
         push ecx
         push esi
         push edi
@@ -14,8 +19,8 @@ sub_C3CC0:
         mov ecx, eax
         mov edi, edx
         mov esi, ebx
-        mov eax, dword [dword_11F9BC]
-        mov edx, dword [dword_18572C]
+        mov eax, dword [RowTable]
+        mov edx, dword [RowTableSize]
         xor ebx, ebx
         cmp eax, edx
         jae short .4
@@ -45,7 +50,7 @@ sub_C3CC0:
 .3:
         shl edx, 2
         add edx, byte 8
-        mov ebp, dword [dword_18572C]
+        mov ebp, dword [RowTableSize]
         add eax, edx
         cmp eax, ebp
         jb short .1
@@ -97,6 +102,9 @@ sub_C3CC0:
         pop esi
         pop ecx
         ret
+;-----------------------------------------------------------------------------
+; removewindow                                 C3D80  95 PC, medium confidence
+;-----------------------------------------------------------------------------
 removewindow:
         push ebx
         push ecx
@@ -110,7 +118,7 @@ removewindow:
         mov dword [byte eax+04h], ebx
         test ebx, ebx
         ja near .5
-        mov esi, dword [dword_11F9BC]
+        mov esi, dword [RowTable]
         xor edi, edi
         cmp esi, eax
         jae short .2
@@ -132,7 +140,7 @@ removewindow:
         mov eax, dword [esi]
         add eax, byte 2
         shl eax, 2
-        mov ebp, dword [dword_18572C]
+        mov ebp, dword [RowTableSize]
         add eax, esi
         cmp eax, ebp
         jae short .4

@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_110101 progbits alloc noexec write align=1
 global str_GhiL, str_GhiR, str_FhiL2, str_FhiR2, str_PAL, str_ATZS760S1155, str_ATE1, str_ATQ0
-global str_ATX4, str_ATF1, str_ATH0, str_ATD, str_ATX3, str_ATS01, str_ATA, asc_1102DF
+global str_ATX4, str_ATF1, str_ATH0, str_ATD, str_ATX3, str_ATS01, str_ATA, str_Punct2
 global str_ATM0, str_OK, str_0, unk_110124, str_CONNECT, str_1, str_fe1, str_RING
 global str_2, str_fe2, str_NOCARRIER, str_3, str_fe3, str_ERROR, str_4, str_fe4
 global str_CONNECT1200, str_5, str_fe5, str_NODIALTONE, str_6, unk_110185, str_NODIALTONE2, str_BUSY
@@ -11,7 +11,7 @@ global str_7, str_fe7, str_NOANSWER, str_8, str_fe8, str_CONNECT2400, str_10, st
 global str_CONNECT9600, str_13, str_132, str_CONNECT9600ARQ, str_17, str_172, str_CONNECT9600HST, str_23
 global str_232, str_CONNECT9600ARQHST, str_27, str_272, str_CONNECT14400, str_25, str_252, str_CONNECT14400ARQ
 global str_26, str_262, str_CONNECT14400HST, str_35, str_352, str_CONNECT14400ARQHST, str_36, str_362
-global str_T, str_feP, unk_1102DD, unk_1102E3
+global str_T, str_feP, str_Punct_ModemSendCommand, str_AT
 str_GhiL:
         db 047h,068h,069h,04Ch,00h
 str_GhiR:
@@ -162,11 +162,11 @@ str_ATS01:
         db 041h,054h,053h,030h,03Dh,031h,00h
 str_ATA:
         db 041h,054h,041h,0Dh,00h
-unk_1102DD:
+str_Punct_ModemSendCommand:
         db 0Dh,00h
-asc_1102DF:
+str_Punct2:
         db 02Bh,02Bh,02Bh,00h
-unk_1102E3:
+str_AT:
         db 041h,054h,00h
 str_ATM0:
         db 041h,054h,04Dh,030h,00h,00h

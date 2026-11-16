@@ -40,8 +40,8 @@ extern str_FName, str_GlobalSort, str_HBAL2, str_HD01, str_HD02, str_HD03, str_H
 extern str_LocalSort, str_Pal21, str_Player, str_PLR0, str_PlusMinus, str_Profiles, str_S3, str_SD3
 extern str_SEA02, str_Shot, str_SLDH, str_SLDV, str_Space, str_StatDBPTRs, str_Stats, str_VBAL2
 extern str_Wt3, strcat_, strcmp_, strcpy_, strlen_, LoadDataFileLib, PlayerDbRecord, StatsDb5Record
-extern StatsDb1Record, sub_AAA40, sub_AB758, sub_ABF4C, sub_AD35C, sub_AD5C8, sub_AD620, sub_ADBEC
-extern sub_B0430, sub_B2C54, sub_B2C70, sub_C2500, sub_DD6C4, sub_E04E0, TextSetFont, TickDeadlinePassed
+extern StatsDb1Record, sub_AAA40, sub_AB758, FreeMemBlock, sub_AD35C, sub_AD5C8, sub_AD620, sub_ADBEC
+extern sub_B0430, sub_B2C54, sub_B2C70, sub_C2500, SetScreenTarget, sub_E04E0, TextSetFont, TickDeadlinePassed
 extern unk_11282F, unk_11E71A, unk_17FDF8, unk_17FE5E, unk_17FEC4, unk_17FF2A, unk_17FF90, unk_180128
 extern unk_1802C0, unk_8B87F, unk_8BD9F, unk_8BF1F, UpdateProgressBox, word_114CE0, word_1656E8, word_181EB4
 extern word_181EB6, word_181EB8, word_181EBA, word_181EBC, word_181EBE, word_181EC0, word_181EC2, word_181EC4
@@ -508,7 +508,7 @@ ShowPlayerStatsTitle:
         mov dword [dword_1820A4], eax
         call sub_AAA40
         add esp, byte 0Ch
-        call sub_DD6C4
+        call SetScreenTarget
         push byte 46h
         push dword 226h
         push dword [byte esi+02Ch]
@@ -1339,7 +1339,7 @@ PlayerStatsScreen:
         mov dword [dword ebx+dword_17EA54], eax
         cmp dword [byte ebp+05Ah], byte 20h
         jne near .29
-        call sub_DD6C4
+        call SetScreenTarget
         push byte 0
         push dword 104h
         push dword 1E0h
@@ -2645,18 +2645,18 @@ PlayerStatsScreen_1FC5:
         call sub_ADBEC
         add esp, byte 4
         push dword [dword_18210C]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_181EA8]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [byte ebp+032h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov dword [byte ebp+06Ah], 20h
         push dword [byte ebp+07Ah]
         xor edi, edi
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .112:
         mov esi, edi
@@ -2698,27 +2698,27 @@ PlayerStatsScreen_1FC5:
         cmp dword [dword ebp-01BD6h], byte 64h
         jne near .118
         push dword [dword_1820AC]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_1820B4]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_1820EC]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_1820E8]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_1820E4]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_11E670]
         xor esi, esi
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .116:
         push dword [dword esi+dword_1820B8]
-        call sub_ABF4C
+        call FreeMemBlock
         add esi, byte 4
         add esp, byte 4
         cmp esi, byte 2Ch
@@ -2726,20 +2726,20 @@ PlayerStatsScreen_1FC5:
         xor esi, esi
 .117:
         push dword [dword esi+dword_17FDF0]
-        call sub_ABF4C
+        call FreeMemBlock
         add esi, byte 4
         add esp, byte 4
         cmp esi, byte 8
         jne short .117
         push dword [dword_1820A8]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_1820B0]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_11E678]
         mov dword [dword_11E670], 0
-        call sub_ABF4C
+        call FreeMemBlock
         mov dword [dword_11E678], 0
         add esp, byte 4
 .118:
@@ -3745,7 +3745,7 @@ DrawPlayerStatsTable:
         mov eax, dword [byte ebp+05Eh]
         cmp eax, dword [byte ebp+042h]
         jl near .5
-        call sub_DD6C4
+        call SetScreenTarget
         push dword 8Ch
         mov eax, dword [byte ebp-01Ah]
         push byte 46h

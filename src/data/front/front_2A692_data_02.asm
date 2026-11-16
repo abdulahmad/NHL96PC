@@ -7,7 +7,7 @@ extern unk_16506C, unk_16509E, unk_1650FC, unk_16519C, unk_1659D6
 global Pencntdwn, byte_1178C8, byte_1178F9, collflag, dword_1177F4, dword_1177F8, dword_1177FC, dword_117800
 global dword_117804, hmslotcount, awslotcount, hmfirstslot, awfirstslot, dword_1178EA, dword_1178EE, seed
 global fox, foy, gameclock, gmode, lastplayer, off_11786C, off_11787C, puckc
-global off_11788C, off_117890, off_117894, off_117898, off_11789C, passplayer, puckvx, puckvz
+global PtrPuckFlags, off_117890, PtrPuckObject, off_117898, off_11789C, passplayer, puckvx, puckvz
 global puckx, pucky, puckz, sflags, threat, wcradiusx, word_1178A0, word_1178A2
 global word_1178A6, word_1178A8, word_1178AC, word_1178AE, word_1178B4, yc1, word_1178B8, fodir1
 global fodir2, gmode2, word_1178CA, word_1178CC, word_1178CE, word_1178D0, slotteam, word_1178F4
@@ -45,11 +45,11 @@ puckvz:
         dd unk_16506C
 puckc:
         dd unk_16509E
-off_11788C:
+PtrPuckFlags:
         dd dword_16505C
 off_117890:
         dd unk_1650FC
-off_117894:
+PtrPuckObject:
         dd unk_16519C
 off_117898:
         dd dword_164F1C

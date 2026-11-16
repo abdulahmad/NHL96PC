@@ -4,38 +4,46 @@ bits 32
 section s_AEE40 progbits alloc exec nowrite align=1
 extern FatalError, asc_1135A8, str_Copyright, str_UnpackINVALIDPACKCODE, str_TextTable, byte_11FA2C, byte_11FA2D, byte_11FA2E
 extern byte_11FA2F, byte_11FA30, byte_11FA31, str_ctl07, byte_11FB50, byte_11FC50, dword_11FA14, dword_11FA18
-extern dword_11FA1C, dword_11FA20, dword_11FA24, dword_11FA28, dword_11FA34, dword_11FA38, dword_11FA3C, dword_11FA40
-extern dword_11FA44, dword_11FA48, dword_11FA4C, dword_11FD50, dword_185760, dword_185764, dword_185768, dword_18576C
-extern dword_185770, memmove_, off_11FA10, strncmp_, sub_AB758, sub_ABF4C, sub_ADC50, sub_B31C0
+extern TextOriginX, TextOriginY, dword_11FA24, dword_11FA28, dword_11FA34, dword_11FA38, dword_11FA3C, dword_11FA40
+extern dword_11FA44, dword_11FA48, dword_11FA4C, dword_11FD50, UnpackSrcPtr, UnpackDestPtr, dword_185768, UnpackStackPtr
+extern UnpackPairTable, memmove_, off_11FA10, strncmp_, sub_AB758, FreeMemBlock, sub_ADC50, sub_B31C0
 extern sub_C4AFC, sub_C4C6C, sub_C4CCC, sub_C4D80, sub_E0520
-global sub_AEE40, sub_AEE84, sub_AF08C, sub_AF104, sub_AF1C0, sub_AF240, sub_AF2C0, sub_AF354
+global ExpandBytePair, sub_AEE84, sub_AF08C, sub_AF104, sub_AF1C0, sub_AF240, sub_AF2C0, sub_AF354
 global sub_AF4F8, sub_AF5D0, sub_AF610, sub_AF654, sub_AF85C, sub_AF890, unpack, sub_AFCD0
-global sub_AFD00, sub_AFD40, sub_AFF44, sub_AFFD0, sub_B0240, sub_B0254, sub_B026C, TextSetFont
-sub_AEE40:
+global sub_AFD00, sub_AFD40, sub_AFF44, sub_AFFD0, SetTextOrigin, SaveTextState, SetDrawTarget, TextSetFont
+;-----------------------------------------------------------------------------
+; ExpandBytePair                                  AEE40  96 PC, low confidence
+; Expands one byte of byte-pair coded data through the pair tables
+; (recursive)
+;-----------------------------------------------------------------------------
+ExpandBytePair:
         push ebx
         push edx
 .1:
         xor edx, edx
-        mov ebx, dword [dword_185770]
+        mov ebx, dword [UnpackPairTable]
         mov dl, al
         cmp byte [edx+ebx], 0
         je short .2
-        mov eax, dword [dword_185764]
+        mov eax, dword [UnpackDestPtr]
         mov al, byte [edx+eax]
         and eax, 0FFh
-        call sub_AEE40
-        mov eax, dword [dword_18576C]
+        call ExpandBytePair
+        mov eax, dword [UnpackStackPtr]
         mov al, byte [edx+eax]
         jmp short .1
 .2:
-        mov edx, dword [dword_185760]
+        mov edx, dword [UnpackSrcPtr]
         inc edx
         mov byte [byte edx-01h], al
-        mov dword [dword_185760], edx
+        mov dword [UnpackSrcPtr], edx
         pop edx
         pop ebx
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_AEE84                                                            AEE84  
+;-----------------------------------------------------------------------------
 sub_AEE84:
         push ebx
         push ecx
@@ -46,12 +54,12 @@ sub_AEE84:
         xor edx, edx
         mov dword [dword esp+0304h], edx
         lea edx, [dword esp+0100h]
-        mov dword [dword_185770], edx
+        mov dword [UnpackPairTable], edx
         mov edx, esp
-        mov dword [dword_185764], edx
+        mov dword [UnpackDestPtr], edx
         lea edx, [dword esp+0200h]
         mov ebx, eax
-        mov dword [dword_18576C], edx
+        mov dword [UnpackStackPtr], edx
         test eax, eax
         je near .11
         xor edx, edx
@@ -84,7 +92,7 @@ sub_AEE84:
         mov dword [dword esp+0304h], edx
         xor eax, eax
 .2:
-        mov edx, dword [dword_185770]
+        mov edx, dword [UnpackPairTable]
         mov byte [edx+eax], 0
         inc eax
         cmp eax, 100h
@@ -102,7 +110,7 @@ sub_AEE84:
         jle short .4
 .3:
         xor edx, edx
-        mov ecx, dword [dword_185764]
+        mov ecx, dword [UnpackDestPtr]
         mov dl, byte [ebx]
         lea edi, [byte ebx+01h]
         add ecx, edx
@@ -111,7 +119,7 @@ sub_AEE84:
         mov cl, byte [edi]
         mov edi, dword [dword esp+0300h]
         mov byte [edi], cl
-        mov ecx, dword [dword_18576C]
+        mov ecx, dword [UnpackStackPtr]
         add ecx, edx
         mov edi, ebx
         mov dword [dword esp+0300h], ecx
@@ -119,7 +127,7 @@ sub_AEE84:
         mov edi, dword [dword esp+0300h]
         inc eax
         mov byte [edi], cl
-        mov ecx, dword [dword_185770]
+        mov ecx, dword [UnpackPairTable]
         inc ebx
         mov edi, dword [dword esp+0308h]
         mov byte [ecx+edx], 0FFh
@@ -127,7 +135,7 @@ sub_AEE84:
         jl short .3
 .4:
         xor edx, edx
-        mov ecx, dword [dword_185770]
+        mov ecx, dword [UnpackPairTable]
         mov dl, byte [ebx]
         mov cl, byte [ecx+edx]
         inc ebx
@@ -138,44 +146,44 @@ sub_AEE84:
         jmp short .4
 .5:
         jge near .10
-        mov eax, dword [dword_185764]
+        mov eax, dword [UnpackDestPtr]
         mov dword [dword_185768], ebx
-        mov dword [dword_185760], esi
+        mov dword [UnpackSrcPtr], esi
         mov al, byte [edx+eax]
 .6:
         xor ecx, ecx
-        mov edi, dword [dword_185770]
+        mov edi, dword [UnpackPairTable]
         mov cl, al
         cmp byte [ecx+edi], 0
         je short .7
-        mov eax, dword [dword_185764]
+        mov eax, dword [UnpackDestPtr]
         mov al, byte [ecx+eax]
         and eax, 0FFh
-        call sub_AEE40
-        mov eax, dword [dword_18576C]
+        call ExpandBytePair
+        mov eax, dword [UnpackStackPtr]
         mov al, byte [ecx+eax]
         jmp short .6
 .7:
-        mov esi, dword [dword_185760]
+        mov esi, dword [UnpackSrcPtr]
         mov byte [esi], al
         inc esi
-        mov eax, dword [dword_18576C]
-        mov dword [dword_185760], esi
+        mov eax, dword [UnpackStackPtr]
+        mov dword [UnpackSrcPtr], esi
 .8:
         mov al, byte [edx+eax]
         xor edx, edx
-        mov ecx, dword [dword_185770]
+        mov ecx, dword [UnpackPairTable]
         mov dl, al
         cmp byte [ecx+edx], 0
         je short .9
-        mov eax, dword [dword_185764]
+        mov eax, dword [UnpackDestPtr]
         mov al, byte [edx+eax]
         and eax, 0FFh
-        call sub_AEE40
-        mov eax, dword [dword_18576C]
+        call ExpandBytePair
+        mov eax, dword [UnpackStackPtr]
         jmp short .8
 .9:
-        mov esi, dword [dword_185760]
+        mov esi, dword [UnpackSrcPtr]
         inc esi
         mov ebx, dword [dword_185768]
         mov byte [byte esi-01h], al
@@ -191,7 +199,7 @@ sub_AEE84:
         jmp near .4
 .11:
         mov eax, dword [dword esp+0304h]
-        mov dword [dword_185760], esi
+        mov dword [UnpackSrcPtr], esi
         mov dword [dword_185768], ebx
         add esp, 30Ch
         pop edi
@@ -200,6 +208,9 @@ sub_AEE84:
         pop ebx
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_AF08C                                                            AF08C  
+;-----------------------------------------------------------------------------
 sub_AF08C:
         push ebx
         push ecx
@@ -260,6 +271,9 @@ sub_AF08C:
         pop ebx
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_AF104                                                            AF104  
+;-----------------------------------------------------------------------------
 sub_AF104:
         push ebx
         push ecx
@@ -357,6 +371,9 @@ sub_AF104:
         pop ebx
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_AF1C0                                                            AF1C0  
+;-----------------------------------------------------------------------------
 sub_AF1C0:
         push ebx
         push ecx
@@ -400,6 +417,9 @@ sub_AF1C0:
         pop ebx
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_AF240                                                            AF240  
+;-----------------------------------------------------------------------------
 sub_AF240:
         push ebx
         push ecx
@@ -443,6 +463,9 @@ sub_AF240:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_AF2C0                                                            AF2C0  
+;-----------------------------------------------------------------------------
 sub_AF2C0:
         push ebx
         push ecx
@@ -487,6 +510,9 @@ sub_AF2C0:
         pop ebx
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_AF354                                                            AF354  
+;-----------------------------------------------------------------------------
 sub_AF354:
         push ebx
         push ecx
@@ -619,6 +645,9 @@ sub_AF354:
         pop ebx
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_AF4F8                                                            AF4F8  
+;-----------------------------------------------------------------------------
 sub_AF4F8:
         push ebx
         push ecx
@@ -679,6 +708,9 @@ sub_AF4F8:
         pop ebx
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_AF5D0                                                            AF5D0  
+;-----------------------------------------------------------------------------
 sub_AF5D0:
         push ebx
         push ecx
@@ -704,6 +736,9 @@ sub_AF5D0:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_AF610                                                            AF610  
+;-----------------------------------------------------------------------------
 sub_AF610:
         push ebx
         push ecx
@@ -737,6 +772,9 @@ sub_AF610:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_AF654                                                            AF654  
+;-----------------------------------------------------------------------------
 sub_AF654:
         push ebx
         push ecx
@@ -921,7 +959,7 @@ sub_AF654:
 .7:
         push ebx
         mov esi, dword [byte ebx+08h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov eax, esi
 .8:
@@ -933,6 +971,9 @@ sub_AF654:
         pop ebx
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_AF85C                                                            AF85C  
+;-----------------------------------------------------------------------------
 sub_AF85C:
         push ebx
         push ecx
@@ -963,6 +1004,9 @@ sub_AF85C:
         pop ebx
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_AF890                                                            AF890  
+;-----------------------------------------------------------------------------
 sub_AF890:
         push ebx
         push ecx
@@ -1279,6 +1323,9 @@ sub_AF890:
         pop ebx
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; unpack                                       AFB88  95 PC, medium confidence
+;-----------------------------------------------------------------------------
 unpack:
         push esi
         push edi
@@ -1407,6 +1454,9 @@ unpack:
         pop esi
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_AFCD0                                                            AFCD0  
+;-----------------------------------------------------------------------------
 sub_AFCD0:
         push byte 1
         mov edx, dword [byte esp+0Ch]
@@ -1426,6 +1476,9 @@ sub_AFCD0:
         add esp, byte 0Ch
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_AFD00                                                            AFD00  
+;-----------------------------------------------------------------------------
 sub_AFD00:
         mov eax, dword [byte esp+04h]
         call sub_AF85C
@@ -1448,6 +1501,9 @@ sub_AFD00:
         mov eax, ecx
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_AFD40                                                            AFD40  
+;-----------------------------------------------------------------------------
 sub_AFD40:
         push ebx
         push ecx
@@ -1482,7 +1538,7 @@ sub_AFD40:
         inc esi
         call sub_B31C0
         add esp, byte 4
-        mov dword [nosplit esi*4+dword_185770], eax
+        mov dword [nosplit esi*4+UnpackPairTable], eax
         cmp esi, byte 10h
         jl short .2
         xor ecx, ecx
@@ -1590,6 +1646,9 @@ sub_AFD40:
         pop ebx
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_AFF44                                                            AFF44  
+;-----------------------------------------------------------------------------
 sub_AFF44:
         push ebx
         push ecx
@@ -1649,6 +1708,9 @@ sub_AFF44:
         pop ebx
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_AFFD0                                                            AFFD0  
+;-----------------------------------------------------------------------------
 sub_AFFD0:
         push esi
         push edi
@@ -1814,7 +1876,7 @@ sub_AFFD0:
         add esi, 0FFh
         call sub_B31C0
         add esp, byte 4
-        mov dword [dword edi+dword_185770], eax
+        mov dword [dword edi+UnpackPairTable], eax
         mov eax, dword [byte esp+010h]
         mov ebx, dword [byte esp+034h]
         mov ecx, dword [byte esp+018h]
@@ -1846,14 +1908,22 @@ sub_AFFD0:
         pop esi
         ret
         db 08Dh,040h,00h
-sub_B0240:
+;-----------------------------------------------------------------------------
+; SetTextOrigin                                   B0240  96 PC, low confidence
+; Sets the text origin
+;-----------------------------------------------------------------------------
+SetTextOrigin:
         mov eax, dword [byte esp+04h]
-        mov dword [dword_11FA1C], eax
+        mov dword [TextOriginX], eax
         mov eax, dword [byte esp+08h]
-        mov dword [dword_11FA20], eax
+        mov dword [TextOriginY], eax
         ret
         db 090h
-sub_B0254:
+;-----------------------------------------------------------------------------
+; SaveTextState                                   B0254  96 PC, low confidence
+; Saves the text drawing state (font, colours, position)
+;-----------------------------------------------------------------------------
+SaveTextState:
         push esi
         push edi
         mov ecx, 10h
@@ -1864,7 +1934,11 @@ sub_B0254:
         pop esi
         ret
         db 08Dh,040h,00h
-sub_B026C:
+;-----------------------------------------------------------------------------
+; SetDrawTarget                                   B026C  96 PC, low confidence
+; Same code as in the next game
+;-----------------------------------------------------------------------------
+SetDrawTarget:
         push esi
         push edi
         mov ecx, 10h
@@ -1875,6 +1949,9 @@ sub_B026C:
         pop esi
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; TextSetFont                                  B0284  95 PC, medium confidence
+;-----------------------------------------------------------------------------
 TextSetFont:
         push esi
         mov edx, dword [byte esp+08h]

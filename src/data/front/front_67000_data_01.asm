@@ -20,7 +20,7 @@ global byte_11D1DE, byte_11D20A, byte_11D392, byte_11D74B, dword_11D1C8, dword_1
 global sndcard, dword_11D1E2, dword_11D1E6, dword_11D1EA, dword_11D1EE, dword_11D1F2, dword_11D1F6, dword_11D1FA
 global dword_11D1FE, dword_11D202, dword_11D206, dword_11D232, dword_11D236, dword_11D23E, dword_11D242, dword_11D376
 global dword_11D37A, dword_11D37E, dword_11D38A, dword_11D38E, dword_11D3A6, dword_11D3AA, dword_11D3AE, dword_11D3B2
-global dword_11D3B8, dword_11D3BC, dword_11D3C0, dword_11D3C4, dword_11D3C8, dword_11D59C, dword_11D674, dword_11D744
+global dword_11D3B8, dword_11D3BC, dword_11D3C0, dword_11D3C4, DirPathTable, dword_11D59C, dword_11D674, dword_11D744
 global off_11D3DC, off_11D44C, off_11D4BC, off_11D52C, word_11D1D0, word_11D23A, word_11D23C, word_11D356
 global word_11D382, word_11D384, word_11D386, word_11D388, word_11D3A2, word_11D3A4, word_11D3B6, word_11D604
 dword_11D1C8:
@@ -135,7 +135,7 @@ dword_11D3C0:
         db 00h,00h,00h,00h
 dword_11D3C4:
         db 00h,00h,00h,00h
-dword_11D3C8:
+DirPathTable:
         db 00h,00h,00h,00h,019h,01h,00h,00h,01Ah,01h,00h,00h,01Bh,01h,00h,00h
         db 01Ch,01h,00h,00h
 off_11D3DC:

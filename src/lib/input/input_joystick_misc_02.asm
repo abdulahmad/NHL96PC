@@ -2,15 +2,18 @@
 bits 32
 %include "hockey.inc"
 section s_E0898 progbits alloc exec nowrite align=1
-extern dword_11F5F0, dword_1222C8, dword_1222CC, dword_1222D0, dword_1222D4, dword_1222D8, dword_1222DC, dword_1228D8
-extern dword_1228DC, dword_1228E0, dword_1228E4, dword_123A94, dword_123A98, dword_123A9C, dword_123AA0, dword_123AA4
-extern dword_123AA8, dword_123AAC, dword_123AB0, dword_123AB4, dword_123AB8, dword_123ABC, dword_124874, dword_124878
-extern min__10, sub_CA0B0_6C, sub_C3E38, sub_DD724, sub_E19F0, sub_E19FE, sub_E25E0, sub_E2680
-extern sub_E26A2
-global jpt_E0C7A, jpt_E0DBA, jpt_E0F93, sub_E0959_F, sub_E0992_F, sub_E0992_26, jpt_E0C7A_38, jpt_E0DBA_3B
-global jpt_E0F93_22F, sub_E15D7_B, sub_E167A_2D, sub_E0898, sub_E0959, sub_E0992, sub_E0B9B, sub_E0C59
-global sub_E0D8B, vecdist, sub_E1530, sub_E1575, sub_E15AC, sub_E15D7, sub_E162A, sub_E1638
+extern str_Punct_DrawRinkSurface, dword_1222C8, dword_1222CC, dword_1222D0, dword_1222D4, dword_1222D8, dword_1222DC, ClipTopRow
+extern ClipLeftCol, ClipRight, ScreenHeight, dword_123A94, dword_123A98, dword_123A9C, dword_123AA0, dword_123AA4
+extern dword_123AA8, dword_123AAC, dword_123AB0, dword_123AB4, dword_123AB8, dword_123ABC, ShadowFillFunc, TitleBandFunc
+extern min__10, sub_CA0B0_6C, sub_C3E38, FillRectColor, sub_E19F0, sub_E19FE, AngleFromDelta, SinLookup
+extern CosLookup
+global FillBandRowsJumpTable, FillBandRowsBlendJumpTable, FillBandRowsPlainJumpTable, sub_E0959_F, sub_E0992_F, sub_E0992_26, jpt_E0C7A_38, jpt_E0DBA_3B
+global jpt_E0F93_22F, sub_E15D7_B, sub_E167A_2D, sub_E0898, sub_E0959, sub_E0992, FillBandEdges, FillBandRows
+global FillBandRowsBlend, vecdist, sub_E1530, sub_E1575, sub_E15AC, sub_E15D7, sub_E162A, sub_E1638
 global sub_E167A, sub_E17B8
+;-----------------------------------------------------------------------------
+; sub_E0898                                                            E0898  
+;-----------------------------------------------------------------------------
 sub_E0898:
         mov eax, dword [dword_1222DC]
         add eax, dword [dword_1222D8]
@@ -62,6 +65,9 @@ sub_E0898:
         push edi
         mov byte [byte ebp-011h], 1
         jmp short sub_E0959_F
+;-----------------------------------------------------------------------------
+; sub_E0959                                                            E0959  
+;-----------------------------------------------------------------------------
 sub_E0959:
         push ebp
         LD mov, ebp, esp
@@ -71,9 +77,9 @@ sub_E0959:
         mov byte [byte ebp-011h], 0
 sub_E0959_F:
         mov eax, min__10
-        mov dword [dword_124874], eax
-        mov eax, sub_DD724
-        mov dword [dword_124878], eax
+        mov dword [ShadowFillFunc], eax
+        mov eax, FillRectColor
+        mov dword [TitleBandFunc], eax
         mov esi, dword [byte ebp+010h]
         jmp short sub_E0992_26
         push ebp
@@ -83,6 +89,9 @@ sub_E0959_F:
         push edi
         mov byte [byte ebp-011h], 1
         jmp short sub_E0992_F
+;-----------------------------------------------------------------------------
+; sub_E0992                                                            E0992  
+;-----------------------------------------------------------------------------
 sub_E0992:
         push ebp
         LD mov, ebp, esp
@@ -92,9 +101,9 @@ sub_E0992:
         mov byte [byte ebp-011h], 0
 sub_E0992_F:
         mov eax, min__10
-        mov dword [dword_124874], eax
-        mov eax, sub_DD724
-        mov dword [dword_124878], eax
+        mov dword [ShadowFillFunc], eax
+        mov eax, FillRectColor
+        mov dword [TitleBandFunc], eax
         lea esi, [byte ebp+010h]
 sub_E0992_26:
         mov dword [byte ebp-0Ch], esi
@@ -106,9 +115,9 @@ sub_E0992_26:
         cld
         lea eax, [dword ebp-0282Ch]
         mov dword [byte ebp-02Ch], eax
-        mov eax, dword [dword_1228D8]
+        mov eax, dword [ClipTopRow]
         mov dword [byte ebp-04h], eax
-        mov eax, dword [dword_1228E0]
+        mov eax, dword [ClipRight]
         dec eax
         mov dword [byte ebp-08h], eax
         mov eax, dword [byte esi+04h]
@@ -127,7 +136,7 @@ sub_E0992_26:
         push dword [esi]
         push dword [byte esi+04h]
         push dword [esi]
-        call dword [dword_124878]
+        call dword [TitleBandFunc]
         add esp, byte 14h
         pop edi
         pop esi
@@ -166,19 +175,19 @@ sub_E0992_26:
         cmp ebx, dword [byte ebp-08h]
         jge short .9
         mov eax, dword [byte ebp-020h]
-        cmp eax, dword [dword_1228DC]
+        cmp eax, dword [ClipLeftCol]
         jl short .9
         mov ecx, dword [byte ebp-018h]
-        cmp ecx, dword [dword_1228E4]
+        cmp ecx, dword [ScreenHeight]
         jge short .9
         mov byte [byte ebp-012h], 0
         cmp edx, dword [byte ebp-08h]
         jg short .6
         cmp ebx, dword [byte ebp-04h]
         jl short .6
-        cmp eax, dword [dword_1228E4]
+        cmp eax, dword [ScreenHeight]
         jge short .6
-        cmp ecx, dword [dword_1228DC]
+        cmp ecx, dword [ClipLeftCol]
         jge short .7
 .6:
         mov byte [byte ebp-012h], 1
@@ -194,7 +203,7 @@ sub_E0992_26:
         push edx
         push ecx
         push ebx
-        call dword [dword_124878]
+        call dword [TitleBandFunc]
         add esp, byte 14h
 .9:
         pop edi
@@ -224,12 +233,12 @@ sub_E0992_26:
         je short .13
         call sub_E19FE
         mov dword [byte ebp-028h], edi
-        call sub_E0B9B
+        call FillBandEdges
         jmp short .14
 .13:
         call sub_E19F0
         mov dword [byte ebp-028h], edi
-        call sub_E0C59
+        call FillBandRows
 .14:
         mov edi, dword [byte ebp-028h]
         add esp, byte 14h
@@ -261,22 +270,22 @@ sub_E0992_26:
         call sub_E19F0
 .19:
         mov dword [byte ebp-028h], edi
-        call sub_E0D8B
+        call FillBandRowsBlend
         mov edi, dword [byte ebp-028h]
         add esp, byte 14h
 .20:
         cmp edi, dword [byte ebp-024h]
         jne short .16
         mov eax, dword [byte ebp-020h]
-        cmp eax, dword [dword_1228E4]
+        cmp eax, dword [ScreenHeight]
         jl short .21
-        mov eax, dword [dword_1228E4]
+        mov eax, dword [ScreenHeight]
         dec eax
 .21:
         mov ebx, dword [byte ebp-018h]
-        cmp ebx, dword [dword_1228DC]
+        cmp ebx, dword [ClipLeftCol]
         jge short .22
-        mov ebx, dword [dword_1228DC]
+        mov ebx, dword [ClipLeftCol]
 .22:
         LD sub, eax, ebx
         jle short .23
@@ -291,14 +300,18 @@ sub_E0992_26:
         lea eax, [dword ebp-0282Ch]
         LD add, eax, ebx
         push eax
-        call dword [dword_124874]
+        call dword [ShadowFillFunc]
         add esp, byte 14h
 .23:
         pop edi
         pop esi
         leave
         ret
-sub_E0B9B:
+;-----------------------------------------------------------------------------
+; FillBandEdges                                   E0B9B  96 PC, low confidence
+; Fills the soft edge columns of a shaded band
+;-----------------------------------------------------------------------------
+FillBandEdges:
         mov ecx, dword [byte esi+020h]
         LD or, ecx, ecx
         jle short .1
@@ -309,7 +322,7 @@ sub_E0B9B:
         LD sub, edi, ecx
         lea edi, [nosplit edi*4+00h]
         add edi, dword [byte ebp-02Ch]
-        mov eax, dword [dword_1228D8]
+        mov eax, dword [ClipTopRow]
         push ecx
         push edi
         rep stosd
@@ -329,7 +342,7 @@ sub_E0B9B:
         LD sub, edi, ecx
         lea edi, [nosplit edi*4+00h]
         add edi, dword [byte ebp-02Ch]
-        mov eax, dword [dword_1228E0]
+        mov eax, dword [ClipRight]
         push ecx
         push edi
         rep stosd
@@ -346,7 +359,7 @@ sub_E0B9B:
         inc edi
         lea edi, [nosplit edi*4+00h]
         add edi, dword [byte ebp-02Ch]
-        mov eax, dword [dword_1228D8]
+        mov eax, dword [ClipTopRow]
         push ecx
         push edi
         rep stosd
@@ -358,12 +371,12 @@ sub_E0B9B:
 .3:
         mov ecx, dword [byte esi+02Ch]
         LD or, ecx, ecx
-        jle short sub_E0C59
+        jle short FillBandRows
         mov edi, dword [byte esi+014h]
         inc edi
         lea edi, [nosplit edi*4+00h]
         add edi, dword [byte ebp-02Ch]
-        mov eax, dword [dword_1228E0]
+        mov eax, dword [ClipRight]
         push ecx
         push edi
         rep stosd
@@ -372,7 +385,11 @@ sub_E0B9B:
         add edi, 1400h
         dec eax
         rep stosd
-sub_E0C59:
+;-----------------------------------------------------------------------------
+; FillBandRows                                    E0C59  96 PC, low confidence
+; Fills the rows of a shaded band with its colour
+;-----------------------------------------------------------------------------
+FillBandRows:
         mov ecx, dword [byte esi+018h]
         LD or, ecx, ecx
         jle short jpt_E0C7A_38
@@ -381,8 +398,8 @@ sub_E0C59:
         add edi, dword [byte ebp-02Ch]
         LD xor, ebx, ebx
         mov bl, byte [byte esi+034h]
-        jmp dword [nosplit cs:ebx*4+jpt_E0C7A]
-jpt_E0C7A:
+        jmp dword [nosplit cs:ebx*4+FillBandRowsJumpTable]
+FillBandRowsJumpTable:
         dd jpt_E0C7A_38
         dd jpt_E0C7A_38
         dd .1
@@ -506,7 +523,11 @@ jpt_E0C7A_38:
         dec eax
         mov dword [dword edi+01400h], eax
         ret
-sub_E0D8B:
+;-----------------------------------------------------------------------------
+; FillBandRowsBlend                               E0D8B  96 PC, low confidence
+; Fills the rows of a shaded band, blending with what is under it
+;-----------------------------------------------------------------------------
+FillBandRowsBlend:
         mov ecx, dword [byte esi+018h]
         LD or, ecx, ecx
         jle short jpt_E0DBA_3B
@@ -517,10 +538,10 @@ sub_E0D8B:
         mov bl, byte [byte esi+034h]
         cmp byte [byte ebp-011h], 0
         jne short .1
-        jmp dword [nosplit cs:ebx*4+jpt_E0F93]
+        jmp dword [nosplit cs:ebx*4+FillBandRowsPlainJumpTable]
 .1:
-        jmp dword [nosplit cs:ebx*4+jpt_E0DBA]
-jpt_E0DBA:
+        jmp dword [nosplit cs:ebx*4+FillBandRowsBlendJumpTable]
+FillBandRowsBlendJumpTable:
         dd jpt_E0C7A_38
         dd jpt_E0C7A_38
         dd .1
@@ -548,7 +569,7 @@ jpt_E0DBA_3B:
 .4:
         add edi, byte 4
         dec ecx
-        jne short jpt_E0DBA.2
+        jne short FillBandRowsBlendJumpTable.2
         jmp near jpt_E0F93_22F
 .5:
         mov ecx, dword [byte esi+018h]
@@ -715,7 +736,7 @@ jpt_E0DBA_3B:
         jge short .26
         mov dword [dword edi+01400h], eax
         jmp near jpt_E0F93_22F
-jpt_E0F93:
+FillBandRowsPlainJumpTable:
         dd jpt_E0C7A_38
         dd jpt_E0C7A_38
         dd .1
@@ -976,6 +997,9 @@ jpt_E0F93:
         dec ecx
         jne short .43
         jmp short jpt_E0F93_22F
+;-----------------------------------------------------------------------------
+; jpt_E0F93_22F                                                        E11C2  
+;-----------------------------------------------------------------------------
 jpt_E0F93_22F:
         cmp byte [byte ebp-012h], 0
         jne short .46
@@ -991,7 +1015,7 @@ jpt_E0F93_22F:
         LD sub, edi, ecx
         lea edi, [nosplit edi*4+00h]
         add edi, dword [byte ebp-02Ch]
-        mov eax, dword [dword_1228D8]
+        mov eax, dword [ClipTopRow]
         rep stosd
 .47:
         mov ecx, dword [byte esi+028h]
@@ -1005,7 +1029,7 @@ jpt_E0F93_22F:
         lea edi, [nosplit edi*4+00h]
         add edi, dword [byte ebp-02Ch]
         add edi, 1400h
-        mov eax, dword [dword_1228E0]
+        mov eax, dword [ClipRight]
         dec eax
         rep stosd
 .48:
@@ -1016,7 +1040,7 @@ jpt_E0F93_22F:
         inc edi
         lea edi, [nosplit edi*4+00h]
         add edi, dword [byte ebp-02Ch]
-        mov eax, dword [dword_1228D8]
+        mov eax, dword [ClipTopRow]
         rep stosd
 .49:
         mov ecx, dword [byte esi+02Ch]
@@ -1027,7 +1051,7 @@ jpt_E0F93_22F:
         lea edi, [nosplit edi*4+00h]
         add edi, dword [byte ebp-02Ch]
         add edi, 1400h
-        mov eax, dword [dword_1228E0]
+        mov eax, dword [ClipRight]
         dec eax
         rep stosd
 .50:
@@ -1039,9 +1063,9 @@ jpt_E0F93_22F:
         push edi
         mov byte [byte ebp-011h], 1
         mov eax, min__10
-        mov dword [dword_124874], eax
+        mov dword [ShadowFillFunc], eax
         mov eax, sub_C3E38
-        mov dword [dword_124878], eax
+        mov dword [TitleBandFunc], eax
         jmp short .51
         push ebp
         LD mov, ebp, esp
@@ -1050,9 +1074,9 @@ jpt_E0F93_22F:
         push edi
         mov byte [byte ebp-011h], 0
         mov eax, min__10
-        mov dword [dword_124874], eax
+        mov dword [ShadowFillFunc], eax
         mov eax, sub_C3E38
-        mov dword [dword_124878], eax
+        mov dword [TitleBandFunc], eax
 .51:
         lea esi, [byte ebp+010h]
         mov dword [byte ebp-0Ch], esi
@@ -1065,9 +1089,9 @@ jpt_E0F93_22F:
         cld
         lea eax, [dword ebp-0282Ch]
         mov dword [byte ebp-02Ch], eax
-        mov eax, dword [dword_1228D8]
+        mov eax, dword [ClipTopRow]
         mov dword [byte ebp-04h], eax
-        mov eax, dword [dword_1228E0]
+        mov eax, dword [ClipRight]
         dec eax
         mov dword [byte ebp-08h], eax
         mov edi, dword [esi]
@@ -1094,7 +1118,7 @@ jpt_E0F93_22F:
         mov eax, dword [byte ebp+08h]
         mov dword [byte ebp+edi+08h], eax
         push edi
-        call dword [dword_124878]
+        call dword [TitleBandFunc]
         add esp, byte 4
         pop edi
         pop esi
@@ -1160,19 +1184,19 @@ jpt_E0F93_22F:
         cmp ebx, dword [byte ebp-08h]
         jge short .67
         mov eax, dword [byte ebp-020h]
-        cmp eax, dword [dword_1228DC]
+        cmp eax, dword [ClipLeftCol]
         jl short .67
         mov ecx, dword [byte ebp-018h]
-        cmp ecx, dword [dword_1228E4]
+        cmp ecx, dword [ScreenHeight]
         jge short .67
         mov byte [byte ebp-012h], 0
         cmp edx, dword [byte ebp-08h]
         jg short .64
         cmp ebx, dword [byte ebp-04h]
         jl short .64
-        cmp eax, dword [dword_1228E4]
+        cmp eax, dword [ScreenHeight]
         jge short .64
-        cmp ecx, dword [dword_1228DC]
+        cmp ecx, dword [ClipLeftCol]
         jge short .65
 .64:
         mov byte [byte ebp-012h], 1
@@ -1185,7 +1209,7 @@ jpt_E0F93_22F:
         mov esi, dword [byte ebp-0Ch]
         mov edi, dword [esi]
         push edi
-        call dword [dword_124878]
+        call dword [TitleBandFunc]
         add esp, byte 4
 .67:
         pop edi
@@ -1201,10 +1225,10 @@ jpt_E0F93_22F:
         mov dword [byte ebp-028h], edi
         cmp byte [byte ebp-012h], 0
         je short .70
-        call sub_E0B9B
+        call FillBandEdges
         jmp short .71
 .70:
-        call sub_E0C59
+        call FillBandRows
 .71:
         mov edi, dword [byte ebp-028h]
 .72:
@@ -1229,20 +1253,20 @@ jpt_E0F93_22F:
         cmp byte [byte esi+034h], 2
         jl short .74
         mov dword [byte ebp-028h], edi
-        call sub_E0D8B
+        call FillBandRowsBlend
         mov edi, dword [byte ebp-028h]
         jmp short .74
 .76:
         mov eax, dword [byte ebp-020h]
-        cmp eax, dword [dword_1228E4]
+        cmp eax, dword [ScreenHeight]
         jl short .77
-        mov eax, dword [dword_1228E4]
+        mov eax, dword [ScreenHeight]
         dec eax
 .77:
         mov ebx, dword [byte ebp-018h]
-        cmp ebx, dword [dword_1228DC]
+        cmp ebx, dword [ClipLeftCol]
         jge short .78
-        mov ebx, dword [dword_1228DC]
+        mov ebx, dword [ClipLeftCol]
 .78:
         LD sub, eax, ebx
         jle short .79
@@ -1257,19 +1281,22 @@ jpt_E0F93_22F:
         lea eax, [dword ebp-0282Ch]
         LD add, eax, ebx
         push eax
-        call dword [dword_124874]
+        call dword [ShadowFillFunc]
         add esp, byte 14h
 .79:
         pop edi
         pop esi
         leave
         ret
+;-----------------------------------------------------------------------------
+; vecdist                                                         E14C8  95 PC
+;-----------------------------------------------------------------------------
 vecdist:
         push ebp
         LD mov, ebp, esp
         push dword [byte ebp+08h]
         push dword [byte ebp+0Ch]
-        call sub_E25E0
+        call AngleFromDelta
         add esp, byte 8
         LD or, eax, eax
         jge short .1
@@ -1283,7 +1310,7 @@ vecdist:
         cmp eax, 80h
         jg short .4
         push eax
-        call sub_E26A2
+        call CosLookup
         add esp, byte 4
         LD mov, ebx, eax
         mov eax, dword [byte ebp+08h]
@@ -1298,7 +1325,7 @@ vecdist:
         ret
 .4:
         push eax
-        call sub_E2680
+        call SinLookup
         add esp, byte 4
         LD mov, ebx, eax
         mov eax, dword [byte ebp+0Ch]
@@ -1312,6 +1339,9 @@ vecdist:
         leave
         ret
         db 00h,00h
+;-----------------------------------------------------------------------------
+; sub_E1530                                                            E1530  
+;-----------------------------------------------------------------------------
 sub_E1530:
         push ebp
         LD mov, ebp, esp
@@ -1321,9 +1351,9 @@ sub_E1530:
         mov esi, dword [byte ebp+010h]
         mov byte [byte ebp-011h], al
         mov eax, sub_CA0B0_6C
-        mov dword [dword_124874], eax
-        mov eax, sub_DD724
-        mov dword [dword_124878], eax
+        mov dword [ShadowFillFunc], eax
+        mov eax, FillRectColor
+        mov dword [TitleBandFunc], eax
         jmp near sub_E0992_26
         push ebp
         LD mov, ebp, esp
@@ -1339,6 +1369,9 @@ sub_E1530:
         pop esi
         leave
         ret
+;-----------------------------------------------------------------------------
+; sub_E1575                                                            E1575  
+;-----------------------------------------------------------------------------
 sub_E1575:
         push ebp
         LD mov, ebp, esp
@@ -1369,6 +1402,9 @@ sub_E1575:
         pop esi
         leave
         ret
+;-----------------------------------------------------------------------------
+; sub_E15AC                                                            E15AC  
+;-----------------------------------------------------------------------------
 sub_E15AC:
         push ebp
         LD mov, ebp, esp
@@ -1390,8 +1426,11 @@ sub_E15AC:
         add esp, byte 0FFFFFFF8h
         push esi
         push edi
-        mov eax, dword [dword_11F5F0]
+        mov eax, dword [str_Punct_DrawRinkSurface]
         jmp short sub_E15D7_B
+;-----------------------------------------------------------------------------
+; sub_E15D7                                                            E15D7  
+;-----------------------------------------------------------------------------
 sub_E15D7:
         push ebp
         LD mov, ebp, esp
@@ -1430,14 +1469,20 @@ sub_E15D7_B:
         pop esi
         leave
         ret
+;-----------------------------------------------------------------------------
+; sub_E162A                                                            E162A  
+;-----------------------------------------------------------------------------
 sub_E162A:
         push ebp
         LD mov, ebp, esp
         mov eax, dword [byte ebp+08h]
-        mov dword [dword_11F5F0], eax
+        mov dword [str_Punct_DrawRinkSurface], eax
         leave
         ret
         db 00h
+;-----------------------------------------------------------------------------
+; sub_E1638                                                            E1638  
+;-----------------------------------------------------------------------------
 sub_E1638:
         push ebp
         LD mov, ebp, esp
@@ -1460,6 +1505,9 @@ sub_E1638:
         mov eax, dword [byte ebp+0Ch]
         mov dword [dword_123AB8], eax
         jmp short sub_E167A_2D
+;-----------------------------------------------------------------------------
+; sub_E167A                                                            E167A  
+;-----------------------------------------------------------------------------
 sub_E167A:
         push ebp
         LD mov, ebp, esp
@@ -1489,12 +1537,12 @@ sub_E167A_2D:
         add eax, dword [dword_123AA0]
         mov dword [dword_123AA8], eax
         push dword [dword_123AB4]
-        call sub_E26A2
+        call CosLookup
         add esp, byte 4
         mul dword [dword_123A94]
         LD mov, esi, eax
         push dword [dword_123AB4]
-        call sub_E2680
+        call SinLookup
         add esp, byte 4
         LD mov, ecx, eax
         LD mov, eax, esi
@@ -1504,12 +1552,12 @@ sub_E167A_2D:
         LD or, ebx, ebx
         je short .1
         push dword [dword_123AB8]
-        call sub_E26A2
+        call CosLookup
         add esp, byte 4
         mul dword [dword_123A98]
         LD mov, esi, eax
         push dword [dword_123AB8]
-        call sub_E2680
+        call SinLookup
         add esp, byte 4
         LD mov, ecx, eax
         LD mov, eax, esi
@@ -1531,7 +1579,7 @@ sub_E167A_2D:
         neg eax
         push dword [dword_123A98]
         push eax
-        call sub_E25E0
+        call AngleFromDelta
         add esp, byte 8
         mov dword [dword_123AB8], eax
         pop edi
@@ -1559,6 +1607,9 @@ sub_E167A_2D:
         or dword [dword_123ABC], byte 1
         ret
         db 00h
+;-----------------------------------------------------------------------------
+; sub_E17B8                                                            E17B8  
+;-----------------------------------------------------------------------------
 sub_E17B8:
         push ebp
         LD mov, ebp, esp

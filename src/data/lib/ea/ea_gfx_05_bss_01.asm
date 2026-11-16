@@ -4,7 +4,7 @@ bits 32
 section s_191AB0 nobits alloc noexec write align=1
 global dword_1956B0, dword_1956B4, dword_1956B8, dword_1956BC, dword_1956C0, dword_1956C4, dword_1956C8, dword_1956CC
 global dword_198388, dword_19838C, dword_198390, dword_198394, dword_198398, dword_19839C, dword_1983A0, dword_1983A4
-global dword_1983A8, dword_1983B4, unk_191AB0, unk_1938B0, unk_196380, unk_196388, unk_196390, unk_196398
+global RinkViewChanged, dword_1983B4, unk_191AB0, unk_1938B0, unk_196380, unk_196388, unk_196390, unk_196398
 global unk_197050, unk_19705C, unk_197068, unk_197074, unk_1983B8
 unk_191AB0:
         resb 7680
@@ -58,7 +58,7 @@ dword_1983A0:
         resb 4
 dword_1983A4:
         resb 4
-dword_1983A8:
+RinkViewChanged:
         resb 12
 dword_1983B4:
         resb 4

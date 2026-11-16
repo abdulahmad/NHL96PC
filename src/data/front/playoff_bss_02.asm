@@ -6,7 +6,7 @@ global byte_18464C, byte_18464E, byte_18464F, byte_1846C4, byte_184B24, byte_184
 global dword_18460C, dword_184610, dword_184624, dword_184628, dword_184670, dword_184674, dword_184678, dword_18467C
 global dword_184680, dword_184684, dword_1846F0, dword_1846F4, dword_1846F8, dword_1846FC, dword_184700, dword_18470C
 global dword_184710, dword_184ABC, dword_184ADC, dword_184AFC, dword_184B00, dword_184B04, dword_184B08, dword_184B0C
-global dword_184B10, dword_184B14, dword_184B1C, dword_184B20, unk_184688, unk_184692
+global dword_184B10, dword_184B14, PlayoffTeamCount, PlayoffFormat, unk_184688, unk_184692
 dword_1845FC:
         resb 4
 dword_184600:
@@ -75,9 +75,9 @@ dword_184B10:
         resb 4
 dword_184B14:
         resb 8
-dword_184B1C:
+PlayoffTeamCount:
         resb 4
-dword_184B20:
+PlayoffFormat:
         resb 4
 byte_184B24:
         resb 4

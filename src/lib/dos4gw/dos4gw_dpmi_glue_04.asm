@@ -2,27 +2,30 @@
 bits 32
 %include "hockey.inc"
 section s_D14D1 progbits alloc exec nowrite align=1
-extern FatalError, asc_1141B4, str_BuildfixedtableminLinear, str_BuildtableminLinearmapfE, str_BuildtableminLinearmapfE2, byte_122794, dword_1228D8, dword_1228DC
-extern dword_1228E0, dword_1228E4, dword_1228F8, dword_1228FC, sub_C9AD8, sub_D284C, sub_D2AAA, sub_D2AB0
+extern FatalError, asc_1141B4, str_BuildfixedtableminLinear, str_BuildtableminLinearmapfE, str_BuildtableminLinearmapfE2, RemapTable, ClipTopRow, ClipLeftCol
+extern ClipRight, ScreenHeight, dword_1228F8, dword_1228FC, sub_C9AD8, EmuTrapExit, sub_D2AAA, sub_D2AB0
 extern sub_D2AB6, sub_D2ABC, sub_D2AC2, sub_D2ACA, sub_D2AD0, sub_D2AD6, sub_D2ADC, sub_D2AE4
 extern sub_D2AEC, sub_D2AF4, sub_D2AFC, sub_D2B06, sub_D2B10, sub_D2B18, sub_D2B20, sub_D2B29
-extern sub_D2B32, sub_D2B3B, sub_D2B44, sub_D2B4F, sub_D2B5A, sub_D2B63, sub_D2B6C, sub_D2BA4
+extern sub_D2B32, sub_D2B3B, sub_D2B44, sub_D2B4F, sub_D2B5A, sub_D2B63, EaSib, sub_D2BA4
 extern sub_D2BA9, sub_D2BC8, sub_D2BE7, sub_D2C03, sub_D2C1F, sub_D2C3E, sub_D2C5D, sub_D2C7C
-extern sub_D2C9B, sub_D2CD5, sub_D2CE6, sub_D2CF7, sub_D2D15, sub_D2D55, sub_D2D69, sub_D2D77
+extern sub_D2C9B, sub_D2CD5, sub_D2CE6, EmuFldenv, EmuFldcw, EmuFstenv, sub_D2D69, sub_D2D77
 extern sub_D2D96, sub_D2DB5, sub_D2DD1, sub_D2DED, sub_D2E0C, sub_D2E2B, sub_D2E4A, sub_D2E69
-extern sub_D2EA3, sub_D2EDF, sub_D2F03, sub_D2F26, sub_D2F49, sub_D2F69, sub_D2F89, sub_D2FAC
-extern sub_D2FCF, sub_D2FF2, sub_D3015, sub_D305C, sub_D309A, sub_D30AF, sub_D30CD, sub_D30E2
-extern sub_D3129, sub_D3154, sub_D3162, sub_D3183, sub_D31A4, sub_D31C2, sub_D31E0, sub_D3201
-extern sub_D3222, sub_D3243, sub_D3264, sub_D32A0, sub_D32E8, sub_D3318, sub_D331D, sub_D3357
-extern sub_D335C, sub_D3380, sub_D3385, sub_D33B2, sub_D33C7, sub_D33DC, sub_D33EE, sub_D3400
-extern sub_D3415, sub_D342A, sub_D343F, sub_D3454, sub_D349C, sub_D34C4, sub_D3545, sub_D3760
+extern EmuFistM32, sub_D2EDF, sub_D2F03, sub_D2F26, sub_D2F49, sub_D2F69, sub_D2F89, sub_D2FAC
+extern sub_D2FCF, sub_D2FF2, EmuFldM80, EmuFldM64, sub_D309A, EmuFstpM80, sub_D30CD, EmuFrstor
+extern EmuFsave, sub_D3154, sub_D3162, sub_D3183, sub_D31A4, sub_D31C2, sub_D31E0, sub_D3201
+extern sub_D3222, sub_D3243, EmuFildM16, EmuFistM16, EmuFistpM16, sub_D3318, sub_D331D, sub_D3357
+extern sub_D335C, EmuReservedOp, sub_D3385, sub_D33B2, sub_D33C7, sub_D33DC, sub_D33EE, sub_D3400
+extern sub_D3415, sub_D342A, sub_D343F, EmuFldSt, EmuFxch, sub_D34C4, sub_D3545, sub_D3760
 extern sub_D386A, sub_D3982, sub_D3A0B, sub_D3A65, sub_D3A7A, sub_D3A8F, sub_D3AA4, sub_D3AB9
-extern sub_D3ACE, sub_D3AE3, sub_D3B02, sub_D3B2E, sub_D3B40, sub_D3B52, sub_D3B7E, sub_D3BC9
+extern sub_D3ACE, EmuFfree, sub_D3B02, sub_D3B2E, sub_D3B40, sub_D3B52, sub_D3B7E, sub_D3BC9
 extern sub_D3C14, sub_D3C9D, sub_D3CE8, sub_D3D33, sub_D3D7E, sub_D3DC9
-global _DoINTR_, __int7, __int7_X32VM, __int7_pl3, jpt_D25B8, jpt_D26B8, sub_D151E, sub_D1860
-global sub_D1920, sub_D19BC, sub_D1A88, sub_D1B3C, sub_D1BEC, sub_D1CE0, unk_D1552, unk_D2440
-global unk_D2444, unk_D2448, unk_D244A, unk_D244C, unk_D244E, unk_D249A, unk_D249C, unk_D24A0
-global unk_D24A2, unk_D24EA, unk_D24EE, unk_D24F8, unk_D2558
+global _DoINTR_, __int7, __int7_X32VM, __int7_pl3, jpt_D25B8, jpt_D26B8, IntrLoadRegs, sub_D1860
+global sub_D1920, sub_D19BC, sub_D1A88, sub_D1B3C, sub_D1BEC, sub_D1CE0, IntrStubs, EmuZeroTbyte
+global unk_D2444, unk_D2448, EmuRegRing, unk_D244C, unk_D244E, EmuRegTagMasks, unk_D249C, unk_D24A0
+global unk_D24A2, EmuCompareCcBits, EmuFpremCcBits, unk_D24F8, EmuEaSibTable
+;-----------------------------------------------------------------------------
+; _DoINTR_                                                      D14D1  library
+;-----------------------------------------------------------------------------
 _DoINTR_:
         pusha
         push gs
@@ -30,7 +33,7 @@ _DoINTR_:
         push es
         push ds
         push edx
-        call sub_D151E
+        call IntrLoadRegs
         push ebx
         push ds
         push ebp
@@ -58,11 +61,16 @@ _DoINTR_:
         pop gs
         popa
         ret
-sub_D151E:
+;-----------------------------------------------------------------------------
+; IntrLoadRegs                                    D151E  96 PC, low confidence
+; Loads the full register set from a REGPACK and selects the interrupt stub
+; to call
+;-----------------------------------------------------------------------------
+IntrLoadRegs:
         and eax, 0FFh
         lea eax, [eax+eax*2]
         db 02Eh,08Dh,080h
-        dd unk_D1552
+        dd IntrStubs
         push eax
         mov ebx, edx
         push dword [byte ebx+01Ch]
@@ -78,7 +86,7 @@ sub_D151E:
         mov ebx, dword [byte ebx+04h]
         pop ds
         ret
-unk_D1552:
+IntrStubs:
         db 0CDh,00h
         ret
         db 0CDh,01h,0C3h,0CDh,02h,0C3h,0CCh,090h,0C3h,0CDh,04h,0C3h,0CDh,05h,0C3h,0CDh
@@ -130,6 +138,9 @@ unk_D1552:
         db 0F6h,0C3h,0CDh,0F7h,0C3h,0CDh,0F8h,0C3h,0CDh,0F9h,0C3h,0CDh,0FAh,0C3h,0CDh,0FBh
         db 0C3h,0CDh,0FCh,0C3h,0CDh,0FDh,0C3h,0CDh,0FEh,0C3h,0CDh,0FFh,0C3h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_D1860                                                            D1860  
+;-----------------------------------------------------------------------------
 sub_D1860:
         push esi
         push edi
@@ -139,12 +150,12 @@ sub_D1860:
         mov ebx, dword [byte esp+018h]
         mov esi, dword [byte esp+01Ch]
         mov edi, dword [byte esp+020h]
-        cmp ebx, dword [dword_1228E4]
+        cmp ebx, dword [ScreenHeight]
         jl short .1
         xor eax, eax
         jmp near .9
 .1:
-        mov ecx, dword [dword_1228DC]
+        mov ecx, dword [ClipLeftCol]
         lea eax, [ebx+esi]
         cmp eax, ecx
         jge short .2
@@ -167,7 +178,7 @@ sub_D1860:
         jge short .3
         add edi, eax
 .3:
-        mov ecx, dword [dword_1228DC]
+        mov ecx, dword [ClipLeftCol]
         cmp ebx, ecx
         jge short .4
         mov eax, ecx
@@ -178,7 +189,7 @@ sub_D1860:
         sub esi, eax
         add edi, edx
 .4:
-        mov edx, dword [dword_1228E4]
+        mov edx, dword [ScreenHeight]
         lea eax, [ebx+esi]
         cmp eax, edx
         jl short .5
@@ -214,6 +225,9 @@ sub_D1860:
         pop esi
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_D1920                                                            D1920  
+;-----------------------------------------------------------------------------
 sub_D1920:
         push esi
         push edi
@@ -221,7 +235,7 @@ sub_D1920:
         mov ecx, dword [byte esp+010h]
         mov edi, dword [byte esp+014h]
         mov ebx, dword [byte esp+018h]
-        cmp edi, dword [dword_1228E4]
+        cmp edi, dword [ScreenHeight]
         jl short .1
         xor eax, eax
         pop ebp
@@ -229,7 +243,7 @@ sub_D1920:
         pop esi
         ret
 .1:
-        mov esi, dword [dword_1228DC]
+        mov esi, dword [ClipLeftCol]
         lea eax, [edi+ebx]
         cmp eax, esi
         jge short .2
@@ -253,7 +267,7 @@ sub_D1920:
         jle short .3
         add eax, esi
 .3:
-        mov edx, dword [dword_1228DC]
+        mov edx, dword [ClipLeftCol]
         cmp edi, edx
         jge short .4
         sub edx, edi
@@ -261,9 +275,9 @@ sub_D1920:
         imul edi, edx
         sub ebx, edx
         add eax, edi
-        mov edi, dword [dword_1228DC]
+        mov edi, dword [ClipLeftCol]
 .4:
-        mov ebp, dword [dword_1228E4]
+        mov ebp, dword [ScreenHeight]
         lea edx, [edi+ebx]
         cmp edx, ebp
         jl short .5
@@ -288,6 +302,9 @@ sub_D1920:
         pop edi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; sub_D19BC                                                            D19BC  
+;-----------------------------------------------------------------------------
 sub_D19BC:
         push esi
         push edi
@@ -297,9 +314,9 @@ sub_D19BC:
         mov ebx, dword [byte esp+018h]
         mov esi, dword [byte esp+01Ch]
         mov ecx, dword [byte esp+020h]
-        cmp ebx, dword [dword_1228E4]
+        cmp ebx, dword [ScreenHeight]
         jge near .7
-        mov edi, dword [dword_1228DC]
+        mov edi, dword [ClipLeftCol]
         lea edx, [ebx+esi]
         cmp edx, edi
         jl near .7
@@ -316,7 +333,7 @@ sub_D19BC:
         mov edi, dword [esp]
         add edi, ecx
 .1:
-        mov edx, dword [dword_1228DC]
+        mov edx, dword [ClipLeftCol]
         cmp ebx, edx
         jge short .2
         sub edx, ebx
@@ -324,9 +341,9 @@ sub_D19BC:
         imul ebx, edx
         sub esi, edx
         add edi, ebx
-        mov ebx, dword [dword_1228DC]
+        mov ebx, dword [ClipLeftCol]
 .2:
-        mov ecx, dword [dword_1228E4]
+        mov ecx, dword [ScreenHeight]
         lea edx, [ebx+esi]
         cmp edx, ecx
         jl short .3
@@ -365,6 +382,9 @@ sub_D19BC:
         pop esi
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_D1A88                                                            D1A88  
+;-----------------------------------------------------------------------------
 sub_D1A88:
         push esi
         push edi
@@ -374,9 +394,9 @@ sub_D1A88:
         mov ebx, dword [byte esp+018h]
         mov esi, dword [byte esp+01Ch]
         mov ecx, dword [byte esp+020h]
-        cmp ebx, dword [dword_1228E4]
+        cmp ebx, dword [ScreenHeight]
         jge near .6
-        mov edi, dword [dword_1228DC]
+        mov edi, dword [ClipLeftCol]
         lea edx, [ebx+esi]
         cmp edx, edi
         jl near .6
@@ -393,7 +413,7 @@ sub_D1A88:
         mov edi, dword [esp]
         add edi, ecx
 .1:
-        mov edx, dword [dword_1228DC]
+        mov edx, dword [ClipLeftCol]
         cmp ebx, edx
         jge short .2
         sub edx, ebx
@@ -401,9 +421,9 @@ sub_D1A88:
         imul ebx, edx
         sub esi, edx
         add edi, ebx
-        mov ebx, dword [dword_1228DC]
+        mov ebx, dword [ClipLeftCol]
 .2:
-        mov ecx, dword [dword_1228E4]
+        mov ecx, dword [ScreenHeight]
         lea edx, [ebx+esi]
         cmp edx, ecx
         jl short .3
@@ -435,6 +455,9 @@ sub_D1A88:
         pop esi
         ret
         db 00h
+;-----------------------------------------------------------------------------
+; sub_D1B3C                                                            D1B3C  
+;-----------------------------------------------------------------------------
 sub_D1B3C:
         push esi
         push edi
@@ -512,6 +535,9 @@ sub_D1B3C:
         pop esi
         ret
         db 00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_D1BEC                                                            D1BEC  
+;-----------------------------------------------------------------------------
 sub_D1BEC:
         push esi
         push edi
@@ -537,7 +563,7 @@ sub_D1BEC:
         jb short .2
         jne short .3
         mov al, byte [edi]
-        mov al, byte [dword eax+byte_122794]
+        mov al, byte [dword eax+RemapTable]
 .2:
         mov byte [edi], al
 .3:
@@ -550,7 +576,7 @@ sub_D1BEC:
         jb short .4
         jne short .5
         mov al, byte [byte edi+01h]
-        mov al, byte [dword eax+byte_122794]
+        mov al, byte [dword eax+RemapTable]
 .4:
         mov byte [byte edi+01h], al
 .5:
@@ -563,7 +589,7 @@ sub_D1BEC:
         jb short .6
         jne short .7
         mov al, byte [byte edi+02h]
-        mov al, byte [dword eax+byte_122794]
+        mov al, byte [dword eax+RemapTable]
 .6:
         mov byte [byte edi+02h], al
 .7:
@@ -576,7 +602,7 @@ sub_D1BEC:
         jb short .8
         jne short .9
         mov al, byte [byte edi+03h]
-        mov al, byte [dword eax+byte_122794]
+        mov al, byte [dword eax+RemapTable]
 .8:
         mov byte [byte edi+03h], al
 .9:
@@ -596,7 +622,7 @@ sub_D1BEC:
         jb short .12
         jne short .13
         mov al, byte [edi]
-        mov al, byte [dword eax+byte_122794]
+        mov al, byte [dword eax+RemapTable]
 .12:
         mov byte [edi], al
 .13:
@@ -609,6 +635,9 @@ sub_D1BEC:
         pop esi
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_D1CE0                                                            D1CE0  
+;-----------------------------------------------------------------------------
 sub_D1CE0:
         push esi
         push edi
@@ -649,10 +678,10 @@ sub_D1CE0:
         cmp edx, byte 4
         jl short .1
         mov eax, dword [dword esp+04814h]
-        cmp eax, dword [dword_1228E4]
+        cmp eax, dword [ScreenHeight]
         jge near .25
         mov eax, dword [dword esp+04810h]
-        cmp eax, dword [dword_1228DC]
+        cmp eax, dword [ClipLeftCol]
         jl near .25
         mov edx, dword [dword esp+04834h]
         inc edx
@@ -842,13 +871,13 @@ sub_D1CE0:
         jne near .9
 .11:
         mov eax, dword [dword esp+04814h]
-        mov ebx, dword [dword_1228DC]
+        mov ebx, dword [ClipLeftCol]
         cmp eax, ebx
         jge short .12
         mov dword [dword esp+04814h], ebx
 .12:
         mov eax, dword [dword esp+04810h]
-        mov ecx, dword [dword_1228E4]
+        mov ecx, dword [ScreenHeight]
         cmp eax, ecx
         jl short .13
         lea eax, [byte ecx-01h]
@@ -876,9 +905,9 @@ sub_D1CE0:
         test ebx, ebx
         jle near .18
         mov eax, edx
-        cmp eax, dword [dword_1228E0]
+        cmp eax, dword [ClipRight]
         jge near .17
-        mov ecx, dword [dword_1228D8]
+        mov ecx, dword [ClipTopRow]
         cmp ecx, dword [dword esp+esi+01800h]
         jg near .17
         mov edx, dword [dword esp+esi+03000h]
@@ -895,7 +924,7 @@ sub_D1CE0:
         sar edx, 1Fh
         idiv ebx
         mov dword [dword esp+04864h], ebp
-        mov ebp, dword [dword_1228D8]
+        mov ebp, dword [ClipTopRow]
         mov edi, eax
         mov edx, dword [esp+esi]
         mov eax, dword [dword esp+esi+0C00h]
@@ -909,11 +938,11 @@ sub_D1CE0:
         mov ebp, edi
         imul ebp, edx
         sub ebx, edx
-        mov edx, dword [dword_1228D8]
+        mov edx, dword [ClipTopRow]
         add dword [dword esp+04864h], ebp
         mov dword [esp+esi], edx
 .15:
-        mov ebp, dword [dword_1228E0]
+        mov ebp, dword [ClipRight]
         mov edx, dword [dword esp+esi+01800h]
         cmp edx, ebp
         jl short .16
@@ -1123,13 +1152,13 @@ sub_D1CE0:
         pop esi
         ret
         db 00h,00h
-unk_D2440:
+EmuZeroTbyte:
         db 00h,00h,00h,00h
 unk_D2444:
         db 00h,00h,00h,00h
 unk_D2448:
         db 00h,00h
-unk_D244A:
+EmuRegRing:
         db 0Ah,00h
 unk_D244C:
         db 046h,00h
@@ -1139,7 +1168,7 @@ unk_D244E:
         db 03h,00h,00h,00h,032h,00h,01Eh,00h,00h,020h,04h,00h,00h,00h,03Ch,00h
         db 028h,00h,00h,028h,05h,00h,00h,00h,046h,00h,032h,00h,00h,030h,06h,00h
         db 00h,00h,00h,00h,03Ch,00h,00h,038h,07h,00h,00h,00h
-unk_D249A:
+EmuRegTagMasks:
         db 0FCh,0FFh
 unk_D249C:
         db 01h,00h,00h,00h
@@ -1151,16 +1180,16 @@ unk_D24A2:
         db 0FFh,0FCh,00h,01h,00h,00h,00h,02h,00h,03h,0FFh,0F3h,00h,04h,00h,00h
         db 00h,08h,00h,0Ch,0FFh,0CFh,00h,010h,00h,00h,00h,020h,00h,030h,0FFh,03Fh
         db 00h,040h,00h,00h,00h,080h,00h,0C0h
-unk_D24EA:
+EmuCompareCcBits:
         db 01h,040h,00h,045h
-unk_D24EE:
+EmuFpremCcBits:
         db 00h,02h,040h,042h,01h,03h,041h,043h,087h,0DBh
 unk_D24F8:
         dd sub_D2AAA
         dd sub_D2AB0
         dd sub_D2AB6
         dd sub_D2ABC
-        dd sub_D2B6C
+        dd EaSib
         dd sub_D2ACA
         dd sub_D2AD0
         dd sub_D2AD6
@@ -1168,7 +1197,7 @@ unk_D24F8:
         dd sub_D2AE4
         dd sub_D2AEC
         dd sub_D2AF4
-        dd sub_D2B6C
+        dd EaSib
         dd sub_D2B06
         dd sub_D2B10
         dd sub_D2B18
@@ -1176,11 +1205,11 @@ unk_D24F8:
         dd sub_D2B29
         dd sub_D2B32
         dd sub_D2B3B
-        dd sub_D2B6C
+        dd EaSib
         dd sub_D2B4F
         dd sub_D2B5A
         dd sub_D2B63
-unk_D2558:
+EmuEaSibTable:
         dd sub_D2AAA
         dd sub_D2AB0
         dd sub_D2AB6
@@ -1211,9 +1240,9 @@ jpt_D25B8:
         dd sub_D2D77
         dd sub_D2E69
         dd sub_D2F03
-        dd sub_D305C
+        dd EmuFldM64
         dd sub_D3162
-        dd sub_D3264
+        dd EmuFildM16
         dd sub_D2BC8
         dd sub_D2BA4
         dd sub_D2D96
@@ -1225,11 +1254,11 @@ jpt_D25B8:
         dd sub_D2BE7
         dd sub_D2CD5
         dd sub_D2DB5
-        dd sub_D2EA3
+        dd EmuFistM32
         dd sub_D2F49
         dd sub_D309A
         dd sub_D31A4
-        dd sub_D32A0
+        dd EmuFistM16
         dd sub_D2C03
         dd sub_D2CE6
         dd sub_D2DD1
@@ -1237,75 +1266,75 @@ jpt_D25B8:
         dd sub_D2F69
         dd sub_D30CD
         dd sub_D31C2
-        dd sub_D32E8
+        dd EmuFistpM16
         dd sub_D2C1F
-        dd sub_D2CF7
+        dd EmuFldenv
         dd sub_D2DED
         dd sub_D2BA4
         dd sub_D2F89
-        dd sub_D30E2
+        dd EmuFrstor
         dd sub_D31E0
         dd sub_D3318
         dd sub_D2C3E
-        dd sub_D2D15
+        dd EmuFldcw
         dd sub_D2E0C
-        dd sub_D3015
+        dd EmuFldM80
         dd sub_D2FAC
         dd sub_D2BA4
         dd sub_D3201
         dd sub_D331D
         dd sub_D2C5D
-        dd sub_D2D55
+        dd EmuFstenv
         dd sub_D2E2B
         dd sub_D2BA4
         dd sub_D2FCF
-        dd sub_D3129
+        dd EmuFsave
         dd sub_D3222
         dd sub_D3357
         dd sub_D2C7C
         dd sub_D2D69
         dd sub_D2E4A
-        dd sub_D30AF
+        dd EmuFstpM80
         dd sub_D2FF2
         dd sub_D3154
         dd sub_D3243
         dd sub_D335C
 jpt_D26B8:
         dd sub_D33B2
-        dd sub_D3454
-        dd sub_D3380
-        dd sub_D3380
+        dd EmuFldSt
+        dd EmuReservedOp
+        dd EmuReservedOp
         dd sub_D3A65
-        dd sub_D3AE3
+        dd EmuFfree
         dd sub_D3B7E
-        dd sub_D3AE3
+        dd EmuFfree
         dd sub_D33C7
-        dd sub_D349C
-        dd sub_D3380
-        dd sub_D3380
+        dd EmuFxch
+        dd EmuReservedOp
+        dd EmuReservedOp
         dd sub_D3A7A
-        dd sub_D349C
+        dd EmuFxch
         dd sub_D3BC9
-        dd sub_D349C
+        dd EmuFxch
         dd sub_D33DC
         dd sub_D3385
-        dd sub_D3380
-        dd sub_D3380
+        dd EmuReservedOp
+        dd EmuReservedOp
         dd sub_D33DC
         dd sub_D3B02
-        dd sub_D3380
+        dd EmuReservedOp
         dd sub_D3B02
         dd sub_D33EE
         dd sub_D3B52
-        dd sub_D3380
-        dd sub_D3380
+        dd EmuReservedOp
+        dd EmuReservedOp
         dd sub_D33EE
         dd sub_D3B52
         dd sub_D3C14
         dd sub_D3B52
         dd sub_D3400
         dd sub_D34C4
-        dd sub_D3380
+        dd EmuReservedOp
         dd sub_D3A0B
         dd sub_D3A8F
         dd sub_D3B2E
@@ -1314,27 +1343,30 @@ jpt_D26B8:
         dd sub_D3415
         dd sub_D3545
         dd sub_D3982
-        dd sub_D3380
+        dd EmuReservedOp
         dd sub_D3AA4
         dd sub_D3B40
         dd sub_D3CE8
-        dd sub_D3380
+        dd EmuReservedOp
         dd sub_D342A
         dd sub_D3760
-        dd sub_D3380
-        dd sub_D3380
+        dd EmuReservedOp
+        dd EmuReservedOp
         dd sub_D3AB9
-        dd sub_D3380
+        dd EmuReservedOp
         dd sub_D3D33
-        dd sub_D3380
+        dd EmuReservedOp
         dd sub_D343F
         dd sub_D386A
-        dd sub_D3380
-        dd sub_D3380
+        dd EmuReservedOp
+        dd EmuReservedOp
         dd sub_D3ACE
-        dd sub_D3380
+        dd EmuReservedOp
         dd sub_D3D7E
-        dd sub_D3380
+        dd EmuReservedOp
+;-----------------------------------------------------------------------------
+; __int7_pl3                                                    D27B8  library
+;-----------------------------------------------------------------------------
 __int7_pl3:
         sti
         pusha
@@ -1345,12 +1377,15 @@ __int7_pl3:
         mov word [byte ebp-06h], cx
         mov ecx, dword [byte ebp+038h]
         mov dword [byte ebp+0Ch], ecx
-        call sub_D284C
+        call EmuTrapExit
         pop ds
         pop es
         popa
         iret
         db 087h,0DBh,090h
+;-----------------------------------------------------------------------------
+; __int7_X32VM                                                  D27DC  library
+;-----------------------------------------------------------------------------
 __int7_X32VM:
         sti
         mov eax, dword [byte esp+0Ch]
@@ -1371,7 +1406,7 @@ __int7_X32VM:
         push es
         push ds
         mov word [byte esp+02h], ss
-        call sub_D284C
+        call EmuTrapExit
         pop ds
         pop es
         pop edi
@@ -1391,6 +1426,9 @@ __int7_X32VM:
         mov eax, dword [ss:eax]
         iret
         db 087h,0DBh
+;-----------------------------------------------------------------------------
+; __int7                                                        D2828  library
+;-----------------------------------------------------------------------------
 __int7:
         sti
         sub esp, byte 0Ch
@@ -1407,7 +1445,7 @@ __int7:
         push es
         push ds
         mov word [byte esp+02h], ss
-        call sub_D284C
+        call EmuTrapExit
         pop ds
         pop es
         popa

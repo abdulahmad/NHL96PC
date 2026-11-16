@@ -26,8 +26,8 @@ extern str_RosterSort, str_S12, str_S1dg2, str_S1dw2, str_S1ug2, str_S1up2, str_
 extern str_S2dw2, str_S2ug2, str_S2up2, str_S33, str_S3dg2, str_S3dw2, str_S3ug2, str_S3up2
 extern str_S4, str_S4dg, str_S4dw, str_S4ug, str_S4up, str_SD6, str_SGID, str_SS4
 extern str_StatDBPTRs2, str_Tra12, str_Tra22, str_Tra32, str_TraD, strcat_, strcpy_, sub_AAA40
-extern sub_AB758, sub_ABF4C, sub_AD35C, sub_AD5C8, sub_ADBEC, sub_B0430, sub_B178B, sub_B20D0
-extern sub_B22B0, sub_B2C54, sub_DD6C4, sub_E04E0, TickDeadlinePassed, unk_152E36, unk_1821B4, unk_182224
+extern sub_AB758, FreeMemBlock, sub_AD35C, sub_AD5C8, sub_ADBEC, sub_B0430, sub_B178B, OpenArtArchiveErr
+extern sub_B22B0, sub_B2C54, SetScreenTarget, sub_E04E0, TickDeadlinePassed, unk_152E36, unk_1821B4, unk_182224
 extern unk_182294, unk_96949, unk_96B89, unk_96C49, unk_96D09, unk_96DC9, unk_96FD9
 global RunRosterScreens, RunRosterScreens_230, RunRosterScreens_231, RosterScreen, DrawRosterTeams, DrawRosterTeams_17B, FormatRosterLine, FormatRosterLine_26D
 global DrawRosterPlayerInfo, sub_9A6D6, sub_9A7D6, sub_9A838, sub_9A86E, sub_9A95A, EditPlayerName, EditPlayerName_131
@@ -153,27 +153,27 @@ RunRosterScreens:
         jmp near .2
 .9:
         push dword [dword_11E670]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_1820E4]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_1820AC]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_1820EC]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_1820E8]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_1820B0]
         xor esi, esi
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .10:
         push dword [dword esi+dword_17FDF0]
-        call sub_ABF4C
+        call FreeMemBlock
         add esi, byte 4
         add esp, byte 4
         cmp esi, byte 8
@@ -182,7 +182,7 @@ RunRosterScreens:
         cmp dword [dword_11E678], byte 0
         je short RunRosterScreens_230
         push dword [dword_11E678]
-        call sub_ABF4C
+        call FreeMemBlock
         mov dword [dword_11E678], 0
         add esp, byte 4
 RunRosterScreens_230:
@@ -343,7 +343,7 @@ RosterScreen:
         push byte 0
         lea eax, [byte ebp-052h]
         push eax
-        call sub_B20D0
+        call OpenArtArchiveErr
         add esp, byte 8
         mov dword [dword_183020], eax
         jmp short .13
@@ -1577,7 +1577,7 @@ RosterScreen:
         mov eax, dword [dword ebp-036BEh]
         push dword [dword_183020]
         mov dword [byte ebp+03Ah], eax
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         jmp near .129
 .71:
@@ -1657,7 +1657,7 @@ RosterScreen:
         je short .77
 .79:
         push dword [dword_183020]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov eax, dword [dword ebp-036BEh]
         mov dword [byte ebp+03Ah], eax
@@ -3145,7 +3145,7 @@ RosterScreen:
         lea eax, [dword ebp-081Eh]
         call FreeScrollBar
         push dword [byte ebp+046h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov eax, 3
         call FadeOut
@@ -3222,7 +3222,7 @@ DrawRosterTeams:
         mov eax, 0C000h
 .4:
         call DrawFrameAt
-        call sub_DD6C4
+        call SetScreenTarget
         cmp dword [byte ebp-08h], byte 0
         jne short .5
         push byte 55h
@@ -3626,7 +3626,7 @@ DrawRosterPlayerInfo:
         mov eax, dword [byte ebp-0Ch]
         cmp eax, dword [byte ebp-014h]
         jl short .3
-        call sub_DD6C4
+        call SetScreenTarget
         cmp dword [byte ebp-018h], byte 0
         jne short .6
         push dword 0DCh
@@ -5057,7 +5057,7 @@ CreatePlayerScreen_8F5:
         xor edx, edx
         lea eax, [byte ebp-07Ah]
         call DrawColorText
-        call sub_DD6C4
+        call SetScreenTarget
         push dword 0C8h
         push byte 3Ch
         push dword [byte esi+02Ch]
@@ -5090,7 +5090,7 @@ CreatePlayerScreen_8F5:
         xor ebx, ebx
         xor edx, edx
         call DrawColorText
-        call sub_DD6C4
+        call SetScreenTarget
         push dword 0C8h
         push dword 212h
         push dword [byte esi+02Ch]
@@ -5161,7 +5161,7 @@ CreatePlayerScreen_BD2:
         xor edx, edx
         lea eax, [byte ebp-07Ah]
         call DrawColorText
-        call sub_DD6C4
+        call SetScreenTarget
         push dword 0C8h
         push byte 3Ch
 .28:
@@ -5245,7 +5245,7 @@ CreatePlayerScreen_CF7:
         xor ebx, ebx
         xor edx, edx
         call DrawColorText
-        call sub_DD6C4
+        call SetScreenTarget
         push dword 0C8h
         push dword 212h
         jmp near CreatePlayerScreen_BD2.28
@@ -5477,7 +5477,7 @@ CreatePlayerScreen_DBB:
         call sub_ADBEC
         add esp, byte 4
         push dword [dword_182FB4]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         jmp near EditPlayerName_131
 ;-----------------------------------------------------------------------------
@@ -5610,7 +5610,7 @@ DrawCreatePlayerRow:
 .8:
         cmp esi, dword [byte ebp-010h]
         jl near .3
-        call sub_DD6C4
+        call SetScreenTarget
         push dword 0FAh
         mov eax, dword [byte ebp+014h]
         push byte 5Fh

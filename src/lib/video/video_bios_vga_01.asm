@@ -2,25 +2,33 @@
 bits 32
 %include "hockey.inc"
 section s_DD6C4 progbits alloc exec nowrite align=1
-extern byte_122794, byte_123988, dword_11F5A0, dword_1228D0, dword_1228D4, dword_1228D8, dword_1228DC, dword_1228E0
-extern dword_1228E4, dword_1228E8, dword_1228FC, dword_122900, dword_123A88, dword_123A8C, dword_123A90, dword_123AC4
+extern RemapTable, byte_123988, dword_11F5A0, ScreenWidth, ClipBottom, ClipTopRow, ClipLeftCol, ClipRight
+extern ScreenHeight, dword_1228E8, dword_1228FC, BackBufferWidth, dword_123A88, dword_123A8C, dword_123A90, RetraceTimeout
 extern dword_1248C8, sub_ADA50, sub_C3E38, sub_E19FE, unk_18584C
-global SetDrawBitmap, WaitRetrace_36, sub_DD6C4, sub_DD6E0, sub_DD724, SetClipWindow, sub_DD7B8, sub_DD800
-global sub_DD830, sub_DD87C, sub_DD8B0, sub_DD8C8, sub_DD908, sub_DD920, sub_DD960, sub_DD975
-global sub_DD982, sub_DDA44, sub_DDB22, sub_DDB68, sub_DDBB4, sub_DDC2A, sub_DDE74, WaitRetrace
+global SetDrawBitmap, WaitRetrace_36, SetScreenTarget, GetPaletteRange, FillRectColor, SetClipWindow, sub_DD7B8, sub_DD800
+global sub_DD830, sub_DD87C, SetRemapTable, sub_DD8C8, sub_DD908, sub_DD920, sub_DD960, sub_DD975
+global sub_DD982, sub_DDA44, sub_DDB22, sub_DDB68, sub_DDBB4, sub_DDC2A, ReadPortStable, WaitRetrace
 global WaitRetraceEdges, SetCrtcStart, sub_DDF4F, ClearChain4, sub_DE01A, unk_DE06D, WaitDisplayRetrace
-sub_DD6C4:
+;-----------------------------------------------------------------------------
+; SetScreenTarget                                 DD6C4  96 PC, low confidence
+; Same code as in the next game
+;-----------------------------------------------------------------------------
+SetScreenTarget:
         LD mov, edx, edi
         LD mov, eax, esi
-        mov esi, dword_122900
-        mov edi, dword_1228D0
+        mov esi, BackBufferWidth
+        mov edi, ScreenWidth
         mov ecx, 0Ch
         rep movsd
         LD mov, edi, edx
         LD mov, esi, eax
         ret
         db 00h,00h
-sub_DD6E0:
+;-----------------------------------------------------------------------------
+; GetPaletteRange                                 DD6E0  96 PC, low confidence
+; Reads a range of palette entries from the VGA DAC into a buffer
+;-----------------------------------------------------------------------------
+GetPaletteRange:
         push ebp
         LD mov, ebp, esp
         push edi
@@ -41,18 +49,26 @@ sub_DD6E0:
         leave
         ret
         db 00h,00h,00h
+;-----------------------------------------------------------------------------
+; SetDrawBitmap                                DD708  95 PC, medium confidence
+;-----------------------------------------------------------------------------
 SetDrawBitmap:
         LD mov, edx, edi
         LD mov, eax, esi
         mov esi, dword [byte esp+04h]
-        mov edi, dword_1228D0
+        mov edi, ScreenWidth
         mov ecx, 0Ch
         rep movsd
         LD mov, edi, edx
         LD mov, esi, eax
         ret
         db 00h,00h,00h
-sub_DD724:
+;-----------------------------------------------------------------------------
+; FillRectColor                                   DD724  96 PC, low confidence
+; Clips a rectangle to the screen and fills it with a colour; followed by the
+; row fillers
+;-----------------------------------------------------------------------------
+FillRectColor:
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFC8h
@@ -77,6 +93,9 @@ sub_DD724:
 .1:
         leave
         ret
+;-----------------------------------------------------------------------------
+; SetClipWindow                                DD760  95 PC, medium confidence
+;-----------------------------------------------------------------------------
 SetClipWindow:
         mov eax, dword [byte esp+04h]
         mov edx, dword [byte esp+08h]
@@ -90,19 +109,22 @@ SetClipWindow:
         jge short .2
         mov ecx, 0
 .2:
-        cmp edx, dword [dword_1228D0]
+        cmp edx, dword [ScreenWidth]
         jle short .3
-        mov edx, dword [dword_1228D0]
+        mov edx, dword [ScreenWidth]
 .3:
-        cmp ebx, dword [dword_1228D4]
+        cmp ebx, dword [ClipBottom]
         jle short .4
-        mov ebx, dword [dword_1228D4]
+        mov ebx, dword [ClipBottom]
 .4:
-        mov dword [dword_1228D8], eax
-        mov dword [dword_1228DC], ecx
-        mov dword [dword_1228E0], edx
-        mov dword [dword_1228E4], ebx
+        mov dword [ClipTopRow], eax
+        mov dword [ClipLeftCol], ecx
+        mov dword [ClipRight], edx
+        mov dword [ScreenHeight], ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_DD7B8                                                            DD7B8  
+;-----------------------------------------------------------------------------
 sub_DD7B8:
         push esi
         push edi
@@ -131,6 +153,9 @@ sub_DD7B8:
         pop esi
         ret
         db 00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_DD800                                                            DD800  
+;-----------------------------------------------------------------------------
 sub_DD800:
         push byte 0
         call sub_ADA50
@@ -144,6 +169,9 @@ sub_DD800:
         int 10h
         mov dword [dword_11F5A0], 0
         ret
+;-----------------------------------------------------------------------------
+; sub_DD830                                                            DD830  
+;-----------------------------------------------------------------------------
 sub_DD830:
         push esi
         push edi
@@ -176,6 +204,9 @@ sub_DD830:
         pop esi
         ret
         db 00h
+;-----------------------------------------------------------------------------
+; sub_DD87C                                                            DD87C  
+;-----------------------------------------------------------------------------
 sub_DD87C:
         push ebp
         LD mov, ebp, esp
@@ -202,26 +233,33 @@ sub_DD87C:
         leave
         ret
         db 00h,00h,00h
-sub_DD8B0:
+;-----------------------------------------------------------------------------
+; SetRemapTable                                   DD8B0  96 PC, low confidence
+; Copies a 256-entry colour remap table into the current one
+;-----------------------------------------------------------------------------
+SetRemapTable:
         push ebp
         LD mov, ebp, esp
         push esi
         push edi
         mov ecx, 40h
         mov esi, dword [byte ebp+08h]
-        mov edi, byte_122794
+        mov edi, RemapTable
         rep movsd
         pop edi
         pop esi
         leave
         ret
+;-----------------------------------------------------------------------------
+; sub_DD8C8                                                            DD8C8  
+;-----------------------------------------------------------------------------
 sub_DD8C8:
         push ebp
         LD mov, ebp, esp
         push esi
         push edi
         mov edi, dword [byte ebp+08h]
-        mov esi, byte_122794
+        mov esi, RemapTable
         mov ecx, 40h
         rep movsd
         pop edi
@@ -234,7 +272,7 @@ sub_DD8C8:
         push edi
         mov ecx, dword [byte ebp+0Ch]
         mov esi, dword [byte ebp+010h]
-        mov edi, byte_122794
+        mov edi, RemapTable
         mov ebx, dword [byte ebp+08h]
         lea edi, [ebx+edi]
         shr ecx, 2
@@ -247,6 +285,9 @@ sub_DD8C8:
         leave
         ret
         db 00h
+;-----------------------------------------------------------------------------
+; sub_DD908                                                            DD908  
+;-----------------------------------------------------------------------------
 sub_DD908:
         push ebp
         LD mov, ebp, esp
@@ -260,6 +301,9 @@ sub_DD908:
         pop esi
         leave
         ret
+;-----------------------------------------------------------------------------
+; sub_DD920                                                            DD920  
+;-----------------------------------------------------------------------------
 sub_DD920:
         push ebp
         LD mov, ebp, esp
@@ -294,6 +338,9 @@ sub_DD920:
         pop esi
         leave
         ret
+;-----------------------------------------------------------------------------
+; sub_DD960                                                            DD960  
+;-----------------------------------------------------------------------------
 sub_DD960:
         push ebp
         LD mov, ebp, esp
@@ -303,6 +350,9 @@ sub_DD960:
         mov dword [dword_123A8C], eax
         leave
         ret
+;-----------------------------------------------------------------------------
+; sub_DD975                                                            DD975  
+;-----------------------------------------------------------------------------
 sub_DD975:
         push ebp
         LD mov, ebp, esp
@@ -310,6 +360,9 @@ sub_DD975:
         mov dword [dword_123A88], eax
         leave
         ret
+;-----------------------------------------------------------------------------
+; sub_DD982                                                            DD982  
+;-----------------------------------------------------------------------------
 sub_DD982:
         push esi
         push edi
@@ -396,6 +449,9 @@ sub_DD982:
         lea edi, [byte edi+02h]
         jns short .12
         jmp short .9
+;-----------------------------------------------------------------------------
+; sub_DDA44                                                            DDA44  
+;-----------------------------------------------------------------------------
 sub_DDA44:
         push esi
         push edi
@@ -484,6 +540,9 @@ sub_DDA44:
         pop esi
         leave
         ret
+;-----------------------------------------------------------------------------
+; sub_DDB22                                                            DDB22  
+;-----------------------------------------------------------------------------
 sub_DDB22:
         push ebp
         LD mov, ebp, esp
@@ -504,7 +563,7 @@ sub_DDB22:
         jb short .2
         jne short .3
         mov al, byte [edi]
-        mov al, byte [dword eax+byte_122794]
+        mov al, byte [dword eax+RemapTable]
 .2:
         mov byte [edi], al
 .3:
@@ -515,6 +574,9 @@ sub_DDB22:
         pop esi
         leave
         ret
+;-----------------------------------------------------------------------------
+; sub_DDB68                                                            DDB68  
+;-----------------------------------------------------------------------------
 sub_DDB68:
         push ebp
         LD mov, ebp, esp
@@ -536,7 +598,7 @@ sub_DDB68:
         jb short .2
         jne short .3
         mov al, byte [edi]
-        mov al, byte [dword eax+byte_122794]
+        mov al, byte [dword eax+RemapTable]
 .2:
         mov byte [edi], al
 .3:
@@ -547,6 +609,9 @@ sub_DDB68:
         pop esi
         leave
         ret
+;-----------------------------------------------------------------------------
+; sub_DDBB4                                                            DDBB4  
+;-----------------------------------------------------------------------------
 sub_DDBB4:
         push esi
         push edi
@@ -592,6 +657,9 @@ sub_DDBB4:
         pop edi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; sub_DDC2A                                                            DDC2A  
+;-----------------------------------------------------------------------------
 sub_DDC2A:
         push esi
         push edi
@@ -827,70 +895,91 @@ sub_DDC2A:
         LD mov, esi, ebx
         ret
         db 00h,00h
-sub_DDE74:
+;-----------------------------------------------------------------------------
+; ReadPortStable                                  DDE74  96 PC, low confidence
+; Reads a port twice and returns the bits set in both reads
+;-----------------------------------------------------------------------------
+ReadPortStable:
         in al, dx
         LD mov, ah, al
         in al, dx
         LD and, al, ah
         ret
+;-----------------------------------------------------------------------------
+; WaitRetrace                                                     DDE7B  96 PC
+; Busy-wait for the VGA vertical retrace
+;-----------------------------------------------------------------------------
 WaitRetrace:
         mov dx, 3DAh
-        mov ecx, dword [dword_123AC4]
+        mov ecx, dword [RetraceTimeout]
         cmp dword [dword_1248C8], byte 1
         jg short .3
         je short .2
 .1:
-        call sub_DDE74
+        call ReadPortStable
         test al, 8
         loopne .1
         jecxz WaitRetrace_36
 .2:
-        call sub_DDE74
+        call ReadPortStable
         test al, 8
         loope .2
         jecxz WaitRetrace_36
 .3:
-        mov dword [dword_123AC4], 186A0h
+        mov dword [RetraceTimeout], 186A0h
         ret
 WaitRetrace_36:
-        mov dword [dword_123AC4], 2710h
+        mov dword [RetraceTimeout], 2710h
         ret
+;-----------------------------------------------------------------------------
+; WaitRetraceEdges                             DDEBC  96 PC, medium confidence
+; As WaitRetrace, always waiting for both edges
+;-----------------------------------------------------------------------------
 WaitRetraceEdges:
         mov dx, 3DAh
-        mov ecx, dword [dword_123AC4]
+        mov ecx, dword [RetraceTimeout]
 .1:
-        call sub_DDE74
+        call ReadPortStable
         test al, 8
         loopne .1
         jecxz WaitRetrace_36
 .2:
-        call sub_DDE74
+        call ReadPortStable
         test al, 8
         loope .2
         jecxz WaitRetrace_36
-        mov dword [dword_123AC4], 186A0h
+        mov dword [RetraceTimeout], 186A0h
         ret
+;-----------------------------------------------------------------------------
+; WaitDisplayRetrace                           DDEE7  96 PC, medium confidence
+; Waits for display enable, then for the start of vertical retrace (port
+; 3DAh, bit 3); entry after the ret of WaitRetraceEdges
+;-----------------------------------------------------------------------------
 WaitDisplayRetrace:
         mov dx, 3DAh
-        mov ecx, dword [dword_123AC4]
+        mov ecx, dword [RetraceTimeout]
 .1:
-        call sub_DDE74
+        call ReadPortStable
         test al, 8
         loope .1
         jecxz WaitRetrace_36
 .2:
-        call sub_DDE74
+        call ReadPortStable
         test al, 8
         loopne .2
         jecxz WaitRetrace_36
-        mov dword [dword_123AC4], 186A0h
+        mov dword [RetraceTimeout], 186A0h
         ret
         mov dx, 3DAh
-        call sub_DDE74
+        call ReadPortStable
         and eax, byte 8
         shr eax, 3
         ret
         db 00h,00h
+;-----------------------------------------------------------------------------
+; SetCrtcStart                                 DDF24  96 PC, medium confidence
+; Page flip: set the CRTC start address
+;-----------------------------------------------------------------------------
 SetCrtcStart:
         mov ebx, dword [byte esp+04h]
         mov edx, 3D4h
@@ -909,6 +998,9 @@ SetCrtcStart:
         LD xor, eax, eax
         in al, dx
         ret
+;-----------------------------------------------------------------------------
+; sub_DDF4F                                                            DDF4F  
+;-----------------------------------------------------------------------------
 sub_DDF4F:
         mov al, byte [byte esp+04h]
         mov ah, byte [byte esp+08h]
@@ -934,6 +1026,11 @@ sub_DDF4F:
         out dx, al
         ret
         db 00h,00h
+;-----------------------------------------------------------------------------
+; ClearChain4                                  DDF94  96 PC, medium confidence
+; Clear Chain-4 (sequencer register 4 bit 3) after mode 13h for the unchained
+; pages
+;-----------------------------------------------------------------------------
 ClearChain4:
         mov dx, 3C4h
         mov al, 4
@@ -1009,6 +1106,9 @@ ClearChain4:
         or al, 80h
         out dx, al
         ret
+;-----------------------------------------------------------------------------
+; sub_DE01A                                                            DE01A  
+;-----------------------------------------------------------------------------
 sub_DE01A:
         push esi
         push edi

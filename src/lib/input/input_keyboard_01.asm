@@ -3,10 +3,13 @@ bits 32
 %include "hockey.inc"
 section s_DFC33 progbits alloc exec nowrite align=1
 extern byte_11F668, byte_11F670, byte_11F68D, byte_11F69A, byte_11F6A6, byte_11F6A8, byte_11F6C3, byte_11F708
-extern byte_11F714, byte_11F76F, byte_11F7CA, byte_11F825, byte_11F880, dword_11F5F0, dword_11F61C, dword_11F620
-extern dword_11F660, dword_11F664, dword_11F66C, dword_11F6F0, dword_11F6F6, dword_11F6FC, dword_11F994, off_11F618
-extern sub_B65D4, sub_C27A4, sub_C2C94, word_11F6F4, word_11F6FA, word_11F700, word_11F702
-global sub_DFC33_6F, sub_DFC33, sub_DFDDE, sub_DFE28, sub_DFE9C, sub_DFEAB, unk_DFDDD
+extern byte_11F714, byte_11F76F, byte_11F7CA, byte_11F825, byte_11F880, str_Punct_DrawRinkSurface, dword_11F61C, dword_11F620
+extern dword_11F660, dword_11F664, dword_11F66C, dword_11F6F0, dword_11F6F6, dword_11F6FC, dword_11F994, BiosKeyFunc
+extern RestoreDS, sub_C27A4, DosSetVector, word_11F6F4, word_11F6FA, word_11F700, word_11F702
+global sub_DFC33_6F, sub_DFC33, Int16Handler, Int16Service, sub_DFE9C, sub_DFEAB, unk_DFDDD
+;-----------------------------------------------------------------------------
+; sub_DFC33                                                            DFC33  
+;-----------------------------------------------------------------------------
 sub_DFC33:
         cmp word [word_11F702], byte 0
         je short .1
@@ -19,19 +22,19 @@ sub_DFC33:
         mov ebx, 9
         mov eax, dword [dword_11F6F0]
         mov dx, word [word_11F6F4]
-        call sub_C2C94
+        call DosSetVector
         mov ebx, 16h
         mov eax, dword [dword_11F6F6]
         mov dx, word [word_11F6FA]
         mov ebx, 23h
         mov eax, dword [dword_11F6FC]
         mov dx, word [word_11F700]
-        call sub_C2C94
+        call DosSetVector
         and byte [0417h], 0F0h
         pop eax
         out 21h, al
         mov ebx, sub_DFEAB
-        mov dword [off_11F618], ebx
+        mov dword [BiosKeyFunc], ebx
         popa
 .1:
         ret
@@ -53,7 +56,7 @@ sub_DFC33_6F:
         mov byte [byte_11F708], al
         LD or, bl, bl
         jns short .2
-        mov byte [dword ebx+dword_11F5F0], 0
+        mov byte [dword ebx+str_Punct_DrawRinkSurface], 0
         mov al, 20h
         out 20h, al
         pop ds
@@ -142,7 +145,12 @@ sub_DFC33_6F:
         call dword [dword_11F994]
 unk_DFDDD:
         db 0CFh
-sub_DFDDE:
+;-----------------------------------------------------------------------------
+; Int16Handler                                    DFDDE  96 PC, low confidence
+; Keyboard: BIOS keyboard service replacement that reads from the game's key
+; buffer
+;-----------------------------------------------------------------------------
+Int16Handler:
         push ebx
         push ecx
         push edx
@@ -156,9 +164,9 @@ sub_DFDDE:
         LD mov, ebp, esp
         sub esp, byte 8
         cld
-        call sub_B65D4
+        call RestoreDS
         sti
-        call sub_DFE28
+        call Int16Service
         pushf
         pop ebx
         and ebx, 4000h
@@ -189,7 +197,11 @@ sub_DFDDE:
         pop ecx
         pop ebx
         iret
-sub_DFE28:
+;-----------------------------------------------------------------------------
+; Int16Service                                    DFE28  96 PC, low confidence
+; Keyboard: handles the BIOS keyboard read and status calls
+;-----------------------------------------------------------------------------
+Int16Service:
         cmp ah, 0
         je short .3
         cmp ah, 10h
@@ -230,6 +242,9 @@ sub_DFE28:
         and al, 1
         LD or, eax, eax
         ret
+;-----------------------------------------------------------------------------
+; sub_DFE9C                                                            DFE9C  
+;-----------------------------------------------------------------------------
 sub_DFE9C:
         push ebp
         LD mov, ebp, esp
@@ -237,6 +252,9 @@ sub_DFE9C:
         movzx eax, byte [dword ebx+byte_11F670]
         leave
         ret
+;-----------------------------------------------------------------------------
+; sub_DFEAB                                                            DFEAB  
+;-----------------------------------------------------------------------------
 sub_DFEAB:
         movzx eax, ax
         int 16h

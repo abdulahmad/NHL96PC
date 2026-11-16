@@ -3,8 +3,12 @@ bits 32
 %include "hockey.inc"
 section s_D0692 progbits alloc exec nowrite align=1
 extern _STACKLOW
-global sub_D0692
-sub_D0692:
+global CMainHook
+;-----------------------------------------------------------------------------
+; CMainHook                                       D0692  96 PC, low confidence
+; Start-up hook (returns at once)
+;-----------------------------------------------------------------------------
+CMainHook:
         mov eax, esp
         sub eax, dword [_STACKLOW]
         ret

@@ -4,7 +4,7 @@ bits 32
 section s_4DED8 progbits alloc exec nowrite align=1
 extern awtmstruct, byte_1178C8, byte_157640, byte_15864E, byte_15864F, byte_158650, byte_158651, byte_158652
 extern byte_176AE2, byte_176B84, byte_176B90, byte_17CC37, collflag, curperiod, dword_114F16, dword_1150D8
-extern dword_118E89, dword_119173, dword_11917F, dword_119183, dword_11918F, dword_119193, dword_1191AF, dword_1191B3
+extern dword_118E89, dword_119173, dword_11917F, dword_119183, AwayGoalsPeriod, HomeGoalsPeriod, dword_1191AF, dword_1191B3
 extern dword_1191B7, dword_1191BB, dword_1191BF, dword_1191C3, dword_11B364, dword_151B84, dword_1657EA, dword_1657EE
 extern dword_1657F2, dword_1657F6, dword_1657FA, dword_1657FE, dword_165802, dword_165806, dword_165920, dword_165924
 extern dword_165928, dword_16592C, dword_165930, dword_165934, dword_165938, dword_16593C, dword_16596C, dword_17CB2F
@@ -16,7 +16,7 @@ extern optflags, passplayer, PBnum, Pencntdwn, Pencntdwn2, penshotctl, penshotli
 extern penshotplayer, penshotstart, penshottimer, PlList, psendcount, refhitcount, seed, sflags
 extern shotongoal, shotontarget, SortCords, sprintf_, SprSort, str_05d, str_05dCsg, str_CsgDb
 extern str_DB, strcat_, FileMissing, DeleteFiles, FileOpenRead, FileClose, FileWriteAt, MakeDirPath
-extern LoadGameRosters, sub_48A4D, sub_535D5, sub_B7256, threat, unk_115108, unk_115113, unk_156E6C
+extern LoadGameRosters, sub_48A4D, sub_535D5, UnlinkJump, threat, unk_115108, unk_115113, unk_156E6C
 extern unk_156FFC, unk_157AF8, unk_157B0A, unk_157B1C, unk_157B4F, unk_157B82, unk_157D8F, unk_157F9C
 extern unk_157FDA, unk_1582F5, unk_158610, unk_164B5C, unk_17CB2E, unk_17CED5, word_1178A8, word_1178AC
 extern word_1178AE, word_1178B4, word_1178B8, word_1178CA, word_1178CC, word_1178CE, word_1178D0, word_1178F4
@@ -25,7 +25,7 @@ extern word_118EA5, word_118EA7, word_118EA9, word_118EAB, word_118EAF, word_118
 extern word_118FAF, word_118FB1, word_11910B, word_11910F, word_119111, word_119113, word_119169, word_11916B
 extern word_11918B, word_11B274, word_11B276, word_11D3A2, word_16474C, word_16474E, word_164792, word_164794
 extern word_1656D2, word_1656D6, word_165942, word_16594E, word_165950, word_176B44, word_176B7C, word_176B80
-extern word_176B88, word_176B8A, word_176B8C, word_176B8E, yc1
+extern LastTouchTeam, PassDistY, StoppageFlag, LastPlayerTouch, yc1
 global SaveGameState, SaveGameState_7DD, LoadGameState, sub_4F08B, sub_4F08B_C2, sub_4F08B_C4, sub_4F08B_C8, sub_4F159
 global sub_4F2A8, sub_4F385, sub_4F452
 ;-----------------------------------------------------------------------------
@@ -157,11 +157,11 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [word_176B8E]
+        mov dx, word [LastPlayerTouch]
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [word_176B8C]
+        mov dx, word [StoppageFlag]
         mov word [eax], dx
         inc eax
         inc eax
@@ -320,12 +320,12 @@ SaveGameState:
         mov byte [byte eax+01h], dl
         inc eax
         inc eax
-        mov dx, word [word_176B88]
+        mov dx, word [LastTouchTeam]
         mov ecx, 80h
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [word_176B8A]
+        mov dx, word [PassDistY]
         mov ebx, 0FFFFFFFFh
         mov word [eax], dx
         lea edx, [byte ebp-01Ah]
@@ -487,11 +487,11 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [dword_11918F]
+        mov dx, word [AwayGoalsPeriod]
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [dword_119193]
+        mov dx, word [HomeGoalsPeriod]
         mov word [eax], dx
         inc eax
         inc eax
@@ -858,11 +858,11 @@ LoadGameState:
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_176B8E], dx
+        mov word [LastPlayerTouch], dx
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_176B8C], dx
+        mov word [StoppageFlag], dx
         mov dx, word [eax]
         inc eax
         inc eax
@@ -1022,9 +1022,9 @@ LoadGameState:
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_176B88], dx
+        mov word [LastTouchTeam], dx
         mov ax, word [eax]
-        mov word [word_176B8A], ax
+        mov word [PassDistY], ax
 .9:
         test ebx, ebx
         jne near .11
@@ -1192,11 +1192,11 @@ LoadGameState:
         movsx edx, word [eax]
         inc eax
         inc eax
-        mov dword [dword_11918F], edx
+        mov dword [AwayGoalsPeriod], edx
         movsx edx, word [eax]
         inc eax
         inc eax
-        mov dword [dword_119193], edx
+        mov dword [HomeGoalsPeriod], edx
         movsx edx, word [eax]
         inc eax
         inc eax
@@ -1794,7 +1794,7 @@ sub_4F385:
         lea eax, [byte ebp-040h]
         call strcat_
         lea eax, [byte ebp-040h]
-        call sub_B7256
+        call UnlinkJump
         leave
         pop edx
         pop ebx

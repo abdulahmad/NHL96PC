@@ -2,9 +2,12 @@
 bits 32
 %include "hockey.inc"
 section s_C39C2 progbits alloc exec nowrite align=1
-extern _Extender, dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4, dword_1228F0, dword_1228F8, dword_1228FC
-extern dword_19BACC
-global _dos_getvect_, _dos_setvect_, sub_C3A48_34, sub_C3A48, sub_C3BD0
+extern _Extender, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, dword_1228F0, dword_1228F8, dword_1228FC
+extern MemLockState
+global _dos_getvect_, _dos_setvect_, sub_C3A48_34, sub_C3A48, ResetMemLock
+;-----------------------------------------------------------------------------
+; _dos_setvect_                                                 C39C2  library
+;-----------------------------------------------------------------------------
 _dos_setvect_:
         push edx
         mov edx, ebx
@@ -30,6 +33,9 @@ _dos_setvect_:
         pop ds
         pop edx
         ret
+;-----------------------------------------------------------------------------
+; _dos_getvect_                                                 C39ED  library
+;-----------------------------------------------------------------------------
 _dos_getvect_:
         push ebx
         push ecx
@@ -73,6 +79,9 @@ _dos_getvect_:
         cwde
         mov dword [byte ebp-08h], eax
         jmp short sub_C3A48_34
+;-----------------------------------------------------------------------------
+; sub_C3A48                                                            C3A48  
+;-----------------------------------------------------------------------------
 sub_C3A48:
         push ebp
         LD mov, ebp, esp
@@ -102,10 +111,10 @@ sub_C3A48_34:
         movsx ecx, word [byte esi+06h]
         lea edx, [byte esi+010h]
         LD mov, eax, ebx
-        cmp eax, dword [dword_1228DC]
+        cmp eax, dword [ClipLeftCol]
         jl short .2
         LD add, eax, ecx
-        sub eax, dword [dword_1228E4]
+        sub eax, dword [ScreenHeight]
         jle short .3
         LD sub, ecx, eax
         jg short .3
@@ -116,7 +125,7 @@ sub_C3A48_34:
         leave
         ret
 .2:
-        mov ebx, dword [dword_1228DC]
+        mov ebx, dword [ClipLeftCol]
         LD add, eax, ecx
         LD sub, eax, ebx
         jle short .1
@@ -129,7 +138,7 @@ sub_C3A48_34:
         LD add, edx, eax
         LD mov, eax, ebx
         LD add, eax, ecx
-        sub eax, dword [dword_1228E4]
+        sub eax, dword [ScreenHeight]
         jle short .3
         LD sub, ecx, eax
         jle short .1
@@ -141,24 +150,24 @@ sub_C3A48_34:
         LD xor, edx, edx
         mov eax, dword [byte ebp-04h]
         LD mov, ebx, eax
-        cmp eax, dword [dword_1228D8]
+        cmp eax, dword [ClipTopRow]
         jl short .4
         LD add, eax, ecx
-        sub eax, dword [dword_1228E0]
+        sub eax, dword [ClipRight]
         jl short .6
         LD sub, ecx, eax
         jle short .1
         LD mov, edx, eax
         jmp short .6
 .4:
-        mov ebx, dword [dword_1228D8]
+        mov ebx, dword [ClipTopRow]
         LD add, eax, ecx
         LD sub, eax, ebx
         jle short .1
         LD mov, esi, ecx
         LD sub, esi, eax
         add dword [byte ebp-018h], esi
-        mov esi, dword [dword_1228E0]
+        mov esi, dword [ClipRight]
         LD sub, esi, ebx
         jle short .1
         LD cmp, eax, esi
@@ -249,9 +258,13 @@ sub_C3A48_34:
         jg short .10
         jmp short .12
         db 00h,00h,00h,00h,00h,00h,00h
-sub_C3BD0:
+;-----------------------------------------------------------------------------
+; ResetMemLock                                    C3BD0  96 PC, low confidence
+; Clears the memory lock and returns its address
+;-----------------------------------------------------------------------------
+ResetMemLock:
         xor edx, edx
-        mov eax, dword_19BACC
-        mov dword [dword_19BACC], edx
+        mov eax, MemLockState
+        mov dword [MemLockState], edx
         ret
         db 08Bh,0C0h

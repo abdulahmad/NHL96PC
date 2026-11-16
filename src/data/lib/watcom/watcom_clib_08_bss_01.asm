@@ -2,12 +2,12 @@
 bits 32
 %include "hockey.inc"
 section s_19B760 nobits alloc noexec write align=1
-global byte_19BA44, byte_19BA45, byte_1A0B2B, byte_1A0B31, byte_1A0B36, byte_1A0B37, byte_1A0B44, byte_1A0B46
+global byte_19BA44, __nheap_clean, byte_1A0B2B, byte_1A0B31, byte_1A0B36, byte_1A0B37, byte_1A0B44, byte_1A0B46
 global byte_1A0B47, dword_19B760, dword_19B770, dword_19B774, dword_19B778, dword_19B77C, dword_19B784, dword_19B788
-global dword_19B8F0, dword_19B8F4, dword_19B8F8, dword_19B8FC, dword_19B900, dword_19BA30, dword_19BA3C, dword_19BA40
-global dword_19BA48, dword_19BAC8, dword_19BACC, dword_19F2D0, dword_19F2D4, dword_19F2D8, dword_1A0B1C, dword_1A0B2C
-global dword_1A0DA0, dword_1A0DA4, unk_19BA34, unk_19BA38, unk_19BAD0, unk_1A0B20, word_1A0FA0, word_1A0FA2
-global word_1A0FA4, word_1A0FA6, word_1A0FA8, word_1A0FAA, word_1A0FAC
+global dword_19B8F0, dword_19B8F4, dword_19B8F8, dword_19B8FC, dword_19B900, dword_19BA30, __OpenStreams, __ClosedStreams
+global AtexitTable, SpeechBankCount, MemLockState, dword_19F2D0, dword_19F2D4, dword_19F2D8, dword_1A0B1C, dword_1A0B2C
+global dword_1A0DA0, dword_1A0DA4, unk_19BA34, unk_19BA38, unk_19BAD0, unk_1A0B20, word_1A0FA0, SbMixerAddrPort
+global word_1A0FA4, word_1A0FA6, word_1A0FA8, SbReadPort, SbWritePort
 dword_19B760:
         resb 16
 dword_19B770:
@@ -38,19 +38,19 @@ unk_19BA34:
         resb 4
 unk_19BA38:
         resb 4
-dword_19BA3C:
+__OpenStreams:
         resb 4
-dword_19BA40:
+__ClosedStreams:
         resb 4
 byte_19BA44:
         resb 1
-byte_19BA45:
+__nheap_clean:
         resb 3
-dword_19BA48:
+AtexitTable:
         resb 128
-dword_19BAC8:
+SpeechBankCount:
         resb 4
-dword_19BACC:
+MemLockState:
         resb 4
 unk_19BAD0:
         resb 14336
@@ -86,7 +86,7 @@ dword_1A0DA4:
         resb 508
 word_1A0FA0:
         resb 2
-word_1A0FA2:
+SbMixerAddrPort:
         resb 2
 word_1A0FA4:
         resb 2
@@ -94,7 +94,7 @@ word_1A0FA6:
         resb 2
 word_1A0FA8:
         resb 2
-word_1A0FAA:
+SbReadPort:
         resb 2
-word_1A0FAC:
+SbWritePort:
         resb 4

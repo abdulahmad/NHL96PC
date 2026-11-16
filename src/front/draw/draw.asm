@@ -3,12 +3,12 @@ bits 32
 %include "hockey.inc"
 section s_63968 progbits alloc exec nowrite align=1
 extern ClearChain4, dword_11D18C, dword_11D190, dword_11D194, dword_11D198, dword_11D19C, dword_11D1A0, dword_11D1A4
-extern dword_11F5A0, dword_11F5C0, dword_11F5C4, dword_11FA14, dword_11FA18, dword_1219A4, dword_1228FC, dword_122900
+extern dword_11F5A0, dword_11F5C0, dword_11F5C4, dword_11FA14, dword_11FA18, dword_1219A4, dword_1228FC, BackBufferWidth
 extern dword_122904, FatalError, fputchar, GetTicks, initgraphics, SetViewRect, SoundIdle, str_COPY
-extern str_CouldNotAllocateLibraryB, str_LIBBUGFIX, str_NHLinitgraphicsfixNotCal, str_USETABLE, sub_AB758, sub_AB798, sub_ABF4C, sub_ADA50
+extern str_CouldNotAllocateLibraryB, str_LIBBUGFIX, str_NHLinitgraphicsfixNotCal, str_USETABLE, sub_AB758, sub_AB798, FreeMemBlock, sub_ADA50
 extern sub_ADA80, sub_AFFD0, sub_B0CA8, sub_B0F7C, sub_B2B0C, sub_B3360, sub_B3420, sub_B3458
-extern sub_B58D8, sub_B6140, sub_BF8A8, sub_DD6C4, sub_DD6E0, sub_DD7B8, sub_DDF4F, sub_DE01A
-extern sub_DE084, sub_E0520, sub_E1824, unk_121FC8, unk_17BDE0, unk_17C0E0, WaitRetrace, WaitRetraceEdges
+extern sub_B58D8, sub_B6140, sub_BF8A8, SetScreenTarget, GetPaletteRange, sub_DD7B8, sub_DDF4F, sub_DE01A
+extern sub_DE084, sub_E0520, sub_E1824, unk_121FC8, IntroPalette, unk_17C0E0, WaitRetrace, WaitRetraceEdges
 global BlackPalette, FadePalette, FadeOut, CopyBitmapRows, CopyBitmapRows_76, CopyBitmap, InitGraphicsFix, SetGraphicsMode
 global SetGraphicsMode_204, SetScreenMode, DrawText, DrawTextRight, DrawTextRight_17, DrawTextCentred, FindTextColors, SetTextColors
 global SetTextColorsRgb, DrawColorText, DrawColorTextRight, DrawColorTextRight_29, DrawColorTextRight_72, DrawColorTextCentred, FillBox, DrawBox
@@ -62,7 +62,7 @@ FadePalette:
         push dword [byte ebp-04h]
         push dword 100h
         push byte 0
-        call sub_DD6E0
+        call GetPaletteRange
         add esp, byte 0Ch
         jmp short .3
 .2:
@@ -139,16 +139,16 @@ FadeOut:
         push edx
         push esi
         mov esi, eax
-        push unk_17BDE0
+        push IntroPalette
         push dword 100h
         push byte 0
-        call sub_DD6E0
+        call GetPaletteRange
         add esp, byte 0Ch
         test esi, esi
         jne short .1
         inc esi
 .1:
-        mov edx, unk_17BDE0
+        mov edx, IntroPalette
         mov eax, 1
         mov ebx, esi
         call FadePalette
@@ -325,7 +325,7 @@ SetGraphicsMode:
         jmp short .2
 .1:
         push dword [dword_11D198]
-        call sub_ABF4C
+        call FreeMemBlock
         mov dword [dword_11D198], 0
 .2:
         add esp, byte 4
@@ -386,13 +386,13 @@ SetGraphicsMode:
         push byte 0
         push dword 140h
         push byte 0
-        push dword_122900
+        push BackBufferWidth
         call sub_DE084
         mov eax, dword [dword_11F5C4]
         add eax, eax
         add esp, byte 14h
         mov dword [dword_122904], eax
-        call sub_DD6C4
+        call SetScreenTarget
         mov dword [dword_11F5A0], 9
         call WaitRetrace
         jmp short .5
@@ -470,7 +470,7 @@ SetScreenMode:
         push byte 0
         call sub_DD7B8
         add esp, byte 0Ch
-        call sub_DD6C4
+        call SetScreenTarget
         push byte 0
         call sub_ADA50
         add esp, byte 4
@@ -636,7 +636,7 @@ FindTextColors:
         push ebx
         push dword 100h
         push byte 0
-        call sub_DD6E0
+        call GetPaletteRange
         lea ebx, [dword ebp-0300h]
         add esp, byte 0Ch
         mov edx, esi
@@ -659,7 +659,7 @@ SetTextColors:
         push eax
         push dword 100h
         push byte 0
-        call sub_DD6E0
+        call GetPaletteRange
         lea ebx, [dword ebp-0308h]
         add esp, byte 0Ch
         lea edx, [byte ebp-08h]
@@ -1371,7 +1371,7 @@ RemapScreenColors:
         jmp short .12
 .16:
         push dword [byte ebp+032h]
-        call sub_ABF4C
+        call FreeMemBlock
         mov eax, dword [dword_11D1A0]
         add esp, byte 4
         cmp eax, dword [dword ebp+08Eh]

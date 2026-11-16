@@ -2,17 +2,20 @@
 bits 32
 %include "hockey.inc"
 section s_C31C4 progbits alloc exec nowrite align=1
-extern __brk_, __unlink_, _nfree_, _Extender, _ExtenderSubtype, byte_12442C, dword_11F8E8, _curbrk
-extern dword_14F0A4, dword_14F0A8, dword_1A1090, word_1A1092
+extern __brk_, __unlink_, _nfree_, _Extender, _ExtenderSubtype, Is8087, HeapList, _curbrk
+extern __nheapbeg, __amblksiz, RationalAllocLimit, RationalAllocFlags
 global RationalAlloc_, __AdjustAmount_, __CreateNewNHeap_, __ExpandDGROUP_, __FreeDPMIBlocks_, __LastFree_, __LinkUpNewMHeap_, __ReAllocDPMIBlock_
 global RationalAlloc__CA, RationalAlloc__CD
+;-----------------------------------------------------------------------------
+; __FreeDPMIBlocks_                                             C31C4  library
+;-----------------------------------------------------------------------------
 __FreeDPMIBlocks_:
         push ebx
         push ecx
         push edx
         push esi
         push edi
-        mov edx, dword [dword_11F8E8]
+        mov edx, dword [HeapList]
 .1:
         test edx, edx
         je near RationalAlloc__CD
@@ -51,6 +54,9 @@ __FreeDPMIBlocks_:
 .3:
         mov edx, dword [byte edx+08h]
         jmp short .1
+;-----------------------------------------------------------------------------
+; __ReAllocDPMIBlock_                                           C3222  library
+;-----------------------------------------------------------------------------
 __ReAllocDPMIBlock_:
         push ebx
         push ecx
@@ -60,7 +66,7 @@ __ReAllocDPMIBlock_:
         mov ebx, eax
         mov ebp, edx
         call __FreeDPMIBlocks_
-        mov edx, dword [dword_11F8E8]
+        mov edx, dword [HeapList]
         jmp near .6
 .1:
         cmp edx, ebx
@@ -153,11 +159,14 @@ __ReAllocDPMIBlock_:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; __LinkUpNewMHeap_                                             C3325  library
+;-----------------------------------------------------------------------------
 __LinkUpNewMHeap_:
         push ebx
         push edx
         mov edx, eax
-        mov eax, dword [dword_11F8E8]
+        mov eax, dword [HeapList]
         xor ebx, ebx
         jmp short .2
 .1:
@@ -176,7 +185,7 @@ __LinkUpNewMHeap_:
         mov dword [byte ebx+08h], edx
         jmp short .5
 .4:
-        mov dword [dword_11F8E8], edx
+        mov dword [HeapList], edx
 .5:
         test eax, eax
         je short .6
@@ -199,10 +208,13 @@ __LinkUpNewMHeap_:
         pop edx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; __LastFree_                                                   C3399  library
+;-----------------------------------------------------------------------------
 __LastFree_:
         push ebx
         push edx
-        mov edx, dword [dword_11F8E8]
+        mov edx, dword [HeapList]
         test edx, edx
         je short .2
         mov edx, dword [byte edx+024h]
@@ -214,7 +226,7 @@ __LastFree_:
         jb short .1
         cmp ah, 8
         ja short .1
-        cmp byte [byte_12442C], 0
+        cmp byte [Is8087], 0
         jne short .1
         xor eax, eax
         mov eax, ds
@@ -233,6 +245,9 @@ __LastFree_:
         pop edx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; RationalAlloc_                                                C33E7  library
+;-----------------------------------------------------------------------------
 RationalAlloc_:
         push ebx
         push ecx
@@ -267,13 +282,13 @@ RationalAlloc_:
         mov eax, edx
         jmp near RationalAlloc__CA
 .2:
-        test word [word_1A1092], 0FFF0h
+        test word [RationalAllocFlags], 0FFF0h
         je short .3
-        mov dword [dword_1A1090], 0FFFFFh
+        mov dword [RationalAllocLimit], 0FFFFFh
 .3:
         cmp dword [esp], 10000h
         ja short .4
-        mov ebx, dword [dword_1A1090]
+        mov ebx, dword [RationalAllocLimit]
         shr ebx, 4
         or bl, 1
         mov ah, 48h
@@ -324,6 +339,9 @@ RationalAlloc__CD:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; __CreateNewNHeap_                                             C34BA  library
+;-----------------------------------------------------------------------------
 __CreateNewNHeap_:
         push ebx
         push ecx
@@ -331,7 +349,7 @@ __CreateNewNHeap_:
         push esi
         push edi
         push eax
-        cmp dword [dword_14F0A4], byte 0
+        cmp dword [__nheapbeg], byte 0
         jne short .2
 .1:
         xor eax, eax
@@ -392,6 +410,9 @@ __CreateNewNHeap_:
         call _nfree_
         mov eax, 1
         jmp near RationalAlloc__CA
+;-----------------------------------------------------------------------------
+; __ExpandDGROUP_                                               C3569  library
+;-----------------------------------------------------------------------------
 __ExpandDGROUP_:
         push ebx
         push ecx
@@ -411,7 +432,7 @@ __ExpandDGROUP_:
         call __CreateNewNHeap_
         jmp near .14
 .3:
-        cmp dword [dword_14F0A4], byte 0
+        cmp dword [__nheapbeg], byte 0
         jne short .5
 .4:
         xor eax, eax
@@ -428,7 +449,7 @@ __ExpandDGROUP_:
         jb short .6
         cmp bl, 8
         ja short .6
-        cmp byte [byte_12442C], 0
+        cmp byte [Is8087], 0
         jne short .6
         xor eax, eax
         mov eax, ds
@@ -457,7 +478,7 @@ __ExpandDGROUP_:
         mov dword [esp], edx
         cmp eax, edx
         ja short .4
-        mov edx, dword [dword_11F8E8]
+        mov edx, dword [HeapList]
         mov dword [esp], eax
         jmp short .10
 .8:
@@ -518,6 +539,9 @@ __ExpandDGROUP_:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; __AdjustAmount_                                               C36AD  library
+;-----------------------------------------------------------------------------
 __AdjustAmount_:
         push ebx
         push edx
@@ -553,7 +577,7 @@ __AdjustAmount_:
         add edx, byte 3Ch
         cmp edx, dword [ebx]
         jb short .1
-        mov esi, dword [dword_14F0A8]
+        mov esi, dword [__amblksiz]
         cmp edx, esi
         jae short .7
         mov edx, esi

@@ -25,8 +25,8 @@ extern str_Ctr02, str_Ctr12, str_D16, str_Edt02, str_Edt12, str_EXHIBITNDX3, str
 extern str_GhiL3, str_GhiR3, str_GloL3, str_GloR3, str_Paus, str_PAUSREG, str_Qui02, str_Qui12
 extern str_Qui22, str_Rep0, str_Rep1, str_Ret02, str_Ret12, str_Ret22, str_Sav02, str_Sav12
 extern str_Sid12, str_Sid22, str_Sts02, str_Sts12, strcat_, strcpy_, sub_3A6F3, sub_5360D
-extern sub_5439F, ReplayScreen, RunReplay, sub_AA988, sub_AAA40, sub_AB758, sub_ABF4C, sub_AD35C
-extern sub_ADBEC, sub_B0CA8, sub_B22E0, sub_B58D8, sub_BB8E0, sub_DD6C4, sub_E04E0, sub_E0584
+extern sub_5439F, ReplayScreen, RunReplay, sub_AA988, sub_AAA40, sub_AB758, FreeMemBlock, sub_AD35C
+extern sub_ADBEC, sub_B0CA8, SaveDataFile, sub_B58D8, sub_BB8E0, SetScreenTarget, sub_E04E0, sub_E0584
 extern TextSetFont, unk_11D7A4, unk_11D7BC, unk_11D7D4, unk_11D7EC, unk_11D804, unk_11D80A, unk_11D810
 extern unk_11D816, unk_11D81C, unk_11D89C, unk_16443C, unk_17CB2E, unk_17CED5, unk_17D3E8, unk_17D52C
 extern UpdateCamera, word_114CE0, word_114F14, word_117902, word_11D927, word_11D929, word_1656E8, word_16581E
@@ -1243,7 +1243,7 @@ SaveGameFile_81:
         push unk_17CB2E
         lea eax, [byte ebp-044h]
         push eax
-        call sub_B22E0
+        call SaveDataFile
         mov ecx, 3A7h
         mov ebx, 0FFFFFFFFh
         add esp, byte 0Ch
@@ -1279,7 +1279,7 @@ SaveGameFile_81:
         push unk_17CB2E
         lea eax, [byte ebp-044h]
         push eax
-        call sub_B22E0
+        call SaveDataFile
         mov ecx, 3A7h
         mov ebx, 0FFFFFFFFh
         add esp, byte 0Ch
@@ -1301,7 +1301,7 @@ SaveGameFile_81:
         push unk_17CED5
         lea eax, [byte ebp-044h]
         push eax
-        call sub_B22E0
+        call SaveDataFile
         add esp, byte 0Ch
 .14:
         cmp dword [byte ebp-04h], byte 0
@@ -1352,7 +1352,7 @@ PauseMenu:
         add esp, byte 0Ch
         xor eax, eax
         call DrawPauseButtons
-        call sub_DD6C4
+        call SetScreenTarget
         push byte 0
         mov eax, dword [dword_11B234]
         push byte 0
@@ -1645,7 +1645,7 @@ PauseMenu:
         add ebx, byte 6
         cmp edi, ebx
         jl near .7
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [dword_179918]
         call TextSetFont
         add esp, byte 4
@@ -1957,7 +1957,7 @@ PauseMenu_748:
         cmp dword [byte ebp+07Eh], byte 0FFFFFFFFh
         je near PauseMenu.9
         push dword [dword_17D4E8]
-        call sub_ABF4C
+        call FreeMemBlock
         mov eax, dword [byte ebp+07Eh]
         add esp, byte 4
         lea esp, [dword ebp+082h]
@@ -2015,10 +2015,10 @@ PauseToFrontEnd:
         test byte [byte_17CA5D], 20h
         jne short .1
         push dword [dword_152F54]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_152F5C]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov edx, 20h
         mov eax, dword [dword_152F58]
@@ -2062,10 +2062,10 @@ PauseBackToGame:
         test byte [byte_17CA5D], 20h
         jne short .1
         push dword [dword_152F54]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_152F5C]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push str_GloL3
         push dword [dword_1150D4]
@@ -2197,7 +2197,7 @@ PauseBackToGame:
         call LoadTotalSprites
         xor eax, eax
         call CrowdNoiseReset
-        call sub_DD6C4
+        call SetScreenTarget
         push byte 0
         mov eax, dword [dword_17D518]
         push byte 0
@@ -2840,7 +2840,7 @@ PauseGame_620:
         call Crowd_Noise
         jmp short .32
 .31:
-        call sub_DD6C4
+        call SetScreenTarget
         cmp dword [byte ebp-04h], byte 0
         je short .32
         mov eax, 0Ah

@@ -57,7 +57,7 @@
 #define O_OVER         SYM_FreeSpriteCache    /* FreeSpriteCache: frees the sprite cache when the game is over */
 #define C_OVER         SYM_GameLoop_gameovercall    /*   the game is over */
 #define O_TICK_ISR     SYM_TimerISR_tick    /* TimerISR: mov edx, tickcount / inc edx / mov ebx, 5 / mov tickcount, edx (18 bytes) */
-#define O_CSEED_FN     SYM_sub_B03F2    /* mov eax, <the C library's rand state> / ret */
+#define O_CSEED_FN     SYM_GetRandState    /* mov eax, <the C library's rand state> / ret */
 #define D_EASEED       SYM_seed   /* EA's random number state (randomd0) */
 #define D_QCOUNT       SYM_InputRecordCount
 #define D_QHEAD        SYM_InputRecordHead

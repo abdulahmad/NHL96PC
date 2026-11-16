@@ -18,8 +18,8 @@ extern BlankForFadeIn, LoadSeasonStats, LoadPlayoffStats, LoadExhibitionStats, L
 extern UpdateUserRecords, sub_3A6F3, sub_4B59F, sub_5358E, InitGameView, FreeGameView, DrawGameFrame, ResetGameOverlays
 extern UpdateCamera, FreeSpriteCache, LoadFrontEndArt, FreeFrontEndArt, SetScreenColors, FadeOut, CopyBitmap, SetScreenMode
 extern StopMusic, QueueMusic, FadeOutMusic, PlaySfx, Crowd_Noise, SetCrowdTarget, CrowdFadeOut, ArenaClipReady
-extern StartArenaClip, StopArenaClip, StartGameSound, EndGameSound, SoundIdle, WriteGlobalSet, GetLangText, sub_AA664
-extern sub_AB758, sub_ABF4C, sub_ADA50, sub_B0CA8, sub_DD6C4, sub_DD6E0, sub_DD7B8, sub_DFEC6
+extern StartArenaClip, StopArenaClip, StartGameSound, EndGameSound, SoundIdle, WriteGlobalSet, GetLangText, RemoveTimerCallback
+extern sub_AB758, FreeMemBlock, sub_ADA50, sub_B0CA8, SetScreenTarget, GetPaletteRange, sub_DD7B8, sub_DFEC6
 extern sub_E04E0, unk_16443C, unk_17CB2E, unk_17CED5, unk_17D272, unk_17D32C, word_114CE0, word_114F14
 extern word_119111, word_119113, word_1515E4, word_1656D2, word_1656D6
 global jpt_168DA, jpt_168EA, PlayMenuGame, PlayMenuGame_75, PlayMenuGame_85, PlayMenuGame_9F, PlayMenuGame_AF, PlayMenuGame_243
@@ -101,10 +101,10 @@ PlayMenuGame_AF:
         test byte [byte_17CA5D], 20h
         jne short .3
         push dword [dword_152F54]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_152F5C]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .3:
         call StartGameSound
@@ -163,10 +163,10 @@ PlayMenuGame_AF:
         test byte [byte_17CA5D], 20h
         jne short .7
         push dword [dword_152F54]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_152F5C]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .7:
         call EndGameSound
@@ -223,7 +223,7 @@ PlayMenuGame_280:
         push dword 100h
         push byte 0
         mov esi, eax
-        call sub_DD6E0
+        call GetPaletteRange
         add esp, byte 0Ch
         mov eax, esi
         call SetScreenColors
@@ -236,7 +236,7 @@ PlayMenuGame_280:
         call sub_DD7B8
         add esp, byte 0Ch
         push esi
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push byte 3
         mov eax, dword [dword_11F5C4]
@@ -800,7 +800,7 @@ RunDemoGame:
         call sub_5358E
         xor eax, eax
         call SetScreenMode
-        call sub_DD6C4
+        call SetScreenTarget
         call InitGameView
         push InputRecordTimer
         mov dword [GameLoopActive], 0
@@ -819,7 +819,7 @@ RunDemoGame:
         mov dword [dword_1150FC], 2
 .2:
         push InputRecordTimer
-        call sub_AA664
+        call RemoveTimerCallback
         add esp, byte 4
         call FreeGameView
         call ResetInputSlots
@@ -961,7 +961,7 @@ PlayGame_menucall_42:
 .4:
         call FreeGameView
         push InputRecordTimer
-        call sub_AA664
+        call RemoveTimerCallback
         add esp, byte 4
         call LinkResyncInput
         call ResetInputSlots

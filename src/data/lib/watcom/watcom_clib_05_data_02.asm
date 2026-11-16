@@ -3,21 +3,21 @@ bits 32
 %include "hockey.inc"
 section s_11F5DC progbits alloc noexec write align=1
 extern sub_DFB84, sub_DFEAB
-global byte_11F668, byte_11F670, byte_11F68D, byte_11F69A, byte_11F6A6, byte_11F6A8, byte_11F6C3, dword_11F5DC
-global dword_11F5E0, dword_11F5E4, dword_11F5E8, dword_11F5EC, dword_11F5F0, dword_11F61C, dword_11F620, dword_11F660
+global byte_11F668, byte_11F670, byte_11F68D, byte_11F69A, byte_11F6A6, byte_11F6A8, byte_11F6C3, CpuIs386
+global CpuIs486, CpuType, CpuHasCpuid, CpuFeatures, str_Punct_DrawRinkSurface, dword_11F61C, dword_11F620, dword_11F660
 global dword_11F664, dword_11F66C, dword_11F6F0, dword_11F6F6, dword_11F6FC, mousepollfn, off_11F5F4, off_11F5F8
-global off_11F5FC, off_11F618, word_11F6F4, word_11F6FA, word_11F700, word_11F702
-dword_11F5DC:
+global off_11F5FC, BiosKeyFunc, word_11F6F4, word_11F6FA, word_11F700, word_11F702
+CpuIs386:
         db 00h,00h,00h,00h
-dword_11F5E0:
+CpuIs486:
         db 00h,00h,00h,00h
-dword_11F5E4:
+CpuType:
         db 00h,00h,00h,00h
-dword_11F5E8:
+CpuHasCpuid:
         db 00h,00h,00h,00h
-dword_11F5EC:
+CpuFeatures:
         db 00h,00h,00h,00h
-dword_11F5F0:
+str_Punct_DrawRinkSurface:
         db 0Ah,00h,00h,00h
 off_11F5F4:
         dd sub_DFB84
@@ -32,7 +32,7 @@ mousepollfn:
         dd sub_DFB84
         dd sub_DFB84
         dd sub_DFB84
-off_11F618:
+BiosKeyFunc:
         dd sub_DFEAB
 dword_11F61C:
         db 01h,00h,00h,00h

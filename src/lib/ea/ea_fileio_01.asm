@@ -3,9 +3,14 @@ bits 32
 %include "hockey.inc"
 section s_E0658 progbits alloc exec nowrite align=1
 extern FatalError, str_OpenhandleSFILEERROR, byte_121AFC, dword_121B24, dword_121B28, dword_121B2C, dword_121B30
-global openhandle_14, sub_E07CC_2, sub_E0658, sub_E0671, sub_E0686, sub_E069C, openhandle, sub_E07B8
-global sub_E07C8, sub_E07CC, sub_E081C
-sub_E0658:
+global openhandle_14, sub_E07CC_2, DosCallSplitDx, sub_E0671, sub_E0686, sub_E069C, openhandle, DosCloseFile
+global DosWriteFile, sub_E07CC, sub_E081C
+;-----------------------------------------------------------------------------
+; DosCallSplitDx                                  E0658  96 PC, low confidence
+; Calls DOS with a 32-bit value split into CX:DX and joins DX:AX back into
+; EAX
+;-----------------------------------------------------------------------------
+DosCallSplitDx:
         push ecx
         push edx
         LD mov, ecx, edx
@@ -20,6 +25,9 @@ sub_E0658:
         pop edx
         pop ecx
         ret
+;-----------------------------------------------------------------------------
+; sub_E0671                                                            E0671  
+;-----------------------------------------------------------------------------
 sub_E0671:
         push ebp
         LD mov, ebp, esp
@@ -28,6 +36,9 @@ sub_E0671:
         mov dword [byte ebp-04h], eax
         mov dword [byte ebp-08h], 3D00h
         jmp short openhandle_14
+;-----------------------------------------------------------------------------
+; sub_E0686                                                            E0686  
+;-----------------------------------------------------------------------------
 sub_E0686:
         push ebp
         LD mov, ebp, esp
@@ -35,6 +46,9 @@ sub_E0686:
         mov dword [byte ebp-04h], 0
         mov dword [byte ebp-08h], 3D00h
         jmp short openhandle_14
+;-----------------------------------------------------------------------------
+; sub_E069C                                                            E069C  
+;-----------------------------------------------------------------------------
 sub_E069C:
         push ebp
         LD mov, ebp, esp
@@ -42,6 +56,9 @@ sub_E069C:
         mov dword [byte ebp-04h], 0
         mov dword [byte ebp-08h], 3C00h
         jmp short openhandle_14
+;-----------------------------------------------------------------------------
+; openhandle                                                      E06B2  95 PC
+;-----------------------------------------------------------------------------
 openhandle:
         push ebp
         LD mov, ebp, esp
@@ -61,7 +78,7 @@ openhandle_14:
         LD mov, ebx, eax
         mov eax, 4202h
         LD xor, edx, edx
-        call sub_E0658
+        call DosCallSplitDx
         db 072h, .1-($+2)
         db 08Bh,05Dh,014h                       ; insn: mov ebx,[ebp+14h]
         mov dword [ebx], eax
@@ -69,7 +86,7 @@ openhandle_14:
         mov ebx, dword [ebx]
         db 0B8h,00h,042h,00h,00h                ; insn: mov eax,4200h
         LD xor, edx, edx
-        call sub_E0658
+        call DosCallSplitDx
         jb short .1
         mov ebx, dword [byte ebp+010h]
         LD xor, eax, eax
@@ -111,7 +128,7 @@ openhandle_14:
         mov eax, 4200h
         mov ebx, dword [byte ebp+0Ch]
         mov ebx, dword [ebx]
-        call sub_E0658
+        call DosCallSplitDx
         jb short .3
         leave
         ret
@@ -120,7 +137,7 @@ openhandle_14:
         mov eax, dword [ebx]
         mov dword [ebx], 0
         push eax
-        call sub_E07B8
+        call DosCloseFile
         add esp, byte 4
         cmp dword [byte ebp-04h], byte 0
         jne short .4
@@ -135,7 +152,11 @@ openhandle_14:
         push dword [byte ebp+08h]
         push str_OpenhandleSFILEERROR
         call FatalError
-sub_E07B8:
+;-----------------------------------------------------------------------------
+; DosCloseFile                                    E07B8  96 PC, low confidence
+; Closes a DOS file handle when it is open
+;-----------------------------------------------------------------------------
+DosCloseFile:
         push ebp
         LD mov, ebp, esp
         mov ebx, dword [byte ebp+08h]
@@ -146,9 +167,16 @@ sub_E07B8:
 .1:
         leave
         ret
-sub_E07C8:
+;-----------------------------------------------------------------------------
+; DosWriteFile                                    E07C8  96 PC, low confidence
+; Writes a buffer to a DOS file
+;-----------------------------------------------------------------------------
+DosWriteFile:
         mov ah, 40h
         jmp short sub_E07CC_2
+;-----------------------------------------------------------------------------
+; sub_E07CC                                                            E07CC  
+;-----------------------------------------------------------------------------
 sub_E07CC:
         mov ah, 3Fh
 sub_E07CC_2:
@@ -182,13 +210,16 @@ sub_E07CC_2:
         mov eax, dword [byte ebp-0Ch]
         leave
         ret
+;-----------------------------------------------------------------------------
+; sub_E081C                                                            E081C  
+;-----------------------------------------------------------------------------
 sub_E081C:
         push ebp
         LD mov, ebp, esp
         mov ebx, dword [byte ebp+08h]
         mov eax, 4200h
         mov edx, dword [byte ebp+0Ch]
-        call sub_E0658
+        call DosCallSplitDx
         leave
         ret
         db 00h,00h,00h

@@ -2,13 +2,16 @@
 bits 32
 %include "hockey.inc"
 section s_DCC25 progbits alloc exec nowrite align=1
-extern __CHP, byte_122794, byte_123988, str_Inf, str_Nan, dword_114AD8, dword_114ADC, dword_114AE0
-extern dword_114AE4, dword_1210C0, dword_1228F4, qword_1149BC, qword_114AC8, qword_114AD0, qword_114AF2, PutBlock
+extern __CHP, RemapTable, byte_123988, str_Inf, str_Nan, DblMaxLow, DblMaxHigh, DblMinusMaxLow
+extern DblMinusMaxHigh, dword_1210C0, dword_1228F4, F64_neg1_floor_, F64_Scale10Max, F64_Scale10Min, Pow10Table, PutBlock
 extern DrawArtOpaque, sub_BF02C, sub_BF034, sub_BF04B, sub_BF8A8, sub_DF6A7, sub_DF810, sub_E0520
-extern unk_114AF0
+extern Scale10Count
 global _Scale10V_, _Scale_, __Bin2String, __CmpBigInt, __Nan_Inf_, __Rnd2Int, __cvt_, floor_
-global frexp_, modf_, sub_DCFF4, sub_DD084, sub_DD0CF, sub_DD120, sub_DD220, sub_DD2A0
-global sub_DD455, sub_DD50A, sub_DD580
+global frexp_, modf_, ModfCore, DecimalToInt64, NormalizeDouble, sub_DD120, sub_DD220, sub_DD2A0
+global BigIntCallHook, BigIntNullHook, sub_DD580
+;-----------------------------------------------------------------------------
+; __Nan_Inf_                                                    DCC25  library
+;-----------------------------------------------------------------------------
 __Nan_Inf_:
         push ebx
         push edx
@@ -58,6 +61,9 @@ __Nan_Inf_:
         pop edx
         pop ebx
         ret 0Ch
+;-----------------------------------------------------------------------------
+; floor_                                                        DCCA9  library
+;-----------------------------------------------------------------------------
 floor_:
         push ebp
         mov ebp, esp
@@ -78,7 +84,7 @@ floor_:
         sahf
         jbe short .1
         fld qword [byte ebp-014h]
-        fadd qword [qword_1149BC]
+        fadd qword [F64_neg1_floor_]
         fstp qword [byte ebp-014h]
 .1:
         fld qword [byte ebp-014h]
@@ -88,6 +94,9 @@ floor_:
         pop eax
         pop ebp
         ret 8
+;-----------------------------------------------------------------------------
+; _Scale_                                                       DCCE5  library
+;-----------------------------------------------------------------------------
 _Scale_:
         push ebp
         mov ebp, esp
@@ -121,6 +130,9 @@ _Scale_:
         pop ebx
         pop ebp
         ret 10h
+;-----------------------------------------------------------------------------
+; _Scale10V_                                                    DCD26  library
+;-----------------------------------------------------------------------------
 _Scale10V_:
         push eax
         push ebx
@@ -130,27 +142,27 @@ _Scale10V_:
         sub esp, byte 8
         mov ecx, dword [byte esp+028h]
         fld qword [byte esp+020h]
-        fcomp qword [qword_114AC8]
+        fcomp qword [F64_Scale10Max]
         fnstsw ax
         sahf
         jne short .1
-        mov eax, dword [dword_114AD8]
+        mov eax, dword [DblMaxLow]
         mov dword [byte esp+020h], eax
-        mov eax, dword [dword_114ADC]
+        mov eax, dword [DblMaxHigh]
         jmp short .2
 .1:
         fld qword [byte esp+020h]
-        fcomp qword [qword_114AD0]
+        fcomp qword [F64_Scale10Min]
         fnstsw ax
         sahf
         jne short .3
-        mov eax, dword [dword_114AE0]
+        mov eax, dword [DblMinusMaxLow]
         mov dword [byte esp+020h], eax
-        mov eax, dword [dword_114AE4]
+        mov eax, dword [DblMinusMaxHigh]
 .2:
         mov dword [byte esp+024h], eax
 .3:
-        mov eax, unk_114AF0
+        mov eax, Scale10Count
         test ecx, ecx
         jge short .4
         mov edx, ecx
@@ -158,7 +170,7 @@ _Scale10V_:
         cmp edx, 134h
         jle short .6
         fld qword [byte esp+020h]
-        fdiv qword [qword_114AF2]
+        fdiv qword [Pow10Table]
         sub edx, 0D8h
         jmp short .5
 .4:
@@ -166,7 +178,7 @@ _Scale10V_:
         cmp ecx, 134h
         jle short .6
         fld qword [byte esp+020h]
-        fmul qword [qword_114AF2]
+        fmul qword [Pow10Table]
         lea edx, [dword ecx-0D8h]
 .5:
         fstp qword [byte esp+020h]
@@ -209,6 +221,9 @@ _Scale10V_:
         pop ebx
         pop eax
         ret 0Ch
+;-----------------------------------------------------------------------------
+; __cvt_                                                        DCE0D  library
+;-----------------------------------------------------------------------------
 __cvt_:
         push ebp
         mov ebp, esp
@@ -422,7 +437,11 @@ __cvt_:
         pop ebp
         ret 1Ch
         db 00h
-sub_DCFF4:
+;-----------------------------------------------------------------------------
+; ModfCore                                        DCFF4  96 PC, low confidence
+; Splits a double into its integer and fraction parts
+;-----------------------------------------------------------------------------
+ModfCore:
         push ebp
         push esi
         push edi
@@ -476,7 +495,7 @@ sub_DCFF4:
         mov ebp, esi
         and edx, dword [byte ebp+04h]
         and eax, dword [byte ebp+00h]
-        call sub_DD0CF
+        call NormalizeDouble
         pop esi
         or edx, edx
         je short .5
@@ -491,7 +510,11 @@ sub_DCFF4:
         pop esi
         pop ebp
         ret
-sub_DD084:
+;-----------------------------------------------------------------------------
+; DecimalToInt64                                  DD084  96 PC, low confidence
+; Converts a string of decimal digits to a 64-bit integer
+;-----------------------------------------------------------------------------
+DecimalToInt64:
         push ebp
         push esi
         push edi
@@ -524,7 +547,7 @@ sub_DD084:
 .2:
         mov eax, ecx
         mov edi, 43300000h
-        call sub_DD0CF
+        call NormalizeDouble
         pop ebp
         mov dword [byte ebp+04h], edx
         mov dword [byte ebp+00h], eax
@@ -534,7 +557,11 @@ sub_DD084:
         pop esi
         pop ebp
         ret
-sub_DD0CF:
+;-----------------------------------------------------------------------------
+; NormalizeDouble                                 DD0CF  96 PC, low confidence
+; Normalises a 64-bit mantissa and exponent into a double
+;-----------------------------------------------------------------------------
+NormalizeDouble:
         sub esi, esi
         or esi, eax
         or esi, edx
@@ -566,6 +593,9 @@ sub_DD0CF:
         or edx, edi
 .5:
         ret
+;-----------------------------------------------------------------------------
+; sub_DD120                                                            DD120  
+;-----------------------------------------------------------------------------
 sub_DD120:
         push esi
         push edi
@@ -665,6 +695,9 @@ sub_DD120:
         pop esi
         ret
         db 00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_DD220                                                            DD220  
+;-----------------------------------------------------------------------------
 sub_DD220:
         push esi
         push edi
@@ -721,6 +754,9 @@ sub_DD220:
         pop esi
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_DD2A0                                                            DD2A0  
+;-----------------------------------------------------------------------------
 sub_DD2A0:
         mov ebx, dword [byte esp+04h]
         mov edx, dword [byte ebx+02h]
@@ -781,6 +817,9 @@ sub_DD2A0:
         pop esi
         ret
         db 00h
+;-----------------------------------------------------------------------------
+; modf_                                                         DD32C  library
+;-----------------------------------------------------------------------------
 modf_:
         push eax
         fld qword [byte esp+08h]
@@ -793,10 +832,13 @@ modf_:
         wait
         ret 0Ch
         db 00h
+;-----------------------------------------------------------------------------
+; __CmpBigInt                                                   DD346  library
+;-----------------------------------------------------------------------------
 __CmpBigInt:
         push edi
         push ecx
-        call sub_DD455
+        call BigIntCallHook
         inc eax
         lea edi, [edi+eax*8]
         mov ecx, dword [edx]
@@ -826,6 +868,9 @@ __CmpBigInt:
         pop ecx
         pop edi
         ret
+;-----------------------------------------------------------------------------
+; __Rnd2Int                                                     DD380  library
+;-----------------------------------------------------------------------------
 __Rnd2Int:
         push ebx
         push ecx
@@ -880,6 +925,9 @@ __Rnd2Int:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; __Bin2String                                                  DD3EB  library
+;-----------------------------------------------------------------------------
 __Bin2String:
         push ebp
         push edi
@@ -941,8 +989,12 @@ __Bin2String:
         pop edi
         pop ebp
         ret
-sub_DD455:
-        call sub_DD50A
+;-----------------------------------------------------------------------------
+; BigIntCallHook                                  DD455  96 PC, low confidence
+; Calls the empty big-integer compare hook
+;-----------------------------------------------------------------------------
+BigIntCallHook:
+        call BigIntNullHook
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,01h,00h,00h,00h
         db 00h,00h,00h,00h,0Ah,00h,00h,00h,00h,00h,00h,00h,064h,00h,00h,00h
         db 00h,00h,00h,00h,0E8h,03h,00h,00h,00h,00h,00h,00h,010h,027h,00h,00h
@@ -954,9 +1006,16 @@ sub_DD455:
         db 07Eh,08Dh,03h,00h,00h,080h,0C6h,0A4h,0F2h,086h,023h,00h,00h,00h,0C1h,06Fh
         db 078h,045h,063h,01h,00h,00h,08Ah,05Dh,0B3h,0B6h,0E0h,0Dh,00h,00h,064h,0A7h
         db 04h,023h,0C7h,08Ah,00h,00h,0E8h,089h,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh
-sub_DD50A:
+;-----------------------------------------------------------------------------
+; BigIntNullHook                                  DD50A  96 PC, low confidence
+; Empty big-integer compare hook
+;-----------------------------------------------------------------------------
+BigIntNullHook:
         pop edi
         ret
+;-----------------------------------------------------------------------------
+; frexp_                                                        DD50C  library
+;-----------------------------------------------------------------------------
 frexp_:
         push eax
         push ebx
@@ -996,6 +1055,9 @@ frexp_:
         pop eax
         ret 0Ch
         db 00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_DD580                                                            DD580  
+;-----------------------------------------------------------------------------
 sub_DD580:
         push esi
         mov esi, dword [byte esp+010h]
@@ -1019,7 +1081,7 @@ sub_DD580:
         xor ebx, ebx
         mov bl, byte [eax]
         inc eax
-        mov bl, byte [dword ebx+byte_122794]
+        mov bl, byte [dword ebx+RemapTable]
         mov byte [byte eax-01h], bl
         jmp short .1
 .3:

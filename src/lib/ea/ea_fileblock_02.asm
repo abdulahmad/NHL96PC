@@ -3,13 +3,17 @@ bits 32
 %include "hockey.inc"
 section s_B22E0 progbits alloc exec nowrite align=1
 extern FatalError, str_SavefileblockaOPENFAILEDFOR, byte_11FA2C, byte_11FA2D, byte_11FA2E, byte_11FA2F, byte_11FA30, dword_11FA14
-extern dword_11FA1C, dword_11FA20, dword_11FA24, dword_11FA28, dword_11FA34, dword_11FA38, dword_11FA3C, dword_11FA40
-extern dword_11FA44, dword_11FA48, dword_11FA4C, dword_1228D0, dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4
-extern dword_1228E8, dword_1228F4, dword_1228F8, dword_1228FC, dword_185774, off_11FA10, sub_AC9CC, sub_AC9D4
-extern sub_B0240, sub_C4CCC, sub_C4D80, sub_C50E0, sub_DE15C, sub_DEE68, sub_E069C, sub_E07B8
-extern sub_E07C8
-global sub_B22E0, savefileblocka, sub_B2400, sub_B2B0C
-sub_B22E0:
+extern TextOriginX, TextOriginY, dword_11FA24, dword_11FA28, dword_11FA34, dword_11FA38, dword_11FA3C, dword_11FA40
+extern dword_11FA44, dword_11FA48, dword_11FA4C, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight
+extern dword_1228E8, dword_1228F4, dword_1228F8, dword_1228FC, dword_185774, off_11FA10, MemDescPtr, MemDescSize
+extern SetTextOrigin, sub_C4CCC, sub_C4D80, sub_C50E0, sub_DE15C, sub_DEE68, sub_E069C, DosCloseFile
+extern DosWriteFile
+global SaveDataFile, savefileblocka, sub_B2400, sub_B2B0C
+;-----------------------------------------------------------------------------
+; SaveDataFile                                    B22E0  96 PC, low confidence
+; Saves a memory block to a file
+;-----------------------------------------------------------------------------
+SaveDataFile:
         sub esp, byte 28h
         mov eax, dword [byte esp+030h]
         xor edx, edx
@@ -63,6 +67,9 @@ sub_B22E0:
         add esp, byte 0Ch
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; savefileblocka                               B2374  95 PC, medium confidence
+;-----------------------------------------------------------------------------
 savefileblocka:
         push esi
         push edi
@@ -70,11 +77,11 @@ savefileblocka:
         sub esp, byte 0Ch
         mov esi, dword [byte esp+020h]
         push esi
-        call sub_AC9D4
+        call MemDescSize
         add esp, byte 4
         push esi
         mov edi, eax
-        call sub_AC9CC
+        call MemDescPtr
         add esp, byte 4
         mov esi, eax
         mov eax, esp
@@ -104,11 +111,11 @@ savefileblocka:
         push edi
         push esi
         push ebx
-        call sub_E07C8
+        call DosWriteFile
         add esp, byte 0Ch
         mov esi, dword [byte esp+08h]
         push esi
-        call sub_E07B8
+        call DosCloseFile
         mov eax, 1
         add esp, byte 4
 .3:
@@ -118,6 +125,9 @@ savefileblocka:
         pop esi
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_B2400                                                            B2400  
+;-----------------------------------------------------------------------------
 sub_B2400:
         push esi
         push edi
@@ -265,7 +275,7 @@ sub_B2400:
 .15:
         xor esi, esi
 .16:
-        mov edx, dword [dword_11FA1C]
+        mov edx, dword [TextOriginX]
         add edx, esi
         mov esi, dword [dword_11FA44]
         mov dword [byte esp+044h], edx
@@ -275,7 +285,7 @@ sub_B2400:
         mov dl, al
         movsx esi, byte [edx+esi]
 .17:
-        add esi, dword [dword_11FA20]
+        add esi, dword [TextOriginY]
         mov edx, dword [dword_11FA4C]
         and eax, 0FFh
         mov ebx, dword [esp]
@@ -327,9 +337,9 @@ sub_B2400:
         mov dword [byte esp+010h], ecx
         cmp ecx, byte 0FFFFFFFFh
         je near .47
-        cmp esi, dword [dword_1228DC]
+        cmp esi, dword [ClipLeftCol]
         jl near .32
-        cmp esi, dword [dword_1228E4]
+        cmp esi, dword [ScreenHeight]
         jge near .32
         mov eax, dword [byte esp+044h]
         mov dword [byte esp+064h], eax
@@ -493,31 +503,31 @@ sub_B2400:
         cmp dword [dword_1228E8], byte 8
         jne near .34
         mov eax, dword [byte esp+044h]
-        cmp eax, dword [dword_1228D8]
+        cmp eax, dword [ClipTopRow]
         jl near .34
-        cmp eax, dword [dword_1228E0]
+        cmp eax, dword [ClipRight]
         jge near .34
-        cmp esi, dword [dword_1228DC]
+        cmp esi, dword [ClipLeftCol]
         jl near .34
-        cmp esi, dword [dword_1228E4]
+        cmp esi, dword [ScreenHeight]
         jge near .34
         mov edx, dword [byte esp+0Ch]
-        mov ebx, dword [dword_1228D8]
+        mov ebx, dword [ClipTopRow]
         add eax, edx
         cmp eax, ebx
         jl short .34
-        cmp eax, dword [dword_1228E0]
+        cmp eax, dword [ClipRight]
         jge short .34
-        mov edx, dword [dword_1228DC]
+        mov edx, dword [ClipLeftCol]
         lea eax, [esi+edi]
         cmp eax, edx
         jl short .34
-        cmp eax, dword [dword_1228E4]
+        cmp eax, dword [ScreenHeight]
         jge short .34
         mov eax, dword [byte esp+0Ch]
         inc eax
         sar eax, 1
-        mov ebx, dword [dword_1228D0]
+        mov ebx, dword [ScreenWidth]
         lea edx, [nosplit eax*2+00h]
         sub ebx, edx
         mov edx, dword [byte esp+08h]
@@ -538,7 +548,7 @@ sub_B2400:
         call sub_DEE68
         add esp, byte 18h
         mov eax, dword [byte esp+024h]
-        add dword [dword_11FA1C], eax
+        add dword [TextOriginX], eax
         jmp near .8
 .34:
         mov eax, dword [byte esp+010h]
@@ -546,9 +556,9 @@ sub_B2400:
         mov dword [byte esp+010h], eax
         cmp eax, byte 0FFFFFFFFh
         je near .47
-        cmp esi, dword [dword_1228DC]
+        cmp esi, dword [ClipLeftCol]
         jl near .42
-        cmp esi, dword [dword_1228E4]
+        cmp esi, dword [ScreenHeight]
         jge near .42
         mov eax, dword [byte esp+044h]
         mov dword [byte esp+038h], eax
@@ -666,9 +676,9 @@ sub_B2400:
         mov dword [byte esp+010h], edx
         cmp edx, byte 0FFFFFFFFh
         je short .47
-        cmp esi, dword [dword_1228DC]
+        cmp esi, dword [ClipLeftCol]
         jl short .43
-        cmp esi, dword [dword_1228E4]
+        cmp esi, dword [ScreenHeight]
         jge short .43
         mov eax, dword [byte esp+044h]
         mov dword [byte esp+060h], eax
@@ -700,7 +710,7 @@ sub_B2400:
         jmp short .45
 .47:
         mov eax, dword [byte esp+024h]
-        add dword [dword_11FA1C], eax
+        add dword [TextOriginX], eax
         jmp near .8
 .48:
         add esp, byte 68h
@@ -708,12 +718,15 @@ sub_B2400:
         pop edi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; sub_B2B0C                                                            B2B0C  
+;-----------------------------------------------------------------------------
 sub_B2B0C:
         mov edx, dword [byte esp+0Ch]
         push edx
         mov ebx, dword [byte esp+0Ch]
         push ebx
-        call sub_B0240
+        call SetTextOrigin
         add esp, byte 8
         mov ecx, dword [byte esp+04h]
         push ecx

@@ -4,10 +4,10 @@ bits 32
 section s_1222C8 progbits alloc noexec write align=1
 extern sub_B7AC4, sub_B7B50, sub_B7BDC, sub_B7C68, sub_B7D38, sub_B7E08, sub_B7ED8, sub_B7FBC
 extern sub_B809C, sub_B817C, sub_B8198, sub_B81B4, sub_B81D0, sub_B8230, sub_B8290
-global byte_122794, dword_1222C8, dword_1222CC, dword_1222D0, dword_1222D4, dword_1222D8, dword_1222DC, dword_12231C
-global dword_122350, dword_122378, dword_122384, dword_122388, dword_12238C, dword_122390, dword_122790, dword_122894
-global dword_1228D0, dword_1228D4, off_1222E0, off_1222EC, off_1222F8, off_122304, off_122310, unk_122320
-global unk_122344, unk_122898, unk_1228BC
+global RemapTable, dword_1222C8, dword_1222CC, dword_1222D0, dword_1222D4, dword_1222D8, dword_1222DC, dword_12231C
+global dword_122350, dword_122378, dword_122384, dword_122388, dword_12238C, SinTable, dword_122790, str_Punct_SetScreenScale
+global ScreenWidth, ClipBottom, off_1222E0, off_1222EC, off_1222F8, off_122304, off_122310, unk_122320
+global unk_122344, RinkMatrix, RinkTranslation
 dword_1222C8:
         db 056h,0Eh,02Dh,0F2h
 dword_1222CC:
@@ -60,7 +60,7 @@ dword_122388:
         db 01Bh,00h,00h,00h
 dword_12238C:
         db 00h,040h,00h,00h
-dword_122390:
+SinTable:
         db 00h,00h,00h,00h,092h,01h,00h,00h,024h,03h,00h,00h,0B6h,04h,00h,00h
         db 048h,06h,00h,00h,0DAh,07h,00h,00h,06Ch,09h,00h,00h,0FEh,0Ah,00h,00h
         db 08Fh,0Ch,00h,00h,021h,0Eh,00h,00h,0B2h,0Fh,00h,00h,044h,011h,00h,00h
@@ -127,7 +127,7 @@ dword_122390:
         db 0ECh,0FFh,00h,00h,0F4h,0FFh,00h,00h,0FBh,0FFh,00h,00h,0FEh,0FFh,00h,00h
 dword_122790:
         db 00h,00h,01h,00h
-byte_122794:
+RemapTable:
         db 00h,09Eh,06Eh,07Eh,02Eh,0BEh,03Eh,08h,01Eh,08Dh,06Ah,07Ch,0DFh,0BCh,04Ch,018h
         db 018h,019h,019h,01Ah,08h,08h,01Ch,01Ch,01Ch,01Dh,01Eh,01Eh,01Fh,01Fh,01Fh,00h
         db 019h,0C9h,0CAh,0CBh,0DFh,0DFh,02Ch,02Ch,02Dh,02Dh,02Eh,02Eh,02Fh,02Fh,02Fh,00h
@@ -144,16 +144,16 @@ byte_122794:
         db 019h,019h,0C9h,0CAh,0CAh,0CBh,0CBh,0CBh,0CCh,0CCh,0CCh,0CDh,03Eh,03Eh,03Fh,03Fh
         db 0BCh,0BCh,0BCh,0BCh,0BCh,0BCh,0BCh,0BCh,0BCh,0BCh,0BCh,0BCh,0BCh,0BCh,0BCh,0BCh
         db 0BCh,0BCh,0BCh,0BCh,0BCh,0BCh,0BCh,0BCh,0BCh,0BCh,0BCh,0BCh,0BCh,0BCh,0BCh,018h
-dword_122894:
+str_Punct_SetScreenScale:
         db 0Ah,00h,00h,00h
-unk_122898:
+RinkMatrix:
         db 00h,00h,01h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,01h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,01h,00h
-unk_1228BC:
+RinkTranslation:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h
-dword_1228D0:
+ScreenWidth:
         db 080h,02h,00h,00h
-dword_1228D4:
+ClipBottom:
         db 0E0h,01h

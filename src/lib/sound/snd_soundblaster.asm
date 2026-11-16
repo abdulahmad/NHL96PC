@@ -4,37 +4,41 @@ bits 32
 section s_CE06B progbits alloc exec nowrite align=1
 extern str_BLASTER, str_DMABUFFER, str_WSSDMA, str_DMABUFFER2, str_DMABUFFER3, str_DMABUF, str_DMABUF2, byte_123988
 extern byte_1248D0, byte_1248D1, byte_14F024, byte_14F025, byte_14F026, byte_14F054, byte_14F055, byte_14F064
-extern byte_14F065, byte_14F066, byte_14F067, byte_14F070, byte_1A0FD4, byte_1A0FD5, dword_11F5E4, dword_1210C0
-extern dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4, dword_1228F0, dword_1228F4, dword_1228F8, dword_1228FC
+extern byte_14F065, byte_14F066, byte_14F067, byte_14F070, byte_1A0FD4, byte_1A0FD5, CpuType, dword_1210C0
+extern ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, dword_1228F0, dword_1228F4, dword_1228F8, dword_1228FC
 extern dword_123BCC, dword_123BD0, dword_1248D2, dword_14F01C, dword_14F020, dword_14F030, dword_14F034, dword_14F038
 extern dword_14F03C, dword_14F040, dword_14F044, dword_14F048, dword_14F04C, dword_14F050, dword_14F058, dword_14F05C
-extern dword_14F060, dword_151340, dword_1A0FB0, dword_1A0FB4, dword_1A0FB8, dword_1A0FBC, dword_1A0FC0, dword_1A0FC4
+extern dword_14F060, GusStreamRefillB, dword_1A0FB0, dword_1A0FB4, DacTimerRate, dword_1A0FBC, DacTimerDivisor, dword_1A0FC4
 extern dword_1A0FC8, dword_1A0FCC, dword_1A0FD8, dword_1A0FDC, dword_1A0FE0, dword_1A0FE4, dword_1A0FE8, dword_1A0FF0
 extern dword_1A0FF4, dword_1A0FF8, dword_1A0FFC, dword_1A1004, dword_1A100A, dword_1A1010, dword_1A1014, dword_1A1018
 extern dword_1A101C, dword_1A1020, dword_1A1024, dword_1A1028, dword_1A1030, dword_1A1034, dword_1A1038, dword_1A103C
 extern dword_1A1040, dword_1A1044, dword_1A1048, dword_1A104C, dword_1A1052, dword_1A1058, dword_1A105C, dword_1A1060
 extern dword_1A1064, dword_1A1068, dword_1A106C, dword_1A1070, dword_1A1074, dword_1A1078, dword_1A107C, dword_1A1084
-extern dword_1A108A, getenv_, unk_D79E5_2, unk_D7A02_2, sub_AB798, sub_ABF4C, sub_B178B, DrawArtOpaque
+extern dword_1A108A, getenv_, unk_D79E5_2, unk_D7A02_2, sub_AB798, FreeMemBlock, sub_B178B, DrawArtOpaque
 extern sub_BF950, sub_BFC91, sub_BFE4C, sub_C03F8, sub_C0BCD, sub_C1322, sub_C1811, sub_CBEB7
-extern sub_CBFC2, sub_CC15A, sub_D5B1E, sub_D5B7C, sub_D5B96, sub_D5BB1, sub_D5E50, sub_D5E7D
-extern sub_D5F5A, sub_D5F84, sub_D5F95, sub_D5FD4, sub_D6005, sub_D6027, sub_D60D2, sub_D6120
-extern sub_D6230, sub_D660C, sub_D66F8, sub_D6D4C, sub_D703C, sub_D7042, sub_D721B, sub_D7267
+extern sub_CBFC2, MixerStopChannel, ReturnArg, TimerCalibrate, TimerRestore, sub_D5BB1, sub_D5E50, sub_D5E7D
+extern sub_D5F5A, sub_D5F84, sub_D5F95, sub_D5FD4, sub_D6005, sub_D6027, sub_D60D2, GusGetEnvConfig
+extern GusProbePort, GusOpen, GusClose, GusMemAlloc, sub_D703C, sub_D7042, GusServiceStream, GusStartStream
 extern sub_D7970, sub_D79CC, sub_D7A44, sub_E0520, unk_1A0B20, unk_1A0FEC, unk_1A102C, unk_D796A
 extern unk_D796C, unk_D796E, unk_D79E3, unk_D79E5, unk_D7A00, unk_D7A02, unk_F0000, unk_F000D
-extern unk_F001A, unk_F0027, word_1A0FA0, word_1A0FA2, word_1A0FA4, word_1A0FA6, word_1A0FA8, word_1A0FAA
-extern word_1A0FAC, word_1A0FD0, word_1A0FD2, word_1A1000, word_1A1008, word_1A1050, word_1A1080, word_1A1088
+extern unk_F001A, unk_F0027, word_1A0FA0, SbMixerAddrPort, word_1A0FA4, word_1A0FA6, word_1A0FA8, SbReadPort
+extern SbWritePort, word_1A0FD0, word_1A0FD2, word_1A1000, word_1A1008, word_1A1050, word_1A1080, word_1A1088
 global jpt_CE396, sub_CE3B6_57, sub_CE3B6_68, sub_CE3B6_79, sub_CE3B6_85, sub_CE3B6_96, sub_CE3B6_A2, sub_CE3B6_AE
 global sub_CE3B6_BD, sub_CE3B6_218, sub_CE65F_1, sub_CE65F_7, sub_CE65F_D, sub_CEA28_1, sub_CEA28_7, sub_CEA28_D
 global sub_CEC5D_1, sub_CEC5D_7, sub_CEC5D_A, sub_CF078_1, sub_CF078_7, sub_CF078_D, sub_CF587_1, sub_CF587_7
-global sub_CF587_D, sub_CFA64_34, sub_CFB14_34, sub_CE06B, ParseBlasterEnv, sub_CE1DA, sub_CE1F3, sub_CE220
-global sub_CE254, sub_CE285, sub_CE2B6, sub_CE2E8, sub_CE31C, sub_CE3B6, sub_CE5D5, sub_CE60C
+global sub_CF587_D, sub_CFA64_34, sub_CFB14_34, ParseHexValue, ParseBlasterEnv, sub_CE1DA, sub_CE1F3, sub_CE220
+global sub_CE254, sub_CE285, SbResetDsp, sub_CE2E8, sub_CE31C, sub_CE3B6, sub_CE5D5, sub_CE60C
 global sub_CE647, sub_CE65F, sub_CE672, sub_CE709, sub_CE780, sub_CE7C4, sub_CE90E, sub_CE980
 global sub_CE9D9, sub_CEA10, sub_CEA28, sub_CEA3B, sub_CEB8D, sub_CEC0A, sub_CEC45, sub_CEC5D
 global sub_CEC6D, sub_CEDDE, sub_CEFEE, sub_CF025, sub_CF060, sub_CF078, sub_CF08B, sub_CF255
 global sub_CF2D8, sub_CF4CD, sub_CF534, sub_CF56F, sub_CF587, sub_CF59A, sub_CF68D, sub_CF6C9
 global sub_CF6ED, sub_CF7C0, sub_CF864, sub_CF918, sub_CFA64, sub_CFB14, sub_CFCC0, sub_CFCF8
 global unk_CE368, unk_CE378, unk_CE388
-sub_CE06B:
+;-----------------------------------------------------------------------------
+; ParseHexValue                                   CE06B  96 PC, low confidence
+; Parses a hexadecimal setting value
+;-----------------------------------------------------------------------------
+ParseHexValue:
         push ecx
         push esi
         enter 0Ch, 0
@@ -57,13 +61,17 @@ sub_CE06B:
         lea edx, [byte ebp-04h]
         lea eax, [byte ebp-0Ch]
         mov byte [byte ecx+ebp-0Ch], 0
-        call sub_D5B1E
+        call ReturnArg
         mov dword [esi], eax
         mov eax, ecx
         leave
         pop esi
         pop ecx
         ret
+;-----------------------------------------------------------------------------
+; ParseBlasterEnv                              CE0A9  96 PC, medium confidence
+; Parses the BLASTER environment string
+;-----------------------------------------------------------------------------
 ParseBlasterEnv:
         push esi
         push edi
@@ -132,7 +140,7 @@ ParseBlasterEnv:
         mov edx, dword [byte ebp-08h]
 .9:
         mov eax, ecx
-        call sub_CE06B
+        call ParseHexValue
         add ecx, eax
 .10:
         cmp byte [ecx], 0
@@ -167,12 +175,12 @@ ParseBlasterEnv:
         add eax, 0Ah
         mov word [word_1A0FA0], ax
         mov eax, ecx
-        mov word [word_1A0FA2], cx
+        mov word [SbMixerAddrPort], cx
         add eax, 0Ch
         add ecx, byte 0Eh
-        mov word [word_1A0FAA], ax
-        mov word [word_1A0FAC], cx
-        call sub_CE2B6
+        mov word [SbReadPort], ax
+        mov word [SbWritePort], cx
+        call SbResetDsp
         xor eax, eax
         leave
         pop edi
@@ -184,6 +192,9 @@ ParseBlasterEnv:
         pop edi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; sub_CE1DA                                                            CE1DA  
+;-----------------------------------------------------------------------------
 sub_CE1DA:
         push ebx
         push edx
@@ -191,7 +202,7 @@ sub_CE1DA:
 .1:
         dec ebx
         je short .2
-        movzx edx, word [word_1A0FAC]
+        movzx edx, word [SbWritePort]
         sub eax, eax
         in al, dx
         jmp short .1
@@ -199,6 +210,9 @@ sub_CE1DA:
         pop edx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_CE1F3                                                            CE1F3  
+;-----------------------------------------------------------------------------
 sub_CE1F3:
         push ebx
         push edx
@@ -206,7 +220,7 @@ sub_CE1F3:
 .1:
         dec ebx
         je short .2
-        movzx edx, word [word_1A0FAC]
+        movzx edx, word [SbWritePort]
         sub eax, eax
         in al, dx
         test al, 80h
@@ -222,6 +236,9 @@ sub_CE1F3:
         pop edx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_CE220                                                            CE220  
+;-----------------------------------------------------------------------------
 sub_CE220:
         push ebx
         push ecx
@@ -231,12 +248,12 @@ sub_CE220:
 .1:
         dec ebx
         je short .2
-        movzx edx, word [word_1A0FAA]
+        movzx edx, word [SbReadPort]
         sub eax, eax
         in al, dx
         test al, 80h
         jne short .1
-        movzx edx, word [word_1A0FAA]
+        movzx edx, word [SbReadPort]
         mov al, cl
         out dx, al
         xor eax, eax
@@ -250,6 +267,9 @@ sub_CE220:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_CE254                                                            CE254  
+;-----------------------------------------------------------------------------
 sub_CE254:
         push ebx
         push ecx
@@ -272,6 +292,9 @@ sub_CE254:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_CE285                                                            CE285  
+;-----------------------------------------------------------------------------
 sub_CE285:
         push ebx
         push ecx
@@ -294,7 +317,11 @@ sub_CE285:
         pop ecx
         pop ebx
         ret
-sub_CE2B6:
+;-----------------------------------------------------------------------------
+; SbResetDsp                                      CE2B6  96 PC, low confidence
+; Resets the Sound Blaster DSP
+;-----------------------------------------------------------------------------
+SbResetDsp:
         push ebx
         push edx
         mov al, 1
@@ -304,7 +331,7 @@ sub_CE2B6:
 .1:
         dec ebx
         je short .2
-        movzx edx, word [word_1A0FAC]
+        movzx edx, word [SbWritePort]
         sub eax, eax
         in al, dx
         jmp short .1
@@ -316,6 +343,9 @@ sub_CE2B6:
         pop edx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_CE2E8                                                            CE2E8  
+;-----------------------------------------------------------------------------
 sub_CE2E8:
         push edx
         mov eax, 0E1h
@@ -339,6 +369,9 @@ sub_CE2E8:
 .3:
         pop edx
         ret
+;-----------------------------------------------------------------------------
+; sub_CE31C                                                            CE31C  
+;-----------------------------------------------------------------------------
 sub_CE31C:
         push ebx
         cmp eax, 0FA0h
@@ -385,6 +418,9 @@ jpt_CE396:
         dd sub_CE3B6_96
         dd sub_CE3B6_A2
         dd sub_CE3B6_AE
+;-----------------------------------------------------------------------------
+; sub_CE3B6                                                            CE3B6  
+;-----------------------------------------------------------------------------
 sub_CE3B6:
         push ebx
         push ecx
@@ -413,36 +449,36 @@ sub_CE3B6:
         repne scasw
         jmp dword [nosplit cs:ecx*4+jpt_CE396]
 sub_CE3B6_57:
-        mov dword [dword_1A0FB8], 801h
+        mov dword [DacTimerRate], 801h
         mov ebx, 8
         jmp short sub_CE3B6_BD
 sub_CE3B6_68:
-        mov dword [dword_1A0FB8], 800h
+        mov dword [DacTimerRate], 800h
 .3:
         mov ebx, 4
         jmp short sub_CE3B6_BD
 sub_CE3B6_79:
-        mov dword [dword_1A0FB8], 803h
+        mov dword [DacTimerRate], 803h
         jmp short sub_CE3B6_68.3
 sub_CE3B6_85:
-        mov dword [dword_1A0FB8], 802h
+        mov dword [DacTimerRate], 802h
 .4:
         mov ebx, 2
         jmp short sub_CE3B6_BD
 sub_CE3B6_96:
-        mov dword [dword_1A0FB8], 807h
+        mov dword [DacTimerRate], 807h
         jmp short sub_CE3B6_85.4
 sub_CE3B6_A2:
-        mov dword [dword_1A0FB8], 806h
+        mov dword [DacTimerRate], 806h
         jmp short sub_CE3B6_AE.5
 sub_CE3B6_AE:
-        mov dword [dword_1A0FB8], 80Bh
+        mov dword [DacTimerRate], 80Bh
 .5:
         mov ebx, 1
 sub_CE3B6_BD:
         lea ecx, [esi+esi*2]
         movzx eax, byte [dword ecx+byte_14F024]
-        or dword [dword_1A0FB8], eax
+        or dword [DacTimerRate], eax
         mov eax, 400h
         cdq
         idiv ebx
@@ -452,10 +488,10 @@ sub_CE3B6_BD:
         mov eax, 2000h
         cdq
         idiv ebx
-        mov dword [dword_1A0FC0], eax
+        mov dword [DacTimerDivisor], eax
         shr eax, 1
         mov dword [dword_1A0FB4], eax
-        mov eax, dword [dword_1A0FC0]
+        mov eax, dword [DacTimerDivisor]
         push dword 200h
         add eax, eax
         push eax
@@ -472,7 +508,7 @@ sub_CE3B6_BD:
         mov ecx, eax
         mov ebx, 10000h
         and ecx, 0FFFFh
-        sub ebx, dword [dword_1A0FC0]
+        sub ebx, dword [DacTimerDivisor]
         mov dword [dword_14F01C], eax
         cmp ecx, ebx
         jbe short .7
@@ -485,7 +521,7 @@ sub_CE3B6_BD:
         test eax, eax
         jge short .8
         push dword [dword_14F01C]
-        call sub_ABF4C
+        call FreeMemBlock
         mov dword [dword_14F01C], 0
         add esp, byte 4
         mov eax, edi
@@ -511,13 +547,13 @@ sub_CE3B6_BD:
         add esp, byte 4
         push dword [dword_1A0FC4]
         push edi
-        call sub_D5B7C
+        call TimerCalibrate
         mov esi, eax
         add esp, byte 8
         test eax, eax
         jg short .9
         push dword [dword_14F01C]
-        call sub_ABF4C
+        call FreeMemBlock
         mov dword [dword_14F01C], 0
         add esp, byte 4
         mov eax, esi
@@ -538,15 +574,18 @@ sub_CE3B6_218:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_CE5D5                                                            CE5D5  
+;-----------------------------------------------------------------------------
 sub_CE5D5:
         push ebx
         push ecx
         push edx
         cmp dword [dword_14F01C], byte 0
         je short .1
-        call sub_D5B96
+        call TimerRestore
         push dword [dword_14F01C]
-        call sub_ABF4C
+        call FreeMemBlock
         mov dword [dword_14F01C], 0
         add esp, byte 4
 .1:
@@ -555,6 +594,9 @@ sub_CE5D5:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_CE60C                                                            CE60C  
+;-----------------------------------------------------------------------------
 sub_CE60C:
         push ebx
         push ecx
@@ -577,6 +619,9 @@ sub_CE60C:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_CE647                                                            CE647  
+;-----------------------------------------------------------------------------
 sub_CE647:
         cmp eax, byte 5
         jb short .1
@@ -590,15 +635,27 @@ sub_CE647:
         mov eax, 2000h
 sub_CE65F:
         ret
+;-----------------------------------------------------------------------------
+; sub_CE65F_1                                                          CE660  
+;-----------------------------------------------------------------------------
 sub_CE65F_1:
         mov eax, dword [dword_1A0FC8]
         ret
+;-----------------------------------------------------------------------------
+; sub_CE65F_7                                                          CE666  
+;-----------------------------------------------------------------------------
 sub_CE65F_7:
         mov eax, 0Ch
         ret
+;-----------------------------------------------------------------------------
+; sub_CE65F_D                                                          CE66C  
+;-----------------------------------------------------------------------------
 sub_CE65F_D:
         mov eax, 0FFFFFFFFh
         ret
+;-----------------------------------------------------------------------------
+; sub_CE672                                                            CE672  
+;-----------------------------------------------------------------------------
 sub_CE672:
         push ebx
         push ecx
@@ -662,6 +719,9 @@ sub_CE672:
         shl eax, 10h
         or eax, ecx
         jmp near sub_CE3B6_218
+;-----------------------------------------------------------------------------
+; sub_CE709                                                            CE709  
+;-----------------------------------------------------------------------------
 sub_CE709:
         push ebx
         push ecx
@@ -731,9 +791,12 @@ sub_CE709:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_CE780                                                            CE780  
+;-----------------------------------------------------------------------------
 sub_CE780:
         mov eax, word_1A0FD0
-        call sub_D6120
+        call GusGetEnvConfig
         test eax, eax
         jne short .1
         mov eax, 0FFFFFFFEh
@@ -741,7 +804,7 @@ sub_CE780:
 .1:
         movzx eax, word [word_1A0FD2]
         mov dword [dword_14F038], 1
-        call sub_D6230
+        call GusProbePort
         test eax, eax
         jne short .2
         mov eax, 0FFFFFFFBh
@@ -750,6 +813,9 @@ sub_CE780:
         mov dword [dword_14F03C], 1
         mov eax, 1
         ret
+;-----------------------------------------------------------------------------
+; sub_CE7C4                                                            CE7C4  
+;-----------------------------------------------------------------------------
 sub_CE7C4:
         push ebx
         push ecx
@@ -787,7 +853,7 @@ sub_CE7C4:
         cmp dword [dword_14F038], byte 0
         jne short .4
         mov eax, word_1A0FD0
-        call sub_D6120
+        call GusGetEnvConfig
         test eax, eax
         jne short .3
         mov eax, 0FFFFFFFEh
@@ -799,7 +865,7 @@ sub_CE7C4:
         mov dword [dword_14F038], 1
 .4:
         movzx eax, word [word_1A0FD2]
-        call sub_D6230
+        call GusProbePort
         test eax, eax
         jne short .5
         mov eax, 0FFFFFFFBh
@@ -826,7 +892,7 @@ sub_CE7C4:
         mov byte [byte_1A0FD4], 5
 .8:
         mov eax, word_1A0FD0
-        call sub_D660C
+        call GusOpen
         test eax, eax
         je short .9
         mov eax, 0FFFFFFF9h
@@ -837,12 +903,12 @@ sub_CE7C4:
 .9:
         mov eax, 1004h
         mov dword [dword_14F030], 1
-        call sub_D6D4C
+        call GusMemAlloc
         push dword 1000h
         push eax
         push dword [dword_1A0FDC]
         mov dword [dword_1A0FD8], eax
-        call sub_D7267
+        call GusStartStream
         add esp, byte 0Ch
 .10:
         xor eax, eax
@@ -851,12 +917,15 @@ sub_CE7C4:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_CE90E                                                            CE90E  
+;-----------------------------------------------------------------------------
 sub_CE90E:
         push ebx
         push ecx
         push edx
         mov eax, word_1A0FD0
-        call sub_D6120
+        call GusGetEnvConfig
         test eax, eax
         jne short .1
         mov eax, 0FFFFFFFEh
@@ -864,7 +933,7 @@ sub_CE90E:
 .1:
         movzx eax, word [word_1A0FD2]
         mov dword [dword_14F038], 1
-        call sub_D6230
+        call GusProbePort
         test eax, eax
         jne short .2
         mov eax, 0FFFFFFFBh
@@ -890,13 +959,16 @@ sub_CE90E:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_CE980                                                            CE980  
+;-----------------------------------------------------------------------------
 sub_CE980:
         push ebx
         push ecx
         push edx
         cmp dword [dword_14F030], byte 0
         je short .1
-        call sub_D66F8
+        call GusClose
         mov dword [dword_14F038], 0
         mov dword [dword_14F03C], 0
         mov dword [dword_14F030], 0
@@ -905,7 +977,7 @@ sub_CE980:
         je short .2
         call sub_D703C
         push dword [dword_14F034]
-        call sub_ABF4C
+        call FreeMemBlock
         mov dword [dword_14F034], 0
         add esp, byte 4
 .2:
@@ -913,6 +985,9 @@ sub_CE980:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_CE9D9                                                            CE9D9  
+;-----------------------------------------------------------------------------
 sub_CE9D9:
         push ebx
         push ecx
@@ -922,19 +997,22 @@ sub_CE9D9:
         call sub_D7042
         test eax, eax
         je short .1
-        mov edx, dword [dword_151340]
+        mov edx, dword [GusStreamRefillB]
         mov eax, dword [dword_1A0FDC]
         shl edx, 0Bh
         add eax, edx
         push eax
         call sub_CBFC2
         add esp, byte 4
-        call sub_D721B
+        call GusServiceStream
 .1:
         pop edx
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_CEA10                                                            CEA10  
+;-----------------------------------------------------------------------------
 sub_CEA10:
         cmp eax, byte 5
         jb short .1
@@ -948,15 +1026,27 @@ sub_CEA10:
         mov eax, 800h
 sub_CEA28:
         ret
+;-----------------------------------------------------------------------------
+; sub_CEA28_1                                                          CEA29  
+;-----------------------------------------------------------------------------
 sub_CEA28_1:
         mov eax, 5622h
         ret
+;-----------------------------------------------------------------------------
+; sub_CEA28_7                                                          CEA2F  
+;-----------------------------------------------------------------------------
 sub_CEA28_7:
         mov eax, 0Ch
         ret
+;-----------------------------------------------------------------------------
+; sub_CEA28_D                                                          CEA35  
+;-----------------------------------------------------------------------------
 sub_CEA28_D:
         mov eax, 0FFFFFFFFh
         ret
+;-----------------------------------------------------------------------------
+; sub_CEA3B                                                            CEA3B  
+;-----------------------------------------------------------------------------
 sub_CEA3B:
         push ebx
         push ecx
@@ -1052,6 +1142,9 @@ sub_CEA3B:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_CEB8D                                                            CEB8D  
+;-----------------------------------------------------------------------------
 sub_CEB8D:
         push ebx
         push ecx
@@ -1074,7 +1167,7 @@ sub_CEB8D:
         mov eax, dword [dword_1A0FF4]
         call sub_D6005
         push dword [dword_14F044]
-        call sub_ABF4C
+        call FreeMemBlock
         mov dword [dword_14F044], 0
         add esp, byte 4
 .2:
@@ -1083,6 +1176,9 @@ sub_CEB8D:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_CEC0A                                                            CEC0A  
+;-----------------------------------------------------------------------------
 sub_CEC0A:
         push ebx
         push ecx
@@ -1105,6 +1201,9 @@ sub_CEC0A:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_CEC45                                                            CEC45  
+;-----------------------------------------------------------------------------
 sub_CEC45:
         cmp eax, byte 5
         jb short .1
@@ -1118,20 +1217,32 @@ sub_CEC45:
         mov eax, dword [dword_1A0FFC]
 sub_CEC5D:
         ret
+;-----------------------------------------------------------------------------
+; sub_CEC5D_1                                                          CEC5E  
+;-----------------------------------------------------------------------------
 sub_CEC5D_1:
         mov eax, dword [dword_1A0FE8]
         ret
+;-----------------------------------------------------------------------------
+; sub_CEC5D_7                                                          CEC64  
+;-----------------------------------------------------------------------------
 sub_CEC5D_7:
         xor eax, eax
         ret
+;-----------------------------------------------------------------------------
+; sub_CEC5D_A                                                          CEC67  
+;-----------------------------------------------------------------------------
 sub_CEC5D_A:
         mov eax, 0FFFFFFFFh
         ret
+;-----------------------------------------------------------------------------
+; sub_CEC6D                                                            CEC6D  
+;-----------------------------------------------------------------------------
 sub_CEC6D:
         push ebx
         push ecx
         push edx
-        call sub_CE2B6
+        call SbResetDsp
         cmp eax, byte 0FFFFFFFFh
         je near .8
         mov edx, 1
@@ -1231,6 +1342,9 @@ sub_CEC6D:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_CEDDE                                                            CEDDE  
+;-----------------------------------------------------------------------------
 sub_CEDDE:
         push ebx
         push ecx
@@ -1289,7 +1403,7 @@ sub_CEDDE:
         mov ax, word [dword_1A1048]
         add eax, 0Eh
         mov word [unk_D79E5], ax
-        call sub_CE2B6
+        call SbResetDsp
         test eax, eax
         jge short .8
         mov eax, 0FFFFFFFBh
@@ -1350,7 +1464,7 @@ sub_CEDDE:
         je short .12
         call sub_CF255
         push dword [dword_14F04C]
-        call sub_ABF4C
+        call FreeMemBlock
         mov dword [dword_14F04C], 0
         add esp, byte 4
 .12:
@@ -1368,7 +1482,7 @@ sub_CEDDE:
         je short .14
         call sub_CF255
         push dword [dword_14F04C]
-        call sub_ABF4C
+        call FreeMemBlock
         mov dword [dword_14F04C], 0
         add esp, byte 4
 .14:
@@ -1388,6 +1502,9 @@ sub_CEDDE:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_CEFEE                                                            CEFEE  
+;-----------------------------------------------------------------------------
 sub_CEFEE:
         push ebx
         push ecx
@@ -1396,7 +1513,7 @@ sub_CEFEE:
         je short .1
         call sub_CF255
         push dword [dword_14F04C]
-        call sub_ABF4C
+        call FreeMemBlock
         mov dword [dword_14F04C], 0
         add esp, byte 4
 .1:
@@ -1405,6 +1522,9 @@ sub_CEFEE:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_CF025                                                            CF025  
+;-----------------------------------------------------------------------------
 sub_CF025:
         push ebx
         push ecx
@@ -1427,6 +1547,9 @@ sub_CF025:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_CF060                                                            CF060  
+;-----------------------------------------------------------------------------
 sub_CF060:
         cmp eax, byte 5
         jb short .1
@@ -1440,15 +1563,27 @@ sub_CF060:
         mov eax, dword [dword_1A1044]
 sub_CF078:
         ret
+;-----------------------------------------------------------------------------
+; sub_CF078_1                                                          CF079  
+;-----------------------------------------------------------------------------
 sub_CF078_1:
         mov eax, dword [dword_1A1028]
         ret
+;-----------------------------------------------------------------------------
+; sub_CF078_7                                                          CF07F  
+;-----------------------------------------------------------------------------
 sub_CF078_7:
         mov eax, 4
         ret
+;-----------------------------------------------------------------------------
+; sub_CF078_D                                                          CF085  
+;-----------------------------------------------------------------------------
 sub_CF078_D:
         mov eax, 0FFFFFFFFh
         ret
+;-----------------------------------------------------------------------------
+; sub_CF08B                                                            CF08B  
+;-----------------------------------------------------------------------------
 sub_CF08B:
         push ebx
         push ecx
@@ -1570,13 +1705,16 @@ sub_CF08B:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_CF255                                                            CF255  
+;-----------------------------------------------------------------------------
 sub_CF255:
         push ebx
         push ecx
         push edx
         mov eax, dword [dword_1A1030]
         call sub_D5E50
-        call sub_CE2B6
+        call SbResetDsp
         mov eax, 0D3h
         call sub_CE220
         cmp dword [dword_14F050], byte 1
@@ -1604,6 +1742,9 @@ sub_CF255:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_CF2D8                                                            CF2D8  
+;-----------------------------------------------------------------------------
 sub_CF2D8:
         push ebx
         push ecx
@@ -1721,7 +1862,7 @@ sub_CF2D8:
         je short .14
         call sub_CF68D
         push dword [dword_14F05C]
-        call sub_ABF4C
+        call FreeMemBlock
         mov dword [dword_14F05C], 0
         add esp, byte 4
 .14:
@@ -1745,6 +1886,9 @@ sub_CF2D8:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_CF4CD                                                            CF4CD  
+;-----------------------------------------------------------------------------
 sub_CF4CD:
         push ebx
         push ecx
@@ -1762,7 +1906,7 @@ sub_CF4CD:
         mov eax, 0D9h
         call sub_CE220
         push dword [dword_14F05C]
-        call sub_ABF4C
+        call FreeMemBlock
         mov dword [dword_14F05C], 0
         add esp, byte 4
 .1:
@@ -1771,6 +1915,9 @@ sub_CF4CD:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_CF534                                                            CF534  
+;-----------------------------------------------------------------------------
 sub_CF534:
         push ebx
         push ecx
@@ -1793,6 +1940,9 @@ sub_CF534:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_CF56F                                                            CF56F  
+;-----------------------------------------------------------------------------
 sub_CF56F:
         cmp eax, byte 5
         jb short .1
@@ -1806,15 +1956,27 @@ sub_CF56F:
         mov eax, dword [dword_1A107C]
 sub_CF587:
         ret
+;-----------------------------------------------------------------------------
+; sub_CF587_1                                                          CF588  
+;-----------------------------------------------------------------------------
 sub_CF587_1:
         mov eax, dword [dword_1A1064]
         ret
+;-----------------------------------------------------------------------------
+; sub_CF587_7                                                          CF58E  
+;-----------------------------------------------------------------------------
 sub_CF587_7:
         mov eax, 0Ch
         ret
+;-----------------------------------------------------------------------------
+; sub_CF587_D                                                          CF594  
+;-----------------------------------------------------------------------------
 sub_CF587_D:
         mov eax, 0FFFFFFFFh
         ret
+;-----------------------------------------------------------------------------
+; sub_CF59A                                                            CF59A  
+;-----------------------------------------------------------------------------
 sub_CF59A:
         push ebx
         push ecx
@@ -1877,6 +2039,9 @@ sub_CF59A:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_CF68D                                                            CF68D  
+;-----------------------------------------------------------------------------
 sub_CF68D:
         push ebx
         push ecx
@@ -1895,6 +2060,9 @@ sub_CF68D:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_CF6C9                                                            CF6C9  
+;-----------------------------------------------------------------------------
 sub_CF6C9:
         cmp byte [byte_14F070], 0
         jne short .1
@@ -1905,6 +2073,9 @@ sub_CF6C9:
         dec byte [byte_14F070]
 .1:
         ret
+;-----------------------------------------------------------------------------
+; sub_CF6ED                                                            CF6ED  
+;-----------------------------------------------------------------------------
 sub_CF6ED:
         push ebx
         push ecx
@@ -1921,7 +2092,7 @@ sub_CF6ED:
         cmp dword [dword_123BCC], byte 1
         jne short .3
         push dword [dword_123BD0]
-        call sub_CC15A
+        call MixerStopChannel
         add esp, byte 4
         mov dword [dword_123BCC], 0
         call sub_C03F8
@@ -1982,6 +2153,9 @@ sub_CF6ED:
         pop ebx
         ret
         db 00h
+;-----------------------------------------------------------------------------
+; sub_CF7C0                                                            CF7C0  
+;-----------------------------------------------------------------------------
 sub_CF7C0:
         push esi
         push edi
@@ -2051,6 +2225,9 @@ sub_CF7C0:
         pop esi
         ret
         db 00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_CF864                                                            CF864  
+;-----------------------------------------------------------------------------
 sub_CF864:
         push ebp
         LD mov, ebp, esp
@@ -2125,9 +2302,12 @@ sub_CF864:
         leave
         ret
         db 00h,00h
+;-----------------------------------------------------------------------------
+; sub_CF918                                                            CF918  
+;-----------------------------------------------------------------------------
 sub_CF918:
         push ecx
-        cmp dword [dword_11F5E4], byte 0
+        cmp dword [CpuType], byte 0
         je near .7
         LD mov, ecx, eax
         sub ebx, byte 40h
@@ -2266,6 +2446,9 @@ sub_CF918:
         cwde
         mov dword [byte ebp-08h], eax
         jmp short sub_CFA64_34
+;-----------------------------------------------------------------------------
+; sub_CFA64                                                            CFA64  
+;-----------------------------------------------------------------------------
 sub_CFA64:
         push ebp
         LD mov, ebp, esp
@@ -2349,6 +2532,9 @@ sub_CFA64_34:
         cwde
         mov dword [byte ebp-08h], eax
         jmp short sub_CFB14_34
+;-----------------------------------------------------------------------------
+; sub_CFB14                                                            CFB14  
+;-----------------------------------------------------------------------------
 sub_CFB14:
         push ebp
         LD mov, ebp, esp
@@ -2378,10 +2564,10 @@ sub_CFB14_34:
         movsx ecx, word [byte esi+06h]
         lea edx, [byte esi+010h]
         LD mov, eax, ebx
-        cmp eax, dword [dword_1228DC]
+        cmp eax, dword [ClipLeftCol]
         jl short .2
         LD add, eax, ecx
-        sub eax, dword [dword_1228E4]
+        sub eax, dword [ScreenHeight]
         jle short .3
         LD sub, ecx, eax
         jg short .3
@@ -2392,7 +2578,7 @@ sub_CFB14_34:
         leave
         ret
 .2:
-        mov ebx, dword [dword_1228DC]
+        mov ebx, dword [ClipLeftCol]
         LD add, eax, ecx
         LD sub, eax, ebx
         jle short .1
@@ -2405,7 +2591,7 @@ sub_CFB14_34:
         LD add, edx, eax
         LD mov, eax, ebx
         LD add, eax, ecx
-        sub eax, dword [dword_1228E4]
+        sub eax, dword [ScreenHeight]
         jle short .3
         LD sub, ecx, eax
         jle short .1
@@ -2417,24 +2603,24 @@ sub_CFB14_34:
         LD xor, edx, edx
         mov eax, dword [byte ebp-04h]
         LD mov, ebx, eax
-        cmp eax, dword [dword_1228D8]
+        cmp eax, dword [ClipTopRow]
         jl short .4
         LD add, eax, ecx
-        sub eax, dword [dword_1228E0]
+        sub eax, dword [ClipRight]
         jl short .6
         LD sub, ecx, eax
         jle short .1
         LD mov, edx, eax
         jmp short .6
 .4:
-        mov ebx, dword [dword_1228D8]
+        mov ebx, dword [ClipTopRow]
         LD add, eax, ecx
         LD sub, eax, ebx
         jle short .1
         LD mov, esi, ecx
         LD sub, esi, eax
         add dword [byte ebp-018h], esi
-        mov esi, dword [dword_1228E0]
+        mov esi, dword [ClipRight]
         LD sub, esi, ebx
         jle short .1
         LD cmp, eax, esi
@@ -2534,6 +2720,9 @@ sub_CFB14_34:
         jg short .10
         jmp short .12
         db 00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_CFCC0                                                            CFCC0  
+;-----------------------------------------------------------------------------
 sub_CFCC0:
         push esi
         mov ebx, dword [byte esp+0Ch]
@@ -2561,6 +2750,9 @@ sub_CFCC0:
         pop esi
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_CFCF8                                                            CFCF8  
+;-----------------------------------------------------------------------------
 sub_CFCF8:
         push esi
         push edi

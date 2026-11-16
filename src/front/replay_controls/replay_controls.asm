@@ -60,10 +60,10 @@ extern InitMenuItems, sub_64E74, sub_64F47, RunMenu, SetMenuMouse, FreeSpeechBuf
 extern StopMusic, QueueMusic, FillMusicStream, PlayMusic, FadeOutMusic, MusicDone, PlaySfx, Crowd_Noise
 extern CrowdNoiseReset, CrowdPause, CrowdResume, StopArenaClip, StartGameSound, EndGameSound, SoundSecondsToBytes, SoundIdle
 extern GetLangText, PickIndexEntryScreen, sub_AA988, sub_AAA40, sub_AAA8C, PutBlock, sub_AADA4, sub_AB758
-extern sub_ABF4C, sub_AD35C, FillRect, sub_ADBEC, sub_AFFD0, sub_B0254, sub_B026C, TextSetFont
+extern FreeMemBlock, sub_AD35C, FillRect, sub_ADBEC, sub_AFFD0, SaveTextState, SetDrawTarget, TextSetFont
 extern sub_B0CA8, sub_B2B0C, sub_B58D8, sub_B6140, sub_BA3D0, sub_BB470, sub_BB570, sub_BB924
 extern sub_BB9C4, sub_BBA41, sub_BC3A0, sub_BC610, sub_BC674, sub_BC6D8, SortIndices, sub_BEAE4
-extern sub_DD6C4, SetClipWindow, MouseRead, SetViewRect, sub_DFEC6, sub_E04E0, sub_E0584, sub_E1638
+extern SetScreenTarget, SetClipWindow, MouseRead, SetViewRect, sub_DFEC6, sub_E04E0, sub_E0584, sub_E1638
 extern sub_E167A, sub_E17B8, str_D19, str_dot4, unk_11A430, unk_11A770, unk_11A9B0, unk_11AB30
 extern unk_11AE70, unk_11B0B0, unk_11B230, unk_122344, unk_16443C, unk_1774C4, unk_177510, unk_1778C4
 extern unk_177908, unk_1781E4, unk_1781FE, unk_179980, unk_179AC0, unk_179E02, optblock_end, unk_17D32C
@@ -118,7 +118,7 @@ StartReplay:
         mov eax, dword [dword_179918]
         push unk_1774C4
         mov dword [dword_1778FC], eax
-        call sub_B0254
+        call SaveTextState
         add esp, byte 4
         push dword [dword_1778FC]
         call TextSetFont
@@ -214,7 +214,7 @@ EndReplay:
         enter 78h, 0
         push dword [dword_1781D0]
         mov dword [dword_11A3F8], 0
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         call FreeSpriteCache
         mov al, byte [gmode]
@@ -301,7 +301,7 @@ EndReplay:
         mov eax, unk_1781FE
         call SetCameraShot
         push unk_1774C4
-        call sub_B026C
+        call SetDrawTarget
         mov al, byte [byte_178288]
         mov byte [byte_1175AA], al
         mov eax, dword [dword_164F1C]
@@ -2568,7 +2568,7 @@ ReplayScreen:
         mov eax, 1
         call LinkSync
         push edi
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .6:
         call StartReplay
@@ -3177,7 +3177,7 @@ ReplayScreen:
         je short .18
         lea eax, [byte ebp-014h]
         call ReplayFrame
-        call sub_DD6C4
+        call SetScreenTarget
         push byte 0
         mov eax, dword [byte ebp-014h]
         push byte 0
@@ -3803,7 +3803,7 @@ RunReplay:
         call FreeSpriteCache
         cmp dword [dword_11B330], byte 8
         jge short .1
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [dword_11F5C4]
         push byte 0
         push dword [dword_11F5C0]
@@ -3841,7 +3841,7 @@ RunReplay:
         push dword [byte esi+02Ch]
         call PutBlock
         add esp, byte 0Ch
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [dword_11F5C4]
         push byte 0
         push dword [dword_11F5C0]
@@ -3899,7 +3899,7 @@ SaveHighlight:
         sub eax, dword [off_11786C]
         push unk_1774C4
         mov dword [dword_17750C], eax
-        call sub_B0254
+        call SaveTextState
         add esp, byte 4
         lea edi, [byte ebp-0Ah]
         push dword [dword_1778FC]
@@ -4065,7 +4065,7 @@ SaveHighlight:
         call MessageBox
 .8:
         push unk_1774C4
-        call sub_B026C
+        call SetDrawTarget
         add esp, byte 4
         jmp near DrawReplayObjects_391
 ;-----------------------------------------------------------------------------
@@ -4124,17 +4124,17 @@ WatchHighlight:
         test byte [byte_17CA5D], 20h
         jne short .1
         push dword [dword_152F54]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_152F5C]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .1:
         call StartGameSound
         push unk_1774C4
         mov esi, optblock_end
         mov edi, unk_17D32C
-        call sub_B0254
+        call SaveTextState
         add esp, byte 4
         mov ecx, 0B9h
         mov dword [gameopts], optblock_end
@@ -4237,7 +4237,7 @@ WatchHighlight:
         and eax, byte 7Fh
         call CrowdNoiseReset
         call CrowdPause
-        call sub_DD6C4
+        call SetScreenTarget
         push byte 0
         call sub_E0584
         add esp, byte 4
@@ -4262,10 +4262,10 @@ WatchHighlight:
         test byte [byte_17CA5D], 20h
         jne short .6
         push dword [dword_152F54]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_152F5C]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .6:
         mov ecx, 0B9h
@@ -4273,7 +4273,7 @@ WatchHighlight:
         mov edi, optblock_end
         rep movsb
         push unk_1774C4
-        call sub_B026C
+        call SetDrawTarget
         add esp, byte 4
         call EndGameSound
         test byte [byte_17CA5D], 20h

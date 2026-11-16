@@ -2,9 +2,9 @@
 bits 32
 %include "hockey.inc"
 section s_123DA4 progbits alloc noexec write align=1
-extern __null_int23_exit_, dword_19BA40
-global byte_123DE8, byte_123E35, byte_12401C, dword_123DA4, dword_123DEB, dword_123FFD, dword_124014, dword_124018
-global off_124008, off_12400C, off_124010, unk_123DF4, unk_123E0E, unk_123E76, unk_123FFC, word_123DE4
+extern __null_int23_exit_, __ClosedStreams
+global byte_123DE8, __iob_flags, VesaBankShift, dword_123DA4, dword_123DEB, _fmode, VesaBank, VesaBankFunc
+global ExitHook, Int23Hook, FpuExitHook, __iob, __stdout_buf, __iob_end, __NFiles, word_123DE4
 global word_123DE6, word_123DE9
 dword_123DA4:
         db 00h,00h,00h,00h,00h,048h,00h,00h,00h,050h,00h,00h,00h,00h,00h,00h
@@ -21,20 +21,20 @@ word_123DE9:
         db 00h,00h
 dword_123DEB:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_123DF4:
+__iob:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,01h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_123E0E:
+__stdout_buf:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,02h,00h,00h,00h
         db 01h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,02h
-byte_123E35:
+__iob_flags:
         db 00h,00h,00h,02h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,03h,00h,00h,00h,03h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,02h,00h,00h,00h,04h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h
-unk_123E76:
+__iob_end:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -60,21 +60,21 @@ unk_123E76:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h
-unk_123FFC:
+__NFiles:
         db 061h
-dword_123FFD:
+_fmode:
         db 00h,01h,00h,00h
-        dd dword_19BA40
+        dd __ClosedStreams
         db 00h,00h,00h
-off_124008:
+ExitHook:
         dd __null_int23_exit_
-off_12400C:
+Int23Hook:
         dd __null_int23_exit_
-off_124010:
+FpuExitHook:
         dd __null_int23_exit_
-dword_124014:
+VesaBank:
         db 00h,00h,00h,00h
-dword_124018:
+VesaBankFunc:
         db 00h,00h,00h,00h
-byte_12401C:
+VesaBankShift:
         db 00h,00h,00h,00h

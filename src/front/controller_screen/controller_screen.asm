@@ -15,8 +15,8 @@ extern SlideInTitleBar, SoundIdle, SoundSecondsToBytes, sprintf_, str_Bkgd6, str
 extern str_Jy2D, str_Jy3D, str_Jy4D, str_Key1, str_KeyD2, str_Log7, str_Logx, str_MCONTROL
 extern str_MdmD, str_MseD2, str_P11, str_P12, str_P13, str_P1G, str_P21, str_P22
 extern str_P23, str_P2G, str_Pal12, str_PlyD, str_Usrh, str_Usri, str_Utext, sub_AA7E0
-extern sub_AA988, sub_AAA40, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C, sub_ADA50, sub_ADBEC
-extern sub_B2C54, sub_DD6C4, sub_E04E0, TextSetFont, unk_11DE50, unk_11DE90, unk_152C44, word_114CE0
+extern sub_AA988, sub_AAA40, sub_AADA4, sub_AB758, FreeMemBlock, sub_AD35C, sub_ADA50, sub_ADBEC
+extern sub_B2C54, SetScreenTarget, sub_E04E0, TextSetFont, unk_11DE50, unk_11DE90, unk_152C44, word_114CE0
 extern word_114CE4, word_11D92C, word_11D92E, word_11D96C, word_11D9A8, word_11D9AC, word_11DA10, word_11DA14
 extern word_160ACC, word_17D560, word_17D562, word_17D568, word_17D570, word_17D578, word_17D58C, word_17D58E
 global sub_6CF0D, sub_6CF0D_6, ControllerUsersPanel, unk_6D31C, jpt_6D32C, sub_6D350, sub_6D350_2C, sub_6D350_F2
@@ -224,7 +224,7 @@ ControllerUsersPanel:
         push esi
         call sub_AAA40
         add esp, byte 0Ch
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [byte edi+02Ch]
         call sub_B2C54
         add esp, byte 4
@@ -372,7 +372,7 @@ ControllerUsersPanel:
         push esi
         call sub_AAA40
         add esp, byte 0Ch
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [byte edi+02Ch]
         call sub_B2C54
         add esp, byte 4
@@ -2201,14 +2201,14 @@ DrawControllerColumns:
         call sub_AADA4
         add esp, byte 4
         push dword [nosplit esi*4+dword_11D930]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [nosplit esi*4+dword_11D940]
         mov dword [nosplit esi*4+dword_11D930], 0
         call sub_AADA4
         add esp, byte 4
         push dword [nosplit esi*4+dword_11D940]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov dword [nosplit esi*4+dword_11D940], 0
 .32:
@@ -2620,7 +2620,7 @@ ControllerScreen:
         mov eax, edx
         mov dword [byte ebp-050h], edx
         call SetScreenColors
-        call sub_DD6C4
+        call SetScreenTarget
         push str_Bkgd6
         push dword [dword_17D588]
         call sub_E04E0
@@ -2683,7 +2683,7 @@ ControllerScreen:
         mov edx, eax
         mov eax, 0EB85h
         call DrawFrameAt
-        call sub_DD6C4
+        call SetScreenTarget
         push edi
         push dword [byte ebp-08h]
         push dword [byte esi+02Ch]
@@ -2714,7 +2714,7 @@ ControllerScreen:
         mov edx, eax
         mov eax, 0EB85h
         call DrawFrameAt
-        call sub_DD6C4
+        call SetScreenTarget
         push edi
         push dword [byte ebp-08h]
         push dword [byte esi+02Ch]
@@ -2756,7 +2756,7 @@ ControllerScreen:
         mov edx, edi
         mov ebx, ecx
         call DrawFrameAt
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [byte esi+02Ch]
         call sub_AADA4
         mov eax, dword [gameopts]
@@ -2781,7 +2781,7 @@ ControllerScreen:
         mov edx, edi
         mov ebx, ecx
         call DrawFrameAt
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [byte esi+02Ch]
         call sub_AADA4
         add esp, byte 4
@@ -3631,7 +3631,7 @@ ControllerScreen:
         mov eax, dword [dword_17D580]
         mov byte [dword eax+09D4h], 18h
         call SetControllerColumn
-        call sub_DD6C4
+        call SetScreenTarget
         call GetInputDevices
         mov dword [dword_17D584], eax
         mov eax, dword [dword_17D580]
@@ -3765,7 +3765,7 @@ ControllerScreen_11AB:
         call sub_AADA4
         add esp, byte 4
         push dword [dword esi+dword_11D940]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .49:
         imul eax, dword [byte ebp-048h], byte 21h
@@ -4091,21 +4091,21 @@ ControllerScreen_16D6:
         cmp dword [dword esi+dword_11D930], byte 0
         je short .78
         push dword [dword esi+dword_11D930]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov dword [dword esi+dword_11D930], 0
 .78:
         cmp dword [dword esi+dword_11D940], byte 0
         je short .79
         push dword [dword esi+dword_11D940]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov dword [dword esi+dword_11D940], 0
 .79:
         cmp dword [dword edi+dword_17D564], byte 0
         je short .80
         push dword [dword edi+dword_17D564]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov dword [dword edi+dword_17D564], 0
 .80:
@@ -4114,10 +4114,10 @@ ControllerScreen_16D6:
         cmp esi, byte 10h
         jne short .77
         push dword [dword_17D588]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_17D580]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov eax, 3
         call FadeOut

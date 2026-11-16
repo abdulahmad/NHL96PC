@@ -2,12 +2,15 @@
 bits 32
 %include "hockey.inc"
 section s_AD680 progbits alloc exec nowrite align=1
-extern byte_11FA2C, byte_11FA2D, byte_11FA2E, byte_11FA30, dword_11FA34, dword_11FA3C, dword_1228D0, dword_1228D8
-extern dword_1228DC, dword_1228E0, dword_1228E4, dword_1228F4, dword_1228FC, dword_122930, dword_123934, sub_ABF4C
-extern sub_ABF88, removewindow, sub_DD6C4, sub_DE3D8, sub_DEC41, sub_DED6D, sub_E0584, sub_E1824
+extern byte_11FA2C, byte_11FA2D, byte_11FA2E, byte_11FA30, dword_11FA34, dword_11FA3C, ScreenWidth, ClipTopRow
+extern ClipLeftCol, ClipRight, ScreenHeight, dword_1228F4, dword_1228FC, dword_122930, dword_123934, FreeMemBlock
+extern sub_ABF88, removewindow, SetScreenTarget, VesaSetBank, sub_DEC41, sub_DED6D, sub_E0584, sub_E1824
 extern sub_E193C, sub_E1956
 global fputchar, mem_putc_, FillRect, sub_AD824, sub_AD8A8, sub_AD9DC, sub_ADA50, sub_ADA80
 global sub_ADB30, sub_ADBEC
+;-----------------------------------------------------------------------------
+; FillRect                                     AD680  95 PC, medium confidence
+;-----------------------------------------------------------------------------
 FillRect:
         push esi
         push edi
@@ -37,7 +40,7 @@ FillRect:
         mov dword [byte esp+010h], eax
         mov eax, dword [byte esp+028h]
         mov ecx, dword [nosplit eax*4+dword_122930]
-        mov eax, dword [dword_1228D0]
+        mov eax, dword [ScreenWidth]
         sub eax, edx
         add esi, ecx
         mov dword [esp], eax
@@ -46,7 +49,7 @@ FillRect:
         shr eax, 10h
         and esi, 0FFFFh
         mov dword [byte esp+08h], eax
-        call sub_DE3D8
+        call VesaSetBank
         test edi, edi
         jle near .11
         mov eax, edx
@@ -92,7 +95,7 @@ FillRect:
         inc eax
         and esi, 0FFFFh
         mov dword [byte esp+08h], eax
-        call sub_DE3D8
+        call VesaSetBank
 .6:
         mov edi, dword [byte esp+02Ch]
         mov eax, dword [byte esp+010h]
@@ -111,7 +114,7 @@ FillRect:
         inc ebx
         mov eax, ebx
         mov esi, edi
-        call sub_DE3D8
+        call VesaSetBank
         push ebp
         and esi, 0FFFFh
         push esi
@@ -135,7 +138,7 @@ FillRect:
         inc eax
         and esi, 0FFFFh
         mov dword [byte esp+08h], eax
-        call sub_DE3D8
+        call VesaSetBank
 .9:
         mov edx, dword [byte esp+04h]
         mov ebx, dword [byte esp+028h]
@@ -153,6 +156,9 @@ FillRect:
         pop esi
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_AD824                                                            AD824  
+;-----------------------------------------------------------------------------
 sub_AD824:
         push esi
         push edi
@@ -161,28 +167,28 @@ sub_AD824:
         mov ecx, dword [byte esp+014h]
         mov eax, dword [byte esp+018h]
         mov edx, dword [byte esp+01Ch]
-        mov ebx, dword [dword_1228DC]
+        mov ebx, dword [ClipLeftCol]
         sub ebx, ecx
         test ebx, ebx
         jle short .1
         sub edx, ebx
         add ecx, ebx
 .1:
-        mov edi, dword [dword_1228E4]
+        mov edi, dword [ScreenHeight]
         lea ebx, [ecx+edx]
         sub ebx, edi
         test ebx, ebx
         jle short .2
         sub edx, ebx
 .2:
-        mov ebx, dword [dword_1228D8]
+        mov ebx, dword [ClipTopRow]
         sub ebx, esi
         test ebx, ebx
         jle short .3
         sub eax, ebx
         add esi, ebx
 .3:
-        mov ebp, dword [dword_1228E0]
+        mov ebp, dword [ClipRight]
         lea ebx, [esi+eax]
         sub ebx, ebp
         test ebx, ebx
@@ -217,6 +223,9 @@ sub_AD824:
         xor bh, bl
         mov byte [byte eax-01h], bh
         jmp short .7
+;-----------------------------------------------------------------------------
+; sub_AD8A8                                                            AD8A8  
+;-----------------------------------------------------------------------------
 sub_AD8A8:
         push esi
         push edi
@@ -244,7 +253,7 @@ sub_AD8A8:
 .1:
         mov esi, dword [dword_1228FC]
         mov dword [byte esp+08h], esi
-        mov esi, dword [dword_1228D0]
+        mov esi, dword [ScreenWidth]
         imul ecx, esi
         mov dword [byte esp+010h], edx
         add ecx, eax
@@ -255,7 +264,7 @@ sub_AD8A8:
         mov dword [esp], eax
         mov eax, esi
         and ecx, 0FFFFh
-        call sub_DE3D8
+        call VesaSetBank
         test edx, edx
         jle near .12
 .2:
@@ -282,7 +291,7 @@ sub_AD8A8:
         add ecx, edi
         mov eax, esi
         and ecx, 0FFFFh
-        call sub_DE3D8
+        call VesaSetBank
         mov dword [byte esp+0Ch], ecx
         mov eax, dword [byte esp+08h]
         mov edx, dword [byte esp+0Ch]
@@ -321,7 +330,7 @@ sub_AD8A8:
         inc esi
         mov eax, esi
         and ecx, 0FFFFh
-        call sub_DE3D8
+        call VesaSetBank
 .11:
         mov eax, dword [byte esp+010h]
         dec eax
@@ -335,6 +344,9 @@ sub_AD8A8:
         pop esi
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_AD9DC                                                            AD9DC  
+;-----------------------------------------------------------------------------
 sub_AD9DC:
         push esi
         push edi
@@ -343,28 +355,28 @@ sub_AD9DC:
         mov ecx, dword [byte esp+014h]
         mov eax, dword [byte esp+018h]
         mov edx, dword [byte esp+01Ch]
-        mov ebx, dword [dword_1228DC]
+        mov ebx, dword [ClipLeftCol]
         sub ebx, ecx
         test ebx, ebx
         jle short .1
         sub edx, ebx
         add ecx, ebx
 .1:
-        mov edi, dword [dword_1228E4]
+        mov edi, dword [ScreenHeight]
         lea ebx, [ecx+edx]
         sub ebx, edi
         test ebx, ebx
         jle short .2
         sub edx, ebx
 .2:
-        mov ebx, dword [dword_1228D8]
+        mov ebx, dword [ClipTopRow]
         sub ebx, esi
         test ebx, ebx
         jle short .3
         sub eax, ebx
         add esi, ebx
 .3:
-        mov ebp, dword [dword_1228E0]
+        mov ebp, dword [ClipRight]
         lea ebx, [esi+eax]
         sub ebx, ebp
         test ebx, ebx
@@ -389,13 +401,16 @@ sub_AD9DC:
         pop esi
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_ADA50                                                            ADA50  
+;-----------------------------------------------------------------------------
 sub_ADA50:
         sub esp, byte 60h
         mov eax, esp
         push eax
         call sub_E193C
         add esp, byte 4
-        call sub_DD6C4
+        call SetScreenTarget
         mov edx, dword [byte esp+064h]
         push edx
         call sub_E0584
@@ -407,6 +422,9 @@ sub_ADA50:
         add esp, byte 60h
         ret
         db 00h
+;-----------------------------------------------------------------------------
+; sub_ADA80                                                            ADA80  
+;-----------------------------------------------------------------------------
 sub_ADA80:
         push esi
         push edi
@@ -481,6 +499,9 @@ sub_ADA80:
         pop esi
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_ADB30                                                            ADB30  
+;-----------------------------------------------------------------------------
 sub_ADB30:
         push esi
         push edi
@@ -537,6 +558,9 @@ sub_ADB30:
         pop esi
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; fputchar                                                      ADBB4  library
+;-----------------------------------------------------------------------------
 fputchar:
         push dword 200h
         mov edx, dword [byte esp+08h]
@@ -555,15 +579,21 @@ fputchar:
         add esp, byte 4
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_ADBEC                                                            ADBEC  
+;-----------------------------------------------------------------------------
 sub_ADBEC:
         mov edx, dword [byte esp+04h]
         mov eax, dword [byte edx+028h]
         sub eax, byte 8
         call removewindow
         push edx
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         ret
+;-----------------------------------------------------------------------------
+; mem_putc_                                                     ADC05  library
+;-----------------------------------------------------------------------------
 mem_putc_:
         push ebx
         push ecx

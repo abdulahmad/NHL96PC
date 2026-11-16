@@ -2,10 +2,13 @@
 bits 32
 %include "hockey.inc"
 section s_DBFA8 progbits alloc exec nowrite align=1
-extern SetDrawBitmap, str_Unpackf, str_Targa, dword_1228D4, dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4
-extern dword_123AC8, off_151524, sub_AB758, sub_AB798, sub_ABF4C, sub_AD9DC, sub_B22E0, sub_BEFF0
+extern SetDrawBitmap, str_Unpackf, str_Targa, ClipBottom, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight
+extern dword_123AC8, off_151524, sub_AB758, sub_AB798, FreeMemBlock, sub_AD9DC, SaveDataFile, sub_BEFF0
 extern sub_C4C6C, sub_D7D44, sub_DD220, sub_DD2A0, PlotPixel, sub_DF5C0, sub_E0520
 global sub_DBFA8, sub_DC158, sub_DC17C, sub_DC780, sub_DC830, sub_DCB90
+;-----------------------------------------------------------------------------
+; sub_DBFA8                                                            DBFA8  
+;-----------------------------------------------------------------------------
 sub_DBFA8:
         push esi
         push edi
@@ -159,7 +162,7 @@ sub_DBFA8:
         test ebx, ebx
         je short .11
         push ebx
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .11:
         add esp, byte 0Ch
@@ -168,6 +171,9 @@ sub_DBFA8:
         pop esi
         ret 10h
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_DC158                                                            DC158  
+;-----------------------------------------------------------------------------
 sub_DC158:
         mov eax, dword [byte esp+04h]
         mov edx, dword [byte esp+08h]
@@ -180,6 +186,9 @@ sub_DC158:
         call sub_DBFA8
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_DC17C                                                            DC17C  
+;-----------------------------------------------------------------------------
 sub_DC17C:
         mov eax, dword [byte esp+04h]
         push dword 10000h
@@ -632,6 +641,9 @@ sub_DC17C:
         call sub_DBFA8
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_DC780                                                            DC780  
+;-----------------------------------------------------------------------------
 sub_DC780:
         push esi
         push edi
@@ -706,6 +718,9 @@ sub_DC780:
         pop esi
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_DC830                                                            DC830  
+;-----------------------------------------------------------------------------
 sub_DC830:
         push esi
         push edi
@@ -741,11 +756,11 @@ sub_DC830:
         mov dword [byte ebp-030h], eax
         mov dword [byte ebp-08h], edx
 .3:
-        mov eax, dword [dword_1228E0]
-        sub eax, dword [dword_1228D8]
-        mov ecx, dword [dword_1228DC]
+        mov eax, dword [ClipRight]
+        sub eax, dword [ClipTopRow]
+        mov ecx, dword [ClipLeftCol]
         mov dword [byte ebp-0Ch], eax
-        mov eax, dword [dword_1228E4]
+        mov eax, dword [ScreenHeight]
         mov ebx, dword [byte ebp-0Ch]
         sub eax, ecx
         imul ebx, eax
@@ -814,14 +829,14 @@ sub_DC830:
         call sub_D7D44
         add esp, byte 0Ch
         push byte 2
-        mov ecx, dword [dword_1228D8]
+        mov ecx, dword [ClipTopRow]
         push ecx
         lea eax, [byte esi+08h]
         push eax
         call sub_D7D44
         add esp, byte 0Ch
-        mov eax, dword [dword_1228D4]
-        mov edx, dword [dword_1228E4]
+        mov eax, dword [ClipBottom]
+        mov edx, dword [ScreenHeight]
         push byte 2
         sub eax, edx
         push eax
@@ -884,15 +899,15 @@ sub_DC830:
         cmp eax, 300h
         jne short .4
 .5:
-        mov eax, dword [dword_1228E4]
+        mov eax, dword [ScreenHeight]
         dec eax
-        mov edi, dword [dword_1228DC]
+        mov edi, dword [ClipLeftCol]
         mov dword [byte ebp-04h], eax
         cmp eax, edi
         jl near .14
 .6:
-        mov edi, dword [dword_1228D8]
-        cmp edi, dword [dword_1228E0]
+        mov edi, dword [ClipTopRow]
+        cmp edi, dword [ClipRight]
         jge near .13
 .7:
         mov ebx, dword [byte ebp-04h]
@@ -968,14 +983,14 @@ sub_DC830:
         mov esi, dword [byte ebp-024h]
         mov byte [ebx], al
 .12:
-        mov edx, dword [dword_1228E0]
+        mov edx, dword [ClipRight]
         inc edi
         cmp edi, edx
         jl near .7
 .13:
         mov eax, dword [byte ebp-04h]
         dec eax
-        mov edx, dword [dword_1228DC]
+        mov edx, dword [ClipLeftCol]
         mov dword [byte ebp-04h], eax
         cmp eax, edx
         jge near .6
@@ -986,12 +1001,12 @@ sub_DC830:
         push ecx
         mov esi, dword [byte ebp+010h]
         push esi
-        call sub_B22E0
+        call SaveDataFile
         add esp, byte 0Ch
         mov edi, dword [byte ebp-018h]
         push edi
         mov dword [byte ebp-01Ch], eax
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .15:
         mov eax, dword [byte ebp-01Ch]
@@ -1001,6 +1016,9 @@ sub_DC830:
         pop esi
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_DCB90                                                            DCB90  
+;-----------------------------------------------------------------------------
 sub_DCB90:
         push esi
         mov esi, dword [byte esp+08h]

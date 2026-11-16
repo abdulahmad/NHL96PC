@@ -3,11 +3,11 @@ bits 32
 %include "hockey.inc"
 section s_61AD1 progbits alloc exec nowrite align=1
 extern byte_11BC28, dword_11BB38, dword_11BB3C, dword_11BB40, dword_11BB44, dword_11BCD1, dword_11BCD5, dword_11BCD9
-extern dword_11F5F0, dword_123AC0, dword_152FEC, dword_179E4C, dword_179E50, dword_17BA30, dword_17BA34, dword_17BA38
+extern str_Punct_DrawRinkSurface, dword_123AC0, dword_152FEC, dword_179E4C, dword_179E50, dword_17BA30, dword_17BA34, dword_17BA38
 extern dword_17BA3C, dword_17BA40, dword_17BA44, dword_17BA48, dword_17BA4C, dword_17BA50, dword_17BA54, gameopts
 extern off_11BB4C, str_CupRef, str_FightRef, str_NewpalQfs, str_OldshpQfs, str_OLDSHPQFS2, str_Pal6, str_RinkpalQfs
-extern str_TeampalQda, str_TotalRef, str_UNPACK, str_Unpacked, SelectDataLibrary, sub_297A8, sub_AB758, sub_ABF4C
-extern sub_AC838, sub_AFCD0, sub_AFD00, sub_B20D0, sub_B3420, sub_B3458, sub_B7638, sub_BEFF0
+extern str_TeampalQda, str_TotalRef, str_UNPACK, str_Unpacked, SelectDataLibrary, sub_297A8, sub_AB758, FreeMemBlock
+extern sub_AC838, sub_AFCD0, sub_AFD00, OpenArtArchiveErr, sub_B3420, sub_B3458, sub_B7638, sub_BEFF0
 extern sub_BF02C, sub_BF034, sub_E04E0, sub_E0520, sub_E1824, unk_16443C, unk_164688, unk_179E48
 extern unk_17B248, unk_17B488, unk_17B518, unk_17B830, unk_17B930, unk_17BA58, unpack
 global PutJerseyDigit, MakeJerseyNumber, SetTeamJerseyColors, SetTeamJerseyColors_A3, SaveTeamPalette, SetPlayerSpriteColors, SetRinkSpriteColors, IndexSpriteFrames
@@ -506,7 +506,7 @@ LoadTeamPalette:
         add ecx, ebx
         rep movsb
         push dword [byte ebp-0Ch]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         jmp near SetTeamJerseyColors_A3
 ;-----------------------------------------------------------------------------
@@ -526,17 +526,17 @@ LoadPlayerSprites:
         call SelectDataLibrary
         push byte 0
         push str_FightRef
-        call sub_B20D0
+        call OpenArtArchiveErr
         add esp, byte 8
         push byte 0
         push str_TotalRef
         mov dword [dword_11BB40], eax
-        call sub_B20D0
+        call OpenArtArchiveErr
         add esp, byte 8
         push byte 0
         push str_OldshpQfs
         mov dword [dword_11BB3C], eax
-        call sub_B20D0
+        call OpenArtArchiveErr
         add esp, byte 8
         push byte 20h
         push eax
@@ -554,7 +554,7 @@ LoadPlayerSprites:
         call unpack
         add esp, byte 0Ch
         push esi
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         xor edx, edx
         xor eax, eax
@@ -588,7 +588,7 @@ LoadPlayerSprites:
         add eax, byte 10h
         call sub_B3420
         push esi
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         xor eax, eax
         call SelectDataLibrary
@@ -666,7 +666,7 @@ LoadGameSprites:
         add eax, byte 10h
         call sub_B3420
         push edi
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov eax, dword [byte ebp-04h]
         mov edx, esi
@@ -701,7 +701,7 @@ FreeGameSprites:
         cmp dword [dword esi+dword_11BB3C], byte 0
         je short .2
         push dword [dword esi+dword_11BB3C]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov dword [dword esi+dword_11BB3C], 0
 .2:
@@ -709,18 +709,18 @@ FreeGameSprites:
         cmp esi, byte 0Ch
         jne short .1
         push dword [dword_17BA44]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_17BA54]
-        call sub_ABF4C
+        call FreeMemBlock
         mov dword [dword_11BB38], 0
         add esp, byte 4
 .3:
         push dword [dword_17BA50]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_17BA4C]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         pop esi
         pop edx
@@ -738,7 +738,7 @@ FreeFightSprites:
         cmp dword [dword_11BB40], byte 0
         je short .1
         push dword [dword_11BB40]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .1:
         mov dword [dword_11BB40], 0
@@ -757,7 +757,7 @@ LoadFightSprites:
         cmp dword [dword_11BB40], byte 0
         je short .1
         push dword [dword_11BB40]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .1:
         mov eax, 0FFFFFFFFh
@@ -765,7 +765,7 @@ LoadFightSprites:
         call SelectDataLibrary
         push byte 0
         push str_FightRef
-        call sub_B20D0
+        call OpenArtArchiveErr
         mov edx, 0B0Dh
 LoadFightSprites_3F:
         add esp, byte 8
@@ -790,7 +790,7 @@ FreeTotalSprites:
         cmp dword [dword_11BB3C], byte 0
         je short .1
         push dword [dword_11BB3C]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .1:
         mov dword [dword_11BB3C], 0
@@ -809,7 +809,7 @@ LoadTotalSprites:
         cmp dword [dword_11BB3C], byte 0
         je short .1
         push dword [dword_11BB3C]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .1:
         mov eax, 0FFFFFFFFh
@@ -817,7 +817,7 @@ LoadTotalSprites:
         call SelectDataLibrary
         push byte 0
         push str_TotalRef
-        call sub_B20D0
+        call OpenArtArchiveErr
         add esp, byte 8
         mov dword [dword_11BB3C], eax
         xor edx, edx
@@ -834,7 +834,7 @@ LoadCupSprites:
         cmp dword [dword_11BB40], byte 0
         je short .1
         push dword [dword_11BB40]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .1:
         mov eax, 0FFFFFFFFh
@@ -842,7 +842,7 @@ LoadCupSprites:
         call SelectDataLibrary
         push byte 0
         push str_CupRef
-        call sub_B20D0
+        call OpenArtArchiveErr
         mov edx, 0C41h
         jmp near LoadFightSprites_3F
 ;-----------------------------------------------------------------------------
@@ -856,7 +856,7 @@ FreeSpriteCache:
         cmp dword [dword_11BCD9], byte 0
         je short .1
         push dword [dword_11BCD9]
-        call sub_ABF4C
+        call FreeMemBlock
         mov dword [dword_11BCD9], 0
         add esp, byte 4
 .1:
@@ -1057,13 +1057,13 @@ GetSpriteFrame:
         jmp near SetTeamJerseyColors_A3
 ;-----------------------------------------------------------------------------
 ; SpriteScale                                     625AA  96 PC, low confidence
-; (distance): the sprite scale shift for a distance (0 past dword_11F5F0)
+; (distance): the sprite scale shift for a distance (0 past str_Punct_DrawRinkSurface)
 ;-----------------------------------------------------------------------------
 SpriteScale:
         push ebp
         mov ebp, esp
         mov eax, dword [byte ebp+08h]
-        cmp eax, dword [dword_11F5F0]
+        cmp eax, dword [str_Punct_DrawRinkSurface]
         jg short .1
         xor eax, eax
         pop ebp

@@ -17,8 +17,8 @@ extern str_HD023, str_NAV, str_Pal24, str_Plyr3, str_PROFILEFSH3, str_RAT02, str
 extern str_S1dw, str_S1ug, str_S1up, str_S22, str_S2dg, str_S2dw, str_S2ug, str_S2up
 extern str_S32, str_S3dg, str_S3dw, str_S3ug, str_S3up, str_SD5, str_TR00, str_TR01
 extern str_TR02, str_TR0D, str_XTbl2, SelectDataLibrary, StatsDb5Record, StatsDb1Record, StatsDataBBRecord, StatsData4Record
-extern StatsDb2Record, sub_AAA40, sub_AB758, sub_ABF4C, sub_AD35C, sub_ADBEC, sub_B0430, sub_B0494
-extern sub_B2C54, sub_DD6C4, sub_DD7B8, sub_DD908, sub_E04E0, TickDeadlinePassed, unk_93BE6, unk_93CA6
+extern StatsDb2Record, sub_AAA40, sub_AB758, FreeMemBlock, sub_AD35C, sub_ADBEC, sub_B0430, LoadResourceDataShared
+extern sub_B2C54, SetScreenTarget, sub_DD7B8, sub_DD908, sub_E04E0, TickDeadlinePassed, unk_93BE6, unk_93CA6
 extern unk_93D26
 global PlayerRatingsScreen, PlayerRatingsScreen_E11, PlayerRatingsScreen_E3B, PlayerRatingsScreen_E44, PlayerRatingsScreen_E4D, PlayerRatingsScreen_E56, PlayerRatingsScreen_E5F, PlayerRatingsScreen_E68
 global PlayerRatingsScreen_E71, unk_955D7, unk_95603, DrawRatingBars, DrawRatingBars_2CA, DrawRatingBars_30B, DrawRatingBars_331, DrawRatingBars_38D
@@ -302,7 +302,7 @@ PlayerRatingsScreen:
         cmp dword [byte ebp+042h], byte 9
         jl near .9
         mov dword [byte ebp+042h], 0
-        call sub_DD6C4
+        call SetScreenTarget
         mov al, byte [byte ebp+042h]
         mov ah, 7
         mul ah
@@ -406,7 +406,7 @@ PlayerRatingsScreen:
         mov dword [dword_11E890], 0
         mov dword [dword_11E894], 0
         mov dword [dword_181EAC], esi
-        call sub_DD6C4
+        call SetScreenTarget
         push byte 68h
         mov eax, dword [dword_182128]
         push byte 48h
@@ -888,7 +888,7 @@ PlayerRatingsScreen:
         imul eax, byte 1
         lea edi, [byte eax+010h]
 .45:
-        call sub_DD6C4
+        call SetScreenTarget
         push str_RAT02
         push dword [dword_18210C]
         call sub_E04E0
@@ -957,7 +957,7 @@ PlayerRatingsScreen_E71:
         mov dword [dword ebp-0F90h], eax
         lea edi, [byte esi+010h]
 .49:
-        call sub_DD6C4
+        call SetScreenTarget
         push str_RAT02
         push dword [dword_18210C]
         call sub_E04E0
@@ -1466,28 +1466,28 @@ PlayerRatingsScreen_E71:
         cmp dword [dword_11E8A8], byte 0
         je short .104
         push dword [dword_11E8A8]
-        call sub_ABF4C
+        call FreeMemBlock
         mov dword [dword_11E8A8], 0
         add esp, byte 4
 .104:
         cmp dword [dword_11E8AC], byte 0
         je short .105
         push dword [dword_11E8AC]
-        call sub_ABF4C
+        call FreeMemBlock
         mov dword [dword_11E8AC], 0
         add esp, byte 4
 .105:
         push dword [dword_182134]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_182130]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_182138]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_18210C]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [byte ebp+052h]
         call sub_ADBEC
@@ -2336,7 +2336,7 @@ DrawRatingBars_73E:
         cmp eax, dword [byte ebp-020h]
         jl near DrawRatingBars_4C1.72
 .105:
-        call sub_DD6C4
+        call SetScreenTarget
         cmp dword [byte ebp+010h], byte 0
         jne short .106
         push dword 15Ch
@@ -2452,7 +2452,7 @@ DrawRatingsTitle:
         cmp ecx, edi
         jl short .10
 .12:
-        call sub_DD6C4
+        call SetScreenTarget
         push dword 15Ch
         mov eax, dword [byte ebp+010h]
         push dword 11Eh
@@ -2487,7 +2487,7 @@ LoadRatingsPicture:
         je short .3
         push dword [dword_11E8AC]
 .2:
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .3:
         mov eax, 0FFFFFFF8h
@@ -2517,7 +2517,7 @@ LoadRatingsPicture:
         push byte 0
         lea eax, [byte ebp-018h]
         push eax
-        call sub_B0494
+        call LoadResourceDataShared
         add esp, byte 8
         push str_Plyr3
         push eax
@@ -2539,7 +2539,7 @@ LoadRatingsPicture:
 .7:
         push eax
         push str_PROFILEFSH3
-        call sub_B0494
+        call LoadResourceDataShared
         add esp, byte 8
         push str_Card3
         push eax
@@ -2564,7 +2564,7 @@ LoadRatingsPicture:
         push byte 0
         lea eax, [byte ebp-018h]
         push eax
-        call sub_B0494
+        call LoadResourceDataShared
         add esp, byte 8
         push str_Plyr3
         push eax
@@ -2597,7 +2597,7 @@ LoadRatingsPicture:
 .13:
         push eax
         push str_PROFILEFSH3
-        call sub_B0494
+        call LoadResourceDataShared
         add esp, byte 8
         push str_Card3
         push eax
@@ -2722,7 +2722,7 @@ SwitchRatingsCard:
         mov eax, edi
         call SlideCardLeft
 .3:
-        call sub_DD6C4
+        call SetScreenTarget
         push byte 68h
         mov eax, dword [dword_182128]
         push byte 48h
@@ -2760,7 +2760,7 @@ SwitchRatingsCard:
         xor ecx, ecx
         call SlideCardRight
 .7:
-        call sub_DD6C4
+        call SetScreenTarget
         push byte 68h
         mov eax, dword [dword_182128]
         push byte 48h
@@ -2808,7 +2808,7 @@ SwitchRatingsCard:
         mov eax, edi
         call SlideCardLeft
 .11:
-        call sub_DD6C4
+        call SetScreenTarget
         push byte 68h
         mov eax, dword [dword_18212C]
         push dword 190h
@@ -2846,7 +2846,7 @@ SwitchRatingsCard:
         xor ecx, ecx
         call SlideCardRight
 .15:
-        call sub_DD6C4
+        call SetScreenTarget
         push byte 68h
         mov eax, dword [dword_18212C]
         push dword 190h
@@ -2865,7 +2865,7 @@ SwitchRatingsCard:
         mov edx, dword [dword_182128]
         movsx eax, byte [eax]
         call DrawLeagueLogo
-        call sub_DD6C4
+        call SetScreenTarget
         push byte 68h
         mov eax, dword [dword_182128]
         push byte 48h
@@ -2881,7 +2881,7 @@ SwitchRatingsCard:
         mov edx, dword [dword_18212C]
         movsx eax, byte [eax]
         call DrawLeagueLogo
-        call sub_DD6C4
+        call SetScreenTarget
         push byte 68h
         mov eax, dword [dword_18212C]
         push dword 190h
@@ -3020,7 +3020,7 @@ DrawRatingsList:
         mov eax, esi
         call InitVScrollBar
 .9:
-        call sub_DD6C4
+        call SetScreenTarget
         mov eax, esi
         call DrawScrollBar
         pop edi
@@ -3229,7 +3229,7 @@ DrawRatingsName:
         mov edx, 64h
         lea eax, [byte ebp-034h]
         call DrawColorText
-        call sub_DD6C4
+        call SetScreenTarget
         cmp dword [byte ebp-038h], byte 0
         jne short .19
         push dword 120h

@@ -14,8 +14,8 @@ extern dword_11B23C, dword_11B240, dword_11B244, dword_11B248, dword_11B24C, dwo
 extern dword_11B2A8, dword_11B2E8, dword_11B2EC, dword_11B2F0, dword_11B2F4, dword_11B2F8, dword_11B2FC, dword_11B300
 extern dword_11B304, dword_11B308, dword_11B310, dword_11B318, dword_11B31C, dword_11B320, dword_11B324, dword_11B328
 extern dword_11B32C, dword_11B330, dword_11B364, dword_11B374, dword_11B9F4, dword_11BB14, dword_11BB18, dword_11BB1C
-extern dword_11BC24, dword_11D91F, dword_11F5C0, dword_11F5C4, dword_1219A4, dword_1228D8, dword_1228DC, dword_1228E0
-extern dword_1228E4, dword_1228F8, dword_152F4C, dword_152FEC, dword_1531D0, dword_15E4BC, dword_15E4C0, dword_15E8D8
+extern dword_11BC24, dword_11D91F, dword_11F5C0, dword_11F5C4, dword_1219A4, ClipTopRow, ClipLeftCol, ClipRight
+extern ScreenHeight, dword_1228F8, dword_152F4C, dword_152FEC, dword_1531D0, dword_15E4BC, dword_15E4C0, dword_15E8D8
 extern dword_15E8E0, dword_15E8E4, dword_15E8F8, dword_15E8FC, dword_1647A0, dword_1647A4, dword_164816, dword_164838
 extern dword_16505C, dword_165060, dword_165064, dword_165166, dword_16516A, dword_16516E, dword_165172, dword_177108
 extern dword_17828C, dword_178290, dword_178294, dword_178298, dword_17829C, dword_1782A0, dword_1782A4, dword_1782A8
@@ -28,7 +28,7 @@ extern dword_17997C, dword_179A7C, dword_179AC8, dword_179C88, dword_179C8C, dwo
 extern dword_179E0F, dword_179E13, dword_179E17, dword_179E1B, dword_17BA4C, dword_17BA50, dword_17BA54, dword_17CA5C
 extern dword_17D528, FillRect, FormatPlayerName, fputchar, gameclock, gameopts, GetLowestPen, GetSpecialTeamsRanks
 extern gmode, gmode2, gsp, hmroster, hmtmstruct, lcboxon, lcline, lineuptime
-extern LoadPackedFile, LoadTeamLogo, MouseRead, mousex, mousey, off_11788C, off_11B278, optflags
+extern LoadPackedFile, LoadTeamLogo, MouseRead, mousex, mousey, PtrPuckFlags, off_11B278, optflags
 extern puckc, puckz, rand_, SetClipWindow, SetViewRect, SortCords, SortIndices, sprintf_
 extern str_12, str_12s, str_24, str_2d, str_2d01d, str_2d02d2, str_32, str_3s
 extern str_42, str_B000, str_B001, str_DDD2, str_DDD3, str_DS, str_Goal0, str_Goal1
@@ -39,10 +39,10 @@ extern DrawWholeRink, sub_297C9, sub_299CF, sub_2E1BE, sub_4B38C, sub_4B4F3, sub
 extern sub_54237, sub_54391, sub_5439F, sub_54427, SetCameraShot, ResetCameraShake, SetGameViewSize, SaveTeamPalette
 extern SetPlayerSpriteColors, SetRinkSpriteColors, LoadGameSprites, GetSpriteFrame, SpriteScale, DrawText, DrawTextCentred, SetTextColors
 extern DrawColorText, DrawColorTextRight, DrawColorTextCentred, FillBox, DrawPauseFrame, GetLangText, BuildAntiAliasTable, sub_AAA40
-extern sub_AAADC, sub_AB758, sub_ABF4C, sub_AD35C, sub_AD620, sub_AFFD0, sub_B0CA8, sub_B0F7C
+extern sub_AAADC, sub_AB758, FreeMemBlock, sub_AD35C, sub_AD620, sub_AFFD0, sub_B0CA8, sub_B0F7C
 extern sub_B58D8, sub_B6140, sub_B6148, sub_BA3D0, sub_BB470, sub_BB570, sub_BB924, sub_BBA41
-extern sub_BBC04, sub_BC3A0, sub_BC3F4, sub_BC610, sub_BC674, sub_BC6D8, sub_BC760, sub_BD86C
-extern sub_BE926, sub_BE960, sub_BEF44, sub_BEFF0, sub_DD6C4, sub_DD8B0, sub_DD908, sub_DD960
+extern SetScreenScale, sub_BC3A0, sub_BC3F4, sub_BC610, sub_BC674, sub_BC6D8, sub_BC760, sub_BD86C
+extern sub_BE926, sub_BE960, sub_BEF44, sub_BEFF0, SetScreenTarget, SetRemapTable, sub_DD908, sub_DD960
 extern sub_DD975, sub_DDBB4, sub_E0486, sub_E04E0, sub_E0584, sub_E162A, sub_E1638, TeamLineEnergy
 extern TextSetFont, unk_111024, unk_11B2AC, unk_122320, unk_157FDA, unk_157FF8, unk_1582F5, unk_158313
 extern unk_16443C, unk_1782AC, unk_1786AC, unk_178AAC, unk_1798C0, unk_179980, unk_179AC0, unk_179BBC
@@ -64,7 +64,7 @@ global unk_5D555, unk_5D561, unk_5D56D, unk_5D579, unk_5D585, unk_5D591, unk_5D5
 global unk_5D65D, unk_5D681
 ;-----------------------------------------------------------------------------
 ; DrawScaledSprite                                584A0  96 PC, low confidence
-; Draws one scaled sprite frame clipped to the view (dword_1228D8-1228E4),
+; Draws one scaled sprite frame clipped to the view (ClipTopRow-1228E4),
 ; for DrawPlayerSprite
 ;-----------------------------------------------------------------------------
 DrawScaledSprite:
@@ -95,9 +95,9 @@ DrawScaledSprite:
         sub edx, eax
         mov dword [byte ebp-08h], 0
         mov dword [byte ebp-04h], edx
-        cmp edi, dword [dword_1228DC]
+        cmp edi, dword [ClipLeftCol]
         jge short .1
-        mov eax, dword [dword_1228DC]
+        mov eax, dword [ClipLeftCol]
         mov dword [byte ebp-010h], eax
         jmp short .2
 .1:
@@ -106,9 +106,9 @@ DrawScaledSprite:
         mov eax, dword [byte ebp-04h]
         sar eax, 10h
         sub edi, ecx
-        cmp eax, dword [dword_1228E0]
+        cmp eax, dword [ClipRight]
         jge near DrawScaledSprite_1E2
-        cmp edi, dword [dword_1228E4]
+        cmp edi, dword [ScreenHeight]
         jge near DrawScaledSprite_1E2
         movsx eax, word [byte esi+06h]
         shl eax, 10h
@@ -170,35 +170,35 @@ DrawScaledSprite:
         mov edx, dword [byte ebp-08h]
         xor ebx, ebx
         sar eax, 10h
-        cmp edi, dword [dword_1228E4]
+        cmp edi, dword [ScreenHeight]
         jge near DrawScaledSprite_1E2
-        cmp eax, dword [dword_1228E0]
+        cmp eax, dword [ClipRight]
         jl short .8
         cmp dword [byte ebp+018h], byte 0
         jg near DrawScaledSprite_1E2
         jmp near .12
 .8:
         lea ecx, [edx+eax]
-        cmp ecx, dword [dword_1228E0]
+        cmp ecx, dword [ClipRight]
         jl short .9
         mov edx, ecx
         mov ecx, dword [byte ebp-08h]
-        sub edx, dword [dword_1228E0]
+        sub edx, dword [ClipRight]
         sub ecx, edx
         mov edx, ecx
 .9:
-        cmp eax, dword [dword_1228D8]
+        cmp eax, dword [ClipTopRow]
         jge short .11
         lea ebx, [eax+edx]
-        cmp ebx, dword [dword_1228D8]
+        cmp ebx, dword [ClipTopRow]
         jge short .10
         cmp dword [byte ebp+018h], byte 0
         jl short DrawScaledSprite_1E2
         jmp short .12
 .10:
-        mov ebx, dword [dword_1228D8]
+        mov ebx, dword [ClipTopRow]
         sub ebx, eax
-        mov eax, dword [dword_1228D8]
+        mov eax, dword [ClipTopRow]
         sub edx, ebx
 .11:
         test edx, edx
@@ -487,7 +487,7 @@ AllocShadeLut:
         push edx
         push dword [dword_1798F8]
 AllocShadeLut_5A:
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         pop edx
         pop ecx
@@ -725,7 +725,7 @@ InitGameView:
         call sub_AD35C
         add esp, byte 0Ch
         mov dword [dword_11B234], eax
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [dword_11F5C4]
         push byte 0
         push dword [dword_11F5C0]
@@ -739,7 +739,7 @@ InitGameView:
         call sub_E162A
         add esp, byte 4
         push byte 50h
-        call sub_BBC04
+        call SetScreenScale
         mov eax, dword [dword_17CA5C]
         shl eax, 0Eh
         add esp, byte 4
@@ -1001,7 +1001,7 @@ InitGameView_70A:
 .14:
         push eax
         mov esi, dword [byte eax+0Dh]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov eax, esi
         test esi, esi
@@ -1022,28 +1022,28 @@ FreeGameView:
         push edx
         push esi
         push dword [dword_1798F0]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_179904]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_179914]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_179924]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_179920]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_179918]
-        call sub_ABF4C
+        call FreeMemBlock
         mov eax, dword [dword_11B364]
         add esp, byte 4
 .1:
         push eax
         mov esi, dword [byte eax+0Dh]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov eax, esi
         test esi, esi
@@ -1052,20 +1052,20 @@ FreeGameView:
         call FreeRinkModel
         call sub_B0CA8
         push dword [dword_1798E8]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_1798E4]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_11B234]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_1798F8]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         call sub_53C6F
         push dword [dword_17D528]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         pop esi
         pop edx
@@ -1681,7 +1681,7 @@ DrawPuckSprite:
         jle short .5
 .3:
         push unk_17D3E8
-        call sub_DD8B0
+        call SetRemapTable
         add esp, byte 4
         call DrawPuckShadowModel
         pop edx
@@ -1714,7 +1714,7 @@ SpinPuckModel:
         mov eax, dword [puckz]
         cmp word [eax], byte 0
         jl near InitGameView_709
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         movsx eax, word [byte eax+03Ch]
         shl eax, 0Ch
         add dword [dword_11B294], eax

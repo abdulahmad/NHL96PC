@@ -6,8 +6,8 @@ extern byte_11FA2F, byte_152C3B, byte_152C40, byte_152C41, byte_152C42, DrawArtO
 extern dword_1150CC, dword_1150D0, dword_11F5C0, dword_152C3C, FillRect, fputchar, mousex, mousey
 extern PutBlock, SetDrawBitmap, sprintf_, str_02, str_BDMEN, str_BDREG, str_BUT, str_D14
 extern str_X, CopyBitmap, DrawTextCentred, SetTextColors, DrawColorTextCentred, DrawBox, InitMenuItems, RunMenu
-extern SetMenuMouse, SoundIdle, sub_AA7E0, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C, sub_AD620
-extern sub_ADA80, sub_ADBEC, sub_AFFD0, sub_DD6C4, sub_DD6E0, sub_DFE9C, unk_152B3C
+extern SetMenuMouse, SoundIdle, sub_AA7E0, sub_AADA4, sub_AB758, FreeMemBlock, sub_AD35C, sub_AD620
+extern sub_ADA80, sub_ADBEC, sub_AFFD0, SetScreenTarget, GetPaletteRange, sub_DFE9C, unk_152B3C
 global DrawBoxButton, DrawBoxButton_ret, MessageBox, HideMessage, ShowMessage, ShowProgressBox, UpdateProgressBox, HideProgressBox
 ;-----------------------------------------------------------------------------
 ; DrawBoxButton                                1A04E  96 PC, medium confidence
@@ -116,7 +116,7 @@ MessageBox:
         push byte 0
         mov dword [byte ebp-018h], 0
         mov edi, dword [dword ebp-0348h]
-        call sub_DD6E0
+        call GetPaletteRange
         mov eax, dword [dword ebp-0344h]
         add esp, byte 0Ch
         mov dword [byte ebp-014h], eax
@@ -732,7 +732,7 @@ MessageBox:
         mov eax, dword [byte eax+03Ah]
         call SetMenuMouse
         mov dword [byte ebp-03Ch], edi
-        call sub_DD6C4
+        call SetScreenTarget
         mov eax, dword [dword_152C3C]
         push dword [byte eax+0Ch]
         push dword [byte eax+08h]
@@ -797,14 +797,14 @@ MessageBox:
         mov eax, dword [dword_152C3C]
         add esp, byte 4
         push dword [byte eax+024h]
-        call sub_ABF4C
+        call FreeMemBlock
         mov eax, dword [dword_152C3C]
         add esp, byte 4
         push dword [byte eax+020h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_152C3C]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         movzx edx, byte [byte esi+01h]
         movzx eax, byte [esi]
@@ -824,12 +824,12 @@ HideMessage:
         push edx
         cmp dword [dword_1150C4], byte 0
         je short .1
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [dword_1150C4]
         call sub_AADA4
         add esp, byte 4
         push dword [dword_1150C4]
-        call sub_ABF4C
+        call FreeMemBlock
         mov dword [dword_1150C4], 0
         add esp, byte 4
 .1:
@@ -853,12 +853,12 @@ ShowMessage:
         cmp dword [dword_1150C4], byte 0
         je short .1
         je short .1
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [dword_1150C4]
         call sub_AADA4
         add esp, byte 4
         push dword [dword_1150C4]
-        call sub_ABF4C
+        call FreeMemBlock
         mov dword [dword_1150C4], 0
         add esp, byte 4
 .1:
@@ -866,7 +866,7 @@ ShowMessage:
         push eax
         push dword 100h
         push byte 0
-        call sub_DD6E0
+        call GetPaletteRange
         add esp, byte 0Ch
         push str_X
         call fputchar
@@ -886,7 +886,7 @@ ShowMessage:
         call sub_AD35C
         add esp, byte 0Ch
         mov edi, eax
-        call sub_DD6C4
+        call SetScreenTarget
         movzx eax, byte [byte_11FA2F]
         lea eax, [eax+eax*2]
         mov edx, dword [byte ebp-04h]
@@ -952,7 +952,7 @@ ShowMessage:
         sub ebx, eax
         mov eax, dword [dword ebp-0318h]
         call DrawColorTextCentred
-        call sub_DD6C4
+        call SetScreenTarget
         movzx eax, byte [byte_11FA2F]
         lea eax, [eax+eax*2]
         mov edx, dword [byte ebp-04h]
@@ -990,12 +990,12 @@ ShowProgressBox:
         cmp dword [dword_1150C8], byte 0
         je short .1
         je short .1
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [dword_1150C8]
         call sub_AADA4
         add esp, byte 4
         push dword [dword_1150C8]
-        call sub_ABF4C
+        call FreeMemBlock
         mov dword [dword_1150C8], 0
         add esp, byte 4
 .1:
@@ -1009,7 +1009,7 @@ ShowProgressBox:
         push eax
         push dword 100h
         push byte 0
-        call sub_DD6E0
+        call GetPaletteRange
         add esp, byte 0Ch
         push str_X
         call fputchar
@@ -1029,7 +1029,7 @@ ShowProgressBox:
         call sub_AD35C
         add esp, byte 0Ch
         mov esi, eax
-        call sub_DD6C4
+        call SetScreenTarget
         movzx eax, byte [byte_11FA2F]
         lea eax, [eax+eax*4]
         mov edx, dword [byte ebp+06Eh]
@@ -1094,7 +1094,7 @@ ShowProgressBox:
         mov eax, dword [byte ebp+07Ah]
         movzx ebx, byte [byte_11FA2F]
         call DrawColorTextCentred
-        call sub_DD6C4
+        call SetScreenTarget
         mov eax, dword [dword_1150C8]
         movsx edx, word [byte eax+0Eh]
         push edx
@@ -1293,12 +1293,12 @@ HideProgressBox:
         push edx
         cmp dword [dword_1150C8], byte 0
         je short .1
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [dword_1150C8]
         call sub_AADA4
         add esp, byte 4
         push dword [dword_1150C8]
-        call sub_ABF4C
+        call FreeMemBlock
         mov dword [dword_1150C8], 0
         add esp, byte 4
 .1:

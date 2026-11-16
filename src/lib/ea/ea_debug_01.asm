@@ -3,12 +3,15 @@ bits 32
 %include "hockey.inc"
 section s_ACED8 progbits alloc exec nowrite align=1
 extern FatalError, _dos_getdate_, _dos_gettime_, asc_113484, str_2d02d02d2, asc_1134A4, asc_1134F4, asc_1134FC
-extern str_CreatewindowblockBADBLOC, str_CreatewindowblockOUTOFRO, byte_11FA4F, byte_11FA50, byte_1219A7, byte_1219A8, dword_11F5C8, dword_11F9C8
+extern str_CreatewindowblockBADBLOC, str_CreatewindowblockOUTOFRO, byte_11FA4F, byte_11FA50, byte_1219A7, QuantizeTable, dword_11F5C8, dword_11F9C8
 extern dword_11F9DC, dword_185740, dword_185744, dword_185748, dword_18574C, dword_185750, dword_185754, dword_185758
-extern dword_18575C, fputs_, sprintf_, sub_AB718, sub_AC838, sub_ACAD0, sub_C3C37, sub_C3CC0
+extern dword_18575C, fputs_, sprintf_, sub_AB718, sub_AC838, sub_ACAD0, sub_C3C37, FillRowTable
 extern sub_E1836, sub_E1970, vsprintf_
 global sub_ACED8, sub_ACF68, sub_AD00C, sub_AD090, sub_AD2B4, sub_AD35C, sub_AD420, sub_AD5C8
 global sub_AD620
+;-----------------------------------------------------------------------------
+; sub_ACED8                                                            ACED8  
+;-----------------------------------------------------------------------------
 sub_ACED8:
         sub esp, byte 4
         cmp dword [dword_11F9C8], byte 2
@@ -51,6 +54,9 @@ sub_ACED8:
 .3:
         add esp, 104h
         ret
+;-----------------------------------------------------------------------------
+; sub_ACF68                                                            ACF68  
+;-----------------------------------------------------------------------------
 sub_ACF68:
         push ebx
         push ecx
@@ -136,6 +142,9 @@ sub_ACF68:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_AD00C                                                            AD00C  
+;-----------------------------------------------------------------------------
 sub_AD00C:
         push ebx
         push ecx
@@ -184,6 +193,9 @@ sub_AD00C:
         pop ebx
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_AD090                                                            AD090  
+;-----------------------------------------------------------------------------
 sub_AD090:
         push esi
         push edi
@@ -332,7 +344,7 @@ sub_AD090:
         mov dword [byte ecx+010h], edx
         mov edx, dword [byte esp+08h]
         mov dword [byte ecx+018h], esi
-        call sub_C3CC0
+        call FillRowTable
         mov dword [byte ecx+028h], eax
         test eax, eax
         jne short .16
@@ -410,6 +422,9 @@ sub_AD090:
         pop edi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; sub_AD2B4                                                            AD2B4  
+;-----------------------------------------------------------------------------
 sub_AD2B4:
         push esi
         push byte 1
@@ -487,6 +502,9 @@ sub_AD2B4:
         pop esi
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_AD35C                                                            AD35C  
+;-----------------------------------------------------------------------------
 sub_AD35C:
         push esi
         push byte 1
@@ -567,6 +585,9 @@ sub_AD35C:
         pop esi
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_AD420                                                            AD420  
+;-----------------------------------------------------------------------------
 sub_AD420:
         push ebx
         push ecx
@@ -652,7 +673,7 @@ sub_AD420:
         mov ebx, esi
         xor edx, edx
 .6:
-        cmp byte [dword edx+byte_1219A8], 0
+        cmp byte [dword edx+QuantizeTable], 0
         jne short .7
         add ebx, byte 3
         jmp short .10
@@ -707,6 +728,9 @@ sub_AD420:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_AD5C8                                                            AD5C8  
+;-----------------------------------------------------------------------------
 sub_AD5C8:
         push esi
         push edi
@@ -739,6 +763,9 @@ sub_AD5C8:
         pop esi
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_AD620                                                            AD620  
+;-----------------------------------------------------------------------------
 sub_AD620:
         mov eax, dword [byte esp+04h]
         mov edx, dword [byte esp+0Ch]

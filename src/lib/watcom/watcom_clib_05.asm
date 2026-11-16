@@ -5,22 +5,22 @@ section s_B2C98 progbits alloc exec nowrite align=1
 extern FatalError, __CMain, __FiniRtns, __InitRtns, ___begtext, __doserror_, __fprtf_, __set_EINVAL_
 extern __set_errno_dos_, _nexpand_, _nfree_, _nmalloc_, _nmsize_, str_InitmemmanINSUFFICIENTROW, asc_113658, asc_113680
 extern asc_1136C4, str_InitmemmanDOSSUBMEMORYNO, str_AAPLUT, asc_113740, str_OpenblockhandleSPATHNAME, asc_113794, asc_1137A0, asc_1137B0
-extern asc_1137DC, asc_113810, asc_113834, str_CdromdirectoryentryERROR, str_Viv, byte_1219A8, byte_121AFC, _Extender
-extern _ExtenderSubtype, _osmajor, _osminor, byte_18B0D0, dword_11F5DC, dword_11F5E0, dword_11F5E4, dword_11F5E8
-extern dword_11F5EC, dword_11F9B8, dword_11F9BC, dword_1210C8, dword_1210CC, dword_1219A0, dword_1219A4, dword_121AA8
-extern dword_121AD8, dword_121B24, dword_121B28, dword_121B2C, dword_121B30, dword_121B38, dword_121B48, dword_121B4C
-extern dword_121B50, dword_121B54, dword_121B58, dword_121B5C, dword_121B6C, dword_121FBC, dword_1228D0, dword_1228D6
+extern asc_1137DC, asc_113810, asc_113834, str_CdromdirectoryentryERROR, str_Viv, QuantizeTable, byte_121AFC, _Extender
+extern _ExtenderSubtype, _osmajor, _osminor, byte_18B0D0, CpuIs386, CpuIs486, CpuType, CpuHasCpuid
+extern CpuFeatures, dword_11F9B8, RowTable, dword_1210C8, dword_1210CC, dword_1219A0, dword_1219A4, dword_121AA8
+extern FpuFlags, dword_121B24, dword_121B28, dword_121B2C, dword_121B30, dword_121B38, dword_121B48, dword_121B4C
+extern dword_121B50, dword_121B54, dword_121B58, dword_121B5C, dword_121B6C, dword_121FBC, ScreenWidth, dword_1228D6
 extern dword_1228DA, dword_1228DE, dword_1228E2, dword_1228F8, dword_1228FC, _dynend, _curbrk, _LpCmdLine
-extern dword_124404, _STACKLOW, _STACKTOP, _Envptr, dword_18572C, dword_185734, dword_185738, dword_18573C
+extern StackLow, _STACKLOW, _STACKTOP, _Envptr, RowTableSize, dword_185734, dword_185738, dword_18573C
 extern dword_185848, dword_185C4C, dword_18664C, dword_18B04C, dword_18B050, dword_18B054, dword_18B058, dword_18B05C
 extern dword_18B060, dword_18B064, dword_18B068, dword_18B06C, dword_18B070, dword_18B074, dword_18B07C, dword_18B080
 extern dword_18B084, dword_18B088, dword_18B08C, dword_18B090, dword_18B094, dword_18B09C, dword_18B0A0, dword_18B0AC
 extern dword_18B0B0, dword_18B0B4, dword_18B0B8, dword_19F2D4, int386_, int386x_, kaufmfont, sub_C60EC_168
 extern sub_E2335_5B, sub_E2335_81, segread_, sub_AB2EC, sub_AB3B4, sub_AB440, sub_AB5BC, sub_AB660
-extern sub_AB758, sub_ABF4C, sub_AC950, sub_BE926, sub_C2AC4, sub_C2C5C, sub_C3BD0, sub_C3BE0
-extern sub_C3C04, sub_C4C6C, sub_C5410, sub_C59E0, sub_C5D56, sub_C6000, sub_DFF4B, sub_E0520
-extern sub_E0671, sub_E07B8, sub_E07CC, sub_E081C, sub_E2335, unk_121B3C, unk_123E0E, unk_18704C
-extern unk_19BAD0, unk_1A1258, unlink_, word_121ADC, _psp, __no87, _Envptr_w4, word_18B078
+extern sub_AB758, FreeMemBlock, sub_AC950, sub_BE926, sub_C2AC4, sub_C2C5C, ResetMemLock, MemLock
+extern sub_C3C04, sub_C4C6C, sub_C5410, sub_C59E0, sub_C5D56, sub_C6000, KbdPeekKey, sub_E0520
+extern sub_E0671, DosCloseFile, sub_E07CC, sub_E081C, sub_E2335, CdFileTable, __stdout_buf, unk_18704C
+extern unk_19BAD0, StartupStack, unlink_, str_Punct_InitFpuFlags, _psp, __no87, _Envptr_w4, word_18B078
 extern word_18B098, word_18B0BC, word_18B0BE, word_18B0C0
 global _dos_close_, _dos_commit_, _dos_creat_, _dos_creatnew_, _dos_getdiskfree_, _dos_open_, _dos_read_, _dos_write_
 global chdir_, sub_B35E4_46, sub_B35E4_53, sub_B35E4_6B, sub_B35E4_95, sub_B35E4_C7, sub_B35E4_105, sub_B35E4_106
@@ -73,21 +73,24 @@ global sub_B59E8_474, sub_B59E8_487, sub_B59E8_491, sub_B59E8_4BC, sub_B59E8_4D6
 global sub_B59E8_52C, sub_B59E8_537, sub_B59E8_542, sub_B59E8_54D, sub_B59E8_558, sub_B59E8_563, sub_B59E8_56E, sub_B59E8_579
 global sub_B59E8_584, sub_B59E8_58F, sub_B59E8_5D5, sub_B59E8_5DA, sub_B59E8_5E5, sub_B59E8_5F0, sub_B59E8_5FB, sub_B59E8_606
 global sub_B59E8_611, sub_B59E8_61C, sub_B59E8_627, sub_B59E8_632, sub_B59E8_63D, sub_B59E8_648, sub_B59E8_653, start_74
-global start_28F, sub_B6599_23, _dos_read__5, printf_, rmdir_, start, stricmp_, strncpy_
-global sub_B2CE0, sub_B2D2C, sub_B30E4, sub_B3100, sub_B3145, sub_B3160, sub_B31C0, DetectCPU
+global start_28F, WriteConsoleMessage_23, _dos_read__5, printf_, rmdir_, start, stricmp_, strncpy_
+global sub_B2CE0, InitMemoryPool, InitMemoryPoolDefault, sub_B3100, sub_B3145, sub_B3160, sub_B31C0, DetectCPU
 global sub_B3360, sub_B3420, sub_B3458, sub_B35E4, sub_B39C8, sub_B3DA0, sub_B41A8, sub_B4580
 global sub_B4988, sub_B4D60, sub_B5168, sub_B5540, sub_B583C, sub_B58D8, sub_B59E8, sub_B6140
-global sub_B6148, sub_B621C, sub_B6599, sub_B65D4, sub_B65E0, sub_B67BC, sub_B680C, sub_B6824
+global sub_B6148, sub_B621C, WriteConsoleMessage, RestoreDS, sub_B65E0, sub_B67BC, CdHandleEntry, CdCloseFile
 global sub_B6864, sub_B68C8, sub_B6900, sub_B6964, sub_B69C0, sub_B69EC, sub_B6A14, sub_B6A68
 global sub_B6B10, sub_B6D2C, sub_B6DFC, sub_B6FA0, sub_B7094, sub_B71D4, sub_B71F1, sub_B7210
-global sub_B7233, sub_B7256, sub_B7310, sub_B73C4, unk_B34D8, unk_B38BC, unk_B3C94, unk_B409C
+global sub_B7233, UnlinkJump, sub_B7310, sub_B73C4, unk_B34D8, unk_B38BC, unk_B3C94, unk_B409C
 global unk_B4474, unk_B487C, unk_B4C54, unk_B505C, unk_B5434, unk_B58E0, unk_B5964, __saved_DS
+;-----------------------------------------------------------------------------
+; printf_                                                       B2C98  library
+;-----------------------------------------------------------------------------
 printf_:
         push ebx
         push edx
         sub esp, byte 4
         lea ebx, [byte esp+014h]
-        mov eax, unk_123E0E
+        mov eax, __stdout_buf
         mov edx, dword [byte esp+010h]
         mov dword [esp], ebx
         mov ebx, esp
@@ -96,6 +99,9 @@ printf_:
         pop edx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; chdir_                                                        B2CBA  library
+;-----------------------------------------------------------------------------
 chdir_:
         push edx
         mov edx, eax
@@ -114,6 +120,9 @@ chdir_:
         pop edx
         ret
         db 00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_B2CE0                                                            B2CE0  
+;-----------------------------------------------------------------------------
 sub_B2CE0:
         mov edx, dword [byte esp+04h]
         test edx, edx
@@ -145,17 +154,21 @@ sub_B2CE0:
         mov eax, edx
         ret
         db 08Bh,0C0h
-sub_B2D2C:
+;-----------------------------------------------------------------------------
+; InitMemoryPool                                  B2D2C  96 PC, low confidence
+; Sets up the game's memory pool from DOS extender memory
+;-----------------------------------------------------------------------------
+InitMemoryPool:
         push esi
         push edi
         push ebp
         sub esp, byte 44h
         mov ebp, dword [byte esp+054h]
         mov esi, dword [byte esp+05Ch]
-        call sub_C3BD0
+        call ResetMemLock
         push eax
         mov dword [dword_185734], eax
-        call sub_C3BE0
+        call MemLock
         add esp, byte 4
         mov edx, dword [byte esp+058h]
         test edx, edx
@@ -185,11 +198,11 @@ sub_B2D2C:
         mov dword [dword_1210CC], eax
         mov eax, dword [dword_1210CC]
         add eax, edx
-        mov ecx, dword [dword_11F9BC]
+        mov ecx, dword [RowTable]
         mov dword [dword_1210C8], eax
         test ecx, ecx
         jne short .4
-        mov dword [dword_11F9BC], unk_19BAD0
+        mov dword [RowTable], unk_19BAD0
 .4:
         cmp dword [dword_11F9B8], 0CCh
         jge short .5
@@ -198,7 +211,7 @@ sub_B2D2C:
         add esp, byte 4
 .5:
         mov edx, dword [dword_11F9B8]
-        mov eax, dword [dword_11F9BC]
+        mov eax, dword [RowTable]
         shl edx, 2
         lea ebx, [eax+edx]
         mov edx, dword [dword_11F9B8]
@@ -209,7 +222,7 @@ sub_B2D2C:
         mov edx, dword [dword_1210CC]
         push edx
         mov dword [byte eax+04h], 0
-        mov dword [dword_18572C], ebx
+        mov dword [RowTableSize], ebx
         call sub_AC950
         add esp, byte 8
         push byte 0
@@ -450,17 +463,24 @@ sub_B2D2C:
         pop esi
         ret
         db 08Dh,040h,00h
-sub_B30E4:
+;-----------------------------------------------------------------------------
+; InitMemoryPoolDefault                           B30E4  96 PC, low confidence
+; Sets up the memory pool with the default size
+;-----------------------------------------------------------------------------
+InitMemoryPoolDefault:
         push byte 0
         push byte 0
         push byte 0
         push dword 0F42400h
         mov edx, dword [byte esp+014h]
         push edx
-        call sub_B2D2C
+        call InitMemoryPool
         add esp, byte 14h
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_B3100                                                            B3100  
+;-----------------------------------------------------------------------------
 sub_B3100:
         push byte 0
         mov edx, dword [byte esp+010h]
@@ -470,7 +490,7 @@ sub_B3100:
         push ebx
         mov ecx, dword [byte esp+014h]
         push ecx
-        call sub_B2D2C
+        call InitMemoryPool
         add esp, byte 14h
         ret
         mov edx, dword [byte esp+0Ch]
@@ -481,17 +501,23 @@ sub_B3100:
         push byte 0
         mov ecx, dword [byte esp+014h]
         push ecx
-        call sub_B2D2C
+        call InitMemoryPool
         add esp, byte 14h
         ret
         or byte [0417h], 20h
-        call sub_DFF4B
+        call KbdPeekKey
         ret
+;-----------------------------------------------------------------------------
+; sub_B3145                                                            B3145  
+;-----------------------------------------------------------------------------
 sub_B3145:
         and byte [0417h], 0DFh
-        call sub_DFF4B
+        call KbdPeekKey
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_B3160                                                            B3160  
+;-----------------------------------------------------------------------------
 sub_B3160:
         push sub_C5410
         push byte 0Ah
@@ -519,6 +545,9 @@ sub_B3160:
         add esp, byte 8
         ret
         db 00h,00h
+;-----------------------------------------------------------------------------
+; sub_B31C0                                                            B31C0  
+;-----------------------------------------------------------------------------
 sub_B31C0:
         push esi
         push edi
@@ -578,7 +607,7 @@ sub_B31C0:
         movzx esi, byte [eax]
         movzx edi, byte [byte eax+01h]
         add eax, byte 2
-        mov bl, byte [dword edx+byte_1219A8]
+        mov bl, byte [dword edx+QuantizeTable]
         test bl, bl
         je short .5
         mov ebx, dword [dword esp+0308h]
@@ -609,12 +638,15 @@ sub_B31C0:
         pop esi
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; DetectCPU                                                       B32E0  95 PC
+;-----------------------------------------------------------------------------
 DetectCPU:
-        mov dword [dword_11F5DC], 1
-        mov dword [dword_11F5E0], 1
+        mov dword [CpuIs386], 1
+        mov dword [CpuIs486], 1
         smsw eax
         and eax, byte 1
-        mov dword [dword_11F5EC], eax
+        mov dword [CpuFeatures], eax
         pushf
         LD mov, edx, esp
         and esp, byte 0FFFFFFFCh
@@ -633,7 +665,7 @@ DetectCPU:
         popf
         LD mov, esp, edx
         popf
-        mov dword [dword_11F5E4], eax
+        mov dword [CpuType], eax
         cmp eax, byte 0
         je short .1
         pushf
@@ -652,10 +684,13 @@ DetectCPU:
         shr eax, 8
         cmp al, 5
         jl short .1
-        mov dword [dword_11F5E8], 1
+        mov dword [CpuHasCpuid], 1
 .1:
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_B3360                                                            B3360  
+;-----------------------------------------------------------------------------
 sub_B3360:
         push ebx
         push ecx
@@ -727,6 +762,9 @@ sub_B3360:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_B3420                                                            B3420  
+;-----------------------------------------------------------------------------
 sub_B3420:
         push ecx
         push esi
@@ -753,6 +791,9 @@ sub_B3420:
         mov dword [edx], eax
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_B3458                                                            B3458  
+;-----------------------------------------------------------------------------
 sub_B3458:
         push ebx
         push ecx
@@ -876,6 +917,9 @@ unk_B34D8:
         dd sub_B35E4_274
         dd sub_B35E4_274
         dd sub_B35E4_2C9
+;-----------------------------------------------------------------------------
+; sub_B35E4                                                            B35E4  
+;-----------------------------------------------------------------------------
 sub_B35E4:
         push ebx
         push ecx
@@ -1227,6 +1271,9 @@ unk_B38BC:
         dd sub_B39C8_276
         dd sub_B39C8_276
         dd sub_B35E4_2C9
+;-----------------------------------------------------------------------------
+; sub_B39C8                                                            B39C8  
+;-----------------------------------------------------------------------------
 sub_B39C8:
         push ebx
         push ecx
@@ -1569,6 +1616,9 @@ unk_B3C94:
         dd sub_B3DA0_2A1
         dd sub_B3DA0_2A1
         dd sub_B35E4_2C9
+;-----------------------------------------------------------------------------
+; sub_B3DA0                                                            B3DA0  
+;-----------------------------------------------------------------------------
 sub_B3DA0:
         push ebx
         push ecx
@@ -1923,6 +1973,9 @@ unk_B409C:
         dd sub_B41A8_276
         dd sub_B41A8_276
         dd sub_B35E4_2C9
+;-----------------------------------------------------------------------------
+; sub_B41A8                                                            B41A8  
+;-----------------------------------------------------------------------------
 sub_B41A8:
         push ebx
         push ecx
@@ -2265,6 +2318,9 @@ unk_B4474:
         dd sub_B4580_2A1
         dd sub_B4580_2A1
         dd sub_B35E4_2C9
+;-----------------------------------------------------------------------------
+; sub_B4580                                                            B4580  
+;-----------------------------------------------------------------------------
 sub_B4580:
         push ebx
         push ecx
@@ -2619,6 +2675,9 @@ unk_B487C:
         dd sub_B4988_276
         dd sub_B4988_276
         dd sub_B35E4_2C9
+;-----------------------------------------------------------------------------
+; sub_B4988                                                            B4988  
+;-----------------------------------------------------------------------------
 sub_B4988:
         push ebx
         push ecx
@@ -2961,6 +3020,9 @@ unk_B4C54:
         dd sub_B4D60_2A1
         dd sub_B4D60_2A1
         dd sub_B35E4_2C9
+;-----------------------------------------------------------------------------
+; sub_B4D60                                                            B4D60  
+;-----------------------------------------------------------------------------
 sub_B4D60:
         push ebx
         push ecx
@@ -3315,6 +3377,9 @@ unk_B505C:
         dd sub_B5168_276
         dd sub_B5168_276
         dd sub_B35E4_2C9
+;-----------------------------------------------------------------------------
+; sub_B5168                                                            B5168  
+;-----------------------------------------------------------------------------
 sub_B5168:
         push ebx
         push ecx
@@ -3657,6 +3722,9 @@ unk_B5434:
         dd sub_B5540_2A1
         dd sub_B5540_2A1
         dd sub_B35E4_2C9
+;-----------------------------------------------------------------------------
+; sub_B5540                                                            B5540  
+;-----------------------------------------------------------------------------
 sub_B5540:
         push ebx
         push ecx
@@ -3943,6 +4011,9 @@ sub_B5540_2AD:
         add edx, byte 4
         jmp near sub_B5540.1
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_B583C                                                            B583C  
+;-----------------------------------------------------------------------------
 sub_B583C:
         push ebx
         push ecx
@@ -4010,6 +4081,9 @@ sub_B583C:
         pop ebx
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_B58D8                                                            B58D8  
+;-----------------------------------------------------------------------------
 sub_B58D8:
         mov dword [dword_18B04C], eax
         ret
@@ -4082,6 +4156,9 @@ unk_B5964:
         dd sub_B59E8_5DA
         dd sub_B59E8_511
         dd sub_B59E8_5D5
+;-----------------------------------------------------------------------------
+; sub_B59E8                                                            B59E8  
+;-----------------------------------------------------------------------------
 sub_B59E8:
         push ebx
         push ecx
@@ -4565,7 +4642,7 @@ sub_B59E8_653:
         jl near .11
         mov edx, dword [byte esp+04h]
         mov edi, dword [dword_18B058]
-        mov eax, dword [dword_1228D0]
+        mov eax, dword [ScreenWidth]
         mov dword [dword_18B06C], ebp
         inc edi
         add edx, eax
@@ -4582,6 +4659,9 @@ sub_B59E8_653:
         pop ebx
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_B6140                                                            B6140  
+;-----------------------------------------------------------------------------
 sub_B6140:
         shl ecx, 10h
         shl ebx, 10h
@@ -4654,6 +4734,9 @@ sub_B6148:
         pop edi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; sub_B621C                                                            B621C  
+;-----------------------------------------------------------------------------
 sub_B621C:
         push esi
         push edi
@@ -4732,6 +4815,9 @@ sub_B621C:
         pop esi
         ret 4
         db 00h,00h,00h
+;-----------------------------------------------------------------------------
+; start                                                         B6308  library
+;-----------------------------------------------------------------------------
 start:
         jmp short start_74.1
         push edi
@@ -4841,7 +4927,7 @@ start_74:
 .8:
         cmp ax, 4243h
         jne short .10
-        mov dword [dword_121AD8], edx
+        mov dword [FpuFlags], edx
         mov esi, edx
         mov edx, dword [byte esi+01Ch]
         mov ebx, esp
@@ -4869,7 +4955,7 @@ start_74:
         mov ax, gs
         cmp ax, byte 0
         je short .11
-        mov word [word_121ADC], ax
+        mov word [str_Punct_InitFpuFlags], ax
 .11:
         mov ax, 6
         mov bx, ds
@@ -4903,7 +4989,7 @@ start_74:
         push esi
         o16 mov es, word [_psp]
         db 03Eh,0BAh                            ; insn: mov edx,91258h
-        dd unk_1A1258
+        dd StartupStack
         add edx, byte 0Fh
         and dl, 0F0h
         sub ecx, ecx
@@ -4958,7 +5044,7 @@ start_74:
         mov dword [_STACKLOW], edi
         mov dword [_dynend], ebx
         db 03Eh,0B9h                            ; insn: mov ecx,91258h
-        dd unk_1A1258
+        dd StartupStack
         db 03Eh,0BFh                            ; insn: mov edi,41598h
         dd kaufmfont
         sub ecx, edi
@@ -4976,18 +5062,22 @@ start_74:
         and cl, 3
         rep stosb
         db 03Eh,0B8h                            ; insn: mov eax,91258h
-        dd unk_1A1258
+        dd StartupStack
         add eax, byte 0Fh
         and al, 0F0h
         mov dword [_LpCmdLine], eax
-        mov dword [dword_124404], esi
+        mov dword [StackLow], esi
         mov eax, 0FFh
         call __InitRtns
         sub ebp, ebp
         call __CMain
 start_28F:
-        jmp short sub_B6599_23
-sub_B6599:
+        jmp short WriteConsoleMessage_23
+;-----------------------------------------------------------------------------
+; WriteConsoleMessage                             B6599  96 PC, low confidence
+; Writes a message to the console through DOS before exit
+;-----------------------------------------------------------------------------
+WriteConsoleMessage:
         push edx
         push eax
         db 0BAh                                 ; insn: mov edx,0A637Ch
@@ -5008,7 +5098,7 @@ sub_B6599:
         mov ah, 40h
         int 21h
         pop eax
-sub_B6599_23:
+WriteConsoleMessage_23:
         push eax
         mov eax, 0
         mov edx, 0FFh
@@ -5017,12 +5107,19 @@ sub_B6599_23:
         mov ah, 4Ch
         int 21h
         lea eax, [byte eax+00h]
-sub_B65D4:
+;-----------------------------------------------------------------------------
+; RestoreDS                                       B65D4  96 PC, low confidence
+; Loads the saved data segment (for interrupt handlers)
+;-----------------------------------------------------------------------------
+RestoreDS:
         db 066h,02Eh,08Eh,01Dh                  ; insn: o16 mov ds,[cs:0A65DDh]
         dd __saved_DS
         ret
 __saved_DS:
         db 00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_B65E0                                                            B65E0  
+;-----------------------------------------------------------------------------
 sub_B65E0:
         push esi
         push edi
@@ -5079,7 +5176,7 @@ sub_B65E0:
         push eax
         shl edi, 2
         call sub_B6A14
-        mov edx, unk_121B3C
+        mov edx, CdFileTable
         add esp, byte 4
         add edx, edi
         mov dword [dword esp+090h], edx
@@ -5130,7 +5227,7 @@ sub_B65E0:
         mov ebx, 0Ch
         shl eax, 2
         mov edx, ecx
-        add eax, unk_121B3C
+        add eax, CdFileTable
         call strncpy_
         jmp short .9
 .8:
@@ -5163,6 +5260,9 @@ sub_B65E0:
         pop edi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; sub_B67BC                                                            B67BC  
+;-----------------------------------------------------------------------------
 sub_B67BC:
         push esi
         push edi
@@ -5200,15 +5300,23 @@ sub_B67BC:
         pop edi
         pop esi
         ret
-sub_B680C:
+;-----------------------------------------------------------------------------
+; CdHandleEntry                                   B680C  96 PC, low confidence
+; Returns the entry of a CD file handle
+;-----------------------------------------------------------------------------
+CdHandleEntry:
         mov edx, dword [byte esp+04h]
         lea eax, [nosplit edx*8+00h]
         add eax, edx
         shl eax, 2
-        add eax, unk_121B3C
+        add eax, CdFileTable
         ret
         db 08Bh,0C0h
-sub_B6824:
+;-----------------------------------------------------------------------------
+; CdCloseFile                                     B6824  96 PC, low confidence
+; Closes a CD file
+;-----------------------------------------------------------------------------
+CdCloseFile:
         mov edx, dword [byte esp+04h]
         lea eax, [nosplit edx*8+00h]
         add eax, edx
@@ -5217,7 +5325,7 @@ sub_B6824:
         jne short .1
         mov ebx, dword [dword eax+dword_121B4C]
         push ebx
-        call sub_E07B8
+        call DosCloseFile
         add esp, byte 4
 .1:
         mov edx, dword [byte esp+04h]
@@ -5227,6 +5335,9 @@ sub_B6824:
         mov dword [nosplit eax*4+dword_121B48], ecx
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_B6864                                                            B6864  
+;-----------------------------------------------------------------------------
 sub_B6864:
         push esi
         push edi
@@ -5265,6 +5376,9 @@ sub_B6864:
         pop esi
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_B68C8                                                            B68C8  
+;-----------------------------------------------------------------------------
 sub_B68C8:
         push byte 1
         mov edx, dword [byte esp+010h]
@@ -5288,6 +5402,9 @@ sub_B68C8:
         add esp, byte 10h
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_B6900                                                            B6900  
+;-----------------------------------------------------------------------------
 sub_B6900:
         push esi
         push edi
@@ -5325,6 +5442,9 @@ sub_B6900:
         pop esi
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_B6964                                                            B6964  
+;-----------------------------------------------------------------------------
 sub_B6964:
         push byte 1
         mov edx, dword [byte esp+0Ch]
@@ -5343,6 +5463,9 @@ sub_B6964:
         call sub_B6900
         add esp, byte 0Ch
         ret
+;-----------------------------------------------------------------------------
+; strncpy_                                                      B6991  library
+;-----------------------------------------------------------------------------
 strncpy_:
         push ecx
         push esi
@@ -5372,6 +5495,9 @@ strncpy_:
         pop ecx
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_B69C0                                                            B69C0  
+;-----------------------------------------------------------------------------
 sub_B69C0:
         mov ecx, dword [byte esp+04h]
         mov edx, dword [byte esp+08h]
@@ -5390,6 +5516,9 @@ sub_B69C0:
         mov eax, edx
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_B69EC                                                            B69EC  
+;-----------------------------------------------------------------------------
 sub_B69EC:
         mov edx, dword [byte esp+04h]
         xor eax, eax
@@ -5407,6 +5536,9 @@ sub_B69EC:
         sub eax, byte 41h
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_B6A14                                                            B6A14  
+;-----------------------------------------------------------------------------
 sub_B6A14:
         sub esp, byte 38h
         cmp dword [dword_121FBC], byte 0
@@ -5433,6 +5565,9 @@ sub_B6A14:
         add esp, byte 38h
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_B6A68                                                            B6A68  
+;-----------------------------------------------------------------------------
 sub_B6A68:
         cmp dword [dword_18B080], byte 0
         jne short .1
@@ -5469,16 +5604,19 @@ sub_B6A68:
         xor ebx, ebx
         push ecx
         mov dword [dword_18B080], ebx
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov esi, dword [dword_18B08C]
         push esi
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .2:
         pop esi
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_B6B10                                                            B6B10  
+;-----------------------------------------------------------------------------
 sub_B6B10:
         push esi
         push edi
@@ -5628,6 +5766,9 @@ sub_B6B10:
         pop esi
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_B6D2C                                                            B6D2C  
+;-----------------------------------------------------------------------------
 sub_B6D2C:
         push edi
         sub esp, byte 44h
@@ -5680,6 +5821,9 @@ sub_B6D2C:
         pop edi
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_B6DFC                                                            B6DFC  
+;-----------------------------------------------------------------------------
 sub_B6DFC:
         push esi
         push edi
@@ -5801,6 +5945,9 @@ sub_B6DFC:
         pop edi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; sub_B6FA0                                                            B6FA0  
+;-----------------------------------------------------------------------------
 sub_B6FA0:
         push esi
         push edi
@@ -5866,6 +6013,9 @@ sub_B6FA0:
         pop esi
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_B7094                                                            B7094  
+;-----------------------------------------------------------------------------
 sub_B7094:
         push esi
         push edi
@@ -5952,6 +6102,9 @@ sub_B7094:
         pop edi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; _dos_close_                                                   B71A6  library
+;-----------------------------------------------------------------------------
 _dos_close_:
         push ebx
         mov bx, ax
@@ -5960,6 +6113,9 @@ _dos_close_:
         call __doserror_
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; _dos_commit_                                                  B71B5  library
+;-----------------------------------------------------------------------------
 _dos_commit_:
         push ebx
         mov bx, ax
@@ -5969,6 +6125,9 @@ _dos_commit_:
         call __doserror_
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; _dos_open_                                                    B71C5  library
+;-----------------------------------------------------------------------------
 _dos_open_:
         xchg edx, eax
         mov ah, 3Dh
@@ -5978,6 +6137,9 @@ _dos_open_:
 .1:
         call __doserror_
         ret
+;-----------------------------------------------------------------------------
+; sub_B71D4                                                            B71D4  
+;-----------------------------------------------------------------------------
 sub_B71D4:
         push ecx
         push eax
@@ -5994,6 +6156,9 @@ sub_B71D4:
         call sub_B7210
         pop ecx
         ret
+;-----------------------------------------------------------------------------
+; sub_B71F1                                                            B71F1  
+;-----------------------------------------------------------------------------
 sub_B71F1:
         push edx
         mov edx, eax
@@ -6008,6 +6173,9 @@ sub_B71F1:
         ret
         xor eax, eax
         ret
+;-----------------------------------------------------------------------------
+; sub_B7210                                                            B7210  
+;-----------------------------------------------------------------------------
 sub_B7210:
         cmp byte [_Extender], 9
         jne short .1
@@ -6029,6 +6197,9 @@ sub_B7210:
         pop eax
 .1:
         ret
+;-----------------------------------------------------------------------------
+; sub_B7233                                                            B7233  
+;-----------------------------------------------------------------------------
 sub_B7233:
         cmp byte [_Extender], 9
         jne short .1
@@ -6050,8 +6221,15 @@ sub_B7233:
         pop eax
 .1:
         ret
-sub_B7256:
+;-----------------------------------------------------------------------------
+; UnlinkJump                                      B7256  96 PC, low confidence
+; Jumps to unlink (file delete)
+;-----------------------------------------------------------------------------
+UnlinkJump:
         jmp near unlink_
+;-----------------------------------------------------------------------------
+; rmdir_                                                        B725B  library
+;-----------------------------------------------------------------------------
 rmdir_:
         push edx
         mov edx, eax
@@ -6069,6 +6247,9 @@ rmdir_:
         xor eax, eax
         pop edx
         ret
+;-----------------------------------------------------------------------------
+; _dos_creat_                                                   B727A  library
+;-----------------------------------------------------------------------------
 _dos_creat_:
         push ecx
         mov ecx, edx
@@ -6081,6 +6262,9 @@ _dos_creat_:
         call __doserror_
         pop ecx
         ret
+;-----------------------------------------------------------------------------
+; _dos_creatnew_                                                B728E  library
+;-----------------------------------------------------------------------------
 _dos_creatnew_:
         push ecx
         mov ecx, edx
@@ -6093,6 +6277,9 @@ _dos_creatnew_:
         call __doserror_
         pop ecx
         ret
+;-----------------------------------------------------------------------------
+; _dos_read_                                                    B72A2  library
+;-----------------------------------------------------------------------------
 _dos_read_:
         push dword 3F00h
 _dos_read__5:
@@ -6113,10 +6300,16 @@ _dos_read__5:
         pop ds
         add esp, byte 4
         ret 4
+;-----------------------------------------------------------------------------
+; _dos_write_                                                   B72CC  library
+;-----------------------------------------------------------------------------
 _dos_write_:
         push dword 4000h
         jmp short _dos_read__5
         db 00h
+;-----------------------------------------------------------------------------
+; _dos_getdiskfree_                                             B72D4  library
+;-----------------------------------------------------------------------------
 _dos_getdiskfree_:
         push edi
         push ecx
@@ -6141,6 +6334,9 @@ _dos_getdiskfree_:
         pop edi
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_B7310                                                            B7310  
+;-----------------------------------------------------------------------------
 sub_B7310:
         push esi
         push edi
@@ -6219,9 +6415,15 @@ sub_B7310:
         pop esi
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_B73C4                                                            B73C4  
+;-----------------------------------------------------------------------------
 sub_B73C4:
         mov eax, byte_121AFC
         ret
+;-----------------------------------------------------------------------------
+; stricmp_                                                      B73CA  library
+;-----------------------------------------------------------------------------
 stricmp_:
         push ebx
 .1:

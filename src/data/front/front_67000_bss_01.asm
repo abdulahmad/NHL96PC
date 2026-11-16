@@ -6,7 +6,7 @@ global byte_17C60C, byte_17C95C, byte_17C9A9, dword_17C5BC, dword_17C5C0, dword_
 global dword_17C5D0, dword_17C5FC, dword_17C600, dword_17C604, dword_17C608, dword_17C944, dword_17C948, dword_17C94C
 global dword_17C950, dword_17C954, dword_17C958, dword_17C960, dword_17C964, dword_17C968, tgvpalpending, dword_17C970
 global dword_17C974, dword_17C978, dword_17C97C, dword_17C980, dword_17C984, dword_17C988, dword_17C98C, dword_17C990
-global dword_17C994, dword_17C998, dword_17C99C, dword_17C9A4, optflags, gameopts, unk_17C644, word_17C63E
+global dword_17C994, dword_17C998, dword_17C99C, GlobalSetData, optflags, gameopts, unk_17C644, word_17C63E
 global word_17C640
 dword_17C5BC:
         resb 4
@@ -84,7 +84,7 @@ dword_17C99C:
         resb 4
 gameopts:
         resb 4
-dword_17C9A4:
+GlobalSetData:
         resb 4
 optflags:
         resb 1

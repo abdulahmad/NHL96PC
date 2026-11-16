@@ -2,36 +2,40 @@
 bits 32
 %include "hockey.inc"
 section s_D284C progbits alloc exec nowrite align=1
-extern __int7, _dos_setvect_, str_RATIONALDOS4G, byte_14FC70, byte_14FC71, dword_124435, dword_14FC80, dword_1512C0
-extern dword_1512E0, dword_1512E4, dword_1512E8, dword_1512EC, jpt_D25B8, jpt_D26B8, sub_B65D4, unk_14FBF4
-extern unk_1A1104, unk_D2440, unk_D2444, unk_D2448, unk_D244A, unk_D244C, unk_D244E, unk_D249A
-extern unk_D249C, unk_D24A0, unk_D24A2, unk_D24EA, unk_D24EE, unk_D24F8, unk_D2558
-global __hook387, __init_80x87, __unhook387, jpt_D338D, jpt_D34CC, jpt_D354D, jpt_D3768, jpt_D3872
-global jpt_D398A, jpt_D3A13, jpt_D3C1C, jpt_D3DD1, sub_D29BC_32, sub_D29BC_49, sub_D29BC_84, jpt_D3A13_2C
+extern __int7, _dos_setvect_, str_RATIONALDOS4G, Hook387Flag, Hook387Saved, FpuInitHook, FloatPow10Table, FloatPow10Exponents
+extern FloatFormatDigits, FloatFormatExponent, FloatFormatMantissaLo, FloatFormatMantissaHi, jpt_D25B8, jpt_D26B8, RestoreDS, unk_14FBF4
+extern Hook387Save, EmuZeroTbyte, unk_D2444, unk_D2448, EmuRegRing, unk_D244C, unk_D244E, EmuRegTagMasks
+extern unk_D249C, unk_D24A0, unk_D24A2, EmuCompareCcBits, EmuFpremCcBits, unk_D24F8, EmuEaSibTable
+global __hook387, __init_80x87, __unhook387, EmuDispatchD9RegJumpTable, EmuFtstFxamJumpTable, EmuSignOpsJumpTable, EmuLogOpsJumpTable, EmuRemOpsJumpTable
+global jpt_D398A, EmuDispatchDBRegJumpTable, jpt_D3C1C, jpt_D3DD1, RoundToDouble_32, RoundToDouble_49, RoundToDouble_84, jpt_D3A13_2C
 global jpt_D3DD1_20, jpt_D3DD1_69, jpt_D3DD1_CE, jpt_D3DD1_F8, jpt_D3DD1_110, sub_D3F70_7, sub_D4524_3, sub_D459F_8
-global sub_D52D6_E, sub_D284C, sub_D2980, sub_D29BC, sub_D2A5C, sub_D2AAA, sub_D2AB0, sub_D2AB6
+global EmuTan_E, EmuTrapExit, RoundToSingle, RoundToDouble, RaiseFpuError, sub_D2AAA, sub_D2AB0, sub_D2AB6
 global sub_D2ABC, sub_D2AC2, sub_D2ACA, sub_D2AD0, sub_D2AD6, sub_D2ADC, sub_D2AE4, sub_D2AEC
 global sub_D2AF4, sub_D2AFC, sub_D2B06, sub_D2B10, sub_D2B18, sub_D2B20, sub_D2B29, sub_D2B32
-global sub_D2B3B, sub_D2B44, sub_D2B4F, sub_D2B5A, sub_D2B63, sub_D2B6C, sub_D2BA4, sub_D2BA9
+global sub_D2B3B, sub_D2B44, sub_D2B4F, sub_D2B5A, sub_D2B63, EaSib, sub_D2BA4, sub_D2BA9
 global sub_D2BC8, sub_D2BE7, sub_D2C03, sub_D2C1F, sub_D2C3E, sub_D2C5D, sub_D2C7C, sub_D2C9B
-global sub_D2CD5, sub_D2CE6, sub_D2CF7, sub_D2D15, sub_D2D55, sub_D2D69, sub_D2D77, sub_D2D96
-global sub_D2DB5, sub_D2DD1, sub_D2DED, sub_D2E0C, sub_D2E2B, sub_D2E4A, sub_D2E69, sub_D2EA3
+global sub_D2CD5, sub_D2CE6, EmuFldenv, EmuFldcw, EmuFstenv, sub_D2D69, sub_D2D77, sub_D2D96
+global sub_D2DB5, sub_D2DD1, sub_D2DED, sub_D2E0C, sub_D2E2B, sub_D2E4A, sub_D2E69, EmuFistM32
 global sub_D2EDF, sub_D2F03, sub_D2F26, sub_D2F49, sub_D2F69, sub_D2F89, sub_D2FAC, sub_D2FCF
-global sub_D2FF2, sub_D3015, sub_D305C, sub_D309A, sub_D30AF, sub_D30CD, sub_D30E2, sub_D3129
+global sub_D2FF2, EmuFldM80, EmuFldM64, sub_D309A, EmuFstpM80, sub_D30CD, EmuFrstor, EmuFsave
 global sub_D3154, sub_D3162, sub_D3183, sub_D31A4, sub_D31C2, sub_D31E0, sub_D3201, sub_D3222
-global sub_D3243, sub_D3264, sub_D32A0, sub_D32E8, sub_D3318, sub_D331D, sub_D3357, sub_D335C
-global sub_D3380, sub_D3385, sub_D33B2, sub_D33C7, sub_D33DC, sub_D33EE, sub_D3400, sub_D3415
-global sub_D342A, sub_D343F, sub_D3454, sub_D349C, sub_D34C4, sub_D3545, sub_D3760, sub_D386A
+global sub_D3243, EmuFildM16, EmuFistM16, EmuFistpM16, sub_D3318, sub_D331D, sub_D3357, sub_D335C
+global EmuReservedOp, sub_D3385, sub_D33B2, sub_D33C7, sub_D33DC, sub_D33EE, sub_D3400, sub_D3415
+global sub_D342A, sub_D343F, EmuFldSt, EmuFxch, sub_D34C4, sub_D3545, sub_D3760, sub_D386A
 global sub_D3982, sub_D3A0B, sub_D3A65, sub_D3A7A, sub_D3A8F, sub_D3AA4, sub_D3AB9, sub_D3ACE
-global sub_D3AE3, sub_D3B02, sub_D3B2E, sub_D3B40, sub_D3B52, sub_D3B7E, sub_D3BC9, sub_D3C14
-global sub_D3C9D, sub_D3CE8, sub_D3D33, sub_D3D7E, sub_D3DC9, sub_D3F62, sub_D3F70, sub_D3F9A
-global sub_D3FCA, sub_D4136, sub_D41CF, sub_D41F9, sub_D43A4, sub_D43CE, sub_D451F, sub_D4524
-global sub_D458E, sub_D459F, sub_D45D4, sub_D4654, sub_D46D3, sub_D479A, sub_D485F, sub_D49EC
-global sub_D4AA2, sub_D4C05, sub_D4C6B, sub_D4CE6, sub_D4DD4, sub_D4DED, sub_D4E30, sub_D50C8
-global sub_D52BF, sub_D52C9, sub_D52D6, sub_D530C, sub_D54E0, sub_D55CC, sub_D561E, sub_D5789
-global sub_D57B4, sub_D585C, unk_D47DF, unk_D4992, unk_D4D8E, unk_D4DAC, unk_D5002, unk_D505C
-global unk_D50B6
-sub_D284C:
+global EmuFfree, sub_D3B02, sub_D3B2E, sub_D3B40, sub_D3B52, sub_D3B7E, sub_D3BC9, sub_D3C14
+global sub_D3C9D, sub_D3CE8, sub_D3D33, sub_D3D7E, sub_D3DC9, EmuSub, sub_D3F70, AddExtRaw
+global AddMantissas, EmuCompare, EmuDiv, DivideMantissas, EmuMul, MultiplyMantissas, StoreM32Int, sub_D4524
+global LoadM32Int, sub_D459F, LoadM64Real, StoreM32Real, StoreM64Real, LoadM32Real, ExtToInt, EmuRemainder
+global RemainderStep, EmuRoundInt, RoundMantissa, EmuExamine, AddOne, EmuLog2, Log2Core, SinCosCore
+global EmuSin, EmuCos, EmuTan, EmuAtan, EmuExp2, PolyEval, PolyEvalOdd, sub_D5789
+global InitFloatFormat, FormatFloat, EmuMantissaMasks, EmuRemPolyCoefs, EmuLog2PolyNum, EmuLog2PolyDen, EmuSinPolyCoefs, EmuCosPolyCoefs
+global EmuSinCosTermCounts
+;-----------------------------------------------------------------------------
+; EmuTrapExit                                     D284C  96 PC, low confidence
+; X87 emulator: restores the registers and returns from the trap
+;-----------------------------------------------------------------------------
+EmuTrapExit:
         LD mov, ebp, esp
         db 08Bh,075h,038h                       ; insn: mov esi,[ebp+38h]
         db 08Eh,05Dh,03Ch                       ; insn: mov ds,[ebp+3Ch]
@@ -63,7 +67,7 @@ sub_D284C:
         LD mov, bl, ah
         and ebx, byte 38h
         LD or, bl, al
-        call sub_B65D4
+        call RestoreDS
         lea ebp, [unk_14FBF4]
         mov edi, dword [byte ds:ebp+04h]
         and edi, 3800h
@@ -128,7 +132,7 @@ sub_D284C:
         jmp short .2
 .11:
         mov dword [byte ebp+038h], esi
-        call sub_B65D4
+        call RestoreDS
         lea ebp, [unk_14FBF4]
         LD mov, dl, ah
         and edx, byte 38h
@@ -152,7 +156,11 @@ sub_D284C:
         jmp dword [nosplit cs:edx*4+jpt_D26B8]
 .13:
         ret
-sub_D2980:
+;-----------------------------------------------------------------------------
+; RoundToSingle                                   D2980  96 PC, low confidence
+; X87 emulator: rounds the result to single precision
+;-----------------------------------------------------------------------------
+RoundToSingle:
         lea ebx, [byte edi+ebp+01Ch]
         mov edx, 0FFFFFF00h
         mov eax, dword [byte ebx+04h]
@@ -170,8 +178,12 @@ sub_D2980:
 .2:
         and dword [byte ebx+04h], edx
         mov dword [ebx], 0
-        jmp near sub_D284C
-sub_D29BC:
+        jmp near EmuTrapExit
+;-----------------------------------------------------------------------------
+; RoundToDouble                                   D29BC  96 PC, low confidence
+; X87 emulator: rounds the result to double precision
+;-----------------------------------------------------------------------------
+RoundToDouble:
         lea ebx, [byte edi+ebp+01Ch]
         mov edx, 0FFFFF800h
         mov eax, dword [ebx]
@@ -187,31 +199,36 @@ sub_D29BC:
         inc word [byte ebx+08h]
 .2:
         and dword [ebx], edx
-        jmp near sub_D284C
-sub_D29BC_32:
+        jmp near EmuTrapExit
+RoundToDouble_32:
         inc eax
         mov dx, word [byte ds:ebp+04h]
         and dx, 0B8FFh
-        or dh, byte [dword cs:eax+unk_D24EA]
+        or dh, byte [dword cs:eax+EmuCompareCcBits]
         mov word [byte ds:ebp+04h], dx
-sub_D29BC_49:
-        mov bx, word [dword cs:edi+unk_D249A]
+RoundToDouble_49:
+        mov bx, word [dword cs:edi+EmuRegTagMasks]
         and word [byte ds:ebp+08h], bx
         mov bx, word [dword cs:edi+unk_D24A2]
         or word [byte ds:ebp+08h], bx
-        movzx edi, word [dword cs:edi+unk_D244A]
+        movzx edi, word [dword cs:edi+EmuRegRing]
         mov bx, word [dword cs:edi+unk_D244E]
         and word [byte ds:ebp+04h], 0C7FFh
         or word [byte ds:ebp+04h], bx
-        jmp near sub_D284C
-sub_D29BC_84:
+        jmp near EmuTrapExit
+RoundToDouble_84:
         inc eax
         mov dx, word [byte ds:ebp+04h]
         and dx, 0B8FFh
-        or dh, byte [dword cs:eax+unk_D24EA]
+        or dh, byte [dword cs:eax+EmuCompareCcBits]
         mov word [byte ds:ebp+04h], dx
-        jmp near sub_D284C
-sub_D2A5C:
+        jmp near EmuTrapExit
+;-----------------------------------------------------------------------------
+; RaiseFpuError                                   D2A5C  96 PC, low confidence
+; X87 emulator: sets an exception flag and calls the handler when it is
+; unmasked
+;-----------------------------------------------------------------------------
+RaiseFpuError:
         or byte [byte ds:ebp+04h], al
         test byte [byte ds:ebp+00h], al
         jne short .1
@@ -229,7 +246,7 @@ sub_D2A5C:
         cld
         rep movsd
         movzx eax, ah
-        call dword [dword_124435]
+        call dword [FpuInitHook]
         mov cx, ds
         mov es, cx
         mov cx, ss
@@ -247,124 +264,200 @@ sub_D2A5C:
         pop esi
 .1:
         ret
+;-----------------------------------------------------------------------------
+; sub_D2AAA                                                            D2AAA  
+;-----------------------------------------------------------------------------
 sub_D2AAA:
         LD xor, ebx, ebx
         add ebx, dword [byte ebp+028h]
         ret
+;-----------------------------------------------------------------------------
+; sub_D2AB0                                                            D2AB0  
+;-----------------------------------------------------------------------------
 sub_D2AB0:
         LD xor, ebx, ebx
         add ebx, dword [byte ebp+024h]
         ret
+;-----------------------------------------------------------------------------
+; sub_D2AB6                                                            D2AB6  
+;-----------------------------------------------------------------------------
 sub_D2AB6:
         LD xor, ebx, ebx
         add ebx, dword [byte ebp+020h]
         ret
+;-----------------------------------------------------------------------------
+; sub_D2ABC                                                            D2ABC  
+;-----------------------------------------------------------------------------
 sub_D2ABC:
         LD xor, ebx, ebx
         add ebx, dword [byte ebp+01Ch]
         ret
+;-----------------------------------------------------------------------------
+; sub_D2AC2                                                            D2AC2  
+;-----------------------------------------------------------------------------
 sub_D2AC2:
         LD xor, ebx, ebx
         add ebx, dword [byte ebp+018h]
         LD mov, ecx, edx
         ret
+;-----------------------------------------------------------------------------
+; sub_D2ACA                                                            D2ACA  
+;-----------------------------------------------------------------------------
 sub_D2ACA:
         mov ebx, dword [esi]
         add esi, byte 4
         ret
+;-----------------------------------------------------------------------------
+; sub_D2AD0                                                            D2AD0  
+;-----------------------------------------------------------------------------
 sub_D2AD0:
         LD xor, ebx, ebx
         add ebx, dword [byte ebp+010h]
         ret
+;-----------------------------------------------------------------------------
+; sub_D2AD6                                                            D2AD6  
+;-----------------------------------------------------------------------------
 sub_D2AD6:
         LD xor, ebx, ebx
         add ebx, dword [byte ebp+0Ch]
         ret
+;-----------------------------------------------------------------------------
+; sub_D2ADC                                                            D2ADC  
+;-----------------------------------------------------------------------------
 sub_D2ADC:
         movsx ebx, byte [esi]
         inc esi
         add ebx, dword [byte ebp+028h]
         ret
+;-----------------------------------------------------------------------------
+; sub_D2AE4                                                            D2AE4  
+;-----------------------------------------------------------------------------
 sub_D2AE4:
         movsx ebx, byte [esi]
         inc esi
         add ebx, dword [byte ebp+024h]
         ret
+;-----------------------------------------------------------------------------
+; sub_D2AEC                                                            D2AEC  
+;-----------------------------------------------------------------------------
 sub_D2AEC:
         movsx ebx, byte [esi]
         inc esi
         add ebx, dword [byte ebp+020h]
         ret
+;-----------------------------------------------------------------------------
+; sub_D2AF4                                                            D2AF4  
+;-----------------------------------------------------------------------------
 sub_D2AF4:
         movsx ebx, byte [esi]
         inc esi
         add ebx, dword [byte ebp+01Ch]
         ret
+;-----------------------------------------------------------------------------
+; sub_D2AFC                                                            D2AFC  
+;-----------------------------------------------------------------------------
 sub_D2AFC:
         movsx ebx, byte [esi]
         inc esi
         add ebx, dword [byte ebp+018h]
         LD mov, ecx, edx
         ret
+;-----------------------------------------------------------------------------
+; sub_D2B06                                                            D2B06  
+;-----------------------------------------------------------------------------
 sub_D2B06:
         movsx ebx, byte [esi]
         inc esi
         add ebx, dword [byte ebp+014h]
         LD mov, ecx, edx
         ret
+;-----------------------------------------------------------------------------
+; sub_D2B10                                                            D2B10  
+;-----------------------------------------------------------------------------
 sub_D2B10:
         movsx ebx, byte [esi]
         inc esi
         add ebx, dword [byte ebp+010h]
         ret
+;-----------------------------------------------------------------------------
+; sub_D2B18                                                            D2B18  
+;-----------------------------------------------------------------------------
 sub_D2B18:
         movsx ebx, byte [esi]
         inc esi
         add ebx, dword [byte ebp+0Ch]
         ret
+;-----------------------------------------------------------------------------
+; sub_D2B20                                                            D2B20  
+;-----------------------------------------------------------------------------
 sub_D2B20:
         mov ebx, dword [esi]
         add esi, byte 4
         add ebx, dword [byte ebp+028h]
         ret
+;-----------------------------------------------------------------------------
+; sub_D2B29                                                            D2B29  
+;-----------------------------------------------------------------------------
 sub_D2B29:
         mov ebx, dword [esi]
         add esi, byte 4
         add ebx, dword [byte ebp+024h]
         ret
+;-----------------------------------------------------------------------------
+; sub_D2B32                                                            D2B32  
+;-----------------------------------------------------------------------------
 sub_D2B32:
         mov ebx, dword [esi]
         add esi, byte 4
         add ebx, dword [byte ebp+020h]
         ret
+;-----------------------------------------------------------------------------
+; sub_D2B3B                                                            D2B3B  
+;-----------------------------------------------------------------------------
 sub_D2B3B:
         mov ebx, dword [esi]
         add esi, byte 4
         add ebx, dword [byte ebp+01Ch]
         ret
+;-----------------------------------------------------------------------------
+; sub_D2B44                                                            D2B44  
+;-----------------------------------------------------------------------------
 sub_D2B44:
         mov ebx, dword [esi]
         add esi, byte 4
         add ebx, dword [byte ebp+018h]
         LD mov, ecx, edx
         ret
+;-----------------------------------------------------------------------------
+; sub_D2B4F                                                            D2B4F  
+;-----------------------------------------------------------------------------
 sub_D2B4F:
         mov ebx, dword [esi]
         add esi, byte 4
         add ebx, dword [byte ebp+014h]
         LD mov, ecx, edx
         ret
+;-----------------------------------------------------------------------------
+; sub_D2B5A                                                            D2B5A  
+;-----------------------------------------------------------------------------
 sub_D2B5A:
         mov ebx, dword [esi]
         add esi, byte 4
         add ebx, dword [byte ebp+010h]
         ret
+;-----------------------------------------------------------------------------
+; sub_D2B63                                                            D2B63  
+;-----------------------------------------------------------------------------
 sub_D2B63:
         mov ebx, dword [esi]
         add esi, byte 4
         add ebx, dword [byte ebp+0Ch]
         ret
-sub_D2B6C:
+;-----------------------------------------------------------------------------
+; EaSib                                           D2B6C  96 PC, low confidence
+; X87 emulator operand address: decodes a SIB byte
+;-----------------------------------------------------------------------------
+EaSib:
         mov bl, byte [esi]
         inc esi
         push ebx
@@ -374,7 +467,7 @@ sub_D2B6C:
         and bh, 18h
         LD or, bl, bh
         mov bh, 0
-        call dword [nosplit cs:ebx*4+unk_D2558]
+        call dword [nosplit cs:ebx*4+EmuEaSibTable]
         pop edx
         push ecx
         LD mov, ecx, edx
@@ -390,100 +483,140 @@ sub_D2B6C:
 .1:
         pop ecx
         ret
+;-----------------------------------------------------------------------------
+; sub_D2BA4                                                            D2BA4  
+;-----------------------------------------------------------------------------
 sub_D2BA4:
-        jmp near sub_D284C
+        jmp near EmuTrapExit
+;-----------------------------------------------------------------------------
+; sub_D2BA9                                                            D2BA9  
+;-----------------------------------------------------------------------------
 sub_D2BA9:
         mov eax, dword [es:esi]
         lea edx, [byte ebp+06Ch]
-        call sub_D479A
+        call LoadM32Real
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte ebp+06Ch]
         lea ebx, [byte edi+ebp+01Ch]
         call sub_D3F70
         jmp dword [byte ds:ebp+076h]
+;-----------------------------------------------------------------------------
+; sub_D2BC8                                                            D2BC8  
+;-----------------------------------------------------------------------------
 sub_D2BC8:
         mov eax, dword [es:esi]
         lea edx, [byte ebp+06Ch]
-        call sub_D479A
+        call LoadM32Real
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte ebp+06Ch]
         lea ebx, [byte edi+ebp+01Ch]
-        call sub_D43A4
+        call EmuMul
         jmp dword [byte ds:ebp+076h]
+;-----------------------------------------------------------------------------
+; sub_D2BE7                                                            D2BE7  
+;-----------------------------------------------------------------------------
 sub_D2BE7:
         mov eax, dword [es:esi]
         lea edx, [byte ebp+06Ch]
-        call sub_D479A
+        call LoadM32Real
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte ebp+06Ch]
-        call sub_D4136
-        jmp near sub_D29BC_84
+        call EmuCompare
+        jmp near RoundToDouble_84
+;-----------------------------------------------------------------------------
+; sub_D2C03                                                            D2C03  
+;-----------------------------------------------------------------------------
 sub_D2C03:
         mov eax, dword [es:esi]
         lea edx, [byte ebp+06Ch]
-        call sub_D479A
+        call LoadM32Real
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte ebp+06Ch]
-        call sub_D4136
-        jmp near sub_D29BC_32
+        call EmuCompare
+        jmp near RoundToDouble_32
+;-----------------------------------------------------------------------------
+; sub_D2C1F                                                            D2C1F  
+;-----------------------------------------------------------------------------
 sub_D2C1F:
         mov eax, dword [es:esi]
         lea edx, [byte ebp+06Ch]
-        call sub_D479A
+        call LoadM32Real
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte ebp+06Ch]
         lea ebx, [byte edi+ebp+01Ch]
-        call sub_D3F62
+        call EmuSub
         jmp dword [byte ds:ebp+076h]
+;-----------------------------------------------------------------------------
+; sub_D2C3E                                                            D2C3E  
+;-----------------------------------------------------------------------------
 sub_D2C3E:
         mov eax, dword [es:esi]
         lea edx, [byte ebp+06Ch]
-        call sub_D479A
+        call LoadM32Real
         lea eax, [byte ebp+06Ch]
         lea edx, [byte edi+ebp+01Ch]
         lea ebx, [byte edi+ebp+01Ch]
-        call sub_D3F62
+        call EmuSub
         jmp dword [byte ds:ebp+076h]
+;-----------------------------------------------------------------------------
+; sub_D2C5D                                                            D2C5D  
+;-----------------------------------------------------------------------------
 sub_D2C5D:
         mov eax, dword [es:esi]
         lea edx, [byte ebp+06Ch]
-        call sub_D479A
+        call LoadM32Real
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte ebp+06Ch]
         lea ebx, [byte edi+ebp+01Ch]
-        call sub_D41CF
+        call EmuDiv
         jmp dword [byte ds:ebp+076h]
+;-----------------------------------------------------------------------------
+; sub_D2C7C                                                            D2C7C  
+;-----------------------------------------------------------------------------
 sub_D2C7C:
         mov eax, dword [es:esi]
         lea edx, [byte ebp+06Ch]
-        call sub_D479A
+        call LoadM32Real
         lea eax, [byte ebp+06Ch]
         lea edx, [byte edi+ebp+01Ch]
         lea ebx, [byte edi+ebp+01Ch]
-        call sub_D41CF
+        call EmuDiv
         jmp dword [byte ds:ebp+076h]
+;-----------------------------------------------------------------------------
+; sub_D2C9B                                                            D2C9B  
+;-----------------------------------------------------------------------------
 sub_D2C9B:
         movzx edi, word [dword cs:edi+unk_D244C]
         mov bx, word [dword cs:edi+unk_D244E]
         and word [byte ds:ebp+04h], 0C7FFh
         or word [byte ds:ebp+04h], bx
-        mov bx, word [dword cs:edi+unk_D249A]
+        mov bx, word [dword cs:edi+EmuRegTagMasks]
         and word [byte ds:ebp+08h], bx
         mov eax, dword [es:esi]
         lea edx, [byte edi+ebp+01Ch]
-        call sub_D479A
-        jmp near sub_D284C
+        call LoadM32Real
+        jmp near EmuTrapExit
+;-----------------------------------------------------------------------------
+; sub_D2CD5                                                            D2CD5  
+;-----------------------------------------------------------------------------
 sub_D2CD5:
         lea eax, [byte edi+ebp+01Ch]
-        call sub_D4654
+        call StoreM32Real
         mov dword [es:esi], eax
-        jmp near sub_D284C
+        jmp near EmuTrapExit
+;-----------------------------------------------------------------------------
+; sub_D2CE6                                                            D2CE6  
+;-----------------------------------------------------------------------------
 sub_D2CE6:
         lea eax, [byte edi+ebp+01Ch]
-        call sub_D4654
+        call StoreM32Real
         mov dword [es:esi], eax
-        jmp near sub_D29BC_49
-sub_D2CF7:
+        jmp near RoundToDouble_49
+;-----------------------------------------------------------------------------
+; EmuFldenv                                       D2CF7  96 PC, low confidence
+; X87 emulator: FLDENV
+;-----------------------------------------------------------------------------
+EmuFldenv:
         mov ecx, 7
         push ds
         push es
@@ -495,121 +628,163 @@ sub_D2CF7:
         rep movsd
         pop es
         pop ds
-        jmp near sub_D284C
-sub_D2D15:
+        jmp near EmuTrapExit
+;-----------------------------------------------------------------------------
+; EmuFldcw                                        D2D15  96 PC, low confidence
+; X87 emulator: FLDCW
+;-----------------------------------------------------------------------------
+EmuFldcw:
         mov ax, word [es:esi]
         mov word [byte ds:ebp+00h], ax
         and ax, 300h
         cmp ax, 300h
         jne short .1
-        lea edx, [sub_D284C]
+        lea edx, [EmuTrapExit]
         mov dword [byte ds:ebp+076h], edx
         jmp short .3
 .1:
         cmp ax, 200h
         jne short .2
-        lea edx, [sub_D29BC]
+        lea edx, [RoundToDouble]
         mov dword [byte ds:ebp+076h], edx
         jmp short .3
 .2:
-        lea edx, [sub_D2980]
+        lea edx, [RoundToSingle]
         mov dword [byte ds:ebp+076h], edx
 .3:
-        jmp near sub_D284C
-sub_D2D55:
+        jmp near EmuTrapExit
+;-----------------------------------------------------------------------------
+; EmuFstenv                                       D2D55  96 PC, low confidence
+; X87 emulator: FSTENV
+;-----------------------------------------------------------------------------
+EmuFstenv:
         mov ecx, 7
         LD mov, ebx, edi
         LD mov, edi, esi
         LD mov, esi, ebp
         rep movsd
         LD mov, edi, ebx
-        jmp near sub_D284C
+        jmp near EmuTrapExit
+;-----------------------------------------------------------------------------
+; sub_D2D69                                                            D2D69  
+;-----------------------------------------------------------------------------
 sub_D2D69:
         mov ax, word [byte ds:ebp+00h]
         mov word [es:esi], ax
-        jmp near sub_D284C
+        jmp near EmuTrapExit
+;-----------------------------------------------------------------------------
+; sub_D2D77                                                            D2D77  
+;-----------------------------------------------------------------------------
 sub_D2D77:
         mov eax, dword [es:esi]
         lea edx, [byte ebp+06Ch]
-        call sub_D458E
+        call LoadM32Int
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte ebp+06Ch]
         lea ebx, [byte edi+ebp+01Ch]
         call sub_D3F70
         jmp dword [byte ds:ebp+076h]
+;-----------------------------------------------------------------------------
+; sub_D2D96                                                            D2D96  
+;-----------------------------------------------------------------------------
 sub_D2D96:
         mov eax, dword [es:esi]
         lea edx, [byte ebp+06Ch]
-        call sub_D458E
+        call LoadM32Int
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte ebp+06Ch]
         lea ebx, [byte edi+ebp+01Ch]
-        call sub_D43A4
+        call EmuMul
         jmp dword [byte ds:ebp+076h]
+;-----------------------------------------------------------------------------
+; sub_D2DB5                                                            D2DB5  
+;-----------------------------------------------------------------------------
 sub_D2DB5:
         mov eax, dword [es:esi]
         lea edx, [byte ebp+06Ch]
-        call sub_D458E
+        call LoadM32Int
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte ebp+06Ch]
-        call sub_D4136
-        jmp near sub_D29BC_84
+        call EmuCompare
+        jmp near RoundToDouble_84
+;-----------------------------------------------------------------------------
+; sub_D2DD1                                                            D2DD1  
+;-----------------------------------------------------------------------------
 sub_D2DD1:
         mov eax, dword [es:esi]
         lea edx, [byte ebp+06Ch]
-        call sub_D458E
+        call LoadM32Int
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte ebp+06Ch]
-        call sub_D4136
-        jmp near sub_D29BC_32
+        call EmuCompare
+        jmp near RoundToDouble_32
+;-----------------------------------------------------------------------------
+; sub_D2DED                                                            D2DED  
+;-----------------------------------------------------------------------------
 sub_D2DED:
         mov eax, dword [es:esi]
         lea edx, [byte ebp+06Ch]
-        call sub_D458E
+        call LoadM32Int
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte ebp+06Ch]
         lea ebx, [byte edi+ebp+01Ch]
-        call sub_D3F62
+        call EmuSub
         jmp dword [byte ds:ebp+076h]
+;-----------------------------------------------------------------------------
+; sub_D2E0C                                                            D2E0C  
+;-----------------------------------------------------------------------------
 sub_D2E0C:
         mov eax, dword [es:esi]
         lea edx, [byte ebp+06Ch]
-        call sub_D458E
+        call LoadM32Int
         lea eax, [byte ebp+06Ch]
         lea edx, [byte edi+ebp+01Ch]
         lea ebx, [byte edi+ebp+01Ch]
-        call sub_D3F62
+        call EmuSub
         jmp dword [byte ds:ebp+076h]
+;-----------------------------------------------------------------------------
+; sub_D2E2B                                                            D2E2B  
+;-----------------------------------------------------------------------------
 sub_D2E2B:
         mov eax, dword [es:esi]
         lea edx, [byte ebp+06Ch]
-        call sub_D458E
+        call LoadM32Int
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte ebp+06Ch]
         lea ebx, [byte edi+ebp+01Ch]
-        call sub_D41CF
+        call EmuDiv
         jmp dword [byte ds:ebp+076h]
+;-----------------------------------------------------------------------------
+; sub_D2E4A                                                            D2E4A  
+;-----------------------------------------------------------------------------
 sub_D2E4A:
         mov eax, dword [es:esi]
         lea edx, [byte ebp+06Ch]
-        call sub_D458E
+        call LoadM32Int
         lea eax, [byte ebp+06Ch]
         lea edx, [byte edi+ebp+01Ch]
         lea ebx, [byte edi+ebp+01Ch]
-        call sub_D41CF
+        call EmuDiv
         jmp dword [byte ds:ebp+076h]
+;-----------------------------------------------------------------------------
+; sub_D2E69                                                            D2E69  
+;-----------------------------------------------------------------------------
 sub_D2E69:
         movzx edi, word [dword cs:edi+unk_D244C]
         mov bx, word [dword cs:edi+unk_D244E]
         and word [byte ds:ebp+04h], 0C7FFh
         or word [byte ds:ebp+04h], bx
-        mov bx, word [dword cs:edi+unk_D249A]
+        mov bx, word [dword cs:edi+EmuRegTagMasks]
         and word [byte ds:ebp+08h], bx
         mov eax, dword [es:esi]
         lea edx, [byte edi+ebp+01Ch]
-        call sub_D458E
-        jmp near sub_D284C
-sub_D2EA3:
+        call LoadM32Int
+        jmp near EmuTrapExit
+;-----------------------------------------------------------------------------
+; EmuFistM32                                      D2EA3  96 PC, low confidence
+; X87 emulator: FIST m32int
+;-----------------------------------------------------------------------------
+EmuFistM32:
         lea ebx, [byte edi+ebp+01Ch]
         push dword [ebx]
         push dword [byte ebx+04h]
@@ -617,108 +792,139 @@ sub_D2EA3:
         lea eax, [byte edi+ebp+01Ch]
         mov dx, word [byte ds:ebp+00h]
         and dx, 0C00h
-        call sub_D485F
+        call ExtToInt
         lea eax, [byte edi+ebp+01Ch]
-        call sub_D451F
+        call StoreM32Int
         mov dword [es:esi], eax
         lea ebx, [byte edi+ebp+01Ch]
         pop dword [byte ebx+06h]
         pop dword [byte ebx+04h]
         pop dword [ebx]
-        jmp near sub_D284C
+        jmp near EmuTrapExit
+;-----------------------------------------------------------------------------
+; sub_D2EDF                                                            D2EDF  
+;-----------------------------------------------------------------------------
 sub_D2EDF:
         lea eax, [byte edi+ebp+01Ch]
         mov dx, word [byte ds:ebp+00h]
         and dx, 0C00h
-        call sub_D485F
+        call ExtToInt
         lea eax, [byte edi+ebp+01Ch]
-        call sub_D451F
+        call StoreM32Int
         mov dword [es:esi], eax
-        jmp near sub_D29BC_49
+        jmp near RoundToDouble_49
+;-----------------------------------------------------------------------------
+; sub_D2F03                                                            D2F03  
+;-----------------------------------------------------------------------------
 sub_D2F03:
         mov eax, dword [es:esi]
         mov edx, dword [byte es:esi+04h]
         lea ebx, [byte ebp+06Ch]
-        call sub_D45D4
+        call LoadM64Real
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte ebp+06Ch]
         lea ebx, [byte edi+ebp+01Ch]
         call sub_D3F70
         jmp dword [byte ds:ebp+076h]
+;-----------------------------------------------------------------------------
+; sub_D2F26                                                            D2F26  
+;-----------------------------------------------------------------------------
 sub_D2F26:
         mov eax, dword [es:esi]
         mov edx, dword [byte es:esi+04h]
         lea ebx, [byte ebp+06Ch]
-        call sub_D45D4
+        call LoadM64Real
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte ebp+06Ch]
         lea ebx, [byte edi+ebp+01Ch]
-        call sub_D43A4
+        call EmuMul
         jmp dword [byte ds:ebp+076h]
+;-----------------------------------------------------------------------------
+; sub_D2F49                                                            D2F49  
+;-----------------------------------------------------------------------------
 sub_D2F49:
         mov eax, dword [es:esi]
         mov edx, dword [byte es:esi+04h]
         lea ebx, [byte ebp+06Ch]
-        call sub_D45D4
+        call LoadM64Real
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte ebp+06Ch]
-        call sub_D4136
-        jmp near sub_D29BC_84
+        call EmuCompare
+        jmp near RoundToDouble_84
+;-----------------------------------------------------------------------------
+; sub_D2F69                                                            D2F69  
+;-----------------------------------------------------------------------------
 sub_D2F69:
         mov eax, dword [es:esi]
         mov edx, dword [byte es:esi+04h]
         lea ebx, [byte ebp+06Ch]
-        call sub_D45D4
+        call LoadM64Real
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte ebp+06Ch]
-        call sub_D4136
-        jmp near sub_D29BC_32
+        call EmuCompare
+        jmp near RoundToDouble_32
+;-----------------------------------------------------------------------------
+; sub_D2F89                                                            D2F89  
+;-----------------------------------------------------------------------------
 sub_D2F89:
         mov eax, dword [es:esi]
         mov edx, dword [byte es:esi+04h]
         lea ebx, [byte ebp+06Ch]
-        call sub_D45D4
+        call LoadM64Real
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte ebp+06Ch]
         lea ebx, [byte edi+ebp+01Ch]
-        call sub_D3F62
+        call EmuSub
         jmp dword [byte ds:ebp+076h]
+;-----------------------------------------------------------------------------
+; sub_D2FAC                                                            D2FAC  
+;-----------------------------------------------------------------------------
 sub_D2FAC:
         mov eax, dword [es:esi]
         mov edx, dword [byte es:esi+04h]
         lea ebx, [byte ebp+06Ch]
-        call sub_D45D4
+        call LoadM64Real
         lea eax, [byte ebp+06Ch]
         lea edx, [byte edi+ebp+01Ch]
         lea ebx, [byte edi+ebp+01Ch]
-        call sub_D3F62
+        call EmuSub
         jmp dword [byte ds:ebp+076h]
+;-----------------------------------------------------------------------------
+; sub_D2FCF                                                            D2FCF  
+;-----------------------------------------------------------------------------
 sub_D2FCF:
         mov eax, dword [es:esi]
         mov edx, dword [byte es:esi+04h]
         lea ebx, [byte ebp+06Ch]
-        call sub_D45D4
+        call LoadM64Real
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte ebp+06Ch]
         lea ebx, [byte edi+ebp+01Ch]
-        call sub_D41CF
+        call EmuDiv
         jmp dword [byte ds:ebp+076h]
+;-----------------------------------------------------------------------------
+; sub_D2FF2                                                            D2FF2  
+;-----------------------------------------------------------------------------
 sub_D2FF2:
         mov eax, dword [es:esi]
         mov edx, dword [byte es:esi+04h]
         lea ebx, [byte ebp+06Ch]
-        call sub_D45D4
+        call LoadM64Real
         lea eax, [byte ebp+06Ch]
         lea edx, [byte edi+ebp+01Ch]
         lea ebx, [byte edi+ebp+01Ch]
-        call sub_D41CF
+        call EmuDiv
         jmp dword [byte ds:ebp+076h]
-sub_D3015:
+;-----------------------------------------------------------------------------
+; EmuFldM80                                       D3015  96 PC, low confidence
+; X87 emulator: FLD m80real (probably)
+;-----------------------------------------------------------------------------
+EmuFldM80:
         movzx edi, word [dword cs:edi+unk_D244C]
         mov bx, word [dword cs:edi+unk_D244E]
         and word [byte ds:ebp+04h], 0C7FFh
         or word [byte ds:ebp+04h], bx
-        mov bx, word [dword cs:edi+unk_D249A]
+        mov bx, word [dword cs:edi+EmuRegTagMasks]
         and word [byte ds:ebp+08h], bx
         mov eax, dword [es:esi]
         mov dword [byte edi+ebp+01Ch], eax
@@ -726,40 +932,58 @@ sub_D3015:
         mov dword [byte edi+ebp+020h], eax
         mov ax, word [byte es:esi+08h]
         mov word [byte edi+ebp+024h], ax
-        jmp near sub_D284C
-sub_D305C:
+        jmp near EmuTrapExit
+;-----------------------------------------------------------------------------
+; EmuFldM64                                       D305C  96 PC, low confidence
+; X87 emulator: FLD m64real
+;-----------------------------------------------------------------------------
+EmuFldM64:
         movzx edi, word [dword cs:edi+unk_D244C]
         mov bx, word [dword cs:edi+unk_D244E]
         and word [byte ds:ebp+04h], 0C7FFh
         or word [byte ds:ebp+04h], bx
-        mov bx, word [dword cs:edi+unk_D249A]
+        mov bx, word [dword cs:edi+EmuRegTagMasks]
         and word [byte ds:ebp+08h], bx
         mov eax, dword [es:esi]
         mov edx, dword [byte es:esi+04h]
         lea ebx, [byte edi+ebp+01Ch]
-        call sub_D45D4
-        jmp near sub_D284C
+        call LoadM64Real
+        jmp near EmuTrapExit
+;-----------------------------------------------------------------------------
+; sub_D309A                                                            D309A  
+;-----------------------------------------------------------------------------
 sub_D309A:
         lea eax, [byte edi+ebp+01Ch]
-        call sub_D46D3
+        call StoreM64Real
         mov dword [es:esi], eax
         mov dword [byte es:esi+04h], edx
-        jmp near sub_D284C
-sub_D30AF:
+        jmp near EmuTrapExit
+;-----------------------------------------------------------------------------
+; EmuFstpM80                                      D30AF  96 PC, low confidence
+; X87 emulator: FSTP m80real (probably)
+;-----------------------------------------------------------------------------
+EmuFstpM80:
         mov eax, dword [byte edi+ebp+01Ch]
         mov dword [es:esi], eax
         mov eax, dword [byte edi+ebp+020h]
         mov dword [byte es:esi+04h], eax
         mov ax, word [byte edi+ebp+024h]
         mov word [byte es:esi+08h], ax
-        jmp near sub_D29BC_49
+        jmp near RoundToDouble_49
+;-----------------------------------------------------------------------------
+; sub_D30CD                                                            D30CD  
+;-----------------------------------------------------------------------------
 sub_D30CD:
         lea eax, [byte edi+ebp+01Ch]
-        call sub_D46D3
+        call StoreM64Real
         mov dword [es:esi], eax
         mov dword [byte es:esi+04h], edx
-        jmp near sub_D29BC_49
-sub_D30E2:
+        jmp near RoundToDouble_49
+;-----------------------------------------------------------------------------
+; EmuFrstor                                       D30E2  96 PC, low confidence
+; X87 emulator: FRSTOR
+;-----------------------------------------------------------------------------
+EmuFrstor:
         mov ecx, 7
         push ds
         push es
@@ -780,12 +1004,16 @@ sub_D30E2:
         movsd
         movsd
         movsw
-        movzx ebx, word [dword cs:ebx+unk_D244A]
+        movzx ebx, word [dword cs:ebx+EmuRegRing]
         loop .1
         pop es
         pop ds
-        jmp near sub_D284C
-sub_D3129:
+        jmp near EmuTrapExit
+;-----------------------------------------------------------------------------
+; EmuFsave                                        D3129  96 PC, low confidence
+; X87 emulator: FSAVE
+;-----------------------------------------------------------------------------
+EmuFsave:
         mov ecx, 7
         LD mov, ebx, edi
         LD mov, edi, esi
@@ -797,105 +1025,140 @@ sub_D3129:
         movsd
         movsd
         movsw
-        movzx ebx, word [dword cs:ebx+unk_D244A]
+        movzx ebx, word [dword cs:ebx+EmuRegRing]
         loop .1
         LD mov, edi, ebx
         jmp near jpt_D3A13_2C
+;-----------------------------------------------------------------------------
+; sub_D3154                                                            D3154  
+;-----------------------------------------------------------------------------
 sub_D3154:
         mov ax, word [byte ds:ebp+04h]
         mov word [es:esi], ax
-        jmp near sub_D284C
+        jmp near EmuTrapExit
+;-----------------------------------------------------------------------------
+; sub_D3162                                                            D3162  
+;-----------------------------------------------------------------------------
 sub_D3162:
         mov ax, word [es:esi]
         cwde
         lea edx, [byte ebp+06Ch]
-        call sub_D458E
+        call LoadM32Int
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte ebp+06Ch]
         lea ebx, [byte edi+ebp+01Ch]
         call sub_D3F70
         jmp dword [byte ds:ebp+076h]
+;-----------------------------------------------------------------------------
+; sub_D3183                                                            D3183  
+;-----------------------------------------------------------------------------
 sub_D3183:
         mov ax, word [es:esi]
         cwde
         lea edx, [byte ebp+06Ch]
-        call sub_D458E
+        call LoadM32Int
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte ebp+06Ch]
         lea ebx, [byte edi+ebp+01Ch]
-        call sub_D43A4
+        call EmuMul
         jmp dword [byte ds:ebp+076h]
+;-----------------------------------------------------------------------------
+; sub_D31A4                                                            D31A4  
+;-----------------------------------------------------------------------------
 sub_D31A4:
         mov ax, word [es:esi]
         cwde
         lea edx, [byte ebp+06Ch]
-        call sub_D458E
+        call LoadM32Int
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte ebp+06Ch]
-        call sub_D4136
-        jmp near sub_D29BC_84
+        call EmuCompare
+        jmp near RoundToDouble_84
+;-----------------------------------------------------------------------------
+; sub_D31C2                                                            D31C2  
+;-----------------------------------------------------------------------------
 sub_D31C2:
         mov ax, word [es:esi]
         cwde
         lea edx, [byte ebp+06Ch]
-        call sub_D458E
+        call LoadM32Int
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte ebp+06Ch]
-        call sub_D4136
-        jmp near sub_D29BC_32
+        call EmuCompare
+        jmp near RoundToDouble_32
+;-----------------------------------------------------------------------------
+; sub_D31E0                                                            D31E0  
+;-----------------------------------------------------------------------------
 sub_D31E0:
         mov ax, word [es:esi]
         cwde
         lea edx, [byte ebp+06Ch]
-        call sub_D458E
+        call LoadM32Int
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte ebp+06Ch]
         lea ebx, [byte edi+ebp+01Ch]
-        call sub_D3F62
+        call EmuSub
         jmp dword [byte ds:ebp+076h]
+;-----------------------------------------------------------------------------
+; sub_D3201                                                            D3201  
+;-----------------------------------------------------------------------------
 sub_D3201:
         mov ax, word [es:esi]
         cwde
         lea edx, [byte ebp+06Ch]
-        call sub_D458E
+        call LoadM32Int
         lea eax, [byte ebp+06Ch]
         lea edx, [byte edi+ebp+01Ch]
         lea ebx, [byte edi+ebp+01Ch]
-        call sub_D3F62
+        call EmuSub
         jmp dword [byte ds:ebp+076h]
+;-----------------------------------------------------------------------------
+; sub_D3222                                                            D3222  
+;-----------------------------------------------------------------------------
 sub_D3222:
         mov ax, word [es:esi]
         cwde
         lea edx, [byte ebp+06Ch]
-        call sub_D458E
+        call LoadM32Int
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte ebp+06Ch]
         lea ebx, [byte edi+ebp+01Ch]
-        call sub_D41CF
+        call EmuDiv
         jmp dword [byte ds:ebp+076h]
+;-----------------------------------------------------------------------------
+; sub_D3243                                                            D3243  
+;-----------------------------------------------------------------------------
 sub_D3243:
         mov ax, word [es:esi]
         cwde
         lea edx, [byte ebp+06Ch]
-        call sub_D458E
+        call LoadM32Int
         lea eax, [byte ebp+06Ch]
         lea edx, [byte edi+ebp+01Ch]
         lea ebx, [byte edi+ebp+01Ch]
-        call sub_D41CF
+        call EmuDiv
         jmp dword [byte ds:ebp+076h]
-sub_D3264:
+;-----------------------------------------------------------------------------
+; EmuFildM16                                      D3264  96 PC, low confidence
+; X87 emulator: FILD m16int
+;-----------------------------------------------------------------------------
+EmuFildM16:
         movzx edi, word [dword cs:edi+unk_D244C]
         mov bx, word [dword cs:edi+unk_D244E]
         and word [byte ds:ebp+04h], 0C7FFh
         or word [byte ds:ebp+04h], bx
-        mov bx, word [dword cs:edi+unk_D249A]
+        mov bx, word [dword cs:edi+EmuRegTagMasks]
         and word [byte ds:ebp+08h], bx
         mov ax, word [es:esi]
         cwde
         lea edx, [byte edi+ebp+01Ch]
-        call sub_D458E
-        jmp near sub_D284C
-sub_D32A0:
+        call LoadM32Int
+        jmp near EmuTrapExit
+;-----------------------------------------------------------------------------
+; EmuFistM16                                      D32A0  96 PC, low confidence
+; X87 emulator: FIST m16int
+;-----------------------------------------------------------------------------
+EmuFistM16:
         lea ebx, [byte edi+ebp+01Ch]
         push dword [ebx]
         push dword [byte ebx+04h]
@@ -903,9 +1166,9 @@ sub_D32A0:
         lea eax, [byte edi+ebp+01Ch]
         mov dx, word [byte ds:ebp+00h]
         and dx, 0C00h
-        call sub_D485F
+        call ExtToInt
         lea eax, [byte edi+ebp+01Ch]
-        call sub_D451F
+        call StoreM32Int
         LD mov, edx, eax
         cwde
         LD cmp, eax, edx
@@ -917,14 +1180,18 @@ sub_D32A0:
         pop dword [byte ebx+06h]
         pop dword [byte ebx+04h]
         pop dword [ebx]
-        jmp near sub_D284C
-sub_D32E8:
+        jmp near EmuTrapExit
+;-----------------------------------------------------------------------------
+; EmuFistpM16                                     D32E8  96 PC, low confidence
+; X87 emulator: FISTP m16int
+;-----------------------------------------------------------------------------
+EmuFistpM16:
         lea eax, [byte edi+ebp+01Ch]
         mov dx, word [byte ds:ebp+00h]
         and dx, 0C00h
-        call sub_D485F
+        call ExtToInt
         lea eax, [byte edi+ebp+01Ch]
-        call sub_D451F
+        call StoreM32Int
         LD mov, edx, eax
         cwde
         LD cmp, eax, edx
@@ -932,98 +1199,145 @@ sub_D32E8:
         mov ax, 8000h
 .1:
         mov word [es:esi], ax
-        jmp near sub_D29BC_49
+        jmp near RoundToDouble_49
+;-----------------------------------------------------------------------------
+; sub_D3318                                                            D3318  
+;-----------------------------------------------------------------------------
 sub_D3318:
-        jmp near sub_D284C
+        jmp near EmuTrapExit
+;-----------------------------------------------------------------------------
+; sub_D331D                                                            D331D  
+;-----------------------------------------------------------------------------
 sub_D331D:
         movzx edi, word [dword cs:edi+unk_D244C]
         mov bx, word [dword cs:edi+unk_D244E]
         and word [byte ds:ebp+04h], 0C7FFh
         or word [byte ds:ebp+04h], bx
-        mov bx, word [dword cs:edi+unk_D249A]
+        mov bx, word [dword cs:edi+EmuRegTagMasks]
         and word [byte ds:ebp+08h], bx
         mov eax, dword [es:esi]
         lea edx, [byte edi+ebp+01Ch]
         call sub_D459F
-        jmp near sub_D284C
+        jmp near EmuTrapExit
+;-----------------------------------------------------------------------------
+; sub_D3357                                                            D3357  
+;-----------------------------------------------------------------------------
 sub_D3357:
-        jmp near sub_D29BC_49
+        jmp near RoundToDouble_49
+;-----------------------------------------------------------------------------
+; sub_D335C                                                            D335C  
+;-----------------------------------------------------------------------------
 sub_D335C:
         lea eax, [byte edi+ebp+01Ch]
         mov dx, word [byte ds:ebp+00h]
         and dx, 0C00h
-        call sub_D485F
+        call ExtToInt
         lea eax, [byte edi+ebp+01Ch]
         call sub_D4524
         mov dword [es:esi], eax
-        jmp near sub_D29BC_49
-sub_D3380:
-        jmp near sub_D284C
+        jmp near RoundToDouble_49
+;-----------------------------------------------------------------------------
+; EmuReservedOp                                   D3380  96 PC, low confidence
+; X87 emulator: reserved opcode (unsupported)
+;-----------------------------------------------------------------------------
+EmuReservedOp:
+        jmp near EmuTrapExit
+;-----------------------------------------------------------------------------
+; sub_D3385                                                            D3385  
+;-----------------------------------------------------------------------------
 sub_D3385:
-        jmp dword [nosplit cs:ebx*4+jpt_D338D]
-jpt_D338D:
+        jmp dword [nosplit cs:ebx*4+EmuDispatchD9RegJumpTable]
+EmuDispatchD9RegJumpTable:
         dd .1
-        dd sub_D3380
-        dd sub_D3380
-        dd sub_D3380
-        dd sub_D3380
-        dd sub_D3380
-        dd sub_D3380
-        dd sub_D3380
+        dd EmuReservedOp
+        dd EmuReservedOp
+        dd EmuReservedOp
+        dd EmuReservedOp
+        dd EmuReservedOp
+        dd EmuReservedOp
+        dd EmuReservedOp
 .1:
-        jmp near sub_D284C
+        jmp near EmuTrapExit
+;-----------------------------------------------------------------------------
+; sub_D33B2                                                            D33B2  
+;-----------------------------------------------------------------------------
 sub_D33B2:
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte esi+ebp+01Ch]
         lea ebx, [byte edi+ebp+01Ch]
         call sub_D3F70
         jmp dword [byte ds:ebp+076h]
+;-----------------------------------------------------------------------------
+; sub_D33C7                                                            D33C7  
+;-----------------------------------------------------------------------------
 sub_D33C7:
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte esi+ebp+01Ch]
         lea ebx, [byte edi+ebp+01Ch]
-        call sub_D43A4
+        call EmuMul
         jmp dword [byte ds:ebp+076h]
+;-----------------------------------------------------------------------------
+; sub_D33DC                                                            D33DC  
+;-----------------------------------------------------------------------------
 sub_D33DC:
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte esi+ebp+01Ch]
-        call sub_D4136
-        jmp near sub_D29BC_84
+        call EmuCompare
+        jmp near RoundToDouble_84
+;-----------------------------------------------------------------------------
+; sub_D33EE                                                            D33EE  
+;-----------------------------------------------------------------------------
 sub_D33EE:
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte esi+ebp+01Ch]
-        call sub_D4136
-        jmp near sub_D29BC_32
+        call EmuCompare
+        jmp near RoundToDouble_32
+;-----------------------------------------------------------------------------
+; sub_D3400                                                            D3400  
+;-----------------------------------------------------------------------------
 sub_D3400:
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte esi+ebp+01Ch]
         lea ebx, [byte edi+ebp+01Ch]
-        call sub_D3F62
+        call EmuSub
         jmp dword [byte ds:ebp+076h]
+;-----------------------------------------------------------------------------
+; sub_D3415                                                            D3415  
+;-----------------------------------------------------------------------------
 sub_D3415:
         lea eax, [byte esi+ebp+01Ch]
         lea edx, [byte edi+ebp+01Ch]
         lea ebx, [byte edi+ebp+01Ch]
-        call sub_D3F62
+        call EmuSub
         jmp dword [byte ds:ebp+076h]
+;-----------------------------------------------------------------------------
+; sub_D342A                                                            D342A  
+;-----------------------------------------------------------------------------
 sub_D342A:
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte esi+ebp+01Ch]
         lea ebx, [byte edi+ebp+01Ch]
-        call sub_D41CF
+        call EmuDiv
         jmp dword [byte ds:ebp+076h]
+;-----------------------------------------------------------------------------
+; sub_D343F                                                            D343F  
+;-----------------------------------------------------------------------------
 sub_D343F:
         lea eax, [byte esi+ebp+01Ch]
         lea edx, [byte edi+ebp+01Ch]
         lea ebx, [byte edi+ebp+01Ch]
-        call sub_D41CF
+        call EmuDiv
         jmp dword [byte ds:ebp+076h]
-sub_D3454:
+;-----------------------------------------------------------------------------
+; EmuFldSt                                        D3454  96 PC, low confidence
+; X87 emulator: FLD st(i)
+;-----------------------------------------------------------------------------
+EmuFldSt:
         movzx edi, word [dword cs:edi+unk_D244C]
         mov bx, word [dword cs:edi+unk_D244E]
         and word [byte ds:ebp+04h], 0C7FFh
         or word [byte ds:ebp+04h], bx
-        mov bx, word [dword cs:edi+unk_D249A]
+        mov bx, word [dword cs:edi+EmuRegTagMasks]
         and word [byte ds:ebp+08h], bx
         mov eax, dword [byte esi+ebp+01Ch]
         mov dword [byte edi+ebp+01Ch], eax
@@ -1031,8 +1345,12 @@ sub_D3454:
         mov dword [byte edi+ebp+020h], eax
         mov ax, word [byte esi+ebp+024h]
         mov word [byte edi+ebp+024h], ax
-        jmp near sub_D284C
-sub_D349C:
+        jmp near EmuTrapExit
+;-----------------------------------------------------------------------------
+; EmuFxch                                         D349C  96 PC, low confidence
+; X87 emulator: FXCH
+;-----------------------------------------------------------------------------
+EmuFxch:
         lea ebx, [byte edi+ebp+01Ch]
         lea esi, [byte esi+ebp+01Ch]
         mov eax, dword [esi]
@@ -1044,28 +1362,31 @@ sub_D349C:
         mov ax, word [byte esi+08h]
         xchg ax, word [byte ebx+08h]
         mov word [byte esi+08h], ax
-        jmp near sub_D284C
+        jmp near EmuTrapExit
+;-----------------------------------------------------------------------------
+; sub_D34C4                                                            D34C4  
+;-----------------------------------------------------------------------------
 sub_D34C4:
-        jmp dword [nosplit cs:ebx*4+jpt_D34CC]
-jpt_D34CC:
+        jmp dword [nosplit cs:ebx*4+EmuFtstFxamJumpTable]
+EmuFtstFxamJumpTable:
         dd .1
         dd .2
-        dd sub_D3380
-        dd sub_D3380
+        dd EmuReservedOp
+        dd EmuReservedOp
         dd .3
         dd .4
-        dd sub_D3380
-        dd sub_D3380
+        dd EmuReservedOp
+        dd EmuReservedOp
 .1:
         lea eax, [byte edi+ebp+01Ch]
         xor byte [byte eax+09h], 80h
-        jmp near sub_D284C
+        jmp near EmuTrapExit
 .2:
         lea eax, [byte edi+ebp+01Ch]
         and byte [byte eax+09h], 7Fh
-        jmp near sub_D284C
+        jmp near EmuTrapExit
 .3:
-        mov eax, dword [cs:unk_D2440]
+        mov eax, dword [cs:EmuZeroTbyte]
         mov dword [byte ds:ebp+06Ch], eax
         mov eax, dword [cs:unk_D2444]
         mov dword [byte ds:ebp+070h], eax
@@ -1073,15 +1394,18 @@ jpt_D34CC:
         mov word [byte ds:ebp+074h], ax
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte ebp+06Ch]
-        call sub_D4136
-        jmp near sub_D29BC_84
+        call EmuCompare
+        jmp near RoundToDouble_84
 .4:
         lea eax, [byte edi+ebp+01Ch]
-        call sub_D4CE6
-        jmp near sub_D284C
+        call EmuExamine
+        jmp near EmuTrapExit
+;-----------------------------------------------------------------------------
+; sub_D3545                                                            D3545  
+;-----------------------------------------------------------------------------
 sub_D3545:
-        jmp dword [nosplit cs:ebx*4+jpt_D354D]
-jpt_D354D:
+        jmp dword [nosplit cs:ebx*4+EmuSignOpsJumpTable]
+EmuSignOpsJumpTable:
         dd .1
         dd .2
         dd .3
@@ -1089,100 +1413,103 @@ jpt_D354D:
         dd .5
         dd .6
         dd .7
-        dd sub_D3380
+        dd EmuReservedOp
 .1:
         movzx edi, word [dword cs:edi+unk_D244C]
         mov bx, word [dword cs:edi+unk_D244E]
         and word [byte ds:ebp+04h], 0C7FFh
         or word [byte ds:ebp+04h], bx
-        mov bx, word [dword cs:edi+unk_D249A]
+        mov bx, word [dword cs:edi+EmuRegTagMasks]
         and word [byte ds:ebp+08h], bx
         lea esi, [byte edi+ebp+01Ch]
         LD sub, eax, eax
         mov dword [esi], eax
         mov dword [byte esi+04h], 80000000h
         mov word [byte esi+08h], 3FFFh
-        jmp near sub_D284C
+        jmp near EmuTrapExit
 .2:
         movzx edi, word [dword cs:edi+unk_D244C]
         mov bx, word [dword cs:edi+unk_D244E]
         and word [byte ds:ebp+04h], 0C7FFh
         or word [byte ds:ebp+04h], bx
-        mov bx, word [dword cs:edi+unk_D249A]
+        mov bx, word [dword cs:edi+EmuRegTagMasks]
         and word [byte ds:ebp+08h], bx
         lea esi, [byte edi+ebp+01Ch]
         mov dword [esi], 0CD1B8AFEh
         mov dword [byte esi+04h], 0D49A784Bh
         mov word [byte esi+08h], 4000h
-        jmp near sub_D284C
+        jmp near EmuTrapExit
 .3:
         movzx edi, word [dword cs:edi+unk_D244C]
         mov bx, word [dword cs:edi+unk_D244E]
         and word [byte ds:ebp+04h], 0C7FFh
         or word [byte ds:ebp+04h], bx
-        mov bx, word [dword cs:edi+unk_D249A]
+        mov bx, word [dword cs:edi+EmuRegTagMasks]
         and word [byte ds:ebp+08h], bx
         lea esi, [byte edi+ebp+01Ch]
         mov dword [esi], 5C17F0BCh
         mov dword [byte esi+04h], 0B8AA3B29h
         mov word [byte esi+08h], 3FFFh
-        jmp near sub_D284C
+        jmp near EmuTrapExit
 .4:
         movzx edi, word [dword cs:edi+unk_D244C]
         mov bx, word [dword cs:edi+unk_D244E]
         and word [byte ds:ebp+04h], 0C7FFh
         or word [byte ds:ebp+04h], bx
-        mov bx, word [dword cs:edi+unk_D249A]
+        mov bx, word [dword cs:edi+EmuRegTagMasks]
         and word [byte ds:ebp+08h], bx
         lea esi, [byte edi+ebp+01Ch]
         mov dword [esi], 2168C235h
         mov dword [byte esi+04h], 0C900DAA2h
         mov word [byte esi+08h], 4000h
-        jmp near sub_D284C
+        jmp near EmuTrapExit
 .5:
         movzx edi, word [dword cs:edi+unk_D244C]
         mov bx, word [dword cs:edi+unk_D244E]
         and word [byte ds:ebp+04h], 0C7FFh
         or word [byte ds:ebp+04h], bx
-        mov bx, word [dword cs:edi+unk_D249A]
+        mov bx, word [dword cs:edi+EmuRegTagMasks]
         and word [byte ds:ebp+08h], bx
         lea esi, [byte edi+ebp+01Ch]
         mov dword [esi], 0FBCFF799h
         mov dword [byte esi+04h], 9A209A84h
         mov word [byte esi+08h], 3FFDh
-        jmp near sub_D284C
+        jmp near EmuTrapExit
 .6:
         movzx edi, word [dword cs:edi+unk_D244C]
         mov bx, word [dword cs:edi+unk_D244E]
         and word [byte ds:ebp+04h], 0C7FFh
         or word [byte ds:ebp+04h], bx
-        mov bx, word [dword cs:edi+unk_D249A]
+        mov bx, word [dword cs:edi+EmuRegTagMasks]
         and word [byte ds:ebp+08h], bx
         lea esi, [byte edi+ebp+01Ch]
         mov dword [esi], 0D1CF79ACh
         mov dword [byte esi+04h], 0B17217F7h
         mov word [byte esi+08h], 3FFEh
-        jmp near sub_D284C
+        jmp near EmuTrapExit
 .7:
         movzx edi, word [dword cs:edi+unk_D244C]
         mov bx, word [dword cs:edi+unk_D244E]
         and word [byte ds:ebp+04h], 0C7FFh
         or word [byte ds:ebp+04h], bx
-        mov bx, word [dword cs:edi+unk_D249A]
+        mov bx, word [dword cs:edi+EmuRegTagMasks]
         and word [byte ds:ebp+08h], bx
         lea esi, [byte edi+ebp+01Ch]
         LD sub, eax, eax
         mov dword [esi], eax
         mov dword [byte esi+04h], eax
         mov word [byte esi+08h], ax
-        mov bx, word [dword cs:edi+unk_D249A]
+        mov bx, word [dword cs:edi+EmuRegTagMasks]
         and word [byte ds:ebp+08h], bx
         mov bx, word [dword cs:edi+unk_D249C]
         or word [byte ds:ebp+08h], bx
-        jmp near sub_D284C
+        jmp near EmuTrapExit
+;-----------------------------------------------------------------------------
+; sub_D3760                                                            D3760  
+;-----------------------------------------------------------------------------
 sub_D3760:
-        jmp dword [nosplit cs:ebx*4+jpt_D3768]
-jpt_D3768:
+        jmp dword [nosplit cs:ebx*4+EmuLogOpsJumpTable]
+EmuLogOpsJumpTable:
         dd .1
         dd .2
         dd .3
@@ -1193,51 +1520,54 @@ jpt_D3768:
         dd .5
 .1:
         lea eax, [byte edi+ebp+01Ch]
-        call sub_D530C
+        call EmuAtan
         jmp dword [byte ds:ebp+076h]
 .2:
         lea eax, [byte edi+ebp+01Ch]
-        mov bx, word [dword cs:edi+unk_D249A]
+        mov bx, word [dword cs:edi+EmuRegTagMasks]
         and word [byte ds:ebp+08h], bx
         mov bx, word [dword cs:edi+unk_D24A2]
         or word [byte ds:ebp+08h], bx
-        movzx edi, word [dword cs:edi+unk_D244A]
+        movzx edi, word [dword cs:edi+EmuRegRing]
         mov bx, word [dword cs:edi+unk_D244E]
         and word [byte ds:ebp+04h], 0C7FFh
         or word [byte ds:ebp+04h], bx
         lea edx, [byte edi+ebp+01Ch]
-        call sub_D4DED
+        call EmuLog2
         jmp dword [byte ds:ebp+076h]
 .3:
         lea eax, [byte edi+ebp+01Ch]
-        call sub_D52D6
+        call EmuTan
         movzx edi, word [dword cs:edi+unk_D244C]
         mov bx, word [dword cs:edi+unk_D244E]
         and word [byte ds:ebp+04h], 0C7FFh
         or word [byte ds:ebp+04h], bx
-        mov bx, word [dword cs:edi+unk_D249A]
+        mov bx, word [dword cs:edi+EmuRegTagMasks]
         and word [byte ds:ebp+08h], bx
         lea esi, [byte edi+ebp+01Ch]
         LD sub, eax, eax
         mov dword [esi], eax
         mov dword [byte esi+04h], 80000000h
         mov word [byte esi+08h], 3FFFh
-        jmp near sub_D284C
+        jmp near EmuTrapExit
 .4:
         movzx edi, word [dword cs:edi+unk_D244C]
         mov bx, word [dword cs:edi+unk_D244E]
         and word [byte ds:ebp+04h], 0C7FFh
         or word [byte ds:ebp+04h], bx
-        jmp near sub_D284C
+        jmp near EmuTrapExit
 .5:
-        movzx edi, word [dword cs:edi+unk_D244A]
+        movzx edi, word [dword cs:edi+EmuRegRing]
         mov bx, word [dword cs:edi+unk_D244E]
         and word [byte ds:ebp+04h], 0C7FFh
         or word [byte ds:ebp+04h], bx
-        jmp near sub_D284C
+        jmp near EmuTrapExit
+;-----------------------------------------------------------------------------
+; sub_D386A                                                            D386A  
+;-----------------------------------------------------------------------------
 sub_D386A:
-        jmp dword [nosplit cs:ebx*4+jpt_D3872]
-jpt_D3872:
+        jmp dword [nosplit cs:ebx*4+EmuRemOpsJumpTable]
+EmuRemOpsJumpTable:
         dd .1
         dd .2
         dd .3
@@ -1249,29 +1579,29 @@ jpt_D3872:
 .1:
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte esi+ebp+01Ch]
-        call sub_D4C05
+        call EmuRoundInt
         and eax, byte 7
         mov dx, word [byte ds:ebp+04h]
         and dx, 0B8FFh
-        or dh, byte [dword cs:eax+unk_D24EE]
+        or dh, byte [dword cs:eax+EmuFpremCcBits]
         mov word [byte ds:ebp+04h], dx
         jmp dword [byte ds:ebp+076h]
 .2:
         lea eax, [byte edi+ebp+01Ch]
-        mov bx, word [dword cs:edi+unk_D249A]
+        mov bx, word [dword cs:edi+EmuRegTagMasks]
         and word [byte ds:ebp+08h], bx
         mov bx, word [dword cs:edi+unk_D24A2]
         or word [byte ds:ebp+08h], bx
-        movzx edi, word [dword cs:edi+unk_D244A]
+        movzx edi, word [dword cs:edi+EmuRegRing]
         mov bx, word [dword cs:edi+unk_D244E]
         and word [byte ds:ebp+04h], 0C7FFh
         or word [byte ds:ebp+04h], bx
         lea edx, [byte edi+ebp+01Ch]
-        call sub_D4DD4
+        call AddOne
         jmp dword [byte ds:ebp+076h]
 .3:
         lea eax, [byte edi+ebp+01Ch]
-        call sub_D54E0
+        call EmuExp2
         jmp dword [byte ds:ebp+076h]
 .4:
         lea ebx, [byte edi+ebp+01Ch]
@@ -1279,39 +1609,42 @@ jpt_D3872:
         push dword [byte ebx+04h]
         push dword [byte ebx+06h]
         lea eax, [byte edi+ebp+01Ch]
-        call sub_D52BF
+        call EmuSin
         movzx edi, word [dword cs:edi+unk_D244C]
         mov bx, word [dword cs:edi+unk_D244E]
         and word [byte ds:ebp+04h], 0C7FFh
         or word [byte ds:ebp+04h], bx
-        mov bx, word [dword cs:edi+unk_D249A]
+        mov bx, word [dword cs:edi+EmuRegTagMasks]
         and word [byte ds:ebp+08h], bx
         lea ebx, [byte edi+ebp+01Ch]
         pop dword [byte ebx+06h]
         pop dword [byte ebx+04h]
         pop dword [ebx]
         lea eax, [byte edi+ebp+01Ch]
-        call sub_D52C9
-        jmp near sub_D284C
+        call EmuCos
+        jmp near EmuTrapExit
 .5:
         lea eax, [byte edi+ebp+01Ch]
-        call sub_D52BF
+        call EmuSin
         jmp dword [byte ds:ebp+076h]
 .6:
         lea eax, [byte edi+ebp+01Ch]
-        call sub_D52C9
+        call EmuCos
         jmp dword [byte ds:ebp+076h]
+;-----------------------------------------------------------------------------
+; sub_D3982                                                            D3982  
+;-----------------------------------------------------------------------------
 sub_D3982:
         jmp dword [nosplit cs:ebx*4+jpt_D398A]
 jpt_D398A:
-        dd sub_D3380
+        dd EmuReservedOp
         dd .1
-        dd sub_D3380
-        dd sub_D3380
-        dd sub_D3380
-        dd sub_D3380
-        dd sub_D3380
-        dd sub_D3380
+        dd EmuReservedOp
+        dd EmuReservedOp
+        dd EmuReservedOp
+        dd EmuReservedOp
+        dd EmuReservedOp
+        dd EmuReservedOp
 .1:
         mov eax, dword [byte edi+ebp+01Ch]
         mov dword [byte ds:ebp+06Ch], eax
@@ -1319,82 +1652,113 @@ jpt_D398A:
         mov dword [byte ds:ebp+070h], eax
         mov ax, word [byte edi+ebp+024h]
         mov word [byte ds:ebp+074h], ax
-        mov bx, word [dword cs:edi+unk_D249A]
+        mov bx, word [dword cs:edi+EmuRegTagMasks]
         and word [byte ds:ebp+08h], bx
         mov bx, word [dword cs:edi+unk_D24A2]
         or word [byte ds:ebp+08h], bx
-        movzx edi, word [dword cs:edi+unk_D244A]
+        movzx edi, word [dword cs:edi+EmuRegRing]
         mov bx, word [dword cs:edi+unk_D244E]
         and word [byte ds:ebp+04h], 0C7FFh
         or word [byte ds:ebp+04h], bx
         lea eax, [byte ebp+06Ch]
         lea edx, [byte edi+ebp+01Ch]
-        call sub_D4136
-        jmp near sub_D29BC_32
+        call EmuCompare
+        jmp near RoundToDouble_32
+;-----------------------------------------------------------------------------
+; sub_D3A0B                                                            D3A0B  
+;-----------------------------------------------------------------------------
 sub_D3A0B:
-        jmp dword [nosplit cs:ebx*4+jpt_D3A13]
-jpt_D3A13:
-        dd sub_D3380
-        dd sub_D3380
+        jmp dword [nosplit cs:ebx*4+EmuDispatchDBRegJumpTable]
+EmuDispatchDBRegJumpTable:
+        dd EmuReservedOp
+        dd EmuReservedOp
         dd .1
         dd jpt_D3A13_2C
-        dd sub_D3380
-        dd sub_D3380
-        dd sub_D3380
-        dd sub_D3380
+        dd EmuReservedOp
+        dd EmuReservedOp
+        dd EmuReservedOp
+        dd EmuReservedOp
 .1:
         and word [byte ds:ebp+04h], 7F00h
-        jmp near sub_D284C
+        jmp near EmuTrapExit
+;-----------------------------------------------------------------------------
+; jpt_D3A13_2C                                                         D3A3F  
+;-----------------------------------------------------------------------------
 jpt_D3A13_2C:
         mov word [byte ds:ebp+00h], 33Fh
         mov word [byte ds:ebp+04h], 0
         mov word [byte ds:ebp+08h], 0FFFFh
-        lea edx, [sub_D284C]
+        lea edx, [EmuTrapExit]
         mov dword [byte ds:ebp+076h], edx
         LD sub, edi, edi
-        jmp near sub_D284C
+        jmp near EmuTrapExit
+;-----------------------------------------------------------------------------
+; sub_D3A65                                                            D3A65  
+;-----------------------------------------------------------------------------
 sub_D3A65:
         lea eax, [byte esi+ebp+01Ch]
         lea edx, [byte edi+ebp+01Ch]
         lea ebx, [byte esi+ebp+01Ch]
         call sub_D3F70
         jmp dword [byte ds:ebp+076h]
+;-----------------------------------------------------------------------------
+; sub_D3A7A                                                            D3A7A  
+;-----------------------------------------------------------------------------
 sub_D3A7A:
         lea eax, [byte esi+ebp+01Ch]
         lea edx, [byte edi+ebp+01Ch]
         lea ebx, [byte esi+ebp+01Ch]
-        call sub_D43A4
+        call EmuMul
         jmp dword [byte ds:ebp+076h]
+;-----------------------------------------------------------------------------
+; sub_D3A8F                                                            D3A8F  
+;-----------------------------------------------------------------------------
 sub_D3A8F:
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte esi+ebp+01Ch]
         lea ebx, [byte esi+ebp+01Ch]
-        call sub_D3F62
+        call EmuSub
         jmp dword [byte ds:ebp+076h]
+;-----------------------------------------------------------------------------
+; sub_D3AA4                                                            D3AA4  
+;-----------------------------------------------------------------------------
 sub_D3AA4:
         lea eax, [byte esi+ebp+01Ch]
         lea edx, [byte edi+ebp+01Ch]
         lea ebx, [byte esi+ebp+01Ch]
-        call sub_D3F62
+        call EmuSub
         jmp dword [byte ds:ebp+076h]
+;-----------------------------------------------------------------------------
+; sub_D3AB9                                                            D3AB9  
+;-----------------------------------------------------------------------------
 sub_D3AB9:
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte esi+ebp+01Ch]
         lea ebx, [byte esi+ebp+01Ch]
-        call sub_D41CF
+        call EmuDiv
         jmp dword [byte ds:ebp+076h]
+;-----------------------------------------------------------------------------
+; sub_D3ACE                                                            D3ACE  
+;-----------------------------------------------------------------------------
 sub_D3ACE:
         lea eax, [byte esi+ebp+01Ch]
         lea edx, [byte edi+ebp+01Ch]
         lea ebx, [byte esi+ebp+01Ch]
-        call sub_D41CF
+        call EmuDiv
         jmp dword [byte ds:ebp+076h]
-sub_D3AE3:
-        mov bx, word [dword cs:esi+unk_D249A]
+;-----------------------------------------------------------------------------
+; EmuFfree                                        D3AE3  96 PC, low confidence
+; X87 emulator: FFREE st(i)
+;-----------------------------------------------------------------------------
+EmuFfree:
+        mov bx, word [dword cs:esi+EmuRegTagMasks]
         and word [byte ds:ebp+08h], bx
         mov bx, word [dword cs:esi+unk_D24A2]
         or word [byte ds:ebp+08h], bx
-        jmp near sub_D284C
+        jmp near EmuTrapExit
+;-----------------------------------------------------------------------------
+; sub_D3B02                                                            D3B02  
+;-----------------------------------------------------------------------------
 sub_D3B02:
         mov eax, dword [byte edi+ebp+01Ch]
         mov dword [byte esi+ebp+01Ch], eax
@@ -1402,19 +1766,28 @@ sub_D3B02:
         mov dword [byte esi+ebp+020h], eax
         mov ax, word [byte edi+ebp+024h]
         mov word [byte esi+ebp+024h], ax
-        mov bx, word [dword cs:esi+unk_D249A]
+        mov bx, word [dword cs:esi+EmuRegTagMasks]
         and word [byte ds:ebp+08h], bx
-        jmp near sub_D284C
+        jmp near EmuTrapExit
+;-----------------------------------------------------------------------------
+; sub_D3B2E                                                            D3B2E  
+;-----------------------------------------------------------------------------
 sub_D3B2E:
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte esi+ebp+01Ch]
-        call sub_D4136
-        jmp near sub_D29BC_84
+        call EmuCompare
+        jmp near RoundToDouble_84
+;-----------------------------------------------------------------------------
+; sub_D3B40                                                            D3B40  
+;-----------------------------------------------------------------------------
 sub_D3B40:
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte esi+ebp+01Ch]
-        call sub_D4136
-        jmp near sub_D29BC_32
+        call EmuCompare
+        jmp near RoundToDouble_32
+;-----------------------------------------------------------------------------
+; sub_D3B52                                                            D3B52  
+;-----------------------------------------------------------------------------
 sub_D3B52:
         mov eax, dword [byte edi+ebp+01Ch]
         mov dword [byte esi+ebp+01Ch], eax
@@ -1422,48 +1795,57 @@ sub_D3B52:
         mov dword [byte esi+ebp+020h], eax
         mov ax, word [byte edi+ebp+024h]
         mov word [byte esi+ebp+024h], ax
-        mov bx, word [dword cs:esi+unk_D249A]
+        mov bx, word [dword cs:esi+EmuRegTagMasks]
         and word [byte ds:ebp+08h], bx
-        jmp near sub_D29BC_49
+        jmp near RoundToDouble_49
+;-----------------------------------------------------------------------------
+; sub_D3B7E                                                            D3B7E  
+;-----------------------------------------------------------------------------
 sub_D3B7E:
         lea eax, [byte esi+ebp+01Ch]
         lea edx, [byte edi+ebp+01Ch]
         lea ebx, [byte esi+ebp+01Ch]
         call sub_D3F70
-        mov bx, word [dword cs:edi+unk_D249A]
+        mov bx, word [dword cs:edi+EmuRegTagMasks]
         and word [byte ds:ebp+08h], bx
         mov bx, word [dword cs:edi+unk_D24A2]
         or word [byte ds:ebp+08h], bx
-        movzx edi, word [dword cs:edi+unk_D244A]
+        movzx edi, word [dword cs:edi+EmuRegRing]
         mov bx, word [dword cs:edi+unk_D244E]
         and word [byte ds:ebp+04h], 0C7FFh
         or word [byte ds:ebp+04h], bx
         jmp dword [byte ds:ebp+076h]
+;-----------------------------------------------------------------------------
+; sub_D3BC9                                                            D3BC9  
+;-----------------------------------------------------------------------------
 sub_D3BC9:
         lea eax, [byte esi+ebp+01Ch]
         lea edx, [byte edi+ebp+01Ch]
         lea ebx, [byte esi+ebp+01Ch]
-        call sub_D43A4
-        mov bx, word [dword cs:edi+unk_D249A]
+        call EmuMul
+        mov bx, word [dword cs:edi+EmuRegTagMasks]
         and word [byte ds:ebp+08h], bx
         mov bx, word [dword cs:edi+unk_D24A2]
         or word [byte ds:ebp+08h], bx
-        movzx edi, word [dword cs:edi+unk_D244A]
+        movzx edi, word [dword cs:edi+EmuRegRing]
         mov bx, word [dword cs:edi+unk_D244E]
         and word [byte ds:ebp+04h], 0C7FFh
         or word [byte ds:ebp+04h], bx
         jmp dword [byte ds:ebp+076h]
+;-----------------------------------------------------------------------------
+; sub_D3C14                                                            D3C14  
+;-----------------------------------------------------------------------------
 sub_D3C14:
         jmp dword [nosplit cs:ebx*4+jpt_D3C1C]
 jpt_D3C1C:
-        dd sub_D3380
+        dd EmuReservedOp
         dd .1
-        dd sub_D3380
-        dd sub_D3380
-        dd sub_D3380
-        dd sub_D3380
-        dd sub_D3380
-        dd sub_D3380
+        dd EmuReservedOp
+        dd EmuReservedOp
+        dd EmuReservedOp
+        dd EmuReservedOp
+        dd EmuReservedOp
+        dd EmuReservedOp
 .1:
         mov eax, dword [byte edi+ebp+01Ch]
         mov dword [byte ds:ebp+06Ch], eax
@@ -1471,106 +1853,127 @@ jpt_D3C1C:
         mov dword [byte ds:ebp+070h], eax
         mov ax, word [byte edi+ebp+024h]
         mov word [byte ds:ebp+074h], ax
-        mov bx, word [dword cs:edi+unk_D249A]
+        mov bx, word [dword cs:edi+EmuRegTagMasks]
         and word [byte ds:ebp+08h], bx
         mov bx, word [dword cs:edi+unk_D24A2]
         or word [byte ds:ebp+08h], bx
-        movzx edi, word [dword cs:edi+unk_D244A]
+        movzx edi, word [dword cs:edi+EmuRegRing]
         mov bx, word [dword cs:edi+unk_D244E]
         and word [byte ds:ebp+04h], 0C7FFh
         or word [byte ds:ebp+04h], bx
         lea eax, [byte ebp+06Ch]
         lea edx, [byte edi+ebp+01Ch]
-        call sub_D4136
-        jmp near sub_D29BC_32
+        call EmuCompare
+        jmp near RoundToDouble_32
+;-----------------------------------------------------------------------------
+; sub_D3C9D                                                            D3C9D  
+;-----------------------------------------------------------------------------
 sub_D3C9D:
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte esi+ebp+01Ch]
         lea ebx, [byte esi+ebp+01Ch]
-        call sub_D3F62
-        mov bx, word [dword cs:edi+unk_D249A]
+        call EmuSub
+        mov bx, word [dword cs:edi+EmuRegTagMasks]
         and word [byte ds:ebp+08h], bx
         mov bx, word [dword cs:edi+unk_D24A2]
         or word [byte ds:ebp+08h], bx
-        movzx edi, word [dword cs:edi+unk_D244A]
+        movzx edi, word [dword cs:edi+EmuRegRing]
         mov bx, word [dword cs:edi+unk_D244E]
         and word [byte ds:ebp+04h], 0C7FFh
         or word [byte ds:ebp+04h], bx
         jmp dword [byte ds:ebp+076h]
+;-----------------------------------------------------------------------------
+; sub_D3CE8                                                            D3CE8  
+;-----------------------------------------------------------------------------
 sub_D3CE8:
         lea eax, [byte esi+ebp+01Ch]
         lea edx, [byte edi+ebp+01Ch]
         lea ebx, [byte esi+ebp+01Ch]
-        call sub_D3F62
-        mov bx, word [dword cs:edi+unk_D249A]
+        call EmuSub
+        mov bx, word [dword cs:edi+EmuRegTagMasks]
         and word [byte ds:ebp+08h], bx
         mov bx, word [dword cs:edi+unk_D24A2]
         or word [byte ds:ebp+08h], bx
-        movzx edi, word [dword cs:edi+unk_D244A]
+        movzx edi, word [dword cs:edi+EmuRegRing]
         mov bx, word [dword cs:edi+unk_D244E]
         and word [byte ds:ebp+04h], 0C7FFh
         or word [byte ds:ebp+04h], bx
         jmp dword [byte ds:ebp+076h]
+;-----------------------------------------------------------------------------
+; sub_D3D33                                                            D3D33  
+;-----------------------------------------------------------------------------
 sub_D3D33:
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte esi+ebp+01Ch]
         lea ebx, [byte esi+ebp+01Ch]
-        call sub_D41CF
-        mov bx, word [dword cs:edi+unk_D249A]
+        call EmuDiv
+        mov bx, word [dword cs:edi+EmuRegTagMasks]
         and word [byte ds:ebp+08h], bx
         mov bx, word [dword cs:edi+unk_D24A2]
         or word [byte ds:ebp+08h], bx
-        movzx edi, word [dword cs:edi+unk_D244A]
+        movzx edi, word [dword cs:edi+EmuRegRing]
         mov bx, word [dword cs:edi+unk_D244E]
         and word [byte ds:ebp+04h], 0C7FFh
         or word [byte ds:ebp+04h], bx
         jmp dword [byte ds:ebp+076h]
+;-----------------------------------------------------------------------------
+; sub_D3D7E                                                            D3D7E  
+;-----------------------------------------------------------------------------
 sub_D3D7E:
         lea eax, [byte esi+ebp+01Ch]
         lea edx, [byte edi+ebp+01Ch]
         lea ebx, [byte esi+ebp+01Ch]
-        call sub_D41CF
-        mov bx, word [dword cs:edi+unk_D249A]
+        call EmuDiv
+        mov bx, word [dword cs:edi+EmuRegTagMasks]
         and word [byte ds:ebp+08h], bx
         mov bx, word [dword cs:edi+unk_D24A2]
         or word [byte ds:ebp+08h], bx
-        movzx edi, word [dword cs:edi+unk_D244A]
+        movzx edi, word [dword cs:edi+EmuRegRing]
         mov bx, word [dword cs:edi+unk_D244E]
         and word [byte ds:ebp+04h], 0C7FFh
         or word [byte ds:ebp+04h], bx
         jmp dword [byte ds:ebp+076h]
+;-----------------------------------------------------------------------------
+; sub_D3DC9                                                            D3DC9  
+;-----------------------------------------------------------------------------
 sub_D3DC9:
         jmp dword [nosplit cs:ebx*4+jpt_D3DD1]
 jpt_D3DD1:
         dd jpt_D3DD1_110.6
-        dd sub_D3380
-        dd sub_D3380
-        dd sub_D3380
-        dd sub_D3380
-        dd sub_D3380
-        dd sub_D3380
-        dd sub_D3380
+        dd EmuReservedOp
+        dd EmuReservedOp
+        dd EmuReservedOp
+        dd EmuReservedOp
+        dd EmuReservedOp
+        dd EmuReservedOp
+        dd EmuReservedOp
+;-----------------------------------------------------------------------------
+; jpt_D3DD1_20                                                         D3DF1  
+;-----------------------------------------------------------------------------
 jpt_D3DD1_20:
         lea edx, [byte edi+ebp+01Ch]
-        mov bx, word [dword cs:edi+unk_D249A]
+        mov bx, word [dword cs:edi+EmuRegTagMasks]
         and word [byte ds:ebp+08h], bx
         mov bx, word [dword cs:edi+unk_D24A2]
         or word [byte ds:ebp+08h], bx
-        movzx edi, word [dword cs:edi+unk_D244A]
+        movzx edi, word [dword cs:edi+EmuRegRing]
         mov bx, word [dword cs:edi+unk_D244E]
         and word [byte ds:ebp+04h], 0C7FFh
         or word [byte ds:ebp+04h], bx
         lea eax, [byte edi+ebp+01Ch]
         LD mov, ebx, eax
-        call sub_D49EC
+        call EmuRemainder
         jmp dword [byte ds:ebp+076h]
+;-----------------------------------------------------------------------------
+; jpt_D3DD1_69                                                         D3E3A  
+;-----------------------------------------------------------------------------
 jpt_D3DD1_69:
         lea esi, [byte edi+ebp+01Ch]
         movzx edi, word [dword cs:edi+unk_D244C]
         mov bx, word [dword cs:edi+unk_D244E]
         and word [byte ds:ebp+04h], 0C7FFh
         or word [byte ds:ebp+04h], bx
-        mov bx, word [dword cs:edi+unk_D249A]
+        mov bx, word [dword cs:edi+EmuRegTagMasks]
         and word [byte ds:ebp+08h], bx
         lea ebx, [byte edi+ebp+01Ch]
         mov eax, dword [esi]
@@ -1586,30 +1989,39 @@ jpt_D3DD1_69:
         sub ax, 3FFFh
         cwde
         LD mov, edx, esi
-        call sub_D451F
-        jmp near sub_D284C
+        call StoreM32Int
+        jmp near EmuTrapExit
+;-----------------------------------------------------------------------------
+; jpt_D3DD1_CE                                                         D3E9F  
+;-----------------------------------------------------------------------------
 jpt_D3DD1_CE:
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte esi+ebp+01Ch]
-        call sub_D4C05
+        call EmuRoundInt
         and eax, byte 7
         mov dx, word [byte ds:ebp+04h]
         and dx, 0B8FFh
-        or dh, byte [dword cs:eax+unk_D24EE]
+        or dh, byte [dword cs:eax+EmuFpremCcBits]
         mov word [byte ds:ebp+04h], dx
         jmp dword [byte ds:ebp+076h]
+;-----------------------------------------------------------------------------
+; jpt_D3DD1_F8                                                         D3EC9  
+;-----------------------------------------------------------------------------
 jpt_D3DD1_F8:
         lea eax, [byte edi+ebp+01Ch]
         mov dx, word [byte ds:ebp+00h]
         and dx, 0C00h
-        call sub_D485F
-        jmp near sub_D284C
+        call ExtToInt
+        jmp near EmuTrapExit
+;-----------------------------------------------------------------------------
+; jpt_D3DD1_110                                                        D3EE1  
+;-----------------------------------------------------------------------------
 jpt_D3DD1_110:
         LD mov, esi, edi
-        movzx edi, word [dword cs:edi+unk_D244A]
+        movzx edi, word [dword cs:edi+EmuRegRing]
         lea eax, [byte edi+ebp+01Ch]
         mov cx, word [byte eax+08h]
-        call sub_D451F
+        call StoreM32Int
         LD mov, edi, esi
         lea ebx, [byte edi+ebp+01Ch]
         LD mov, edx, eax
@@ -1644,19 +2056,26 @@ jpt_D3DD1_110:
 .5:
         LD or, dx, cx
         mov word [byte ebx+08h], dx
-        jmp near sub_D284C
+        jmp near EmuTrapExit
 .6:
         mov ax, word [byte ds:ebp+04h]
         LD mov, ebp, esp
         mov word [byte ebp+028h], ax
-        jmp near sub_D284C
-sub_D3F62:
+        jmp near EmuTrapExit
+;-----------------------------------------------------------------------------
+; EmuSub                                          D3F62  96 PC, low confidence
+; X87 emulator: subtracts two extended values (adds with the sign flipped)
+;-----------------------------------------------------------------------------
+EmuSub:
         push esi
         push ecx
         push ebx
         mov si, word [byte edx+08h]
         xor si, 8000h
         jmp short sub_D3F70_7
+;-----------------------------------------------------------------------------
+; sub_D3F70                                                            D3F70  
+;-----------------------------------------------------------------------------
 sub_D3F70:
         push esi
         push ecx
@@ -1669,7 +2088,7 @@ sub_D3F70_7:
         mov si, word [byte eax+08h]
         mov edx, dword [byte eax+04h]
         mov eax, dword [eax]
-        call sub_D3FCA
+        call AddMantissas
         pop ebx
         mov dword [ebx], eax
         mov dword [byte ebx+04h], edx
@@ -1677,7 +2096,11 @@ sub_D3F70_7:
         pop ecx
         pop esi
         ret
-sub_D3F9A:
+;-----------------------------------------------------------------------------
+; AddExtRaw                                       D3F9A  96 PC, low confidence
+; X87 emulator: adds two extended values without rounding
+;-----------------------------------------------------------------------------
+AddExtRaw:
         push esi
         push ecx
         push ebx
@@ -1688,7 +2111,7 @@ sub_D3F9A:
         mov si, word [byte eax+08h]
         mov edx, dword [byte eax+04h]
         mov eax, dword [eax]
-        call sub_D3FCA
+        call AddMantissas
         pop ebx
         mov dword [ebx], eax
         mov dword [byte ebx+04h], edx
@@ -1696,7 +2119,11 @@ sub_D3F9A:
         pop ecx
         pop esi
         ret 0Ch
-sub_D3FCA:
+;-----------------------------------------------------------------------------
+; AddMantissas                                    D3FCA  96 PC, low confidence
+; X87 emulator: aligns and adds two mantissas
+;-----------------------------------------------------------------------------
+AddMantissas:
         LD or, eax, eax
         jne short .3
         LD or, edx, edx
@@ -1865,7 +2292,11 @@ sub_D3FCA:
         LD sub, eax, eax
         mov edx, 80000000h
         jmp short .18
-sub_D4136:
+;-----------------------------------------------------------------------------
+; EmuCompare                                      D4136  96 PC, low confidence
+; X87 emulator: compares two extended values and sets the condition codes
+;-----------------------------------------------------------------------------
+EmuCompare:
         push edi
         push esi
         mov si, word [byte eax+08h]
@@ -1934,7 +2365,11 @@ sub_D4136:
         pop esi
         pop edi
         ret
-sub_D41CF:
+;-----------------------------------------------------------------------------
+; EmuDiv                                          D41CF  96 PC, low confidence
+; X87 emulator: divides two extended values
+;-----------------------------------------------------------------------------
+EmuDiv:
         push esi
         push ecx
         push ebx
@@ -1945,7 +2380,7 @@ sub_D41CF:
         mov si, word [byte eax+08h]
         mov edx, dword [byte eax+04h]
         mov eax, dword [eax]
-        call sub_D41F9
+        call DivideMantissas
         pop ebx
         mov dword [ebx], eax
         mov dword [byte ebx+04h], edx
@@ -1953,7 +2388,11 @@ sub_D41CF:
         pop ecx
         pop esi
         ret
-sub_D41F9:
+;-----------------------------------------------------------------------------
+; DivideMantissas                                 D41F9  96 PC, low confidence
+; X87 emulator: divides two mantissas
+;-----------------------------------------------------------------------------
+DivideMantissas:
         LD or, ecx, ecx
         jne short .3
         LD or, ebx, ebx
@@ -1969,7 +2408,7 @@ sub_D41F9:
         jne short .1
         mov al, 1
         mov ah, 81h
-        call sub_D2A5C
+        call RaiseFpuError
         mov edx, 0C0000000h
         LD sub, eax, eax
         mov si, 0FFFFh
@@ -1977,7 +2416,7 @@ sub_D41F9:
 .1:
         mov al, 4
         mov ah, 83h
-        call sub_D2A5C
+        call RaiseFpuError
         mov edx, 80000000h
         LD sub, eax, eax
         or si, 7FFFh
@@ -2153,7 +2592,11 @@ sub_D41F9:
         pop edi
         pop ebp
         ret
-sub_D43A4:
+;-----------------------------------------------------------------------------
+; EmuMul                                          D43A4  96 PC, low confidence
+; X87 emulator: multiplies two extended values
+;-----------------------------------------------------------------------------
+EmuMul:
         push esi
         push ecx
         push ebx
@@ -2164,7 +2607,7 @@ sub_D43A4:
         mov si, word [byte eax+08h]
         mov edx, dword [byte eax+04h]
         mov eax, dword [eax]
-        call sub_D43CE
+        call MultiplyMantissas
         pop ebx
         mov dword [ebx], eax
         mov dword [byte ebx+04h], edx
@@ -2172,7 +2615,11 @@ sub_D43A4:
         pop ecx
         pop esi
         ret
-sub_D43CE:
+;-----------------------------------------------------------------------------
+; MultiplyMantissas                               D43CE  96 PC, low confidence
+; X87 emulator: multiplies two mantissas
+;-----------------------------------------------------------------------------
+MultiplyMantissas:
         LD or, eax, eax
         jne short .2
         LD or, edx, edx
@@ -2338,10 +2785,17 @@ sub_D43CE:
         pop ecx
         pop ebx
         ret
-sub_D451F:
+;-----------------------------------------------------------------------------
+; StoreM32Int                                     D451F  96 PC, low confidence
+; X87 emulator: stores an integer of 32 bits
+;-----------------------------------------------------------------------------
+StoreM32Int:
         push ebx
         mov bl, 1Fh
         jmp short sub_D4524_3
+;-----------------------------------------------------------------------------
+; sub_D4524                                                            D4524  
+;-----------------------------------------------------------------------------
 sub_D4524:
         push ebx
         mov bl, 20h
@@ -2398,7 +2852,11 @@ sub_D4524_3:
         pop ecx
         pop ebx
         ret
-sub_D458E:
+;-----------------------------------------------------------------------------
+; LoadM32Int                                      D458E  96 PC, low confidence
+; X87 emulator: loads a 32-bit integer operand
+;-----------------------------------------------------------------------------
+LoadM32Int:
         push ebx
         LD mov, ebx, edx
         LD or, eax, eax
@@ -2437,7 +2895,11 @@ sub_D459F_8:
         pop ecx
         pop ebx
         ret
-sub_D45D4:
+;-----------------------------------------------------------------------------
+; LoadM64Real                                     D45D4  96 PC, low confidence
+; X87 emulator: loads a 64-bit real operand
+;-----------------------------------------------------------------------------
+LoadM64Real:
         push ecx
         LD mov, ecx, edx
         shld edx, eax, 0Bh
@@ -2459,7 +2921,7 @@ sub_D45D4:
         push eax
         mov al, 1
         mov ah, 81h
-        call sub_D2A5C
+        call RaiseFpuError
         pop eax
         or edx, 40000000h
 .3:
@@ -2493,7 +2955,11 @@ sub_D45D4:
         mov word [byte ebx+08h], cx
         pop ecx
         ret
-sub_D4654:
+;-----------------------------------------------------------------------------
+; StoreM32Real                                    D4654  96 PC, low confidence
+; X87 emulator: stores a 32-bit real
+;-----------------------------------------------------------------------------
+StoreM32Real:
         push edx
         push ecx
         push ebx
@@ -2548,7 +3014,11 @@ sub_D4654:
         pop ecx
         pop edx
         ret
-sub_D46D3:
+;-----------------------------------------------------------------------------
+; StoreM64Real                                    D46D3  96 PC, low confidence
+; X87 emulator: stores a 64-bit real
+;-----------------------------------------------------------------------------
+StoreM64Real:
         push ecx
         push ebx
         push esi
@@ -2626,14 +3096,18 @@ sub_D46D3:
         push eax
         mov al, 8
         mov ah, 84h
-        call sub_D2A5C
+        call RaiseFpuError
         pop eax
 .10:
         pop esi
         pop ebx
         pop ecx
         ret
-sub_D479A:
+;-----------------------------------------------------------------------------
+; LoadM32Real                                     D479A  96 PC, low confidence
+; X87 emulator: loads a 32-bit real operand
+;-----------------------------------------------------------------------------
+LoadM32Real:
         push ecx
         push ebx
         LD mov, ebx, edx
@@ -2663,7 +3137,7 @@ sub_D479A:
         pop ebx
         pop ecx
         ret
-unk_D47DF:
+EmuMantissaMasks:
         db 0FFh,0FFh,0FFh,07Fh,0FFh,0FFh,0FFh,03Fh,0FFh,0FFh,0FFh,01Fh,0FFh,0FFh,0FFh,0Fh
         db 0FFh,0FFh,0FFh,07h,0FFh,0FFh,0FFh,03h,0FFh,0FFh,0FFh,01h,0FFh,0FFh,0FFh,00h
         db 0FFh,0FFh,07Fh,00h,0FFh,0FFh,03Fh,00h,0FFh,0FFh,01Fh,00h,0FFh,0FFh,0Fh,00h
@@ -2672,7 +3146,11 @@ unk_D47DF:
         db 0FFh,07h,00h,00h,0FFh,03h,00h,00h,0FFh,01h,00h,00h,0FFh,00h,00h,00h
         db 07Fh,00h,00h,00h,03Fh,00h,00h,00h,01Fh,00h,00h,00h,0Fh,00h,00h,00h
         db 07h,00h,00h,00h,03h,00h,00h,00h,01h,00h,00h,00h,00h,00h,00h,00h
-sub_D485F:
+;-----------------------------------------------------------------------------
+; ExtToInt                                        D485F  96 PC, low confidence
+; X87 emulator: converts an extended value to an integer
+;-----------------------------------------------------------------------------
+ExtToInt:
         push edi
         LD mov, edi, eax
         LD sub, ebx, ebx
@@ -2699,7 +3177,7 @@ sub_D485F:
         mov ecx, dword [edi]
         add bx, byte 20h
         jl short .9
-        mov eax, dword [nosplit cs:ebx*4+unk_D47DF]
+        mov eax, dword [nosplit cs:ebx*4+EmuMantissaMasks]
         LD and, ecx, eax
         xor dword [edi], ecx
         inc eax
@@ -2737,7 +3215,7 @@ sub_D485F:
         mov esi, dword [byte edi+04h]
         add bx, byte 20h
         jl short .14
-        mov eax, dword [nosplit cs:ebx*4+unk_D47DF]
+        mov eax, dword [nosplit cs:ebx*4+EmuMantissaMasks]
         LD and, esi, eax
         xor dword [byte edi+04h], esi
         inc eax
@@ -2794,14 +3272,18 @@ sub_D485F:
         pop esi
         pop edi
         ret
-unk_D4992:
+EmuRemPolyCoefs:
         db 04Eh,018h,0E6h,0C0h,0E4h,0C7h,0D1h,0B5h,0FAh,03Fh,029h,0Bh,01h,08h,08h,09Bh
         db 0C6h,084h,0FBh,0BFh,01Ah,026h,0C5h,06Ch,02Eh,02h,046h,09Dh,0FBh,03Fh,02Ah,098h
         db 06Bh,0Ah,09Dh,0B9h,02Bh,0BAh,0FBh,0BFh,071h,01h,02Bh,095h,027h,027h,08Eh,0E3h
         db 0FBh,03Fh,0FCh,068h,09Ch,0DDh,072h,024h,049h,092h,0FCh,0BFh,0C1h,0ADh,0EBh,094h
         db 0CCh,0CCh,0CCh,0CCh,0FCh,03Fh,0F2h,081h,097h,0AAh,0AAh,0AAh,0AAh,0AAh,0FDh,0BFh
         db 00h,00h,00h,00h,00h,00h,00h,080h,0FFh,03Fh
-sub_D49EC:
+;-----------------------------------------------------------------------------
+; EmuRemainder                                    D49EC  96 PC, low confidence
+; X87 emulator: partial remainder
+;-----------------------------------------------------------------------------
+EmuRemainder:
         push edi
         push esi
         push ecx
@@ -2834,9 +3316,9 @@ sub_D49EC:
         jmp short .7
 .4:
         mov ch, byte [byte edi+09h]
-        call sub_D41CF
+        call EmuDiv
         LD mov, eax, ebx
-        call sub_D4AA2
+        call RemainderStep
         mov dl, byte [byte ebx+09h]
         LD or, ch, ch
         js short .6
@@ -2846,7 +3328,7 @@ sub_D49EC:
         push dword 4000h
         push dword 0C90FDAA2h
         push dword 2168C235h
-        call sub_D3F9A
+        call AddExtRaw
 .5:
         jmp short .7
 .6:
@@ -2856,13 +3338,17 @@ sub_D49EC:
         push dword 0C000h
         push dword 0C90FDAA2h
         push dword 2168C235h
-        call sub_D3F9A
+        call AddExtRaw
 .7:
         pop ecx
         pop esi
         pop edi
         ret
-sub_D4AA2:
+;-----------------------------------------------------------------------------
+; RemainderStep                                   D4AA2  96 PC, low confidence
+; X87 emulator: one step of the partial remainder
+;-----------------------------------------------------------------------------
+RemainderStep:
         push edi
         push esi
         push ecx
@@ -2899,7 +3385,7 @@ sub_D4AA2:
         mov si, 3FFFh
         mov edx, 80000000h
         mov eax, 0
-        call sub_D41F9
+        call DivideMantissas
         mov dword [edi], eax
         mov dword [byte edi+04h], edx
         mov word [byte edi+08h], si
@@ -2923,7 +3409,7 @@ sub_D4AA2:
         mov eax, dword [edi]
         mov edx, dword [byte edi+04h]
         mov si, word [byte edi+08h]
-        call sub_D3FCA
+        call AddMantissas
         push eax
         push edx
         push esi
@@ -2933,20 +3419,20 @@ sub_D4AA2:
         mov eax, dword [edi]
         mov edx, dword [byte edi+04h]
         mov si, word [byte edi+08h]
-        call sub_D43CE
+        call MultiplyMantissas
         LD sub, ebx, ebx
         mov ecx, 80000000h
         rol esi, 10h
         mov si, 0BFFFh
         rol esi, 10h
-        call sub_D3FCA
+        call AddMantissas
         pop ebx
         shl ebx, 10h
         LD mov, bx, si
         LD mov, esi, ebx
         pop ecx
         pop ebx
-        call sub_D41F9
+        call DivideMantissas
         mov dword [edi], eax
         mov dword [byte edi+04h], edx
         mov word [byte edi+08h], si
@@ -2954,9 +3440,9 @@ sub_D4AA2:
         or ch, 1
 .4:
         LD mov, eax, edi
-        lea edx, [unk_D4992]
+        lea edx, [EmuRemPolyCoefs]
         mov ebx, 8
-        call sub_D561E
+        call PolyEvalOdd
         shr ch, 1
         jae short .5
         LD mov, eax, edi
@@ -2964,7 +3450,7 @@ sub_D4AA2:
         push dword 860A91C1h
         push dword 6B9B2C23h
         LD mov, ebx, edi
-        call sub_D3F9A
+        call AddExtRaw
 .5:
         shr ch, 1
         jae short .6
@@ -2973,7 +3459,7 @@ sub_D4AA2:
         push dword 2168C235h
         LD mov, eax, edi
         LD mov, ebx, edi
-        call sub_D3F9A
+        call AddExtRaw
         xor byte [byte ebx+09h], 80h
 .6:
         cmp cl, 0
@@ -2986,7 +3472,11 @@ sub_D4AA2:
         pop esi
         pop edi
         ret
-sub_D4C05:
+;-----------------------------------------------------------------------------
+; EmuRoundInt                                     D4C05  96 PC, low confidence
+; X87 emulator: rounds to an integer (FRNDINT)
+;-----------------------------------------------------------------------------
+EmuRoundInt:
         cmp word [byte eax+08h], byte 0
         jne short .1
         cmp dword [byte eax+04h], byte 0
@@ -3022,7 +3512,7 @@ sub_D4C05:
         mov ebx, dword [edx]
         mov edx, dword [byte eax+04h]
         mov eax, dword [eax]
-        call sub_D4C6B
+        call RoundMantissa
         pop ecx
         mov dword [ecx], eax
         mov dword [byte ecx+04h], edx
@@ -3035,7 +3525,11 @@ sub_D4C05:
         pop esi
         pop ebp
         ret
-sub_D4C6B:
+;-----------------------------------------------------------------------------
+; RoundMantissa                                   D4C6B  96 PC, low confidence
+; X87 emulator: rounds a mantissa by the rounding mode
+;-----------------------------------------------------------------------------
+RoundMantissa:
         push esi
         push edi
         and esi, 7FFFh
@@ -3102,7 +3596,11 @@ sub_D4C6B:
         neg edi
 .12:
         ret
-sub_D4CE6:
+;-----------------------------------------------------------------------------
+; EmuExamine                                      D4CE6  96 PC, low confidence
+; X87 emulator: classifies a value (FXAM)
+;-----------------------------------------------------------------------------
+EmuExamine:
         push ebx
         push edx
         LD mov, ebx, eax
@@ -3165,14 +3663,18 @@ sub_D4CE6:
         pop ebx
         ret
         db 090h
-unk_D4D8E:
+EmuLog2PolyNum:
         db 0E9h,046h,0E9h,0B5h,09Ah,0ADh,020h,0CAh,0FEh,0BFh,09h,065h,07Fh,0B5h,00h,051h
         db 012h,083h,03h,040h,028h,0D2h,0ACh,09Dh,095h,0F8h,03Fh,080h,05h,0C0h
-unk_D4DAC:
+EmuLog2PolyDen:
         db 00h,00h,00h,00h,00h,00h,00h,080h,0FFh,03Fh,0BBh,076h,070h,03Eh,05Bh,02h
         db 0ACh,08Eh,04h,0C0h,060h,0EFh,033h,0A9h,0D0h,01Fh,04h,09Ch,07h,040h,096h,0BBh
         db 083h,06Ch,0E0h,0F4h,05Fh,0C0h,08h,0C0h
-sub_D4DD4:
+;-----------------------------------------------------------------------------
+; AddOne                                          D4DD4  96 PC, low confidence
+; X87 emulator: adds 1.0 to a value
+;-----------------------------------------------------------------------------
+AddOne:
         push ebx
         push edx
         push eax
@@ -3180,22 +3682,26 @@ sub_D4DD4:
         push dword 80000000h
         push byte 0
         LD mov, ebx, eax
-        call sub_D3F9A
+        call AddExtRaw
         pop eax
         pop edx
         pop ebx
-sub_D4DED:
+;-----------------------------------------------------------------------------
+; EmuLog2                                         D4DED  96 PC, low confidence
+; X87 emulator: base-2 logarithm
+;-----------------------------------------------------------------------------
+EmuLog2:
         push edi
         push esi
         push edx
         push ecx
         push ebx
         push eax
-        call sub_D4E30
+        call Log2Core
         pop eax
         LD mov, ebx, edx
         push edx
-        call sub_D43A4
+        call EmuMul
         pop edi
         mov si, word [byte edi+08h]
         mov ecx, dword [byte edi+04h]
@@ -3204,7 +3710,7 @@ sub_D4DED:
         mov si, 3FFFh
         mov edx, 0B8AA3B29h
         mov eax, 5C17F0BDh
-        call sub_D43CE
+        call MultiplyMantissas
         mov dword [edi], eax
         mov dword [byte edi+04h], edx
         mov word [byte edi+08h], si
@@ -3214,7 +3720,11 @@ sub_D4DED:
         pop esi
         pop edi
         ret
-sub_D4E30:
+;-----------------------------------------------------------------------------
+; Log2Core                                        D4E30  96 PC, low confidence
+; X87 emulator: core of the base-2 logarithm
+;-----------------------------------------------------------------------------
+Log2Core:
         push edi
         push esi
         push edx
@@ -3236,7 +3746,7 @@ sub_D4E30:
         mov esi, 0BFFE3FFEh
         mov ecx, 80000000h
         LD sub, ebx, ebx
-        call sub_D3FCA
+        call AddMantissas
         cmp word [byte edi+08h], 3FFEh
         jne short .2
         cmp dword [byte edi+04h], 0B504F333h
@@ -3248,7 +3758,7 @@ sub_D4E30:
         or esi, 0BFFE0000h
         mov ecx, 80000000h
         LD sub, ebx, ebx
-        call sub_D3FCA
+        call AddMantissas
         jmp short .4
 .3:
         mov dword [edi], eax
@@ -3267,7 +3777,7 @@ sub_D4E30:
         or esi, 3FFE0000h
         mov ecx, 80000000h
         LD sub, ebx, ebx
-        call sub_D3FCA
+        call AddMantissas
         shl esi, 10h
         LD mov, ecx, edx
         LD mov, ebx, eax
@@ -3275,7 +3785,7 @@ sub_D4E30:
         LD mov, si, ax
         pop edx
         pop eax
-        call sub_D41F9
+        call DivideMantissas
         push eax
         push edx
         push esi
@@ -3284,48 +3794,48 @@ sub_D4E30:
         LD mov, si, cx
         LD mov, ecx, edx
         LD mov, ebx, eax
-        call sub_D43CE
+        call MultiplyMantissas
         mov dword [edi], eax
         mov dword [byte edi+04h], edx
         mov word [byte edi+08h], si
         mov ebx, 3
-        lea ecx, [unk_D4DAC]
-        call sub_D55CC
+        lea ecx, [EmuLog2PolyDen]
+        call PolyEval
         push eax
         push edx
         push esi
         mov eax, dword [edi]
         mov edx, dword [byte edi+04h]
         mov si, word [byte edi+08h]
-        lea ecx, [unk_D4D8E]
+        lea ecx, [EmuLog2PolyNum]
         mov ebx, 2
-        call sub_D55CC
+        call PolyEval
         pop ecx
         rol esi, 10h
         LD mov, si, cx
         rol esi, 10h
         pop ecx
         pop ebx
-        call sub_D41F9
+        call DivideMantissas
         mov ebx, dword [edi]
         mov ecx, dword [byte edi+04h]
         rol esi, 10h
         mov si, word [byte edi+08h]
         rol esi, 10h
-        call sub_D43CE
+        call MultiplyMantissas
         rol esi, 10h
         mov si, word [esp]
         rol esi, 10h
         mov ecx, dword [byte esp+04h]
         mov ebx, dword [byte esp+08h]
-        call sub_D43CE
+        call MultiplyMantissas
         rol esi, 10h
         pop ecx
         LD mov, si, cx
         rol esi, 10h
         pop ecx
         pop ebx
-        call sub_D3FCA
+        call AddMantissas
         pop ecx
         LD or, ecx, ecx
         je short .5
@@ -3334,7 +3844,7 @@ sub_D4E30:
         push esi
         LD mov, edx, edi
         LD mov, eax, ecx
-        call sub_D458E
+        call LoadM32Int
         mov eax, dword [edi]
         mov edx, dword [byte edi+04h]
         mov si, word [byte edi+08h]
@@ -3342,14 +3852,14 @@ sub_D4E30:
         or esi, 0BFF20000h
         mov ecx, 0DE8082E3h
         mov ebx, 865435Ch
-        call sub_D43CE
+        call MultiplyMantissas
         pop ecx
         rol esi, 10h
         LD mov, si, cx
         rol esi, 10h
         pop ecx
         pop ebx
-        call sub_D3FCA
+        call AddMantissas
         push eax
         push edx
         push esi
@@ -3360,14 +3870,14 @@ sub_D4E30:
         or esi, 3FFE0000h
         mov ecx, 0B1800000h
         LD sub, ebx, ebx
-        call sub_D43CE
+        call MultiplyMantissas
         pop ecx
         rol esi, 10h
         LD mov, si, cx
         rol esi, 10h
         pop ecx
         pop ebx
-        call sub_D3FCA
+        call AddMantissas
 .5:
         mov dword [edi], eax
         mov dword [byte edi+04h], edx
@@ -3379,24 +3889,28 @@ sub_D4E30:
         pop edi
         ret
         db 090h
-unk_D5002:
+EmuSinPolyCoefs:
         db 059h,053h,06Ah,085h,081h,03Bh,096h,0CAh,0CEh,03Fh,08Fh,0F8h,0C0h,09Dh,039h,09Fh
         db 03Fh,0D7h,0D6h,0BFh,0E5h,04Bh,068h,043h,09Dh,030h,092h,0B0h,0DEh,03Fh,07Fh,01Ch
         db 027h,0AAh,03Fh,02Bh,032h,0D7h,0E5h,0BFh,07Dh,09Ch,039h,0B6h,02Ah,01Dh,0EFh,0B8h
         db 0ECh,03Fh,0Ch,0D0h,00h,0Dh,0D0h,00h,0Dh,0D0h,0F2h,0BFh,088h,088h,088h,088h
         db 088h,088h,088h,088h,0F8h,03Fh,0AAh,0AAh,0AAh,0AAh,0AAh,0AAh,0AAh,0AAh,0FCh,0BFh
         db 00h,00h,00h,00h,00h,00h,00h,080h,0FFh,03Fh
-unk_D505C:
+EmuCosPolyCoefs:
         db 08Fh,0F8h,0C0h,09Dh,039h,09Fh,03Fh,0D7h,0D2h,03Fh,05h,0E9h,0E4h,03h,046h,0A5h
         db 0CBh,0C9h,0DAh,0BFh,0AAh,0BDh,0C4h,0C6h,07Fh,0C7h,076h,08Fh,0E2h,03Fh,097h,0E3h
         db 0FAh,0C4h,0BBh,07Dh,0F2h,093h,0E9h,0BFh,0Dh,0D0h,00h,0Dh,0D0h,00h,0Dh,0D0h
         db 0EFh,03Fh,0Bh,0B6h,060h,0Bh,0B6h,060h,0Bh,0B6h,0F5h,0BFh,0AAh,0AAh,0AAh,0AAh
         db 0AAh,0AAh,0AAh,0AAh,0FAh,03Fh,00h,00h,00h,00h,00h,00h,00h,080h,0FEh,0BFh
         db 00h,00h,00h,00h,00h,00h,00h,080h,0FFh,03Fh
-unk_D50B6:
+EmuSinCosTermCounts:
         db 00h,00h,01h,00h,02h,00h,03h,00h,04h,00h,04h,00h,05h,00h,05h,00h
         db 06h,00h
-sub_D50C8:
+;-----------------------------------------------------------------------------
+; SinCosCore                                      D50C8  96 PC, low confidence
+; X87 emulator: core of the sine and cosine
+;-----------------------------------------------------------------------------
+SinCosCore:
         push ebp
         push edi
         push edx
@@ -3421,7 +3935,7 @@ sub_D50C8:
         mov ebx, 2168C235h
         mov edx, dword [byte eax+04h]
         mov eax, dword [eax]
-        call sub_D4C6B
+        call RoundMantissa
         pop ecx
         mov dword [ecx], eax
         mov dword [byte ecx+04h], edx
@@ -3437,7 +3951,7 @@ sub_D50C8:
         push dword 3FFEh
         push dword 0C90FDAA2h
         push dword 2168C235h
-        call sub_D3F9A
+        call AddExtRaw
         pop eax
         dec eax
 .2:
@@ -3454,7 +3968,7 @@ sub_D50C8:
         push dword 2168C235h
         LD mov, eax, edi
         LD mov, ebx, edi
-        call sub_D3F9A
+        call AddExtRaw
         xor byte [byte ebx+09h], 80h
 .3:
         LD sub, ecx, ecx
@@ -3476,7 +3990,7 @@ sub_D50C8:
         jle short .6
         mov cx, 8
 .6:
-        mov cx, word [nosplit cs:ecx*2+unk_D50B6]
+        mov cx, word [nosplit cs:ecx*2+EmuSinCosTermCounts]
         push ecx
         mov eax, dword [byte ebp-014h]
         inc al
@@ -3494,13 +4008,13 @@ sub_D50C8:
         mov si, word [byte edi+08h]
         LD mov, ebx, eax
         LD mov, ecx, edx
-        call sub_D43CE
+        call MultiplyMantissas
         mov ecx, dword [byte ebp-018h]
         mov ebx, 8
         LD sub, ebx, ecx
         lea ecx, [ecx+ecx*4]
-        lea ecx, [nosplit ecx*2+unk_D505C]
-        call sub_D55CC
+        lea ecx, [nosplit ecx*2+EmuCosPolyCoefs]
+        call PolyEval
         mov dword [byte ebp-0Ch], eax
         mov dword [byte ebp-08h], edx
         mov word [byte ebp-04h], si
@@ -3518,9 +4032,9 @@ sub_D50C8:
         LD sub, ebx, ecx
         lea ecx, [ecx+ecx*4]
         LD add, ecx, ecx
-        lea edx, [unk_D5002]
+        lea edx, [EmuSinPolyCoefs]
         LD add, edx, ecx
-        call sub_D561E
+        call PolyEvalOdd
 .10:
         mov eax, dword [byte ebp-014h]
         inc al
@@ -3574,7 +4088,7 @@ sub_D50C8:
         or si, 7FFFh
         jmp short .18
 .17:
-        call sub_D41F9
+        call DivideMantissas
 .18:
         mov dword [edi], eax
         mov dword [byte edi+04h], edx
@@ -3586,32 +4100,48 @@ sub_D50C8:
         pop edi
         pop ebp
         ret
-sub_D52BF:
+;-----------------------------------------------------------------------------
+; EmuSin                                          D52BF  96 PC, low confidence
+; X87 emulator: sine
+;-----------------------------------------------------------------------------
+EmuSin:
         push esi
         LD sub, esi, esi
-        call sub_D50C8
+        call SinCosCore
         pop esi
         ret
-sub_D52C9:
+;-----------------------------------------------------------------------------
+; EmuCos                                          D52C9  96 PC, low confidence
+; X87 emulator: cosine
+;-----------------------------------------------------------------------------
+EmuCos:
         push esi
         mov esi, 2
-        call sub_D50C8
+        call SinCosCore
         pop esi
         ret
-sub_D52D6:
+;-----------------------------------------------------------------------------
+; EmuTan                                          D52D6  96 PC, low confidence
+; X87 emulator: tangent
+;-----------------------------------------------------------------------------
+EmuTan:
         push esi
         mov esi, 1
-        call sub_D50C8
+        call SinCosCore
         pop esi
         ret
         db 090h
-sub_D52D6_E:
+EmuTan_E:
         adc eax, 67CC487Bh
         ret
         db 0AAh,085h,0FFh,03Fh,0E7h,0D6h,08Bh,0EAh,0E3h,0C1h,095h,08Bh,0FFh,03Fh,06Fh,0A9h
         db 0B8h,08Dh,051h,0F0h,037h,098h,0FFh,03Fh,084h,064h,0DEh,0F9h,033h,0F3h,04h,0B5h
         db 0FFh,03Fh
-sub_D530C:
+;-----------------------------------------------------------------------------
+; EmuAtan                                         D530C  96 PC, low confidence
+; X87 emulator: arctangent
+;-----------------------------------------------------------------------------
+EmuAtan:
         push ebp
         push edi
         push esi
@@ -3637,7 +4167,7 @@ sub_D530C:
         push byte 0
         LD mov, eax, edi
         LD mov, ebx, edi
-        call sub_D3F9A
+        call AddExtRaw
         xor byte [byte ebx+09h], 80h
 .2:
         mov bx, word [byte edi+08h]
@@ -3687,7 +4217,7 @@ sub_D530C:
         mov si, word [byte edi+08h]
         LD mov, ebx, eax
         LD mov, ecx, edx
-        call sub_D43CE
+        call MultiplyMantissas
         push eax
         push edx
         push esi
@@ -3695,7 +4225,7 @@ sub_D530C:
         mov ebx, 1BF21F8Ch
         and esi, 0FFFFh
         or esi, 40030000h
-        call sub_D3FCA
+        call AddMantissas
         LD mov, ebp, esp
         xchg eax, dword [byte ebp+08h]
         xchg edx, dword [byte ebp+04h]
@@ -3704,18 +4234,18 @@ sub_D530C:
         mov ebx, 9D7BFDBh
         and esi, 0FFFFh
         or esi, 3FFA0000h
-        call sub_D43CE
+        call MultiplyMantissas
         mov ecx, 0E6D5051Ah
         mov ebx, 0E536E187h
         and esi, 0FFFFh
         or esi, 40010000h
-        call sub_D3FCA
+        call AddMantissas
         mov ebx, dword [edi]
         mov ecx, dword [byte edi+04h]
         rol esi, 10h
         mov si, word [byte edi+08h]
         rol esi, 10h
-        call sub_D43CE
+        call MultiplyMantissas
         push eax
         push edx
         push esi
@@ -3725,7 +4255,7 @@ sub_D530C:
         rol esi, 10h
         mov ebx, dword [byte ebp+08h]
         mov ecx, dword [byte ebp+04h]
-        call sub_D3FCA
+        call AddMantissas
         xchg eax, dword [byte ebp-04h]
         xchg edx, dword [byte ebp-08h]
         xchg esi, dword [byte ebp-0Ch]
@@ -3734,20 +4264,20 @@ sub_D530C:
         rol esi, 10h
         mov ebx, dword [byte ebp+08h]
         mov ecx, dword [byte ebp+04h]
-        call sub_D3FCA
+        call AddMantissas
         rol esi, 10h
         mov si, word [byte ebp-0Ch]
         rol esi, 10h
         pop ecx
         pop ecx
         pop ebx
-        call sub_D41F9
+        call DivideMantissas
         mov dword [edi], eax
         mov dword [byte edi+04h], edx
         mov word [byte edi+08h], si
         add esp, byte 0Ch
         pop ecx
-        lea esi, [sub_D52D6_E]
+        lea esi, [EmuTan_E]
 .11:
         LD or, ecx, ecx
         je short .13
@@ -3763,7 +4293,7 @@ sub_D530C:
         mov edx, dword [byte cs:esi+04h]
         mov esi, dword [cs:esi]
         xchg esi, eax
-        call sub_D43CE
+        call MultiplyMantissas
         mov dword [edi], eax
         mov dword [byte edi+04h], edx
         mov word [byte edi+08h], si
@@ -3780,7 +4310,7 @@ sub_D530C:
         push dword 80000000h
         push byte 0
         LD mov, ebx, edi
-        call sub_D3F9A
+        call AddExtRaw
         pop ebx
         pop ecx
         pop edx
@@ -3788,7 +4318,11 @@ sub_D530C:
         pop edi
         pop ebp
         ret
-sub_D54E0:
+;-----------------------------------------------------------------------------
+; EmuExp2                                         D54E0  96 PC, low confidence
+; X87 emulator: 2 to the power x minus one (F2XM1)
+;-----------------------------------------------------------------------------
+EmuExp2:
         push edi
         push esi
         push edx
@@ -3895,7 +4429,7 @@ sub_D54E0:
         mov si, word [byte eax+08h]
         mov edx, dword [byte eax+04h]
         mov eax, dword [eax]
-        call sub_D55CC
+        call PolyEval
         pop ecx
         mov dword [ecx], eax
         mov dword [byte ecx+04h], edx
@@ -3903,7 +4437,11 @@ sub_D54E0:
         pop ecx
         pop esi
         ret
-sub_D55CC:
+;-----------------------------------------------------------------------------
+; PolyEval                                        D55CC  96 PC, low confidence
+; X87 emulator: evaluates a polynomial
+;-----------------------------------------------------------------------------
+PolyEval:
         push ebp
         push edi
         push ecx
@@ -3922,14 +4460,14 @@ sub_D55CC:
         rol esi, 10h
         mov ebx, dword [byte ebp+00h]
         mov ecx, dword [byte ebp+04h]
-        call sub_D43CE
+        call MultiplyMantissas
         lea edi, [byte edi+0Ah]
         mov ebx, dword [cs:edi]
         mov ecx, dword [byte cs:edi+04h]
         rol esi, 10h
         mov si, word [byte cs:edi+08h]
         rol esi, 10h
-        call sub_D3FCA
+        call AddMantissas
         dec dword [byte ebp+0Ch]
         jne short .1
         add esp, byte 10h
@@ -3937,7 +4475,11 @@ sub_D55CC:
         pop edi
         pop ebp
         ret
-sub_D561E:
+;-----------------------------------------------------------------------------
+; PolyEvalOdd                                     D561E  96 PC, low confidence
+; X87 emulator: evaluates an odd polynomial
+;-----------------------------------------------------------------------------
+PolyEvalOdd:
         push edi
         push esi
         push ecx
@@ -3951,16 +4493,16 @@ sub_D561E:
         mov si, word [byte edi+08h]
         LD mov, ebx, eax
         LD mov, ecx, edx
-        call sub_D43CE
+        call MultiplyMantissas
         pop ecx
         pop ebx
-        call sub_D55CC
+        call PolyEval
         rol esi, 10h
         mov ebx, dword [edi]
         mov ecx, dword [byte edi+04h]
         mov si, word [byte edi+08h]
         rol esi, 10h
-        call sub_D43CE
+        call MultiplyMantissas
         mov dword [edi], eax
         mov dword [byte edi+04h], edx
         mov word [byte edi+08h], si
@@ -3968,6 +4510,9 @@ sub_D561E:
         pop esi
         pop edi
         ret
+;-----------------------------------------------------------------------------
+; __hook387                                                     D5666  library
+;-----------------------------------------------------------------------------
 __hook387:
         push ebx
         push ecx
@@ -4003,12 +4548,12 @@ __hook387:
         mov al, 1Eh
         xor ecx, ecx
         xor ebx, ebx
-        mov byte [byte_14FC71], dh
+        mov byte [Hook387Saved], dh
         xor edx, edx
         mov ah, 0FAh
         int 2Fh
         mov eax, cs
-        mov ebx, unk_1A1104
+        mov ebx, Hook387Save
         mov edx, eax
         mov ecx, ebx
         mov al, 20h
@@ -4047,7 +4592,7 @@ __hook387:
         mov cr0, eax
         mov ah, 30h
         int 21h
-        mov byte [byte_14FC70], dl
+        mov byte [Hook387Flag], dl
 .3:
         xor al, al
 .4:
@@ -4059,12 +4604,15 @@ __hook387:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; __unhook387                                                   D5730  library
+;-----------------------------------------------------------------------------
 __unhook387:
         push ebx
         push ecx
         push es
         mov es, edx
-        mov dl, byte [byte_14FC71]
+        mov dl, byte [Hook387Saved]
         test dl, dl
         je short .1
         mov eax, cs
@@ -4086,7 +4634,7 @@ __unhook387:
         pop ebx
         ret
 .1:
-        cmp byte [byte_14FC70], 0
+        cmp byte [Hook387Flag], 0
         je short .2
         mov bl, byte [byte es:eax+040h]
         mov byte [byte es:eax+03Eh], dl
@@ -4103,8 +4651,14 @@ __unhook387:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_D5789                                                            D5789  
+;-----------------------------------------------------------------------------
 sub_D5789:
         ret
+;-----------------------------------------------------------------------------
+; __init_80x87                                                  D578A  library
+;-----------------------------------------------------------------------------
 __init_80x87:
         push ax
         wait
@@ -4128,7 +4682,11 @@ __init_80x87:
         pop ax
         ret
         db 00h,00h,00h
-sub_D57B4:
+;-----------------------------------------------------------------------------
+; InitFloatFormat                                 D57B4  96 PC, low confidence
+; Sets up the number formatting tables
+;-----------------------------------------------------------------------------
+InitFloatFormat:
         push ebp
         LD mov, ebp, esp
         pusha
@@ -4154,7 +4712,7 @@ sub_D57B4:
         and bl, 0Fh
         inc esi
 .3:
-        add edx, dword [dword eax+ebx*4+dword_14FC80]
+        add edx, dword [dword eax+ebx*4+FloatPow10Table]
         cmp edx, 7FFFh
         jg short .8
         cmp edx, 0FFFF8000h
@@ -4164,7 +4722,7 @@ sub_D57B4:
         add edi, byte 2
         inc ecx
         and bl, 7
-        add eax, dword [nosplit ebx*4+dword_1512C0]
+        add eax, dword [nosplit ebx*4+FloatPow10Exponents]
         cmp eax, 1600h
         jg short .6
         cmp eax, byte 0
@@ -4196,7 +4754,11 @@ sub_D57B4:
 .9:
         mov edx, 0FFFF8000h
         jmp short .4
-sub_D585C:
+;-----------------------------------------------------------------------------
+; FormatFloat                                     D585C  96 PC, low confidence
+; Formats a floating-point number
+;-----------------------------------------------------------------------------
+FormatFloat:
         push ebp
         LD mov, ebp, esp
         pusha
@@ -4205,76 +4767,76 @@ sub_D585C:
         mov edx, dword [byte ebp+01Ch]
         mov edx, dword [edx]
         movsx eax, dx
-        mov dword [dword_1512E8], eax
+        mov dword [FloatFormatMantissaLo], eax
         shr edx, 10h
         movsx eax, dx
-        mov dword [dword_1512EC], eax
+        mov dword [FloatFormatMantissaHi], eax
         mov edx, dword [byte ebp+018h]
         mov edx, dword [edx]
         movsx eax, dx
-        mov dword [dword_1512E0], eax
+        mov dword [FloatFormatDigits], eax
         shr edx, 10h
         movsx eax, dx
-        mov dword [dword_1512E4], eax
+        mov dword [FloatFormatExponent], eax
         mov esi, dword [byte ebp+0Ch]
         mov edi, dword [byte ebp+010h]
         LD xor, ebx, ebx
 .1:
         mov bl, byte [esi]
         shr bl, 4
-        mov eax, dword [dword_1512E8]
-        mov edx, dword [dword_1512E0]
-        add edx, dword [dword eax+ebx*4+dword_14FC80]
+        mov eax, dword [FloatFormatMantissaLo]
+        mov edx, dword [FloatFormatDigits]
+        add edx, dword [dword eax+ebx*4+FloatPow10Table]
         cmp edx, 7FFFh
         jg near .9
         cmp edx, 0FFFF8000h
         jl near .10
 .2:
         mov word [edi+ecx*4], dx
-        mov dword [dword_1512E0], edx
+        mov dword [FloatFormatDigits], edx
         and bl, 7
-        add eax, dword [nosplit ebx*4+dword_1512C0]
+        add eax, dword [nosplit ebx*4+FloatPow10Exponents]
         cmp eax, 1600h
         jg near .7
         cmp eax, byte 0
         jl near .8
 .3:
-        mov dword [dword_1512E8], eax
+        mov dword [FloatFormatMantissaLo], eax
         mov bl, byte [esi]
         and bl, 0Fh
-        mov eax, dword [dword_1512EC]
-        mov edx, dword [dword_1512E4]
-        add edx, dword [dword eax+ebx*4+dword_14FC80]
+        mov eax, dword [FloatFormatMantissaHi]
+        mov edx, dword [FloatFormatExponent]
+        add edx, dword [dword eax+ebx*4+FloatPow10Table]
         cmp edx, 7FFFh
         jg near .13
         cmp edx, 0FFFF8000h
         jl near .14
 .4:
         mov word [byte edi+ecx*4+02h], dx
-        mov dword [dword_1512E4], edx
+        mov dword [FloatFormatExponent], edx
         and bl, 7
-        add eax, dword [nosplit ebx*4+dword_1512C0]
+        add eax, dword [nosplit ebx*4+FloatPow10Exponents]
         cmp eax, 1600h
         jg short .11
         cmp eax, byte 0
         jl short .12
 .5:
-        mov dword [dword_1512EC], eax
+        mov dword [FloatFormatMantissaHi], eax
         add ecx, byte 1
         inc esi
         cmp ecx, dword [byte ebp+014h]
         jl near .1
         jmp short .6
 .6:
-        mov edx, dword [dword_1512E4]
+        mov edx, dword [FloatFormatExponent]
         shl edx, 10h
-        mov ecx, dword [dword_1512E0]
+        mov ecx, dword [FloatFormatDigits]
         LD mov, dx, cx
         mov ecx, dword [byte ebp+018h]
         mov dword [ecx], edx
-        mov edx, dword [dword_1512EC]
+        mov edx, dword [FloatFormatMantissaHi]
         shl edx, 10h
-        mov ecx, dword [dword_1512E8]
+        mov ecx, dword [FloatFormatMantissaLo]
         LD mov, dx, cx
         mov ecx, dword [byte ebp+01Ch]
         mov dword [ecx], edx

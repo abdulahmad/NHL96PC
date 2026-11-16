@@ -2,27 +2,30 @@
 bits 32
 %include "hockey.inc"
 section s_CA6E0 progbits alloc exec nowrite align=1
-extern __hook387, __int7, __int7_pl3, byte_123984, _Extender, byte_12442C, byte_1248C4, dword_121AD8
-extern dword_12487C, dword_1248BC, word_121ADC, word_121ADE, word_1248C0, word_1248C2
-global sub_CA6E0, sub_CA7AB, sub_CA7C8, sub_CA815
-sub_CA6E0:
-        mov byte [byte_123984], 3
-        mov byte [byte_1248C4], 1
+extern __hook387, __int7, __int7_pl3, __8087, _Extender, Is8087, __real87, FpuFlags
+extern FpuSystemFlags, OldFpuVectorOffset, str_Punct_InitFpuFlags, SavedEsSelector, OldFpuVectorSelector, FpuCr0Bits
+global InitFpuFlags, MakeFpuGate, HookCoprocessorVector, SetSystemFpuFlag
+;-----------------------------------------------------------------------------
+; InitFpuFlags                                                    CA6E0  95 PC
+;-----------------------------------------------------------------------------
+InitFpuFlags:
+        mov byte [__8087], 3
+        mov byte [__real87], 1
         db 066h,0Fh,01h,025h
-        dd word_1248C2
-        and word [word_1248C2], byte 6
+        dd FpuCr0Bits
+        and word [FpuCr0Bits], byte 6
         sub esp, byte 8
         sidt [esp]
         mov ebx, dword [byte esp+02h]
         add ebx, byte 38h
         add esp, byte 8
-        cmp byte [byte_12442C], 0
+        cmp byte [Is8087], 0
         je short .1
-        call sub_CA7AB
-        o16 mov es, word [word_121ADE]
+        call MakeFpuGate
+        o16 mov es, word [SavedEsSelector]
         mov dword [es:ebx], edx
         mov dword [byte es:ebx+04h], ecx
-        call sub_CA815
+        call SetSystemFpuFlag
         jmp short .5
 .1:
         cmp byte [_Extender], 0
@@ -41,18 +44,18 @@ sub_CA6E0:
 .2:
         cmp byte [_Extender], 9
         jne short .3
-        call sub_CA7AB
+        call MakeFpuGate
         mov dword [ebx], edx
         mov dword [byte ebx+04h], ecx
         mov eax, 0E02h
         mov ebx, 4
-        mov ecx, dword [dword_121AD8]
+        mov ecx, dword [FpuFlags]
         call dword [byte ecx+030h]
         jmp short .5
 .3:
         cmp byte [_Extender], 1
         jne short .4
-        mov dx, word [word_121ADC]
+        mov dx, word [str_Punct_InitFpuFlags]
         sub eax, eax
         call __hook387
         jmp short .5
@@ -62,10 +65,14 @@ sub_CA6E0:
         call __hook387
         cmp al, 1
         je short .5
-        call sub_CA7C8
+        call HookCoprocessorVector
 .5:
         ret
-sub_CA7AB:
+;-----------------------------------------------------------------------------
+; MakeFpuGate                                     CA7AB  96 PC, low confidence
+; Builds the gate descriptor for the coprocessor-missing handler
+;-----------------------------------------------------------------------------
+MakeFpuGate:
         lea ecx, [__int7]
         mov dx, cs
         shl edx, 10h
@@ -75,12 +82,16 @@ sub_CA7AB:
         shl cx, 0Dh
         or ch, 8Eh
         ret
-sub_CA7C8:
+;-----------------------------------------------------------------------------
+; HookCoprocessorVector                           CA7C8  96 PC, low confidence
+; Saves and replaces the coprocessor-missing vector through the DOS extender
+;-----------------------------------------------------------------------------
+HookCoprocessorVector:
         mov cl, 7
         mov ax, 2502h
         int 21h
-        mov dword [dword_1248BC], ebx
-        o16 mov word [word_1248C0], es
+        mov dword [OldFpuVectorOffset], ebx
+        o16 mov word [OldFpuVectorSelector], es
         cmp byte [_Extender], 3
         mov cl, 7
         mov ax, 2504h
@@ -91,7 +102,7 @@ sub_CA7C8:
         lea edx, [__int7_pl3]
         int 21h
         pop ds
-        call sub_CA815
+        call SetSystemFpuFlag
         jmp short .2
 .1:
         lea edx, [__int7]
@@ -103,13 +114,17 @@ sub_CA7C8:
         mov cr0, ecx
 .2:
         ret
-sub_CA815:
+;-----------------------------------------------------------------------------
+; SetSystemFpuFlag                                CA815  96 PC, low confidence
+; Tells the DOS extender that a coprocessor is emulated
+;-----------------------------------------------------------------------------
+SetSystemFpuFlag:
         xor ebx, ebx
-        lea edx, [dword_12487C]
+        lea edx, [FpuSystemFlags]
         mov ax, 2535h
         int 21h
-        or dword [dword_12487C], byte 4
-        and dword [dword_12487C], byte 0FFFFFFFDh
+        or dword [FpuSystemFlags], byte 4
+        and dword [FpuSystemFlags], byte 0FFFFFFFDh
         inc ebx
         int 21h
         ret

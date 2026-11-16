@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_17675 progbits alloc exec nowrite align=1
-extern addtimer, asc_1102DF, byte_115084, byte_151B87, byte_151B8E, byte_152157, byte_15280F, byte_152810
+extern addtimer, str_Punct2, byte_115084, byte_151B87, byte_151B8E, byte_152157, byte_15280F, byte_152810
 extern byte_152920, byte_152921, byte_152922, byte_152923, byte_15292C, byte_15292D, byte_15292E, byte_15292F
 extern byte_15293A, byte_152A44, dword_115000, dword_115004, dword_115008, dword_11500C, dword_115010, dword_115014
 extern dword_115018, dword_11501C, dword_115020, dword_115024, dword_115028, dword_11502C, dword_115030, dword_115034
@@ -12,9 +12,9 @@ extern dword_115098, dword_151D48, dword_151D4C, dword_151D50, dword_151D54, dwo
 extern dword_152148, dword_15214C, dword_152150, dword_15291C, off_114F1C, off_114F24, str_0123456789abcdefghijklmn, str_22
 extern str_ATA, str_ATD, str_ATE1, str_ATF1, str_ATH0, str_ATM0, str_ATQ0, str_ATS01
 extern str_ATX3, str_ATX4, str_ATZS760S1155, str_ctl06, str_feP, str_newline, str_T, strcat_
-extern strcpy_, strlen_, strncmp_, strstr_, sub_AA664, sub_B103C, sub_B1121, sub_B11F8
-extern sub_B1255, sub_B1279, sub_B1294, sub_B12AF, sub_B1328, sub_B13BB, sub_B13D2, sub_B13F1
-extern sub_B1451, sub_B147A, sub_B151E, sub_B178B, sub_B1830, unk_1102DD, unk_1102E3, unk_151B88
+extern strcpy_, strlen_, strncmp_, strstr_, RemoveTimerCallback, sub_B103C, sub_B1121, SerialClose
+extern sub_B1255, SerialRaiseDtr, sub_B1294, sub_B12AF, SerialWrite, sub_B13BB, SerialFlushTx, SerialWaitTxEmpty
+extern sub_B1451, sub_B147A, sub_B151E, sub_B178B, sub_B1830, str_Punct_ModemSendCommand, str_AT, unk_151B88
 extern unk_152748, unk_152798, unk_1527C0, unk_152938, unk_152944, WaitTicks
 global ModemInitDefault, ModemInit, ModemHangup, ModemHangup_30, ModemHangup_54, ModemDial, ModemAutoAnswer, ModemWaitConnect
 global ModemReadResult, ModemSendCommand, ModemAttention, LinkCopyBytes, LinkRxPut, LinkRxPeek_none, LinkRxCopy, LinkCheckPacket
@@ -264,7 +264,7 @@ ModemAutoAnswer:
         push str_ATA
         push byte 4
         push dword [byte ebp+08h]
-        call sub_B1328
+        call SerialWrite
         add esp, byte 0Ch
         pop ebp
         ret
@@ -332,7 +332,7 @@ ModemReadResult:
         push eax
         push byte 1
         push dword [byte ebp+010h]
-        call sub_B13F1
+        call SerialWaitTxEmpty
         add esp, byte 10h
         test eax, eax
         je near .11
@@ -449,10 +449,10 @@ ModemSendCommand:
         test ebx, ebx
         je short .2
         push esi
-        call sub_B1279
+        call SerialRaiseDtr
         add esp, byte 4
         push esi
-        call sub_B13D2
+        call SerialFlushTx
         add esp, byte 4
 .2:
         push byte 14h
@@ -460,26 +460,26 @@ ModemSendCommand:
         push eax
         push byte 1
         push esi
-        call sub_B13F1
+        call SerialWaitTxEmpty
         add esp, byte 10h
         test eax, eax
         jne short .2
         push edi
         push dword [byte ebp-04h]
         push esi
-        call sub_B1328
+        call SerialWrite
         add esp, byte 0Ch
-        push unk_1102DD
+        push str_Punct_ModemSendCommand
         push byte 1
         push esi
-        call sub_B1328
+        call SerialWrite
         add esp, byte 0Ch
         push byte 19h
         lea eax, [byte ebp-054h]
         push eax
         push dword [byte ebp-04h]
         push esi
-        call sub_B13F1
+        call SerialWaitTxEmpty
         mov ebx, dword [byte ebp-04h]
         add esp, byte 10h
         lea edx, [byte ebp-054h]
@@ -511,22 +511,22 @@ ModemAttention:
         cmp edi, byte 0FFFFFFFFh
         je near .3
         push esi
-        call sub_B13D2
+        call SerialFlushTx
         add esp, byte 4
         push esi
-        call sub_B1279
+        call SerialRaiseDtr
         add esp, byte 4
         push byte 69h
         call WaitTicks
         add esp, byte 4
-        push asc_1102DF
+        push str_Punct2
         push byte 3
         push esi
-        call sub_B1328
+        call SerialWrite
         add esp, byte 0Ch
         push byte 69h
         call WaitTicks
-        mov edx, unk_1102E3
+        mov edx, str_AT
         add esp, byte 4
         mov eax, esi
         xor ebx, ebx
@@ -1167,7 +1167,7 @@ LinkCarrierOK:
         push edx
         push eax
         push dword [dword_11500C]
-        call sub_B1328
+        call SerialWrite
         add esp, byte 0Ch
         pop ecx
         pop ebx
@@ -1474,7 +1474,7 @@ LinkOpen:
         cmp eax, byte 4
         jne short .3
         push dword [dword_11500C]
-        call sub_B11F8
+        call SerialClose
         add esp, byte 4
         xor eax, eax
         pop edx
@@ -1540,10 +1540,10 @@ LinkConnect:
         call dword [dword_15291C]
         test eax, eax
         je short .1
-        push unk_1102DD
+        push str_Punct_ModemSendCommand
         push byte 1
         push dword [dword_11500C]
-        call sub_B1328
+        call SerialWrite
         add esp, byte 0Ch
         mov dword [dword_115064], 0
         jmp short .1
@@ -1577,10 +1577,10 @@ LinkConnect:
         call dword [dword_15291C]
         test eax, eax
         je short .5
-        push unk_1102DD
+        push str_Punct_ModemSendCommand
         push byte 1
         push dword [dword_11500C]
-        call sub_B1328
+        call SerialWrite
         add esp, byte 0Ch
         mov dword [dword_115064], 0
         jmp short .5
@@ -1628,12 +1628,12 @@ LinkClose:
         call sub_B1294
         add esp, byte 4
         push dword [dword_11500C]
-        call sub_B11F8
+        call SerialClose
         add esp, byte 4
         cmp dword [dword_115024], byte 0
         je short LinkClose_53.2
         push LinkTimerTick
-        call sub_AA664
+        call RemoveTimerCallback
 LinkClose_53:
         add esp, byte 4
 .2:
@@ -1772,7 +1772,7 @@ LinkRequestResend:
         push byte_152920
         push byte 6
         push dword [dword_11500C]
-        call sub_B1328
+        call SerialWrite
         add esp, byte 0Ch
         cmp dword [dword_115048], byte 0
         je short .2
@@ -1814,7 +1814,7 @@ LinkSendAck:
         push byte_15292C
         push byte 6
         push dword [dword_11500C]
-        call sub_B1328
+        call SerialWrite
         add esp, byte 0Ch
 .1:
         pop edx
@@ -1871,7 +1871,7 @@ LinkSendMessage:
         push esi
         push byte 0Ch
         push dword [dword_11500C]
-        call sub_B1328
+        call SerialWrite
         mov eax, 1
         add esp, byte 0Ch
 .3:
@@ -1911,7 +1911,7 @@ LinkResendSlot:
         push ebx
         push byte 0Ch
         push dword [dword_11500C]
-        call sub_B1328
+        call SerialWrite
         add esp, byte 0Ch
         mov dword [dword esi+dword_15214C], 0
 .1:
@@ -2260,7 +2260,7 @@ LinkRequestMissing:
         push str_0123456789abcdefghijklmn
         push byte 25h
         push dword [dword_11500C]
-        call sub_B1328
+        call SerialWrite
         add esp, byte 0Ch
 .6:
         pop edx

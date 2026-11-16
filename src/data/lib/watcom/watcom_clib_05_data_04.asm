@@ -2,26 +2,26 @@
 bits 32
 %include "hockey.inc"
 section s_1228D6 progbits alloc noexec write align=1
-global byte_123984, byte_123985, byte_123988, dword_1228D6, dword_1228D8, dword_1228DA, dword_1228DC, dword_1228DE
-global dword_1228E0, dword_1228E2, dword_1228E4, dword_1228E8, dword_1228F0, dword_1228F4, dword_1228F8, dword_1228FC
-global dword_122900, dword_122904, dword_122908, dword_12290C, dword_122910, dword_122914, dword_122918, dword_122920
+global __8087, FpuType, byte_123988, dword_1228D6, ClipTopRow, dword_1228DA, ClipLeftCol, dword_1228DE
+global ClipRight, dword_1228E2, ScreenHeight, dword_1228E8, dword_1228F0, dword_1228F4, dword_1228F8, dword_1228FC
+global BackBufferWidth, dword_122904, dword_122908, dword_12290C, dword_122910, dword_122914, dword_122918, dword_122920
 global dword_122924, dword_122930, dword_122B90, dword_123390, dword_123930, dword_123934, dword_123A88, dword_123A8C
 global dword_123A90
 dword_1228D6:
         db 00h,00h
-dword_1228D8:
+ClipTopRow:
         db 00h,00h
 dword_1228DA:
         db 00h,00h
-dword_1228DC:
+ClipLeftCol:
         db 00h,00h
 dword_1228DE:
         db 00h,00h
-dword_1228E0:
+ClipRight:
         db 080h,02h
 dword_1228E2:
         db 00h,00h
-dword_1228E4:
+ScreenHeight:
         db 0E0h,01h,00h,00h
 dword_1228E8:
         db 08h,00h,00h,00h,00h,00h,00h,00h
@@ -33,7 +33,7 @@ dword_1228F8:
         dd dword_122930
 dword_1228FC:
         db 00h,00h,0Ah,00h
-dword_122900:
+BackBufferWidth:
         db 080h,02h,00h,00h
 dword_122904:
         db 0E0h,01h,00h,00h
@@ -320,9 +320,9 @@ dword_123934:
         db 00h,04h,00h,00h,00h,04h,00h,00h,00h,04h,00h,00h,00h,04h,00h,00h
         db 00h,04h,00h,00h,00h,04h,00h,00h,00h,04h,00h,00h,00h,04h,00h,00h
         db 00h,04h,00h,00h,00h,04h,00h,00h,00h,04h,00h,00h,00h,04h,00h,00h
-byte_123984:
+__8087:
         db 00h
-byte_123985:
+FpuType:
         db 00h,00h,00h
 byte_123988:
         db 00h,01h,02h,03h,04h,05h,06h,07h,08h,09h,0Ah,0Bh,0Ch,0Dh,0Eh,0Fh

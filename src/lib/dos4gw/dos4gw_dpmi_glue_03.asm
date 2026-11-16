@@ -2,8 +2,11 @@
 bits 32
 %include "hockey.inc"
 section s_D002F progbits alloc exec nowrite align=1
-extern _Extender, _ExtenderSubtype, _curbrk, _STACKTOP, sub_C2CB0
+extern _Extender, _ExtenderSubtype, _curbrk, _STACKTOP, ErrnoPtr
 global __brk_, flushall_, sbrk__B9, sbrk_
+;-----------------------------------------------------------------------------
+; sbrk_                                                         D002F  library
+;-----------------------------------------------------------------------------
 sbrk_:
         push ebx
         push ecx
@@ -53,11 +56,11 @@ sbrk_:
 .5:
         test eax, eax
         jne short sbrk__B9
-        call sub_C2CB0
+        call ErrnoPtr
         mov dword [eax], 5
         jmp short .7
 .6:
-        call sub_C2CB0
+        call ErrnoPtr
         mov dword [eax], 9
 .7:
         mov eax, 0FFFFFFFFh
@@ -83,6 +86,9 @@ sbrk__B9:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; __brk_                                                        D00EE  library
+;-----------------------------------------------------------------------------
 __brk_:
         push ebx
         push ecx
@@ -133,7 +139,7 @@ __brk_:
         test eax, eax
         jge short .8
 .4:
-        call sub_C2CB0
+        call ErrnoPtr
         mov dword [eax], 5
         mov eax, 0FFFFFFFFh
         jmp short .9
@@ -164,5 +170,8 @@ __brk_:
         pop ebp
         pop es
         jmp near sbrk__B9
+;-----------------------------------------------------------------------------
+; flushall_                                                     D01B0  library
+;-----------------------------------------------------------------------------
 flushall_:
         mov eax, 0FFFFFFFFh

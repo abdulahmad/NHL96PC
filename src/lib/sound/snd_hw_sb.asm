@@ -2,15 +2,18 @@
 bits 32
 %include "hockey.inc"
 section s_D59DB progbits alloc exec nowrite align=1
-extern _IsTable, __set_errno_, _dos_getvect_, _dos_setvect_, str_RMHandler, byte_100000, byte_100004, byte_100008
-extern byte_10000C, byte_100010, byte_100014, byte_1512F0, byte_1512F8, byte_151300, byte_151308, byte_151310
-extern byte_151318, byte_1A1190, byte_1A1191, byte_1A1192, byte_1A1193, dword_151320, dword_1A0FB8, dword_1A0FC0
-extern dword_1A1188, dword_1A118C, dword_1A1194, dword_1A1198, int386_, sub_AB798, sub_ABF4C, tolower_
-extern word_1A1184, word_1A1186
-global sub_D59DB_13C, sub_D59DB, sub_D5B1E, sub_D5B26, sub_D5B7C, sub_D5B96, sub_D5BB1, sub_D5BCD
-global sub_D5BEE, sub_D5C0D, sub_D5C2F, sub_D5C5E, sub_D5C7F, sub_D5CA2, sub_D5E1E, sub_D5E50
+extern _IsTable, __set_errno_, _dos_getvect_, _dos_setvect_, str_RMHandler, SbDmaPagePorts, SbDmaMaskPorts, SbDmaModePorts
+extern SbDmaFlipFlopPorts, SbDmaAddressPorts, SbDmaCountPorts, byte_1512F0, byte_1512F8, byte_151300, byte_151308, byte_151310
+extern byte_151318, TimerIrqMask, TimerChainFlag, TimerPitMode, TimerInstalled, dword_151320, DacTimerRate, DacTimerDivisor
+extern TimerOldHandler, TimerOldRealHandler, TimerDivisor, TimerChainCount, int386_, sub_AB798, FreeMemBlock, tolower_
+extern TimerOldOffsetLo, TimerOldSelector
+global sub_D59DB_13C, sub_D59DB, ReturnArg, sub_D5B26, TimerCalibrate, TimerRestore, sub_D5BB1, TimerWritePit
+global TimerReadCount, TimerTicksForRate, TimerMeasure, TimerSetDivisor, TimerReset, TimerInstall, TimerChainOld, sub_D5E50
 global sub_D5E7D, sub_D5F29, sub_D5F5A, sub_D5F84, sub_D5F95, sub_D5FD4, sub_D6005, sub_D6027
 global sub_D60D2
+;-----------------------------------------------------------------------------
+; sub_D59DB                                                            D59DB  
+;-----------------------------------------------------------------------------
 sub_D59DB:
         push esi
         push edi
@@ -158,10 +161,17 @@ sub_D59DB_13C:
         call sub_D59DB
         pop ecx
         ret
-sub_D5B1E:
+;-----------------------------------------------------------------------------
+; ReturnArg                                       D5B1E  96 PC, low confidence
+; Returns its argument
+;-----------------------------------------------------------------------------
+ReturnArg:
         push ecx
         mov ecx, 1
         jmp short sub_D59DB_13C
+;-----------------------------------------------------------------------------
+; sub_D5B26                                                            D5B26  
+;-----------------------------------------------------------------------------
 sub_D5B26:
         push edx
         mov dl, al
@@ -208,13 +218,17 @@ sub_D5B26:
         pop edx
         ret
         db 00h
-sub_D5B7C:
+;-----------------------------------------------------------------------------
+; TimerCalibrate                                  D5B7C  96 PC, low confidence
+; Calibrates the timer
+;-----------------------------------------------------------------------------
+TimerCalibrate:
         push ebp
         LD mov, ebp, esp
         push esi
         push dword [byte ebp+0Ch]
         push dword [byte ebp+08h]
-        call sub_D5CA2
+        call TimerInstall
         add esp, byte 8
         cmp eax, byte 0
         jl short .1
@@ -222,15 +236,22 @@ sub_D5B7C:
         pop esi
         leave
         ret
-sub_D5B96:
-        cmp byte [byte_1A1193], 0
+;-----------------------------------------------------------------------------
+; TimerRestore                                    D5B96  96 PC, low confidence
+; Restores the timer
+;-----------------------------------------------------------------------------
+TimerRestore:
+        cmp byte [TimerInstalled], 0
         je short .1
         LD xor, eax, eax
-        mov byte [byte_1A1193], al
-        call sub_D5E1E
-        call sub_D5C7F
+        mov byte [TimerInstalled], al
+        call TimerChainOld
+        call TimerReset
 .1:
         ret
+;-----------------------------------------------------------------------------
+; sub_D5BB1                                                            D5BB1  
+;-----------------------------------------------------------------------------
 sub_D5BB1:
         push ebp
         LD mov, ebp, esp
@@ -239,17 +260,21 @@ sub_D5BB1:
         and al, 7Fh
         shr al, 1
         mov ah, 6
-        call sub_D5BCD
+        call TimerWritePit
         mov ah, 7
-        call sub_D5BCD
+        call TimerWritePit
         leave
         ret
-sub_D5BCD:
+;-----------------------------------------------------------------------------
+; TimerWritePit                                   D5BCD  96 PC, low confidence
+; Writes the timer chip divisor
+;-----------------------------------------------------------------------------
+TimerWritePit:
         push edx
-        mov edx, dword [dword_1A1194]
+        mov edx, dword [TimerDivisor]
         add edx, byte 4
         xchg al, ah
-        or al, byte [byte_1A1192]
+        or al, byte [TimerPitMode]
         out dx, al
         jmp short .1
 .1:
@@ -264,12 +289,16 @@ sub_D5BCD:
 .4:
         pop edx
         ret
-sub_D5BEE:
+;-----------------------------------------------------------------------------
+; TimerReadCount                                  D5BEE  96 PC, low confidence
+; Reads the timer count
+;-----------------------------------------------------------------------------
+TimerReadCount:
         push edx
-        mov edx, dword [dword_1A1194]
+        mov edx, dword [TimerDivisor]
         add edx, byte 4
         LD mov, al, ah
-        or al, byte [byte_1A1192]
+        or al, byte [TimerPitMode]
         out dx, al
         jmp short .1
 .1:
@@ -283,12 +312,16 @@ sub_D5BEE:
 .4:
         pop edx
         ret
-sub_D5C0D:
+;-----------------------------------------------------------------------------
+; TimerTicksForRate                               D5C0D  96 PC, low confidence
+; Works out the ticks for a rate
+;-----------------------------------------------------------------------------
+TimerTicksForRate:
         push eax
         push ecx
         push edx
         mov ecx, 7A120h
-        mov edx, dword [dword_1A1194]
+        mov edx, dword [TimerDivisor]
         add edx, byte 4
 .1:
         in al, dx
@@ -306,9 +339,13 @@ sub_D5C0D:
         pop ecx
         pop eax
         ret
-sub_D5C2F:
+;-----------------------------------------------------------------------------
+; TimerMeasure                                    D5C2F  96 PC, low confidence
+; Measures the timer
+;-----------------------------------------------------------------------------
+TimerMeasure:
         push ecx
-        call sub_D5C0D
+        call TimerTicksForRate
         jae short .1
         pop ecx
         ret
@@ -316,14 +353,14 @@ sub_D5C2F:
         mov ecx, 7530h
         mov ah, 0Bh
 .2:
-        call sub_D5BEE
+        call TimerReadCount
         test al, 20h
         jne short .3
         loop .2
 .3:
         mov ecx, 7A120h
 .4:
-        call sub_D5BEE
+        call TimerReadCount
         test al, 20h
         je short .5
         loop .4
@@ -331,11 +368,15 @@ sub_D5C2F:
         clc
         pop ecx
         ret
-sub_D5C5E:
+;-----------------------------------------------------------------------------
+; TimerSetDivisor                                 D5C5E  96 PC, low confidence
+; Sets the timer divisor
+;-----------------------------------------------------------------------------
+TimerSetDivisor:
         push edx
         shl al, 6
-        mov byte [byte_1A1192], al
-        mov edx, dword [dword_1A1194]
+        mov byte [TimerPitMode], al
+        mov edx, dword [TimerDivisor]
         add edx, byte 4
         out dx, al
         jmp short .1
@@ -351,86 +392,94 @@ sub_D5C5E:
 .4:
         pop edx
         ret
-sub_D5C7F:
-        call sub_D5C0D
+;-----------------------------------------------------------------------------
+; TimerReset                                      D5C7F  96 PC, low confidence
+; Resets the timer
+;-----------------------------------------------------------------------------
+TimerReset:
+        call TimerTicksForRate
         mov al, 1
-        call sub_D5C5E
+        call TimerSetDivisor
         mov eax, 0A40h
-        call sub_D5BCD
+        call TimerWritePit
         mov al, 0
-        call sub_D5C5E
-        call sub_D5C2F
+        call TimerSetDivisor
+        call TimerMeasure
         ret
-sub_D5CA2:
+;-----------------------------------------------------------------------------
+; TimerInstall                                    D5CA2  96 PC, low confidence
+; Installs the timer handler
+;-----------------------------------------------------------------------------
+TimerInstall:
         push ebp
         LD mov, ebp, esp
         mov eax, dword [byte ebp+08h]
         and eax, 0F0000h
         shr eax, 10h
-        mov dword [dword_1A1198], eax
+        mov dword [TimerChainCount], eax
         mov eax, dword [byte ebp+08h]
         and eax, 0FFFh
-        mov dword [dword_1A1194], eax
-        call sub_D5C7F
+        mov dword [TimerDivisor], eax
+        call TimerReset
         jae short .1
         mov eax, 0FFFFFED2h
         leave
         ret
 .1:
         mov al, 1
-        call sub_D5C5E
-        mov eax, dword [dword_1A0FB8]
-        call sub_D5BCD
-        call sub_D5C0D
+        call TimerSetDivisor
+        mov eax, dword [DacTimerRate]
+        call TimerWritePit
+        call TimerTicksForRate
         mov al, 0
-        call sub_D5C5E
-        call sub_D5C2F
+        call TimerSetDivisor
+        call TimerMeasure
         mov eax, 600h
-        call sub_D5BCD
+        call TimerWritePit
         mov eax, 700h
-        call sub_D5BCD
-        mov ebx, dword [dword_1A0FC0]
-        mov dword [dword_1A1188], ebx
+        call TimerWritePit
+        mov ebx, dword [DacTimerDivisor]
+        mov dword [TimerOldHandler], ebx
         shr ebx, 1
-        mov dword [dword_1A118C], ebx
-        mov eax, dword [dword_1A1188]
-        mov word [word_1A1186], ax
+        mov dword [TimerOldRealHandler], ebx
+        mov eax, dword [TimerOldHandler]
+        mov word [TimerOldSelector], ax
         mov eax, dword [byte ebp+0Ch]
-        mov word [word_1A1184], ax
+        mov word [TimerOldOffsetLo], ax
         shr eax, 10h
-        mov byte [byte_1A1190], al
-        mov al, byte [byte_1A1191]
+        mov byte [TimerIrqMask], al
+        mov al, byte [TimerChainFlag]
         LD or, al, al
         jne near .20
         mov al, 1
-        mov byte [byte_1A1191], al
+        mov byte [TimerChainFlag], al
         cli
-        mov ebx, dword [dword_1A1198]
+        mov ebx, dword [TimerChainCount]
         LD xor, edx, edx
         LD mov, eax, ebx
         or al, 4
-        mov dl, byte [dword ebx+byte_100004]
+        mov dl, byte [dword ebx+SbDmaMaskPorts]
         out dx, al
         jmp short .2
 .2:
         jmp short .3
 .3:
-        mov dl, byte [dword ebx+byte_100008]
-        mov eax, dword [dword_1A1198]
+        mov dl, byte [dword ebx+SbDmaModePorts]
+        mov eax, dword [TimerChainCount]
         or al, 18h
         out dx, al
         jmp short .4
 .4:
         jmp short .5
 .5:
-        mov dl, byte [dword ebx+byte_10000C]
+        mov dl, byte [dword ebx+SbDmaFlipFlopPorts]
         out dx, al
         jmp short .6
 .6:
         jmp short .7
 .7:
-        mov dl, byte [dword ebx+byte_100010]
-        mov ax, word [word_1A1184]
+        mov dl, byte [dword ebx+SbDmaAddressPorts]
+        mov ax, word [TimerOldOffsetLo]
         out dx, al
         jmp short .8
 .8:
@@ -442,16 +491,16 @@ sub_D5CA2:
 .10:
         jmp short .11
 .11:
-        mov dl, byte [dword ebx+byte_100000]
-        mov al, byte [byte_1A1190]
+        mov dl, byte [dword ebx+SbDmaPagePorts]
+        mov al, byte [TimerIrqMask]
         out dx, al
         jmp short .12
 .12:
         jmp short .13
 .13:
-        mov ax, word [word_1A1186]
+        mov ax, word [TimerOldSelector]
         dec ax
-        mov dl, byte [dword ebx+byte_100014]
+        mov dl, byte [dword ebx+SbDmaCountPorts]
         out dx, al
         jmp short .14
 .14:
@@ -464,27 +513,27 @@ sub_D5CA2:
         jmp short .17
 .17:
         mov al, 1
-        call sub_D5C5E
+        call TimerSetDivisor
         mov eax, 15FFh
-        call sub_D5BCD
+        call TimerWritePit
         mov eax, 14FFh
-        call sub_D5BCD
+        call TimerWritePit
         mov eax, 90Dh
-        call sub_D5BCD
+        call TimerWritePit
         mov al, 0
-        call sub_D5C5E
-        call sub_D5C2F
-        mov eax, dword [dword_1A1198]
-        mov dl, byte [dword ebx+byte_100004]
+        call TimerSetDivisor
+        call TimerMeasure
+        mov eax, dword [TimerChainCount]
+        mov dl, byte [dword ebx+SbDmaMaskPorts]
         out dx, al
         jmp short .18
 .18:
         jmp short .19
 .19:
         mov eax, 0A00h
-        call sub_D5BCD
+        call TimerWritePit
         mov eax, 1
-        mov byte [byte_1A1193], al
+        mov byte [TimerInstalled], al
         sti
         leave
         ret
@@ -493,26 +542,30 @@ sub_D5CA2:
         clc
         leave
         ret
-sub_D5E1E:
+;-----------------------------------------------------------------------------
+; TimerChainOld                                   D5E1E  96 PC, low confidence
+; Chains to the old timer handler
+;-----------------------------------------------------------------------------
+TimerChainOld:
         push eax
         push ebx
         push ecx
         push edx
-        cmp byte [byte_1A1191], 0
+        cmp byte [TimerChainFlag], 0
         je short .3
         cli
         LD xor, edx, edx
-        mov ebx, dword [dword_1A1198]
+        mov ebx, dword [TimerChainCount]
         LD mov, eax, ebx
         or al, 4
-        mov dl, byte [dword ebx+byte_100004]
+        mov dl, byte [dword ebx+SbDmaMaskPorts]
         out dx, al
         jmp short .1
 .1:
         jmp short .2
 .2:
         LD xor, al, al
-        mov byte [byte_1A1191], al
+        mov byte [TimerChainFlag], al
 .3:
         sti
         pop edx
@@ -520,6 +573,9 @@ sub_D5E1E:
         pop ebx
         pop eax
         ret
+;-----------------------------------------------------------------------------
+; sub_D5E50                                                            D5E50  
+;-----------------------------------------------------------------------------
 sub_D5E50:
         push ebx
         push edx
@@ -543,6 +599,9 @@ sub_D5E50:
         pop edx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_D5E7D                                                            D5E7D  
+;-----------------------------------------------------------------------------
 sub_D5E7D:
         push esi
         push edi
@@ -607,6 +666,9 @@ sub_D5E7D:
         pop edi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; sub_D5F29                                                            D5F29  
+;-----------------------------------------------------------------------------
 sub_D5F29:
         push ebx
         push ecx
@@ -633,6 +695,9 @@ sub_D5F29:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_D5F5A                                                            D5F5A  
+;-----------------------------------------------------------------------------
 sub_D5F5A:
         push ebx
         mov ebx, eax
@@ -654,6 +719,9 @@ sub_D5F5A:
         mov eax, 0FFFFFFFFh
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_D5F84                                                            D5F84  
+;-----------------------------------------------------------------------------
 sub_D5F84:
         push edx
         mov al, 20h
@@ -663,6 +731,9 @@ sub_D5F84:
         out dx, al
         pop edx
         ret
+;-----------------------------------------------------------------------------
+; sub_D5F95                                                            D5F95  
+;-----------------------------------------------------------------------------
 sub_D5F95:
         push ebx
         push ecx
@@ -692,6 +763,9 @@ sub_D5F95:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_D5FD4                                                            D5FD4  
+;-----------------------------------------------------------------------------
 sub_D5FD4:
         push ebx
         push ecx
@@ -717,6 +791,9 @@ sub_D5FD4:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_D6005                                                            D6005  
+;-----------------------------------------------------------------------------
 sub_D6005:
         push esi
         push edi
@@ -734,6 +811,9 @@ sub_D6005:
         pop edi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; sub_D6027                                                            D6027  
+;-----------------------------------------------------------------------------
 sub_D6027:
         push esi
         push edi
@@ -796,6 +876,9 @@ sub_D6027:
         pop edi
         pop esi
         ret 8
+;-----------------------------------------------------------------------------
+; sub_D60D2                                                            D60D2  
+;-----------------------------------------------------------------------------
 sub_D60D2:
         push esi
         push edi
@@ -809,7 +892,7 @@ sub_D60D2:
         add dword [byte ebp-04h], byte 60h
 .1:
         push ecx
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         lea ebx, [byte ebp-020h]
         lea edx, [byte ebp-020h]

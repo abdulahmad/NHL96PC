@@ -9,7 +9,7 @@ extern byte_176AE3, byte_176B84, byte_176BA5, byte_176BA7, collflag, crowdlevel,
 extern dword_119173, dword_1191C7, dword_1191D7, dword_1191E7, dword_1191EB, dword_1191F3, dword_1191FB, dword_1191FF
 extern dword_119F90, nethit, dword_15E844, dword_16516E, dword_165172, dword_179D70, optflags, fox
 extern gameclock, gameopts, gmode, hmtmstruct, lastplayer, lasttouch, off_11787C, puckc
-extern off_11788C, off_117898, off_11789C, passplayer, penshotctl, penshotlive, penshotmode, penshotplayer
+extern PtrPuckFlags, off_117898, off_11789C, passplayer, penshotctl, penshotlive, penshotmode, penshotplayer
 extern penshotstart, puckvx, puckvz, puckx, pucky, puckz, randomd0, regd2
 extern regd3, setpersonel, sflags, shotongoal, shotontarget, BreakGlass, ShakeGlass, RinkEdgeKind
 extern NearestGlassPoint, assextra2, sub_3509F, puckflip, CanBlockShot, PassCompleted, changeplayer, restorepl
@@ -1878,7 +1878,7 @@ checkpuckcoll_ccx:
         jle short .17
         sar dword [regd1], 2
 .17:
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         movzx eax, byte [byte eax+05Bh]
         call randomd0
         mov edx, dword [regd1]
@@ -1886,7 +1886,7 @@ checkpuckcoll_ccx:
         sar edx, 8
         imul eax, edx
         sub dword [regd1], eax
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         movzx eax, byte [byte eax+05Ch]
         call randomd0
         mov edx, dword [regd1]
@@ -2745,7 +2745,7 @@ ScatterPass:
         mov ebx, eax
         mov eax, dword [off_11787C]
         mov word [eax], bx
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         mov word [byte eax+03Eh], 0
         pop ecx
         pop ebx
@@ -2846,7 +2846,7 @@ dopass:
         mov ax, word [dword ebx+086h]
         mov word [lastplayer], ax
         mov word [word_1178A8], ax
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         or byte [gmode2], 10h
         mov word [byte eax+048h], 1
         mov al, byte [byte ebx+044h]
@@ -3100,7 +3100,7 @@ CompPass:
         mov ax, word [dword ebx+086h]
         mov word [lastplayer], ax
         mov word [word_1178A8], ax
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         or byte [gmode2], 10h
         mov word [byte eax+048h], 1
         cmp word [byte ebx+01Ah], byte 0
@@ -3444,7 +3444,7 @@ passtoa0:
         movsx eax, al
         sub eax, byte 6
         mov edx, eax
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         sar ecx, 1
         mov word [byte eax+03Eh], dx
         movsx eax, word [byte ebp-018h]
@@ -3994,7 +3994,7 @@ sub_41432:
         mov word [lastplayer], ax
         mov word [word_1178A8], ax
         and byte [byte ebx+048h], 0FEh
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         or byte [gmode2], 10h
         mov word [byte eax+048h], 2
         cmp word [byte ebx+01Ah], byte 0
@@ -6748,13 +6748,13 @@ puckglue:
         movsx eax, word [regd0]
         call GiveControl
 .20:
-        mov edx, dword [off_11788C]
+        mov edx, dword [PtrPuckFlags]
         mov word [byte edx+048h], 0
-        mov edx, dword [off_11788C]
+        mov edx, dword [PtrPuckFlags]
         mov byte [byte edx+05Bh], 0
-        mov edx, dword [off_11788C]
+        mov edx, dword [PtrPuckFlags]
         mov byte [byte edx+05Ch], 0
-        mov edx, dword [off_11788C]
+        mov edx, dword [PtrPuckFlags]
         mov byte [byte edx+05Fh], 0
         pop esi
         pop ecx
@@ -6774,7 +6774,7 @@ sub_43605:
         test word [optflags], 180h
         setne al
         movzx eax, al
-        mov esi, dword [off_11788C]
+        mov esi, dword [PtrPuckFlags]
         add eax, byte 3
         movzx edx, byte [byte esi+05Bh]
         mov dword [byte ebp-014h], eax
@@ -7558,7 +7558,7 @@ puckstick:
         imul eax, dword 2BCh
         jmp short .20
 .19:
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         movsx eax, word [byte eax+048h]
         cmp eax, byte 1
         jne short .21
@@ -8114,16 +8114,16 @@ doshot:
         call PlaySfx
         jmp near chk4pass_4F6
 .1:
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         or byte [gmode2], 10h
         mov word [byte eax+048h], 2
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         mov dl, byte [byte esi+05Bh]
         mov byte [byte eax+05Bh], dl
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         mov dl, byte [byte esi+05Ch]
         mov byte [byte eax+05Ch], dl
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         mov dl, byte [dword_119173]
         mov byte [byte eax+05Fh], dl
         movsx eax, word [byte esi+038h]
@@ -9786,7 +9786,7 @@ checkfight:
         movsx eax, al
         test eax, eax
         jne near .21
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         mov dl, byte [byte eax+045h]
         and dl, 1
         movzx edx, dl
@@ -9943,10 +9943,10 @@ checkfight:
         jl short .18
         mov eax, dword [puckc]
         mov byte [eax], 0FFh
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         or byte [byte eax+045h], 1
         mov edx, 1Ah
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         call assinsert
         mov byte [collflag], 0FFh
 .21:
@@ -9986,7 +9986,7 @@ checkcx:
         cmp eax, byte 10h
         jne near .17
 .1:
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         mov al, byte [byte eax+045h]
         and al, 1
         movzx eax, al

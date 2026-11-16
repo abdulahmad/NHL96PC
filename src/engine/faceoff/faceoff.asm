@@ -4,12 +4,12 @@ bits 32
 section s_3A7A4 progbits alloc exec nowrite align=1
 extern CompLine, Endfaceoff, PBnum, SetupPenaltyShot, ShotLaneOpen, SortCords, assinsert, assreplace
 extern awtmstruct, byte_1178C8, byte_1190F3, byte_164797, byte_16479B, byte_1647E0, byte_1647E1, byte_165250
-extern byte_165713, byte_16571E, byte_165854, byte_165953, byte_165957, byte_176B84, chk4pass, crowdlevel
+extern byte_165713, HmPlayerFlags, AwPlayerFlags, byte_165953, byte_165957, byte_176B84, chk4pass, crowdlevel
 extern curperiod, hmslotcount, awslotcount, hmfirstslot, awfirstslot, dword_119173, dword_119183, dword_1191C3
 extern dword_1191C7, dword_1191E7, dword_1191EB, dword_1191EF, dword_119F6C, dword_11B2A8, dword_15E4C4, dword_165254
 extern dword_176BD0, optflags, energywarn, fadeinpending, fox, foy, gameclock, gameopts
 extern gmode, hmroster, hmtmgoalie, hmtmstruct, introskipped, lcblink, lcboxon, lcfound
-extern off_11787C, puckc, off_11788C, off_117890, off_117894, off_117898, off_11789C, passplayer
+extern off_11787C, puckc, PtrPuckFlags, off_117890, PtrPuckObject, off_117898, off_11789C, passplayer
 extern penshotmode, penshotplayer, penshotstart, puckvx, puckvz, puckx, pucky, puckz
 extern randomd0, regd2, regd3, resetplstuff, setpersonel, sflags, shotongoal, shotontarget
 extern ResetBrokenGlass, SetPenaltyBoxDoor, StartFaceoffLineChange, sub_3509F, sub_350A5, SkateToSpot, CenterMouse, ReturnGoalies
@@ -22,7 +22,7 @@ extern word_1178FC, gsp, word_117902, word_118E8F, word_118E9F, word_118EA3, wor
 extern word_1190D9, word_11910B, word_11910F, word_119111, word_119113, word_119F78, word_164716, word_16472A
 extern word_164794, word_165144, word_1656E8, word_165704, word_165706, word_165758, word_16581E, word_16583A
 extern word_16583C, word_165950, word_165952, word_165954, word_165956, word_165958, word_16595A, word_165964
-extern regd0, regd1, word_176B7A, word_176B80, word_176B88, word_176B8A, word_176B8C, word_176B8E
+extern regd0, regd1, word_176B7A, word_176B80, LastTouchTeam, PassDistY, StoppageFlag, LastPlayerTouch
 global AdjustFacingDirection, AllInPlace, GoalieToPuckVec, PenShotAssign, PullGoalie, SetTeamGoalie, assbenchwait, assrefpenshot
 global asstakeposition, check4bench, sub_3A7A4_7E, goalieposition_648, puckfaceoff, sub_3A7A4, TakePlayerFromBox, sub_3A8BC
 global PenShotStart, assleavebox, sub_3AE48, sub_3B3C7, puckfaceoff2, asspsclear, goaliechasepuck, assgoalietopuck
@@ -718,7 +718,7 @@ puckfaceoff:
         mov eax, dword [puckc]
         cmp byte [eax], 0
         jl short .2
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         call sub_350A5
 .2:
         mov eax, dword [puckc]
@@ -798,8 +798,8 @@ puckfaceoff:
         test byte [byte eax+01h], 30h
         je near .23
         mov eax, SortCords
-        and byte [byte_16571E], 0FDh
-        and byte [byte_165854], 0FDh
+        and byte [HmPlayerFlags], 0FDh
+        and byte [AwPlayerFlags], 0FDh
         xor esi, esi
 .12:
         add eax, 0A0h
@@ -1382,7 +1382,7 @@ puckfaceoff2:
 .3:
         and byte [byte ecx+044h], 0FDh
         xor edx, edx
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         mov dword [penshotstart], 0
         call sub_350A5
         mov dword [shotontarget], 0
@@ -1534,12 +1534,12 @@ puckfaceoff2:
         mov dword [dword_11B2A8], 0
 .19:
         mov ax, word [foy]
-        mov word [word_176B8E], ax
-        mov word [word_176B88], ax
+        mov word [LastPlayerTouch], ax
+        mov word [LastTouchTeam], ax
         mov ax, word [fox]
         mov word [word_1178FA], 0
-        mov word [word_176B8C], ax
-        mov word [word_176B8A], ax
+        mov word [StoppageFlag], ax
+        mov word [PassDistY], ax
         mov eax, dword [off_117890]
         mov word [word_1178FC], 0FFFFh
         mov word [word_176B7A], 0FFFFh
@@ -1548,9 +1548,9 @@ puckfaceoff2:
         mov word [byte eax+038h], 0
         mov eax, dword [off_117890]
         mov word [byte eax+054h], 0
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         mov word [byte eax+054h], 0
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         mov word [byte eax+012h], 0EDAh
         and byte [sflags], 0BFh
         cmp dword [penshotmode], byte 0
@@ -1790,36 +1790,36 @@ puckfaceoff2:
         jne near .33
         cmp word [foy], byte 0
         jg short .46
-        mov eax, dword [off_117894]
+        mov eax, dword [PtrPuckObject]
         mov word [byte eax+036h], 2
         mov dx, word [foy]
-        mov eax, dword [off_117894]
+        mov eax, dword [PtrPuckObject]
         sub edx, byte 0Fh
         jmp short .47
 .46:
-        mov eax, dword [off_117894]
+        mov eax, dword [PtrPuckObject]
         mov word [byte eax+036h], 6
         mov dx, word [foy]
-        mov eax, dword [off_117894]
+        mov eax, dword [PtrPuckObject]
         add edx, byte 0Fh
 .47:
         mov word [byte eax+02h], dx
-        mov eax, dword [off_117894]
+        mov eax, dword [PtrPuckObject]
         mov dx, word [fox]
         mov word [byte eax+06h], dx
         mov edx, 1Eh
-        mov eax, dword [off_117894]
+        mov eax, dword [PtrPuckObject]
         call assinsert
-        mov eax, dword [off_117894]
+        mov eax, dword [PtrPuckObject]
         mov word [byte eax+0Ch], 0
-        mov eax, dword [off_117894]
+        mov eax, dword [PtrPuckObject]
         mov word [byte eax+0Eh], 0
-        mov eax, dword [off_117894]
+        mov eax, dword [PtrPuckObject]
         and byte [byte eax+044h], 0DFh
         mov edx, 7A7h
-        mov eax, dword [off_117894]
+        mov eax, dword [PtrPuckObject]
         call SetSPA
-        mov eax, dword [off_117894]
+        mov eax, dword [PtrPuckObject]
         xor ebx, ebx
         call updateanim
         call SprSort
@@ -1883,7 +1883,7 @@ puckfaceoff2:
         cmp eax, byte 11h
         jne short .55
         mov edx, 79Dh
-        mov eax, dword [off_117894]
+        mov eax, dword [PtrPuckObject]
         call SetSPA
 .55:
         cmp word [byte ecx+026h], byte 0
@@ -2613,7 +2613,7 @@ assrefpenshot:
 .3:
         cmp eax, byte 1
         jne short .4
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         call sub_350A5
         mov eax, dword [puckc]
         mov byte [eax], 0FFh

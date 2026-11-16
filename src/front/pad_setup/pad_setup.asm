@@ -12,7 +12,7 @@ extern str_BT01, str_BT02, str_D3, str_feB, str_GRIPCON, str_LTD0, str_Pal4, str
 extern strcpy_, strlen_, OpenScreen, SlideInTitleBar, SlideInSideBar, SetScreenColors, BlackPalette, FadePalette
 extern FadeOut, CopyBitmap, SetTextColors, DrawColorText, DrawColorTextRight, DrawColorTextCentred, InitMenuItems, RunMenu
 extern SetMenuMouse, FillMusicStream, SoundSecondsToBytes, SoundIdle, GetLangText, sub_AA988, sub_AADA4, sub_AB758
-extern sub_ABF4C, sub_ADA50, sub_ADA80, sub_DD6C4, sub_DD724, sub_DFF28, sub_E04E0, TextSetFont
+extern FreeMemBlock, sub_ADA50, sub_ADA80, SetScreenTarget, FillRectColor, sub_DFF28, sub_E04E0, TextSetFont
 extern unk_121FC8, unk_151648, unk_1516B8, unk_151720, unk_2018D, word_11758C, word_151768, word_158CBA
 extern word_158CBC, word_158D34, word_158D3C, word_158D44, word_158D46, word_158D74, word_158D76
 global DrawGripPads, DrawGripPads_73B, DrawGripPads_73C, GripSetupScreen, UpdateJoystickTest, JoystickTestScreen
@@ -758,7 +758,7 @@ GripSetupScreen:
         mov eax, 29h
         mov edx, dword [dword_158D70]
         call InitMenuItems
-        call sub_DD6C4
+        call SetScreenTarget
         movzx ax, byte [byte_11FA2F]
         mov word [word_158D74], ax
         movzx ax, byte [byte_11FA2E]
@@ -781,7 +781,7 @@ GripSetupScreen:
         push dword [dword_11F5C0]
         push esi
         push byte 0
-        call sub_DD724
+        call FillRectColor
         movzx edx, byte [byte_11FA2F]
         movsx eax, word [word_158D76]
         sub eax, edx
@@ -795,7 +795,7 @@ GripSetupScreen:
         push dword [dword_11F5C0]
         push esi
         push byte 0
-        call sub_DD724
+        call FillRectColor
         movzx eax, byte [byte_11FA2F]
         movsx edx, word [word_158D76]
         sub edx, eax
@@ -1303,7 +1303,7 @@ GripSetupScreen:
         push dword [dword_11F5C0]
         push esi
         push byte 0
-        call sub_DD724
+        call FillRectColor
         add esp, byte 14h
         push byte 4
         lea eax, [byte esi+02h]
@@ -1316,7 +1316,7 @@ GripSetupScreen:
         inc dword [byte ebp-014h]
         inc edi
         inc edi
-        call sub_DD724
+        call FillRectColor
         movsx eax, word [word_158D76]
         add esp, byte 14h
         sub eax, byte 4
@@ -1427,10 +1427,10 @@ GripSetupScreen:
         mov eax, 3
         call FadeOut
         push dword [dword_158D70]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_158D6C]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .29:
         mov eax, byte_17CA54
@@ -1524,7 +1524,7 @@ UpdateJoystickTest:
         je short .1
         mov eax, dword [dword_158D64]
         mov word [nosplit eax*2+word_158CBA], 0
-        call sub_DD6C4
+        call SetScreenTarget
         mov eax, dword [dword_158D64]
         dec eax
         imul eax, byte 0Ch
@@ -1539,7 +1539,7 @@ UpdateJoystickTest:
         movsx eax, word [dword eax+word_11758C]
         mov dword [dword_158D64], eax
         mov word [nosplit eax*2+word_158CBA], 1
-        call sub_DD6C4
+        call SetScreenTarget
         mov eax, dword [dword_158D64]
         dec eax
         imul eax, byte 0Ch
@@ -1567,7 +1567,7 @@ UpdateJoystickTest:
         movzx dx, dl
         inc edx
         mov word [nosplit eax*2+word_158CBA], dx
-        call sub_DD6C4
+        call SetScreenTarget
         mov edx, dword [dword_158D64]
         dec edx
         imul eax, edx, byte 0Ch
@@ -1619,7 +1619,7 @@ JoystickTestScreen:
         add esp, byte 8
         mov dword [byte ebp+06Eh], eax
         call SetScreenColors
-        call sub_DD6C4
+        call SetScreenTarget
         push str_BKGD
         push esi
         call sub_E04E0
@@ -1717,7 +1717,7 @@ JoystickTestScreen:
         mov byte [byte ebp-03Ah], 0
         mov byte [byte ebp-039h], 2
         mov byte [byte ebp-03Bh], 2
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [byte ebp-040h]
         push dword [byte ebp-044h]
         call MouseRead
@@ -1829,13 +1829,13 @@ JoystickTestScreen:
         xor esi, esi
 .13:
         push dword [dword esi+dword_158CCC]
-        call sub_ABF4C
+        call FreeMemBlock
         add esi, byte 0Ch
         add esp, byte 4
         cmp esi, byte 60h
         jne short .13
         push dword [byte ebp+06Ah]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov eax, 2
         call FadeOut

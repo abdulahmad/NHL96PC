@@ -2,16 +2,16 @@
 bits 32
 %include "hockey.inc"
 section s_190E90 nobits alloc noexec write align=1
-global byte_190EC0, byte_191300, dword_190E90, dword_190E94, dword_190E98, dword_190E9C, dword_190EA0, dword_190EA4
+global byte_190EC0, byte_191300, TextureTileSize, TexturePageBase, TextureDetail, dword_190E9C, dword_190EA0, dword_190EA4
 global dword_190EA8, dword_190EAC, dword_190EB0, dword_190EB4, dword_190EB8, dword_190EBC, dword_190EC4, dword_190EC8
 global dword_190ECC, dword_190ED0, dword_190ED4, dword_1912DC, dword_1912E0, dword_1912E4, dword_1912E8, dword_1912EC
 global dword_1912F4, dword_1912F8, dword_1912FC, dword_191304, dword_191308, dword_19130C, dword_191310, dword_191314
 global dword_19131C, dword_191320, dword_191A9C, dword_191AA0, dword_191AA4, unk_190EDC
-dword_190E90:
+TextureTileSize:
         resb 4
-dword_190E94:
+TexturePageBase:
         resb 4
-dword_190E98:
+TextureDetail:
         resb 4
 dword_190E9C:
         resb 4

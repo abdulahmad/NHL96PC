@@ -24,9 +24,9 @@ extern str_S05dCsgDb3, str_SEASONNDX2, str_SLDR, str_Sta12, str_Sta22, str_Sta32
 extern str_Stn2, str_Stn3, str_Tra1, str_Tra2, str_Tra3, strcpy_, strlen_, LoadDataFileLib
 extern sub_29B9F, sub_4F08B, sub_4F159, sub_4F2A8, sub_4F385, CalendarScreen, UpdateTeamDbs, SimSeasonGames
 extern SaveSeasonTeams, SimulateGame, RunStatsMenu, RunRosterScreens, PlayoffTreeScreen, SeedPlayoffs, PlayoffRound1, PlayoffRound2
-extern PlayoffRound3, PlayoffFinal, ClearPlayoffTree, sub_A8B9B, sub_AAA40, sub_AAA8C, sub_AADA4, sub_ABF4C
-extern sub_AD35C, sub_AD5C8, sub_ADA80, sub_ADBEC, sub_B0430, sub_B178B, sub_B20D0, sub_B20EC
-extern sub_B22B0, sub_B2C54, sub_B7256, sub_B7810, sub_DD6C4, sub_DD7B8, sub_E04E0, sub_E0584
+extern PlayoffRound3, PlayoffFinal, ClearPlayoffTree, sub_A8B9B, sub_AAA40, sub_AAA8C, sub_AADA4, FreeMemBlock
+extern sub_AD35C, sub_AD5C8, sub_ADA80, sub_ADBEC, sub_B0430, sub_B178B, OpenArtArchiveErr, OpenArtArchive
+extern sub_B22B0, sub_B2C54, UnlinkJump, sub_B7810, SetScreenTarget, sub_DD7B8, sub_E04E0, sub_E0584
 extern TextSetFont, TickDeadlinePassed, unk_152C44, unk_17CB2E, unk_17CC1F, unk_17CED5, unk_17CF9A, unk_792EB
 extern unk_79303, unk_79483, unk_794C3, UpdateProgressBox
 global SeasonMenuScreen, SeasonMenuScreen_794, SeasonMenuScreen_7AC, SeasonMenuScreen_858, SeasonMenuScreen_9D7, SeasonMenuScreen_A07, SeasonMenuScreen_A34, SeasonMenuScreen_A61
@@ -64,7 +64,7 @@ SeasonMenuScreen:
         mov dword [byte ebp+062h], eax
         mov eax, 10h
         call InitMenuItems
-        call sub_DD6C4
+        call SetScreenTarget
         mov eax, 5Fh
         xor edx, edx
         mov esi, unk_152C44
@@ -593,7 +593,7 @@ SeasonMenuScreen_858:
         push eax
         call PutBlock
         add esp, byte 0Ch
-        call sub_DD6C4
+        call SetScreenTarget
         imul esi, dword [dword_11E39C], byte 9
         mov dword [byte ebp+07Eh], 0FFFFFFFFh
         inc esi
@@ -912,7 +912,7 @@ SeasonMenuScreen_C68:
         push dword [byte eax+02Ch]
         call PutBlock
         add esp, byte 0Ch
-        call sub_DD6C4
+        call SetScreenTarget
         jmp near SeasonMenuScreen_7AC.17
 .40:
         mov ebx, 7
@@ -926,7 +926,7 @@ SeasonMenuScreen_C68:
         call sub_B22B0
         add esp, byte 0Ch
         push dword [byte ebp+072h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov eax, 3
         call FadeOut
@@ -978,7 +978,7 @@ StandingsScreen:
         push byte 0
         lea eax, [byte ebp+03Ah]
         push eax
-        call sub_B20D0
+        call OpenArtArchiveErr
         lea edx, [dword ebp-0106h]
         add esp, byte 8
         mov dword [dword_17D7CC], eax
@@ -1147,7 +1147,7 @@ StandingsScreen:
         push eax
         call PutBlock
         add esp, byte 0Ch
-        call sub_DD6C4
+        call SetScreenTarget
         cmp dword [byte ebp+07Ah], byte 0
         jbe short .7
         cmp dword [byte ebp+07Ah], byte 1
@@ -1291,7 +1291,7 @@ StandingsScreen:
         jmp near .2
 .18:
         push dword [byte ebp+07Eh]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [byte ebp+066h]
         call sub_ADBEC
@@ -1302,7 +1302,7 @@ StandingsScreen:
         mov eax, 3
         call FadeOut
         push dword [dword_17D7CC]
-        call sub_ABF4C
+        call FreeMemBlock
         jmp near SeasonMenuScreen_D9C
 ;-----------------------------------------------------------------------------
 ; CompareTeamPoints                            7A787  96 PC, medium confidence
@@ -2060,7 +2060,7 @@ DrawStandings:
         call GetLangText
         call DrawColorTextCentred
 .42:
-        call sub_DD6C4
+        call SetScreenTarget
         push dword 82h
         mov eax, dword [dword ebp-0232h]
         push byte 64h
@@ -2130,7 +2130,7 @@ sub_7B15A:
         call LoadSeasonStats
         call HideMessage
 .4:
-        call sub_DD6C4
+        call SetScreenTarget
         mov dword [byte ebp+04Ah], 8Ch
         xor edx, edx
 .5:
@@ -2215,7 +2215,7 @@ sub_7B15A:
         push eax
         mov dword [byte ebp+03Ah], esi
         mov dword [byte ebp+056h], esi
-        call sub_B20D0
+        call OpenArtArchiveErr
         mov ecx, 0F0h
         mov ebx, 140h
         add esp, byte 8
@@ -2255,7 +2255,7 @@ sub_7B15A:
         add esp, byte 14h
         lea eax, [byte ebp-032h]
         xor edx, edx
-        call sub_B7256
+        call UnlinkJump
         movsx ebx, byte [dword esi+byte_17CC37]
 .14:
         movsx eax, byte [dword edx+byte_17CC37]
@@ -2281,7 +2281,7 @@ sub_7B15A:
         add esp, byte 14h
         lea eax, [byte ebp-032h]
         mov ebx, 7
-        call sub_B7256
+        call UnlinkJump
         mov byte [dword esi+byte_17CC36], 0
         lea eax, [byte ebp-032h]
         mov edx, dword [dword_17CBE7]
@@ -2680,7 +2680,7 @@ sub_7B15A:
         call sub_B22B0
         add esp, byte 0Ch
         push dword [dword_17D7CC]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         call HideProgressBox
 .52:
@@ -2991,7 +2991,7 @@ RunSeasonMenus_25A:
 .23:
         cmp dword [dword_1150FC], byte 1
         jne near RunSeasonMenus_189.8
-        call sub_DD6C4
+        call SetScreenTarget
         push byte 0
         call sub_E0584
         movzx eax, byte [byte_17CECB]
@@ -3146,7 +3146,7 @@ PickIndexEntryScreen:
         add esp, byte 8
         mov dword [byte ebp+05Eh], eax
         call SetScreenColors
-        call sub_DD6C4
+        call SetScreenTarget
         push str_BKGD11
         push dword [byte ebp+072h]
         call sub_E04E0
@@ -3511,7 +3511,7 @@ PickIndexEntryScreen:
         push byte 0
         lea eax, [byte ebp+026h]
         push eax
-        call sub_B20EC
+        call OpenArtArchive
         mov edx, eax
         add esp, byte 8
         test eax, eax
@@ -3521,7 +3521,7 @@ PickIndexEntryScreen:
         mov esi, eax
         rep movsb
         push edx
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov ebx, 0Ah
         call FreeStatsTables
@@ -3534,14 +3534,14 @@ PickIndexEntryScreen:
         lea eax, [byte ebp+026h]
         push eax
         mov edi, unk_17CED5
-        call sub_B20EC
+        call OpenArtArchive
         mov ecx, 39Dh
         add esp, byte 8
         mov esi, eax
         mov edx, eax
         rep movsb
         push edx
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         jmp near .21
 .28:
@@ -3574,7 +3574,7 @@ PickIndexEntryScreen:
         push byte 0
         lea eax, [byte ebp+026h]
         push eax
-        call sub_B20EC
+        call OpenArtArchive
         mov edx, eax
         add esp, byte 8
         test eax, eax
@@ -3584,7 +3584,7 @@ PickIndexEntryScreen:
         mov esi, eax
         rep movsb
         push edx
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         call FreeStatsTables
         jmp near .19
@@ -3661,7 +3661,7 @@ PickIndexEntryScreen:
         mov eax, ecx
         call NameIndexPath
         lea eax, [byte ebp+026h]
-        call sub_B7256
+        call UnlinkJump
         jmp near .45
 .38:
         mov eax, dword [dword ebp-0BBEh]
@@ -3709,43 +3709,43 @@ PickIndexEntryScreen:
         call MakePlayoffDbPath
         lea eax, [byte ebp+026h]
         mov ebx, 5
-        call sub_B7256
+        call UnlinkJump
         mov edx, ecx
         lea eax, [byte ebp+026h]
         call MakePlayoffDbPath
         lea eax, [byte ebp+026h]
         mov ebx, 1
-        call sub_B7256
+        call UnlinkJump
         mov edx, ecx
         lea eax, [byte ebp+026h]
         call MakePlayoffDbPath
         lea eax, [byte ebp+026h]
         mov ebx, 2
-        call sub_B7256
+        call UnlinkJump
         mov edx, ecx
         lea eax, [byte ebp+026h]
         call MakePlayoffDbPath
         lea eax, [byte ebp+026h]
         mov ebx, 3
-        call sub_B7256
+        call UnlinkJump
         mov edx, ecx
         lea eax, [byte ebp+026h]
         call MakePlayoffDbPath
         lea eax, [byte ebp+026h]
         mov ebx, 4
-        call sub_B7256
+        call UnlinkJump
         mov edx, ecx
         lea eax, [byte ebp+026h]
         call MakePlayoffDbPath
         lea eax, [byte ebp+026h]
         mov ebx, 7
-        call sub_B7256
+        call UnlinkJump
         mov edx, ecx
         lea eax, [byte ebp+026h]
         call MakePlayoffDbPath
         lea eax, [byte ebp+026h]
         mov edx, 6
-        call sub_B7256
+        call UnlinkJump
         xor ebx, ebx
         lea eax, [byte ebp-02Ah]
         mov esi, 61h
@@ -3767,7 +3767,7 @@ PickIndexEntryScreen:
         test eax, eax
         je short .43
         lea eax, [byte ebp+026h]
-        call sub_B7256
+        call UnlinkJump
 .43:
         push esi
         push edi
@@ -3785,7 +3785,7 @@ PickIndexEntryScreen:
         test eax, eax
         je short .44
         lea eax, [byte ebp+026h]
-        call sub_B7256
+        call UnlinkJump
 .44:
         inc esi
         cmp esi, byte 7Bh
@@ -3885,7 +3885,7 @@ PickIndexEntryScreen:
         jmp near .21
 .51:
         push dword [byte ebp+072h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [byte ebp+066h]
         call sub_ADBEC
@@ -3970,7 +3970,7 @@ DrawIndexEntries:
         mov eax, dword [byte ebp-04h]
         cmp eax, dword [byte ebp-010h]
         jl short .3
-        call sub_DD6C4
+        call SetScreenTarget
         push dword 0BAh
         push byte 5Ch
         push dword [byte edi+02Ch]

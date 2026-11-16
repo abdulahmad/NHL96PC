@@ -2,10 +2,10 @@
 bits 32
 %include "hockey.inc"
 section s_1A10B0 nobits alloc noexec write align=1
-global byte_1A1190, byte_1A1191, byte_1A1192, byte_1A1193, dword_1A10B0, dword_1A10B4, dword_1A10C0, dword_1A10C4
+global TimerIrqMask, TimerChainFlag, TimerPitMode, TimerInstalled, dword_1A10B0, dword_1A10B4, dword_1A10C0, dword_1A10C4
 global dword_1A10C8, dword_1A10CC, dword_1A10D0, dword_1A10D4, dword_1A10D8, dword_1A10DC, dword_1A10E0, dword_1A10E4
-global dword_1A10E8, dword_1A10EC, dword_1A10F0, dword_1A10F4, dword_1A10F8, dword_1A10FC, dword_1A1100, dword_1A1188
-global dword_1A118C, dword_1A1194, dword_1A1198, dword_1A119C, unk_1A1104, word_1A1184, word_1A1186, word_1A11B8
+global dword_1A10E8, dword_1A10EC, dword_1A10F0, dword_1A10F4, dword_1A10F8, dword_1A10FC, dword_1A1100, TimerOldHandler
+global TimerOldRealHandler, TimerDivisor, TimerChainCount, GusEnvConfig, Hook387Save, TimerOldOffsetLo, TimerOldSelector, GusDramSize
 dword_1A10B0:
         resb 4
 dword_1A10B4:
@@ -44,29 +44,29 @@ dword_1A10FC:
         resb 4
 dword_1A1100:
         resb 4
-unk_1A1104:
+Hook387Save:
         resb 128
-word_1A1184:
+TimerOldOffsetLo:
         resb 2
-word_1A1186:
+TimerOldSelector:
         resb 2
-dword_1A1188:
+TimerOldHandler:
         resb 4
-dword_1A118C:
+TimerOldRealHandler:
         resb 4
-byte_1A1190:
+TimerIrqMask:
         resb 1
-byte_1A1191:
+TimerChainFlag:
         resb 1
-byte_1A1192:
+TimerPitMode:
         resb 1
-byte_1A1193:
+TimerInstalled:
         resb 1
-dword_1A1194:
+TimerDivisor:
         resb 4
-dword_1A1198:
+TimerChainCount:
         resb 4
-dword_1A119C:
+GusEnvConfig:
         resb 28
-word_1A11B8:
+GusDramSize:
         resb 4

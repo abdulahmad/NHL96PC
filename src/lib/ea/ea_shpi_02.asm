@@ -2,9 +2,12 @@
 bits 32
 %include "hockey.inc"
 section s_D0360 progbits alloc exec nowrite align=1
-extern str_SHPI2, dword_1228D8, dword_1228E0, fputchar, strncpy_, sub_B0430, sub_D1368, sub_D7D44
+extern str_SHPI2, ClipTopRow, ClipRight, fputchar, strncpy_, sub_B0430, sub_D1368, sub_D7D44
 extern sub_E0520
 global sub_D0360, sub_D0440, sub_D0640, sub_D0650
+;-----------------------------------------------------------------------------
+; sub_D0360                                                            D0360  
+;-----------------------------------------------------------------------------
 sub_D0360:
         push esi
         push edi
@@ -125,6 +128,9 @@ sub_D0360:
         pop edi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; sub_D0440                                                            D0440  
+;-----------------------------------------------------------------------------
 sub_D0440:
         push esi
         push edi
@@ -289,6 +295,9 @@ sub_D0440:
         pop esi
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_D0640                                                            D0640  
+;-----------------------------------------------------------------------------
 sub_D0640:
         push byte 0
         mov edx, dword [byte esp+08h]
@@ -296,17 +305,20 @@ sub_D0640:
         call sub_D0440
         add esp, byte 8
         ret
+;-----------------------------------------------------------------------------
+; sub_D0650                                                            D0650  
+;-----------------------------------------------------------------------------
 sub_D0650:
         push esi
         push edi
         mov ebx, dword [byte esp+0Ch]
-        mov esi, dword [dword_1228E0]
-        mov edx, dword [dword_1228D8]
+        mov esi, dword [ClipRight]
+        mov edx, dword [ClipTopRow]
         push ebx
         sub esi, edx
         call fputchar
         sub esi, eax
-        mov ecx, dword [dword_1228D8]
+        mov ecx, dword [ClipTopRow]
         mov eax, esi
         add esp, byte 4
         sar eax, 1

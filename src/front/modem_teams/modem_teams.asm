@@ -13,8 +13,8 @@ extern str_5GM, str_7GM, str_Aal0, str_Aal1, str_Aal2, str_Aar0, str_Aar1, str_A
 extern str_Ahl0, str_Ahl1, str_Ahl2, str_Ahr0, str_Ahr1, str_Ahr2, str_Bkgd21, str_HaBck02
 extern str_HaBck12, str_Pal29, str_Rk02d, str_Rk222, str_Rul13, str_Rul23, str_Rul33, str_Swt0
 extern str_Swt12, str_SwtD2, sub_29B9F, RunPlayoffMenus_102, RunPlayoffMenus_115, RunPlayoffMenus_73, RunPlayoffMenus_89, RunPlayoffMenus_A6
-extern RunPlayoffMenus_CD, RunPlayoffMenus_D6, RunPlayoffMenus_E1, sub_AA988, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C
-extern sub_ADA50, sub_ADBEC, sub_DD6C4, sub_E04E0, TextSetFont, unk_152C44, unk_17D272, word_114CE0
+extern RunPlayoffMenus_CD, RunPlayoffMenus_D6, RunPlayoffMenus_E1, sub_AA988, sub_AADA4, sub_AB758, FreeMemBlock, sub_AD35C
+extern sub_ADA50, sub_ADBEC, SetScreenTarget, sub_E04E0, TextSetFont, unk_152C44, unk_17D272, word_114CE0
 extern word_11ED38
 global unk_A3851, DrawModemHomePanel, DrawModemHomePanel_151, DrawModemHomePanel_15D, DrawModemAwayPanel, jpt_A3CD4, ModemTeamSelectScreen, ModemTeamSelectScreen_7F1
 global ModemTeamSelectScreen_8AC, ModemTeamSelectScreen_94E, ModemTeamSelectScreen_9F4, ModemTeamSelectScreen_A8A, ModemTeamSelectScreen_B38, ModemTeamSelectScreen_B5C, ModemTeamSelectScreen_B6A, ModemTeamSelectScreen_B78
@@ -132,7 +132,7 @@ DrawModemHomePanel:
         call DrawFrameAt
         cmp esi, byte 18h
         jne short .1
-        call sub_DD6C4
+        call SetScreenTarget
         mov eax, dword [dword_1846F4]
         mov ecx, 8Ch
         sar eax, 1
@@ -250,7 +250,7 @@ DrawModemAwayPanel:
         call DrawFrameAt
         cmp esi, byte 18h
         jne short .1
-        call sub_DD6C4
+        call SetScreenTarget
         mov eax, dword [dword_1846F4]
         mov edx, 8Ch
         sar eax, 1
@@ -339,7 +339,7 @@ ModemTeamSelectScreen:
         mov eax, edx
         mov dword [byte ebp+07Ah], edx
         call SetScreenColors
-        call sub_DD6C4
+        call SetScreenTarget
         push str_Bkgd21
         push dword [byte ebp+076h]
         call sub_E04E0
@@ -550,7 +550,7 @@ ModemTeamSelectScreen:
         mov byte [dword ebp-01E2h], 3
         mov byte [dword ebp-01E1h], 8
         mov byte [dword ebp-01E3h], 7
-        call sub_DD6C4
+        call SetScreenTarget
         push byte 0
         push dword [dword_1846F4]
         push dword [dword_1846F8]
@@ -979,7 +979,7 @@ ModemTeamSelectScreen_B78:
         cmp dword [dword esi+dword_11ED60], byte 0
         je short .17
         push dword [dword esi+dword_11ED60]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov dword [dword esi+dword_11ED60], 0
 .17:
@@ -993,7 +993,7 @@ ModemTeamSelectScreen_B78:
         cmp dword [dword esi+dword_11ED70], byte 0
         je short .19
         push dword [dword esi+dword_11ED70]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov dword [dword esi+dword_11ED70], 0
 .19:
@@ -1008,7 +1008,7 @@ ModemTeamSelectScreen_B78:
         cmp esi, byte 8
         jne near .16
         push dword [byte ebp+072h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov eax, 2
         call FadeOut

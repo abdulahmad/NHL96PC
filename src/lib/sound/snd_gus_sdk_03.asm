@@ -2,8 +2,12 @@
 bits 32
 %include "hockey.inc"
 section s_DCBB0 progbits alloc exec nowrite align=1
-global sub_DCBB0
-sub_DCBB0:
+global GusConvertAddr16
+;-----------------------------------------------------------------------------
+; GusConvertAddr16                                DCBB0  96 PC, low confidence
+; Converts a card memory address for a 16-bit DMA transfer
+;-----------------------------------------------------------------------------
+GusConvertAddr16:
         push ebp
         mov ebp, esp
         push edx

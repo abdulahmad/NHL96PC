@@ -2,15 +2,18 @@
 bits 32
 %include "hockey.inc"
 section s_DE084 progbits alloc exec nowrite align=1
-extern byte_122794, byte_12401C, dword_11FD50, dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4, dword_1228F0
-extern dword_1228F4, dword_1228F8, dword_1228FC, dword_122930, dword_124014, dword_124018
-global jpt_DE3F8, jpt_DEC90, jpt_DEDBC, jpt_DF09B, PlotPixel_8, sub_DE18C_C, sub_DE247_3A, jpt_DE3F8_27
+extern RemapTable, VesaBankShift, dword_11FD50, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, dword_1228F0
+extern dword_1228F4, dword_1228F8, dword_1228FC, dword_122930, VesaBank, VesaBankFunc
+global VesaSetBankJumpTable, jpt_DEC90, jpt_DEDBC, jpt_DF09B, PlotPixel_8, sub_DE18C_C, sub_DE247_3A, jpt_DE3F8_27
 global sub_DE4C7_32, sub_DE643_32, sub_DE7DB_32, sub_DE97C_C, sub_DE9F3_32, sub_DEB94_C, sub_DEB94_AA, sub_DEC41_4
 global jpt_DEC90_DA, sub_DED6D_4, sub_DEEE3_32, sub_DEFD7_3A, sub_DF6A7_32, sub_DF810_34, sub_DE084, PlotPixel
-global sub_DE15C, sub_DE18C, sub_DE247, sub_DE3D8, sub_DE44E, sub_DE45F, sub_DE4C7, sub_DE643
+global sub_DE15C, sub_DE18C, sub_DE247, VesaSetBank, sub_DE44E, sub_DE45F, sub_DE4C7, sub_DE643
 global sub_DE7DB, sub_DE97C, sub_DE9F3, sub_DEB94, sub_DEC41, sub_DED6D, sub_DEE68, sub_DEEE3
 global sub_DEF74, sub_DEFD7, sub_DF058, sub_DF22C, sub_DF2CC, sub_DF38C, sub_DF44C, sub_DF50C
-global sub_DF55C, sub_DF596, sub_DF5C0, sub_DF6A7, sub_DF810
+global SaveVideoState, sub_DF596, sub_DF5C0, sub_DF6A7, sub_DF810
+;-----------------------------------------------------------------------------
+; sub_DE084                                                            DE084  
+;-----------------------------------------------------------------------------
 sub_DE084:
         push ebp
         LD mov, ebp, esp
@@ -40,27 +43,30 @@ sub_DE084:
         mov dword [byte esi+0Ch], ecx
         mov dword [byte esi+014h], ebx
         db 0A3h                                 ; insn: mov [128D8h],eax
-        dd dword_1228D8
+        dd ClipTopRow
         db 089h,015h                            ; insn: mov [128E0h],edx
-        dd dword_1228E0
-        mov dword [dword_1228DC], ecx
-        mov dword [dword_1228E4], ebx
+        dd ClipRight
+        mov dword [ClipLeftCol], ecx
+        mov dword [ScreenHeight], ebx
         pop esi
         leave
         ret
         db 00h
         mov eax, dword [byte esp+04h]
         mov edx, dword [byte esp+08h]
-        cmp eax, dword [dword_1228D8]
+        cmp eax, dword [ClipTopRow]
         jl short .2
-        cmp eax, dword [dword_1228E0]
+        cmp eax, dword [ClipRight]
         jge short .2
-        cmp edx, dword [dword_1228DC]
+        cmp edx, dword [ClipLeftCol]
         jl short .2
-        cmp edx, dword [dword_1228E4]
+        cmp edx, dword [ScreenHeight]
         jl short PlotPixel_8
 .2:
         ret
+;-----------------------------------------------------------------------------
+; PlotPixel                                    DE10D  95 PC, medium confidence
+;-----------------------------------------------------------------------------
 PlotPixel:
         mov eax, dword [byte esp+04h]
         mov edx, dword [byte esp+08h]
@@ -73,7 +79,7 @@ PlotPixel_8:
         movzx eax, byte [eax]
         ret
 .1:
-        call sub_DE3D8
+        call VesaSetBank
         movzx eax, byte [edx]
         ret
 .2:
@@ -81,26 +87,32 @@ PlotPixel_8:
         movzx edx, ax
         add edx, dword [dword_1228FC]
         shr eax, 10h
-        cmp al, byte [byte_12401C]
+        cmp al, byte [VesaBankShift]
         jne short .1
         movzx eax, byte [edx]
         ret
         db 00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_DE15C                                                            DE15C  
+;-----------------------------------------------------------------------------
 sub_DE15C:
         mov eax, dword [byte esp+04h]
         mov edx, dword [byte esp+08h]
         mov ebx, dword [byte esp+0Ch]
-        cmp eax, dword [dword_1228D8]
+        cmp eax, dword [ClipTopRow]
         jl short .1
-        cmp eax, dword [dword_1228E0]
+        cmp eax, dword [ClipRight]
         jge short .1
-        cmp edx, dword [dword_1228DC]
+        cmp edx, dword [ClipLeftCol]
         jl short .1
-        cmp edx, dword [dword_1228E4]
+        cmp edx, dword [ScreenHeight]
         jl short sub_DE18C_C
 .1:
         ret
         db 02Eh,08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_DE18C                                                            DE18C  
+;-----------------------------------------------------------------------------
 sub_DE18C:
         mov eax, dword [byte esp+04h]
         mov edx, dword [byte esp+08h]
@@ -115,7 +127,7 @@ sub_DE18C_C:
         ret
         db 090h
 .1:
-        call sub_DE3D8
+        call VesaSetBank
         mov byte [edx], bl
         ret
 .2:
@@ -123,7 +135,7 @@ sub_DE18C_C:
         movzx edx, ax
         add edx, dword [dword_1228FC]
         shr eax, 10h
-        cmp al, byte [byte_12401C]
+        cmp al, byte [VesaBankShift]
         jne short .1
         mov byte [edx], bl
         ret
@@ -138,7 +150,7 @@ sub_DE18C_C:
         ret
         db 090h
 .3:
-        call sub_DE3D8
+        call VesaSetBank
         mov byte [edx], bl
         ret
 .4:
@@ -146,7 +158,7 @@ sub_DE18C_C:
         movzx edx, ax
         add edx, dword [dword_1228FC]
         shr eax, 10h
-        cmp al, byte [byte_12401C]
+        cmp al, byte [VesaBankShift]
         jne short .3
         mov byte [edx], bl
         ret
@@ -166,6 +178,9 @@ sub_DE18C_C:
         movsx eax, ax
         mov dword [byte ebp-08h], eax
         jmp short sub_DE247_3A
+;-----------------------------------------------------------------------------
+; sub_DE247                                                            DE247  
+;-----------------------------------------------------------------------------
 sub_DE247:
         push ebp
         LD mov, ebp, esp
@@ -195,10 +210,10 @@ sub_DE247_3A:
         movsx ecx, word [byte edi+06h]
         lea edx, [byte edi+010h]
         LD mov, eax, ebx
-        cmp eax, dword [dword_1228DC]
+        cmp eax, dword [ClipLeftCol]
         jl short .2
         LD add, eax, ecx
-        sub eax, dword [dword_1228E4]
+        sub eax, dword [ScreenHeight]
         jle short .3
         LD sub, ecx, eax
         jg short .3
@@ -208,7 +223,7 @@ sub_DE247_3A:
         leave
         ret
 .2:
-        mov ebx, dword [dword_1228DC]
+        mov ebx, dword [ClipLeftCol]
         LD add, eax, ecx
         LD sub, eax, ebx
         jle short .1
@@ -221,7 +236,7 @@ sub_DE247_3A:
         LD add, edx, eax
         LD mov, eax, ebx
         LD add, eax, ecx
-        sub eax, dword [dword_1228E4]
+        sub eax, dword [ScreenHeight]
         jle short .3
         LD sub, ecx, eax
         jle short .1
@@ -233,24 +248,24 @@ sub_DE247_3A:
         LD xor, edx, edx
         mov ebx, dword [byte ebp-04h]
         LD mov, eax, ebx
-        cmp eax, dword [dword_1228D8]
+        cmp eax, dword [ClipTopRow]
         jl short .4
         LD add, eax, ecx
-        sub eax, dword [dword_1228E0]
+        sub eax, dword [ClipRight]
         jl short .6
         LD sub, ecx, eax
         jle short .1
         LD mov, edx, eax
         jmp short .6
 .4:
-        mov ebx, dword [dword_1228D8]
+        mov ebx, dword [ClipTopRow]
         LD add, eax, ecx
         LD sub, eax, ebx
         jle short .1
         LD mov, edi, ecx
         LD sub, edi, eax
         add dword [byte ebp-018h], edi
-        mov edi, dword [dword_1228E0]
+        mov edi, dword [ClipRight]
         LD sub, edi, ebx
         jle short .1
         LD cmp, eax, edi
@@ -337,16 +352,20 @@ sub_DE247_3A:
         jg short .14
         jmp near .1
         mov eax, dword [byte esp+04h]
-sub_DE3D8:
-        cmp al, byte [byte_12401C]
+;-----------------------------------------------------------------------------
+; VesaSetBank                                     DE3D8  96 PC, low confidence
+; Switches the VESA bank window when the wanted bank differs
+;-----------------------------------------------------------------------------
+VesaSetBank:
+        cmp al, byte [VesaBankShift]
         je short jpt_DE3F8_27
-        mov byte [byte_12401C], al
+        mov byte [VesaBankShift], al
         cmp eax, byte 0
         jl short jpt_DE3F8_27
         push edx
-        mov edx, dword [dword_124014]
-        jmp dword [nosplit edx*4+jpt_DE3F8]
-jpt_DE3F8:
+        mov edx, dword [VesaBank]
+        jmp dword [nosplit edx*4+VesaSetBankJumpTable]
+VesaSetBankJumpTable:
         dd .1
         dd jpt_DE3F8_27.2
 .1:
@@ -355,7 +374,7 @@ jpt_DE3F8:
         push ebp
         push esi
         push edi
-        mov ecx, dword [dword_124018]
+        mov ecx, dword [VesaBankFunc]
         shl al, cl
         movzx edx, al
         mov eax, 4F05h
@@ -375,7 +394,7 @@ jpt_DE3F8_27:
         push ebp
         push esi
         push edi
-        mov ecx, dword [dword_124018]
+        mov ecx, dword [VesaBankFunc]
         shl al, cl
         movzx edx, al
         push edx
@@ -393,6 +412,9 @@ jpt_DE3F8_27:
         pop ebx
         pop edx
         ret
+;-----------------------------------------------------------------------------
+; sub_DE44E                                                            DE44E  
+;-----------------------------------------------------------------------------
 sub_DE44E:
         mov ebx, dword [byte esp+04h]
         mov ax, 4F02h
@@ -404,6 +426,9 @@ sub_DE44E:
         pop esi
         pop ebp
         ret
+;-----------------------------------------------------------------------------
+; sub_DE45F                                                            DE45F  
+;-----------------------------------------------------------------------------
 sub_DE45F:
         push ebp
         push esi
@@ -457,6 +482,9 @@ sub_DE45F:
         movsx eax, ax
         mov dword [byte ebp-08h], eax
         jmp short sub_DE4C7_32
+;-----------------------------------------------------------------------------
+; sub_DE4C7                                                            DE4C7  
+;-----------------------------------------------------------------------------
 sub_DE4C7:
         push ebp
         LD mov, ebp, esp
@@ -484,10 +512,10 @@ sub_DE4C7_32:
         movsx ecx, word [byte esi+06h]
         lea edx, [byte esi+010h]
         LD mov, eax, ebx
-        cmp eax, dword [dword_1228DC]
+        cmp eax, dword [ClipLeftCol]
         jl short .2
         LD add, eax, ecx
-        sub eax, dword [dword_1228E4]
+        sub eax, dword [ScreenHeight]
         jle short .3
         LD sub, ecx, eax
         jg short .3
@@ -497,7 +525,7 @@ sub_DE4C7_32:
         leave
         ret
 .2:
-        mov ebx, dword [dword_1228DC]
+        mov ebx, dword [ClipLeftCol]
         LD add, eax, ecx
         LD sub, eax, ebx
         jle short .1
@@ -510,7 +538,7 @@ sub_DE4C7_32:
         LD add, edx, eax
         LD mov, eax, ebx
         LD add, eax, ecx
-        sub eax, dword [dword_1228E4]
+        sub eax, dword [ScreenHeight]
         jle short .3
         LD sub, ecx, eax
         jle short .1
@@ -522,24 +550,24 @@ sub_DE4C7_32:
         LD xor, edx, edx
         mov ebx, dword [byte ebp-04h]
         LD mov, eax, ebx
-        cmp eax, dword [dword_1228D8]
+        cmp eax, dword [ClipTopRow]
         jl short .4
         LD add, eax, ecx
-        sub eax, dword [dword_1228E0]
+        sub eax, dword [ClipRight]
         jl short .6
         LD sub, ecx, eax
         jle short .1
         LD mov, edx, eax
         jmp short .6
 .4:
-        mov ebx, dword [dword_1228D8]
+        mov ebx, dword [ClipTopRow]
         LD add, eax, ecx
         LD sub, eax, ebx
         jle short .1
         LD mov, esi, ecx
         LD sub, esi, eax
         add dword [byte ebp-018h], esi
-        mov esi, dword [dword_1228E0]
+        mov esi, dword [ClipRight]
         LD sub, esi, ebx
         jle short .1
         LD cmp, eax, esi
@@ -626,6 +654,9 @@ sub_DE4C7_32:
         movsx eax, ax
         mov dword [byte ebp-08h], eax
         jmp short sub_DE643_32
+;-----------------------------------------------------------------------------
+; sub_DE643                                                            DE643  
+;-----------------------------------------------------------------------------
 sub_DE643:
         push ebp
         LD mov, ebp, esp
@@ -653,10 +684,10 @@ sub_DE643_32:
         movsx ecx, word [byte esi+06h]
         lea edx, [byte esi+010h]
         LD mov, eax, ebx
-        cmp eax, dword [dword_1228DC]
+        cmp eax, dword [ClipLeftCol]
         jl short .2
         LD add, eax, ecx
-        sub eax, dword [dword_1228E4]
+        sub eax, dword [ScreenHeight]
         jle short .3
         LD sub, ecx, eax
         jg short .3
@@ -666,7 +697,7 @@ sub_DE643_32:
         leave
         ret
 .2:
-        mov ebx, dword [dword_1228DC]
+        mov ebx, dword [ClipLeftCol]
         LD add, eax, ecx
         LD sub, eax, ebx
         jle short .1
@@ -679,7 +710,7 @@ sub_DE643_32:
         LD add, edx, eax
         LD mov, eax, ebx
         LD add, eax, ecx
-        sub eax, dword [dword_1228E4]
+        sub eax, dword [ScreenHeight]
         jle short .3
         LD sub, ecx, eax
         jle short .1
@@ -691,24 +722,24 @@ sub_DE643_32:
         LD xor, edx, edx
         mov ebx, dword [byte ebp-04h]
         LD mov, eax, ebx
-        cmp eax, dword [dword_1228D8]
+        cmp eax, dword [ClipTopRow]
         jl short .4
         LD add, eax, ecx
-        sub eax, dword [dword_1228E0]
+        sub eax, dword [ClipRight]
         jl short .6
         LD sub, ecx, eax
         jle short .1
         LD mov, edx, eax
         jmp short .6
 .4:
-        mov ebx, dword [dword_1228D8]
+        mov ebx, dword [ClipTopRow]
         LD add, eax, ecx
         LD sub, eax, ebx
         jle short .1
         LD mov, esi, ecx
         LD sub, esi, eax
         add dword [byte ebp-018h], esi
-        mov esi, dword [dword_1228E0]
+        mov esi, dword [ClipRight]
         LD sub, esi, ebx
         jle short .1
         LD cmp, eax, esi
@@ -809,6 +840,9 @@ sub_DE643_32:
         movsx eax, ax
         mov dword [byte ebp-08h], eax
         jmp short sub_DE7DB_32
+;-----------------------------------------------------------------------------
+; sub_DE7DB                                                            DE7DB  
+;-----------------------------------------------------------------------------
 sub_DE7DB:
         push ebp
         LD mov, ebp, esp
@@ -836,10 +870,10 @@ sub_DE7DB_32:
         movsx ecx, word [byte esi+06h]
         lea edx, [byte esi+010h]
         LD mov, eax, ebx
-        cmp eax, dword [dword_1228DC]
+        cmp eax, dword [ClipLeftCol]
         jl short .2
         LD add, eax, ecx
-        sub eax, dword [dword_1228E4]
+        sub eax, dword [ScreenHeight]
         jle short .3
         LD sub, ecx, eax
         jg short .3
@@ -849,7 +883,7 @@ sub_DE7DB_32:
         leave
         ret
 .2:
-        mov ebx, dword [dword_1228DC]
+        mov ebx, dword [ClipLeftCol]
         LD add, eax, ecx
         LD sub, eax, ebx
         jle short .1
@@ -862,7 +896,7 @@ sub_DE7DB_32:
         LD add, edx, eax
         LD mov, eax, ebx
         LD add, eax, ecx
-        sub eax, dword [dword_1228E4]
+        sub eax, dword [ScreenHeight]
         jle short .3
         LD sub, ecx, eax
         jle short .1
@@ -874,24 +908,24 @@ sub_DE7DB_32:
         LD xor, edx, edx
         mov ebx, dword [byte ebp-04h]
         LD mov, eax, ebx
-        cmp eax, dword [dword_1228D8]
+        cmp eax, dword [ClipTopRow]
         jl short .4
         LD add, eax, ecx
-        sub eax, dword [dword_1228E0]
+        sub eax, dword [ClipRight]
         jl short .6
         LD sub, ecx, eax
         jle short .1
         LD mov, edx, eax
         jmp short .6
 .4:
-        mov ebx, dword [dword_1228D8]
+        mov ebx, dword [ClipTopRow]
         LD add, eax, ecx
         LD sub, eax, ebx
         jle short .1
         LD mov, esi, ecx
         LD sub, esi, eax
         add dword [byte ebp-018h], esi
-        mov esi, dword [dword_1228E0]
+        mov esi, dword [ClipRight]
         LD sub, esi, ebx
         jle short .1
         LD cmp, eax, esi
@@ -980,17 +1014,20 @@ sub_DE7DB_32:
         mov eax, dword [byte esp+04h]
         mov edx, dword [byte esp+08h]
         mov ebx, dword [byte esp+0Ch]
-        cmp eax, dword [dword_1228D8]
+        cmp eax, dword [ClipTopRow]
         jl short .15
-        cmp eax, dword [dword_1228E0]
+        cmp eax, dword [ClipRight]
         jge short .15
-        cmp edx, dword [dword_1228DC]
+        cmp edx, dword [ClipLeftCol]
         jl short .15
-        cmp edx, dword [dword_1228E4]
+        cmp edx, dword [ScreenHeight]
         jl short sub_DE97C_C
 .15:
         ret
         db 02Eh,08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_DE97C                                                            DE97C  
+;-----------------------------------------------------------------------------
 sub_DE97C:
         mov eax, dword [byte esp+04h]
         mov edx, dword [byte esp+08h]
@@ -1005,7 +1042,7 @@ sub_DE97C_C:
         ret
         db 090h
 .1:
-        call sub_DE3D8
+        call VesaSetBank
         and byte [edx], bl
         ret
 .2:
@@ -1013,7 +1050,7 @@ sub_DE97C_C:
         movzx edx, ax
         add edx, dword [dword_1228FC]
         shr eax, 10h
-        cmp al, byte [byte_12401C]
+        cmp al, byte [VesaBankShift]
         jne short .1
         and byte [edx], bl
         ret
@@ -1033,6 +1070,9 @@ sub_DE97C_C:
         movsx eax, ax
         mov dword [byte ebp-08h], eax
         jmp short sub_DE9F3_32
+;-----------------------------------------------------------------------------
+; sub_DE9F3                                                            DE9F3  
+;-----------------------------------------------------------------------------
 sub_DE9F3:
         push ebp
         LD mov, ebp, esp
@@ -1060,10 +1100,10 @@ sub_DE9F3_32:
         movsx ecx, word [byte esi+06h]
         lea edx, [byte esi+010h]
         LD mov, eax, ebx
-        cmp eax, dword [dword_1228DC]
+        cmp eax, dword [ClipLeftCol]
         jl short .2
         LD add, eax, ecx
-        sub eax, dword [dword_1228E4]
+        sub eax, dword [ScreenHeight]
         jle short .3
         LD sub, ecx, eax
         jg short .3
@@ -1073,7 +1113,7 @@ sub_DE9F3_32:
         leave
         ret
 .2:
-        mov ebx, dword [dword_1228DC]
+        mov ebx, dword [ClipLeftCol]
         LD add, eax, ecx
         LD sub, eax, ebx
         jle short .1
@@ -1086,7 +1126,7 @@ sub_DE9F3_32:
         LD add, edx, eax
         LD mov, eax, ebx
         LD add, eax, ecx
-        sub eax, dword [dword_1228E4]
+        sub eax, dword [ScreenHeight]
         jle short .3
         LD sub, ecx, eax
         jle short .1
@@ -1098,24 +1138,24 @@ sub_DE9F3_32:
         LD xor, edx, edx
         mov ebx, dword [byte ebp-04h]
         LD mov, eax, ebx
-        cmp eax, dword [dword_1228D8]
+        cmp eax, dword [ClipTopRow]
         jl short .4
         LD add, eax, ecx
-        sub eax, dword [dword_1228E0]
+        sub eax, dword [ClipRight]
         jl short .6
         LD sub, ecx, eax
         jle short .1
         LD mov, edx, eax
         jmp short .6
 .4:
-        mov ebx, dword [dword_1228D8]
+        mov ebx, dword [ClipTopRow]
         LD add, eax, ecx
         LD sub, eax, ebx
         jle short .1
         LD mov, esi, ecx
         LD sub, esi, eax
         add dword [byte ebp-018h], esi
-        mov esi, dword [dword_1228E0]
+        mov esi, dword [ClipRight]
         LD sub, esi, ebx
         jle short .1
         LD cmp, eax, esi
@@ -1204,17 +1244,20 @@ sub_DE9F3_32:
         mov eax, dword [byte esp+04h]
         mov edx, dword [byte esp+08h]
         mov ebx, dword [byte esp+0Ch]
-        cmp eax, dword [dword_1228D8]
+        cmp eax, dword [ClipTopRow]
         jl short .15
-        cmp eax, dword [dword_1228E0]
+        cmp eax, dword [ClipRight]
         jge short .15
-        cmp edx, dword [dword_1228DC]
+        cmp edx, dword [ClipLeftCol]
         jl short .15
-        cmp edx, dword [dword_1228E4]
+        cmp edx, dword [ScreenHeight]
         jl short sub_DEB94_C
 .15:
         ret
         db 02Eh,08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_DEB94                                                            DEB94  
+;-----------------------------------------------------------------------------
 sub_DEB94:
         mov eax, dword [byte esp+04h]
         mov edx, dword [byte esp+08h]
@@ -1229,7 +1272,7 @@ sub_DEB94_C:
         ret
         db 090h
 .1:
-        call sub_DE3D8
+        call VesaSetBank
         or byte [edx], bl
         ret
 .2:
@@ -1237,7 +1280,7 @@ sub_DEB94_C:
         movzx edx, ax
         add edx, dword [dword_1228FC]
         shr eax, 10h
-        cmp al, byte [byte_12401C]
+        cmp al, byte [VesaBankShift]
         jne short .1
         or byte [edx], bl
         ret
@@ -1245,7 +1288,7 @@ sub_DEB94_C:
         push ebp
         LD mov, ebp, esp
         push edi
-        mov edx, dword [dword_1228D8]
+        mov edx, dword [ClipTopRow]
         LD mov, eax, edx
         sub eax, dword [byte ebp+08h]
         jle short .3
@@ -1255,22 +1298,22 @@ sub_DEB94_C:
 .3:
         mov eax, dword [byte ebp+08h]
         add eax, dword [byte ebp+010h]
-        sub eax, dword [dword_1228E0]
+        sub eax, dword [ClipRight]
         jle short .4
         sub dword [byte ebp+010h], eax
         jle short sub_DEB94_AA
 .4:
-        mov eax, dword [dword_1228DC]
+        mov eax, dword [ClipLeftCol]
         sub eax, dword [byte ebp+0Ch]
         jle short .5
         sub dword [byte ebp+014h], eax
         jle short sub_DEB94_AA
-        mov eax, dword [dword_1228DC]
+        mov eax, dword [ClipLeftCol]
         mov dword [byte ebp+0Ch], eax
 .5:
         mov eax, dword [byte ebp+0Ch]
         add eax, dword [byte ebp+014h]
-        mov ebx, dword [dword_1228E4]
+        mov ebx, dword [ScreenHeight]
         LD sub, eax, ebx
         jle short sub_DEC41_4
         sub dword [byte ebp+014h], eax
@@ -1280,6 +1323,9 @@ sub_DEB94_AA:
         pop edi
         leave
         ret
+;-----------------------------------------------------------------------------
+; sub_DEC41                                                            DEC41  
+;-----------------------------------------------------------------------------
 sub_DEC41:
         push ebp
         LD mov, ebp, esp
@@ -1385,7 +1431,7 @@ jpt_DEC90:
         push ebp
         LD mov, ebp, esp
         push edi
-        mov edx, dword [dword_1228D8]
+        mov edx, dword [ClipTopRow]
         LD mov, eax, edx
         sub eax, dword [byte ebp+08h]
         jle short .11
@@ -1395,31 +1441,37 @@ jpt_DEC90:
 .11:
         mov eax, dword [byte ebp+08h]
         add eax, dword [byte ebp+010h]
-        sub eax, dword [dword_1228E0]
+        sub eax, dword [ClipRight]
         jle short .12
         sub dword [byte ebp+010h], eax
         jle short jpt_DEC90_DA
 .12:
-        mov eax, dword [dword_1228DC]
+        mov eax, dword [ClipLeftCol]
         sub eax, dword [byte ebp+0Ch]
         jle short .13
         sub dword [byte ebp+014h], eax
         jle short jpt_DEC90_DA
-        mov eax, dword [dword_1228DC]
+        mov eax, dword [ClipLeftCol]
         mov dword [byte ebp+0Ch], eax
 .13:
         mov eax, dword [byte ebp+0Ch]
         add eax, dword [byte ebp+014h]
-        mov ebx, dword [dword_1228E4]
+        mov ebx, dword [ScreenHeight]
         LD sub, eax, ebx
         jle short sub_DED6D_4
         sub dword [byte ebp+014h], eax
         jle short jpt_DEC90_DA
         jmp short sub_DED6D_4
+;-----------------------------------------------------------------------------
+; jpt_DEC90_DA                                                         DED6A  
+;-----------------------------------------------------------------------------
 jpt_DEC90_DA:
         pop edi
         leave
         ret
+;-----------------------------------------------------------------------------
+; sub_DED6D                                                            DED6D  
+;-----------------------------------------------------------------------------
 sub_DED6D:
         push ebp
         LD mov, ebp, esp
@@ -1551,6 +1603,9 @@ jpt_DEDBC:
         leave
         ret
         db 00h
+;-----------------------------------------------------------------------------
+; sub_DEE68                                                            DEE68  
+;-----------------------------------------------------------------------------
 sub_DEE68:
         push ebp
         LD mov, ebp, esp
@@ -1606,6 +1661,9 @@ sub_DEE68:
         movsx eax, ax
         mov dword [byte ebp-08h], eax
         jmp short sub_DEEE3_32
+;-----------------------------------------------------------------------------
+; sub_DEEE3                                                            DEEE3  
+;-----------------------------------------------------------------------------
 sub_DEEE3:
         push ebp
         LD mov, ebp, esp
@@ -1679,6 +1737,9 @@ sub_DEEE3_32:
         leave
         ret
         db 00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_DEF74                                                            DEF74  
+;-----------------------------------------------------------------------------
 sub_DEF74:
         push ebx
         push ecx
@@ -1728,6 +1789,9 @@ sub_DEF74:
         movsx eax, ax
         mov dword [byte ebp-08h], eax
         jmp short sub_DEFD7_3A
+;-----------------------------------------------------------------------------
+; sub_DEFD7                                                            DEFD7  
+;-----------------------------------------------------------------------------
 sub_DEFD7:
         push ebp
         LD mov, ebp, esp
@@ -1783,6 +1847,9 @@ sub_DEFD7_3A:
         leave
         ret
         db 00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_DF058                                                            DF058  
+;-----------------------------------------------------------------------------
 sub_DF058:
         push ebp
         LD mov, ebp, esp
@@ -1979,6 +2046,9 @@ jpt_DF09B:
         jne short .20
         jmp short .21
         db 00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_DF22C                                                            DF22C  
+;-----------------------------------------------------------------------------
 sub_DF22C:
         push ebp
         LD mov, ebp, esp
@@ -2053,6 +2123,9 @@ sub_DF22C:
         jg short .3
         jmp short .4
         db 00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_DF2CC                                                            DF2CC  
+;-----------------------------------------------------------------------------
 sub_DF2CC:
         push ebp
         LD mov, ebp, esp
@@ -2146,6 +2219,9 @@ sub_DF2CC:
         dec dword [byte ebp+014h]
         jg short .3
         jmp short .6
+;-----------------------------------------------------------------------------
+; sub_DF38C                                                            DF38C  
+;-----------------------------------------------------------------------------
 sub_DF38C:
         push ebp
         LD mov, ebp, esp
@@ -2239,6 +2315,9 @@ sub_DF38C:
         dec dword [byte ebp+014h]
         jg short .3
         jmp short .6
+;-----------------------------------------------------------------------------
+; sub_DF44C                                                            DF44C  
+;-----------------------------------------------------------------------------
 sub_DF44C:
         push ebp
         LD mov, ebp, esp
@@ -2332,6 +2411,9 @@ sub_DF44C:
         dec dword [byte ebp+014h]
         jg short .3
         jmp short .6
+;-----------------------------------------------------------------------------
+; sub_DF50C                                                            DF50C  
+;-----------------------------------------------------------------------------
 sub_DF50C:
         push ebp
         LD mov, ebp, esp
@@ -2355,7 +2437,7 @@ sub_DF50C:
         add edi, dword [dword_1228FC]
 .2:
         mov al, byte [edi]
-        mov al, byte [dword eax+byte_122794]
+        mov al, byte [dword eax+RemapTable]
         mov byte [edi], al
         inc edi
         dec ecx
@@ -2371,7 +2453,11 @@ sub_DF50C:
         leave
         ret
         db 00h
-sub_DF55C:
+;-----------------------------------------------------------------------------
+; SaveVideoState                                  DF55C  96 PC, low confidence
+; Saves the BIOS video mode, rows, columns and cursor
+;-----------------------------------------------------------------------------
+SaveVideoState:
         push esi
         push edi
         push ebp
@@ -2396,6 +2482,9 @@ sub_DF55C:
         pop edi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; sub_DF596                                                            DF596  
+;-----------------------------------------------------------------------------
 sub_DF596:
         push esi
         push edi
@@ -2416,6 +2505,9 @@ sub_DF596:
         pop esi
         ret
         db 00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_DF5C0                                                            DF5C0  
+;-----------------------------------------------------------------------------
 sub_DF5C0:
         push ebp
         LD mov, ebp, esp
@@ -2543,6 +2635,9 @@ sub_DF5C0:
         movsx eax, ax
         mov dword [byte ebp-08h], eax
         jmp short sub_DF6A7_32
+;-----------------------------------------------------------------------------
+; sub_DF6A7                                                            DF6A7  
+;-----------------------------------------------------------------------------
 sub_DF6A7:
         push ebp
         LD mov, ebp, esp
@@ -2570,10 +2665,10 @@ sub_DF6A7_32:
         movsx ecx, word [byte esi+06h]
         lea edx, [byte esi+010h]
         LD mov, eax, ebx
-        cmp eax, dword [dword_1228DC]
+        cmp eax, dword [ClipLeftCol]
         jl short .2
         LD add, eax, ecx
-        sub eax, dword [dword_1228E4]
+        sub eax, dword [ScreenHeight]
         jle short .3
         LD sub, ecx, eax
         jg short .3
@@ -2583,7 +2678,7 @@ sub_DF6A7_32:
         leave
         ret
 .2:
-        mov ebx, dword [dword_1228DC]
+        mov ebx, dword [ClipLeftCol]
         LD add, eax, ecx
         LD sub, eax, ebx
         jle short .1
@@ -2596,7 +2691,7 @@ sub_DF6A7_32:
         LD add, edx, eax
         LD mov, eax, ebx
         LD add, eax, ecx
-        sub eax, dword [dword_1228E4]
+        sub eax, dword [ScreenHeight]
         jle short .3
         LD sub, ecx, eax
         jle short .1
@@ -2608,24 +2703,24 @@ sub_DF6A7_32:
         LD xor, edx, edx
         mov eax, dword [byte ebp-04h]
         LD mov, ebx, eax
-        cmp eax, dword [dword_1228D8]
+        cmp eax, dword [ClipTopRow]
         jl short .4
         LD add, eax, ecx
-        sub eax, dword [dword_1228E0]
+        sub eax, dword [ClipRight]
         jl short .6
         LD sub, ecx, eax
         jle short .1
         LD mov, edx, eax
         jmp short .6
 .4:
-        mov ebx, dword [dword_1228D8]
+        mov ebx, dword [ClipTopRow]
         LD add, eax, ecx
         LD sub, eax, ebx
         jle short .1
         LD mov, esi, ecx
         LD sub, esi, eax
         add dword [byte ebp-018h], esi
-        mov esi, dword [dword_1228E0]
+        mov esi, dword [ClipRight]
         LD sub, esi, ebx
         jle short .1
         LD cmp, eax, esi
@@ -2666,7 +2761,7 @@ sub_DF6A7_32:
         jmp short .11
 .9:
         mov al, byte [edi]
-        mov al, byte [dword eax+byte_122794]
+        mov al, byte [dword eax+RemapTable]
         mov byte [edi], al
         inc edi
         dec ecx
@@ -2703,6 +2798,9 @@ sub_DF6A7_32:
         cwde
         mov dword [byte ebp-08h], eax
         jmp short sub_DF810_34
+;-----------------------------------------------------------------------------
+; sub_DF810                                                            DF810  
+;-----------------------------------------------------------------------------
 sub_DF810:
         push ebp
         LD mov, ebp, esp
@@ -2758,7 +2856,7 @@ sub_DF810_34:
         jmp short .5
 .3:
         mov al, byte [edi]
-        mov al, byte [dword eax+byte_122794]
+        mov al, byte [dword eax+RemapTable]
         mov byte [edi], al
         inc edi
         dec ecx

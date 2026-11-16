@@ -2,19 +2,22 @@
 bits 32
 %include "hockey.inc"
 section s_E19F0 progbits alloc exec nowrite align=1
-extern str_MUSICON, str_MUSICOFF, str_SOUNDON, str_SOUNDOFF, byte_11F670, byte_1241C4, byte_124244, byte_12445C
-extern byte_12445D, byte_124460, byte_14FAC0, byte_14FAC1, byte_14FAC2, byte_14FAC3, byte_14FAC5, byte_14FAC6
-extern byte_14FAC8, byte_14FAC9, byte_14FACB, byte_14FACC, byte_14FAF0, dword_11F9A8, dword_121F90, dword_122390
-extern dword_122790, dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4, dword_122B90, dword_123390, dword_1242CA
+extern str_MUSICON, str_MUSICOFF, str_SOUNDON, str_SOUNDOFF, byte_11F670, byte_1241C4, byte_124244, SavedTextMode
+extern SavedTextPage, SavedTextRows, byte_14FAC0, byte_14FAC1, byte_14FAC2, byte_14FAC3, byte_14FAC5, byte_14FAC6
+extern byte_14FAC8, byte_14FAC9, byte_14FACB, byte_14FACC, byte_14FAF0, TimerTickStep, dword_121F90, SinTable
+extern dword_122790, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, dword_122B90, dword_123390, dword_1242CA
 extern dword_1242CE, dword_124444, dword_124448, dword_12444C, dword_124450, dword_124454, dword_124458, dword_1248C8
 extern dword_14F098, str_28, joyenablemask, off_14F07C, off_14F080, off_14F084, off_14F088, off_14F08C
-extern off_14F090, off_14F0B0, printf_, sprintf_, sub_ADA50, sub_C2AEC, sub_E0158, sub_E04D0
-extern word_12445E
-global jpt_E1B6F, jpt_E1BCE, jpt_E1CBA, jpt_E1DA4, jpt_E1F8A, sub_E19FE_C, sub_E19FE_5A, sub_E19FE_164
+extern off_14F090, off_14F0B0, printf_, sprintf_, sub_ADA50, sub_C2AEC, sub_E0158, AddExitHandler
+extern SavedTextColumns
+global jpt_E1B6F, RectFillClipLeftJumpTable, RectFillClipBottomJumpTable, RectFillClipRightJumpTable, RectFillStepJumpTable, sub_E19FE_C, sub_E19FE_5A, sub_E19FE_164
 global jpt_E1B6F_40, jpt_E1BCE_D2, jpt_E1CBA_DF, jpt_E1DA4_14A, jpt_E1DA4_1DA, jpt_E1F8A_145, jpt_E1F8A_153, jpt_E1F8A_1AC
 global jpt_E1F8A_1BF, jpt_E1F8A_27E, sub_E2335_5B, sub_E2335_81, sub_E19F0, sub_E19FE, sub_E22DC, sub_E2335
-global sub_E2436, SaveTextMode, RestoreTextMode, sub_E25E0, sub_E2680, sub_E26A2, sub_E270C, sub_E272C
+global sub_E2436, SaveTextMode, RestoreTextMode, AngleFromDelta, SinLookup, CosLookup, DebugLineCount, sub_E272C
 global sub_E2824, unk_E262C
+;-----------------------------------------------------------------------------
+; sub_E19F0                                                            E19F0  
+;-----------------------------------------------------------------------------
 sub_E19F0:
         push ebp
         LD mov, ebp, esp
@@ -23,6 +26,9 @@ sub_E19F0:
         push edi
         mov byte [byte ebp-05h], 1
         jmp short sub_E19FE_C
+;-----------------------------------------------------------------------------
+; sub_E19FE                                                            E19FE  
+;-----------------------------------------------------------------------------
 sub_E19FE:
         push ebp
         LD mov, ebp, esp
@@ -64,8 +70,8 @@ sub_E19FE_5A:
         cmp byte [byte ebp-05h], 0
         jne short .11
         mov eax, dword [byte esi+0Ch]
-        mov ebx, dword [dword_1228DC]
-        mov ecx, dword [dword_1228E4]
+        mov ebx, dword [ClipLeftCol]
+        mov ecx, dword [ScreenHeight]
         LD cmp, eax, ecx
         jl short .3
         mov dl, 8
@@ -85,8 +91,8 @@ sub_E19FE_5A:
         jl short .6
         or dl, 8
 .6:
-        mov ebx, dword [dword_1228D8]
-        mov ecx, dword [dword_1228E0]
+        mov ebx, dword [ClipTopRow]
+        mov ecx, dword [ClipRight]
         mov eax, dword [byte esi+04h]
         LD cmp, eax, ebx
         jge short .7
@@ -199,6 +205,9 @@ jpt_E1B6F:
         dd jpt_E1B6F_40.1
         dd jpt_E1B6F_40.1
         dd jpt_E1B6F_40.1
+;-----------------------------------------------------------------------------
+; jpt_E1B6F_40                                                         E1BAF  
+;-----------------------------------------------------------------------------
 jpt_E1B6F_40:
         LD xor, eax, eax
         pop edi
@@ -207,12 +216,12 @@ jpt_E1B6F_40:
         ret
 .1:
         mov eax, dword [byte esi+0Ch]
-        mov ecx, dword [dword_1228DC]
+        mov ecx, dword [ClipLeftCol]
         mov dword [byte esi+0Ch], ecx
         LD sub, ecx, eax
         mov bl, byte [byte esi+034h]
-        jmp dword [nosplit cs:ebx*4+jpt_E1BCE]
-jpt_E1BCE:
+        jmp dword [nosplit cs:ebx*4+RectFillClipLeftJumpTable]
+RectFillClipLeftJumpTable:
         db 00h,00h,00h,00h,00h,00h,00h,00h
         dd .1
         dd .2
@@ -264,7 +273,7 @@ jpt_E1BCE:
         jmp near jpt_E1F8A_145
 .7:
         mov dword [byte esi+018h], 1
-        mov eax, dword [dword_1228DC]
+        mov eax, dword [ClipLeftCol]
         mov dword [byte esi+0Ch], eax
         mov eax, dword [byte esi+010h]
         mov dword [byte esi+04h], eax
@@ -285,15 +294,18 @@ jpt_E1BCE:
         add dword [byte esi+08h], eax
         adc dword [byte esi+0Ch], edx
         jmp near jpt_E1F8A_145
+;-----------------------------------------------------------------------------
+; jpt_E1BCE_D2                                                         E1CA0  
+;-----------------------------------------------------------------------------
 jpt_E1BCE_D2:
         mov ecx, dword [byte esi+014h]
-        mov edx, dword [dword_1228E4]
+        mov edx, dword [ScreenHeight]
         dec edx
         mov dword [byte esi+014h], edx
         LD sub, ecx, edx
         mov bl, byte [byte esi+034h]
-        jmp dword [nosplit cs:ebx*4+jpt_E1CBA]
-jpt_E1CBA:
+        jmp dword [nosplit cs:ebx*4+RectFillClipBottomJumpTable]
+RectFillClipBottomJumpTable:
         db 00h,00h,00h,00h,00h,00h,00h,00h
         dd .1
         dd .2
@@ -377,10 +389,13 @@ jpt_E1CBA:
         inc eax
         mov dword [byte esi+018h], eax
         jmp near jpt_E1F8A_153
+;-----------------------------------------------------------------------------
+; jpt_E1CBA_DF                                                         E1D99  
+;-----------------------------------------------------------------------------
 jpt_E1CBA_DF:
         mov bl, byte [byte esi+034h]
-        jmp dword [nosplit cs:ebx*4+jpt_E1DA4]
-jpt_E1DA4:
+        jmp dword [nosplit cs:ebx*4+RectFillClipRightJumpTable]
+RectFillClipRightJumpTable:
         db 00h,00h,00h,00h,00h,00h,00h,00h
         dd .10
         dd .1
@@ -390,7 +405,7 @@ jpt_E1DA4:
         dd .8
         dd .9
 .1:
-        mov ecx, dword [dword_1228D8]
+        mov ecx, dword [ClipTopRow]
         mov eax, dword [byte esi+010h]
         mov dword [byte esi+010h], ecx
         LD sub, ecx, eax
@@ -400,7 +415,7 @@ jpt_E1DA4:
         jmp near jpt_E1F8A_1AC
 .2:
         mov eax, dword [byte esi+04h]
-        mov ecx, dword [dword_1228D8]
+        mov ecx, dword [ClipTopRow]
         mov dword [byte esi+04h], ecx
         LD sub, ecx, eax
         add dword [byte esi+020h], ecx
@@ -410,7 +425,7 @@ jpt_E1DA4:
 .3:
         mov eax, dword [esi]
         mov edx, dword [byte esi+04h]
-        mov ecx, dword [dword_1228D8]
+        mov ecx, dword [ClipTopRow]
         mov dword [byte esi+010h], ecx
         LD sub, edx, ecx
         jl short .5
@@ -433,7 +448,7 @@ jpt_E1DA4:
         mov eax, 1
         jmp short .4
 .6:
-        mov edx, dword [dword_1228D8]
+        mov edx, dword [ClipTopRow]
         LD xor, eax, eax
         sub eax, dword [esi]
         sbb edx, dword [byte esi+04h]
@@ -455,7 +470,7 @@ jpt_E1DA4:
         jmp short .10
 .8:
         mov eax, dword [byte esi+04h]
-        mov edx, dword [dword_1228D8]
+        mov edx, dword [ClipTopRow]
         mov dword [byte esi+010h], edx
         LD sub, eax, edx
         LD mov, ecx, eax
@@ -473,7 +488,7 @@ jpt_E1DA4:
         jmp near jpt_E1F8A_1AC
 .9:
         mov ecx, dword [byte esi+04h]
-        mov eax, dword [dword_1228D8]
+        mov eax, dword [ClipTopRow]
         mov dword [byte esi+04h], eax
         LD sub, eax, ecx
         sub dword [byte esi+018h], eax
@@ -499,7 +514,7 @@ jpt_E1DA4_14A:
         mov al, byte [byte esi+035h]
         test al, 4
         je short .11
-        mov ebx, dword [dword_1228DC]
+        mov ebx, dword [ClipLeftCol]
         mov dword [byte esi+0Ch], ebx
         mov dword [byte esi+08h], 0
         dec ebx
@@ -508,24 +523,24 @@ jpt_E1DA4_14A:
 .11:
         test al, 8
         je short .12
-        mov ebx, dword [dword_1228E4]
+        mov ebx, dword [ScreenHeight]
         mov dword [byte esi+0Ch], ebx
         mov dword [byte esi+08h], 0
         jmp short .16
 .12:
         mov ecx, dword [byte esi+014h]
-        cmp ecx, dword [dword_1228E4]
+        cmp ecx, dword [ScreenHeight]
         jl short .13
-        mov ecx, dword [dword_1228E4]
+        mov ecx, dword [ScreenHeight]
         dec ecx
 .13:
         mov edx, dword [byte esi+0Ch]
         mov ebx, dword [byte esi+08h]
         add ebx, 80000000h
         adc edx, byte 0
-        cmp edx, dword [dword_1228DC]
+        cmp edx, dword [ClipLeftCol]
         jge short .14
-        mov edx, dword [dword_1228DC]
+        mov edx, dword [ClipLeftCol]
 .14:
         mov dword [byte esi+0Ch], edx
         mov dword [byte esi+08h], 0
@@ -545,10 +560,13 @@ jpt_E1DA4_14A:
         pop esi
         leave
         ret
+;-----------------------------------------------------------------------------
+; jpt_E1DA4_1DA                                                        E1F7E  
+;-----------------------------------------------------------------------------
 jpt_E1DA4_1DA:
         movzx ebx, byte [byte esi+034h]
-        jmp dword [nosplit cs:ebx*4+jpt_E1F8A]
-jpt_E1F8A:
+        jmp dword [nosplit cs:ebx*4+RectFillStepJumpTable]
+RectFillStepJumpTable:
         db 00h,00h,00h,00h,00h,00h,00h,00h
         dd .1
         dd .2
@@ -562,7 +580,7 @@ jpt_E1F8A:
         jmp near jpt_E1DA4_14A
 .2:
         mov ecx, dword [byte esi+04h]
-        mov eax, dword [dword_1228E0]
+        mov eax, dword [ClipRight]
         dec eax
         mov dword [byte esi+04h], eax
         LD sub, ecx, eax
@@ -571,7 +589,7 @@ jpt_E1F8A:
         add dword [byte esi+028h], ecx
         jmp near jpt_E1B6F_40
 .3:
-        mov ecx, dword [dword_1228E0]
+        mov ecx, dword [ClipRight]
         dec ecx
         mov eax, dword [byte esi+010h]
         mov dword [byte esi+010h], ecx
@@ -583,7 +601,7 @@ jpt_E1F8A:
 .4:
         mov eax, dword [esi]
         mov edx, dword [byte esi+04h]
-        sub edx, dword [dword_1228E0]
+        sub edx, dword [ClipRight]
         inc edx
         mov ecx, dword [byte esi+030h]
         div ecx
@@ -599,7 +617,7 @@ jpt_E1F8A:
         sbb dword [byte esi+04h], edx
         jmp near jpt_E1B6F_40
 .5:
-        mov edx, dword [dword_1228E0]
+        mov edx, dword [ClipRight]
         dec edx
         mov dword [byte esi+010h], edx
         LD xor, eax, eax
@@ -622,7 +640,7 @@ jpt_E1F8A:
         jmp near jpt_E1B6F_40
 .6:
         mov eax, dword [byte esi+04h]
-        mov ecx, dword [dword_1228E0]
+        mov ecx, dword [ClipRight]
         dec ecx
         LD sub, eax, ecx
         mov dword [byte esi+04h], ecx
@@ -642,7 +660,7 @@ jpt_E1F8A:
         add dword [byte esi+028h], edx
         jmp near jpt_E1B6F_40
 .7:
-        mov eax, dword [dword_1228E0]
+        mov eax, dword [ClipRight]
         LD mov, ecx, eax
         dec ecx
         mov dword [byte esi+010h], ecx
@@ -659,30 +677,36 @@ jpt_E1F8A:
         mov dword [byte esi+014h], edx
         add dword [byte esi+02Ch], eax
         jmp near jpt_E1B6F_40
+;-----------------------------------------------------------------------------
+; jpt_E1F8A_145                                                        E20CF  
+;-----------------------------------------------------------------------------
 jpt_E1F8A_145:
         test dword [byte ebp-04h], 8
         je short jpt_E1F8A_153
         jmp near jpt_E1BCE_D2
+;-----------------------------------------------------------------------------
+; jpt_E1F8A_153                                                        E20DD  
+;-----------------------------------------------------------------------------
 jpt_E1F8A_153:
         LD xor, edx, edx
         mov eax, dword [byte esi+04h]
-        cmp eax, dword [dword_1228D8]
+        cmp eax, dword [ClipTopRow]
         jge short .8
         or dh, 2
 .8:
         mov ebx, dword [esi]
         add ebx, 80000000h
         adc eax, byte 0
-        cmp eax, dword [dword_1228E0]
+        cmp eax, dword [ClipRight]
         jl short .9
         or dh, 1
 .9:
         mov eax, dword [byte esi+010h]
-        cmp eax, dword [dword_1228D8]
+        cmp eax, dword [ClipTopRow]
         jge short .10
         or dl, 2
 .10:
-        cmp eax, dword [dword_1228E0]
+        cmp eax, dword [ClipRight]
         jl short .11
         or dl, 1
 .11:
@@ -696,12 +720,18 @@ jpt_E1F8A_153:
         movzx edx, dl
         mov dword [byte ebp-04h], edx
         jmp near sub_E19FE_164
+;-----------------------------------------------------------------------------
+; jpt_E1F8A_1AC                                                        E2136  
+;-----------------------------------------------------------------------------
 jpt_E1F8A_1AC:
         test dword [byte ebp-04h], 1
         je short .13
         jmp near jpt_E1DA4_1DA
 .13:
         jmp near jpt_E1B6F_40
+;-----------------------------------------------------------------------------
+; jpt_E1F8A_1BF                                                        E2149  
+;-----------------------------------------------------------------------------
 jpt_E1F8A_1BF:
         mov byte [byte esi+034h], 1
         LD cmp, ecx, edx
@@ -716,7 +746,7 @@ jpt_E1F8A_1BF:
 .15:
         cmp byte [byte ebp-05h], 0
         jne short .17
-        mov ebx, dword [dword_1228DC]
+        mov ebx, dword [ClipLeftCol]
         LD cmp, eax, ebx
         jge short .18
         mov al, 4
@@ -736,7 +766,7 @@ jpt_E1F8A_1BF:
         mov dword [byte esi+018h], edx
         jmp near jpt_E1B6F_40
 .18:
-        mov ebx, dword [dword_1228E4]
+        mov ebx, dword [ScreenHeight]
         LD cmp, eax, ebx
         jl short .19
         mov al, 8
@@ -748,21 +778,21 @@ jpt_E1F8A_1BF:
         LD sub, eax, ecx
         inc eax
         mov dword [byte esi+018h], eax
-        cmp edx, dword [dword_1228D8]
+        cmp edx, dword [ClipTopRow]
         jge short .20
         dec dword [byte esi+014h]
         mov dword [byte esi+024h], 1
         mov al, 2
         jmp short .16
 .20:
-        cmp ecx, dword [dword_1228E0]
+        cmp ecx, dword [ClipRight]
         jl short .21
         dec dword [byte esi+014h]
         mov dword [byte esi+02Ch], 1
         mov al, 1
         jmp short .16
 .21:
-        mov eax, dword [dword_1228D8]
+        mov eax, dword [ClipTopRow]
         LD mov, ebx, eax
         LD sub, eax, ecx
         jle short .22
@@ -770,7 +800,7 @@ jpt_E1F8A_1BF:
         sub dword [byte esi+018h], eax
 .22:
         LD mov, eax, edx
-        mov ebx, dword [dword_1228E0]
+        mov ebx, dword [ClipRight]
         dec ebx
         LD sub, eax, ebx
         jle short .23
@@ -778,6 +808,9 @@ jpt_E1F8A_1BF:
         mov dword [byte esi+010h], ebx
 .23:
         jmp near jpt_E1B6F_40
+;-----------------------------------------------------------------------------
+; jpt_E1F8A_27E                                                        E2208  
+;-----------------------------------------------------------------------------
 jpt_E1F8A_27E:
         mov ecx, dword [byte esi+014h]
         sar ecx, 1
@@ -799,19 +832,19 @@ jpt_E1F8A_27E:
         LD add, eax, ecx
         mov dword [byte esi+0Ch], eax
         LD mov, ebx, eax
-        sub eax, dword [dword_1228DC]
+        sub eax, dword [ClipLeftCol]
         jle short .29
         LD cmp, eax, ecx
         jle short .26
         LD mov, eax, ecx
 .26:
-        sub ebx, dword [dword_1228E4]
+        sub ebx, dword [ScreenHeight]
         jle short .27
         LD sub, eax, ebx
         jle short .29
 .27:
         mov ebx, dword [byte esi+04h]
-        cmp ebx, dword [dword_1228D8]
+        cmp ebx, dword [ClipTopRow]
         jge short .28
         add dword [byte esi+020h], eax
         jmp short .29
@@ -837,7 +870,7 @@ jpt_E1F8A_27E:
         LD sub, eax, ecx
         mov dword [byte esi+014h], eax
         LD mov, ebx, eax
-        sub eax, dword [dword_1228E4]
+        sub eax, dword [ScreenHeight]
         inc eax
         jge short .35
         neg eax
@@ -845,14 +878,14 @@ jpt_E1F8A_27E:
         jle short .32
         LD mov, eax, ecx
 .32:
-        sub ebx, dword [dword_1228DC]
+        sub ebx, dword [ClipLeftCol]
         inc ebx
         jge short .33
         LD add, eax, ebx
         jle short .35
 .33:
         mov ebx, dword [byte esi+010h]
-        cmp ebx, dword [dword_1228D8]
+        cmp ebx, dword [ClipTopRow]
         jge short .34
         add dword [byte esi+024h], eax
         jmp short .35
@@ -862,6 +895,9 @@ jpt_E1F8A_27E:
         sub dword [byte esi+010h], edx
         jmp short .30
         db 00h
+;-----------------------------------------------------------------------------
+; sub_E22DC                                                            E22DC  
+;-----------------------------------------------------------------------------
 sub_E22DC:
         push ebp
         LD mov, ebp, esp
@@ -898,6 +934,9 @@ sub_E22DC:
         inc dword [dword_1242CA]
         leave
         ret
+;-----------------------------------------------------------------------------
+; sub_E2335                                                            E2335  
+;-----------------------------------------------------------------------------
 sub_E2335:
         push ebp
         LD mov, ebp, esp
@@ -987,6 +1026,9 @@ sub_E2335_81:
         mov esi, dword [dword_124450]
         mov edi, dword [dword_124454]
         ret
+;-----------------------------------------------------------------------------
+; sub_E2436                                                            E2436  
+;-----------------------------------------------------------------------------
 sub_E2436:
         mov dword [dword_124444], ebx
         mov dword [dword_124448], ecx
@@ -1002,43 +1044,49 @@ sub_E2436:
         mov esi, dword [dword_124450]
         mov edi, dword [dword_124454]
         ret
+;-----------------------------------------------------------------------------
+; SaveTextMode                                                    E2484  95 PC
+;-----------------------------------------------------------------------------
 SaveTextMode:
-        cmp byte [byte_12445C], 0
+        cmp byte [SavedTextMode], 0
         jne short .1
         mov ah, 0Fh
         int 10h
-        mov byte [byte_12445C], al
+        mov byte [SavedTextMode], al
         mov al, byte [0410h]
-        mov byte [byte_12445D], al
+        mov byte [SavedTextPage], al
         mov ax, word [044Ah]
-        mov word [word_12445E], ax
+        mov word [SavedTextColumns], ax
         mov al, byte [0484h]
-        mov byte [byte_124460], al
+        mov byte [SavedTextRows], al
         push RestoreTextMode
-        call sub_E04D0
+        call AddExitHandler
         add esp, byte 4
 .1:
         ret
+;-----------------------------------------------------------------------------
+; RestoreTextMode                                                 E24C4  95 PC
+;-----------------------------------------------------------------------------
 RestoreTextMode:
         pusha
-        cmp byte [byte_12445C], 0
+        cmp byte [SavedTextMode], 0
         je near .5
-        mov al, byte [byte_12445D]
+        mov al, byte [SavedTextPage]
         mov byte [0410h], al
-        cmp byte [byte_12445C], 3
+        cmp byte [SavedTextMode], 3
         jne near .2
-        cmp word [word_12445E], byte 50h
+        cmp word [SavedTextColumns], byte 50h
         jne near .2
-        cmp byte [byte_124460], 2Ah
+        cmp byte [SavedTextRows], 2Ah
         jb near .2
-        cmp byte [byte_124460], 31h
+        cmp byte [SavedTextRows], 31h
         ja near .2
         je short .1
         mov ax, 1201h
         mov bl, 30h
         int 10h
         LD xor, eax, eax
-        mov al, byte [byte_12445C]
+        mov al, byte [SavedTextMode]
         int 10h
         mov ax, 1112h
         LD xor, ebx, ebx
@@ -1057,7 +1105,7 @@ RestoreTextMode:
         mov bl, 30h
         int 10h
         LD xor, eax, eax
-        mov al, byte [byte_12445C]
+        mov al, byte [SavedTextMode]
         int 10h
         mov ax, 1112h
         LD xor, ebx, ebx
@@ -1073,10 +1121,10 @@ RestoreTextMode:
         jmp short .3
 .2:
         LD xor, eax, eax
-        mov al, byte [byte_12445C]
+        mov al, byte [SavedTextMode]
         int 10h
 .3:
-        mov al, byte [byte_12445D]
+        mov al, byte [SavedTextPage]
         mov byte [0410h], al
         and al, 30h
         cmp al, 30h
@@ -1088,12 +1136,16 @@ RestoreTextMode:
         mov ah, 0Bh
         LD xor, bx, bx
         int 10h
-        mov byte [byte_12445C], 0
+        mov byte [SavedTextMode], 0
 .5:
         popa
         ret
         db 00h,00h
-sub_E25E0:
+;-----------------------------------------------------------------------------
+; AngleFromDelta                                  E25E0  96 PC, low confidence
+; Returns the angle of a 2D vector from the ratio of its components
+;-----------------------------------------------------------------------------
+AngleFromDelta:
         push ebp
         LD mov, ebp, esp
         LD xor, ebx, ebx
@@ -1165,7 +1217,11 @@ unk_E262C:
         sub eax, 100h
         leave
         ret
-sub_E2680:
+;-----------------------------------------------------------------------------
+; SinLookup                                       E2680  96 PC, low confidence
+; Returns the sine of a 10-bit angle from the quarter-wave table
+;-----------------------------------------------------------------------------
+SinLookup:
         mov eax, dword [byte esp+04h]
         shl ah, 7
         LD sbb, edx, edx
@@ -1174,11 +1230,15 @@ sub_E2680:
         LD xor, eax, ecx
         and eax, 0FFh
         LD sub, eax, ecx
-        mov eax, dword [nosplit eax*4+dword_122390]
+        mov eax, dword [nosplit eax*4+SinTable]
         LD xor, eax, edx
         LD sub, eax, edx
         ret
-sub_E26A2:
+;-----------------------------------------------------------------------------
+; CosLookup                                       E26A2  96 PC, low confidence
+; Returns the cosine of a 10-bit angle from the quarter-wave table
+;-----------------------------------------------------------------------------
+CosLookup:
         mov eax, dword [byte esp+04h]
         lea ecx, [dword eax+0100h]
         shl ch, 7
@@ -1188,7 +1248,7 @@ sub_E26A2:
         LD xor, eax, ecx
         and eax, 0FFh
         LD sub, eax, ecx
-        mov eax, dword [nosplit eax*4+dword_122390]
+        mov eax, dword [nosplit eax*4+SinTable]
         LD xor, eax, edx
         LD sub, eax, edx
         ret
@@ -1196,36 +1256,43 @@ sub_E26A2:
         mov dword [dword_1248C8], 0
         ret
         db 00h
-        mov eax, dword [dword_11F9A8]
+        mov eax, dword [TimerTickStep]
         ret
         mov eax, dword [byte esp+04h]
-        add eax, dword [dword_11F9A8]
+        add eax, dword [TimerTickStep]
         mov dword [dword_14F098], eax
         ret
 .1:
-        mov eax, dword [dword_11F9A8]
+        mov eax, dword [TimerTickStep]
         sub eax, dword [dword_14F098]
         js short .1
         ret
-        mov ebx, dword [dword_11F9A8]
+        mov ebx, dword [TimerTickStep]
         sub ebx, dword [dword_14F098]
         LD sbb, eax, eax
         inc eax
         ret
-sub_E270C:
+;-----------------------------------------------------------------------------
+; DebugLineCount                                  E270C  96 PC, low confidence
+; Returns the debug line count
+;-----------------------------------------------------------------------------
+DebugLineCount:
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFFCh
-        mov eax, dword [dword_11F9A8]
+        mov eax, dword [TimerTickStep]
         add eax, dword [byte ebp+08h]
         mov dword [byte ebp-04h], eax
 .1:
-        mov eax, dword [dword_11F9A8]
+        mov eax, dword [TimerTickStep]
         sub eax, dword [byte ebp-04h]
         js short .1
         leave
         ret
         db 00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_E272C                                                            E272C  
+;-----------------------------------------------------------------------------
 sub_E272C:
         LD xor, eax, eax
         LD xor, ebx, ebx
@@ -1307,6 +1374,9 @@ sub_E272C:
         LD or, eax, ecx
         ret
         db 00h
+;-----------------------------------------------------------------------------
+; sub_E2824                                                            E2824  
+;-----------------------------------------------------------------------------
 sub_E2824:
         mov eax, dword [byte esp+04h]
         mov ebx, dword [byte esp+08h]
@@ -1315,7 +1385,7 @@ sub_E2824:
         and ah, 3
         jnp short .1
         jne short .3
-        mov edx, dword [nosplit eax*4+dword_122390]
+        mov edx, dword [nosplit eax*4+SinTable]
         mov dword [ebx], edx
         neg eax
         mov edx, dword [nosplit eax*4+dword_122790]
@@ -1328,7 +1398,7 @@ sub_E2824:
         mov edx, dword [nosplit eax*4+dword_122790]
         mov dword [ebx], edx
         neg eax
-        mov edx, dword [nosplit eax*4+dword_122390]
+        mov edx, dword [nosplit eax*4+SinTable]
         neg edx
         mov dword [ecx], edx
         ret
@@ -1348,6 +1418,6 @@ sub_E2824:
         mov dword [ebx], edx
         neg eax
         LD xor, ah, ah
-        mov edx, dword [nosplit eax*4+dword_122390]
+        mov edx, dword [nosplit eax*4+SinTable]
         mov dword [ecx], edx
         ret

@@ -4,10 +4,10 @@ bits 32
 section s_38070 progbits alloc exec nowrite align=1
 extern LineChangeLine, LineChangeReq, Pencntdwn, RequestLineChange, SlotButtons, SortCords, a2touchpuck, byte_114B4C
 extern byte_119EEA, byte_119F4A, byte_119F4B, byte_119F5A, byte_119F5B, byte_164741, byte_16507A, byte_165250
-extern byte_16571E, crowdlevel, hmslotcount, awslotcount, hmfirstslot, awfirstslot, dword_1178EA, dword_1178EE
+extern HmPlayerFlags, crowdlevel, hmslotcount, awslotcount, hmfirstslot, awfirstslot, dword_1178EA, dword_1178EE
 extern dword_119173, dword_1191C7, dword_1191D7, dword_1191E7, dword_1191EB, dword_119FEC, dword_11F5C0, dword_11F5C4
 extern dword_164744, dword_164748, dword_164750, dword_165254, dword_1797B4, gameclock, gameopts, gmode
-extern hmtmstruct, introskipped, lcblink, lcboxon, lcline, off_11787C, puckc, off_11788C
+extern hmtmstruct, introskipped, lcblink, lcboxon, lcline, off_11787C, puckc, PtrPuckFlags
 extern off_117898, off_11789C, passplayer, penshotlive, penshotmode, puckvx, puckx, pucky
 extern randomd0, regd2, regd3, setpersonel, sflags, skatetopuck, donothing, SetLCmode
 extern sub_3509F, sub_3E665, BlockShotDive, checkob, dopass, passmode, setpassmode, sub_4137F
@@ -186,7 +186,7 @@ faceoffinput:
         ret
 .3:
         or byte [byte ebx+045h], 2
-        mov edx, dword [off_11788C]
+        mov edx, dword [PtrPuckFlags]
         movsx edx, word [byte edx+026h]
         cmp edx, byte 11h
         jge short .5
@@ -595,7 +595,7 @@ CanBlockShot:
 .10:
         cmp word [word_1178A8], byte 0
         jl near CanBlockShot_31D
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         movsx eax, word [byte eax+048h]
         cmp eax, byte 2
         jne near CanBlockShot_31D
@@ -1508,7 +1508,7 @@ doinput:
         pop ebx
         ret
 .12:
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         movsx edx, word [byte eax+01Ch]
         movsx eax, byte [byte edx+eax+01Eh]
         cmp eax, byte 1Ch
@@ -2482,9 +2482,9 @@ assonetimer:
         call a2touchpuck
         mov eax, ebx
         call doshot
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         add byte [byte eax+05Bh], 4
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         add byte [byte eax+05Ch], 4
         mov edx, ebx
         cmp word [passplayer], byte 0
@@ -3341,7 +3341,7 @@ sub_3A609:
         cmp edx, 3C0h
         jne short .5
 .6:
-        and byte [dword eax+byte_16571E], 0FDh
+        and byte [dword eax+HmPlayerFlags], 0FDh
         test esi, esi
         sete dl
         movzx edx, dl

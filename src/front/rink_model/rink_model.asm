@@ -7,7 +7,7 @@ extern byte_1175AB, byte_1175AC, byte_159C57, byte_159C58, byte_159C59, byte_159
 extern byte_159E61, byte_15EA03, byte_176F96, byte_17701E, byte_17703B, byte_1770A7, byte_1770B2, byte_1770B3
 extern byte_1770B4, byte_1770B5, byte_1770B6, byte_1770D7, dword_1175AD, dword_1175B1, dword_1175B5, dword_1175B9
 extern dword_1176DD, dword_1176E1, dword_1176E5, dword_1177EC, dword_1177F0, dword_11A3F8, dword_11F5C0, dword_11F5C4
-extern dword_11F5F0, dword_122390, dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4, dword_1228F8, dword_152FEC
+extern str_Punct_DrawRinkSurface, SinTable, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, dword_1228F8, dword_152FEC
 extern dword_158D78, dword_158D7C, dword_158D84, dword_158D88, dword_158D90, dword_158D94, dword_158D9C, dword_158DA0
 extern dword_158F24, dword_158F90, dword_159008, dword_159014, dword_15902C, dword_159038, dword_1591CC, dword_1591D0
 extern dword_1591D4, dword_159230, dword_159234, dword_159334, dword_159340, dword_15934C, dword_159370, dword_15937C
@@ -42,7 +42,7 @@ extern dword_15E8C0, dword_15E8C4, dword_15E8C8, dword_15E8CC, dword_15E8D0, dwo
 extern dword_15E8E0, dword_15E8E4, dword_15E8E8, dword_15E8EC, dword_15E8F0, dword_15E8F4, dword_15E8F8, dword_15E8FC
 extern dword_15E900, dword_15EA04, dword_15EA08, dword_1770B7, dword_1770BB, dword_1770BF, dword_1770C3, dword_1770C7
 extern dword_1770CB, dword_1770CF, dword_1797FC, dword_179800, dword_1798E4, dword_1798E8, dword_17997C, dword_179AC8
-extern dword_17DC18, dword_17DC1C, dword_17DC24, dword_17DC28, dword_190E94, dword_190E98, FatalError, gameopts
+extern dword_17DC18, dword_17DC1C, dword_17DC24, dword_17DC28, TexturePageBase, TextureDetail, FatalError, gameopts
 extern GetTicks, LoadPackedFile, mousex, mousey, PBnum, PutBlock, qword_110786, qword_11078E
 extern randomd0, SetDrawBitmap, SortCords, sprintf_, str_B00, str_B0DD, str_B1DD, str_B2DD
 extern str_B3DD, str_B4DD, str_B5DD, str_B6DD, str_B7DD, str_B8DD, str_B9DD, str_Back
@@ -63,15 +63,15 @@ extern str_Stands2, str_STANDSFSH, str_Strobe, str_TEMP2, str_ThinRedLines, str_
 extern str_Wedge, str_WHD0, str_Zamboni, str_Zambpath, strcat_, strcpy_, SelectDataLibrary, sub_49300
 extern sub_4B38C, sub_4B4F3, DrawRinkSprite, SpriteScale, InitMenuItems, RunMenu, SetMenuMouse, FillMusicStream
 extern SoundSecondsToBytes, SoundIdle, BuildAntiAliasTable, DrawFixedLine, DrawFixedLineClip, sub_AA988, sub_AAA40, sub_AADA4
-extern sub_AB758, sub_ABF4C, sub_AC868, sub_AD35C, sub_AD620, sub_AD824, sub_ADBEC, sub_AFD00
-extern sub_B0494, sub_B049E, sub_B20D0, sub_B31C0, sub_B74B0, sub_B7810, sub_B78C0, sub_B78DC
+extern sub_AB758, FreeMemBlock, sub_AC868, sub_AD35C, sub_AD620, sub_AD824, sub_ADBEC, sub_AFD00
+extern LoadResourceDataShared, sub_B049E, OpenArtArchiveErr, sub_B31C0, LoadFileToBlockShared, sub_B7810, SetRinkView, sub_B78DC
 extern sub_B79C8, sub_B79E0, sub_B7A70, sub_B81D0, sub_B82F0, sub_B9870, sub_B98E0, sub_B9928
 extern sub_B9A18, sub_B9B34, sub_B9B70, sub_B9BB0, sub_B9BD0, sub_B9C08, sub_B9C3C, sub_B9C70
 extern sub_BA2F0, sub_BA344, sub_BA3D0, sub_BA420, sub_BA4F0, sub_BA55C, sub_BA5D0, sub_BB384
-extern sub_BB470, sub_BB570, sub_BB924, sub_BB9C4, sub_BBAA0, sub_BBB70, sub_BBBD0, sub_BBBF0
-extern sub_BBC04, sub_BBC14, sub_BBC80, sub_BBE50, sub_BC040, sub_BC0C4, sub_BC150, sub_BC3A0
+extern sub_BB470, sub_BB570, sub_BB924, sub_BB9C4, sub_BBAA0, sub_BBB70, SetRinkMatrix, SetRinkTranslation
+extern SetScreenScale, sub_BBC14, sub_BBC80, sub_BBE50, sub_BC040, sub_BC0C4, sub_BC150, sub_BC3A0
 extern sub_BC3F4, sub_BC5C0, sub_BC674, sub_BC760, sub_BC7F0, sub_BC838, sub_BD86C, sub_BD9AC
-extern sub_BE6E0, sub_BE8AC, sub_BE926, sub_DD6C4, sub_DD8B0, sub_DD8C8, sub_DD908, sub_DD960
+extern sub_BE6E0, sub_BE8AC, sub_BE926, SetScreenTarget, SetRemapTable, sub_DD8C8, sub_DD908, sub_DD960
 extern sub_DDB68, sub_E04E0, sub_E0520, sub_E0898, sub_E0959, sub_E1575, sub_E162A, unk_1175BD
 extern unk_117605, unk_11764D, unk_1176AD, unk_1176CD, unk_1176EC, unk_158DA8, unk_158F28, unk_158F48
 extern unk_158F50, unk_158F68, unk_158F70, unk_158F88, unk_158FF4, unk_159000, unk_159018, unk_159024
@@ -240,14 +240,14 @@ sub_21B35:
         enter 64h, 0
         mov eax, dword [byte ebp+014h]
         mov esi, dword [eax]
-        mov ebx, dword [dword_190E94]
+        mov ebx, dword [TexturePageBase]
         shl esi, 3
         lea edi, [byte ebp-028h]
         add esi, ebx
         movsd
         movsd
         imul esi, dword [eax], byte 0Ch
-        mov edx, dword [dword_190E98]
+        mov edx, dword [TextureDetail]
         lea edi, [byte ebp-064h]
         add esi, edx
         add eax, byte 4
@@ -394,7 +394,7 @@ LoadFshFile:
         push byte 0
         lea eax, [byte ebp-040h]
         push eax
-        call sub_B20D0
+        call OpenArtArchiveErr
         add esp, byte 8
         push eax
         mov esi, eax
@@ -433,7 +433,7 @@ LoadFshFile:
 .6:
         add esp, byte 0Ch
         push dword [byte ebp-0Ch]
-        call sub_ABF4C
+        call FreeMemBlock
         mov eax, dword [byte ebp-04h]
 LoadFshFile_E1:
         add esp, byte 4
@@ -441,7 +441,7 @@ LoadFshFile_E1:
 .7:
         push dword [byte ebp-08h]
         push esi
-        call sub_B0494
+        call LoadResourceDataShared
         add esp, byte 8
         jmp near DrawBenchPlayers_F6
 ;-----------------------------------------------------------------------------
@@ -760,7 +760,7 @@ sub_21E3E:
         ret
 ;-----------------------------------------------------------------------------
 ; ClipEdgeToNear                                  2207E  96 PC, low confidence
-; The point where an edge crosses the near plane (dword_11F5F0)
+; The point where an edge crosses the near plane (str_Punct_DrawRinkSurface)
 ;-----------------------------------------------------------------------------
 ClipEdgeToNear:
         push ecx
@@ -771,7 +771,7 @@ ClipEdgeToNear:
         mov edi, edx
         mov dword [byte ebp-04h], ebx
         mov eax, dword [byte edx+08h]
-        mov ebx, dword [dword_11F5F0]
+        mov ebx, dword [str_Punct_DrawRinkSurface]
         sub eax, dword [byte esi+08h]
         sub ebx, dword [byte esi+08h]
         push eax
@@ -804,7 +804,7 @@ ClipEdgeToNear:
         mov edx, dword [byte ebp-04h]
         add eax, ebx
         mov dword [byte edx+04h], eax
-        mov ebx, dword [dword_11F5F0]
+        mov ebx, dword [str_Punct_DrawRinkSurface]
         inc ebx
         mov dword [byte edx+08h], ebx
         leave
@@ -825,10 +825,10 @@ ClipLineToNear:
         mov edi, edx
         mov esi, ebx
         mov eax, dword [byte ebx+08h]
-        cmp eax, dword [dword_11F5F0]
+        cmp eax, dword [str_Punct_DrawRinkSurface]
         jg short .2
         mov eax, dword [byte ecx+08h]
-        cmp eax, dword [dword_11F5F0]
+        cmp eax, dword [str_Punct_DrawRinkSurface]
         jg short .1
         xor eax, eax
         leave
@@ -844,7 +844,7 @@ ClipLineToNear:
         jmp short .3
 .2:
         mov eax, dword [byte ecx+08h]
-        cmp eax, dword [dword_11F5F0]
+        cmp eax, dword [str_Punct_DrawRinkSurface]
         jg short .4
         mov ebx, ecx
         mov edx, esi
@@ -984,7 +984,7 @@ sub_22268:
         push ebp
         mov ebp, esp
         mov esi, dword [byte ebx+08h]
-        cmp esi, dword [dword_11F5F0]
+        cmp esi, dword [str_Punct_DrawRinkSurface]
         jg short .2
 .1:
         xor eax, eax
@@ -993,7 +993,7 @@ sub_22268:
         ret 8
 .2:
         mov ecx, dword [byte ecx+08h]
-        cmp ecx, dword [dword_11F5F0]
+        cmp ecx, dword [str_Punct_DrawRinkSurface]
         jle short .1
         push dword [byte ebp+010h]
         mov ecx, dword [byte ebp+0Ch]
@@ -1232,8 +1232,8 @@ sub_22494:
         push ecx
         push ebx
         push edx
-        push dword [dword_190E94]
-        push dword [dword_190E98]
+        push dword [TexturePageBase]
+        push dword [TextureDetail]
         push eax
         call sub_BB384
         add esp, byte 14h
@@ -1277,8 +1277,8 @@ sub_224DB:
         push byte 0FFFFFFFFh
         mov eax, dword [byte eax+04h]
         push eax
-        push dword [dword_190E94]
-        push dword [dword_190E98]
+        push dword [TexturePageBase]
+        push dword [TextureDetail]
         mov edx, dword [dword_15E824]
 .1:
         push edx
@@ -1295,8 +1295,8 @@ sub_224DB:
         push byte 0FFFFFFFFh
         mov eax, dword [byte eax+04h]
         push eax
-        push dword [dword_190E94]
-        push dword [dword_190E98]
+        push dword [TexturePageBase]
+        push dword [TextureDetail]
         mov edx, dword [dword_15E86C]
         jmp short .1
 ;-----------------------------------------------------------------------------
@@ -1405,8 +1405,8 @@ sub_22522:
 .8:
         push eax
         push edx
-        push dword [dword_190E94]
-        push dword [dword_190E98]
+        push dword [TexturePageBase]
+        push dword [TextureDetail]
         push ebx
         call sub_BB384
         add esp, byte 14h
@@ -1951,14 +1951,14 @@ sub_22B3C:
         mov esi, dword [dword_15E888]
         mov eax, dword [dword_159340]
         add esp, byte 0Ch
-        cmp eax, dword [dword_11F5F0]
+        cmp eax, dword [str_Punct_DrawRinkSurface]
         jg short .3
 .2:
         xor eax, eax
         jmp short .4
 .3:
         mov eax, dword [dword_15934C]
-        cmp eax, dword [dword_11F5F0]
+        cmp eax, dword [str_Punct_DrawRinkSurface]
         jle short .2
         mov ebx, unk_159338
         push esi
@@ -1977,14 +1977,14 @@ sub_22B3C:
         mov ecx, dword [dword_15E880]
         mov eax, dword [dword_159370]
         mov edi, dword [dword_15E888]
-        cmp eax, dword [dword_11F5F0]
+        cmp eax, dword [str_Punct_DrawRinkSurface]
         jg short .7
 .6:
         xor eax, eax
         jmp short .8
 .7:
         mov eax, dword [dword_15937C]
-        cmp eax, dword [dword_11F5F0]
+        cmp eax, dword [str_Punct_DrawRinkSurface]
         jle short .6
         mov ebx, unk_159368
         push edi
@@ -2226,14 +2226,14 @@ sub_22DD7:
         mov ecx, dword [dword_15E880]
         mov eax, dword [dword_159008]
         mov edx, dword [dword_15E888]
-        cmp eax, dword [dword_11F5F0]
+        cmp eax, dword [str_Punct_DrawRinkSurface]
         jg short .11
 .10:
         xor eax, eax
         jmp short .12
 .11:
         mov eax, dword [dword_159014]
-        cmp eax, dword [dword_11F5F0]
+        cmp eax, dword [str_Punct_DrawRinkSurface]
         jle short .10
         mov ebx, unk_159000
         push edx
@@ -2252,14 +2252,14 @@ sub_22DD7:
         mov ecx, dword [dword_15E880]
         mov edx, dword [dword_15902C]
         mov eax, dword [dword_15E888]
-        cmp edx, dword [dword_11F5F0]
+        cmp edx, dword [str_Punct_DrawRinkSurface]
         jg short .15
 .14:
         xor eax, eax
         jmp short .16
 .15:
         mov edx, dword [dword_159038]
-        cmp edx, dword [dword_11F5F0]
+        cmp edx, dword [str_Punct_DrawRinkSurface]
         jle short .14
         mov ebx, unk_159024
         push eax
@@ -3250,7 +3250,7 @@ ResetGlassShake_C:
 ;-----------------------------------------------------------------------------
 ; ApplyGlassShake                                 23B16  96 PC, low confidence
 ; (ticks): from DrawGameFrame: moves the glass vertices by a fading wave
-; (sine table dword_122390)
+; (sine table SinTable)
 ;-----------------------------------------------------------------------------
 ApplyGlassShake:
         push ebx
@@ -3310,7 +3310,7 @@ ApplyGlassShake:
         xor eax, ecx
         and eax, 0FFh
         sub eax, ecx
-        mov eax, dword [nosplit eax*4+dword_122390]
+        mov eax, dword [nosplit eax*4+SinTable]
         xor eax, edx
         sub eax, edx
         mov edx, eax
@@ -3432,7 +3432,7 @@ ReplayGlassShake:
         xor eax, ecx
         and eax, 0FFh
         sub eax, ecx
-        mov eax, dword [nosplit eax*4+dword_122390]
+        mov eax, dword [nosplit eax*4+SinTable]
         xor eax, edx
         sub eax, edx
         mov edx, eax
@@ -3877,7 +3877,7 @@ TransformRink:
         mov eax, dword [dword_15E8E4]
         push dword [byte eax+07Ch]
         push dword [byte eax+078h]
-        call sub_B78C0
+        call SetRinkView
         mov eax, dword [dword_15E87C]
         add esp, byte 0Ch
         cmp eax, dword [dword_15E7B0]
@@ -4454,7 +4454,7 @@ DrawStandsSides:
         push dword [byte edx+07Ch]
         push dword [byte edx+078h]
         xor esi, esi
-        call sub_B78C0
+        call SetRinkView
         mov ecx, dword_15D2B8
         add esp, byte 0Ch
 .1:
@@ -4555,7 +4555,7 @@ DrawStandsSides:
         mov edx, dword [dword_15E8E4]
         push dword [byte edx+07Ch]
         push dword [byte edx+078h]
-        call sub_B78C0
+        call SetRinkView
         add esp, byte 0Ch
         jmp near sub_24D8C_1A3
 ;-----------------------------------------------------------------------------
@@ -4765,7 +4765,7 @@ DrawGlassShards:
 .4:
         push unk_15E020
 .5:
-        call sub_DD8B0
+        call SetRemapTable
         add esp, byte 4
 .6:
         lea eax, [byte ebp-024h]
@@ -4897,7 +4897,7 @@ sub_24D8C:
         mov esi, dword [dword_15E8E4]
         push dword [byte esi+07Ch]
         push dword [byte esi+078h]
-        call sub_B78C0
+        call SetRinkView
         add esp, byte 0Ch
         lea eax, [dword ebp-0114h]
         push eax
@@ -4906,7 +4906,7 @@ sub_24D8C:
         push unk_15E130
         mov dword [byte ebp-010h], 0
         mov esi, dword_15D2B8
-        call sub_DD8B0
+        call SetRemapTable
         add esp, byte 4
 .1:
         cmp dword [esi], byte 0
@@ -5011,7 +5011,7 @@ sub_24D8C:
         cmp byte [byte_1175A7], 0
         je short sub_24D8C_194
         push unk_15E020
-        call sub_DD8B0
+        call SetRemapTable
         add esp, byte 4
         xor eax, eax
         call DrawSideGlass
@@ -5021,7 +5021,7 @@ sub_24D8C_194:
         lea eax, [dword ebp-0114h]
 sub_24D8C_19A:
         push eax
-        call sub_DD8B0
+        call SetRemapTable
 sub_24D8C_1A0:
         add esp, byte 4
 sub_24D8C_1A3:
@@ -5262,13 +5262,13 @@ FreeZamboni:
         xor eax, eax
         call SelectDataLibrary
         push dword [dword_15E7E4]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_15E81C]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_15E7D8]
-        call sub_ABF4C
+        call FreeMemBlock
         mov dword [dword_1176E5], 0
         jmp near DrawZamboni_41
 ;-----------------------------------------------------------------------------
@@ -6187,7 +6187,7 @@ FreeStandsArt:
         cmp dword [dword_1175B1], byte 0
         je short FreeStandsArt_21.1
         push dword [dword_1175B1]
-        call sub_ABF4C
+        call FreeMemBlock
         mov dword [dword_1175B1], 0
 FreeStandsArt_21:
         add esp, byte 4
@@ -6242,7 +6242,7 @@ LoadStandsArt_61:
         push dword [dword_1175B1]
         push str_STANDSFSH
 .1:
-        call sub_B74B0
+        call LoadFileToBlockShared
         add esp, byte 8
 .2:
         push dword [dword_1175B1]
@@ -6480,7 +6480,7 @@ LoadRinkModel:
         call sub_E162A
         add esp, byte 4
         push byte 50h
-        call sub_BBC04
+        call SetScreenScale
         add esp, byte 4
         mov edx, 19999h
         call sub_BD86C
@@ -7654,79 +7654,79 @@ FreeRinkModel:
         push ecx
         push edx
         push dword [dword_15E8DC]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_15E8E4]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_15E8EC]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_15E8E8]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_15E900]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_15E8CC]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_15E8C4]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_15E8C8]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_15E8F0]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_15E8E0]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_15E818]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_15E8D4]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_15E8D8]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_15E8F4]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_15E8F8]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_15E8FC]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_15E8D0]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_15E7DC]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_15E7E0]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_15E7EC]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_15E814]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_15E804]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_15E7E8]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_15E6C0]
         call sub_ADBEC
         add esp, byte 4
         push dword [dword_15E6D0]
-        call sub_ABF4C
+        call FreeMemBlock
         jmp near FreeStandsArt_21
 ;-----------------------------------------------------------------------------
 ; SetViewCamera                                2767F  96 PC, medium confidence
@@ -7750,10 +7750,10 @@ SetViewCamera:
         mov esi, edx
         push eax
         rep movsd
-        call sub_BBBF0
+        call SetRinkTranslation
         add esp, byte 4
         push dword [byte ebp-04h]
-        call sub_BBBD0
+        call SetRinkMatrix
         jmp near LoadFshFile_E1
 ;-----------------------------------------------------------------------------
 ; sub_276B5                                                       276B5  96 PC
@@ -7800,7 +7800,7 @@ sub_276B5:
 .2:
         cmp edx, ecx
         jl short .1
-        push dword [dword_11F5F0]
+        push dword [str_Punct_DrawRinkSurface]
         lea eax, [byte ebp-03Ah]
         push eax
         lea eax, [dword ebp-01CAh]
@@ -8089,7 +8089,7 @@ DrawIceMarkings:
         cmp byte [byte_1175A8], 0
         je near BuildRinkSides_602
         push unk_15E230
-        call sub_DD8B0
+        call SetRemapTable
         add esp, byte 4
         push dword [dword_15E78C]
         push dword [dword_15E7B8]
@@ -8099,7 +8099,7 @@ DrawIceMarkings:
         push unk_15E330
         mov dword [byte ebp+07Ah], dword_15D2B8
         mov dword [byte ebp+076h], 0
-        call sub_DD8B0
+        call SetRemapTable
         add esp, byte 4
 .14:
         mov eax, dword [byte ebp+07Ah]
@@ -8127,7 +8127,7 @@ DrawIceMarkings:
         mov eax, dword [eax]
         mov eax, dword [byte eax+04h]
         imul esi, dword [eax], byte 0Ch
-        mov eax, dword [dword_190E98]
+        mov eax, dword [TextureDetail]
         lea edi, [byte ebp+02h]
         add esi, eax
         mov edx, dword [byte ebp+07Eh]
@@ -8463,7 +8463,7 @@ DrawBenchSide:
         call sub_DD8C8
         add esp, byte 4
         push unk_15DF20
-        call sub_DD8B0
+        call SetRemapTable
         add esp, byte 4
         push dword [dword_15E748]
         push dword [dword_15E7D0]
@@ -8519,7 +8519,7 @@ DrawBenchSide:
         sar ebx, 2
         call DrawRinkPlayers
         push unk_15E020
-        call sub_DD8B0
+        call SetRemapTable
         add esp, byte 4
 .2:
         push dword [dword_15E7C8]
@@ -8579,7 +8579,7 @@ DrawBenchSide:
         sar ecx, 2
         call DrawRinkPlayers
         push unk_15E020
-        call sub_DD8B0
+        call SetRemapTable
         add esp, byte 4
 .4:
         push dword [dword_15E764]
@@ -8605,7 +8605,7 @@ DrawBenchSide:
         cmp ebx, dword [dword_15E794]
         jg short .7
         push unk_15E020
-        call sub_DD8B0
+        call SetRemapTable
         add esp, byte 4
         push dword [dword_15E73C]
         push dword [dword_15E788]
@@ -8615,7 +8615,7 @@ DrawBenchSide:
 .7:
         lea ebx, [dword ebp-0100h]
         push ebx
-        call sub_DD8B0
+        call SetRemapTable
         add esp, byte 4
         leave
         pop edx
@@ -8915,7 +8915,7 @@ sub_2849A:
 .1:
         push unk_15E020
 .2:
-        call sub_DD8B0
+        call SetRemapTable
         add esp, byte 4
         cmp dword [byte esi+024h], byte 0
         jne short .3
@@ -8949,7 +8949,7 @@ sub_2849A:
         jmp short .6
 .5:
         push unk_15E130
-        call sub_DD8B0
+        call SetRemapTable
         add esp, byte 4
         mov eax, dword [edi]
         push dword [byte eax+04h]
@@ -9381,7 +9381,7 @@ DrawRinkBack:
         cmp byte [byte_1175A7], 0
         je short .14
         push unk_15DF20
-        call sub_DD8B0
+        call SetRemapTable
         add esp, byte 4
         mov eax, 1
         call DrawSideGlass
@@ -9648,7 +9648,7 @@ DrawWholeRink:
         call sub_DD8C8
         add esp, byte 4
         push unk_15DF20
-        call sub_DD8B0
+        call SetRemapTable
         add esp, byte 4
         push dword [dword_15E748]
         push dword [dword_15E7D0]
@@ -9680,7 +9680,7 @@ DrawWholeRink:
         cmp eax, dword [dword_15E7A0]
         jge short .13
         push unk_15E020
-        call sub_DD8B0
+        call SetRemapTable
         add esp, byte 4
 .13:
         push dword [dword_15E7C8]
@@ -9702,7 +9702,7 @@ DrawWholeRink:
         cmp eax, dword [dword_15E79C]
         jle short .15
         push unk_15E020
-        call sub_DD8B0
+        call SetRemapTable
         add esp, byte 4
 .15:
         push dword [dword_15E764]
@@ -9716,7 +9716,7 @@ DrawWholeRink:
         cmp eax, dword [dword_15E794]
         jg short .18
         push unk_15E020
-        call sub_DD8B0
+        call SetRemapTable
         add esp, byte 4
         push dword [dword_15E73C]
         push dword [dword_15E788]
@@ -9726,7 +9726,7 @@ DrawWholeRink:
 .18:
         lea eax, [dword ebp-0108h]
         push eax
-        call sub_DD8B0
+        call SetRemapTable
         add esp, byte 4
 .19:
         mov eax, dword [dword_15E884]
@@ -9766,7 +9766,7 @@ DrawWholeRink:
         call DrawSpriteAtVertex
 .23:
         push unk_15DF20
-        call sub_DD8B0
+        call SetRemapTable
         add esp, byte 4
         mov eax, 1
         call DrawSideGlass
@@ -9951,7 +9951,7 @@ DrawZamboniScene:
         call sub_DD8C8
         add esp, byte 4
         push unk_15DF20
-        call sub_DD8B0
+        call SetRemapTable
         add esp, byte 4
         push dword [dword_15E748]
         push dword [dword_15E7D0]
@@ -9983,7 +9983,7 @@ DrawZamboniScene:
         cmp eax, dword [dword_15E7A0]
         jge short .14
         push unk_15E020
-        call sub_DD8B0
+        call SetRemapTable
         add esp, byte 4
 .14:
         push dword [dword_15E7C8]
@@ -10005,7 +10005,7 @@ DrawZamboniScene:
         cmp eax, dword [dword_15E79C]
         jle short .16
         push unk_15E020
-        call sub_DD8B0
+        call SetRemapTable
         add esp, byte 4
 .16:
         push dword [dword_15E764]
@@ -10019,7 +10019,7 @@ DrawZamboniScene:
         cmp eax, dword [dword_15E794]
         jg short .19
         push unk_15E020
-        call sub_DD8B0
+        call SetRemapTable
         add esp, byte 4
         push dword [dword_15E73C]
         push dword [dword_15E788]
@@ -10029,7 +10029,7 @@ DrawZamboniScene:
 .19:
         lea eax, [dword ebp-0100h]
         push eax
-        call sub_DD8B0
+        call SetRemapTable
         add esp, byte 4
 .20:
         mov eax, dword [dword_15E884]
@@ -10087,20 +10087,20 @@ DrawZamboniScene:
         ret
 ;-----------------------------------------------------------------------------
 ; SetRinkClipWindow                            2976B  96 PC, medium confidence
-; Copies the view clip window (dword_1228D8-1228E4) into 16.16 for the rink
+; Copies the view clip window (ClipTopRow-1228E4) into 16.16 for the rink
 ; draw
 ;-----------------------------------------------------------------------------
 SetRinkClipWindow:
-        movsx eax, word [dword_1228D8]
+        movsx eax, word [ClipTopRow]
         shl eax, 10h
         mov dword [dword_17DC28], eax
-        movsx eax, word [dword_1228E0]
+        movsx eax, word [ClipRight]
         shl eax, 10h
         mov dword [dword_17DC18], eax
-        movsx eax, word [dword_1228DC]
+        movsx eax, word [ClipLeftCol]
         shl eax, 10h
         mov dword [dword_17DC24], eax
-        movsx eax, word [dword_1228E4]
+        movsx eax, word [ScreenHeight]
         shl eax, 10h
         mov dword [dword_17DC1C], eax
         ret
@@ -10132,7 +10132,7 @@ sub_297C9:
         call sub_DD908
         add esp, byte 4
         push unk_15E904
-        call sub_DD8B0
+        call SetRemapTable
         add esp, byte 4
         pop edx
         pop ecx
@@ -10168,9 +10168,9 @@ sub_297EA:
         mov dword [byte ebp-08h], 0
         sub edx, eax
         mov dword [byte ebp-04h], edx
-        cmp edi, dword [dword_1228DC]
+        cmp edi, dword [ClipLeftCol]
         jge short .1
-        mov eax, dword [dword_1228DC]
+        mov eax, dword [ClipLeftCol]
         mov dword [byte ebp-010h], eax
         jmp short .2
 .1:
@@ -10179,9 +10179,9 @@ sub_297EA:
         mov eax, dword [byte ebp-04h]
         sar eax, 10h
         sub edi, ebx
-        cmp eax, dword [dword_1228E0]
+        cmp eax, dword [ClipRight]
         jge near .14
-        cmp edi, dword [dword_1228E4]
+        cmp edi, dword [ScreenHeight]
         jge near .14
         movsx eax, word [byte esi+06h]
         shl eax, 10h
@@ -10245,35 +10245,35 @@ sub_297EA:
         mov edx, dword [byte ebp-08h]
         xor ebx, ebx
         sar eax, 10h
-        cmp edi, dword [dword_1228E4]
+        cmp edi, dword [ScreenHeight]
         jge near .14
-        cmp eax, dword [dword_1228E0]
+        cmp eax, dword [ClipRight]
         jl short .8
         cmp dword [byte ebp+014h], byte 0
         jg near .14
         jmp near .12
 .8:
         lea ecx, [edx+eax]
-        cmp ecx, dword [dword_1228E0]
+        cmp ecx, dword [ClipRight]
         jl short .9
         mov edx, ecx
         mov ecx, dword [byte ebp-08h]
-        sub edx, dword [dword_1228E0]
+        sub edx, dword [ClipRight]
         sub ecx, edx
         mov edx, ecx
 .9:
-        cmp eax, dword [dword_1228D8]
+        cmp eax, dword [ClipTopRow]
         jge short .11
         lea ebx, [eax+edx]
-        cmp ebx, dword [dword_1228D8]
+        cmp ebx, dword [ClipTopRow]
         jge short .10
         cmp dword [byte ebp+014h], byte 0
         jl short .14
         jmp short .12
 .10:
-        mov ebx, dword [dword_1228D8]
+        mov ebx, dword [ClipTopRow]
         sub ebx, eax
-        mov eax, dword [dword_1228D8]
+        mov eax, dword [ClipTopRow]
         sub edx, ebx
 .11:
         test edx, edx
@@ -10821,7 +10821,7 @@ sub_29B9F:
         mov byte [dword ebp-02CEh], 9
         call SetMenuMouse
         mov dword [byte ebp+05Eh], 0Bh
-        call sub_DD6C4
+        call SetScreenTarget
         mov eax, dword [byte ebp+06Eh]
         push dword [byte eax+02Ch]
         call sub_AADA4
@@ -11022,13 +11022,13 @@ sub_29B9F_799:
         call sub_AADA4
         add esp, byte 4
         push dword [dword_15EA08]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [byte ebp+066h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_15EA04]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         lea esp, [dword ebp+082h]
         pop ebp

@@ -19,7 +19,7 @@ global dword_17BD48, dword_17BD58, dword_17BD5C, dword_17BD62, dword_17BD66, dwo
 global dword_17BD82, dword_17BD86, dword_17BDD4, dword_17BDD8, dword_17BDDC, dword_17C3E4, dword_17C3E8, dword_17C3EC
 global dword_17C3F0, dword_17C3F4, unk_179CCC, unk_179CE4, unk_179CFC, unk_179D14, unk_179D2C, unk_179E02
 global unk_179E48, unk_17B248, unk_17B488, unk_17B518, unk_17B830, unk_17B930, unk_17BA58, unk_17BB24
-global unk_17BDB4, unk_17BDE0, unk_17C0E0, word_179DC8, word_179DCC, word_179E0D, word_179E11
+global unk_17BDB4, IntroPalette, unk_17C0E0, word_179DC8, word_179DCC, word_179E0D, word_179E11
 dword_179CBC:
         resb 4
 dword_179CC0:
@@ -292,7 +292,7 @@ dword_17BDD8:
         resb 4
 dword_17BDDC:
         resb 4
-unk_17BDE0:
+IntroPalette:
         resb 768
 unk_17C0E0:
         resb 772

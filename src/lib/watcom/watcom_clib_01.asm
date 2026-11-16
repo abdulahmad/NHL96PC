@@ -3,12 +3,15 @@ bits 32
 %include "hockey.inc"
 section s_A9CB3 progbits alloc exec nowrite align=1
 extern __ExpandDGROUP_, __MemAllocator, __MemFree, __allocfp_, __chktty_, __close_, __fill_buffer_, __flush_
-extern __freefp_, __ioalloc_, __qread_, __set_errno_, byte_19BA45, dword_11F8E8, dword_11F8EC, dword_11F8F0
-extern dword_123FFD, dword_19BA3C, dword_19BA40, lseek_, sopen_, strncmp_, strncpy_, sub_B7256
-extern sub_C2F9A, sub_C3724, sub_E0520, tell_, tolower_
+extern __freefp_, __ioalloc_, __qread_, __set_errno_, __nheap_clean, HeapList, HeapRover, HeapLargestFree
+extern _fmode, __OpenStreams, __ClosedStreams, lseek_, sopen_, strncmp_, strncpy_, UnlinkJump
+extern GetPsp, McgaNoWindow, sub_E0520, tell_, tolower_
 global __MkTmpFile_, __doclose_, __doopen_, __hex_, __open_flags_, __shutdown_stream_, __update_buffer_, _fsopen_
 global _nfree_, _nmalloc_, _os_handle, _os_handle_0, _os_handle_1, close_file_, fclose_, fopen_
 global fread_, freopen_, fseek_, ftell_, strcat_, strcpy_, sub_AA500, sub_AA564
+;-----------------------------------------------------------------------------
+; strcpy_                                                       A9CB3  library
+;-----------------------------------------------------------------------------
 strcpy_:
         push ecx
         push eax
@@ -27,6 +30,9 @@ strcpy_:
         pop eax
         pop ecx
         ret
+;-----------------------------------------------------------------------------
+; strcat_                                                       A9CD2  library
+;-----------------------------------------------------------------------------
 strcat_:
         push ecx
         push esi
@@ -61,6 +67,9 @@ strcat_:
         pop esi
         pop ecx
         ret
+;-----------------------------------------------------------------------------
+; __open_flags_                                                 A9D09  library
+;-----------------------------------------------------------------------------
 __open_flags_:
         push ebx
         push ecx
@@ -95,7 +104,7 @@ __open_flags_:
         je short .3
         cmp cl, 74h
         je short .8
-        cmp dword [dword_123FFD], 200h
+        cmp dword [_fmode], 200h
 .2:
         jne short .8
 .3:
@@ -118,7 +127,7 @@ __open_flags_:
         cmp byte [byte edx+02h], 2Bh
         jmp short .2
 .6:
-        cmp dword [dword_123FFD], 200h
+        cmp dword [_fmode], 200h
         jne short .8
 .7:
         mov ebx, ecx
@@ -143,6 +152,9 @@ __open_flags_:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; __doopen_                                                     A9DBD  library
+;-----------------------------------------------------------------------------
 __doopen_:
         push esi
         push edi
@@ -226,6 +238,9 @@ __doopen_:
         pop edi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; _fsopen_                                                      A9E85  library
+;-----------------------------------------------------------------------------
 _fsopen_:
         push ecx
         push esi
@@ -241,18 +256,24 @@ _fsopen_:
         pop esi
         pop ecx
         ret
+;-----------------------------------------------------------------------------
+; fopen_                                                        A9EA0  library
+;-----------------------------------------------------------------------------
 fopen_:
         push ebx
         xor ebx, ebx
         call _fsopen_
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; close_file_                                                   A9EAA  library
+;-----------------------------------------------------------------------------
 close_file_:
         push ebx
         push ecx
         push edx
         mov ebx, eax
-        mov eax, dword [dword_19BA40]
+        mov eax, dword [__ClosedStreams]
 .1:
         test eax, eax
         je short .4
@@ -274,7 +295,7 @@ close_file_:
         mov eax, dword [eax]
         jmp short .1
 .4:
-        mov edx, dword_19BA3C
+        mov edx, __OpenStreams
 .5:
         mov eax, dword [edx]
         test eax, eax
@@ -283,8 +304,8 @@ close_file_:
         jne short .6
         mov ecx, dword [eax]
         mov dword [edx], ecx
-        mov edx, dword [dword_19BA40]
-        mov dword [dword_19BA40], eax
+        mov edx, dword [__ClosedStreams]
+        mov dword [__ClosedStreams], eax
         mov dword [eax], edx
         jmp short .2
 .6:
@@ -298,6 +319,9 @@ close_file_:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; freopen_                                                      A9F12  library
+;-----------------------------------------------------------------------------
 freopen_:
         push ecx
         push esi
@@ -315,6 +339,9 @@ freopen_:
         pop esi
         pop ecx
         ret
+;-----------------------------------------------------------------------------
+; __update_buffer_                                              A9F36  library
+;-----------------------------------------------------------------------------
 __update_buffer_:
         push ebx
         push ecx
@@ -349,6 +376,9 @@ __update_buffer_:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; fseek_                                                        A9F78  library
+;-----------------------------------------------------------------------------
 fseek_:
         push ecx
         push esi
@@ -463,6 +493,9 @@ fseek_:
         pop esi
         pop ecx
         ret
+;-----------------------------------------------------------------------------
+; ftell_                                                        AA074  library
+;-----------------------------------------------------------------------------
 ftell_:
         push ebx
         push ecx
@@ -491,11 +524,14 @@ ftell_:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; fclose_                                                       AA0A4  library
+;-----------------------------------------------------------------------------
 fclose_:
         push ebx
         push edx
         mov edx, eax
-        mov eax, dword [dword_19BA40]
+        mov eax, dword [__ClosedStreams]
 .1:
         test eax, eax
         jne short .2
@@ -516,6 +552,9 @@ fclose_:
         pop edx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; __shutdown_stream_                                            AA0D3  library
+;-----------------------------------------------------------------------------
 __shutdown_stream_:
         push ebx
         mov ebx, eax
@@ -526,6 +565,9 @@ __shutdown_stream_:
         mov eax, edx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; __hex_                                                        AA0E8  library
+;-----------------------------------------------------------------------------
 __hex_:
         add eax, byte 30h
         cmp eax, byte 39h
@@ -533,6 +575,9 @@ __hex_:
         add eax, byte 27h
 .1:
         ret
+;-----------------------------------------------------------------------------
+; __MkTmpFile_                                                  AA0F4  library
+;-----------------------------------------------------------------------------
 __MkTmpFile_:
         push ebx
         push ecx
@@ -540,7 +585,7 @@ __MkTmpFile_:
         push edi
         mov ecx, eax
         mov edi, edx
-        call sub_C2F9A
+        call GetPsp
         mov edx, 4
         mov ebx, eax
         mov esi, ecx
@@ -575,6 +620,9 @@ __MkTmpFile_:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; __doclose_                                                    AA15D  library
+;-----------------------------------------------------------------------------
 __doclose_:
         push ebx
         push ecx
@@ -624,7 +672,7 @@ __doclose_:
         mov dl, byte [byte ecx+019h]
         call __MkTmpFile_
         mov eax, esp
-        call sub_B7256
+        call UnlinkJump
 .6:
         mov eax, esi
         add esp, byte 10h
@@ -633,6 +681,9 @@ __doclose_:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; _nmalloc_                                                     AA1E6  library
+;-----------------------------------------------------------------------------
 _nmalloc_:
         push ebx
         push ecx
@@ -653,7 +704,7 @@ _nmalloc_:
         xor eax, eax
         jmp near .13
 .2:
-        mov ebp, dword_11F8E8
+        mov ebp, HeapList
         lea edi, [byte esi+03h]
         xor ah, ah
         xor ebx, ebx
@@ -665,14 +716,14 @@ _nmalloc_:
         jae short .4
         mov eax, 0Ch
 .4:
-        cmp eax, dword [dword_11F8F0]
+        cmp eax, dword [HeapLargestFree]
         jbe short .6
-        mov ecx, dword [dword_11F8EC]
+        mov ecx, dword [HeapRover]
         test ecx, ecx
         jne short .9
 .5:
-        mov dword [dword_11F8F0], ecx
-        mov ecx, dword [dword_11F8E8]
+        mov dword [HeapLargestFree], ecx
+        mov ecx, dword [HeapList]
         jmp short .9
 .6:
         xor ecx, ecx
@@ -680,7 +731,7 @@ _nmalloc_:
 .7:
         mov edx, ds
         mov eax, ebp
-        mov dword [dword_11F8EC], ecx
+        mov dword [HeapRover], ecx
         and edx, 0FFFFh
         mov eax, esi
         mov ebx, ecx
@@ -688,11 +739,11 @@ _nmalloc_:
         mov ebx, eax
         test eax, eax
         jne short .12
-        mov eax, dword [dword_11F8F0]
+        mov eax, dword [HeapLargestFree]
         mov edx, dword [byte ecx+014h]
         cmp edx, eax
         jbe short .8
-        mov dword [dword_11F8F0], edx
+        mov dword [HeapLargestFree], edx
 .8:
         mov ecx, dword [byte ecx+08h]
 .9:
@@ -706,7 +757,7 @@ _nmalloc_:
         jne short .11
 .10:
         mov eax, esi
-        call sub_C3724
+        call McgaNoWindow
         test eax, eax
         je short .12
         xor cl, cl
@@ -718,7 +769,7 @@ _nmalloc_:
 .12:
         xor ch, ch
         mov eax, ebx
-        mov byte [byte_19BA45], ch
+        mov byte [__nheap_clean], ch
 .13:
         add esp, byte 4
         pop ebp
@@ -731,6 +782,9 @@ _nmalloc_:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; fread_                                                        AA2C9  library
+;-----------------------------------------------------------------------------
 fread_:
         push esi
         push edi
@@ -909,13 +963,16 @@ fread_:
         pop edi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; _nfree_                                                       AA493  library
+;-----------------------------------------------------------------------------
 _nfree_:
         push ebx
         push ecx
         push edx
         push ebp
         mov ebx, eax
-        mov ecx, dword [dword_11F8E8]
+        mov ecx, dword [HeapList]
         jmp short .3
 .1:
         cmp ecx, ebx
@@ -929,39 +986,51 @@ _nfree_:
         test edx, edx
         jne short .1
 .4:
-        mov eax, dword_11F8E8
+        mov eax, HeapList
         mov edx, ds
         and edx, 0FFFFh
         mov eax, ebx
         mov ebx, ecx
         call __MemFree
-        cmp ecx, dword [dword_11F8EC]
+        cmp ecx, dword [HeapRover]
         je short .5
-        mov ebp, dword [dword_11F8F0]
+        mov ebp, dword [HeapLargestFree]
         mov edx, dword [byte ecx+014h]
         cmp edx, ebp
         jbe short .5
-        mov dword [dword_11F8F0], edx
+        mov dword [HeapLargestFree], edx
 .5:
         xor ah, ah
-        mov byte [byte_19BA45], ah
+        mov byte [__nheap_clean], ah
         pop ebp
         pop edx
         pop ecx
         pop ebx
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_AA500                                                            AA500  
+;-----------------------------------------------------------------------------
 sub_AA500:
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; _os_handle                                                    AA504  library
+;-----------------------------------------------------------------------------
 _os_handle:
         mov eax, dword [byte esp+04h]
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; _os_handle_0                                                  AA50C  library
+;-----------------------------------------------------------------------------
 _os_handle_0:
         mov eax, dword [byte esp+04h]
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; _os_handle_1                                                  AA514  library
+;-----------------------------------------------------------------------------
 _os_handle_1:
         mov eax, dword [byte esp+04h]
         ret
@@ -988,6 +1057,9 @@ _os_handle_1:
         call sub_E0520
         add esp, byte 0Ch
         ret
+;-----------------------------------------------------------------------------
+; sub_AA564                                                            AA564  
+;-----------------------------------------------------------------------------
 sub_AA564:
         mov eax, dword [byte esp+04h]
         mov dl, byte [eax]

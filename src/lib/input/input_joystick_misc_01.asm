@@ -3,25 +3,34 @@ bits 32
 %include "hockey.inc"
 section s_DFEB4 progbits alloc exec nowrite align=1
 extern FatalError, atexit_, byte_11F90C, byte_11F920, byte_11F924, byte_11F940, byte_11F941, byte_11F942
-extern byte_11F983, dword_11F8E0, dword_11F8E4, dword_11F8F4, dword_11F8F8, dword_11F8FC, dword_11F900, dword_11F904
+extern byte_11F983, dword_11F8E0, KbdIdleHook, dword_11F8F4, dword_11F8F8, dword_11F8FC, dword_11F900, dword_11F904
 extern dword_11F908, dword_11F928, dword_11F92C, dword_11F930, dword_11F934, dword_11F938, dword_11F93C, str_P
 extern dword_11F947, dword_11F94B, dword_11F94F, dword_11F953, dword_11F957, dword_11F95B, str_P2, dword_11F963
 extern dword_11F967, dword_11F96B, dword_11F96F, dword_11F973, dword_11F977, dword_11F97B, dword_11F97F, dword_1210D0
-extern dword_1210D6, dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4, exit_, joyenablemask, off_11F618
-extern FillRect, sub_B65D4, sub_C2C7C, sub_C2C94, sub_E0898, tickcount, tickdeadline, unk_AA7B0
+extern BreakCallFunc, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, exit_, joyenablemask, BiosKeyFunc
+extern FillRect, RestoreDS, DosGetVector, DosSetVector, sub_E0898, tickcount, tickdeadline, unk_AA7B0
 extern word_11F910, word_11F914, word_11F918, word_11F91C, word_1210D4, word_1210DA
 global GetTicks, SetTickDeadline, TickDeadlinePassed, TicksSince, WaitKey, WaitTickDeadline, sub_E04E7_2, sub_E0584_30
-global sub_DFEC6, WaitTicks, sub_DFF28, sub_DFF45, sub_DFF4B, sub_DFF60, sub_DFF7C, sub_E0051
-global sub_E0158, sub_E0456, sub_E0486, sub_E04D0, sub_E04D9, sub_E04E0, sub_E04E7, sub_E0520
+global sub_DFEC6, WaitTicks, sub_DFF28, sub_DFF45, KbdPeekKey, SetKbdIdleHook, sub_DFF7C, sub_E0051
+global sub_E0158, sub_E0456, sub_E0486, AddExitHandler, sub_E04D9, sub_E04E0, sub_E04E7, sub_E0520
 global sub_E0584, sub_E05DA, sub_E062F
+;-----------------------------------------------------------------------------
+; GetTicks                                     DFEB4  95 PC, medium confidence
+;-----------------------------------------------------------------------------
 GetTicks:
         mov eax, dword [tickcount]
         ret
+;-----------------------------------------------------------------------------
+; TicksSince                                                      DFEBA  95 PC
+;-----------------------------------------------------------------------------
 TicksSince:
         mov ecx, dword [byte esp+04h]
         mov eax, dword [tickcount]
         LD sub, eax, ecx
         ret
+;-----------------------------------------------------------------------------
+; sub_DFEC6                                                            DFEC6  
+;-----------------------------------------------------------------------------
 sub_DFEC6:
         mov ebx, dword [dword_11F8E0]
         mov eax, dword [tickcount]
@@ -31,22 +40,34 @@ sub_DFEC6:
         LD xor, eax, eax
         mov dword [tickcount], eax
         ret
+;-----------------------------------------------------------------------------
+; SetTickDeadline                                                 DFEE1  95 PC
+;-----------------------------------------------------------------------------
 SetTickDeadline:
         mov eax, dword [byte esp+04h]
         add eax, dword [tickcount]
         mov dword [tickdeadline], eax
         ret
+;-----------------------------------------------------------------------------
+; WaitTickDeadline                                                DFEF1  95 PC
+;-----------------------------------------------------------------------------
 WaitTickDeadline:
         mov eax, dword [tickcount]
         sub eax, dword [tickdeadline]
         js short WaitTickDeadline
         ret
+;-----------------------------------------------------------------------------
+; TickDeadlinePassed                           DFEFF  95 PC, medium confidence
+;-----------------------------------------------------------------------------
 TickDeadlinePassed:
         mov ebx, dword [tickcount]
         sub ebx, dword [tickdeadline]
         LD sbb, eax, eax
         inc eax
         ret
+;-----------------------------------------------------------------------------
+; WaitTicks                                                       DFF0F  95 PC
+;-----------------------------------------------------------------------------
 WaitTicks:
         mov eax, dword [byte esp+04h]
         mov ebx, dword [tickcount]
@@ -57,25 +78,35 @@ WaitTicks:
         js short .1
         ret
         db 00h,00h
+;-----------------------------------------------------------------------------
+; sub_DFF28                                                            DFF28  
+;-----------------------------------------------------------------------------
 sub_DFF28:
         mov ah, 1
-        call dword [off_11F618]
+        call dword [BiosKeyFunc]
         db 075h, .1-($+2)
         LD xor, ax, ax
         ret
 .1:
         LD xor, ah, ah
-        call dword [off_11F618]
+        call dword [BiosKeyFunc]
         LD or, al, al
         je short .2
         LD xor, ah, ah
 .2:
         ret
+;-----------------------------------------------------------------------------
+; sub_DFF45                                                            DFF45  
+;-----------------------------------------------------------------------------
 sub_DFF45:
-        jmp dword [dword_11F8E4]
-sub_DFF4B:
+        jmp dword [KbdIdleHook]
+;-----------------------------------------------------------------------------
+; KbdPeekKey                                      DFF4B  96 PC, low confidence
+; Returns the next key without removing it, or 0
+;-----------------------------------------------------------------------------
+KbdPeekKey:
         mov ah, 1
-        call dword [off_11F618]
+        call dword [BiosKeyFunc]
         jne short .1
         LD xor, ax, ax
         ret
@@ -85,24 +116,34 @@ sub_DFF4B:
         LD xor, ah, ah
 .2:
         ret
-sub_DFF60:
+;-----------------------------------------------------------------------------
+; SetKbdIdleHook                                  DFF60  96 PC, low confidence
+; Sets the keyboard idle hook; followed by the getter
+;-----------------------------------------------------------------------------
+SetKbdIdleHook:
         mov eax, dword [byte esp+04h]
-        mov dword [dword_11F8E4], eax
+        mov dword [KbdIdleHook], eax
         ret
-        mov eax, dword [dword_11F8E4]
+        mov eax, dword [KbdIdleHook]
         ret
+;-----------------------------------------------------------------------------
+; WaitKey                                                         DFF70  95 PC
+;-----------------------------------------------------------------------------
 WaitKey:
-        call dword [dword_11F8E4]
+        call dword [KbdIdleHook]
         LD or, ax, ax
         je short WaitKey
         ret
+;-----------------------------------------------------------------------------
+; sub_DFF7C                                                            DFF7C  
+;-----------------------------------------------------------------------------
 sub_DFF7C:
         call sub_DFF28
         LD or, ax, ax
         jne short sub_DFF7C
         ret
 .1:
-        call dword [dword_11F8E4]
+        call dword [KbdIdleHook]
         LD or, ax, ax
         jne short .2
         call TickDeadlinePassed
@@ -195,6 +236,9 @@ sub_DFF7C:
         and ah, 0Fh
         mov byte [byte_11F924], ah
         jmp short .7
+;-----------------------------------------------------------------------------
+; sub_E0051                                                            E0051  
+;-----------------------------------------------------------------------------
 sub_E0051:
         call sub_E0898
         LD mov, bh, al
@@ -297,6 +341,9 @@ sub_E0051:
         or byte [byte_11F90C], al
         jmp short .7
         db 00h
+;-----------------------------------------------------------------------------
+; sub_E0158                                                            E0158  
+;-----------------------------------------------------------------------------
 sub_E0158:
         mov byte [byte_11F942], 0
         test byte [joyenablemask], 1
@@ -526,6 +573,9 @@ sub_E0158:
 .31:
         or byte [byte_11F942], 1
         jmp short .27
+;-----------------------------------------------------------------------------
+; sub_E0456                                                            E0456  
+;-----------------------------------------------------------------------------
 sub_E0456:
         mov byte [joyenablemask], 1
         mov dword [str_P], 50h
@@ -533,6 +583,9 @@ sub_E0456:
         mov dword [str_P2], 50h
         mov dword [dword_11F967], 0
         ret
+;-----------------------------------------------------------------------------
+; sub_E0486                                                            E0486  
+;-----------------------------------------------------------------------------
 sub_E0486:
         push ebp
         LD mov, ebp, esp
@@ -560,15 +613,25 @@ sub_E0486:
         sub eax, byte 1Fh
         ret
         db 00h,00h
-sub_E04D0:
+;-----------------------------------------------------------------------------
+; AddExitHandler                                  E04D0  96 PC, low confidence
+; Registers an exit handler
+;-----------------------------------------------------------------------------
+AddExitHandler:
         mov eax, dword [byte esp+04h]
         jmp near atexit_
+;-----------------------------------------------------------------------------
+; sub_E04D9                                                            E04D9  
+;-----------------------------------------------------------------------------
 sub_E04D9:
         LD xor, eax, eax
         call exit_
 sub_E04E0:
         mov ebx, unk_AA7B0
         jmp short sub_E04E7_2
+;-----------------------------------------------------------------------------
+; sub_E04E7                                                            E04E7  
+;-----------------------------------------------------------------------------
 sub_E04E7:
         LD xor, ebx, ebx
 sub_E04E7_2:
@@ -596,6 +659,9 @@ sub_E04E7_2:
 .3:
         LD xor, eax, eax
         ret
+;-----------------------------------------------------------------------------
+; sub_E0520                                                            E0520  
+;-----------------------------------------------------------------------------
 sub_E0520:
         push ebp
         LD mov, ebp, esp
@@ -649,14 +715,17 @@ sub_E0520:
         pop esi
         leave
         ret
+;-----------------------------------------------------------------------------
+; sub_E0584                                                            E0584  
+;-----------------------------------------------------------------------------
 sub_E0584:
         mov eax, dword [byte esp+04h]
         push eax
-        mov edx, dword [dword_1228E4]
-        mov ebx, dword [dword_1228DC]
+        mov edx, dword [ScreenHeight]
+        mov ebx, dword [ClipLeftCol]
         LD sub, edx, ebx
-        mov eax, dword [dword_1228E0]
-        mov ecx, dword [dword_1228D8]
+        mov eax, dword [ClipRight]
+        mov ecx, dword [ClipTopRow]
         LD sub, eax, ecx
         push edx
         push eax
@@ -678,8 +747,8 @@ sub_E0584_30:
         push es
         push fs
         push gs
-        call sub_B65D4
-        call dword [cs:dword_1210D6]
+        call RestoreDS
+        call dword [cs:BreakCallFunc]
         pop gs
         pop fs
         pop es
@@ -691,29 +760,35 @@ sub_E0584_30:
         pop ecx
         pop ebx
         iret
+;-----------------------------------------------------------------------------
+; sub_E05DA                                                            E05DA  
+;-----------------------------------------------------------------------------
 sub_E05DA:
         push ebp
         LD mov, ebp, esp
         mov eax, dword [byte ebp+08h]
-        mov dword [dword_1210D6], eax
+        mov dword [BreakCallFunc], eax
         mov ax, cs
         mov word [word_1210DA], ax
         cmp word [word_1210D4], byte 0
         jne short .1
         mov ebx, 24h
-        call sub_C2C7C
+        call DosGetVector
         mov dword [dword_1210D0], eax
         mov word [word_1210D4], dx
         mov ebx, 24h
         mov dx, cs
         mov eax, sub_E0584_30
-        call sub_C2C94
+        call DosSetVector
         push sub_E062F
-        call sub_E04D0
+        call AddExitHandler
         add esp, byte 4
 .1:
         leave
         ret
+;-----------------------------------------------------------------------------
+; sub_E062F                                                            E062F  
+;-----------------------------------------------------------------------------
 sub_E062F:
         pusha
         mov ebx, 24h
@@ -721,7 +796,7 @@ sub_E062F:
         mov eax, dword [dword_1210D0]
         LD or, dx, dx
         je short .1
-        call sub_C2C94
+        call DosSetVector
         mov word [word_1210D4], 0
 .1:
         popa

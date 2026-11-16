@@ -7,14 +7,14 @@ global byte_15293A, byte_152A44, byte_152C3B, byte_152C40, byte_152C41, byte_152
 global hmrosterpos, byte_157193, byte_157640, byte_157B95, byte_157DA2, byte_157FD2, byte_158646, byte_15864E
 global byte_15864F, byte_158650, byte_158651, byte_158652, curperiod, dword_152A6C, dword_152AD4, dword_152C3C
 global dword_152F44, dword_152F48, dword_152F4C, dword_152F50, dword_152F54, dword_152F58, dword_152F5C, dword_152F60
-global dword_152F64, dword_152F68, dword_152F6C, dword_152F70, dword_152F74, dword_152F78, dword_152F7C, dword_152F80
+global AsyncCurFile, AsyncCurOffset, dword_152F6C, dword_152F70, dword_152F74, dword_152F78, dword_152F7C, dword_152F80
 global dword_152F88, dword_152F8C, dword_152F90, dword_152F94, dword_152F98, dword_152F9C, dword_152FA0, dword_152FA4
 global dword_152FAC, dword_152FB0, dword_152FB4, dword_152FB8, dword_152FBC, dword_152FC4, dword_152FC8, dword_152FCC
 global dword_152FD0, dword_152FD4, dword_152FD8, dword_152FDC, dword_152FE0, dword_152FE4, dword_152FEC, dword_1531D0
 global dword_1571B3, dword_157AF4, dword_15803D, dword_1580A1, dword_158654, hmroster, unk_152938, unk_152944
 global unk_152B3C, unk_152C44, unk_152E36, unk_152FA8, unk_156E6C, unk_156FFC, unk_157AF8, unk_157B0A
 global unk_157B1C, unk_157B4F, unk_157B82, unk_157D8F, unk_157F9C, unk_157FDA, unk_157FF8, unk_1580AD
-global unk_1582F5, unk_158313, unk_1583C8, unk_158610, unk_158658, word_156E6E, word_156E70, word_156E72
+global unk_1582F5, unk_158313, unk_1583C8, unk_158610, DataFilePath, word_156E6E, word_156E70, word_156E72
 global word_156E74, word_156E76, word_156E78, word_156E7A, word_157AFA, word_157AFC, word_157B00, word_157B06
 byte_152920:
         resb 1
@@ -76,9 +76,9 @@ dword_152F5C:
         resb 4
 dword_152F60:
         resb 4
-dword_152F64:
+AsyncCurFile:
         resb 4
-dword_152F68:
+AsyncCurOffset:
         resb 4
 dword_152F6C:
         resb 4
@@ -238,5 +238,5 @@ byte_158652:
         resb 2
 dword_158654:
         resb 4
-unk_158658:
+DataFilePath:
         resb 1634

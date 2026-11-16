@@ -3,11 +3,11 @@ bits 32
 %include "hockey.inc"
 section s_185740 nobits alloc noexec write align=1
 global dword_185740, dword_185744, dword_185748, dword_18574C, dword_185750, dword_185754, dword_185758, dword_18575C
-global dword_185760, dword_185764, dword_185768, dword_18576C, dword_185770, dword_185774, dword_1857B4, dword_1857B8
-global dword_1857BC, dword_1857C0, dword_1857C4, dword_1857C8, dword_1857CC, dword_1857D0, dword_1857D4, dword_1857D8
-global dword_1857DC, dword_1857E0, dword_1857E4, dword_1857E8, dword_1857EC, dword_1857F0, dword_1857F4, dword_1857F8
-global dword_1857FC, dword_185800, dword_185804, dword_185808, dword_18580C, dword_185810, dword_185814, dword_185818
-global dword_18581C, dword_185820, dword_185824, dword_185828, dword_18582C, dword_185830, dword_185834, dword_185838
+global UnpackSrcPtr, UnpackDestPtr, dword_185768, UnpackStackPtr, UnpackPairTable, dword_185774, InvTabDist, InvTabRStep
+global InvTabGStep, InvTabBStep, InvTabRMin, InvTabOut, InvTabDistBuf, InvTabGMin, InvTabGCenter, InvTabBCenter
+global InvTabCell, InvTabRCenter, InvTabR, InvTabG, InvTabB, InvTabColor, InvTabRMax, InvTabGMax
+global InvTabBMin, InvTabBMax, InvTabRow, InvTabPass, InvTabGLo, InvTabGHi, InvTabBLo, InvTabBHi
+global InvTabGInc, InvTabBInc, InvTabDistInc, InvTabDistStart, dword_18582C, dword_185830, dword_185834, dword_185838
 global dword_185848, unk_18584C
 dword_185740:
         resb 4
@@ -25,77 +25,77 @@ dword_185758:
         resb 4
 dword_18575C:
         resb 4
-dword_185760:
+UnpackSrcPtr:
         resb 4
-dword_185764:
+UnpackDestPtr:
         resb 4
 dword_185768:
         resb 4
-dword_18576C:
+UnpackStackPtr:
         resb 4
-dword_185770:
+UnpackPairTable:
         resb 4
 dword_185774:
         resb 64
-dword_1857B4:
+InvTabDist:
         resb 4
-dword_1857B8:
+InvTabRStep:
         resb 4
-dword_1857BC:
+InvTabGStep:
         resb 4
-dword_1857C0:
+InvTabBStep:
         resb 4
-dword_1857C4:
+InvTabRMin:
         resb 4
-dword_1857C8:
+InvTabOut:
         resb 4
-dword_1857CC:
+InvTabDistBuf:
         resb 4
-dword_1857D0:
+InvTabGMin:
         resb 4
-dword_1857D4:
+InvTabGCenter:
         resb 4
-dword_1857D8:
+InvTabBCenter:
         resb 4
-dword_1857DC:
+InvTabCell:
         resb 4
-dword_1857E0:
+InvTabRCenter:
         resb 4
-dword_1857E4:
+InvTabR:
         resb 4
-dword_1857E8:
+InvTabG:
         resb 4
-dword_1857EC:
+InvTabB:
         resb 4
-dword_1857F0:
+InvTabColor:
         resb 4
-dword_1857F4:
+InvTabRMax:
         resb 4
-dword_1857F8:
+InvTabGMax:
         resb 4
-dword_1857FC:
+InvTabBMin:
         resb 4
-dword_185800:
+InvTabBMax:
         resb 4
-dword_185804:
+InvTabRow:
         resb 4
-dword_185808:
+InvTabPass:
         resb 4
-dword_18580C:
+InvTabGLo:
         resb 4
-dword_185810:
+InvTabGHi:
         resb 4
-dword_185814:
+InvTabBLo:
         resb 4
-dword_185818:
+InvTabBHi:
         resb 4
-dword_18581C:
+InvTabGInc:
         resb 4
-dword_185820:
+InvTabBInc:
         resb 4
-dword_185824:
+InvTabDistInc:
         resb 4
-dword_185828:
+InvTabDistStart:
         resb 4
 dword_18582C:
         resb 4

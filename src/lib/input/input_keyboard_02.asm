@@ -2,16 +2,19 @@
 bits 32
 %include "hockey.inc"
 section s_E0834 progbits alloc exec nowrite align=1
-extern WaitKey, dword_11F5A0, dword_11F994, dword_121B34, dword_12443C, sub_C5D00, sub_DD6C4, sub_E2436
+extern WaitKey, dword_11F5A0, dword_11F994, dword_121B34, dword_12443C, sub_C5D00, SetScreenTarget, sub_E2436
 extern RestoreTextMode
 global FatalError
+;-----------------------------------------------------------------------------
+; FatalError                                                      E0834  95 PC
+;-----------------------------------------------------------------------------
 FatalError:
         pop eax
         cmp dword [dword_121B34], byte 0
         jne short .2
         cmp dword [dword_11F5A0], byte 0
         je short .1
-        call sub_DD6C4
+        call SetScreenTarget
         push byte 0
         push byte 0
         call sub_C5D00

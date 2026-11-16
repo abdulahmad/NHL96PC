@@ -14,7 +14,7 @@ extern fread_, fseek_, ftell_, GameLoopActive, gameopts, GetTicks, InputRecordCo
 extern InputRecordRing, kaufmfont, LinkResyncInput, mousepollfn, MouseRead, mousex, mousey, SetViewRect
 extern SlotButtons, SlotTable, slotteam, str_CGRIP, str_GRIP, str_GRIPGLL, str_PATH, str_Rb2
 extern strcat_, strcpy_, CameraFacing, sub_DFA98, sub_DFE9C, sub_DFF28, sub_E0051, sub_E0456
-extern sub_E04D0, unk_114BA8, unk_114C00, unk_151648, unk_1516B8, unk_151784, word_114B40, word_114B42
+extern AddExitHandler, unk_114BA8, unk_114C00, unk_151648, unk_1516B8, unk_151784, word_114B40, word_114B42
 extern word_114B44, word_114CDB, word_114CE0, word_114CE4, word_11F910, word_11F914, word_11F918, word_11F91C
 extern word_1515B5, word_151634, word_151636, word_151638, word_15163A, word_151712, word_151714, word_15171C
 extern word_15171E, word_15172A, word_15172C, word_151734, word_151736, word_151744, word_15175C, word_151766
@@ -2836,7 +2836,7 @@ InitGrip:
         mov word [word_15175C], 0
         mov eax, GripShutdown
         push eax
-        call sub_E04D0
+        call AddExitHandler
         add esp, byte 4
         mov dword [dword_114CD7], 0
         cmp dword [dword_114CD3], byte 0

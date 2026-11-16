@@ -7,8 +7,8 @@ extern FadeOutMusic, FadePalette, FillMusicStream, FillRect, fputchar, GetPresse
 extern MakeDataPath, off_11BDA8, OpenMusicStream, PaEvent, PlayMovie, PlayMusic, PutBlock, QueueMusic
 extern rand_, SetScreenColors, SetScreenMode, SetTextColors, SetTickDeadline, SoundIdle, SoundSecondsToBytes, StopMusic
 extern str_Bkgd3, str_Nhll, str_Nhlp, str_Pal2, str_Pal8, str_Pal9, str_Pl0, str_Pl1
-extern str_Scr1, str_Scr2, sub_53260, GetLangText, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C
-extern sub_ADBEC, sub_B0254, sub_B026C, sub_BF120, sub_BF2C4, sub_DD6C4, sub_DD7B8, sub_DFF28
+extern str_Scr1, str_Scr2, sub_53260, GetLangText, sub_AADA4, sub_AB758, FreeMemBlock, sub_AD35C
+extern sub_ADBEC, SaveTextState, SetDrawTarget, sub_BF120, sub_BF2C4, SetScreenTarget, sub_DD7B8, sub_DFF28
 extern sub_E04E0, sub_E0584, TextSetFont, TickDeadlinePassed, unk_11BFA4, word_11D1D0
 global PlayIntroMovies, RunIntro, WaitOrSkip, LoadSlideImage, RunSlideEvents, jpt_634F9, RunSlideShow, RunSlideShow_78
 global RunSlideShow_A3, RunSlideShow_C7, RunSlideShow_E2, RunSlideShow_118, RunSlideShow_127, RunSlideShow_145, RunSlideShow_180, RunSlideShow_1A1
@@ -258,16 +258,16 @@ RunIntro:
         mov eax, 2
         call FadeOut
         push dword [byte ebp-02Ch]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [byte ebp-01Ch]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [byte ebp-0Ch]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [byte ebp-020h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov eax, 14h
         xor edx, edx
@@ -351,7 +351,7 @@ RunIntro:
         mov eax, 3
         call FadeOut
         push dword [byte ebp-024h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         leave
         pop edi
@@ -411,7 +411,7 @@ LoadSlideImage:
         cmp dword [dword_17BDD4], byte 0
         je short .1
         push dword [dword_17BDD4]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .1:
         mov eax, 4
@@ -509,7 +509,7 @@ RunSlideShow:
         push eax
         mov dword [dword_17BDD8], 0FFFFFFFFh
         mov dword [dword_17BDD4], 0
-        call sub_B0254
+        call SaveTextState
         add esp, byte 4
 .1:
         cmp dword [esi], byte 13h
@@ -588,7 +588,7 @@ RunSlideShow_145:
         cmp dword [byte ebp-08h], byte 0
         je short .4
         push dword [byte ebp-08h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .4:
         mov eax, 2
@@ -781,12 +781,12 @@ RunSlideShow_2E0:
         call FadeOutMusic
         lea eax, [byte ebp-05Ch]
         push eax
-        call sub_B026C
+        call SetDrawTarget
         add esp, byte 4
         cmp dword [dword_17BDD4], byte 0
         je short .14
         push dword [dword_17BDD4]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .14:
         cmp dword [byte ebp-04h], byte 0
@@ -798,10 +798,10 @@ RunSlideShow_2E0:
         cmp dword [byte ebp-08h], byte 0
         je short .16
         push dword [byte ebp-08h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .16:
-        call sub_DD6C4
+        call SetScreenTarget
         push byte 0
         call sub_E0584
         add esp, byte 4

@@ -2,25 +2,28 @@
 bits 32
 %include "hockey.inc"
 section s_BA3D0 progbits alloc exec nowrite align=1
-extern FatalError, str_ORIINST, asc_113960, asc_11396C, str_OriloadCouldNotLoadORIGA, dword_11F5C0, dword_11F5C4, dword_11F5F0
-extern dword_122378, dword_122384, dword_122388, dword_12238C, dword_122390, dword_122894, dword_1228D0, dword_1228D8
-extern dword_1228DC, dword_1228E0, dword_1228E4, dword_1228F8, dword_1228FC, dword_123AA4, dword_123AA8, dword_123ABC
+extern FatalError, str_ORIINST, asc_113960, asc_11396C, str_OriloadCouldNotLoadORIGA, dword_11F5C0, dword_11F5C4, str_Punct_DrawRinkSurface
+extern dword_122378, dword_122384, dword_122388, dword_12238C, SinTable, str_Punct_SetScreenScale, ScreenWidth, ClipTopRow
+extern ClipLeftCol, ClipRight, ScreenHeight, dword_1228F8, dword_1228FC, dword_123AA4, dword_123AA8, dword_123ABC
 extern dword_123AC0, dword_124464, dword_124468, dword_17DC18, dword_17DC1C, dword_17DC24, dword_17DC28, dword_1956B0
 extern dword_1956B4, dword_1956B8, dword_1956BC, dword_1956C0, dword_1956C4, dword_1956C8, dword_1956CC, dword_198388
-extern dword_19838C, dword_198390, dword_198394, dword_198398, dword_19839C, dword_1983A0, dword_1983A4, dword_1983A8
+extern dword_19838C, dword_198390, dword_198394, dword_198398, dword_19839C, dword_1983A0, dword_1983A4, RinkViewChanged
 extern dword_1983B4, dword_19F2D8, min_, off_1222E0, off_1222EC, off_1222F8, off_122304, off_122310
-extern strncpy_, sub_AB758, sub_ABF4C, sub_B20EC, sub_B78C0, sub_B78DC, sub_B7924, sub_B79C8
+extern strncpy_, sub_AB758, FreeMemBlock, OpenArtArchive, SetRinkView, sub_B78DC, sub_B7924, sub_B79C8
 extern sub_B79E0, sub_B9A18, sub_B9C3C, sub_BA344, sub_BD594, SortIndices, sub_C85F0, sub_C9E70
-extern sub_C9F8A, sub_CA0B0, sub_CA288, sub_CA584, sub_CA650, sub_DD724, sub_DD960, sub_DD982
-extern sub_E1824, unk_122320, unk_122344, unk_122898, unk_1228BC, unk_191AB0, unk_1938B0, unk_196380
+extern sub_C9F8A, sub_CA0B0, sub_CA288, sub_CA584, sub_CA650, FillRectColor, sub_DD960, sub_DD982
+extern sub_E1824, unk_122320, unk_122344, RinkMatrix, RinkTranslation, unk_191AB0, unk_1938B0, unk_196380
 extern unk_196388, unk_196390, unk_196398, unk_197050, unk_19705C, unk_197068, unk_197074, unk_1983B8
 global jpt_BA400, sub_BA420_90, sub_BA420_92, sub_BA420_9C, sub_BA420_A8, sub_BA420_AF, sub_BA420_B9, sub_BA420_BB
 global sub_BA420_C0, sub_BBC80_93, sub_BBD98_B3, sub_BBEC8_174, sub_BA3D0, sub_BA420, sub_BA4F0, sub_BA55C
 global sub_BA5D0, sub_BACC0, sub_BAD58, sub_BB384, sub_BB470, sub_BB570, sub_BB610, sub_BB8E0
-global sub_BB924, sub_BB9C4, sub_BBA41, sub_BBAA0, sub_BBB70, sub_BBBD0, sub_BBBF0, sub_BBC04
+global sub_BB924, sub_BB9C4, sub_BBA41, sub_BBAA0, sub_BBB70, SetRinkMatrix, SetRinkTranslation, SetScreenScale
 global sub_BBC14, sub_BBC80, sub_BBD18, sub_BBD98, sub_BBE50, sub_BBEC8, sub_BC040, sub_BC0C4
 global sub_BC150, sub_BC3A0, sub_BC3F4, sub_BC424, sub_BC4F0, sub_BC5C0, sub_BC610, sub_BC674
 global sub_BC6D8
+;-----------------------------------------------------------------------------
+; sub_BA3D0                                                            BA3D0  
+;-----------------------------------------------------------------------------
 sub_BA3D0:
         push esi
         push edi
@@ -54,6 +57,9 @@ jpt_BA400:
         dd sub_BA420_BB
         dd sub_BA420_AF
         dd sub_BA420_B9
+;-----------------------------------------------------------------------------
+; sub_BA420                                                            BA420  
+;-----------------------------------------------------------------------------
 sub_BA420:
         push esi
         sub esp, byte 8
@@ -138,6 +144,9 @@ sub_BA420_C0:
         pop esi
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_BA4F0                                                            BA4F0  
+;-----------------------------------------------------------------------------
 sub_BA4F0:
         push esi
         mov ebx, dword [byte esp+08h]
@@ -150,7 +159,7 @@ sub_BA4F0:
         xor eax, ecx
         and eax, 0FFh
         sub eax, ecx
-        mov eax, dword [nosplit eax*4+dword_122390]
+        mov eax, dword [nosplit eax*4+SinTable]
         xor eax, edx
         sub eax, edx
         mov esi, eax
@@ -166,7 +175,7 @@ sub_BA4F0:
         xor eax, ecx
         and eax, 0FFh
         sub eax, ecx
-        mov eax, dword [nosplit eax*4+dword_122390]
+        mov eax, dword [nosplit eax*4+SinTable]
         xor eax, edx
         sub eax, edx
         sar eax, 2
@@ -177,6 +186,9 @@ sub_BA4F0:
         pop esi
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_BA55C                                                            BA55C  
+;-----------------------------------------------------------------------------
 sub_BA55C:
         push esi
         mov ebx, dword [byte esp+08h]
@@ -190,7 +202,7 @@ sub_BA55C:
         xor eax, ecx
         and eax, 0FFh
         sub eax, ecx
-        mov eax, dword [nosplit eax*4+dword_122390]
+        mov eax, dword [nosplit eax*4+SinTable]
         xor eax, edx
         sub eax, edx
         mov esi, eax
@@ -202,7 +214,7 @@ sub_BA55C:
         xor eax, ecx
         and eax, 0FFh
         sub eax, ecx
-        mov eax, dword [nosplit eax*4+dword_122390]
+        mov eax, dword [nosplit eax*4+SinTable]
         xor eax, edx
         sub eax, edx
         mov ebx, eax
@@ -218,6 +230,9 @@ sub_BA55C:
         pop esi
         ret
         db 00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_BA5D0                                                            BA5D0  
+;-----------------------------------------------------------------------------
 sub_BA5D0:
         push esi
         push edi
@@ -823,6 +838,9 @@ sub_BA5D0:
         pop esi
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_BACC0                                                            BACC0  
+;-----------------------------------------------------------------------------
 sub_BACC0:
         push esi
         push edi
@@ -862,7 +880,7 @@ sub_BACC0:
         jge short .6
         mov ebx, ebp
 .6:
-        mov ecx, dword [dword_11F5F0]
+        mov ecx, dword [str_Punct_DrawRinkSurface]
         cmp ebx, ecx
         jg short .7
         mov eax, 1
@@ -901,6 +919,9 @@ sub_BACC0:
         pop esi
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_BAD58                                                            BAD58  
+;-----------------------------------------------------------------------------
 sub_BAD58:
         push esi
         push edi
@@ -1044,7 +1065,7 @@ sub_BAD58:
         push ecx
         mov esi, dword [eax]
         push esi
-        call sub_DD724
+        call FillRectColor
         add esp, byte 14h
         mov eax, dword [dword esp+094h]
         push byte 4
@@ -1057,7 +1078,7 @@ sub_BAD58:
         push edx
         mov ebx, dword [eax]
         push ebx
-        call sub_DD724
+        call FillRectColor
         add esp, byte 14h
         mov eax, dword [dword esp+09Ch]
         push byte 4
@@ -1070,7 +1091,7 @@ sub_BAD58:
         push edi
         mov ebp, dword [eax]
         push ebp
-        call sub_DD724
+        call FillRectColor
         add esp, byte 14h
         mov eax, dword [dword esp+09Ch]
         push byte 4
@@ -1083,7 +1104,7 @@ sub_BAD58:
         push ecx
         mov esi, dword [eax]
         push esi
-        call sub_DD724
+        call FillRectColor
         add esp, byte 14h
         add esp, byte 6Ch
         pop ebp
@@ -1391,6 +1412,9 @@ sub_BAD58:
         pop esi
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_BB384                                                            BB384  
+;-----------------------------------------------------------------------------
 sub_BB384:
         push esi
         push edi
@@ -1460,6 +1484,9 @@ sub_BB384:
         pop esi
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_BB470                                                            BB470  
+;-----------------------------------------------------------------------------
 sub_BB470:
         push esi
         push edi
@@ -1566,6 +1593,9 @@ sub_BB470:
         mov dword [byte esp+020h], eax
         jmp short .7
         db 00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_BB570                                                            BB570  
+;-----------------------------------------------------------------------------
 sub_BB570:
         push esi
         push edi
@@ -1633,6 +1663,9 @@ sub_BB570:
         mov dword [byte edx-04h], ebp
         jmp short .3
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_BB610                                                            BB610  
+;-----------------------------------------------------------------------------
 sub_BB610:
         push esi
         push edi
@@ -1653,9 +1686,9 @@ sub_BB610:
         je near .13
         test esi, esi
         je near .13
-        cmp ecx, dword [dword_1228E0]
+        cmp ecx, dword [ClipRight]
         jge near .13
-        cmp ebp, dword [dword_1228E4]
+        cmp ebp, dword [ScreenHeight]
         jge near .13
         test edx, edx
         jl short .1
@@ -1665,7 +1698,7 @@ sub_BB610:
         mov eax, edx
         neg eax
 .2:
-        mov ebx, dword [dword_1228D8]
+        mov ebx, dword [ClipTopRow]
         add eax, ecx
         cmp eax, ebx
         jle near .13
@@ -1677,7 +1710,7 @@ sub_BB610:
         mov eax, esi
         neg eax
 .4:
-        mov edx, dword [dword_1228DC]
+        mov edx, dword [ClipLeftCol]
         add eax, ebp
         cmp eax, edx
         jle near .13
@@ -1720,7 +1753,7 @@ sub_BB610:
         shl edx, 10h
         add eax, edx
 .7:
-        mov edx, dword [dword_1228DC]
+        mov edx, dword [ClipLeftCol]
         cmp ebp, edx
         jge short .8
         sub edx, ebp
@@ -1728,16 +1761,16 @@ sub_BB610:
         mov edx, dword [esp]
         imul edx, ebp
         sub esi, ebp
-        mov ebp, dword [dword_1228DC]
+        mov ebp, dword [ClipLeftCol]
         add edi, edx
 .8:
         lea edx, [esi+ebp]
-        cmp edx, dword [dword_1228E4]
+        cmp edx, dword [ScreenHeight]
         jle short .9
-        mov esi, dword [dword_1228E4]
+        mov esi, dword [ScreenHeight]
         sub esi, ebp
 .9:
-        mov edx, dword [dword_1228D8]
+        mov edx, dword [ClipTopRow]
         cmp ecx, edx
         jge short .10
         sub edx, ecx
@@ -1747,14 +1780,14 @@ sub_BB610:
         add eax, edx
         mov edx, dword [byte esp+018h]
         sub edx, ecx
-        mov ecx, dword [dword_1228D8]
+        mov ecx, dword [ClipTopRow]
         mov dword [byte esp+018h], edx
 .10:
         mov edx, dword [byte esp+018h]
         add edx, ecx
-        cmp edx, dword [dword_1228E0]
+        cmp edx, dword [ClipRight]
         jle short .11
-        mov edx, dword [dword_1228E0]
+        mov edx, dword [ClipRight]
         sub edx, ecx
         mov dword [byte esp+018h], edx
 .11:
@@ -1795,7 +1828,7 @@ sub_BB610:
         push ebp
         call sub_DD982
         add esp, byte 0Ch
-        mov eax, dword [dword_1228D0]
+        mov eax, dword [ScreenWidth]
         mov edx, dword [esp]
         add ebp, eax
         add edi, edx
@@ -1906,6 +1939,9 @@ sub_BB610:
         add esp, byte 14h
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_BB8E0                                                            BB8E0  
+;-----------------------------------------------------------------------------
 sub_BB8E0:
         push esi
         mov eax, dword [byte esp+08h]
@@ -1937,6 +1973,9 @@ sub_BB8E0:
         add esp, byte 14h
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; sub_BB924                                                            BB924  
+;-----------------------------------------------------------------------------
 sub_BB924:
         push esi
         push edi
@@ -2005,6 +2044,9 @@ sub_BB924:
         pop esi
         ret
         db 00h,00h
+;-----------------------------------------------------------------------------
+; sub_BB9C4                                                            BB9C4  
+;-----------------------------------------------------------------------------
 sub_BB9C4:
         push esi
         push edi
@@ -2058,6 +2100,9 @@ sub_BB9C4:
         pop edi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; sub_BBA41                                                            BBA41  
+;-----------------------------------------------------------------------------
 sub_BBA41:
         push ebp
         LD mov, ebp, esp
@@ -2101,6 +2146,9 @@ sub_BBA41:
         dec ecx
         jne short .1
         db 00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_BBAA0                                                            BBAA0  
+;-----------------------------------------------------------------------------
 sub_BBAA0:
         push esi
         push edi
@@ -2116,7 +2164,7 @@ sub_BBAA0:
         dec ebp
         cmp ebp, byte 0FFFFFFFFh
         je near .8
-        mov edx, dword [dword_11F5F0]
+        mov edx, dword [str_Punct_DrawRinkSurface]
         mov eax, dword [byte esi+08h]
         cmp eax, edx
         jg short .2
@@ -2175,6 +2223,9 @@ sub_BBAA0:
         pop esi
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_BBB70                                                            BBB70  
+;-----------------------------------------------------------------------------
 sub_BBB70:
         push ebp
         sub esp, byte 20h
@@ -2207,23 +2258,31 @@ sub_BBB70:
         pop ebp
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-sub_BBBD0:
+;-----------------------------------------------------------------------------
+; SetRinkMatrix                                   BBBD0  96 PC, low confidence
+; Copies the rink view rotation matrix and marks the view as changed
+;-----------------------------------------------------------------------------
+SetRinkMatrix:
         push esi
         push edi
         mov edx, 1
         mov ecx, 9
         mov esi, dword [byte esp+0Ch]
-        mov edi, unk_122898
-        mov dword [dword_1983A8], edx
+        mov edi, RinkMatrix
+        mov dword [RinkViewChanged], edx
         rep movsd
         pop edi
         pop esi
         ret
-sub_BBBF0:
+;-----------------------------------------------------------------------------
+; SetRinkTranslation                              BBBF0  96 PC, low confidence
+; Copies the rink view translation vector
+;-----------------------------------------------------------------------------
+SetRinkTranslation:
         push esi
         push edi
         mov esi, dword [byte esp+0Ch]
-        mov edi, unk_1228BC
+        mov edi, RinkTranslation
         movsd
         movsd
         movsd
@@ -2231,12 +2290,19 @@ sub_BBBF0:
         pop esi
         ret
         db 08Dh,040h,00h
-sub_BBC04:
+;-----------------------------------------------------------------------------
+; SetScreenScale                                  BBC04  96 PC, low confidence
+; Sets the screen scale and the matching text scale
+;-----------------------------------------------------------------------------
+SetScreenScale:
         mov eax, dword [byte esp+04h]
-        mov dword [dword_122894], eax
+        mov dword [str_Punct_SetScreenScale], eax
         dec eax
-        mov dword [dword_11F5F0], eax
+        mov dword [str_Punct_DrawRinkSurface], eax
         ret
+;-----------------------------------------------------------------------------
+; sub_BBC14                                                            BBC14  
+;-----------------------------------------------------------------------------
 sub_BBC14:
         push esi
         push edi
@@ -2284,6 +2350,9 @@ sub_BBC14:
         pop esi
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_BBC80                                                            BBC80  
+;-----------------------------------------------------------------------------
 sub_BBC80:
         push esi
         push edi
@@ -2292,12 +2361,12 @@ sub_BBC80:
         mov esi, dword [byte esp+028h]
         test byte [byte esi+010h], 4
         jne short .1
-        cmp dword [dword_1983A8], byte 0
+        cmp dword [RinkViewChanged], byte 0
         je short .2
 .1:
         lea eax, [byte esi+04Ch]
         push eax
-        push unk_122898
+        push RinkMatrix
         lea eax, [byte esi+028h]
         push eax
         call sub_BBA41
@@ -2308,14 +2377,14 @@ sub_BBC80:
 .2:
         mov eax, esp
         push eax
-        push unk_1228BC
+        push RinkTranslation
         lea eax, [byte esi+01Ch]
         push eax
         call sub_B9C3C
         add esp, byte 0Ch
         lea eax, [byte esp+0Ch]
         push eax
-        push unk_122898
+        push RinkMatrix
         lea eax, [byte esp+08h]
         push eax
         call sub_BB9C4
@@ -2346,6 +2415,9 @@ sub_BBC80_93:
         pop esi
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_BBD18                                                            BBD18  
+;-----------------------------------------------------------------------------
 sub_BBD18:
         push esi
         push edi
@@ -2401,6 +2473,9 @@ sub_BBD18:
         mov dword [byte eax-04h], ecx
         jmp short .5
         db 090h
+;-----------------------------------------------------------------------------
+; sub_BBD98                                                            BBD98  
+;-----------------------------------------------------------------------------
 sub_BBD98:
         push esi
         push edi
@@ -2458,6 +2533,9 @@ sub_BBD98_B3:
         pop esi
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_BBE50                                                            BBE50  
+;-----------------------------------------------------------------------------
 sub_BBE50:
         mov eax, dword [byte esp+04h]
         mov edx, dword [dword eax+084h]
@@ -2481,7 +2559,7 @@ sub_BBE50:
         push ebx
         mov esi, dword [byte edi+028h]
         mov edi, dword [byte edi+024h]
-        call sub_B78C0
+        call SetRinkView
         add esp, byte 0Ch
 .1:
         dec edi
@@ -2508,6 +2586,9 @@ sub_BBE50:
 .2:
         add esi, byte 0Ch
         jmp short .1
+;-----------------------------------------------------------------------------
+; sub_BBEC8                                                            BBEC8  
+;-----------------------------------------------------------------------------
 sub_BBEC8:
         push esi
         push edi
@@ -2649,6 +2730,9 @@ sub_BBEC8_174:
         pop edi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; sub_BC040                                                            BC040  
+;-----------------------------------------------------------------------------
 sub_BC040:
         push esi
         push edi
@@ -2679,7 +2763,7 @@ sub_BC040:
         mov ecx, dword [byte eax+078h]
         push ecx
         mov dword [dword_1983A4], eax
-        call sub_B78C0
+        call SetRinkView
         add esp, byte 0Ch
 .1:
         mov eax, edi
@@ -2693,6 +2777,9 @@ sub_BC040:
         add esp, byte 4
         jmp short .1
         db 090h
+;-----------------------------------------------------------------------------
+; sub_BC0C4                                                            BC0C4  
+;-----------------------------------------------------------------------------
 sub_BC0C4:
         mov eax, dword [byte esp+04h]
         mov edx, dword [dword eax+084h]
@@ -2752,6 +2839,9 @@ sub_BC0C4:
         add eax, byte 8
         jmp short .1
         db 00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_BC150                                                            BC150  
+;-----------------------------------------------------------------------------
 sub_BC150:
         push ecx
         push esi
@@ -2949,10 +3039,13 @@ sub_BC150:
         mov eax, dword [edx]
         push edx
         dec dword [byte eax+0Ch]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_BC3A0                                                            BC3A0  
+;-----------------------------------------------------------------------------
 sub_BC3A0:
         push esi
         push edi
@@ -2988,6 +3081,9 @@ sub_BC3A0:
         pop esi
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_BC3F4                                                            BC3F4  
+;-----------------------------------------------------------------------------
 sub_BC3F4:
         push esi
         push edi
@@ -3007,6 +3103,9 @@ sub_BC3F4:
         mov eax, unk_1983B8
         jmp near strncpy_
         db 090h
+;-----------------------------------------------------------------------------
+; sub_BC424                                                            BC424  
+;-----------------------------------------------------------------------------
 sub_BC424:
         push esi
         push edi
@@ -3088,6 +3187,9 @@ sub_BC424:
         pop esi
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_BC4F0                                                            BC4F0  
+;-----------------------------------------------------------------------------
 sub_BC4F0:
         push ebx
         push ecx
@@ -3181,7 +3283,7 @@ sub_BC4F0:
         push ebp
         lea eax, [byte esp+04h]
         push eax
-        call sub_B20EC
+        call OpenArtArchive
         add esp, byte 8
         mov edi, eax
         test eax, eax
@@ -3200,6 +3302,9 @@ sub_BC4F0:
         pop ebx
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_BC5C0                                                            BC5C0  
+;-----------------------------------------------------------------------------
 sub_BC5C0:
         push ebx
         push ecx
@@ -3225,15 +3330,18 @@ sub_BC5C0:
         test edx, edx
         je short .2
         push edx
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .2:
         push esi
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         pop esi
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_BC610                                                            BC610  
+;-----------------------------------------------------------------------------
 sub_BC610:
         push esi
         sub esp, byte 8
@@ -3264,6 +3372,9 @@ sub_BC610:
         add esp, byte 8
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; sub_BC674                                                            BC674  
+;-----------------------------------------------------------------------------
 sub_BC674:
         push esi
         sub esp, byte 8
@@ -3294,6 +3405,9 @@ sub_BC674:
         add esp, byte 8
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; sub_BC6D8                                                            BC6D8  
+;-----------------------------------------------------------------------------
 sub_BC6D8:
         push esi
         sub esp, byte 8

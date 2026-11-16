@@ -17,9 +17,9 @@ extern str_Bt282, str_Bt292, str_Nothing, str_Pal14, str_Rul12, str_Rul22, str_R
 extern str_S05dCnzDb3, str_S05dCsgDb, str_Sched, str_SDB, str_SEASONNDX, str_Set12, str_Set22, str_Set3
 extern str_Teams, strcat_, strcpy_, strlen_, WriteDbRecord6, ReadSeasonHeader, sub_29B9F, SeasonMenuScreen_794
 extern SeasonMenuScreen_7AC, SeasonMenuScreen_858, SeasonMenuScreen_9D7, SeasonMenuScreen_A07, SeasonMenuScreen_A34, SeasonMenuScreen_A61, SeasonMenuScreen_ADF, SeasonMenuScreen_AEB
-extern SeasonMenuScreen_AF7, SeasonMenuScreen_B7E, SeasonMenuScreen_C05, SeasonMenuScreen_C68, sub_AAA8C, sub_AB758, sub_ABF4C, sub_AD35C
-extern sub_AD620, sub_ADBEC, sub_B20D0, sub_B22B0, sub_B2C54, sub_B7256, sub_B7810, sub_C254C
-extern sub_C2600, sub_DD6C4, sub_DD908, sub_E04E0, sub_E0584, TextSetFont, TickDeadlinePassed, unk_11E33C
+extern SeasonMenuScreen_AF7, SeasonMenuScreen_B7E, SeasonMenuScreen_C05, SeasonMenuScreen_C68, sub_AAA8C, sub_AB758, FreeMemBlock, sub_AD35C
+extern sub_AD620, sub_ADBEC, OpenArtArchiveErr, sub_B22B0, sub_B2C54, UnlinkJump, sub_B7810, sub_C254C
+extern sub_C2600, SetScreenTarget, sub_DD908, sub_E04E0, sub_E0584, TextSetFont, TickDeadlinePassed, unk_11E33C
 extern unk_11E354, unk_152C44, unk_17CB2E, unk_17CC1F, unk_17CED5, UpdateProgressBox
 global unk_77442, unk_7745A, CompareGrey, SortGreyColors, jpt_7761E, jpt_77632, NewSeasonScreen, NewSeasonScreen_5FB
 global NewSeasonScreen_768, NewSeasonScreen_798, NewSeasonScreen_7C5, NewSeasonScreen_7F2, NewSeasonScreen_8AF, NewSeasonScreen_8BB, NewSeasonScreen_8CB, NewSeasonScreen_8E0
@@ -560,7 +560,7 @@ NewSeasonScreen_5FB:
         push eax
         call PutBlock
         add esp, byte 0Ch
-        call sub_DD6C4
+        call SetScreenTarget
         mov eax, dword [byte ebp+072h]
         inc eax
         inc esi
@@ -785,7 +785,7 @@ NewSeasonScreen_8E0:
         mov eax, 3
         call FadeOut
         push dword [byte ebp+062h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [byte ebp+05Ah]
         call sub_ADBEC
@@ -1292,7 +1292,7 @@ DrawSeasonTeams:
         push dword [byte ebp-01Ch]
         call sub_ADBEC
         add esp, byte 4
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [byte ebp+018h]
         mov eax, dword [dword ebp-014Ch]
         push dword [byte ebp+014h]
@@ -1727,13 +1727,13 @@ CreateSeason:
         cmp esi, 2A4h
         jne short .26
         push dword [byte ebp+072h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [byte ebp+07Ah]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [byte ebp+066h]
-        call sub_ABF4C
+        call FreeMemBlock
         mov eax, 9
         add esp, byte 4
         mov ebx, 7
@@ -2071,7 +2071,7 @@ MakePlayoffDbPath:
         push byte 0
         lea eax, [byte ebp-050h]
         push eax
-        call sub_B20D0
+        call OpenArtArchiveErr
         add esp, byte 8
         mov dword [byte ebp-0Ch], eax
         lea esi, [dword eax+02A4h]
@@ -2131,7 +2131,7 @@ MakePlayoffDbPath:
         jl short .3
         call HideProgressBox
         push dword [byte ebp-0Ch]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 MakePlayoffDbPath_15F:
         leave
@@ -2168,7 +2168,7 @@ ResetSeasonFiles:
         mov edx, esi
         call MakeSeasonDbPath
         lea eax, [byte ebp-020h]
-        call sub_B7256
+        call UnlinkJump
         mov eax, ecx
         inc ecx
         call UpdateProgressBox
@@ -2191,7 +2191,7 @@ ResetSeasonFiles:
         call sprintf_
         add esp, byte 14h
         lea eax, [byte ebp-020h]
-        call sub_B7256
+        call UnlinkJump
         push edi
         push esi
         lea eax, [byte ebp-040h]
@@ -2203,7 +2203,7 @@ ResetSeasonFiles:
         add esp, byte 14h
         lea eax, [byte ebp-020h]
         inc edi
-        call sub_B7256
+        call UnlinkJump
         mov eax, ecx
         inc ecx
         call UpdateProgressBox
@@ -2259,7 +2259,7 @@ ResetSeasonFiles:
         lea eax, [byte ebp-03Ch]
         push eax
         xor esi, esi
-        call sub_B20D0
+        call OpenArtArchiveErr
         mov edx, eax
         add esp, byte 8
         mov dword [byte ebp-014h], eax
@@ -2283,7 +2283,7 @@ ResetSeasonFiles:
         call MakeDatabasePath
         lea eax, [byte ebp-03Ch]
         inc dword [byte ebp-0Ch]
-        call sub_B7256
+        call UnlinkJump
         cmp dword [byte ebp-0Ch], byte 0Bh
         jl short .5
 .6:
@@ -2307,7 +2307,7 @@ ResetSeasonFiles:
         call MakeDatabasePath
         lea eax, [byte ebp-03Ch]
         inc esi
-        call sub_B7256
+        call UnlinkJump
         mov eax, esi
         call UpdateProgressBox
         mov eax, 2
@@ -2321,7 +2321,7 @@ ResetSeasonFiles:
         call FillMusicStream
         call HideProgressBox
         push dword [byte ebp-014h]
-        call sub_ABF4C
+        call FreeMemBlock
         mov eax, 1
         add esp, byte 4
         leave
@@ -2349,14 +2349,14 @@ ResetSeasonFiles:
         push byte 0
         lea eax, [byte ebp-020h]
         push eax
-        call sub_B20D0
+        call OpenArtArchiveErr
         mov ecx, 3A7h
         add esp, byte 8
         mov esi, eax
         mov edx, eax
         rep movsb
         push edx
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         leave
         pop edi

@@ -11,8 +11,8 @@ extern SlideInTitleBar, SoundIdle, SoundSecondsToBytes, sprintf_, str_Aal02, str
 extern str_Aar12, str_Aar22, str_Ahl02, str_Ahl12, str_Ahl22, str_Ahr02, str_Ahr12, str_Ahr22
 extern str_Bkgd24, str_HaBck0, str_HaBck1, str_Ldat, str_Pal10, str_Rk02d2, str_Rk22, str_Rul1
 extern str_Rul2, str_Rul3, str_Set0, str_Set1, str_Set2, str_Swt02, str_Swt1, str_SwtD
-extern sub_29B9F, sub_AA988, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C, sub_ADA50, sub_ADBEC
-extern sub_DD6C4, sub_E04E0, unk_152C44, word_11E280
+extern sub_29B9F, sub_AA988, sub_AADA4, sub_AB758, FreeMemBlock, sub_AD35C, sub_ADA50, sub_ADBEC
+extern SetScreenTarget, sub_E04E0, unk_152C44, word_11E280
 global unk_76071, DrawHomeTeamPanel, DrawHomeTeamPanel_151, DrawHomeTeamPanel_15D, DrawAwayTeamPanel, jpt_764F4, TeamSelectScreen, TeamSelectScreen_863
 global TeamSelectScreen_91E, TeamSelectScreen_9C0, TeamSelectScreen_A66, TeamSelectScreen_AFC, TeamSelectScreen_BAA, TeamSelectScreen_BB3, TeamSelectScreen_BD7, TeamSelectScreen_BE5
 unk_76071:
@@ -128,7 +128,7 @@ DrawHomeTeamPanel:
         call DrawFrameAt
         cmp esi, byte 18h
         jne short .1
-        call sub_DD6C4
+        call SetScreenTarget
         mov eax, dword [dword_17D68C]
         mov ecx, 0AAh
         sar eax, 1
@@ -246,7 +246,7 @@ DrawAwayTeamPanel:
         call DrawFrameAt
         cmp esi, byte 18h
         jne short .1
-        call sub_DD6C4
+        call SetScreenTarget
         mov eax, dword [dword_17D68C]
         mov edx, 0AAh
         sar eax, 1
@@ -337,7 +337,7 @@ TeamSelectScreen:
         mov eax, edx
         mov dword [byte ebp+072h], edx
         call SetScreenColors
-        call sub_DD6C4
+        call SetScreenTarget
         push str_Bkgd24
         push dword [byte ebp+076h]
         call sub_E04E0
@@ -567,7 +567,7 @@ TeamSelectScreen:
         mov byte [dword ebp-017Eh], 5
         mov byte [dword ebp-017Dh], 8
         mov byte [dword ebp-017Fh], 8
-        call sub_DD6C4
+        call SetScreenTarget
         push byte 0
         push dword [dword_17D68C]
         push dword [dword_17D690]
@@ -982,7 +982,7 @@ TeamSelectScreen_BE5:
         cmp dword [dword esi+dword_11E2A8], byte 0
         je short .16
         push dword [dword esi+dword_11E2A8]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov dword [dword esi+dword_11E2A8], 0
 .16:
@@ -996,7 +996,7 @@ TeamSelectScreen_BE5:
         cmp dword [dword esi+dword_11E2B8], byte 0
         je short .18
         push dword [dword esi+dword_11E2B8]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov dword [dword esi+dword_11E2B8], 0
 .18:
@@ -1011,7 +1011,7 @@ TeamSelectScreen_BE5:
         cmp esi, byte 8
         jne near .15
         push dword [byte ebp+07Eh]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov eax, 2
         call FadeOut
@@ -1035,7 +1035,7 @@ TeamSelectScreen_BE5:
         push ecx
         push edx
         push eax
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         pop edx
         pop ecx

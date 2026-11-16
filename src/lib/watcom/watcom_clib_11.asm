@@ -3,8 +3,12 @@ bits 32
 %include "hockey.inc"
 section s_C3BE0 progbits alloc exec nowrite align=1
 extern __flush_, __fprtf_, __ioalloc_, __prtf_, fputc_
-global fputs_, mem_putc__0, sub_C3BE0, sub_C3C04, sub_C3C37, vsprintf_
-sub_C3BE0:
+global fputs_, mem_putc__0, MemLock, sub_C3C04, sub_C3C37, vsprintf_
+;-----------------------------------------------------------------------------
+; MemLock                                         C3BE0  96 PC, low confidence
+; Sets the memory lock; followed by the try-lock
+;-----------------------------------------------------------------------------
+MemLock:
         mov eax, dword [byte esp+04h]
         mov dword [eax], 1
         ret
@@ -18,10 +22,16 @@ sub_C3BE0:
         mov dword [eax], 1
         mov eax, 1
         ret
+;-----------------------------------------------------------------------------
+; sub_C3C04                                                            C3C04  
+;-----------------------------------------------------------------------------
 sub_C3C04:
         mov eax, dword [byte esp+04h]
         mov dword [eax], 0
         ret
+;-----------------------------------------------------------------------------
+; mem_putc__0                                                   C3C0F  library
+;-----------------------------------------------------------------------------
 mem_putc__0:
         push ebx
         push ecx
@@ -34,6 +44,9 @@ mem_putc__0:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; vsprintf_                                                     C3C22  library
+;-----------------------------------------------------------------------------
 vsprintf_:
         push ecx
         push esi
@@ -44,8 +57,14 @@ vsprintf_:
         pop esi
         pop ecx
         ret
+;-----------------------------------------------------------------------------
+; sub_C3C37                                                            C3C37  
+;-----------------------------------------------------------------------------
 sub_C3C37:
         jmp near __fprtf_
+;-----------------------------------------------------------------------------
+; fputs_                                                        C3C3C  library
+;-----------------------------------------------------------------------------
 fputs_:
         push ebx
         push ecx

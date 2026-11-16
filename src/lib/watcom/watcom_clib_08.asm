@@ -8,7 +8,7 @@ extern str_ErrorInvalidVolume, str_ErrorInvalidHandle, str_ErrorInvalidPan, str_
 extern str_NoFreeChannelToPlayOn, asc_113E28, str_TgvdecodeInvalidChunkTyp, str_RateDDAvgDD, byte_123BB8, byte_123C04, byte_123C05, byte_123C22
 extern byte_1248D0, byte_1248D1, byte_1248DA, byte_19B734, byte_19B739, byte_1A0B2B, byte_1A0B31, byte_1A0B36
 extern byte_1A0B37, byte_1A0B44, byte_1A0B46, byte_1A0B47, dword_11F5CC, dword_11F5D0, dword_11F9C8, dword_1210C0
-extern dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4, dword_1228F4, dword_123B10, dword_123B14, dword_123BB0
+extern ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, dword_1228F4, dword_123B10, dword_123B14, dword_123BB0
 extern dword_123BB4, dword_123BB9, dword_123BBD, dword_123BC1, dword_123BC5, dword_123BCC, dword_123BD0, dword_123BD4
 extern dword_123BD8, dword_123BDC, dword_123BE0, dword_123BE4, dword_123BE8, dword_123BEC, dword_123BF0, dword_123C06
 extern dword_123C0A, dword_123C0E, dword_123C12, dword_123C16, dword_123C1A, dword_123C1E, dword_123C9E, dword_123CA2
@@ -20,12 +20,12 @@ extern dword_19B6D8, dword_19B6DC, dword_19B6E0, dword_19B6E4, dword_19B724, dwo
 extern dword_19B778, dword_19B77C, dword_19B784, dword_19B788, dword_19B8F0, dword_19B8F4, dword_19B8F8, dword_19B8FC
 extern dword_19B900, dword_19BA30, dword_1A0B2C, dword_1A0DA0, dword_1A0DA4, off_123CE0, off_123CE4, off_123CE8
 extern off_123CEC, off_123D68, off_123D6C, off_123D70, off_123D74, off_123D78, off_123D7C, off_123D80
-extern off_123D84, off_123D88, strncpy_, CdStreamSeek, CdStreamFreePacket, sub_AA664, PutBlock, sub_AB758
-extern sub_ABF4C, sub_AC9CC, sub_ACA3C, sub_AFCD0, DrawArtOpaque, sub_B65D4, sub_BF120, sub_C5D00
-extern sub_CAA80, sub_CAB58, sub_CAB78, sub_CABA9, sub_CBEA8, sub_CC048, sub_CC15A, sub_CC17B
-extern sub_CC1B5, sub_CC200, ParseBlasterEnv, sub_CE2E8, sub_CE709, sub_CE780, sub_CF6C9, sub_CF7C0
-extern sub_CF864, sub_CF918, sub_CFA64, sub_CFB14, sub_CFCC0, sub_DD6C4, sub_DDF4F, sub_DFB84
-extern sub_E04D0, sub_E0520, sub_E0898, unk_19B6A4, unk_19B720, unk_1A0B20, unk_CABE8
+extern off_123D84, off_123D88, strncpy_, CdStreamSeek, CdStreamFreePacket, RemoveTimerCallback, PutBlock, sub_AB758
+extern FreeMemBlock, MemDescPtr, sub_ACA3C, sub_AFCD0, DrawArtOpaque, RestoreDS, sub_BF120, sub_C5D00
+extern sub_CAA80, sub_CAB58, sub_CAB78, sub_CABA9, sub_CBEA8, sub_CC048, MixerStopChannel, sub_CC17B
+extern sub_CC1B5, MixerSamplesLeft, ParseBlasterEnv, sub_CE2E8, sub_CE709, sub_CE780, sub_CF6C9, sub_CF7C0
+extern sub_CF864, sub_CF918, sub_CFA64, sub_CFB14, sub_CFCC0, SetScreenTarget, sub_DDF4F, sub_DFB84
+extern AddExitHandler, sub_E0520, sub_E0898, unk_19B6A4, unk_19B720, unk_1A0B20, MixerStepTable
 global _Alphabet, abs_, fini_void_, getcwd_, itoa_, jpt_C1490, sub_BFA45_90, sub_C0944_18C
 global memcmp_, sub_BF950, sub_BF9FE, sub_BFA05, sub_BFA45, sub_BFAF5, sub_BFB53, sub_BFB74
 global sub_BFB7C, sub_BFBE3, sub_BFC16, sub_BFC91, sub_BFDB8, sub_BFE4C, sub_BFF52, sub_BFF8F
@@ -34,7 +34,7 @@ global sub_C0423, sub_C04AE, sub_C04C3, sub_C0578, sub_C0603, sub_C061E, sub_C06
 global sub_C08DA, sub_C08F5, sub_C0902, sub_C0944, sub_C0AD7, sub_C0BCD, sub_C0D7E, sub_C0E2D
 global sub_C0E3C, sub_C0E49, sub_C0F09, sub_C0F30, sub_C1008, sub_C1051, sub_C1104, sub_C1183
 global sub_C11EF, sub_C12C8, sub_C1322, sub_C13B1, sub_C1410, sub_C144B, SndSetDriver, sub_C1614
-global sub_C17C6, sub_C1811, sub_C181F, sub_C187A, sub_C187C, sub_C187D, sub_C1882, sub_C1890
+global sub_C17C6, sub_C1811, sub_C181F, sub_C187A, sub_C187C, sub_C187D, sub_C1882, BuildHuffTable
 global sub_C1920, sub_C1A2C, sub_C1D48, sub_C1FC0, sub_C1FEC, sub_C204C, sub_C20E0, sub_C2268
 global sub_C2290, sub_C2440, sub_C2442, sub_C24D0, sub_C2500, sub_C254C, sub_C2600, sub_C27A4
 global unk_C1041, utoa_
@@ -604,7 +604,7 @@ sub_BFE4C:
         ret
 .5:
         push eax
-        call sub_CC15A
+        call MixerStopChannel
         movzx eax, byte [byte esi+0Bh]
         add esp, byte 4
         cmp eax, byte 2
@@ -706,7 +706,7 @@ sub_BFF52:
         ret
 .4:
         push eax
-        call sub_CC200
+        call MixerSamplesLeft
         add esp, byte 4
         pop edx
         pop ecx
@@ -914,7 +914,7 @@ sub_C011D:
 ;-----------------------------------------------------------------------------
 sub_C01C9:
         push ds
-        call sub_B65D4
+        call RestoreDS
         push esi
         push ebp
         mov ebp, esp
@@ -1234,7 +1234,7 @@ sub_C04C3:
 .7:
         push edi
         mov dword [byte ebp-04h], 0
-        call sub_AC9CC
+        call MemDescPtr
         add esp, byte 4
         mov dword [byte ebp-08h], eax
         mov edx, eax
@@ -1309,7 +1309,7 @@ sub_C0578:
         cmp dword [dword eax+dword_123BF0], byte 0
         je short .3
         push dword [dword eax+dword_123BF0]
-        call sub_AC9CC
+        call MemDescPtr
         add esp, byte 4
         xor edx, edx
 .5:
@@ -2531,7 +2531,7 @@ sub_C12C8:
         LD sub, eax, edx
         sar eax, 1
         shl ecx, 2
-        mov esi, dword [dword ecx+unk_CABE8]
+        mov esi, dword [dword ecx+MixerStepTable]
         imul esi, eax
         mov eax, ebx
         mov ecx, 4B0h
@@ -2873,7 +2873,7 @@ SndSetDriver:
         cmp dword [dword_123D64], byte 0
         jne short .4
         push sub_C181F
-        call sub_E04D0
+        call AddExitHandler
         mov dword [dword_123D64], 1
         add esp, byte 4
 .4:
@@ -3135,7 +3135,7 @@ sub_C181F:
         cmp dword [dword_123D60], byte 0
         je short .1
         push sub_CF6C9
-        call sub_AA664
+        call RemoveTimerCallback
         mov dword [dword_123D60], 0
         add esp, byte 4
 .1:
@@ -3173,9 +3173,10 @@ sub_C1882:
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_C1890                                                            C1890  
+; BuildHuffTable                                  C1890  96 PC, low confidence
+; TGV video: builds a Huffman decoding table
 ;-----------------------------------------------------------------------------
-sub_C1890:
+BuildHuffTable:
         push esi
         push edi
         push ebp
@@ -3399,7 +3400,7 @@ sub_C1A2C:
         test ecx, ecx
         je short .1
         push ecx
-        call sub_ABF4C
+        call FreeMemBlock
         mov dword [byte ebp+03Ch], 0
         add esp, byte 4
         mov dword [byte ebp+020h], 0
@@ -3408,7 +3409,7 @@ sub_C1A2C:
         test eax, eax
         je short .2
         push eax
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov dword [byte ebp+040h], 0
 .2:
@@ -3459,7 +3460,7 @@ sub_C1A2C:
         test edx, edx
         je short .7
         push edx
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov dword [byte ebp+038h], 0
 .7:
@@ -3496,7 +3497,7 @@ sub_C1A2C:
         mov edx, esi
         mov dword [byte esp+01Ch], eax
         mov eax, dword [byte ebp+03Ch]
-        call sub_C1890
+        call BuildHuffTable
         mov eax, dword [byte esp+08h]
         mov edx, dword [byte ebp+034h]
         shl eax, 2
@@ -3689,7 +3690,7 @@ sub_C1D48:
         test ecx, ecx
         je short .3
         push ecx
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov dword [byte esi+028h], 0
 .3:
@@ -3697,7 +3698,7 @@ sub_C1D48:
         test edx, edx
         je short .4
         push edx
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov dword [byte esi+02Ch], 0
 .4:
@@ -3705,7 +3706,7 @@ sub_C1D48:
         test ecx, ecx
         je short .5
         push ecx
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov dword [byte esi+034h], 0
 .5:
@@ -3713,7 +3714,7 @@ sub_C1D48:
         test edx, edx
         je short .6
         push edx
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov dword [byte esi+030h], 0
 .6:
@@ -3903,53 +3904,53 @@ sub_C204C:
         test edx, edx
         je short .1
         push edx
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .1:
         mov ecx, dword [byte esi+03Ch]
         test ecx, ecx
         je short .2
         push ecx
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .2:
         mov ebp, dword [byte esi+040h]
         test ebp, ebp
         je short .3
         push ebp
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .3:
         mov edx, dword [byte esi+028h]
         test edx, edx
         je short .4
         push edx
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .4:
         mov ecx, dword [byte esi+02Ch]
         test ecx, ecx
         je short .5
         push ecx
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .5:
         mov ebp, dword [byte esi+034h]
         test ebp, ebp
         je short .6
         push ebp
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .6:
         mov edx, dword [byte esi+030h]
         test edx, edx
         je short .7
         push edx
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .7:
         push esi
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .8:
         pop ebp
@@ -4117,7 +4118,7 @@ sub_C2290:
         mov eax, dword [byte esp+02Ch]
         mov edx, dword [byte esp+02Ch]
         mov esi, dword [byte esp+030h]
-        mov edi, dword [dword_1228DC]
+        mov edi, dword [ClipLeftCol]
         add ecx, byte 10h
         mov eax, dword [byte eax+02h]
         mov edx, dword [byte edx+04h]
@@ -4132,14 +4133,14 @@ sub_C2290:
         add ebp, edi
         add ecx, ebx
 .1:
-        mov ebx, dword [dword_1228E4]
+        mov ebx, dword [ScreenHeight]
         lea edi, [edx+ebp]
         sub edi, ebx
         test edi, edi
         jle short .2
         sub edx, edi
 .2:
-        mov edi, dword [dword_1228D8]
+        mov edi, dword [ClipTopRow]
         sub edi, esi
         test edi, edi
         jle short .3
@@ -4147,7 +4148,7 @@ sub_C2290:
         sub eax, edi
         add esi, edi
 .3:
-        mov ebx, dword [dword_1228E0]
+        mov ebx, dword [ClipRight]
         lea edi, [esi+eax]
         sub edi, ebx
         test edi, edi
@@ -4687,7 +4688,7 @@ sub_C27A4:
         mov esi, eax
         mov edi, edx
         mov ebp, ebx
-        call sub_DD6C4
+        call SetScreenTarget
         push ebp
         push edi
         mov edx, dword [byte esi+02Ch]
@@ -4707,7 +4708,7 @@ sub_C27A4:
         mov esi, eax
         mov edi, edx
         mov ebp, ebx
-        call sub_DD6C4
+        call SetScreenTarget
         push ebp
         push edi
         mov edx, dword [byte esi+02Ch]

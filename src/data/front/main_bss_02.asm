@@ -7,7 +7,7 @@ global byte_176B92, byte_176B93, byte_176B94, byte_176B95, byte_176B96, byte_176
 global byte_176B9A, goalevent, byte_176B9E, byte_176B9F, byte_176BA5, byte_176BA7, dword_176BC4, lineuptime
 global dword_176BCC, dword_176BD0, dword_176BD8, dword_176BDC, dword_176BE0, dword_176C44, lasttouch, word_176B68
 global word_176B6A, word_176B6C, word_176B6E, word_176B70, word_176B72, word_176B76, word_176B78, word_176B7A
-global word_176B7C, word_176B7E, word_176B80, word_176B88, word_176B8A, word_176B8C, word_176B8E, word_176BB8
+global word_176B7C, word_176B7E, word_176B80, LastTouchTeam, PassDistY, StoppageFlag, LastPlayerTouch, word_176BB8
 global word_176BBA, lastimpact
 word_176B68:
         resb 2
@@ -45,13 +45,13 @@ byte_176B85:
         resb 1
 lasttouch:
         resb 2
-word_176B88:
+LastTouchTeam:
         resb 2
-word_176B8A:
+PassDistY:
         resb 2
-word_176B8C:
+StoppageFlag:
         resb 2
-word_176B8E:
+LastPlayerTouch:
         resb 2
 byte_176B90:
         resb 1

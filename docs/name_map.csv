@@ -1006,6 +1006,7 @@ A3B74,DrawModemAwayPanel,sub_A3B74,new,medium,the same for the away team,src/fro
 A3CF8,ModemTeamSelectScreen,sub_A3CF8,new,medium,the team select screen of a modem or link game (ahl / ahr / aal arrows),src/front/modem_teams/modem_teams.asm
 A4961,RunModemGameSetup,sub_A4961,new,medium,"from the main menu: the modem set-up (or a serial link), the modem game stats and team ranks, team select, the controller screen, until a game starts",src/front/modem_teams/modem_teams.asm
 A4FD7,RunPlayoffMenus,sub_A4FD7,new,medium,from the main menu: loads PLAYOFF.NDX and runs the play-off screens,src/front/playoff/playoff.asm
+A522F,SetPlayoffFormat,sub_A522F,new,low,sets the playoff format,src/front/playoff/playoff.asm
 A524B,PickPlayoffTeam,sub_A524B,new,low,picks a team for a play-off slot (both New York teams get their full names),src/front/playoff/playoff.asm
 A540A,PlayoffSetupScreen,sub_A540A,new,medium,"the new play-offs screen (1GM0, BT00-BT0x): the teams in the tree, name, series length",src/front/playoff/playoff.asm
 A6561,DrawPlayoffSlotLogo,sub_A6561,new,low,draws a team logo in a play-off slot,src/front/playoff/playoff.asm
@@ -1047,26 +1048,51 @@ AA514,_os_handle_1,,WATCOM,high,IDA FLIRT library signature,
 AA5C4,TimerISR,,95PC,medium,NHL95PC 8E45C (sem): D:18566C; D:11F9A4,
 AA62C,addtimer,,95PC,medium,"NHL95PC 8E4C0 (sem): S:addtimer - LIST FULL
 ; D:1130F8; C:2357",
+AA664,RemoveTimerCallback,sub_AA664,new,low,removes a callback from the timer callback table,src/lib/ea/ea_timer.asm
 AA6D0,RestoreTimer,,95PC,medium,NHL95PC 8E554 (sem): C:1696,
 AA734,InstallTimer,,95PC,medium,NHL95PC 8E5AC (sem): C:1696; C:2340; C:1555,
 AAB40,PutBlock,,95PC,medium,NHL95PC 903F0 (sem): C:2284; R:2174; R:2167; K:10000,
 ABEEC,findmemblock,,95PC,medium,"NHL95PC 8D2A0 (sem): S:findmemblock - BLOCK NOT FOUND (%p)
 ; D:113398; C:2357",
+ABF4C,FreeMemBlock,sub_ABF4C,95PC,high,same code as in the next game,src/lib/ea/ea_memman.asm
+AC470,FindCachedFileData,sub_AC470,new,low,returns the data pointer of a file already held in memory,src/lib/ea/ea_memman.asm
+AC484,FindCachedFile,sub_AC484,new,low,"returns the memory block that already holds a file, revalidating it",src/lib/ea/ea_memman.asm
 AC990,getmemblock,,95PC,medium,"NHL95PC 8DB8C (sem): S:getmemblock - NO MEMORY BLOCKS LEFT
 ; D:1133E0; C:2357",
+AC9B8,MemPtrSize,sub_AC9B8,new,low,returns the size of the block that holds a pointer,src/lib/ea/ea_memman.asm
+AC9CC,MemDescPtr,sub_AC9CC,new,low,returns the data pointer of a block descriptor,src/lib/ea/ea_memman.asm
+AC9D4,MemDescSize,sub_AC9D4,new,low,returns the size of a block descriptor's data,src/lib/ea/ea_memman.asm
 AC9DC,type_info__raw_name,,WATCOM,high,IDA FLIRT library signature,
 AC9F0,DebugPrintf,,95PC,medium,NHL95PC 935E0 (sem): R:2164; K:104; R:2158; R:2167,
 AD680,FillRect,,95PC,medium,NHL95PC 90D20 (sem): C:2290; C:2373; R:1708; R:2162,
 ADBB4,fputchar,,WATCOM,high,IDA FLIRT library signature,
 ADC05,mem_putc_,,WATCOM,high,IDA FLIRT library signature,
 ADC18,sprintf_,,WATCOM,high,IDA FLIRT library signature,
+AEE40,ExpandBytePair,sub_AEE40,new,low,expands one byte of byte-pair coded data through the pair tables (recursive),src/lib/ea/ea_unpack.asm
 AFB88,unpack,,95PC,medium,"NHL95PC 97EB8 (sem): S:unpack - INVALID PACK CODE (%x)
 ; D:1135B8; C:1279; C:2357",
+B0240,SetTextOrigin,sub_B0240,new,low,sets the text origin,src/lib/ea/ea_unpack.asm
+B0254,SaveTextState,sub_B0254,new,low,"saves the text drawing state (font, colours, position)",src/lib/ea/ea_unpack.asm
+B026C,SetDrawTarget,sub_B026C,new,low,same code as in the next game,src/lib/ea/ea_unpack.asm
 B0284,TextSetFont,sub_B0284,95PC,medium,"its call lines up with the NHL95PC call in FormatPlayerName, and its address keeps the NHL95PC module order",src/lib/ea/ea_unpack.asm
+B03F2,GetRandState,sub_B03F2,new,high,returns the C library's rand state address,src/lib/watcom/watcom_clib_03.asm
 B03F8,rand_,,WATCOM,high,IDA FLIRT library signature,
 B041C,srand_,,WATCOM,high,IDA FLIRT library signature,
+B0474,LoadResourceBlockShared,sub_B0474,new,low,loads a resource file in shared mode and returns its memory block,src/lib/watcom/watcom_clib_03.asm
+B047B,LoadResourceData,sub_B047B,new,low,loads a resource file and returns its data pointer,src/lib/watcom/watcom_clib_03.asm
+B0494,LoadResourceDataShared,sub_B0494,new,low,loads a resource file in shared mode and returns its data pointer,src/lib/watcom/watcom_clib_03.asm
+B04D0,InverseTableSlice,sub_B04D0,new,low,builds one slice of the inverse colour table,src/lib/watcom/watcom_clib_03.asm
+B06E8,InverseTablePass,sub_B06E8,new,low,runs one pass of the inverse colour table,src/lib/watcom/watcom_clib_03.asm
+B086C,InverseTableScan,sub_B086C,new,low,scans the colours for the inverse table,src/lib/watcom/watcom_clib_03.asm
+B0B10,InverseTableFill,sub_B0B10,new,low,fills the inverse colour table,src/lib/watcom/watcom_clib_03.asm
 B1004,_dos_getdate_,,WATCOM,high,IDA FLIRT library signature,
 B101F,_dos_gettime_,,WATCOM,high,IDA FLIRT library signature,
+B11F8,SerialClose,sub_B11F8,new,low,serial port: disables the port and restores its interrupt,src/lib/watcom/watcom_clib_03.asm
+B1241,SerialCloseAll,sub_B1241,new,low,serial port: closes both ports,src/lib/watcom/watcom_clib_03.asm
+B1279,SerialRaiseDtr,sub_B1279,new,low,serial port: raises DTR,src/lib/watcom/watcom_clib_03.asm
+B1328,SerialWrite,sub_B1328,new,low,serial port: puts bytes in the send buffer and starts sending,src/lib/watcom/watcom_clib_03.asm
+B13D2,SerialFlushTx,sub_B13D2,new,low,serial port: empties the send buffer,src/lib/watcom/watcom_clib_03.asm
+B13F1,SerialWaitTxEmpty,sub_B13F1,new,low,serial port: waits until the send buffer is empty or the time runs out,src/lib/watcom/watcom_clib_03.asm
 B16C9,strstr_,,WATCOM,high,IDA FLIRT library signature,
 B17E2,strlen_,,WATCOM,high,IDA FLIRT library signature,
 B17FB,strncmp_,,WATCOM,high,IDA FLIRT library signature,
@@ -1078,17 +1104,29 @@ B1AFB,read_,,WATCOM,high,IDA FLIRT library signature,
 B1C13,byteswap_,,WATCOM,high,IDA FLIRT library signature,
 B1C39,med3_,,WATCOM,high,IDA FLIRT library signature,
 B1C91,qsort_,,WATCOM,high,IDA FLIRT library signature,
+B20D0,OpenArtArchiveErr,sub_B20D0,new,low,opens an art archive file with the error message,src/lib/watcom/watcom_clib_03.asm
+B20EC,OpenArtArchive,sub_B20EC,new,low,opens an art archive file,src/lib/watcom/watcom_clib_03.asm
+B2128,LoadDataFileErr,sub_B2128,new,low,loads a data file with the error message,src/lib/watcom/watcom_clib_03.asm
+B2140,LoadFileAllocQuiet,sub_B2140,new,low,loads a file into a new block without the error message,src/lib/watcom/watcom_clib_03.asm
 B2200,strcmp_,,WATCOM,high,IDA FLIRT library signature,
+B22E0,SaveDataFile,sub_B22E0,new,low,saves a memory block to a file,src/lib/ea/ea_fileblock_02.asm
 B2374,savefileblocka,,95PC,medium,NHL95PC 9336C (similar): mnemonic similarity 0.94 over 51 instructions,
 B2B30,DrawArtOpaque,,95PC,medium,NHL95PC 910E0 (sem): C:2293; K:10000; K:FFFF,
 B2C98,printf_,,WATCOM,high,IDA FLIRT library signature,
 B2CBA,chdir_,,WATCOM,high,IDA FLIRT library signature,
+B2D2C,InitMemoryPool,sub_B2D2C,new,low,sets up the game's memory pool from DOS extender memory,src/lib/watcom/watcom_clib_05.asm
+B30E4,InitMemoryPoolDefault,sub_B30E4,new,low,sets up the memory pool with the default size,src/lib/watcom/watcom_clib_05.asm
 B32E0,DetectCPU,sub_B32E0,95PC,high,"start-up CPU check that toggles the alignment-check flag, as NHL95PC DetectCPU",src/lib/watcom/watcom_clib_05.asm
 B6308,start,,WATCOM,high,IDA FLIRT library signature,
+B6599,WriteConsoleMessage,sub_B6599,new,low,writes a message to the console through DOS before exit,src/lib/watcom/watcom_clib_05.asm
+B65D4,RestoreDS,sub_B65D4,new,low,loads the saved data segment (for interrupt handlers),src/lib/watcom/watcom_clib_05.asm
+B680C,CdHandleEntry,sub_B680C,new,low,returns the entry of a CD file handle,src/lib/watcom/watcom_clib_05.asm
+B6824,CdCloseFile,sub_B6824,new,low,closes a CD file,src/lib/watcom/watcom_clib_05.asm
 B6991,strncpy_,,WATCOM,high,IDA FLIRT library signature,
 B71A6,_dos_close_,,WATCOM,high,IDA FLIRT library signature,
 B71B5,_dos_commit_,,WATCOM,high,IDA FLIRT library signature,
 B71C5,_dos_open_,,WATCOM,high,IDA FLIRT library signature,
+B7256,UnlinkJump,sub_B7256,new,low,jumps to unlink (file delete),src/lib/watcom/watcom_clib_05.asm
 B725B,rmdir_,,WATCOM,high,IDA FLIRT library signature,
 B727A,_dos_creat_,,WATCOM,high,IDA FLIRT library signature,
 B728E,_dos_creatnew_,,WATCOM,high,IDA FLIRT library signature,
@@ -1096,6 +1134,13 @@ B72A2,_dos_read_,,WATCOM,high,IDA FLIRT library signature,
 B72CC,_dos_write_,,WATCOM,high,IDA FLIRT library signature,
 B72D4,_dos_getdiskfree_,,WATCOM,high,IDA FLIRT library signature,
 B73CA,stricmp_,,WATCOM,high,IDA FLIRT library signature,
+B7498,LoadFileInto,sub_B7498,new,low,loads a file into a buffer,src/lib/ea/ea_gfx_04.asm
+B74B0,LoadFileToBlockShared,sub_B74B0,new,low,loads a file into a memory block in shared mode,src/lib/ea/ea_gfx_04.asm
+B74D0,LoadFileToBlockPlain,sub_B74D0,new,low,loads a file into a memory block,src/lib/ea/ea_gfx_04.asm
+B78C0,SetRinkView,sub_B78C0,new,low,sets the rink view parameters,src/lib/ea/ea_shpi_01.asm
+BBBD0,SetRinkMatrix,sub_BBBD0,new,low,copies the rink view rotation matrix and marks the view as changed,src/lib/ea/ea_gfx_05.asm
+BBBF0,SetRinkTranslation,sub_BBBF0,new,low,copies the rink view translation vector,src/lib/ea/ea_gfx_05.asm
+BBC04,SetScreenScale,sub_BBC04,new,low,sets the screen scale and the matching text scale,src/lib/ea/ea_gfx_05.asm
 BC73C,__CHP,,WATCOM,high,IDA FLIRT library signature,
 BE8C5,imul32,,95PC,medium,NHL95PC 933F0 (similar): mnemonic similarity 0.82 over 47 instructions,
 BE93C,fprintf_,,WATCOM,high,IDA FLIRT library signature,
@@ -1105,12 +1150,16 @@ BF0A7,__STOSD,,WATCOM,high,IDA FLIRT library signature,
 BF534,initgraphics,,95PC,medium,NHL95PC 8E080 (sem): S:initgraphics - INITMEMMAN REQUIRED BEF; D:113A50; S:initgraphics - INVALID SCREEN SIZE (,
 BF949,abs_,,WATCOM,high,IDA FLIRT library signature,
 C157F,SndSetDriver,sub_C157F,new,medium,sound library: make a driver table entry current,src/lib/watcom/watcom_clib_08.asm
+C1890,BuildHuffTable,sub_C1890,new,low,TGV video: builds a Huffman decoding table,src/lib/watcom/watcom_clib_08.asm
 C2248,fini_void_,,WATCOM,high,IDA FLIRT library signature,
 C2444,getcwd_,,WATCOM,high,IDA FLIRT library signature,
 C26F9,_Alphabet,,WATCOM,high,IDA FLIRT library signature,
 C271E,utoa_,,WATCOM,high,IDA FLIRT library signature,
 C2768,itoa_,,WATCOM,high,IDA FLIRT library signature,
 C2784,memcmp_,,WATCOM,high,IDA FLIRT library signature,
+C2C7C,DosGetVector,sub_C2C7C,new,low,reads an interrupt vector through DOS,src/lib/ea/ea_kbd_exit.asm
+C2C94,DosSetVector,sub_C2C94,new,low,sets an interrupt vector through DOS,src/lib/ea/ea_kbd_exit.asm
+C2CB0,ErrnoPtr,sub_C2CB0,new,low,returns the address of errno,src/lib/watcom/watcom_clib_09.asm
 C2CBC,access_,,WATCOM,high,IDA FLIRT library signature,
 C2CF7,getenv_,,WATCOM,high,IDA FLIRT library signature,
 C2D51,__set_EDOM_,,WATCOM,high,IDA FLIRT library signature,
@@ -1125,6 +1174,7 @@ C2E42,__freefp_,,WATCOM,high,IDA FLIRT library signature,
 C2E99,__chktty_,,WATCOM,high,IDA FLIRT library signature,
 C2ECA,__flush_,,WATCOM,high,IDA FLIRT library signature,
 C2F89,tell_,,WATCOM,high,IDA FLIRT library signature,
+C2F9A,GetPsp,sub_C2F9A,new,low,returns the program segment prefix,src/lib/watcom/watcom_clib_09.asm
 C2FA0,__close_,,WATCOM,high,IDA FLIRT library signature,
 C2FD2,__MemAllocator,,WATCOM,high,IDA FLIRT library signature,
 C307A,__MemFree,,WATCOM,high,IDA FLIRT library signature,
@@ -1137,6 +1187,7 @@ C33E7,RationalAlloc_,,WATCOM,high,IDA FLIRT library signature,
 C34BA,__CreateNewNHeap_,,WATCOM,high,IDA FLIRT library signature,
 C3569,__ExpandDGROUP_,,WATCOM,high,IDA FLIRT library signature,
 C36AD,__AdjustAmount_,,WATCOM,high,IDA FLIRT library signature,
+C3724,McgaNoWindow,sub_C3724,new,low,returns 0: the MCGA screen needs no window,src/lib/ea/ea_mcga_window.asm
 C3727,__ioalloc_,,WATCOM,high,IDA FLIRT library signature,
 C379E,__qread_,,WATCOM,high,IDA FLIRT library signature,
 C37BD,fgetc_,,WATCOM,high,IDA FLIRT library signature,
@@ -1149,9 +1200,12 @@ C3994,exit_,,WATCOM,high,IDA FLIRT library signature,
 C39AC,_exit_,,WATCOM,high,IDA FLIRT library signature,
 C39C2,_dos_setvect_,,WATCOM,high,IDA FLIRT library signature,
 C39ED,_dos_getvect_,,WATCOM,high,IDA FLIRT library signature,
+C3BD0,ResetMemLock,sub_C3BD0,new,low,clears the memory lock and returns its address,src/lib/dos4gw/dos4gw_dpmi_glue_02.asm
+C3BE0,MemLock,sub_C3BE0,new,low,sets the memory lock; followed by the try-lock,src/lib/watcom/watcom_clib_11.asm
 C3C0F,mem_putc__0,,WATCOM,high,IDA FLIRT library signature,
 C3C22,vsprintf_,,WATCOM,high,IDA FLIRT library signature,
 C3C3C,fputs_,,WATCOM,high,IDA FLIRT library signature,
+C3CC0,FillRowTable,sub_C3CC0,new,low,fills the screen row address table for a range of rows of the current screen,src/lib/ea/ea_shapes_01.asm
 C3D80,removewindow,,95PC,medium,NHL95PC 98DD8 (similar): mnemonic similarity 0.93 over 53 instructions,
 C40B4,__prtf_,,WATCOM,high,IDA FLIRT library signature,
 C4335,getprintspecs_,,WATCOM,high,IDA FLIRT library signature,
@@ -1185,13 +1239,25 @@ C6065,unlink_,,WATCOM,high,IDA FLIRT library signature,
 C9CF8,strnicmp_,,WATCOM,high,IDA FLIRT library signature,
 C9FB0,min_,,WATCOM,high,IDA FLIRT library signature,
 CA6B0,__sys_init_387_emulator,,WATCOM,high,IDA FLIRT library signature,
+CA6E0,InitFpuFlags,sub_CA6E0,95PC,high,same code as in the next game,src/lib/ea/ea_snap.asm
+CA7AB,MakeFpuGate,sub_CA7AB,new,low,builds the gate descriptor for the coprocessor-missing handler,src/lib/ea/ea_snap.asm
+CA7C8,HookCoprocessorVector,sub_CA7C8,new,low,saves and replaces the coprocessor-missing vector through the DOS extender,src/lib/ea/ea_snap.asm
+CA815,SetSystemFpuFlag,sub_CA815,new,low,tells the DOS extender that a coprocessor is emulated,src/lib/ea/ea_snap.asm
 CA835,__sys_fini_387_emulator,,WATCOM,high,IDA FLIRT library signature,
+CA8AF,EmuRestoreFpuVector,sub_CA8AF,new,low,puts back the original coprocessor-missing vector and CR0 coprocessor bits when the emulator shuts down,src/lib/watcom/watcom_clib_14.asm
+CA8EA,EmuRestoreRealVector,sub_CA8EA,new,low,restores the saved real-mode vector through the DOS extender,src/lib/watcom/watcom_clib_14.asm
 CA90B,__save_8087_,,WATCOM,high,IDA FLIRT library signature,
 CA910,__rest_8087_,,WATCOM,high,IDA FLIRT library signature,
 CA914,__init_8087_,,WATCOM,high,IDA FLIRT library signature,
 CA945,_fpreset_,,WATCOM,high,IDA FLIRT library signature,
 CA94F,__chk8087_,,WATCOM,high,IDA FLIRT library signature,
+CC15A,MixerStopChannel,sub_CC15A,new,low,marks a channel stopped and calls the end-of-sample callback,src/lib/watcom/watcom_clib_14.asm
+CC200,MixerSamplesLeft,sub_CC200,new,low,"returns how many samples a playing channel has left, or -1 for looping or streamed channels",src/lib/watcom/watcom_clib_14.asm
+CC343,MixerChunkLength,sub_CC343,new,low,returns how many output samples a channel can mix before its end or loop point; followed by the loop and stream variants,src/lib/watcom/watcom_clib_14.asm
+CC728,MixerCalcStep,sub_CC728,new,low,converts a pitch to the channel's fixed-point step through the sample,src/lib/watcom/watcom_clib_14.asm
+CE06B,ParseHexValue,sub_CE06B,new,low,parses a hexadecimal setting value,src/lib/sound/snd_soundblaster.asm
 CE0A9,ParseBlasterEnv,sub_CE0A9,new,medium,parses the BLASTER environment string,src/lib/sound/snd_soundblaster.asm
+CE2B6,SbResetDsp,sub_CE2B6,new,low,resets the Sound Blaster DSP,src/lib/sound/snd_soundblaster.asm
 CFDF1,__setEFGfmt_,,WATCOM,high,IDA FLIRT library signature,
 CFEB0,memset_,,WATCOM,high,IDA FLIRT library signature,
 CFEC8,__InitFiles_,,WATCOM,high,IDA FLIRT library signature,
@@ -1208,17 +1274,106 @@ D0201,fputc_,,WATCOM,high,IDA FLIRT library signature,
 D02DF,ultoa_,,WATCOM,high,IDA FLIRT library signature,
 D0328,ltoa_,,WATCOM,high,IDA FLIRT library signature,
 D0343,toupper_,,WATCOM,high,IDA FLIRT library signature,
+D0692,CMainHook,sub_D0692,new,low,start-up hook (returns at once),src/lib/sound/snd_pcspeaker.asm
+D069B,__CommonInit_,sub_D069B,WATCOM,high,IDA FLIRT library signature (wa32rtd/wa32rt_),src/lib/watcom/watcom_clib_17.asm
+D06B0,IsTextModeWidth,sub_D06B0,new,low,"returns whether the saved video state is a text mode of 40, 80, 100, 128 or 132 columns",src/lib/watcom/watcom_clib_17.asm
 D1434,__CHK,,WATCOM,high,IDA FLIRT library signature,
 D1444,__GRO,,WATCOM,high,IDA FLIRT library signature,
 D1447,__STK,,WATCOM,high,IDA FLIRT library signature,
 D1474,__int386x_,,WATCOM,high,IDA FLIRT library signature,
+D14AC,IntrLoadSegRegs,sub_D14AC,new,low,loads the register set and segment registers for a protected-mode interrupt call,src/lib/watcom/watcom_clib_17.asm
 D14D1,_DoINTR_,,WATCOM,high,IDA FLIRT library signature,
+D151E,IntrLoadRegs,sub_D151E,new,low,loads the full register set from a REGPACK and selects the interrupt stub to call,src/lib/dos4gw/dos4gw_dpmi_glue_04.asm
 D27B8,__int7_pl3,,WATCOM,high,IDA FLIRT library signature,
 D27DC,__int7_X32VM,,WATCOM,high,IDA FLIRT library signature,
 D2828,__int7,,WATCOM,high,IDA FLIRT library signature,
+D284C,EmuTrapExit,sub_D284C,new,low,x87 emulator: restores the registers and returns from the trap,src/lib/watcom/watcom_emu387.asm
+D2980,RoundToSingle,sub_D2980,new,low,x87 emulator: rounds the result to single precision,src/lib/watcom/watcom_emu387.asm
+D29BC,RoundToDouble,sub_D29BC,new,low,x87 emulator: rounds the result to double precision,src/lib/watcom/watcom_emu387.asm
+D2A5C,RaiseFpuError,sub_D2A5C,new,low,x87 emulator: sets an exception flag and calls the handler when it is unmasked,src/lib/watcom/watcom_emu387.asm
+D2B6C,EaSib,sub_D2B6C,new,low,x87 emulator operand address: decodes a SIB byte,src/lib/watcom/watcom_emu387.asm
+D2CF7,EmuFldenv,sub_D2CF7,new,low,x87 emulator: FLDENV,src/lib/watcom/watcom_emu387.asm
+D2D15,EmuFldcw,sub_D2D15,new,low,x87 emulator: FLDCW,src/lib/watcom/watcom_emu387.asm
+D2D55,EmuFstenv,sub_D2D55,new,low,x87 emulator: FSTENV,src/lib/watcom/watcom_emu387.asm
+D2EA3,EmuFistM32,sub_D2EA3,new,low,x87 emulator: FIST m32int,src/lib/watcom/watcom_emu387.asm
+D3015,EmuFldM80,sub_D3015,new,low,x87 emulator: FLD m80real (probably),src/lib/watcom/watcom_emu387.asm
+D305C,EmuFldM64,sub_D305C,new,low,x87 emulator: FLD m64real,src/lib/watcom/watcom_emu387.asm
+D30AF,EmuFstpM80,sub_D30AF,new,low,x87 emulator: FSTP m80real (probably),src/lib/watcom/watcom_emu387.asm
+D30E2,EmuFrstor,sub_D30E2,new,low,x87 emulator: FRSTOR,src/lib/watcom/watcom_emu387.asm
+D3129,EmuFsave,sub_D3129,new,low,x87 emulator: FSAVE,src/lib/watcom/watcom_emu387.asm
+D3264,EmuFildM16,sub_D3264,new,low,x87 emulator: FILD m16int,src/lib/watcom/watcom_emu387.asm
+D32A0,EmuFistM16,sub_D32A0,new,low,x87 emulator: FIST m16int,src/lib/watcom/watcom_emu387.asm
+D32E8,EmuFistpM16,sub_D32E8,new,low,x87 emulator: FISTP m16int,src/lib/watcom/watcom_emu387.asm
+D3380,EmuReservedOp,sub_D3380,new,low,x87 emulator: reserved opcode (unsupported),src/lib/watcom/watcom_emu387.asm
+D3454,EmuFldSt,sub_D3454,new,low,x87 emulator: FLD st(i),src/lib/watcom/watcom_emu387.asm
+D349C,EmuFxch,sub_D349C,new,low,x87 emulator: FXCH,src/lib/watcom/watcom_emu387.asm
+D3AE3,EmuFfree,sub_D3AE3,new,low,x87 emulator: FFREE st(i),src/lib/watcom/watcom_emu387.asm
+D3F62,EmuSub,sub_D3F62,new,low,x87 emulator: subtracts two extended values (adds with the sign flipped),src/lib/watcom/watcom_emu387.asm
+D3F9A,AddExtRaw,sub_D3F9A,new,low,x87 emulator: adds two extended values without rounding,src/lib/watcom/watcom_emu387.asm
+D3FCA,AddMantissas,sub_D3FCA,new,low,x87 emulator: aligns and adds two mantissas,src/lib/watcom/watcom_emu387.asm
+D4136,EmuCompare,sub_D4136,new,low,x87 emulator: compares two extended values and sets the condition codes,src/lib/watcom/watcom_emu387.asm
+D41CF,EmuDiv,sub_D41CF,new,low,x87 emulator: divides two extended values,src/lib/watcom/watcom_emu387.asm
+D41F9,DivideMantissas,sub_D41F9,new,low,x87 emulator: divides two mantissas,src/lib/watcom/watcom_emu387.asm
+D43A4,EmuMul,sub_D43A4,new,low,x87 emulator: multiplies two extended values,src/lib/watcom/watcom_emu387.asm
+D43CE,MultiplyMantissas,sub_D43CE,new,low,x87 emulator: multiplies two mantissas,src/lib/watcom/watcom_emu387.asm
+D451F,StoreM32Int,sub_D451F,new,low,x87 emulator: stores an integer of 32 bits,src/lib/watcom/watcom_emu387.asm
+D458E,LoadM32Int,sub_D458E,new,low,x87 emulator: loads a 32-bit integer operand,src/lib/watcom/watcom_emu387.asm
+D45D4,LoadM64Real,sub_D45D4,new,low,x87 emulator: loads a 64-bit real operand,src/lib/watcom/watcom_emu387.asm
+D4654,StoreM32Real,sub_D4654,new,low,x87 emulator: stores a 32-bit real,src/lib/watcom/watcom_emu387.asm
+D46D3,StoreM64Real,sub_D46D3,new,low,x87 emulator: stores a 64-bit real,src/lib/watcom/watcom_emu387.asm
+D479A,LoadM32Real,sub_D479A,new,low,x87 emulator: loads a 32-bit real operand,src/lib/watcom/watcom_emu387.asm
+D485F,ExtToInt,sub_D485F,new,low,x87 emulator: converts an extended value to an integer,src/lib/watcom/watcom_emu387.asm
+D49EC,EmuRemainder,sub_D49EC,new,low,x87 emulator: partial remainder,src/lib/watcom/watcom_emu387.asm
+D4AA2,RemainderStep,sub_D4AA2,new,low,x87 emulator: one step of the partial remainder,src/lib/watcom/watcom_emu387.asm
+D4C05,EmuRoundInt,sub_D4C05,new,low,x87 emulator: rounds to an integer (FRNDINT),src/lib/watcom/watcom_emu387.asm
+D4C6B,RoundMantissa,sub_D4C6B,new,low,x87 emulator: rounds a mantissa by the rounding mode,src/lib/watcom/watcom_emu387.asm
+D4CE6,EmuExamine,sub_D4CE6,new,low,x87 emulator: classifies a value (FXAM),src/lib/watcom/watcom_emu387.asm
+D4DD4,AddOne,sub_D4DD4,new,low,x87 emulator: adds 1.0 to a value,src/lib/watcom/watcom_emu387.asm
+D4DED,EmuLog2,sub_D4DED,new,low,x87 emulator: base-2 logarithm,src/lib/watcom/watcom_emu387.asm
+D4E30,Log2Core,sub_D4E30,new,low,x87 emulator: core of the base-2 logarithm,src/lib/watcom/watcom_emu387.asm
+D50C8,SinCosCore,sub_D50C8,new,low,x87 emulator: core of the sine and cosine,src/lib/watcom/watcom_emu387.asm
+D52BF,EmuSin,sub_D52BF,new,low,x87 emulator: sine,src/lib/watcom/watcom_emu387.asm
+D52C9,EmuCos,sub_D52C9,new,low,x87 emulator: cosine,src/lib/watcom/watcom_emu387.asm
+D52D6,EmuTan,sub_D52D6,new,low,x87 emulator: tangent,src/lib/watcom/watcom_emu387.asm
+D530C,EmuAtan,sub_D530C,new,low,x87 emulator: arctangent,src/lib/watcom/watcom_emu387.asm
+D54E0,EmuExp2,sub_D54E0,new,low,x87 emulator: 2 to the power x minus one (F2XM1),src/lib/watcom/watcom_emu387.asm
+D55CC,PolyEval,sub_D55CC,new,low,x87 emulator: evaluates a polynomial,src/lib/watcom/watcom_emu387.asm
+D561E,PolyEvalOdd,sub_D561E,new,low,x87 emulator: evaluates an odd polynomial,src/lib/watcom/watcom_emu387.asm
 D5666,__hook387,,WATCOM,high,IDA FLIRT library signature,
 D5730,__unhook387,,WATCOM,high,IDA FLIRT library signature,
 D578A,__init_80x87,,WATCOM,high,IDA FLIRT library signature,
+D57B4,InitFloatFormat,sub_D57B4,new,low,sets up the number formatting tables,src/lib/watcom/watcom_emu387.asm
+D585C,FormatFloat,sub_D585C,new,low,formats a floating-point number,src/lib/watcom/watcom_emu387.asm
+D5B1E,ReturnArg,sub_D5B1E,new,low,returns its argument,src/lib/sound/snd_hw_sb.asm
+D5B7C,TimerCalibrate,sub_D5B7C,new,low,calibrates the timer,src/lib/sound/snd_hw_sb.asm
+D5B96,TimerRestore,sub_D5B96,new,low,restores the timer,src/lib/sound/snd_hw_sb.asm
+D5BCD,TimerWritePit,sub_D5BCD,new,low,writes the timer chip divisor,src/lib/sound/snd_hw_sb.asm
+D5BEE,TimerReadCount,sub_D5BEE,new,low,reads the timer count,src/lib/sound/snd_hw_sb.asm
+D5C0D,TimerTicksForRate,sub_D5C0D,new,low,works out the ticks for a rate,src/lib/sound/snd_hw_sb.asm
+D5C2F,TimerMeasure,sub_D5C2F,new,low,measures the timer,src/lib/sound/snd_hw_sb.asm
+D5C5E,TimerSetDivisor,sub_D5C5E,new,low,sets the timer divisor,src/lib/sound/snd_hw_sb.asm
+D5C7F,TimerReset,sub_D5C7F,new,low,resets the timer,src/lib/sound/snd_hw_sb.asm
+D5CA2,TimerInstall,sub_D5CA2,new,low,installs the timer handler,src/lib/sound/snd_hw_sb.asm
+D5E1E,TimerChainOld,sub_D5E1E,new,low,chains to the old timer handler,src/lib/sound/snd_hw_sb.asm
+D6120,GusGetEnvConfig,sub_D6120,new,low,"reads the ULTRASND environment variable and parses base port, DMA channels and IRQs into the card config",src/lib/sound/snd_gus_sdk_01.asm
+D6230,GusProbePort,sub_D6230,new,low,writes test bytes to a card port and reads them back; returns whether a card answers at that base,src/lib/sound/snd_gus_sdk_01.asm
+D6290,GusStopDmaAndTimers,sub_D6290,new,low,"clears the card's DMA control, timer control and sampling control registers",src/lib/sound/snd_gus_sdk_01.asm
+D6370,GusUnhookIrqs,sub_D6370,new,low,restores the original interrupt vectors and masks for the card's one or two IRQ lines,src/lib/sound/snd_gus_sdk_01.asm
+D6390,GusHookIrqs,sub_D6390,new,low,"installs the card's wave IRQ handler and, when it uses a second line, the MIDI IRQ handler",src/lib/sound/snd_gus_sdk_01.asm
+D63C0,GusOpenCard,sub_D63C0,new,low,"sets the base port, clears callbacks and IRQ state, resets the voices and hooks the IRQs",src/lib/sound/snd_gus_sdk_01.asm
+D6470,GusStopAllVoices,sub_D6470,new,low,stops every active voice and ramps its volume down to silence,src/lib/sound/snd_gus_sdk_01.asm
+D660C,GusOpen,sub_D660C,new,low,"reference-counted card open: probes the port, opens the card, sets the IRQ/DMA latches and runs the init table",src/lib/sound/snd_gus_sdk_01.asm
+D66F8,GusClose,sub_D66F8,new,low,"drops the open count and, on the last close, stops voices, clears DMA and timers and unhooks the IRQs",src/lib/sound/snd_gus_sdk_01.asm
+D675C,GusSetIrqDmaLatches,sub_D675C,new,low,programs the card's IRQ and DMA latch registers from the configured channels,src/lib/sound/snd_gus_sdk_01.asm
+D68F0,GusResetVoices,sub_D68F0,new,low,resets the synthesizer with the given number of active voices (clamped to 14..32) and silences each one,src/lib/sound/snd_gus_sdk_01.asm
+D6C30,GusPokeBlock,sub_D6C30,new,low,writes a 16-byte block into card memory one byte at a time,src/lib/sound/snd_gus_sdk_01.asm
+D6C6C,GusPeekBlock,sub_D6C6C,new,low,reads a 16-byte block from card memory one byte at a time,src/lib/sound/snd_gus_sdk_01.asm
+D6CA4,GusSizeDram,sub_D6CA4,new,low,tests each 256K bank of card memory and records how much memory the card has,src/lib/sound/snd_gus_sdk_01.asm
+D6D4C,GusMemAlloc,sub_D6D4C,new,low,allocates a 32-byte aligned block of card memory from the free list kept in card memory,src/lib/sound/snd_gus_sdk_01.asm
+D704E,GusRefillStreamChannel,sub_D704E,new,low,copies the next half buffer of a streaming channel into card memory,src/lib/sound/snd_gus_sdk_01.asm
+D7104,GusStreamVoiceIrq,sub_D7104,new,low,voice interrupt callback for the streaming voices: flips the loop point and flags the half that needs refilling,src/lib/sound/snd_gus_sdk_01.asm
+D721B,GusServiceStream,sub_D721B,new,low,refills every streaming channel that its voice interrupt flagged,src/lib/sound/snd_gus_sdk_01.asm
+D7267,GusStartStream,sub_D7267,new,low,"sets up the double-buffered stream in card memory, loads both halves and starts the looping voices",src/lib/sound/snd_gus_sdk_01.asm
 D7AD5,_EFG_Format_,,WATCOM,high,IDA FLIRT library signature,
 D7BB2,forcedecpt_,,WATCOM,high,IDA FLIRT library signature,
 D7BFA,__cnvs2d_,,WATCOM,high,IDA FLIRT library signature,
@@ -1227,8 +1382,42 @@ D7CDC,__exit_with_msg_,,WATCOM,high,IDA FLIRT library signature,
 D7CE1,__fatal_runtime_error_,,WATCOM,high,IDA FLIRT library signature,
 DA5AF,outp_,,WATCOM,high,IDA FLIRT library signature,
 DA5BD,inp_,,WATCOM,high,IDA FLIRT library signature,
+DA5D0,GusSetupDmaChannel,sub_DA5D0,new,low,"fills the port table of an ISA DMA channel (mask, mode, clear, address, count and page registers)",src/lib/sound/snd_gus_sdk_02.asm
+DA65C,GusProgramDma,sub_DA65C,new,low,"programs an ISA DMA channel with the buffer address, length and transfer mode",src/lib/sound/snd_gus_sdk_02.asm
+DA77C,GusMaskDma,sub_DA77C,new,low,masks an ISA DMA channel; followed by the DMA count read and DOS file helpers of the toolkit,src/lib/sound/snd_gus_sdk_02.asm
+DA8A4,GusSetVect,sub_DA8A4,new,low,sets a protected-mode interrupt vector,src/lib/sound/snd_gus_sdk_02.asm
+DA8B0,GusGetVect,sub_DA8B0,new,low,reads a protected-mode interrupt vector,src/lib/sound/snd_gus_sdk_02.asm
+DA8BC,GusHookIrq,sub_DA8BC,new,low,"saves the old vector of an IRQ line, installs the new handler and unmasks the line",src/lib/sound/snd_gus_sdk_02.asm
+DA95C,GusUnhookIrq,sub_DA95C,new,low,masks an IRQ line and restores its saved vector,src/lib/sound/snd_gus_sdk_02.asm
+DA9E4,GusSendEoi,sub_DA9E4,new,low,sends end-of-interrupt to the interrupt controller(s) for an IRQ line,src/lib/sound/snd_gus_sdk_02.asm
+DAA10,GusWaveIrqHandler,sub_DAA10,new,low,hardware handler for the card's wave IRQ: services it now or defers it while the card is busy,src/lib/sound/snd_gus_sdk_02.asm
+DAA8C,GusMidiIrqHandler,sub_DAA8C,new,low,hardware handler for the card's MIDI IRQ line,src/lib/sound/snd_gus_sdk_02.asm
+DAB11,GusDelay,sub_DAB11,new,low,waits a few port reads so the card can settle between register writes,src/lib/sound/snd_gus_sdk_02.asm
+DAB25,GusSetBasePort,sub_DAB25,new,low,checks a base port (210h..260h) and moves the card's port table to it,src/lib/sound/snd_gus_sdk_02.asm
+DAB70,GusClearIrqState,sub_DAB70,new,low,clears the pending IRQ flags and the critical-section depth,src/lib/sound/snd_gus_sdk_02.asm
+DAB83,GusEnterCritical,sub_DAB83,new,low,raises the critical-section depth so card interrupts are deferred,src/lib/sound/snd_gus_sdk_02.asm
+DABAA,GusLeaveCritical,sub_DABAA,new,low,"lowers the critical-section depth and, at zero, services interrupts that came in meanwhile",src/lib/sound/snd_gus_sdk_02.asm
+DABE0,GusClearCallbacks,sub_DABE0,new,low,clears every interrupt callback slot,src/lib/sound/snd_gus_sdk_02.asm
+DAC3C,GusClaimCallback,sub_DAC3C,new,low,stores a callback in a slot when the slot is free or the callback is being cleared,src/lib/sound/snd_gus_sdk_02.asm
+DAC64,GusClaimVoiceCallback,sub_DAC64,new,low,stores a voice callback in a slot when the slot is free or the callback is being cleared,src/lib/sound/snd_gus_sdk_02.asm
+DAC8C,GusSetDmaCallbacks,sub_DAC8C,new,low,sets the DMA-done callbacks; returns 8 when they are already taken,src/lib/sound/snd_gus_sdk_02.asm
+DACC4,GusSetVoiceCallbacks,sub_DACC4,new,low,"sets the wave, volume and timer callbacks; returns 8 when they are already taken",src/lib/sound/snd_gus_sdk_02.asm
+DADD8,GusMidiIrqService,sub_DADD8,new,low,reads the MIDI status and calls the MIDI transmit or receive callbacks,src/lib/sound/snd_gus_sdk_02.asm
+DAE60,GusReadIrqSource,sub_DAE60,new,low,reads the card's IRQ status register and services MIDI interrupts on a shared line,src/lib/sound/snd_gus_sdk_02.asm
+DAE9C,GusServiceIrq,sub_DAE9C,new,low,"services every pending card interrupt: DMA done, timers, voice wave and volume ends",src/lib/sound/snd_gus_sdk_02.asm
 DB131,inpw_,,WATCOM,high,IDA FLIRT library signature,
+DB13C,GusRunInitTable,sub_DB13C,new,low,calls each entry of the toolkit's init table in priority order until one fails,src/lib/sound/snd_gus_sdk_02.asm
 DB1A7,outpw_,,WATCOM,high,IDA FLIRT library signature,
+DB1C0,GusPeek,sub_DB1C0,new,low,reads one byte of card memory,src/lib/sound/snd_gus_sdk_02.asm
+DB23C,GusPoke,sub_DB23C,new,low,writes one byte of card memory,src/lib/sound/snd_gus_sdk_02.asm
+DB2BC,GusPokeFill,sub_DB2BC,new,low,writes a run of bytes (optionally sign-flipped) into card memory through the register ports,src/lib/sound/snd_gus_sdk_02.asm
+DB394,GusTestDramBank,sub_DB394,new,low,writes and reads back test bytes to check whether a bank of card memory exists,src/lib/sound/snd_gus_sdk_02.asm
+DB540,GusInitPlayDma,sub_DB540,new,low,sets up the playback DMA channel when one is configured,src/lib/sound/snd_gus_sdk_02.asm
+DB564,GusInitRecordDma,sub_DB564,new,low,sets up the record DMA channel when one is configured,src/lib/sound/snd_gus_sdk_02.asm
+DB58C,GusInitDma,sub_DB58C,new,low,init table entry: sets up both DMA channels and claims the DMA-done callback,src/lib/sound/snd_gus_sdk_02.asm
+DB5E8,GusStartDramDma,sub_DB5E8,new,low,starts one chunk of a DMA transfer from main memory into card memory,src/lib/sound/snd_gus_sdk_02.asm
+DB69C,GusDownload,sub_DB69C,new,low,"copies a buffer into card memory by DMA (with a filler run), refusing while another transfer runs",src/lib/sound/snd_gus_sdk_02.asm
+DB7AC,GusDramDmaDone,sub_DB7AC,new,low,DMA-done callback: starts the next chunk of a download or ends the transfer,src/lib/sound/snd_gus_sdk_02.asm
 DB9F4,_SetMaxPrec_,,WATCOM,high,IDA FLIRT library signature,
 DB9FA,DoEFormat_,,WATCOM,high,IDA FLIRT library signature,
 DBAA1,DoFFormat_,,WATCOM,high,IDA FLIRT library signature,
@@ -1236,39 +1425,74 @@ DBB04,AdjField_,,WATCOM,high,IDA FLIRT library signature,
 DBB6F,_FtoS_,,WATCOM,high,IDA FLIRT library signature,
 DBD93,strtod_,,WATCOM,high,IDA FLIRT library signature,
 DBF61,__EnterWVIDEO_,,WATCOM,high,IDA FLIRT library signature,
+DCBB0,GusConvertAddr16,sub_DCBB0,new,low,converts a card memory address for a 16-bit DMA transfer,src/lib/sound/snd_gus_sdk_03.asm
 DCC25,__Nan_Inf_,,WATCOM,high,IDA FLIRT library signature,
 DCCA9,floor_,,WATCOM,high,IDA FLIRT library signature,
 DCCE5,_Scale_,,WATCOM,high,IDA FLIRT library signature,
 DCD26,_Scale10V_,,WATCOM,high,IDA FLIRT library signature,
 DCE0D,__cvt_,,WATCOM,high,IDA FLIRT library signature,
+DCFF4,ModfCore,sub_DCFF4,new,low,splits a double into its integer and fraction parts,src/lib/watcom/watcom_clib_21.asm
+DD084,DecimalToInt64,sub_DD084,new,low,converts a string of decimal digits to a 64-bit integer,src/lib/watcom/watcom_clib_21.asm
+DD0CF,NormalizeDouble,sub_DD0CF,new,low,normalises a 64-bit mantissa and exponent into a double,src/lib/watcom/watcom_clib_21.asm
 DD32C,modf_,,WATCOM,high,IDA FLIRT library signature,
 DD346,__CmpBigInt,,WATCOM,high,IDA FLIRT library signature,
 DD380,__Rnd2Int,,WATCOM,high,IDA FLIRT library signature,
 DD3EB,__Bin2String,,WATCOM,high,IDA FLIRT library signature,
+DD455,BigIntCallHook,sub_DD455,new,low,calls the empty big-integer compare hook,src/lib/watcom/watcom_clib_21.asm
+DD50A,BigIntNullHook,sub_DD50A,new,low,empty big-integer compare hook,src/lib/watcom/watcom_clib_21.asm
 DD50C,frexp_,,WATCOM,high,IDA FLIRT library signature,
+DD6C4,SetScreenTarget,sub_DD6C4,new,low,same code as in the next game,src/lib/video/video_bios_vga_01.asm
+DD6E0,GetPaletteRange,sub_DD6E0,new,low,reads a range of palette entries from the VGA DAC into a buffer,src/lib/video/video_bios_vga_01.asm
 DD708,SetDrawBitmap,,95PC,medium,NHL95PC B4F70 (sem): D:1228D0; R:1652; R:1650,
+DD724,FillRectColor,sub_DD724,new,low,clips a rectangle to the screen and fills it with a colour; followed by the row fillers,src/lib/video/video_bios_vga_01.asm
 DD760,SetClipWindow,,95PC,medium,NHL95PC B4BC4 (similar): mnemonic similarity 0.89 over 26 instructions,
+DD8B0,SetRemapTable,sub_DD8B0,new,low,copies a 256-entry colour remap table into the current one,src/lib/video/video_bios_vga_01.asm
+DDE74,ReadPortStable,sub_DDE74,new,low,reads a port twice and returns the bits set in both reads,src/lib/video/video_bios_vga_01.asm
 DDE7B,WaitRetrace,sub_DDE7B,new,high,busy-wait for the VGA vertical retrace,src/lib/video/video_bios_vga_01.asm
 DDEBC,WaitRetraceEdges,sub_DDEBC,new,medium,"as WaitRetrace, always waiting for both edges",src/lib/video/video_bios_vga_01.asm
 DDEE7,WaitDisplayRetrace,,new,medium,"waits for display enable, then for the start of vertical retrace (port 3DAh, bit 3); entry after the ret of WaitRetraceEdges",src/lib/video/video_bios_vga_01.asm
 DDF24,SetCrtcStart,sub_DDF24,new,medium,page flip: set the CRTC start address,src/lib/video/video_bios_vga_01.asm
 DDF94,ClearChain4,sub_DDF94,new,medium,clear Chain-4 (sequencer register 4 bit 3) after mode 13h for the unchained pages,src/lib/video/video_bios_vga_01.asm
 DE10D,PlotPixel,,95PC,medium,NHL95PC B5DB0 (sem): D:12401C; D:122930; C:2281; D:1228F4,
+DE3D8,VesaSetBank,sub_DE3D8,new,low,switches the VESA bank window when the wanted bank differs,src/lib/video/vesa_banked_blit_02.asm
+DF55C,SaveVideoState,sub_DF55C,new,low,"saves the BIOS video mode, rows, columns and cursor",src/lib/video/vesa_banked_blit_02.asm
+DF8AC,MouseReadButtons,sub_DF8AC,new,low,reads the mouse buttons through the mouse driver,src/lib/input/input_mouse.asm
 DF928,MouseRead,,95PC,medium,NHL95PC B2DCA (similar): mnemonic similarity 0.88 over 29 instructions,
 DF98F,SetViewRect,,95PC,high,NHL95PC B2E1B (exact): 12 instructions,
 DF9B7,MouseReadMotion,sub_DF9B7,new,medium,mouse library: reads int 33h 0Bh into the pointer state,src/lib/input/input_mouse.asm
+DFDDE,Int16Handler,sub_DFDDE,new,low,keyboard: BIOS keyboard service replacement that reads from the game's key buffer,src/lib/input/input_keyboard_01.asm
+DFE28,Int16Service,sub_DFE28,new,low,keyboard: handles the BIOS keyboard read and status calls,src/lib/input/input_keyboard_01.asm
 DFEB4,GetTicks,,95PC,medium,NHL95PC B395C (sem): D:11F9A4; R:2374,
 DFEBA,TicksSince,,95PC,high,NHL95PC B3962 (exact): 4 instructions,
 DFEE1,SetTickDeadline,,95PC,high,NHL95PC B3989 (exact): 4 instructions,
 DFEF1,WaitTickDeadline,,95PC,high,NHL95PC B3999 (exact): 4 instructions,
 DFEFF,TickDeadlinePassed,,95PC,medium,NHL95PC B39A7 (sem): D:11F8DC; D:11F9A4,
 DFF0F,WaitTicks,sub_DFF0F,95PC,high,"timer library: wait a number of ticks, beside SetTickDeadline / WaitTickDeadline / TickDeadlinePassed as in NHL95PC",src/lib/input/input_joystick_misc_01.asm
+DFF4B,KbdPeekKey,sub_DFF4B,new,low,"returns the next key without removing it, or 0",src/lib/input/input_joystick_misc_01.asm
+DFF60,SetKbdIdleHook,sub_DFF60,new,low,sets the keyboard idle hook; followed by the getter,src/lib/input/input_joystick_misc_01.asm
 DFF70,WaitKey,,95PC,high,NHL95PC B3A18 (exact): 4 instructions,
+E04D0,AddExitHandler,sub_E04D0,new,low,registers an exit handler,src/lib/input/input_joystick_misc_01.asm
+E0658,DosCallSplitDx,sub_E0658,new,low,calls DOS with a 32-bit value split into CX:DX and joins DX:AX back into EAX,src/lib/ea/ea_fileio_01.asm
 E06B2,openhandle,,95PC,high,NHL95PC B3B5A (exact): 87 instructions,
+E07B8,DosCloseFile,sub_E07B8,new,low,closes a DOS file handle when it is open,src/lib/ea/ea_fileio_01.asm
+E07C8,DosWriteFile,sub_E07C8,new,low,writes a buffer to a DOS file,src/lib/ea/ea_fileio_01.asm
 E0834,FatalError,,95PC,high,NHL95PC B2CD8 (callsite): called at the same place of sub_B30BB,
+E0B9B,FillBandEdges,sub_E0B9B,new,low,fills the soft edge columns of a shaded band,src/lib/input/input_joystick_misc_02.asm
+E0C59,FillBandRows,sub_E0C59,new,low,fills the rows of a shaded band with its colour,src/lib/input/input_joystick_misc_02.asm
+E0D8B,FillBandRowsBlend,sub_E0D8B,new,low,"fills the rows of a shaded band, blending with what is under it",src/lib/input/input_joystick_misc_02.asm
 E14C8,vecdist,sub_E14C8,95PC,high,called at the same position as in NHL95PC in 4 routine(s) named in both: ShotLaneOpen,src/lib/input/input_joystick_misc_02.asm
 E2484,SaveTextMode,sub_E2484,95PC,high,video library: save the text mode and BIOS data area (the port stubs it as in NHL95PC),src/lib/video/video_bios_vga_03.asm
 E24C4,RestoreTextMode,sub_E24C4,95PC,high,video library: restore the text mode and BIOS data area,src/lib/video/video_bios_vga_03.asm
+E25E0,AngleFromDelta,sub_E25E0,new,low,returns the angle of a 2D vector from the ratio of its components,src/lib/video/video_bios_vga_03.asm
+E2680,SinLookup,sub_E2680,new,low,returns the sine of a 10-bit angle from the quarter-wave table,src/lib/video/video_bios_vga_03.asm
+E26A2,CosLookup,sub_E26A2,new,low,returns the cosine of a 10-bit angle from the quarter-wave table,src/lib/video/video_bios_vga_03.asm
+E270C,DebugLineCount,sub_E270C,new,low,returns the debug line count,src/lib/video/video_bios_vga_03.asm
+100000,SbDmaPagePorts,byte_100000,new,low,Sound Blaster 8237 DMA page register port for each channel 0-3,src/dseg03/dseg03.asm
+100004,SbDmaMaskPorts,byte_100004,new,low,Sound Blaster 8237 DMA single-channel mask register port for each channel,src/dseg03/dseg03.asm
+100008,SbDmaModePorts,byte_100008,new,low,Sound Blaster 8237 DMA mode register port for each channel,src/dseg03/dseg03.asm
+10000C,SbDmaFlipFlopPorts,byte_10000C,new,low,Sound Blaster 8237 DMA clear flip-flop register port for each channel,src/dseg03/dseg03.asm
+100010,SbDmaAddressPorts,byte_100010,new,low,Sound Blaster 8237 DMA base address register port for each channel,src/dseg03/dseg03.asm
+100014,SbDmaCountPorts,byte_100014,new,low,Sound Blaster 8237 DMA count register port for each channel,src/dseg03/dseg03.asm
 110000,__nullarea,unk_110000,95PC,medium,"Watcom _NULL area: the 01h-filled words at the first data address, as NHL95PC __nullarea",src/data/shared_data_01.asm
 110004,str_PATH,asc_110004,new,high,string 'PATH',src/data/shared_data_01.asm
 110009,str_Rb2,unk_110009,new,high,string 'rb',src/data/shared_data_01.asm
@@ -1385,6 +1609,9 @@ E24C4,RestoreTextMode,sub_E24C4,95PC,high,video library: restore the text mode a
 1102CC,str_ATX3,asc_1102CC,new,high,string 'ATX3',src/data/front/front_1456D_data_01.asm
 1102D1,str_ATS01,asc_1102D1,new,high,string 'ATS0=1',src/data/front/front_1456D_data_01.asm
 1102D8,str_ATA,asc_1102D8,new,high,string 'ATA ',src/data/front/front_1456D_data_01.asm
+1102DD,str_Punct_ModemSendCommand,unk_1102DD,new,high,"string ""\r""",src/data/front/front_1456D_data_01.asm
+1102DF,str_Punct2,asc_1102DF,new,high,"string ""+++""",src/data/front/front_1456D_data_01.asm
+1102E3,str_AT,unk_1102E3,new,high,"string ""AT""",src/data/front/front_1456D_data_01.asm
 1102E6,str_ATM0,asc_1102E6,new,high,string 'ATM0',src/data/front/front_1456D_data_01.asm
 1102EC,str_NAMEINDEX,asc_1102EC,new,high,string 'NAMEINDEX',src/data/front/main_data_01.asm
 1102F6,str_backslash3,unk_1102F6,95PC,high,string '\',src/data/front/main_data_01.asm
@@ -3096,7 +3323,16 @@ E24C4,RestoreTextMode,sub_E24C4,95PC,high,video library: restore the text mode a
 1149AC,str_Targa,asc_1149AC,new,high,string 'Targa',src/data/lib/ea/ea_debug_02_data_01.asm
 1149B4,str_Inf,,95PC,high,NHL95PC C4B5C (position): same fixup of __Nan_Inf_,
 1149B8,str_Nan,,95PC,high,NHL95PC C4B60 (position): same fixup of __Nan_Inf_,
+1149BC,F64_neg1_floor_,qword_1149BC,new,high,double constant -1,src/data/lib/watcom/watcom_clib_21_data_01.asm
 1149C4,_IsTable,,WATCOM,high,IDA FLIRT library signature,
+114AC8,F64_Scale10Max,qword_114AC8,new,low,largest power of ten scale for _Scale10V_,src/data/lib/watcom/watcom_clib_21_data_01.asm
+114AD0,F64_Scale10Min,qword_114AD0,new,low,smallest power of ten scale for _Scale10V_,src/data/lib/watcom/watcom_clib_21_data_01.asm
+114AD8,DblMaxLow,dword_114AD8,new,low,DBL_MAX low dword,src/data/lib/watcom/watcom_clib_21_data_01.asm
+114ADC,DblMaxHigh,dword_114ADC,new,low,DBL_MAX high dword,src/data/lib/watcom/watcom_clib_21_data_01.asm
+114AE0,DblMinusMaxLow,dword_114AE0,new,low,-DBL_MAX low dword,src/data/lib/watcom/watcom_clib_21_data_01.asm
+114AE4,DblMinusMaxHigh,dword_114AE4,new,low,-DBL_MAX high dword,src/data/lib/watcom/watcom_clib_21_data_01.asm
+114AF0,Scale10Count,unk_114AF0,new,low,power of ten table length,src/data/lib/watcom/watcom_clib_21_data_01.asm
+114AF2,Pow10Table,qword_114AF2,new,low,powers of ten,src/data/lib/watcom/watcom_clib_21_data_01.asm
 114B8C,SlotButtons,dword_114B8C,new,high,the 4 slot button dwords of the current frame,
 114BA0,InputRecordHead,dword_114BA0,new,high,ring write index,
 114BA4,InputRecordCount,dword_114BA4,new,high,records in ring (max 5),
@@ -3112,6 +3348,7 @@ E24C4,RestoreTextMode,sub_E24C4,95PC,high,video library: restore the text mode a
 115070,str_22,dword_115070,new,high,string '2',src/data/front/front_1456D_data_02.asm
 115078,str_newline,dword_115078,95PC,high,string ' ',src/data/front/front_1456D_data_02.asm
 11509C,str_0123456789abcdefghijklmn,asc_11509C,new,high,string '0123456789abcdefghijklmnopqrstuvwxyz ',src/data/front/main_data_02.asm
+115120,DataDirPath,unk_115120,new,low,data directory path,src/data/front/main_data_02.asm
 117478,str_KEY3,unk_117478,new,high,string 'KEY',src/data/front/main_data_02.asm
 11747C,str_CAREER2,unk_11747C,95PC,high,string 'CAREER',src/data/front/main_data_02.asm
 117483,str_ATT,unk_117483,new,high,string 'ATT',src/data/front/main_data_02.asm
@@ -3124,6 +3361,8 @@ E24C4,RestoreTextMode,sub_E24C4,95PC,high,video library: restore the text mode a
 117880,puckz,,95PC,medium,NHL95PC C908C (refset): referenced by the same 2 matched functions,
 117884,puckvz,,95PC,medium,NHL95PC C9090 (refset): referenced by the same 2 matched functions,
 117888,puckc,off_117888,95PC,high,ClampYPosition reads the carrier through it as NHL95PC puckc,src/data/front/front_2A692_data_02.asm
+11788C,PtrPuckFlags,off_11788C,new,low,pointer to the puck flags,src/data/front/front_2A692_data_02.asm
+117894,PtrPuckObject,off_117894,new,low,pointer to the puck object,src/data/front/front_2A692_data_02.asm
 1178A4,wcradiusx,,95PC,medium,NHL95PC C909C (refset): referenced by the same 4 matched functions,
 1178AA,lastplayer,,95PC,medium,NHL95PC C90A2 (refset): referenced by the same 2 matched functions,
 1178B0,passplayer,,95PC,medium,NHL95PC C90A8 (refset): referenced by the same 5 matched functions,
@@ -3149,6 +3388,7 @@ E24C4,RestoreTextMode,sub_E24C4,95PC,high,video library: restore the text mode a
 117936,seed_w2,word_117936,95PC,high,seed+2: the high word randomd0 reads,src/data/front/front_2A692_data_02.asm
 11797E,penmintab,,95PC,medium,NHL95PC C9123 (refset): referenced by the same 3 matched functions,
 1179C4,asstab,off_1179C4,95PC,high,"the assignment routine table: the routines already named sit at the same 14 indices as in NHL95PC asstab (assshoot 18, asspassrec 19, pucknorm 24, puckfaceoff 27 ...)",src/data/engine/penalty_data_01.asm
+118E81,LinePickOrderFrom1,byte_118E81,new,medium,same code as in the next game,src/data/engine/penalty_data_01.asm
 118E91,exitgame,word_118E91,95PC,high,set once by SetExitGame,src/data/engine/hockey_data_01.asm
 118E93,gameover,word_118E93,95PC,high,set once by GameOver,src/data/engine/hockey_data_01.asm
 118E9D,energywarn,,95PC,medium,NHL95PC CBC52 (refset): referenced by the same 3 matched functions,
@@ -3162,6 +3402,8 @@ E24C4,RestoreTextMode,sub_E24C4,95PC,high,video library: restore the text mode a
 119177,shotongoal,,95PC,medium,NHL95PC CC0F8 (refset): referenced by the same 5 matched functions,
 11917B,penshotplayer,,95PC,medium,NHL95PC CC0FC (refset): referenced by the same 10 matched functions,
 119187,penshotctl,,95PC,medium,NHL95PC CC108 (refset): referenced by the same 3 matched functions,
+11918F,AwayGoalsPeriod,dword_11918F,new,low,away goals this period,src/data/engine/engine_4DED8_data_02.asm
+119193,HomeGoalsPeriod,dword_119193,new,low,home goals this period,src/data/engine/engine_4DED8_data_02.asm
 119197,penshotmode,,95PC,medium,NHL95PC CC118 (refset): referenced by the same 7 matched functions,
 11919B,penshotstart,,95PC,medium,NHL95PC CC11C (refset): referenced by the same 3 matched functions,
 11919F,penshottimer,,95PC,medium,NHL95PC CC120 (refset): referenced by the same 2 matched functions,
@@ -3172,7 +3414,9 @@ E24C4,RestoreTextMode,sub_E24C4,95PC,high,video library: restore the text mode a
 119F94,nethit,,95PC,medium,NHL95PC CCC2C (refset): referenced by the same 3 matched functions,
 11A310,dressbystatus,,95PC,medium,NHL95PC CD418 (refset): referenced by the same 3 matched functions,
 11A3E8,DemoMode,dword_11A3E8,new,medium,1 during the attract demo,
+11BB28,HexDigits,byte_11BB28,new,low,hex digit characters,src/data/front/front_5D993_data_02.asm
 11D1DA,sndcard,dword_11D1DA,new,medium,the sound driver StartSoundCard started (-1: none),src/data/front/front_67000_data_01.asm
+11D3C8,DirPathTable,dword_11D3C8,new,low,directory path table,src/data/front/front_67000_data_01.asm
 11D7A0,InGameMenuRequest,dword_11D7A0,new,medium,"1 pause menu, 2 replay menu, 3 other",
 11D950,str_dbgO,dword_11D950,95PC,high,string 'O',src/data/front/front_6E233_data_02.asm
 11D968,str_feO,word_11D968,95PC,high,string 'O',src/data/front/front_6E233_data_02.asm
@@ -3181,20 +3425,74 @@ E24C4,RestoreTextMode,sub_E24C4,95PC,high,video library: restore the text mode a
 11F56C,mouseminy,dword_11F56C,95PC,high,"mouse library: pointer range, top",src/data/lib/lib_A8B9B_data_02.asm
 11F570,mousemaxx,dword_11F570,95PC,high,"mouse library: pointer range, right (exclusive)",src/data/lib/lib_A8B9B_data_02.asm
 11F574,mousemaxy,dword_11F574,95PC,high,"mouse library: pointer range, bottom (exclusive)",src/data/lib/lib_A8B9B_data_02.asm
+11F578,MouseDeltaX,dword_11F578,new,low,mouse motion X since the last read,src/data/lib/lib_A8B9B_data_02.asm
+11F57C,MouseButtonState,dword_11F57C,new,low,mouse button state,src/data/lib/lib_A8B9B_data_02.asm
+11F5A4,MousePresent,dword_11F5A4,new,low,mouse driver found,src/data/lib/lib_A8B9B_data_02.asm
 11F5A8,mousex,dword_11F5A8,95PC,high,"mouse library: pointer x, as NHL95PC mousex",src/data/lib/lib_A8B9B_data_02.asm
 11F5AC,mousey,dword_11F5AC,95PC,high,"mouse library: pointer y, as NHL95PC mousey",src/data/lib/lib_A8B9B_data_02.asm
+11F5B0,MouseMoved,dword_11F5B0,new,low,mouse moved since the last read,src/data/lib/lib_A8B9B_data_02.asm
 11F5BC,joyenablemask,,95PC,high,NHL95PC D3040 (position): same fixup of sub_B33DB,
+11F5DC,CpuIs386,dword_11F5DC,new,low,CPU is a 386,src/data/lib/watcom/watcom_clib_05_data_02.asm
+11F5E0,CpuIs486,dword_11F5E0,new,low,CPU is a 486,src/data/lib/watcom/watcom_clib_05_data_02.asm
+11F5E4,CpuType,dword_11F5E4,new,low,CPU type,src/data/lib/watcom/watcom_clib_05_data_02.asm
+11F5E8,CpuHasCpuid,dword_11F5E8,new,low,CPU has CPUID,src/data/lib/watcom/watcom_clib_05_data_02.asm
+11F5EC,CpuFeatures,dword_11F5EC,new,low,CPUID feature bits,src/data/lib/watcom/watcom_clib_05_data_02.asm
+11F5F0,str_Punct_DrawRinkSurface,dword_11F5F0,new,high,"string ""\n""",src/data/lib/watcom/watcom_clib_05_data_02.asm
 11F600,mousepollfn,,95PC,medium,NHL95PC D3078 (refset): referenced by the same 2 matched functions,
+11F618,BiosKeyFunc,off_11F618,new,low,routine that calls the BIOS keyboard service,src/data/lib/watcom/watcom_clib_05_data_02.asm
 11F8DC,tickdeadline,,95PC,high,NHL95PC D4294 (position): same fixup of SetTickDeadline,
+11F8E4,KbdIdleHook,dword_11F8E4,new,low,routine called while waiting for a key (default PollHotkeys),src/data/lib/input/input_joystick_misc_01_data_01.asm
+11F8E8,HeapList,dword_11F8E8,new,low,near heap list,src/data/lib/input/input_joystick_misc_01_data_01.asm
+11F8EC,HeapRover,dword_11F8EC,new,low,near heap rover,src/data/lib/input/input_joystick_misc_01_data_01.asm
+11F8F0,HeapLargestFree,dword_11F8F0,new,low,largest free near heap block,src/data/lib/input/input_joystick_misc_01_data_01.asm
 11F943,str_P,dword_11F943,new,high,string 'P',src/data/lib/input/input_joystick_misc_01_data_01.asm
 11F95F,str_P2,dword_11F95F,new,high,string 'P',src/data/lib/input/input_joystick_misc_01_data_01.asm
 11F9A0,joycalactive,,95PC,medium,NHL95PC D2FD8 (refset): referenced by the same 2 matched functions,
 11F9A4,tickcount,,95PC,high,NHL95PC D2FDC (position): same fixup of TicksSince,
+11F9A8,TimerTickStep,dword_11F9A8,new,low,ticks added per timer interrupt,src/data/lib/input/input_joystick_misc_01_data_01.asm
 11F9AC,oldint8off,,95PC,medium,NHL95PC D2FE4 (refset): referenced by the same 3 matched functions,
 11F9B0,oldint8sel,,95PC,medium,NHL95PC D2FE8 (refset): referenced by the same 2 matched functions,
+11F9BC,RowTable,dword_11F9BC,new,low,screen row address table,src/data/lib/input/input_joystick_misc_01_data_01.asm
+11FA1C,TextOriginX,dword_11FA1C,new,low,x of the text drawing position,src/data/lib/input/input_joystick_misc_01_data_01.asm
+11FA20,TextOriginY,dword_11FA20,new,low,y of the text drawing position,src/data/lib/input/input_joystick_misc_01_data_01.asm
 11FA32,str_ctl07,byte_11FA32,95PC,high,string ' ',src/data/lib/input/input_joystick_misc_01_data_01.asm
+1210D6,BreakCallFunc,dword_1210D6,new,low,ctrl-break chain routine,src/data/lib/input/input_joystick_misc_01_data_02.asm
+1219A8,QuantizeTable,byte_1219A8,new,low,colour quantise table,src/data/lib/input/input_joystick_misc_01_data_02.asm
+121AD8,FpuFlags,dword_121AD8,new,low,FPU flags set at start up,src/data/lib/input/input_joystick_misc_01_data_02.asm
+121ADC,str_Punct_InitFpuFlags,word_121ADC,new,high,"string "" """,src/data/lib/input/input_joystick_misc_01_data_02.asm
+121ADE,SavedEsSelector,word_121ADE,new,low,ES selector saved at start up,src/data/lib/input/input_joystick_misc_01_data_02.asm
 121AE0,str_OpenhandleSFILEERROR,,95PC,high,NHL95PC D43F4 (string): 'openhandle - %s FILE ERROR\r',
+121B3C,CdFileTable,unk_121B3C,new,low,open CD file records,src/data/lib/watcom/watcom_clib_05_data_03.asm
 121FC0,str_Viv,asc_121FC0,new,high,string '.viv',src/data/lib/watcom/watcom_clib_05_data_03.asm
+122390,SinTable,dword_122390,new,low,quarter-wave sine table in 16.16 fixed point,src/data/lib/input/input_joystick_misc_02_data_01.asm
+122794,RemapTable,byte_122794,new,low,colour remap table,src/data/lib/input/input_joystick_misc_02_data_01.asm
+122894,str_Punct_SetScreenScale,dword_122894,new,high,"string ""\n""",src/data/lib/input/input_joystick_misc_02_data_01.asm
+122898,RinkMatrix,unk_122898,new,low,rink rotation matrix,src/data/lib/input/input_joystick_misc_02_data_01.asm
+1228BC,RinkTranslation,unk_1228BC,new,low,rink translation vector,src/data/lib/input/input_joystick_misc_02_data_01.asm
+1228D0,ScreenWidth,dword_1228D0,new,low,screen width in pixels,src/data/lib/input/input_joystick_misc_02_data_01.asm
+1228D4,ClipBottom,dword_1228D4,new,low,bottom of the clip window,src/data/lib/input/input_joystick_misc_02_data_01.asm
+1228D8,ClipTopRow,dword_1228D8,new,low,top of the clip window,src/data/lib/watcom/watcom_clib_05_data_04.asm
+1228DC,ClipLeftCol,dword_1228DC,new,low,left of the clip window,src/data/lib/watcom/watcom_clib_05_data_04.asm
+1228E0,ClipRight,dword_1228E0,new,low,right of the clip window,src/data/lib/watcom/watcom_clib_05_data_04.asm
+1228E4,ScreenHeight,dword_1228E4,new,low,screen height in pixels,src/data/lib/watcom/watcom_clib_05_data_04.asm
+122900,BackBufferWidth,dword_122900,new,low,back buffer width,src/data/lib/watcom/watcom_clib_05_data_04.asm
+123984,__8087,byte_123984,95PC,medium,same code as in the next game,src/data/lib/watcom/watcom_clib_05_data_04.asm
+123985,FpuType,byte_123985,new,low,FPU type found at start up,src/data/lib/watcom/watcom_clib_05_data_04.asm
+123AC4,RetraceTimeout,dword_123AC4,new,low,loop count before giving up on vertical retrace,src/data/lib/input/input_joystick_misc_02_data_02.asm
+123DF4,__iob,unk_123DF4,new,low,stdio stream table,src/data/lib/video/video_bios_vga_02_data_01.asm
+123E0E,__stdout_buf,unk_123E0E,new,low,stdout buffer,src/data/lib/video/video_bios_vga_02_data_01.asm
+123E35,__iob_flags,byte_123E35,new,low,stdio stream flags,src/data/lib/video/video_bios_vga_02_data_01.asm
+123E76,__iob_end,unk_123E76,new,low,end of the stdio stream table,src/data/lib/video/video_bios_vga_02_data_01.asm
+123FFC,__NFiles,unk_123FFC,new,low,number of stdio streams,src/data/lib/video/video_bios_vga_02_data_01.asm
+123FFD,_fmode,dword_123FFD,new,low,default file translation mode,src/data/lib/video/video_bios_vga_02_data_01.asm
+124008,ExitHook,off_124008,new,low,routine called by exit,src/data/lib/video/video_bios_vga_02_data_01.asm
+12400C,Int23Hook,off_12400C,new,low,ctrl-C handler,src/data/lib/video/video_bios_vga_02_data_01.asm
+124010,FpuExitHook,off_124010,new,low,FPU shutdown routine called at exit,src/data/lib/video/video_bios_vga_02_data_01.asm
+124014,VesaBank,dword_124014,new,low,current VESA bank,src/data/lib/video/video_bios_vga_02_data_01.asm
+124018,VesaBankFunc,dword_124018,new,low,VESA bank switch routine,src/data/lib/video/video_bios_vga_02_data_01.asm
+12401C,VesaBankShift,byte_12401C,new,low,VESA bank granularity shift,src/data/lib/video/video_bios_vga_02_data_01.asm
+124124,__NHandles,dword_124124,new,low,number of file handles,src/data/lib/watcom/watcom_clib_13_data_02.asm
+124178,__io_mode,dword_124178,new,low,file handle mode table pointer,src/data/lib/watcom/watcom_clib_13_data_02.asm
 1243D0,str_MUSICON,asc_1243D0,new,high,string 'MUSIC ON',src/data/lib/video/video_bios_vga_03_data_01.asm
 1243D9,str_MUSICOFF,asc_1243D9,new,high,string 'MUSIC OFF',src/data/lib/video/video_bios_vga_03_data_01.asm
 1243E3,str_SOUNDON,asc_1243E3,new,high,string 'SOUND ON',src/data/lib/video/video_bios_vga_03_data_01.asm
@@ -3202,36 +3500,146 @@ E24C4,RestoreTextMode,sub_E24C4,95PC,high,video library: restore the text mode a
 1243F8,_dynend,dword_1243F8,95PC,medium,"Watcom cstart variable, same block layout as NHL95PC (_dynend .. _osminor)",src/data/lib/video/video_bios_vga_03_data_01.asm
 1243FC,_curbrk,dword_1243FC,95PC,high,"Watcom cstart variable, same block layout as NHL95PC",src/data/lib/video/video_bios_vga_03_data_01.asm
 124400,_LpCmdLine,dword_124400,95PC,medium,"Watcom cstart variable, same block layout as NHL95PC",src/data/lib/video/video_bios_vga_03_data_01.asm
+124404,StackLow,dword_124404,new,low,lowest address of the program stack,src/data/lib/video/video_bios_vga_03_data_01.asm
 124408,_psp,word_124408,95PC,high,"Watcom cstart variable, same block layout as NHL95PC",src/data/lib/video/video_bios_vga_03_data_01.asm
 12440C,_STACKLOW,dword_12440C,95PC,high,"Watcom cstart variable, same block layout as NHL95PC",src/data/lib/video/video_bios_vga_03_data_01.asm
 124410,_STACKTOP,dword_124410,95PC,high,"Watcom cstart variable, same block layout as NHL95PC",src/data/lib/video/video_bios_vga_03_data_01.asm
+124414,CMainEnv,dword_124414,new,low,environment pointer passed to main,src/data/lib/video/video_bios_vga_03_data_01.asm
+124418,CMainResult,dword_124418,new,low,value main returned,src/data/lib/video/video_bios_vga_03_data_01.asm
+12441C,UngetChar,dword_12441C,new,low,character pushed back by ungetch,src/data/lib/video/video_bios_vga_03_data_01.asm
 124428,__no87,word_124428,95PC,high,"Watcom cstart variable, same block layout as NHL95PC",src/data/lib/video/video_bios_vga_03_data_01.asm
 12442A,_Extender,byte_12442A,95PC,high,"Watcom cstart variable, same block layout as NHL95PC",src/data/lib/video/video_bios_vga_03_data_01.asm
 12442B,_ExtenderSubtype,byte_12442B,95PC,high,"Watcom cstart variable, same block layout as NHL95PC",src/data/lib/video/video_bios_vga_03_data_01.asm
+12442C,Is8087,byte_12442C,new,low,set when a coprocessor (or the emulator) is present,src/data/lib/video/video_bios_vga_03_data_01.asm
 12442D,_Envptr,dword_12442D,95PC,high,"Watcom cstart variable, same block layout as NHL95PC",src/data/lib/video/video_bios_vga_03_data_01.asm
 124431,_Envptr_w4,word_124431,95PC,high,_Envptr+4: the selector half of the far pointer,src/data/lib/video/video_bios_vga_03_data_01.asm
 124433,_osmajor,byte_124433,95PC,high,"Watcom cstart variable, same block layout as NHL95PC",src/data/lib/video/video_bios_vga_03_data_01.asm
 124434,_osminor,byte_124434,95PC,high,"Watcom cstart variable, same block layout as NHL95PC",src/data/lib/video/video_bios_vga_03_data_01.asm
+124435,FpuInitHook,dword_124435,new,low,function that sets up the coprocessor,src/data/lib/video/video_bios_vga_03_data_01.asm
+12445C,SavedTextMode,byte_12445C,new,low,text mode saved at start up,src/data/lib/video/video_bios_vga_03_data_01.asm
+12445D,SavedTextPage,byte_12445D,new,low,text page saved at start up,src/data/lib/video/video_bios_vga_03_data_01.asm
+12445E,SavedTextColumns,word_12445E,new,low,text columns saved at start up,src/data/lib/video/video_bios_vga_03_data_01.asm
+124460,SavedTextRows,byte_124460,new,low,text rows saved at start up,src/data/lib/video/video_bios_vga_03_data_01.asm
+124874,ShadowFillFunc,dword_124874,new,low,shadow fill routine,src/data/lib/video/video_bios_vga_03_data_01.asm
+124878,TitleBandFunc,dword_124878,new,low,title band draw routine,src/data/lib/video/video_bios_vga_03_data_01.asm
+12487C,FpuSystemFlags,dword_12487C,new,low,DOS extender coprocessor flags,src/data/lib/video/video_bios_vga_03_data_01.asm
+1248BC,OldFpuVectorOffset,dword_1248BC,new,low,saved offset of the old coprocessor-missing vector,src/data/lib/video/video_bios_vga_03_data_01.asm
+1248C0,OldFpuVectorSelector,word_1248C0,new,low,saved selector of the old coprocessor-missing vector,src/data/lib/video/video_bios_vga_03_data_01.asm
+1248C2,FpuCr0Bits,word_1248C2,new,low,saved CR0 coprocessor bits,src/data/lib/video/video_bios_vga_03_data_01.asm
+1248C4,__real87,byte_1248C4,95PC,high,same code as in the next game,src/data/lib/video/video_bios_vga_03_data_01.asm
 1248CC,snddriver,dword_1248CC,new,medium,the driver table index SndSetDriver made current (0: none),src/data/lib/video/video_bios_vga_03_data_01.asm
+14EF9C,MixerReady,dword_14EF9C,new,low,mixer initialised,src/data/lib/watcom/watcom_clib_14_data_01.asm
+14EFA4,MixerOutputRate,dword_14EFA4,new,low,mixer output rate,src/data/lib/watcom/watcom_clib_14_data_01.asm
+14EFB0,MixerChunkSamples,dword_14EFB0,new,low,samples in this mixer chunk,src/data/lib/watcom/watcom_clib_14_data_01.asm
+14EFB4,MixerChunkLeft,dword_14EFB4,new,low,samples left in this mixer chunk,src/data/lib/watcom/watcom_clib_14_data_01.asm
+14EFDC,MixerChannelTable,off_14EFDC,new,low,mixer channel record per channel,src/data/lib/watcom/watcom_clib_14_data_01.asm
 14F09C,_environ,dword_14F09C,95PC,medium,Watcom: the environment pointer table __setenvp_ builds,src/data/lib/sound/snd_soundblaster_data_02.asm
 14F0A0,___env_mask,dword_14F0A0,95PC,medium,Watcom: one flag byte per environ entry,src/data/lib/sound/snd_soundblaster_data_02.asm
+14F0A4,__nheapbeg,dword_14F0A4,new,low,near heap start,src/data/lib/sound/snd_soundblaster_data_02.asm
+14F0A8,__amblksiz,dword_14F0A8,new,low,heap growth amount,src/data/lib/sound/snd_soundblaster_data_02.asm
 14F0AC,str_28,dword_14F0AC,new,high,string '2',src/data/lib/sound/snd_soundblaster_data_02.asm
+14FAA8,__EFG_printf,off_14FAA8,new,low,float formatting routine for printf,src/data/lib/sound/snd_soundblaster_data_02.asm
+14FAAC,__EFG_scanf,off_14FAAC,new,low,float parsing routine for scanf,src/data/lib/sound/snd_soundblaster_data_02.asm
 14FAB0,str_SHPI2,,95PC,high,NHL95PC D544C (string): 'SHPI',
+14FADC,SavedStackSegment,word_14FADC,new,low,stack segment saved at start up,src/data/lib/video/video_bios_vga_03_data_02.asm
 14FADE,str_StackOverflow,,95PC,high,NHL95PC D2F46 (string): 'Stack Overflow!\r\n',
+14FC70,Hook387Flag,byte_14FC70,new,low,x87 emulator hooked,src/data/lib/watcom/watcom_emu387_data_01.asm
+14FC71,Hook387Saved,byte_14FC71,new,low,x87 emulator saved state,src/data/lib/watcom/watcom_emu387_data_01.asm
+14FC74,DefaultControlWord,word_14FC74,new,low,default FPU control word,src/data/lib/watcom/watcom_emu387_data_01.asm
+14FC78,EmuInitHook,off_14FC78,new,low,x87 emulator init routine,src/data/lib/watcom/watcom_emu387_data_01.asm
+14FC7C,EmuFiniHook,off_14FC7C,new,low,x87 emulator shutdown routine,src/data/lib/watcom/watcom_emu387_data_01.asm
+14FC80,FloatPow10Table,dword_14FC80,new,low,powers of ten used to format floating-point numbers,src/data/lib/watcom/watcom_emu387_data_01.asm
+1512C0,FloatPow10Exponents,dword_1512C0,new,low,binary exponents of the powers of ten used to format numbers,src/data/lib/watcom/watcom_emu387_data_01.asm
+1512E0,FloatFormatDigits,dword_1512E0,new,low,digit count of the number being formatted,src/data/lib/watcom/watcom_emu387_data_01.asm
+1512E4,FloatFormatExponent,dword_1512E4,new,low,decimal exponent of the number being formatted,src/data/lib/watcom/watcom_emu387_data_01.asm
+1512E8,FloatFormatMantissaLo,dword_1512E8,new,low,low half of the mantissa being formatted,src/data/lib/watcom/watcom_emu387_data_01.asm
+1512EC,FloatFormatMantissaHi,dword_1512EC,new,low,high half of the mantissa being formatted,src/data/lib/watcom/watcom_emu387_data_01.asm
+151324,GusEnvVarName,dword_151324,new,low,points to the name of the environment variable that holds the card settings,src/data/lib/sound/snd_hw_sb_data_01.asm
+151328,GusOpenCount,dword_151328,new,low,number of times the card has been opened without a matching close,src/data/lib/sound/snd_hw_sb_data_01.asm
+15132C,GusIrqLatchBits,byte_15132C,new,low,latch register bits for each IRQ line the card can use,src/data/lib/sound/snd_hw_sb_data_01.asm
+15133C,GusStreamRefillA,dword_15133C,new,low,set when the first streaming channel needs its next half buffer,src/data/lib/sound/snd_hw_sb_data_01.asm
+151340,GusStreamRefillB,dword_151340,new,low,set when the second streaming channel needs its next half buffer,src/data/lib/sound/snd_hw_sb_data_01.asm
+151344,GusStreamSrcA,dword_151344,new,low,source pointer of the first streaming channel,src/data/lib/sound/snd_hw_sb_data_01.asm
+151348,GusStreamHalfA,dword_151348,new,low,which half buffer of the first streaming channel is being filled,src/data/lib/sound/snd_hw_sb_data_01.asm
+15134C,GusStreamBusyA,dword_15134C,new,low,set while the first streaming channel is playing,src/data/lib/sound/snd_hw_sb_data_01.asm
+151350,GusStreamSrcB,dword_151350,new,low,source pointer of the second streaming channel,src/data/lib/sound/snd_hw_sb_data_01.asm
+151354,GusStreamHalfB,dword_151354,new,low,which half buffer of the second streaming channel is being filled,src/data/lib/sound/snd_hw_sb_data_01.asm
+151358,GusStreamBusyB,dword_151358,new,low,set while the second streaming channel is playing,src/data/lib/sound/snd_hw_sb_data_01.asm
+15135C,GusStreamActive,dword_15135C,new,low,set while the stream voices are running,src/data/lib/sound/snd_hw_sb_data_01.asm
+151360,GusStreamVoiceA,byte_151360,new,low,voice number of the first streaming channel,src/data/lib/sound/snd_hw_sb_data_01.asm
+151364,GusStreamVoiceStereo,byte_151364,new,low,set when the stream uses a second (stereo) voice,src/data/lib/sound/snd_hw_sb_data_01.asm
+151368,GusStreamVoiceB,byte_151368,new,low,voice number of the second streaming channel,src/data/lib/sound/snd_hw_sb_data_01.asm
+15136C,GusStreamBufSize,dword_15136C,new,low,size of the stream buffer in card memory,src/data/lib/sound/snd_hw_sb_data_01.asm
+151370,GusStreamHalfSize,dword_151370,new,low,size of one half of the stream buffer,src/data/lib/sound/snd_hw_sb_data_01.asm
+151374,GusStreamQuarterSize,dword_151374,new,low,quarter of the stream buffer size,src/data/lib/sound/snd_hw_sb_data_01.asm
+151378,GusRefillSrc,dword_151378,new,low,source pointer of the half buffer being copied,src/data/lib/sound/snd_hw_sb_data_01.asm
+15137C,GusRefillDest,dword_15137C,new,low,card address the half buffer is copied to,src/data/lib/sound/snd_hw_sb_data_01.asm
+151380,GusRefillLength,dword_151380,new,low,length of the half buffer being copied,src/data/lib/sound/snd_hw_sb_data_01.asm
+151384,GusStreamCardA,dword_151384,new,low,card memory address of the first streaming channel's buffer,src/data/lib/sound/snd_hw_sb_data_01.asm
+151388,GusStreamCardB,dword_151388,new,low,card memory address of the second streaming channel's buffer,src/data/lib/sound/snd_hw_sb_data_01.asm
+15138C,GusStreamCardEnd,dword_15138C,new,low,end of the stream buffers in card memory,src/data/lib/sound/snd_hw_sb_data_01.asm
+151390,GusStreamLoopLo,word_151390,new,low,low word of the stream voices' loop point,src/data/lib/sound/snd_hw_sb_data_01.asm
+151392,GusStreamLoopHi,word_151392,new,low,high word of the stream voices' loop point,src/data/lib/sound/snd_hw_sb_data_01.asm
+151394,GusStreamStartLo,dword_151394,new,low,low word of the stream voices' start address,src/data/lib/sound/snd_hw_sb_data_01.asm
+151396,GusStreamStartHi,word_151396,new,low,high word of the stream voices' start address,src/data/lib/sound/snd_hw_sb_data_01.asm
+151398,GusStreamEndLo,word_151398,new,low,low word of the stream voices' end address,src/data/lib/sound/snd_hw_sb_data_01.asm
+15139A,GusStreamEndHi,word_15139A,new,low,high word of the stream voices' end address,src/data/lib/sound/snd_hw_sb_data_01.asm
+15140C,GusBasePort,word_15140C,new,low,base port of the card; the other port words follow,src/data/lib/sound/snd_hw_sb_data_01.asm
+15140E,GusIrqStatusPort,word_15140E,new,low,card port of the IRQ status register,src/data/lib/sound/snd_hw_sb_data_01.asm
+151414,GusIrqLatchPort,word_151414,new,low,card port of the IRQ latch register,src/data/lib/sound/snd_hw_sb_data_01.asm
+151416,GusDmaLatchPort,word_151416,new,low,card port of the DMA latch register,src/data/lib/sound/snd_hw_sb_data_01.asm
+151418,GusMidiControlPort,word_151418,new,low,card port of the MIDI control register,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
+15141A,GusMidiDataPort,word_15141A,new,low,card port of the MIDI data register,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
+15141C,GusVoiceSelectPort,word_15141C,new,low,card port that selects the active voice,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
+15141E,GusRegSelectPort,word_15141E,new,low,card port that selects a synthesizer register,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
+151420,GusDataLowPort,word_151420,new,low,card port of the 16-bit register data,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
+151422,GusDataHighPort,word_151422,new,low,card port of the 8-bit register data,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
+151424,GusDramPort,word_151424,new,low,card port of the card memory data byte,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
+151426,GusDmaLatchBits,byte_151426,new,low,latch register bits for each DMA channel the card can use,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
+151430,GusDmaPageTable,byte_151430,new,low,ISA DMA page port and channel bits for each DMA channel,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
+151442,GusIrqVectorTable,word_151442,new,low,interrupt vector and saved old handler of each card IRQ line,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
+151444,GusIrqOldHandler,dword_151444,new,low,saved old handler offset in the IRQ table,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
+151448,GusIrqOldSelector,word_151448,new,low,saved old handler selector in the IRQ table,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
+1514C4,GusMidiPending,dword_1514C4,new,low,set when a MIDI interrupt arrived while the card was busy,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
+1514E4,GusMidiIrqCount,dword_1514E4,new,low,number of MIDI interrupts serviced,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
+1514E8,GusTimerCallback,dword_1514E8,new,low,callback for the card timers,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
+1514EC,GusDmaDoneCallback,dword_1514EC,new,low,callback when a DMA transfer to card memory ends,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
+1514F0,GusRecordDoneCallback,dword_1514F0,new,low,callback when a DMA record transfer ends,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
+1514F4,GusWaveCallback,dword_1514F4,new,low,callback when a voice reaches its end,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
+1514F8,GusVolumeCallback,dword_1514F8,new,low,callback when a voice volume ramp ends,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
+1514FC,GusTimer1Callback,dword_1514FC,new,low,callback for the first card timer,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
+151500,GusTimer2Callback,dword_151500,new,low,callback for the second card timer,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
+151504,GusWaveIrqCallback,dword_151504,new,low,callback for voice wave interrupts,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
+151508,GusVolumeIrqCallback,dword_151508,new,low,callback for voice volume interrupts,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
+15150C,GusMidiXmitCallback,dword_15150C,new,low,callback when the MIDI port can send,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
+151510,GusMidiRecvCallback,dword_151510,new,low,callback when the MIDI port has received a byte,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
+151514,GusDramSized,byte_151514,new,low,set once the card memory size has been measured,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
+151518,GusDmaBusy,dword_151518,new,low,set while a DMA transfer to card memory runs,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
+151520,WVideoActive,byte_151520,new,low,debugger video active,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
+15155A,GusDmaReady,byte_15155A,new,low,set once the DMA channels have been set up,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
+15155C,InitRtnsEntry,unk_15155C,new,low,start up routine entry,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
+151580,FiniRtnsEntry,unk_151580,new,low,shut down routine entry,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
 151598,kaufmfont,,95PC,high,NHL95PC D8B68 (position): same fixup of sub_B195C,
 1515B4,SlotTable,byte_1515B4,new,high,"4 entries x 7 bytes: on byte, device word, buttons dword",
 1515D4,InputRecordRing,dword_1515D4,new,high,ring of 5 records x 0x12 bytes,
 151B80,fadeinpending,,95PC,medium,NHL95PC CBEC4 (refset): referenced by the same 2 matched functions,
+152F64,AsyncCurFile,dword_152F64,new,low,file of the request being serviced,src/data/front/main_bss_01.asm
+152F68,AsyncCurOffset,dword_152F68,new,low,file offset of the request being serviced,src/data/front/main_bss_01.asm
 152FE8,curperiod,,95PC,medium,NHL95PC D8C84 (refset): referenced by the same 2 matched functions,
 15718C,hmroster,,95PC,medium,NHL95PC DB3A8 (refset): referenced by the same 3 matched functions,
 157192,hmrosterpos,,95PC,medium,NHL95PC DB3AE (refset): referenced by the same 3 matched functions,
+158658,DataFilePath,unk_158658,new,low,data file path buffer,src/data/front/main_bss_01.asm
 16479C,SortCords,,95PC,medium,NHL95PC DF81C (refset): referenced by the same 10 matched functions,
 1656D0,LineChangeReq,word_1656D0,new,medium,per team (2 words): line change requested,
 1656D4,LineChangeLine,word_1656D4,new,medium,per team (2 words): which line (0-3),
 1656D8,hmtmstruct,,95PC,medium,NHL95PC DF614 (refset): referenced by the same 21 matched functions,
 165712,hmtmgoalie,,95PC,medium,NHL95PC DF64C (refset): referenced by the same 3 matched functions,
+16571E,HmPlayerFlags,byte_16571E,new,low,home team: flags per roster player,src/data/front/front_1456D_bss_02.asm
+1657AE,HmCoachGoalie,byte_1657AE,new,low,home team: coach goalie mode,src/data/front/front_1456D_bss_02.asm
 16580E,awtmstruct,,95PC,medium,NHL95PC DF714 (refset): referenced by the same 19 matched functions,
 165848,awtmgoalie,,95PC,medium,NHL95PC DF74C (refset): referenced by the same 2 matched functions,
+165854,AwPlayerFlags,byte_165854,new,low,away team: flags per roster player,src/data/engine/hockey_bss_01.asm
+1658E4,AwCoachGoalie,byte_1658E4,new,low,away team: coach goalie mode,src/data/engine/hockey_bss_01.asm
 165944,PlList,,95PC,medium,NHL95PC E0384 (refset): referenced by the same 2 matched functions,
 16595C,regd2,,95PC,medium,NHL95PC E03AC (refset): referenced by the same 5 matched functions,
 165960,regd3,,95PC,medium,NHL95PC E03B0 (refset): referenced by the same 6 matched functions,
@@ -3242,6 +3650,10 @@ E24C4,RestoreTextMode,sub_E24C4,95PC,high,video library: restore the text mode a
 176B74,CwdExciteLvl,,95PC,medium,NHL95PC E9AA8 (refset): referenced by the same 2 matched functions,
 176B82,PBnum,,95PC,medium,NHL95PC E9ABA (refset): referenced by the same 2 matched functions,
 176B86,lasttouch,,95PC,medium,NHL95PC E9AC2 (refset): referenced by the same 3 matched functions,
+176B88,LastTouchTeam,word_176B88,new,low,team that last touched the puck,src/data/front/main_bss_02.asm
+176B8A,PassDistY,word_176B8A,new,low,pass distance Y,src/data/front/main_bss_02.asm
+176B8C,StoppageFlag,word_176B8C,new,low,play stopped,src/data/front/main_bss_02.asm
+176B8E,LastPlayerTouch,word_176B8E,new,low,last player to touch the puck,src/data/front/main_bss_02.asm
 176B9B,goalevent,,95PC,medium,NHL95PC E9AD3 (refset): referenced by the same 3 matched functions,
 176BA6,OOlist,,95PC,medium,NHL95PC E9ADE (refset): referenced by the same 2 matched functions,
 176BC8,lineuptime,dword_176BC8,new,medium,the set time the faceoff line-up loop (sub_2DE30) runs before play,src/data/front/main_bss_02.asm
@@ -3250,10 +3662,102 @@ E24C4,RestoreTextMode,sub_E24C4,95PC,high,video library: restore the text mode a
 176DD4,dressflags,,95PC,medium,NHL95PC E9E18 (refset): referenced by the same 2 matched functions,
 176E06,offsort_fwd,,95PC,medium,NHL95PC E9E4A (refset): referenced by the same 6 matched functions,
 176ED2,dressedskaters,,95PC,medium,NHL95PC E9F16 (refset): referenced by the same 2 matched functions,
+17BDE0,IntroPalette,unk_17BDE0,new,low,intro palette,src/data/front/front_5D993_bss_01.asm
 17C96C,tgvpalpending,dword_17C96C,new,medium,the TGV player has a palette chunk for this frame,src/data/front/front_67000_bss_01.asm
 17C9A0,gameopts,,95PC,medium,NHL95PC C53FF (refset): referenced by the same 7 matched functions,
+17C9A4,GlobalSetData,dword_17C9A4,new,low,GLOBAL.SET settings,src/data/front/front_67000_bss_01.asm
 17C9A8,optflags,dword_17C9A8,new,medium,"game option flags (bits 7-8 the skill level: 0 Rookie, 80h Pro, 100h All-Star)",src/data/front/front_67000_bss_01.asm
 17CA1C,globalset,dword_17CA1C,new,medium,GLOBAL.SET options (bits 0-2 the sound card),src/data/front/front_10010_bss_02.asm
 17CA20,optblock,dword_17CA20,new,medium,start of the option block the port sends to the guest,src/data/front/front_10010_bss_02.asm
+17CA60,GlobalSetName,byte_17CA60,new,low,name stored in GLOBAL.SET,src/data/front/front_10010_bss_02.asm
 17CA75,optblock_end,unk_17CA75,new,medium,end of the option block,src/data/front/front_10010_bss_02.asm
+17D18E,PlayoffFormatTeams,dword_17D18E,new,low,teams per playoff format,src/data/front/playoff_bss_01.asm
+184B1C,PlayoffTeamCount,dword_184B1C,new,low,teams in the chosen playoff format,src/data/front/playoff_bss_02.asm
+184B20,PlayoffFormat,dword_184B20,new,low,chosen playoff format,src/data/front/playoff_bss_02.asm
 18566C,timercallbacks,,95PC,medium,NHL95PC EDCDC (refset): referenced by the same 2 matched functions,
+18572C,RowTableSize,dword_18572C,new,low,number of rows in the screen row address table,src/data/lib/lib_A8B9B_bss_01.asm
+185760,UnpackSrcPtr,dword_185760,new,low,byte pair unpacker source pointer,src/data/lib/ea/ea_debug_01_bss_01.asm
+185764,UnpackDestPtr,dword_185764,new,low,byte pair unpacker destination pointer,src/data/lib/ea/ea_debug_01_bss_01.asm
+18576C,UnpackStackPtr,dword_18576C,new,low,byte pair unpacker expansion stack pointer,src/data/lib/ea/ea_debug_01_bss_01.asm
+185770,UnpackPairTable,dword_185770,new,low,byte pair unpacker pair table,src/data/lib/ea/ea_debug_01_bss_01.asm
+1857B4,InvTabDist,dword_1857B4,new,low,inverse colour table: distance,src/data/lib/ea/ea_debug_01_bss_01.asm
+1857B8,InvTabRStep,dword_1857B8,new,low,inverse colour table: red step,src/data/lib/ea/ea_debug_01_bss_01.asm
+1857BC,InvTabGStep,dword_1857BC,new,low,inverse colour table: green step,src/data/lib/ea/ea_debug_01_bss_01.asm
+1857C0,InvTabBStep,dword_1857C0,new,low,inverse colour table: blue step,src/data/lib/ea/ea_debug_01_bss_01.asm
+1857C4,InvTabRMin,dword_1857C4,new,low,inverse colour table: red minimum,src/data/lib/ea/ea_debug_01_bss_01.asm
+1857C8,InvTabOut,dword_1857C8,new,low,inverse colour table: output buffer,src/data/lib/ea/ea_debug_01_bss_01.asm
+1857CC,InvTabDistBuf,dword_1857CC,new,low,inverse colour table: distance buffer,src/data/lib/ea/ea_debug_01_bss_01.asm
+1857D0,InvTabGMin,dword_1857D0,new,low,inverse colour table: green minimum,src/data/lib/ea/ea_debug_01_bss_01.asm
+1857D4,InvTabGCenter,dword_1857D4,new,low,inverse colour table: green center,src/data/lib/ea/ea_debug_01_bss_01.asm
+1857D8,InvTabBCenter,dword_1857D8,new,low,inverse colour table: blue center,src/data/lib/ea/ea_debug_01_bss_01.asm
+1857DC,InvTabCell,dword_1857DC,new,low,inverse colour table: cell pointer,src/data/lib/ea/ea_debug_01_bss_01.asm
+1857E0,InvTabRCenter,dword_1857E0,new,low,inverse colour table: red center,src/data/lib/ea/ea_debug_01_bss_01.asm
+1857E4,InvTabR,dword_1857E4,new,low,inverse colour table: red,src/data/lib/ea/ea_debug_01_bss_01.asm
+1857E8,InvTabG,dword_1857E8,new,low,inverse colour table: green,src/data/lib/ea/ea_debug_01_bss_01.asm
+1857EC,InvTabB,dword_1857EC,new,low,inverse colour table: blue,src/data/lib/ea/ea_debug_01_bss_01.asm
+1857F0,InvTabColor,dword_1857F0,new,low,inverse colour table: colour index,src/data/lib/ea/ea_debug_01_bss_01.asm
+1857F4,InvTabRMax,dword_1857F4,new,low,inverse colour table: red maximum,src/data/lib/ea/ea_debug_01_bss_01.asm
+1857F8,InvTabGMax,dword_1857F8,new,low,inverse colour table: green maximum,src/data/lib/ea/ea_debug_01_bss_01.asm
+1857FC,InvTabBMin,dword_1857FC,new,low,inverse colour table: blue minimum,src/data/lib/ea/ea_debug_01_bss_01.asm
+185800,InvTabBMax,dword_185800,new,low,inverse colour table: blue maximum,src/data/lib/ea/ea_debug_01_bss_01.asm
+185804,InvTabRow,dword_185804,new,low,inverse colour table: row pointer,src/data/lib/ea/ea_debug_01_bss_01.asm
+185808,InvTabPass,dword_185808,new,low,inverse colour table: pass count,src/data/lib/ea/ea_debug_01_bss_01.asm
+18580C,InvTabGLo,dword_18580C,new,low,inverse colour table scan: green low,src/data/lib/ea/ea_debug_01_bss_01.asm
+185810,InvTabGHi,dword_185810,new,low,inverse colour table scan: green high,src/data/lib/ea/ea_debug_01_bss_01.asm
+185814,InvTabBLo,dword_185814,new,low,inverse colour table scan: blue low,src/data/lib/ea/ea_debug_01_bss_01.asm
+185818,InvTabBHi,dword_185818,new,low,inverse colour table scan: blue high,src/data/lib/ea/ea_debug_01_bss_01.asm
+18581C,InvTabGInc,dword_18581C,new,low,inverse colour table scan: green increment,src/data/lib/ea/ea_debug_01_bss_01.asm
+185820,InvTabBInc,dword_185820,new,low,inverse colour table scan: blue increment,src/data/lib/ea/ea_debug_01_bss_01.asm
+185824,InvTabDistInc,dword_185824,new,low,inverse colour table scan: distance increment,src/data/lib/ea/ea_debug_01_bss_01.asm
+185828,InvTabDistStart,dword_185828,new,low,inverse colour table scan: start distance,src/data/lib/ea/ea_debug_01_bss_01.asm
+190E90,TextureTileSize,dword_190E90,new,low,size of one rink texture tile,src/data/lib/ea/ea_shpi_01_bss_01.asm
+190E94,TexturePageBase,dword_190E94,new,low,base of the texture page being built,src/data/lib/ea/ea_shpi_01_bss_01.asm
+190E98,TextureDetail,dword_190E98,new,low,texture detail level,src/data/lib/ea/ea_shpi_01_bss_01.asm
+1983A8,RinkViewChanged,dword_1983A8,new,low,set when the rink view matrix changes,src/data/lib/ea/ea_gfx_05_bss_01.asm
+19BA3C,__OpenStreams,dword_19BA3C,new,low,list of open stdio streams,src/data/lib/watcom/watcom_clib_08_bss_01.asm
+19BA40,__ClosedStreams,dword_19BA40,new,low,list of closed stdio streams,src/data/lib/watcom/watcom_clib_08_bss_01.asm
+19BA45,__nheap_clean,byte_19BA45,new,low,near heap clean flag,src/data/lib/watcom/watcom_clib_08_bss_01.asm
+19BA48,AtexitTable,dword_19BA48,new,low,atexit routines,src/data/lib/watcom/watcom_clib_08_bss_01.asm
+19BAC8,SpeechBankCount,dword_19BAC8,new,low,number of registered speech banks,src/data/lib/watcom/watcom_clib_08_bss_01.asm
+19BACC,MemLockState,dword_19BACC,new,low,memory lock state,src/data/lib/watcom/watcom_clib_08_bss_01.asm
+1A0FA2,SbMixerAddrPort,word_1A0FA2,new,low,Sound Blaster mixer address port,src/data/lib/watcom/watcom_clib_08_bss_01.asm
+1A0FAA,SbReadPort,word_1A0FAA,new,low,Sound Blaster DSP read port,src/data/lib/watcom/watcom_clib_08_bss_01.asm
+1A0FAC,SbWritePort,word_1A0FAC,new,low,Sound Blaster DSP write port,src/data/lib/watcom/watcom_clib_08_bss_01.asm
+1A0FB8,DacTimerRate,dword_1A0FB8,new,low,timer rate of the DAC driver,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A0FC0,DacTimerDivisor,dword_1A0FC0,new,low,timer divisor of the DAC driver,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A1090,RationalAllocLimit,dword_1A1090,new,low,rational allocator size limit,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A1092,RationalAllocFlags,word_1A1092,new,low,rational allocator flags,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A1094,CMainArgc,dword_1A1094,new,low,argument count passed to main,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A1098,CMainArgv,dword_1A1098,new,low,argument vector passed to main,src/data/lib/sound/snd_soundblaster_bss_01.asm
+1A1104,Hook387Save,unk_1A1104,new,low,FPU state saved by __hook387,src/data/lib/watcom/watcom_clib_17_bss_01.asm
+1A1184,TimerOldOffsetLo,word_1A1184,new,low,low word of the saved timer interrupt offset,src/data/lib/watcom/watcom_clib_17_bss_01.asm
+1A1186,TimerOldSelector,word_1A1186,new,low,selector of the saved timer interrupt handler,src/data/lib/watcom/watcom_clib_17_bss_01.asm
+1A1188,TimerOldHandler,dword_1A1188,new,low,saved protected-mode timer interrupt handler,src/data/lib/watcom/watcom_clib_17_bss_01.asm
+1A118C,TimerOldRealHandler,dword_1A118C,new,low,saved real-mode timer interrupt handler,src/data/lib/watcom/watcom_clib_17_bss_01.asm
+1A1190,TimerIrqMask,byte_1A1190,new,low,saved interrupt controller mask bit of the timer,src/data/lib/watcom/watcom_clib_17_bss_01.asm
+1A1191,TimerChainFlag,byte_1A1191,new,low,set when the old timer handler must still be called,src/data/lib/watcom/watcom_clib_17_bss_01.asm
+1A1192,TimerPitMode,byte_1A1192,new,low,timer chip mode bits used when writing the counter,src/data/lib/watcom/watcom_clib_17_bss_01.asm
+1A1193,TimerInstalled,byte_1A1193,new,low,set while the game's timer handler is installed,src/data/lib/watcom/watcom_clib_17_bss_01.asm
+1A1194,TimerDivisor,dword_1A1194,new,low,current timer chip divisor,src/data/lib/watcom/watcom_clib_17_bss_01.asm
+1A1198,TimerChainCount,dword_1A1198,new,low,tick accumulator that decides when to chain to the old timer handler,src/data/lib/watcom/watcom_clib_17_bss_01.asm
+1A119C,GusEnvConfig,dword_1A119C,new,low,ULTRASND environment settings,src/data/lib/watcom/watcom_clib_17_bss_01.asm
+1A11B8,GusDramSize,word_1A11B8,new,low,Gravis on-board memory size,src/data/lib/watcom/watcom_clib_17_bss_01.asm
+1A11E4,GusDosResult,word_1A11E4,new,low,result of the last DOS file call of the toolkit,src/data/lib/ea/ea_debug_02_bss_01.asm
+1A11E6,GusIrqFlags,word_1A11E6,new,low,interrupt state flags of the card driver,src/data/lib/ea/ea_debug_02_bss_01.asm
+1A11E8,GusActiveVoices,word_1A11E8,new,low,number of active voices on the card,src/data/lib/ea/ea_debug_02_bss_01.asm
+1A11EA,GusCriticalDepth,word_1A11EA,new,low,critical-section depth that defers card interrupts,src/data/lib/ea/ea_debug_02_bss_01.asm
+1A11EC,GusPlayDmaChannel,byte_1A11EC,new,low,DMA channel used for playback,src/data/lib/ea/ea_debug_02_bss_01.asm
+1A11ED,GusIrqLatch,byte_1A11ED,new,low,IRQ latch value written to the card,src/data/lib/ea/ea_debug_02_bss_01.asm
+1A11EE,GusRecordDmaChannel,byte_1A11EE,new,low,DMA channel used for recording,src/data/lib/ea/ea_debug_02_bss_01.asm
+1A11EF,GusMidiIrq,byte_1A11EF,new,low,IRQ line of the card's MIDI port,src/data/lib/ea/ea_debug_02_bss_01.asm
+1A11F0,GusWaveIrq,byte_1A11F0,new,low,IRQ line of the card's wave interrupts,src/data/lib/ea/ea_debug_02_bss_01.asm
+1A11F8,GusDmaChannels,unk_1A11F8,new,low,port tables of the two ISA DMA channels the card uses,src/data/lib/ea/ea_debug_02_bss_01.asm
+1A1228,GusVoiceIrqBits,dword_1A1228,new,low,per-voice bits of pending wave and volume interrupts,src/data/lib/ea/ea_debug_02_bss_01.asm
+1A1238,GusDmaChunkLo,word_1A1238,new,low,low word of the current DMA chunk's card address,src/data/lib/ea/ea_debug_02_bss_01.asm
+1A123A,GusDmaChunkHi,word_1A123A,new,low,high word of the current DMA chunk's card address,src/data/lib/ea/ea_debug_02_bss_01.asm
+1A123C,GusDmaLeft,dword_1A123C,new,low,bytes of the download still to transfer,src/data/lib/ea/ea_debug_02_bss_01.asm
+1A1240,GusDmaChunkSize,dword_1A1240,new,low,size of the current DMA chunk,src/data/lib/ea/ea_debug_02_bss_01.asm
+1A1244,GusDmaDone,dword_1A1244,new,low,bytes of the download transferred so far,src/data/lib/ea/ea_debug_02_bss_01.asm
+1A1248,GusDmaControl,byte_1A1248,new,low,DMA control register value for the download,src/data/lib/ea/ea_debug_02_bss_01.asm
+1A1249,GusDmaFlags,word_1A1249,new,low,flags of the current download,src/data/lib/ea/ea_debug_02_bss_01.asm
+1A1258,StartupStack,unk_1A1258,new,low,stack the program starts on,src/data/lib/ea/ea_debug_02_bss_01.asm

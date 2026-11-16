@@ -4,7 +4,7 @@ bits 32
 section s_771F0 progbits alloc exec nowrite align=1
 extern dword_11E2C0, dword_11E2C4, dword_17D690, dword_17D694, dword_17D6A0, dword_17D6A4, dword_17D6B0, dword_17D6B4
 extern dword_17D6C4, fclose_, fopen_, fread_, fseek_, LoadDataFile, MakeDataPath, str_LFERROR
-extern str_Localize, str_Rb, sub_AB758, sub_ABF4C
+extern str_Localize, str_Rb, sub_AB758, FreeMemBlock
 global LoadLangText, FreeLangText, LoadLangBlock, GetLangText
 ;-----------------------------------------------------------------------------
 ; LoadLangText                                                    771F0  96 PC
@@ -21,7 +21,7 @@ LoadLangText:
         cmp dword [dword_11E2C0], byte 0
         je short .1
         push dword [dword_11E2C0]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .1:
         mov edx, 20h
@@ -31,7 +31,7 @@ LoadLangText:
         cmp dword [dword_11E2C4], byte 0
         je short .2
         push dword [dword_11E2C4]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .2:
         push byte 20h
@@ -70,14 +70,14 @@ FreeLangText:
         cmp dword [dword_11E2C0], byte 0
         je short .1
         push dword [dword_11E2C0]
-        call sub_ABF4C
+        call FreeMemBlock
         mov dword [dword_11E2C0], 0
         add esp, byte 4
 .1:
         cmp dword [dword_11E2C4], byte 0
         je short .2
         push dword [dword_11E2C4]
-        call sub_ABF4C
+        call FreeMemBlock
         mov dword [dword_11E2C4], 0
         add esp, byte 4
 .2:

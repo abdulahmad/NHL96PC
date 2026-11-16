@@ -3,8 +3,8 @@ bits 32
 %include "hockey.inc"
 section s_14FBF4 progbits alloc noexec write align=1
 extern sub_D5789
-global byte_14FC70, byte_14FC71, dword_14FC80, dword_1512C0, dword_1512E0, dword_1512E4, dword_1512E8, dword_1512EC
-global off_14FC78, off_14FC7C, unk_14FBF4, word_14FC74
+global Hook387Flag, Hook387Saved, FloatPow10Table, FloatPow10Exponents, FloatFormatDigits, FloatFormatExponent, FloatFormatMantissaLo, FloatFormatMantissaHi
+global EmuInitHook, EmuFiniHook, unk_14FBF4, DefaultControlWord
 unk_14FBF4:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -14,17 +14,17 @@ unk_14FBF4:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-byte_14FC70:
+Hook387Flag:
         db 00h
-byte_14FC71:
+Hook387Saved:
         db 00h,00h,00h
-word_14FC74:
+DefaultControlWord:
         db 07Fh,012h,00h,00h
-off_14FC78:
+EmuInitHook:
         dd sub_D5789
-off_14FC7C:
+EmuFiniHook:
         dd sub_D5789
-dword_14FC80:
+FloatPow10Table:
         db 00h,00h,00h,00h,01h,00h,00h,00h,03h,00h,00h,00h,04h,00h,00h,00h
         db 07h,00h,00h,00h,08h,00h,00h,00h,0Ah,00h,00h,00h,0Bh,00h,00h,00h
         db 00h,00h,00h,00h,0FFh,0FFh,0FFh,0FFh,0FDh,0FFh,0FFh,0FFh,0FCh,0FFh,0FFh,0FFh
@@ -381,14 +381,14 @@ dword_14FC80:
         db 0FEh,08Fh,00h,00h,0FDh,0AFh,00h,00h,0FDh,0CFh,00h,00h,0FCh,0EFh,00h,00h
         db 01h,0F0h,0FFh,0FFh,02h,0D0h,0FFh,0FFh,02h,0B0h,0FFh,0FFh,03h,090h,0FFh,0FFh
         db 02h,070h,0FFh,0FFh,03h,050h,0FFh,0FFh,03h,030h,0FFh,0FFh,04h,010h,0FFh,0FFh
-dword_1512C0:
+FloatPow10Exponents:
         db 0C0h,0FFh,0FFh,0FFh,0C0h,0FFh,0FFh,0FFh,0C0h,0FFh,0FFh,0FFh,0C0h,0FFh,0FFh,0FFh
         db 080h,00h,00h,00h,00h,01h,00h,00h,080h,01h,00h,00h,00h,02h,00h,00h
-dword_1512E0:
+FloatFormatDigits:
         db 00h,00h,00h,00h
-dword_1512E4:
+FloatFormatExponent:
         db 00h,00h,00h,00h
-dword_1512E8:
+FloatFormatMantissaLo:
         db 00h,00h,00h,00h
-dword_1512EC:
+FloatFormatMantissaHi:
         db 00h,00h,00h,00h

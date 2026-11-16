@@ -17,7 +17,7 @@ extern str_Bb02d, str_Bb10, str_Bb11, str_Bb19, str_Bb20, str_Bkgd5, str_Bt013, 
 extern str_Bt02d, str_Bt102, str_Bt112, str_Bt19, str_Bt20, str_Bt28, str_Bt29, str_Hig1
 extern str_Hig2, str_Hig3, str_HILITESNDX, str_LOCALNDX2, str_Opt1, str_Opt2, str_Opt3, str_Pal11
 extern str_Sta1, str_Sta2, str_Sta3, str_Use1, str_Use2, str_Use3, GetLangText, sub_AA7E0
-extern sub_AAA40, sub_AADA4, sub_ABF4C, sub_AD35C, sub_ADA50, sub_ADBEC, sub_BF8D0, sub_DD6C4
+extern sub_AAA40, sub_AADA4, FreeMemBlock, sub_AD35C, sub_ADA50, sub_ADBEC, sub_BF8D0, SetScreenTarget
 extern sub_DFE9C, sub_E04E0, sub_E0584, vecdist, WaitRetrace, WaitRetraceEdges, word_114CE0, word_114CE4
 extern word_11D1B4, word_11D1B6, word_11D1B8, word_11D1BA, word_11D1C4, word_17C464, word_17C466, word_17C468
 extern word_17C46A, word_17C46C, word_17C46E, word_17C470
@@ -654,13 +654,13 @@ sub_64E74:
         cmp dword [dword_17C460], byte 0
         je short .1
         push dword [dword_17C44C]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .1:
         cmp dword [dword_17C45C], byte 0
         je short .2
         push dword [dword_17C448]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .2:
         mov word [word_11D1B8], 0
@@ -813,7 +813,7 @@ RunMenu:
         add esp, byte 4
         jmp short .9
 .8:
-        call sub_DD6C4
+        call SetScreenTarget
 .9:
         mov esi, dword [byte ebp-01Eh]
         mov dword [byte ebp+036h], 0
@@ -904,7 +904,7 @@ RunMenu:
         jne near .173
         cmp dword [dword_17C41C], byte 0
         je short .24
-        call sub_DD6C4
+        call SetScreenTarget
         push byte 0
         mov eax, dword [dword_17C41C]
         push byte 0
@@ -1432,7 +1432,7 @@ RunMenu:
         push dword [dword_152F58]
         call sub_AAA40
         add esp, byte 0Ch
-        call sub_DD6C4
+        call SetScreenTarget
         mov eax, dword [dword_152F58]
         mov dword [dword_17C424], eax
         mov eax, dword [dword_17C418]
@@ -1512,7 +1512,7 @@ RunMenu:
         mov eax, dword [dword_17C424]
         push dword [dword_152F54]
         mov dword [dword_152F58], eax
-        call sub_ABF4C
+        call FreeMemBlock
         mov eax, dword [dword_17C430]
         mov dword [dword_152F54], eax
         mov eax, dword [dword_17C40C]
@@ -1740,7 +1740,7 @@ RunMenu:
         push dword [dword_152F50]
         call sub_AAA40
         add esp, byte 0Ch
-        call sub_DD6C4
+        call SetScreenTarget
         mov eax, dword [dword_152F50]
         mov dword [dword_17C404], eax
         mov eax, dword [dword_17C408]
@@ -1819,7 +1819,7 @@ RunMenu:
         mov eax, dword [dword_17C404]
         push dword [dword_152F5C]
         mov dword [dword_152F50], eax
-        call sub_ABF4C
+        call FreeMemBlock
         mov eax, dword [dword_17C420]
         mov dword [byte ebp+022h], 0
         mov dword [dword_152F5C], eax
@@ -2399,7 +2399,7 @@ MainMenuScreen:
         add esp, byte 8
         mov dword [byte ebp+06Eh], eax
         call SetScreenColors
-        call sub_DD6C4
+        call SetScreenTarget
         push byte 0
         call sub_ADA50
         add esp, byte 4
@@ -3013,7 +3013,7 @@ MainMenuScreen_A26:
         cmp dword [byte ebp+072h], byte 0
         jl near MainMenuScreen_F3.9
         push dword [byte ebp+076h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov eax, 3
         call FadeOut

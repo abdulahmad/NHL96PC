@@ -2,26 +2,29 @@
 bits 32
 %include "hockey.inc"
 section s_CA835 progbits alloc exec nowrite align=1
-extern SetDrawBitmap, __init_80x87, __unhook387, byte_123984, byte_123985, _Extender, byte_12442C, byte_1248C4
-extern byte_1248DA, dword_11F5C0, dword_11F5C4, dword_11F5C8, dword_121AD8, dword_12487C, dword_1248BC, snddriver
+extern SetDrawBitmap, __init_80x87, __unhook387, __8087, FpuType, _Extender, Is8087, __real87
+extern byte_1248DA, dword_11F5C0, dword_11F5C4, dword_11F5C8, FpuFlags, FpuSystemFlags, OldFpuVectorOffset, snddriver
 extern dword_1248DC, dword_144F9C, dword_144FA0, dword_144FA4, dword_144FA8, dword_144FAC, dword_144FB0, dword_144FB4
 extern dword_144FB8, dword_144FBC, dword_144FC0, dword_144FC4, dword_144FC8, dword_144FCC, dword_144FD0, dword_144FD4
 extern dword_144FD8, dword_144FDC, dword_144FE0, dword_144FE4, dword_144FE8, dword_144FEC, dword_144FF0, dword_144FF4
 extern dword_144FF8, dword_144FFC, dword_145000, dword_145004, dword_145008, dword_14500C, dword_145010, dword_145014
-extern dword_145018, dword_14EF9C, dword_14EFA0, dword_14EFA4, dword_14EFA8, dword_14EFAC, dword_14EFB0, dword_14EFB4
+extern dword_145018, MixerReady, dword_14EFA0, MixerOutputRate, dword_14EFA8, dword_14EFAC, MixerChunkSamples, MixerChunkLeft
 extern dword_14EFB8, dword_14EFBC, dword_14EFC4, dword_14EFC8, dword_14EFCC, dword_14EFD0, dword_14EFD4, dword_14EFD8
-extern dword_1A0B1C, off_14EFDC, off_14FC78, off_14FC7C, sub_AADA4, sub_ABF4C, sub_ABF88, sub_AD2B4
-extern sub_B65D4, sub_C01C9, sub_C1051, sub_C1183, sub_CE1DA, sub_CE1F3, sub_D57B4, sub_D585C
-extern sub_DD6C4, unk_146F9C, unk_1A0B20, word_121ADC, __no87, word_1248C0, word_1248C2, word_14FC74
-extern word_1A0FA0, word_1A0FA2, word_1A0FA4, word_1A0FA6, word_1A0FA8, word_1A0FAA, word_1A0FAC
-global __chk8087_, __init_8087_, __rest_8087_, __save_8087_, __sys_fini_387_emulator, _fpreset_, sub_CC343_4A, sub_CC343_8F
-global sub_CC343_10E, sub_CC343_21B, sub_CC343_32D, sub_CCB41_3AE, sub_CCB41_7BC, sub_CCB41_BC7, sub_CCB41_F65, sub_CCB41_1372
-global sub_CCB41_13D3, sub_CCB41_1430, sub_CA8AF, sub_CA8EA, sub_CAA80, sub_CAB58, sub_CAB78, sub_CABA9
-global sub_CBEA8, sub_CBEB7, sub_CBFC2, sub_CC048, sub_CC15A, sub_CC17B, sub_CC1B5, sub_CC200
-global sub_CC250, sub_CC343, sub_CC728, sub_CC7A1, sub_CC7FD, sub_CCB41, sub_CDFDD, sub_CDFDE
-global sub_CDFDF, sub_CDFE0, sub_CDFE1, sub_CDFE2, unk_CABE8
+extern dword_1A0B1C, MixerChannelTable, EmuInitHook, EmuFiniHook, sub_AADA4, FreeMemBlock, sub_ABF88, sub_AD2B4
+extern RestoreDS, sub_C01C9, sub_C1051, sub_C1183, sub_CE1DA, sub_CE1F3, InitFloatFormat, FormatFloat
+extern SetScreenTarget, unk_146F9C, unk_1A0B20, str_Punct_InitFpuFlags, __no87, OldFpuVectorSelector, FpuCr0Bits, DefaultControlWord
+extern word_1A0FA0, SbMixerAddrPort, word_1A0FA4, word_1A0FA6, word_1A0FA8, SbReadPort, SbWritePort
+global __chk8087_, __init_8087_, __rest_8087_, __save_8087_, __sys_fini_387_emulator, _fpreset_, MixerChunkLength_4A, MixerChunkLength_8F
+global MixerChunkLength_10E, MixerChunkLength_21B, MixerChunkLength_32D, sub_CCB41_3AE, sub_CCB41_7BC, sub_CCB41_BC7, sub_CCB41_F65, sub_CCB41_1372
+global sub_CCB41_13D3, sub_CCB41_1430, EmuRestoreFpuVector, EmuRestoreRealVector, sub_CAA80, sub_CAB58, sub_CAB78, sub_CABA9
+global sub_CBEA8, sub_CBEB7, sub_CBFC2, sub_CC048, MixerStopChannel, sub_CC17B, sub_CC1B5, MixerSamplesLeft
+global sub_CC250, MixerChunkLength, MixerCalcStep, sub_CC7A1, sub_CC7FD, sub_CCB41, sub_CDFDD, sub_CDFDE
+global sub_CDFDF, sub_CDFE0, sub_CDFE1, sub_CDFE2, MixerStepTable
+;-----------------------------------------------------------------------------
+; __sys_fini_387_emulator                                       CA835  library
+;-----------------------------------------------------------------------------
 __sys_fini_387_emulator:
-        cmp byte [byte_1248C4], 1
+        cmp byte [__real87], 1
         je short .1
         ret
 .1:
@@ -29,29 +32,29 @@ __sys_fini_387_emulator:
         push ebx
         push edx
         mov al, byte [_Extender]
-        cmp byte [byte_12442C], 0
+        cmp byte [Is8087], 0
         je short .2
-        call sub_CA8EA
+        call EmuRestoreRealVector
         jmp short .6
 .2:
         cmp al, 9
         jne short .3
         mov eax, 0E02h
         mov ebx, 0
-        mov ecx, dword [dword_121AD8]
+        mov ecx, dword [FpuFlags]
         call dword [byte ecx+030h]
         jmp short .6
 .3:
         cmp al, 0
         jne short .4
-        mov ax, word [word_1248C2]
+        mov ax, word [FpuCr0Bits]
         mov ah, 0F3h
         int 21h
         jmp short .6
 .4:
         cmp al, 1
         jne short .5
-        mov dx, word [word_121ADC]
+        mov dx, word [str_Punct_InitFpuFlags]
         sub eax, eax
         call __unhook387
         jmp short .6
@@ -60,79 +63,103 @@ __sys_fini_387_emulator:
         call __unhook387
         cmp al, 1
         je short .6
-        call sub_CA8AF
+        call EmuRestoreFpuVector
 .6:
-        mov byte [byte_1248C4], 0
+        mov byte [__real87], 0
         pop edx
         pop ebx
         pop ecx
         ret
-sub_CA8AF:
+;-----------------------------------------------------------------------------
+; EmuRestoreFpuVector                             CA8AF  96 PC, low confidence
+; Puts back the original coprocessor-missing vector and CR0 coprocessor bits
+; when the emulator shuts down
+;-----------------------------------------------------------------------------
+EmuRestoreFpuVector:
         mov cl, 7
         mov ax, 2504h
-        mov edx, dword [dword_1248BC]
+        mov edx, dword [OldFpuVectorOffset]
         push ds
-        o16 mov ds, word [word_1248C0]
+        o16 mov ds, word [OldFpuVectorSelector]
         int 21h
         pop ds
         cmp byte [_Extender], 3
         jl short .1
-        call sub_CA8EA
+        call EmuRestoreRealVector
         jmp short .2
 .1:
         mov ecx, cr0
         and ecx, byte 0FFFFFFF9h
-        mov dx, word [word_1248C2]
+        mov dx, word [FpuCr0Bits]
         or cx, dx
         mov cr0, ecx
 .2:
         ret
-sub_CA8EA:
+;-----------------------------------------------------------------------------
+; EmuRestoreRealVector                            CA8EA  96 PC, low confidence
+; Restores the saved real-mode vector through the DOS extender
+;-----------------------------------------------------------------------------
+EmuRestoreRealVector:
         xor ebx, ebx
-        lea edx, [dword_12487C]
+        lea edx, [FpuSystemFlags]
         mov ax, 2535h
         int 21h
         xor ecx, ecx
-        mov cx, word [word_1248C2]
-        mov dword [dword_12487C], ecx
+        mov cx, word [FpuCr0Bits]
+        mov dword [FpuSystemFlags], ecx
         inc ebx
         int 21h
         ret
+;-----------------------------------------------------------------------------
+; __save_8087_                                                  CA90B  library
+;-----------------------------------------------------------------------------
 __save_8087_:
         wait
         fnsave [eax]
         wait
         ret
+;-----------------------------------------------------------------------------
+; __rest_8087_                                                  CA910  library
+;-----------------------------------------------------------------------------
 __rest_8087_:
         frstor [eax]
         wait
         ret
+;-----------------------------------------------------------------------------
+; __init_8087_                                                  CA914  library
+;-----------------------------------------------------------------------------
 __init_8087_:
         push ebx
         push edx
-        cmp byte [byte_123985], 0
+        cmp byte [FpuType], 0
         je short .1
         mov edx, __save_8087_
         mov ebx, __rest_8087_
-        mov dword [off_14FC78], edx
-        mov dword [off_14FC7C], ebx
+        mov dword [EmuInitHook], edx
+        mov dword [EmuFiniHook], ebx
 .1:
         xor eax, eax
-        mov ax, word [word_14FC74]
+        mov ax, word [DefaultControlWord]
         call __init_80x87
         pop edx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; _fpreset_                                                     CA945  library
+;-----------------------------------------------------------------------------
 _fpreset_:
-        cmp byte [byte_123985], 0
+        cmp byte [FpuType], 0
         jne short __init_8087_
         ret
+;-----------------------------------------------------------------------------
+; __chk8087_                                                    CA94F  library
+;-----------------------------------------------------------------------------
 __chk8087_:
         push edx
-        mov ah, byte [byte_123984]
+        mov ah, byte [__8087]
         test ah, ah
         jne short .2
-        mov byte [byte_123985], ah
+        mov byte [FpuType], ah
         LD sub, eax, eax
         push eax
         fninit
@@ -147,8 +174,8 @@ __chk8087_:
 .1:
         cmp byte [__no87], 0
         jne short .2
-        mov byte [byte_123984], dl
-        mov byte [byte_123985], dl
+        mov byte [__8087], dl
+        mov byte [FpuType], dl
 .2:
         pop edx
         ret
@@ -169,7 +196,7 @@ __chk8087_:
         add esp, byte 10h
         mov dword [dword_1A0B1C], eax
 .3:
-        call sub_DD6C4
+        call SetScreenTarget
         mov eax, dword [dword_1A0B1C]
         mov edi, dword [byte eax+02Ch]
         push edi
@@ -251,6 +278,9 @@ __chk8087_:
         pop edi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; sub_CAA80                                                            CAA80  
+;-----------------------------------------------------------------------------
 sub_CAA80:
         push esi
         enter 4, 0
@@ -322,7 +352,7 @@ sub_CAA80:
         cmp dword [eax], byte 0
         je short .6
         push dword [eax]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov dword [esi], 0
 .6:
@@ -331,6 +361,9 @@ sub_CAA80:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_CAB58                                                            CAB58  
+;-----------------------------------------------------------------------------
 sub_CAB58:
         push ebx
         push ecx
@@ -349,6 +382,9 @@ sub_CAB58:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_CAB78                                                            CAB78  
+;-----------------------------------------------------------------------------
 sub_CAB78:
         push ebx
         push ecx
@@ -369,9 +405,12 @@ sub_CAB78:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_CABA9                                                            CABA9  
+;-----------------------------------------------------------------------------
 sub_CABA9:
         push ds
-        call sub_B65D4
+        call RestoreDS
         push ebp
         mov ebp, esp
         imul eax, dword [byte ebp+0Ch], byte 28h
@@ -388,7 +427,7 @@ sub_CABA9:
         pop ds
         ret
         db 00h,00h
-unk_CABE8:
+MixerStepTable:
         db 00h,00h,01h,00h,025h,00h,01h,00h,04Bh,00h,01h,00h,071h,00h,01h,00h
         db 097h,00h,01h,00h,0BDh,00h,01h,00h,0E3h,00h,01h,00h,09h,01h,01h,00h
         db 02Fh,01h,01h,00h,055h,01h,01h,00h,07Bh,01h,01h,00h,0A1h,01h,01h,00h
@@ -689,6 +728,9 @@ unk_CABE8:
         db 076h,0FCh,01h,00h,0C1h,0FCh,01h,00h,0Dh,0FDh,01h,00h,058h,0FDh,01h,00h
         db 0A3h,0FDh,01h,00h,0EFh,0FDh,01h,00h,03Ah,0FEh,01h,00h,086h,0FEh,01h,00h
         db 0D1h,0FEh,01h,00h,01Dh,0FFh,01h,00h,068h,0FFh,01h,00h,0B4h,0FFh,01h,00h
+;-----------------------------------------------------------------------------
+; sub_CBEA8                                                            CBEA8  
+;-----------------------------------------------------------------------------
 sub_CBEA8:
         push ebp
         LD mov, ebp, esp
@@ -698,6 +740,9 @@ sub_CBEA8:
         pop eax
         leave
         ret
+;-----------------------------------------------------------------------------
+; sub_CBEB7                                                            CBEB7  
+;-----------------------------------------------------------------------------
 sub_CBEB7:
         push ebp
         LD mov, ebp, esp
@@ -710,19 +755,19 @@ sub_CBEB7:
         leave
         ret
 .1:
-        cmp dword [dword_14EF9C], byte 0
+        cmp dword [MixerReady], byte 0
         jne short .3
-        mov dword [dword_14EF9C], 1
+        mov dword [MixerReady], 1
         mov eax, 10h
 .2:
         dec eax
-        mov esi, dword [nosplit eax*4+off_14EFDC]
+        mov esi, dword [nosplit eax*4+MixerChannelTable]
         mov byte [esi], 0
         cmp eax, byte 0
         jne short .2
 .3:
         mov eax, dword [byte ebp+0Ch]
-        mov dword [dword_14EFA4], eax
+        mov dword [MixerOutputRate], eax
         mov eax, dword [byte ebp+010h]
         mov dword [dword_14EFA8], eax
         mov eax, dword [byte ebp+08h]
@@ -796,6 +841,9 @@ sub_CBEB7:
         pop esi
         leave
         ret
+;-----------------------------------------------------------------------------
+; sub_CBFC2                                                            CBFC2  
+;-----------------------------------------------------------------------------
 sub_CBFC2:
         push ebp
         LD mov, ebp, esp
@@ -803,17 +851,17 @@ sub_CBFC2:
         call sub_CDFE2
         mov eax, dword [byte ebp+08h]
         mov dword [dword_14EFAC], eax
-        mov dword [dword_14EFB0], 0FFFFFFFFh
+        mov dword [MixerChunkSamples], 0FFFFFFFFh
 .1:
-        inc dword [dword_14EFB0]
-        mov esi, dword [dword_14EFB0]
+        inc dword [MixerChunkSamples]
+        mov esi, dword [MixerChunkSamples]
         cmp esi, byte 10h
         je short .3
-        mov esi, dword [nosplit esi*4+off_14EFDC]
+        mov esi, dword [nosplit esi*4+MixerChannelTable]
         cmp byte [esi], 1
         jne short .1
         mov eax, dword [dword_14EFA8]
-        mov dword [dword_14EFB4], eax
+        mov dword [MixerChunkLeft], eax
         mov dword [dword_14EFB8], 0
 .2:
         call dword [byte esi+060h]
@@ -821,11 +869,11 @@ sub_CBFC2:
         cmp eax, byte 0
         jle short .1
         mov eax, dword [dword_14EFBC]
-        sub dword [dword_14EFB4], eax
+        sub dword [MixerChunkLeft], eax
         call dword [byte esi+05Ch]
         mov eax, dword [dword_14EFBC]
         add dword [dword_14EFB8], eax
-        cmp dword [dword_14EFB4], byte 0
+        cmp dword [MixerChunkLeft], byte 0
         jg short .2
         jmp short .1
 .3:
@@ -833,6 +881,9 @@ sub_CBFC2:
         popa
         leave
         ret
+;-----------------------------------------------------------------------------
+; sub_CC048                                                            CC048  
+;-----------------------------------------------------------------------------
 sub_CC048:
         push ebp
         LD mov, ebp, esp
@@ -841,7 +892,7 @@ sub_CC048:
         push edx
         push esi
         mov esi, dword [byte ebp+08h]
-        mov esi, dword [nosplit esi*4+off_14EFDC]
+        mov esi, dword [nosplit esi*4+MixerChannelTable]
         mov byte [esi], 0
         mov dword [byte esi+08h], 0
         mov eax, dword [byte ebp+028h]
@@ -907,7 +958,7 @@ sub_CC048:
         mov eax, dword [byte ebp+01Ch]
         mov dword [byte esi+0Ch], eax
         mov ebx, dword [byte ebp+02Ch]
-        call sub_CC728
+        call MixerCalcStep
         push dword [byte ebp+08h]
         call sub_CC250
         add esp, byte 4
@@ -924,14 +975,18 @@ sub_CC048:
         pop eax
         leave
         ret
-sub_CC15A:
+;-----------------------------------------------------------------------------
+; MixerStopChannel                                CC15A  96 PC, low confidence
+; Marks a channel stopped and calls the end-of-sample callback
+;-----------------------------------------------------------------------------
+MixerStopChannel:
         push ebp
         LD mov, ebp, esp
         push esi
         push ebx
         push eax
         mov eax, dword [byte ebp+08h]
-        mov esi, dword [nosplit eax*4+off_14EFDC]
+        mov esi, dword [nosplit eax*4+MixerChannelTable]
         mov byte [esi], 0
         push eax
         call sub_CABA9
@@ -941,6 +996,9 @@ sub_CC15A:
         pop esi
         leave
         ret
+;-----------------------------------------------------------------------------
+; sub_CC17B                                                            CC17B  
+;-----------------------------------------------------------------------------
 sub_CC17B:
         push ebp
         LD mov, ebp, esp
@@ -948,7 +1006,7 @@ sub_CC17B:
         push ebx
         push esi
         mov esi, dword [byte ebp+08h]
-        mov esi, dword [nosplit esi*4+off_14EFDC]
+        mov esi, dword [nosplit esi*4+MixerChannelTable]
         cmp byte [esi], 0
         je short .1
         push dword [byte ebp+010h]
@@ -967,6 +1025,9 @@ sub_CC17B:
         pop eax
         leave
         ret
+;-----------------------------------------------------------------------------
+; sub_CC1B5                                                            CC1B5  
+;-----------------------------------------------------------------------------
 sub_CC1B5:
         push ebp
         LD mov, ebp, esp
@@ -977,10 +1038,10 @@ sub_CC1B5:
         push edi
         push esi
         mov esi, dword [byte ebp+08h]
-        mov esi, dword [nosplit esi*4+off_14EFDC]
+        mov esi, dword [nosplit esi*4+MixerChannelTable]
         mov eax, dword [byte esi+0Ch]
         mov ebx, dword [byte ebp+0Ch]
-        call sub_CC728
+        call MixerCalcStep
         pop esi
         pop edi
         pop edx
@@ -992,10 +1053,10 @@ sub_CC1B5:
         push ebp
         LD mov, ebp, esp
         push esi
-        cmp dword [dword_14EF9C], byte 0
+        cmp dword [MixerReady], byte 0
         je short .1
         mov esi, dword [byte ebp+08h]
-        mov esi, dword [nosplit esi*4+off_14EFDC]
+        mov esi, dword [nosplit esi*4+MixerChannelTable]
         movzx eax, byte [esi]
         pop esi
         leave
@@ -1005,14 +1066,19 @@ sub_CC1B5:
         pop esi
         leave
         ret
-sub_CC200:
+;-----------------------------------------------------------------------------
+; MixerSamplesLeft                                CC200  96 PC, low confidence
+; Returns how many samples a playing channel has left, or -1 for looping or
+; streamed channels
+;-----------------------------------------------------------------------------
+MixerSamplesLeft:
         push ebp
         LD mov, ebp, esp
         push esi
-        cmp dword [dword_14EF9C], byte 0
+        cmp dword [MixerReady], byte 0
         je short .3
         mov esi, dword [byte ebp+08h]
-        mov esi, dword [nosplit esi*4+off_14EFDC]
+        mov esi, dword [nosplit esi*4+MixerChannelTable]
         cmp byte [esi], 1
         je short .1
         mov eax, 0
@@ -1042,13 +1108,16 @@ sub_CC200:
         pop esi
         leave
         ret
+;-----------------------------------------------------------------------------
+; sub_CC250                                                            CC250  
+;-----------------------------------------------------------------------------
 sub_CC250:
         push ebp
         LD mov, ebp, esp
         push esi
         push eax
         mov esi, dword [byte ebp+08h]
-        mov esi, dword [nosplit esi*4+off_14EFDC]
+        mov esi, dword [nosplit esi*4+MixerChannelTable]
         mov eax, dword [byte esi+04h]
         and eax, byte 0Ch
         cmp eax, byte 0Ch
@@ -1088,11 +1157,11 @@ sub_CC250:
         je short .10
         test dword [byte esi+04h], 4
         je short .9
-        mov eax, sub_D585C
+        mov eax, FormatFloat
         mov dword [byte esi+058h], eax
         jmp short .10
 .9:
-        mov eax, sub_D57B4
+        mov eax, InitFloatFormat
         mov dword [byte esi+058h], eax
 .10:
         mov eax, dword [byte esi+04h]
@@ -1101,7 +1170,7 @@ sub_CC250:
         je short .11
         cmp eax, byte 2
         je short .12
-        mov eax, sub_CC343_4A
+        mov eax, MixerChunkLength_4A
         mov dword [byte esi+060h], eax
         pop eax
         pop esi
@@ -1114,41 +1183,46 @@ sub_CC250:
         je short .14
         cmp eax, byte 10h
         je short .15
-        mov eax, sub_CC343
+        mov eax, MixerChunkLength
         mov dword [byte esi+060h], eax
         pop eax
         pop esi
         leave
         ret
 .12:
-        mov eax, sub_CC343_10E
+        mov eax, MixerChunkLength_10E
         mov dword [byte esi+060h], eax
         pop eax
         pop esi
         leave
         ret
 .13:
-        mov eax, sub_CC343_21B
+        mov eax, MixerChunkLength_21B
         mov dword [byte esi+060h], eax
         pop eax
         pop esi
         leave
         ret
 .14:
-        mov eax, sub_CC343_32D
+        mov eax, MixerChunkLength_32D
         mov dword [byte esi+060h], eax
         pop eax
         pop esi
         leave
         ret
 .15:
-        mov eax, sub_CC343_8F
+        mov eax, MixerChunkLength_8F
         mov dword [byte esi+060h], eax
         pop eax
         pop esi
         leave
         ret
-sub_CC343:
+;-----------------------------------------------------------------------------
+; MixerChunkLength                                CC343  96 PC, low confidence
+; Returns how many output samples a channel can mix before its end or loop
+; point; followed by the loop and stream variants
+;-----------------------------------------------------------------------------
+MixerChunkLength:
         mov edx, dword [byte esi+010h]
         sub edx, dword [byte esi+014h]
         test edx, 0FFFFFFFFh
@@ -1161,19 +1235,19 @@ sub_CC343:
         div dword [byte esi+02Ch]
         cmp eax, byte 0
         jne short .2
-        push dword [dword_14EFB0]
-        call sub_CC15A
+        push dword [MixerChunkSamples]
+        call MixerStopChannel
         add esp, byte 4
         mov eax, 0
         ret
 .2:
-        cmp eax, dword [dword_14EFB4]
+        cmp eax, dword [MixerChunkLeft]
         jge short .3
         ret
 .3:
-        mov eax, dword [dword_14EFB4]
+        mov eax, dword [MixerChunkLeft]
         ret
-sub_CC343_4A:
+MixerChunkLength_4A:
         mov edx, dword [byte esi+020h]
         sub edx, dword [byte esi+014h]
         test edx, 0FFFFFFFFh
@@ -1189,15 +1263,15 @@ sub_CC343_4A:
         mov eax, dword [byte esi+01Ch]
         mov dword [byte esi+014h], eax
         mov dword [byte esi+018h], 0
-        jmp short sub_CC343_4A
+        jmp short MixerChunkLength_4A
 .5:
-        cmp eax, dword [dword_14EFB4]
+        cmp eax, dword [MixerChunkLeft]
         jge short .6
         ret
 .6:
-        mov eax, dword [dword_14EFB4]
+        mov eax, dword [MixerChunkLeft]
         ret
-sub_CC343_8F:
+MixerChunkLength_8F:
         mov edx, dword [byte esi+010h]
         sub edx, dword [byte esi+014h]
         test edx, 0FFFFFFFFh
@@ -1224,23 +1298,23 @@ sub_CC343_8F:
         mov eax, dword [byte esi+014h]
         sub eax, byte 1
         add dword [byte esi+010h], eax
-        jmp short sub_CC343_8F
+        jmp short MixerChunkLength_8F
 .8:
         cmp dword [dword_14EFC4], byte 0
         jne short .9
-        push dword [dword_14EFB0]
-        call sub_CC15A
+        push dword [MixerChunkSamples]
+        call MixerStopChannel
         add esp, byte 4
         mov eax, 0
         ret
 .9:
-        cmp eax, dword [dword_14EFB4]
+        cmp eax, dword [MixerChunkLeft]
         jge short .10
         ret
 .10:
-        mov eax, dword [dword_14EFB4]
+        mov eax, dword [MixerChunkLeft]
         ret
-sub_CC343_10E:
+MixerChunkLength_10E:
         mov dword [dword_14EFC8], 0FFFFh
         mov edx, dword [byte esi+044h]
         sub edx, dword [byte esi+038h]
@@ -1282,9 +1356,9 @@ sub_CC343_10E:
         mov dword [byte esi+030h], eax
         jmp short .12
 .14:
-        cmp eax, dword [dword_14EFB4]
+        cmp eax, dword [MixerChunkLeft]
         jl short .15
-        mov eax, dword [dword_14EFB4]
+        mov eax, dword [MixerChunkLeft]
 .15:
         cmp eax, dword [dword_14EFC8]
         jl short .16
@@ -1329,7 +1403,7 @@ sub_CC343_10E:
         mov dword [byte esi+014h], ebx
         pop eax
         ret
-sub_CC343_21B:
+MixerChunkLength_21B:
         mov edx, dword [byte esi+04Ch]
         sub edx, dword [byte esi+038h]
         test edx, 0FFFFFFFFh
@@ -1376,15 +1450,15 @@ sub_CC343_21B:
         mov dword [byte esi+034h], ebx
         pop ebx
         pop edi
-        jmp near sub_CC343_21B
+        jmp near MixerChunkLength_21B
 .21:
         cmp dword [dword_14EFC4], byte 0
         jne short .22
 .22:
         mov eax, dword [dword_14EFC4]
-        cmp eax, dword [dword_14EFB4]
+        cmp eax, dword [MixerChunkLeft]
         jl short .23
-        mov eax, dword [dword_14EFB4]
+        mov eax, dword [MixerChunkLeft]
 .23:
         push eax
         lea ebx, [byte esi+030h]
@@ -1425,7 +1499,7 @@ sub_CC343_21B:
         mov dword [byte esi+014h], ebx
         pop eax
         ret
-sub_CC343_32D:
+MixerChunkLength_32D:
         mov edx, dword [byte esi+04Ch]
         sub edx, dword [byte esi+038h]
         test edx, 0FFFFFFFFh
@@ -1439,15 +1513,15 @@ sub_CC343_32D:
         mov dword [dword_14EFC4], eax
         cmp eax, byte 0
         jne short .27
-        push dword [dword_14EFB0]
-        call sub_CC15A
+        push dword [MixerChunkSamples]
+        call MixerStopChannel
         add esp, byte 4
         mov eax, 0
         ret
 .27:
-        cmp eax, dword [dword_14EFB4]
+        cmp eax, dword [MixerChunkLeft]
         jl short .28
-        mov eax, dword [dword_14EFB4]
+        mov eax, dword [MixerChunkLeft]
 .28:
         push eax
         lea ebx, [byte esi+030h]
@@ -1488,7 +1562,11 @@ sub_CC343_32D:
         mov dword [byte esi+014h], ebx
         pop eax
         ret
-sub_CC728:
+;-----------------------------------------------------------------------------
+; MixerCalcStep                                   CC728  96 PC, low confidence
+; Converts a pitch to the channel's fixed-point step through the sample
+;-----------------------------------------------------------------------------
+MixerCalcStep:
         pusha
         add ebx, 2000h
         mov edx, 40D0h
@@ -1501,22 +1579,22 @@ sub_CC728:
         jmp short .1
 .2:
         LD sub, ebx, edx
-        mov edx, dword [nosplit ebx*4+unk_CABE8]
+        mov edx, dword [nosplit ebx*4+MixerStepTable]
         mul edx
         shrd eax, edx, cl
         LD mov, edi, eax
         mov edx, 0
-        div dword [dword_14EFA4]
+        div dword [MixerOutputRate]
         and eax, 0FFh
         mov dword [byte esi+024h], eax
         mov dword [byte esi+028h], 0
         mov eax, dword [byte esi+024h]
-        mul dword [dword_14EFA4]
+        mul dword [MixerOutputRate]
         LD sub, edi, eax
         LD mov, eax, edi
         mov edx, 1000000h
         mul edx
-        div dword [dword_14EFA4]
+        div dword [MixerOutputRate]
         shl eax, 8
         mov dword [byte esi+028h], eax
         mov eax, dword [byte esi+024h]
@@ -1527,6 +1605,9 @@ sub_CC728:
         mov dword [byte esi+02Ch], eax
         popa
         ret
+;-----------------------------------------------------------------------------
+; sub_CC7A1                                                            CC7A1  
+;-----------------------------------------------------------------------------
 sub_CC7A1:
         push eax
         push ecx
@@ -1566,6 +1647,9 @@ sub_CC7A1:
         pop ecx
         pop eax
         ret
+;-----------------------------------------------------------------------------
+; sub_CC7FD                                                            CC7FD  
+;-----------------------------------------------------------------------------
 sub_CC7FD:
         mov ebp, dword [dword_14EFB8]
         lea ebp, [nosplit ebp*8+00h]
@@ -1718,11 +1802,14 @@ sub_CC7FD:
         test ecx, 0FFFFFFFFh
         jne short .2
 .3:
-        mov esi, dword [dword_14EFB0]
-        mov esi, dword [nosplit esi*4+off_14EFDC]
+        mov esi, dword [MixerChunkSamples]
+        mov esi, dword [nosplit esi*4+MixerChannelTable]
         mov dword [byte esi+014h], edi
         mov dword [byte esi+018h], ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_CCB41                                                            CCB41  
+;-----------------------------------------------------------------------------
 sub_CCB41:
         mov ebp, dword [dword_14EFB8]
         lea ebp, [nosplit ebp*8+00h]
@@ -1924,8 +2011,8 @@ sub_CCB41:
         test ecx, 0FFFFFFFFh
         jne short .2
 .3:
-        mov esi, dword [dword_14EFB0]
-        mov esi, dword [nosplit esi*4+off_14EFDC]
+        mov esi, dword [MixerChunkSamples]
+        mov esi, dword [nosplit esi*4+MixerChannelTable]
         mov dword [byte esi+014h], edi
         mov dword [byte esi+018h], ebx
         ret
@@ -2097,8 +2184,8 @@ sub_CCB41_3AE:
         test ecx, 0FFFFFFFFh
         jne short .5
 .6:
-        mov esi, dword [dword_14EFB0]
-        mov esi, dword [nosplit esi*4+off_14EFDC]
+        mov esi, dword [MixerChunkSamples]
+        mov esi, dword [nosplit esi*4+MixerChannelTable]
         mov dword [byte esi+014h], edi
         mov dword [byte esi+018h], ebx
         ret
@@ -2301,8 +2388,8 @@ sub_CCB41_7BC:
         test ecx, 0FFFFFFFFh
         jne short .8
 .9:
-        mov esi, dword [dword_14EFB0]
-        mov esi, dword [nosplit esi*4+off_14EFDC]
+        mov esi, dword [MixerChunkSamples]
+        mov esi, dword [nosplit esi*4+MixerChannelTable]
         mov dword [byte esi+014h], edi
         mov dword [byte esi+018h], ebx
         ret
@@ -2458,8 +2545,8 @@ sub_CCB41_BC7:
         test ecx, 0FFFFFFFFh
         jne short .11
 .12:
-        mov esi, dword [dword_14EFB0]
-        mov esi, dword [nosplit esi*4+off_14EFDC]
+        mov esi, dword [MixerChunkSamples]
+        mov esi, dword [nosplit esi*4+MixerChannelTable]
         mov dword [byte esi+014h], edi
         mov dword [byte esi+018h], ebx
         ret
@@ -2631,8 +2718,8 @@ sub_CCB41_F65:
         test ecx, 0FFFFFFFFh
         jne short .14
 .15:
-        mov esi, dword [dword_14EFB0]
-        mov esi, dword [nosplit esi*4+off_14EFDC]
+        mov esi, dword [MixerChunkSamples]
+        mov esi, dword [nosplit esi*4+MixerChannelTable]
         mov dword [byte esi+014h], edi
         mov dword [byte esi+018h], ebx
         ret
@@ -2754,16 +2841,34 @@ sub_CCB41_1430:
 .33:
         mov byte [ecx+edi], 0
         ret
+;-----------------------------------------------------------------------------
+; sub_CDFDD                                                            CDFDD  
+;-----------------------------------------------------------------------------
 sub_CDFDD:
         ret
+;-----------------------------------------------------------------------------
+; sub_CDFDE                                                            CDFDE  
+;-----------------------------------------------------------------------------
 sub_CDFDE:
         ret
+;-----------------------------------------------------------------------------
+; sub_CDFDF                                                            CDFDF  
+;-----------------------------------------------------------------------------
 sub_CDFDF:
         ret
+;-----------------------------------------------------------------------------
+; sub_CDFE0                                                            CDFE0  
+;-----------------------------------------------------------------------------
 sub_CDFE0:
         ret
+;-----------------------------------------------------------------------------
+; sub_CDFE1                                                            CDFE1  
+;-----------------------------------------------------------------------------
 sub_CDFE1:
         ret
+;-----------------------------------------------------------------------------
+; sub_CDFE2                                                            CDFE2  
+;-----------------------------------------------------------------------------
 sub_CDFE2:
         push es
         mov ax, ds
@@ -2790,11 +2895,11 @@ sub_CDFE2:
         add edx, byte 0Ah
         mov word [word_1A0FA0], dx
         mov edx, eax
-        mov word [word_1A0FA2], ax
+        mov word [SbMixerAddrPort], ax
         add edx, byte 0Ch
         add eax, 0Eh
-        mov word [word_1A0FAA], dx
-        mov word [word_1A0FAC], ax
+        mov word [SbReadPort], dx
+        mov word [SbWritePort], ax
         mov al, 1
         movzx edx, word [word_1A0FA8]
         out dx, al

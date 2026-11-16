@@ -6,11 +6,11 @@ extern AddPenalty, ChkGoalies, ClearPenaltyBuffer, CwdExciteLvl, InGameMenuReque
 extern PBnum, Pencntdwn, PlList, ReadJoy1, SortCords, assinsert, assreplace, awtmgoalie
 extern awtmstruct, byte_1178C8, byte_118E82, byte_11916A, byte_119203, byte_119204, byte_119CC3, byte_119CC4
 extern byte_119FF0, byte_119FF7, byte_11A028, byte_157640, byte_164797, byte_16479B, byte_1647E0, byte_164920
-extern byte_164CE0, byte_165790, byte_1657AC, byte_1657AD, byte_1657AE, byte_1657AF, byte_1657B4, byte_1658C6
-extern byte_1658E2, byte_1658E3, byte_1658E4, byte_1658E5, byte_1658EA, byte_16594A, byte_176AE2, byte_176AE3
+extern byte_164CE0, byte_165790, byte_1657AC, byte_1657AD, HmCoachGoalie, byte_1657AF, byte_1657B4, byte_1658C6
+extern byte_1658E2, byte_1658E3, AwCoachGoalie, byte_1658E5, byte_1658EA, byte_16594A, byte_176AE2, byte_176AE3
 extern goalevent, defsort_d, offsort_fwd, chkprogress, collflag, crowdlevel, curperiod, hmslotcount
-extern awslotcount, hmfirstslot, awfirstslot, dword_1178EA, dword_1178EE, dword_119173, dword_119183, dword_11918F
-extern dword_119193, dword_1191C7, dword_1191EB, dword_1191F3, dword_1191FB, dword_1191FF, dword_119FEC, dword_11A004
+extern awslotcount, hmfirstslot, awfirstslot, dword_1178EA, dword_1178EE, dword_119173, dword_119183, AwayGoalsPeriod
+extern HomeGoalsPeriod, dword_1191C7, dword_1191EB, dword_1191F3, dword_1191FB, dword_1191FF, dword_119FEC, dword_11A004
 extern dword_11A3F8, dword_11B23C, dword_11D3A6, dword_11D674, dword_164806, dword_164816, dword_164956, dword_164D16
 extern dword_165166, dword_16516A, dword_165240, dword_165244, dword_1655A0, dword_165718, dword_1657B0, dword_1657EA
 extern dword_1657EE, dword_1657F2, dword_1657F6, dword_1657FA, dword_1657FE, dword_165802, dword_165806, dword_16584E
@@ -18,7 +18,7 @@ extern dword_1658E6, dword_165920, dword_165924, dword_165928, dword_16592C, dwo
 extern dword_16593C, dword_16596C, dword_165978, dword_176BD8, dword_1797B4, dword_179910, dword_179D6C, dword_179E0B
 extern optflags, energywarn, fadeinpending, fox, foy, gameclock, gameopts, gmode
 extern hmroster, hmtmgoalie, hmtmstruct, lastplayer, lasttouch, lcblink, lcboxon, lcline
-extern off_11786C, off_11787C, puckc, off_11788C, off_117890, off_117894, off_117898, off_11789C
+extern off_11786C, off_11787C, puckc, PtrPuckFlags, off_117890, PtrPuckObject, off_117898, off_11789C
 extern asstab, off_118F79, penshotlive, penshotmode, penshotplayer, penshotstart, penshottimer, puckvx
 extern puckx, pucky, puckz, randomd0, regd2, regd3, sflags, shotongoal
 extern shotontarget, IsCupClinched, StartGoalLight, SwapPosition, assextra6, doinput, sub_39847, CountTeamSlots
@@ -35,8 +35,8 @@ extern word_11916B, word_119FF8, word_11A008, word_11A01A, word_11A0D9, word_11D
 extern word_1647B6, word_1647E4, word_165144, word_165146, word_165148, word_1656D2, word_1656E8, word_165704
 extern word_165706, word_165708, word_165710, word_16571C, word_1657D8, word_16581E, word_16583A, word_16583C
 extern word_16583E, word_165852, word_16590E, word_165964, regd5, word_165970, regd0, regd1
-extern word_176B24, word_176B6A, word_176B70, word_176B72, word_176B78, word_176B7C, word_176B80, word_176B88
-extern word_176B8A, word_176B8C, word_176B8E
+extern word_176B24, word_176B6A, word_176B70, word_176B72, word_176B78, word_176B7C, word_176B80, LastTouchTeam
+extern PassDistY, StoppageFlag, LastPlayerTouch
 global ClearSortCords, CompLine, DoGameFrame, InitCoachModes, SetPlList, SetupTeamForIntermission, StartPer, TeamLineEnergy
 global TryAddPlayerToList, UpdateCoachModes, clearteams, findpc, forceteams, changeplayer_316, CompLine_351, CompLine_3D1
 global getlinee_19, Goal_1F6, Goal_1FB, Goal_1FC, reenergizeteam, resetplstuff, setpersonel, setupice
@@ -1143,7 +1143,7 @@ GetHotOrStick:
         mov word [regd1], 4
         mov word [regd0], 4
 .3:
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         cmp byte [byte eax+05Fh], 0
         je short .4
         mov word [regd1], 4
@@ -1234,13 +1234,13 @@ SetCoachMode:
         test edx, edx
         jne short .4
         movsx edx, ax
-        mov al, byte [byte_1657AE]
+        mov al, byte [HmCoachGoalie]
         and al, 0FEh
         cmp edx, byte 0FFFFFFFFh
         jge short .2
         mov byte [byte_1657AF], 5
 .1:
-        mov byte [byte_1657AE], al
+        mov byte [HmCoachGoalie], al
         pop edx
         ret
 .2:
@@ -1257,7 +1257,7 @@ SetCoachMode:
         jmp short .1
 .4:
         movsx edx, ax
-        mov al, byte [byte_1658E4]
+        mov al, byte [AwCoachGoalie]
         or al, 1
         cmp edx, byte 1
         jle short .5
@@ -1275,7 +1275,7 @@ SetCoachMode:
         mov dword [dword_1658E6], 0CCCh
         mov byte [byte_1658E5], 1
 .7:
-        mov byte [byte_1658E4], al
+        mov byte [AwCoachGoalie], al
         pop edx
         ret
 ;-----------------------------------------------------------------------------
@@ -1283,8 +1283,8 @@ SetCoachMode:
 ; Resets both teams' coach AI modes at period start (StartPer)
 ;-----------------------------------------------------------------------------
 InitCoachModes:
-        mov byte [byte_1658E4], 0
-        mov byte [byte_1657AE], 0
+        mov byte [AwCoachGoalie], 0
+        mov byte [HmCoachGoalie], 0
         mov byte [byte_1657AC], 3
         mov byte [byte_1657AD], 2
         mov byte [byte_1658E2], 3
@@ -1294,9 +1294,9 @@ InitCoachModes:
         jle short .1
         mov dword [dword_1657B0], 0D9Ah
         mov byte [byte_1657AF], 2
-        mov byte [byte_1657AE], 0
+        mov byte [HmCoachGoalie], 0
         mov dword [dword_1658E6], 0D9Ah
-        mov byte [byte_1658E4], 1
+        mov byte [AwCoachGoalie], 1
         mov byte [byte_1658E5], 8
         jmp short .3
 .1:
@@ -1309,9 +1309,9 @@ InitCoachModes:
 .2:
         mov dword [dword_1657B0], 0CCCh
         mov byte [byte_1657AF], 0
-        mov byte [byte_1657AE], 0
+        mov byte [HmCoachGoalie], 0
         mov dword [dword_1658E6], 0CCCh
-        mov byte [byte_1658E4], 81h
+        mov byte [AwCoachGoalie], 81h
         mov byte [byte_1658E5], 1
 .3:
         mov word [word_16583C], 0
@@ -1358,14 +1358,14 @@ UpdateCoachModes:
         call SetCoachMode
         cmp bl, byte [byte_1657AF]
         je short .1
-        or byte [byte_1657AE], 40h
+        or byte [HmCoachGoalie], 40h
 .1:
         mov eax, 1
         mov bl, byte [byte_1658E5]
         call SetCoachMode
         cmp bl, byte [byte_1658E5]
         je short .2
-        or byte [byte_1658E4], 40h
+        or byte [AwCoachGoalie], 40h
 .2:
         movsx eax, word [gameclock]
         cmp eax, 258h
@@ -1432,7 +1432,7 @@ UpdateCoachModes:
 .11:
         mov byte [byte_1657AC], 4
         mov byte [byte_1657AD], 1
-        or byte [byte_1657AE], 1
+        or byte [HmCoachGoalie], 1
         jmp near .18
 .12:
         movsx eax, word [gameclock]
@@ -1462,7 +1462,7 @@ UpdateCoachModes:
         mov byte [byte_1657AF], 3
         mov byte [byte_1657AC], 3
         mov byte [byte_1657AD], 2
-        and byte [byte_1657AE], 0FEh
+        and byte [HmCoachGoalie], 0FEh
         jmp short .18
 .17:
         xor eax, eax
@@ -1470,7 +1470,7 @@ UpdateCoachModes:
 .18:
         cmp bl, byte [byte_1657AF]
         je short .19
-        or byte [byte_1657AE], 40h
+        or byte [HmCoachGoalie], 40h
 .19:
         movsx eax, word [gameclock]
         mov bl, byte [byte_1658E5]
@@ -1504,7 +1504,7 @@ UpdateCoachModes:
         mov byte [byte_1658E2], 4
         mov byte [byte_1658E3], 1
 .25:
-        or byte [byte_1658E4], 1
+        or byte [AwCoachGoalie], 1
         jmp near .32
 .26:
         movsx eax, word [gameclock]
@@ -1542,7 +1542,7 @@ UpdateCoachModes:
 .32:
         cmp bl, byte [byte_1658E5]
         je short .33
-        or byte [byte_1658E4], 40h
+        or byte [AwCoachGoalie], 40h
 .33:
         pop edx
         pop ebx
@@ -1664,7 +1664,7 @@ Goal:
         push edi
         enter 30h, 0
         mov edx, eax
-        mov ecx, dword [off_11788C]
+        mov ecx, dword [PtrPuckFlags]
         cmp word [byte ecx+06h], byte 0
         setl al
         movzx bx, al
@@ -2090,10 +2090,10 @@ Goal_1FC:
         call PenGoalStuff
         jmp short .52
 .51:
-        mov word [word_176B8A], 0
-        mov word [word_176B88], 0
-        mov word [word_176B8C], 0
-        mov word [word_176B8E], 0
+        mov word [PassDistY], 0
+        mov word [LastTouchTeam], 0
+        mov word [StoppageFlag], 0
+        mov word [LastPlayerTouch], 0
         mov word [fox], 0
         mov word [foy], 0
 .52:
@@ -2176,13 +2176,13 @@ Goal_1FC:
         jne near Goal_1FB
         call EndPenaltyShot
         mov edx, 1Fh
-        mov eax, dword [off_117894]
+        mov eax, dword [PtrPuckObject]
         call assreplace
         mov ax, word [word_1656E8]
         sub ax, word [word_16581E]
-        mov dword [dword_119193], 0
+        mov dword [HomeGoalsPeriod], 0
         movsx edx, ax
-        mov dword [dword_11918F], 0
+        mov dword [AwayGoalsPeriod], 0
         cmp edx, byte 0FFFFFFFDh
         jge short .62
         movzx edx, byte [byte_1657AC]
@@ -3279,15 +3279,15 @@ defaultsprites_0:
         inc edi
         cmp ecx, byte 11h
         jne near .1
-        mov eax, dword [off_117894]
+        mov eax, dword [PtrPuckObject]
         mov word [byte eax+036h], 2
-        mov eax, dword [off_117894]
+        mov eax, dword [PtrPuckObject]
         mov word [byte eax+01Ah], 0FFFFh
-        mov eax, dword [off_117894]
+        mov eax, dword [PtrPuckObject]
         mov byte [byte eax+056h], 7
-        mov eax, dword [off_117894]
+        mov eax, dword [PtrPuckObject]
         mov byte [byte eax+057h], 0Fh
-        mov eax, dword [off_117894]
+        mov eax, dword [PtrPuckObject]
         mov byte [byte eax+058h], 0Fh
         mov word [word_1178F8], 0FFFFh
         call SprSort
@@ -3789,7 +3789,7 @@ StartPer:
         mov dword [penshotplayer], 0FFFFFFFFh
         mov word [foy], 0
         mov edx, 1Bh
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         mov word [fox], 0
         call assreplace
         cmp word [gsp], byte 0
@@ -4366,7 +4366,7 @@ updateplayers:
         push esi
         push edi
         enter 10h, 0
-        mov esi, dword [off_117894]
+        mov esi, dword [PtrPuckObject]
         movsx eax, word [byte esi+01Ch]
         movsx dx, byte [byte esi+eax+01Eh]
         mov al, byte [gmode]
@@ -4879,7 +4879,7 @@ updateplayers:
 .55:
         mov esi, dword [puckx]
         mov word [esi], ax
-        mov esi, dword [off_11788C]
+        mov esi, dword [PtrPuckFlags]
         mov word [byte esi+012h], 0EDAh
 .56:
         mov esi, dword [puckz]
@@ -4905,7 +4905,7 @@ updateplayers:
 .59:
         mov esi, dword [pucky]
         mov word [esi], ax
-        mov esi, dword [off_11788C]
+        mov esi, dword [PtrPuckFlags]
         mov word [byte esi+012h], 0EDAh
 .60:
         mov esi, dword [puckx]
@@ -5659,14 +5659,14 @@ clockcont_0:
         push edi
         enter 10h, 0
         mov edx, 18h
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         call assinsert
         movsx eax, word [gsp]
         mov esi, 0FFFFFFFFh
         cmp eax, byte 2
         jge short .1
         mov edx, 1
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         jmp near Goal_1F6
 .1:
         movsx edx, word [word_16581E]
@@ -5737,7 +5737,7 @@ clockcont_0:
         movsx edx, ax
         cmp edx, byte 4
         jl short .10
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         movsx ebx, word [byte eax+01Ch]
         movsx edx, byte [byte ebx+eax+01Eh]
         cmp edx, byte 18h
@@ -5778,7 +5778,7 @@ clockcont_0:
 .18:
         call LoadCupSprites
         mov edx, 21h
-        mov eax, dword [off_117894]
+        mov eax, dword [PtrPuckObject]
         mov dword [byte ebp-04h], 0
         call assreplace
         mov word [regd2], 0

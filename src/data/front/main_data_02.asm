@@ -9,7 +9,7 @@ global byte_1175AA, byte_1175AB, byte_1175AC, dword_115098, dword_1150C4, dword_
 global dword_1150D4, dword_1150D8, dword_1150DC, dword_1150E0, dword_1150E4, dword_1150E8, dword_1150EC, dword_1150F0
 global dword_1150F4, dword_1150F8, dword_1150FC, dword_1174E0, dword_1174E4, dword_1174E8, dword_1174EC, dword_1174F0
 global dword_1174F4, dword_1174F8, dword_1174FC, dword_117500, dword_117504, dword_117508, dword_11750C, dword_117510
-global dword_117514, dword_117518, dword_11751C, dword_117588, unk_115108, unk_115113, unk_115120, unk_1151A7
+global dword_117514, dword_117518, dword_11751C, dword_117588, unk_115108, unk_115113, DataDirPath, unk_1151A7
 global unk_115333, str_KEY3, str_CAREER2, str_ATT, str_CARTEAMS, str_TEAMS3, str_SEASON4, unk_11749D
 global unk_117522, word_11510D, word_11512D, word_11758C
 dword_115098:
@@ -70,7 +70,7 @@ byte_115116:
         db 00h
 byte_115117:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_115120:
+DataDirPath:
         db 02Eh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 word_11512D:
         db 00h,00h,047h,045h,052h,04Dh,041h,04Eh,00h,00h,00h,00h,00h,00h,00h,01h

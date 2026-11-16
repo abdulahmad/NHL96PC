@@ -10,14 +10,14 @@ extern dword_1515DC, dword_1515E0, dword_152F4C, dword_164956, dword_164D16, dwo
 extern dword_179918, dword_179920, dword_179924, dword_179DBD, energywarn, exitgame, fadeinpending, forcepldata
 extern fox, foy, GameLoopActive, gameopts, GetTicks, hmfirstslot, hmroster, hmslotcount
 extern hmtmstruct, InGameMenuRequest, InputRecordCount, InputRecordRing, IsCupClinched, lasttouch, lcblink, lineuptime
-extern off_11788C, off_117894, off_11D44C, off_11D4BC, off_11D52C, optblock, puckc, qsort_
+extern PtrPuckFlags, PtrPuckObject, off_11D44C, off_11D4BC, off_11D52C, optblock, puckc, qsort_
 extern randomd0, reenergizeteam, regd0, regd1, regd2, resetplstuff, RunSimFrames, SetClipWindow
 extern setpersonel, SetSPA, sflags, sfx, skateto, SkateToSpot, SlotButtons, SortCords
 extern sprintf_, SprSort, str_fmt2d, str_MightyDucks, str_OfAnaheim, LinkResyncInput, LoadTeamLogo, EndGameCleanup
 extern sub_493D4, sub_4B59F, sub_5439F, DrawGameFrame, GetPeriodText, SetCameraShot, EndCameraShot, UpdateCamera
 extern FreeSpriteCache, FadePalette, FadeOut, SetTextColors, DrawColorText, DrawColorTextRight, DrawColorTextCentred, DrawBox
 extern Crowd_Noise, CrowdFadeOut, CrowdReaction, PlayArenaClip, ArenaClipReady, StartArenaClip, StopArenaClip, SoundIdle
-extern GetLangText, sub_ADA80, sub_AFFD0, sub_B58D8, sub_B6140, sub_DD724, sub_DD7B8, sub_DD8B0
+extern GetLangText, sub_ADA80, sub_AFFD0, sub_B58D8, sub_B6140, FillRectColor, sub_DD7B8, SetRemapTable
 extern sub_DFEC6, sub_E0520, sub_E0992, sub_E15AC, TextSetFont, unk_119D0A, unk_119D22, unk_119D36
 extern unk_119D4E, unk_156E6C, unk_157B82, unk_16443C, unk_164B5C, unk_164E7C, unk_165354, unk_17D3E8
 extern updateanim, vtoa, word_1178A0, word_1178A2, word_1178B4, word_1178CA, word_1178F8, word_118E9F
@@ -211,52 +211,52 @@ sub_2D9D9:
         movsx eax, cx
         cmp eax, byte 2
         jl near .3
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         mov word [byte eax+028h], 78h
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         mov word [byte eax+02h], 0C8h
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         mov word [byte eax+06h], 0FED4h
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         mov word [byte eax+0Ch], 0
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         mov word [byte eax+0Eh], 0
         mov edx, 1Ah
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         call assreplace
-        mov eax, dword [off_117894]
+        mov eax, dword [PtrPuckObject]
         mov edx, dword [byte ebp-08h]
         mov word [byte eax+026h], dx
-        mov eax, dword [off_117894]
+        mov eax, dword [PtrPuckObject]
         mov word [byte eax+02h], 98h
         mov dx, word [byte eax+02h]
-        mov eax, dword [off_117894]
+        mov eax, dword [PtrPuckObject]
         mov word [byte eax+02Ah], dx
         mov eax, 2
-        mov ebx, dword [off_117894]
+        mov ebx, dword [PtrPuckObject]
         call randomd0
         add word [byte ebx+02h], ax
-        mov eax, dword [off_117894]
+        mov eax, dword [PtrPuckObject]
         mov word [byte eax+06h], 0
         mov dx, word [byte eax+06h]
-        mov eax, dword [off_117894]
+        mov eax, dword [PtrPuckObject]
         mov word [byte eax+02Ch], dx
-        mov eax, dword [off_117894]
+        mov eax, dword [PtrPuckObject]
         mov word [byte eax+036h], 4
-        mov eax, dword [off_117894]
+        mov eax, dword [PtrPuckObject]
         mov word [byte eax+0Eh], 0
         mov dx, word [byte eax+0Eh]
-        mov eax, dword [off_117894]
+        mov eax, dword [PtrPuckObject]
         mov word [byte eax+0Ch], dx
-        mov eax, dword [off_117894]
+        mov eax, dword [PtrPuckObject]
         mov edx, dword [byte ebp-04h]
         mov word [byte eax+02Eh], dx
         mov edx, 763h
-        mov eax, dword [off_117894]
+        mov eax, dword [PtrPuckObject]
         xor edi, edi
         call SetSPA
         mov edx, 26h
-        mov eax, dword [off_117894]
+        mov eax, dword [PtrPuckObject]
         mov ebx, unk_165354
         call assreplace
         mov word [word_1178F8], 0
@@ -472,28 +472,28 @@ sub_2E0C5:
         push ecx
         push ebx
         push edx
-        call sub_DD724
+        call FillRectColor
         add esp, byte 14h
         push esi
         push dword [byte ebp+018h]
         push dword [byte ebp+014h]
         push dword [byte ebp+010h]
         push dword [byte ebp-08h]
-        call sub_DD724
+        call FillRectColor
         add esp, byte 14h
         push esi
         push dword [byte ebp+020h]
         push dword [byte ebp+01Ch]
         push dword [byte ebp+018h]
         push dword [byte ebp+014h]
-        call sub_DD724
+        call FillRectColor
         add esp, byte 14h
         push esi
         push dword [byte ebp-04h]
         push edi
         push dword [byte ebp+020h]
         push dword [byte ebp+01Ch]
-        call sub_DD724
+        call FillRectColor
         add esp, byte 14h
 sub_2E0C5_5C:
         leave
@@ -732,7 +732,7 @@ sub_2E1BE:
         add esp, byte 10h
 .13:
         push unk_17D3E8
-        call sub_DD8B0
+        call SetRemapTable
         add esp, byte 4
         movsx eax, word [byte ebp-012h]
         push eax

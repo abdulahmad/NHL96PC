@@ -4,7 +4,7 @@ bits 32
 section s_7CCB8 progbits alloc exec nowrite align=1
 extern __CHP, dword_1122F8, dword_1122FC, dword_112300, dword_112304, dword_11D1A8, dword_11D1AC, PutBlock
 extern SetDrawBitmap, CalendarScreen_13D3, CalendarScreen_13E4, CalendarScreen_153A, CalendarScreen_1AC2, CalendarScreen_1B49, CalendarScreen_1B6C, sub_AAA40
-extern sub_AAADC, sub_AD35C, sub_ADBEC, sub_B2C70, sub_DD6C4
+extern sub_AAADC, sub_AD35C, sub_ADBEC, sub_B2C70, SetScreenTarget
 global InitVScrollBar, InitVScrollBar_217, InitHScrollBar, InitHScrollBar_207, InitHScrollBar_337, ScrollBarRet, ScrollBarUp, ScrollBarDown
 global ScrollBarPageUp, ScrollBarPageUp_B, ScrollBarPageUp_14, ScrollBarPageUp_19, ScrollBarPageDown, FreeScrollBar, SetScrollBarPos, DrawScrollBar
 global ScrollBarToMouse, unk_7D4F4, unk_7D500, jpt_7D568
@@ -69,7 +69,7 @@ InitVScrollBar:
         push edi
         call sub_AAA40
         add esp, byte 0Ch
-        call sub_DD6C4
+        call SetScreenTarget
         movsx eax, word [byte edi+06h]
         sub eax, byte 3Ch
         mov dword [byte ebp-014h], eax
@@ -284,7 +284,7 @@ InitHScrollBar:
         push edi
         call sub_AAA40
         add esp, byte 0Ch
-        call sub_DD6C4
+        call SetScreenTarget
         movsx eax, word [byte edi+04h]
         sub eax, byte 3Ch
         mov dword [byte ebp-014h], eax
@@ -473,7 +473,7 @@ InitHScrollBar_207:
         call __CHP
         fistp dword [dword esi+0CCh]
 InitHScrollBar_337:
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [byte esi+08h]
         mov eax, dword [byte esi+014h]
         push dword [byte esi+04h]

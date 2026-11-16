@@ -2,10 +2,10 @@
 bits 32
 %include "hockey.inc"
 section s_1A11BC nobits alloc noexec write align=1
-global byte_1A11D9, byte_1A11EC, byte_1A11ED, byte_1A11EE, byte_1A11EF, byte_1A11F0, byte_1A1248, dword_1A11BC
+global byte_1A11D9, GusPlayDmaChannel, GusIrqLatch, GusRecordDmaChannel, GusMidiIrq, GusWaveIrq, GusDmaControl, dword_1A11BC
 global dword_1A11C0, dword_1A11C4, dword_1A11C8, dword_1A11CC, dword_1A11D0, dword_1A11D4, dword_1A11D8, dword_1A11DC
-global dword_1A11E0, dword_1A1228, dword_1A123C, dword_1A1240, dword_1A1244, unk_1A11F8, unk_1A1258, word_1A11E4
-global word_1A11E6, word_1A11E8, word_1A11EA, word_1A1238, word_1A123A, word_1A1249
+global dword_1A11E0, GusVoiceIrqBits, GusDmaLeft, GusDmaChunkSize, GusDmaDone, GusDmaChannels, StartupStack, GusDosResult
+global GusIrqFlags, GusActiveVoices, GusCriticalDepth, GusDmaChunkLo, GusDmaChunkHi, GusDmaFlags
 dword_1A11BC:
         resb 4
 dword_1A11C0:
@@ -28,41 +28,41 @@ dword_1A11DC:
         resb 4
 dword_1A11E0:
         resb 4
-word_1A11E4:
+GusDosResult:
         resb 2
-word_1A11E6:
+GusIrqFlags:
         resb 2
-word_1A11E8:
+GusActiveVoices:
         resb 2
-word_1A11EA:
+GusCriticalDepth:
         resb 2
-byte_1A11EC:
+GusPlayDmaChannel:
         resb 1
-byte_1A11ED:
+GusIrqLatch:
         resb 1
-byte_1A11EE:
+GusRecordDmaChannel:
         resb 1
-byte_1A11EF:
+GusMidiIrq:
         resb 1
-byte_1A11F0:
+GusWaveIrq:
         resb 8
-unk_1A11F8:
+GusDmaChannels:
         resb 48
-dword_1A1228:
+GusVoiceIrqBits:
         resb 16
-word_1A1238:
+GusDmaChunkLo:
         resb 2
-word_1A123A:
+GusDmaChunkHi:
         resb 2
-dword_1A123C:
+GusDmaLeft:
         resb 4
-dword_1A1240:
+GusDmaChunkSize:
         resb 4
-dword_1A1244:
+GusDmaDone:
         resb 4
-byte_1A1248:
+GusDmaControl:
         resb 1
-word_1A1249:
+GusDmaFlags:
         resb 15
-unk_1A1258:
+StartupStack:
         resb 32776

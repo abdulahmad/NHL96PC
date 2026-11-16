@@ -3,12 +3,12 @@ bits 32
 %include "hockey.inc"
 section s_6A341 progbits alloc exec nowrite align=1
 extern _dos_close_, _dos_open_, byte_17C9A9, byte_17CA24, byte_17CA3C, byte_17CA54, byte_17CA55, byte_17CA56
-extern byte_17CA57, byte_17CA58, byte_17CA59, byte_17CA5A, byte_17CA5B, byte_17CA5F, byte_17CA60, byte_17CA73
-extern byte_17CA7A, DetectCPU, dword_1150D8, dword_11D3C8, dword_11F5E8, dword_17C9A4, dword_17C9F4, dword_17CA5C
+extern byte_17CA57, byte_17CA58, byte_17CA59, byte_17CA5A, byte_17CA5B, byte_17CA5F, GlobalSetName, byte_17CA73
+extern byte_17CA7A, DetectCPU, dword_1150D8, DirPathTable, CpuHasCpuid, GlobalSetData, dword_17C9F4, dword_17CA5C
 extern dword_17CA76, FileClose, FileReadAt, gameopts, getcwd_, globalset, LoadExhibitionStats, MakeDataPath
 extern MakeDirPath, NameIndexFree, NameIndexLoad, optblock, optblock_end, optflags, str_5552362337, str_ATD2
 extern str_ATF, str_backslash, str_EXHIBITNDX, strcat_, strlen_, strncpy_, LoadDataFileFlag0, RunControllerScreen
-extern TeamSelectScreen, PickIndexEntryScreen, RunRosterScreens, ComputeTeamRanks, sub_ABF4C, sub_E069C, sub_E07B8, sub_E07C8
+extern TeamSelectScreen, PickIndexEntryScreen, RunRosterScreens, ComputeTeamRanks, FreeMemBlock, sub_E069C, DosCloseFile, DosWriteFile
 extern unk_17C9B8, unk_17C9CC, unk_17D32C, word_17C9AC, word_17C9AE, word_17C9B0, word_17C9B2, word_17C9B4
 extern word_17C9B6, word_17CA7C
 global ReadGlobalSet, WriteGlobalSet, RunExhibitionMenus
@@ -24,8 +24,8 @@ ReadGlobalSet:
         push edi
         enter 40h, 0
         call DetectCPU
-        mov byte [byte_17CA60], 0
-        mov dword [dword_11D3C8], byte_17CA60
+        mov byte [GlobalSetName], 0
+        mov dword [DirPathTable], GlobalSetName
         mov dword [gameopts], optblock_end
         mov edx, 1
         lea eax, [byte ebp-040h]
@@ -51,9 +51,9 @@ ReadGlobalSet:
         je near .5
         mov ecx, 0BCh
         mov esi, dword [byte ebp-04h]
-        mov edi, dword_17C9A4
+        mov edi, GlobalSetData
         rep movsb
-        cmp dword [dword_17C9A4], 160BDh
+        cmp dword [GlobalSetData], 160BDh
         jne short .4
         test byte [globalset], 7
         jne short .3
@@ -64,11 +64,11 @@ ReadGlobalSet:
         mov esi, dword [byte ebp-04h]
         mov ebx, 14h
         add esi, 0BCh
-        mov eax, byte_17CA60
+        mov eax, GlobalSetName
         mov edx, esi
         mov ecx, 0B9h
         call strncpy_
-        mov eax, byte_17CA60
+        mov eax, GlobalSetName
         mov byte [byte_17CA73], 0
         call strlen_
         inc eax
@@ -78,12 +78,12 @@ ReadGlobalSet:
         rep movsb
 .4:
         push dword [byte ebp-04h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .5:
         cmp dword [byte ebp-08h], byte 0
         jne near .10
-        mov dword [dword_17C9A4], 160BDh
+        mov dword [GlobalSetData], 160BDh
         mov byte [optflags], 0
         mov word [word_17C9AC], 1
         mov word [word_17C9AE], 1
@@ -126,7 +126,7 @@ ReadGlobalSet:
         mov byte [byte_17CA5A], 1
         mov byte [byte_17CA5B], 2
         or word [dword_17CA5C], 163h
-        cmp dword [dword_11F5E8], byte 0
+        cmp dword [CpuHasCpuid], byte 0
         je short .6
         or byte [dword_17CA5C], 9Ch
         jmp short .7
@@ -135,16 +135,16 @@ ReadGlobalSet:
 .7:
         mov edx, 14h
         and dword [dword_17CA5C], 0FFFC01FFh
-        mov eax, byte_17CA60
+        mov eax, GlobalSetName
         or dword [dword_17CA5C], 20200h
         call getcwd_
-        mov eax, byte_17CA60
+        mov eax, GlobalSetName
         call strlen_
         movsx eax, byte [dword eax+byte_17CA5F]
         cmp eax, byte 5Ch
         je short .8
         mov edx, str_backslash
-        mov eax, byte_17CA60
+        mov eax, GlobalSetName
         call strcat_
 .8:
         and dword [dword_17CA76], 0FFC00000h
@@ -192,30 +192,30 @@ WriteGlobalSet:
         call sub_E069C
         add esp, byte 10h
         push dword 0BCh
-        push dword_17C9A4
+        push GlobalSetData
         push dword [byte ebp-04h]
-        call sub_E07C8
+        call DosWriteFile
         add esp, byte 0Ch
         test eax, eax
         je short .1
-        mov eax, byte_17CA60
+        mov eax, GlobalSetName
         call strlen_
         inc eax
         push eax
-        push byte_17CA60
+        push GlobalSetName
         push dword [byte ebp-04h]
-        call sub_E07C8
+        call DosWriteFile
         add esp, byte 0Ch
         test eax, eax
         je short .1
         push dword 0B9h
         push optblock_end
         push dword [byte ebp-04h]
-        call sub_E07C8
+        call DosWriteFile
         add esp, byte 0Ch
 .1:
         push dword [byte ebp-04h]
-        call sub_E07B8
+        call DosCloseFile
         add esp, byte 4
         leave
         pop edx

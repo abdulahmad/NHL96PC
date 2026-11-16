@@ -2,15 +2,18 @@
 bits 32
 %include "hockey.inc"
 section s_B2158 progbits alloc exec nowrite align=1
-extern sub_AB834, sub_AC484, sub_E0671, sub_E07B8, sub_E07CC
+extern sub_AB834, FindCachedFile, sub_E0671, DosCloseFile, sub_E07CC
 global sub_B2158
+;-----------------------------------------------------------------------------
+; sub_B2158                                                            B2158  
+;-----------------------------------------------------------------------------
 sub_B2158:
         push esi
         push edi
         sub esp, byte 0Ch
         mov esi, dword [byte esp+018h]
         push esi
-        call sub_AC484
+        call FindCachedFile
         add esp, byte 4
         test eax, eax
         jne near .3
@@ -44,7 +47,7 @@ sub_B2158:
         jne short .2
         mov esi, dword [esp]
         push esi
-        call sub_E07B8
+        call DosCloseFile
         add esp, byte 4
         xor eax, eax
         add esp, byte 0Ch
@@ -62,7 +65,7 @@ sub_B2158:
         add esp, byte 0Ch
         mov ecx, dword [esp]
         push ecx
-        call sub_E07B8
+        call DosCloseFile
         add esp, byte 4
         mov eax, esi
 .3:

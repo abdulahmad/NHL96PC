@@ -14,8 +14,8 @@ extern LinkOpen, LinkSendMessage, LinkTimerTick, optblock_end, optflags, SetClip
 extern SetLinkMessageHandler, SetLinkSpareHook, SlotButtons, str_ABORT, str_HFwt, str_HGwt, str_LGwt, str_PAL22
 extern str_SHAD, str_X3, strcpy_, MessageBox, HideMessage, ShowMessage, CopyBitmap, SetTextColors
 extern DrawColorText, DrawColorTextCentred, DrawBox, StopMusic, QueueCurrentMusic, FillMusicStream, PlayMusic, FadeOutMusic
-extern SoundSecondsToBytes, SoundIdle, GetLangText, sub_AA664, sub_AA988, sub_AAA8C, sub_AADA4, sub_AB758
-extern sub_ABF4C, sub_AD35C, sub_AD620, sub_ADA80, sub_ADBEC, sub_DD6C4, sub_DD6E0, sub_DD724
+extern SoundSecondsToBytes, SoundIdle, GetLangText, RemoveTimerCallback, sub_AA988, sub_AAA8C, sub_AADA4, sub_AB758
+extern FreeMemBlock, sub_AD35C, sub_AD620, sub_ADA80, sub_ADBEC, SetScreenTarget, GetPaletteRange, FillRectColor
 extern sub_DFE9C, sub_DFF28, sub_E04E0, unk_114CE6, unk_114D46, unk_114D6E, unk_15179C, unk_1519C0
 extern unk_151A04, unk_151A44, unk_151A94, unk_151ADC, unk_17C9B8, unk_17C9CC, unk_17D272, word_114CE0
 extern word_114CE4, word_114DBE, word_114DC0, word_151AE0, word_151AE2, word_17C9AC, word_17C9B0, word_17C9B2
@@ -996,7 +996,7 @@ HideLinkWaitBox:
         call sub_AADA4
         add esp, byte 4
         push dword [dword_151AD0]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov dword [dword_151AD0], 0
 .1:
@@ -1353,7 +1353,7 @@ ModemGameClose:
         je short .2
         mov eax, LinkTimerTick
         push eax
-        call sub_AA664
+        call RemoveTimerCallback
         add esp, byte 4
         call LinkClose
 .2:
@@ -1821,7 +1821,7 @@ ModemChat:
         mov edx, dword [byte eax+02Ch]
         mov eax, dword [byte ebp-040h]
         mov word [byte edx+0Eh], ax
-        call sub_DD6C4
+        call SetScreenTarget
         mov eax, dword [byte ebp-02Ch]
         push dword [byte eax+02Ch]
         call sub_AA988
@@ -1849,7 +1849,7 @@ ModemChat:
         push eax
         push dword 100h
         push byte 0
-        call sub_DD6E0
+        call GetPaletteRange
         add esp, byte 0Ch
         mov eax, dword [byte ebp-038h]
         push eax
@@ -1878,11 +1878,11 @@ ModemChat:
         call DrawBox
         mov eax, dword [byte ebp-028h]
         push eax
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov eax, dword [byte ebp-038h]
         push eax
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov ebx, 3
         mov edx, dword [byte ebp-04Ch]
@@ -1904,7 +1904,7 @@ ModemChat:
         add eax, byte 5
         push eax
         push byte 1
-        call sub_DD724
+        call FillRectColor
         add esp, byte 14h
         movsx eax, word [byte ebp-0Ch]
         push eax
@@ -1918,16 +1918,16 @@ ModemChat:
         sub eax, byte 2
         push eax
         push byte 1
-        call sub_DD724
+        call FillRectColor
         add esp, byte 14h
-        call sub_DD6C4
+        call SetScreenTarget
         mov eax, dword [byte ebp-02Ch]
         push dword [byte eax+02Ch]
         call sub_AADA4
         add esp, byte 4
         jmp near .2
 .1:
-        call sub_DD6C4
+        call SetScreenTarget
         movsx eax, word [byte ebp+010h]
         push eax
         mov eax, dword [byte ebp-048h]
@@ -1985,7 +1985,7 @@ ModemChat:
         mov eax, dword [byte ebp-044h]
         inc eax
         push eax
-        call sub_DD724
+        call FillRectColor
         add esp, byte 14h
         movsx eax, word [byte ebp-0Ch]
         push eax
@@ -2004,7 +2004,7 @@ ModemChat:
         mov eax, dword [byte ebp-044h]
         inc eax
         push eax
-        call sub_DD724
+        call FillRectColor
         add esp, byte 14h
 .2:
         mov word [word_151AE0], 0
@@ -2869,7 +2869,7 @@ ModemChat:
         add esp, byte 4
         mov eax, dword [byte ebp-030h]
         push eax
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov eax, dword [byte ebp-02Ch]
         push eax

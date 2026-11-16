@@ -31,7 +31,7 @@ extern str_GhiR2, str_GloL2, str_GloR2, str_INTERREG, str_Intr, str_Ply02, str_P
 extern str_Qui1, str_Qui2, str_Ret0, str_Ret1, str_Ret2, str_Sav0, str_Sav1, str_Sid1
 extern str_Sid2, str_Sts0, str_Sts1, strcat_, strcpy_, AddIceCrud, LoadZamboni, FreeZamboni
 extern LoadStandsArt, SetPenaltyBoxDoor, DrawZamboniScene, sub_2E1BE, sub_3A6F3, sub_64E74, SaveGameFile, sub_6C64B
-extern sub_AAA40, sub_AB758, sub_ABF4C, sub_AD35C, sub_ADBEC, sub_B0CA8, sub_B58D8, sub_DD6C4
+extern sub_AAA40, sub_AB758, FreeMemBlock, sub_AD35C, sub_ADBEC, sub_B0CA8, sub_B58D8, SetScreenTarget
 extern sub_E04E0, sub_E0584, TextSetFont, unk_11D7A4, unk_11D7BC, unk_11D7D4, unk_11D7EC, unk_11D804
 extern unk_11D80A, unk_11D810, unk_11D816, unk_11D81C, unk_11D89C, unk_16443C, unk_17D3E8, unk_18440C
 extern unk_184688, unk_184692, UpdateCamera, word_114CE0, word_114F14, word_11ED34, word_1656E8, word_16581E
@@ -606,7 +606,7 @@ RedrawInGameMenu:
         cmp edi, eax
         jl short .1
 .3:
-        call sub_DD6C4
+        call SetScreenTarget
         push byte 0
         mov esi, dword [byte ebp-04h]
         push byte 0
@@ -659,10 +659,10 @@ OpenFrontEndFromGame:
         test byte [byte_17CA5D], 20h
         jne short .1
         push dword [dword_152F54]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_152F5C]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov edx, 20h
         mov eax, dword [dword_152F58]
@@ -700,10 +700,10 @@ ReturnToGameView:
         test byte [byte_17CA5D], 20h
         jne short .1
         push dword [dword_152F54]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_152F5C]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push str_GloL2
         push dword [dword_1150D4]
@@ -915,7 +915,7 @@ InGameReturnMenu:
         add esp, byte 0Ch
         cmp dword [byte ebp+07Eh], byte 3
         jl near .1
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [dword_179918]
         call TextSetFont
         add esp, byte 4
@@ -1745,7 +1745,7 @@ InGameMenu_ABD:
         call sub_ADBEC
         add esp, byte 4
         push dword [dword_184408]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         call FreeZamboni
         mov eax, 1
@@ -1753,7 +1753,7 @@ InGameMenu_ABD:
         mov eax, 3
         call FadeOut
         call sub_B0CA8
-        call sub_DD6C4
+        call SetScreenTarget
         push byte 0
         call sub_E0584
         add esp, byte 4

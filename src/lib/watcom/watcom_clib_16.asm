@@ -2,14 +2,17 @@
 bits 32
 %include "hockey.inc"
 section s_D01B5 progbits alloc exec nowrite align=1
-extern __fatal_runtime_error_, __flush_, __ioalloc_, __set_errno_, str_FloatingPointSupportNot, dword_12441C, dword_19BA40
-global __flushall_, fputc_, getche_, ltoa_, sub_D02A8, toupper_, ultoa_, unk_D02BA
+extern __fatal_runtime_error_, __flush_, __ioalloc_, __set_errno_, str_FloatingPointSupportNot, UngetChar, __ClosedStreams
+global __flushall_, fputc_, getche_, ltoa_, sub_D02A8, toupper_, ultoa_, str_0123456789abcdefghijklmnopqr_ultoa_
+;-----------------------------------------------------------------------------
+; __flushall_                                                   D01B5  library
+;-----------------------------------------------------------------------------
 __flushall_:
         push ebx
         push ecx
         push edx
         mov ecx, eax
-        mov edx, dword [dword_19BA40]
+        mov edx, dword [__ClosedStreams]
         xor ebx, ebx
         jmp short .3
 .1:
@@ -30,11 +33,14 @@ __flushall_:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; getche_                                                       D01E4  library
+;-----------------------------------------------------------------------------
 getche_:
         push edx
         xor edx, edx
-        mov eax, dword [dword_12441C]
-        mov dword [dword_12441C], edx
+        mov eax, dword [UngetChar]
+        mov dword [UngetChar], edx
         test eax, eax
         jne short .1
         mov ah, 1
@@ -43,6 +49,9 @@ getche_:
 .1:
         pop edx
         ret
+;-----------------------------------------------------------------------------
+; fputc_                                                        D0201  library
+;-----------------------------------------------------------------------------
 fputc_:
         push ebx
         push ecx
@@ -118,6 +127,9 @@ fputc_:
         pop ebx
         ret
         db 00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_D02A8                                                            D02A8  
+;-----------------------------------------------------------------------------
 sub_D02A8:
         push edx
         mov eax, str_FloatingPointSupportNot
@@ -125,10 +137,13 @@ sub_D02A8:
         call __fatal_runtime_error_
         pop edx
         ret
-unk_D02BA:
+str_0123456789abcdefghijklmnopqr_ultoa_:
         db 030h,031h,032h,033h,034h,035h,036h,037h,038h,039h,061h,062h,063h,064h,065h,066h
         db 067h,068h,069h,06Ah,06Bh,06Ch,06Dh,06Eh,06Fh,070h,071h,072h,073h,074h,075h,076h
         db 077h,078h,079h,07Ah,00h
+;-----------------------------------------------------------------------------
+; ultoa_                                                        D02DF  library
+;-----------------------------------------------------------------------------
 ultoa_:
         push ecx
         push esi
@@ -147,7 +162,7 @@ ultoa_:
         div dword [ebx]
         mov dword [ebx], edx
         mov edx, dword [byte esp+028h]
-        mov dl, byte [dword cs:edx+unk_D02BA]
+        mov dl, byte [dword cs:edx+str_0123456789abcdefghijklmnopqr_ultoa_]
         mov byte [ecx], dl
         inc ecx
         test eax, eax
@@ -165,6 +180,9 @@ ultoa_:
         pop esi
         pop ecx
         ret
+;-----------------------------------------------------------------------------
+; ltoa_                                                         D0328  library
+;-----------------------------------------------------------------------------
 ltoa_:
         push ecx
         mov ecx, edx
@@ -180,6 +198,9 @@ ltoa_:
         mov eax, ecx
         pop ecx
         ret
+;-----------------------------------------------------------------------------
+; toupper_                                                      D0343  library
+;-----------------------------------------------------------------------------
 toupper_:
         cmp eax, byte 61h
         jl short .1

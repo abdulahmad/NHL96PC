@@ -4,8 +4,8 @@ bits 32
 section s_197ED progbits alloc exec nowrite align=1
 extern byte_11FA2F, byte_152C3B, dword_11F5C0, FillRect, fputchar, PutBlock, SetDrawBitmap, str_Disp
 extern str_space4, str_Temp3, str_W, str_X, strcat_, strcpy_, strlen_, CopyBitmap
-extern SetTextColors, DrawColorTextCentred, DrawBox, SoundIdle, sub_AA7E0, sub_AB798, sub_ABF4C, sub_AD35C
-extern sub_AD620, sub_ADA80, sub_ADBEC, sub_AFFD0, sub_B2B0C, sub_DD6C4, sub_DD6E0, sub_DFE9C
+extern SetTextColors, DrawColorTextCentred, DrawBox, SoundIdle, sub_AA7E0, sub_AB798, FreeMemBlock, sub_AD35C
+extern sub_AD620, sub_ADA80, sub_ADBEC, sub_AFFD0, sub_B2B0C, SetScreenTarget, GetPaletteRange, sub_DFE9C
 extern sub_DFF28, unk_152B3C, unk_19382
 global EditText
 ;-----------------------------------------------------------------------------
@@ -57,7 +57,7 @@ EditText:
         test eax, eax
         jne short .4
         push edi
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         xor eax, eax
         jmp near .54
@@ -198,7 +198,7 @@ EditText:
         push byte 0
         mov dword [byte ebp+03Eh], edx
         add dword [byte ebp+052h], edx
-        call sub_DD6E0
+        call GetPaletteRange
         add esp, byte 0Ch
         push byte 0
         push dword [byte ebp+05Eh]
@@ -345,7 +345,7 @@ EditText:
         mov dword [byte ebp+05Ah], eax
         mov eax, edi
         call strcat_
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [byte ebp+03Eh]
         mov eax, dword [byte ebp+022h]
         push dword [byte ebp+032h]
@@ -710,7 +710,7 @@ EditText:
         call SoundIdle
         jmp short .51
 .53:
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [byte ebp+03Eh]
         push dword [byte ebp+032h]
         push dword [byte ebp+02Eh]
@@ -720,13 +720,13 @@ EditText:
         call sub_ADBEC
         add esp, byte 4
         push dword [byte ebp+02Eh]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [byte ebp-02h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push edi
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         cmp dword [byte ebp+05Ah], byte 0FFFFFFFFh
         sete al

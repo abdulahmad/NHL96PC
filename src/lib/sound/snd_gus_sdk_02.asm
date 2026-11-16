@@ -2,20 +2,25 @@
 bits 32
 %include "hockey.inc"
 section s_DA5D0 progbits alloc exec nowrite align=1
-extern _dos_close_, _dos_getvect_, _dos_open_, _dos_read_, _dos_setvect_, byte_151426, byte_151430, byte_15155A
-extern byte_1A11EC, byte_1A11EE, byte_1A11EF, byte_1A11F0, byte_1A1248, dword_151444, dword_1514C4, dword_1514E4
-extern dword_1514E8, dword_1514EC, dword_1514F0, dword_1514F4, dword_1514F8, dword_1514FC, dword_151500, dword_151504
-extern dword_151508, dword_15150C, dword_151510, dword_151518, dword_15151C, dword_1A1228, dword_1A123C, dword_1A1240
-extern dword_1A1244, inp_, kaufmfont, lseek_, outp_, sub_B65D4, sub_DCBB0, unk_15158C
-extern unk_1A11F8, word_15140C, word_15140E, word_151418, word_15141A, word_15141E, word_151420, word_151422
-extern word_151424, word_151442, word_151448, word_1514CC, word_1A11E4, word_1A11E6, word_1A11EA, word_1A1238
-extern word_1A123A, word_1A1249
-global _SetMaxPrec_, inpw_, outpw_, sub_DA5D0, sub_DA65C, sub_DA77C, sub_DA8A4, sub_DA8B0
-global sub_DA8BC, sub_DA95C, sub_DA9E4, sub_DAA10, sub_DAA8C, sub_DAB11, sub_DAB25, sub_DAB70
-global sub_DAB83, sub_DABAA, sub_DABE0, sub_DAC3C, sub_DAC64, sub_DAC8C, sub_DACC4, sub_DADD8
-global sub_DAE60, sub_DAE9C, sub_DB13C, sub_DB1C0, sub_DB23C, sub_DB2BC, sub_DB394, sub_DB540
-global sub_DB564, sub_DB58C, sub_DB5E8, sub_DB69C, sub_DB7AC
-sub_DA5D0:
+extern _dos_close_, _dos_getvect_, _dos_open_, _dos_read_, _dos_setvect_, GusDmaLatchBits, GusDmaPageTable, GusDmaReady
+extern GusPlayDmaChannel, GusRecordDmaChannel, GusMidiIrq, GusWaveIrq, GusDmaControl, GusIrqOldHandler, GusMidiPending, GusMidiIrqCount
+extern GusTimerCallback, GusDmaDoneCallback, GusRecordDoneCallback, GusWaveCallback, GusVolumeCallback, GusTimer1Callback, GusTimer2Callback, GusWaveIrqCallback
+extern GusVolumeIrqCallback, GusMidiXmitCallback, GusMidiRecvCallback, GusDmaBusy, dword_15151C, GusVoiceIrqBits, GusDmaLeft, GusDmaChunkSize
+extern GusDmaDone, inp_, kaufmfont, lseek_, outp_, RestoreDS, GusConvertAddr16, unk_15158C
+extern GusDmaChannels, GusBasePort, GusIrqStatusPort, GusMidiControlPort, GusMidiDataPort, GusRegSelectPort, GusDataLowPort, GusDataHighPort
+extern GusDramPort, GusIrqVectorTable, GusIrqOldSelector, word_1514CC, GusDosResult, GusIrqFlags, GusCriticalDepth, GusDmaChunkLo
+extern GusDmaChunkHi, GusDmaFlags
+global _SetMaxPrec_, inpw_, outpw_, GusSetupDmaChannel, GusProgramDma, GusMaskDma, GusSetVect, GusGetVect
+global GusHookIrq, GusUnhookIrq, GusSendEoi, GusWaveIrqHandler, GusMidiIrqHandler, GusDelay, GusSetBasePort, GusClearIrqState
+global GusEnterCritical, GusLeaveCritical, GusClearCallbacks, GusClaimCallback, GusClaimVoiceCallback, GusSetDmaCallbacks, GusSetVoiceCallbacks, GusMidiIrqService
+global GusReadIrqSource, GusServiceIrq, GusRunInitTable, GusPeek, GusPoke, GusPokeFill, GusTestDramBank, GusInitPlayDma
+global GusInitRecordDma, GusInitDma, GusStartDramDma, GusDownload, GusDramDmaDone
+;-----------------------------------------------------------------------------
+; GusSetupDmaChannel                              DA5D0  96 PC, low confidence
+; Fills the port table of an ISA DMA channel (mask, mode, clear, address,
+; count and page registers)
+;-----------------------------------------------------------------------------
+GusSetupDmaChannel:
         push ebp
         mov ebp, esp
         push ebx
@@ -24,7 +29,7 @@ sub_DA5D0:
         mov ebx, eax
         shl eax, 4
         add eax, ebx
-        add eax, unk_1A11F8
+        add eax, GusDmaChannels
         mov word [byte eax+0Fh], dx
         mov ebx, edx
         and bl, 3
@@ -55,7 +60,7 @@ sub_DA5D0:
         mov byte [byte eax+01h], bl
         or bl, 4
         mov byte [eax], bl
-        mov dl, byte [nosplit edx*2+byte_151430]
+        mov dl, byte [nosplit edx*2+GusDmaPageTable]
         mov byte [byte eax+02h], dl
         lea esp, [byte ebp-0Ch]
         pop esi
@@ -64,7 +69,12 @@ sub_DA5D0:
         pop ebp
         ret
         db 08Dh,040h,00h
-sub_DA65C:
+;-----------------------------------------------------------------------------
+; GusProgramDma                                   DA65C  96 PC, low confidence
+; Programs an ISA DMA channel with the buffer address, length and transfer
+; mode
+;-----------------------------------------------------------------------------
+GusProgramDma:
         push ebp
         mov ebp, esp
         push esi
@@ -73,7 +83,7 @@ sub_DA65C:
         mov ebx, eax
         shl ebx, 4
         add ebx, eax
-        add ebx, unk_1A11F8
+        add ebx, GusDmaChannels
         mov ax, word [byte ebx+0Fh]
         and al, 3
         xor ah, ah
@@ -168,14 +178,19 @@ sub_DA65C:
         pop esi
         pop ebp
         ret 4
-sub_DA77C:
+;-----------------------------------------------------------------------------
+; GusMaskDma                                      DA77C  96 PC, low confidence
+; Masks an ISA DMA channel; followed by the DMA count read and DOS file
+; helpers of the toolkit
+;-----------------------------------------------------------------------------
+GusMaskDma:
         push ebp
         mov ebp, esp
         push edx
         mov edx, eax
         shl eax, 4
         add eax, edx
-        add eax, unk_1A11F8
+        add eax, GusDmaChannels
         xor edx, edx
         mov dl, byte [eax]
         mov ax, word [byte eax+09h]
@@ -193,7 +208,7 @@ sub_DA77C:
         mov ebx, eax
         shl eax, 4
         add eax, ebx
-        mov ebx, unk_1A11F8
+        mov ebx, GusDmaChannels
         add ebx, eax
         pushfw
         cli
@@ -243,7 +258,7 @@ sub_DA77C:
         mov ebx, edx
         mov edx, esi
         call _dos_read_
-        mov word [word_1A11E4], ax
+        mov word [GusDosResult], ax
         mov eax, dword [byte ebp-0Ch]
         lea esp, [byte ebp-08h]
         pop esi
@@ -253,7 +268,7 @@ sub_DA77C:
         push ebp
         mov ebp, esp
         call _dos_close_
-        mov word [word_1A11E4], ax
+        mov word [GusDosResult], ax
         test ax, ax
         je short .2
         mov eax, 10h
@@ -284,7 +299,7 @@ sub_DA77C:
         lea ebx, [byte ebp-0Ch]
         xor edx, edx
         call _dos_open_
-        mov word [word_1A11E4], ax
+        mov word [GusDosResult], ax
         test ax, ax
         jne short .4
         mov eax, dword [byte ebp-0Ch]
@@ -298,21 +313,34 @@ sub_DA77C:
         pop ebx
         pop ebp
         ret
-sub_DA8A4:
+;-----------------------------------------------------------------------------
+; GusSetVect                                      DA8A4  96 PC, low confidence
+; Sets a protected-mode interrupt vector
+;-----------------------------------------------------------------------------
+GusSetVect:
         push ebp
         mov ebp, esp
         call _dos_setvect_
         mov esp, ebp
         pop ebp
         ret
-sub_DA8B0:
+;-----------------------------------------------------------------------------
+; GusGetVect                                      DA8B0  96 PC, low confidence
+; Reads a protected-mode interrupt vector
+;-----------------------------------------------------------------------------
+GusGetVect:
         push ebp
         mov ebp, esp
         call _dos_getvect_
         mov esp, ebp
         pop ebp
         ret
-sub_DA8BC:
+;-----------------------------------------------------------------------------
+; GusHookIrq                                      DA8BC  96 PC, low confidence
+; Saves the old vector of an IRQ line, installs the new handler and unmasks
+; the line
+;-----------------------------------------------------------------------------
+GusHookIrq:
         push ebp
         mov ebp, esp
         push edx
@@ -326,15 +354,15 @@ sub_DA8BC:
         xor ebx, ebx
         pushfw
         cli
-        mov bx, word [nosplit ecx*8+word_151442]
+        mov bx, word [nosplit ecx*8+GusIrqVectorTable]
         mov eax, ebx
-        call sub_DA8B0
-        mov word [nosplit ecx*8+word_151448], dx
-        mov dword [nosplit ecx*8+dword_151444], eax
+        call GusGetVect
+        mov word [nosplit ecx*8+GusIrqOldSelector], dx
+        mov dword [nosplit ecx*8+GusIrqOldHandler], eax
         mov eax, ebx
         mov ecx, edi
         mov ebx, esi
-        call sub_DA8A4
+        call GusSetVect
         mov cl, byte [byte ebp-010h]
         mov dl, 1
         and cl, 7
@@ -367,7 +395,11 @@ sub_DA8BC:
         pop ebp
         ret
         db 08Bh,0C0h
-sub_DA95C:
+;-----------------------------------------------------------------------------
+; GusUnhookIrq                                    DA95C  96 PC, low confidence
+; Masks an IRQ line and restores its saved vector
+;-----------------------------------------------------------------------------
+GusUnhookIrq:
         push ebp
         mov ebp, esp
         push ebx
@@ -402,10 +434,10 @@ sub_DA95C:
         call outp_
 .3:
         xor eax, eax
-        mov cx, word [nosplit ebx*8+word_151448]
-        mov ax, word [nosplit ebx*8+word_151442]
-        mov ebx, dword [nosplit ebx*8+dword_151444]
-        call sub_DA8A4
+        mov cx, word [nosplit ebx*8+GusIrqOldSelector]
+        mov ax, word [nosplit ebx*8+GusIrqVectorTable]
+        mov ebx, dword [nosplit ebx*8+GusIrqOldHandler]
+        call GusSetVect
         popfw
         lea esp, [byte ebp-0Ch]
         pop edx
@@ -414,7 +446,11 @@ sub_DA95C:
         pop ebp
         ret
         db 08Dh,040h,00h
-sub_DA9E4:
+;-----------------------------------------------------------------------------
+; GusSendEoi                                      DA9E4  96 PC, low confidence
+; Sends end-of-interrupt to the interrupt controller(s) for an IRQ line
+;-----------------------------------------------------------------------------
+GusSendEoi:
         push ebp
         mov ebp, esp
         push edx
@@ -432,7 +468,12 @@ sub_DA9E4:
         pop ebp
         ret
         db 00h
-sub_DAA10:
+;-----------------------------------------------------------------------------
+; GusWaveIrqHandler                               DAA10  96 PC, low confidence
+; Hardware handler for the card's wave IRQ: services it now or defers it
+; while the card is busy
+;-----------------------------------------------------------------------------
+GusWaveIrqHandler:
         pusha
         push ds
         push es
@@ -440,29 +481,29 @@ sub_DAA10:
         push gs
         mov ebp, esp
         cld
-        call sub_B65D4
+        call RestoreDS
         xor ah, ah
-        mov al, byte [byte_1A11F0]
+        mov al, byte [GusWaveIrq]
         and eax, 0FFFFh
-        call sub_DA9E4
-        cmp word [word_1A11EA], byte 0
+        call GusSendEoi
+        cmp word [GusCriticalDepth], byte 0
         je short .1
-        mov bx, word [word_1A11E6]
+        mov bx, word [GusIrqFlags]
         or bl, 2
-        mov word [word_1A11E6], bx
+        mov word [GusIrqFlags], bx
         jmp short .3
 .1:
-        mov ax, word [word_1A11EA]
-        inc word [word_1A11EA]
+        mov ax, word [GusCriticalDepth]
+        inc word [GusCriticalDepth]
         push ds
         pop es
 .2:
-        and word [word_1A11E6], byte 0FFFDh
-        call sub_DAE9C
-        test word [word_1A11E6], 2
+        and word [GusIrqFlags], byte 0FFFDh
+        call GusServiceIrq
+        test word [GusIrqFlags], 2
         jne short .2
-        mov ax, word [word_1A11EA]
-        dec word [word_1A11EA]
+        mov ax, word [GusCriticalDepth]
+        dec word [GusCriticalDepth]
 .3:
         pop gs
         pop fs
@@ -471,7 +512,11 @@ sub_DAA10:
         popa
         iret
         db 08Dh,040h,00h
-sub_DAA8C:
+;-----------------------------------------------------------------------------
+; GusMidiIrqHandler                               DAA8C  96 PC, low confidence
+; Hardware handler for the card's MIDI IRQ line
+;-----------------------------------------------------------------------------
+GusMidiIrqHandler:
         pusha
         push ds
         push es
@@ -479,32 +524,32 @@ sub_DAA8C:
         push gs
         mov ebp, esp
         cld
-        call sub_B65D4
+        call RestoreDS
         xor ah, ah
-        mov al, byte [byte_1A11EF]
+        mov al, byte [GusMidiIrq]
         and eax, 0FFFFh
-        call sub_DA9E4
-        cmp dword [dword_1514C4], byte 0
+        call GusSendEoi
+        cmp dword [GusMidiPending], byte 0
         je short .1
-        mov dx, word [word_1A11E6]
+        mov dx, word [GusIrqFlags]
         or dl, 8
-        mov word [word_1A11E6], dx
+        mov word [GusIrqFlags], dx
         jmp short .3
 .1:
-        mov eax, dword [dword_1514C4]
-        inc dword [dword_1514C4]
+        mov eax, dword [GusMidiPending]
+        inc dword [GusMidiPending]
         push ds
         pop es
 .2:
-        mov bx, word [word_1A11E6]
+        mov bx, word [GusIrqFlags]
         and bl, 0F7h
-        mov word [word_1A11E6], bx
-        call sub_DADD8
-        mov cx, word [word_1A11E6]
+        mov word [GusIrqFlags], bx
+        call GusMidiIrqService
+        mov cx, word [GusIrqFlags]
         test cl, 8
         jne short .2
-        mov eax, dword [dword_1514C4]
-        dec dword [dword_1514C4]
+        mov eax, dword [GusMidiPending]
+        dec dword [GusMidiPending]
 .3:
         pop gs
         pop fs
@@ -513,18 +558,26 @@ sub_DAA8C:
         popa
         iret
         db 00h,00h,00h,00h,00h,00h,00h
-sub_DAB11:
+;-----------------------------------------------------------------------------
+; GusDelay                                        DAB11  96 PC, low confidence
+; Waits a few port reads so the card can settle between register writes
+;-----------------------------------------------------------------------------
+GusDelay:
         push ecx
         push edx
         mov ecx, 0Ah
-        mov dx, word [word_151424]
+        mov dx, word [GusDramPort]
 .1:
         in al, dx
         loopne .1
         pop edx
         pop ecx
         ret
-sub_DAB25:
+;-----------------------------------------------------------------------------
+; GusSetBasePort                                  DAB25  96 PC, low confidence
+; Checks a base port (210h..260h) and moves the card's port table to it
+;-----------------------------------------------------------------------------
+GusSetBasePort:
         push ebx
         push ecx
         push esi
@@ -540,14 +593,14 @@ sub_DAB25:
         nop
         nop
         nop
-        movzx ebx, word [word_15140C]
+        movzx ebx, word [GusBasePort]
         LD sub, eax, ebx
         je short .2
         nop
         nop
         nop
         nop
-        mov esi, word_15140C
+        mov esi, GusBasePort
         mov ecx, 0Dh
 .1:
         add word [esi], ax
@@ -565,18 +618,26 @@ sub_DAB25:
         pop ebx
         ret
         db 00h
-sub_DAB70:
+;-----------------------------------------------------------------------------
+; GusClearIrqState                                DAB70  96 PC, low confidence
+; Clears the pending IRQ flags and the critical-section depth
+;-----------------------------------------------------------------------------
+GusClearIrqState:
         mov word [word_1514CC], 0
-        mov word [word_1A11EA], 0
+        mov word [GusCriticalDepth], 0
         ret
-sub_DAB83:
-        inc word [word_1A11EA]
+;-----------------------------------------------------------------------------
+; GusEnterCritical                                DAB83  96 PC, low confidence
+; Raises the critical-section depth so card interrupts are deferred
+;-----------------------------------------------------------------------------
+GusEnterCritical:
+        inc word [GusCriticalDepth]
         ret
         pushfw
         cli
-        cmp word [word_1A11EA], byte 0
+        cmp word [GusCriticalDepth], byte 0
         jne short .1
-        call sub_DAB83
+        call GusEnterCritical
         mov eax, 1
         jmp short .2
 .1:
@@ -585,53 +646,67 @@ sub_DAB83:
         popfw
         ret
         ret
-sub_DABAA:
+;-----------------------------------------------------------------------------
+; GusLeaveCritical                                DABAA  96 PC, low confidence
+; Lowers the critical-section depth and, at zero, services interrupts that
+; came in meanwhile
+;-----------------------------------------------------------------------------
+GusLeaveCritical:
         pushfw
         cli
-        dec word [word_1A11EA]
-        cmp word [word_1A11EA], byte 0
+        dec word [GusCriticalDepth]
+        cmp word [GusCriticalDepth], byte 0
         jne short .2
         nop
         nop
         nop
         nop
 .1:
-        test byte [word_1A11E6], 6
+        test byte [GusIrqFlags], 6
         je short .2
         nop
         nop
         nop
         nop
-        and byte [word_1A11E6], 0FDh
-        call sub_DAE9C
+        and byte [GusIrqFlags], 0FDh
+        call GusServiceIrq
         jmp short .1
 .2:
         popfw
         ret
-sub_DABE0:
+;-----------------------------------------------------------------------------
+; GusClearCallbacks                               DABE0  96 PC, low confidence
+; Clears every interrupt callback slot
+;-----------------------------------------------------------------------------
+GusClearCallbacks:
         push ebp
         mov ebp, esp
         push edx
         xor edx, edx
-        mov dword [dword_1514E8], edx
-        mov dword [dword_1514EC], edx
-        mov dword [dword_1514F0], edx
-        mov dword [dword_1514F4], edx
-        mov dword [dword_1514F8], edx
-        mov dword [dword_1514FC], edx
-        mov dword [dword_151500], edx
-        mov dword [dword_151504], edx
-        mov dword [dword_151508], edx
-        mov dword [dword_15150C], edx
-        mov dword [dword_151510], edx
-        mov dword [dword_1A1228], edx
-        mov dword [dword_1514E4], edx
+        mov dword [GusTimerCallback], edx
+        mov dword [GusDmaDoneCallback], edx
+        mov dword [GusRecordDoneCallback], edx
+        mov dword [GusWaveCallback], edx
+        mov dword [GusVolumeCallback], edx
+        mov dword [GusTimer1Callback], edx
+        mov dword [GusTimer2Callback], edx
+        mov dword [GusWaveIrqCallback], edx
+        mov dword [GusVolumeIrqCallback], edx
+        mov dword [GusMidiXmitCallback], edx
+        mov dword [GusMidiRecvCallback], edx
+        mov dword [GusVoiceIrqBits], edx
+        mov dword [GusMidiIrqCount], edx
         lea esp, [byte ebp-04h]
         pop edx
         pop ebp
         ret
         db 08Bh,0C0h
-sub_DAC3C:
+;-----------------------------------------------------------------------------
+; GusClaimCallback                                DAC3C  96 PC, low confidence
+; Stores a callback in a slot when the slot is free or the callback is being
+; cleared
+;-----------------------------------------------------------------------------
+GusClaimCallback:
         push ebp
         mov ebp, esp
         push ebx
@@ -655,7 +730,12 @@ sub_DAC3C:
         pop ebp
         ret
         db 08Dh,040h,00h
-sub_DAC64:
+;-----------------------------------------------------------------------------
+; GusClaimVoiceCallback                           DAC64  96 PC, low confidence
+; Stores a voice callback in a slot when the slot is free or the callback is
+; being cleared
+;-----------------------------------------------------------------------------
+GusClaimVoiceCallback:
         push ebp
         mov ebp, esp
         push ebx
@@ -679,20 +759,24 @@ sub_DAC64:
         pop ebp
         ret
         db 08Dh,040h,00h
-sub_DAC8C:
+;-----------------------------------------------------------------------------
+; GusSetDmaCallbacks                              DAC8C  96 PC, low confidence
+; Sets the DMA-done callbacks; returns 8 when they are already taken
+;-----------------------------------------------------------------------------
+GusSetDmaCallbacks:
         push ebp
         mov ebp, esp
         push ebx
         push edx
         mov ebx, eax
-        mov eax, dword_1514EC
+        mov eax, GusDmaDoneCallback
         mov edx, ebx
-        call sub_DAC3C
+        call GusClaimCallback
         test eax, eax
         je short .1
-        mov eax, dword_1514F0
+        mov eax, GusRecordDoneCallback
         mov edx, ebx
-        call sub_DAC3C
+        call GusClaimCallback
         test eax, eax
         je short .1
         mov eax, 8
@@ -706,20 +790,25 @@ sub_DAC8C:
         pop ebp
         ret
         db 090h
-sub_DACC4:
+;-----------------------------------------------------------------------------
+; GusSetVoiceCallbacks                            DACC4  96 PC, low confidence
+; Sets the wave, volume and timer callbacks; returns 8 when they are already
+; taken
+;-----------------------------------------------------------------------------
+GusSetVoiceCallbacks:
         push ebp
         mov ebp, esp
         push ebx
         push edx
         mov ebx, eax
-        mov eax, dword_1514F4
+        mov eax, GusWaveCallback
         mov edx, ebx
-        call sub_DAC3C
+        call GusClaimCallback
         test eax, eax
         je short .1
-        mov eax, dword_1514F8
+        mov eax, GusVolumeCallback
         mov edx, ebx
-        call sub_DAC3C
+        call GusClaimCallback
         test eax, eax
         je short .1
         mov eax, 8
@@ -738,14 +827,14 @@ sub_DACC4:
         push ebx
         push edx
         mov ebx, eax
-        mov eax, dword_1514FC
+        mov eax, GusTimer1Callback
         mov edx, ebx
-        call sub_DAC3C
+        call GusClaimCallback
         test eax, eax
         je short .3
-        mov eax, dword_151500
+        mov eax, GusTimer2Callback
         mov edx, ebx
-        call sub_DAC3C
+        call GusClaimCallback
         test eax, eax
         je short .3
         mov eax, 8
@@ -763,8 +852,8 @@ sub_DACC4:
         mov ebp, esp
         cmp eax, byte 1
         jne short .5
-        mov eax, dword_151504
-        call sub_DAC64
+        mov eax, GusWaveIrqCallback
+        call GusClaimVoiceCallback
         test eax, eax
         je short .7
         mov eax, 8
@@ -774,8 +863,8 @@ sub_DACC4:
 .5:
         cmp eax, byte 2
         jne short .6
-        mov eax, dword_151508
-        call sub_DAC64
+        mov eax, GusVolumeIrqCallback
+        call GusClaimVoiceCallback
         test eax, eax
         je short .7
         mov eax, 8
@@ -792,8 +881,8 @@ sub_DACC4:
         mov ebp, esp
         push edx
         mov edx, eax
-        mov eax, dword_151510
-        call sub_DAC64
+        mov eax, GusMidiRecvCallback
+        call GusClaimVoiceCallback
         test eax, eax
         je short .8
         mov eax, 8
@@ -807,8 +896,8 @@ sub_DACC4:
         mov ebp, esp
         push edx
         mov edx, eax
-        mov eax, dword_15150C
-        call sub_DAC64
+        mov eax, GusMidiXmitCallback
+        call GusClaimVoiceCallback
         test eax, eax
         je short .9
         mov eax, 8
@@ -822,8 +911,8 @@ sub_DACC4:
         mov ebp, esp
         push edx
         mov edx, eax
-        mov eax, dword_1514E8
-        call sub_DAC64
+        mov eax, GusTimerCallback
+        call GusClaimVoiceCallback
         test eax, eax
         je short .10
         mov eax, 8
@@ -833,7 +922,11 @@ sub_DACC4:
         pop ebp
         ret
         db 090h
-sub_DADD8:
+;-----------------------------------------------------------------------------
+; GusMidiIrqService                               DADD8  96 PC, low confidence
+; Reads the MIDI status and calls the MIDI transmit or receive callbacks
+;-----------------------------------------------------------------------------
+GusMidiIrqService:
         push ebp
         mov ebp, esp
         push ebx
@@ -843,38 +936,38 @@ sub_DADD8:
         sub esp, byte 4
         pushfw
         cli
-        inc dword [dword_1514E4]
+        inc dword [GusMidiIrqCount]
         xor eax, eax
-        mov ax, word [word_15140E]
+        mov ax, word [GusIrqStatusPort]
         call inp_
         mov edx, eax
         mov dword [byte ebp-014h], eax
         test al, 3
         je short .2
         xor eax, eax
-        mov ax, word [word_151418]
+        mov ax, word [GusMidiControlPort]
         call inp_
         mov ebx, eax
         mov ecx, eax
         test dl, 1
         je short .1
-        cmp dword [dword_15150C], byte 0
+        cmp dword [GusMidiXmitCallback], byte 0
         je short .1
-        call dword [dword_15150C]
+        call dword [GusMidiXmitCallback]
 .1:
         test byte [byte ebp-014h], 2
         je short .2
         xor eax, eax
-        mov ax, word [word_15141A]
+        mov ax, word [GusMidiDataPort]
         call inp_
-        mov edi, dword [dword_151510]
+        mov edi, dword [GusMidiRecvCallback]
         mov edx, eax
         test edi, edi
         je short .2
         mov eax, ecx
-        call dword [dword_151510]
+        call dword [GusMidiRecvCallback]
 .2:
-        dec dword [dword_1514E4]
+        dec dword [GusMidiIrqCount]
         popfw
         lea esp, [byte ebp-010h]
         pop edi
@@ -884,26 +977,31 @@ sub_DADD8:
         pop ebp
         ret
         db 08Bh,0C0h
-sub_DAE60:
+;-----------------------------------------------------------------------------
+; GusReadIrqSource                                DAE60  96 PC, low confidence
+; Reads the card's IRQ status register and services MIDI interrupts on a
+; shared line
+;-----------------------------------------------------------------------------
+GusReadIrqSource:
         push ebp
         mov ebp, esp
         push ebx
         push edx
         xor eax, eax
         cli
-        mov ax, word [word_15140E]
+        mov ax, word [GusIrqStatusPort]
         call inp_
         mov ebx, eax
         mov edx, eax
-        mov al, byte [byte_1A11EF]
-        cmp al, byte [byte_1A11F0]
+        mov al, byte [GusMidiIrq]
+        cmp al, byte [GusWaveIrq]
         je short .1
         and bl, 0FCh
         mov edx, ebx
 .1:
         test dl, 3
         je short .2
-        call sub_DADD8
+        call GusMidiIrqService
 .2:
         mov eax, edx
         lea esp, [byte ebp-08h]
@@ -911,7 +1009,12 @@ sub_DAE60:
         pop ebx
         pop ebp
         ret
-sub_DAE9C:
+;-----------------------------------------------------------------------------
+; GusServiceIrq                                   DAE9C  96 PC, low confidence
+; Services every pending card interrupt: DMA done, timers, voice wave and
+; volume ends
+;-----------------------------------------------------------------------------
+GusServiceIrq:
         push ebp
         mov ebp, esp
         push ebx
@@ -921,116 +1024,116 @@ sub_DAE9C:
         push edi
         pushfw
         cli
-        mov ax, word [word_1A11EA]
-        inc word [word_1A11EA]
+        mov ax, word [GusCriticalDepth]
+        inc word [GusCriticalDepth]
         xor edi, edi
         xor esi, esi
 .1:
-        call sub_DAE60
+        call GusReadIrqSource
         mov ebx, eax
         test eax, eax
         jne short .2
-        mov cx, word [word_1A11E6]
+        mov cx, word [GusIrqFlags]
         test cl, 4
         je near .18
 .2:
         test bl, 80h
         jne short .3
-        mov ax, word [word_1A11E6]
+        mov ax, word [GusIrqFlags]
         test al, 4
         je near .6
 .3:
         xor eax, eax
         mov edx, 41h
-        mov ax, word [word_15141E]
+        mov ax, word [GusRegSelectPort]
         call outp_
         xor eax, eax
-        mov ax, word [word_151422]
+        mov ax, word [GusDataHighPort]
         call inp_
         test al, 40h
         jne short .4
-        mov dx, word [word_1A11E6]
+        mov dx, word [GusIrqFlags]
         test dl, 4
         je short .5
 .4:
-        mov cx, word [word_1A11E6]
+        mov cx, word [GusIrqFlags]
         and cl, 0FBh
-        mov word [word_1A11E6], cx
-        cmp dword [dword_1514EC], byte 0
+        mov word [GusIrqFlags], cx
+        cmp dword [GusDmaDoneCallback], byte 0
         je short .5
         mov eax, 1
-        call dword [dword_1514EC]
+        call dword [GusDmaDoneCallback]
         test eax, eax
         jne short .5
-        cmp dword [dword_1514F0], byte 0
+        cmp dword [GusRecordDoneCallback], byte 0
         je short .5
         mov eax, 1
-        call dword [dword_1514F0]
+        call dword [GusRecordDoneCallback]
 .5:
         xor eax, eax
         mov edx, 49h
-        mov ax, word [word_15141E]
+        mov ax, word [GusRegSelectPort]
         call outp_
         xor eax, eax
-        mov ax, word [word_151422]
+        mov ax, word [GusDataHighPort]
         call inp_
         test al, 40h
         je short .6
-        cmp dword [dword_1514EC], byte 0
+        cmp dword [GusDmaDoneCallback], byte 0
         je short .6
         xor eax, eax
-        call dword [dword_1514EC]
+        call dword [GusDmaDoneCallback]
         test eax, eax
         jne short .6
-        cmp dword [dword_1514F0], byte 0
+        cmp dword [GusRecordDoneCallback], byte 0
         je short .6
-        call dword [dword_1514F0]
+        call dword [GusRecordDoneCallback]
 .6:
         test bl, 4
         je short .7
         xor eax, eax
         mov edx, 45h
-        mov ax, word [word_15141E]
+        mov ax, word [GusRegSelectPort]
         call outp_
         xor eax, eax
-        mov edx, dword [dword_1A1228]
-        mov ax, word [word_151422]
+        mov edx, dword [GusVoiceIrqBits]
+        mov ax, word [GusDataHighPort]
         and dl, 0FBh
         call outp_
         xor eax, eax
-        mov edx, dword [dword_1A1228]
-        mov ax, word [word_151422]
+        mov edx, dword [GusVoiceIrqBits]
+        mov ax, word [GusDataHighPort]
         call outp_
-        cmp dword [dword_151504], byte 0
+        cmp dword [GusWaveIrqCallback], byte 0
         je short .7
-        call dword [dword_151504]
+        call dword [GusWaveIrqCallback]
         test eax, eax
         je short .7
         xor eax, eax
-        mov dword [dword_151504], eax
+        mov dword [GusWaveIrqCallback], eax
 .7:
         test bl, 8
         je short .8
         xor eax, eax
         mov edx, 45h
-        mov ax, word [word_15141E]
+        mov ax, word [GusRegSelectPort]
         call outp_
         xor eax, eax
-        mov edx, dword [dword_1A1228]
-        mov ax, word [word_151422]
+        mov edx, dword [GusVoiceIrqBits]
+        mov ax, word [GusDataHighPort]
         and dl, 0F7h
         call outp_
         xor eax, eax
-        mov edx, dword [dword_1A1228]
-        mov ax, word [word_151422]
+        mov edx, dword [GusVoiceIrqBits]
+        mov ax, word [GusDataHighPort]
         call outp_
-        cmp dword [dword_151508], byte 0
+        cmp dword [GusVolumeIrqCallback], byte 0
         je short .8
-        call dword [dword_151508]
+        call dword [GusVolumeIrqCallback]
         test eax, eax
         je short .8
         xor ecx, ecx
-        mov dword [dword_151508], ecx
+        mov dword [GusVolumeIrqCallback], ecx
 .8:
         test bl, 60h
         je near .1
@@ -1038,10 +1141,10 @@ sub_DAE9C:
         cli
         xor eax, eax
         mov edx, 8Fh
-        mov ax, word [word_15141E]
+        mov ax, word [GusRegSelectPort]
         call outp_
         xor eax, eax
-        mov ax, word [word_151422]
+        mov ax, word [GusDataHighPort]
         call inp_
         mov ch, al
         mov al, ch
@@ -1064,17 +1167,17 @@ sub_DAE9C:
         and edi, eax
         jmp short .13
 .10:
-        cmp dword [dword_1514F4], byte 0
+        cmp dword [GusWaveCallback], byte 0
         je short .11
         mov eax, edx
-        call dword [dword_1514F4]
+        call dword [GusWaveCallback]
         test eax, eax
         jne short .12
 .11:
-        cmp dword [dword_1514F8], byte 0
+        cmp dword [GusVolumeCallback], byte 0
         je short .13
         mov eax, edx
-        call dword [dword_1514F8]
+        call dword [GusVolumeCallback]
         test eax, eax
         je short .13
 .12:
@@ -1088,27 +1191,27 @@ sub_DAE9C:
         and esi, ebx
         jmp short .17
 .14:
-        cmp dword [dword_1514FC], byte 0
+        cmp dword [GusTimer1Callback], byte 0
         je short .15
         mov eax, edx
-        call dword [dword_1514FC]
+        call dword [GusTimer1Callback]
         test eax, eax
         jne short .16
 .15:
-        cmp dword [dword_151500], byte 0
+        cmp dword [GusTimer2Callback], byte 0
         je short .17
         mov eax, edx
-        call dword [dword_151500]
+        call dword [GusTimer2Callback]
         test eax, eax
         je short .17
 .16:
         or esi, ebx
 .17:
-        call sub_DAE60
+        call GusReadIrqSource
         jmp near .9
 .18:
-        mov ax, word [word_1A11EA]
-        dec word [word_1A11EA]
+        mov ax, word [GusCriticalDepth]
+        dec word [GusCriticalDepth]
         popfw
         lea esp, [byte ebp-014h]
         pop edi
@@ -1118,6 +1221,9 @@ sub_DAE9C:
         pop ebx
         pop ebp
         ret
+;-----------------------------------------------------------------------------
+; inpw_                                                         DB131  library
+;-----------------------------------------------------------------------------
 inpw_:
         push edx
         mov edx, eax
@@ -1126,7 +1232,12 @@ inpw_:
         pop edx
         ret
         db 00h,00h
-sub_DB13C:
+;-----------------------------------------------------------------------------
+; GusRunInitTable                                 DB13C  96 PC, low confidence
+; Calls each entry of the toolkit's init table in priority order until one
+; fails
+;-----------------------------------------------------------------------------
+GusRunInitTable:
         push ebx
         push ecx
         push edx
@@ -1192,6 +1303,9 @@ sub_DB13C:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; outpw_                                                        DB1A7  library
+;-----------------------------------------------------------------------------
 outpw_:
         push ebx
         mov ebx, edx
@@ -1201,7 +1315,11 @@ outpw_:
         pop ebx
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-sub_DB1C0:
+;-----------------------------------------------------------------------------
+; GusPeek                                         DB1C0  96 PC, low confidence
+; Reads one byte of card memory
+;-----------------------------------------------------------------------------
+GusPeek:
         push ebp
         mov ebp, esp
         push ebx
@@ -1209,31 +1327,31 @@ sub_DB1C0:
         mov ebx, eax
         pushfw
         cli
-        call sub_DAB83
+        call GusEnterCritical
         xor eax, eax
         mov edx, 43h
-        mov ax, word [word_15141E]
+        mov ax, word [GusRegSelectPort]
         call outp_
         xor eax, eax
         mov edx, ebx
-        mov ax, word [word_151420]
+        mov ax, word [GusDataLowPort]
         call outpw_
         shr ebx, 10h
         xor eax, eax
         mov edx, 44h
-        mov ax, word [word_15141E]
+        mov ax, word [GusRegSelectPort]
         and ebx, 0FFh
         call outp_
         xor eax, eax
         xor edx, edx
-        mov ax, word [word_151422]
+        mov ax, word [GusDataHighPort]
         mov dl, bl
         call outp_
         xor eax, eax
-        mov ax, word [word_151424]
+        mov ax, word [GusDramPort]
         call inp_
         mov ebx, eax
-        call sub_DABAA
+        call GusLeaveCritical
         popfw
         mov al, bl
         lea esp, [byte ebp-08h]
@@ -1242,7 +1360,11 @@ sub_DB1C0:
         pop ebp
         ret
         db 090h
-sub_DB23C:
+;-----------------------------------------------------------------------------
+; GusPoke                                         DB23C  96 PC, low confidence
+; Writes one byte of card memory
+;-----------------------------------------------------------------------------
+GusPoke:
         push ebp
         mov ebp, esp
         push ebx
@@ -1251,32 +1373,32 @@ sub_DB23C:
         mov cl, dl
         pushfw
         cli
-        call sub_DAB83
+        call GusEnterCritical
         xor eax, eax
         mov edx, 43h
-        mov ax, word [word_15141E]
+        mov ax, word [GusRegSelectPort]
         call outp_
         xor eax, eax
         mov edx, ebx
-        mov ax, word [word_151420]
+        mov ax, word [GusDataLowPort]
         call outpw_
         shr ebx, 10h
         xor eax, eax
         mov edx, 44h
-        mov ax, word [word_15141E]
+        mov ax, word [GusRegSelectPort]
         and ebx, 0FFh
         call outp_
         xor eax, eax
         xor edx, edx
-        mov ax, word [word_151422]
+        mov ax, word [GusDataHighPort]
         mov dl, bl
         call outp_
         xor eax, eax
         xor edx, edx
-        mov ax, word [word_151424]
+        mov ax, word [GusDramPort]
         mov dl, cl
         call outp_
-        call sub_DABAA
+        call GusLeaveCritical
         popfw
         lea esp, [byte ebp-08h]
         pop ecx
@@ -1284,7 +1406,12 @@ sub_DB23C:
         pop ebp
         ret
         db 08Dh,040h,00h
-sub_DB2BC:
+;-----------------------------------------------------------------------------
+; GusPokeFill                                     DB2BC  96 PC, low confidence
+; Writes a run of bytes (optionally sign-flipped) into card memory through
+; the register ports
+;-----------------------------------------------------------------------------
+GusPokeFill:
         push ebp
         mov ebp, esp
         push esi
@@ -1309,28 +1436,28 @@ sub_DB2BC:
         mov byte [byte ebp-0Ch], al
         pushfw
         cli
-        call sub_DAB83
+        call GusEnterCritical
 .3:
         test ebx, ebx
         je near .8
         xor eax, eax
         mov edx, 44h
-        mov ax, word [word_15141E]
+        mov ax, word [GusRegSelectPort]
         call outp_
         xor edx, edx
         xor eax, eax
         mov dl, byte [byte ebp-014h]
-        mov ax, word [word_151422]
+        mov ax, word [GusDataHighPort]
         call outp_
         inc byte [byte ebp-014h]
 .4:
         xor eax, eax
         mov edx, 43h
-        mov ax, word [word_15141E]
+        mov ax, word [GusRegSelectPort]
         call outp_
         xor eax, eax
         xor edx, edx
-        mov ax, word [word_151420]
+        mov ax, word [GusDataLowPort]
         mov dx, cx
         inc esi
         call outpw_
@@ -1353,7 +1480,7 @@ sub_DB2BC:
         xor edx, edx
         mov dl, al
         xor eax, eax
-        mov ax, word [word_151424]
+        mov ax, word [GusDramPort]
         call outp_
         dec ebx
         je near .3
@@ -1361,13 +1488,18 @@ sub_DB2BC:
         jne short .4
         jmp near .3
 .8:
-        call sub_DABAA
+        call GusLeaveCritical
         popfw
         lea esp, [byte ebp-04h]
         pop esi
         pop ebp
         ret
-sub_DB394:
+;-----------------------------------------------------------------------------
+; GusTestDramBank                                 DB394  96 PC, low confidence
+; Writes and reads back test bytes to check whether a bank of card memory
+; exists
+;-----------------------------------------------------------------------------
+GusTestDramBank:
         push ebp
         mov ebp, esp
         push ebx
@@ -1378,22 +1510,22 @@ sub_DB394:
         sub esp, byte 18h
         mov ebx, eax
         mov ecx, eax
-        call sub_DB1C0
+        call GusPeek
         xor cl, 20h
         mov byte [byte ebp-028h], al
         mov byte [byte ebp-01Ch], al
         mov eax, ecx
         mov edx, 55h
-        call sub_DB1C0
+        call GusPeek
         mov byte [byte ebp-020h], al
         mov byte [byte ebp-018h], al
         mov eax, ebx
-        call sub_DB23C
+        call GusPoke
         mov eax, ecx
         xor edx, edx
-        call sub_DB23C
+        call GusPoke
         mov eax, ebx
-        call sub_DB1C0
+        call GusPeek
         cmp al, 55h
         je short .1
         xor al, al
@@ -1401,12 +1533,12 @@ sub_DB394:
 .1:
         mov eax, ebx
         xor edx, edx
-        call sub_DB23C
+        call GusPoke
         mov edx, 55h
         mov eax, ecx
-        call sub_DB23C
+        call GusPoke
         mov eax, ebx
-        call sub_DB1C0
+        call GusPeek
         test al, al
         je short .2
         xor al, al
@@ -1421,12 +1553,12 @@ sub_DB394:
 .2:
         mov edx, 0AAh
         mov eax, ebx
-        call sub_DB23C
+        call GusPoke
         mov eax, ecx
         xor edx, edx
-        call sub_DB23C
+        call GusPoke
         mov eax, ebx
-        call sub_DB1C0
+        call GusPeek
         cmp al, 0AAh
         je short .3
         xor al, al
@@ -1441,12 +1573,12 @@ sub_DB394:
 .3:
         mov edx, 0FFh
         mov eax, ebx
-        call sub_DB23C
+        call GusPoke
         mov eax, ecx
         xor edx, edx
-        call sub_DB23C
+        call GusPoke
         mov eax, ebx
-        call sub_DB1C0
+        call GusPeek
         cmp al, 0FFh
         je short .4
         xor al, al
@@ -1464,11 +1596,11 @@ sub_DB394:
         xor edx, edx
         mov eax, ebx
         mov dl, byte [byte ebp-028h]
-        call sub_DB23C
+        call GusPoke
         xor edx, edx
         mov eax, ecx
         mov dl, byte [byte ebp-020h]
-        call sub_DB23C
+        call GusPoke
         mov al, 1
         lea esp, [byte ebp-014h]
         pop edi
@@ -1495,25 +1627,25 @@ sub_DB394:
         or esi, edx
         mov eax, esi
         mov edx, 0AAh
-        call sub_DB1C0
+        call GusPeek
         mov byte [byte ebp-024h], al
         mov eax, esi
-        call sub_DB23C
+        call GusPoke
         mov eax, ecx
         xor edx, edx
-        call sub_DB23C
+        call GusPoke
         mov eax, ebx
-        call sub_DB1C0
+        call GusPeek
         cmp al, 0AAh
         jne short .7
         xor edx, edx
         mov eax, ebx
         mov dl, byte [byte ebp-01Ch]
-        call sub_DB23C
+        call GusPoke
         xor edx, edx
         mov eax, ecx
         mov dl, byte [byte ebp-018h]
-        call sub_DB23C
+        call GusPoke
         xor al, al
         lea esp, [byte ebp-014h]
         pop edi
@@ -1528,7 +1660,7 @@ sub_DB394:
         mov eax, esi
         mov dl, byte [byte ebp-024h]
         inc edi
-        call sub_DB23C
+        call GusPoke
 .8:
         cmp di, byte 4
         jne short .6
@@ -1536,11 +1668,11 @@ sub_DB394:
         xor edx, edx
         mov eax, ebx
         mov dl, byte [byte ebp-01Ch]
-        call sub_DB23C
+        call GusPoke
         xor edx, edx
         mov eax, ecx
         mov dl, byte [byte ebp-018h]
-        call sub_DB23C
+        call GusPoke
         mov al, 2
 .10:
         lea esp, [byte ebp-014h]
@@ -1552,18 +1684,22 @@ sub_DB394:
         pop ebp
         ret
         db 00h,00h
-sub_DB540:
+;-----------------------------------------------------------------------------
+; GusInitPlayDma                                  DB540  96 PC, low confidence
+; Sets up the playback DMA channel when one is configured
+;-----------------------------------------------------------------------------
+GusInitPlayDma:
         push ebp
         mov ebp, esp
         push edx
         mov edx, eax
-        cmp byte [dword eax+byte_151426], 0
+        cmp byte [dword eax+GusDmaLatchBits], 0
         jne short .1
         mov al, 3
         jmp short .2
 .1:
         xor eax, eax
-        call sub_DA5D0
+        call GusSetupDmaChannel
         xor al, al
 .2:
         lea esp, [byte ebp-04h]
@@ -1571,18 +1707,22 @@ sub_DB540:
         pop ebp
         ret
         db 08Bh,0C0h
-sub_DB564:
+;-----------------------------------------------------------------------------
+; GusInitRecordDma                                DB564  96 PC, low confidence
+; Sets up the record DMA channel when one is configured
+;-----------------------------------------------------------------------------
+GusInitRecordDma:
         push ebp
         mov ebp, esp
         push edx
         mov edx, eax
-        cmp byte [dword eax+byte_151426], 0
+        cmp byte [dword eax+GusDmaLatchBits], 0
         jne short .1
         mov al, 3
         jmp short .2
 .1:
         mov eax, 1
-        call sub_DA5D0
+        call GusSetupDmaChannel
         xor al, al
 .2:
         lea esp, [byte ebp-04h]
@@ -1590,13 +1730,18 @@ sub_DB564:
         pop ebp
         ret
         db 08Dh,040h,00h
-sub_DB58C:
+;-----------------------------------------------------------------------------
+; GusInitDma                                      DB58C  96 PC, low confidence
+; Init table entry: sets up both DMA channels and claims the DMA-done
+; callback
+;-----------------------------------------------------------------------------
+GusInitDma:
         push ebp
         mov ebp, esp
-        mov byte [byte_15155A], 1
+        mov byte [GusDmaReady], 1
         xor eax, eax
-        mov al, byte [byte_1A11EC]
-        call sub_DB540
+        mov al, byte [GusPlayDmaChannel]
+        call GusInitPlayDma
         test al, al
         je short .1
         and eax, 0FFh
@@ -1605,8 +1750,8 @@ sub_DB58C:
         ret
 .1:
         xor eax, eax
-        mov al, byte [byte_1A11EE]
-        call sub_DB564
+        mov al, byte [GusRecordDmaChannel]
+        call GusInitRecordDma
         test al, al
         je short .2
         and eax, 0FFh
@@ -1614,8 +1759,8 @@ sub_DB58C:
         pop ebp
         ret
 .2:
-        mov eax, sub_DB7AC
-        call sub_DAC8C
+        mov eax, GusDramDmaDone
+        call GusSetDmaCallbacks
         test eax, eax
         je short .3
         mov eax, 8
@@ -1623,25 +1768,29 @@ sub_DB58C:
         pop ebp
         ret
 .3:
-        mov dword [dword_151518], eax
+        mov dword [GusDmaBusy], eax
         mov esp, ebp
         pop ebp
         ret
-sub_DB5E8:
+;-----------------------------------------------------------------------------
+; GusStartDramDma                                 DB5E8  96 PC, low confidence
+; Starts one chunk of a DMA transfer from main memory into card memory
+;-----------------------------------------------------------------------------
+GusStartDramDma:
         push ebp
         mov ebp, esp
         push esi
         mov esi, eax
         xor si, ax
         shr esi, 10h
-        mov word [word_1A123A], si
-        mov word [word_1A1238], ax
-        mov dword [dword_1A123C], edx
+        mov word [GusDmaChunkHi], si
+        mov word [GusDmaChunkLo], ax
+        mov dword [GusDmaLeft], edx
         mov eax, dword [byte ebp+08h]
-        mov word [word_1A1249], ax
+        mov word [GusDmaFlags], ax
         xor edx, edx
-        mov dword [dword_1A1240], edx
-        mov dword [dword_1A1244], edx
+        mov dword [GusDmaChunkSize], edx
+        mov dword [GusDmaDone], edx
         mov dl, cl
         mov ah, byte [byte ebp+08h]
         or dl, 4
@@ -1649,42 +1798,47 @@ sub_DB5E8:
         je short .2
         test cl, 4
         jne short .1
-        cmp byte [byte_1A11EC], 4
+        cmp byte [GusPlayDmaChannel], 4
         jb short .1
         mov eax, ebx
-        call sub_DCBB0
+        call GusConvertAddr16
         mov cl, dl
         mov ebx, eax
 .1:
         xor eax, eax
         mov edx, 42h
-        mov ax, word [word_15141E]
+        mov ax, word [GusRegSelectPort]
         shr ebx, 4
         call outp_
         xor eax, eax
         xor edx, edx
-        mov ax, word [word_151420]
+        mov ax, word [GusDataLowPort]
         mov dx, bx
         call outpw_
         jmp short .3
 .2:
-        cmp byte [byte_1A11EE], 4
+        cmp byte [GusRecordDmaChannel], 4
         jb short .3
         mov eax, ebx
-        call sub_DCBB0
+        call GusConvertAddr16
         mov cl, dl
 .3:
         or cl, 21h
-        mov byte [byte_1A1248], cl
+        mov byte [GusDmaControl], cl
         xor eax, eax
         mov ax, word [byte ebp+08h]
-        call sub_DB7AC
+        call GusDramDmaDone
         lea esp, [byte ebp-04h]
         pop esi
         pop ebp
         ret 4
         db 090h
-sub_DB69C:
+;-----------------------------------------------------------------------------
+; GusDownload                                     DB69C  96 PC, low confidence
+; Copies a buffer into card memory by DMA (with a filler run), refusing while
+; another transfer runs
+;-----------------------------------------------------------------------------
+GusDownload:
         push ebp
         mov ebp, esp
         push esi
@@ -1696,15 +1850,15 @@ sub_DB69C:
         mov byte [byte ebp-0Ch], cl
         pushfw
         cli
-        call sub_DAB83
-        cmp dword [dword_151518], byte 0
+        call GusEnterCritical
+        cmp dword [GusDmaBusy], byte 0
         je short .1
-        call sub_DABAA
+        call GusLeaveCritical
         popfw
         mov eax, 7
         jmp near .9
 .1:
-        mov dword [dword_151518], 1
+        mov dword [GusDmaBusy], 1
         mov eax, dword [byte ebp-01Ch]
         mov eax, dword [byte eax+04h]
         mov edi, dword [byte ebp-01Ch]
@@ -1713,7 +1867,7 @@ sub_DB69C:
         mov edi, dword [edi]
         test ah, 1
         je near .7
-        cmp byte [byte_1A11EC], 4
+        cmp byte [GusPlayDmaChannel], 4
         jb short .4
         test byte [byte ebp-014h], 1
         je short .4
@@ -1727,11 +1881,11 @@ sub_DB69C:
         xor ecx, ecx
         mov ebx, esi
         mov cl, byte [byte ebp-0Ch]
-        call sub_DB2BC
+        call GusPokeFill
 .3:
-        mov dx, word [word_1A11E6]
+        mov dx, word [GusIrqFlags]
         or dl, 4
-        mov word [word_1A11E6], dx
+        mov word [GusIrqFlags], dx
         jmp short .8
 .4:
         mov eax, dword [byte ebp-010h]
@@ -1755,7 +1909,7 @@ sub_DB69C:
         mov edx, dword [byte ebp-010h]
         mov ebx, dword [byte ebp-018h]
         mov eax, edi
-        call sub_DB2BC
+        call GusPokeFill
         mov ecx, dword [byte ebp-018h]
         mov edx, dword [byte ebp-014h]
         sub esi, ecx
@@ -1774,9 +1928,9 @@ sub_DB69C:
         push eax
         mov cl, byte [byte ebp-0Ch]
         mov eax, dword [byte ebp-014h]
-        call sub_DB5E8
+        call GusStartDramDma
 .8:
-        call sub_DABAA
+        call GusLeaveCritical
         popfw
         xor eax, eax
 .9:
@@ -1786,7 +1940,11 @@ sub_DB69C:
         pop ebp
         ret 4
         db 090h
-sub_DB7AC:
+;-----------------------------------------------------------------------------
+; GusDramDmaDone                                  DB7AC  96 PC, low confidence
+; DMA-done callback: starts the next chunk of a download or ends the transfer
+;-----------------------------------------------------------------------------
+GusDramDmaDone:
         push ebp
         mov ebp, esp
         push ebx
@@ -1794,17 +1952,17 @@ sub_DB7AC:
         push edx
         push esi
         mov edx, eax
-        cmp dword [dword_151518], byte 0
+        cmp dword [GusDmaBusy], byte 0
         jne short .1
         xor eax, eax
         jmp near .8
 .1:
-        mov eax, dword [dword_1A1240]
-        add dword [dword_1A1244], eax
-        mov esi, dword [dword_1A123C]
+        mov eax, dword [GusDmaChunkSize]
+        add dword [GusDmaDone], eax
+        mov esi, dword [GusDmaLeft]
         test esi, esi
         jne short .2
-        mov dword [dword_151518], esi
+        mov dword [GusDmaBusy], esi
         xor eax, eax
         lea esp, [byte ebp-010h]
         pop esi
@@ -1815,25 +1973,25 @@ sub_DB7AC:
         ret
 .2:
         xor esi, esi
-        mov si, word [word_1A1238]
+        mov si, word [GusDmaChunkLo]
         mov eax, 10000h
         sub eax, esi
         mov esi, eax
-        cmp esi, dword [dword_1A123C]
+        cmp esi, dword [GusDmaLeft]
         jbe short .3
-        mov esi, dword [dword_1A123C]
+        mov esi, dword [GusDmaLeft]
 .3:
-        mov dword [dword_1A1240], esi
+        mov dword [GusDmaChunkSize], esi
         pushfw
         cli
         test dl, 1
         je short .6
         xor eax, eax
-        mov ax, word [word_1A1238]
+        mov ax, word [GusDmaChunkLo]
         xor ecx, ecx
-        mov cx, word [word_1A123A]
+        mov cx, word [GusDmaChunkHi]
         push eax
-        test byte [byte_1A1248], 2
+        test byte [GusDmaControl], 2
         je short .4
         mov eax, 44h
         jmp short .5
@@ -1842,38 +2000,38 @@ sub_DB7AC:
 .5:
         xor ebx, ebx
         mov bx, ax
-        mov edx, dword [dword_1A1240]
+        mov edx, dword [GusDmaChunkSize]
         xor eax, eax
-        call sub_DA65C
+        call GusProgramDma
         xor eax, eax
         mov edx, 41h
         jmp short .7
 .6:
         xor eax, eax
-        mov ax, word [word_1A1238]
+        mov ax, word [GusDmaChunkLo]
         xor ecx, ecx
-        mov cx, word [word_1A123A]
+        mov cx, word [GusDmaChunkHi]
         push eax
-        mov edx, dword [dword_1A1240]
+        mov edx, dword [GusDmaChunkSize]
         mov eax, 1
         mov ebx, 44h
-        call sub_DA65C
+        call GusProgramDma
         xor eax, eax
         mov edx, 49h
 .7:
-        mov ax, word [word_15141E]
+        mov ax, word [GusRegSelectPort]
         call outp_
         xor edx, edx
-        mov dl, byte [byte_1A1248]
+        mov dl, byte [GusDmaControl]
         xor eax, eax
-        mov ax, word [word_151422]
+        mov ax, word [GusDataHighPort]
         call outp_
-        call sub_DAB11
+        call GusDelay
         popfw
-        sub dword [dword_1A123C], esi
-        add word [word_1A1238], si
-        mov ax, word [word_1A123A]
-        inc word [word_1A123A]
+        sub dword [GusDmaLeft], esi
+        add word [GusDmaChunkLo], si
+        mov ax, word [GusDmaChunkHi]
+        inc word [GusDmaChunkHi]
         mov eax, 1
 .8:
         lea esp, [byte ebp-010h]
@@ -1892,34 +2050,34 @@ sub_DB7AC:
         cli
         mov edx, 1D4C0h
 .9:
-        cmp dword [dword_151518], byte 0
+        cmp dword [GusDmaBusy], byte 0
         je short .13
         dec edx
         je short .13
         xor eax, eax
         cli
-        mov ax, word [word_15140E]
+        mov ax, word [GusIrqStatusPort]
         call inp_
         test al, 80h
         jne short .10
-        mov bx, word [word_1A11E6]
+        mov bx, word [GusIrqFlags]
         test bl, 4
         je short .11
 .10:
-        call sub_DAE9C
+        call GusServiceIrq
         cli
 .11:
-        mov cx, word [word_1A11E6]
+        mov cx, word [GusIrqFlags]
         test cl, 2
         je short .12
-        and word [word_1A11E6], byte 0FFFDh
+        and word [GusIrqFlags], byte 0FFFDh
         jmp short .10
 .12:
-        call sub_DAB11
+        call GusDelay
         jmp short .9
 .13:
         popfw
-        cmp dword [dword_151518], byte 0
+        cmp dword [GusDmaBusy], byte 0
         je short .14
         test edx, edx
         jne short .14
@@ -1937,7 +2095,7 @@ sub_DB7AC:
         db 090h
         push ebp
         mov ebp, esp
-        cmp dword [dword_151518], byte 0
+        cmp dword [GusDmaBusy], byte 0
         sete al
         and eax, 0FFh
         mov esp, ebp
@@ -1950,32 +2108,32 @@ sub_DB7AC:
         push edx
         pushfw
         cli
-        cmp dword [dword_151518], byte 0
+        cmp dword [GusDmaBusy], byte 0
         je short .16
         xor ebx, ebx
-        mov dword [dword_151518], ebx
+        mov dword [GusDmaBusy], ebx
         xor eax, eax
-        call sub_DA77C
+        call GusMaskDma
         mov eax, 1
-        call sub_DA77C
-        and byte [byte_1A1248], 0DEh
+        call GusMaskDma
+        and byte [GusDmaControl], 0DEh
         xor eax, eax
         mov edx, 41h
-        mov ax, word [word_15141E]
+        mov ax, word [GusRegSelectPort]
         call outp_
         xor edx, edx
-        mov dl, byte [byte_1A1248]
+        mov dl, byte [GusDmaControl]
         xor eax, eax
-        mov ax, word [word_151422]
+        mov ax, word [GusDataHighPort]
         call outp_
         xor eax, eax
         mov edx, 49h
-        mov ax, word [word_15141E]
+        mov ax, word [GusRegSelectPort]
         call outp_
         xor edx, edx
-        mov dl, byte [byte_1A1248]
+        mov dl, byte [GusDmaControl]
         xor eax, eax
-        mov ax, word [word_151422]
+        mov ax, word [GusDataHighPort]
         call outp_
 .16:
         popfw
@@ -1984,6 +2142,9 @@ sub_DB7AC:
         pop ebx
         pop ebp
         ret
+;-----------------------------------------------------------------------------
+; _SetMaxPrec_                                                  DB9F4  library
+;-----------------------------------------------------------------------------
 _SetMaxPrec_:
         mov dword [dword_15151C], eax
         ret

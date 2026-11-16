@@ -27,8 +27,8 @@ extern str_LGR2, str_Menupicks, str_NOR, str_PAC, str_Pal20, str_PLR, str_PLY2, 
 extern str_PRN0, str_PRN1, str_PRN2, str_ROK, str_S2, str_SavetimeOut, str_SD2, str_SEA0
 extern str_SEA2, str_SEA3, str_Space2, str_spDDDD, str_TEA0, str_TEA1, str_TEA2, str_TXT
 extern str_VBAL, str_VERT, str_WES, str_WES0, str_Wt2, strcat_, strcmp_, strlen_
-extern PlayerCardScreen, PlayerRatingsScreen, sub_AB758, sub_ABF4C, sub_AD35C, sub_AD5C8, sub_AD620, sub_ADBEC
-extern sub_B0430, sub_B2C54, sub_C2500, sub_DD6C4, sub_DD724, sub_E04E0, TickDeadlinePassed, unk_112633
+extern PlayerCardScreen, PlayerRatingsScreen, sub_AB758, FreeMemBlock, sub_AD35C, sub_AD5C8, sub_AD620, sub_ADBEC
+extern sub_B0430, sub_B2C54, sub_C2500, SetScreenTarget, FillRectColor, sub_E04E0, TickDeadlinePassed, unk_112633
 extern unk_11263E, unk_11266B, UpdateProgressBox, word_11D1D0, word_11E5FC, word_17E894, word_17E8C8, word_17E900
 extern word_17E934, word_17E968, word_17E99C
 global unk_884BD, jpt_884F1, RunStatsMenu, RunStatsMenu_25, RunStatsMenu_104, RunStatsMenu_13E, RunStatsMenu_169, RunStatsMenu_183
@@ -73,27 +73,27 @@ RunStatsMenu_25:
         cmp dword [dword_11E670], byte 0
         je near .3
         push dword [dword_1820AC]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_1820B4]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_1820EC]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_1820E8]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_1820E4]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_11E670]
         xor esi, esi
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .1:
         push dword [dword esi+dword_1820B8]
-        call sub_ABF4C
+        call FreeMemBlock
         add esi, byte 4
         add esp, byte 4
         cmp esi, byte 2Ch
@@ -101,19 +101,19 @@ RunStatsMenu_25:
         xor esi, esi
 .2:
         push dword [dword esi+dword_17FDF0]
-        call sub_ABF4C
+        call FreeMemBlock
         add esi, byte 4
         add esp, byte 4
         cmp esi, byte 8
         jne short .2
         push dword [dword_1820A8]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_1820B0]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_11E678]
-        call sub_ABF4C
+        call FreeMemBlock
         mov dword [dword_11E678], 0
         mov dword [dword_11E670], 0
         add esp, byte 4
@@ -997,7 +997,7 @@ TeamStatsScreen:
         add esi, byte 10h
         cmp dword [byte ebp-02h], byte 0Ch
         jl near .5
-        call sub_DD6C4
+        call SetScreenTarget
         cmp dword [dword ebp-01EDEh], 3E8h
         jge short .8
         call LoadModemStats
@@ -2048,10 +2048,10 @@ TeamStatsScreen_1380:
         cmp dword [byte ebp-02h], byte 0Ch
         jl short .80
         push dword [byte ebp-06h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [byte ebp-012h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [byte ebp+06h]
         call sub_ADBEC
@@ -2242,7 +2242,7 @@ DrawTeamStatsTable:
         push dword 1DEh
         push dword [byte ebp-0Ch]
         push byte 0
-        call sub_DD724
+        call FillRectColor
         add esp, byte 14h
 .10:
         imul eax, dword [byte ebp-018h], byte 30h
@@ -2367,7 +2367,7 @@ DrawTeamStatsTable:
         mov eax, dword [byte ebp-08h]
         cmp eax, dword [byte ebp-058h]
         jl near .7
-        call sub_DD6C4
+        call SetScreenTarget
         push dword 88h
         mov eax, dword [byte ebp-05Ch]
         push byte 46h
@@ -3406,7 +3406,7 @@ DumpSaveTimes:
         mov dword [byte ebp+066h], 0
         push dword [byte esi+03Ah]
         mov dword [byte ebp+012h], esi
-        call sub_DD724
+        call FillRectColor
         mov al, byte [byte ebp+07Ah]
         add esp, byte 14h
         mov ebx, esi
@@ -3495,7 +3495,7 @@ DumpSaveTimes:
         mov dword [byte ebp+062h], 0
         push dword [byte esi+03Ah]
         mov dword [byte ebp+0Ah], esi
-        call sub_DD724
+        call FillRectColor
         mov al, byte [byte ebp+07Ah]
         add esp, byte 14h
         mov ebx, esi
@@ -3584,7 +3584,7 @@ DumpSaveTimes:
         mov dword [byte ebp+05Ah], 0
         push dword [byte esi+03Ah]
         mov dword [byte ebp+0Eh], esi
-        call sub_DD724
+        call FillRectColor
         mov al, byte [byte ebp+07Ah]
         add esp, byte 14h
         mov ebx, esi
@@ -3673,7 +3673,7 @@ DumpSaveTimes:
         push dword [byte esi-028h]
         push dword [byte esi-02Ch]
         inc edi
-        call sub_DD724
+        call FillRectColor
         mov al, byte [byte ebp+07Ah]
         add esp, byte 14h
         mov byte [byte esi-022h], al

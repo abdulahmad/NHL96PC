@@ -3,25 +3,28 @@ bits 32
 %include "hockey.inc"
 section s_B75A0 progbits alloc exec nowrite align=1
 extern DebugPrintf, FatalError, __STOSD, _os_handle_0, _os_handle_1, str_UpsideDown, asc_11389C, str_OrisetmaterialcolorInval
-extern asc_1138F4, str_OrisetmaterialdrawfnInva, byte_190EC0, byte_191300, dword_11F5F0, dword_12231C, dword_122350, dword_122390
-extern dword_122894, dword_1228D0, dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4, dword_1228FC, dword_123AA4
-extern dword_123AA8, dword_123AC0, dword_190E90, dword_190E94, dword_190E98, dword_190E9C, dword_190EA0, dword_190EA4
+extern asc_1138F4, str_OrisetmaterialdrawfnInva, byte_190EC0, byte_191300, str_Punct_DrawRinkSurface, dword_12231C, dword_122350, SinTable
+extern str_Punct_SetScreenScale, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, dword_1228FC, dword_123AA4
+extern dword_123AA8, dword_123AC0, TextureTileSize, TexturePageBase, TextureDetail, dword_190E9C, dword_190EA0, dword_190EA4
 extern dword_190EA8, dword_190EAC, dword_190EB0, dword_190EB4, dword_190EB8, dword_190EBC, dword_190EC4, dword_190EC8
 extern dword_190ECC, dword_190ED0, dword_190ED4, dword_1912DC, dword_1912E0, dword_1912E4, dword_1912E8, dword_1912EC
 extern dword_1912F4, dword_1912F8, dword_1912FC, dword_191304, dword_191308, dword_19130C, dword_191310, dword_191314
 extern dword_19131C, dword_191320, dword_191A9C, dword_191AA0, dword_191AA4, strnicmp_, sub_AB834, sub_ABD64
-extern sub_AC484, unpack, sub_AFD00, sub_B31C0, sub_BBA41, sub_BBB70, sub_BD594, sub_BD92C
+extern FindCachedFile, unpack, sub_AFD00, sub_B31C0, sub_BBA41, sub_BBB70, sub_BD594, sub_BD92C
 extern sub_BDC74, sub_C4C6C, sub_C65A0, sub_C6FA4, sub_C7A54, sub_C8504, sub_C85F0, sub_C8D50
 extern sub_C955C, sub_C972C, sub_C98FC, sub_C9A20, sub_C9A80, sub_C9AD8, sub_C9D50, sub_C9D80
-extern sub_DD724, sub_E04E7, sub_E0520, sub_E0671, sub_E07B8, sub_E07CC, sub_E081C, sub_E0959
+extern FillRectColor, sub_E04E7, sub_E0520, sub_E0671, DosCloseFile, sub_E07CC, sub_E081C, sub_E0959
 extern sub_E1575, sub_E17B8, unk_122320, unk_190EDC
 global sub_B8AB0_2C8, sub_B75A0, sub_B7638, sub_B7654, sub_B7690, sub_B76A8, sub_B76C0, sub_B7810
-global sub_B78C0, sub_B78DC, sub_B7924, sub_B79C8, sub_B79E0, sub_B7A70, sub_B7AC4, sub_B7B50
+global SetRinkView, sub_B78DC, sub_B7924, sub_B79C8, sub_B79E0, sub_B7A70, sub_B7AC4, sub_B7B50
 global sub_B7BDC, sub_B7C68, sub_B7D38, sub_B7E08, sub_B7ED8, sub_B7FBC, sub_B809C, sub_B817C
 global sub_B8198, sub_B81B4, sub_B81D0, sub_B8230, sub_B8290, sub_B82F0, sub_B848C, sub_B8740
 global sub_B8840, sub_B88F8, sub_B89F8, sub_B8AB0, sub_B8D80, sub_B9060, sub_B9328, sub_B960C
 global sub_B9870, sub_B98E0, sub_B9928, sub_B9A18, sub_B9B34, sub_B9B70, sub_B9BB0, sub_B9BD0
 global sub_B9C08, sub_B9C3C, sub_B9C70, sub_B9D04, sub_B9EE0, sub_B9F14, sub_BA2F0, sub_BA344
+;-----------------------------------------------------------------------------
+; sub_B75A0                                                            B75A0  
+;-----------------------------------------------------------------------------
 sub_B75A0:
         push esi
         push edi
@@ -79,6 +82,9 @@ sub_B75A0:
         pop esi
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_B7638                                                            B7638  
+;-----------------------------------------------------------------------------
 sub_B7638:
         push byte 1
         mov edx, dword [byte esp+0Ch]
@@ -93,6 +99,9 @@ sub_B7638:
 .1:
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_B7654                                                            B7654  
+;-----------------------------------------------------------------------------
 sub_B7654:
         push byte 0
         mov edx, dword [byte esp+0Ch]
@@ -121,6 +130,9 @@ sub_B7654:
 .2:
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_B7690                                                            B7690  
+;-----------------------------------------------------------------------------
 sub_B7690:
         push byte 1
         mov edx, dword [byte esp+0Ch]
@@ -131,6 +143,9 @@ sub_B7690:
         add esp, byte 0Ch
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_B76A8                                                            B76A8  
+;-----------------------------------------------------------------------------
 sub_B76A8:
         push byte 0
         mov edx, dword [byte esp+0Ch]
@@ -141,6 +156,9 @@ sub_B76A8:
         add esp, byte 0Ch
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_B76C0                                                            B76C0  
+;-----------------------------------------------------------------------------
 sub_B76C0:
         push esi
         push edi
@@ -149,7 +167,7 @@ sub_B76C0:
         mov esi, dword [byte esp+024h]
         mov ebp, dword [byte esp+02Ch]
         push esi
-        call sub_AC484
+        call FindCachedFile
         add esp, byte 4
         test eax, eax
         jne near .7
@@ -182,7 +200,7 @@ sub_B76C0:
         jne short .2
         mov edx, dword [esp]
         push edx
-        call sub_E07B8
+        call DosCloseFile
         add esp, byte 4
         xor eax, eax
         add esp, byte 14h
@@ -212,7 +230,7 @@ sub_B76C0:
         jne short .4
         mov eax, dword [esp]
         push eax
-        call sub_E07B8
+        call DosCloseFile
         add esp, byte 4
         xor eax, eax
         add esp, byte 14h
@@ -270,7 +288,7 @@ sub_B76C0:
         add esp, byte 0Ch
         mov ebp, dword [esp]
         push ebp
-        call sub_E07B8
+        call DosCloseFile
         add esp, byte 4
         mov eax, edi
 .7:
@@ -280,6 +298,9 @@ sub_B76C0:
         pop esi
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_B7810                                                            B7810  
+;-----------------------------------------------------------------------------
 sub_B7810:
         sub esp, byte 0Ch
         push byte 1
@@ -295,7 +316,7 @@ sub_B7810:
         add esp, byte 14h
         mov ebx, dword [byte esp+08h]
         push ebx
-        call sub_E07B8
+        call DosCloseFile
         add esp, byte 4
         mov eax, dword [esp]
         add esp, byte 0Ch
@@ -315,7 +336,7 @@ sub_B7810:
         add esp, byte 14h
         mov ebx, dword [byte esp+08h]
         push ebx
-        call sub_E07B8
+        call DosCloseFile
         add esp, byte 4
         mov eax, dword [esp]
         add esp, byte 0Ch
@@ -336,25 +357,32 @@ sub_B7810:
         add esp, byte 14h
         mov ecx, dword [byte esp+08h]
         push ecx
-        call sub_E07B8
+        call DosCloseFile
         add esp, byte 4
         mov eax, dword [esp]
         add esp, byte 0Ch
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h
-sub_B78C0:
+;-----------------------------------------------------------------------------
+; SetRinkView                                     B78C0  96 PC, low confidence
+; Sets the rink view parameters
+;-----------------------------------------------------------------------------
+SetRinkView:
         mov eax, dword [byte esp+04h]
-        mov dword [dword_190E98], eax
+        mov dword [TextureDetail], eax
         mov eax, dword [byte esp+0Ch]
-        mov dword [dword_190E90], eax
+        mov dword [TextureTileSize], eax
         mov eax, dword [byte esp+08h]
-        mov dword [dword_190E94], eax
+        mov dword [TexturePageBase], eax
         ret
+;-----------------------------------------------------------------------------
+; sub_B78DC                                                            B78DC  
+;-----------------------------------------------------------------------------
 sub_B78DC:
         push esi
         push edi
-        mov esi, dword [dword_190E98]
-        mov edi, dword [dword_122894]
+        mov esi, dword [TextureDetail]
+        mov edi, dword [str_Punct_SetScreenScale]
         mov eax, dword [byte esp+0Ch]
         mov edx, dword [byte esp+010h]
 .1:
@@ -373,12 +401,15 @@ sub_B78DC:
         xor ebx, ebx
 .3:
         mov eax, ebx
-        mov dword [dword_122894], edi
-        mov dword [dword_190E98], esi
+        mov dword [str_Punct_SetScreenScale], edi
+        mov dword [TextureDetail], esi
         pop edi
         pop esi
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_B7924                                                            B7924  
+;-----------------------------------------------------------------------------
 sub_B7924:
         push esi
         push edi
@@ -390,7 +421,7 @@ sub_B7924:
         sub eax, ebx
         lea ebx, [nosplit esi*4+00h]
         sub ebx, esi
-        mov edi, dword [dword_190E98]
+        mov edi, dword [TextureDetail]
         shl ebx, 2
         add edx, byte 8
         add ebx, edi
@@ -408,7 +439,7 @@ sub_B7924:
         mov esi, dword [edx]
         lea ebx, [nosplit esi*4+00h]
         sub ebx, esi
-        mov esi, dword [dword_190E98]
+        mov esi, dword [TextureDetail]
         shl ebx, 2
         add ebx, esi
         mov ebp, dword [byte ebx+08h]
@@ -425,7 +456,7 @@ sub_B7924:
         mov ebx, dword [edx]
         lea edx, [nosplit ebx*4+00h]
         sub edx, ebx
-        mov ebx, dword [dword_190E98]
+        mov ebx, dword [TextureDetail]
         shl edx, 2
         add edx, ebx
         mov edi, dword [byte edx+08h]
@@ -447,15 +478,21 @@ sub_B7924:
         pop edi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; sub_B79C8                                                            B79C8  
+;-----------------------------------------------------------------------------
 sub_B79C8:
         mov edx, dword [byte esp+04h]
         push edx
-        mov ebx, dword [dword_190E94]
+        mov ebx, dword [TexturePageBase]
         push ebx
         call sub_C65A0
         add esp, byte 8
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_B79E0                                                            B79E0  
+;-----------------------------------------------------------------------------
 sub_B79E0:
         push esi
         push edi
@@ -470,7 +507,7 @@ sub_B79E0:
         cmp ebp, byte 2
         jne short .1
         mov edx, dword [byte esp+030h]
-        mov eax, dword [dword_190E94]
+        mov eax, dword [TexturePageBase]
         push edx
         mov edx, dword [byte esi+04h]
         mov ebx, dword [byte eax+edx*8+04h]
@@ -482,7 +519,7 @@ sub_B79E0:
         push esi
         mov edi, dword [eax+edx*8]
         push edi
-        call sub_DD724
+        call FillRectColor
         add esp, byte 14h
         jmp short .4
 .1:
@@ -493,7 +530,7 @@ sub_B79E0:
         xor eax, eax
 .2:
         mov esi, dword [edx]
-        mov ebx, dword [dword_190E94]
+        mov ebx, dword [TexturePageBase]
         shl esi, 3
         lea edi, [esp+eax]
         add esi, ebx
@@ -518,6 +555,9 @@ sub_B79E0:
         pop esi
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_B7A70                                                            B7A70  
+;-----------------------------------------------------------------------------
 sub_B7A70:
         push esi
         push edi
@@ -535,7 +575,7 @@ sub_B7A70:
         xor eax, eax
 .1:
         mov ebx, dword [edx]
-        mov esi, dword [dword_190E94]
+        mov esi, dword [TexturePageBase]
         shl ebx, 3
         lea edi, [esp+eax]
         add esi, ebx
@@ -557,6 +597,9 @@ sub_B7A70:
         pop edi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; sub_B7AC4                                                            B7AC4  
+;-----------------------------------------------------------------------------
 sub_B7AC4:
         push esi
         push edi
@@ -564,7 +607,7 @@ sub_B7AC4:
         mov eax, dword [byte esp+040h]
         mov edx, dword [byte esp+044h]
         mov esi, dword [eax]
-        mov ebx, dword [dword_190E90]
+        mov ebx, dword [TextureTileSize]
         shl esi, 3
         lea edi, [byte esp+018h]
         add esi, ebx
@@ -584,7 +627,7 @@ sub_B7AC4:
         movsd
         movsd
         mov esi, dword [edx]
-        mov eax, dword [dword_190E94]
+        mov eax, dword [TexturePageBase]
         shl esi, 3
         mov edi, esp
         add esi, eax
@@ -616,6 +659,9 @@ sub_B7AC4:
         pop esi
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_B7B50                                                            B7B50  
+;-----------------------------------------------------------------------------
 sub_B7B50:
         push esi
         push edi
@@ -623,7 +669,7 @@ sub_B7B50:
         mov eax, dword [byte esp+040h]
         mov edx, dword [byte esp+044h]
         mov esi, dword [eax]
-        mov ebx, dword [dword_190E90]
+        mov ebx, dword [TextureTileSize]
         shl esi, 3
         lea edi, [byte esp+018h]
         add esi, ebx
@@ -643,7 +689,7 @@ sub_B7B50:
         movsd
         movsd
         mov esi, dword [edx]
-        mov eax, dword [dword_190E94]
+        mov eax, dword [TexturePageBase]
         shl esi, 3
         mov edi, esp
         add esi, eax
@@ -675,6 +721,9 @@ sub_B7B50:
         pop esi
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_B7BDC                                                            B7BDC  
+;-----------------------------------------------------------------------------
 sub_B7BDC:
         push esi
         push edi
@@ -682,7 +731,7 @@ sub_B7BDC:
         mov eax, dword [byte esp+040h]
         mov edx, dword [byte esp+044h]
         mov esi, dword [eax]
-        mov ebx, dword [dword_190E90]
+        mov ebx, dword [TextureTileSize]
         shl esi, 3
         lea edi, [byte esp+018h]
         add esi, ebx
@@ -702,7 +751,7 @@ sub_B7BDC:
         movsd
         movsd
         mov esi, dword [edx]
-        mov eax, dword [dword_190E94]
+        mov eax, dword [TexturePageBase]
         shl esi, 3
         mov edi, esp
         add esi, eax
@@ -734,6 +783,9 @@ sub_B7BDC:
         pop esi
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_B7C68                                                            B7C68  
+;-----------------------------------------------------------------------------
 sub_B7C68:
         push esi
         push edi
@@ -741,7 +793,7 @@ sub_B7C68:
         mov eax, dword [byte esp+060h]
         mov edx, dword [byte esp+064h]
         mov esi, dword [eax]
-        mov ebx, dword [dword_190E90]
+        mov ebx, dword [TextureTileSize]
         shl esi, 3
         lea edi, [byte esp+028h]
         add esi, ebx
@@ -771,7 +823,7 @@ sub_B7C68:
         movsd
         movsd
         mov esi, dword [edx]
-        mov eax, dword [dword_190E94]
+        mov eax, dword [TexturePageBase]
         shl esi, 3
         mov edi, esp
         add esi, eax
@@ -821,6 +873,9 @@ sub_B7C68:
         pop esi
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_B7D38                                                            B7D38  
+;-----------------------------------------------------------------------------
 sub_B7D38:
         push esi
         push edi
@@ -828,7 +883,7 @@ sub_B7D38:
         mov eax, dword [byte esp+060h]
         mov edx, dword [byte esp+064h]
         mov esi, dword [eax]
-        mov ebx, dword [dword_190E90]
+        mov ebx, dword [TextureTileSize]
         shl esi, 3
         lea edi, [byte esp+028h]
         add esi, ebx
@@ -858,7 +913,7 @@ sub_B7D38:
         movsd
         movsd
         mov esi, dword [edx]
-        mov eax, dword [dword_190E94]
+        mov eax, dword [TexturePageBase]
         shl esi, 3
         mov edi, esp
         add esi, eax
@@ -908,6 +963,9 @@ sub_B7D38:
         pop esi
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_B7E08                                                            B7E08  
+;-----------------------------------------------------------------------------
 sub_B7E08:
         push esi
         push edi
@@ -915,7 +973,7 @@ sub_B7E08:
         mov eax, dword [byte esp+060h]
         mov edx, dword [byte esp+064h]
         mov esi, dword [eax]
-        mov ebx, dword [dword_190E90]
+        mov ebx, dword [TextureTileSize]
         shl esi, 3
         lea edi, [byte esp+028h]
         add esi, ebx
@@ -945,7 +1003,7 @@ sub_B7E08:
         movsd
         movsd
         mov esi, dword [edx]
-        mov eax, dword [dword_190E94]
+        mov eax, dword [TexturePageBase]
         shl esi, 3
         mov edi, esp
         add esi, eax
@@ -995,6 +1053,9 @@ sub_B7E08:
         pop esi
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_B7ED8                                                            B7ED8  
+;-----------------------------------------------------------------------------
 sub_B7ED8:
         push esi
         push edi
@@ -1002,7 +1063,7 @@ sub_B7ED8:
         mov eax, dword [byte esp+050h]
         mov edx, dword [byte esp+054h]
         mov esi, dword [edx]
-        mov ebx, dword [dword_190E94]
+        mov ebx, dword [TexturePageBase]
         shl esi, 3
         lea edi, [byte esp+020h]
         add esi, ebx
@@ -1028,7 +1089,7 @@ sub_B7ED8:
         add esi, ebx
         movsd
         movsd
-        mov edx, dword [dword_190E90]
+        mov edx, dword [TextureTileSize]
         mov ebx, dword [eax]
         mov ebx, dword [edx+ebx*8]
         shl ebx, 10h
@@ -1077,6 +1138,9 @@ sub_B7ED8:
         pop esi
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_B7FBC                                                            B7FBC  
+;-----------------------------------------------------------------------------
 sub_B7FBC:
         push esi
         push edi
@@ -1084,7 +1148,7 @@ sub_B7FBC:
         mov eax, dword [byte esp+050h]
         mov edx, dword [byte esp+054h]
         mov esi, dword [edx]
-        mov ebx, dword [dword_190E94]
+        mov ebx, dword [TexturePageBase]
         shl esi, 3
         lea edi, [byte esp+020h]
         add esi, ebx
@@ -1110,7 +1174,7 @@ sub_B7FBC:
         add esi, ebx
         movsd
         movsd
-        mov edx, dword [dword_190E90]
+        mov edx, dword [TextureTileSize]
         mov ebx, dword [eax]
         mov ebx, dword [edx+ebx*8]
         shl ebx, 10h
@@ -1157,6 +1221,9 @@ sub_B7FBC:
         pop esi
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_B809C                                                            B809C  
+;-----------------------------------------------------------------------------
 sub_B809C:
         push esi
         push edi
@@ -1164,7 +1231,7 @@ sub_B809C:
         mov eax, dword [byte esp+050h]
         mov edx, dword [byte esp+054h]
         mov esi, dword [edx]
-        mov ebx, dword [dword_190E94]
+        mov ebx, dword [TexturePageBase]
         shl esi, 3
         lea edi, [byte esp+020h]
         add esi, ebx
@@ -1190,7 +1257,7 @@ sub_B809C:
         add esi, ebx
         movsd
         movsd
-        mov edx, dword [dword_190E90]
+        mov edx, dword [TextureTileSize]
         mov ebx, dword [eax]
         mov ebx, dword [edx+ebx*8]
         shl ebx, 10h
@@ -1237,10 +1304,13 @@ sub_B809C:
         pop esi
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_B817C                                                            B817C  
+;-----------------------------------------------------------------------------
 sub_B817C:
         mov edx, dword [byte esp+08h]
         push edx
-        mov ebx, dword [dword_190E94]
+        mov ebx, dword [TexturePageBase]
         push ebx
         mov ecx, dword [byte esp+0Ch]
         push ecx
@@ -1248,10 +1318,13 @@ sub_B817C:
         add esp, byte 0Ch
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_B8198                                                            B8198  
+;-----------------------------------------------------------------------------
 sub_B8198:
         mov edx, dword [byte esp+08h]
         push edx
-        mov ebx, dword [dword_190E94]
+        mov ebx, dword [TexturePageBase]
         push ebx
         mov ecx, dword [byte esp+0Ch]
         push ecx
@@ -1259,10 +1332,13 @@ sub_B8198:
         add esp, byte 0Ch
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_B81B4                                                            B81B4  
+;-----------------------------------------------------------------------------
 sub_B81B4:
         mov edx, dword [byte esp+08h]
         push edx
-        mov ebx, dword [dword_190E94]
+        mov ebx, dword [TexturePageBase]
         push ebx
         mov ecx, dword [byte esp+0Ch]
         push ecx
@@ -1270,13 +1346,16 @@ sub_B81B4:
         add esp, byte 0Ch
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_B81D0                                                            B81D0  
+;-----------------------------------------------------------------------------
 sub_B81D0:
         push esi
         push edi
         sub esp, byte 20h
         mov eax, dword [byte esp+030h]
         mov esi, dword [eax]
-        mov edx, dword [dword_190E94]
+        mov edx, dword [TexturePageBase]
         shl esi, 3
         mov edi, esp
         add esi, edx
@@ -1313,13 +1392,16 @@ sub_B81D0:
         pop esi
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_B8230                                                            B8230  
+;-----------------------------------------------------------------------------
 sub_B8230:
         push esi
         push edi
         sub esp, byte 20h
         mov eax, dword [byte esp+030h]
         mov esi, dword [eax]
-        mov edx, dword [dword_190E94]
+        mov edx, dword [TexturePageBase]
         shl esi, 3
         mov edi, esp
         add esi, edx
@@ -1356,13 +1438,16 @@ sub_B8230:
         pop esi
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_B8290                                                            B8290  
+;-----------------------------------------------------------------------------
 sub_B8290:
         push esi
         push edi
         sub esp, byte 20h
         mov eax, dword [byte esp+030h]
         mov esi, dword [eax]
-        mov edx, dword [dword_190E94]
+        mov edx, dword [TexturePageBase]
         shl esi, 3
         mov edi, esp
         add esi, edx
@@ -1399,6 +1484,9 @@ sub_B8290:
         pop esi
         ret
         db 00h
+;-----------------------------------------------------------------------------
+; sub_B82F0                                                            B82F0  
+;-----------------------------------------------------------------------------
 sub_B82F0:
         push esi
         push edi
@@ -1440,7 +1528,7 @@ sub_B82F0:
         cmp esi, dword [byte esp+038h]
         jl short .2
 .5:
-        cmp edi, dword [dword_11F5F0]
+        cmp edi, dword [str_Punct_DrawRinkSurface]
         jle near .12
         lea esi, [nosplit ebx*8+00h]
         lea eax, [nosplit ebx*4+00h]
@@ -1458,7 +1546,7 @@ sub_B82F0:
         shl eax, 2
         mov esi, ebx
         add eax, ebp
-        mov ebp, dword [dword_11F5F0]
+        mov ebp, dword [str_Punct_DrawRinkSurface]
         movsd
         movsd
         movsd
@@ -1510,7 +1598,7 @@ sub_B82F0:
         mov edi, eax
         cmp ebp, dword [byte esp+01Ch]
         jle short .11
-        mov edx, dword [dword_1228E4]
+        mov edx, dword [ScreenHeight]
         cmp ebp, edx
         jl short .8
         mov eax, ebp
@@ -1522,7 +1610,7 @@ sub_B82F0:
         mov dword [byte esp+024h], eax
 .8:
         mov eax, dword [byte esp+01Ch]
-        mov ecx, dword [dword_1228DC]
+        mov ecx, dword [ClipLeftCol]
         cmp eax, ecx
         jge short .9
         mov dword [byte esp+01Ch], ecx
@@ -1555,6 +1643,9 @@ sub_B82F0:
         pop esi
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_B848C                                                            B848C  
+;-----------------------------------------------------------------------------
 sub_B848C:
         push esi
         push edi
@@ -1580,7 +1671,7 @@ sub_B848C:
         lea ecx, [nosplit edi*8+00h]
         add ecx, ebx
         mov eax, dword [byte ecx+04h]
-        mov edx, dword [dword_1228E4]
+        mov edx, dword [ScreenHeight]
         mov dword [byte esi+014h], eax
         cmp eax, edx
         jg near .12
@@ -1677,11 +1768,11 @@ sub_B848C:
         mov dword [byte esi+020h], ebx
         add eax, dword [byte esp+028h]
         mov dword [byte esi+024h], 0
-        mov ecx, dword [dword_1228DC]
+        mov ecx, dword [ClipLeftCol]
         mov ebx, dword [byte eax+04h]
         cmp ebx, ecx
         jl short .6
-        cmp ebx, dword [dword_1228E4]
+        cmp ebx, dword [ScreenHeight]
         jge short .6
         mov eax, dword [nosplit ebx*4+dword_19131C]
         jmp short .7
@@ -1698,11 +1789,11 @@ sub_B848C:
         mov ecx, dword [byte esp+028h]
         lea eax, [nosplit ebp*8+00h]
         add eax, ecx
-        mov edx, dword [dword_1228DC]
+        mov edx, dword [ClipLeftCol]
         mov ebx, dword [byte eax+04h]
         cmp ebx, edx
         jl short .8
-        cmp ebx, dword [dword_1228E4]
+        cmp ebx, dword [ScreenHeight]
         jge short .8
         mov eax, dword [nosplit ebx*4+dword_19131C]
         jmp short .9
@@ -1802,6 +1893,9 @@ sub_B848C:
         pop edi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; sub_B8740                                                            B8740  
+;-----------------------------------------------------------------------------
 sub_B8740:
         push esi
         push edi
@@ -1838,13 +1932,13 @@ sub_B8740:
         add eax, edx
         mov dword [byte esp+0Ch], eax
         lea edx, [ecx+ebx]
-        mov eax, dword [dword_1228E0]
+        mov eax, dword [ClipRight]
         cmp edx, eax
         jle short .1
         mov ebx, eax
         sub ebx, ecx
 .1:
-        mov edx, dword [dword_1228D8]
+        mov edx, dword [ClipTopRow]
         cmp ecx, edx
         jge short .2
         sub edx, ecx
@@ -1855,7 +1949,7 @@ sub_B8740:
         imul ecx, edx
         sub ebx, edx
         add edi, ecx
-        mov ecx, dword [dword_1228D8]
+        mov ecx, dword [ClipTopRow]
 .2:
         mov edx, dword [dword_191AA4]
         mov eax, dword [byte edx+02h]
@@ -1895,6 +1989,9 @@ sub_B8740:
         pop esi
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_B8840                                                            B8840  
+;-----------------------------------------------------------------------------
 sub_B8840:
         push esi
         push edi
@@ -1957,6 +2054,9 @@ sub_B8840:
         pop edi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; sub_B88F8                                                            B88F8  
+;-----------------------------------------------------------------------------
 sub_B88F8:
         push esi
         push edi
@@ -1993,13 +2093,13 @@ sub_B88F8:
         add eax, edx
         mov dword [byte esp+0Ch], eax
         lea edx, [ecx+ebx]
-        mov eax, dword [dword_1228E0]
+        mov eax, dword [ClipRight]
         cmp edx, eax
         jle short .1
         mov ebx, eax
         sub ebx, ecx
 .1:
-        mov edx, dword [dword_1228D8]
+        mov edx, dword [ClipTopRow]
         cmp ecx, edx
         jge short .2
         sub edx, ecx
@@ -2010,7 +2110,7 @@ sub_B88F8:
         imul ecx, edx
         sub ebx, edx
         add edi, ecx
-        mov ecx, dword [dword_1228D8]
+        mov ecx, dword [ClipTopRow]
 .2:
         mov edx, dword [dword_191AA4]
         mov eax, dword [byte edx+02h]
@@ -2050,6 +2150,9 @@ sub_B88F8:
         pop esi
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_B89F8                                                            B89F8  
+;-----------------------------------------------------------------------------
 sub_B89F8:
         push esi
         push edi
@@ -2112,6 +2215,9 @@ sub_B89F8:
         pop edi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; sub_B8AB0                                                            B8AB0  
+;-----------------------------------------------------------------------------
 sub_B8AB0:
         push esi
         push edi
@@ -2121,7 +2227,7 @@ sub_B8AB0:
         mov eax, dword [dword_190EB0]
         mov dword [byte esp+04h], eax
         mov ebx, dword [byte esp+04h]
-        mov eax, dword [dword_1228D0]
+        mov eax, dword [ScreenWidth]
         imul eax, ebx
         mov edx, dword [dword_1228FC]
         add edx, byte 10h
@@ -2185,7 +2291,7 @@ sub_B8AB0:
         je near .1
         call sub_B89F8
         mov ebx, dword [byte esp+04h]
-        mov eax, dword [dword_1228D0]
+        mov eax, dword [ScreenWidth]
         mov edx, dword [dword_191AA0]
         mov ecx, dword [dword_190E9C]
         add esi, byte 4
@@ -2318,6 +2424,9 @@ sub_B8AB0_2C8:
         pop esi
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_B8D80                                                            B8D80  
+;-----------------------------------------------------------------------------
 sub_B8D80:
         push esi
         push edi
@@ -2327,7 +2436,7 @@ sub_B8D80:
         mov eax, dword [dword_190EB0]
         mov dword [byte esp+04h], eax
         mov ebx, dword [byte esp+04h]
-        mov eax, dword [dword_1228D0]
+        mov eax, dword [ScreenWidth]
         imul eax, ebx
         mov edx, dword [dword_1228FC]
         add edx, byte 10h
@@ -2390,18 +2499,18 @@ sub_B8D80:
         cmp edi, byte 0FFFFFFFFh
         je near .1
         mov eax, dword [byte esp+04h]
-        cmp eax, dword [dword_1228DC]
+        cmp eax, dword [ClipLeftCol]
         jl short .9
         call sub_B88F8
 .9:
         mov ebx, dword [byte esp+04h]
-        mov ecx, dword [dword_1228E4]
+        mov ecx, dword [ScreenHeight]
         inc ebx
         add esi, byte 4
         mov dword [byte esp+04h], ebx
         cmp ebx, ecx
         jge near sub_B8AB0_2C8
-        mov eax, dword [dword_1228D0]
+        mov eax, dword [ScreenWidth]
         mov edx, dword [dword_191AA0]
         mov ecx, dword [dword_190EB4]
         mov ebx, dword [dword_190E9C]
@@ -2524,6 +2633,9 @@ sub_B8D80:
         mov dword [dword_1912FC], eax
         jmp near .8
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_B9060                                                            B9060  
+;-----------------------------------------------------------------------------
 sub_B9060:
         push esi
         push edi
@@ -2533,7 +2645,7 @@ sub_B9060:
         mov eax, dword [dword_190EB0]
         mov dword [byte esp+04h], eax
         mov ebx, dword [byte esp+04h]
-        mov eax, dword [dword_1228D0]
+        mov eax, dword [ScreenWidth]
         imul eax, ebx
         mov edx, dword [dword_1228FC]
         add edx, byte 10h
@@ -2597,7 +2709,7 @@ sub_B9060:
         je near .1
         call sub_B8840
         mov ebx, dword [byte esp+04h]
-        mov eax, dword [dword_1228D0]
+        mov eax, dword [ScreenWidth]
         mov edx, dword [dword_191AA0]
         mov ecx, dword [dword_190E9C]
         add esi, byte 4
@@ -2723,6 +2835,9 @@ sub_B9060:
         shrd eax, edx, 10h
         mov dword [dword_1912FC], eax
         jmp near .8
+;-----------------------------------------------------------------------------
+; sub_B9328                                                            B9328  
+;-----------------------------------------------------------------------------
 sub_B9328:
         push esi
         push edi
@@ -2732,7 +2847,7 @@ sub_B9328:
         mov eax, dword [dword_190EB0]
         mov dword [byte esp+04h], eax
         mov ebx, dword [byte esp+04h]
-        mov eax, dword [dword_1228D0]
+        mov eax, dword [ScreenWidth]
         imul eax, ebx
         mov edx, dword [dword_1228FC]
         add edx, byte 10h
@@ -2795,18 +2910,18 @@ sub_B9328:
         cmp edi, byte 0FFFFFFFFh
         je near .1
         mov eax, dword [byte esp+04h]
-        cmp eax, dword [dword_1228DC]
+        cmp eax, dword [ClipLeftCol]
         jl short .9
         call sub_B8740
 .9:
         mov ebx, dword [byte esp+04h]
-        mov ecx, dword [dword_1228E4]
+        mov ecx, dword [ScreenHeight]
         inc ebx
         add esi, byte 4
         mov dword [byte esp+04h], ebx
         cmp ebx, ecx
         jge near sub_B8AB0_2C8
-        mov eax, dword [dword_1228D0]
+        mov eax, dword [ScreenWidth]
         mov edx, dword [dword_191AA0]
         mov ecx, dword [dword_190EB4]
         mov ebx, dword [dword_190E9C]
@@ -2929,13 +3044,16 @@ sub_B9328:
         mov dword [dword_1912FC], eax
         jmp near .8
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_B960C                                                            B960C  
+;-----------------------------------------------------------------------------
 sub_B960C:
         push esi
         push edi
         push ebp
         sub esp, byte 0Ch
         mov ebp, dword [byte esp+020h]
-        mov eax, dword [dword_11F5F0]
+        mov eax, dword [str_Punct_DrawRinkSurface]
         inc eax
         push eax
         mov ebx, dword [byte esp+028h]
@@ -2992,16 +3110,16 @@ sub_B960C:
         cmp edx, ebp
         jl short .1
 .6:
-        cmp ebx, dword [dword_1228E4]
+        cmp ebx, dword [ScreenHeight]
         jge near .21
         mov eax, dword [byte esp+08h]
-        mov edx, dword [dword_1228DC]
+        mov edx, dword [ClipLeftCol]
         cmp eax, edx
         jl near .21
-        mov ecx, dword [dword_1228E0]
+        mov ecx, dword [ClipRight]
         cmp esi, ecx
         jge near .21
-        mov eax, dword [dword_1228D8]
+        mov eax, dword [ClipTopRow]
         cmp edi, eax
         jl near .21
         cmp esi, eax
@@ -3011,7 +3129,7 @@ sub_B960C:
         cmp ebx, edx
         jl short .7
         mov eax, dword [byte esp+08h]
-        cmp eax, dword [dword_1228E4]
+        cmp eax, dword [ScreenHeight]
         jl short .8
 .7:
         mov eax, 1
@@ -3164,6 +3282,9 @@ sub_B960C:
         pop esi
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_B9870                                                            B9870  
+;-----------------------------------------------------------------------------
 sub_B9870:
         push ebp
         sub esp, byte 28h
@@ -3201,6 +3322,9 @@ sub_B9870:
         pop ebp
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_B98E0                                                            B98E0  
+;-----------------------------------------------------------------------------
 sub_B98E0:
         push esi
         push edi
@@ -3238,6 +3362,9 @@ sub_B98E0:
         pop esi
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_B9928                                                            B9928  
+;-----------------------------------------------------------------------------
 sub_B9928:
         push esi
         push edi
@@ -3333,6 +3460,9 @@ sub_B9928:
         pop esi
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_B9A18                                                            B9A18  
+;-----------------------------------------------------------------------------
 sub_B9A18:
         push esi
         push edi
@@ -3446,6 +3576,9 @@ sub_B9A18:
         pop esi
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_B9B34                                                            B9B34  
+;-----------------------------------------------------------------------------
 sub_B9B34:
         push esi
         mov ecx, dword [byte esp+08h]
@@ -3470,6 +3603,9 @@ sub_B9B34:
         pop esi
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_B9B70                                                            B9B70  
+;-----------------------------------------------------------------------------
 sub_B9B70:
         push esi
         mov ecx, dword [byte esp+08h]
@@ -3494,6 +3630,9 @@ sub_B9B70:
         pop esi
         ret
         db 00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_B9BB0                                                            B9BB0  
+;-----------------------------------------------------------------------------
 sub_B9BB0:
         mov ebx, dword [byte esp+04h]
         mov edx, dword [byte esp+0Ch]
@@ -3506,6 +3645,9 @@ sub_B9BB0:
         add eax, ebx
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_B9BD0                                                            B9BD0  
+;-----------------------------------------------------------------------------
 sub_B9BD0:
         mov ebx, dword [byte esp+08h]
         test ebx, ebx
@@ -3533,6 +3675,9 @@ sub_B9BD0:
         mov eax, edx
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_B9C08                                                            B9C08  
+;-----------------------------------------------------------------------------
 sub_B9C08:
         push esi
         push edi
@@ -3558,6 +3703,9 @@ sub_B9C08:
         pop esi
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_B9C3C                                                            B9C3C  
+;-----------------------------------------------------------------------------
 sub_B9C3C:
         push esi
         push edi
@@ -3583,6 +3731,9 @@ sub_B9C3C:
         pop esi
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_B9C70                                                            B9C70  
+;-----------------------------------------------------------------------------
 sub_B9C70:
         push esi
         mov esi, dword [byte esp+08h]
@@ -3639,6 +3790,9 @@ sub_B9C70:
         pop esi
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_B9D04                                                            B9D04  
+;-----------------------------------------------------------------------------
 sub_B9D04:
         push esi
         push edi
@@ -3824,6 +3978,9 @@ sub_B9D04:
         pop esi
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_B9EE0                                                            B9EE0  
+;-----------------------------------------------------------------------------
 sub_B9EE0:
         push esi
         push edi
@@ -3850,6 +4007,9 @@ sub_B9EE0:
         pop esi
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_B9F14                                                            B9F14  
+;-----------------------------------------------------------------------------
 sub_B9F14:
         push esi
         push edi
@@ -4021,7 +4181,7 @@ sub_B9F14:
         xor eax, ecx
         and eax, 0FFh
         sub eax, ecx
-        mov eax, dword [nosplit eax*4+dword_122390]
+        mov eax, dword [nosplit eax*4+SinTable]
         xor eax, edx
         sub eax, edx
         mov dword [byte esp+014h], eax
@@ -4033,7 +4193,7 @@ sub_B9F14:
         xor eax, ecx
         and eax, 0FFh
         sub eax, ecx
-        mov eax, dword [nosplit eax*4+dword_122390]
+        mov eax, dword [nosplit eax*4+SinTable]
         xor eax, edx
         sub eax, edx
         mov esi, eax
@@ -4182,9 +4342,12 @@ sub_B9F14:
         pop esi
         ret
         db 00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_BA2F0                                                            BA2F0  
+;-----------------------------------------------------------------------------
 sub_BA2F0:
         mov eax, dword [byte esp+04h]
-        mov edx, dword [dword_11F5F0]
+        mov edx, dword [str_Punct_DrawRinkSurface]
         mov eax, dword [byte eax+08h]
         cmp eax, edx
         jg short .1
@@ -4214,12 +4377,15 @@ sub_BA2F0:
         sar eax, cl
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_BA344                                                            BA344  
+;-----------------------------------------------------------------------------
 sub_BA344:
         push esi
         push edi
         mov edi, dword [byte esp+0Ch]
         mov ebx, dword [byte esp+010h]
-        mov edx, dword [dword_11F5F0]
+        mov edx, dword [str_Punct_DrawRinkSurface]
         mov eax, dword [byte edi+08h]
         cmp eax, edx
         jg short .1

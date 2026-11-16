@@ -15,8 +15,8 @@ extern dword_17D90C, dword_17D910, dword_17D914, dword_17D918, dword_17D91C, dwo
 extern jpt_7D568, sprintf_, MessageBox, LoadTeamLogo, LoadPackedFile, LoadDataFileLib, LoadSeasonStats, OpenScreen
 extern SlideInTitleBar, SlideInSideBar, SetScreenColors, FadePalette, FadeOut, SetTextColors, FillBox, DrawFrameAt
 extern InitMenuItems, RunMenu, GetLangText, MakeSeasonDbPath, SimSeasonGames, SimulateGame, sub_AAA40, sub_AAA8C
-extern PutBlock, sub_AB758, sub_ABF4C, sub_AD35C, sub_AD620, FillRect, sub_ADA80, sub_ADBEC
-extern sub_B20D0, sub_B2C54, sub_BF120, sub_C2600, sub_DD6C4, sub_DD908, sub_E04E0, sub_E0584
+extern PutBlock, sub_AB758, FreeMemBlock, sub_AD35C, sub_AD620, FillRect, sub_ADA80, sub_ADBEC
+extern OpenArtArchiveErr, sub_B2C54, sub_BF120, sub_C2600, SetScreenTarget, sub_DD908, sub_E04E0, sub_E0584
 extern unk_11E3B6, unk_11E3F6, unk_11E436, unk_11E476, unk_152C44, unk_17CB2E, unk_7D4F4, unk_7D500
 global CalendarScreen_13D3, CalendarScreen_13E4, CalendarScreen_153A, CalendarScreen_1AC2, CalendarScreen_1B49, CalendarScreen_1B6C, CalendarScreen, DrawCalendar
 global unk_7FF77
@@ -140,7 +140,7 @@ CalendarScreen:
         push byte 20h
         lea eax, [byte ebp-05Ah]
         push eax
-        call sub_B20D0
+        call OpenArtArchiveErr
         mov edx, dword [dword_1174F0]
         mov dword [byte ebp+012h], edx
         imul edx, dword [dword_17CEC3], dword 31Bh
@@ -1143,7 +1143,7 @@ CalendarScreen:
         add esp, byte 0Ch
         mov edi, dword [byte ebp-0Eh]
         mov esi, dword_17BC7C
-        call sub_DD6C4
+        call SetScreenTarget
         mov ecx, 66h
         rep movsb
         mov eax, dword [byte ebp-0Eh]
@@ -1624,7 +1624,7 @@ CalendarScreen_153A:
         movsx eax, word [byte eax+06h]
         mov dword [byte ebp+02Ah], 0
         mov dword [byte ebp+036h], eax
-        call sub_DD6C4
+        call SetScreenTarget
         mov al, byte [byte ebp+02Ah]
         dec al
         mov edi, dword [byte ebp-02h]
@@ -1861,7 +1861,7 @@ CalendarScreen_153A:
         call TickDeadlinePassed
         test eax, eax
         je short .30
-        call sub_DD6C4
+        call SetScreenTarget
         inc byte [dword ebp+082h]
         add dword [byte ebp+05Eh], byte 40h
         inc dword [byte ebp+02Ah]
@@ -1951,7 +1951,7 @@ CalendarScreen_153A:
         push eax
         call PutBlock
         add esp, byte 0Ch
-        call sub_DD6C4
+        call SetScreenTarget
         mov eax, dword [byte ebp+0Ah]
         push byte 0
         movsx eax, word [byte eax+0Ch]
@@ -2382,27 +2382,27 @@ CalendarScreen_1B6C:
         jmp near .47
 .52:
         push dword [byte ebp+022h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [byte ebp+01Ah]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [byte ebp-0Eh]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [byte ebp-02h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [byte ebp+06h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [byte ebp+02h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov eax, 3
         call FadeOut
         push dword [byte ebp+01Eh]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_17D8F8]
         xor esi, esi
@@ -3099,7 +3099,7 @@ DrawCalendar:
         push dword [byte ebp+05Ah]
         call sub_ADBEC
         add esp, byte 4
-        call sub_DD6C4
+        call SetScreenTarget
         push byte 52h
         mov eax, dword [dword ebp-033Ah]
         push byte 52h

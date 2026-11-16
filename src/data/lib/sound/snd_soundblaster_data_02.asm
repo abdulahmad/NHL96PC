@@ -6,9 +6,9 @@ extern sub_D02A8, sub_DFB84
 global str_SHPI2, byte_14F024, byte_14F025, byte_14F026, byte_14F054, byte_14F055, byte_14F064, byte_14F065
 global byte_14F066, byte_14F067, byte_14F070, dword_14F01C, dword_14F020, dword_14F030, dword_14F034, dword_14F038
 global dword_14F03C, dword_14F040, dword_14F044, dword_14F048, dword_14F04C, dword_14F050, dword_14F058, dword_14F05C
-global dword_14F060, dword_14F098, _environ, ___env_mask, dword_14F0A4, dword_14F0A8, str_28, off_14F074
+global dword_14F060, dword_14F098, _environ, ___env_mask, __nheapbeg, __amblksiz, str_28, off_14F074
 global off_14F078, off_14F07C, off_14F080, off_14F084, off_14F088, off_14F08C, off_14F090, off_14F0B0
-global off_14F176, off_14FAA8, off_14FAAC, unk_14F178, unk_14F17C, unk_14F182, unk_14F18A, unk_14F194
+global off_14F176, __EFG_printf, __EFG_scanf, unk_14F178, unk_14F17C, unk_14F182, unk_14F18A, unk_14F194
 global unk_14F1A0, unk_14F1AE, unk_14F1BE, unk_14F1D0, unk_14F1E4, unk_14F1FA, unk_14F212, unk_14F22C
 global unk_14F248, unk_14F266, unk_14F286, unk_14F2A8, unk_14F2CC, unk_14F2F2, unk_14F31A, unk_14F344
 global unk_14F370, unk_14F39E, unk_14F3CE, unk_14F400, unk_14F434, unk_14F46A, unk_14F4A2, unk_14F4DC
@@ -86,9 +86,9 @@ _environ:
         db 00h,00h,00h,00h
 ___env_mask:
         db 00h,00h,00h,00h
-dword_14F0A4:
+__nheapbeg:
         db 01h,00h,00h,00h
-dword_14F0A8:
+__amblksiz:
         db 010h,00h,00h,00h
 str_28:
         db 032h,00h,00h,00h
@@ -359,9 +359,9 @@ unk_14FA46:
         db 02Fh,0A7h,068h,0ACh,0A1h,0B1h,0DBh,0B6h,014h,0BCh,04Eh,0C1h,087h,0C6h,0C1h,0CBh
         db 0FAh,0D0h,034h,0D6h,06Dh,0DBh,0A7h,0E0h,0E0h,0E5h,01Ah,0EBh,053h,0F0h,08Dh,0F5h
         db 0C6h,0FAh
-off_14FAA8:
+__EFG_printf:
         dd sub_D02A8
-off_14FAAC:
+__EFG_scanf:
         dd sub_D02A8
 str_SHPI2:
         db 053h,048h,050h,049h,00h,00h,00h,00h,00h,00h,00h,00h,053h,050h,049h,054h

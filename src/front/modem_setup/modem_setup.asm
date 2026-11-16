@@ -5,7 +5,7 @@ section s_711ED progbits alloc exec nowrite align=1
 extern asc_11DFC8, BlackPalette, byte_11FA2F, byte_17BDAE, byte_17CA1D, byte_17CA1E, byte_17CA1F, byte_17CA21
 extern byte_17CA22, byte_17CA5D, byte_17CA5E, byte_17D650, byte_17D651, CopyBitmap, DrawColorText, DrawFrameAt
 extern dword_114CD3, dword_11D1A8, dword_11DF80, dword_11DF84, dword_11E278, dword_11E27C, dword_17BC78, dword_17BC7C
-extern dword_17BCE2, dword_17BD48, dword_17C9A4, dword_17C9F4, dword_17CA5C, dword_17D590, dword_17D594, dword_17D654
+extern dword_17BCE2, dword_17BD48, GlobalSetData, dword_17C9F4, dword_17CA5C, dword_17D590, dword_17D594, dword_17D654
 extern dword_17D678, dword_17D67C, dword_17D680, dword_17D684, EditText, FadeOut, FadeOutMusic, FadePalette
 extern FillMusicStream, fputchar, GetInputDevices, GetLangText, GetTicks, globalset, InitMenuItems, JoystickTestScreen
 extern LoadPackedFile, MessageBox, ModemChat, ModemGameClose, ModemGameConnect, ModemGameOpen, ModemGameQuit, MouseRead
@@ -21,7 +21,7 @@ extern str_Mse1, str_Mse2, str_MseD, str_NMD0, str_NMD1, str_NOO0, str_NOO1, str
 extern str_Off0, str_Off1, str_Onn0, str_Onn1, str_Pal13, str_PICKS, str_PICKS2, str_PULS
 extern str_SET02, str_SET13, str_SET23, str_SldD, str_TONE, str_WFC0, str_WFC1, str_WFC2
 extern str_YES0, str_YES1, strcpy_, strlen_, sub_AA988, sub_AAA40, sub_AAA8C, sub_AADA4
-extern sub_AB758, sub_ABF4C, sub_AD35C, sub_ADA50, sub_ADBEC, sub_DD6C4, sub_DFE9C, sub_DFF28
+extern sub_AB758, FreeMemBlock, sub_AD35C, sub_ADA50, sub_ADBEC, SetScreenTarget, sub_DFE9C, sub_DFF28
 extern sub_E04E0, TextSetFont, unk_17C9B8, unk_17C9CC, unk_17D598, unk_708A9, unk_70901, unk_70BC1
 extern unk_70BCB, unk_70BD5, unk_70C4D, unk_70CED, word_114CE0, word_11E270, word_17C9AC, word_17C9AE
 extern word_17C9B0, word_17C9B2, word_17C9B4, word_17C9B6, WriteGlobalSet
@@ -374,7 +374,7 @@ ControlPicksScreen:
         rep movsd
         call sub_AB758
         mov ecx, 0BCh
-        mov esi, dword_17C9A4
+        mov esi, GlobalSetData
         add esp, byte 0Ch
         mov edi, unk_17D598
         mov dword [dword_17D594], eax
@@ -397,7 +397,7 @@ ControlPicksScreen:
         add esp, byte 8
         mov dword [byte ebp+06Eh], eax
         call SetScreenColors
-        call sub_DD6C4
+        call SetScreenTarget
         push str_BKGD7
         push dword [dword_17D590]
         call sub_E04E0
@@ -1066,19 +1066,19 @@ ControlPicksScreen_B00:
         call SlideInTitleBar
         mov ecx, 0BCh
         mov esi, unk_17D598
-        mov edi, dword_17C9A4
+        mov edi, GlobalSetData
         mov dword [byte ebp+06Ah], 4
         rep movsb
 .30:
         cmp dword [byte ebp+06Ah], byte 0
         jl near ControlPicksScreen_177.10
         push dword [dword_17D590]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov eax, 3
         call FadeOut
         push dword [dword_17D594]
-        call sub_ABF4C
+        call FreeMemBlock
         mov eax, dword [byte ebp+06Ah]
         add esp, byte 4
 ControlPicksScreen_B50:
@@ -1145,7 +1145,7 @@ ControlSetupScreen:
         add esp, byte 8
         mov dword [byte ebp+02Eh], eax
         call SetScreenColors
-        call sub_DD6C4
+        call SetScreenTarget
         push str_Bkgd8
         push esi
         call sub_E04E0
@@ -1360,7 +1360,7 @@ ControlSetupScreen:
         sar ecx, 1
         sub edx, ecx
         mov word [byte eax+0Eh], dx
-        call sub_DD6C4
+        call SetScreenTarget
         mov eax, dword [byte ebp+04Eh]
         push dword [byte eax+ebp-026h]
         call sub_AA988
@@ -1745,7 +1745,7 @@ ControlSetupScreen:
         add esp, byte 4
         cmp dword [byte ebp+03Eh], byte 3
         jl near .25
-        call sub_DD6C4
+        call SetScreenTarget
         test byte [byte_17CA22], 1
         je short .42
         mov eax, dword [byte ebp-012h]
@@ -2129,7 +2129,7 @@ ControlSetupScreen:
         mov eax, dword [byte ebp-026h]
         add esp, byte 0Ch
         mov word [byte eax+0Eh], dx
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [byte ebp-026h]
         call sub_AA988
         mov eax, dword [byte ebp-026h]
@@ -2271,7 +2271,7 @@ ControlSetupScreen:
         mov eax, dword [byte ebp-022h]
         add esp, byte 0Ch
         mov word [byte eax+0Eh], dx
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [byte ebp-022h]
         call sub_AA988
         mov eax, dword [byte ebp-022h]
@@ -2408,7 +2408,7 @@ ControlSetupScreen:
         mov eax, dword [byte ebp-01Eh]
         add esp, byte 0Ch
         mov word [byte eax+0Eh], dx
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [byte ebp-01Eh]
         call sub_AA988
         mov eax, dword [byte ebp-01Eh]
@@ -2546,7 +2546,7 @@ ControlSetupScreen:
         mov eax, dword [byte ebp-01Ah]
         add esp, byte 0Ch
         mov word [byte eax+0Eh], dx
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [byte ebp-01Ah]
         call sub_AA988
         mov eax, dword [byte ebp-01Ah]
@@ -2697,7 +2697,7 @@ ControlSetupScreen:
         mov eax, dword [byte ebp-016h]
         add esp, byte 0Ch
         mov word [byte eax+0Eh], dx
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [byte ebp-016h]
         call sub_AA988
         mov eax, dword [byte ebp-016h]
@@ -2837,7 +2837,7 @@ ControlSetupScreen:
         xor esi, esi
 .111:
         push dword [byte esi+ebp-026h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esi, byte 4
         add esp, byte 4
         cmp esi, byte 14h
@@ -2845,16 +2845,16 @@ ControlSetupScreen:
         xor esi, esi
 .112:
         push dword [byte esi+ebp-06h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [byte esi+ebp-012h]
         add esi, byte 4
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         cmp esi, byte 0Ch
         jne short .112
         push dword [byte ebp+032h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov eax, 3
         call FadeOut
@@ -3031,7 +3031,7 @@ ModemSettingsScreen:
         add esp, byte 8
         mov dword [byte ebp+052h], eax
         call SetScreenColors
-        call sub_DD6C4
+        call SetScreenTarget
         push str_BKGD22
         push edi
         call sub_E04E0
@@ -3355,7 +3355,7 @@ ModemSettingsScreen:
         mov eax, dword [byte esi+02Ch]
         add esp, byte 0Ch
         mov word [byte eax+0Eh], 0FBh
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [byte esi+02Ch]
         call sub_AA988
         add esp, byte 4
@@ -3372,7 +3372,7 @@ ModemSettingsScreen:
         xor edx, edx
         add eax, asc_11DFC8
         call DrawColorText
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [byte esi+02Ch]
         call sub_AADA4
         add esp, byte 4
@@ -3397,7 +3397,7 @@ ModemSettingsScreen:
         mov word [byte eax+0Ch], dx
         mov eax, dword [byte esi+02Ch]
         mov word [byte eax+0Eh], 127h
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [byte esi+02Ch]
         call sub_AA988
         add esp, byte 4
@@ -3412,7 +3412,7 @@ ModemSettingsScreen:
         xor ebx, ebx
         xor edx, edx
         call DrawColorText
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [byte esi+02Ch]
         call sub_AADA4
         add esp, byte 4
@@ -3437,7 +3437,7 @@ ModemSettingsScreen:
         mov eax, dword [byte esi+02Ch]
         add esp, byte 0Ch
         mov word [byte eax+0Eh], 152h
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [byte esi+02Ch]
         call sub_AA988
         add esp, byte 4
@@ -3452,7 +3452,7 @@ ModemSettingsScreen:
         xor ebx, ebx
         xor edx, edx
         call DrawColorText
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [byte esi+02Ch]
         call sub_AADA4
         add esp, byte 4
@@ -3713,7 +3713,7 @@ ModemSettingsScreen:
         call sub_AADA4
         add esp, byte 4
         push dword [byte ebp+022h]
-        call sub_ABF4C
+        call FreeMemBlock
         movsx eax, word [word_17C9B6]
         inc eax
         mov ebx, 0Ah
@@ -3742,7 +3742,7 @@ ModemSettingsScreen:
         mov eax, dword [byte esi+02Ch]
         add esp, byte 0Ch
         mov word [byte eax+0Eh], 0FBh
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [byte esi+02Ch]
         call sub_AA988
         add esp, byte 4
@@ -3759,7 +3759,7 @@ ModemSettingsScreen:
         xor edx, edx
         add eax, asc_11DFC8
         call DrawColorText
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [byte esi+02Ch]
         call sub_AADA4
         add esp, byte 4
@@ -3770,7 +3770,7 @@ ModemSettingsScreen:
         call sub_AADA4
         add esp, byte 4
         push dword [byte ebp+02Ah]
-        call sub_ABF4C
+        call FreeMemBlock
         movsx eax, word [word_17C9B6]
         imul eax, byte 44h
         mov edx, asc_11DFC8
@@ -3798,7 +3798,7 @@ ModemSettingsScreen:
         mov eax, dword [byte esi+02Ch]
         add esp, byte 0Ch
         mov word [byte eax+0Eh], 152h
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [byte esi+02Ch]
         call sub_AA988
         add esp, byte 4
@@ -3814,7 +3814,7 @@ ModemSettingsScreen:
         xor ebx, ebx
         xor edx, edx
         call DrawColorText
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [byte esi+02Ch]
         call sub_AADA4
         add esp, byte 4
@@ -3846,7 +3846,7 @@ ModemSettingsScreen:
         call sub_AADA4
         add esp, byte 4
         push dword [byte ebp+026h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         lea edx, [byte ebp-0Eh]
         mov eax, dword_17C9F4
@@ -3869,7 +3869,7 @@ ModemSettingsScreen:
         mov eax, dword [byte esi+02Ch]
         add esp, byte 0Ch
         mov word [byte eax+0Eh], 127h
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [byte esi+02Ch]
         call sub_AA988
         add esp, byte 4
@@ -3922,7 +3922,7 @@ ModemSettingsScreen:
         call sub_AADA4
         add esp, byte 4
         push dword [byte ebp+02Ah]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         lea edx, [byte ebp-0Eh]
         mov eax, unk_17C9CC
@@ -3968,16 +3968,16 @@ ModemSettingsScreen:
         xor esi, esi
 .45:
         push dword [byte esi+ebp+022h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esi, byte 4
         add esp, byte 4
         cmp esi, byte 0Ch
         jne short .45
         push dword [byte ebp+05Ah]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [byte ebp+062h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov eax, 3
         call FadeOut
@@ -4026,7 +4026,7 @@ DrawPhoneNumber:
         cmp dword [dword esi+dword_17D678], byte 0
         je short .2
         push dword [dword esi+dword_17D678]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .2:
         mov eax, dword [byte ebp-024h]
@@ -4061,7 +4061,7 @@ DrawPhoneNumber:
         mov dx, word [byte edi+0Eh]
         add esp, byte 0Ch
         mov word [byte eax+0Eh], dx
-        call sub_DD6C4
+        call SetScreenTarget
         mov eax, dword [byte ebp-01Ch]
         push dword [byte eax+02Ch]
         call sub_AA988
@@ -4115,7 +4115,7 @@ DrawPhoneNumber:
         cmp dword [dword esi+dword_17D680], byte 0
         je short .6
         push dword [dword esi+dword_17D680]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .6:
         push byte 0
@@ -4234,7 +4234,7 @@ ModemDialScreen:
         add esp, byte 8
         mov dword [byte ebp+076h], eax
         call SetScreenColors
-        call sub_DD6C4
+        call SetScreenTarget
         push str_BKGD22
         push esi
         call sub_E04E0
@@ -4341,7 +4341,7 @@ ModemDialScreen:
         mov eax, dword [byte ebp+072h]
         mov dword [dword_17D678], 0
         call DrawPhoneNumber
-        call sub_DD6C4
+        call SetScreenTarget
         cmp word [word_17C9B2], byte 0
         jne short .6
         mov eax, dword [dword_17D678]
@@ -4938,20 +4938,20 @@ ModemDialScreen_BD2:
         cmp dword [dword esi+dword_17D678], byte 0
         je short .38
         push dword [dword esi+dword_17D678]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .38:
         cmp dword [dword esi+dword_17D680], byte 0
         je short .39
         push dword [dword esi+dword_17D680]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .39:
         add esi, byte 4
         cmp esi, byte 8
         jne short .37
         push dword [byte ebp+072h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov eax, 3
         call FadeOut
@@ -5014,7 +5014,7 @@ LinkSetupScreen:
         add esp, byte 8
         mov dword [byte ebp+07Ah], eax
         call SetScreenColors
-        call sub_DD6C4
+        call SetScreenTarget
         push str_Bkgd23
         push esi
         call sub_E04E0
@@ -5126,7 +5126,7 @@ LinkSetupScreen:
         cmp dword [byte ebp+076h], byte 0
         jl near .1
         push dword [byte ebp+072h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov eax, 3
         call FadeOut

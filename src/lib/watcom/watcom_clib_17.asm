@@ -2,26 +2,34 @@
 bits 32
 %include "hockey.inc"
 section s_D069B progbits alloc exec nowrite align=1
-extern SetDrawBitmap, __fatal_runtime_error_, str_SaveText, asc_114194, str_Ptr0ptr1ptr2, str_StackOverflow, byte_11FA2F, dword_11F5A4
-extern mousex, mousey, dword_11F5B0, dword_11F5B4, dword_11F5C0, dword_11F5C4, dword_11F5C8, dword_11F61C
-extern dword_11FA18, dword_11FA1C, dword_11FA20, dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4, dword_1228FC
-extern dword_122900, _STACKLOW, dword_14F0A8, dword_14FAD8, dword_1A1098, dword_1A109C, dword_1A10A0, dword_1A10A4
+extern SetDrawBitmap, __fatal_runtime_error_, str_SaveText, asc_114194, str_Ptr0ptr1ptr2, str_StackOverflow, byte_11FA2F, MousePresent
+extern mousex, mousey, MouseMoved, dword_11F5B4, dword_11F5C0, dword_11F5C4, dword_11F5C8, dword_11F61C
+extern dword_11FA18, TextOriginX, TextOriginY, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, dword_1228FC
+extern BackBufferWidth, _STACKLOW, __amblksiz, dword_14FAD8, CMainArgv, dword_1A109C, dword_1A10A0, dword_1A10A4
 extern dword_1A10A8, dword_1A10B0, dword_1A10B4, dword_1A10C0, dword_1A10C4, dword_1A10C8, dword_1A10CC, dword_1A10D0
 extern dword_1A10D4, dword_1A10D8, dword_1A10DC, dword_1A10E0, dword_1A10E4, dword_1A10E8, dword_1A10EC, dword_1A10F0
 extern dword_1A10F4, dword_1A10F8, dword_1A10FC, dword_1A1100, fputchar, sub_D7DB0_30, sub_D7DB0_238, sub_E2335_5B
 extern sub_E2335_81, mousepollfn, off_11F5F4, off_11F5F8, off_11F5FC, off_14FAD0, off_14FAD4, sprintf_
-extern sub_AA7E0, PutBlock, sub_AB6D8, sub_ABF4C, sub_ABF88, sub_AC9CC, sub_AD2B4, sub_AD824
-extern sub_ADBEC, sub_B0240, sub_B049E, sub_B2400, DrawArtOpaque, sub_BF290, sub_C2AC4, sub_C2C5C
-extern sub_C5410, sub_C59E0, sub_CFE8C, sub_DA338, sub_DD6C4, SetClipWindow, sub_DF55C, sub_DF596
-extern MouseReadMotion, sub_DFA98, sub_E0520, sub_E193C, sub_E1956, sub_E2335, unk_D1552, word_14FADC
-global __CHK, __GRO, __STK, __int386x_, sub_D09FC_A8, sub_D0B78_A0, sub_D069B, sub_D06B0
+extern sub_AA7E0, PutBlock, sub_AB6D8, FreeMemBlock, sub_ABF88, MemDescPtr, sub_AD2B4, sub_AD824
+extern sub_ADBEC, SetTextOrigin, sub_B049E, sub_B2400, DrawArtOpaque, sub_BF290, sub_C2AC4, sub_C2C5C
+extern sub_C5410, sub_C59E0, sub_CFE8C, sub_DA338, SetScreenTarget, SetClipWindow, SaveVideoState, sub_DF596
+extern MouseReadMotion, sub_DFA98, sub_E0520, sub_E193C, sub_E1956, sub_E2335, IntrStubs, SavedStackSegment
+global __CHK, __GRO, __STK, __int386x_, sub_D09FC_A8, sub_D0B78_A0, __CommonInit_, IsTextModeWidth
 global sub_D06FC, sub_D077C, sub_D0800, sub_D0848, sub_D0918, sub_D0984, sub_D09FC, sub_D0B78
-global sub_D0E90, sub_D0FB8, sub_D1080, sub_D1280, sub_D1368, sub_D142C, sub_D14AC
-sub_D069B:
-        mov dword [dword_14F0A8], 8000h
+global sub_D0E90, sub_D0FB8, sub_D1080, sub_D1280, sub_D1368, sub_D142C, IntrLoadSegRegs
+;-----------------------------------------------------------------------------
+; __CommonInit_                                                 D069B  library
+;-----------------------------------------------------------------------------
+__CommonInit_:
+        mov dword [__amblksiz], 8000h
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-sub_D06B0:
+;-----------------------------------------------------------------------------
+; IsTextModeWidth                                 D06B0  96 PC, low confidence
+; Returns whether the saved video state is a text mode of 40, 80, 100, 128 or
+; 132 columns
+;-----------------------------------------------------------------------------
+IsTextModeWidth:
         push ebx
         push edx
         push esi
@@ -56,6 +64,9 @@ sub_D06B0:
         pop ebx
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_D06FC                                                            D06FC  
+;-----------------------------------------------------------------------------
 sub_D06FC:
         push ebx
         push ecx
@@ -65,10 +76,10 @@ sub_D06FC:
         push ebp
         sub esp, byte 10h
         mov eax, esp
-        call sub_DF55C
+        call SaveVideoState
         mov eax, esp
         xor ebp, ebp
-        call sub_D06B0
+        call IsTextModeWidth
         test eax, eax
         je short .1
         mov edi, dword [esp]
@@ -82,7 +93,7 @@ sub_D06FC:
         add esp, byte 0Ch
         push eax
         mov ebp, eax
-        call sub_AC9CC
+        call MemDescPtr
         add esp, byte 4
         mov esi, eax
         push byte 10h
@@ -110,6 +121,9 @@ sub_D06FC:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_D077C                                                            D077C  
+;-----------------------------------------------------------------------------
 sub_D077C:
         push ebx
         push ecx
@@ -122,7 +136,7 @@ sub_D077C:
         test eax, eax
         je short .2
         push eax
-        call sub_AC9CC
+        call MemDescPtr
         add esp, byte 4
         mov edi, dword [eax]
         mov edx, dword [byte eax+04h]
@@ -136,7 +150,7 @@ sub_D077C:
         call sub_E0520
         add esp, byte 0Ch
         mov eax, esp
-        call sub_DF55C
+        call SaveVideoState
         mov eax, dword [byte esp+01Ch]
         mov edx, dword [byte esp+04h]
         cmp eax, edx
@@ -166,6 +180,9 @@ sub_D077C:
         pop ebx
         ret
         db 00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_D0800                                                            D0800  
+;-----------------------------------------------------------------------------
 sub_D0800:
         mov edx, dword [dword_1A10CC]
         mov eax, dword [dword_1228FC]
@@ -183,13 +200,16 @@ sub_D0800:
         mov ecx, dword [byte edx+024h]
         mov eax, edx
         test ecx, ecx
-        jne near sub_DD6C4
+        jne near SetScreenTarget
         push edx
         call SetDrawBitmap
         add esp, byte 4
 .1:
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_D0848                                                            D0848  
+;-----------------------------------------------------------------------------
 sub_D0848:
         push esi
         push ebp
@@ -233,7 +253,7 @@ sub_D0848:
         mov eax, dword [dword_1A10CC]
         cmp dword [byte eax+024h], byte 0
         je short .1
-        call sub_DD6C4
+        call SetScreenTarget
         jmp short .2
 .1:
         push eax
@@ -259,9 +279,12 @@ sub_D0848:
         pop esi
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_D0918                                                            D0918  
+;-----------------------------------------------------------------------------
 sub_D0918:
         push esi
-        mov eax, dword [dword_11F5B0]
+        mov eax, dword [MouseMoved]
         mov dword [dword_1A10C0], eax
         test eax, eax
         je short .2
@@ -292,6 +315,9 @@ sub_D0918:
         pop esi
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_D0984                                                            D0984  
+;-----------------------------------------------------------------------------
 sub_D0984:
         sub esp, byte 60h
         mov edx, dword [dword_11F5B4]
@@ -308,20 +334,20 @@ sub_D0984:
         mov eax, dword [dword_1A10CC]
         cmp dword [byte eax+024h], byte 0
         je short .1
-        call sub_DD6C4
+        call SetScreenTarget
         jmp short .2
 .1:
         push eax
         call SetDrawBitmap
         add esp, byte 4
 .2:
-        mov eax, dword [dword_1228D8]
+        mov eax, dword [ClipTopRow]
         mov dword [dword_1A10E8], eax
-        mov eax, dword [dword_1228DC]
+        mov eax, dword [ClipLeftCol]
         mov dword [dword_1A10EC], eax
-        mov eax, dword [dword_1228E0]
+        mov eax, dword [ClipRight]
         mov dword [dword_1A1100], eax
-        mov eax, dword [dword_1228E4]
+        mov eax, dword [ScreenHeight]
         mov dword [dword_1A10FC], eax
         mov eax, esp
         push eax
@@ -330,6 +356,9 @@ sub_D0984:
 .3:
         add esp, byte 60h
         ret
+;-----------------------------------------------------------------------------
+; sub_D09FC                                                            D09FC  
+;-----------------------------------------------------------------------------
 sub_D09FC:
         push esi
         push edi
@@ -349,20 +378,20 @@ sub_D09FC:
         mov eax, dword [dword_1A10CC]
         cmp dword [byte eax+024h], byte 0
         je short .1
-        call sub_DD6C4
+        call SetScreenTarget
         jmp short .2
 .1:
         push eax
         call SetDrawBitmap
         add esp, byte 4
 .2:
-        mov eax, dword [dword_1228D8]
+        mov eax, dword [ClipTopRow]
         mov dword [dword_1A10E8], eax
-        mov eax, dword [dword_1228DC]
+        mov eax, dword [ClipLeftCol]
         mov dword [dword_1A10EC], eax
-        mov eax, dword [dword_1228E0]
+        mov eax, dword [ClipRight]
         mov dword [dword_1A1100], eax
-        mov eax, dword [dword_1228E4]
+        mov eax, dword [ScreenHeight]
         mov esi, dword [dword_1A10C4]
         mov dword [dword_1A10FC], eax
         test esi, esi
@@ -409,7 +438,7 @@ sub_D09FC_A8:
         mov eax, dword [dword_1A10CC]
         cmp dword [byte eax+024h], byte 0
         je short .5
-        call sub_DD6C4
+        call SetScreenTarget
         jmp short .6
 .5:
         push eax
@@ -462,6 +491,9 @@ sub_D09FC_A8:
         pop esi
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_D0B78                                                            D0B78  
+;-----------------------------------------------------------------------------
 sub_D0B78:
         push esi
         push edi
@@ -473,24 +505,24 @@ sub_D0B78:
         mov eax, esp
         push eax
         call sub_E193C
-        mov edx, dword [dword_1228D8]
+        mov edx, dword [ClipTopRow]
         add esp, byte 4
         cmp ebp, edx
         jge short .1
         mov ebp, edx
 .1:
-        mov ebx, dword [dword_1228E0]
+        mov ebx, dword [ClipRight]
         cmp esi, ebx
         jle short .2
         mov esi, ebx
 .2:
         mov eax, dword [dword esp+080h]
-        mov ecx, dword [dword_1228DC]
+        mov ecx, dword [ClipLeftCol]
         cmp eax, ecx
         jge short .3
         mov dword [dword esp+080h], ecx
 .3:
-        mov eax, dword [dword_1228E4]
+        mov eax, dword [ScreenHeight]
         cmp edi, eax
         jle short .4
         mov edi, eax
@@ -544,7 +576,7 @@ sub_D0B78_A0:
         jne short .6
         cmp eax, dword [dword_1A10F8]
         jne short .6
-        mov eax, dword [dword_11F5B0]
+        mov eax, dword [MouseMoved]
         cmp eax, dword [dword_1A10C0]
         je near .16
 .6:
@@ -560,7 +592,7 @@ sub_D0B78_A0:
         mov eax, dword [dword_1A10CC]
         cmp dword [byte eax+024h], byte 0
         je short .7
-        call sub_DD6C4
+        call SetScreenTarget
         jmp short .8
 .7:
         push eax
@@ -613,7 +645,7 @@ sub_D0B78_A0:
         mov eax, dword [dword_1A10CC]
         cmp dword [byte eax+024h], byte 0
         je short .10
-        call sub_DD6C4
+        call SetScreenTarget
         jmp short .11
 .10:
         push eax
@@ -622,17 +654,17 @@ sub_D0B78_A0:
 .11:
         call sub_CFE8C
         mov ecx, dword [dword_1A10D0]
-        mov eax, dword [dword_1228E0]
+        mov eax, dword [ClipRight]
         push ecx
         mov dword [byte esp+064h], eax
-        mov eax, dword [dword_1228DC]
+        mov eax, dword [ClipLeftCol]
         push eax
         mov eax, dword [byte esp+068h]
         push eax
-        mov ebp, dword [dword_1228D8]
+        mov ebp, dword [ClipTopRow]
         push ebp
         push edi
-        mov edx, dword [dword_1228E4]
+        mov edx, dword [ScreenHeight]
         push esi
         mov dword [byte esp+07Ch], edx
         call sub_D0B78
@@ -689,7 +721,7 @@ sub_D0B78_A0:
         mov eax, dword [dword_1A10CC]
         cmp dword [byte eax+024h], byte 0
         je short .12
-        call sub_DD6C4
+        call SetScreenTarget
         jmp short .13
 .12:
         push eax
@@ -715,13 +747,16 @@ sub_D0B78_A0:
         pop esi
         ret
 .16:
-        mov eax, dword [dword_11F5B0]
+        mov eax, dword [MouseMoved]
         add esp, byte 68h
         pop ebp
         pop edi
         pop esi
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_D0E90                                                            D0E90  
+;-----------------------------------------------------------------------------
 sub_D0E90:
         push esi
         push edi
@@ -815,6 +850,9 @@ sub_D0E90:
         mov eax, dword [dword_1A10A4]
         mov dword [byte edx+08h], eax
         ret
+;-----------------------------------------------------------------------------
+; sub_D0FB8                                                            D0FB8  
+;-----------------------------------------------------------------------------
 sub_D0FB8:
         push esi
         push edi
@@ -832,7 +870,7 @@ sub_D0FB8:
         jne short .2
         test edx, edx
         je short .2
-        mov ecx, dword [dword eax+dword_1A1098]
+        mov ecx, dword [dword eax+CMainArgv]
         mov dword [dword eax+dword_1A109C], ecx
 .2:
         mov ecx, dword [dword eax+dword_1A109C]
@@ -893,6 +931,9 @@ sub_D0FB8:
         mov dword [dword_1A10CC], eax
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_D1080                                                            D1080  
+;-----------------------------------------------------------------------------
 sub_D1080:
         push esi
         push edi
@@ -900,7 +941,7 @@ sub_D1080:
         sub esp, 8Ch
         mov eax, dword [dword_11F5C0]
         xor edx, edx
-        mov esi, dword [dword_11F5A4]
+        mov esi, dword [MousePresent]
         mov dword [dword_1A10C4], edx
         mov dword [dword_1A10F0], edx
         mov dword [dword_1A10DC], edx
@@ -923,13 +964,13 @@ sub_D1080:
 .1:
         cmp dword [dword_14FAD8], byte 0
         jne near .5
-        mov ebp, dword_122900
+        mov ebp, BackBufferWidth
         mov eax, dword [dword_1A10D8]
         mov dword [dword_1A10CC], ebp
         test eax, eax
         je short .2
         push eax
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .2:
         push byte 0
@@ -1000,7 +1041,7 @@ sub_D1080:
         test ecx, ecx
         je short .7
         push ecx
-        call sub_ABF4C
+        call FreeMemBlock
         xor edi, edi
         add esp, byte 4
         mov dword [dword_1A10D8], edi
@@ -1031,6 +1072,9 @@ sub_D1080:
         pop edi
         ret
         db 00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_D1280                                                            D1280  
+;-----------------------------------------------------------------------------
 sub_D1280:
         push sub_D7DB0_30
         mov edx, 1
@@ -1076,8 +1120,8 @@ sub_D1280:
         push edi
         mov edx, dword [byte esp+0Ch]
         push edx
-        mov edi, dword [dword_11FA1C]
-        mov esi, dword [dword_11FA20]
+        mov edi, dword [TextOriginX]
+        mov esi, dword [TextOriginY]
         call fputchar
         add esp, byte 4
         mov ebx, dword [dword_11FA18]
@@ -1098,6 +1142,9 @@ sub_D1280:
         pop esi
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_D1368                                                            D1368  
+;-----------------------------------------------------------------------------
 sub_D1368:
         push esi
         push edi
@@ -1106,12 +1153,12 @@ sub_D1368:
         push edx
         mov ebx, dword [byte esp+018h]
         push ebx
-        call sub_B0240
+        call SetTextOrigin
         add esp, byte 8
         mov ecx, dword [byte esp+010h]
         push ecx
-        mov edi, dword [dword_11FA1C]
-        mov esi, dword [dword_11FA20]
+        mov edi, dword [TextOriginX]
+        mov esi, dword [TextOriginY]
         call fputchar
         add esp, byte 4
         mov ebp, dword [dword_11FA18]
@@ -1140,7 +1187,7 @@ sub_D1368:
         push edx
         mov ebx, dword [byte esp+018h]
         push ebx
-        call sub_B0240
+        call SetTextOrigin
         add esp, byte 8
         mov al, byte [byte esp+010h]
         mov byte [esp], al
@@ -1148,8 +1195,8 @@ sub_D1368:
         mov byte [byte esp+01h], ah
         mov eax, esp
         push eax
-        mov edi, dword [dword_11FA1C]
-        mov esi, dword [dword_11FA20]
+        mov edi, dword [TextOriginX]
+        mov esi, dword [TextOriginY]
         call fputchar
         add esp, byte 4
         mov ecx, dword [dword_11FA18]
@@ -1171,16 +1218,28 @@ sub_D1368:
         pop esi
         ret
         db 00h
+;-----------------------------------------------------------------------------
+; sub_D142C                                                            D142C  
+;-----------------------------------------------------------------------------
 sub_D142C:
-        o16 mov word [word_14FADC], ss
+        o16 mov word [SavedStackSegment], ss
         ret
+;-----------------------------------------------------------------------------
+; __CHK                                                         D1434  library
+;-----------------------------------------------------------------------------
 __CHK:
         xchg eax, dword [byte esp+04h]
         call __STK
         mov eax, dword [byte esp+04h]
         ret 4
+;-----------------------------------------------------------------------------
+; __GRO                                                         D1444  library
+;-----------------------------------------------------------------------------
 __GRO:
         ret 4
+;-----------------------------------------------------------------------------
+; __STK                                                         D1447  library
+;-----------------------------------------------------------------------------
 __STK:
         cmp eax, esp
         jae short .1
@@ -1191,20 +1250,23 @@ __STK:
         ret
 .1:
         mov ax, ss
-        cmp ax, word [word_14FADC]
+        cmp ax, word [SavedStackSegment]
         je short .2
         ret
 .2:
         mov eax, str_StackOverflow
         mov edx, 1
         call __fatal_runtime_error_
+;-----------------------------------------------------------------------------
+; __int386x_                                                    D1474  library
+;-----------------------------------------------------------------------------
 __int386x_:
         push ebp
         push es
         push ebx
         push ds
         push edx
-        call sub_D14AC
+        call IntrLoadSegRegs
         push ds
         push edi
         mov ebp, esp
@@ -1227,9 +1289,14 @@ __int386x_:
         pop es
         pop ebp
         ret
-sub_D14AC:
+;-----------------------------------------------------------------------------
+; IntrLoadSegRegs                                 D14AC  96 PC, low confidence
+; Loads the register set and segment registers for a protected-mode interrupt
+; call
+;-----------------------------------------------------------------------------
+IntrLoadSegRegs:
         lea esi, [esi+esi*2]
-        lea eax, [dword cs:esi+unk_D1552]
+        lea eax, [dword cs:esi+IntrStubs]
         push eax
         mov es, word [ebx]
         mov bp, word [byte ebx+06h]

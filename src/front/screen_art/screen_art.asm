@@ -12,8 +12,8 @@ extern dword_17BD0C, dword_17BD14, dword_17BD1C, dword_17BD20, dword_17BD48, dwo
 extern dword_17BD66, dword_17BD6E, dword_17BD72, dword_17BD7A, dword_17BD82, dword_17BD86, GetTicks, InitMenuItems
 extern LoadPackedFile, PutBlock, SetDrawBitmap, SetScreenPalette, SoundIdle, sprintf_, str_CHECK, str_M03d
 extern str_Mhil, str_MODEM, str_Pal7, str_TN02d, str_X03d, str_XBUT, str_Xhil, str_Y03d
-extern str_Yhil, sub_AA7E0, sub_AB758, sub_ABF4C, sub_AD35C, sub_AD620, sub_ADBEC, sub_B0254
-extern sub_B026C, sub_DD6C4, sub_DFF28, sub_E04E0, TextSetFont, unk_11BCE8, unk_11BD28, unk_11BD68
+extern str_Yhil, sub_AA7E0, sub_AB758, FreeMemBlock, sub_AD35C, sub_AD620, sub_ADBEC, SaveTextState
+extern SetDrawTarget, SetScreenTarget, sub_DFF28, sub_E04E0, TextSetFont, unk_11BCE8, unk_11BD28, unk_11BD68
 extern unk_17BB24
 global LoadFrontEndArt, LoadFrontEndArt_412, GetTeamNameArt, CopyArtRows, OpenScreen, SlideInTitleBar, SlideInTitleBar_62, SlideInTitleBar_6A
 global SlideInTitleBar_6D, SlideInSideBar, SlideInBottomBar, FreeFrontEndArt, SetScreenColors
@@ -229,7 +229,7 @@ LoadFrontEndArt:
         add eax, 7ABDh
         mov dword [dword_17BD14], 33h
         mov dword [dword_17BD00], eax
-        call sub_B0254
+        call SaveTextState
         add esp, byte 4
         push dword [dword_17BC78]
         call TextSetFont
@@ -358,7 +358,7 @@ OpenScreen:
         push edi
         enter 18h, 0
         push eax
-        call sub_DD6C4
+        call SetScreenTarget
         mov edx, 20h
         mov eax, dword [dword_17BAEC]
         call CopyBitmap
@@ -471,7 +471,7 @@ OpenScreen:
         rep movsb
         cmp dword [byte ebp-04h], byte 38h
         jne near .1
-        call sub_DD6C4
+        call SetScreenTarget
         test byte [byte ebp-01Ch], 2
         je short .2
         push dword [dword_17BD72]
@@ -500,13 +500,13 @@ OpenScreen:
         call sub_ADBEC
         add esp, byte 4
         push dword [byte ebp-018h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [byte ebp-010h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [byte ebp-014h]
-        call sub_ABF4C
+        call FreeMemBlock
         mov byte [byte_17BD8A], 0
         mov byte [byte_17BD8B], 0
         mov byte [byte_17BD8C], 0
@@ -531,7 +531,7 @@ SlideInTitleBar:
         push edx
         push esi
         push edi
-        call sub_DD6C4
+        call SetScreenTarget
         mov esi, 971h
 .1:
         push dword [dword_17BD72]
@@ -579,7 +579,7 @@ SlideInSideBar:
         push edx
         push esi
         push edi
-        call sub_DD6C4
+        call SetScreenTarget
         mov esi, 971h
 .1:
         push dword [dword_17BCA6]
@@ -615,7 +615,7 @@ SlideInBottomBar:
         push edx
         push esi
         push edi
-        call sub_DD6C4
+        call SetScreenTarget
         mov esi, 971h
 .1:
         push dword [dword_17BD0C]
@@ -659,30 +659,30 @@ FreeFrontEndArt:
         mov eax, 1
         call InitMenuItems
         push dword [dword_11BCE0]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_11BCE4]
         mov dword [dword_11BCE0], 0
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_17BC70]
         mov dword [dword_11BCE4], 0
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_17BC64]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_17BC68]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_17BC78]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_17BC74]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push unk_17BB24
-        call sub_B026C
+        call SetDrawTarget
         add esp, byte 4
         pop edx
         pop ecx

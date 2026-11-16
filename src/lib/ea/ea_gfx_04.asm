@@ -2,9 +2,12 @@
 bits 32
 %include "hockey.inc"
 section s_B7410 progbits alloc exec nowrite align=1
-extern _os_handle_0, _os_handle_1, sub_ABF4C, sub_AC470, sub_AC9B8, unpack, sub_B75A0, sub_E0520
-extern sub_E0671, sub_E07B8, sub_E07CC
-global sub_B7410, sub_B7498, sub_B74B0, sub_B74D0
+extern _os_handle_0, _os_handle_1, FreeMemBlock, FindCachedFileData, MemPtrSize, unpack, sub_B75A0, sub_E0520
+extern sub_E0671, DosCloseFile, sub_E07CC
+global sub_B7410, LoadFileInto, LoadFileToBlockShared, LoadFileToBlockPlain
+;-----------------------------------------------------------------------------
+; sub_B7410                                                            B7410  
+;-----------------------------------------------------------------------------
 sub_B7410:
         push esi
         push edi
@@ -12,13 +15,13 @@ sub_B7410:
         mov edi, dword [byte esp+01Ch]
         mov edx, dword [byte esp+018h]
         push edx
-        call sub_AC470
+        call FindCachedFileData
         mov esi, eax
         add esp, byte 4
         test eax, eax
         je short .1
         push eax
-        call sub_AC9B8
+        call MemPtrSize
         add esp, byte 4
         push eax
         push edi
@@ -26,7 +29,7 @@ sub_B7410:
         call sub_E0520
         add esp, byte 0Ch
         push esi
-        call sub_ABF4C
+        call FreeMemBlock
         jmp short .2
 .1:
         mov ebx, dword [byte esp+020h]
@@ -53,7 +56,7 @@ sub_B7410:
         mov edx, dword [esp]
         push edx
         mov esi, edi
-        call sub_E07B8
+        call DosCloseFile
 .2:
         add esp, byte 4
 .3:
@@ -63,7 +66,11 @@ sub_B7410:
         pop esi
         ret
         db 08Bh,0C0h
-sub_B7498:
+;-----------------------------------------------------------------------------
+; LoadFileInto                                    B7498  96 PC, low confidence
+; Loads a file into a buffer
+;-----------------------------------------------------------------------------
+LoadFileInto:
         push byte 1
         mov edx, dword [byte esp+0Ch]
         push edx
@@ -73,7 +80,11 @@ sub_B7498:
         add esp, byte 0Ch
         ret
         db 08Dh,040h,00h
-sub_B74B0:
+;-----------------------------------------------------------------------------
+; LoadFileToBlockShared                           B74B0  96 PC, low confidence
+; Loads a file into a memory block in shared mode
+;-----------------------------------------------------------------------------
+LoadFileToBlockShared:
         push byte 0
         mov edx, dword [byte esp+0Ch]
         push edx
@@ -83,7 +94,11 @@ sub_B74B0:
         add esp, byte 0Ch
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-sub_B74D0:
+;-----------------------------------------------------------------------------
+; LoadFileToBlockPlain                            B74D0  96 PC, low confidence
+; Loads a file into a memory block
+;-----------------------------------------------------------------------------
+LoadFileToBlockPlain:
         push esi
         push edi
         push ebp
@@ -118,7 +133,7 @@ sub_B74D0:
         jne short .2
         mov edx, dword [esp]
         push edx
-        call sub_E07B8
+        call DosCloseFile
         add esp, byte 4
         xor eax, eax
         add esp, byte 0Ch
@@ -160,7 +175,7 @@ sub_B74D0:
         add esp, byte 0Ch
         mov eax, dword [esp]
         push eax
-        call sub_E07B8
+        call DosCloseFile
         add esp, byte 4
         mov eax, edi
 .4:

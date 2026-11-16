@@ -4,13 +4,13 @@ bits 32
 section s_1512F0 progbits alloc noexec write align=1
 extern str_ULTRASND, unk_1142D0, str_Fs, str_Jan2, str_Feb3, str_Mar2, str_Apr2, str_May2
 extern str_Jun2, str_Jul2, str_Aug2, str_Sep2, str_Oct2, str_Nov2, str_Dec2
-global byte_1512F0, byte_1512F8, byte_151300, byte_151308, byte_151310, byte_151318, byte_15132C, byte_151360
-global byte_151364, byte_151368, dword_151320, dword_151324, dword_151328, dword_15133C, dword_151340, dword_151344
-global dword_151348, dword_15134C, dword_151350, dword_151354, dword_151358, dword_15135C, dword_15136C, dword_151370
-global dword_151374, dword_151378, dword_15137C, dword_151380, dword_151384, dword_151388, dword_15138C, dword_151394
+global byte_1512F0, byte_1512F8, byte_151300, byte_151308, byte_151310, byte_151318, GusIrqLatchBits, GusStreamVoiceA
+global GusStreamVoiceStereo, GusStreamVoiceB, dword_151320, GusEnvVarName, GusOpenCount, GusStreamRefillA, GusStreamRefillB, GusStreamSrcA
+global GusStreamHalfA, GusStreamBusyA, GusStreamSrcB, GusStreamHalfB, GusStreamBusyB, GusStreamActive, GusStreamBufSize, GusStreamHalfSize
+global GusStreamQuarterSize, GusRefillSrc, GusRefillDest, GusRefillLength, GusStreamCardA, GusStreamCardB, GusStreamCardEnd, GusStreamStartLo
 global dword_15139C, dword_1513A0, dword_1513A4, dword_1513A8, dword_1513AC, dword_1513B8, dword_1513BC, dword_1513C0
-global dword_1513C4, dword_1513C8, dword_1513CC, dword_1513D4, off_1513B0, word_151390, word_151392, word_151396
-global word_151398, word_15139A, word_15140C, word_15140E, word_151414, word_151416
+global dword_1513C4, dword_1513C8, dword_1513CC, dword_1513D4, off_1513B0, GusStreamLoopLo, GusStreamLoopHi, GusStreamStartHi
+global GusStreamEndLo, GusStreamEndHi, GusBasePort, GusIrqStatusPort, GusIrqLatchPort, GusDmaLatchPort
 byte_1512F0:
         db 087h,083h,081h,082h,08Fh,08Bh,089h,08Ah
 byte_1512F8:
@@ -25,65 +25,65 @@ byte_151318:
         db 01h,03h,05h,07h,0C2h,0C6h,0CAh,0CEh
 dword_151320:
         db 0FFh,0FFh,0FFh,0FFh
-dword_151324:
+GusEnvVarName:
         dd str_ULTRASND
-dword_151328:
+GusOpenCount:
         db 00h,00h,00h,00h
-byte_15132C:
+GusIrqLatchBits:
         db 00h,00h,01h,03h,00h,02h,00h,04h,00h,00h,00h,05h,06h,00h,00h,07h
-dword_15133C:
+GusStreamRefillA:
         db 00h,00h,00h,00h
-dword_151340:
+GusStreamRefillB:
         db 00h,00h,00h,00h
-dword_151344:
+GusStreamSrcA:
         db 00h,00h,00h,00h
-dword_151348:
+GusStreamHalfA:
         db 00h,00h,00h,00h
-dword_15134C:
+GusStreamBusyA:
         db 00h,00h,00h,00h
-dword_151350:
+GusStreamSrcB:
         db 00h,00h,00h,00h
-dword_151354:
+GusStreamHalfB:
         db 00h,00h,00h,00h
-dword_151358:
+GusStreamBusyB:
         db 00h,00h,00h,00h
-dword_15135C:
+GusStreamActive:
         db 00h,00h,00h,00h
-byte_151360:
+GusStreamVoiceA:
         db 00h,00h,00h,00h
-byte_151364:
+GusStreamVoiceStereo:
         db 00h,00h,00h,00h
-byte_151368:
+GusStreamVoiceB:
         db 00h,00h,00h,00h
-dword_15136C:
+GusStreamBufSize:
         db 00h,00h,00h,00h
-dword_151370:
+GusStreamHalfSize:
         db 00h,00h,00h,00h
-dword_151374:
+GusStreamQuarterSize:
         db 00h,00h,00h,00h
-dword_151378:
+GusRefillSrc:
         db 00h,00h,00h,00h
-dword_15137C:
+GusRefillDest:
         db 00h,00h,00h,00h
-dword_151380:
+GusRefillLength:
         db 00h,00h,00h,00h
-dword_151384:
+GusStreamCardA:
         db 00h,00h,00h,00h
-dword_151388:
+GusStreamCardB:
         db 00h,00h,00h,00h
-dword_15138C:
+GusStreamCardEnd:
         db 00h,00h,00h,00h
-word_151390:
+GusStreamLoopLo:
         db 00h,00h
-word_151392:
+GusStreamLoopHi:
         db 00h,00h
-dword_151394:
+GusStreamStartLo:
         db 00h,00h
-word_151396:
+GusStreamStartHi:
         db 00h,00h
-word_151398:
+GusStreamEndLo:
         db 00h,00h
-word_15139A:
+GusStreamEndHi:
         db 00h,00h
 dword_15139C:
         db 00h,00h,00h,00h
@@ -125,11 +125,11 @@ dword_1513D4:
         dd str_Nov2
         dd str_Dec2
         db 00h,00h,00h,00h
-word_15140C:
+GusBasePort:
         db 020h,02h
-word_15140E:
+GusIrqStatusPort:
         db 026h,02h,028h,02h,029h,02h
-word_151414:
+GusIrqLatchPort:
         db 02Bh,02h
-word_151416:
+GusDmaLatchPort:
         db 02Fh,02h

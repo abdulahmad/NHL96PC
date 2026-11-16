@@ -24,7 +24,7 @@
 #define SYM_RunInGameMenu           0x6A7D3u   /* front/pause_menu/pause_menu.asm */
 #define SYM_TimerISR_tick           0xAA5D5u   /* lib/ea/ea_timer.asm */
 #define SYM_sub_AB798               0xAB798u   /* lib/ea/ea_gfx_01.asm */
-#define SYM_sub_B03F2               0xB03F2u   /* lib/watcom/watcom_clib_03.asm */
+#define SYM_GetRandState            0xB03F2u   /* lib/watcom/watcom_clib_03.asm */
 #define SYM_start                   0xB6308u   /* lib/watcom/watcom_clib_05.asm */
 #define SYM___saved_DS              0xB65DDu   /* lib/watcom/watcom_clib_05.asm */
 #define SYM_SndSetDriver            0xC157Fu   /* lib/watcom/watcom_clib_08.asm */
@@ -64,14 +64,14 @@
 #define SYM_mousey                  0x11F5ACu   /* data/lib/lib_A8B9B_data_02.asm */
 #define SYM_tickdeadline            0x11F8DCu   /* data/lib/input/input_joystick_misc_01_data_01.asm */
 #define SYM_tickcount               0x11F9A4u   /* data/lib/input/input_joystick_misc_01_data_01.asm */
-#define SYM_dword_123AC4            0x123AC4u   /* data/lib/input/input_joystick_misc_02_data_02.asm */
+#define SYM_RetraceTimeout          0x123AC4u   /* data/lib/input/input_joystick_misc_02_data_02.asm */
 #define SYM__dynend                 0x1243F8u   /* data/lib/video/video_bios_vga_03_data_01.asm */
 #define SYM__curbrk                 0x1243FCu   /* data/lib/video/video_bios_vga_03_data_01.asm */
 #define SYM__LpCmdLine              0x124400u   /* data/lib/video/video_bios_vga_03_data_01.asm */
 #define SYM__psp                    0x124408u   /* data/lib/video/video_bios_vga_03_data_01.asm */
 #define SYM__STACKLOW               0x12440Cu   /* data/lib/video/video_bios_vga_03_data_01.asm */
 #define SYM__STACKTOP               0x124410u   /* data/lib/video/video_bios_vga_03_data_01.asm */
-#define SYM_dword_124414            0x124414u   /* data/lib/video/video_bios_vga_03_data_01.asm */
+#define SYM_CMainEnv                0x124414u   /* data/lib/video/video_bios_vga_03_data_01.asm */
 #define SYM___no87                  0x124428u   /* data/lib/video/video_bios_vga_03_data_01.asm */
 #define SYM__Extender               0x12442Au   /* data/lib/video/video_bios_vga_03_data_01.asm */
 #define SYM__ExtenderSubtype        0x12442Bu   /* data/lib/video/video_bios_vga_03_data_01.asm */
@@ -96,6 +96,6 @@
 #define SYM_dword_1A105C            0x1A105Cu   /* data/lib/sound/snd_soundblaster_bss_01.asm */
 #define SYM_dword_1A1078            0x1A1078u   /* data/lib/sound/snd_soundblaster_bss_01.asm */
 #define SYM_dword_1A107C            0x1A107Cu   /* data/lib/sound/snd_soundblaster_bss_01.asm */
-#define SYM_unk_1A1258              0x1A1258u   /* data/lib/ea/ea_debug_02_bss_01.asm */
+#define SYM_StartupStack            0x1A1258u   /* data/lib/ea/ea_debug_02_bss_01.asm */
 
 #endif

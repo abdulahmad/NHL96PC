@@ -5,18 +5,21 @@ section s_AB834 progbits alloc exec nowrite align=1
 extern FatalError, str_ReservememMEMORYMANAGERN, str_ReservememINVALIDSIZE, str_ReservememMEMORYMANAGERB, asc_113270, asc_1132AC, str_ReservememINVALIDTYPEFLAGS, str_ResizememINVALIDSIZE
 extern str_ResizememblockNOROOMTO, str_FindmemblockBLOCKNOTFOUND, asc_1133C0, str_GetmemblockNOMEMORYBLOCKS, dword_11F9B4, dword_11F9C0, dword_11F9C4, dword_1210CC
 extern dword_18568C, dword_185690, dword_185730, dword_185734, dword_185738, dword_18573C, strncmp_, strncpy_
-extern sub_AA564, sub_C3BE0, sub_C3C04, sub_E0520
-global findmemblock, sub_AB834, sub_AB87C, sub_ABD64, sub_ABF4C, sub_ABF88, sub_ABFB4, sub_AC0C4
-global sub_AC194, sub_AC244, sub_AC2B4, sub_AC360, sub_AC470, sub_AC484, sub_AC574, sub_AC5AC
-global sub_AC6D4, sub_AC70C, sub_AC838, sub_AC868, sub_AC89C, sub_AC950, getmemblock, sub_AC9B8
-global sub_AC9CC, sub_AC9D4, type_info__raw_name
+extern sub_AA564, MemLock, sub_C3C04, sub_E0520
+global findmemblock, sub_AB834, sub_AB87C, sub_ABD64, FreeMemBlock, sub_ABF88, sub_ABFB4, sub_AC0C4
+global sub_AC194, sub_AC244, sub_AC2B4, sub_AC360, FindCachedFileData, FindCachedFile, sub_AC574, sub_AC5AC
+global sub_AC6D4, sub_AC70C, sub_AC838, sub_AC868, sub_AC89C, sub_AC950, getmemblock, MemPtrSize
+global MemDescPtr, MemDescSize, type_info__raw_name
+;-----------------------------------------------------------------------------
+; sub_AB834                                                            AB834  
+;-----------------------------------------------------------------------------
 sub_AB834:
         push esi
         push edi
         push ebp
         mov edx, dword [dword_185734]
         push edx
-        call sub_C3BE0
+        call MemLock
         add esp, byte 4
         mov ebx, dword [byte esp+01Ch]
         push ebx
@@ -39,6 +42,9 @@ sub_AB834:
         pop esi
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_AB87C                                                            AB87C  
+;-----------------------------------------------------------------------------
 sub_AB87C:
         push esi
         push edi
@@ -491,6 +497,9 @@ sub_AB87C:
         add esp, byte 0Ch
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_ABD64                                                            ABD64  
+;-----------------------------------------------------------------------------
 sub_ABD64:
         push esi
         push edi
@@ -508,7 +517,7 @@ sub_ABD64:
         shl eax, 2
         mov esi, ebp
         add edi, eax
-        call sub_C3BE0
+        call MemLock
         mov eax, dword [byte ebp+020h]
         mov ebx, dword [byte ebp+00h]
         mov ebp, dword [byte edi+08h]
@@ -637,6 +646,9 @@ sub_ABD64:
         pop esi
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; findmemblock                                 ABEEC  95 PC, medium confidence
+;-----------------------------------------------------------------------------
 findmemblock:
         push esi
         push edi
@@ -675,7 +687,10 @@ findmemblock:
         pop esi
         ret
         db 08Dh,040h,00h
-sub_ABF4C:
+;-----------------------------------------------------------------------------
+; FreeMemBlock                                                    ABF4C  95 PC
+;-----------------------------------------------------------------------------
+FreeMemBlock:
         push esi
         mov edx, dword [byte esp+08h]
         push edx
@@ -684,7 +699,7 @@ sub_ABF4C:
         mov ebx, dword [dword_185734]
         push ebx
         mov esi, eax
-        call sub_C3BE0
+        call MemLock
         add esp, byte 4
         push esi
         call sub_ABFB4
@@ -696,10 +711,13 @@ sub_ABF4C:
         pop esi
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_ABF88                                                            ABF88  
+;-----------------------------------------------------------------------------
 sub_ABF88:
         mov edx, dword [dword_185734]
         push edx
-        call sub_C3BE0
+        call MemLock
         add esp, byte 4
         mov ebx, dword [byte esp+04h]
         push ebx
@@ -710,6 +728,9 @@ sub_ABF88:
         call sub_C3C04
         add esp, byte 4
         ret
+;-----------------------------------------------------------------------------
+; sub_ABFB4                                                            ABFB4  
+;-----------------------------------------------------------------------------
 sub_ABFB4:
         push esi
         mov eax, dword [byte esp+08h]
@@ -743,7 +764,7 @@ sub_ABFB4:
         mov ebx, dword [dword_185734]
         push ebx
         mov esi, eax
-        call sub_C3BE0
+        call MemLock
         mov esi, dword [byte esi+020h]
         mov ah, byte [byte esi+018h]
         add esp, byte 4
@@ -769,7 +790,7 @@ sub_ABFB4:
         push esi
         mov edx, dword [dword_185734]
         push edx
-        call sub_C3BE0
+        call MemLock
         add esp, byte 4
         mov esi, dword [byte esp+08h]
         mov esi, dword [byte esi+020h]
@@ -795,7 +816,7 @@ sub_ABFB4:
         push esi
         mov edx, dword [dword_185734]
         push edx
-        call sub_C3BE0
+        call MemLock
         add esp, byte 4
         mov ebx, dword [byte esp+08h]
         push ebx
@@ -810,6 +831,9 @@ sub_ABFB4:
         pop esi
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_AC0C4                                                            AC0C4  
+;-----------------------------------------------------------------------------
 sub_AC0C4:
         push esi
         push edi
@@ -878,7 +902,7 @@ sub_AC0C4:
         mov ebx, dword [dword_185734]
         push ebx
         mov esi, eax
-        call sub_C3BE0
+        call MemLock
         mov eax, dword [byte esi+018h]
         add esp, byte 4
         and al, 0F0h
@@ -891,12 +915,15 @@ sub_AC0C4:
         mov eax, esi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; sub_AC194                                                            AC194  
+;-----------------------------------------------------------------------------
 sub_AC194:
         push esi
         mov esi, dword [byte esp+08h]
         mov edx, dword [dword_185734]
         push edx
-        call sub_C3BE0
+        call MemLock
         mov eax, dword [byte esi+018h]
         add esp, byte 4
         and al, 0F0h
@@ -918,7 +945,7 @@ sub_AC194:
         mov ebx, dword [dword_185734]
         push ebx
         mov esi, eax
-        call sub_C3BE0
+        call MemLock
         mov eax, dword [byte esi+018h]
         add esp, byte 4
         and al, 0F0h
@@ -938,7 +965,7 @@ sub_AC194:
         mov esi, dword [byte esp+08h]
         mov edx, dword [dword_185734]
         push edx
-        call sub_C3BE0
+        call MemLock
         mov eax, dword [byte esi+018h]
         add esp, byte 4
         and al, 0F0h
@@ -954,6 +981,9 @@ sub_AC194:
         pop esi
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_AC244                                                            AC244  
+;-----------------------------------------------------------------------------
 sub_AC244:
         push esi
         push edi
@@ -1001,6 +1031,9 @@ sub_AC244:
         call sub_AC244
         add esp, byte 8
         ret
+;-----------------------------------------------------------------------------
+; sub_AC2B4                                                            AC2B4  
+;-----------------------------------------------------------------------------
 sub_AC2B4:
         push esi
         push edi
@@ -1053,7 +1086,7 @@ sub_AC2B4:
         push esi
         mov edx, dword [dword_185734]
         push edx
-        call sub_C3BE0
+        call MemLock
         add esp, byte 4
         mov ebx, dword [byte esp+08h]
         push ebx
@@ -1068,6 +1101,9 @@ sub_AC2B4:
         pop esi
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_AC360                                                            AC360  
+;-----------------------------------------------------------------------------
 sub_AC360:
         push esi
         push edi
@@ -1182,17 +1218,25 @@ sub_AC360:
         pop esi
         ret
         db 08Bh,0C0h
-sub_AC470:
+;-----------------------------------------------------------------------------
+; FindCachedFileData                              AC470  96 PC, low confidence
+; Returns the data pointer of a file already held in memory
+;-----------------------------------------------------------------------------
+FindCachedFileData:
         mov edx, dword [byte esp+04h]
         push edx
-        call sub_AC484
+        call FindCachedFile
         add esp, byte 4
         test eax, eax
         je short .1
         mov eax, dword [eax]
 .1:
         ret
-sub_AC484:
+;-----------------------------------------------------------------------------
+; FindCachedFile                                  AC484  96 PC, low confidence
+; Returns the memory block that already holds a file, revalidating it
+;-----------------------------------------------------------------------------
+FindCachedFile:
         push esi
         push edi
         push ebp
@@ -1230,7 +1274,7 @@ sub_AC484:
         add esp, byte 0Ch
         mov edx, dword [dword_185734]
         push edx
-        call sub_C3BE0
+        call MemLock
         add esp, byte 4
         push esi
         call sub_ABFB4
@@ -1290,11 +1334,14 @@ sub_AC484:
         pop esi
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_AC574                                                            AC574  
+;-----------------------------------------------------------------------------
 sub_AC574:
         push esi
         mov edx, dword [dword_185734]
         push edx
-        call sub_C3BE0
+        call MemLock
         mov eax, dword [dword_11F9B4]
         add esp, byte 4
         mov ebx, dword [eax]
@@ -1310,6 +1357,9 @@ sub_AC574:
         pop esi
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_AC5AC                                                            AC5AC  
+;-----------------------------------------------------------------------------
 sub_AC5AC:
         push esi
         push edi
@@ -1434,11 +1484,14 @@ sub_AC5AC:
         pop esi
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_AC6D4                                                            AC6D4  
+;-----------------------------------------------------------------------------
 sub_AC6D4:
         push esi
         mov edx, dword [dword_185734]
         push edx
-        call sub_C3BE0
+        call MemLock
         mov eax, dword [dword_11F9B4]
         add esp, byte 4
         mov ebx, dword [byte eax+04h]
@@ -1454,6 +1507,9 @@ sub_AC6D4:
         pop esi
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_AC70C                                                            AC70C  
+;-----------------------------------------------------------------------------
 sub_AC70C:
         push esi
         push edi
@@ -1590,11 +1646,14 @@ sub_AC70C:
         pop ebx
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_AC838                                                            AC838  
+;-----------------------------------------------------------------------------
 sub_AC838:
         push esi
         mov edx, dword [dword_185734]
         push edx
-        call sub_C3BE0
+        call MemLock
         add esp, byte 4
         push byte 0
         call sub_AC89C
@@ -1608,11 +1667,14 @@ sub_AC838:
         pop esi
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_AC868                                                            AC868  
+;-----------------------------------------------------------------------------
 sub_AC868:
         push esi
         mov edx, dword [dword_185734]
         push edx
-        call sub_C3BE0
+        call MemLock
         add esp, byte 4
         mov ebx, dword [byte esp+08h]
         push ebx
@@ -1627,6 +1689,9 @@ sub_AC868:
         pop esi
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_AC89C                                                            AC89C  
+;-----------------------------------------------------------------------------
 sub_AC89C:
         push esi
         push edi
@@ -1708,6 +1773,9 @@ sub_AC89C:
 .9:
         mov eax, edx
         ret
+;-----------------------------------------------------------------------------
+; sub_AC950                                                            AC950  
+;-----------------------------------------------------------------------------
 sub_AC950:
         mov eax, dword [byte esp+04h]
         mov ebx, dword [byte esp+08h]
@@ -1733,6 +1801,9 @@ sub_AC950:
         mov dword [byte edx+020h], eax
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; getmemblock                                  AC990  95 PC, medium confidence
+;-----------------------------------------------------------------------------
 getmemblock:
         cmp dword [dword_185730], byte 0
         jne short .1
@@ -1745,7 +1816,11 @@ getmemblock:
         mov dword [dword_185730], edx
         ret
         db 08Dh,040h,00h
-sub_AC9B8:
+;-----------------------------------------------------------------------------
+; MemPtrSize                                      AC9B8  96 PC, low confidence
+; Returns the size of the block that holds a pointer
+;-----------------------------------------------------------------------------
+MemPtrSize:
         mov edx, dword [byte esp+04h]
         push edx
         call findmemblock
@@ -1753,15 +1828,26 @@ sub_AC9B8:
         mov eax, dword [byte eax+014h]
         ret
         db 08Dh,040h,00h
-sub_AC9CC:
+;-----------------------------------------------------------------------------
+; MemDescPtr                                      AC9CC  96 PC, low confidence
+; Returns the data pointer of a block descriptor
+;-----------------------------------------------------------------------------
+MemDescPtr:
         mov eax, dword [byte esp+04h]
         mov eax, dword [eax]
         ret
         db 090h
-sub_AC9D4:
+;-----------------------------------------------------------------------------
+; MemDescSize                                     AC9D4  96 PC, low confidence
+; Returns the size of a block descriptor's data
+;-----------------------------------------------------------------------------
+MemDescSize:
         mov eax, dword [byte esp+04h]
         mov eax, dword [byte eax+014h]
         ret
+;-----------------------------------------------------------------------------
+; type_info__raw_name                                           AC9DC  library
+;-----------------------------------------------------------------------------
 type_info__raw_name:
         mov eax, dword [byte esp+04h]
         add eax, byte 4

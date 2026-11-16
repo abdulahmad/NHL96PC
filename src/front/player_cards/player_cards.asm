@@ -22,8 +22,8 @@ extern str_PLY4, str_Plyr2, str_PRN02, str_PRN12, str_PRN22, str_PROFILEFSH2, st
 extern str_S5, str_SD4, str_SEA4, str_SLDH2, str_Wt4, str_XTbl, strcat_, strlen_
 extern SelectDataLibrary, StatsDb5Record, StatsDb1Record, StatsDataBBRecord, StatsData4Record, StatsDb2Record, PlayerRatingsScreen_E11, PlayerRatingsScreen_E3B
 extern PlayerRatingsScreen_E44, PlayerRatingsScreen_E4D, PlayerRatingsScreen_E56, PlayerRatingsScreen_E5F, PlayerRatingsScreen_E68, PlayerRatingsScreen_E71, RatingBar, sub_AAA40
-extern sub_AADA4, sub_AADC0, sub_AB758, sub_ABF4C, sub_AD35C, sub_ADBEC, sub_B0430, sub_B0494
-extern sub_B2C54, sub_B2C70, sub_C2600, sub_DD6C4, sub_DD7B8, sub_DD908, sub_E04E0, TickDeadlinePassed
+extern sub_AADA4, sub_AADC0, sub_AB758, FreeMemBlock, sub_AD35C, sub_ADBEC, sub_B0430, LoadResourceDataShared
+extern sub_B2C54, sub_B2C70, sub_C2600, SetScreenTarget, sub_DD7B8, sub_DD908, sub_E04E0, TickDeadlinePassed
 extern unk_1129C2, unk_1129E4, unk_1129F7, unk_152C44, UpdateProgressBox
 global unk_903B5, unk_903F5, unk_90401, unk_90501, ShowPlayerCardTitle, SwitchPlayerCard, DrawLeagueLogo, DrawLeagueLogo_7D
 global SlideCardLeft, SlideCardRight, PlayerCardScreen, unk_91F1C, unk_91F48, unk_91F70, unk_91F9C, DrawPlayerCardStats
@@ -129,7 +129,7 @@ ShowPlayerCardTitle:
         mov dword [dword_1820A4], eax
         call sub_AAA40
         add esp, byte 0Ch
-        call sub_DD6C4
+        call SetScreenTarget
         push byte 64h
         push dword 118h
         push dword [byte esi+02Ch]
@@ -235,7 +235,7 @@ SwitchPlayerCard:
         mov eax, dword [dword_182110]
         call SlideCardRight
 .8:
-        call sub_DD6C4
+        call SetScreenTarget
         push byte 5Dh
         mov eax, dword [dword_182120]
         push byte 61h
@@ -276,7 +276,7 @@ SwitchPlayerCard:
         push esi
         call sub_ADBEC
         add esp, byte 4
-        call sub_DD6C4
+        call SetScreenTarget
         push byte 5Dh
         mov eax, dword [dword_182120]
         push byte 61h
@@ -689,7 +689,7 @@ PlayerCardScreen:
         push eax
         call PutBlock
         add esp, byte 0Ch
-        call sub_DD6C4
+        call SetScreenTarget
         push str_HBAL3
         push dword [dword_18210C]
         call sub_E04E0
@@ -1165,7 +1165,7 @@ PlayerCardScreen:
         push dword [dword_1820FC]
         call sub_DD908
         add esp, byte 4
-        call sub_DD6C4
+        call SetScreenTarget
         push byte 5Dh
         mov eax, dword [dword_182120]
         push byte 61h
@@ -1638,7 +1638,7 @@ PlayerCardScreen:
         push eax
         call PutBlock
         add esp, byte 0Ch
-        call sub_DD6C4
+        call SetScreenTarget
         push dword 8Ch
         mov eax, dword [byte ebp-02Ch]
         push dword 16Dh
@@ -1686,13 +1686,13 @@ PlayerCardScreen:
         cmp dword [dword_1820F8], byte 0
         je short .71
         push dword [dword_1820F8]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .71:
         mov dword [byte ebp-020h], 0
         push dword [dword_18210C]
         mov edi, 24h
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .72:
         mov dword [byte ebp-08h], edi
@@ -1727,10 +1727,10 @@ PlayerCardScreen:
         call sub_ADBEC
         add esp, byte 4
         push dword [dword_1820F4]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_1820FC]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         lea eax, [dword ebp-0454h]
         call FreeScrollBar
@@ -2764,7 +2764,7 @@ DrawPlayerCardStats_847:
         cmp esi, dword [byte ebp+012h]
         jl near .81
 .96:
-        call sub_DD6C4
+        call SetScreenTarget
         push dword 8Ch
         mov eax, dword [byte ebp-0Eh]
         push dword 16Dh
@@ -2792,7 +2792,7 @@ LoadPlayerCardArt:
         cmp dword [dword_1820F8], byte 0
         je short .1
         push dword [dword_1820F8]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .1:
         cmp dword [dword_11E887], byte 1
@@ -2818,7 +2818,7 @@ LoadPlayerCardArt:
         push byte 0
         lea eax, [byte ebp-028h]
         push eax
-        call sub_B0494
+        call LoadResourceDataShared
         mov dword [dword_11E883], 0
         add esp, byte 8
         mov dword [dword_1820F8], eax
@@ -2864,7 +2864,7 @@ LoadPlayerCardArt:
         push byte 0
         lea eax, [byte ebp-028h]
         push eax
-        call sub_B0494
+        call LoadResourceDataShared
         add esp, byte 8
         push str_Plyr2
         push eax
@@ -2876,7 +2876,7 @@ LoadPlayerCardArt:
 .5:
         push eax
         push str_PROFILEFSH2
-        call sub_B0494
+        call LoadResourceDataShared
         add esp, byte 8
         push str_Card2
         push eax
@@ -2978,7 +2978,7 @@ LoadPlayerCardArt:
         call sub_AAA40
         add esp, byte 0Ch
 .14:
-        call sub_DD6C4
+        call SetScreenTarget
         push byte 0
         mov eax, dword [dword_18211C]
         push byte 0
@@ -3200,7 +3200,7 @@ DrawPlayerCardName:
         mov edx, 62h
         lea eax, [byte ebp-038h]
         call DrawColorText
-        call sub_DD6C4
+        call SetScreenTarget
         push dword 173h
         push byte 65h
         push dword [byte edi+02Ch]
@@ -3245,7 +3245,7 @@ DrawPlayerCardName:
         push eax
         call PutBlock
         add esp, byte 0Ch
-        call sub_DD6C4
+        call SetScreenTarget
         push byte 64h
         push dword 118h
         push dword [byte esi+02Ch]

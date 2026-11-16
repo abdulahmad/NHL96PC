@@ -2,8 +2,11 @@
 bits 32
 %include "hockey.inc"
 section s_B2B30 progbits alloc exec nowrite align=1
-extern dword_1210C0, dword_1228D0, dword_1228F4, dword_1228FC, dword_122930, sub_DE3D8, sub_DEEE3
+extern dword_1210C0, ScreenWidth, dword_1228F4, dword_1228FC, dword_122930, VesaSetBank, sub_DEEE3
 global DrawArtOpaque, sub_B2C54, sub_B2C70
+;-----------------------------------------------------------------------------
+; DrawArtOpaque                                B2B30  95 PC, medium confidence
+;-----------------------------------------------------------------------------
 DrawArtOpaque:
         push esi
         push edi
@@ -32,7 +35,7 @@ DrawArtOpaque:
         mov eax, dword [dword_1228FC]
         mov edi, dword [byte esp+0Ch]
         mov dword [byte esp+04h], eax
-        mov eax, dword [dword_1228D0]
+        mov eax, dword [ScreenWidth]
         mov dword [byte esp+08h], ebp
         sub eax, edi
         mov edi, edx
@@ -41,7 +44,7 @@ DrawArtOpaque:
         mov dword [esp], eax
         mov eax, edi
         and edx, 0FFFFh
-        call sub_DE3D8
+        call VesaSetBank
         test ebp, ebp
         jle near .6
 .2:
@@ -67,7 +70,7 @@ DrawArtOpaque:
         mov ebp, dword [byte esp+010h]
         mov eax, edi
         and ebp, 0FFFFh
-        call sub_DE3D8
+        call VesaSetBank
         push ebp
         mov ecx, dword [byte esp+08h]
         push ecx
@@ -94,7 +97,7 @@ DrawArtOpaque:
         inc edi
         mov eax, edi
         and edx, 0FFFFh
-        call sub_DE3D8
+        call VesaSetBank
 .5:
         dec dword [byte esp+08h]
         jmp near .2
@@ -104,6 +107,9 @@ DrawArtOpaque:
         pop edi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; sub_B2C54                                                            B2C54  
+;-----------------------------------------------------------------------------
 sub_B2C54:
         mov edx, dword [byte esp+04h]
         mov eax, dword [byte edx+0Ch]
@@ -116,6 +122,9 @@ sub_B2C54:
         call DrawArtOpaque
         add esp, byte 0Ch
         ret
+;-----------------------------------------------------------------------------
+; sub_B2C70                                                            B2C70  
+;-----------------------------------------------------------------------------
 sub_B2C70:
         mov edx, dword [byte esp+04h]
         mov eax, dword [byte edx+08h]

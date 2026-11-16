@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_4B7BB progbits alloc exec nowrite align=1
 extern SortCords, dword_11A11C, dword_11A15C, dword_11A19C, dword_165254, dword_176BDC, optflags, gameopts
-extern gmode, off_11787C, puckc, off_11788C, passplayer, puckvx, puckx, pucky
+extern gmode, off_11787C, puckc, PtrPuckFlags, passplayer, puckvx, puckx, pucky
 extern randomd0, regd2, regd3, sub_3E6D4, SetSPA, GetHot, sub_4B748, PlaySfx
 extern vecdist, vtoa, word_1178B4, yc1, gmode2, word_1178F6, word_117914, word_117916
 extern word_165964, regd0, regd1
@@ -1141,7 +1141,7 @@ skateto:
         movsx eax, word [byte ebx+0Eh]
         or eax, edx
         jne near .15
-        mov edx, dword [off_11788C]
+        mov edx, dword [PtrPuckFlags]
         mov al, byte [byte edx+045h]
         and al, 1
         movzx eax, al

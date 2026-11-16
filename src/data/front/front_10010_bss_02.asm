@@ -4,7 +4,7 @@ bits 32
 section s_17C9AA nobits alloc noexec write align=1
 global byte_17CA1D, byte_17CA1E, byte_17CA1F, byte_17CA21, byte_17CA22, byte_17CA24, byte_17CA3C, byte_17CA54
 global byte_17CA55, byte_17CA56, byte_17CA57, byte_17CA58, byte_17CA59, byte_17CA5A, byte_17CA5B, byte_17CA5D
-global byte_17CA5E, byte_17CA5F, byte_17CA60, byte_17CA73, byte_17CA78, byte_17CA7A, byte_17CA86, byte_17CBEB
+global byte_17CA5E, byte_17CA5F, GlobalSetName, byte_17CA73, byte_17CA78, byte_17CA7A, byte_17CA86, byte_17CBEB
 global byte_17CC1D, byte_17CC1E, byte_17CC35, byte_17CC36, byte_17CC37, byte_17CC38, byte_17CECB, byte_17CECC
 global dword_17C9AA, dword_17C9F4, globalset, optblock, dword_17CA5C, dword_17CA76, dword_17CB2F, dword_17CBE7
 global dword_17CC13, dword_17CC17, dword_17CC1B, dword_17CEC3, dword_17CEC7, unk_17C9B8, unk_17C9CC, optblock_end
@@ -72,7 +72,7 @@ byte_17CA5E:
         resb 1
 byte_17CA5F:
         resb 1
-byte_17CA60:
+GlobalSetName:
         resb 19
 byte_17CA73:
         resb 2

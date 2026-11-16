@@ -2,15 +2,15 @@
 bits 32
 %include "hockey.inc"
 section s_11918B progbits alloc noexec write align=1
-global byte_119203, byte_119204, byte_119CC3, byte_119CC4, dword_11918F, dword_119193, dword_1191AF, dword_1191B3
+global byte_119203, byte_119204, byte_119CC3, byte_119CC4, AwayGoalsPeriod, HomeGoalsPeriod, dword_1191AF, dword_1191B3
 global dword_1191B7, dword_1191BB, dword_1191BF, dword_1191C3, dword_1191C7, dword_1191D7, dword_1191E7, dword_1191EB
 global dword_1191EF, dword_1191F3, dword_1191FB, dword_1191FF, dword_119D04, penshotlive, penshotmode, penshotstart
 global penshottimer, psendcount, shotontarget, word_11918B
 word_11918B:
         db 00h,00h,00h,00h
-dword_11918F:
+AwayGoalsPeriod:
         db 00h,00h,00h,00h
-dword_119193:
+HomeGoalsPeriod:
         db 00h,00h,00h,00h
 penshotmode:
         db 00h,00h,00h,00h

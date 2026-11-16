@@ -3,8 +3,11 @@ bits 32
 %include "hockey.inc"
 section s_D7BB2 progbits alloc exec nowrite align=1
 extern __EnterWVIDEO_, _nfree_, _nmalloc_, _Envptr, _environ, ___env_mask, memset_, strtod_
-extern sub_B6599, _Envptr_w4
+extern WriteConsoleMessage, _Envptr_w4
 global __cnvs2d_, __exit_with_msg_, __fatal_runtime_error_, __setenvp_, forcedecpt_, sub_D7D44
+;-----------------------------------------------------------------------------
+; forcedecpt_                                                   D7BB2  library
+;-----------------------------------------------------------------------------
 forcedecpt_:
         push ebx
         push ecx
@@ -49,6 +52,9 @@ forcedecpt_:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; __cnvs2d_                                                     D7BFA  library
+;-----------------------------------------------------------------------------
 __cnvs2d_:
         push ebx
         mov ebx, edx
@@ -57,6 +63,9 @@ __cnvs2d_:
         fstp qword [ebx]
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; __setenvp_                                                    D7C08  library
+;-----------------------------------------------------------------------------
 __setenvp_:
         push ebx
         push ecx
@@ -149,8 +158,14 @@ __setenvp_:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; __exit_with_msg_                                              D7CDC  library
+;-----------------------------------------------------------------------------
 __exit_with_msg_:
-        jmp near sub_B6599
+        jmp near WriteConsoleMessage
+;-----------------------------------------------------------------------------
+; __fatal_runtime_error_                                        D7CE1  library
+;-----------------------------------------------------------------------------
 __fatal_runtime_error_:
         push ebx
         push ecx
@@ -162,7 +177,7 @@ __fatal_runtime_error_:
         jne short .1
         mov eax, ebx
         mov edx, ecx
-        call sub_B6599
+        call WriteConsoleMessage
 .1:
         pop ecx
         pop ebx
@@ -213,6 +228,9 @@ __fatal_runtime_error_:
         pop ebx
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_D7D44                                                            D7D44  
+;-----------------------------------------------------------------------------
 sub_D7D44:
         sub esp, byte 4
         mov ebx, dword [byte esp+0Ch]

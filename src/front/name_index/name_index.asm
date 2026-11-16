@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_19382 progbits alloc exec nowrite align=1
 extern fputchar, str_backslash3, str_NAMEINDEX, strcat_, strcmp_, strcpy_, strlen_, sub_AB758
-extern sub_ABF4C, sub_B20EC, sub_B22E0
+extern FreeMemBlock, OpenArtArchive, SaveDataFile
 global unk_19382, NameIndexNew, NameIndexLoad, NameIndexLoad_ret, NameIndexSave, NameIndexFree, NameIndexAdd, NameIndexRemove
 global NameIndexId, NameIndexPath, NameIndexFirstId
 unk_19382:
@@ -80,7 +80,7 @@ NameIndexLoad:
         push byte 20h
         lea eax, [byte ebp-064h]
         push eax
-        call sub_B20EC
+        call OpenArtArchive
         add esp, byte 8
         mov ecx, eax
         test eax, eax
@@ -88,7 +88,7 @@ NameIndexLoad:
         cmp dword [eax], 2C093h
         je short .2
         push eax
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         xor eax, eax
         jmp short NameIndexLoad_ret
@@ -182,7 +182,7 @@ NameIndexSave:
         push ebx
         lea eax, [byte ebp-064h]
         push eax
-        call sub_B22E0
+        call SaveDataFile
         add esp, byte 0Ch
 .6:
         leave
@@ -217,7 +217,7 @@ NameIndexFree:
         je short .4
 .3:
         push edx
-        call sub_ABF4C
+        call FreeMemBlock
         mov eax, 1
         add esp, byte 4
 .4:
@@ -264,7 +264,7 @@ NameIndexAdd:
         mov dword [byte ebp-04h], eax
         rep movsb
         push dword [byte ebp-08h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         jmp short .2
 .1:
@@ -390,7 +390,7 @@ NameIndexRemove:
         jmp short .2
 .4:
         push dword [byte ebp-010h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .5:
         mov eax, dword [byte ebp-04h]

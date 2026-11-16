@@ -4,7 +4,7 @@ bits 32
 section s_1C627 progbits alloc exec nowrite align=1
 extern addtimer, dword_1150E8, dword_1150EC, dword_1150F0, dword_1150F4, dword_1150F8, dword_152FD8, dword_152FDC
 extern dword_152FE0, dword_152FE4, FatalError, str_CDSTREAM, str_DelstreamSTREAMNOTFOUND, str_SECCDSTREAM, str_SetstreamspeedSFILEISTOO, str_STREAM
-extern str_StreamreaderILLEGALCHUNK, strcmp_, strncpy_, sub_AA664, sub_AB758, sub_ABF4C, sub_B67BC, sub_B6824
+extern str_StreamreaderILLEGALCHUNK, strcmp_, strncpy_, RemoveTimerCallback, sub_AB758, FreeMemBlock, sub_B67BC, CdCloseFile
 extern sub_B68C8, sub_B6964, sub_B69EC, sub_B6A14, sub_B6B10, sub_DFEC6, sub_E0520
 global CdStreamInit, CdStreamOpen, CdStreamOpen_2B, CdStreamOpenDefault, setstreamspeed, delstream, CdStreamStart, CdStreamQueue
 global CdStreamSeek, CdStreamSyncTime, CdStreamInitSecondary, CdStreamOpenSecondary, jpt_1CB20, CdStreamService, CdStreamService_18, CdStreamService_2E
@@ -210,16 +210,16 @@ setstreamspeed:
         call sub_DFEC6
         push dword [byte ebp-0Ch]
         mov esi, eax
-        call sub_B6824
+        call CdCloseFile
         add esp, byte 4
         cmp dword [byte ebp-08h], byte 0
         je short .7
         push dword [byte ebp-010h]
-        call sub_B6824
+        call CdCloseFile
         add esp, byte 4
 .7:
         push edi
-        call sub_ABF4C
+        call FreeMemBlock
         imul ebx, dword [byte ebp-04h], byte 0Ah
         shl ebx, 10h
         mov eax, ebx
@@ -284,12 +284,12 @@ setstreamspeed:
         cmp esi, dword [dword_152FE4]
         jne short .13
         push CdStreamTimerTick
-        call sub_AA664
+        call RemoveTimerCallback
         add esp, byte 4
         cmp dword [byte esi+018h], byte 0
         je short .13
         push dword [byte esi+018h]
-        call sub_B6824
+        call CdCloseFile
         add esp, byte 4
 .13:
         pop ebp
@@ -311,19 +311,19 @@ delstream:
         cmp edi, edi
         jne short .1
         push CdStreamTimerTick
-        call sub_AA664
+        call RemoveTimerCallback
         add esp, byte 4
         cmp dword [byte edi+018h], byte 0
         je short .1
         push dword [byte edi+018h]
-        call sub_B6824
+        call CdCloseFile
         add esp, byte 4
 .1:
         mov esi, edi
 .2:
         push edi
         mov esi, dword [byte esi+05Ch]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov edi, esi
         test esi, esi
@@ -351,7 +351,7 @@ delstream:
         mov eax, dword [byte edi+05Ch]
         push edi
         mov dword [byte esi+05Ch], eax
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         pop ebp
         pop edi
@@ -535,7 +535,7 @@ CdStreamService_3C:
         cmp dword [byte eax+018h], byte 0
         je short .1
         push dword [byte eax+018h]
-        call sub_B6824
+        call CdCloseFile
         add esp, byte 4
 .1:
         lea eax, [byte ebp-04h]
@@ -565,7 +565,7 @@ CdStreamService_95:
         cmp dword [byte eax+018h], byte 0
         je short .2
         push dword [byte eax+018h]
-        call sub_B6824
+        call CdCloseFile
         add esp, byte 4
 .2:
         lea eax, [byte ebp-04h]

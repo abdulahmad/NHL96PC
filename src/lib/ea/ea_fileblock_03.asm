@@ -2,11 +2,14 @@
 bits 32
 %include "hockey.inc"
 section s_BE8C5 progbits alloc exec nowrite align=1
-extern __fprtf_, __sys_fini_387_emulator, dword_11F5F0, dword_1228D0, dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4
+extern __fprtf_, __sys_fini_387_emulator, str_Punct_DrawRinkSurface, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight
 extern dword_1228F8, dword_123AA4, dword_123AA8, dword_123AAC, dword_123ABC, dword_123AC0, dword_19F2D8, sub_C9E68
 extern sub_C9F3A, sub_CA0B0, sub_DD960, sub_DDA44, sub_DEF74
 global fprintf_, imul32, sub_BE926, sub_BE960, SortIndices, sub_BEAE4, sub_BEB48, sub_BEC30
 global sub_BEF44, sub_BEFF0
+;-----------------------------------------------------------------------------
+; imul32                                       BE8C5  95 PC, medium confidence
+;-----------------------------------------------------------------------------
 imul32:
         jmp near __sys_fini_387_emulator
         db 00h,00h
@@ -44,6 +47,9 @@ imul32:
         mov ebx, dword [byte esp+0Ch]
         div ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_BE926                                                            BE926  
+;-----------------------------------------------------------------------------
 sub_BE926:
         mov eax, dword [byte esp+04h]
         LD mov, ebx, eax
@@ -52,6 +58,9 @@ sub_BE926:
         idiv ebx
         ret
         db 00h,00h,00h
+;-----------------------------------------------------------------------------
+; fprintf_                                                      BE93C  library
+;-----------------------------------------------------------------------------
 fprintf_:
         push ebx
         push edx
@@ -67,6 +76,9 @@ fprintf_:
         db 05Bh                                 ; insn: pop ebx
         ret
         db 00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_BE960                                                            BE960  
+;-----------------------------------------------------------------------------
 sub_BE960:
         mov eax, dword [byte esp+04h]
         cmp eax, 10000h
@@ -158,6 +170,9 @@ sub_BE960:
         pop edi
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; SortIndices                                  BEA30  95 PC, medium confidence
+;-----------------------------------------------------------------------------
 SortIndices:
         push esi
         push edi
@@ -232,6 +247,9 @@ SortIndices:
         mov dword [dword_123AC0], edx
 .7:
         ret
+;-----------------------------------------------------------------------------
+; sub_BEAE4                                                            BEAE4  
+;-----------------------------------------------------------------------------
 sub_BEAE4:
         push esi
         push edi
@@ -270,6 +288,9 @@ sub_BEAE4:
         pop esi
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_BEB48                                                            BEB48  
+;-----------------------------------------------------------------------------
 sub_BEB48:
         push esi
         push edi
@@ -277,7 +298,7 @@ sub_BEB48:
         sub esp, byte 20h
         mov ebp, dword [byte esp+030h]
         mov edi, dword [byte esp+034h]
-        mov edx, dword [dword_11F5F0]
+        mov edx, dword [str_Punct_DrawRinkSurface]
         mov eax, dword [byte ebp+08h]
         cmp eax, edx
         jg short .1
@@ -347,6 +368,9 @@ sub_BEB48:
         pop esi
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_BEC30                                                            BEC30  
+;-----------------------------------------------------------------------------
 sub_BEC30:
         push esi
         push edi
@@ -367,9 +391,9 @@ sub_BEC30:
         je near .13
         test esi, esi
         je near .13
-        cmp ecx, dword [dword_1228E0]
+        cmp ecx, dword [ClipRight]
         jge near .13
-        cmp ebp, dword [dword_1228E4]
+        cmp ebp, dword [ScreenHeight]
         jge near .13
         test edx, edx
         jl short .1
@@ -379,7 +403,7 @@ sub_BEC30:
         mov eax, edx
         neg eax
 .2:
-        mov ebx, dword [dword_1228D8]
+        mov ebx, dword [ClipTopRow]
         add eax, ecx
         cmp eax, ebx
         jle near .13
@@ -391,7 +415,7 @@ sub_BEC30:
         mov eax, esi
         neg eax
 .4:
-        mov edx, dword [dword_1228DC]
+        mov edx, dword [ClipLeftCol]
         add eax, ebp
         cmp eax, edx
         jle near .13
@@ -434,7 +458,7 @@ sub_BEC30:
         shl edx, 10h
         add eax, edx
 .7:
-        mov edx, dword [dword_1228DC]
+        mov edx, dword [ClipLeftCol]
         cmp ebp, edx
         jge short .8
         sub edx, ebp
@@ -442,16 +466,16 @@ sub_BEC30:
         mov edx, dword [esp]
         imul edx, ebp
         sub esi, ebp
-        mov ebp, dword [dword_1228DC]
+        mov ebp, dword [ClipLeftCol]
         add edi, edx
 .8:
         lea edx, [esi+ebp]
-        cmp edx, dword [dword_1228E4]
+        cmp edx, dword [ScreenHeight]
         jle short .9
-        mov esi, dword [dword_1228E4]
+        mov esi, dword [ScreenHeight]
         sub esi, ebp
 .9:
-        mov edx, dword [dword_1228D8]
+        mov edx, dword [ClipTopRow]
         cmp ecx, edx
         jge short .10
         sub edx, ecx
@@ -461,14 +485,14 @@ sub_BEC30:
         add eax, edx
         mov edx, dword [byte esp+018h]
         sub edx, ecx
-        mov ecx, dword [dword_1228D8]
+        mov ecx, dword [ClipTopRow]
         mov dword [byte esp+018h], edx
 .10:
         mov edx, dword [byte esp+018h]
         add edx, ecx
-        cmp edx, dword [dword_1228E0]
+        cmp edx, dword [ClipRight]
         jle short .11
-        mov edx, dword [dword_1228E0]
+        mov edx, dword [ClipRight]
         sub edx, ecx
         mov dword [byte esp+018h], edx
 .11:
@@ -509,7 +533,7 @@ sub_BEC30:
         push ebp
         call sub_DDA44
         add esp, byte 0Ch
-        mov eax, dword [dword_1228D0]
+        mov eax, dword [ScreenWidth]
         mov edx, dword [esp]
         add ebp, eax
         add edi, edx
@@ -650,6 +674,9 @@ sub_BEC30:
         add esp, byte 14h
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; sub_BEF44                                                            BEF44  
+;-----------------------------------------------------------------------------
 sub_BEF44:
         push esi
         push edi
@@ -718,6 +745,9 @@ sub_BEF44:
         pop esi
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_BEFF0                                                            BEFF0  
+;-----------------------------------------------------------------------------
 sub_BEFF0:
         push esi
         push edi

@@ -14,7 +14,7 @@ extern dword_17DAC0, dword_17DAC4, dword_17DAC8, dword_17DACC, dword_17DAD0, dwo
 extern gameopts, hmtmgoalie, optflags, qword_11244E, qword_112456, qword_11245E, qword_112466, qword_11246E
 extern qword_112476, qword_11247E, rand_, str_Aps, str_GSUMMARYDB, str_Pblank, str_Pgblank, str_Pk
 extern str_Ps, str_Tmdata, str_Tmgstats, str_Tmstats, str_Tset, PlayerDbRecord, StatsDb5Record, StatsDb1Record
-extern sub_AB758, sub_ABF4C, sub_B7256, tag_agset, tag_apset, tag_gset, tag_pset, unk_112428
+extern sub_AB758, FreeMemBlock, UnlinkJump, tag_agset, tag_apset, tag_gset, tag_pset, unk_112428
 extern unk_11242B, unk_81ED1, UpdateTeamDbs, word_1656DC, word_1656E2, word_1656E8, word_165812, word_16581E
 extern word_17DB76
 global SimulateGame, unk_849C1, unk_849C7, unk_849CB, unk_849D1
@@ -2546,7 +2546,7 @@ SimulateGame:
         mov eax, str_GSUMMARYDB
         mov dword [dword ebp-08Eh], 0
         mov dword [dword ebp-08Ah], 0
-        call sub_B7256
+        call UnlinkJump
 .205:
         mov ebx, dword [dword ebp-08Ah]
         mov eax, dword [dword ebp-08Eh]
@@ -2792,40 +2792,40 @@ SimulateGame:
 .222:
         imul edi, dword [byte ebp-062h], byte 64h
         push dword [dword esi+dword_17DA60]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword esi+dword_17DA78]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword esi+dword_17DA58]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword esi+dword_17DA20]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword esi+dword_17DA88]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword esi+dword_17DA40]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword esi+dword_17DA28]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword esi+dword_17DA48]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword esi+dword_17D930]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword esi+dword_17DA90]
-        call sub_ABF4C
+        call FreeMemBlock
         mov eax, dword [byte ebp-07Eh]
         add esp, byte 4
         mov dword [dword ebp-086h], eax
 .223:
         push dword [dword edi+dword_17D950]
-        call sub_ABF4C
+        call FreeMemBlock
         add edi, byte 4
         add esp, byte 4
         cmp edi, dword [dword ebp-086h]
@@ -2835,7 +2835,7 @@ SimulateGame:
         imul edi, dword [byte ebp-062h], byte 0Ch
 .224:
         push dword [dword edi+dword_17D938]
-        call sub_ABF4C
+        call FreeMemBlock
         add edi, byte 4
         add esp, byte 4
         cmp edi, dword [dword ebp-082h]
@@ -2843,21 +2843,21 @@ SimulateGame:
         cmp dword [dword ebp-012Eh], byte 0
         je short .225
         push dword [dword esi+dword_17DA50]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .225:
         push dword [dword esi+dword_17DA18]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword esi+dword_17D928]
         add dword [byte ebp-07Eh], byte 64h
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         add dword [dword ebp+0C2h], byte 0Ch
         inc dword [byte ebp-062h]
         push dword [dword esi+dword_17DA38]
         add esi, byte 4
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         cmp dword [byte ebp-062h], byte 2
         jl near .222

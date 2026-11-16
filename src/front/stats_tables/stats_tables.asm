@@ -4,7 +4,7 @@ bits 32
 section s_1EA14 progbits alloc exec nowrite align=1
 extern dword_1174E0, dword_1174E4, dword_1174E8, dword_1174EC, dword_1174F0, dword_1174F4, dword_1174F8, dword_1174FC
 extern dword_117500, dword_117504, dword_117508, dword_11750C, dword_117510, dword_117514, dword_117518, dword_11751C
-extern LoadDataFile, MakeDataPath, strcat_, strcpy_, MakeSeasonDbPath, MakePlayoffDbPath, sub_ABF4C, sub_B20D0
+extern LoadDataFile, MakeDataPath, strcat_, strcpy_, MakeSeasonDbPath, MakePlayoffDbPath, FreeMemBlock, OpenArtArchiveErr
 extern sub_B7810, unk_117522
 global LoadSeasonStats, LoadSeasonStats_11A, LoadPlayoffStats, LoadExhibitionStats, LoadExhibitionStats_17E, LoadModemStats, FreeStatsTables, PlayerDbRecord
 global StatsDb5Record, StatsDb1Record, StatsDataBBRecord, StatsData4Record, StatsDb2Record
@@ -28,7 +28,7 @@ LoadSeasonStats:
         push byte 20h
         lea eax, [byte ebp-020h]
         push eax
-        call sub_B20D0
+        call OpenArtArchiveErr
         add esp, byte 8
         mov dword [dword_1174E0], eax
         lea eax, [byte ebp-020h]
@@ -43,7 +43,7 @@ LoadSeasonStats:
         push byte 20h
         lea eax, [byte ebp-020h]
         push eax
-        call sub_B20D0
+        call OpenArtArchiveErr
         add esp, byte 8
         mov dword [dword_1174E4], eax
         lea eax, [byte ebp-020h]
@@ -58,7 +58,7 @@ LoadSeasonStats:
         push byte 20h
         lea eax, [byte ebp-020h]
         push eax
-        call sub_B20D0
+        call OpenArtArchiveErr
         add esp, byte 8
         mov dword [dword_1174E8], eax
         lea eax, [byte ebp-020h]
@@ -73,7 +73,7 @@ LoadSeasonStats:
         push byte 20h
         lea eax, [byte ebp-020h]
         push eax
-        call sub_B20D0
+        call OpenArtArchiveErr
         add esp, byte 8
         mov dword [dword_1174EC], eax
         lea eax, [byte ebp-020h]
@@ -88,7 +88,7 @@ LoadSeasonStats:
         push byte 20h
         lea eax, [byte ebp-020h]
         push eax
-        call sub_B20D0
+        call OpenArtArchiveErr
         add esp, byte 8
         mov dword [dword_1174F0], eax
         lea eax, [byte ebp-020h]
@@ -104,7 +104,7 @@ LoadSeasonStats_11A:
         push byte 20h
         lea eax, [byte ebp-020h]
         push eax
-        call sub_B20D0
+        call OpenArtArchiveErr
         add esp, byte 8
         mov dword [dword_1174F4], eax
         lea eax, [byte ebp-020h]
@@ -161,7 +161,7 @@ LoadPlayoffStats:
         push byte 20h
         lea eax, [byte ebp-020h]
         push eax
-        call sub_B20D0
+        call OpenArtArchiveErr
         add esp, byte 8
         mov dword [dword_1174E0], eax
         lea eax, [byte ebp-020h]
@@ -176,7 +176,7 @@ LoadPlayoffStats:
         push byte 20h
         lea eax, [byte ebp-020h]
         push eax
-        call sub_B20D0
+        call OpenArtArchiveErr
         add esp, byte 8
         mov dword [dword_1174E4], eax
         lea eax, [byte ebp-020h]
@@ -191,7 +191,7 @@ LoadPlayoffStats:
         push byte 20h
         lea eax, [byte ebp-020h]
         push eax
-        call sub_B20D0
+        call OpenArtArchiveErr
         add esp, byte 8
         mov dword [dword_1174E8], eax
         lea eax, [byte ebp-020h]
@@ -206,7 +206,7 @@ LoadPlayoffStats:
         push byte 20h
         lea eax, [byte ebp-020h]
         push eax
-        call sub_B20D0
+        call OpenArtArchiveErr
         add esp, byte 8
         mov dword [dword_1174EC], eax
         lea eax, [byte ebp-020h]
@@ -221,7 +221,7 @@ LoadPlayoffStats:
         push byte 20h
         lea eax, [byte ebp-020h]
         push eax
-        call sub_B20D0
+        call OpenArtArchiveErr
         add esp, byte 8
         mov dword [dword_1174F0], eax
         lea eax, [byte ebp-020h]
@@ -456,7 +456,7 @@ FreeStatsTables:
         cmp dword [dword_1174F4], byte 0
         je short .1
         push dword [dword_1174F4]
-        call sub_ABF4C
+        call FreeMemBlock
         mov dword [dword_1174F4], 0
         mov dword [dword_117514], 0
         add esp, byte 4
@@ -464,7 +464,7 @@ FreeStatsTables:
         cmp dword [dword_1174F0], byte 0
         je short .2
         push dword [dword_1174F0]
-        call sub_ABF4C
+        call FreeMemBlock
         mov dword [dword_1174F0], 0
         mov dword [dword_117510], 0
         add esp, byte 4
@@ -472,7 +472,7 @@ FreeStatsTables:
         cmp dword [dword_1174EC], byte 0
         je short .3
         push dword [dword_1174EC]
-        call sub_ABF4C
+        call FreeMemBlock
         mov dword [dword_1174EC], 0
         mov dword [dword_11750C], 0
         add esp, byte 4
@@ -480,7 +480,7 @@ FreeStatsTables:
         cmp dword [dword_1174E8], byte 0
         je short .4
         push dword [dword_1174E8]
-        call sub_ABF4C
+        call FreeMemBlock
         mov dword [dword_1174E8], 0
         mov dword [dword_117508], 0
         add esp, byte 4
@@ -488,7 +488,7 @@ FreeStatsTables:
         cmp dword [dword_1174E4], byte 0
         je short .5
         push dword [dword_1174E4]
-        call sub_ABF4C
+        call FreeMemBlock
         mov dword [dword_1174E4], 0
         mov dword [dword_117504], 0
         add esp, byte 4
@@ -496,7 +496,7 @@ FreeStatsTables:
         cmp dword [dword_1174E0], byte 0
         je short .6
         push dword [dword_1174E0]
-        call sub_ABF4C
+        call FreeMemBlock
         mov dword [dword_1174E0], 0
         mov dword [dword_117500], 0
         add esp, byte 4
@@ -504,7 +504,7 @@ FreeStatsTables:
         cmp dword [dword_1174FC], byte 0
         je short .7
         push dword [dword_1174FC]
-        call sub_ABF4C
+        call FreeMemBlock
         mov dword [dword_1174FC], 0
         mov dword [dword_11751C], 0
         add esp, byte 4
@@ -512,7 +512,7 @@ FreeStatsTables:
         cmp dword [dword_1174F8], byte 0
         je short .8
         push dword [dword_1174F8]
-        call sub_ABF4C
+        call FreeMemBlock
         mov dword [dword_1174F8], 0
         mov dword [dword_117518], 0
         add esp, byte 4

@@ -9,7 +9,7 @@ extern InGameMenuRequest, introskipped, lastplayer, lcblink, lcboxon, lcline, Li
 extern optblock, passplayer, Pencntdwn, Pencntdwn2, penshotlive, penshotmode, penshotplayer, penshotstart
 extern puckx, pucky, refhitcount, regd0, regd1, regd2, ResetClock, SetSPA
 extern SetupTeamLines, shotongoal, shotontarget, SortCords, StartGame, StartPreGame, sub_AA500, sub_AFFD0
-extern sub_DD6C4, threat, vtoa, word_1178A8, word_1178AC, word_1178AE, word_1178F4, word_1178F6
+extern SetScreenTarget, threat, vtoa, word_1178A8, word_1178AC, word_1178AE, word_1178F4, word_1178F6
 extern word_1178F8, word_1178FA, word_1178FC, word_118E8F, word_118E9F, word_118EA3, word_118EA5, word_118EA7
 extern word_118EA9, word_118EAB, word_118EAF, word_118EB1, word_118EB3, word_118EB7, word_1190D7, word_1190D9
 extern word_11910B, word_11910F, word_119113, word_1656D2, word_1656D6, word_165710, word_165846, word_165964
@@ -24,7 +24,7 @@ BlankForFadeIn:
         push ebx
         push ecx
         push edx
-        call sub_DD6C4
+        call SetScreenTarget
 .1:
         push dword 0FFh
         push byte 4

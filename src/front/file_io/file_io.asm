@@ -4,7 +4,7 @@ bits 32
 section s_1DC65 progbits alloc exec nowrite align=1
 extern _dos_close_, _dos_creat_, _dos_getdiskfree_, _dos_open_, _dos_read_, _dos_write_, FatalError, lseek_
 extern rmdir_, str_backslash4, str_COPYBUFFER, str_dot2, str_ErrDiskFree2, strcat_, strcpy_, FillMusicStream
-extern SoundSecondsToBytes, sub_AB758, sub_ABF4C, sub_B71D4, sub_B71F1, sub_B7256, unk_1106EC
+extern SoundSecondsToBytes, sub_AB758, FreeMemBlock, sub_B71D4, sub_B71F1, UnlinkJump, unk_1106EC
 global FileMissing, DeleteFiles, FileOpenRead, FileOpenRead_1A, FileOpenWrite, FileOpenReadWrite, FileCreate, FileClose
 global FileReadAt, FileReadAt_5B, FileReadAt_5D, FileWriteAt, FileWriteAt_6B, FileWriteAt_77, FileCopy, FileCopy_ret
 global WriteDbRecord6, ReadSeasonHeader
@@ -97,7 +97,7 @@ DeleteFiles:
         call SoundSecondsToBytes
         call FillMusicStream
         lea eax, [byte ebp-020h]
-        call sub_B7256
+        call UnlinkJump
 .1:
         mov eax, 2
         call SoundSecondsToBytes
@@ -120,7 +120,7 @@ DeleteFiles:
         call SoundSecondsToBytes
         call FillMusicStream
         lea eax, [byte ebp-020h]
-        call sub_B7256
+        call UnlinkJump
 .2:
         test ebx, ebx
         je short .1
@@ -172,7 +172,7 @@ DeleteFiles:
         call SoundSecondsToBytes
         call FillMusicStream
         lea eax, [byte ebp-020h]
-        call sub_B7256
+        call UnlinkJump
 .4:
         mov eax, 2
         call SoundSecondsToBytes
@@ -195,7 +195,7 @@ DeleteFiles:
         call SoundSecondsToBytes
         call FillMusicStream
         lea eax, [byte ebp-020h]
-        call sub_B7256
+        call UnlinkJump
 .5:
         test ebx, ebx
         je short .4
@@ -519,7 +519,7 @@ FileCopy:
 .7:
         push dword [byte ebp-04h]
         mov dword [edx], 0FFFFFFFFh
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov eax, esi
 FileCopy_ret:

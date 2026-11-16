@@ -3,11 +3,14 @@ bits 32
 %include "hockey.inc"
 section s_BF534 progbits alloc exec nowrite align=1
 extern FatalError, __STOSB, str_InitgraphicsINITMEMMAN, str_InitgraphicsINVALIDSCREEN, str_VESAVideoBiosDriver, dword_11F5A0, dword_11F5C0, dword_11F5C4
-extern dword_11F5CC, dword_11F5D0, dword_11F5D4, dword_11F5D8, dword_1210CC, dword_1228D0, dword_122900, dword_122904
+extern dword_11F5CC, dword_11F5D0, dword_11F5D4, dword_11F5D8, dword_1210CC, ScreenWidth, BackBufferWidth, dword_122904
 extern dword_122908, dword_12290C, dword_122910, dword_122914, dword_122918, dword_122920, dword_122924, dword_122930
-extern dword_123930, dword_123ACC, dword_123AD0, dword_124014, dword_124018, dword_19B650, dword_1A0B1C, sub_ADBEC
-extern sub_BF300, sub_BF42C, sub_DD6C4, sub_DE3D8, sub_DE44E, sub_DE45F, SaveTextMode
+extern dword_123930, dword_123ACC, dword_123AD0, VesaBank, VesaBankFunc, dword_19B650, dword_1A0B1C, sub_ADBEC
+extern sub_BF300, sub_BF42C, SetScreenTarget, VesaSetBank, sub_DE44E, sub_DE45F, SaveTextMode
 global initgraphics, sub_BF8A8, sub_BF8D0
+;-----------------------------------------------------------------------------
+; initgraphics                                 BF534  95 PC, medium confidence
+;-----------------------------------------------------------------------------
 initgraphics:
         push esi
         push edi
@@ -179,25 +182,25 @@ initgraphics:
         mov dword [dword_11F5A0], ecx
         xor esi, esi
         sar eax, 10h
-        mov dword [dword_124018], esi
+        mov dword [VesaBankFunc], esi
         test eax, eax
         je short .24
 .23:
         cmp eax, byte 40h
         jge short .24
-        mov ebp, dword [dword_124018]
+        mov ebp, dword [VesaBankFunc]
         inc ebp
         add eax, eax
-        mov dword [dword_124018], ebp
+        mov dword [VesaBankFunc], ebp
         jmp short .23
 .24:
         xor eax, eax
-        mov dword [dword_124014], eax
+        mov dword [VesaBank], eax
         mov al, byte [byte esp+03h]
         and al, 1
         and eax, 0FFh
         je short .25
-        mov dword [dword_124014], 1
+        mov dword [VesaBank], 1
 .25:
         mov ebp, 8
         mov eax, dword [dword_11F5CC]
@@ -205,7 +208,7 @@ initgraphics:
         mov dword [dword_11F5C0], ebx
         mov dword [dword_11F5C4], edx
         mov esi, ebx
-        mov dword [dword_122900], ebx
+        mov dword [BackBufferWidth], ebx
         mov dword [dword_122904], edx
         mov dword [dword_122910], ebx
         sub esi, eax
@@ -248,7 +251,7 @@ initgraphics:
         cmp edi, byte 50h
         jne short .28
         mov eax, 0FFFFFFFFh
-        call sub_DE3D8
+        call VesaSetBank
         mov esi, dword [dword_1A0B1C]
         test esi, esi
         je short .29
@@ -258,14 +261,17 @@ initgraphics:
         add esp, byte 4
         mov dword [dword_1A0B1C], ebp
 .29:
-        call sub_DD6C4
-        mov dword [dword_19B650], dword_1228D0
+        call SetScreenTarget
+        mov dword [dword_19B650], ScreenWidth
         add esp, 208h
         pop ebp
         pop edi
         pop esi
         ret
         db 00h,00h
+;-----------------------------------------------------------------------------
+; sub_BF8A8                                                            BF8A8  
+;-----------------------------------------------------------------------------
 sub_BF8A8:
         push ebp
         LD mov, ebp, esp
@@ -287,6 +293,9 @@ sub_BF8A8:
         leave
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_BF8D0                                                            BF8D0  
+;-----------------------------------------------------------------------------
 sub_BF8D0:
         push esi
         push edi

@@ -5,7 +5,7 @@ section s_5D707 progbits alloc exec nowrite align=1
 extern __CHP, BuildShadeLut, byte_1175A4, byte_1175A5, byte_1175A6, byte_1175A7, byte_1175A8, byte_1175A9
 extern byte_1175AA, byte_1175AB, byte_1175AC, byte_11B380, byte_11B3C5, byte_11B40A, byte_11B44F, byte_11B494
 extern byte_11B4D9, byte_11B51E, byte_11B563, byte_11B5A8, byte_11B5ED, byte_11B632, byte_11BB20, byte_11BB24
-extern byte_11BB28, byte_1647E3, byte_176AE2, byte_1770A6, byte_1770B1, byte_179D7C, byte_179DC1, byte_179E47
+extern HexDigits, byte_1647E3, byte_176AE2, byte_1770A6, byte_1770B1, byte_179D7C, byte_179DC1, byte_179E47
 extern byte_17CA5D, DemoMode, dword_11A3F8, dword_11B234, dword_11B244, dword_11B314, dword_11B318, dword_11B31C
 extern dword_11B320, dword_11B324, dword_11B328, dword_11B32C, dword_11B330, dword_11B334, dword_11B338, dword_11B364
 extern dword_11B368, dword_11B370, dword_11B374, dword_11B37C, dword_11B381, dword_11B3C1, dword_11B3C6, dword_11B406
@@ -23,10 +23,10 @@ extern dword_179DBD, dword_179DC2, dword_179DC6, dword_179DCA, dword_179DCE, dwo
 extern dword_179E0F, dword_179E13, dword_179E17, dword_179E1B, dword_179E1F, dword_179E23, dword_179E27, dword_179E2B
 extern dword_179E2F, dword_179E33, dword_179E37, dword_179E3B, dword_179E3F, dword_179E43, dword_17CA5C, fox
 extern foy, FullViewClip, gameclock, GameLoopActive, GetTicks, gmode, off_11787C, off_117890
-extern off_117894, passplayer, penshotlive, penshotmode, penshotstart, puckc, puckvx, puckvz
+extern PtrPuckObject, passplayer, penshotlive, penshotmode, penshotstart, puckc, puckvx, puckvz
 extern QueueOverlayPanel, qword_111084, qword_11108C, qword_111094, qword_11109C, qword_1110A4, qword_1110AC, qword_1110B4
 extern qword_1110BC, rand_, seed, seed_w2, SetClipWindow, SetDrawBitmap, sflags, SortCords
-extern str_Priority2, AddIceCrud, SetRinkClipWindow, sub_AB758, sub_ABF4C, sub_BA420, sub_BB9C4, sub_BC674
+extern str_Priority2, AddIceCrud, SetRinkClipWindow, sub_AB758, FreeMemBlock, sub_BA420, sub_BB9C4, sub_BC674
 extern sub_BEAE4, sub_DFE9C, sub_DFF28, sub_E0584, sub_E1638, sub_E167A, unk_11B673, unk_11B6B8
 extern unk_11B6FD, unk_11B811, unk_11B856, unk_11B89B, unk_11B8E0, unk_11B925, unk_11B96A, unk_11B9AF
 extern unk_16443C, unk_1781E4, unk_179CCC, unk_179CE4, unk_179CFC, unk_179D14, unk_179D2C, unk_179E02
@@ -3612,7 +3612,7 @@ EndCameraShot:
         mov ebx, dword [byte edx+0Dh]
         push edx
         mov dword [byte eax+0Dh], ebx
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         cmp dword [dword_11B334], byte 0
         je short .2
@@ -4377,7 +4377,7 @@ UpdateCamera:
         mov edx, dword [byte edx+0Dh]
         jmp short .6
 .7:
-        mov eax, dword [off_117894]
+        mov eax, dword [PtrPuckObject]
         movsx ebx, word [byte eax+01Ch]
         movsx eax, byte [byte ebx+eax+01Eh]
         mov dword [dword_179D5C], eax
@@ -4843,7 +4843,7 @@ vtoa:
         jb short .5
         or ebx, byte 8
 .5:
-        mov al, byte [dword ebx+byte_11BB28]
+        mov al, byte [dword ebx+HexDigits]
         cbw
         pop edx
         pop ecx

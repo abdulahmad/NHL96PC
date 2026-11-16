@@ -2,14 +2,14 @@
 bits 32
 %include "hockey.inc"
 section s_1210D0 progbits alloc noexec write align=1
-global str_OpenhandleSFILEERROR, byte_1219A7, byte_1219A8, byte_121AFC, dword_1210D0, dword_1210D6, dword_1219A0, dword_1219A4
-global dword_121AA8, dword_121AD8, dword_121B24, dword_121B28, dword_121B2C, dword_121B30, dword_121B34, unk_1210DC
-global unk_1213DC, unk_1213FC, unk_1215B8, word_1210D4, word_1210DA, word_121ADC, word_121ADE
+global str_OpenhandleSFILEERROR, byte_1219A7, QuantizeTable, byte_121AFC, dword_1210D0, BreakCallFunc, dword_1219A0, dword_1219A4
+global dword_121AA8, FpuFlags, dword_121B24, dword_121B28, dword_121B2C, dword_121B30, dword_121B34, unk_1210DC
+global unk_1213DC, unk_1213FC, unk_1215B8, word_1210D4, word_1210DA, str_Punct_InitFpuFlags, SavedEsSelector
 dword_1210D0:
         db 00h,00h,00h,00h
 word_1210D4:
         db 00h,00h
-dword_1210D6:
+BreakCallFunc:
         db 00h,00h,00h,00h
 word_1210DA:
         db 00h,00h
@@ -164,7 +164,7 @@ dword_1219A4:
         db 00h,00h,00h
 byte_1219A7:
         db 00h
-byte_1219A8:
+QuantizeTable:
         db 01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h
         db 01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h
         db 01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h
@@ -185,11 +185,11 @@ dword_121AA8:
         db 00h,00h,01h,00h,0AAh,0AAh,00h,00h,00h,080h,00h,00h,0C7h,071h,00h,00h
         db 055h,055h,00h,00h,00h,040h,00h,00h,0E3h,038h,00h,00h,0AAh,02Ah,00h,00h
         db 00h,020h,00h,00h,071h,01Ch,00h,00h,055h,015h,00h,00h,00h,010h,00h,00h
-dword_121AD8:
+FpuFlags:
         db 00h,00h,00h,00h
-word_121ADC:
+str_Punct_InitFpuFlags:
         db 020h,00h
-word_121ADE:
+SavedEsSelector:
         db 00h,00h
 str_OpenhandleSFILEERROR:
         db 06Fh,070h,065h,06Eh,068h,061h,06Eh,064h,06Ch,065h,020h,02Dh,020h,025h,073h,020h

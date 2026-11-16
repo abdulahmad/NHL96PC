@@ -2,9 +2,12 @@
 bits 32
 %include "hockey.inc"
 section s_DB9FA progbits alloc exec nowrite align=1
-extern _Scale10V_, __CHP, __Nan_Inf_, __cvt_, __set_ERANGE_, byte_151520, dword_114AE8, dword_114AEC
-extern floor_, memset_, sub_DD084
+extern _Scale10V_, __CHP, __Nan_Inf_, __cvt_, __set_ERANGE_, WVideoActive, dword_114AE8, dword_114AEC
+extern floor_, memset_, DecimalToInt64
 global AdjField_, DoEFormat_, DoFFormat_, _FtoS_, __EnterWVIDEO_, DoEFormat__A5, strtod_
+;-----------------------------------------------------------------------------
+; DoEFormat_                                                    DB9FA  library
+;-----------------------------------------------------------------------------
 DoEFormat_:
         push esi
         push edi
@@ -86,6 +89,9 @@ DoEFormat_:
 DoEFormat__A5:
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; DoFFormat_                                                    DBAA1  library
+;-----------------------------------------------------------------------------
 DoFFormat_:
         push esi
         mov esi, ebx
@@ -151,6 +157,9 @@ DoFFormat_:
         mov byte [eax], 30h
         inc eax
         jmp short .8
+;-----------------------------------------------------------------------------
+; AdjField_                                                     DBB04  library
+;-----------------------------------------------------------------------------
 AdjField_:
         push ebp
         mov ebp, esp
@@ -206,6 +215,9 @@ AdjField_:
         pop ecx
         pop ebp
         ret
+;-----------------------------------------------------------------------------
+; _FtoS_                                                        DBB6F  library
+;-----------------------------------------------------------------------------
 _FtoS_:
         push ebp
         mov ebp, esp
@@ -450,6 +462,9 @@ _FtoS_:
         pop esi
         pop ebp
         ret 14h
+;-----------------------------------------------------------------------------
+; strtod_                                                       DBD93  library
+;-----------------------------------------------------------------------------
 strtod_:
         push ebp
         mov ebp, esp
@@ -602,7 +617,7 @@ strtod_:
         lea edx, [byte ebp-028h]
         mov byte [byte ebx+ebp-03Ch], ah
         lea eax, [byte ebp-03Ch]
-        call sub_DD084
+        call DecimalToInt64
         lea eax, [byte ecx+ebx-01h]
         cmp eax, 134h
         jle short .26
@@ -656,8 +671,11 @@ strtod_:
         pop ebx
         pop ebp
         ret
+;-----------------------------------------------------------------------------
+; __EnterWVIDEO_                                                DBF61  library
+;-----------------------------------------------------------------------------
 __EnterWVIDEO_:
-        cmp byte [byte_151520], 0
+        cmp byte [WVideoActive], 0
         je short .2
         and edx, 0FFFFh
         push edx

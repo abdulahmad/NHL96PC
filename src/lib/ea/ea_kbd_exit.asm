@@ -2,12 +2,15 @@
 bits 32
 %include "hockey.inc"
 section s_C27F8 progbits alloc exec nowrite align=1
-extern SetDrawBitmap, str_EXITTODOSY, str_PAUSEPRESSANYKEY, dword_11F994, dword_122900, joycalactive, mousepollfn, off_11F5F4
+extern SetDrawBitmap, str_EXITTODOSY, str_PAUSEPRESSANYKEY, dword_11F994, BackBufferWidth, joycalactive, mousepollfn, off_11F5F4
 extern off_11F5F8, off_11F5FC, off_14F074, off_14F078, sub_AD35C, FillRect, sub_ADA80, sub_ADBEC
-extern sub_AFFD0, sub_B0254, sub_B026C, TextSetFont, DrawArtOpaque, sub_B31C0, sub_BF120, sub_CFE0C
-extern sub_CFE20, sub_CFE70, sub_DD6C4, sub_DE084, sub_DFF28, sub_E193C, sub_E1956, sub_E270C
+extern sub_AFFD0, SaveTextState, SetDrawTarget, TextSetFont, DrawArtOpaque, sub_B31C0, sub_BF120, sub_CFE0C
+extern sub_CFE20, sub_CFE70, SetScreenTarget, sub_DE084, sub_DFF28, sub_E193C, sub_E1956, DebugLineCount
 extern unk_1213DC
-global sub_C27F8, sub_C2AC4, sub_C2AEC, sub_C2C5C, sub_C2C7C, sub_C2C94
+global sub_C27F8, sub_C2AC4, sub_C2AEC, sub_C2C5C, DosGetVector, DosSetVector
+;-----------------------------------------------------------------------------
+; sub_C27F8                                                            C27F8  
+;-----------------------------------------------------------------------------
 sub_C27F8:
         push esi
         push edi
@@ -42,7 +45,7 @@ sub_C27F8:
         add esp, byte 4
         lea eax, [byte esp+060h]
         push eax
-        call sub_B0254
+        call SaveTextState
         add esp, byte 4
         push unk_1213DC
         call TextSetFont
@@ -58,7 +61,7 @@ sub_C27F8:
         push edi
         mov ecx, dword [dword esp+0C0h]
         push ecx
-        push dword_122900
+        push BackBufferWidth
         mov dword [dword esp+0C0h], eax
         call sub_DE084
         add esp, byte 14h
@@ -66,7 +69,7 @@ sub_C27F8:
         push esi
         call SetDrawBitmap
         add esp, byte 4
-        call sub_DD6C4
+        call SetScreenTarget
         mov eax, dword [dword esp+0B8h]
         push eax
         mov edx, dword [dword esp+0B8h]
@@ -75,7 +78,7 @@ sub_C27F8:
         push ebx
         call sub_BF120
         add esp, byte 0Ch
-        call sub_DD6C4
+        call SetScreenTarget
         push byte 0
         call sub_B31C0
         add esp, byte 4
@@ -122,7 +125,7 @@ sub_C27F8:
         call sub_CFE20
         add esp, byte 8
         call dword [off_11F5FC]
-        push dword_122900
+        push BackBufferWidth
         call sub_CFE70
         add esp, byte 4
 .1:
@@ -159,11 +162,11 @@ sub_C27F8:
         push eax
         mov eax, dword [dword esp+0C0h]
         push eax
-        push dword_122900
+        push BackBufferWidth
         call sub_DE084
         add esp, byte 14h
         call dword [off_11F5F4]
-        call sub_DD6C4
+        call SetScreenTarget
         push esi
         mov ebx, dword [dword esp+0B8h]
         mov eax, dword [dword esp+0ACh]
@@ -175,7 +178,7 @@ sub_C27F8:
         call dword [off_11F5FC]
         lea eax, [byte esp+060h]
         push eax
-        call sub_B026C
+        call SetDrawTarget
         add esp, byte 4
         mov eax, esp
         push eax
@@ -199,6 +202,9 @@ sub_C27F8:
         pop esi
         ret 8
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_C2AC4                                                            C2AC4  
+;-----------------------------------------------------------------------------
 sub_C2AC4:
         push byte 7
         mov ecx, 0A0h
@@ -212,6 +218,9 @@ sub_C2AC4:
         call dword [dword_11F994]
 .1:
         ret
+;-----------------------------------------------------------------------------
+; sub_C2AEC                                                            C2AEC  
+;-----------------------------------------------------------------------------
 sub_C2AEC:
         push esi
         push edi
@@ -238,7 +247,7 @@ sub_C2AEC:
         add esp, byte 4
         lea eax, [byte esp+060h]
         push eax
-        call sub_B0254
+        call SaveTextState
         add esp, byte 4
         push unk_1213DC
         call TextSetFont
@@ -250,18 +259,18 @@ sub_C2AEC:
         push dword 0BEh
         push dword 140h
         push byte 0
-        push dword_122900
+        push BackBufferWidth
         call sub_DE084
         add esp, byte 14h
         call dword [off_11F5F8]
-        call sub_DD6C4
+        call SetScreenTarget
         push dword 0BEh
         push byte 0
         mov ebx, dword [byte esi+02Ch]
         push ebx
         call sub_BF120
         add esp, byte 0Ch
-        call sub_DD6C4
+        call SetScreenTarget
         push byte 0
         call sub_B31C0
         add esp, byte 4
@@ -287,10 +296,10 @@ sub_C2AEC:
         mov ebp, dword [dword esp+0B4h]
         call dword [off_11F5FC]
         push ebp
-        call sub_E270C
+        call DebugLineCount
         add esp, byte 4
         call dword [off_11F5F4]
-        call sub_DD6C4
+        call SetScreenTarget
         push dword 0BEh
         push byte 0
         mov eax, dword [byte esi+02Ch]
@@ -300,7 +309,7 @@ sub_C2AEC:
         call dword [off_11F5FC]
         lea eax, [byte esp+060h]
         push eax
-        call sub_B026C
+        call SetDrawTarget
         add esp, byte 4
         mov eax, esp
         push eax
@@ -319,6 +328,9 @@ sub_C2AEC:
         pop edi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; sub_C2C5C                                                            C2C5C  
+;-----------------------------------------------------------------------------
 sub_C2C5C:
         push byte 1
         mov ecx, 120h
@@ -329,7 +341,11 @@ sub_C2C5C:
         call sub_C27F8
         ret
         db 00h,00h
-sub_C2C7C:
+;-----------------------------------------------------------------------------
+; DosGetVector                                    C2C7C  96 PC, low confidence
+; Reads an interrupt vector through DOS
+;-----------------------------------------------------------------------------
+DosGetVector:
         push ebx
         push es
         push ds
@@ -348,7 +364,11 @@ sub_C2C7C:
         pop es
         pop ebx
         ret
-sub_C2C94:
+;-----------------------------------------------------------------------------
+; DosSetVector                                    C2C94  96 PC, low confidence
+; Sets an interrupt vector through DOS
+;-----------------------------------------------------------------------------
+DosSetVector:
         push es
         push ds
         push esi

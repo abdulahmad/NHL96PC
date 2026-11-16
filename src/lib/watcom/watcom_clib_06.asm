@@ -2,17 +2,20 @@
 bits 32
 %include "hockey.inc"
 section s_BC73C progbits alloc exec nowrite align=1
-extern FatalError, __sys_init_387_emulator, str_OrigetpartitionDIsAnInva, dword_122894, dword_1228D0, dword_1228D8, dword_1228DC, dword_1228E0
-extern dword_1228E4, dword_1228FC, dword_123AA4, dword_123AA8, dword_123AAC, dword_123AB0, dword_123ABC, dword_19869C
+extern FatalError, __sys_init_387_emulator, str_OrigetpartitionDIsAnInva, str_Punct_SetScreenScale, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight
+extern ScreenHeight, dword_1228FC, dword_123AA4, dword_123AA8, dword_123AAC, dword_123AB0, dword_123ABC, dword_19869C
 extern dword_1986A0, dword_19A5E0, dword_19A5E4, dword_19A5E8, dword_19A5EC, dword_19A5F0, dword_19A5F4, dword_19A5F8
 extern dword_19A5FC, dword_19A600, dword_19A604, dword_19A608, dword_19A60C, dword_19A610, dword_19A614, dword_19A618
 extern dword_19A61C, dword_19A620, dword_19A624, dword_19A628, dword_19A630, dword_19A634, dword_19A638, dword_19A63C
 extern dword_19A640, dword_19A644, dword_19A648, dword_19A64C, strnicmp_, sub_B9BD0, sub_BEB48, sub_C6FA4
-extern sub_C9AD8, sub_DD724, sub_DE15C, sub_E0959, sub_E15D7, unk_1983E0
+extern sub_C9AD8, FillRectColor, sub_DE15C, sub_E0959, sub_E15D7, unk_1983E0
 global __CHP, sub_BC890_19F, sub_BCE10_1C9, sub_BC760, sub_BC7F0, sub_BC838, sub_BC890, sub_BCA38
 global sub_BCB58, sub_BCC24, sub_BCD44, sub_BCE10, sub_BCFE0, sub_BD1D4, sub_BD3A0, sub_BD594
 global sub_BD86C, sub_BD8B0, sub_BD92C, sub_BD964, sub_BD9AC, sub_BDBE8, sub_BDC74, sub_BE47C
 global sub_BE6E0, sub_BE8AC, sub_BE8C0
+;-----------------------------------------------------------------------------
+; __CHP                                                         BC73C  library
+;-----------------------------------------------------------------------------
 __CHP:
         push eax
         wait
@@ -27,6 +30,9 @@ __CHP:
         lea esp, [byte esp+08h]
         ret
         db 00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_BC760                                                            BC760  
+;-----------------------------------------------------------------------------
 sub_BC760:
         push esi
         push edi
@@ -100,6 +106,9 @@ sub_BC760:
         pop esi
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_BC7F0                                                            BC7F0  
+;-----------------------------------------------------------------------------
 sub_BC7F0:
         push esi
         push edi
@@ -137,6 +146,9 @@ sub_BC7F0:
         pop esi
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_BC838                                                            BC838  
+;-----------------------------------------------------------------------------
 sub_BC838:
         push esi
         push edi
@@ -173,6 +185,9 @@ sub_BC838:
         pop esi
         ret
         db 00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_BC890                                                            BC890  
+;-----------------------------------------------------------------------------
 sub_BC890:
         push esi
         push edi
@@ -196,7 +211,7 @@ sub_BC890:
         mov ecx, dword [byte esp+01Ch]
         lea eax, [nosplit edi*8+00h]
         add eax, ecx
-        mov ebx, dword [dword_1228E4]
+        mov ebx, dword [ScreenHeight]
         mov edx, dword [byte eax+04h]
         cmp edx, ebx
         jge near sub_BC890_19F
@@ -331,6 +346,9 @@ sub_BC890_19F:
         pop esi
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_BCA38                                                            BCA38  
+;-----------------------------------------------------------------------------
 sub_BCA38:
         push esi
         push edi
@@ -371,7 +389,7 @@ sub_BCA38:
         imul edx, eax
         mov eax, ebp
         sar eax, 10h
-        mov ebp, dword [dword_1228E0]
+        mov ebp, dword [ClipRight]
         add eax, edx
         lea edx, [ecx+ebx]
         cmp edx, ebp
@@ -379,7 +397,7 @@ sub_BCA38:
         mov ebx, ebp
         sub ebx, ecx
 .1:
-        mov edx, dword [dword_1228D8]
+        mov edx, dword [ClipTopRow]
         cmp ecx, edx
         jge short .2
         mov ebp, edx
@@ -389,7 +407,7 @@ sub_BCA38:
         add esi, edx
         mov edx, dword [byte esp+0Ch]
         imul edx, ebp
-        mov ecx, dword [dword_1228D8]
+        mov ecx, dword [ClipTopRow]
         sub ebx, ebp
         add edi, edx
 .2:
@@ -428,6 +446,9 @@ sub_BCA38:
         pop edi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; sub_BCB58                                                            BCB58  
+;-----------------------------------------------------------------------------
 sub_BCB58:
         push esi
         push edi
@@ -495,6 +516,9 @@ sub_BCB58:
         pop esi
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_BCC24                                                            BCC24  
+;-----------------------------------------------------------------------------
 sub_BCC24:
         push esi
         push edi
@@ -535,7 +559,7 @@ sub_BCC24:
         imul edx, eax
         mov eax, ebp
         sar eax, 10h
-        mov ebp, dword [dword_1228E0]
+        mov ebp, dword [ClipRight]
         add eax, edx
         lea edx, [ecx+ebx]
         cmp edx, ebp
@@ -543,7 +567,7 @@ sub_BCC24:
         mov ebx, ebp
         sub ebx, ecx
 .1:
-        mov edx, dword [dword_1228D8]
+        mov edx, dword [ClipTopRow]
         cmp ecx, edx
         jge short .2
         mov ebp, edx
@@ -553,7 +577,7 @@ sub_BCC24:
         add esi, edx
         mov edx, dword [byte esp+0Ch]
         imul edx, ebp
-        mov ecx, dword [dword_1228D8]
+        mov ecx, dword [ClipTopRow]
         sub ebx, ebp
         add edi, edx
 .2:
@@ -592,6 +616,9 @@ sub_BCC24:
         pop edi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; sub_BCD44                                                            BCD44  
+;-----------------------------------------------------------------------------
 sub_BCD44:
         push esi
         push edi
@@ -659,6 +686,9 @@ sub_BCD44:
         pop esi
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_BCE10                                                            BCE10  
+;-----------------------------------------------------------------------------
 sub_BCE10:
         push esi
         push edi
@@ -666,7 +696,7 @@ sub_BCE10:
         sub esp, byte 4
         mov ebp, dword [byte esp+018h]
         mov esi, dword [dword_19A5FC]
-        imul esi, dword [dword_1228D0]
+        imul esi, dword [ScreenWidth]
         mov eax, dword [dword_1228FC]
         add eax, byte 10h
         add eax, esi
@@ -723,7 +753,7 @@ sub_BCE10:
         cmp esi, byte 0FFFFFFFFh
         je near .1
         call sub_BCD44
-        mov eax, dword [dword_1228D0]
+        mov eax, dword [ScreenWidth]
         mov edi, dword [dword_19A5E4]
         mov edx, dword [dword_19A5E8]
         mov ebx, dword [dword_19A604]
@@ -791,6 +821,9 @@ sub_BCE10_1C9:
         pop edi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; sub_BCFE0                                                            BCFE0  
+;-----------------------------------------------------------------------------
 sub_BCFE0:
         push esi
         push edi
@@ -800,7 +833,7 @@ sub_BCFE0:
         mov eax, dword [dword_19A5FC]
         mov dword [byte esp+04h], eax
         mov edx, dword [byte esp+04h]
-        mov eax, dword [dword_1228D0]
+        mov eax, dword [ScreenWidth]
         imul eax, edx
         mov esi, dword [dword_1228FC]
         add esi, byte 10h
@@ -858,17 +891,17 @@ sub_BCFE0:
         cmp esi, byte 0FFFFFFFFh
         je near .1
         mov eax, dword [byte esp+04h]
-        cmp eax, dword [dword_1228DC]
+        cmp eax, dword [ClipLeftCol]
         jl short .8
         call sub_BCC24
 .8:
         mov eax, dword [byte esp+04h]
         inc eax
-        mov edx, dword [dword_1228E4]
+        mov edx, dword [ScreenHeight]
         mov dword [byte esp+04h], eax
         cmp eax, edx
         jge near sub_BC890_19F
-        mov eax, dword [dword_1228D0]
+        mov eax, dword [ScreenWidth]
         mov ebx, dword [dword_19A5E4]
         mov ecx, dword [dword_19A5E8]
         mov edi, dword [dword_19A604]
@@ -931,6 +964,9 @@ sub_BCFE0:
         mov dword [dword_19A628], edi
         jmp near .7
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_BD1D4                                                            BD1D4  
+;-----------------------------------------------------------------------------
 sub_BD1D4:
         push esi
         push edi
@@ -938,7 +974,7 @@ sub_BD1D4:
         sub esp, byte 4
         mov ebp, dword [byte esp+018h]
         mov esi, dword [dword_19A5FC]
-        imul esi, dword [dword_1228D0]
+        imul esi, dword [ScreenWidth]
         mov eax, dword [dword_1228FC]
         add eax, byte 10h
         add eax, esi
@@ -995,7 +1031,7 @@ sub_BD1D4:
         cmp esi, byte 0FFFFFFFFh
         je near .1
         call sub_BCB58
-        mov eax, dword [dword_1228D0]
+        mov eax, dword [ScreenWidth]
         mov edi, dword [dword_19A5E4]
         mov edx, dword [dword_19A5E8]
         mov ebx, dword [dword_19A604]
@@ -1058,6 +1094,9 @@ sub_BD1D4:
         mov dword [dword_19A628], edi
         jmp near .7
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_BD3A0                                                            BD3A0  
+;-----------------------------------------------------------------------------
 sub_BD3A0:
         push esi
         push edi
@@ -1067,7 +1106,7 @@ sub_BD3A0:
         mov eax, dword [dword_19A5FC]
         mov dword [byte esp+04h], eax
         mov edx, dword [byte esp+04h]
-        mov eax, dword [dword_1228D0]
+        mov eax, dword [ScreenWidth]
         imul eax, edx
         mov esi, dword [dword_1228FC]
         add esi, byte 10h
@@ -1125,17 +1164,17 @@ sub_BD3A0:
         cmp esi, byte 0FFFFFFFFh
         je near .1
         mov eax, dword [byte esp+04h]
-        cmp eax, dword [dword_1228DC]
+        cmp eax, dword [ClipLeftCol]
         jl short .8
         call sub_BCA38
 .8:
         mov eax, dword [byte esp+04h]
         inc eax
-        mov edx, dword [dword_1228E4]
+        mov edx, dword [ScreenHeight]
         mov dword [byte esp+04h], eax
         cmp eax, edx
         jge near sub_BC890_19F
-        mov eax, dword [dword_1228D0]
+        mov eax, dword [ScreenWidth]
         mov ebx, dword [dword_19A5E4]
         mov ecx, dword [dword_19A5E8]
         mov edi, dword [dword_19A604]
@@ -1198,6 +1237,9 @@ sub_BD3A0:
         mov dword [dword_19A628], edi
         jmp near .7
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_BD594                                                            BD594  
+;-----------------------------------------------------------------------------
 sub_BD594:
         push esi
         push edi
@@ -1246,14 +1288,14 @@ sub_BD594:
         jl short .1
 .6:
         mov eax, dword [byte esp+08h]
-        cmp eax, dword [dword_1228E4]
+        cmp eax, dword [ScreenHeight]
         jge near .21
-        cmp ebx, dword [dword_1228DC]
+        cmp ebx, dword [ClipLeftCol]
         jl near .21
-        mov edx, dword [dword_1228E0]
+        mov edx, dword [ClipRight]
         cmp edi, edx
         jge near .21
-        mov ecx, dword [dword_1228D8]
+        mov ecx, dword [ClipTopRow]
         cmp esi, ecx
         jl near .21
         cmp edi, ecx
@@ -1261,9 +1303,9 @@ sub_BD594:
         cmp esi, edx
         jge short .7
         mov eax, dword [byte esp+08h]
-        cmp eax, dword [dword_1228DC]
+        cmp eax, dword [ClipLeftCol]
         jl short .7
-        cmp ebx, dword [dword_1228E4]
+        cmp ebx, dword [ScreenHeight]
         jl short .8
 .7:
         mov eax, 1
@@ -1463,6 +1505,9 @@ sub_BD594:
         add esp, byte 20h
         pop ebp
         ret
+;-----------------------------------------------------------------------------
+; sub_BD86C                                                            BD86C  
+;-----------------------------------------------------------------------------
 sub_BD86C:
         push ebx
         push ecx
@@ -1489,6 +1534,9 @@ sub_BD86C:
         pop ebx
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_BD8B0                                                            BD8B0  
+;-----------------------------------------------------------------------------
 sub_BD8B0:
         push esi
         push edi
@@ -1540,6 +1588,9 @@ sub_BD8B0:
         pop esi
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_BD92C                                                            BD92C  
+;-----------------------------------------------------------------------------
 sub_BD92C:
         push esi
         push edi
@@ -1565,6 +1616,9 @@ sub_BD92C:
         pop esi
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_BD964                                                            BD964  
+;-----------------------------------------------------------------------------
 sub_BD964:
         push ecx
         push esi
@@ -1604,6 +1658,9 @@ sub_BD964:
         pop ecx
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_BD9AC                                                            BD9AC  
+;-----------------------------------------------------------------------------
 sub_BD9AC:
         push esi
         push edi
@@ -1765,6 +1822,9 @@ sub_BD9AC:
         pop esi
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_BDBE8                                                            BDBE8  
+;-----------------------------------------------------------------------------
 sub_BDBE8:
         push esi
         push edi
@@ -1819,6 +1879,9 @@ sub_BDBE8:
         pop esi
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_BDC74                                                            BDC74  
+;-----------------------------------------------------------------------------
 sub_BDC74:
         push esi
         push edi
@@ -2306,7 +2369,7 @@ sub_BDC74:
         push esi
         mov edi, dword [eax]
         push edi
-        call sub_DD724
+        call FillRectColor
         add esp, byte 14h
         pop edi
         pop esi
@@ -2335,7 +2398,7 @@ sub_BDC74:
         sub eax, edx
         shl eax, 2
         add eax, edi
-        mov ebx, dword [dword_122894]
+        mov ebx, dword [str_Punct_SetScreenScale]
         cmp ebx, dword [byte eax+08h]
         jle short .16
         cmp ebx, dword [byte esi+08h]
@@ -2397,7 +2460,7 @@ sub_BDC74:
         push ebp
         mov edx, dword [eax]
         push edx
-        call sub_DD724
+        call FillRectColor
         add esp, byte 14h
 .20:
         add esp, byte 18h
@@ -2407,6 +2470,9 @@ sub_BDC74:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_BE47C                                                            BE47C  
+;-----------------------------------------------------------------------------
 sub_BE47C:
         push ebx
         push ecx
@@ -2505,7 +2571,7 @@ sub_BE47C:
         imul edx, byte 0Ch
         mov esi, dword [dword_19A648]
         add edi, esi
-        mov ecx, dword [dword_122894]
+        mov ecx, dword [str_Punct_SetScreenScale]
         add esi, edx
         cmp ecx, dword [byte edi+08h]
         jle short .4
@@ -2625,6 +2691,9 @@ sub_BE47C:
         pop ecx
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_BE6E0                                                            BE6E0  
+;-----------------------------------------------------------------------------
 sub_BE6E0:
         push ecx
         push esi
@@ -2661,7 +2730,7 @@ sub_BE6E0:
         imul edi, dword [dword esp+0338h], byte 0Ch
         mov eax, dword [dword_19A648]
         add esi, eax
-        mov ecx, dword [dword_122894]
+        mov ecx, dword [str_Punct_SetScreenScale]
         add eax, edi
         cmp ecx, dword [byte esi+08h]
         jle short .2
@@ -2743,7 +2812,7 @@ sub_BE6E0:
         mov edx, dword [byte esp+ebp+08h]
         push edx
 .6:
-        call sub_DD724
+        call FillRectColor
         add esp, byte 14h
         mov ecx, dword [dword esp+0340h]
         dec ecx
@@ -2770,11 +2839,17 @@ sub_BE6E0:
         pop ecx
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_BE8AC                                                            BE8AC  
+;-----------------------------------------------------------------------------
 sub_BE8AC:
         mov dword [dword_19A648], eax
         mov dword [dword_19A644], edx
         mov dword [dword_19A64C], ebx
         ret
         db 00h,00h
+;-----------------------------------------------------------------------------
+; sub_BE8C0                                                            BE8C0  
+;-----------------------------------------------------------------------------
 sub_BE8C0:
         jmp near __sys_init_387_emulator

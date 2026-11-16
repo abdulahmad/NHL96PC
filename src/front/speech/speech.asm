@@ -6,8 +6,8 @@ extern _dos_gettime_, AsyncCancelRequest, AsyncClose, AsyncInit, asyncreader, As
 extern byte_17C60C, byte_17CA1D, dword_11D23E, dword_11D242, dword_11D376, dword_11D37A, dword_11D37E, dword_11D38A
 extern dword_11D38E, dword_17C4A0, dword_17C4A4, dword_17C5BC, dword_17C5C0, dword_17C5C4, dword_17C5C8, dword_17C5CC
 extern dword_17C5D0, dword_17C5FC, dword_17C600, GetTicks, globalset, MakeDataPath, optflags, rand_
-extern setasyncspeed, sndcard, srand_, str_SPEECHBUF, sub_AB758, sub_ABF4C, sub_BFA45, sub_BFA45_90
-extern sub_BFAF5, sub_BFB53, sub_BFB74, sub_BFB7C, sub_BFBE3, sub_E0686, sub_E07B8, sub_E07CC
+extern setasyncspeed, sndcard, srand_, str_SPEECHBUF, sub_AB758, FreeMemBlock, sub_BFA45, sub_BFA45_90
+extern sub_BFAF5, sub_BFB53, sub_BFB74, sub_BFB7C, sub_BFBE3, sub_E0686, DosCloseFile, sub_E07CC
 extern sub_E081C, word_11D23A, word_11D356, word_11D382, word_11D384, word_11D386, word_11D388, word_17C49C
 extern word_17C49E, word_17C63E, word_17C640
 global FindClipIndex, FindClipIndex_55, FindClipIndex_56, FindTeamPairClip, FindTeamPairClip_85, ResetSpeechChannels, OpenSpeechBanks, InitSpeech
@@ -204,7 +204,7 @@ OpenSpeechBanks:
         mov byte [byte_17C60C], 0
         push dword [dword_17C600]
         mov dword [dword_17C5BC], 0
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .1:
         mov ecx, 120h
@@ -283,7 +283,7 @@ OpenSpeechBanks:
         call sub_E07CC
         add esp, byte 0Ch
         push dword [byte ebp-0Ch]
-        call sub_E07B8
+        call DosCloseFile
         mov eax, dword [byte ebp-018h]
         add esp, byte 4
         mov dword [dword_11D37E], eax
@@ -414,14 +414,14 @@ ShutdownSpeech:
         mov byte [byte_17C60C], 0
         push dword [dword_17C600]
         mov dword [dword_17C5BC], 0
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .4:
         call sub_BFBE3
         cmp dword [dword_11D37A], byte 0
         je short .5
         push dword [dword_11D37A]
-        call sub_ABF4C
+        call FreeMemBlock
         mov dword [dword_11D37A], 0
         add esp, byte 4
 .5:
@@ -442,7 +442,7 @@ FreeSpeechBuffer:
         jne short .1
         call StopSpeech
         push dword [dword_11D37A]
-        call sub_ABF4C
+        call FreeMemBlock
         mov dword [dword_11D37A], 0
         mov dword [dword_11D37E], 0FFFFFFFEh
         add esp, byte 4

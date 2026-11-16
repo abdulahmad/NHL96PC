@@ -3,19 +3,19 @@ bits 32
 %include "hockey.inc"
 section s_50154 progbits alloc exec nowrite align=1
 extern CwdExciteLvl, PBnum, Pencntdwn, SortCords, assinsert, assreplace, awtmstruct, byte_1178C8
-extern byte_1178F9, byte_117938, byte_117945, byte_11795B, byte_117968, byte_1179A1, byte_1179A5, byte_118E81
-extern hmrosterpos, byte_1647E1, byte_1647E3, byte_165694, byte_16571E, byte_1657AE, byte_165854, byte_1658E4
+extern byte_1178F9, byte_117938, byte_117945, byte_11795B, byte_117968, byte_1179A1, byte_1179A5, LinePickOrderFrom1
+extern hmrosterpos, byte_1647E1, byte_1647E3, byte_165694, HmPlayerFlags, HmCoachGoalie, AwPlayerFlags, AwCoachGoalie
 extern byte_176AE0, byte_176AE2, byte_176AE3, crowdlevel, dword_1178EA, dword_1178EE, dword_11917F, dword_119183
-extern dword_11918F, dword_119193, dword_11A2F8, dword_11B310, dword_176BE0, dword_176C44, fox, foy
-extern gameclock, gameopts, gmode, hmtmstruct, off_11787C, puckc, off_11788C, off_117894
+extern AwayGoalsPeriod, HomeGoalsPeriod, dword_11A2F8, dword_11B310, dword_176BE0, dword_176C44, fox, foy
+extern gameclock, gameopts, gmode, hmtmstruct, off_11787C, puckc, PtrPuckFlags, PtrPuckObject
 extern penmintab, penshotlive, penshotmode, penshotplayer, penshotstart, penshottimer, puckvx, puckvz
 extern puckx, pucky, puckz, randomd0, regd2, regd3, shotongoal, shotontarget
 extern sprintf_, SetSPA, Setplass, setplayer, PostPenaltyEvent, CanRemovePlayer, PlaySfxOr, PlaySfx
 extern sfx, CrowdReaction, GetLangText, SortIndices, vecdist, unk_157F9C, unk_158610, gmode2
 extern word_1178F4, word_1178F6, word_1178F8, word_1178FA, word_1178FC, gsp, word_117902, word_118E8F
 extern word_1190E7, word_1190E9, word_11910B, word_11910F, word_119111, word_119113, Pencntdwn2, word_11A224
-extern word_11A26C, word_1656E8, word_165710, word_16581E, word_165846, regd1, word_176B80, word_176B88
-extern word_176B8A, word_176B8C, word_176B8E
+extern word_11A26C, word_1656E8, word_165710, word_16581E, word_165846, regd1, word_176B80, LastTouchTeam
+extern PassDistY, StoppageFlag, LastPlayerTouch
 global AddPenalty, ClearPenaltyBuffer, CountShotOnGoal, QuickShotChk, SetupPenaltyShot, ShotLaneOpen, chkatop, chkprogress
 global sub_503DE_E0, InProgress_71B, InProgress_7EE, sub_511CC_111, releasepl, AddPenalty2, sub_503DE, InProgress
 global Stop4Pen, checkfornewpen, sub_511CC, sub_51360, updatepentime, updatePPTeamTime, UpdatePowerPlayFlags, PenGoalStuff
@@ -249,7 +249,7 @@ AddPenalty2:
         mov eax, 20h
 .17:
         movsx edx, ax
-        mov eax, dword [off_117894]
+        mov eax, dword [PtrPuckObject]
         call assreplace
 .18:
         pop edx
@@ -405,7 +405,7 @@ InProgress:
         movsx eax, di
         cmp eax, byte 2
         jl short .3
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         and byte [gmode], 0FBh
         movsx edx, word [byte eax+01Ch]
         movsx bx, byte [byte edx+eax+01Eh]
@@ -513,7 +513,7 @@ InProgress:
         mov eax, 23h
 .13:
         movsx edx, ax
-        mov eax, dword [off_117894]
+        mov eax, dword [PtrPuckObject]
         jmp near .44
 .14:
         mov eax, 20h
@@ -842,7 +842,7 @@ InProgress:
         mov eax, 20h
 .43:
         movsx edx, ax
-        mov eax, dword [off_117894]
+        mov eax, dword [PtrPuckObject]
 .44:
         call assreplace
         jmp near sub_503DE_E0
@@ -872,7 +872,7 @@ InProgress_71B:
         mov word [word_118E8F], 1
         or byte [gmode2], 4
         mov byte [eax], 0FFh
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         movsx edx, word [byte eax+01Ch]
         movsx edx, byte [byte edx+eax+01Eh]
         cmp edx, byte 18h
@@ -880,7 +880,7 @@ InProgress_71B:
         mov edx, 1Ah
         call assinsert
 .47:
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         mov word [byte eax+026h], 1C20h
         mov byte [byte_1178F9], 0FFh
         mov word [word_1178F6], 0
@@ -919,9 +919,9 @@ Stop4Pen:
         or byte [gmode], 1
         cmp eax, byte 7
         je near .7
-        mov dx, word [word_176B8E]
+        mov dx, word [LastPlayerTouch]
         mov word [foy], dx
-        mov dx, word [word_176B8C]
+        mov dx, word [StoppageFlag]
         mov word [fox], dx
         cmp eax, byte 3
         je near .7
@@ -972,9 +972,9 @@ Stop4Pen:
 .7:
         cmp dword [penshotstart], byte 0
         je short .8
-        mov ax, word [dword_11918F]
+        mov ax, word [AwayGoalsPeriod]
         mov word [foy], ax
-        mov ax, word [dword_119193]
+        mov ax, word [HomeGoalsPeriod]
         mov word [fox], ax
 .8:
         movsx eax, word [foy]
@@ -1092,7 +1092,7 @@ Stop4Pen:
 .28:
         test eax, eax
         je short .29
-        mov eax, dword [off_117894]
+        mov eax, dword [PtrPuckObject]
         mov dl, byte [byte eax+044h]
         and dl, 20h
         movzx edx, dl
@@ -1100,7 +1100,7 @@ Stop4Pen:
         jne short .29
         or byte [byte eax+044h], 20h
         mov edx, 7E5h
-        mov eax, dword [off_117894]
+        mov eax, dword [PtrPuckObject]
         call SetSPA
 .29:
         pop edx
@@ -1249,15 +1249,15 @@ releasepl:
         jmp short .1
 .2:
         inc word [byte eax+038h]
-        or byte [byte_16571E], 1
-        or byte [byte_165854], 1
-        or byte [byte_1657AE], 40h
-        or byte [byte_1658E4], 40h
+        or byte [HmPlayerFlags], 1
+        or byte [AwPlayerFlags], 1
+        or byte [HmCoachGoalie], 40h
+        or byte [AwCoachGoalie], 40h
         cmp word [byte eax+03Ah], byte 0
         setl cl
         movzx ecx, cl
         movsx eax, word [byte eax+038h]
-        movsx ax, byte [dword ecx+eax+byte_118E81]
+        movsx ax, byte [dword ecx+eax+LinePickOrderFrom1]
         mov word [byte ebx+01Ah], ax
         mov eax, ebx
         movsx edx, dx
@@ -1796,8 +1796,8 @@ PenGoalStuff:
         jmp short .20
 .21:
         inc word [byte ebx+02h]
-        or byte [byte_16571E], 1
-        or byte [byte_165854], 1
+        or byte [HmPlayerFlags], 1
+        or byte [AwPlayerFlags], 1
         jmp near sub_503DE_E0
 ;-----------------------------------------------------------------------------
 ; SetupPenaltyShot                             5176A  95 PC, medium confidence
@@ -1821,7 +1821,7 @@ SetupPenaltyShot:
         mov ebx, dword [puckx]
         mov word [ebx], ax
         mov edx, 18h
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         call assreplace
         imul ebx, dword [penshotplayer], dword 0A0h
         add ebx, SortCords
@@ -2188,10 +2188,10 @@ StartPenaltyShot:
         mov dword [dword_11917F], eax
         movsx eax, word [foy]
         mov word [foy], 0
-        mov dword [dword_11918F], eax
+        mov dword [AwayGoalsPeriod], eax
         movsx eax, word [fox]
         mov word [fox], 0
-        mov dword [dword_119193], eax
+        mov dword [HomeGoalsPeriod], eax
 .3:
         ret
 ;-----------------------------------------------------------------------------
@@ -2208,17 +2208,17 @@ EndPenaltyShot:
         mov dword [penshotmode], 0
         mov dword [penshotlive], 0
         mov edx, 5
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         mov dword [penshotplayer], 0FFFFFFFFh
         call AddPenalty2
-        mov ax, word [dword_11918F]
-        mov word [word_176B8E], ax
-        mov word [word_176B88], ax
-        mov ax, word [dword_119193]
+        mov ax, word [AwayGoalsPeriod]
+        mov word [LastPlayerTouch], ax
+        mov word [LastTouchTeam], ax
+        mov ax, word [HomeGoalsPeriod]
         mov edx, 21h
-        mov word [word_176B8C], ax
-        mov word [word_176B8A], ax
-        mov eax, dword [off_117894]
+        mov word [StoppageFlag], ax
+        mov word [PassDistY], ax
+        mov eax, dword [PtrPuckObject]
         call assreplace
 .1:
         pop edx

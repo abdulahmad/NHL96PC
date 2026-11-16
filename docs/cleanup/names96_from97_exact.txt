@@ -1,0 +1,534 @@
+asc_1102DF str_Punct2 {confidence=high,source=new} string "+++"
+byte_100000 SbDmaPagePorts {confidence=low,source=new} Sound Blaster 8237 DMA page register port for each channel 0-3
+byte_100004 SbDmaMaskPorts {confidence=low,source=new} Sound Blaster 8237 DMA single-channel mask register port for each channel
+byte_100008 SbDmaModePorts {confidence=low,source=new} Sound Blaster 8237 DMA mode register port for each channel
+byte_10000C SbDmaFlipFlopPorts {confidence=low,source=new} Sound Blaster 8237 DMA clear flip-flop register port for each channel
+byte_100010 SbDmaAddressPorts {confidence=low,source=new} Sound Blaster 8237 DMA base address register port for each channel
+byte_100014 SbDmaCountPorts {confidence=low,source=new} Sound Blaster 8237 DMA count register port for each channel
+byte_118E81 LinePickOrderFrom1 {confidence=medium,source=new} same code as in the next game
+byte_11BB28 HexDigits {confidence=low,source=new} hex digit characters
+byte_1219A8 QuantizeTable {confidence=low,source=new} colour quantise table
+byte_122794 RemapTable {confidence=low,source=new} colour remap table
+byte_123984 __8087 {confidence=medium,source=95PC} same code as in the next game
+byte_123985 FpuType {confidence=low,source=new} FPU type found at start up
+byte_123E35 __iob_flags {confidence=low,source=new} stdio stream flags
+byte_12401C VesaBankShift {confidence=low,source=new} VESA bank granularity shift
+byte_12442C Is8087 {confidence=low,source=new} set when a coprocessor (or the emulator) is present
+byte_12445C SavedTextMode {confidence=low,source=new} text mode saved at start up
+byte_12445D SavedTextPage {confidence=low,source=new} text page saved at start up
+byte_124460 SavedTextRows {confidence=low,source=new} text rows saved at start up
+byte_1248C4 __real87 {confidence=high,source=95PC} same code as in the next game
+byte_14FC70 Hook387Flag {confidence=low,source=new} x87 emulator hooked
+byte_14FC71 Hook387Saved {confidence=low,source=new} x87 emulator saved state
+byte_15132C GusIrqLatchBits {confidence=low,source=new} latch register bits for each IRQ line the card can use
+byte_151360 GusStreamVoiceA {confidence=low,source=new} voice number of the first streaming channel
+byte_151364 GusStreamVoiceStereo {confidence=low,source=new} set when the stream uses a second (stereo) voice
+byte_151368 GusStreamVoiceB {confidence=low,source=new} voice number of the second streaming channel
+byte_151426 GusDmaLatchBits {confidence=low,source=new} latch register bits for each DMA channel the card can use
+byte_151430 GusDmaPageTable {confidence=low,source=new} ISA DMA page port and channel bits for each DMA channel
+byte_151514 GusDramSized {confidence=low,source=new} set once the card memory size has been measured
+byte_151520 WVideoActive {confidence=low,source=new} debugger video active
+byte_15155A GusDmaReady {confidence=low,source=new} set once the DMA channels have been set up
+byte_16571E HmPlayerFlags {confidence=low,source=new} home team: flags per roster player
+byte_1657AE HmCoachGoalie {confidence=low,source=new} home team: coach goalie mode
+byte_165854 AwPlayerFlags {confidence=low,source=new} away team: flags per roster player
+byte_1658E4 AwCoachGoalie {confidence=low,source=new} away team: coach goalie mode
+byte_17CA60 GlobalSetName {confidence=low,source=new} name stored in GLOBAL.SET
+byte_19BA45 __nheap_clean {confidence=low,source=new} near heap clean flag
+byte_1A1190 TimerIrqMask {confidence=low,source=new} saved interrupt controller mask bit of the timer
+byte_1A1191 TimerChainFlag {confidence=low,source=new} set when the old timer handler must still be called
+byte_1A1192 TimerPitMode {confidence=low,source=new} timer chip mode bits used when writing the counter
+byte_1A1193 TimerInstalled {confidence=low,source=new} set while the game's timer handler is installed
+byte_1A11EC GusPlayDmaChannel {confidence=low,source=new} DMA channel used for playback
+byte_1A11ED GusIrqLatch {confidence=low,source=new} IRQ latch value written to the card
+byte_1A11EE GusRecordDmaChannel {confidence=low,source=new} DMA channel used for recording
+byte_1A11EF GusMidiIrq {confidence=low,source=new} IRQ line of the card's MIDI port
+byte_1A11F0 GusWaveIrq {confidence=low,source=new} IRQ line of the card's wave interrupts
+byte_1A1248 GusDmaControl {confidence=low,source=new} DMA control register value for the download
+dword_114AD8 DblMaxLow {confidence=low,source=new} DBL_MAX low dword
+dword_114ADC DblMaxHigh {confidence=low,source=new} DBL_MAX high dword
+dword_114AE0 DblMinusMaxLow {confidence=low,source=new} -DBL_MAX low dword
+dword_114AE4 DblMinusMaxHigh {confidence=low,source=new} -DBL_MAX high dword
+dword_11918F AwayGoalsPeriod {confidence=low,source=new} away goals this period
+dword_119193 HomeGoalsPeriod {confidence=low,source=new} home goals this period
+dword_11D3C8 DirPathTable {confidence=low,source=new} directory path table
+dword_11F578 MouseDeltaX {confidence=low,source=new} mouse motion X since the last read
+dword_11F57C MouseButtonState {confidence=low,source=new} mouse button state
+dword_11F5A4 MousePresent {confidence=low,source=new} mouse driver found
+dword_11F5B0 MouseMoved {confidence=low,source=new} mouse moved since the last read
+dword_11F5DC CpuIs386 {confidence=low,source=new} CPU is a 386
+dword_11F5E0 CpuIs486 {confidence=low,source=new} CPU is a 486
+dword_11F5E4 CpuType {confidence=low,source=new} CPU type
+dword_11F5E8 CpuHasCpuid {confidence=low,source=new} CPU has CPUID
+dword_11F5EC CpuFeatures {confidence=low,source=new} CPUID feature bits
+dword_11F5F0 str_Punct_DrawRinkSurface {confidence=high,source=new} string "\n"
+dword_11F8E4 KbdIdleHook {confidence=low,source=new} routine called while waiting for a key (default PollHotkeys)
+dword_11F8E8 HeapList {confidence=low,source=new} near heap list
+dword_11F8EC HeapRover {confidence=low,source=new} near heap rover
+dword_11F8F0 HeapLargestFree {confidence=low,source=new} largest free near heap block
+dword_11F9A8 TimerTickStep {confidence=low,source=new} ticks added per timer interrupt
+dword_11F9BC RowTable {confidence=low,source=new} screen row address table
+dword_11FA1C TextOriginX {confidence=low,source=new} x of the text drawing position
+dword_11FA20 TextOriginY {confidence=low,source=new} y of the text drawing position
+dword_1210D6 BreakCallFunc {confidence=low,source=new} ctrl-break chain routine
+dword_121AD8 FpuFlags {confidence=low,source=new} FPU flags set at start up
+dword_122390 SinTable {confidence=low,source=new} quarter-wave sine table in 16.16 fixed point
+dword_122894 str_Punct_SetScreenScale {confidence=high,source=new} string "\n"
+dword_1228D0 ScreenWidth {confidence=low,source=new} screen width in pixels
+dword_1228D4 ClipBottom {confidence=low,source=new} bottom of the clip window
+dword_1228D8 ClipTopRow {confidence=low,source=new} top of the clip window
+dword_1228DC ClipLeftCol {confidence=low,source=new} left of the clip window
+dword_1228E0 ClipRight {confidence=low,source=new} right of the clip window
+dword_1228E4 ScreenHeight {confidence=low,source=new} screen height in pixels
+dword_122900 BackBufferWidth {confidence=low,source=new} back buffer width
+dword_123AC4 RetraceTimeout {confidence=low,source=new} loop count before giving up on vertical retrace
+dword_123FFD _fmode {confidence=low,source=new} default file translation mode
+dword_124014 VesaBank {confidence=low,source=new} current VESA bank
+dword_124018 VesaBankFunc {confidence=low,source=new} VESA bank switch routine
+dword_124124 __NHandles {confidence=low,source=new} number of file handles
+dword_124178 __io_mode {confidence=low,source=new} file handle mode table pointer
+dword_124404 StackLow {confidence=low,source=new} lowest address of the program stack
+dword_124414 CMainEnv {confidence=low,source=new} environment pointer passed to main
+dword_124418 CMainResult {confidence=low,source=new} value main returned
+dword_12441C UngetChar {confidence=low,source=new} character pushed back by ungetch
+dword_124435 FpuInitHook {confidence=low,source=new} function that sets up the coprocessor
+dword_124874 ShadowFillFunc {confidence=low,source=new} shadow fill routine
+dword_124878 TitleBandFunc {confidence=low,source=new} title band draw routine
+dword_12487C FpuSystemFlags {confidence=low,source=new} DOS extender coprocessor flags
+dword_1248BC OldFpuVectorOffset {confidence=low,source=new} saved offset of the old coprocessor-missing vector
+dword_14EF9C MixerReady {confidence=low,source=new} mixer initialised
+dword_14EFA4 MixerOutputRate {confidence=low,source=new} mixer output rate
+dword_14EFB0 MixerChunkSamples {confidence=low,source=new} samples in this mixer chunk
+dword_14EFB4 MixerChunkLeft {confidence=low,source=new} samples left in this mixer chunk
+dword_14F0A4 __nheapbeg {confidence=low,source=new} near heap start
+dword_14F0A8 __amblksiz {confidence=low,source=new} heap growth amount
+dword_14FC80 FloatPow10Table {confidence=low,source=new} powers of ten used to format floating-point numbers
+dword_1512C0 FloatPow10Exponents {confidence=low,source=new} binary exponents of the powers of ten used to format numbers
+dword_1512E0 FloatFormatDigits {confidence=low,source=new} digit count of the number being formatted
+dword_1512E4 FloatFormatExponent {confidence=low,source=new} decimal exponent of the number being formatted
+dword_1512E8 FloatFormatMantissaLo {confidence=low,source=new} low half of the mantissa being formatted
+dword_1512EC FloatFormatMantissaHi {confidence=low,source=new} high half of the mantissa being formatted
+dword_151324 GusEnvVarName {confidence=low,source=new} points to the name of the environment variable that holds the card settings
+dword_151328 GusOpenCount {confidence=low,source=new} number of times the card has been opened without a matching close
+dword_15133C GusStreamRefillA {confidence=low,source=new} set when the first streaming channel needs its next half buffer
+dword_151340 GusStreamRefillB {confidence=low,source=new} set when the second streaming channel needs its next half buffer
+dword_151344 GusStreamSrcA {confidence=low,source=new} source pointer of the first streaming channel
+dword_151348 GusStreamHalfA {confidence=low,source=new} which half buffer of the first streaming channel is being filled
+dword_15134C GusStreamBusyA {confidence=low,source=new} set while the first streaming channel is playing
+dword_151350 GusStreamSrcB {confidence=low,source=new} source pointer of the second streaming channel
+dword_151354 GusStreamHalfB {confidence=low,source=new} which half buffer of the second streaming channel is being filled
+dword_151358 GusStreamBusyB {confidence=low,source=new} set while the second streaming channel is playing
+dword_15135C GusStreamActive {confidence=low,source=new} set while the stream voices are running
+dword_15136C GusStreamBufSize {confidence=low,source=new} size of the stream buffer in card memory
+dword_151370 GusStreamHalfSize {confidence=low,source=new} size of one half of the stream buffer
+dword_151374 GusStreamQuarterSize {confidence=low,source=new} quarter of the stream buffer size
+dword_151378 GusRefillSrc {confidence=low,source=new} source pointer of the half buffer being copied
+dword_15137C GusRefillDest {confidence=low,source=new} card address the half buffer is copied to
+dword_151380 GusRefillLength {confidence=low,source=new} length of the half buffer being copied
+dword_151384 GusStreamCardA {confidence=low,source=new} card memory address of the first streaming channel's buffer
+dword_151388 GusStreamCardB {confidence=low,source=new} card memory address of the second streaming channel's buffer
+dword_15138C GusStreamCardEnd {confidence=low,source=new} end of the stream buffers in card memory
+dword_151394 GusStreamStartLo {confidence=low,source=new} low word of the stream voices' start address
+dword_151444 GusIrqOldHandler {confidence=low,source=new} saved old handler offset in the IRQ table
+dword_1514C4 GusMidiPending {confidence=low,source=new} set when a MIDI interrupt arrived while the card was busy
+dword_1514E4 GusMidiIrqCount {confidence=low,source=new} number of MIDI interrupts serviced
+dword_1514E8 GusTimerCallback {confidence=low,source=new} callback for the card timers
+dword_1514EC GusDmaDoneCallback {confidence=low,source=new} callback when a DMA transfer to card memory ends
+dword_1514F0 GusRecordDoneCallback {confidence=low,source=new} callback when a DMA record transfer ends
+dword_1514F4 GusWaveCallback {confidence=low,source=new} callback when a voice reaches its end
+dword_1514F8 GusVolumeCallback {confidence=low,source=new} callback when a voice volume ramp ends
+dword_1514FC GusTimer1Callback {confidence=low,source=new} callback for the first card timer
+dword_151500 GusTimer2Callback {confidence=low,source=new} callback for the second card timer
+dword_151504 GusWaveIrqCallback {confidence=low,source=new} callback for voice wave interrupts
+dword_151508 GusVolumeIrqCallback {confidence=low,source=new} callback for voice volume interrupts
+dword_15150C GusMidiXmitCallback {confidence=low,source=new} callback when the MIDI port can send
+dword_151510 GusMidiRecvCallback {confidence=low,source=new} callback when the MIDI port has received a byte
+dword_151518 GusDmaBusy {confidence=low,source=new} set while a DMA transfer to card memory runs
+dword_152F64 AsyncCurFile {confidence=low,source=new} file of the request being serviced
+dword_152F68 AsyncCurOffset {confidence=low,source=new} file offset of the request being serviced
+dword_17C9A4 GlobalSetData {confidence=low,source=new} GLOBAL.SET settings
+dword_17D18E PlayoffFormatTeams {confidence=low,source=new} teams per playoff format
+dword_184B1C PlayoffTeamCount {confidence=low,source=new} teams in the chosen playoff format
+dword_184B20 PlayoffFormat {confidence=low,source=new} chosen playoff format
+dword_18572C RowTableSize {confidence=low,source=new} number of rows in the screen row address table
+dword_185760 UnpackSrcPtr {confidence=low,source=new} byte pair unpacker source pointer
+dword_185764 UnpackDestPtr {confidence=low,source=new} byte pair unpacker destination pointer
+dword_18576C UnpackStackPtr {confidence=low,source=new} byte pair unpacker expansion stack pointer
+dword_185770 UnpackPairTable {confidence=low,source=new} byte pair unpacker pair table
+dword_1857B4 InvTabDist {confidence=low,source=new} inverse colour table: distance
+dword_1857B8 InvTabRStep {confidence=low,source=new} inverse colour table: red step
+dword_1857BC InvTabGStep {confidence=low,source=new} inverse colour table: green step
+dword_1857C0 InvTabBStep {confidence=low,source=new} inverse colour table: blue step
+dword_1857C4 InvTabRMin {confidence=low,source=new} inverse colour table: red minimum
+dword_1857C8 InvTabOut {confidence=low,source=new} inverse colour table: output buffer
+dword_1857CC InvTabDistBuf {confidence=low,source=new} inverse colour table: distance buffer
+dword_1857D0 InvTabGMin {confidence=low,source=new} inverse colour table: green minimum
+dword_1857D4 InvTabGCenter {confidence=low,source=new} inverse colour table: green center
+dword_1857D8 InvTabBCenter {confidence=low,source=new} inverse colour table: blue center
+dword_1857DC InvTabCell {confidence=low,source=new} inverse colour table: cell pointer
+dword_1857E0 InvTabRCenter {confidence=low,source=new} inverse colour table: red center
+dword_1857E4 InvTabR {confidence=low,source=new} inverse colour table: red
+dword_1857E8 InvTabG {confidence=low,source=new} inverse colour table: green
+dword_1857EC InvTabB {confidence=low,source=new} inverse colour table: blue
+dword_1857F0 InvTabColor {confidence=low,source=new} inverse colour table: colour index
+dword_1857F4 InvTabRMax {confidence=low,source=new} inverse colour table: red maximum
+dword_1857F8 InvTabGMax {confidence=low,source=new} inverse colour table: green maximum
+dword_1857FC InvTabBMin {confidence=low,source=new} inverse colour table: blue minimum
+dword_185800 InvTabBMax {confidence=low,source=new} inverse colour table: blue maximum
+dword_185804 InvTabRow {confidence=low,source=new} inverse colour table: row pointer
+dword_185808 InvTabPass {confidence=low,source=new} inverse colour table: pass count
+dword_18580C InvTabGLo {confidence=low,source=new} inverse colour table scan: green low
+dword_185810 InvTabGHi {confidence=low,source=new} inverse colour table scan: green high
+dword_185814 InvTabBLo {confidence=low,source=new} inverse colour table scan: blue low
+dword_185818 InvTabBHi {confidence=low,source=new} inverse colour table scan: blue high
+dword_18581C InvTabGInc {confidence=low,source=new} inverse colour table scan: green increment
+dword_185820 InvTabBInc {confidence=low,source=new} inverse colour table scan: blue increment
+dword_185824 InvTabDistInc {confidence=low,source=new} inverse colour table scan: distance increment
+dword_185828 InvTabDistStart {confidence=low,source=new} inverse colour table scan: start distance
+dword_190E90 TextureTileSize {confidence=low,source=new} size of one rink texture tile
+dword_190E94 TexturePageBase {confidence=low,source=new} base of the texture page being built
+dword_190E98 TextureDetail {confidence=low,source=new} texture detail level
+dword_1983A8 RinkViewChanged {confidence=low,source=new} set when the rink view matrix changes
+dword_19BA3C __OpenStreams {confidence=low,source=new} list of open stdio streams
+dword_19BA40 __ClosedStreams {confidence=low,source=new} list of closed stdio streams
+dword_19BA48 AtexitTable {confidence=low,source=new} atexit routines
+dword_19BAC8 SpeechBankCount {confidence=low,source=new} number of registered speech banks
+dword_19BACC MemLockState {confidence=low,source=new} memory lock state
+dword_1A0FB8 DacTimerRate {confidence=low,source=new} timer rate of the DAC driver
+dword_1A0FC0 DacTimerDivisor {confidence=low,source=new} timer divisor of the DAC driver
+dword_1A1090 RationalAllocLimit {confidence=low,source=new} rational allocator size limit
+dword_1A1094 CMainArgc {confidence=low,source=new} argument count passed to main
+dword_1A1098 CMainArgv {confidence=low,source=new} argument vector passed to main
+dword_1A1188 TimerOldHandler {confidence=low,source=new} saved protected-mode timer interrupt handler
+dword_1A118C TimerOldRealHandler {confidence=low,source=new} saved real-mode timer interrupt handler
+dword_1A1194 TimerDivisor {confidence=low,source=new} current timer chip divisor
+dword_1A1198 TimerChainCount {confidence=low,source=new} tick accumulator that decides when to chain to the old timer handler
+dword_1A119C GusEnvConfig {confidence=low,source=new} ULTRASND environment settings
+dword_1A1228 GusVoiceIrqBits {confidence=low,source=new} per-voice bits of pending wave and volume interrupts
+dword_1A123C GusDmaLeft {confidence=low,source=new} bytes of the download still to transfer
+dword_1A1240 GusDmaChunkSize {confidence=low,source=new} size of the current DMA chunk
+dword_1A1244 GusDmaDone {confidence=low,source=new} bytes of the download transferred so far
+jpt_D338D EmuDispatchD9RegJumpTable {confidence=medium,source=new} same code as in the next game
+jpt_D34CC EmuFtstFxamJumpTable {confidence=medium,source=new} same code as in the next game
+jpt_D354D EmuSignOpsJumpTable {confidence=medium,source=new} same code as in the next game
+jpt_D3768 EmuLogOpsJumpTable {confidence=medium,source=new} same code as in the next game
+jpt_D3872 EmuRemOpsJumpTable {confidence=medium,source=new} same code as in the next game
+jpt_D3A13 EmuDispatchDBRegJumpTable {confidence=medium,source=new} same code as in the next game
+jpt_DE3F8 VesaSetBankJumpTable {confidence=medium,source=new} same code as in the next game
+jpt_E0C7A FillBandRowsJumpTable {confidence=medium,source=new} same code as in the next game
+jpt_E0DBA FillBandRowsBlendJumpTable {confidence=medium,source=new} same code as in the next game
+jpt_E0F93 FillBandRowsPlainJumpTable {confidence=medium,source=new} same code as in the next game
+jpt_E1BCE RectFillClipLeftJumpTable {confidence=medium,source=new} same code as in the next game
+jpt_E1CBA RectFillClipBottomJumpTable {confidence=medium,source=new} same code as in the next game
+jpt_E1DA4 RectFillClipRightJumpTable {confidence=medium,source=new} same code as in the next game
+jpt_E1F8A RectFillStepJumpTable {confidence=medium,source=new} same code as in the next game
+off_11788C PtrPuckFlags {confidence=low,source=new} pointer to the puck flags
+off_117894 PtrPuckObject {confidence=low,source=new} pointer to the puck object
+off_11F618 BiosKeyFunc {confidence=low,source=new} routine that calls the BIOS keyboard service
+off_124008 ExitHook {confidence=low,source=new} routine called by exit
+off_12400C Int23Hook {confidence=low,source=new} ctrl-C handler
+off_124010 FpuExitHook {confidence=low,source=new} FPU shutdown routine called at exit
+off_14EFDC MixerChannelTable {confidence=low,source=new} mixer channel record per channel
+off_14FAA8 __EFG_printf {confidence=low,source=new} float formatting routine for printf
+off_14FAAC __EFG_scanf {confidence=low,source=new} float parsing routine for scanf
+off_14FC78 EmuInitHook {confidence=low,source=new} x87 emulator init routine
+off_14FC7C EmuFiniHook {confidence=low,source=new} x87 emulator shutdown routine
+qword_1149BC F64_neg1_floor_ {confidence=high,source=new} double constant -1
+qword_114AC8 F64_Scale10Max {confidence=low,source=new} largest power of ten scale for _Scale10V_
+qword_114AD0 F64_Scale10Min {confidence=low,source=new} smallest power of ten scale for _Scale10V_
+qword_114AF2 Pow10Table {confidence=low,source=new} powers of ten
+sub_A522F SetPlayoffFormat {confidence=low,source=new} sets the playoff format
+sub_AA664 RemoveTimerCallback {confidence=low,source=new} removes a callback from the timer callback table
+sub_ABF4C FreeMemBlock {confidence=high,source=95PC} same code as in the next game
+sub_AC470 FindCachedFileData {confidence=low,source=new} returns the data pointer of a file already held in memory
+sub_AC484 FindCachedFile {confidence=low,source=new} returns the memory block that already holds a file, revalidating it
+sub_AC9B8 MemPtrSize {confidence=low,source=new} returns the size of the block that holds a pointer
+sub_AC9CC MemDescPtr {confidence=low,source=new} returns the data pointer of a block descriptor
+sub_AC9D4 MemDescSize {confidence=low,source=new} returns the size of a block descriptor's data
+sub_AEE40 ExpandBytePair {confidence=low,source=new} expands one byte of byte-pair coded data through the pair tables (recursive)
+sub_B0240 SetTextOrigin {confidence=low,source=new} sets the text origin
+sub_B0254 SaveTextState {confidence=low,source=new} saves the text drawing state (font, colours, position)
+sub_B026C SetDrawTarget {confidence=low,source=new} same code as in the next game
+sub_B03F2 GetRandState {confidence=high,source=new} returns the C library's rand state address
+sub_B0474 LoadResourceBlockShared {confidence=low,source=new} loads a resource file in shared mode and returns its memory block
+sub_B047B LoadResourceData {confidence=low,source=new} loads a resource file and returns its data pointer
+sub_B0494 LoadResourceDataShared {confidence=low,source=new} loads a resource file in shared mode and returns its data pointer
+sub_B04D0 InverseTableSlice {confidence=low,source=new} builds one slice of the inverse colour table
+sub_B06E8 InverseTablePass {confidence=low,source=new} runs one pass of the inverse colour table
+sub_B086C InverseTableScan {confidence=low,source=new} scans the colours for the inverse table
+sub_B0B10 InverseTableFill {confidence=low,source=new} fills the inverse colour table
+sub_B11F8 SerialClose {confidence=low,source=new} serial port: disables the port and restores its interrupt
+sub_B1241 SerialCloseAll {confidence=low,source=new} serial port: closes both ports
+sub_B1279 SerialRaiseDtr {confidence=low,source=new} serial port: raises DTR
+sub_B1328 SerialWrite {confidence=low,source=new} serial port: puts bytes in the send buffer and starts sending
+sub_B13D2 SerialFlushTx {confidence=low,source=new} serial port: empties the send buffer
+sub_B13F1 SerialWaitTxEmpty {confidence=low,source=new} serial port: waits until the send buffer is empty or the time runs out
+sub_B20D0 OpenArtArchiveErr {confidence=low,source=new} opens an art archive file with the error message
+sub_B20EC OpenArtArchive {confidence=low,source=new} opens an art archive file
+sub_B2128 LoadDataFileErr {confidence=low,source=new} loads a data file with the error message
+sub_B2140 LoadFileAllocQuiet {confidence=low,source=new} loads a file into a new block without the error message
+sub_B22E0 SaveDataFile {confidence=low,source=new} saves a memory block to a file
+sub_B2D2C InitMemoryPool {confidence=low,source=new} sets up the game's memory pool from DOS extender memory
+sub_B30E4 InitMemoryPoolDefault {confidence=low,source=new} sets up the memory pool with the default size
+sub_B6599 WriteConsoleMessage {confidence=low,source=new} writes a message to the console through DOS before exit
+sub_B65D4 RestoreDS {confidence=low,source=new} loads the saved data segment (for interrupt handlers)
+sub_B680C CdHandleEntry {confidence=low,source=new} returns the entry of a CD file handle
+sub_B6824 CdCloseFile {confidence=low,source=new} closes a CD file
+sub_B7256 UnlinkJump {confidence=low,source=new} jumps to unlink (file delete)
+sub_B7498 LoadFileInto {confidence=low,source=new} loads a file into a buffer
+sub_B74B0 LoadFileToBlockShared {confidence=low,source=new} loads a file into a memory block in shared mode
+sub_B74D0 LoadFileToBlockPlain {confidence=low,source=new} loads a file into a memory block
+sub_B78C0 SetRinkView {confidence=low,source=new} sets the rink view parameters
+sub_BBBD0 SetRinkMatrix {confidence=low,source=new} copies the rink view rotation matrix and marks the view as changed
+sub_BBBF0 SetRinkTranslation {confidence=low,source=new} copies the rink view translation vector
+sub_BBC04 SetScreenScale {confidence=low,source=new} sets the screen scale and the matching text scale
+sub_C1890 BuildHuffTable {confidence=low,source=new} TGV video: builds a Huffman decoding table
+sub_C2C7C DosGetVector {confidence=low,source=new} reads an interrupt vector through DOS
+sub_C2C94 DosSetVector {confidence=low,source=new} sets an interrupt vector through DOS
+sub_C2CB0 ErrnoPtr {confidence=low,source=new} returns the address of errno
+sub_C2F9A GetPsp {confidence=low,source=new} returns the program segment prefix
+sub_C3724 McgaNoWindow {confidence=low,source=new} returns 0: the MCGA screen needs no window
+sub_C3BD0 ResetMemLock {confidence=low,source=new} clears the memory lock and returns its address
+sub_C3BE0 MemLock {confidence=low,source=new} sets the memory lock; followed by the try-lock
+sub_C3CC0 FillRowTable {confidence=low,source=new} fills the screen row address table for a range of rows of the current screen
+sub_CA6E0 InitFpuFlags {confidence=high,source=95PC} same code as in the next game
+sub_CA7AB MakeFpuGate {confidence=low,source=new} builds the gate descriptor for the coprocessor-missing handler
+sub_CA7C8 HookCoprocessorVector {confidence=low,source=new} saves and replaces the coprocessor-missing vector through the DOS extender
+sub_CA815 SetSystemFpuFlag {confidence=low,source=new} tells the DOS extender that a coprocessor is emulated
+sub_CA8AF EmuRestoreFpuVector {confidence=low,source=new} puts back the original coprocessor-missing vector and CR0 coprocessor bits when the emulator shuts down
+sub_CA8EA EmuRestoreRealVector {confidence=low,source=new} restores the saved real-mode vector through the DOS extender
+sub_CC15A MixerStopChannel {confidence=low,source=new} marks a channel stopped and calls the end-of-sample callback
+sub_CC200 MixerSamplesLeft {confidence=low,source=new} returns how many samples a playing channel has left, or -1 for looping or streamed channels
+sub_CC343 MixerChunkLength {confidence=low,source=new} returns how many output samples a channel can mix before its end or loop point; followed by the loop and stream variants
+sub_CC728 MixerCalcStep {confidence=low,source=new} converts a pitch to the channel's fixed-point step through the sample
+sub_CE06B ParseHexValue {confidence=low,source=new} parses a hexadecimal setting value
+sub_CE2B6 SbResetDsp {confidence=low,source=new} resets the Sound Blaster DSP
+sub_D0692 CMainHook {confidence=low,source=new} start-up hook (returns at once)
+sub_D069B __CommonInit_ {confidence=high,source=WATCOM} IDA FLIRT library signature (wa32rtd/wa32rt_)
+sub_D06B0 IsTextModeWidth {confidence=low,source=new} returns whether the saved video state is a text mode of 40, 80, 100, 128 or 132 columns
+sub_D14AC IntrLoadSegRegs {confidence=low,source=new} loads the register set and segment registers for a protected-mode interrupt call
+sub_D151E IntrLoadRegs {confidence=low,source=new} loads the full register set from a REGPACK and selects the interrupt stub to call
+sub_D284C EmuTrapExit {confidence=low,source=new} x87 emulator: restores the registers and returns from the trap
+sub_D2980 RoundToSingle {confidence=low,source=new} x87 emulator: rounds the result to single precision
+sub_D29BC RoundToDouble {confidence=low,source=new} x87 emulator: rounds the result to double precision
+sub_D2A5C RaiseFpuError {confidence=low,source=new} x87 emulator: sets an exception flag and calls the handler when it is unmasked
+sub_D2B6C EaSib {confidence=low,source=new} x87 emulator operand address: decodes a SIB byte
+sub_D2CF7 EmuFldenv {confidence=low,source=new} x87 emulator: FLDENV
+sub_D2D15 EmuFldcw {confidence=low,source=new} x87 emulator: FLDCW
+sub_D2D55 EmuFstenv {confidence=low,source=new} x87 emulator: FSTENV
+sub_D2EA3 EmuFistM32 {confidence=low,source=new} x87 emulator: FIST m32int
+sub_D3015 EmuFldM80 {confidence=low,source=new} x87 emulator: FLD m80real (probably)
+sub_D305C EmuFldM64 {confidence=low,source=new} x87 emulator: FLD m64real
+sub_D30AF EmuFstpM80 {confidence=low,source=new} x87 emulator: FSTP m80real (probably)
+sub_D30E2 EmuFrstor {confidence=low,source=new} x87 emulator: FRSTOR
+sub_D3129 EmuFsave {confidence=low,source=new} x87 emulator: FSAVE
+sub_D3264 EmuFildM16 {confidence=low,source=new} x87 emulator: FILD m16int
+sub_D32A0 EmuFistM16 {confidence=low,source=new} x87 emulator: FIST m16int
+sub_D32E8 EmuFistpM16 {confidence=low,source=new} x87 emulator: FISTP m16int
+sub_D3380 EmuReservedOp {confidence=low,source=new} x87 emulator: reserved opcode (unsupported)
+sub_D3454 EmuFldSt {confidence=low,source=new} x87 emulator: FLD st(i)
+sub_D349C EmuFxch {confidence=low,source=new} x87 emulator: FXCH
+sub_D3AE3 EmuFfree {confidence=low,source=new} x87 emulator: FFREE st(i)
+sub_D3F62 EmuSub {confidence=low,source=new} x87 emulator: subtracts two extended values (adds with the sign flipped)
+sub_D3F9A AddExtRaw {confidence=low,source=new} x87 emulator: adds two extended values without rounding
+sub_D3FCA AddMantissas {confidence=low,source=new} x87 emulator: aligns and adds two mantissas
+sub_D4136 EmuCompare {confidence=low,source=new} x87 emulator: compares two extended values and sets the condition codes
+sub_D41CF EmuDiv {confidence=low,source=new} x87 emulator: divides two extended values
+sub_D41F9 DivideMantissas {confidence=low,source=new} x87 emulator: divides two mantissas
+sub_D43A4 EmuMul {confidence=low,source=new} x87 emulator: multiplies two extended values
+sub_D43CE MultiplyMantissas {confidence=low,source=new} x87 emulator: multiplies two mantissas
+sub_D451F StoreM32Int {confidence=low,source=new} x87 emulator: stores an integer of 32 bits
+sub_D458E LoadM32Int {confidence=low,source=new} x87 emulator: loads a 32-bit integer operand
+sub_D45D4 LoadM64Real {confidence=low,source=new} x87 emulator: loads a 64-bit real operand
+sub_D4654 StoreM32Real {confidence=low,source=new} x87 emulator: stores a 32-bit real
+sub_D46D3 StoreM64Real {confidence=low,source=new} x87 emulator: stores a 64-bit real
+sub_D479A LoadM32Real {confidence=low,source=new} x87 emulator: loads a 32-bit real operand
+sub_D485F ExtToInt {confidence=low,source=new} x87 emulator: converts an extended value to an integer
+sub_D49EC EmuRemainder {confidence=low,source=new} x87 emulator: partial remainder
+sub_D4AA2 RemainderStep {confidence=low,source=new} x87 emulator: one step of the partial remainder
+sub_D4C05 EmuRoundInt {confidence=low,source=new} x87 emulator: rounds to an integer (FRNDINT)
+sub_D4C6B RoundMantissa {confidence=low,source=new} x87 emulator: rounds a mantissa by the rounding mode
+sub_D4CE6 EmuExamine {confidence=low,source=new} x87 emulator: classifies a value (FXAM)
+sub_D4DD4 AddOne {confidence=low,source=new} x87 emulator: adds 1.0 to a value
+sub_D4DED EmuLog2 {confidence=low,source=new} x87 emulator: base-2 logarithm
+sub_D4E30 Log2Core {confidence=low,source=new} x87 emulator: core of the base-2 logarithm
+sub_D50C8 SinCosCore {confidence=low,source=new} x87 emulator: core of the sine and cosine
+sub_D52BF EmuSin {confidence=low,source=new} x87 emulator: sine
+sub_D52C9 EmuCos {confidence=low,source=new} x87 emulator: cosine
+sub_D52D6 EmuTan {confidence=low,source=new} x87 emulator: tangent
+sub_D530C EmuAtan {confidence=low,source=new} x87 emulator: arctangent
+sub_D54E0 EmuExp2 {confidence=low,source=new} x87 emulator: 2 to the power x minus one (F2XM1)
+sub_D55CC PolyEval {confidence=low,source=new} x87 emulator: evaluates a polynomial
+sub_D561E PolyEvalOdd {confidence=low,source=new} x87 emulator: evaluates an odd polynomial
+sub_D57B4 InitFloatFormat {confidence=low,source=new} sets up the number formatting tables
+sub_D585C FormatFloat {confidence=low,source=new} formats a floating-point number
+sub_D5B1E ReturnArg {confidence=low,source=new} returns its argument
+sub_D5B7C TimerCalibrate {confidence=low,source=new} calibrates the timer
+sub_D5B96 TimerRestore {confidence=low,source=new} restores the timer
+sub_D5BCD TimerWritePit {confidence=low,source=new} writes the timer chip divisor
+sub_D5BEE TimerReadCount {confidence=low,source=new} reads the timer count
+sub_D5C0D TimerTicksForRate {confidence=low,source=new} works out the ticks for a rate
+sub_D5C2F TimerMeasure {confidence=low,source=new} measures the timer
+sub_D5C5E TimerSetDivisor {confidence=low,source=new} sets the timer divisor
+sub_D5C7F TimerReset {confidence=low,source=new} resets the timer
+sub_D5CA2 TimerInstall {confidence=low,source=new} installs the timer handler
+sub_D5E1E TimerChainOld {confidence=low,source=new} chains to the old timer handler
+sub_D6120 GusGetEnvConfig {confidence=low,source=new} reads the ULTRASND environment variable and parses base port, DMA channels and IRQs into the card config
+sub_D6230 GusProbePort {confidence=low,source=new} writes test bytes to a card port and reads them back; returns whether a card answers at that base
+sub_D6290 GusStopDmaAndTimers {confidence=low,source=new} clears the card's DMA control, timer control and sampling control registers
+sub_D6370 GusUnhookIrqs {confidence=low,source=new} restores the original interrupt vectors and masks for the card's one or two IRQ lines
+sub_D6390 GusHookIrqs {confidence=low,source=new} installs the card's wave IRQ handler and, when it uses a second line, the MIDI IRQ handler
+sub_D63C0 GusOpenCard {confidence=low,source=new} sets the base port, clears callbacks and IRQ state, resets the voices and hooks the IRQs
+sub_D6470 GusStopAllVoices {confidence=low,source=new} stops every active voice and ramps its volume down to silence
+sub_D660C GusOpen {confidence=low,source=new} reference-counted card open: probes the port, opens the card, sets the IRQ/DMA latches and runs the init table
+sub_D66F8 GusClose {confidence=low,source=new} drops the open count and, on the last close, stops voices, clears DMA and timers and unhooks the IRQs
+sub_D675C GusSetIrqDmaLatches {confidence=low,source=new} programs the card's IRQ and DMA latch registers from the configured channels
+sub_D68F0 GusResetVoices {confidence=low,source=new} resets the synthesizer with the given number of active voices (clamped to 14..32) and silences each one
+sub_D6C30 GusPokeBlock {confidence=low,source=new} writes a 16-byte block into card memory one byte at a time
+sub_D6C6C GusPeekBlock {confidence=low,source=new} reads a 16-byte block from card memory one byte at a time
+sub_D6CA4 GusSizeDram {confidence=low,source=new} tests each 256K bank of card memory and records how much memory the card has
+sub_D6D4C GusMemAlloc {confidence=low,source=new} allocates a 32-byte aligned block of card memory from the free list kept in card memory
+sub_D704E GusRefillStreamChannel {confidence=low,source=new} copies the next half buffer of a streaming channel into card memory
+sub_D7104 GusStreamVoiceIrq {confidence=low,source=new} voice interrupt callback for the streaming voices: flips the loop point and flags the half that needs refilling
+sub_D721B GusServiceStream {confidence=low,source=new} refills every streaming channel that its voice interrupt flagged
+sub_D7267 GusStartStream {confidence=low,source=new} sets up the double-buffered stream in card memory, loads both halves and starts the looping voices
+sub_DA5D0 GusSetupDmaChannel {confidence=low,source=new} fills the port table of an ISA DMA channel (mask, mode, clear, address, count and page registers)
+sub_DA65C GusProgramDma {confidence=low,source=new} programs an ISA DMA channel with the buffer address, length and transfer mode
+sub_DA77C GusMaskDma {confidence=low,source=new} masks an ISA DMA channel; followed by the DMA count read and DOS file helpers of the toolkit
+sub_DA8A4 GusSetVect {confidence=low,source=new} sets a protected-mode interrupt vector
+sub_DA8B0 GusGetVect {confidence=low,source=new} reads a protected-mode interrupt vector
+sub_DA8BC GusHookIrq {confidence=low,source=new} saves the old vector of an IRQ line, installs the new handler and unmasks the line
+sub_DA95C GusUnhookIrq {confidence=low,source=new} masks an IRQ line and restores its saved vector
+sub_DA9E4 GusSendEoi {confidence=low,source=new} sends end-of-interrupt to the interrupt controller(s) for an IRQ line
+sub_DAA10 GusWaveIrqHandler {confidence=low,source=new} hardware handler for the card's wave IRQ: services it now or defers it while the card is busy
+sub_DAA8C GusMidiIrqHandler {confidence=low,source=new} hardware handler for the card's MIDI IRQ line
+sub_DAB11 GusDelay {confidence=low,source=new} waits a few port reads so the card can settle between register writes
+sub_DAB25 GusSetBasePort {confidence=low,source=new} checks a base port (210h..260h) and moves the card's port table to it
+sub_DAB70 GusClearIrqState {confidence=low,source=new} clears the pending IRQ flags and the critical-section depth
+sub_DAB83 GusEnterCritical {confidence=low,source=new} raises the critical-section depth so card interrupts are deferred
+sub_DABAA GusLeaveCritical {confidence=low,source=new} lowers the critical-section depth and, at zero, services interrupts that came in meanwhile
+sub_DABE0 GusClearCallbacks {confidence=low,source=new} clears every interrupt callback slot
+sub_DAC3C GusClaimCallback {confidence=low,source=new} stores a callback in a slot when the slot is free or the callback is being cleared
+sub_DAC64 GusClaimVoiceCallback {confidence=low,source=new} stores a voice callback in a slot when the slot is free or the callback is being cleared
+sub_DAC8C GusSetDmaCallbacks {confidence=low,source=new} sets the DMA-done callbacks; returns 8 when they are already taken
+sub_DACC4 GusSetVoiceCallbacks {confidence=low,source=new} sets the wave, volume and timer callbacks; returns 8 when they are already taken
+sub_DADD8 GusMidiIrqService {confidence=low,source=new} reads the MIDI status and calls the MIDI transmit or receive callbacks
+sub_DAE60 GusReadIrqSource {confidence=low,source=new} reads the card's IRQ status register and services MIDI interrupts on a shared line
+sub_DAE9C GusServiceIrq {confidence=low,source=new} services every pending card interrupt: DMA done, timers, voice wave and volume ends
+sub_DB13C GusRunInitTable {confidence=low,source=new} calls each entry of the toolkit's init table in priority order until one fails
+sub_DB1C0 GusPeek {confidence=low,source=new} reads one byte of card memory
+sub_DB23C GusPoke {confidence=low,source=new} writes one byte of card memory
+sub_DB2BC GusPokeFill {confidence=low,source=new} writes a run of bytes (optionally sign-flipped) into card memory through the register ports
+sub_DB394 GusTestDramBank {confidence=low,source=new} writes and reads back test bytes to check whether a bank of card memory exists
+sub_DB540 GusInitPlayDma {confidence=low,source=new} sets up the playback DMA channel when one is configured
+sub_DB564 GusInitRecordDma {confidence=low,source=new} sets up the record DMA channel when one is configured
+sub_DB58C GusInitDma {confidence=low,source=new} init table entry: sets up both DMA channels and claims the DMA-done callback
+sub_DB5E8 GusStartDramDma {confidence=low,source=new} starts one chunk of a DMA transfer from main memory into card memory
+sub_DB69C GusDownload {confidence=low,source=new} copies a buffer into card memory by DMA (with a filler run), refusing while another transfer runs
+sub_DB7AC GusDramDmaDone {confidence=low,source=new} DMA-done callback: starts the next chunk of a download or ends the transfer
+sub_DCBB0 GusConvertAddr16 {confidence=low,source=new} converts a card memory address for a 16-bit DMA transfer
+sub_DCFF4 ModfCore {confidence=low,source=new} splits a double into its integer and fraction parts
+sub_DD084 DecimalToInt64 {confidence=low,source=new} converts a string of decimal digits to a 64-bit integer
+sub_DD0CF NormalizeDouble {confidence=low,source=new} normalises a 64-bit mantissa and exponent into a double
+sub_DD455 BigIntCallHook {confidence=low,source=new} calls the empty big-integer compare hook
+sub_DD50A BigIntNullHook {confidence=low,source=new} empty big-integer compare hook
+sub_DD6C4 SetScreenTarget {confidence=low,source=new} same code as in the next game
+sub_DD6E0 GetPaletteRange {confidence=low,source=new} reads a range of palette entries from the VGA DAC into a buffer
+sub_DD724 FillRectColor {confidence=low,source=new} clips a rectangle to the screen and fills it with a colour; followed by the row fillers
+sub_DD8B0 SetRemapTable {confidence=low,source=new} copies a 256-entry colour remap table into the current one
+sub_DDE74 ReadPortStable {confidence=low,source=new} reads a port twice and returns the bits set in both reads
+sub_DE3D8 VesaSetBank {confidence=low,source=new} switches the VESA bank window when the wanted bank differs
+sub_DF55C SaveVideoState {confidence=low,source=new} saves the BIOS video mode, rows, columns and cursor
+sub_DF8AC MouseReadButtons {confidence=low,source=new} reads the mouse buttons through the mouse driver
+sub_DFDDE Int16Handler {confidence=low,source=new} keyboard: BIOS keyboard service replacement that reads from the game's key buffer
+sub_DFE28 Int16Service {confidence=low,source=new} keyboard: handles the BIOS keyboard read and status calls
+sub_DFF4B KbdPeekKey {confidence=low,source=new} returns the next key without removing it, or 0
+sub_DFF60 SetKbdIdleHook {confidence=low,source=new} sets the keyboard idle hook; followed by the getter
+sub_E04D0 AddExitHandler {confidence=low,source=new} registers an exit handler
+sub_E0658 DosCallSplitDx {confidence=low,source=new} calls DOS with a 32-bit value split into CX:DX and joins DX:AX back into EAX
+sub_E07B8 DosCloseFile {confidence=low,source=new} closes a DOS file handle when it is open
+sub_E07C8 DosWriteFile {confidence=low,source=new} writes a buffer to a DOS file
+sub_E0B9B FillBandEdges {confidence=low,source=new} fills the soft edge columns of a shaded band
+sub_E0C59 FillBandRows {confidence=low,source=new} fills the rows of a shaded band with its colour
+sub_E0D8B FillBandRowsBlend {confidence=low,source=new} fills the rows of a shaded band, blending with what is under it
+sub_E25E0 AngleFromDelta {confidence=low,source=new} returns the angle of a 2D vector from the ratio of its components
+sub_E2680 SinLookup {confidence=low,source=new} returns the sine of a 10-bit angle from the quarter-wave table
+sub_E26A2 CosLookup {confidence=low,source=new} returns the cosine of a 10-bit angle from the quarter-wave table
+sub_E270C DebugLineCount {confidence=low,source=new} returns the debug line count
+unk_1102DD str_Punct_ModemSendCommand {confidence=high,source=new} string "\r"
+unk_1102E3 str_AT {confidence=high,source=new} string "AT"
+unk_114AF0 Scale10Count {confidence=low,source=new} power of ten table length
+unk_115120 DataDirPath {confidence=low,source=new} data directory path
+unk_121B3C CdFileTable {confidence=low,source=new} open CD file records
+unk_122898 RinkMatrix {confidence=low,source=new} rink rotation matrix
+unk_1228BC RinkTranslation {confidence=low,source=new} rink translation vector
+unk_123DF4 __iob {confidence=low,source=new} stdio stream table
+unk_123E0E __stdout_buf {confidence=low,source=new} stdout buffer
+unk_123E76 __iob_end {confidence=low,source=new} end of the stdio stream table
+unk_123FFC __NFiles {confidence=low,source=new} number of stdio streams
+unk_15155C InitRtnsEntry {confidence=low,source=new} start up routine entry
+unk_151580 FiniRtnsEntry {confidence=low,source=new} shut down routine entry
+unk_158658 DataFilePath {confidence=low,source=new} data file path buffer
+unk_17BDE0 IntroPalette {confidence=low,source=new} intro palette
+unk_1A1104 Hook387Save {confidence=low,source=new} FPU state saved by __hook387
+unk_1A11F8 GusDmaChannels {confidence=low,source=new} port tables of the two ISA DMA channels the card uses
+unk_1A1258 StartupStack {confidence=low,source=new} stack the program starts on
+unk_CABE8 MixerStepTable {confidence=low,source=new} mixer pitch step per note
+unk_D02BA str_0123456789abcdefghijklmnopqr_ultoa_ {confidence=medium,source=new} same code as in the next game
+unk_D1552 IntrStubs {confidence=medium,source=new} same code as in the next game
+unk_D2440 EmuZeroTbyte {confidence=low,source=new} x87 emulator: an 80-bit zero loaded into a stack register
+unk_D244A EmuRegRing {confidence=low,source=new} x87 emulator: 8 ten-byte stack register records (next and previous register offsets, top-of-stack status bits)
+unk_D249A EmuRegTagMasks {confidence=low,source=new} x87 emulator: 8 ten-byte tag word records per register (clear mask, then the valid, zero and empty tag bits)
+unk_D24EA EmuCompareCcBits {confidence=medium,source=new} same code as in the next game
+unk_D24EE EmuFpremCcBits {confidence=medium,source=new} same code as in the next game
+unk_D2558 EmuEaSibTable {confidence=medium,source=new} same code as in the next game
+unk_D47DF EmuMantissaMasks {confidence=medium,source=new} same code as in the next game
+unk_D4992 EmuRemPolyCoefs {confidence=medium,source=new} same code as in the next game
+unk_D4D8E EmuLog2PolyNum {confidence=medium,source=new} same code as in the next game
+unk_D4DAC EmuLog2PolyDen {confidence=medium,source=new} same code as in the next game
+unk_D5002 EmuSinPolyCoefs {confidence=medium,source=new} same code as in the next game
+unk_D505C EmuCosPolyCoefs {confidence=medium,source=new} same code as in the next game
+unk_D50B6 EmuSinCosTermCounts {confidence=medium,source=new} same code as in the next game
+word_121ADC str_Punct_InitFpuFlags {confidence=high,source=new} string " "
+word_121ADE SavedEsSelector {confidence=low,source=new} ES selector saved at start up
+word_12445E SavedTextColumns {confidence=low,source=new} text columns saved at start up
+word_1248C0 OldFpuVectorSelector {confidence=low,source=new} saved selector of the old coprocessor-missing vector
+word_1248C2 FpuCr0Bits {confidence=low,source=new} saved CR0 coprocessor bits
+word_14FADC SavedStackSegment {confidence=low,source=new} stack segment saved at start up
+word_14FC74 DefaultControlWord {confidence=low,source=new} default FPU control word
+word_151390 GusStreamLoopLo {confidence=low,source=new} low word of the stream voices' loop point
+word_151392 GusStreamLoopHi {confidence=low,source=new} high word of the stream voices' loop point
+word_151396 GusStreamStartHi {confidence=low,source=new} high word of the stream voices' start address
+word_151398 GusStreamEndLo {confidence=low,source=new} low word of the stream voices' end address
+word_15139A GusStreamEndHi {confidence=low,source=new} high word of the stream voices' end address
+word_15140C GusBasePort {confidence=low,source=new} base port of the card; the other port words follow
+word_15140E GusIrqStatusPort {confidence=low,source=new} card port of the IRQ status register
+word_151414 GusIrqLatchPort {confidence=low,source=new} card port of the IRQ latch register
+word_151416 GusDmaLatchPort {confidence=low,source=new} card port of the DMA latch register
+word_151418 GusMidiControlPort {confidence=low,source=new} card port of the MIDI control register
+word_15141A GusMidiDataPort {confidence=low,source=new} card port of the MIDI data register
+word_15141C GusVoiceSelectPort {confidence=low,source=new} card port that selects the active voice
+word_15141E GusRegSelectPort {confidence=low,source=new} card port that selects a synthesizer register
+word_151420 GusDataLowPort {confidence=low,source=new} card port of the 16-bit register data
+word_151422 GusDataHighPort {confidence=low,source=new} card port of the 8-bit register data
+word_151424 GusDramPort {confidence=low,source=new} card port of the card memory data byte
+word_151442 GusIrqVectorTable {confidence=low,source=new} interrupt vector and saved old handler of each card IRQ line
+word_151448 GusIrqOldSelector {confidence=low,source=new} saved old handler selector in the IRQ table
+word_176B88 LastTouchTeam {confidence=low,source=new} team that last touched the puck
+word_176B8A PassDistY {confidence=low,source=new} pass distance Y
+word_176B8C StoppageFlag {confidence=low,source=new} play stopped
+word_176B8E LastPlayerTouch {confidence=low,source=new} last player to touch the puck
+word_1A0FA2 SbMixerAddrPort {confidence=low,source=new} Sound Blaster mixer address port
+word_1A0FAA SbReadPort {confidence=low,source=new} Sound Blaster DSP read port
+word_1A0FAC SbWritePort {confidence=low,source=new} Sound Blaster DSP write port
+word_1A1092 RationalAllocFlags {confidence=low,source=new} rational allocator flags
+word_1A1184 TimerOldOffsetLo {confidence=low,source=new} low word of the saved timer interrupt offset
+word_1A1186 TimerOldSelector {confidence=low,source=new} selector of the saved timer interrupt handler
+word_1A11B8 GusDramSize {confidence=low,source=new} Gravis on-board memory size
+word_1A11E4 GusDosResult {confidence=low,source=new} result of the last DOS file call of the toolkit
+word_1A11E6 GusIrqFlags {confidence=low,source=new} interrupt state flags of the card driver
+word_1A11E8 GusActiveVoices {confidence=low,source=new} number of active voices on the card
+word_1A11EA GusCriticalDepth {confidence=low,source=new} critical-section depth that defers card interrupts
+word_1A1238 GusDmaChunkLo {confidence=low,source=new} low word of the current DMA chunk's card address
+word_1A123A GusDmaChunkHi {confidence=low,source=new} high word of the current DMA chunk's card address
+word_1A1249 GusDmaFlags {confidence=low,source=new} flags of the current download

@@ -2,24 +2,24 @@
 bits 32
 %include "hockey.inc"
 section s_1A0FB0 nobits alloc noexec write align=1
-global byte_1A0FD4, byte_1A0FD5, dword_1A0FB0, dword_1A0FB4, dword_1A0FB8, dword_1A0FBC, dword_1A0FC0, dword_1A0FC4
+global byte_1A0FD4, byte_1A0FD5, dword_1A0FB0, dword_1A0FB4, DacTimerRate, dword_1A0FBC, DacTimerDivisor, dword_1A0FC4
 global dword_1A0FC8, dword_1A0FCC, dword_1A0FD8, dword_1A0FDC, dword_1A0FE0, dword_1A0FE4, dword_1A0FE8, dword_1A0FF0
 global dword_1A0FF4, dword_1A0FF8, dword_1A0FFC, dword_1A1004, dword_1A100A, dword_1A1010, dword_1A1014, dword_1A1018
 global dword_1A101C, dword_1A1020, dword_1A1024, dword_1A1028, dword_1A1030, dword_1A1034, dword_1A1038, dword_1A103C
 global dword_1A1040, dword_1A1044, dword_1A1048, dword_1A104C, dword_1A1052, dword_1A1058, dword_1A105C, dword_1A1060
 global dword_1A1064, dword_1A1068, dword_1A106C, dword_1A1070, dword_1A1074, dword_1A1078, dword_1A107C, dword_1A1084
-global dword_1A108A, dword_1A1090, dword_1A1094, dword_1A1098, dword_1A109C, dword_1A10A0, dword_1A10A4, dword_1A10A8
+global dword_1A108A, RationalAllocLimit, CMainArgc, CMainArgv, dword_1A109C, dword_1A10A0, dword_1A10A4, dword_1A10A8
 global unk_1A0FEC, unk_1A102C, word_1A0FD0, word_1A0FD2, word_1A1000, word_1A1008, word_1A1050, word_1A1080
-global word_1A1088, word_1A1092
+global word_1A1088, RationalAllocFlags
 dword_1A0FB0:
         resb 4
 dword_1A0FB4:
         resb 4
-dword_1A0FB8:
+DacTimerRate:
         resb 4
 dword_1A0FBC:
         resb 4
-dword_1A0FC0:
+DacTimerDivisor:
         resb 4
 dword_1A0FC4:
         resb 4
@@ -127,13 +127,13 @@ word_1A1088:
         resb 2
 dword_1A108A:
         resb 6
-dword_1A1090:
+RationalAllocLimit:
         resb 2
-word_1A1092:
+RationalAllocFlags:
         resb 2
-dword_1A1094:
+CMainArgc:
         resb 4
-dword_1A1098:
+CMainArgv:
         resb 4
 dword_1A109C:
         resb 4

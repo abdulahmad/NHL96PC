@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_124124 progbits alloc noexec write align=1
-global byte_1241C4, dword_124124, dword_124178, dword_12417C, dword_1241A0, unk_124128
-dword_124124:
+global byte_1241C4, __NHandles, __io_mode, dword_12417C, dword_1241A0, unk_124128
+__NHandles:
         db 014h,00h,00h,00h
 unk_124128:
         db 01h,00h,00h,00h,02h,00h,00h,00h,02h,00h,00h,00h,03h,00h,00h,00h
@@ -11,7 +11,7 @@ unk_124128:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-dword_124178:
+__io_mode:
         dd unk_124128
 dword_12417C:
         db 086h,00h,00h,00h,086h,00h,00h,00h,0AEh,00h,00h,00h,0AEh,00h,00h,00h

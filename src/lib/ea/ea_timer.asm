@@ -2,10 +2,13 @@
 bits 32
 %include "hockey.inc"
 section s_AA5C4 progbits alloc exec nowrite align=1
-extern FatalError, __STOSD, _dos_getvect_, _dos_setvect_, str_AddtimerLISTFULL, dword_11F9A8, dword_1228D0, dword_1228D8
-extern dword_1228DC, dword_1228E0, dword_1228E4, dword_1228F4, dword_1228FC, dword_122930, oldint8off, oldint8sel
-extern sub_B65D4, sub_DE247, sub_DE3D8, sub_E04D0, sub_E0520, tickcount, timercallbacks
-global InstallTimer, RestoreTimer, TimerISR, addtimer, sub_AA664, sub_AA7E0, unk_AA7B0, TimerISR_tick
+extern FatalError, __STOSD, _dos_getvect_, _dos_setvect_, str_AddtimerLISTFULL, TimerTickStep, ScreenWidth, ClipTopRow
+extern ClipLeftCol, ClipRight, ScreenHeight, dword_1228F4, dword_1228FC, dword_122930, oldint8off, oldint8sel
+extern RestoreDS, sub_DE247, VesaSetBank, AddExitHandler, sub_E0520, tickcount, timercallbacks
+global InstallTimer, RestoreTimer, TimerISR, addtimer, RemoveTimerCallback, sub_AA7E0, unk_AA7B0, TimerISR_tick
+;-----------------------------------------------------------------------------
+; TimerISR                                     AA5C4  95 PC, medium confidence
+;-----------------------------------------------------------------------------
 TimerISR:
         pusha
         push ds
@@ -14,7 +17,7 @@ TimerISR:
         push gs
         mov ebp, esp
         cld
-        call sub_B65D4
+        call RestoreDS
         sti
         cld
 TimerISR_tick:
@@ -27,7 +30,7 @@ TimerISR_tick:
         idiv ebx
         test edx, edx
         jne short .1
-        inc dword [dword_11F9A8]
+        inc dword [TimerTickStep]
         pushf
         call far [oldint8off]
         jmp short .2
@@ -52,6 +55,9 @@ TimerISR_tick:
         pop ds
         popa
         iret
+;-----------------------------------------------------------------------------
+; addtimer                                     AA62C  95 PC, medium confidence
+;-----------------------------------------------------------------------------
 addtimer:
         mov edx, dword [timercallbacks]
         xor eax, eax
@@ -73,7 +79,11 @@ addtimer:
         call FatalError
         add esp, byte 4
         ret
-sub_AA664:
+;-----------------------------------------------------------------------------
+; RemoveTimerCallback                             AA664  96 PC, low confidence
+; Removes a callback from the timer callback table
+;-----------------------------------------------------------------------------
+RemoveTimerCallback:
         push esi
         mov edx, dword [byte esp+08h]
         mov ebx, dword [timercallbacks]
@@ -127,6 +137,9 @@ sub_AA664:
         pop edx
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; RestoreTimer                                 AA6D0  95 PC, medium confidence
+;-----------------------------------------------------------------------------
 RestoreTimer:
         push ebx
         push ecx
@@ -164,6 +177,9 @@ RestoreTimer:
         pop ebx
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; InstallTimer                                 AA734  95 PC, medium confidence
+;-----------------------------------------------------------------------------
 InstallTimer:
         mov ecx, 8
         mov eax, timercallbacks
@@ -192,7 +208,7 @@ InstallTimer:
         mov eax, 8
         call _dos_setvect_
         push RestoreTimer
-        call sub_E04D0
+        call AddExitHandler
         add esp, byte 4
         mov edx, 21h
         sub eax, eax
@@ -206,6 +222,9 @@ unk_AA7B0:
         db 06Ch,06Fh,063h,061h,074h,065h,073h,068h,061h,070h,065h,020h,02Dh,020h,027h,025h
         db 02Dh,034h,02Eh,034h,073h,027h,020h,053h,048h,041h,050h,045h,020h,04Eh,04Fh,054h
         db 020h,046h,04Fh,055h,04Eh,044h,0Dh,0Ah,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_AA7E0                                                            AA7E0  
+;-----------------------------------------------------------------------------
 sub_AA7E0:
         push esi
         push edi
@@ -229,7 +248,7 @@ sub_AA7E0:
         mov word [byte edi+0Ch], dx
         xor ecx, ecx
         mov word [byte edi+0Eh], ax
-        mov edi, dword [dword_1228DC]
+        mov edi, dword [ClipLeftCol]
         sar ebx, 10h
         sar ebp, 10h
         mov dword [byte esp+04h], ecx
@@ -245,14 +264,14 @@ sub_AA7E0:
         add eax, edi
         add esi, ebx
 .2:
-        mov ebx, dword [dword_1228E4]
+        mov ebx, dword [ScreenHeight]
         lea edi, [eax+ebp]
         sub edi, ebx
         test edi, edi
         jle short .3
         sub ebp, edi
 .3:
-        mov edi, dword [dword_1228D8]
+        mov edi, dword [ClipTopRow]
         sub edi, edx
         test edi, edi
         jle short .4
@@ -266,7 +285,7 @@ sub_AA7E0:
         mov dword [byte esp+04h], ebx
 .4:
         mov edi, dword [byte esp+010h]
-        mov ecx, dword [dword_1228E0]
+        mov ecx, dword [ClipRight]
         add edi, edx
         sub edi, ecx
         test edi, edi
@@ -282,14 +301,14 @@ sub_AA7E0:
         mov edi, dword [nosplit eax*4+dword_122930]
         mov dword [byte esp+0Ch], ebp
         add edx, edi
-        mov eax, dword [dword_1228D0]
+        mov eax, dword [ScreenWidth]
         mov edi, edx
         sub eax, ebx
         shr edi, 10h
         mov dword [esp], eax
         mov eax, edi
         and edx, 0FFFFh
-        call sub_DE3D8
+        call VesaSetBank
         test ebx, ebx
         jle near .10
 .6:
@@ -315,7 +334,7 @@ sub_AA7E0:
         mov ebp, dword [byte esp+014h]
         mov eax, edi
         and ebp, 0FFFFh
-        call sub_DE3D8
+        call VesaSetBank
         push ebp
         push esi
         mov ecx, dword [byte esp+010h]
@@ -345,7 +364,7 @@ sub_AA7E0:
         inc edi
         mov eax, edi
         and edx, 0FFFFh
-        call sub_DE3D8
+        call VesaSetBank
 .9:
         dec dword [byte esp+0Ch]
         jmp near .6

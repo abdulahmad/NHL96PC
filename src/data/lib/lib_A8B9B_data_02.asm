@@ -5,7 +5,7 @@ section s_11F4BC progbits alloc noexec write align=1
 extern unk_184E7E, unk_184EB4, unk_184EEA, unk_184F19, unk_184F48, unk_1855AD, unk_1855DC, unk_18560B
 extern unk_18563A
 global byte_11F524, byte_11F52D, dword_11F4BC, dword_11F4F0, mouseminx, mouseminy, mousemaxx, mousemaxy
-global dword_11F578, dword_11F57C, dword_11F598, dword_11F5A0, dword_11F5A4, mousex, mousey, dword_11F5B0
+global MouseDeltaX, MouseButtonState, dword_11F598, dword_11F5A0, MousePresent, mousex, mousey, MouseMoved
 global dword_11F5B4, dword_11F5B8, dword_11F5C0, dword_11F5C4, dword_11F5C8, dword_11F5CC, dword_11F5D0, dword_11F5D4
 global dword_11F5D8, joyenablemask, off_11F531, off_11F535, off_11F539, off_11F53D, off_11F541, off_11F545
 global off_11F549, off_11F551, off_11F555, word_11F580, word_11F582, word_11F584
@@ -51,9 +51,9 @@ mousemaxx:
         db 040h,01h,00h,00h
 mousemaxy:
         db 0C8h,00h,00h,00h
-dword_11F578:
+MouseDeltaX:
         db 00h,00h,00h,00h
-dword_11F57C:
+MouseButtonState:
         db 01h,00h,00h,00h
 word_11F580:
         db 00h,00h
@@ -66,13 +66,13 @@ dword_11F598:
         db 00h,00h,00h,00h,01h,00h,00h,00h
 dword_11F5A0:
         db 00h,00h,00h,00h
-dword_11F5A4:
+MousePresent:
         db 00h,00h,00h,00h
 mousex:
         db 00h,00h,00h,00h
 mousey:
         db 00h,00h,00h,00h
-dword_11F5B0:
+MouseMoved:
         db 00h,00h,00h,00h
 dword_11F5B4:
         db 00h,00h,00h,00h

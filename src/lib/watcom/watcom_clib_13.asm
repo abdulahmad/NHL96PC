@@ -5,23 +5,23 @@ section s_C4EA1 progbits alloc exec nowrite align=1
 extern FatalError, InstallTimer, SetDrawBitmap, _IsTable, __CHK, __ExpandDGROUP_, __flush_, __int386x_
 extern __ioalloc_, __prtf_, __set_doserrno_, __set_errno_, _nfree_, _nmalloc_, _searchenv_, abs_
 extern str_CalibrateYourJoystickByU, str_ToMoveTheJoystickPositio, asc_113F2C, str_PressJoystickButtonWhenC, str_KEYBOARDON, asc_113F74, asc_113F7C, asc_113F88
-extern str_CheckextenderINCORRECTEX, str_LocatebigNOBIGFILESETNUL, asc_114030, str_LocatebigsFILENOTFOUNDS, asc_11407C, asc_1140A0, str_OriapplymorphObjectCanno, byte_122794
-extern _Extender, _ExtenderSubtype, _osmajor, byte_19BA44, dword_11F5A0, dword_11F5A4, dword_11F5C0, dword_11F5C4
-extern dword_11F5C8, dword_11F8E8, dword_1210CC, dword_1228D8, dword_1228DC, dword_1228E0, dword_1228E4, dword_1228F4
-extern dword_1228F8, dword_1228FC, dword_124109, dword_124124, dword_124178, dword_12417C, dword_1241A0, dword_124414
-extern dword_124418, dword_12443C, dword_124440, dword_19F2D0, dword_19F2D4, dword_19F2D8, dword_1A1094, dword_1A1098
+extern str_CheckextenderINCORRECTEX, str_LocatebigNOBIGFILESETNUL, asc_114030, str_LocatebigsFILENOTFOUNDS, asc_11407C, asc_1140A0, str_OriapplymorphObjectCanno, RemapTable
+extern _Extender, _ExtenderSubtype, _osmajor, byte_19BA44, dword_11F5A0, MousePresent, dword_11F5C0, dword_11F5C4
+extern dword_11F5C8, HeapList, dword_1210CC, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, dword_1228F4
+extern dword_1228F8, dword_1228FC, dword_124109, __NHandles, __io_mode, dword_12417C, dword_1241A0, CMainEnv
+extern CMainResult, dword_12443C, dword_124440, dword_19F2D0, dword_19F2D4, dword_19F2D8, CMainArgc, CMainArgv
 extern exit_, fputc_, getcwd_, joycalactive, joyenablemask, sub_E1836_29, main_, off_14F074
 extern off_14F078, sprintf_, stricmp_, sub_AA9CC, sub_AC838, sub_AD35C, FillRect, sub_ADBEC
-extern sub_AFFD0, sub_B0254, sub_B026C, TextSetFont, sub_B2C54, sub_B30E4, sub_B3145, sub_B31C0
+extern sub_AFFD0, SaveTextState, SetDrawTarget, TextSetFont, sub_B2C54, InitMemoryPoolDefault, sub_B3145, sub_B31C0
 extern sub_B7810, sub_B9C08, sub_B9C70, sub_BD86C, sub_BEAE4, initgraphics, sub_C2AEC, sub_C4CCC
-extern sub_C4D80, sub_CA6E0, sub_D0650, sub_D0692, sub_D069B, sub_D06FC, sub_D077C, sub_D1080
+extern sub_C4D80, InitFpuFlags, sub_D0650, CMainHook, __CommonInit_, sub_D06FC, sub_D077C, sub_D1080
 extern sub_D1280, sub_D1368, sub_D1860, sub_D1920, sub_D19BC, sub_D1A88, sub_D1B3C, sub_D1BEC
-extern sub_D1CE0, sub_DD6C4, SetClipWindow, sub_DD830, sub_DD87C, sub_DD960, sub_DD982, sub_DDB22
-extern sub_DDC2A, PlotPixel, sub_DE18C, sub_DE3D8, sub_DF22C, sub_DF2CC, sub_DF38C, sub_DF44C
-extern sub_DF50C, sub_DFB84, sub_DFB88, sub_DFF28, sub_DFF60, sub_DFF7C, sub_E0158, sub_E0456
-extern sub_E0486, sub_E04D0, sub_E0584, sub_E05DA, vecdist, sub_E1638, sub_E167A, sub_E193C
-extern sub_E1956, RestoreTextMode, sub_E272C, sub_E2824, tolower_, unk_1210DC, unk_1213DC, unk_15155C
-extern unk_151580, unk_15158C, unk_18584C, vsprintf_, word_14FC74
+extern sub_D1CE0, SetScreenTarget, SetClipWindow, sub_DD830, sub_DD87C, sub_DD960, sub_DD982, sub_DDB22
+extern sub_DDC2A, PlotPixel, sub_DE18C, VesaSetBank, sub_DF22C, sub_DF2CC, sub_DF38C, sub_DF44C
+extern sub_DF50C, sub_DFB84, sub_DFB88, sub_DFF28, SetKbdIdleHook, sub_DFF7C, sub_E0158, sub_E0456
+extern sub_E0486, AddExitHandler, sub_E0584, sub_E05DA, vecdist, sub_E1638, sub_E167A, sub_E193C
+extern sub_E1956, RestoreTextMode, sub_E272C, sub_E2824, tolower_, unk_1210DC, unk_1213DC, InitRtnsEntry
+extern FiniRtnsEntry, unk_15158C, unk_18584C, vsprintf_, DefaultControlWord
 global __CMain, __FiniRtns, __HeapManager_expand_, __IOMode_, __InitRtns, __SetIOMode_, __doserror_, __fprtf_
 global __set_errno_dos_, __sys_init_387_emulator, _dosret0_, _nexpand_, _nmsize_, file_putc_, int386_, int386x_
 global isatty_, _nexpand__10, __HeapManager_expand__18F, __HeapManager_expand__1EA, sub_C60EC_168, min__10, sub_CA0B0_6C, min_
@@ -31,6 +31,9 @@ global sub_C63DC, sub_C65A0, sub_C65F8, sub_C6FA4, sub_C70A8, sub_C7A54, sub_C7B
 global sub_C85F0, sub_C8D50, sub_C955C, sub_C972C, sub_C98FC, sub_C9A20, sub_C9A80, sub_C9AD8
 global sub_C9D50, sub_C9D80, sub_C9E68, sub_C9E70, sub_C9F3A, sub_C9F8A, sub_CA0B0, sub_CA288
 global sub_CA584, sub_CA650, unlink_
+;-----------------------------------------------------------------------------
+; isatty_                                                       C4EA1  library
+;-----------------------------------------------------------------------------
 isatty_:
         push ebx
         push ecx
@@ -48,6 +51,9 @@ isatty_:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; _dosret0_                                                     C4EBF  library
+;-----------------------------------------------------------------------------
 _dosret0_:
         test edx, edx
         jne short .1
@@ -57,6 +63,9 @@ _dosret0_:
         test edx, edx
         jne short __set_errno_dos_
         ret
+;-----------------------------------------------------------------------------
+; __set_errno_dos_                                              C4ECB  library
+;-----------------------------------------------------------------------------
 __set_errno_dos_:
         push ebx
         push edx
@@ -102,12 +111,15 @@ __set_errno_dos_:
         pop edx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; __IOMode_                                                     C4F31  library
+;-----------------------------------------------------------------------------
 __IOMode_:
         push ebx
         push ecx
         push edx
         mov edx, eax
-        cmp eax, dword [dword_124124]
+        cmp eax, dword [__NHandles]
         jb short .1
         xor eax, eax
         pop edx
@@ -118,7 +130,7 @@ __IOMode_:
         cmp eax, byte 5
         jg short .2
         mov ebx, eax
-        mov eax, dword [dword_124178]
+        mov eax, dword [__io_mode]
         shl ebx, 2
         add eax, ebx
         mov cl, byte [byte eax+01h]
@@ -131,26 +143,32 @@ __IOMode_:
         call isatty_
         test eax, eax
         je short .2
-        mov eax, dword [dword_124178]
+        mov eax, dword [__io_mode]
         or byte [byte ebx+eax+01h], 20h
 .2:
-        mov eax, dword [dword_124178]
+        mov eax, dword [__io_mode]
         mov eax, dword [eax+edx*4]
         pop edx
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; __SetIOMode_                                                  C4F86  library
+;-----------------------------------------------------------------------------
 __SetIOMode_:
         push ebx
         or dh, 40h
         mov ebx, edx
         mov edx, eax
-        mov eax, dword [dword_124178]
+        mov eax, dword [__io_mode]
         shl edx, 2
         mov dword [edx+eax], ebx
         pop ebx
         ret
         db 00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_C4FA0                                                            C4FA0  
+;-----------------------------------------------------------------------------
 sub_C4FA0:
         push esi
         push edi
@@ -258,17 +276,20 @@ sub_C4FA0:
         pop edi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; sub_C50E0                                                            C50E0  
+;-----------------------------------------------------------------------------
 sub_C50E0:
         push ebp
         mov eax, dword [byte esp+08h]
         mov edx, dword [byte esp+0Ch]
-        cmp eax, dword [dword_1228D8]
+        cmp eax, dword [ClipTopRow]
         jl short .1
-        cmp eax, dword [dword_1228E0]
+        cmp eax, dword [ClipRight]
         jge short .1
-        cmp edx, dword [dword_1228DC]
+        cmp edx, dword [ClipLeftCol]
         jl short .1
-        cmp edx, dword [dword_1228E4]
+        cmp edx, dword [ScreenHeight]
         jge short .1
         mov ebp, dword [byte esp+010h]
         push ebp
@@ -280,6 +301,9 @@ sub_C50E0:
         pop ebp
         ret
         db 00h,00h
+;-----------------------------------------------------------------------------
+; file_putc_                                                    C511C  library
+;-----------------------------------------------------------------------------
 file_putc_:
         push ebx
         mov ebx, eax
@@ -289,6 +313,9 @@ file_putc_:
         inc dword [byte ebx+010h]
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; __fprtf_                                                      C512D  library
+;-----------------------------------------------------------------------------
 __fprtf_:
         push ecx
         push esi
@@ -346,6 +373,9 @@ __fprtf_:
         pop esi
         pop ecx
         ret
+;-----------------------------------------------------------------------------
+; _nexpand_                                                     C51B2  library
+;-----------------------------------------------------------------------------
 _nexpand_:
         push ebx
         push ecx
@@ -356,7 +386,7 @@ _nexpand_:
         mov edi, edx
         and byte [byte esp+04h], 0FEh
 _nexpand__10:
-        mov eax, dword_11F8E8
+        mov eax, HeapList
         mov edx, ds
         mov ecx, esp
         xor eax, eax
@@ -369,6 +399,9 @@ _nexpand__10:
         jne near __HeapManager_expand__18F
         mov eax, esi
         jmp near __HeapManager_expand__1EA
+;-----------------------------------------------------------------------------
+; __HeapManager_expand_                                         C51EA  library
+;-----------------------------------------------------------------------------
 __HeapManager_expand_:
         push esi
         push edi
@@ -410,10 +443,10 @@ __HeapManager_expand_:
         mov eax, dword [byte ebx+04h]
         mov edx, ds
         mov dword [byte esp+0Ch], eax
-        mov eax, dword_11F8E8
+        mov eax, HeapList
         cmp dx, word [esp]
         jne short .8
-        mov esi, dword [dword_11F8E8]
+        mov esi, dword [HeapList]
         jmp short .7
 .5:
         cmp esi, edi
@@ -496,14 +529,14 @@ __HeapManager_expand_:
         or dl, 1
         mov dword [ecx], ebx
         lea ebx, [ecx+eax]
-        mov eax, dword_11F8E8
+        mov eax, HeapList
         mov dword [byte esp+04h], ebx
         mov dword [ebx], edx
         mov edx, ds
         mov ebx, dword [esp]
         cmp dx, bx
         jne short .18
-        mov esi, dword [dword_11F8E8]
+        mov esi, dword [HeapList]
         jmp short .17
 .15:
         cmp esi, edi
@@ -570,12 +603,18 @@ __HeapManager_expand__1EA:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; _nmsize_                                                      C53DC  library
+;-----------------------------------------------------------------------------
 _nmsize_:
         mov eax, dword [byte eax-04h]
         and al, 0FEh
         sub eax, byte 4
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; int386_                                                       C53F0  library
+;-----------------------------------------------------------------------------
 int386_:
         push ecx
         sub esp, byte 0Ch
@@ -589,6 +628,9 @@ int386_:
         pop ecx
         ret
         db 00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_C5410                                                            C5410  
+;-----------------------------------------------------------------------------
 sub_C5410:
         push esi
         push edi
@@ -610,7 +652,7 @@ sub_C5410:
         add esp, byte 4
         lea eax, [byte esp+060h]
         push eax
-        call sub_B0254
+        call SaveTextState
         add esp, byte 4
         push unk_1213DC
         call TextSetFont
@@ -668,7 +710,7 @@ sub_C5410:
         push byte 0
         call sub_AA9CC
         add esp, byte 18h
-        call sub_DD6C4
+        call SetScreenTarget
         mov edx, dword [dword_11F5C4]
         lea eax, [nosplit edx*4+00h]
         sub eax, edx
@@ -1023,7 +1065,7 @@ sub_C5410:
         add esp, byte 4
         lea eax, [byte esp+060h]
         push eax
-        call sub_B026C
+        call SetDrawTarget
         add esp, byte 4
         mov eax, esp
         push eax
@@ -1044,6 +1086,9 @@ sub_C5410:
         pop esi
         ret
         db 00h
+;-----------------------------------------------------------------------------
+; sub_C59E0                                                            C59E0  
+;-----------------------------------------------------------------------------
 sub_C59E0:
         push byte 8
         xor edx, edx
@@ -1052,14 +1097,17 @@ sub_C59E0:
         call sub_C2AEC
         add esp, byte 8
         ret
+;-----------------------------------------------------------------------------
+; __CMain                                                       C59F8  library
+;-----------------------------------------------------------------------------
 __CMain:
         push edx
         push ebp
         mov ebp, esp
-        mov edx, dword [dword_124414]
+        mov edx, dword [CMainEnv]
         add edx, byte 3
         and dl, 0FCh
-        call sub_D0692
+        call CMainHook
         cmp edx, eax
         jae short .1
         mov eax, edx
@@ -1069,15 +1117,18 @@ __CMain:
 .1:
         xor eax, eax
 .2:
-        mov edx, dword [dword_124414]
+        mov edx, dword [CMainEnv]
         add eax, edx
-        mov dword [dword_124418], eax
-        call sub_D069B
-        mov edx, dword [dword_1A1098]
-        mov eax, dword [dword_1A1094]
+        mov dword [CMainResult], eax
+        call __CommonInit_
+        mov edx, dword [CMainArgv]
+        mov eax, dword [CMainArgc]
         call main_
         call exit_
         db 089h,0ECh,05Dh,05Ah,0C3h,00h
+;-----------------------------------------------------------------------------
+; __InitRtns                                                    C5A48  library
+;-----------------------------------------------------------------------------
 __InitRtns:
         push esi
         push edi
@@ -1087,9 +1138,9 @@ __InitRtns:
         mov edx, eax
 .1:
         db 03Eh,0BEh                            ; insn: mov esi,4155Ch
-        dd unk_15155C
+        dd InitRtnsEntry
         db 03Eh,0BFh                            ; insn: mov edi,41580h
-        dd unk_151580
+        dd FiniRtnsEntry
         mov ebx, edi
         mov al, dl
 .2:
@@ -1125,6 +1176,9 @@ __InitRtns:
         pop edi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; __FiniRtns                                                    C5A93  library
+;-----------------------------------------------------------------------------
 __FiniRtns:
         push esi
         push edi
@@ -1134,7 +1188,7 @@ __FiniRtns:
         mov dl, al
 .1:
         db 03Eh,0BEh                            ; insn: mov esi,41580h
-        dd unk_151580
+        dd FiniRtnsEntry
         db 03Eh,0BFh                            ; insn: mov edi,4158Ch
         dd unk_15158C
         mov ebx, edi
@@ -1173,9 +1227,15 @@ __FiniRtns:
         pop edi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; sub_C5AE2                                                            C5AE2  
+;-----------------------------------------------------------------------------
 sub_C5AE2:
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_C5AF0                                                            C5AF0  
+;-----------------------------------------------------------------------------
 sub_C5AF0:
         push ebx
         push ecx
@@ -1194,6 +1254,9 @@ sub_C5AF0:
         pop ebx
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_C5B18                                                            C5B18  
+;-----------------------------------------------------------------------------
 sub_C5B18:
         push esi
         sub esp, 100h
@@ -1261,7 +1324,7 @@ sub_C5B18:
         cmp dword [dword_1210CC], byte 0
         jne short .5
         push dword 0C8h
-        call sub_B30E4
+        call InitMemoryPoolDefault
         add esp, byte 4
 .5:
         cmp dword [dword_11F5A0], byte 0
@@ -1270,7 +1333,7 @@ sub_C5B18:
         db 068h                                 ; insn: push 0B5AF0h
         dd sub_C5AF0
         mov dword [dword_12443C], eax
-        call sub_E04D0
+        call AddExitHandler
         add esp, byte 4
         mov esi, dword [dword_11F5C8]
         push esi
@@ -1299,8 +1362,8 @@ sub_C5B18:
         push eax
         call sub_AFFD0
         add esp, byte 8
-        call sub_DD6C4
-        cmp dword [dword_11F5A4], byte 0
+        call SetScreenTarget
+        cmp dword [MousePresent], byte 0
         jne short .7
         call sub_D1080
 .7:
@@ -1313,7 +1376,7 @@ sub_C5B18:
         call sub_E05DA
         add esp, byte 4
         push sub_E1836_29
-        call sub_DFF60
+        call SetKbdIdleHook
         add esp, byte 4
         call sub_D1280
         mov edx, dword [dword_11F5C4]
@@ -1340,6 +1403,9 @@ sub_C5B18:
         pop esi
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_C5D00                                                            C5D00  
+;-----------------------------------------------------------------------------
 sub_C5D00:
         sub esp, 204h
         lea eax, [dword esp+0214h]
@@ -1360,6 +1426,9 @@ sub_C5D00:
         mov dword [dword esp+0200h], ecx
         add esp, 204h
         ret
+;-----------------------------------------------------------------------------
+; sub_C5D56                                                            C5D56  
+;-----------------------------------------------------------------------------
 sub_C5D56:
         push dword 0ACh
         call __CHK
@@ -1648,6 +1717,9 @@ sub_C5D56:
         pop ecx
         ret
         db 00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_C6000                                                            C6000  
+;-----------------------------------------------------------------------------
 sub_C6000:
         mov eax, dword [byte esp+04h]
         cmp eax, byte 61h
@@ -1657,6 +1729,9 @@ sub_C6000:
         sub al, 20h
 .1:
         ret
+;-----------------------------------------------------------------------------
+; segread_                                                      C6011  library
+;-----------------------------------------------------------------------------
 segread_:
         push edx
         mov edx, eax
@@ -1674,6 +1749,9 @@ segread_:
         mov word [byte edx+0Ah], ax
         pop edx
         ret
+;-----------------------------------------------------------------------------
+; int386x_                                                      C6039  library
+;-----------------------------------------------------------------------------
 int386x_:
         push esi
         push edi
@@ -1689,6 +1767,9 @@ int386x_:
         pop edi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; __doserror_                                                   C6052  library
+;-----------------------------------------------------------------------------
 __doserror_:
         jae short .1
         and eax, 0FFFFh
@@ -1700,6 +1781,9 @@ __doserror_:
         sub eax, eax
 .2:
         ret
+;-----------------------------------------------------------------------------
+; unlink_                                                       C6065  library
+;-----------------------------------------------------------------------------
 unlink_:
         push edx
         mov edx, eax
@@ -1718,6 +1802,9 @@ unlink_:
         pop edx
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_C6090                                                            C6090  
+;-----------------------------------------------------------------------------
 sub_C6090:
         push ebx
         push ecx
@@ -1759,6 +1846,9 @@ sub_C6090:
         pop ebx
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_C60EC                                                            C60EC  
+;-----------------------------------------------------------------------------
 sub_C60EC:
         push esi
         push edi
@@ -1912,6 +2002,9 @@ sub_C60EC_168:
         add esp, byte 0Ch
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_C626C                                                            C626C  
+;-----------------------------------------------------------------------------
 sub_C626C:
         push esi
         mov edx, dword [byte esp+010h]
@@ -1966,6 +2059,9 @@ sub_C626C:
         mov eax, esi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; sub_C62E0                                                            C62E0  
+;-----------------------------------------------------------------------------
 sub_C62E0:
         push esi
         push edi
@@ -2081,6 +2177,9 @@ sub_C62E0:
 .11:
         mov eax, ecx
         ret
+;-----------------------------------------------------------------------------
+; sub_C63DC                                                            C63DC  
+;-----------------------------------------------------------------------------
 sub_C63DC:
         push esi
         push edi
@@ -2261,6 +2360,9 @@ sub_C63DC:
         pop esi
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_C65A0                                                            C65A0  
+;-----------------------------------------------------------------------------
 sub_C65A0:
         push esi
         mov eax, dword [byte esp+08h]
@@ -2302,6 +2404,9 @@ sub_C65A0:
         pop ebx
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_C65F8                                                            C65F8  
+;-----------------------------------------------------------------------------
 sub_C65F8:
         push esi
         push edi
@@ -2679,7 +2784,7 @@ sub_C65F8:
         mov dword [byte esp+048h], eax
 .25:
         mov edx, dword [byte esp+0Ch]
-        mov eax, dword [dword_1228E4]
+        mov eax, dword [ScreenHeight]
         cmp eax, edx
         jge short .26
         mov ebx, eax
@@ -2687,7 +2792,7 @@ sub_C65F8:
 .26:
         mov ebx, edx
 .27:
-        mov ecx, dword [dword_1228DC]
+        mov ecx, dword [ClipLeftCol]
         mov dword [byte esp+038h], ebx
         cmp esi, ecx
         jl near .30
@@ -2695,12 +2800,12 @@ sub_C65F8:
         mov edx, dword [dword esp+090h]
         shl eax, 3
         add eax, edx
-        mov ecx, dword [dword_1228D8]
+        mov ecx, dword [ClipTopRow]
         mov edx, dword [eax]
         cmp edx, ecx
         jl near .30
         mov eax, edx
-        mov edx, dword [dword_1228E0]
+        mov edx, dword [ClipRight]
         cmp eax, edx
         jge near .30
         mov eax, dword [byte esp+020h]
@@ -2775,14 +2880,14 @@ sub_C65F8:
         sar edx, 10h
         sar eax, 10h
         sub eax, edx
-        mov ecx, dword [dword_1228E0]
+        mov ecx, dword [ClipRight]
         lea ebx, [edx+eax]
         sub ebx, ecx
         test ebx, ebx
         jle short .32
         sub eax, ebx
 .32:
-        mov ebx, dword [dword_1228D8]
+        mov ebx, dword [ClipTopRow]
         sub ebx, edx
         test ebx, ebx
         jle short .33
@@ -2794,7 +2899,7 @@ sub_C65F8:
 .34:
         test eax, eax
         jle short .35
-        cmp esi, dword [dword_1228DC]
+        cmp esi, dword [ClipLeftCol]
         jl short .35
         push eax
         mov eax, dword [byte esp+07Ch]
@@ -2961,13 +3066,13 @@ sub_C65F8:
         shl eax, 3
         add eax, edx
         mov eax, dword [byte eax+04h]
-        mov ebx, dword [dword_1228E4]
+        mov ebx, dword [ScreenHeight]
         sar eax, 10h
         cmp eax, ebx
         jle short .49
         mov eax, ebx
 .49:
-        mov ecx, dword [dword_1228DC]
+        mov ecx, dword [ClipLeftCol]
         mov dword [byte esp+034h], eax
         cmp esi, ecx
         jl near .52
@@ -2975,12 +3080,12 @@ sub_C65F8:
         mov ebx, dword [dword esp+090h]
         shl edx, 3
         add edx, ebx
-        mov ecx, dword [dword_1228D8]
+        mov ecx, dword [ClipTopRow]
         mov ebx, dword [edx]
         cmp ebx, ecx
         jl near .52
         mov edx, ebx
-        mov ebx, dword [dword_1228E0]
+        mov ebx, dword [ClipRight]
         cmp edx, ebx
         jge near .52
         mov edx, dword [byte esp+020h]
@@ -3055,14 +3160,14 @@ sub_C65F8:
         sar edx, 10h
         sar eax, 10h
         sub eax, edx
-        mov ecx, dword [dword_1228E0]
+        mov ecx, dword [ClipRight]
         lea ebx, [edx+eax]
         sub ebx, ecx
         test ebx, ebx
         jle short .54
         sub eax, ebx
 .54:
-        mov ebx, dword [dword_1228D8]
+        mov ebx, dword [ClipTopRow]
         sub ebx, edx
         test ebx, ebx
         jle short .55
@@ -3074,7 +3179,7 @@ sub_C65F8:
 .56:
         test eax, eax
         jle short .57
-        cmp esi, dword [dword_1228DC]
+        cmp esi, dword [ClipLeftCol]
         jl short .57
         push eax
         mov eax, dword [byte esp+07Ch]
@@ -3119,6 +3224,9 @@ sub_C65F8:
         pop esi
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_C6FA4                                                            C6FA4  
+;-----------------------------------------------------------------------------
 sub_C6FA4:
         sub esp, byte 30h
         mov edx, dword [byte esp+038h]
@@ -3196,6 +3304,9 @@ sub_C6FA4:
         pop ebx
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_C70A8                                                            C70A8  
+;-----------------------------------------------------------------------------
 sub_C70A8:
         push esi
         push edi
@@ -3573,7 +3684,7 @@ sub_C70A8:
         mov dword [byte esp+048h], eax
 .25:
         mov edx, dword [byte esp+0Ch]
-        mov eax, dword [dword_1228E4]
+        mov eax, dword [ScreenHeight]
         cmp eax, edx
         jge short .26
         mov ebx, eax
@@ -3581,7 +3692,7 @@ sub_C70A8:
 .26:
         mov ebx, edx
 .27:
-        mov ecx, dword [dword_1228DC]
+        mov ecx, dword [ClipLeftCol]
         mov dword [byte esp+038h], ebx
         cmp esi, ecx
         jl near .30
@@ -3589,12 +3700,12 @@ sub_C70A8:
         mov edx, dword [dword esp+090h]
         shl eax, 3
         add eax, edx
-        mov ecx, dword [dword_1228D8]
+        mov ecx, dword [ClipTopRow]
         mov edx, dword [eax]
         cmp edx, ecx
         jl near .30
         mov eax, edx
-        mov edx, dword [dword_1228E0]
+        mov edx, dword [ClipRight]
         cmp eax, edx
         jge near .30
         mov eax, dword [byte esp+020h]
@@ -3669,14 +3780,14 @@ sub_C70A8:
         sar edx, 10h
         sar eax, 10h
         sub eax, edx
-        mov ecx, dword [dword_1228E0]
+        mov ecx, dword [ClipRight]
         lea ebx, [edx+eax]
         sub ebx, ecx
         test ebx, ebx
         jle short .32
         sub eax, ebx
 .32:
-        mov ebx, dword [dword_1228D8]
+        mov ebx, dword [ClipTopRow]
         sub ebx, edx
         test ebx, ebx
         jle short .33
@@ -3688,7 +3799,7 @@ sub_C70A8:
 .34:
         test eax, eax
         jle short .35
-        cmp esi, dword [dword_1228DC]
+        cmp esi, dword [ClipLeftCol]
         jl short .35
         push eax
         mov eax, dword [byte esp+07Ch]
@@ -3855,13 +3966,13 @@ sub_C70A8:
         shl eax, 3
         add eax, edx
         mov eax, dword [byte eax+04h]
-        mov ebx, dword [dword_1228E4]
+        mov ebx, dword [ScreenHeight]
         sar eax, 10h
         cmp eax, ebx
         jle short .49
         mov eax, ebx
 .49:
-        mov ecx, dword [dword_1228DC]
+        mov ecx, dword [ClipLeftCol]
         mov dword [byte esp+034h], eax
         cmp esi, ecx
         jl near .52
@@ -3869,12 +3980,12 @@ sub_C70A8:
         mov ebx, dword [dword esp+090h]
         shl edx, 3
         add edx, ebx
-        mov ecx, dword [dword_1228D8]
+        mov ecx, dword [ClipTopRow]
         mov ebx, dword [edx]
         cmp ebx, ecx
         jl near .52
         mov edx, ebx
-        mov ebx, dword [dword_1228E0]
+        mov ebx, dword [ClipRight]
         cmp edx, ebx
         jge near .52
         mov edx, dword [byte esp+020h]
@@ -3949,14 +4060,14 @@ sub_C70A8:
         sar edx, 10h
         sar eax, 10h
         sub eax, edx
-        mov ecx, dword [dword_1228E0]
+        mov ecx, dword [ClipRight]
         lea ebx, [edx+eax]
         sub ebx, ecx
         test ebx, ebx
         jle short .54
         sub eax, ebx
 .54:
-        mov ebx, dword [dword_1228D8]
+        mov ebx, dword [ClipTopRow]
         sub ebx, edx
         test ebx, ebx
         jle short .55
@@ -3968,7 +4079,7 @@ sub_C70A8:
 .56:
         test eax, eax
         jle short .57
-        cmp esi, dword [dword_1228DC]
+        cmp esi, dword [ClipLeftCol]
         jl short .57
         push eax
         mov eax, dword [byte esp+07Ch]
@@ -4013,6 +4124,9 @@ sub_C70A8:
         pop esi
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_C7A54                                                            C7A54  
+;-----------------------------------------------------------------------------
 sub_C7A54:
         sub esp, byte 30h
         mov edx, dword [byte esp+038h]
@@ -4090,6 +4204,9 @@ sub_C7A54:
         pop ebx
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_C7B58                                                            C7B58  
+;-----------------------------------------------------------------------------
 sub_C7B58:
         push esi
         push edi
@@ -4467,7 +4584,7 @@ sub_C7B58:
         mov dword [byte esp+048h], eax
 .25:
         mov edx, dword [byte esp+0Ch]
-        mov eax, dword [dword_1228E4]
+        mov eax, dword [ScreenHeight]
         cmp eax, edx
         jge short .26
         mov ebx, eax
@@ -4475,7 +4592,7 @@ sub_C7B58:
 .26:
         mov ebx, edx
 .27:
-        mov ecx, dword [dword_1228DC]
+        mov ecx, dword [ClipLeftCol]
         mov dword [byte esp+038h], ebx
         cmp esi, ecx
         jl near .30
@@ -4483,12 +4600,12 @@ sub_C7B58:
         mov edx, dword [dword esp+090h]
         shl eax, 3
         add eax, edx
-        mov ecx, dword [dword_1228D8]
+        mov ecx, dword [ClipTopRow]
         mov edx, dword [eax]
         cmp edx, ecx
         jl near .30
         mov eax, edx
-        mov edx, dword [dword_1228E0]
+        mov edx, dword [ClipRight]
         cmp eax, edx
         jge near .30
         mov eax, dword [byte esp+020h]
@@ -4563,14 +4680,14 @@ sub_C7B58:
         sar edx, 10h
         sar eax, 10h
         sub eax, edx
-        mov ecx, dword [dword_1228E0]
+        mov ecx, dword [ClipRight]
         lea ebx, [edx+eax]
         sub ebx, ecx
         test ebx, ebx
         jle short .32
         sub eax, ebx
 .32:
-        mov ebx, dword [dword_1228D8]
+        mov ebx, dword [ClipTopRow]
         sub ebx, edx
         test ebx, ebx
         jle short .33
@@ -4582,7 +4699,7 @@ sub_C7B58:
 .34:
         test eax, eax
         jle short .35
-        cmp esi, dword [dword_1228DC]
+        cmp esi, dword [ClipLeftCol]
         jl short .35
         push eax
         mov eax, dword [byte esp+07Ch]
@@ -4749,13 +4866,13 @@ sub_C7B58:
         shl eax, 3
         add eax, edx
         mov eax, dword [byte eax+04h]
-        mov ebx, dword [dword_1228E4]
+        mov ebx, dword [ScreenHeight]
         sar eax, 10h
         cmp eax, ebx
         jle short .49
         mov eax, ebx
 .49:
-        mov ecx, dword [dword_1228DC]
+        mov ecx, dword [ClipLeftCol]
         mov dword [byte esp+034h], eax
         cmp esi, ecx
         jl near .52
@@ -4763,12 +4880,12 @@ sub_C7B58:
         mov ebx, dword [dword esp+090h]
         shl edx, 3
         add edx, ebx
-        mov ecx, dword [dword_1228D8]
+        mov ecx, dword [ClipTopRow]
         mov ebx, dword [edx]
         cmp ebx, ecx
         jl near .52
         mov edx, ebx
-        mov ebx, dword [dword_1228E0]
+        mov ebx, dword [ClipRight]
         cmp edx, ebx
         jge near .52
         mov edx, dword [byte esp+020h]
@@ -4843,14 +4960,14 @@ sub_C7B58:
         sar edx, 10h
         sar eax, 10h
         sub eax, edx
-        mov ecx, dword [dword_1228E0]
+        mov ecx, dword [ClipRight]
         lea ebx, [edx+eax]
         sub ebx, ecx
         test ebx, ebx
         jle short .54
         sub eax, ebx
 .54:
-        mov ebx, dword [dword_1228D8]
+        mov ebx, dword [ClipTopRow]
         sub ebx, edx
         test ebx, ebx
         jle short .55
@@ -4862,7 +4979,7 @@ sub_C7B58:
 .56:
         test eax, eax
         jle short .57
-        cmp esi, dword [dword_1228DC]
+        cmp esi, dword [ClipLeftCol]
         jl short .57
         push eax
         mov eax, dword [byte esp+07Ch]
@@ -4907,6 +5024,9 @@ sub_C7B58:
         pop esi
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_C8504                                                            C8504  
+;-----------------------------------------------------------------------------
 sub_C8504:
         sub esp, byte 30h
         mov edx, dword [byte esp+038h]
@@ -4970,6 +5090,9 @@ sub_C8504:
         add esp, byte 30h
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_C85F0                                                            C85F0  
+;-----------------------------------------------------------------------------
 sub_C85F0:
         push esi
         push edi
@@ -5010,10 +5133,10 @@ sub_C85F0:
         cmp edx, byte 4
         jl short .1
         mov eax, dword [dword esp+04814h]
-        cmp eax, dword [dword_1228E4]
+        cmp eax, dword [ScreenHeight]
         jge near .25
         mov eax, dword [dword esp+04810h]
-        cmp eax, dword [dword_1228DC]
+        cmp eax, dword [ClipLeftCol]
         jl near .25
         mov edx, dword [dword esp+04834h]
         inc edx
@@ -5203,13 +5326,13 @@ sub_C85F0:
         jne near .9
 .11:
         mov eax, dword [dword esp+04814h]
-        mov ebx, dword [dword_1228DC]
+        mov ebx, dword [ClipLeftCol]
         cmp eax, ebx
         jge short .12
         mov dword [dword esp+04814h], ebx
 .12:
         mov eax, dword [dword esp+04810h]
-        mov ecx, dword [dword_1228E4]
+        mov ecx, dword [ScreenHeight]
         cmp eax, ecx
         jl short .13
         lea eax, [byte ecx-01h]
@@ -5237,9 +5360,9 @@ sub_C85F0:
         test ebx, ebx
         jle near .18
         mov eax, edx
-        cmp eax, dword [dword_1228E0]
+        cmp eax, dword [ClipRight]
         jge near .17
-        mov ecx, dword [dword_1228D8]
+        mov ecx, dword [ClipTopRow]
         cmp ecx, dword [dword esp+esi+01800h]
         jg near .17
         mov edx, dword [dword esp+esi+03000h]
@@ -5256,7 +5379,7 @@ sub_C85F0:
         sar edx, 1Fh
         idiv ebx
         mov dword [dword esp+04864h], ebp
-        mov ebp, dword [dword_1228D8]
+        mov ebp, dword [ClipTopRow]
         mov edi, eax
         mov edx, dword [esp+esi]
         mov eax, dword [dword esp+esi+0C00h]
@@ -5270,11 +5393,11 @@ sub_C85F0:
         mov ebp, edi
         imul ebp, edx
         sub ebx, edx
-        mov edx, dword [dword_1228D8]
+        mov edx, dword [ClipTopRow]
         add dword [dword esp+04864h], ebp
         mov dword [esp+esi], edx
 .15:
-        mov ebp, dword [dword_1228E0]
+        mov ebp, dword [ClipRight]
         mov edx, dword [dword esp+esi+01800h]
         cmp edx, ebp
         jl short .16
@@ -5484,6 +5607,9 @@ sub_C85F0:
         pop esi
         ret
         db 00h,00h
+;-----------------------------------------------------------------------------
+; sub_C8D50                                                            C8D50  
+;-----------------------------------------------------------------------------
 sub_C8D50:
         push esi
         push edi
@@ -5524,10 +5650,10 @@ sub_C8D50:
         cmp edx, byte 4
         jl short .1
         mov eax, dword [dword esp+04814h]
-        cmp eax, dword [dword_1228E4]
+        cmp eax, dword [ScreenHeight]
         jge near .25
         mov eax, dword [dword esp+04810h]
-        cmp eax, dword [dword_1228DC]
+        cmp eax, dword [ClipLeftCol]
         jl near .25
         mov edx, dword [dword esp+04834h]
         inc edx
@@ -5717,13 +5843,13 @@ sub_C8D50:
         jne near .9
 .11:
         mov eax, dword [dword esp+04814h]
-        mov ebx, dword [dword_1228DC]
+        mov ebx, dword [ClipLeftCol]
         cmp eax, ebx
         jge short .12
         mov dword [dword esp+04814h], ebx
 .12:
         mov eax, dword [dword esp+04810h]
-        mov ecx, dword [dword_1228E4]
+        mov ecx, dword [ScreenHeight]
         cmp eax, ecx
         jl short .13
         lea eax, [byte ecx-01h]
@@ -5751,9 +5877,9 @@ sub_C8D50:
         test ebx, ebx
         jle near .18
         mov eax, edx
-        cmp eax, dword [dword_1228E0]
+        cmp eax, dword [ClipRight]
         jge near .17
-        mov ecx, dword [dword_1228D8]
+        mov ecx, dword [ClipTopRow]
         cmp ecx, dword [dword esp+esi+01800h]
         jg near .17
         mov edx, dword [dword esp+esi+03000h]
@@ -5770,7 +5896,7 @@ sub_C8D50:
         sar edx, 1Fh
         idiv ebx
         mov dword [dword esp+04864h], ebp
-        mov ebp, dword [dword_1228D8]
+        mov ebp, dword [ClipTopRow]
         mov edi, eax
         mov edx, dword [esp+esi]
         mov eax, dword [dword esp+esi+0C00h]
@@ -5784,11 +5910,11 @@ sub_C8D50:
         mov ebp, edi
         imul ebp, edx
         sub ebx, edx
-        mov edx, dword [dword_1228D8]
+        mov edx, dword [ClipTopRow]
         add dword [dword esp+04864h], ebp
         mov dword [esp+esi], edx
 .15:
-        mov ebp, dword [dword_1228E0]
+        mov ebp, dword [ClipRight]
         mov edx, dword [dword esp+esi+01800h]
         cmp edx, ebp
         jl short .16
@@ -6059,6 +6185,9 @@ sub_C8D50:
         pop esi
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_C955C                                                            C955C  
+;-----------------------------------------------------------------------------
 sub_C955C:
         push esi
         push edi
@@ -6209,6 +6338,9 @@ sub_C955C:
         pop esi
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_C972C                                                            C972C  
+;-----------------------------------------------------------------------------
 sub_C972C:
         push esi
         push edi
@@ -6359,6 +6491,9 @@ sub_C972C:
         pop esi
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_C98FC                                                            C98FC  
+;-----------------------------------------------------------------------------
 sub_C98FC:
         push esi
         push edi
@@ -6448,6 +6583,9 @@ sub_C98FC:
         pop esi
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_C9A20                                                            C9A20  
+;-----------------------------------------------------------------------------
 sub_C9A20:
         push ebp
         sub esp, byte 20h
@@ -6480,6 +6618,9 @@ sub_C9A20:
         pop ebp
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_C9A80                                                            C9A80  
+;-----------------------------------------------------------------------------
 sub_C9A80:
         push ebp
         sub esp, byte 20h
@@ -6512,6 +6653,9 @@ sub_C9A80:
         pop ebp
         ret
         db 00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_C9AD8                                                            C9AD8  
+;-----------------------------------------------------------------------------
 sub_C9AD8:
         push esi
         push edi
@@ -6722,6 +6866,9 @@ sub_C9AD8:
         jns short .10
 .11:
         jmp short .6
+;-----------------------------------------------------------------------------
+; strnicmp_                                                     C9CF8  library
+;-----------------------------------------------------------------------------
 strnicmp_:
         push ecx
         sub esp, byte 4
@@ -6771,6 +6918,9 @@ strnicmp_:
         dec ebx
         jmp short .1
         db 00h
+;-----------------------------------------------------------------------------
+; sub_C9D50                                                            C9D50  
+;-----------------------------------------------------------------------------
 sub_C9D50:
         mov eax, dword [byte esp+04h]
         mov edx, dword [byte eax+08h]
@@ -6786,6 +6936,9 @@ sub_C9D50:
         add esp, byte 8
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_C9D80                                                            C9D80  
+;-----------------------------------------------------------------------------
 sub_C9D80:
         push esi
         mov ebx, dword [byte esp+08h]
@@ -6878,11 +7031,17 @@ sub_C9D80:
         mov dword [esi], eax
         mov dword [byte esi+04h], edx
         ret
+;-----------------------------------------------------------------------------
+; sub_C9E68                                                            C9E68  
+;-----------------------------------------------------------------------------
 sub_C9E68:
         imul edx
         mov dword [esi], eax
         mov dword [byte esi+04h], edx
         ret
+;-----------------------------------------------------------------------------
+; sub_C9E70                                                            C9E70  
+;-----------------------------------------------------------------------------
 sub_C9E70:
         push edx
         mov eax, dword [byte esp+08h]
@@ -6965,6 +7124,9 @@ sub_C9E70:
         pop edx
         pop ecx
         ret 0Ch
+;-----------------------------------------------------------------------------
+; sub_C9F3A                                                            C9F3A  
+;-----------------------------------------------------------------------------
 sub_C9F3A:
         push ecx
         push edx
@@ -7001,6 +7163,9 @@ sub_C9F3A:
         mov dword [byte esi+04h], edx
         pop edx
         ret 8
+;-----------------------------------------------------------------------------
+; sub_C9F8A                                                            C9F8A  
+;-----------------------------------------------------------------------------
 sub_C9F8A:
         push ecx
         LD mov, ecx, edx
@@ -7023,6 +7188,9 @@ sub_C9F8A:
         pop ecx
         ret
         db 00h
+;-----------------------------------------------------------------------------
+; min_                                                          C9FB0  library
+;-----------------------------------------------------------------------------
 min_:
         cmp eax, edx
         jl short .1
@@ -7140,6 +7308,9 @@ min__10:
         pop esi
         ret
         db 00h,00h
+;-----------------------------------------------------------------------------
+; sub_CA0B0                                                            CA0B0  
+;-----------------------------------------------------------------------------
 sub_CA0B0:
         push esi
         push edi
@@ -7180,7 +7351,7 @@ sub_CA0B0:
         xor ebx, ebx
         mov bl, byte [eax]
         inc eax
-        mov bl, byte [dword ebx+byte_122794]
+        mov bl, byte [dword ebx+RemapTable]
         mov byte [byte eax-01h], bl
         jmp short .3
 .4:
@@ -7237,7 +7408,7 @@ sub_CA0B0_6C:
         shr esi, 10h
         mov eax, esi
         and ecx, 0FFFFh
-        call sub_DE3D8
+        call VesaSetBank
         lea edx, [ecx+edi]
         mov eax, dword [esp]
         add eax, ecx
@@ -7252,12 +7423,12 @@ sub_CA0B0_6C:
         xor ebx, ebx
         mov bl, byte [eax]
         inc eax
-        mov bl, byte [dword ebx+byte_122794]
+        mov bl, byte [dword ebx+RemapTable]
         mov byte [byte eax-01h], bl
         jmp short .7
 .8:
         lea eax, [byte esi+01h]
-        call sub_DE3D8
+        call VesaSetBank
         lea edx, [ecx+edi]
         mov eax, dword [esp]
         and edx, 0FFFFh
@@ -7268,7 +7439,7 @@ sub_CA0B0_6C:
         xor ebx, ebx
         mov bl, byte [eax]
         inc eax
-        mov bl, byte [dword ebx+byte_122794]
+        mov bl, byte [dword ebx+RemapTable]
         mov byte [byte eax-01h], bl
         jmp short .9
 .10:
@@ -7280,7 +7451,7 @@ sub_CA0B0_6C:
         xor ebx, ebx
         mov bl, byte [eax]
         inc eax
-        mov bl, byte [dword ebx+byte_122794]
+        mov bl, byte [dword ebx+RemapTable]
         mov byte [byte eax-01h], bl
         jmp short .11
 .12:
@@ -7332,6 +7503,9 @@ sub_CA0B0_6C:
         pop esi
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_CA288                                                            CA288  
+;-----------------------------------------------------------------------------
 sub_CA288:
         push esi
         push edi
@@ -7601,6 +7775,9 @@ sub_CA288:
         add esp, byte 8
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; sub_CA584                                                            CA584  
+;-----------------------------------------------------------------------------
 sub_CA584:
         push esi
         sub esp, byte 8
@@ -7661,6 +7838,9 @@ sub_CA584:
         pop esi
         ret
         db 00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_CA650                                                            CA650  
+;-----------------------------------------------------------------------------
 sub_CA650:
         sub esp, byte 8
         mov eax, esp
@@ -7695,6 +7875,9 @@ sub_CA650:
         add esp, byte 8
         ret
         db 00h
+;-----------------------------------------------------------------------------
+; __sys_init_387_emulator                                       CA6B0  library
+;-----------------------------------------------------------------------------
 __sys_init_387_emulator:
         push es
         push ecx
@@ -7710,11 +7893,11 @@ __sys_init_387_emulator:
 .1:
         or ebp, ebp
         je short .2
-        call sub_CA6E0
+        call InitFpuFlags
 .2:
         wait
         fninit
-        fldcw word [word_14FC74]
+        fldcw word [DefaultControlWord]
         fldz
         fldz
         fldz

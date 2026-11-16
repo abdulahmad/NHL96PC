@@ -3,13 +3,13 @@ bits 32
 %include "hockey.inc"
 section s_124244 progbits alloc noexec write align=1
 extern sub_C5AE2
-global str_MUSICON, str_MUSICOFF, str_SOUNDON, str_SOUNDOFF, byte_124244, _Extender, _ExtenderSubtype, byte_12442C
-global _osmajor, _osminor, byte_12445C, byte_12445D, byte_124460, byte_1248C4, byte_1248D0, byte_1248D1
-global byte_1248DA, dword_1242CA, dword_1242CE, _dynend, _curbrk, _LpCmdLine, dword_124404, _STACKLOW
-global _STACKTOP, dword_124414, dword_124418, dword_12441C, _Envptr, dword_124435, dword_12443C, dword_124440
+global str_MUSICON, str_MUSICOFF, str_SOUNDON, str_SOUNDOFF, byte_124244, _Extender, _ExtenderSubtype, Is8087
+global _osmajor, _osminor, SavedTextMode, SavedTextPage, SavedTextRows, __real87, byte_1248D0, byte_1248D1
+global byte_1248DA, dword_1242CA, dword_1242CE, _dynend, _curbrk, _LpCmdLine, StackLow, _STACKLOW
+global _STACKTOP, CMainEnv, CMainResult, UngetChar, _Envptr, FpuInitHook, dword_12443C, dword_124440
 global dword_124444, dword_124448, dword_12444C, dword_124450, dword_124454, dword_124458, dword_124464, dword_124468
-global dword_124874, dword_124878, dword_12487C, dword_1248BC, dword_1248C8, snddriver, dword_1248D2, dword_1248D6
-global _psp, __no87, _Envptr_w4, word_12445E, word_1248C0, word_1248C2
+global ShadowFillFunc, TitleBandFunc, FpuSystemFlags, OldFpuVectorOffset, dword_1248C8, snddriver, dword_1248D2, dword_1248D6
+global _psp, __no87, _Envptr_w4, SavedTextColumns, OldFpuVectorSelector, FpuCr0Bits
 byte_124244:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -54,7 +54,7 @@ _curbrk:
         db 00h,00h,00h,00h
 _LpCmdLine:
         db 00h,00h,00h,00h
-dword_124404:
+StackLow:
         db 00h,00h,00h,00h
 _psp:
         db 00h,00h,00h,00h
@@ -62,11 +62,11 @@ _STACKLOW:
         db 00h,00h,00h,00h
 _STACKTOP:
         db 00h,00h,00h,00h
-dword_124414:
+CMainEnv:
         db 00h,00h,00h,00h
-dword_124418:
+CMainResult:
         db 00h,00h,00h,00h
-dword_12441C:
+UngetChar:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 __no87:
         db 00h,00h
@@ -74,7 +74,7 @@ _Extender:
         db 00h
 _ExtenderSubtype:
         db 00h
-byte_12442C:
+Is8087:
         db 00h
 _Envptr:
         db 00h,00h,00h,00h
@@ -84,7 +84,7 @@ _osmajor:
         db 00h
 _osminor:
         db 00h
-dword_124435:
+FpuInitHook:
         dd sub_C5AE2
         db 00h,00h,00h
 dword_12443C:
@@ -103,13 +103,13 @@ dword_124454:
         db 00h,00h,00h,00h
 dword_124458:
         db 00h,00h,00h,00h
-byte_12445C:
+SavedTextMode:
         db 00h
-byte_12445D:
+SavedTextPage:
         db 00h
-word_12445E:
+SavedTextColumns:
         db 00h,00h
-byte_124460:
+SavedTextRows:
         db 00h,00h,00h,00h
 dword_124464:
         db 00h,00h,00h,00h
@@ -179,22 +179,22 @@ dword_124468:
         db 06Fh,01Fh,00h,00h,084h,01Fh,00h,00h,099h,01Fh,00h,00h,0AEh,01Fh,00h,00h
         db 0C3h,01Fh,00h,00h,0D7h,01Fh,00h,00h,0ECh,01Fh,00h,00h,00h,020h,00h,00h
         db 00h,020h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-dword_124874:
+ShadowFillFunc:
         db 00h,00h,00h,00h
-dword_124878:
+TitleBandFunc:
         db 00h,00h,00h,00h
-dword_12487C:
+FpuSystemFlags:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-dword_1248BC:
+OldFpuVectorOffset:
         db 00h,00h,00h,00h
-word_1248C0:
+OldFpuVectorSelector:
         db 00h,00h
-word_1248C2:
+FpuCr0Bits:
         db 00h,00h
-byte_1248C4:
+__real87:
         db 00h,00h,00h,00h
 dword_1248C8:
         db 00h,00h,00h,00h

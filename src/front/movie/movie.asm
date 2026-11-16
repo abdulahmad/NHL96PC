@@ -8,7 +8,7 @@ extern dword_17C94C, dword_17C950, dword_17C954, dword_17C958, dword_17C960, dwo
 extern dword_17C974, dword_17C978, dword_17C97C, dword_17C980, dword_17C984, dword_17C988, dword_17C98C, dword_17C990
 extern dword_17C994, dword_17C998, dword_17C99C, FadeOutMusic, FillMusicStream, GetPressedDevice, GetSoundCard, GetTicks
 extern globalset, MakeDataPath, OpenMusicStream, PlayMusic, QueueCurrentMusic, SetClipWindow, SetCrtcStart, setstreamspeed
-extern SoundSecondsToBytes, StopMusic, str_TEMP, FadeOut, SetGraphicsMode, SetScreenMode, sub_AB758, sub_ABF4C
+extern SoundSecondsToBytes, StopMusic, str_TEMP, FadeOut, SetGraphicsMode, SetScreenMode, sub_AB758, FreeMemBlock
 extern sub_BFE4C, sub_C0252, sub_C02D6, sub_C032E, sub_C03EA, sub_C0423, sub_C04AE, sub_C1FC0
 extern sub_C1FEC, sub_C204C, sub_C2268, sub_C2290, sub_C2440, sub_C2442, sub_DD830, sub_E0520
 extern tgvpalpending, unk_17C644, WaitRetrace, WaitTicks
@@ -87,7 +87,7 @@ TgvOpen:
         add esp, byte 0Ch
         push esi
         mov dword [dword_17C988], eax
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push byte 20h
         push dword 35C60h

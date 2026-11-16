@@ -2,10 +2,13 @@
 bits 32
 %include "hockey.inc"
 section s_BF070 progbits alloc exec nowrite align=1
-extern FatalError, asc_1139D8, asc_1139E4, str_VESA, asc_113A14, dword_1228D0, dword_1228F4, dword_1228FC
+extern FatalError, asc_1139D8, asc_1139E4, str_VESA, asc_113A14, ScreenWidth, dword_1228F4, dword_1228FC
 extern dword_122930, dword_123B0C, dword_19B654, dword_19B66C, dword_19B670, int386x_, segread_, strncmp_
-extern sub_AB758, sub_ABF4C, sub_DE3D8, sub_DEFD7, sub_E04E0, sub_E04E7, sub_E0520, word_19B676
+extern sub_AB758, FreeMemBlock, VesaSetBank, sub_DEFD7, sub_E04E0, sub_E04E7, sub_E0520, word_19B676
 global __STOSB, __STOSD, sub_BF120, sub_BF290, sub_BF2C4, sub_BF300, sub_BF42C
+;-----------------------------------------------------------------------------
+; __STOSB                                                       BF070  library
+;-----------------------------------------------------------------------------
 __STOSB:
         or ecx, ecx
         je short .3
@@ -35,6 +38,9 @@ __STOSB:
 .3:
         ret
         db 090h,090h,090h,090h,090h,090h
+;-----------------------------------------------------------------------------
+; __STOSD                                                       BF0A7  library
+;-----------------------------------------------------------------------------
 __STOSD:
         or ecx, ecx
         je short .7
@@ -92,6 +98,9 @@ __STOSD:
 .7:
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_BF120                                                            BF120  
+;-----------------------------------------------------------------------------
 sub_BF120:
         push esi
         push edi
@@ -121,7 +130,7 @@ sub_BF120:
         mov eax, dword [dword_1228FC]
         mov edi, dword [byte esp+0Ch]
         mov dword [byte esp+04h], eax
-        mov eax, dword [dword_1228D0]
+        mov eax, dword [ScreenWidth]
         add edx, ecx
         sub eax, edi
         mov edi, edx
@@ -130,7 +139,7 @@ sub_BF120:
         mov dword [esp], eax
         mov eax, edi
         and edx, 0FFFFh
-        call sub_DE3D8
+        call VesaSetBank
         test ebp, ebp
         jle near .6
 .2:
@@ -154,7 +163,7 @@ sub_BF120:
         mov ebp, dword [byte esp+010h]
         mov eax, edi
         and ebp, 0FFFFh
-        call sub_DE3D8
+        call VesaSetBank
         push ebp
         push esi
         mov ecx, dword [byte esp+0Ch]
@@ -181,7 +190,7 @@ sub_BF120:
         inc edi
         mov eax, edi
         and edx, 0FFFFh
-        call sub_DE3D8
+        call VesaSetBank
 .5:
         mov ebp, dword [byte esp+08h]
         dec ebp
@@ -222,6 +231,9 @@ sub_BF120:
         add esp, byte 0Ch
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_BF290                                                            BF290  
+;-----------------------------------------------------------------------------
 sub_BF290:
         push esi
         push edi
@@ -249,6 +261,9 @@ sub_BF290:
         pop esi
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_BF2C4                                                            BF2C4  
+;-----------------------------------------------------------------------------
 sub_BF2C4:
         push esi
         push edi
@@ -276,6 +291,9 @@ sub_BF2C4:
         pop esi
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_BF300                                                            BF300  
+;-----------------------------------------------------------------------------
 sub_BF300:
         push ebx
         push ecx
@@ -354,7 +372,7 @@ sub_BF300:
 .4:
         mov ebp, dword [dword_123B0C]
         push ebp
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov eax, dword [byte esp+044h]
         add esp, byte 48h
@@ -366,6 +384,9 @@ sub_BF300:
         pop ebx
         ret
         db 08Bh,0C0h
+;-----------------------------------------------------------------------------
+; sub_BF42C                                                            BF42C  
+;-----------------------------------------------------------------------------
 sub_BF42C:
         push ebx
         push ecx
@@ -425,7 +446,7 @@ sub_BF42C:
 .1:
         mov ebp, dword [dword_123B0C]
         push ebp
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov eax, dword [byte esp+044h]
         add esp, byte 48h

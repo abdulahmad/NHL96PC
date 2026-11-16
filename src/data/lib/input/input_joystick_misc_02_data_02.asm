@@ -4,7 +4,7 @@ bits 32
 section s_123A94 progbits alloc noexec write align=1
 extern unk_19A650
 global dword_123A94, dword_123A98, dword_123A9C, dword_123AA0, dword_123AA4, dword_123AA8, dword_123AAC, dword_123AB0
-global dword_123AB4, dword_123AB8, dword_123ABC, dword_123AC0, dword_123AC4, dword_123AC8, dword_123ACC, dword_123AD0
+global dword_123AB4, dword_123AB8, dword_123ABC, dword_123AC0, RetraceTimeout, dword_123AC8, dword_123ACC, dword_123AD0
 global dword_123B0C, dword_123B10, dword_123B14
 dword_123A94:
         db 0A0h,00h,00h,00h
@@ -30,7 +30,7 @@ dword_123ABC:
         db 00h,00h,00h,00h
 dword_123AC0:
         dd unk_19A650
-dword_123AC4:
+RetraceTimeout:
         db 0A0h,086h,01h,00h
 dword_123AC8:
         db 02h,00h,00h,00h

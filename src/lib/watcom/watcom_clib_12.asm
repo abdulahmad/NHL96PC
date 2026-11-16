@@ -2,10 +2,13 @@
 bits 32
 %include "hockey.inc"
 section s_C40B4 progbits alloc exec nowrite align=1
-extern dword_1228E8, dword_124108, itoa_, ltoa_, off_14FAA8, toupper_, ultoa_, unk_18584C
+extern dword_1228E8, dword_124108, itoa_, ltoa_, __EFG_printf, toupper_, ultoa_, unk_18584C
 global FixedPoint_Format_, __prtf_, evalflags_, far_other_strlen_, far_strlen_, float_format_, fmt4hex_, formstring_
 global getprintspecs_, jpt_C4CB0, far_strlen__1F, sub_C4CCC_19, sub_C4CCC_1F, sub_C4CCC_25, sub_C4CCC_2B, sub_C4CCC_31
 global sub_C4CCC_37, sub_C4CCC_3D, memmove_, sub_C4AFC, sub_C4C6C, sub_C4CCC, sub_C4D80, zupstr_
+;-----------------------------------------------------------------------------
+; __prtf_                                                       C40B4  library
+;-----------------------------------------------------------------------------
 __prtf_:
         push esi
         push edi
@@ -258,6 +261,9 @@ __prtf_:
         pop edi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; getprintspecs_                                                C4335  library
+;-----------------------------------------------------------------------------
 getprintspecs_:
         push ecx
         push esi
@@ -410,6 +416,9 @@ getprintspecs_:
         pop esi
         pop ecx
         ret
+;-----------------------------------------------------------------------------
+; evalflags_                                                    C4468  library
+;-----------------------------------------------------------------------------
 evalflags_:
         push ebx
         push ecx
@@ -456,6 +465,9 @@ evalflags_:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; far_strlen_                                                   C44C3  library
+;-----------------------------------------------------------------------------
 far_strlen_:
         push ecx
         push esi
@@ -482,6 +494,9 @@ far_strlen__1F:
         pop esi
         pop ecx
         ret
+;-----------------------------------------------------------------------------
+; far_other_strlen_                                             C44E7  library
+;-----------------------------------------------------------------------------
 far_other_strlen_:
         push ecx
         push esi
@@ -502,6 +517,9 @@ far_other_strlen_:
         je short far_strlen__1F
         inc eax
         jmp short .1
+;-----------------------------------------------------------------------------
+; fmt4hex_                                                      C450A  library
+;-----------------------------------------------------------------------------
 fmt4hex_:
         push ecx
         push esi
@@ -557,6 +575,9 @@ fmt4hex_:
         pop esi
         pop ecx
         ret
+;-----------------------------------------------------------------------------
+; FixedPoint_Format_                                            C456B  library
+;-----------------------------------------------------------------------------
 FixedPoint_Format_:
         push ecx
         push esi
@@ -664,9 +685,15 @@ FixedPoint_Format_:
         pop esi
         pop ecx
         ret
+;-----------------------------------------------------------------------------
+; float_format_                                                 C4646  library
+;-----------------------------------------------------------------------------
 float_format_:
-        call dword [off_14FAA8]
+        call dword [__EFG_printf]
         ret
+;-----------------------------------------------------------------------------
+; formstring_                                                   C464D  library
+;-----------------------------------------------------------------------------
 formstring_:
         push esi
         push edi
@@ -1097,6 +1124,9 @@ formstring_:
         pop edi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; zupstr_                                                       C4A96  library
+;-----------------------------------------------------------------------------
 zupstr_:
         push edx
         mov edx, eax
@@ -1112,6 +1142,9 @@ zupstr_:
 .2:
         pop edx
         ret
+;-----------------------------------------------------------------------------
+; memmove_                                                      C4AAE  library
+;-----------------------------------------------------------------------------
 memmove_:
         push ecx
         push esi
@@ -1163,6 +1196,9 @@ memmove_:
         pop ecx
         ret
         db 00h,00h
+;-----------------------------------------------------------------------------
+; sub_C4AFC                                                            C4AFC  
+;-----------------------------------------------------------------------------
 sub_C4AFC:
         push ebp
         LD mov, ebp, esp
@@ -1315,6 +1351,9 @@ sub_C4AFC:
         mov edx, dword [ebx]
         jns near .3
         jmp near .5
+;-----------------------------------------------------------------------------
+; sub_C4C6C                                                            C4C6C  
+;-----------------------------------------------------------------------------
 sub_C4C6C:
         cmp dword [dword_124108], byte 0
         je short .1
@@ -1352,6 +1391,9 @@ jpt_C4CB0:
         dd sub_C4CCC_37
         dd sub_C4CCC_2B
         dd sub_C4CCC_31
+;-----------------------------------------------------------------------------
+; sub_C4CCC                                                            C4CCC  
+;-----------------------------------------------------------------------------
 sub_C4CCC:
         mov eax, dword [byte esp+04h]
         mov eax, dword [eax]
@@ -1434,6 +1476,9 @@ sub_C4CCC_3D:
         sar eax, 10h
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; sub_C4D80                                                            C4D80  
+;-----------------------------------------------------------------------------
 sub_C4D80:
         mov edx, dword [byte esp+04h]
         mov eax, dword [dword_1228E8]

@@ -2,10 +2,13 @@
 bits 32
 %include "hockey.inc"
 section s_C3727 progbits alloc exec nowrite align=1
-extern __chktty_, __flushall_, __set_errno_, __set_errno_dos_, _nmalloc_, byte_19BA44, dword_19BA48, dword_19BAC8
-extern getche_, start_28F, off_124008, off_12400C, off_124010
+extern __chktty_, __flushall_, __set_errno_, __set_errno_dos_, _nmalloc_, byte_19BA44, AtexitTable, SpeechBankCount
+extern getche_, start_28F, ExitHook, Int23Hook, FpuExitHook
 global _Full_at_exit_rtn_, __filbuf_, __fill_buffer_, __ioalloc_, __null_int23_exit_, __qread_, _exit_, atexit_
 global exit_, fgetc_
+;-----------------------------------------------------------------------------
+; __ioalloc_                                                    C3727  library
+;-----------------------------------------------------------------------------
 __ioalloc_:
         push ecx
         push edx
@@ -50,6 +53,9 @@ __ioalloc_:
         pop edx
         pop ecx
         ret
+;-----------------------------------------------------------------------------
+; __qread_                                                      C379E  library
+;-----------------------------------------------------------------------------
 __qread_:
         push ecx
         mov ecx, ebx
@@ -66,6 +72,9 @@ __qread_:
 .1:
         pop ecx
         ret
+;-----------------------------------------------------------------------------
+; fgetc_                                                        C37BD  library
+;-----------------------------------------------------------------------------
 fgetc_:
         push ebx
         push ecx
@@ -128,6 +137,9 @@ fgetc_:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; __filbuf_                                                     C3846  library
+;-----------------------------------------------------------------------------
 __filbuf_:
         push ebx
         push ecx
@@ -154,6 +166,9 @@ __filbuf_:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; __fill_buffer_                                                C3875  library
+;-----------------------------------------------------------------------------
 __fill_buffer_:
         push ebx
         push ecx
@@ -223,13 +238,16 @@ __fill_buffer_:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; _Full_at_exit_rtn_                                            C3920  library
+;-----------------------------------------------------------------------------
 _Full_at_exit_rtn_:
         push ebx
         push edx
         sub esp, byte 4
         mov edx, 20h
-        mov ebx, dword [dword_19BAC8]
-        mov dword [dword_19BAC8], edx
+        mov ebx, dword [SpeechBankCount]
+        mov dword [SpeechBankCount], edx
         mov edx, ebx
         shl edx, 2
 .1:
@@ -246,20 +264,23 @@ _Full_at_exit_rtn_:
         pop edx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; atexit_                                                       C3957  library
+;-----------------------------------------------------------------------------
 atexit_:
         push ebx
         push ecx
         push edx
         mov ebx, eax
         mov edx, _Full_at_exit_rtn_
-        mov ecx, dword [dword_19BAC8]
-        mov dword [off_124008], edx
+        mov ecx, dword [SpeechBankCount]
+        mov dword [ExitHook], edx
         cmp ecx, byte 20h
         jge short .1
         mov eax, ecx
         lea edx, [byte ecx+01h]
-        mov dword [nosplit ecx*4+dword_19BA48], ebx
-        mov dword [dword_19BAC8], edx
+        mov dword [nosplit ecx*4+AtexitTable], ebx
+        mov dword [SpeechBankCount], edx
         xor eax, ecx
         pop edx
         pop ecx
@@ -271,21 +292,30 @@ atexit_:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; __null_int23_exit_                                            C3993  library
+;-----------------------------------------------------------------------------
 __null_int23_exit_:
         ret
+;-----------------------------------------------------------------------------
+; exit_                                                         C3994  library
+;-----------------------------------------------------------------------------
 exit_:
         push edx
         mov edx, eax
-        call dword [off_124008]
-        call dword [off_12400C]
+        call dword [ExitHook]
+        call dword [Int23Hook]
         mov eax, edx
         call _exit_
         pop edx
         ret
+;-----------------------------------------------------------------------------
+; _exit_                                                        C39AC  library
+;-----------------------------------------------------------------------------
 _exit_:
         push edx
         mov edx, eax
-        call dword [off_12400C]
-        call dword [off_124010]
+        call dword [Int23Hook]
+        call dword [FpuExitHook]
         mov eax, edx
         jmp near start_28F

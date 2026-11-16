@@ -2,18 +2,28 @@
 bits 32
 %include "hockey.inc"
 section s_C2CB0 progbits alloc exec nowrite align=1
-extern __SetIOMode_, __qwrite_, _dosret0_, _nfree_, _nmalloc_, dword_11F8E8, dword_11F8EC, dword_124435
-extern _environ, dword_19BA3C, dword_19BA40, isatty_, lseek_, memset_, strnicmp_, unk_123DF4
-extern unk_123FFC, unk_19BA34, unk_19BA38, _psp
+extern __SetIOMode_, __qwrite_, _dosret0_, _nfree_, _nmalloc_, HeapList, HeapRover, FpuInitHook
+extern _environ, __OpenStreams, __ClosedStreams, isatty_, lseek_, memset_, strnicmp_, __iob
+extern __NFiles, unk_19BA34, unk_19BA38, _psp
 global __FPE_exception_, __MemAllocator, __MemFree, __allocfp_, __chktty_, __close_, __flush_, __freefp_
 global __set_EDOM_, __set_EINVAL_, __set_ERANGE_, __set_doserrno_, __set_errno_, __unlink_, access_, getenv_
-global __freefp__39, __MemAllocator_A3, __MemFree_106, sub_C2CB0, sub_C2CB6, sub_C2F9A, tell_, tolower_
-sub_C2CB0:
+global __freefp__39, __MemAllocator_A3, __MemFree_106, ErrnoPtr, sub_C2CB6, GetPsp, tell_, tolower_
+;-----------------------------------------------------------------------------
+; ErrnoPtr                                        C2CB0  96 PC, low confidence
+; Returns the address of errno
+;-----------------------------------------------------------------------------
+ErrnoPtr:
         mov eax, unk_19BA38
         ret
+;-----------------------------------------------------------------------------
+; sub_C2CB6                                                            C2CB6  
+;-----------------------------------------------------------------------------
 sub_C2CB6:
         mov eax, unk_19BA34
         ret
+;-----------------------------------------------------------------------------
+; access_                                                       C2CBC  library
+;-----------------------------------------------------------------------------
 access_:
         push ebx
         push ecx
@@ -43,6 +53,9 @@ access_:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; getenv_                                                       C2CF7  library
+;-----------------------------------------------------------------------------
 getenv_:
         push ebx
         push ecx
@@ -97,23 +110,38 @@ getenv_:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; __set_EDOM_                                                   C2D51  library
+;-----------------------------------------------------------------------------
 __set_EDOM_:
         mov eax, 0Dh
+;-----------------------------------------------------------------------------
+; __set_errno_                                                  C2D56  library
+;-----------------------------------------------------------------------------
 __set_errno_:
         push edx
         mov edx, eax
-        call sub_C2CB0
+        call ErrnoPtr
         mov dword [eax], edx
         pop edx
         ret
+;-----------------------------------------------------------------------------
+; __set_ERANGE_                                                 C2D62  library
+;-----------------------------------------------------------------------------
 __set_ERANGE_:
         mov eax, 0Eh
         jmp short __set_errno_
+;-----------------------------------------------------------------------------
+; __set_EINVAL_                                                 C2D69  library
+;-----------------------------------------------------------------------------
 __set_EINVAL_:
         mov eax, 9
         call __set_errno_
         mov eax, 0FFFFFFFFh
         ret
+;-----------------------------------------------------------------------------
+; __set_doserrno_                                               C2D79  library
+;-----------------------------------------------------------------------------
 __set_doserrno_:
         push edx
         mov edx, eax
@@ -121,9 +149,15 @@ __set_doserrno_:
         mov dword [eax], edx
         pop edx
         ret
+;-----------------------------------------------------------------------------
+; __FPE_exception_                                              C2D85  library
+;-----------------------------------------------------------------------------
 __FPE_exception_:
-        call dword [dword_124435]
+        call dword [FpuInitHook]
         ret
+;-----------------------------------------------------------------------------
+; tolower_                                                      C2D8C  library
+;-----------------------------------------------------------------------------
 tolower_:
         cmp eax, byte 41h
         jl short .1
@@ -132,24 +166,27 @@ tolower_:
         add eax, byte 20h
 .1:
         ret
+;-----------------------------------------------------------------------------
+; __allocfp_                                                    C2D9A  library
+;-----------------------------------------------------------------------------
 __allocfp_:
         push ebx
         push ecx
         push edx
         push esi
         push edi
-        mov esi, dword [dword_19BA3C]
+        mov esi, dword [__OpenStreams]
         test esi, esi
         je short .1
         mov ecx, dword [byte esi+04h]
         mov edi, dword [byte ecx+0Ch]
         mov eax, dword [esi]
         and edi, 4003h
-        mov dword [dword_19BA3C], eax
+        mov dword [__OpenStreams], eax
         or di, byte 3
         jmp short .5
 .1:
-        mov ecx, unk_123DF4
+        mov ecx, __iob
         jmp short .4
 .2:
         test byte [byte ecx+0Ch], 3
@@ -164,7 +201,7 @@ __allocfp_:
 .3:
         add ecx, byte 1Ah
 .4:
-        cmp ecx, unk_123FFC
+        cmp ecx, __NFiles
         jb short .2
         mov eax, 22h
         mov edi, 4003h
@@ -180,9 +217,9 @@ __allocfp_:
         xor edx, edx
         call memset_
         mov dword [byte ecx+0Ch], edi
-        mov eax, dword [dword_19BA40]
+        mov eax, dword [__ClosedStreams]
         mov dword [byte esi+04h], ecx
-        mov dword [dword_19BA40], esi
+        mov dword [__ClosedStreams], esi
         mov dword [esi], eax
         mov eax, ecx
         jmp short .7
@@ -197,12 +234,15 @@ __allocfp_:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; __freefp_                                                     C2E42  library
+;-----------------------------------------------------------------------------
 __freefp_:
         push ebx
         push ecx
         push edx
         mov ebx, eax
-        mov edx, dword_19BA40
+        mov edx, __ClosedStreams
 .1:
         mov eax, dword [edx]
         test eax, eax
@@ -218,8 +258,8 @@ __freefp_:
         mov byte [byte ebx+0Ch], cl
         mov ebx, dword [eax]
         mov dword [edx], ebx
-        mov edx, dword [dword_19BA3C]
-        mov dword [dword_19BA3C], eax
+        mov edx, dword [__OpenStreams]
+        mov dword [__OpenStreams], eax
         mov dword [eax], edx
 .3:
         pop edx
@@ -229,17 +269,20 @@ __freefp_:
 __freefp__39:
         push edx
 .4:
-        mov edx, dword [dword_19BA3C]
+        mov edx, dword [__OpenStreams]
         test edx, edx
         je short .5
         mov eax, edx
         mov edx, dword [edx]
         call _nfree_
-        mov dword [dword_19BA3C], edx
+        mov dword [__OpenStreams], edx
         jmp short .4
 .5:
         pop edx
         ret
+;-----------------------------------------------------------------------------
+; __chktty_                                                     C2E99  library
+;-----------------------------------------------------------------------------
 __chktty_:
         push ebx
         push ecx
@@ -264,6 +307,9 @@ __chktty_:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; __flush_                                                      C2ECA  library
+;-----------------------------------------------------------------------------
 __flush_:
         push ebx
         push ecx
@@ -337,6 +383,9 @@ __flush_:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; tell_                                                         C2F89  library
+;-----------------------------------------------------------------------------
 tell_:
         push ebx
         push edx
@@ -346,9 +395,16 @@ tell_:
         pop edx
         pop ebx
         ret
-sub_C2F9A:
+;-----------------------------------------------------------------------------
+; GetPsp                                          C2F9A  96 PC, low confidence
+; Returns the program segment prefix
+;-----------------------------------------------------------------------------
+GetPsp:
         mov eax, dword [_psp]
         ret
+;-----------------------------------------------------------------------------
+; __close_                                                      C2FA0  library
+;-----------------------------------------------------------------------------
 __close_:
         push ebx
         push edx
@@ -374,6 +430,9 @@ __close_:
         pop edx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; __MemAllocator                                                C2FD2  library
+;-----------------------------------------------------------------------------
 __MemAllocator:
         push esi
         push edi
@@ -456,6 +515,9 @@ __MemAllocator:
         ret
 __MemAllocator_A3:
         jmp near __MemFree_106
+;-----------------------------------------------------------------------------
+; __MemFree                                                     C307A  library
+;-----------------------------------------------------------------------------
 __MemFree:
         push esi
         push edi
@@ -590,20 +652,23 @@ __MemFree_106:
         pop edi
         pop esi
         ret
+;-----------------------------------------------------------------------------
+; __unlink_                                                     C3185  library
+;-----------------------------------------------------------------------------
 __unlink_:
         push ebx
         push edx
-        mov edx, dword [dword_11F8EC]
+        mov edx, dword [HeapRover]
         cmp eax, edx
         jne short .1
         mov edx, dword [byte edx+08h]
-        mov dword [dword_11F8EC], edx
+        mov dword [HeapRover], edx
 .1:
-        mov ebx, dword [dword_11F8E8]
+        mov ebx, dword [HeapList]
         cmp eax, ebx
         jne short .2
         mov edx, dword [byte ebx+08h]
-        mov dword [dword_11F8E8], edx
+        mov dword [HeapList], edx
 .2:
         mov edx, dword [byte eax+04h]
         mov eax, dword [byte eax+08h]

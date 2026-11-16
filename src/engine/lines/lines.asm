@@ -13,9 +13,9 @@ extern dword_15E4AC, dword_15E4B0, dword_15E4B4, dword_15E4B8, dword_15E4BC, dwo
 extern dword_176ED5, dword_176F90, dword_1770D8, dword_1770DC, dword_1770E0, dword_1770E4, dword_1770E8, dword_1770EC
 extern dword_1770F0, dword_1770F4, dword_1770F8, dword_1770FC, dword_177100, dword_177104, dword_177108, dword_1798BC
 extern optflags, dword_17CA5C, gameclock, gameopts, gmode, hmroster, off_11786C, off_11787C
-extern puckc, off_11788C, puckvx, puckvz, puckz, rand_, sflags, RunDemoGame
+extern puckc, PtrPuckFlags, puckvx, puckvz, puckz, rand_, sflags, RunDemoGame
 extern LoadPackedFile, InitGameTeams, sub_4B4F3, sub_51CBA, sub_51D44, sub_51DD2, LoadFrontEndArt, FreeFrontEndArt
-extern CopyBitmap, StartGameSound, EndGameSound, sub_AADA4, sub_AB758, sub_ABF4C, sub_DD6C4, SetClipWindow
+extern CopyBitmap, StartGameSound, EndGameSound, sub_AADA4, sub_AB758, FreeMemBlock, SetScreenTarget, SetClipWindow
 extern sub_E04E0, sub_E0584, unk_157B82, unk_157F9C, unk_158610, unk_176CA8, unk_176CDA, unk_176D0C
 extern unk_176D3E, unk_176DA2, unk_176E38, unk_176E6A, unk_176E9C, unk_176ED4, optblock_end, gmode2
 extern word_1178CA, word_1178CC, word_1178CE, word_1178D0, word_117902, word_11A3EE, word_11A3F0, word_11D3A2
@@ -1903,10 +1903,10 @@ sub_53260:
         test byte [byte_17CA5D], 20h
         jne short .5
         push dword [dword_152F54]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_152F5C]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
 .5:
         mov dword [gameopts], unk_176ED4
@@ -1996,10 +1996,10 @@ sub_53260:
         add esp, byte 8
         push dword [dword_152F54]
         mov dword [dword_152F50], eax
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         push dword [dword_152F5C]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         mov edx, 20h
         call EndGameSound
@@ -2043,7 +2043,7 @@ sub_5358E:
         lea esi, [byte eax+010h]
         rep movsb
         push dword [byte ebp-04h]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         leave
         pop edi
@@ -2117,7 +2117,7 @@ sub_53640:
         cwde
         test eax, eax
         jne near .23
-        mov eax, dword [off_11788C]
+        mov eax, dword [PtrPuckFlags]
         mov al, byte [byte eax+045h]
         and al, 1
         movzx eax, al
@@ -2544,7 +2544,7 @@ sub_53C6F:
         push ecx
         push edx
         push dword [dword_177104]
-        call sub_ABF4C
+        call FreeMemBlock
         add esp, byte 4
         pop edx
         pop ecx
@@ -3208,7 +3208,7 @@ sub_54237:
         push esi
         push edi
         enter 4, 0
-        call sub_DD6C4
+        call SetScreenTarget
         cmp dword [dword_11B330], byte 8
         jge near .5
         cmp dword [dword_11D91F], byte 0
@@ -3252,7 +3252,7 @@ sub_54237:
         push byte 0
         call sub_E0584
         add esp, byte 4
-        call sub_DD6C4
+        call SetScreenTarget
         push dword [byte esi+0Ch]
         push dword [byte esi+08h]
         push dword [byte esi+04h]

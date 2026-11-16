@@ -2,13 +2,13 @@
 bits 32
 %include "hockey.inc"
 section s_1149B4 progbits alloc noexec write align=1
-global _IsTable, str_Inf, str_Nan, dword_114AD8, dword_114ADC, dword_114AE0, dword_114AE4, dword_114AE8
-global dword_114AEC, qword_1149BC, qword_114AC8, qword_114AD0, qword_114AF2, unk_114AF0
+global _IsTable, str_Inf, str_Nan, DblMaxLow, DblMaxHigh, DblMinusMaxLow, DblMinusMaxHigh, dword_114AE8
+global dword_114AEC, F64_neg1_floor_, F64_Scale10Max, F64_Scale10Min, Pow10Table, Scale10Count
 str_Inf:
         db 069h,06Eh,066h,00h
 str_Nan:
         db 06Eh,061h,06Eh,00h
-qword_1149BC:
+F64_neg1_floor_:
         db 00h,00h,00h,00h,00h,00h,0F0h,0BFh
 _IsTable:
         db 00h,01h,01h,01h,01h,01h,01h,01h,01h,01h,03h,03h,03h,03h,03h,01h
@@ -28,25 +28,25 @@ _IsTable:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h
-qword_114AC8:
+F64_Scale10Max:
         db 00h,00h,00h,00h,00h,00h,0F0h,07Fh
-qword_114AD0:
+F64_Scale10Min:
         db 00h,00h,00h,00h,00h,00h,0F0h,0FFh
-dword_114AD8:
+DblMaxLow:
         db 0FFh,0FFh,0FFh,0FFh
-dword_114ADC:
+DblMaxHigh:
         db 0FFh,0FFh,0EFh,07Fh
-dword_114AE0:
+DblMinusMaxLow:
         db 0FFh,0FFh,0FFh,0FFh
-dword_114AE4:
+DblMinusMaxHigh:
         db 0FFh,0FFh,0EFh,0FFh
 dword_114AE8:
         db 00h,00h,00h,00h
 dword_114AEC:
         db 00h,00h,0F0h,07Fh
-unk_114AF0:
+Scale10Count:
         db 0D8h,00h
-qword_114AF2:
+Pow10Table:
         db 0C6h,0F9h,0C6h,040h,0E9h,034h,0C7h,06Ch,06Ch,00h,012h,04Eh,083h,0CCh,03Dh,040h
         db 05Bh,056h,036h,00h,0CEh,0C9h,014h,088h,087h,0E1h,024h,04Bh,01Bh,00h,02h,084h
         db 0FEh,0E4h,071h,0D9h,089h,045h,0Eh,00h,00h,00h,090h,01Eh,0C4h,0BCh,0D6h,042h

@@ -27,8 +27,8 @@ extern off_11E908, qsort_, qword_112D16, qword_112D1E, rand_, sprintf_, strcat_,
 extern strcpy_, EditText, MessageBox, LoadTeamLogo, MakeDataPath, MakeDirPath, LoadPackedFile, LoadSeasonStats
 extern LoadExhibitionStats, LoadModemStats, GetTeamNameArt, OpenScreen, SlideInTitleBar, SlideInSideBar, SetScreenColors, FadePalette
 extern FadeOut, SetTextColors, DrawColorText, DrawColorTextRight, FillBox, DrawFrameAt, InitMenuItems, RunMenu
-extern GetLangText, MakeSeasonDbPath, sub_7CCB8, sub_7D2CE, sub_7D2DC, sub_7D325, sub_7D346, sub_7D349
-extern sub_7D49C, sub_90AF8, sub_93E6A, sub_9CFE3, sub_A0355, sub_A0480, sub_AAA40, PutBlock
+extern GetLangText, MakeSeasonDbPath, InitVScrollBar, ScrollBarUp, ScrollBarDown, FreeScrollBar, SetScrollBarPos, DrawScrollBar
+extern ScrollBarToMouse, sub_90AF8, sub_93E6A, sub_9CFE3, sub_A0355, sub_A0480, sub_AAA40, PutBlock
 extern sub_AB758, sub_ABF4C, sub_AD35C, sub_AD5C8, FillRect, sub_ADBEC, sub_B0430, sub_B178B
 extern sub_B20D0, sub_B22B0, sub_B2C54, sub_DD6C4, sub_E04E0, str_D12, unk_152E36, unk_1821B4
 extern unk_182224, unk_182294, unk_96949, unk_96B89, unk_96C49, unk_96D09, unk_96DC9, unk_96FD9
@@ -421,7 +421,7 @@ sub_97420:
         push byte 0
         lea edx, [dword ebp-031F2h]
         lea eax, [dword ebp-0476h]
-        call sub_7CCB8
+        call InitVScrollBar
         push str_Ball5
         push dword [byte ebp+046h]
         call sub_E04E0
@@ -442,7 +442,7 @@ sub_97420:
         push byte 0
         lea edx, [dword ebp-0305Ah]
         lea eax, [dword ebp-05AEh]
-        call sub_7CCB8
+        call InitVScrollBar
         push str_Ball5
         push dword [byte ebp+046h]
         call sub_E04E0
@@ -463,7 +463,7 @@ sub_97420:
         push byte 0
         lea edx, [dword ebp-02EC2h]
         lea eax, [dword ebp-081Eh]
-        call sub_7CCB8
+        call InitVScrollBar
         push str_Ball5
         push dword [byte ebp+046h]
         call sub_E04E0
@@ -484,7 +484,7 @@ sub_97420:
         push byte 0
         lea edx, [dword ebp-02D2Ah]
         lea eax, [dword ebp-06E6h]
-        call sub_7CCB8
+        call InitVScrollBar
         cmp dword [dword ebp-036CAh], byte 0
         jne short .16
         mov eax, dword [gameopts]
@@ -492,13 +492,13 @@ sub_97420:
         shl edx, 0Fh
         lea eax, [dword ebp-0476h]
         shr edx, 1Bh
-        call sub_7D346
+        call SetScrollBarPos
         mov eax, dword [gameopts]
         mov edx, dword [byte eax+01h]
         shl edx, 0Ah
         lea eax, [dword ebp-05AEh]
         shr edx, 1Bh
-        call sub_7D346
+        call SetScrollBarPos
         jmp short .21
 .16:
         xor ecx, ecx
@@ -521,7 +521,7 @@ sub_97420:
         lea eax, [dword ebp-05AEh]
 .19:
         mov edx, ecx
-        call sub_7D346
+        call SetScrollBarPos
 .20:
         inc ecx
         add ebx, byte 4
@@ -534,7 +534,7 @@ sub_97420:
         jne short .22
         mov edx, 1
         lea eax, [dword ebp-05AEh]
-        call sub_7D346
+        call SetScrollBarPos
 .22:
         lea eax, [dword ebp-081Eh]
         push eax
@@ -557,16 +557,16 @@ sub_97420:
         mov eax, 1
         call sub_9A1DB
         lea eax, [dword ebp-0476h]
-        call sub_7D349
+        call DrawScrollBar
         lea eax, [dword ebp-05AEh]
         lea edi, [dword ebp-036BAh]
-        call sub_7D349
+        call DrawScrollBar
         lea eax, [dword ebp-081Eh]
         mov esi, dword_17BC7C
-        call sub_7D349
+        call DrawScrollBar
         lea eax, [dword ebp-06E6h]
         mov ecx, 66h
-        call sub_7D349
+        call DrawScrollBar
         rep movsb
         mov ecx, 66h
         lea edi, [dword ebp-03654h]
@@ -1440,7 +1440,7 @@ sub_97420:
         call sub_9A35C
         mov esi, eax
         lea eax, [dword ebp-081Eh]
-        call sub_7D325
+        call FreeScrollBar
         push str_Ball5
         push dword [byte ebp+046h]
         call sub_E04E0
@@ -1461,16 +1461,16 @@ sub_97420:
         push byte 0
         mov ebx, esi
         lea eax, [dword ebp-081Eh]
-        call sub_7CCB8
+        call InitVScrollBar
         lea eax, [dword ebp-081Eh]
-        call sub_7D349
+        call DrawScrollBar
         mov eax, dword [dword ebp-058Ah]
         lea edx, [dword ebp-01682h]
         mov eax, dword [dword ebp+eax*4-0BEh]
         call sub_9A35C
         mov esi, eax
         lea eax, [dword ebp-06E6h]
-        call sub_7D325
+        call FreeScrollBar
         push str_Ball5
         push dword [byte ebp+046h]
         call sub_E04E0
@@ -1491,10 +1491,10 @@ sub_97420:
         push byte 0
         mov ebx, esi
         lea eax, [dword ebp-06E6h]
-        call sub_7CCB8
+        call InitVScrollBar
         lea eax, [dword ebp-06E6h]
         mov ecx, dword [byte ebp+046h]
-        call sub_7D349
+        call DrawScrollBar
         lea eax, [dword ebp-033Eh]
         lea edx, [dword ebp-0E6Ah]
         push eax
@@ -1826,7 +1826,7 @@ sub_97420:
         call sub_9A35C
         mov esi, eax
         lea eax, [dword ebp-081Eh]
-        call sub_7D325
+        call FreeScrollBar
         mov eax, str_Ball5
         push eax
         push dword [byte ebp+046h]
@@ -1850,16 +1850,16 @@ sub_97420:
         push byte 0
         mov ebx, esi
         lea eax, [dword ebp-081Eh]
-        call sub_7CCB8
+        call InitVScrollBar
         lea eax, [dword ebp-081Eh]
-        call sub_7D349
+        call DrawScrollBar
         mov eax, dword [dword ebp-058Ah]
         lea edx, [dword ebp-01682h]
         mov eax, dword [dword ebp+eax*4-0BEh]
         call sub_9A35C
         mov esi, eax
         lea eax, [dword ebp-06E6h]
-        call sub_7D325
+        call FreeScrollBar
         mov eax, str_Ball5
         push eax
         push dword [byte ebp+046h]
@@ -1883,10 +1883,10 @@ sub_97420:
         push byte 0
         mov ebx, esi
         lea eax, [dword ebp-06E6h]
-        call sub_7CCB8
+        call InitVScrollBar
         lea eax, [dword ebp-06E6h]
         mov ecx, dword [byte ebp+046h]
-        call sub_7D349
+        call DrawScrollBar
         lea eax, [dword ebp-033Eh]
         lea edx, [dword ebp-0E6Ah]
         push eax
@@ -2066,7 +2066,7 @@ sub_97420:
         call sub_9A35C
         mov esi, eax
         lea eax, [dword ebp-081Eh]
-        call sub_7D325
+        call FreeScrollBar
         push str_Ball5
         push dword [byte ebp+046h]
         call sub_E04E0
@@ -2087,16 +2087,16 @@ sub_97420:
         push byte 0
         mov ebx, esi
         lea eax, [dword ebp-081Eh]
-        call sub_7CCB8
+        call InitVScrollBar
         lea eax, [dword ebp-081Eh]
         lea edx, [dword ebp-01682h]
-        call sub_7D349
+        call DrawScrollBar
         mov eax, dword [dword ebp-058Ah]
 .127:
         call sub_9A35C
         mov esi, eax
         lea eax, [dword ebp-06E6h]
-        call sub_7D325
+        call FreeScrollBar
         push str_Ball5
         push dword [byte ebp+046h]
         call sub_E04E0
@@ -2117,10 +2117,10 @@ sub_97420:
         push byte 0
         mov ebx, esi
         lea eax, [dword ebp-06E6h]
-        call sub_7CCB8
+        call InitVScrollBar
         lea eax, [dword ebp-06E6h]
         mov ecx, dword [byte ebp+046h]
-        call sub_7D349
+        call DrawScrollBar
         lea eax, [dword ebp-033Eh]
         lea edx, [dword ebp-0E6Ah]
         push eax
@@ -2276,7 +2276,7 @@ sub_97420:
         call sub_9A35C
         mov esi, eax
         lea eax, [dword ebp-081Eh]
-        call sub_7D325
+        call FreeScrollBar
         push str_Ball5
         push dword [byte ebp+046h]
         call sub_E04E0
@@ -2297,9 +2297,9 @@ sub_97420:
         push byte 0
         mov ebx, esi
         lea eax, [dword ebp-081Eh]
-        call sub_7CCB8
+        call InitVScrollBar
         lea eax, [dword ebp-081Eh]
-        call sub_7D349
+        call DrawScrollBar
         mov eax, dword [dword ebp-058Ah]
         lea edx, [dword ebp-01682h]
         mov eax, dword [dword ebp+eax*4-0BEh]
@@ -2550,7 +2550,7 @@ sub_97420:
         call sub_9A35C
         mov esi, eax
         lea eax, [dword ebp-081Eh]
-        call sub_7D325
+        call FreeScrollBar
         push str_Ball5
         push dword [byte ebp+046h]
         call sub_E04E0
@@ -2571,16 +2571,16 @@ sub_97420:
         push byte 0
         mov ebx, esi
         lea eax, [dword ebp-081Eh]
-        call sub_7CCB8
+        call InitVScrollBar
         lea eax, [dword ebp-081Eh]
-        call sub_7D349
+        call DrawScrollBar
         mov eax, dword [dword ebp-058Ah]
         lea edx, [dword ebp-01682h]
         mov eax, dword [dword ebp+eax*4-0BEh]
         call sub_9A35C
         mov esi, eax
         lea eax, [dword ebp-06E6h]
-        call sub_7D325
+        call FreeScrollBar
         push str_Ball5
         push dword [byte ebp+046h]
         call sub_E04E0
@@ -2601,10 +2601,10 @@ sub_97420:
         push byte 0
         mov ebx, esi
         lea eax, [dword ebp-06E6h]
-        call sub_7CCB8
+        call InitVScrollBar
         lea eax, [dword ebp-06E6h]
         mov ecx, dword [byte ebp+046h]
-        call sub_7D349
+        call DrawScrollBar
         lea eax, [dword ebp-033Eh]
         lea edx, [dword ebp-0E6Ah]
         push eax
@@ -2872,16 +2872,16 @@ sub_97420:
         call sub_9A1DB
         lea eax, [dword ebp-081Eh]
         xor edx, edx
-        call sub_7D346
+        call SetScrollBarPos
         lea eax, [dword ebp-06E6h]
         xor edx, edx
-        call sub_7D346
+        call SetScrollBarPos
         lea eax, [dword ebp-081Eh]
-        call sub_7D349
+        call DrawScrollBar
 .170:
         lea eax, [dword ebp-06E6h]
 .171:
-        call sub_7D349
+        call DrawScrollBar
         jmp near .129
 .172:
         mov eax, dword [dword ebp-0452h]
@@ -2921,15 +2921,15 @@ sub_97420:
         cmp dword [byte ebp+03Eh], byte 0Ch
         jne short .179
         lea eax, [dword ebp-0476h]
-        call sub_7D2CE
+        call ScrollBarUp
         jmp short .179
 .177:
         lea eax, [dword ebp-0476h]
-        call sub_7D49C
+        call ScrollBarToMouse
         jmp short .179
 .178:
         lea eax, [dword ebp-0476h]
-        call sub_7D2DC
+        call ScrollBarDown
 .179:
         mov eax, dword [dword ebp-0452h]
         cmp eax, dword [dword ebp-058Ah]
@@ -2950,11 +2950,11 @@ sub_97420:
         lea eax, [dword ebp-0476h]
         dec edx
 .182:
-        call sub_7D346
+        call SetScrollBarPos
 .183:
         lea eax, [dword ebp-081Eh]
         xor edx, edx
-        call sub_7D346
+        call SetScrollBarPos
         lea eax, [dword ebp-081Eh]
         push eax
         lea eax, [dword ebp-033Eh]
@@ -2966,9 +2966,9 @@ sub_97420:
         xor eax, eax
         call sub_9A1DB
         lea eax, [dword ebp-0476h]
-        call sub_7D349
+        call DrawScrollBar
         lea eax, [dword ebp-081Eh]
-        call sub_7D349
+        call DrawScrollBar
         mov edx, dword [dword ebp-0452h]
         mov edx, dword [dword ebp+edx*4-0BEh]
         mov eax, dword [gameopts]
@@ -2988,15 +2988,15 @@ sub_97420:
         cmp dword [byte ebp+03Eh], byte 10h
         jne short .188
         lea eax, [dword ebp-05AEh]
-        call sub_7D2CE
+        call ScrollBarUp
         jmp short .188
 .186:
         lea eax, [dword ebp-05AEh]
-        call sub_7D49C
+        call ScrollBarToMouse
         jmp short .188
 .187:
         lea eax, [dword ebp-05AEh]
-        call sub_7D2DC
+        call ScrollBarDown
 .188:
         mov eax, dword [dword ebp-0452h]
         cmp eax, dword [dword ebp-058Ah]
@@ -3017,11 +3017,11 @@ sub_97420:
         lea eax, [dword ebp-05AEh]
         dec edx
 .191:
-        call sub_7D346
+        call SetScrollBarPos
 .192:
         lea eax, [dword ebp-06E6h]
         xor edx, edx
-        call sub_7D346
+        call SetScrollBarPos
         lea eax, [dword ebp-06E6h]
         push eax
         lea eax, [dword ebp-033Eh]
@@ -3033,9 +3033,9 @@ sub_97420:
         mov eax, 1
         call sub_9A1DB
         lea eax, [dword ebp-05AEh]
-        call sub_7D349
+        call DrawScrollBar
         lea eax, [dword ebp-06E6h]
-        call sub_7D349
+        call DrawScrollBar
         mov edx, dword [dword ebp-058Ah]
         mov eax, dword [gameopts]
         and edx, byte 1Fh
@@ -3054,15 +3054,15 @@ sub_97420:
         cmp dword [byte ebp+03Eh], byte 14h
         jne short .197
         lea eax, [dword ebp-081Eh]
-        call sub_7D2CE
+        call ScrollBarUp
         jmp short .197
 .195:
         lea eax, [dword ebp-081Eh]
-        call sub_7D49C
+        call ScrollBarToMouse
         jmp short .197
 .196:
         lea eax, [dword ebp-081Eh]
-        call sub_7D2DC
+        call ScrollBarDown
 .197:
         lea eax, [dword ebp-033Eh]
         mov ecx, dword [byte ebp+046h]
@@ -3085,15 +3085,15 @@ sub_97420:
         cmp dword [byte ebp+03Eh], byte 18h
         jne short .202
         lea eax, [dword ebp-06E6h]
-        call sub_7D2CE
+        call ScrollBarUp
         jmp short .202
 .200:
         lea eax, [dword ebp-06E6h]
-        call sub_7D49C
+        call ScrollBarToMouse
         jmp short .202
 .201:
         lea eax, [dword ebp-06E6h]
-        call sub_7D2DC
+        call ScrollBarDown
 .202:
         lea eax, [dword ebp-033Eh]
         mov ecx, dword [byte ebp+046h]
@@ -3137,13 +3137,13 @@ sub_97420:
         jmp near .128
 .207:
         lea eax, [dword ebp-05AEh]
-        call sub_7D325
+        call FreeScrollBar
         lea eax, [dword ebp-0476h]
-        call sub_7D325
+        call FreeScrollBar
         lea eax, [dword ebp-06E6h]
-        call sub_7D325
+        call FreeScrollBar
         lea eax, [dword ebp-081Eh]
-        call sub_7D325
+        call FreeScrollBar
         push dword [byte ebp+046h]
         call sub_ABF4C
         add esp, byte 4
@@ -3246,7 +3246,7 @@ sub_9A1DB:
         cmp dword [byte ebp-08h], byte 0
         jne short .7
         mov eax, edi
-        call sub_7D325
+        call FreeScrollBar
         push str_Ball5
         push esi
         call sub_E04E0
@@ -3256,7 +3256,7 @@ sub_9A1DB:
         jmp short .8
 .7:
         mov eax, edi
-        call sub_7D325
+        call FreeScrollBar
         push str_Ball5
         push esi
         call sub_E04E0
@@ -3278,9 +3278,9 @@ sub_9A1DB:
         push byte 0
         mov edx, dword [byte ebp-018h]
         mov eax, edi
-        call sub_7CCB8
+        call InitVScrollBar
         mov eax, edi
-        call sub_7D349
+        call DrawScrollBar
         push dword [byte ebp+010h]
         mov edx, dword [byte ebp-014h]
         mov eax, dword [byte ebp-08h]

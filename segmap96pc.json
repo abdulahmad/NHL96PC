@@ -500,11 +500,21 @@
   },
   {
    "start": 496895,
-   "end": 513408,
+   "end": 511160,
    "module": "front_794FF",
    "obj": 1,
-   "file": "front/front_794FF.asm",
+   "file": "front/season_menu/season_menu.asm",
    "note": "placeholder"
+  },
+  {
+   "obj": 1,
+   "start": 511160,
+   "end": 513408,
+   "module": "front_scroll_bar",
+   "file": "front/scroll_bar/scroll_bar.asm",
+   "desc": "The scroll bar widget of the front-end lists (96 PC).",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "front"
   },
   {
    "start": 513408,

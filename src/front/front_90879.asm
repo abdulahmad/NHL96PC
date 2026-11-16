@@ -19,8 +19,8 @@ extern qword_1129AF, qword_1129B7, qword_1129FE, sprintf_, strcat_, strlen_, Edi
 extern ShowProgressBox, UpdateProgressBox, HideProgressBox, LoadTeamLogo, sub_1E643, LoadPackedFile, sub_1F2C9, sub_1F2D4
 extern sub_1F2DF, sub_1F2EA, sub_1F2F5, OpenScreen, SlideInSideBar, SetScreenColors, FadePalette, FadeOut
 extern SetTextColors, DrawColorText, DrawColorTextCentred, SetScreenPalette, DrawFrameAt, InitMenuItems, RunMenu, FillMusicStream
-extern PlayMusic, MusicDone, SoundSecondsToBytes, GetLangText, sub_7CF78, sub_7D2CE, sub_7D2DC, sub_7D325
-extern sub_7D346, sub_7D349, sub_7D49C, sub_88735, sub_8B7BB, sub_9066F, sub_9C060, sub_AAA40
+extern PlayMusic, MusicDone, SoundSecondsToBytes, GetLangText, InitHScrollBar, ScrollBarUp, ScrollBarDown, FreeScrollBar
+extern SetScrollBarPos, DrawScrollBar, ScrollBarToMouse, sub_88735, sub_8B7BB, sub_9066F, sub_9C060, sub_AAA40
 extern PutBlock, sub_AADA4, sub_AADC0, sub_AB758, sub_ABF4C, sub_AD35C, FillRect, sub_ADBEC
 extern sub_B0430, sub_B0494, sub_B2C54, sub_C2600, sub_DD6C4, sub_DD7B8, sub_DD908, sub_E04E0
 extern str_fmtpd, str_Wt4, unk_1129C2, unk_1129E4, str_S5, unk_1129F7, unk_152C44, unk_903B5
@@ -455,7 +455,7 @@ sub_90AF8:
         push byte 0
         lea edx, [dword ebp-06B8h]
         lea eax, [dword ebp-0454h]
-        call sub_7CF78
+        call InitHScrollBar
         push str_AR004
         push dword [dword_18210C]
         call sub_E04E0
@@ -502,7 +502,7 @@ sub_90AF8:
         add esp, byte 8
         mov dword [dword ebp-055Ch], eax
         lea eax, [dword ebp-0454h]
-        call sub_7D346
+        call SetScrollBarPos
         mov eax, 0FFFFFFFBh
         call sub_1E643
         push str_Bkgd17
@@ -926,7 +926,7 @@ sub_90AF8:
         mov eax, dword [dword_18210C]
         call sub_92D6F
         lea eax, [dword ebp-0454h]
-        call sub_7D349
+        call DrawScrollBar
         mov eax, dword [dword ebp-0430h]
         shl eax, 2
         mov ecx, dword [byte ebp-02Ch]
@@ -1145,15 +1145,15 @@ sub_90AF8:
         cmp dword [byte ebp-028h], byte 4
         jne short .48
         lea eax, [dword ebp-0454h]
-        call sub_7D2CE
+        call ScrollBarUp
         jmp short .48
 .46:
         lea eax, [dword ebp-0454h]
-        call sub_7D49C
+        call ScrollBarToMouse
         jmp short .48
 .47:
         lea eax, [dword ebp-0454h]
-        call sub_7D2DC
+        call ScrollBarDown
 .48:
         cmp edx, dword [dword ebp-0430h]
         je near .64
@@ -1183,7 +1183,7 @@ sub_90AF8:
         call sub_92D6F
         lea eax, [dword ebp-0454h]
         mov edx, dword [byte ebp-024h]
-        call sub_7D349
+        call DrawScrollBar
         mov eax, dword [byte ebp+edx*8-070h]
         mov dword [dword ebp-0836h], eax
         mov eax, dword [byte ebp+edx*8-06Ch]
@@ -1478,7 +1478,7 @@ sub_90AF8:
         call sub_ABF4C
         add esp, byte 4
         lea eax, [dword ebp-0454h]
-        call sub_7D325
+        call FreeScrollBar
         cmp dword [byte ebp-028h], byte 3
         jne short .74
         mov eax, 0A412h

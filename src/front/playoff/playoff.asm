@@ -25,7 +25,7 @@ extern UpdateProgressBox, HideProgressBox, LoadTeamLogo, FileCopy, MakeDataPath,
 extern LoadSeasonStats, LoadPlayoffStats, sub_29B9F, sub_4F159, sub_4F385, OpenScreen, SlideInTitleBar, SlideInSideBar
 extern SetScreenColors, FadePalette, FadeOut, SetTextColors, DrawColorText, DrawColorTextRight, DrawColorTextCentred, DrawFrameAt
 extern InitMenuItems, RunMenu, FillMusicStream, PlayMusic, MusicDone, SoundSecondsToBytes, RunControllerScreen, GetLangText
-extern MakeSeasonDbPath, MakePlayoffDbPath, sub_7BFAF, sub_7FF7F, sub_81D7C, sub_81EEA, sub_88509, sub_971E9
+extern MakeSeasonDbPath, MakePlayoffDbPath, PickIndexEntryScreen, sub_7FF7F, sub_81D7C, sub_81EEA, sub_88509, sub_971E9
 extern sub_A8B9B, sub_A8C75, sub_A9BAC, sub_AAA40, PutBlock, sub_AB758, sub_ABF4C, sub_AD35C
 extern sub_ADA80, sub_ADBEC, TextSetFont, sub_B0430, sub_B20D0, sub_B22B0, DrawArtOpaque, sub_B2C54
 extern sub_B7810, sub_C2500, sub_DD6C4, MouseRead, sub_E04E0, sub_E0584, str_S6, str_D17
@@ -87,7 +87,7 @@ sub_A4FD7_89:
         mov ebx, 0A5B5h
         mov edx, dword_11ED78
         mov eax, 2
-        call sub_7BFAF
+        call PickIndexEntryScreen
 .4:
         mov ebx, eax
 sub_A4FD7_A6:

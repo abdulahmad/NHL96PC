@@ -54,7 +54,8 @@
 1 76071 771F0 4479 front_team_select front/team_select/team_select.asm
 1 771F0 77442 594 front_lang_text front/lang_text/lang_text.asm
 1 77442 794FF 8381 front_new_season front/new_season/new_season.asm
-1 794FF 7D580 16513 front_794FF front/front_794FF.asm
+1 794FF 7CCB8 14265 front_794FF front/season_menu/season_menu.asm
+1 7CCB8 7D580 2248 front_scroll_bar front/scroll_bar/scroll_bar.asm
 1 7D580 7FF7F 10751 calendar front/calendar/calendar.asm
 1 7FF7F 81EEA 8043 front_7FF7F front/front_7FF7F.asm
 1 81EEA 849D5 10987 front_81EEA front/front_81EEA.asm

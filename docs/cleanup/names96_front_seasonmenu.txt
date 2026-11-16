@@ -1,0 +1,51 @@
+# NHL 96 PC season menus: the season menu, standings, picking an entry of a name index, and the scroll bar widget. PC-only, source new.
+sub_794FF SeasonMenuScreen {confidence=medium} the season menu (stn1-3, sta1-3, bt%02d buttons) of the current season
+sub_7A2AE StandingsScreen {confidence=medium} the standings screen by conference (1WST, 1EST)
+sub_7A787 CompareTeamPoints {confidence=medium} qsort compare of two teams by points (2 x wins + ties from the team record +30h, +32h), for the standings
+sub_7A97E DrawStandings {confidence=medium} draws the sorted standings table (with "*" marks and "-" for none)
+sub_7BA57 RunSeasonMenus {confidence=medium} from RunFrontEnd: loads SEASON.NDX and runs the season screens
+sub_7BFAF PickIndexEntryScreen {confidence=low} picks an entry of a name index (seasons, exhibition records) from a scrolling list (BALL, ">%s"), with new / delete buttons (BT10-BT12)
+sub_7CBE5 DrawIndexEntries {confidence=low} draws the visible entries of that list (">%s" marks the current one)
+sub_7CCB8 InitVScrollBar {confidence=medium} (bar, ...): a vertical scroll bar (type 1) for a list area
+sub_7CF78 InitHScrollBar {confidence=medium} (bar, ...): a horizontal scroll bar (type 0)
+sub_7D2CD ScrollBarRet {confidence=low} ret
+sub_7D2CE ScrollBarUp {confidence=medium} position - 1, redraw
+sub_7D2DC ScrollBarDown {confidence=medium} position + 1 up to count - page, redraw
+sub_7D2ED ScrollBarPageUp {confidence=medium} position - page, redraw
+sub_7D308 ScrollBarPageDown {confidence=medium} position + page, redraw
+sub_7D325 FreeScrollBar {confidence=medium} frees the scroll bar's two bitmaps
+sub_7D346 SetScrollBarPos {confidence=medium} (bar, pos): sets the position, then DrawScrollBar
+sub_7D349 DrawScrollBar {confidence=medium} draws the scroll bar and its thumb at the position
+sub_7D49C ScrollBarToMouse {confidence=medium} moves the thumb to the mouse (dword_11D1A8 / 11D1AC)
+sub_794FF_794 SeasonMenuScreen_794 {no_record}
+sub_794FF_7AC SeasonMenuScreen_7AC {no_record}
+sub_794FF_858 SeasonMenuScreen_858 {no_record}
+sub_794FF_9D7 SeasonMenuScreen_9D7 {no_record}
+sub_794FF_A07 SeasonMenuScreen_A07 {no_record}
+sub_794FF_A34 SeasonMenuScreen_A34 {no_record}
+sub_794FF_A61 SeasonMenuScreen_A61 {no_record}
+sub_794FF_ADF SeasonMenuScreen_ADF {no_record}
+sub_794FF_AEB SeasonMenuScreen_AEB {no_record}
+sub_794FF_AF7 SeasonMenuScreen_AF7 {no_record}
+sub_794FF_B7E SeasonMenuScreen_B7E {no_record}
+sub_794FF_C05 SeasonMenuScreen_C05 {no_record}
+sub_794FF_C68 SeasonMenuScreen_C68 {no_record}
+sub_794FF_D9C SeasonMenuScreen_D9C {no_record}
+sub_7BA57_138 RunSeasonMenus_138 {no_record}
+sub_7BA57_182 RunSeasonMenus_182 {no_record}
+sub_7BA57_189 RunSeasonMenus_189 {no_record}
+sub_7BA57_1E1 RunSeasonMenus_1E1 {no_record}
+sub_7BA57_224 RunSeasonMenus_224 {no_record}
+sub_7BA57_238 RunSeasonMenus_238 {no_record}
+sub_7BA57_24E RunSeasonMenus_24E {no_record}
+sub_7BA57_25A RunSeasonMenus_25A {no_record}
+sub_7BA57_533 RunSeasonMenus_533 {no_record}
+sub_7BA57_6E RunSeasonMenus_6E {no_record}
+sub_7BA57_CB RunSeasonMenus_CB {no_record}
+sub_7BA57_D2 RunSeasonMenus_D2 {no_record}
+sub_7CCB8_217 InitVScrollBar_217 {no_record}
+sub_7CF78_207 InitHScrollBar_207 {no_record}
+sub_7CF78_337 InitHScrollBar_337 {no_record}
+sub_7D2ED_14 ScrollBarPageUp_14 {no_record}
+sub_7D2ED_19 ScrollBarPageUp_19 {no_record}
+sub_7D2ED_B ScrollBarPageUp_B {no_record}

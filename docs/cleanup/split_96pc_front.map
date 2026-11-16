@@ -56,3 +56,6 @@ cut DrawHomeTeamPanel front/team_select The exhibition team select screen: home 
 cut LoadLangText front/lang_text The language text: the Localize buffer, the text index and blocks, GetLangText (96 PC).
 cut CompareGrey front/new_season The new season: its set-up screen, creating the season files, the season and playoff database paths (96 PC).
 rename front/front_77642 front/new_season
+# step 11: front_794FF
+rename front/front_794FF front/season_menu The season menus: the season menu, standings, picking a season or record from a name index (96 PC).
+cut InitVScrollBar front/scroll_bar The scroll bar widget of the front-end lists (96 PC).

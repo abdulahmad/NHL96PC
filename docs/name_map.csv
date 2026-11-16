@@ -749,6 +749,24 @@ address,name,auto_name,source,confidence,evidence,file
 78E9E,MakeSeasonDbPath,sub_78E9E,new,medium,"(path, season, file): the path of a season database file (directory 4, %05d, %s.DB from off_11E370)",src/front/new_season/new_season.asm
 78EFA,MakePlayoffDbPath,sub_78EFA,new,medium,"(path, season, file): the same in the playoff directory (6)",src/front/new_season/new_season.asm
 79060,ResetSeasonFiles,sub_79060,new,low,"deletes and recreates a season's database files (%s%05d%cnz.db, %s%05d%csg.db) with a progress box",src/front/new_season/new_season.asm
+794FF,SeasonMenuScreen,sub_794FF,new,medium,"the season menu (stn1-3, sta1-3, bt%02d buttons) of the current season",src/front/season_menu/season_menu.asm
+7A2AE,StandingsScreen,sub_7A2AE,new,medium,"the standings screen by conference (1WST, 1EST)",src/front/season_menu/season_menu.asm
+7A787,CompareTeamPoints,sub_7A787,new,medium,"qsort compare of two teams by points (2 x wins + ties from the team record +30h, +32h), for the standings",src/front/season_menu/season_menu.asm
+7A97E,DrawStandings,sub_7A97E,new,medium,"draws the sorted standings table (with ""*"" marks and ""-"" for none)",src/front/season_menu/season_menu.asm
+7BA57,RunSeasonMenus,sub_7BA57,new,medium,from RunFrontEnd: loads SEASON.NDX and runs the season screens,src/front/season_menu/season_menu.asm
+7BFAF,PickIndexEntryScreen,sub_7BFAF,new,low,"picks an entry of a name index (seasons, exhibition records) from a scrolling list (BALL, "">%s""), with new / delete buttons (BT10-BT12)",src/front/season_menu/season_menu.asm
+7CBE5,DrawIndexEntries,sub_7CBE5,new,low,"draws the visible entries of that list ("">%s"" marks the current one)",src/front/season_menu/season_menu.asm
+7CCB8,InitVScrollBar,sub_7CCB8,new,medium,"(bar, ...): a vertical scroll bar (type 1) for a list area",src/front/scroll_bar/scroll_bar.asm
+7CF78,InitHScrollBar,sub_7CF78,new,medium,"(bar, ...): a horizontal scroll bar (type 0)",src/front/scroll_bar/scroll_bar.asm
+7D2CD,ScrollBarRet,sub_7D2CD,new,low,ret,src/front/scroll_bar/scroll_bar.asm
+7D2CE,ScrollBarUp,sub_7D2CE,new,medium,"position - 1, redraw",src/front/scroll_bar/scroll_bar.asm
+7D2DC,ScrollBarDown,sub_7D2DC,new,medium,"position + 1 up to count - page, redraw",src/front/scroll_bar/scroll_bar.asm
+7D2ED,ScrollBarPageUp,sub_7D2ED,new,medium,"position - page, redraw",src/front/scroll_bar/scroll_bar.asm
+7D308,ScrollBarPageDown,sub_7D308,new,medium,"position + page, redraw",src/front/scroll_bar/scroll_bar.asm
+7D325,FreeScrollBar,sub_7D325,new,medium,frees the scroll bar's two bitmaps,src/front/scroll_bar/scroll_bar.asm
+7D346,SetScrollBarPos,sub_7D346,new,medium,"(bar, pos): sets the position, then DrawScrollBar",src/front/scroll_bar/scroll_bar.asm
+7D349,DrawScrollBar,sub_7D349,new,medium,draws the scroll bar and its thumb at the position,src/front/scroll_bar/scroll_bar.asm
+7D49C,ScrollBarToMouse,sub_7D49C,new,medium,moves the thumb to the mouse (dword_11D1A8 / 11D1AC),src/front/scroll_bar/scroll_bar.asm
 A9BCC,_searchenv_,,WATCOM,high,IDA FLIRT library signature,
 A9CB3,strcpy_,,WATCOM,high,IDA FLIRT library signature,
 A9CD2,strcat_,,WATCOM,high,IDA FLIRT library signature,

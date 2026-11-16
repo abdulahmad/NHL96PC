@@ -59,7 +59,7 @@ extern LoadFrontEndArt, FreeFrontEndArt, FadePalette, FadeOut, CopyBitmap, SetSc
 extern InitMenuItems, sub_64E74, sub_64F47, RunMenu, SetMenuMouse, FreeSpeechBuffer, RestoreSpeechBuffer, StopSpeech
 extern StopMusic, QueueMusic, FillMusicStream, PlayMusic, FadeOutMusic, MusicDone, PlaySfx, Crowd_Noise
 extern CrowdNoiseReset, CrowdPause, CrowdResume, StopArenaClip, StartGameSound, EndGameSound, SoundSecondsToBytes, SoundIdle
-extern GetLangText, sub_7BFAF, sub_AA988, sub_AAA40, sub_AAA8C, PutBlock, sub_AADA4, sub_AB758
+extern GetLangText, PickIndexEntryScreen, sub_AA988, sub_AAA40, sub_AAA8C, PutBlock, sub_AADA4, sub_AB758
 extern sub_ABF4C, sub_AD35C, FillRect, sub_ADBEC, sub_AFFD0, sub_B0254, sub_B026C, TextSetFont
 extern sub_B0CA8, sub_B2B0C, sub_B58D8, sub_B6140, sub_BA3D0, sub_BB470, sub_BB570, sub_BB924
 extern sub_BB9C4, sub_BBA41, sub_BC3A0, sub_BC610, sub_BC674, sub_BC6D8, SortIndices, sub_BEAE4
@@ -4454,7 +4454,7 @@ sub_583B8:
         lea edx, [byte ebp-04h]
         mov eax, 5
         xor ecx, ecx
-        call sub_7BFAF
+        call PickIndexEntryScreen
         mov ebx, eax
         jmp short .3
 .2:

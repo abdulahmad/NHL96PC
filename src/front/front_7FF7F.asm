@@ -8,7 +8,7 @@ extern dword_117500, dword_117510, dword_11E4B8, dword_1657EA, dword_1657F6, dwo
 extern dword_17CBE7, dword_17CC13, dword_17CC17, dword_17CEC3, dword_17CED1, dword_17CED6, dword_17D162, dword_17D1E2
 extern dword_17D202, dword_17D267, dword_17D26B, gameopts, qsort_, sprintf_, srand_, strcat_
 extern strlen_, HideMessage, ShowMessage, ShowProgressBox, UpdateProgressBox, HideProgressBox, MakeDirPath, LoadSeasonStats
-extern BlackPalette, FillMusicStream, SoundSecondsToBytes, SoundIdle, GetLangText, MakeSeasonDbPath, MakePlayoffDbPath, sub_7A787
+extern BlackPalette, FillMusicStream, SoundSecondsToBytes, SoundIdle, GetLangText, MakeSeasonDbPath, MakePlayoffDbPath, CompareTeamPoints
 extern sub_81EEA, sub_A7B4B, sub_A7CC4, sub_A7E6D, sub_A800A, sub_A8AC5, sub_ABF4C, sub_B20D0
 extern sub_B22B0, sub_B7810, unk_17CB2E, unk_17CC1F, unk_17CED5, unk_17CF9A, unk_7FF77, word_1656DC
 extern word_1656E8, word_16581E
@@ -1682,7 +1682,7 @@ sub_80E4D:
         mov byte [byte edx+ebp-022h], bl
         cmp dword [byte ebp+022h], byte 1Ah
         jl short .25
-        mov ecx, sub_7A787
+        mov ecx, CompareTeamPoints
         mov ebx, 1
         mov edx, 1Ah
         lea eax, [byte ebp-022h]
@@ -1776,7 +1776,7 @@ sub_80E4D:
         jl short .31
         lea edx, [byte ebp+07Ah]
         lea eax, [byte ebp+07Eh]
-        call sub_7A787
+        call CompareTeamPoints
         test eax, eax
         jge short .35
         mov al, byte [byte ebp+07Eh]
@@ -1791,7 +1791,7 @@ sub_80E4D:
         mov byte [byte ebp-05h], al
         lea edx, [byte ebp+076h]
         lea eax, [byte ebp+072h]
-        call sub_7A787
+        call CompareTeamPoints
         test eax, eax
         jge short .37
         mov al, byte [byte ebp+072h]

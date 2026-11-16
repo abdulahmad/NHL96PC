@@ -15,9 +15,9 @@ extern SetTickDeadline, ShowProgressBox, SlideInSideBar, SlideInTitleBar, SoundS
 extern str_Bkgd9, str_Bt014, str_Bt024, str_Bt02d2, str_Bt103, str_Bt113, str_Bt192, str_Bt202
 extern str_Bt282, str_Bt292, str_Nothing, str_Pal14, str_Rul12, str_Rul22, str_Rul32, str_S05dCNZDB2
 extern str_S05dCnzDb3, str_S05dCsgDb, str_Sched, str_SDB, str_SEASONNDX, str_Set12, str_Set22, str_Set3
-extern str_Teams, strcat_, strcpy_, strlen_, sub_1E222, sub_1E268, sub_29B9F, sub_794FF_794
-extern sub_794FF_7AC, sub_794FF_858, sub_794FF_9D7, sub_794FF_A07, sub_794FF_A34, sub_794FF_A61, sub_794FF_ADF, sub_794FF_AEB
-extern sub_794FF_AF7, sub_794FF_B7E, sub_794FF_C05, sub_794FF_C68, sub_AAA8C, sub_AB758, sub_ABF4C, sub_AD35C
+extern str_Teams, strcat_, strcpy_, strlen_, sub_1E222, sub_1E268, sub_29B9F, SeasonMenuScreen_794
+extern SeasonMenuScreen_7AC, SeasonMenuScreen_858, SeasonMenuScreen_9D7, SeasonMenuScreen_A07, SeasonMenuScreen_A34, SeasonMenuScreen_A61, SeasonMenuScreen_ADF, SeasonMenuScreen_AEB
+extern SeasonMenuScreen_AF7, SeasonMenuScreen_B7E, SeasonMenuScreen_C05, SeasonMenuScreen_C68, sub_AAA8C, sub_AB758, sub_ABF4C, sub_AD35C
 extern sub_AD620, sub_ADBEC, sub_B20D0, sub_B22B0, sub_B2C54, sub_B7256, sub_B7810, sub_C254C
 extern sub_C2600, sub_DD6C4, sub_DD908, sub_E04E0, sub_E0584, TextSetFont, TickDeadlinePassed, unk_11E33C
 extern unk_11E354, unk_152C44, unk_17CB2E, unk_17CC1F, unk_17CED5, UpdateProgressBox
@@ -2400,17 +2400,17 @@ unk_79483:
 unk_794C3:
         db 00h,02h,04h,06h,07h,05h,03h,01h
 jpt_794CB:
-        dd sub_794FF_794
-        dd sub_794FF_7AC
-        dd sub_794FF_C68
-        dd sub_794FF_858
-        dd sub_794FF_ADF
-        dd sub_794FF_AEB
-        dd sub_794FF_AF7
-        dd sub_794FF_B7E
-        dd sub_794FF_C05
+        dd SeasonMenuScreen_794
+        dd SeasonMenuScreen_7AC
+        dd SeasonMenuScreen_C68
+        dd SeasonMenuScreen_858
+        dd SeasonMenuScreen_ADF
+        dd SeasonMenuScreen_AEB
+        dd SeasonMenuScreen_AF7
+        dd SeasonMenuScreen_B7E
+        dd SeasonMenuScreen_C05
 jpt_794EF:
-        dd sub_794FF_9D7
-        dd sub_794FF_A07
-        dd sub_794FF_A34
-        dd sub_794FF_A61
+        dd SeasonMenuScreen_9D7
+        dd SeasonMenuScreen_A07
+        dd SeasonMenuScreen_A34
+        dd SeasonMenuScreen_A61

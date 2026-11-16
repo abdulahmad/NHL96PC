@@ -29,8 +29,8 @@ extern str_Uga, str_Ugf, str_Ulstreak, str_Ulxh, str_Ulxn, str_Ulyh, str_Ulyn, s
 extern str_Uopp, str_Upk, str_Upp, str_Upts, str_Urate, str_Uso, str_Usort, str_Ustreak
 extern str_Uteam, str_wt, strcat_, strcmp_, strcpy_, strlen_, OpenScreen, SlideInSideBar
 extern SetScreenColors, FadePalette, FadeOut, DrawText, DrawTextCentred, SetTextColors, DrawColorText, FillBox
-extern InitMenuItems, RunMenu, PlaySfx, SoundIdle, GetLangText, sub_7CCB8, sub_7D2CE, sub_7D2DC
-extern sub_7D325, sub_7D346, sub_7D349, sub_8B7BB, sub_AA7E0, sub_AADA4, sub_AB758, sub_ABF4C
+extern InitMenuItems, RunMenu, PlaySfx, SoundIdle, GetLangText, InitVScrollBar, ScrollBarUp, ScrollBarDown
+extern FreeScrollBar, SetScrollBarPos, DrawScrollBar, sub_8B7BB, sub_AA7E0, sub_AADA4, sub_AB758, sub_ABF4C
 extern sub_AD35C, sub_AD620, sub_ADBEC, sub_AFFD0, sub_B0254, sub_B026C, sub_DD6C4, sub_DD8B0
 extern sub_E04E0, sub_E15AC, TextSetFont, unk_160B50, WaitTicks, word_160ACC, word_1656DA, word_1656DC
 extern word_1656E8, word_165810, word_165812, word_16581E
@@ -697,7 +697,7 @@ ScrollUserList:
         cmp edx, dword [byte eax+024h]
         jge short .2
 .1:
-        call sub_7D346
+        call SetScrollBarPos
         pop ebx
         ret
 .2:
@@ -709,7 +709,7 @@ ScrollUserList:
         inc edx
         jmp short .1
 .3:
-        call sub_7D349
+        call DrawScrollBar
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
@@ -870,7 +870,7 @@ PickUsersScreen:
         push byte 0
         mov ebx, dword [byte eax+066h]
         lea eax, [dword ebp-01B0h]
-        call sub_7CCB8
+        call InitVScrollBar
         push str_Slu1
         push esi
         call sub_E04E0
@@ -1130,14 +1130,14 @@ PickUsersScreen:
 .18:
         lea eax, [dword ebp-01B0h]
         mov edx, dword [byte ebp-030h]
-        call sub_7D2CE
+        call ScrollBarUp
         push dword [byte ebp-0Ch]
         mov ecx, dword [dword ebp-018Ch]
         mov eax, dword [byte ebp-028h]
         mov ebx, dword [byte edi+02Ch]
         call DrawUserList
         lea eax, [dword ebp-01B0h]
-        call sub_7D349
+        call DrawScrollBar
         mov eax, dword [byte ebp-038h]
         sub eax, dword [dword ebp-018Ch]
         mov dword [byte ebp-010h], eax
@@ -1159,14 +1159,14 @@ PickUsersScreen:
 .21:
         lea eax, [dword ebp-01B0h]
         mov edx, dword [byte ebp-030h]
-        call sub_7D2DC
+        call ScrollBarDown
         push dword [byte ebp-0Ch]
         mov ecx, dword [dword ebp-018Ch]
         mov eax, dword [byte ebp-028h]
         mov ebx, dword [byte edi+02Ch]
         call DrawUserList
         lea eax, [dword ebp-01B0h]
-        call sub_7D349
+        call DrawScrollBar
         mov eax, dword [byte ebp-038h]
         sub eax, dword [dword ebp-018Ch]
         mov dword [byte ebp-010h], eax
@@ -1293,7 +1293,7 @@ PickUsersScreen:
         add esp, byte 4
         lea eax, [dword ebp-01B0h]
         mov edx, 0FEh
-        call sub_7D325
+        call FreeScrollBar
         mov eax, 0FDh
         call SetTextColors
         jmp near CompareUsersByRecord_ret

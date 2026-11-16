@@ -24,8 +24,8 @@ extern gameopts, hmroster, qsort_, sprintf_, strcpy_, MessageBox, FileOpenWrite,
 extern FileWriteAt, MakeDataPath, LoadPackedFile, sub_1E8E9, LoadSeasonStats, LoadPlayoffStats, LoadExhibitionStats, sub_1F15E
 extern sub_1F2F5, OpenScreen, SlideInTitleBar, SlideInSideBar, SetScreenColors, FadePalette, FadeOut, SetTextColors
 extern DrawColorText, SetScreenPalette, DrawFrameAt, InitMenuItems, RunMenu, FillMusicStream, PlayMusic, MusicDone
-extern SoundSecondsToBytes, SoundIdle, GetLangText, MakeSeasonDbPath, MakePlayoffDbPath, sub_7CCB8, sub_7D2CE, sub_7D2DC
-extern sub_7D325, sub_7D349, sub_7D49C, sub_9CC19, sub_9CC2E, sub_9CD61, sub_AAA40, sub_AAA8C
+extern SoundSecondsToBytes, SoundIdle, GetLangText, MakeSeasonDbPath, MakePlayoffDbPath, InitVScrollBar, ScrollBarUp, ScrollBarDown
+extern FreeScrollBar, DrawScrollBar, ScrollBarToMouse, sub_9CC19, sub_9CC2E, sub_9CD61, sub_AAA40, sub_AAA8C
 extern PutBlock, sub_AB758, sub_ABF4C, sub_AD35C, sub_ADBEC, DrawArtOpaque, sub_B2C54, sub_DD6C4
 extern sub_E04E0, sub_E0584, unk_157B1C, unk_157B82, unk_157FDA, unk_183D08, unk_9CB19, word_11D1B4
 extern word_1656E8, word_16581E
@@ -364,7 +364,7 @@ sub_9CFE3:
         push byte 0
         lea edx, [dword ebp-015F0h]
         lea eax, [dword ebp-037Eh]
-        call sub_7CCB8
+        call InitVScrollBar
         push str_Slu12
         push dword [byte ebp+05Eh]
         call sub_E04E0
@@ -1590,7 +1590,7 @@ sub_9CFE3:
         jmp near .120
 .73:
         lea eax, [dword ebp-037Eh]
-        call sub_7D2CE
+        call ScrollBarUp
 .74:
         lea eax, [dword ebp-037Eh]
         push eax
@@ -1604,11 +1604,11 @@ sub_9CFE3:
         jmp near .120
 .75:
         lea eax, [dword ebp-037Eh]
-        call sub_7D49C
+        call ScrollBarToMouse
         jmp short .74
 .76:
         lea eax, [dword ebp-037Eh]
-        call sub_7D2DC
+        call ScrollBarDown
         jmp short .74
 .77:
         mov eax, dword [byte ebp+056h]
@@ -2243,7 +2243,7 @@ sub_9CFE3:
         cmp esi, byte 30h
         jne short .126
         lea eax, [dword ebp-037Eh]
-        call sub_7D325
+        call FreeScrollBar
         push dword [dword_1843A4]
         call sub_ADBEC
         add esp, byte 4
@@ -3660,7 +3660,7 @@ sub_9FF64:
         call PutBlock
         add esp, byte 0Ch
         mov eax, dword [byte ebp+018h]
-        call sub_7D349
+        call DrawScrollBar
         leave
         pop edi
         pop esi

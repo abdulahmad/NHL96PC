@@ -1,12 +1,13 @@
 ; The game camera: its path polynomials and the camera shots (96 PC).
 bits 32
 %include "hockey.inc"
+extern ReplayFrameState
 extern TeamRosterPtrs
 section s_5D707 progbits alloc exec nowrite align=1
 extern __CHP, BuildShadeLut, RinkFloorOn, IceTextureOn, IceLogosOn, GlassOn, PlayerDetailOn, StandsOn
 extern RinkBoardsOn, BenchPlayersOn, ScoreClockOn
 extern CamLastSort, CamFirstFrame
-extern HexDigits, PenBuf, byte_1770A6, byte_1770B1, CamShotMode, CamShotPhase
+extern HexDigits, PenBuf, CamShotMode, CamShotPhase
 extern DemoMode, InReplay, ReplayRemoteShape, TimedPanelState, ViewTop, ViewWidth, ViewHeight
 extern ViewLeft, str_D_DrawGameFrame, ViewBitmap, ViewPixels, ViewSizeStep, CameraShotOn, str_C_CloseTextOverlay, CamFollowObj
 extern CamLeadDist, CamAimDist, CamViewBits, CameraViewTable
@@ -16,8 +17,8 @@ extern CamLeadDist, CamAimDist, CamViewBits, CameraViewTable
 
 extern CameraViewSlots, CamFocusObj, CamFixedObj, CamShotFromObj, CamShotToObj, CamShotNearObj, HotKeyStates
 
-extern ShadowToggle, MarkerToggle, NameToggle, ViewScreenHeight
-extern dword_165060, dword_1781F0, dword_178243, ViewBrightness, ShowShadows, ShowMarkers, CamTargetObj, CamLeadX
+extern ShadowToggle, MarkerToggle, NameToggle, PuckObject
+extern ReplayCamFollow, ReplayCamShot, ViewBrightness, ShowShadows, ShowMarkers, CamTargetObj, CamLeadX
 extern CamLeadY, CamLeadOn, CamShotTime, CamPathPos, CamAimX, CamAimShift, CamAimY, CamShotTimer
 extern CamShakeStart, CamShakeCount, CamShotId, CamShotObj, CamInjuredObj, CamNearNet, CameraShotState
 extern CamShotKeys, CamShotSaved, CamPosX, CamPosY, CamPosZ, CamDistance, CamMatrix, CamAngle
@@ -30,10 +31,10 @@ extern F64_65536_CamView239, rand_, seed, seed_w2, SetClipWindow, SetDrawBitmap,
 extern str_Priority2, AddIceCrud, SetRinkClipWindow, AllocMemBlock, FreeMemBlock, AngleOfVector, TransformVector, MakeRotYMatrix
 extern BuildPerspTable, KeyIsDown, KbdGetKey, ClearClipRect, SetViewScreenOrigin, SetViewFov
 
-extern unk_1781E4, CameraPathPoints, CamPathTarget
+extern ReplayCamTarget, CameraPathPoints, CamPathTarget
 extern unk_5D549, unk_5D555, unk_5D561, unk_5D56D, unk_5D579, unk_5D585, unk_5D591, unk_5D591_84
-extern str_D_SetGameViewSize, unk_5D65D, unk_5D681, vecdist, PerTimeTotal, word_176FB8, word_176FDA, word_1770AB
-extern word_1770AD, word_1770AF
+extern str_D_SetGameViewSize, unk_5D65D, unk_5D681, vecdist, PerTimeTotal, ReplayObjX, ReplayObjY
+
 global CameraPathCoeffs, CameraPathEval, CameraPathEval_70, CameraPathSlope, CameraPathCurve, CameraPathPoint, CameraPathDerivs, SetCameraShot
 global AngleXZ, AnglePitch, CameraTrackPuck, CameraLeadOffset, CameraNearNet, CameraNearNet_12E, ResetCameraShake, CameraAim
 global CameraAim_AB, CameraAim_229, CamView232, CamView233, CamView234, CamView234_2D0, CamView235, CamView236
@@ -463,7 +464,7 @@ SetCameraShot:
         cmp dword [InReplay], byte 0
         je near CamShot242_279
         mov ecx, 45h
-        mov edi, dword_178243
+        mov edi, ReplayCamShot
         mov esi, CamPathTarget
         rep movsb
         jmp near CamShot242_279
@@ -614,7 +615,7 @@ AnglePitch:
         ret
 ;-----------------------------------------------------------------------------
 ; CameraTrackPuck                              5DD85  96 PC, medium confidence
-; The camera target: the puck carrier (dword_1781F0) or the puck, replay
+; The camera target: the puck carrier (ReplayCamFollow) or the puck, replay
 ; positions in a replay
 ;-----------------------------------------------------------------------------
 CameraTrackPuck:
@@ -623,12 +624,12 @@ CameraTrackPuck:
         push edi
         cmp dword [InReplay], byte 0
         je near .4
-        cmp dword [dword_1781F0], byte 0
+        cmp dword [ReplayCamFollow], byte 0
         jl short .1
-        mov eax, dword [dword_1781F0]
+        mov eax, dword [ReplayCamFollow]
         mov dword [CamAimShift], 0
-        movsx edx, word [nosplit eax*2+word_176FB8]
-        movsx eax, word [nosplit eax*2+word_176FDA]
+        movsx edx, word [nosplit eax*2+ReplayObjX]
+        movsx eax, word [nosplit eax*2+ReplayObjY]
         shl edx, 2
         shl eax, 2
         mov dword [CamAimX], edx
@@ -636,19 +637,19 @@ CameraTrackPuck:
         jmp short .2
 .1:
         mov edi, CamAimX
-        mov esi, unk_1781E4
+        mov esi, ReplayCamTarget
         movsd
         movsd
         movsd
 .2:
-        mov eax, dword [dword_1781F0]
+        mov eax, dword [ReplayCamFollow]
         cmp eax, byte 0Eh
         jne near .9
-        movsx eax, word [word_1770AB]
+        movsx eax, word [ReplayFrameState+117h]
         mov dword [CamLeadX], eax
-        movsx eax, word [word_1770AD]
+        movsx eax, word [ReplayFrameState+119h]
         mov dword [CamLeadOn], eax
-        movsx eax, word [word_1770AF]
+        movsx eax, word [ReplayFrameState+11Bh]
 .3:
         mov dword [CamLeadY], eax
         pop edi
@@ -741,12 +742,12 @@ CameraLeadOffset:
         cmp dword [InReplay], byte 0
         je near .4
         mov dword [CamAimDist], eax
-        cmp dword [dword_1781F0], byte 0
+        cmp dword [ReplayCamFollow], byte 0
         jl near .14
-        movsx eax, byte [byte_1770A6]
-        cmp eax, dword [dword_1781F0]
+        movsx eax, byte [ReplayFrameState+112h]
+        cmp eax, dword [ReplayCamFollow]
         jne near .14
-        cmp byte [byte_1770B1], 0
+        cmp byte [ReplayFrameState+11Dh], 0
         je short .2
         cmp dword [CamLeadOn], byte 0
         jl short .1
@@ -853,7 +854,7 @@ CameraNearNet:
         je near .6
         cmp word [byte eax+01Ah], byte 0
         je short .6
-        mov edx, dword [ViewScreenHeight]
+        mov edx, dword [PuckObject]
         sar edx, 0Eh
         test edx, edx
         jge short .2
@@ -863,7 +864,7 @@ CameraNearNet:
 .2:
         mov ebx, edx
 .3:
-        mov edx, dword [dword_165060]
+        mov edx, dword [PuckObject+4]
         sar edx, 0Eh
         cmp ebx, 100h
         jg short .6
@@ -4014,7 +4015,7 @@ ReadHotKeys:
         cmp dword [InReplay], byte 0
         je short .13
         mov ecx, 45h
-        mov edi, dword_178243
+        mov edi, ReplayCamShot
         mov esi, CamPathTarget
         rep movsb
 .13:

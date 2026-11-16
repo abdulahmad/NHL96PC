@@ -22,7 +22,7 @@ extern FreeSpriteCache, FadePalette, FadeOut, SetTextColors, DrawColorText, Draw
 extern Crowd_Noise, CrowdFadeOut, CrowdReaction, PlayArenaClip, ArenaClipReady, StartArenaClip, StopArenaClip, SoundIdle
 extern GetLangText, DrawRectOutline, TextSetColor, SetAaPalLut, DrawArtAaScaledInt, FillRectColor, SetPaletteEntries, SetRemapTable
 extern TicksSinceLast, bcopy, FillPolygonArgs, RemapPolygonArgs, TextSetFont, str_C_DrawOverlayPanels, str_Punct_DrawOverlayPanels, StarPanelOffsets
-extern str_V_DrawOverlayPanels, hmplstats, hmplattr, AwSortCords, PreGameSkatePaths, unk_165354, OverlayRemap
+extern str_V_DrawOverlayPanels, hmplstats, hmplattr, AwSortCords, PreGameSkatePaths, BenchSpriteCount, OverlayRemap
 extern updateanim, vtoa, camx, camy, xc1, HomeControlSlot, RefStep, energywarn_aw
 extern lcblink_aw, CupShown, IntroStandSpots, TeamJerseyStyle
 extern hmscore, hmtmtouch1, hmtmpdst, awscore, StarPoints
@@ -261,7 +261,7 @@ RunPreGameSkate:
         call SetSPA
         mov edx, 26h
         mov eax, dword [PtrPuckObject]
-        mov ebx, unk_165354
+        mov ebx, BenchSpriteCount
         call assreplace
         mov word [RefStep], 0
         jmp short .22

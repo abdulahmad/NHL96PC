@@ -1,12 +1,14 @@
 ; The 3D game view: set-up and frame draw, shading LUT, player and puck sprites, controller markers, the game overlays (clock, power play, panels) and the line change boxes (96 PC).
 bits 32
 %include "hockey.inc"
+extern ReplayFrameState
+extern RefObject
 extern TeamRosterPtrs
 section s_584A0 progbits alloc exec nowrite align=1
 extern str_LUT, awtmstruct, RinkFloorOn, IceTextureOn, IceLogosOn, GlassOn, PlayerDetailOn, StandsOn
 extern RinkBoardsOn, BenchPlayersOn, ScoreClockOn, hmrosterflags, textline1, textline2
-extern textline3, textline4, textline5, byte_176F96, byte_1770A2, byte_1770A3, byte_1770A4, byte_1770A5
-extern byte_1770D7, PalUsedFlags
+extern textline3, textline4, textline5
+extern PalUsedFlags
 
 
 extern OverlayPanelId, OverlayQueueLen, OverlayQueue, CamShotMode, CamViewFlags, CloseTextOverlay
@@ -18,7 +20,7 @@ extern ViewPixels, ViewSizeStep, CamFollowObj, CamViewBits, CameraViewSlots, Sha
 extern LastPaletteMode, InMenuOverlay, dword_11F5C0, dword_11F5C4, dword_1219A4, DrawClipLeft, DrawClipTop, DrawClipRight
 extern DrawClipBottom, DrawDestBuffer, PanelShadeArt, SpriteArtPtrs, SpriteFrameArt, dword_15E4BC, dword_15E4C0, dword_15E8D8
 extern dword_15E8E0, dword_15E8E4, dword_15E8F8, dword_15E8FC
-extern ViewScreenHeight, dword_165060, dword_165064, dword_165166, dword_16516A, dword_16516E, dword_165172, DrawFrameCount
+extern PuckObject, DrawFrameCount
 extern GameViewPanelIds
 extern ShadeMatchFrom1, ShadeMatch, ShadeLutPtrs, LineBoxOpen, LineBoxShown, LineBoxChoice, LineBoxTimer, LineBoxBmps
 extern LineEnergyBmps, ViewScrollX, ViewScrollY, SpriteScreenX, SpriteScreenY, OverlayPanelOn, EventPanelLines, ClockDrawnTime
@@ -49,9 +51,9 @@ extern TextSetFont, str_Empty, OverlayPanelQueue, unk_122320, hmteamrec, awteamr
 extern HomeSpriteShades, AwaySpriteShades, RefSpriteShades, PuckModelPoints, DrawList, DrawListCount, ZoneRects
 extern JerseyColorMap, TeamPaletteSave, HomeJerseyPal, AwayJerseyPal, OverlayRemap, str_T_DrawOverlayCaption, unk_5848C, vtoa
 extern HomeControlSlot, clockticks, bannermsg, ControlMarkerFrames, ControlMarkerAltFrames, GoalNetFrames, SavedViewMode, ovlstep
-extern SlotDevice, word_1650A6, word_165144, word_165146, word_165148, word_16514A
-extern word_16514C, hmtmPwrGoals, hmtmPwrPlays, hmscore, hmtmline, hmtmap, awscore, awtmline
-extern awtmap, word_17709C
+extern SlotDevice
+extern hmtmPwrGoals, hmtmPwrPlays, hmscore, hmtmline, hmtmap, awscore, awtmline
+extern awtmap
 global DrawScaledSprite, DrawScaledSprite_1E2, BuildShadeMatch, BuildShadeLut, AllocShadeLut, AllocShadeLut_5A, LoadIceLogo, FullViewClip
 global DimGameView, InitGameView, InitGameView_709, InitGameView_70A, FreeGameView, DrawRosterName, DrawRosterNumber, DrawRinkSprite
 global DrawPlayerSprite, DrawSpriteShadow, jpt_5960F, DrawControlMarker, DrawControlMarker_26, DrawControlMarker_2F, DrawControlMarker_38, DrawControlMarker_41
@@ -1446,7 +1448,7 @@ jpt_5960F:
 ;-----------------------------------------------------------------------------
 ; DrawControlMarker                            5961F  96 PC, medium confidence
 ; (controller): draws the marker under the player a controller
-; (byte_1770A2-1770A5) controls, or the puck carrier
+; (ReplayFrameState+10Eh-1770A5) controls, or the puck carrier
 ;-----------------------------------------------------------------------------
 DrawControlMarker:
         push ebx
@@ -1462,20 +1464,20 @@ DrawControlMarker:
         ja short DrawControlMarker_41.1
         jmp dword [nosplit cs:eax*4+jpt_5960F]
 DrawControlMarker_26:
-        movsx esi, byte [byte_1770A2]
+        movsx esi, byte [ReplayFrameState+10Eh]
         jmp short DrawControlMarker_41.1
 DrawControlMarker_2F:
-        movsx esi, byte [byte_1770A3]
+        movsx esi, byte [ReplayFrameState+10Fh]
         jmp short DrawControlMarker_41.1
 DrawControlMarker_38:
-        movsx esi, byte [byte_1770A4]
+        movsx esi, byte [ReplayFrameState+110h]
         jmp short DrawControlMarker_41.1
 DrawControlMarker_41:
-        movsx esi, byte [byte_1770A5]
+        movsx esi, byte [ReplayFrameState+111h]
 .1:
         test esi, esi
         jl near DrawOverlayCaption_E1
-        cmp byte [dword esi+byte_176F96], 0
+        cmp byte [dword esi+ReplayFrameState+2], 0
         jmp short .3
 .2:
         movsx esi, word [nosplit eax*2+HomeControlSlot]
@@ -1664,7 +1666,7 @@ DrawPuckSprite:
         mov edx, eax
         cmp dword [InReplay], byte 0
         je short .1
-        cmp byte [byte_1770D7], 0
+        cmp byte [ReplayFrameState+143h], 0
         jmp short .2
 .1:
         call PuckInNet
@@ -1678,7 +1680,7 @@ DrawPuckSprite:
         jg short .3
         cmp dword [InReplay], byte 0
         je short .5
-        cmp word [word_17709C], byte 0
+        cmp word [ReplayFrameState+108h], byte 0
         jle short .5
 .3:
         push OverlayRemap
@@ -1707,7 +1709,7 @@ SpinPuckModel:
         push esi
         push edi
         enter 48h, 0
-        cmp word [word_1650A6], byte 0
+        cmp word [PuckObject+4Ah], byte 0
         je near .2
         mov eax, dword [puckc]
         cmp byte [eax], 0
@@ -1925,13 +1927,13 @@ PlaceGoalNets_E0:
         cmp dword [byte ebp-01Ch], byte 0Ch
         jl near .2
 PlaceGoalNets_20B:
-        cmp word [word_165144], byte 0
+        cmp word [RefObject+48h], byte 0
         je short .12
         mov dword [byte ebp-04h], 1
         mov edi, 11h
         xor esi, esi
 .10:
-        movsx eax, word [word_165144]
+        movsx eax, word [RefObject+48h]
         test dword [byte ebp-04h], eax
         je short .11
         imul eax, edi, byte 0Ch
@@ -2673,13 +2675,13 @@ DrawGameFrame:
         cmp esi, byte 11h
         jl short .1
         call SpinPuckModel
-        mov eax, dword [ViewScreenHeight]
+        mov eax, dword [PuckObject]
         sar eax, 0Eh
         mov dword [byte ebp+06Ah], eax
-        mov eax, dword [dword_165064]
+        mov eax, dword [PuckObject+8]
         sar eax, 0Eh
         mov dword [byte ebp+06Eh], eax
-        mov eax, dword [dword_165060]
+        mov eax, dword [PuckObject+4]
         sar eax, 0Eh
         mov dword [byte ebp+072h], eax
         lea eax, [byte ebp+06Ah]
@@ -2694,9 +2696,9 @@ DrawGameFrame:
         mov dword [byte ebp+066h], eax
         neg dword [byte ebp+062h]
         neg dword [byte ebp+066h]
-        cmp word [word_165144], byte 0
+        cmp word [RefObject+48h], byte 0
         je near .8
-        mov dx, word [word_165144]
+        mov dx, word [RefObject+48h]
         xor dh, dh
         and dl, 1
         mov eax, ZoneRectCount
@@ -2704,55 +2706,55 @@ DrawGameFrame:
         mov esi, 15h
         test edx, edx
         je short .5
-        movsx edx, word [word_16514A]
+        movsx edx, word [RefObject+4Eh]
         shl edx, 2
         mov dword [ZoneRectCount], edx
-        movsx edx, word [word_16514C]
+        movsx edx, word [RefObject+50h]
         shl edx, 2
         mov dword [ZoneRectIndex], 0
         mov dword [ZoneRectList], edx
 .5:
-        mov dx, word [word_165144]
+        mov dx, word [RefObject+48h]
         xor dh, dh
         and dl, 2
         movsx edx, dx
         add eax, byte 0Ch
         test edx, edx
         je short .6
-        mov ebx, dword [dword_16516E]
+        mov ebx, dword [RefObject+72h]
         shl ebx, 2
         mov dword [eax], ebx
-        mov ebx, dword [dword_165172]
+        mov ebx, dword [RefObject+76h]
         shl ebx, 2
         mov dword [byte eax+04h], 0
         mov dword [byte eax+08h], ebx
 .6:
-        mov dx, word [word_165144]
+        mov dx, word [RefObject+48h]
         xor dh, dh
         and dl, 4
         movsx edx, dx
         add eax, byte 0Ch
         test edx, edx
         je short .7
-        movsx edx, word [word_165146]
+        movsx edx, word [RefObject+4Ah]
         shl edx, 2
         mov dword [eax], edx
-        movsx edx, word [word_165148]
+        movsx edx, word [RefObject+4Ch]
         shl edx, 2
         mov dword [byte eax+04h], 0
         mov dword [byte eax+08h], edx
 .7:
-        mov dx, word [word_165144]
+        mov dx, word [RefObject+48h]
         xor dh, dh
         and dl, 4
         movsx edx, dx
         add eax, byte 0Ch
         test edx, edx
         je short .8
-        mov ebx, dword [dword_165166]
+        mov ebx, dword [RefObject+6Ah]
         shl ebx, 2
         mov dword [eax], ebx
-        mov ebx, dword [dword_16516A]
+        mov ebx, dword [RefObject+6Eh]
         shl ebx, 2
         mov dword [byte eax+04h], 0
         mov dword [byte eax+08h], ebx

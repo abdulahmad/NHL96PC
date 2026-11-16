@@ -11,41 +11,41 @@ extern str_Fwd2, str_Fwd3, str_Ffw1, str_Ffw2, str_Ffw3, str_Cht13, str_Cht2, st
 extern str_Sav13, str_Sav2, str_Sav3, str_Exi1, str_Exi2, str_Exi3, str_Cmr1, str_Cmr2
 extern str_Cmr3, str_Cmm1, str_Cmm2, str_Cmm3, str_CmS, str_Ltrg, str_Rtrg, str_Aut1
 extern str_Aut2, str_Aut3, str_MmS, str_HILITES, str_HILITESNDX2, str_08d4, str_GloL4, str_GloR4
-extern str_GhiL4, str_GhiR4, str_FhiL6, str_FhiR6, str_HILITESNDX3, byte_110FCF, PlayerDetailOn, StandsOn
-extern RinkBoardsOn, ReplayMenuFlags, ReplayCameraFlags, hmrosterflags, ReplayFrameFlags, ReplayFrameButtons, byte_176F94
-extern byte_176F95, byte_176F96, byte_176FA7, byte_17701E, byte_17702E, byte_17702F, byte_17703A, byte_17703B
-extern byte_17708F, byte_177090, byte_1770A2, byte_1770A3, byte_1770A4, byte_1770A5, byte_1770A6, byte_1770A7
-extern byte_1770A8, byte_1770A9, byte_1770AA, byte_1770B1, byte_1770B2, byte_1770B3, byte_1770B4, byte_1770B5
-extern byte_1770B6, byte_1770D7, HighlightBuffer, byte_177504, byte_177505, byte_177506, byte_177507
-extern byte_17794A, byte_17794B, byte_17794C, byte_17794D, byte_17794E, byte_1779B1, byte_1779B2, byte_1779B3
-extern byte_1779B4, byte_177A18, byte_177A19, byte_177A1A, byte_177A7E, byte_177A7F, byte_177A80, byte_177AE4
-extern byte_177AE5, byte_177AE6, byte_177B4A, byte_177B4B, byte_177B4C, byte_177BB0, byte_177BB1, byte_177BB2
-extern byte_177C15, byte_177C16, byte_177C7A, byte_177C7C, byte_177DAC, byte_177DAD, byte_177DAF, byte_177E12
-extern byte_178247, byte_178288, crowdlevel, curperiod, FrontShapesFile, SaveFileHandle, dword_1175B5
+extern str_GhiL4, str_GhiR4, str_FhiL6, str_FhiR6, str_HILITESNDX3, HighlightVersion, PlayerDetailOn, StandsOn
+extern RinkBoardsOn, ReplayMenuFlags, ReplayCameraFlags, hmrosterflags, ReplayFrameFlags, ReplayFrameButtons, ReplayFrameState
+
+
+
+extern HighlightBuffer, HighlightHeader
+
+
+
+
+extern ReplayCamMode, ReplaySavedSound, crowdlevel, curperiod, FrontShapesFile, SaveFileHandle, dword_1175B5
 extern dword_1175B9, dword_1176E1, PreGameSkateOn, InReplay, ReplayRunning, HighlightSlot, HighlightStart, HighlightEnd
-extern dword_11A418, dword_11A41C, dword_11A420, dword_11A424, dword_11A428, dword_11A42C, ReplayRemoteShape, SpinPuckFrame
+extern ReplayCamSteps, ReplayCamZoomIn, ReplayCamZoomOut, ReplayFrameTick, ReplayFrameDelta, ReplayTimeAccum, ReplayRemoteShape, SpinPuckFrame
 extern ViewTop, ViewWidth, ViewHeight, ViewLeft, str_D_DrawGameFrame, ViewBitmap, ViewPixels, ViewSizeStep
 extern CamViewBits, CameraViewSlots, LastPaletteMode, ModeLinear, MenuMouseX, MenuMouseY, dword_11F5C0, dword_11F5C4
 extern MenuRemoteCursorArt, MenuCursorPixels, pointerspr, MenuBitmapPixels, SpriteArtPtrs, dword_15E4B0, dword_15E4B4, dword_15E4B8
-extern dword_15E4BC, dword_15E4C4, dword_15E8D8, dword_15E8E0, HomeNetObject, dword_164F20, dword_164F24, AwayNetObject
-extern dword_164FC0, dword_164FC4, ReplayBufferTop, ReplayFrameCount, dword_17709E, dword_1770B7, dword_1770BB, dword_1770BF
-extern dword_1770C3, dword_1770C7, dword_1770CB, dword_1770CF, dword_17750C, dword_1778E8, dword_1778EC, dword_1778F0
-extern dword_1778F4, dword_1778F8, dword_1778FC, dword_177900, dword_177904, dword_17790C, dword_177914, dword_177918
-extern dword_17791C, dword_177922, dword_177926, dword_17792A, dword_17792E, dword_177932, dword_177942, dword_177946
-extern dword_17797E, dword_177982, dword_177988, dword_17798C, dword_177990, dword_177994, ReplayMenuItems, dword_1779A8
-extern dword_1779AC, dword_1779E4, dword_1779E8, dword_1779EE, dword_1779F2, dword_1779F6, dword_1779FA, dword_1779FE
-extern dword_177A0E, dword_177A12, dword_177A3E, dword_177A46, dword_177A4A, dword_177A4E, dword_177A54, dword_177A58
-extern dword_177A5C, dword_177A60, dword_177A64, dword_177A74, dword_177A78, dword_177AAC, dword_177AB0, dword_177AB4
-extern dword_177ABA, dword_177ABE, dword_177AC2, dword_177AC6, dword_177ACA, dword_177ADA, dword_177ADE, dword_177B16
-extern dword_177B1A, dword_177B20, dword_177B24, dword_177B28, dword_177B2C, dword_177B30, dword_177B40, dword_177B44
-extern dword_177B7C, dword_177B80, dword_177B86, dword_177B8A, dword_177B8E, dword_177B92, dword_177B96, dword_177BA6
-extern dword_177BAA, dword_177BE2, dword_177BE6, dword_177BEC, dword_177BF0, dword_177BF4, dword_177BF8, dword_177BFC
-extern dword_177C0C, dword_177C10, dword_177C48, dword_177C4C, dword_177C52, dword_177C56, dword_177C5A, dword_177C5E
-extern dword_177C62, dword_177C72, dword_177C76, dword_177D7A, dword_177D7E, dword_177D84, dword_177D88, dword_177D8C
-extern dword_177D90, dword_177D94, dword_177DA4, dword_177DA8, dword_177DDC, dword_177DE0, dword_177DE4, dword_177DEA
-extern dword_177DEE, dword_177DF2, dword_177DF6, dword_177DFA, dword_177E0A, dword_177E0E, dword_1781CC, dword_1781D0
-extern dword_1781D4, dword_1781D8, dword_1781DC, dword_1781E0, dword_1781F0, ReplayMenuResult, dword_1781F8, dword_178243
-extern dword_178248, dword_17824C, dword_178250, dword_178254, ViewScrollX, ViewScrollY, SpriteScreenX, SpriteScreenY
+extern dword_15E4BC, dword_15E4C4, dword_15E8D8, dword_15E8E0, HomeNetObject, AwayNetObject
+extern ReplayBufferTop, ReplayFrameCount
+extern ReplaySavedState
+
+
+
+
+
+
+
+
+
+
+
+
+
+extern ReplayActive, ReplaySavedView
+extern FreeCamX, FreeCamY, ReplayButtonDefs, ReplayCounterShown, ReplayCamFollow, ReplayMenuResult, ReplayStepping, ReplayCamShot
+extern ReplayCamRoutine, FreeCamDX, FreeCamDY, FreeCamTable, ViewScrollX, ViewScrollY, SpriteScreenX, SpriteScreenY
 extern ClockFont, ClockPanelBmp, NameFont, ViewObjects, ShowShadows, ShowMarkers, SpriteDepth, SpriteFrameIds
 extern CamShotKeys, CamAngle, CamPitch, CamPathState, CamZoom, CamPathActive, MarkerSpriteFile, optflags
 extern optblock, GsOptions, gameclock, gameopts, gmode, hmroster, replaystart, ReplayCameraView
@@ -66,13 +66,13 @@ extern FreeMemBlock, CreateBitmap, FillRect, FreeBitmap, TextSetColor, SaveTextS
 extern FreeColourLookup, TextPrintAt, SetAaPalLut, DrawArtAaScaledInt, ProjectPointList, DrawFlatPoly, DrawPolyOutline, DrawArtScaledHotspot
 extern TransformVector, MultiplyMatrix, OriSetObjectMatrix, MakeRotXMatrix, MakeRotYMatrix, MakeRotZMatrix, SortIndices, BuildPerspTable
 extern SetScreenTarget, SetClipWindow, MouseRead, SetViewRect, TicksSinceLast, FindShape, ClearClipRect, SetViewScreenOrigin
-extern SetViewFov, TransposeMatrix, str_D19, str_dot4, unk_11A430, unk_11A770, unk_11A9B0, unk_11AB30
-extern unk_11AE70, str_Punct_ReplayScreen, str_0_SaveHighlight, unk_122344, unk_1774C4, unk_177510, unk_1778C4
-extern unk_177908, unk_1781E4, unk_1781FE, DrawList, DrawListCount, CamPathTarget, optblock_end, SavedGameOpts
-extern SlotsTwoPlayer, ControllerScreenMode, GoalNetFrames, str_Punct_DrawReplayCounter, word_11A410, word_11A414, regd0, regd1
-extern word_176FB8, word_176FD4, word_176FDA, word_176FF6, word_176FFA, word_176FFC, word_17704A, word_17704C
-extern word_17706C, word_17706E, word_17709C, word_1770AB, word_1770AD, word_1770AF, word_1770D3, word_1770D5
-extern word_177508, word_17750A, word_177CB6, word_177D1C, word_1781FC
+extern SetViewFov, TransposeMatrix, str_D19, str_dot4, ReplayButtonsLong, ReplayButtonPosLong, ReplayButtonPosMid, ReplayButtonsShort
+extern ReplayButtonPosShort, str_Punct_ReplayScreen, str_0_SaveHighlight, unk_122344, ReplayFileName, ReplayViewItems, ReplayViewText
+extern ReplayScreenItems, ReplayCamTarget, ReplaySaveArea, DrawList, DrawListCount, CamPathTarget, optblock_end, SavedGameOpts
+extern SlotsTwoPlayer, ControllerScreenMode, GoalNetFrames, str_Punct_DrawReplayCounter, ReplayCounterX, ReplayCounterY, regd0, regd1
+extern ReplayObjX, ReplayObjY, ReplayObjZ, ReplayObjFrame
+extern ReplayObjAttr
+extern ReplayFramesShown
 global jpt_56470, DrawReplayObjects_391, DrawReplayCounter_231, DrawReplayCounter_232, ReplayCameraUpdate_42, ReplayCameraUpdate_82, ReplayCameraUpdate_C2, ReplayCameraUpdate_102
 global ReplayCameraUpdate_142, ReplayCameraAim, ReplayScreen_D18, ReplayScreen_D42, ReplayScreen_D83, ReplayScreen_E86, ReplayScreen_ECF, ReplayScreen_F5C
 global ReplayScreen_FF6, ReplayScreen_10E1, ReplayScreen_1110, ReplayScreen_122D, ReplayScreen_1255, ReplayScreen_161B, StartReplay, EndReplay
@@ -94,15 +94,15 @@ StartReplay:
         call StopArenaClip
         call StopSpeech
         mov eax, dword [dword_1176E1]
-        mov dword [dword_1778EC], eax
+        mov dword [ReplaySavedState+4], eax
         mov eax, dword [dword_15E4B4]
-        mov dword [dword_1778F0], eax
+        mov dword [ReplaySavedState+8], eax
         mov eax, dword [dword_15E4B8]
-        mov dword [dword_1778E8], eax
+        mov dword [ReplaySavedState], eax
         mov eax, dword [dword_15E4B0]
-        mov dword [dword_1778F4], eax
+        mov dword [ReplaySavedState+0Ch], eax
         mov eax, dword [dword_15E4BC]
-        mov dword [dword_1778F8], eax
+        mov dword [ReplaySavedState+10h], eax
         call ClearGlassHoles
         call StopGlassShake
         call FreeFightSprites
@@ -116,42 +116,42 @@ StartReplay:
         mov eax, 0B1h
 .2:
         call LoadPackedFile
-        mov dword [dword_1781D0], eax
+        mov dword [ReplaySavedView], eax
         mov eax, dword [NameFont]
-        push unk_1774C4
-        mov dword [dword_1778FC], eax
+        push ReplayFileName
+        mov dword [ReplaySavedState+14h], eax
         call SaveTextState
         add esp, byte 4
-        push dword [dword_1778FC]
+        push dword [ReplaySavedState+14h]
         call TextSetFont
         add esp, byte 4
         test byte [GsOptions+1], 20h
         sete al
         movzx eax, al
         mov dword [InReplay], 80000004h
-        mov dword [dword_1781E0], eax
+        mov dword [ReplayCounterShown], eax
         cmp dword [CamViewBits], byte 0
         je short .3
         mov dword [InReplay], 80000204h
 .3:
         mov dword [ReplayMenuResult], 0FFFFFFFFh
-        mov word [word_1781FC], 0
+        mov word [ReplayFramesShown], 0
         mov ecx, 45h
         mov eax, dword [CamViewBits]
-        mov edi, unk_1781FE
+        mov edi, ReplaySaveArea
         mov esi, CamShotKeys
         mov dword [CamViewBits], 0
-        mov dword [dword_177900], eax
+        mov dword [ReplaySavedState+18h], eax
         call ReplayBufferStart
-        mov dword [dword_1781CC], 0
-        mov byte [byte_178247], 0FFh
-        mov dword [dword_1781F0], 0Eh
-        mov dword [dword_1781F8], 0
+        mov dword [ReplayActive], 0
+        mov byte [ReplayCamMode], 0FFh
+        mov dword [ReplayCamFollow], 0Eh
+        mov dword [ReplayStepping], 0
         mov dword [ReplayFrameCount], eax
         mov eax, dword [ViewSizeStep]
         rep movsb
-        mov dword [dword_177904], eax
-        cmp dword [dword_1781E0], byte 0
+        mov dword [ReplaySavedState+1Ch], eax
+        cmp dword [ReplayCounterShown], byte 0
         je short .4
         mov dword [ViewBitmap], 2Ch
         mov dword [ViewPixels], 1Eh
@@ -200,7 +200,7 @@ StartReplay:
         add esp, byte 10h
         call SetRinkClipWindow
         mov al, byte [RinkBoardsOn]
-        mov byte [byte_178288], al
+        mov byte [ReplaySavedSound], al
         mov al, byte [StandsOn]
         mov byte [RinkBoardsOn], al
         jmp near DrawReplayCounter_232
@@ -214,7 +214,7 @@ EndReplay:
         push ecx
         push edx
         enter 78h, 0
-        push dword [dword_1781D0]
+        push dword [ReplaySavedView]
         mov dword [InReplay], 0
         call FreeMemBlock
         add esp, byte 4
@@ -230,15 +230,15 @@ EndReplay:
         call LoadFightSprites
 .2:
         call ClearGlassHoles
-        mov eax, dword [dword_1778EC]
+        mov eax, dword [ReplaySavedState+4]
         mov dword [dword_1176E1], eax
-        mov eax, dword [dword_1778F0]
+        mov eax, dword [ReplaySavedState+8]
         mov dword [dword_15E4B4], eax
-        mov eax, dword [dword_1778E8]
+        mov eax, dword [ReplaySavedState]
         mov dword [dword_15E4B8], eax
-        mov eax, dword [dword_1778F4]
+        mov eax, dword [ReplaySavedState+0Ch]
         mov dword [dword_15E4B0], eax
-        mov eax, dword [dword_1778F8]
+        mov eax, dword [ReplaySavedState+10h]
         mov dword [dword_15E4BC], eax
         cmp dword [dword_15E4C4], byte 0
         je short .3
@@ -294,25 +294,25 @@ EndReplay:
         push eax
         push dword [dword_15E8D8]
         call OriSetObjectMatrix
-        mov eax, dword [dword_177900]
+        mov eax, dword [ReplaySavedState+18h]
         mov dword [CamViewBits], eax
-        mov eax, dword [dword_177904]
+        mov eax, dword [ReplaySavedState+1Ch]
         add esp, byte 8
         mov dword [ViewSizeStep], eax
         call SetGameViewSize
-        mov eax, unk_1781FE
+        mov eax, ReplaySaveArea
         call SetCameraShot
-        push unk_1774C4
+        push ReplayFileName
         call SetDrawTarget
-        mov al, byte [byte_178288]
+        mov al, byte [ReplaySavedSound]
         mov byte [RinkBoardsOn], al
         mov eax, dword [HomeNetObject]
         sar eax, 0Eh
         mov dword [byte ebp-0Ch], eax
-        mov eax, dword [dword_164F20]
+        mov eax, dword [HomeNetObject+4]
         sar eax, 0Eh
         mov dword [byte ebp-04h], eax
-        mov eax, dword [dword_164F24]
+        mov eax, dword [HomeNetObject+8]
         lea edx, [byte ebp-0Ch]
         sar eax, 0Eh
         add esp, byte 4
@@ -322,10 +322,10 @@ EndReplay:
         mov eax, dword [AwayNetObject]
         sar eax, 0Eh
         mov dword [byte ebp-0Ch], eax
-        mov eax, dword [dword_164FC0]
+        mov eax, dword [AwayNetObject+4]
         sar eax, 0Eh
         mov dword [byte ebp-04h], eax
-        mov eax, dword [dword_164FC4]
+        mov eax, dword [AwayNetObject+8]
         sar eax, 0Eh
         lea edx, [byte ebp-0Ch]
         mov dword [byte ebp-08h], eax
@@ -383,30 +383,30 @@ StepReplay:
         jl short .3
         imul eax, dword [HighlightSlot], byte 66h
         mov ecx, dword [HighlightStart]
-        mov dword [dword eax+dword_177914], 1
-        mov dword [dword eax+dword_177922], ecx
+        mov dword [dword eax+ReplayScreenItems+0Ch], 1
+        mov dword [dword eax+ReplayScreenItems+1Ah], ecx
         mov ecx, dword [HighlightEnd]
-        mov dword [dword eax+dword_177926], ecx
+        mov dword [dword eax+ReplayScreenItems+1Eh], ecx
 .3:
-        mov eax, dword [dword_177A54]
+        mov eax, dword [ReplayScreenItems+14Ch]
         mov dword [HighlightStart], eax
-        mov eax, dword [dword_177A58]
+        mov eax, dword [ReplayScreenItems+150h]
         mov dword [HighlightSlot], 3
         mov dword [HighlightEnd], eax
         mov eax, dword [InReplay]
-        mov dword [dword_177A46], 1
+        mov dword [ReplayScreenItems+13Eh], 1
         and eax, 80000640h
-        mov dword [dword_177A54], 0
+        mov dword [ReplayScreenItems+14Ch], 0
         or al, 4
-        mov dword [dword_177A58], 0
+        mov dword [ReplayScreenItems+150h], 0
         mov dword [InReplay], eax
 .4:
-        movzx eax, byte [byte_178247]
+        movzx eax, byte [ReplayCamMode]
         cmp eax, byte 0Ah
         je near .15
         mov eax, dword [ReplayFrameCount]
         mov al, byte [eax]
-        mov byte [byte_176F94], al
+        mov byte [ReplayFrameState], al
         jmp near .16
 .5:
         mov dword [ReplayFrameCount], eax
@@ -436,12 +436,12 @@ StepReplay:
         je short .9
         call PlaySfx
 .9:
-        cmp dword [dword_1781CC], byte 0
+        cmp dword [ReplayActive], byte 0
         je near .1
-        movzx eax, byte [byte_178247]
+        movzx eax, byte [ReplayCamMode]
         cmp eax, byte 0Ah
         je near .1
-        mov eax, dword [dword_1781CC]
+        mov eax, dword [ReplayActive]
         mov esi, dword [ReplayFrameCount]
         mov al, byte [eax]
         mov byte [esi], al
@@ -474,10 +474,10 @@ StepReplay:
         sub dword [ReplayFrameCount], 0E9h
         jmp short .11
 .15:
-        mov byte [byte_176F94], 0Ah
+        mov byte [ReplayFrameState], 0Ah
 .16:
         add dword [ReplayFrameCount], byte 2
-        mov byte [byte_176F95], dl
+        mov byte [ReplayFrameState+1], dl
         xor eax, eax
         xor edx, edx
 .17:
@@ -488,10 +488,10 @@ StepReplay:
         mov dword [ReplayFrameCount], ecx
         test byte [ReplayFrameFlags], 40h
         setne cl
-        mov byte [dword eax+byte_176F96], cl
+        mov byte [dword eax+ReplayFrameState+2], cl
         test byte [ReplayFrameFlags], 80h
         setne cl
-        mov byte [dword eax+byte_176FA7], cl
+        mov byte [dword eax+ReplayFrameState+13h], cl
         mov cx, word [regd0]
         and ch, 3
         mov word [regd1], cx
@@ -505,7 +505,7 @@ StepReplay:
 .18:
         mov cx, word [regd1]
         sar dword [regd0], 0Ah
-        mov word [dword edx+word_176FB8], cx
+        mov word [dword edx+ReplayObjX], cx
         mov cx, word [regd0]
         and ch, 3
         mov word [regd1], cx
@@ -519,10 +519,10 @@ StepReplay:
 .19:
         mov cx, word [regd1]
         sar dword [regd0], 0Ah
-        mov word [dword edx+word_176FDA], cx
+        mov word [dword edx+ReplayObjY], cx
         mov cl, byte [regd0]
         and cl, 1
-        mov byte [dword eax+byte_17701E], cl
+        mov byte [dword eax+ReplayFrameState+8Ah], cl
         mov ecx, dword [ReplayFrameCount]
         inc edx
         inc edx
@@ -530,7 +530,7 @@ StepReplay:
         mov si, word [ecx]
         inc ecx
         inc ecx
-        mov word [dword edx+word_176FFA], si
+        mov word [dword edx+ReplayFrameState+66h], si
         mov dword [ReplayFrameCount], ecx
         cmp eax, byte 11h
         jl near .17
@@ -541,7 +541,7 @@ StepReplay:
         mov dword [ReplayFrameCount], ecx
         inc eax
         mov dl, byte [edx]
-        mov byte [dword eax+byte_17702E], dl
+        mov byte [dword eax+ReplayFrameState+9Ah], dl
         cmp eax, byte 0Ch
         jl short .20
         xor eax, eax
@@ -551,7 +551,7 @@ StepReplay:
         mov dword [ReplayFrameCount], ecx
         inc eax
         mov dl, byte [edx]
-        mov byte [dword eax+byte_17703A], dl
+        mov byte [dword eax+ReplayFrameState+0A6h], dl
         cmp eax, byte 11h
         jl short .21
         xor eax, eax
@@ -562,7 +562,7 @@ StepReplay:
         mov cx, word [edx]
         inc edx
         inc edx
-        mov word [dword eax+word_17704A], cx
+        mov word [dword eax+ReplayFrameState+0B6h], cx
         mov dword [ReplayFrameCount], edx
         cmp eax, byte 22h
         jne short .22
@@ -574,7 +574,7 @@ StepReplay:
         mov cx, word [edx]
         inc edx
         inc edx
-        mov word [dword eax+word_17706C], cx
+        mov word [dword eax+ReplayFrameState+0D8h], cx
         mov dword [ReplayFrameCount], edx
         cmp eax, byte 22h
         jne short .23
@@ -592,7 +592,7 @@ StepReplay:
         jne short .25
         mov edx, 0FFFFFFFFh
 .25:
-        mov byte [dword eax+byte_177090], dl
+        mov byte [dword eax+ReplayFrameState+0FCh], dl
         movsx edx, byte [regd0]
         sar edx, 4
         and edx, byte 0Fh
@@ -604,18 +604,18 @@ StepReplay:
 .26:
         inc eax
         inc eax
-        mov byte [dword eax+byte_17708F], dl
+        mov byte [dword eax+ReplayFrameState+0FBh], dl
         cmp eax, byte 0Ch
         jne short .24
         mov eax, dword [ReplayFrameCount]
         lea edx, [byte eax+01h]
         mov dword [ReplayFrameCount], edx
         movsx ax, byte [eax]
-        mov word [word_17709C], ax
+        mov word [ReplayFrameState+108h], ax
         mov eax, edx
         mov edx, dword [edx]
         add eax, byte 6
-        mov dword [dword_17709E], edx
+        mov dword [ReplayFrameState+10Ah], edx
         mov dword [ReplayFrameCount], eax
         lea edx, [byte eax+01h]
         mov dword [ReplayFrameCount], edx
@@ -628,7 +628,7 @@ StepReplay:
         jne short .27
         mov eax, 0FFFFFFFFh
 .27:
-        mov byte [byte_1770A2], al
+        mov byte [ReplayFrameState+10Eh], al
         movsx eax, byte [regd0]
         sar eax, 4
         and eax, byte 0Fh
@@ -638,7 +638,7 @@ StepReplay:
         jne short .28
         mov eax, 0FFFFFFFFh
 .28:
-        mov byte [byte_1770A3], al
+        mov byte [ReplayFrameState+10Fh], al
         mov eax, dword [ReplayFrameCount]
         lea edx, [byte eax+01h]
         mov dword [ReplayFrameCount], edx
@@ -651,7 +651,7 @@ StepReplay:
         jne short .29
         mov eax, 0FFFFFFFFh
 .29:
-        mov byte [byte_1770A4], al
+        mov byte [ReplayFrameState+110h], al
         movsx eax, byte [regd0]
         sar eax, 4
         and eax, byte 0Fh
@@ -661,34 +661,34 @@ StepReplay:
         jne short .30
         mov eax, 0FFFFFFFFh
 .30:
-        mov byte [byte_1770A5], al
+        mov byte [ReplayFrameState+111h], al
         mov eax, dword [ReplayFrameCount]
         lea edx, [byte eax+01h]
         mov dword [ReplayFrameCount], edx
         mov al, byte [eax]
-        mov byte [byte_1770A6], al
+        mov byte [ReplayFrameState+112h], al
         mov eax, edx
         inc edx
         mov dword [ReplayFrameCount], edx
         mov al, byte [eax]
         mov byte [regd0], al
         and al, 0Fh
-        mov byte [byte_1770A7], al
+        mov byte [ReplayFrameState+113h], al
         movsx eax, byte [regd0]
         sar eax, 4
         and eax, byte 0Fh
-        mov byte [byte_1770A8], al
+        mov byte [ReplayFrameState+114h], al
         mov eax, edx
         inc edx
         mov dword [ReplayFrameCount], edx
         mov al, byte [eax]
         mov byte [regd0], al
         and al, 0Fh
-        mov byte [byte_1770A9], al
+        mov byte [ReplayFrameState+115h], al
         movsx eax, byte [regd0]
         sar eax, 4
         and eax, byte 0Fh
-        mov byte [byte_1770AA], al
+        mov byte [ReplayFrameState+116h], al
         mov eax, edx
         mov dx, word [edx]
         inc eax
@@ -698,105 +698,105 @@ StepReplay:
         lea edx, [byte eax+01h]
         mov dword [ReplayFrameCount], edx
         movsx ax, byte [eax]
-        mov word [word_1770AB], ax
+        mov word [ReplayFrameState+117h], ax
         mov eax, edx
         inc edx
         mov dword [ReplayFrameCount], edx
         movsx ax, byte [eax]
-        mov word [word_1770AD], ax
+        mov word [ReplayFrameState+119h], ax
         mov eax, edx
         inc edx
         mov dword [ReplayFrameCount], edx
         movsx ax, byte [eax]
-        mov word [word_1770AF], ax
+        mov word [ReplayFrameState+11Bh], ax
         mov eax, edx
         inc edx
         mov dword [ReplayFrameCount], edx
         mov al, byte [eax]
-        mov byte [byte_1770B1], al
+        mov byte [ReplayFrameState+11Dh], al
         mov eax, edx
         inc edx
         mov dword [ReplayFrameCount], edx
         mov al, byte [eax]
-        mov byte [byte_1770B2], al
+        mov byte [ReplayFrameState+11Eh], al
         mov eax, edx
         inc edx
         mov dword [ReplayFrameCount], edx
         mov al, byte [eax]
-        mov byte [byte_1770B3], al
+        mov byte [ReplayFrameState+11Fh], al
         mov eax, edx
         inc edx
         mov dword [ReplayFrameCount], edx
         mov al, byte [eax]
-        mov byte [byte_1770B4], al
+        mov byte [ReplayFrameState+120h], al
         mov eax, edx
         inc edx
         mov dword [ReplayFrameCount], edx
         mov al, byte [eax]
-        mov byte [byte_1770B5], al
+        mov byte [ReplayFrameState+121h], al
         mov eax, edx
         inc edx
         mov dword [ReplayFrameCount], edx
         mov al, byte [eax]
-        mov byte [byte_1770B6], al
+        mov byte [ReplayFrameState+122h], al
         mov eax, edx
         mov edx, dword [edx]
         add eax, byte 4
-        mov dword [dword_1770BB], edx
+        mov dword [ReplayFrameState+127h], edx
         mov dword [ReplayFrameCount], eax
         mov edx, dword [eax]
         add eax, byte 4
-        mov dword [dword_1770B7], edx
+        mov dword [ReplayFrameState+123h], edx
         mov dword [ReplayFrameCount], eax
         lea edx, [byte eax+01h]
         mov dword [ReplayFrameCount], edx
         movsx eax, byte [eax]
-        mov dword [dword_1770BF], eax
+        mov dword [ReplayFrameState+12Bh], eax
         mov eax, edx
         inc edx
         mov dword [ReplayFrameCount], edx
         movsx eax, byte [eax]
-        mov dword [dword_1770C7], eax
+        mov dword [ReplayFrameState+133h], eax
         mov eax, edx
         inc edx
         mov dword [ReplayFrameCount], edx
         movsx eax, byte [eax]
-        mov dword [dword_1770CB], eax
+        mov dword [ReplayFrameState+137h], eax
         mov eax, edx
         movsx edx, word [edx]
         inc eax
         inc eax
-        mov dword [dword_1770C3], edx
+        mov dword [ReplayFrameState+12Fh], edx
         mov dword [ReplayFrameCount], eax
         movsx edx, word [eax]
         inc eax
         inc eax
-        mov dword [dword_1770CF], edx
+        mov dword [ReplayFrameState+13Bh], edx
         mov dword [ReplayFrameCount], eax
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_1770D3], dx
+        mov word [ReplayFrameState+13Fh], dx
         mov dword [ReplayFrameCount], eax
         mov dx, word [eax]
-        mov word [word_1770D5], dx
+        mov word [ReplayFrameState+141h], dx
         inc eax
         inc eax
         mov dword [ReplayFrameCount], eax
         lea edx, [byte eax+01h]
         mov dword [ReplayFrameCount], edx
         mov al, byte [eax]
-        mov byte [byte_1770D7], al
-        mov al, byte [byte_176F94]
+        mov byte [ReplayFrameState+143h], al
+        mov al, byte [ReplayFrameState]
         sub dword [ReplayFrameCount], 0E9h
-        cmp al, byte [byte_178247]
+        cmp al, byte [ReplayCamMode]
         je short .31
         movzx eax, al
         mov ecx, 45h
         shl eax, 4
-        mov edi, dword_178243
+        mov edi, ReplayCamShot
         mov esi, dword [dword eax+CameraViewSlots]
-        mov eax, dword_178243
+        mov eax, ReplayCamShot
         rep movsb
         call SetCameraShot
 .31:
@@ -809,20 +809,20 @@ StepReplay:
         ret
 ;-----------------------------------------------------------------------------
 ; ReplayCameraMatrix                              54FE0  96 PC, low confidence
-; The replay camera's rotation from its heading (dword_17709E)
+; The replay camera's rotation from its heading (ReplayFrameState+10Ah)
 ;-----------------------------------------------------------------------------
 ReplayCameraMatrix:
         push ebx
         push ecx
         push edx
         enter 6Ch, 0
-        mov eax, dword [dword_17709E]
+        mov eax, dword [ReplayFrameState+10Ah]
         neg eax
         push eax
         lea eax, [byte ebp-048h]
         push eax
         call MakeRotXMatrix
-        mov eax, dword [dword_17709E]
+        mov eax, dword [ReplayFrameState+10Ah]
         add esp, byte 8
         neg eax
         push eax
@@ -870,19 +870,19 @@ DrawReplayObjects:
         xor esi, esi
         mov dword [LastPaletteMode], 0FFFFFFFFh
 .1:
-        movsx edx, byte [byte_1770A6]
+        movsx edx, byte [ReplayFrameState+112h]
         mov eax, esi
         inc esi
         call DrawControlMarker
         cmp esi, byte 4
         jl short .1
-        cmp byte [byte_1770A6], 0
+        cmp byte [ReplayFrameState+112h], 0
         jl near .5
-        movsx esi, byte [byte_1770A6]
+        movsx esi, byte [ReplayFrameState+112h]
         imul eax, esi, byte 0Ch
         cmp dword [dword eax+SpriteFrameIds], byte 50h
         jle near .5
-        cmp byte [dword esi+byte_176FA7], 0
+        cmp byte [dword esi+ReplayFrameState+13h], 0
         je near .5
         push dword [dword eax+SpriteFrameIds]
         call SpriteScale
@@ -906,7 +906,7 @@ DrawReplayObjects:
 .3:
         cmp eax, 10000h
         jge short .4
-        movsx esi, byte [byte_1770A6]
+        movsx esi, byte [ReplayFrameState+112h]
         mov ecx, dword [nosplit esi*8+SpriteScreenY]
         mov ebx, dword [nosplit esi*8+SpriteScreenX]
         movsx esi, word [GoalNetFrames]
@@ -916,7 +916,7 @@ DrawReplayObjects:
         call DrawArtAaScaledInt
         jmp short .5
 .4:
-        movsx esi, byte [byte_1770A6]
+        movsx esi, byte [ReplayFrameState+112h]
         mov edx, dword [nosplit esi*8+SpriteScreenY]
         sar edx, 10h
         push edx
@@ -934,22 +934,22 @@ DrawReplayObjects:
         mov dword [byte ebp+07Ah], esi
 .6:
         mov eax, dword [byte ebp+07Ah]
-        movsx eax, word [dword eax+word_176FFC]
+        movsx eax, word [dword eax+ReplayObjZ]
         cmp eax, byte 0FFFFFFFFh
         je near .13
-        movsx eax, byte [byte_1770A6]
+        movsx eax, byte [ReplayFrameState+112h]
         cmp esi, eax
         je short .7
-        movsx eax, byte [byte_1770A2]
+        movsx eax, byte [ReplayFrameState+10Eh]
         cmp esi, eax
         je short .7
-        movsx eax, byte [byte_1770A3]
+        movsx eax, byte [ReplayFrameState+10Fh]
         cmp esi, eax
         je short .7
-        movsx eax, byte [byte_1770A4]
+        movsx eax, byte [ReplayFrameState+110h]
         cmp esi, eax
         je short .7
-        movsx eax, byte [byte_1770A5]
+        movsx eax, byte [ReplayFrameState+111h]
         cmp esi, eax
         je short .7
         cmp esi, dword [ReplayMenuResult]
@@ -966,12 +966,12 @@ DrawReplayObjects:
         mov eax, dword [byte ebp+076h]
         movsx ebx, si
         cwde
-        movsx ecx, byte [dword esi+byte_17702F]
+        movsx ecx, byte [dword esi+ReplayFrameState+9Bh]
 .8:
         call DrawRosterName
         jmp near .13
 .9:
-        movsx eax, byte [dword esi+byte_177090]
+        movsx eax, byte [dword esi+ReplayFrameState+0FCh]
         push eax
         mov eax, dword [dword edi+SpriteScreenY]
         sar eax, 10h
@@ -992,7 +992,7 @@ DrawReplayObjects:
         mov dword [byte ebp+076h], eax
         movsx ebx, si
         mov eax, dword [byte ebp+076h]
-        movsx ecx, byte [dword esi+byte_17702F]
+        movsx ecx, byte [dword esi+ReplayFrameState+9Bh]
         cwde
         jmp short .8
 .11:
@@ -1006,7 +1006,7 @@ DrawReplayObjects:
         mov dword [byte ebp+076h], eax
         movsx ebx, si
         mov eax, dword [byte ebp+076h]
-        movsx ecx, byte [dword esi+byte_17702F]
+        movsx ecx, byte [dword esi+ReplayFrameState+9Bh]
         cwde
         call DrawRosterNumber
 .13:
@@ -1031,12 +1031,12 @@ DrawReplayObjects:
         call DrawGoalNet
         jmp near .23
 .16:
-        movsx eax, word [nosplit esi*2+word_176FFC]
+        movsx eax, word [nosplit esi*2+ReplayObjZ]
         cmp eax, byte 0FFFFFFFFh
         je near .23
         cmp esi, byte 0Ch
         jge short .17
-        cmp byte [dword esi+byte_177090], 0
+        cmp byte [dword esi+ReplayFrameState+0FCh], 0
         jl near .23
 .17:
         cmp esi, byte 0Eh
@@ -1044,10 +1044,10 @@ DrawReplayObjects:
         cmp esi, byte 0Fh
         jne short .19
 .18:
-        movsx eax, byte [byte_1770A6]
+        movsx eax, byte [ReplayFrameState+112h]
         cmp eax, byte 10h
         je near .23
-        cmp word [word_17709C], byte 0
+        cmp word [ReplayFrameState+108h], byte 0
         jl near .23
         cmp esi, byte 0Fh
         sete al
@@ -1055,17 +1055,17 @@ DrawReplayObjects:
         call DrawPuckSprite
         jmp near .23
 .19:
-        cmp byte [dword esi+byte_176F96], 0
+        cmp byte [dword esi+ReplayFrameState+2], 0
         jne near .23
-        mov ax, word [nosplit esi*2+word_176FFC]
+        mov ax, word [nosplit esi*2+ReplayObjZ]
         mov word [byte ebp-01Ch], ax
-        mov ax, word [nosplit esi*2+word_17704C]
+        mov ax, word [nosplit esi*2+ReplayObjFrame]
         mov word [byte ebp+0Ah], ax
-        mov ax, word [nosplit esi*2+word_17706E]
+        mov ax, word [nosplit esi*2+ReplayObjAttr]
         mov word [byte ebp+0Ch], ax
-        movsx ax, byte [dword esi+byte_17703B]
+        movsx ax, byte [dword esi+ReplayFrameState+0A7h]
         mov word [byte ebp+08h], ax
-        cmp byte [dword esi+byte_17701E], 0
+        cmp byte [dword esi+ReplayFrameState+8Ah], 0
         je short .20
         or byte [byte ebp+027h], 8
         jmp short .21
@@ -1090,7 +1090,7 @@ DrawReplayObjects:
 .22:
         push byte 1
         push esi
-        movsx eax, byte [dword esi+byte_17701E]
+        movsx eax, byte [dword esi+ReplayFrameState+8Ah]
         mov ebx, dword [nosplit esi*8+SpriteScreenY]
         push eax
         mov edx, dword [nosplit esi*8+SpriteScreenX]
@@ -1123,12 +1123,12 @@ DrawReplayShadows:
         imul edx, esi, byte 0Ch
         cmp dword [dword edx+SpriteFrameIds], byte 50h
         jle near .7
-        movsx eax, word [nosplit esi*2+word_176FFC]
+        movsx eax, word [nosplit esi*2+ReplayObjZ]
         cmp eax, byte 0FFFFFFFFh
         je near .7
         cmp esi, byte 0Ch
         jge short .2
-        cmp byte [dword esi+byte_177090], 0
+        cmp byte [dword esi+ReplayFrameState+0FCh], 0
         jl near .7
 .2:
         cmp esi, byte 0Ch
@@ -1136,15 +1136,15 @@ DrawReplayShadows:
         cmp esi, byte 0Fh
         jle near .7
 .3:
-        mov ax, word [nosplit esi*2+word_176FFC]
+        mov ax, word [nosplit esi*2+ReplayObjZ]
         mov word [byte ebp-014h], ax
-        mov ax, word [nosplit esi*2+word_17704C]
+        mov ax, word [nosplit esi*2+ReplayObjFrame]
         mov word [byte ebp+012h], ax
-        mov ax, word [nosplit esi*2+word_17706E]
+        mov ax, word [nosplit esi*2+ReplayObjAttr]
         mov word [byte ebp+014h], ax
-        movsx ax, byte [dword esi+byte_17703B]
+        movsx ax, byte [dword esi+ReplayFrameState+0A7h]
         mov word [byte ebp+010h], ax
-        cmp byte [dword esi+byte_17701E], 0
+        cmp byte [dword esi+ReplayFrameState+8Ah], 0
         je short .4
         or byte [byte ebp+02Fh], 8
         jmp short .5
@@ -1167,7 +1167,7 @@ DrawReplayShadows:
         jge short .6
         sar ecx, 1
 .6:
-        movsx eax, byte [dword esi+byte_17701E]
+        movsx eax, byte [dword esi+ReplayFrameState+8Ah]
         mov ebx, dword [nosplit esi*8+SpriteScreenY]
         push eax
         mov edx, dword [nosplit esi*8+SpriteScreenX]
@@ -1196,12 +1196,12 @@ DrawReplayPlayers:
         imul edx, esi, byte 0Ch
         cmp dword [dword edx+SpriteFrameIds], byte 50h
         jle near .7
-        movsx eax, word [nosplit esi*2+word_176FFC]
+        movsx eax, word [nosplit esi*2+ReplayObjZ]
         cmp eax, byte 0FFFFFFFFh
         je near .7
         cmp esi, byte 0Ch
         jge short .2
-        cmp byte [dword esi+byte_177090], 0
+        cmp byte [dword esi+ReplayFrameState+0FCh], 0
         jl near .7
 .2:
         cmp esi, byte 0Ch
@@ -1209,15 +1209,15 @@ DrawReplayPlayers:
         cmp esi, byte 0Fh
         jle near .7
 .3:
-        mov ax, word [nosplit esi*2+word_176FFC]
+        mov ax, word [nosplit esi*2+ReplayObjZ]
         mov word [byte ebp-014h], ax
-        mov ax, word [nosplit esi*2+word_17704C]
+        mov ax, word [nosplit esi*2+ReplayObjFrame]
         mov word [byte ebp+012h], ax
-        mov ax, word [nosplit esi*2+word_17706E]
+        mov ax, word [nosplit esi*2+ReplayObjAttr]
         mov word [byte ebp+014h], ax
-        movsx ax, byte [dword esi+byte_17703B]
+        movsx ax, byte [dword esi+ReplayFrameState+0A7h]
         mov word [byte ebp+010h], ax
-        cmp byte [dword esi+byte_17701E], 0
+        cmp byte [dword esi+ReplayFrameState+8Ah], 0
         je short .4
         or byte [byte ebp+02Fh], 8
         jmp short .5
@@ -1242,7 +1242,7 @@ DrawReplayPlayers:
 .6:
         push byte 1
         push esi
-        movsx eax, byte [dword esi+byte_17701E]
+        movsx eax, byte [dword esi+ReplayFrameState+8Ah]
         mov ebx, dword [nosplit esi*8+SpriteScreenY]
         push eax
         mov edx, dword [nosplit esi*8+SpriteScreenX]
@@ -1326,7 +1326,7 @@ DrawReplayCounter:
         push eax
         call sprintf_
         add esp, byte 0Ch
-        cmp dword [dword_1781E0], byte 0
+        cmp dword [ReplayCounterShown], byte 0
         je short .5
         push byte 6
         push dword 9Ch
@@ -1367,10 +1367,10 @@ DrawReplayCounter:
         mov eax, dword [GsOptions]
         shl eax, 12h
         shr eax, 1Fh
-        movsx edx, word [nosplit eax*2+word_11A410]
+        movsx edx, word [nosplit eax*2+ReplayCounterX]
         add edx, byte 4
         push edx
-        movsx edx, word [nosplit eax*2+word_11A414]
+        movsx edx, word [nosplit eax*2+ReplayCounterY]
         test byte [GsOptions+1], 20h
         je short .9
         mov eax, 3
@@ -1392,7 +1392,7 @@ DrawReplayCounter:
         shl ebx, 12h
         shr ebx, 1Fh
         add ebx, ebx
-        movsx eax, word [dword ebx+word_11A410]
+        movsx eax, word [dword ebx+ReplayCounterX]
         imul eax, esi
         cdq
         idiv edi
@@ -1419,7 +1419,7 @@ DrawReplayCounter:
         mov eax, dword [GsOptions]
         shl eax, 12h
         shr eax, 1Fh
-        movsx edx, word [nosplit eax*2+word_11A414]
+        movsx edx, word [nosplit eax*2+ReplayCounterY]
         test byte [GsOptions+1], 20h
         je short .15
         mov eax, 3
@@ -1457,7 +1457,7 @@ DrawReplayClock:
         push esi
         push edi
         enter 28h, 0
-        movsx ebx, word [word_1770D3]
+        movsx ebx, word [ReplayFrameState+13Fh]
         mov eax, ebx
         mov esi, 3Ch
         cdq
@@ -1467,7 +1467,7 @@ DrawReplayClock:
         mov edi, 3Ch
         cdq
         idiv edi
-        movsx eax, word [word_1770D5]
+        movsx eax, word [ReplayFrameState+141h]
         imul eax, byte 0Ah
         mov ebx, 18h
         mov edi, edx
@@ -1539,7 +1539,7 @@ DrawReplayClock:
         add ebx, dword [byte ebp-010h]
         add edx, dword [byte ebp-0Ch]
         call DrawText
-        push dword [dword_1778FC]
+        push dword [ReplaySavedState+14h]
         call TextSetFont
         add esp, byte 4
         jmp near DrawReplayCounter_231
@@ -1564,7 +1564,7 @@ DrawReplayView:
         push eax
         call MakeRotYMatrix
         add esp, byte 8
-        push unk_1778C4
+        push ReplayViewText
         lea eax, [byte ebp-03Ch]
         push eax
         lea eax, [byte ebp-060h]
@@ -1572,14 +1572,14 @@ DrawReplayView:
         mov edi, 0FFFFFFF4h
         xor esi, esi
         call MultiplyMatrix
-        mov ebx, unk_177510
+        mov ebx, ReplayViewItems
         add esp, byte 0Ch
         xor ecx, ecx
 .1:
-        movsx eax, word [dword ecx+word_176FB8]
+        movsx eax, word [dword ecx+ReplayObjX]
         shl eax, 2
         mov dword [ebx], eax
-        movsx eax, word [dword ecx+word_176FDA]
+        movsx eax, word [dword ecx+ReplayObjY]
         shl eax, 2
         mov dword [byte ebx+04h], 0
         mov dword [byte ebx+08h], eax
@@ -1600,13 +1600,13 @@ DrawReplayView:
         cmp esi, byte 11h
         jl short .1
         call ReplayCameraMatrix
-        movsx eax, word [word_176FD4]
+        movsx eax, word [ReplayFrameState+40h]
         shl eax, 2
         mov dword [byte ebp-018h], eax
-        movsx eax, word [word_17709C]
+        movsx eax, word [ReplayFrameState+108h]
         shl eax, 2
         mov dword [byte ebp-014h], eax
-        movsx eax, word [word_176FF6]
+        movsx eax, word [ReplayFrameState+62h]
         shl eax, 2
         mov dword [byte ebp-010h], eax
         lea eax, [byte ebp-018h]
@@ -1620,7 +1620,7 @@ DrawReplayView:
         mov dword [byte ebp-04h], eax
         lea eax, [byte ebp-0Ch]
         push eax
-        push unk_177510
+        push ReplayViewItems
         neg dword [byte ebp-0Ch]
         push byte 11h
         neg dword [byte ebp-08h]
@@ -1628,7 +1628,7 @@ DrawReplayView:
         call DrawPolyOutline
         add esp, byte 10h
         push DrawListCount
-        push unk_1778C4
+        push ReplayViewText
         push DrawList
         push byte 11h
         call DrawFlatPoly
@@ -1683,11 +1683,11 @@ DrawReplayView:
         push dword [ViewBitmap]
         call SetClipWindow
         add esp, byte 10h
-        mov edx, unk_1778C4
+        mov edx, ReplayViewText
         mov eax, CamPathState
         call SetViewCamera
         call DrawRinkModels
-        cmp byte [byte_1770A9], 0
+        cmp byte [ReplayFrameState+115h], 0
         je short .9
         xor eax, eax
         call OpenPenaltyBoxDoor
@@ -1696,7 +1696,7 @@ DrawReplayView:
         xor eax, eax
         call ClosePenaltyBoxDoor
 .10:
-        cmp byte [byte_1770AA], 0
+        cmp byte [ReplayFrameState+116h], 0
         je short .11
         mov eax, 1
         call OpenPenaltyBoxDoor
@@ -1729,26 +1729,26 @@ SetReplayCamera:
         push ecx
         push esi
         push edi
-        movzx esi, byte [byte_178247]
+        movzx esi, byte [ReplayCamMode]
         cmp esi, eax
         je short .5
         cmp eax, byte 0Ah
         jne short .1
-        mov dword [dword_178243], 22Fh
-        mov byte [byte_178247], 0Ah
-        mov dword [dword_178248], CamShot23E
+        mov dword [ReplayCamShot], 22Fh
+        mov byte [ReplayCamMode], 0Ah
+        mov dword [ReplayCamRoutine], CamShot23E
         jmp short .4
 .1:
         cmp eax, byte 9
         jne short .2
         mov ecx, 45h
         mov esi, dword [ReplayCameraView]
-        mov edi, dword_178243
+        mov edi, ReplayCamShot
         jmp short .3
 .2:
         mov ecx, 45h
         shl eax, 4
-        mov edi, dword_178243
+        mov edi, ReplayCamShot
         mov esi, dword [dword eax+CameraViewSlots]
 .3:
         rep movsb
@@ -1836,15 +1836,15 @@ ReplayFreeCamera:
         push edi
         enter 78h, 0
         push eax
-        mov eax, dword [dword_1781D8]
+        mov eax, dword [FreeCamY]
         sub eax, dword [ViewLeft]
         mov dword [byte ebp-0Ch], eax
         mov eax, dword [str_D_DrawGameFrame]
-        sub eax, dword [dword_1781D4]
+        sub eax, dword [FreeCamX]
         mov dword [byte ebp-08h], eax
         lea eax, [byte ebp-054h]
         push eax
-        push unk_1778C4
+        push ReplayViewText
         mov dword [byte ebp-04h], 16Dh
         call TransposeMatrix
         add esp, byte 8
@@ -1885,20 +1885,20 @@ ReplayFreeCamera:
         movsd
         movsd
         mov ecx, 45h
-        mov edi, dword_178243
+        mov edi, ReplayCamShot
         mov esi, CamPathTarget
         rep movsb
-        mov esi, dword_178243
+        mov esi, ReplayCamShot
         lea ebx, [byte esi+011h]
         mov eax, dword [byte ebp-07Ch]
         mov edx, ebx
         call AngleXZ
-        mov dword [dword_17824C], eax
+        mov dword [FreeCamDX], eax
         mov edx, ebx
         mov eax, dword [byte ebp-07Ch]
         call AnglePitch
-        mov dword [dword_178250], eax
-        mov eax, dword [dword_17824C]
+        mov dword [FreeCamDY], eax
+        mov eax, dword [FreeCamDX]
         neg eax
         push eax
         lea eax, [byte ebp-078h]
@@ -1915,7 +1915,7 @@ ReplayFreeCamera:
         call TransformVector
         mov eax, dword [byte ebp-07Ch]
         mov eax, dword [eax]
-        sub eax, dword [dword_178254]
+        sub eax, dword [FreeCamTable]
         add esp, byte 0Ch
         test eax, eax
         jge short .3
@@ -2070,81 +2070,81 @@ ReplayCameraUpdate_42:
         test byte [ReplayCameraFlags], 1
         jne short .1
         lea esi, [byte ebp+066h]
-        mov edi, dword_11A418
+        mov edi, ReplayCamSteps
         or eax, 1000000h
         movsd
         movsd
         movsd
         mov dword [InReplay], eax
 .1:
-        dec dword [dword_11A418]
-        cmp dword [dword_11A418], byte 0FFFFFFC0h
+        dec dword [ReplayCamSteps]
+        cmp dword [ReplayCamSteps], byte 0FFFFFFC0h
         jge near ReplayCameraAim.7
-        mov dword [dword_11A418], 0FFFFFFC0h
+        mov dword [ReplayCamSteps], 0FFFFFFC0h
         jmp near ReplayCameraAim.7
 ReplayCameraUpdate_82:
         test byte [ReplayCameraFlags], 2
         jne short .2
         lea esi, [byte ebp+066h]
-        mov edi, dword_11A418
+        mov edi, ReplayCamSteps
         or eax, 2000000h
         movsd
         movsd
         movsd
         mov dword [InReplay], eax
 .2:
-        inc dword [dword_11A418]
-        cmp dword [dword_11A418], byte 40h
+        inc dword [ReplayCamSteps]
+        cmp dword [ReplayCamSteps], byte 40h
         jle near ReplayCameraAim.7
-        mov dword [dword_11A418], 40h
+        mov dword [ReplayCamSteps], 40h
         jmp near ReplayCameraAim.7
 ReplayCameraUpdate_C2:
         test byte [ReplayCameraFlags], 4
         jne short .3
         lea esi, [byte ebp+066h]
-        mov edi, dword_11A418
+        mov edi, ReplayCamSteps
         or eax, 4000000h
         movsd
         movsd
         movsd
         mov dword [InReplay], eax
 .3:
-        inc dword [dword_11A41C]
-        cmp dword [dword_11A41C], byte 40h
+        inc dword [ReplayCamZoomIn]
+        cmp dword [ReplayCamZoomIn], byte 40h
         jle near ReplayCameraAim.7
-        mov dword [dword_11A41C], 40h
+        mov dword [ReplayCamZoomIn], 40h
         jmp near ReplayCameraAim.7
 ReplayCameraUpdate_102:
         test byte [ReplayCameraFlags], 8
         jne short .4
         lea esi, [byte ebp+066h]
-        mov edi, dword_11A418
+        mov edi, ReplayCamSteps
         or eax, 8000000h
         movsd
         movsd
         movsd
         mov dword [InReplay], eax
 .4:
-        dec dword [dword_11A41C]
-        cmp dword [dword_11A41C], byte 0FFFFFFC0h
+        dec dword [ReplayCamZoomIn]
+        cmp dword [ReplayCamZoomIn], byte 0FFFFFFC0h
         jge near ReplayCameraAim.7
-        mov dword [dword_11A41C], 0FFFFFFC0h
+        mov dword [ReplayCamZoomIn], 0FFFFFFC0h
         jmp near ReplayCameraAim.7
 ReplayCameraUpdate_142:
         test byte [ReplayCameraFlags], 10h
         jne short .5
         lea esi, [byte ebp+066h]
-        mov edi, dword_11A418
+        mov edi, ReplayCamSteps
         or eax, 10000000h
         movsd
         movsd
         movsd
         mov dword [InReplay], eax
 .5:
-        inc dword [dword_11A420]
-        cmp dword [dword_11A420], byte 40h
+        inc dword [ReplayCamZoomOut]
+        cmp dword [ReplayCamZoomOut], byte 40h
         jle short ReplayCameraAim.7
-        mov dword [dword_11A420], 40h
+        mov dword [ReplayCamZoomOut], 40h
         jmp short ReplayCameraAim.7
 ;-----------------------------------------------------------------------------
 ; ReplayCameraAim                                 56035  96 PC, low confidence
@@ -2154,35 +2154,35 @@ ReplayCameraAim:
         test byte [ReplayCameraFlags], 20h
         jne short .6
         lea esi, [byte ebp+066h]
-        mov edi, dword_11A418
+        mov edi, ReplayCamSteps
         or eax, 20000000h
         movsd
         movsd
         movsd
         mov dword [InReplay], eax
 .6:
-        dec dword [dword_11A420]
-        cmp dword [dword_11A420], byte 0FFFFFFC0h
+        dec dword [ReplayCamZoomOut]
+        cmp dword [ReplayCamZoomOut], byte 0FFFFFFC0h
         jge short .7
-        mov dword [dword_11A420], 0FFFFFFC0h
+        mov dword [ReplayCamZoomOut], 0FFFFFFC0h
 .7:
         mov ecx, 45h
-        mov edi, dword_178243
+        mov edi, ReplayCamShot
         mov esi, CamPathTarget
-        mov dword [byte ebp+07Eh], dword_178243
+        mov dword [byte ebp+07Eh], ReplayCamShot
         rep movsb
-        cmp dword [dword_11A418], byte 0
+        cmp dword [ReplayCamSteps], byte 0
         jne short .8
-        cmp dword [dword_11A420], byte 0
+        cmp dword [ReplayCamZoomOut], byte 0
         jne short .8
-        cmp dword [dword_11A41C], byte 0
+        cmp dword [ReplayCamZoomIn], byte 0
         je near .26
 .8:
-        mov eax, dword [dword_11A418]
+        mov eax, dword [ReplayCamSteps]
         mov dword [byte ebp+072h], eax
-        mov eax, dword [dword_11A41C]
+        mov eax, dword [ReplayCamZoomIn]
         mov dword [byte ebp+076h], eax
-        mov eax, dword [dword_11A420]
+        mov eax, dword [ReplayCamZoomOut]
         mov dword [byte ebp+07Ah], eax
         mov eax, dword [byte ebp+07Eh]
         mov eax, dword [byte eax+09h]
@@ -2223,12 +2223,12 @@ ReplayCameraAim:
         mov eax, dword [byte ebp+062h]
         add dword [byte ebx+019h], eax
         add esp, byte 0Ch
-        cmp dword [dword_1781F0], byte 0
+        cmp dword [ReplayCamFollow], byte 0
         jl short .9
-        mov eax, dword [dword_1781F0]
+        mov eax, dword [ReplayCamFollow]
         mov dword [byte ebp+076h], 0
-        movsx ebx, word [nosplit eax*2+word_176FB8]
-        movsx eax, word [nosplit eax*2+word_176FDA]
+        movsx ebx, word [nosplit eax*2+ReplayObjX]
+        movsx eax, word [nosplit eax*2+ReplayObjY]
         shl ebx, 2
         shl eax, 2
         mov dword [byte ebp+072h], ebx
@@ -2236,7 +2236,7 @@ ReplayCameraAim:
         jmp short .10
 .9:
         lea edi, [byte ebp+072h]
-        mov esi, unk_1781E4
+        mov esi, ReplayCamTarget
         movsd
         movsd
         movsd
@@ -2377,51 +2377,51 @@ ReplayFrame:
         mov esi, eax
         test byte [InReplay], 10h
         je short .2
-        mov eax, dword [dword_11A428]
+        mov eax, dword [ReplayFrameDelta]
 .1:
-        mov dword [dword_11A424], eax
+        mov dword [ReplayFrameTick], eax
         jmp short .5
 .2:
         test byte [InReplay], 21h
         je short .3
-        mov eax, dword [dword_11A428]
+        mov eax, dword [ReplayFrameDelta]
         and byte [InReplay], 0DEh
         jmp short .1
 .3:
         test byte [InReplay], 0Ah
         je short .4
-        mov eax, dword [dword_11A428]
+        mov eax, dword [ReplayFrameDelta]
         and byte [InReplay], 0F5h
         jmp short .1
 .4:
         test byte [InReplay], 4
         je short .5
-        mov dword [dword_11A424], 0
+        mov dword [ReplayFrameTick], 0
 .5:
-        imul ax, word [dword_11A424], byte 6
-        add word [word_1781FC], ax
-        movsx ebx, word [word_1781FC]
+        imul ax, word [ReplayFrameTick], byte 6
+        add word [ReplayFramesShown], ax
+        movsx ebx, word [ReplayFramesShown]
         mov eax, ebx
         mov ecx, 14h
         cdq
         idiv ecx
-        mov dword [dword_11A424], eax
+        mov dword [ReplayFrameTick], eax
         mov eax, ebx
         cdq
         idiv ecx
-        mov word [word_1781FC], dx
+        mov word [ReplayFramesShown], dx
         mov edx, dword [InReplay]
-        mov eax, dword [dword_11A424]
+        mov eax, dword [ReplayFrameTick]
         and edx, byte 10h
         call StepReplay
         cmp eax, byte 0FFFFFFFFh
         je short .9
-        cmp dword [dword_11A424], byte 0
+        cmp dword [ReplayFrameTick], byte 0
         jge short .6
-        mov dword [dword_1781F8], 1
+        mov dword [ReplayStepping], 1
         jmp short .9
 .6:
-        movzx edx, byte [byte_176F95]
+        movzx edx, byte [ReplayFrameState+1]
 .7:
         cmp edx, byte 8
         jl short .8
@@ -2435,26 +2435,26 @@ ReplayFrame:
         mov eax, edx
         call UpdateCamera
 .9:
-        cmp dword [dword_1781F8], byte 0
+        cmp dword [ReplayStepping], byte 0
         je short .10
-        mov eax, dword_178243
+        mov eax, ReplayCamShot
         call SetCameraShot
 .10:
         call TicksSinceLast
-        mov dword [dword_1781F8], 0
+        mov dword [ReplayStepping], 0
         push dword [ReplayRemoteShape]
-        mov dword [dword_11A428], eax
+        mov dword [ReplayFrameDelta], eax
         call SetDrawBitmap
         add esp, byte 4
-        mov eax, dword [dword_11A428]
+        mov eax, dword [ReplayFrameDelta]
         call Crowd_Noise
         push str_Topp
-        push dword [dword_1781D0]
+        push dword [ReplaySavedView]
         call FindShape
         add esp, byte 8
         push eax
         call PutBlockAtOwnPos
-        movzx eax, byte [byte_178247]
+        movzx eax, byte [ReplayCamMode]
         add esp, byte 4
         cmp eax, byte 0Ah
         jne short .11
@@ -2463,7 +2463,7 @@ ReplayFrame:
 .11:
         push str_Sid13
 .12:
-        push dword [dword_1781D0]
+        push dword [ReplaySavedView]
         call FindShape
         add esp, byte 8
         push eax
@@ -2582,444 +2582,444 @@ ReplayScreen:
         call StartReplay
         test byte [GsOptions+1], 20h
         je short .7
-        mov dword [dword_1781DC], unk_11AB30
-        mov dword [byte ebp-020h], unk_11AE70
+        mov dword [ReplayButtonDefs], ReplayButtonsShort
+        mov dword [byte ebp-020h], ReplayButtonPosShort
         mov dword [byte ebp-018h], str_Punct_ReplayScreen
         jmp short .8
 .7:
-        mov dword [dword_1781DC], unk_11A430
-        mov dword [byte ebp-020h], unk_11A770
-        mov dword [byte ebp-018h], unk_11A9B0
+        mov dword [ReplayButtonDefs], ReplayButtonsLong
+        mov dword [byte ebp-020h], ReplayButtonPosLong
+        mov dword [byte ebp-018h], ReplayButtonPosMid
 .8:
-        mov edx, unk_177908
+        mov edx, ReplayScreenItems
         mov eax, 16h
         call InitMenuItems
         push str_Puk1
-        push dword [dword_1781D0]
+        push dword [ReplaySavedView]
         call FindShape
         add esp, byte 8
         push str_Puk2
-        push dword [dword_1781D0]
-        mov dword [dword_177922], eax
+        push dword [ReplaySavedView]
+        mov dword [ReplayScreenItems+1Ah], eax
         call FindShape
         add esp, byte 8
         push str_Puk3
-        push dword [dword_1781D0]
-        mov dword [dword_177926], eax
+        push dword [ReplaySavedView]
+        mov dword [ReplayScreenItems+1Eh], eax
         call FindShape
-        mov dword [dword_17792A], eax
-        mov eax, dword [dword_1781DC]
-        mov dword [dword_17791C], eax
-        mov eax, dword [dword_177922]
-        mov dword [dword_17790C], 2
-        mov dword [dword_177918], 6
+        mov dword [ReplayScreenItems+22h], eax
+        mov eax, dword [ReplayButtonDefs]
+        mov dword [ReplayScreenItems+14h], eax
+        mov eax, dword [ReplayScreenItems+1Ah]
+        mov dword [ReplayScreenItems+4], 2
+        mov dword [ReplayScreenItems+10h], 6
         movsx edx, word [byte eax+0Ch]
-        mov dword [dword_17792E], edx
+        mov dword [ReplayScreenItems+26h], edx
         movsx edx, word [byte eax+0Eh]
-        mov dword [dword_177932], edx
+        mov dword [ReplayScreenItems+2Ah], edx
         movsx ebx, word [byte eax+04h]
-        mov edx, dword [dword_17792E]
+        mov edx, dword [ReplayScreenItems+26h]
         sar ebx, 1
         add esp, byte 8
         add edx, ebx
         push str_Rew1
-        mov dword [dword_177942], edx
-        push dword [dword_1781D0]
+        mov dword [ReplayScreenItems+3Ah], edx
+        push dword [ReplaySavedView]
         movsx edx, word [byte eax+06h]
-        mov eax, dword [dword_177932]
+        mov eax, dword [ReplayScreenItems+2Ah]
         sar edx, 1
-        mov byte [byte_17794D], 1
+        mov byte [ReplayScreenItems+45h], 1
         add eax, edx
-        mov byte [byte_17794B], 0Bh
-        mov dword [dword_177946], eax
+        mov byte [ReplayScreenItems+43h], 0Bh
+        mov dword [ReplayScreenItems+3Eh], eax
         call FindShape
         add esp, byte 8
         push str_Rew2
-        push dword [dword_1781D0]
-        mov dword [dword_177988], eax
+        push dword [ReplaySavedView]
+        mov dword [ReplayScreenItems+80h], eax
         call FindShape
         add esp, byte 8
         push str_Rew3
-        push dword [dword_1781D0]
-        mov dword [dword_17798C], eax
+        push dword [ReplaySavedView]
+        mov dword [ReplayScreenItems+84h], eax
         call FindShape
-        mov dword [dword_177990], eax
-        mov eax, dword [dword_1781DC]
+        mov dword [ReplayScreenItems+88h], eax
+        mov eax, dword [ReplayButtonDefs]
         add eax, byte 40h
-        mov dword [dword_177982], eax
-        mov eax, dword [dword_177988]
-        mov dword [dword_17797E], 4
+        mov dword [ReplayScreenItems+7Ah], eax
+        mov eax, dword [ReplayScreenItems+80h]
+        mov dword [ReplayScreenItems+76h], 4
         movsx edx, word [byte eax+0Ch]
-        mov dword [dword_177994], edx
+        mov dword [ReplayScreenItems+8Ch], edx
         movsx edx, word [byte eax+0Eh]
-        mov dword [ReplayMenuItems], edx
+        mov dword [ReplayScreenItems+90h], edx
         movsx ebx, word [byte eax+04h]
-        mov edx, dword [dword_177994]
+        mov edx, dword [ReplayScreenItems+8Ch]
         sar ebx, 1
         add edx, ebx
         add esp, byte 8
-        mov dword [dword_1779A8], edx
+        mov dword [ReplayScreenItems+0A0h], edx
         push str_Bak1
-        mov edx, dword [ReplayMenuItems]
+        mov edx, dword [ReplayScreenItems+90h]
         movsx eax, word [byte eax+06h]
-        mov byte [byte_1779B2], 0
-        mov byte [byte_1779B3], 2
-        mov byte [byte_1779B1], 0Dh
+        mov byte [ReplayScreenItems+0AAh], 0
+        mov byte [ReplayScreenItems+0ABh], 2
+        mov byte [ReplayScreenItems+0A9h], 0Dh
         sar eax, 1
-        or byte [byte_1779B4], 1
+        or byte [ReplayScreenItems+0ACh], 1
         add eax, edx
-        push dword [dword_1781D0]
-        mov dword [dword_1779AC], eax
+        push dword [ReplaySavedView]
+        mov dword [ReplayScreenItems+0A4h], eax
         call FindShape
         add esp, byte 8
         push str_Bak2
-        push dword [dword_1781D0]
-        mov dword [dword_1779EE], eax
+        push dword [ReplaySavedView]
+        mov dword [ReplayScreenItems+0E6h], eax
         call FindShape
         add esp, byte 8
         push str_Bak3
-        push dword [dword_1781D0]
-        mov dword [dword_1779F2], eax
+        push dword [ReplaySavedView]
+        mov dword [ReplayScreenItems+0EAh], eax
         call FindShape
-        mov dword [dword_1779F6], eax
-        mov eax, dword [dword_1781DC]
+        mov dword [ReplayScreenItems+0EEh], eax
+        mov eax, dword [ReplayButtonDefs]
         add eax, 80h
-        mov dword [dword_1779E8], eax
-        mov eax, dword [dword_1779EE]
-        mov dword [dword_1779E4], 4
+        mov dword [ReplayScreenItems+0E0h], eax
+        mov eax, dword [ReplayScreenItems+0E6h]
+        mov dword [ReplayScreenItems+0DCh], 4
         movsx edx, word [byte eax+0Ch]
-        mov dword [dword_1779FA], edx
+        mov dword [ReplayScreenItems+0F2h], edx
         movsx edx, word [byte eax+0Eh]
-        mov dword [dword_1779FE], edx
+        mov dword [ReplayScreenItems+0F6h], edx
         movsx ebx, word [byte eax+04h]
-        mov edx, dword [dword_1779FA]
+        mov edx, dword [ReplayScreenItems+0F2h]
         sar ebx, 1
         add esp, byte 8
         add edx, ebx
         push str_Pws1
-        mov dword [dword_177A0E], edx
-        push dword [dword_1781D0]
+        mov dword [ReplayScreenItems+106h], edx
+        push dword [ReplaySavedView]
         movsx edx, word [byte eax+06h]
-        mov byte [byte_177A18], 1
-        mov eax, dword [dword_1779FE]
+        mov byte [ReplayScreenItems+110h], 1
+        mov eax, dword [ReplayScreenItems+0F6h]
         sar edx, 1
-        mov byte [byte_177A19], 3
+        mov byte [ReplayScreenItems+111h], 3
         add eax, edx
-        or byte [byte_177A1A], 1
-        mov dword [dword_177A12], eax
+        or byte [ReplayScreenItems+112h], 1
+        mov dword [ReplayScreenItems+10Ah], eax
         call FindShape
         add esp, byte 8
         push str_Pws2
-        push dword [dword_1781D0]
-        mov dword [dword_177A54], eax
+        push dword [ReplaySavedView]
+        mov dword [ReplayScreenItems+14Ch], eax
         call FindShape
         add esp, byte 8
         push str_Pws3
-        push dword [dword_1781D0]
-        mov dword [dword_177A58], eax
+        push dword [ReplaySavedView]
+        mov dword [ReplayScreenItems+150h], eax
         call FindShape
-        mov dword [dword_177A5C], eax
-        mov eax, dword [dword_1781DC]
+        mov dword [ReplayScreenItems+154h], eax
+        mov eax, dword [ReplayButtonDefs]
         add eax, 0C0h
-        mov dword [dword_177A4E], eax
-        mov eax, dword [dword_177A54]
-        mov dword [dword_177A4A], 4
+        mov dword [ReplayScreenItems+146h], eax
+        mov eax, dword [ReplayScreenItems+14Ch]
+        mov dword [ReplayScreenItems+142h], 4
         movsx edx, word [byte eax+0Ch]
         add esp, byte 8
-        mov dword [dword_177A60], edx
+        mov dword [ReplayScreenItems+158h], edx
         movsx edx, word [byte eax+0Eh]
-        mov dword [dword_177A64], edx
+        mov dword [ReplayScreenItems+15Ch], edx
         movsx edx, word [byte eax+04h]
-        mov ebx, dword [dword_177A60]
+        mov ebx, dword [ReplayScreenItems+158h]
         sar edx, 1
         push str_Pla12
         add edx, ebx
-        push dword [dword_1781D0]
-        mov dword [dword_177A74], edx
-        mov edx, dword [dword_177A64]
+        push dword [ReplaySavedView]
+        mov dword [ReplayScreenItems+16Ch], edx
+        mov edx, dword [ReplayScreenItems+15Ch]
         movsx eax, word [byte eax+06h]
-        mov byte [byte_177A7E], 2
+        mov byte [ReplayScreenItems+176h], 2
         sar eax, 1
-        mov byte [byte_177A7F], 4
+        mov byte [ReplayScreenItems+177h], 4
         add eax, edx
-        or byte [byte_177A80], 1
-        mov dword [dword_177A78], eax
+        or byte [ReplayScreenItems+178h], 1
+        mov dword [ReplayScreenItems+170h], eax
         call FindShape
         add esp, byte 8
         push str_Pla22
-        push dword [dword_1781D0]
-        mov dword [dword_177ABA], eax
+        push dword [ReplaySavedView]
+        mov dword [ReplayScreenItems+1B2h], eax
         call FindShape
         add esp, byte 8
         push str_Pla3
-        push dword [dword_1781D0]
-        mov dword [dword_177ABE], eax
+        push dword [ReplaySavedView]
+        mov dword [ReplayScreenItems+1B6h], eax
         call FindShape
-        mov dword [dword_177AC2], eax
-        mov eax, dword [dword_1781DC]
+        mov dword [ReplayScreenItems+1BAh], eax
+        mov eax, dword [ReplayButtonDefs]
         add eax, 100h
-        mov dword [dword_177AB4], eax
-        mov eax, dword [dword_177ABA]
-        mov dword [dword_177AB0], 4
+        mov dword [ReplayScreenItems+1ACh], eax
+        mov eax, dword [ReplayScreenItems+1B2h]
+        mov dword [ReplayScreenItems+1A8h], 4
         movsx edx, word [byte eax+0Ch]
-        mov dword [dword_177AC6], edx
+        mov dword [ReplayScreenItems+1BEh], edx
         movsx edx, word [byte eax+0Eh]
-        mov dword [dword_177ACA], edx
+        mov dword [ReplayScreenItems+1C2h], edx
         movsx ebx, word [byte eax+04h]
-        mov edx, dword [dword_177AC6]
+        mov edx, dword [ReplayScreenItems+1BEh]
         sar ebx, 1
         add esp, byte 8
         add edx, ebx
         push str_Fwd1
-        mov dword [dword_177ADA], edx
-        push dword [dword_1781D0]
+        mov dword [ReplayScreenItems+1D2h], edx
+        push dword [ReplaySavedView]
         movsx edx, word [byte eax+06h]
-        mov byte [byte_177AE4], 3
-        mov eax, dword [dword_177ACA]
+        mov byte [ReplayScreenItems+1DCh], 3
+        mov eax, dword [ReplayScreenItems+1C2h]
         sar edx, 1
-        mov byte [byte_177AE5], 5
+        mov byte [ReplayScreenItems+1DDh], 5
         add eax, edx
-        or byte [byte_177AE6], 1
-        mov dword [dword_177ADE], eax
+        or byte [ReplayScreenItems+1DEh], 1
+        mov dword [ReplayScreenItems+1D6h], eax
         call FindShape
         add esp, byte 8
         push str_Fwd2
-        push dword [dword_1781D0]
-        mov dword [dword_177B20], eax
+        push dword [ReplaySavedView]
+        mov dword [ReplayScreenItems+218h], eax
         call FindShape
         add esp, byte 8
         push str_Fwd3
-        push dword [dword_1781D0]
-        mov dword [dword_177B24], eax
+        push dword [ReplaySavedView]
+        mov dword [ReplayScreenItems+21Ch], eax
         call FindShape
         add esp, byte 8
-        mov dword [dword_177B28], eax
-        mov eax, dword [dword_1781DC]
+        mov dword [ReplayScreenItems+220h], eax
+        mov eax, dword [ReplayButtonDefs]
         add eax, 140h
-        mov dword [dword_177B1A], eax
-        mov eax, dword [dword_177B20]
-        mov dword [dword_177B16], 4
+        mov dword [ReplayScreenItems+212h], eax
+        mov eax, dword [ReplayScreenItems+218h]
+        mov dword [ReplayScreenItems+20Eh], 4
         movsx edx, word [byte eax+0Ch]
-        mov dword [dword_177B2C], edx
+        mov dword [ReplayScreenItems+224h], edx
         movsx edx, word [byte eax+0Eh]
-        mov dword [dword_177B30], edx
+        mov dword [ReplayScreenItems+228h], edx
         movsx ebx, word [byte eax+04h]
-        mov edx, dword [dword_177B2C]
+        mov edx, dword [ReplayScreenItems+224h]
         sar ebx, 1
         add edx, ebx
         push str_Ffw1
-        mov dword [dword_177B40], edx
-        push dword [dword_1781D0]
+        mov dword [ReplayScreenItems+238h], edx
+        push dword [ReplaySavedView]
         movsx edx, word [byte eax+06h]
-        mov byte [byte_177B4A], 4
-        mov eax, dword [dword_177B30]
+        mov byte [ReplayScreenItems+242h], 4
+        mov eax, dword [ReplayScreenItems+228h]
         sar edx, 1
-        mov byte [byte_177B4B], 6
+        mov byte [ReplayScreenItems+243h], 6
         add eax, edx
-        or byte [byte_177B4C], 1
-        mov dword [dword_177B44], eax
+        or byte [ReplayScreenItems+244h], 1
+        mov dword [ReplayScreenItems+23Ch], eax
         call FindShape
         add esp, byte 8
         push str_Ffw2
-        push dword [dword_1781D0]
-        mov dword [dword_177B86], eax
+        push dword [ReplaySavedView]
+        mov dword [ReplayScreenItems+27Eh], eax
         call FindShape
         add esp, byte 8
         push str_Ffw3
-        push dword [dword_1781D0]
-        mov dword [dword_177B8A], eax
+        push dword [ReplaySavedView]
+        mov dword [ReplayScreenItems+282h], eax
         call FindShape
-        mov dword [dword_177B8E], eax
-        mov eax, dword [dword_1781DC]
+        mov dword [ReplayScreenItems+286h], eax
+        mov eax, dword [ReplayButtonDefs]
         add eax, 180h
-        mov dword [dword_177B80], eax
-        mov eax, dword [dword_177B86]
-        mov dword [dword_177B7C], 4
+        mov dword [ReplayScreenItems+278h], eax
+        mov eax, dword [ReplayScreenItems+27Eh]
+        mov dword [ReplayScreenItems+274h], 4
         movsx edx, word [byte eax+0Ch]
-        mov dword [dword_177B92], edx
+        mov dword [ReplayScreenItems+28Ah], edx
         movsx edx, word [byte eax+0Eh]
-        mov dword [dword_177B96], edx
+        mov dword [ReplayScreenItems+28Eh], edx
         movsx ebx, word [byte eax+04h]
-        mov edx, dword [dword_177B92]
+        mov edx, dword [ReplayScreenItems+28Ah]
         sar ebx, 1
         add edx, ebx
-        mov dword [dword_177BA6], edx
+        mov dword [ReplayScreenItems+29Eh], edx
         movsx edx, word [byte eax+06h]
-        mov eax, dword [dword_177B96]
+        mov eax, dword [ReplayScreenItems+28Eh]
         sar edx, 1
         add eax, edx
-        mov dword [dword_177BAA], eax
+        mov dword [ReplayScreenItems+2A2h], eax
         mov ax, word [SlotsTwoPlayer]
         add esp, byte 8
         xor ah, ah
-        mov byte [byte_177BB0], 5
+        mov byte [ReplayScreenItems+2A8h], 5
         and al, 1
-        mov byte [byte_177BB1], 7
+        mov byte [ReplayScreenItems+2A9h], 7
         cwde
-        or byte [byte_177BB2], 1
+        or byte [ReplayScreenItems+2AAh], 1
         test eax, eax
         je short .9
         push str_Cht13
-        push dword [dword_1781D0]
+        push dword [ReplaySavedView]
         call FindShape
         add esp, byte 8
         push str_Cht2
-        push dword [dword_1781D0]
-        mov dword [dword_177BEC], eax
+        push dword [ReplaySavedView]
+        mov dword [ReplayScreenItems+2E4h], eax
         call FindShape
         add esp, byte 8
         push str_Cht3
         jmp short .10
 .9:
         push str_Sav13
-        push dword [dword_1781D0]
+        push dword [ReplaySavedView]
         call FindShape
         add esp, byte 8
         push str_Sav2
-        push dword [dword_1781D0]
-        mov dword [dword_177BEC], eax
+        push dword [ReplaySavedView]
+        mov dword [ReplayScreenItems+2E4h], eax
         call FindShape
         add esp, byte 8
         push str_Sav3
 .10:
-        push dword [dword_1781D0]
-        mov dword [dword_177BF0], eax
+        push dword [ReplaySavedView]
+        mov dword [ReplayScreenItems+2E8h], eax
         call FindShape
         add esp, byte 8
-        mov dword [dword_177BF4], eax
-        mov eax, dword [dword_1781DC]
+        mov dword [ReplayScreenItems+2ECh], eax
+        mov eax, dword [ReplayButtonDefs]
         add eax, 1C0h
-        mov dword [dword_177BE6], eax
-        mov eax, dword [dword_177BEC]
-        mov dword [dword_177BE2], 6
+        mov dword [ReplayScreenItems+2DEh], eax
+        mov eax, dword [ReplayScreenItems+2E4h]
+        mov dword [ReplayScreenItems+2DAh], 6
         movsx edx, word [byte eax+0Ch]
-        mov dword [dword_177BF8], edx
+        mov dword [ReplayScreenItems+2F0h], edx
         movsx edx, word [byte eax+0Eh]
-        mov dword [dword_177BFC], edx
+        mov dword [ReplayScreenItems+2F4h], edx
         movsx edx, word [byte eax+04h]
-        mov ebx, dword [dword_177BF8]
+        mov ebx, dword [ReplayScreenItems+2F0h]
         sar edx, 1
         add edx, ebx
         push str_Exi1
-        mov dword [dword_177C0C], edx
-        push dword [dword_1781D0]
+        mov dword [ReplayScreenItems+304h], edx
+        push dword [ReplaySavedView]
         movsx eax, word [byte eax+06h]
-        mov edx, dword [dword_177BFC]
+        mov edx, dword [ReplayScreenItems+2F4h]
         sar eax, 1
-        mov byte [byte_177C16], 6
+        mov byte [ReplayScreenItems+30Eh], 6
         add eax, edx
-        mov byte [byte_177C15], 8
-        mov dword [dword_177C10], eax
+        mov byte [ReplayScreenItems+30Dh], 8
+        mov dword [ReplayScreenItems+308h], eax
         call FindShape
         add esp, byte 8
         push str_Exi2
-        push dword [dword_1781D0]
-        mov dword [dword_177C52], eax
+        push dword [ReplaySavedView]
+        mov dword [ReplayScreenItems+34Ah], eax
         call FindShape
         add esp, byte 8
         push str_Exi3
-        push dword [dword_1781D0]
-        mov dword [dword_177C56], eax
+        push dword [ReplaySavedView]
+        mov dword [ReplayScreenItems+34Eh], eax
         call FindShape
-        mov dword [dword_177C5A], eax
-        mov eax, dword [dword_1781DC]
+        mov dword [ReplayScreenItems+352h], eax
+        mov eax, dword [ReplayButtonDefs]
         add eax, 200h
-        mov dword [dword_177C4C], eax
-        mov eax, dword [dword_177C52]
-        mov dword [dword_177C48], 6
+        mov dword [ReplayScreenItems+344h], eax
+        mov eax, dword [ReplayScreenItems+34Ah]
+        mov dword [ReplayScreenItems+340h], 6
         movsx edx, word [byte eax+0Ch]
-        mov dword [dword_177C5E], edx
+        mov dword [ReplayScreenItems+356h], edx
         movsx edx, word [byte eax+0Eh]
-        mov dword [dword_177C62], edx
+        mov dword [ReplayScreenItems+35Ah], edx
         movsx ebx, word [byte eax+04h]
-        mov edx, dword [dword_177C5E]
+        mov edx, dword [ReplayScreenItems+356h]
         sar ebx, 1
         add esp, byte 8
         add edx, ebx
         push str_Cmr1
-        mov dword [dword_177C72], edx
-        push dword [dword_1781D0]
+        mov dword [ReplayScreenItems+36Ah], edx
+        push dword [ReplaySavedView]
         movsx edx, word [byte eax+06h]
-        mov byte [byte_177C7C], 6
-        mov byte [byte_177C7A], 7
-        mov eax, dword [dword_177C62]
+        mov byte [ReplayScreenItems+374h], 6
+        mov byte [ReplayScreenItems+372h], 7
+        mov eax, dword [ReplayScreenItems+35Ah]
         sar edx, 1
-        mov word [word_177CB6], 3
+        mov word [ReplayScreenItems+3AEh], 3
         add eax, edx
-        mov word [word_177D1C], 3
-        mov dword [dword_177C76], eax
+        mov word [ReplayScreenItems+414h], 3
+        mov dword [ReplayScreenItems+36Eh], eax
         call FindShape
         add esp, byte 8
         push str_Cmr2
-        push dword [dword_1781D0]
-        mov dword [dword_177D84], eax
+        push dword [ReplaySavedView]
+        mov dword [ReplayScreenItems+47Ch], eax
         call FindShape
         add esp, byte 8
         push str_Cmr3
-        push dword [dword_1781D0]
-        mov dword [dword_177D88], eax
+        push dword [ReplaySavedView]
+        mov dword [ReplayScreenItems+480h], eax
         call FindShape
         add esp, byte 8
-        mov dword [dword_177D8C], eax
-        mov eax, dword [dword_1781DC]
+        mov dword [ReplayScreenItems+484h], eax
+        mov eax, dword [ReplayButtonDefs]
         add eax, 2C0h
-        mov dword [dword_177D7E], eax
-        mov eax, dword [dword_177D84]
-        mov dword [dword_177D7A], 6
+        mov dword [ReplayScreenItems+476h], eax
+        mov eax, dword [ReplayScreenItems+47Ch]
+        mov dword [ReplayScreenItems+472h], 6
         movsx edx, word [byte eax+0Ch]
-        mov dword [dword_177D90], edx
+        mov dword [ReplayScreenItems+488h], edx
         movsx edx, word [byte eax+0Eh]
-        mov dword [dword_177D94], edx
+        mov dword [ReplayScreenItems+48Ch], edx
         movsx edx, word [byte eax+04h]
-        mov ebx, dword [dword_177D90]
+        mov ebx, dword [ReplayScreenItems+488h]
         sar edx, 1
         push str_Cmm1
         add edx, ebx
-        push dword [dword_1781D0]
-        mov dword [dword_177DA4], edx
-        mov edx, dword [dword_177D94]
+        push dword [ReplaySavedView]
+        mov dword [ReplayScreenItems+49Ch], edx
+        mov edx, dword [ReplayScreenItems+48Ch]
         movsx eax, word [byte eax+06h]
-        mov byte [byte_177DAC], 0
+        mov byte [ReplayScreenItems+4A4h], 0
         sar eax, 1
-        mov byte [byte_177DAF], 1
+        mov byte [ReplayScreenItems+4A7h], 1
         add eax, edx
-        mov byte [byte_177DAD], 0Dh
-        mov dword [dword_177DA8], eax
+        mov byte [ReplayScreenItems+4A5h], 0Dh
+        mov dword [ReplayScreenItems+4A0h], eax
         call FindShape
         add esp, byte 8
         push str_Cmm2
-        push dword [dword_1781D0]
-        mov dword [dword_177DEA], eax
+        push dword [ReplaySavedView]
+        mov dword [ReplayScreenItems+4E2h], eax
         call FindShape
         add esp, byte 8
         push str_Cmm3
-        push dword [dword_1781D0]
-        mov dword [dword_177DEE], eax
+        push dword [ReplaySavedView]
+        mov dword [ReplayScreenItems+4E6h], eax
         call FindShape
-        mov dword [dword_177DF2], eax
-        mov eax, dword [dword_1781DC]
+        mov dword [ReplayScreenItems+4EAh], eax
+        mov eax, dword [ReplayButtonDefs]
         add eax, 300h
-        mov dword [dword_177DE4], eax
-        mov eax, dword [dword_177DEA]
-        mov dword [dword_177DE0], 6
+        mov dword [ReplayScreenItems+4DCh], eax
+        mov eax, dword [ReplayScreenItems+4E2h]
+        mov dword [ReplayScreenItems+4D8h], 6
         movsx edx, word [byte eax+0Ch]
-        mov dword [dword_177DF6], edx
+        mov dword [ReplayScreenItems+4EEh], edx
         movsx edx, word [byte eax+0Eh]
-        mov dword [dword_177DFA], edx
+        mov dword [ReplayScreenItems+4F2h], edx
         movsx ebx, word [byte eax+04h]
-        mov edx, dword [dword_177DF6]
+        mov edx, dword [ReplayScreenItems+4EEh]
         sar ebx, 1
         add edx, ebx
         lea edi, [byte ebp-028h]
-        mov dword [dword_177E0A], edx
+        mov dword [ReplayScreenItems+502h], edx
         mov dword [byte ebp-010h], 0Dh
         movsx eax, word [byte eax+06h]
-        mov edx, dword [dword_177DFA]
+        mov edx, dword [ReplayScreenItems+4F2h]
         sar eax, 1
         mov esi, str_CmS
         add eax, edx
-        mov byte [byte_177E12], 15h
-        mov dword [dword_177E0E], eax
+        mov byte [ReplayScreenItems+50Ah], 15h
+        mov dword [ReplayScreenItems+506h], eax
         add esp, byte 8
         movsd
         movsb
@@ -3034,60 +3034,60 @@ ReplayScreen:
         mov byte [byte ebp-026h], al
         lea eax, [byte ebp-028h]
         push eax
-        push dword [dword_1781D0]
+        push dword [ReplaySavedView]
         mov byte [byte ebp-025h], 31h
         call FindShape
         add esp, byte 8
-        mov dword [dword esi+dword_177922], eax
+        mov dword [dword esi+ReplayScreenItems+1Ah], eax
         lea eax, [byte ebp-028h]
         push eax
-        push dword [dword_1781D0]
+        push dword [ReplaySavedView]
         mov byte [byte ebp-025h], 32h
         call FindShape
         add esp, byte 8
-        mov dword [dword esi+dword_177926], eax
+        mov dword [dword esi+ReplayScreenItems+1Eh], eax
         lea eax, [byte ebp-028h]
         push eax
-        push dword [dword_1781D0]
+        push dword [ReplaySavedView]
         mov byte [byte ebp-025h], 33h
         call FindShape
-        mov dword [dword esi+dword_177918], 6
-        mov dword [dword esi+dword_17792A], eax
-        mov eax, dword [dword esi+dword_177922]
-        mov dword [dword esi+dword_17791C], edi
+        mov dword [dword esi+ReplayScreenItems+10h], 6
+        mov dword [dword esi+ReplayScreenItems+22h], eax
+        mov eax, dword [dword esi+ReplayScreenItems+1Ah]
+        mov dword [dword esi+ReplayScreenItems+14h], edi
         movsx eax, word [byte eax+0Ch]
-        mov dword [dword esi+dword_17792E], eax
-        mov eax, dword [dword esi+dword_177922]
+        mov dword [dword esi+ReplayScreenItems+26h], eax
+        mov eax, dword [dword esi+ReplayScreenItems+1Ah]
         movsx eax, word [byte eax+0Eh]
-        mov dword [dword esi+dword_177932], eax
-        mov eax, dword [dword esi+dword_177922]
+        mov dword [dword esi+ReplayScreenItems+2Ah], eax
+        mov eax, dword [dword esi+ReplayScreenItems+1Ah]
         movsx eax, word [byte eax+04h]
         sar eax, 1
-        add eax, dword [dword esi+dword_17792E]
-        mov dword [dword esi+dword_177942], eax
-        mov eax, dword [dword esi+dword_177922]
+        add eax, dword [dword esi+ReplayScreenItems+26h]
+        mov dword [dword esi+ReplayScreenItems+3Ah], eax
+        mov eax, dword [dword esi+ReplayScreenItems+1Ah]
         movsx eax, word [byte eax+06h]
         sar eax, 1
-        and byte [dword esi+byte_17794E], 0FEh
-        add eax, dword [dword esi+dword_177932]
+        and byte [dword esi+ReplayScreenItems+46h], 0FEh
+        add eax, dword [dword esi+ReplayScreenItems+2Ah]
         add esp, byte 8
-        mov dword [dword esi+dword_177946], eax
+        mov dword [dword esi+ReplayScreenItems+3Eh], eax
         cmp dword [byte ebp-010h], byte 0Dh
         jne short .12
-        mov byte [dword esi+byte_17794A], 0Bh
+        mov byte [dword esi+ReplayScreenItems+42h], 0Bh
         jmp short .13
 .12:
         mov al, byte [byte ebp-0Ch]
-        mov byte [dword esi+byte_17794A], al
+        mov byte [dword esi+ReplayScreenItems+42h], al
 .13:
         cmp dword [byte ebp-010h], byte 15h
         jne short .14
-        mov byte [dword esi+byte_17794B], 0Ch
+        mov byte [dword esi+ReplayScreenItems+43h], 0Ch
         jmp short .15
 .14:
         mov al, byte [byte ebp-010h]
         inc al
-        mov byte [dword esi+byte_17794B], al
+        mov byte [dword esi+ReplayScreenItems+43h], al
 .15:
         inc byte [byte ebp-0Ch]
         inc dword [byte ebp-010h]
@@ -3105,13 +3105,13 @@ ReplayScreen:
         mov eax, dword [ViewHeight]
         push str_Rtrg
         add eax, dword [byte ebp-034h]
-        push dword [dword_1781D0]
+        push dword [ReplaySavedView]
         mov dword [byte ebp-02Ch], eax
         call FindShape
         add esp, byte 8
         push eax
         push str_Ltrg
-        push dword [dword_1781D0]
+        push dword [ReplaySavedView]
         call FindShape
         add esp, byte 8
         push eax
@@ -3123,17 +3123,17 @@ ReplayScreen:
         xor edx, edx
         call SetGameBackdrop
         mov dword [HighlightSlot], 3
-        mov dword [dword_177A3E], 2
-        mov eax, dword [dword_177A54]
-        mov dword [dword_177A46], 1
+        mov dword [ReplayScreenItems+136h], 2
+        mov eax, dword [ReplayScreenItems+14Ch]
+        mov dword [ReplayScreenItems+13Eh], 1
         mov dword [HighlightStart], eax
-        mov eax, dword [dword_177A58]
-        mov dword [dword_177A54], 0
+        mov eax, dword [ReplayScreenItems+150h]
+        mov dword [ReplayScreenItems+14Ch], 0
         mov dword [HighlightEnd], eax
         mov eax, 0B4h
-        mov dword [dword_177A58], 0
+        mov dword [ReplayScreenItems+150h], 0
         call StepReplay
-        mov eax, dword_178243
+        mov eax, ReplayCamShot
         call SetCameraShot
         push dword [ReplayRemoteShape]
         call SetDrawBitmap
@@ -3149,12 +3149,12 @@ ReplayScreen:
         call SetClipWindow
         add esp, byte 10h
         push str_Topp
-        push dword [dword_1781D0]
+        push dword [ReplaySavedView]
         call FindShape
         add esp, byte 8
         push eax
         call DrawShape
-        movzx eax, byte [byte_178247]
+        movzx eax, byte [ReplayCamMode]
         add esp, byte 4
         cmp eax, byte 0Ah
         jne short .16
@@ -3163,7 +3163,7 @@ ReplayScreen:
 .16:
         push str_Sid13
 .17:
-        push dword [dword_1781D0]
+        push dword [ReplaySavedView]
         call FindShape
         add esp, byte 8
         push eax
@@ -3206,31 +3206,31 @@ ReplayScreen:
         call RunMenu
         cmp dword [byte ebp-01Ch], byte 0FFFFFFFEh
         jne near .23
-        mov edx, dword_1781D4
-        mov eax, dword_1781D8
+        mov edx, FreeCamX
+        mov eax, FreeCamY
         call GetSavedViewSize
-        mov eax, dword [dword_1781D8]
+        mov eax, dword [FreeCamY]
         cmp eax, dword [byte ebp-038h]
         jle near ReplayScreen_E86
-        mov eax, dword [dword_1781D4]
+        mov eax, dword [FreeCamX]
         cmp eax, dword [byte ebp-034h]
         jle near ReplayScreen_E86
         mov edx, eax
-        mov eax, dword [dword_1781D8]
+        mov eax, dword [FreeCamY]
         call FindPlayerAtMouse
         mov dword [ReplayMenuResult], eax
         cmp eax, byte 0FFFFFFFFh
         jne short .21
-        mov eax, unk_1781E4
+        mov eax, ReplayCamTarget
         call ReplayFreeCamera
         test eax, eax
         je short .22
-        mov dword [dword_1781F0], 0FFFFFFFFh
+        mov dword [ReplayCamFollow], 0FFFFFFFFh
         jmp short .22
 .21:
-        mov dword [dword_1781F0], eax
+        mov dword [ReplayCamFollow], eax
 .22:
-        mov dword [dword_1781F8], 1
+        mov dword [ReplayStepping], 1
         and byte [InReplay], 0BFh
         jmp near ReplayScreen_E86
 .23:
@@ -3238,18 +3238,18 @@ ReplayScreen:
         jle near .25
         cmp dword [byte ebp-01Ch], byte 16h
         jge near .25
-        movzx eax, byte [byte_178247]
+        movzx eax, byte [ReplayCamMode]
         cmp eax, byte 0Ah
         jne short .24
         mov eax, dword [byte ebp-01Ch]
         sub eax, byte 0Dh
         call ReplayCameraUpdate
-        mov dword [dword_1781F8], eax
+        mov dword [ReplayStepping], eax
         test eax, eax
         je near ReplayScreen_E86
         test byte [InReplay], 10h
         jne near ReplayScreen_E86
-        mov dword [dword_11A428], 0
+        mov dword [ReplayFrameDelta], 0
         jmp near ReplayScreen_E86
 .24:
         mov eax, dword [byte ebp-01Ch]
@@ -3259,13 +3259,13 @@ ReplayScreen:
         call SetReplayCamera
         test eax, eax
         je near ReplayScreen_E86
-        mov eax, dword_178243
+        mov eax, ReplayCamShot
         call SetCameraShot
         mov eax, dword [ReplayFrameCount]
-        mov dl, byte [byte_178247]
+        mov dl, byte [ReplayCamMode]
         mov byte [eax], dl
         mov eax, dword [ReplayFrameCount]
-        mov dword [dword_1781CC], eax
+        mov dword [ReplayActive], eax
         jmp near ReplayScreen_E86
 .25:
         cmp dword [byte ebp-01Ch], byte 0Ch
@@ -3273,25 +3273,25 @@ ReplayScreen:
         mov eax, dword [byte ebp-01Ch]
         jmp dword [nosplit cs:eax*4+jpt_56470]
 ReplayScreen_D18:
-        mov dword [dword_11A428], 0
-        mov dword [dword_1781F0], 0Eh
-        mov dword [dword_1781F8], 1
+        mov dword [ReplayFrameDelta], 0
+        mov dword [ReplayCamFollow], 0Eh
+        mov dword [ReplayStepping], 1
         or byte [InReplay], 40h
         jmp near ReplayScreen_E86
 ReplayScreen_D42:
-        mov eax, dword [dword_11A428]
+        mov eax, dword [ReplayFrameDelta]
         shl eax, 2
-        mov dword [dword_11A428], eax
+        mov dword [ReplayFrameDelta], eax
         mov eax, dword [InReplay]
         and eax, 80000654h
         or al, 1
         mov dword [InReplay], eax
-        neg dword [dword_11A428]
+        neg dword [ReplayFrameDelta]
         test byte [InReplay], 10h
         jne short .26
         call CrowdPause
 .26:
-        mov dword [dword_1781CC], 0
+        mov dword [ReplayActive], 0
         jmp near ReplayScreen_E86
 ReplayScreen_D83:
         call CrowdPause
@@ -3301,41 +3301,41 @@ ReplayScreen_D83:
         jl short .27
         imul eax, dword [HighlightSlot], byte 66h
         mov edx, dword [HighlightStart]
-        mov dword [dword eax+dword_177922], edx
+        mov dword [dword eax+ReplayScreenItems+1Ah], edx
         imul eax, dword [HighlightSlot], byte 66h
         mov edx, dword [HighlightEnd]
-        mov dword [dword eax+dword_177926], edx
+        mov dword [dword eax+ReplayScreenItems+1Eh], edx
         imul eax, dword [HighlightSlot], byte 66h
-        mov dword [dword eax+dword_177914], 1
+        mov dword [dword eax+ReplayScreenItems+0Ch], 1
 .27:
         mov dword [HighlightSlot], 3
-        mov dword [dword_177A3E], 2
-        mov dword [dword_177A46], 1
-        mov dword [dword_11A42C], 0
-        mov dword [dword_11A428], 0FFFFFFFFh
-        mov word [word_1781FC], 0FFF2h
-        mov eax, dword [dword_177A54]
-        mov dword [dword_177A54], 0
+        mov dword [ReplayScreenItems+136h], 2
+        mov dword [ReplayScreenItems+13Eh], 1
+        mov dword [ReplayTimeAccum], 0
+        mov dword [ReplayFrameDelta], 0FFFFFFFFh
+        mov word [ReplayFramesShown], 0FFF2h
+        mov eax, dword [ReplayScreenItems+14Ch]
+        mov dword [ReplayScreenItems+14Ch], 0
         mov dword [HighlightStart], eax
-        mov eax, dword [dword_177A58]
-        mov dword [dword_177A58], 0
+        mov eax, dword [ReplayScreenItems+150h]
+        mov dword [ReplayScreenItems+150h], 0
         mov dword [HighlightEnd], eax
         jmp short .30
 .28:
-        mov eax, dword [dword_11A428]
-        add dword [dword_11A42C], eax
-        cmp dword [dword_11A42C], byte 5
+        mov eax, dword [ReplayFrameDelta]
+        add dword [ReplayTimeAccum], eax
+        cmp dword [ReplayTimeAccum], byte 5
         jge short .29
-        mov dword [dword_11A428], 0
+        mov dword [ReplayFrameDelta], 0
         jmp short .30
 .29:
-        mov dword [dword_11A428], 0FFFFFFFFh
-        sub dword [dword_11A42C], byte 5
+        mov dword [ReplayFrameDelta], 0FFFFFFFFh
+        sub dword [ReplayTimeAccum], byte 5
 .30:
         mov eax, dword [InReplay]
         and eax, 80000640h
         or al, 6
-        mov dword [dword_1781CC], 0
+        mov dword [ReplayActive], 0
 .31:
         mov dword [InReplay], eax
 ReplayScreen_E86:
@@ -3352,8 +3352,8 @@ ReplayScreen_E86:
         lea eax, [byte ebp-01Ch]
         mov ebx, 0FFFFFFFFh
         push eax
-        movzx eax, byte [byte_178247]
-        mov edx, unk_177908
+        movzx eax, byte [ReplayCamMode]
+        mov edx, ReplayScreenItems
         cmp eax, byte 0Ah
         jne near ReplayScreen.19
         mov eax, 13h
@@ -3366,22 +3366,22 @@ ReplayScreen_ECF:
         jl short .32
         imul eax, dword [HighlightSlot], byte 66h
         mov edx, dword [HighlightStart]
-        mov dword [dword eax+dword_177914], 1
-        mov dword [dword eax+dword_177922], edx
+        mov dword [dword eax+ReplayScreenItems+0Ch], 1
+        mov dword [dword eax+ReplayScreenItems+1Ah], edx
         mov edx, dword [HighlightEnd]
-        mov dword [dword eax+dword_177926], edx
+        mov dword [dword eax+ReplayScreenItems+1Eh], edx
 .32:
-        mov eax, dword [dword_177A54]
+        mov eax, dword [ReplayScreenItems+14Ch]
         mov dword [HighlightStart], eax
-        mov eax, dword [dword_177A58]
+        mov eax, dword [ReplayScreenItems+150h]
         mov dword [HighlightSlot], 3
         mov dword [HighlightEnd], eax
         mov eax, dword [InReplay]
-        mov dword [dword_177A46], 1
+        mov dword [ReplayScreenItems+13Eh], 1
         and eax, 80000640h
-        mov dword [dword_177A54], 0
+        mov dword [ReplayScreenItems+14Ch], 0
         or al, 4
-        mov dword [dword_177A58], 0
+        mov dword [ReplayScreenItems+150h], 0
         jmp near ReplayScreen_D83.31
 ReplayScreen_F5C:
         call CrowdResume
@@ -3391,23 +3391,23 @@ ReplayScreen_F5C:
         jl short .33
         imul eax, dword [HighlightSlot], byte 66h
         mov edx, dword [HighlightStart]
-        mov dword [dword eax+dword_177914], 1
-        mov dword [dword eax+dword_177922], edx
+        mov dword [dword eax+ReplayScreenItems+0Ch], 1
+        mov dword [dword eax+ReplayScreenItems+1Ah], edx
         mov edx, dword [HighlightEnd]
-        mov dword [dword eax+dword_177926], edx
+        mov dword [dword eax+ReplayScreenItems+1Eh], edx
 .33:
-        mov eax, dword [dword_177ABA]
+        mov eax, dword [ReplayScreenItems+1B2h]
         mov dword [HighlightSlot], 4
         mov dword [HighlightStart], eax
-        mov eax, dword [dword_177ABE]
-        mov dword [dword_177AAC], 1
+        mov eax, dword [ReplayScreenItems+1B6h]
+        mov dword [ReplayScreenItems+1A4h], 1
         mov dword [HighlightEnd], eax
         mov eax, dword [InReplay]
-        mov word [word_1781FC], 0
+        mov word [ReplayFramesShown], 0
         and eax, 80000640h
-        mov dword [dword_177ABA], 0
+        mov dword [ReplayScreenItems+1B2h], 0
         or al, 10h
-        mov dword [dword_177ABE], 0
+        mov dword [ReplayScreenItems+1B6h], 0
         jmp near ReplayScreen_D83.31
 ReplayScreen_FF6:
         call CrowdPause
@@ -3417,34 +3417,34 @@ ReplayScreen_FF6:
         jl short .34
         imul eax, dword [HighlightSlot], byte 66h
         mov edx, dword [HighlightStart]
-        mov dword [dword eax+dword_177914], 1
-        mov dword [dword eax+dword_177922], edx
+        mov dword [dword eax+ReplayScreenItems+0Ch], 1
+        mov dword [dword eax+ReplayScreenItems+1Ah], edx
         mov edx, dword [HighlightEnd]
-        mov dword [dword eax+dword_177926], edx
+        mov dword [dword eax+ReplayScreenItems+1Eh], edx
 .34:
         mov dword [HighlightSlot], 3
-        mov dword [dword_177A3E], 2
-        mov dword [dword_177A46], 1
-        mov dword [dword_11A42C], 0
-        mov dword [dword_11A428], 1
-        mov word [word_1781FC], 0Eh
-        mov eax, dword [dword_177A54]
-        mov dword [dword_177A54], 0
+        mov dword [ReplayScreenItems+136h], 2
+        mov dword [ReplayScreenItems+13Eh], 1
+        mov dword [ReplayTimeAccum], 0
+        mov dword [ReplayFrameDelta], 1
+        mov word [ReplayFramesShown], 0Eh
+        mov eax, dword [ReplayScreenItems+14Ch]
+        mov dword [ReplayScreenItems+14Ch], 0
         mov dword [HighlightStart], eax
-        mov eax, dword [dword_177A58]
-        mov dword [dword_177A58], 0
+        mov eax, dword [ReplayScreenItems+150h]
+        mov dword [ReplayScreenItems+150h], 0
         mov dword [HighlightEnd], eax
         jmp short .37
 .35:
-        mov eax, dword [dword_11A428]
-        add dword [dword_11A42C], eax
-        cmp dword [dword_11A42C], byte 5
+        mov eax, dword [ReplayFrameDelta]
+        add dword [ReplayTimeAccum], eax
+        cmp dword [ReplayTimeAccum], byte 5
         jge short .36
-        mov dword [dword_11A428], 0
+        mov dword [ReplayFrameDelta], 0
         jmp short .37
 .36:
-        mov dword [dword_11A428], 1
-        sub dword [dword_11A42C], byte 5
+        mov dword [ReplayFrameDelta], 1
+        sub dword [ReplayTimeAccum], byte 5
 .37:
         mov eax, dword [InReplay]
         and eax, 80000640h
@@ -3455,7 +3455,7 @@ ReplayScreen_10E1:
         and eax, 80000654h
         or al, 20h
         mov dword [InReplay], eax
-        shl dword [dword_11A428], 2
+        shl dword [ReplayFrameDelta], 2
         test byte [InReplay], 10h
         jne near ReplayScreen_E86
         call CrowdPause
@@ -3483,19 +3483,19 @@ ReplayScreen_1110:
         jl short .39
         imul eax, dword [HighlightSlot], byte 66h
         mov edx, dword [HighlightStart]
-        mov dword [dword eax+dword_177914], 1
-        mov dword [dword eax+dword_177922], edx
+        mov dword [dword eax+ReplayScreenItems+0Ch], 1
+        mov dword [dword eax+ReplayScreenItems+1Ah], edx
         mov edx, dword [HighlightEnd]
-        mov dword [dword eax+dword_177926], edx
+        mov dword [dword eax+ReplayScreenItems+1Eh], edx
 .39:
         mov dword [HighlightSlot], 3
-        mov dword [dword_177A46], 1
+        mov dword [ReplayScreenItems+13Eh], 1
         push byte 0
-        mov eax, dword [dword_177A54]
-        mov dword [dword_177A54], 0
+        mov eax, dword [ReplayScreenItems+14Ch]
+        mov dword [ReplayScreenItems+14Ch], 0
         push byte 0
         mov dword [HighlightStart], eax
-        mov eax, dword [dword_177A58]
+        mov eax, dword [ReplayScreenItems+150h]
         push dword [byte ebp-02Ch]
         mov dword [HighlightEnd], eax
         mov eax, dword [InReplay]
@@ -3506,16 +3506,16 @@ ReplayScreen_1110:
         push dword [byte ebp-038h]
         mov dword [InReplay], eax
         xor eax, eax
-        mov dword [dword_177A58], 0
+        mov dword [ReplayScreenItems+150h], 0
         call SetGameBackdrop
         call SaveHighlight
         push str_Rtrg
-        push dword [dword_1781D0]
+        push dword [ReplaySavedView]
         call FindShape
         add esp, byte 8
         push eax
         push str_Ltrg
-        push dword [dword_1781D0]
+        push dword [ReplaySavedView]
         call FindShape
         add esp, byte 8
         push eax
@@ -3534,10 +3534,10 @@ ReplayScreen_122D:
 .40:
         or byte [ReplayMenuFlags], 2
 .41:
-        mov dword [dword_1781F8], 1
+        mov dword [ReplayStepping], 1
         jmp near ReplayScreen_E86
 ReplayScreen_1255:
-        movzx eax, byte [byte_178247]
+        movzx eax, byte [ReplayCamMode]
         cmp eax, byte 0Ah
         jne near .48
         mov eax, dword [ReplayFrameCount]
@@ -3545,35 +3545,35 @@ ReplayScreen_1255:
         call SetReplayCamera
         test eax, eax
         je short .42
-        mov eax, dword_178243
+        mov eax, ReplayCamShot
         call SetCameraShot
 .42:
         push str_Sid13
-        push dword [dword_1781D0]
+        push dword [ReplaySavedView]
         call FindShape
         add esp, byte 8
         push eax
         call DrawShape
         add esp, byte 4
         push str_Cmm1
-        push dword [dword_1781D0]
+        push dword [ReplaySavedView]
         call FindShape
         add esp, byte 8
         push str_Cmm2
-        push dword [dword_1781D0]
-        mov dword [dword_177DEA], eax
+        push dword [ReplaySavedView]
+        mov dword [ReplayScreenItems+4E2h], eax
         call FindShape
         add esp, byte 8
         lea edi, [byte ebp-028h]
         push str_Cmm3
         mov dword [byte ebp-010h], 0Dh
         mov esi, str_CmS
-        push dword [dword_1781D0]
-        mov dword [dword_177DEE], eax
+        push dword [ReplaySavedView]
+        mov dword [ReplayScreenItems+4E6h], eax
         call FindShape
-        mov dword [dword_177DDC], 1
-        mov byte [byte_177E12], 15h
-        mov dword [dword_177DF2], eax
+        mov dword [ReplayScreenItems+4D4h], 1
+        mov byte [ReplayScreenItems+50Ah], 15h
+        mov dword [ReplayScreenItems+4EAh], eax
         add esp, byte 8
         movsd
         movsb
@@ -3588,60 +3588,60 @@ ReplayScreen_1255:
         mov byte [byte ebp-026h], al
         lea eax, [byte ebp-028h]
         push eax
-        push dword [dword_1781D0]
+        push dword [ReplaySavedView]
         mov byte [byte ebp-025h], 31h
         call FindShape
         add esp, byte 8
-        mov dword [dword esi+dword_177922], eax
+        mov dword [dword esi+ReplayScreenItems+1Ah], eax
         lea eax, [byte ebp-028h]
         push eax
-        push dword [dword_1781D0]
+        push dword [ReplaySavedView]
         mov byte [byte ebp-025h], 32h
         call FindShape
         add esp, byte 8
-        mov dword [dword esi+dword_177926], eax
+        mov dword [dword esi+ReplayScreenItems+1Eh], eax
         lea eax, [byte ebp-028h]
         push eax
-        push dword [dword_1781D0]
+        push dword [ReplaySavedView]
         mov byte [byte ebp-025h], 33h
         call FindShape
-        mov dword [dword esi+dword_177918], 6
-        mov dword [dword esi+dword_17792A], eax
-        mov eax, dword [dword esi+dword_177922]
-        mov dword [dword esi+dword_17791C], edi
+        mov dword [dword esi+ReplayScreenItems+10h], 6
+        mov dword [dword esi+ReplayScreenItems+22h], eax
+        mov eax, dword [dword esi+ReplayScreenItems+1Ah]
+        mov dword [dword esi+ReplayScreenItems+14h], edi
         movsx eax, word [byte eax+0Ch]
-        mov dword [dword esi+dword_17792E], eax
-        mov eax, dword [dword esi+dword_177922]
+        mov dword [dword esi+ReplayScreenItems+26h], eax
+        mov eax, dword [dword esi+ReplayScreenItems+1Ah]
         movsx eax, word [byte eax+0Eh]
-        mov dword [dword esi+dword_177932], eax
-        mov eax, dword [dword esi+dword_177922]
+        mov dword [dword esi+ReplayScreenItems+2Ah], eax
+        mov eax, dword [dword esi+ReplayScreenItems+1Ah]
         movsx eax, word [byte eax+04h]
         sar eax, 1
-        add eax, dword [dword esi+dword_17792E]
-        mov dword [dword esi+dword_177942], eax
-        mov eax, dword [dword esi+dword_177922]
+        add eax, dword [dword esi+ReplayScreenItems+26h]
+        mov dword [dword esi+ReplayScreenItems+3Ah], eax
+        mov eax, dword [dword esi+ReplayScreenItems+1Ah]
         movsx eax, word [byte eax+06h]
         sar eax, 1
-        and byte [dword esi+byte_17794E], 0FEh
-        add eax, dword [dword esi+dword_177932]
+        and byte [dword esi+ReplayScreenItems+46h], 0FEh
+        add eax, dword [dword esi+ReplayScreenItems+2Ah]
         add esp, byte 8
-        mov dword [dword esi+dword_177946], eax
+        mov dword [dword esi+ReplayScreenItems+3Eh], eax
         cmp dword [byte ebp-010h], byte 0Dh
         jne short .44
-        mov byte [dword esi+byte_17794A], 0Bh
+        mov byte [dword esi+ReplayScreenItems+42h], 0Bh
         jmp short .45
 .44:
         mov al, byte [byte ebp-08h]
-        mov byte [dword esi+byte_17794A], al
+        mov byte [dword esi+ReplayScreenItems+42h], al
 .45:
         cmp dword [byte ebp-010h], byte 15h
         jne short .46
-        mov byte [dword esi+byte_17794B], 0Ch
+        mov byte [dword esi+ReplayScreenItems+43h], 0Ch
         jmp short .47
 .46:
         mov al, byte [byte ebp-010h]
         inc al
-        mov byte [dword esi+byte_17794B], al
+        mov byte [dword esi+ReplayScreenItems+43h], al
 .47:
         inc byte [byte ebp-08h]
         inc dword [byte ebp-010h]
@@ -3655,35 +3655,35 @@ ReplayScreen_1255:
         call SetReplayCamera
         test eax, eax
         je short .49
-        mov eax, dword_178243
+        mov eax, ReplayCamShot
         call SetCameraShot
 .49:
         push str_Sid23
-        push dword [dword_1781D0]
+        push dword [ReplaySavedView]
         call FindShape
         add esp, byte 8
         push eax
         call DrawShape
         add esp, byte 4
         push str_Aut1
-        push dword [dword_1781D0]
+        push dword [ReplaySavedView]
         call FindShape
         add esp, byte 8
         push str_Aut2
-        push dword [dword_1781D0]
-        mov dword [dword_177DEA], eax
+        push dword [ReplaySavedView]
+        mov dword [ReplayScreenItems+4E2h], eax
         call FindShape
         add esp, byte 8
         lea edi, [byte ebp-028h]
         push str_Aut3
         mov dword [byte ebp-010h], 0Dh
         mov esi, str_MmS
-        push dword [dword_1781D0]
-        mov dword [dword_177DEE], eax
+        push dword [ReplaySavedView]
+        mov dword [ReplayScreenItems+4E6h], eax
         call FindShape
-        mov dword [dword_177DDC], 1
-        mov byte [byte_177E12], 12h
-        mov dword [dword_177DF2], eax
+        mov dword [ReplayScreenItems+4D4h], 1
+        mov byte [ReplayScreenItems+50Ah], 12h
+        mov dword [ReplayScreenItems+4EAh], eax
         add esp, byte 8
         movsd
         movsb
@@ -3698,76 +3698,76 @@ ReplayScreen_1255:
         mov byte [byte ebp-026h], al
         lea eax, [byte ebp-028h]
         push eax
-        push dword [dword_1781D0]
+        push dword [ReplaySavedView]
         mov byte [byte ebp-025h], 31h
         call FindShape
         add esp, byte 8
-        mov dword [dword esi+dword_177922], eax
+        mov dword [dword esi+ReplayScreenItems+1Ah], eax
         lea eax, [byte ebp-028h]
         push eax
-        push dword [dword_1781D0]
+        push dword [ReplaySavedView]
         mov byte [byte ebp-025h], 32h
         call FindShape
         add esp, byte 8
-        mov dword [dword esi+dword_177926], eax
+        mov dword [dword esi+ReplayScreenItems+1Eh], eax
         lea eax, [byte ebp-028h]
         push eax
-        push dword [dword_1781D0]
+        push dword [ReplaySavedView]
         mov byte [byte ebp-025h], 33h
         call FindShape
-        mov dword [dword esi+dword_177918], 6
-        mov dword [dword esi+dword_17792A], eax
-        mov eax, dword [dword esi+dword_177922]
-        mov dword [dword esi+dword_17791C], edi
+        mov dword [dword esi+ReplayScreenItems+10h], 6
+        mov dword [dword esi+ReplayScreenItems+22h], eax
+        mov eax, dword [dword esi+ReplayScreenItems+1Ah]
+        mov dword [dword esi+ReplayScreenItems+14h], edi
         movsx eax, word [byte eax+0Ch]
-        mov dword [dword esi+dword_17792E], eax
-        mov eax, dword [dword esi+dword_177922]
+        mov dword [dword esi+ReplayScreenItems+26h], eax
+        mov eax, dword [dword esi+ReplayScreenItems+1Ah]
         movsx eax, word [byte eax+0Eh]
-        mov dword [dword esi+dword_177932], eax
-        mov eax, dword [dword esi+dword_177922]
+        mov dword [dword esi+ReplayScreenItems+2Ah], eax
+        mov eax, dword [dword esi+ReplayScreenItems+1Ah]
         movsx eax, word [byte eax+04h]
         sar eax, 1
-        add eax, dword [dword esi+dword_17792E]
-        mov dword [dword esi+dword_177942], eax
-        mov eax, dword [dword esi+dword_177922]
+        add eax, dword [dword esi+ReplayScreenItems+26h]
+        mov dword [dword esi+ReplayScreenItems+3Ah], eax
+        mov eax, dword [dword esi+ReplayScreenItems+1Ah]
         movsx eax, word [byte eax+06h]
         sar eax, 1
-        or byte [dword esi+byte_17794E], 1
-        add eax, dword [dword esi+dword_177932]
+        or byte [dword esi+ReplayScreenItems+46h], 1
+        add eax, dword [dword esi+ReplayScreenItems+2Ah]
         add esp, byte 8
-        mov dword [dword esi+dword_177946], eax
+        mov dword [dword esi+ReplayScreenItems+3Eh], eax
         cmp dword [byte ebp-010h], byte 0Fh
         jge short .51
-        mov byte [dword esi+byte_17794A], 0Bh
-        mov byte [dword esi+byte_17794B], 0Fh
+        mov byte [dword esi+ReplayScreenItems+42h], 0Bh
+        mov byte [dword esi+ReplayScreenItems+43h], 0Fh
         jmp short .53
 .51:
         mov al, byte [byte ebp-04h]
-        mov byte [dword esi+byte_17794A], al
+        mov byte [dword esi+ReplayScreenItems+42h], al
         cmp dword [byte ebp-010h], byte 12h
         jne short .52
-        mov byte [dword esi+byte_17794B], 0Ch
+        mov byte [dword esi+ReplayScreenItems+43h], 0Ch
         jmp short .53
 .52:
         mov al, byte [byte ebp-010h]
         inc al
-        mov byte [dword esi+byte_17794B], al
+        mov byte [dword esi+ReplayScreenItems+43h], al
 .53:
         cmp dword [byte ebp-010h], byte 0Eh
         jne short .54
-        mov byte [dword esi+byte_17794C], 0Dh
+        mov byte [dword esi+ReplayScreenItems+44h], 0Dh
         jmp short .55
 .54:
         mov al, byte [byte ebp-010h]
-        mov byte [dword esi+byte_17794C], al
+        mov byte [dword esi+ReplayScreenItems+44h], al
 .55:
         cmp dword [byte ebp-010h], byte 0Dh
         jne short .56
-        mov byte [dword esi+byte_17794D], 0Eh
+        mov byte [dword esi+ReplayScreenItems+45h], 0Eh
         jmp short .57
 .56:
         mov al, byte [byte ebp-010h]
-        mov byte [dword esi+byte_17794D], al
+        mov byte [dword esi+ReplayScreenItems+45h], al
 .57:
         inc byte [byte ebp-04h]
         inc dword [byte ebp-010h]
@@ -3888,29 +3888,29 @@ SaveHighlight:
         shl eax, 19h
         shr eax, 1Dh
         mov esi, dword [gameopts]
-        mov byte [byte_177504], al
+        mov byte [HighlightHeader], al
         mov eax, dword [byte esi+01h]
         shl eax, 0Fh
         shr eax, 1Bh
-        mov byte [byte_177505], al
+        mov byte [HighlightHeader+1], al
         mov eax, dword [byte esi+01h]
         shl eax, 0Ah
         shr eax, 1Bh
-        mov byte [byte_177506], al
+        mov byte [HighlightHeader+2], al
         mov al, byte [curperiod]
-        mov byte [byte_177507], al
+        mov byte [HighlightHeader+3], al
         mov ax, word [gameclock]
-        mov word [word_177508], ax
+        mov word [HighlightHeader+4], ax
         mov ax, word [sflags]
-        mov word [word_17750A], ax
+        mov word [HighlightHeader+6], ax
         mov eax, dword [ReplayBufferTop]
         sub eax, dword [replaystart]
-        push unk_1774C4
-        mov dword [dword_17750C], eax
+        push ReplayFileName
+        mov dword [HighlightHeader+8], eax
         call SaveTextState
         add esp, byte 4
         lea edi, [byte ebp-0Ah]
-        push dword [dword_1778FC]
+        push dword [ReplaySavedState+14h]
         mov esi, str_HILITES
         call TextSetFont
         mov edx, str_HILITESNDX2
@@ -3947,7 +3947,7 @@ SaveHighlight:
         jne near .5
         mov ecx, 0Ch
         mov ebx, 0FFFFFFFFh
-        mov edx, byte_177504
+        mov edx, HighlightHeader
         mov eax, dword [byte ebp+066h]
         call FileWriteAt
         mov edi, eax
@@ -4006,7 +4006,7 @@ SaveHighlight:
         call FileClose
         test edi, edi
         jne near .7
-        mov al, byte [byte_110FCF]
+        mov al, byte [HighlightVersion]
         mov byte [byte ebp+02Ah], al
         lea eax, [byte ebp+02Ah]
         push eax
@@ -4072,7 +4072,7 @@ SaveHighlight:
         call GetLangText
         call MessageBox
 .8:
-        push unk_1774C4
+        push ReplayFileName
         call SetDrawTarget
         add esp, byte 4
         jmp near DrawReplayObjects_391
@@ -4086,7 +4086,7 @@ ReadHighlight:
         push edx
         mov ecx, 0Ch
         mov ebx, 0FFFFFFFFh
-        mov edx, byte_177504
+        mov edx, HighlightHeader
         mov eax, dword [SaveFileHandle]
         call FileReadAt
         test eax, eax
@@ -4139,7 +4139,7 @@ WatchHighlight:
         add esp, byte 4
 .1:
         call StartGameSound
-        push unk_1774C4
+        push ReplayFileName
         mov esi, optblock_end
         mov edi, SavedGameOpts
         call SaveTextState
@@ -4147,26 +4147,26 @@ WatchHighlight:
         mov ecx, 0B9h
         mov dword [gameopts], optblock_end
         rep movsb
-        movsx edx, byte [byte_177505]
+        movsx edx, byte [HighlightHeader+1]
         mov eax, dword [gameopts]
         and edx, byte 1Fh
         and dword [byte eax+01h], 0FFFE0FFFh
         shl edx, 0Ch
         or dword [byte eax+01h], edx
-        movsx edx, byte [byte_177506]
+        movsx edx, byte [HighlightHeader+2]
         mov eax, dword [gameopts]
         and edx, byte 1Fh
         and byte [byte eax+03h], 0C1h
         shl edx, 11h
         or dword [byte eax+01h], edx
         mov dword [byte ebp-014h], 1DCh
-        movsx eax, byte [byte_177507]
+        movsx eax, byte [HighlightHeader+3]
         mov dword [byte ebp-0Ch], hmroster
         mov dword [curperiod], eax
-        mov ax, word [word_177508]
+        mov ax, word [HighlightHeader+4]
         mov dword [byte ebp-04h], HighlightBuffer
         mov word [gameclock], ax
-        mov ax, word [word_17750A]
+        mov ax, word [HighlightHeader+6]
         xor ecx, ecx
         mov word [sflags], ax
 .2:
@@ -4198,7 +4198,7 @@ WatchHighlight:
         cmp ecx, byte 2
         jl short .2
         mov eax, dword [replaystart]
-        add eax, dword [dword_17750C]
+        add eax, dword [HighlightHeader+8]
         mov dword [ReplayBufferTop], eax
         test byte [GsOptions+1], 20h
         jne short .4
@@ -4280,7 +4280,7 @@ WatchHighlight:
         mov esi, SavedGameOpts
         mov edi, optblock_end
         rep movsb
-        push unk_1774C4
+        push ReplayFileName
         call SetDrawTarget
         add esp, byte 4
         call EndGameSound

@@ -2,25 +2,25 @@
 bits 32
 %include "hockey.inc"
 section s_11A410 progbits alloc noexec write align=1
-global dword_11A418, dword_11A41C, dword_11A420, dword_11A424, dword_11A428, dword_11A42C, ReplayRemoteShape, unk_11A430
-global unk_11A770, unk_11A9B0, unk_11AB30, unk_11AE70, str_Punct_ReplayScreen, str_0_SaveHighlight, word_11A410, word_11A414
-word_11A410:
+global ReplayCamSteps, ReplayCamZoomIn, ReplayCamZoomOut, ReplayFrameTick, ReplayFrameDelta, ReplayTimeAccum, ReplayRemoteShape, ReplayButtonsLong
+global ReplayButtonPosLong, ReplayButtonPosMid, ReplayButtonsShort, ReplayButtonPosShort, str_Punct_ReplayScreen, str_0_SaveHighlight, ReplayCounterX, ReplayCounterY
+ReplayCounterX:
         db 0BBh,00h,077h,01h
-word_11A414:
+ReplayCounterY:
         db 016h,00h,036h,00h
-dword_11A418:
+ReplayCamSteps:
         db 00h,00h,00h,00h
-dword_11A41C:
+ReplayCamZoomIn:
         db 00h,00h,00h,00h
-dword_11A420:
+ReplayCamZoomOut:
         db 00h,00h,00h,00h
-dword_11A424:
+ReplayFrameTick:
         db 00h,00h,00h,00h
-dword_11A428:
+ReplayFrameDelta:
         db 00h,00h,00h,00h
-dword_11A42C:
+ReplayTimeAccum:
         db 00h,00h,00h,00h
-unk_11A430:
+ReplayButtonsLong:
         db 05h,00h,00h,00h,03h,00h,00h,00h,015h,00h,00h,00h,02h,00h,00h,00h
         db 024h,00h,00h,00h,04h,00h,00h,00h,024h,00h,00h,00h,0Ah,00h,00h,00h
         db 014h,00h,00h,00h,0Bh,00h,00h,00h,05h,00h,00h,00h,0Ah,00h,00h,00h
@@ -73,7 +73,7 @@ unk_11A430:
         db 025h,00h,00h,00h,0B6h,00h,00h,00h,025h,00h,00h,00h,0BCh,00h,00h,00h
         db 014h,00h,00h,00h,0BDh,00h,00h,00h,04h,00h,00h,00h,0BBh,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_11A770:
+ReplayButtonPosLong:
         db 05h,00h,00h,00h,024h,00h,00h,00h,014h,00h,00h,00h,022h,00h,00h,00h
         db 024h,00h,00h,00h,025h,00h,00h,00h,024h,00h,00h,00h,02Ah,00h,00h,00h
         db 013h,00h,00h,00h,02Ch,00h,00h,00h,05h,00h,00h,00h,029h,00h,00h,00h
@@ -110,7 +110,7 @@ unk_11A770:
         db 025h,00h,00h,00h,08Fh,00h,00h,00h,025h,00h,00h,00h,094h,00h,00h,00h
         db 014h,00h,00h,00h,097h,00h,00h,00h,05h,00h,00h,00h,094h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_11A9B0:
+ReplayButtonPosMid:
         db 04h,00h,00h,00h,030h,00h,00h,00h,0Dh,00h,00h,00h,02Ah,00h,00h,00h
         db 013h,00h,00h,00h,02Ah,00h,00h,00h,013h,00h,00h,00h,041h,00h,00h,00h
         db 0Ah,00h,00h,00h,041h,00h,00h,00h,04h,00h,00h,00h,037h,00h,00h,00h
@@ -135,7 +135,7 @@ unk_11A9B0:
         db 023h,00h,00h,00h,09Ah,00h,00h,00h,01Ah,00h,00h,00h,0A1h,00h,00h,00h
         db 010h,00h,00h,00h,0A1h,00h,00h,00h,07h,00h,00h,00h,09Ah,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_11AB30:
+ReplayButtonsShort:
         db 08h,00h,00h,00h,09h,00h,00h,00h,02Ah,00h,00h,00h,06h,00h,00h,00h
         db 04Bh,00h,00h,00h,0Ah,00h,00h,00h,04Bh,00h,00h,00h,01Ah,00h,00h,00h
         db 028h,00h,00h,00h,01Eh,00h,00h,00h,08h,00h,00h,00h,019h,00h,00h,00h
@@ -188,7 +188,7 @@ unk_11AB30:
         db 04Bh,00h,00h,00h,0B4h,01h,00h,00h,04Bh,00h,00h,00h,0C4h,01h,00h,00h
         db 028h,00h,00h,00h,0C7h,01h,00h,00h,07h,00h,00h,00h,0C2h,01h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_11AE70:
+ReplayButtonPosShort:
         db 08h,00h,00h,00h,056h,00h,00h,00h,02Ah,00h,00h,00h,053h,00h,00h,00h
         db 04Bh,00h,00h,00h,056h,00h,00h,00h,04Bh,00h,00h,00h,066h,00h,00h,00h
         db 028h,00h,00h,00h,06Ah,00h,00h,00h,08h,00h,00h,00h,066h,00h,00h,00h

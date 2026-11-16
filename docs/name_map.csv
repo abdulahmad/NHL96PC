@@ -2928,6 +2928,7 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 110FB5,str_HILITES,asc_110FB5,new,high,string 'HILITES\',src/data/front/replay_controls_data_01.asm
 110FBE,str_HILITESNDX2,asc_110FBE,new,high,string 'HILITES.NDX',src/data/front/replay_controls_data_01.asm
 110FCA,str_08d4,asc_110FCA,new,high,string '%08d',src/data/front/replay_controls_data_01.asm
+110FCF,HighlightVersion,byte_110FCF,new,low,highlight file version byte,src/data/front/replay_controls_data_01.asm
 110FD0,str_GloL4,asc_110FD0,new,high,string 'GloL',src/data/front/replay_controls_data_01.asm
 110FD5,str_GloR4,asc_110FD5,new,high,string 'GloR',src/data/front/replay_controls_data_01.asm
 110FDA,str_GhiL4,asc_110FDA,new,high,string 'GhiL',src/data/front/replay_controls_data_01.asm
@@ -4888,6 +4889,19 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 11A404,HighlightStart,dword_11A404,new,low,Start frame of the highlight being saved,src/data/engine/lines_data_01.asm
 11A408,HighlightEnd,dword_11A408,new,low,End frame of the highlight being saved,src/data/engine/lines_data_01.asm
 11A40C,str_Punct_DrawReplayCounter,word_11A40C,new,high,"string ""?""",src/data/engine/lines_data_01.asm
+11A410,ReplayCounterX,word_11A410,new,low,replay counter x positions,src/data/front/replay_controls_data_02.asm
+11A414,ReplayCounterY,word_11A414,new,low,replay counter y positions,src/data/front/replay_controls_data_02.asm
+11A418,ReplayCamSteps,dword_11A418,new,low,replay camera steps,src/data/front/replay_controls_data_02.asm
+11A41C,ReplayCamZoomIn,dword_11A41C,new,low,replay camera zoom in count,src/data/front/replay_controls_data_02.asm
+11A420,ReplayCamZoomOut,dword_11A420,new,low,replay camera zoom out count,src/data/front/replay_controls_data_02.asm
+11A424,ReplayFrameTick,dword_11A424,new,low,replay frame tick,src/data/front/replay_controls_data_02.asm
+11A428,ReplayFrameDelta,dword_11A428,new,low,replay frame delta,src/data/front/replay_controls_data_02.asm
+11A42C,ReplayTimeAccum,dword_11A42C,new,low,replay time accumulator,src/data/front/replay_controls_data_02.asm
+11A430,ReplayButtonsLong,unk_11A430,new,low,"replay buttons, full set",src/data/front/replay_controls_data_02.asm
+11A770,ReplayButtonPosLong,unk_11A770,new,low,"replay button positions, full set",src/data/front/replay_controls_data_02.asm
+11A9B0,ReplayButtonPosMid,unk_11A9B0,new,low,"replay button positions, middle set",src/data/front/replay_controls_data_02.asm
+11AB30,ReplayButtonsShort,unk_11AB30,new,low,"replay buttons, short set",src/data/front/replay_controls_data_02.asm
+11AE70,ReplayButtonPosShort,unk_11AE70,new,low,"replay button positions, short set",src/data/front/replay_controls_data_02.asm
 11B0B0,str_Punct_ReplayScreen,unk_11B0B0,new,high,"string ""\n""",src/data/front/replay_controls_data_02.asm
 11B230,str_0_SaveHighlight,unk_11B230,new,high,"string ""0""",src/data/front/replay_controls_data_02.asm
 11B234,ReplayRemoteShape,dword_11B234,new,low,replay remote shape,src/data/front/replay_controls_data_02.asm
@@ -5911,10 +5925,18 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 164E7C,PreGameSkatePaths,unk_164E7C,new,low,Pre-game skate paths,src/data/front/front_2A692_bss_01.asm
 164F1C,HomeNetObject,dword_164F1C,new,low,The home net object,src/data/front/replay_controls_bss_01.asm
 164FBC,AwayNetObject,dword_164FBC,new,low,The away net object,src/data/front/replay_controls_bss_01.asm
-16505C,ViewScreenHeight,dword_16505C,new,low,full screen height the game view is sized against (compared with 300),src/data/front/replay_controls_bss_01.asm
+16505C,PuckObject,dword_16505C,new,medium,puck object (A0h bytes),src/data/front/replay_controls_bss_01.asm
 1650FC,RefObject,unk_1650FC,new,low,The referee's object,src/data/front/replay_controls_bss_01.asm
+16519C,ExtraObject,unk_16519C,new,low,"object after the referee, reached through PtrPuckObject",src/data/front/replay_controls_bss_01.asm
+16523C,ExtraAttackerOn,dword_16523C,new,low,extra attacker state,src/data/front/replay_controls_bss_01.asm
+165240,ExtraAttackerTeam,dword_165240,new,low,team with the extra attacker,src/data/front/replay_controls_bss_01.asm
+165244,ExtraAttackerPlayer,dword_165244,new,low,extra attacker player,src/data/front/replay_controls_bss_01.asm
+165248,ExtraAttackerPending,dword_165248,new,low,extra attacker change pending,src/data/front/replay_controls_bss_01.asm
+16524C,ExtraGoalieOut,dword_16524C,new,low,goalie pulled for the extra attacker,src/data/front/replay_controls_bss_01.asm
 165250,InputState,byte_165250,new,low,input state,src/data/front/replay_controls_bss_01.asm
 165254,PtrPuckZone,dword_165254,new,low,pointer to the puck zone record,src/data/front/replay_controls_bss_01.asm
+165258,BenchSprites,unk_165258,new,low,bench and penalty box sprites,src/data/front/replay_controls_bss_01.asm
+165354,BenchSpriteCount,unk_165354,new,low,bench sprite counts,src/data/front/replay_controls_bss_01.asm
 165366,CupLeaveSlot,word_165366,new,low,cup celebration: per team (126h) and player (2Ah) record; set to -1 when the player leaves,src/data/engine/engine_2D9D9_bss_01.asm
 16536C,CupLeaveSlotNext,word_16536C,new,low,"cup celebration: second word of each player record, set to -1 when the player leaves",src/data/engine/engine_2D9D9_bss_01.asm
 165462,CupGoalieSlot,word_165462,new,low,"cup celebration: away goalie's record word, set to -1 when he leaves",src/data/engine/engine_2D9D9_bss_01.asm
@@ -6127,6 +6149,12 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 176ED9,AttractOptPads,byte_176ED9,new,low,Attract mode options: controller per player (cleared),src/data/engine/lines_bss_01.asm
 176EDB,AttractOptPadFlags,word_176EDB,new,low,Attract mode options: per-player flags (set to 1),src/data/engine/lines_bss_01.asm
 176F90,SpriteSortDelay,dword_176F90,new,low,Frames before the next full sprite sort (ResetPeriodState sets 2),src/data/engine/lines_bss_01.asm
+176F94,ReplayFrameState,byte_176F94,new,low,replay frame state being decoded,src/data/front/replay_controls_bss_02.asm
+176FB8,ReplayObjX,word_176FB8,new,low,replay object x positions,src/data/front/replay_controls_bss_02.asm
+176FDA,ReplayObjY,word_176FDA,new,low,replay object y positions,src/data/front/replay_controls_bss_02.asm
+176FFC,ReplayObjZ,word_176FFC,new,low,replay object heights,src/data/front/replay_controls_bss_02.asm
+17704C,ReplayObjFrame,word_17704C,new,low,replay object frames,src/data/front/replay_controls_bss_02.asm
+17706E,ReplayObjAttr,word_17706E,new,low,replay object attributes,src/data/front/replay_controls_bss_02.asm
 1770D8,ZoneBufFront,dword_1770D8,new,low,Zone manager: front list of changed screen rectangles,src/data/engine/lines_bss_02.asm
 1770DC,ZoneBufBack,dword_1770DC,new,low,Zone manager: back list of changed screen rectangles,src/data/engine/lines_bss_02.asm
 1770E0,ZoneBufCount,dword_1770E0,new,low,Zone manager: rectangles in the front list,src/data/engine/lines_bss_02.asm
@@ -6141,8 +6169,32 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 177104,ZoneMemBlock,dword_177104,new,low,Zone manager: the allocated block holding all lists,src/data/engine/lines_bss_02.asm
 177108,DrawFrameCount,dword_177108,new,low,Frames drawn (the draw routines count it up),src/data/engine/lines_bss_02.asm
 17710C,HighlightBuffer,byte_17710C,new,low,"Saved highlights, 1DCh bytes each",src/data/engine/lines_bss_02.asm
+1774C4,ReplayFileName,unk_1774C4,new,low,replay file name,src/data/front/replay_controls_bss_03.asm
+177504,HighlightHeader,byte_177504,new,low,highlight file header,src/data/front/replay_controls_bss_03.asm
+177510,ReplayViewItems,unk_177510,new,low,replay view items,src/data/front/replay_controls_bss_03.asm
+1778C4,ReplayViewText,unk_1778C4,new,low,replay view text,src/data/front/replay_controls_bss_03.asm
+1778E8,ReplaySavedState,dword_1778E8,new,low,game state saved while a replay runs,src/data/front/replay_controls_bss_03.asm
+177908,ReplayScreenItems,unk_177908,new,low,replay screen items (66h bytes each),src/data/front/replay_controls_bss_03.asm
 177998,ReplayMenuItems,dword_177998,new,low,replay menu items,src/data/front/replay_controls_bss_03.asm
+1781CC,ReplayActive,dword_1781CC,new,low,replay is active,src/data/front/replay_controls_bss_03.asm
+1781D0,ReplaySavedView,dword_1781D0,new,low,view saved while a replay runs,src/data/front/replay_controls_bss_03.asm
+1781D4,FreeCamX,dword_1781D4,new,low,free camera x,src/data/front/replay_controls_bss_03.asm
+1781D8,FreeCamY,dword_1781D8,new,low,free camera y,src/data/front/replay_controls_bss_03.asm
+1781DC,ReplayButtonDefs,dword_1781DC,new,low,replay button definitions in use,src/data/front/replay_controls_bss_03.asm
+1781E0,ReplayCounterShown,dword_1781E0,new,low,replay counter is shown,src/data/front/replay_controls_bss_03.asm
+1781E4,ReplayCamTarget,unk_1781E4,new,low,replay camera target,src/data/front/replay_controls_bss_03.asm
+1781F0,ReplayCamFollow,dword_1781F0,new,low,replay camera follows an object,src/data/front/replay_controls_bss_03.asm
 1781F4,ReplayMenuResult,dword_1781F4,new,low,replay menu result,src/data/front/replay_controls_bss_03.asm
+1781F8,ReplayStepping,dword_1781F8,new,low,replay is stepping frames,src/data/front/replay_controls_bss_03.asm
+1781FC,ReplayFramesShown,word_1781FC,new,low,replay frames shown,src/data/front/replay_controls_bss_03.asm
+1781FE,ReplaySaveArea,unk_1781FE,new,low,replay save area,src/data/front/replay_controls_bss_03.asm
+178243,ReplayCamShot,dword_178243,new,low,replay camera shot,src/data/front/replay_controls_bss_03.asm
+178247,ReplayCamMode,byte_178247,new,low,replay camera mode (FFh for none),src/data/front/replay_controls_bss_03.asm
+178248,ReplayCamRoutine,dword_178248,new,low,replay camera routine,src/data/front/replay_controls_bss_03.asm
+17824C,FreeCamDX,dword_17824C,new,low,free camera x speed,src/data/front/replay_controls_bss_03.asm
+178250,FreeCamDY,dword_178250,new,low,free camera y speed,src/data/front/replay_controls_bss_03.asm
+178254,FreeCamTable,dword_178254,new,low,free camera table,src/data/front/replay_controls_bss_03.asm
+178288,ReplaySavedSound,byte_178288,new,low,sound setting saved while a replay runs,src/data/front/replay_controls_bss_03.asm
 17828C,GameViewPanelIds,dword_17828C,new,low,"Game view: cached panel ids, -1 when not drawn",src/data/front/front_584A0_bss_01.asm
 1782AC,HomeSpriteShades,unk_1782AC,new,low,Game view: home team sprite shade table,src/data/front/front_584A0_bss_01.asm
 1786AC,AwaySpriteShades,unk_1786AC,new,low,Game view: away team sprite shade table,src/data/front/front_584A0_bss_01.asm

@@ -1,11 +1,12 @@
 ; 3D rink: the ice and boards model, its textures and the software 3D renderer of the 96 rink view (96 PC; to be split as it gets named).
 bits 32
 %include "hockey.inc"
+extern ReplayFrameState
 section s_21984 progbits alloc exec nowrite align=1
 extern __CHP, RinkFloorOn, IceTextureOn, IceLogosOn, GlassOn, PlayerDetailOn, StandsOn, RinkBoardsOn
 extern BenchPlayersOn, ScoreClockOn, IceCrudMap
-extern IceTextureData, byte_15EA03, byte_176F96, byte_17701E, byte_17703B, byte_1770A7, byte_1770B2, byte_1770B3
-extern byte_1770B4, byte_1770B5, byte_1770B6, byte_1770D7, dword_1175AD, dword_1175B1, dword_1175B5, dword_1175B9
+extern IceTextureData, byte_15EA03
+extern dword_1175AD, dword_1175B1, dword_1175B5, dword_1175B9
 extern dword_1176DD, dword_1176E1, dword_1176E5, dword_1177EC, dword_1177F0, InReplay, dword_11F5C0, dword_11F5C4
 extern NearClipZ, SinTable, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, DrawDestBuffer, SpriteArtPtrs
 extern GoalLightLamp, RinkModelBoards, GoalLightTimerFar, RinkModelGlass, GoalLightFrame, FarSideModel, GoalLightOn, RinkModelIce
@@ -40,8 +41,8 @@ extern dword_15E85C, RinkGeometryModel, BoxModelData, dword_15E868, dword_15E86C
 extern CameraFlashOn, dword_15E880, BenchSideIndex, NeutralSpotModel, CenterSpotModel, CreasePolyModel, BoardsTopModel, CenterCircleModel
 extern BenchLineModel, dword_15E8C4, dword_15E8C8, dword_15E8CC, dword_15E8D0, dword_15E8D4, dword_15E8D8, dword_15E8DC
 extern dword_15E8E0, dword_15E8E4, RinkSidesModel, dword_15E8EC, dword_15E8F0, dword_15E8F4, dword_15E8F8, dword_15E8FC
-extern dword_15E900, dword_15EA04, dword_15EA08, dword_1770B7, dword_1770BB, dword_1770BF, dword_1770C3, dword_1770C7
-extern dword_1770CB, dword_1770CF, SpriteScreenX, SpriteScreenY, RubberFaceBmp, RubberSideBmp, ShowMarkers, SpriteFrameIds
+extern dword_15E900, dword_15EA04, dword_15EA08
+extern SpriteScreenX, SpriteScreenY, RubberFaceBmp, RubberSideBmp, ShowMarkers, SpriteFrameIds
 extern LineClipRight, LineClipBottom, LineClipTop, LineClipLeft, TexturePageBase, TextureDetail, FatalError, gameopts
 extern GetTicks, LoadPackedFile, mousex, mousey, PBnum, PutBlock, F64_0p00138889, F64_65536
 extern randomd0, SetDrawBitmap, SortCords, sprintf_, str_B00, str_B0DD, str_B1DD, str_B2DD
@@ -79,9 +80,9 @@ extern unk_15903C, unk_159108, unk_159148, unk_159190, IceSurfacePolys, unk_1592
 extern unk_159398, BoardLinePolys, unk_159458, unk_159500, unk_159508, unk_159510, unk_159518, unk_159520
 extern unk_159528, unk_159F58, unk_15AE88, unk_15BF20, unk_15D0E0, unk_15D1D0, unk_15D340, unk_15D450
 extern unk_15DB38, GlassRemap, BenchRemap, unk_15E130, unk_15E230, unk_15E330, unk_15E44C, unk_15E4C8
-extern IceLinePolys, unk_15E5A0, IceCenterPoly, FlashPolys, unk_15E904, unk_165258, unk_165354, unpack
-extern vecdist, SlotsTwoPlayer, LastButtonCode, word_15E472, word_176FB8, word_176FDA, word_176FFC, word_17704C
-extern word_17706E
+extern IceLinePolys, unk_15E5A0, IceCenterPoly, FlashPolys, unk_15E904, BenchSprites, BenchSpriteCount, unpack
+extern vecdist, SlotsTwoPlayer, LastButtonCode, word_15E472, ReplayObjX, ReplayObjY, ReplayObjZ, ReplayObjFrame
+extern ReplayObjAttr
 global unk_21984, DrawIceCrud, DrawTexturedQuad, DrawIceTextureQuad, RinkNullCallback, AddIceCrud, LoadFshFile, LoadFshFile_E1
 global LoadIceTexture, FatLineEdge, ClipEdgeToNear, ClipLineToNear, DrawFaceEdge, DrawFaceEdge_4F, DrawThickSegment, DrawThickSegmentVisible
 global DrawFatLine, DrawFatLine_AC, DrawLineListClipped, DrawLineList, DrawRubberEdge, DrawStandsQuad, RubberSideFace, RubberSideFace_8
@@ -3005,11 +3006,11 @@ StepGlassShards:
         ret
 ;-----------------------------------------------------------------------------
 ; ReplayBrokenGlass                               23820  96 PC, low confidence
-; From DrawReplayView: breaks the glass the replay recorded (dword_1770C7)
+; From DrawReplayView: breaks the glass the replay recorded (ReplayFrameState+133h)
 ; and moves the shards
 ;-----------------------------------------------------------------------------
 ReplayBrokenGlass:
-        cmp dword [dword_1770C7], byte 0
+        cmp dword [ReplayFrameState+133h], byte 0
         jge short .2
         xor eax, eax
 .1:
@@ -3020,7 +3021,7 @@ ReplayBrokenGlass:
         mov dword [dword_1176E1], 0FFFFFFFFh
         ret
 .2:
-        cmp dword [dword_1770CF], byte 0
+        cmp dword [ReplayFrameState+13Bh], byte 0
         jne short .3
         cmp dword [dword_1176E1], byte 0FFFFFFFFh
         je short .4
@@ -3028,17 +3029,17 @@ ReplayBrokenGlass:
         cmp dword [dword_1176E1], byte 0FFFFFFFFh
         jne short .5
 .4:
-        mov eax, dword [dword_1770C7]
+        mov eax, dword [ReplayFrameState+133h]
         mov dword [dword_1176E1], eax
-        mov eax, dword [dword_1770CB]
+        mov eax, dword [ReplayFrameState+137h]
         mov dword [dword_15E4B4], eax
-        mov eax, dword [dword_1770BF]
+        mov eax, dword [ReplayFrameState+12Bh]
         mov dword [dword_15E4B8], eax
-        mov eax, dword [dword_1770C3]
+        mov eax, dword [ReplayFrameState+12Fh]
         mov dword [dword_15E4B0], eax
         call ShatterGlass
 .5:
-        mov eax, dword [dword_1770CF]
+        mov eax, dword [ReplayFrameState+13Bh]
 ReplayBrokenGlass_79:
         push ebx
         push ecx
@@ -3393,7 +3394,7 @@ ApplyGlassShake:
         jmp near DrawRinkFrontParts_1A3
 ;-----------------------------------------------------------------------------
 ; ReplayGlassShake                                23C91  96 PC, low confidence
-; (ticks): the glass shake the replay recorded (byte_1770B2)
+; (ticks): the glass shake the replay recorded (ReplayFrameState+11Eh)
 ;-----------------------------------------------------------------------------
 ReplayGlassShake:
         push ebx
@@ -3402,28 +3403,28 @@ ReplayGlassShake:
         push esi
         push edi
         enter 4, 0
-        cmp byte [byte_1770B2], 0
+        cmp byte [ReplayFrameState+11Eh], 0
         jne short .1
         call ResetGlassShake
         jmp near DrawRinkFrontParts_1A3
 .1:
-        imul edx, dword [dword_1770BB], dword 258h
-        mov eax, dword [dword_1770B7]
+        imul edx, dword [ReplayFrameState+127h], dword 258h
+        mov eax, dword [ReplayFrameState+123h]
         sub eax, edx
         mov edx, eax
         test eax, eax
         jl near DrawRinkFrontParts_1A3
-        mov eax, dword [dword_1770BB]
+        mov eax, dword [ReplayFrameState+127h]
         shl eax, 4
         mov dword [byte ebp-04h], eax
-        movsx eax, byte [byte_1770B3]
+        movsx eax, byte [ReplayFrameState+11Fh]
         imul eax, dword 88h
         add eax, dword_15D2B8
         mov eax, dword [dword eax+080h]
         mov ebx, dword_15BE80
         shl eax, 2
         add ebx, eax
-        movsx eax, byte [byte_1770B5]
+        movsx eax, byte [ReplayFrameState+121h]
         shl eax, 2
         add ebx, eax
         mov eax, 0Ah
@@ -3431,11 +3432,11 @@ ReplayGlassShake:
         add eax, 8000h
         adc edx, byte 0
         shrd eax, edx, 10h
-        movsx esi, byte [byte_1770B5]
+        movsx esi, byte [ReplayFrameState+121h]
         mov edi, eax
         jmp near .11
 .2:
-        movsx eax, byte [byte_1770B4]
+        movsx eax, byte [ReplayFrameState+120h]
         mov edx, esi
         sub edx, eax
         mov eax, edx
@@ -3465,7 +3466,7 @@ ReplayGlassShake:
         shrd eax, edx, 10h
         mov ecx, eax
         mov edx, esi
-        movsx eax, byte [byte_1770B4]
+        movsx eax, byte [ReplayFrameState+120h]
         sub edx, eax
         mov eax, edx
         test edx, edx
@@ -3480,7 +3481,7 @@ ReplayGlassShake:
         add eax, 8000h
         adc edx, byte 0
         shrd eax, edx, 10h
-        cmp byte [byte_1770B3], 0
+        cmp byte [ReplayFrameState+11Fh], 0
         jne short .6
         mov edx, dword [dword_15E7B0]
         sub edx, eax
@@ -3489,7 +3490,7 @@ ReplayGlassShake:
         mov dword [eax], edx
         jmp short .10
 .6:
-        movsx edx, byte [byte_1770B3]
+        movsx edx, byte [ReplayFrameState+11Fh]
         cmp edx, byte 1
         jne short .7
         mov edx, dword [dword_15E7B4]
@@ -3513,7 +3514,7 @@ ReplayGlassShake:
         inc esi
         add ebx, byte 4
 .11:
-        movsx eax, byte [byte_1770B6]
+        movsx eax, byte [ReplayFrameState+122h]
         cmp esi, eax
         jle near .2
         jmp near DrawRinkFrontParts_1A3
@@ -5522,7 +5523,7 @@ DrawGoalNet:
         add esp, byte 4
         cmp dword [InReplay], byte 0
         je short .3
-        movsx eax, byte [byte_1770D7]
+        movsx eax, byte [ReplayFrameState+143h]
         cmp eax, edi
         jne short .5
         jmp short .4
@@ -8286,32 +8287,32 @@ DrawRinkPlayers:
         cmp dword [InReplay], byte 0
         je near .4
         mov eax, dword [byte ebp+07Eh]
-        cmp byte [dword eax+byte_176F96], 0
+        cmp byte [dword eax+ReplayFrameState+2], 0
         je near .6
-        movsx eax, word [dword edi+word_176FFC]
+        movsx eax, word [dword edi+ReplayObjZ]
         cmp eax, byte 0FFFFFFFFh
         je near .6
-        movsx eax, word [dword edi+word_176FB8]
+        movsx eax, word [dword edi+ReplayObjX]
         cmp eax, dword [byte ebp-036h]
         jl near .6
         cmp eax, dword [byte ebp-03Ah]
         jg near .6
-        movsx eax, word [dword edi+word_176FDA]
+        movsx eax, word [dword edi+ReplayObjY]
         cmp eax, dword [byte ebp-03Eh]
         jl near .6
         cmp eax, dword [byte ebp-042h]
         jg near .6
-        mov ax, word [dword edi+word_176FFC]
+        mov ax, word [dword edi+ReplayObjZ]
         mov word [byte ebp-020h], ax
-        mov ax, word [dword edi+word_17704C]
+        mov ax, word [dword edi+ReplayObjFrame]
         mov word [byte ebp+06h], ax
-        mov ax, word [dword edi+word_17706E]
+        mov ax, word [dword edi+ReplayObjAttr]
         mov word [byte ebp+08h], ax
         mov eax, dword [byte ebp+07Eh]
-        movsx ax, byte [dword eax+byte_17703B]
+        movsx ax, byte [dword eax+ReplayFrameState+0A7h]
         mov word [byte ebp+04h], ax
         mov eax, dword [byte ebp+07Eh]
-        cmp byte [dword eax+byte_17701E], 0
+        cmp byte [dword eax+ReplayFrameState+8Ah], 0
         je short .2
         or byte [byte ebp+023h], 8
         jmp short .3
@@ -8329,7 +8330,7 @@ DrawRinkPlayers:
         mov edx, dword [byte ebp+07Eh]
         mov ebx, dword [byte ebp+072h]
         push byte 1
-        movsx edx, byte [dword edx+byte_17701E]
+        movsx edx, byte [dword edx+ReplayFrameState+8Ah]
         push dword [byte ebp+07Eh]
         mov ecx, eax
         push edx
@@ -8417,7 +8418,7 @@ DrawBenchPlayers:
 .1:
         lea edx, [byte eax+011h]
         imul eax, dword 126h
-        add eax, unk_165354
+        add eax, BenchSpriteCount
         mov dword [byte ebp-010h], eax
         add eax, 126h
         mov dword [byte ebp-0Ch], edx
@@ -8670,7 +8671,7 @@ DrawPenaltyBoxPlayers:
         mov dword [byte ebp-08h], edx
         cmp dword [InReplay], byte 0
         je short .1
-        movsx edi, byte [dword eax+byte_1770A7]
+        movsx edi, byte [dword eax+ReplayFrameState+113h]
         jmp short .2
 .1:
         movsx edi, byte [dword eax+PBnum]
@@ -8694,7 +8695,7 @@ DrawPenaltyBoxPlayers:
         lea edx, [byte eax+011h]
         imul eax, byte 7Eh
         mov dword [byte ebp-0Ch], 0
-        add eax, unk_165258
+        add eax, BenchSprites
         mov dword [byte ebp-018h], edx
         mov dword [byte ebp-04h], eax
         jmp near .10

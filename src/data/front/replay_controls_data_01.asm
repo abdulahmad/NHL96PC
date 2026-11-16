@@ -9,7 +9,7 @@ global str_Ffw1, str_Ffw2, str_Ffw3, str_Cht13, str_Cht2, str_Cht3, str_Sav13, s
 global str_Sav3, str_Exi1, str_Exi2, str_Exi3, str_Cmr1, str_Cmr2, str_Cmr3, str_Cmm1
 global str_Cmm2, str_Cmm3, str_CmS, str_Ltrg, str_Rtrg, str_Aut1, str_Aut2, str_Aut3
 global str_MmS, str_HILITES, str_HILITESNDX2, str_08d4, str_GloL4, str_GloR4, str_GhiL4, str_GhiR4
-global str_FhiL6, str_FhiR6, str_HILITESNDX3, byte_110FCF, str_D19, str_dot4, str_G5, str_feD
+global str_FhiL6, str_FhiR6, str_HILITESNDX3, HighlightVersion, str_D19, str_dot4, str_G5, str_feD
 global str_L, str_C6, str_R5, str_X2
 str_D19:
         db 025h,064h,00h
@@ -119,7 +119,7 @@ str_HILITESNDX2:
         db 048h,049h,04Ch,049h,054h,045h,053h,02Eh,04Eh,044h,058h,00h
 str_08d4:
         db 025h,030h,038h,064h,00h
-byte_110FCF:
+HighlightVersion:
         db 00h
 str_GloL4:
         db 047h,06Ch,06Fh,04Ch,00h

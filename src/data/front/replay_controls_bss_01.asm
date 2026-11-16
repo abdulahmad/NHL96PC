@@ -2,93 +2,65 @@
 bits 32
 %include "hockey.inc"
 section s_164F1C nobits alloc noexec write align=1
-global byte_16507A, byte_16514E, byte_16514F, InputState, HomeNetObject, dword_164F20, dword_164F24, AwayNetObject
-global dword_164FC0, dword_164FC4, ViewScreenHeight, dword_165060, dword_165064, dword_165166, dword_16516A, dword_16516E
-global dword_165172, dword_16523C, dword_165240, dword_165244, dword_165248, dword_16524C, PtrPuckZone, unk_16505E
-global unk_165062, unk_165066, unk_165068, unk_16506A, unk_16506C, unk_16509E, RefObject, unk_16519C
-global unk_165258, unk_165354, word_165078, word_165082, word_1650A6, word_165144, word_165146, word_165148
-global word_16514A, word_16514C
+global InputState, HomeNetObject, AwayNetObject
+global PuckObject
+global ExtraAttackerOn, ExtraAttackerTeam, ExtraAttackerPlayer, ExtraAttackerPending, ExtraGoalieOut, PtrPuckZone
+global RefObject, ExtraObject
+global BenchSprites, BenchSpriteCount
+
 HomeNetObject:
         resb 4
-dword_164F20:
         resb 4
-dword_164F24:
         resb 152
 AwayNetObject:
         resb 4
-dword_164FC0:
         resb 4
-dword_164FC4:
         resb 152
-ViewScreenHeight:
+PuckObject:
         resb 2
-unk_16505E:
         resb 2
-dword_165060:
         resb 2
-unk_165062:
         resb 2
-dword_165064:
         resb 2
-unk_165066:
         resb 2
-unk_165068:
         resb 2
-unk_16506A:
         resb 2
-unk_16506C:
         resb 12
-word_165078:
         resb 2
-byte_16507A:
         resb 8
-word_165082:
         resb 28
-unk_16509E:
         resb 8
-word_1650A6:
         resb 86
 RefObject:
         resb 72
-word_165144:
         resb 2
-word_165146:
         resb 2
-word_165148:
         resb 2
-word_16514A:
         resb 2
-word_16514C:
         resb 2
-byte_16514E:
         resb 1
-byte_16514F:
         resb 23
-dword_165166:
         resb 4
-dword_16516A:
         resb 4
-dword_16516E:
         resb 4
-dword_165172:
         resb 42
-unk_16519C:
+ExtraObject:
         resb 160
-dword_16523C:
+ExtraAttackerOn:
         resb 4
-dword_165240:
+ExtraAttackerTeam:
         resb 4
-dword_165244:
+ExtraAttackerPlayer:
         resb 4
-dword_165248:
+ExtraAttackerPending:
         resb 4
-dword_16524C:
+ExtraGoalieOut:
         resb 4
 InputState:
         resb 4
 PtrPuckZone:
         resb 4
-unk_165258:
+BenchSprites:
         resb 252
-unk_165354:
+BenchSpriteCount:
         resb 18

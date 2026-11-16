@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_2F3DF progbits alloc exec nowrite align=1
 extern assextra4, assextra6, assinsert, assreplace, PBflags, check4bench, check4check, donothing
-extern dword_16523C, dword_165240, dword_165244, dword_165248, EvadePC, gmode, gmode2, puckvy
+extern ExtraAttackerOn, ExtraAttackerTeam, ExtraAttackerPlayer, ExtraAttackerPending, EvadePC, gmode, gmode2, puckvy
 extern PtrRefObject, PBnum, Pencntdwn, playeracc, puckc, puckx, pucky, randomd0
 extern ReadJoy1, regd0, regd1, regd2, regd3, SetExitGame, SetSPA, skateto
 extern SkateToSpot, slotteam, SortCords, RunPreGameSkate_450, RunPreGameSkate_451, assexitjump, GameEventStub, PlayArenaClip
@@ -1246,14 +1246,14 @@ assextra2:
         cmp eax, 15Ah
         jge short .5
         call assextra6
-        cmp dword [dword_165248], byte 0
+        cmp dword [ExtraAttackerPending], byte 0
         je short .5
-        cmp dword [dword_16523C], byte 1
+        cmp dword [ExtraAttackerOn], byte 1
         jne short .5
-        cmp dword [dword_165240], byte 0
+        cmp dword [ExtraAttackerTeam], byte 0
         jne short .5
         movsx eax, word [dword edx+086h]
-        cmp eax, dword [dword_165244]
+        cmp eax, dword [ExtraAttackerPlayer]
         jne short .5
         mov eax, 1
         pop edx

@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_1177F4 progbits alloc noexec write align=1
-extern HomeNetObject, AwayNetObject, ViewScreenHeight, unk_16505E, unk_165062, unk_165066, unk_165068, unk_16506A
-extern unk_16506C, unk_16509E, RefObject, unk_16519C, ReplayBuffer
+extern HomeNetObject, AwayNetObject, PuckObject
+extern RefObject, ExtraObject, ReplayBuffer
 global Pencntdwn, sflags3, PenaltyAnnounced, collflag, UserRecordsTop, UserRecordsFirst, UserRecordsRow, str_J
 global str_V, hmslotcount, awslotcount, hmfirstslot, awfirstslot, HomeEbenPlayer, AwayEbenPlayer, seed
 global fox, foy, gameclock, gmode, lastplayer, replaystart, puckvy, puckc
@@ -32,25 +32,25 @@ str_V:
 replaystart:
         dd ReplayBuffer
 puckx:
-        dd unk_16505E
+        dd PuckObject+2
 puckvx:
-        dd unk_165068
+        dd PuckObject+0Ch
 pucky:
-        dd unk_165062
+        dd PuckObject+6
 puckvy:
-        dd unk_16506A
+        dd PuckObject+0Eh
 puckz:
-        dd unk_165066
+        dd PuckObject+0Ah
 puckvz:
-        dd unk_16506C
+        dd PuckObject+10h
 puckc:
-        dd unk_16509E
+        dd PuckObject+42h
 PtrPuckFlags:
-        dd ViewScreenHeight
+        dd PuckObject
 PtrRefObject:
         dd RefObject
 PtrPuckObject:
-        dd unk_16519C
+        dd ExtraObject
 PtrHomeNet:
         dd HomeNetObject
 PtrAwayNet:

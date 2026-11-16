@@ -6,7 +6,7 @@ section s_77442 progbits alloc exec nowrite align=1
 extern __CHP, __STOSB, __STOSD, DivisionTeamStarts, TitleTextStyle, SeasonUserTeam, SeasonUsers
 extern SeasonUserFlag, SeasonUserSlot, SaveFileName, GreyColorOrder, DrawArtOpaque, DrawColorTextCentred, DrawFrameAt, TeamDivisions
 extern SeasonTeamOrder, SixTeamColX, SixTeamRowY, SevenTeamColX, SevenTeamRowY, MatchupLayer, TeamStatsBitmap
-extern PlayoffTreeData, SeasonType, SeasonOver, SeasonRandomSeed, cddriveptr, dword_17D1E2, dword_17D267, NewSeasonChoice
+extern PlayoffTreeData, SeasonType, SeasonOver, SeasonRandomSeed, cddriveptr, PlayoffSlotTeams, PlayoffsActive, NewSeasonChoice
 extern SeasonMenuActive, EditText, FadeOut, FadePalette, FileClose, FileCopy, FileOpenRead, FileOpenReadWrite
 extern FileReadAt, FileWriteAt, FillMusicStream, FreeStatsTables, gameopts, GetLangText, GetTicks, HideProgressBox
 extern InitMenuItems, itoa_, LoadPackedFile, LoadTeamLogo, MakeDatabasePath, MakeDataPath, MakeDirPath, MessageBox
@@ -1769,7 +1769,7 @@ CreateSeason:
         mov edx, 63h
         rep movsb
         mov ecx, 1Fh
-        mov eax, dword_17D1E2
+        mov eax, PlayoffSlotTeams
         call __STOSD
         mov eax, dword [dword ebp-082h]
         mov ebx, 0Ah
@@ -1781,7 +1781,7 @@ CreateSeason:
         mov edi, SaveFileName
         or dword [cddriveptr], eax
         mov eax, SeasonUserTeam
-        mov dword [dword_17D267], 1
+        mov dword [PlayoffsActive], 1
         call strlen_
         mov ecx, eax
         mov edx, dword [byte ebp+06Eh]

@@ -7,7 +7,7 @@ section s_A17D5 progbits alloc exec nowrite align=1
 extern AwayClinchesSeries, awtmstruct, RinkFloorOn, IceTextureOn, IceLogosOn, GlassOn, PlayerDetailOn, StandsOn
 extern MenuFrameColours, byte_11FA2F, StatsFromGame
 
-extern byte_18464C, byte_18464E, byte_18464F, byte_1846C4, CloseTextOverlay, ControllerScreen, CopyBitmap
+extern InGameMenuState, InGameTitleText, CloseTextOverlay, ControllerScreen, CopyBitmap
 extern Crowd_Noise, CrowdFadeOut, CrowdNoiseReset, CrowdReaction, curperiod, DrawArtOpaque, DrawBox, DrawColorTextCentred
 extern DrawFrameAt, DrawGameFrame, DrawRinkView, FrontShapesFile, gameresult, ReplayRemoteShape, ViewSizeStep, LastPaletteMode
 extern SfxMask, InMenuOverlay, InGameMenuStartTick, dword_11F5C0, dword_11F5C4, PanelShadeArt, MenuRemoteCursorArt, MenuCursorPixels
@@ -16,8 +16,8 @@ extern PlayoffGameOpts, PlayoffRound, RosterFileHandle, FrontShapeFile, LinesEdi
 extern InGameBoxRight, InGameBoxBottom, InGameBoxLeft, InGameBoxTop, InterRegBuffer
 
 
-extern dword_184624
-extern dword_184628, dword_184670, dword_184674, dword_184678, dword_18467C, dword_184680, dword_184684, EditText
+extern InGameMenuArt
+extern InGameMenuShapes, InGameBoxXs, InGameBoxYs, InGameScaleStep, InGameItemList, InGameTitleItems, InGameFrameBmp, EditText
 extern EndCameraShot, EndGameSound, fadeinpending, FadeOut, FadeOutMusic, FadePalette, FillBox, FillMusicStream
 extern FreeFightSprites, FreeFrontEndArt, FreeSpeechBuffer, FreeSpriteCache, FreeStatsTables, FreeTotalSprites, gameopts, GameStatsScreen
 extern GetCrowdTarget, GetLangText, GetTicks, gsp, hmtmstruct, HomeClinchesSeries, InitMenuItems, InitSlotTable
@@ -35,8 +35,8 @@ extern str_Sid2, str_Sts0, str_Sts1, strcat_, strcpy_, AddIceCrud, LoadZamboni, 
 extern LoadStandsArt, SetPenaltyBoxDoor, DrawZamboniScene, DrawOverlayPanels, RefreshControlSlots, SetGameBackdrop, SaveGameFile, LoadModeStats
 extern DrawArt, AllocMemBlock, FreeMemBlock, CreateBitmap, FreeBitmap, FreeColourLookup, SetAaPalLut, SetScreenTarget
 extern FindShape, ClearClipRect, TextSetFont, InGameMenuItems, PauseMenuItemsShort, str_Punct_InGameMenu, PauseMenuItemsLong, str_N_InGameMenu
-extern str_F_InGameMenu, PauseMenuBoxX, PauseMenuBoxY, PauseMenuTextIds, PauseMenuTextIdsAlt, unk_17D3E8, InGameMenuWork
-extern unk_184688, unk_184692, UpdateCamera, SlotsTwoPlayer, PauseRequested, InGameMenuDrawn, hmscore, awscore
+extern str_F_InGameMenu, PauseMenuBoxX, PauseMenuBoxY, PauseMenuTextIds, PauseMenuTextIdsAlt, OverlayRemap, InGameMenuWork
+extern InGameTimeText, InGameScoreText, UpdateCamera, SlotsTwoPlayer, PauseRequested, InGameMenuDrawn, hmscore, awscore
 global DrawInGameMenuFrame, RedrawInGameMenu, RedrawInGameMenu_7C, RedrawInGameMenu_7D, OpenFrontEndFromGame, ReturnToGameView, InGameReturnMenu, jpt_A25B5
 global InGameMenu, InGameMenu_A9C, InGameMenu_ABD, InGameMenu_D17, InGameMenu_F31, InGameMenu_F42, InGameMenu_FA8
 ;-----------------------------------------------------------------------------
@@ -69,7 +69,7 @@ DrawInGameMenuFrame:
         call SetDrawBitmap
         add esp, byte 4
         push byte 0
-        mov eax, dword [dword_184684]
+        mov eax, dword [InGameFrameBmp]
         push byte 0
         push dword [byte eax+02Ch]
         call DrawArtOpaque
@@ -86,28 +86,28 @@ DrawInGameMenuFrame:
         call SetTextColors
         push byte 0
         push byte 0
-        mov esi, dword [dword_184680]
+        mov esi, dword [InGameTitleItems]
         push byte 1
         movsx eax, word [byte esi+04h]
         push eax
-        mov eax, dword [dword_18467C]
+        mov eax, dword [InGameItemList]
         movsx ebx, word [esi]
         movsx ecx, word [byte eax+04h]
         movsx edx, word [eax]
-        mov eax, unk_17D3E8
+        mov eax, OverlayRemap
         call DrawBox
         mov eax, 780000h
-        mov edx, dword [dword_184678]
+        mov edx, dword [InGameScaleStep]
         imul edx
         add eax, 8000h
         adc edx, byte 0
         shrd eax, edx, 10h
         mov ecx, eax
-        mov eax, dword [dword_184680]
+        mov eax, dword [InGameTitleItems]
         sar ecx, 11h
         movsx eax, word [byte eax+02h]
         sub eax, ecx
-        mov edx, dword [dword_184678]
+        mov edx, dword [InGameScaleStep]
         mov ecx, eax
         mov eax, 0E00000h
         imul edx
@@ -115,7 +115,7 @@ DrawInGameMenuFrame:
         adc edx, byte 0
         shrd eax, edx, 10h
         mov ebx, eax
-        mov eax, dword [dword_18467C]
+        mov eax, dword [InGameItemList]
         sar ebx, 11h
         movsx eax, word [byte eax+02h]
         sub eax, ebx
@@ -125,26 +125,26 @@ DrawInGameMenuFrame:
         shl eax, 0Fh
         shr eax, 1Bh
         call LoadTeamLogo
-        mov esi, dword [dword_184678]
+        mov esi, dword [InGameScaleStep]
         mov edx, eax
         mov eax, esi
         call DrawFrameAt
         push byte 0
-        mov eax, dword [dword_184680]
-        mov esi, dword [dword_18467C]
+        mov eax, dword [InGameTitleItems]
+        mov esi, dword [InGameItemList]
         push byte 0
         movsx edx, word [byte eax+08h]
         movsx ecx, word [byte esi+04h]
         push byte 1
         movsx ebx, word [byte eax+06h]
-        mov eax, unk_17D3E8
+        mov eax, OverlayRemap
         push edx
         movsx edx, word [esi]
         call DrawBox
         movsx eax, word [hmscore]
         push eax
         push str_D13
-        push unk_184692
+        push InGameScoreText
         call sprintf_
         add esp, byte 0Ch
         push dword [NamePanelBmp]
@@ -157,22 +157,22 @@ DrawInGameMenuFrame:
 .2:
         mov edx, 0FFFFFFFFh
 .3:
-        mov eax, dword [dword_184680]
+        mov eax, dword [InGameTitleItems]
         movsx ebx, word [byte eax+06h]
-        mov eax, dword [dword_18467C]
+        mov eax, dword [InGameItemList]
         add ebx, edx
         movsx edx, word [byte eax+02h]
-        mov eax, unk_184692
+        mov eax, InGameScoreText
         call DrawColorTextCentred
         push byte 0
-        mov eax, dword [dword_184680]
-        mov esi, dword [dword_18467C]
+        mov eax, dword [InGameTitleItems]
+        mov esi, dword [InGameItemList]
         push byte 0
         movsx edx, word [byte eax+0Ch]
         movsx ecx, word [byte esi+04h]
         push byte 1
         movsx ebx, word [byte eax+0Ah]
-        mov eax, unk_17D3E8
+        mov eax, OverlayRemap
         push edx
         movsx edx, word [esi]
         call DrawBox
@@ -189,10 +189,10 @@ DrawInGameMenuFrame:
 .4:
         mov eax, 1
 .5:
-        mov edx, dword [dword_184680]
+        mov edx, dword [InGameTitleItems]
         movsx ebx, word [byte edx+0Ah]
         add ebx, eax
-        mov eax, dword [dword_18467C]
+        mov eax, dword [InGameItemList]
         movsx edx, word [byte eax+02h]
         mov eax, 0A1h
         inc edx
@@ -201,43 +201,43 @@ DrawInGameMenuFrame:
         movsx eax, word [hmtmstruct]
         push eax
         push str_D13
-        push unk_184692
+        push InGameScoreText
         call sprintf_
         movzx edx, byte [byte_11FA2F]
-        mov eax, dword [dword_184680]
+        mov eax, dword [InGameTitleItems]
         inc edx
         inc edx
         movsx ebx, word [byte eax+0Ch]
-        mov eax, dword [dword_18467C]
+        mov eax, dword [InGameItemList]
         add esp, byte 0Ch
         sub ebx, edx
         movsx edx, word [byte eax+02h]
-        mov eax, unk_184692
+        mov eax, InGameScoreText
         call DrawColorTextCentred
         push byte 0
-        mov eax, dword [dword_184680]
-        mov esi, dword [dword_18467C]
+        mov eax, dword [InGameTitleItems]
+        mov esi, dword [InGameItemList]
         push byte 0
         movsx edx, word [byte eax+04h]
         movsx ecx, word [byte esi+0Eh]
         push byte 1
         movsx ebx, word [eax]
-        mov eax, unk_17D3E8
+        mov eax, OverlayRemap
         push edx
         movsx edx, word [byte esi+0Ah]
         call DrawBox
         mov eax, 780000h
-        mov edx, dword [dword_184678]
+        mov edx, dword [InGameScaleStep]
         imul edx
         add eax, 8000h
         adc edx, byte 0
         shrd eax, edx, 10h
         mov ecx, eax
-        mov eax, dword [dword_184680]
+        mov eax, dword [InGameTitleItems]
         sar ecx, 11h
         movsx eax, word [byte eax+02h]
         sub eax, ecx
-        mov edx, dword [dword_184678]
+        mov edx, dword [InGameScaleStep]
         mov ecx, eax
         mov eax, 0E00000h
         imul edx
@@ -245,7 +245,7 @@ DrawInGameMenuFrame:
         adc edx, byte 0
         shrd eax, edx, 10h
         mov edx, eax
-        mov eax, dword [dword_18467C]
+        mov eax, dword [InGameItemList]
         movsx ebx, word [byte eax+0Ch]
         mov eax, dword [gameopts]
         mov eax, dword [byte eax+01h]
@@ -254,26 +254,26 @@ DrawInGameMenuFrame:
         shr eax, 1Bh
         sub ebx, edx
         call LoadTeamLogo
-        mov esi, dword [dword_184678]
+        mov esi, dword [InGameScaleStep]
         mov edx, eax
         mov eax, esi
         call DrawFrameAt
         push byte 0
-        mov eax, dword [dword_184680]
-        mov esi, dword [dword_18467C]
+        mov eax, dword [InGameTitleItems]
+        mov esi, dword [InGameItemList]
         push byte 0
         movsx edx, word [byte eax+08h]
         movsx ecx, word [byte esi+0Eh]
         push byte 1
         movsx ebx, word [byte eax+06h]
-        mov eax, unk_17D3E8
+        mov eax, OverlayRemap
         push edx
         movsx edx, word [byte esi+0Ah]
         call DrawBox
         movsx eax, word [awscore]
         push eax
         push str_D13
-        push unk_184692
+        push InGameScoreText
         call sprintf_
         add esp, byte 0Ch
         push dword [NamePanelBmp]
@@ -286,22 +286,22 @@ DrawInGameMenuFrame:
 .6:
         mov edx, 0FFFFFFFFh
 .7:
-        mov eax, dword [dword_184680]
+        mov eax, dword [InGameTitleItems]
         movsx ebx, word [byte eax+06h]
-        mov eax, dword [dword_18467C]
+        mov eax, dword [InGameItemList]
         add ebx, edx
         movsx edx, word [byte eax+0Ch]
-        mov eax, unk_184692
+        mov eax, InGameScoreText
         call DrawColorTextCentred
         push byte 0
-        mov eax, dword [dword_184680]
-        mov esi, dword [dword_18467C]
+        mov eax, dword [InGameTitleItems]
+        mov esi, dword [InGameItemList]
         push byte 0
         movsx edx, word [byte eax+0Ch]
         movsx ecx, word [byte esi+0Eh]
         push byte 1
         movsx ebx, word [byte eax+0Ah]
-        mov eax, unk_17D3E8
+        mov eax, OverlayRemap
         push edx
         movsx edx, word [byte esi+0Ah]
         call DrawBox
@@ -318,9 +318,9 @@ DrawInGameMenuFrame:
 .8:
         mov edx, 1
 .9:
-        mov eax, dword [dword_184680]
+        mov eax, dword [InGameTitleItems]
         movsx ebx, word [byte eax+0Ah]
-        mov eax, dword [dword_18467C]
+        mov eax, dword [InGameItemList]
         add ebx, edx
         movsx edx, word [byte eax+0Ch]
         mov eax, 0A1h
@@ -331,20 +331,20 @@ DrawInGameMenuFrame:
         movsx eax, word [awtmstruct]
         push eax
         push str_D13
-        push unk_184692
+        push InGameScoreText
         call sprintf_
         movzx edx, byte [byte_11FA2F]
-        mov eax, dword [dword_184680]
+        mov eax, dword [InGameTitleItems]
         inc edx
         inc edx
         movsx ebx, word [byte eax+0Ch]
-        mov eax, dword [dword_18467C]
+        mov eax, dword [InGameItemList]
         add esp, byte 0Ch
         sub ebx, edx
         movsx edx, word [byte eax+0Ch]
-        mov eax, unk_184692
+        mov eax, InGameScoreText
         call DrawColorTextCentred
-        mov eax, dword [dword_184680]
+        mov eax, dword [InGameTitleItems]
         push byte 0
         movsx ebx, word [byte eax+012h]
         movzx eax, byte [byte_11FA2F]
@@ -353,10 +353,10 @@ DrawInGameMenuFrame:
         push byte 1
         add eax, byte 8
         push eax
-        mov eax, dword [dword_18467C]
+        mov eax, dword [InGameItemList]
         movsx ecx, word [byte eax+016h]
         movsx edx, word [byte eax+010h]
-        mov eax, unk_17D3E8
+        mov eax, OverlayRemap
         call DrawBox
         push dword [NameFont]
         call TextSetFont
@@ -385,37 +385,37 @@ DrawInGameMenuFrame:
 .13:
         call GetLangText
         mov edx, eax
-        mov eax, unk_184692
+        mov eax, InGameScoreText
         call strcpy_
 .14:
-        mov eax, dword [dword_184680]
+        mov eax, dword [InGameTitleItems]
         movsx ebx, word [byte eax+012h]
-        mov eax, dword [dword_18467C]
+        mov eax, dword [InGameItemList]
         movsx edx, word [byte eax+010h]
         movsx eax, word [byte eax+016h]
         add ebx, byte 4
         add edx, eax
-        mov eax, unk_184692
+        mov eax, InGameScoreText
         sar edx, 1
         call DrawColorTextCentred
-        mov ebx, dword [dword_184680]
-        mov edx, dword [dword_18467C]
+        mov ebx, dword [InGameTitleItems]
+        mov edx, dword [InGameItemList]
         movsx eax, word [byte ebx+010h]
         movsx ecx, word [byte edx+08h]
         push eax
         movsx ebx, word [byte ebx+0Eh]
         movsx edx, word [byte edx+06h]
-        mov eax, unk_17D3E8
+        mov eax, OverlayRemap
         call FillBox
         push str_Intr
         push dword [FrontShapeFile]
         call FindShape
         mov esi, eax
-        mov eax, dword [dword_184680]
+        mov eax, dword [InGameTitleItems]
         add esp, byte 8
         movsx eax, word [byte eax+0Eh]
         push eax
-        mov eax, dword [dword_18467C]
+        mov eax, dword [InGameItemList]
         movsx eax, word [byte eax+06h]
         push eax
         push esi
@@ -428,7 +428,7 @@ DrawInGameMenuFrame:
         movsx ebx, word [byte esi+0Eh]
         sub edx, ebx
         mov ebx, edx
-        mov edx, dword [dword_184680]
+        mov edx, dword [InGameTitleItems]
         movsx edx, word [byte edx+0Eh]
         add esp, byte 8
         add edx, ebx
@@ -436,7 +436,7 @@ DrawInGameMenuFrame:
         movsx ebx, word [byte eax+0Ch]
         movsx edx, word [byte esi+0Ch]
         sub ebx, edx
-        mov edx, dword [dword_18467C]
+        mov edx, dword [InGameItemList]
         movsx edx, word [byte edx+06h]
         add edx, ebx
         push edx
@@ -449,7 +449,7 @@ DrawInGameMenuFrame:
         movsx ebx, word [byte eax+0Eh]
         movsx edx, word [byte esi+0Eh]
         sub ebx, edx
-        mov edx, dword [dword_184680]
+        mov edx, dword [InGameTitleItems]
         movsx edx, word [byte edx+0Eh]
         add esp, byte 8
         add edx, ebx
@@ -458,7 +458,7 @@ DrawInGameMenuFrame:
         movsx edx, word [byte eax+0Ch]
         sub edx, ebx
         mov ebx, edx
-        mov edx, dword [dword_18467C]
+        mov edx, dword [InGameItemList]
         movsx edx, word [byte edx+06h]
         add ebx, edx
         push ebx
@@ -472,7 +472,7 @@ DrawInGameMenuFrame:
         movsx ebx, word [byte esi+0Eh]
         sub edx, ebx
         mov ebx, edx
-        mov edx, dword [dword_184680]
+        mov edx, dword [InGameTitleItems]
         movsx edx, word [byte edx+0Eh]
         add esp, byte 8
         add edx, ebx
@@ -480,7 +480,7 @@ DrawInGameMenuFrame:
         movsx ebx, word [byte eax+0Ch]
         movsx edx, word [byte esi+0Ch]
         sub ebx, edx
-        mov edx, dword [dword_18467C]
+        mov edx, dword [InGameItemList]
         movsx edx, word [byte edx+06h]
         add edx, ebx
         push edx
@@ -494,7 +494,7 @@ DrawInGameMenuFrame:
         movsx ebx, word [byte esi+0Eh]
         sub edx, ebx
         mov ebx, edx
-        mov edx, dword [dword_184680]
+        mov edx, dword [InGameTitleItems]
         movsx edx, word [byte edx+0Eh]
         add esp, byte 8
         add edx, ebx
@@ -503,7 +503,7 @@ DrawInGameMenuFrame:
         movsx edx, word [byte eax+0Ch]
         sub edx, ebx
         mov ebx, edx
-        mov edx, dword [dword_18467C]
+        mov edx, dword [InGameItemList]
         movsx edx, word [byte edx+06h]
         add edx, ebx
         push edx
@@ -516,7 +516,7 @@ DrawInGameMenuFrame:
         movsx ebx, word [byte eax+0Eh]
         movsx edx, word [byte esi+0Eh]
         sub ebx, edx
-        mov edx, dword [dword_184680]
+        mov edx, dword [InGameTitleItems]
         movsx edx, word [byte edx+0Eh]
         add esp, byte 8
         add ebx, edx
@@ -525,7 +525,7 @@ DrawInGameMenuFrame:
         movsx ebx, word [byte esi+0Ch]
         sub edx, ebx
         mov ebx, edx
-        mov edx, dword [dword_18467C]
+        mov edx, dword [InGameItemList]
         movsx edx, word [byte edx+06h]
         add edx, ebx
         push edx
@@ -539,7 +539,7 @@ DrawInGameMenuFrame:
         call FindShape
         mov ebx, 11h
         mov ecx, dword [GsOptions]
-        mov edx, dword [dword_184674]
+        mov edx, dword [InGameBoxYs]
         shl ecx, 12h
         add esp, byte 8
         shr ecx, 1Fh
@@ -547,7 +547,7 @@ DrawInGameMenuFrame:
         shl ebx, cl
         movsx ecx, word [byte eax+04h]
         sub edx, ebx
-        mov eax, dword [dword_184670]
+        mov eax, dword [InGameBoxXs]
         mov ebx, edx
         sar ecx, 1
         movsx edx, word [byte eax+04h]
@@ -839,13 +839,13 @@ InGameReturnMenu:
         mov dword [dword ebp-0C2h], eax
         call FindShape
         mov dword [dword ebp-0BEh], eax
-        mov eax, dword [dword_184670]
+        mov eax, dword [InGameBoxXs]
         mov edi, 0FFFFFFFFh
         add esp, byte 8
         movsx eax, word [byte eax+04h]
         push str_Ply02
         mov dword [byte ebp-0Eh], eax
-        mov eax, dword [dword_184674]
+        mov eax, dword [InGameBoxYs]
         push dword [FrontShapeFile]
         movsx eax, word [eax]
         mov byte [dword ebp-099h], 2
@@ -858,11 +858,11 @@ InGameReturnMenu:
         push dword [FrontShapeFile]
         call FindShape
         mov dword [byte ebp-058h], eax
-        mov eax, dword [dword_184670]
+        mov eax, dword [InGameBoxXs]
         movsx eax, word [byte eax+04h]
         mov dword [byte ebp+07Eh], 1
         mov dword [byte ebp+032h], eax
-        mov eax, dword [dword_184674]
+        mov eax, dword [InGameBoxYs]
         mov esi, 66h
         add esp, byte 8
         movsx eax, word [byte eax+02h]
@@ -1108,7 +1108,7 @@ InGameMenu:
         call CreateBitmap
         add esp, byte 0Ch
         push eax
-        mov dword [dword_184684], eax
+        mov dword [InGameFrameBmp], eax
         call SetDrawBitmap
         add esp, byte 4
         push dword 81h
@@ -1117,26 +1117,26 @@ InGameMenu:
         call DrawRinkView
         test byte [GsOptions+1], 20h
         je short .5
-        mov dword [dword_18467C], str_Punct_InGameMenu
-        mov dword [dword_184680], PauseMenuItemsLong
-        mov dword [dword_184670], PauseMenuBoxX
+        mov dword [InGameItemList], str_Punct_InGameMenu
+        mov dword [InGameTitleItems], PauseMenuItemsLong
+        mov dword [InGameBoxXs], PauseMenuBoxX
         mov ecx, 80h
         mov esi, PauseMenuTextIdsAlt
         mov edi, dword [InterRegBuffer]
-        mov dword [dword_184674], PauseMenuBoxY
+        mov dword [InGameBoxYs], PauseMenuBoxY
         rep movsb
-        mov dword [dword_184678], 87AEh
+        mov dword [InGameScaleStep], 87AEh
         jmp short .6
 .5:
-        mov dword [dword_18467C], InGameMenuItems
-        mov dword [dword_184680], PauseMenuItemsShort
-        mov dword [dword_184670], str_N_InGameMenu
+        mov dword [InGameItemList], InGameMenuItems
+        mov dword [InGameTitleItems], PauseMenuItemsShort
+        mov dword [InGameBoxXs], str_N_InGameMenu
         mov ecx, 80h
         mov esi, PauseMenuTextIds
         mov edi, dword [InterRegBuffer]
-        mov dword [dword_184674], str_F_InGameMenu
+        mov dword [InGameBoxYs], str_F_InGameMenu
         rep movsb
-        mov dword [dword_184678], 3D70h
+        mov dword [InGameScaleStep], 3D70h
 .6:
         call LoadZamboni
         push dword [dword_11F5C4]
@@ -1341,11 +1341,11 @@ InGameMenu:
         call FindShape
         add esp, byte 8
         mov dword [InGameMenuWork+0EAh], eax
-        mov eax, dword [dword_184670]
+        mov eax, dword [InGameBoxXs]
         movsx edx, word [byte eax+04h]
         mov eax, dword [InterRegBuffer]
         mov dword [dword eax+080h], edx
-        mov eax, dword [dword_184674]
+        mov eax, dword [InGameBoxYs]
         movsx edx, word [eax]
         mov eax, dword [InterRegBuffer]
         push str_Ctr0
@@ -1359,11 +1359,11 @@ InGameMenu:
         mov dword [InGameMenuWork+14Ch], eax
         call FindShape
         mov dword [InGameMenuWork+150h], eax
-        mov eax, dword [dword_184670]
+        mov eax, dword [InGameBoxXs]
         movsx edx, word [eax]
         mov eax, dword [InterRegBuffer]
         mov dword [dword eax+0C0h], edx
-        mov eax, dword [dword_184674]
+        mov eax, dword [InGameBoxYs]
         movsx edx, word [byte eax+02h]
         mov eax, dword [InterRegBuffer]
         add esp, byte 8
@@ -1380,11 +1380,11 @@ InGameMenu:
         mov dword [InGameMenuWork+1B2h], eax
         call FindShape
         mov dword [InGameMenuWork+1B6h], eax
-        mov eax, dword [dword_184670]
+        mov eax, dword [InGameBoxXs]
         movsx edx, word [byte eax+02h]
         mov eax, dword [InterRegBuffer]
         mov dword [dword eax+0100h], edx
-        mov eax, dword [dword_184674]
+        mov eax, dword [InGameBoxYs]
         movsx edx, word [byte eax+02h]
         mov eax, dword [InterRegBuffer]
         mov dword [dword eax+0104h], edx
@@ -1404,21 +1404,21 @@ InGameMenu:
         add esp, byte 8
         push str_Sav1
         push dword [FrontShapeFile]
-        mov dword [dword_184624], eax
+        mov dword [InGameMenuArt], eax
         call FindShape
-        mov dword [dword_184628], eax
-        mov eax, dword [dword_184670]
+        mov dword [InGameMenuShapes], eax
+        mov eax, dword [InGameBoxXs]
         movsx edx, word [byte eax+04h]
         mov eax, dword [InterRegBuffer]
         mov dword [dword eax+0140h], edx
-        mov eax, dword [dword_184674]
+        mov eax, dword [InGameBoxYs]
         movsx edx, word [byte eax+04h]
         mov eax, dword [InterRegBuffer]
         mov dword [dword eax+0144h], edx
         add esp, byte 8
-        mov byte [byte_18464C], 4
-        mov byte [byte_18464E], 0
-        mov byte [byte_18464F], 1
+        mov byte [InGameMenuState], 4
+        mov byte [InGameMenuState+2], 0
+        mov byte [InGameMenuState+3], 1
         mov byte [InGameMenuWork+45h], 5
         mov byte [InGameMenuWork+0AAh], 5
 .18:
@@ -1743,7 +1743,7 @@ InGameMenu_ABD:
         push dword [ReplayRemoteShape]
         call SetDrawBitmap
         add esp, byte 4
-        push dword [dword_184684]
+        push dword [InGameFrameBmp]
         call FreeBitmap
         add esp, byte 4
         push dword [InterRegBuffer]
@@ -2034,17 +2034,17 @@ InGameMenu_FA8:
         test byte [optflags], 70h
         jne short .74
         mov edx, 5
-        mov eax, unk_184692
+        mov eax, InGameScoreText
         xor ebx, ebx
         call MakeDirPath
         mov edx, str_EXHIBITNDX2
-        mov eax, unk_184692
+        mov eax, InGameScoreText
         call NameIndexLoad
         mov esi, eax
         test eax, eax
         jne short .73
         mov edx, str_EXHIBITNDX2
-        mov eax, unk_184692
+        mov eax, InGameScoreText
         call NameIndexNew
         mov esi, eax
 .73:
@@ -2059,16 +2059,16 @@ InGameMenu_FA8:
         cmp eax, byte 10h
         jne short .75
         mov edx, 4
-        mov eax, unk_184692
+        mov eax, InGameScoreText
         xor ebx, ebx
         call MakeDirPath
         push dword [PlayoffTreeData]
         push str_05d3
-        push unk_184688
+        push InGameTimeText
         call sprintf_
         add esp, byte 0Ch
-        mov edx, unk_184688
-        mov eax, unk_184692
+        mov edx, InGameTimeText
+        mov eax, InGameScoreText
         call strcat_
         mov eax, dword [SeasonGameOpts]
         shl eax, 0Fh
@@ -2083,22 +2083,22 @@ InGameMenu_FA8:
         cmp dword [SeasonPlayoffs], byte 0
         je short .77
         mov edx, 4
-        mov eax, unk_184692
+        mov eax, InGameScoreText
         xor ebx, ebx
         call MakeDirPath
         push dword [PlayoffTreeData]
 .76:
         push str_05d3
-        push unk_184688
+        push InGameTimeText
         call sprintf_
         add esp, byte 0Ch
-        mov edx, unk_184688
-        mov eax, unk_184692
+        mov edx, InGameTimeText
+        mov eax, InGameScoreText
         call strcat_
         jmp short .79
 .77:
         mov edx, 6
-        mov eax, unk_184692
+        mov eax, InGameScoreText
         xor ebx, ebx
         call MakeDirPath
         push dword [RosterFileHandle]
@@ -2115,29 +2115,29 @@ InGameMenu_FA8:
         push eax
         push str_CsgDb2
 .80:
-        push unk_184688
+        push InGameTimeText
         call sprintf_
         add esp, byte 0Ch
-        mov edx, unk_184688
-        mov eax, unk_184692
+        mov edx, InGameTimeText
+        mov eax, InGameScoreText
         call strcat_
         test esi, esi
         jne short .81
         mov eax, 1D3h
         call GetLangText
         mov edx, eax
-        mov eax, byte_1846C4
+        mov eax, InGameTitleText
         call strcpy_
         xor eax, eax
         jmp short .84
 .81:
         mov eax, dword [dword_11F5C4]
-        push byte_1846C4
+        push InGameTitleText
         sar eax, 1
         push eax
         mov eax, dword [dword_11F5C0]
         sar eax, 1
-        mov byte [byte_1846C4], 0
+        mov byte [InGameTitleText], 0
         push eax
         test byte [GsOptions+1], 20h
         je short .82
@@ -2160,7 +2160,7 @@ InGameMenu_FA8:
         jne near .87
         mov eax, dword [gameopts]
         or byte [eax], 1
-        mov eax, unk_184692
+        mov eax, InGameScoreText
         call SaveGameFile
         test eax, eax
         jne short .85
@@ -2190,8 +2190,8 @@ InGameMenu_FA8:
 .85:
         test esi, esi
         je short .86
-        mov ebx, byte_1846C4
-        mov edx, unk_184688
+        mov ebx, InGameTitleText
+        mov edx, InGameTimeText
         mov eax, esi
         call NameIndexAdd
         mov esi, eax

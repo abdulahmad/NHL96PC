@@ -3,9 +3,9 @@ bits 32
 %include "hockey.inc"
 section s_81EEA progbits alloc exec nowrite align=1
 extern __CHP, str_Ags, awtmgoalie, HmGoalieSwapped, HmStarterGoalieMarks, HmBackupGoalieMarks, AwGoalieSwapped, SeasonUserSlot
-extern PlayoffTeams, byte_17D26F, SimLineCounts, seasondb
+extern PlayoffTeams, PlayoffUserTeam, SimLineCounts, seasondb
 extern statsfromleague, statsplayoffs, SimStatWeights, SimTeamFactors, SimPlayerOrder, hmtmlines, hmtmplstats, hmtmglstats
-extern hmtmroster, SeasonGameOpts, SeasonDay, PlayoffGameOpts, dword_17D1E2, SimWork, SimGoalieBufs
+extern hmtmroster, SeasonGameOpts, SeasonDay, PlayoffGameOpts, PlayoffSlotTeams, SimWork, SimGoalieBufs
 extern SimPlayerBufs
 extern AwayShotTotals, SimAwayStatsBufs, SimAwaySetBufs
 
@@ -2761,11 +2761,11 @@ SimulateGame:
 .217:
         mov eax, dword [dword ebp-012Ah]
         movzx eax, byte [byte eax+02h]
-        cmp eax, dword [dword ebx+dword_17D1E2]
+        cmp eax, dword [dword ebx+PlayoffSlotTeams]
         je short .218
         mov eax, dword [dword ebp-012Ah]
         movzx eax, byte [byte eax+03h]
-        cmp eax, dword [dword ebx+dword_17D1E2]
+        cmp eax, dword [dword ebx+PlayoffSlotTeams]
         jne short .219
 .218:
         movsx eax, byte [dword ecx+PlayoffTeams]
@@ -2773,7 +2773,7 @@ SimulateGame:
         jne short .219
         mov al, byte [byte ebp-062h]
         mov edx, 1
-        mov byte [byte_17D26F], al
+        mov byte [PlayoffUserTeam], al
         xor eax, eax
         call UpdateTeamDbs
 .219:

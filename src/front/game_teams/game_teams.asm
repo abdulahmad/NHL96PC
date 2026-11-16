@@ -6,7 +6,7 @@ section s_1F300 progbits alloc exec nowrite align=1
 extern GamePad1Dev, GamePad2Dev, GameUserTeam, GameModeFlags, HomeGoalCount, HomeShotCount, AwayGoalCount, AwayShotCount
 extern RosterSlotOrder, hmrosterflags, awroster, pad2dev, pad1dev, curperiod
 extern SaveFileHandle, GameExtraBlock, TeamRosterPtrs
-extern ObjCleanupSlot, PlayoffTreeData, RosterFileHandle, dword_17D267, FatalError, FileClose, FileOpenRead
+extern ObjCleanupSlot, PlayoffTreeData, RosterFileHandle, PlayoffsActive, FatalError, FileClose, FileOpenRead
 extern FileReadAt, GameLoopActive, gameopts, GameOver, gmode, hmroster, hmrosterpos, lseek_
 extern MakeDataPath, optflags, strcpy_, FreeGameSprites, SetCrowdTarget, GetLangText, MakeSeasonDbPath, MakePlayoffDbPath
 extern FreeMemBlock, DosFindFirst, hmplstats, hmglstats, hmglattr, hmplattr, awlinetab, hmteamrec
@@ -81,7 +81,7 @@ LoadGameRosters:
         call MakeSeasonDbPath
         jmp short .6
 .3:
-        cmp dword [dword_17D267], byte 0
+        cmp dword [PlayoffsActive], byte 0
         jne short .2
         mov ebx, 4
         lea eax, [byte ebp-03Ch]
@@ -200,7 +200,7 @@ LoadGameRosters:
         call MakeSeasonDbPath
         jmp short .20
 .17:
-        cmp dword [dword_17D267], byte 0
+        cmp dword [PlayoffsActive], byte 0
         jne short .16
         mov ebx, 4
         lea eax, [byte ebp-03Ch]
@@ -694,7 +694,7 @@ OpenRosterDb:
         call MakeSeasonDbPath
         jmp short .6
 .3:
-        cmp dword [dword_17D267], byte 0
+        cmp dword [PlayoffsActive], byte 0
         jne short .2
         lea eax, [byte ebp-02Ch]
         mov edx, dword [RosterFileHandle]
@@ -753,7 +753,7 @@ OpenRosterDb:
         call MakeSeasonDbPath
         jmp short .14
 .11:
-        cmp dword [dword_17D267], byte 0
+        cmp dword [PlayoffsActive], byte 0
         jne short .10
         mov ebx, 2
         lea eax, [byte ebp-02Ch]
@@ -812,7 +812,7 @@ OpenRosterDb:
         call MakeSeasonDbPath
         jmp short .22
 .19:
-        cmp dword [dword_17D267], byte 0
+        cmp dword [PlayoffsActive], byte 0
         jne short .18
         mov ebx, 5
         lea eax, [byte ebp-02Ch]
@@ -877,7 +877,7 @@ OpenRosterDb:
         call MakeSeasonDbPath
         jmp short .31
 .28:
-        cmp dword [dword_17D267], byte 0
+        cmp dword [PlayoffsActive], byte 0
         jne short .27
         mov ebx, 1
         lea eax, [byte ebp-02Ch]

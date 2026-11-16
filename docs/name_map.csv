@@ -5176,8 +5176,16 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 11EDDC,PlayoffSeriesWins,dword_11EDDC,new,low,wins needed in each playoff series,src/data/front/front_A17D5_data_02.asm
 11EE18,PlayoffTreeY,dword_11EE18,new,low,playoff tree y positions,src/data/front/front_A17D5_data_02.asm
 11EE94,str_Punct_DrawPlayoffTree,dword_11EE94,new,high,"string ""\r""",src/data/front/playoff_data_02.asm
+11EF10,PlayoffSeriesLayout,dword_11EF10,new,low,playoff series layout,src/data/front/playoff_data_02.asm
+11EF80,FinalGameNum,dword_11EF80,new,low,final game number,src/data/front/playoff_data_02.asm
 11EF8C,PlayoffSparkleSoundOn,dword_11EF8C,new,low,set once the playoff sparkle sound plays,src/data/front/playoff_data_02.asm
 11EF90,str_Punct_PlayoffTreeScreen,unk_11EF90,new,high,"string ""\t""",src/data/front/playoff_data_02.asm
+11EFDC,PlayoffTreeTemplate,unk_11EFDC,new,low,playoff tree line template,src/data/front/playoff_data_02.asm
+11F39C,TreeShapeLeft,unk_11F39C,new,low,"tree shape table, left side",src/data/front/playoff_data_02.asm
+11F3DC,TreeShapeRight,unk_11F3DC,new,low,"tree shape table, right side",src/data/front/playoff_data_02.asm
+11F41C,TreeShapeCentre,unk_11F41C,new,low,"tree shape table, centre",src/data/front/playoff_data_02.asm
+11F45C,TreeShapeFinal,unk_11F45C,new,low,"tree shape table, final",src/data/front/playoff_data_02.asm
+11F49C,PlayoffBracketOrder,byte_11F49C,new,low,playoff bracket order,src/data/front/playoff_data_02.asm
 11F568,mouseminx,dword_11F568,95PC,high,"mouse library: pointer range, left; MouseReadMotion clamps to it (the same code as NHL95PC)",src/data/lib/lib_A8B9B_data_02.asm
 11F56C,mouseminy,dword_11F56C,95PC,high,"mouse library: pointer range, top",src/data/lib/lib_A8B9B_data_02.asm
 11F570,mousemaxx,dword_11F570,95PC,high,"mouse library: pointer range, right (exclusive)",src/data/lib/lib_A8B9B_data_02.asm
@@ -6394,10 +6402,64 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 17CFB1,PlayoffTeams,byte_17CFB1,new,low,playoff team table,src/data/front/front_794FF_bss_01.asm
 17D13A,SaveFileName,byte_17D13A,new,low,save file name,src/data/front/front_794FF_bss_01.asm
 17D162,RosterFileHandle,dword_17D162,new,low,roster file handle,src/data/front/front_794FF_bss_01.asm
+17D166,PlayoffSeeds,dword_17D166,new,low,playoff seed of each slot,src/data/front/playoff_bss_01.asm
+17D16A,PlayoffSeriesScore,dword_17D16A,new,low,wins in each playoff series,src/data/front/playoff_bss_01.asm
 17D18E,PlayoffFormatTeams,dword_17D18E,new,low,teams per playoff format,src/data/front/playoff_bss_01.asm
+17D1D6,FinalHomeWins,dword_17D1D6,new,low,wins by the first team in the final,src/data/front/playoff_bss_01.asm
+17D1DA,FinalAwayWins,dword_17D1DA,new,low,wins by the second team in the final,src/data/front/playoff_bss_01.asm
+17D1DE,PlayoffPickTeams,dword_17D1DE,new,low,teams picked for the playoffs,src/data/front/playoff_bss_01.asm
+17D1E2,PlayoffSlotTeams,dword_17D1E2,new,low,team in each playoff slot,src/data/front/playoff_bss_01.asm
+17D1E6,PlayoffWinners,dword_17D1E6,new,low,winner of each playoff series,src/data/front/playoff_bss_01.asm
+17D1EA,PlayoffDivLeaders,dword_17D1EA,new,low,division leaders for the playoffs,src/data/front/playoff_bss_01.asm
+17D202,PlayoffSimTeams,dword_17D202,new,low,playoff teams for simulated games,src/data/front/playoff_bss_01.asm
+17D20A,PlayoffWildCards,dword_17D20A,new,low,wild card teams for the playoffs,src/data/front/playoff_bss_01.asm
+17D252,FinalTeamHome,dword_17D252,new,low,first team in the final,src/data/front/playoff_bss_01.asm
+17D256,FinalTeamAway,dword_17D256,new,low,second team in the final,src/data/front/playoff_bss_01.asm
+17D25A,PlayoffChampion,dword_17D25A,new,low,playoff champion (63h for none),src/data/front/playoff_bss_01.asm
+17D25E,PlayoffMaxSeed,dword_17D25E,new,low,highest seed left,src/data/front/playoff_bss_01.asm
+17D262,PlayoffRoundNum,byte_17D262,new,low,current playoff round (3 for the final),src/data/front/playoff_bss_01.asm
 17D263,cupseries,dword_17D263,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/playoff_bss_01.asm
+17D267,PlayoffsActive,dword_17D267,new,low,playoffs are running,src/data/front/playoff_bss_01.asm
+17D26B,PlayoffFlags,dword_17D26B,new,low,playoff flags,src/data/front/playoff_bss_01.asm
+17D26F,PlayoffUserTeam,byte_17D26F,new,low,user team in the playoffs,src/data/front/playoff_bss_01.asm
+17D270,PlayoffHomeTeam,byte_17D270,new,low,home team of the playoff game,src/data/front/playoff_bss_01.asm
+17D271,PlayoffAwayTeam,byte_17D271,new,low,away team of the playoff game,src/data/front/playoff_bss_01.asm
+17D272,ModemGameOpts,unk_17D272,new,low,game options for a modem game,src/data/front/playoff_bss_01.asm
+17D283,ModemOptTeams,byte_17D283,new,low,team bytes within the modem game options,src/data/front/playoff_bss_01.asm
+17D32C,SavedGameOpts,unk_17D32C,new,low,saved copy of the game options,src/data/front/playoff_bss_01.asm
+17D3E8,OverlayRemap,unk_17D3E8,new,low,colour remap table for the overlay panels,src/data/front/playoff_bss_01.asm
+17D4E8,PauseRegBuffer,dword_17D4E8,new,low,pause screen register buffer,src/data/front/pause_menu_bss_01.asm
+17D4EC,PauseBoxXs,dword_17D4EC,new,low,pause menu box x positions in use,src/data/front/pause_menu_bss_01.asm
+17D4F0,PauseBoxYs,dword_17D4F0,new,low,pause menu box y positions in use,src/data/front/pause_menu_bss_01.asm
+17D4F4,PauseListH,dword_17D4F4,new,low,pause menu list height,src/data/front/pause_menu_bss_01.asm
+17D4F8,PauseTitleW,dword_17D4F8,new,low,pause menu title width,src/data/front/pause_menu_bss_01.asm
+17D4FC,PauseMsgTop,dword_17D4FC,new,low,"pause screen message, top line",src/data/front/pause_menu_bss_01.asm
+17D500,PauseMsgBottom,dword_17D500,new,low,"pause screen message, bottom line",src/data/front/pause_menu_bss_01.asm
+17D504,PauseMsgExtra,dword_17D504,new,low,pause screen extra message,src/data/front/pause_menu_bss_01.asm
+17D508,PauseTitleX,dword_17D508,new,low,pause menu title x position,src/data/front/pause_menu_bss_01.asm
+17D50C,PauseListY,dword_17D50C,new,low,pause menu list y position,src/data/front/pause_menu_bss_01.asm
+17D510,PauseMsgTime,dword_17D510,new,low,tick count when the pause message was shown,src/data/front/pause_menu_bss_01.asm
+17D514,PauseFrameBmp,dword_17D514,new,low,pause menu frame bitmap,src/data/front/pause_menu_bss_01.asm
 17D518,PauseClockArea,dword_17D518,new,low,pause clock area,src/data/front/pause_menu_bss_01.asm
+17D51C,PauseTitleItems,dword_17D51C,new,low,pause menu title items in use,src/data/front/pause_menu_bss_01.asm
+17D520,PauseItemList,dword_17D520,new,low,pause menu items in use,src/data/front/pause_menu_bss_01.asm
+17D524,PauseScaleStep,dword_17D524,new,low,pause menu scale step,src/data/front/pause_menu_bss_01.asm
 17D528,FrontShapeFile,dword_17D528,new,low,front end shape file,src/data/front/pause_menu_bss_01.asm
+17D52C,PauseTextBuf,unk_17D52C,new,low,pause screen text buffer,src/data/front/pause_menu_bss_01.asm
+17D560,ControllerSlotDevice,word_17D560,new,low,controller slot table: device (8 bytes per slot),src/data/front/pause_menu_bss_01.asm
+17D562,ControllerSlotTeam,word_17D562,new,low,controller slot table: team,src/data/front/pause_menu_bss_01.asm
+17D564,ControllerSlotIcon,dword_17D564,new,low,controller slot table: icon art,src/data/front/pause_menu_bss_01.asm
+17D568,ControllerPadIcons,word_17D568,new,low,controller pad flags and icon art,src/data/front/pause_menu_bss_01.asm
+17D580,ControllerColumnArt,dword_17D580,new,low,controller column art,src/data/front/pause_menu_bss_01.asm
+17D584,ControllerBackBmp,dword_17D584,new,low,controller screen background bitmap,src/data/front/pause_menu_bss_01.asm
+17D588,ControllerIconArt,dword_17D588,new,low,controller icon art,src/data/front/pause_menu_bss_01.asm
+17D58C,ControllerDragSlot,word_17D58C,new,low,controller slot being dragged (-1 for none),src/data/front/pause_menu_bss_01.asm
+17D58E,ControllerDragIcon,word_17D58E,new,low,controller icon being dragged (-1 for none),src/data/front/pause_menu_bss_01.asm
+17D590,ControlPicksArt,dword_17D590,new,low,control picks screen art,src/data/front/pause_menu_bss_01.asm
+17D594,ControlPicksBmp,dword_17D594,new,low,control picks screen bitmap,src/data/front/pause_menu_bss_01.asm
+17D598,ControlPicksItems,unk_17D598,new,low,control picks screen items,src/data/front/pause_menu_bss_01.asm
+17D650,ControlPickFlags,byte_17D650,new,low,control picks option flags,src/data/front/pause_menu_bss_01.asm
+17D654,ControlPickKeys,dword_17D654,new,low,control picks key table,src/data/front/pause_menu_bss_01.asm
 17D678,DialCursor,dword_17D678,new,low,cursor in the dial number field,src/data/front/front_741BD_bss_01.asm
 17D67C,DialLength,dword_17D67C,new,low,length of the number typed,src/data/front/front_741BD_bss_01.asm
 17D680,DialDigitsBmp,dword_17D680,new,low,dial digits bitmap,src/data/front/front_741BD_bss_01.asm
@@ -6572,8 +6634,36 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 184404,InGameBoxTop,dword_184404,new,low,in-game menu box top edge,src/data/front/front_A17D5_bss_01.asm
 184408,InterRegBuffer,dword_184408,new,low,intermission register buffer,src/data/front/front_A17D5_bss_01.asm
 18440C,InGameMenuWork,unk_18440C,new,low,in-game menu work area,src/data/front/front_A17D5_bss_01.asm
+1845FC,PlayoffTreeLabels,dword_1845FC,new,low,playoff tree label positions,src/data/front/playoff_bss_02.asm
+184624,InGameMenuArt,dword_184624,new,low,in-game menu art,src/data/front/playoff_bss_02.asm
+184628,InGameMenuShapes,dword_184628,new,low,in-game menu shapes,src/data/front/playoff_bss_02.asm
+18464C,InGameMenuState,byte_18464C,new,low,in-game menu state bytes,src/data/front/playoff_bss_02.asm
+184670,InGameBoxXs,dword_184670,new,low,in-game menu box x positions in use,src/data/front/playoff_bss_02.asm
+184674,InGameBoxYs,dword_184674,new,low,in-game menu box y positions in use,src/data/front/playoff_bss_02.asm
+184678,InGameScaleStep,dword_184678,new,low,in-game menu scale step,src/data/front/playoff_bss_02.asm
+18467C,InGameItemList,dword_18467C,new,low,in-game menu items in use,src/data/front/playoff_bss_02.asm
+184680,InGameTitleItems,dword_184680,new,low,in-game menu title items in use,src/data/front/playoff_bss_02.asm
+184684,InGameFrameBmp,dword_184684,new,low,in-game menu frame bitmap,src/data/front/playoff_bss_02.asm
+184688,InGameTimeText,unk_184688,new,low,in-game menu time text,src/data/front/playoff_bss_02.asm
+184692,InGameScoreText,unk_184692,new,low,in-game menu score text,src/data/front/playoff_bss_02.asm
+1846C4,InGameTitleText,byte_1846C4,new,low,in-game menu title text,src/data/front/playoff_bss_02.asm
+1846F0,ModemPanelArt,dword_1846F0,new,low,modem team panel art,src/data/front/playoff_bss_02.asm
+1846F4,TreeLineShift,dword_1846F4,new,low,tree line shift per entry,src/data/front/playoff_bss_02.asm
+1846F8,ModemPanelShapes,dword_1846F8,new,low,modem team panel shapes,src/data/front/playoff_bss_02.asm
+1846FC,PlayoffTreeLines,dword_1846FC,new,low,"playoff tree lines, copied from the template",src/data/front/playoff_bss_02.asm
+184ABC,PlayoffSlotLogos,dword_184ABC,new,low,logo in each playoff setup slot,src/data/front/playoff_bss_02.asm
+184ADC,PlayoffSlotFlags,dword_184ADC,new,low,flags of each playoff setup slot,src/data/front/playoff_bss_02.asm
+184AFC,TreeBackBmp,dword_184AFC,new,low,playoff tree background bitmap,src/data/front/playoff_bss_02.asm
+184B00,TreeScrollStep,dword_184B00,new,low,playoff tree scroll step,src/data/front/playoff_bss_02.asm
+184B04,statspalshape,dword_184B04,new,low,stats palette shape,src/data/front/playoff_bss_02.asm
+184B08,TreeViewBmp,dword_184B08,new,low,playoff tree view bitmap,src/data/front/playoff_bss_02.asm
+184B0C,TreeScrollY,dword_184B0C,new,low,playoff tree scroll position,src/data/front/playoff_bss_02.asm
+184B10,TreeScrollTarget,dword_184B10,new,low,playoff tree scroll target,src/data/front/playoff_bss_02.asm
+184B14,TreeScrollPos,dword_184B14,new,low,playoff tree scroll positions,src/data/front/playoff_bss_02.asm
 184B1C,PlayoffTeamCount,dword_184B1C,new,low,teams in the chosen playoff format,src/data/front/playoff_bss_02.asm
 184B20,PlayoffFormat,dword_184B20,new,low,chosen playoff format,src/data/front/playoff_bss_02.asm
+184B24,PlayoffSlotOn,byte_184B24,new,low,playoff slot is in use,src/data/front/playoff_bss_02.asm
+184B28,PlayoffTeamIn,byte_184B28,new,low,team is in the playoffs,src/data/front/playoff_bss_02.asm
 18566C,timercallbacks,,95PC,medium,NHL95PC EDCDC (refset): referenced by the same 2 matched functions,
 18568C,memlist1,dword_18568C,95PC,medium,same code as in the next game,src/data/lib/lib_A8B9B_bss_01.asm
 185690,MemBlockGuards,dword_185690,new,medium,memory block guards,src/data/lib/lib_A8B9B_bss_01.asm

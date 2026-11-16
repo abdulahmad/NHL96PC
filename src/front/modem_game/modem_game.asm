@@ -17,7 +17,7 @@ extern DrawColorText, DrawColorTextCentred, DrawBox, StopMusic, QueueCurrentMusi
 extern SoundSecondsToBytes, SoundIdle, GetLangText, RemoveTimerCallback, DrawShapeAtOwnPos, DrawShape, PutBlockAtOwnPos, AllocMemBlock
 extern FreeMemBlock, CreateBitmap, TintRect, DrawRectOutline, FreeBitmap, SetScreenTarget, GetPaletteRange, FillRectColor
 extern KeyIsDown, KbdGetKey, FindShape, LinkConfig, LinkCfgInit, LinkCfgDial, LinkBlockBuffer, LinkMsgQueue
-extern LinkValueQueue, LinkInputQueue, LinkRemoteQueue, LinkAckReply, GsPhoneNumber, GsModemInit, unk_17D272, SlotsTwoPlayer
+extern LinkValueQueue, LinkInputQueue, LinkRemoteQueue, LinkAckReply, GsPhoneNumber, GsModemInit, ModemGameOpts, SlotsTwoPlayer
 extern ControllerScreenMode, LinkSyncWord, BaudRateTable, ChatLocalLen, ChatRemoteLen, GsComPort, GsDirectLink, GsWaitForCall
 global ModemGameOpen, LinkBlockStart, LinkBlockData, LinkSendBlock, LinkReceiveBlock, LinkSyncMessage, LinkGameMessage, jpt_1278E
 global LinkGameMessage_18, LinkExchangeValues, ModemGameConnect, ShowLinkWaitBox, HideLinkWaitBox, LinkSyncTimedOut, LinkSyncPoint, LinkSync
@@ -834,7 +834,7 @@ ModemGameConnect:
         cmp word [ControllerScreenMode], byte 0
         jne short .15
         mov edx, 0B9h
-        mov eax, unk_17D272
+        mov eax, ModemGameOpts
         call LinkReceiveBlock
         xor edx, edx
         inc dword [LinkSyncCount]
@@ -862,10 +862,10 @@ ModemGameConnect:
 .15:
         mov ecx, 0B9h
         mov esi, optblock_end
-        mov edi, unk_17D272
+        mov edi, ModemGameOpts
         rep movsb
         mov edx, 0B9h
-        mov eax, unk_17D272
+        mov eax, ModemGameOpts
         call LinkSendBlock
         xor edx, edx
         inc dword [LinkSyncCount]

@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_18E80 progbits alloc exec nowrite align=1
-extern PenaltyKillRanks, PowerPlayRanks, PlayoffTreeData, RosterFileHandle, dword_17D267, lseek_, MakeDataPath, open_
+extern PenaltyKillRanks, PowerPlayRanks, PlayoffTreeData, RosterFileHandle, PlayoffsActive, lseek_, MakeDataPath, open_
 extern qsort_, read_, MakeSeasonDbPath, CloseFile
 global GetSpecialTeamsRanks, ComparePowerPlayPct, ComparePenaltyKillPct
 ;-----------------------------------------------------------------------------
@@ -208,7 +208,7 @@ GetSpecialTeamsRanks:
 .24:
         cmp edx, byte 2
         jne near .35
-        cmp dword [dword_17D267], byte 0
+        cmp dword [PlayoffsActive], byte 0
         je short .25
         mov ebx, 4
         lea eax, [byte ebp+052h]

@@ -47,7 +47,7 @@ extern FixedInverse, IntSqrt, DrawArtScaledRemap, FlipArtHorizontal, SetScreenTa
 extern SetBlendTables, ScaleRowBlend, JoyButtonMap, FindShape, ClearClipRect, SetNearClipZ, SetViewScreenOrigin, TeamLineEnergy
 extern TextSetFont, str_Empty, OverlayPanelQueue, unk_122320, hmteamrec, awteamrec
 extern HomeSpriteShades, AwaySpriteShades, RefSpriteShades, PuckModelPoints, DrawList, DrawListCount, ZoneRects
-extern JerseyColorMap, TeamPaletteSave, HomeJerseyPal, AwayJerseyPal, unk_17D3E8, str_T_DrawOverlayCaption, unk_5848C, vtoa
+extern JerseyColorMap, TeamPaletteSave, HomeJerseyPal, AwayJerseyPal, OverlayRemap, str_T_DrawOverlayCaption, unk_5848C, vtoa
 extern HomeControlSlot, clockticks, bannermsg, ControlMarkerFrames, ControlMarkerAltFrames, GoalNetFrames, SavedViewMode, ovlstep
 extern SlotDevice, word_1650A6, word_165144, word_165146, word_165148, word_16514A
 extern word_16514C, hmtmPwrGoals, hmtmPwrPlays, hmscore, hmtmline, hmtmap, awscore, awtmline
@@ -963,7 +963,7 @@ InitGameView:
         add esp, byte 8
         mov dword [ClockFont], eax
         call LoadIceLogo
-        push unk_17D3E8
+        push OverlayRemap
         push TeamRosterPtrs+320h
         push dword 0A666h
         call TintRect
@@ -1681,7 +1681,7 @@ DrawPuckSprite:
         cmp word [word_17709C], byte 0
         jle short .5
 .3:
-        push unk_17D3E8
+        push OverlayRemap
         call SetRemapTable
         add esp, byte 4
         call DrawPuckShadowModel
@@ -3177,7 +3177,7 @@ OpenOverlayPanel:
         mov dword [byte ebp-010h], eax
         lea ecx, [byte eax-01h]
         mov edx, edi
-        mov eax, unk_17D3E8
+        mov eax, OverlayRemap
         call FillBox
         mov eax, 2
         mov cl, byte [OverlayPanelOn]
@@ -3333,7 +3333,7 @@ DrawOverlayCaption:
         dec ecx
         push eax
         mov edx, esi
-        mov eax, unk_17D3E8
+        mov eax, OverlayRemap
         call FillBox
         cmp dword [OverlayPanelOn], byte 0
         je short .1
@@ -3475,7 +3475,7 @@ DrawTimedPanel:
         dec ecx
         push eax
         mov edx, edi
-        mov eax, unk_17D3E8
+        mov eax, OverlayRemap
         call FillBox
         cmp dword [OverlayPanelOn], byte 0
         je short .3
@@ -3604,7 +3604,7 @@ DrawPenaltyClock:
         dec eax
         mov edx, esi
         push eax
-        mov eax, unk_17D3E8
+        mov eax, OverlayRemap
         mov dword [byte ebp-04h], ebx
         call FillBox
         cmp dword [OverlayPanelOn], byte 0
@@ -4293,7 +4293,7 @@ DrawTimeLeftPanel:
         mov dword [byte ebp-08h], eax
         lea ecx, [byte eax-01h]
         mov edx, edi
-        mov eax, unk_17D3E8
+        mov eax, OverlayRemap
         call FillBox
         mov eax, 24h
         mov cl, byte [OverlayPanelId]
@@ -4823,7 +4823,7 @@ DrawScorePanel:
         mov dword [byte ebp-08h], eax
         lea ecx, [byte eax-01h]
         mov edx, edi
-        mov eax, unk_17D3E8
+        mov eax, OverlayRemap
         call FillBox
         mov eax, 24h
         mov cl, byte [OverlayPanelId]
@@ -5743,7 +5743,7 @@ DrawLineEnergyBar:
         sar eax, cl
         lea ecx, [eax+edx]
         mov ebx, dword [byte ebp+014h]
-        mov eax, unk_17D3E8
+        mov eax, OverlayRemap
         call FillBox
         push edi
         mov cl, byte [OverlayPanelId]
@@ -5975,7 +5975,7 @@ DrawLineChangeBox:
         mov dword [byte ebp-028h], eax
         lea ecx, [byte eax-01h]
         mov edx, dword [byte ebp-08h]
-        mov eax, unk_17D3E8
+        mov eax, OverlayRemap
         call FillBox
         push dword [byte ebp-024h]
         mov eax, 2

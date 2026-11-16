@@ -68,7 +68,7 @@ extern TransformVector, MultiplyMatrix, OriSetObjectMatrix, MakeRotXMatrix, Make
 extern SetScreenTarget, SetClipWindow, MouseRead, SetViewRect, TicksSinceLast, FindShape, ClearClipRect, SetViewScreenOrigin
 extern SetViewFov, TransposeMatrix, str_D19, str_dot4, unk_11A430, unk_11A770, unk_11A9B0, unk_11AB30
 extern unk_11AE70, str_Punct_ReplayScreen, str_0_SaveHighlight, unk_122344, unk_1774C4, unk_177510, unk_1778C4
-extern unk_177908, unk_1781E4, unk_1781FE, DrawList, DrawListCount, CamPathTarget, optblock_end, unk_17D32C
+extern unk_177908, unk_1781E4, unk_1781FE, DrawList, DrawListCount, CamPathTarget, optblock_end, SavedGameOpts
 extern SlotsTwoPlayer, ControllerScreenMode, GoalNetFrames, str_Punct_DrawReplayCounter, word_11A410, word_11A414, regd0, regd1
 extern word_176FB8, word_176FD4, word_176FDA, word_176FF6, word_176FFA, word_176FFC, word_17704A, word_17704C
 extern word_17706C, word_17706E, word_17709C, word_1770AB, word_1770AD, word_1770AF, word_1770D3, word_1770D5
@@ -4141,7 +4141,7 @@ WatchHighlight:
         call StartGameSound
         push unk_1774C4
         mov esi, optblock_end
-        mov edi, unk_17D32C
+        mov edi, SavedGameOpts
         call SaveTextState
         add esp, byte 4
         mov ecx, 0B9h
@@ -4277,7 +4277,7 @@ WatchHighlight:
         add esp, byte 4
 .6:
         mov ecx, 0B9h
-        mov esi, unk_17D32C
+        mov esi, SavedGameOpts
         mov edi, optblock_end
         rep movsb
         push unk_1774C4

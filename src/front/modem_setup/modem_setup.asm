@@ -4,9 +4,9 @@ bits 32
 extern BottomBarArt
 section s_711ED progbits alloc exec nowrite align=1
 extern str_GenericHayesCompatible, BlackPalette, byte_11FA2F, TitleTextStyle
-extern byte_17D650, byte_17D651, CopyBitmap, DrawColorText, DrawFrameAt
+extern ControlPickFlags, CopyBitmap, DrawColorText, DrawFrameAt
 extern GripLibHandle, MenuMouseX, ControlPickRows, str_Punct_ControlPicksScreen, DialAborted, LinkSetupSlots, MatchupLayer, TeamStatsBitmap
-extern MenuBoxStyle, GlobalSetData, GsModemDial, GsOptions, dword_17D590, dword_17D594, dword_17D654
+extern MenuBoxStyle, GlobalSetData, GsModemDial, GsOptions, ControlPicksArt, ControlPicksBmp, ControlPickKeys
 extern DialCursor, DialLength, DialDigitsBmp, DialAbort, EditText, FadeOut, FadeOutMusic, FadePalette
 extern FillMusicStream, TextStringWidth, GetInputDevices, GetLangText, GetTicks, globalset, InitMenuItems, JoystickTestScreen
 extern LoadPackedFile, MessageBox, ModemChat, ModemGameClose, ModemGameConnect, ModemGameOpen, ModemGameQuit, MouseRead
@@ -23,7 +23,7 @@ extern str_Off0, str_Off1, str_Onn0, str_Onn1, str_Pal13, str_PICKS, str_PICKS2,
 extern str_SET02, str_SET13, str_SET23, str_SldD, str_TONE, str_WFC0, str_WFC1, str_WFC2
 extern str_YES0, str_YES1, strcpy_, strlen_, DrawShapeAtOwnPos, DrawArt, DrawShape, PutBlockAtOwnPos
 extern AllocMemBlock, FreeMemBlock, CreateBitmap, ClearScreenColour, FreeBitmap, SetScreenTarget, KeyIsDown, KbdGetKey
-extern FindShape, TextSetFont, GsPhoneNumber, GsModemInit, unk_17D598, unk_708A9, unk_70901, unk_70BC1
+extern FindShape, TextSetFont, GsPhoneNumber, GsModemInit, ControlPicksItems, unk_708A9, unk_70901, unk_70BC1
 extern unk_70BCB, str_N_ControlSetupScreen, str_R, str_F, SlotsTwoPlayer, BaudChoices, GsComPort, GsBaudIndex
 extern GsDirectLink, GsWaitForCall, GsLinkOption, GsDialMode, WriteGlobalSet
 global DrawOnOffSlider, jpt_7130F, PollOptionKeys, PollOptionKeys_94, PollOptionKeys_B6, PollOptionKeys_D5, PollOptionKeys_F6, PollOptionKeys_117
@@ -155,8 +155,8 @@ jpt_7130F:
         dd PollOptionKeys_192
 ;-----------------------------------------------------------------------------
 ; PollOptionKeys                                  71333  96 PC, low confidence
-; Checks the 9 option keys (KeyIsDown, held-tick timers dword_17D654), plays
-; sound 33h and toggles the option bits (byte_17D650)
+; Checks the 9 option keys (KeyIsDown, held-tick timers ControlPickKeys), plays
+; sound 33h and toggles the option bits (ControlPickFlags)
 ;-----------------------------------------------------------------------------
 PollOptionKeys:
         push ebx
@@ -181,13 +181,13 @@ PollOptionKeys:
         test eax, eax
         je short .2
         call GetTicks
-        cmp eax, dword [dword esi+dword_17D654]
+        cmp eax, dword [dword esi+ControlPickKeys]
         jle short .3
         mov eax, dword [byte ebp-04h]
         mov dword [byte ebp-0Ch], eax
         jmp short .3
 .2:
-        mov dword [dword esi+dword_17D654], eax
+        mov dword [dword esi+ControlPickKeys], eax
 .3:
         inc dword [byte ebp-08h]
         inc dword [byte ebp-04h]
@@ -203,124 +203,124 @@ PollOptionKeys:
         mov esi, dword [byte ebp-0Ch]
         jmp dword [nosplit cs:esi*4+jpt_7130F]
 PollOptionKeys_94:
-        test byte [byte_17D650], 1
+        test byte [ControlPickFlags], 1
         sete al
         movzx edi, al
-        and byte [byte_17D650], 0FEh
+        and byte [ControlPickFlags], 0FEh
         and edi, byte 1
-        or dword [byte_17D650], edi
+        or dword [ControlPickFlags], edi
         jmp near PollOptionKeys_192.5
 PollOptionKeys_B6:
-        test byte [byte_17D650], 2
+        test byte [ControlPickFlags], 2
         sete al
         movzx edi, al
         and edi, byte 1
-        and byte [byte_17D650], 0FDh
+        and byte [ControlPickFlags], 0FDh
         lea eax, [edi+edi]
         jmp near PollOptionKeys_192.4
 PollOptionKeys_D5:
-        test byte [byte_17D650], 4
+        test byte [ControlPickFlags], 4
         sete al
         movzx edi, al
         and edi, byte 1
         mov eax, edi
-        and byte [byte_17D650], 0FBh
+        and byte [ControlPickFlags], 0FBh
         shl eax, 2
         jmp near PollOptionKeys_192.4
 PollOptionKeys_F6:
-        test byte [byte_17D650], 8
+        test byte [ControlPickFlags], 8
         sete al
         movzx edi, al
         and edi, byte 1
         mov eax, edi
-        and byte [byte_17D650], 0F7h
+        and byte [ControlPickFlags], 0F7h
         shl eax, 3
         jmp near PollOptionKeys_192.4
 PollOptionKeys_117:
-        test byte [byte_17D650], 10h
+        test byte [ControlPickFlags], 10h
         sete al
         movzx edi, al
         and edi, byte 1
         mov eax, edi
-        and byte [byte_17D650], 0EFh
+        and byte [ControlPickFlags], 0EFh
         shl eax, 4
         jmp near PollOptionKeys_192.4
 PollOptionKeys_138:
-        test byte [byte_17D650], 20h
+        test byte [ControlPickFlags], 20h
         sete al
         movzx edi, al
         and edi, byte 1
         mov eax, edi
-        and byte [byte_17D650], 0DFh
+        and byte [ControlPickFlags], 0DFh
         shl eax, 5
         jmp short PollOptionKeys_192.4
 PollOptionKeys_156:
-        test byte [byte_17D650], 40h
+        test byte [ControlPickFlags], 40h
         sete al
         movzx edi, al
         and edi, byte 1
         mov eax, edi
-        and byte [byte_17D650], 0BFh
+        and byte [ControlPickFlags], 0BFh
         shl eax, 6
         jmp short PollOptionKeys_192.4
 PollOptionKeys_174:
-        test byte [byte_17D650], 80h
+        test byte [ControlPickFlags], 80h
         sete al
         movzx edi, al
         and edi, byte 1
         mov eax, edi
-        and byte [byte_17D650], 7Fh
+        and byte [ControlPickFlags], 7Fh
         shl eax, 7
         jmp short PollOptionKeys_192.4
 PollOptionKeys_192:
-        test byte [byte_17D651], 1
+        test byte [ControlPickFlags+1], 1
         sete al
         movzx edi, al
         and edi, byte 1
         mov eax, edi
-        and byte [byte_17D651], 0FEh
+        and byte [ControlPickFlags+1], 0FEh
         shl eax, 8
 .4:
-        or dword [byte_17D650], eax
+        or dword [ControlPickFlags], eax
 .5:
         mov esi, dword [byte ebp-0Ch]
         mov ebx, dword [nosplit esi*8+str_Punct_ControlPicksScreen]
         mov edx, dword [nosplit esi*8+ControlPickRows]
         imul esi, byte 66h
-        mov eax, dword [dword_17D590]
+        mov eax, dword [ControlPicksArt]
         mov ecx, edi
         call DrawOnOffSlider
         test edi, edi
         je short .6
         push str_Onn0
-        push dword [dword_17D590]
+        push dword [ControlPicksArt]
         call FindShape
         add esp, byte 8
-        mov edi, dword [dword_17D594]
+        mov edi, dword [ControlPicksBmp]
         push str_Onn1
         jmp short .7
 .6:
         push str_Off0
-        push dword [dword_17D590]
+        push dword [ControlPicksArt]
         call FindShape
         add esp, byte 8
-        mov edi, dword [dword_17D594]
+        mov edi, dword [ControlPicksBmp]
         push str_Off1
 .7:
         mov dword [byte edi+esi+01Ah], eax
-        push dword [dword_17D590]
+        push dword [ControlPicksArt]
         call FindShape
-        mov edx, dword [dword_17D594]
+        mov edx, dword [ControlPicksBmp]
         add esp, byte 8
         mov dword [byte edx+esi+01Eh], eax
         mov esi, dword [byte ebp-0Ch]
         call GetTicks
         add eax, byte 12h
-        mov dword [nosplit esi*4+dword_17D654], eax
+        mov dword [nosplit esi*4+ControlPickKeys], eax
         jmp short .9
 .8:
         mov ecx, 24h
-        mov edi, dword_17D654
+        mov edi, ControlPickKeys
         rep stosb
 .9:
         leave
@@ -377,8 +377,8 @@ ControlPicksScreen:
         mov ecx, 0BCh
         mov esi, GlobalSetData
         add esp, byte 0Ch
-        mov edi, unk_17D598
-        mov dword [dword_17D594], eax
+        mov edi, ControlPicksItems
+        mov dword [ControlPicksBmp], eax
         rep movsb
         mov eax, 2
         xor edx, edx
@@ -387,12 +387,12 @@ ControlPicksScreen:
         mov eax, 54h
         call LoadPackedFile
         push byte 0
-        mov dword [dword_17D590], eax
+        mov dword [ControlPicksArt], eax
         call ClearScreenColour
         add esp, byte 4
         call BlackPalette
         push str_Pal13
-        push dword [dword_17D590]
+        push dword [ControlPicksArt]
         call FindShape
         add eax, byte 10h
         add esp, byte 8
@@ -400,11 +400,11 @@ ControlPicksScreen:
         call SetScreenColors
         call SetScreenTarget
         push str_BKGD7
-        push dword [dword_17D590]
+        push dword [ControlPicksArt]
         call FindShape
         add esp, byte 8
         push eax
-        mov edi, dword_17D654
+        mov edi, ControlPickKeys
         call PutBlockAtOwnPos
         mov ecx, 24h
         add esp, byte 4
@@ -412,7 +412,7 @@ ControlPicksScreen:
         mov dword [byte ebp+06Ah], 0FFFFFFFFh
         rep stosb
         mov eax, 0Dh
-        mov edx, dword [dword_17D594]
+        mov edx, dword [ControlPicksBmp]
         mov dword [byte ebp+05Eh], 0
         call InitMenuItems
         lea eax, [dword ebp-02C6h]
@@ -429,41 +429,41 @@ ControlPicksScreen:
         mov eax, dword [byte ebp+076h]
         jmp dword [dword cs:eax+unk_7158B]
 ControlPicksScreen_124:
-        mov eax, dword [byte_17D650]
+        mov eax, dword [ControlPickFlags]
         and eax, byte 1
         jmp short ControlPicksScreen_177.3
 ControlPicksScreen_12E:
-        mov eax, dword [byte_17D650]
+        mov eax, dword [ControlPickFlags]
         shl eax, 1Eh
 .2:
         shr eax, 1Fh
         jmp short ControlPicksScreen_177.3
 ControlPicksScreen_13B:
-        mov eax, dword [byte_17D650]
+        mov eax, dword [ControlPickFlags]
         shl eax, 1Dh
         jmp short ControlPicksScreen_12E.2
 ControlPicksScreen_145:
-        mov eax, dword [byte_17D650]
+        mov eax, dword [ControlPickFlags]
         shl eax, 1Ch
         jmp short ControlPicksScreen_12E.2
 ControlPicksScreen_14F:
-        mov eax, dword [byte_17D650]
+        mov eax, dword [ControlPickFlags]
         shl eax, 1Bh
         jmp short ControlPicksScreen_12E.2
 ControlPicksScreen_159:
-        mov eax, dword [byte_17D650]
+        mov eax, dword [ControlPickFlags]
         shl eax, 1Ah
         jmp short ControlPicksScreen_12E.2
 ControlPicksScreen_163:
-        mov eax, dword [byte_17D650]
+        mov eax, dword [ControlPickFlags]
         shl eax, 19h
         jmp short ControlPicksScreen_12E.2
 ControlPicksScreen_16D:
-        mov eax, dword [byte_17D650]
+        mov eax, dword [ControlPickFlags]
         shl eax, 18h
         jmp short ControlPicksScreen_12E.2
 ControlPicksScreen_177:
-        mov eax, dword [byte_17D650]
+        mov eax, dword [ControlPickFlags]
         shl eax, 17h
         shr eax, 1Fh
 .3:
@@ -472,64 +472,64 @@ ControlPicksScreen_177:
         cmp dword [byte ebp+07Ah], byte 0
         je short .5
         push str_Onn0
-        push dword [dword_17D590]
+        push dword [ControlPicksArt]
         call FindShape
         add esp, byte 8
         mov edx, eax
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         push str_Onn1
         jmp short .6
 .5:
         push str_Off0
-        push dword [dword_17D590]
+        push dword [ControlPicksArt]
         call FindShape
         add esp, byte 8
         mov edx, eax
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         push str_Off1
 .6:
         mov dword [byte esi+eax+01Ah], edx
-        push dword [dword_17D590]
+        push dword [ControlPicksArt]
         call FindShape
         mov edx, eax
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         add esp, byte 8
         mov dword [byte esi+eax+01Eh], edx
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         mov dword [byte esi+eax+010h], 4
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         mov edx, dword [byte ebp+072h]
         mov dword [byte esi+eax+014h], edx
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         mov edx, dword [dword edi+ControlPickRows]
         mov dword [byte esi+eax+026h], edx
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         mov edx, dword [dword edi+str_Punct_ControlPicksScreen]
         mov dword [byte esi+eax+02Ah], edx
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         mov edx, dword [byte edi+ebp-06h]
         mov dword [byte esi+eax+03Ah], edx
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         mov edx, dword [byte edi+ebp-02h]
         mov dword [byte esi+eax+03Eh], edx
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         mov dword [byte esi+eax+032h], 33h
         cmp dword [byte ebp+05Eh], byte 0
         je short .7
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         mov dl, byte [byte ebp+07Eh]
         mov byte [byte esi+eax+042h], dl
 .7:
         mov dl, byte [byte ebp+05Eh]
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         inc dl
         mov byte [byte esi+eax+043h], dl
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         mov byte [byte esi+eax+044h], 0Bh
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         mov byte [byte esi+eax+045h], 0Ch
         add esi, byte 66h
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         add dword [byte ebp+076h], byte 4
         add dword [byte ebp+072h], byte 40h
         push dword [byte esi+eax-03Ch]
@@ -542,7 +542,7 @@ ControlPicksScreen_177:
         add esp, byte 0Ch
         cmp dword [byte ebp+05Eh], byte 9
         jl near ControlPicksScreen.1
-        mov eax, dword [byte_17D650]
+        mov eax, dword [ControlPickFlags]
         shl eax, 13h
         shr eax, 1Ch
         push eax
@@ -553,147 +553,147 @@ ControlPicksScreen_177:
         add esp, byte 0Ch
         lea eax, [byte ebp+052h]
         push eax
-        push dword [dword_17D590]
+        push dword [ControlPicksArt]
         call FindShape
         mov edx, eax
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         add esp, byte 8
         mov dword [dword eax+03B0h], edx
         lea eax, [byte ebp+052h]
         push eax
-        push dword [dword_17D590]
+        push dword [ControlPicksArt]
         mov byte [byte ebp+055h], 31h
         call FindShape
         mov edx, eax
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         mov dword [dword eax+03B4h], edx
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         mov dword [dword eax+03A6h], 4
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         lea edx, [dword ebp-086h]
         mov dword [dword eax+03AAh], edx
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         mov esi, dword [dword eax+03B0h]
         movsx edx, word [byte esi+0Ch]
         mov dword [dword eax+03BCh], edx
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         mov esi, dword [dword eax+03B0h]
         movsx edx, word [byte esi+0Eh]
         mov dword [dword eax+03C0h], edx
-        mov esi, dword [dword_17D594]
+        mov esi, dword [ControlPicksBmp]
         mov eax, dword [byte ebp+042h]
         mov dword [dword esi+03D0h], eax
-        mov esi, dword [dword_17D594]
+        mov esi, dword [ControlPicksBmp]
         mov eax, dword [byte ebp+046h]
         mov dword [dword esi+03D4h], eax
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         mov byte [dword eax+03D8h], 8
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         mov byte [dword eax+03D9h], 0Ah
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         mov byte [dword eax+03DAh], 0Bh
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         mov byte [dword eax+03DBh], 0Ch
         add esp, byte 8
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         push dword [dword eax+03C0h]
         push dword [dword eax+03BCh]
         push dword [dword eax+03B0h]
         call DrawArt
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         mov dword [dword eax+03C8h], 33h
         add esp, byte 0Ch
-        test byte [byte_17D651], 20h
+        test byte [ControlPickFlags+1], 20h
         je short .8
         push str_HGH0
-        push dword [dword_17D590]
+        push dword [ControlPicksArt]
         call FindShape
         add esp, byte 8
         mov esi, eax
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         push str_HGH1
         mov dword [dword eax+0416h], esi
         jmp short .9
 .8:
         push str_LOW0
-        push dword [dword_17D590]
+        push dword [ControlPicksArt]
         call FindShape
         add esp, byte 8
         mov edx, eax
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         push str_LOW1
         mov dword [dword eax+0416h], edx
 .9:
-        push dword [dword_17D590]
+        push dword [ControlPicksArt]
         call FindShape
         mov edx, eax
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         add esp, byte 8
         mov dword [dword eax+041Ah], edx
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         mov dword [dword eax+040Ch], 4
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         lea edx, [byte ebp-046h]
         mov dword [dword eax+0410h], edx
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         mov esi, dword [dword eax+0416h]
         movsx edx, word [byte esi+0Ch]
         mov dword [dword eax+0422h], edx
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         mov esi, dword [dword eax+0416h]
         movsx edx, word [byte esi+0Eh]
         mov dword [dword eax+0426h], edx
-        mov esi, dword [dword_17D594]
+        mov esi, dword [ControlPicksBmp]
         mov eax, dword [byte ebp+04Ah]
         mov dword [dword esi+0436h], eax
-        mov esi, dword [dword_17D594]
+        mov esi, dword [ControlPicksBmp]
         mov eax, dword [byte ebp+04Eh]
         mov dword [dword esi+043Ah], eax
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         mov byte [dword eax+043Eh], 9
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         mov byte [dword eax+043Fh], 0Ah
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         mov byte [dword eax+0440h], 0Bh
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         mov byte [dword eax+0441h], 0Ch
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         push dword [dword eax+0426h]
         push dword [dword eax+0422h]
         push dword [dword eax+0416h]
         call DrawArt
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         add esp, byte 0Ch
         mov dword [dword eax+042Eh], 33h
         mov eax, 6
         call OpenScreen
-        mov esi, dword [dword_17D594]
+        mov esi, dword [ControlPicksBmp]
         mov ecx, 66h
         lea edi, [dword esi+0462h]
         mov esi, TeamStatsBitmap
         rep movsb
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         mov byte [dword eax+04A4h], 0Bh
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         mov byte [dword eax+04A5h], 0Bh
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         mov byte [dword eax+04A6h], 0Bh
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         mov byte [dword eax+04A7h], 0Ah
-        mov esi, dword [dword_17D594]
+        mov esi, dword [ControlPicksBmp]
         mov ecx, 66h
         lea edi, [dword esi+04C8h]
         mov esi, BottomBarArt+56h
         rep movsb
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         mov byte [dword eax+050Ah], 0Ah
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         mov byte [dword eax+050Bh], 0Ch
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         mov byte [dword eax+050Ch], 0Ah
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         mov byte [dword eax+050Dh], 0Ch
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         push dword [dword eax+0506h]
         push dword [dword eax+0502h]
         call MouseRead
@@ -710,7 +710,7 @@ ControlPicksScreen_177:
         cmp dword [byte ebp+05Ah], byte 0Dh
         jge short .12
         imul eax, dword [byte ebp+05Ah], byte 66h
-        mov edx, dword [dword_17D594]
+        mov edx, dword [ControlPicksBmp]
         add eax, edx
         mov edx, dword [mousex]
         cmp edx, dword [byte eax+03Ah]
@@ -727,7 +727,7 @@ ControlPicksScreen_177:
         mov ecx, PollOptionKeys
         mov ebx, 0FFFFFFFFh
         push eax
-        mov edx, dword [dword_17D594]
+        mov edx, dword [ControlPicksBmp]
         mov eax, 0Dh
         call RunMenu
         cmp dword [byte ebp+05Ah], byte 0
@@ -739,128 +739,128 @@ ControlPicksScreen_177:
         mov eax, dword [byte ebp+05Ah]
         jmp dword [nosplit cs:eax*4+jpt_715AF]
 ControlPicksScreen_657:
-        test byte [byte_17D650], 1
+        test byte [ControlPickFlags], 1
         sete al
         movzx eax, al
         and eax, byte 1
-        and byte [byte_17D650], 0FEh
+        and byte [ControlPickFlags], 0FEh
         mov dword [byte ebp+07Ah], eax
-        or dword [byte_17D650], eax
+        or dword [ControlPickFlags], eax
         jmp near ControlPicksScreen_758.14
 ControlPicksScreen_67C:
-        test byte [byte_17D650], 2
+        test byte [ControlPickFlags], 2
         sete al
         movzx eax, al
         and eax, byte 1
         lea edx, [eax+eax]
-        and byte [byte_17D650], 0FDh
+        and byte [ControlPickFlags], 0FDh
         jmp near ControlPicksScreen_758.13
 ControlPicksScreen_69B:
-        test byte [byte_17D650], 4
+        test byte [ControlPickFlags], 4
         sete al
         movzx eax, al
         and eax, byte 1
         mov edx, eax
-        and byte [byte_17D650], 0FBh
+        and byte [ControlPickFlags], 0FBh
         shl edx, 2
         jmp near ControlPicksScreen_758.13
 ControlPicksScreen_6BC:
-        test byte [byte_17D650], 8
+        test byte [ControlPickFlags], 8
         sete al
         movzx eax, al
         and eax, byte 1
         mov edx, eax
-        and byte [byte_17D650], 0F7h
+        and byte [ControlPickFlags], 0F7h
         shl edx, 3
         jmp near ControlPicksScreen_758.13
 ControlPicksScreen_6DD:
-        test byte [byte_17D650], 10h
+        test byte [ControlPickFlags], 10h
         sete al
         movzx eax, al
         and eax, byte 1
         mov edx, eax
-        and byte [byte_17D650], 0EFh
+        and byte [ControlPickFlags], 0EFh
         shl edx, 4
         jmp near ControlPicksScreen_758.13
 ControlPicksScreen_6FE:
-        test byte [byte_17D650], 20h
+        test byte [ControlPickFlags], 20h
         sete al
         movzx eax, al
         and eax, byte 1
         mov edx, eax
-        and byte [byte_17D650], 0DFh
+        and byte [ControlPickFlags], 0DFh
         shl edx, 5
         jmp short ControlPicksScreen_758.13
 ControlPicksScreen_71C:
-        test byte [byte_17D650], 40h
+        test byte [ControlPickFlags], 40h
         sete al
         movzx eax, al
         and eax, byte 1
         mov edx, eax
-        and byte [byte_17D650], 0BFh
+        and byte [ControlPickFlags], 0BFh
         shl edx, 6
         jmp short ControlPicksScreen_758.13
 ControlPicksScreen_73A:
-        test byte [byte_17D650], 80h
+        test byte [ControlPickFlags], 80h
         sete al
         movzx eax, al
         and eax, byte 1
         mov edx, eax
-        and byte [byte_17D650], 7Fh
+        and byte [ControlPickFlags], 7Fh
         shl edx, 7
         jmp short ControlPicksScreen_758.13
 ControlPicksScreen_758:
-        test byte [byte_17D651], 1
+        test byte [ControlPickFlags+1], 1
         sete al
         movzx eax, al
         and eax, byte 1
         mov edx, eax
-        and byte [byte_17D651], 0FEh
+        and byte [ControlPickFlags+1], 0FEh
         shl edx, 8
 .13:
         mov dword [byte ebp+07Ah], eax
-        or dword [byte_17D650], edx
+        or dword [ControlPickFlags], edx
 .14:
         mov eax, dword [byte ebp+05Ah]
         mov ecx, dword [byte ebp+07Ah]
         mov ebx, dword [nosplit eax*8+str_Punct_ControlPicksScreen]
         mov edx, dword [nosplit eax*8+ControlPickRows]
-        mov eax, dword [dword_17D590]
+        mov eax, dword [ControlPicksArt]
         call DrawOnOffSlider
         cmp dword [byte ebp+07Ah], byte 0
         je short .15
         push str_Onn0
-        push dword [dword_17D590]
+        push dword [ControlPicksArt]
         call FindShape
         imul ebx, dword [byte ebp+05Ah], byte 66h
         add esp, byte 8
         mov edx, eax
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         push str_Onn1
         mov dword [byte ebx+eax+01Ah], edx
-        push dword [dword_17D590]
+        push dword [ControlPicksArt]
         call FindShape
         mov edx, eax
         imul eax, dword [byte ebp+05Ah], byte 66h
-        mov ebx, dword [dword_17D594]
+        mov ebx, dword [ControlPicksBmp]
         add esp, byte 8
         mov dword [byte ebx+eax+01Eh], edx
         jmp near ControlPicksScreen_B00.30
 .15:
         push str_Off0
-        push dword [dword_17D590]
+        push dword [ControlPicksArt]
         call FindShape
         mov esi, eax
         imul eax, dword [byte ebp+05Ah], byte 66h
         add esp, byte 8
-        mov edx, dword [dword_17D594]
+        mov edx, dword [ControlPicksBmp]
         push str_Off1
         mov dword [byte edx+eax+01Ah], esi
-        push dword [dword_17D590]
+        push dword [ControlPicksArt]
         call FindShape
         mov esi, eax
         imul eax, dword [byte ebp+05Ah], byte 66h
-        mov edx, dword [dword_17D594]
+        mov edx, dword [ControlPicksBmp]
         add esp, byte 8
         mov dword [byte edx+eax+01Eh], esi
         jmp near ControlPicksScreen_B00.30
@@ -871,7 +871,7 @@ ControlPicksScreen_758:
         ja near ControlPicksScreen_B00.30
         jmp dword [nosplit cs:eax*4+jpt_715D3]
 ControlPicksScreen_84D:
-        mov eax, dword [byte_17D650]
+        mov eax, dword [ControlPickFlags]
         shl eax, 13h
         shr eax, 1Ch
         push eax
@@ -887,7 +887,7 @@ ControlPicksScreen_84D:
         mov byte [byte ebp+055h], al
         lea eax, [byte ebp+052h]
         push eax
-        push dword [dword_17D590]
+        push dword [ControlPicksArt]
         call FindShape
         add esp, byte 8
         push eax
@@ -903,27 +903,27 @@ ControlPicksScreen_84D:
         call SoundIdle
         cmp dword [byte ebp+05Eh], byte 5
         jl short .17
-        mov edx, dword [byte_17D650]
-        mov eax, dword [byte_17D650]
+        mov edx, dword [ControlPickFlags]
+        mov eax, dword [ControlPickFlags]
         and edx, 1E00h
         and ah, 0E1h
         cmp edx, 0C00h
         jne short .19
-        mov dword [byte_17D650], eax
+        mov dword [ControlPickFlags], eax
         or ah, 2
         jmp short .20
 .19:
-        mov edx, dword [byte_17D650]
+        mov edx, dword [ControlPickFlags]
         shl edx, 13h
         shr edx, 1Ch
         inc edx
         and edx, byte 0Fh
         shl edx, 9
-        mov dword [byte_17D650], eax
+        mov dword [ControlPickFlags], eax
         or eax, edx
 .20:
-        mov dword [byte_17D650], eax
-        mov eax, dword [byte_17D650]
+        mov dword [ControlPickFlags], eax
+        mov eax, dword [ControlPickFlags]
         shl eax, 13h
         shr eax, 1Ch
         push eax
@@ -934,29 +934,29 @@ ControlPicksScreen_84D:
         add esp, byte 0Ch
         lea eax, [byte ebp+052h]
         push eax
-        push dword [dword_17D590]
+        push dword [ControlPicksArt]
         call FindShape
         mov esi, eax
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         add esp, byte 8
         mov dword [dword eax+03B0h], esi
         lea eax, [byte ebp+052h]
         push eax
-        push dword [dword_17D590]
+        push dword [ControlPicksArt]
         mov byte [byte ebp+055h], 31h
         call FindShape
         mov edx, eax
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         mov dword [dword eax+03B4h], edx
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         add esp, byte 8
         mov dword [dword eax+03A2h], 1
         jmp near ControlPicksScreen_B00.30
 ControlPicksScreen_96B:
-        test byte [byte_17D651], 20h
+        test byte [ControlPickFlags+1], 20h
         je short .21
         push str_HGH1
-        push dword [dword_17D590]
+        push dword [ControlPicksArt]
         call FindShape
         add esp, byte 8
         mov esi, 4
@@ -966,7 +966,7 @@ ControlPicksScreen_96B:
         jmp short .22
 .21:
         push str_LOW1
-        push dword [dword_17D590]
+        push dword [ControlPicksArt]
         call FindShape
         add esp, byte 8
         mov esi, 2
@@ -996,7 +996,7 @@ ControlPicksScreen_96B:
         add esp, byte 0Ch
         lea eax, [byte ebp+052h]
         push eax
-        push dword [dword_17D590]
+        push dword [ControlPicksArt]
         call FindShape
         add esp, byte 8
         push eax
@@ -1013,41 +1013,41 @@ ControlPicksScreen_96B:
         add dword [byte ebp+05Eh], eax
         jmp short .24
 .26:
-        test byte [byte_17D651], 20h
+        test byte [ControlPickFlags+1], 20h
         sete al
         movzx eax, al
         and eax, byte 1
-        and byte [byte_17D651], 0DFh
+        and byte [ControlPickFlags+1], 0DFh
         shl eax, 0Dh
-        or dword [byte_17D650], eax
-        test byte [byte_17D651], 20h
+        or dword [ControlPickFlags], eax
+        test byte [ControlPickFlags+1], 20h
         je short .27
         push str_HGH0
-        push dword [dword_17D590]
+        push dword [ControlPicksArt]
         call FindShape
         add esp, byte 8
         mov edx, eax
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         push str_HGH1
         mov dword [dword eax+0416h], edx
         jmp short .28
 .27:
         push str_LOW0
-        push dword [dword_17D590]
+        push dword [ControlPicksArt]
         call FindShape
         add esp, byte 8
         mov esi, eax
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         push str_LOW1
         mov dword [dword eax+0416h], esi
 .28:
-        push dword [dword_17D590]
+        push dword [ControlPicksArt]
         call FindShape
         mov edx, eax
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         add esp, byte 8
         mov dword [dword eax+041Ah], edx
-        mov eax, dword [dword_17D594]
+        mov eax, dword [ControlPicksBmp]
         push dword [dword eax+041Ah]
         call DrawShape
         add esp, byte 4
@@ -1066,19 +1066,19 @@ ControlPicksScreen_AF2:
 ControlPicksScreen_B00:
         call SlideInTitleBar
         mov ecx, 0BCh
-        mov esi, unk_17D598
+        mov esi, ControlPicksItems
         mov edi, GlobalSetData
         mov dword [byte ebp+06Ah], 4
         rep movsb
 .30:
         cmp dword [byte ebp+06Ah], byte 0
         jl near ControlPicksScreen_177.10
-        push dword [dword_17D590]
+        push dword [ControlPicksArt]
         call FreeMemBlock
         add esp, byte 4
         mov eax, 3
         call FadeOut
-        push dword [dword_17D594]
+        push dword [ControlPicksBmp]
         call FreeMemBlock
         mov eax, dword [byte ebp+06Ah]
         add esp, byte 4

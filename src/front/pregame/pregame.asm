@@ -4,11 +4,11 @@ bits 32
 extern SimWork
 extern BottomBarArt
 section s_849D5 progbits alloc exec nowrite align=1
-extern BlackPalette, byte_11FA2F, PlayoffTeams, byte_17D262, CardsSpeechPending, TeamsSpeechPending, AwayCardsSpeechPending
+extern BlackPalette, byte_11FA2F, PlayoffTeams, PlayoffRoundNum, CardsSpeechPending, TeamsSpeechPending, AwayCardsSpeechPending
 extern MatchupSpeechPending, CopyBitmap, DrawColorTextCentred, DrawColorTextRight, DrawFrameAt, seasondb, CareerDb, statsplayoffs
 extern PlayerAttrFile, PlayerAttrFileSize, TeamConferenceIds, FrontEndScreenBmp, MatchupLayer, TeamStatsBitmap, MenuBoxStyle
 extern PlayoffTreeData, SeasonType, SeasonDay, SeasonGamePending, PlayoffGameOpts, cddriveptr, PlayoffRound, PlayoffTreeShape
-extern dword_17D1E2, dword_17D26B, RightLogoFrames, LeftLogoFrames, LogoSpinFrame, LogoSpinTime, FadeOut
+extern PlayoffSlotTeams, PlayoffFlags, RightLogoFrames, LeftLogoFrames, LogoSpinFrame, LogoSpinTime, FadeOut
 extern FadePalette, FileClose, FileOpenRead, FillMusicStream, gameopts, GetLangText, GetTeamNameArt, GetTicks
 extern InitMenuItems, LinkSync, LoadPackedFile, LoadTeamLogo, MakeSeasonDbPath, ModemChat, MouseRead, mousex
 extern mousey, TeamCityNames, TeamNicknames, OpenScreen, optflags, PaEvent, PutBlock, RemapScreenColors
@@ -984,7 +984,7 @@ PreGameTeamsScreen:
         jge short .36
         cmp byte [dword esi+PlayoffTeams], 0
         je short .35
-        mov edi, dword [dword eax+dword_17D1E2]
+        mov edi, dword [dword eax+PlayoffSlotTeams]
         lea ebx, [byte edx+01h]
         cmp edi, dword [byte ebp+05Eh]
         jne short .33
@@ -1002,8 +1002,8 @@ PreGameTeamsScreen:
         jmp short .32
 .36:
         mov edi, dword [cddriveptr]
-        mov edx, dword [dword_17D26B]
-        mov eax, dword [dword_17D26B]
+        mov edx, dword [PlayoffFlags]
+        mov eax, dword [PlayoffFlags]
         and edi, byte 7
         and edx, byte 7
         shl eax, 1Ah
@@ -1016,7 +1016,7 @@ PreGameTeamsScreen:
         shr esi, 1Bh
         cmp edx, eax
         jne short .38
-        test byte [dword_17D26B], 7
+        test byte [PlayoffFlags], 7
 .37:
         je near .55
         push eax
@@ -1030,7 +1030,7 @@ PreGameTeamsScreen:
         jae short .43
         cmp eax, edi
         jne short .41
-        movsx eax, byte [byte_17D262]
+        movsx eax, byte [PlayoffRoundNum]
         cmp eax, byte 3
         jne short .40
 .39:
@@ -1048,7 +1048,7 @@ PreGameTeamsScreen:
 .43:
         cmp edx, edi
         jne short .48
-        movsx eax, byte [byte_17D262]
+        movsx eax, byte [PlayoffRoundNum]
         cmp eax, byte 2
         jne short .45
 .44:
@@ -1080,14 +1080,14 @@ PreGameTeamsScreen:
         shr esi, 1Bh
         cmp edx, eax
         jne short .50
-        test byte [dword_17D26B], 38h
+        test byte [PlayoffFlags], 38h
         jmp near .37
 .50:
         cmp eax, edx
         jae short .52
         cmp edx, edi
         jne short .51
-        movsx eax, byte [byte_17D262]
+        movsx eax, byte [PlayoffRoundNum]
         cmp eax, byte 3
         je near .39
         jmp near .40
@@ -1098,7 +1098,7 @@ PreGameTeamsScreen:
 .52:
         cmp eax, edi
         jne short .53
-        movsx eax, byte [byte_17D262]
+        movsx eax, byte [PlayoffRoundNum]
         cmp eax, byte 2
         je near .44
         jmp short .45

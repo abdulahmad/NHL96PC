@@ -6,7 +6,7 @@ extern __CHP, str_FiveSpaces, str_FourSpaces, TeamHasCompare, HmGoalieSwapped, H
 extern SaveFileName, PlayerPosCodes, PlayerRowTeam, PlayerRowShown, PlayerStatsCompare, StatsFromGame
 extern CheckExportName, DrawColorText, DrawColorTextCentred, DrawScrollBar, statsfromleague, TeamDb, statsplayoffs, SimStatWeights
 extern RosterDbPtrs, PlayerStatsGoalies, RosterPlayerIds, SkaterColTextIds, GoalieColTextIds, PlayerStatsSort, PlayerStatsSeason, hmtmplstats
-extern hmtmglstats, hmtmroster, MatchupLayer, TeamStatsBitmap, MenuBoxStyle, PlayoffTreeData, RosterFileHandle, dword_17D267
+extern hmtmglstats, hmtmroster, MatchupLayer, TeamStatsBitmap, MenuBoxStyle, PlayoffTreeData, RosterFileHandle, PlayoffsActive
 extern PlayerStatsButtonArt, PlayerStatsTabArt, PlayerStatsTabLit, PlayerStatsButtonPos
 
 extern PlayerStatsButtonBmps
@@ -1822,7 +1822,7 @@ PlayerStatsScreen_13B5:
         call LoadExhibitionStats
         jmp short PlayerStatsScreen_13DD.58
 PlayerStatsScreen_13BC:
-        cmp dword [dword_17D267], byte 0
+        cmp dword [PlayoffsActive], byte 0
         jne short PlayerStatsScreen_13D1
         mov eax, dword [RosterFileHandle]
         call LoadPlayoffStats

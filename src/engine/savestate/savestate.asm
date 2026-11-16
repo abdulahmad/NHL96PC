@@ -11,7 +11,7 @@ extern PreGameSkateOn, onetimerflag, penshotfox, penshotteam, AwayGoalsPeriod, H
 extern sopathend, sopathpoint, pspathside, pspathdir, CamFollowObj, GameFrameCount, hmtmlines, hmtmplattr
 extern hmtmglattr, hmtmplstats, hmtmglstats, hmtmroster, hmtmteamrec, hmtmsort, awtmlines, awtmplattr
 extern awtmglattr, awtmplstats, awtmglstats, awtmroster, awtmteamrec, awtmsort, ReplayBufferTop, SeasonGameOpts
-extern PlayoffTreeData, SeasonPlayoffs, SeasonDay, RosterFileHandle, dword_17D267, energywarn, exitgame, fadeinpending
+extern PlayoffTreeData, SeasonPlayoffs, SeasonDay, RosterFileHandle, PlayoffsActive, energywarn, exitgame, fadeinpending
 extern FileReadAt, fodir1, fodir2, fox, foy, gameclock, gameopts, gameover
 extern GetPeriodTime, gmode, gmode2, goalevent, gsp, hmroster, hmtmstruct, lastplayer
 extern lasttouch, lcblink, lcboxon, lcline, LineChangeLine, LineChangeReq, replaystart, OOlist
@@ -1747,7 +1747,7 @@ DeleteSeasonDb:
         push ebx
         push edx
         enter 40h, 0
-        cmp dword [dword_17D267], byte 0
+        cmp dword [PlayoffsActive], byte 0
         je short .1
         mov edx, 4
         lea eax, [byte ebp-040h]

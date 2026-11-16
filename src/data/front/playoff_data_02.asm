@@ -2,9 +2,9 @@
 bits 32
 %include "hockey.inc"
 section s_11EE94 progbits alloc noexec write align=1
-global byte_11F49C, byte_11F4A4, byte_11F4AC, byte_11F4B0, byte_11F4B4, byte_11F4B6, byte_11F4B8, byte_11F4B9
-global str_Punct_DrawPlayoffTree, dword_11EF10, dword_11EF80, PlayoffSparkleSoundOn, str_Punct_PlayoffTreeScreen, unk_11EFDC, unk_11F39C, unk_11F3DC
-global unk_11F41C, unk_11F45C
+global PlayoffBracketOrder
+global str_Punct_DrawPlayoffTree, PlayoffSeriesLayout, FinalGameNum, PlayoffSparkleSoundOn, str_Punct_PlayoffTreeScreen, PlayoffTreeTemplate, TreeShapeLeft, TreeShapeRight
+global TreeShapeCentre, TreeShapeFinal
 str_Punct_DrawPlayoffTree:
         db 0Dh,00h,00h,00h,02Fh,00h,00h,00h,05Bh,00h,00h,00h,07Bh,00h,00h,00h
         db 0A8h,00h,00h,00h,0C8h,00h,00h,00h,0F6h,00h,00h,00h,016h,01h,00h,00h
@@ -14,7 +14,7 @@ str_Punct_DrawPlayoffTree:
         db 078h,00h,00h,00h,098h,00h,00h,00h,0C4h,00h,00h,00h,0E8h,00h,00h,00h
         db 0AEh,00h,00h,00h,0D1h,00h,00h,00h,0AEh,00h,00h,00h,0D1h,00h,00h,00h
         db 040h,00h,00h,00h,081h,00h,00h,00h,0EDh,00h,00h,00h
-dword_11EF10:
+PlayoffSeriesLayout:
         db 00h,00h,00h,00h,00h,00h,00h,00h,01h,00h,00h,00h,01h,00h,00h,00h
         db 02h,00h,00h,00h,02h,00h,00h,00h,03h,00h,00h,00h,03h,00h,00h,00h
         db 07h,00h,00h,00h,07h,00h,00h,00h,08h,00h,00h,00h,08h,00h,00h,00h
@@ -22,7 +22,7 @@ dword_11EF10:
         db 04h,00h,00h,00h,04h,00h,00h,00h,05h,00h,00h,00h,05h,00h,00h,00h
         db 0Bh,00h,00h,00h,0Bh,00h,00h,00h,0Ch,00h,00h,00h,0Ch,00h,00h,00h
         db 06h,00h,00h,00h,06h,00h,00h,00h,0Dh,00h,00h,00h,0Dh,00h,00h,00h
-dword_11EF80:
+FinalGameNum:
         db 0Eh,00h,00h,00h,0Eh,00h,00h,00h,063h,00h,00h,00h
 PlayoffSparkleSoundOn:
         db 00h,00h,00h,00h
@@ -32,7 +32,7 @@ str_Punct_PlayoffTreeScreen:
         db 08h,00h,05h,0Ah,08h,00h,06h,0Ah,012h,02h,06h,011h,0Bh,0Ch,0Fh,0Bh
         db 0Bh,0Dh,0Fh,0Ch,0Ch,0Eh,010h,0Dh,0Dh,01h,010h,0Eh,0Fh,010h,011h,0Ch
         db 0Fh,01h,011h,0Dh,012h,03h,0Ah,0Dh,012h,03h,05h,0Ch
-unk_11EFDC:
+PlayoffTreeTemplate:
         db 062h,0FFh,0FFh,0FFh,076h,00h,00h,00h,0CDh,0FFh,0FFh,0FFh,076h,00h,00h,00h
         db 0D3h,0FFh,0FFh,0FFh,0ADh,00h,00h,00h,069h,0FFh,0FFh,0FFh,0ACh,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -93,39 +93,32 @@ unk_11EFDC:
         db 079h,01h,00h,00h,0FFh,00h,00h,00h,08h,01h,00h,00h,0FEh,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_11F39C:
+TreeShapeLeft:
         db 03h,01h,00h,00h,0C1h,01h,00h,00h,0Ah,01h,00h,00h,0B6h,01h,00h,00h
         db 084h,01h,00h,00h,0B6h,01h,00h,00h,08Ch,01h,00h,00h,0C3h,01h,00h,00h
         db 082h,01h,00h,00h,0CFh,01h,00h,00h,0Bh,01h,00h,00h,0CEh,01h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_11F3DC:
+TreeShapeRight:
         db 060h,00h,00h,00h,0C0h,01h,00h,00h,067h,00h,00h,00h,0B4h,01h,00h,00h
         db 0E5h,00h,00h,00h,0B5h,01h,00h,00h,0EAh,00h,00h,00h,0C2h,01h,00h,00h
         db 0E1h,00h,00h,00h,0CBh,01h,00h,00h,06Bh,00h,00h,00h,0CBh,01h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_11F41C:
+TreeShapeCentre:
         db 09Ah,01h,00h,00h,0BFh,01h,00h,00h,0A3h,01h,00h,00h,0B3h,01h,00h,00h
         db 01Ah,02h,00h,00h,0B4h,01h,00h,00h,022h,02h,00h,00h,0C2h,01h,00h,00h
         db 01Bh,02h,00h,00h,0CBh,01h,00h,00h,0A3h,01h,00h,00h,0CCh,01h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_11F45C:
+TreeShapeFinal:
         db 03h,01h,00h,00h,0C1h,01h,00h,00h,0Ah,01h,00h,00h,0B6h,01h,00h,00h
         db 084h,01h,00h,00h,0B6h,01h,00h,00h,08Ch,01h,00h,00h,0C3h,01h,00h,00h
         db 082h,01h,00h,00h,0CFh,01h,00h,00h,0Bh,01h,00h,00h,0CEh,01h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-byte_11F49C:
+PlayoffBracketOrder:
         db 00h,02h,04h,06h,07h,05h,03h,01h
-byte_11F4A4:
         db 08h,0Ah,0Ch,0Eh,0Fh,0Dh,0Bh,09h
-byte_11F4AC:
         db 010h,012h,013h,011h
-byte_11F4B0:
         db 014h,016h,017h,015h
-byte_11F4B4:
         db 018h,019h
-byte_11F4B6:
         db 01Ah,01Bh
-byte_11F4B8:
         db 01Ch
-byte_11F4B9:
         db 01Dh,00h,00h

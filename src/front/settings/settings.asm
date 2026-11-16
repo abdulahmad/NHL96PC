@@ -9,7 +9,7 @@ extern GsTeamSelect, FileClose, FileReadAt, gameopts, getcwd_, globalset, LoadEx
 extern MakeDirPath, NameIndexFree, NameIndexLoad, optblock, optblock_end, optflags, str_5552362337, str_ATD2
 extern str_ATF, str_backslash, str_EXHIBITNDX, strcat_, strlen_, strncpy_, LoadDataFileFlag0, RunControllerScreen
 extern TeamSelectScreen, PickIndexEntryScreen, RunRosterScreens, ComputeTeamRanks, FreeMemBlock, CreateHandle, DosCloseFile, DosWriteFile
-extern GsPhoneNumber, GsModemInit, unk_17D32C, GsComPort, GsBaudIndex, GsDirectLink, GsWaitForCall, GsLinkOption
+extern GsPhoneNumber, GsModemInit, SavedGameOpts, GsComPort, GsBaudIndex, GsDirectLink, GsWaitForCall, GsLinkOption
 extern GsDialMode, GsPlayerFlags
 global ReadGlobalSet, WriteGlobalSet, RunExhibitionMenus
 ;-----------------------------------------------------------------------------
@@ -301,7 +301,7 @@ RunExhibitionMenus:
         je short .12
         mov ecx, 0B9h
         mov esi, optblock_end
-        mov edi, unk_17D32C
+        mov edi, SavedGameOpts
         mov ebx, 0FFFFFFFFh
         mov edx, optblock_end
         rep movsb
@@ -320,7 +320,7 @@ RunExhibitionMenus:
         cmp ebx, byte 15h
         je short .12
         mov ecx, 0B9h
-        mov esi, unk_17D32C
+        mov esi, SavedGameOpts
         mov edi, optblock_end
         rep movsb
         mov eax, SaveFileHandle

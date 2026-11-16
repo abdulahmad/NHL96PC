@@ -3,9 +3,9 @@ bits 32
 %include "hockey.inc"
 extern BottomBarArt
 section s_A3851 progbits alloc exec nowrite align=1
-extern BlackPalette, byte_17D275, byte_17D283, ComputeTeamRanks, CopyBitmap, DrawFrameAt, ModemAwayPanelX, ModemPanelXs
+extern BlackPalette, ModemOptTeams, ComputeTeamRanks, CopyBitmap, DrawFrameAt, ModemAwayPanelX, ModemPanelXs
 extern ModemHomeBmp, ModemAwayBmp, ModemHomeLogo, ModemAwayLogo, ModemHomeName, ModemAwayName, ModemHomeText, ModemAwayText
-extern MatchupLayer, TeamStatsBitmap, MenuBoxStyle, dword_17D273, dword_1846F0, dword_1846F4, dword_1846F8
+extern MatchupLayer, TeamStatsBitmap, MenuBoxStyle, ModemPanelArt, TreeLineShift, ModemPanelShapes
 extern FadeOut, FadePalette, FillMusicStream, gameopts, GetTeamNameArt, GetTicks, InitMenuItems, LinkSetupScreen
 extern LoadModemStats, LoadPackedFile, LoadTeamLogo, ModemChat, mousex, mousey, MusicDone, OpenScreen
 extern PlayMusic, PutBlock, RunControllerScreen, RunMenu, RunModemSetup, SetDrawBitmap, SetMenuMouse, SetScreenColors
@@ -15,7 +15,7 @@ extern str_Ahl0, str_Ahl1, str_Ahl2, str_Ahr0, str_Ahr1, str_Ahr2, str_Bkgd21, s
 extern str_HaBck12, str_Pal29, str_Rk02d, str_Rk222, str_Rul13, str_Rul23, str_Rul33, str_Swt0
 extern str_Swt12, str_SwtD2, GameOptionsScreen, RunPlayoffMenus_102, RunPlayoffMenus_115, RunPlayoffMenus_73, RunPlayoffMenus_89, RunPlayoffMenus_A6
 extern RunPlayoffMenus_CD, RunPlayoffMenus_D6, RunPlayoffMenus_E1, DrawShapeAtOwnPos, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, CreateBitmap
-extern ClearScreenColour, FreeBitmap, SetScreenTarget, FindShape, TextSetFont, str_WesternConference2, unk_17D272, SlotsTwoPlayer
+extern ClearScreenColour, FreeBitmap, SetScreenTarget, FindShape, TextSetFont, str_WesternConference2, ModemGameOpts, SlotsTwoPlayer
 extern ModemPanelY
 global str_B, DrawModemHomePanel, DrawModemHomePanel_151, DrawModemHomePanel_15D, DrawModemAwayPanel, jpt_A3CD4, ModemTeamSelectScreen, ModemTeamSelectScreen_7F1
 global ModemTeamSelectScreen_8AC, ModemTeamSelectScreen_94E, ModemTeamSelectScreen_9F4, ModemTeamSelectScreen_A8A, ModemTeamSelectScreen_B38, ModemTeamSelectScreen_B5C, ModemTeamSelectScreen_B6A, ModemTeamSelectScreen_B78
@@ -69,7 +69,7 @@ DrawModemHomePanel:
         push byte 0
         push dword [ModemHomeLogo]
         call PutBlock
-        mov eax, dword [dword_17D273]
+        mov eax, dword [ModemGameOpts+1]
         add esp, byte 0Ch
         shl eax, 0Fh
         xor ecx, ecx
@@ -87,7 +87,7 @@ DrawModemHomePanel:
         shrd eax, edx, 10h
         sar eax, 10h
         lea ecx, [byte eax+05h]
-        mov eax, dword [dword_17D273]
+        mov eax, dword [ModemGameOpts+1]
         shl eax, 0Fh
         shr eax, 1Bh
         xor ebx, ebx
@@ -106,10 +106,10 @@ DrawModemHomePanel:
         call PutBlock
         add esp, byte 0Ch
 .1:
-        mov eax, dword [dword_17D273]
+        mov eax, dword [ModemGameOpts+1]
         shl eax, 0Fh
         shr eax, 1Bh
-        movsx eax, byte [dword edi+eax+byte_17D283]
+        movsx eax, byte [dword edi+eax+ModemOptTeams]
         push eax
         push str_Rk02d
         lea eax, [byte ebp-0Ch]
@@ -134,11 +134,11 @@ DrawModemHomePanel:
         cmp esi, byte 18h
         jne short .1
         call SetScreenTarget
-        mov eax, dword [dword_1846F4]
+        mov eax, dword [TreeLineShift]
         mov ecx, 8Ch
         sar eax, 1
         sub ecx, eax
-        mov eax, dword [dword_1846F8]
+        mov eax, dword [ModemPanelShapes]
         push ecx
         mov ecx, 87h
         sar eax, 1
@@ -185,7 +185,7 @@ DrawModemAwayPanel:
         push byte 0
         push dword [ModemAwayLogo]
         call PutBlock
-        mov eax, dword [dword_17D273]
+        mov eax, dword [ModemGameOpts+1]
         add esp, byte 0Ch
         shl eax, 0Ah
         xor ecx, ecx
@@ -203,7 +203,7 @@ DrawModemAwayPanel:
         shrd eax, edx, 10h
         sar eax, 10h
         lea ecx, [byte eax+05h]
-        mov eax, dword [dword_17D273]
+        mov eax, dword [ModemGameOpts+1]
         shl eax, 0Ah
         shr eax, 1Bh
         xor ebx, ebx
@@ -222,10 +222,10 @@ DrawModemAwayPanel:
         call PutBlock
         add esp, byte 0Ch
 .1:
-        mov eax, dword [dword_17D273]
+        mov eax, dword [ModemGameOpts+1]
         shl eax, 0Ah
         shr eax, 1Bh
-        movsx eax, byte [dword edi+eax+byte_17D283]
+        movsx eax, byte [dword edi+eax+ModemOptTeams]
         push eax
         push str_Rk02d
         lea eax, [byte ebp-08h]
@@ -252,11 +252,11 @@ DrawModemAwayPanel:
         cmp esi, byte 18h
         jne short .1
         call SetScreenTarget
-        mov eax, dword [dword_1846F4]
+        mov eax, dword [TreeLineShift]
         mov edx, 8Ch
         sar eax, 1
         sub edx, eax
-        mov eax, dword [dword_1846F8]
+        mov eax, dword [ModemPanelShapes]
         push edx
         mov edx, 1FDh
         sar eax, 1
@@ -315,7 +315,7 @@ ModemTeamSelectScreen:
         call GetTeamNameArt
         movsx eax, word [byte eax+04h]
         mov edx, 780000h
-        mov dword [dword_1846F8], eax
+        mov dword [ModemPanelShapes], eax
         mov eax, 0E3D7h
         imul edx
         add eax, 8000h
@@ -323,14 +323,14 @@ ModemTeamSelectScreen:
         shrd eax, edx, 10h
         sar eax, 10h
         add eax, byte 14h
-        mov dword [dword_1846F4], eax
-        mov eax, dword [dword_1846F8]
-        imul eax, dword [dword_1846F4]
+        mov dword [TreeLineShift], eax
+        mov eax, dword [ModemPanelShapes]
+        imul eax, dword [TreeLineShift]
         mov esi, str_WesternConference2
         push str_Pal29
         add esi, 1F2h
         push dword [byte ebp+076h]
-        mov dword [dword_1846F0], eax
+        mov dword [ModemPanelArt], eax
         call FindShape
         add esp, byte 8
         lea edx, [byte eax+010h]
@@ -553,12 +553,12 @@ ModemTeamSelectScreen:
         mov byte [dword ebp-01E3h], 7
         call SetScreenTarget
         push byte 0
-        push dword [dword_1846F4]
-        push dword [dword_1846F8]
+        push dword [TreeLineShift]
+        push dword [ModemPanelShapes]
         call CreateBitmap
         add esp, byte 0Ch
         mov dword [ModemHomeBmp], eax
-        mov eax, dword [dword_1846F0]
+        mov eax, dword [ModemPanelArt]
         push byte 0
         add eax, byte 10h
         push eax
@@ -573,13 +573,13 @@ ModemTeamSelectScreen:
         movsd
         movsd
         movsb
-        mov eax, dword [dword_1846F8]
+        mov eax, dword [ModemPanelShapes]
         mov edx, 87h
         sar eax, 1
         sub edx, eax
         mov eax, dword [ModemHomeLogo]
         mov word [byte eax+0Ch], dx
-        mov eax, dword [dword_1846F4]
+        mov eax, dword [TreeLineShift]
         mov edx, 8Ch
         sar eax, 1
         sub edx, eax
@@ -590,12 +590,12 @@ ModemTeamSelectScreen:
         call DrawShapeAtOwnPos
         add esp, byte 4
         push byte 0
-        push dword [dword_1846F4]
-        push dword [dword_1846F8]
+        push dword [TreeLineShift]
+        push dword [ModemPanelShapes]
         call CreateBitmap
         add esp, byte 0Ch
         mov dword [ModemAwayBmp], eax
-        mov eax, dword [dword_1846F0]
+        mov eax, dword [ModemPanelArt]
         push byte 0
         add eax, byte 10h
         push eax
@@ -611,13 +611,13 @@ ModemTeamSelectScreen:
         movsd
         movsd
         movsb
-        mov eax, dword [dword_1846F8]
+        mov eax, dword [ModemPanelShapes]
         mov edx, 1FDh
         sar eax, 1
         sub edx, eax
         mov eax, dword [ModemAwayLogo]
         mov word [byte eax+0Ch], dx
-        mov eax, dword [dword_1846F4]
+        mov eax, dword [TreeLineShift]
         mov edx, 8Ch
         sar eax, 1
         sub edx, eax
@@ -724,175 +724,175 @@ ModemTeamSelectScreen:
         cmp dword [byte ebp+06Eh], byte 8
         ja near ModemTeamSelectScreen_B78.15
         mov esi, dword [byte ebp+06Eh]
-        mov edx, dword [dword_17D273]
-        mov eax, dword [dword_17D273]
+        mov edx, dword [ModemGameOpts+1]
+        mov eax, dword [ModemGameOpts+1]
         and edx, 0FFFE0FFFh
         and eax, 0FFC1FFFFh
         jmp dword [nosplit cs:esi*4+jpt_A3CD4]
 ModemTeamSelectScreen_7F1:
-        test dword [dword_17D273], 1F000h
+        test dword [ModemGameOpts+1], 1F000h
         jne short .5
-        mov dword [dword_17D273], edx
+        mov dword [ModemGameOpts+1], edx
         or edx, 1C000h
-        mov dword [dword_17D273], edx
+        mov dword [ModemGameOpts+1], edx
 .5:
-        mov eax, dword [dword_17D273]
+        mov eax, dword [ModemGameOpts+1]
         shl eax, 0Fh
         shr eax, 1Bh
         dec eax
         and eax, byte 1Fh
-        and dword [dword_17D273], 0FFFE0FFFh
+        and dword [ModemGameOpts+1], 0FFFE0FFFh
         shl eax, 0Ch
-        or dword [dword_17D273], eax
-        mov edx, dword [dword_17D273]
-        mov eax, dword [dword_17D273]
+        or dword [ModemGameOpts+1], eax
+        mov edx, dword [ModemGameOpts+1]
+        mov eax, dword [ModemGameOpts+1]
         shl edx, 0Ah
         shl eax, 0Fh
         shr edx, 1Bh
         shr eax, 1Bh
         cmp edx, eax
         jne short .7
-        mov eax, dword [dword_17D273]
+        mov eax, dword [ModemGameOpts+1]
         and eax, 3E0000h
         cmp eax, 340000h
         jb short .7
-        test dword [dword_17D273], 1F000h
+        test dword [ModemGameOpts+1], 1F000h
         jne short .6
-        and dword [dword_17D273], 0FFFE0FFFh
-        or dword [dword_17D273], 1C000h
+        and dword [ModemGameOpts+1], 0FFFE0FFFh
+        or dword [ModemGameOpts+1], 1C000h
 .6:
-        mov eax, dword [dword_17D273]
+        mov eax, dword [ModemGameOpts+1]
         shl eax, 0Fh
         shr eax, 1Bh
         dec eax
         and eax, byte 1Fh
-        and dword [dword_17D273], 0FFFE0FFFh
+        and dword [ModemGameOpts+1], 0FFFE0FFFh
         shl eax, 0Ch
-        or dword [dword_17D273], eax
+        or dword [ModemGameOpts+1], eax
 .7:
         mov eax, dword [byte ebp+072h]
         call DrawModemHomePanel
         jmp near ModemTeamSelectScreen_B78.15
 ModemTeamSelectScreen_8AC:
-        mov eax, dword [dword_17D273]
+        mov eax, dword [ModemGameOpts+1]
         shl eax, 0Fh
         shr eax, 1Bh
         inc eax
         and eax, byte 1Fh
         shl eax, 0Ch
-        mov dword [dword_17D273], edx
+        mov dword [ModemGameOpts+1], edx
         or edx, eax
         mov eax, edx
         and eax, 1F000h
-        mov dword [dword_17D273], edx
+        mov dword [ModemGameOpts+1], edx
         cmp eax, 1C000h
         jne short .8
-        and dword [dword_17D273], 0FFFE0FFFh
+        and dword [ModemGameOpts+1], 0FFFE0FFFh
 .8:
-        mov edx, dword [dword_17D273]
-        mov eax, dword [dword_17D273]
+        mov edx, dword [ModemGameOpts+1]
+        mov eax, dword [ModemGameOpts+1]
         shl edx, 0Ah
         shl eax, 0Fh
         shr edx, 1Bh
         shr eax, 1Bh
         cmp edx, eax
         jne short ModemTeamSelectScreen_7F1.7
-        mov edx, dword [dword_17D273]
+        mov edx, dword [ModemGameOpts+1]
         and edx, 3E0000h
         cmp edx, 340000h
         jb short ModemTeamSelectScreen_7F1.7
         inc eax
         and eax, byte 1Fh
-        and dword [dword_17D273], 0FFFE0FFFh
+        and dword [ModemGameOpts+1], 0FFFE0FFFh
         shl eax, 0Ch
-        or dword [dword_17D273], eax
-        mov eax, dword [dword_17D273]
+        or dword [ModemGameOpts+1], eax
+        mov eax, dword [ModemGameOpts+1]
         and eax, 1F000h
         cmp eax, 1C000h
         jne near ModemTeamSelectScreen_7F1.7
-        and dword [dword_17D273], 0FFFE0FFFh
+        and dword [ModemGameOpts+1], 0FFFE0FFFh
         jmp near ModemTeamSelectScreen_7F1.7
 ModemTeamSelectScreen_94E:
-        test byte [byte_17D275], 3Eh
+        test byte [ModemGameOpts+3], 3Eh
         jne short .9
-        mov dword [dword_17D273], eax
+        mov dword [ModemGameOpts+1], eax
         or eax, 380000h
-        mov dword [dword_17D273], eax
+        mov dword [ModemGameOpts+1], eax
 .9:
-        mov eax, dword [dword_17D273]
+        mov eax, dword [ModemGameOpts+1]
         shl eax, 0Ah
         shr eax, 1Bh
         dec eax
         and eax, byte 1Fh
-        and byte [byte_17D275], 0C1h
+        and byte [ModemGameOpts+3], 0C1h
         shl eax, 11h
-        or dword [dword_17D273], eax
-        mov edx, dword [dword_17D273]
-        mov eax, dword [dword_17D273]
+        or dword [ModemGameOpts+1], eax
+        mov edx, dword [ModemGameOpts+1]
+        mov eax, dword [ModemGameOpts+1]
         shl edx, 0Fh
         shl eax, 0Ah
         shr edx, 1Bh
         shr eax, 1Bh
         cmp edx, eax
         jne short .11
-        mov eax, dword [dword_17D273]
+        mov eax, dword [ModemGameOpts+1]
         and eax, 1F000h
         cmp eax, 1A000h
         jb short .11
-        test byte [byte_17D275], 3Eh
+        test byte [ModemGameOpts+3], 3Eh
         jne short .10
-        and byte [byte_17D275], 0C1h
-        or byte [byte_17D275], 38h
+        and byte [ModemGameOpts+3], 0C1h
+        or byte [ModemGameOpts+3], 38h
 .10:
-        mov eax, dword [dword_17D273]
+        mov eax, dword [ModemGameOpts+1]
         shl eax, 0Ah
         shr eax, 1Bh
         dec eax
         and eax, byte 1Fh
-        and byte [byte_17D275], 0C1h
+        and byte [ModemGameOpts+3], 0C1h
         shl eax, 11h
-        or dword [dword_17D273], eax
+        or dword [ModemGameOpts+1], eax
 .11:
         mov eax, dword [byte ebp+072h]
         call DrawModemAwayPanel
         jmp near ModemTeamSelectScreen_B78.15
 ModemTeamSelectScreen_9F4:
-        mov edx, dword [dword_17D273]
+        mov edx, dword [ModemGameOpts+1]
         shl edx, 0Ah
         shr edx, 1Bh
         inc edx
         and edx, byte 1Fh
         shl edx, 11h
-        mov dword [dword_17D273], eax
+        mov dword [ModemGameOpts+1], eax
         or eax, edx
-        mov dword [dword_17D273], eax
+        mov dword [ModemGameOpts+1], eax
         and eax, 3E0000h
         cmp eax, 380000h
         jne short .12
-        and byte [byte_17D275], 0C1h
+        and byte [ModemGameOpts+3], 0C1h
 .12:
-        mov edx, dword [dword_17D273]
-        mov eax, dword [dword_17D273]
+        mov edx, dword [ModemGameOpts+1]
+        mov eax, dword [ModemGameOpts+1]
         shl edx, 0Fh
         shl eax, 0Ah
         shr edx, 1Bh
         shr eax, 1Bh
         cmp edx, eax
         jne short ModemTeamSelectScreen_94E.11
-        mov edx, dword [dword_17D273]
+        mov edx, dword [ModemGameOpts+1]
         and edx, 1F000h
         cmp edx, 1A000h
         jb short ModemTeamSelectScreen_94E.11
         inc eax
         and eax, byte 1Fh
-        and byte [byte_17D275], 0C1h
+        and byte [ModemGameOpts+3], 0C1h
         shl eax, 11h
-        or dword [dword_17D273], eax
-        mov eax, dword [dword_17D273]
+        or dword [ModemGameOpts+1], eax
+        mov eax, dword [ModemGameOpts+1]
         and eax, 3E0000h
         cmp eax, 380000h
         jne near ModemTeamSelectScreen_94E.11
-        and byte [byte_17D275], 0C1h
+        and byte [ModemGameOpts+3], 0C1h
         jmp near ModemTeamSelectScreen_94E.11
 ModemTeamSelectScreen_A8A:
         mov esi, 2
@@ -926,22 +926,22 @@ ModemTeamSelectScreen_A8A:
         add esp, byte 8
         push eax
         call PutBlockAtOwnPos
-        mov eax, dword [dword_17D273]
+        mov eax, dword [ModemGameOpts+1]
         shl eax, 0Fh
-        mov edx, dword [dword_17D273]
+        mov edx, dword [ModemGameOpts+1]
         shr eax, 1Bh
-        and byte [byte_17D275], 0C1h
+        and byte [ModemGameOpts+3], 0C1h
         and eax, byte 1Fh
         shl edx, 0Ah
         shl eax, 11h
         shr edx, 1Bh
-        or dword [dword_17D273], eax
+        or dword [ModemGameOpts+1], eax
         mov eax, edx
         and eax, byte 1Fh
-        and dword [dword_17D273], 0FFFE0FFFh
+        and dword [ModemGameOpts+1], 0FFFE0FFFh
         shl eax, 0Ch
         add esp, byte 4
-        or dword [dword_17D273], eax
+        or dword [ModemGameOpts+1], eax
         mov eax, dword [byte ebp+072h]
         call DrawModemHomePanel
         jmp near ModemTeamSelectScreen_94E.11
@@ -1040,12 +1040,12 @@ RunModemGameSetup:
         cmp edx, byte 12h
         jne short .3
         call LoadModemStats
-        mov dword [gameopts], unk_17D272
+        mov dword [gameopts], ModemGameOpts
         call ComputeTeamRanks
 .3:
         cmp edx, byte 12h
         jne short .6
-        mov dword [gameopts], unk_17D272
+        mov dword [gameopts], ModemGameOpts
         call ModemTeamSelectScreen
         mov edx, eax
         cmp eax, byte 3

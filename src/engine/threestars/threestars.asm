@@ -22,7 +22,7 @@ extern FreeSpriteCache, FadePalette, FadeOut, SetTextColors, DrawColorText, Draw
 extern Crowd_Noise, CrowdFadeOut, CrowdReaction, PlayArenaClip, ArenaClipReady, StartArenaClip, StopArenaClip, SoundIdle
 extern GetLangText, DrawRectOutline, TextSetColor, SetAaPalLut, DrawArtAaScaledInt, FillRectColor, SetPaletteEntries, SetRemapTable
 extern TicksSinceLast, bcopy, FillPolygonArgs, RemapPolygonArgs, TextSetFont, str_C_DrawOverlayPanels, str_Punct_DrawOverlayPanels, StarPanelOffsets
-extern str_V_DrawOverlayPanels, hmplstats, hmplattr, AwSortCords, PreGameSkatePaths, unk_165354, unk_17D3E8
+extern str_V_DrawOverlayPanels, hmplstats, hmplattr, AwSortCords, PreGameSkatePaths, unk_165354, OverlayRemap
 extern updateanim, vtoa, camx, camy, xc1, HomeControlSlot, RefStep, energywarn_aw
 extern lcblink_aw, CupShown, IntroStandSpots, TeamJerseyStyle
 extern hmscore, hmtmtouch1, hmtmpdst, awscore, StarPoints
@@ -744,7 +744,7 @@ DrawOverlayPanels:
         call SetClipWindow
         add esp, byte 10h
 .13:
-        push unk_17D3E8
+        push OverlayRemap
         call SetRemapTable
         add esp, byte 4
         movsx eax, word [byte ebp-012h]
@@ -794,7 +794,7 @@ DrawOverlayPanels:
         movsx ecx, word [byte esi+06h]
         push eax
         movsx edx, word [byte esi+0Ah]
-        mov eax, unk_17D3E8
+        mov eax, OverlayRemap
         call DrawBox
         push byte 5
         movsx eax, word [byte ebp-06h]

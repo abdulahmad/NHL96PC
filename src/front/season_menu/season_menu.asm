@@ -5,12 +5,12 @@ extern BottomBarArt
 extern SeasonUsers
 section s_794FF progbits alloc exec nowrite align=1
 extern __STOSB, BlackPalette, TitleTextStyle, SeasonUserTeam, SeasonUserSim, SeasonUserFlag, SeasonUserSlot
-extern SeasonGameHome, SeasonGameAway, PlayoffTeams, byte_17D262
-extern byte_17D26F, byte_17D270, byte_17D271, byte_184B28, DrawArtOpaque, DrawColorText, DrawColorTextCentred, DrawScrollBar
+extern SeasonGameHome, SeasonGameAway, PlayoffTeams, PlayoffRoundNum
+extern PlayoffUserTeam, PlayoffHomeTeam, PlayoffAwayTeam, PlayoffTeamIn, DrawArtOpaque, DrawColorText, DrawColorTextCentred, DrawScrollBar
 extern DrawSeasonTeams, SaveFileHandle, gameresult, seasondb, statsfromleague, statsplayoffs, SeasonDbSize, PlayoffStatsSize
 extern TeamDivisions, TeamConferenceIds, SeasonTeamOrder, SeasonMenuLast, MatchupLayer, TeamStatsBitmap, SeasonGameOpts
 extern PlayoffTreeData, SeasonType, SeasonPlayoffs, SeasonOver, SeasonDay, SeasonGamePending, SeasonRandomSeed, PlayoffGameOpts
-extern dword_17D1E2, dword_17D202, statsbgshapes, SeasonMenuActive, FadeOut, FadePalette, FileClose, FileOpenRead
+extern PlayoffSlotTeams, PlayoffSimTeams, statsbgshapes, SeasonMenuActive, FadeOut, FadePalette, FileClose, FileOpenRead
 extern FillBox, FillMusicStream, FreeScrollBar, FreeStatsTables, gameopts, GetLangText, HideMessage, HideProgressBox
 extern InitMenuItems, InitVScrollBar, jpt_794CB, jpt_794EF, LoadPackedFile, LoadSeasonStats, MakeDirPath, MakePlayoffDbPath
 extern MakeSeasonDbPath, MessageBox, MusicDone, NameIndexFree, NameIndexId, NameIndexLoad, NameIndexPath, NameIndexRemove
@@ -2562,7 +2562,7 @@ SimulateRestOfSeason:
         inc al
         movsx edx, byte [byte edx+ebp+02Eh]
         inc dword [byte ebp+062h]
-        mov dword [nosplit edx*4+dword_17D1E2], ebx
+        mov dword [nosplit edx*4+PlayoffSlotTeams], ebx
         cmp dword [byte ebp+062h], byte 8
         jl short .42
         mov dword [byte ebp+062h], 0
@@ -2585,7 +2585,7 @@ SimulateRestOfSeason:
         inc al
         movsx edx, byte [byte edx+ebp+02Eh]
         inc dword [byte ebp+062h]
-        mov dword [nosplit edx*4+dword_17D202], ebx
+        mov dword [nosplit edx*4+PlayoffSimTeams], ebx
         cmp dword [byte ebp+062h], byte 8
         jl short .45
         mov dword [byte ebp+042h], 0
@@ -2594,7 +2594,7 @@ SimulateRestOfSeason:
         xor edx, edx
 .48:
         imul eax, dword [byte ebp+062h], byte 1Ah
-        imul esi, dword [dword edx+dword_17D1E2], byte 1Ah
+        imul esi, dword [dword edx+PlayoffSlotTeams], byte 1Ah
         mov ecx, 1Ah
         mov edi, ebx
         add esi, SeasonUserName
@@ -2603,11 +2603,11 @@ SimulateRestOfSeason:
         mov eax, dword [byte ebp+03Eh]
         cmp byte [dword eax+PlayoffTeams], 0
         jne short .49
-        imul eax, dword [dword edx+dword_17D1E2], dword 31Bh
+        imul eax, dword [dword edx+PlayoffSlotTeams], dword 31Bh
         add eax, dword [byte ebp+05Eh]
         add eax, byte 1Eh
         call strlen_
-        imul esi, dword [dword edx+dword_17D1E2], dword 31Bh
+        imul esi, dword [dword edx+PlayoffSlotTeams], dword 31Bh
         mov edi, ebx
         add esi, dword [byte ebp+05Eh]
         mov ecx, eax
@@ -2891,37 +2891,37 @@ RunSeasonMenus_25A:
         cmp dword [gameresult], byte 1
         jne near .21
         call DeleteSeasonDb
-        movsx eax, byte [byte_17D270]
+        movsx eax, byte [PlayoffHomeTeam]
         imul eax, byte 1Ah
         movsx eax, byte [dword eax+PlayoffTeams]
         cmp eax, byte 1
         jne short .10
-        mov al, byte [byte_17D270]
+        mov al, byte [PlayoffHomeTeam]
         mov edx, 1
-        mov byte [byte_17D26F], al
+        mov byte [PlayoffUserTeam], al
         xor eax, eax
         call UpdateTeamDbs
 .10:
-        movsx eax, byte [byte_17D271]
+        movsx eax, byte [PlayoffAwayTeam]
         imul eax, byte 1Ah
         movsx eax, byte [dword eax+PlayoffTeams]
         cmp eax, byte 1
         jne short .11
-        mov al, byte [byte_17D271]
+        mov al, byte [PlayoffAwayTeam]
         mov edx, 1
-        mov byte [byte_17D26F], al
+        mov byte [PlayoffUserTeam], al
         xor eax, eax
         call UpdateTeamDbs
 .11:
         call SaveSeasonTeams
         xor eax, eax
         call SeedPlayoffs
-        cmp byte [byte_17D262], 0
+        cmp byte [PlayoffRoundNum], 0
         jne short .12
         call PlayoffRound1
         jmp short .15
 .12:
-        movsx eax, byte [byte_17D262]
+        movsx eax, byte [PlayoffRoundNum]
         cmp eax, byte 1
         jne short .13
         call PlayoffRound2
@@ -2937,7 +2937,7 @@ RunSeasonMenus_25A:
         call PlayoffFinal
 .15:
         call ClearPlayoffTree
-        mov edx, dword [byte_184B28]
+        mov edx, dword [PlayoffTeamIn]
         xor edi, edi
         xor eax, eax
 .16:
@@ -2950,21 +2950,21 @@ RunSeasonMenus_25A:
         jl short .16
         test edi, edi
         jne short .21
-        cmp byte [byte_17D262], 0
+        cmp byte [PlayoffRoundNum], 0
         jne short .18
         call PlayoffRound1
 .18:
-        movsx eax, byte [byte_17D262]
+        movsx eax, byte [PlayoffRoundNum]
         cmp eax, byte 1
         jne short .19
         call PlayoffRound2
 .19:
-        movsx eax, byte [byte_17D262]
+        movsx eax, byte [PlayoffRoundNum]
         cmp eax, byte 2
         jne short .20
         call PlayoffRound3
 .20:
-        movsx eax, byte [byte_17D262]
+        movsx eax, byte [PlayoffRoundNum]
         cmp eax, byte 3
         jne short .21
         call PlayoffFinal

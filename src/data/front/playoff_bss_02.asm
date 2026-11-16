@@ -2,84 +2,74 @@
 bits 32
 %include "hockey.inc"
 section s_1845FC nobits alloc noexec write align=1
-global byte_18464C, byte_18464E, byte_18464F, byte_1846C4, byte_184B24, byte_184B28, dword_1845FC, dword_184600
-global dword_18460C, dword_184610, dword_184624, dword_184628, dword_184670, dword_184674, dword_184678, dword_18467C
-global dword_184680, dword_184684, dword_1846F0, dword_1846F4, dword_1846F8, dword_1846FC, dword_184700, dword_18470C
-global dword_184710, dword_184ABC, dword_184ADC, dword_184AFC, dword_184B00, dword_184B04, dword_184B08, dword_184B0C
-global dword_184B10, dword_184B14, PlayoffTeamCount, PlayoffFormat, unk_184688, unk_184692
-dword_1845FC:
+global InGameMenuState, InGameTitleText, PlayoffSlotOn, PlayoffTeamIn, PlayoffTreeLabels
+global InGameMenuArt, InGameMenuShapes, InGameBoxXs, InGameBoxYs, InGameScaleStep, InGameItemList
+global InGameTitleItems, InGameFrameBmp, ModemPanelArt, TreeLineShift, ModemPanelShapes, PlayoffTreeLines
+global PlayoffSlotLogos, PlayoffSlotFlags, TreeBackBmp, TreeScrollStep, statspalshape, TreeViewBmp, TreeScrollY
+global TreeScrollTarget, TreeScrollPos, InGameTimeText, InGameScoreText
+PlayoffTreeLabels:
         resb 4
-dword_184600:
         resb 12
-dword_18460C:
         resb 4
-dword_184610:
         resb 20
-dword_184624:
+InGameMenuArt:
         resb 4
-dword_184628:
+InGameMenuShapes:
         resb 36
-byte_18464C:
+InGameMenuState:
         resb 2
-byte_18464E:
         resb 1
-byte_18464F:
         resb 33
-dword_184670:
+InGameBoxXs:
         resb 4
-dword_184674:
+InGameBoxYs:
         resb 4
-dword_184678:
+InGameScaleStep:
         resb 4
-dword_18467C:
+InGameItemList:
         resb 4
-dword_184680:
+InGameTitleItems:
         resb 4
-dword_184684:
+InGameFrameBmp:
         resb 4
-unk_184688:
+InGameTimeText:
         resb 10
-unk_184692:
+InGameScoreText:
         resb 50
-byte_1846C4:
+InGameTitleText:
         resb 44
-dword_1846F0:
+ModemPanelArt:
         resb 4
-dword_1846F4:
+TreeLineShift:
         resb 4
-dword_1846F8:
+ModemPanelShapes:
         resb 4
-dword_1846FC:
+PlayoffTreeLines:
         resb 4
-dword_184700:
         resb 12
-dword_18470C:
         resb 4
-dword_184710:
         resb 940
-dword_184ABC:
+PlayoffSlotLogos:
         resb 32
-dword_184ADC:
+PlayoffSlotFlags:
         resb 32
-dword_184AFC:
+TreeBackBmp:
         resb 4
-dword_184B00:
+TreeScrollStep:
         resb 4
-dword_184B04:
+statspalshape:
         resb 4
-dword_184B08:
+TreeViewBmp:
         resb 4
-dword_184B0C:
+TreeScrollY:
         resb 4
-dword_184B10:
+TreeScrollTarget:
         resb 4
-dword_184B14:
+TreeScrollPos:
         resb 8
-PlayoffTeamCount:
         resb 4
-PlayoffFormat:
         resb 4
-byte_184B24:
+PlayoffSlotOn:
         resb 4
-byte_184B28:
+PlayoffTeamIn:
         resb 16

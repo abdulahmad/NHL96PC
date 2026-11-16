@@ -9,7 +9,7 @@ extern TitleTextStyle, SeasonGameHome, SeasonGameAway, ClockTick, CrowdNoiseRese
 extern DrawGameStats_DD0, SimSlotButtons, InputRecordIndex, GameLoopFrames, FrontShapesFile
 extern gameresult, LastEventPlayer, SfxMask, InMenuOverlay, dword_11F5C0, dword_11F5C4, SlotInput
 extern GameFrameCount, MenuRemoteCursorArt, MenuCursorPixels
-extern pointerspr, MenuBitmapPixels, AttractResetFlag, PlayoffTreeData, RosterFileHandle, dword_17D267, exitgame, fadeinpending
+extern pointerspr, MenuBitmapPixels, AttractResetFlag, PlayoffTreeData, RosterFileHandle, PlayoffsActive, exitgame, fadeinpending
 extern GameLoopActive, gameopts, gameover, GetTicks, gmode, InGameMenuRequest, InitSlotTable, InputRecordBusy
 extern InputRecordCount, InputRecordHead, InputRecordPhase, InputRecordRing, InputRecordTicks, LineChangeLine, LineChangeReq, LinkExchangeInput
 extern LinkResyncInput, LoadGameState, NormalizeDressFlags, optblock, optblock_end, optflags, PauseReplayPending, penshotlive
@@ -22,7 +22,7 @@ extern UpdateCamera, FreeSpriteCache, LoadFrontEndArt, FreeFrontEndArt, SetScree
 extern StopMusic, QueueMusic, FadeOutMusic, PlaySfx, Crowd_Noise, SetCrowdTarget, CrowdFadeOut, ArenaClipReady
 extern StartArenaClip, StopArenaClip, StartGameSound, EndGameSound, SoundIdle, WriteGlobalSet, GetLangText, RemoveTimerCallback
 extern AllocMemBlock, FreeMemBlock, ClearScreenColour, FreeColourLookup, SetScreenTarget, GetPaletteRange, SetPaletteEntries, TicksSinceLast
-extern FindShape, SeasonUserRecords, PlayoffHeader, unk_17D272, unk_17D32C, SlotsTwoPlayer, PauseRequested
+extern FindShape, SeasonUserRecords, PlayoffHeader, ModemGameOpts, SavedGameOpts, SlotsTwoPlayer, PauseRequested
 extern bannermsg, bannertimer, PeriodEventCount, GameEventFlags
 global jpt_168DA, jpt_168EA, PlayMenuGame, PlayMenuGame_75, PlayMenuGame_85, PlayMenuGame_9F, PlayMenuGame_AF, PlayMenuGame_243
 global PlayMenuGame_25F, PlayMenuGame_26B, PlayMenuGame_280, InputRecordTimer, HandleSlotButtons, HandleSlotButtons_18D, RunSimFrames, GameLoop
@@ -96,7 +96,7 @@ PlayMenuGame_9F:
 PlayMenuGame_AF:
         xor edx, edx
         xor eax, eax
-        mov dword [gameopts], unk_17D272
+        mov dword [gameopts], ModemGameOpts
 .1:
         call InitGameTeams
 .2:
@@ -194,7 +194,7 @@ PlayMenuGame_243:
         test esi, esi
         jl short .9
         mov ecx, 0B9h
-        mov esi, unk_17D32C
+        mov esi, SavedGameOpts
         mov edi, optblock_end
         rep movsb
 .9:
@@ -205,7 +205,7 @@ PlayMenuGame_25F:
         call LoadSeasonStats
         jmp short PlayMenuGame_280.10
 PlayMenuGame_26B:
-        cmp dword [dword_17D267], byte 0
+        cmp dword [PlayoffsActive], byte 0
         jne short PlayMenuGame_25F
         mov eax, dword [RosterFileHandle]
         call LoadPlayoffStats

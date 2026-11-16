@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_1E33C progbits alloc exec nowrite align=1
-extern byte_17D262, cupseries, optflags, hmscore, awscore
+extern PlayoffRoundNum, cupseries, optflags, hmscore, awscore
 global IsCupClinched, HomeClinchesSeries, HomeClinchesSeries_21, AwayClinchesSeries
 ;-----------------------------------------------------------------------------
 ; IsCupClinched                                1E33C  95 PC, medium confidence
@@ -31,7 +31,7 @@ IsCupClinched:
         and eax, byte 70h
         cmp eax, byte 20h
         jne short .3
-        movsx eax, byte [byte_17D262]
+        movsx eax, byte [PlayoffRoundNum]
         cmp eax, byte 3
         jne short .3
         mov eax, 1

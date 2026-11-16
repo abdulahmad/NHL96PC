@@ -10,9 +10,9 @@ extern Crowd_Noise, CrowdNoiseReset, CrowdPause, CrowdResume, curperiod, DrawBox
 extern DrawGameClock, DrawGameFrame, FrontShapesFile, gameresult, TeamDb, statsplayoffs, AttributeDb, ReplayRemoteShape
 extern ViewLeft, str_D_DrawGameFrame, LastPaletteMode, InMenuOverlay, PauseRedraw, dword_11F5C0, dword_11F5C4, PanelShadeArt
 extern MenuRemoteCursorArt, MenuCursorPixels, pointerspr, MenuBitmapPixels, ReplayBufferTop, DrawFrameCount, NameFont, NamePanelBmp
-extern SeasonGameOpts, PlayoffTreeData, SeasonPlayoffs, PlayoffGameOpts, RosterFileHandle, dword_17D267, dword_17D4E8, dword_17D4EC
-extern dword_17D4F0, dword_17D4F4, dword_17D4F8, dword_17D4FC, dword_17D500, dword_17D504, dword_17D508, dword_17D50C
-extern dword_17D510, dword_17D514, PauseClockArea, dword_17D51C, dword_17D520, dword_17D524, FrontShapeFile, LinesEditAway
+extern SeasonGameOpts, PlayoffTreeData, SeasonPlayoffs, PlayoffGameOpts, RosterFileHandle, PlayoffsActive, PauseRegBuffer, PauseBoxXs
+extern PauseBoxYs, PauseListH, PauseTitleW, PauseMsgTop, PauseMsgBottom, PauseMsgExtra, PauseTitleX, PauseListY
+extern PauseMsgTime, PauseFrameBmp, PauseClockArea, PauseTitleItems, PauseItemList, PauseScaleStep, FrontShapeFile, LinesEditAway
 extern LinesEditMode, LinesEditTeam, EditText, EndCameraShot, EndGameSound, FadeOut, FadeOutMusic, FadePalette
 extern FileClose, FileCreate, FileWriteAt, FillBox, FreeFightSprites, FreeFrontEndArt, FreeSpeechBuffer, FreeSpriteCache
 extern FreeStatsTables, FreeTotalSprites, gameclock, GameLoopActive, gameopts, GameStatsScreen, GetCrowdTarget, GetLangText
@@ -31,7 +31,7 @@ extern str_Sid12, str_Sid22, str_Sts02, str_Sts12, strcat_, strcpy_, RefreshCont
 extern AddZone, ReplayScreen, RunReplay, DrawShapeAtOwnPos, DrawArt, AllocMemBlock, FreeMemBlock, CreateBitmap
 extern FreeBitmap, FreeColourLookup, SaveDataFile, SetAaPalLut, DrawArtScaled, SetScreenTarget, FindShape, ClearClipRect
 extern TextSetFont, InGameMenuItems, PauseMenuItemsShort, str_Punct_InGameMenu, PauseMenuItemsLong, str_N_InGameMenu, str_F_InGameMenu, PauseMenuBoxX
-extern PauseMenuBoxY, PauseMenuTextIds, PauseMenuTextIdsAlt, SeasonUserRecords, PlayoffHeader, unk_17D3E8, unk_17D52C
+extern PauseMenuBoxY, PauseMenuTextIds, PauseMenuTextIdsAlt, SeasonUserRecords, PlayoffHeader, OverlayRemap, PauseTextBuf
 extern UpdateCamera, SlotsTwoPlayer, PauseRequested, clockticks, PauseMenuOpen, PauseFrameDrawn, hmscore, awscore
 global RunInGameMenu, DrawPauseButtons, DrawPauseFrame, DrawPauseFrame_9C2, DrawPauseFrame_9C3, RunPausedFrame, jpt_6B476, SaveGameFile
 global SaveGameFile_59, SaveGameFile_60, SaveGameFile_6C, SaveGameFile_81, jpt_6B878, PauseMenu, PauseMenu_66B, PauseMenu_6F1
@@ -113,12 +113,12 @@ DrawPauseButtons:
         xor esi, esi
         test eax, eax
         je short .1
-        mov edi, dword [dword_17D51C]
+        mov edi, dword [PauseTitleItems]
         movsx edi, word [byte edi+06h]
 .1:
         test eax, eax
         je short .2
-        mov esi, dword [dword_17D520]
+        mov esi, dword [PauseItemList]
         movsx esi, word [byte esi+0Eh]
 .2:
         push str_Qui02
@@ -146,12 +146,12 @@ DrawPauseButtons:
         push edx
         push eax
         call DrawArt
-        mov eax, dword [dword_17D4F0]
+        mov eax, dword [PauseBoxYs]
         movsx eax, word [eax]
         add esp, byte 0Ch
         sub eax, esi
         push eax
-        mov eax, dword [dword_17D4EC]
+        mov eax, dword [PauseBoxXs]
         movsx eax, word [byte eax+02h]
         sub eax, edi
         push eax
@@ -161,12 +161,12 @@ DrawPauseButtons:
         add esp, byte 8
         push eax
         call DrawArt
-        mov eax, dword [dword_17D4F0]
+        mov eax, dword [PauseBoxYs]
         movsx eax, word [byte eax+02h]
         add esp, byte 0Ch
         sub eax, esi
         push eax
-        mov eax, dword [dword_17D4EC]
+        mov eax, dword [PauseBoxXs]
         movsx eax, word [eax]
         sub eax, edi
         push eax
@@ -176,12 +176,12 @@ DrawPauseButtons:
         add esp, byte 8
         push eax
         call DrawArt
-        mov eax, dword [dword_17D4F0]
+        mov eax, dword [PauseBoxYs]
         movsx eax, word [byte eax+02h]
         add esp, byte 0Ch
         sub eax, esi
         push eax
-        mov eax, dword [dword_17D4EC]
+        mov eax, dword [PauseBoxXs]
         movsx eax, word [byte eax+02h]
         sub eax, edi
         push eax
@@ -198,11 +198,11 @@ DrawPauseButtons:
         add esp, byte 0Ch
         test eax, eax
         jne short .3
-        mov eax, dword [dword_17D4F0]
+        mov eax, dword [PauseBoxYs]
         movsx eax, word [eax]
         sub eax, esi
         push eax
-        mov eax, dword [dword_17D4EC]
+        mov eax, dword [PauseBoxXs]
         movsx eax, word [eax]
         sub eax, edi
         push eax
@@ -212,23 +212,23 @@ DrawPauseButtons:
         add esp, byte 8
         push eax
         call DrawArt
-        mov eax, dword [dword_17D4F0]
+        mov eax, dword [PauseBoxYs]
         movsx eax, word [byte eax+04h]
         add esp, byte 0Ch
         sub eax, esi
         push eax
-        mov eax, dword [dword_17D4EC]
+        mov eax, dword [PauseBoxXs]
         movsx eax, word [byte eax+04h]
         sub eax, edi
         push eax
         push str_Sav02
         jmp short .4
 .3:
-        mov eax, dword [dword_17D4F0]
+        mov eax, dword [PauseBoxYs]
         movsx eax, word [eax]
         sub eax, esi
         push eax
-        mov eax, dword [dword_17D4EC]
+        mov eax, dword [PauseBoxXs]
         movsx eax, word [eax]
         sub eax, edi
         push eax
@@ -273,7 +273,7 @@ DrawPauseFrame:
         je near DrawPauseFrame_9C2
         call GetTicks
         mov edi, eax
-        sub edi, dword [dword_17D510]
+        sub edi, dword [PauseMsgTime]
         cmp edi, 0FAh
         jle short .1
         mov edi, 0FAh
@@ -296,7 +296,7 @@ DrawPauseFrame:
         push dword [dword_11F5C0]
         push byte 0
         call SetClipWindow
-        mov eax, dword [dword_17D51C]
+        mov eax, dword [PauseTitleItems]
         movsx ebx, word [byte eax+04h]
         mov eax, edi
         imul eax, ebx
@@ -310,7 +310,7 @@ DrawPauseFrame:
         mov esi, ebx
         sub esi, eax
 .2:
-        mov eax, dword [dword_17D51C]
+        mov eax, dword [PauseTitleItems]
         push byte 0
         movsx edx, word [byte eax+04h]
         movsx eax, word [eax]
@@ -318,7 +318,7 @@ DrawPauseFrame:
         sub edx, eax
         push byte 1
         inc edx
-        mov eax, dword [dword_17D520]
+        mov eax, dword [PauseItemList]
         mov dword [byte ebp-04h], edx
         sub esi, edx
         movsx edx, word [byte eax+04h]
@@ -326,30 +326,30 @@ DrawPauseFrame:
         mov edx, dword [byte ebp-04h]
         movsx ebx, word [eax]
         add edx, esi
-        mov eax, unk_17D3E8
+        mov eax, OverlayRemap
         mov dword [byte ebp-01Ch], edx
         mov ecx, edx
         mov edx, esi
         call DrawBox
         mov eax, 780000h
-        mov edx, dword [dword_17D524]
+        mov edx, dword [PauseScaleStep]
         imul edx
         add eax, 8000h
         adc edx, byte 0
         shrd eax, edx, 10h
         mov ecx, eax
-        mov eax, dword [dword_17D520]
+        mov eax, dword [PauseItemList]
         sar ecx, 11h
         movsx eax, word [byte eax+02h]
         sub eax, ecx
         mov ecx, eax
-        mov eax, dword [dword_17D51C]
+        mov eax, dword [PauseTitleItems]
         movsx edx, word [byte eax+02h]
         movsx eax, word [eax]
         sub edx, eax
         mov eax, 0E00000h
         lea ebx, [esi+edx]
-        mov edx, dword [dword_17D524]
+        mov edx, dword [PauseScaleStep]
         imul edx
         add eax, 8000h
         adc edx, byte 0
@@ -362,26 +362,26 @@ DrawPauseFrame:
         shl eax, 0Fh
         shr eax, 1Bh
         call LoadTeamLogo
-        mov edx, dword [dword_17D524]
+        mov edx, dword [PauseScaleStep]
         mov dword [byte ebp-020h], edx
         mov edx, eax
         mov eax, dword [byte ebp-020h]
         call DrawFrameAt
         push byte 0
-        mov eax, dword [dword_17D520]
+        mov eax, dword [PauseItemList]
         mov ecx, dword [byte ebp-01Ch]
         push byte 0
         movsx edx, word [byte eax+08h]
         push byte 1
         movsx ebx, word [byte eax+06h]
         push edx
-        mov eax, unk_17D3E8
+        mov eax, OverlayRemap
         mov edx, esi
         call DrawBox
         movsx eax, word [hmscore]
         push eax
         push str_D16
-        push unk_17D52C
+        push PauseTextBuf
         call sprintf_
         add esp, byte 0Ch
         push dword [NamePanelBmp]
@@ -394,26 +394,26 @@ DrawPauseFrame:
 .3:
         mov ebx, 0FFFFFFFFh
 .4:
-        mov eax, dword [dword_17D520]
+        mov eax, dword [PauseItemList]
         movsx eax, word [byte eax+06h]
         add ebx, eax
-        mov eax, dword [dword_17D51C]
+        mov eax, dword [PauseTitleItems]
         movsx edx, word [byte eax+02h]
         movsx eax, word [eax]
         sub edx, eax
-        mov eax, unk_17D52C
+        mov eax, PauseTextBuf
         add edx, esi
         mov ecx, dword [byte ebp-04h]
         call DrawColorTextCentred
         push byte 0
-        mov eax, dword [dword_17D520]
+        mov eax, dword [PauseItemList]
         add ecx, esi
         push byte 0
         movsx edx, word [byte eax+0Ch]
         push byte 1
         movsx ebx, word [byte eax+0Ah]
         push edx
-        mov eax, unk_17D3E8
+        mov eax, OverlayRemap
         mov edx, esi
         call DrawBox
         push dword [NameFont]
@@ -429,10 +429,10 @@ DrawPauseFrame:
 .5:
         mov ebx, 1
 .6:
-        mov eax, dword [dword_17D520]
+        mov eax, dword [PauseItemList]
         movsx eax, word [byte eax+0Ah]
         add ebx, eax
-        mov eax, dword [dword_17D51C]
+        mov eax, dword [PauseTitleItems]
         movsx edx, word [byte eax+02h]
         movsx eax, word [eax]
         sub edx, eax
@@ -444,23 +444,23 @@ DrawPauseFrame:
         movsx eax, word [hmtmstruct]
         push eax
         push str_D16
-        push unk_17D52C
+        push PauseTextBuf
         call sprintf_
         movzx edx, byte [byte_11FA2F]
-        mov eax, dword [dword_17D520]
+        mov eax, dword [PauseItemList]
         inc edx
         inc edx
         movsx ebx, word [byte eax+0Ch]
-        mov eax, dword [dword_17D51C]
+        mov eax, dword [PauseTitleItems]
         sub ebx, edx
         movsx ecx, word [byte eax+02h]
         movsx edx, word [eax]
         add esp, byte 0Ch
         sub ecx, edx
-        mov eax, unk_17D52C
+        mov eax, PauseTextBuf
         lea edx, [ecx+esi]
         call DrawColorTextCentred
-        mov eax, dword [dword_17D51C]
+        mov eax, dword [PauseTitleItems]
         movsx ebx, word [byte eax+0Ah]
         mov eax, dword [dword_11F5C0]
         sub eax, ebx
@@ -476,7 +476,7 @@ DrawPauseFrame:
         sub ebx, esi
         mov esi, ebx
 .7:
-        mov eax, dword [dword_17D51C]
+        mov eax, dword [PauseTitleItems]
         movsx edx, word [byte eax+0Eh]
         movsx eax, word [byte eax+0Ah]
         sub edx, eax
@@ -484,37 +484,37 @@ DrawPauseFrame:
         lea eax, [byte edx+01h]
         push byte 0
         mov dword [byte ebp-08h], eax
-        mov eax, dword [dword_17D520]
+        mov eax, dword [PauseItemList]
         push byte 1
         movsx edx, word [byte eax+04h]
         push edx
         mov edx, dword [byte ebp-08h]
         movsx ebx, word [eax]
         add edx, esi
-        mov eax, unk_17D3E8
+        mov eax, OverlayRemap
         mov dword [byte ebp-020h], edx
         mov ecx, edx
         mov edx, esi
         call DrawBox
         mov eax, 780000h
-        mov edx, dword [dword_17D524]
+        mov edx, dword [PauseScaleStep]
         imul edx
         add eax, 8000h
         adc edx, byte 0
         shrd eax, edx, 10h
         mov ecx, eax
-        mov eax, dword [dword_17D520]
+        mov eax, dword [PauseItemList]
         sar ecx, 11h
         movsx eax, word [byte eax+02h]
         sub eax, ecx
         mov ecx, eax
-        mov eax, dword [dword_17D51C]
+        mov eax, dword [PauseTitleItems]
         movsx edx, word [byte eax+0Ch]
         movsx eax, word [byte eax+0Ah]
         sub edx, eax
         mov eax, 0E00000h
         lea ebx, [esi+edx]
-        mov edx, dword [dword_17D524]
+        mov edx, dword [PauseScaleStep]
         imul edx
         add eax, 8000h
         adc edx, byte 0
@@ -527,26 +527,26 @@ DrawPauseFrame:
         shl eax, 0Ah
         shr eax, 1Bh
         call LoadTeamLogo
-        mov edx, dword [dword_17D524]
+        mov edx, dword [PauseScaleStep]
         mov dword [byte ebp-01Ch], edx
         mov edx, eax
         mov eax, dword [byte ebp-01Ch]
         call DrawFrameAt
         push byte 0
-        mov eax, dword [dword_17D520]
+        mov eax, dword [PauseItemList]
         mov ecx, dword [byte ebp-020h]
         push byte 0
         movsx edx, word [byte eax+08h]
         push byte 1
         movsx ebx, word [byte eax+06h]
         push edx
-        mov eax, unk_17D3E8
+        mov eax, OverlayRemap
         mov edx, esi
         call DrawBox
         movsx eax, word [awscore]
         push eax
         push str_D16
-        push unk_17D52C
+        push PauseTextBuf
         call sprintf_
         add esp, byte 0Ch
         push dword [NamePanelBmp]
@@ -559,26 +559,26 @@ DrawPauseFrame:
 .8:
         mov ebx, 0FFFFFFFFh
 .9:
-        mov eax, dword [dword_17D520]
+        mov eax, dword [PauseItemList]
         movsx eax, word [byte eax+06h]
         add ebx, eax
-        mov eax, dword [dword_17D51C]
+        mov eax, dword [PauseTitleItems]
         movsx edx, word [byte eax+0Ch]
         movsx eax, word [byte eax+0Ah]
         sub edx, eax
-        mov eax, unk_17D52C
+        mov eax, PauseTextBuf
         add edx, esi
         mov ecx, dword [byte ebp-08h]
         call DrawColorTextCentred
         push byte 0
-        mov eax, dword [dword_17D520]
+        mov eax, dword [PauseItemList]
         add ecx, esi
         push byte 0
         movsx edx, word [byte eax+0Ch]
         push byte 1
         movsx ebx, word [byte eax+0Ah]
         push edx
-        mov eax, unk_17D3E8
+        mov eax, OverlayRemap
         mov edx, esi
         call DrawBox
         push dword [NameFont]
@@ -594,10 +594,10 @@ DrawPauseFrame:
 .10:
         mov ebx, 1
 .11:
-        mov eax, dword [dword_17D520]
+        mov eax, dword [PauseItemList]
         movsx eax, word [byte eax+0Ah]
         add ebx, eax
-        mov eax, dword [dword_17D51C]
+        mov eax, dword [PauseTitleItems]
         movsx edx, word [byte eax+0Ch]
         movsx eax, word [byte eax+0Ah]
         sub edx, eax
@@ -610,23 +610,23 @@ DrawPauseFrame:
         movsx eax, word [awtmstruct]
         push eax
         push str_D16
-        push unk_17D52C
+        push PauseTextBuf
         call sprintf_
         movzx edx, byte [byte_11FA2F]
-        mov eax, dword [dword_17D520]
+        mov eax, dword [PauseItemList]
         inc edx
         inc edx
         movsx ebx, word [byte eax+0Ch]
-        mov eax, dword [dword_17D51C]
+        mov eax, dword [PauseTitleItems]
         sub ebx, edx
         movsx edx, word [byte eax+0Ch]
         movsx eax, word [byte eax+0Ah]
         add esp, byte 0Ch
         sub edx, eax
-        mov eax, unk_17D52C
+        mov eax, PauseTextBuf
         add edx, esi
         call DrawColorTextCentred
-        mov eax, dword [dword_17D520]
+        mov eax, dword [PauseItemList]
         movsx ebx, word [byte eax+012h]
         mov eax, dword [dword_11F5C4]
         sub eax, ebx
@@ -642,27 +642,27 @@ DrawPauseFrame:
         sub ebx, esi
         mov esi, ebx
 .12:
-        mov eax, dword [dword_17D520]
+        mov eax, dword [PauseItemList]
         push byte 0
         mov ebx, esi
         movsx edx, word [byte eax+016h]
         movsx eax, word [byte eax+012h]
         push byte 0
         sub edx, eax
-        mov eax, dword [dword_17D51C]
+        mov eax, dword [PauseTitleItems]
         inc edx
         push byte 1
         add edx, esi
         movsx ecx, word [byte eax+016h]
         push edx
         movsx edx, word [byte eax+010h]
-        mov eax, unk_17D3E8
+        mov eax, OverlayRemap
         call DrawBox
-        mov eax, dword [dword_17D520]
+        mov eax, dword [PauseItemList]
         movsx edx, word [byte eax+014h]
         movsx eax, word [byte eax+012h]
         sub edx, eax
-        mov eax, dword [dword_17D51C]
+        mov eax, dword [PauseTitleItems]
         add edx, esi
         movsx eax, word [byte eax+012h]
         call DrawGameClock
@@ -730,10 +730,10 @@ DrawPauseFrame:
 .23:
         call GetLangText
         mov edx, eax
-        mov eax, unk_17D52C
+        mov eax, PauseTextBuf
         call strcpy_
 .24:
-        mov eax, dword [dword_17D520]
+        mov eax, dword [PauseItemList]
         movsx edx, word [byte eax+014h]
         movsx eax, word [byte eax+012h]
         sub edx, eax
@@ -746,31 +746,31 @@ DrawPauseFrame:
         mov eax, 3
 .26:
         add ebx, eax
-        mov eax, dword [dword_17D51C]
+        mov eax, dword [PauseTitleItems]
         movsx edx, word [byte eax+014h]
-        mov eax, unk_17D52C
+        mov eax, PauseTextBuf
         call DrawColorTextCentred
-        mov eax, dword [dword_17D4F8]
+        mov eax, dword [PauseTitleW]
         imul eax, edi
         mov ebx, 0FAh
         cdq
         idiv ebx
         mov esi, eax
-        mov eax, dword [dword_17D4F4]
+        mov eax, dword [PauseListH]
         imul eax, edi
         cdq
         idiv ebx
         mov edi, eax
         cmp dword [PauseRedraw], byte 0
         jne short .27
-        mov eax, dword [dword_17D4F8]
+        mov eax, dword [PauseTitleW]
         sub eax, esi
         mov esi, eax
-        mov eax, dword [dword_17D4F4]
+        mov eax, dword [PauseListH]
         sub eax, edi
         mov edi, eax
 .27:
-        mov eax, dword [dword_17D514]
+        mov eax, dword [PauseFrameBmp]
         mov eax, dword [byte eax+02Ch]
         movsx ebx, word [byte eax+04h]
         mov eax, esi
@@ -785,42 +785,42 @@ DrawPauseFrame:
         idiv ebx
         shl ecx, 10h
         add eax, ecx
-        mov edx, dword [dword_17D4F4]
+        mov edx, dword [PauseListH]
         mov dword [byte ebp-018h], eax
         sub edx, edi
-        mov eax, dword [dword_17D50C]
+        mov eax, dword [PauseListY]
         sar edx, 1
-        add eax, dword [dword_17D4F4]
+        add eax, dword [PauseListH]
         sub eax, edx
-        mov ebx, dword [dword_17D4F8]
+        mov ebx, dword [PauseTitleW]
         sub eax, byte 3
         sub ebx, esi
         push eax
-        mov eax, dword [dword_17D508]
+        mov eax, dword [PauseTitleX]
         sar ebx, 1
-        add eax, dword [dword_17D4F8]
+        add eax, dword [PauseTitleW]
         sub eax, ebx
         lea ecx, [byte eax-03h]
-        mov eax, dword [dword_17D508]
+        mov eax, dword [PauseTitleX]
         add eax, ebx
-        add edx, dword [dword_17D50C]
+        add edx, dword [PauseListY]
         mov ebx, edx
         mov edx, eax
-        mov eax, unk_17D3E8
+        mov eax, OverlayRemap
         call FillBox
         cmp word [PauseFrameDrawn], byte 0
         jne short .28
-        mov eax, dword [dword_17D4F4]
+        mov eax, dword [PauseListH]
         sub eax, edi
         sar eax, 1
-        add eax, dword [dword_17D50C]
+        add eax, dword [PauseListY]
         push eax
-        mov eax, dword [dword_17D4F8]
+        mov eax, dword [PauseTitleW]
         sub eax, esi
         sar eax, 1
-        add eax, dword [dword_17D508]
+        add eax, dword [PauseTitleX]
         push eax
-        mov eax, dword [dword_17D514]
+        mov eax, dword [PauseFrameBmp]
         push dword [byte eax+02Ch]
         push dword [byte ebp-018h]
         call DrawArtScaled
@@ -831,11 +831,11 @@ DrawPauseFrame:
         push dword [FrontShapeFile]
         call FindShape
         mov esi, eax
-        mov eax, dword [dword_17D520]
+        mov eax, dword [PauseItemList]
         add esp, byte 8
         movsx eax, word [byte eax+0Eh]
         push eax
-        mov eax, dword [dword_17D51C]
+        mov eax, dword [PauseTitleItems]
         movsx eax, word [byte eax+06h]
         push eax
         push esi
@@ -847,14 +847,14 @@ DrawPauseFrame:
         movsx ebx, word [byte eax+0Eh]
         movsx edx, word [byte esi+0Eh]
         sub ebx, edx
-        mov edx, dword [dword_17D520]
+        mov edx, dword [PauseItemList]
         movsx edx, word [byte edx+0Eh]
         add esp, byte 8
         add edx, ebx
         push edx
         movsx ebx, word [byte esi+0Ch]
         movsx edx, word [byte eax+0Ch]
-        mov edi, dword [dword_17D51C]
+        mov edi, dword [PauseTitleItems]
         sub edx, ebx
         movsx ebx, word [byte edi+06h]
         add edx, ebx
@@ -867,7 +867,7 @@ DrawPauseFrame:
         call FindShape
         movsx ebx, word [byte eax+0Eh]
         movsx edx, word [byte esi+0Eh]
-        mov edi, dword [dword_17D520]
+        mov edi, dword [PauseItemList]
         sub ebx, edx
         movsx edx, word [byte edi+0Eh]
         add esp, byte 8
@@ -876,7 +876,7 @@ DrawPauseFrame:
         movsx ebx, word [byte eax+0Ch]
         movsx edx, word [byte esi+0Ch]
         sub ebx, edx
-        mov edi, dword [dword_17D51C]
+        mov edi, dword [PauseTitleItems]
         mov edx, ebx
         movsx ebx, word [byte edi+06h]
         add edx, ebx
@@ -890,7 +890,7 @@ DrawPauseFrame:
         movsx ebx, word [byte eax+0Eh]
         movsx edx, word [byte esi+0Eh]
         sub ebx, edx
-        mov edi, dword [dword_17D520]
+        mov edi, dword [PauseItemList]
         mov edx, ebx
         movsx ebx, word [byte edi+0Eh]
         add esp, byte 8
@@ -899,7 +899,7 @@ DrawPauseFrame:
         movsx ebx, word [byte esi+0Ch]
         movsx edx, word [byte eax+0Ch]
         sub edx, ebx
-        mov edi, dword [dword_17D51C]
+        mov edi, dword [PauseTitleItems]
         mov ebx, edx
         movsx edx, word [byte edi+06h]
         add edx, ebx
@@ -912,7 +912,7 @@ DrawPauseFrame:
         call FindShape
         movsx edx, word [byte eax+0Eh]
         movsx ebx, word [byte esi+0Eh]
-        mov edi, dword [dword_17D520]
+        mov edi, dword [PauseItemList]
         sub edx, ebx
         movsx ebx, word [byte edi+0Eh]
         add esp, byte 8
@@ -921,7 +921,7 @@ DrawPauseFrame:
         movsx ebx, word [byte esi+0Ch]
         movsx edx, word [byte eax+0Ch]
         sub edx, ebx
-        mov edi, dword [dword_17D51C]
+        mov edi, dword [PauseTitleItems]
         mov ebx, edx
         movsx edx, word [byte edi+06h]
         add edx, ebx
@@ -934,7 +934,7 @@ DrawPauseFrame:
         call FindShape
         movsx edx, word [byte eax+0Eh]
         movsx ebx, word [byte esi+0Eh]
-        mov edi, dword [dword_17D520]
+        mov edi, dword [PauseItemList]
         sub edx, ebx
         movsx ebx, word [byte edi+0Eh]
         add esp, byte 8
@@ -943,7 +943,7 @@ DrawPauseFrame:
         movsx ebx, word [byte esi+0Ch]
         movsx edx, word [byte eax+0Ch]
         sub edx, ebx
-        mov esi, dword [dword_17D51C]
+        mov esi, dword [PauseTitleItems]
         mov ebx, edx
         movsx edx, word [byte esi+06h]
         add edx, ebx
@@ -952,7 +952,7 @@ DrawPauseFrame:
         call DrawArt
         add esp, byte 0Ch
         call FreeSpriteCache
-        push dword [dword_17D514]
+        push dword [PauseFrameBmp]
         call FreeBitmap
         add esp, byte 4
         push byte 0
@@ -1008,7 +1008,7 @@ RunPausedFrame:
         mov esi, 0FAh
         mov edi, eax
         call GetTicks
-        mov dword [dword_17D510], eax
+        mov dword [PauseMsgTime], eax
 .3:
         test esi, esi
         je short DrawPauseFrame_9C3
@@ -1074,7 +1074,7 @@ SaveGameFile_60:
         call LoadSeasonStats
         jmp short SaveGameFile_81.2
 SaveGameFile_6C:
-        cmp dword [dword_17D267], byte 0
+        cmp dword [PlayoffsActive], byte 0
         jne short SaveGameFile_60
         mov eax, dword [RosterFileHandle]
         call LoadPlayoffStats
@@ -1256,7 +1256,7 @@ SaveGameFile_81:
         mov dword [byte ebp-04h], eax
         jmp near .14
 .12:
-        cmp dword [dword_17D267], byte 0
+        cmp dword [PlayoffsActive], byte 0
         je short .13
         mov esi, dword [gameopts]
         mov eax, dword [byte esi+01h]
@@ -1370,7 +1370,7 @@ PauseMenu:
         call AllocMemBlock
         mov edi, eax
         add esp, byte 0Ch
-        mov dword [dword_17D4E8], eax
+        mov dword [PauseRegBuffer], eax
         test byte [GsOptions+1], 20h
         je short .2
         mov ecx, 80h
@@ -1398,7 +1398,7 @@ PauseMenu:
         mov dword [dword ebp-026Ch], eax
         call FindShape
         mov dword [dword ebp-0268h], eax
-        mov eax, dword [dword_17D4E8]
+        mov eax, dword [PauseRegBuffer]
         mov dword [dword ebp-0276h], eax
         mov eax, dword [dword ebp-0270h]
         mov dword [dword ebp-027Ah], 3
@@ -1436,7 +1436,7 @@ PauseMenu:
         mov dword [dword ebp-0206h], eax
         call FindShape
         mov dword [dword ebp-0202h], eax
-        mov eax, dword [dword_17D4E8]
+        mov eax, dword [PauseRegBuffer]
         add eax, byte 40h
         mov dword [dword ebp-0210h], eax
         mov eax, dword [dword ebp-020Ah]
@@ -1486,13 +1486,13 @@ PauseMenu:
         call FindShape
         add esp, byte 8
         mov dword [dword ebp-01A0h], eax
-        mov eax, dword [dword_17D4EC]
+        mov eax, dword [PauseBoxXs]
         movsx edx, word [eax]
-        mov eax, dword [dword_17D4E8]
+        mov eax, dword [PauseRegBuffer]
         mov dword [dword eax+080h], edx
-        mov eax, dword [dword_17D4F0]
+        mov eax, dword [PauseBoxYs]
         movsx edx, word [eax]
-        mov eax, dword [dword_17D4E8]
+        mov eax, dword [PauseRegBuffer]
         mov dword [dword eax+084h], edx
         push str_Rep0
         mov byte [dword ebp-0179h], 3
@@ -1505,13 +1505,13 @@ PauseMenu:
         mov dword [dword ebp-013Eh], eax
         call FindShape
         mov dword [dword ebp-013Ah], eax
-        mov eax, dword [dword_17D4EC]
+        mov eax, dword [PauseBoxXs]
         movsx edx, word [byte eax+02h]
-        mov eax, dword [dword_17D4E8]
+        mov eax, dword [PauseRegBuffer]
         mov dword [dword eax+0C0h], edx
-        mov eax, dword [dword_17D4F0]
+        mov eax, dword [PauseBoxYs]
         movsx edx, word [eax]
-        mov eax, dword [dword_17D4E8]
+        mov eax, dword [PauseRegBuffer]
         add esp, byte 8
         mov dword [dword eax+0C4h], edx
         push str_Ctr02
@@ -1525,13 +1525,13 @@ PauseMenu:
         mov dword [dword ebp-0D8h], eax
         call FindShape
         mov dword [dword ebp-0D4h], eax
-        mov eax, dword [dword_17D4EC]
+        mov eax, dword [PauseBoxXs]
         movsx edx, word [eax]
-        mov eax, dword [dword_17D4E8]
+        mov eax, dword [PauseRegBuffer]
         mov dword [dword eax+0100h], edx
-        mov eax, dword [dword_17D4F0]
+        mov eax, dword [PauseBoxYs]
         movsx edx, word [byte eax+02h]
-        mov eax, dword [dword_17D4E8]
+        mov eax, dword [PauseRegBuffer]
         add esp, byte 8
         mov dword [dword eax+0104h], edx
         push str_Sts02
@@ -1547,13 +1547,13 @@ PauseMenu:
         call FindShape
         add esp, byte 8
         mov dword [byte ebp-06Eh], eax
-        mov eax, dword [dword_17D4EC]
+        mov eax, dword [PauseBoxXs]
         movsx edx, word [byte eax+02h]
-        mov eax, dword [dword_17D4E8]
+        mov eax, dword [PauseRegBuffer]
         mov dword [dword eax+0140h], edx
-        mov eax, dword [dword_17D4F0]
+        mov eax, dword [PauseBoxYs]
         movsx edx, word [byte eax+02h]
-        mov eax, dword [dword_17D4E8]
+        mov eax, dword [PauseRegBuffer]
         mov dword [dword eax+0144h], edx
         mov ax, word [SlotsTwoPlayer]
         xor ah, ah
@@ -1573,13 +1573,13 @@ PauseMenu:
         mov dword [byte ebp-0Ch], eax
         call FindShape
         mov dword [byte ebp-08h], eax
-        mov eax, dword [dword_17D4EC]
+        mov eax, dword [PauseBoxXs]
         movsx edx, word [byte eax+04h]
-        mov eax, dword [dword_17D4E8]
+        mov eax, dword [PauseRegBuffer]
         mov dword [dword eax+0180h], edx
-        mov eax, dword [dword_17D4F0]
+        mov eax, dword [PauseBoxYs]
         movsx edx, word [byte eax+04h]
-        mov eax, dword [dword_17D4E8]
+        mov eax, dword [PauseRegBuffer]
         mov dword [dword eax+0184h], edx
         add esp, byte 8
         mov byte [byte ebp+01Ch], 5
@@ -1595,31 +1595,31 @@ PauseMenu:
 .7:
         mov esi, dword [dword eax+ebp-0270h]
         movsx ebx, word [byte esi+04h]
-        mov esi, dword [dword_17D4E8]
+        mov esi, dword [PauseRegBuffer]
         add ebx, dword [edx+esi]
         mov dword [byte edx+esi+08h], ebx
-        mov esi, dword [dword_17D4E8]
+        mov esi, dword [PauseRegBuffer]
         mov ebx, dword [byte edx+esi+04h]
         mov dword [byte edx+esi+0Ch], ebx
-        mov esi, dword [dword_17D4E8]
+        mov esi, dword [PauseRegBuffer]
         mov ebx, dword [byte edx+esi+08h]
         mov dword [byte edx+esi+010h], ebx
         mov esi, dword [dword eax+ebp-0270h]
         movsx ebx, word [byte esi+06h]
-        mov esi, dword [dword_17D4E8]
+        mov esi, dword [PauseRegBuffer]
         add ebx, dword [byte edx+esi+04h]
         mov dword [byte edx+esi+014h], ebx
-        mov esi, dword [dword_17D4E8]
+        mov esi, dword [PauseRegBuffer]
         mov ebx, dword [edx+esi]
         mov dword [byte edx+esi+018h], ebx
-        mov esi, dword [dword_17D4E8]
+        mov esi, dword [PauseRegBuffer]
         mov ebx, dword [byte edx+esi+014h]
         mov dword [byte edx+esi+01Ch], ebx
         mov dword [dword eax+ebp-027Ah], 4
-        mov ebx, dword [dword_17D4E8]
+        mov ebx, dword [PauseRegBuffer]
         add ebx, edx
         mov dword [dword eax+ebp-0276h], ebx
-        mov esi, dword [dword_17D4E8]
+        mov esi, dword [PauseRegBuffer]
         mov ebx, dword [edx+esi]
         mov dword [dword eax+ebp-0264h], ebx
         mov ebx, dword [byte edx+esi+04h]
@@ -1707,10 +1707,10 @@ PauseMenu:
 PauseMenu_66B:
         mov eax, 2
         call GetLangText
-        mov dword [dword_17D4FC], eax
+        mov dword [PauseMsgTop], eax
         mov eax, 3
         call GetLangText
-        mov dword [dword_17D500], eax
+        mov dword [PauseMsgBottom], eax
         mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
@@ -1725,7 +1725,7 @@ PauseMenu_66B:
         sar eax, 1
         push eax
         mov ecx, MenuFrameColours
-        mov ebx, dword_17D4FC
+        mov ebx, PauseMsgTop
         push byte 0
         mov eax, 1D2h
         mov edx, 2
@@ -1767,17 +1767,17 @@ PauseMenu_748:
         test byte [optflags], 70h
         jne short .14
         mov edx, 5
-        mov eax, unk_17D52C
+        mov eax, PauseTextBuf
         xor ebx, ebx
         call MakeDirPath
         mov edx, str_EXHIBITNDX3
-        mov eax, unk_17D52C
+        mov eax, PauseTextBuf
         call NameIndexLoad
         mov esi, eax
         test eax, eax
         jne short .13
         mov edx, str_EXHIBITNDX3
-        mov eax, unk_17D52C
+        mov eax, PauseTextBuf
         call NameIndexNew
         mov esi, eax
 .13:
@@ -1792,7 +1792,7 @@ PauseMenu_748:
         cmp eax, byte 10h
         jne short .15
         mov edx, 4
-        mov eax, unk_17D52C
+        mov eax, PauseTextBuf
         xor ebx, ebx
         call MakeDirPath
         push dword [PlayoffTreeData]
@@ -1802,7 +1802,7 @@ PauseMenu_748:
         call sprintf_
         add esp, byte 0Ch
         lea edx, [byte ebp+06Eh]
-        mov eax, unk_17D52C
+        mov eax, PauseTextBuf
         call strcat_
         mov eax, dword [SeasonGameOpts]
         shl eax, 0Fh
@@ -1817,14 +1817,14 @@ PauseMenu_748:
         cmp dword [SeasonPlayoffs], byte 0
         je short .16
         mov edx, 4
-        mov eax, unk_17D52C
+        mov eax, PauseTextBuf
         xor ebx, ebx
         call MakeDirPath
         push dword [PlayoffTreeData]
         jmp short .17
 .16:
         mov edx, 6
-        mov eax, unk_17D52C
+        mov eax, PauseTextBuf
         xor ebx, ebx
         call MakeDirPath
         push dword [RosterFileHandle]
@@ -1835,7 +1835,7 @@ PauseMenu_748:
         call sprintf_
         add esp, byte 0Ch
         lea edx, [byte ebp+06Eh]
-        mov eax, unk_17D52C
+        mov eax, PauseTextBuf
         call strcat_
         mov eax, dword [PlayoffGameOpts]
         shl eax, 0Fh
@@ -1849,7 +1849,7 @@ PauseMenu_748:
         call sprintf_
         add esp, byte 0Ch
         lea edx, [byte ebp+06Eh]
-        mov eax, unk_17D52C
+        mov eax, PauseTextBuf
         call strcat_
         test esi, esi
         jne short .19
@@ -1885,12 +1885,12 @@ PauseMenu_748:
         jne near .24
         mov eax, dword [gameopts]
         and byte [eax], 0FEh
-        mov eax, unk_17D52C
+        mov eax, PauseTextBuf
         call SaveGameFile
         test eax, eax
         jne short .21
         call GetLangText
-        mov dword [dword_17D4FC], eax
+        mov dword [PauseMsgTop], eax
         mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
@@ -1905,7 +1905,7 @@ PauseMenu_748:
         sar eax, 1
         push eax
         mov ecx, MenuFrameColours
-        mov ebx, dword_17D4FC
+        mov ebx, PauseMsgTop
         push byte 0
         mov eax, 60h
         mov edx, 1
@@ -1923,7 +1923,7 @@ PauseMenu_748:
 .22:
         xor eax, eax
         call GetLangText
-        mov dword [dword_17D4FC], eax
+        mov dword [PauseMsgTop], eax
         mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
@@ -1938,7 +1938,7 @@ PauseMenu_748:
         sar eax, 1
         push eax
         mov ecx, MenuFrameColours
-        mov ebx, dword_17D4FC
+        mov ebx, PauseMsgTop
         push byte 0
         mov eax, 61h
         mov edx, 1
@@ -1959,7 +1959,7 @@ PauseMenu_748:
 .25:
         cmp dword [byte ebp+07Eh], byte 0FFFFFFFFh
         je near PauseMenu.9
-        push dword [dword_17D4E8]
+        push dword [PauseRegBuffer]
         call FreeMemBlock
         mov eax, dword [byte ebp+07Eh]
         add esp, byte 4
@@ -2250,7 +2250,7 @@ LoadCurrentSeasonStats:
 ; Loads the playoff stats, or the season's when no playoffs are running
 ;-----------------------------------------------------------------------------
 LoadPlayoffOrSeasonStats:
-        cmp dword [dword_17D267], byte 0
+        cmp dword [PlayoffsActive], byte 0
         jne short LoadCurrentSeasonStats
         mov eax, dword [RosterFileHandle]
         jmp near LoadPlayoffStats
@@ -2287,37 +2287,37 @@ PauseGame:
         call SetCrowdTarget
         test byte [GsOptions+1], 20h
         je short .2
-        mov dword [dword_17D51C], str_Punct_InGameMenu
-        mov dword [dword_17D520], PauseMenuItemsLong
-        mov dword [dword_17D4EC], PauseMenuBoxX
-        mov dword [dword_17D4F0], PauseMenuBoxY
-        mov dword [dword_17D524], 87AEh
+        mov dword [PauseTitleItems], str_Punct_InGameMenu
+        mov dword [PauseItemList], PauseMenuItemsLong
+        mov dword [PauseBoxXs], PauseMenuBoxX
+        mov dword [PauseBoxYs], PauseMenuBoxY
+        mov dword [PauseScaleStep], 87AEh
         jmp short .3
 .2:
-        mov dword [dword_17D51C], InGameMenuItems
-        mov dword [dword_17D520], PauseMenuItemsShort
-        mov dword [dword_17D4EC], str_N_InGameMenu
-        mov dword [dword_17D4F0], str_F_InGameMenu
-        mov dword [dword_17D524], 3D70h
+        mov dword [PauseTitleItems], InGameMenuItems
+        mov dword [PauseItemList], PauseMenuItemsShort
+        mov dword [PauseBoxXs], str_N_InGameMenu
+        mov dword [PauseBoxYs], str_F_InGameMenu
+        mov dword [PauseScaleStep], 3D70h
 .3:
-        mov esi, dword [dword_17D51C]
+        mov esi, dword [PauseTitleItems]
         movsx eax, word [byte esi+06h]
-        mov dword [dword_17D508], eax
-        mov eax, dword [dword_17D520]
+        mov dword [PauseTitleX], eax
+        mov eax, dword [PauseItemList]
         movsx edx, word [byte eax+0Eh]
-        mov dword [dword_17D50C], edx
+        mov dword [PauseListY], edx
         movsx ebx, word [byte esi+08h]
         movsx edx, word [byte esi+06h]
         sub ebx, edx
         inc ebx
-        mov dword [dword_17D4F8], ebx
+        mov dword [PauseTitleW], ebx
         movsx edx, word [byte eax+010h]
         movsx eax, word [byte eax+0Eh]
         sub edx, eax
         push str_Paus
         inc edx
         push dword [FrontShapeFile]
-        mov dword [dword_17D4F4], edx
+        mov dword [PauseListH], edx
         call FindShape
         add esp, byte 8
         mov esi, eax
@@ -2342,7 +2342,7 @@ PauseGame:
         call CreateBitmap
         add esp, byte 0Ch
         push eax
-        mov dword [dword_17D514], eax
+        mov dword [PauseFrameBmp], eax
         call SetDrawBitmap
         add esp, byte 4
         push dword 0FFh
@@ -2465,7 +2465,7 @@ PauseGame:
         mov dword [PauseRedraw], 1
         call GetTicks
         sub eax, 0FBh
-        mov dword [dword_17D510], eax
+        mov dword [PauseMsgTime], eax
         mov eax, 0FBh
         mov dword [byte ebp-04h], 0
         call Crowd_Noise
@@ -2544,7 +2544,7 @@ PauseGame_3A3:
 .15:
         xor eax, eax
         call GetLangText
-        mov dword [dword_17D4FC], eax
+        mov dword [PauseMsgTop], eax
         mov ax, word [SlotsTwoPlayer]
         xor ah, ah
         and al, 1
@@ -2559,7 +2559,7 @@ PauseGame_3A3:
         sar eax, 1
         push eax
         mov ecx, MenuFrameColours
-        mov ebx, dword_17D4FC
+        mov ebx, PauseMsgTop
         push byte 0
         mov eax, 1D4h
 .16:
@@ -2626,14 +2626,14 @@ PauseGame_47F:
 .25:
         mov eax, 1
         call GetLangText
-        mov dword [dword_17D4FC], eax
+        mov dword [PauseMsgTop], eax
         mov eax, 14Ch
         call GetLangText
-        mov dword [dword_17D500], eax
+        mov dword [PauseMsgBottom], eax
         mov eax, 14Dh
         call GetLangText
         push byte 2
-        mov dword [dword_17D504], eax
+        mov dword [PauseMsgExtra], eax
         mov eax, dword [dword_11F5C4]
         push byte 0
         sar eax, 1
@@ -2642,7 +2642,7 @@ PauseGame_47F:
         sar eax, 1
         push eax
         mov ecx, MenuFrameColours
-        mov ebx, dword_17D4FC
+        mov ebx, PauseMsgTop
         push byte 0
         mov eax, 14Bh
         mov edx, 3
@@ -2670,7 +2670,7 @@ PauseGame_47F:
 .28:
         call GetLangText
         push byte 2
-        mov dword [dword_17D4FC], eax
+        mov dword [PauseMsgTop], eax
         mov eax, dword [dword_11F5C4]
         push edx
         sar eax, 1
@@ -2679,7 +2679,7 @@ PauseGame_47F:
         sar eax, 1
         push eax
         mov ecx, MenuFrameColours
-        mov ebx, dword_17D4FC
+        mov ebx, PauseMsgTop
         push edx
         mov eax, 208h
         jmp near PauseGame_3A3.16
@@ -2730,7 +2730,7 @@ PauseGame_620:
         call CreateBitmap
         add esp, byte 0Ch
         push eax
-        mov dword [dword_17D514], eax
+        mov dword [PauseFrameBmp], eax
         call SetDrawBitmap
         add esp, byte 4
         push dword 0FFh
@@ -2852,7 +2852,7 @@ PauseGame_620:
         mov eax, 0Ah
         call EndCameraShot
 .32:
-        push dword [dword_17D514]
+        push dword [PauseFrameBmp]
         call FreeBitmap
         add esp, byte 4
         call FreeSpriteCache

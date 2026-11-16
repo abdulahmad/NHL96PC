@@ -2,63 +2,61 @@
 bits 32
 %include "hockey.inc"
 section s_17D166 nobits alloc noexec write align=1
-global byte_17D262, byte_17D26F, byte_17D270, byte_17D271, byte_17D275, byte_17D283, dword_17D166, dword_17D16A
-global PlayoffFormatTeams, dword_17D1D6, dword_17D1DA, dword_17D1DE, dword_17D1E2, dword_17D1E6, dword_17D1EA, dword_17D202
-global dword_17D20A, dword_17D252, dword_17D256, dword_17D25A, dword_17D25E, cupseries, dword_17D267, dword_17D26B
-global dword_17D273, unk_17D272, unk_17D32C, unk_17D3E8
-dword_17D166:
+global PlayoffRoundNum, PlayoffUserTeam, PlayoffHomeTeam, PlayoffAwayTeam, ModemOptTeams, PlayoffSeeds, PlayoffSeriesScore
+global PlayoffFormatTeams, FinalHomeWins, FinalAwayWins, PlayoffPickTeams, PlayoffSlotTeams, PlayoffWinners, PlayoffDivLeaders, PlayoffSimTeams
+global PlayoffWildCards, FinalTeamHome, FinalTeamAway, PlayoffChampion, PlayoffMaxSeed, cupseries, PlayoffsActive, PlayoffFlags
+global ModemGameOpts, SavedGameOpts, OverlayRemap
+PlayoffSeeds:
         resb 4
-dword_17D16A:
+PlayoffSeriesScore:
         resb 36
 PlayoffFormatTeams:
         resb 72
-dword_17D1D6:
+FinalHomeWins:
         resb 4
-dword_17D1DA:
+FinalAwayWins:
         resb 4
-dword_17D1DE:
+PlayoffPickTeams:
         resb 4
-dword_17D1E2:
+PlayoffSlotTeams:
         resb 4
-dword_17D1E6:
+PlayoffWinners:
         resb 4
-dword_17D1EA:
+PlayoffDivLeaders:
         resb 24
-dword_17D202:
+PlayoffSimTeams:
         resb 8
-dword_17D20A:
+PlayoffWildCards:
         resb 72
-dword_17D252:
+FinalTeamHome:
         resb 4
-dword_17D256:
+FinalTeamAway:
         resb 4
-dword_17D25A:
+PlayoffChampion:
         resb 4
-dword_17D25E:
+PlayoffMaxSeed:
         resb 4
-byte_17D262:
+PlayoffRoundNum:
         resb 1
 cupseries:
         resb 4
-dword_17D267:
+PlayoffsActive:
         resb 4
-dword_17D26B:
+PlayoffFlags:
         resb 4
-byte_17D26F:
+PlayoffUserTeam:
         resb 1
-byte_17D270:
+PlayoffHomeTeam:
         resb 1
-byte_17D271:
+PlayoffAwayTeam:
         resb 1
-unk_17D272:
+ModemGameOpts:
         resb 1
-dword_17D273:
         resb 2
-byte_17D275:
         resb 14
-byte_17D283:
+ModemOptTeams:
         resb 169
-unk_17D32C:
+SavedGameOpts:
         resb 188
-unk_17D3E8:
+OverlayRemap:
         resb 256

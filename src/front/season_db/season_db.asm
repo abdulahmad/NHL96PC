@@ -3,10 +3,10 @@ bits 32
 %include "hockey.inc"
 section s_7FF7F progbits alloc exec nowrite align=1
 extern BlackPalette, HmGoalieSwapped, HmStarterGoalieMarks, AwGoalieSwapped, TitleTextStyle, SeasonUserSim, SeasonUserSlot, PlayoffTeams
-extern byte_17D262, byte_17D26F, byte_17D270, byte_17D271, CompareTeamPoints, seasondb, TeamDb, statsplayoffs
+extern PlayoffRoundNum, PlayoffUserTeam, PlayoffHomeTeam, PlayoffAwayTeam, CompareTeamPoints, seasondb, TeamDb, statsplayoffs
 extern SeasonDbSize, PlayoffStatsSize, SimStatWeights, hmtmlines, hmtmplstats, hmtmglstats, hmtmroster, SeasonGameOpts
-extern PlayoffTreeData, SeasonType, SeasonPlayoffs, SeasonDay, SeasonRandomSeed, PlayoffGameOpts, RosterFileHandle, dword_17D1E2
-extern dword_17D202, dword_17D267, dword_17D26B, FillMusicStream, gameopts, GetLangText, HideMessage, HideProgressBox
+extern PlayoffTreeData, SeasonType, SeasonPlayoffs, SeasonDay, SeasonRandomSeed, PlayoffGameOpts, RosterFileHandle, PlayoffSlotTeams
+extern PlayoffSimTeams, PlayoffsActive, PlayoffFlags, FillMusicStream, gameopts, GetLangText, HideMessage, HideProgressBox
 extern LoadSeasonStats, MakeDirPath, MakePlayoffDbPath, MakeSeasonDbPath, qsort_, ShowMessage, ShowProgressBox, SimulateGame
 extern SoundIdle, SoundSecondsToBytes, sprintf_, srand_, str_05dCNZDB, str_S05dCNZDB, strcat_, strlen_
 extern PlayoffRound1, PlayoffRound2, PlayoffRound3, PlayoffFinal, ClearPlayoffTree, FreeMemBlock, OpenArtArchiveErr, SaveFileBlock
@@ -49,22 +49,22 @@ UpdateTeamDbs:
         push dword [PlayoffTreeData]
         jmp short .4
 .2:
-        cmp dword [dword_17D267], byte 0
+        cmp dword [PlayoffsActive], byte 0
         je short .3
         mov edx, 4
         lea eax, [byte ebp-066h]
         xor ebx, ebx
         call MakeDirPath
-        movsx eax, byte [byte_17D26F]
-        mov eax, dword [nosplit eax*4+dword_17D1E2]
+        movsx eax, byte [PlayoffUserTeam]
+        mov eax, dword [nosplit eax*4+PlayoffSlotTeams]
         jmp short .1
 .3:
         mov edx, 6
         lea eax, [byte ebp-066h]
         xor ebx, ebx
         call MakeDirPath
-        movsx eax, byte [byte_17D26F]
-        mov eax, dword [nosplit eax*4+dword_17D1E2]
+        movsx eax, byte [PlayoffUserTeam]
+        mov eax, dword [nosplit eax*4+PlayoffSlotTeams]
         add eax, byte 41h
         push eax
         push dword [RosterFileHandle]
@@ -115,7 +115,7 @@ UpdateTeamDbs:
         jge short .16
         jmp short .8
 .11:
-        cmp dword [dword_17D267], byte 0
+        cmp dword [PlayoffsActive], byte 0
         je short .14
         cmp dword [SeasonType], byte 2
         jne short .12
@@ -132,13 +132,13 @@ UpdateTeamDbs:
 .14:
         mov dword [byte ebp-02h], 0
 .15:
-        movsx eax, byte [byte_17D262]
+        movsx eax, byte [PlayoffRoundNum]
         imul edx, eax, byte 7
-        mov eax, dword [dword_17D26B]
+        mov eax, dword [PlayoffFlags]
         shl eax, 1Ah
         shr eax, 1Dh
         add edx, eax
-        mov eax, dword [dword_17D26B]
+        mov eax, dword [PlayoffFlags]
         and eax, byte 7
         mov edi, dword [byte ebp-02h]
         add eax, edx
@@ -203,12 +203,12 @@ UpdateTeamDbs:
         jne short .20
         cmp dword [byte ebp-0Ah], byte 0
         je short .20
-        movsx eax, byte [byte_17D26F]
+        movsx eax, byte [PlayoffUserTeam]
         mov edx, dword [byte ebp+0Eh]
-        cmp edx, dword [nosplit eax*4+dword_17D1E2]
+        cmp edx, dword [nosplit eax*4+PlayoffSlotTeams]
         je short .21
-        movsx eax, byte [byte_17D270]
-        imul eax, dword [nosplit eax*4+dword_17D1E2], byte 1Ah
+        movsx eax, byte [PlayoffHomeTeam]
+        imul eax, dword [nosplit eax*4+PlayoffSlotTeams], byte 1Ah
         cmp byte [dword eax+PlayoffTeams], 0
         je short .21
 .20:
@@ -216,12 +216,12 @@ UpdateTeamDbs:
         jne near .71
         cmp dword [byte ebp-0Ah], byte 0
         je near .71
-        movsx eax, byte [byte_17D26F]
+        movsx eax, byte [PlayoffUserTeam]
         mov edx, dword [byte ebp+0Eh]
-        cmp edx, dword [nosplit eax*4+dword_17D1E2]
+        cmp edx, dword [nosplit eax*4+PlayoffSlotTeams]
         je short .21
-        movsx eax, byte [byte_17D271]
-        imul eax, dword [nosplit eax*4+dword_17D1E2], byte 1Ah
+        movsx eax, byte [PlayoffAwayTeam]
+        imul eax, dword [nosplit eax*4+PlayoffSlotTeams], byte 1Ah
         cmp byte [dword eax+PlayoffTeams], 0
         jne near .71
 .21:
@@ -1839,7 +1839,7 @@ SimSeasonGames:
         inc al
         movsx edx, byte [byte edx+ebp+016h]
         inc dword [byte ebp+022h]
-        mov dword [nosplit edx*4+dword_17D1E2], ebx
+        mov dword [nosplit edx*4+PlayoffSlotTeams], ebx
         cmp dword [byte ebp+022h], byte 8
         jl short .40
         mov dword [byte ebp+022h], 0
@@ -1862,7 +1862,7 @@ SimSeasonGames:
         inc al
         movsx edx, byte [byte edx+ebp+016h]
         inc dword [byte ebp+022h]
-        mov dword [nosplit edx*4+dword_17D202], ebx
+        mov dword [nosplit edx*4+PlayoffSimTeams], ebx
         cmp dword [byte ebp+022h], byte 8
         jl short .43
         mov dword [byte ebp+052h], 0
@@ -1871,7 +1871,7 @@ SimSeasonGames:
         xor edx, edx
 .46:
         imul eax, dword [byte ebp+022h], byte 1Ah
-        imul esi, dword [dword edx+dword_17D1E2], byte 1Ah
+        imul esi, dword [dword edx+PlayoffSlotTeams], byte 1Ah
         mov ecx, 1Ah
         mov edi, ebx
         add esi, SeasonUserName
@@ -1880,11 +1880,11 @@ SimSeasonGames:
         mov eax, dword [byte ebp+01Eh]
         cmp byte [dword eax+PlayoffTeams], 0
         jne short .47
-        imul eax, dword [dword edx+dword_17D1E2], dword 31Bh
+        imul eax, dword [dword edx+PlayoffSlotTeams], dword 31Bh
         add eax, dword [byte ebp+06Eh]
         add eax, byte 1Eh
         call strlen_
-        imul esi, dword [dword edx+dword_17D1E2], dword 31Bh
+        imul esi, dword [dword edx+PlayoffSlotTeams], dword 31Bh
         mov edi, ebx
         add esi, dword [byte ebp+06Eh]
         mov ecx, eax
@@ -2039,12 +2039,12 @@ ApplyPlayoffDayResults:
         je near .45
         cmp byte [eax], 0F0h
         jne short .2
-        movsx eax, byte [byte_17D270]
-        imul eax, dword [nosplit eax*4+dword_17D1E2], dword 31Bh
+        movsx eax, byte [PlayoffHomeTeam]
+        imul eax, dword [nosplit eax*4+PlayoffSlotTeams], dword 31Bh
         mov edx, dword [byte ebp+052h]
         add edx, eax
-        movsx eax, byte [byte_17D271]
-        imul eax, dword [nosplit eax*4+dword_17D1E2], dword 31Bh
+        movsx eax, byte [PlayoffAwayTeam]
+        imul eax, dword [nosplit eax*4+PlayoffSlotTeams], dword 31Bh
         mov dword [byte ebp+05Eh], edx
         mov edx, dword [byte ebp+052h]
         add edx, eax
@@ -2059,12 +2059,12 @@ ApplyPlayoffDayResults:
         mov byte [byte ebp+07Eh], al
         jmp short .3
 .2:
-        movsx eax, byte [byte_17D270]
-        imul eax, dword [nosplit eax*4+dword_17D1E2], dword 31Bh
+        movsx eax, byte [PlayoffHomeTeam]
+        imul eax, dword [nosplit eax*4+PlayoffSlotTeams], dword 31Bh
         mov edx, dword [byte ebp+052h]
         add edx, eax
-        movsx eax, byte [byte_17D271]
-        imul eax, dword [nosplit eax*4+dword_17D1E2], dword 31Bh
+        movsx eax, byte [PlayoffAwayTeam]
+        imul eax, dword [nosplit eax*4+PlayoffSlotTeams], dword 31Bh
         mov dword [byte ebp+05Ah], edx
         mov edx, dword [byte ebp+052h]
         mov byte [byte ebp+07Ah], 1
@@ -2518,7 +2518,7 @@ ApplyPlayoffDayResults:
         inc byte [byte eax+042h]
         inc byte [byte eax+05Ch]
 .49:
-        cmp dword [dword_17D267], byte 0
+        cmp dword [PlayoffsActive], byte 0
         je short .50
         mov ebx, 5
         lea eax, [byte ebp+03Eh]
@@ -2537,7 +2537,7 @@ ApplyPlayoffDayResults:
         push eax
         call SaveFileBlock
         add esp, byte 0Ch
-        cmp dword [dword_17D267], byte 0
+        cmp dword [PlayoffsActive], byte 0
         je short .52
         mov ebx, 4
         lea eax, [byte ebp+03Eh]
@@ -2582,13 +2582,13 @@ SaveSeasonTeams:
         movsx eax, byte [dword eax+PlayoffTeams]
         cmp eax, byte 1
         jne near .9
-        cmp dword [dword_17D267], byte 0
+        cmp dword [PlayoffsActive], byte 0
         je short .4
         mov edx, 4
         lea eax, [byte ebp-05Ch]
         xor ebx, ebx
         call MakeDirPath
-        mov eax, dword [dword esi+dword_17D1E2]
+        mov eax, dword [dword esi+PlayoffSlotTeams]
         add eax, byte 41h
         push eax
         push dword [PlayoffTreeData]
@@ -2616,7 +2616,7 @@ SaveSeasonTeams:
         lea eax, [byte ebp-05Ch]
         xor ebx, ebx
         call MakeDirPath
-        mov eax, dword [dword esi+dword_17D1E2]
+        mov eax, dword [dword esi+PlayoffSlotTeams]
         add eax, byte 41h
         push eax
         push dword [RosterFileHandle]

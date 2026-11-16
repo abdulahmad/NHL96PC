@@ -6,8 +6,8 @@ section s_6CF0D progbits alloc exec nowrite align=1
 extern BlackPalette, byte_11FA2F, ClearSlotUser, CopyBitmap, DrawColorText, DrawColorTextRight, DrawFrameAt, SaveFileHandle
 extern ControllerSlotX, ControllerSlotY, ControllerSlotStates, ControllerSlotItems, ControllerLayout, str_G, ControllerOptionRows, ControllerTitlePos
 extern dword_11F5C0, dword_11F5C4, FrontEndScreenBmp, MatchupLayer, TeamStatsBitmap
-extern MenuBoxStyle, PlayoffTreeData, RosterFileHandle, dword_17D267, dword_17D564, dword_17D56C, dword_17D574
-extern dword_17D57C, dword_17D580, dword_17D584, dword_17D588, LinesEditAway, LinesEditMode, LinesEditTeam, FadeOut
+extern MenuBoxStyle, PlayoffTreeData, RosterFileHandle, PlayoffsActive, ControllerSlotIcon
+extern ControllerColumnArt, ControllerBackBmp, ControllerIconArt, LinesEditAway, LinesEditMode, LinesEditTeam, FadeOut
 extern FadePalette, FillMusicStream, TextStringWidth, gameopts, GetInputDevices, GetLangText, GetTeamNameArt, GetTicks
 extern InitMenuItems, LinkSync, LinkSyncWithMessage, LoadPackedFile, LoadTeamLogo, ModemChat, mousex, mousey
 extern MusicDone, OpenScreen, optflags, PickUsersScreen, PlayMusic, PlaySfx, PreGameScreens, PutBlock
@@ -19,7 +19,7 @@ extern str_P23, str_P2G, str_Pal12, str_PlyD, str_Usrh, str_Usri, str_Utext, Dra
 extern DrawShapeAtOwnPos, DrawArt, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, CreateBitmap, ClearScreenColour, FreeBitmap
 extern DrawArtOpaqueAtOwnPos, SetScreenTarget, FindShape, TextSetFont, str_Punct_ControllerScreen, ControllerTextIds, str_WesternConference2, SlotsTwoPlayer
 extern ControllerScreenMode, ControllerPreGame, ControllerColumnsDrawn
-extern SlotUserNames, word_17D560, word_17D562, word_17D568, word_17D570, word_17D578, word_17D58C, word_17D58E
+extern SlotUserNames, ControllerSlotDevice, ControllerSlotTeam, ControllerPadIcons, ControllerDragSlot, ControllerDragIcon
 global ControllerSlotDefaults, ControllerColumnDefaults, ControllerUsersPanel, NextControllerDeviceMasks, NextControllerDeviceJumpTable, NextControllerDevice, NextControllerDevice_2C, NextControllerDevice_F2
 global NextControllerDevice_199, NextControllerDevice_240, NextControllerDevice_2E7, NextControllerDevice_38E, NextControllerDevice_435, NextControllerDevice_4D0, ScanControllers, DeviceIconCodes
 global DeviceIconJumpTable, DeviceIconShape, DeviceIconShape_51, DeviceIconShape_5D, DeviceIconShape_69, DeviceIconShape_75, DeviceIconShape_81, DeviceIconShape_8D
@@ -1208,7 +1208,7 @@ DrawControllerIcons:
         mov esi, eax
         cmp dword [eax], byte 5
         jge short .1
-        push dword [dword_17D564]
+        push dword [ControllerSlotIcon]
         call PutBlockAtOwnPos
         mov eax, dword [optflags]
         and eax, byte 70h
@@ -1222,7 +1222,7 @@ DrawControllerIcons:
 .1:
         cmp dword [eax], byte 0Ah
         jge short .4
-        push dword [dword_17D56C]
+        push dword [ControllerPadIcons+4]
         call PutBlockAtOwnPos
         mov eax, dword [optflags]
         and eax, byte 70h
@@ -1235,7 +1235,7 @@ DrawControllerIcons:
         je near .6
 .3:
         mov si, word [esi]
-        mov word [word_17D58C], si
+        mov word [ControllerDragSlot], si
         pop esi
         pop edx
         pop ecx
@@ -1244,7 +1244,7 @@ DrawControllerIcons:
 .4:
         cmp dword [eax], byte 0Fh
         jge short .5
-        push dword [dword_17D574]
+        push dword [ControllerPadIcons+0Ch]
         call PutBlockAtOwnPos
         mov eax, dword [optflags]
         and eax, byte 70h
@@ -1256,7 +1256,7 @@ DrawControllerIcons:
 .5:
         cmp dword [eax], byte 14h
         jge short .7
-        push dword [dword_17D57C]
+        push dword [ControllerPadIcons+14h]
         call PutBlockAtOwnPos
         mov eax, dword [optflags]
         and eax, byte 70h
@@ -1266,7 +1266,7 @@ DrawControllerIcons:
         cmp word [ControllerScreenMode], byte 0
         jne short .3
         mov ax, word [esi]
-        mov word [word_17D58E], ax
+        mov word [ControllerDragIcon], ax
         pop esi
         pop edx
         pop ecx
@@ -1274,7 +1274,7 @@ DrawControllerIcons:
         ret
 .6:
         mov si, word [esi]
-        mov word [word_17D58E], si
+        mov word [ControllerDragIcon], si
 .7:
         pop esi
         pop edx
@@ -1288,7 +1288,7 @@ DrawControllerIcons:
 ;-----------------------------------------------------------------------------
 SetControllerColumn:
         push edx
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         cmp dword [dword eax+0218h], byte 0
         je short .1
         mov byte [byte eax+043h], 5
@@ -1306,11 +1306,11 @@ SetControllerColumn:
 .3:
         mov byte [byte eax+043h], 16h
 .4:
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         cmp dword [byte eax+01Ah], byte 0
         sete dl
         mov byte [dword eax+0AAh], dl
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         cmp dword [dword eax+01B2h], byte 0
         setne dl
         add dl, 3
@@ -1319,17 +1319,17 @@ SetControllerColumn:
         and eax, byte 70h
         cmp eax, byte 30h
         jne short .5
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov byte [dword eax+0174h], 18h
 .5:
         mov eax, dword [optflags]
         and eax, byte 70h
         cmp eax, byte 30h
         jne short .6
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov byte [dword eax+01DAh], 18h
 .6:
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         cmp dword [dword eax+03B0h], byte 0
         je short .7
         mov byte [dword eax+01DBh], 9
@@ -1347,11 +1347,11 @@ SetControllerColumn:
 .9:
         mov byte [dword eax+01DBh], 17h
 .10:
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         cmp dword [byte eax+01Ah], byte 0
         sete dl
         mov byte [dword eax+0240h], dl
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         cmp dword [dword eax+0416h], byte 0
         je short .11
         mov byte [dword eax+0241h], 0Ah
@@ -1364,17 +1364,17 @@ SetControllerColumn:
 .12:
         mov byte [dword eax+0241h], 16h
 .13:
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         cmp dword [dword eax+0218h], byte 0
         sete dl
         add dl, 5
         mov byte [dword eax+02A8h], dl
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         cmp dword [dword eax+03B0h], byte 0
         setne dl
         add dl, 8
         mov byte [dword eax+0375h], dl
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         cmp dword [dword eax+01B2h], byte 0
         je short .14
         mov byte [dword eax+03D8h], 4
@@ -1389,7 +1389,7 @@ SetControllerColumn:
 .15:
         mov byte [dword eax+03D8h], 3
 .16:
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         cmp dword [dword eax+05AEh], byte 0
         je short .17
         mov byte [dword eax+03D9h], 0Eh
@@ -1402,7 +1402,7 @@ SetControllerColumn:
 .18:
         mov byte [dword eax+03D9h], 17h
 .19:
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         cmp dword [dword eax+0218h], byte 0
         je short .20
         mov byte [dword eax+043Eh], 5
@@ -1415,7 +1415,7 @@ SetControllerColumn:
 .21:
         mov byte [dword eax+043Eh], 6
 .22:
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         cmp dword [dword eax+0614h], byte 0
         je short .23
         mov byte [dword eax+043Fh], 0Fh
@@ -1423,7 +1423,7 @@ SetControllerColumn:
 .23:
         mov byte [dword eax+043Fh], 16h
 .24:
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         cmp dword [dword eax+0416h], byte 0
         je short .25
         mov byte [dword eax+04A6h], 0Ah
@@ -1431,7 +1431,7 @@ SetControllerColumn:
 .25:
         mov byte [dword eax+04A6h], 16h
 .26:
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         cmp dword [dword eax+05AEh], byte 0
         je short .27
         mov byte [dword eax+0573h], 0Eh
@@ -1439,7 +1439,7 @@ SetControllerColumn:
 .27:
         mov byte [dword eax+0573h], 17h
 .28:
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         cmp dword [dword eax+03B0h], byte 0
         je short .29
         mov byte [dword eax+05D6h], 9
@@ -1459,7 +1459,7 @@ SetControllerColumn:
 .31:
         mov byte [dword eax+05D6h], 8
 .32:
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         cmp dword [dword eax+07ACh], byte 0
         je short .33
         mov byte [dword eax+05D7h], 13h
@@ -1467,12 +1467,12 @@ SetControllerColumn:
 .33:
         mov byte [dword eax+05D7h], 17h
 .34:
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         cmp dword [dword eax+0416h], byte 0
         je short .35
         mov byte [dword eax+063Ch], 0Ah
 .35:
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         cmp dword [dword eax+0218h], byte 0
         je short .36
         mov byte [dword eax+063Ch], 5
@@ -1485,7 +1485,7 @@ SetControllerColumn:
 .37:
         mov byte [dword eax+063Ch], 6
 .38:
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         cmp dword [dword eax+0614h], byte 0
         je short .39
         mov byte [dword eax+06A4h], 0Fh
@@ -1493,7 +1493,7 @@ SetControllerColumn:
 .39:
         mov byte [dword eax+06A4h], 16h
 .40:
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         cmp dword [dword eax+07ACh], byte 0
         je short .41
         mov byte [dword eax+0771h], 13h
@@ -1501,7 +1501,7 @@ SetControllerColumn:
 .41:
         mov byte [dword eax+0771h], 17h
 .42:
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         cmp dword [dword eax+05AEh], byte 0
         je short .43
         mov byte [dword eax+07D4h], 0Eh
@@ -1526,7 +1526,7 @@ SetControllerColumn:
 .46:
         mov byte [dword eax+07D4h], 0Dh
 .47:
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         cmp dword [dword eax+0614h], byte 0
         je short .48
         mov byte [dword eax+0906h], 0Fh
@@ -1558,11 +1558,11 @@ SetControllerColumn:
         je short .53
         cmp dword [SaveFileHandle], byte 0FFFFFFFFh
         jne short .53
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov byte [dword eax+0909h], 14h
         jmp short .55
 .53:
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         cmp dword [dword eax+0614h], byte 0
         je short .54
         mov byte [dword eax+0909h], 0Fh
@@ -1570,7 +1570,7 @@ SetControllerColumn:
 .54:
         mov byte [dword eax+0909h], 10h
 .55:
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         cmp dword [dword eax+07ACh], byte 0
         je short .56
         mov byte [dword eax+096Ch], 13h
@@ -1609,11 +1609,11 @@ SetControllerColumn:
         je short .62
         cmp dword [SaveFileHandle], byte 0FFFFFFFFh
         jne short .62
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov byte [dword eax+096Eh], 15h
         jmp short .64
 .62:
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         cmp dword [dword eax+07ACh], byte 0
         je short .63
         mov byte [dword eax+096Eh], 13h
@@ -1621,7 +1621,7 @@ SetControllerColumn:
 .63:
         mov byte [dword eax+096Eh], 12h
 .64:
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         cmp dword [dword eax+01B2h], byte 0
         je short .65
         mov byte [dword eax+09D3h], 4
@@ -1669,7 +1669,7 @@ SetControllerIcon:
         test eax, eax
         jne short .1
         lea edi, [byte ebp-0Ch]
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov esi, str_P11
         add eax, 7F8h
         jmp short .2
@@ -1677,7 +1677,7 @@ SetControllerIcon:
         cmp eax, byte 1
         jne near SetControllerIcon_F9
         lea edi, [byte ebp-0Ch]
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov esi, str_P21
         add eax, 85Eh
 .2:
@@ -1692,14 +1692,14 @@ SetControllerIcon:
         jne near SetControllerIcon_F9
         lea eax, [byte ebp-0Ch]
         push eax
-        push dword [dword_17D588]
+        push dword [ControllerIconArt]
         call FindShape
         mov edx, dword [byte ebp-04h]
         add esp, byte 8
         mov dword [byte edx+01Ah], eax
         lea eax, [byte ebp-0Ch]
         push eax
-        push dword [dword_17D588]
+        push dword [ControllerIconArt]
         mov byte [byte ebp-09h], 32h
         call FindShape
         mov edx, dword [byte ebp-04h]
@@ -1707,7 +1707,7 @@ SetControllerIcon:
         mov dword [byte edx+01Eh], eax
         lea eax, [byte ebp-0Ch]
         push eax
-        push dword [dword_17D588]
+        push dword [ControllerIconArt]
         mov byte [byte ebp-09h], 33h
         call FindShape
         mov edx, dword [byte ebp-04h]
@@ -1719,7 +1719,7 @@ SetControllerIcon:
         je short SetControllerIcon_F9
         lea eax, [byte ebp-0Ch]
         push eax
-        push dword [dword_17D588]
+        push dword [ControllerIconArt]
         mov byte [byte ebp-09h], 67h
         call FindShape
         mov edx, dword [byte ebp-04h]
@@ -1797,7 +1797,7 @@ DrawControllerColumns:
         cmp bx, byte 1
         jne near .49
         movsx eax, word [byte ebp-04h]
-        movsx eax, word [nosplit eax*8+word_17D560]
+        movsx eax, word [nosplit eax*8+ControllerSlotDevice]
         cmp eax, byte 2
         je near .9
         cmp esi, byte 30h
@@ -1817,24 +1817,24 @@ DrawControllerColumns:
         jne short .8
 .7:
         movsx eax, word [byte ebp-0Ch]
-        movsx ecx, word [nosplit eax*8+word_17D562]
+        movsx ecx, word [nosplit eax*8+ControllerSlotTeam]
         movsx eax, di
         movsx esi, word [byte ebp-04h]
-        movsx ebx, word [nosplit eax*8+word_17D562]
+        movsx ebx, word [nosplit eax*8+ControllerSlotTeam]
         movsx eax, word [byte ebp-08h]
-        push dword [dword_17D584]
-        movsx edx, word [nosplit eax*8+word_17D562]
-        movsx eax, word [nosplit esi*8+word_17D562]
+        push dword [ControllerBackBmp]
+        movsx edx, word [nosplit eax*8+ControllerSlotTeam]
+        movsx eax, word [nosplit esi*8+ControllerSlotTeam]
         call NextControllerDevice
-        mov word [nosplit esi*8+word_17D562], ax
+        mov word [nosplit esi*8+ControllerSlotTeam], ax
         jmp short .9
 .8:
         movsx eax, word [byte ebp-04h]
-        mov word [nosplit eax*8+word_17D562], 400h
+        mov word [nosplit eax*8+ControllerSlotTeam], 400h
 .9:
         movsx esi, word [byte ebp-04h]
         shl esi, 3
-        movsx eax, word [dword esi+word_17D562]
+        movsx eax, word [dword esi+ControllerSlotTeam]
         cmp eax, byte 1
         je near .49
         mov eax, dword [byte ebp-024h]
@@ -1842,20 +1842,20 @@ DrawControllerColumns:
         mov dword [byte eax+05Ah], 0
         mov dword [byte eax+062h], 0
         and byte [byte eax+046h], 0FDh
-        push dword [dword esi+dword_17D564]
+        push dword [dword esi+ControllerSlotIcon]
         call PutBlockAtOwnPos
-        movsx eax, word [dword esi+word_17D560]
+        movsx eax, word [dword esi+ControllerSlotDevice]
         add esp, byte 4
         cmp eax, byte 2
         jne near .13
         mov eax, dword [byte ebp-028h]
         add eax, byte 3
         imul eax, byte 66h
-        mov ebx, dword [dword_17D580]
+        mov ebx, dword [ControllerColumnArt]
         mov dword [byte ebx+eax+01Ah], 0
-        mov ebx, dword [dword_17D580]
+        mov ebx, dword [ControllerColumnArt]
         mov dword [byte ebx+eax+01Eh], 0
-        mov edx, dword [dword_17D580]
+        mov edx, dword [ControllerColumnArt]
         mov word [byte edx+eax+018h], 3
         mov eax, dword [optflags]
         and eax, byte 70h
@@ -1874,15 +1874,15 @@ DrawControllerColumns:
         jmp short .12
 .11:
         movsx eax, word [byte ebp-08h]
-        movsx eax, word [nosplit eax*8+word_17D560]
+        movsx eax, word [nosplit eax*8+ControllerSlotDevice]
         cmp eax, byte 2
         je short .13
         movsx eax, di
-        movsx eax, word [nosplit eax*8+word_17D560]
+        movsx eax, word [nosplit eax*8+ControllerSlotDevice]
         cmp eax, byte 2
         je short .13
         movsx eax, word [byte ebp-0Ch]
-        movsx eax, word [nosplit eax*8+word_17D560]
+        movsx eax, word [nosplit eax*8+ControllerSlotDevice]
         cmp eax, byte 2
         je short .13
 .12:
@@ -1892,37 +1892,37 @@ DrawControllerColumns:
 .13:
         imul edi, dword [byte ebp-028h], byte 66h
         movsx ebx, word [byte ebp-04h]
-        mov eax, dword [dword_17D588]
-        movsx edx, word [nosplit ebx*8+word_17D562]
+        mov eax, dword [ControllerIconArt]
+        movsx edx, word [nosplit ebx*8+ControllerSlotTeam]
         mov esi, ebx
         call DeviceIconShape
         mov edx, eax
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov dword [byte edi+eax+01Ah], edx
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov dword [byte edi+eax+05Ah], DrawControllerIcons
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov dword [byte edi+eax+062h], DrawControllerColumns
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         or byte [byte edi+eax+046h], 2
-        mov ebx, dword [dword_17D580]
-        mov eax, dword [nosplit esi*8+dword_17D564]
+        mov ebx, dword [ControllerColumnArt]
+        mov eax, dword [nosplit esi*8+ControllerSlotIcon]
         mov dx, word [byte edi+ebx+026h]
         mov word [byte eax+0Ch], dx
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         add edi, eax
-        mov eax, dword [nosplit esi*8+dword_17D564]
+        mov eax, dword [nosplit esi*8+ControllerSlotIcon]
         mov dx, word [byte edi+02Ah]
         mov word [byte eax+0Eh], dx
-        push dword [nosplit esi*8+dword_17D564]
+        push dword [nosplit esi*8+ControllerSlotIcon]
         call DrawShapeAtOwnPos
         mov eax, dword [byte ebp-028h]
         dec eax
         imul edx, eax, byte 66h
-        mov eax, dword [dword_17D580]
-        mov word [nosplit esi*8+word_17D560], 0
+        mov eax, dword [ControllerColumnArt]
+        mov word [nosplit esi*8+ControllerSlotDevice], 0
         mov word [byte edx+eax+018h], 0
-        movsx eax, word [word_17D58E]
+        movsx eax, word [ControllerDragIcon]
         add esp, byte 4
         cmp eax, dword [byte ebp-028h]
         je near .49
@@ -1951,17 +1951,17 @@ DrawControllerColumns:
         call TextSetFont
         add esp, byte 4
         push str_Usri
-        push dword [dword_17D588]
+        push dword [ControllerIconArt]
         call FindShape
         add esp, byte 8
         mov edx, eax
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         push str_Usrh
         mov dword [byte esi+eax+01Ah], edx
-        push dword [dword_17D588]
+        push dword [ControllerIconArt]
         call FindShape
         mov edx, eax
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov dword [byte esi+eax+01Eh], edx
         movsx eax, word [byte ebp-04h]
         mov edx, eax
@@ -1993,7 +1993,7 @@ DrawControllerColumns:
         call AllocMemBlock
         mov edx, dword [byte ebp-014h]
         mov dword [dword edx+ControllerSlotItems], eax
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         add esp, byte 0Ch
         mov edi, dword [dword edx+ControllerSlotItems]
         mov esi, dword [byte esi+eax+01Ah]
@@ -2049,7 +2049,7 @@ DrawControllerColumns:
         mov eax, dword [byte ebp-028h]
         dec eax
         imul eax, byte 66h
-        mov edx, dword [dword_17D580]
+        mov edx, dword [ControllerColumnArt]
         mov eax, dword [byte edx+eax+01Ah]
         mov edx, 20h
         call CopyBitmap
@@ -2064,17 +2064,17 @@ DrawControllerColumns:
         dec esi
         imul esi, byte 66h
         movsx eax, word [byte ebp-04h]
-        mov edi, dword [dword_17D580]
+        mov edi, dword [ControllerColumnArt]
         mov ebx, dword [nosplit eax*4+ControllerSlotStates]
         mov dx, word [byte edi+esi+026h]
         mov word [byte ebx+0Ch], dx
-        mov ebx, dword [dword_17D580]
+        mov ebx, dword [ControllerColumnArt]
         mov edi, dword [nosplit eax*4+ControllerSlotStates]
         mov dx, word [byte esi+ebx+02Ah]
         mov word [byte edi+0Eh], dx
         push dword [nosplit eax*4+ControllerSlotStates]
         call DrawShapeAtOwnPos
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         add esp, byte 4
         push dword [byte esi+eax+02Ah]
         push dword [byte esi+eax+026h]
@@ -2090,7 +2090,7 @@ DrawControllerColumns:
 .20:
         movsx esi, word [byte ebp-04h]
         shl esi, 3
-        movsx eax, word [dword esi+word_17D560]
+        movsx eax, word [dword esi+ControllerSlotDevice]
         cmp eax, byte 1
         je near .49
         mov eax, dword [byte ebp-024h]
@@ -2098,9 +2098,9 @@ DrawControllerColumns:
         mov dword [byte eax+05Ah], 0
         mov dword [byte eax+062h], 0
         and byte [byte eax+046h], 0FDh
-        push dword [dword esi+dword_17D564]
+        push dword [dword esi+ControllerSlotIcon]
         call PutBlockAtOwnPos
-        movsx eax, word [dword esi+word_17D560]
+        movsx eax, word [dword esi+ControllerSlotDevice]
         add esp, byte 4
         cmp eax, byte 2
         jne near .24
@@ -2108,11 +2108,11 @@ DrawControllerColumns:
         inc eax
         inc eax
         imul eax, byte 66h
-        mov ebx, dword [dword_17D580]
+        mov ebx, dword [ControllerColumnArt]
         mov dword [byte ebx+eax+01Ah], 0
-        mov ebx, dword [dword_17D580]
+        mov ebx, dword [ControllerColumnArt]
         mov dword [byte ebx+eax+01Eh], 0
-        mov edx, dword [dword_17D580]
+        mov edx, dword [ControllerColumnArt]
         mov word [byte edx+eax+018h], 3
         mov eax, dword [optflags]
         and eax, byte 70h
@@ -2134,15 +2134,15 @@ DrawControllerColumns:
         jmp near .28
 .23:
         movsx eax, word [byte ebp-08h]
-        movsx eax, word [nosplit eax*8+word_17D560]
+        movsx eax, word [nosplit eax*8+ControllerSlotDevice]
         cmp eax, byte 2
         je near .29
         movsx eax, di
-        movsx eax, word [nosplit eax*8+word_17D560]
+        movsx eax, word [nosplit eax*8+ControllerSlotDevice]
         cmp eax, byte 2
         je near .29
         movsx eax, word [byte ebp-0Ch]
-        movsx eax, word [nosplit eax*8+word_17D560]
+        movsx eax, word [nosplit eax*8+ControllerSlotDevice]
         cmp eax, byte 2
         je near .29
         jmp short .22
@@ -2151,11 +2151,11 @@ DrawControllerColumns:
         dec eax
         dec eax
         imul eax, byte 66h
-        mov ebx, dword [dword_17D580]
+        mov ebx, dword [ControllerColumnArt]
         mov dword [byte ebx+eax+01Ah], 0
-        mov ebx, dword [dword_17D580]
+        mov ebx, dword [ControllerColumnArt]
         mov dword [byte ebx+eax+01Eh], 0
-        mov edx, dword [dword_17D580]
+        mov edx, dword [ControllerColumnArt]
         mov word [byte edx+eax+018h], 3
         mov eax, dword [optflags]
         and eax, byte 70h
@@ -2177,13 +2177,13 @@ DrawControllerColumns:
         jmp short .28
 .27:
         movsx eax, word [byte ebp-08h]
-        cmp word [nosplit eax*8+word_17D560], byte 0
+        cmp word [nosplit eax*8+ControllerSlotDevice], byte 0
         je short .29
         movsx eax, di
-        cmp word [nosplit eax*8+word_17D560], byte 0
+        cmp word [nosplit eax*8+ControllerSlotDevice], byte 0
         je short .29
         movsx eax, word [byte ebp-0Ch]
-        cmp word [nosplit eax*8+word_17D560], byte 0
+        cmp word [nosplit eax*8+ControllerSlotDevice], byte 0
         je short .29
         xor edx, edx
         xor eax, eax
@@ -2227,38 +2227,38 @@ DrawControllerColumns:
         movsx ebx, word [byte ebp-04h]
         mov eax, ebx
         call ClearSlotUser
-        mov word [nosplit ebx*8+word_17D562], 1
-        mov eax, dword [dword_17D588]
-        movsx edx, word [nosplit ebx*8+word_17D562]
+        mov word [nosplit ebx*8+ControllerSlotTeam], 1
+        mov eax, dword [ControllerIconArt]
+        movsx edx, word [nosplit ebx*8+ControllerSlotTeam]
         mov esi, ebx
         call DeviceIconShape
         mov edx, eax
         imul eax, dword [byte ebp-028h], byte 66h
-        mov ebx, dword [dword_17D580]
+        mov ebx, dword [ControllerColumnArt]
         mov dword [byte ebx+eax+01Ah], edx
-        mov ebx, dword [dword_17D580]
+        mov ebx, dword [ControllerColumnArt]
         mov dword [byte ebx+eax+05Ah], DrawControllerIcons
-        mov ebx, dword [dword_17D580]
+        mov ebx, dword [ControllerColumnArt]
         mov dword [byte ebx+eax+062h], DrawControllerColumns
-        mov edi, dword [dword_17D580]
+        mov edi, dword [ControllerColumnArt]
         or byte [byte edi+eax+046h], 2
-        mov ebx, dword [dword_17D580]
-        mov edi, dword [nosplit esi*8+dword_17D564]
+        mov ebx, dword [ControllerColumnArt]
+        mov edi, dword [nosplit esi*8+ControllerSlotIcon]
         mov dx, word [byte ebx+eax+026h]
         mov word [byte edi+0Ch], dx
-        mov ebx, dword [dword_17D580]
+        mov ebx, dword [ControllerColumnArt]
         add ebx, eax
-        mov eax, dword [nosplit esi*8+dword_17D564]
+        mov eax, dword [nosplit esi*8+ControllerSlotIcon]
         mov dx, word [byte ebx+02Ah]
         mov word [byte eax+0Eh], dx
-        push dword [nosplit esi*8+dword_17D564]
+        push dword [nosplit esi*8+ControllerSlotIcon]
         call DrawShapeAtOwnPos
         add esp, byte 4
-        mov word [nosplit esi*8+word_17D560], 1
+        mov word [nosplit esi*8+ControllerSlotDevice], 1
         jmp near .49
 .33:
         movsx eax, word [byte ebp-04h]
-        cmp word [nosplit eax*8+word_17D560], byte 0
+        cmp word [nosplit eax*8+ControllerSlotDevice], byte 0
         je near .37
         cmp esi, byte 30h
         setne al
@@ -2277,24 +2277,24 @@ DrawControllerColumns:
         jne short .36
 .35:
         movsx eax, word [byte ebp-0Ch]
-        movsx ecx, word [nosplit eax*8+word_17D562]
+        movsx ecx, word [nosplit eax*8+ControllerSlotTeam]
         movsx eax, di
         movsx esi, word [byte ebp-04h]
-        movsx ebx, word [nosplit eax*8+word_17D562]
+        movsx ebx, word [nosplit eax*8+ControllerSlotTeam]
         movsx eax, word [byte ebp-08h]
-        push dword [dword_17D584]
-        movsx edx, word [nosplit eax*8+word_17D562]
-        movsx eax, word [nosplit esi*8+word_17D562]
+        push dword [ControllerBackBmp]
+        movsx edx, word [nosplit eax*8+ControllerSlotTeam]
+        movsx eax, word [nosplit esi*8+ControllerSlotTeam]
         call NextControllerDevice
-        mov word [nosplit esi*8+word_17D562], ax
+        mov word [nosplit esi*8+ControllerSlotTeam], ax
         jmp short .37
 .36:
         movsx eax, word [byte ebp-04h]
-        mov word [nosplit eax*8+word_17D562], 400h
+        mov word [nosplit eax*8+ControllerSlotTeam], 400h
 .37:
         movsx esi, word [byte ebp-04h]
         shl esi, 3
-        movsx eax, word [dword esi+word_17D562]
+        movsx eax, word [dword esi+ControllerSlotTeam]
         cmp eax, byte 1
         je near .49
         mov eax, dword [byte ebp-024h]
@@ -2302,19 +2302,19 @@ DrawControllerColumns:
         mov dword [byte eax+05Ah], 0
         mov dword [byte eax+062h], 0
         and byte [byte eax+046h], 0FDh
-        push dword [dword esi+dword_17D564]
+        push dword [dword esi+ControllerSlotIcon]
         call PutBlockAtOwnPos
         add esp, byte 4
-        cmp word [dword esi+word_17D560], byte 0
+        cmp word [dword esi+ControllerSlotDevice], byte 0
         jne near .41
         mov ebx, dword [byte ebp-028h]
         sub ebx, byte 3
         imul ebx, byte 66h
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov dword [byte ebx+eax+01Ah], 0
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov dword [byte ebx+eax+01Eh], 0
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov word [byte ebx+eax+018h], 3
         mov eax, dword [optflags]
         and eax, byte 70h
@@ -2333,13 +2333,13 @@ DrawControllerColumns:
         jmp short .40
 .39:
         movsx eax, word [byte ebp-08h]
-        cmp word [nosplit eax*8+word_17D560], byte 0
+        cmp word [nosplit eax*8+ControllerSlotDevice], byte 0
         je short .41
         movsx eax, di
-        cmp word [nosplit eax*8+word_17D560], byte 0
+        cmp word [nosplit eax*8+ControllerSlotDevice], byte 0
         je short .41
         movsx eax, word [byte ebp-0Ch]
-        cmp word [nosplit eax*8+word_17D560], byte 0
+        cmp word [nosplit eax*8+ControllerSlotDevice], byte 0
         je short .41
 .40:
         xor edx, edx
@@ -2347,37 +2347,37 @@ DrawControllerColumns:
         call SetControllerIcon
 .41:
         movsx ebx, word [byte ebp-04h]
-        mov eax, dword [dword_17D588]
-        movsx edx, word [nosplit ebx*8+word_17D562]
+        mov eax, dword [ControllerIconArt]
+        movsx edx, word [nosplit ebx*8+ControllerSlotTeam]
         mov esi, ebx
         call DeviceIconShape
         mov edx, eax
         imul eax, dword [byte ebp-028h], byte 66h
-        mov ebx, dword [dword_17D580]
+        mov ebx, dword [ControllerColumnArt]
         mov dword [byte ebx+eax+01Ah], edx
-        mov ebx, dword [dword_17D580]
+        mov ebx, dword [ControllerColumnArt]
         mov dword [byte ebx+eax+05Ah], DrawControllerIcons
-        mov ebx, dword [dword_17D580]
+        mov ebx, dword [ControllerColumnArt]
         mov dword [byte ebx+eax+062h], DrawControllerColumns
-        mov edi, dword [dword_17D580]
+        mov edi, dword [ControllerColumnArt]
         or byte [byte edi+eax+046h], 2
-        mov ebx, dword [dword_17D580]
-        mov edi, dword [nosplit esi*8+dword_17D564]
+        mov ebx, dword [ControllerColumnArt]
+        mov edi, dword [nosplit esi*8+ControllerSlotIcon]
         mov dx, word [byte ebx+eax+026h]
         mov word [byte edi+0Ch], dx
-        mov edx, dword [dword_17D580]
-        mov ebx, dword [nosplit esi*8+dword_17D564]
+        mov edx, dword [ControllerColumnArt]
+        mov ebx, dword [nosplit esi*8+ControllerSlotIcon]
         mov ax, word [byte edx+eax+02Ah]
         mov word [byte ebx+0Eh], ax
-        push dword [nosplit esi*8+dword_17D564]
+        push dword [nosplit esi*8+ControllerSlotIcon]
         call DrawShapeAtOwnPos
         mov eax, dword [byte ebp-028h]
         inc eax
         imul eax, byte 66h
-        mov edx, dword [dword_17D580]
-        mov word [nosplit esi*8+word_17D560], 2
+        mov edx, dword [ControllerColumnArt]
+        mov word [nosplit esi*8+ControllerSlotDevice], 2
         mov word [byte edx+eax+018h], 0
-        movsx eax, word [word_17D58E]
+        movsx eax, word [ControllerDragIcon]
         add esp, byte 4
         cmp eax, dword [byte ebp-028h]
         je near .49
@@ -2406,17 +2406,17 @@ DrawControllerColumns:
         call TextSetFont
         add esp, byte 4
         push str_Usri
-        push dword [dword_17D588]
+        push dword [ControllerIconArt]
         call FindShape
         add esp, byte 8
         mov edx, eax
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         push str_Usrh
         mov dword [byte esi+eax+01Ah], edx
-        push dword [dword_17D588]
+        push dword [ControllerIconArt]
         call FindShape
         mov edx, eax
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov dword [byte esi+eax+01Eh], edx
         movsx eax, word [byte ebp-04h]
         mov edx, eax
@@ -2448,7 +2448,7 @@ DrawControllerColumns:
         call AllocMemBlock
         mov edx, dword [byte ebp-010h]
         mov dword [dword edx+ControllerSlotItems], eax
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         add esp, byte 0Ch
         mov edi, dword [dword edx+ControllerSlotItems]
         mov esi, dword [byte esi+eax+01Ah]
@@ -2505,7 +2505,7 @@ DrawControllerColumns:
         mov eax, dword [byte ebp-028h]
         inc eax
         imul edx, eax, byte 66h
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov eax, dword [byte edx+eax+01Ah]
         mov edx, 20h
         call CopyBitmap
@@ -2520,17 +2520,17 @@ DrawControllerColumns:
         inc edi
         imul edi, byte 66h
         movsx eax, word [byte ebp-04h]
-        mov ebx, dword [dword_17D580]
+        mov ebx, dword [ControllerColumnArt]
         mov esi, dword [nosplit eax*4+ControllerSlotStates]
         mov dx, word [byte edi+ebx+026h]
         mov word [byte esi+0Ch], dx
-        mov esi, dword [dword_17D580]
+        mov esi, dword [ControllerColumnArt]
         mov ebx, dword [nosplit eax*4+ControllerSlotStates]
         mov dx, word [byte edi+esi+02Ah]
         mov word [byte ebx+0Eh], dx
         push dword [nosplit eax*4+ControllerSlotStates]
         call DrawShapeAtOwnPos
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         add esp, byte 4
         push dword [byte edi+eax+02Ah]
         push dword [byte edi+eax+026h]
@@ -2556,7 +2556,7 @@ DrawControllerColumns:
         cmp dword [eax], byte 0Ah
         jl short .52
 .50:
-        mov word [word_17D58C], 0FFFFh
+        mov word [ControllerDragSlot], 0FFFFh
         jmp short .53
 .51:
         cmp word [ControllerScreenMode], byte 0
@@ -2565,7 +2565,7 @@ DrawControllerColumns:
         cmp dword [eax], byte 0Ah
         jl short .50
 .52:
-        mov word [word_17D58E], 0FFFFh
+        mov word [ControllerDragIcon], 0FFFFh
 .53:
         call SetControllerColumn
         jmp near SetControllerIcon_F9
@@ -2607,7 +2607,7 @@ ControllerScreen:
         movsd
         call AllocMemBlock
         add esp, byte 0Ch
-        mov dword [dword_17D580], eax
+        mov dword [ControllerColumnArt], eax
         mov eax, 6
         xor edx, edx
         call SoundSecondsToBytes
@@ -2615,13 +2615,13 @@ ControllerScreen:
         mov eax, 4Dh
         call LoadPackedFile
         push byte 0
-        mov dword [dword_17D588], eax
+        mov dword [ControllerIconArt], eax
         call ClearScreenColour
         add esp, byte 4
         call BlackPalette
         push str_Pal12
         mov esi, str_WesternConference2
-        push dword [dword_17D588]
+        push dword [ControllerIconArt]
         add esi, 1F2h
         call FindShape
         add esp, byte 8
@@ -2634,7 +2634,7 @@ ControllerScreen:
         call SetScreenColors
         call SetScreenTarget
         push str_Bkgd6
-        push dword [dword_17D588]
+        push dword [ControllerIconArt]
         call FindShape
         add esp, byte 8
         push eax
@@ -2819,27 +2819,27 @@ ControllerScreen:
         jne short .3
         cmp word [ControllerPreGame], byte 0
         je short .3
-        mov word [dword esi+word_17D562], 1
+        mov word [dword esi+ControllerSlotTeam], 1
         mov eax, edx
-        mov word [dword esi+word_17D560], 1
+        mov word [dword esi+ControllerSlotDevice], 1
         call ClearSlotUser
         jmp short .6
 .3:
         mov ebx, dword [gameopts]
         mov ax, word [byte edi+ebx+09h]
-        mov word [dword esi+word_17D562], ax
+        mov word [dword esi+ControllerSlotTeam], ax
         cmp byte [byte edx+ebx+05h], 0
         je short .4
-        mov word [dword esi+word_17D560], 0
+        mov word [dword esi+ControllerSlotDevice], 0
         jmp short .6
 .4:
         cwde
         cmp eax, byte 1
         je short .5
-        mov word [dword esi+word_17D560], 2
+        mov word [dword esi+ControllerSlotDevice], 2
         jmp short .6
 .5:
-        mov word [dword esi+word_17D560], 1
+        mov word [dword esi+ControllerSlotDevice], 1
 .6:
         inc edx
         push edx
@@ -2850,22 +2850,22 @@ ControllerScreen:
         add esp, byte 0Ch
         lea eax, [byte ebp-058h]
         push eax
-        push dword [dword_17D588]
+        push dword [ControllerIconArt]
         mov dword [byte ebp-08h], edx
         call FindShape
         add esp, byte 8
         mov edx, 20h
         call CopyBitmap
-        movsx edx, word [dword esi+word_17D560]
-        mov dword [dword esi+dword_17D564], eax
+        movsx edx, word [dword esi+ControllerSlotDevice]
+        mov dword [dword esi+ControllerSlotIcon], eax
         mov dx, word [byte ebp+edx*2-060h]
         mov word [byte eax+0Ch], dx
-        mov eax, dword [dword esi+dword_17D564]
+        mov eax, dword [dword esi+ControllerSlotIcon]
         mov dx, word [byte edi+ebp-068h]
         mov word [byte eax+0Eh], dx
         inc edi
         inc edi
-        push dword [dword esi+dword_17D564]
+        push dword [dword esi+ControllerSlotIcon]
         add esi, byte 8
         call DrawShapeAtOwnPos
         mov edx, dword [byte ebp-08h]
@@ -2873,13 +2873,13 @@ ControllerScreen:
         cmp edx, byte 4
         jl near .2
         mov eax, 19h
-        mov edx, dword [dword_17D580]
+        mov edx, dword [ControllerColumnArt]
         mov word [ControllerPreGame], 0
         call InitMenuItems
         push str_Key1
         mov dword [byte ebp-048h], 0
         mov dword [byte ebp-020h], 0
-        push dword [dword_17D588]
+        push dword [ControllerIconArt]
         mov dword [byte ebp-01Ch], 0
         call FindShape
         mov dword [byte ebp-010h], eax
@@ -2893,32 +2893,32 @@ ControllerScreen:
         imul eax, dword [byte ebp-048h], byte 5
         mov dword [byte ebp-04Ch], eax
         imul esi, dword [byte ebp-04Ch], byte 66h
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         add eax, dword [byte ebp-020h]
         mov dword [byte eax+010h], 4
         mov eax, dword [byte ebp-04Ch]
         mov ebx, str_dbgO
         shl eax, 6
-        mov edx, dword [dword_17D580]
+        mov edx, dword [ControllerColumnArt]
         add ebx, eax
         mov dword [byte edx+esi+014h], ebx
-        mov edx, dword [dword_17D580]
+        mov edx, dword [ControllerColumnArt]
         mov ebx, dword [dword eax+str_dbgO]
         mov dword [byte edx+esi+026h], ebx
-        mov edx, dword [dword_17D580]
+        mov edx, dword [ControllerColumnArt]
         mov eax, dword [dword eax+ControllerLayout]
         mov dword [byte edx+esi+02Ah], eax
         mov eax, dword [byte ebp-04Ch]
-        mov edx, dword [dword_17D580]
+        mov edx, dword [ControllerColumnArt]
         mov ebx, dword [nosplit eax*8+str_G]
         mov dword [byte edx+esi+03Ah], ebx
-        mov edx, dword [dword_17D580]
+        mov edx, dword [ControllerColumnArt]
         mov eax, dword [nosplit eax*8+ControllerOptionRows]
         mov dword [byte edx+esi+03Eh], eax
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov dword [byte esi+eax+032h], 0
         mov eax, dword [byte ebp-01Ch]
-        cmp word [dword eax+word_17D560], byte 0
+        cmp word [dword eax+ControllerSlotDevice], byte 0
         jne near .11
         mov eax, dword [optflags]
         and eax, byte 70h
@@ -2942,20 +2942,20 @@ ControllerScreen:
         call TextSetFont
         add esp, byte 4
         push str_Usri
-        push dword [dword_17D588]
+        push dword [ControllerIconArt]
         call FindShape
         mov edx, eax
         imul eax, dword [byte ebp-04Ch], byte 66h
         mov dword [byte ebp-08h], eax
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         add esp, byte 8
         add eax, dword [byte ebp-08h]
         push str_Usrh
         mov dword [byte eax+01Ah], edx
-        push dword [dword_17D588]
+        push dword [ControllerIconArt]
         call FindShape
         mov edx, eax
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         add eax, dword [byte ebp-08h]
         add esp, byte 8
         mov dword [byte eax+01Eh], edx
@@ -2972,7 +2972,7 @@ ControllerScreen:
         call AllocMemBlock
         mov edx, dword [byte ebp-018h]
         mov dword [dword edx+ControllerSlotItems], eax
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         add eax, dword [byte ebp-08h]
         add esp, byte 0Ch
         mov edi, dword [dword edx+ControllerSlotItems]
@@ -3016,20 +3016,20 @@ ControllerScreen:
         sub ebx, byte 5
         add edx, byte 6
         call DrawColorText
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         add eax, dword [byte ebp-08h]
         mov edx, 20h
         mov eax, dword [byte eax+01Ah]
         call CopyBitmap
         mov edx, dword [byte ebp-018h]
         mov dword [dword edx+ControllerSlotStates], eax
-        mov edx, dword [dword_17D580]
+        mov edx, dword [ControllerColumnArt]
         mov eax, dword [byte ebp-018h]
         add edx, dword [byte ebp-08h]
         mov eax, dword [dword eax+ControllerSlotStates]
         mov dx, word [byte edx+026h]
         mov word [byte eax+0Ch], dx
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov edx, dword [byte ebp-018h]
         add eax, dword [byte ebp-08h]
         mov edx, dword [dword edx+ControllerSlotStates]
@@ -3038,7 +3038,7 @@ ControllerScreen:
         mov eax, dword [byte ebp-018h]
         push dword [dword eax+ControllerSlotStates]
         call DrawShapeAtOwnPos
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         add esp, byte 4
         add eax, dword [byte ebp-08h]
         push dword [byte eax+02Ah]
@@ -3051,11 +3051,11 @@ ControllerScreen:
         add esp, byte 4
 .10:
         imul edx, dword [byte ebp-04Ch], byte 66h
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov word [byte edx+eax+018h], 0
         jmp short .12
 .11:
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov word [byte esi+eax+018h], 3
 .12:
         imul esi, dword [byte ebp-04Ch], byte 66h
@@ -3077,50 +3077,50 @@ ControllerScreen:
         add dword [byte ebp-02Ch], byte 8
         add dword [byte ebp-024h], byte 40h
         inc dword [byte ebp-04Ch]
-        movsx eax, word [dword eax+word_17D560]
+        movsx eax, word [dword eax+ControllerSlotDevice]
         add esi, byte 66h
         cmp eax, dword [byte ebp-0Ch]
         jne short .14
         mov edx, dword [byte ebp-030h]
         movsx ebx, word [byte ebp-048h]
-        mov eax, dword [dword_17D588]
-        movsx edx, word [dword edx+word_17D562]
+        mov eax, dword [ControllerIconArt]
+        movsx edx, word [dword edx+ControllerSlotTeam]
         call DeviceIconShape
         mov edx, eax
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov dword [byte esi+eax+01Ah], edx
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         or byte [byte esi+eax+046h], 2
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov dword [byte esi+eax+05Ah], DrawControllerIcons
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov dword [byte esi+eax+062h], DrawControllerColumns
         jmp short .15
 .14:
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov dword [byte esi+eax+01Ah], 0
 .15:
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov dword [byte esi+eax+010h], 6
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov edx, dword [byte ebp-024h]
         mov dword [byte esi+eax+014h], edx
         mov edx, dword [byte ebp-028h]
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         movsx edx, word [byte edx+ebp-060h]
         mov dword [byte esi+eax+026h], edx
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         movsx edx, word [byte edi+ebp-068h]
         mov dword [byte esi+eax+02Ah], edx
         mov edx, dword [byte ebp-02Ch]
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov edx, dword [dword edx+str_G]
         mov dword [byte esi+eax+03Ah], edx
         mov edx, dword [byte ebp-02Ch]
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov edx, dword [dword edx+ControllerOptionRows]
         mov dword [byte esi+eax+03Eh], edx
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         add eax, esi
         cmp dword [byte eax+01Ah], byte 0
         je short .16
@@ -3130,23 +3130,23 @@ ControllerScreen:
         call DrawArt
         add esp, byte 0Ch
 .16:
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         movsx edx, word [byte ebp-060h]
         mov dword [byte esi+eax+04Ah], edx
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         movsx edx, word [byte edi+ebp-068h]
         mov dword [byte esi+eax+04Eh], edx
         mov eax, dword [byte ebp-010h]
         movsx edx, word [byte ebp-05Ch]
         movsx eax, word [byte eax+04h]
         add edx, eax
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov dword [byte esi+eax+052h], edx
         mov edx, dword [byte ebp-010h]
         movsx eax, word [byte edi+ebp-068h]
         movsx edx, word [byte edx+06h]
         add edx, eax
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov dword [byte esi+eax+056h], edx
         mov eax, dword [optflags]
         and eax, byte 70h
@@ -3158,14 +3158,14 @@ ControllerScreen:
         cmp dword [byte ebp-048h], byte 2
         jl short .19
 .17:
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov word [byte esi+eax+018h], 2
         jmp short .20
 .18:
         cmp dword [byte ebp-048h], byte 2
         jl short .17
 .19:
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov word [byte esi+eax+018h], 1
 .20:
         inc dword [byte ebp-0Ch]
@@ -3174,31 +3174,31 @@ ControllerScreen:
         jl near .13
         inc dword [byte ebp-04Ch]
         imul eax, dword [byte ebp-04Ch], byte 66h
-        mov edx, dword [dword_17D580]
+        mov edx, dword [ControllerColumnArt]
         mov ebx, str_dbgO
         mov esi, dword [byte ebp-04Ch]
         mov dword [byte edx+eax+010h], 4
         shl esi, 6
-        mov edx, dword [dword_17D580]
+        mov edx, dword [ControllerColumnArt]
         add ebx, esi
         mov dword [byte edx+eax+014h], ebx
-        mov edx, dword [dword_17D580]
+        mov edx, dword [ControllerColumnArt]
         mov ebx, dword [dword esi+str_dbgO]
         mov dword [byte edx+eax+026h], ebx
-        mov edx, dword [dword_17D580]
+        mov edx, dword [ControllerColumnArt]
         mov ebx, dword [dword esi+ControllerLayout]
         mov dword [byte edx+eax+02Ah], ebx
         mov ebx, dword [byte ebp-04Ch]
-        mov edx, dword [dword_17D580]
+        mov edx, dword [ControllerColumnArt]
         mov ecx, dword [nosplit ebx*8+str_G]
         mov dword [byte edx+eax+03Ah], ecx
-        mov edx, dword [dword_17D580]
+        mov edx, dword [ControllerColumnArt]
         mov ebx, dword [nosplit ebx*8+ControllerOptionRows]
         mov dword [byte edx+eax+03Eh], ebx
-        mov edx, dword [dword_17D580]
+        mov edx, dword [ControllerColumnArt]
         mov dword [byte edx+eax+032h], 0
         mov edx, dword [byte ebp-01Ch]
-        movsx edx, word [dword edx+word_17D560]
+        movsx edx, word [dword edx+ControllerSlotDevice]
         cmp edx, byte 2
         jne near .24
         mov eax, dword [optflags]
@@ -3223,20 +3223,20 @@ ControllerScreen:
         call TextSetFont
         add esp, byte 4
         push str_Usri
-        push dword [dword_17D588]
+        push dword [ControllerIconArt]
         call FindShape
         mov edx, eax
         imul eax, dword [byte ebp-04Ch], byte 66h
         mov dword [byte ebp-08h], eax
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         add esp, byte 8
         add eax, dword [byte ebp-08h]
         push str_Usrh
         mov dword [byte eax+01Ah], edx
-        push dword [dword_17D588]
+        push dword [ControllerIconArt]
         call FindShape
         mov edx, eax
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         add eax, dword [byte ebp-08h]
         add esp, byte 8
         mov dword [byte eax+01Eh], edx
@@ -3253,7 +3253,7 @@ ControllerScreen:
         call AllocMemBlock
         mov edx, dword [byte ebp-018h]
         mov dword [dword edx+ControllerSlotItems], eax
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         add eax, dword [byte ebp-08h]
         add esp, byte 0Ch
         mov edi, dword [dword edx+ControllerSlotItems]
@@ -3298,19 +3298,19 @@ ControllerScreen:
         sub ebx, byte 5
         sub edx, byte 4
         call DrawColorTextRight
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         add eax, dword [byte ebp-08h]
         mov edx, 20h
         mov eax, dword [byte eax+01Ah]
         call CopyBitmap
         mov edx, dword [byte ebp-018h]
         mov dword [dword edx+ControllerSlotStates], eax
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         add eax, dword [byte ebp-08h]
         mov edx, dword [dword edx+ControllerSlotStates]
         mov ax, word [byte eax+026h]
         mov word [byte edx+0Ch], ax
-        mov edx, dword [dword_17D580]
+        mov edx, dword [ControllerColumnArt]
         mov eax, dword [byte ebp-018h]
         add edx, dword [byte ebp-08h]
         mov eax, dword [dword eax+ControllerSlotStates]
@@ -3319,7 +3319,7 @@ ControllerScreen:
         mov eax, dword [byte ebp-018h]
         push dword [dword eax+ControllerSlotStates]
         call DrawShapeAtOwnPos
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         add esp, byte 4
         add eax, dword [byte ebp-08h]
         push dword [byte eax+02Ah]
@@ -3332,11 +3332,11 @@ ControllerScreen:
         add esp, byte 4
 .23:
         imul edx, dword [byte ebp-04Ch], byte 66h
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov word [byte edx+eax+018h], 0
         jmp short .25
 .24:
-        mov edx, dword [dword_17D580]
+        mov edx, dword [ControllerColumnArt]
         mov word [byte edx+eax+018h], 3
 .25:
         add dword [byte ebp-020h], 1FEh
@@ -3352,133 +3352,133 @@ ControllerScreen:
         je near .32
         cmp dword [SaveFileHandle], byte 0FFFFFFFFh
         jne near .32
-        cmp word [word_17D560], byte 0
+        cmp word [ControllerSlotDevice], byte 0
         je short .26
-        cmp word [word_17D568], byte 0
+        cmp word [ControllerPadIcons], byte 0
         je short .26
-        cmp word [word_17D570], byte 0
+        cmp word [ControllerPadIcons+8], byte 0
         je short .26
-        cmp word [word_17D578], byte 0
+        cmp word [ControllerPadIcons+10h], byte 0
         jne short .27
 .26:
         push str_P11
-        push dword [dword_17D588]
+        push dword [ControllerIconArt]
         call FindShape
         add esp, byte 8
         mov edx, eax
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         push str_P12
         mov dword [dword eax+0812h], edx
-        push dword [dword_17D588]
+        push dword [ControllerIconArt]
         call FindShape
         add esp, byte 8
         mov edx, eax
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         push str_P13
         mov dword [dword eax+0816h], edx
-        push dword [dword_17D588]
+        push dword [ControllerIconArt]
         call FindShape
         mov edx, eax
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         add esp, byte 8
         mov dword [dword eax+081Ah], edx
         jmp short .28
 .27:
         push str_P1G
-        push dword [dword_17D588]
+        push dword [ControllerIconArt]
         call FindShape
         mov edx, eax
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         add esp, byte 8
         mov dword [dword eax+0812h], edx
 .28:
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov dword [dword eax+0808h], 8
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov dword [dword eax+080Ch], str_Punct_ControllerScreen
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov edx, dword [dword eax+0812h]
         movsx edx, word [byte edx+0Ch]
         mov dword [dword eax+081Eh], edx
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov edx, dword [dword eax+0812h]
         movsx edx, word [byte edx+0Eh]
         mov dword [dword eax+0822h], edx
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov edx, dword [ControllerTitlePos]
         mov dword [dword eax+0832h], edx
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov edx, dword [ControllerTitlePos+4]
         mov dword [dword eax+0836h], edx
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         push dword [dword eax+0822h]
         push dword [dword eax+081Eh]
         push dword [dword eax+0812h]
         call DrawArt
-        movsx eax, word [word_17D560]
+        movsx eax, word [ControllerSlotDevice]
         add esp, byte 0Ch
         cmp eax, byte 2
         je short .29
-        movsx eax, word [word_17D568]
+        movsx eax, word [ControllerPadIcons]
         cmp eax, byte 2
         je short .29
-        movsx eax, word [word_17D570]
+        movsx eax, word [ControllerPadIcons+8]
         cmp eax, byte 2
         je short .29
-        movsx eax, word [word_17D578]
+        movsx eax, word [ControllerPadIcons+10h]
         cmp eax, byte 2
         jne short .30
 .29:
         push str_P21
-        push dword [dword_17D588]
+        push dword [ControllerIconArt]
         call FindShape
         add esp, byte 8
         mov edx, eax
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         push str_P22
         mov dword [dword eax+0878h], edx
-        push dword [dword_17D588]
+        push dword [ControllerIconArt]
         call FindShape
         add esp, byte 8
         mov edx, eax
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         push str_P23
         mov dword [dword eax+087Ch], edx
-        push dword [dword_17D588]
+        push dword [ControllerIconArt]
         call FindShape
         mov edx, eax
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         add esp, byte 8
         mov dword [dword eax+0880h], edx
         jmp short .31
 .30:
         push str_P2G
-        push dword [dword_17D588]
+        push dword [ControllerIconArt]
         call FindShape
         mov edx, eax
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         add esp, byte 8
         mov dword [dword eax+0878h], edx
 .31:
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov dword [dword eax+086Eh], 8
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov dword [dword eax+0872h], ControllerTextIds
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov edx, dword [dword eax+0878h]
         movsx edx, word [byte edx+0Ch]
         mov dword [dword eax+0884h], edx
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov edx, dword [dword eax+0878h]
         movsx edx, word [byte edx+0Eh]
         mov dword [dword eax+0888h], edx
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov edx, dword [ControllerTitlePos+8]
         mov dword [dword eax+0898h], edx
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov edx, dword [ControllerTitlePos+0Ch]
         mov dword [dword eax+089Ch], edx
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         push dword [dword eax+0888h]
         push dword [dword eax+0884h]
         push dword [dword eax+0878h]
@@ -3486,9 +3486,9 @@ ControllerScreen:
         add esp, byte 0Ch
         jmp short .33
 .32:
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov word [dword eax+0810h], 3
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov word [dword eax+0876h], 3
 .33:
         mov ax, word [SlotsTwoPlayer]
@@ -3497,12 +3497,12 @@ ControllerScreen:
         or al, 6
         cwde
         call OpenScreen
-        mov esi, dword [dword_17D580]
+        mov esi, dword [ControllerColumnArt]
         mov ecx, 66h
         lea edi, [dword esi+08C4h]
         mov esi, TeamStatsBitmap
         rep movsb
-        mov esi, dword [dword_17D580]
+        mov esi, dword [ControllerColumnArt]
         mov ecx, 66h
         lea edi, [dword esi+092Ah]
         mov esi, BottomBarArt+56h
@@ -3511,7 +3511,7 @@ ControllerScreen:
         and eax, byte 70h
         cmp eax, byte 30h
         jne short .34
-        mov esi, dword [dword_17D580]
+        mov esi, dword [ControllerColumnArt]
         mov ecx, 66h
         lea edi, [dword esi+0990h]
         mov esi, MenuBoxStyle
@@ -3536,7 +3536,7 @@ ControllerScreen:
 .36:
         test ebx, ebx
         jle short .37
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov dl, byte [byte ebp-04h]
         mov byte [byte esi+eax+042h], dl
 .37:
@@ -3546,7 +3546,7 @@ ControllerScreen:
         idiv dword [byte ebp-08h]
         cmp edx, byte 1
         je short .38
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov byte [byte esi+eax+044h], ch
 .38:
         mov eax, dword [byte ebp-048h]
@@ -3556,13 +3556,13 @@ ControllerScreen:
         cmp edx, byte 3
         je short .39
         mov dl, byte [byte ebp-048h]
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         inc dl
         mov byte [byte esi+eax+045h], dl
 .39:
         cmp ebx, byte 4
         jge short .40
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov byte [byte esi+eax+043h], cl
 .40:
         inc byte [byte ebp-04h]
@@ -3578,29 +3578,29 @@ ControllerScreen:
         add edi, byte 5
         cmp ebx, byte 4
         jl near .35
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov byte [byte eax+045h], 1
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov byte [dword eax+01DCh], 3
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov byte [dword eax+0243h], 6
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov byte [dword eax+03DAh], 8
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov byte [dword eax+0441h], 0Bh
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov byte [dword eax+05D8h], 0Dh
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov byte [dword eax+05D9h], 17h
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov byte [dword eax+063Fh], 10h
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov byte [dword eax+063Dh], 16h
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov byte [dword eax+07D6h], 0Dh
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov byte [dword eax+07D7h], 17h
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov byte [dword eax+07D5h], 17h
         mov eax, dword [optflags]
         and eax, byte 70h
@@ -3611,48 +3611,48 @@ ControllerScreen:
         je short .42
         cmp dword [SaveFileHandle], byte 0FFFFFFFFh
         jne short .42
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov byte [dword eax+06A3h], 14h
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov byte [dword eax+083Ch], 16h
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov byte [dword eax+083Dh], 15h
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov byte [dword eax+083Ah], 10h
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov byte [dword eax+076Fh], 15h
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov byte [dword eax+08A2h], 14h
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov byte [dword eax+08A3h], 17h
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov byte [dword eax+08A0h], 12h
 .42:
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov byte [dword eax+0908h], 16h
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov byte [dword eax+0907h], 16h
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov byte [dword eax+096Dh], 17h
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov byte [dword eax+096Fh], 17h
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov byte [dword eax+09D2h], 18h
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov byte [dword eax+09D5h], 18h
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov byte [dword eax+09D4h], 18h
         call SetControllerColumn
         call SetScreenTarget
         call GetInputDevices
-        mov dword [dword_17D584], eax
-        mov eax, dword [dword_17D580]
+        mov dword [ControllerBackBmp], eax
+        mov eax, dword [ControllerColumnArt]
         mov edx, dword [dword eax+0968h]
         mov eax, dword [dword eax+0964h]
         call SetMenuMouse
         mov dword [byte ebp-044h], 17h
-        mov word [word_17D58E], 0FFFFh
-        mov word [word_17D58C], 0FFFFh
+        mov word [ControllerDragIcon], 0FFFFh
+        mov word [ControllerDragSlot], 0FFFFh
         call MusicDone
         test eax, eax
         jne short .43
@@ -3676,7 +3676,7 @@ ControllerScreen:
         cmp eax, dword [byte ebp-044h]
         jle short .46
         imul eax, dword [byte ebp-044h], byte 66h
-        mov edx, dword [dword_17D580]
+        mov edx, dword [ControllerColumnArt]
         add eax, edx
         mov edx, dword [mousex]
         cmp edx, dword [byte eax+03Ah]
@@ -3701,7 +3701,7 @@ ControllerScreen:
         cwde
         push edx
         add eax, byte 18h
-        mov edx, dword [dword_17D580]
+        mov edx, dword [ControllerColumnArt]
         call RunMenu
         mov esi, eax
         cmp dword [byte ebp-044h], byte 0
@@ -3731,7 +3731,7 @@ ControllerScreen_11AB:
         cmp esi, byte 1
         jne near .60
         imul edx, dword [byte ebp-044h], byte 66h
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         cmp dword [byte edx+eax+01Ah], byte 0
         je near ControllerScreen_16D6.76
         mov eax, dword [optflags]
@@ -3757,13 +3757,13 @@ ControllerScreen_11AB:
         call PlaySfx
         mov eax, dword [byte ebp-048h]
         shl esi, 2
-        movsx eax, word [nosplit eax*8+word_17D560]
+        movsx eax, word [nosplit eax*8+ControllerSlotDevice]
         mov ecx, dword [dword esi+ControllerSlotStates]
         cmp eax, byte 2
         sete al
         mov edx, dword [byte ebp-048h]
         movzx ebx, al
-        mov eax, dword [dword_17D588]
+        mov eax, dword [ControllerIconArt]
         call ControllerUsersPanel
         mov edx, 0FEh
         mov eax, 0FDh
@@ -3804,7 +3804,7 @@ ControllerScreen_11AB:
         imul eax, byte 66h
         mov dword [byte ebp-034h], edx
         mov edi, dword [byte ebp-034h]
-        mov edx, dword [dword_17D580]
+        mov edx, dword [ControllerColumnArt]
         add esp, byte 0Ch
         mov edi, dword [dword edi+ControllerSlotItems]
         mov esi, dword [byte edx+eax+01Ah]
@@ -3828,7 +3828,7 @@ ControllerScreen_11AB:
         lea eax, [edx+edx*4]
         add esp, byte 4
         shl eax, 6
-        cmp word [nosplit edx*8+word_17D560], byte 0
+        cmp word [nosplit edx*8+ControllerSlotDevice], byte 0
         jne short .50
         mov edx, dword [byte ebp-034h]
         mov bx, word [dword eax+ControllerLayout+54h]
@@ -3861,7 +3861,7 @@ ControllerScreen_11AB:
         shl eax, 6
         inc esi
         inc esi
-        cmp word [nosplit edx*8+word_17D560], byte 0
+        cmp word [nosplit edx*8+ControllerSlotDevice], byte 0
         jne short .52
         mov ebx, dword [dword eax+ControllerLayout+58h]
         mov edx, dword [dword eax+ControllerLayout+54h]
@@ -3883,7 +3883,7 @@ ControllerScreen_11AB:
         mov eax, dword [byte ebp-048h]
         add esp, byte 4
         lea edx, [eax+eax*4]
-        cmp word [nosplit eax*8+word_17D560], byte 0
+        cmp word [nosplit eax*8+ControllerSlotDevice], byte 0
         jne short .54
         mov eax, edx
         jmp short .55
@@ -3891,11 +3891,11 @@ ControllerScreen_11AB:
         lea eax, [byte edx+04h]
 .55:
         imul edx, eax, byte 66h
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov edx, dword [byte edx+eax+03Eh]
         mov eax, dword [byte ebp-048h]
         lea ebx, [eax+eax*4]
-        cmp word [nosplit eax*8+word_17D560], byte 0
+        cmp word [nosplit eax*8+ControllerSlotDevice], byte 0
         jne short .56
         mov eax, ebx
         jmp short .57
@@ -3903,12 +3903,12 @@ ControllerScreen_11AB:
         lea eax, [byte ebx+04h]
 .57:
         imul ebx, eax, byte 66h
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov eax, dword [byte ebx+eax+03Ah]
         call SetMenuMouse
         mov eax, dword [byte ebp-048h]
         lea edx, [eax+eax*4]
-        cmp word [nosplit eax*8+word_17D560], byte 0
+        cmp word [nosplit eax*8+ControllerSlotDevice], byte 0
         jne short .58
         mov eax, edx
         jmp short .59
@@ -3936,12 +3936,12 @@ ControllerScreen_11AB:
         call LinkSyncWithMessage
         jmp near ControllerScreen_16D6.76
 ControllerScreen_149D:
-        movsx eax, word [dword eax+word_17D560]
+        movsx eax, word [dword eax+ControllerSlotDevice]
         mov word [ControllerColumnsDrawn], 0
         cmp eax, byte 1
         jne short .64
 .63:
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov edx, dword [byte ebp-044h]
         add eax, ebx
         jmp short .66
@@ -3951,7 +3951,7 @@ ControllerScreen_149D:
         inc eax
 .65:
         imul eax, byte 66h
-        mov edx, dword [dword_17D580]
+        mov edx, dword [ControllerColumnArt]
         add eax, edx
         mov edx, dword [byte ebp-044h]
 .66:
@@ -3960,16 +3960,16 @@ ControllerScreen_149D:
         jmp near ControllerScreen_16D6.76
 ControllerScreen_14E4:
         mov word [ControllerColumnsDrawn], 0
-        cmp word [dword eax+word_17D560], byte 0
+        cmp word [dword eax+ControllerSlotDevice], byte 0
         jne short ControllerScreen_149D.63
 .67:
-        mov eax, dword [dword_17D580]
+        mov eax, dword [ControllerColumnArt]
         mov edx, dword [byte ebp-044h]
         add eax, ecx
         jmp short ControllerScreen_149D.66
 ControllerScreen_1503:
         mov word [ControllerColumnsDrawn], 0
-        cmp word [dword eax+word_17D560], byte 0
+        cmp word [dword eax+ControllerSlotDevice], byte 0
         jne short ControllerScreen_14E4.67
         mov eax, dword [byte ebp-044h]
         dec eax
@@ -3990,7 +3990,7 @@ ControllerScreen_1548:
         je near ControllerScreen_16D6.76
         cmp dword [SaveFileHandle], byte 0FFFFFFFFh
         jne near ControllerScreen_16D6.76
-        mov edx, dword [dword_17D580]
+        mov edx, dword [ControllerColumnArt]
         cmp dword [dword edx+0816h], byte 0
         je near ControllerScreen_16D6.76
         mov edx, dword [gameopts]
@@ -4006,7 +4006,7 @@ ControllerScreen_1548:
 .69:
         cmp eax, byte 20h
         jne short .70
-        cmp dword [dword_17D267], byte 0
+        cmp dword [PlayoffsActive], byte 0
         jne short .70
         mov dword [LinesEditMode], ebx
         jmp short .71
@@ -4021,7 +4021,7 @@ ControllerScreen_15D1:
         je near ControllerScreen_16D6.76
         cmp dword [SaveFileHandle], byte 0FFFFFFFFh
         jne near ControllerScreen_16D6.76
-        mov edx, dword [dword_17D580]
+        mov edx, dword [ControllerColumnArt]
         cmp dword [dword edx+087Ch], byte 0
         je near ControllerScreen_16D6.76
         mov edx, dword [gameopts]
@@ -4037,7 +4037,7 @@ ControllerScreen_15D1:
 .72:
         cmp eax, byte 20h
         jne short .73
-        cmp dword [dword_17D267], byte 0
+        cmp dword [PlayoffsActive], byte 0
         jne short .73
         mov dword [LinesEditMode], ebx
         jmp short .74
@@ -4052,11 +4052,11 @@ ControllerScreen_15D1:
         mov esi, dword [gameopts]
         inc ebx
         inc ebx
-        mov cx, word [dword eax+word_17D562]
+        mov cx, word [dword eax+ControllerSlotTeam]
         mov word [byte esi+ebx+07h], cx
         inc edx
         mov esi, dword [gameopts]
-        cmp word [dword eax+word_17D560], byte 0
+        cmp word [dword eax+ControllerSlotDevice], byte 0
         sete cl
         add eax, byte 8
         mov byte [byte edx+esi+04h], cl
@@ -4064,10 +4064,10 @@ ControllerScreen_15D1:
         jl short .75
         jmp near ControllerScreen_1548.71
 ControllerScreen_168B:
-        movsx eax, word [word_17D58E]
+        movsx eax, word [ControllerDragIcon]
         cmp eax, byte 0FFFFFFFFh
         jne short ControllerScreen_16D6.76
-        movsx eax, word [word_17D58C]
+        movsx eax, word [ControllerDragSlot]
         cmp eax, byte 0FFFFFFFFh
         jne short ControllerScreen_16D6.76
         call SlideInSideBar
@@ -4075,10 +4075,10 @@ ControllerScreen_168B:
         mov dword [byte ebp-040h], eax
         jmp short ControllerScreen_16D6.76
 ControllerScreen_16B0:
-        movsx eax, word [word_17D58E]
+        movsx eax, word [ControllerDragIcon]
         cmp eax, byte 0FFFFFFFFh
         jne short ControllerScreen_16D6.76
-        movsx eax, word [word_17D58C]
+        movsx eax, word [ControllerDragSlot]
         cmp eax, byte 0FFFFFFFFh
         jne short ControllerScreen_16D6.76
         call SlideInTitleBar
@@ -4114,21 +4114,21 @@ ControllerScreen_16D6:
         add esp, byte 4
         mov dword [dword esi+ControllerSlotItems], 0
 .79:
-        cmp dword [dword edi+dword_17D564], byte 0
+        cmp dword [dword edi+ControllerSlotIcon], byte 0
         je short .80
-        push dword [dword edi+dword_17D564]
+        push dword [dword edi+ControllerSlotIcon]
         call FreeMemBlock
         add esp, byte 4
-        mov dword [dword edi+dword_17D564], 0
+        mov dword [dword edi+ControllerSlotIcon], 0
 .80:
         add esi, byte 4
         add edi, byte 8
         cmp esi, byte 10h
         jne short .77
-        push dword [dword_17D588]
+        push dword [ControllerIconArt]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_17D580]
+        push dword [ControllerColumnArt]
         call FreeMemBlock
         add esp, byte 4
         mov eax, 3
@@ -4143,11 +4143,11 @@ ControllerScreen_16D6:
         mov ebx, dword [gameopts]
         inc esi
         inc esi
-        mov cx, word [dword eax+word_17D562]
+        mov cx, word [dword eax+ControllerSlotTeam]
         mov word [byte esi+ebx+07h], cx
         inc edx
         mov ebx, dword [gameopts]
-        cmp word [dword eax+word_17D560], byte 0
+        cmp word [dword eax+ControllerSlotDevice], byte 0
         sete cl
         add eax, byte 8
         mov byte [byte edx+ebx+04h], cl

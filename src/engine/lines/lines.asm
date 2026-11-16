@@ -13,7 +13,7 @@ extern dword_15E4AC, dword_15E4B0, dword_15E4B4, dword_15E4B8, dword_15E4BC, dwo
 extern dword_176ED5, dword_176F90, dword_1770D8, dword_1770DC, dword_1770E0, dword_1770E4, dword_1770E8, dword_1770EC
 extern dword_1770F0, dword_1770F4, dword_1770F8, dword_1770FC, dword_177100, dword_177104, dword_177108, dword_1798BC
 extern optflags, dword_17CA5C, gameclock, gameopts, gmode, hmroster, off_11786C, off_11787C
-extern puckc, off_11788C, puckvx, puckvz, puckz, rand_, sflags, sub_1739F
+extern puckc, off_11788C, puckvx, puckvz, puckz, rand_, sflags, RunDemoGame
 extern sub_1E7F6, sub_1F771, sub_4B4F3, sub_51CBA, sub_51D44, sub_51DD2, sub_625F7, sub_62ED9
 extern sub_63B0C, sub_695CB, sub_6986B, sub_AADA4, sub_AB758, sub_ABF4C, sub_DD6C4, SetClipWindow
 extern sub_E04E0, sub_E0584, unk_157B82, unk_157F9C, unk_158610, unk_176CA8, unk_176CDA, unk_176D0C
@@ -1964,7 +1964,7 @@ sub_53260:
         call sub_63B0C
         mov dword [DemoMode], 1
         mov dword [dword_152F5C], eax
-        call sub_1739F
+        call RunDemoGame
         mov dword [DemoMode], 0
         and word [optflags], 0FE7Fh
         mov esi, eax

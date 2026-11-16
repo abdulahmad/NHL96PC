@@ -36,11 +36,21 @@
   },
   {
    "start": 83309,
-   "end": 95861,
+   "end": 92378,
    "module": "front_1456D",
    "obj": 1,
-   "file": "front/front_1456D.asm",
+   "file": "front/postgame/postgame.asm",
    "note": "placeholder"
+  },
+  {
+   "obj": 1,
+   "start": 92378,
+   "end": 95861,
+   "module": "front_play_game",
+   "file": "front/play_game/play_game.asm",
+   "desc": "Playing a game: from the menus by game mode, the input record timer, the game loop, the demo game (95 PC front/main, 96 PC).",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "front"
   },
   {
    "obj": 1,

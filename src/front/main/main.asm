@@ -35,7 +35,7 @@ extern str_Dot, str_dot2, str_dot3, str_ErrDiskFree2, str_FhiL4, str_FhiR4, str_
 extern str_IhreHardwareZuKonfigurie, str_LDON, str_LEAS, str_Lgo, str_LNEW, str_LNHL, str_LNPA, str_LOGOPACK
 extern str_LSTA, str_NAMEINDEX, str_SECCDSTREAM, str_SetasyncspeedSFILEISTOOS, str_SetasyncspeedSFILEISTOOS2, str_SetstreamspeedSFILEISTOO, str_space4, str_spPressESCToReturnToDOS
 extern str_STREAM, str_StreamreaderILLEGALCHUNK, str_Temp3, str_W, str_X, str_YouMustFirstUseTheSETUPP, strcat_, strcmp_
-extern strcpy_, stricmp_, strlen_, strncpy_, sub_168FA, sub_2090F, sub_2A52F, sub_2CB9D
+extern strcpy_, stricmp_, strlen_, strncpy_, PlayMenuGame, sub_2090F, sub_2A52F, sub_2CB9D
 extern sub_57F0A, sub_583B8, sub_6215A, sub_625F7, sub_62ED9, sub_63076, sub_63955, sub_63B0C
 extern sub_63B6A, sub_63DC4, sub_63EB5, sub_63F79, sub_640D3, sub_641D4, sub_64721, sub_64E54
 extern sub_64E64, sub_64F59, sub_66373, sub_66589, sub_689D1, sub_68AB1, sub_68C33, sub_68CFE
@@ -3137,7 +3137,7 @@ sub_1B13D:
         jmp short .17
 .14:
         mov eax, dword [dword_1150D8]
-        call sub_168FA
+        call PlayMenuGame
         jmp short .17
 .15:
         call sub_57F0A

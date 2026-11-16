@@ -17,7 +17,7 @@ extern dword_17D4F4, dword_17D4F8, dword_17D4FC, dword_17D500, dword_17D504, dwo
 extern dword_17D514, dword_17D518, dword_17D51C, dword_17D520, dword_17D524, dword_17D528, dword_17D564, dword_17D56C
 extern dword_17D574, dword_17D57C, dword_17D580, dword_1843AC, dword_1843B0, dword_1843B4, gameclock, gameopts
 extern hmtmstruct, sprintf_, strcat_, strcpy_, GetInputDevices, InitSlotTable, ResetInputSlots, LinkSync
-extern ModemChat, sub_15344, sub_19384, sub_193E8, sub_19522, sub_1955B, sub_19799, EditText
+extern ModemChat, GameStatsScreen, sub_19384, sub_193E8, sub_19522, sub_1955B, sub_19799, EditText
 extern sub_1A109, sub_1B05E, sub_1DF34, sub_1DF55, sub_1DFEA, sub_1E5FC, sub_1EA14, sub_1EBBC
 extern sub_1ECDB, sub_1EE7C, sub_1EFFF, sub_2AB8F, sub_3A6F3, SaveGameState, sub_5360D, sub_5439F
 extern sub_564A4, sub_5A572, sub_5B0F9, CloseTextOverlay, sub_60777, sub_612BC, sub_621D9, sub_62201
@@ -2616,7 +2616,7 @@ sub_6C698_5F4:
         jmp near sub_6C698_3A3.14
 sub_6C698_611:
         call sub_6C294
-        call sub_15344
+        call GameStatsScreen
 .29:
         call sub_6C3B0
 sub_6C698_620:

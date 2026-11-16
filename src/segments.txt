@@ -4,7 +4,8 @@
 1 10000 10010 16 watcom_begtext lib/watcom/watcom_begtext.asm
 1 10010 122A6 8854 front_10010 front/controls/controls.asm
 1 122A6 1456D 8903 front_modem_game front/modem_game/modem_game.asm
-1 1456D 17675 12552 front_1456D front/front_1456D.asm
+1 1456D 168DA 9069 front_1456D front/postgame/postgame.asm
+1 168DA 17675 3483 front_play_game front/play_game/play_game.asm
 1 17675 18E80 6155 front_link front/link/link.asm
 1 18E80 201CD 29517 front_main front/main/main.asm
 1 201CD 22522 9045 front_201CD front/front_201CD.asm

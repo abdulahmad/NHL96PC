@@ -6,15 +6,15 @@
 
 #define SYM_InitSlotTable           0x108BBu   /* front/controls/controls.asm */
 #define SYM_PollControllers         0x10AF1u   /* front/controls/controls.asm */
-#define SYM_InputRecordTimer        0x16C4Du   /* front/front_1456D.asm */
-#define SYM_GameLoop_inputcheck     0x170A5u   /* front/front_1456D.asm */
-#define SYM_GameLoop_hotkeyscall    0x17201u   /* front/front_1456D.asm */
-#define SYM_GameLoop_menucall       0x17255u   /* front/front_1456D.asm */
-#define SYM_GameLoop_nextperiodcall 0x1728Bu   /* front/front_1456D.asm */
-#define SYM_GameLoop_gameovercall   0x17324u   /* front/front_1456D.asm */
-#define SYM_PlayGame                0x17494u   /* front/front_1456D.asm */
-#define SYM_PlayGame_initslotscall  0x174FFu   /* front/front_1456D.asm */
-#define SYM_PlayGame_menucall       0x175C4u   /* front/front_1456D.asm */
+#define SYM_InputRecordTimer        0x16C4Du   /* front/play_game/play_game.asm */
+#define SYM_GameLoop_inputcheck     0x170A5u   /* front/play_game/play_game.asm */
+#define SYM_GameLoop_hotkeyscall    0x17201u   /* front/play_game/play_game.asm */
+#define SYM_GameLoop_menucall       0x17255u   /* front/play_game/play_game.asm */
+#define SYM_GameLoop_nextperiodcall 0x1728Bu   /* front/play_game/play_game.asm */
+#define SYM_GameLoop_gameovercall   0x17324u   /* front/play_game/play_game.asm */
+#define SYM_PlayGame                0x17494u   /* front/play_game/play_game.asm */
+#define SYM_PlayGame_initslotscall  0x174FFu   /* front/play_game/play_game.asm */
+#define SYM_PlayGame_menucall       0x175C4u   /* front/play_game/play_game.asm */
 #define SYM_EditText                0x197EDu   /* front/main/main.asm */
 #define SYM_sub_2DE30_69            0x2DE99u   /* engine/threestars/threestars.asm */
 #define SYM_PeriodOver              0x4B05Eu   /* engine/hockey/hockey.asm */

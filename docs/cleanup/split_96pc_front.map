@@ -6,3 +6,6 @@ cut ModemGameOpen front/modem_game Modem game session: open, connect and close a
 cut ModemInitDefault front/link Modem commands (AT) and the serial link protocol: packets, acks and resends, the link timer (96 PC).
 rename front/main front/link
 cut sub_18E80 front/main Front-end main: start-up, async and CD streaming, text edit fields and screen helpers (to be split as they get named).
+# step 2: front_1456D
+rename front/front_1456D front/postgame Post-game screens: the three stars and the game statistics (96 PC).
+cut PlayMenuGame front/play_game Playing a game: from the menus by game mode, the input record timer, the game loop, the demo game (95 PC front/main, 96 PC).

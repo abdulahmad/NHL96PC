@@ -16,7 +16,7 @@ extern dword_1174F0, dword_117500, dword_117510, dword_11D1A8, dword_11D1AC, dwo
 extern dword_11E39C, dword_17BC78, dword_17BC7C, dword_17BD48, dword_17CB2F, dword_17CBE7, dword_17CC13, dword_17CC17
 extern dword_17CC1B, dword_17CEC3, dword_17CEC7, dword_17CED1, dword_17CED6, dword_17D1E2, dword_17D202, dword_17D7CC
 extern dword_17D7D0, gameopts, jpt_794CB, jpt_794EF, sub_7D580_13D3, sub_7D580_13E4, sub_7D580_153A, sub_7D580_1AC2
-extern sub_7D580_1B49, sub_7D580_1B6C, qsort_, sprintf_, srand_, strcpy_, strlen_, sub_168FA
+extern sub_7D580_1B49, sub_7D580_1B6C, qsort_, sprintf_, srand_, strcpy_, strlen_, PlayMenuGame
 extern sub_193E8, sub_19491, sub_19522, sub_19659, sub_19706, sub_19731, sub_1A109, sub_1AA27
 extern sub_1AA62, sub_1AC0E, sub_1AE8C, sub_1B00B, sub_1DED8, sub_1DF55, sub_1E5FC, sub_1E7F6
 extern sub_1E8E9, sub_1EA14, sub_1EFFF, sub_29B9F, sub_4F08B, sub_4F159, sub_4F2A8, sub_4F385
@@ -2881,7 +2881,7 @@ sub_7BA57_25A:
         je near .22
         mov eax, dword [dword_1150D8]
         mov ecx, 2714h
-        call sub_168FA
+        call PlayMenuGame
         cmp dword [dword_1150FC], byte 1
         jne near .21
         call sub_4F385
@@ -2976,7 +2976,7 @@ sub_7BA57_25A:
 .22:
         mov eax, dword [dword_1150D8]
         mov dword [gameopts], unk_17CB2E
-        call sub_168FA
+        call PlayMenuGame
         mov eax, dword [dword_1174F0]
         mov dword [byte ebp-08h], eax
         mov eax, 2

@@ -31,10 +31,12 @@
 ;  144C9  unk_144C9                                front/modem_game/modem_game.asm              1
 ;  144D5  unk_144D5                                front/modem_game/modem_game.asm              1
 ;  144ED  unk_144ED                                front/modem_game/modem_game.asm              1
-;  15344  sub_15344                                front/front_1456D.asm                        2
-;  168FA  sub_168FA                                front/front_1456D.asm                        3
-;  16F09  RunSimFrames                             front/front_1456D.asm                        1
-;  1739F  sub_1739F                                front/front_1456D.asm                        1
+;  1533D  DrawGameStats_DD0                        front/postgame/postgame.asm                  1
+;  15344  GameStatsScreen                          front/postgame/postgame.asm                  2
+;  16875  PostGameScreens                          front/postgame/postgame.asm                  1
+;  168FA  PlayMenuGame                             front/play_game/play_game.asm                3
+;  16F09  RunSimFrames                             front/play_game/play_game.asm                1
+;  1739F  RunDemoGame                              front/play_game/play_game.asm                1
 ;  17B72  LinkCopyBytes                            front/link/link.asm                          1
 ;  1802B  SetLinkAbortCheck                        front/link/link.asm                          1
 ;  1803B  SetLinkSpareHook                         front/link/link.asm                          1
@@ -55,7 +57,7 @@
 ;  19731  sub_19731                                front/main/main.asm                          2
 ;  19799  sub_19799                                front/main/main.asm                          6
 ;  197ED  EditText                                 front/main/main.asm                          11
-;  1A109  sub_1A109                                front/main/main.asm                          18
+;  1A109  sub_1A109                                front/main/main.asm                          19
 ;  1AA27  sub_1AA27                                front/main/main.asm                          4
 ;  1AA62  sub_1AA62                                front/main/main.asm                          4
 ;  1AC0E  sub_1AC0E                                front/main/main.asm                          7
@@ -511,13 +513,13 @@
 ;  62E0E  sub_62E0E                                front/front_5D993.asm                        19
 ;  62E72  sub_62E72                                front/front_5D993.asm                        6
 ;  62ED9  sub_62ED9                                front/front_5D993.asm                        6
-;  62F90  sub_62F90                                front/front_5D993.asm                        20
+;  62F90  sub_62F90                                front/front_5D993.asm                        21
 ;  63076  sub_63076                                front/front_5D993.asm                        1
 ;  63955  sub_63955                                front/front_5D993.asm                        1
 ;  63968  sub_63968                                front/front_5D993.asm                        10
 ;  63998  sub_63998                                front/front_5D993.asm                        23
-;  63A5B  sub_63A5B                                front/front_5D993.asm                        24
-;  63B0C  sub_63B0C                                front/front_5D993.asm                        13
+;  63A5B  sub_63A5B                                front/front_5D993.asm                        25
+;  63B0C  sub_63B0C                                front/front_5D993.asm                        14
 ;  63B6A  sub_63B6A                                front/front_5D993.asm                        1
 ;  63BBA  sub_63BBA                                front/front_5D993.asm                        1
 ;  63DC4  sub_63DC4                                front/front_5D993.asm                        6
@@ -549,7 +551,7 @@
 ;  6755B  sub_6755B                                front/front_67000.asm                        1
 ;  67A63  sub_67A63                                front/front_67000.asm                        6
 ;  686DF  sub_686DF                                front/front_67000.asm                        4
-;  689D1  sub_689D1                                front/front_67000.asm                        8
+;  689D1  sub_689D1                                front/front_67000.asm                        9
 ;  68A0B  sub_68A0B                                front/front_67000.asm                        2
 ;  68A10  sub_68A10                                front/front_67000.asm                        5
 ;  68AB1  sub_68AB1                                front/front_67000.asm                        21
@@ -557,7 +559,7 @@
 ;  68BA4  sub_68BA4                                front/front_67000.asm                        1
 ;  68BCD  sub_68BCD                                front/front_67000.asm                        1
 ;  68BFA  sub_68BFA                                front/front_67000.asm                        13
-;  68C33  sub_68C33                                front/front_67000.asm                        9
+;  68C33  sub_68C33                                front/front_67000.asm                        10
 ;  68C8F  sub_68C8F                                front/front_67000.asm                        10
 ;  68CFE  sub_68CFE                                front/front_67000.asm                        1
 ;  68D25  sub_68D25                                front/front_67000.asm                        3
@@ -583,7 +585,7 @@
 ;  6986B  sub_6986B                                front/front_67000.asm                        5
 ;  699D0  sub_699D0                                front/front_67000.asm                        1
 ;  69A94  sub_69A94                                front/front_67000.asm                        21
-;  69A9B  sub_69A9B                                front/front_67000.asm                        19
+;  69A9B  sub_69A9B                                front/front_67000.asm                        20
 ;  6A229  sub_6A229                                front/front_67000.asm                        1
 ;  6A2A8  sub_6A2A8                                front/front_67000.asm                        1
 ;  6A341  ReadGlobalSet                            front/front_67000.asm                        1
@@ -621,7 +623,7 @@
 ;  76518  sub_76518                                front/front_741BD.asm                        1
 ;  771F0  sub_771F0                                front/front_741BD.asm                        1
 ;  77292  sub_77292                                front/front_741BD.asm                        1
-;  77355  sub_77355                                front/front_741BD.asm                        29
+;  77355  sub_77355                                front/front_741BD.asm                        30
 ;  77442  unk_77442                                front/front_741BD.asm                        1
 ;  7745A  unk_7745A                                front/front_741BD.asm                        1
 ;  77535  sub_77535                                front/front_741BD.asm                        1
@@ -831,12 +833,12 @@
 ;  AB660  sub_AB660                                lib/ea/ea_gfx_01.asm                         1
 ;  AB6D8  sub_AB6D8                                lib/ea/ea_gfx_01.asm                         2
 ;  AB718  sub_AB718                                lib/ea/ea_gfx_01.asm                         1
-;  AB758  sub_AB758                                lib/ea/ea_gfx_01.asm                         33
+;  AB758  sub_AB758                                lib/ea/ea_gfx_01.asm                         34
 ;  AB798  sub_AB798                                lib/ea/ea_gfx_01.asm                         6
 ;  AB834  sub_AB834                                lib/ea/ea_memman.asm                         3
 ;  AB87C  sub_AB87C                                lib/ea/ea_memman.asm                         1
 ;  ABD64  sub_ABD64                                lib/ea/ea_memman.asm                         1
-;  ABF4C  sub_ABF4C                                lib/ea/ea_memman.asm                         44
+;  ABF4C  sub_ABF4C                                lib/ea/ea_memman.asm                         45
 ;  ABF88  sub_ABF88                                lib/ea/ea_memman.asm                         6
 ;  AC194  sub_AC194                                lib/ea/ea_memman.asm                         1
 ;  AC470  sub_AC470                                lib/ea/ea_memman.asm                         1
@@ -866,7 +868,7 @@
 ;  AD680  FillRect                                 lib/ea/ea_gfx_02.asm                         15
 ;  AD824  sub_AD824                                lib/ea/ea_gfx_02.asm                         3
 ;  AD9DC  sub_AD9DC                                lib/ea/ea_gfx_02.asm                         1
-;  ADA50  sub_ADA50                                lib/ea/ea_gfx_02.asm                         12
+;  ADA50  sub_ADA50                                lib/ea/ea_gfx_02.asm                         13
 ;  ADA80  sub_ADA80                                lib/ea/ea_gfx_02.asm                         10
 ;  ADBB4  fputchar                                 lib/ea/ea_gfx_02.asm                         12
 ;  ADBEC  sub_ADBEC                                lib/ea/ea_gfx_02.asm                         28
@@ -881,7 +883,7 @@
 ;  B0254  sub_B0254                                lib/ea/ea_unpack.asm                         7
 ;  B026C  sub_B026C                                lib/ea/ea_unpack.asm                         7
 ;  B0284  TextSetFont                              lib/ea/ea_unpack.asm                         21
-;  B03F8  rand_                                    lib/watcom/watcom_clib_03.asm                9
+;  B03F8  rand_                                    lib/watcom/watcom_clib_03.asm                10
 ;  B041C  srand_                                   lib/watcom/watcom_clib_03.asm                6
 ;  B0430  sub_B0430                                lib/watcom/watcom_clib_03.asm                11
 ;  B0474  sub_B0474                                lib/watcom/watcom_clib_03.asm                1
@@ -1577,7 +1579,7 @@
 ;  DD120  sub_DD120                                lib/watcom/watcom_clib_21.asm                1
 ;  DD220  sub_DD220                                lib/watcom/watcom_clib_21.asm                1
 ;  DD2A0  sub_DD2A0                                lib/watcom/watcom_clib_21.asm                1
-;  DD6C4  sub_DD6C4                                lib/video/video_bios_vga_01.asm              37
+;  DD6C4  sub_DD6C4                                lib/video/video_bios_vga_01.asm              38
 ;  DD6E0  sub_DD6E0                                lib/video/video_bios_vga_01.asm              5
 ;  DD708  SetDrawBitmap                            lib/video/video_bios_vga_01.asm              30
 ;  DD724  sub_DD724                                lib/video/video_bios_vga_01.asm              9
@@ -1648,7 +1650,7 @@
 ;  DFE28  sub_DFE28                                lib/input/input_keyboard_01.asm              1
 ;  DFE9C  sub_DFE9C                                lib/input/input_keyboard_01.asm              6
 ;  DFEAB  sub_DFEAB                                lib/input/input_keyboard_01.asm              1
-;  DFEB4  GetTicks                                 lib/input/input_joystick_misc_01.asm         21
+;  DFEB4  GetTicks                                 lib/input/input_joystick_misc_01.asm         22
 ;  DFEBA  TicksSince                               lib/input/input_joystick_misc_01.asm         2
 ;  DFEC6  sub_DFEC6                                lib/input/input_joystick_misc_01.asm         5
 ;  DFEE1  SetTickDeadline                          lib/input/input_joystick_misc_01.asm         14
@@ -1666,7 +1668,7 @@
 ;  E0486  sub_E0486                                lib/input/input_joystick_misc_01.asm         2
 ;  E04D0  sub_E04D0                                lib/input/input_joystick_misc_01.asm         8
 ;  E04D9  sub_E04D9                                lib/input/input_joystick_misc_01.asm         1
-;  E04E0  sub_E04E0                                lib/input/input_joystick_misc_01.asm         30
+;  E04E0  sub_E04E0                                lib/input/input_joystick_misc_01.asm         31
 ;  E04E7  sub_E04E7                                lib/input/input_joystick_misc_01.asm         2
 ;  E0520  sub_E0520                                lib/input/input_joystick_misc_01.asm         23
 ;  E0584  sub_E0584                                lib/input/input_joystick_misc_01.asm         17
@@ -3770,7 +3772,7 @@
 ;  114CD7  dword_114CD7                             data/front/front_10010_data_01.asm           1
 ;  114CD9  dword_114CD9                             data/front/front_10010_data_01.asm           1
 ;  114CDB  word_114CDB                              data/front/front_10010_data_01.asm           1
-;  114CE0  word_114CE0                              data/front/front_10010_data_01.asm           12
+;  114CE0  word_114CE0                              data/front/front_10010_data_01.asm           13
 ;  114CE2  dword_114CE2                             data/front/front_10010_data_01.asm           1
 ;  114CE4  word_114CE4                              data/front/front_10010_data_01.asm           6
 ;  114CE6  unk_114CE6                               data/front/front_10010_data_01.asm           1
@@ -4593,7 +4595,7 @@
 ;  11F5B4  dword_11F5B4                             data/lib/lib_A8B9B_data_02.asm               2
 ;  11F5B8  dword_11F5B8                             data/lib/lib_A8B9B_data_02.asm               1
 ;  11F5BC  joyenablemask                            data/lib/lib_A8B9B_data_02.asm               3
-;  11F5C0  dword_11F5C0                             data/lib/lib_A8B9B_data_02.asm               24
+;  11F5C0  dword_11F5C0                             data/lib/lib_A8B9B_data_02.asm               25
 ;  11F5C4  dword_11F5C4                             data/lib/lib_A8B9B_data_02.asm               22
 ;  11F5C8  dword_11F5C8                             data/lib/lib_A8B9B_data_02.asm               4
 ;  11F5CC  dword_11F5CC                             data/lib/lib_A8B9B_data_02.asm               2
@@ -5370,7 +5372,7 @@
 ;  152F4C  dword_152F4C                             data/front/main_bss_01.asm                   5
 ;  152F50  dword_152F50                             data/front/main_bss_01.asm                   7
 ;  152F54  dword_152F54                             data/front/main_bss_01.asm                   9
-;  152F58  dword_152F58                             data/front/main_bss_01.asm                   9
+;  152F58  dword_152F58                             data/front/main_bss_01.asm                   10
 ;  152F5C  dword_152F5C                             data/front/main_bss_01.asm                   7
 ;  152F60  dword_152F60                             data/front/main_bss_01.asm                   1
 ;  152F64  dword_152F64                             data/front/main_bss_01.asm                   1
@@ -6647,7 +6649,7 @@
 ;  17BD8B  byte_17BD8B                              data/front/front_5D993_bss_01.asm            1
 ;  17BD8C  byte_17BD8C                              data/front/front_5D993_bss_01.asm            1
 ;  17BD8D  byte_17BD8D                              data/front/front_5D993_bss_01.asm            1
-;  17BDAE  byte_17BDAE                              data/front/front_5D993_bss_01.asm            17
+;  17BDAE  byte_17BDAE                              data/front/front_5D993_bss_01.asm            18
 ;  17BDAF  byte_17BDAF                              data/front/front_5D993_bss_01.asm            1
 ;  17BDB0  byte_17BDB0                              data/front/front_5D993_bss_01.asm            1
 ;  17BDB4  unk_17BDB4                               data/front/front_5D993_bss_01.asm            1
@@ -6737,7 +6739,7 @@
 ;  17C994  dword_17C994                             data/front/front_67000_bss_01.asm            1
 ;  17C998  dword_17C998                             data/front/front_67000_bss_01.asm            1
 ;  17C99C  dword_17C99C                             data/front/front_67000_bss_01.asm            1
-;  17C9A0  gameopts                                 data/front/front_67000_bss_01.asm            34
+;  17C9A0  gameopts                                 data/front/front_67000_bss_01.asm            35
 ;  17C9A4  dword_17C9A4                             data/front/front_67000_bss_01.asm            2
 ;  17C9A8  optflags                                 data/front/front_67000_bss_01.asm            27
 ;  17C9A9  byte_17C9A9                              data/front/front_67000_bss_01.asm            1

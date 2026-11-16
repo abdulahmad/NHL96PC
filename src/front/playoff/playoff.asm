@@ -19,7 +19,7 @@ extern dword_17D1EA, dword_17D202, dword_17D20A, dword_17D252, dword_17D256, dwo
 extern dword_17D267, dword_17D26B, dword_18210C, dword_1845FC, dword_184600, dword_18460C, dword_184610, dword_1846F4
 extern dword_1846FC, dword_184700, dword_18470C, dword_184710, dword_184ABC, dword_184ADC, dword_184AFC, dword_184B00
 extern dword_184B04, dword_184B08, dword_184B0C, dword_184B10, dword_184B14, dword_184B1C, dword_184B20, gameopts
-extern jpt_A4FB7, off_11D44C, sprintf_, srand_, strcpy_, strlen_, sub_168FA, sub_19384
+extern jpt_A4FB7, off_11D44C, sprintf_, srand_, strcpy_, strlen_, PlayMenuGame, sub_19384
 extern sub_193E8, sub_19491, sub_19522, sub_1955B, sub_19799, EditText, sub_1A109, sub_1AC0E
 extern sub_1AE8C, sub_1B00B, sub_1B05E, sub_1E08B, sub_1E3E8, sub_1E5FC, sub_1E7F6, sub_1E8E9
 extern sub_1EA14, sub_1EBBC, sub_29B9F, sub_4F159, sub_4F385, sub_62AF7, sub_62D9B, sub_62E0E
@@ -127,7 +127,7 @@ sub_A4FD7_102:
 sub_A4FD7_115:
         mov eax, dword [dword_1150D8]
         mov ebx, 0A5B5h
-        call sub_168FA
+        call PlayMenuGame
         cmp dword [dword_1150FC], byte 1
         jne near .16
         call sub_4F385

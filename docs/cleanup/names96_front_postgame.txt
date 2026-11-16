@@ -1,0 +1,27 @@
+# NHL 96 PC front_1456D (1456D-17675): post-game screens, playing a game from the menus, the demo game. PC-only screens.
+sub_1456D DrawGameStats {confidence=medium} draws the team statistics page of the game stats screen: both teams' values from hmtmstruct / awtmstruct (counts, n/m, n/m (p%), time m:ss), labels from the text table (20Ch-215h)
+sub_1456D_DD0 DrawGameStats_DD0 {no_record} shared epilogue
+sub_1456D_DD1 DrawGameStats_DD1 {no_record} shared epilogue
+sub_15344 GameStatsScreen {confidence=medium} the game statistics screen (BKGD, BANNER, SBACK, page arrows AR00-AR11, puck cursor BALL): pages of DrawGameStats, mouse and pad, the modem chat box and sync on a modem game
+sub_15344_722 GameStatsScreen_722 {no_record} shared epilogue
+sub_15A8E AnimateStarsScreen {confidence=medium} timed effects of the three stars screen: the scrolling sprite strip, camera flashes at random spots of the crowd (three areas), random sparkles; called each frame
+sub_15A8E_D3 AnimateStarsScreen_D3 {no_record} jump table case
+sub_15A8E_E7 AnimateStarsScreen_E7 {no_record} jump table case
+sub_15A8E_114 AnimateStarsScreen_114 {no_record} jump table case
+sub_15A8E_121 AnimateStarsScreen_121 {no_record} jump table case and the rest of the routine
+sub_15E93 ThreeStarsScreen {confidence=medium} post-game three stars screen: loads the star players' profile photos (profile.fsh, card / plyr) and cards (ST/STR/MET/STRK), buttons BT00-BT12, animates with AnimateStarsScreen; returns the button: 1 game stats, 2 the next item, 0 done
+sub_15E93_8CF ThreeStarsScreen_8CF {no_record} jump table case
+sub_15E93_91F ThreeStarsScreen_91F {no_record} jump table case
+sub_15E93_928 ThreeStarsScreen_928 {no_record} jump table case
+sub_15E93_936 ThreeStarsScreen_936 {no_record} jump table case and the screen's exit
+sub_16875 PostGameScreens {confidence=medium} after a game: ThreeStarsScreen, then GameStatsScreen or the other screen (sub_8C51B) as picked, until done; then the front-end music
+sub_168FA PlayMenuGame {confidence=medium} plays a game started from the menus: by game mode (optflags bits 4-6: exhibition, season, playoffs, modem) picks the game options block, loads the goal sprites (GloL/GloR or GhiL/GhiR), PlayGame, then saves the result for the mode (season / playoff update, modem end) and runs PostGameScreens; 12h on a modem game
+sub_168FA_75 PlayMenuGame_75 {no_record} jump table case
+sub_168FA_85 PlayMenuGame_85 {no_record} jump table case
+sub_168FA_9F PlayMenuGame_9F {no_record} jump table case
+sub_168FA_AF PlayMenuGame_AF {no_record} jump table case and the game
+sub_168FA_243 PlayMenuGame_243 {no_record} jump table case
+sub_168FA_25F PlayMenuGame_25F {no_record} jump table case
+sub_168FA_26B PlayMenuGame_26B {no_record} jump table case
+sub_168FA_280 PlayMenuGame_280 {no_record} jump table case and the end
+sub_1739F RunDemoGame {source=new,confidence=high} attract-mode demo game: seeds rand from the time, InitSlotTable, loads the game, starts InputRecordTimer, SetupDemoGame, GameLoop, then stops the timer and restores the screen; same job as 95 PC RunDemoGame

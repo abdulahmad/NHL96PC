@@ -12,7 +12,7 @@ extern byte_11F49C, byte_11F4A4, byte_11F4AC, byte_11F4B0, byte_11F4B4, byte_11F
 extern byte_17BDAE, byte_17CC37, byte_17CFB1, byte_17D13A, byte_17D262, byte_17D26F, byte_17D270, byte_17D271
 extern byte_184B24, byte_184B28, dword_1150D8, dword_1150FC, dword_11D1A8, dword_11D1AC, dword_11D59C, dword_11D674
 extern dword_11ED78, dword_11ED7C, dword_11ED9C, dword_11EDBC, dword_11EDCC, dword_11EDDC, dword_11EE18, dword_11EE94
-extern dword_11EF10, dword_11EF80, dword_11EF8C, dword_17BC74, dword_17BC78, dword_17BC7C, dword_17BD48, optflags
+extern dword_11EF10, dword_11EF80, dword_11EF8C, dword_17BC74, dword_17BC78, TeamStatsBitmap, dword_17BD48, optflags
 extern dword_17CBE7, dword_17CC17, dword_17CEC3, dword_17CED6, dword_17CF8E, dword_17CF92, dword_17CF96, dword_17D162
 extern dword_17D166, dword_17D16A, PlayoffFormatTeams, dword_17D1D6, dword_17D1DA, dword_17D1DE, dword_17D1E2, dword_17D1E6
 extern dword_17D1EA, dword_17D202, dword_17D20A, dword_17D252, dword_17D256, dword_17D25A, dword_17D25E, dword_17D263
@@ -857,7 +857,7 @@ PlayoffSetupScreen:
         jl short .17
         mov ecx, 66h
         lea edi, [dword ebp-01A8Ah]
-        mov esi, dword_17BC7C
+        mov esi, TeamStatsBitmap
         rep movsb
         mov ecx, 66h
         lea edi, [dword ebp-01A24h]
@@ -2207,7 +2207,7 @@ PlayoffTreeScreen:
         mov edi, dword [byte ebp+07Eh]
         mov dword [dword_184AFC], eax
         mov eax, 6
-        mov esi, dword_17BC7C
+        mov esi, TeamStatsBitmap
         call OpenScreen
         rep movsb
         mov edi, dword [byte ebp+07Eh]

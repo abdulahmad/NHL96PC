@@ -18,7 +18,7 @@ extern LoadPackedFile, InitGameTeams, sub_4B4F3, sub_51CBA, sub_51D44, sub_51DD2
 extern CopyBitmap, StartGameSound, EndGameSound, sub_AADA4, AllocMemBlock, FreeMemBlock, SetScreenTarget, SetClipWindow
 extern sub_E04E0, sub_E0584, unk_157B82, unk_157F9C, unk_158610, unk_176CA8, unk_176CDA, unk_176D0C
 extern unk_176D3E, unk_176DA2, unk_176E38, unk_176E6A, unk_176E9C, unk_176ED4, optblock_end, gmode2
-extern word_1178CA, word_1178CC, word_1178CE, word_1178D0, word_117902, word_11A3EE, word_11A3F0, word_11D3A2
+extern HomeControlSlot, word_1178CC, word_1178CE, word_1178D0, word_117902, word_11A3EE, word_11A3F0, word_11D3A2
 extern regd0, word_176ECE, word_176ED0, dressedskaters, word_176EDB
 global FillDressedSlots, NormalizeDressFlags, PickExtraSkater, PickForLineSlot, RemoveFromLines, SetupTeamLines, PickForLineSlot_3E3, SetupTeamLines_1CC
 global SetupTeamLines_1CD, sub_540C4_16C, sub_540C4_16D, BuildDefaultLines, CanFillLineSlot, PickGoalie, RefillLineSlots, CanRemovePlayer
@@ -2308,7 +2308,7 @@ sub_53640:
         mov dl, byte [word_11D3A2]
         mov byte [eax], dl
         mov dl, byte [word_1178CC]
-        mov al, byte [word_1178CA]
+        mov al, byte [HomeControlSlot]
         and dl, 0Fh
         and al, 0Fh
         shl dl, 4

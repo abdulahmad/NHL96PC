@@ -17,7 +17,7 @@ extern SetSPA, sub_46593, SprSort, changeplayer, GetHot, Setplass, setplayer, up
 extern clockcont_0, SetExitGame, ResetBench, forcepldata, doplayeracc, EvadePC, skateto, playeracc
 extern avdgoal, stopna, AddPenalty2, Stop4Pen, PlaceGoalNets, PlaySfx, StopArenaClip, vecdist
 extern threat, unk_164B5C, vtoa, word_1178A0, word_1178A2, word_1178B4, yc1, word_1178B8
-extern fodir1, fodir2, gmode2, word_1178CA, slotteam, word_1178F6, word_1178F8, word_1178FA
+extern fodir1, fodir2, gmode2, HomeControlSlot, slotteam, word_1178F6, word_1178F8, word_1178FA
 extern word_1178FC, gsp, word_117902, word_118E8F, word_118E9F, word_118EA3, word_118EB7, word_1190D7
 extern word_1190D9, word_11910B, word_11910F, word_119111, word_119113, word_119F78, word_164716, word_16472A
 extern word_164794, word_165144, word_1656E8, word_165704, word_165706, word_165758, word_16581E, word_16583A
@@ -633,7 +633,7 @@ sub_3AE48:
 .1:
         cmp word [dword ebx+slotteam], byte 0
         je short .6
-        cmp word [dword ebx+word_1178CA], byte 0
+        cmp word [dword ebx+HomeControlSlot], byte 0
         jge short .6
         movsx eax, word [dword ebx+slotteam]
         cmp eax, byte 1
@@ -830,9 +830,9 @@ puckfaceoff:
         movsx ecx, word [dword edx+slotteam]
         cmp ecx, byte 1
         jne short .15
-        cmp word [dword edx+word_1178CA], byte 0
+        cmp word [dword edx+HomeControlSlot], byte 0
         jl short .15
-        movsx eax, word [dword edx+word_1178CA]
+        movsx eax, word [dword edx+HomeControlSlot]
         imul eax, dword 0A0h
         mov edx, SortCords
         add edx, eax
@@ -856,9 +856,9 @@ puckfaceoff:
         movsx ecx, word [dword edx+slotteam]
         cmp ecx, byte 2
         jne short .19
-        cmp word [dword edx+word_1178CA], byte 0
+        cmp word [dword edx+HomeControlSlot], byte 0
         jl short .19
-        movsx edx, word [dword edx+word_1178CA]
+        movsx edx, word [dword edx+HomeControlSlot]
         imul edx, dword 0A0h
         mov eax, ebx
         add edx, SortCords
@@ -1559,7 +1559,7 @@ puckfaceoff2:
         xor esi, esi
         xor eax, eax
 .20:
-        movsx edx, word [dword eax+word_1178CA]
+        movsx edx, word [dword eax+HomeControlSlot]
         cmp edx, dword [penshotplayer]
         je short .21
         inc eax

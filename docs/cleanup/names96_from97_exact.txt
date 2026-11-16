@@ -841,3 +841,14 @@ dword_11F9C0 FreeSpaceList {confidence=medium,source=new} free space list
 dword_123A8C BlitColumnOffsets {confidence=medium,source=new} column offset table of the span copy
 dword_123A90 BlitSourcePtr {confidence=medium,source=new} source pointer of the span copy
 sub_ABFB4 PushMemDescriptor {confidence=medium,source=new} returns a block descriptor to the free list; followed by the pop
+word_1178CA HomeControlSlot {confidence=medium,source=new} home control slot (-1 none)
+dword_17BC7C TeamStatsBitmap {confidence=medium,source=new} team stats bitmap
+dword_11F620 KeyBuffer {confidence=medium,source=new} keyboard buffer ring
+dword_11F660 KeyBufferHead {confidence=medium,source=new} keyboard buffer read position
+dword_11F664 KeyBufferTail {confidence=medium,source=new} keyboard buffer write position
+dword_11F66C KeyBufferMask {confidence=medium,source=new} keyboard buffer index mask
+byte_11F670 KeyStateTable {confidence=medium,source=new} key down state per scan code
+byte_11F6A8 KbdNumLock {confidence=medium,source=new} num lock toggle
+byte_11F6C3 KbdScrollLock {confidence=medium,source=new} scroll lock toggle
+dword_14EFA8 Mixer16Bit {confidence=medium,source=new} mixer output is 16-bit
+dword_14EFC8 MixerLoopLimit {confidence=medium,source=new} mixer loop limit

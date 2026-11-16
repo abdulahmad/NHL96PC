@@ -8,8 +8,8 @@ extern MixerVolumeLookup, dword_144F9C, dword_144FA0, dword_144FA4, dword_144FA8
 extern dword_144FB8, dword_144FBC, dword_144FC0, dword_144FC4, dword_144FC8, dword_144FCC, dword_144FD0, dword_144FD4
 extern dword_144FD8, dword_144FDC, dword_144FE0, dword_144FE4, dword_144FE8, dword_144FEC, dword_144FF0, dword_144FF4
 extern dword_144FF8, dword_144FFC, dword_145000, dword_145004, dword_145008, dword_14500C, dword_145010, dword_145014
-extern dword_145018, MixerReady, dword_14EFA0, MixerOutputRate, dword_14EFA8, dword_14EFAC, MixerChunkSamples, MixerChunkLeft
-extern dword_14EFB8, dword_14EFBC, MixerLoopLength, dword_14EFC8, MixerLoopStart, dword_14EFD0, dword_14EFD4, dword_14EFD8
+extern dword_145018, MixerReady, dword_14EFA0, MixerOutputRate, Mixer16Bit, dword_14EFAC, MixerChunkSamples, MixerChunkLeft
+extern dword_14EFB8, dword_14EFBC, MixerLoopLength, MixerLoopLimit, MixerLoopStart, dword_14EFD0, dword_14EFD4, dword_14EFD8
 extern dword_1A0B1C, MixerChannelTable, EmuInitHook, EmuFiniHook, sub_AADA4, FreeMemBlock, sub_ABF88, sub_AD2B4
 extern RestoreDS, sub_C01C9, sub_C1051, sub_C1183, sub_CE1DA, SbWaitRead, InitFloatFormat, FormatFloat
 extern SetScreenTarget, unk_146F9C, unk_1A0B20, str_Punct_InitFpuFlags, __no87, OldFpuVectorSelector, FpuCr0Bits, DefaultControlWord
@@ -769,7 +769,7 @@ sub_CBEB7:
         mov eax, dword [byte ebp+0Ch]
         mov dword [MixerOutputRate], eax
         mov eax, dword [byte ebp+010h]
-        mov dword [dword_14EFA8], eax
+        mov dword [Mixer16Bit], eax
         mov eax, dword [byte ebp+08h]
         and eax, byte 1Ch
         cmp eax, byte 1Ch
@@ -861,7 +861,7 @@ MixerFillBuffer:
         mov esi, dword [nosplit esi*4+MixerChannelTable]
         cmp byte [esi], 1
         jne short .1
-        mov eax, dword [dword_14EFA8]
+        mov eax, dword [Mixer16Bit]
         mov dword [MixerChunkLeft], eax
         mov dword [dword_14EFB8], 0
 .2:
@@ -1316,7 +1316,7 @@ MixerChunkLength_8F:
         mov eax, dword [MixerChunkLeft]
         ret
 MixerChunkLength_10E:
-        mov dword [dword_14EFC8], 0FFFFh
+        mov dword [MixerLoopLimit], 0FFFFh
         mov edx, dword [byte esi+044h]
         sub edx, dword [byte esi+038h]
         test edx, 0FFFFFFFFh
@@ -1333,7 +1333,7 @@ MixerChunkLength_10E:
         mov dword [byte esi+054h], edx
         jmp short .12
 .11:
-        mov dword [dword_14EFC8], eax
+        mov dword [MixerLoopLimit], eax
 .12:
         mov edx, dword [byte esi+048h]
         sub edx, dword [byte esi+038h]
@@ -1361,9 +1361,9 @@ MixerChunkLength_10E:
         jl short .15
         mov eax, dword [MixerChunkLeft]
 .15:
-        cmp eax, dword [dword_14EFC8]
+        cmp eax, dword [MixerLoopLimit]
         jl short .16
-        mov eax, dword [dword_14EFC8]
+        mov eax, dword [MixerLoopLimit]
 .16:
         push eax
         lea ebx, [byte esi+030h]
@@ -2727,7 +2727,7 @@ sub_CCB41_F65:
         ret
 sub_CCB41_1372:
         mov edi, dword [dword_14EFAC]
-        mov ecx, dword [dword_14EFA8]
+        mov ecx, dword [Mixer16Bit]
         LD add, ecx, ecx
         dec ecx
         mov ebx, 7FFFh
@@ -2764,7 +2764,7 @@ sub_CCB41_1372:
         ret
 sub_CCB41_13D3:
         mov edi, dword [dword_14EFAC]
-        mov ecx, dword [dword_14EFA8]
+        mov ecx, dword [Mixer16Bit]
         LD add, ecx, ecx
         dec ecx
         mov ebx, 7FFFh
@@ -2803,7 +2803,7 @@ sub_CCB41_13D3:
         ret
 sub_CCB41_1430:
         mov edi, dword [dword_14EFAC]
-        mov ecx, dword [dword_14EFA8]
+        mov ecx, dword [Mixer16Bit]
         dec ecx
         mov ebx, 7FFFh
         mov edx, 0FFFF8000h
@@ -2875,7 +2875,7 @@ sub_CDFE2:
         push es
         mov ax, ds
         mov es, ax
-        mov ecx, dword [dword_14EFA8]
+        mov ecx, dword [Mixer16Bit]
         LD add, ecx, ecx
         LD xor, eax, eax
         mov edi, dword_144F9C

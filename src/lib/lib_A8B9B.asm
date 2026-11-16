@@ -5,7 +5,7 @@ section s_A8B9B progbits alloc exec nowrite align=1
 extern __STOSB, __set_errno_, access_, str_Pal19, str_Bkgd27, str_FSH6, str_Plyr4, str_PROFILEFSH4
 extern str_Card4, str_Ard4, str_DSS5, str_SD8, str_SDD, str_S0, str_SDD2, str_0000
 extern byte_11F524, byte_11F52D, byte_184B3C, byte_184B3D, byte_184B3E, byte_1852C2, dword_1174E0, dword_1174EC
-extern dword_1174F0, dword_117500, dword_117510, dword_11F4BC, dword_11F4F0, dword_17BC7C, dword_17BD48, dword_17CBE7
+extern dword_1174F0, dword_117500, dword_117510, dword_11F4BC, dword_11F4F0, TeamStatsBitmap, dword_17BD48, dword_17CBE7
 extern dword_17CC13, dword_17CF8E, dword_17D162, dword_17D252, dword_17D256, dword_17D25A, dword_184B38, getcwd_
 extern getenv_, off_11F531, off_11F535, off_11F539, off_11F53D, off_11F541, off_11F545, off_11F549
 extern off_11F551, off_11F555, sprintf_, strcat_, strcpy_, strlen_, SelectDataLibrary, LoadDataFileLib
@@ -1183,7 +1183,7 @@ sub_A91DD:
         mov ebx, 3
         mov ecx, 66h
         lea edi, [dword ebp-092h]
-        mov esi, dword_17BC7C
+        mov esi, TeamStatsBitmap
         mov byte [byte ebp+018h], 0
         mov edx, dword [byte ebp+07Eh]
         rep movsb

@@ -14,7 +14,7 @@ extern dword_160BC6, dword_160BCA, dword_160BD0, dword_160BD4, dword_160BD8, dwo
 extern dword_160BF4, dword_160C2C, dword_160C30, dword_160C36, dword_160C3A, dword_160C3E, dword_160C42, dword_160C46
 extern dword_160C56, dword_160C5A, dword_160C92, dword_160C96, dword_160C9C, dword_160CA0, dword_160CA4, dword_160CA8
 extern dword_160CAC, dword_160CBC, dword_160CC0, dword_160CF8, dword_160CFC, dword_160D02, dword_160D06, dword_160D0A
-extern dword_160D0E, dword_160D12, dword_160D22, dword_160D26, dword_17BC74, dword_17BC7C, dword_17BC96, dword_17BCA2
+extern dword_160D0E, dword_160D12, dword_160D22, dword_160D26, dword_17BC74, TeamStatsBitmap, dword_17BC96, dword_17BCA2
 extern dword_17BCA6, EditText, fclose_, FileClose, FileCreate, FileOpenRead, FileOpenReadWrite, FileReadAt
 extern FileWriteAt, fopen_, fprintf_, fputchar, gameopts, GetPressedDevice, HideMessage, LoadPackedFile
 extern MakeDirPath, MessageBox, MouseRead, NameIndexAdd, NameIndexFirstId, NameIndexFree, NameIndexId, NameIndexLoad
@@ -3511,7 +3511,7 @@ UserRecordsScreen:
         call OpenScreen
         mov ecx, 66h
         mov edi, unk_160B50
-        mov esi, dword_17BC7C
+        mov esi, TeamStatsBitmap
         rep movsb
         push str_BT002
         mov eax, dword [dword_160B76]

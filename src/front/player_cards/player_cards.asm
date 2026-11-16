@@ -5,7 +5,7 @@ section s_903B5 progbits alloc exec nowrite align=1
 extern __CHP, asc_1129CF, asc_1129E6, byte_11E844, byte_11E852, byte_17BDAE, byte_17CBEB, byte_17D13A
 extern byte_17EBF0, byte_182124, CheckExportName, DrawColorText, DrawColorTextCentred, DrawFrameAt, DrawScrollBar, dword_1129FA
 extern dword_11E670, dword_11E684, dword_11E6B4, dword_11E7E0, dword_11E85B, dword_11E87F, dword_11E883, dword_11E887
-extern dword_11E88B, dword_17BC7C, dword_17EEF0, dword_17FDF0, dword_17FDF4, dword_181EAC, dword_1820A0, dword_1820A4
+extern dword_11E88B, TeamStatsBitmap, dword_17EEF0, dword_17FDF0, dword_17FDF4, dword_181EAC, dword_1820A0, dword_1820A4
 extern dword_1820A8, dword_1820AC, dword_1820B0, dword_1820E4, dword_1820E8, dword_1820EC, dword_1820F4, dword_1820F8
 extern dword_1820FC, dword_182100, dword_182104, dword_182108, dword_18210C, dword_182110, dword_182114, dword_182118
 extern dword_18211C, dword_182120, EditText, FadeOut, FadePalette, fclose_, FillMusicStream, FillRect
@@ -961,7 +961,7 @@ PlayerCardScreen:
 .13:
         mov ecx, 66h
         lea edi, [dword ebp-071Eh]
-        mov esi, dword_17BC7C
+        mov esi, TeamStatsBitmap
         push str_PHT0
         rep movsb
         lea eax, [dword ebp-025Ch]

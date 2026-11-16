@@ -8,7 +8,7 @@ extern dword_112CDA, dword_112CDE, dword_112CE2, dword_112CE6, dword_112CEA, dwo
 extern dword_112CFA, dword_112CFE, dword_112D02, dword_112D06, dword_112D0A, dword_112D0E, dword_112D12, dword_112D26
 extern dword_1174E4, dword_1174EC, dword_1174F0, dword_1174F4, dword_117504, dword_11750C, dword_117510, dword_117514
 extern dword_11E670, dword_11E678, dword_11E7E0, dword_11E85B, dword_11E8D4, dword_11E8F8, dword_11E8FC, dword_11E900
-extern dword_11E904, dword_17BC7C, dword_17BD48, dword_17CBE7, dword_17D162, dword_17EEF0, dword_17FDF0, dword_17FDF4
+extern dword_11E904, TeamStatsBitmap, dword_17BD48, dword_17CBE7, dword_17D162, dword_17EEF0, dword_17FDF0, dword_17FDF4
 extern dword_1820AC, dword_1820B0, dword_1820E4, dword_1820E8, dword_1820EC, dword_182140, dword_182144, dword_1822B8
 extern dword_1822BC, dword_182FB4, dword_182FB8, dword_18301C, dword_183020, dword_183024, dword_1843B0, dword_1843B4
 extern EditText, FadeOut, FadePalette, FillBox, FillRect, FreeScrollBar, gameopts, GetLangText
@@ -562,7 +562,7 @@ RosterScreen:
         lea edi, [dword ebp-036BAh]
         call DrawScrollBar
         lea eax, [dword ebp-081Eh]
-        mov esi, dword_17BC7C
+        mov esi, TeamStatsBitmap
         call DrawScrollBar
         lea eax, [dword ebp-06E6h]
         mov ecx, 66h
@@ -4523,7 +4523,7 @@ CreatePlayerScreen:
         mov byte [byte ebp+06h], 0
         push dword 1D6h
         lea edi, [dword ebp-01F32h]
-        mov esi, dword_17BC7C
+        mov esi, TeamStatsBitmap
         call sub_AD35C
         mov ecx, 66h
         rep movsb

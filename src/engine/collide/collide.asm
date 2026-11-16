@@ -17,7 +17,7 @@ extern AvgCline, GetHot, GetHotStick, GetHotOrStick, Goal, GiveControl, doplayer
 extern sub_4F452, PostInjuryEvent, AddPenalty2, Stop4Pen, EndPenaltyShot, CanRemovePlayer, CloseTextOverlay, PlaySfx
 extern sfx, CrowdReaction, sub_BE960, vecdist, threat, unk_164B5C, unk_1657BC, unk_1658F2
 extern vtoa, wcradiusx, word_1178A0, word_1178A6, word_1178A8, word_1178AC, word_1178AE, word_1178B4
-extern yc1, gmode2, word_1178CA, gsp, word_117902, word_117914, word_117916, refhitcount
+extern yc1, gmode2, HomeControlSlot, gsp, word_117902, word_117914, word_117916, refhitcount
 extern word_11910F, word_119111, word_119113, word_11916B, word_119F98, word_119F9A, word_119FB8, word_119FC8
 extern word_119FCA, word_164794, word_1647A2, word_165144, word_16514A, word_16514C, word_165710, word_165846
 extern word_165964, regd5, word_165970, regd0, regd1, word_176B24, word_176B6A, word_176B80
@@ -10604,7 +10604,7 @@ sub_46593:
         push ebx
         push ecx
         lea ebx, [eax+eax]
-        movsx ecx, word [dword ebx+word_1178CA]
+        movsx ecx, word [dword ebx+HomeControlSlot]
         cmp edx, ecx
         je short .1
         cwde
@@ -10612,7 +10612,7 @@ sub_46593:
         mov edx, eax
         mov eax, ecx
         call restorepl
-        mov word [dword ebx+word_1178CA], ax
+        mov word [dword ebx+HomeControlSlot], ax
 .1:
         pop ecx
         pop ebx

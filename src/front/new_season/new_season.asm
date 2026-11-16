@@ -4,7 +4,7 @@ bits 32
 section s_77442 progbits alloc exec nowrite align=1
 extern __CHP, __STOSB, __STOSD, byte_11D74F, byte_11D754, byte_17BDAE, byte_17CBEB, byte_17CC1D
 extern byte_17CC35, byte_17CC36, byte_17D13A, byte_17D6C8, DrawArtOpaque, DrawColorTextCentred, DrawFrameAt, dword_11D59C
-extern dword_11D744, dword_11E2D4, dword_11E2EC, dword_11E304, dword_11E320, dword_17BC78, dword_17BC7C, dword_17BD48
+extern dword_11D744, dword_11E2D4, dword_11E2EC, dword_11E304, dword_11E320, dword_17BC78, TeamStatsBitmap, dword_17BD48
 extern dword_17CBE7, dword_17CC13, dword_17CC1B, dword_17CED1, dword_17CF8E, dword_17D1E2, dword_17D267, dword_17D7C8
 extern dword_17D7D0, EditText, FadeOut, FadePalette, FileClose, FileCopy, FileOpenRead, FileOpenReadWrite
 extern FileReadAt, FileWriteAt, FillMusicStream, FreeStatsTables, gameopts, GetLangText, GetTicks, HideProgressBox
@@ -389,7 +389,7 @@ NewSeasonScreen:
         mov dword [dword ebp-0A14h], eax
         call sub_E04E0
         movsx eax, word [byte eax+0Eh]
-        mov esi, dword_17BC7C
+        mov esi, TeamStatsBitmap
         mov dword [dword ebp-0A10h], eax
         mov eax, dword [dword ebp-0A14h]
         mov ecx, 66h

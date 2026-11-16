@@ -19,7 +19,7 @@ extern str_DB, strcat_, FileMissing, DeleteFiles, FileOpenRead, FileClose, FileW
 extern LoadGameRosters, sub_48A4D, sub_535D5, UnlinkJump, threat, unk_115108, unk_115113, unk_156E6C
 extern unk_156FFC, unk_157AF8, unk_157B0A, unk_157B1C, unk_157B4F, unk_157B82, unk_157D8F, unk_157F9C
 extern unk_157FDA, unk_1582F5, unk_158610, unk_164B5C, unk_17CB2E, unk_17CED5, word_1178A8, word_1178AC
-extern word_1178AE, word_1178B4, word_1178B8, word_1178CA, word_1178CC, word_1178CE, word_1178D0, word_1178F4
+extern word_1178AE, word_1178B4, word_1178B8, HomeControlSlot, word_1178CC, word_1178CE, word_1178D0, word_1178F4
 extern word_1178F6, word_1178F8, word_1178FA, word_1178FC, word_117902, word_118E8F, word_118E9F, word_118EA3
 extern word_118EA5, word_118EA7, word_118EA9, word_118EAB, word_118EAF, word_118EB1, word_118EB3, word_118EB7
 extern word_118FAF, word_118FB1, word_11910B, word_11910F, word_119111, word_119113, word_119169, word_11916B
@@ -205,7 +205,7 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [word_1178CA]
+        mov dx, word [HomeControlSlot]
         mov word [eax], dx
         inc eax
         inc eax
@@ -906,7 +906,7 @@ LoadGameState:
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_1178CA], dx
+        mov word [HomeControlSlot], dx
         mov dx, word [eax]
         inc eax
         inc eax

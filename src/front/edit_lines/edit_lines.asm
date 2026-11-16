@@ -9,7 +9,7 @@ extern byte_1843DE, byte_1843DF, byte_1843E0, byte_1843E1, byte_1843E6, byte_184
 extern byte_1843ED, byte_1843EE, DrawArtOpaque, DrawColorText, DrawFrameAt, DrawScrollBar, dword_1174EC, dword_1174F0
 extern dword_11D1A8, dword_11D1AC, dword_11E670, dword_11E678, dword_11E91C, dword_11E948, dword_11E970, dword_11E9C0
 extern dword_11EA10, dword_11EA60, dword_11EAB0, dword_11EAFC, dword_11EB50, dword_11EB88, dword_11EBC0, dword_11EBF8
-extern dword_11ECE8, dword_11ECEC, dword_11ED2C, dword_152F54, dword_152F58, dword_1657EA, dword_1657FE, dword_17BC7C
+extern dword_11ECE8, dword_11ECEC, dword_11ED2C, dword_152F54, dword_152F58, dword_1657EA, dword_1657FE, TeamStatsBitmap
 extern dword_17BC96, dword_17BCA2, dword_17BCA6, dword_17BD48, dword_17EEF0, dword_17FDEC, dword_17FDF0, dword_17FDF4
 extern dword_181EAC, dword_1820A8, dword_1820AC, dword_1820B0, dword_1820E4, dword_1820E8, dword_1820EC, dword_183028
 extern dword_1836E8, dword_1836EC, dword_1836F0, dword_1836F4, dword_1836F8, dword_1836FC, dword_183700, dword_183704
@@ -1181,7 +1181,7 @@ EditLinesScreen:
         xor ecx, ecx
         xor ebx, ebx
         mov eax, 0FAE1h
-        mov esi, dword_17BC7C
+        mov esi, TeamStatsBitmap
         call DrawFrameAt
         mov ecx, 66h
         rep movsb

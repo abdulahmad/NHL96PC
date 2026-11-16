@@ -3,9 +3,9 @@ bits 32
 %include "hockey.inc"
 section s_11F5DC progbits alloc noexec write align=1
 extern sub_DFB84, BiosKeyCall
-global byte_11F668, byte_11F670, byte_11F68D, KbdCtrlDown, KbdAltDown, byte_11F6A8, byte_11F6C3, CpuIs386
-global CpuIs486, CpuType, CpuHasCpuid, CpuFeatures, str_Punct_DrawRinkSurface, dword_11F61C, dword_11F620, dword_11F660
-global dword_11F664, dword_11F66C, SavedKbdVecOffset, SavedInt16Offset, SavedRealKbdOffset, mousepollfn, off_11F5F4, off_11F5F8
+global byte_11F668, KeyStateTable, byte_11F68D, KbdCtrlDown, KbdAltDown, KbdNumLock, KbdScrollLock, CpuIs386
+global CpuIs486, CpuType, CpuHasCpuid, CpuFeatures, str_Punct_DrawRinkSurface, dword_11F61C, KeyBuffer, KeyBufferHead
+global KeyBufferTail, KeyBufferMask, SavedKbdVecOffset, SavedInt16Offset, SavedRealKbdOffset, mousepollfn, off_11F5F4, off_11F5F8
 global off_11F5FC, BiosKeyFunc, SavedKbdVecSelector, SavedInt16Selector, SavedRealKbdSegment, KbdDataSelector
 CpuIs386:
         db 00h,00h,00h,00h
@@ -36,20 +36,20 @@ BiosKeyFunc:
         dd BiosKeyCall
 dword_11F61C:
         db 01h,00h,00h,00h
-dword_11F620:
+KeyBuffer:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-dword_11F660:
+KeyBufferHead:
         db 00h,00h,00h,00h
-dword_11F664:
+KeyBufferTail:
         db 00h,00h,00h,00h
 byte_11F668:
         db 00h,00h,00h,00h
-dword_11F66C:
+KeyBufferMask:
         db 01h,00h,00h,00h
-byte_11F670:
+KeyStateTable:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 byte_11F68D:
@@ -58,10 +58,10 @@ KbdCtrlDown:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 KbdAltDown:
         db 00h,00h
-byte_11F6A8:
+KbdNumLock:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-byte_11F6C3:
+KbdScrollLock:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h

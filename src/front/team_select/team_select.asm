@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_76071 progbits alloc exec nowrite align=1
 extern BlackPalette, byte_17CA78, byte_17CA86, CopyBitmap, DrawFrameAt, dword_11E284, dword_11E288, dword_11E2A0
-extern dword_11E2A4, dword_11E2A8, dword_11E2AC, dword_11E2B0, dword_11E2B4, dword_11E2B8, dword_11E2BC, dword_17BC7C
+extern dword_11E2A4, dword_11E2A8, dword_11E2AC, dword_11E2B0, dword_11E2B4, dword_11E2B8, dword_11E2BC, TeamStatsBitmap
 extern dword_17BD48, dword_17CA76, dword_17D688, dword_17D68C, dword_17D690, FadeOut, FadePalette, FillMusicStream
 extern gameopts, GetTeamNameArt, GetTicks, InitMenuItems, LoadPackedFile, LoadTeamLogo, mousex, mousey
 extern OpenScreen, optblock_end, PutBlock, RunMenu, SetDrawBitmap, SetMenuMouse, SetScreenColors, SlideInSideBar
@@ -539,7 +539,7 @@ TeamSelectScreen:
         mov dword [dword ebp-027Eh], 8
         lea edi, [dword ebp-0228h]
         movsx eax, word [byte eax+0Ch]
-        mov esi, dword_17BC7C
+        mov esi, TeamStatsBitmap
         mov dword [dword ebp-0268h], eax
         mov eax, dword [dword ebp-0274h]
         mov ecx, 66h

@@ -4,7 +4,7 @@ bits 32
 section s_711ED progbits alloc exec nowrite align=1
 extern asc_11DFC8, BlackPalette, byte_11FA2F, byte_17BDAE, byte_17CA1D, byte_17CA1E, byte_17CA1F, byte_17CA21
 extern byte_17CA22, byte_17CA5D, byte_17CA5E, byte_17D650, byte_17D651, CopyBitmap, DrawColorText, DrawFrameAt
-extern dword_114CD3, dword_11D1A8, dword_11DF80, dword_11DF84, dword_11E278, dword_11E27C, dword_17BC78, dword_17BC7C
+extern dword_114CD3, dword_11D1A8, dword_11DF80, dword_11DF84, dword_11E278, dword_11E27C, dword_17BC78, TeamStatsBitmap
 extern dword_17BCE2, dword_17BD48, GlobalSetData, dword_17C9F4, dword_17CA5C, dword_17D590, dword_17D594, dword_17D654
 extern dword_17D678, dword_17D67C, dword_17D680, dword_17D684, EditText, FadeOut, FadeOutMusic, FadePalette
 extern FillMusicStream, fputchar, GetInputDevices, GetLangText, GetTicks, globalset, InitMenuItems, JoystickTestScreen
@@ -669,7 +669,7 @@ ControlPicksScreen_177:
         mov esi, dword [dword_17D594]
         mov ecx, 66h
         lea edi, [dword esi+0462h]
-        mov esi, dword_17BC7C
+        mov esi, TeamStatsBitmap
         rep movsb
         mov eax, dword [dword_17D594]
         mov byte [dword eax+04A4h], 0Bh
@@ -4538,7 +4538,7 @@ ModemDialScreen:
         lea edi, [dword ebp-0320h]
         mov dword [dword ebp-0360h], eax
         mov eax, dword [dword ebp-036Ch]
-        mov esi, dword_17BC7C
+        mov esi, TeamStatsBitmap
         add esp, byte 8
         movsx eax, word [byte eax+0Eh]
         mov byte [dword ebp-0344h], 2
@@ -5025,7 +5025,7 @@ LinkSetupScreen:
         lea edx, [dword ebp-0C2h]
         add esp, byte 4
         mov eax, 3
-        mov esi, dword_17BC7C
+        mov esi, TeamStatsBitmap
         call InitMenuItems
         mov eax, 7
         mov ecx, 66h

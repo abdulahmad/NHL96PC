@@ -4,7 +4,7 @@ bits 32
 section s_64721 progbits alloc exec nowrite align=1
 extern abs_, BlackPalette, byte_17BDAE, byte_17CA1E, CopyBitmap, dword_11D1A8, dword_11D1AC, dword_11D1B0
 extern dword_11D1BC, dword_11D1C0, dword_11F5C0, dword_11F5C4, dword_152F50, dword_152F54, dword_152F58, dword_152F5C
-extern dword_17BC7C, dword_17BD48, dword_17C3E4, dword_17C3E8, dword_17C3EC, dword_17C3F0, dword_17C3F4, dword_17C3F8
+extern TeamStatsBitmap, dword_17BD48, dword_17C3E4, dword_17C3E8, dword_17C3EC, dword_17C3F0, dword_17C3F4, dword_17C3F8
 extern dword_17C3FC, dword_17C400, dword_17C404, dword_17C408, dword_17C40C, dword_17C410, dword_17C414, dword_17C418
 extern dword_17C41C, dword_17C420, dword_17C424, dword_17C428, dword_17C42C, dword_17C430, dword_17C434, dword_17C438
 extern dword_17C43C, dword_17C440, dword_17C444, dword_17C448, dword_17C44C, dword_17C450, dword_17C454, dword_17C458
@@ -2630,7 +2630,7 @@ MainMenuScreen_F3:
         lea edi, [dword ebp-0226h]
         mov dword [dword ebp-0266h], eax
         mov eax, dword [dword ebp-0272h]
-        mov esi, dword_17BC7C
+        mov esi, TeamStatsBitmap
         mov ecx, 66h
         movsx eax, word [byte eax+0Eh]
         add esp, byte 8

@@ -2,9 +2,9 @@
 bits 32
 %include "hockey.inc"
 section s_DFC33 progbits alloc exec nowrite align=1
-extern byte_11F668, byte_11F670, byte_11F68D, KbdCtrlDown, KbdAltDown, byte_11F6A8, byte_11F6C3, byte_11F708
-extern byte_11F714, byte_11F76F, byte_11F7CA, byte_11F825, byte_11F880, str_Punct_DrawRinkSurface, dword_11F61C, dword_11F620
-extern dword_11F660, dword_11F664, dword_11F66C, SavedKbdVecOffset, SavedInt16Offset, SavedRealKbdOffset, dword_11F994, BiosKeyFunc
+extern byte_11F668, KeyStateTable, byte_11F68D, KbdCtrlDown, KbdAltDown, KbdNumLock, KbdScrollLock, byte_11F708
+extern byte_11F714, byte_11F76F, byte_11F7CA, byte_11F825, byte_11F880, str_Punct_DrawRinkSurface, dword_11F61C, KeyBuffer
+extern KeyBufferHead, KeyBufferTail, KeyBufferMask, SavedKbdVecOffset, SavedInt16Offset, SavedRealKbdOffset, dword_11F994, BiosKeyFunc
 extern RestoreDS, sub_C27A4, DosSetVector, SavedKbdVecSelector, SavedInt16Selector, SavedRealKbdSegment, KbdDataSelector
 global RemoveKeyboardHandler_6F, RemoveKeyboardHandler, Int16Handler, Int16Service, sub_DFE9C, BiosKeyCall, unk_DFDDD
 ;-----------------------------------------------------------------------------
@@ -65,13 +65,13 @@ RemoveKeyboardHandler_6F:
         pop eax
         iret
 .2:
-        mov byte [dword ebx+byte_11F670], 1
+        mov byte [dword ebx+KeyStateTable], 1
         mov al, 20h
         db 0E6h,020h                            ; insn: out 20h,al
         db 083h,0FBh,03Ah                       ; insn: cmp ebx,3Ah
         db 074h, .6-($+2)
         db 0F6h,05h                             ; insn: test byte [0F6A8h],1
-        dd byte_11F6A8
+        dd KbdNumLock
         db 01h
         jne near .10
         test byte [byte_11F68D], 1
@@ -89,11 +89,11 @@ RemoveKeyboardHandler_6F:
 .4:
         LD or, eax, eax
         je short .5
-        mov ebx, dword [dword_11F660]
-        mov dword [nosplit ebx*4+dword_11F620], eax
+        mov ebx, dword [KeyBufferHead]
+        mov dword [nosplit ebx*4+KeyBuffer], eax
         add ebx, byte 1
-        and ebx, dword [dword_11F66C]
-        mov dword [dword_11F660], ebx
+        and ebx, dword [KeyBufferMask]
+        mov dword [KeyBufferHead], ebx
 .5:
         pop ds
         pop ebx
@@ -120,7 +120,7 @@ RemoveKeyboardHandler_6F:
         jne short .3
         cmp dword [dword_11F61C], byte 0
         je short .3
-        mov byte [dword ebx+byte_11F670], 0
+        mov byte [dword ebx+KeyStateTable], 0
         call sub_C27A4
         jmp short .3
 .9:
@@ -138,7 +138,7 @@ RemoveKeyboardHandler_6F:
         mov al, byte [dword ebx+byte_11F7CA]
         jmp near .3
 .13:
-        test byte [byte_11F6C3], 1
+        test byte [KbdScrollLock], 1
         je short .11
 .14:
         cmp dword [dword_11F61C], byte 0
@@ -220,20 +220,20 @@ Int16Service:
         LD or, eax, eax
         ret
 .2:
-        mov ebx, dword [dword_11F664]
-        cmp ebx, dword [dword_11F660]
+        mov ebx, dword [KeyBufferTail]
+        cmp ebx, dword [KeyBufferHead]
         je short .1
-        mov eax, dword [nosplit ebx*4+dword_11F620]
+        mov eax, dword [nosplit ebx*4+KeyBuffer]
         LD or, eax, eax
         ret
 .3:
-        mov ebx, dword [dword_11F664]
-        cmp ebx, dword [dword_11F660]
+        mov ebx, dword [KeyBufferTail]
+        cmp ebx, dword [KeyBufferHead]
         je short .3
-        mov eax, dword [nosplit ebx*4+dword_11F620]
+        mov eax, dword [nosplit ebx*4+KeyBuffer]
         add ebx, byte 1
-        and ebx, dword [dword_11F66C]
-        mov dword [dword_11F664], ebx
+        and ebx, dword [KeyBufferMask]
+        mov dword [KeyBufferTail], ebx
         LD or, eax, eax
         ret
 .4:
@@ -250,7 +250,7 @@ sub_DFE9C:
         push ebp
         LD mov, ebp, esp
         mov ebx, dword [byte ebp+08h]
-        movzx eax, byte [dword ebx+byte_11F670]
+        movzx eax, byte [dword ebx+KeyStateTable]
         leave
         ret
 ;-----------------------------------------------------------------------------

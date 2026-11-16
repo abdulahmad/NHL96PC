@@ -6,7 +6,7 @@ extern byte_17BB64, byte_17BCBE, byte_17BCBF, byte_17BCC0, byte_17BCC1, byte_17B
 extern byte_17BD27, byte_17BD8A, byte_17BD8B, byte_17BD8C, byte_17BD8D, byte_17BDAE, byte_17BDAF, byte_17BDB0
 extern CopyBitmap, DrawFrameAt, dword_11BCE0, dword_11BCE4, dword_17BA7C, dword_17BAB0, dword_17BAB4, dword_17BAE8
 extern dword_17BAEC, dword_17BB20, dword_17BC64, dword_17BC68, dword_17BC6C, dword_17BC70, dword_17BC74, dword_17BC78
-extern dword_17BC7C, dword_17BC8C, dword_17BC90, dword_17BC96, dword_17BC9A, dword_17BCA2, dword_17BCA6, dword_17BCAE
+extern TeamStatsBitmap, dword_17BC8C, dword_17BC90, dword_17BC96, dword_17BC9A, dword_17BCA2, dword_17BCA6, dword_17BCAE
 extern dword_17BCB6, dword_17BCBA, dword_17BCE2, dword_17BCF2, dword_17BCF6, dword_17BCFC, dword_17BD00, dword_17BD08
 extern dword_17BD0C, dword_17BD14, dword_17BD1C, dword_17BD20, dword_17BD48, dword_17BD58, dword_17BD5C, dword_17BD62
 extern dword_17BD66, dword_17BD6E, dword_17BD72, dword_17BD7A, dword_17BD82, dword_17BD86, GetTicks, InitMenuItems
@@ -196,12 +196,12 @@ LoadFrontEndArt:
         mov dword [dword_17BD86], 1C0h
         mov dword [dword_17BD62], eax
         add eax, 7ABDh
-        mov edx, dword_17BC7C
+        mov edx, TeamStatsBitmap
         mov dword [dword_17BD66], eax
         mov eax, 1
         mov dword [dword_17BD7A], 33h
         call InitMenuItems
-        mov dword [dword_17BC7C], 0FFFFFFFFh
+        mov dword [TeamStatsBitmap], 0FFFFFFFFh
         mov dword [dword_17BC8C], 8
         mov dword [dword_17BC90], unk_11BD68
         mov dword [dword_17BCA2], 11h
@@ -652,7 +652,7 @@ FreeFrontEndArt:
         mov edx, dword_17BD48
         mov eax, 1
         call InitMenuItems
-        mov edx, dword_17BC7C
+        mov edx, TeamStatsBitmap
         mov eax, 1
         call InitMenuItems
         mov edx, dword_17BCE2

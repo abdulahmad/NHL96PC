@@ -12,7 +12,7 @@ global dword_179E17, dword_179E1B, dword_179E1F, dword_179E23, dword_179E27, dwo
 global dword_179E37, dword_179E3B, dword_179E3F, dword_179E43, dword_179E4C, dword_179E50, dword_17BA30, dword_17BA34
 global dword_17BA38, dword_17BA3C, dword_17BA40, dword_17BA44, dword_17BA48, dword_17BA4C, dword_17BA50, dword_17BA54
 global dword_17BA7C, dword_17BAB0, dword_17BAB4, dword_17BAE8, dword_17BAEC, dword_17BB20, dword_17BC64, dword_17BC68
-global dword_17BC6C, dword_17BC70, dword_17BC74, dword_17BC78, dword_17BC7C, dword_17BC8C, dword_17BC90, dword_17BC96
+global dword_17BC6C, dword_17BC70, dword_17BC74, dword_17BC78, TeamStatsBitmap, dword_17BC8C, dword_17BC90, dword_17BC96
 global dword_17BC9A, dword_17BCA2, dword_17BCA6, dword_17BCAE, dword_17BCB6, dword_17BCBA, dword_17BCE2, dword_17BCF2
 global dword_17BCF6, dword_17BCFC, dword_17BD00, dword_17BD08, dword_17BD0C, dword_17BD14, dword_17BD1C, dword_17BD20
 global dword_17BD48, dword_17BD58, dword_17BD5C, dword_17BD62, dword_17BD66, dword_17BD6E, dword_17BD72, dword_17BD7A
@@ -194,7 +194,7 @@ dword_17BC74:
         resb 4
 dword_17BC78:
         resb 4
-dword_17BC7C:
+TeamStatsBitmap:
         resb 16
 dword_17BC8C:
         resb 4

@@ -4,7 +4,7 @@ bits 32
 section s_A3851 progbits alloc exec nowrite align=1
 extern BlackPalette, byte_17D275, byte_17D283, ComputeTeamRanks, CopyBitmap, DrawFrameAt, dword_11ED3C, dword_11ED40
 extern dword_11ED58, dword_11ED5C, dword_11ED60, dword_11ED64, dword_11ED68, dword_11ED6C, dword_11ED70, dword_11ED74
-extern dword_17BC78, dword_17BC7C, dword_17BCE2, dword_17BD48, dword_17D273, dword_1846F0, dword_1846F4, dword_1846F8
+extern dword_17BC78, TeamStatsBitmap, dword_17BCE2, dword_17BD48, dword_17D273, dword_1846F0, dword_1846F4, dword_1846F8
 extern FadeOut, FadePalette, FillMusicStream, gameopts, GetTeamNameArt, GetTicks, InitMenuItems, LinkSetupScreen
 extern LoadModemStats, LoadPackedFile, LoadTeamLogo, ModemChat, mousex, mousey, MusicDone, OpenScreen
 extern PlayMusic, PutBlock, RunControllerScreen, RunMenu, RunModemSetup, SetDrawBitmap, SetMenuMouse, SetScreenColors
@@ -516,7 +516,7 @@ ModemTeamSelectScreen:
         mov ecx, 66h
         lea edi, [dword ebp-02F2h]
         movsx eax, word [byte eax+0Eh]
-        mov esi, dword_17BC7C
+        mov esi, TeamStatsBitmap
         mov dword [dword ebp-032Eh], eax
         mov ax, word [word_114CE0]
         mov dword [dword ebp-031Eh], 146h

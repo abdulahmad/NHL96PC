@@ -4,7 +4,7 @@ bits 32
 section s_6CF0D progbits alloc exec nowrite align=1
 extern BlackPalette, byte_11FA2F, ClearSlotUser, CopyBitmap, DrawColorText, DrawColorTextRight, DrawFrameAt, dword_1150D8
 extern dword_11D910, dword_11D914, dword_11D930, dword_11D940, dword_11D954, dword_11DED0, dword_11DED4, dword_11DF70
-extern dword_11DF74, dword_11DF78, dword_11DF7C, dword_11F5C0, dword_11F5C4, dword_17BC74, dword_17BC78, dword_17BC7C
+extern dword_11DF74, dword_11DF78, dword_11DF7C, dword_11F5C0, dword_11F5C4, dword_17BC74, dword_17BC78, TeamStatsBitmap
 extern dword_17BCE2, dword_17BD48, dword_17CBE7, dword_17D162, dword_17D267, dword_17D564, dword_17D56C, dword_17D574
 extern dword_17D57C, dword_17D580, dword_17D584, dword_17D588, dword_1843AC, dword_1843B0, dword_1843B4, FadeOut
 extern FadePalette, FillMusicStream, fputchar, gameopts, GetInputDevices, GetLangText, GetTeamNameArt, GetTicks
@@ -3488,7 +3488,7 @@ ControllerScreen:
         mov esi, dword [dword_17D580]
         mov ecx, 66h
         lea edi, [dword esi+08C4h]
-        mov esi, dword_17BC7C
+        mov esi, TeamStatsBitmap
         rep movsb
         mov esi, dword [dword_17D580]
         mov ecx, 66h

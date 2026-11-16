@@ -4,7 +4,7 @@ bits 32
 section s_884BD progbits alloc exec nowrite align=1
 extern abs_, byte_17BDAE, byte_17CBEB, byte_17D13A, DrawColorText, DrawColorTextCentred, DrawScrollBar, dword_1174E8
 extern dword_1174F0, dword_11D59C, dword_11D674, dword_11E624, dword_11E664, dword_11E668, dword_11E66C, dword_11E670
-extern dword_11E678, dword_17BC7C, dword_17DC74, dword_17DC78, dword_17DC7C, dword_17DC80, dword_17DD34, dword_17DD38
+extern dword_11E678, TeamStatsBitmap, dword_17DC74, dword_17DC78, dword_17DC7C, dword_17DC80, dword_17DD34, dword_17DD38
 extern dword_17DD3C, dword_17DD40, dword_17DD44, dword_17DD48, dword_17DD4C, dword_17DD50, dword_17DD54, dword_17DD58
 extern dword_17DD5C, dword_17DD60, dword_17DD64, dword_17DD68, dword_17DD6C, dword_17DD70, dword_17DD74, dword_17DD78
 extern dword_17DD7C, dword_17DD80, dword_17DD8C, dword_17DD90, dword_17DD94, dword_17DD98, dword_17DD9C, dword_17DDA0
@@ -1501,7 +1501,7 @@ TeamStatsScreen_96F:
         mov ecx, 66h
         push dword 10Eh
         mov edi, dword [byte ebp-012h]
-        mov esi, dword_17BC7C
+        mov esi, TeamStatsBitmap
         push dword 1EAh
         rep movsb
         call sub_AD35C

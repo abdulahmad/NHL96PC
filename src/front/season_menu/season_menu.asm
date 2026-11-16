@@ -6,7 +6,7 @@ extern __STOSB, BlackPalette, byte_11D74B, byte_17BDAE, byte_17CBEB, byte_17CC1E
 extern byte_17CC37, byte_17CC38, byte_17CECB, byte_17CECC, byte_17CECD, byte_17CECE, byte_17CFB1, byte_17D262
 extern byte_17D26F, byte_17D270, byte_17D271, byte_184B28, DrawArtOpaque, DrawColorText, DrawColorTextCentred, DrawScrollBar
 extern DrawSeasonTeams, dword_1150D8, dword_1150FC, dword_1174E0, dword_1174E8, dword_1174F0, dword_117500, dword_117510
-extern dword_11D59C, dword_11D674, dword_11D744, dword_11E39C, dword_17BC78, dword_17BC7C, dword_17BD48, dword_17CB2F
+extern dword_11D59C, dword_11D674, dword_11D744, dword_11E39C, dword_17BC78, TeamStatsBitmap, dword_17BD48, dword_17CB2F
 extern dword_17CBE7, dword_17CC13, dword_17CC17, dword_17CC1B, dword_17CEC3, dword_17CEC7, dword_17CED1, dword_17CED6
 extern dword_17D1E2, dword_17D202, dword_17D7CC, dword_17D7D0, FadeOut, FadePalette, FileClose, FileOpenRead
 extern FillBox, FillMusicStream, FreeScrollBar, FreeStatsTables, gameopts, GetLangText, HideMessage, HideProgressBox
@@ -103,7 +103,7 @@ SeasonMenuScreen:
         call sprintf_
         add esp, byte 0Ch
         lea eax, [byte ebp-022h]
-        mov esi, dword_17BC7C
+        mov esi, TeamStatsBitmap
         call DrawColorTextCentred
         mov eax, dword [byte ebp+07Ah]
         lea ebx, [dword ebp-0122h]
@@ -3153,7 +3153,7 @@ PickIndexEntryScreen:
         add esp, byte 8
         push eax
         lea edi, [dword ebp-0BB6h]
-        mov esi, dword_17BC7C
+        mov esi, TeamStatsBitmap
         call sub_AADA4
         add esp, byte 4
         mov eax, 6

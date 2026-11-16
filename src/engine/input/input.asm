@@ -14,7 +14,7 @@ extern sub_3509F, sub_3E665, BlockShotDive, checkob, dopass, passmode, setpassmo
 extern sub_415FF, SetShotMode, ShotMode, Findhittype, doshot, SetSPA, sub_46593, changeplayer
 extern updateanim, doplayeracc, playeracc, sub_4DD1B, burst, PlaySfx, sfx, MouseRead
 extern vecdist, unk_164754, unk_164B5C, vtoa, word_1178A8, word_1178AC, word_1178AE, word_1178B4
-extern fodir1, fodir2, gmode2, word_1178CA, slotteam, gsp, word_118EA5, word_118EA9
+extern fodir1, fodir2, gmode2, HomeControlSlot, slotteam, gsp, word_118EA5, word_118EA9
 extern word_118EB1, word_119EDA, word_16474C, word_164794, word_165078, word_165082, word_1656E8, word_165704
 extern word_165710, regd0, regd1
 global Acheck, CtlSwapScoreFix, CtlSwapTeamFlag, OppInReach, ReadJoy1, ReassignCtlPlayer, asspassrec, getlchoice
@@ -3196,7 +3196,7 @@ ReassignCtlPlayer:
         lea edx, [eax+eax]
         mov eax, slotteam
         add eax, edx
-        add edx, word_1178CA
+        add edx, HomeControlSlot
         cmp word [eax], byte 0
         jne short .1
         movsx eax, word [edx]

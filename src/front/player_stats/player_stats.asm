@@ -6,7 +6,7 @@ extern __CHP, asc_112831, asc_112837, byte_11E700, byte_16580A, byte_16580B, byt
 extern byte_17D13A, byte_17EBF0, byte_17FAEF, byte_17FAF0, byte_17FFD5, byte_180302, byte_1820F0, byte_1820F1
 extern CheckExportName, DrawColorText, DrawColorTextCentred, DrawScrollBar, dword_1174E8, dword_1174EC, dword_1174F0, dword_11E4B8
 extern dword_11E670, dword_11E674, dword_11E678, dword_11E67C, dword_11E6AC, dword_11E75A, dword_11E75E, dword_1657F6
-extern dword_1657FA, dword_1657FE, dword_17BC78, dword_17BC7C, dword_17BCE2, dword_17CBE7, dword_17D162, dword_17D267
+extern dword_1657FA, dword_1657FE, dword_17BC78, TeamStatsBitmap, dword_17BCE2, dword_17CBE7, dword_17D162, dword_17D267
 extern dword_17E9D0, dword_17E9D4, dword_17E9D8, dword_17E9DC, dword_17EA50, dword_17EA54, dword_17EA58, dword_17EA5C
 extern dword_17EA60, dword_17EA64, dword_17EA68, dword_17EA6C, dword_17EA70, dword_17EA74, dword_17EA78, dword_17EA7C
 extern dword_17EA80, dword_17EA84, dword_17EA88, dword_17EA8C, dword_17EA90, dword_17EA94, dword_17EA98, dword_17EA9C
@@ -1438,7 +1438,7 @@ PlayerStatsScreen:
         mov ax, word [word_114CE0]
         mov edi, unk_17FDF8
         xor ah, ah
-        mov esi, dword_17BC7C
+        mov esi, TeamStatsBitmap
         and al, 1
         mov byte [byte_1820F0], 0
         cwde

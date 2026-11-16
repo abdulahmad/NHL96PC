@@ -28,7 +28,7 @@ extern PlaySfx, sfx, CrowdReaction, PlayArenaClip, StopArenaClip, vecdist, threa
 extern unk_118FA5, unk_156E6C, unk_156FFC, unk_157AF8, unk_157B0A, unk_157B1C, unk_157B4F, unk_157B82
 extern unk_157D8F, unk_157F9C, unk_157FDA, unk_1582F5, unk_158610, unk_164B5C, unk_165258, unk_165354
 extern unk_176D0C, unk_176E9C, vtoa, word_1178A0, word_1178A2, word_1178A8, word_1178B4, yc1
-extern word_1178B8, fodir1, fodir2, gmode2, word_1178CA, slotteam, word_1178F4, word_1178F8
+extern word_1178B8, fodir1, fodir2, gmode2, HomeControlSlot, slotteam, word_1178F4, word_1178F8
 extern gsp, word_117902, word_117914, word_117916, word_118E8F, exitgame, gameover, word_118E95
 extern word_118E9F, word_118EA3, word_118EAF, word_118EB7, word_11910B, word_119111, word_119113, word_119169
 extern word_11916B, word_119FF8, word_11A008, word_11A01A, word_11A0D9, word_11D3A2, word_164794, word_16479E
@@ -217,7 +217,7 @@ changeplayer:
         mov edx, ebx
         add ebx, ebx
         movsx eax, word [dword eax+086h]
-        movsx esi, word [dword ebx+word_1178CA]
+        movsx esi, word [dword ebx+HomeControlSlot]
         mov ecx, eax
         cmp eax, esi
         je near changeplayer_316
@@ -225,7 +225,7 @@ changeplayer:
 .12:
         cwde
         call restorepl
-        mov word [dword ebx+word_1178CA], ax
+        mov word [dword ebx+HomeControlSlot], ax
         jmp near changeplayer_316
 .13:
         inc esi
@@ -237,14 +237,14 @@ changeplayer:
 .15:
         movsx ebx, dx
         add ebx, ebx
-        cmp word [dword ebx+word_1178CA], byte 0
+        cmp word [dword ebx+HomeControlSlot], byte 0
         jl near changeplayer_316
-        movsx eax, word [dword ebx+word_1178CA]
+        movsx eax, word [dword ebx+HomeControlSlot]
         imul eax, dword 0A0h
         add eax, SortCords
         mov dword [byte eax+07Ah], 0FFFFFFFFh
         and byte [byte eax+044h], 0F7h
-        mov word [dword ebx+word_1178CA], 0FFFFh
+        mov word [dword ebx+HomeControlSlot], 0FFFFh
         jmp near changeplayer_316
 .16:
         mov ecx, dword [puckvx]
@@ -333,7 +333,7 @@ changeplayer:
         mov ecx, SortCords
         add ecx, eax
         movsx eax, dx
-        cmp si, word [nosplit eax*2+word_1178CA]
+        cmp si, word [nosplit eax*2+HomeControlSlot]
         jne short .23
         cmp word [byte ebx+01Ah], byte 0
         je short .23
@@ -351,14 +351,14 @@ changeplayer:
         mov ecx, ebx
         add ebx, ebx
         movsx eax, si
-        movsx edx, word [dword ebx+word_1178CA]
+        movsx edx, word [dword ebx+HomeControlSlot]
         mov esi, eax
         cmp eax, edx
         je short changeplayer_316
         movsx edx, cx
         jmp near .12
 .25:
-        mov word [nosplit eax*2+word_1178CA], 0FFFFh
+        mov word [nosplit eax*2+HomeControlSlot], 0FFFFh
 changeplayer_316:
         leave
         pop edi
@@ -377,7 +377,7 @@ restorepl:
         mov ebx, eax
         mov ecx, edx
         movsx esi, dx
-        mov si, word [nosplit esi*2+word_1178CA]
+        mov si, word [nosplit esi*2+HomeControlSlot]
         test si, si
         jl short .2
         movsx eax, si
@@ -2290,7 +2290,7 @@ GiveControl:
         cmp si, word [regd1]
         jne short .6
         mov si, word [lastplayer]
-        cmp si, word [dword eax+word_1178CA]
+        cmp si, word [dword eax+HomeControlSlot]
         jne short .6
         mov ebx, ecx
         jmp short .8
@@ -2307,14 +2307,14 @@ GiveControl:
         movsx eax, dx
         mov edx, ebx
         add ebx, ebx
-        movsx ecx, word [dword ebx+word_1178CA]
+        movsx ecx, word [dword ebx+HomeControlSlot]
         mov esi, eax
         cmp eax, ecx
         je short .9
         movsx edx, dx
         cwde
         call restorepl
-        mov word [dword ebx+word_1178CA], ax
+        mov word [dword ebx+HomeControlSlot], ax
 .9:
         pop esi
         pop edx
@@ -3768,14 +3768,14 @@ StartPer:
         mov eax, dword [hmfirstslot]
         and byte [byte_164920], 0F7h
         mov dword [dword_164956], eax
-        mov word [nosplit eax*2+word_1178CA], 2
+        mov word [nosplit eax*2+HomeControlSlot], 2
 .1:
         cmp dword [awslotcount], byte 0
         je short .2
         mov eax, dword [awfirstslot]
         and byte [byte_164CE0], 0F7h
         mov dword [dword_164D16], eax
-        mov word [nosplit eax*2+word_1178CA], 8
+        mov word [nosplit eax*2+HomeControlSlot], 8
 .2:
         mov byte [goalevent], 0FFh
         mov word [word_119111], 0FFFFh
@@ -5628,7 +5628,7 @@ setupice:
         jmp short .5
 .4:
         inc edx
-        mov word [nosplit eax*2+word_1178CA], 0FFFFh
+        mov word [nosplit eax*2+HomeControlSlot], 0FFFFh
 .5:
         movsx eax, dx
         cmp eax, byte 4
@@ -5732,7 +5732,7 @@ clockcont_0:
 .10:
         lea ebx, [edx+edx]
         inc eax
-        mov word [dword ebx+word_1178CA], 0FFFFh
+        mov word [dword ebx+HomeControlSlot], 0FFFFh
 .11:
         movsx edx, ax
         cmp edx, byte 4

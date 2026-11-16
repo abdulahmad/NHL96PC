@@ -3571,6 +3571,7 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 1178C3,gmode,,95PC,medium,NHL95PC C90BB (refset): referenced by the same 11 matched functions,
 1178C4,sflags,,95PC,medium,NHL95PC C90BC (refset): referenced by the same 4 matched functions,
 1178C6,gmode2,word_1178C6,95PC,high,assfaceoff tests bit 0 as NHL95PC assfaceoff tests gmode2 bit 0; lines up in TryBlockShot and chkprogress too,src/data/front/front_2A692_data_02.asm
+1178CA,HomeControlSlot,word_1178CA,new,medium,home control slot (-1 none),src/data/front/front_2A692_data_02.asm
 1178D2,slotteam,word_1178D2,new,medium,"4 words read by CountTeamSlots: 1 home, 2 away",src/data/front/front_2A692_data_02.asm
 1178DA,hmslotcount,dword_1178DA,new,medium,CountTeamSlots: slots with slotteam 1,src/data/front/front_2A692_data_02.asm
 1178DE,awslotcount,dword_1178DE,new,medium,CountTeamSlots: slots with slotteam 2,src/data/front/front_2A692_data_02.asm
@@ -3635,8 +3636,15 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 11F5F0,str_Punct_DrawRinkSurface,dword_11F5F0,new,high,"string ""\n""",src/data/lib/watcom/watcom_clib_05_data_02.asm
 11F600,mousepollfn,,95PC,medium,NHL95PC D3078 (refset): referenced by the same 2 matched functions,
 11F618,BiosKeyFunc,off_11F618,new,low,routine that calls the BIOS keyboard service,src/data/lib/watcom/watcom_clib_05_data_02.asm
+11F620,KeyBuffer,dword_11F620,new,medium,keyboard buffer ring,src/data/lib/watcom/watcom_clib_05_data_02.asm
+11F660,KeyBufferHead,dword_11F660,new,medium,keyboard buffer read position,src/data/lib/watcom/watcom_clib_05_data_02.asm
+11F664,KeyBufferTail,dword_11F664,new,medium,keyboard buffer write position,src/data/lib/watcom/watcom_clib_05_data_02.asm
+11F66C,KeyBufferMask,dword_11F66C,new,medium,keyboard buffer index mask,src/data/lib/watcom/watcom_clib_05_data_02.asm
+11F670,KeyStateTable,byte_11F670,new,medium,key down state per scan code,src/data/lib/watcom/watcom_clib_05_data_02.asm
 11F69A,KbdCtrlDown,byte_11F69A,new,medium,control held,src/data/lib/watcom/watcom_clib_05_data_02.asm
 11F6A6,KbdAltDown,byte_11F6A6,new,medium,alt held,src/data/lib/watcom/watcom_clib_05_data_02.asm
+11F6A8,KbdNumLock,byte_11F6A8,new,medium,num lock toggle,src/data/lib/watcom/watcom_clib_05_data_02.asm
+11F6C3,KbdScrollLock,byte_11F6C3,new,medium,scroll lock toggle,src/data/lib/watcom/watcom_clib_05_data_02.asm
 11F6F0,SavedKbdVecOffset,dword_11F6F0,new,medium,previous keyboard interrupt offset,src/data/lib/watcom/watcom_clib_05_data_02.asm
 11F6F4,SavedKbdVecSelector,word_11F6F4,new,medium,previous keyboard interrupt selector,src/data/lib/watcom/watcom_clib_05_data_02.asm
 11F6F6,SavedInt16Offset,dword_11F6F6,new,medium,previous INT 16h offset,src/data/lib/watcom/watcom_clib_05_data_02.asm
@@ -3800,9 +3808,11 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 1448DC,MixerChannels,unk_1448DC,new,medium,mixer channel records (74h bytes each),src/data/lib/watcom/watcom_clib_14_data_01.asm
 14EF9C,MixerReady,dword_14EF9C,new,low,mixer initialised,src/data/lib/watcom/watcom_clib_14_data_01.asm
 14EFA4,MixerOutputRate,dword_14EFA4,new,low,mixer output rate,src/data/lib/watcom/watcom_clib_14_data_01.asm
+14EFA8,Mixer16Bit,dword_14EFA8,new,medium,mixer output is 16-bit,src/data/lib/watcom/watcom_clib_14_data_01.asm
 14EFB0,MixerChunkSamples,dword_14EFB0,new,low,samples in this mixer chunk,src/data/lib/watcom/watcom_clib_14_data_01.asm
 14EFB4,MixerChunkLeft,dword_14EFB4,new,low,samples left in this mixer chunk,src/data/lib/watcom/watcom_clib_14_data_01.asm
 14EFC4,MixerLoopLength,dword_14EFC4,new,medium,mixer loop length,src/data/lib/watcom/watcom_clib_14_data_01.asm
+14EFC8,MixerLoopLimit,dword_14EFC8,new,medium,mixer loop limit,src/data/lib/watcom/watcom_clib_14_data_01.asm
 14EFCC,MixerLoopStart,dword_14EFCC,new,medium,mixer loop start,src/data/lib/watcom/watcom_clib_14_data_01.asm
 14EFDC,MixerChannelTable,off_14EFDC,new,low,mixer channel record per channel,src/data/lib/watcom/watcom_clib_14_data_01.asm
 14F030,GusDriverIsOpen,dword_14F030,new,medium,set while the Gravis driver is open,src/data/lib/sound/snd_soundblaster_data_02.asm
@@ -3943,6 +3953,7 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 176DD4,dressflags,,95PC,medium,NHL95PC E9E18 (refset): referenced by the same 2 matched functions,
 176E06,offsort_fwd,,95PC,medium,NHL95PC E9E4A (refset): referenced by the same 6 matched functions,
 176ED2,dressedskaters,,95PC,medium,NHL95PC E9F16 (refset): referenced by the same 2 matched functions,
+17BC7C,TeamStatsBitmap,dword_17BC7C,new,medium,team stats bitmap,src/data/front/front_5D993_bss_01.asm
 17BDE0,IntroPalette,unk_17BDE0,new,low,intro palette,src/data/front/front_5D993_bss_01.asm
 17C96C,tgvpalpending,dword_17C96C,new,medium,the TGV player has a palette chunk for this frame,src/data/front/front_67000_bss_01.asm
 17C9A0,gameopts,,95PC,medium,NHL95PC C53FF (refset): referenced by the same 7 matched functions,

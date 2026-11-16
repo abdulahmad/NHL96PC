@@ -5,7 +5,7 @@ section s_93E6A progbits alloc exec nowrite align=1
 extern __CHP, byte_11E844, byte_11E852, byte_17EBF0, byte_17EC0C, DrawColorText, DrawColorTextCentred, DrawColorTextRight
 extern DrawLeagueLogo, DrawScrollBar, dword_11E670, dword_11E678, dword_11E684, dword_11E6B4, dword_11E7E0, dword_11E85B
 extern dword_11E890, dword_11E894, dword_11E898, dword_11E89C, dword_11E8A0, dword_11E8A4, dword_11E8A8, dword_11E8AC
-extern dword_11E8FC, dword_11E900, dword_17BC7C, dword_17EEF0, dword_17FDF0, dword_17FDF4, dword_181EAC, dword_1820AC
+extern dword_11E8FC, dword_11E900, TeamStatsBitmap, dword_17EEF0, dword_17FDF0, dword_17FDF4, dword_181EAC, dword_1820AC
 extern dword_1820B0, dword_1820E4, dword_1820E8, dword_1820EC, dword_18210C, dword_182128, dword_18212C, dword_182130
 extern dword_182134, dword_182138, dword_18213C, dword_182140, FadeOut, FadePalette, FillMusicStream, FillRect
 extern FreeScrollBar, GetLangText, GetTicks, InitMenuItems, InitVScrollBar, jpt_93E46, LoadPackedFile, off_11E8B0
@@ -570,7 +570,7 @@ PlayerRatingsScreen:
         lea eax, [dword ebp-0236h]
         mov ecx, 66h
         lea edi, [dword ebp-0EE2h]
-        mov esi, dword_17BC7C
+        mov esi, TeamStatsBitmap
         mov dword [dword ebp-0F34h], eax
         push str_S1up
         rep movsb

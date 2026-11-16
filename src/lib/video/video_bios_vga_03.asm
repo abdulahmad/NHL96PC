@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_E19F0 progbits alloc exec nowrite align=1
-extern str_MUSICON, str_MUSICOFF, str_SOUNDON, str_SOUNDOFF, byte_11F670, byte_1241C4, byte_124244, SavedTextMode
+extern str_MUSICON, str_MUSICOFF, str_SOUNDON, str_SOUNDOFF, KeyStateTable, byte_1241C4, byte_124244, SavedTextMode
 extern SavedTextPage, SavedTextRows, byte_14FAC0, byte_14FAC1, byte_14FAC2, byte_14FAC3, byte_14FAC5, byte_14FAC6
 extern byte_14FAC8, byte_14FAC9, byte_14FACB, byte_14FACC, AngleOctantTable, TimerTickStep, SinCosTable, SinTable
 extern CosTable, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, str_BK, dword_123390, HotkeyNesting
@@ -1300,52 +1300,52 @@ sub_E272C:
         LD xor, eax, eax
         LD xor, ebx, ebx
         mov bl, byte [byte_14FAC0]
-        cmp byte [dword ebx+byte_11F670], 0
+        cmp byte [dword ebx+KeyStateTable], 0
         je short .1
         or al, 10h
 .1:
         mov bl, byte [byte_14FAC1]
-        cmp byte [dword ebx+byte_11F670], 0
+        cmp byte [dword ebx+KeyStateTable], 0
         je short .2
         or al, 20h
 .2:
         mov bl, byte [byte_14FAC2]
-        cmp byte [dword ebx+byte_11F670], 0
+        cmp byte [dword ebx+KeyStateTable], 0
         je short .3
         or al, 9
 .3:
         mov bl, byte [byte_14FAC3]
-        cmp byte [dword ebx+byte_11F670], 0
+        cmp byte [dword ebx+KeyStateTable], 0
         je short .4
         or al, 1
 .4:
         mov bl, byte [byte_14FAC5]
-        cmp byte [dword ebx+byte_11F670], 0
+        cmp byte [dword ebx+KeyStateTable], 0
         je short .5
         or al, 5
 .5:
         mov bl, byte [byte_14FAC6]
-        cmp byte [dword ebx+byte_11F670], 0
+        cmp byte [dword ebx+KeyStateTable], 0
         je short .6
         or al, 4
 .6:
         mov bl, byte [byte_14FAC8]
-        cmp byte [dword ebx+byte_11F670], 0
+        cmp byte [dword ebx+KeyStateTable], 0
         je short .7
         or al, 6
 .7:
         mov bl, byte [byte_14FAC9]
-        cmp byte [dword ebx+byte_11F670], 0
+        cmp byte [dword ebx+KeyStateTable], 0
         je short .8
         or al, 2
 .8:
         mov bl, byte [byte_14FACB]
-        cmp byte [dword ebx+byte_11F670], 0
+        cmp byte [dword ebx+KeyStateTable], 0
         je short .9
         or al, 0Ah
 .9:
         mov bl, byte [byte_14FACC]
-        cmp byte [dword ebx+byte_11F670], 0
+        cmp byte [dword ebx+KeyStateTable], 0
         je short .10
         or al, 8
 .10:
@@ -1357,12 +1357,12 @@ sub_E272C:
         LD xor, ecx, ecx
         LD xor, ebx, ebx
         mov bl, byte [byte_14FAC0]
-        cmp byte [dword ebx+byte_11F670], 0
+        cmp byte [dword ebx+KeyStateTable], 0
         je short .12
         or cl, 10h
 .12:
         mov bl, byte [byte_14FAC1]
-        cmp byte [dword ebx+byte_11F670], 0
+        cmp byte [dword ebx+KeyStateTable], 0
         je short .13
         or cl, 20h
 .13:

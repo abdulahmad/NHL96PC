@@ -20,7 +20,7 @@ extern SetSPA, SprSort, changeplayer, GetHot, Setplass, setplayer, updateanim, S
 extern sub_4B4F3, doplayeracc, EvadePC, skateto, PostGoalEvent, AddPenalty2, EndPenaltyShot, PlaySfxOr
 extern PlaySfx, sfx, CrowdReaction, PlayArenaClip, StopArenaClip, vecdist, threat, unk_119D7C
 extern unk_119D9C, vtoa, word_1178A8, word_1178AC, word_1178AE, word_1178B4, yc1, fodir1
-extern fodir2, gmode2, word_1178CA, word_1178F8, word_1178FA, gsp, word_117902, word_117914
+extern fodir2, gmode2, HomeControlSlot, word_1178F8, word_1178FA, gsp, word_117902, word_117914
 extern word_117916, word_117AA2, word_118EA5, word_118EA9, word_118EB1, word_11910B, word_11910F, word_119DBC
 extern word_119DBE, word_119DE8, word_119DFE, word_119E44, word_119EBA, word_164796, word_16479A, word_16479E
 extern word_1647A2, word_1647B6, word_1647DA, word_1650A6, word_165144, word_1656E8, word_165710, word_16581E
@@ -3064,7 +3064,7 @@ asseben:
         mov eax, dword [dword_1178EA]
 .8:
         mov edx, eax
-        cmp word [nosplit eax*2+word_1178CA], byte 0
+        cmp word [nosplit eax*2+HomeControlSlot], byte 0
         jge short .9
         movsx edx, ax
         mov eax, ebx
@@ -3627,7 +3627,7 @@ assepen:
         mov eax, dword [dword_1178EA]
 .9:
         mov ecx, eax
-        cmp word [nosplit eax*2+word_1178CA], byte 0
+        cmp word [nosplit eax*2+HomeControlSlot], byte 0
         jge short .10
         movsx edx, ax
         mov eax, ebx

@@ -47,7 +47,7 @@ extern sub_DD975, sub_DDBB4, sub_E0486, sub_E04E0, sub_E0584, sub_E162A, SetView
 extern TextSetFont, unk_111024, unk_11B2AC, unk_122320, unk_157FDA, unk_157FF8, unk_1582F5, unk_158313
 extern unk_16443C, unk_1782AC, unk_1786AC, unk_178AAC, unk_1798C0, unk_179980, unk_179AC0, unk_179BBC
 extern unk_17B248, unk_17B518, unk_17B830, unk_17B930, unk_17D3E8, unk_58468, unk_5848C, vtoa
-extern word_1178CA, word_117902, word_119111, word_119117, word_11911F, word_119127, word_11B274, word_11B276
+extern HomeControlSlot, word_117902, word_119111, word_119117, word_11911F, word_119127, word_11B274, word_11B276
 extern word_1515B5, word_1647A8, word_1647AA, word_1650A6, word_165144, word_165146, word_165148, word_16514A
 extern word_16514C, word_1656DA, word_1656DC, word_1656E8, word_165704, word_165710, word_16581E, word_16583A
 extern word_165846, word_17709C
@@ -1477,7 +1477,7 @@ DrawControlMarker_41:
         cmp byte [dword esi+byte_176F96], 0
         jmp short .3
 .2:
-        movsx esi, word [nosplit eax*2+word_1178CA]
+        movsx esi, word [nosplit eax*2+HomeControlSlot]
         test esi, esi
         jl near DrawOverlayCaption_E1
         imul eax, esi, dword 0A0h
@@ -2913,7 +2913,7 @@ DrawGameFrame:
         mov ebx, 0FFFFFFFFh
         jmp short .23
 .22:
-        movsx ebx, word [nosplit ebx*2+word_1178CA]
+        movsx ebx, word [nosplit ebx*2+HomeControlSlot]
 .23:
         test ebx, ebx
         jl near .31

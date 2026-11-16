@@ -4,7 +4,7 @@ bits 32
 section s_849D5 progbits alloc exec nowrite align=1
 extern BlackPalette, byte_11FA2F, byte_17CFB1, byte_17D262, byte_17DB78, byte_17DC14, byte_17DC15, byte_17DC16
 extern byte_17DC17, CopyBitmap, DrawColorTextCentred, DrawColorTextRight, DrawFrameAt, dword_1174E0, dword_1174E4, dword_1174F0
-extern dword_1174F8, dword_117518, dword_11D674, dword_17BC74, dword_17BC78, dword_17BC7C, dword_17BCE2, dword_17BD48
+extern dword_1174F8, dword_117518, dword_11D674, dword_17BC74, dword_17BC78, TeamStatsBitmap, dword_17BCE2, dword_17BD48
 extern dword_17CBE7, dword_17CC13, dword_17CEC3, dword_17CEC7, dword_17CED6, dword_17CF8E, dword_17CF92, dword_17CF96
 extern dword_17D1E2, dword_17D26B, dword_17DB7C, dword_17DBC0, dword_17DBC4, dword_17DC0C, dword_17DC10, FadeOut
 extern FadePalette, FileClose, FileOpenRead, FillMusicStream, gameopts, GetLangText, GetTeamNameArt, GetTicks
@@ -198,7 +198,7 @@ PreGameMatchupScreen:
         or al, 6
         mov ecx, 66h
         cwde
-        mov esi, dword_17BC7C
+        mov esi, TeamStatsBitmap
         call OpenScreen
         rep movsb
         mov byte [dword ebp-0B0h], 0
@@ -782,7 +782,7 @@ PreGameTeamsScreen:
         mov ax, word [word_114CE0]
         xor ah, ah
         and al, 1
-        mov esi, dword_17BC7C
+        mov esi, TeamStatsBitmap
         or al, 6
         lea edi, [dword ebp-0152h]
         cwde
@@ -1957,7 +1957,7 @@ PreGameCardsA:
         and al, 1
         lea edi, [dword ebp-0126h]
         or al, 6
-        mov esi, dword_17BC7C
+        mov esi, TeamStatsBitmap
         cwde
         mov ecx, 66h
         call OpenScreen
@@ -2508,7 +2508,7 @@ PreGameCardsB:
         xor ah, ah
         lea edi, [dword ebp-0196h]
         and al, 1
-        mov esi, dword_17BC7C
+        mov esi, TeamStatsBitmap
         or al, 6
         add esp, byte 4
         cwde
@@ -3042,7 +3042,7 @@ PreGameCardsC:
         xor ah, ah
         lea edi, [dword ebp-017Eh]
         and al, 1
-        mov esi, dword_17BC7C
+        mov esi, TeamStatsBitmap
         or al, 6
         add esp, byte 4
         cwde

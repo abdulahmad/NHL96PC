@@ -5,9 +5,9 @@ section s_ACED8 progbits alloc exec nowrite align=1
 extern FatalError, _dos_getdate_, _dos_gettime_, asc_113484, str_2d02d02d2, asc_1134A4, asc_1134F4, asc_1134FC
 extern str_CreatewindowblockBADBLOC, str_CreatewindowblockOUTOFRO, byte_11FA4F, TintTable, byte_1219A7, QuantizeTable, dword_11F5C8, DebugMode
 extern dword_11F9DC, TintMulGreen, TintMulBlue, TintRowCount, TintPixelGreen, TintPixelBlue, TintMulRed, TintRemapTable
-extern TintPixelRed, fputs_, sprintf_, sub_AB718, sub_AC838, DebugShowLines, sub_C3C37, FillRowTable
-extern sub_E1836, sub_E1970, vsprintf_
-global sub_ACED8, sub_ACF68, sub_AD00C, sub_AD090, sub_AD2B4, sub_AD35C, TintRowPixels, TintRows
+extern TintPixelRed, fputs_, sprintf_, AllocMemBlockLocked, MemLargestFreeLocked, DebugShowLines, sub_C3C37, FillRowTable
+extern ZeroMem, sub_E1970, vsprintf_
+global sub_ACED8, sub_ACF68, sub_AD00C, CreateBitmapEx, sub_AD2B4, CreateBitmap, TintRowPixels, TintRows
 global sub_AD620
 ;-----------------------------------------------------------------------------
 ; sub_ACED8                                                            ACED8  
@@ -194,9 +194,11 @@ sub_AD00C:
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_AD090                                                            AD090  
+; CreateBitmapEx                               AD090  96 PC, medium confidence
+; Creates a bitmap of a width, height and depth (4/8/16/24/32 bits) in a
+; memory list, with its row table; stops on an error when asked
 ;-----------------------------------------------------------------------------
-sub_AD090:
+CreateBitmapEx:
         push esi
         push edi
         push ebp
@@ -247,14 +249,14 @@ sub_AD090:
         add eax, byte 40h
         push eax
         push asc_1134F4
-        call sub_AB718
+        call AllocMemBlockLocked
         add esp, byte 0Ch
         mov dword [esp], eax
         test eax, eax
         jne short .6
         cmp dword [byte esp+030h], byte 0
         je short .5
-        call sub_AC838
+        call MemLargestFreeLocked
         push eax
         push edi
         push ebp
@@ -290,7 +292,7 @@ sub_AD090:
 .8:
         push byte 40h
         push eax
-        call sub_E1836
+        call ZeroMem
         add esp, byte 8
         mov ecx, dword [byte esp+0Ch]
         lea eax, [byte ecx+030h]
@@ -381,7 +383,7 @@ sub_AD090:
         push ecx
         mov esi, dword [byte esp+018h]
         push esi
-        call sub_AD090
+        call CreateBitmapEx
         add esp, byte 14h
         pop esi
         ret
@@ -396,7 +398,7 @@ sub_AD090:
         push ecx
         mov esi, dword [byte esp+018h]
         push esi
-        call sub_AD090
+        call CreateBitmapEx
         add esp, byte 14h
         pop esi
         ret
@@ -413,7 +415,7 @@ sub_AD090:
         push esi
         mov edi, dword [byte esp+01Ch]
         push edi
-        call sub_AD090
+        call CreateBitmapEx
         add esp, byte 14h
         test eax, eax
         je short .18
@@ -436,7 +438,7 @@ sub_AD2B4:
         push ecx
         mov esi, dword [byte esp+018h]
         push esi
-        call sub_AD090
+        call CreateBitmapEx
         add esp, byte 14h
         mov eax, dword [eax]
         pop esi
@@ -452,7 +454,7 @@ sub_AD2B4:
         push ecx
         mov esi, dword [byte esp+018h]
         push esi
-        call sub_AD090
+        call CreateBitmapEx
         add esp, byte 14h
         test eax, eax
         je short .1
@@ -473,7 +475,7 @@ sub_AD2B4:
         push esi
         mov edi, dword [byte esp+01Ch]
         push edi
-        call sub_AD090
+        call CreateBitmapEx
         add esp, byte 14h
         test eax, eax
         je short .2
@@ -493,7 +495,7 @@ sub_AD2B4:
         push ecx
         mov esi, dword [byte esp+018h]
         push esi
-        call sub_AD090
+        call CreateBitmapEx
         add esp, byte 14h
         test eax, eax
         je short .3
@@ -503,9 +505,10 @@ sub_AD2B4:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_AD35C                                                            AD35C  
+; CreateBitmap                                 AD35C  96 PC, medium confidence
+; Creates a bitmap at the screen's pixel depth and returns its pixel block
 ;-----------------------------------------------------------------------------
-sub_AD35C:
+CreateBitmap:
         push esi
         push byte 1
         mov edx, dword [byte esp+014h]
@@ -516,7 +519,7 @@ sub_AD35C:
         push ecx
         mov esi, dword [byte esp+018h]
         push esi
-        call sub_AD090
+        call CreateBitmapEx
         add esp, byte 14h
         mov eax, dword [eax]
         pop esi
@@ -532,7 +535,7 @@ sub_AD35C:
         push ecx
         mov esi, dword [byte esp+018h]
         push esi
-        call sub_AD090
+        call CreateBitmapEx
         add esp, byte 14h
         test eax, eax
         je short .1
@@ -549,7 +552,7 @@ sub_AD35C:
         push ebx
         mov ecx, dword [byte esp+014h]
         push ecx
-        call sub_AD090
+        call CreateBitmapEx
         add esp, byte 14h
         test eax, eax
         je short .2
@@ -565,7 +568,7 @@ sub_AD35C:
         push ebx
         mov ecx, dword [byte esp+014h]
         push ecx
-        call sub_AD090
+        call CreateBitmapEx
         add esp, byte 14h
         mov eax, dword [eax]
         ret
@@ -580,7 +583,7 @@ sub_AD35C:
         push ecx
         mov esi, dword [byte esp+018h]
         push esi
-        call sub_AD090
+        call CreateBitmapEx
         add esp, byte 14h
         pop esi
         ret

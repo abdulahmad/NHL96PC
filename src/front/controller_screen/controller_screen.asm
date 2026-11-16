@@ -15,8 +15,8 @@ extern SlideInTitleBar, SoundIdle, SoundSecondsToBytes, sprintf_, str_Bkgd6, str
 extern str_Jy2D, str_Jy3D, str_Jy4D, str_Key1, str_KeyD2, str_Log7, str_Logx, str_MCONTROL
 extern str_MdmD, str_MseD2, str_P11, str_P12, str_P13, str_P1G, str_P21, str_P22
 extern str_P23, str_P2G, str_Pal12, str_PlyD, str_Usrh, str_Usri, str_Utext, DrawShapeCore
-extern DrawShapeAtOwnPos, sub_AAA40, sub_AADA4, AllocMemBlock, FreeMemBlock, sub_AD35C, sub_ADA50, sub_ADBEC
-extern sub_B2C54, SetScreenTarget, sub_E04E0, TextSetFont, unk_11DE50, unk_11DE90, unk_152C44, word_114CE0
+extern DrawShapeAtOwnPos, DrawArt, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, CreateBitmap, sub_ADA50, FreeBitmap
+extern DrawArtOpaqueAtOwnPos, SetScreenTarget, FindShape, TextSetFont, unk_11DE50, unk_11DE90, unk_152C44, word_114CE0
 extern word_114CE4, word_11D92C, word_11D92E, word_11D96C, word_11D9A8, word_11D9AC, word_11DA10, word_11DA14
 extern word_160ACC, word_17D560, word_17D562, word_17D568, word_17D570, word_17D578, word_17D58C, word_17D58E
 global sub_6CF0D, sub_6CF0D_6, ControllerUsersPanel, unk_6D31C, jpt_6D32C, sub_6D350, sub_6D350_2C, sub_6D350_F2
@@ -56,7 +56,7 @@ ControllerUsersPanel:
         push dword [dword_11F5C4]
         push dword [dword_11F5C0]
         lea edi, [byte eax+03h]
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push byte 0
         push byte 0
@@ -69,7 +69,7 @@ ControllerUsersPanel:
         call SetDrawBitmap
         add esp, byte 4
         push dword [byte ebp-060h]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         mov eax, dword [byte ebp-060h]
         movsx eax, word [byte eax+0Ch]
         mov dword [byte ebp-08h], eax
@@ -94,7 +94,7 @@ ControllerUsersPanel:
         jl short .1
         push str_Log7
         push dword [byte ebp-054h]
-        call sub_E04E0
+        call FindShape
         movsx esi, word [byte eax+0Eh]
         mov eax, dword [byte ebp-060h]
         movsx eax, word [byte eax+0Eh]
@@ -122,7 +122,7 @@ ControllerUsersPanel:
         lea eax, [byte ebp-050h]
         push eax
         push dword [byte ebp-054h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov esi, eax
         cmp dword [byte ebp-0Ch], byte 7
@@ -155,7 +155,7 @@ ControllerUsersPanel:
         cmp dword [byte ebp-01Ch], byte 0
         je short .6
         push dword [byte ebp-01Ch]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
 .6:
         mov eax, dword [byte ebp-044h]
@@ -189,7 +189,7 @@ ControllerUsersPanel:
         sub eax, dword [byte ebp-08h]
         inc eax
         push eax
-        call sub_AD35C
+        call CreateBitmap
         mov edi, eax
         mov dword [byte ebp-01Ch], eax
         mov eax, dword [byte eax+02Ch]
@@ -222,11 +222,11 @@ ControllerUsersPanel:
         sub eax, dword [byte ebp-08h]
         push eax
         push esi
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         call SetScreenTarget
         push dword [byte edi+02Ch]
-        call sub_B2C54
+        call DrawArtOpaqueAtOwnPos
         add esp, byte 4
 .11:
         call GetTicks
@@ -272,7 +272,7 @@ ControllerUsersPanel:
         push eax
         push dword [byte ebp-054h]
         mov edi, dword [byte ebp-060h]
-        call sub_E04E0
+        call FindShape
         mov edx, dword [byte ebp-02Ch]
         movsx edi, word [byte edi+0Eh]
         add esp, byte 8
@@ -303,7 +303,7 @@ ControllerUsersPanel:
         cmp dword [byte ebp-01Ch], byte 0
         je short .17
         push dword [byte ebp-01Ch]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
 .17:
         mov eax, dword [byte ebp-014h]
@@ -337,7 +337,7 @@ ControllerUsersPanel:
         sub eax, dword [byte ebp-08h]
         inc eax
         push eax
-        call sub_AD35C
+        call CreateBitmap
         mov edi, eax
         mov dword [byte ebp-01Ch], eax
         mov eax, dword [byte eax+02Ch]
@@ -370,11 +370,11 @@ ControllerUsersPanel:
         sub eax, dword [byte ebp-08h]
         push eax
         push esi
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         call SetScreenTarget
         push dword [byte edi+02Ch]
-        call sub_B2C54
+        call DrawArtOpaqueAtOwnPos
         add esp, byte 4
 .22:
         call GetTicks
@@ -398,10 +398,10 @@ ControllerUsersPanel:
         cmp dword [byte ebp-0Ch], byte 0
         jge near .12
         push dword [byte ebp-01Ch]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         push dword [byte ebp-030h]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         leave
         pop edi
@@ -1175,7 +1175,7 @@ sub_6DB5C_A5:
         lea eax, [byte ebp-0Ch]
         push eax
         push esi
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [byte ebp-04h], eax
 sub_6DB5C_CB:
@@ -1197,7 +1197,7 @@ sub_6DC2F:
         cmp dword [eax], byte 5
         jge short .1
         push dword [dword_17D564]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         mov eax, dword [optflags]
         and eax, byte 70h
         add esp, byte 4
@@ -1211,7 +1211,7 @@ sub_6DC2F:
         cmp dword [eax], byte 0Ah
         jge short .4
         push dword [dword_17D56C]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         mov eax, dword [optflags]
         and eax, byte 70h
         add esp, byte 4
@@ -1233,7 +1233,7 @@ sub_6DC2F:
         cmp dword [eax], byte 0Fh
         jge short .5
         push dword [dword_17D574]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         mov eax, dword [optflags]
         and eax, byte 70h
         add esp, byte 4
@@ -1245,7 +1245,7 @@ sub_6DC2F:
         cmp dword [eax], byte 14h
         jge short .7
         push dword [dword_17D57C]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         mov eax, dword [optflags]
         and eax, byte 70h
         add esp, byte 4
@@ -1681,7 +1681,7 @@ SetControllerIcon:
         lea eax, [byte ebp-0Ch]
         push eax
         push dword [dword_17D588]
-        call sub_E04E0
+        call FindShape
         mov edx, dword [byte ebp-04h]
         add esp, byte 8
         mov dword [byte edx+01Ah], eax
@@ -1689,7 +1689,7 @@ SetControllerIcon:
         push eax
         push dword [dword_17D588]
         mov byte [byte ebp-09h], 32h
-        call sub_E04E0
+        call FindShape
         mov edx, dword [byte ebp-04h]
         add esp, byte 8
         mov dword [byte edx+01Eh], eax
@@ -1697,7 +1697,7 @@ SetControllerIcon:
         push eax
         push dword [dword_17D588]
         mov byte [byte ebp-09h], 33h
-        call sub_E04E0
+        call FindShape
         mov edx, dword [byte ebp-04h]
         add esp, byte 8
         mov dword [byte edx+022h], eax
@@ -1709,7 +1709,7 @@ SetControllerIcon:
         push eax
         push dword [dword_17D588]
         mov byte [byte ebp-09h], 67h
-        call sub_E04E0
+        call FindShape
         mov edx, dword [byte ebp-04h]
         mov dword [byte edx+01Eh], 0
         mov dword [byte edx+022h], 0
@@ -1831,7 +1831,7 @@ DrawControllerColumns:
         mov dword [byte eax+062h], 0
         and byte [byte eax+046h], 0FDh
         push dword [dword esi+dword_17D564]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         movsx eax, word [dword esi+word_17D560]
         add esp, byte 4
         cmp eax, byte 2
@@ -1940,14 +1940,14 @@ DrawControllerColumns:
         add esp, byte 4
         push str_Usri
         push dword [dword_17D588]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov edx, eax
         mov eax, dword [dword_17D580]
         push str_Usrh
         mov dword [byte esi+eax+01Ah], edx
         push dword [dword_17D588]
-        call sub_E04E0
+        call FindShape
         mov edx, eax
         mov eax, dword [dword_17D580]
         mov dword [byte esi+eax+01Eh], edx
@@ -1959,7 +1959,7 @@ DrawControllerColumns:
         cmp dword [dword edx+dword_11D940], byte 0
         je short .16
         push dword [dword edx+dword_11D940]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         jmp near .17
 .16:
@@ -2045,7 +2045,7 @@ DrawControllerColumns:
         jmp short .19
 .18:
         push dword [dword esi+dword_11D930]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
 .19:
         mov esi, dword [byte ebp-028h]
@@ -2067,7 +2067,7 @@ DrawControllerColumns:
         push dword [byte esi+eax+02Ah]
         push dword [byte esi+eax+026h]
         push dword [byte esi+eax+01Ah]
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         push dword [dword_17BC78]
         call TextSetFont
@@ -2087,7 +2087,7 @@ DrawControllerColumns:
         mov dword [byte eax+062h], 0
         and byte [byte eax+046h], 0FDh
         push dword [dword esi+dword_17D564]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         movsx eax, word [dword esi+word_17D560]
         add esp, byte 4
         cmp eax, byte 2
@@ -2198,14 +2198,14 @@ DrawControllerColumns:
 .31:
         movsx esi, word [byte ebp-04h]
         push dword [nosplit esi*4+dword_11D930]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         push dword [nosplit esi*4+dword_11D930]
         call FreeMemBlock
         add esp, byte 4
         push dword [nosplit esi*4+dword_11D940]
         mov dword [nosplit esi*4+dword_11D930], 0
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         push dword [nosplit esi*4+dword_11D940]
         call FreeMemBlock
@@ -2291,7 +2291,7 @@ DrawControllerColumns:
         mov dword [byte eax+062h], 0
         and byte [byte eax+046h], 0FDh
         push dword [dword esi+dword_17D564]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         cmp word [dword esi+word_17D560], byte 0
         jne near .41
@@ -2395,14 +2395,14 @@ DrawControllerColumns:
         add esp, byte 4
         push str_Usri
         push dword [dword_17D588]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov edx, eax
         mov eax, dword [dword_17D580]
         push str_Usrh
         mov dword [byte esi+eax+01Ah], edx
         push dword [dword_17D588]
-        call sub_E04E0
+        call FindShape
         mov edx, eax
         mov eax, dword [dword_17D580]
         mov dword [byte esi+eax+01Eh], edx
@@ -2414,7 +2414,7 @@ DrawControllerColumns:
         cmp dword [dword edx+dword_11D940], byte 0
         je short .44
         push dword [dword edx+dword_11D940]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         jmp near .45
 .44:
@@ -2501,7 +2501,7 @@ DrawControllerColumns:
         jmp short .47
 .46:
         push dword [dword esi+dword_11D930]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
 .47:
         mov edi, dword [byte ebp-028h]
@@ -2523,7 +2523,7 @@ DrawControllerColumns:
         push dword [byte edi+eax+02Ah]
         push dword [byte edi+eax+026h]
         push dword [byte edi+eax+01Ah]
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         push dword [dword_17BC78]
         call TextSetFont
@@ -2611,7 +2611,7 @@ ControllerScreen:
         mov esi, unk_152C44
         push dword [dword_17D588]
         add esi, 1F2h
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         lea edx, [byte eax+010h]
         mov ecx, 0C0h
@@ -2623,10 +2623,10 @@ ControllerScreen:
         call SetScreenTarget
         push str_Bkgd6
         push dword [dword_17D588]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         mov edx, 0E00000h
         mov eax, 0EB85h
@@ -2648,7 +2648,7 @@ ControllerScreen:
         push edi
         push dword [byte ebp-048h]
         mov dword [byte ebp-040h], 0FFFFFFFFh
-        call sub_AD35C
+        call CreateBitmap
         mov esi, eax
         add esp, byte 0Ch
         mov eax, dword [byte ebp-048h]
@@ -2721,7 +2721,7 @@ ControllerScreen:
         call PutBlock
         add esp, byte 0Ch
         push esi
-        call sub_ADBEC
+        call FreeBitmap
         mov eax, dword [gameopts]
         mov eax, dword [byte eax+01h]
         shl eax, 0Fh
@@ -2738,7 +2738,7 @@ ControllerScreen:
         inc eax
         inc eax
         push eax
-        call sub_AD35C
+        call CreateBitmap
         mov esi, eax
         mov eax, dword [byte eax+02Ch]
         mov word [byte eax+0Ch], 31h
@@ -2758,7 +2758,7 @@ ControllerScreen:
         call DrawFrameAt
         call SetScreenTarget
         push dword [byte esi+02Ch]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         mov eax, dword [gameopts]
         mov eax, dword [byte eax+01h]
         shl eax, 0Ah
@@ -2783,10 +2783,10 @@ ControllerScreen:
         call DrawFrameAt
         call SetScreenTarget
         push dword [byte esi+02Ch]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         push esi
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         mov edx, 0FEh
         mov eax, 0FDh
@@ -2840,7 +2840,7 @@ ControllerScreen:
         push eax
         push dword [dword_17D588]
         mov dword [byte ebp-08h], edx
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov edx, 20h
         call CopyBitmap
@@ -2869,7 +2869,7 @@ ControllerScreen:
         mov dword [byte ebp-020h], 0
         push dword [dword_17D588]
         mov dword [byte ebp-01Ch], 0
-        call sub_E04E0
+        call FindShape
         mov dword [byte ebp-010h], eax
         mov eax, word_160ACC
         mov dword [byte ebp-018h], 0
@@ -2931,7 +2931,7 @@ ControllerScreen:
         add esp, byte 4
         push str_Usri
         push dword [dword_17D588]
-        call sub_E04E0
+        call FindShape
         mov edx, eax
         imul eax, dword [byte ebp-04Ch], byte 66h
         mov dword [byte ebp-08h], eax
@@ -2941,7 +2941,7 @@ ControllerScreen:
         push str_Usrh
         mov dword [byte eax+01Ah], edx
         push dword [dword_17D588]
-        call sub_E04E0
+        call FindShape
         mov edx, eax
         mov eax, dword [dword_17D580]
         add eax, dword [byte ebp-08h]
@@ -3032,7 +3032,7 @@ ControllerScreen:
         push dword [byte eax+02Ah]
         push dword [byte eax+026h]
         push dword [byte eax+01Ah]
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         push dword [dword_17BC78]
         call TextSetFont
@@ -3115,7 +3115,7 @@ ControllerScreen:
         push dword [byte eax+02Ah]
         push dword [byte eax+026h]
         push dword [byte eax+01Ah]
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
 .16:
         mov eax, dword [dword_17D580]
@@ -3212,7 +3212,7 @@ ControllerScreen:
         add esp, byte 4
         push str_Usri
         push dword [dword_17D588]
-        call sub_E04E0
+        call FindShape
         mov edx, eax
         imul eax, dword [byte ebp-04Ch], byte 66h
         mov dword [byte ebp-08h], eax
@@ -3222,7 +3222,7 @@ ControllerScreen:
         push str_Usrh
         mov dword [byte eax+01Ah], edx
         push dword [dword_17D588]
-        call sub_E04E0
+        call FindShape
         mov edx, eax
         mov eax, dword [dword_17D580]
         add eax, dword [byte ebp-08h]
@@ -3313,7 +3313,7 @@ ControllerScreen:
         push dword [byte eax+02Ah]
         push dword [byte eax+026h]
         push dword [byte eax+01Ah]
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         push dword [dword_17BC78]
         call TextSetFont
@@ -3351,21 +3351,21 @@ ControllerScreen:
 .26:
         push str_P11
         push dword [dword_17D588]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov edx, eax
         mov eax, dword [dword_17D580]
         push str_P12
         mov dword [dword eax+0812h], edx
         push dword [dword_17D588]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov edx, eax
         mov eax, dword [dword_17D580]
         push str_P13
         mov dword [dword eax+0816h], edx
         push dword [dword_17D588]
-        call sub_E04E0
+        call FindShape
         mov edx, eax
         mov eax, dword [dword_17D580]
         add esp, byte 8
@@ -3374,7 +3374,7 @@ ControllerScreen:
 .27:
         push str_P1G
         push dword [dword_17D588]
-        call sub_E04E0
+        call FindShape
         mov edx, eax
         mov eax, dword [dword_17D580]
         add esp, byte 8
@@ -3402,7 +3402,7 @@ ControllerScreen:
         push dword [dword eax+0822h]
         push dword [dword eax+081Eh]
         push dword [dword eax+0812h]
-        call sub_AAA40
+        call DrawArt
         movsx eax, word [word_17D560]
         add esp, byte 0Ch
         cmp eax, byte 2
@@ -3419,21 +3419,21 @@ ControllerScreen:
 .29:
         push str_P21
         push dword [dword_17D588]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov edx, eax
         mov eax, dword [dword_17D580]
         push str_P22
         mov dword [dword eax+0878h], edx
         push dword [dword_17D588]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov edx, eax
         mov eax, dword [dword_17D580]
         push str_P23
         mov dword [dword eax+087Ch], edx
         push dword [dword_17D588]
-        call sub_E04E0
+        call FindShape
         mov edx, eax
         mov eax, dword [dword_17D580]
         add esp, byte 8
@@ -3442,7 +3442,7 @@ ControllerScreen:
 .30:
         push str_P2G
         push dword [dword_17D588]
-        call sub_E04E0
+        call FindShape
         mov edx, eax
         mov eax, dword [dword_17D580]
         add esp, byte 8
@@ -3470,7 +3470,7 @@ ControllerScreen:
         push dword [dword eax+0888h]
         push dword [dword eax+0884h]
         push dword [dword eax+0878h]
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         jmp short .33
 .32:
@@ -3762,7 +3762,7 @@ ControllerScreen_11AB:
         cmp dword [dword esi+dword_11D940], byte 0
         je short .49
         push dword [dword esi+dword_11D940]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         push dword [dword esi+dword_11D940]
         call FreeMemBlock

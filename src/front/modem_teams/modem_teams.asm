@@ -13,8 +13,8 @@ extern str_5GM, str_7GM, str_Aal0, str_Aal1, str_Aal2, str_Aar0, str_Aar1, str_A
 extern str_Ahl0, str_Ahl1, str_Ahl2, str_Ahr0, str_Ahr1, str_Ahr2, str_Bkgd21, str_HaBck02
 extern str_HaBck12, str_Pal29, str_Rk02d, str_Rk222, str_Rul13, str_Rul23, str_Rul33, str_Swt0
 extern str_Swt12, str_SwtD2, GameOptionsScreen, RunPlayoffMenus_102, RunPlayoffMenus_115, RunPlayoffMenus_73, RunPlayoffMenus_89, RunPlayoffMenus_A6
-extern RunPlayoffMenus_CD, RunPlayoffMenus_D6, RunPlayoffMenus_E1, DrawShapeAtOwnPos, sub_AADA4, AllocMemBlock, FreeMemBlock, sub_AD35C
-extern sub_ADA50, sub_ADBEC, SetScreenTarget, sub_E04E0, TextSetFont, unk_152C44, unk_17D272, word_114CE0
+extern RunPlayoffMenus_CD, RunPlayoffMenus_D6, RunPlayoffMenus_E1, DrawShapeAtOwnPos, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, CreateBitmap
+extern sub_ADA50, FreeBitmap, SetScreenTarget, FindShape, TextSetFont, unk_152C44, unk_17D272, word_114CE0
 extern word_11ED38
 global unk_A3851, DrawModemHomePanel, DrawModemHomePanel_151, DrawModemHomePanel_15D, DrawModemAwayPanel, jpt_A3CD4, ModemTeamSelectScreen, ModemTeamSelectScreen_7F1
 global ModemTeamSelectScreen_8AC, ModemTeamSelectScreen_94E, ModemTeamSelectScreen_9F4, ModemTeamSelectScreen_A8A, ModemTeamSelectScreen_B38, ModemTeamSelectScreen_B5C, ModemTeamSelectScreen_B6A, ModemTeamSelectScreen_B78
@@ -122,7 +122,7 @@ DrawModemHomePanel:
         push eax
         push dword [byte ebp-010h]
         add esi, byte 4
-        call sub_E04E0
+        call FindShape
         mov ecx, dword [byte ebp-04h]
         add esp, byte 8
         mov edx, eax
@@ -235,7 +235,7 @@ DrawModemAwayPanel:
         push eax
         push dword [byte ebp-0Ch]
         add esi, byte 4
-        call sub_E04E0
+        call FindShape
         mov edx, dword [dword_11ED74]
         add esp, byte 8
         mov ecx, dword [dword esi+dword_11ED3C]
@@ -330,7 +330,7 @@ ModemTeamSelectScreen:
         add esi, 1F2h
         push dword [byte ebp+076h]
         mov dword [dword_1846F0], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         lea edx, [byte eax+010h]
         mov ecx, 0C0h
@@ -342,10 +342,10 @@ ModemTeamSelectScreen:
         call SetScreenTarget
         push str_Bkgd21
         push dword [byte ebp+076h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         lea edx, [dword ebp-0556h]
         mov eax, 9
@@ -353,17 +353,17 @@ ModemTeamSelectScreen:
         push str_Ahl0
         push dword [byte ebp+076h]
         mov dword [byte ebp+07Eh], 0FFFFFFFFh
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword ebp-053Ch], eax
         push str_Ahl1
         push dword [byte ebp+076h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Ahl2
         push dword [byte ebp+076h]
         mov dword [dword ebp-0538h], eax
-        call sub_E04E0
+        call FindShape
         mov dword [dword ebp-0534h], eax
         lea eax, [dword ebp-015Ah]
         mov dword [dword ebp-0542h], eax
@@ -381,17 +381,17 @@ ModemTeamSelectScreen:
         mov byte [dword ebp-0513h], 6
         mov byte [dword ebp-0511h], 1
         mov dword [dword ebp-052Ch], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Ahr1
         push dword [byte ebp+076h]
         mov dword [dword ebp-04D6h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Ahr2
         push dword [byte ebp+076h]
         mov dword [dword ebp-04D2h], eax
-        call sub_E04E0
+        call FindShape
         mov dword [dword ebp-04CEh], eax
         lea eax, [dword ebp-011Ah]
         mov dword [dword ebp-04DCh], eax
@@ -410,17 +410,17 @@ ModemTeamSelectScreen:
         mov byte [dword ebp-04ACh], 0
         mov byte [dword ebp-04ABh], 5
         mov dword [dword ebp-04C6h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Aal1
         push dword [byte ebp+076h]
         mov dword [dword ebp-0470h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Aal2
         push dword [byte ebp+076h]
         mov dword [dword ebp-046Ch], eax
-        call sub_E04E0
+        call FindShape
         mov dword [dword ebp-0468h], eax
         lea eax, [dword ebp-0DAh]
         mov dword [dword ebp-0476h], eax
@@ -439,17 +439,17 @@ ModemTeamSelectScreen:
         mov byte [dword ebp-0446h], 5
         mov byte [dword ebp-0445h], 3
         mov dword [dword ebp-0460h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Aar1
         push dword [byte ebp+076h]
         mov dword [dword ebp-040Ah], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Aar2
         push dword [byte ebp+076h]
         mov dword [dword ebp-0406h], eax
-        call sub_E04E0
+        call FindShape
         mov dword [dword ebp-0402h], eax
         lea eax, [dword ebp-09Ah]
         mov dword [dword ebp-0410h], eax
@@ -468,12 +468,12 @@ ModemTeamSelectScreen:
         mov byte [dword ebp-03E1h], 7
         mov byte [dword ebp-03E0h], 2
         mov dword [dword ebp-03FAh], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Swt12
         push dword [byte ebp+076h]
         mov dword [dword ebp-03A4h], eax
-        call sub_E04E0
+        call FindShape
         mov dword [dword ebp-03A0h], eax
         lea eax, [byte ebp-05Ah]
         mov dword [dword ebp-03AAh], eax
@@ -493,17 +493,17 @@ ModemTeamSelectScreen:
         mov byte [dword ebp-0379h], 2
         mov dword [dword ebp-038Ch], 35h
         mov dword [dword ebp-0394h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Rul23
         push dword [byte ebp+076h]
         mov dword [dword ebp-033Eh], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Rul33
         push dword [byte ebp+076h]
         mov dword [dword ebp-033Ah], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword ebp-0336h], eax
         lea eax, [byte ebp-01Ah]
@@ -554,7 +554,7 @@ ModemTeamSelectScreen:
         push byte 0
         push dword [dword_1846F4]
         push dword [dword_1846F8]
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         mov dword [dword_11ED58], eax
         mov eax, dword [dword_1846F0]
@@ -591,7 +591,7 @@ ModemTeamSelectScreen:
         push byte 0
         push dword [dword_1846F4]
         push dword [dword_1846F8]
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         mov dword [dword_11ED5C], eax
         mov eax, dword [dword_1846F0]
@@ -629,13 +629,13 @@ ModemTeamSelectScreen:
         push dword 0A0h
         push str_Rk222
         push dword [byte ebp+076h]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+04h]
         add esp, byte 8
         inc eax
         inc eax
         push eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         mov dword [dword_11ED68], eax
         xor edx, edx
@@ -654,13 +654,13 @@ ModemTeamSelectScreen:
         push dword 0A0h
         push str_Rk222
         push dword [byte ebp+076h]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+04h]
         add esp, byte 8
         inc eax
         inc eax
         push eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         mov dword [dword_11ED6C], eax
         xor edx, edx
@@ -905,10 +905,10 @@ ModemTeamSelectScreen_A8A:
         lea eax, [byte ebp+066h]
         push eax
         push dword [byte ebp+072h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         call GetTicks
         lea edi, [byte eax+03h]
@@ -921,10 +921,10 @@ ModemTeamSelectScreen_A8A:
         jl short .13
         push str_Swt12
         push dword [byte ebp+072h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AADA4
+        call PutBlockAtOwnPos
         mov eax, dword [dword_17D273]
         shl eax, 0Fh
         mov edx, dword [dword_17D273]
@@ -986,7 +986,7 @@ ModemTeamSelectScreen_B78:
         cmp dword [dword esi+dword_11ED58], byte 0
         je short .18
         push dword [dword esi+dword_11ED58]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         mov dword [dword esi+dword_11ED58], 0
 .18:
@@ -1000,7 +1000,7 @@ ModemTeamSelectScreen_B78:
         cmp dword [dword esi+dword_11ED68], byte 0
         je short .20
         push dword [dword esi+dword_11ED68]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         mov dword [dword esi+dword_11ED68], 0
 .20:

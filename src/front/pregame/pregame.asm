@@ -15,9 +15,9 @@ extern SlideInSideBar, SlideInTitleBar, SoundIdle, SoundSecondsToBytes, sprintf_
 extern str_Ard, str_Bkgd13, str_BKGD14, str_Card, str_CS3, str_D2, str_dbgSpace, str_Down
 extern str_DSS, str_FSH, str_FSH3, str_H07d, str_Home, str_LG02d, str_MightyDucksOfAnaheim, str_Pal3
 extern str_PalFsh, str_PALS, str_Plyr, str_ProfileFsh, str_SCHEDULE2, str_SS3, str_Xlate, strcat_
-extern WriteDbRecord6, SelectDataLibrary, PlayerDbRecord, ComputeTeamRanks, DrawShapeAtOwnPos, sub_AAA8C, sub_AADA4, AllocMemBlock
-extern FreeMemBlock, sub_AD35C, sub_ADA50, sub_ADBEC, SaveTextState, SetDrawTarget, DosFileInfo, LoadResourceDataShared
-extern LoadPackedAlloc, PutBlockKeyed, SetScreenTarget, sub_DD908, sub_DD920, sub_E04E0, sub_E0584, TextSetFont
+extern WriteDbRecord6, SelectDataLibrary, PlayerDbRecord, ComputeTeamRanks, DrawShapeAtOwnPos, DrawShape, PutBlockAtOwnPos, AllocMemBlock
+extern FreeMemBlock, CreateBitmap, sub_ADA50, FreeBitmap, SaveTextState, SetDrawTarget, DosFileInfo, LoadResourceDataShared
+extern LoadPackedAlloc, PutBlockKeyed, SetScreenTarget, sub_DD908, sub_DD920, FindShape, sub_E0584, TextSetFont
 extern unk_112523, unk_152C44, unk_849C1, unk_849C7, unk_849CB, unk_849D1, word_114CE0
 global PreGameMatchupScreen, PreGameMatchupScreen_4E6, CycleScreenPalettes, PreGameTeamsScreen, PreGameCardsA, PreGameCardsB, PreGameCardsC, jpt_87328
 global PreGameScreens, PreGameScreens_24, PreGameScreens_44, PreGameScreens_4B, PreGameScreens_52, PreGameScreens_59
@@ -57,10 +57,10 @@ PreGameMatchupScreen:
         push str_Down
         push eax
         mov esi, eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AAA8C
+        call DrawShape
         add esp, byte 4
         push esi
         call FreeMemBlock
@@ -86,10 +86,10 @@ PreGameMatchupScreen:
         push str_Home
         push eax
         mov esi, eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AAA8C
+        call DrawShape
         add esp, byte 4
         push esi
         call FreeMemBlock
@@ -102,7 +102,7 @@ PreGameMatchupScreen:
         mov dword [byte ebp+076h], eax
         push str_Pal3
         push eax
-        call sub_E04E0
+        call FindShape
         add eax, byte 10h
         add esp, byte 8
         mov dword [byte ebp+07Ah], eax
@@ -410,11 +410,11 @@ CycleScreenPalettes:
         idiv ebx
         push dword [nosplit edx*4+dword_17DBC4]
         mov dword [dword_17DC0C], edx
-        call sub_AADA4
+        call PutBlockAtOwnPos
         mov eax, dword [dword_17DC0C]
         add esp, byte 4
         push dword [nosplit eax*4+dword_17DB7C]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         call GetTicks
         add eax, byte 8
@@ -452,7 +452,7 @@ PreGameTeamsScreen:
         mov esi, unk_152C44
         push dword [byte ebp+056h]
         add esi, 1F2h
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         lea edx, [byte eax+010h]
         mov ecx, 0C0h
@@ -465,10 +465,10 @@ PreGameTeamsScreen:
         call SetScreenTarget
         push str_Bkgd13
         push dword [byte ebp+056h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         xor eax, eax
         mov edx, 0E00000h
@@ -497,7 +497,7 @@ PreGameTeamsScreen:
         push eax
         push edi
         mov dword [byte ebp+056h], eax
-        call sub_AD35C
+        call CreateBitmap
         mov esi, eax
         sar edi, 1
         mov eax, 91h
@@ -613,14 +613,14 @@ PreGameTeamsScreen:
         call PutBlock
         add esp, byte 0Ch
         push esi
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         push byte 0
         push dword 0BAh
         push dword 9Bh
         mov dword [byte ebp+04Ah], 1
         mov dword [byte ebp+076h], 4
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         mov edi, eax
 .2:
@@ -633,7 +633,7 @@ PreGameTeamsScreen:
         lea eax, [byte ebp+022h]
         push eax
         push dword [byte ebp+032h]
-        call sub_E04E0
+        call FindShape
         mov esi, eax
         mov eax, dword [byte edi+02Ch]
         mov word [byte eax+0Ch], 49h
@@ -772,7 +772,7 @@ PreGameTeamsScreen:
         jl near .2
         call SetScreenTarget
         push edi
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         call GetTicks
         dec eax
@@ -1225,16 +1225,16 @@ PreGameCardsA:
         call BlackPalette
         push str_Pal3
         push esi
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_BKGD14
         add eax, byte 10h
         push esi
         mov dword [byte ebp+06Ah], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         mov eax, 0FFFFFFF8h
         call SelectDataLibrary
@@ -1247,13 +1247,13 @@ PreGameCardsA:
         push dword 0AEh
         push dword 0A0h
         mov dword [byte ebp+07Ah], eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push byte 0
         push dword 0AEh
         push dword 0A0h
         mov dword [byte ebp+06Eh], eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         mov dword [byte ebp+066h], eax
         mov eax, 2
@@ -1298,7 +1298,7 @@ PreGameCardsA:
         push eax
         mov dword [byte ebp+03Ah], eax
         mov dword [byte ebp+046h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov ecx, 12Ch
         lea esi, [byte eax+010h]
@@ -1315,7 +1315,7 @@ PreGameCardsA:
         push eax
         mov dword [byte ebp+03Ah], eax
         mov dword [byte ebp+046h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov ecx, 12Ch
         lea esi, [byte eax+010h]
@@ -1323,7 +1323,7 @@ PreGameCardsA:
         push str_Plyr
 .2:
         push dword [byte ebp+03Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [byte ebp+04Eh], eax
         mov dword [byte ebp+07Eh], 0
@@ -1367,7 +1367,7 @@ PreGameCardsA:
         xor edi, edi
         push dword [byte ebp+056h]
         mov dword [byte ebp+062h], edi
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov esi, eax
 .6:
@@ -1482,7 +1482,7 @@ PreGameCardsA:
         push eax
         mov dword [byte ebp+03Ah], eax
         mov dword [byte ebp+04Ah], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov ecx, 12Ch
         lea esi, [byte eax+010h]
@@ -1499,7 +1499,7 @@ PreGameCardsA:
         push eax
         mov dword [byte ebp+03Ah], eax
         mov dword [byte ebp+04Ah], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov ecx, 12Ch
         lea esi, [byte eax+010h]
@@ -1507,7 +1507,7 @@ PreGameCardsA:
         push str_Plyr
 .9:
         push dword [byte ebp+03Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [byte ebp+052h], eax
         mov dword [byte ebp+07Eh], 0
@@ -1551,7 +1551,7 @@ PreGameCardsA:
         xor edi, edi
         push dword [byte ebp+056h]
         mov dword [byte ebp+05Eh], edi
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov esi, eax
 .13:
@@ -1626,10 +1626,10 @@ PreGameCardsA:
         call FreeMemBlock
         add esp, byte 4
         push dword [byte ebp+066h]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         push dword [byte ebp+06Eh]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         push dword [byte ebp+07Ah]
         call FreeMemBlock
@@ -2191,7 +2191,7 @@ PreGameCardsB:
         push eax
         mov dword [byte ebp+07Eh], eax
         mov dword [byte ebp+062h], eax
-        call sub_E04E0
+        call FindShape
         mov ecx, 300h
         add esp, byte 8
         lea esi, [byte eax+010h]
@@ -2213,7 +2213,7 @@ PreGameCardsB:
         push eax
         mov dword [byte ebp+07Eh], eax
         mov dword [byte ebp+062h], eax
-        call sub_E04E0
+        call FindShape
         mov ecx, 300h
         add esp, byte 8
         lea esi, [byte eax+010h]
@@ -2222,7 +2222,7 @@ PreGameCardsB:
         push str_Plyr
 .3:
         push dword [byte ebp+07Eh]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         xor edx, edx
         call CopyBitmap
@@ -2254,7 +2254,7 @@ PreGameCardsB:
         mov esi, unk_152C44
         push dword [byte ebp+07Eh]
         add esi, 1F2h
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         lea edx, [byte eax+010h]
         mov ecx, 0C0h
@@ -2292,17 +2292,17 @@ PreGameCardsB:
         call SetScreenPalette
         push str_BKGD14
         push dword [byte ebp+07Eh]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         push byte 0
         push byte 58h
         push byte 50h
         xor edi, edi
         xor esi, esi
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         mov dword [byte ebp+06Ah], eax
 .4:
@@ -2341,7 +2341,7 @@ PreGameCardsB:
         cmp edi, byte 6
         jl short .4
         push dword [byte ebp+06Ah]
-        call sub_ADBEC
+        call FreeBitmap
         mov eax, dword [gameopts]
         mov eax, dword [byte eax+01h]
         shl eax, 0Fh
@@ -2354,7 +2354,7 @@ PreGameCardsB:
         add eax, byte 7Dh
         push eax
         push dword 0E0h
-        call sub_AD35C
+        call CreateBitmap
         mov esi, eax
         mov eax, dword [byte eax+02Ch]
         mov word [byte eax+0Ch], 8
@@ -2393,7 +2393,7 @@ PreGameCardsB:
         call DrawFrameAt
         call SetScreenTarget
         push dword [byte esi+02Ch]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         mov eax, dword [gameopts]
         mov eax, dword [byte eax+01h]
         shl eax, 0Ah
@@ -2436,10 +2436,10 @@ PreGameCardsB:
         call DrawFrameAt
         call SetScreenTarget
         push dword [byte esi+02Ch]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         push esi
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         lea eax, [byte ebp-062h]
         push eax
@@ -2731,7 +2731,7 @@ PreGameCardsC:
         push eax
         mov dword [byte ebp+07Eh], eax
         mov dword [byte ebp+062h], eax
-        call sub_E04E0
+        call FindShape
         mov ecx, 300h
         add esp, byte 8
         lea esi, [byte eax+010h]
@@ -2750,7 +2750,7 @@ PreGameCardsC:
         push eax
         mov dword [byte ebp+07Eh], eax
         mov dword [byte ebp+062h], eax
-        call sub_E04E0
+        call FindShape
         mov ecx, 300h
         add esp, byte 8
         lea esi, [byte eax+010h]
@@ -2759,7 +2759,7 @@ PreGameCardsC:
         push str_Plyr
 .3:
         push dword [byte ebp+07Eh]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         xor edx, edx
         call CopyBitmap
@@ -2791,7 +2791,7 @@ PreGameCardsC:
         mov esi, unk_152C44
         push dword [byte ebp+07Eh]
         add esi, 1F2h
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         lea edx, [byte eax+010h]
         mov ecx, 0C0h
@@ -2825,17 +2825,17 @@ PreGameCardsC:
         call SetScreenPalette
         push str_BKGD14
         push dword [byte ebp+07Eh]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         push byte 0
         push byte 58h
         push byte 50h
         xor edi, edi
         xor esi, esi
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         mov dword [byte ebp+06Ah], eax
 .4:
@@ -2875,7 +2875,7 @@ PreGameCardsC:
         cmp edi, byte 4
         jl short .4
         push dword [byte ebp+06Ah]
-        call sub_ADBEC
+        call FreeBitmap
         mov eax, dword [gameopts]
         mov eax, dword [byte eax+01h]
         shl eax, 0Fh
@@ -2888,7 +2888,7 @@ PreGameCardsC:
         add eax, byte 7Dh
         push eax
         push dword 0E0h
-        call sub_AD35C
+        call CreateBitmap
         mov esi, eax
         mov eax, dword [byte eax+02Ch]
         mov word [byte eax+0Ch], 30h
@@ -2926,7 +2926,7 @@ PreGameCardsC:
         call DrawFrameAt
         call SetScreenTarget
         push dword [byte esi+02Ch]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         mov eax, dword [gameopts]
         mov eax, dword [byte eax+01h]
         shl eax, 0Ah
@@ -2969,10 +2969,10 @@ PreGameCardsC:
         call DrawFrameAt
         call SetScreenTarget
         push dword [byte esi+02Ch]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         push esi
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         lea eax, [byte ebp-04Ah]
         push eax

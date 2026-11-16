@@ -62,17 +62,17 @@ extern str_Saveback, str_Score, str_SideD, str_SideNotFoundInRink, str_SideNotFo
 extern str_Stands2, str_STANDSFSH, str_Strobe, str_TEMP2, str_ThinRedLines, str_Top, str_Topboards, str_WALL
 extern str_Wedge, str_WHD0, str_Zamboni, str_Zambpath, strcat_, strcpy_, SelectDataLibrary, BenchSpriteFrame
 extern PlayerSpriteFrame, PuckInNet, DrawRinkSprite, SpriteScale, InitMenuItems, RunMenu, SetMenuMouse, FillMusicStream
-extern SoundSecondsToBytes, SoundIdle, BuildAntiAliasTable, DrawFixedLine, DrawFixedLineClip, DrawShapeAtOwnPos, sub_AAA40, sub_AADA4
-extern AllocMemBlock, FreeMemBlock, sub_AC868, sub_AD35C, sub_AD620, sub_AD824, sub_ADBEC, sub_AFD00
-extern LoadResourceDataShared, sub_B049E, OpenArtArchiveErr, sub_B31C0, LoadFileToBlockShared, FileSizeByName, SetRinkView, TransformRinkPoints
+extern SoundSecondsToBytes, SoundIdle, BuildAntiAliasTable, DrawFixedLine, DrawFixedLineClip, DrawShapeAtOwnPos, DrawArt, PutBlockAtOwnPos
+extern AllocMemBlock, FreeMemBlock, sub_AC868, CreateBitmap, sub_AD620, sub_AD824, FreeBitmap, UnpackedSize
+extern LoadResourceDataShared, sub_B049E, OpenArtArchiveErr, NearestColour, LoadFileToBlockShared, FileSizeByName, SetRinkView, TransformRinkPoints
 extern ProjectRinkObject, FillTexturePoly, FillTexturePolyClipped, OriFlatPoly, FillFloorPlane, DrawTexturedPolyArgs, OriFindMaterial, OriLoadShapes
 extern OriSetMaterialRgb, OriSetMaterialTexture, OriSetMaterialDrawFn, FixedLerp, FixedDivide, AddVec3, SubVec3, OriScaleVector
-extern PerspScale, ProjectPoint, sub_BA3D0, AngleOfVector, SinInterp, CosInterp, sub_BA5D0, sub_BB384
-extern DrawFlatPoly, DrawPolyOutline, sub_BB924, sub_BB9C4, sub_BBAA0, DrawPolyList, SetRinkMatrix, SetRinkTranslation
-extern SetScreenScale, sub_BBC14, sub_BBC80, sub_BBE50, sub_BC040, sub_BC0C4, sub_BC150, sub_BC3A0
-extern sub_BC3F4, sub_BC5C0, sub_BC674, sub_BC760, sub_BC7F0, sub_BC838, sub_BD86C, sub_BD9AC
-extern sub_BE6E0, sub_BE8AC, sub_BE926, SetScreenTarget, SetRemapTable, GetRemapTable, sub_DD908, SetBlitSource
-extern sub_DDB68, sub_E04E0, bcopy, Random32, sub_E0959, sub_E1575, sub_E162A, unk_1175BD
+extern PerspScale, ProjectPoint, ProjectPointList, AngleOfVector, SinInterp, CosInterp, FillPolyIndexed, DrawPerspQuad
+extern DrawFlatPoly, DrawPolyOutline, DrawArtScaledHotspot, TransformVector, ProjectPointsPersp, DrawPolyList, SetRinkMatrix, SetRinkTranslation
+extern SetScreenScale, ProjectModelPoints, DrawModelFlat, DrawModelSorted, DrawModelPolyList, DrawModelPolys, OriCreateInstance, OriSetObjectMatrix
+extern OriSetObjectPosition, OriLoadModel, MakeRotYMatrix, OriFindGroup, OriFindPartition, OriGetPartition, InitReciprocalTable, ClipPolyNearZ
+extern DrawMarkingPolys, SetPolyVertexArrays, sub_BE926, SetScreenTarget, SetRemapTable, GetRemapTable, sub_DD908, SetBlitSource
+extern sub_DDB68, FindShape, bcopy, Random32, sub_E0959, sub_E1575, sub_E162A, unk_1175BD
 extern IceSurfaceDef, IceGeometryDef, unk_1176AD, unk_1176CD, unk_1176EC, unk_158DA8, unk_158F28, unk_158F48
 extern unk_158F50, unk_158F68, unk_158F70, unk_158F88, unk_158FF4, unk_159000, unk_159018, unk_159024
 extern unk_15903C, unk_159108, unk_159148, unk_159190, IceSurfacePolys, unk_159238, unk_159338, unk_159368
@@ -201,7 +201,7 @@ DrawIceCrud:
         add eax, ebx
         add eax, dword [byte ebp-014h]
         push eax
-        call sub_B31C0
+        call NearestColour
         mov edx, dword [byte ebp-04h]
         add esp, byte 4
         mov byte [edx], al
@@ -405,13 +405,13 @@ LoadFshFile:
         push eax
         mov esi, eax
         mov dword [byte ebp-0Ch], eax
-        call sub_AFD00
+        call UnpackedSize
         add esp, byte 4
         test eax, eax
         jle short .5
         push byte 20h
         push esi
-        call sub_AFD00
+        call UnpackedSize
         add esp, byte 4
         push eax
         lea eax, [byte ebp-040h]
@@ -495,7 +495,7 @@ LoadIceTexture:
         movzx eax, byte [byte_159E61]
         push dword [dword_15E6D0]
         mov dword [dword_15E6CC], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword_15E6B0], eax
         xor ecx, ecx
@@ -527,7 +527,7 @@ LoadIceTexture:
         movsx eax, word [byte edx+06h]
         push eax
         push ebx
-        call sub_AD35C
+        call CreateBitmap
         mov dword [dword_15E6C0], eax
         mov eax, dword [byte eax+02Ch]
         add esp, byte 0Ch
@@ -1236,7 +1236,7 @@ DrawRubberEdge:
         mov ecx, dword [byte ebp+010h]
         mov eax, dword [byte ebp-0Ch]
         mov edx, esi
-        call sub_BA5D0
+        call FillPolyIndexed
         jmp near DrawFaceEdge_4F
 ;-----------------------------------------------------------------------------
 ; DrawStandsQuad                                  22494  96 PC, low confidence
@@ -1249,7 +1249,7 @@ DrawStandsQuad:
         push dword [TexturePageBase]
         push dword [TextureDetail]
         push eax
-        call sub_BB384
+        call DrawPerspQuad
         add esp, byte 14h
         pop ecx
         ret
@@ -1297,7 +1297,7 @@ DrawStandsSideQuad:
         mov edx, dword [dword_15E824]
 .1:
         push edx
-        call sub_BB384
+        call DrawPerspQuad
         add esp, byte 14h
         xor eax, eax
         pop edx
@@ -1424,7 +1424,7 @@ DrawStandsSide:
         push dword [TexturePageBase]
         push dword [TextureDetail]
         push ebx
-        call sub_BB384
+        call DrawPerspQuad
         add esp, byte 14h
         test edi, edi
         jne short .9
@@ -1877,7 +1877,7 @@ DrawRinkLinePoly:
         push unk_159108
         push unk_159398
         push byte 8
-        call sub_BA3D0
+        call ProjectPointList
         add esp, byte 0Ch
         mov ecx, unk_158F28
         mov ebx, 8
@@ -1916,7 +1916,7 @@ DrawFaceoffCircle:
         push byte 20h
         mov dword [byte ebp+076h], dword_1594B8
         xor esi, esi
-        call sub_BA3D0
+        call ProjectPointList
         mov eax, unk_158F88
         add esp, byte 0Ch
 .1:
@@ -1966,7 +1966,7 @@ DrawFaceoffCircle:
         push unk_158F48
         push unk_159338
         push byte 8
-        call sub_BA3D0
+        call ProjectPointList
         mov ecx, dword [dword_15E880]
         mov esi, dword [dword_15E888]
         mov eax, dword [dword_159340]
@@ -2060,7 +2060,7 @@ DrawCentreMarkings:
         push unk_158F88
         push byte 9
         xor esi, esi
-        call sub_BA3D0
+        call ProjectPointList
         mov eax, dword_1594B8
         mov ebx, unk_158F88
         add esp, byte 0Ch
@@ -2172,18 +2172,18 @@ DrawEndZoneMarkings:
         push dword_1594B8
         push unk_158F88
         push byte 9
-        call sub_BA3D0
+        call ProjectPointList
         add esp, byte 0Ch
         push unk_159500
         push unk_158FF4
         push byte 6
-        call sub_BA3D0
+        call ProjectPointList
         add esp, byte 0Ch
         push dword_159530
         push unk_15903C
         push byte 6
         xor esi, esi
-        call sub_BA3D0
+        call ProjectPointList
         mov eax, dword_1594B8
         mov ebx, unk_158F88
         add esp, byte 0Ch
@@ -3815,7 +3815,7 @@ DrawSpriteAtVertex:
         push edx
         push edi
         push ebx
-        call sub_BB924
+        call DrawArtScaledHotspot
         add esp, byte 10h
         pop edi
         pop esi
@@ -3842,7 +3842,7 @@ DrawGoalLight:
         push eax
         push FlashPolys
         push dword_15E87C
-        call sub_BB9C4
+        call TransformVector
         add esp, byte 0Ch
         lea eax, [byte ebp-060h]
         push eax
@@ -3875,7 +3875,7 @@ DrawGoalLight:
         lea eax, [byte ebp-060h]
         push eax
         push byte 4
-        call sub_BBAA0
+        call ProjectPointsPersp
         add esp, byte 10h
         lea eax, [byte ebp-030h]
         push eax
@@ -4742,7 +4742,7 @@ DrawGlassShards:
         push eax
         push FlashPolys
         push dword_15E87C
-        call sub_BB9C4
+        call TransformVector
         imul eax, dword [dword_15E6C8], byte 3
         add esp, byte 0Ch
         push unk_15BF20
@@ -4776,7 +4776,7 @@ DrawGlassShards:
         push eax
         push edi
         push byte 3
-        call sub_BBAA0
+        call ProjectPointsPersp
         add esp, byte 10h
         cmp esi, byte 4
         jl short .6
@@ -5073,16 +5073,16 @@ DrawPuckModel:
         push ecx
         push edx
         push dword [dword_15E8E0]
-        call sub_BBC80
+        call DrawModelFlat
         add esp, byte 4
         push dword [dword_15E8E0]
-        call sub_BBC14
+        call ProjectModelPoints
         add esp, byte 4
         push dword [dword_15E8E0]
-        call sub_BBE50
+        call DrawModelSorted
         add esp, byte 4
         push dword [dword_15E8E0]
-        call sub_BC0C4
+        call DrawModelPolys
         add esp, byte 4
         pop edx
         pop ecx
@@ -5101,10 +5101,10 @@ DrawPuckShadowModel:
         push edi
         enter 80h, 0
         push dword [dword_15E8D8]
-        call sub_BBC80
+        call DrawModelFlat
         add esp, byte 4
         push dword [dword_15E8D8]
-        call sub_BBC14
+        call ProjectModelPoints
         add esp, byte 4
         xor edx, edx
         xor eax, eax
@@ -5153,12 +5153,12 @@ PlacePuckModels:
         mov esi, eax
         push eax
         push dword [dword_15E8E0]
-        call sub_BC3F4
+        call OriSetObjectPosition
         add esp, byte 8
         push esi
         mov dword [byte esi+04h], 0
         push dword [dword_15E8D8]
-        call sub_BC3F4
+        call OriSetObjectPosition
         add esp, byte 8
         pop esi
         pop edx
@@ -5176,16 +5176,16 @@ DrawZamboni:
         cmp dword [dword_1176E5], byte 0
         je short DrawZamboni_41.1
         push dword [dword_15E81C]
-        call sub_BBC80
+        call DrawModelFlat
         add esp, byte 4
         push dword [dword_15E81C]
-        call sub_BBC14
+        call ProjectModelPoints
         add esp, byte 4
         push dword [dword_15E81C]
-        call sub_BBE50
+        call DrawModelSorted
         add esp, byte 4
         push dword [dword_15E81C]
-        call sub_BC0C4
+        call DrawModelPolys
 DrawZamboni_41:
         add esp, byte 4
 .1:
@@ -5207,7 +5207,7 @@ LoadZamboni:
         mov edx, 20h
         call SelectDataLibrary
         mov eax, str_Zamboni
-        call sub_BC5C0
+        call OriLoadModel
         push byte 0
         mov dword [dword_15E7E4], eax
         add eax, byte 2Ch
@@ -5218,7 +5218,7 @@ LoadZamboni:
         add esp, byte 8
         mov dword [dword_15E7D8], eax
         mov eax, dword [dword_15E7E4]
-        call sub_BC150
+        call OriCreateInstance
         push eax
         mov dword [dword_15E81C], eax
         call OriSetMaterialRgb
@@ -5255,7 +5255,7 @@ LoadZamboni:
         push dword [dword_15E81C]
         mov dword [dword_15E440], 0
         mov dword [dword_15E434], 0
-        call sub_BC3F4
+        call OriSetObjectPosition
         mov eax, dword [dword_15E444]
         add esp, byte 8
         sub eax, dword [dword_15E438]
@@ -5271,11 +5271,11 @@ LoadZamboni:
         push eax
         push unk_15E44C
         mov dword [dword_15E470], eax
-        call sub_BC674
+        call MakeRotYMatrix
         add esp, byte 8
         push unk_15E44C
         push dword [dword_15E81C]
-        call sub_BC3A0
+        call OriSetObjectMatrix
         mov dword [dword_15E478], 0
         mov dword [dword_1176E5], 1
         shl dword [dword_15E430], 10h
@@ -5400,11 +5400,11 @@ MoveZamboni:
 .5:
         push dword [dword_15E448]
         push unk_15E44C
-        call sub_BC674
+        call MakeRotYMatrix
         add esp, byte 8
         push unk_15E44C
         push dword [dword_15E81C]
-        call sub_BC3A0
+        call OriSetObjectMatrix
         add esp, byte 8
 .6:
         mov eax, dword [byte ebp-020h]
@@ -5422,7 +5422,7 @@ MoveZamboni:
         push unk_15E44C
         lea eax, [byte ebp-010h]
         push eax
-        call sub_BB9C4
+        call TransformVector
         add esp, byte 0Ch
         push dword_15E430
         lea eax, [byte ebp-01Ch]
@@ -5490,7 +5490,7 @@ MoveZamboni:
         push eax
         push dword [dword_15E81C]
         mov dword [byte ebp-0Ch], 0
-        call sub_BC3F4
+        call OriSetObjectPosition
         jmp near DrawGoalLight_A4
 ;-----------------------------------------------------------------------------
 ; DrawGoalNet                                  25502  96 PC, medium confidence
@@ -5514,11 +5514,11 @@ DrawGoalNet:
         mov dword [byte ebp-04h], eax
         mov esi, dword [byte ebp-04h]
         push esi
-        call sub_BBC80
+        call DrawModelFlat
         add esp, byte 4
         push esi
         mov dword [byte ebp-08h], 0
-        call sub_BBC14
+        call ProjectModelPoints
         add esp, byte 4
         cmp dword [dword_11A3F8], byte 0
         je short .3
@@ -5547,81 +5547,81 @@ DrawGoalNet:
         push dword [dword_15E6E8]
         push dword [dword_15E70C]
         push esi
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
         push dword [dword_15E6D8]
         push dword [dword_15E704]
         push esi
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
         push dword [dword_15E8E0]
-        call sub_BBC80
+        call DrawModelFlat
         add esp, byte 4
         push dword [dword_15E8E0]
-        call sub_BBC14
+        call ProjectModelPoints
         add esp, byte 4
         push dword [dword_15E8E0]
-        call sub_BBE50
+        call DrawModelSorted
         add esp, byte 4
         push dword [dword_15E8E0]
-        call sub_BC0C4
+        call DrawModelPolys
         add esp, byte 4
         push dword [dword_15E6FC]
         push dword [dword_15E700]
         push esi
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
 .7:
         push dword [dword_15E6DC]
         push dword [dword_15E6E4]
         push esi
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
         push dword [dword_15E6EC]
         push dword [dword_15E6F0]
 .8:
         push esi
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
         push dword [dword_15E6F8]
         push dword [dword_15E6F4]
         push esi
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
         jmp near DrawRinkFrontParts_1A3
 .9:
         push dword [dword_15E6EC]
         push dword [dword_15E6F0]
         push esi
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
         push dword [dword_15E6DC]
         push dword [dword_15E6E4]
         push esi
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
         push dword [dword_15E6FC]
         push dword [dword_15E700]
         push esi
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
         push dword [dword_15E8E0]
-        call sub_BBC80
+        call DrawModelFlat
         add esp, byte 4
         push dword [dword_15E8E0]
-        call sub_BBC14
+        call ProjectModelPoints
         add esp, byte 4
         push dword [dword_15E8E0]
-        call sub_BBE50
+        call DrawModelSorted
         add esp, byte 4
         push dword [dword_15E8E0]
-        call sub_BC0C4
+        call DrawModelPolys
         add esp, byte 4
 .10:
         push dword [dword_15E6D8]
         push dword [dword_15E704]
         push esi
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
         push dword [dword_15E6E8]
         push dword [dword_15E70C]
@@ -5633,58 +5633,58 @@ DrawGoalNet:
         push dword [dword_15E6E8]
         push dword [dword_15E70C]
         push esi
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
         push dword [dword_15E6D8]
         push dword [dword_15E704]
         push esi
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
         push dword [dword_15E6FC]
         push dword [dword_15E700]
         push esi
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
         push dword [dword_15E8E0]
-        call sub_BBC80
+        call DrawModelFlat
         add esp, byte 4
         push dword [dword_15E8E0]
-        call sub_BBC14
+        call ProjectModelPoints
         add esp, byte 4
         push dword [dword_15E8E0]
-        call sub_BBE50
+        call DrawModelSorted
         add esp, byte 4
         push dword [dword_15E8E0]
-        call sub_BC0C4
+        call DrawModelPolys
         add esp, byte 4
         jmp near .7
 .13:
         push dword [dword_15E6EC]
         push dword [dword_15E6F0]
         push esi
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
         push dword [dword_15E6DC]
         push dword [dword_15E6E4]
         push esi
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
         push dword [dword_15E8E0]
-        call sub_BBC80
+        call DrawModelFlat
         add esp, byte 4
         push dword [dword_15E8E0]
-        call sub_BBC14
+        call ProjectModelPoints
         add esp, byte 4
         push dword [dword_15E8E0]
-        call sub_BBE50
+        call DrawModelSorted
         add esp, byte 4
         push dword [dword_15E8E0]
-        call sub_BC0C4
+        call DrawModelPolys
         add esp, byte 4
         push dword [dword_15E6FC]
         push dword [dword_15E700]
         push esi
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
         jmp near .10
 .14:
@@ -5700,10 +5700,10 @@ DrawGoalNet:
         jmp near .6
 .16:
         push esi
-        call sub_BBE50
+        call DrawModelSorted
         add esp, byte 4
         push esi
-        call sub_BC0C4
+        call DrawModelPolys
         jmp near DrawRinkFrontParts_1A0
 ;-----------------------------------------------------------------------------
 ; PlaceGoalNet                                    25820  96 PC, low confidence
@@ -5721,7 +5721,7 @@ PlaceGoalNet:
         mov eax, dword [dword_15E8F8]
 .2:
         push eax
-        call sub_BC3F4
+        call OriSetObjectPosition
         add esp, byte 8
         pop ecx
         pop ebx
@@ -5795,7 +5795,7 @@ BuildRinkSides:
         lea eax, [byte ebp-02Ah]
         push eax
         push dword [dword_15E8E4]
-        call sub_BC7F0
+        call OriFindPartition
         add esp, byte 8
         mov dword [byte ebp+0Ah], eax
         cmp eax, byte 0FFFFFFFFh
@@ -5810,7 +5810,7 @@ BuildRinkSides:
         push eax
         push dword [byte ebp+0Ah]
         push dword [dword_15E8E4]
-        call sub_BC838
+        call OriGetPartition
         mov dword [byte esi+010h], 0
         mov eax, dword [byte ebp+04Eh]
         mov dword [byte esi+014h], 0
@@ -5918,7 +5918,7 @@ BuildRinkSides:
         lea eax, [byte ebp-02Ah]
         push eax
         push dword [dword_15E900]
-        call sub_BC7F0
+        call OriFindPartition
         add esp, byte 8
         mov dword [byte ebp+0Eh], eax
         cmp eax, byte 0FFFFFFFFh
@@ -5933,7 +5933,7 @@ BuildRinkSides:
         push eax
         push dword [byte ebp+0Eh]
         push dword [dword_15E900]
-        call sub_BC838
+        call OriGetPartition
         mov eax, dword [byte ebp+04Ah]
         mov dword [byte esi+074h], 0
         mov dword [byte esi+068h], eax
@@ -6057,7 +6057,7 @@ BuildRinkSides:
         lea eax, [dword ebp-0AAh]
         push eax
         push dword [dword_15E8E4]
-        call sub_BC760
+        call OriFindGroup
         mov edx, eax
         add esp, byte 8
         test eax, eax
@@ -6092,7 +6092,7 @@ BuildRinkSides:
         lea eax, [dword ebp-08Ah]
         push eax
         push dword [dword_15E8E4]
-        call sub_BC760
+        call OriFindGroup
         mov edx, eax
         add esp, byte 8
         test eax, eax
@@ -6127,7 +6127,7 @@ BuildRinkSides:
         lea eax, [byte ebp-04Ah]
         push eax
         push dword [dword_15E8E4]
-        call sub_BC760
+        call OriFindGroup
         mov edx, eax
         add esp, byte 8
         test eax, eax
@@ -6162,7 +6162,7 @@ BuildRinkSides:
         lea eax, [byte ebp-06Ah]
         push eax
         push dword [dword_15E8E4]
-        call sub_BC760
+        call OriFindGroup
         mov edx, eax
         add esp, byte 8
         test eax, eax
@@ -6483,7 +6483,7 @@ BlendPaletteToGrey:
         or eax, ebx
         push eax
         add edi, byte 3
-        call sub_B31C0
+        call NearestColour
         mov ebx, dword [byte ebp-018h]
         add esp, byte 4
         inc dword [byte ebp-018h]
@@ -6514,7 +6514,7 @@ LoadRinkModel:
         call SetScreenScale
         add esp, byte 4
         mov edx, 19999h
-        call sub_BD86C
+        call InitReciprocalTable
         mov eax, 4
         imul edx
         add eax, 8000h
@@ -6622,7 +6622,7 @@ LoadRinkModel:
         mov edx, 20h
         call SelectDataLibrary
         mov eax, str_Rink
-        call sub_BC5C0
+        call OriLoadModel
         mov edx, 20h
         mov dword [dword_15E8DC], eax
         add eax, byte 2Ch
@@ -6631,7 +6631,7 @@ LoadRinkModel:
         mov edx, 20h
         mov dword [dword_15E8EC], eax
         mov eax, dword [dword_15E8DC]
-        call sub_BC150
+        call OriCreateInstance
         push eax
         mov dword [dword_15E8E4], eax
         call OriSetMaterialRgb
@@ -6645,15 +6645,15 @@ LoadRinkModel:
         or byte [byte eax+010h], 2
         mov eax, str_Stands2
         mov ebx, 4
-        call sub_BC5C0
+        call OriLoadModel
         mov edx, 20h
         mov dword [dword_15E8E8], eax
-        call sub_BC150
+        call OriCreateInstance
         mov dword [dword_15E900], eax
         mov edx, 20h
         or byte [byte eax+010h], 2
         mov eax, str_Score
-        call sub_BC5C0
+        call OriLoadModel
         mov edx, 20h
         mov dword [dword_15E8CC], eax
         add eax, byte 2Ch
@@ -6662,7 +6662,7 @@ LoadRinkModel:
         mov edx, 20h
         mov dword [dword_15E8C8], eax
         mov eax, dword [dword_15E8CC]
-        call sub_BC150
+        call OriCreateInstance
         push eax
         mov dword [dword_15E8C4], eax
         call OriSetMaterialRgb
@@ -6675,7 +6675,7 @@ LoadRinkModel:
         add esp, byte 8
         or byte [byte eax+010h], 2
         mov eax, str_Puck
-        call sub_BC5C0
+        call OriLoadModel
         mov edx, 20h
         mov dword [dword_15E8F0], eax
         add eax, byte 2Ch
@@ -6684,7 +6684,7 @@ LoadRinkModel:
         mov edx, 20h
         mov dword [dword_15E818], eax
         mov eax, dword [dword_15E8F0]
-        call sub_BC150
+        call OriCreateInstance
         push eax
         mov dword [dword_15E8E0], eax
         call OriSetMaterialRgb
@@ -6698,15 +6698,15 @@ LoadRinkModel:
         or byte [byte eax+010h], 2
         mov eax, str_Puckshad
         mov ebx, 4
-        call sub_BC5C0
+        call OriLoadModel
         mov edx, 20h
         mov dword [dword_15E8D4], eax
-        call sub_BC150
+        call OriCreateInstance
         mov dword [dword_15E8D8], eax
         mov edx, 20h
         or byte [byte eax+010h], 2
         mov eax, str_Net
-        call sub_BC5C0
+        call OriLoadModel
         mov edx, 20h
         mov dword [dword_15E8F4], eax
         add eax, byte 2Ch
@@ -6715,7 +6715,7 @@ LoadRinkModel:
         mov edx, 20h
         mov dword [dword_15E8D0], eax
         mov eax, dword [dword_15E8F4]
-        call sub_BC150
+        call OriCreateInstance
         push eax
         mov dword [dword_15E8F8], eax
         call OriSetMaterialRgb
@@ -6726,7 +6726,7 @@ LoadRinkModel:
         add esp, byte 8
         push str_Goal02
         push dword [dword_15E8E4]
-        call sub_BC760
+        call OriFindGroup
         imul edx, eax, byte 0Ch
         mov eax, dword [dword_15E8E4]
         mov eax, dword [byte eax+070h]
@@ -6734,14 +6734,14 @@ LoadRinkModel:
         add eax, edx
         push eax
         push dword [dword_15E8F8]
-        call sub_BC3F4
+        call OriSetObjectPosition
         mov eax, dword [dword_15E8F8]
         mov ebx, 4
         add esp, byte 8
         or byte [byte eax+010h], 2
         mov edx, 20h
         mov eax, dword [dword_15E8F4]
-        call sub_BC150
+        call OriCreateInstance
         push eax
         mov dword [dword_15E8FC], eax
         call OriSetMaterialRgb
@@ -6752,7 +6752,7 @@ LoadRinkModel:
         add esp, byte 8
         push str_Goal12
         push dword [dword_15E8E4]
-        call sub_BC760
+        call OriFindGroup
         imul edx, eax, byte 0Ch
         mov eax, dword [dword_15E8E4]
         mov eax, dword [byte eax+070h]
@@ -6760,17 +6760,17 @@ LoadRinkModel:
         add eax, edx
         push eax
         push dword [dword_15E8FC]
-        call sub_BC3F4
+        call OriSetObjectPosition
         add esp, byte 8
         push dword 8000h
         lea eax, [byte ebp-04Ch]
         push eax
-        call sub_BC674
+        call MakeRotYMatrix
         add esp, byte 8
         lea eax, [byte ebp-04Ch]
         push eax
         push dword [dword_15E8FC]
-        call sub_BC3A0
+        call OriSetObjectMatrix
         add esp, byte 8
         mov eax, dword [dword_15E8FC]
         push str_Pipe
@@ -6802,63 +6802,63 @@ LoadRinkModel:
         add esp, byte 0Ch
         push str_Left1
         push dword [dword_15E8F8]
-        call sub_BC7F0
+        call OriFindPartition
         add esp, byte 8
         push dword_15E6EC
         push dword_15E6F0
         push eax
         push dword [dword_15E8F8]
-        call sub_BC838
+        call OriGetPartition
         add esp, byte 10h
         push str_Left2
         push dword [dword_15E8F8]
-        call sub_BC7F0
+        call OriFindPartition
         add esp, byte 8
         push dword_15E6DC
         push dword_15E6E4
         push eax
         push dword [dword_15E8F8]
-        call sub_BC838
+        call OriGetPartition
         add esp, byte 10h
         push str_Back
         push dword [dword_15E8F8]
-        call sub_BC7F0
+        call OriFindPartition
         add esp, byte 8
         push dword_15E6FC
         push dword_15E700
         push eax
         push dword [dword_15E8F8]
-        call sub_BC838
+        call OriGetPartition
         add esp, byte 10h
         push str_Right2
         push dword [dword_15E8F8]
-        call sub_BC7F0
+        call OriFindPartition
         add esp, byte 8
         push dword_15E6D8
         push dword_15E704
         push eax
         push dword [dword_15E8F8]
-        call sub_BC838
+        call OriGetPartition
         add esp, byte 10h
         push str_Right1
         push dword [dword_15E8F8]
-        call sub_BC7F0
+        call OriFindPartition
         add esp, byte 8
         push dword_15E6E8
         push dword_15E70C
         push eax
         push dword [dword_15E8F8]
-        call sub_BC838
+        call OriGetPartition
         add esp, byte 10h
         push str_Top
         push dword [dword_15E8F8]
-        call sub_BC7F0
+        call OriFindPartition
         add esp, byte 8
         push dword_15E6F8
         push dword_15E6F4
         push eax
         push dword [dword_15E8F8]
-        call sub_BC838
+        call OriGetPartition
         add esp, byte 10h
         mov edx, dword [dword_15E8E4]
         push str_Minx
@@ -6866,42 +6866,42 @@ LoadRinkModel:
         push edx
         mov edi, dword [byte edx+070h]
         mov dword [byte ebp-04h], eax
-        call sub_BC760
+        call OriFindGroup
         imul eax, byte 0Ch
         add esp, byte 8
         push str_Maxx
         mov eax, dword [edi+eax]
         push dword [dword_15E8E4]
         mov dword [dword_15E7B0], eax
-        call sub_BC760
+        call OriFindGroup
         imul eax, byte 0Ch
         add esp, byte 8
         push str_Minz
         mov eax, dword [edi+eax]
         push dword [dword_15E8E4]
         mov dword [dword_15E7A8], eax
-        call sub_BC760
+        call OriFindGroup
         imul eax, byte 0Ch
         add esp, byte 8
         push str_Maxz
         mov eax, dword [byte edi+eax+08h]
         push dword [dword_15E8E4]
         mov dword [dword_15E7B4], eax
-        call sub_BC760
+        call OriFindGroup
         imul eax, byte 0Ch
         add esp, byte 8
         push str_Rlite1
         mov eax, dword [byte edi+eax+08h]
         push dword [dword_15E8E4]
         mov dword [dword_15E7A4], eax
-        call sub_BC760
+        call OriFindGroup
         imul eax, byte 0Ch
         add esp, byte 8
         push str_Gt305
         mov eax, dword [byte edi+eax+04h]
         push dword [dword_15E8E4]
         mov dword [byte ebp-08h], eax
-        call sub_BC760
+        call OriFindGroup
         imul eax, byte 0Ch
         mov eax, dword [edi+eax]
         add esp, byte 8
@@ -6954,33 +6954,33 @@ LoadRinkModel:
         mov eax, dword [byte edx+eax+04h]
         push dword [dword_15E900]
         mov dword [dword_15E838], eax
-        call sub_BC7F0
+        call OriFindPartition
         add esp, byte 8
         push dword_15E7D4
         push dword_15E80C
         push eax
         push dword [dword_15E900]
-        call sub_BC838
+        call OriGetPartition
         add esp, byte 10h
         push str_STAND2ND
         push dword [dword_15E900]
-        call sub_BC7F0
+        call OriFindPartition
         add esp, byte 8
         push dword_15E7AC
         push dword_15E7FC
         push eax
         push dword [dword_15E900]
-        call sub_BC838
+        call OriGetPartition
         add esp, byte 10h
         push str_WALL
         push dword [dword_15E900]
-        call sub_BC7F0
+        call OriFindPartition
         add esp, byte 8
         push dword_15E790
         push dword_15E7F4
         push eax
         push dword [dword_15E900]
-        call sub_BC838
+        call OriGetPartition
         add esp, byte 10h
         push str_Rubber
         push dword [dword_15E8E0]
@@ -7002,32 +7002,32 @@ LoadRinkModel:
         add esp, byte 0Ch
         push str_ICE2
         push dword [dword_15E8E4]
-        call sub_BC7F0
+        call OriFindPartition
         add esp, byte 8
         push dword_15E7CC
         push dword_15E808
         push eax
         push dword [dword_15E8E4]
-        call sub_BC838
+        call OriGetPartition
         add esp, byte 10h
         push str_ICELOGO2
         push dword [dword_15E8E4]
-        call sub_BC7F0
+        call OriFindPartition
         add esp, byte 8
         push dword_15E780
         push dword_15E774
         push eax
         push dword [dword_15E8E4]
-        call sub_BC838
+        call OriGetPartition
         add esp, byte 10h
         push str_Rlite0
         push dword [dword_15E8E4]
-        call sub_BC760
+        call OriFindGroup
         add esp, byte 8
         push str_Rlite1
         push dword [dword_15E8E4]
         mov dword [dword_15E834], eax
-        call sub_BC760
+        call OriFindGroup
         add esp, byte 8
         push str_Redlite
         push dword [dword_15E8E4]
@@ -7041,12 +7041,12 @@ LoadRinkModel:
         mov edx, dword [byte edx+ebx+0Ch]
         push eax
         mov dword [dword_15E828], edx
-        call sub_BC760
+        call OriFindGroup
         add esp, byte 8
         push str_Glite1
         push dword [dword_15E8E4]
         mov dword [dword_15E858], eax
-        call sub_BC760
+        call OriFindGroup
         add esp, byte 8
         push str_Grnlite
         push dword [dword_15E8E4]
@@ -7060,105 +7060,105 @@ LoadRinkModel:
         mov edx, dword [byte edx+ebx+0Ch]
         push eax
         mov dword [dword_15E864], edx
-        call sub_BC7F0
+        call OriFindPartition
         add esp, byte 8
         push dword_15E78C
         push dword_15E7B8
         push eax
         push dword [dword_15E8E4]
-        call sub_BC838
+        call OriGetPartition
         add esp, byte 10h
         push str_Penboxz0
         push dword [dword_15E8E4]
-        call sub_BC7F0
+        call OriFindPartition
         add esp, byte 8
         push dword_15E714
         push dword_15E75C
         push eax
         push dword [dword_15E8E4]
-        call sub_BC838
+        call OriGetPartition
         add esp, byte 10h
         push str_Penboxz1
         push dword [dword_15E8E4]
-        call sub_BC7F0
+        call OriFindPartition
         add esp, byte 8
         push dword_15E710
         push dword_15E760
         push eax
         push dword [dword_15E8E4]
-        call sub_BC838
+        call OriGetPartition
         add esp, byte 10h
         push str_Penboxt0
         push dword [dword_15E8E4]
-        call sub_BC7F0
+        call OriFindPartition
         add esp, byte 8
         push dword_15E724
         push dword_15E768
         push eax
         push dword [dword_15E8E4]
-        call sub_BC838
+        call OriGetPartition
         add esp, byte 10h
         push str_Penboxt1
         push dword [dword_15E8E4]
-        call sub_BC7F0
+        call OriFindPartition
         add esp, byte 8
         push dword_15E720
         push dword_15E76C
         push eax
         push dword [dword_15E8E4]
-        call sub_BC838
+        call OriGetPartition
         add esp, byte 10h
         push str_Penbot
         push dword [dword_15E8E4]
-        call sub_BC7F0
+        call OriFindPartition
         add esp, byte 8
         push dword_15E728
         push dword_15E74C
         push eax
         push dword [dword_15E8E4]
-        call sub_BC838
+        call OriGetPartition
         add esp, byte 10h
         push str_Penback
         push dword [dword_15E8E4]
-        call sub_BC7F0
+        call OriFindPartition
         add esp, byte 8
         push dword_15E758
         push dword_15E718
         push eax
         push dword [dword_15E8E4]
-        call sub_BC838
+        call OriGetPartition
         add esp, byte 10h
         push str_Penboxt0
         push dword [dword_15E8E4]
-        call sub_BC760
+        call OriFindGroup
         imul eax, byte 0Ch
         add esp, byte 8
         push str_Penboxz0
         mov eax, dword [edi+eax]
         push dword [dword_15E8E4]
         mov dword [dword_15E770], eax
-        call sub_BC760
+        call OriFindGroup
         imul eax, byte 0Ch
         add esp, byte 8
         push str_Penboxz1
         mov eax, dword [byte edi+eax+08h]
         push dword [dword_15E8E4]
         mov dword [dword_15E738], eax
-        call sub_BC760
+        call OriFindGroup
         imul eax, byte 0Ch
         add esp, byte 8
         push str_Penboxt0
         mov eax, dword [byte edi+eax+08h]
         push dword [dword_15E8E4]
         mov dword [dword_15E734], eax
-        call sub_BC760
+        call OriFindGroup
         imul eax, byte 0Ch
         add esp, byte 8
         push str_Penboxt1
         mov eax, dword [byte edi+eax+08h]
         push dword [dword_15E8E4]
         mov dword [dword_15E754], eax
-        call sub_BC760
+        call OriFindGroup
         imul eax, byte 0Ch
         add esp, byte 8
         mov eax, dword [byte edi+eax+08h]
@@ -7174,7 +7174,7 @@ LoadRinkModel:
         lea eax, [byte ebp-01Ch]
         push eax
         push dword [dword_15E8E4]
-        call sub_BC760
+        call OriFindGroup
         add esp, byte 8
         test eax, eax
         jl short .2
@@ -7189,7 +7189,7 @@ LoadRinkModel:
         lea eax, [byte ebp-01Ch]
         push eax
         push dword [dword_15E8E4]
-        call sub_BC760
+        call OriFindGroup
         mov edx, eax
         add esp, byte 8
         test eax, eax
@@ -7202,121 +7202,121 @@ LoadRinkModel:
 .2:
         push str_DoorZ0
         push dword [dword_15E8E4]
-        call sub_BC760
+        call OriFindGroup
         add esp, byte 8
         push str_DoorZ1
         push dword [dword_15E8E4]
         mov dword [dword_15D2A4], eax
-        call sub_BC760
+        call OriFindGroup
         add esp, byte 8
         push str_Door00
         push dword [dword_15E8E4]
         mov dword [dword_15D2B4], eax
-        call sub_BC760
+        call OriFindGroup
         add esp, byte 8
         push str_Door01
         push dword [dword_15E8E4]
         mov dword [dword_15E6A0], eax
-        call sub_BC760
+        call OriFindGroup
         add esp, byte 8
         push str_Door02
         push dword [dword_15E8E4]
         mov dword [dword_15E6A4], eax
-        call sub_BC760
+        call OriFindGroup
         add esp, byte 8
         push str_Door10
         push dword [dword_15E8E4]
         mov dword [dword_15E6A8], eax
-        call sub_BC760
+        call OriFindGroup
         add esp, byte 8
         push str_Door11
         push dword [dword_15E8E4]
         mov dword [dword_15E6B4], eax
-        call sub_BC760
+        call OriFindGroup
         add esp, byte 8
         push str_Door12
         push dword [dword_15E8E4]
         mov dword [dword_15E6B8], eax
-        call sub_BC760
+        call OriFindGroup
         add esp, byte 8
         push str_Zambpath
         push dword [dword_15E8E4]
         mov dword [dword_15E6BC], eax
-        call sub_BC7F0
+        call OriFindPartition
         add esp, byte 8
         push dword_15E7F0
         push dword_15E800
         push eax
         push dword [dword_15E8E4]
-        call sub_BC838
+        call OriGetPartition
         add esp, byte 10h
         push str_Benchz0
         push dword [dword_15E8E4]
-        call sub_BC7F0
+        call OriFindPartition
         add esp, byte 8
         push dword_15E7C8
         push dword_15E7C0
         push eax
         push dword [dword_15E8E4]
-        call sub_BC838
+        call OriGetPartition
         add esp, byte 10h
         push str_Benchz1
         push dword [dword_15E8E4]
-        call sub_BC7F0
+        call OriFindPartition
         add esp, byte 8
         push dword_15E764
         push dword_15E7C4
         push eax
         push dword [dword_15E8E4]
-        call sub_BC838
+        call OriGetPartition
         add esp, byte 10h
         push str_Benchbot
         push dword [dword_15E8E4]
-        call sub_BC7F0
+        call OriFindPartition
         add esp, byte 8
         push dword_15E748
         push dword_15E7D0
         push eax
         push dword [dword_15E8E4]
-        call sub_BC838
+        call OriGetPartition
         add esp, byte 10h
         push str_Benchdiv
         push dword [dword_15E8E4]
-        call sub_BC7F0
+        call OriFindPartition
         add esp, byte 8
         push dword_15E71C
         push dword_15E7BC
         push eax
         push dword [dword_15E8E4]
-        call sub_BC838
+        call OriGetPartition
         add esp, byte 10h
         push str_Benchbk
         push dword [dword_15E8E4]
-        call sub_BC7F0
+        call OriFindPartition
         add esp, byte 8
         push dword_15E73C
         push dword_15E788
         push eax
         push dword [dword_15E8E4]
-        call sub_BC838
+        call OriGetPartition
         add esp, byte 10h
         push str_Benchx
         push dword [dword_15E8E4]
-        call sub_BC760
+        call OriFindGroup
         imul eax, byte 0Ch
         add esp, byte 8
         push str_Benchz0
         mov eax, dword [edi+eax]
         push dword [dword_15E8E4]
         mov dword [dword_15E794], eax
-        call sub_BC760
+        call OriFindGroup
         imul eax, byte 0Ch
         add esp, byte 8
         push str_Benchz1
         mov eax, dword [byte edi+eax+08h]
         push dword [dword_15E8E4]
         mov dword [dword_15E7A0], eax
-        call sub_BC760
+        call OriFindGroup
         imul eax, byte 0Ch
         add esp, byte 8
         mov eax, dword [byte edi+eax+08h]
@@ -7332,7 +7332,7 @@ LoadRinkModel:
         lea eax, [byte ebp-028h]
         push eax
         push dword [dword_15E8E4]
-        call sub_BC760
+        call OriFindGroup
         mov edx, eax
         add esp, byte 8
         test eax, eax
@@ -7348,7 +7348,7 @@ LoadRinkModel:
         lea eax, [byte ebp-028h]
         push eax
         push dword [dword_15E8E4]
-        call sub_BC760
+        call OriFindGroup
         mov edx, eax
         add esp, byte 8
         test eax, eax
@@ -7361,7 +7361,7 @@ LoadRinkModel:
 .4:
         push str_B00
         push dword [dword_15E8E4]
-        call sub_BC760
+        call OriFindGroup
         imul eax, byte 0Ch
         add esp, byte 8
         mov eax, dword [byte edi+eax+04h]
@@ -7369,7 +7369,7 @@ LoadRinkModel:
         sar eax, 2
         push dword [dword_15E8E4]
         mov dword [dword_15E844], eax
-        call sub_BC760
+        call OriFindGroup
         imul eax, byte 0Ch
         add esp, byte 8
         mov eax, dword [byte edi+eax+08h]
@@ -7377,7 +7377,7 @@ LoadRinkModel:
         sar eax, 2
         push dword [dword_15E8E4]
         mov dword [dword_15E820], eax
-        call sub_BC760
+        call OriFindGroup
         imul eax, byte 0Ch
         add esp, byte 8
         mov eax, dword [byte edi+eax+08h]
@@ -7385,7 +7385,7 @@ LoadRinkModel:
         sar eax, 2
         push dword [dword_15E8E4]
         mov dword [dword_15E85C], eax
-        call sub_BC760
+        call OriFindGroup
         imul eax, byte 0Ch
         add esp, byte 8
         mov eax, dword [byte edi+eax+04h]
@@ -7393,7 +7393,7 @@ LoadRinkModel:
         sar eax, 2
         push dword [dword_15E8E4]
         mov dword [dword_15E874], eax
-        call sub_BC760
+        call OriFindGroup
         imul eax, byte 0Ch
         mov eax, dword [byte edi+eax+04h]
         sar eax, 2
@@ -7422,7 +7422,7 @@ LoadRinkModel:
         lea eax, [byte ebp-010h]
         push eax
         push dword [dword_15E8E4]
-        call sub_BC760
+        call OriFindGroup
         mov edx, eax
         add esp, byte 8
         test eax, eax
@@ -7435,28 +7435,28 @@ LoadRinkModel:
 .6:
         push str_C03
         push dword [dword_15E8E4]
-        call sub_BC760
+        call OriFindGroup
         add esp, byte 8
         push str_C02
         push dword [dword_15E8E4]
         mov dword [dword_15E120], eax
-        call sub_BC760
+        call OriFindGroup
         add esp, byte 8
         push str_C01
         push dword [dword_15E8E4]
         mov dword [dword_15E124], eax
-        call sub_BC760
+        call OriFindGroup
         add esp, byte 8
         push str_C00
         push dword [dword_15E8E4]
         mov dword [dword_15E128], eax
-        call sub_BC760
+        call OriFindGroup
         add esp, byte 8
         mov dword [dword_15E12C], eax
         call BuildCircleTable
         push str_Center
         push dword [dword_15E8E4]
-        call sub_BC760
+        call OriFindGroup
         imul eax, byte 0Ch
         add esp, byte 8
         mov edx, dword [byte ebp-04h]
@@ -7464,7 +7464,7 @@ LoadRinkModel:
         add edx, eax
         push dword [dword_15E8E4]
         mov dword [dword_15E684], edx
-        call sub_BC760
+        call OriFindGroup
         imul eax, byte 0Ch
         add esp, byte 8
         mov edx, dword [byte ebp-04h]
@@ -7472,7 +7472,7 @@ LoadRinkModel:
         add edx, eax
         push dword [dword_15E8E4]
         mov dword [dword_15E688], edx
-        call sub_BC760
+        call OriFindGroup
         imul eax, byte 0Ch
         add esp, byte 8
         mov edx, dword [byte ebp-04h]
@@ -7480,7 +7480,7 @@ LoadRinkModel:
         add edx, eax
         push dword [dword_15E8E4]
         mov dword [dword_15E68C], edx
-        call sub_BC760
+        call OriFindGroup
         imul eax, byte 0Ch
         add esp, byte 8
         mov edx, dword [byte ebp-04h]
@@ -7488,7 +7488,7 @@ LoadRinkModel:
         add edx, eax
         push dword [dword_15E8E4]
         mov dword [dword_15E690], edx
-        call sub_BC760
+        call OriFindGroup
         imul eax, byte 0Ch
         add esp, byte 8
         mov edx, dword [byte ebp-04h]
@@ -7496,7 +7496,7 @@ LoadRinkModel:
         add edx, eax
         push dword [dword_15E8E4]
         mov dword [dword_15E694], edx
-        call sub_BC760
+        call OriFindGroup
         imul eax, byte 0Ch
         mov edx, dword [byte ebp-04h]
         add edx, eax
@@ -7504,7 +7504,7 @@ LoadRinkModel:
         mov dword [dword_1595B8], edx
         push str_Faceoff5
         push dword [dword_15E8E4]
-        call sub_BC760
+        call OriFindGroup
         imul eax, byte 0Ch
         add esp, byte 8
         mov edx, dword [byte ebp-04h]
@@ -7512,7 +7512,7 @@ LoadRinkModel:
         add edx, eax
         push dword [dword_15E8E4]
         mov dword [dword_1595BC], edx
-        call sub_BC760
+        call OriFindGroup
         imul eax, byte 0Ch
         add esp, byte 8
         mov edx, dword [byte ebp-04h]
@@ -7520,7 +7520,7 @@ LoadRinkModel:
         add edx, eax
         push dword [dword_15E8E4]
         mov dword [dword_1595C0], edx
-        call sub_BC760
+        call OriFindGroup
         imul eax, byte 0Ch
         add esp, byte 8
         mov edx, dword [byte ebp-04h]
@@ -7528,7 +7528,7 @@ LoadRinkModel:
         add edx, eax
         push dword [dword_15E8E4]
         mov dword [dword_1595C4], edx
-        call sub_BC760
+        call OriFindGroup
         imul eax, byte 0Ch
         add esp, byte 8
         mov edx, dword [byte ebp-04h]
@@ -7536,7 +7536,7 @@ LoadRinkModel:
         add edx, eax
         push dword [dword_15E8E4]
         mov dword [dword_15E60C], edx
-        call sub_BC760
+        call OriFindGroup
         imul eax, byte 0Ch
         add esp, byte 8
         mov edx, dword [byte ebp-04h]
@@ -7544,7 +7544,7 @@ LoadRinkModel:
         add edx, eax
         push dword [dword_15E8E4]
         mov dword [dword_15E610], edx
-        call sub_BC760
+        call OriFindGroup
         imul eax, byte 0Ch
         add esp, byte 8
         mov edx, dword [byte ebp-04h]
@@ -7552,13 +7552,13 @@ LoadRinkModel:
         add edx, eax
         push dword [dword_15E8E4]
         mov dword [dword_15E614], edx
-        call sub_BC7F0
+        call OriFindPartition
         add esp, byte 8
         push dword_15E778
         push dword_15E784
         push eax
         push dword [dword_15E8E4]
-        call sub_BC838
+        call OriGetPartition
         add esp, byte 10h
         push str_FatRedLines
         push dword [dword_15E8E4]
@@ -7754,7 +7754,7 @@ FreeRinkModel:
         call FreeMemBlock
         add esp, byte 4
         push dword [dword_15E6C0]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         push dword [dword_15E6D0]
         call FreeMemBlock
@@ -7839,7 +7839,7 @@ DrawIceBackPoly:
         push eax
         push dword [dword_1175AD]
         xor esi, esi
-        call sub_BD9AC
+        call ClipPolyNearZ
         add esp, byte 10h
         mov dword [byte ebp+076h], eax
         xor eax, eax
@@ -8022,7 +8022,7 @@ DrawIceMarkings:
         push dword [dword_15E7CC]
         push dword [dword_15E808]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
         jmp short .3
 .2:
@@ -8030,11 +8030,11 @@ DrawIceMarkings:
         mov ebx, 0FFFFFFFFh
         mov edx, dword [byte eax+07Ch]
         mov eax, dword [byte eax+078h]
-        call sub_BE8AC
+        call SetPolyVertexArrays
         mov edx, dword_15DEA0
         mov ebx, dword [dword_15E810]
         mov eax, dword [dword_1175AD]
-        call sub_BE6E0
+        call DrawMarkingPolys
 .3:
         call DrawIceSurface
         mov eax, dword [dword_15E60C]
@@ -8076,7 +8076,7 @@ DrawIceMarkings:
         push dword [dword_15E778]
         push dword [dword_15E784]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         mov eax, dword [dword_15E8E4]
         or byte [byte eax+010h], 2
         add esp, byte 0Ch
@@ -8085,7 +8085,7 @@ DrawIceMarkings:
         push dword [dword_15E780]
         push dword [dword_15E774]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
 .10:
         mov eax, dword [dword_15E684]
@@ -8126,7 +8126,7 @@ DrawIceMarkings:
         push dword [dword_15E78C]
         push dword [dword_15E7B8]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
         push unk_15E330
         mov dword [byte ebp+07Ah], dword_15D2B8
@@ -8206,7 +8206,7 @@ DrawIceMarkings:
         lea eax, [byte ebp+02h]
         push eax
         push byte 4
-        call sub_BBAA0
+        call ProjectPointsPersp
         add esp, byte 10h
         lea eax, [byte ebp+032h]
         push eax
@@ -8237,27 +8237,27 @@ DrawRinkModels:
         push ecx
         push edx
         push dword [dword_15E8E4]
-        call sub_BBC80
+        call DrawModelFlat
         add esp, byte 4
         push dword [dword_15E8E4]
-        call sub_BBC14
+        call ProjectModelPoints
         add esp, byte 4
         cmp byte [byte_1175A9], 0
         je short .1
         push dword [dword_15E900]
-        call sub_BBC80
+        call DrawModelFlat
         add esp, byte 4
         push dword [dword_15E900]
-        call sub_BBC14
+        call ProjectModelPoints
         add esp, byte 4
 .1:
         cmp byte [byte_1175AC], 0
         je short .2
         push dword [dword_15E8C4]
-        call sub_BBC80
+        call DrawModelFlat
         add esp, byte 4
         push dword [dword_15E8C4]
-        call sub_BBC14
+        call ProjectModelPoints
         add esp, byte 4
 .2:
         pop edx
@@ -8500,7 +8500,7 @@ DrawBenchSide:
         push dword [dword_15E748]
         push dword [dword_15E7D0]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         mov ebx, dword [dword_15E87C]
         add esp, byte 0Ch
         cmp ebx, dword [dword_15E794]
@@ -8508,7 +8508,7 @@ DrawBenchSide:
         push dword [dword_15E73C]
         push dword [dword_15E788]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
 .1:
         cmp dword [dword_15E884], byte 0
@@ -8522,7 +8522,7 @@ DrawBenchSide:
         push dword [dword_15E764]
         push dword [dword_15E7C4]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
         mov edx, 0FFFFFFFFh
         mov eax, 1
@@ -8536,7 +8536,7 @@ DrawBenchSide:
         push dword [dword_15E71C]
         push dword [dword_15E7BC]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         mov ebx, dword [dword_15E884]
         add esp, byte 0Ch
         cmp ebx, dword [dword_15E7A0]
@@ -8557,7 +8557,7 @@ DrawBenchSide:
         push dword [dword_15E7C8]
         push dword [dword_15E7C0]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         mov ebx, dword [dword_15E884]
         add esp, byte 0Ch
         cmp ebx, dword [dword_15E7A0]
@@ -8582,7 +8582,7 @@ DrawBenchSide:
         push dword [dword_15E7C8]
         push dword [dword_15E7C0]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
         mov edx, 0FFFFFFFFh
         xor eax, eax
@@ -8596,7 +8596,7 @@ DrawBenchSide:
         push dword [dword_15E71C]
         push dword [dword_15E7BC]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         mov ebx, dword [dword_15E884]
         add esp, byte 0Ch
         cmp ebx, dword [dword_15E79C]
@@ -8617,7 +8617,7 @@ DrawBenchSide:
         push dword [dword_15E764]
         push dword [dword_15E7C4]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         mov ebx, dword [dword_15E884]
         add esp, byte 0Ch
         cmp ebx, dword [dword_15E79C]
@@ -8642,7 +8642,7 @@ DrawBenchSide:
         push dword [dword_15E73C]
         push dword [dword_15E788]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
 .7:
         lea ebx, [dword ebp-0100h]
@@ -9068,7 +9068,7 @@ DrawPenaltyBoxSide:
         push dword [dword_15E728]
         push dword [dword_15E74C]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         mov ebx, dword [dword_15E87C]
         add esp, byte 0Ch
         cmp ebx, dword [dword_15E770]
@@ -9076,7 +9076,7 @@ DrawPenaltyBoxSide:
         push dword [dword_15E758]
         push dword [dword_15E718]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
 .1:
         cmp dword [dword_15E884], byte 0
@@ -9090,7 +9090,7 @@ DrawPenaltyBoxSide:
         push dword [dword_15E710]
         push dword [dword_15E760]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         mov ebx, dword [dword_15E87C]
         add esp, byte 0Ch
         cmp ebx, dword [dword_15E7A8]
@@ -9117,7 +9117,7 @@ DrawPenaltyBoxSide:
         push dword [dword_15E720]
         push dword [dword_15E76C]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         mov edx, 154h
         mov ecx, dword [dword_15E750]
         mov ebx, dword [dword_15E754]
@@ -9132,7 +9132,7 @@ DrawPenaltyBoxSide:
         push dword [dword_15E724]
         push dword [dword_15E768]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
 .4:
         mov ebx, dword [dword_15E87C]
@@ -9158,7 +9158,7 @@ DrawPenaltyBoxSide:
         push dword [dword_15E714]
         push dword [dword_15E75C]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         mov ebx, dword [dword_15E884]
         add esp, byte 0Ch
         cmp ebx, dword [dword_15E738]
@@ -9180,7 +9180,7 @@ DrawPenaltyBoxSide:
         push dword [dword_15E724]
         push dword [dword_15E768]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
 .8:
         mov ebx, dword [dword_15E87C]
@@ -9199,7 +9199,7 @@ DrawPenaltyBoxSide:
         push dword [dword_15E714]
         push dword [dword_15E75C]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         mov ebx, dword [dword_15E87C]
         add esp, byte 0Ch
         cmp ebx, dword [dword_15E7A8]
@@ -9226,7 +9226,7 @@ DrawPenaltyBoxSide:
         push dword [dword_15E724]
         push dword [dword_15E768]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         mov edx, 154h
         mov ecx, dword [dword_15E750]
         mov ebx, dword [dword_15E754]
@@ -9241,7 +9241,7 @@ DrawPenaltyBoxSide:
         push dword [dword_15E720]
         push dword [dword_15E76C]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
 .12:
         mov ebx, dword [dword_15E87C]
@@ -9267,7 +9267,7 @@ DrawPenaltyBoxSide:
         push dword [dword_15E710]
         push dword [dword_15E760]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         mov ebx, dword [dword_15E884]
         add esp, byte 0Ch
         cmp ebx, dword [dword_15E734]
@@ -9289,7 +9289,7 @@ DrawPenaltyBoxSide:
         push dword [dword_15E720]
         push dword [dword_15E76C]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
 .16:
         mov ebx, dword [dword_15E87C]
@@ -9305,7 +9305,7 @@ DrawPenaltyBoxSide:
         push dword [dword_15E758]
         push dword [dword_15E718]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
 .19:
         pop edx
@@ -9517,7 +9517,7 @@ DrawRinkFront:
         cmp byte [byte_1175AC], 0
         je short .11
         push dword [dword_15E8C4]
-        call sub_BC0C4
+        call DrawModelPolys
         add esp, byte 4
 .11:
         pop edx
@@ -9555,7 +9555,7 @@ DrawWholeRink:
         push dword [dword_15E728]
         push dword [dword_15E74C]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         mov eax, dword [dword_15E87C]
         add esp, byte 0Ch
         cmp eax, dword [dword_15E770]
@@ -9563,7 +9563,7 @@ DrawWholeRink:
         push dword [dword_15E758]
         push dword [dword_15E718]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
 .1:
         cmp dword [dword_15E884], byte 0
@@ -9571,14 +9571,14 @@ DrawWholeRink:
         push dword [dword_15E710]
         push dword [dword_15E760]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
         mov eax, 1
         call DrawBenchArea
         push dword [dword_15E720]
         push dword [dword_15E76C]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         mov eax, dword [dword_15E884]
         add esp, byte 0Ch
         cmp eax, dword [dword_15E754]
@@ -9586,7 +9586,7 @@ DrawWholeRink:
         push dword [dword_15E724]
         push dword [dword_15E768]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
 .2:
         mov eax, dword [dword_15E87C]
@@ -9598,7 +9598,7 @@ DrawWholeRink:
         push dword [dword_15E714]
         push dword [dword_15E75C]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         mov eax, dword [dword_15E884]
         add esp, byte 0Ch
         cmp eax, dword [dword_15E754]
@@ -9606,7 +9606,7 @@ DrawWholeRink:
         push dword [dword_15E724]
         push dword [dword_15E768]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
 .4:
         mov eax, dword [dword_15E87C]
@@ -9619,14 +9619,14 @@ DrawWholeRink:
         push dword [dword_15E714]
         push dword [dword_15E75C]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
         xor eax, eax
         call DrawBenchArea
         push dword [dword_15E724]
         push dword [dword_15E768]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         mov eax, dword [dword_15E884]
         add esp, byte 0Ch
         cmp eax, dword [dword_15E750]
@@ -9634,7 +9634,7 @@ DrawWholeRink:
         push dword [dword_15E720]
         push dword [dword_15E76C]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
 .6:
         mov eax, dword [dword_15E87C]
@@ -9646,7 +9646,7 @@ DrawWholeRink:
         push dword [dword_15E710]
         push dword [dword_15E760]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         mov eax, dword [dword_15E884]
         add esp, byte 0Ch
         cmp eax, dword [dword_15E750]
@@ -9654,7 +9654,7 @@ DrawWholeRink:
         push dword [dword_15E720]
         push dword [dword_15E76C]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
 .8:
         mov eax, dword [dword_15E87C]
@@ -9670,7 +9670,7 @@ DrawWholeRink:
         push dword [dword_15E758]
         push dword [dword_15E718]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
 .11:
         mov eax, dword [dword_15E87C]
@@ -9686,7 +9686,7 @@ DrawWholeRink:
         push dword [dword_15E748]
         push dword [dword_15E7D0]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         mov eax, dword [dword_15E87C]
         add esp, byte 0Ch
         cmp eax, dword [dword_15E794]
@@ -9694,7 +9694,7 @@ DrawWholeRink:
         push dword [dword_15E73C]
         push dword [dword_15E788]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
 .12:
         cmp dword [dword_15E884], byte 0
@@ -9702,12 +9702,12 @@ DrawWholeRink:
         push dword [dword_15E764]
         push dword [dword_15E7C4]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
         push dword [dword_15E71C]
         push dword [dword_15E7BC]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         mov eax, dword [dword_15E884]
         add esp, byte 0Ch
         cmp eax, dword [dword_15E7A0]
@@ -9724,12 +9724,12 @@ DrawWholeRink:
         push dword [dword_15E7C8]
         push dword [dword_15E7C0]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
         push dword [dword_15E71C]
         push dword [dword_15E7BC]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         mov eax, dword [dword_15E884]
         add esp, byte 0Ch
         cmp eax, dword [dword_15E79C]
@@ -9742,7 +9742,7 @@ DrawWholeRink:
         push dword [dword_15E7C4]
 .16:
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
 .17:
         mov eax, dword [dword_15E87C]
@@ -9754,7 +9754,7 @@ DrawWholeRink:
         push dword [dword_15E73C]
         push dword [dword_15E788]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
 .18:
         lea eax, [dword ebp-0108h]
@@ -9815,7 +9815,7 @@ DrawWholeRink:
         call DrawBoardSegments
 .24:
         push dword [dword_15E8C4]
-        call sub_BC0C4
+        call DrawModelPolys
         mov al, byte [byte ebp-08h]
         mov byte [byte_1175A9], al
         mov al, byte [byte ebp-04h]
@@ -9839,16 +9839,16 @@ DrawZamboniScene:
         cmp dword [dword_1176E5], byte 0
         je short .1
         push dword [dword_15E81C]
-        call sub_BBC80
+        call DrawModelFlat
         add esp, byte 4
         push dword [dword_15E81C]
-        call sub_BBC14
+        call ProjectModelPoints
         add esp, byte 4
         push dword [dword_15E81C]
-        call sub_BBE50
+        call DrawModelSorted
         add esp, byte 4
         push dword [dword_15E81C]
-        call sub_BC0C4
+        call DrawModelPolys
         add esp, byte 4
 .1:
         call DrawRinkFrontParts
@@ -9858,7 +9858,7 @@ DrawZamboniScene:
         push dword [dword_15E728]
         push dword [dword_15E74C]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         mov eax, dword [dword_15E87C]
         add esp, byte 0Ch
         cmp eax, dword [dword_15E770]
@@ -9866,7 +9866,7 @@ DrawZamboniScene:
         push dword [dword_15E758]
         push dword [dword_15E718]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
 .2:
         cmp dword [dword_15E884], byte 0
@@ -9874,14 +9874,14 @@ DrawZamboniScene:
         push dword [dword_15E710]
         push dword [dword_15E760]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
         mov eax, 1
         call DrawBenchArea
         push dword [dword_15E720]
         push dword [dword_15E76C]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         mov eax, dword [dword_15E884]
         add esp, byte 0Ch
         cmp eax, dword [dword_15E754]
@@ -9889,7 +9889,7 @@ DrawZamboniScene:
         push dword [dword_15E724]
         push dword [dword_15E768]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
 .3:
         mov eax, dword [dword_15E87C]
@@ -9901,7 +9901,7 @@ DrawZamboniScene:
         push dword [dword_15E714]
         push dword [dword_15E75C]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         mov eax, dword [dword_15E884]
         add esp, byte 0Ch
         cmp eax, dword [dword_15E754]
@@ -9909,7 +9909,7 @@ DrawZamboniScene:
         push dword [dword_15E724]
         push dword [dword_15E768]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
 .5:
         mov eax, dword [dword_15E87C]
@@ -9922,14 +9922,14 @@ DrawZamboniScene:
         push dword [dword_15E714]
         push dword [dword_15E75C]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
         xor eax, eax
         call DrawBenchArea
         push dword [dword_15E724]
         push dword [dword_15E768]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         mov eax, dword [dword_15E884]
         add esp, byte 0Ch
         cmp eax, dword [dword_15E750]
@@ -9937,7 +9937,7 @@ DrawZamboniScene:
         push dword [dword_15E720]
         push dword [dword_15E76C]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
 .7:
         mov eax, dword [dword_15E87C]
@@ -9949,7 +9949,7 @@ DrawZamboniScene:
         push dword [dword_15E710]
         push dword [dword_15E760]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         mov eax, dword [dword_15E884]
         add esp, byte 0Ch
         cmp eax, dword [dword_15E750]
@@ -9957,7 +9957,7 @@ DrawZamboniScene:
         push dword [dword_15E720]
         push dword [dword_15E76C]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
 .9:
         mov eax, dword [dword_15E87C]
@@ -9973,7 +9973,7 @@ DrawZamboniScene:
         push dword [dword_15E758]
         push dword [dword_15E718]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
 .12:
         mov eax, dword [dword_15E87C]
@@ -9989,7 +9989,7 @@ DrawZamboniScene:
         push dword [dword_15E748]
         push dword [dword_15E7D0]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         mov eax, dword [dword_15E87C]
         add esp, byte 0Ch
         cmp eax, dword [dword_15E794]
@@ -9997,7 +9997,7 @@ DrawZamboniScene:
         push dword [dword_15E73C]
         push dword [dword_15E788]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
 .13:
         cmp dword [dword_15E884], byte 0
@@ -10005,12 +10005,12 @@ DrawZamboniScene:
         push dword [dword_15E764]
         push dword [dword_15E7C4]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
         push dword [dword_15E71C]
         push dword [dword_15E7BC]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         mov eax, dword [dword_15E884]
         add esp, byte 0Ch
         cmp eax, dword [dword_15E7A0]
@@ -10027,12 +10027,12 @@ DrawZamboniScene:
         push dword [dword_15E7C8]
         push dword [dword_15E7C0]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
         push dword [dword_15E71C]
         push dword [dword_15E7BC]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         mov eax, dword [dword_15E884]
         add esp, byte 0Ch
         cmp eax, dword [dword_15E79C]
@@ -10045,7 +10045,7 @@ DrawZamboniScene:
         push dword [dword_15E7C4]
 .17:
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
 .18:
         mov eax, dword [dword_15E87C]
@@ -10057,7 +10057,7 @@ DrawZamboniScene:
         push dword [dword_15E73C]
         push dword [dword_15E788]
         push dword [dword_15E8E4]
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
 .19:
         lea eax, [dword ebp-0100h]
@@ -10495,7 +10495,7 @@ DrawOptionButton_10B:
         lea eax, [byte ebp-08h]
         push eax
         push dword [dword_15EA04]
-        call sub_E04E0
+        call FindShape
         movsx edx, word [byte eax+0Eh]
         add esp, byte 8
         sub edx, dword [dword_1177F0]
@@ -10504,7 +10504,7 @@ DrawOptionButton_10B:
         sub edx, dword [dword_1177EC]
         push edx
         push eax
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         leave
         pop edx
@@ -10555,7 +10555,7 @@ GameOptionsScreen:
         push eax
         mov dword [byte ebp+076h], 0FFFFFFFFh
         mov dword [dword_15EA04], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [byte ebp+066h], eax
         cmp dword [dword ebp-0776h], byte 0
@@ -10566,7 +10566,7 @@ GameOptionsScreen:
         push str_Rsd0
 .2:
         push dword [dword_15EA04]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [byte ebp+062h], eax
         mov eax, dword [byte ebp+066h]
@@ -10579,7 +10579,7 @@ GameOptionsScreen:
         movsx eax, word [byte eax+04h]
         add eax, edx
         push eax
-        call sub_AD35C
+        call CreateBitmap
         mov edx, dword [byte ebp+066h]
         mov dword [byte ebp+06Ah], eax
         mov dword [byte ebp+06Eh], eax
@@ -10625,7 +10625,7 @@ GameOptionsScreen:
         push byte 0
         push str_Bkgd26
         push dword [dword_15EA04]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -10672,21 +10672,21 @@ GameOptionsScreen:
         lea eax, [byte ebp+056h]
         push eax
         push dword [dword_15EA04]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword esi+ebp-0758h], eax
         lea eax, [byte ebp+056h]
         push eax
         push dword [dword_15EA04]
         mov byte [byte ebp+059h], 31h
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword esi+ebp-0754h], eax
         lea eax, [byte ebp+056h]
         push eax
         push dword [dword_15EA04]
         mov byte [byte ebp+059h], 32h
-        call sub_E04E0
+        call FindShape
         mov dword [dword esi+ebp-0762h], 4
         mov dword [dword esi+ebp-0750h], eax
         mov eax, dword [byte ebp+07Ah]
@@ -10742,7 +10742,7 @@ GameOptionsScreen:
         sub eax, dword [dword_1177EC]
         push eax
         push dword [dword esi+ebp-0758h]
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
 .5:
         inc byte [byte ebp+07Eh]
@@ -10762,12 +10762,12 @@ GameOptionsScreen:
         mov byte [dword ebp-0397h], 0Bh
         push dword [dword_15EA04]
         mov byte [dword ebp-0399h], 0Bh
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Rlxh
         push dword [dword_15EA04]
         mov dword [dword ebp-035Ch], eax
-        call sub_E04E0
+        call FindShape
         mov dword [dword ebp-0358h], eax
         mov eax, dword [dword ebp-035Ch]
         mov dword [dword ebp-0366h], 4
@@ -10810,12 +10810,12 @@ GameOptionsScreen:
         lea eax, [byte edx-08h]
         mov byte [dword ebp-0331h], 0Bh
         mov dword [dword ebp-0338h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Rlyh
         push dword [dword_15EA04]
         mov dword [dword ebp-02F6h], eax
-        call sub_E04E0
+        call FindShape
         mov dword [dword ebp-02F2h], eax
         mov eax, dword [dword ebp-02F6h]
         mov dword [dword ebp-0300h], 4
@@ -10863,10 +10863,10 @@ GameOptionsScreen:
         call SetScreenTarget
         mov eax, dword [byte ebp+06Eh]
         push dword [byte eax+02Ch]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         push dword [byte ebp+06Eh]
-        call sub_ADBEC
+        call FreeBitmap
         mov dword [dword_1177EC], 0
         mov dword [dword_1177F0], 0
         add esp, byte 4
@@ -11058,7 +11058,7 @@ GameOptionsScreen_799:
         cmp dword [byte ebp+076h], byte 0
         jl near GameOptionsScreen.7
         push dword [byte ebp+066h]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         push dword [dword_15EA08]
         call FreeMemBlock

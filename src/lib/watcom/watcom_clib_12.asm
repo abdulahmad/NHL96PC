@@ -4,8 +4,8 @@ bits 32
 section s_C40B4 progbits alloc exec nowrite align=1
 extern dword_1228E8, dword_124108, itoa_, ltoa_, __EFG_printf, toupper_, ultoa_, unk_18584C
 global FixedPoint_Format_, __prtf_, evalflags_, far_other_strlen_, far_strlen_, float_format_, fmt4hex_, formstring_
-global getprintspecs_, jpt_C4CB0, far_strlen__1F, sub_C4CCC_19, sub_C4CCC_1F, sub_C4CCC_25, sub_C4CCC_2B, sub_C4CCC_31
-global sub_C4CCC_37, sub_C4CCC_3D, memmove_, RefPackSize, sub_C4C6C, sub_C4CCC, sub_C4D80, zupstr_
+global getprintspecs_, ArtBitDepthJumpTable, far_strlen__1F, ArtBitDepth_19, ArtBitDepth_1F, ArtBitDepth_25, ArtBitDepth_2B, ArtBitDepth_31
+global ArtBitDepth_37, ArtBitDepth_3D, memmove_, RefPackSize, GetPalette, ArtBitDepth, PixelToRgb, zupstr_
 ;-----------------------------------------------------------------------------
 ; __prtf_                                                       C40B4  library
 ;-----------------------------------------------------------------------------
@@ -1353,9 +1353,11 @@ RefPackSize:
         jns near .3
         jmp near .5
 ;-----------------------------------------------------------------------------
-; sub_C4C6C                                                            C4C6C  
+; GetPalette                                   C4C6C  96 PC, medium confidence
+; Reads palette entries (start, count, dst) from the VGA DAC, or through the
+; hooked reader
 ;-----------------------------------------------------------------------------
-sub_C4C6C:
+GetPalette:
         cmp dword [dword_124108], byte 0
         je short .1
         jmp dword [dword_124108]
@@ -1384,45 +1386,46 @@ sub_C4C6C:
         leave
         ret
         db 00h,00h,00h,00h,00h,00h
-jpt_C4CB0:
-        dd sub_C4CCC_19
-        dd sub_C4CCC_1F
-        dd sub_C4CCC_25
-        dd sub_C4CCC_3D
-        dd sub_C4CCC_37
-        dd sub_C4CCC_2B
-        dd sub_C4CCC_31
+ArtBitDepthJumpTable:
+        dd ArtBitDepth_19
+        dd ArtBitDepth_1F
+        dd ArtBitDepth_25
+        dd ArtBitDepth_3D
+        dd ArtBitDepth_37
+        dd ArtBitDepth_2B
+        dd ArtBitDepth_31
 ;-----------------------------------------------------------------------------
-; sub_C4CCC                                                            C4CCC  
+; ArtBitDepth                                  C4CCC  96 PC, medium confidence
+; Returns the bits per pixel of an art from its type byte
 ;-----------------------------------------------------------------------------
-sub_C4CCC:
+ArtBitDepth:
         mov eax, dword [byte esp+04h]
         mov eax, dword [eax]
         and eax, byte 7Fh
         sub eax, byte 79h
         cmp eax, byte 6
-        ja short sub_C4CCC_3D
+        ja short ArtBitDepth_3D
         db 02Eh,0FFh,024h,085h                  ; insn: jmp dword [cs:eax*4+0B4CB0h]
-        dd jpt_C4CB0
-sub_C4CCC_19:
+        dd ArtBitDepthJumpTable
+ArtBitDepth_19:
         mov eax, 1
         ret
-sub_C4CCC_1F:
+ArtBitDepth_1F:
         mov eax, 4
         ret
-sub_C4CCC_25:
+ArtBitDepth_25:
         mov eax, 8
         ret
-sub_C4CCC_2B:
+ArtBitDepth_2B:
         mov eax, 10h
         ret
-sub_C4CCC_31:
+ArtBitDepth_31:
         mov eax, 18h
         ret
-sub_C4CCC_37:
+ArtBitDepth_37:
         mov eax, 20h
         ret
-sub_C4CCC_3D:
+ArtBitDepth_3D:
         xor eax, eax
         ret
         mov edx, dword [byte esp+04h]
@@ -1478,9 +1481,10 @@ sub_C4CCC_3D:
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_C4D80                                                            C4D80  
+; PixelToRgb                                      C4D80  96 PC, low confidence
+; Converts a screen pixel value at the current depth to a 24-bit RGB colour
 ;-----------------------------------------------------------------------------
-sub_C4D80:
+PixelToRgb:
         mov edx, dword [byte esp+04h]
         mov eax, dword [dword_1228E8]
         cmp eax, byte 10h

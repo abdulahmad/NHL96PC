@@ -3,7 +3,10 @@ bits 32
 %include "hockey.inc"
 section s_ADC18 progbits alloc exec nowrite align=1
 extern __prtf_, mem_putc_
-global sprintf_, sub_ADC50
+global sprintf_, UnpackHuffman
+;-----------------------------------------------------------------------------
+; sprintf_                                                      ADC18  library
+;-----------------------------------------------------------------------------
 sprintf_:
         push ebx
         push ecx
@@ -24,7 +27,11 @@ sprintf_:
         pop ebx
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h
-sub_ADC50:
+;-----------------------------------------------------------------------------
+; UnpackHuffman                                   ADC50  96 PC, low confidence
+; Unpacks Huffman packed data (types 30h-34h)
+;-----------------------------------------------------------------------------
+UnpackHuffman:
         push ecx
         push esi
         push edi

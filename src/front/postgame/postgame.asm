@@ -16,8 +16,8 @@ extern str_STRD, str_STRK, MessageBox, SelectDataLibrary, LoadPackedFile, Player
 extern SlideInBottomBar, SetScreenColors, BlackPalette, FadePalette, FadeOut, CopyBitmap, SetTextColors, DrawColorTextRight
 extern DrawColorTextCentred, SetScreenPalette, DrawFrameAt, RemapScreenColors, InitMenuItems, RunMenu, SetMenuMouse, PaEvent
 extern StopSpeech, StopMusic, FillMusicStream, PlayMusic, FadeOutMusic, MusicDone, SoundSecondsToBytes, SoundIdle
-extern GetLangText, PlayerStatsScreen, DrawShapeAtOwnPos, sub_AAA40, sub_AADA4, AllocMemBlock, FreeMemBlock, sub_AD35C
-extern sub_ADA50, sub_ADBEC, sub_AFCD0, DosFileInfo, LoadResourceDataShared, SetScreenTarget, sub_E04E0, bcopy
+extern GetLangText, PlayerStatsScreen, DrawShapeAtOwnPos, DrawArt, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, CreateBitmap
+extern sub_ADA50, FreeBitmap, UnpackTo, DosFileInfo, LoadResourceDataShared, SetScreenTarget, FindShape, bcopy
 extern sub_E0584, TextSetFont, unk_144BD, unk_144C3, unk_144C9, unk_144D5, unk_144ED, word_114CE0
 extern word_114DD2, word_114DD4, word_114DD6, word_114DD8, word_114DDC, word_114DE4, word_114DE6, word_114EA8
 extern word_114EAC, word_114EF8, word_114EFA, word_114EFC, word_114EFE, word_114F00, word_1656DA, word_1656DC
@@ -48,7 +48,7 @@ DrawGameStats:
         push eax
         movsx eax, word [byte esi+04h]
         push eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push eax
         mov edi, eax
@@ -895,7 +895,7 @@ DrawGameStats:
         call PutBlock
         add esp, byte 0Ch
         push edi
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
 DrawGameStats_DD0:
         leave
@@ -933,10 +933,10 @@ GameStatsScreen:
         push str_BKGD28
         push eax
         mov esi, eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         push esi
         call FreeMemBlock
@@ -981,7 +981,7 @@ GameStatsScreen:
         push eax
         push esi
         mov dword [byte ebp+06Eh], 0FFFFFFFFh
-        call sub_E04E0
+        call FindShape
         mov edi, eax
         add esp, byte 8
         push byte 10h
@@ -995,14 +995,14 @@ GameStatsScreen:
         add edi, byte 10h
         push edi
         mov dword [byte ebp+066h], eax
-        call sub_AFCD0
+        call UnpackTo
         add esp, byte 8
         push byte 46h
         push byte 24h
         mov eax, dword [byte ebp+07Eh]
         push eax
         and dword [eax], 0FFh
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         push esi
         call FreeMemBlock
@@ -1031,7 +1031,7 @@ GameStatsScreen:
         lea eax, [byte ebp+056h]
         push eax
         push edi
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push byte 10h
         push dword [byte ebp+07Eh]
@@ -1042,14 +1042,14 @@ GameStatsScreen:
         push dword [byte ebp+066h]
         add esi, byte 10h
         push esi
-        call sub_AFCD0
+        call UnpackTo
         add esp, byte 8
         push byte 46h
         push dword 19Dh
         mov eax, dword [byte ebp+07Eh]
         push eax
         and dword [eax], 0FFh
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         push edi
         call FreeMemBlock
@@ -1078,7 +1078,7 @@ GameStatsScreen:
         push eax
         mov dword [byte ebp+066h], eax
         mov dword [byte ebp+07Ah], eax
-        call sub_E04E0
+        call FindShape
         add eax, byte 10h
         add esp, byte 8
         mov dword [byte ebp+062h], eax
@@ -1135,12 +1135,12 @@ GameStatsScreen:
         call InitMenuItems
         push str_AR005
         push dword [byte ebp+066h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_AR015
         push dword [byte ebp+066h]
         mov dword [dword ebp-01A8h], eax
-        call sub_E04E0
+        call FindShape
         mov dword [dword ebp-01A4h], eax
         mov eax, dword [dword ebp-01A8h]
         mov dword [dword ebp-01B2h], 4
@@ -1189,12 +1189,12 @@ GameStatsScreen:
         add edx, eax
         mov byte [dword ebp-017Fh], 1
         mov dword [dword ebp-0184h], edx
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_AR115
         push dword [byte ebp+066h]
         mov dword [dword ebp-0142h], eax
-        call sub_E04E0
+        call FindShape
         mov dword [dword ebp-013Eh], eax
         mov eax, dword [dword ebp-0142h]
         mov dword [dword ebp-014Ch], 4
@@ -1291,10 +1291,10 @@ GameStatsScreen:
         push dword 264h
         push str_BALL7
         push dword [byte ebp+07Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
 .3:
         call SoundIdle
@@ -1363,10 +1363,10 @@ GameStatsScreen:
         push dword 264h
         push str_BALL7
         push dword [byte ebp+07Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         jmp short .11
 .9:
@@ -1449,7 +1449,7 @@ AnimateStarsScreen:
         shl ecx, 5
         mov eax, edx
         push dword [dword ecx+eax*4+dword_151AEC]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         movsx eax, word [word_114F00]
         cdq
         idiv esi
@@ -1572,7 +1572,7 @@ AnimateStarsScreen_121:
         cmp eax, byte 5
         jge short .6
         push dword [dword_151B68]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         push dword [dword_151B68]
         call FreeMemBlock
@@ -1593,7 +1593,7 @@ AnimateStarsScreen_121:
         call DrawShapeAtOwnPos
         add esp, byte 4
         push dword [nosplit esi*4+dword_151B50]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
 .7:
         dec word [word_114EFA]
@@ -1640,12 +1640,12 @@ AnimateStarsScreen_121:
         push dword [dword esi+word_114EAC]
         push dword [dword esi+word_114EA8]
         push dword [dword_151B6C]
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         jmp short .11
 .10:
         push dword [dword_151B70]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
 .11:
         dec word [word_114EFC]
@@ -1785,7 +1785,7 @@ ThreeStarsScreen:
         push eax
         mov dword [byte ebp+04Eh], eax
         mov dword [byte ebp+052h], eax
-        call sub_E04E0
+        call FindShape
         mov ecx, 300h
         add esp, byte 8
         lea esi, [byte eax+010h]
@@ -1804,7 +1804,7 @@ ThreeStarsScreen:
         push eax
         mov dword [byte ebp+04Eh], eax
         mov dword [byte ebp+052h], eax
-        call sub_E04E0
+        call FindShape
         mov ecx, 300h
         add esp, byte 8
         lea esi, [byte eax+010h]
@@ -1813,7 +1813,7 @@ ThreeStarsScreen:
         push str_Plyr5
 .4:
         push dword [byte ebp+04Eh]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         xor edx, edx
         call CopyBitmap
@@ -1843,7 +1843,7 @@ ThreeStarsScreen:
         call BlackPalette
         push str_Pal25
         push esi
-        call sub_E04E0
+        call FindShape
         add eax, byte 10h
         add esp, byte 8
         mov dword [byte ebp+062h], eax
@@ -1872,11 +1872,11 @@ ThreeStarsScreen:
         call SetScreenTarget
         push str_BKGD28
         push esi
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         mov dword [byte ebp+066h], 0
-        call sub_AADA4
+        call PutBlockAtOwnPos
         mov edx, 0FEh
         add esp, byte 4
         mov eax, 0FCh
@@ -1892,7 +1892,7 @@ ThreeStarsScreen:
         push eax
         movsx eax, word [byte edi+ebp+026h]
         push eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push eax
         mov dword [byte ebp+04Eh], eax
@@ -1918,7 +1918,7 @@ ThreeStarsScreen:
         call PutBlock
         add esp, byte 0Ch
         push dword [byte ebp+04Eh]
-        call sub_ADBEC
+        call FreeBitmap
         mov eax, dword [byte ebp+066h]
         mov eax, dword [byte eax+ebp+0Eh]
         add esp, byte 4
@@ -1943,7 +1943,7 @@ ThreeStarsScreen:
         jne near .5
         push str_ST10
         push dword [byte ebp+07Eh]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [byte ebp+072h], eax
         movsx edx, word [byte eax+06h]
@@ -1958,7 +1958,7 @@ ThreeStarsScreen:
         push eax
         mov dword [byte ebp+05Eh], 0
         mov dword [byte ebp+05Ah], 0
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         mov dword [byte ebp+042h], eax
 .6:
@@ -2018,7 +2018,7 @@ ThreeStarsScreen:
         lea eax, [byte ebp-04Ah]
         push eax
         push dword [byte ebp+07Eh]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push byte 0
         push byte 0
@@ -2055,14 +2055,14 @@ ThreeStarsScreen:
         add dword [byte ebp+05Ah], byte 8
         push dword [dword eax+dword_151B08]
         inc dword [byte ebp+04Ah]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         cmp dword [byte ebp+04Ah], byte 3
         jl near .6
         mov word [word_114EFE], 8
         push dword [byte ebp+042h]
         mov word [word_114F00], 0
-        call sub_ADBEC
+        call FreeBitmap
         xor edi, edi
         xor esi, esi
         add esp, byte 4
@@ -2078,7 +2078,7 @@ ThreeStarsScreen:
         add esi, byte 4
         push dword [byte ebp+07Eh]
         inc edi
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword esi+dword_151B70], eax
         cmp edi, byte 3
@@ -2090,7 +2090,7 @@ ThreeStarsScreen:
         movsx eax, word [byte eax+04h]
         push eax
         xor edi, edi
-        call sub_AD35C
+        call CreateBitmap
         mov edx, 20h
         mov dword [dword_151B4C], eax
         add esp, byte 0Ch
@@ -2110,7 +2110,7 @@ ThreeStarsScreen:
         add esi, byte 4
         push dword [byte ebp+07Eh]
         inc edi
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword esi+dword_151B4C], eax
         cmp edi, byte 4
@@ -2118,7 +2118,7 @@ ThreeStarsScreen:
         push str_STRK
         push dword [byte ebp+07Eh]
         mov dword [dword_151B68], 0
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov edx, 20h
         mov dword [dword_151B6C], eax
@@ -2145,17 +2145,17 @@ ThreeStarsScreen:
         call InitMenuItems
         push str_BT006
         push dword [byte ebp+07Eh]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_BT0110
         push dword [byte ebp+07Eh]
         mov dword [dword ebp-0248h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_BT028
         push dword [byte ebp+07Eh]
         mov dword [dword ebp-0244h], eax
-        call sub_E04E0
+        call FindShape
         mov dword [dword ebp-0240h], eax
         lea eax, [dword ebp-0CAh]
         mov dword [dword ebp-024Eh], eax
@@ -2173,17 +2173,17 @@ ThreeStarsScreen:
         mov byte [dword ebp-021Dh], 2
         mov byte [dword ebp-021Fh], 1
         mov dword [dword ebp-0238h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_BT118
         push dword [byte ebp+07Eh]
         mov dword [dword ebp-01E2h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword ebp-01DEh], eax
         push str_BT124
         push dword [byte ebp+07Eh]
-        call sub_E04E0
+        call FindShape
         mov dword [dword ebp-01DAh], eax
         lea eax, [dword ebp-08Ah]
         mov dword [dword ebp-01E8h], eax
@@ -2344,7 +2344,7 @@ ThreeStarsScreen_936:
         call FreeMemBlock
         add esp, byte 4
         push dword [dword_151B4C]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         push dword [byte ebp+07Eh]
         call FreeMemBlock

@@ -3,7 +3,10 @@ bits 32
 %include "hockey.inc"
 section s_B2200 progbits alloc exec nowrite align=1
 extern savefileblocka
-global strcmp_, sub_B22B0
+global strcmp_, SaveFileBlock
+;-----------------------------------------------------------------------------
+; strcmp_                                                       B2200  library
+;-----------------------------------------------------------------------------
 strcmp_:
         push ebx
         push ecx
@@ -77,7 +80,11 @@ strcmp_:
         pop ebx
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-sub_B22B0:
+;-----------------------------------------------------------------------------
+; SaveFileBlock                                   B22B0  96 PC, low confidence
+; Writes a block of memory to a file through savefileblocka
+;-----------------------------------------------------------------------------
+SaveFileBlock:
         sub esp, byte 28h
         mov eax, dword [byte esp+030h]
         mov dword [esp], eax

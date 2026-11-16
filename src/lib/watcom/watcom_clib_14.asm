@@ -10,7 +10,7 @@ extern MixBuffer
 extern MixBuffer
 extern MixBuffer, MixerReady, MixerMode, MixerOutputRate, MixerBufferSamples, MixerOutBuffer, MixerChunkSamples, MixerChunkLeft
 extern MixerChunkPos, MixerChunkCount, MixerLoopLength, MixerLoopLimit, MixerLoopStart, MixStepFrac, MixStepWhole, MixerOutputFunc
-extern dword_1A0B1C, MixerChannelTable, EmuInitHook, EmuFiniHook, sub_AADA4, FreeMemBlock, sub_ABF88, sub_AD2B4
+extern dword_1A0B1C, MixerChannelTable, EmuInitHook, EmuFiniHook, PutBlockAtOwnPos, FreeMemBlock, sub_ABF88, sub_AD2B4
 extern RestoreDS, AudioStreamCallback, StartChannelSample, PanVolumes, SbDelay, SbWaitRead, AdpcmDecodeMono, AdpcmDecodeStereo
 extern SetScreenTarget, MixDecodeBuffer, SndChannels, str_Punct_InitFpuFlags, __no87, OldFpuVectorSelector, FpuCr0Bits, DefaultControlWord
 extern word_1A0FA0, SbMixerAddrPort, word_1A0FA4, word_1A0FA6, word_1A0FA8, SbReadPort, SbWritePort
@@ -200,7 +200,7 @@ __chk8087_:
         mov eax, dword [dword_1A0B1C]
         mov edi, dword [byte eax+02Ch]
         push edi
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         pop edi
         pop esi

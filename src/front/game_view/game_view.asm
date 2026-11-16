@@ -38,12 +38,12 @@ extern FreeStandsArt, LoadStandsArt, LoadRinkModel, FreeRinkModel, SetViewCamera
 extern DrawWholeRink, BeginShadowDraw, DrawShadowSpriteAt, DrawOverlayPanels, PlayerSpriteFrame, PuckInNet, InitZoneManager, FreeZoneManager
 extern DrawDirtyZones, ZoneRect, AddZone, CopyZonesToScreen, SetCameraShot, ResetCameraShake, SetGameViewSize, SaveTeamPalette
 extern SetPlayerSpriteColors, SetRinkSpriteColors, LoadGameSprites, GetSpriteFrame, SpriteScale, DrawText, DrawTextCentred, SetTextColors
-extern DrawColorText, DrawColorTextRight, DrawColorTextCentred, FillBox, DrawPauseFrame, GetLangText, BuildAntiAliasTable, sub_AAA40
-extern sub_AAADC, AllocMemBlock, FreeMemBlock, sub_AD35C, sub_AD620, sub_AFFD0, sub_B0CA8, sub_B0F7C
-extern sub_B58D8, sub_B6140, sub_B6148, sub_BA3D0, DrawFlatPoly, DrawPolyOutline, sub_BB924, MultiplyMatrix
-extern SetScreenScale, sub_BC3A0, sub_BC3F4, sub_BC610, sub_BC674, sub_BC6D8, sub_BC760, sub_BD86C
+extern DrawColorText, DrawColorTextRight, DrawColorTextCentred, FillBox, DrawPauseFrame, GetLangText, BuildAntiAliasTable, DrawArt
+extern sub_AAADC, AllocMemBlock, FreeMemBlock, CreateBitmap, sub_AD620, TextSetColor, sub_B0CA8, sub_B0F7C
+extern sub_B58D8, sub_B6140, sub_B6148, ProjectPointList, DrawFlatPoly, DrawPolyOutline, DrawArtScaledHotspot, MultiplyMatrix
+extern SetScreenScale, OriSetObjectMatrix, OriSetObjectPosition, MakeRotXMatrix, MakeRotYMatrix, MakeRotZMatrix, OriFindGroup, InitReciprocalTable
 extern sub_BE926, sub_BE960, sub_BEF44, sub_BEFF0, SetScreenTarget, SetRemapTable, sub_DD908, SetBlitSource
-extern sub_DD975, sub_DDBB4, sub_E0486, sub_E04E0, sub_E0584, sub_E162A, SetViewScreenOrigin, TeamLineEnergy
+extern sub_DD975, sub_DDBB4, sub_E0486, FindShape, sub_E0584, sub_E162A, SetViewScreenOrigin, TeamLineEnergy
 extern TextSetFont, unk_111024, unk_11B2AC, unk_122320, unk_157FDA, unk_157FF8, unk_1582F5, unk_158313
 extern unk_16443C, unk_1782AC, unk_1786AC, unk_178AAC, unk_1798C0, unk_179980, unk_179AC0, unk_179BBC
 extern unk_17B248, unk_17B518, unk_17B830, unk_17B930, unk_17D3E8, unk_58468, unk_5848C, vtoa
@@ -543,7 +543,7 @@ LoadIceLogo:
         push str_Logo
         push eax
         mov dword [dword_1798F0], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         call SetIceLogoTexture
         pop edx
@@ -646,7 +646,7 @@ InitGameView:
         mov byte [byte_17970A], 1
         mov byte [byte_179700], 1
         mov byte [byte_179743], 1
-        call sub_BD86C
+        call InitReciprocalTable
         test byte [byte_17CA5D], 20h
         setne al
         movzx eax, al
@@ -722,7 +722,7 @@ InitGameView:
         push dword 0C8h
         push dword 140h
 .6:
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         mov dword [dword_11B234], eax
         call SetScreenTarget
@@ -958,7 +958,7 @@ InitGameView:
 .11:
         push dword [dword_179904]
         mov dword [dword_179914], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword_179908], eax
         call LoadIceLogo
@@ -1091,7 +1091,7 @@ DrawRosterName:
         push dword 0FFh
         push byte 4
         add esi, byte 0Bh
-        call sub_AFFD0
+        call TextSetColor
         movsx eax, word [byte ebp-04h]
         movsx ebx, si
         mov esi, 6
@@ -1131,7 +1131,7 @@ DrawRosterNumber:
         push dword 0FFh
         push byte 4
         add esi, byte 0Ch
-        call sub_AFFD0
+        call TextSetColor
         add esp, byte 8
         cmp word [byte ebp+010h], byte 0
         jge short .1
@@ -1289,7 +1289,7 @@ DrawRinkSprite:
         push dword [byte ebp-010h]
         push dword [byte ebp-04h]
         push esi
-        call sub_BB924
+        call DrawArtScaledHotspot
         jmp short .21
 .16:
         mov ecx, dword [byte ebp+010h]
@@ -1588,7 +1588,7 @@ DrawControlMarker_41:
         mov eax, 10000h
 .15:
         push eax
-        call sub_BB924
+        call DrawArtScaledHotspot
         mov eax, dword [byte ebp-0Ch]
         add esp, byte 10h
         push dword [nosplit eax*4+dword_152FEC]
@@ -1649,7 +1649,7 @@ DrawControlMarker_41:
         push dword [dword eax+dword_152FEC]
         push esi
 .23:
-        call sub_BB924
+        call DrawArtScaledHotspot
         add esp, byte 10h
         jmp near DrawOverlayCaption_E1
 ;-----------------------------------------------------------------------------
@@ -1728,14 +1728,14 @@ SpinPuckModel:
         push eax
         lea eax, [byte ebp-024h]
         push eax
-        call sub_BC610
+        call MakeRotXMatrix
         mov eax, dword [dword_11B294]
         add esp, byte 8
         neg eax
         push eax
         lea eax, [byte ebp-048h]
         push eax
-        call sub_BC6D8
+        call MakeRotZMatrix
         add esp, byte 8
         push unk_1798C0
         lea eax, [byte ebp-024h]
@@ -1758,11 +1758,11 @@ SpinPuckModel:
         push dword [dword_15E8E0]
         rep movsd
 .3:
-        call sub_BC3A0
+        call OriSetObjectMatrix
         add esp, byte 8
         push unk_1798C0
         push dword [dword_15E8D8]
-        call sub_BC3A0
+        call OriSetObjectMatrix
         add esp, byte 8
         jmp near InitGameView_709
 ;-----------------------------------------------------------------------------
@@ -1776,7 +1776,7 @@ PlaceGoalNets:
         push edx
         push str_Goal0
         push dword [dword_15E8E4]
-        call sub_BC760
+        call OriFindGroup
         imul edx, eax, byte 0Ch
         mov eax, dword [dword_15E8E4]
         mov eax, dword [byte eax+070h]
@@ -1784,11 +1784,11 @@ PlaceGoalNets:
         add eax, edx
         push eax
         push dword [dword_15E8F8]
-        call sub_BC3F4
+        call OriSetObjectPosition
         add esp, byte 8
         push str_Goal1
         push dword [dword_15E8E4]
-        call sub_BC760
+        call OriFindGroup
         imul edx, eax, byte 0Ch
         mov eax, dword [dword_15E8E4]
         mov eax, dword [byte eax+070h]
@@ -1796,7 +1796,7 @@ PlaceGoalNets:
         add eax, edx
         push eax
         push dword [dword_15E8FC]
-        call sub_BC3F4
+        call OriSetObjectPosition
         add esp, byte 8
         pop edx
         pop ecx
@@ -1831,7 +1831,7 @@ PlaceGoalNets_71:
         movsx edx, word [word_119127]
         push dword [nosplit edx*4+dword_152FEC]
         push eax
-        call sub_BB924
+        call DrawArtScaledHotspot
         add esp, byte 10h
 PlaceGoalNets_E0:
         mov dword [byte ebp-01Ch], 0
@@ -2572,12 +2572,12 @@ DrawRinkView:
         push dword [dword_179E0F]
         lea edx, [byte ebp-024h]
         push edx
-        call sub_BC610
+        call MakeRotXMatrix
         add esp, byte 8
         push dword [dword_179E0B]
         lea edx, [byte ebp-048h]
         push edx
-        call sub_BC674
+        call MakeRotYMatrix
         add esp, byte 8
         lea edx, [byte ebp-06Ch]
         push edx
@@ -2621,12 +2621,12 @@ DrawGameFrame:
         push dword [dword_179E0F]
         lea eax, [byte ebp+016h]
         push eax
-        call sub_BC610
+        call MakeRotXMatrix
         add esp, byte 8
         push dword [dword_179E0B]
         lea eax, [byte ebp-0Eh]
         push eax
-        call sub_BC674
+        call MakeRotYMatrix
         add esp, byte 8
         lea eax, [byte ebp+03Ah]
         push eax
@@ -2773,7 +2773,7 @@ DrawGameFrame:
         push dword_1797FC
         push unk_179AC0
         push esi
-        call sub_BA3D0
+        call ProjectPointList
         mov eax, 60h
         add esp, byte 0Ch
 .9:
@@ -3036,7 +3036,7 @@ DrawGameFrame:
         call DrawDirtyZones
         push byte 3
         push byte 0
-        call sub_AFFD0
+        call TextSetColor
         add esp, byte 8
         lea esp, [dword ebp+082h]
         pop ebp
@@ -3513,12 +3513,12 @@ DrawGameClock:
         add esp, byte 4
         push dword 0FFh
         push byte 41h
-        call sub_AFFD0
+        call TextSetColor
         add esp, byte 8
         push esi
         push edi
         push dword [dword_179908]
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         cmp dword [dword_1798B8], byte 0
         je short .1
@@ -3740,7 +3740,7 @@ DrawPenaltyClock:
         add esp, byte 4
         push dword 0FFh
         push byte 41h
-        call sub_AFFD0
+        call TextSetColor
         mov eax, 0Ah
         mov cl, byte [byte_1798A4]
         sar eax, cl
@@ -3758,7 +3758,7 @@ DrawPenaltyClock:
         push esi
         push eax
         mov edi, edx
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         push dword [byte ebp-014h]
         push dword [byte ebp-010h]
@@ -6398,12 +6398,12 @@ unk_5D681:
         push dword [dword_179E0F]
         lea eax, [byte ebp-024h]
         push eax
-        call sub_BC610
+        call MakeRotXMatrix
         add esp, byte 8
         push dword [dword_179E0B]
         lea eax, [byte ebp-048h]
         push eax
-        call sub_BC674
+        call MakeRotYMatrix
         add esp, byte 8
         push esi
         lea eax, [byte ebp-024h]

@@ -4,11 +4,12 @@ bits 32
 section s_E1824 progbits alloc exec nowrite align=1
 extern GetTicks, TicksSince, byte_123DE8, dword_123DA4, dword_123DEB, mousepollfn, KbdGetKey, ReadJoystickPorts
 extern DispatchHotkey, word_123DE4, word_123DE6, word_123DE9
-global sub_E1836_6, sub_E1836_29, sub_E1824, sub_E1836, PollHotkeys
+global ZeroMem_6, ZeroMem_29, FillMem, ZeroMem, PollHotkeys
 ;-----------------------------------------------------------------------------
-; sub_E1824                                                            E1824  
+; FillMem                                      E1824  96 PC, medium confidence
+; Fills memory (dst, count, byte value)
 ;-----------------------------------------------------------------------------
-sub_E1824:
+FillMem:
         push ebp
         LD mov, ebp, esp
         push edi
@@ -16,16 +17,17 @@ sub_E1824:
         LD mov, dh, dl
         shrd eax, edx, 10h
         LD mov, ax, dx
-        jmp short sub_E1836_6
+        jmp short ZeroMem_6
 ;-----------------------------------------------------------------------------
-; sub_E1836                                                            E1836  
+; ZeroMem                                      E1836  96 PC, medium confidence
+; Clears memory (dst, count) to zero
 ;-----------------------------------------------------------------------------
-sub_E1836:
+ZeroMem:
         push ebp
         LD mov, ebp, esp
         push edi
         LD xor, eax, eax
-sub_E1836_6:
+ZeroMem_6:
         cld
         mov edi, dword [byte ebp+08h]
         mov ecx, dword [byte ebp+0Ch]
@@ -40,9 +42,9 @@ sub_E1836_6:
         db 00h
         call KbdGetKey
         LD or, ax, ax
-        je short sub_E1836_29.2
+        je short ZeroMem_29.2
         ret
-sub_E1836_29:
+ZeroMem_29:
         call KbdGetKey
         LD or, ax, ax
         je short .2

@@ -21,7 +21,7 @@ extern CrowdLayerCurBend, CrowdLayerThreshold, CrowdLayerMinVolume, CrowdLayerMa
 extern CrowdEventSfx, CrowdRampRate, SndChannelRate, SfxTable, SfxTableNext, SndDriverTable, SndDriverClose, SndDriverService
 extern SndDriverQuery, SndCardNameNone, SndCardNameSb10, SndCardNameSb15, SndCardNameSb20, SndCardNameSbPro10, SndCardNameSbPro20, SndCardNameSb16
 extern SndCardNameGus, SndCardNameWss, strncpy_, CdStreamSeek, CdStreamFreePacket, RemoveTimerCallback, PutBlock, AllocMemBlock
-extern FreeMemBlock, MemDescPtr, DebugSetLine, sub_AFCD0, DrawArtOpaque, RestoreDS, sub_BF120, PrintBoxedText
+extern FreeMemBlock, MemDescPtr, DebugSetLine, UnpackTo, DrawArtOpaque, RestoreDS, sub_BF120, PrintBoxedText
 extern PlaySampleOnChannel, FreeBankMemory, UpdateChannelGain, ResetMixChannel, SetMixerMode, MixerStartChannel, MixerStopChannel, MixerSetChannelVolumes
 extern MixerSetChannelRate, MixerSamplesLeft, ParseBlasterEnv, SbDspVersion, WssProbePort, GusDetect, SndTimerCallback, TgvCopyBlock
 extern TgvFillBlock, GatherPlaneBytes, DrawArtKeyedAt, PutBlockKeyedAt, CopyRowKeyedRemap, SetScreenTarget, sub_DDF4F, sub_DFB84
@@ -3899,7 +3899,7 @@ TgvDecodeKeyFrame:
         add eax, byte 14h
         add eax, edx
         push eax
-        call sub_AFCD0
+        call UnpackTo
         mov ebx, 1
         add esp, byte 8
         mov dword [byte esp+04h], ebx

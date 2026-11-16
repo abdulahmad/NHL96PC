@@ -14,9 +14,9 @@ extern LinkOpen, LinkSendMessage, LinkTimerTick, optblock_end, optflags, SetClip
 extern SetLinkMessageHandler, SetLinkSpareHook, SlotButtons, str_ABORT, str_HFwt, str_HGwt, str_LGwt, str_PAL22
 extern str_SHAD, str_X3, strcpy_, MessageBox, HideMessage, ShowMessage, CopyBitmap, SetTextColors
 extern DrawColorText, DrawColorTextCentred, DrawBox, StopMusic, QueueCurrentMusic, FillMusicStream, PlayMusic, FadeOutMusic
-extern SoundSecondsToBytes, SoundIdle, GetLangText, RemoveTimerCallback, DrawShapeAtOwnPos, sub_AAA8C, sub_AADA4, AllocMemBlock
-extern FreeMemBlock, sub_AD35C, sub_AD620, sub_ADA80, sub_ADBEC, SetScreenTarget, GetPaletteRange, FillRectColor
-extern sub_DFE9C, KbdGetKey, sub_E04E0, unk_114CE6, unk_114D46, unk_114D6E, unk_15179C, unk_1519C0
+extern SoundSecondsToBytes, SoundIdle, GetLangText, RemoveTimerCallback, DrawShapeAtOwnPos, DrawShape, PutBlockAtOwnPos, AllocMemBlock
+extern FreeMemBlock, CreateBitmap, sub_AD620, sub_ADA80, FreeBitmap, SetScreenTarget, GetPaletteRange, FillRectColor
+extern sub_DFE9C, KbdGetKey, FindShape, unk_114CE6, unk_114D46, unk_114D6E, unk_15179C, unk_1519C0
 extern unk_151A04, unk_151A44, unk_151A94, unk_151ADC, unk_17C9B8, unk_17C9CC, unk_17D272, word_114CE0
 extern word_114CE4, word_114DBE, word_114DC0, word_151AE0, word_151AE2, word_17C9AC, word_17C9B0, word_17C9B2
 global ModemGameOpen, LinkBlockStart, LinkBlockData, LinkSendBlock, LinkReceiveBlock, LinkSyncMessage, LinkGameMessage, jpt_1278E
@@ -918,7 +918,7 @@ ShowLinkWaitBox:
         mov eax, str_HGwt
         push eax
         push dword [dword_1150D4]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [byte ebp-04h], eax
         jmp short .2
@@ -926,7 +926,7 @@ ShowLinkWaitBox:
         mov eax, str_HFwt
         push eax
         push dword [dword_1150D4]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [byte ebp-04h], eax
 .2:
@@ -935,7 +935,7 @@ ShowLinkWaitBox:
         mov eax, str_LGwt
         push eax
         push dword [dword_1150D4]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [byte ebp-04h], eax
 .4:
@@ -966,7 +966,7 @@ ShowLinkWaitBox:
         add esp, byte 4
         mov eax, dword [byte ebp-04h]
         push eax
-        call sub_AAA8C
+        call DrawShape
         add esp, byte 4
 .5:
         mov esp, ebp
@@ -993,7 +993,7 @@ HideLinkWaitBox:
         cmp dword [dword_151AD0], byte 0
         je short .1
         push dword [dword_151AD0]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         push dword [dword_151AD0]
         call FreeMemBlock
@@ -1810,7 +1810,7 @@ ModemChat:
         push eax
         mov eax, dword [byte ebp-04Ch]
         push eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         mov dword [byte ebp-02Ch], eax
         mov edx, dword [byte ebp-02Ch]
@@ -1923,7 +1923,7 @@ ModemChat:
         call SetScreenTarget
         mov eax, dword [byte ebp-02Ch]
         push dword [byte eax+02Ch]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         jmp near .2
 .1:
@@ -2183,7 +2183,7 @@ ModemChat:
         add esp, byte 10h
         mov eax, dword [byte ebp-02Ch]
         push dword [byte eax+02Ch]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         push dword [dword_11F5C4]
         push byte 0
@@ -2297,7 +2297,7 @@ ModemChat:
         add esp, byte 10h
         mov eax, dword [byte ebp-02Ch]
         push dword [byte eax+02Ch]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         push dword [dword_11F5C4]
         push byte 0
@@ -2370,7 +2370,7 @@ ModemChat:
         add esp, byte 10h
         mov eax, dword [byte ebp-02Ch]
         push dword [byte eax+02Ch]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         push dword [dword_11F5C4]
         push byte 0
@@ -2588,7 +2588,7 @@ ModemChat:
         add esp, byte 10h
         mov eax, dword [byte ebp-02Ch]
         push dword [byte eax+02Ch]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         push dword [dword_11F5C4]
         push byte 0
@@ -2702,7 +2702,7 @@ ModemChat:
         add esp, byte 10h
         mov eax, dword [byte ebp-02Ch]
         push dword [byte eax+02Ch]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         push dword [dword_11F5C4]
         push byte 0
@@ -2775,7 +2775,7 @@ ModemChat:
         add esp, byte 10h
         mov eax, dword [byte ebp-02Ch]
         push dword [byte eax+02Ch]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         push dword [dword_11F5C4]
         push byte 0
@@ -2865,7 +2865,7 @@ ModemChat:
         je short .57
         mov eax, dword [byte ebp-030h]
         push eax
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         mov eax, dword [byte ebp-030h]
         push eax
@@ -2873,7 +2873,7 @@ ModemChat:
         add esp, byte 4
         mov eax, dword [byte ebp-02Ch]
         push eax
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
 .57:
         mov esp, ebp

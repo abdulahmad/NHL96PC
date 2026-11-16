@@ -11,8 +11,8 @@ extern mousex, mousey, ReadJoystickBits, SetGripButtonMap, sprintf_, str_A, str_
 extern str_BT01, str_BT02, str_D3, str_feB, str_GRIPCON, str_LTD0, str_Pal4, str_RGRIPCON
 extern strcpy_, strlen_, OpenScreen, SlideInTitleBar, SlideInSideBar, SetScreenColors, BlackPalette, FadePalette
 extern FadeOut, CopyBitmap, SetTextColors, DrawColorText, DrawColorTextRight, DrawColorTextCentred, InitMenuItems, RunMenu
-extern SetMenuMouse, FillMusicStream, SoundSecondsToBytes, SoundIdle, GetLangText, DrawShapeAtOwnPos, sub_AADA4, AllocMemBlock
-extern FreeMemBlock, sub_ADA50, sub_ADA80, SetScreenTarget, FillRectColor, KbdGetKey, sub_E04E0, TextSetFont
+extern SetMenuMouse, FillMusicStream, SoundSecondsToBytes, SoundIdle, GetLangText, DrawShapeAtOwnPos, PutBlockAtOwnPos, AllocMemBlock
+extern FreeMemBlock, sub_ADA50, sub_ADA80, SetScreenTarget, FillRectColor, KbdGetKey, FindShape, TextSetFont
 extern unk_121FC8, unk_151648, unk_1516B8, unk_151720, unk_2018D, word_11758C, word_151768, word_158CBA
 extern word_158CBC, word_158D34, word_158D3C, word_158D44, word_158D46, word_158D74, word_158D76
 global DrawGripPads, DrawGripPads_73B, DrawGripPads_73C, GripSetupScreen, UpdateJoystickTest, JoystickTestScreen
@@ -1529,7 +1529,7 @@ UpdateJoystickTest:
         dec eax
         imul eax, byte 0Ch
         push dword [dword eax+dword_158CCC]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
 .1:
         lea eax, [esi+esi]
@@ -1544,7 +1544,7 @@ UpdateJoystickTest:
         dec eax
         imul eax, byte 0Ch
         push dword [dword eax+dword_158CD0]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         call GetTicks
         add eax, byte 5
@@ -1574,7 +1574,7 @@ UpdateJoystickTest:
         movsx ecx, word [nosplit edx*2+word_158CBC]
         shl ecx, 2
         push dword [dword ecx+eax+dword_158CCC]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
 .3:
         pop esi
@@ -1614,7 +1614,7 @@ JoystickTestScreen:
         call BlackPalette
         push str_Pal4
         push esi
-        call sub_E04E0
+        call FindShape
         add eax, byte 10h
         add esp, byte 8
         mov dword [byte ebp+06Eh], eax
@@ -1622,14 +1622,14 @@ JoystickTestScreen:
         call SetScreenTarget
         push str_BKGD
         push esi
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [byte ebp+07Ah], 0FFFFFFFFh
         mov dword [byte ebp+066h], 0
         push eax
         xor edi, edi
         xor esi, esi
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
 .1:
         push dword [byte ebp+066h]
@@ -1641,7 +1641,7 @@ JoystickTestScreen:
         lea eax, [byte ebp+052h]
         push eax
         push dword [byte ebp+06Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword esi+dword_158CD0], eax
         lea eax, [byte ebp+052h]
@@ -1650,7 +1650,7 @@ JoystickTestScreen:
         inc edi
         push dword [byte ebp+06Ah]
         mov byte [byte ebp+055h], 31h
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword esi+dword_158CD4], eax
         xor edx, edx
@@ -1673,17 +1673,17 @@ JoystickTestScreen:
         call InitMenuItems
         push str_BT00
         push dword [byte ebp+06Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_BT01
         push dword [byte ebp+06Ah]
         mov dword [dword ebp-0130h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_BT02
         push dword [byte ebp+06Ah]
         mov dword [dword ebp-012Ch], eax
-        call sub_E04E0
+        call FindShape
         mov dword [dword ebp-0128h], eax
         lea eax, [byte ebp-016h]
         mov dword [dword ebp-0136h], eax

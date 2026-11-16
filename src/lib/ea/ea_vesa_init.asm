@@ -5,7 +5,7 @@ section s_BF534 progbits alloc exec nowrite align=1
 extern FatalError, __STOSB, str_InitgraphicsINITMEMMAN, str_InitgraphicsINVALIDSCREEN, str_VESAVideoBiosDriver, dword_11F5A0, dword_11F5C0, dword_11F5C4
 extern dword_11F5CC, dword_11F5D0, dword_11F5D4, dword_11F5D8, dword_1210CC, ScreenWidth, BackBufferWidth, dword_122904
 extern dword_122908, dword_12290C, dword_122910, dword_122914, dword_122918, dword_122920, dword_122924, dword_122930
-extern dword_123930, dword_123ACC, dword_123AD0, VesaBank, VesaBankFunc, dword_19B650, dword_1A0B1C, sub_ADBEC
+extern dword_123930, dword_123ACC, dword_123AD0, VesaBank, VesaBankFunc, dword_19B650, dword_1A0B1C, FreeBitmap
 extern sub_BF300, sub_BF42C, SetScreenTarget, VesaSetBank, sub_DE44E, sub_DE45F, SaveTextMode
 global initgraphics, TranslatePixels, SumRingRange
 ;-----------------------------------------------------------------------------
@@ -256,7 +256,7 @@ initgraphics:
         test esi, esi
         je short .29
         push esi
-        call sub_ADBEC
+        call FreeBitmap
         xor ebp, ebp
         add esp, byte 4
         mov dword [dword_1A0B1C], ebp

@@ -10,10 +10,10 @@ extern dword_190EA8, dword_190EAC, dword_190EB0, dword_190EB4, dword_190EB8, dwo
 extern dword_190ECC, dword_190ED0, dword_190ED4, dword_1912DC, dword_1912E0, dword_1912E4, dword_1912E8, dword_1912EC
 extern dword_1912F4, dword_1912F8, dword_1912FC, dword_191304, dword_191308, dword_19130C, dword_191310, dword_191314
 extern dword_19131C, dword_191320, dword_191A9C, dword_191AA0, dword_191AA4, strnicmp_, sub_AB834, sub_ABD64
-extern FindCachedFile, unpack, sub_AFD00, sub_B31C0, MultiplyMatrix, DrawPolyList, sub_BD594, sub_BD92C
-extern sub_BDC74, sub_C4C6C, PolyCrossProduct, DrawMappedTriangle, DrawMappedTriangleShadow, DrawShapeTriangleMapped, DrawClippedPoly, DrawMappedPolyClipped
+extern FindCachedFile, unpack, UnpackedSize, NearestColour, MultiplyMatrix, DrawPolyList, FillShadedPoly, ClipAndProjectEdge
+extern DrawTexturedPolyCore, GetPalette, PolyCrossProduct, DrawMappedTriangle, DrawMappedTriangleShadow, DrawShapeTriangleMapped, DrawClippedPoly, DrawMappedPolyClipped
 extern DrawMappedStrip, DrawMappedStripShadow, DrawMappedStripDirect, DrawFlatPolyClipped, DrawFlatPolyMapped, TexSpanFill, VecLength3, NormalizeVec3
-extern FillRectColor, sub_E04E7, bcopy, DosOpenFile, DosCloseFile, sub_E07CC, DosSeekFile, sub_E0959
+extern FillRectColor, FindShapeQuiet, bcopy, DosOpenFile, DosCloseFile, sub_E07CC, DosSeekFile, sub_E0959
 extern sub_E1575, TransposeMatrix, unk_122320, unk_190EDC
 global TexPolyFill_2C8, ReadFileRange, LoadPackedAlloc, LoadPackedAllocQuiet, LoadPackedHandle, LoadPackedHandleQuiet, LoadPackedCore, FileSizeByName
 global SetRinkView, TransformRinkPoints, TransformRinkObject, ProjectRinkObject, FillTexturePoly, FillTexturePolyClipped, OriTriOpaque, OriTriShadow
@@ -64,7 +64,7 @@ ReadFileRange:
         je short .4
         mov eax, esp
         push eax
-        call sub_AFD00
+        call UnpackedSize
         add esp, byte 4
         mov esi, eax
         test eax, eax
@@ -270,7 +270,7 @@ LoadPackedCore:
         call sub_E07CC
         add esp, byte 0Ch
         push edi
-        call sub_AFD00
+        call UnpackedSize
         add esp, byte 4
         test eax, eax
         je short .5
@@ -1154,7 +1154,7 @@ OriPolyShaded:
         push byte 4
         mov edx, dword [byte esp+05Ch]
         push edx
-        call sub_BD594
+        call FillShadedPoly
         add esp, byte 14h
         add esp, byte 40h
         pop edi
@@ -1592,7 +1592,7 @@ FillFloorPlane:
         push edx
         push ebx
         push eax
-        call sub_BD92C
+        call ClipAndProjectEdge
         add esp, byte 14h
         jmp short .7
 .6:
@@ -3107,7 +3107,7 @@ DrawTexturedPoly:
         xor edx, edx
         push ebp
         mov dword [byte esp+018h], edx
-        call sub_BDC74
+        call DrawTexturedPolyCore
         add esp, byte 14h
         mov ebp, eax
         cmp eax, byte 3
@@ -3434,7 +3434,7 @@ OriLoadShapes:
         push ebp
         mov ebx, dword [byte esp+024h]
         push ebx
-        call sub_E04E7
+        call FindShapeQuiet
         add esp, byte 8
         test eax, eax
         je short .2
@@ -3473,7 +3473,7 @@ OriLoadShapes:
         mov al, byte [byte esp+04h]
         add eax, edx
         push eax
-        call sub_B31C0
+        call NearestColour
         add esp, byte 4
         ret
         push esi
@@ -3498,7 +3498,7 @@ OriLoadShapes:
         mov al, byte [esp]
         add eax, edx
         push eax
-        call sub_B31C0
+        call NearestColour
         add esp, byte 4
         mov dword [byte esi+04h], eax
         add esp, byte 4
@@ -3540,7 +3540,7 @@ OriSetMaterialRgb:
         push eax
         add esi, byte 14h
         add ebp, byte 14h
-        call sub_B31C0
+        call NearestColour
         add esp, byte 4
         mov dword [byte esi-010h], eax
 .2:
@@ -3587,7 +3587,7 @@ OriSetMaterialRgb:
         mov al, byte [esp]
         add eax, edx
         push eax
-        call sub_B31C0
+        call NearestColour
         add esp, byte 4
         mov dword [byte esi+04h], eax
         add esp, byte 4
@@ -3617,7 +3617,7 @@ OriSetMaterialRgb:
         mov eax, dword [byte esp+018h]
         push eax
         mov dword [byte esi+04h], eax
-        call sub_C4C6C
+        call GetPalette
         add esp, byte 0Ch
         pop esi
         ret

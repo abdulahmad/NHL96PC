@@ -18,7 +18,7 @@ extern CdDriveLetter, dword_18B088, CdRequestSegment, CdBufferAddr, dword_18B094
 extern CdRegEdi, CdRegEax, CdRegEdx, dword_19F2D4, int386_, int386x_, kaufmfont, LocateBigEntry_168
 extern sub_E2335_5B, sub_E2335_81, segread_, AddMemRegion, AddMemRegions, AddHighMemRegion, TrimMemList, MemListEnd
 extern AllocMemBlock, FreeMemBlock, InitMemDescriptors, sub_BE926, sub_C2AC4, sub_C2C5C, ResetMemLock, MemLock
-extern MemUnlock, sub_C4C6C, JoystickCalibrateScreen, ShowKeyboardOn, CdDirSearch, ToUpperChar, KbdPeekKey, bcopy
+extern MemUnlock, GetPalette, JoystickCalibrateScreen, ShowKeyboardOn, CdDirSearch, ToUpperChar, KbdPeekKey, bcopy
 extern DosOpenFile, DosCloseFile, sub_E07CC, DosSeekFile, sub_E2335, CdFileTable, __stdout_buf, unk_18704C
 extern unk_19BAD0, StartupStack, unlink_, str_Punct_InitFpuFlags, _psp, __no87, _Envptr_w4, CdBufferSegment
 extern CdRequestSelector, word_18B0BC, CdRegEs, CdRegSegs
@@ -74,7 +74,7 @@ global sub_B59E8_52C, sub_B59E8_537, sub_B59E8_542, sub_B59E8_54D, sub_B59E8_558
 global sub_B59E8_584, sub_B59E8_58F, sub_B59E8_5D5, sub_B59E8_5DA, sub_B59E8_5E5, sub_B59E8_5F0, sub_B59E8_5FB, sub_B59E8_606
 global sub_B59E8_611, sub_B59E8_61C, sub_B59E8_627, sub_B59E8_632, sub_B59E8_63D, sub_B59E8_648, sub_B59E8_653, start_74
 global start_28F, WriteConsoleMessage_23, _dos_read__5, printf_, rmdir_, start, stricmp_, strncpy_
-global GrabLargestBlock, InitMemoryPool, InitMemoryPoolDefault, sub_B3100, sub_B3145, sub_B3160, sub_B31C0, DetectCPU
+global GrabLargestBlock, InitMemoryPool, InitMemoryPoolDefault, sub_B3100, sub_B3145, sub_B3160, NearestColour, DetectCPU
 global sub_B3360, sub_B3420, sub_B3458, sub_B35E4, sub_B39C8, sub_B3DA0, sub_B41A8, sub_B4580
 global sub_B4988, sub_B4D60, sub_B5168, sub_B5540, sub_B583C, sub_B58D8, sub_B59E8, sub_B6140
 global sub_B6148, sub_B621C, WriteConsoleMessage, RestoreDS, CdOpenFile, CdOpenStream, CdHandleEntry, CdCloseFile
@@ -547,9 +547,11 @@ sub_B3160:
         ret
         db 00h,00h
 ;-----------------------------------------------------------------------------
-; sub_B31C0                                                            B31C0  
+; NearestColour                                B31C0  96 PC, medium confidence
+; Finds the palette index nearest an RGB colour, through the 15-bit lookup
+; when one is built
 ;-----------------------------------------------------------------------------
-sub_B31C0:
+NearestColour:
         push esi
         push edi
         push ebp
@@ -582,7 +584,7 @@ sub_B31C0:
         push eax
         push dword 100h
         push edx
-        call sub_C4C6C
+        call GetPalette
         add esp, byte 0Ch
 .2:
         mov eax, esi

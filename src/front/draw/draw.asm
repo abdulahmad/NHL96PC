@@ -5,10 +5,10 @@ section s_63968 progbits alloc exec nowrite align=1
 extern ClearChain4, dword_11D18C, dword_11D190, dword_11D194, dword_11D198, dword_11D19C, dword_11D1A0, dword_11D1A4
 extern dword_11F5A0, dword_11F5C0, dword_11F5C4, dword_11FA14, dword_11FA18, dword_1219A4, dword_1228FC, BackBufferWidth
 extern dword_122904, FatalError, fputchar, GetTicks, initgraphics, SetViewRect, SoundIdle, str_COPY
-extern str_CouldNotAllocateLibraryB, str_LIBBUGFIX, str_NHLinitgraphicsfixNotCal, str_USETABLE, AllocMemBlock, sub_AB798, FreeMemBlock, sub_ADA50
-extern sub_ADA80, sub_AFFD0, sub_B0CA8, sub_B0F7C, sub_B2B0C, sub_B3360, sub_B3420, sub_B3458
+extern str_CouldNotAllocateLibraryB, str_LIBBUGFIX, str_NHLinitgraphicsfixNotCal, str_USETABLE, AllocMemBlock, AllocMemLocked, FreeMemBlock, sub_ADA50
+extern sub_ADA80, TextSetColor, sub_B0CA8, sub_B0F7C, sub_B2B0C, sub_B3360, sub_B3420, sub_B3458
 extern sub_B58D8, sub_B6140, TranslatePixels, SetScreenTarget, GetPaletteRange, sub_DD7B8, sub_DDF4F, sub_DE01A
-extern sub_DE084, bcopy, sub_E1824, unk_121FC8, IntroPalette, unk_17C0E0, WaitRetrace, WaitRetraceEdges
+extern sub_DE084, bcopy, FillMem, unk_121FC8, IntroPalette, unk_17C0E0, WaitRetrace, WaitRetraceEdges
 global BlackPalette, FadePalette, FadeOut, CopyBitmapRows, CopyBitmapRows_76, CopyBitmap, InitGraphicsFix, SetGraphicsMode
 global SetGraphicsMode_204, SetScreenMode, DrawText, DrawTextRight, DrawTextRight_17, DrawTextCentred, FindTextColors, SetTextColors
 global SetTextColorsRgb, DrawColorText, DrawColorTextRight, DrawColorTextRight_29, DrawColorTextRight_72, DrawColorTextCentred, FillBox, DrawBox
@@ -278,7 +278,7 @@ InitGraphicsFix:
         push dword 200h
         push dword 400h
         push str_LIBBUGFIX
-        call sub_AB798
+        call AllocMemLocked
         add esp, byte 0Ch
         mov dword [dword_11D198], eax
         test eax, eax
@@ -346,7 +346,7 @@ SetGraphicsMode:
         push byte 0
         push dword 10000h
         push dword 0A0000h
-        call sub_E1824
+        call FillMem
         add esp, byte 0Ch
         cmp esi, byte 1
         jne short .3
@@ -421,7 +421,7 @@ SetGraphicsMode:
         push byte 0
         push dword 10000h
         push dword 0A0000h
-        call sub_E1824
+        call FillMem
         mov eax, dword [dword_11F5C4]
         add esp, byte 0Ch
         dec eax
@@ -712,7 +712,7 @@ DrawColorText:
         push eax
         push dword [dword_11D190]
         mov dword [byte ebp-0Ch], eax
-        call sub_AFFD0
+        call TextSetColor
         mov eax, dword [byte ebp-04h]
         add esp, byte 8
         inc eax
@@ -724,7 +724,7 @@ DrawColorText:
         add esp, byte 0Ch
         push dword [byte ebp-0Ch]
         push dword [dword_11D18C]
-        call sub_AFFD0
+        call TextSetColor
         add esp, byte 8
         push dword [byte ebp-04h]
         push edi
@@ -758,7 +758,7 @@ DrawColorTextRight_29:
         sub edx, eax
         push dword [dword_11D190]
         mov dword [byte ebp-010h], edx
-        call sub_AFFD0
+        call TextSetColor
         mov eax, dword [byte ebp-04h]
         add esp, byte 8
         inc eax
@@ -771,7 +771,7 @@ DrawColorTextRight_29:
         add esp, byte 0Ch
         push edi
         push dword [dword_11D18C]
-        call sub_AFFD0
+        call TextSetColor
         add esp, byte 8
         push dword [byte ebp-04h]
         push dword [byte ebp-010h]
@@ -781,7 +781,7 @@ DrawColorTextRight_29:
         push edi
         push dword [byte ebp-0Ch]
 DrawColorTextRight_72:
-        call sub_AFFD0
+        call TextSetColor
         add esp, byte 8
         leave
         pop edi

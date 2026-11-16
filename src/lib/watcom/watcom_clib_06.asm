@@ -7,12 +7,12 @@ extern ScreenHeight, dword_1228FC, ViewCenterY, str_D_ProjectPointsPersp, dword_
 extern dword_1986A0, dword_19A5E0, dword_19A5E4, dword_19A5E8, dword_19A5EC, dword_19A5F0, dword_19A5F4, dword_19A5F8
 extern dword_19A5FC, dword_19A600, dword_19A604, dword_19A608, dword_19A60C, dword_19A610, dword_19A614, dword_19A618
 extern dword_19A61C, dword_19A620, dword_19A624, dword_19A628, dword_19A630, dword_19A634, dword_19A638, dword_19A63C
-extern dword_19A640, dword_19A644, dword_19A648, dword_19A64C, strnicmp_, FixedDivide, sub_BEB48, DrawMappedTriangle
+extern dword_19A640, dword_19A644, dword_19A648, dword_19A64C, strnicmp_, FixedDivide, ProjectPointWide, DrawMappedTriangle
 extern TexSpanFill, FillRectColor, sub_DE15C, sub_E0959, sub_E15D7, unk_1983E0
-global __CHP, sub_BC890_19F, sub_BCE10_1C9, sub_BC760, sub_BC7F0, sub_BC838, sub_BC890, sub_BCA38
-global sub_BCB58, sub_BCC24, sub_BCD44, sub_BCE10, sub_BCFE0, sub_BD1D4, sub_BD3A0, sub_BD594
-global sub_BD86C, sub_BD8B0, sub_BD92C, PolySideTest, sub_BD9AC, sub_BDBE8, sub_BDC74, sub_BE47C
-global sub_BE6E0, sub_BE8AC, sub_BE8C0
+global __CHP, ShadedPolyStepEdge_19F, FillShadedTriRight_1C9, OriFindGroup, OriFindPartition, OriGetPartition, ShadedPolyStepEdge, ShadedSpansLeftClipped
+global ShadedSpansLeft, ShadedSpansRightClipped, ShadedSpansRight, FillShadedTriRight, FillShadedTriRightClipped, FillShadedTriLeft, FillShadedTriLeftClipped, FillShadedPoly
+global InitReciprocalTable, ClipEdgeAtZ, ClipAndProjectEdge, PolySideTest, ClipPolyNearZ, ClipEdgeAtZTex, DrawTexturedPolyCore, SubdivideMappedTriangle
+global DrawMarkingPolys, SetPolyVertexArrays, Init387Emulator
 ;-----------------------------------------------------------------------------
 ; __CHP                                                         BC73C  library
 ;-----------------------------------------------------------------------------
@@ -31,9 +31,10 @@ __CHP:
         ret
         db 00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_BC760                                                            BC760  
+; OriFindGroup                                    BC760  96 PC, low confidence
+; Finds a named group in a model and returns its value, or -1
 ;-----------------------------------------------------------------------------
-sub_BC760:
+OriFindGroup:
         push esi
         push edi
         push ebp
@@ -107,9 +108,10 @@ sub_BC760:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_BC7F0                                                            BC7F0  
+; OriFindPartition                                BC7F0  96 PC, low confidence
+; Finds a named partition in a model and returns its index, or -1
 ;-----------------------------------------------------------------------------
-sub_BC7F0:
+OriFindPartition:
         push esi
         push edi
         push ebp
@@ -147,9 +149,10 @@ sub_BC7F0:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_BC838                                                            BC838  
+; OriGetPartition                              BC838  96 PC, medium confidence
+; Returns a model partition by id, stopping on an invalid id
 ;-----------------------------------------------------------------------------
-sub_BC838:
+OriGetPartition:
         push esi
         push edi
         push ebp
@@ -186,9 +189,10 @@ sub_BC838:
         ret
         db 00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_BC890                                                            BC890  
+; ShadedPolyStepEdge                              BC890  96 PC, low confidence
+; Sets up the step values of a shaded polygon edge
 ;-----------------------------------------------------------------------------
-sub_BC890:
+ShadedPolyStepEdge:
         push esi
         push edi
         push ebp
@@ -214,7 +218,7 @@ sub_BC890:
         mov ebx, dword [ScreenHeight]
         mov edx, dword [byte eax+04h]
         cmp edx, ebx
-        jge near sub_BC890_19F
+        jge near ShadedPolyStepEdge_19F
         mov dword [byte esi+014h], edx
         lea edx, [nosplit ebp*8+00h]
         add edx, ecx
@@ -222,7 +226,7 @@ sub_BC890:
         mov ecx, dword [byte edx+04h]
         sub ecx, ebx
         mov dword [byte esi+018h], ecx
-        je near sub_BC890_19F
+        je near ShadedPolyStepEdge_19F
         mov ecx, dword [edx]
         sub ecx, dword [eax]
         mov ebx, dword [byte eax+04h]
@@ -339,7 +343,7 @@ sub_BC890:
         adc edx, byte 0
         shrd eax, edx, 10h
         mov dword [byte esi+028h], eax
-sub_BC890_19F:
+ShadedPolyStepEdge_19F:
         add esp, byte 8
         pop ebp
         pop edi
@@ -347,9 +351,10 @@ sub_BC890_19F:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_BCA38                                                            BCA38  
+; ShadedSpansLeftClipped                          BCA38  96 PC, low confidence
+; Fills the spans of a left edged shaded triangle, clipped
 ;-----------------------------------------------------------------------------
-sub_BCA38:
+ShadedSpansLeftClipped:
         push esi
         push edi
         push ebp
@@ -447,9 +452,10 @@ sub_BCA38:
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_BCB58                                                            BCB58  
+; ShadedSpansLeft                                 BCB58  96 PC, low confidence
+; Fills the spans of a left edged shaded triangle
 ;-----------------------------------------------------------------------------
-sub_BCB58:
+ShadedSpansLeft:
         push esi
         push edi
         push ebp
@@ -517,9 +523,10 @@ sub_BCB58:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_BCC24                                                            BCC24  
+; ShadedSpansRightClipped                         BCC24  96 PC, low confidence
+; Fills the spans of a right edged shaded triangle, clipped
 ;-----------------------------------------------------------------------------
-sub_BCC24:
+ShadedSpansRightClipped:
         push esi
         push edi
         push ebp
@@ -617,9 +624,10 @@ sub_BCC24:
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_BCD44                                                            BCD44  
+; ShadedSpansRight                                BCD44  96 PC, low confidence
+; Fills the spans of a right edged shaded triangle
 ;-----------------------------------------------------------------------------
-sub_BCD44:
+ShadedSpansRight:
         push esi
         push edi
         push ebp
@@ -687,9 +695,10 @@ sub_BCD44:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_BCE10                                                            BCE10  
+; FillShadedTriRight                              BCE10  96 PC, low confidence
+; Fills a shaded triangle whose long edge is on the right
 ;-----------------------------------------------------------------------------
-sub_BCE10:
+FillShadedTriRight:
         push esi
         push edi
         push ebp
@@ -717,7 +726,7 @@ sub_BCE10:
 .2:
         mov edi, dword [byte esp+014h]
         cmp ebp, edi
-        je near sub_BCE10_1C9
+        je near FillShadedTriRight_1C9
         imul esi, edi, byte 2Ch
         mov ecx, 0Bh
         mov edi, dword_19A5E8
@@ -752,7 +761,7 @@ sub_BCE10:
         dec esi
         cmp esi, byte 0FFFFFFFFh
         je near .1
-        call sub_BCD44
+        call ShadedSpansRight
         mov eax, dword [ScreenWidth]
         mov edi, dword [dword_19A5E4]
         mov edx, dword [dword_19A5E8]
@@ -815,16 +824,17 @@ sub_BCE10:
         mov dword [dword_19A618], ecx
         mov dword [dword_19A628], edi
         jmp near .7
-sub_BCE10_1C9:
+FillShadedTriRight_1C9:
         add esp, byte 4
         pop ebp
         pop edi
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_BCFE0                                                            BCFE0  
+; FillShadedTriRightClipped                       BCFE0  96 PC, low confidence
+; Fills a shaded triangle whose long edge is on the right, clipped
 ;-----------------------------------------------------------------------------
-sub_BCFE0:
+FillShadedTriRightClipped:
         push esi
         push edi
         push ebp
@@ -855,7 +865,7 @@ sub_BCFE0:
 .2:
         mov edi, dword [byte esp+018h]
         cmp ebp, edi
-        je near sub_BC890_19F
+        je near ShadedPolyStepEdge_19F
         imul esi, edi, byte 2Ch
         mov ecx, 0Bh
         mov edi, dword_19A5E8
@@ -893,14 +903,14 @@ sub_BCFE0:
         mov eax, dword [byte esp+04h]
         cmp eax, dword [ClipLeftCol]
         jl short .8
-        call sub_BCC24
+        call ShadedSpansRightClipped
 .8:
         mov eax, dword [byte esp+04h]
         inc eax
         mov edx, dword [ScreenHeight]
         mov dword [byte esp+04h], eax
         cmp eax, edx
-        jge near sub_BC890_19F
+        jge near ShadedPolyStepEdge_19F
         mov eax, dword [ScreenWidth]
         mov ebx, dword [dword_19A5E4]
         mov ecx, dword [dword_19A5E8]
@@ -965,9 +975,10 @@ sub_BCFE0:
         jmp near .7
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_BD1D4                                                            BD1D4  
+; FillShadedTriLeft                               BD1D4  96 PC, low confidence
+; Fills a shaded triangle whose long edge is on the left
 ;-----------------------------------------------------------------------------
-sub_BD1D4:
+FillShadedTriLeft:
         push esi
         push edi
         push ebp
@@ -995,7 +1006,7 @@ sub_BD1D4:
 .2:
         mov edi, dword [byte esp+014h]
         cmp ebp, edi
-        je near sub_BCE10_1C9
+        je near FillShadedTriRight_1C9
         imul esi, edi, byte 2Ch
         mov ecx, 0Bh
         mov edi, dword_19A5E8
@@ -1030,7 +1041,7 @@ sub_BD1D4:
         dec esi
         cmp esi, byte 0FFFFFFFFh
         je near .1
-        call sub_BCB58
+        call ShadedSpansLeft
         mov eax, dword [ScreenWidth]
         mov edi, dword [dword_19A5E4]
         mov edx, dword [dword_19A5E8]
@@ -1095,9 +1106,10 @@ sub_BD1D4:
         jmp near .7
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_BD3A0                                                            BD3A0  
+; FillShadedTriLeftClipped                        BD3A0  96 PC, low confidence
+; Fills a shaded triangle whose long edge is on the left, clipped
 ;-----------------------------------------------------------------------------
-sub_BD3A0:
+FillShadedTriLeftClipped:
         push esi
         push edi
         push ebp
@@ -1128,7 +1140,7 @@ sub_BD3A0:
 .2:
         mov edi, dword [byte esp+018h]
         cmp ebp, edi
-        je near sub_BC890_19F
+        je near ShadedPolyStepEdge_19F
         imul esi, edi, byte 2Ch
         mov ecx, 0Bh
         mov edi, dword_19A5E8
@@ -1166,14 +1178,14 @@ sub_BD3A0:
         mov eax, dword [byte esp+04h]
         cmp eax, dword [ClipLeftCol]
         jl short .8
-        call sub_BCA38
+        call ShadedSpansLeftClipped
 .8:
         mov eax, dword [byte esp+04h]
         inc eax
         mov edx, dword [ScreenHeight]
         mov dword [byte esp+04h], eax
         cmp eax, edx
-        jge near sub_BC890_19F
+        jge near ShadedPolyStepEdge_19F
         mov eax, dword [ScreenWidth]
         mov ebx, dword [dword_19A5E4]
         mov ecx, dword [dword_19A5E8]
@@ -1238,9 +1250,11 @@ sub_BD3A0:
         jmp near .7
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_BD594                                                            BD594  
+; FillShadedPoly                                  BD594  96 PC, low confidence
+; Fills a shaded polygon, splitting it into triangles and clipping where
+; needed
 ;-----------------------------------------------------------------------------
-sub_BD594:
+FillShadedPoly:
         push esi
         push edi
         push ebp
@@ -1394,7 +1408,7 @@ sub_BD594:
         mov edx, dword [byte esp+034h]
         push edx
         push edi
-        call sub_BC890
+        call ShadedPolyStepEdge
         add esp, byte 14h
         mov eax, esi
         inc esi
@@ -1437,13 +1451,13 @@ sub_BD594:
         push ebp
         push edx
         push ebx
-        call sub_BD3A0
+        call FillShadedTriLeftClipped
         jmp short .20
 .17:
         push ebp
         push edx
         push ebx
-        call sub_BD1D4
+        call FillShadedTriLeft
         jmp short .20
 .18:
         cmp dword [esp], byte 0
@@ -1451,7 +1465,7 @@ sub_BD594:
         push ebp
         push edx
         push ebx
-        call sub_BCFE0
+        call FillShadedTriRightClipped
         add esp, byte 0Ch
         add esp, byte 0Ch
         pop ebp
@@ -1462,7 +1476,7 @@ sub_BD594:
         push ebp
         push edx
         push ebx
-        call sub_BCE10
+        call FillShadedTriRight
 .20:
         add esp, byte 0Ch
 .21:
@@ -1500,15 +1514,16 @@ sub_BD594:
         push eax
         push byte 4
         push edx
-        call sub_BD594
+        call FillShadedPoly
         add esp, byte 14h
         add esp, byte 20h
         pop ebp
         ret
 ;-----------------------------------------------------------------------------
-; sub_BD86C                                                            BD86C  
+; InitReciprocalTable                          BD86C  96 PC, medium confidence
+; Fills the table of 10000h/n for n up to 2000
 ;-----------------------------------------------------------------------------
-sub_BD86C:
+InitReciprocalTable:
         push ebx
         push ecx
         push edx
@@ -1535,9 +1550,10 @@ sub_BD86C:
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_BD8B0                                                            BD8B0  
+; ClipEdgeAtZ                                     BD8B0  96 PC, low confidence
+; Finds the point where an edge crosses a Z plane
 ;-----------------------------------------------------------------------------
-sub_BD8B0:
+ClipEdgeAtZ:
         push esi
         push edi
         push ebp
@@ -1589,9 +1605,10 @@ sub_BD8B0:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_BD92C                                                            BD92C  
+; ClipAndProjectEdge                              BD92C  96 PC, low confidence
+; Clips an edge at a Z plane and projects the new point
 ;-----------------------------------------------------------------------------
-sub_BD92C:
+ClipAndProjectEdge:
         push esi
         push edi
         push ebp
@@ -1603,13 +1620,13 @@ sub_BD92C:
         push ecx
         mov esi, dword [byte esp+01Ch]
         push esi
-        call sub_BD8B0
+        call ClipEdgeAtZ
         add esp, byte 10h
         mov edi, dword [byte esp+01Ch]
         push edi
         mov ebp, dword [byte esp+01Ch]
         push ebp
-        call sub_BEB48
+        call ProjectPointWide
         add esp, byte 8
         pop ebp
         pop edi
@@ -1661,9 +1678,10 @@ PolySideTest:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_BD9AC                                                            BD9AC  
+; ClipPolyNearZ                                   BD9AC  96 PC, low confidence
+; Clips a polygon at the near plane and projects it
 ;-----------------------------------------------------------------------------
-sub_BD9AC:
+ClipPolyNearZ:
         push esi
         push edi
         push ebp
@@ -1740,12 +1758,12 @@ sub_BD9AC:
         lea ecx, [byte esi+08h]
         push ebx
         mov dword [dword esp+01C8h], ecx
-        call sub_BD8B0
+        call ClipEdgeAtZ
         add esp, byte 10h
         push esi
         mov edi, ebp
         push edi
-        call sub_BEB48
+        call ProjectPointWide
         add esp, byte 8
         mov esi, dword [dword esp+0198h]
         inc esi
@@ -1778,12 +1796,12 @@ sub_BD9AC:
         add ebx, byte 8
         push eax
         mov dword [dword esp+01C8h], ebx
-        call sub_BD8B0
+        call ClipEdgeAtZ
         add esp, byte 10h
         push esi
         mov edi, ebp
         push edi
-        call sub_BEB48
+        call ProjectPointWide
         add esp, byte 8
         mov ecx, dword [dword esp+0198h]
         add ecx, byte 2
@@ -1825,9 +1843,10 @@ sub_BD9AC:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_BDBE8                                                            BDBE8  
+; ClipEdgeAtZTex                                  BDBE8  96 PC, low confidence
+; Finds the point and texture point where an edge crosses a Z plane
 ;-----------------------------------------------------------------------------
-sub_BDBE8:
+ClipEdgeAtZTex:
         push esi
         push edi
         push ebp
@@ -1840,7 +1859,7 @@ sub_BDBE8:
         push ecx
         mov edi, dword [byte esp+01Ch]
         push edi
-        call sub_BD8B0
+        call ClipEdgeAtZ
         add esp, byte 10h
         mov ebx, eax
         mov eax, dword [byte esp+024h]
@@ -1874,7 +1893,7 @@ sub_BDBE8:
         push ebx
         mov ecx, dword [byte esp+01Ch]
         push ecx
-        call sub_BEB48
+        call ProjectPointWide
         add esp, byte 8
         pop ebp
         pop edi
@@ -1882,9 +1901,10 @@ sub_BDBE8:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_BDC74                                                            BDC74  
+; DrawTexturedPolyCore                            BDC74  96 PC, low confidence
+; Clips, projects and draws a textured polygon
 ;-----------------------------------------------------------------------------
-sub_BDC74:
+DrawTexturedPolyCore:
         push esi
         push edi
         push ebp
@@ -1979,7 +1999,7 @@ sub_BDC74:
         push ebx
         mov dword [dword esp+0280h], ecx
         mov dword [dword esp+027Ch], esi
-        call sub_BDBE8
+        call ClipEdgeAtZTex
         add esp, byte 20h
         mov edi, dword [dword esp+023Ch]
         inc edi
@@ -2025,7 +2045,7 @@ sub_BDC74:
         lea eax, [byte ecx+08h]
         mov dword [dword esp+0280h], edi
         mov dword [dword esp+027Ch], eax
-        call sub_BDBE8
+        call ClipEdgeAtZTex
         add esp, byte 20h
         mov edx, dword [dword esp+023Ch]
         add edx, byte 2
@@ -2159,7 +2179,7 @@ sub_BDC74:
         push ebx
         mov dword [dword esp+0270h], ecx
         mov dword [dword esp+026Ch], esi
-        call sub_BDBE8
+        call ClipEdgeAtZTex
         add esp, byte 20h
         mov edi, dword [dword esp+0244h]
         inc edi
@@ -2192,7 +2212,7 @@ sub_BDC74:
         push ecx
         mov dword [dword esp+0270h], esi
         mov dword [dword esp+026Ch], edi
-        call sub_BDBE8
+        call ClipEdgeAtZTex
         add esp, byte 20h
         mov eax, dword [dword esp+0244h]
         inc eax
@@ -2241,7 +2261,7 @@ sub_BDC74:
         push ecx
         mov dword [dword esp+0270h], esi
         mov dword [dword esp+026Ch], edi
-        call sub_BDBE8
+        call ClipEdgeAtZTex
         add esp, byte 20h
         mov eax, dword [dword esp+0244h]
         inc eax
@@ -2274,7 +2294,7 @@ sub_BDC74:
         push esi
         mov dword [dword esp+0270h], edi
         mov dword [dword esp+026Ch], eax
-        call sub_BDBE8
+        call ClipEdgeAtZTex
         add esp, byte 20h
         mov edx, dword [dword esp+0244h]
         inc edx
@@ -2473,9 +2493,10 @@ sub_BDC74:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_BE47C                                                            BE47C  
+; SubdivideMappedTriangle                         BE47C  96 PC, low confidence
+; Draws a mapped triangle, splitting it until the perspective error is small
 ;-----------------------------------------------------------------------------
-sub_BE47C:
+SubdivideMappedTriangle:
         push ebx
         push ecx
         push esi
@@ -2675,7 +2696,7 @@ sub_BE47C:
         jne short .10
         mov edx, esp
         mov eax, dword [byte esp+030h]
-        call sub_BE47C
+        call SubdivideMappedTriangle
         jmp short .11
 .10:
         mov eax, esp
@@ -2694,9 +2715,10 @@ sub_BE47C:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_BE6E0                                                            BE6E0  
+; DrawMarkingPolys                                BE6E0  96 PC, low confidence
+; Clips, projects and fills a list of flat polygons (ice markings)
 ;-----------------------------------------------------------------------------
-sub_BE6E0:
+DrawMarkingPolys:
         push ecx
         push esi
         push edi
@@ -2748,7 +2770,7 @@ sub_BE6E0:
         push ebp
         lea eax, [dword esp+0324h]
         push eax
-        call sub_BEB48
+        call ProjectPointWide
         add esp, byte 8
         jmp short .4
 .2:
@@ -2773,7 +2795,7 @@ sub_BE6E0:
         mov esi, dword [dword esp+0344h]
         push eax
         inc esi
-        call sub_BEB48
+        call ProjectPointWide
         mov dword [dword esp+0348h], esi
         add esp, byte 8
         jmp short .4
@@ -2842,16 +2864,18 @@ sub_BE6E0:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_BE8AC                                                            BE8AC  
+; SetPolyVertexArrays                             BE8AC  96 PC, low confidence
+; Sets the point arrays and colour DrawMarkingPolys uses
 ;-----------------------------------------------------------------------------
-sub_BE8AC:
+SetPolyVertexArrays:
         mov dword [dword_19A648], eax
         mov dword [dword_19A644], edx
         mov dword [dword_19A64C], ebx
         ret
         db 00h,00h
 ;-----------------------------------------------------------------------------
-; sub_BE8C0                                                            BE8C0  
+; Init387Emulator                                 BE8C0  96 PC, low confidence
+; Jumps to the 387 emulator set-up
 ;-----------------------------------------------------------------------------
-sub_BE8C0:
+Init387Emulator:
         jmp near __sys_init_387_emulator

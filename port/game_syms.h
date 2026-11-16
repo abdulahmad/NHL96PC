@@ -23,7 +23,7 @@
 #define SYM_StartSoundCard          0x694B9u   /* front/sound/sound.asm */
 #define SYM_RunInGameMenu           0x6A7D3u   /* front/pause_menu/pause_menu.asm */
 #define SYM_TimerISR_tick           0xAA5D5u   /* lib/ea/ea_timer.asm */
-#define SYM_sub_AB798               0xAB798u   /* lib/ea/ea_gfx_01.asm */
+#define SYM_AllocMemLocked          0xAB798u   /* lib/ea/ea_gfx_01.asm */
 #define SYM_GetRandState            0xB03F2u   /* lib/watcom/watcom_clib_03.asm */
 #define SYM_start                   0xB6308u   /* lib/watcom/watcom_clib_05.asm */
 #define SYM___saved_DS              0xB65DDu   /* lib/watcom/watcom_clib_05.asm */

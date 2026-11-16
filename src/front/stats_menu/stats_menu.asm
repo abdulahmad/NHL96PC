@@ -27,8 +27,8 @@ extern str_LGR2, str_Menupicks, str_NOR, str_PAC, str_Pal20, str_PLR, str_PLY2, 
 extern str_PRN0, str_PRN1, str_PRN2, str_ROK, str_S2, str_SavetimeOut, str_SD2, str_SEA0
 extern str_SEA2, str_SEA3, str_Space2, str_spDDDD, str_TEA0, str_TEA1, str_TEA2, str_TXT
 extern str_VBAL, str_VERT, str_WES, str_WES0, str_Wt2, strcat_, strcmp_, strlen_
-extern PlayerCardScreen, PlayerRatingsScreen, AllocMemBlock, FreeMemBlock, sub_AD35C, TintRows, sub_AD620, sub_ADBEC
-extern DosFileInfo, sub_B2C54, DrawArtKeyed, SetScreenTarget, FillRectColor, sub_E04E0, TickDeadlinePassed, unk_112633
+extern PlayerCardScreen, PlayerRatingsScreen, AllocMemBlock, FreeMemBlock, CreateBitmap, TintRows, sub_AD620, FreeBitmap
+extern DosFileInfo, DrawArtOpaqueAtOwnPos, DrawArtKeyed, SetScreenTarget, FillRectColor, FindShape, TickDeadlinePassed, unk_112633
 extern unk_11263E, unk_11266B, UpdateProgressBox, word_11D1D0, word_11E5FC, word_17E894, word_17E8C8, word_17E900
 extern word_17E934, word_17E968, word_17E99C
 global unk_884BD, jpt_884F1, RunStatsMenu, RunStatsMenu_25, RunStatsMenu_104, RunStatsMenu_13E, RunStatsMenu_169, RunStatsMenu_183
@@ -829,12 +829,12 @@ TeamStatsScreen:
         push eax
         mov esi, eax
         mov dword [byte ebp-06h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Pal20
         push esi
         mov dword [byte ebp-0Ah], eax
-        call sub_E04E0
+        call FindShape
         add eax, byte 10h
         add esp, byte 8
         mov dword [byte ebp-0Eh], eax
@@ -878,17 +878,17 @@ TeamStatsScreen:
         push byte 0
         push str_SEA0
         push dword [byte ebp-06h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+06h]
         push eax
         push str_SEA0
         push dword [byte ebp-06h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+04h]
         push eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         mov edx, dword [byte ebp+05Ah]
         push eax
@@ -898,7 +898,7 @@ TeamStatsScreen:
         lea eax, [byte ebp-01Ah]
         push eax
         push dword [byte ebp-06h]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+0Eh]
         add esp, byte 8
         neg eax
@@ -906,14 +906,14 @@ TeamStatsScreen:
         lea eax, [byte ebp-01Ah]
         push eax
         push dword [byte ebp-06h]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+0Ch]
         add esp, byte 8
         neg eax
         push eax
         push str_Bkgd15
         push dword [byte ebp-06h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -923,7 +923,7 @@ TeamStatsScreen:
         lea eax, [byte ebp-01Ah]
         push eax
         push dword [byte ebp-06h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         inc dword [byte ebp+07Ah]
@@ -1086,14 +1086,14 @@ TeamStatsScreen:
         mov dword [byte eax+01Eh], edx
         push str_SEA0
         push dword [byte ebp-06h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov edx, dword [byte ebp-012h]
         push str_SEA0
         movsx eax, word [byte eax+0Ch]
         push dword [byte ebp-06h]
         mov dword [dword edx+0158h], eax
-        call sub_E04E0
+        call FindShape
         mov edx, dword [byte ebp-012h]
         movsx eax, word [byte eax+0Eh]
         mov dword [dword edx+015Ch], eax
@@ -1129,14 +1129,14 @@ TeamStatsScreen:
         mov dword [byte eax+01Eh], edx
         push str_CON0
         push dword [byte ebp-06h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov edx, dword [byte ebp-012h]
         push str_CON0
         movsx eax, word [byte eax+0Ch]
         push dword [byte ebp-06h]
         mov dword [dword edx+01BEh], eax
-        call sub_E04E0
+        call FindShape
         mov edx, dword [byte ebp-012h]
         movsx eax, word [byte eax+0Eh]
         mov dword [dword edx+01C2h], eax
@@ -1206,14 +1206,14 @@ TeamStatsScreen_96F:
 .24:
         push str_WES0
         push dword [byte ebp-06h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov edx, dword [byte ebp-012h]
         push str_WES0
         movsx eax, word [byte eax+0Ch]
         push dword [byte ebp-06h]
         mov dword [dword edx+0224h], eax
-        call sub_E04E0
+        call FindShape
         mov edx, dword [byte ebp-012h]
         movsx eax, word [byte eax+0Eh]
         mov dword [dword edx+0228h], eax
@@ -1229,32 +1229,32 @@ TeamStatsScreen_96F:
         lea eax, [dword ebp-056Eh]
         push dword [byte ebp-06h]
         mov dword [dword edx+0278h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_PRN1
         mov edx, dword [byte ebp-012h]
         push dword [byte ebp-06h]
         mov dword [dword edx+027Eh], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_PRN2
         mov edx, dword [byte ebp-012h]
         push dword [byte ebp-06h]
         mov dword [dword edx+0282h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_PRN0
         mov edx, dword [byte ebp-012h]
         push dword [byte ebp-06h]
         mov dword [dword edx+0286h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov edx, dword [byte ebp-012h]
         push str_PRN0
         movsx eax, word [byte eax+0Ch]
         push dword [byte ebp-06h]
         mov dword [dword edx+028Ah], eax
-        call sub_E04E0
+        call FindShape
         mov edx, dword [byte ebp-012h]
         movsx eax, word [byte eax+0Eh]
         mov dword [dword edx+028Eh], eax
@@ -1270,32 +1270,32 @@ TeamStatsScreen_96F:
         lea eax, [dword ebp-052Eh]
         push dword [byte ebp-06h]
         mov dword [dword edx+02DEh], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_LGR1
         mov edx, dword [byte ebp-012h]
         push dword [byte ebp-06h]
         mov dword [dword edx+02E4h], eax
-        call sub_E04E0
+        call FindShape
         mov edx, dword [byte ebp-012h]
         add esp, byte 8
         mov dword [dword edx+02E8h], eax
         push str_LGR2
         push dword [byte ebp-06h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_LGR0
         mov edx, dword [byte ebp-012h]
         push dword [byte ebp-06h]
         mov dword [dword edx+02ECh], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov edx, dword [byte ebp-012h]
         push str_LGR0
         movsx eax, word [byte eax+0Ch]
         push dword [byte ebp-06h]
         mov dword [dword edx+02F0h], eax
-        call sub_E04E0
+        call FindShape
         mov edx, dword [byte ebp-012h]
         movsx eax, word [byte eax+0Eh]
         mov dword [dword edx+02F4h], eax
@@ -1311,32 +1311,32 @@ TeamStatsScreen_96F:
         lea eax, [dword ebp-04EEh]
         push dword [byte ebp-06h]
         mov dword [dword edx+0344h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_TEA1
         mov edx, dword [byte ebp-012h]
         push dword [byte ebp-06h]
         mov dword [dword edx+034Ah], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_TEA2
         mov edx, dword [byte ebp-012h]
         push dword [byte ebp-06h]
         mov dword [dword edx+034Eh], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_TEA0
         mov edx, dword [byte ebp-012h]
         push dword [byte ebp-06h]
         mov dword [dword edx+0352h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov edx, dword [byte ebp-012h]
         push str_TEA0
         movsx eax, word [byte eax+0Ch]
         push dword [byte ebp-06h]
         mov dword [dword edx+0356h], eax
-        call sub_E04E0
+        call FindShape
         mov edx, dword [byte ebp-012h]
         movsx eax, word [byte eax+0Eh]
         mov dword [dword edx+035Ah], eax
@@ -1349,104 +1349,104 @@ TeamStatsScreen_96F:
         add eax, byte 0Ah
         push dword [byte ebp-06h]
         mov dword [dword edx+036Eh], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_AR31
         mov edx, dword [byte ebp-012h]
         push dword [byte ebp-06h]
         mov dword [dword edx+03B0h], eax
-        call sub_E04E0
+        call FindShape
         mov edx, dword [byte ebp-012h]
         add esp, byte 8
         mov dword [dword edx+03B4h], eax
         push str_AR30
         push dword [byte ebp-06h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov edx, dword [byte ebp-012h]
         push str_AR30
         movsx eax, word [byte eax+0Ch]
         push dword [byte ebp-06h]
         mov dword [dword edx+03BCh], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov edx, dword [byte ebp-012h]
         push str_AR20
         movsx eax, word [byte eax+0Eh]
         push dword [byte ebp-06h]
         mov dword [dword edx+03C0h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_AR21
         mov edx, dword [byte ebp-012h]
         push dword [byte ebp-06h]
         mov dword [dword edx+04E2h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_AR20
         mov edx, dword [byte ebp-012h]
         push dword [byte ebp-06h]
         mov dword [dword edx+04E6h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov edx, dword [byte ebp-012h]
         push str_AR20
         movsx eax, word [byte eax+0Ch]
         push dword [byte ebp-06h]
         mov dword [dword edx+04EEh], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov edx, dword [byte ebp-012h]
         push str_AR002
         movsx eax, word [byte eax+0Eh]
         push dword [byte ebp-06h]
         mov dword [dword edx+04F2h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_AR012
         mov edx, dword [byte ebp-012h]
         push dword [byte ebp-06h]
         mov dword [dword edx+0548h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_AR002
         mov edx, dword [byte ebp-012h]
         push dword [byte ebp-06h]
         mov dword [dword edx+054Ch], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov edx, dword [byte ebp-012h]
         push str_AR002
         movsx eax, word [byte eax+0Ch]
         push dword [byte ebp-06h]
         mov dword [dword edx+0554h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov edx, dword [byte ebp-012h]
         push str_AR102
         movsx eax, word [byte eax+0Eh]
         push dword [byte ebp-06h]
         mov dword [dword edx+0558h], eax
-        call sub_E04E0
+        call FindShape
         mov edx, dword [byte ebp-012h]
         add esp, byte 8
         mov dword [dword edx+067Ah], eax
         push str_AR112
         push dword [byte ebp-06h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_AR102
         mov edx, dword [byte ebp-012h]
         push dword [byte ebp-06h]
         mov dword [dword edx+067Eh], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov edx, dword [byte ebp-012h]
         push str_AR102
         movsx eax, word [byte eax+0Ch]
         push dword [byte ebp-06h]
         mov dword [dword edx+0686h], eax
-        call sub_E04E0
+        call FindShape
         mov edx, dword [byte ebp-012h]
         movsx eax, word [byte eax+0Eh]
         add esp, byte 8
@@ -1455,7 +1455,7 @@ TeamStatsScreen_96F:
         xor edx, edx
         call SetTextColors
         push dword [byte ebp-0Ah]
-        call sub_B2C54
+        call DrawArtOpaqueAtOwnPos
         add esp, byte 4
         cmp dword [dword ebp-01EDEh], 3E8h
         jl short .25
@@ -1463,10 +1463,10 @@ TeamStatsScreen_96F:
         jge short .25
         push str_HED2
         push dword [byte ebp-06h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_B2C54
+        call DrawArtOpaqueAtOwnPos
         add esp, byte 4
         push byte_17CBEB
         mov eax, 1D7h
@@ -1476,10 +1476,10 @@ TeamStatsScreen_96F:
         jl short .27
         push str_HED1
         push dword [byte ebp-06h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_B2C54
+        call DrawArtOpaqueAtOwnPos
         add esp, byte 4
         push byte_17D13A
         mov eax, 1D9h
@@ -1504,23 +1504,23 @@ TeamStatsScreen_96F:
         mov esi, TeamStatsBitmap
         push dword 1EAh
         rep movsb
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push str_VBAL
         mov esi, eax
         push dword [byte ebp-06h]
         mov dword [byte ebp+06h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         push str_VERT
         push dword [byte ebp-06h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         push str_Bkgd15
         push dword [byte ebp-06h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov edx, dword [byte ebp-012h]
         push eax
@@ -1534,17 +1534,17 @@ TeamStatsScreen_96F:
         call DrawScrollBar
         push str_HBAL
         push dword [byte ebp-06h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         push str_HORZ
         push dword [byte ebp-06h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         push str_Bkgd15
         push dword [byte ebp-06h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov edx, dword [byte ebp-012h]
         push eax
@@ -1766,17 +1766,17 @@ TeamStatsScreen_96F:
         call FreeScrollBar
         push str_VBAL
         push dword [byte ebp-06h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         push str_VERT
         push dword [byte ebp-06h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         push str_Bkgd15
         push dword [byte ebp-06h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         mov ecx, 0Eh
@@ -2038,7 +2038,7 @@ TeamStatsScreen_1380:
         shl esi, 5
 .81:
         push dword [dword esi+dword_17DD94]
-        call sub_ADBEC
+        call FreeBitmap
         add esi, byte 4
         add esp, byte 4
         cmp esi, dword [byte ebp+072h]
@@ -2054,7 +2054,7 @@ TeamStatsScreen_1380:
         call FreeMemBlock
         add esp, byte 4
         push dword [byte ebp+06h]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         lea eax, [dword ebp-032Eh]
         call FreeScrollBar
@@ -2086,7 +2086,7 @@ DrawTeamStatsTable:
         push byte 0FFFFFFBAh
         push str_Bkgd15
         push dword [byte ebp+014h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock

@@ -21,9 +21,9 @@ extern str_HD00, str_HD022, str_LG02d2, str_Pal23, str_PHT0, str_PHT1, str_PHT2,
 extern str_PLY4, str_Plyr2, str_PRN02, str_PRN12, str_PRN22, str_PROFILEFSH2, str_RAT, str_RAT0
 extern str_S5, str_SD4, str_SEA4, str_SLDH2, str_Wt4, str_XTbl, strcat_, strlen_
 extern SelectDataLibrary, StatsDb5Record, StatsDb1Record, StatsDataBBRecord, StatsData4Record, StatsDb2Record, PlayerRatingsScreen_E11, PlayerRatingsScreen_E3B
-extern PlayerRatingsScreen_E44, PlayerRatingsScreen_E4D, PlayerRatingsScreen_E56, PlayerRatingsScreen_E5F, PlayerRatingsScreen_E68, PlayerRatingsScreen_E71, RatingBar, sub_AAA40
-extern sub_AADA4, BlitShapeAt, AllocMemBlock, FreeMemBlock, sub_AD35C, sub_ADBEC, DosFileInfo, LoadResourceDataShared
-extern sub_B2C54, sub_B2C70, PutBlockKeyed, SetScreenTarget, sub_DD7B8, sub_DD908, sub_E04E0, TickDeadlinePassed
+extern PlayerRatingsScreen_E44, PlayerRatingsScreen_E4D, PlayerRatingsScreen_E56, PlayerRatingsScreen_E5F, PlayerRatingsScreen_E68, PlayerRatingsScreen_E71, RatingBar, DrawArt
+extern PutBlockAtOwnPos, BlitShapeAt, AllocMemBlock, FreeMemBlock, CreateBitmap, FreeBitmap, DosFileInfo, LoadResourceDataShared
+extern DrawArtOpaqueAtOwnPos, sub_B2C70, PutBlockKeyed, SetScreenTarget, sub_DD7B8, sub_DD908, FindShape, TickDeadlinePassed
 extern unk_1129C2, unk_1129E4, unk_1129F7, unk_152C44, UpdateProgressBox
 global unk_903B5, unk_903F5, unk_90401, unk_90501, ShowPlayerCardTitle, SwitchPlayerCard, DrawLeagueLogo, DrawLeagueLogo_7D
 global SlideCardLeft, SlideCardRight, PlayerCardScreen, unk_91F1C, unk_91F48, unk_91F70, unk_91F9C, DrawPlayerCardStats
@@ -90,7 +90,7 @@ ShowPlayerCardTitle:
         push byte 0
         push byte 46h
         push byte 50h
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push eax
         mov esi, eax
@@ -100,7 +100,7 @@ ShowPlayerCardTitle:
         push dword 0FFFFFEE8h
         push str_Bkgd17
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -121,13 +121,13 @@ ShowPlayerCardTitle:
         push dword [nosplit edx*4+off_11E6E0]
         push dword [dword_18210C]
         mov dword [dword_1820A0], edx
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push byte 0
         push byte 0
         push eax
         mov dword [dword_1820A4], eax
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         call SetScreenTarget
         push byte 64h
@@ -136,7 +136,7 @@ ShowPlayerCardTitle:
         call sub_B2C70
         add esp, byte 0Ch
         push esi
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
 .2:
         pop esi
@@ -248,7 +248,7 @@ SwitchPlayerCard:
         push byte 0
         push dword 0B1h
         push dword 0A0h
-        call sub_AD35C
+        call CreateBitmap
         mov esi, eax
         mov eax, dword [dword_181EAC]
         mov eax, dword [nosplit eax*4+dword_17EEF0]
@@ -263,7 +263,7 @@ SwitchPlayerCard:
         push byte 0FFFFFF9Fh
         push str_Bkgd17
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -274,7 +274,7 @@ SwitchPlayerCard:
         call PutBlock
         add esp, byte 0Ch
         push esi
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         call SetScreenTarget
         push byte 5Dh
@@ -309,7 +309,7 @@ DrawLeagueLogo:
         lea eax, [byte ebp-010h]
         push eax
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [byte ebp-04h], 0
         push edi
@@ -328,7 +328,7 @@ DrawLeagueLogo:
         push edi
         push dword [byte ebp-04h]
         push esi
-        call sub_AAA40
+        call DrawArt
         movsx eax, word [byte esi+06h]
         add esp, byte 0Ch
         add edi, eax
@@ -361,7 +361,7 @@ SlideCardLeft:
         push byte 0
         push dword 0B1h
         push dword 0A0h
-        call sub_AD35C
+        call CreateBitmap
         mov dword [byte ebp-0Ch], eax
         mov eax, dword [dword_181EAC]
         mov eax, dword [nosplit eax*4+dword_17EEF0]
@@ -376,7 +376,7 @@ SlideCardLeft:
         push byte 0FFFFFF9Fh
         push str_Bkgd17
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -388,7 +388,7 @@ SlideCardLeft:
         call PutBlock
         add esp, byte 0Ch
         push dword [byte ebp-0Ch]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         jmp short .2
 .1:
@@ -455,7 +455,7 @@ SlideCardRight:
         push byte 0
         push dword 0B1h
         push dword 0A0h
-        call sub_AD35C
+        call CreateBitmap
         mov dword [byte ebp-0Ch], eax
         mov eax, dword [dword_181EAC]
         mov eax, dword [nosplit eax*4+dword_17EEF0]
@@ -470,7 +470,7 @@ SlideCardRight:
         push byte 0FFFFFF9Fh
         push str_Bkgd17
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -482,7 +482,7 @@ SlideCardRight:
         call PutBlock
         add esp, byte 0Ch
         push dword [byte ebp-0Ch]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         jmp short .2
 .1:
@@ -563,31 +563,31 @@ PlayerCardScreen:
         push dword 0ADh
         mov dword [dword_1820A4], 0
         mov dword [dword_1820F8], 0
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push byte 0
         push byte 3Dh
         push dword 0C5h
         mov dword [dword_182120], eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push byte 0
         push dword 118h
         push dword 104h
         mov dword [byte ebp-030h], eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push byte 0
         push dword 0C8h
         push dword 0C8h
         mov dword [byte ebp-02Ch], eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push byte 0
         push byte 5Dh
         push dword 96h
         mov dword [byte ebp-034h], eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push byte 0
         push dword 100h
@@ -652,17 +652,17 @@ PlayerCardScreen:
         mov dword [dword ebp-04A0h], eax
         mov dword [dword ebp-049Ch], eax
         mov dword [dword ebp-0498h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+06h]
         push eax
         push str_PHT0
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+04h]
         push eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push eax
         mov dword [byte ebp-038h], eax
@@ -670,21 +670,21 @@ PlayerCardScreen:
         add esp, byte 4
         push str_PHT0
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+0Eh]
         add esp, byte 8
         neg eax
         push eax
         push str_PHT0
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+0Ch]
         add esp, byte 8
         neg eax
         push eax
         push str_Bkgd17
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -692,17 +692,17 @@ PlayerCardScreen:
         call SetScreenTarget
         push str_HBAL3
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         push str_SLDH2
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         push str_Bkgd17
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         mov ecx, 1
@@ -713,45 +713,45 @@ PlayerCardScreen:
         call InitHScrollBar
         push str_AR004
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_AR014
         push dword [dword_18210C]
         mov dword [dword ebp-069Eh], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_AR004
         push dword [dword_18210C]
         mov dword [dword ebp-069Ah], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_AR004
         movsx eax, word [byte eax+0Ch]
         push dword [dword_18210C]
         mov dword [dword ebp-0692h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_AR104
         movsx eax, word [byte eax+0Eh]
         push dword [dword_18210C]
         mov dword [dword ebp-068Eh], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_AR114
         push dword [dword_18210C]
         mov dword [dword ebp-056Ch], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_AR104
         push dword [dword_18210C]
         mov dword [dword ebp-0568h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_AR104
         movsx eax, word [byte eax+0Ch]
         push dword [dword_18210C]
         mov dword [dword ebp-0560h], eax
-        call sub_E04E0
+        call FindShape
         mov edx, dword [byte ebp-01Ch]
         movsx eax, word [byte eax+0Eh]
         add esp, byte 8
@@ -762,19 +762,19 @@ PlayerCardScreen:
         call SelectDataLibrary
         push str_Bkgd17
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Pal23
         push dword [dword_18210C]
         mov edi, eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [byte ebp-020h], 0
         add eax, byte 10h
         push edi
         mov dword [dword_182104], eax
         mov esi, eax
-        call sub_B2C54
+        call DrawArtOpaqueAtOwnPos
         mov al, byte [byte ebp-020h]
         add esp, byte 4
         add al, 42h
@@ -832,10 +832,10 @@ PlayerCardScreen:
         push str_HD00
 .9:
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_B2C54
+        call DrawArtOpaqueAtOwnPos
         add esp, byte 4
 .10:
         mov eax, 4
@@ -864,13 +864,13 @@ PlayerCardScreen:
         lea eax, [dword ebp-029Ch]
         push dword [dword_18210C]
         mov dword [dword ebp-083Ch], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_RAT0
         movsx eax, word [byte eax+0Ch]
         push dword [dword_18210C]
         mov dword [dword ebp-082Ah], eax
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+0Eh]
         mov dword [dword ebp-0826h], eax
         mov eax, dword [dword ebp-082Ah]
@@ -885,28 +885,28 @@ PlayerCardScreen:
         lea eax, [dword ebp-031Ch]
         push dword [dword_18210C]
         mov dword [dword ebp-07D6h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_PRN12
         push dword [dword_18210C]
         mov dword [dword ebp-07D0h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_PRN22
         push dword [dword_18210C]
         mov dword [dword ebp-07CCh], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_PRN02
         push dword [dword_18210C]
         mov dword [dword ebp-07C8h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_PRN02
         movsx eax, word [byte eax+0Ch]
         push dword [dword_18210C]
         mov dword [dword ebp-07C4h], eax
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+0Eh]
         mov dword [dword ebp-07C0h], eax
         mov eax, dword [dword ebp-07C4h]
@@ -927,28 +927,28 @@ PlayerCardScreen:
         lea eax, [dword ebp-02DCh]
         push dword [dword_18210C]
         mov dword [dword ebp-0770h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_CMP1
         push dword [dword_18210C]
         mov dword [dword ebp-076Ah], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_CMP2
         push dword [dword_18210C]
         mov dword [dword ebp-0766h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_CMP0
         push dword [dword_18210C]
         mov dword [dword ebp-0762h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_CMP0
         movsx eax, word [byte eax+0Ch]
         push dword [dword_18210C]
         mov dword [dword ebp-075Eh], eax
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+0Eh]
         mov dword [dword ebp-075Ah], eax
         mov eax, dword [dword ebp-075Eh]
@@ -968,13 +968,13 @@ PlayerCardScreen:
         mov dword [dword ebp-0510h], 4
         push dword [dword_18210C]
         mov dword [dword ebp-050Ch], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_PHT0
         movsx eax, word [byte eax+0Ch]
         push dword [dword_18210C]
         mov dword [dword ebp-04FAh], eax
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+0Eh]
         mov dword [dword ebp-04F6h], eax
         mov eax, dword [dword ebp-04FAh]
@@ -1007,33 +1007,33 @@ PlayerCardScreen:
         jne short .15
         push str_PHT0
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_PHT1
         push dword [dword_18210C]
         mov dword [dword ebp-0506h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_PHT2
         push dword [dword_18210C]
         mov dword [dword ebp-0502h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         jmp short .16
 .15:
         push str_CRD0
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_CRD1
         push dword [dword_18210C]
         mov dword [dword ebp-0506h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_CRD2
         push dword [dword_18210C]
         mov dword [dword ebp-0502h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
 .16:
         mov dword [dword ebp-04FEh], eax
@@ -1046,17 +1046,17 @@ PlayerCardScreen:
         push byte 0
         push str_PLY0
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+06h]
         push eax
         push str_PLY0
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+04h]
         push eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push dword [byte ebp-020h]
         push dword [byte edi+ebp-058h]
@@ -1071,21 +1071,21 @@ PlayerCardScreen:
         add esp, byte 4
         push str_PLY0
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+0Eh]
         add esp, byte 8
         neg eax
         push eax
         push str_PLY0
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+0Ch]
         add esp, byte 8
         neg eax
         push eax
         push str_Bkgd17
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -1095,12 +1095,12 @@ PlayerCardScreen:
         lea eax, [byte ebp-04Ch]
         push eax
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         add edi, byte 4
         add esi, byte 24h
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         cmp edi, byte 0Ch
         jne near .18
@@ -1198,7 +1198,7 @@ PlayerCardScreen:
         push dword [dword esi+ebp-0826h]
         push dword [dword esi+ebp-082Ah]
         push dword [dword esi+ebp-0836h]
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
 .24:
         add esi, byte 66h
@@ -1295,13 +1295,13 @@ PlayerCardScreen:
 .35:
         push str_PLY0
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+0Eh]
         push eax
         push str_PLY0
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+0Ch]
         push eax
@@ -1344,13 +1344,13 @@ PlayerCardScreen:
 .41:
         push str_PLY0
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+0Eh]
         push eax
         push str_PLY0
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+0Ch]
         push eax
@@ -1501,33 +1501,33 @@ PlayerCardScreen:
         jne short .56
         push str_PHT0
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_PHT1
         push dword [dword_18210C]
         mov dword [dword ebp-0506h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_PHT2
         push dword [dword_18210C]
         mov dword [dword ebp-0502h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         jmp short .57
 .56:
         push str_CRD0
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_CRD1
         push dword [dword_18210C]
         mov dword [dword ebp-0506h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_CRD2
         push dword [dword_18210C]
         mov dword [dword ebp-0502h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
 .57:
         mov dword [dword ebp-04FEh], eax
@@ -1571,18 +1571,18 @@ PlayerCardScreen:
         push str_CRD0
         push dword [dword_18210C]
         mov dword [dword_11E887], 0
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_CRD1
         push dword [dword_18210C]
         mov dword [dword ebp-0506h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_CRD2
 .63:
         push dword [dword_18210C]
         mov dword [dword ebp-0502h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword ebp-04FEh], eax
 .64:
@@ -1611,12 +1611,12 @@ PlayerCardScreen:
         push str_PHT0
         push dword [dword_18210C]
         mov dword [dword_11E887], 1
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_PHT1
         push dword [dword_18210C]
         mov dword [dword ebp-0506h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_PHT2
         jmp near .63
@@ -1633,7 +1633,7 @@ PlayerCardScreen:
         push dword 0FFFFFE93h
         push str_Bkgd17
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -1699,7 +1699,7 @@ PlayerCardScreen:
         imul esi, dword [byte ebp-020h], byte 24h
 .73:
         push dword [dword esi+ebp-017Ch]
-        call sub_ADBEC
+        call FreeBitmap
         add esi, byte 4
         add esp, byte 4
         cmp esi, dword [byte ebp-08h]
@@ -1709,22 +1709,22 @@ PlayerCardScreen:
         cmp dword [byte ebp-020h], byte 3
         jl short .72
         push dword [dword_18211C]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         push dword [byte ebp-038h]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         push dword [dword_182120]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         push dword [byte ebp-034h]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         push dword [byte ebp-02Ch]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         push dword [byte ebp-030h]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         push dword [dword_1820F4]
         call FreeMemBlock
@@ -1916,7 +1916,7 @@ DrawPlayerCardStats:
         push dword 0FFFFFE93h
         push str_Bkgd17
         push dword [byte ebp-0Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -2826,7 +2826,7 @@ LoadPlayerCardArt:
         je short .2
         push str_Card2
         push eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
 .2:
         mov dword [dword_182110], eax
@@ -2834,7 +2834,7 @@ LoadPlayerCardArt:
         je short .3
         push str_Ard2
         push dword [dword_1820F8]
-        call sub_E04E0
+        call FindShape
         add eax, byte 10h
         add esp, byte 8
         mov dword [byte ebp-04h], eax
@@ -2869,7 +2869,7 @@ LoadPlayerCardArt:
         push str_Plyr2
         push eax
         mov dword [dword_1820F8], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Pal23
         jmp short .6
@@ -2881,13 +2881,13 @@ LoadPlayerCardArt:
         push str_Card2
         push eax
         mov dword [dword_1820F8], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Ard2
 .6:
         push dword [dword_1820F8]
         mov dword [dword_182110], eax
-        call sub_E04E0
+        call FindShape
         mov dword [dword_11E88B], 1
         add eax, byte 10h
         add esp, byte 8
@@ -2922,7 +2922,7 @@ LoadPlayerCardArt:
         push byte 0
         push str_Bkgd17
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -2939,10 +2939,10 @@ LoadPlayerCardArt:
         push str_HD00
 .11:
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
 .12:
         mov eax, dword [byte ebp-02Ch]
@@ -2963,7 +2963,7 @@ LoadPlayerCardArt:
         push byte 0
         push str_Bkgd17
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -2972,10 +2972,10 @@ LoadPlayerCardArt:
         push byte 0Ah
         push str_DNRS
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
 .14:
         call SetScreenTarget
@@ -3020,7 +3020,7 @@ DrawPlayerCardName:
         push byte 0FFFFFF9Bh
         push str_Bkgd17
         push dword [byte ebp-03Ch]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -3230,7 +3230,7 @@ DrawPlayerCardName:
         push byte 0
         push byte 46h
         push byte 50h
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push eax
         mov esi, eax
@@ -3240,7 +3240,7 @@ DrawPlayerCardName:
         push dword 0FFFFFEE8h
         push str_Bkgd17
         push dword [byte ebp-03Ch]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -3252,7 +3252,7 @@ DrawPlayerCardName:
         call PutBlock
         add esp, byte 0Ch
         push esi
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
 .19:
         leave
@@ -4237,7 +4237,7 @@ ScaleBlock:
         movsx edi, word [byte eax+06h]
         push edi
         push byte 1
-        call sub_AD35C
+        call CreateBitmap
         fild word [byte esi+04h]
         fld st0
         fld dword [byte ebp+018h]
@@ -4291,7 +4291,7 @@ ScaleBlock:
         jmp short .1
 .2:
         push edi
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         leave
         pop edi

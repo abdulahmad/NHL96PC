@@ -3,8 +3,8 @@ bits 32
 %include "hockey.inc"
 section s_7CCB8 progbits alloc exec nowrite align=1
 extern __CHP, dword_1122F8, dword_1122FC, dword_112300, dword_112304, dword_11D1A8, dword_11D1AC, PutBlock
-extern SetDrawBitmap, CalendarScreen_13D3, CalendarScreen_13E4, CalendarScreen_153A, CalendarScreen_1AC2, CalendarScreen_1B49, CalendarScreen_1B6C, sub_AAA40
-extern sub_AAADC, sub_AD35C, sub_ADBEC, sub_B2C70, SetScreenTarget
+extern SetDrawBitmap, CalendarScreen_13D3, CalendarScreen_13E4, CalendarScreen_153A, CalendarScreen_1AC2, CalendarScreen_1B49, CalendarScreen_1B6C, DrawArt
+extern sub_AAADC, CreateBitmap, FreeBitmap, sub_B2C70, SetScreenTarget
 global InitVScrollBar, InitVScrollBar_217, InitHScrollBar, InitHScrollBar_207, InitHScrollBar_337, ScrollBarRet, ScrollBarUp, ScrollBarDown
 global ScrollBarPageUp, ScrollBarPageUp_B, ScrollBarPageUp_14, ScrollBarPageUp_19, ScrollBarPageDown, FreeScrollBar, SetScrollBarPos, DrawScrollBar
 global ScrollBarToMouse, unk_7D4F4, unk_7D500, jpt_7D568
@@ -39,7 +39,7 @@ InitVScrollBar:
         push eax
         movsx eax, word [byte edi+04h]
         push eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         mov dword [byte esi+014h], eax
         push byte 20h
@@ -47,7 +47,7 @@ InitVScrollBar:
         push eax
         movsx eax, word [byte edi+04h]
         push eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         mov dword [byte esi+018h], eax
         mov eax, dword [byte ebp+01Ch]
@@ -67,7 +67,7 @@ InitVScrollBar:
         push byte 0
         push byte 0
         push edi
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         call SetScreenTarget
         movsx eax, word [byte edi+06h]
@@ -254,7 +254,7 @@ InitHScrollBar:
         push eax
         movsx eax, word [byte edi+04h]
         push eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         mov dword [byte esi+014h], eax
         push byte 20h
@@ -262,7 +262,7 @@ InitHScrollBar:
         push eax
         movsx eax, word [byte edi+04h]
         push eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         mov dword [byte esi+018h], eax
         mov eax, dword [byte ebp+01Ch]
@@ -282,7 +282,7 @@ InitHScrollBar:
         push byte 0
         push byte 0
         push edi
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         call SetScreenTarget
         movsx eax, word [byte edi+04h]
@@ -557,10 +557,10 @@ FreeScrollBar:
         push esi
         mov esi, eax
         push dword [byte eax+014h]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         push dword [byte esi+018h]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         pop esi
         pop edx

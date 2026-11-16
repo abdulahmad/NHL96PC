@@ -4,7 +4,7 @@ bits 32
 section s_BF070 progbits alloc exec nowrite align=1
 extern FatalError, asc_1139D8, asc_1139E4, str_VESA, asc_113A14, ScreenWidth, KeyedDraw, dword_1228FC
 extern dword_122930, dword_123B0C, dword_19B654, dword_19B66C, dword_19B670, int386x_, segread_, strncmp_
-extern AllocMemBlock, FreeMemBlock, VesaSetBank, sub_DEFD7, sub_E04E0, sub_E04E7, bcopy, word_19B676
+extern AllocMemBlock, FreeMemBlock, VesaSetBank, sub_DEFD7, FindShape, FindShapeQuiet, bcopy, word_19B676
 global __STOSB, __STOSD, sub_BF120, sub_BF290, sub_BF2C4, sub_BF300, sub_BF42C
 ;-----------------------------------------------------------------------------
 ; __STOSB                                                       BF070  library
@@ -247,7 +247,7 @@ sub_BF290:
 .1:
         push esi
         push ebp
-        call sub_E04E7
+        call FindShapeQuiet
         add esi, byte 4
         mov dword [edi], eax
         add edi, byte 4
@@ -277,7 +277,7 @@ sub_BF2C4:
 .1:
         push esi
         push ebp
-        call sub_E04E0
+        call FindShape
         add esi, byte 4
         mov dword [edi], eax
         add edi, byte 4

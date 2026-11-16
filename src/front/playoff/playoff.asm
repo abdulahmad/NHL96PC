@@ -26,9 +26,9 @@ extern LoadSeasonStats, LoadPlayoffStats, GameOptionsScreen, ReadPlayoffDbHeader
 extern SetScreenColors, FadePalette, FadeOut, SetTextColors, DrawColorText, DrawColorTextRight, DrawColorTextCentred, DrawFrameAt
 extern InitMenuItems, RunMenu, FillMusicStream, PlayMusic, MusicDone, SoundSecondsToBytes, RunControllerScreen, GetLangText
 extern MakeSeasonDbPath, MakePlayoffDbPath, PickIndexEntryScreen, UpdateTeamDbs, SaveSeasonTeams, SimulateGame, RunStatsMenu, RunRosterScreens
-extern sub_A8B9B, sub_A8C75, sub_A9BAC, sub_AAA40, PutBlock, AllocMemBlock, FreeMemBlock, sub_AD35C
-extern sub_ADA80, sub_ADBEC, TextSetFont, DosFileInfo, OpenArtArchiveErr, sub_B22B0, DrawArtOpaque, sub_B2C54
-extern FileSizeByName, DrawArtKeyed, SetScreenTarget, MouseRead, sub_E04E0, sub_E0584, str_S6, str_D17
+extern sub_A8B9B, sub_A8C75, sub_A9BAC, DrawArt, PutBlock, AllocMemBlock, FreeMemBlock, CreateBitmap
+extern sub_ADA80, FreeBitmap, TextSetFont, DosFileInfo, OpenArtArchiveErr, SaveFileBlock, DrawArtOpaque, DrawArtOpaqueAtOwnPos
+extern FileSizeByName, DrawArtKeyed, SetScreenTarget, MouseRead, FindShape, sub_E0584, str_S6, str_D17
 extern unk_11EF90, unk_11EFDC, unk_11F39C, unk_11F3DC, unk_11F41C, unk_11F45C, unk_152C44, optblock_end
 extern unk_17CED5, unk_17CF9A, unk_A49D1, unk_A4A69, unk_A4F69, unk_A4F79, unk_A4F89, unk_A4FA9
 extern word_1656E8, word_16581E
@@ -466,17 +466,17 @@ PlayoffSetupScreen:
         push byte 0
         push str_1GM0
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+06h]
         push eax
         push str_1GM0
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+04h]
         push eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push eax
         mov dword [dword esi+ebp-01CEh], eax
@@ -484,21 +484,21 @@ PlayoffSetupScreen:
         add esp, byte 4
         push str_1GM0
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+0Eh]
         add esp, byte 8
         neg eax
         push eax
         push str_1GM0
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+0Ch]
         add esp, byte 8
         neg eax
         push eax
         push str_Bkgd25
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -508,12 +508,12 @@ PlayoffSetupScreen:
         lea eax, [dword ebp-096h]
         push eax
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         add esi, byte 4
         inc dword [byte ebp+046h]
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         cmp dword [byte ebp+046h], byte 9
         jl near .6
@@ -568,7 +568,7 @@ PlayoffSetupScreen:
         push byte 28h
         mov edi, dword [byte ebp+07Ah]
         mov dword [dword esi+ebp-01ADCh], eax
-        call sub_AD35C
+        call CreateBitmap
         mov edx, dword [byte ebp+05Ah]
         shl edi, 6
         mov dword [dword edx+dword_184ABC], eax
@@ -630,13 +630,13 @@ PlayoffSetupScreen:
         lea eax, [dword ebp-06A6h]
         push dword [dword_18210C]
         mov dword [dword ebp-0BB8h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_1GM0
         movsx eax, word [byte eax+0Ch]
         push dword [dword_18210C]
         mov dword [dword ebp-0BA6h], eax
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+0Eh]
         mov dword [dword ebp-0BA2h], eax
         mov eax, dword [dword ebp-0BA6h]
@@ -734,28 +734,28 @@ PlayoffSetupScreen:
         mov dword [dword ebp-0134Eh], 6
         push dword [dword_18210C]
         mov dword [dword ebp-0134Ah], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_BT019
         push dword [dword_18210C]
         mov dword [dword ebp-01344h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_BT027
         push dword [dword_18210C]
         mov dword [dword ebp-01340h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_BT005
         push dword [dword_18210C]
         mov dword [dword ebp-0133Ch], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_BT005
         movsx eax, word [byte eax+0Ch]
         push dword [dword_18210C]
         mov dword [dword ebp-01338h], eax
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+0Eh]
         mov dword [dword ebp-01334h], eax
         mov eax, dword [dword ebp-01338h]
@@ -770,28 +770,28 @@ PlayoffSetupScreen:
         lea eax, [dword ebp-0726h]
         push dword [dword_18210C]
         mov dword [dword ebp-012E4h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_BT117
         push dword [dword_18210C]
         mov dword [dword ebp-012DEh], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_BT123
         push dword [dword_18210C]
         mov dword [dword ebp-012DAh], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_BT107
         push dword [dword_18210C]
         mov dword [dword ebp-012D6h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_BT107
         movsx eax, word [byte eax+0Ch]
         push dword [dword_18210C]
         mov dword [dword ebp-012D2h], eax
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+0Eh]
         add esp, byte 8
         mov dword [dword ebp-012CEh], eax
@@ -806,28 +806,28 @@ PlayoffSetupScreen:
         lea eax, [dword ebp-06E6h]
         push dword [dword_18210C]
         mov dword [dword ebp-0127Eh], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_BT212
         push dword [dword_18210C]
         mov dword [dword ebp-01278h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_BT22
         push dword [dword_18210C]
         mov dword [dword ebp-01274h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_BT205
         push dword [dword_18210C]
         mov dword [dword ebp-01270h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_BT205
         movsx eax, word [byte eax+0Ch]
         push dword [dword_18210C]
         mov dword [dword ebp-0126Ch], eax
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+0Eh]
         mov dword [dword ebp-01268h], eax
         mov eax, dword [dword ebp-0126Ch]
@@ -840,10 +840,10 @@ PlayoffSetupScreen:
         call SetScreenTarget
         push str_Bkgd25
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_B2C54
+        call DrawArtOpaqueAtOwnPos
         mov ecx, unk_17CF9A
         add esp, byte 4
         xor ebx, ebx
@@ -865,7 +865,7 @@ PlayoffSetupScreen:
         push str_Pal18
         rep movsb
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         lea edi, [byte eax+010h]
         add esp, byte 8
         mov eax, unk_152C44
@@ -900,7 +900,7 @@ PlayoffSetupScreen:
         push byte 0
         push byte 28h
         push dword 0D2h
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push eax
         mov esi, eax
@@ -910,7 +910,7 @@ PlayoffSetupScreen:
         push dword 0FFFFFF29h
         push str_Bkgd25
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -937,7 +937,7 @@ PlayoffSetupScreen:
         call PutBlock
         add esp, byte 0Ch
         push esi
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
 .20:
         xor esi, esi
@@ -1051,7 +1051,7 @@ PlayoffSetupScreen:
         push byte 0
         push byte 28h
         push dword 0D2h
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push eax
         mov esi, eax
@@ -1061,7 +1061,7 @@ PlayoffSetupScreen:
         push dword 0FFFFFF29h
         push str_Bkgd25
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -1089,7 +1089,7 @@ PlayoffSetupScreen:
         call PutBlock
         add esp, byte 0Ch
         push esi
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
 .33:
         cmp dword [byte ebp+04Ah], byte 0
@@ -1116,7 +1116,7 @@ PlayoffSetupScreen:
         push byte 0
         push byte 28h
         push dword 0D2h
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push eax
         mov esi, eax
@@ -1126,7 +1126,7 @@ PlayoffSetupScreen:
         push dword 0FFFFFF29h
         push str_Bkgd25
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -1141,13 +1141,13 @@ PlayoffSetupScreen:
         call SetScreenTarget
         push str_1GM0
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+0Eh]
         push eax
         push str_1GM0
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+0Ch]
         push eax
@@ -1186,13 +1186,13 @@ PlayoffSetupScreen:
         call SetScreenTarget
         push str_1GM0
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+0Eh]
         push eax
         push str_1GM0
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+0Ch]
         push eax
@@ -1365,7 +1365,7 @@ PlayoffSetupScreen:
         push unk_17CED5
         lea eax, [byte ebp-0Eh]
         push eax
-        call sub_B22B0
+        call SaveFileBlock
         add esp, byte 0Ch
         push byte 0
         push dword 6D60h
@@ -1404,7 +1404,7 @@ PlayoffSetupScreen:
         push dword [byte ebp+032h]
         lea eax, [byte ebp-0Eh]
         push eax
-        call sub_B22B0
+        call SaveFileBlock
         add esp, byte 0Ch
         lea eax, [byte ebp-0Eh]
         push eax
@@ -1431,7 +1431,7 @@ PlayoffSetupScreen:
         imul esi, edi, byte 24h
 .54:
         push dword [dword esi+ebp-01CEh]
-        call sub_ADBEC
+        call FreeBitmap
         add esi, byte 4
         add esp, byte 4
         cmp esi, dword [byte ebp+06Eh]
@@ -1443,7 +1443,7 @@ PlayoffSetupScreen:
         xor esi, esi
 .55:
         push dword [dword esi+dword_184ABC]
-        call sub_ADBEC
+        call FreeBitmap
         add esi, byte 4
         add esp, byte 4
         cmp esi, byte 40h
@@ -1518,7 +1518,7 @@ DrawPlayoffSlotLogo:
         push byte 0
         push byte 1Eh
         push byte 28h
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push dword [byte ebp-04h]
         mov esi, eax
@@ -1555,7 +1555,7 @@ DrawPlayoffSlotLogo:
         push eax
         push str_Bkgd25
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -1564,7 +1564,7 @@ DrawPlayoffSlotLogo:
         mov eax, dword [byte ebp-04h]
         push byte 0
         push dword [byte eax+02Ch]
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         call SetScreenTarget
         mov eax, edi
@@ -1582,7 +1582,7 @@ DrawPlayoffSlotLogo:
         call PutBlock
         add esp, byte 0Ch
         push esi
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
 DrawPlayoffSlotLogo_ED:
         leave
@@ -1701,7 +1701,7 @@ DrawPlayoffTeamList:
         mov esi, unk_A4F89
         push byte 64h
         rep movsd
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push eax
         mov esi, eax
@@ -1731,7 +1731,7 @@ DrawPlayoffTeamList:
         push eax
         push str_Bkgd25
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -1797,7 +1797,7 @@ DrawPlayoffTeamList:
         call PutBlock
         add esp, byte 0Ch
         push esi
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         mov eax, 0FCh
         xor edx, edx
@@ -1972,7 +1972,7 @@ DrawTreeLine:
         movsx edx, word [byte eax+0Ch]
         push edx
         push eax
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         call SetScreenTarget
         push byte 64h
@@ -2080,14 +2080,14 @@ PlayoffTreeScreen:
         push eax
         mov esi, eax
         mov dword [byte ebp+07Ah], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_B2C54
+        call DrawArtOpaqueAtOwnPos
         add esp, byte 4
         push str_Pal18
         push esi
-        call sub_E04E0
+        call FindShape
         add eax, byte 10h
         mov dword [byte ebp+06Eh], eax
         mov edx, eax
@@ -2103,10 +2103,10 @@ PlayoffTreeScreen:
         jne short .4
         push str_PBOT
         push dword [byte ebp+07Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_B2C54
+        call DrawArtOpaqueAtOwnPos
         add esp, byte 4
         cmp dword [byte ebp+02h], byte 0
         je short .5
@@ -2114,10 +2114,10 @@ PlayoffTreeScreen:
         je short .5
         push str_AWD0
         push dword [byte ebp+07Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_B2C54
+        call DrawArtOpaqueAtOwnPos
         add esp, byte 4
 .5:
         mov eax, 0FCh
@@ -2137,12 +2137,12 @@ PlayoffTreeScreen:
         call DrawColorTextCentred
         push str_EXBG
         push dword [byte ebp+07Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_BUMP
         push dword [byte ebp+07Ah]
         mov dword [dword_184AFC], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push dword 17Ch
         mov dword [dword_184B0C], 0C0h
@@ -2157,7 +2157,7 @@ PlayoffTreeScreen:
         push dword 280h
         mov dword [dword_11D1AC], 17Ch
         mov dword [dword_184B00], 0
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         mov dword [dword_184B04], eax
         mov eax, dword [dword_184AFC]
@@ -2166,7 +2166,7 @@ PlayoffTreeScreen:
         push edx
         movsx eax, word [byte eax+04h]
         push eax
-        call sub_AD35C
+        call CreateBitmap
         mov esi, eax
         add esp, byte 0Ch
         mov dword [byte ebp+072h], eax
@@ -2176,14 +2176,14 @@ PlayoffTreeScreen:
         push edx
         movsx eax, word [byte eax+04h]
         push eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push byte 0
         push byte 1Eh
         push byte 28h
         mov edi, eax
         mov dword [byte ebp+076h], eax
-        call sub_AD35C
+        call CreateBitmap
         mov dword [byte ebp+06Ah], eax
         add esp, byte 0Ch
         mov dword [byte ebp+066h], eax
@@ -2220,32 +2220,32 @@ PlayoffTreeScreen:
         mov dword [dword eax+0DCh], 6
         push dword [byte ebp+07Ah]
         mov dword [dword eax+0E0h], unk_11F3DC
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_PLA1
         mov edx, dword [byte ebp+07Eh]
         push dword [byte ebp+07Ah]
         mov dword [dword edx+0E6h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_PLA2
         mov edx, dword [byte ebp+07Eh]
         push dword [byte ebp+07Ah]
         mov dword [dword edx+0EAh], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_PLA0
         mov edx, dword [byte ebp+07Eh]
         push dword [byte ebp+07Ah]
         mov dword [dword edx+0EEh], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov edx, dword [byte ebp+07Eh]
         push str_PLA0
         movsx eax, word [byte eax+0Ch]
         push dword [byte ebp+07Ah]
         mov dword [dword edx+0F2h], eax
-        call sub_E04E0
+        call FindShape
         mov edx, dword [byte ebp+07Eh]
         movsx eax, word [byte eax+0Eh]
         mov dword [dword edx+0F6h], eax
@@ -2260,32 +2260,32 @@ PlayoffTreeScreen:
         add eax, byte 0Ah
         push dword [byte ebp+07Ah]
         mov dword [dword edx+010Ah], eax
-        call sub_E04E0
+        call FindShape
         mov edx, dword [byte ebp+07Eh]
         add esp, byte 8
         mov dword [dword edx+014Ch], eax
         push str_SM11
         push dword [byte ebp+07Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_SM12
         mov edx, dword [byte ebp+07Eh]
         push dword [byte ebp+07Ah]
         mov dword [dword edx+0150h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_SM10
         mov edx, dword [byte ebp+07Eh]
         push dword [byte ebp+07Ah]
         mov dword [dword edx+0154h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov edx, dword [byte ebp+07Eh]
         push str_SM10
         movsx eax, word [byte eax+0Ch]
         push dword [byte ebp+07Ah]
         mov dword [dword edx+0158h], eax
-        call sub_E04E0
+        call FindShape
         mov edx, dword [byte ebp+07Eh]
         movsx eax, word [byte eax+0Eh]
         mov dword [dword edx+015Ch], eax
@@ -2301,32 +2301,32 @@ PlayoffTreeScreen:
         push str_SM00
         push dword [byte ebp+07Ah]
         mov dword [dword edx+0146h], unk_11F39C
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_SM01
         mov edx, dword [byte ebp+07Eh]
         push dword [byte ebp+07Ah]
         mov dword [dword edx+014Ch], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_SM02
         mov edx, dword [byte ebp+07Eh]
         push dword [byte ebp+07Ah]
         mov dword [dword edx+0150h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_SM00
         mov edx, dword [byte ebp+07Eh]
         push dword [byte ebp+07Ah]
         mov dword [dword edx+0154h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov edx, dword [byte ebp+07Eh]
         push str_SM00
         movsx eax, word [byte eax+0Ch]
         push dword [byte ebp+07Ah]
         mov dword [dword edx+0158h], eax
-        call sub_E04E0
+        call FindShape
         mov edx, dword [byte ebp+07Eh]
         movsx eax, word [byte eax+0Eh]
         mov dword [dword edx+015Ch], eax
@@ -2343,19 +2343,19 @@ PlayoffTreeScreen:
         je short .6
         push str_AWD0
         push dword [byte ebp+07Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_AWD1
         mov edx, dword [byte ebp+07Eh]
         push dword [byte ebp+07Ah]
         mov dword [dword edx+014Ch], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_AWD2
         mov edx, dword [byte ebp+07Eh]
         push dword [byte ebp+07Ah]
         mov dword [dword edx+0150h], eax
-        call sub_E04E0
+        call FindShape
         mov edx, dword [byte ebp+07Eh]
         add esp, byte 8
         mov dword [dword edx+0154h], eax
@@ -2371,32 +2371,32 @@ PlayoffTreeScreen:
 .7:
         push str_RUL0
         push dword [byte ebp+07Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_RUL14
         mov edx, dword [byte ebp+07Eh]
         push dword [byte ebp+07Ah]
         mov dword [dword edx+07ACh], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_RUL24
         mov edx, dword [byte ebp+07Eh]
         push dword [byte ebp+07Ah]
         mov dword [dword edx+07B0h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_RUL0
         mov edx, dword [byte ebp+07Eh]
         push dword [byte ebp+07Ah]
         mov dword [dword edx+07B4h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov edx, dword [byte ebp+07Eh]
         push str_RUL0
         movsx eax, word [byte eax+0Ch]
         push dword [byte ebp+07Ah]
         mov dword [dword edx+07B8h], eax
-        call sub_E04E0
+        call FindShape
         mov edx, dword [byte ebp+07Eh]
         movsx eax, word [byte eax+0Eh]
         mov dword [dword edx+07A2h], 6
@@ -2416,21 +2416,21 @@ PlayoffTreeScreen:
         cmp dword [dword eax+0E6h], byte 0
         je short .9
         push dword [dword eax+0E6h]
-        call sub_B2C54
+        call DrawArtOpaqueAtOwnPos
         add esp, byte 4
 .9:
         mov eax, dword [byte ebp+07Eh]
         cmp dword [dword eax+014Ch], byte 0
         je short .10
         push dword [dword eax+014Ch]
-        call sub_B2C54
+        call DrawArtOpaqueAtOwnPos
         add esp, byte 4
 .10:
         mov eax, dword [byte ebp+07Eh]
         cmp dword [dword eax+07ACh], byte 0
         je short .11
         push dword [dword eax+07ACh]
-        call sub_B2C54
+        call DrawArtOpaqueAtOwnPos
         add esp, byte 4
 .11:
         mov ebx, dword_1846FC
@@ -2521,19 +2521,19 @@ PlayoffTreeScreen:
         je short .22
         push str_AWD0
         push dword [byte ebp+07Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_AWD1
         mov edx, dword [byte ebp+07Eh]
         push dword [byte ebp+07Ah]
         mov dword [dword edx+014Ch], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_AWD2
         mov edx, dword [byte ebp+07Eh]
         push dword [byte ebp+07Ah]
         mov dword [dword edx+0150h], eax
-        call sub_E04E0
+        call FindShape
         mov edx, dword [byte ebp+07Eh]
         add esp, byte 8
         mov dword [dword edx+0154h], eax
@@ -2926,16 +2926,16 @@ PlayoffTreeScreen:
         and byte [optflags], 8Fh
         push dword [byte ebp+076h]
         or byte [optflags], 20h
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         push dword [dword_184B04]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         push dword [byte ebp+072h]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         push dword [byte ebp+066h]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         push dword [byte ebp+07Ah]
         call FreeMemBlock
@@ -3751,7 +3751,7 @@ DrawPlayoffTree:
         mov eax, dword [eax]
         push byte 64h
         mov dword [byte ebp-010h], eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push dword [byte ebp-038h]
         mov dword [byte ebp-0Ch], eax
@@ -3761,7 +3761,7 @@ DrawPlayoffTree:
         push byte 0
         push str_EXBG
         push dword [byte ebp-040h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -3777,7 +3777,7 @@ DrawPlayoffTree:
         lea eax, [byte ebp-034h]
         push eax
         push dword [byte ebp-040h]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+0Eh]
         add esp, byte 8
         sub eax, byte 64h
@@ -3785,14 +3785,14 @@ DrawPlayoffTree:
         lea eax, [byte ebp-034h]
         push eax
         push dword [byte ebp-040h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+0Ch]
         push eax
         lea eax, [byte ebp-034h]
         push eax
         push dword [byte ebp-040h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         mov dword [byte ebp-04h], 0
@@ -3828,7 +3828,7 @@ DrawPlayoffTree:
         push eax
         push str_EXBG
         push dword [byte ebp-040h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -4214,7 +4214,7 @@ DrawPlayoffTree:
         rep movsb
         call SetScreenTarget
         push dword [byte ebp-0Ch]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         call DrawTreeLine
         mov eax, dword [byte ebp+010h]
@@ -4282,10 +4282,10 @@ DrawPlayoffTree:
         je short .43
         push str_AWD0
         push dword [byte ebp-040h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_B2C54
+        call DrawArtOpaqueAtOwnPos
         add esp, byte 4
 .43:
         leave

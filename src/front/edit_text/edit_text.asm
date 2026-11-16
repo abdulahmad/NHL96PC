@@ -4,8 +4,8 @@ bits 32
 section s_197ED progbits alloc exec nowrite align=1
 extern byte_11FA2F, byte_152C3B, dword_11F5C0, FillRect, fputchar, PutBlock, SetDrawBitmap, str_Disp
 extern str_space4, str_Temp3, str_W, str_X, strcat_, strcpy_, strlen_, CopyBitmap
-extern SetTextColors, DrawColorTextCentred, DrawBox, SoundIdle, DrawShapeCore, sub_AB798, FreeMemBlock, sub_AD35C
-extern sub_AD620, sub_ADA80, sub_ADBEC, sub_AFFD0, sub_B2B0C, SetScreenTarget, GetPaletteRange, sub_DFE9C
+extern SetTextColors, DrawColorTextCentred, DrawBox, SoundIdle, DrawShapeCore, AllocMemLocked, FreeMemBlock, CreateBitmap
+extern sub_AD620, sub_ADA80, FreeBitmap, TextSetColor, sub_B2B0C, SetScreenTarget, GetPaletteRange, sub_DFE9C
 extern KbdGetKey, unk_152B3C, unk_19382
 global EditText
 ;-----------------------------------------------------------------------------
@@ -43,7 +43,7 @@ EditText:
         push eax
         push str_Temp3
         mov dword [byte ebp+02Ah], eax
-        call sub_AB798
+        call AllocMemLocked
         add esp, byte 0Ch
         mov edi, eax
         test eax, eax
@@ -51,7 +51,7 @@ EditText:
         push byte 20h
         push dword [byte ebp+02Ah]
         push str_Disp
-        call sub_AB798
+        call AllocMemLocked
         add esp, byte 0Ch
         mov dword [byte ebp-02h], eax
         test eax, eax
@@ -203,7 +203,7 @@ EditText:
         push byte 0
         push dword [byte ebp+05Eh]
         push dword [byte ebp+042h]
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push dword [byte ebp+03Eh]
         push dword [byte ebp+032h]
@@ -355,7 +355,7 @@ EditText:
         push byte 0
         movzx eax, byte [esi]
         push eax
-        call sub_AFFD0
+        call TextSetColor
         add esp, byte 8
         movzx eax, byte [byte esi+01h]
         push eax
@@ -470,7 +470,7 @@ EditText:
         push byte 0
         movzx eax, byte [byte esi+01h]
         push eax
-        call sub_AFFD0
+        call TextSetColor
         add esp, byte 8
         push dword [byte ebp+052h]
         push dword [byte ebp-012h]
@@ -481,7 +481,7 @@ EditText:
         push byte 0
         movzx eax, byte [esi]
         push eax
-        call sub_AFFD0
+        call TextSetColor
         add esp, byte 8
 .29:
         call KbdGetKey
@@ -506,7 +506,7 @@ EditText:
         push byte 0
         movzx eax, byte [esi]
         push eax
-        call sub_AFFD0
+        call TextSetColor
         add esp, byte 8
         push dword [byte ebp+052h]
         push dword [byte ebp-012h]
@@ -567,7 +567,7 @@ EditText:
         push byte 0
         movzx eax, byte [esi]
         push eax
-        call sub_AFFD0
+        call TextSetColor
         add esp, byte 8
         cmp dword [dword ebp-0322h], byte 0
         jne short .37
@@ -648,7 +648,7 @@ EditText:
         movzx eax, byte [esi]
         push eax
         inc dword [byte ebp+05Ah]
-        call sub_AFFD0
+        call TextSetColor
         add esp, byte 8
         cmp dword [dword ebp-0322h], byte 0
         je near .36
@@ -717,7 +717,7 @@ EditText:
         call PutBlock
         add esp, byte 0Ch
         push dword [byte ebp+022h]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         push dword [byte ebp+02Eh]
         call FreeMemBlock

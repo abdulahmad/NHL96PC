@@ -9,7 +9,7 @@ extern dword_17CBE7, dword_17CC13, dword_17CC17, dword_17CEC3, dword_17CED1, dwo
 extern dword_17D202, dword_17D267, dword_17D26B, FillMusicStream, gameopts, GetLangText, HideMessage, HideProgressBox
 extern LoadSeasonStats, MakeDirPath, MakePlayoffDbPath, MakeSeasonDbPath, qsort_, ShowMessage, ShowProgressBox, SimulateGame
 extern SoundIdle, SoundSecondsToBytes, sprintf_, srand_, str_05dCNZDB, str_S05dCNZDB, strcat_, strlen_
-extern PlayoffRound1, PlayoffRound2, PlayoffRound3, PlayoffFinal, ClearPlayoffTree, FreeMemBlock, OpenArtArchiveErr, sub_B22B0
+extern PlayoffRound1, PlayoffRound2, PlayoffRound3, PlayoffFinal, ClearPlayoffTree, FreeMemBlock, OpenArtArchiveErr, SaveFileBlock
 extern FileSizeByName, unk_17CB2E, unk_17CC1F, unk_17CED5, unk_17CF9A, unk_7FF77, UpdateProgressBox, word_1656DC
 extern word_1656E8, word_16581E
 global UpdateTeamDbs, UpdateTeamDbs_86F, ApplyDayResults, SimSeasonGames, ApplyPlayoffDayResults, SaveSeasonTeams, unk_81ED1
@@ -761,7 +761,7 @@ UpdateTeamDbs:
         push dword [byte ebp+06h]
         lea eax, [byte ebp-066h]
         push eax
-        call sub_B22B0
+        call SaveFileBlock
         add esp, byte 0Ch
         push dword [byte ebp+06h]
         call FreeMemBlock
@@ -1332,7 +1332,7 @@ ApplyDayResults:
         push dword [dword_1174E0]
         lea eax, [byte ebp+046h]
         push eax
-        call sub_B22B0
+        call SaveFileBlock
         mov eax, 1
         add esp, byte 0Ch
         lea esp, [dword ebp+082h]
@@ -1484,7 +1484,7 @@ SimSeasonGames:
         push dword [byte ebp-06Ah]
         lea eax, [byte ebp-062h]
         push eax
-        call sub_B22B0
+        call SaveFileBlock
         mov ebx, 5
         add esp, byte 0Ch
         lea eax, [byte ebp-062h]
@@ -1494,7 +1494,7 @@ SimSeasonGames:
         push dword [dword_1174E0]
         lea eax, [byte ebp-062h]
         push eax
-        call sub_B22B0
+        call SaveFileBlock
         mov ebx, 6
         add esp, byte 0Ch
         lea eax, [byte ebp-062h]
@@ -1508,7 +1508,7 @@ SimSeasonGames:
         push dword [byte ebp-06Ah]
         lea eax, [byte ebp-062h]
         push eax
-        call sub_B22B0
+        call SaveFileBlock
         mov ebx, 4
         add esp, byte 0Ch
         lea eax, [byte ebp-062h]
@@ -1518,7 +1518,7 @@ SimSeasonGames:
         push dword [dword_1174F0]
         lea eax, [byte ebp-062h]
         push eax
-        call sub_B22B0
+        call SaveFileBlock
         add esp, byte 0Ch
         call HideProgressBox
 .10:
@@ -1623,7 +1623,7 @@ SimSeasonGames:
         push dword [byte ebp+062h]
         lea eax, [byte ebp-042h]
         push eax
-        call sub_B22B0
+        call SaveFileBlock
         add esp, byte 0Ch
         push dword [byte ebp+062h]
         call FreeMemBlock
@@ -1915,7 +1915,7 @@ SimSeasonGames:
         push unk_17CB2E
         lea eax, [byte ebp-062h]
         push eax
-        call sub_B22B0
+        call SaveFileBlock
         mov ebx, 0Ah
         add esp, byte 0Ch
         lea eax, [byte ebp-062h]
@@ -1925,7 +1925,7 @@ SimSeasonGames:
         push unk_17CED5
         lea eax, [byte ebp-062h]
         push eax
-        call sub_B22B0
+        call SaveFileBlock
         mov ebx, 6
         add esp, byte 0Ch
         lea eax, [byte ebp-062h]
@@ -1939,7 +1939,7 @@ SimSeasonGames:
         push dword [byte ebp-06Ah]
         lea eax, [byte ebp-062h]
         push eax
-        call sub_B22B0
+        call SaveFileBlock
         mov ebx, 5
         add esp, byte 0Ch
         lea eax, [byte ebp-062h]
@@ -1949,7 +1949,7 @@ SimSeasonGames:
         push dword [dword_1174E0]
         lea eax, [byte ebp-062h]
         push eax
-        call sub_B22B0
+        call SaveFileBlock
         mov ebx, 6
         add esp, byte 0Ch
         lea eax, [byte ebp-062h]
@@ -1963,7 +1963,7 @@ SimSeasonGames:
         push dword [byte ebp-06Ah]
         lea eax, [byte ebp-062h]
         push eax
-        call sub_B22B0
+        call SaveFileBlock
         mov ebx, 4
         add esp, byte 0Ch
         lea eax, [byte ebp-062h]
@@ -1973,7 +1973,7 @@ SimSeasonGames:
         push dword [dword_1174F0]
         lea eax, [byte ebp-062h]
         push eax
-        call sub_B22B0
+        call SaveFileBlock
         add esp, byte 0Ch
 .50:
         mov ebx, 6
@@ -1988,7 +1988,7 @@ SimSeasonGames:
         push dword [byte ebp-06Ah]
         lea eax, [byte ebp-062h]
         push eax
-        call sub_B22B0
+        call SaveFileBlock
         add esp, byte 0Ch
         cmp dword [byte ebp+026h], byte 0
         jne short .51
@@ -2004,7 +2004,7 @@ SimSeasonGames:
         push dword [dword_1174F0]
         lea eax, [byte ebp-062h]
         push eax
-        call sub_B22B0
+        call SaveFileBlock
         add esp, byte 0Ch
         call HideMessage
         cmp dword [byte ebp+026h], byte 0
@@ -2535,7 +2535,7 @@ ApplyPlayoffDayResults:
         push dword [dword_1174E0]
         lea eax, [byte ebp+03Eh]
         push eax
-        call sub_B22B0
+        call SaveFileBlock
         add esp, byte 0Ch
         cmp dword [dword_17D267], byte 0
         je short .52
@@ -2554,7 +2554,7 @@ ApplyPlayoffDayResults:
         push dword [dword_1174F0]
         lea eax, [byte ebp+03Eh]
         push eax
-        call sub_B22B0
+        call SaveFileBlock
         mov eax, 1
         add esp, byte 0Ch
         lea esp, [dword ebp+082h]
@@ -2664,7 +2664,7 @@ SaveSeasonTeams:
         push dword [byte ebp-0Ch]
         lea eax, [byte ebp-034h]
         push eax
-        call sub_B22B0
+        call SaveFileBlock
         add esp, byte 0Ch
         push dword [byte ebp-0Ch]
         call FreeMemBlock

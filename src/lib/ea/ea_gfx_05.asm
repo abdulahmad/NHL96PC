@@ -10,21 +10,22 @@ extern dword_1956B4, dword_1956B8, dword_1956BC, dword_1956C0, dword_1956C4, dwo
 extern dword_19838C, dword_198390, dword_198394, dword_198398, dword_19839C, dword_1983A0, dword_1983A4, RinkViewChanged
 extern dword_1983B4, ScaledRowBuffer, min_, OriTriDrawFuncs, OriPolyDrawFuncs, OriQuadDrawFuncs, OriFlatDrawFuncs, OriStripDrawFuncs
 extern strncpy_, AllocMemBlock, FreeMemBlock, OpenArtArchive, SetRinkView, TransformRinkPoints, TransformRinkObject, ProjectRinkObject
-extern FillTexturePoly, OriSetMaterialRgb, SubVec3, ProjectPoint, sub_BD594, SortIndices, DrawClippedPoly, Div64By32
+extern FillTexturePoly, OriSetMaterialRgb, SubVec3, ProjectPoint, FillShadedPoly, SortIndices, DrawClippedPoly, Div64By32
 extern Shl64, BuildSpanOffsets, OriApplyMorph, OriRotateY, FixedSinCos, FillRectColor, SetBlitSource, CopyMappedSpan
-extern sub_E1824, unk_122320, unk_122344, RinkMatrix, RinkTranslation, unk_191AB0, unk_1938B0, unk_196380
+extern FillMem, unk_122320, unk_122344, RinkMatrix, RinkTranslation, unk_191AB0, unk_1938B0, unk_196380
 extern unk_196388, unk_196390, unk_196398, unk_197050, unk_19705C, unk_197068, unk_197074, unk_1983B8
 global AngleOfVectorJumpTable, AngleOfVector_90, AngleOfVector_92, AngleOfVector_9C, AngleOfVector_A8, AngleOfVector_AF, AngleOfVector_B9, AngleOfVector_BB
-global AngleOfVector_C0, sub_BBC80_93, DrawSortedModelPolys_B3, sub_BBEC8_174, sub_BA3D0, AngleOfVector, SinInterp, CosInterp
-global sub_BA5D0, sub_BACC0, sub_BAD58, sub_BB384, DrawFlatPoly, DrawPolyOutline, sub_BB610, sub_BB8E0
-global sub_BB924, sub_BB9C4, MultiplyMatrix, sub_BBAA0, DrawPolyList, SetRinkMatrix, SetRinkTranslation, SetScreenScale
-global sub_BBC14, sub_BBC80, SetModelFrame, DrawSortedModelPolys, sub_BBE50, sub_BBEC8, sub_BC040, sub_BC0C4
-global sub_BC150, sub_BC3A0, sub_BC3F4, sub_BC424, sub_BC4F0, sub_BC5C0, sub_BC610, sub_BC674
-global sub_BC6D8
+global AngleOfVector_C0, DrawModelFlat_93, DrawSortedModelPolys_B3, DrawModelPoly_174, ProjectPointList, AngleOfVector, SinInterp, CosInterp
+global FillPolyIndexed, ClassifyQuadDepth, SubdivideTexturedQuad, DrawPerspQuad, DrawFlatPoly, DrawPolyOutline, BlitArtScaled, DrawArtScaled
+global DrawArtScaledHotspot, TransformVector, MultiplyMatrix, ProjectPointsPersp, DrawPolyList, SetRinkMatrix, SetRinkTranslation, SetScreenScale
+global ProjectModelPoints, DrawModelFlat, SetModelFrame, DrawSortedModelPolys, DrawModelSorted, DrawModelPoly, DrawModelPolyList, DrawModelPolys
+global OriCreateInstance, OriSetObjectMatrix, OriSetObjectPosition, OriFixupModel, OriReadModel, OriLoadModel, MakeRotXMatrix, MakeRotYMatrix
+global MakeRotZMatrix
 ;-----------------------------------------------------------------------------
-; sub_BA3D0                                                            BA3D0  
+; ProjectPointList                                BA3D0  96 PC, low confidence
+; Projects a list of 3D points to the screen through ProjectPoint
 ;-----------------------------------------------------------------------------
-sub_BA3D0:
+ProjectPointList:
         push esi
         push edi
         push ebp
@@ -234,9 +235,10 @@ CosInterp:
         ret
         db 00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_BA5D0                                                            BA5D0  
+; FillPolyIndexed                                 BA5D0  96 PC, low confidence
+; Fills a polygon given 2D points and an index list
 ;-----------------------------------------------------------------------------
-sub_BA5D0:
+FillPolyIndexed:
         push esi
         push edi
         push ebp
@@ -713,7 +715,7 @@ sub_BA5D0:
         push edi
         mov edx, dword [dword esp+088h]
         push edx
-        call sub_E1824
+        call FillMem
         add esp, byte 0Ch
         mov ebx, dword [dword esp+080h]
         add ebx, edi
@@ -842,9 +844,11 @@ sub_BA5D0:
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_BACC0                                                            BACC0  
+; ClassifyQuadDepth                               BACC0  96 PC, low confidence
+; Sorts a quad by depth: behind the near plane, crossing it, flat enough or
+; needing subdivision
 ;-----------------------------------------------------------------------------
-sub_BACC0:
+ClassifyQuadDepth:
         push esi
         push edi
         push ebp
@@ -923,9 +927,11 @@ sub_BACC0:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_BAD58                                                            BAD58  
+; SubdivideTexturedQuad                           BAD58  96 PC, low confidence
+; Draws a textured quad, splitting it in four until the perspective error is
+; small
 ;-----------------------------------------------------------------------------
-sub_BAD58:
+SubdivideTexturedQuad:
         push esi
         push edi
         push ebp
@@ -938,7 +944,7 @@ sub_BAD58:
         push ecx
         mov esi, dword [dword esp+08Ch]
         push esi
-        call sub_BACC0
+        call ClassifyQuadDepth
         add esp, byte 10h
         mov edx, eax
         cmp eax, byte 1
@@ -1052,7 +1058,7 @@ sub_BAD58:
         push byte 4
         mov ebp, dword [dword_19838C]
         push ebp
-        call sub_BD594
+        call FillShadedPoly
         mov eax, dword [dword_122378]
         add esp, byte 14h
         test eax, eax
@@ -1217,7 +1223,7 @@ sub_BAD58:
         sar eax, 1
         add ebp, dword_1956B0
         mov dword [byte edi+038h], eax
-        call sub_BBAA0
+        call ProjectPointsPersp
         add esp, byte 10h
         lea edx, [byte esi+028h]
 .8:
@@ -1320,7 +1326,7 @@ sub_BAD58:
         add eax, byte 5
         push eax
         mov dword [dword esp+090h], eax
-        call sub_BAD58
+        call SubdivideTexturedQuad
         add esp, byte 34h
         mov ebx, dword [byte esp+060h]
         push ebx
@@ -1349,7 +1355,7 @@ sub_BAD58:
         mov ecx, dword [dword esp+08Ch]
         push ecx
         mov dword [dword esp+088h], eax
-        call sub_BAD58
+        call SubdivideTexturedQuad
         add esp, byte 34h
         mov eax, dword [dword esp+0ACh]
         push eax
@@ -1378,7 +1384,7 @@ sub_BAD58:
         push ecx
         mov eax, dword [dword esp+08Ch]
         push eax
-        call sub_BAD58
+        call SubdivideTexturedQuad
         add esp, byte 34h
         mov edx, dword [byte esp+04Ch]
         push edx
@@ -1403,7 +1409,7 @@ sub_BAD58:
         push edi
         mov ebp, dword [dword esp+08Ch]
         push ebp
-        call sub_BAD58
+        call SubdivideTexturedQuad
         mov eax, dword [dword_122384]
         dec eax
         add esp, byte 34h
@@ -1416,9 +1422,10 @@ sub_BAD58:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_BB384                                                            BB384  
+; DrawPerspQuad                                   BB384  96 PC, low confidence
+; Draws a perspective correct textured quad from 3D points and texture points
 ;-----------------------------------------------------------------------------
-sub_BB384:
+DrawPerspQuad:
         push esi
         push edi
         push ebp
@@ -1480,7 +1487,7 @@ sub_BB384:
         push byte 4
         mov dword [dword_1956C4], eax
         mov dword [dword_1956CC], eax
-        call sub_BAD58
+        call SubdivideTexturedQuad
         add esp, byte 34h
         pop ebp
         pop edi
@@ -1513,7 +1520,7 @@ DrawFlatPoly:
         push esi
         mov edi, ebp
         lea esi, [byte esp+0Ch]
-        call sub_BB9C4
+        call TransformVector
         add esp, byte 0Ch
         movsd
         movsd
@@ -1535,7 +1542,7 @@ DrawFlatPoly:
         push esi
         mov edi, dword [byte esp+028h]
         push edi
-        call sub_BB9C4
+        call TransformVector
         add esp, byte 0Ch
         lea eax, [byte edi+0Ch]
         add ebp, byte 0Ch
@@ -1568,7 +1575,7 @@ DrawFlatPoly:
         push esi
         mov edi, ebp
         lea esi, [byte esp+0Ch]
-        call sub_BB9C4
+        call TransformVector
         add esp, byte 0Ch
         movsd
         movsd
@@ -1590,7 +1597,7 @@ DrawFlatPoly:
         push esi
         mov edi, dword [byte esp+028h]
         push edi
-        call sub_BB9C4
+        call TransformVector
         add esp, byte 0Ch
         lea eax, [byte edi+0Ch]
         add ebp, byte 0Ch
@@ -1669,9 +1676,10 @@ DrawPolyOutline:
         jmp short .3
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_BB610                                                            BB610  
+; BlitArtScaled                                   BB610  96 PC, low confidence
+; Draws art scaled to a width and height at x, y, clipped
 ;-----------------------------------------------------------------------------
-sub_BB610:
+BlitArtScaled:
         push esi
         push edi
         push ebp
@@ -1922,7 +1930,7 @@ sub_BB610:
         push ebx
         mov ecx, dword [byte esp+01Ch]
         push ecx
-        call sub_BB610
+        call BlitArtScaled
         add esp, byte 14h
         pop edi
         pop esi
@@ -1940,14 +1948,15 @@ sub_BB610:
         push edx
         mov ebx, dword [byte esp+014h]
         push ebx
-        call sub_BB610
+        call BlitArtScaled
         add esp, byte 14h
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_BB8E0                                                            BB8E0  
+; DrawArtScaled                                   BB8E0  96 PC, low confidence
+; Draws art scaled by a factor at x, y
 ;-----------------------------------------------------------------------------
-sub_BB8E0:
+DrawArtScaled:
         push esi
         mov eax, dword [byte esp+08h]
         mov ecx, dword [byte esp+0Ch]
@@ -1974,14 +1983,15 @@ sub_BB8E0:
         push eax
         sar ebx, 10h
         push ebx
-        call sub_BB610
+        call BlitArtScaled
         add esp, byte 14h
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_BB924                                                            BB924  
+; DrawArtScaledHotspot                            BB924  96 PC, low confidence
+; Draws art scaled by a factor around its hotspot
 ;-----------------------------------------------------------------------------
-sub_BB924:
+DrawArtScaledHotspot:
         push esi
         push edi
         push ebp
@@ -2042,7 +2052,7 @@ sub_BB924:
         push ebx
         push ebp
         push edi
-        call sub_BB610
+        call BlitArtScaled
         add esp, byte 14h
         pop ebp
         pop edi
@@ -2050,9 +2060,10 @@ sub_BB924:
         ret
         db 00h,00h
 ;-----------------------------------------------------------------------------
-; sub_BB9C4                                                            BB9C4  
+; TransformVector                              BB9C4  96 PC, medium confidence
+; Multiplies a vector by a 3x3 16.16 fixed point matrix
 ;-----------------------------------------------------------------------------
-sub_BB9C4:
+TransformVector:
         push esi
         push edi
         push ebp
@@ -2153,9 +2164,11 @@ MultiplyMatrix:
         jne short .1
         db 00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_BBAA0                                                            BBAA0  
+; ProjectPointsPersp                              BBAA0  96 PC, low confidence
+; Projects a list of 3D points with perspective, marking points behind the
+; near plane
 ;-----------------------------------------------------------------------------
-sub_BBAA0:
+ProjectPointsPersp:
         push esi
         push edi
         push ebp
@@ -2308,9 +2321,10 @@ SetScreenScale:
         mov dword [str_Punct_DrawRinkSurface], eax
         ret
 ;-----------------------------------------------------------------------------
-; sub_BBC14                                                            BBC14  
+; ProjectModelPoints                              BBC14  96 PC, low confidence
+; Projects a model's points, flat or with perspective by its flags
 ;-----------------------------------------------------------------------------
-sub_BBC14:
+ProjectModelPoints:
         push esi
         push edi
         push ebp
@@ -2323,7 +2337,7 @@ sub_BBC14:
         push ebp
         mov eax, dword [byte esi+04h]
         push eax
-        call sub_BA3D0
+        call ProjectPointList
         add esp, byte 0Ch
         mov eax, dword [byte esi+07Ch]
         mov ebx, dword [byte esi+04h]
@@ -2349,7 +2363,7 @@ sub_BBC14:
         push ebx
         mov ecx, dword [byte esi+04h]
         push ecx
-        call sub_BBAA0
+        call ProjectPointsPersp
         add esp, byte 10h
 .3:
         pop ebp
@@ -2358,9 +2372,11 @@ sub_BBC14:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_BBC80                                                            BBC80  
+; DrawModelFlat                                   BBC80  96 PC, low confidence
+; Updates a model's matrix when needed and draws it as flat polygons with
+; outlines
 ;-----------------------------------------------------------------------------
-sub_BBC80:
+DrawModelFlat:
         push esi
         push edi
         push ebp
@@ -2394,7 +2410,7 @@ sub_BBC80:
         push RinkMatrix
         lea eax, [byte esp+08h]
         push eax
-        call sub_BB9C4
+        call TransformVector
         add esp, byte 0Ch
         mov ebx, dword [byte esi+078h]
         push ebx
@@ -2416,7 +2432,7 @@ sub_BBC80:
         call DrawPolyOutline
         add esp, byte 10h
         add esp, byte 18h
-sub_BBC80_93:
+DrawModelFlat_93:
         pop ebp
         pop edi
         pop esi
@@ -2444,7 +2460,7 @@ SetModelFrame:
         mov ebp, dword [byte esi+024h]
         xor ebx, ebx
         test ebp, ebp
-        jle short sub_BBC80_93
+        jle short DrawModelFlat_93
 .2:
         test byte [byte edi+01h], 4
         jne short .3
@@ -2456,7 +2472,7 @@ SetModelFrame:
 .3:
         inc ebx
         cmp ebx, dword [byte esi+024h]
-        jge short sub_BBC80_93
+        jge short DrawModelFlat_93
         jmp short .2
 .4:
         mov edi, dword [byte esi+04Ch]
@@ -2474,7 +2490,7 @@ SetModelFrame:
 .5:
         dec ebx
         cmp ebx, byte 0FFFFFFFFh
-        je short sub_BBC80_93
+        je short DrawModelFlat_93
         add eax, byte 4
         mov ecx, dword [edx]
         add edx, byte 4
@@ -2543,9 +2559,10 @@ DrawSortedModelPolys_B3:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_BBE50                                                            BBE50  
+; DrawModelSorted                                 BBE50  96 PC, low confidence
+; Draws a model's polygons depth sorted
 ;-----------------------------------------------------------------------------
-sub_BBE50:
+DrawModelSorted:
         mov eax, dword [byte esp+04h]
         mov edx, dword [dword eax+084h]
         push edx
@@ -2596,9 +2613,11 @@ sub_BBE50:
         add esi, byte 0Ch
         jmp short .1
 ;-----------------------------------------------------------------------------
-; sub_BBEC8                                                            BBEC8  
+; DrawModelPoly                                   BBEC8  96 PC, low confidence
+; Transforms, projects and draws one model polygon through the ORI draw
+; tables
 ;-----------------------------------------------------------------------------
-sub_BBEC8:
+DrawModelPoly:
         push esi
         push edi
         push ebp
@@ -2734,15 +2753,16 @@ sub_BBEC8:
         jmp near .1
 .14:
         add esp, byte 4
-sub_BBEC8_174:
+DrawModelPoly_174:
         pop ebp
         pop edi
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_BC040                                                            BC040  
+; DrawModelPolyList                               BC040  96 PC, low confidence
+; Sets the model draw state and the rink view, then draws a list of polygons
 ;-----------------------------------------------------------------------------
-sub_BC040:
+DrawModelPolyList:
         push esi
         push edi
         push ebp
@@ -2778,25 +2798,26 @@ sub_BC040:
         mov eax, edi
         dec edi
         test eax, eax
-        jle short sub_BBEC8_174
+        jle short DrawModelPoly_174
         mov ebp, dword [esi]
         push ebp
         add esi, byte 4
-        call sub_BBEC8
+        call DrawModelPoly
         add esp, byte 4
         jmp short .1
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_BC0C4                                                            BC0C4  
+; DrawModelPolys                                  BC0C4  96 PC, low confidence
+; Draws all of a model's polygons through DrawModelPolyList
 ;-----------------------------------------------------------------------------
-sub_BC0C4:
+DrawModelPolys:
         mov eax, dword [byte esp+04h]
         mov edx, dword [dword eax+084h]
         push edx
         mov ebx, dword [byte eax+08h]
         push ebx
         push eax
-        call sub_BC040
+        call DrawModelPolyList
         add esp, byte 0Ch
         ret
         db 08Dh,040h,00h
@@ -2811,7 +2832,7 @@ sub_BC0C4:
         mov edx, dword [eax]
         mov edx, dword [byte edx+010h]
         test edx, edx
-        je near sub_BBEC8_174
+        je near DrawModelPoly_174
         mov eax, dword [byte eax+07Ch]
         mov esi, dword [eax]
         mov dword [ebx], esi
@@ -2824,7 +2845,7 @@ sub_BC0C4:
 .1:
         dec edx
         cmp edx, byte 0FFFFFFFFh
-        je near sub_BBEC8_174
+        je near DrawModelPoly_174
         mov esi, dword [eax]
         cmp esi, dword [byte ebp+00h]
         jge short .2
@@ -2849,9 +2870,11 @@ sub_BC0C4:
         jmp short .1
         db 00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_BC150                                                            BC150  
+; OriCreateInstance                               BC150  96 PC, low confidence
+; Creates an instance ("ORI_INST") of a 3D model with its own frame and
+; materials
 ;-----------------------------------------------------------------------------
-sub_BC150:
+OriCreateInstance:
         push ecx
         push esi
         push edi
@@ -3053,9 +3076,10 @@ sub_BC150:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_BC3A0                                                            BC3A0  
+; OriSetObjectMatrix                              BC3A0  96 PC, low confidence
+; Copies a matrix into a 3D object and marks its matrix changed
 ;-----------------------------------------------------------------------------
-sub_BC3A0:
+OriSetObjectMatrix:
         push esi
         push edi
         mov eax, dword [byte esp+0Ch]
@@ -3091,9 +3115,10 @@ sub_BC3A0:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_BC3F4                                                            BC3F4  
+; OriSetObjectPosition                            BC3F4  96 PC, low confidence
+; Copies a position into a 3D object and marks it moved
 ;-----------------------------------------------------------------------------
-sub_BC3F4:
+OriSetObjectPosition:
         push esi
         push edi
         mov eax, dword [byte esp+0Ch]
@@ -3113,9 +3138,11 @@ sub_BC3F4:
         jmp near strncpy_
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_BC424                                                            BC424  
+; OriFixupModel                                   BC424  96 PC, low confidence
+; Turns a loaded model's offsets into pointers and allocates its inverse
+; matrices ("INVMATRX")
 ;-----------------------------------------------------------------------------
-sub_BC424:
+OriFixupModel:
         push esi
         push edi
         push ebp
@@ -3197,9 +3224,10 @@ sub_BC424:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_BC4F0                                                            BC4F0  
+; OriReadModel                                    BC4F0  96 PC, low confidence
+; Reads a 3D model (.ori) from the art archive
 ;-----------------------------------------------------------------------------
-sub_BC4F0:
+OriReadModel:
         push ebx
         push ecx
         push esi
@@ -3299,7 +3327,7 @@ sub_BC4F0:
         je short .11
         push ebp
         push eax
-        call sub_BC424
+        call OriFixupModel
         add esp, byte 8
 .11:
         mov eax, edi
@@ -3312,14 +3340,15 @@ sub_BC4F0:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_BC5C0                                                            BC5C0  
+; OriLoadModel                                    BC5C0  96 PC, low confidence
+; Loads a 3D model and stops with an error when it cannot be read
 ;-----------------------------------------------------------------------------
-sub_BC5C0:
+OriLoadModel:
         push ebx
         push ecx
         push esi
         mov ebx, eax
-        call sub_BC4F0
+        call OriReadModel
         mov esi, eax
         test eax, eax
         jne short .1
@@ -3349,9 +3378,10 @@ sub_BC5C0:
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_BC610                                                            BC610  
+; MakeRotXMatrix                               BC610  96 PC, medium confidence
+; Builds a rotation matrix around the X axis from an angle
 ;-----------------------------------------------------------------------------
-sub_BC610:
+MakeRotXMatrix:
         push esi
         sub esp, byte 8
         mov esi, dword [byte esp+010h]
@@ -3382,9 +3412,10 @@ sub_BC610:
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_BC674                                                            BC674  
+; MakeRotYMatrix                               BC674  96 PC, medium confidence
+; Builds a rotation matrix around the Y axis from an angle
 ;-----------------------------------------------------------------------------
-sub_BC674:
+MakeRotYMatrix:
         push esi
         sub esp, byte 8
         mov esi, dword [byte esp+010h]
@@ -3415,9 +3446,10 @@ sub_BC674:
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_BC6D8                                                            BC6D8  
+; MakeRotZMatrix                               BC6D8  96 PC, medium confidence
+; Builds a rotation matrix around the Z axis from an angle
 ;-----------------------------------------------------------------------------
-sub_BC6D8:
+MakeRotZMatrix:
         push esi
         sub esp, byte 8
         mov esi, dword [byte esp+010h]

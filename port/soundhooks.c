@@ -20,7 +20,7 @@ static const struct { uint32_t addr; int len; uint8_t first; const char *name; }
     { SYM_Sb16Open, 8, 0x53, "sub_CF2D8 SB16 driver init" },
     { SYM_ParseBlasterEnv, 6, 0x56, "ParseBlasterEnv BLASTER parse" },
     { SYM_SbDspVersion, 6, 0x52, "sub_CE2E8 DSP version" },
-    { SYM_sub_AB798, 8, 0x56, "sub_AB798 DOS memory alloc" },
+    { SYM_AllocMemLocked, 8, 0x56, "sub_AB798 DOS memory alloc" },
     { SYM_Sb16StartDma, 9, 0x53, "sub_CF59A SB16 start" },
 };
 #define NH (sizeof hooks / sizeof hooks[0])

@@ -1,0 +1,91 @@
+sub_E04E0 FindShape {confidence=medium,source=new} finds a shape by id in a shape bank (bank, &id) and stops with "shape not found" when it is missing
+sub_E04E7 FindShapeQuiet {confidence=medium,source=new} finds a shape by id in a shape bank (bank, &id); returns 0 when it is missing
+sub_E04D9 ExitProgram {confidence=medium,source=new} exits the program with code 0
+sub_AD090 CreateBitmapEx {confidence=medium,source=new} creates a bitmap of a width, height and depth (4/8/16/24/32 bits) in a memory list, with its row table; stops on an error when asked
+sub_AD35C CreateBitmap {confidence=medium,source=new} creates a bitmap at the screen's pixel depth and returns its pixel block
+sub_ADBEC FreeBitmap {confidence=medium,source=new} removes a bitmap's window and frees its memory
+sub_AAA40 DrawArt {confidence=medium,source=new} draws art at x, y; keyed (transparent) when keyed drawing is on, otherwise opaque
+sub_AAA8C DrawShape {confidence=medium,source=new} draws art at its own position; keyed when keyed drawing is on, otherwise opaque
+sub_AADA4 PutBlockAtOwnPos {confidence=low,source=new} copies a block to the screen at the position stored in its header
+sub_C3A48 DrawShapeOpaque {confidence=low,source=new} draws a shape opaque at x, y, clipped to the clip rectangle; the draw at its own position follows it
+sub_B2C54 DrawArtOpaqueAtOwnPos {confidence=low,source=new} draws art opaque at the position stored in its header
+sub_AB718 AllocMemBlockLocked {confidence=low,source=new} allocates a memory block with the memory lock held
+sub_AB798 AllocMemLocked {confidence=low,source=new} allocates a memory block with the memory lock held and returns its data pointer, or 0
+sub_AC838 MemLargestFreeLocked {confidence=low,source=new} returns the largest free gap in a memory list, with the memory lock held
+sub_AC89C MemLargestFree {confidence=low,source=new} compacts a memory list when allowed, then returns its largest free gap
+sub_E1836 ZeroMem {confidence=medium,source=new} clears memory (dst, count) to zero
+sub_E1824 FillMem {confidence=medium,source=new} fills memory (dst, count, byte value)
+sub_B22B0 SaveFileBlock {confidence=low,source=new} writes a block of memory to a file through savefileblocka
+sub_B31C0 NearestColour {confidence=medium,source=new} finds the palette index nearest an RGB colour, through the 15-bit lookup when one is built
+sub_C4C6C GetPalette {confidence=medium,source=new} reads palette entries (start, count, dst) from the VGA DAC, or through the hooked reader
+sub_C4CCC ArtBitDepth {confidence=medium,source=new} returns the bits per pixel of an art from its type byte
+jpt_C4CB0 ArtBitDepthJumpTable {confidence=medium,source=new} jump table of ArtBitDepth, one entry per art type
+sub_C4D80 PixelToRgb {confidence=low,source=new} converts a screen pixel value at the current depth to a 24-bit RGB colour
+sub_AFFD0 TextSetColor {confidence=low,source=new} sets the text colours and builds the font's colour table for the current font
+sub_AFF44 TextBuildShades {confidence=low,source=new} builds 16 shades of a palette colour and passes them to the text colour table
+sub_AFD40 BuildTextColourTable {confidence=low,source=new} builds the "Text Table" that maps font shades to the nearest screen colours
+sub_AF85C SkipCopyrightHeader {confidence=medium,source=new} skips a "Copyright" string at the start of packed data
+sub_AF890 PackedTypeOf {confidence=low,source=new} identifies the packing type of a block of data
+sub_AFD00 UnpackedSize {confidence=low,source=new} returns the unpacked size of packed data, or 0 when it is not packed
+sub_AFCD0 UnpackTo {confidence=low,source=new} unpacks data into a buffer through unpack
+sub_ADC50 UnpackHuffman {confidence=low,source=new} unpacks Huffman packed data (types 30h-34h)
+sub_AEE84 UnpackBytePair {confidence=low,source=new} unpacks byte pair packed data (type 46h)
+sub_AF08C UnpackDelta {confidence=low,source=new} unpacks delta coded data (types 60h-66h) by a running sum
+sub_AF104 UnpackRunLength {confidence=low,source=new} unpacks run length coded data (type 7Ah/7Bh) with a set element size
+sub_AF654 UnpackLzh {confidence=low,source=new} unpacks LZH (LZSS with adaptive Huffman) packed data (type 16h)
+sub_AF2C0 LzhStartHuff {confidence=low,source=new} sets up the adaptive Huffman tree for LZH unpacking
+sub_AF354 LzhReconstruct {confidence=low,source=new} rebuilds the adaptive Huffman tree when its root count gets too big
+sub_AF4F8 LzhUpdate {confidence=low,source=new} increments a symbol's count and keeps the Huffman tree in order
+sub_AF5D0 LzhDecodeChar {confidence=low,source=new} decodes one character or length code from the LZH bit stream
+sub_AF610 LzhDecodePosition {confidence=low,source=new} decodes a match position from the LZH bit stream
+sub_AF1C0 LzhGetBit {confidence=low,source=new} reads one bit from the LZH bit stream
+sub_AF240 LzhGetByte {confidence=low,source=new} reads eight bits from the LZH bit stream
+sub_BA3D0 ProjectPointList {confidence=low,source=new} projects a list of 3D points to the screen through ProjectPoint
+sub_BB9C4 TransformVector {confidence=medium,source=new} multiplies a vector by a 3x3 16.16 fixed point matrix
+sub_BC610 MakeRotXMatrix {confidence=medium,source=new} builds a rotation matrix around the X axis from an angle
+sub_BC674 MakeRotYMatrix {confidence=medium,source=new} builds a rotation matrix around the Y axis from an angle
+sub_BC6D8 MakeRotZMatrix {confidence=medium,source=new} builds a rotation matrix around the Z axis from an angle
+sub_BC3A0 OriSetObjectMatrix {confidence=low,source=new} copies a matrix into a 3D object and marks its matrix changed
+sub_BC3F4 OriSetObjectPosition {confidence=low,source=new} copies a position into a 3D object and marks it moved
+sub_BBAA0 ProjectPointsPersp {confidence=low,source=new} projects a list of 3D points with perspective, marking points behind the near plane
+sub_BBC14 ProjectModelPoints {confidence=low,source=new} projects a model's points, flat or with perspective by its flags
+sub_BBC80 DrawModelFlat {confidence=low,source=new} updates a model's matrix when needed and draws it as flat polygons with outlines
+sub_BBE50 DrawModelSorted {confidence=low,source=new} draws a model's polygons depth sorted
+sub_BC0C4 DrawModelPolys {confidence=low,source=new} draws all of a model's polygons through DrawModelPolyList
+sub_BC040 DrawModelPolyList {confidence=low,source=new} sets the model draw state and the rink view, then draws a list of polygons
+sub_BBEC8 DrawModelPoly {confidence=low,source=new} transforms, projects and draws one model polygon through the ORI draw tables
+sub_BA5D0 FillPolyIndexed {confidence=low,source=new} fills a polygon given 2D points and an index list
+sub_BACC0 ClassifyQuadDepth {confidence=low,source=new} sorts a quad by depth: behind the near plane, crossing it, flat enough or needing subdivision
+sub_BAD58 SubdivideTexturedQuad {confidence=low,source=new} draws a textured quad, splitting it in four until the perspective error is small
+sub_BB384 DrawPerspQuad {confidence=low,source=new} draws a perspective correct textured quad from 3D points and texture points
+sub_BB610 BlitArtScaled {confidence=low,source=new} draws art scaled to a width and height at x, y, clipped
+sub_BB8E0 DrawArtScaled {confidence=low,source=new} draws art scaled by a factor at x, y
+sub_BB924 DrawArtScaledHotspot {confidence=low,source=new} draws art scaled by a factor around its hotspot
+sub_BC150 OriCreateInstance {confidence=low,source=new} creates an instance ("ORI_INST") of a 3D model with its own frame and materials
+sub_BC424 OriFixupModel {confidence=low,source=new} turns a loaded model's offsets into pointers and allocates its inverse matrices ("INVMATRX")
+sub_BC4F0 OriReadModel {confidence=low,source=new} reads a 3D model (.ori) from the art archive
+sub_BC5C0 OriLoadModel {confidence=low,source=new} loads a 3D model and stops with an error when it cannot be read
+sub_BC760 OriFindGroup {confidence=low,source=new} finds a named group in a model and returns its value, or -1
+sub_BC7F0 OriFindPartition {confidence=low,source=new} finds a named partition in a model and returns its index, or -1
+sub_BC838 OriGetPartition {confidence=medium,source=new} returns a model partition by id, stopping on an invalid id
+sub_BD594 FillShadedPoly {confidence=low,source=new} fills a shaded polygon, splitting it into triangles and clipping where needed
+sub_BC890 ShadedPolyStepEdge {confidence=low,source=new} sets up the step values of a shaded polygon edge
+sub_BD3A0 FillShadedTriLeftClipped {confidence=low,source=new} fills a shaded triangle whose long edge is on the left, clipped
+sub_BD1D4 FillShadedTriLeft {confidence=low,source=new} fills a shaded triangle whose long edge is on the left
+sub_BCFE0 FillShadedTriRightClipped {confidence=low,source=new} fills a shaded triangle whose long edge is on the right, clipped
+sub_BCE10 FillShadedTriRight {confidence=low,source=new} fills a shaded triangle whose long edge is on the right
+sub_BCA38 ShadedSpansLeftClipped {confidence=low,source=new} fills the spans of a left edged shaded triangle, clipped
+sub_BCB58 ShadedSpansLeft {confidence=low,source=new} fills the spans of a left edged shaded triangle
+sub_BCC24 ShadedSpansRightClipped {confidence=low,source=new} fills the spans of a right edged shaded triangle, clipped
+sub_BCD44 ShadedSpansRight {confidence=low,source=new} fills the spans of a right edged shaded triangle
+sub_BD86C InitReciprocalTable {confidence=medium,source=new} fills the table of 10000h/n for n up to 2000
+sub_BD8B0 ClipEdgeAtZ {confidence=low,source=new} finds the point where an edge crosses a Z plane
+sub_BDBE8 ClipEdgeAtZTex {confidence=low,source=new} finds the point and texture point where an edge crosses a Z plane
+sub_BD92C ClipAndProjectEdge {confidence=low,source=new} clips an edge at a Z plane and projects the new point
+sub_BD9AC ClipPolyNearZ {confidence=low,source=new} clips a polygon at the near plane and projects it
+sub_BEB48 ProjectPointWide {confidence=low,source=new} projects one 3D point with perspective using 64-bit maths
+sub_BDC74 DrawTexturedPolyCore {confidence=low,source=new} clips, projects and draws a textured polygon
+sub_BE47C SubdivideMappedTriangle {confidence=low,source=new} draws a mapped triangle, splitting it until the perspective error is small
+sub_BE6E0 DrawMarkingPolys {confidence=low,source=new} clips, projects and fills a list of flat polygons (ice markings)
+sub_BE8AC SetPolyVertexArrays {confidence=low,source=new} sets the point arrays and colour DrawMarkingPolys uses
+sub_BE8C0 Init387Emulator {confidence=low,source=new} jumps to the 387 emulator set-up

@@ -6,8 +6,8 @@ extern byte_11FA2F, byte_152C3B, byte_152C40, byte_152C41, byte_152C42, DrawArtO
 extern dword_1150CC, dword_1150D0, dword_11F5C0, dword_152C3C, FillRect, fputchar, mousex, mousey
 extern PutBlock, SetDrawBitmap, sprintf_, str_02, str_BDMEN, str_BDREG, str_BUT, str_D14
 extern str_X, CopyBitmap, DrawTextCentred, SetTextColors, DrawColorTextCentred, DrawBox, InitMenuItems, RunMenu
-extern SetMenuMouse, SoundIdle, DrawShapeCore, sub_AADA4, AllocMemBlock, FreeMemBlock, sub_AD35C, sub_AD620
-extern sub_ADA80, sub_ADBEC, sub_AFFD0, SetScreenTarget, GetPaletteRange, sub_DFE9C, unk_152B3C
+extern SetMenuMouse, SoundIdle, DrawShapeCore, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, CreateBitmap, sub_AD620
+extern sub_ADA80, FreeBitmap, TextSetColor, SetScreenTarget, GetPaletteRange, sub_DFE9C, unk_152B3C
 global DrawBoxButton, DrawBoxButton_ret, MessageBox, HideMessage, ShowMessage, ShowProgressBox, UpdateProgressBox, HideProgressBox
 ;-----------------------------------------------------------------------------
 ; DrawBoxButton                                1A04E  96 PC, medium confidence
@@ -325,7 +325,7 @@ MessageBox:
         mov eax, dword [dword_152C3C]
         push dword [byte eax+014h]
         push dword [byte eax+010h]
-        call sub_AD35C
+        call CreateBitmap
         mov edx, eax
         mov eax, dword [dword_152C3C]
         add esp, byte 0Ch
@@ -334,7 +334,7 @@ MessageBox:
         mov eax, dword [dword_152C3C]
         push dword [byte eax+014h]
         push dword [byte eax+010h]
-        call sub_AD35C
+        call CreateBitmap
         mov edx, eax
         mov eax, dword [dword_152C3C]
         mov dword [byte eax+04h], edx
@@ -789,11 +789,11 @@ MessageBox:
         mov eax, dword [dword_152C3C]
         add esp, byte 0Ch
         push dword [byte eax+04h]
-        call sub_ADBEC
+        call FreeBitmap
         mov eax, dword [dword_152C3C]
         add esp, byte 4
         push dword [eax]
-        call sub_ADBEC
+        call FreeBitmap
         mov eax, dword [dword_152C3C]
         add esp, byte 4
         push dword [byte eax+024h]
@@ -826,7 +826,7 @@ HideMessage:
         je short .1
         call SetScreenTarget
         push dword [dword_1150C4]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         push dword [dword_1150C4]
         call FreeMemBlock
@@ -855,7 +855,7 @@ ShowMessage:
         je short .1
         call SetScreenTarget
         push dword [dword_1150C4]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         push dword [dword_1150C4]
         call FreeMemBlock
@@ -883,7 +883,7 @@ ShowMessage:
         lea eax, [eax+eax*2]
         push eax
         push dword [byte ebp-0Ch]
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         mov edi, eax
         call SetScreenTarget
@@ -964,7 +964,7 @@ ShowMessage:
         call PutBlock
         add esp, byte 0Ch
         push edi
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         leave
         pop edi
@@ -992,7 +992,7 @@ ShowProgressBox:
         je short .1
         call SetScreenTarget
         push dword [dword_1150C8]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         push dword [dword_1150C8]
         call FreeMemBlock
@@ -1026,7 +1026,7 @@ ShowProgressBox:
         push eax
         push edi
         mov dword [dword_1150CC], edi
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         mov esi, eax
         call SetScreenTarget
@@ -1104,7 +1104,7 @@ ShowProgressBox:
         call PutBlock
         add esp, byte 0Ch
         push esi
-        call sub_ADBEC
+        call FreeBitmap
         mov eax, dword [byte ebp+076h]
         add esp, byte 4
         movzx eax, byte [eax]
@@ -1141,7 +1141,7 @@ ShowProgressBox:
         push byte 0
         movzx eax, byte [byte eax+01h]
         push eax
-        call sub_AFFD0
+        call TextSetColor
         movzx eax, byte [byte_11FA2F]
         mov esi, dword [dword_1150C8]
         mov edx, dword [dword_1150CC]
@@ -1260,7 +1260,7 @@ UpdateProgressBox:
         push byte 0
         movzx eax, byte [byte_152C41]
         push eax
-        call sub_AFFD0
+        call TextSetColor
         imul eax, edi, byte 64h
         cdq
         idiv dword [dword_1150D0]
@@ -1295,7 +1295,7 @@ HideProgressBox:
         je short .1
         call SetScreenTarget
         push dword [dword_1150C8]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         push dword [dword_1150C8]
         call FreeMemBlock

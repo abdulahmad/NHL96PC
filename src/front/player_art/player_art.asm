@@ -7,8 +7,8 @@ extern str_Punct_DrawRinkSurface, dword_123AC0, dword_152FEC, dword_179E4C, dwor
 extern dword_17BA3C, dword_17BA40, dword_17BA44, dword_17BA48, dword_17BA4C, dword_17BA50, dword_17BA54, gameopts
 extern off_11BB4C, str_CupRef, str_FightRef, str_NewpalQfs, str_OldshpQfs, str_OLDSHPQFS2, str_Pal6, str_RinkpalQfs
 extern str_TeampalQda, str_TotalRef, str_UNPACK, str_Unpacked, SelectDataLibrary, LoadShadowRemap, AllocMemBlock, FreeMemBlock
-extern sub_AC838, sub_AFCD0, sub_AFD00, OpenArtArchiveErr, sub_B3420, sub_B3458, LoadPackedAlloc, sub_BEFF0
-extern sub_BF02C, sub_BF034, sub_E04E0, bcopy, sub_E1824, unk_16443C, unk_164688, unk_179E48
+extern MemLargestFreeLocked, UnpackTo, UnpackedSize, OpenArtArchiveErr, sub_B3420, sub_B3458, LoadPackedAlloc, sub_BEFF0
+extern sub_BF02C, sub_BF034, FindShape, bcopy, FillMem, unk_16443C, unk_164688, unk_179E48
 extern unk_17B248, unk_17B488, unk_17B518, unk_17B830, unk_17B930, unk_17BA58, unpack
 global PutJerseyDigit, MakeJerseyNumber, SetTeamJerseyColors, SetTeamJerseyColors_A3, SaveTeamPalette, SetPlayerSpriteColors, SetRinkSpriteColors, IndexSpriteFrames
 global LoadTeamPalette, LoadPlayerSprites, LoadPlayerSprites_131, LoadGameSprites, FreeGameSprites, FreeFightSprites, LoadFightSprites, LoadFightSprites_3F
@@ -60,7 +60,7 @@ MakeJerseyNumber:
         push byte 1
         push byte 23h
         push eax
-        call sub_E1824
+        call FillMem
         add esp, byte 0Ch
         test esi, esi
         jl short .7
@@ -416,7 +416,7 @@ IndexSpriteFrames:
         push eax
         inc dword [byte ebp-0Ch]
         add esi, byte 4
-        call sub_AFD00
+        call UnpackedSize
         add eax, byte 10h
         add esp, byte 4
         cmp eax, dword [dword_17BA48]
@@ -541,7 +541,7 @@ LoadPlayerSprites:
         push byte 20h
         push eax
         mov esi, eax
-        call sub_AFD00
+        call UnpackedSize
         add esp, byte 4
         push eax
         push str_OLDSHPQFS2
@@ -581,7 +581,7 @@ LoadPlayerSprites:
         add esp, byte 8
         push str_Pal6
         push eax
-        call sub_E04E0
+        call FindShape
         mov ebx, 20h
         add esp, byte 8
         mov edx, dword_17BA54
@@ -651,7 +651,7 @@ LoadGameSprites:
         mov eax, dword [byte ebp-04h]
         push dword [nosplit eax*4+off_11BB4C]
         push edi
-        call sub_E04E0
+        call FindShape
         mov ebx, 20h
         add esp, byte 8
         mov edx, dword_17BA50
@@ -659,7 +659,7 @@ LoadGameSprites:
         call sub_B3420
         push dword [nosplit esi*4+off_11BB4C]
         push edi
-        call sub_E04E0
+        call FindShape
         mov ebx, 20h
         add esp, byte 8
         mov edx, dword_17BA4C
@@ -880,7 +880,7 @@ GetSpriteFrame:
         mov dword [byte ebp-04h], edx
         cmp dword [dword_17BA3C], byte 0
         jne near .4
-        call sub_AC838
+        call MemLargestFreeLocked
         sub eax, 6000h
         mov ebx, 2010h
         cdq
@@ -940,7 +940,7 @@ GetSpriteFrame:
         push eax
         add edi, byte 10h
         push edi
-        call sub_AFCD0
+        call UnpackTo
         mov eax, dword [dword_17BA44]
         add esp, byte 8
         and dword [eax], 0FFh
@@ -1043,7 +1043,7 @@ GetSpriteFrame:
         push eax
         add edi, byte 10h
         push edi
-        call sub_AFCD0
+        call UnpackTo
         mov eax, dword [byte esi+04h]
         add esp, byte 8
         and dword [eax], 0FFh

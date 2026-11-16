@@ -11,7 +11,7 @@ extern dword_1A10D4, dword_1A10D8, dword_1A10DC, dword_1A10E0, dword_1A10E4, dwo
 extern dword_1A10F4, dword_1A10F8, dword_1A10FC, dword_1A1100, fputchar, sub_D7DB0_30, sub_D7DB0_238, sub_E2335_5B
 extern sub_E2335_81, mousepollfn, off_11F5F4, off_11F5F8, off_11F5FC, off_14FAD0, DrawArtRemapFunc, sprintf_
 extern DrawShapeCore, PutBlock, sub_AB6D8, FreeMemBlock, sub_ABF88, MemDescPtr, sub_AD2B4, sub_AD824
-extern sub_ADBEC, SetTextOrigin, sub_B049E, sub_B2400, DrawArtOpaque, sub_BF290, sub_C2AC4, sub_C2C5C
+extern FreeBitmap, SetTextOrigin, sub_B049E, sub_B2400, DrawArtOpaque, sub_BF290, sub_C2AC4, sub_C2C5C
 extern JoystickCalibrateScreen, ShowKeyboardOn, sub_CFE8C, sub_DA338, SetScreenTarget, SetClipWindow, SaveVideoState, RestoreVideoState
 extern MouseReadMotion, sub_DFA98, bcopy, sub_E193C, sub_E1956, sub_E2335, IntrStubs, SavedStackSegment
 global __CHK, __GRO, __STK, __int386x_, sub_D09FC_A8, sub_D0B78_A0, __CommonInit_, IsTextModeWidth
@@ -783,15 +783,15 @@ sub_D0E90:
         test edx, edx
         je short .2
         push edx
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         mov ecx, dword [dword_1A10F0]
         push ecx
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         mov esi, dword [dword_1A10DC]
         push esi
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
 .2:
         mov eax, dword [dword_1A10E4]
@@ -1050,15 +1050,15 @@ sub_D1080:
         test ebp, ebp
         je short .8
         push ebp
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         mov edx, dword [dword_1A10F0]
         push edx
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         mov ebx, dword [dword_1A10DC]
         push ebx
-        call sub_ADBEC
+        call FreeBitmap
         xor ecx, ecx
         add esp, byte 4
         mov dword [dword_1A10DC], ecx

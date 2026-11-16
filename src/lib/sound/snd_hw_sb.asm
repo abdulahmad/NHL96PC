@@ -5,7 +5,7 @@ section s_D59DB progbits alloc exec nowrite align=1
 extern _IsTable, __set_errno_, _dos_getvect_, _dos_setvect_, str_RMHandler, SbDmaPagePorts, SbDmaMaskPorts, SbDmaModePorts
 extern SbDmaFlipFlopPorts, SbDmaAddressPorts, SbDmaCountPorts, DmaPagePorts, DmaMaskPorts, DmaModePorts, DmaClearPorts, DmaAddressPorts
 extern DmaCountPorts, WssCodecDmaPage, WssCodecDmaRunning, WssIndexBits, WssCodecRunning, DmaLastHalf, WssFormat, WssDmaSize
-extern WssCodecDmaSize, WssCodecDmaHalf, WssCodecPort, WssCodecDma, int386_, sub_AB798, FreeMemBlock, tolower_
+extern WssCodecDmaSize, WssCodecDmaHalf, WssCodecPort, WssCodecDma, int386_, AllocMemLocked, FreeMemBlock, tolower_
 extern WssCodecDmaAddress, WssCodecDmaCount
 global StrToLong_13C, StrToLong, strtoul_, DigitValue, WssCodecStart, WssCodecStop, WssSetVolume, WssWriteReg
 global WssReadReg, WssWaitReady, WssWaitCalibration, WssSetModeChange, WssCodecReset, WssCodecSetup, WssStopDma, DmaMaskChannel
@@ -855,7 +855,7 @@ InstallRealIrqStub:
         mov eax, dword [byte ebp-018h]
         push str_RMHandler
         mov dword [edx], eax
-        call sub_AB798
+        call AllocMemLocked
         mov dword [byte ebp-08h], eax
         add esp, byte 0Ch
         test eax, eax

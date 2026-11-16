@@ -17,8 +17,8 @@ extern str_HD023, str_NAV, str_Pal24, str_Plyr3, str_PROFILEFSH3, str_RAT02, str
 extern str_S1dw, str_S1ug, str_S1up, str_S22, str_S2dg, str_S2dw, str_S2ug, str_S2up
 extern str_S32, str_S3dg, str_S3dw, str_S3ug, str_S3up, str_SD5, str_TR00, str_TR01
 extern str_TR02, str_TR0D, str_XTbl2, SelectDataLibrary, StatsDb5Record, StatsDb1Record, StatsDataBBRecord, StatsData4Record
-extern StatsDb2Record, sub_AAA40, AllocMemBlock, FreeMemBlock, sub_AD35C, sub_ADBEC, DosFileInfo, LoadResourceDataShared
-extern sub_B2C54, SetScreenTarget, sub_DD7B8, sub_DD908, sub_E04E0, TickDeadlinePassed, unk_93BE6, unk_93CA6
+extern StatsDb2Record, DrawArt, AllocMemBlock, FreeMemBlock, CreateBitmap, FreeBitmap, DosFileInfo, LoadResourceDataShared
+extern DrawArtOpaqueAtOwnPos, SetScreenTarget, sub_DD7B8, sub_DD908, FindShape, TickDeadlinePassed, unk_93BE6, unk_93CA6
 extern unk_93D26
 global PlayerRatingsScreen, PlayerRatingsScreen_E11, PlayerRatingsScreen_E3B, PlayerRatingsScreen_E44, PlayerRatingsScreen_E4D, PlayerRatingsScreen_E56, PlayerRatingsScreen_E5F, PlayerRatingsScreen_E68
 global PlayerRatingsScreen_E71, unk_955D7, unk_95603, DrawRatingBars, DrawRatingBars_2CA, DrawRatingBars_30B, DrawRatingBars_331, DrawRatingBars_38D
@@ -135,37 +135,37 @@ PlayerRatingsScreen:
         push byte 0
         push dword 0F0h
         push dword 0DCh
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push byte 0
         push byte 78h
         push byte 6Eh
         mov dword [byte ebp+056h], eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push byte 0
         push byte 78h
         push dword 96h
         mov dword [byte ebp+052h], eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push byte 0
         push dword 0B1h
         push dword 0A0h
         mov dword [byte ebp+04Eh], eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push byte 0
         push dword 0B1h
         push dword 0A0h
         mov dword [dword_182128], eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push byte 0
         push byte 3Ch
         push dword 0C8h
         mov dword [dword_18212C], eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         mov dword [byte ebp+04Ah], eax
         mov eax, 2
@@ -183,7 +183,7 @@ PlayerRatingsScreen:
         mov dword [dword_18210C], eax
         push str_Bkgd18
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [byte ebp+042h], 0
         push str_Pal24
@@ -191,7 +191,7 @@ PlayerRatingsScreen:
         xor edi, edi
         push dword [dword_18210C]
         mov dword [byte ebp+05Eh], eax
-        call sub_E04E0
+        call FindShape
         add eax, byte 10h
         add esp, byte 8
         mov dword [byte ebp+05Ah], eax
@@ -213,17 +213,17 @@ PlayerRatingsScreen:
         push byte 0
         push str_RAT02
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+06h]
         push eax
         push str_RAT02
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+04h]
         push eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push eax
         mov dword [dword esi+ebp-0882h], eax
@@ -231,21 +231,21 @@ PlayerRatingsScreen:
         add esp, byte 4
         push str_RAT02
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+0Eh]
         add esp, byte 8
         neg eax
         push eax
         push str_RAT02
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+0Ch]
         add esp, byte 8
         neg eax
         push eax
         push str_Bkgd18
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -255,12 +255,12 @@ PlayerRatingsScreen:
         lea eax, [byte ebp+032h]
         push eax
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         add esi, byte 4
         inc dword [byte ebp+03Eh]
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         cmp dword [byte ebp+03Eh], byte 9
         jl near .10
@@ -332,7 +332,7 @@ PlayerRatingsScreen:
         mov eax, dword [byte ebp+05Ah]
         call SetScreenColors
         push dword [byte ebp+05Eh]
-        call sub_B2C54
+        call DrawArtOpaqueAtOwnPos
         add esp, byte 4
         cmp dword [dword ebp-01BB6h], 2AF7h
         jle short .16
@@ -344,20 +344,20 @@ PlayerRatingsScreen:
         push str_HD023
 .17:
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_B2C54
+        call DrawArtOpaqueAtOwnPos
         add esp, byte 4
 .18:
         cmp dword [dword ebp-01BBEh], byte 0
         je short .19
         push str_Ban2
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_B2C54
+        call DrawArtOpaqueAtOwnPos
         add esp, byte 4
 .19:
         mov eax, 4
@@ -439,17 +439,17 @@ PlayerRatingsScreen:
 .26:
         push str_BALL4
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         push str_S1
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         push str_Bkgd18
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         mov ecx, 1
@@ -488,17 +488,17 @@ PlayerRatingsScreen:
 .32:
         push str_BALL4
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         push str_S22
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         push str_Bkgd18
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         mov ecx, 1
@@ -509,17 +509,17 @@ PlayerRatingsScreen:
         call InitVScrollBar
         push str_BALL4
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         push str_S32
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         push str_Bkgd18
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         mov ecx, 1
@@ -550,13 +550,13 @@ PlayerRatingsScreen:
         mov eax, dword [byte ebp-012h]
         push dword [dword_18210C]
         mov dword [dword ebp-0F90h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_RAT02
         movsx eax, word [byte eax+0Ch]
         push dword [dword_18210C]
         mov dword [dword ebp-0F88h], eax
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+0Eh]
         mov dword [dword ebp-0F84h], eax
         mov eax, dword [dword ebp-0F88h]
@@ -575,89 +575,89 @@ PlayerRatingsScreen:
         push str_S1up
         rep movsb
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_S1ug
         push dword [dword_18210C]
         mov dword [dword ebp-0E62h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_S1up
         push dword [dword_18210C]
         mov dword [dword ebp-0E5Eh], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_S1up
         movsx eax, word [byte eax+0Ch]
         push dword [dword_18210C]
         mov dword [dword ebp-0E56h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_S1dw
         movsx eax, word [byte eax+0Eh]
         push dword [dword_18210C]
         mov dword [dword ebp-0E52h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_S1dg
         push dword [dword_18210C]
         mov dword [dword ebp-0D30h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_S1dw
         push dword [dword_18210C]
         mov dword [dword ebp-0D2Ch], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_S1dw
         movsx eax, word [byte eax+0Ch]
         push dword [dword_18210C]
         mov dword [dword ebp-0D24h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_S2up
         movsx eax, word [byte eax+0Eh]
         push dword [dword_18210C]
         mov dword [dword ebp-0D20h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_S2ug
         push dword [dword_18210C]
         mov dword [dword ebp-0C64h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_S2up
         push dword [dword_18210C]
         mov dword [dword ebp-0C60h], eax
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+0Ch]
         add esp, byte 8
         mov dword [dword ebp-0C58h], eax
         push str_S2up
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_S2dw
         movsx eax, word [byte eax+0Eh]
         push dword [dword_18210C]
         mov dword [dword ebp-0C54h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_S2dg
         push dword [dword_18210C]
         mov dword [dword ebp-0B32h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_S2dw
         push dword [dword_18210C]
         mov dword [dword ebp-0B2Eh], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_S2dw
         movsx eax, word [byte eax+0Ch]
         push dword [dword_18210C]
         mov dword [dword ebp-0B26h], eax
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+0Eh]
         add esp, byte 8
         mov dword [dword ebp-0B22h], eax
@@ -668,28 +668,28 @@ PlayerRatingsScreen:
         lea eax, [dword ebp-096h]
         push dword [dword_18210C]
         mov dword [dword ebp-0AD2h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_TR01
         push dword [dword_18210C]
         mov dword [dword ebp-0ACCh], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_TR02
         push dword [dword_18210C]
         mov dword [dword ebp-0AC8h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_TR00
         push dword [dword_18210C]
         mov dword [dword ebp-0AC4h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_TR00
         movsx eax, word [byte eax+0Ch]
         push dword [dword_18210C]
         mov dword [dword ebp-0AC0h], eax
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+0Eh]
         mov dword [dword ebp-0ABCh], eax
         mov eax, dword [dword ebp-0AC0h]
@@ -704,45 +704,45 @@ PlayerRatingsScreen:
 .33:
         push str_S3up
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_S3ug
         push dword [dword_18210C]
         mov dword [dword ebp-0A66h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_S3up
         push dword [dword_18210C]
         mov dword [dword ebp-0A62h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_S3ug
         movsx eax, word [byte eax+0Ch]
         push dword [dword_18210C]
         mov dword [dword ebp-0A5Ah], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_S3dw
         movsx eax, word [byte eax+0Eh]
         push dword [dword_18210C]
         mov dword [dword ebp-0A56h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_S3dg
         push dword [dword_18210C]
         mov dword [dword ebp-0934h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_S3dw
         push dword [dword_18210C]
         mov dword [dword ebp-0930h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_S3dw
         movsx eax, word [byte eax+0Ch]
         push dword [dword_18210C]
         mov dword [dword ebp-0928h], eax
-        call sub_E04E0
+        call FindShape
         mov ebx, dword [dword ebp-05E2h]
         mov edx, dword [byte ebp+066h]
         mov ecx, dword [dword_18210C]
@@ -821,7 +821,7 @@ PlayerRatingsScreen:
         push dword [dword esi+ebp-0F84h]
         push dword [dword esi+ebp-0F88h]
         push dword [dword esi+ebp-0F94h]
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
 .39:
         add esi, byte 66h
@@ -891,13 +891,13 @@ PlayerRatingsScreen:
         call SetScreenTarget
         push str_RAT02
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+0Eh]
         push eax
         push str_RAT02
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+0Ch]
         push eax
@@ -960,13 +960,13 @@ PlayerRatingsScreen_E71:
         call SetScreenTarget
         push str_RAT02
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+0Eh]
         push eax
         push str_RAT02
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+0Ch]
         push eax
@@ -1355,20 +1355,20 @@ PlayerRatingsScreen_E71:
         add esp, byte 0Ch
         push str_TR00
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+0Eh]
         push eax
         push str_TR00
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+0Ch]
         push eax
         lea eax, [byte ebp+032h]
         push eax
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -1490,31 +1490,31 @@ PlayerRatingsScreen_E71:
         call FreeMemBlock
         add esp, byte 4
         push dword [byte ebp+052h]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         push dword [byte ebp+056h]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         push dword [byte ebp+04Eh]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         push dword [dword_182128]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         push dword [dword_18212C]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         mov dword [byte ebp+042h], 0
         push dword [byte ebp+04Ah]
         mov edi, 24h
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
 .106:
         mov dword [byte ebp+07Eh], edi
         imul esi, dword [byte ebp+042h], byte 24h
 .107:
         push dword [dword esi+ebp-0882h]
-        call sub_ADBEC
+        call FreeBitmap
         add esi, byte 4
         add esp, byte 4
         cmp esi, dword [byte ebp+07Eh]
@@ -1584,7 +1584,7 @@ DrawRatingBars:
 .2:
         push str_Bkgd18
         push dword [byte ebp+014h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -2377,7 +2377,7 @@ DrawRatingsTitle:
         push dword 0FFFFFEE2h
         push str_Bkgd18
         push dword [byte ebp-04h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         xor esi, esi
@@ -2522,7 +2522,7 @@ LoadRatingsPicture:
         push str_Plyr3
         push eax
         mov dword [dword_11E8A8], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword_11E8A0], eax
         cmp dword [byte ebp-04h], byte 0
@@ -2544,7 +2544,7 @@ LoadRatingsPicture:
         push str_Card3
         push eax
         mov dword [dword_11E8A8], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword_11E8A0], eax
         cmp dword [byte ebp-04h], byte 0
@@ -2569,7 +2569,7 @@ LoadRatingsPicture:
         push str_Plyr3
         push eax
         mov dword [dword_11E8AC], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword_11E8A4], eax
         cmp dword [byte ebp-04h], byte 0
@@ -2578,7 +2578,7 @@ LoadRatingsPicture:
 .10:
         push dword [dword_11E8AC]
 .11:
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         add eax, byte 10h
         push eax
@@ -2602,7 +2602,7 @@ LoadRatingsPicture:
         push str_Card3
         push eax
         mov dword [dword_11E8AC], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword_11E8A4], eax
         cmp dword [byte ebp-04h], byte 0
@@ -2613,7 +2613,7 @@ LoadRatingsPicture:
         push str_Ard3
         push dword [dword_11E8AC]
 .15:
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov ecx, 12Ch
         lea esi, [byte eax+010h]
@@ -2940,17 +2940,17 @@ DrawRatingsList:
         jne short .5
         push str_BALL4
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         push str_S32
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         push str_Bkgd18
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         mov ecx, 6
@@ -2959,17 +2959,17 @@ DrawRatingsList:
 .5:
         push str_BALL4
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         push str_S32
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         push str_Bkgd18
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         mov ecx, 6
@@ -2980,17 +2980,17 @@ DrawRatingsList:
         jne short .7
         push str_BALL4
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         push str_S32
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         push str_Bkgd18
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         mov ecx, 6
@@ -2999,17 +2999,17 @@ DrawRatingsList:
 .7:
         push str_BALL4
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         push str_S32
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         push str_Bkgd18
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         mov ecx, 6
@@ -3052,7 +3052,7 @@ DrawRatingsName:
 .2:
         push str_Bkgd18
         push dword [dword_18210C]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock

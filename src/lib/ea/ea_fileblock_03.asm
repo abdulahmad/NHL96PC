@@ -5,7 +5,7 @@ section s_BE8C5 progbits alloc exec nowrite align=1
 extern __fprtf_, __sys_fini_387_emulator, str_Punct_DrawRinkSurface, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight
 extern DrawDestBuffer, ViewCenterY, str_D_ProjectPointsPersp, dword_123AAC, dword_123ABC, dword_123AC0, ScaledRowBuffer, Mul32To64
 extern Sar64, BuildSpanOffsets, SetBlitSource, sub_DDA44, sub_DEF74
-global fprintf_, imul32, sub_BE926, sub_BE960, SortIndices, sub_BEAE4, sub_BEB48, sub_BEC30
+global fprintf_, imul32, sub_BE926, sub_BE960, SortIndices, sub_BEAE4, ProjectPointWide, sub_BEC30
 global sub_BEF44, sub_BEFF0
 ;-----------------------------------------------------------------------------
 ; imul32                                       BE8C5  95 PC, medium confidence
@@ -289,9 +289,10 @@ sub_BEAE4:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_BEB48                                                            BEB48  
+; ProjectPointWide                                BEB48  96 PC, low confidence
+; Projects one 3D point with perspective using 64-bit maths
 ;-----------------------------------------------------------------------------
-sub_BEB48:
+ProjectPointWide:
         push esi
         push edi
         push ebp

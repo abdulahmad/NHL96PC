@@ -14,9 +14,9 @@ extern dword_17D8C0, dword_17D8C4, dword_17D8F4, dword_17D8F8, dword_17D8FC, dwo
 extern dword_17D90C, dword_17D910, dword_17D914, dword_17D918, dword_17D91C, dword_17D920, dword_17D924, gameopts
 extern jpt_7D568, sprintf_, MessageBox, LoadTeamLogo, LoadPackedFile, LoadDataFileLib, LoadSeasonStats, OpenScreen
 extern SlideInTitleBar, SlideInSideBar, SetScreenColors, FadePalette, FadeOut, SetTextColors, FillBox, DrawFrameAt
-extern InitMenuItems, RunMenu, GetLangText, MakeSeasonDbPath, SimSeasonGames, SimulateGame, sub_AAA40, sub_AAA8C
-extern PutBlock, AllocMemBlock, FreeMemBlock, sub_AD35C, sub_AD620, FillRect, sub_ADA80, sub_ADBEC
-extern OpenArtArchiveErr, sub_B2C54, sub_BF120, PutBlockKeyed, SetScreenTarget, sub_DD908, sub_E04E0, sub_E0584
+extern InitMenuItems, RunMenu, GetLangText, MakeSeasonDbPath, SimSeasonGames, SimulateGame, DrawArt, DrawShape
+extern PutBlock, AllocMemBlock, FreeMemBlock, CreateBitmap, sub_AD620, FillRect, sub_ADA80, FreeBitmap
+extern OpenArtArchiveErr, DrawArtOpaqueAtOwnPos, sub_BF120, PutBlockKeyed, SetScreenTarget, sub_DD908, FindShape, sub_E0584
 extern unk_11E3B6, unk_11E3F6, unk_11E436, unk_11E476, unk_152C44, unk_17CB2E, unk_7D4F4, unk_7D500
 global CalendarScreen_13D3, CalendarScreen_13E4, CalendarScreen_153A, CalendarScreen_1AC2, CalendarScreen_1B49, CalendarScreen_1B6C, CalendarScreen, DrawCalendar
 global unk_7FF77
@@ -81,19 +81,19 @@ CalendarScreen:
         push eax
         mov dword [byte ebp+03Ah], eax
         mov dword [byte ebp+01Ah], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Bkgd12
         push esi
         mov dword [byte ebp+0Ah], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_B2C54
+        call DrawArtOpaqueAtOwnPos
         add esp, byte 4
         push str_Pal17
         push esi
-        call sub_E04E0
+        call FindShape
         mov esi, unk_152C44
         mov ecx, 0C0h
         mov edx, eax
@@ -106,7 +106,7 @@ CalendarScreen:
         push str_Pal17
         push dword [byte ebp+03Ah]
         lea edi, [dword edx+01D2h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov ecx, 30h
         lea esi, [dword eax+01D2h]
@@ -116,13 +116,13 @@ CalendarScreen:
         push byte 0
         push byte 44h
         push byte 44h
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push byte 0
         push dword 154h
         push dword 1DCh
         mov dword [dword_17D8F8], eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         mov dword [dword_17D8FC], eax
         mov eax, 6
@@ -334,7 +334,7 @@ CalendarScreen:
         movsx eax, word [byte eax+04h]
         add eax, byte 4
         push eax
-        call sub_AD35C
+        call CreateBitmap
         mov dword [dword esi+dword_17D834], eax
         mov eax, dword [byte ebp+0Ah]
         add esp, byte 0Ch
@@ -346,7 +346,7 @@ CalendarScreen:
         movsx eax, word [byte eax+04h]
         add eax, byte 4
         push eax
-        call sub_AD35C
+        call CreateBitmap
         mov dword [dword esi+dword_17D8C4], eax
         mov eax, dword [byte ebp+0Ah]
         add esp, byte 0Ch
@@ -358,7 +358,7 @@ CalendarScreen:
         movsx eax, word [byte eax+04h]
         add eax, byte 4
         push eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push dword [dword esi+dword_17D834]
         mov dword [dword esi+dword_17D864], eax
@@ -384,7 +384,7 @@ CalendarScreen:
         push dword [byte ebp+03Eh]
         push str_Bkgd12
         push dword [byte ebp+022h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -394,52 +394,52 @@ CalendarScreen:
         lea eax, [byte ebp-03Ah]
         push eax
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         push str_LFDK
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+0Eh]
         add esp, byte 8
         sub eax, dword [byte ebp+026h]
         push eax
         push str_LFDK
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+0Ch]
         add esp, byte 8
         sub eax, edi
         push eax
         push str_LFDK
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         push str_RTDK
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+0Eh]
         add esp, byte 8
         sub eax, dword [byte ebp+026h]
         push eax
         push str_RTDK
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+0Ch]
         add esp, byte 8
         sub eax, edi
         push eax
         push str_RTDK
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         push dword [byte ebp+02Ah]
         push str_LT02d
@@ -454,7 +454,7 @@ CalendarScreen:
         push dword [byte ebp+03Eh]
         push str_Bkgd12
         push dword [byte ebp+022h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -464,52 +464,52 @@ CalendarScreen:
         lea eax, [byte ebp-03Ah]
         push eax
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         push str_LFDK
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+0Eh]
         add esp, byte 8
         sub eax, dword [byte ebp+026h]
         push eax
         push str_LFDK
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+0Ch]
         add esp, byte 8
         sub eax, edi
         push eax
         push str_LFDK
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         push str_RTDK
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+0Eh]
         add esp, byte 8
         sub eax, dword [byte ebp+026h]
         push eax
         push str_RTDK
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+0Ch]
         add esp, byte 8
         sub eax, edi
         push eax
         push str_RTDK
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         push dword [dword esi+dword_17D864]
         call SetDrawBitmap
@@ -518,7 +518,7 @@ CalendarScreen:
         push dword [byte ebp+03Eh]
         push str_Bkgd12
         push dword [byte ebp+022h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -528,73 +528,73 @@ CalendarScreen:
         lea eax, [byte ebp-03Ah]
         push eax
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         push str_LFDK
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+0Eh]
         add esp, byte 8
         sub eax, dword [byte ebp+026h]
         push eax
         push str_LFDK
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+0Ch]
         add esp, byte 8
         sub eax, edi
         push eax
         push str_LFDK
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         push str_RTDK
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+0Eh]
         add esp, byte 8
         sub eax, dword [byte ebp+026h]
         push eax
         push str_RTDK
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+0Ch]
         add esp, byte 8
         sub eax, edi
         push eax
         push str_RTDK
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         add esi, byte 4
         inc dword [byte ebp+02Ah]
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         cmp dword [byte ebp+02Ah], byte 0Ch
         jl near .14
         push byte 0
         push str_LFDK
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+06h]
         add esp, byte 8
         add eax, byte 4
         push eax
         push str_LFDK
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+04h]
         add esp, byte 8
         add eax, byte 4
         push eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push eax
         mov dword [dword_17D904], eax
@@ -602,12 +602,12 @@ CalendarScreen:
         add esp, byte 4
         push str_LFDK
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_LFDK
         push dword [byte ebp+01Ah]
         movsx esi, word [byte eax+0Ch]
-        call sub_E04E0
+        call FindShape
         movsx edi, word [byte eax+0Eh]
         add esp, byte 8
         neg edi
@@ -616,7 +616,7 @@ CalendarScreen:
         push esi
         push str_Bkgd12
         push dword [byte ebp+022h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -624,14 +624,14 @@ CalendarScreen:
         push dword 0FFh
         push str_LFDK
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+06h]
         add esp, byte 8
         dec eax
         push eax
         push str_LFDK
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+04h]
         add esp, byte 8
         sub eax, byte 43h
@@ -644,27 +644,27 @@ CalendarScreen:
         push byte 0
         push str_LFDK
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         push byte 0
         push str_LFDK
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+06h]
         add esp, byte 8
         add eax, byte 4
         push eax
         push str_LFDK
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+04h]
         add esp, byte 8
         add eax, byte 4
         push eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push eax
         mov dword [dword_17D910], eax
@@ -672,12 +672,12 @@ CalendarScreen:
         add esp, byte 4
         push str_LFLT
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_LFLT
         push dword [byte ebp+01Ah]
         movsx esi, word [byte eax+0Ch]
-        call sub_E04E0
+        call FindShape
         movsx edi, word [byte eax+0Eh]
         mov eax, edi
         add esp, byte 8
@@ -688,7 +688,7 @@ CalendarScreen:
         push eax
         push str_Bkgd12
         push dword [byte ebp+022h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -697,10 +697,10 @@ CalendarScreen:
         push byte 0
         push str_LFLT
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AAA40
+        call DrawArt
         mov eax, dword [byte ebp+0Ah]
         movsx eax, word [byte eax+0Eh]
         add esp, byte 0Ch
@@ -711,24 +711,24 @@ CalendarScreen:
         sub eax, esi
         push eax
         push dword [byte ebp+0Ah]
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         push byte 0
         push str_LFDK
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+06h]
         add esp, byte 8
         add eax, byte 4
         push eax
         push str_LFDK
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+04h]
         add esp, byte 8
         add eax, byte 4
         push eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push eax
         mov dword [dword_17D908], eax
@@ -736,12 +736,12 @@ CalendarScreen:
         add esp, byte 4
         push str_LFLT
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_LFLT
         push dword [byte ebp+01Ah]
         movsx esi, word [byte eax+0Ch]
-        call sub_E04E0
+        call FindShape
         movsx edi, word [byte eax+0Eh]
         mov eax, edi
         add esp, byte 8
@@ -752,7 +752,7 @@ CalendarScreen:
         push eax
         push str_Bkgd12
         push dword [byte ebp+022h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -761,10 +761,10 @@ CalendarScreen:
         push byte 4
         push str_LFLT
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AAA40
+        call DrawArt
         mov eax, dword [byte ebp+0Ah]
         movsx eax, word [byte eax+0Eh]
         add esp, byte 0Ch
@@ -775,24 +775,24 @@ CalendarScreen:
         sub eax, esi
         push eax
         push dword [byte ebp+0Ah]
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         push byte 0
         push str_LFDK
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+06h]
         add esp, byte 8
         add eax, byte 4
         push eax
         push str_LFDK
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+04h]
         add esp, byte 8
         add eax, byte 4
         push eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push eax
         mov dword [dword_17D924], eax
@@ -800,12 +800,12 @@ CalendarScreen:
         add esp, byte 4
         push str_RTDK
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_RTDK
         push dword [byte ebp+01Ah]
         movsx esi, word [byte eax+0Ch]
-        call sub_E04E0
+        call FindShape
         movsx edi, word [byte eax+0Eh]
         mov eax, edi
         add esp, byte 8
@@ -816,7 +816,7 @@ CalendarScreen:
         push eax
         push str_Bkgd12
         push dword [byte ebp+022h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -830,19 +830,19 @@ CalendarScreen:
         sub eax, esi
         push eax
         push dword [byte ebp+0Ah]
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         push dword 0FFh
         push str_LFDK
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+06h]
         add esp, byte 8
         dec eax
         push eax
         push str_LFDK
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+04h]
         add esp, byte 8
         sub eax, byte 43h
@@ -855,27 +855,27 @@ CalendarScreen:
         push byte 0
         push str_RTDK
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         push byte 0
         push str_LFDK
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+06h]
         add esp, byte 8
         add eax, byte 4
         push eax
         push str_LFDK
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+04h]
         add esp, byte 8
         add eax, byte 4
         push eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push eax
         mov dword [dword_17D91C], eax
@@ -883,12 +883,12 @@ CalendarScreen:
         add esp, byte 4
         push str_RTLT
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_RTLT
         push dword [byte ebp+01Ah]
         movsx esi, word [byte eax+0Ch]
-        call sub_E04E0
+        call FindShape
         movsx edi, word [byte eax+0Eh]
         mov eax, edi
         add esp, byte 8
@@ -899,7 +899,7 @@ CalendarScreen:
         push eax
         push str_Bkgd12
         push dword [byte ebp+022h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -908,10 +908,10 @@ CalendarScreen:
         push byte 0
         push str_RTLT
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AAA40
+        call DrawArt
         mov eax, dword [byte ebp+0Ah]
         movsx eax, word [byte eax+0Eh]
         add esp, byte 0Ch
@@ -922,24 +922,24 @@ CalendarScreen:
         sub eax, esi
         push eax
         push dword [byte ebp+0Ah]
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         push byte 0
         push str_LFDK
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+06h]
         add esp, byte 8
         add eax, byte 4
         push eax
         push str_LFDK
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+04h]
         add esp, byte 8
         add eax, byte 4
         push eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push eax
         mov dword [dword_17D914], eax
@@ -947,12 +947,12 @@ CalendarScreen:
         add esp, byte 4
         push str_RTLT
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_RTLT
         push dword [byte ebp+01Ah]
         movsx esi, word [byte eax+0Ch]
-        call sub_E04E0
+        call FindShape
         movsx edi, word [byte eax+0Eh]
         mov eax, edi
         add esp, byte 8
@@ -963,7 +963,7 @@ CalendarScreen:
         push eax
         push str_Bkgd12
         push dword [byte ebp+022h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -972,10 +972,10 @@ CalendarScreen:
         push byte 4
         push str_RTLT
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AAA40
+        call DrawArt
         mov eax, dword [byte ebp+0Ah]
         movsx eax, word [byte eax+0Eh]
         add esp, byte 0Ch
@@ -986,24 +986,24 @@ CalendarScreen:
         sub eax, esi
         push eax
         push dword [byte ebp+0Ah]
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         push byte 0
         push str_Sim1
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+06h]
         add esp, byte 8
         add eax, byte 4
         push eax
         push str_Sim1
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+04h]
         add esp, byte 8
         add eax, byte 4
         push eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push eax
         mov dword [dword_17D918], eax
@@ -1011,12 +1011,12 @@ CalendarScreen:
         add esp, byte 4
         push str_Sim1
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Sim1
         push dword [byte ebp+01Ah]
         movsx esi, word [byte eax+0Ch]
-        call sub_E04E0
+        call FindShape
         movsx edi, word [byte eax+0Eh]
         add esp, byte 8
         neg edi
@@ -1025,7 +1025,7 @@ CalendarScreen:
         push esi
         push str_Bkgd12
         push dword [byte ebp+022h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -1034,27 +1034,27 @@ CalendarScreen:
         push byte 0
         push str_Sim1
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         push byte 0
         push str_Sim2
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+06h]
         add esp, byte 8
         add eax, byte 4
         push eax
         push str_Sim2
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+04h]
         add esp, byte 8
         add eax, byte 4
         push eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push eax
         mov dword [dword_17D900], eax
@@ -1062,12 +1062,12 @@ CalendarScreen:
         add esp, byte 4
         push str_Sim2
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Sim2
         push dword [byte ebp+01Ah]
         movsx esi, word [byte eax+0Ch]
-        call sub_E04E0
+        call FindShape
         movsx edi, word [byte eax+0Eh]
         add esp, byte 8
         neg edi
@@ -1076,7 +1076,7 @@ CalendarScreen:
         push esi
         push str_Bkgd12
         push dword [byte ebp+022h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -1085,27 +1085,27 @@ CalendarScreen:
         push byte 0
         push str_Sim2
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         push byte 0
         push str_Sim3
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+06h]
         add esp, byte 8
         add eax, byte 4
         push eax
         push str_Sim3
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+04h]
         add esp, byte 8
         add eax, byte 4
         push eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push eax
         mov dword [dword_17D920], eax
@@ -1113,12 +1113,12 @@ CalendarScreen:
         add esp, byte 4
         push str_Sim3
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Sim3
         push dword [byte ebp+01Ah]
         movsx esi, word [byte eax+0Ch]
-        call sub_E04E0
+        call FindShape
         movsx edi, word [byte eax+0Eh]
         add esp, byte 8
         neg edi
@@ -1127,7 +1127,7 @@ CalendarScreen:
         push esi
         push str_Bkgd12
         push dword [byte ebp+022h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -1136,10 +1136,10 @@ CalendarScreen:
         push byte 4
         push str_Sim3
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         mov edi, dword [byte ebp-0Eh]
         mov esi, TeamStatsBitmap
@@ -1205,14 +1205,14 @@ CalendarScreen:
         mov eax, dword [byte ebp-0Eh]
         push dword [byte ebp+01Ah]
         mov dword [dword eax+0154h], edx
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_LFDK
         movsx edx, word [byte eax+0Ch]
         mov eax, dword [byte ebp-0Eh]
         push dword [byte ebp+01Ah]
         mov dword [dword eax+0158h], edx
-        call sub_E04E0
+        call FindShape
         movsx edx, word [byte eax+0Eh]
         mov eax, dword [byte ebp-0Eh]
         mov dword [dword eax+015Ch], edx
@@ -1243,14 +1243,14 @@ CalendarScreen:
         mov eax, dword [byte ebp-0Eh]
         push dword [byte ebp+01Ah]
         mov dword [dword eax+01BAh], edx
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_RTDK
         movsx edx, word [byte eax+0Ch]
         mov eax, dword [byte ebp-0Eh]
         push dword [byte ebp+01Ah]
         mov dword [dword eax+01BEh], edx
-        call sub_E04E0
+        call FindShape
         movsx edx, word [byte eax+0Eh]
         mov eax, dword [byte ebp-0Eh]
         mov dword [dword eax+01C2h], edx
@@ -1281,14 +1281,14 @@ CalendarScreen:
         mov eax, dword [byte ebp-0Eh]
         push dword [byte ebp+01Ah]
         mov dword [dword eax+0220h], edx
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Sim1
         movsx edx, word [byte eax+0Ch]
         mov eax, dword [byte ebp-0Eh]
         push dword [byte ebp+01Ah]
         mov dword [dword eax+0224h], edx
-        call sub_E04E0
+        call FindShape
         movsx edx, word [byte eax+0Eh]
         mov eax, dword [byte ebp-0Eh]
         mov dword [dword eax+0228h], edx
@@ -1413,12 +1413,12 @@ CalendarScreen:
         jne short .18
         push str_Hmaw
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov esi, dword [byte ebp-0Eh]
         push eax
         lea edi, [dword esi+01056h]
-        call sub_AAA8C
+        call DrawShape
         add esp, byte 4
 .19:
         cmp dword [byte esi+01Ah], byte 0
@@ -1426,7 +1426,7 @@ CalendarScreen:
         push dword [byte esi+02Ah]
         push dword [byte esi+026h]
         push dword [byte esi+01Ah]
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
 .20:
         add esi, byte 66h
@@ -1660,7 +1660,7 @@ CalendarScreen_153A:
         movsx eax, word [byte eax+04h]
         add eax, byte 4
         push eax
-        call sub_AD35C
+        call CreateBitmap
         mov dword [dword esi+dword_17D7D4], eax
         mov eax, dword [byte ebp+0Ah]
         add esp, byte 0Ch
@@ -1672,7 +1672,7 @@ CalendarScreen_153A:
         movsx eax, word [byte eax+04h]
         add eax, byte 4
         push eax
-        call sub_AD35C
+        call CreateBitmap
         mov dword [dword esi+dword_17D804], eax
         mov eax, dword [byte ebp+0Ah]
         add esp, byte 0Ch
@@ -1684,7 +1684,7 @@ CalendarScreen_153A:
         movsx eax, word [byte eax+04h]
         add eax, byte 4
         push eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         mov dword [dword esi+dword_17D894], eax
         push dword [byte ebp+06Eh]
@@ -1710,10 +1710,10 @@ CalendarScreen_153A:
         lea eax, [byte ebp-03Ah]
         push eax
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         push dword [dword esi+dword_17D7D4]
         call SetDrawBitmap
@@ -1723,10 +1723,10 @@ CalendarScreen_153A:
         lea eax, [byte ebp-03Ah]
         push eax
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         cmp dword [byte ebp+02Ah], byte 9
         je short .27
@@ -1735,10 +1735,10 @@ CalendarScreen_153A:
         lea eax, [byte ebp-026h]
         push eax
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
 .27:
         mov eax, dword [byte ebp+02Ah]
@@ -1757,10 +1757,10 @@ CalendarScreen_153A:
         lea eax, [byte ebp-03Ah]
         push eax
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         cmp dword [byte ebp+02Ah], byte 9
         je short .28
@@ -1769,10 +1769,10 @@ CalendarScreen_153A:
         lea eax, [byte ebp-026h]
         push eax
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
 .28:
         push dword [dword esi+dword_17D894]
@@ -1783,10 +1783,10 @@ CalendarScreen_153A:
         lea eax, [byte ebp-03Ah]
         push eax
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         cmp dword [byte ebp+02Ah], byte 9
         je short .29
@@ -1795,10 +1795,10 @@ CalendarScreen_153A:
         lea eax, [byte ebp-026h]
         push eax
         push dword [byte ebp+01Ah]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
 .29:
         mov edx, dword [byte ebp+05Eh]
@@ -1917,14 +1917,14 @@ CalendarScreen_153A:
         mov dword [dword_17D90C], 0FFFFFFFFh
 .32:
         push dword [dword esi+dword_17D7D4]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         push dword [dword esi+dword_17D804]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         push dword [dword esi+dword_17D894]
         add esi, byte 4
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         cmp esi, byte 28h
         jne short .32
@@ -1933,7 +1933,7 @@ CalendarScreen_153A:
         push byte 52h
         movsx eax, word [byte eax+04h]
         push eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push eax
         mov dword [dword_17D8F4], eax
@@ -1946,7 +1946,7 @@ CalendarScreen_153A:
         push eax
         push str_Bkgd12
         push dword [byte ebp+022h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -1961,7 +1961,7 @@ CalendarScreen_153A:
         call PutBlock
         add esp, byte 0Ch
         push dword [dword_17D8F4]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         jmp near CalendarScreen_1B6C.47
 CalendarScreen_1AC2:
@@ -2406,50 +2406,50 @@ CalendarScreen_1B6C:
         add esp, byte 4
         push dword [dword_17D8F8]
         xor esi, esi
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
 .53:
         push dword [dword esi+dword_17D834]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         push dword [dword esi+dword_17D8C4]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         push dword [dword esi+dword_17D864]
         add esi, byte 4
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         cmp esi, byte 30h
         jne short .53
         push dword [dword_17D8FC]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         push dword [dword_17D904]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         push dword [dword_17D924]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         push dword [dword_17D910]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         push dword [dword_17D91C]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         push dword [dword_17D908]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         push dword [dword_17D914]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         push dword [dword_17D920]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         push dword [dword_17D900]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         push dword [dword_17D918]
-        call sub_ADBEC
+        call FreeBitmap
         mov eax, dword [byte ebp-01Eh]
         add esp, byte 4
         lea esp, [dword ebp+08Ah]
@@ -2496,13 +2496,13 @@ DrawCalendar:
         mov edi, dword [dword_1174F0]
         push byte 44h
         add edi, eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push byte 0
         push byte 78h
         push dword 0E0h
         mov dword [byte ebp+066h], eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         mov dword [byte ebp+05Ah], eax
         lea eax, [dword ebp-0336h]
@@ -2528,7 +2528,7 @@ DrawCalendar:
         push byte 0FFFFFFAEh
         push str_Bkgd12
         push dword [dword ebp-033Eh]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         mov dword [byte ebp+072h], 1
@@ -2565,7 +2565,7 @@ DrawCalendar:
         push edx
         push str_Bkgd12
         push dword [dword ebp-033Eh]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -2585,7 +2585,7 @@ DrawCalendar:
         lea eax, [byte ebp+046h]
         push eax
         push dword [dword ebp-0342h]
-        call sub_E04E0
+        call FindShape
         mov ecx, 3
         mov ebx, 2Dh
         add esp, byte 8
@@ -2607,7 +2607,7 @@ DrawCalendar:
         lea eax, [byte ebp+046h]
         push eax
         push dword [dword ebp-0342h]
-        call sub_E04E0
+        call FindShape
         mov ecx, 3
         mov ebx, 35h
         add esp, byte 8
@@ -2787,7 +2787,7 @@ DrawCalendar:
         push edx
         push str_Bkgd12
         push dword [dword ebp-033Eh]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -2826,10 +2826,10 @@ DrawCalendar:
         push byte 0
         push str_Disk
         push dword [dword ebp-0342h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AAA40
+        call DrawArt
         imul eax, dword [byte ebp+06Eh], byte 7
         add eax, dword [byte ebp+06Ah]
         add eax, dword [dword ebp+08Eh]
@@ -2854,7 +2854,7 @@ DrawCalendar:
         lea eax, [byte ebp+046h]
         push eax
         push dword [dword ebp-0342h]
-        call sub_E04E0
+        call FindShape
         mov ecx, 3
         mov ebx, 2Dh
         add esp, byte 8
@@ -2877,7 +2877,7 @@ DrawCalendar:
         lea eax, [byte ebp+046h]
         push eax
         push dword [dword ebp-0342h]
-        call sub_E04E0
+        call FindShape
         mov ecx, 3
         mov ebx, 35h
         add esp, byte 8
@@ -2907,7 +2907,7 @@ DrawCalendar:
         push str_Junn
 .28:
         push dword [dword ebp-0342h]
-        call sub_E04E0
+        call FindShape
         mov ecx, 2
         mov ebx, 0Fh
         add esp, byte 8
@@ -2920,7 +2920,7 @@ DrawCalendar:
         je near .37
         push str_Bar
         push dword [dword ebp-0342h]
-        call sub_E04E0
+        call FindShape
         mov ecx, 30h
         add esp, byte 8
         mov edx, eax
@@ -2951,7 +2951,7 @@ DrawCalendar:
         push str_Wwww
 .34:
         push dword [dword ebp-0342h]
-        call sub_E04E0
+        call FindShape
         mov ecx, 32h
         mov ebx, 5
         add esp, byte 8
@@ -2960,7 +2960,7 @@ DrawCalendar:
         call DrawFrameAt
         push asc_1123BB
         push dword [dword ebp-0342h]
-        call sub_E04E0
+        call FindShape
         mov ecx, 32h
         mov ebx, 0Fh
         add esp, byte 8
@@ -2984,7 +2984,7 @@ DrawCalendar:
         lea eax, [byte ebp+046h]
         push eax
         push dword [dword ebp-0342h]
-        call sub_E04E0
+        call FindShape
         mov ecx, 32h
         mov ebx, 16h
         add esp, byte 8
@@ -3006,7 +3006,7 @@ DrawCalendar:
         lea eax, [byte ebp+046h]
         push eax
         push dword [dword ebp-0342h]
-        call sub_E04E0
+        call FindShape
         mov ecx, 32h
         add esp, byte 8
         mov ebx, edi
@@ -3016,7 +3016,7 @@ DrawCalendar:
         push asc_1123C6
         push dword [dword ebp-0342h]
         add edi, byte 0Ah
-        call sub_E04E0
+        call FindShape
         mov ecx, 32h
         add esp, byte 8
         mov ebx, edi
@@ -3041,7 +3041,7 @@ DrawCalendar:
         push eax
         push dword [dword ebp-0342h]
         sub edi, byte 3
-        call sub_E04E0
+        call FindShape
         mov ecx, 32h
         add esp, byte 8
         mov ebx, edi
@@ -3063,7 +3063,7 @@ DrawCalendar:
         lea eax, [byte ebp+046h]
         push eax
         push dword [dword ebp-0342h]
-        call sub_E04E0
+        call FindShape
         mov ecx, 32h
         add esp, byte 8
         mov ebx, edi
@@ -3094,10 +3094,10 @@ DrawCalendar:
         cmp eax, dword [byte ebp+05Eh]
         jl near .9
         push dword [byte ebp+066h]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         push dword [byte ebp+05Ah]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         call SetScreenTarget
         push byte 52h

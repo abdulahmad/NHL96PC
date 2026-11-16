@@ -16,12 +16,12 @@ extern dword_11F5C0, dword_11F5C4, dword_1210CC, dword_15139C, dword_1513A0, dwo
 extern dword_1513B8, dword_1513BC, dword_1513C0, dword_1513C4, dword_1513C8, dword_1513CC, dword_1513D4, memlist1
 extern MemBlockGuards, dword_185738, dword_18573C, dword_185848, dword_1A11BC, dword_1A11C0, dword_1A11C4, dword_1A11C8
 extern dword_1A11CC, dword_1A11D0, dword_1A11D4, dword_1A11D8, dword_1A11DC, dword_1A11E0, fclose_, fopen_
-extern fprintf_, min_, off_1513B0, sprintf_, strncpy_, PutBlock, sub_AADA4, sub_ABF88
+extern fprintf_, min_, off_1513B0, sprintf_, strncpy_, PutBlock, PutBlockAtOwnPos, sub_ABF88
 extern sub_AC194, CompactDownLocked, CompactUpLocked, DebugSetLine, sub_ACCF8, sub_ACD24, sub_ACD38, FillRect
-extern sub_ADA80, sub_AFFD0, SaveTextState, SetDrawTarget, TextSetFont, sub_B31C0, sub_BF02C, sub_BF034
+extern sub_ADA80, TextSetColor, SaveTextState, SetDrawTarget, TextSetFont, NearestColour, sub_BF02C, sub_BF034
 extern sub_BF04B, initgraphics, sub_C2AEC, PrintBoxedText, ToUpperChar, sub_CFE0C, sub_CFE8C, sub_D0650
 extern DrawTextBoxedAt, sub_DC158, sub_DC17C, sub_DC780, sub_DC830, sub_DCB90, SetScreenTarget, GetPaletteRange
-extern FillRectColor, SetClipWindow, sub_DD7B8, KbdGetKey, sub_DFF7C, sub_E04E0, sub_E0584, PollHotkeys
+extern FillRectColor, SetClipWindow, sub_DD7B8, KbdGetKey, sub_DFF7C, FindShape, sub_E0584, PollHotkeys
 extern sub_E193C, sub_E1956, sub_E1970, unk_114440, unk_11444C, unk_114570, unk_114594, unk_11466C
 extern unk_114670, unk_1146A0, unk_1146A4, unk_1146CC, str_Un, unk_114930, unk_1213DC
 global sub_D7DB0_30, sub_D7DB0_147, sub_D7DB0_238, sub_D7FFC_2D, sub_D7FFC_4A, sub_D7DB0, sub_D7FFC, sub_D83B8
@@ -99,23 +99,23 @@ sub_D7DB0_30:
         mov dword [dword esp+0B0h], 1
 .3:
         push byte 0
-        call sub_B31C0
+        call NearestColour
         add esp, byte 4
         push dword 0FFFFFFh
         mov dword [dword_15139C], eax
-        call sub_B31C0
+        call NearestColour
         add esp, byte 4
         push dword 0FFFF54h
         mov dword [dword_1513A0], eax
-        call sub_B31C0
+        call NearestColour
         add esp, byte 4
         push dword 0D4A8h
         mov dword [dword_1513A4], eax
-        call sub_B31C0
+        call NearestColour
         add esp, byte 4
         push dword 0A80000h
         mov dword [dword_1513A8], eax
-        call sub_B31C0
+        call NearestColour
         mov ebp, dword [dword_1513C8]
         add esp, byte 4
         mov dword [dword_1513AC], eax
@@ -669,7 +669,7 @@ sub_D84AC:
         push edi
         mov eax, dword [dword_1513A4]
         push eax
-        call sub_AFFD0
+        call TextSetColor
         add esp, byte 8
         mov edx, dword [dword_15139C]
         push edx
@@ -866,7 +866,7 @@ sub_D84AC:
         push ecx
         mov eax, dword [dword_1A11CC]
         push eax
-        call sub_AFFD0
+        call TextSetColor
         mov edx, dword [byte ebp+07Ah]
         mov eax, esi
         sub eax, edx
@@ -988,7 +988,7 @@ sub_D84AC:
         push edx
         mov ebx, dword [dword_1513A8]
         push ebx
-        call sub_AFFD0
+        call TextSetColor
         mov ecx, dword [byte ebp+07Ah]
         mov eax, esi
         sub eax, ecx
@@ -1316,7 +1316,7 @@ sub_D8BFC:
         push esi
         mov edi, dword [dword_1513A4]
         push edi
-        call sub_AFFD0
+        call TextSetColor
         add esp, byte 8
         mov ebp, dword [byte esp+08h]
         push ebp
@@ -1356,7 +1356,7 @@ sub_D8BFC:
         push eax
         mov edx, dword [dword_15139C]
         push edx
-        call sub_AFFD0
+        call TextSetColor
         add esp, byte 8
         mov edi, 50h
         mov ah, byte [byte esp+09h]
@@ -1407,7 +1407,7 @@ sub_D8BFC:
         push ebp
         mov eax, dword [dword_1513A0]
         push eax
-        call sub_AFFD0
+        call TextSetColor
         add esp, byte 8
         mov bl, byte [byte esp+08h]
         lea ebp, [byte esi+0Ah]
@@ -2097,7 +2097,7 @@ sub_D9410:
         push ecx
         push edx
         push eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         pop ecx
         pop ebx
@@ -2148,7 +2148,7 @@ sub_D94C0:
         push esi
         mov edi, dword [dword_1513A4]
         push edi
-        call sub_AFFD0
+        call TextSetColor
         add esp, byte 8
         call sub_CFE0C
         push byte 60h
@@ -2190,7 +2190,7 @@ sub_D94C0:
         push eax
         mov eax, dword [byte esp+028h]
         push eax
-        call sub_E04E0
+        call FindShape
         mov eax, dword [eax]
         and eax, 0FFh
         add esp, byte 8
@@ -2273,7 +2273,7 @@ sub_D94C0:
         push ecx
         mov eax, dword [dword_1513A4]
         push eax
-        call sub_AFFD0
+        call TextSetColor
         add esp, byte 8
         mov edx, dword [byte esp+028h]
         push edx
@@ -2324,7 +2324,7 @@ sub_D94C0:
         jmp short .17
 .16:
         push edi
-        call sub_AADA4
+        call PutBlockAtOwnPos
 .17:
         add esp, byte 4
 .18:
@@ -2632,7 +2632,7 @@ sub_D98F4:
         push esi
         mov edi, dword [dword_1513A0]
         push edi
-        call sub_AFFD0
+        call TextSetColor
         add esp, byte 8
         push byte 60h
         push str_ShapeIsInvalidDraw
@@ -3229,7 +3229,7 @@ sub_D9D5C:
         and eax, 0FFh
         push ebx
         mov dword [dword esp+032Ch], eax
-        call sub_AFFD0
+        call TextSetColor
         add esp, byte 8
         mov ecx, dword [dword esp+0318h]
         push ecx
@@ -3243,7 +3243,7 @@ sub_D9D5C:
         mov edx, dword [dword_15139C]
         push edx
         push byte 4
-        call sub_AFFD0
+        call TextSetColor
         add esp, byte 8
         mov ebx, dword [dword esp+032Ch]
         push ebx
@@ -3256,7 +3256,7 @@ sub_D9D5C:
         mov ecx, dword [dword_15139C]
         push ecx
         push byte 2
-        call sub_AFFD0
+        call TextSetColor
         add esp, byte 8
         mov eax, dword [dword esp+0328h]
         push eax
@@ -3269,7 +3269,7 @@ sub_D9D5C:
         mov edx, dword [dword_15139C]
         push edx
         push byte 1
-        call sub_AFFD0
+        call TextSetColor
         add esp, byte 8
         mov ebx, dword [dword esp+0324h]
         push ebx
@@ -3308,7 +3308,7 @@ sub_DA2D4:
         mov ebp, 19h
         push ebx
         mov esi, ebp
-        call sub_AFFD0
+        call TextSetColor
         add esp, byte 8
 .1:
         push edi
@@ -3443,7 +3443,7 @@ sub_DA3D0:
         jmp short .4
 .3:
         push esi
-        call sub_AADA4
+        call PutBlockAtOwnPos
 .4:
         add esp, byte 4
 .5:

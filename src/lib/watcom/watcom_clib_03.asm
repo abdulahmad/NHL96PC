@@ -8,7 +8,7 @@ extern InvTabGStep, InvTabBStep, InvTabRMin, InvTabOut, InvTabDistBuf, InvTabGMi
 extern InvTabCell, InvTabRCenter, InvTabR, InvTabG, InvTabB, InvTabColor, InvTabRMax, InvTabGMax
 extern InvTabBMin, InvTabBMax, InvTabRow, InvTabPass, InvTabGLo, InvTabGHi, InvTabBLo, InvTabBHi
 extern InvTabGInc, InvTabBInc, InvTabDistInc, InvTabDistStart, InvTabFillPtr, InvTabFillCount, InvTabFillStep, InvTabFillDist
-extern isatty_, SerialPortTable, off_11FD5C, off_11FD60, sub_AB798, FreeMemBlock, LoadDataFileExt, DosGetVector
+extern isatty_, SerialPortTable, off_11FD5C, off_11FD60, AllocMemLocked, FreeMemBlock, LoadDataFileExt, DosGetVector
 extern DosSetVector, sub_C4DE0, sub_DD87C, AddExitHandler, DosOpenReadOnly, DosCloseFile, unk_11FD54, SerialPorts
 extern unk_11FD74, unk_1201B6, unk_1201C0, unk_120602, unk_12060C, unk_120A4E, unk_120A58, word_11FD68
 extern SerialBaudDivisors, word_120EC0
@@ -796,7 +796,7 @@ sub_B0CCC:
         push byte 0
         push dword 8000h
         push asc_1135E8
-        call sub_AB798
+        call AllocMemLocked
         mov edi, eax
         add esp, byte 0Ch
         mov ebp, eax
@@ -805,7 +805,7 @@ sub_B0CCC:
         push byte 0
         push dword 20000h
         push str_Inversetmp
-        call sub_AB798
+        call AllocMemLocked
         mov esi, eax
         add esp, byte 0Ch
         test eax, eax

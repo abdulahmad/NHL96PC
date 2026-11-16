@@ -4,7 +4,7 @@ bits 32
 section s_C39C2 progbits alloc exec nowrite align=1
 extern _Extender, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, dword_1228F0, DrawDestBuffer, dword_1228FC
 extern MemLockState
-global _dos_getvect_, _dos_setvect_, sub_C3A48_34, sub_C3A48, ResetMemLock
+global _dos_getvect_, _dos_setvect_, DrawShapeOpaque_34, DrawShapeOpaque, ResetMemLock
 ;-----------------------------------------------------------------------------
 ; _dos_setvect_                                                 C39C2  library
 ;-----------------------------------------------------------------------------
@@ -78,11 +78,13 @@ _dos_getvect_:
         sub ax, word [byte esi+0Ah]
         cwde
         mov dword [byte ebp-08h], eax
-        jmp short sub_C3A48_34
+        jmp short DrawShapeOpaque_34
 ;-----------------------------------------------------------------------------
-; sub_C3A48                                                            C3A48  
+; DrawShapeOpaque                                 C3A48  96 PC, low confidence
+; Draws a shape opaque at x, y, clipped to the clip rectangle; the draw at
+; its own position follows it
 ;-----------------------------------------------------------------------------
-sub_C3A48:
+DrawShapeOpaque:
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFE4h
@@ -94,7 +96,7 @@ sub_C3A48:
         mov dword [byte ebp-04h], eax
         mov eax, dword [byte ebp+010h]
         mov dword [byte ebp-08h], eax
-        jmp short sub_C3A48_34
+        jmp short DrawShapeOpaque_34
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFE8h
@@ -106,7 +108,7 @@ sub_C3A48:
         mov dword [byte ebp-04h], eax
         movsx eax, word [byte esi+0Eh]
         mov dword [byte ebp-08h], eax
-sub_C3A48_34:
+DrawShapeOpaque_34:
         mov ebx, dword [byte ebp-08h]
         movsx ecx, word [byte esi+06h]
         lea edx, [byte esi+010h]

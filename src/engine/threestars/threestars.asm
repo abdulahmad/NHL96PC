@@ -17,7 +17,7 @@ extern sprintf_, SprSort, str_fmt2d, str_MightyDucks, str_OfAnaheim, LinkResyncI
 extern AnimateBenchSprite, CrowdReactToPlay, AddZone, DrawGameFrame, GetPeriodText, SetCameraShot, EndCameraShot, UpdateCamera
 extern FreeSpriteCache, FadePalette, FadeOut, SetTextColors, DrawColorText, DrawColorTextRight, DrawColorTextCentred, DrawBox
 extern Crowd_Noise, CrowdFadeOut, CrowdReaction, PlayArenaClip, ArenaClipReady, StartArenaClip, StopArenaClip, SoundIdle
-extern GetLangText, sub_ADA80, sub_AFFD0, sub_B58D8, sub_B6140, FillRectColor, sub_DD7B8, SetRemapTable
+extern GetLangText, sub_ADA80, TextSetColor, sub_B58D8, sub_B6140, FillRectColor, sub_DD7B8, SetRemapTable
 extern TicksSinceLast, bcopy, sub_E0992, sub_E15AC, TextSetFont, unk_119D0A, unk_119D22, unk_119D36
 extern unk_119D4E, unk_156E6C, unk_157B82, unk_16443C, unk_164B5C, unk_164E7C, unk_165354, unk_17D3E8
 extern updateanim, vtoa, word_1178A0, word_1178A2, word_1178B4, HomeControlSlot, word_1178F8, word_118E9F
@@ -606,7 +606,7 @@ DrawOverlayPanels:
 .2:
         push byte 0
         push byte 30h
-        call sub_AFFD0
+        call TextSetColor
         add esp, byte 8
         push byte 18h
         lea eax, [byte ebp-030h]

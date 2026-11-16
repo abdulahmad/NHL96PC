@@ -8,7 +8,7 @@ extern memlist1, MemBlockGuards, MemDescriptorTop, MemLockHandle, dword_185738, 
 extern PathBaseName, MemLock, MemUnlock, bcopy
 global findmemblock, sub_AB834, AllocMemBlockEx, sub_ABD64, FreeMemBlock, sub_ABF88, PushMemDescriptor, MergeFreeSpace
 global sub_AC194, FindNamedBlock, FindMemBlockNamed, FindFreeSpace, FindCachedFileData, FindCachedFile, CompactDownLocked, CompactMemListDown
-global CompactUpLocked, CompactMemListUp, sub_AC838, sub_AC868, sub_AC89C, InitMemDescriptors, getmemblock, MemPtrSize
+global CompactUpLocked, CompactMemListUp, MemLargestFreeLocked, sub_AC868, MemLargestFree, InitMemDescriptors, getmemblock, MemPtrSize
 global MemDescPtr, MemDescSize, type_info__raw_name
 ;-----------------------------------------------------------------------------
 ; sub_AB834                                                            AB834  
@@ -220,7 +220,7 @@ AllocMemBlockEx:
         test edx, edx
         je short .14
         push dword 200h
-        call sub_AC89C
+        call MemLargestFree
         mov ebx, dword [dword_185738]
         add esp, byte 4
         cmp eax, ebx
@@ -228,7 +228,7 @@ AllocMemBlockEx:
         mov dword [dword_185738], eax
 .13:
         push byte 0
-        call sub_AC89C
+        call MemLargestFree
         mov ecx, dword [dword_18573C]
         add esp, byte 4
         cmp eax, ecx
@@ -367,7 +367,7 @@ AllocMemBlockEx:
         test ecx, ecx
         je short .28
         push dword 200h
-        call sub_AC89C
+        call MemLargestFree
         mov esi, dword [dword_185738]
         add esp, byte 4
         cmp eax, esi
@@ -375,7 +375,7 @@ AllocMemBlockEx:
         mov dword [dword_185738], eax
 .27:
         push byte 0
-        call sub_AC89C
+        call MemLargestFree
         mov edi, dword [dword_18573C]
         add esp, byte 4
         cmp eax, edi
@@ -1642,7 +1642,7 @@ CompactMemListUp:
         push ecx
         push edx
         push dword 200h
-        call sub_AC89C
+        call MemLargestFree
         mov edx, dword [dword_185738]
         add esp, byte 4
         cmp eax, edx
@@ -1650,7 +1650,7 @@ CompactMemListUp:
         mov dword [dword_185738], eax
 .13:
         push byte 0
-        call sub_AC89C
+        call MemLargestFree
         mov ebx, dword [dword_18573C]
         add esp, byte 4
         cmp eax, ebx
@@ -1664,16 +1664,17 @@ CompactMemListUp:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_AC838                                                            AC838  
+; MemLargestFreeLocked                            AC838  96 PC, low confidence
+; Returns the largest free gap in a memory list, with the memory lock held
 ;-----------------------------------------------------------------------------
-sub_AC838:
+MemLargestFreeLocked:
         push esi
         mov edx, dword [MemLockHandle]
         push edx
         call MemLock
         add esp, byte 4
         push byte 0
-        call sub_AC89C
+        call MemLargestFree
         add esp, byte 4
         mov ebx, dword [MemLockHandle]
         push ebx
@@ -1695,7 +1696,7 @@ sub_AC868:
         add esp, byte 4
         mov ebx, dword [byte esp+08h]
         push ebx
-        call sub_AC89C
+        call MemLargestFree
         add esp, byte 4
         mov ecx, dword [MemLockHandle]
         push ecx
@@ -1707,9 +1708,10 @@ sub_AC868:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_AC89C                                                            AC89C  
+; MemLargestFree                                  AC89C  96 PC, low confidence
+; Compacts a memory list when allowed, then returns its largest free gap
 ;-----------------------------------------------------------------------------
-sub_AC89C:
+MemLargestFree:
         push esi
         push edi
         mov edx, dword [byte esp+0Ch]

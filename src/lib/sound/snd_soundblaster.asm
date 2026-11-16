@@ -14,7 +14,7 @@ extern SbIrq, SbDmaBuffer, SbVersion, SbOldIrqOffset, SbDmaPos, SbProRealOldOffs
 extern SbProBlockSamples, SbProHalfBuffer, SbProDmaSize, SbProRate, SbProDma, SbProOldFilter, SbProIrq, SbProDmaBuffer
 extern SbProOldStereo, SbProVersion, SbProPort, SbProOldIrqOffset, SbProDmaPos, Sb16BlockSamples, Sb16DmaSize, Sb16HalfBuffer
 extern Sb16Rate, Sb16HighDma, Sb16ActiveDma, Sb16LowDma, Sb16Irq, Sb16DmaBuffer, Sb16Version, Sb16OldIrqOffset
-extern Sb16DmaPos, getenv_, SbProIsr, Sb16Isr, sub_AB798, FreeMemBlock, atoi_, DrawArtOpaque
+extern Sb16DmaPos, getenv_, SbProIsr, Sb16Isr, AllocMemLocked, FreeMemBlock, atoi_, DrawArtOpaque
 extern SpeechQueueService, SetChannelVolume, StopSoundChannel, FlushAudioStream, CrowdService, PickOutputRate, CallDriverService, MixerInit
 extern MixerFillBuffer, MixerStopChannel, strtoul_, WssCodecStart, WssCodecStop, WssSetVolume, DmaMaskChannel, DmaProgram
 extern DmaPlayedHalf, PicSendEoi, IrqUnmask, IrqMask, IrqSetHandler, InstallRealIrqStub, RemoveRealIrqStub, GusGetEnvConfig
@@ -507,7 +507,7 @@ WssOpen_BD:
         add eax, eax
         push eax
         push str_DMABUFFER
-        call sub_AB798
+        call AllocMemLocked
         add esp, byte 0Ch
         mov dword [WssDmaBuffer], eax
         test eax, eax
@@ -852,7 +852,7 @@ GusStart:
         push dword 200h
         push dword 2000h
         push str_DMABUFFER2
-        call sub_AB798
+        call AllocMemLocked
         add esp, byte 0Ch
         mov dword [GusDriverDmaBuf], eax
         test eax, eax
@@ -1144,7 +1144,7 @@ SbOpen:
         add eax, eax
         push eax
         push str_DMABUFFER3
-        call sub_AB798
+        call AllocMemLocked
         add esp, byte 0Ch
         mov dword [SbDmaBuffer], eax
         test eax, eax
@@ -1481,7 +1481,7 @@ SbProOpen:
         add eax, eax
         push eax
         push str_DMABUF
-        call sub_AB798
+        call AllocMemLocked
         add esp, byte 0Ch
         mov dword [SbProDmaBuffer], eax
         test eax, eax
@@ -1898,7 +1898,7 @@ Sb16Open:
         add eax, eax
         push eax
         push str_DMABUF2
-        call sub_AB798
+        call AllocMemLocked
         add esp, byte 0Ch
         mov dword [Sb16DmaBuffer], eax
         test eax, eax

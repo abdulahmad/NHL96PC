@@ -10,9 +10,9 @@ extern JoyY1Center, JoyY1MaxSeen, JoyY1Settle, JoyX2Min, JoyX2Max, JoyXScale, Jo
 extern BreakCallFunc, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, exit_, joyenablemask, BiosKeyFunc
 extern FillRect, RestoreDS, DosGetVector, DosSetVector, Random32, tickcount, tickdeadline, unk_AA7B0
 extern JoyAxisValues, word_11F914, word_11F918, word_11F91C, SavedBreakSelector, BreakDataSelector
-global GetTicks, SetTickDeadline, TickDeadlinePassed, TicksSince, WaitKey, WaitTickDeadline, sub_E04E7_2, sub_E0584_30
+global GetTicks, SetTickDeadline, TickDeadlinePassed, TicksSince, WaitKey, WaitTickDeadline, FindShapeQuiet_2, sub_E0584_30
 global TicksSinceLast, WaitTicks, KbdGetKey, sub_DFF45, KbdPeekKey, SetKbdIdleHook, sub_DFF7C, CalibrateJoystick
-global ReadJoystickPorts, sub_E0456, sub_E0486, AddExitHandler, sub_E04D9, sub_E04E0, sub_E04E7, bcopy
+global ReadJoystickPorts, sub_E0456, sub_E0486, AddExitHandler, ExitProgram, FindShape, FindShapeQuiet, bcopy
 global sub_E0584, InstallBreakHandler, RemoveBreakHandler
 ;-----------------------------------------------------------------------------
 ; GetTicks                                     DFEB4  95 PC, medium confidence
@@ -625,20 +625,28 @@ AddExitHandler:
         mov eax, dword [byte esp+04h]
         jmp near atexit_
 ;-----------------------------------------------------------------------------
-; sub_E04D9                                                            E04D9  
+; ExitProgram                                  E04D9  96 PC, medium confidence
+; Exits the program with code 0
 ;-----------------------------------------------------------------------------
-sub_E04D9:
+ExitProgram:
         LD xor, eax, eax
         call exit_
-sub_E04E0:
+;-----------------------------------------------------------------------------
+; FindShape                                    E04E0  96 PC, medium confidence
+; Finds a shape by id in a shape bank (bank, &id) and stops with "shape not
+; found" when it is missing
+;-----------------------------------------------------------------------------
+FindShape:
         mov ebx, unk_AA7B0
-        jmp short sub_E04E7_2
+        jmp short FindShapeQuiet_2
 ;-----------------------------------------------------------------------------
-; sub_E04E7                                                            E04E7  
+; FindShapeQuiet                               E04E7  96 PC, medium confidence
+; Finds a shape by id in a shape bank (bank, &id); returns 0 when it is
+; missing
 ;-----------------------------------------------------------------------------
-sub_E04E7:
+FindShapeQuiet:
         LD xor, ebx, ebx
-sub_E04E7_2:
+FindShapeQuiet_2:
         mov edx, dword [byte esp+04h]
         mov eax, dword [byte esp+08h]
         mov eax, dword [eax]

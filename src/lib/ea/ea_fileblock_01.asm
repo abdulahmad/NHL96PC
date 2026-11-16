@@ -4,7 +4,7 @@ bits 32
 section s_AC9F0 progbits alloc exec nowrite align=1
 extern str_DBUGTXT, str_FILES, str_DATES, str_TIMES, str_CLOSED, str_TIMES2, byte_11F9D8, byte_11F9D9
 extern byte_11F9DA, DebugMode, dword_11F9D0, DebugLineWidth, dword_11F9DC, fclose_, fopen_, sub_ACED8
-extern sub_ACF68, sub_AD00C, bcopy, sub_E1836, unk_113444, vsprintf_
+extern sub_ACF68, sub_AD00C, bcopy, ZeroMem, unk_113444, vsprintf_
 global DebugPrintf, DebugShowLines_D5, DebugShowLines_E6, DebugShowLines_124, DebugShowLines_140, DebugShowLines_149, DebugSetLine, DebugShowLines
 global sub_ACC74, sub_ACCF8, sub_ACD24, sub_ACD38, unk_ACABC
 ;-----------------------------------------------------------------------------
@@ -256,7 +256,7 @@ sub_ACC74:
         add eax, 0F00h
         push eax
         mov esi, 0F00h
-        call sub_E1836
+        call ZeroMem
         add esp, byte 8
         mov dword [DebugLineWidth], esi
 .1:

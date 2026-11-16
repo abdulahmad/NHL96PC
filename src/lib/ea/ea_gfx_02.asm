@@ -4,10 +4,10 @@ bits 32
 section s_AD680 progbits alloc exec nowrite align=1
 extern byte_11FA2C, byte_11FA2D, byte_11FA2E, byte_11FA30, dword_11FA34, dword_11FA3C, ScreenWidth, ClipTopRow
 extern ClipLeftCol, ClipRight, ScreenHeight, KeyedDraw, dword_1228FC, dword_122930, dword_123934, FreeMemBlock
-extern sub_ABF88, removewindow, SetScreenTarget, VesaSetBank, sub_DEC41, sub_DED6D, sub_E0584, sub_E1824
+extern sub_ABF88, removewindow, SetScreenTarget, VesaSetBank, sub_DEC41, sub_DED6D, sub_E0584, FillMem
 extern sub_E193C, sub_E1956
 global fputchar, mem_putc_, FillRect, sub_AD824, sub_AD8A8, sub_AD9DC, sub_ADA50, sub_ADA80
-global sub_ADB30, sub_ADBEC
+global sub_ADB30, FreeBitmap
 ;-----------------------------------------------------------------------------
 ; FillRect                                     AD680  95 PC, medium confidence
 ;-----------------------------------------------------------------------------
@@ -81,7 +81,7 @@ FillRect:
         push ebx
         add eax, esi
         push eax
-        call sub_E1824
+        call FillMem
         add esp, byte 0Ch
         add esi, dword [byte esp+0Ch]
         dec edi
@@ -108,7 +108,7 @@ FillRect:
         sub edx, esi
         push edx
         push eax
-        call sub_E1824
+        call FillMem
         add esp, byte 0Ch
         mov ebx, dword [byte esp+08h]
         inc ebx
@@ -129,7 +129,7 @@ FillRect:
         push eax
         mov esi, edi
 .8:
-        call sub_E1824
+        call FillMem
         add esp, byte 0Ch
         add esi, dword [esp]
         test esi, 10000h
@@ -580,9 +580,10 @@ fputchar:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_ADBEC                                                            ADBEC  
+; FreeBitmap                                   ADBEC  96 PC, medium confidence
+; Removes a bitmap's window and frees its memory
 ;-----------------------------------------------------------------------------
-sub_ADBEC:
+FreeBitmap:
         mov edx, dword [byte esp+04h]
         mov eax, dword [byte edx+028h]
         sub eax, byte 8

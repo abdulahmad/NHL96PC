@@ -10,11 +10,11 @@ extern _Extender, _ExtenderSubtype, _osmajor, byte_19BA44, dword_11F5A0, MousePr
 extern dword_11F5C8, HeapList, dword_1210CC, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, KeyedDraw
 extern DrawDestBuffer, dword_1228FC, dword_124109, __NHandles, __io_mode, dword_12417C, dword_1241A0, CMainEnv
 extern CMainResult, dword_12443C, dword_124440, dword_19F2D0, dword_19F2D4, ScaledRowBuffer, CMainArgc, CMainArgv
-extern exit_, fputc_, getcwd_, joycalactive, joyenablemask, sub_E1836_29, main_, off_14F074
-extern off_14F078, sprintf_, stricmp_, sub_AA9CC, sub_AC838, sub_AD35C, FillRect, sub_ADBEC
-extern sub_AFFD0, SaveTextState, SetDrawTarget, TextSetFont, sub_B2C54, InitMemoryPoolDefault, sub_B3145, sub_B31C0
-extern FileSizeByName, AddVec3, OriScaleVector, sub_BD86C, sub_BEAE4, initgraphics, sub_C2AEC, sub_C4CCC
-extern sub_C4D80, InitFpuFlags, sub_D0650, CMainHook, __CommonInit_, sub_D06FC, sub_D077C, sub_D1080
+extern exit_, fputc_, getcwd_, joycalactive, joyenablemask, ZeroMem_29, main_, off_14F074
+extern off_14F078, sprintf_, stricmp_, sub_AA9CC, MemLargestFreeLocked, CreateBitmap, FillRect, FreeBitmap
+extern TextSetColor, SaveTextState, SetDrawTarget, TextSetFont, DrawArtOpaqueAtOwnPos, InitMemoryPoolDefault, sub_B3145, NearestColour
+extern FileSizeByName, AddVec3, OriScaleVector, InitReciprocalTable, sub_BEAE4, initgraphics, sub_C2AEC, ArtBitDepth
+extern PixelToRgb, InitFpuFlags, sub_D0650, CMainHook, __CommonInit_, sub_D06FC, sub_D077C, sub_D1080
 extern sub_D1280, DrawTextBoxedAt, sub_D1860, sub_D1920, sub_D19BC, sub_D1A88, sub_D1B3C, sub_D1BEC
 extern sub_D1CE0, SetScreenTarget, SetClipWindow, sub_DD830, sub_DD87C, SetBlitSource, CopyMappedSpan, CopyScaledSpanShadow
 extern CopyScaledSpan, PlotPixel, PlotPixelClipped, VesaSetBank, sub_DF22C, sub_DF2CC, sub_DF38C, sub_DF44C
@@ -183,7 +183,7 @@ DrawEllipse:
         cmp edx, 0FFh
         jne short .1
         push eax
-        call sub_B31C0
+        call NearestColour
         add esp, byte 4
         push eax
         mov edi, dword [byte esp+020h]
@@ -213,7 +213,7 @@ DrawEllipse:
         call PlotPixel
         add esp, byte 8
         push eax
-        call sub_C4D80
+        call PixelToRgb
         add esp, byte 4
         mov ebx, eax
         mov ecx, eax
@@ -261,7 +261,7 @@ DrawEllipse:
         call min_
         or eax, ebx
         push eax
-        call sub_B31C0
+        call NearestColour
         add esp, byte 4
         push eax
         mov ecx, dword [byte esp+020h]
@@ -641,7 +641,7 @@ JoystickCalibrateScreen:
         sub esp, 0A0h
         mov dword [joycalactive], 1
         call dword [off_14F074]
-        call sub_AC838
+        call MemLargestFreeLocked
         sar eax, 4
         cmp eax, 0FA0h
         jl near .4
@@ -681,7 +681,7 @@ JoystickCalibrateScreen:
         sar edx, 1Fh
         idiv ebx
         push eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push eax
         mov ebp, eax
@@ -743,10 +743,10 @@ JoystickCalibrateScreen:
         add esp, byte 4
         push byte 0
         push dword 3FFFFFCh
-        call sub_B31C0
+        call NearestColour
         add esp, byte 4
         push eax
-        call sub_AFFD0
+        call TextSetColor
         mov edx, dword [dword_11F5C4]
         lea eax, [nosplit edx*8+00h]
         add eax, edx
@@ -798,7 +798,7 @@ JoystickCalibrateScreen:
         call sub_D0650
         add esp, byte 8
         push dword 3FFFFFCh
-        call sub_B31C0
+        call NearestColour
         mov edi, dword [dword_11F5C4]
         imul edx, edi, byte 5Bh
         add esp, byte 4
@@ -837,7 +837,7 @@ JoystickCalibrateScreen:
         call FillRect
         add esp, byte 14h
         push dword 3FFFFFCh
-        call sub_B31C0
+        call NearestColour
         add esp, byte 4
         push eax
         imul edx, dword [dword_11F5C4], byte 5Bh
@@ -878,7 +878,7 @@ JoystickCalibrateScreen:
         call FillRect
         add esp, byte 14h
         push dword 3FFFFFCh
-        call sub_B31C0
+        call NearestColour
         add esp, byte 4
         push eax
         mov eax, dword [dword_11F5C4]
@@ -924,7 +924,7 @@ JoystickCalibrateScreen:
         call FillRect
         add esp, byte 14h
         push dword 3FFFFFCh
-        call sub_B31C0
+        call NearestColour
         add esp, byte 4
         push eax
         mov eax, dword [dword_11F5C4]
@@ -1022,7 +1022,7 @@ JoystickCalibrateScreen:
         cmp esi, byte 24h
         jne short .2
         push dword 2A00000h
-        call sub_B31C0
+        call NearestColour
         imul edx, dword [dword_11F5C4], byte 18h
         add esp, byte 4
         push eax
@@ -1061,10 +1061,10 @@ JoystickCalibrateScreen:
 .3:
         mov edx, dword [byte ebp+02Ch]
         push edx
-        call sub_B2C54
+        call DrawArtOpaqueAtOwnPos
         add esp, byte 4
         push ebp
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         lea eax, [byte esp+060h]
         push eax
@@ -1360,14 +1360,14 @@ InitSystem:
         call TextSetFont
         add esp, byte 4
         push dword 0FF000000h
-        call sub_B31C0
+        call NearestColour
         add esp, byte 4
         push eax
         push byte 0FFFFFFFFh
-        call sub_B31C0
+        call NearestColour
         add esp, byte 4
         push eax
-        call sub_AFFD0
+        call TextSetColor
         add esp, byte 8
         call SetScreenTarget
         cmp dword [MousePresent], byte 0
@@ -1382,7 +1382,7 @@ InitSystem:
         push sub_DFB84
         call InstallBreakHandler
         add esp, byte 4
-        push sub_E1836_29
+        push ZeroMem_29
         call SetKbdIdleHook
         add esp, byte 4
         call sub_D1280
@@ -1399,7 +1399,7 @@ InitSystem:
         call SetViewScreenOrigin
         add esp, byte 8
         call sub_BEAE4
-        call sub_BD86C
+        call InitReciprocalTable
         push unk_18584C
         push dword 100h
         push byte 0
@@ -2441,14 +2441,14 @@ RasterMappedTriangle:
         xor edx, edx
         push esi
         mov dword [byte esp+06Ch], edx
-        call sub_C4CCC
+        call ArtBitDepth
         add esp, byte 4
         cmp eax, byte 20h
         jne short .1
         mov dword [byte esp+068h], 2
 .1:
         push esi
-        call sub_C4CCC
+        call ArtBitDepth
         add esp, byte 4
         cmp eax, byte 10h
         jne short .2
@@ -3343,14 +3343,14 @@ RasterMappedTriangleShadow:
         xor edx, edx
         push esi
         mov dword [byte esp+06Ch], edx
-        call sub_C4CCC
+        call ArtBitDepth
         add esp, byte 4
         cmp eax, byte 20h
         jne short .1
         mov dword [byte esp+068h], 2
 .1:
         push esi
-        call sub_C4CCC
+        call ArtBitDepth
         add esp, byte 4
         cmp eax, byte 10h
         jne short .2
@@ -4246,14 +4246,14 @@ RasterShapeTriangle:
         xor edx, edx
         push esi
         mov dword [byte esp+06Ch], edx
-        call sub_C4CCC
+        call ArtBitDepth
         add esp, byte 4
         cmp eax, byte 20h
         jne short .1
         mov dword [byte esp+068h], 2
 .1:
         push esi
-        call sub_C4CCC
+        call ArtBitDepth
         add esp, byte 4
         cmp eax, byte 10h
         jne short .2

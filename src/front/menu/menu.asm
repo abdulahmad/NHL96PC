@@ -17,8 +17,8 @@ extern str_Bb02d, str_Bb10, str_Bb11, str_Bb19, str_Bb20, str_Bkgd5, str_Bt013, 
 extern str_Bt02d, str_Bt102, str_Bt112, str_Bt19, str_Bt20, str_Bt28, str_Bt29, str_Hig1
 extern str_Hig2, str_Hig3, str_HILITESNDX, str_LOCALNDX2, str_Opt1, str_Opt2, str_Opt3, str_Pal11
 extern str_Sta1, str_Sta2, str_Sta3, str_Use1, str_Use2, str_Use3, GetLangText, DrawShapeCore
-extern sub_AAA40, sub_AADA4, FreeMemBlock, sub_AD35C, sub_ADA50, sub_ADBEC, SumRingRange, SetScreenTarget
-extern sub_DFE9C, sub_E04E0, sub_E0584, vecdist, WaitRetrace, WaitRetraceEdges, word_114CE0, word_114CE4
+extern DrawArt, PutBlockAtOwnPos, FreeMemBlock, CreateBitmap, sub_ADA50, FreeBitmap, SumRingRange, SetScreenTarget
+extern sub_DFE9C, FindShape, sub_E0584, vecdist, WaitRetrace, WaitRetraceEdges, word_114CE0, word_114CE4
 extern word_11D1B4, word_11D1B6, word_11D1B8, word_11D1BA, word_11D1C4, word_17C464, word_17C466, word_17C468
 extern word_17C46A, word_17C46C, word_17C46E, word_17C470
 global InitMenuItems, PollMenuInput, SetMenuMoveSfx, SetMenuSelectSfx, sub_64E74, sub_64F47, RunMenu, SetMenuMouse
@@ -880,7 +880,7 @@ RunMenu:
         push dword [byte esi+026h]
         push dword [byte esi+01Ah]
 .20:
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
 .21:
         inc dword [byte ebp+036h]
@@ -1409,7 +1409,7 @@ RunMenu:
         push byte 0
         push dword [dword_17C40C]
         push dword [dword_17C410]
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push eax
         mov dword [dword_17C418], eax
@@ -1421,7 +1421,7 @@ RunMenu:
         push byte 0
         push byte 0
         push dword [dword_17C424]
-        call sub_AAA40
+        call DrawArt
         mov eax, dword [dword_11D1AC]
         add esp, byte 0Ch
         sub eax, dword [byte edi+02Ah]
@@ -1430,7 +1430,7 @@ RunMenu:
         sub eax, dword [byte edi+026h]
         push eax
         push dword [dword_152F58]
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         call SetScreenTarget
         mov eax, dword [dword_152F58]
@@ -1507,7 +1507,7 @@ RunMenu:
         cmp dword [byte ebp+042h], byte 0
         jne near .104
         push dword [dword_17C418]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         mov eax, dword [dword_17C424]
         push dword [dword_152F54]
@@ -1716,7 +1716,7 @@ RunMenu:
         push byte 0
         push dword [dword_17C428]
         push dword [dword_17C42C]
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push eax
         mov dword [dword_17C408], eax
@@ -1728,7 +1728,7 @@ RunMenu:
         push byte 0
         push byte 0
         push dword [dword_17C404]
-        call sub_AAA40
+        call DrawArt
         mov edx, dword [byte ebp+072h]
         mov eax, dword [byte ebp-012h]
         add esp, byte 0Ch
@@ -1738,7 +1738,7 @@ RunMenu:
         sub eax, dword [byte edx+026h]
         push eax
         push dword [dword_152F50]
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         call SetScreenTarget
         mov eax, dword [dword_152F50]
@@ -1813,7 +1813,7 @@ RunMenu:
         cmp dword [byte ebp-016h], byte 0
         jne near .132
         push dword [dword_17C408]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         mov esi, dword [byte ebp-01Eh]
         mov eax, dword [dword_17C404]
@@ -1978,7 +1978,7 @@ RunMenu:
         push dword [byte esi+026h]
         push dword [byte esi+01Ah]
 .150:
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
 .151:
         inc dword [byte ebp+03Eh]
@@ -2104,7 +2104,7 @@ RunMenu:
         push dword [byte ebp+05Eh]
         push dword [dword_17C45C]
         mov dword [byte ebp+05Ah], 1
-        call sub_AAA40
+        call DrawArt
         mov word [word_17C464], 1
         jmp short .168
 .165:
@@ -2135,7 +2135,7 @@ RunMenu:
         push dword [byte ebp+05Eh]
         push dword [dword_152F58]
         mov dword [byte ebp+05Ah], 1
-        call sub_AAA40
+        call DrawArt
         mov word [word_17C464], 0
 .168:
         add esp, byte 0Ch
@@ -2178,7 +2178,7 @@ RunMenu:
         push dword [byte ebp+04Eh]
         push dword [dword_17C460]
         mov dword [byte ebp+056h], 1
-        call sub_AAA40
+        call DrawArt
         mov word [word_17C466], 1
         jmp short .171
 .170:
@@ -2195,7 +2195,7 @@ RunMenu:
         push dword [byte ebp-0Eh]
         push dword [dword_152F50]
         mov dword [byte ebp+056h], 1
-        call sub_AAA40
+        call DrawArt
         mov word [word_17C466], 0
 .171:
         add esp, byte 0Ch
@@ -2394,7 +2394,7 @@ MainMenuScreen:
         push eax
         mov esi, eax
         mov dword [byte ebp+076h], eax
-        call sub_E04E0
+        call FindShape
         add eax, byte 10h
         add esp, byte 8
         mov dword [byte ebp+06Eh], eax
@@ -2406,10 +2406,10 @@ MainMenuScreen:
         call BlackPalette
         push str_Bkgd5
         push esi
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         lea edx, [dword ebp-048Ah]
         mov eax, 8
@@ -2424,34 +2424,34 @@ MainMenuScreen:
 MainMenuScreen_B4:
         push str_Bt013
         push esi
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Bt023
         jmp short MainMenuScreen_F3.1
 MainMenuScreen_C9:
         push str_Bt102
         push esi
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Bt112
         jmp short MainMenuScreen_F3.1
 MainMenuScreen_DE:
         push str_Bt19
         push esi
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Bt20
         jmp short MainMenuScreen_F3.1
 MainMenuScreen_F3:
         push str_Bt28
         push esi
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Bt29
 .1:
         push esi
         mov dword [dword ebp-0470h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword ebp-046Ch], eax
 .2:
@@ -2483,27 +2483,27 @@ MainMenuScreen_F3:
         jne short .7
         push str_Bb01
         push dword [byte ebp+076h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Bb02
         jmp short .6
 .4:
         push str_Bb10
         push dword [byte ebp+076h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Bb11
         jmp short .6
 .5:
         push str_Bb19
         push dword [byte ebp+076h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Bb20
 .6:
         push dword [byte ebp+076h]
         mov dword [dword ebp-040Ah], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword ebp-0406h], eax
 .7:
@@ -2523,17 +2523,17 @@ MainMenuScreen_F3:
         mov byte [dword ebp-03E0h], 0
         mov dword [dword ebp-03F2h], 33h
         mov dword [dword ebp-03FAh], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Sta2
         push dword [byte ebp+076h]
         mov dword [dword ebp-03A4h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Sta3
         push dword [byte ebp+076h]
         mov dword [dword ebp-03A0h], eax
-        call sub_E04E0
+        call FindShape
         mov dword [dword ebp-039Ch], eax
         lea eax, [dword ebp-0DAh]
         mov dword [dword ebp-03AAh], eax
@@ -2552,17 +2552,17 @@ MainMenuScreen_F3:
         mov byte [dword ebp-037Bh], 4
         mov byte [dword ebp-0379h], 3
         mov dword [dword ebp-0394h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Use2
         push dword [byte ebp+076h]
         mov dword [dword ebp-033Eh], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Use3
         push dword [byte ebp+076h]
         mov dword [dword ebp-033Ah], eax
-        call sub_E04E0
+        call FindShape
         mov dword [dword ebp-0336h], eax
         lea eax, [dword ebp-09Ah]
         mov dword [dword ebp-0344h], eax
@@ -2581,17 +2581,17 @@ MainMenuScreen_F3:
         mov byte [dword ebp-0315h], 5
         mov byte [dword ebp-0314h], 2
         mov dword [dword ebp-032Eh], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword ebp-02D8h], eax
         push str_Opt2
         push dword [byte ebp+076h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Opt3
         push dword [byte ebp+076h]
         mov dword [dword ebp-02D4h], eax
-        call sub_E04E0
+        call FindShape
         mov dword [dword ebp-02D0h], eax
         lea eax, [byte ebp-05Ah]
         mov dword [dword ebp-02DEh], eax
@@ -2610,17 +2610,17 @@ MainMenuScreen_F3:
         mov byte [dword ebp-02AFh], 6
         mov byte [dword ebp-02ADh], 5
         mov dword [dword ebp-02C8h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Hig2
         push dword [byte ebp+076h]
         mov dword [dword ebp-0272h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Hig3
         push dword [byte ebp+076h]
         mov dword [dword ebp-026Eh], eax
-        call sub_E04E0
+        call FindShape
         mov dword [dword ebp-026Ah], eax
         lea eax, [byte ebp-01Ah]
         mov dword [dword ebp-0278h], eax
@@ -2662,12 +2662,12 @@ MainMenuScreen_F3:
         mov byte [dword ebp-017Bh], 7
         push dword [dword ebp-0470h]
         mov byte [dword ebp-017Dh], 7
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         push dword [dword ebp-03FAh]
         push dword [dword ebp-03FEh]
         push dword [dword ebp-040Ah]
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         call GetInputDevices
         call MusicDone
@@ -2739,7 +2739,7 @@ MainMenuScreen_621:
 MainMenuScreen_671:
         push str_Bt013
         push dword [byte ebp+076h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Bt023
         mov dword [byte ebp+07Eh], 1Eh
@@ -2747,7 +2747,7 @@ MainMenuScreen_671:
 .13:
         push dword [byte ebp+076h]
         mov dword [dword ebp-0470h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword ebp-046Ch], eax
 .14:
@@ -2763,10 +2763,10 @@ MainMenuScreen_671:
         lea eax, [byte ebp+062h]
         push eax
         push dword [byte ebp+076h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         inc dword [byte ebp+07Eh]
         call GetTicks
@@ -2780,7 +2780,7 @@ MainMenuScreen_671:
 MainMenuScreen_6FC:
         push str_Bt102
         push dword [byte ebp+076h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Bt112
         mov dword [byte ebp+07Eh], 3
@@ -2789,7 +2789,7 @@ MainMenuScreen_6FC:
 MainMenuScreen_724:
         push str_Bt19
         push dword [byte ebp+076h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Bt20
         mov dword [byte ebp+07Eh], 0Ch
@@ -2798,7 +2798,7 @@ MainMenuScreen_724:
 MainMenuScreen_74C:
         push str_Bt28
         push dword [byte ebp+076h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Bt29
         mov dword [byte ebp+07Eh], 15h
@@ -2835,7 +2835,7 @@ MainMenuScreen_774:
         jne near .21
         push str_Bb01
         push dword [byte ebp+076h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Bb02
         mov dword [byte ebp+07Eh], 15h
@@ -2844,7 +2844,7 @@ MainMenuScreen_774:
 .18:
         push str_Bb10
         push dword [byte ebp+076h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Bb11
         mov dword [byte ebp+07Eh], 3
@@ -2853,7 +2853,7 @@ MainMenuScreen_774:
 .19:
         push str_Bb19
         push dword [byte ebp+076h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Bb20
         mov dword [byte ebp+07Eh], 0Ch
@@ -2861,7 +2861,7 @@ MainMenuScreen_774:
 .20:
         push dword [byte ebp+076h]
         mov dword [dword ebp-040Ah], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword ebp-0406h], eax
 .21:
@@ -2877,10 +2877,10 @@ MainMenuScreen_774:
         lea eax, [byte ebp+062h]
         push eax
         push dword [byte ebp+076h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         inc dword [byte ebp+07Eh]
         call GetTicks

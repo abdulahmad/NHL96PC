@@ -25,8 +25,8 @@ extern str_Ctr02, str_Ctr12, str_D16, str_Edt02, str_Edt12, str_EXHIBITNDX3, str
 extern str_GhiL3, str_GhiR3, str_GloL3, str_GloR3, str_Paus, str_PAUSREG, str_Qui02, str_Qui12
 extern str_Qui22, str_Rep0, str_Rep1, str_Ret02, str_Ret12, str_Ret22, str_Sav02, str_Sav12
 extern str_Sid12, str_Sid22, str_Sts02, str_Sts12, strcat_, strcpy_, RefreshControlSlots, ReplayBufferEnd
-extern AddZone, ReplayScreen, RunReplay, DrawShapeAtOwnPos, sub_AAA40, AllocMemBlock, FreeMemBlock, sub_AD35C
-extern sub_ADBEC, sub_B0CA8, SaveDataFile, sub_B58D8, sub_BB8E0, SetScreenTarget, sub_E04E0, sub_E0584
+extern AddZone, ReplayScreen, RunReplay, DrawShapeAtOwnPos, DrawArt, AllocMemBlock, FreeMemBlock, CreateBitmap
+extern FreeBitmap, sub_B0CA8, SaveDataFile, sub_B58D8, DrawArtScaled, SetScreenTarget, FindShape, sub_E0584
 extern TextSetFont, unk_11D7A4, unk_11D7BC, unk_11D7D4, unk_11D7EC, unk_11D804, unk_11D80A, unk_11D810
 extern unk_11D816, unk_11D81C, unk_11D89C, unk_16443C, unk_17CB2E, unk_17CED5, unk_17D3E8, unk_17D52C
 extern UpdateCamera, word_114CE0, word_114F14, word_117902, word_11D927, word_11D929, word_1656E8, word_16581E
@@ -120,7 +120,7 @@ DrawPauseButtons:
 .2:
         push str_Qui02
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         movsx edx, word [byte eax+0Eh]
         add esp, byte 8
         sub edx, esi
@@ -129,11 +129,11 @@ DrawPauseButtons:
         sub edx, edi
         push edx
         push eax
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         push str_Ret02
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         movsx edx, word [byte eax+0Eh]
         add esp, byte 8
         sub edx, esi
@@ -142,7 +142,7 @@ DrawPauseButtons:
         sub edx, edi
         push edx
         push eax
-        call sub_AAA40
+        call DrawArt
         mov eax, dword [dword_17D4F0]
         movsx eax, word [eax]
         add esp, byte 0Ch
@@ -154,10 +154,10 @@ DrawPauseButtons:
         push eax
         push str_Rep0
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AAA40
+        call DrawArt
         mov eax, dword [dword_17D4F0]
         movsx eax, word [byte eax+02h]
         add esp, byte 0Ch
@@ -169,10 +169,10 @@ DrawPauseButtons:
         push eax
         push str_Ctr02
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AAA40
+        call DrawArt
         mov eax, dword [dword_17D4F0]
         movsx eax, word [byte eax+02h]
         add esp, byte 0Ch
@@ -184,10 +184,10 @@ DrawPauseButtons:
         push eax
         push str_Sts02
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AAA40
+        call DrawArt
         mov ax, word [word_114CE0]
         xor ah, ah
         and al, 1
@@ -205,10 +205,10 @@ DrawPauseButtons:
         push eax
         push str_Edt02
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AAA40
+        call DrawArt
         mov eax, dword [dword_17D4F0]
         movsx eax, word [byte eax+04h]
         add esp, byte 0Ch
@@ -232,10 +232,10 @@ DrawPauseButtons:
         push str_Cht02
 .4:
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         jmp near DrawPauseFrame_9C3
 ;-----------------------------------------------------------------------------
@@ -820,13 +820,13 @@ DrawPauseFrame:
         mov eax, dword [dword_17D514]
         push dword [byte eax+02Ch]
         push dword [byte ebp-018h]
-        call sub_BB8E0
+        call DrawArtScaled
         add esp, byte 10h
         jmp near DrawPauseFrame_9C2
 .28:
         push str_Paus
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         mov esi, eax
         mov eax, dword [dword_17D520]
         add esp, byte 8
@@ -836,11 +836,11 @@ DrawPauseFrame:
         movsx eax, word [byte eax+06h]
         push eax
         push esi
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         push str_Sid12
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         movsx ebx, word [byte eax+0Eh]
         movsx edx, word [byte esi+0Eh]
         sub ebx, edx
@@ -857,11 +857,11 @@ DrawPauseFrame:
         add edx, ebx
         push edx
         push eax
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         push str_Sid22
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         movsx ebx, word [byte eax+0Eh]
         movsx edx, word [byte esi+0Eh]
         mov edi, dword [dword_17D520]
@@ -879,11 +879,11 @@ DrawPauseFrame:
         add edx, ebx
         push edx
         push eax
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         push str_Bot12
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         movsx ebx, word [byte eax+0Eh]
         movsx edx, word [byte esi+0Eh]
         sub ebx, edx
@@ -902,11 +902,11 @@ DrawPauseFrame:
         add edx, ebx
         push edx
         push eax
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         push str_Bot22
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         movsx edx, word [byte eax+0Eh]
         movsx ebx, word [byte esi+0Eh]
         mov edi, dword [dword_17D520]
@@ -924,11 +924,11 @@ DrawPauseFrame:
         add edx, ebx
         push edx
         push eax
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         push str_Bot32
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         movsx edx, word [byte eax+0Eh]
         movsx ebx, word [byte esi+0Eh]
         mov edi, dword [dword_17D520]
@@ -946,16 +946,16 @@ DrawPauseFrame:
         add edx, ebx
         push edx
         push eax
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         call FreeSpriteCache
         push dword [dword_17D514]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         push byte 0
         push dword [dword_11F5C4]
         push dword [dword_11F5C0]
-        call sub_AD35C
+        call CreateBitmap
         mov dword [dword_17D518], eax
         mov eax, dword [byte eax+02Ch]
         mov word [byte eax+0Ch], 0
@@ -1383,17 +1383,17 @@ PauseMenu:
         call InitMenuItems
         push str_Qui02
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Qui12
         push dword [dword_17D528]
         mov dword [dword ebp-0270h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Qui22
         push dword [dword_17D528]
         mov dword [dword ebp-026Ch], eax
-        call sub_E04E0
+        call FindShape
         mov dword [dword ebp-0268h], eax
         mov eax, dword [dword_17D4E8]
         mov dword [dword ebp-0276h], eax
@@ -1421,17 +1421,17 @@ PauseMenu:
         add edx, eax
         mov byte [dword ebp-0248h], 4
         mov dword [dword ebp-024Ch], edx
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Ret12
         push dword [dword_17D528]
         mov dword [dword ebp-020Ah], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Ret22
         push dword [dword_17D528]
         mov dword [dword ebp-0206h], eax
-        call sub_E04E0
+        call FindShape
         mov dword [dword ebp-0202h], eax
         mov eax, dword [dword_17D4E8]
         add eax, byte 40h
@@ -1467,20 +1467,20 @@ PauseMenu:
         je short .4
         push str_Cht02
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Cht12
         jmp short .5
 .4:
         push str_Edt02
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Edt12
 .5:
         push dword [dword_17D528]
         mov dword [dword ebp-01A4h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword ebp-01A0h], eax
         mov eax, dword [dword_17D4EC]
@@ -1495,12 +1495,12 @@ PauseMenu:
         mov byte [dword ebp-0179h], 3
         push dword [dword_17D528]
         mov byte [dword ebp-017Bh], 4
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Rep1
         push dword [dword_17D528]
         mov dword [dword ebp-013Eh], eax
-        call sub_E04E0
+        call FindShape
         mov dword [dword ebp-013Ah], eax
         mov eax, dword [dword_17D4EC]
         movsx edx, word [byte eax+02h]
@@ -1515,12 +1515,12 @@ PauseMenu:
         mov byte [dword ebp-0114h], 2
         push dword [dword_17D528]
         mov byte [dword ebp-0115h], 5
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Ctr12
         push dword [dword_17D528]
         mov dword [dword ebp-0D8h], eax
-        call sub_E04E0
+        call FindShape
         mov dword [dword ebp-0D4h], eax
         mov eax, dword [dword_17D4EC]
         movsx edx, word [eax]
@@ -1536,12 +1536,12 @@ PauseMenu:
         mov byte [dword ebp-0B0h], 2
         push dword [dword_17D528]
         mov byte [dword ebp-0AFh], 0
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Sts12
         push dword [dword_17D528]
         mov dword [byte ebp-072h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [byte ebp-06Eh], eax
         mov eax, dword [dword_17D4EC]
@@ -1563,12 +1563,12 @@ PauseMenu:
         jne short .6
         push str_Sav02
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Sav12
         push dword [dword_17D528]
         mov dword [byte ebp-0Ch], eax
-        call sub_E04E0
+        call FindShape
         mov dword [byte ebp-08h], eax
         mov eax, dword [dword_17D4EC]
         movsx edx, word [byte eax+04h]
@@ -1981,7 +1981,7 @@ PauseToFrontEnd:
         mov eax, dword [dword_17D518]
         push dword [byte eax+04h]
         push dword [eax]
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push eax
         mov esi, eax
@@ -1994,7 +1994,7 @@ PauseToFrontEnd:
         call PutBlock
         add esp, byte 0Ch
         push dword [dword_17D518]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         mov dword [dword_17D518], esi
         call RestoreSpeechBuffer
@@ -2004,12 +2004,12 @@ PauseToFrontEnd:
         call ResetInputSlots
         push str_FhiL5
         push dword [dword_1150D4]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_FhiR5
         push dword [dword_1150D4]
         mov dword [dword_152F58], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword_152F50], eax
         test byte [byte_17CA5D], 20h
@@ -2069,12 +2069,12 @@ PauseBackToGame:
         add esp, byte 4
         push str_GloL3
         push dword [dword_1150D4]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_GloR3
         push dword [dword_1150D4]
         mov dword [dword_152F58], eax
-        call sub_E04E0
+        call FindShape
         mov edx, 20h
         add esp, byte 8
         mov dword [dword_152F50], eax
@@ -2089,12 +2089,12 @@ PauseBackToGame:
 .1:
         push str_GhiL3
         push dword [dword_1150D4]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_GhiR3
         push dword [dword_1150D4]
         mov dword [dword_152F58], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword_152F50], eax
 .2:
@@ -2111,7 +2111,7 @@ PauseBackToGame:
         mov eax, dword [dword_17D518]
         push dword [byte eax+04h]
         push dword [eax]
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push eax
         mov esi, eax
@@ -2124,7 +2124,7 @@ PauseBackToGame:
         call PutBlock
         add esp, byte 0Ch
         push dword [dword_17D518]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         mov dword [dword_17D518], esi
         call StartGameSound
@@ -2133,7 +2133,7 @@ PauseBackToGame:
         mov eax, dword [dword_17D518]
         push dword [byte eax+04h]
         push dword [eax]
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push eax
         mov esi, eax
@@ -2146,7 +2146,7 @@ PauseBackToGame:
         call PutBlock
         add esp, byte 0Ch
         push dword [dword_17D518]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         mov dword [dword_17D518], esi
         call LoadFightSprites
@@ -2154,7 +2154,7 @@ PauseBackToGame:
         mov eax, dword [dword_17D518]
         push dword [byte eax+04h]
         push dword [eax]
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push eax
         mov esi, eax
@@ -2167,7 +2167,7 @@ PauseBackToGame:
         call PutBlock
         add esp, byte 0Ch
         push dword [dword_17D518]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         mov dword [dword_17D518], esi
         call RestoreSpeechBuffer
@@ -2178,7 +2178,7 @@ PauseBackToGame:
         mov eax, dword [dword_17D518]
         push dword [byte eax+04h]
         push dword [eax]
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push eax
         mov esi, eax
@@ -2191,7 +2191,7 @@ PauseBackToGame:
         call PutBlock
         add esp, byte 0Ch
         push dword [dword_17D518]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         mov dword [dword_17D518], esi
         call LoadTotalSprites
@@ -2312,7 +2312,7 @@ PauseGame:
         inc edx
         push dword [dword_17D528]
         mov dword [dword_17D4F4], edx
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov esi, eax
         push str_Sid12
@@ -2320,20 +2320,20 @@ PauseGame:
         movsx edi, word [byte esi+06h]
         push dword [dword_17D528]
         mov dword [byte ebp-0Ch], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Bot12
         movsx eax, word [byte eax+06h]
         push dword [dword_17D528]
         add edi, eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+06h]
         push byte 0
         add edi, eax
         push edi
         push dword [byte ebp-0Ch]
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push eax
         mov dword [dword_17D514], eax
@@ -2349,7 +2349,7 @@ PauseGame:
         add esp, byte 0Ch
         push str_Sid12
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         movsx edx, word [byte eax+0Eh]
         movsx ebx, word [byte esi+0Eh]
         add esp, byte 8
@@ -2364,7 +2364,7 @@ PauseGame:
         add esp, byte 0Ch
         push str_Sid22
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         movsx ebx, word [byte eax+0Eh]
         movsx edx, word [byte esi+0Eh]
@@ -2379,7 +2379,7 @@ PauseGame:
         add esp, byte 0Ch
         push str_Bot12
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         movsx ebx, word [byte eax+0Eh]
         movsx edx, word [byte esi+0Eh]
         add esp, byte 8
@@ -2394,7 +2394,7 @@ PauseGame:
         add esp, byte 0Ch
         push str_Bot22
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         movsx ebx, word [byte eax+0Eh]
         movsx edx, word [byte esi+0Eh]
         add esp, byte 8
@@ -2409,7 +2409,7 @@ PauseGame:
         add esp, byte 0Ch
         push str_Bot32
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         movsx ebx, word [byte eax+0Eh]
         movsx edx, word [byte esi+0Eh]
         add esp, byte 8
@@ -2696,11 +2696,11 @@ PauseGame_620:
         mov eax, 1
         call LinkSync
         push dword [dword_17D518]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         push str_Paus
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov esi, eax
         push str_Sid12
@@ -2708,20 +2708,20 @@ PauseGame_620:
         movsx edi, word [byte esi+06h]
         push dword [dword_17D528]
         mov dword [byte ebp-014h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Bot12
         movsx eax, word [byte eax+06h]
         push dword [dword_17D528]
         add edi, eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+06h]
         push byte 0
         add edi, eax
         push edi
         push dword [byte ebp-014h]
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push eax
         mov dword [dword_17D514], eax
@@ -2737,7 +2737,7 @@ PauseGame_620:
         add esp, byte 0Ch
         push str_Sid12
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         movsx ebx, word [byte eax+0Eh]
         movsx edx, word [byte esi+0Eh]
         add esp, byte 8
@@ -2752,7 +2752,7 @@ PauseGame_620:
         add esp, byte 0Ch
         push str_Sid22
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         movsx ebx, word [byte eax+0Eh]
         movsx edx, word [byte esi+0Eh]
         add esp, byte 8
@@ -2767,7 +2767,7 @@ PauseGame_620:
         add esp, byte 0Ch
         push str_Bot12
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         movsx edx, word [byte eax+0Eh]
         movsx ebx, word [byte esi+0Eh]
         add esp, byte 8
@@ -2782,7 +2782,7 @@ PauseGame_620:
         add esp, byte 0Ch
         push str_Bot22
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         movsx edx, word [byte eax+0Eh]
         movsx ebx, word [byte esi+0Eh]
         add esp, byte 8
@@ -2797,7 +2797,7 @@ PauseGame_620:
         add esp, byte 0Ch
         push str_Bot32
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         movsx ebx, word [byte eax+0Eh]
         movsx edx, word [byte esi+0Eh]
         add esp, byte 8
@@ -2847,7 +2847,7 @@ PauseGame_620:
         call EndCameraShot
 .32:
         push dword [dword_17D514]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         call FreeSpriteCache
         call RestoreSpeechBuffer

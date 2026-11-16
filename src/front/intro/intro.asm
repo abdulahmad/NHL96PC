@@ -7,9 +7,9 @@ extern FadeOutMusic, FadePalette, FillMusicStream, FillRect, fputchar, GetPresse
 extern MakeDataPath, off_11BDA8, OpenMusicStream, PaEvent, PlayMovie, PlayMusic, PutBlock, QueueMusic
 extern rand_, SetScreenColors, SetScreenMode, SetTextColors, SetTickDeadline, SoundIdle, SoundSecondsToBytes, StopMusic
 extern str_Bkgd3, str_Nhll, str_Nhlp, str_Pal2, str_Pal8, str_Pal9, str_Pl0, str_Pl1
-extern str_Scr1, str_Scr2, RunAttractMode, GetLangText, sub_AADA4, AllocMemBlock, FreeMemBlock, sub_AD35C
-extern sub_ADBEC, SaveTextState, SetDrawTarget, sub_BF120, sub_BF2C4, SetScreenTarget, sub_DD7B8, KbdGetKey
-extern sub_E04E0, sub_E0584, TextSetFont, TickDeadlinePassed, unk_11BFA4, word_11D1D0
+extern str_Scr1, str_Scr2, RunAttractMode, GetLangText, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, CreateBitmap
+extern FreeBitmap, SaveTextState, SetDrawTarget, sub_BF120, sub_BF2C4, SetScreenTarget, sub_DD7B8, KbdGetKey
+extern FindShape, sub_E0584, TextSetFont, TickDeadlinePassed, unk_11BFA4, word_11D1D0
 global PlayIntroMovies, RunIntro, WaitOrSkip, LoadSlideImage, RunSlideEvents, jpt_634F9, RunSlideShow, RunSlideShow_78
 global RunSlideShow_A3, RunSlideShow_C7, RunSlideShow_E2, RunSlideShow_118, RunSlideShow_127, RunSlideShow_145, RunSlideShow_180, RunSlideShow_1A1
 global RunSlideShow_1B2, RunSlideShow_1D3, RunSlideShow_206, RunSlideShow_215, RunSlideShow_248, RunSlideShow_27C, RunSlideShow_2C3, RunSlideShow_2E0
@@ -119,7 +119,7 @@ RunIntro:
         mov dword [byte ebp-018h], eax
         push dword [byte ebp-04h]
         mov dword [byte ebp-02Ch], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov ecx, 300h
         lea esi, [byte eax+010h]
@@ -127,7 +127,7 @@ RunIntro:
         push str_Pl1
         push dword [byte ebp-04h]
         mov edi, dword [byte ebp-014h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov ecx, 300h
         lea esi, [byte eax+010h]
@@ -168,18 +168,18 @@ RunIntro:
         add esp, byte 0Ch
         push str_Bkgd3
         push dword [byte ebp-04h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         push str_Nhll
         push dword [byte ebp-04h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         mov esi, eax
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         mov ebx, 2
         mov edx, dword [byte ebp-08h]
@@ -223,12 +223,12 @@ RunIntro:
         add esp, byte 14h
         push str_Nhlp
         push dword [byte ebp-020h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         mov edi, dword [byte ebp-0Ch]
         mov esi, dword [byte ebp-01Ch]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         mov ecx, 0Ch
         add esp, byte 4
         mov ebx, 3
@@ -294,14 +294,14 @@ RunIntro:
         push eax
         mov esi, eax
         mov dword [byte ebp-024h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         push str_Pal8
         push esi
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         lea esi, [byte eax+010h]
         mov ebx, 32h
@@ -525,14 +525,14 @@ RunSlideShow_78:
         cmp dword [byte ebp-04h], byte 0
         je short .2
         push dword [byte ebp-04h]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
 .2:
         push byte 0
         mov eax, dword [byte esi+08h]
         push dword [byte eax+04h]
         push dword [eax]
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         mov dword [byte ebp-04h], eax
         jmp near RunSlideShow_2E0.12
@@ -542,10 +542,10 @@ RunSlideShow_A3:
         mov dword [dword_17BDD4], eax
         push dword [byte esi+08h]
         push eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AADA4
+        call PutBlockAtOwnPos
         jmp near RunSlideShow_2E0.11
 RunSlideShow_C7:
         mov eax, dword [byte esi+08h]
@@ -563,7 +563,7 @@ RunSlideShow_E2:
         push str_Pal9
         push eax
         mov dword [dword_17BDD4], eax
-        call sub_E04E0
+        call FindShape
         lea edx, [byte eax+010h]
         add esp, byte 8
         mov eax, edx
@@ -657,7 +657,7 @@ RunSlideShow_215:
         mov dword [dword_17BDD4], eax
         push dword [byte edi+010h]
         push eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push dword [byte edi+08h]
         mov edx, eax
@@ -716,7 +716,7 @@ RunSlideShow_2E0:
         mov dword [dword_17BDD4], eax
         push dword [byte edi+010h]
         push eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [byte ebp-01Ch], eax
         mov dword [byte ebp-018h], eax
@@ -726,7 +726,7 @@ RunSlideShow_2E0:
         mov eax, dword [byte ebp-01Ch]
         movsx eax, word [byte eax+04h]
         push eax
-        call sub_AD35C
+        call CreateBitmap
         mov edx, dword [byte ebp-01Ch]
         add esp, byte 0Ch
         movsx edx, word [byte edx+0Eh]
@@ -765,7 +765,7 @@ RunSlideShow_2E0:
         call PutBlock
         add esp, byte 0Ch
         push dword [byte ebp-014h]
-        call sub_ADBEC
+        call FreeBitmap
 .11:
         add esp, byte 4
 .12:
@@ -792,7 +792,7 @@ RunSlideShow_2E0:
         cmp dword [byte ebp-04h], byte 0
         je short .15
         push dword [byte ebp-04h]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
 .15:
         cmp dword [byte ebp-08h], byte 0

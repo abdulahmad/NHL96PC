@@ -5,7 +5,7 @@ section s_11B338 progbits alloc noexec write align=1
 extern CameraAim_AB, CameraAim_229, CamView236_20D, CamShot240_56, CamShot242_126, CamView232, CamView233, CamView234
 extern CamView235, CamView236, CamView238, CamView239, CamView23A, CamShot23E, CamShot23F, CamShot240
 extern CamShot242, CamShot245, CamShot246, CamShot247, CamShot244, CamShot23D, CamShot23B, CamShot23C
-extern sub_AAA40, sub_AAA8C, str_Anh, str_Ana, str_Bsh, str_Bsa, str_Bfh, str_Bfa
+extern DrawArt, DrawShape, str_Anh, str_Ana, str_Bsh, str_Bsa, str_Bfh, str_Bfa
 extern str_Cgh, str_Cga, str_Chh, str_Cha, str_Dlh, str_Dla, str_Dth, str_Dta
 extern str_Edh, str_Eda, str_Flh, str_Fla, str_Hrh, str_Hra, str_Lah, str_Laa
 extern str_Mth, str_Mta, str_Njh, str_Nja, str_Ilh, str_Ila, str_Rgh, str_Rga
@@ -467,8 +467,8 @@ unk_11BD68:
         db 040h,00h,00h,00h,0C7h,01h,00h,00h,030h,00h,00h,00h,0D3h,01h,00h,00h
         db 021h,00h,00h,00h,0D3h,01h,00h,00h,013h,00h,00h,00h,0C7h,01h,00h,00h
 off_11BDA8:
-        dd sub_AAA8C
-        dd sub_AAA40
+        dd DrawShape
+        dd DrawArt
 unk_11BDB0:
         db 078h,00h,00h,00h,048h,00h,00h,00h
 unk_11BDB8:

@@ -31,8 +31,8 @@ extern str_GhiR2, str_GloL2, str_GloR2, str_INTERREG, str_Intr, str_Ply02, str_P
 extern str_Qui1, str_Qui2, str_Ret0, str_Ret1, str_Ret2, str_Sav0, str_Sav1, str_Sid1
 extern str_Sid2, str_Sts0, str_Sts1, strcat_, strcpy_, AddIceCrud, LoadZamboni, FreeZamboni
 extern LoadStandsArt, SetPenaltyBoxDoor, DrawZamboniScene, DrawOverlayPanels, RefreshControlSlots, sub_64E74, SaveGameFile, sub_6C64B
-extern sub_AAA40, AllocMemBlock, FreeMemBlock, sub_AD35C, sub_ADBEC, sub_B0CA8, sub_B58D8, SetScreenTarget
-extern sub_E04E0, sub_E0584, TextSetFont, unk_11D7A4, unk_11D7BC, unk_11D7D4, unk_11D7EC, unk_11D804
+extern DrawArt, AllocMemBlock, FreeMemBlock, CreateBitmap, FreeBitmap, sub_B0CA8, sub_B58D8, SetScreenTarget
+extern FindShape, sub_E0584, TextSetFont, unk_11D7A4, unk_11D7BC, unk_11D7D4, unk_11D7EC, unk_11D804
 extern unk_11D80A, unk_11D810, unk_11D816, unk_11D81C, unk_11D89C, unk_16443C, unk_17D3E8, unk_18440C
 extern unk_184688, unk_184692, UpdateCamera, word_114CE0, word_114F14, word_11ED34, word_1656E8, word_16581E
 global DrawInGameMenuFrame, RedrawInGameMenu, RedrawInGameMenu_7C, RedrawInGameMenu_7D, OpenFrontEndFromGame, ReturnToGameView, InGameReturnMenu, jpt_A25B5
@@ -407,7 +407,7 @@ DrawInGameMenuFrame:
         call FillBox
         push str_Intr
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         mov esi, eax
         mov eax, dword [dword_184680]
         add esp, byte 8
@@ -417,11 +417,11 @@ DrawInGameMenuFrame:
         movsx eax, word [byte eax+06h]
         push eax
         push esi
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         push str_Sid1
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         movsx edx, word [byte eax+0Eh]
         movsx ebx, word [byte esi+0Eh]
         sub edx, ebx
@@ -439,11 +439,11 @@ DrawInGameMenuFrame:
         add edx, ebx
         push edx
         push eax
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         push str_Sid2
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         movsx ebx, word [byte eax+0Eh]
         movsx edx, word [byte esi+0Eh]
         sub ebx, edx
@@ -461,11 +461,11 @@ DrawInGameMenuFrame:
         add ebx, edx
         push ebx
         push eax
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         push str_Bot1
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         movsx edx, word [byte eax+0Eh]
         movsx ebx, word [byte esi+0Eh]
         sub edx, ebx
@@ -483,11 +483,11 @@ DrawInGameMenuFrame:
         add edx, ebx
         push edx
         push eax
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         push str_Bot2
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         movsx edx, word [byte eax+0Eh]
         movsx ebx, word [byte esi+0Eh]
         sub edx, ebx
@@ -506,11 +506,11 @@ DrawInGameMenuFrame:
         add edx, ebx
         push edx
         push eax
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         push str_Bot3
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         movsx ebx, word [byte eax+0Eh]
         movsx edx, word [byte esi+0Eh]
         sub ebx, edx
@@ -528,13 +528,13 @@ DrawInGameMenuFrame:
         add edx, ebx
         push edx
         push eax
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         cmp word [word_11ED34], byte 0
         je short .16
         push str_Gam0
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         mov ebx, 11h
         mov ecx, dword [dword_17CA5C]
         mov edx, dword [dword_184674]
@@ -592,7 +592,7 @@ RedrawInGameMenu:
         push dword [dword esi+byte_1843CC]
         push dword [dword esi+dword_1843C0]
         inc edi
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
 .2:
         mov ax, word [word_114CE0]
@@ -648,12 +648,12 @@ OpenFrontEndFromGame:
         call FreeSpeechBuffer
         push str_FhiL3
         push dword [dword_1150D4]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_FhiR3
         push dword [dword_1150D4]
         mov dword [dword_152F58], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword_152F50], eax
         test byte [byte_17CA5D], 20h
@@ -707,12 +707,12 @@ ReturnToGameView:
         add esp, byte 4
         push str_GloL2
         push dword [dword_1150D4]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_GloR2
         push dword [dword_1150D4]
         mov dword [dword_152F58], eax
-        call sub_E04E0
+        call FindShape
         mov edx, 20h
         add esp, byte 8
         mov dword [dword_152F50], eax
@@ -727,12 +727,12 @@ ReturnToGameView:
 .1:
         push str_GhiL2
         push dword [dword_1150D4]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_GhiR2
         push dword [dword_1150D4]
         mov dword [dword_152F58], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword_152F50], eax
 .2:
@@ -786,17 +786,17 @@ InGameReturnMenu:
         call InitMenuItems
         push str_Ret0
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Ret1
         push dword [dword_17D528]
         mov dword [dword ebp-0128h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Ret2
         push dword [dword_17D528]
         mov dword [dword ebp-0124h], eax
-        call sub_E04E0
+        call FindShape
         mov dword [dword ebp-0120h], eax
         mov eax, dword [dword_184408]
         add eax, byte 40h
@@ -826,16 +826,16 @@ InGameReturnMenu:
         add edx, eax
         mov byte [dword ebp-0100h], 2
         mov dword [dword ebp-0104h], edx
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         push str_Gam0
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Gam1
         push dword [dword_17D528]
         mov dword [dword ebp-0C2h], eax
-        call sub_E04E0
+        call FindShape
         mov dword [dword ebp-0BEh], eax
         mov eax, dword [dword_184670]
         mov edi, 0FFFFFFFFh
@@ -849,12 +849,12 @@ InGameReturnMenu:
         mov byte [dword ebp-099h], 2
         mov byte [dword ebp-097h], 0
         mov dword [byte ebp-0Ah], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [byte ebp-05Ch], eax
         push str_Ply1
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         mov dword [byte ebp-058h], eax
         mov eax, dword [dword_184670]
         movsx eax, word [byte eax+04h]
@@ -911,7 +911,7 @@ InGameReturnMenu:
         add eax, dword [dword esi+ebp-017Eh]
         push dword [dword esi+ebp-018Eh]
         mov dword [dword esi+ebp-016Ah], eax
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         cmp dword [byte ebp+07Eh], byte 3
         jl near .1
@@ -1103,7 +1103,7 @@ InGameMenu:
         push edx
         movsx eax, word [byte eax+04h]
         push eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push eax
         mov dword [dword_184684], eax
@@ -1245,17 +1245,17 @@ InGameMenu:
 .15:
         push str_Qui0
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Qui1
         push dword [dword_17D528]
         mov dword [dword_184426], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Qui2
         push dword [dword_17D528]
         mov dword [dword_18442A], eax
-        call sub_E04E0
+        call FindShape
         mov dword [dword_18442E], eax
         mov eax, dword [dword_184408]
         mov dword [dword_184420], eax
@@ -1280,17 +1280,17 @@ InGameMenu:
         add eax, edx
         mov byte [byte_18444E], 3
         mov dword [dword_18444A], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Ret1
         push dword [dword_17D528]
         mov dword [dword_18448C], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Ret2
         push dword [dword_17D528]
         mov dword [dword_184490], eax
-        call sub_E04E0
+        call FindShape
         mov dword [dword_184494], eax
         mov eax, dword [dword_184408]
         add eax, byte 40h
@@ -1323,20 +1323,20 @@ InGameMenu:
         je short .16
         push str_Cht0
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Cht1
         jmp short .17
 .16:
         push str_Edt0
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Edt1
 .17:
         push dword [dword_17D528]
         mov dword [dword_1844F2], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword_1844F6], eax
         mov eax, dword [dword_184670]
@@ -1350,12 +1350,12 @@ InGameMenu:
         mov dword [dword eax+084h], edx
         push dword [dword_17D528]
         mov byte [byte_18451B], 4
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Ctr1
         push dword [dword_17D528]
         mov dword [dword_184558], eax
-        call sub_E04E0
+        call FindShape
         mov dword [dword_18455C], eax
         mov eax, dword [dword_184670]
         movsx edx, word [eax]
@@ -1371,12 +1371,12 @@ InGameMenu:
         mov byte [byte_184580], 2
         push dword [dword_17D528]
         mov byte [byte_184581], 0
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Sts1
         push dword [dword_17D528]
         mov dword [dword_1845BE], eax
-        call sub_E04E0
+        call FindShape
         mov dword [dword_1845C2], eax
         mov eax, dword [dword_184670]
         movsx edx, word [byte eax+02h]
@@ -1398,12 +1398,12 @@ InGameMenu:
         jne short .18
         push str_Sav0
         push dword [dword_17D528]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Sav1
         push dword [dword_17D528]
         mov dword [dword_184624], eax
-        call sub_E04E0
+        call FindShape
         mov dword [dword_184628], eax
         mov eax, dword [dword_184670]
         movsx edx, word [byte eax+04h]
@@ -1742,7 +1742,7 @@ InGameMenu_ABD:
         call SetDrawBitmap
         add esp, byte 4
         push dword [dword_184684]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         push dword [dword_184408]
         call FreeMemBlock

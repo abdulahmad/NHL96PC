@@ -5,12 +5,12 @@ section s_AA988 progbits alloc exec nowrite align=1
 extern FatalError, asc_113110, str_LOWMEM, str_HIGHMEM, str_GAP, asc_11316C, dword_11F9B8, RowTable
 extern RowCopyFunc, dword_1210C8, dword_1210CC, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight
 extern KeyedDraw, dword_1228FC, dword_122930, dword_123934, memlist1, MemBlockGuards, MemDescriptorTop, MemLockHandle
-extern dword_18573C, strncpy_, DrawShapeCore, AllocMemBlockEx, getmemblock, CopyRowKeyed, sub_C3A48, ResetMemLock
+extern dword_18573C, strncpy_, DrawShapeCore, AllocMemBlockEx, getmemblock, CopyRowKeyed, DrawShapeOpaque, ResetMemLock
 extern MemLock, MemUnlock, SetScreenTarget, SetClipWindow, VesaSetBank, sub_DE4C7, sub_DE643, sub_DE7DB
 extern sub_DE97C, sub_DE9F3, sub_DEB94, bcopy, sub_E193C, sub_E1956
-global PutBlock_25F, sub_AAF28_132, DrawShapeAtOwnPos, sub_AA9CC, sub_AAA40, sub_AAA8C, sub_AAADC, PutBlock
-global sub_AADA4, BlitShapeAt, sub_AADE8, sub_AAF28, sub_AB0A8, AddMemRegion, AddMemRegions, AddHighMemRegion
-global TrimMemList, MemListEnd, sub_AB6D8, sub_AB718, AllocMemBlock, sub_AB798
+global PutBlock_25F, sub_AAF28_132, DrawShapeAtOwnPos, sub_AA9CC, DrawArt, DrawShape, sub_AAADC, PutBlock
+global PutBlockAtOwnPos, BlitShapeAt, sub_AADE8, sub_AAF28, sub_AB0A8, AddMemRegion, AddMemRegions, AddHighMemRegion
+global TrimMemList, MemListEnd, sub_AB6D8, AllocMemBlockLocked, AllocMemBlock, AllocMemLocked
 ;-----------------------------------------------------------------------------
 ; DrawShapeAtOwnPos                               AA988  96 PC, low confidence
 ; Draws a shape at the position stored in its header; followed by the draw at
@@ -90,9 +90,11 @@ sub_AA9CC:
         ret
         db 00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_AAA40                                                            AAA40  
+; DrawArt                                      AAA40  96 PC, medium confidence
+; Draws art at x, y; keyed (transparent) when keyed drawing is on, otherwise
+; opaque
 ;-----------------------------------------------------------------------------
-sub_AAA40:
+DrawArt:
         push esi
         push edi
         mov edx, dword [byte esp+0Ch]
@@ -103,7 +105,7 @@ sub_AAA40:
         push eax
         push ebx
         push edx
-        call sub_C3A48
+        call DrawShapeOpaque
         add esp, byte 0Ch
         pop edi
         pop esi
@@ -123,9 +125,11 @@ sub_AAA40:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_AAA8C                                                            AAA8C  
+; DrawShape                                    AAA8C  96 PC, medium confidence
+; Draws art at its own position; keyed when keyed drawing is on, otherwise
+; opaque
 ;-----------------------------------------------------------------------------
-sub_AAA8C:
+DrawShape:
         push esi
         push edi
         mov ebx, dword [byte esp+0Ch]
@@ -139,7 +143,7 @@ sub_AAA8C:
         push eax
         push edx
         push ebx
-        call sub_C3A48
+        call DrawShapeOpaque
         add esp, byte 0Ch
         pop edi
         pop esi
@@ -180,7 +184,7 @@ sub_AAADC:
         push edx
         push ebx
         push eax
-        call sub_C3A48
+        call DrawShapeOpaque
         add esp, byte 0Ch
         pop edi
         pop esi
@@ -415,9 +419,10 @@ PutBlock_25F:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_AADA4                                                            AADA4  
+; PutBlockAtOwnPos                                AADA4  96 PC, low confidence
+; Copies a block to the screen at the position stored in its header
 ;-----------------------------------------------------------------------------
-sub_AADA4:
+PutBlockAtOwnPos:
         mov edx, dword [byte esp+04h]
         mov eax, dword [byte edx+0Ch]
         sar eax, 10h
@@ -1351,9 +1356,10 @@ sub_AB6D8:
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_AB718                                                            AB718  
+; AllocMemBlockLocked                             AB718  96 PC, low confidence
+; Allocates a memory block with the memory lock held
 ;-----------------------------------------------------------------------------
-sub_AB718:
+AllocMemBlockLocked:
         push esi
         push edi
         mov edx, dword [MemLockHandle]
@@ -1407,9 +1413,11 @@ AllocMemBlock:
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_AB798                                                            AB798  
+; AllocMemLocked                                  AB798  96 PC, low confidence
+; Allocates a memory block with the memory lock held and returns its data
+; pointer, or 0
 ;-----------------------------------------------------------------------------
-sub_AB798:
+AllocMemLocked:
         push esi
         push edi
         mov edx, dword [MemLockHandle]

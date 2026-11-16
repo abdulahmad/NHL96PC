@@ -13,8 +13,8 @@ extern ClearSlotUsers, UserRecordsScreen, WatchHighlight, HighlightsMenu, LoadFr
 extern CopyBitmap, InitGraphicsFix, SetScreenMode, SetMenuMoveSfx, SetMenuSelectSfx, MainMenuScreen, StopMusic, FadeOutMusic
 extern TestCdSpeed, ShutdownSound, WriteGlobalSet, RunExhibitionMenus, RunControlSetup, LoadLangText, FreeLangText, GetLangText
 extern RunSeasonMenus, RunStatsMenu, RunModemGameSetup, RunPlayoffMenus, AllocMemBlock, FreeMemBlock, sub_AC868, sub_ADA50
-extern sub_AFCD0, sub_AFFD0, sub_B3100, sub_B3145, sub_B3160, sub_B31C0, sub_B3420, SetScreenTarget
-extern sub_DD800, sub_DD830, sub_DD87C, sub_DFA98, sub_DFB88, KbdGetKey, AddExitHandler, sub_E04E0
+extern UnpackTo, TextSetColor, sub_B3100, sub_B3145, sub_B3160, NearestColour, sub_B3420, SetScreenTarget
+extern sub_DD800, sub_DD830, sub_DD87C, sub_DFA98, sub_DFB88, KbdGetKey, AddExitHandler, FindShape
 extern bcopy, InstallBreakHandler, TextSetFont, unk_110351, unk_110355, unk_11041A, unk_11048D, DataDirPath
 extern unk_1210DC, unk_1213DC, unk_152C44, unk_18584C
 global jpt_1B046, LoadTeamLogo, LoadTeamLogo_3B, LoadTeamLogo_45, LoadTeamLogo_4F, LoadTeamLogo_59, LoadTeamLogo_63, LoadTeamLogo_6D
@@ -93,7 +93,7 @@ LoadTeamLogo_6D:
         lea eax, [byte ebp-08h]
         push eax
         push dword [dword_152F48]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push byte 10h
         push dword [dword_152F44]
@@ -106,7 +106,7 @@ LoadTeamLogo_6D:
         push eax
         add esi, byte 10h
         push esi
-        call sub_AFCD0
+        call UnpackTo
         mov eax, dword [dword_152F44]
         and dword [eax], 0FFh
         add esp, byte 8
@@ -421,14 +421,14 @@ InitHardware:
         call TextSetFont
         add esp, byte 4
         push dword 0FF000000h
-        call sub_B31C0
+        call NearestColour
         add esp, byte 4
         push eax
         push byte 0FFFFFFFFh
-        call sub_B31C0
+        call NearestColour
         add esp, byte 4
         push eax
-        call sub_AFFD0
+        call TextSetColor
         add esp, byte 8
         call SetScreenTarget
         push unk_18584C
@@ -543,12 +543,12 @@ StartUp:
         push str_FhiL4
         push eax
         mov dword [dword_1150D4], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_FhiR4
         push dword [dword_1150D4]
         mov dword [dword_152F58], eax
-        call sub_E04E0
+        call FindShape
         mov edx, 20h
         add esp, byte 8
         mov dword [dword_152F50], eax
@@ -575,7 +575,7 @@ StartUp:
         mov word [byte eax+06h], 78h
         push dword [dword_1150D4]
         mov edi, unk_152C44
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov ecx, 300h
         lea esi, [byte eax+010h]

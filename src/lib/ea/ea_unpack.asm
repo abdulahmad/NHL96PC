@@ -6,11 +6,11 @@ extern FatalError, asc_1135A8, str_Copyright, str_UnpackINVALIDPACKCODE, str_Tex
 extern byte_11FA2F, byte_11FA30, byte_11FA31, str_ctl07, byte_11FB50, byte_11FC50, dword_11FA14, dword_11FA18
 extern TextOriginX, TextOriginY, dword_11FA24, dword_11FA28, dword_11FA34, dword_11FA38, dword_11FA3C, dword_11FA40
 extern dword_11FA44, dword_11FA48, dword_11FA4C, dword_11FD50, UnpackSrcPtr, UnpackDestPtr, dword_185768, UnpackStackPtr
-extern UnpackPairTable, memmove_, off_11FA10, strncmp_, AllocMemBlock, FreeMemBlock, sub_ADC50, sub_B31C0
-extern RefPackSize, sub_C4C6C, sub_C4CCC, sub_C4D80, bcopy
-global ExpandBytePair, sub_AEE84, sub_AF08C, sub_AF104, sub_AF1C0, sub_AF240, sub_AF2C0, sub_AF354
-global sub_AF4F8, sub_AF5D0, sub_AF610, sub_AF654, sub_AF85C, sub_AF890, unpack, sub_AFCD0
-global sub_AFD00, sub_AFD40, sub_AFF44, sub_AFFD0, SetTextOrigin, SaveTextState, SetDrawTarget, TextSetFont
+extern UnpackPairTable, memmove_, off_11FA10, strncmp_, AllocMemBlock, FreeMemBlock, UnpackHuffman, NearestColour
+extern RefPackSize, GetPalette, ArtBitDepth, PixelToRgb, bcopy
+global ExpandBytePair, UnpackBytePair, UnpackDelta, UnpackRunLength, LzhGetBit, LzhGetByte, LzhStartHuff, LzhReconstruct
+global LzhUpdate, LzhDecodeChar, LzhDecodePosition, UnpackLzh, SkipCopyrightHeader, PackedTypeOf, unpack, UnpackTo
+global UnpackedSize, BuildTextColourTable, TextBuildShades, TextSetColor, SetTextOrigin, SaveTextState, SetDrawTarget, TextSetFont
 ;-----------------------------------------------------------------------------
 ; ExpandBytePair                                  AEE40  96 PC, low confidence
 ; Expands one byte of byte-pair coded data through the pair tables
@@ -42,9 +42,10 @@ ExpandBytePair:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_AEE84                                                            AEE84  
+; UnpackBytePair                                  AEE84  96 PC, low confidence
+; Unpacks byte pair packed data (type 46h)
 ;-----------------------------------------------------------------------------
-sub_AEE84:
+UnpackBytePair:
         push ebx
         push ecx
         push esi
@@ -209,9 +210,10 @@ sub_AEE84:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_AF08C                                                            AF08C  
+; UnpackDelta                                     AF08C  96 PC, low confidence
+; Unpacks delta coded data (types 60h-66h) by a running sum
 ;-----------------------------------------------------------------------------
-sub_AF08C:
+UnpackDelta:
         push ebx
         push ecx
         push esi
@@ -272,9 +274,10 @@ sub_AF08C:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_AF104                                                            AF104  
+; UnpackRunLength                                 AF104  96 PC, low confidence
+; Unpacks run length coded data (type 7Ah/7Bh) with a set element size
 ;-----------------------------------------------------------------------------
-sub_AF104:
+UnpackRunLength:
         push ebx
         push ecx
         push esi
@@ -372,9 +375,10 @@ sub_AF104:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_AF1C0                                                            AF1C0  
+; LzhGetBit                                       AF1C0  96 PC, low confidence
+; Reads one bit from the LZH bit stream
 ;-----------------------------------------------------------------------------
-sub_AF1C0:
+LzhGetBit:
         push ebx
         push ecx
         push edx
@@ -418,9 +422,10 @@ sub_AF1C0:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_AF240                                                            AF240  
+; LzhGetByte                                      AF240  96 PC, low confidence
+; Reads eight bits from the LZH bit stream
 ;-----------------------------------------------------------------------------
-sub_AF240:
+LzhGetByte:
         push ebx
         push ecx
         push edx
@@ -464,9 +469,10 @@ sub_AF240:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_AF2C0                                                            AF2C0  
+; LzhStartHuff                                    AF2C0  96 PC, low confidence
+; Sets up the adaptive Huffman tree for LZH unpacking
 ;-----------------------------------------------------------------------------
-sub_AF2C0:
+LzhStartHuff:
         push ebx
         push ecx
         push edx
@@ -511,9 +517,10 @@ sub_AF2C0:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_AF354                                                            AF354  
+; LzhReconstruct                                  AF354  96 PC, low confidence
+; Rebuilds the adaptive Huffman tree when its root count gets too big
 ;-----------------------------------------------------------------------------
-sub_AF354:
+LzhReconstruct:
         push ebx
         push ecx
         push edx
@@ -646,9 +653,10 @@ sub_AF354:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_AF4F8                                                            AF4F8  
+; LzhUpdate                                       AF4F8  96 PC, low confidence
+; Increments a symbol's count and keeps the Huffman tree in order
 ;-----------------------------------------------------------------------------
-sub_AF4F8:
+LzhUpdate:
         push ebx
         push ecx
         push esi
@@ -657,7 +665,7 @@ sub_AF4F8:
         mov ecx, edx
         cmp dword [dword eax+0DE2Fh], 8000h
         jne short .1
-        call sub_AF354
+        call LzhReconstruct
 .1:
         mov ecx, dword [dword esi+ecx*4+0E803h]
 .2:
@@ -709,9 +717,10 @@ sub_AF4F8:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_AF5D0                                                            AF5D0  
+; LzhDecodeChar                                   AF5D0  96 PC, low confidence
+; Decodes one character or length code from the LZH bit stream
 ;-----------------------------------------------------------------------------
-sub_AF5D0:
+LzhDecodeChar:
         push ebx
         push ecx
         push edx
@@ -721,7 +730,7 @@ sub_AF5D0:
         jae short .2
 .1:
         mov eax, ecx
-        call sub_AF1C0
+        call LzhGetBit
         add ebx, eax
         mov ebx, dword [dword ecx+ebx*4+0ECEBh]
         cmp ebx, 273h
@@ -730,23 +739,24 @@ sub_AF5D0:
         sub ebx, 273h
         mov eax, ecx
         mov edx, ebx
-        call sub_AF4F8
+        call LzhUpdate
         mov eax, ebx
         pop edx
         pop ecx
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_AF610                                                            AF610  
+; LzhDecodePosition                               AF610  96 PC, low confidence
+; Decodes a match position from the LZH bit stream
 ;-----------------------------------------------------------------------------
-sub_AF610:
+LzhDecodePosition:
         push ebx
         push ecx
         push edx
         push esi
         mov ebx, eax
         xor edx, edx
-        call sub_AF240
+        call LzhGetByte
         mov dl, byte [dword eax+byte_11FB50]
         mov esi, edx
         xor edx, edx
@@ -760,7 +770,7 @@ sub_AF610:
         je short .2
         mov eax, ebx
         add ecx, ecx
-        call sub_AF1C0
+        call LzhGetBit
         add ecx, eax
         jmp short .1
 .2:
@@ -773,9 +783,10 @@ sub_AF610:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_AF654                                                            AF654  
+; UnpackLzh                                       AF654  96 PC, low confidence
+; Unpacks LZH (LZSS with adaptive Huffman) packed data (type 16h)
 ;-----------------------------------------------------------------------------
-sub_AF654:
+UnpackLzh:
         push ebx
         push ecx
         push esi
@@ -889,7 +900,7 @@ sub_AF654:
         mov dword [byte edx+08h], edi
         mov eax, ebx
         mov ecx, 0FC4h
-        call sub_AF2C0
+        call LzhStartHuff
         mov eax, 20h
         lea edi, [byte ebx+018h]
         mov edx, 0FC4h
@@ -900,7 +911,7 @@ sub_AF654:
         jbe near .7
 .3:
         mov eax, ebx
-        call sub_AF5D0
+        call LzhDecodeChar
         mov esi, eax
         cmp eax, 100h
         jge short .4
@@ -917,7 +928,7 @@ sub_AF654:
         jmp short .6
 .4:
         mov eax, ebx
-        call sub_AF610
+        call LzhDecodePosition
         sub esi, 0FDh
         mov edi, edx
         mov dword [byte esp+01Ch], esi
@@ -972,9 +983,10 @@ sub_AF654:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_AF85C                                                            AF85C  
+; SkipCopyrightHeader                          AF85C  96 PC, medium confidence
+; Skips a "Copyright" string at the start of packed data
 ;-----------------------------------------------------------------------------
-sub_AF85C:
+SkipCopyrightHeader:
         push ebx
         push ecx
         push edx
@@ -1005,14 +1017,15 @@ sub_AF85C:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_AF890                                                            AF890  
+; PackedTypeOf                                    AF890  96 PC, low confidence
+; Identifies the packing type of a block of data
 ;-----------------------------------------------------------------------------
-sub_AF890:
+PackedTypeOf:
         push ebx
         push ecx
         push edx
         mov ebx, eax
-        call sub_AF85C
+        call SkipCopyrightHeader
         xor ecx, ecx
         mov edx, eax
         mov cl, byte [byte eax+01h]
@@ -1332,7 +1345,7 @@ unpack:
         push ebp
         mov eax, dword [byte esp+010h]
         mov edx, dword [byte esp+014h]
-        call sub_AF85C
+        call SkipCopyrightHeader
         mov ecx, 3
         mov ebx, eax
         mov edi, eax
@@ -1406,23 +1419,23 @@ unpack:
         jmp short .14
 .7:
         mov eax, ebx
-        call sub_AF654
+        call UnpackLzh
         mov esi, eax
         jmp short .14
 .8:
         mov ebx, 1
         mov eax, edi
-        call sub_ADC50
+        call UnpackHuffman
         mov esi, eax
         jmp short .14
 .9:
         mov eax, ebx
-        call sub_AEE84
+        call UnpackBytePair
         mov esi, eax
         jmp short .14
 .10:
         mov eax, edi
-        call sub_AF08C
+        call UnpackDelta
         mov esi, eax
         jmp short .14
 .11:
@@ -1436,7 +1449,7 @@ unpack:
         jmp short .14
 .12:
         mov eax, ebx
-        call sub_AF104
+        call UnpackRunLength
         jmp short .14
 .13:
         cmp dword [byte esp+018h], byte 0
@@ -1455,9 +1468,10 @@ unpack:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_AFCD0                                                            AFCD0  
+; UnpackTo                                        AFCD0  96 PC, low confidence
+; Unpacks data into a buffer through unpack
 ;-----------------------------------------------------------------------------
-sub_AFCD0:
+UnpackTo:
         push byte 1
         mov edx, dword [byte esp+0Ch]
         push edx
@@ -1477,13 +1491,14 @@ sub_AFCD0:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_AFD00                                                            AFD00  
+; UnpackedSize                                    AFD00  96 PC, low confidence
+; Returns the unpacked size of packed data, or 0 when it is not packed
 ;-----------------------------------------------------------------------------
-sub_AFD00:
+UnpackedSize:
         mov eax, dword [byte esp+04h]
-        call sub_AF85C
+        call SkipCopyrightHeader
         mov edx, eax
-        call sub_AF890
+        call PackedTypeOf
         xor ecx, ecx
         test eax, eax
         jle short .1
@@ -1502,9 +1517,10 @@ sub_AFD00:
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_AFD40                                                            AFD40  
+; BuildTextColourTable                            AFD40  96 PC, low confidence
+; Builds the "Text Table" that maps font shades to the nearest screen colours
 ;-----------------------------------------------------------------------------
-sub_AFD40:
+BuildTextColourTable:
         push ebx
         push ecx
         push edx
@@ -1517,7 +1533,7 @@ sub_AFD40:
         push eax
         push dword 100h
         push byte 0
-        call sub_C4C6C
+        call GetPalette
         mov edx, dword [dword_11FD50]
         add esp, byte 0Ch
         test edx, edx
@@ -1536,7 +1552,7 @@ sub_AFD40:
         push ebx
         add edi, byte 4
         inc esi
-        call sub_B31C0
+        call NearestColour
         add esp, byte 4
         mov dword [nosplit esi*4+UnpackPairTable], eax
         cmp esi, byte 10h
@@ -1617,7 +1633,7 @@ sub_AFD40:
         or edx, ebp
         or eax, edx
         push eax
-        call sub_B31C0
+        call NearestColour
         add esp, byte 4
         mov ebx, eax
         mov eax, dword [dword esp+0318h]
@@ -1647,9 +1663,11 @@ sub_AFD40:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_AFF44                                                            AFF44  
+; TextBuildShades                                 AFF44  96 PC, low confidence
+; Builds 16 shades of a palette colour and passes them to the text colour
+; table
 ;-----------------------------------------------------------------------------
-sub_AFF44:
+TextBuildShades:
         push ebx
         push ecx
         push edx
@@ -1661,7 +1679,7 @@ sub_AFF44:
         push byte 1
         push eax
         xor esi, esi
-        call sub_C4C6C
+        call GetPalette
         add esp, byte 0Ch
         xor ecx, ecx
         xor ebx, ebx
@@ -1699,7 +1717,7 @@ sub_AFF44:
         cmp ecx, byte 10h
         jl short .1
         mov eax, esp
-        call sub_AFD40
+        call BuildTextColourTable
         add esp, byte 44h
         pop edi
         pop esi
@@ -1709,9 +1727,11 @@ sub_AFF44:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_AFFD0                                                            AFFD0  
+; TextSetColor                                    AFFD0  96 PC, low confidence
+; Sets the text colours and builds the font's colour table for the current
+; font
 ;-----------------------------------------------------------------------------
-sub_AFFD0:
+TextSetColor:
         push esi
         push edi
         push ebp
@@ -1721,7 +1741,7 @@ sub_AFFD0:
         cmp dword [dword_11FA24], byte 0
         je short .1
         mov eax, esi
-        call sub_AFF44
+        call TextBuildShades
 .1:
         mov ecx, dword [dword_11FA28]
         mov dword [dword_11FA14], esi
@@ -1763,7 +1783,7 @@ sub_AFFD0:
         je short .4
         mov ebp, dword [dword_11FA48]
         push ebp
-        call sub_C4CCC
+        call ArtBitDepth
         add esp, byte 4
         jmp short .5
 .4:
@@ -1775,7 +1795,7 @@ sub_AFFD0:
         cmp eax, byte 4
         jl near .7
         push esi
-        call sub_C4D80
+        call PixelToRgb
         mov ebx, eax
         shr ebx, 10h
         add esp, byte 4
@@ -1788,7 +1808,7 @@ sub_AFFD0:
         and ebx, 0FFh
         and esi, 0FFh
         mov dword [byte esp+08h], ebx
-        call sub_C4D80
+        call PixelToRgb
         add esp, byte 4
         xor edi, edi
         mov dword [byte esp+010h], esi
@@ -1874,7 +1894,7 @@ sub_AFFD0:
         add edi, byte 4
         push eax
         add esi, 0FFh
-        call sub_B31C0
+        call NearestColour
         add esp, byte 4
         mov dword [dword edi+UnpackPairTable], eax
         mov eax, dword [byte esp+010h]
@@ -2055,7 +2075,7 @@ TextSetFont:
         test esi, esi
         je short .8
         push esi
-        call sub_C4CCC
+        call ArtBitDepth
         add esp, byte 4
         cmp eax, byte 1
         setg al

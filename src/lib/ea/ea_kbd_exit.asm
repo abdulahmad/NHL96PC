@@ -3,8 +3,8 @@ bits 32
 %include "hockey.inc"
 section s_C27F8 progbits alloc exec nowrite align=1
 extern SetDrawBitmap, str_EXITTODOSY, str_PAUSEPRESSANYKEY, dword_11F994, BackBufferWidth, joycalactive, mousepollfn, off_11F5F4
-extern off_11F5F8, off_11F5FC, off_14F074, off_14F078, sub_AD35C, FillRect, sub_ADA80, sub_ADBEC
-extern sub_AFFD0, SaveTextState, SetDrawTarget, TextSetFont, DrawArtOpaque, sub_B31C0, sub_BF120, sub_CFE0C
+extern off_11F5F8, off_11F5FC, off_14F074, off_14F078, CreateBitmap, FillRect, sub_ADA80, FreeBitmap
+extern TextSetColor, SaveTextState, SetDrawTarget, TextSetFont, DrawArtOpaque, NearestColour, sub_BF120, sub_CFE0C
 extern sub_CFE20, sub_CFE70, SetScreenTarget, sub_DE084, KbdGetKey, sub_E193C, sub_E1956, DebugLineCount
 extern unk_1213DC
 global sub_C27F8, sub_C2AC4, sub_C2AEC, sub_C2C5C, DosGetVector, DosSetVector
@@ -35,7 +35,7 @@ sub_C27F8:
         push ebx
         mov ecx, dword [dword esp+0B8h]
         push ecx
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         mov esi, eax
         mov dword [dword esp+0A8h], eax
@@ -80,7 +80,7 @@ sub_C27F8:
         add esp, byte 0Ch
         call SetScreenTarget
         push byte 0
-        call sub_B31C0
+        call NearestColour
         add esp, byte 4
         push eax
         mov ecx, dword [dword esp+0D4h]
@@ -94,7 +94,7 @@ sub_C27F8:
         call FillRect
         add esp, byte 14h
         push dword 0A80000h
-        call sub_B31C0
+        call NearestColour
         add esp, byte 4
         push eax
         mov eax, dword [dword esp+0B0h]
@@ -112,10 +112,10 @@ sub_C27F8:
         add esp, byte 14h
         push byte 0
         push dword 0FCFCFCh
-        call sub_B31C0
+        call NearestColour
         add esp, byte 4
         push eax
-        call sub_AFFD0
+        call TextSetColor
         add esp, byte 8
         mov eax, dword [dword esp+0B8h]
         add eax, byte 9
@@ -186,7 +186,7 @@ sub_C27F8:
         add esp, byte 4
         mov esi, dword [dword esp+0A8h]
         push esi
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         mov ebp, dword [dword esp+0A0h]
         push ebp
@@ -238,7 +238,7 @@ sub_C2AEC:
         push byte 0
         push byte 0Ah
         push dword 140h
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         mov esi, eax
         mov eax, esp
@@ -272,7 +272,7 @@ sub_C2AEC:
         add esp, byte 0Ch
         call SetScreenTarget
         push byte 0
-        call sub_B31C0
+        call NearestColour
         add esp, byte 4
         push eax
         push byte 0Ah
@@ -283,10 +283,10 @@ sub_C2AEC:
         add esp, byte 14h
         push byte 0
         push dword 0FCFCFCh
-        call sub_B31C0
+        call NearestColour
         add esp, byte 4
         push eax
-        call sub_AFFD0
+        call TextSetColor
         add esp, byte 8
         push dword 0BFh
         mov ecx, dword [dword esp+0B4h]
@@ -316,7 +316,7 @@ sub_C2AEC:
         call sub_E1956
         add esp, byte 4
         push esi
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         push edi
         call sub_CFE0C

@@ -12,8 +12,8 @@ extern dword_17BD0C, dword_17BD14, dword_17BD1C, dword_17BD20, dword_17BD48, dwo
 extern dword_17BD66, dword_17BD6E, dword_17BD72, dword_17BD7A, dword_17BD82, dword_17BD86, GetTicks, InitMenuItems
 extern LoadPackedFile, PutBlock, SetDrawBitmap, SetScreenPalette, SoundIdle, sprintf_, str_CHECK, str_M03d
 extern str_Mhil, str_MODEM, str_Pal7, str_TN02d, str_X03d, str_XBUT, str_Xhil, str_Y03d
-extern str_Yhil, DrawShapeCore, AllocMemBlock, FreeMemBlock, sub_AD35C, sub_AD620, sub_ADBEC, SaveTextState
-extern SetDrawTarget, SetScreenTarget, KbdGetKey, sub_E04E0, TextSetFont, unk_11BCE8, unk_11BD28, unk_11BD68
+extern str_Yhil, DrawShapeCore, AllocMemBlock, FreeMemBlock, CreateBitmap, sub_AD620, FreeBitmap, SaveTextState
+extern SetDrawTarget, SetScreenTarget, KbdGetKey, FindShape, TextSetFont, unk_11BCE8, unk_11BD28, unk_11BD68
 extern unk_17BB24
 global LoadFrontEndArt, LoadFrontEndArt_412, GetTeamNameArt, CopyArtRows, OpenScreen, SlideInTitleBar, SlideInTitleBar_62, SlideInTitleBar_6A
 global SlideInTitleBar_6D, SlideInSideBar, SlideInBottomBar, FreeFrontEndArt, SetScreenColors
@@ -47,7 +47,7 @@ LoadFrontEndArt:
         push str_Pal7
         push eax
         mov dword [dword_11BCE4], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push byte 20h
         mov byte [byte_17BDAF], 0FEh
@@ -87,7 +87,7 @@ LoadFrontEndArt:
         mov esi, dword [byte ebp-014h]
         push dword [dword_11BCE4]
         add dword [byte ebp-014h], byte 4
-        call sub_E04E0
+        call FindShape
         mov ecx, 971h
         mov edi, dword [dword_17BC70]
         add esp, byte 8
@@ -104,7 +104,7 @@ LoadFrontEndArt:
         mov dword [byte ebp-024h], 0
         push dword [dword_11BCE4]
         mov dword [byte ebp-010h], 0
-        call sub_E04E0
+        call FindShape
         mov ecx, 971h
         mov edi, dword [dword_17BC70]
         add esp, byte 8
@@ -124,7 +124,7 @@ LoadFrontEndArt:
         mov esi, dword [byte ebp-010h]
         push dword [dword_11BCE4]
         add dword [byte ebp-010h], byte 4
-        call sub_E04E0
+        call FindShape
         mov ecx, 971h
         mov edi, dword [dword_17BC64]
         add esp, byte 8
@@ -141,7 +141,7 @@ LoadFrontEndArt:
         mov dword [byte ebp-01Ch], 0
         push dword [dword_11BCE4]
         mov dword [byte ebp-018h], 0
-        call sub_E04E0
+        call FindShape
         mov ecx, 971h
         mov edi, dword [dword_17BC64]
         add esp, byte 8
@@ -161,7 +161,7 @@ LoadFrontEndArt:
         mov esi, dword [byte ebp-018h]
         push dword [dword_11BCE4]
         add dword [byte ebp-018h], byte 4
-        call sub_E04E0
+        call FindShape
         mov ecx, 971h
         mov edi, dword [dword_17BC68]
         add esp, byte 8
@@ -175,7 +175,7 @@ LoadFrontEndArt:
         jl short .3
         push str_Mhil
         push dword [dword_11BCE4]
-        call sub_E04E0
+        call FindShape
         mov ecx, 971h
         mov edx, dword_17BD48
         mov edi, dword [dword_17BC68]
@@ -259,7 +259,7 @@ GetTeamNameArt:
         lea eax, [byte ebp-08h]
         push eax
         push dword [dword_11BCE0]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         leave
         pop edx
@@ -389,7 +389,7 @@ OpenScreen:
         push byte 0
         push byte 31h
         push byte 31h
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         mov dword [byte ebp-0Ch], 0
         push eax
@@ -497,7 +497,7 @@ OpenScreen:
         add esp, byte 0Ch
 .4:
         push dword [byte ebp-08h]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         push dword [byte ebp-018h]
         call FreeMemBlock

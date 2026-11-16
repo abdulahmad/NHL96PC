@@ -15,8 +15,8 @@ extern dword_1770F0, dword_1770F4, dword_1770F8, dword_1770FC, dword_177100, dwo
 extern optflags, dword_17CA5C, gameclock, gameopts, gmode, hmroster, off_11786C, off_11787C
 extern puckc, PtrPuckFlags, puckvx, puckvz, puckz, rand_, sflags, RunDemoGame
 extern LoadPackedFile, InitGameTeams, PuckInNet, PickForwardLines, PickDefencePairs, PickSpecialLines, LoadFrontEndArt, FreeFrontEndArt
-extern CopyBitmap, StartGameSound, EndGameSound, sub_AADA4, AllocMemBlock, FreeMemBlock, SetScreenTarget, SetClipWindow
-extern sub_E04E0, sub_E0584, unk_157B82, unk_157F9C, unk_158610, unk_176CA8, unk_176CDA, unk_176D0C
+extern CopyBitmap, StartGameSound, EndGameSound, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, SetScreenTarget, SetClipWindow
+extern FindShape, sub_E0584, unk_157B82, unk_157F9C, unk_158610, unk_176CA8, unk_176CDA, unk_176D0C
 extern unk_176D3E, unk_176DA2, unk_176E38, unk_176E6A, unk_176E9C, unk_176ED4, optblock_end, gmode2
 extern HomeControlSlot, word_1178CC, word_1178CE, word_1178D0, word_117902, word_11A3EE, word_11A3F0, word_11D3A2
 extern regd0, word_176ECE, word_176ED0, dressedskaters, word_176EDB
@@ -1944,14 +1944,14 @@ RunAttractMode:
         call InitGameTeams
         push str_GloL
         push dword [dword_1150D4]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         shl edi, 17h
         push str_GloR
         shr edi, 1Eh
         push dword [dword_1150D4]
         mov dword [dword_152F58], eax
-        call sub_E04E0
+        call FindShape
         mov edx, 20h
         add esp, byte 8
         mov dword [dword_152F50], eax
@@ -1988,12 +1988,12 @@ RunAttractMode:
         shl eax, 9
         push dword [dword_1150D4]
         or dword [dword_17CA5C], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_FhiR
         push dword [dword_1150D4]
         mov dword [dword_152F58], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push dword [dword_152F54]
         mov dword [dword_152F50], eax
@@ -2039,7 +2039,7 @@ LoadGamePalette:
         push str_Pal30
         push eax
         mov dword [byte ebp-04h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov ecx, 24Ch
         lea esi, [byte eax+010h]
@@ -3251,7 +3251,7 @@ DrawDirtyZones:
         mov eax, dword [dword_11B234]
         add esp, byte 10h
         push dword [byte eax+02Ch]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         jmp short .4
 .2:
@@ -3315,7 +3315,7 @@ DrawDirtyZones:
         mov eax, dword [dword_11B234]
         add esp, byte 10h
         push dword [byte eax+02Ch]
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         jmp near ResolveZones_16C
 ;-----------------------------------------------------------------------------

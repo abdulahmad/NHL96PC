@@ -6,7 +6,7 @@ extern byte_17DC70, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeigh
 extern dword_17DC18, dword_17DC1C, dword_17DC20, dword_17DC24, dword_17DC28, dword_17DC2C, dword_17DC30, dword_17DC34
 extern dword_17DC38, dword_17DC3C, dword_17DC40, dword_17DC44, dword_17DC48, dword_17DC4C, dword_17DC50, dword_17DC54
 extern dword_17DC58, dword_17DC5C, dword_17DC60, dword_17DC64, dword_17DC68, dword_17DC6C, PlotPixel, SetClipWindow
-extern str_AALIAS, AllocMemBlock, sub_AD824, sub_B31C0, FixedLerp, PlotPixelClipped
+extern str_AALIAS, AllocMemBlock, sub_AD824, NearestColour, FixedLerp, PlotPixelClipped
 global BuildAntiAliasTable, ClipLineY, ClipLineX, DrawLineYPlot, DrawLineYPlot_186, DrawLineYPlot_187, DrawLineY, DrawLineXPlot
 global DrawLineX, DrawFixedLine, DrawFixedLineClip
 ;-----------------------------------------------------------------------------
@@ -35,7 +35,7 @@ BuildAntiAliasTable:
         add esp, byte 0Ch
         or eax, dword [byte ebp-024h]
         push eax
-        call sub_B31C0
+        call NearestColour
         mov byte [esi], al
         inc esi
         mov al, byte [byte ebp-01Ch]
@@ -93,7 +93,7 @@ BuildAntiAliasTable:
         or eax, dword [byte ebp-014h]
         push eax
         add edi, byte 3
-        call sub_B31C0
+        call NearestColour
         add esp, byte 4
         mov byte [esi], al
         inc esi

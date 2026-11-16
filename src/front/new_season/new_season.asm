@@ -17,9 +17,9 @@ extern str_Bt282, str_Bt292, str_Nothing, str_Pal14, str_Rul12, str_Rul22, str_R
 extern str_S05dCnzDb3, str_S05dCsgDb, str_Sched, str_SDB, str_SEASONNDX, str_Set12, str_Set22, str_Set3
 extern str_Teams, strcat_, strcpy_, strlen_, WriteDbRecord6, ReadSeasonHeader, GameOptionsScreen, SeasonMenuScreen_794
 extern SeasonMenuScreen_7AC, SeasonMenuScreen_858, SeasonMenuScreen_9D7, SeasonMenuScreen_A07, SeasonMenuScreen_A34, SeasonMenuScreen_A61, SeasonMenuScreen_ADF, SeasonMenuScreen_AEB
-extern SeasonMenuScreen_AF7, SeasonMenuScreen_B7E, SeasonMenuScreen_C05, SeasonMenuScreen_C68, sub_AAA8C, AllocMemBlock, FreeMemBlock, sub_AD35C
-extern sub_AD620, sub_ADBEC, OpenArtArchiveErr, sub_B22B0, sub_B2C54, UnlinkJump, FileSizeByName, DrawArtKeyedAtOrigin
-extern PutBlockKeyed, SetScreenTarget, sub_DD908, sub_E04E0, sub_E0584, TextSetFont, TickDeadlinePassed, unk_11E33C
+extern SeasonMenuScreen_AF7, SeasonMenuScreen_B7E, SeasonMenuScreen_C05, SeasonMenuScreen_C68, DrawShape, AllocMemBlock, FreeMemBlock, CreateBitmap
+extern sub_AD620, FreeBitmap, OpenArtArchiveErr, SaveFileBlock, DrawArtOpaqueAtOwnPos, UnlinkJump, FileSizeByName, DrawArtKeyedAtOrigin
+extern PutBlockKeyed, SetScreenTarget, sub_DD908, FindShape, sub_E0584, TextSetFont, TickDeadlinePassed, unk_11E33C
 extern unk_11E354, unk_152C44, unk_17CB2E, unk_17CC1F, unk_17CED5, UpdateProgressBox
 global unk_77442, unk_7745A, CompareGrey, SortGreyColors, jpt_7761E, jpt_77632, NewSeasonScreen, NewSeasonScreen_5FB
 global NewSeasonScreen_768, NewSeasonScreen_798, NewSeasonScreen_7C5, NewSeasonScreen_7F2, NewSeasonScreen_8AF, NewSeasonScreen_8BB, NewSeasonScreen_8CB, NewSeasonScreen_8E0
@@ -237,7 +237,7 @@ NewSeasonScreen:
         push eax
         mov dword [byte ebp+05Eh], eax
         mov dword [byte ebp+062h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         lea edx, [byte eax+010h]
         mov ecx, 0C0h
@@ -246,10 +246,10 @@ NewSeasonScreen:
         push str_Bkgd9
         push dword [byte ebp+05Eh]
         mov dword [byte ebp+06Ah], edx
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_B2C54
+        call DrawArtOpaqueAtOwnPos
         add esp, byte 4
         mov eax, dword [byte ebp+06Ah]
         call SetScreenColors
@@ -269,7 +269,7 @@ NewSeasonScreen:
         push dword 226h
         mov byte [dword ebp-01F7h], 0FFh
         mov byte [dword ebp-0F7h], 0FFh
-        call sub_AD35C
+        call CreateBitmap
         lea edx, [dword ebp-0B06h]
         add esp, byte 0Ch
         mov dword [byte ebp+05Ah], eax
@@ -277,35 +277,35 @@ NewSeasonScreen:
         call InitMenuItems
         push str_Bt014
         push dword [byte ebp+05Eh]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call DrawArtKeyedAtOrigin
         add esp, byte 4
         push str_Bt014
         push dword [byte ebp+05Eh]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Bt024
         push dword [byte ebp+05Eh]
         mov dword [dword ebp-0AECh], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Bt024
         push dword [byte ebp+05Eh]
         mov dword [dword ebp-0AE8h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Bt014
         push dword [byte ebp+05Eh]
         mov dword [dword ebp-0AE4h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Bt014
         movsx eax, word [byte eax+0Ch]
         push dword [byte ebp+05Eh]
         mov dword [dword ebp-0AE0h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+0Eh]
         mov dword [dword ebp-0AF6h], 8
@@ -323,17 +323,17 @@ NewSeasonScreen:
         add eax, byte 14h
         push dword [byte ebp+05Eh]
         mov dword [dword ebp-0AC8h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Rul22
         push dword [byte ebp+05Eh]
         mov dword [dword ebp-0A86h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Rul32
         push dword [byte ebp+05Eh]
         mov dword [dword ebp-0A82h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword ebp-0A90h], 6
         push str_Rul12
@@ -341,13 +341,13 @@ NewSeasonScreen:
         lea eax, [dword ebp-0B6h]
         push dword [byte ebp+05Eh]
         mov dword [dword ebp-0A8Ch], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Rul12
         movsx eax, word [byte eax+0Ch]
         push dword [byte ebp+05Eh]
         mov dword [dword ebp-0A7Ah], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+0Eh]
         mov byte [dword ebp-0A5Ch], 3
@@ -362,17 +362,17 @@ NewSeasonScreen:
         add eax, byte 14h
         push dword [byte ebp+05Eh]
         mov dword [dword ebp-0A62h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Set22
         push dword [byte ebp+05Eh]
         mov dword [dword ebp-0A20h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Set3
         push dword [byte ebp+05Eh]
         mov dword [dword ebp-0A1Ch], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword ebp-0A2Ah], 6
         push str_Set12
@@ -380,14 +380,14 @@ NewSeasonScreen:
         lea eax, [byte ebp-076h]
         push dword [byte ebp+05Eh]
         mov dword [dword ebp-0A26h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         lea edi, [dword ebp-09D4h]
         push str_Set12
         movsx eax, word [byte eax+0Ch]
         push dword [byte ebp+05Eh]
         mov dword [dword ebp-0A14h], eax
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+0Eh]
         mov esi, TeamStatsBitmap
         mov dword [dword ebp-0A10h], eax
@@ -523,17 +523,17 @@ NewSeasonScreen_5FB:
         push byte 0
         push str_Bt014
         push dword [byte ebp+062h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+06h]
         push eax
         push str_Bt014
         push dword [byte ebp+062h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+04h]
         push eax
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push eax
         mov edi, eax
@@ -541,21 +541,21 @@ NewSeasonScreen_5FB:
         add esp, byte 4
         push str_Bt014
         push dword [byte ebp+062h]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+0Eh]
         add esp, byte 8
         neg eax
         push eax
         push str_Bt014
         push dword [byte ebp+062h]
-        call sub_E04E0
+        call FindShape
         movsx eax, word [byte eax+0Ch]
         add esp, byte 8
         neg eax
         push eax
         push str_Bkgd9
         push dword [byte ebp+062h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -591,13 +591,13 @@ NewSeasonScreen_5FB:
 .12:
         push str_Bt014
         push dword [byte ebp+062h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+0Eh]
         push eax
         push str_Bt014
         push dword [byte ebp+062h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         movsx eax, word [byte eax+0Ch]
         push eax
@@ -607,10 +607,10 @@ NewSeasonScreen_5FB:
         lea eax, [byte ebp+052h]
         push eax
         push dword [byte ebp+062h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AAA8C
+        call DrawShape
         add esp, byte 4
         push byte 4
         call SetTickDeadline
@@ -627,7 +627,7 @@ NewSeasonScreen_5FB:
         jl near .9
         push edi
         inc dword [byte ebp+072h]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         cmp dword [byte ebp+072h], byte 4
         jne short .15
@@ -640,54 +640,54 @@ NewSeasonScreen_5FB:
 NewSeasonScreen_768:
         push str_Bt014
         push dword [byte ebp+062h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Bt024
         push dword [byte ebp+062h]
         mov dword [dword ebp-0AECh], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Bt024
         jmp near NewSeasonScreen_7F2.16
 NewSeasonScreen_798:
         push str_Bt103
         push dword [byte ebp+062h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Bt113
         push dword [byte ebp+062h]
         mov dword [dword ebp-0AECh], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Bt113
         jmp short NewSeasonScreen_7F2.16
 NewSeasonScreen_7C5:
         push str_Bt192
         push dword [byte ebp+062h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Bt202
         push dword [byte ebp+062h]
         mov dword [dword ebp-0AECh], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Bt202
         jmp short NewSeasonScreen_7F2.16
 NewSeasonScreen_7F2:
         push str_Bt282
         push dword [byte ebp+062h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Bt292
         push dword [byte ebp+062h]
         mov dword [dword ebp-0AECh], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Bt292
 .16:
         push dword [byte ebp+062h]
         mov dword [dword ebp-0AE8h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword ebp-0AE4h], eax
 .17:
@@ -788,7 +788,7 @@ NewSeasonScreen_8E0:
         call FreeMemBlock
         add esp, byte 4
         push dword [byte ebp+05Ah]
-        call sub_ADBEC
+        call FreeBitmap
         mov eax, dword [byte ebp+06Eh]
         add esp, byte 4
         lea esp, [dword ebp+082h]
@@ -852,7 +852,7 @@ DrawSeasonTeams:
         push byte 0
         push dword 96h
         push dword 0FAh
-        call sub_AD35C
+        call CreateBitmap
         add esp, byte 0Ch
         push dword [dword ebp-014Ch]
         mov dword [byte ebp-01Ch], eax
@@ -866,7 +866,7 @@ DrawSeasonTeams:
         push eax
         push str_Bkgd9
         push dword [dword ebp-0148h]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         call PutBlock
@@ -1290,7 +1290,7 @@ DrawSeasonTeams:
         call sub_DD908
         add esp, byte 4
         push dword [byte ebp-01Ch]
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
         call SetScreenTarget
         push dword [byte ebp+018h]
@@ -1711,7 +1711,7 @@ CreateSeason:
         push dword [byte ebp+072h]
         lea eax, [byte ebp-07Eh]
         push eax
-        call sub_B22B0
+        call SaveFileBlock
         add esp, byte 0Ch
         lea eax, [byte ebp-07Eh]
         push eax
@@ -1747,7 +1747,7 @@ CreateSeason:
         push unk_17CB2E
         lea eax, [byte ebp-07Eh]
         push eax
-        call sub_B22B0
+        call SaveFileBlock
         add esp, byte 0Ch
         lea eax, [byte ebp-07Eh]
         push eax
@@ -1793,7 +1793,7 @@ CreateSeason:
         push unk_17CED5
         lea eax, [byte ebp-07Eh]
         push eax
-        call sub_B22B0
+        call SaveFileBlock
         add esp, byte 0Ch
         lea eax, [byte ebp-07Eh]
         push eax
@@ -2088,7 +2088,7 @@ MakePlayoffDbPath:
         push dword [byte ebp-0Ch]
         lea eax, [byte ebp-050h]
         push eax
-        call sub_B22B0
+        call SaveFileBlock
         add esp, byte 0Ch
         mov eax, 1
         mov dword [byte ebp-010h], 0

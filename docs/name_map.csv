@@ -1168,14 +1168,19 @@ AA6D0,RestoreTimer,,95PC,medium,NHL95PC 8E554 (sem): C:1696,
 AA734,InstallTimer,,95PC,medium,NHL95PC 8E5AC (sem): C:1696; C:2340; C:1555,
 AA7E0,DrawShapeCore,sub_AA7E0,new,medium,draws a shape: sets up its palette and blits it through the blit engine,src/lib/ea/ea_timer.asm
 AA988,DrawShapeAtOwnPos,sub_AA988,new,low,draws a shape at the position stored in its header; followed by the draw at a given position,src/lib/ea/ea_gfx_01.asm
+AAA40,DrawArt,sub_AAA40,new,medium,"draws art at x, y; keyed (transparent) when keyed drawing is on, otherwise opaque",src/lib/ea/ea_gfx_01.asm
+AAA8C,DrawShape,sub_AAA8C,new,medium,"draws art at its own position; keyed when keyed drawing is on, otherwise opaque",src/lib/ea/ea_gfx_01.asm
 AAB40,PutBlock,,95PC,medium,NHL95PC 903F0 (sem): C:2284; R:2174; R:2167; K:10000,
+AADA4,PutBlockAtOwnPos,sub_AADA4,new,low,copies a block to the screen at the position stored in its header,src/lib/ea/ea_gfx_01.asm
 AADC0,BlitShapeAt,sub_AADC0,new,low,"graphics library: draws a shape with transparency at x, y less its hot spot",src/lib/ea/ea_gfx_01.asm
 AB2EC,AddMemRegion,sub_AB2EC,new,low,adds a region of memory to a memory list as a named LOW block range,src/lib/ea/ea_gfx_01.asm
 AB3B4,AddMemRegions,sub_AB3B4,new,low,adds each region of a list of memory areas to the memory lists,src/lib/ea/ea_gfx_01.asm
 AB440,AddHighMemRegion,sub_AB440,new,low,adds the HIGHMEM region to a memory list with a GAP block for the hole below it,src/lib/ea/ea_gfx_01.asm
 AB5BC,TrimMemList,sub_AB5BC,new,low,releases the last block of a memory list and returns how much space it freed,src/lib/ea/ea_gfx_01.asm
 AB660,MemListEnd,sub_AB660,new,low,returns the end address of the last block of a memory list; followed by the free slot search,src/lib/ea/ea_gfx_01.asm
+AB718,AllocMemBlockLocked,sub_AB718,new,low,allocates a memory block with the memory lock held,src/lib/ea/ea_gfx_01.asm
 AB758,AllocMemBlock,sub_AB758,95PC,medium,"memory manager: allocate a named block (name, size, flags), e.g. ""DMAN"", ""HIST""; under the memory lock",src/lib/ea/ea_gfx_01.asm
+AB798,AllocMemLocked,sub_AB798,new,low,"allocates a memory block with the memory lock held and returns its data pointer, or 0",src/lib/ea/ea_gfx_01.asm
 AB87C,AllocMemBlockEx,sub_AB87C,new,medium,the allocator under AllocMemBlock: finds room in the block's memory list (compacting if needed) and links a named block,src/lib/ea/ea_memman.asm
 ABEEC,findmemblock,,95PC,medium,"NHL95PC 8D2A0 (sem): S:findmemblock - BLOCK NOT FOUND (%p)
 ; D:113398; C:2357",
@@ -1191,6 +1196,8 @@ AC574,CompactDownLocked,sub_AC574,new,low,"under the memory lock, slides the mov
 AC5AC,CompactMemListDown,sub_AC5AC,new,medium,slides movable blocks toward the start of a memory list to close gaps between them,src/lib/ea/ea_memman.asm
 AC6D4,CompactUpLocked,sub_AC6D4,new,low,"under the memory lock, slides the movable blocks of the main list up to close gaps",src/lib/ea/ea_memman.asm
 AC70C,CompactMemListUp,sub_AC70C,new,medium,slides movable blocks toward the end of a memory list to close gaps between them,src/lib/ea/ea_memman.asm
+AC838,MemLargestFreeLocked,sub_AC838,new,low,"returns the largest free gap in a memory list, with the memory lock held",src/lib/ea/ea_memman.asm
+AC89C,MemLargestFree,sub_AC89C,new,low,"compacts a memory list when allowed, then returns its largest free gap",src/lib/ea/ea_memman.asm
 AC950,InitMemDescriptors,sub_AC950,new,low,chains the block descriptor array into the free descriptor list,src/lib/ea/ea_memman.asm
 AC990,getmemblock,,95PC,medium,"NHL95PC 8DB8C (sem): S:getmemblock - NO MEMORY BLOCKS LEFT
 ; D:1133E0; C:2357",
@@ -1201,15 +1208,37 @@ AC9DC,type_info__raw_name,,WATCOM,high,IDA FLIRT library signature,
 AC9F0,DebugPrintf,,95PC,medium,NHL95PC 935E0 (sem): R:2164; K:104; R:2158; R:2167,
 ACA3C,DebugSetLine,sub_ACA3C,new,low,formats a debug message into one of the on-screen debug lines,src/lib/ea/ea_fileblock_01.asm
 ACAD0,DebugShowLines,sub_ACAD0,new,medium,draws the on-screen debug lines when debug output is on,src/lib/ea/ea_fileblock_01.asm
+AD090,CreateBitmapEx,sub_AD090,new,medium,"creates a bitmap of a width, height and depth (4/8/16/24/32 bits) in a memory list, with its row table; stops on an error when asked",src/lib/ea/ea_debug_01.asm
+AD35C,CreateBitmap,sub_AD35C,new,medium,creates a bitmap at the screen's pixel depth and returns its pixel block,src/lib/ea/ea_debug_01.asm
 AD420,TintRowPixels,sub_AD420,new,low,tints one row of pixels by the current colour multipliers,src/lib/ea/ea_debug_01.asm
 AD5C8,TintRows,sub_AD5C8,new,low,tints each row of a rectangle,src/lib/ea/ea_debug_01.asm
 AD680,FillRect,,95PC,medium,NHL95PC 90D20 (sem): C:2290; C:2373; R:1708; R:2162,
 ADBB4,fputchar,,WATCOM,high,IDA FLIRT library signature,
+ADBEC,FreeBitmap,sub_ADBEC,new,medium,removes a bitmap's window and frees its memory,src/lib/ea/ea_gfx_02.asm
 ADC05,mem_putc_,,WATCOM,high,IDA FLIRT library signature,
 ADC18,sprintf_,,WATCOM,high,IDA FLIRT library signature,
+ADC50,UnpackHuffman,sub_ADC50,new,low,unpacks Huffman packed data (types 30h-34h),src/lib/watcom/watcom_clib_02.asm
 AEE40,ExpandBytePair,sub_AEE40,new,low,expands one byte of byte-pair coded data through the pair tables (recursive),src/lib/ea/ea_unpack.asm
+AEE84,UnpackBytePair,sub_AEE84,new,low,unpacks byte pair packed data (type 46h),src/lib/ea/ea_unpack.asm
+AF08C,UnpackDelta,sub_AF08C,new,low,unpacks delta coded data (types 60h-66h) by a running sum,src/lib/ea/ea_unpack.asm
+AF104,UnpackRunLength,sub_AF104,new,low,unpacks run length coded data (type 7Ah/7Bh) with a set element size,src/lib/ea/ea_unpack.asm
+AF1C0,LzhGetBit,sub_AF1C0,new,low,reads one bit from the LZH bit stream,src/lib/ea/ea_unpack.asm
+AF240,LzhGetByte,sub_AF240,new,low,reads eight bits from the LZH bit stream,src/lib/ea/ea_unpack.asm
+AF2C0,LzhStartHuff,sub_AF2C0,new,low,sets up the adaptive Huffman tree for LZH unpacking,src/lib/ea/ea_unpack.asm
+AF354,LzhReconstruct,sub_AF354,new,low,rebuilds the adaptive Huffman tree when its root count gets too big,src/lib/ea/ea_unpack.asm
+AF4F8,LzhUpdate,sub_AF4F8,new,low,increments a symbol's count and keeps the Huffman tree in order,src/lib/ea/ea_unpack.asm
+AF5D0,LzhDecodeChar,sub_AF5D0,new,low,decodes one character or length code from the LZH bit stream,src/lib/ea/ea_unpack.asm
+AF610,LzhDecodePosition,sub_AF610,new,low,decodes a match position from the LZH bit stream,src/lib/ea/ea_unpack.asm
+AF654,UnpackLzh,sub_AF654,new,low,unpacks LZH (LZSS with adaptive Huffman) packed data (type 16h),src/lib/ea/ea_unpack.asm
+AF85C,SkipCopyrightHeader,sub_AF85C,new,medium,"skips a ""Copyright"" string at the start of packed data",src/lib/ea/ea_unpack.asm
+AF890,PackedTypeOf,sub_AF890,new,low,identifies the packing type of a block of data,src/lib/ea/ea_unpack.asm
 AFB88,unpack,,95PC,medium,"NHL95PC 97EB8 (sem): S:unpack - INVALID PACK CODE (%x)
 ; D:1135B8; C:1279; C:2357",
+AFCD0,UnpackTo,sub_AFCD0,new,low,unpacks data into a buffer through unpack,src/lib/ea/ea_unpack.asm
+AFD00,UnpackedSize,sub_AFD00,new,low,"returns the unpacked size of packed data, or 0 when it is not packed",src/lib/ea/ea_unpack.asm
+AFD40,BuildTextColourTable,sub_AFD40,new,low,"builds the ""Text Table"" that maps font shades to the nearest screen colours",src/lib/ea/ea_unpack.asm
+AFF44,TextBuildShades,sub_AFF44,new,low,builds 16 shades of a palette colour and passes them to the text colour table,src/lib/ea/ea_unpack.asm
+AFFD0,TextSetColor,sub_AFFD0,new,low,sets the text colours and builds the font's colour table for the current font,src/lib/ea/ea_unpack.asm
 B0240,SetTextOrigin,sub_B0240,new,low,sets the text origin,src/lib/ea/ea_unpack.asm
 B0254,SaveTextState,sub_B0254,new,low,"saves the text drawing state (font, colours, position)",src/lib/ea/ea_unpack.asm
 B026C,SetDrawTarget,sub_B026C,new,low,same code as in the next game,src/lib/ea/ea_unpack.asm
@@ -1253,14 +1282,17 @@ B2128,LoadDataFileErr,sub_B2128,new,low,loads a data file with the error message
 B2140,LoadFileAllocQuiet,sub_B2140,new,low,loads a file into a new block without the error message,src/lib/watcom/watcom_clib_03.asm
 B2158,LoadDataFileExt,sub_B2158,new,medium,"loads a data file, trying its extension",src/lib/ea/ea_window.asm
 B2200,strcmp_,,WATCOM,high,IDA FLIRT library signature,
+B22B0,SaveFileBlock,sub_B22B0,new,low,writes a block of memory to a file through savefileblocka,src/lib/watcom/watcom_clib_04.asm
 B22E0,SaveDataFile,sub_B22E0,new,low,saves a memory block to a file,src/lib/ea/ea_fileblock_02.asm
 B2374,savefileblocka,,95PC,medium,NHL95PC 9336C (similar): mnemonic similarity 0.94 over 51 instructions,
 B2B30,DrawArtOpaque,,95PC,medium,NHL95PC 910E0 (sem): C:2293; K:10000; K:FFFF,
+B2C54,DrawArtOpaqueAtOwnPos,sub_B2C54,new,low,draws art opaque at the position stored in its header,src/lib/ea/ea_gfx_03.asm
 B2C98,printf_,,WATCOM,high,IDA FLIRT library signature,
 B2CBA,chdir_,,WATCOM,high,IDA FLIRT library signature,
 B2CE0,GrabLargestBlock,sub_B2CE0,new,low,"allocates the largest block the memory manager gives, trying smaller sizes",src/lib/watcom/watcom_clib_05.asm
 B2D2C,InitMemoryPool,sub_B2D2C,new,low,sets up the game's memory pool from DOS extender memory,src/lib/watcom/watcom_clib_05.asm
 B30E4,InitMemoryPoolDefault,sub_B30E4,new,low,sets up the memory pool with the default size,src/lib/watcom/watcom_clib_05.asm
+B31C0,NearestColour,sub_B31C0,new,medium,"finds the palette index nearest an RGB colour, through the 15-bit lookup when one is built",src/lib/watcom/watcom_clib_05.asm
 B32E0,DetectCPU,sub_B32E0,95PC,high,"start-up CPU check that toggles the alignment-check flag, as NHL95PC DetectCPU",src/lib/watcom/watcom_clib_05.asm
 B6308,start,,WATCOM,high,IDA FLIRT library signature,
 B6599,WriteConsoleMessage,sub_B6599,new,low,writes a message to the console through DOS before exit,src/lib/watcom/watcom_clib_05.asm
@@ -1351,23 +1383,72 @@ B9EE0,OriMatrixHelper,sub_B9EE0,new,low,helper for building object matrices,src/
 B9F14,OriUpdateMatrices,sub_B9F14,new,low,builds the matrices of an object and its children,src/lib/ea/ea_shpi_01.asm
 BA2F0,PerspScale,sub_BA2F0,new,medium,scales a size by the perspective factor for a depth,src/lib/ea/ea_shpi_01.asm
 BA344,ProjectPoint,sub_BA344,new,medium,projects a 3D point to the screen,src/lib/ea/ea_shpi_01.asm
+BA3D0,ProjectPointList,sub_BA3D0,new,low,projects a list of 3D points to the screen through ProjectPoint,src/lib/ea/ea_gfx_05.asm
 BA420,AngleOfVector,sub_BA420,new,low,"returns the angle of a 2D vector in 1024ths of a turn, by octant",src/lib/ea/ea_gfx_05.asm
 BA4F0,SinInterp,sub_BA4F0,new,low,"returns the sine of a fine angle, interpolating between table entries",src/lib/ea/ea_gfx_05.asm
 BA55C,CosInterp,sub_BA55C,new,low,"returns the cosine of a fine angle, interpolating between table entries",src/lib/ea/ea_gfx_05.asm
+BA5D0,FillPolyIndexed,sub_BA5D0,new,low,fills a polygon given 2D points and an index list,src/lib/ea/ea_gfx_05.asm
+BACC0,ClassifyQuadDepth,sub_BACC0,new,low,"sorts a quad by depth: behind the near plane, crossing it, flat enough or needing subdivision",src/lib/ea/ea_gfx_05.asm
+BAD58,SubdivideTexturedQuad,sub_BAD58,new,low,"draws a textured quad, splitting it in four until the perspective error is small",src/lib/ea/ea_gfx_05.asm
+BB384,DrawPerspQuad,sub_BB384,new,low,draws a perspective correct textured quad from 3D points and texture points,src/lib/ea/ea_gfx_05.asm
 BB470,DrawFlatPoly,sub_BB470,new,medium,draws a flat polygon,src/lib/ea/ea_gfx_05.asm
 BB570,DrawPolyOutline,sub_BB570,new,low,draws a polygon outline,src/lib/ea/ea_gfx_05.asm
+BB610,BlitArtScaled,sub_BB610,new,low,"draws art scaled to a width and height at x, y, clipped",src/lib/ea/ea_gfx_05.asm
+BB8E0,DrawArtScaled,sub_BB8E0,new,low,"draws art scaled by a factor at x, y",src/lib/ea/ea_gfx_05.asm
+BB924,DrawArtScaledHotspot,sub_BB924,new,low,draws art scaled by a factor around its hotspot,src/lib/ea/ea_gfx_05.asm
+BB9C4,TransformVector,sub_BB9C4,new,medium,multiplies a vector by a 3x3 16.16 fixed point matrix,src/lib/ea/ea_gfx_05.asm
 BBA41,MultiplyMatrix,sub_BBA41,new,low,multiplies two 3x3 fixed-point matrices,src/lib/ea/ea_gfx_05.asm
+BBAA0,ProjectPointsPersp,sub_BBAA0,new,low,"projects a list of 3D points with perspective, marking points behind the near plane",src/lib/ea/ea_gfx_05.asm
 BBB70,DrawPolyList,sub_BBB70,new,low,draws a list of polygons,src/lib/ea/ea_gfx_05.asm
 BBBD0,SetRinkMatrix,sub_BBBD0,new,low,copies the rink view rotation matrix and marks the view as changed,src/lib/ea/ea_gfx_05.asm
 BBBF0,SetRinkTranslation,sub_BBBF0,new,low,copies the rink view translation vector,src/lib/ea/ea_gfx_05.asm
 BBC04,SetScreenScale,sub_BBC04,new,low,sets the screen scale and the matching text scale,src/lib/ea/ea_gfx_05.asm
+BBC14,ProjectModelPoints,sub_BBC14,new,low,"projects a model's points, flat or with perspective by its flags",src/lib/ea/ea_gfx_05.asm
+BBC80,DrawModelFlat,sub_BBC80,new,low,updates a model's matrix when needed and draws it as flat polygons with outlines,src/lib/ea/ea_gfx_05.asm
 BBD18,SetModelFrame,sub_BBD18,new,low,selects an animation frame of a model instance,src/lib/ea/ea_gfx_05.asm
 BBD98,DrawSortedModelPolys,sub_BBD98,new,low,sorts a model's faces by depth and draws them back to front,src/lib/ea/ea_gfx_05.asm
+BBE50,DrawModelSorted,sub_BBE50,new,low,draws a model's polygons depth sorted,src/lib/ea/ea_gfx_05.asm
+BBEC8,DrawModelPoly,sub_BBEC8,new,low,"transforms, projects and draws one model polygon through the ORI draw tables",src/lib/ea/ea_gfx_05.asm
+BC040,DrawModelPolyList,sub_BC040,new,low,"sets the model draw state and the rink view, then draws a list of polygons",src/lib/ea/ea_gfx_05.asm
+BC0C4,DrawModelPolys,sub_BC0C4,new,low,draws all of a model's polygons through DrawModelPolyList,src/lib/ea/ea_gfx_05.asm
+BC150,OriCreateInstance,sub_BC150,new,low,"creates an instance (""ORI_INST"") of a 3D model with its own frame and materials",src/lib/ea/ea_gfx_05.asm
+BC3A0,OriSetObjectMatrix,sub_BC3A0,new,low,copies a matrix into a 3D object and marks its matrix changed,src/lib/ea/ea_gfx_05.asm
+BC3F4,OriSetObjectPosition,sub_BC3F4,new,low,copies a position into a 3D object and marks it moved,src/lib/ea/ea_gfx_05.asm
+BC424,OriFixupModel,sub_BC424,new,low,"turns a loaded model's offsets into pointers and allocates its inverse matrices (""INVMATRX"")",src/lib/ea/ea_gfx_05.asm
+BC4F0,OriReadModel,sub_BC4F0,new,low,reads a 3D model (.ori) from the art archive,src/lib/ea/ea_gfx_05.asm
+BC5C0,OriLoadModel,sub_BC5C0,new,low,loads a 3D model and stops with an error when it cannot be read,src/lib/ea/ea_gfx_05.asm
+BC610,MakeRotXMatrix,sub_BC610,new,medium,builds a rotation matrix around the X axis from an angle,src/lib/ea/ea_gfx_05.asm
+BC674,MakeRotYMatrix,sub_BC674,new,medium,builds a rotation matrix around the Y axis from an angle,src/lib/ea/ea_gfx_05.asm
+BC6D8,MakeRotZMatrix,sub_BC6D8,new,medium,builds a rotation matrix around the Z axis from an angle,src/lib/ea/ea_gfx_05.asm
 BC73C,__CHP,,WATCOM,high,IDA FLIRT library signature,
+BC760,OriFindGroup,sub_BC760,new,low,"finds a named group in a model and returns its value, or -1",src/lib/watcom/watcom_clib_06.asm
+BC7F0,OriFindPartition,sub_BC7F0,new,low,"finds a named partition in a model and returns its index, or -1",src/lib/watcom/watcom_clib_06.asm
+BC838,OriGetPartition,sub_BC838,new,medium,"returns a model partition by id, stopping on an invalid id",src/lib/watcom/watcom_clib_06.asm
+BC890,ShadedPolyStepEdge,sub_BC890,new,low,sets up the step values of a shaded polygon edge,src/lib/watcom/watcom_clib_06.asm
+BCA38,ShadedSpansLeftClipped,sub_BCA38,new,low,"fills the spans of a left edged shaded triangle, clipped",src/lib/watcom/watcom_clib_06.asm
+BCB58,ShadedSpansLeft,sub_BCB58,new,low,fills the spans of a left edged shaded triangle,src/lib/watcom/watcom_clib_06.asm
+BCC24,ShadedSpansRightClipped,sub_BCC24,new,low,"fills the spans of a right edged shaded triangle, clipped",src/lib/watcom/watcom_clib_06.asm
+BCD44,ShadedSpansRight,sub_BCD44,new,low,fills the spans of a right edged shaded triangle,src/lib/watcom/watcom_clib_06.asm
+BCE10,FillShadedTriRight,sub_BCE10,new,low,fills a shaded triangle whose long edge is on the right,src/lib/watcom/watcom_clib_06.asm
+BCFE0,FillShadedTriRightClipped,sub_BCFE0,new,low,"fills a shaded triangle whose long edge is on the right, clipped",src/lib/watcom/watcom_clib_06.asm
+BD1D4,FillShadedTriLeft,sub_BD1D4,new,low,fills a shaded triangle whose long edge is on the left,src/lib/watcom/watcom_clib_06.asm
+BD3A0,FillShadedTriLeftClipped,sub_BD3A0,new,low,"fills a shaded triangle whose long edge is on the left, clipped",src/lib/watcom/watcom_clib_06.asm
+BD594,FillShadedPoly,sub_BD594,new,low,"fills a shaded polygon, splitting it into triangles and clipping where needed",src/lib/watcom/watcom_clib_06.asm
+BD86C,InitReciprocalTable,sub_BD86C,new,medium,fills the table of 10000h/n for n up to 2000,src/lib/watcom/watcom_clib_06.asm
+BD8B0,ClipEdgeAtZ,sub_BD8B0,new,low,finds the point where an edge crosses a Z plane,src/lib/watcom/watcom_clib_06.asm
+BD92C,ClipAndProjectEdge,sub_BD92C,new,low,clips an edge at a Z plane and projects the new point,src/lib/watcom/watcom_clib_06.asm
 BD964,PolySideTest,sub_BD964,new,low,"tells whether a polygon's points are all in front, all behind or across a depth plane",src/lib/watcom/watcom_clib_06.asm
+BD9AC,ClipPolyNearZ,sub_BD9AC,new,low,clips a polygon at the near plane and projects it,src/lib/watcom/watcom_clib_06.asm
+BDBE8,ClipEdgeAtZTex,sub_BDBE8,new,low,finds the point and texture point where an edge crosses a Z plane,src/lib/watcom/watcom_clib_06.asm
+BDC74,DrawTexturedPolyCore,sub_BDC74,new,low,"clips, projects and draws a textured polygon",src/lib/watcom/watcom_clib_06.asm
+BE47C,SubdivideMappedTriangle,sub_BE47C,new,low,"draws a mapped triangle, splitting it until the perspective error is small",src/lib/watcom/watcom_clib_06.asm
+BE6E0,DrawMarkingPolys,sub_BE6E0,new,low,"clips, projects and fills a list of flat polygons (ice markings)",src/lib/watcom/watcom_clib_06.asm
+BE8AC,SetPolyVertexArrays,sub_BE8AC,new,low,sets the point arrays and colour DrawMarkingPolys uses,src/lib/watcom/watcom_clib_06.asm
+BE8C0,Init387Emulator,sub_BE8C0,new,low,jumps to the 387 emulator set-up,src/lib/watcom/watcom_clib_06.asm
 BE8C5,imul32,,95PC,medium,NHL95PC 933F0 (similar): mnemonic similarity 0.82 over 47 instructions,
 BE93C,fprintf_,,WATCOM,high,IDA FLIRT library signature,
 BEA30,SortIndices,,95PC,medium,NHL95PC 93540 (similar): mnemonic similarity 0.83 over 62 instructions,
+BEB48,ProjectPointWide,sub_BEB48,new,low,projects one 3D point with perspective using 64-bit maths,src/lib/ea/ea_fileblock_03.asm
 BF070,__STOSB,,WATCOM,high,IDA FLIRT library signature,
 BF0A7,__STOSD,,WATCOM,high,IDA FLIRT library signature,
 BF534,initgraphics,,95PC,medium,NHL95PC 8E080 (sem): S:initgraphics - INITMEMMAN REQUIRED BEF; D:113A50; S:initgraphics - INVALID SCREEN SIZE (,
@@ -1503,6 +1584,7 @@ C3994,exit_,,WATCOM,high,IDA FLIRT library signature,
 C39AC,_exit_,,WATCOM,high,IDA FLIRT library signature,
 C39C2,_dos_setvect_,,WATCOM,high,IDA FLIRT library signature,
 C39ED,_dos_getvect_,,WATCOM,high,IDA FLIRT library signature,
+C3A48,DrawShapeOpaque,sub_C3A48,new,low,"draws a shape opaque at x, y, clipped to the clip rectangle; the draw at its own position follows it",src/lib/dos4gw/dos4gw_dpmi_glue_02.asm
 C3BD0,ResetMemLock,sub_C3BD0,new,low,clears the memory lock and returns its address,src/lib/dos4gw/dos4gw_dpmi_glue_02.asm
 C3BE0,MemLock,sub_C3BE0,new,low,sets the memory lock; followed by the try-lock,src/lib/watcom/watcom_clib_11.asm
 C3C04,MemUnlock,sub_C3C04,new,medium,clears the memory lock,src/lib/watcom/watcom_clib_11.asm
@@ -1524,6 +1606,9 @@ C464D,formstring_,,WATCOM,high,IDA FLIRT library signature,
 C4A96,zupstr_,,WATCOM,high,IDA FLIRT library signature,
 C4AAE,memmove_,,WATCOM,high,IDA FLIRT library signature,
 C4AFC,RefPackSize,sub_C4AFC,new,low,returns the unpacked size from a RefPack header,src/lib/watcom/watcom_clib_12.asm
+C4C6C,GetPalette,sub_C4C6C,new,medium,"reads palette entries (start, count, dst) from the VGA DAC, or through the hooked reader",src/lib/watcom/watcom_clib_12.asm
+C4CCC,ArtBitDepth,sub_C4CCC,new,medium,returns the bits per pixel of an art from its type byte,src/lib/watcom/watcom_clib_12.asm
+C4D80,PixelToRgb,sub_C4D80,new,low,converts a screen pixel value at the current depth to a 24-bit RGB colour,src/lib/watcom/watcom_clib_12.asm
 C4EA1,isatty_,,WATCOM,high,IDA FLIRT library signature,
 C4EBF,_dosret0_,,WATCOM,high,IDA FLIRT library signature,
 C4ECB,__set_errno_dos_,,WATCOM,high,IDA FLIRT library signature,
@@ -2051,6 +2136,9 @@ DFF70,WaitKey,,95PC,high,NHL95PC B3A18 (exact): 4 instructions,
 E0051,CalibrateJoystick,sub_E0051,new,low,times the joystick port with the timer chip to calibrate its range,src/lib/input/input_joystick_misc_01.asm
 E0158,ReadJoystickPorts,sub_E0158,new,low,reads the joystick buttons and axes by timing the port,src/lib/input/input_joystick_misc_01.asm
 E04D0,AddExitHandler,sub_E04D0,new,low,registers an exit handler,src/lib/input/input_joystick_misc_01.asm
+E04D9,ExitProgram,sub_E04D9,new,medium,exits the program with code 0,src/lib/input/input_joystick_misc_01.asm
+E04E0,FindShape,sub_E04E0,new,medium,"finds a shape by id in a shape bank (bank, &id) and stops with ""shape not found"" when it is missing",src/lib/input/input_joystick_misc_01.asm
+E04E7,FindShapeQuiet,sub_E04E7,new,medium,"finds a shape by id in a shape bank (bank, &id); returns 0 when it is missing",src/lib/input/input_joystick_misc_01.asm
 E0520,bcopy,sub_E0520,new,low,"(src, dst, n): copies n bytes, backwards when they overlap (BSD order)",src/lib/input/input_joystick_misc_01.asm
 E05DA,InstallBreakHandler,sub_E05DA,new,low,installs a Ctrl-Break handler through a real-mode callback in DOS memory and registers its removal at exit,src/lib/input/input_joystick_misc_01.asm
 E062F,RemoveBreakHandler,sub_E062F,new,low,frees the DOS memory of the Ctrl-Break callback and clears its selector,src/lib/input/input_joystick_misc_01.asm
@@ -2070,6 +2158,8 @@ E14C8,vecdist,sub_E14C8,95PC,high,called at the same position as in NHL95PC in 4
 E1638,SetViewScreenOrigin,sub_E1638,new,low,sets the view's screen origin and works out its far corner from the view size,src/lib/input/input_joystick_misc_02.asm
 E167A,SetCameraAngles,sub_E167A,new,low,converts the camera angles from degrees to 1024ths of a turn and builds the camera rotation,src/lib/input/input_joystick_misc_02.asm
 E17B8,TransposeMatrix,sub_E17B8,new,low,"transposes a 3x3 matrix, in place or into another matrix",src/lib/input/input_joystick_misc_02.asm
+E1824,FillMem,sub_E1824,new,medium,"fills memory (dst, count, byte value)",src/lib/video/video_bios_vga_02.asm
+E1836,ZeroMem,sub_E1836,new,medium,"clears memory (dst, count) to zero",src/lib/video/video_bios_vga_02.asm
 E1927,PollHotkeys,sub_E1927,new,low,reads a key and dispatches its hotkey handler,src/lib/video/video_bios_vga_02.asm
 E19FE,SetupRectFill,sub_E19FE,new,medium,clips a rectangle and fills in its fill description,src/lib/video/video_bios_vga_03.asm
 E22DC,DispatchHotkey,sub_E22DC,new,medium,looks up the handler registered for a key (ASCII or extended scan code) and calls it,src/lib/video/video_bios_vga_03.asm

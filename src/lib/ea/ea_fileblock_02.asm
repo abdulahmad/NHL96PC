@@ -6,7 +6,7 @@ extern FatalError, str_SavefileblockaOPENFAILEDFOR, byte_11FA2C, byte_11FA2D, by
 extern TextOriginX, TextOriginY, dword_11FA24, dword_11FA28, dword_11FA34, dword_11FA38, dword_11FA3C, dword_11FA40
 extern dword_11FA44, dword_11FA48, dword_11FA4C, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight
 extern dword_1228E8, KeyedDraw, DrawDestBuffer, dword_1228FC, dword_185774, off_11FA10, MemDescPtr, MemDescSize
-extern SetTextOrigin, sub_C4CCC, sub_C4D80, DrawEllipseClipped, sub_DE15C, sub_DEE68, sub_E069C, DosCloseFile
+extern SetTextOrigin, ArtBitDepth, PixelToRgb, DrawEllipseClipped, sub_DE15C, sub_DEE68, sub_E069C, DosCloseFile
 extern DosWriteFile
 global SaveDataFile, savefileblocka, sub_B2400, sub_B2B0C
 ;-----------------------------------------------------------------------------
@@ -183,7 +183,7 @@ sub_B2400:
         test edi, edi
         je short .3
         push esi
-        call sub_C4CCC
+        call ArtBitDepth
         mov edx, dword [byte esi+02h]
         add esp, byte 4
         sar edx, 10h
@@ -581,7 +581,7 @@ sub_B2400:
         je short .36
         mov ecx, dword [nosplit eax*4+dword_185774]
         push ecx
-        call sub_C4D80
+        call PixelToRgb
         add esp, byte 4
         push eax
         push esi
@@ -596,7 +596,7 @@ sub_B2400:
         je short .37
         mov edx, dword [nosplit eax*4+dword_185774]
         push edx
-        call sub_C4D80
+        call PixelToRgb
         add esp, byte 4
         push eax
         push esi

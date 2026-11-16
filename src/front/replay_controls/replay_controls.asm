@@ -59,11 +59,11 @@ extern LoadFrontEndArt, FreeFrontEndArt, FadePalette, FadeOut, CopyBitmap, SetSc
 extern InitMenuItems, sub_64E74, sub_64F47, RunMenu, SetMenuMouse, FreeSpeechBuffer, RestoreSpeechBuffer, StopSpeech
 extern StopMusic, QueueMusic, FillMusicStream, PlayMusic, FadeOutMusic, MusicDone, PlaySfx, Crowd_Noise
 extern CrowdNoiseReset, CrowdPause, CrowdResume, StopArenaClip, StartGameSound, EndGameSound, SoundSecondsToBytes, SoundIdle
-extern GetLangText, PickIndexEntryScreen, DrawShapeAtOwnPos, sub_AAA40, sub_AAA8C, PutBlock, sub_AADA4, AllocMemBlock
-extern FreeMemBlock, sub_AD35C, FillRect, sub_ADBEC, sub_AFFD0, SaveTextState, SetDrawTarget, TextSetFont
-extern sub_B0CA8, sub_B2B0C, sub_B58D8, sub_B6140, sub_BA3D0, DrawFlatPoly, DrawPolyOutline, sub_BB924
-extern sub_BB9C4, MultiplyMatrix, sub_BC3A0, sub_BC610, sub_BC674, sub_BC6D8, SortIndices, sub_BEAE4
-extern SetScreenTarget, SetClipWindow, MouseRead, SetViewRect, TicksSinceLast, sub_E04E0, sub_E0584, SetViewScreenOrigin
+extern GetLangText, PickIndexEntryScreen, DrawShapeAtOwnPos, DrawArt, DrawShape, PutBlock, PutBlockAtOwnPos, AllocMemBlock
+extern FreeMemBlock, CreateBitmap, FillRect, FreeBitmap, TextSetColor, SaveTextState, SetDrawTarget, TextSetFont
+extern sub_B0CA8, sub_B2B0C, sub_B58D8, sub_B6140, ProjectPointList, DrawFlatPoly, DrawPolyOutline, DrawArtScaledHotspot
+extern TransformVector, MultiplyMatrix, OriSetObjectMatrix, MakeRotXMatrix, MakeRotYMatrix, MakeRotZMatrix, SortIndices, sub_BEAE4
+extern SetScreenTarget, SetClipWindow, MouseRead, SetViewRect, TicksSinceLast, FindShape, sub_E0584, SetViewScreenOrigin
 extern SetCameraAngles, TransposeMatrix, str_D19, str_dot4, unk_11A430, unk_11A770, unk_11A9B0, unk_11AB30
 extern unk_11AE70, unk_11B0B0, unk_11B230, unk_122344, unk_16443C, unk_1774C4, unk_177510, unk_1778C4
 extern unk_177908, unk_1781E4, unk_1781FE, unk_179980, unk_179AC0, unk_179E02, optblock_end, unk_17D32C
@@ -266,14 +266,14 @@ EndReplay:
         push eax
         lea eax, [byte ebp-030h]
         push eax
-        call sub_BC610
+        call MakeRotXMatrix
         mov eax, dword [dword_11B294]
         add esp, byte 8
         neg eax
         push eax
         lea eax, [byte ebp-054h]
         push eax
-        call sub_BC6D8
+        call MakeRotZMatrix
         add esp, byte 8
         lea eax, [byte ebp-078h]
         push eax
@@ -286,12 +286,12 @@ EndReplay:
         lea eax, [byte ebp-078h]
         push eax
         push dword [dword_15E8E0]
-        call sub_BC3A0
+        call OriSetObjectMatrix
         add esp, byte 8
         lea eax, [byte ebp-078h]
         push eax
         push dword [dword_15E8D8]
-        call sub_BC3A0
+        call OriSetObjectMatrix
         mov eax, dword [dword_177900]
         mov dword [dword_11B374], eax
         mov eax, dword [dword_177904]
@@ -819,14 +819,14 @@ ReplayCameraMatrix:
         push eax
         lea eax, [byte ebp-048h]
         push eax
-        call sub_BC610
+        call MakeRotXMatrix
         mov eax, dword [dword_17709E]
         add esp, byte 8
         neg eax
         push eax
         lea eax, [byte ebp-06Ch]
         push eax
-        call sub_BC6D8
+        call MakeRotZMatrix
         add esp, byte 8
         lea eax, [byte ebp-024h]
         push eax
@@ -839,12 +839,12 @@ ReplayCameraMatrix:
         lea eax, [byte ebp-024h]
         push eax
         push dword [dword_15E8E0]
-        call sub_BC3A0
+        call OriSetObjectMatrix
         add esp, byte 8
         lea eax, [byte ebp-024h]
         push eax
         push dword [dword_15E8D8]
-        call sub_BC3A0
+        call OriSetObjectMatrix
         add esp, byte 8
         leave
         pop edx
@@ -924,7 +924,7 @@ DrawReplayObjects:
         push edx
         push dword [nosplit esi*4+dword_152FEC]
         push eax
-        call sub_BB924
+        call DrawArtScaledHotspot
         add esp, byte 10h
 .5:
         xor esi, esi
@@ -1310,7 +1310,7 @@ DrawReplayCounter:
         push dword 0FFh
         push byte 30h
         mov dword [byte ebp-08h], eax
-        call sub_AFFD0
+        call TextSetColor
         add esp, byte 8
         push dword [byte ebp-04h]
         push str_D19
@@ -1509,12 +1509,12 @@ DrawReplayClock:
         add esp, byte 4
         push dword 0FFh
         push byte 41h
-        call sub_AFFD0
+        call TextSetColor
         add esp, byte 8
         push dword [byte ebp-04h]
         push dword [byte ebp-08h]
         push dword [dword_179908]
-        call sub_AAA40
+        call DrawArt
         add esp, byte 0Ch
         test esi, esi
         je short .9
@@ -1555,12 +1555,12 @@ DrawReplayView:
         push dword [dword_179E0F]
         lea eax, [byte ebp-03Ch]
         push eax
-        call sub_BC610
+        call MakeRotXMatrix
         add esp, byte 8
         push dword [dword_179E0B]
         lea eax, [byte ebp-060h]
         push eax
-        call sub_BC674
+        call MakeRotYMatrix
         add esp, byte 8
         push unk_1778C4
         lea eax, [byte ebp-03Ch]
@@ -1634,7 +1634,7 @@ DrawReplayView:
         push dword_1797FC
         push unk_179AC0
         push byte 11h
-        call sub_BA3D0
+        call ProjectPointList
         mov eax, 60h
         add esp, byte 0Ch
 .4:
@@ -1851,7 +1851,7 @@ ReplayFreeCamera:
         push eax
         lea eax, [byte ebp-0Ch]
         push eax
-        call sub_BB9C4
+        call TransformVector
         lea ebx, [byte ebp-0Ch]
         add esp, byte 0Ch
         lea edx, [byte ebp-030h]
@@ -1901,7 +1901,7 @@ ReplayFreeCamera:
         lea eax, [byte ebp-078h]
         push eax
         mov dword [byte ebp-010h], 140h
-        call sub_BC674
+        call MakeRotYMatrix
         add esp, byte 8
         lea eax, [byte ebp-024h]
         push eax
@@ -1909,7 +1909,7 @@ ReplayFreeCamera:
         push eax
         lea eax, [byte ebp-018h]
         push eax
-        call sub_BB9C4
+        call TransformVector
         mov eax, dword [byte ebp-07Ch]
         mov eax, dword [eax]
         sub eax, dword [dword_178254]
@@ -2182,7 +2182,7 @@ sub_55EBA_17B:
         push eax
         lea eax, [byte ebp+012h]
         push eax
-        call sub_BC674
+        call MakeRotYMatrix
         mov eax, dword [byte ebp+07Eh]
         mov eax, dword [byte eax+0Dh]
         add esp, byte 8
@@ -2190,7 +2190,7 @@ sub_55EBA_17B:
         push eax
         lea eax, [byte ebp+036h]
         push eax
-        call sub_BC610
+        call MakeRotXMatrix
         add esp, byte 8
         lea eax, [byte ebp-012h]
         push eax
@@ -2206,7 +2206,7 @@ sub_55EBA_17B:
         push eax
         lea eax, [byte ebp+072h]
         push eax
-        call sub_BB9C4
+        call TransformVector
         mov ebx, dword [byte ebp+07Eh]
         mov eax, dword [byte ebp+05Ah]
         add dword [byte ebx+011h], eax
@@ -2251,7 +2251,7 @@ sub_55EBA_17B:
         push eax
         lea eax, [byte ebp+012h]
         push eax
-        call sub_BC674
+        call MakeRotYMatrix
         add esp, byte 8
         lea eax, [byte ebp+05Ah]
         push eax
@@ -2259,7 +2259,7 @@ sub_55EBA_17B:
         push eax
         lea eax, [byte ebp+066h]
         push eax
-        call sub_BB9C4
+        call TransformVector
         mov edx, dword [byte ebp+07Eh]
         mov eax, dword [byte ebp+072h]
         sub eax, dword [byte edx+011h]
@@ -2442,10 +2442,10 @@ ReplayFrame:
         call Crowd_Noise
         push str_Topp
         push dword [dword_1781D0]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AADA4
+        call PutBlockAtOwnPos
         movzx eax, byte [byte_178247]
         add esp, byte 4
         cmp eax, byte 0Ah
@@ -2456,10 +2456,10 @@ ReplayFrame:
         push str_Sid13
 .12:
         push dword [dword_1781D0]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AADA4
+        call PutBlockAtOwnPos
         add esp, byte 4
         call DrawReplayCounter
         call DrawReplayView
@@ -2588,17 +2588,17 @@ ReplayScreen:
         call InitMenuItems
         push str_Puk1
         push dword [dword_1781D0]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Puk2
         push dword [dword_1781D0]
         mov dword [dword_177922], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Puk3
         push dword [dword_1781D0]
         mov dword [dword_177926], eax
-        call sub_E04E0
+        call FindShape
         mov dword [dword_17792A], eax
         mov eax, dword [dword_1781DC]
         mov dword [dword_17791C], eax
@@ -2624,17 +2624,17 @@ ReplayScreen:
         add eax, edx
         mov byte [byte_17794B], 0Bh
         mov dword [dword_177946], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Rew2
         push dword [dword_1781D0]
         mov dword [dword_177988], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Rew3
         push dword [dword_1781D0]
         mov dword [dword_17798C], eax
-        call sub_E04E0
+        call FindShape
         mov dword [dword_177990], eax
         mov eax, dword [dword_1781DC]
         add eax, byte 40h
@@ -2662,17 +2662,17 @@ ReplayScreen:
         add eax, edx
         push dword [dword_1781D0]
         mov dword [dword_1779AC], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Bak2
         push dword [dword_1781D0]
         mov dword [dword_1779EE], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Bak3
         push dword [dword_1781D0]
         mov dword [dword_1779F2], eax
-        call sub_E04E0
+        call FindShape
         mov dword [dword_1779F6], eax
         mov eax, dword [dword_1781DC]
         add eax, 80h
@@ -2699,17 +2699,17 @@ ReplayScreen:
         add eax, edx
         or byte [byte_177A1A], 1
         mov dword [dword_177A12], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Pws2
         push dword [dword_1781D0]
         mov dword [dword_177A54], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Pws3
         push dword [dword_1781D0]
         mov dword [dword_177A58], eax
-        call sub_E04E0
+        call FindShape
         mov dword [dword_177A5C], eax
         mov eax, dword [dword_1781DC]
         add eax, 0C0h
@@ -2736,17 +2736,17 @@ ReplayScreen:
         add eax, edx
         or byte [byte_177A80], 1
         mov dword [dword_177A78], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Pla22
         push dword [dword_1781D0]
         mov dword [dword_177ABA], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Pla3
         push dword [dword_1781D0]
         mov dword [dword_177ABE], eax
-        call sub_E04E0
+        call FindShape
         mov dword [dword_177AC2], eax
         mov eax, dword [dword_1781DC]
         add eax, 100h
@@ -2773,17 +2773,17 @@ ReplayScreen:
         add eax, edx
         or byte [byte_177AE6], 1
         mov dword [dword_177ADE], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Fwd2
         push dword [dword_1781D0]
         mov dword [dword_177B20], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Fwd3
         push dword [dword_1781D0]
         mov dword [dword_177B24], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword_177B28], eax
         mov eax, dword [dword_1781DC]
@@ -2810,17 +2810,17 @@ ReplayScreen:
         add eax, edx
         or byte [byte_177B4C], 1
         mov dword [dword_177B44], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Ffw2
         push dword [dword_1781D0]
         mov dword [dword_177B86], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Ffw3
         push dword [dword_1781D0]
         mov dword [dword_177B8A], eax
-        call sub_E04E0
+        call FindShape
         mov dword [dword_177B8E], eax
         mov eax, dword [dword_1781DC]
         add eax, 180h
@@ -2853,30 +2853,30 @@ ReplayScreen:
         je short .9
         push str_Cht13
         push dword [dword_1781D0]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Cht2
         push dword [dword_1781D0]
         mov dword [dword_177BEC], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Cht3
         jmp short .10
 .9:
         push str_Sav13
         push dword [dword_1781D0]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Sav2
         push dword [dword_1781D0]
         mov dword [dword_177BEC], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Sav3
 .10:
         push dword [dword_1781D0]
         mov dword [dword_177BF0], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword_177BF4], eax
         mov eax, dword [dword_1781DC]
@@ -2902,17 +2902,17 @@ ReplayScreen:
         add eax, edx
         mov byte [byte_177C15], 8
         mov dword [dword_177C10], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Exi2
         push dword [dword_1781D0]
         mov dword [dword_177C52], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Exi3
         push dword [dword_1781D0]
         mov dword [dword_177C56], eax
-        call sub_E04E0
+        call FindShape
         mov dword [dword_177C5A], eax
         mov eax, dword [dword_1781DC]
         add eax, 200h
@@ -2940,17 +2940,17 @@ ReplayScreen:
         add eax, edx
         mov word [word_177D1C], 3
         mov dword [dword_177C76], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Cmr2
         push dword [dword_1781D0]
         mov dword [dword_177D84], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Cmr3
         push dword [dword_1781D0]
         mov dword [dword_177D88], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword_177D8C], eax
         mov eax, dword [dword_1781DC]
@@ -2977,17 +2977,17 @@ ReplayScreen:
         add eax, edx
         mov byte [byte_177DAD], 0Dh
         mov dword [dword_177DA8], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Cmm2
         push dword [dword_1781D0]
         mov dword [dword_177DEA], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Cmm3
         push dword [dword_1781D0]
         mov dword [dword_177DEE], eax
-        call sub_E04E0
+        call FindShape
         mov dword [dword_177DF2], eax
         mov eax, dword [dword_1781DC]
         add eax, 300h
@@ -3028,21 +3028,21 @@ ReplayScreen:
         push eax
         push dword [dword_1781D0]
         mov byte [byte ebp-025h], 31h
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword esi+dword_177922], eax
         lea eax, [byte ebp-028h]
         push eax
         push dword [dword_1781D0]
         mov byte [byte ebp-025h], 32h
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword esi+dword_177926], eax
         lea eax, [byte ebp-028h]
         push eax
         push dword [dword_1781D0]
         mov byte [byte ebp-025h], 33h
-        call sub_E04E0
+        call FindShape
         mov dword [dword esi+dword_177918], 6
         mov dword [dword esi+dword_17792A], eax
         mov eax, dword [dword esi+dword_177922]
@@ -3099,12 +3099,12 @@ ReplayScreen:
         add eax, dword [byte ebp-034h]
         push dword [dword_1781D0]
         mov dword [byte ebp-02Ch], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         push str_Ltrg
         push dword [dword_1781D0]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         push dword [byte ebp-02Ch]
@@ -3142,10 +3142,10 @@ ReplayScreen:
         add esp, byte 10h
         push str_Topp
         push dword [dword_1781D0]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AAA8C
+        call DrawShape
         movzx eax, byte [byte_178247]
         add esp, byte 4
         cmp eax, byte 0Ah
@@ -3156,10 +3156,10 @@ ReplayScreen:
         push str_Sid13
 .17:
         push dword [dword_1781D0]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AAA8C
+        call DrawShape
         add esp, byte 4
         push dword [dword_11F5C4]
         push dword [dword_11F5C0]
@@ -3503,12 +3503,12 @@ ReplayScreen_1110:
         call SaveHighlight
         push str_Rtrg
         push dword [dword_1781D0]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         push str_Ltrg
         push dword [dword_1781D0]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
         push dword [byte ebp-02Ch]
@@ -3542,19 +3542,19 @@ ReplayScreen_1255:
 .42:
         push str_Sid13
         push dword [dword_1781D0]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AAA8C
+        call DrawShape
         add esp, byte 4
         push str_Cmm1
         push dword [dword_1781D0]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Cmm2
         push dword [dword_1781D0]
         mov dword [dword_177DEA], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         lea edi, [byte ebp-028h]
         push str_Cmm3
@@ -3562,7 +3562,7 @@ ReplayScreen_1255:
         mov esi, str_CmS
         push dword [dword_1781D0]
         mov dword [dword_177DEE], eax
-        call sub_E04E0
+        call FindShape
         mov dword [dword_177DDC], 1
         mov byte [byte_177E12], 15h
         mov dword [dword_177DF2], eax
@@ -3582,21 +3582,21 @@ ReplayScreen_1255:
         push eax
         push dword [dword_1781D0]
         mov byte [byte ebp-025h], 31h
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword esi+dword_177922], eax
         lea eax, [byte ebp-028h]
         push eax
         push dword [dword_1781D0]
         mov byte [byte ebp-025h], 32h
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword esi+dword_177926], eax
         lea eax, [byte ebp-028h]
         push eax
         push dword [dword_1781D0]
         mov byte [byte ebp-025h], 33h
-        call sub_E04E0
+        call FindShape
         mov dword [dword esi+dword_177918], 6
         mov dword [dword esi+dword_17792A], eax
         mov eax, dword [dword esi+dword_177922]
@@ -3652,19 +3652,19 @@ ReplayScreen_1255:
 .49:
         push str_Sid23
         push dword [dword_1781D0]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push eax
-        call sub_AAA8C
+        call DrawShape
         add esp, byte 4
         push str_Aut1
         push dword [dword_1781D0]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_Aut2
         push dword [dword_1781D0]
         mov dword [dword_177DEA], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         lea edi, [byte ebp-028h]
         push str_Aut3
@@ -3672,7 +3672,7 @@ ReplayScreen_1255:
         mov esi, str_MmS
         push dword [dword_1781D0]
         mov dword [dword_177DEE], eax
-        call sub_E04E0
+        call FindShape
         mov dword [dword_177DDC], 1
         mov byte [byte_177E12], 12h
         mov dword [dword_177DF2], eax
@@ -3692,21 +3692,21 @@ ReplayScreen_1255:
         push eax
         push dword [dword_1781D0]
         mov byte [byte ebp-025h], 31h
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword esi+dword_177922], eax
         lea eax, [byte ebp-028h]
         push eax
         push dword [dword_1781D0]
         mov byte [byte ebp-025h], 32h
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword esi+dword_177926], eax
         lea eax, [byte ebp-028h]
         push eax
         push dword [dword_1781D0]
         mov byte [byte ebp-025h], 33h
-        call sub_E04E0
+        call FindShape
         mov dword [dword esi+dword_177918], 6
         mov dword [dword esi+dword_17792A], eax
         mov eax, dword [dword esi+dword_177922]
@@ -3813,7 +3813,7 @@ RunReplay:
         push byte 0
         push dword [dword_11F5C4]
         push dword [dword_11F5C0]
-        call sub_AD35C
+        call CreateBitmap
         mov edx, dword [byte eax+02Ch]
         mov word [byte edx+0Ch], 0
         mov edx, dword [byte eax+02Ch]
@@ -3855,7 +3855,7 @@ RunReplay:
         call PutBlock
         add esp, byte 0Ch
         push esi
-        call sub_ADBEC
+        call FreeBitmap
         add esp, byte 4
 .2:
         pop esi
@@ -4196,12 +4196,12 @@ WatchHighlight:
         jne short .4
         push str_GloL4
         push dword [dword_1150D4]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_GloR4
         push dword [dword_1150D4]
         mov dword [dword_152F58], eax
-        call sub_E04E0
+        call FindShape
         mov edx, 20h
         add esp, byte 8
         mov dword [dword_152F50], eax
@@ -4216,12 +4216,12 @@ WatchHighlight:
 .4:
         push str_GhiL4
         push dword [dword_1150D4]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_GhiR4
         push dword [dword_1150D4]
         mov dword [dword_152F58], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword_152F50], eax
 .5:
@@ -4251,12 +4251,12 @@ WatchHighlight:
         call EndGameCleanup
         push str_FhiL6
         push dword [dword_1150D4]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_FhiR6
         push dword [dword_1150D4]
         mov dword [dword_152F58], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword_152F50], eax
         test byte [byte_17CA5D], 20h

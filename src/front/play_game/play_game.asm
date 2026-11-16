@@ -20,7 +20,7 @@ extern UpdateCamera, FreeSpriteCache, LoadFrontEndArt, FreeFrontEndArt, SetScree
 extern StopMusic, QueueMusic, FadeOutMusic, PlaySfx, Crowd_Noise, SetCrowdTarget, CrowdFadeOut, ArenaClipReady
 extern StartArenaClip, StopArenaClip, StartGameSound, EndGameSound, SoundIdle, WriteGlobalSet, GetLangText, RemoveTimerCallback
 extern AllocMemBlock, FreeMemBlock, sub_ADA50, sub_B0CA8, SetScreenTarget, GetPaletteRange, sub_DD7B8, TicksSinceLast
-extern sub_E04E0, unk_16443C, unk_17CB2E, unk_17CED5, unk_17D272, unk_17D32C, word_114CE0, word_114F14
+extern FindShape, unk_16443C, unk_17CB2E, unk_17CED5, unk_17D272, unk_17D32C, word_114CE0, word_114F14
 extern word_119111, word_119113, word_1515E4, word_1656D2, word_1656D6
 global jpt_168DA, jpt_168EA, PlayMenuGame, PlayMenuGame_75, PlayMenuGame_85, PlayMenuGame_9F, PlayMenuGame_AF, PlayMenuGame_243
 global PlayMenuGame_25F, PlayMenuGame_26B, PlayMenuGame_280, InputRecordTimer, HandleSlotButtons, HandleSlotButtons_18D, RunSimFrames, GameLoop
@@ -112,12 +112,12 @@ PlayMenuGame_AF:
         jne short .4
         push str_GloL5
         push dword [dword_1150D4]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_GloR5
         push dword [dword_1150D4]
         mov dword [dword_152F58], eax
-        call sub_E04E0
+        call FindShape
         mov edx, 20h
         add esp, byte 8
         mov dword [dword_152F50], eax
@@ -132,12 +132,12 @@ PlayMenuGame_AF:
 .4:
         push str_GhiL
         push dword [dword_1150D4]
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_GhiR
         push dword [dword_1150D4]
         mov dword [dword_152F58], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword_152F50], eax
 .5:
@@ -152,12 +152,12 @@ PlayMenuGame_AF:
         push str_FhiL2
         push dword [dword_1150D4]
         mov dword [byte ebp-08h], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         push str_FhiR2
         push dword [dword_1150D4]
         mov dword [dword_152F58], eax
-        call sub_E04E0
+        call FindShape
         add esp, byte 8
         mov dword [dword_152F50], eax
         test byte [byte_17CA5D], 20h

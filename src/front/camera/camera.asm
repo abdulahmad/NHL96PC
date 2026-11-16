@@ -26,7 +26,7 @@ extern foy, FullViewClip, gameclock, GameLoopActive, GetTicks, gmode, off_11787C
 extern PtrPuckObject, passplayer, penshotlive, penshotmode, penshotstart, puckc, puckvx, puckvz
 extern QueueOverlayPanel, qword_111084, qword_11108C, qword_111094, qword_11109C, qword_1110A4, qword_1110AC, qword_1110B4
 extern qword_1110BC, rand_, seed, seed_w2, SetClipWindow, SetDrawBitmap, sflags, SortCords
-extern str_Priority2, AddIceCrud, SetRinkClipWindow, AllocMemBlock, FreeMemBlock, AngleOfVector, sub_BB9C4, sub_BC674
+extern str_Priority2, AddIceCrud, SetRinkClipWindow, AllocMemBlock, FreeMemBlock, AngleOfVector, TransformVector, MakeRotYMatrix
 extern sub_BEAE4, sub_DFE9C, KbdGetKey, sub_E0584, SetViewScreenOrigin, SetCameraAngles, unk_11B673, unk_11B6B8
 extern unk_11B6FD, unk_11B811, unk_11B856, unk_11B89B, unk_11B8E0, unk_11B925, unk_11B96A, unk_11B9AF
 extern unk_16443C, unk_1781E4, unk_179CCC, unk_179CE4, unk_179CFC, unk_179D14, unk_179D2C, unk_179E02
@@ -598,13 +598,13 @@ AnglePitch:
         push eax
         lea eax, [byte ebp-024h]
         push eax
-        call sub_BC674
+        call MakeRotYMatrix
         add esp, byte 8
         push esi
         lea eax, [byte ebp-024h]
         push eax
         push edi
-        call sub_BB9C4
+        call TransformVector
         add esp, byte 0Ch
         leave
         pop edi
@@ -913,7 +913,7 @@ CameraNearNet:
         mov edx, dword [byte ebp-050h]
         push eax
         mov dword [byte ebp-08h], edx
-        call sub_BC674
+        call MakeRotYMatrix
         add esp, byte 8
         lea eax, [byte ebp-028h]
         push eax
@@ -921,7 +921,7 @@ CameraNearNet:
         push eax
         lea eax, [byte ebp-010h]
         push eax
-        call sub_BB9C4
+        call TransformVector
         mov eax, dword [byte ebp-028h]
         add dword [dword_179DCE], eax
         mov eax, dword [byte ebp-020h]
@@ -989,7 +989,7 @@ CameraAim:
         lea eax, [byte ebp-03Ch]
         push eax
         mov dword [byte ebp-04h], 294h
-        call sub_BC674
+        call MakeRotYMatrix
         add esp, byte 8
         lea eax, [byte ebp-018h]
         push eax
@@ -997,7 +997,7 @@ CameraAim:
         push eax
         lea eax, [byte ebp-0Ch]
         push eax
-        call sub_BB9C4
+        call TransformVector
         mov eax, dword [dword_179D50]
         sub eax, dword [byte ebp-018h]
         mov dword [dword_179DCE], eax
@@ -2892,7 +2892,7 @@ CamShot242:
         lea eax, [byte ebp-03Ch]
         push eax
         mov dword [byte ebp-04h], 2A8h
-        call sub_BC674
+        call MakeRotYMatrix
         add esp, byte 8
         lea eax, [byte ebp-018h]
         push eax
@@ -2900,7 +2900,7 @@ CamShot242:
         push eax
         lea eax, [byte ebp-0Ch]
         push eax
-        call sub_BB9C4
+        call TransformVector
         mov eax, dword [dword_179D50]
         sub eax, dword [byte ebp-018h]
         mov dword [dword_179DCE], eax
@@ -2965,7 +2965,7 @@ CamShot242_126:
         lea eax, [byte ebp-03Ch]
         push eax
         mov dword [byte ebp-010h], 438h
-        call sub_BC674
+        call MakeRotYMatrix
         add esp, byte 8
         lea eax, [byte ebp-0Ch]
         push eax
@@ -2973,7 +2973,7 @@ CamShot242_126:
         push eax
         lea eax, [byte ebp-018h]
         push eax
-        call sub_BB9C4
+        call TransformVector
         mov eax, dword [dword_179D50]
         sub eax, dword [byte ebp-0Ch]
         mov dword [dword_179DCE], eax
@@ -3124,7 +3124,7 @@ CamShot246:
         lea eax, [byte ebp-03Ch]
         push eax
         mov dword [byte ebp-04h], 2A8h
-        call sub_BC674
+        call MakeRotYMatrix
         add esp, byte 8
         lea eax, [byte ebp-018h]
         push eax
@@ -3132,7 +3132,7 @@ CamShot246:
         push eax
         lea eax, [byte ebp-0Ch]
         push eax
-        call sub_BB9C4
+        call TransformVector
         mov eax, dword [dword_179D50]
         sub eax, dword [byte ebp-018h]
         mov dword [dword_179DCE], eax
@@ -3213,7 +3213,7 @@ CamShot247:
         sar edx, 1
         mov dword [byte ebp-028h], 2A8h
         mov dword [byte ebp-04h], edx
-        call sub_BC674
+        call MakeRotYMatrix
         add esp, byte 8
         lea eax, [byte ebp-03Ch]
         push eax
@@ -3221,7 +3221,7 @@ CamShot247:
         push eax
         lea eax, [byte ebp-030h]
         push eax
-        call sub_BB9C4
+        call TransformVector
         mov eax, dword [byte ebp-0Ch]
         sub eax, dword [byte ebp-03Ch]
         mov dword [dword_179DCE], eax

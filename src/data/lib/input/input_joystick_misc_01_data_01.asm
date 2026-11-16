@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_11F8DC progbits alloc noexec write align=1
-extern memlist1, sub_E04D9, PollHotkeys, str_Jan, str_Feb2, str_Mar, str_Apr, str_May
+extern memlist1, ExitProgram, PollHotkeys, str_Jan, str_Feb2, str_Mar, str_Apr, str_May
 extern str_Jun, str_Jul, str_Aug, str_Sep, str_Oct, str_Nov, str_Dec, unk_1213DC
 extern unk_1213FC, unk_1215B8
 global JoyCalibrating, JoyButtonBits, JoyPortMask, JoyButtons, JoyButtonsPrev, JoyDirection, byte_11F983, byte_11F9D8
@@ -109,7 +109,7 @@ byte_11F983:
         db 00h,01h,05h,00h,03h,02h,04h,03h,07h,08h,06h,07h,00h,01h,05h,00h
         db 00h
 dword_11F994:
-        dd sub_E04D9
+        dd ExitProgram
         db 00h,00h,00h,00h,00h,00h,00h,00h
 joycalactive:
         db 00h,00h,00h,00h

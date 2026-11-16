@@ -21,8 +21,8 @@ extern AnimateBenchSprite, CrowdReactToPlay, AddZone, DrawGameFrame, GetPeriodTe
 extern FreeSpriteCache, FadePalette, FadeOut, SetTextColors, DrawColorText, DrawColorTextRight, DrawColorTextCentred, DrawBox
 extern Crowd_Noise, CrowdFadeOut, CrowdReaction, PlayArenaClip, ArenaClipReady, StartArenaClip, StopArenaClip, SoundIdle
 extern GetLangText, DrawRectOutline, TextSetColor, SetAaPalLut, DrawArtAaScaledInt, FillRectColor, SetPaletteEntries, SetRemapTable
-extern TicksSinceLast, bcopy, FillPolygonArgs, RemapPolygonArgs, TextSetFont, str_C_DrawOverlayPanels, str_Punct_DrawOverlayPanels, StarPanelOffsets
-extern str_V_DrawOverlayPanels, hmplstats, hmplattr, AwSortCords, PreGameSkatePaths, BenchSpriteCount, OverlayRemap
+extern TicksSinceLast, bcopy, FillPolygonArgs, RemapPolygonArgs, TextSetFont, StarPanelOffsetsLowRes, StarPanelRowsLowRes, StarPanelOffsets
+extern StarPanelRows, hmplstats, hmplattr, AwSortCords, PreGameSkatePaths, BenchSpriteCount, OverlayRemap
 extern updateanim, vtoa, camx, camy, xc1, HomeControlSlot, RefStep, energywarn_aw
 extern lcblink_aw, CupShown, IntroStandSpots, TeamJerseyStyle
 extern hmscore, hmtmtouch1, hmtmpdst, awscore, StarPoints
@@ -601,11 +601,11 @@ DrawOverlayPanels:
         test byte [GsOptions+1], 20h
         je short .1
         mov esi, StarPanelOffsets
-        mov dword [byte ebp-04h], str_V_DrawOverlayPanels
+        mov dword [byte ebp-04h], StarPanelRows
         jmp short .2
 .1:
-        mov esi, str_C_DrawOverlayPanels
-        mov dword [byte ebp-04h], str_Punct_DrawOverlayPanels
+        mov esi, StarPanelOffsetsLowRes
+        mov dword [byte ebp-04h], StarPanelRowsLowRes
 .2:
         push byte 0
         push byte 30h

@@ -13,7 +13,7 @@ extern str_SM02, str_AWD1, str_AWD2, str_RUL0, str_RUL14, str_RUL24, str_S05dCSG
 extern PlayoffBracketOrder
 extern TitleTextStyle, PlayoffTeams, SaveFileName, PlayoffRoundNum, PlayoffUserTeam, PlayoffHomeTeam, PlayoffAwayTeam
 extern PlayoffSlotOn, PlayoffTeamIn, SaveFileHandle, gameresult, MenuMouseX, MenuMouseY, TeamDivisions, TeamConferenceIds
-extern PlayoffMode, PlayoffSlotX, PlayoffSlotY, PlayoffSetupTextIds, PlayoffRoundTextIds, PlayoffSeriesWins, PlayoffTreeY, str_Punct_DrawPlayoffTree
+extern PlayoffMode, PlayoffSlotX, PlayoffSlotY, PlayoffSetupTextIds, PlayoffRoundTextIds, PlayoffSeriesWins, PlayoffTreeY, PlayoffTreeColumnsX
 extern PlayoffSeriesLayout, FinalGameNum, PlayoffSparkleSoundOn, FrontEndScreenBmp, MatchupLayer, TeamStatsBitmap, optflags
 extern PlayoffTreeData, SeasonPlayoffs, SeasonDay, PlayoffGameOpts, cddriveptr, PlayoffRound, PlayoffTreeShape, RosterFileHandle
 extern PlayoffSeeds, PlayoffSeriesScore, PlayoffFormatTeams, FinalHomeWins, FinalAwayWins, PlayoffPickTeams, PlayoffSlotTeams, PlayoffWinners
@@ -31,7 +31,7 @@ extern MakeSeasonDbPath, MakePlayoffDbPath, PickIndexEntryScreen, UpdateTeamDbs,
 extern SaveLeagueDb, PlayoffWinsNeeded, PlayoffLeadersScreens, DrawArt, PutBlock, AllocMemBlock, FreeMemBlock, CreateBitmap
 extern DrawRectOutline, FreeBitmap, TextSetFont, DosFileInfo, OpenArtArchiveErr, SaveFileBlock, DrawArtOpaque, DrawArtOpaqueAtOwnPos
 extern FileSizeByName, DrawArtKeyed, SetScreenTarget, MouseRead, FindShape, ClearClipRect, str_S6, str_D17
-extern str_Punct_PlayoffTreeScreen, PlayoffTreeTemplate, TreeShapeLeft, TreeShapeRight, TreeShapeCentre, TreeShapeFinal, str_WesternConference2, optblock_end
+extern PlayoffTreeNavLinks, PlayoffTreeTemplate, TreeShapeLeft, TreeShapeRight, TreeShapeCentre, TreeShapeFinal, str_WesternConference2, optblock_end
 extern PlayoffHeader, PlayoffName, PlayoffSetupKeyTable, str_Z, PlayoffSeriesLabels, PlayoffSetupOptionRows, PlayoffSeedPairs, PlayoffMenuCommands
 extern hmscore, awscore
 global RunPlayoffMenus_73, RunPlayoffMenus_89, RunPlayoffMenus_A6, RunPlayoffMenus_CD, RunPlayoffMenus_D6, RunPlayoffMenus_E1, RunPlayoffMenus_102, RunPlayoffMenus_115
@@ -2469,7 +2469,7 @@ PlayoffTreeScreen:
         xor eax, eax
         call FadePalette
         mov dword [byte ebp+05Ah], 0FFFFFFFFh
-        mov edx, str_Punct_PlayoffTreeScreen
+        mov edx, PlayoffTreeNavLinks
         mov ebx, dword [byte ebp+07Eh]
         lea eax, [byte edx+04Ch]
         add ebx, byte 42h
@@ -3810,7 +3810,7 @@ DrawPlayoffTree:
         jne short .2
         push dword [byte ebp-0Ch]
         call SetDrawBitmap
-        mov eax, dword [dword esi+str_Punct_DrawPlayoffTree]
+        mov eax, dword [dword esi+PlayoffTreeColumnsX]
         add esp, byte 4
         neg eax
         push eax
@@ -3821,7 +3821,7 @@ DrawPlayoffTree:
 .2:
         push dword [byte ebp-03Ch]
         call SetDrawBitmap
-        mov eax, dword [dword esi+str_Punct_DrawPlayoffTree]
+        mov eax, dword [dword esi+PlayoffTreeColumnsX]
         add esp, byte 4
         neg eax
         push eax
@@ -3863,12 +3863,12 @@ DrawPlayoffTree:
         shl eax, 2
         cmp dword [byte ebp-04h], byte 1Eh
         je short .6
-        push dword [dword eax+str_Punct_DrawPlayoffTree]
+        push dword [dword eax+PlayoffTreeColumnsX]
         push dword [dword eax+PlayoffTreeY]
         mov eax, dword [byte ebp-03Ch]
         jmp short .7
 .6:
-        push dword [dword eax+str_Punct_DrawPlayoffTree]
+        push dword [dword eax+PlayoffTreeColumnsX]
         mov eax, dword [dword eax+PlayoffTreeY]
         add eax, byte 19h
         push eax
@@ -3905,14 +3905,14 @@ DrawPlayoffTree:
         cmp dword [dword esi+PlayoffTreeY], 280h
         jge short .11
         mov eax, edi
-        mov ebx, dword [dword esi+str_Punct_DrawPlayoffTree]
+        mov ebx, dword [dword esi+PlayoffTreeColumnsX]
         mov edx, dword [dword esi+PlayoffTreeY]
         add ebx, byte 0Ah
         add edx, byte 28h
         jmp short .12
 .11:
         mov eax, edi
-        mov ebx, dword [dword esi+str_Punct_DrawPlayoffTree]
+        mov ebx, dword [dword esi+PlayoffTreeColumnsX]
         mov edx, dword [dword esi+PlayoffTreeY]
         add ebx, byte 0Ah
         sub edx, byte 3Ch
@@ -3936,14 +3936,14 @@ DrawPlayoffTree:
         cmp dword [dword esi+PlayoffTreeY], 280h
         jge short .14
         lea eax, [byte ebp-034h]
-        mov ebx, dword [dword esi+str_Punct_DrawPlayoffTree]
+        mov ebx, dword [dword esi+PlayoffTreeColumnsX]
         mov edx, dword [dword esi+PlayoffTreeY]
         add ebx, byte 0Ah
         add edx, byte 6Eh
         jmp short .15
 .14:
         lea eax, [byte ebp-034h]
-        mov ebx, dword [dword esi+str_Punct_DrawPlayoffTree]
+        mov ebx, dword [dword esi+PlayoffTreeColumnsX]
         mov edx, dword [dword esi+PlayoffTreeY]
         add ebx, byte 0Ah
 .15:

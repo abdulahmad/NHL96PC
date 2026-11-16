@@ -6,7 +6,7 @@ extern DirPathTable, optflags, sprintf_, str_02d, str_07d, str_backslash2, str_D
 extern str_dot3, strcat_, stricmp_, SyncMusicStream, AllocMemBlock, FreeMemBlock, MemLargestFreeLocked, UnpackedSize
 extern LoadResourceBlockShared, LoadResourceData, LoadResourceDataShared, LoadFileData, OpenArtArchiveErr, OpenArtArchive, LoadDataFileErr, LoadFileAllocQuiet
 extern OpenResourceArchive, GetResourceArchiveName, LoadFileInto, LoadFileToBlockShared, LoadFileToBlockPlain, LoadPackedAlloc, LoadPackedAllocQuiet, LoadPackedHandle
-extern LoadPackedHandleQuiet, DataDirPath, ArtArchivePaths, str_X_SetArtArchive, DataFilePath, unpack, DataLibIds
+extern LoadPackedHandleQuiet, DataDirPath, ArtArchivePaths, ArtSetTable, DataFilePath, unpack, DataLibIds
 global MakeDataPathArtJumpTable, MakeDataPathCopyJumpTable, MakeDataPath, MakeDataPath_42, MakeDataPath_4A, MakeDataPath_50, MakeDataPath_63, MakeDataPath_E0
 global MakeDataPath_E8, MakeDataPath_EE, MakeDataPath_101, MakeDataPathArchiveJumpTable, MakeDirPath, SelectDataLibraryJumpTable, SelectDataLibrary, SelectDataLibrary_32
 global SelectDataLibrary_3A, SelectDataLibrary_40, SelectDataLibrary_54, LoadDataFile, LoadDataFile_1B, LoadDataFileFlag0, LoadDataFileHandle, LoadPackedFile
@@ -25,7 +25,7 @@ MakeDataPathCopyJumpTable:
 ; MakeDataPath                                                    1E3E8  96 PC
 ; (out, file id): the path of a game data file: the language prefix (optflags
 ; & 3) where the file has one, its directory (table DataDirPath) and name
-; (table str_X_SetArtArchive, 16h-byte entries)
+; (table ArtSetTable, 16h-byte entries)
 ;-----------------------------------------------------------------------------
 MakeDataPath:
         push ebx
@@ -39,7 +39,7 @@ MakeDataPath:
         mov edx, dword [optflags]
         and edx, byte 3
         mov eax, edx
-        add edi, str_X_SetArtArchive
+        add edi, ArtSetTable
         shl eax, 2
         cmp dword [byte edi+0Eh], byte 0
         jge near MakeDataPath_63.6

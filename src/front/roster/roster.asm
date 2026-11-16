@@ -30,7 +30,7 @@ extern str_S4, str_S4dg, str_S4dw, str_S4ug, str_S4up, str_SD6, str_SGID, str_SS
 extern str_StatDBPTRs2, str_Tra12, str_Tra22, str_Tra32, str_TraD, strcat_, strcpy_, DrawArt
 extern AllocMemBlock, FreeMemBlock, CreateBitmap, TintRows, FreeBitmap, DosFileInfo, atoi_, OpenArtArchiveErr
 extern SaveFileBlock, DrawArtOpaqueAtOwnPos, SetScreenTarget, FindShape, TickDeadlinePassed, RosterTextBuf, LineForwardOrder, LineDefenceOrder
-extern RosterRecords, RosterHotspots, str_X_RosterScreen, RosterKeyTable, str_Punct_CreatePlayerScreen, CreateSkaterNavLinks, CreateGoalieNavLinks
+extern RosterRecords, RosterHotspots, RosterTabHotspots, RosterKeyTable, CreatePlayerHotspots, CreateSkaterNavLinks, CreateGoalieNavLinks
 global RunRosterScreens, RunRosterScreens_230, RunRosterScreens_231, RosterScreen, DrawRosterTeams, DrawRosterTeams_17B, FormatRosterLine, FormatRosterLine_26D
 global DrawRosterPlayerInfo, RosterSlotStatus, CountRosterSlots, FindRosterSlot, ListRosterPlayers, ValidateRoster, EditPlayerName, EditPlayerName_131
 global ConfirmTrade, ResetTeamLines, CycleLoadingArt, CreatePlayerChoiceJumpTable, CreatePlayerFieldJumpTable, CreatePlayerScreen, CreatePlayerScreen_6BE, CreatePlayerScreen_71A
@@ -225,7 +225,7 @@ RosterScreen:
         mov dword [byte ebp+0Ah], 0
         mov ecx, 30h
         lea edi, [dword ebp-017Eh]
-        mov esi, str_X_RosterScreen
+        mov esi, RosterTabHotspots
         mov dword [byte ebp+06h], 0
         mov dword [byte ebp+02h], 0
         rep movsd
@@ -4346,7 +4346,7 @@ CreatePlayerScreen:
         sub ebp, 82h
         mov ecx, 30h
         lea edi, [dword ebp-02DEh]
-        mov esi, str_Punct_CreatePlayerScreen
+        mov esi, CreatePlayerHotspots
         rep movsd
         mov ecx, 84h
         lea edi, [dword ebp-04EEh]

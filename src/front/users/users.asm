@@ -6,7 +6,7 @@ section s_2A3D6 progbits alloc exec nowrite align=1
 extern str_Punct_ExportUserRecords, str_ExportDashes, str_ExportSpacesWide, str_ExportSpaces, UserNameBuf
 
 extern TitleTextStyle, DeleteFiles
-extern UserRecordsTop, UserRecordsFirst, UserRecordsRow, str_J, str_V, ViewScreenWidth, ViewScreenHeight, UserMenuBoxes
+extern UserRecordsTop, UserRecordsFirst, UserRecordsRow, UserRecordsBarColour, UserRecordsRowY, ViewScreenWidth, ViewScreenHeight, UserMenuBoxes
 extern UserRecordList
 extern UserStreakField, UserOpponentColumn, UserPowerPlayField, UserShutoutField, UserGoalsAgainstField, UserLongStreakField, UserGoalsForField, UserRatingColumn
 extern UserShutoutColumn, UserNameIndex, UserStreakColumn, UserNameField, UserLongStreakColumn, UserPowerPlayColumn, UserTeamField, UserPopupRecords
@@ -35,7 +35,7 @@ extern FreeScrollBar, SetScrollBarPos, DrawScrollBar, CheckExportName, DrawShape
 extern CreateBitmap, TintRect, FreeBitmap, TextSetColor, SaveTextState, SetDrawTarget, SetScreenTarget, SetRemapTable
 extern FindShape, RemapPolygonArgs, TextSetFont, WaitTicks, SlotUserNames, hmtmPwrGoals, hmtmPwrPlays
 extern hmscore, awtmPwrGoals, awtmPwrPlays, awscore
-global UserRatingScaleTwoToFour, UserRatingScaleOneToOneHalf, UserRatingScalePair, UserRatingScaleQuarterSteps, UserRecordsLeftButton, UserRecordsRightButton, str_3_UserRecordsScreen, ClearSlotUser
+global UserRatingScaleTwoToFour, UserRatingScaleOneToOneHalf, UserRatingScalePair, UserRatingScaleQuarterSteps, UserRecordsLeftButton, UserRecordsRightButton, UserRecordsHotspots, ClearSlotUser
 global ClearSlotUsers, UserRecordRating, CreateUserRecord, DeleteUser, NewUser, NewUser_159, DrawUserList, GetUserName
 global LoadUserIndex, ScrollUserList, PickUsersScreen, UpdateUserRecords, UpdateUserRecords_47F, UpdateUserRecords_ret, CompareUsersByName, CompareUsersByRating
 global CompareUsersByRecord, CompareUsersByRecord_127, CompareUsersByRecord_12C, CompareUsersByRecord_ret, CompareUsersByGoalsFor, CompareUsersByGoalsAgainst, CompareUsersByPowerPlay, CompareUsersByPenaltyKill
@@ -64,7 +64,11 @@ UserRecordsRightButton:
         db 0E9h,01h,00h,00h,0D2h,01h,00h,00h,064h,01h,00h,00h,0D2h,01h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-str_3_UserRecordsScreen:
+;-----------------------------------------------------------------------------
+; UserRecordsHotspots                             2A482  96 PC, low confidence
+; User records screen click areas
+;-----------------------------------------------------------------------------
+UserRecordsHotspots:
         db 033h,00h,00h,00h,037h,00h,00h,00h,045h,00h,00h,00h,037h,00h,00h,00h
         db 045h,00h,00h,00h,049h,00h,00h,00h,033h,00h,00h,00h,049h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -2241,7 +2245,7 @@ DrawUserRecords:
         mov ecx, dword [byte ebp-024h]
         mov eax, dword [byte ebx+066h]
         mov edx, dword [byte ebp-028h]
-        mov ebx, dword [str_J]
+        mov ebx, dword [UserRecordsBarColour]
         push dword [nosplit eax*4+UserRecordsFirst]
         mov eax, dword [byte ebp-074h]
         call FillBox
@@ -2283,7 +2287,7 @@ DrawUserRecords:
         mov eax, dword [byte ebp-030h]
         inc dword [byte ebp-010h]
         inc esi
-        mov eax, dword [dword eax+str_J]
+        mov eax, dword [dword eax+UserRecordsBarColour]
         mov dword [byte ebp-018h], 175h
         sub eax, esi
         mov edx, dword [byte ebp-08h]
@@ -3331,7 +3335,7 @@ UserRecordsScreen:
         rep movsd
         mov ecx, 20h
         lea edi, [dword ebp-0116h]
-        mov esi, str_3_UserRecordsScreen
+        mov esi, UserRecordsHotspots
         mov eax, UserNameIndex
         rep movsd
         call LoadUserIndex
@@ -3684,7 +3688,7 @@ UserRecordsScreen:
         add eax, byte 0Ch
         mov byte [UserPopupRecords+231h], 9
         mov dword [UserPopupRecords+22Ch], eax
-        mov eax, dword [str_J]
+        mov eax, dword [UserRecordsBarColour]
         mov bl, cl
         sub eax, byte 4
         add bl, 6
@@ -3703,7 +3707,7 @@ UserRecordsScreen:
         mov dword [dword eax+UserMenuBoxes+4], 50h
         mov dword [dword eax+UserMenuBoxes+8], 0F0h
         mov dword [dword eax+UserMenuBoxes+0Ch], 50h
-        mov edi, dword [str_J]
+        mov edi, dword [UserRecordsBarColour]
         mov dword [dword eax+UserMenuBoxes+10h], 0F0h
         mov byte [dword edx+UserPopupRecords+9Ah], 3
         mov dword [dword eax+UserMenuBoxes+18h], 3Ch
@@ -3720,7 +3724,7 @@ UserRecordsScreen:
         mov dword [dword eax+UserMenuBoxes+4], 50h
         mov dword [dword eax+UserMenuBoxes+8], 12Ch
         mov dword [dword eax+UserMenuBoxes+0Ch], 50h
-        mov edi, dword [str_J]
+        mov edi, dword [UserRecordsBarColour]
         mov dword [dword eax+UserMenuBoxes+10h], 12Ch
         mov byte [dword edx+UserPopupRecords+98h], 3
         mov dword [dword eax+UserMenuBoxes+18h], 0F1h
@@ -3734,7 +3738,7 @@ UserRecordsScreen:
         mov dword [dword eax+UserMenuBoxes+18h], esi
         mov dword [dword eax+UserMenuBoxes+8], edi
         mov dword [dword eax+UserMenuBoxes+10h], edi
-        mov edi, dword [str_J]
+        mov edi, dword [UserRecordsBarColour]
         mov dword [dword eax+UserMenuBoxes+14h], edi
         mov byte [dword edx+UserPopupRecords+9Ah], bh
         mov dword [dword eax+UserMenuBoxes+1Ch], edi
@@ -3797,13 +3801,13 @@ UserRecordsScreen:
         mov dword [dword eax+UserMenuBoxes], 3Ch
         mov dword [dword eax+UserMenuBoxes+8], 0F0h
         mov dword [dword eax+UserMenuBoxes+10h], 0F0h
-        mov edi, dword [dword ebx+str_J]
+        mov edi, dword [dword ebx+UserRecordsBarColour]
         mov dword [dword eax+UserMenuBoxes+18h], 3Ch
         inc edi
 .12:
         mov dword [dword eax+UserMenuBoxes+4], edi
         mov dword [dword eax+UserMenuBoxes+0Ch], edi
-        mov edi, dword [dword ebx+str_V]
+        mov edi, dword [dword ebx+UserRecordsRowY]
         mov dword [dword eax+UserMenuBoxes+14h], edi
         jmp near .15
 .13:
@@ -3812,14 +3816,14 @@ UserRecordsScreen:
         mov dword [dword eax+UserMenuBoxes], 0F1h
         mov dword [dword eax+UserMenuBoxes+8], 12Ch
         mov dword [dword eax+UserMenuBoxes+10h], 12Ch
-        mov edi, dword [dword ebx+str_J]
+        mov edi, dword [dword ebx+UserRecordsBarColour]
         mov dword [dword eax+UserMenuBoxes+18h], 0F1h
         add edi, esi
         jmp short .12
 .14:
         mov edi, dword [byte ebp+066h]
         mov dword [dword eax+UserMenuBoxes], edi
-        mov edi, dword [dword ebx+str_J]
+        mov edi, dword [dword ebx+UserRecordsBarColour]
         inc edi
         mov dword [byte ebp+076h], edi
         mov dword [dword eax+UserMenuBoxes+4], edi
@@ -3829,11 +3833,11 @@ UserRecordsScreen:
         mov dword [dword eax+UserMenuBoxes+0Ch], edi
         mov edi, dword [byte ebp+062h]
         mov dword [dword eax+UserMenuBoxes+10h], edi
-        mov edi, dword [dword ebx+str_V]
+        mov edi, dword [dword ebx+UserRecordsRowY]
         mov dword [dword eax+UserMenuBoxes+14h], edi
         mov edi, dword [byte ebp+066h]
         mov dword [dword eax+UserMenuBoxes+18h], edi
-        mov edi, dword [dword ebx+str_V]
+        mov edi, dword [dword ebx+UserRecordsRowY]
 .15:
         mov dword [dword eax+UserMenuBoxes+1Ch], edi
         mov eax, ecx

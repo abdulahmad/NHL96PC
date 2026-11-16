@@ -5,7 +5,7 @@ section s_1228D6 progbits alloc noexec write align=1
 global __8087, FpuType, ColourRemap, DrawClipLeft, DrawClipTop
 global DrawClipRight, DrawClipBottom, DrawBitsPerPixel, DrawRowBytes, KeyedDraw, DrawDestBuffer, DrawVideoBase
 global BackBufferWidth, ModeSetCount, ScreenClipLeft, ScreenClipTop, ScreenClipRight, ScreenClipBottom, ScreenBitsPerPixel, ScreenRowBytes
-global ScreenBanked, ScreenRowTable, ScreenWidthFractions, str_F_PutBlock, BlendTablePtr, BlitColumnOffsets
+global ScreenBanked, ScreenRowTable, ScreenWidthFractions, PutBlockScaleSteps, BlendTablePtr, BlitColumnOffsets
 global BlitSourcePtr
         db 00h,00h
 DrawClipLeft:
@@ -308,7 +308,7 @@ ScreenRowTable:
         db 00h,0F6h,09h,00h,080h,0F8h,09h,00h,00h,0FBh,09h,00h,080h,0FDh,09h,00h
 ScreenWidthFractions:
         db 00h,00h,0Ah,00h
-str_F_PutBlock:
+PutBlockScaleSteps:
         db 066h,00h,00h,00h,0CCh,00h,00h,00h,033h,01h,00h,00h,099h,01h,00h,00h
         db 00h,02h,00h,00h,00h,04h,00h,00h,00h,04h,00h,00h,00h,04h,00h,00h
         db 00h,04h,00h,00h,00h,04h,00h,00h,00h,04h,00h,00h,00h,04h,00h,00h

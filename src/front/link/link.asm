@@ -3,16 +3,16 @@ bits 32
 %include "hockey.inc"
 section s_17675 progbits alloc exec nowrite align=1
 extern LinkRxPayload
-extern addtimer, str_Punct2, str_Punct_LinkTimerTick, LinkRxRing
+extern addtimer, str_Punct2, LinkChannelTimers, LinkRxRing
 extern LinkResendPkt, LinkAckPkt
-extern LinkMissingList, ModemResultCount, ModemLastResult, LinkTickCount, LinkPortHandle, str_Punct_LinkOpen, LinkOpenFlags
+extern LinkMissingList, ModemResultCount, ModemLastResult, LinkTickCount, LinkPortHandle, LinkBaudSetting, LinkOpenFlags
 extern LinkRetryOn, LinkCarrierCheck, LinkPollOn, LinkIsOpen, LinkWindowSize, LinkAckOn, LinkResendOn, LinkOpenMode
 extern LinkErrorCount, LinkSpareHook, LinkMessageHandler, LinkTickHandler, LinkResendHandler, LinkTxSeq, LinkRxDeliverSeq, LinkAckedSeq
-extern LinkRxSeq, LinkPacketLen, LinkTxPending, LinkState, LinkCheckPeriod, str_D_LinkCopyBytes, LinkRxHead, LinkRxCount
+extern LinkRxSeq, LinkPacketLen, LinkTxPending, LinkState, LinkCheckPeriod, LinkCopyHigh, LinkRxHead, LinkRxCount
 extern LinkPollState, LinkRxSlots
-extern LinkTxSlots, LinkAbortCheck, ModemResultTextTable, ModemResultCodeTable, str_0123456789abcdefghijklmn, str_22
+extern LinkTxSlots, LinkAbortCheck, ModemResultTextTable, ModemResultCodeTable, str_0123456789abcdefghijklmn, LinkCopyLow
 extern str_ATA, str_ATD, str_ATE1, str_ATF1, str_ATH0, str_ATM0, str_ATQ0, str_ATS01
-extern str_ATX3, str_ATX4, str_ATZS760S1155, str_ctl06, str_feP, str_newline, str_T, strcat_
+extern str_ATX3, str_ATX4, str_ATZS760S1155, LinkRetryLimit, str_feP, LinkCopyStep, str_T, strcat_
 extern strcpy_, strlen_, strncmp_, strstr_, RemoveTimerCallback, SerialConfigure, SerialOpen, SerialClose
 extern SerialSetBaud, SerialRaiseDtr, SerialDropDtr, SerialCarrier, SerialWrite, SerialTxFree, SerialFlushTx, SerialWaitTxEmpty
 extern SerialRead, SerialReadWait, SerialFlushRx, atoi_, LinkCrc16, str_Punct_ModemSendCommand, str_AT, LinkRxMsgs
@@ -589,9 +589,9 @@ LinkCopyBytes:
         pop esi
         pop ecx
         ret
-        mov dword [str_22], ebx
-        mov dword [str_D_LinkCopyBytes], eax
-        mov dword [str_newline], edx
+        mov dword [LinkCopyLow], ebx
+        mov dword [LinkCopyHigh], eax
+        mov dword [LinkCopyStep], edx
         ret
 ;-----------------------------------------------------------------------------
 ; LinkRxPut                                                       17B9A  96 PC
@@ -991,7 +991,7 @@ LinkRxAckSeq:
 ;-----------------------------------------------------------------------------
 LinkDefaults:
         mov dword [LinkPortHandle], 0
-        mov dword [str_Punct_LinkOpen], 9
+        mov dword [LinkBaudSetting], 9
         mov dword [LinkOpenFlags], 0
         mov dword [LinkRetryOn], 1
         mov dword [LinkCarrierCheck], 1
@@ -1005,7 +1005,7 @@ LinkDefaults:
         mov dword [LinkRxSeq], 0FFFFFFFFh
         mov dword [LinkState], 0
         mov dword [LinkCheckPeriod], 0
-        mov dword [str_ctl06], 6
+        mov dword [LinkRetryLimit], 6
         mov dword [LinkTickCount], 0
         mov dword [LinkTxSeq], 0
         mov dword [LinkRxDeliverSeq], 0
@@ -1069,7 +1069,7 @@ SetLinkCheckPeriod:
         push edx
         mov edx, dword [LinkCheckPeriod]
         mov dword [LinkCheckPeriod], eax
-        mov dword [str_ctl06], eax
+        mov dword [LinkRetryLimit], eax
         mov eax, edx
         pop edx
 LinkDeliverMessages_ret:
@@ -1197,7 +1197,7 @@ LinkTxRoom:
 ;-----------------------------------------------------------------------------
 ; LinkCheckTimeouts                            18186  96 PC, medium confidence
 ; Timer side of the protocol: resends data packets not acknowledged in time
-; (str_22 ticks), asks again for receive slots still missing (str_D_LinkCopyBytes),
+; (LinkCopyLow ticks), asks again for receive slots still missing (LinkCopyHigh),
 ; sends an ack when one is due
 ;-----------------------------------------------------------------------------
 LinkCheckTimeouts:
@@ -1214,7 +1214,7 @@ LinkCheckTimeouts:
         jne short .2
         inc dword [byte edx+04h]
         mov eax, dword [byte edx+04h]
-        cmp eax, dword [str_22]
+        cmp eax, dword [LinkCopyLow]
         jle short .2
         mov eax, ebx
         call LinkResendSlot
@@ -1239,7 +1239,7 @@ LinkCheckTimeouts:
         jne short .5
         inc dword [byte eax+08h]
         mov eax, dword [byte eax+08h]
-        cmp eax, dword [str_D_LinkCopyBytes]
+        cmp eax, dword [LinkCopyHigh]
         jle short .7
         mov edx, 74h
         mov eax, ebx
@@ -1250,7 +1250,7 @@ LinkCheckTimeouts:
         jne short .7
         inc dword [byte eax+04h]
         mov edx, dword [byte eax+04h]
-        cmp edx, dword [str_newline]
+        cmp edx, dword [LinkCopyStep]
         jg short .6
         test ecx, ecx
         je short .7
@@ -1289,7 +1289,7 @@ LinkTimerTick:
         mov eax, dword [LinkTickCount]
         inc dword [LinkTickCount]
         mov eax, dword [LinkTickCount]
-        mov byte [dword eax+str_Punct_LinkTimerTick], 63h
+        mov byte [dword eax+LinkChannelTimers], 63h
         cmp dword [LinkPollOn], byte 0
         je short .1
         call LinkCheckTimeouts
@@ -1300,7 +1300,7 @@ LinkTimerTick:
         cmp dword [LinkCheckPeriod], byte 0
         je short .2
         mov eax, dword [LinkTickCount]
-        mov byte [dword eax+str_Punct_LinkTimerTick], 0
+        mov byte [dword eax+LinkChannelTimers], 0
         jmp short .8
 .2:
         cmp dword [LinkPollOn], byte 0
@@ -1323,13 +1323,13 @@ LinkTimerTick:
         jne short .6
         mov dword [LinkState], eax
 .6:
-        mov eax, dword [str_ctl06]
+        mov eax, dword [LinkRetryLimit]
         mov edx, dword [LinkCheckPeriod]
         mov dword [LinkCheckPeriod], eax
-        mov dword [str_ctl06], eax
+        mov dword [LinkRetryLimit], eax
 .7:
         mov eax, dword [LinkTickCount]
-        mov byte [dword eax+str_Punct_LinkTimerTick], 30h
+        mov byte [dword eax+LinkChannelTimers], 30h
 .8:
         mov eax, dword [LinkTickCount]
         dec dword [LinkTickCount]
@@ -1411,7 +1411,7 @@ LinkOpen:
         mov eax, dword [byte ebx+028h]
         mov dword [LinkPortHandle], eax
         mov eax, dword [byte ebx+02Ch]
-        mov dword [str_Punct_LinkOpen], eax
+        mov dword [LinkBaudSetting], eax
         mov eax, dword [byte ebx+030h]
         mov dword [LinkOpenFlags], eax
         mov eax, dword [byte ebx+034h]
@@ -1462,7 +1462,7 @@ LinkOpen:
         push byte 3
         push byte 0
         push byte 0
-        push dword [str_Punct_LinkOpen]
+        push dword [LinkBaudSetting]
         push dword [LinkPortHandle]
         call SerialConfigure
         add esp, byte 14h
@@ -1488,7 +1488,7 @@ LinkOpen:
         add esp, byte 4
         mov eax, dword [LinkCheckPeriod]
         mov dword [LinkCheckPeriod], 64h
-        mov dword [str_ctl06], 64h
+        mov dword [LinkRetryLimit], 64h
         cmp dword [LinkIsOpen], byte 0
         je short .4
         push LinkTimerTick
@@ -1738,7 +1738,7 @@ LinkRequestResend:
         shl eax, 4
         cmp dword [dword eax+LinkRxSlots], byte 2
         jne short .1
-        mov edx, dword [str_D_LinkCopyBytes]
+        mov edx, dword [LinkCopyHigh]
         sar edx, 1
         cmp edx, dword [dword eax+LinkRxSlots+8]
         jg near .2
@@ -2052,10 +2052,10 @@ LinkReceive:
         push edx
         cmp dword [LinkCheckPeriod], byte 0
         jg short .11
-        mov eax, dword [str_ctl06]
+        mov eax, dword [LinkRetryLimit]
         mov edx, dword [LinkCheckPeriod]
         mov dword [LinkCheckPeriod], eax
-        mov dword [str_ctl06], eax
+        mov dword [LinkRetryLimit], eax
         cmp dword [LinkTickHandler], byte 0
         je short .8
         call dword [LinkTickHandler]
@@ -2092,7 +2092,7 @@ LinkReceive:
 .12:
         mov eax, dword [LinkCheckPeriod]
         mov dword [LinkCheckPeriod], 64h
-        mov dword [str_ctl06], 64h
+        mov dword [LinkRetryLimit], 64h
 .13:
         ret
 ;-----------------------------------------------------------------------------
@@ -2110,7 +2110,7 @@ LinkPoll:
         call LinkDeliverMessages
         cmp dword [LinkCheckPeriod], byte 0
         jg short .2
-        mov eax, dword [str_ctl06]
+        mov eax, dword [LinkRetryLimit]
         call SetLinkCheckPeriod
         cmp dword [LinkTickHandler], byte 0
         je short .1
@@ -2220,7 +2220,7 @@ LinkRequestMissing:
         cmp dword [dword eax+LinkRxSlots], byte 2
         jne short .2
         mov eax, dword [dword eax+LinkRxSlots+8]
-        cmp eax, dword [str_D_LinkCopyBytes]
+        cmp eax, dword [LinkCopyHigh]
         setg al
         jmp short .3
 .2:

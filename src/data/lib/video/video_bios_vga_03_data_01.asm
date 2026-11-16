@@ -7,7 +7,7 @@ global str_MUSICON, str_MUSICOFF, str_SOUNDON, str_SOUNDOFF, HotkeyModTable, _Ex
 global _osmajor, _osminor, SavedTextMode, SavedTextPage, SavedTextRows, __real87, SpeechQueueOpen, CrowdPlaying
 global SndMasterVolume, HotkeyNesting, HotkeyFuncTable, _dynend, _curbrk, _LpCmdLine, StackLow, _STACKLOW
 global _STACKTOP, CMainEnv, CMainResult, UngetChar, _Envptr, FpuInitHook, SavedTextScreen, SystemNeedsInit
-global PrintfSavedEbx, PrintfSavedEcx, PrintfSavedEdx, PrintfSavedEsi, PrintfSavedEdi, PrintfSavedReturn, AtanTable, str_Punct_AngleOfVector
+global PrintfSavedEbx, PrintfSavedEcx, PrintfSavedEdx, PrintfSavedEsi, PrintfSavedEdi, PrintfSavedReturn, AtanTable, AtanSlopeTable
 global ShadowFillFunc, TitleBandFunc, FpuSystemFlags, OldFpuVectorOffset, RetraceMode, snddriver, SndTickHold, SndMaxRate
 global _psp, __no87, _Envptr_w4, SavedTextColumns, OldFpuVectorSelector, FpuCr0Bits
 HotkeyModTable:
@@ -113,7 +113,7 @@ SavedTextRows:
         db 00h,00h,00h,00h
 AtanTable:
         db 00h,00h,00h,00h
-str_Punct_AngleOfVector:
+AtanSlopeTable:
         db 029h,00h,00h,00h,051h,00h,00h,00h,07Ah,00h,00h,00h,0A3h,00h,00h,00h
         db 0CCh,00h,00h,00h,0F4h,00h,00h,00h,01Dh,01h,00h,00h,046h,01h,00h,00h
         db 06Fh,01h,00h,00h,097h,01h,00h,00h,0C0h,01h,00h,00h,0E9h,01h,00h,00h

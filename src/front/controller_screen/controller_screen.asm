@@ -4,7 +4,7 @@ bits 32
 extern BottomBarArt
 section s_6CF0D progbits alloc exec nowrite align=1
 extern BlackPalette, TextCharH, ClearSlotUser, CopyBitmap, DrawColorText, DrawColorTextRight, DrawFrameAt, SaveFileHandle
-extern ControllerSlotX, ControllerSlotY, ControllerSlotStates, ControllerSlotItems, ControllerLayout, str_G, ControllerOptionRows, ControllerTitlePos
+extern ControllerSlotX, ControllerSlotY, ControllerSlotStates, ControllerSlotItems, ControllerLayout, ControllerSlotPositions, ControllerOptionRows, ControllerTitlePos
 extern ViewScreenWidth, ViewScreenHeight, FrontEndScreenBmp, MatchupLayer, TeamStatsBitmap
 extern MenuBoxStyle, PlayoffTreeData, RosterFileHandle, PlayoffsActive, ControllerSlotIcon
 extern ControllerColumnArt, ControllerBackBmp, ControllerIconArt, LinesEditAway, LinesEditMode, LinesEditTeam, FadeOut
@@ -12,12 +12,12 @@ extern FadePalette, FillMusicStream, TextStringWidth, gameopts, GetInputDevices,
 extern InitMenuItems, LinkSync, LinkSyncWithMessage, LoadPackedFile, LoadTeamLogo, ModemChat, mousex, mousey
 extern MusicDone, OpenScreen, optflags, PickUsersScreen, PlayMusic, PlaySfx, PreGameScreens, PutBlock
 extern RunEditLines, RunMenu, SetDrawBitmap, SetMenuMouse, SetScreenColors, SetTextColors, SlideInBottomBar, SlideInSideBar
-extern SlideInTitleBar, SoundIdle, SoundSecondsToBytes, sprintf_, str_Bkgd6, str_dbgO, str_Jy1D
+extern SlideInTitleBar, SoundIdle, SoundSecondsToBytes, sprintf_, str_Bkgd6, ControllerColumnInfo, str_Jy1D
 extern str_Jy2D, str_Jy3D, str_Jy4D, str_Key1, str_KeyD2, str_Log7, str_Logx, str_MCONTROL
 extern str_MdmD, str_MseD2, str_P11, str_P12, str_P13, str_P1G, str_P21, str_P22
 extern str_P23, str_P2G, str_Pal12, str_PlyD, str_Usrh, str_Usri, str_Utext, DrawShapeCore
 extern DrawShapeAtOwnPos, DrawArt, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, CreateBitmap, ClearScreenColour, FreeBitmap
-extern DrawArtOpaqueAtOwnPos, SetScreenTarget, FindShape, TextSetFont, str_Punct_ControllerScreen, ControllerTextIds, str_WesternConference2, SlotsTwoPlayer
+extern DrawArtOpaqueAtOwnPos, SetScreenTarget, FindShape, TextSetFont, ControllerButtonOutline, ControllerTextIds, str_WesternConference2, SlotsTwoPlayer
 extern ControllerScreenMode, ControllerPreGame, ControllerColumnsDrawn
 extern SlotUserNames, ControllerSlotDevice, ControllerSlotTeam, ControllerPadIcons, ControllerDragSlot, ControllerDragIcon
 global ControllerSlotDefaults, ControllerColumnDefaults, ControllerUsersPanel, NextControllerDeviceMasks, NextControllerDeviceJumpTable, NextControllerDevice, NextControllerDevice_2C, NextControllerDevice_F2
@@ -26,7 +26,7 @@ global DeviceIconJumpTable, DeviceIconShape, DeviceIconShape_51, DeviceIconShape
 global DeviceIconShape_99, DeviceIconShape_A5, DeviceIconShape_CB, DrawControllerIcons, SetControllerColumn, SetControllerIcon, SetControllerIcon_F9, DrawControllerColumns
 global ControllerScreenItemJumpTable, ControllerScreenModeJumpTable, ControllerScreen, ControllerScreen_11AB, ControllerScreen_149D, ControllerScreen_14E4, ControllerScreen_1503, ControllerScreen_1548
 global ControllerScreen_15D1, ControllerScreen_168B, ControllerScreen_16B0, ControllerScreen_16D6, RunControllerScreen, ControlPicksSlotPoints, ControlPicksHotspots, ControlSetupRowY
-global ControlSetupColumnX, str_N_ControlSetupScreen, str_R, str_F
+global ControlSetupColumnX, ControlSetupPoints, str_R, str_F
 ;-----------------------------------------------------------------------------
 ; ControllerSlotDefaults                          6CF0D  96 PC, low confidence
 ; Six bytes of start values for the controller slots, kept in the code and
@@ -2476,7 +2476,7 @@ DrawControllerColumns:
         mov esi, eax
         shl edi, 6
         shl esi, 2
-        mov dx, word [dword edi+str_dbgO]
+        mov dx, word [dword edi+ControllerColumnInfo]
         mov eax, dword [dword esi+ControllerSlotItems]
         sub edx, byte 4
         sub dx, word [byte eax+04h]
@@ -2490,7 +2490,7 @@ DrawControllerColumns:
         imul eax, dword [byte ebp-018h], byte 21h
         add esp, byte 4
         mov ebx, dword [dword edi+ControllerLayout]
-        mov edx, dword [dword edi+str_dbgO]
+        mov edx, dword [dword edi+ControllerColumnInfo]
         sub ebx, byte 5
         add eax, SlotUserNames
         sub edx, byte 4
@@ -2897,20 +2897,20 @@ ControllerScreen:
         add eax, dword [byte ebp-020h]
         mov dword [byte eax+010h], 4
         mov eax, dword [byte ebp-04Ch]
-        mov ebx, str_dbgO
+        mov ebx, ControllerColumnInfo
         shl eax, 6
         mov edx, dword [ControllerColumnArt]
         add ebx, eax
         mov dword [byte edx+esi+014h], ebx
         mov edx, dword [ControllerColumnArt]
-        mov ebx, dword [dword eax+str_dbgO]
+        mov ebx, dword [dword eax+ControllerColumnInfo]
         mov dword [byte edx+esi+026h], ebx
         mov edx, dword [ControllerColumnArt]
         mov eax, dword [dword eax+ControllerLayout]
         mov dword [byte edx+esi+02Ah], eax
         mov eax, dword [byte ebp-04Ch]
         mov edx, dword [ControllerColumnArt]
-        mov ebx, dword [nosplit eax*8+str_G]
+        mov ebx, dword [nosplit eax*8+ControllerSlotPositions]
         mov dword [byte edx+esi+03Ah], ebx
         mov edx, dword [ControllerColumnArt]
         mov eax, dword [nosplit eax*8+ControllerOptionRows]
@@ -3069,7 +3069,7 @@ ControllerScreen:
         mov edi, dword [byte ebp-048h]
         shl eax, 6
         mov dword [byte ebp-028h], 0
-        add eax, str_dbgO
+        add eax, ControllerColumnInfo
         add edi, edi
         mov dword [byte ebp-024h], eax
 .13:
@@ -3114,7 +3114,7 @@ ControllerScreen:
         mov dword [byte esi+eax+02Ah], edx
         mov edx, dword [byte ebp-02Ch]
         mov eax, dword [ControllerColumnArt]
-        mov edx, dword [dword edx+str_G]
+        mov edx, dword [dword edx+ControllerSlotPositions]
         mov dword [byte esi+eax+03Ah], edx
         mov edx, dword [byte ebp-02Ch]
         mov eax, dword [ControllerColumnArt]
@@ -3175,7 +3175,7 @@ ControllerScreen:
         inc dword [byte ebp-04Ch]
         imul eax, dword [byte ebp-04Ch], byte 66h
         mov edx, dword [ControllerColumnArt]
-        mov ebx, str_dbgO
+        mov ebx, ControllerColumnInfo
         mov esi, dword [byte ebp-04Ch]
         mov dword [byte edx+eax+010h], 4
         shl esi, 6
@@ -3183,14 +3183,14 @@ ControllerScreen:
         add ebx, esi
         mov dword [byte edx+eax+014h], ebx
         mov edx, dword [ControllerColumnArt]
-        mov ebx, dword [dword esi+str_dbgO]
+        mov ebx, dword [dword esi+ControllerColumnInfo]
         mov dword [byte edx+eax+026h], ebx
         mov edx, dword [ControllerColumnArt]
         mov ebx, dword [dword esi+ControllerLayout]
         mov dword [byte edx+eax+02Ah], ebx
         mov ebx, dword [byte ebp-04Ch]
         mov edx, dword [ControllerColumnArt]
-        mov ecx, dword [nosplit ebx*8+str_G]
+        mov ecx, dword [nosplit ebx*8+ControllerSlotPositions]
         mov dword [byte edx+eax+03Ah], ecx
         mov edx, dword [ControllerColumnArt]
         mov ebx, dword [nosplit ebx*8+ControllerOptionRows]
@@ -3395,7 +3395,7 @@ ControllerScreen:
         mov eax, dword [ControllerColumnArt]
         mov dword [dword eax+0808h], 8
         mov eax, dword [ControllerColumnArt]
-        mov dword [dword eax+080Ch], str_Punct_ControllerScreen
+        mov dword [dword eax+080Ch], ControllerButtonOutline
         mov eax, dword [ControllerColumnArt]
         mov edx, dword [dword eax+0812h]
         movsx edx, word [byte edx+0Ch]
@@ -4262,7 +4262,11 @@ ControlSetupRowY:
         db 081h,00h,06Dh,00h,05Bh,00h,04Ah,00h,038h,00h
 ControlSetupColumnX:
         db 089h,00h,0C9h,00h,09h,01h,04Ah,01h,08Ch,01h
-str_N_ControlSetupScreen:
+;-----------------------------------------------------------------------------
+; ControlSetupPoints                              70BD5  96 PC, low confidence
+; Control setup screen points
+;-----------------------------------------------------------------------------
+ControlSetupPoints:
         db 06Eh,00h,00h,00h,086h,00h,00h,00h,0Ah,01h,00h,00h,085h,00h,00h,00h
         db 034h,01h,00h,00h,06Bh,00h,00h,00h,059h,00h,00h,00h,0C6h,00h,00h,00h
         db 0F5h,00h,00h,00h,0C5h,00h,00h,00h,022h,01h,00h,00h,0ABh,00h,00h,00h

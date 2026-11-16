@@ -7,7 +7,7 @@ global EscReplayKeyMap, LinkFlags, KeyPollTick, MousePollTick, KeyRepeatTick, Jo
 global MousePadActive, SimSlotButtons, InputRecordIndex, Joy1NeedsCalib, Joy2NeedsCalib
 global GripLinked, GripLibHandle, GripSlotsScanned, GripPadBitsPrev, LinkSyncInput, LinkCfgPort, LinkCfgMode, LinkCfgAnswer
 global LinkCfgDirect, LinkCfgBaud, LinkCfgOption, LinkInputFrame, LinkSyncTarget, LinkSyncTimeout, LinkSyncCount, LinkInputDelay
-global LinkRxBlockCount, LinkRxBlockTicks, str_Punct_ModemSettingsScreen, LinkBlockPtr, ModemReplyBuf, KeyBindings, KeyBindingsAlt, LinkConfig
+global LinkRxBlockCount, LinkRxBlockTicks, LinkRxBlockOffset, LinkBlockPtr, ModemReplyBuf, KeyBindings, KeyBindingsAlt, LinkConfig
 global LinkCfgInit, LinkCfgDial, InputDevicesFound, InputDevicesReady, MouseReady, GripBufferSide, SlotsTwoPlayer, ControllerScreenMode
 global LinkSyncWord, BaudRateTable
 InputDevicesFound:
@@ -135,7 +135,7 @@ LinkRxBlockCount:
         db 00h,00h,00h,00h
 LinkRxBlockTicks:
         db 00h,00h,00h,00h
-str_Punct_ModemSettingsScreen:
+LinkRxBlockOffset:
         db 00h,00h,00h,00h
 LinkBlockPtr:
         db 00h,00h,00h,00h

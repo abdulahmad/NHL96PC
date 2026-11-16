@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_AEE40 progbits alloc exec nowrite align=1
 extern FatalError, str_Lzh, str_Copyright, str_UnpackINVALIDPACKCODE, str_TextTable, TextFirstChar, TextLastChar, TextCharW
-extern TextCharH, TextSpacing, TextFontH, str_ctl07, LzhPosCode, LzhPosLen, TextColour, TextBgColour
+extern TextCharH, TextSpacing, TextFontH, TextFontAscent, LzhPosCode, LzhPosLen, TextColour, TextBgColour
 extern TextOriginX, TextOriginY, TextShadowOn, TextFontTag, TextWidthTable, TextCursorX, TextCursorY, TextLeft
 extern TextTop, TextRight, TextBottom, TextColourTable, UnpackSrcPtr, UnpackDestPtr, UnpackPairState, UnpackStackPtr
 extern UnpackPairTable, memmove_, TextFont, strncmp_, AllocMemBlock, FreeMemBlock, UnpackHuffman, NearestColour
@@ -1990,7 +1990,7 @@ TextSetFont:
         mov bl, byte [byte edx+09h]
         mov byte [TextFontH], bl
         mov bl, byte [byte edx+0Ah]
-        mov byte [str_ctl07], bl
+        mov byte [TextFontAscent], bl
         xor ebx, ebx
         mov dword [TextShadowOn], ebx
         mov ebx, dword [byte edx+010h]

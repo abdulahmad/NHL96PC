@@ -73,7 +73,7 @@ extern DrawFlatPoly, DrawPolyOutline, DrawArtScaledHotspot, TransformVector, Pro
 extern SetScreenScale, ProjectModelPoints, DrawModelFlat, DrawModelSorted, DrawModelPolyList, DrawModelPolys, OriCreateInstance, OriSetObjectMatrix
 extern OriSetObjectPosition, OriLoadModel, MakeRotYMatrix, OriFindGroup, OriFindPartition, OriGetPartition, InitReciprocalTable, ClipPolyNearZ
 extern DrawMarkingPolys, SetPolyVertexArrays, FixedInverse, SetScreenTarget, SetRemapTable, GetRemapTable, SetColourRemap, SetBlitSource
-extern ScaleRowShadow, FindShape, bcopy, Random32, FillPolygon, RemapPolygon, SetNearClipZ, str_Punct_DrawIceSurface
+extern ScaleRowShadow, FindShape, bcopy, Random32, FillPolygon, RemapPolygon, SetNearClipZ, IceCircleVertices
 extern IceSurfaceDef, IceGeometryDef, FaceoffCircleOrder, EndZoneOrder, ShadowFill, IcePolyBuffer
 
 
@@ -1840,7 +1840,7 @@ DrawIceSurface:
         add esp, byte 10h
         push RinkMarkingPoints+26Ch
         push FlashPolys
-        push str_Punct_DrawIceSurface
+        push IceCircleVertices
         push byte 6
         call DrawFlatPoly
         add esp, byte 10h

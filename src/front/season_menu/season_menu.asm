@@ -33,7 +33,7 @@ extern TextSetFont, TickDeadlinePassed, str_WesternConference2, SeasonUserRecord
 extern SeasonMenuHotspots, StandingsHotspots, SimPlayoffBracketOrder, UpdateProgressBox
 global SeasonMenuScreen, SeasonMenuScreen_794, SeasonMenuScreen_7AC, SeasonMenuScreen_858, SeasonMenuScreen_9D7, SeasonMenuScreen_A07, SeasonMenuScreen_A34, SeasonMenuScreen_A61
 global SeasonMenuScreen_ADF, SeasonMenuScreen_AEB, SeasonMenuScreen_AF7, SeasonMenuScreen_B7E, SeasonMenuScreen_C05, SeasonMenuScreen_C68, SeasonMenuScreen_D9C, StandingsScreen
-global CompareTeamPoints, DrawStandings, SimulateRestOfSeason, str_T_PickIndexEntryScreen, SeasonMenuCommands, SeasonMenuCommandJumpTable, RunSeasonMenus, RunSeasonMenus_6E
+global CompareTeamPoints, DrawStandings, SimulateRestOfSeason, PickIndexHotspots, SeasonMenuCommands, SeasonMenuCommandJumpTable, RunSeasonMenus, RunSeasonMenus_6E
 global RunSeasonMenus_CB, RunSeasonMenus_D2, RunSeasonMenus_138, RunSeasonMenus_182, RunSeasonMenus_189, RunSeasonMenus_1E1, RunSeasonMenus_224, RunSeasonMenus_238
 global RunSeasonMenus_24E, RunSeasonMenus_25A, RunSeasonMenus_533, PickIndexEntryScreen, DrawIndexEntries
 ;-----------------------------------------------------------------------------
@@ -2695,7 +2695,11 @@ SimulateRestOfSeason:
         pop ecx
         pop ebx
         ret
-str_T_PickIndexEntryScreen:
+;-----------------------------------------------------------------------------
+; PickIndexHotspots                               7B991  96 PC, low confidence
+; Name index screen click areas
+;-----------------------------------------------------------------------------
+PickIndexHotspots:
         db 074h,00h,00h,00h,0BAh,01h,00h,00h,082h,00h,00h,00h,0B4h,01h,00h,00h
         db 0F0h,00h,00h,00h,0B4h,01h,00h,00h,0FCh,00h,00h,00h,0BBh,01h,00h,00h
         db 0FCh,00h,00h,00h,0C6h,01h,00h,00h,0EEh,00h,00h,00h,0CAh,01h,00h,00h
@@ -3102,7 +3106,7 @@ PickIndexEntryScreen:
         sub ebp, byte 7Eh
         mov ecx, 20h
         lea edi, [dword ebp-0AAh]
-        mov esi, str_T_PickIndexEntryScreen
+        mov esi, PickIndexHotspots
         mov eax, 1
         rep movsd
         call GetLangText

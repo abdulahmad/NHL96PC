@@ -12,7 +12,7 @@ extern sflags3, Endfaceoff_ftab_m1, PositionAssignTab, OffsideCalled
 extern PenBuf, PenBuf_pl, PBflags, iflags, icingPlayer, goalevent, AssRefGoalTeam, AssRefGoalData
 extern check4bench, chk4lc, chk4pass, crowdlevel, hmslotcount, awslotcount, HomeEbenPlayer, AwayEbenPlayer
 extern onetimerflag, penshotteam, sopathx, sopathy, sopathend, sopathpoint, pspathside, pspathdir
-extern OneTimerPasser, PuckChasers, PuckChaserPlayer, ScoreCelebrating, str_wildcard, PathPointTab, ShootoutPathData_y, ExtraAttackerOn
+extern OneTimerPasser, PuckChasers, PuckChaserPlayer, ScoreCelebrating, PenShotPathPoints, PathPointTab, ShootoutPathData_y, ExtraAttackerOn
 extern ExtraAttackerTeam, ExtraAttackerPlayer, ExtraAttackerPending, ExtraGoalieOut, hmtmnear, awtmnear, findpc, fox
 extern foy, gameclock, gameopts, getlchoice, gmode, hmtmstruct, lasttouch, lcblink
 extern lcboxon, lcline, puckvy, puckc, PtrPuckFlags, PtrRefObject, PtrPuckObject, passplayer
@@ -7458,7 +7458,7 @@ assrefgoalline:
 NextPathPoint:
         push edx
         imul edx, dword [sopathpoint], byte 3
-        mov eax, dword [nosplit edx*4+str_wildcard]
+        mov eax, dword [nosplit edx*4+PenShotPathPoints]
         cmp dword [pspathside], byte 0
         jge short .1
         neg eax

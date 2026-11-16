@@ -43,7 +43,7 @@ extern str_Wt3, strcat_, strcmp_, strcpy_, strlen_, LoadDataFileLib, PlayerDbRec
 extern StatsDb1Record, DrawArt, AllocMemBlock, FreeMemBlock, CreateBitmap, TintRows, TintRect, FreeBitmap
 extern DosFileInfo, DrawArtOpaqueAtOwnPos, DrawArtOpaqueHotspot, DrawArtKeyed, SetScreenTarget, FindShape, TextSetFont, TickDeadlinePassed
 extern str_Punct_ExportPlayerStats, CompareButtonDef, PlayerStatsItems, PlayerStatsHScroll
-extern PlayerStatsVScroll, PlayerStatsNavLinks, str_U_PlayerStatsScreen, PlayerStatsColumnLabels, UpdateProgressBox, SlotsTwoPlayer, hmscore, PlayerStatColFlags
+extern PlayerStatsVScroll, PlayerStatsNavLinks, PlayerStatsHotspots, PlayerStatsColumnLabels, UpdateProgressBox, SlotsTwoPlayer, hmscore, PlayerStatColFlags
 
 
 global AnimatePlayerStatsButton, AnimatePlayerStatsButtons, ComparePlayerNames, ComparePlayerStatRows, ShowPlayerStatsTitle, PlayerStatsSortJumpTable, PlayerStatsModeJumpTable, PlayerStatsChoiceJumpTable
@@ -575,7 +575,7 @@ PlayerStatsScreen:
         rep movsd
         mov ecx, 60h
         lea edi, [dword ebp-046Eh]
-        mov esi, str_U_PlayerStatsScreen
+        mov esi, PlayerStatsHotspots
         rep movsd
         mov dword [byte ebp+036h], 0FFFFFFFFh
         mov ecx, 8

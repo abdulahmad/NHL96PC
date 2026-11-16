@@ -24,7 +24,7 @@ extern HighlightBuffer, HighlightHeader
 extern ReplayCamMode, ReplaySavedSound, crowdlevel, curperiod, FrontShapesFile, SaveFileHandle, PenBoxDoorHome
 extern PenBoxDoorAway, GlassHitFace, PreGameSkateOn, InReplay, ReplayRunning, HighlightSlot, HighlightStart, HighlightEnd
 extern ReplayCamSteps, ReplayCamZoomIn, ReplayCamZoomOut, ReplayFrameTick, ReplayFrameDelta, ReplayTimeAccum, ReplayRemoteShape, SpinPuckFrame
-extern ViewTop, ViewWidth, ViewHeight, ViewLeft, str_D_DrawGameFrame, ViewBitmap, ViewPixels, ViewSizeStep
+extern ViewTop, ViewWidth, ViewHeight, ViewLeft, GameFrameTop, ViewBitmap, ViewPixels, ViewSizeStep
 extern CamViewBits, CameraViewSlots, LastPaletteMode, ModeLinear, MenuMouseX, MenuMouseY, ViewScreenWidth, ViewScreenHeight
 extern MenuRemoteCursorArt, MenuCursorPixels, pointerspr, MenuBitmapPixels, SpriteArtPtrs, GlassBreakX, GlassBreakY, GlassBreakStep
 extern GlassBreakPanel, GlassBroken, PuckShadowInstance, PuckInstance, HomeNetObject, AwayNetObject
@@ -67,9 +67,9 @@ extern FreeColourLookup, TextPrintAt, SetAaPalLut, DrawArtAaScaledInt, ProjectPo
 extern TransformVector, MultiplyMatrix, OriSetObjectMatrix, MakeRotXMatrix, MakeRotYMatrix, MakeRotZMatrix, SortIndices, BuildPerspTable
 extern SetScreenTarget, SetClipWindow, MouseRead, SetViewRect, TicksSinceLast, FindShape, ClearClipRect, SetViewScreenOrigin
 extern SetViewFov, TransposeMatrix, str_D19, str_dot4, ReplayButtonsLong, ReplayButtonPosLong, ReplayButtonPosMid, ReplayButtonsShort
-extern ReplayButtonPosShort, str_Punct_ReplayScreen, str_0_SaveHighlight, CameraMatrix, ReplayFileName, ReplayViewItems, ReplayViewText
+extern ReplayButtonPosShort, ReplayHotspots, str_0_SaveHighlight, CameraMatrix, ReplayFileName, ReplayViewItems, ReplayViewText
 extern ReplayScreenItems, ReplayCamTarget, ReplaySaveArea, DrawList, DrawListCount, CamPathTarget, optblock_end, SavedGameOpts
-extern SlotsTwoPlayer, ControllerScreenMode, GoalNetFrames, str_Punct_DrawReplayCounter, ReplayCounterX, ReplayCounterY, regd0, regd1
+extern SlotsTwoPlayer, ControllerScreenMode, GoalNetFrames, ReplayCounterXByRes, ReplayCounterX, ReplayCounterY, regd0, regd1
 extern ReplayObjX, ReplayObjY, ReplayObjZ, ReplayObjFrame
 extern ReplayObjAttr
 extern ReplayFramesShown
@@ -78,7 +78,7 @@ global ReplayCameraUpdate_142, ReplayCameraAim, ReplayScreen_D18, ReplayScreen_D
 global ReplayScreen_FF6, ReplayScreen_10E1, ReplayScreen_1110, ReplayScreen_122D, ReplayScreen_1255, ReplayScreen_161B, StartReplay, EndReplay
 global StepReplay, ReplayCameraMatrix, DrawReplayObjects, DrawReplayShadows, DrawReplayPlayers, DrawReplayCounter, DrawReplayClock, DrawReplayView
 global SetReplayCamera, ClipLineAtFloor, ReplayFreeCamera, FindPlayerAtMouse, ReplayCameraUpdate, ReplayFrame, PickReplayPlayer, ReplayScreen
-global RunReplay, SaveHighlight, ReadHighlight, WatchHighlight, HighlightsMenu, ReplayCameraJumpTable, str_T_DrawOverlayCaption, LineEnergyBarSteps
+global RunReplay, SaveHighlight, ReadHighlight, WatchHighlight, HighlightsMenu, ReplayCameraJumpTable, OverlayCaptionTextIds, LineEnergyBarSteps
 ;-----------------------------------------------------------------------------
 ; StartReplay                                  54519  96 PC, medium confidence
 ; Into the replay: stops the arena clip and speech, frees the fight sprites,
@@ -177,7 +177,7 @@ StartReplay:
         push byte 0
         add eax, edx
         push dword [ViewTop]
-        mov dword [str_D_DrawGameFrame], eax
+        mov dword [GameFrameTop], eax
         call SetViewFov
         add esp, byte 10h
         call BuildPerspTable
@@ -1382,7 +1382,7 @@ DrawReplayCounter:
         mov eax, dword [GsOptions]
         shl eax, 12h
         shr eax, 1Fh
-        movsx eax, word [nosplit eax*2+str_Punct_DrawReplayCounter]
+        movsx eax, word [nosplit eax*2+ReplayCounterXByRes]
         push edx
         dec eax
         dec eax
@@ -1397,7 +1397,7 @@ DrawReplayCounter:
         cdq
         idiv edi
         add esp, byte 14h
-        movsx edi, word [dword ebx+str_Punct_DrawReplayCounter]
+        movsx edi, word [dword ebx+ReplayCounterXByRes]
         push byte 7Dh
         add edi, eax
         test byte [GsOptions+1], 20h
@@ -1839,7 +1839,7 @@ ReplayFreeCamera:
         mov eax, dword [FreeCamY]
         sub eax, dword [ViewLeft]
         mov dword [byte ebp-0Ch], eax
-        mov eax, dword [str_D_DrawGameFrame]
+        mov eax, dword [GameFrameTop]
         sub eax, dword [FreeCamX]
         mov dword [byte ebp-08h], eax
         lea eax, [byte ebp-054h]
@@ -2584,7 +2584,7 @@ ReplayScreen:
         je short .7
         mov dword [ReplayButtonDefs], ReplayButtonsShort
         mov dword [byte ebp-020h], ReplayButtonPosShort
-        mov dword [byte ebp-018h], str_Punct_ReplayScreen
+        mov dword [byte ebp-018h], ReplayHotspots
         jmp short .8
 .7:
         mov dword [ReplayButtonDefs], ReplayButtonsLong
@@ -3793,7 +3793,7 @@ ReplayScreen_161B:
         push byte 0
         call SetViewRect
         add esp, byte 10h
-        push dword [str_D_DrawGameFrame]
+        push dword [GameFrameTop]
         push dword [ViewLeft]
         call MouseRead
         add esp, byte 8
@@ -4534,7 +4534,11 @@ HighlightsMenu:
         pop ecx
         pop ebx
         ret
-str_T_DrawOverlayCaption:
+;-----------------------------------------------------------------------------
+; OverlayCaptionTextIds                           58468  96 PC, low confidence
+; Overlay caption text ids
+;-----------------------------------------------------------------------------
+OverlayCaptionTextIds:
         db 074h,00h,00h,00h,075h,00h,00h,00h,076h,00h,00h,00h,077h,00h,00h,00h
         db 078h,00h,00h,00h,079h,00h,00h,00h,07Ah,00h,00h,00h,07Bh,00h,00h,00h
         db 019h,00h,00h,00h

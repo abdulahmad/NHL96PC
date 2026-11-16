@@ -314,6 +314,7 @@ address,name,auto_name,source,confidence,evidence,file
 299CF,DrawShadowSpriteAt,sub_299CF,new,low,draws a sprite shadow at a position,src/front/rink_model/rink_model.asm
 29A14,DrawOptionButton,sub_29A14,new,low,builds the art name for an option button and draws it,src/front/rink_model/rink_model.asm
 29B9F,GameOptionsScreen,sub_29B9F,new,low,game options screen: ten option buttons over the menu background,src/front/rink_model/rink_model.asm
+2A482,UserRecordsHotspots,,new,low,user records screen click areas,src/front/users/users.asm
 2A502,ClearSlotUser,sub_2A502,new,high,"(slot): no user on that controller slot (word_160ACC entry 21h bytes: user id, name ""no user"" text)",src/front/users/users.asm
 2A52F,ClearSlotUsers,sub_2A52F,new,high,no user on any of the 4 controller slots,src/front/users/users.asm
 2A5B5,UserRecordRating,sub_2A5B5,new,low,"adds up a user record's counts (x3, 16.16) for its rating",src/front/users/users.asm
@@ -725,6 +726,7 @@ address,name,auto_name,source,confidence,evidence,file
 57EAF,ReadHighlight,sub_57EAF,new,low,reads a saved highlight file (FileReadAt),src/front/replay_controls/replay_controls.asm
 57F0A,WatchHighlight,sub_57F0A,new,medium,"from the main menu: sets up the game view and sounds, plays a saved highlight in the replay screen, then back to the front end",src/front/replay_controls/replay_controls.asm
 583B8,HighlightsMenu,sub_583B8,new,medium,"from the main menu: picks a saved highlight (HILITES.NDX, PickIndexEntryScreen) and plays it",src/front/replay_controls/replay_controls.asm
+58468,OverlayCaptionTextIds,,new,low,overlay caption text ids,src/front/replay_controls/replay_controls.asm
 584A0,DrawScaledSprite,sub_584A0,new,low,"draws one scaled sprite frame clipped to the view (dword_1228D8-1228E4), for DrawPlayerSprite",src/front/game_view/game_view.asm
 58690,BuildShadeMatch,sub_58690,new,low,"(level, palette): for each colour finds the nearest palette colour (distance from 270Fh down) at a shade level, for the shading LUT",src/front/game_view/game_view.asm
 587B7,BuildShadeLut,sub_587B7,new,low,"(level, palette): fills the shading LUT (dword_1798F8) for the palette at a brightness level",src/front/game_view/game_view.asm
@@ -770,6 +772,7 @@ address,name,auto_name,source,confidence,evidence,file
 5CD5E,DrawLineEnergyBar,sub_5CD5E,new,medium,"(team, line): one line's energy bar in a line change box",src/front/game_view/game_view.asm
 5CE42,DrawLineChangeBox,sub_5CE42,new,medium,"(team): the line change box (lcboxon, lcline, ""1""-""4"") with the team logo and line energies",src/front/game_view/game_view.asm
 5D4B4,DrawLineChangeBoxes,sub_5D4B4,new,medium,reads both teams' line energies (TeamLineEnergy) and draws their line change boxes,src/front/game_view/game_view.asm
+5D639,ViewSizeScales,,new,low,game view scale for each view size,src/front/game_view/game_view.asm
 5D707,CameraPathCoeffs,sub_5D707,new,low,the coefficients of one camera path polynomial,src/front/camera/camera.asm
 5D7A2,CameraPathEval,sub_5D7A2,new,medium,"(coeffs, t): a 5th-degree polynomial in 16.16 by Horner's rule",src/front/camera/camera.asm
 5D82C,CameraPathSlope,sub_5D82C,new,medium,"(coeffs, t): its first derivative (5, 4, 3, 2)",src/front/camera/camera.asm
@@ -968,6 +971,7 @@ address,name,auto_name,source,confidence,evidence,file
 6E332,DrawControllerColumns,sub_6E332,new,medium,"the controller screen's columns: the pads by team with the users' icons and names (usri, usrh, utext), with the move sound",src/front/controller_screen/controller_screen.asm
 6F056,ControllerScreen,sub_6F056,new,high,"the controller screen (M_CONTROL, ply%d, key1): moves each controller to home, away or neither; returns the screen to go to",src/front/controller_screen/controller_screen.asm
 70840,RunControllerScreen,sub_70840,new,medium,"(from): runs ControllerScreen until it leaves (3 again), then the next step (0Fh, 15h, sub_8733C)",src/front/controller_screen/controller_screen.asm
+70BD5,ControlSetupPoints,,new,low,control setup screen points,src/front/controller_screen/controller_screen.asm
 711ED,DrawOnOffSlider,sub_711ED,new,medium,"draws an on/off slider (Off0/Off1, Onn0/Onn1, sld%d)",src/front/modem_setup/modem_setup.asm
 71333,PollOptionKeys,sub_71333,new,low,"checks the 9 option keys (sub_DFE9C, held-tick timers dword_17D654), plays sound 33h and toggles the option bits (byte_17D650)",src/front/modem_setup/modem_setup.asm
 715E3,ControlPicksScreen,sub_715E3,new,low,"the PICKS screen, after the control setup",src/front/modem_setup/modem_setup.asm
@@ -1003,6 +1007,7 @@ address,name,auto_name,source,confidence,evidence,file
 7A787,CompareTeamPoints,sub_7A787,new,medium,"qsort compare of two teams by points (2 x wins + ties from the team record +30h, +32h), for the standings",src/front/season_menu/season_menu.asm
 7A97E,DrawStandings,sub_7A97E,new,medium,"draws the sorted standings table (with ""*"" marks and ""-"" for none)",src/front/season_menu/season_menu.asm
 7B15A,SimulateRestOfSeason,sub_7B15A,new,low,"simulates the rest of the season's games and the playoffs, with a progress box",src/front/season_menu/season_menu.asm
+7B991,PickIndexHotspots,,new,low,name index screen click areas,src/front/season_menu/season_menu.asm
 7BA57,RunSeasonMenus,sub_7BA57,new,medium,from RunFrontEnd: loads SEASON.NDX and runs the season screens,src/front/season_menu/season_menu.asm
 7BFAF,PickIndexEntryScreen,sub_7BFAF,new,low,"picks an entry of a name index (seasons, exhibition records) from a scrolling list (BALL, "">%s""), with new / delete buttons (BT10-BT12)",src/front/season_menu/season_menu.asm
 7CBE5,DrawIndexEntries,sub_7CBE5,new,low,"draws the visible entries of that list ("">%s"" marks the current one)",src/front/season_menu/season_menu.asm
@@ -1055,6 +1060,7 @@ address,name,auto_name,source,confidence,evidence,file
 8AE90,BuildTeamStatTables,sub_8AE90,new,low,adds up the season's team stat tables (word_17E894-17E99C) from the games,src/front/stats_menu/stats_menu.asm
 8B0FC,DumpSaveTimes,sub_8B0FC,new,low,"debug: writes savetime.out (""[%d][4] = {"" tables)",src/front/stats_menu/stats_menu.asm
 8B7BB,CheckExportName,sub_8B7BB,new,medium,"checks an export file name (path, "".TXT"", spaces); a message box if it is not good",src/front/stats_menu/stats_menu.asm
+8BD9F,PlayerStatsHotspots,,new,low,player stats screen click areas,src/front/stats_menu/stats_menu.asm
 8BF56,AnimatePlayerStatsButton,sub_8BF56,new,low,plays a button's frames (4 ticks each) on the player stats screen,src/front/player_stats/player_stats.asm
 8C006,AnimatePlayerStatsButtons,sub_8C006,new,low,the same for a row of buttons,src/front/player_stats/player_stats.asm
 8C1C6,ComparePlayerNames,sub_8C1C6,new,medium,"qsort compare of two players by last name, then first name (dword_1820E8 / 1820EC)",src/front/player_stats/player_stats.asm
@@ -1086,6 +1092,8 @@ address,name,auto_name,source,confidence,evidence,file
 961ED,SwitchRatingsCard,sub_961ED,new,low,the card change animation of the ratings screen (SlideCardLeft / SlideCardRight),src/front/player_ratings/player_ratings.asm
 96525,DrawRatingsList,sub_96525,new,low,the ratings screen's player list and its scroll bar (BALL),src/front/player_ratings/player_ratings.asm
 966CA,DrawRatingsName,sub_966CA,new,low,"the name line ""#%d %s %s""",src/front/player_ratings/player_ratings.asm
+96B89,RosterTabHotspots,,new,low,roster screen tab click areas,src/front/player_ratings/player_ratings.asm
+96D09,CreatePlayerHotspots,,new,low,create player screen click areas,src/front/player_ratings/player_ratings.asm
 971E9,RunRosterScreens,sub_971E9,new,medium,"from the exhibition and season menus: sets up the stat tables (StatDBPTRs, DBPTRs, Player #, Profiles, ...), runs the roster, edit lines, ratings and player card screens, frees them",src/front/roster/roster.asm
 97420,RosterScreen,sub_97420,new,medium,"the roster screen: trades between teams, signing free agents (FREEAGNT.DB), creating players, by team lists (s1__-s4__)",src/front/roster/roster.asm
 9A1DB,DrawRosterTeams,sub_9A1DB,new,low,"the roster screen's team logos, names and player lists (LFRE free agents)",src/front/roster/roster.asm
@@ -4538,7 +4546,7 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 114DAA,LinkInputDelay,dword_114DAA,new,low,Link: input delay in frames,src/data/front/front_10010_data_01.asm
 114DAE,LinkRxBlockCount,dword_114DAE,new,low,Link: blocks received,src/data/front/front_10010_data_01.asm
 114DB2,LinkRxBlockTicks,dword_114DB2,new,low,Link: ticks spent receiving the block,src/data/front/front_10010_data_01.asm
-114DB6,str_Punct_ModemSettingsScreen,dword_114DB6,new,low,"string "" """,src/data/front/front_10010_data_01.asm
+114DB6,LinkRxBlockOffset,dword_114DB6,new,low,offset into the received link block,src/data/front/front_10010_data_01.asm
 114DBA,LinkBlockPtr,dword_114DBA,new,low,Link: pointer into the block being sent or received,src/data/front/front_10010_data_01.asm
 114DBE,LinkSyncWord,word_114DBE,new,low,Link: sync word,src/data/front/front_10010_data_01.asm
 114DC0,BaudRateTable,word_114DC0,new,low,Baud rate per GsBaudIndex,src/data/front/front_10010_data_01.asm
@@ -4582,7 +4590,7 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 115004,ModemLastResult,dword_115004,new,low,last modem result code,src/data/front/front_1456D_data_02.asm
 115008,LinkTickCount,dword_115008,new,low,Link: timer ticks,src/data/front/front_1456D_data_02.asm
 11500C,LinkPortHandle,dword_11500C,new,low,Link: serial port handle,src/data/front/front_1456D_data_02.asm
-115010,str_Punct_LinkOpen,dword_115010,new,high,"string ""\t""",src/data/front/front_1456D_data_02.asm
+115010,LinkBaudSetting,dword_115010,new,low,link baud rate setting,src/data/front/front_1456D_data_02.asm
 115014,LinkOpenFlags,dword_115014,new,low,Link: open flags,src/data/front/front_1456D_data_02.asm
 115018,LinkRetryOn,dword_115018,new,low,Link: retries on,src/data/front/front_1456D_data_02.asm
 11501C,LinkCarrierCheck,dword_11501C,new,low,Link: check the carrier,src/data/front/front_1456D_data_02.asm
@@ -4605,13 +4613,13 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 115060,LinkTxPending,dword_115060,new,low,Link: packets waiting for an acknowledge,src/data/front/front_1456D_data_02.asm
 115064,LinkState,dword_115064,new,low,Link: connection state,src/data/front/front_1456D_data_02.asm
 115068,LinkCheckPeriod,dword_115068,new,low,Link: ticks between checks,src/data/front/front_1456D_data_02.asm
-11506C,str_ctl06,dword_11506C,95PC,high,string ' ',src/data/front/front_1456D_data_02.asm
-115070,str_22,dword_115070,new,high,string '2',src/data/front/front_1456D_data_02.asm
-115074,str_D_LinkCopyBytes,dword_115074,new,high,"string ""d""",src/data/front/front_1456D_data_02.asm
-115078,str_newline,dword_115078,95PC,high,string ' ',src/data/front/front_1456D_data_02.asm
+11506C,LinkRetryLimit,dword_11506C,95PC,low,link retry limit,src/data/front/front_1456D_data_02.asm
+115070,LinkCopyLow,dword_115070,new,low,link copy lower limit,src/data/front/front_1456D_data_02.asm
+115074,LinkCopyHigh,dword_115074,new,low,link copy upper limit,src/data/front/front_1456D_data_02.asm
+115078,LinkCopyStep,dword_115078,95PC,low,link copy step,src/data/front/front_1456D_data_02.asm
 11507C,LinkRxHead,dword_11507C,new,low,Link: receive ring head,src/data/front/front_1456D_data_02.asm
 115080,LinkRxCount,dword_115080,new,low,Link: bytes in the receive ring,src/data/front/front_1456D_data_02.asm
-115084,str_Punct_LinkTimerTick,byte_115084,new,high,"string "":""",src/data/front/front_1456D_data_02.asm
+115084,LinkChannelTimers,byte_115084,new,low,link channel timers,src/data/front/front_1456D_data_02.asm
 115098,LinkPollState,dword_115098,new,low,link poll state,src/data/front/main_data_02.asm
 11509C,str_0123456789abcdefghijklmn,asc_11509C,new,high,string '0123456789abcdefghijklmnopqrstuvwxyz ',src/data/front/main_data_02.asm
 1150C4,MessageShown,dword_1150C4,new,low,message box is shown,src/data/front/main_data_02.asm
@@ -4643,7 +4651,7 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 115120,DataDirPath,unk_115120,new,low,data directory path,src/data/front/main_data_02.asm
 11512D,DataLibIds,word_11512D,new,low,data library table,src/data/front/main_data_02.asm
 1151A7,ArtArchivePaths,unk_1151A7,new,low,art archive paths,src/data/front/main_data_02.asm
-115333,str_X_SetArtArchive,unk_115333,new,low,"string ""x""",src/data/front/main_data_02.asm
+115333,ArtSetTable,unk_115333,new,low,art set table,src/data/front/main_data_02.asm
 117478,str_KEY3,unk_117478,new,high,string 'KEY',src/data/front/main_data_02.asm
 11747C,str_CAREER2,unk_11747C,95PC,high,string 'CAREER',src/data/front/main_data_02.asm
 117483,str_ATT,unk_117483,new,high,string 'ATT',src/data/front/main_data_02.asm
@@ -4684,7 +4692,7 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 1175B1,StandsArtLoaded,dword_1175B1,new,low,stands art is loaded,src/data/front/rink_model_data_02.asm
 1175B5,PenBoxDoorHome,dword_1175B5,new,low,home penalty box door state,src/data/front/rink_model_data_02.asm
 1175B9,PenBoxDoorAway,dword_1175B9,new,low,away penalty box door state,src/data/front/rink_model_data_02.asm
-1175BD,str_Punct_DrawIceSurface,unk_1175BD,new,high,"string "".""",src/data/front/rink_model_data_02.asm
+1175BD,IceCircleVertices,unk_1175BD,new,low,ice circle vertices,src/data/front/rink_model_data_02.asm
 117605,IceSurfaceDef,unk_117605,new,medium,ice surface definition,src/data/front/rink_model_data_02.asm
 11764D,IceGeometryDef,unk_11764D,new,medium,ice geometry definition,src/data/front/rink_model_data_02.asm
 1176AD,FaceoffCircleOrder,unk_1176AD,new,low,faceoff circle draw order,src/data/front/rink_model_data_02.asm
@@ -4698,8 +4706,8 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 1177F4,UserRecordsTop,dword_1177F4,new,low,user records list top,src/data/front/front_2A692_data_02.asm
 1177F8,UserRecordsFirst,dword_1177F8,new,low,first user record shown,src/data/front/front_2A692_data_02.asm
 1177FC,UserRecordsRow,dword_1177FC,new,low,user records row,src/data/front/front_2A692_data_02.asm
-117800,str_J,dword_117800,new,high,"string ""j""",src/data/front/front_2A692_data_02.asm
-117804,str_V,dword_117804,new,high,"string ""v""",src/data/front/front_2A692_data_02.asm
+117800,UserRecordsBarColour,dword_117800,new,low,user records highlight bar colour,src/data/front/front_2A692_data_02.asm
+117804,UserRecordsRowY,dword_117804,new,low,user records row positions,src/data/front/front_2A692_data_02.asm
 11786C,replaystart,off_11786C,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_2A692_data_02.asm
 117870,puckx,,95PC,medium,NHL95PC C907C (refset): referenced by the same 6 matched functions,
 117874,puckvx,,95PC,medium,NHL95PC C9080 (refset): referenced by the same 9 matched functions,
@@ -4860,10 +4868,10 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 119CC4,HotStickList_y,byte_119CC4,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_4DED8_data_02.asm
 119D04,ZonesDirty,dword_119D04,new,low,"set while screen zones wait to be redrawn (DrawDirtyZones, CopyZonesToScreen)",src/data/engine/engine_4DED8_data_02.asm
 119D08,CupShown,word_119D08,new,low,"set once the cup presentation has played (StartPreGame, DrawOverlayPanels)",src/data/engine/engine_2D9D9_data_01.asm
-119D0A,str_C_DrawOverlayPanels,unk_119D0A,new,high,"string ""C""",src/data/engine/engine_2D9D9_data_01.asm
-119D22,str_Punct_DrawOverlayPanels,unk_119D22,new,high,"string ""$""",src/data/engine/engine_2D9D9_data_01.asm
+119D0A,StarPanelOffsetsLowRes,unk_119D0A,new,low,star panel offsets in low resolution,src/data/engine/engine_2D9D9_data_01.asm
+119D22,StarPanelRowsLowRes,unk_119D22,new,low,star panel rows in low resolution,src/data/engine/engine_2D9D9_data_01.asm
 119D36,StarPanelOffsets,unk_119D36,new,low,offsets of the three stars panel parts (DrawOverlayPanels),src/data/engine/engine_2D9D9_data_01.asm
-119D4E,str_V_DrawOverlayPanels,unk_119D4E,new,high,"string ""V""",src/data/engine/engine_2D9D9_data_01.asm
+119D4E,StarPanelRows,unk_119D4E,new,low,star panel rows,src/data/engine/engine_2D9D9_data_01.asm
 119D62,IntroStandSpots,word_119D62,new,low,"intro stand positions, 4 bytes a player (assintrostand)",src/data/engine/engine_2D9D9_data_01.asm
 119D76,starskatermin,byte_119D76,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_2D9D9_data_01.asm
 119D79,stargoaliemin,byte_119D79,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_2D9D9_data_01.asm
@@ -4876,7 +4884,7 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 119DF7,Endfaceoff_ftab_m1,byte_119DF7,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_2D9D9_data_01.asm
 119DFE,refsigdir,word_119DFE,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_2D9D9_data_01.asm
 119E44,RefSignalAnims,word_119E44,new,low,assrefsignal: referee signal animation per signal,src/data/engine/logic_data_01.asm
-119E8A,str_wildcard,dword_119E8A,95PC,high,string '*',src/data/engine/logic_data_01.asm
+119E8A,PenShotPathPoints,dword_119E8A,95PC,low,penalty shot path points,src/data/engine/logic_data_01.asm
 119E8E,PathPointTab,dword_119E8E,new,low,NextPathPoint: path point table,src/data/engine/logic_data_01.asm
 119E92,ShootoutPathData_y,dword_119E92,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/logic_data_01.asm
 119EBA,FightAnimTab,word_119EBA,new,low,assfight: fight animation ids,src/data/engine/logic_data_01.asm
@@ -4926,7 +4934,7 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 11A400,HighlightSlot,dword_11A400,new,low,"Highlight slot being saved, -1 for none",src/data/engine/lines_data_01.asm
 11A404,HighlightStart,dword_11A404,new,low,Start frame of the highlight being saved,src/data/engine/lines_data_01.asm
 11A408,HighlightEnd,dword_11A408,new,low,End frame of the highlight being saved,src/data/engine/lines_data_01.asm
-11A40C,str_Punct_DrawReplayCounter,word_11A40C,new,high,"string ""?""",src/data/engine/lines_data_01.asm
+11A40C,ReplayCounterXByRes,word_11A40C,new,low,replay counter X for each screen resolution,src/data/engine/lines_data_01.asm
 11A410,ReplayCounterX,word_11A410,new,low,replay counter x positions,src/data/front/replay_controls_data_02.asm
 11A414,ReplayCounterY,word_11A414,new,low,replay counter y positions,src/data/front/replay_controls_data_02.asm
 11A418,ReplayCamSteps,dword_11A418,new,low,replay camera steps,src/data/front/replay_controls_data_02.asm
@@ -4940,7 +4948,7 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 11A9B0,ReplayButtonPosMid,unk_11A9B0,new,low,"replay button positions, middle set",src/data/front/replay_controls_data_02.asm
 11AB30,ReplayButtonsShort,unk_11AB30,new,low,"replay buttons, short set",src/data/front/replay_controls_data_02.asm
 11AE70,ReplayButtonPosShort,unk_11AE70,new,low,"replay button positions, short set",src/data/front/replay_controls_data_02.asm
-11B0B0,str_Punct_ReplayScreen,unk_11B0B0,new,high,"string ""\n""",src/data/front/replay_controls_data_02.asm
+11B0B0,ReplayHotspots,unk_11B0B0,new,low,replay screen click areas,src/data/front/replay_controls_data_02.asm
 11B230,str_0_SaveHighlight,unk_11B230,new,high,"string ""0""",src/data/front/replay_controls_data_02.asm
 11B234,ReplayRemoteShape,dword_11B234,new,low,replay remote shape,src/data/front/replay_controls_data_02.asm
 11B238,ClockPanelState,dword_11B238,new,low,"Clock panel state, -1 when closed",src/data/front/front_584A0_data_02.asm
@@ -4971,12 +4979,12 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 11B318,ViewWidth,dword_11B318,new,low,Game view width,src/data/front/front_584A0_data_02.asm
 11B31C,ViewHeight,dword_11B31C,new,low,Game view height,src/data/front/front_584A0_data_02.asm
 11B320,ViewLeft,dword_11B320,new,low,Game view left,src/data/front/front_584A0_data_02.asm
-11B324,str_D_DrawGameFrame,dword_11B324,new,high,"string ""d""",src/data/front/front_584A0_data_02.asm
+11B324,GameFrameTop,dword_11B324,new,low,top of the game frame,src/data/front/front_584A0_data_02.asm
 11B328,ViewBitmap,dword_11B328,new,low,Game view bitmap,src/data/front/front_584A0_data_02.asm
 11B32C,ViewPixels,dword_11B32C,new,low,Game view pixels,src/data/front/front_584A0_data_02.asm
 11B330,ViewSizeStep,dword_11B330,new,low,Game view size step (8 full),src/data/front/front_584A0_data_02.asm
 11B334,CameraShotOn,dword_11B334,new,low,Camera shot running,src/data/front/front_584A0_data_02.asm
-11B338,str_C_CloseTextOverlay,dword_11B338,new,high,"string ""c""",src/data/front/front_5D993_data_02.asm
+11B338,TextOverlayFadeSteps,dword_11B338,new,low,text overlay fade steps,src/data/front/front_5D993_data_02.asm
 11B364,CamFollowObj,dword_11B364,new,low,Camera: object followed by the shot,src/data/front/front_5D993_data_02.asm
 11B368,CamLeadDist,dword_11B368,new,low,Camera: lead distance,src/data/front/front_5D993_data_02.asm
 11B370,CamAimDist,dword_11B370,new,low,Camera: aim distance,src/data/front/front_5D993_data_02.asm
@@ -5053,10 +5061,10 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 11D236,SoundCardOn,dword_11D236,new,low,a sound card was found and set up,src/data/front/front_67000_data_01.asm
 11D23A,SpeechStarting,word_11D23A,new,low,set while speech is being started,src/data/front/front_67000_data_01.asm
 11D23C,CdSpeed,word_11D23C,new,low,measured CD speed,src/data/front/front_67000_data_01.asm
-11D23E,str_Z_OpenSpeechBanks,dword_11D23E,new,high,"string ""Z""",src/data/front/front_67000_data_01.asm
+11D23E,SpeechBankPaths,dword_11D23E,new,low,data path of the speech banks,src/data/front/front_67000_data_01.asm
 11D242,ClipIndexTable,dword_11D242,new,low,index of sound clips by id,src/data/front/front_67000_data_01.asm
 11D356,TeamPairClips,word_11D356,new,low,sound clips for team match-ups,src/data/front/front_67000_data_01.asm
-11D376,str_Punct_OpenSpeechBanks,dword_11D376,new,high,"string ""[""",src/data/front/front_67000_data_01.asm
+11D376,SpeechBankAltPaths,dword_11D376,new,low,data path of the speech banks when the alternate set is used,src/data/front/front_67000_data_01.asm
 11D37A,speechq,dword_11D37A,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_67000_data_01.asm
 11D37E,SpeechBankHandle,dword_11D37E,new,low,speech bank file handle,src/data/front/front_67000_data_01.asm
 11D382,SpeechQueueHead,word_11D382,new,low,speech queue read index,src/data/front/front_67000_data_01.asm
@@ -5090,10 +5098,10 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 11D7A0,InGameMenuRequest,dword_11D7A0,new,medium,"1 pause menu, 2 replay menu, 3 other",
 11D7A4,InGameMenuItems,unk_11D7A4,new,low,in-game menu item list,src/data/front/front_77642_data_02.asm
 11D7BC,PauseMenuItemsShort,unk_11D7BC,new,low,short pause menu item list,src/data/front/front_77642_data_02.asm
-11D7D4,str_Punct_InGameMenu,unk_11D7D4,new,high,"string ""\t""",src/data/front/front_77642_data_02.asm
+11D7D4,InGameMenuLayout,unk_11D7D4,new,low,in-game menu box layout,src/data/front/front_77642_data_02.asm
 11D7EC,PauseMenuItemsLong,unk_11D7EC,new,low,long pause menu item list,src/data/front/front_77642_data_02.asm
-11D804,str_N_InGameMenu,unk_11D804,new,high,"string ""N""",src/data/front/front_77642_data_02.asm
-11D80A,str_F_InGameMenu,unk_11D80A,new,high,"string ""F""",src/data/front/front_77642_data_02.asm
+11D804,InGameBoxXList,unk_11D804,new,low,in-game menu box X positions,src/data/front/front_77642_data_02.asm
+11D80A,InGameBoxYList,unk_11D80A,new,low,in-game menu box Y positions,src/data/front/front_77642_data_02.asm
 11D810,PauseMenuBoxX,unk_11D810,new,low,pause menu box x positions,src/data/front/front_77642_data_02.asm
 11D816,PauseMenuBoxY,unk_11D816,new,low,pause menu box y positions,src/data/front/front_77642_data_02.asm
 11D81C,PauseMenuTextIds,unk_11D81C,new,low,pause menu text ids,src/data/front/front_77642_data_02.asm
@@ -5109,16 +5117,16 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 11D92E,ControllerColumnsDrawn,word_11D92E,new,low,controller columns have been drawn,src/data/front/front_6E233_data_02.asm
 11D930,ControllerSlotStates,dword_11D930,new,low,state of each controller slot,src/data/front/front_6E233_data_02.asm
 11D940,ControllerSlotItems,dword_11D940,new,low,item shown in each controller slot,src/data/front/front_6E233_data_02.asm
-11D950,str_dbgO,dword_11D950,95PC,high,string 'O',src/data/front/front_6E233_data_02.asm
+11D950,ControllerColumnInfo,dword_11D950,95PC,low,controller screen column info,src/data/front/front_6E233_data_02.asm
 11D954,ControllerLayout,dword_11D954,new,low,controller screen layout table,src/data/front/front_6E233_data_02.asm
 11D968,str_feO,word_11D968,95PC,high,string 'O',src/data/front/front_6E233_data_02.asm
-11DE50,str_Punct_ControllerScreen,unk_11DE50,new,high,"string ""~""",src/data/front/front_6E233_data_02.asm
+11DE50,ControllerButtonOutline,unk_11DE50,new,low,controller screen button outline,src/data/front/front_6E233_data_02.asm
 11DE90,ControllerTextIds,unk_11DE90,new,low,controller screen text ids,src/data/front/front_6E233_data_02.asm
-11DED0,str_G,dword_11DED0,new,high,"string ""g""",src/data/front/front_6E233_data_02.asm
+11DED0,ControllerSlotPositions,dword_11DED0,new,low,controller slot positions,src/data/front/front_6E233_data_02.asm
 11DED4,ControllerOptionRows,dword_11DED4,new,low,controller option rows,src/data/front/front_6E233_data_02.asm
 11DF70,ControllerTitlePos,dword_11DF70,new,low,controller screen title position,src/data/front/front_6E233_data_02.asm
 11DF80,ControlPickRows,dword_11DF80,new,low,control pick rows,src/data/front/front_6E233_data_02.asm
-11DF84,str_Punct_ControlPicksScreen,dword_11DF84,new,high,"string ""[""",src/data/front/front_6E233_data_02.asm
+11DF84,ControlPickColumns,dword_11DF84,new,low,control pick slot positions,src/data/front/front_6E233_data_02.asm
 11DFC8,str_GenericHayesCompatible,asc_11DFC8,new,high,"string ""Generic Hayes-Compatible""",src/data/front/front_741BD_data_02.asm
 11E270,BaudChoices,word_11E270,new,low,baud rate choices,src/data/front/front_741BD_data_02.asm
 11E278,DialAborted,dword_11E278,new,low,dialling was aborted,src/data/front/front_741BD_data_02.asm
@@ -5227,11 +5235,11 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 11EDCC,PlayoffRoundTextIds,dword_11EDCC,new,low,playoff round text ids,src/data/front/front_A17D5_data_02.asm
 11EDDC,PlayoffSeriesWins,dword_11EDDC,new,low,wins needed in each playoff series,src/data/front/front_A17D5_data_02.asm
 11EE18,PlayoffTreeY,dword_11EE18,new,low,playoff tree y positions,src/data/front/front_A17D5_data_02.asm
-11EE94,str_Punct_DrawPlayoffTree,dword_11EE94,new,high,"string ""\r""",src/data/front/playoff_data_02.asm
+11EE94,PlayoffTreeColumnsX,dword_11EE94,new,low,playoff tree column positions,src/data/front/playoff_data_02.asm
 11EF10,PlayoffSeriesLayout,dword_11EF10,new,low,playoff series layout,src/data/front/playoff_data_02.asm
 11EF80,FinalGameNum,dword_11EF80,new,low,final game number,src/data/front/playoff_data_02.asm
 11EF8C,PlayoffSparkleSoundOn,dword_11EF8C,new,low,set once the playoff sparkle sound plays,src/data/front/playoff_data_02.asm
-11EF90,str_Punct_PlayoffTreeScreen,unk_11EF90,new,high,"string ""\t""",src/data/front/playoff_data_02.asm
+11EF90,PlayoffTreeNavLinks,unk_11EF90,new,low,playoff tree button neighbours,src/data/front/playoff_data_02.asm
 11EFDC,PlayoffTreeTemplate,unk_11EFDC,new,low,playoff tree line template,src/data/front/playoff_data_02.asm
 11F39C,TreeShapeLeft,unk_11F39C,new,low,"tree shape table, left side",src/data/front/playoff_data_02.asm
 11F3DC,TreeShapeRight,unk_11F3DC,new,low,"tree shape table, right side",src/data/front/playoff_data_02.asm
@@ -5331,14 +5339,14 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 11F940,JoyButtons,byte_11F940,new,medium,last joystick button byte,src/data/lib/input/input_joystick_misc_01_data_01.asm
 11F941,JoyButtonsPrev,byte_11F941,new,medium,previous joystick button byte,src/data/lib/input/input_joystick_misc_01_data_01.asm
 11F942,JoyDirection,byte_11F942,new,medium,joystick direction bits built from the axes,src/data/lib/input/input_joystick_misc_01_data_01.asm
-11F943,str_P,dword_11F943,new,high,string 'P',src/data/lib/input/input_joystick_misc_01_data_01.asm
+11F943,JoyX1Threshold,dword_11F943,new,low,first joystick X threshold,src/data/lib/input/input_joystick_misc_01_data_01.asm
 11F947,JoyX1Min,dword_11F947,new,medium,joystick 1 X axis minimum seen,src/data/lib/input/input_joystick_misc_01_data_01.asm
 11F94B,JoyX1Center,dword_11F94B,new,medium,joystick 1 X axis center,src/data/lib/input/input_joystick_misc_01_data_01.asm
 11F94F,JoyX1Max,dword_11F94F,new,medium,joystick 1 X axis maximum seen,src/data/lib/input/input_joystick_misc_01_data_01.asm
 11F953,JoyX1Settle,dword_11F953,new,medium,reads left before the joystick 1 X range is trusted,src/data/lib/input/input_joystick_misc_01_data_01.asm
 11F957,JoyY1Min,dword_11F957,new,medium,joystick 1 Y axis minimum seen,src/data/lib/input/input_joystick_misc_01_data_01.asm
 11F95B,JoyY1Max,dword_11F95B,new,medium,joystick 1 Y axis maximum seen,src/data/lib/input/input_joystick_misc_01_data_01.asm
-11F95F,str_P2,dword_11F95F,new,high,string 'P',src/data/lib/input/input_joystick_misc_01_data_01.asm
+11F95F,JoyY1Threshold,dword_11F95F,new,low,first joystick Y threshold,src/data/lib/input/input_joystick_misc_01_data_01.asm
 11F963,JoyY1MinSeen,dword_11F963,new,medium,joystick 1 Y axis lowest reading this pass,src/data/lib/input/input_joystick_misc_01_data_01.asm
 11F967,JoyY1Center,dword_11F967,new,medium,joystick 1 Y axis center,src/data/lib/input/input_joystick_misc_01_data_01.asm
 11F96B,JoyY1MaxSeen,dword_11F96B,new,medium,joystick 1 Y axis highest reading this pass,src/data/lib/input/input_joystick_misc_01_data_01.asm
@@ -5379,7 +5387,7 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 11FA2F,TextCharH,byte_11FA2F,new,low,font character height,src/data/lib/input/input_joystick_misc_01_data_01.asm
 11FA30,TextSpacing,byte_11FA30,new,low,font spacing,src/data/lib/input/input_joystick_misc_01_data_01.asm
 11FA31,TextFontH,byte_11FA31,new,low,font height,src/data/lib/input/input_joystick_misc_01_data_01.asm
-11FA32,str_ctl07,byte_11FA32,95PC,high,string ' ',src/data/lib/input/input_joystick_misc_01_data_01.asm
+11FA32,TextFontAscent,byte_11FA32,95PC,low,font ascent of the current font,src/data/lib/input/input_joystick_misc_01_data_01.asm
 11FA34,TextWidthTable,dword_11FA34,new,low,font width table,src/data/lib/input/input_joystick_misc_01_data_01.asm
 11FA38,TextCursorX,dword_11FA38,new,low,text cursor x,src/data/lib/input/input_joystick_misc_01_data_01.asm
 11FA3C,TextCursorY,dword_11FA3C,new,low,text cursor y,src/data/lib/input/input_joystick_misc_01_data_01.asm
@@ -5417,7 +5425,7 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 1219A8,QuantizeTable,byte_1219A8,new,low,colour quantise table,src/data/lib/input/input_joystick_misc_01_data_02.asm
 121AA8,AaWeights,dword_121AA8,new,medium,"the twelve 16.16 weights of the anti-aliasing colour table (1, 2/3, 1/2, 4/9, 1/3, 1/4, ... 1/16)",src/data/lib/input/input_joystick_misc_01_data_02.asm
 121AD8,FpuFlags,dword_121AD8,new,low,FPU flags set at start up,src/data/lib/input/input_joystick_misc_01_data_02.asm
-121ADC,str_Punct_InitFpuFlags,word_121ADC,new,high,"string "" """,src/data/lib/input/input_joystick_misc_01_data_02.asm
+121ADC,EmuHookFlags,word_121ADC,new,low,floating point emulator hook flags,src/data/lib/input/input_joystick_misc_01_data_02.asm
 121ADE,SavedEsSelector,word_121ADE,new,low,ES selector saved at start up,src/data/lib/input/input_joystick_misc_01_data_02.asm
 121AE0,str_OpenhandleSFILEERROR,,95PC,high,NHL95PC D43F4 (string): 'openhandle - %s FILE ERROR\r',
 121AFC,ResourceArchiveName,byte_121AFC,new,medium,name of the open resource archive,src/data/lib/input/input_joystick_misc_01_data_02.asm
@@ -5484,7 +5492,7 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 122930,ScreenRowTable,dword_122930,new,low,byte offset of each screen row,src/data/lib/watcom/watcom_clib_05_data_04.asm
 122B90,str_BK,dword_122B90,new,medium,"string ""BK""",src/data/lib/watcom/watcom_clib_05_data_04.asm
 123930,ScreenWidthFractions,dword_123930,new,low,65536 times k over the screen width,src/data/lib/watcom/watcom_clib_05_data_04.asm
-123934,str_F_PutBlock,dword_123934,new,high,"string ""f""",src/data/lib/watcom/watcom_clib_05_data_04.asm
+123934,PutBlockScaleSteps,dword_123934,new,low,block scale steps,src/data/lib/watcom/watcom_clib_05_data_04.asm
 123984,__8087,byte_123984,95PC,medium,same code as in the next game,src/data/lib/watcom/watcom_clib_05_data_04.asm
 123985,FpuType,byte_123985,new,low,FPU type found at start up,src/data/lib/watcom/watcom_clib_05_data_04.asm
 123988,ColourRemap,byte_123988,new,medium,"colour remap table, 256 entries",src/data/lib/watcom/watcom_clib_05_data_04.asm
@@ -5636,7 +5644,7 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 12445E,SavedTextColumns,word_12445E,new,low,text columns saved at start up,src/data/lib/video/video_bios_vga_03_data_01.asm
 124460,SavedTextRows,byte_124460,new,low,text rows saved at start up,src/data/lib/video/video_bios_vga_03_data_01.asm
 124464,AtanTable,dword_124464,new,medium,arctangent table of the angle routine,src/data/lib/video/video_bios_vga_03_data_01.asm
-124468,str_Punct_AngleOfVector,dword_124468,new,medium,"string "")""",src/data/lib/video/video_bios_vga_03_data_01.asm
+124468,AtanSlopeTable,dword_124468,new,low,arctangent table,src/data/lib/video/video_bios_vga_03_data_01.asm
 124874,ShadowFillFunc,dword_124874,new,low,shadow fill routine,src/data/lib/video/video_bios_vga_03_data_01.asm
 124878,TitleBandFunc,dword_124878,new,low,title band draw routine,src/data/lib/video/video_bios_vga_03_data_01.asm
 12487C,FpuSystemFlags,dword_12487C,new,low,DOS extender coprocessor flags,src/data/lib/video/video_bios_vga_03_data_01.asm

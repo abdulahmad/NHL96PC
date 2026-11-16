@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_11D92C progbits alloc noexec write align=1
-global ControllerSlotStates, ControllerSlotItems, str_dbgO, ControllerLayout, str_G, ControllerOptionRows, ControllerTitlePos
-global ControlPickRows, str_Punct_ControlPicksScreen, str_Punct_ControllerScreen, ControllerTextIds, ControllerPreGame, ControllerColumnsDrawn
+global ControllerSlotStates, ControllerSlotItems, ControllerColumnInfo, ControllerLayout, ControllerSlotPositions, ControllerOptionRows, ControllerTitlePos
+global ControlPickRows, ControlPickColumns, ControllerButtonOutline, ControllerTextIds, ControllerPreGame, ControllerColumnsDrawn
 
 ControllerPreGame:
         db 00h,00h
@@ -13,7 +13,7 @@ ControllerSlotStates:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ControllerSlotItems:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-str_dbgO:
+ControllerColumnInfo:
         db 04Fh,00h,00h,00h
 ControllerLayout:
         db 0F5h,00h,00h,00h,077h,00h,00h,00h,0F5h,00h,00h,00h,077h,00h,00h,00h
@@ -100,7 +100,7 @@ ControllerLayout:
         db 0B4h,01h,00h,00h,09h,02h,00h,00h,0B4h,01h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-str_Punct_ControllerScreen:
+ControllerButtonOutline:
         db 07Eh,00h,00h,00h,0C4h,01h,00h,00h,08Ah,00h,00h,00h,0BEh,01h,00h,00h
         db 0FAh,00h,00h,00h,0BEh,01h,00h,00h,05h,01h,00h,00h,0C5h,01h,00h,00h
         db 05h,01h,00h,00h,0CFh,01h,00h,00h,0FAh,00h,00h,00h,0D4h,01h,00h,00h
@@ -110,7 +110,7 @@ ControllerTextIds:
         db 0F7h,01h,00h,00h,0BDh,01h,00h,00h,03h,02h,00h,00h,0C5h,01h,00h,00h
         db 03h,02h,00h,00h,0CFh,01h,00h,00h,0F5h,01h,00h,00h,0D5h,01h,00h,00h
         db 088h,01h,00h,00h,0D5h,01h,00h,00h,07Eh,01h,00h,00h,0CDh,01h,00h,00h
-str_G:
+ControllerSlotPositions:
         db 067h,00h,00h,00h
 ControllerOptionRows:
         db 011h,01h,00h,00h,0A5h,00h,00h,00h,011h,01h,00h,00h,043h,01h,00h,00h
@@ -130,7 +130,7 @@ ControllerTitlePos:
         db 0CAh,01h,00h,00h
 ControlPickRows:
         db 0D3h,01h,00h,00h
-str_Punct_ControlPicksScreen:
+ControlPickColumns:
         db 05Bh,00h,00h,00h,0CAh,01h,00h,00h,07Ah,00h,00h,00h,0C1h,01h,00h,00h
         db 09Ah,00h,00h,00h,0B8h,01h,00h,00h,0BAh,00h,00h,00h,0AFh,01h,00h,00h
         db 0DAh,00h,00h,00h,0A6h,01h,00h,00h,0FBh,00h,00h,00h,09Dh,01h,00h,00h

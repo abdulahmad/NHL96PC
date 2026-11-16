@@ -9,7 +9,7 @@ extern RinkBoardsOn, BenchPlayersOn, ScoreClockOn
 extern CamLastSort, CamFirstFrame
 extern HexDigits, PenBuf, CamShotMode, CamShotPhase
 extern DemoMode, InReplay, ReplayRemoteShape, TimedPanelState, ViewTop, ViewWidth, ViewHeight
-extern ViewLeft, str_D_DrawGameFrame, ViewBitmap, ViewPixels, ViewSizeStep, CameraShotOn, str_C_CloseTextOverlay, CamFollowObj
+extern ViewLeft, GameFrameTop, ViewBitmap, ViewPixels, ViewSizeStep, CameraShotOn, TextOverlayFadeSteps, CamFollowObj
 extern CamLeadDist, CamAimDist, CamViewBits, CameraViewTable
 
 
@@ -33,7 +33,7 @@ extern BuildPerspTable, KeyIsDown, KbdGetKey, ClearClipRect, SetViewScreenOrigin
 
 extern ReplayCamTarget, CameraPathPoints, CamPathTarget
 extern NearNetZeroVec, CamAimZeroVec, ShotFromZeroVec, ShotToZeroVec, ShotNearZeroVec, CamTargetZeroVec, CamShotPositions, unk_5D591_84
-extern str_D_SetGameViewSize, ViewSizeWidths, ViewSizeHeights, vecdist, PerTimeTotal, ReplayObjX, ReplayObjY
+extern ViewSizeScales, ViewSizeWidths, ViewSizeHeights, vecdist, PerTimeTotal, ReplayObjX, ReplayObjY
 
 global CameraPathCoeffs, CameraPathEval, CameraPathEval_70, CameraPathSlope, CameraPathCurve, CameraPathPoint, CameraPathDerivs, SetCameraShot
 global AngleXZ, AnglePitch, CameraTrackPuck, CameraLeadOffset, CameraNearNet, CameraNearNet_12E, ResetCameraShake, CameraAim
@@ -3547,7 +3547,7 @@ CloseTextOverlay:
         enter 0Ch, 0
         mov edi, eax
         mov dword [byte ebp-08h], edx
-        mov eax, dword [nosplit eax*4+str_C_CloseTextOverlay]
+        mov eax, dword [nosplit eax*4+TextOverlayFadeSteps]
         mov dword [byte ebp-04h], eax
         mov esi, dword [CamFollowObj]
         mov edx, dword [byte ebp-04h]
@@ -3662,7 +3662,7 @@ SetGameViewSize:
         rep movsd
         mov ecx, 9
         lea edi, [byte ebp-048h]
-        mov esi, str_D_SetGameViewSize
+        mov esi, ViewSizeScales
         rep movsd
         mov ecx, 9
         lea edi, [byte ebp-06Ch]
@@ -3690,7 +3690,7 @@ SetGameViewSize:
         sar eax, 1
         mov dword [ViewLeft], 140h
         sub edx, eax
-        mov dword [str_D_DrawGameFrame], 0F0h
+        mov dword [GameFrameTop], 0F0h
         jmp short .2
 .1:
         mov edx, dword [byte eax+ebp-024h]
@@ -3707,7 +3707,7 @@ SetGameViewSize:
         sar eax, 1
         mov dword [ViewLeft], 0A0h
         sub edx, eax
-        mov dword [str_D_DrawGameFrame], 64h
+        mov dword [GameFrameTop], 64h
 .2:
         mov dword [ViewPixels], edx
         push dword [ViewHeight]

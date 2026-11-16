@@ -4,8 +4,8 @@ bits 32
 section s_DFEB4 progbits alloc exec nowrite align=1
 extern FatalError, atexit_, JoyCalibrating, JoyButtonBits, JoyPortMask, JoyButtons, JoyButtonsPrev, JoyDirection
 extern JoyButtonTable, LastTickCount, KbdIdleHook, JoyTimeX, TimerCalibration, JoyTimeY, JoyTimeSecondX, JoyTimeSecondY
-extern JoyCalibrateTicks, JoyReadTimeout, JoyAxisX1, JoyAxisY1, JoyAxisX2, JoyAxisY2, JoyAxisMask, str_P
-extern JoyX1Min, JoyX1Center, JoyX1Max, JoyX1Settle, JoyY1Min, JoyY1Max, str_P2, JoyY1MinSeen
+extern JoyCalibrateTicks, JoyReadTimeout, JoyAxisX1, JoyAxisY1, JoyAxisX2, JoyAxisY2, JoyAxisMask, JoyX1Threshold
+extern JoyX1Min, JoyX1Center, JoyX1Max, JoyX1Settle, JoyY1Min, JoyY1Max, JoyY1Threshold, JoyY1MinSeen
 extern JoyY1Center, JoyY1MaxSeen, JoyY1Settle, JoyX2Min, JoyX2Max, JoyXScale, JoyYScale, SavedBreakOffset
 extern BreakCallFunc, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, exit_, joyenablemask, BiosKeyFunc
 extern FillRect, RestoreDS, DosGetVector, DosSetVector, Random32, tickcount, tickdeadline, str_Locateshape44sSHAPENOTFOUND
@@ -442,7 +442,7 @@ ReadJoystickPorts:
         add dword [JoyAxisMask], eax
 .10:
         mov eax, dword [JoyAxisY2]
-        cmp eax, dword [str_P]
+        cmp eax, dword [JoyX1Threshold]
         jge short .14
         dec dword [JoyX1Settle]
         jle short .11
@@ -452,10 +452,10 @@ ReadJoystickPorts:
         jmp near .17
 .11:
         mov ebx, dword [JoyX1Min]
-        mov dword [str_P], ebx
+        mov dword [JoyX1Threshold], ebx
         mov ebx, dword [JoyX1Center]
 .12:
-        sub ebx, dword [str_P]
+        sub ebx, dword [JoyX1Threshold]
         jle short .13
         LD xor, edx, edx
         mov eax, 4000h
@@ -467,7 +467,7 @@ ReadJoystickPorts:
         shr eax, 1
         LD mov, ebx, eax
         shr ebx, 1
-        add eax, dword [str_P]
+        add eax, dword [JoyX1Threshold]
         LD add, eax, ebx
         mov dword [JoyY1Max], eax
         LD sub, eax, ebx
@@ -500,7 +500,7 @@ ReadJoystickPorts:
         or byte [JoyDirection], 4
 .18:
         mov eax, dword [JoyAxisMask]
-        cmp eax, dword [str_P2]
+        cmp eax, dword [JoyY1Threshold]
         jae short .23
         dec dword [JoyY1Settle]
         jle short .19
@@ -510,10 +510,10 @@ ReadJoystickPorts:
         jmp near .26
 .19:
         mov ebx, dword [JoyY1MinSeen]
-        mov dword [str_P2], ebx
+        mov dword [JoyY1Threshold], ebx
         mov ebx, dword [JoyY1Center]
 .20:
-        sub ebx, dword [str_P2]
+        sub ebx, dword [JoyY1Threshold]
         jle short .21
         LD xor, edx, edx
         mov eax, 4000h
@@ -525,7 +525,7 @@ ReadJoystickPorts:
         shr eax, 1
         LD mov, ebx, eax
         shr ebx, 1
-        add eax, dword [str_P2]
+        add eax, dword [JoyY1Threshold]
         LD add, eax, ebx
         mov dword [JoyX2Max], eax
         LD sub, eax, ebx
@@ -585,9 +585,9 @@ ReadJoystickPorts:
 ;-----------------------------------------------------------------------------
 JoyResetCentres:
         mov byte [joyenablemask], 1
-        mov dword [str_P], 50h
+        mov dword [JoyX1Threshold], 50h
         mov dword [JoyX1Center], 0
-        mov dword [str_P2], 50h
+        mov dword [JoyY1Threshold], 50h
         mov dword [JoyY1Center], 0
         ret
 ;-----------------------------------------------------------------------------
@@ -605,7 +605,7 @@ JoyButtonMap:
         leave
         ret
         mov eax, dword [JoyAxisY2]
-        sub eax, dword [str_P]
+        sub eax, dword [JoyX1Threshold]
         jge short .1
         LD xor, eax, eax
 .1:
@@ -613,7 +613,7 @@ JoyButtonMap:
         sub eax, byte 1Fh
         ret
         mov eax, dword [JoyAxisMask]
-        sub eax, dword [str_P2]
+        sub eax, dword [JoyY1Threshold]
         jge short .2
         LD xor, eax, eax
 .2:

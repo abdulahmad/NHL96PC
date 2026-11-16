@@ -6,7 +6,7 @@ extern str_G5, str_feD, str_L, str_C6, str_R5, str_X2
 global ClockPanelState, ScorePanelState, TimeLeftPanelState, TimedPanelState, RinkSpriteMode, GameFrameShapes, ViewDimmed, SpinPuckFrame
 global GoalNetShapeIds, GoalReplayPending, PanelOpenTime, PanelCloseTime, TimedPanelTimer, PlayerPctPanelTimer, ClockPanelTimer, TimeLeftPanelTimer
 global ScorePanelTimer, PlayerNamePanelTimer, LineBoxStates, LastEventPlayer, ViewTop, ViewWidth, ViewHeight, ViewLeft
-global str_D_DrawGameFrame, ViewBitmap, ViewPixels, ViewSizeStep, CameraShotOn, RosterNumberShapes, OverlayPanelQueue, SavedViewMode
+global GameFrameTop, ViewBitmap, ViewPixels, ViewSizeStep, CameraShotOn, RosterNumberShapes, OverlayPanelQueue, SavedViewMode
 global ovlstep
 ClockPanelState:
         db 0FFh,0FFh,0FFh,0FFh
@@ -75,7 +75,7 @@ ViewHeight:
         db 0C8h,00h,00h,00h
 ViewLeft:
         db 0A0h,00h,00h,00h
-str_D_DrawGameFrame:
+GameFrameTop:
         db 064h,00h,00h,00h
 ViewBitmap:
         db 00h,00h,00h,00h

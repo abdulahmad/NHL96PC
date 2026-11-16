@@ -24,7 +24,7 @@ extern SetHotkey_5B, SetHotkey_81, segread_, AddMemRegion, AddMemRegions, AddHig
 extern AllocMemBlock, FreeMemBlock, InitMemDescriptors, FixedInverse, AskExitToDos, PauseUntilKey, ResetMemLock, MemLock
 extern MemUnlock, GetPalette, JoystickCalibrateScreen, ShowKeyboardOn, CdDirSearch, ToUpperChar, KbdPeekKey, bcopy
 extern DosOpenFile, DosCloseFile, DosReadFile, DosSeekFile, SetHotkey, CdFileTable, __stdout_buf, PaletteShadeTable
-extern DefaultRowTable, StartupStack, unlink_, str_Punct_InitFpuFlags, _psp, __no87, _Envptr_w4, CdBufferSegment
+extern DefaultRowTable, StartupStack, unlink_, EmuHookFlags, _psp, __no87, _Envptr_w4, CdBufferSegment
 extern CdRequestSelector, CdRegFlags, CdRegEs, CdRegSegs
 global _dos_close_, _dos_commit_, _dos_creat_, _dos_creatnew_, _dos_getdiskfree_, _dos_open_, _dos_read_, _dos_write_
 global chdir_, AaSetFull_46, AaSetFull_53, AaSetFull_6B, AaSetFull_95, AaSetFull_C7, AaSetFull_105, AaSetFull_106
@@ -4998,7 +4998,7 @@ start_74:
         mov ax, gs
         cmp ax, byte 0
         je short .11
-        mov word [str_Punct_InitFpuFlags], ax
+        mov word [EmuHookFlags], ax
 .11:
         mov ax, 6
         mov bx, ds

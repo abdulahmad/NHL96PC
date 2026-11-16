@@ -5,7 +5,7 @@ section s_122A6 progbits alloc exec nowrite align=1
 extern addtimer, LinkFlags, TextCharH, ChatLine, LinkBlockHeader, LinkBlockAck, TitleTextStyle
 extern DebugPrintf, InputRecordIndex, LinkSyncInput, LinkCfgPort, LinkCfgMode, LinkCfgAnswer, LinkCfgDirect, LinkCfgBaud
 extern LinkCfgOption, LinkInputFrame, LinkSyncTarget, LinkSyncTimeout, LinkSyncCount, LinkInputDelay, LinkRxBlockCount, LinkRxBlockTicks
-extern str_Punct_ModemSettingsScreen, LinkBlockPtr, ModemReplyBuf, LinkTickCount, FrontShapesFile, WaitBoxArt, ViewScreenWidth, ViewScreenHeight
+extern LinkRxBlockOffset, LinkBlockPtr, ModemReplyBuf, LinkTickCount, FrontShapesFile, WaitBoxArt, ViewScreenWidth, ViewScreenHeight
 extern SlotInput, ChatActive, LinkSyncValue, LinkBlockLen, LinkBlockPos
 extern LinkInputHead, LinkInputTail, LinkMsgHead, LinkValueHead, LinkMsgTail, LinkRemoteHead, LinkValueTail, LinkRemoteTail
 extern LinkWaitBoxBmp, LinkAbortCheck, GsModemDial, FillRect, TextStringWidth
@@ -120,7 +120,7 @@ ModemGameOpen:
         mov dword [LinkSyncCount], 0
         mov dword [LinkRxBlockCount], 0
         mov dword [LinkRxBlockTicks], 0
-        mov dword [str_Punct_ModemSettingsScreen], 0
+        mov dword [LinkRxBlockOffset], 0
         mov dword [LinkBlockPtr], 0
         mov word [LinkSyncWord], 0
         mov eax, dword [byte ebp-0Ch]
@@ -202,7 +202,7 @@ LinkBlockStart:
         mov dword [LinkBlockPtr], LinkBlockBuffer
         mov eax, dword [LinkBlockLen]
         mov eax, dword [byte eax+01h]
-        mov dword [str_Punct_ModemSettingsScreen], eax
+        mov dword [LinkRxBlockOffset], eax
         mov esp, ebp
         pop ebp
         pop edi
@@ -230,7 +230,7 @@ LinkBlockData:
         mov dword [LinkBlockPos], eax
         cmp dword [LinkBlockPtr], byte 0
         je short .1
-        cmp dword [str_Punct_ModemSettingsScreen], byte 0
+        cmp dword [LinkRxBlockOffset], byte 0
         jg short .2
 .1:
         jmp short .3
@@ -243,11 +243,11 @@ LinkBlockData:
         call LinkCopyBytes
         mov eax, dword [LinkBlockPos]
         movsx eax, byte [byte eax+01h]
-        sub dword [str_Punct_ModemSettingsScreen], eax
+        sub dword [LinkRxBlockOffset], eax
         mov eax, dword [LinkBlockPos]
         movsx eax, byte [byte eax+01h]
         add dword [LinkBlockPtr], eax
-        cmp dword [str_Punct_ModemSettingsScreen], byte 0
+        cmp dword [LinkRxBlockOffset], byte 0
         jne short .3
         inc dword [LinkRxBlockCount]
         mov dword [LinkBlockPtr], 0
@@ -294,15 +294,15 @@ LinkSendBlock:
         mov eax, dword [LinkBlockPtr]
         call LinkCopyBytes
         mov eax, dword [byte ebp-010h]
-        mov dword [str_Punct_ModemSettingsScreen], eax
+        mov dword [LinkRxBlockOffset], eax
         mov byte [LinkBlockAck], 4
 .3:
-        cmp dword [str_Punct_ModemSettingsScreen], byte 4
+        cmp dword [LinkRxBlockOffset], byte 4
         jle short .4
         mov dword [byte ebp-08h], 4
         jmp short .5
 .4:
-        mov eax, dword [str_Punct_ModemSettingsScreen]
+        mov eax, dword [LinkRxBlockOffset]
         mov dword [byte ebp-08h], eax
 .5:
         mov al, byte [byte ebp-08h]
@@ -319,12 +319,12 @@ LinkSendBlock:
         mov eax, dword [byte ebp-08h]
         add dword [LinkBlockPtr], eax
         mov eax, dword [byte ebp-08h]
-        sub dword [str_Punct_ModemSettingsScreen], eax
+        sub dword [LinkRxBlockOffset], eax
         jmp short .7
 .6:
         call SoundIdle
 .7:
-        cmp dword [str_Punct_ModemSettingsScreen], byte 0
+        cmp dword [LinkRxBlockOffset], byte 0
         jg short .3
         mov dword [LinkBlockPtr], 0
         mov esp, ebp
@@ -712,7 +712,7 @@ ModemGameConnect:
         mov dword [LinkMsgTail], eax
         mov dword [LinkRxBlockCount], 0
         mov dword [LinkRxBlockTicks], 0
-        mov dword [str_Punct_ModemSettingsScreen], 0
+        mov dword [LinkRxBlockOffset], 0
         mov dword [LinkBlockPtr], 0
         mov eax, LinkGameMessage
         call SetLinkMessageHandler

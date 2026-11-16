@@ -4,7 +4,7 @@ bits 32
 section s_AA988 progbits alloc exec nowrite align=1
 extern FatalError, str_InitmemmanadrINSUFFICIENTMEM, str_LOWMEM, str_HIGHMEM, str_GAP, str_UnlinkmemclassareaReleaseMem, RowTableCount, RowTable
 extern RowCopyFunc, MemPoolTop, MemPoolBase, ScreenWidth, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom
-extern KeyedDraw, DrawVideoBase, ScreenRowTable, str_F_PutBlock, memlist1, MemBlockGuards, MemDescriptorTop, MemLockHandle
+extern KeyedDraw, DrawVideoBase, ScreenRowTable, PutBlockScaleSteps, memlist1, MemBlockGuards, MemDescriptorTop, MemLockHandle
 extern MemFreeBytes, strncpy_, DrawShapeCore, AllocMemBlockEx, getmemblock, CopyRowKeyed, DrawShapeOpaque, ResetMemLock
 extern MemLock, MemUnlock, SetScreenTarget, SetClipWindow, VesaSetBank, BlitBlock, BlitBlockXor, BlitBlockAnd
 extern AndPixel, BlitBlockOr, OrPixel, bcopy, SaveDrawState, RestoreDrawState
@@ -307,7 +307,7 @@ PutBlock:
         jle near .14
         mov ebp, dword [byte esp+010h]
         mov eax, dword [byte esp+03Ch]
-        mov ebp, dword [nosplit ebp*4+str_F_PutBlock]
+        mov ebp, dword [nosplit ebp*4+PutBlockScaleSteps]
         mov edx, dword [byte esp+0Ch]
         sub ebp, eax
         cmp ebp, edx

@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_11D74F progbits alloc noexec write align=1
 global InGameMenuRequest, DivisionTeamStarts, MenuFrameColours, ControllerSlotX, ControllerSlotY, InMenuOverlay
-global PauseRedraw, InGameMenuItems, PauseMenuItemsShort, str_Punct_InGameMenu, PauseMenuItemsLong, str_N_InGameMenu, str_F_InGameMenu, PauseMenuBoxX
+global PauseRedraw, InGameMenuItems, PauseMenuItemsShort, InGameMenuLayout, PauseMenuItemsLong, InGameBoxXList, InGameBoxYList, PauseMenuBoxX
 global PauseMenuBoxY, PauseMenuTextIds, PauseMenuTextIdsAlt, PauseMenuOpen, PauseFrameDrawn
         db 00h,07h,00h,00h,00h
 DivisionTeamStarts:
@@ -20,15 +20,15 @@ InGameMenuItems:
 PauseMenuItemsShort:
         db 02h,00h,016h,00h,02Ah,00h,02Ch,00h,03Ah,00h,049h,00h,060h,00h,0Fh,00h
         db 0A8h,00h,0ADh,00h,0AFh,00h,0C3h,00h
-str_Punct_InGameMenu:
+InGameMenuLayout:
         db 09h,00h,038h,00h,066h,00h,06Dh,00h,010h,02h,019h,02h,048h,02h,076h,02h
         db 087h,00h,095h,00h,07Bh,01h,0F6h,01h
 PauseMenuItemsLong:
         db 06h,00h,036h,00h,064h,00h,06Ah,00h,08Ah,00h,098h,00h,0C4h,00h,022h,00h
         db 093h,01h,09Dh,01h,0A1h,01h,0CEh,01h
-str_N_InGameMenu:
+InGameBoxXList:
         db 04Eh,00h,0A7h,00h,07Dh,00h
-str_F_InGameMenu:
+InGameBoxYList:
         db 046h,00h,05Dh,00h,07Fh,00h
 PauseMenuBoxX:
         db 088h,00h,046h,01h,0EBh,00h

@@ -9,13 +9,13 @@ extern str_fe7, str_NOANSWER, str_8, str_fe8, str_CONNECT2400, str_10, str_102, 
 extern str_13, str_132, str_CONNECT9600ARQ, str_17, str_172, str_CONNECT9600HST, str_23, str_232
 extern str_CONNECT9600ARQHST, str_27, str_272, str_CONNECT14400, str_25, str_252, str_CONNECT14400ARQ, str_26
 extern str_262, str_CONNECT14400HST, str_35, str_352, str_CONNECT14400ARQHST, str_36, str_362
-global GameLoopActive, InputRecordBusy, InputRecordPhase, InputRecordTicks, PauseReplayPending, str_Punct_LinkTimerTick, StarsSlideFrom, StarsSlideTo
+global GameLoopActive, InputRecordBusy, InputRecordPhase, InputRecordTicks, PauseReplayPending, LinkChannelTimers, StarsSlideFrom, StarsSlideTo
 global StarsSlideTarget, StarsSpritePath, StarsNameX, StarsNameXs, StarsTextX, StarsTextXs, StarsTimerA, StarsTimerFace
-global StarsTimerName, StarsTimerCard, GameLoopFrames, ModemResultCount, ModemLastResult, LinkTickCount, LinkPortHandle, str_Punct_LinkOpen
+global StarsTimerName, StarsTimerCard, GameLoopFrames, ModemResultCount, ModemLastResult, LinkTickCount, LinkPortHandle, LinkBaudSetting
 global LinkOpenFlags, LinkRetryOn, LinkCarrierCheck, LinkPollOn, LinkIsOpen, LinkWindowSize, LinkAckOn, LinkResendOn
 global LinkOpenMode, LinkErrorCount, LinkSpareHook, LinkMessageHandler, LinkTickHandler, LinkResendHandler, LinkTxSeq, LinkRxDeliverSeq
-global LinkAckedSeq, LinkRxSeq, LinkPacketLen, LinkTxPending, LinkState, LinkCheckPeriod, str_ctl06, str_22
-global str_D_LinkCopyBytes, str_newline, LinkRxHead, LinkRxCount, ModemResultTextTable, ModemResultCodeTable, GameStatsLabelX, GameStatsTop
+global LinkAckedSeq, LinkRxSeq, LinkPacketLen, LinkTxPending, LinkState, LinkCheckPeriod, LinkRetryLimit, LinkCopyLow
+global LinkCopyHigh, LinkCopyStep, LinkRxHead, LinkRxCount, ModemResultTextTable, ModemResultCodeTable, GameStatsLabelX, GameStatsTop
 global GameStatsRight, GameStatsColX, GameStatsLabelPos, GameStatsRowStep, GameStatsScroll, StarsCardX, StarsCardY, StarsShowFaces
 global StarsShowNames, StarsShowCards, StarsPhase, StarsCurrent, PauseRequested
 GameStatsLabelX:
@@ -163,7 +163,7 @@ LinkTickCount:
         db 00h,00h,00h,00h
 LinkPortHandle:
         db 00h,00h,00h,00h
-str_Punct_LinkOpen:
+LinkBaudSetting:
         db 09h,00h,00h,00h
 LinkOpenFlags:
         db 00h,00h,00h,00h
@@ -209,18 +209,18 @@ LinkState:
         db 00h,00h,00h,00h
 LinkCheckPeriod:
         db 00h,00h,00h,00h
-str_ctl06:
+LinkRetryLimit:
         db 06h,00h,00h,00h
-str_22:
+LinkCopyLow:
         db 032h,00h,00h,00h
-str_D_LinkCopyBytes:
+LinkCopyHigh:
         db 064h,00h,00h,00h
-str_newline:
+LinkCopyStep:
         db 0Ah,00h,00h,00h
 LinkRxHead:
         db 00h,00h,00h,00h
 LinkRxCount:
         db 00h,00h,00h,00h
-str_Punct_LinkTimerTick:
+LinkChannelTimers:
         db 03Ah,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h

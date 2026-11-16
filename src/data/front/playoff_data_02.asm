@@ -3,9 +3,9 @@ bits 32
 %include "hockey.inc"
 section s_11EE94 progbits alloc noexec write align=1
 global PlayoffBracketOrder
-global str_Punct_DrawPlayoffTree, PlayoffSeriesLayout, FinalGameNum, PlayoffSparkleSoundOn, str_Punct_PlayoffTreeScreen, PlayoffTreeTemplate, TreeShapeLeft, TreeShapeRight
+global PlayoffTreeColumnsX, PlayoffSeriesLayout, FinalGameNum, PlayoffSparkleSoundOn, PlayoffTreeNavLinks, PlayoffTreeTemplate, TreeShapeLeft, TreeShapeRight
 global TreeShapeCentre, TreeShapeFinal
-str_Punct_DrawPlayoffTree:
+PlayoffTreeColumnsX:
         db 0Dh,00h,00h,00h,02Fh,00h,00h,00h,05Bh,00h,00h,00h,07Bh,00h,00h,00h
         db 0A8h,00h,00h,00h,0C8h,00h,00h,00h,0F6h,00h,00h,00h,016h,01h,00h,00h
         db 0Dh,00h,00h,00h,02Fh,00h,00h,00h,05Bh,00h,00h,00h,07Bh,00h,00h,00h
@@ -26,7 +26,7 @@ FinalGameNum:
         db 0Eh,00h,00h,00h,0Eh,00h,00h,00h,063h,00h,00h,00h
 PlayoffSparkleSoundOn:
         db 00h,00h,00h,00h
-str_Punct_PlayoffTreeScreen:
+PlayoffTreeNavLinks:
         db 09h,00h,07h,02h,0Fh,01h,03h,0Eh,08h,02h,00h,013h,011h,03h,013h,01h
         db 04h,05h,04h,08h,04h,06h,05h,08h,05h,07h,06h,09h,06h,00h,07h,09h
         db 08h,00h,05h,0Ah,08h,00h,06h,0Ah,012h,02h,06h,011h,0Bh,0Ch,0Fh,0Bh

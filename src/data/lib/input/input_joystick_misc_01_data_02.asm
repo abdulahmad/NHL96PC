@@ -4,7 +4,7 @@ bits 32
 section s_1210D0 progbits alloc noexec write align=1
 global str_OpenhandleSFILEERROR, QuantizeByte, QuantizeTable, ResourceArchiveName, SavedBreakOffset, BreakCallFunc, NearestColourCache, ColourLookup
 global AaWeights, FpuFlags, ArchiveHandle, ArchiveOpenFn, ArchiveCount, ResourceArchive, FatalErrorHook, SystemInfo
-global DefaultFont, DefaultFontInfo, DefaultFontWidths, SavedBreakSelector, BreakDataSelector, str_Punct_InitFpuFlags, SavedEsSelector
+global DefaultFont, DefaultFontInfo, DefaultFontWidths, SavedBreakSelector, BreakDataSelector, EmuHookFlags, SavedEsSelector
 SavedBreakOffset:
         db 00h,00h,00h,00h
 SavedBreakSelector:
@@ -187,7 +187,7 @@ AaWeights:
         db 00h,020h,00h,00h,071h,01Ch,00h,00h,055h,015h,00h,00h,00h,010h,00h,00h
 FpuFlags:
         db 00h,00h,00h,00h
-str_Punct_InitFpuFlags:
+EmuHookFlags:
         db 020h,00h
 SavedEsSelector:
         db 00h,00h

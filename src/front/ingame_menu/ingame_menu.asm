@@ -34,8 +34,8 @@ extern str_Qui1, str_Qui2, str_Ret0, str_Ret1, str_Ret2, str_Sav0, str_Sav1, str
 extern str_Sid2, str_Sts0, str_Sts1, strcat_, strcpy_, AddIceCrud, LoadZamboni, FreeZamboni
 extern LoadStandsArt, SetPenaltyBoxDoor, DrawZamboniScene, DrawOverlayPanels, RefreshControlSlots, SetGameBackdrop, SaveGameFile, LoadModeStats
 extern DrawArt, AllocMemBlock, FreeMemBlock, CreateBitmap, FreeBitmap, FreeColourLookup, SetAaPalLut, SetScreenTarget
-extern FindShape, ClearClipRect, TextSetFont, InGameMenuItems, PauseMenuItemsShort, str_Punct_InGameMenu, PauseMenuItemsLong, str_N_InGameMenu
-extern str_F_InGameMenu, PauseMenuBoxX, PauseMenuBoxY, PauseMenuTextIds, PauseMenuTextIdsAlt, OverlayRemap, InGameMenuWork
+extern FindShape, ClearClipRect, TextSetFont, InGameMenuItems, PauseMenuItemsShort, InGameMenuLayout, PauseMenuItemsLong, InGameBoxXList
+extern InGameBoxYList, PauseMenuBoxX, PauseMenuBoxY, PauseMenuTextIds, PauseMenuTextIdsAlt, OverlayRemap, InGameMenuWork
 extern InGameTimeText, InGameScoreText, UpdateCamera, SlotsTwoPlayer, PauseRequested, InGameMenuDrawn, hmscore, awscore
 global DrawInGameMenuFrame, RedrawInGameMenu, RedrawInGameMenu_7C, RedrawInGameMenu_7D, OpenFrontEndFromGame, ReturnToGameView, InGameReturnMenu, InGameMenuChoiceJumpTable
 global InGameMenu, InGameMenu_A9C, InGameMenu_ABD, InGameMenu_D17, InGameMenu_F31, InGameMenu_F42, InGameMenu_FA8
@@ -1117,7 +1117,7 @@ InGameMenu:
         call DrawRinkView
         test byte [GsOptions+1], 20h
         je short .5
-        mov dword [InGameItemList], str_Punct_InGameMenu
+        mov dword [InGameItemList], InGameMenuLayout
         mov dword [InGameTitleItems], PauseMenuItemsLong
         mov dword [InGameBoxXs], PauseMenuBoxX
         mov ecx, 80h
@@ -1130,11 +1130,11 @@ InGameMenu:
 .5:
         mov dword [InGameItemList], InGameMenuItems
         mov dword [InGameTitleItems], PauseMenuItemsShort
-        mov dword [InGameBoxXs], str_N_InGameMenu
+        mov dword [InGameBoxXs], InGameBoxXList
         mov ecx, 80h
         mov esi, PauseMenuTextIds
         mov edi, dword [InterRegBuffer]
-        mov dword [InGameBoxYs], str_F_InGameMenu
+        mov dword [InGameBoxYs], InGameBoxYList
         rep movsb
         mov dword [InGameScaleStep], 3D70h
 .6:

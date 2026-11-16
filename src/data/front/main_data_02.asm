@@ -10,7 +10,7 @@ global FrontShapesFile, SaveFileHandle, CpuTestPattern, AsyncTicks, AsyncQueueTa
 global CdStreamFilled, CdStreamTicks, gameresult, seasondb, CareerDb, statsfromleague, TeamDb, statsplayoffs
 global AttributeDb, PlayerAttrFile, LeagueRecordsFile, SeasonDbSize, CareerDbSize, LeagueStatsSize, TeamDbSize, PlayoffStatsSize
 global AttributeDbSize, PlayerAttrFileSize, LeagueRecordsSize, JoyTestTime, gsumheader, gsumtail, DataDirPath, ArtArchivePaths
-global str_X_SetArtArchive, str_KEY3, str_CAREER2, str_ATT, str_CARTEAMS, str_TEAMS3, str_SEASON4, str_SCHEDULE
+global ArtSetTable, str_KEY3, str_CAREER2, str_ATT, str_CARTEAMS, str_TEAMS3, str_SEASON4, str_SCHEDULE
 global str_Punct_PlayerDbRecord, GameStarted, DataLibIds, JoyTestButtonMap
 LinkPollState:
         db 00h,00h,00h,00h
@@ -107,7 +107,7 @@ ArtArchivePaths:
         db 01h,042h,041h,053h,045h,046h,049h,04Ch,045h,02Eh,056h,049h,056h,00h,02h,00h
         db 00h,00h,00h,00h,00h,00h,00h,043h,04Dh,04Eh,042h,041h,053h,045h,02Eh,056h
         db 049h,056h,00h,00h,02h,00h,00h,00h,00h,00h,00h,00h
-str_X_SetArtArchive:
+ArtSetTable:
         db 00h,078h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,047h,04Ch,04Fh,042h,041h,04Ch,02Eh,053h,045h
         db 054h,00h,00h,00h,00h,00h,00h,00h,07h,00h,00h,00h,00h,052h,049h,04Eh

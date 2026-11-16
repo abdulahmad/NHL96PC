@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_11A310 progbits alloc noexec write align=1
 global DemoMode, dressbystatus, lineslotgroups, lineslotgroupstart, ReplayMenuFlags, ReplayCameraFlags, SortSpriteCount, InReplay
-global ReplayRunning, HighlightSlot, HighlightStart, HighlightEnd, SortFrameCount, SortLastIndex, str_Punct_DrawReplayCounter
+global ReplayRunning, HighlightSlot, HighlightStart, HighlightEnd, SortFrameCount, SortLastIndex, ReplayCounterXByRes
 dressbystatus:
         db 00h,00h,02h,01h,01h,00h,00h,01h,00h
 lineslotgroups:
@@ -44,5 +44,5 @@ HighlightStart:
         db 00h,00h,00h,00h
 HighlightEnd:
         db 00h,00h,00h,00h
-str_Punct_DrawReplayCounter:
+ReplayCounterXByRes:
         db 03Fh,00h,07Eh,00h

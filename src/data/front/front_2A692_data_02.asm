@@ -4,8 +4,8 @@ bits 32
 section s_1177F4 progbits alloc noexec write align=1
 extern HomeNetObject, AwayNetObject, PuckObject
 extern RefObject, ExtraObject, ReplayBuffer
-global Pencntdwn, sflags3, PenaltyAnnounced, collflag, UserRecordsTop, UserRecordsFirst, UserRecordsRow, str_J
-global str_V, hmslotcount, awslotcount, hmfirstslot, awfirstslot, HomeEbenPlayer, AwayEbenPlayer, seed
+global Pencntdwn, sflags3, PenaltyAnnounced, collflag, UserRecordsTop, UserRecordsFirst, UserRecordsRow, UserRecordsBarColour
+global UserRecordsRowY, hmslotcount, awslotcount, hmfirstslot, awfirstslot, HomeEbenPlayer, AwayEbenPlayer, seed
 global fox, foy, gameclock, gmode, lastplayer, replaystart, puckvy, puckc
 global PtrPuckFlags, PtrRefObject, PtrPuckObject, PtrHomeNet, PtrAwayNet, passplayer, puckvx, puckvz
 global puckx, pucky, puckz, sflags, threat, wcradiusx, camx, camy
@@ -19,9 +19,9 @@ UserRecordsFirst:
         db 00h,00h,00h,00h
 UserRecordsRow:
         db 00h,00h,00h,00h
-str_J:
+UserRecordsBarColour:
         db 06Ah,00h,00h,00h
-str_V:
+UserRecordsRowY:
         db 076h,00h,00h,00h,082h,00h,00h,00h,08Eh,00h,00h,00h,09Bh,00h,00h,00h
         db 0A7h,00h,00h,00h,0B3h,00h,00h,00h,0BFh,00h,00h,00h,0CBh,00h,00h,00h
         db 0D7h,00h,00h,00h,0E3h,00h,00h,00h,0EFh,00h,00h,00h,0FCh,00h,00h,00h

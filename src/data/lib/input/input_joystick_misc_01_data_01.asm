@@ -7,10 +7,10 @@ extern str_Jun, str_Jul, str_Aug, str_Sep, str_Oct, str_Nov, str_Dec, DefaultFon
 extern DefaultFontInfo, DefaultFontWidths
 global JoyCalibrating, JoyButtonBits, JoyPortMask, JoyButtons, JoyButtonsPrev, JoyDirection, JoyButtonTable, DebugRow
 global DebugBackColor, DebugAttr, TextFirstChar, TextLastChar, TextCharW, TextCharH, TextSpacing, TextFontH
-global str_ctl07, TintByte, TintTable, LzhPosCode, LzhPosLen, LastTickCount, KbdIdleHook, HeapList
+global TextFontAscent, TintByte, TintTable, LzhPosCode, LzhPosLen, LastTickCount, KbdIdleHook, HeapList
 global HeapRover, HeapLargestFree, JoyTimeX, TimerCalibration, JoyTimeY, JoyTimeSecondX, JoyTimeSecondY, JoyCalibrateTicks
-global JoyReadTimeout, JoyAxisX1, JoyAxisY1, JoyAxisX2, JoyAxisY2, JoyAxisMask, str_P, JoyX1Min
-global JoyX1Center, JoyX1Max, JoyX1Settle, JoyY1Min, JoyY1Max, str_P2, JoyY1MinSeen, JoyY1Center
+global JoyReadTimeout, JoyAxisX1, JoyAxisY1, JoyAxisX2, JoyAxisY2, JoyAxisMask, JoyX1Threshold, JoyX1Min
+global JoyX1Center, JoyX1Max, JoyX1Settle, JoyY1Min, JoyY1Max, JoyY1Threshold, JoyY1MinSeen, JoyY1Center
 global JoyY1MaxSeen, JoyY1Settle, JoyX2Min, JoyX2Max, JoyXScale, JoyYScale, bailout_vec, TimerTickStep
 global FileCacheList, RowTableCount, RowTable, FreeSpaceList, MemLockOn, DebugMode, DebugScreenBase, DebugLineWidth
 global DebugLogOn, TextColour, TextBgColour, TextOriginX, TextOriginY, TextShadowOn, TextFontTag, TextWidthTable
@@ -73,7 +73,7 @@ JoyButtonsPrev:
         db 00h
 JoyDirection:
         db 00h
-str_P:
+JoyX1Threshold:
         db 050h,00h,00h,00h
 JoyX1Min:
         db 00h,00h,00h,00h
@@ -87,7 +87,7 @@ JoyY1Min:
         db 00h,00h,00h,00h
 JoyY1Max:
         db 00h,00h,00h,00h
-str_P2:
+JoyY1Threshold:
         db 050h,00h,00h,00h
 JoyY1MinSeen:
         db 00h,00h,00h,00h
@@ -183,7 +183,7 @@ TextSpacing:
         db 00h
 TextFontH:
         db 08h
-str_ctl07:
+TextFontAscent:
         db 07h,00h
 TextWidthTable:
         dd DefaultFontWidths

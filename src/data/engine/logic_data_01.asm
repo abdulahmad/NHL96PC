@@ -2,14 +2,14 @@
 bits 32
 %include "hockey.inc"
 section s_119E44 progbits alloc noexec write align=1
-global lchoicetab, str_wildcard, PathPointTab, ShootoutPathData_y, RefSignalAnims, FightAnimTab, LineInputLines
+global lchoicetab, PenShotPathPoints, PathPointTab, ShootoutPathData_y, RefSignalAnims, FightAnimTab, LineInputLines
 RefSignalAnims:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,011h,08h,00h,00h,01Bh,08h,031h,08h,011h,08h,03Fh,08h,04Bh,08h
         db 057h,08h,0A9h,08h,065h,08h,09Bh,08h,073h,08h,08Dh,08h,00h,00h,073h,08h
         db 073h,08h,08Dh,08h,07Fh,08h,00h,00h,00h,00h,00h,00h,00h,00h,0B5h,08h
         db 011h,08h,011h,08h,011h,08h
-str_wildcard:
+PenShotPathPoints:
         db 02Ah,00h,00h,00h
 PathPointTab:
         db 0B0h,00h,00h,00h

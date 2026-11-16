@@ -8,7 +8,7 @@ section s_6A7D3 progbits alloc exec nowrite align=1
 extern awtmstruct, MenuFrameColours, TextCharH, CloseTextOverlay, ControllerScreen, CopyBitmap
 extern Crowd_Noise, CrowdNoiseReset, CrowdPause, CrowdResume, curperiod, DrawBox, DrawColorTextCentred, DrawFrameAt
 extern DrawGameClock, DrawGameFrame, FrontShapesFile, gameresult, TeamDb, statsplayoffs, AttributeDb, ReplayRemoteShape
-extern ViewLeft, str_D_DrawGameFrame, LastPaletteMode, InMenuOverlay, PauseRedraw, ViewScreenWidth, ViewScreenHeight, PanelShadeArt
+extern ViewLeft, GameFrameTop, LastPaletteMode, InMenuOverlay, PauseRedraw, ViewScreenWidth, ViewScreenHeight, PanelShadeArt
 extern MenuRemoteCursorArt, MenuCursorPixels, pointerspr, MenuBitmapPixels, ReplayBufferTop, DrawFrameCount, NameFont, NamePanelBmp
 extern SeasonGameOpts, PlayoffTreeData, SeasonPlayoffs, PlayoffGameOpts, RosterFileHandle, PlayoffsActive, PauseRegBuffer, PauseBoxXs
 extern PauseBoxYs, PauseListH, PauseTitleW, PauseMsgTop, PauseMsgBottom, PauseMsgExtra, PauseTitleX, PauseListY
@@ -30,7 +30,7 @@ extern str_Qui22, str_Rep0, str_Rep1, str_Ret02, str_Ret12, str_Ret22, str_Sav02
 extern str_Sid12, str_Sid22, str_Sts02, str_Sts12, strcat_, strcpy_, RefreshControlSlots, ReplayBufferEnd
 extern AddZone, ReplayScreen, RunReplay, DrawShapeAtOwnPos, DrawArt, AllocMemBlock, FreeMemBlock, CreateBitmap
 extern FreeBitmap, FreeColourLookup, SaveDataFile, SetAaPalLut, DrawArtScaled, SetScreenTarget, FindShape, ClearClipRect
-extern TextSetFont, InGameMenuItems, PauseMenuItemsShort, str_Punct_InGameMenu, PauseMenuItemsLong, str_N_InGameMenu, str_F_InGameMenu, PauseMenuBoxX
+extern TextSetFont, InGameMenuItems, PauseMenuItemsShort, InGameMenuLayout, PauseMenuItemsLong, InGameBoxXList, InGameBoxYList, PauseMenuBoxX
 extern PauseMenuBoxY, PauseMenuTextIds, PauseMenuTextIdsAlt, SeasonUserRecords, PlayoffHeader, OverlayRemap, PauseTextBuf
 extern UpdateCamera, SlotsTwoPlayer, PauseRequested, clockticks, PauseMenuOpen, PauseFrameDrawn, hmscore, awscore
 global RunInGameMenu, DrawPauseButtons, DrawPauseFrame, DrawPauseFrame_9C2, DrawPauseFrame_9C3, RunPausedFrame, SaveGameFileJumpTable, SaveGameFile
@@ -2287,7 +2287,7 @@ PauseGame:
         call SetCrowdTarget
         test byte [GsOptions+1], 20h
         je short .2
-        mov dword [PauseTitleItems], str_Punct_InGameMenu
+        mov dword [PauseTitleItems], InGameMenuLayout
         mov dword [PauseItemList], PauseMenuItemsLong
         mov dword [PauseBoxXs], PauseMenuBoxX
         mov dword [PauseBoxYs], PauseMenuBoxY
@@ -2296,8 +2296,8 @@ PauseGame:
 .2:
         mov dword [PauseTitleItems], InGameMenuItems
         mov dword [PauseItemList], PauseMenuItemsShort
-        mov dword [PauseBoxXs], str_N_InGameMenu
-        mov dword [PauseBoxYs], str_F_InGameMenu
+        mov dword [PauseBoxXs], InGameBoxXList
+        mov dword [PauseBoxYs], InGameBoxYList
         mov dword [PauseScaleStep], 3D70h
 .3:
         mov esi, dword [PauseTitleItems]
@@ -2829,7 +2829,7 @@ PauseGame_620:
         push byte 0
         call SetViewRect
         add esp, byte 10h
-        push dword [str_D_DrawGameFrame]
+        push dword [GameFrameTop]
         push dword [ViewLeft]
         call MouseRead
         add esp, byte 8

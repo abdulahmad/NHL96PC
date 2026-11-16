@@ -12,7 +12,7 @@ extern MixBuffer, MixerReady, MixerMode, MixerOutputRate, MixerBufferSamples, Mi
 extern MixerChunkPos, MixerChunkCount, MixerLoopLength, MixerLoopLimit, MixerLoopStart, MixStepFrac, MixStepWhole, MixerOutputFunc
 extern ScreenSaveBitmap, MixerChannelTable, EmuInitHook, EmuFiniHook, PutBlockAtOwnPos, FreeMemBlock, PushMemDescriptorLocked, CreateBitmapDepth
 extern RestoreDS, AudioStreamCallback, StartChannelSample, PanVolumes, SbDelay, SbWaitRead, AdpcmDecodeMono, AdpcmDecodeStereo
-extern SetScreenTarget, MixDecodeBuffer, SndChannels, str_Punct_InitFpuFlags, __no87, OldFpuVectorSelector, FpuCr0Bits, DefaultControlWord
+extern SetScreenTarget, MixDecodeBuffer, SndChannels, EmuHookFlags, __no87, OldFpuVectorSelector, FpuCr0Bits, DefaultControlWord
 extern SbBasePort, SbMixerAddrPort, SbMixerIndexPort, SbMixerDataPort, SbResetPort, SbReadPort, SbWritePort
 global __chk8087_, __init_8087_, __rest_8087_, __save_8087_, __sys_fini_387_emulator, _fpreset_, MixerChunkLength_4A, MixerChunkLength_8F
 global MixerChunkLength_10E, MixerChunkLength_21B, MixerChunkLength_32D, MixStereo8, MixStereo16, MixMono16Lookup, MixStereo16Lookup, MixOutputStereo16
@@ -54,7 +54,7 @@ __sys_fini_387_emulator:
 .4:
         cmp al, 1
         jne short .5
-        mov dx, word [str_Punct_InitFpuFlags]
+        mov dx, word [EmuHookFlags]
         sub eax, eax
         call __unhook387
         jmp short .6

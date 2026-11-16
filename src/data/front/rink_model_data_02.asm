@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_1175AD progbits alloc noexec write align=1
 global IceLogoGroupCount, StandsArtLoaded, PenBoxDoorHome, PenBoxDoorAway, CircleTableBuilt, GlassHitFace, ZamboniLoaded, OptionButtonDX
-global OptionButtonDY, str_Punct_DrawIceSurface, IceSurfaceDef, IceGeometryDef, FaceoffCircleOrder, EndZoneOrder, ShadowFill
+global OptionButtonDY, IceCircleVertices, IceSurfaceDef, IceGeometryDef, FaceoffCircleOrder, EndZoneOrder, ShadowFill
 IceLogoGroupCount:
         db 00h,00h,00h,00h
 StandsArtLoaded:
@@ -12,7 +12,7 @@ PenBoxDoorHome:
         db 00h,00h,00h,00h
 PenBoxDoorAway:
         db 00h,00h,00h,00h
-str_Punct_DrawIceSurface:
+IceCircleVertices:
         db 02Eh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,036h,00h,00h,00h
         db 00h,00h,00h,00h,01Dh,00h,00h,00h,01Eh,00h,00h,00h,00h,00h,00h,00h
         db 039h,00h,00h,00h,0E2h,0FFh,0FFh,0FFh,00h,00h,00h,00h,039h,00h,00h,00h

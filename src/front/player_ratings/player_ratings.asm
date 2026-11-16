@@ -26,7 +26,7 @@ global PlayerRatingsScreen_E71, GoalieRatingBarJumpTable, SkaterRatingBarJumpTab
 global DrawRatingBars_3B9, DrawRatingBars_3E5, DrawRatingBars_411, DrawRatingBars_43D, DrawRatingBars_469, DrawRatingBars_495, DrawRatingBars_4C1, DrawRatingBars_5E5
 global DrawRatingBars_620, DrawRatingBars_640, DrawRatingBars_660, DrawRatingBars_680, DrawRatingBars_6A6, DrawRatingBars_6CC, DrawRatingBars_6F2, DrawRatingBars_718
 global DrawRatingBars_73E, DrawRatingsTitle, DrawRatingsTitle_109, LoadRatingsPicture, SwitchRatingsCard, DrawRatingsList, DrawRatingsName, RosterHotspots
-global str_X_RosterScreen, RosterKeyTable, str_Punct_CreatePlayerScreen, CreateSkaterNavLinks, CreateGoalieNavLinks
+global RosterTabHotspots, RosterKeyTable, CreatePlayerHotspots, CreateSkaterNavLinks, CreateGoalieNavLinks
 ;-----------------------------------------------------------------------------
 ; PlayerRatingsScreen                          93E6A  96 PC, medium confidence
 ; The player ratings screen (X-tbl, RAT0, HD01 / HD02, ban2, BALL list): a
@@ -3285,7 +3285,11 @@ RosterHotspots:
         db 020h,02h,00h,00h,0BBh,01h,00h,00h,029h,02h,00h,00h,0C7h,01h,00h,00h
         db 01Fh,02h,00h,00h,0D0h,01h,00h,00h,0B0h,01h,00h,00h,0CFh,01h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-str_X_RosterScreen:
+;-----------------------------------------------------------------------------
+; RosterTabHotspots                               96B89  96 PC, low confidence
+; Roster screen tab click areas
+;-----------------------------------------------------------------------------
+RosterTabHotspots:
         db 058h,00h,00h,00h,0C4h,01h,00h,00h,05Fh,00h,00h,00h,0BBh,01h,00h,00h
         db 0CEh,00h,00h,00h,0BBh,01h,00h,00h,0D5h,00h,00h,00h,0C5h,01h,00h,00h
         db 0D0h,00h,00h,00h,0D0h,01h,00h,00h,061h,00h,00h,00h,0D0h,01h,00h,00h
@@ -3311,7 +3315,11 @@ RosterKeyTable:
         db 023h,025h,016h,05h,024h,0Ah,00h,08h,013h,027h,03h,018h,026h,028h,04h,018h
         db 027h,029h,04h,018h,028h,02Ah,06h,018h,029h,02Bh,06h,01Ah,02Ah,02Ch,06h,01Ah
         db 02Bh,02Dh,06h,01Ah,02Ch,02Eh,06h,01Ah,02Dh,02Fh,08h,01Ah,02Eh,0Bh,08h,01h
-str_Punct_CreatePlayerScreen:
+;-----------------------------------------------------------------------------
+; CreatePlayerHotspots                            96D09  96 PC, low confidence
+; Create player screen click areas
+;-----------------------------------------------------------------------------
+CreatePlayerHotspots:
         db 02Dh,00h,00h,00h,0ABh,00h,00h,00h,034h,00h,00h,00h,0A1h,00h,00h,00h
         db 0ACh,00h,00h,00h,0A1h,00h,00h,00h,0B6h,00h,00h,00h,0AEh,00h,00h,00h
         db 0ABh,00h,00h,00h,0B9h,00h,00h,00h,036h,00h,00h,00h,0B9h,00h,00h,00h

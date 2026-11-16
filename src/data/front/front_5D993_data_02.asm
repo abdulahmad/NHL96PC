@@ -28,7 +28,7 @@ extern str_StatsInc, str_SteveBabineau, str_BruceBennett, str_BradGour, str_Dani
 extern str_DaveMercier, str_TerryLee, str_JimmyHayward, str_AmoryWong, str_ChipLange, str_JohnSmith, str_AdvancedGravisComputerTe, str_RonSmith
 extern str_JimHughson, str_GeoffCourtnall, SlideImageNames
 
-global CamLastSort, CamFirstFrame, HexDigits, JerseyDigitWidths, str_C_CloseTextOverlay
+global CamLastSort, CamFirstFrame, HexDigits, JerseyDigitWidths, TextOverlayFadeSteps
 global CamFollowObj, CamLeadDist, CamAimDist, CamViewBits, CameraViewTable
 
 
@@ -46,7 +46,7 @@ global BottomBarDef, TitleBarDef, SideBarDef, SlideEvents
 
 
 global CreditsText, MenuViewStored, MenuLinkActive, MenuClipActive, MenuInputPaused, MenuInputReady
-str_C_CloseTextOverlay:
+TextOverlayFadeSteps:
         db 063h,00h,00h,00h,062h,00h,00h,00h,05Fh,00h,00h,00h,01Eh,00h,00h,00h
         db 014h,00h,00h,00h,0Eh,00h,00h,00h,0Dh,00h,00h,00h,0Ch,00h,00h,00h
         db 0Bh,00h,00h,00h,0Bh,00h,00h,00h,0Ah,00h,00h,00h

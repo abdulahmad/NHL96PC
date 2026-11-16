@@ -5,7 +5,7 @@ extern BottomBarArt
 section s_711ED progbits alloc exec nowrite align=1
 extern str_GenericHayesCompatible, BlackPalette, TextCharH, TitleTextStyle
 extern ControlPickFlags, CopyBitmap, DrawColorText, DrawFrameAt
-extern GripLibHandle, MenuMouseX, ControlPickRows, str_Punct_ControlPicksScreen, DialAborted, LinkSetupSlots, MatchupLayer, TeamStatsBitmap
+extern GripLibHandle, MenuMouseX, ControlPickRows, ControlPickColumns, DialAborted, LinkSetupSlots, MatchupLayer, TeamStatsBitmap
 extern MenuBoxStyle, GlobalSetData, GsModemDial, GsOptions, ControlPicksArt, ControlPicksBmp, ControlPickKeys
 extern DialCursor, DialLength, DialDigitsBmp, DialAbort, EditText, FadeOut, FadeOutMusic, FadePalette
 extern FillMusicStream, TextStringWidth, GetInputDevices, GetLangText, GetTicks, globalset, InitMenuItems, JoystickTestScreen
@@ -24,7 +24,7 @@ extern str_SET02, str_SET13, str_SET23, str_SldD, str_TONE, str_WFC0, str_WFC1, 
 extern str_YES0, str_YES1, strcpy_, strlen_, DrawShapeAtOwnPos, DrawArt, DrawShape, PutBlockAtOwnPos
 extern AllocMemBlock, FreeMemBlock, CreateBitmap, ClearScreenColour, FreeBitmap, SetScreenTarget, KeyIsDown, KbdGetKey
 extern FindShape, TextSetFont, GsPhoneNumber, GsModemInit, ControlPicksItems, ControlPicksSlotPoints, ControlPicksHotspots, ControlSetupRowY
-extern ControlSetupColumnX, str_N_ControlSetupScreen, str_R, str_F, SlotsTwoPlayer, BaudChoices, GsComPort, GsBaudIndex
+extern ControlSetupColumnX, ControlSetupPoints, str_R, str_F, SlotsTwoPlayer, BaudChoices, GsComPort, GsBaudIndex
 extern GsDirectLink, GsWaitForCall, GsLinkOption, GsDialMode, WriteGlobalSet
 global DrawOnOffSlider, PollOptionKeysJumpTable, PollOptionKeys, PollOptionKeys_94, PollOptionKeys_B6, PollOptionKeys_D5, PollOptionKeys_F6, PollOptionKeys_117
 global PollOptionKeys_138, PollOptionKeys_156, PollOptionKeys_174, PollOptionKeys_192, ControlPicksJumpTable, ControlPicksSlotJumpTable, ControlPicksButtonJumpTable, ControlPicksScreen
@@ -284,7 +284,7 @@ PollOptionKeys_192:
         or dword [ControlPickFlags], eax
 .5:
         mov esi, dword [byte ebp-0Ch]
-        mov ebx, dword [nosplit esi*8+str_Punct_ControlPicksScreen]
+        mov ebx, dword [nosplit esi*8+ControlPickColumns]
         mov edx, dword [nosplit esi*8+ControlPickRows]
         imul esi, byte 66h
         mov eax, dword [ControlPicksArt]
@@ -504,7 +504,7 @@ ControlPicksScreen_177:
         mov edx, dword [dword edi+ControlPickRows]
         mov dword [byte esi+eax+026h], edx
         mov eax, dword [ControlPicksBmp]
-        mov edx, dword [dword edi+str_Punct_ControlPicksScreen]
+        mov edx, dword [dword edi+ControlPickColumns]
         mov dword [byte esi+eax+02Ah], edx
         mov eax, dword [ControlPicksBmp]
         mov edx, dword [byte edi+ebp-06h]
@@ -823,7 +823,7 @@ ControlPicksScreen_758:
 .14:
         mov eax, dword [byte ebp+05Ah]
         mov ecx, dword [byte ebp+07Ah]
-        mov ebx, dword [nosplit eax*8+str_Punct_ControlPicksScreen]
+        mov ebx, dword [nosplit eax*8+ControlPickColumns]
         mov edx, dword [nosplit eax*8+ControlPickRows]
         mov eax, dword [ControlPicksArt]
         call DrawOnOffSlider
@@ -1117,7 +1117,7 @@ ControlSetupScreen:
         movsw
         mov ecx, 1Eh
         lea edi, [dword ebp-09Eh]
-        mov esi, str_N_ControlSetupScreen
+        mov esi, ControlSetupPoints
         rep movsd
         mov ecx, 28h
         lea edi, [dword ebp-013Eh]

@@ -37,7 +37,7 @@ global AnimateTeamStatsButtons, TeamStatsColumnJumpTable, TeamStatsItemJumpTable
 global TeamStatsScreen_957, TeamStatsScreen_96F, TeamStatsScreen_132A, TeamStatsScreen_134F, TeamStatsScreen_136C, TeamStatsScreen_1380, DrawTeamStatsTable, CopyTeamStatNameJumpTable
 global CopyTeamStatName, CopyTeamStatName_82, CopyTeamStatName_89, CopyTeamStatName_90, CopyTeamStatName_97, FindTeamStatRow, ExportTeamStatsJumpTable, ExportTeamStats
 global ExportTeamStats_117, ExportTeamStats_11E, ExportTeamStats_125, ExportTeamStats_12C, BuildTeamStatTables, BuildTeamStatTables_265, BuildTeamStatTables_266, DumpSaveTimes
-global CheckExportName, PlayerStatsNavLinks, str_U_PlayerStatsScreen, PlayerStatsColumnLabels
+global CheckExportName, PlayerStatsNavLinks, PlayerStatsHotspots, PlayerStatsColumnLabels
 StatsMenuItemMap:
         db 00h,00h,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,01h,00h,0FFh,0FFh,02h,00h,0FFh,0FFh
         db 0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,03h,00h,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh
@@ -3894,7 +3894,11 @@ PlayerStatsNavLinks:
         db 04Ah,07h,04Eh,050h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 04Bh,0Bh,04Fh,051h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 04Ch,0Bh,050h,0Eh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-str_U_PlayerStatsScreen:
+;-----------------------------------------------------------------------------
+; PlayerStatsHotspots                             8BD9F  96 PC, low confidence
+; Player stats screen click areas
+;-----------------------------------------------------------------------------
+PlayerStatsHotspots:
         db 075h,00h,00h,00h,067h,00h,00h,00h,0F7h,00h,00h,00h,067h,00h,00h,00h
         db 0F7h,00h,00h,00h,082h,00h,00h,00h,075h,00h,00h,00h,082h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h

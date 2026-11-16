@@ -15,7 +15,7 @@ extern OverlayPanelId, OverlayQueueLen, OverlayQueue, CamShotMode, CamViewFlags,
 extern curperiod, ZamboniLoaded, PreGameSkateOn, ZonesDirty, playsuspended, InReplay, ReplayRemoteShape, ClockPanelState
 extern ScorePanelState, TimeLeftPanelState, TimedPanelState, RinkSpriteMode, GameFrameShapes, ViewDimmed, SpinPuckFrame, GoalNetShapeIds
 extern GoalReplayPending, PanelOpenTime, PanelCloseTime, TimedPanelTimer, PlayerPctPanelTimer, ClockPanelTimer, TimeLeftPanelTimer, ScorePanelTimer
-extern PlayerNamePanelTimer, LineBoxStates, LastEventPlayer, ViewWidth, ViewHeight, ViewLeft, str_D_DrawGameFrame, ViewBitmap
+extern PlayerNamePanelTimer, LineBoxStates, LastEventPlayer, ViewWidth, ViewHeight, ViewLeft, GameFrameTop, ViewBitmap
 extern ViewPixels, ViewSizeStep, CamFollowObj, CamViewBits, CameraViewSlots, ShadowToggle, MarkerToggle, NameToggle
 extern LastPaletteMode, InMenuOverlay, ViewScreenWidth, ViewScreenHeight, ColourLookup, DrawClipLeft, DrawClipTop, DrawClipRight
 extern DrawClipBottom, DrawDestBuffer, PanelShadeArt, SpriteArtPtrs, SpriteFrameArt, GlassBreakPanel, GlassBreakShards, PuckShadowInstance
@@ -49,7 +49,7 @@ extern FixedInverse, IntSqrt, DrawArtScaledRemap, FlipArtHorizontal, SetScreenTa
 extern SetBlendTables, ScaleRowBlend, JoyButtonMap, FindShape, ClearClipRect, SetNearClipZ, SetViewScreenOrigin, TeamLineEnergy
 extern TextSetFont, str_Empty, OverlayPanelQueue, IdentityMatrix, hmteamrec, awteamrec
 extern HomeSpriteShades, AwaySpriteShades, RefSpriteShades, PuckModelPoints, DrawList, DrawListCount, ZoneRects
-extern JerseyColorMap, TeamPaletteSave, HomeJerseyPal, AwayJerseyPal, OverlayRemap, str_T_DrawOverlayCaption, LineEnergyBarSteps, vtoa
+extern JerseyColorMap, TeamPaletteSave, HomeJerseyPal, AwayJerseyPal, OverlayRemap, OverlayCaptionTextIds, LineEnergyBarSteps, vtoa
 extern HomeControlSlot, clockticks, bannermsg, ControlMarkerFrames, ControlMarkerAltFrames, GoalNetFrames, SavedViewMode, ovlstep
 extern SlotDevice
 extern hmtmPwrGoals, hmtmPwrPlays, hmscore, hmtmline, hmtmap, awscore, awtmline
@@ -63,7 +63,7 @@ global DrawOverlayCaption_DC, DrawOverlayCaption_E1, ResetGameOverlays, DrawTime
 global DrawClockPanel, DrawTimeLeftPanel, GetPeriodTextJumpTable, GetPeriodText, GetPeriodText_1F, GetPeriodText_3C, GetPeriodText_59, GetPeriodText_86
 global ScorePanelPeriodJumpTable, DrawScorePanel, DrawScorePanel_689, DrawScorePanel_690, DrawScorePanel_697, DrawScorePanel_69E, DrawEventPanel, DrawPlayerNamePanel
 global DrawPenaltyEventPanel, DrawGoalEventPanel, QueueOverlayPanel, DrawGameOverlays, DrawLineEnergyBar, DrawLineChangeBox, DrawLineChangeBoxes, NearNetZeroVec
-global CamAimZeroVec, ShotFromZeroVec, ShotToZeroVec, ShotNearZeroVec, CamTargetZeroVec, CamShotPositions, unk_5D591_84, str_D_SetGameViewSize
+global CamAimZeroVec, ShotFromZeroVec, ShotToZeroVec, ShotNearZeroVec, CamTargetZeroVec, CamShotPositions, unk_5D591_84, ViewSizeScales
 global ViewSizeWidths, ViewSizeHeights
 ;-----------------------------------------------------------------------------
 ; DrawScaledSprite                                584A0  96 PC, low confidence
@@ -868,7 +868,7 @@ InitGameView:
         mov byte [textline3], 0
         call SetViewRect
         add esp, byte 10h
-        push dword [str_D_DrawGameFrame]
+        push dword [GameFrameTop]
         push dword [ViewLeft]
         call MouseRead
         add esp, byte 8
@@ -2928,7 +2928,7 @@ DrawGameFrame:
         sub edx, dword [ViewLeft]
         imul edx, edx
         mov eax, dword [mousey]
-        sub eax, dword [str_D_DrawGameFrame]
+        sub eax, dword [GameFrameTop]
         imul eax, eax
         add edx, eax
         test byte [GsOptions+1], 20h
@@ -2950,10 +2950,10 @@ DrawGameFrame:
         sar eax, 2
         mov dword [byte ebp+07Eh], eax
         mov eax, dword [mousey]
-        sub eax, dword [str_D_DrawGameFrame]
+        sub eax, dword [GameFrameTop]
         sar eax, 2
         mov dword [byte ebp+076h], eax
-        mov ax, word [str_D_DrawGameFrame]
+        mov ax, word [GameFrameTop]
         sub ax, word [mousey]
         movsx edx, ax
         mov ax, word [mousex]
@@ -3287,7 +3287,7 @@ OpenOverlayPanel:
         ret
 ;-----------------------------------------------------------------------------
 ; DrawOverlayCaption                              5AE47  96 PC, low confidence
-; With bannermsg set, draws its caption text (table str_T_DrawOverlayCaption, text 0ADh)
+; With bannermsg set, draws its caption text (table OverlayCaptionTextIds, text 0ADh)
 ;-----------------------------------------------------------------------------
 DrawOverlayCaption:
         push ebx
@@ -3299,7 +3299,7 @@ DrawOverlayCaption:
         push edx
         mov ecx, 9
         lea edi, [byte ebp-02Ch]
-        mov esi, str_T_DrawOverlayCaption
+        mov esi, OverlayCaptionTextIds
         rep movsd
         push dword [NamePanelBmp]
         call TextSetFont
@@ -6379,7 +6379,11 @@ unk_5D591_84:
         mov al, byte [0B4000000h]
         db 00h,00h,00h,0C8h,00h,00h,00h,0DCh,00h,00h,00h,0F0h,00h,00h,00h,04h
         db 01h,00h,00h,018h,01h,00h,00h,02Ch,01h,00h,00h,040h,01h,00h,00h
-str_D_SetGameViewSize:
+;-----------------------------------------------------------------------------
+; ViewSizeScales                                  5D639  96 PC, low confidence
+; Game view scale for each view size
+;-----------------------------------------------------------------------------
+ViewSizeScales:
         db 064h,00h,00h,00h,071h,00h,00h,00h,07Dh,00h,00h,00h,08Ah,00h,00h,00h
         db 096h,00h,00h,00h,0A3h,00h,00h,00h,0AFh,00h,00h,00h,0BCh,00h,00h,00h
         db 0C8h,00h,00h,00h

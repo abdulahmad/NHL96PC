@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_CA6E0 progbits alloc exec nowrite align=1
 extern __hook387, __int7, __int7_pl3, __8087, _Extender, Is8087, __real87, FpuFlags
-extern FpuSystemFlags, OldFpuVectorOffset, str_Punct_InitFpuFlags, SavedEsSelector, OldFpuVectorSelector, FpuCr0Bits
+extern FpuSystemFlags, OldFpuVectorOffset, EmuHookFlags, SavedEsSelector, OldFpuVectorSelector, FpuCr0Bits
 global InitFpuFlags, MakeFpuGate, HookCoprocessorVector, SetSystemFpuFlag
 ;-----------------------------------------------------------------------------
 ; InitFpuFlags                                                    CA6E0  95 PC
@@ -55,7 +55,7 @@ InitFpuFlags:
 .3:
         cmp byte [_Extender], 1
         jne short .4
-        mov dx, word [str_Punct_InitFpuFlags]
+        mov dx, word [EmuHookFlags]
         sub eax, eax
         call __hook387
         jmp short .5

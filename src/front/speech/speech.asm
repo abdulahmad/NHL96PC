@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_67000 progbits alloc exec nowrite align=1
 extern _dos_gettime_, AsyncCancelRequest, AsyncClose, AsyncInit, asyncreader, AsyncRequestDone, AsyncRequestOpen, AsyncRequestSection
-extern SpeechBankNames, str_Z_OpenSpeechBanks, ClipIndexTable, str_Punct_OpenSpeechBanks, speechq, SpeechBankHandle, SpeechBanksOpen
+extern SpeechBankNames, SpeechBankPaths, ClipIndexTable, SpeechBankAltPaths, speechq, SpeechBankHandle, SpeechBanksOpen
 extern speechinit, SpeechBankPtrs, SpeechChannels
 extern SpeechVolume, SpeechBankFiles, GetTicks, globalset, MakeDataPath, optflags, rand_
 extern setasyncspeed, sndcard, srand_, str_SPEECHBUF, AllocMemBlock, FreeMemBlock, OpenSpeechQueue, SetSpeechQueueVolume
@@ -233,10 +233,10 @@ OpenSpeechBanks:
         shl eax, 2
         cmp dword [byte ebp-018h], byte 0
         je short .6
-        mov edx, dword [dword eax+str_Punct_OpenSpeechBanks]
+        mov edx, dword [dword eax+SpeechBankAltPaths]
         jmp short .7
 .6:
-        mov edx, dword [dword eax+str_Z_OpenSpeechBanks]
+        mov edx, dword [dword eax+SpeechBankPaths]
 .7:
         mov eax, edi
         call MakeDataPath

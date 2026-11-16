@@ -22,8 +22,8 @@ extern str_Bt283, str_Bt293, str_D6, str_dbgDash, str_Del1, str_Del2, str_Del3, 
 extern str_Mod2, str_Mod3, str_Pal15, str_Pal16, str_S, str_S05dCnzDb4, str_S05dCnzDb5, str_S05dCsgDb2
 extern str_S05dCsgDb3, str_SEASONNDX2, str_SLDR, str_Sta12, str_Sta22, str_Sta32, str_star, str_Stn1
 extern str_Stn2, str_Stn3, str_Tra1, str_Tra2, str_Tra3, strcpy_, strlen_, sub_1E8E9
-extern sub_29B9F, sub_4F08B, sub_4F159, sub_4F2A8, sub_4F385, sub_7D580, sub_7FF7F, sub_80E4D
-extern sub_81D7C, sub_81EEA, sub_88509, sub_971E9, sub_A6B94, sub_A7A09, sub_A7B4B, sub_A7CC4
+extern sub_29B9F, sub_4F08B, sub_4F159, sub_4F2A8, sub_4F385, sub_7D580, UpdateTeamDbs, SimSeasonGames
+extern SaveSeasonTeams, SimulateGame, sub_88509, sub_971E9, sub_A6B94, sub_A7A09, sub_A7B4B, sub_A7CC4
 extern sub_A7E6D, sub_A800A, sub_A8AC5, sub_A8B9B, sub_AAA40, sub_AAA8C, sub_AADA4, sub_ABF4C
 extern sub_AD35C, sub_AD5C8, sub_ADA80, sub_ADBEC, sub_B0430, sub_B178B, sub_B20D0, sub_B20EC
 extern sub_B22B0, sub_B2C54, sub_B7256, sub_B7810, sub_DD6C4, sub_DD7B8, sub_E04E0, sub_E0584
@@ -2322,7 +2322,7 @@ sub_7B15A:
         mov ecx, 0FFFFFFFFh
         xor ebx, ebx
         xor eax, eax
-        call sub_81EEA
+        call SimulateGame
 .19:
         add dword [byte ebp+06Eh], byte 6
 .20:
@@ -2380,7 +2380,7 @@ sub_7B15A:
         push byte 0
         xor ebx, ebx
         xor eax, eax
-        call sub_81EEA
+        call SimulateGame
 .25:
         add word [edi], byte 6
         jmp short .24
@@ -2896,7 +2896,7 @@ RunSeasonMenus_25A:
         mov edx, 1
         mov byte [byte_17D26F], al
         xor eax, eax
-        call sub_7FF7F
+        call UpdateTeamDbs
 .10:
         movsx eax, byte [byte_17D271]
         imul eax, byte 1Ah
@@ -2907,9 +2907,9 @@ RunSeasonMenus_25A:
         mov edx, 1
         mov byte [byte_17D26F], al
         xor eax, eax
-        call sub_7FF7F
+        call UpdateTeamDbs
 .11:
-        call sub_81D7C
+        call SaveSeasonTeams
         xor eax, eax
         call sub_A7A09
         cmp byte [byte_17D262], 0
@@ -3045,7 +3045,7 @@ RunSeasonMenus_25A:
         mov dword [dword_17CEC3], edx
         mov eax, ecx
         xor edx, edx
-        call sub_7FF7F
+        call UpdateTeamDbs
 .26:
         movzx edx, byte [byte_17CECE]
         imul eax, edx, byte 1Ah
@@ -3055,14 +3055,14 @@ RunSeasonMenus_25A:
         mov dword [dword_17CEC3], edx
         mov eax, ecx
         xor edx, edx
-        call sub_7FF7F
+        call UpdateTeamDbs
 .27:
         call HideMessage
         mov eax, dword [byte ebp-04h]
         xor edx, edx
         mov dword [dword_17CEC3], eax
         mov eax, ecx
-        call sub_80E4D
+        call SimSeasonGames
         call BlackPalette
         mov ecx, 2714h
         jmp near RunSeasonMenus_138.6

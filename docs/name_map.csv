@@ -767,6 +767,12 @@ address,name,auto_name,source,confidence,evidence,file
 7D346,SetScrollBarPos,sub_7D346,new,medium,"(bar, pos): sets the position, then DrawScrollBar",src/front/scroll_bar/scroll_bar.asm
 7D349,DrawScrollBar,sub_7D349,new,medium,draws the scroll bar and its thumb at the position,src/front/scroll_bar/scroll_bar.asm
 7D49C,ScrollBarToMouse,sub_7D49C,new,medium,moves the thumb to the mouse (dword_11D1A8 / 11D1AC),src/front/scroll_bar/scroll_bar.asm
+7FF7F,UpdateTeamDbs,sub_7FF7F,new,low,"(season, mode): loads and saves the two game teams' %05d%cNZ.DB files (home / away from gameopts)",src/front/season_db/season_db.asm
+807FA,ApplyDayResults,sub_807FA,new,low,"(day): walks one schedule day (3E8h bytes a day, F0h / F2h marks) and updates the team records (31Bh each)",src/front/season_db/season_db.asm
+80E4D,SimSeasonGames,sub_80E4D,new,medium,"simulates the scheduled season games up to a day with a progress box (SimulateGame for each), from the season menus and the calendar",src/front/season_db/season_db.asm
+81721,ApplyPlayoffDayResults,sub_81721,new,low,(day): the same for a playoff day (MakePlayoffDbPath),src/front/season_db/season_db.asm
+81D7C,SaveSeasonTeams,sub_81D7C,new,low,writes the changed teams' %s%05d%cNZ.DB files (byte_17CFB1 marks),src/front/season_db/season_db.asm
+81EEA,SimulateGame,sub_81EEA,new,medium,"simulates one game without playing it: scores, player and team stats (pk, ps, tmstats, tmgstats, tmdata) by rand",src/front/sim_game/sim_game.asm
 A9BCC,_searchenv_,,WATCOM,high,IDA FLIRT library signature,
 A9CB3,strcpy_,,WATCOM,high,IDA FLIRT library signature,
 A9CD2,strcat_,,WATCOM,high,IDA FLIRT library signature,

@@ -57,8 +57,8 @@
 1 794FF 7CCB8 14265 front_794FF front/season_menu/season_menu.asm
 1 7CCB8 7D580 2248 front_scroll_bar front/scroll_bar/scroll_bar.asm
 1 7D580 7FF7F 10751 calendar front/calendar/calendar.asm
-1 7FF7F 81EEA 8043 front_7FF7F front/front_7FF7F.asm
-1 81EEA 849D5 10987 front_81EEA front/front_81EEA.asm
+1 7FF7F 81EEA 8043 front_7FF7F front/season_db/season_db.asm
+1 81EEA 849D5 10987 front_81EEA front/sim_game/sim_game.asm
 1 849D5 88E09 17460 front_849D5 front/front_849D5.asm
 1 88E09 8C3DD 13780 front_88E09 front/front_88E09.asm
 1 8C3DD 90879 17564 front_8C3DD front/front_8C3DD.asm

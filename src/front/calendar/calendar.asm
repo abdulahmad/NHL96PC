@@ -14,7 +14,7 @@ extern dword_17D8C0, dword_17D8C4, dword_17D8F4, dword_17D8F8, dword_17D8FC, dwo
 extern dword_17D90C, dword_17D910, dword_17D914, dword_17D918, dword_17D91C, dword_17D920, dword_17D924, gameopts
 extern jpt_7D568, sprintf_, MessageBox, LoadTeamLogo, LoadPackedFile, sub_1E8E9, LoadSeasonStats, OpenScreen
 extern SlideInTitleBar, SlideInSideBar, SetScreenColors, FadePalette, FadeOut, SetTextColors, FillBox, DrawFrameAt
-extern InitMenuItems, RunMenu, GetLangText, MakeSeasonDbPath, sub_80E4D, sub_81EEA, sub_AAA40, sub_AAA8C
+extern InitMenuItems, RunMenu, GetLangText, MakeSeasonDbPath, SimSeasonGames, SimulateGame, sub_AAA40, sub_AAA8C
 extern PutBlock, sub_AB758, sub_ABF4C, sub_AD35C, sub_AD620, FillRect, sub_ADA80, sub_ADBEC
 extern sub_B20D0, sub_B2C54, sub_BF120, sub_C2600, sub_DD6C4, sub_DD908, sub_E04E0, sub_E0584
 extern unk_11E3B6, unk_11E3F6, unk_11E436, unk_11E476, unk_152C44, unk_17CB2E, unk_7D4F4, unk_7D500
@@ -2086,7 +2086,7 @@ sub_7D580_1B6C:
         mov ecx, 0FFFFFFFFh
         push dword [dword eax+014Fh]
         xor eax, eax
-        call sub_81EEA
+        call SimulateGame
         mov eax, dword [dword_17D90C]
         shl eax, 2
         add eax, dword [byte ebp+012h]
@@ -2094,7 +2094,7 @@ sub_7D580_1B6C:
         mov edx, dword [byte ebp+01Eh]
         mov eax, dword [dword eax+014Fh]
         mov ecx, 23h
-        call sub_80E4D
+        call SimSeasonGames
         mov eax, 0FFFFFFFFh
         rep stosb
 .38:

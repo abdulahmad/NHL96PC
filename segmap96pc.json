@@ -529,7 +529,7 @@
    "end": 532202,
    "module": "front_7FF7F",
    "obj": 1,
-   "file": "front/front_7FF7F.asm",
+   "file": "front/season_db/season_db.asm",
    "note": "placeholder"
   },
   {
@@ -537,7 +537,7 @@
    "end": 543189,
    "module": "front_81EEA",
    "obj": 1,
-   "file": "front/front_81EEA.asm",
+   "file": "front/sim_game/sim_game.asm",
    "note": "placeholder"
   },
   {

@@ -25,7 +25,7 @@ extern UpdateProgressBox, HideProgressBox, LoadTeamLogo, FileCopy, MakeDataPath,
 extern LoadSeasonStats, LoadPlayoffStats, sub_29B9F, sub_4F159, sub_4F385, OpenScreen, SlideInTitleBar, SlideInSideBar
 extern SetScreenColors, FadePalette, FadeOut, SetTextColors, DrawColorText, DrawColorTextRight, DrawColorTextCentred, DrawFrameAt
 extern InitMenuItems, RunMenu, FillMusicStream, PlayMusic, MusicDone, SoundSecondsToBytes, RunControllerScreen, GetLangText
-extern MakeSeasonDbPath, MakePlayoffDbPath, PickIndexEntryScreen, sub_7FF7F, sub_81D7C, sub_81EEA, sub_88509, sub_971E9
+extern MakeSeasonDbPath, MakePlayoffDbPath, PickIndexEntryScreen, UpdateTeamDbs, SaveSeasonTeams, SimulateGame, sub_88509, sub_971E9
 extern sub_A8B9B, sub_A8C75, sub_A9BAC, sub_AAA40, PutBlock, sub_AB758, sub_ABF4C, sub_AD35C
 extern sub_ADA80, sub_ADBEC, TextSetFont, sub_B0430, sub_B20D0, sub_B22B0, DrawArtOpaque, sub_B2C54
 extern sub_B7810, sub_C2500, sub_DD6C4, MouseRead, sub_E04E0, sub_E0584, str_S6, str_D17
@@ -140,7 +140,7 @@ sub_A4FD7_115:
         mov edx, 1
         mov byte [byte_17D26F], al
         xor eax, eax
-        call sub_7FF7F
+        call UpdateTeamDbs
 .5:
         movsx eax, byte [byte_17D271]
         imul eax, byte 1Ah
@@ -151,9 +151,9 @@ sub_A4FD7_115:
         mov edx, 1
         mov byte [byte_17D26F], al
         xor eax, eax
-        call sub_7FF7F
+        call UpdateTeamDbs
 .6:
-        call sub_81D7C
+        call SaveSeasonTeams
         xor eax, eax
         call sub_A7A09
         cmp byte [byte_17D262], 0
@@ -3682,7 +3682,7 @@ sub_A80FC:
         mov eax, 1
         xor ebx, ebx
 .12:
-        call sub_81EEA
+        call SimulateGame
         cmp dword [byte ebp-08h], byte 1
         je short .13
         cmp dword [byte ebp-08h], byte 2

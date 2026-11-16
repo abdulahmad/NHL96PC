@@ -1,0 +1,8 @@
+# NHL 96 PC season database and game simulation. PC-only, source new.
+sub_7FF7F UpdateTeamDbs {confidence=low} (season, mode): loads and saves the two game teams' %05d%cNZ.DB files (home / away from gameopts)
+sub_807FA ApplyDayResults {confidence=low} (day): walks one schedule day (3E8h bytes a day, F0h / F2h marks) and updates the team records (31Bh each)
+sub_80E4D SimSeasonGames {confidence=medium} simulates the scheduled season games up to a day with a progress box (SimulateGame for each), from the season menus and the calendar
+sub_81721 ApplyPlayoffDayResults {confidence=low} (day): the same for a playoff day (MakePlayoffDbPath)
+sub_81D7C SaveSeasonTeams {confidence=low} writes the changed teams' %s%05d%cNZ.DB files (byte_17CFB1 marks)
+sub_81EEA SimulateGame {confidence=medium} simulates one game without playing it: scores, player and team stats (pk, ps, tmstats, tmgstats, tmdata) by rand
+sub_7FF7F_86F UpdateTeamDbs_86F {no_record}

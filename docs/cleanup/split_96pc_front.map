@@ -59,3 +59,6 @@ rename front/front_77642 front/new_season
 # step 11: front_794FF
 rename front/front_794FF front/season_menu The season menus: the season menu, standings, picking a season or record from a name index (96 PC).
 cut InitVScrollBar front/scroll_bar The scroll bar widget of the front-end lists (96 PC).
+# step 12: front_7FF7F, front_81EEA
+rename front/front_7FF7F front/season_db The season database: team files after games, schedule days into the records, simulating the season games (96 PC).
+rename front/front_81EEA front/sim_game Simulating a game without playing it: scores and player / team stats (96 PC).

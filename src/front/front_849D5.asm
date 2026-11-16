@@ -23,7 +23,7 @@ extern FileOpenRead, FileClose, sub_1E222, sub_1E643, LoadPackedFile, sub_1F15E,
 extern SlideInTitleBar, SlideInSideBar, SlideInBottomBar, SetScreenColors, BlackPalette, FadePalette, FadeOut, CopyBitmap
 extern SetTextColors, SetTextColorsRgb, DrawColorTextRight, DrawColorTextCentred, SetScreenPalette, DrawFrameAt, RemapScreenColors, InitMenuItems
 extern RunMenu, SetMenuMouse, PaEvent, StopSpeech, FillMusicStream, SoundSecondsToBytes, SoundIdle, PlayMovieFile
-extern sub_77355, sub_78E9E, sub_88E09, sub_8C51B, sub_90AF8, sub_93E6A, sub_9C866, sub_AA988
+extern GetLangText, MakeSeasonDbPath, sub_88E09, sub_8C51B, sub_90AF8, sub_93E6A, sub_9C866, sub_AA988
 extern sub_AAA8C, PutBlock, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C, sub_AD824, sub_ADA50
 extern sub_ADBEC, sub_B0254, sub_B026C, TextSetFont, sub_B0430, sub_B0494, sub_B31C0, sub_B7638
 extern sub_B9BB0, sub_C2600, sub_DD6C4, SetClipWindow, sub_DD908, sub_DD920, PlotPixel, sub_DE18C
@@ -165,7 +165,7 @@ sub_849D5:
         mov eax, 228h
         mov ebx, 0CAh
         mov edx, 140h
-        call sub_77355
+        call GetLangText
         call DrawColorTextCentred
         mov eax, dword [gameopts]
         mov eax, dword [byte eax+01h]
@@ -877,7 +877,7 @@ sub_84F20:
         mov ebx, 6
         lea eax, [byte ebp-01Eh]
         mov edx, dword [dword_17CBE7]
-        call sub_78E9E
+        call MakeSeasonDbPath
         lea edx, [byte ebp+042h]
         lea eax, [byte ebp-01Eh]
         call FileOpenRead
@@ -1771,7 +1771,7 @@ sub_85911:
         push eax
         mov eax, 1EBh
 .20:
-        call sub_77355
+        call GetLangText
         push eax
         lea eax, [byte ebp+0Eh]
         push eax
@@ -1880,7 +1880,7 @@ sub_85911:
         push eax
         mov eax, 1EBh
 .27:
-        call sub_77355
+        call GetLangText
         push eax
         lea eax, [byte ebp+0Eh]
         push eax
@@ -4727,7 +4727,7 @@ sub_88735:
         cmp edx, ebx
         jne short .2
         add eax, 248h
-        call sub_77355
+        call GetLangText
         mov ecx, eax
         mov eax, 14h
 .2:

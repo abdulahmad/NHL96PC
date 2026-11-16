@@ -29,7 +29,7 @@ extern str_Uga, str_Ugf, str_Ulstreak, str_Ulxh, str_Ulxn, str_Ulyh, str_Ulyn, s
 extern str_Uopp, str_Upk, str_Upp, str_Upts, str_Urate, str_Uso, str_Usort, str_Ustreak
 extern str_Uteam, str_wt, strcat_, strcmp_, strcpy_, strlen_, OpenScreen, SlideInSideBar
 extern SetScreenColors, FadePalette, FadeOut, DrawText, DrawTextCentred, SetTextColors, DrawColorText, FillBox
-extern InitMenuItems, RunMenu, PlaySfx, SoundIdle, sub_77355, sub_7CCB8, sub_7D2CE, sub_7D2DC
+extern InitMenuItems, RunMenu, PlaySfx, SoundIdle, GetLangText, sub_7CCB8, sub_7D2CE, sub_7D2DC
 extern sub_7D325, sub_7D346, sub_7D349, sub_8B7BB, sub_AA7E0, sub_AADA4, sub_AB758, sub_ABF4C
 extern sub_AD35C, sub_AD620, sub_ADBEC, sub_AFFD0, sub_B0254, sub_B026C, sub_DD6C4, sub_DD8B0
 extern sub_E04E0, sub_E15AC, TextSetFont, unk_160B50, WaitTicks, word_160ACC, word_1656DA, word_1656DC
@@ -85,7 +85,7 @@ ClearSlotUser:
         add edx, word_160ACC
         mov eax, 62h
         lea ebx, [byte edx+02h]
-        call sub_77355
+        call GetLangText
         mov edx, eax
         mov eax, ebx
         call strcpy_
@@ -108,7 +108,7 @@ ClearSlotUsers:
         imul eax, ebx, byte 21h
         mov word [dword eax+word_160ACC], 0
         mov eax, 62h
-        call sub_77355
+        call GetLangText
         mov edx, eax
         mov eax, ecx
         inc ebx
@@ -272,16 +272,16 @@ DeleteUser:
         imul eax, edx, byte 36h
         add dword [byte ebp-04h], eax
         mov eax, 2
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp-0Ch], eax
         mov eax, 3
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp-08h], eax
         mov eax, dword [byte ebp-04h]
         add eax, byte 0Dh
         push eax
         mov eax, 68h
-        call sub_77355
+        call GetLangText
         push eax
         lea eax, [byte ebp-05Ch]
         push eax
@@ -328,7 +328,7 @@ DeleteUser:
         mov ecx, word_160ACC
         mov word [dword ebx+word_160ACC], 0
         add ecx, ebx
-        call sub_77355
+        call GetLangText
         inc ecx
         inc ecx
         mov edx, eax
@@ -348,7 +348,7 @@ DeleteUser:
         jmp near CompareUsersByRecord_ret
 .5:
         mov eax, 69h
-        call sub_77355
+        call GetLangText
         mov edx, eax
         lea eax, [byte ebp-05Ch]
         call strcpy_
@@ -396,7 +396,7 @@ NewUser:
         push dword 140h
         mov eax, 6Ah
         mov ebx, byte_17BDAE
-        call sub_77355
+        call GetLangText
         mov edx, eax
         xor eax, eax
         mov edi, 1
@@ -428,7 +428,7 @@ NewUser:
         test eax, eax
         je short .3
         mov eax, 6Bh
-        call sub_77355
+        call GetLangText
         mov edx, eax
         lea eax, [byte ebp-068h]
         call strcpy_
@@ -461,7 +461,7 @@ NewUser:
         jmp short .8
 .4:
         mov eax, 6Dh
-        call sub_77355
+        call GetLangText
         mov edx, eax
         lea eax, [byte ebp-068h]
         call strcpy_
@@ -656,7 +656,7 @@ LoadUserIndex:
         add esp, byte 0Ch
         mov eax, 6Eh
         lea edx, [byte ebp-0Ch]
-        call sub_77355
+        call GetLangText
         mov esi, dword [ecx]
         mov ebx, eax
         mov eax, esi
@@ -671,7 +671,7 @@ LoadUserIndex:
         add esp, byte 0Ch
         mov eax, 6Fh
         lea edx, [byte ebp-0Ch]
-        call sub_77355
+        call GetLangText
         mov esi, dword [ecx]
         mov ebx, eax
         mov eax, esi
@@ -1097,7 +1097,7 @@ PickUsersScreen:
         add esp, byte 4
         sar ecx, 1
         sar ebx, 1
-        call sub_77355
+        call GetLangText
         call ShowMessage
         push dword [dword_17BC74]
         call TextSetFont
@@ -1182,7 +1182,7 @@ PickUsersScreen:
 .23:
         mov eax, 62h
         mov word [dword esi+word_160ACC], 0
-        call sub_77355
+        call GetLangText
         mov edx, eax
         mov eax, dword [byte ebp-014h]
         mov dword [byte ebp-018h], 1
@@ -1234,7 +1234,7 @@ PickUsersScreen:
         add esp, byte 4
         sar ecx, 1
         sar ebx, 1
-        call sub_77355
+        call GetLangText
         call ShowMessage
         push dword [dword_17BC74]
         call TextSetFont
@@ -2878,7 +2878,7 @@ ExportUserRecords:
         push dword 140h
         mov eax, 0D3h
         mov ebx, byte_17BDAE
-        call sub_77355
+        call GetLangText
         mov edx, eax
         xor eax, eax
         call EditText
@@ -2905,7 +2905,7 @@ ExportUserRecords:
         mov ebx, dword [dword_11F5C0]
         sar ecx, 1
         sar ebx, 1
-        call sub_77355
+        call GetLangText
         call ShowMessage
 .1:
         call GetPressedDevice
@@ -2922,13 +2922,13 @@ ExportUserRecords:
         jmp near NewUser_159
 .3:
         mov eax, 63h
-        call sub_77355
+        call GetLangText
         push eax
         push edx
         call fprintf_
         add esp, byte 8
         mov eax, 64h
-        call sub_77355
+        call GetLangText
         push eax
         lea eax, [byte ebp-064h]
         push eax
@@ -2940,7 +2940,7 @@ ExportUserRecords:
         call fprintf_
         add esp, byte 8
         mov eax, 65h
-        call sub_77355
+        call GetLangText
         push eax
         lea eax, [byte ebp-064h]
         push eax
@@ -2952,7 +2952,7 @@ ExportUserRecords:
         call fprintf_
         add esp, byte 8
         mov eax, 66h
-        call sub_77355
+        call GetLangText
         push eax
         lea eax, [byte ebp-064h]
         push eax
@@ -2964,7 +2964,7 @@ ExportUserRecords:
         call fprintf_
         add esp, byte 8
         mov eax, 67h
-        call sub_77355
+        call GetLangText
         push eax
         lea eax, [byte ebp-064h]
         push eax

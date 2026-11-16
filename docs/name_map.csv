@@ -718,11 +718,37 @@ address,name,auto_name,source,confidence,evidence,file
 6A2A8,PlayMovieFile,sub_6A2A8,new,high,"(file id): stops the music, plays the movie (any pressed device skips) and restarts the music",src/front/movie/movie.asm
 6A341,ReadGlobalSet,sub_6A341,new,medium,"reads GLOBAL.SET, the settings file SETUP writes, at start",src/front/settings/settings.asm
 6A5EB,WriteGlobalSet,sub_6A5EB,new,high,"writes GLOBAL.SET back (BCh header, the name, B9h options), the file ReadGlobalSet reads",src/front/settings/settings.asm
+6A675,RunExhibitionMenus,sub_6A675,new,medium,"from RunFrontEnd: loads the exhibition set-up (EXHIBIT.NDX, stats), then team select, the controller screen and the next screens until a game or the main menu",src/front/settings/settings.asm
 6A7D3,RunInGameMenu,sub_6A7D3,new,medium,"opens the menu InGameMenuRequest asks for (pre-game menu, pause)",src/front/pause_menu/pause_menu.asm
 6E233,SetControllerIcon,sub_6E233,new,low,"(side, ...): puts the p1_1 / p2_1 pad image in a side's slot of the screen (not in a modem / link game)",src/front/controller_screen/controller_screen.asm
 6E332,DrawControllerColumns,sub_6E332,new,medium,"the controller screen's columns: the pads by team with the users' icons and names (usri, usrh, utext), with the move sound",src/front/controller_screen/controller_screen.asm
 6F056,ControllerScreen,sub_6F056,new,high,"the controller screen (M_CONTROL, ply%d, key1): moves each controller to home, away or neither; returns the screen to go to",src/front/controller_screen/controller_screen.asm
 70840,RunControllerScreen,sub_70840,new,medium,"(from): runs ControllerScreen until it leaves (3 again), then the next step (0Fh, 15h, sub_8733C)",src/front/controller_screen/controller_screen.asm
+741BD,ModemSettingsScreen,sub_741BD,new,medium,"the modem settings screen (PICKS): modem type (""Generic Hayes-Compatible"" ...), COM port and IRQ (01%d0, 02%d0, 0%d00), tone / pulse dialing",src/front/modem_setup/modem_setup.asm
+74F0C,ModemWaitIdle,sub_74F0C,new,low,SoundIdle and one tick of the timer (sub_DFE9C(1)) while the modem screens wait,src/front/modem_setup/modem_setup.asm
+74F22,DrawPhoneNumber,sub_74F22,new,medium,"draws the phone number with the digit art (NUM%d, NM%d0, NM%d1)",src/front/modem_setup/modem_setup.asm
+7513A,ModemDialScreen,sub_7513A,new,medium,"the modem connect screen: make the call (MAK), wait for a call (WFC), the number; above 3E8h asks for the settings",src/front/modem_setup/modem_setup.asm
+75E0C,RunModemSetup,sub_75E0C,new,medium,"the dial screen, and the settings screen whenever it asks for it, until a connection result",src/front/modem_setup/modem_setup.asm
+75E2C,LinkSetupScreen,sub_75E2C,new,low,"with a serial link (word_114CE0 bit 1): the link screen (bkgd, data 56h)",src/front/modem_setup/modem_setup.asm
+76231,DrawHomeTeamPanel,sub_76231,new,medium,"the home team's panel on the team select screen: logo, name art, rank (rk%02d)",src/front/team_select/team_select.asm
+76394,DrawAwayTeamPanel,sub_76394,new,medium,the same for the away team,src/front/team_select/team_select.asm
+76518,TeamSelectScreen,sub_76518,new,high,"the exhibition team select screen (arrows ahl / ahr / aal / aar, logos, names, ranks); returns the next screen",src/front/team_select/team_select.asm
+771F0,LoadLangText,sub_771F0,new,high,at start-up: the language text index (data file) and the Localize buffer (800h) for the language,src/front/lang_text/lang_text.asm
+77292,FreeLangText,sub_77292,new,high,at shut-down: frees the language text index and buffer,src/front/lang_text/lang_text.asm
+772DB,LoadLangBlock,sub_772DB,new,high,"(slot, block): reads a 200h-byte block of the language text file into a slot",src/front/lang_text/lang_text.asm
+77355,GetLangText,sub_77355,new,high,"(text id): the text for an id from the language file (cached blocks); ""LFERROR!!!"" if missing",src/front/lang_text/lang_text.asm
+7751A,CompareGrey,sub_7751A,new,low,qsort compare of two grey palette entries by brightness (byte_17D6C8),src/front/new_season/new_season.asm
+77535,SortGreyColors,sub_77535,new,low,"(palette, out): finds the grey colours (r = g = b) of a palette and sorts them by brightness",src/front/new_season/new_season.asm
+77642,NewSeasonScreen,sub_77642,new,medium,"the new season set-up screen (rul1-3, set1-2 buttons, bt01 / bt02): rules and settings, then creates the season",src/front/new_season/new_season.asm
+77FF2,SetGreyPalette,sub_77FF2,new,low,sets the palette (8000h) and its sorted greys,src/front/new_season/new_season.asm
+78029,DrawSeasonTeams,sub_78029,new,low,draws the season screen's team logos and names,src/front/new_season/new_season.asm
+78634,CreateSeason,sub_78634,new,medium,"creates a new season: SEASON.NDX entry, the team and schedule files (Teams, Sched., %s%05d%cNZ.DB), with a progress box",src/front/new_season/new_season.asm
+78D46,EditSeasonName,sub_78D46,new,medium,"edits the season's name (text 4Eh, EditText)",src/front/new_season/new_season.asm
+78E3D,WriteSeasonBlock,sub_78E3D,new,low,writes a season file block (FileWriteAt helper),src/front/new_season/new_season.asm
+78E56,WriteSeasonHeader,sub_78E56,new,low,writes the season header (50BEh bytes),src/front/new_season/new_season.asm
+78E9E,MakeSeasonDbPath,sub_78E9E,new,medium,"(path, season, file): the path of a season database file (directory 4, %05d, %s.DB from off_11E370)",src/front/new_season/new_season.asm
+78EFA,MakePlayoffDbPath,sub_78EFA,new,medium,"(path, season, file): the same in the playoff directory (6)",src/front/new_season/new_season.asm
+79060,ResetSeasonFiles,sub_79060,new,low,"deletes and recreates a season's database files (%s%05d%cnz.db, %s%05d%csg.db) with a progress box",src/front/new_season/new_season.asm
 A9BCC,_searchenv_,,WATCOM,high,IDA FLIRT library signature,
 A9CB3,strcpy_,,WATCOM,high,IDA FLIRT library signature,
 A9CD2,strcat_,,WATCOM,high,IDA FLIRT library signature,

@@ -15,7 +15,7 @@ extern dword_1820E8, dword_1820EC, dword_18210C, dword_182128, dword_18212C, dwo
 extern dword_18213C, dword_182140, jpt_93E46, off_11E8B0, qword_112B02, qword_112B0A, sprintf_, sub_1E643
 extern LoadPackedFile, sub_1F2C9, sub_1F2D4, sub_1F2DF, sub_1F2EA, sub_1F2F5, OpenScreen, SlideInSideBar
 extern SetScreenColors, FadePalette, FadeOut, SetTextColors, DrawColorText, DrawColorTextRight, DrawColorTextCentred, InitMenuItems
-extern RunMenu, FillMusicStream, SoundSecondsToBytes, sub_77355, sub_7CCB8, sub_7D2CE, sub_7D2DC, sub_7D325
+extern RunMenu, FillMusicStream, SoundSecondsToBytes, GetLangText, sub_7CCB8, sub_7D2CE, sub_7D2DC, sub_7D325
 extern sub_7D346, sub_7D349, sub_7D49C, sub_90879, sub_908FC, sub_909FE, sub_9C060, sub_AAA40
 extern PutBlock, sub_AB758, sub_ABF4C, sub_AD35C, FillRect, sub_ADBEC, sub_B0430, sub_B0494
 extern sub_B2C54, sub_DD6C4, sub_DD7B8, sub_DD908, sub_E04E0, str_D11, unk_93BE6, unk_93CA6
@@ -2392,7 +2392,7 @@ sub_95E84:
         mov ebx, esi
         mov eax, dword [dword ecx+dword_11E85B]
         xor edx, edx
-        call sub_77355
+        call GetLangText
         call DrawColorText
         add ecx, byte 4
         add esi, byte 14h
@@ -2407,7 +2407,7 @@ sub_95E84:
         mov ebx, esi
         mov eax, dword [dword ecx+dword_11E7E0]
         xor edx, edx
-        call sub_77355
+        call GetLangText
         call DrawColorText
         add ecx, byte 4
         add esi, byte 14h
@@ -2424,7 +2424,7 @@ sub_95E84:
         mov ebx, esi
         mov eax, dword [dword ecx+dword_11E6B4]
         xor edx, edx
-        call sub_77355
+        call GetLangText
         call DrawColorText
         add ecx, byte 4
         add esi, byte 14h
@@ -2439,7 +2439,7 @@ sub_95E84:
         mov ebx, esi
         mov eax, dword [dword ecx+dword_11E684]
         xor edx, edx
-        call sub_77355
+        call GetLangText
         call DrawColorText
         add ecx, byte 4
         add esi, byte 14h
@@ -3100,7 +3100,7 @@ sub_966CA:
 .9:
         mov eax, 0CCh
 .10:
-        call sub_77355
+        call GetLangText
         push eax
         lea eax, [byte ebp-034h]
         push eax
@@ -3140,7 +3140,7 @@ sub_966CA:
 .14:
         mov ebx, 13h
         mov edx, 64h
-        call sub_77355
+        call GetLangText
         call DrawColorText
         mov eax, esi
         shl eax, 2
@@ -3178,7 +3178,7 @@ sub_966CA:
 .16:
         push eax
         mov eax, 0D1h
-        call sub_77355
+        call GetLangText
         push eax
         lea eax, [byte ebp-034h]
         push eax
@@ -3209,7 +3209,7 @@ sub_966CA:
         push dword [byte ebp-08h]
 .18:
         mov eax, 0D2h
-        call sub_77355
+        call GetLangText
         push eax
         lea eax, [byte ebp-034h]
         push eax

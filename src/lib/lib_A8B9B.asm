@@ -10,7 +10,7 @@ extern dword_17CC13, dword_17CF8E, dword_17D162, dword_17D252, dword_17D256, dwo
 extern getenv_, off_11F531, off_11F535, off_11F539, off_11F53D, off_11F541, off_11F545, off_11F549
 extern off_11F551, off_11F555, sprintf_, strcat_, strcpy_, strlen_, sub_1E643, sub_1E8E9
 extern OpenScreen, SlideInTitleBar, SlideInSideBar, SetScreenColors, FadePalette, FadeOut, DrawColorText, DrawColorTextCentred
-extern RunMenu, sub_77355, sub_78E9E, sub_78EFA, sub_ABF4C, sub_B0430, sub_B0494, sub_B22B0
+extern RunMenu, GetLangText, MakeSeasonDbPath, MakePlayoffDbPath, sub_ABF4C, sub_B0430, sub_B0494, sub_B22B0
 extern sub_B2C54, sub_C254C, sub_C2600, sub_C2CB0, sub_DD908, sub_E04E0, unk_17CED5, unk_184B78
 extern unk_184BB4, unk_184BF0, unk_184C2C, unk_184C68, unk_184CA4, unk_184D1C, unk_184D58, unk_184E48
 extern unk_184F48, unk_184F77, unk_185292
@@ -30,13 +30,13 @@ sub_A8B9B:
         mov ebx, 0Ah
         lea eax, [byte ebp-020h]
         mov edx, dword [dword_17CBE7]
-        call sub_78E9E
+        call MakeSeasonDbPath
         jmp short .2
 .1:
         mov ebx, 7
         lea eax, [byte ebp-020h]
         mov edx, dword [dword_17D162]
-        call sub_78EFA
+        call MakePlayoffDbPath
 .2:
         push dword 39Dh
         push unk_17CED5
@@ -49,13 +49,13 @@ sub_A8B9B:
         mov ebx, 5
         lea eax, [byte ebp-020h]
         mov edx, dword [dword_17CBE7]
-        call sub_78E9E
+        call MakeSeasonDbPath
         jmp short .4
 .3:
         mov ebx, 5
         lea eax, [byte ebp-020h]
         mov edx, dword [dword_17D162]
-        call sub_78EFA
+        call MakePlayoffDbPath
 .4:
         push dword [dword_117500]
         push dword [dword_1174E0]
@@ -68,13 +68,13 @@ sub_A8B9B:
         mov ebx, 4
         lea eax, [byte ebp-020h]
         mov edx, dword [dword_17CBE7]
-        call sub_78E9E
+        call MakeSeasonDbPath
         jmp short .6
 .5:
         mov ebx, 4
         lea eax, [byte ebp-020h]
         mov edx, dword [dword_17D162]
-        call sub_78EFA
+        call MakePlayoffDbPath
 .6:
         push dword [dword_117510]
         push dword [dword_1174F0]
@@ -674,7 +674,7 @@ sub_A91DD:
         movzx eax, word [eax]
         push eax
         mov eax, 0DCh
-        call sub_77355
+        call GetLangText
         push eax
         push str_SD8
         lea eax, [byte ebp+03Ah]
@@ -689,7 +689,7 @@ sub_A91DD:
         movzx eax, word [byte eax+02h]
         push eax
         mov eax, 0DDh
-        call sub_77355
+        call GetLangText
         push eax
         push str_SD8
         lea eax, [byte ebp+03Ah]
@@ -704,7 +704,7 @@ sub_A91DD:
         movzx eax, word [byte eax+04h]
         push eax
         mov eax, 0DEh
-        call sub_77355
+        call GetLangText
         push eax
         push str_SD8
         lea eax, [byte ebp+03Ah]
@@ -719,7 +719,7 @@ sub_A91DD:
         movzx eax, word [byte eax+06h]
         push eax
         mov eax, 0DFh
-        call sub_77355
+        call GetLangText
         push eax
         push str_SD8
         lea eax, [byte ebp+03Ah]
@@ -734,7 +734,7 @@ sub_A91DD:
         movzx eax, word [byte eax+0Ch]
         push eax
         mov eax, 0E3h
-        call sub_77355
+        call GetLangText
         push eax
         push str_SD8
         lea eax, [byte ebp+03Ah]
@@ -749,7 +749,7 @@ sub_A91DD:
         movsx eax, word [byte eax+010h]
         push eax
         mov eax, 0E2h
-        call sub_77355
+        call GetLangText
         push eax
         push str_SD8
         lea eax, [byte ebp+03Ah]
@@ -764,7 +764,7 @@ sub_A91DD:
         movzx eax, word [byte eax+08h]
         push eax
         mov eax, 0E0h
-        call sub_77355
+        call GetLangText
         push eax
         push str_SD8
         lea eax, [byte ebp+03Ah]
@@ -779,7 +779,7 @@ sub_A91DD:
         movzx eax, word [byte eax+0Ah]
         push eax
         mov eax, 0E1h
-        call sub_77355
+        call GetLangText
         push eax
         push str_SD8
         lea eax, [byte ebp+03Ah]
@@ -809,7 +809,7 @@ sub_A91DD:
 .5:
         push eax
         mov eax, 0E5h
-        call sub_77355
+        call GetLangText
         push eax
         push str_SDD
         lea eax, [byte ebp+03Ah]
@@ -822,7 +822,7 @@ sub_A91DD:
         jmp near .10
 .7:
         mov eax, 0E5h
-        call sub_77355
+        call GetLangText
         push eax
         push str_S0
         lea eax, [byte ebp+03Ah]
@@ -835,7 +835,7 @@ sub_A91DD:
         movzx eax, word [byte eax+012h]
         push eax
         mov eax, 0DCh
-        call sub_77355
+        call GetLangText
         push eax
         push str_SD8
         lea eax, [byte ebp+03Ah]
@@ -850,7 +850,7 @@ sub_A91DD:
         movzx eax, word [byte eax+014h]
         push eax
         mov eax, 0DDh
-        call sub_77355
+        call GetLangText
         push eax
         push str_SD8
         lea eax, [byte ebp+03Ah]
@@ -865,7 +865,7 @@ sub_A91DD:
         movzx eax, word [byte eax+016h]
         push eax
         mov eax, 0DEh
-        call sub_77355
+        call GetLangText
         push eax
         push str_SD8
         lea eax, [byte ebp+03Ah]
@@ -880,7 +880,7 @@ sub_A91DD:
         movzx eax, word [byte eax+018h]
         push eax
         mov eax, 0DFh
-        call sub_77355
+        call GetLangText
         push eax
         push str_SD8
         lea eax, [byte ebp+03Ah]
@@ -895,7 +895,7 @@ sub_A91DD:
         movzx eax, word [byte eax+01Eh]
         push eax
         mov eax, 0E3h
-        call sub_77355
+        call GetLangText
         push eax
         push str_SD8
         lea eax, [byte ebp+03Ah]
@@ -910,7 +910,7 @@ sub_A91DD:
         movsx eax, word [byte eax+022h]
         push eax
         mov eax, 0E2h
-        call sub_77355
+        call GetLangText
         push eax
         push str_SD8
         lea eax, [byte ebp+03Ah]
@@ -925,7 +925,7 @@ sub_A91DD:
         movzx eax, word [byte eax+01Ah]
         push eax
         mov eax, 0E0h
-        call sub_77355
+        call GetLangText
         push eax
         push str_SD8
         lea eax, [byte ebp+03Ah]
@@ -940,7 +940,7 @@ sub_A91DD:
         movzx eax, word [byte eax+01Ch]
         push eax
         mov eax, 0E1h
-        call sub_77355
+        call GetLangText
         push eax
         push str_SD8
         lea eax, [byte ebp+03Ah]
@@ -973,7 +973,7 @@ sub_A91DD:
         movzx eax, word [eax]
         push eax
         mov eax, 0E8h
-        call sub_77355
+        call GetLangText
         push eax
         push str_SD8
         lea eax, [byte ebp+03Ah]
@@ -988,7 +988,7 @@ sub_A91DD:
         movzx eax, word [byte eax+02h]
         push eax
         mov eax, 0EBh
-        call sub_77355
+        call GetLangText
         push eax
         push str_SD8
         lea eax, [byte ebp+03Ah]
@@ -1003,7 +1003,7 @@ sub_A91DD:
         movzx eax, word [byte eax+04h]
         push eax
         mov eax, 0ECh
-        call sub_77355
+        call GetLangText
         push eax
         push str_SD8
         lea eax, [byte ebp+03Ah]
@@ -1018,7 +1018,7 @@ sub_A91DD:
         movzx eax, word [byte eax+06h]
         push eax
         mov eax, 0EDh
-        call sub_77355
+        call GetLangText
         push eax
         push str_SD8
         lea eax, [byte ebp+03Ah]
@@ -1033,7 +1033,7 @@ sub_A91DD:
         movzx eax, word [byte eax+08h]
         push eax
         mov eax, 0EFh
-        call sub_77355
+        call GetLangText
         push eax
         push str_SD8
         lea eax, [byte ebp+03Ah]
@@ -1048,7 +1048,7 @@ sub_A91DD:
         movzx eax, word [byte eax+0Ch]
         push eax
         mov eax, 0E9h
-        call sub_77355
+        call GetLangText
         push eax
         push str_SD8
         lea eax, [byte ebp+03Ah]
@@ -1071,7 +1071,7 @@ sub_A91DD:
         idiv edi
         push eax
         mov eax, 0EAh
-        call sub_77355
+        call GetLangText
         push eax
         push str_SDD2
         lea eax, [byte ebp+03Ah]
@@ -1094,7 +1094,7 @@ sub_A91DD:
         idiv esi
         push eax
         mov eax, 0F2h
-        call sub_77355
+        call GetLangText
         push eax
         push str_SDD
         lea eax, [byte ebp+03Ah]
@@ -1170,7 +1170,7 @@ sub_A91DD:
         mov eax, dword [nosplit eax*4+dword_11F4F0]
         mov edx, 140h
 .18:
-        call sub_77355
+        call GetLangText
         call DrawColorTextCentred
         mov eax, dword [byte ebp+07Eh]
         mov ecx, 66h

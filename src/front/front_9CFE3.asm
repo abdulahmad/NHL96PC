@@ -24,7 +24,7 @@ extern gameopts, hmroster, qsort_, sprintf_, strcpy_, MessageBox, FileOpenWrite,
 extern FileWriteAt, MakeDataPath, LoadPackedFile, sub_1E8E9, LoadSeasonStats, LoadPlayoffStats, LoadExhibitionStats, sub_1F15E
 extern sub_1F2F5, OpenScreen, SlideInTitleBar, SlideInSideBar, SetScreenColors, FadePalette, FadeOut, SetTextColors
 extern DrawColorText, SetScreenPalette, DrawFrameAt, InitMenuItems, RunMenu, FillMusicStream, PlayMusic, MusicDone
-extern SoundSecondsToBytes, SoundIdle, sub_77355, sub_78E9E, sub_78EFA, sub_7CCB8, sub_7D2CE, sub_7D2DC
+extern SoundSecondsToBytes, SoundIdle, GetLangText, MakeSeasonDbPath, MakePlayoffDbPath, sub_7CCB8, sub_7D2CE, sub_7D2DC
 extern sub_7D325, sub_7D349, sub_7D49C, sub_9CC19, sub_9CC2E, sub_9CD61, sub_AAA40, sub_AAA8C
 extern PutBlock, sub_AB758, sub_ABF4C, sub_AD35C, sub_ADBEC, DrawArtOpaque, sub_B2C54, sub_DD6C4
 extern sub_E04E0, sub_E0584, unk_157B1C, unk_157B82, unk_157FDA, unk_183D08, unk_9CB19, word_11D1B4
@@ -1704,10 +1704,10 @@ sub_9CFE3:
         test eax, eax
         je near .89
         mov eax, dword [dword_11ECE8]
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp+01Eh], eax
         mov eax, dword [dword_11ECEC]
-        call sub_77355
+        call GetLangText
         push byte 3
         push byte 0
         push dword 0C8h
@@ -1719,7 +1719,7 @@ sub_9CFE3:
         push byte 0
         mov eax, dword [nosplit edx*4+dword_11ECEC]
         mov edx, 2
-        call sub_77355
+        call GetLangText
 .87:
         call MessageBox
         cmp eax, byte 1
@@ -1758,16 +1758,16 @@ sub_9CFE3:
         test esi, esi
         je short .90
         mov eax, dword [dword_11ECE8]
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp+01Eh], eax
         mov eax, dword [dword_11ECEC]
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp+022h], eax
         lea eax, [byte esi-064h]
         push eax
         mov eax, 1E9h
         mov dword [dword_11ED2C], 0
-        call sub_77355
+        call GetLangText
         push eax
         lea eax, [dword ebp-0D6h]
         push eax
@@ -1787,16 +1787,16 @@ sub_9CFE3:
         test esi, esi
         je near .93
         mov eax, dword [dword_11ECE8]
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp+01Eh], eax
         mov eax, dword [dword_11ECEC]
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp+022h], eax
         lea eax, [dword esi-096h]
         push eax
         mov eax, 1EAh
         mov dword [dword_11ED2C], 0
-        call sub_77355
+        call GetLangText
         push eax
         lea eax, [dword ebp-0D6h]
         push eax
@@ -1881,7 +1881,7 @@ sub_9CFE3:
         mov ebx, 4
         lea eax, [byte ebp-02h]
         mov edx, dword [dword_1843B0]
-        call sub_78E9E
+        call MakeSeasonDbPath
         jmp short .98
 .96:
         cmp dword [dword_1843B0], byte 0
@@ -1897,7 +1897,7 @@ sub_9CFE3:
         mov edx, dword [dword_1843B0]
         lea eax, [byte ebp-02h]
         sub edx, 2710h
-        call sub_78EFA
+        call MakePlayoffDbPath
 .98:
         lea edx, [byte ebp+036h]
         lea eax, [byte ebp-02h]

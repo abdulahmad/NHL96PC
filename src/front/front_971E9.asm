@@ -27,7 +27,7 @@ extern off_11E908, qsort_, qword_112D16, qword_112D1E, rand_, sprintf_, strcat_,
 extern strcpy_, EditText, MessageBox, LoadTeamLogo, MakeDataPath, MakeDirPath, LoadPackedFile, LoadSeasonStats
 extern LoadExhibitionStats, LoadModemStats, GetTeamNameArt, OpenScreen, SlideInTitleBar, SlideInSideBar, SetScreenColors, FadePalette
 extern FadeOut, SetTextColors, DrawColorText, DrawColorTextRight, FillBox, DrawFrameAt, InitMenuItems, RunMenu
-extern sub_77355, sub_78E9E, sub_7CCB8, sub_7D2CE, sub_7D2DC, sub_7D325, sub_7D346, sub_7D349
+extern GetLangText, MakeSeasonDbPath, sub_7CCB8, sub_7D2CE, sub_7D2DC, sub_7D325, sub_7D346, sub_7D349
 extern sub_7D49C, sub_90AF8, sub_93E6A, sub_9CFE3, sub_A0355, sub_A0480, sub_AAA40, PutBlock
 extern sub_AB758, sub_ABF4C, sub_AD35C, sub_AD5C8, FillRect, sub_ADBEC, sub_B0430, sub_B178B
 extern sub_B20D0, sub_B22B0, sub_B2C54, sub_DD6C4, sub_E04E0, str_D12, unk_152E36, unk_1821B4
@@ -310,12 +310,12 @@ sub_97420:
         xor edx, edx
         call SetTextColors
         xor eax, eax
-        call sub_77355
+        call GetLangText
         xor eax, eax
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp-02Ah], eax
         mov eax, 1
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp-026h], eax
         cmp dword [dword ebp-036C6h], byte 0
         jne near .13
@@ -1568,7 +1568,7 @@ sub_97420:
         push byte 0
         mov eax, 1FDh
         mov edx, 2
-        call sub_77355
+        call GetLangText
         call MessageBox
         test eax, eax
         jne near .129
@@ -1603,7 +1603,7 @@ sub_97420:
         lea eax, [byte ebp-052h]
         mov edx, dword [dword_17CBE7]
         xor ebx, ebx
-        call sub_78E9E
+        call MakeSeasonDbPath
 .74:
         push dword [dword_11750C]
         push dword [dword_1174EC]
@@ -1621,7 +1621,7 @@ sub_97420:
         mov ebx, 4
         lea eax, [byte ebp-052h]
         mov edx, dword [dword_17CBE7]
-        call sub_78E9E
+        call MakeSeasonDbPath
 .76:
         push dword [dword_117510]
         push dword [dword_1174F0]
@@ -2836,7 +2836,7 @@ sub_97420:
         push byte 0
         mov eax, 1FEh
         mov edx, 2
-        call sub_77355
+        call GetLangText
         call MessageBox
         test eax, eax
         jne near .129
@@ -4147,7 +4147,7 @@ sub_9AB3B:
         movzx eax, byte [byte esi+01Eh]
         push eax
         mov eax, 1FFh
-        call sub_77355
+        call GetLangText
         push eax
         lea eax, [byte ebp-022h]
         push eax
@@ -4192,7 +4192,7 @@ sub_9AC78:
         mov ebx, eax
         imul edx, dword 31Bh
         xor eax, eax
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp-04h], eax
         mov eax, dword [dword_1174F0]
         add eax, edx
@@ -4200,7 +4200,7 @@ sub_9AC78:
         push eax
         mov eax, ebx
         mov eax, dword [nosplit eax*4+dword_11E8D4]
-        call sub_77355
+        call GetLangText
         push eax
         lea eax, [byte ebp-068h]
         push eax
@@ -4342,11 +4342,11 @@ sub_9AE18:
         lea edx, [dword ebp-01F32h]
         xor eax, eax
         rep movsd
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp+022h], eax
         mov eax, 1
         mov ecx, 15h
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp+026h], eax
         mov eax, 21h
         lea edi, [byte ebp-036h]
@@ -4733,10 +4733,10 @@ sub_9AE18:
 sub_9AE18_6BE:
         call SlideInSideBar
         xor eax, eax
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp+022h], eax
         mov eax, 1
-        call sub_77355
+        call GetLangText
         push byte 2
         push byte 1
         push dword 0F0h
@@ -4747,7 +4747,7 @@ sub_9AE18_6BE:
         push byte 0
         mov eax, 200h
         mov edx, 2
-        call sub_77355
+        call GetLangText
         call MessageBox
         test eax, eax
         jne near sub_9AE18_BD2.29
@@ -4764,10 +4764,10 @@ sub_9AE18_71A:
         call sub_9A7D6
         call SlideInTitleBar
         xor eax, eax
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp+022h], eax
         mov eax, 1
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp+026h], eax
         lea eax, [byte ebp+016h]
         call sub_B178B
@@ -4783,7 +4783,7 @@ sub_9AE18_71A:
         push byte 0
         lea ebx, [byte ebp+022h]
         mov edx, 1
-        call sub_77355
+        call GetLangText
         call MessageBox
         jmp near sub_9AE18_BD2.29
 .16:
@@ -4819,17 +4819,17 @@ sub_9AE18_71A:
 .18:
         mov eax, 229h
 .19:
-        call sub_77355
+        call GetLangText
         push eax
         lea eax, [byte ebp-07Ah]
         push eax
         call sprintf_
         add esp, byte 10h
         mov eax, 0D8h
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp+022h], eax
         mov eax, 0D9h
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp+026h], eax
         cmp dword [byte ebp+04Ah], byte 4
         jne short .20
@@ -4862,10 +4862,10 @@ sub_9AE18_71A:
 .21:
         mov eax, 1
         mov byte [byte ebp-019h], 9
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp+022h], eax
         xor eax, eax
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp+026h], eax
         mov eax, dword [byte ebp+032h]
         lea edx, [byte ebp-0Ah]
@@ -4981,10 +4981,10 @@ sub_9AE18_8F5:
         call sub_B22B0
         add esp, byte 0Ch
         mov eax, 2
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp+022h], eax
         mov eax, 3
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp+026h], eax
         cmp dword [byte ebp+02Eh], byte 1
         jle near sub_9AE18_BD2.29
@@ -5001,7 +5001,7 @@ sub_9AE18_8F5:
         push byte 0
         lea ebx, [byte ebp+022h]
         mov edx, 2
-        call sub_77355
+        call GetLangText
         call MessageBox
         test eax, eax
         jne near sub_9AE18_BD2.29
@@ -5105,7 +5105,7 @@ sub_9AE18_BD2:
         push dword 140h
         mov eax, 204h
         mov ebx, byte_17BDAE
-        call sub_77355
+        call GetLangText
         mov edx, eax
         xor eax, eax
         call EditText
@@ -5116,7 +5116,7 @@ sub_9AE18_BD2:
         push dword 140h
         mov eax, 205h
         mov ebx, byte_17BDAE
-        call sub_77355
+        call GetLangText
         mov edx, eax
         xor eax, eax
         call EditText
@@ -5199,7 +5199,7 @@ sub_9AE18_CF7:
         push dword 140h
         mov eax, 206h
         mov ebx, byte_17BDAE
-        call sub_77355
+        call GetLangText
         mov edx, eax
         xor eax, eax
         call EditText
@@ -5500,7 +5500,7 @@ sub_9BEA0:
         add esp, byte 0Ch
         xor ebx, ebx
         xor edx, edx
-        call sub_77355
+        call GetLangText
         call DrawColorText
         cmp dword [byte ebp-034h], byte 4
         jne short .1
@@ -5541,7 +5541,7 @@ sub_9BEA0:
         cmp dword [byte ebp-034h], byte 4
         jne short .4
         mov eax, dword [dword edi+dword_11E85B]
-        call sub_77355
+        call GetLangText
         mov edx, eax
         lea eax, [byte ebp-030h]
         call strcpy_
@@ -5550,7 +5550,7 @@ sub_9BEA0:
         jmp short .5
 .4:
         mov eax, dword [dword edi+dword_11E7E0]
-        call sub_77355
+        call GetLangText
         mov edx, eax
         lea eax, [byte ebp-030h]
         call strcpy_

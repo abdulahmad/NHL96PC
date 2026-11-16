@@ -11,7 +11,7 @@ extern gameclock, gameopts, gmode, hmtmstruct, off_11787C, puckc, off_11788C, of
 extern penmintab, penshotlive, penshotmode, penshotplayer, penshotstart, penshottimer, puckvx, puckvz
 extern puckx, pucky, puckz, randomd0, regd2, regd3, shotongoal, shotontarget
 extern sprintf_, SetSPA, Setplass, setplayer, PostPenaltyEvent, CanRemovePlayer, PlaySfxOr, PlaySfx
-extern sfx, CrowdReaction, sub_77355, SortIndices, vecdist, unk_157F9C, unk_158610, gmode2
+extern sfx, CrowdReaction, GetLangText, SortIndices, vecdist, unk_157F9C, unk_158610, gmode2
 extern word_1178F4, word_1178F6, word_1178F8, word_1178FA, word_1178FC, gsp, word_117902, word_118E8F
 extern word_1190E7, word_1190E9, word_11910B, word_11910F, word_119111, word_119113, Pencntdwn2, word_11A224
 extern word_11A26C, word_1656E8, word_165710, word_16581E, word_165846, regd1, word_176B80, word_176B88
@@ -724,7 +724,7 @@ InProgress:
         movzx eax, byte [byte eax+05Eh]
         push eax
         mov eax, 0Ah
-        call sub_77355
+        call GetLangText
         push eax
         push byte_165694
         call sprintf_

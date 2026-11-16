@@ -22,7 +22,7 @@ extern dword_18209C, dword_1820AC, dword_1820B0, dword_1820B4, dword_1820B8, dwo
 extern fclose_, fopen_, fprintf_, jpt_88DE1, jpt_88DF9, qsort_, qword_11266E, sprintf_
 extern strcat_, strcmp_, strlen_, EditText, MessageBox, ShowProgressBox, UpdateProgressBox, HideProgressBox
 extern LoadPackedFile, LoadSeasonStats, LoadPlayoffStats, LoadModemStats, OpenScreen, SlideInSideBar, SetScreenColors, FadePalette
-extern FadeOut, SetTextColors, DrawColorText, DrawColorTextCentred, FillBox, InitMenuItems, RunMenu, sub_77355
+extern FadeOut, SetTextColors, DrawColorText, DrawColorTextCentred, FillBox, InitMenuItems, RunMenu, GetLangText
 extern sub_7CCB8, sub_7CF78, sub_7D2CE, sub_7D2DC, sub_7D325, sub_7D346, sub_7D349, sub_7D49C
 extern sub_88AE6, sub_88B71, sub_88C21, PutBlock, sub_AB758, sub_ABF4C, sub_AD35C, sub_AD5C8
 extern sub_AD620, sub_ADBEC, sub_B0430, sub_B2C54, sub_C2500, sub_DD6C4, sub_DD724, sub_E04E0
@@ -901,7 +901,7 @@ sub_88E09_96F:
         push byte_17D13A
         mov eax, 1D9h
 .26:
-        call sub_77355
+        call GetLangText
         push eax
         lea eax, [dword ebp-0BEh]
         push eax
@@ -1561,7 +1561,7 @@ sub_8A494:
         inc dword [byte ebp-010h]
         mov eax, dword [dword edi+dword_11E624]
         xor ebx, ebx
-        call sub_77355
+        call GetLangText
         call DrawColorTextCentred
         add edi, byte 4
         add dword [byte ebp-020h], byte 39h
@@ -1581,7 +1581,7 @@ sub_8A494:
         mov eax, 111h
         xor ebx, ebx
         xor edx, edx
-        call sub_77355
+        call GetLangText
         call DrawColorText
         mov eax, dword [byte ebp-060h]
         mov dword [byte ebp-08h], eax
@@ -2001,7 +2001,7 @@ sub_8A9B0:
         push dword 140h
         mov eax, 0D3h
         mov ecx, 8
-        call sub_77355
+        call GetLangText
         mov edx, eax
         xor eax, eax
         call EditText
@@ -2025,10 +2025,10 @@ sub_8A9B0:
         mov esi, eax
         mov eax, 34h
         mov edx, byte_17BDAE
-        call sub_77355
+        call GetLangText
         call ShowProgressBox
         mov eax, 0D4h
-        call sub_77355
+        call GetLangText
         push eax
         push edi
         call fprintf_
@@ -2040,7 +2040,7 @@ sub_8A9B0:
 .1:
         mov eax, 113h
 .2:
-        call sub_77355
+        call GetLangText
         push eax
         push edi
         call fprintf_
@@ -2049,7 +2049,7 @@ sub_8A9B0:
         jne short .4
         mov eax, 114h
 .3:
-        call sub_77355
+        call GetLangText
         push eax
         push esi
         call fprintf_
@@ -2087,10 +2087,10 @@ sub_8A9B0_12C:
         jle short .8
         mov eax, dword [dword_17E8FC]
         mov eax, dword [nosplit eax*4+dword_11E624]
-        call sub_77355
+        call GetLangText
         push eax
         mov eax, 117h
-        call sub_77355
+        call GetLangText
         push eax
         push esi
         call fprintf_
@@ -2100,14 +2100,14 @@ sub_8A9B0_12C:
         cmp dword [byte ebp-044h], byte 1
         jne short .9
         mov eax, 118h
-        call sub_77355
+        call GetLangText
         push eax
         push esi
         call fprintf_
         add esp, byte 8
 .9:
         mov eax, 100h
-        call sub_77355
+        call GetLangText
         push eax
         push esi
         xor ecx, ecx
@@ -2115,7 +2115,7 @@ sub_8A9B0_12C:
         add esp, byte 8
 .10:
         mov eax, dword [dword ecx+dword_11E624]
-        call sub_77355
+        call GetLangText
         push eax
         push str_S2
         push esi
@@ -2133,7 +2133,7 @@ sub_8A9B0_12C:
 .12:
         mov eax, dword [dword ebx+dword_11E624]
         mov edx, 0Ah
-        call sub_77355
+        call GetLangText
         call strlen_
         sub edx, eax
         cmp edi, edx
@@ -2376,7 +2376,7 @@ sub_8A9B0_12C:
         mov eax, esi
         call fclose_
         xor eax, eax
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp-010h], eax
         lea eax, [byte ebp-038h]
         push eax
@@ -2393,7 +2393,7 @@ sub_8A9B0_12C:
         push eax
         mov eax, 22Eh
         mov edx, 1
-        call sub_77355
+        call GetLangText
         call MessageBox
 .34:
         leave
@@ -3143,10 +3143,10 @@ sub_8B7BB:
         enter 6Ch, 0
         mov esi, eax
         xor eax, eax
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp-08h], eax
         mov eax, 1
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp-04h], eax
         mov eax, esi
         call strlen_
@@ -3195,7 +3195,7 @@ sub_8B7BB:
         je short .8
         push esi
         mov eax, 224h
-        call sub_77355
+        call GetLangText
         push eax
         lea eax, [byte ebp-06Ch]
         push eax

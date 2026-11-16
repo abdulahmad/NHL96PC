@@ -27,7 +27,7 @@ extern str_Sts12, strcat_, strcpy_, sub_3A6F3, sub_5360D, sub_5439F, sub_564A4, 
 extern DrawGameFrame, DrawGameClock, EndCameraShot, UpdateCamera, FreeFightSprites, LoadFightSprites, FreeTotalSprites, LoadTotalSprites
 extern FreeSpriteCache, LoadFrontEndArt, FreeFrontEndArt, FadePalette, FadeOut, CopyBitmap, SetScreenMode, SetTextColors
 extern DrawColorTextCentred, FillBox, DrawBox, SetScreenPalette, DrawFrameAt, InitMenuItems, RunMenu, SetMenuMouse
-extern ControllerScreen, sub_77355, sub_78E9E, sub_78EFA, sub_9CDDA, sub_A25CD, sub_AA7E0, sub_AA988
+extern ControllerScreen, GetLangText, MakeSeasonDbPath, MakePlayoffDbPath, sub_9CDDA, sub_A25CD, sub_AA7E0, sub_AA988
 extern sub_AAA40, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C, sub_ADBEC, sub_B0CA8, sub_B22E0
 extern sub_B2C54, sub_B58D8, sub_BB8E0, sub_DD6C4, sub_E04E0, sub_E0584, TextSetFont, unk_11D7A4
 extern unk_11D7BC, unk_11D7D4, unk_11D7EC, unk_11D804, unk_11D80A, unk_11D810, unk_11D816, unk_11D81C
@@ -439,7 +439,7 @@ sub_6AA3B:
         add edx, esi
         mov eax, 20Dh
         inc edx
-        call sub_77355
+        call GetLangText
         call DrawColorTextCentred
         movsx eax, word [hmtmstruct]
         push eax
@@ -605,7 +605,7 @@ sub_6AA3B:
         mov eax, 20Dh
         inc edx
         inc edx
-        call sub_77355
+        call GetLangText
         call DrawColorTextCentred
         movsx eax, word [awtmstruct]
         push eax
@@ -728,7 +728,7 @@ sub_6AA3B:
 .22:
         mov eax, 5Fh
 .23:
-        call sub_77355
+        call GetLangText
         mov edx, eax
         mov eax, unk_17D52C
         call strcpy_
@@ -1237,7 +1237,7 @@ sub_6B486_81:
         mov byte [dword eax+byte_17CC37], dl
         lea eax, [byte ebp-044h]
         mov edx, dword [dword_17CBE7]
-        call sub_78E9E
+        call MakeSeasonDbPath
         push dword 3A7h
         push unk_17CB2E
         lea eax, [byte ebp-044h]
@@ -1273,7 +1273,7 @@ sub_6B486_81:
         mov byte [dword eax+byte_17CC37], dl
         lea eax, [byte ebp-044h]
         mov edx, dword [dword_17CBE7]
-        call sub_78E9E
+        call MakeSeasonDbPath
         push dword 3A7h
         push unk_17CB2E
         lea eax, [byte ebp-044h]
@@ -1295,7 +1295,7 @@ sub_6B486_81:
         mov edx, dword [dword_17D162]
         mov dword [byte ebp-04h], eax
         lea eax, [byte ebp-044h]
-        call sub_78EFA
+        call MakePlayoffDbPath
         push dword 39Dh
         push unk_17CED5
         lea eax, [byte ebp-044h]
@@ -1700,10 +1700,10 @@ sub_6B894:
         jmp dword [nosplit cs:eax*4+jpt_6B878]
 sub_6B894_66B:
         mov eax, 2
-        call sub_77355
+        call GetLangText
         mov dword [dword_17D4FC], eax
         mov eax, 3
-        call sub_77355
+        call GetLangText
         mov dword [dword_17D500], eax
         mov ax, word [word_114CE0]
         xor ah, ah
@@ -1723,7 +1723,7 @@ sub_6B894_66B:
         push byte 0
         mov eax, 1D2h
         mov edx, 2
-        call sub_77355
+        call GetLangText
         call MessageBox
         test eax, eax
         jne near sub_6B894_748.25
@@ -1848,7 +1848,7 @@ sub_6B894_748:
         test esi, esi
         jne short .19
         mov eax, 1D3h
-        call sub_77355
+        call GetLangText
         mov edx, eax
         lea eax, [byte ebp+042h]
         call strcpy_
@@ -1867,7 +1867,7 @@ sub_6B894_748:
         push eax
         mov eax, 139h
         mov ebx, byte_11D91C
-        call sub_77355
+        call GetLangText
         mov edx, eax
         xor eax, eax
         call EditText
@@ -1883,7 +1883,7 @@ sub_6B894_748:
         call sub_6B486
         test eax, eax
         jne short .21
-        call sub_77355
+        call GetLangText
         mov dword [dword_17D4FC], eax
         mov ax, word [word_114CE0]
         xor ah, ah
@@ -1903,7 +1903,7 @@ sub_6B894_748:
         push byte 0
         mov eax, 60h
         mov edx, 1
-        call sub_77355
+        call GetLangText
         call MessageBox
         jmp near .24
 .21:
@@ -1916,7 +1916,7 @@ sub_6B894_748:
         mov esi, eax
 .22:
         xor eax, eax
-        call sub_77355
+        call GetLangText
         mov dword [dword_17D4FC], eax
         mov ax, word [word_114CE0]
         xor ah, ah
@@ -1936,7 +1936,7 @@ sub_6B894_748:
         push byte 0
         mov eax, 61h
         mov edx, 1
-        call sub_77355
+        call GetLangText
         call MessageBox
         test byte [optflags], 70h
         je short .23
@@ -2527,7 +2527,7 @@ sub_6C698_3A3:
         jmp near sub_6C698_620
 .15:
         xor eax, eax
-        call sub_77355
+        call GetLangText
         mov dword [dword_17D4FC], eax
         mov ax, word [word_114CE0]
         xor ah, ah
@@ -2548,7 +2548,7 @@ sub_6C698_3A3:
         mov eax, 1D4h
 .16:
         mov edx, 1
-        call sub_77355
+        call GetLangText
         call MessageBox
         jmp near sub_6C698_620
 sub_6C698_47F:
@@ -2609,13 +2609,13 @@ sub_6C698_47F:
         jmp near sub_6C698_611.29
 .25:
         mov eax, 1
-        call sub_77355
+        call GetLangText
         mov dword [dword_17D4FC], eax
         mov eax, 14Ch
-        call sub_77355
+        call GetLangText
         mov dword [dword_17D500], eax
         mov eax, 14Dh
-        call sub_77355
+        call GetLangText
         push byte 2
         mov dword [dword_17D504], eax
         mov eax, dword [dword_11F5C4]
@@ -2630,7 +2630,7 @@ sub_6C698_47F:
         push byte 0
         mov eax, 14Bh
         mov edx, 3
-        call sub_77355
+        call GetLangText
         call MessageBox
         mov dword [dword_1843AC], eax
         test eax, eax
@@ -2652,7 +2652,7 @@ sub_6C698_47F:
         dec dword [dword_1843AC]
         jmp near .24
 .28:
-        call sub_77355
+        call GetLangText
         push byte 2
         mov dword [dword_17D4FC], eax
         mov eax, dword [dword_11F5C4]

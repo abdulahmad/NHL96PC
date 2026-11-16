@@ -59,7 +59,7 @@ extern LoadFrontEndArt, FreeFrontEndArt, FadePalette, FadeOut, CopyBitmap, SetSc
 extern InitMenuItems, sub_64E74, sub_64F47, RunMenu, SetMenuMouse, FreeSpeechBuffer, RestoreSpeechBuffer, StopSpeech
 extern StopMusic, QueueMusic, FillMusicStream, PlayMusic, FadeOutMusic, MusicDone, PlaySfx, Crowd_Noise
 extern CrowdNoiseReset, CrowdPause, CrowdResume, StopArenaClip, StartGameSound, EndGameSound, SoundSecondsToBytes, SoundIdle
-extern sub_77355, sub_7BFAF, sub_AA988, sub_AAA40, sub_AAA8C, PutBlock, sub_AADA4, sub_AB758
+extern GetLangText, sub_7BFAF, sub_AA988, sub_AAA40, sub_AAA8C, PutBlock, sub_AADA4, sub_AB758
 extern sub_ABF4C, sub_AD35C, FillRect, sub_ADBEC, sub_AFFD0, sub_B0254, sub_B026C, TextSetFont
 extern sub_B0CA8, sub_B2B0C, sub_B58D8, sub_B6140, sub_BA3D0, sub_BB470, sub_BB570, sub_BB924
 extern sub_BB9C4, sub_BBA41, sub_BC3A0, sub_BC610, sub_BC674, sub_BC6D8, SortIndices, sub_BEAE4
@@ -3983,7 +3983,7 @@ sub_57BF7:
         push eax
         mov eax, 138h
         mov ebx, unk_11B230
-        call sub_77355
+        call GetLangText
         mov edx, eax
         xor eax, eax
         call EditText
@@ -3999,7 +3999,7 @@ sub_57BF7:
         call NameIndexAdd
         mov esi, eax
         mov eax, 72h
-        call sub_77355
+        call GetLangText
         mov edx, eax
         lea eax, [byte ebp-0Ah]
         call strcpy_
@@ -4013,7 +4013,7 @@ sub_57BF7:
         test edi, edi
         je short .8
         xor eax, eax
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp+062h], eax
         mov ax, word [word_114CE0]
         xor ah, ah
@@ -4033,7 +4033,7 @@ sub_57BF7:
         push byte 0
         mov eax, 73h
         mov edx, 1
-        call sub_77355
+        call GetLangText
         call MessageBox
 .8:
         push unk_1774C4

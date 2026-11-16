@@ -38,7 +38,7 @@ extern InitMenuItems, sub_64E74, RunMenu, SetMenuMouse, FreeSpeechBuffer, Restor
 extern StopSpeech, StopMusic, QueueMusic, FillMusicStream, PlayMusic, FadeOutMusic, MusicDone, StopAllSfx
 extern Crowd_Noise, CrowdNoiseReset, GetCrowdTarget, SetCrowdTarget, CrowdFadeOut, sfx, CrowdReaction, StopArenaClip
 extern StartGameSound, EndGameSound, SoundSecondsToBytes, SoundIdle, sub_6B486, sub_6C64B, ControllerScreen, RunControllerScreen
-extern sub_75E0C, sub_75E2C, sub_77355, sub_8C51B, sub_9C866, sub_9CDDA, sub_AA988, sub_AAA40
+extern RunModemSetup, LinkSetupScreen, GetLangText, sub_8C51B, sub_9C866, sub_9CDDA, sub_AA988, sub_AAA40
 extern PutBlock, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C, sub_ADA50, sub_ADBEC, TextSetFont
 extern sub_B0CA8, DrawArtOpaque, sub_B58D8, sub_DD6C4, SetClipWindow, SetViewRect, sub_E04E0, sub_E0584
 extern str_D13, str_7GM, str_5GM, str_3GM, str_1GM, unk_11D7A4, unk_11D7BC, unk_11D7D4
@@ -205,7 +205,7 @@ sub_A17D5:
         movsx edx, word [byte eax+02h]
         mov eax, 0A1h
         inc edx
-        call sub_77355
+        call GetLangText
         call DrawColorTextCentred
         movsx eax, word [hmtmstruct]
         push eax
@@ -335,7 +335,7 @@ sub_A17D5:
         mov eax, 0A1h
         inc edx
         inc edx
-        call sub_77355
+        call GetLangText
         call DrawColorTextCentred
         movsx eax, word [awtmstruct]
         push eax
@@ -392,7 +392,7 @@ sub_A17D5:
 .12:
         mov eax, 5Ch
 .13:
-        call sub_77355
+        call GetLangText
         mov edx, eax
         mov eax, unk_184692
         call strcpy_
@@ -562,7 +562,7 @@ sub_A17D5:
         movsx edx, word [byte eax+04h]
         mov eax, 227h
         add edx, ecx
-        call sub_77355
+        call GetLangText
         call DrawColorTextCentred
         jmp short .16
 .15:
@@ -1687,10 +1687,10 @@ sub_A25CD_ABD:
         xor eax, eax
         call sub_64E74
         mov eax, 2
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp-020h], eax
         mov eax, 3
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp-01Ch], eax
         mov ax, word [word_114CE0]
         xor ah, ah
@@ -1710,7 +1710,7 @@ sub_A25CD_ABD:
         push byte 0
         mov eax, 54h
         mov edx, 2
-        call sub_77355
+        call GetLangText
         call MessageBox
         test eax, eax
         jne short .47
@@ -1909,13 +1909,13 @@ sub_A25CD_D17:
         xor eax, eax
         call sub_64E74
         mov eax, 1
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp-020h], eax
         mov eax, 14Ch
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp-01Ch], eax
         mov eax, 14Dh
-        call sub_77355
+        call GetLangText
         push byte 2
         mov dword [byte ebp-018h], eax
         mov eax, dword [dword_11F5C4]
@@ -1930,7 +1930,7 @@ sub_A25CD_D17:
         push byte 0
         mov eax, 14Bh
         mov edx, 3
-        call sub_77355
+        call GetLangText
         call MessageBox
         mov dword [dword_1843AC], eax
         test eax, eax
@@ -1966,7 +1966,7 @@ sub_A25CD_D17:
         xor eax, eax
         call sub_64E74
         xor eax, eax
-        call sub_77355
+        call GetLangText
         push byte 2
         mov dword [byte ebp-020h], eax
         mov eax, dword [dword_11F5C4]
@@ -1981,7 +1981,7 @@ sub_A25CD_D17:
         push edx
         mov eax, 208h
         mov edx, 1
-        call sub_77355
+        call GetLangText
         call MessageBox
         jmp near sub_A25CD_ABD.47
 sub_A25CD_F31:
@@ -2122,7 +2122,7 @@ sub_A25CD_FA8:
         test esi, esi
         jne short .81
         mov eax, 1D3h
-        call sub_77355
+        call GetLangText
         mov edx, eax
         mov eax, byte_1846C4
         call strcpy_
@@ -2146,7 +2146,7 @@ sub_A25CD_FA8:
 .83:
         mov eax, 139h
         mov ebx, byte_11D91C
-        call sub_77355
+        call GetLangText
         mov edx, eax
         xor eax, eax
         call EditText
@@ -2162,7 +2162,7 @@ sub_A25CD_FA8:
         call sub_6B486
         test eax, eax
         jne short .85
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp-020h], eax
         mov ax, word [word_114CE0]
         xor ah, ah
@@ -2182,7 +2182,7 @@ sub_A25CD_FA8:
         push byte 0
         mov eax, 60h
         mov edx, 1
-        call sub_77355
+        call GetLangText
         call MessageBox
         jmp near .87
 .85:
@@ -2195,7 +2195,7 @@ sub_A25CD_FA8:
         mov esi, eax
 .86:
         xor eax, eax
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp-020h], eax
         mov ax, word [word_114CE0]
         xor ah, ah
@@ -2215,7 +2215,7 @@ sub_A25CD_FA8:
         push byte 0
         mov eax, 61h
         mov edx, 1
-        call sub_77355
+        call GetLangText
         call MessageBox
         test byte [optflags], 70h
         je short .87
@@ -3232,7 +3232,7 @@ sub_A4961:
         cwde
         test eax, eax
         jne short .1
-        call sub_75E0C
+        call RunModemSetup
         mov edx, eax
         jmp short .2
 .1:
@@ -3259,7 +3259,7 @@ sub_A4961:
 .5:
         cmp eax, byte 6
         jne short .3
-        call sub_75E2C
+        call LinkSetupScreen
         jmp short .4
 .6:
         mov eax, edx

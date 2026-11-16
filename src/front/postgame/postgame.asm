@@ -16,7 +16,7 @@ extern str_STRD, str_STRK, MessageBox, sub_1E643, LoadPackedFile, sub_1F15E, Ope
 extern SlideInBottomBar, SetScreenColors, BlackPalette, FadePalette, FadeOut, CopyBitmap, SetTextColors, DrawColorTextRight
 extern DrawColorTextCentred, SetScreenPalette, DrawFrameAt, RemapScreenColors, InitMenuItems, RunMenu, SetMenuMouse, PaEvent
 extern StopSpeech, StopMusic, FillMusicStream, PlayMusic, FadeOutMusic, MusicDone, SoundSecondsToBytes, SoundIdle
-extern sub_77355, sub_8C51B, sub_AA988, sub_AAA40, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C
+extern GetLangText, sub_8C51B, sub_AA988, sub_AAA40, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C
 extern sub_ADA50, sub_ADBEC, sub_AFCD0, sub_B0430, sub_B0494, sub_DD6C4, sub_E04E0, sub_E0520
 extern sub_E0584, TextSetFont, unk_144BD, unk_144C3, unk_144C9, unk_144D5, unk_144ED, word_114CE0
 extern word_114DD2, word_114DD4, word_114DD6, word_114DD8, word_114DDC, word_114DE4, word_114DE6, word_114EA8
@@ -67,7 +67,7 @@ DrawGameStats:
         mov eax, 20Ch
         mov ebx, 1
         movsx edx, word [word_114DD2]
-        call sub_77355
+        call GetLangText
         call DrawColorTextCentred
         movsx eax, word [word_1656E8]
         push eax
@@ -103,7 +103,7 @@ DrawGameStats:
         lea ebx, [byte edx+01h]
         mov eax, 20Dh
         movsx edx, word [word_114DD2]
-        call sub_77355
+        call GetLangText
         call DrawColorTextCentred
         movsx eax, word [hmtmstruct]
         push eax
@@ -151,7 +151,7 @@ DrawGameStats:
         lea ebx, [byte eax+01h]
         mov eax, 20Eh
         movsx edx, word [word_114DD2]
-        call sub_77355
+        call GetLangText
         call DrawColorTextCentred
         movsx esi, word [hmtmstruct]
         movsx ebx, word [word_1656E8]
@@ -235,7 +235,7 @@ DrawGameStats:
         lea ebx, [byte eax+01h]
         mov eax, 20Fh
         movsx edx, word [word_114DD2]
-        call sub_77355
+        call GetLangText
         call DrawColorTextCentred
         movsx eax, word [word_1656F2]
         push eax
@@ -287,7 +287,7 @@ DrawGameStats:
         sub ebx, eax
         mov eax, 210h
         inc ebx
-        call sub_77355
+        call GetLangText
         call DrawColorTextCentred
         movsx eax, word [word_1656F6]
         push eax
@@ -341,7 +341,7 @@ DrawGameStats:
         lea ebx, [byte eax+01h]
         mov eax, 211h
         movsx edx, word [word_114DD2]
-        call sub_77355
+        call GetLangText
         call DrawColorTextCentred
         movsx eax, word [word_1656DC]
         push eax
@@ -395,7 +395,7 @@ DrawGameStats:
         sub ebx, eax
         mov eax, 212h
         inc ebx
-        call sub_77355
+        call GetLangText
         call DrawColorTextCentred
         movsx esi, word [word_1656E0]
         mov eax, esi
@@ -461,7 +461,7 @@ DrawGameStats:
         lea ebx, [byte edx+01h]
         mov eax, 213h
         movsx edx, word [word_114DD2]
-        call sub_77355
+        call GetLangText
         call DrawColorTextCentred
         movsx eax, word [word_1656DE]
         push eax
@@ -511,7 +511,7 @@ DrawGameStats:
         sub ebx, eax
         mov eax, 214h
         inc ebx
-        call sub_77355
+        call GetLangText
         call DrawColorTextCentred
         movsx eax, word [word_1656E4]
         push eax
@@ -565,7 +565,7 @@ DrawGameStats:
         lea ebx, [byte eax+01h]
         mov eax, 215h
         movsx edx, word [word_114DD2]
-        call sub_77355
+        call GetLangText
         call DrawColorTextCentred
         movsx eax, word [word_1656EA]
         push eax
@@ -613,7 +613,7 @@ DrawGameStats:
         lea ebx, [byte edx+01h]
         mov eax, 216h
         movsx edx, word [word_114DD2]
-        call sub_77355
+        call GetLangText
         call DrawColorTextCentred
         movsx eax, word [word_1656FA]
         push eax
@@ -664,7 +664,7 @@ DrawGameStats:
         lea ebx, [byte edx+01h]
         mov eax, 217h
         movsx edx, word [word_114DD2]
-        call sub_77355
+        call GetLangText
         call DrawColorTextCentred
         movsx eax, word [word_1656EC]
         movsx esi, word [word_165822]
@@ -715,7 +715,7 @@ DrawGameStats:
         sub ebx, eax
         mov eax, 218h
         inc ebx
-        call sub_77355
+        call GetLangText
         call DrawColorTextCentred
         movsx eax, word [word_1656FE]
         push eax
@@ -762,7 +762,7 @@ DrawGameStats:
         lea ebx, [byte eax+01h]
         mov eax, 219h
         movsx edx, word [word_114DD2]
-        call sub_77355
+        call GetLangText
         call DrawColorTextCentred
         movsx esi, word [word_1656E6]
         mov eax, esi
@@ -825,7 +825,7 @@ DrawGameStats:
         lea ebx, [byte edx+01h]
         mov eax, 21Ah
         movsx edx, word [word_114DD2]
-        call sub_77355
+        call GetLangText
         call DrawColorTextCentred
         movsx esi, word [word_165700]
         movsx ebx, word [word_165702]
@@ -2293,7 +2293,7 @@ ThreeStarsScreen_8CF:
         test eax, eax
         je short .14
         xor eax, eax
-        call sub_77355
+        call GetLangText
         push byte 3
         push byte 0
         push dword 0F0h
@@ -2304,7 +2304,7 @@ ThreeStarsScreen_8CF:
         push byte 0
         mov eax, 266h
         mov edx, 1
-        call sub_77355
+        call GetLangText
         call MessageBox
         jmp short ThreeStarsScreen_936.15
 .14:

@@ -17,7 +17,7 @@ extern sprintf_, SprSort, str_fmt2d, str_MightyDucks, str_OfAnaheim, LinkResyncI
 extern sub_493D4, sub_4B59F, sub_5439F, DrawGameFrame, GetPeriodText, SetCameraShot, EndCameraShot, UpdateCamera
 extern FreeSpriteCache, FadePalette, FadeOut, SetTextColors, DrawColorText, DrawColorTextRight, DrawColorTextCentred, DrawBox
 extern Crowd_Noise, CrowdFadeOut, CrowdReaction, PlayArenaClip, ArenaClipReady, StartArenaClip, StopArenaClip, SoundIdle
-extern sub_77355, sub_ADA80, sub_AFFD0, sub_B58D8, sub_B6140, sub_DD724, sub_DD7B8, sub_DD8B0
+extern GetLangText, sub_ADA80, sub_AFFD0, sub_B58D8, sub_B6140, sub_DD724, sub_DD7B8, sub_DD8B0
 extern sub_DFEC6, sub_E0520, sub_E0992, sub_E15AC, TextSetFont, unk_119D0A, unk_119D22, unk_119D36
 extern unk_119D4E, unk_156E6C, unk_157B82, unk_16443C, unk_164B5C, unk_164E7C, unk_165354, unk_17D3E8
 extern updateanim, vtoa, word_1178A0, word_1178A2, word_1178B4, word_1178CA, word_1178F8, word_118E9F
@@ -1152,7 +1152,7 @@ sub_2E1BE:
         shr eax, 1Bh
         push dword [nosplit eax*4+off_11D4BC]
         mov eax, 92h
-        call sub_77355
+        call GetLangText
         push eax
         lea eax, [byte ebp-058h]
         push eax

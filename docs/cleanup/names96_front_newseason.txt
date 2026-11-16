@@ -1,0 +1,28 @@
+# NHL 96 PC new season: the season set-up screen, creating the season files, the season / playoff database paths. PC-only, source new.
+sub_7751A CompareGrey {confidence=low} qsort compare of two grey palette entries by brightness (byte_17D6C8)
+sub_77535 SortGreyColors {confidence=low} (palette, out): finds the grey colours (r = g = b) of a palette and sorts them by brightness
+sub_77642 NewSeasonScreen {confidence=medium} the new season set-up screen (rul1-3, set1-2 buttons, bt01 / bt02): rules and settings, then creates the season
+sub_77FF2 SetGreyPalette {confidence=low} sets the palette (8000h) and its sorted greys
+sub_78029 DrawSeasonTeams {confidence=low} draws the season screen's team logos and names
+sub_78634 CreateSeason {confidence=medium} creates a new season: SEASON.NDX entry, the team and schedule files (Teams, Sched., %s%05d%cNZ.DB), with a progress box
+sub_78D46 EditSeasonName {confidence=medium} edits the season's name (text 4Eh, EditText)
+sub_78E3D WriteSeasonBlock {confidence=low} writes a season file block (FileWriteAt helper)
+sub_78E56 WriteSeasonHeader {confidence=low} writes the season header (50BEh bytes)
+sub_78E9E MakeSeasonDbPath {confidence=medium} (path, season, file): the path of a season database file (directory 4, %05d, %s.DB from off_11E370)
+sub_78EFA MakePlayoffDbPath {confidence=medium} (path, season, file): the same in the playoff directory (6)
+sub_79060 ResetSeasonFiles {confidence=low} deletes and recreates a season's database files (%s%05d%cnz.db, %s%05d%csg.db) with a progress box
+sub_77642_5FB NewSeasonScreen_5FB {no_record}
+sub_77642_768 NewSeasonScreen_768 {no_record}
+sub_77642_798 NewSeasonScreen_798 {no_record}
+sub_77642_7C5 NewSeasonScreen_7C5 {no_record}
+sub_77642_7F2 NewSeasonScreen_7F2 {no_record}
+sub_77642_8AF NewSeasonScreen_8AF {no_record}
+sub_77642_8BB NewSeasonScreen_8BB {no_record}
+sub_77642_8CB NewSeasonScreen_8CB {no_record}
+sub_77642_8E0 NewSeasonScreen_8E0 {no_record}
+sub_77642_9A9 NewSeasonScreen_9A9 {no_record}
+sub_77642_9AA NewSeasonScreen_9AA {no_record}
+sub_78D46_D3 EditSeasonName_D3 {no_record}
+sub_78D46_E0 EditSeasonName_E0 {no_record}
+sub_78E9E_51 MakeSeasonDbPath_51 {no_record}
+sub_78EFA_15F MakePlayoffDbPath_15F {no_record}

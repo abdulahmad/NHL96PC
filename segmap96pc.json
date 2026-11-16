@@ -462,27 +462,41 @@
   },
   {
    "start": 463341,
-   "end": 475581,
+   "end": 483441,
    "module": "modem_setup",
    "obj": 1,
    "file": "front/modem_setup/modem_setup.asm",
    "note": "modem setup screens (Generic Hayes-Compatible, tone/pulse)"
   },
   {
-   "start": 475581,
-   "end": 489026,
-   "module": "front_741BD",
    "obj": 1,
-   "file": "front/front_741BD.asm",
-   "note": "placeholder"
+   "start": 483441,
+   "end": 487920,
+   "module": "front_team_select",
+   "file": "front/team_select/team_select.asm",
+   "desc": "The exhibition team select screen: home and away team panels (logo, name, rank) (96 PC).",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "front"
   },
   {
-   "start": 489026,
-   "end": 496895,
-   "module": "front_77642",
    "obj": 1,
-   "file": "front/front_77642.asm",
-   "note": "placeholder"
+   "start": 487920,
+   "end": 488514,
+   "module": "front_lang_text",
+   "file": "front/lang_text/lang_text.asm",
+   "desc": "The language text: the Localize buffer, the text index and blocks, GetLangText (96 PC).",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "front"
+  },
+  {
+   "obj": 1,
+   "start": 488514,
+   "end": 496895,
+   "module": "front_new_season",
+   "file": "front/new_season/new_season.asm",
+   "desc": "The new season: its set-up screen, creating the season files, the season and playoff database paths (96 PC).",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "front"
   },
   {
    "start": 496895,

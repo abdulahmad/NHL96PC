@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_18E80 progbits alloc exec nowrite align=1
 extern dword_152A6C, dword_152AD4, dword_17CBE7, dword_17D162, dword_17D267, lseek_, MakeDataPath, open_
-extern qsort_, read_, sub_78E9E, sub_B1C0E
+extern qsort_, read_, MakeSeasonDbPath, sub_B1C0E
 global GetSpecialTeamsRanks, ComparePowerPlayPct, ComparePenaltyKillPct
 ;-----------------------------------------------------------------------------
 ; GetSpecialTeamsRanks                         18E80  96 PC, medium confidence
@@ -148,7 +148,7 @@ GetSpecialTeamsRanks:
         mov ebx, 4
         lea eax, [byte ebp+052h]
         mov edx, dword [dword_17CBE7]
-        call sub_78E9E
+        call MakeSeasonDbPath
         push dword 200h
         lea eax, [byte ebp+052h]
         push eax
@@ -219,7 +219,7 @@ GetSpecialTeamsRanks:
         lea eax, [byte ebp+052h]
         mov edx, dword [dword_17D162]
 .26:
-        call sub_78E9E
+        call MakeSeasonDbPath
         push dword 200h
         lea eax, [byte ebp+052h]
         push eax

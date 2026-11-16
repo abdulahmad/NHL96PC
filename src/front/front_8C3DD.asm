@@ -39,7 +39,7 @@ extern strcpy_, strlen_, LinkSync, LinkSyncWithMessage, ModemChat, EditText, Mes
 extern UpdateProgressBox, HideProgressBox, sub_1E8E9, LoadSeasonStats, LoadPlayoffStats, LoadExhibitionStats, LoadModemStats, sub_1F15E
 extern sub_1F2C9, sub_1F2D4, OpenScreen, SlideInSideBar, SlideInBottomBar, SetScreenColors, FadePalette, FadeOut
 extern SetTextColors, DrawColorText, DrawColorTextCentred, FillBox, InitMenuItems, RunMenu, FillMusicStream, PlayMusic
-extern MusicDone, SoundSecondsToBytes, SoundIdle, sub_77355, sub_7CCB8, sub_7CF78, sub_7D2CE, sub_7D2DC
+extern MusicDone, SoundSecondsToBytes, SoundIdle, GetLangText, sub_7CCB8, sub_7CF78, sub_7D2CE, sub_7D2DC
 extern sub_7D2ED, sub_7D308, sub_7D325, sub_7D346, sub_7D349, sub_7D49C, sub_8B7BB, sub_8BF56
 extern sub_8C006, sub_8C210, sub_90879, sub_908FC, sub_909FE, sub_92A6A, sub_AAA40, PutBlock
 extern sub_AB758, sub_ABF4C, sub_AD35C, sub_AD5C8, sub_AD620, sub_ADBEC, TextSetFont, sub_B0430
@@ -1020,7 +1020,7 @@ sub_8C51B:
         push byte_17D13A
         mov eax, 1D9h
 .43:
-        call sub_77355
+        call GetLangText
         push eax
         lea eax, [byte ebp-07Eh]
         push eax
@@ -2073,7 +2073,7 @@ sub_8C51B_1E07:
         jmp near sub_8C51B_1F1B.105
 .93:
         mov eax, 21Dh
-        call sub_77355
+        call GetLangText
         call LinkSyncWithMessage
         jmp near sub_8C51B_1F1B.105
 sub_8C51B_1E55:
@@ -2939,7 +2939,7 @@ sub_8EE72:
         mov eax, dword [dword esi+dword_11E6AC]
 .4:
         xor ebx, ebx
-        call sub_77355
+        call GetLangText
         call DrawColorTextCentred
         mov eax, 0FCh
         add dword [byte ebp+04Eh], byte 37h
@@ -2954,7 +2954,7 @@ sub_8EE72:
         mov eax, 0F3h
         xor ebx, ebx
         xor edx, edx
-        call sub_77355
+        call GetLangText
         call DrawColorText
         mov eax, dword [dword ebp+082h]
         mov dword [byte ebp+05Eh], eax
@@ -3537,7 +3537,7 @@ sub_8F5B3:
         push dword 140h
         mov eax, 0D3h
         mov ecx, 8
-        call sub_77355
+        call GetLangText
         mov edx, eax
         xor eax, eax
         call EditText
@@ -3556,7 +3556,7 @@ sub_8F5B3:
         mov ecx, 0F0h
         mov ebx, 140h
         mov edx, byte_17BDAE
-        call sub_77355
+        call GetLangText
         call ShowProgressBox
         mov edx, str_Wt3
         lea eax, [byte ebp-050h]
@@ -3566,7 +3566,7 @@ sub_8F5B3:
         cmp dword [byte ebp+014h], byte 64h
         jne short .1
         mov eax, 21Ch
-        call sub_77355
+        call GetLangText
         push eax
         push ebx
         call fprintf_
@@ -3577,7 +3577,7 @@ sub_8F5B3:
         cmp dword [byte ebp+014h], 3E8h
         jge short .3
         mov eax, 0D4h
-        call sub_77355
+        call GetLangText
         push eax
 .2:
         push ebx
@@ -3599,7 +3599,7 @@ sub_8F5B3:
         add esp, byte 8
         mov eax, 0F5h
 .5:
-        call sub_77355
+        call GetLangText
         push eax
         push ecx
         call fprintf_
@@ -3611,7 +3611,7 @@ sub_8F5B3:
 .6:
         mov eax, 0F7h
 .7:
-        call sub_77355
+        call GetLangText
         push eax
         push ecx
         call fprintf_
@@ -3621,7 +3621,7 @@ sub_8F5B3:
         jmp dword [nosplit cs:esi*4+jpt_8F5A3]
 sub_8F5B3_146:
         mov eax, 0F8h
-        call sub_77355
+        call GetLangText
         push eax
         push ecx
         call fprintf_
@@ -3642,7 +3642,7 @@ sub_8F5B3_178:
         jmp short sub_8F5B3_17F.10
 sub_8F5B3_17F:
         mov eax, 0FDh
-        call sub_77355
+        call GetLangText
         push eax
         push ecx
         call fprintf_
@@ -3651,7 +3651,7 @@ sub_8F5B3_17F:
         jne short sub_8F5B3_146.8
         mov eax, 0FAh
 .10:
-        call sub_77355
+        call GetLangText
         push eax
         push ecx
         call fprintf_
@@ -3666,16 +3666,16 @@ sub_8F5B3_17F:
 .12:
         mov eax, dword [dword eax+dword_11E67C]
 .13:
-        call sub_77355
+        call GetLangText
         push eax
         mov eax, 0FEh
-        call sub_77355
+        call GetLangText
         push eax
         push ecx
         call fprintf_
         add esp, byte 0Ch
         mov eax, 0FFh
-        call sub_77355
+        call GetLangText
         push eax
         push ecx
         call fprintf_
@@ -3685,7 +3685,7 @@ sub_8F5B3_17F:
         xor ebx, ebx
 .14:
         mov eax, dword [dword ebx+dword_11E6AC]
-        call sub_77355
+        call GetLangText
         push eax
         push ecx
         mov edx, ebx
@@ -3700,7 +3700,7 @@ sub_8F5B3_17F:
         add esp, byte 8
         mov eax, dword [dword edx+dword_11E6AC]
         mov edi, 0Ah
-        call sub_77355
+        call GetLangText
         call strlen_
         sub edi, eax
         cmp esi, edi
@@ -3713,7 +3713,7 @@ sub_8F5B3_17F:
         xor ebx, ebx
 .18:
         mov eax, dword [dword ebx+dword_11E67C]
-        call sub_77355
+        call GetLangText
         push eax
         push str_S3
         push ecx
@@ -3731,7 +3731,7 @@ sub_8F5B3_17F:
 .20:
         mov eax, dword [dword esi+dword_11E67C]
         mov edi, 0Ah
-        call sub_77355
+        call GetLangText
         call strlen_
         sub edi, eax
         cmp edx, edi
@@ -4173,7 +4173,7 @@ sub_8F5B3_17F:
         mov eax, ecx
         call fclose_
         xor eax, eax
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp-028h], eax
         lea eax, [byte ebp-050h]
         push eax
@@ -4190,7 +4190,7 @@ sub_8F5B3_17F:
         push eax
         mov eax, 22Eh
         mov edx, 1
-        call sub_77355
+        call GetLangText
         call MessageBox
 .64:
         call HideProgressBox

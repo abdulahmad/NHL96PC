@@ -7,7 +7,7 @@ extern FadeOutMusic, FadePalette, FillMusicStream, FillRect, fputchar, GetPresse
 extern MakeDataPath, off_11BDA8, OpenMusicStream, PaEvent, PlayMovie, PlayMusic, PutBlock, QueueMusic
 extern rand_, SetScreenColors, SetScreenMode, SetTextColors, SetTickDeadline, SoundIdle, SoundSecondsToBytes, StopMusic
 extern str_Bkgd3, str_Nhll, str_Nhlp, str_Pal2, str_Pal8, str_Pal9, str_Pl0, str_Pl1
-extern str_Scr1, str_Scr2, sub_53260, sub_77355, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C
+extern str_Scr1, str_Scr2, sub_53260, GetLangText, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C
 extern sub_ADBEC, sub_B0254, sub_B026C, sub_BF120, sub_BF2C4, sub_DD6C4, sub_DD7B8, sub_DFF28
 extern sub_E04E0, sub_E0584, TextSetFont, TickDeadlinePassed, unk_11BFA4, word_11D1D0
 global PlayIntroMovies, RunIntro, WaitOrSkip, LoadSlideImage, RunSlideEvents, jpt_634F9, RunSlideShow, RunSlideShow_78
@@ -632,7 +632,7 @@ RunSlideShow_1D3:
         jmp short .6
 .5:
         mov eax, dword [byte esi+04h]
-        call sub_77355
+        call GetLangText
         mov edi, eax
 .6:
         push edi

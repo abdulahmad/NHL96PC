@@ -8,10 +8,10 @@ extern byte_17CA7A, DetectCPU, dword_1150D8, dword_11D3C8, dword_11F5E8, dword_1
 extern dword_17CA76, FileClose, FileReadAt, gameopts, getcwd_, globalset, LoadExhibitionStats, MakeDataPath
 extern MakeDirPath, NameIndexFree, NameIndexLoad, optblock, optblock_end, optflags, str_5552362337, str_ATD2
 extern str_ATF, str_backslash, str_EXHIBITNDX, strcat_, strlen_, strncpy_, sub_1E73F, RunControllerScreen
-extern sub_76518, sub_7BFAF, sub_971E9, sub_9C866, sub_ABF4C, sub_E069C, sub_E07B8, sub_E07C8
+extern TeamSelectScreen, sub_7BFAF, sub_971E9, sub_9C866, sub_ABF4C, sub_E069C, sub_E07B8, sub_E07C8
 extern unk_17C9B8, unk_17C9CC, unk_17D32C, word_17C9AC, word_17C9AE, word_17C9B0, word_17C9B2, word_17C9B4
 extern word_17C9B6, word_17CA7C
-global ReadGlobalSet, WriteGlobalSet, sub_6A675
+global ReadGlobalSet, WriteGlobalSet, RunExhibitionMenus
 ;-----------------------------------------------------------------------------
 ; ReadGlobalSet                                6A341  96 PC, medium confidence
 ; Reads GLOBAL.SET, the settings file SETUP writes, at start
@@ -223,9 +223,12 @@ WriteGlobalSet:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_6A675                                                       6A675  96 PC
+; RunExhibitionMenus                           6A675  96 PC, medium confidence
+; From RunFrontEnd: loads the exhibition set-up (EXHIBIT.NDX, stats), then
+; team select, the controller screen and the next screens until a game or the
+; main menu
 ;-----------------------------------------------------------------------------
-sub_6A675:
+RunExhibitionMenus:
         push ebx
         push ecx
         push edx
@@ -264,7 +267,7 @@ sub_6A675:
         cmp ebx, byte 2
         jne short .9
 .4:
-        call sub_76518
+        call TeamSelectScreen
         mov ebx, eax
         cmp eax, byte 3
         jne short .5

@@ -2,26 +2,37 @@
 bits 32
 %include "hockey.inc"
 section s_711ED progbits alloc exec nowrite align=1
-extern GetTicks, SetDrawBitmap, str_Off1, str_Onn1, str_SldD, str_Onn0, str_Off0, str_PICKS
-extern str_Pal13, str_BKGD7, str_CMD0, str_HGH0, str_HGH1, str_LOW0, str_LOW1, str_CMD1
-extern str_LOWD, str_Bkgd8, str_ALFB, str_ALFT, str_BALL2, str_ARHB, str_ARHT, str_MseD
-extern str_KeyD, str_Mse0, str_Mse1, str_Mse2, str_Key0, str_Key12, str_Key2, str_Jy10
-extern str_Jy11, str_Jy12, str_Jy1x, str_Jy20, str_Jy21, str_Jy22, str_Jy2x, str_Det0
-extern str_Det1, str_Det22, byte_17CA1D, byte_17CA1E, byte_17CA1F, byte_17CA21, byte_17CA22, byte_17D650
-extern byte_17D651, dword_114CD3, dword_11D1A8, dword_11DF80, dword_11DF84, mousex, mousey, dword_17BC7C
-extern dword_17BD48, dword_17C9A4, globalset, optblock, dword_17D590, dword_17D594, dword_17D654, sprintf_
-extern GetInputDevices, LoadPackedFile, JoystickTestScreen, OpenScreen, SlideInTitleBar, SlideInSideBar, SetScreenColors, BlackPalette
-extern FadePalette, FadeOut, CopyBitmap, InitMenuItems, RunMenu, SetSpeechVolume, StopMusic, QueueCurrentMusic
-extern FillMusicStream, SetMusicVolume, PlayMusic, FadeOutMusic, PlaySfx, SoundSecondsToBytes, SoundIdle, WriteGlobalSet
-extern sub_AA988, sub_AAA40, sub_AAA8C, PutBlock, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C
-extern sub_ADA50, sub_ADBEC, sub_DD6C4, MouseRead, sub_DFE9C, sub_E04E0, unk_17D598, unk_708A9
-extern unk_70901, unk_70BC1, unk_70BCB, unk_70BD5, unk_70C4D, unk_70CED
-global jpt_7130F, jpt_715AF, jpt_715D3, sub_71333_94, sub_71333_B6, sub_71333_D5, sub_71333_F6, sub_71333_117
-global sub_71333_138, sub_71333_156, sub_71333_174, sub_71333_192, sub_715E3_124, sub_715E3_12E, sub_715E3_13B, sub_715E3_145
-global sub_715E3_14F, sub_715E3_159, sub_715E3_163, sub_715E3_16D, sub_715E3_177, sub_715E3_657, sub_715E3_67C, sub_715E3_69B
-global sub_715E3_6BC, sub_715E3_6DD, sub_715E3_6FE, sub_715E3_71C, sub_715E3_73A, sub_715E3_758, sub_715E3_84D, sub_715E3_96B
-global sub_715E3_AF2, sub_715E3_B00, sub_715E3_B50, sub_715E3_B57, sub_711ED, sub_71333, sub_715E3, sub_72140
-global sub_73BA5, unk_7158B, unk_73BD5, unk_73C35, unk_73F35, unk_73F7D
+extern asc_11DFC8, BlackPalette, byte_11FA2F, byte_17BDAE, byte_17CA1D, byte_17CA1E, byte_17CA1F, byte_17CA21
+extern byte_17CA22, byte_17CA5D, byte_17CA5E, byte_17D650, byte_17D651, CopyBitmap, DrawColorText, DrawFrameAt
+extern dword_114CD3, dword_11D1A8, dword_11DF80, dword_11DF84, dword_11E278, dword_11E27C, dword_17BC78, dword_17BC7C
+extern dword_17BCE2, dword_17BD48, dword_17C9A4, dword_17C9F4, dword_17CA5C, dword_17D590, dword_17D594, dword_17D654
+extern dword_17D678, dword_17D67C, dword_17D680, dword_17D684, EditText, FadeOut, FadeOutMusic, FadePalette
+extern FillMusicStream, fputchar, GetInputDevices, GetLangText, GetTicks, globalset, InitMenuItems, JoystickTestScreen
+extern LoadPackedFile, MessageBox, ModemChat, ModemGameClose, ModemGameConnect, ModemGameOpen, ModemGameQuit, MouseRead
+extern mousex, mousey, OpenScreen, optblock, PlayMusic, PlaySfx, PutBlock, QueueCurrentMusic
+extern RunMenu, SetDrawBitmap, SetMusicVolume, SetScreenColors, SetSpeechVolume, SetTextColors, SlideInBottomBar, SlideInSideBar
+extern SlideInTitleBar, SoundIdle, SoundSecondsToBytes, sprintf_, StopMusic, str_01D0, str_01D2, str_02D0
+extern str_02D2, str_0D00, str_ALFB, str_ALFT, str_ARHB, str_ARHT, str_BALL2, str_bangpal
+extern str_BKGD22, str_Bkgd23, str_BKGD7, str_Bkgd8, str_CMD0, str_CMD02, str_CMD1, str_CMD2
+extern str_Det0, str_Det1, str_Det22, str_HGH0, str_HGH1, str_Jy10, str_Jy11, str_Jy12
+extern str_Jy1x, str_Jy20, str_Jy21, str_Jy22, str_Jy2x, str_Key0, str_Key12, str_Key2
+extern str_KeyD, str_LOW0, str_LOW1, str_LOWD, str_MAK0, str_MAK1, str_MAK2, str_Mse0
+extern str_Mse1, str_Mse2, str_MseD, str_NMD0, str_NMD1, str_NOO0, str_NOO1, str_NUMD
+extern str_Off0, str_Off1, str_Onn0, str_Onn1, str_Pal13, str_PICKS, str_PICKS2, str_PULS
+extern str_SET02, str_SET13, str_SET23, str_SldD, str_TONE, str_WFC0, str_WFC1, str_WFC2
+extern str_YES0, str_YES1, strcpy_, strlen_, sub_AA988, sub_AAA40, sub_AAA8C, sub_AADA4
+extern sub_AB758, sub_ABF4C, sub_AD35C, sub_ADA50, sub_ADBEC, sub_DD6C4, sub_DFE9C, sub_DFF28
+extern sub_E04E0, TextSetFont, unk_17C9B8, unk_17C9CC, unk_17D598, unk_708A9, unk_70901, unk_70BC1
+extern unk_70BCB, unk_70BD5, unk_70C4D, unk_70CED, word_114CE0, word_11E270, word_17C9AC, word_17C9AE
+extern word_17C9B0, word_17C9B2, word_17C9B4, word_17C9B6, WriteGlobalSet
+global sub_711ED, jpt_7130F, sub_71333, sub_71333_94, sub_71333_B6, sub_71333_D5, sub_71333_F6, sub_71333_117
+global sub_71333_138, sub_71333_156, sub_71333_174, sub_71333_192, unk_7158B, jpt_715AF, jpt_715D3, sub_715E3
+global sub_715E3_124, sub_715E3_12E, sub_715E3_13B, sub_715E3_145, sub_715E3_14F, sub_715E3_159, sub_715E3_163, sub_715E3_16D
+global sub_715E3_177, sub_715E3_657, sub_715E3_67C, sub_715E3_69B, sub_715E3_6BC, sub_715E3_6DD, sub_715E3_6FE, sub_715E3_71C
+global sub_715E3_73A, sub_715E3_758, sub_715E3_84D, sub_715E3_96B, sub_715E3_AF2, sub_715E3_B00, sub_715E3_B50, sub_715E3_B57
+global sub_72140, sub_73BA5, unk_73BD5, unk_73C35, unk_73F35, unk_73F7D, ModemSettingsScreen, ModemSettingsScreen_D42
+global ModemSettingsScreen_D49, ModemWaitIdle, DrawPhoneNumber, jpt_7510E, ModemDialScreen, ModemDialScreen_75A, ModemDialScreen_81F, ModemDialScreen_8DB
+global ModemDialScreen_9DA, ModemDialScreen_AB2, ModemDialScreen_BB5, ModemDialScreen_BC1, ModemDialScreen_BD2, RunModemSetup, LinkSetupScreen
 ;-----------------------------------------------------------------------------
 ; sub_711ED                                                       711ED  96 PC
 ;-----------------------------------------------------------------------------
@@ -2965,3 +2976,2151 @@ unk_73F7D:
         db 074h,02h,00h,00h,064h,01h,00h,00h,074h,02h,00h,00h,06Fh,01h,00h,00h
         db 069h,02h,00h,00h,077h,01h,00h,00h,028h,02h,00h,00h,077h,01h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
+;-----------------------------------------------------------------------------
+; ModemSettingsScreen                          741BD  96 PC, medium confidence
+; The modem settings screen (PICKS): modem type ("Generic Hayes-Compatible"
+; ...), COM port and IRQ (01%d0, 02%d0, 0%d00), tone / pulse dialing
+;-----------------------------------------------------------------------------
+ModemSettingsScreen:
+        push ebx
+        push ecx
+        push edx
+        push esi
+        push edi
+        enter 3F0h, 0
+        sub ebp, 82h
+        mov ecx, 18h
+        lea edi, [byte ebp-06Eh]
+        mov esi, unk_73BD5
+        rep movsd
+        mov ecx, 0C0h
+        lea edi, [dword ebp-036Eh]
+        mov esi, unk_73C35
+        mov eax, 2
+        rep movsd
+        call SoundSecondsToBytes
+        call FillMusicStream
+        push byte 20h
+        push dword 52Eh
+        push str_PICKS2
+        call sub_AB758
+        mov esi, eax
+        add esp, byte 0Ch
+        mov dword [byte ebp+062h], eax
+        xor edx, edx
+        mov eax, 59h
+        call LoadPackedFile
+        push byte 0
+        mov edi, eax
+        mov dword [byte ebp+05Ah], eax
+        call sub_ADA50
+        add esp, byte 4
+        call BlackPalette
+        push str_bangpal
+        push edi
+        call sub_E04E0
+        add eax, byte 10h
+        add esp, byte 8
+        mov dword [byte ebp+052h], eax
+        call SetScreenColors
+        call sub_DD6C4
+        push str_BKGD22
+        push edi
+        call sub_E04E0
+        add esp, byte 8
+        push eax
+        call sub_AADA4
+        add esp, byte 4
+        mov eax, 0Dh
+        mov edx, esi
+        call InitMenuItems
+        movsx eax, word [word_17C9AC]
+        mov dword [byte ebp+046h], eax
+        movsx eax, word [word_17C9AE]
+        mov dword [byte ebp+066h], 0
+        mov dword [byte ebp+04Ah], eax
+        mov al, byte [byte ebp+066h]
+        add al, 4
+        mov byte [byte ebp+07Ah], al
+        lea eax, [dword ebp-036Eh]
+        mov dword [byte ebp+05Eh], eax
+        mov al, byte [byte ebp+066h]
+        dec al
+        mov byte [byte ebp+076h], al
+        lea eax, [dword ebp-036Eh]
+        add eax, 100h
+        mov dword [byte ebp+06Ah], eax
+        mov al, byte [byte ebp+066h]
+        mov dword [byte ebp+04Eh], 0FFFFFFFFh
+        add al, 3
+        mov dword [byte ebp+042h], 0
+        mov byte [byte ebp+072h], al
+        mov al, byte [byte ebp+066h]
+        mov edi, esi
+        add al, 5
+        add esi, 198h
+        mov byte [byte ebp+06Eh], al
+.1:
+        push dword [byte ebp+066h]
+        push str_01D0
+        lea eax, [byte ebp+02Eh]
+        push eax
+        call sprintf_
+        mov eax, dword [byte ebp+046h]
+        add esp, byte 0Ch
+        cmp eax, dword [byte ebp+066h]
+        jne short .2
+        lea eax, [byte ebp+02Eh]
+        push eax
+        push dword [byte ebp+05Ah]
+        mov byte [byte ebp+031h], 32h
+        call sub_E04E0
+        add esp, byte 8
+        mov dword [byte edi+01Ah], eax
+        jmp short .3
+.2:
+        lea eax, [byte ebp+02Eh]
+        push eax
+        push dword [byte ebp+05Ah]
+        mov byte [byte ebp+031h], 30h
+        call sub_E04E0
+        add esp, byte 8
+        mov dword [byte edi+01Ah], eax
+        lea eax, [byte ebp+02Eh]
+        push eax
+        push dword [byte ebp+05Ah]
+        mov byte [byte ebp+031h], 31h
+        call sub_E04E0
+        add esp, byte 8
+        mov dword [byte edi+01Eh], eax
+        lea eax, [byte ebp+02Eh]
+        push eax
+        push dword [byte ebp+05Ah]
+        mov byte [byte ebp+031h], 32h
+        call sub_E04E0
+        add esp, byte 8
+        mov dword [byte edi+022h], eax
+.3:
+        cmp dword [byte ebp+066h], byte 0
+        je short .4
+        cmp dword [byte ebp+066h], byte 3
+        jne short .5
+.4:
+        mov dword [byte edi+010h], 6
+        jmp short .6
+.5:
+        mov dword [byte edi+010h], 4
+.6:
+        mov eax, dword [byte ebp+05Eh]
+        mov dword [byte edi+014h], eax
+        mov eax, dword [byte edi+01Ah]
+        movsx eax, word [byte eax+0Ch]
+        mov dword [byte edi+026h], eax
+        mov eax, dword [byte edi+01Ah]
+        movsx eax, word [byte eax+0Eh]
+        mov dword [byte edi+02Ah], eax
+        mov eax, dword [byte ebp+042h]
+        mov eax, dword [byte eax+ebp-06Eh]
+        mov dword [byte edi+03Ah], eax
+        mov eax, dword [byte ebp+042h]
+        mov eax, dword [byte eax+ebp-06Ah]
+        mov dword [byte edi+03Eh], eax
+        mov al, byte [byte ebp+066h]
+        mov byte [byte edi+042h], al
+        mov al, byte [byte ebp+07Ah]
+        mov byte [byte edi+043h], al
+        cmp dword [byte ebp+066h], byte 0
+        je short .7
+        mov al, byte [byte ebp+076h]
+        mov byte [byte edi+044h], al
+.7:
+        cmp dword [byte ebp+066h], byte 3
+        je short .8
+        mov al, byte [byte ebp+066h]
+        inc al
+        mov byte [byte edi+045h], al
+.8:
+        push dword [byte edi+02Ah]
+        push dword [byte edi+026h]
+        push dword [byte edi+01Ah]
+        call sub_AAA40
+        add esp, byte 0Ch
+        push dword [byte ebp+066h]
+        push str_02D0
+        lea eax, [byte ebp+02Eh]
+        push eax
+        call sprintf_
+        mov eax, dword [byte ebp+04Ah]
+        add esp, byte 0Ch
+        cmp eax, dword [byte ebp+066h]
+        jne short .9
+        lea eax, [byte ebp+02Eh]
+        push eax
+        push dword [byte ebp+05Ah]
+        mov byte [byte ebp+031h], 32h
+        call sub_E04E0
+        add esp, byte 8
+        mov dword [byte esi+01Ah], eax
+        jmp short .10
+.9:
+        lea eax, [byte ebp+02Eh]
+        push eax
+        push dword [byte ebp+05Ah]
+        mov byte [byte ebp+031h], 30h
+        call sub_E04E0
+        add esp, byte 8
+        mov dword [byte esi+01Ah], eax
+        lea eax, [byte ebp+02Eh]
+        push eax
+        push dword [byte ebp+05Ah]
+        mov byte [byte ebp+031h], 31h
+        call sub_E04E0
+        add esp, byte 8
+        mov dword [byte esi+01Eh], eax
+        lea eax, [byte ebp+02Eh]
+        push eax
+        push dword [byte ebp+05Ah]
+        mov byte [byte ebp+031h], 32h
+        call sub_E04E0
+        add esp, byte 8
+        mov dword [byte esi+022h], eax
+.10:
+        cmp dword [byte ebp+066h], byte 0
+        je short .11
+        cmp dword [byte ebp+066h], byte 3
+        jne short .12
+.11:
+        mov dword [byte esi+010h], 6
+        jmp short .13
+.12:
+        mov dword [byte esi+010h], 4
+.13:
+        mov eax, dword [byte ebp+06Ah]
+        mov dword [byte esi+014h], eax
+        mov eax, dword [byte esi+01Ah]
+        movsx eax, word [byte eax+0Ch]
+        mov dword [byte esi+026h], eax
+        mov eax, dword [byte esi+01Ah]
+        movsx eax, word [byte eax+0Eh]
+        mov dword [byte esi+02Ah], eax
+        mov eax, dword [byte ebp+042h]
+        mov eax, dword [byte eax+ebp-04Eh]
+        mov dword [byte esi+03Ah], eax
+        mov eax, dword [byte ebp+042h]
+        mov eax, dword [byte eax+ebp-04Ah]
+        mov byte [byte esi+043h], 8
+        mov dword [byte esi+03Eh], eax
+        mov al, byte [byte ebp+066h]
+        mov byte [byte esi+042h], al
+        cmp dword [byte ebp+066h], byte 0
+        je short .14
+        mov al, byte [byte ebp+072h]
+        mov byte [byte esi+044h], al
+.14:
+        cmp dword [byte ebp+066h], byte 3
+        je short .15
+        mov al, byte [byte ebp+06Eh]
+        mov byte [byte esi+045h], al
+.15:
+        inc byte [byte ebp+07Ah]
+        add dword [byte ebp+05Eh], byte 40h
+        inc byte [byte ebp+076h]
+        add dword [byte ebp+042h], byte 8
+        add dword [byte ebp+06Ah], byte 40h
+        inc byte [byte ebp+072h]
+        inc byte [byte ebp+06Eh]
+        push dword [byte esi+02Ah]
+        inc dword [byte ebp+066h]
+        push dword [byte esi+026h]
+        add edi, byte 66h
+        push dword [byte esi+01Ah]
+        add esi, byte 66h
+        call sub_AAA40
+        add esp, byte 0Ch
+        cmp dword [byte ebp+066h], byte 4
+        jl near .1
+        mov dword [byte ebp+066h], 8
+        lea eax, [dword ebp-036Eh]
+        mov edi, 40h
+        add eax, 200h
+        mov dword [byte ebp+03Eh], 3
+        mov dword [byte ebp+056h], eax
+        mov al, byte [byte ebp+066h]
+        mov esi, dword [byte ebp+062h]
+        dec al
+        add esi, 330h
+        mov byte [byte ebp+07Eh], al
+.16:
+        push dword [byte ebp+03Eh]
+        push str_0D00
+        lea eax, [byte ebp+02Eh]
+        push eax
+        call sprintf_
+        add esp, byte 0Ch
+        lea eax, [byte ebp+02Eh]
+        push eax
+        push dword [byte ebp+05Ah]
+        call sub_E04E0
+        add esp, byte 8
+        mov dword [byte esi+01Ah], eax
+        lea eax, [byte ebp+02Eh]
+        push eax
+        push dword [byte ebp+05Ah]
+        mov byte [byte ebp+031h], 31h
+        call sub_E04E0
+        add esp, byte 8
+        mov dword [byte esi+01Eh], eax
+        lea eax, [byte ebp+02Eh]
+        push eax
+        push dword [byte ebp+05Ah]
+        mov byte [byte ebp+031h], 32h
+        call sub_E04E0
+        mov dword [byte esi+022h], eax
+        mov eax, dword [byte ebp+056h]
+        mov dword [byte esi+014h], eax
+        mov eax, dword [byte esi+01Ah]
+        mov dword [byte esi+010h], 8
+        movsx eax, word [byte eax+0Ch]
+        mov dword [byte esi+026h], eax
+        mov eax, dword [byte esi+01Ah]
+        movsx eax, word [byte eax+0Eh]
+        mov dword [byte esi+02Ah], eax
+        mov eax, dword [byte edi+ebp-06Eh]
+        mov dword [byte esi+03Ah], eax
+        mov eax, dword [byte edi+ebp-06Ah]
+        add esp, byte 8
+        mov dword [byte esi+03Eh], eax
+        cmp dword [byte ebp+066h], byte 8
+        jne short .17
+        mov byte [byte esi+042h], 5
+        jmp short .18
+.17:
+        mov al, byte [byte ebp+07Eh]
+        mov byte [byte esi+042h], al
+.18:
+        cmp dword [byte ebp+066h], byte 0Bh
+        je short .19
+        mov al, byte [byte ebp+066h]
+        inc al
+        mov byte [byte esi+043h], al
+        jmp short .20
+.19:
+        mov byte [byte esi+043h], 0Ch
+.20:
+        add dword [byte ebp+056h], byte 40h
+        inc dword [byte ebp+03Eh]
+        inc byte [byte ebp+07Eh]
+        push dword [byte esi+02Ah]
+        inc dword [byte ebp+066h]
+        push dword [byte esi+026h]
+        add edi, byte 8
+        push dword [byte esi+01Ah]
+        add esi, byte 66h
+        call sub_AAA40
+        add esp, byte 0Ch
+        cmp dword [byte ebp+066h], byte 0Ch
+        jl near .16
+        push dword [dword_17BC78]
+        call TextSetFont
+        add esp, byte 4
+        mov edx, 0FEh
+        mov eax, 0FCh
+        call SetTextColors
+        movzx eax, byte [byte_11FA2F]
+        push byte 20h
+        inc eax
+        push eax
+        movsx eax, word [word_17C9B6]
+        imul eax, byte 44h
+        add eax, asc_11DFC8
+        push eax
+        call fputchar
+        add esp, byte 4
+        inc eax
+        push eax
+        call sub_AD35C
+        mov esi, eax
+        mov eax, dword [byte eax+02Ch]
+        mov edx, 1A0h
+        sub dx, word [byte eax+04h]
+        mov word [byte eax+0Ch], dx
+        mov eax, dword [byte esi+02Ch]
+        add esp, byte 0Ch
+        mov word [byte eax+0Eh], 0FBh
+        call sub_DD6C4
+        push dword [byte esi+02Ch]
+        call sub_AA988
+        add esp, byte 4
+        mov eax, dword [byte esi+02Ch]
+        xor edx, edx
+        call CopyBitmap
+        push esi
+        mov dword [byte ebp+022h], eax
+        call SetDrawBitmap
+        movsx eax, word [word_17C9B6]
+        imul eax, byte 44h
+        add esp, byte 4
+        xor ebx, ebx
+        xor edx, edx
+        add eax, asc_11DFC8
+        call DrawColorText
+        call sub_DD6C4
+        push dword [byte esi+02Ch]
+        call sub_AADA4
+        add esp, byte 4
+        push esi
+        call sub_ADBEC
+        add esp, byte 4
+        movzx eax, byte [byte_11FA2F]
+        push byte 20h
+        inc eax
+        push eax
+        push dword_17C9F4
+        call fputchar
+        add esp, byte 4
+        inc eax
+        push eax
+        call sub_AD35C
+        mov esi, eax
+        add esp, byte 0Ch
+        mov eax, dword [byte eax+02Ch]
+        mov edx, 1AFh
+        sub dx, word [byte eax+04h]
+        mov word [byte eax+0Ch], dx
+        mov eax, dword [byte esi+02Ch]
+        mov word [byte eax+0Eh], 127h
+        call sub_DD6C4
+        push dword [byte esi+02Ch]
+        call sub_AA988
+        add esp, byte 4
+        mov eax, dword [byte esi+02Ch]
+        xor edx, edx
+        call CopyBitmap
+        push esi
+        mov dword [byte ebp+026h], eax
+        call SetDrawBitmap
+        mov eax, dword_17C9F4
+        add esp, byte 4
+        xor ebx, ebx
+        xor edx, edx
+        call DrawColorText
+        call sub_DD6C4
+        push dword [byte esi+02Ch]
+        call sub_AADA4
+        add esp, byte 4
+        push esi
+        call sub_ADBEC
+        add esp, byte 4
+        movzx eax, byte [byte_11FA2F]
+        push byte 20h
+        inc eax
+        push eax
+        push unk_17C9CC
+        call fputchar
+        add esp, byte 4
+        inc eax
+        push eax
+        call sub_AD35C
+        mov esi, eax
+        mov eax, dword [byte eax+02Ch]
+        mov edx, 1BBh
+        sub dx, word [byte eax+04h]
+        mov word [byte eax+0Ch], dx
+        mov eax, dword [byte esi+02Ch]
+        add esp, byte 0Ch
+        mov word [byte eax+0Eh], 152h
+        call sub_DD6C4
+        push dword [byte esi+02Ch]
+        call sub_AA988
+        add esp, byte 4
+        mov eax, dword [byte esi+02Ch]
+        xor edx, edx
+        call CopyBitmap
+        push esi
+        mov dword [byte ebp+02Ah], eax
+        call SetDrawBitmap
+        mov eax, unk_17C9CC
+        add esp, byte 4
+        xor ebx, ebx
+        xor edx, edx
+        call DrawColorText
+        call sub_DD6C4
+        push dword [byte esi+02Ch]
+        call sub_AADA4
+        add esp, byte 4
+        push esi
+        call sub_ADBEC
+        add esp, byte 4
+        cmp word [word_17C9B4], byte 0
+        je short .21
+        push str_TONE
+        jmp short .22
+.21:
+        push str_PULS
+.22:
+        push dword [byte ebp+05Ah]
+        call sub_E04E0
+        add esp, byte 8
+        push eax
+        call sub_AADA4
+        add esp, byte 4
+        mov eax, 2
+        mov ecx, 66h
+        mov edi, dword [byte ebp+062h]
+        mov esi, dword_17BD48
+        call OpenScreen
+        lea edi, [dword edi+04C8h]
+        mov eax, dword [byte ebp+062h]
+        rep movsb
+        mov byte [dword eax+050Ah], 0Bh
+        mov byte [dword eax+050Bh], 0Ch
+        push dword [dword eax+0506h]
+        mov byte [dword eax+050Ch], 0Ch
+        push dword [dword eax+0502h]
+        mov byte [dword eax+050Dh], 0Ch
+        call MouseRead
+        mov ebx, 3
+        mov edx, dword [byte ebp+052h]
+        add esp, byte 8
+        xor eax, eax
+        mov dword [byte ebp+03Ah], 0Ch
+        call FadePalette
+.23:
+        call SoundIdle
+        cmp dword [byte ebp+03Ah], byte 0
+        jl short .25
+        cmp dword [byte ebp+03Ah], byte 0Dh
+        jge short .25
+        imul eax, dword [byte ebp+03Ah], byte 66h
+        add eax, dword [byte ebp+062h]
+        mov edx, dword [mousex]
+        cmp edx, dword [byte eax+03Ah]
+        jne short .24
+        mov edx, dword [mousey]
+        cmp edx, dword [byte eax+03Eh]
+        je short .25
+.24:
+        mov dword [byte ebp+03Ah], 0FFFFFFFFh
+.25:
+        push byte 2
+        lea eax, [byte ebp+03Ah]
+        push byte 0Ch
+        mov ebx, 0FFFFFFFFh
+        mov edx, dword [byte ebp+062h]
+        push eax
+        xor ecx, ecx
+        mov eax, 0Dh
+        call RunMenu
+        cmp dword [byte ebp+03Ah], byte 9
+        jb short .26
+        jbe near .34
+        cmp dword [byte ebp+03Ah], byte 0Bh
+        jb near .37
+        jbe near .39
+        cmp dword [byte ebp+03Ah], byte 0Ch
+        je near .43
+        jmp near .44
+.26:
+        cmp dword [byte ebp+03Ah], byte 4
+        jb short .27
+        cmp dword [byte ebp+03Ah], byte 7
+        jbe near .30
+        jmp near .31
+.27:
+        movsx esi, word [word_17C9AC]
+        cmp esi, dword [byte ebp+03Ah]
+        je near .44
+        mov eax, dword [byte ebp+03Ah]
+        mov word [word_17C9AC], ax
+        cwde
+        add eax, eax
+        mov dx, word [dword eax+word_11E270]
+        mov edi, esi
+        cmp dx, word [nosplit esi*2+word_11E270]
+        je near .28
+        movsx esi, word [word_17C9AE]
+        push esi
+        add esi, byte 4
+        imul esi, byte 66h
+        push str_02D0
+        lea eax, [byte ebp+02Eh]
+        push eax
+        mov word [word_17C9AE], dx
+        call sprintf_
+        add esp, byte 0Ch
+        lea eax, [byte ebp+02Eh]
+        push eax
+        mov byte [byte ebp+031h], 30h
+        push dword [byte ebp+05Ah]
+        add esi, dword [byte ebp+062h]
+        call sub_E04E0
+        add esp, byte 8
+        mov dword [byte esi+01Ah], eax
+        lea eax, [byte ebp+02Eh]
+        push eax
+        push dword [byte ebp+05Ah]
+        mov byte [byte ebp+031h], 31h
+        call sub_E04E0
+        add esp, byte 8
+        mov dword [byte esi+01Eh], eax
+        lea eax, [byte ebp+02Eh]
+        push eax
+        push dword [byte ebp+05Ah]
+        mov byte [byte ebp+031h], 32h
+        call sub_E04E0
+        mov dword [byte esi+0Ch], 1
+        mov dword [byte esi+022h], eax
+        add esp, byte 8
+        movsx esi, word [word_17C9AE]
+        push esi
+        push str_02D2
+        lea eax, [byte ebp+02Eh]
+        push eax
+        call sprintf_
+        add esp, byte 0Ch
+        lea eax, [byte ebp+02Eh]
+        push eax
+        push dword [byte ebp+05Ah]
+        call sub_E04E0
+        mov edx, eax
+        lea eax, [byte esi+04h]
+        imul eax, byte 66h
+        add eax, dword [byte ebp+062h]
+        mov dword [byte eax+022h], 0
+        mov dword [byte eax+0Ch], 1
+        mov dword [byte eax+01Ah], edx
+        mov edx, dword [byte eax+022h]
+        add esp, byte 8
+        mov dword [byte eax+01Eh], edx
+.28:
+        push edi
+        imul esi, edi, byte 66h
+        push str_01D0
+        lea eax, [byte ebp+02Eh]
+        push eax
+        call sprintf_
+        add esp, byte 0Ch
+        lea eax, [byte ebp+02Eh]
+        push eax
+        mov byte [byte ebp+031h], 30h
+        push dword [byte ebp+05Ah]
+        add esi, dword [byte ebp+062h]
+        call sub_E04E0
+        add esp, byte 8
+        mov dword [byte esi+01Ah], eax
+        lea eax, [byte ebp+02Eh]
+        push eax
+        push dword [byte ebp+05Ah]
+        mov byte [byte ebp+031h], 31h
+        call sub_E04E0
+        add esp, byte 8
+        mov dword [byte esi+01Eh], eax
+        lea eax, [byte ebp+02Eh]
+        push eax
+        push dword [byte ebp+05Ah]
+        mov byte [byte ebp+031h], 32h
+        call sub_E04E0
+        mov dword [byte esi+0Ch], 1
+        mov dword [byte esi+022h], eax
+        add esp, byte 8
+        movsx edi, word [word_17C9AC]
+        push edi
+        push str_01D2
+        lea eax, [byte ebp+02Eh]
+        push eax
+        call sprintf_
+        add esp, byte 0Ch
+        lea eax, [byte ebp+02Eh]
+        push eax
+        push dword [byte ebp+05Ah]
+        call sub_E04E0
+        mov edx, eax
+        imul eax, edi, byte 66h
+.29:
+        add eax, dword [byte ebp+062h]
+        mov dword [byte eax+022h], 0
+        mov dword [byte eax+0Ch], 1
+        mov dword [byte eax+01Ah], edx
+        mov edx, dword [byte eax+022h]
+        add esp, byte 8
+        mov dword [byte eax+01Eh], edx
+        jmp near .44
+.30:
+        mov eax, dword [byte ebp+03Ah]
+        movsx esi, word [word_17C9AE]
+        sub eax, byte 4
+        cmp esi, eax
+        je near .44
+        push esi
+        add esi, byte 4
+        imul esi, byte 66h
+        mov eax, dword [byte ebp+03Ah]
+        sub eax, byte 4
+        push str_02D0
+        mov word [word_17C9AE], ax
+        lea eax, [byte ebp+02Eh]
+        push eax
+        call sprintf_
+        add esp, byte 0Ch
+        lea eax, [byte ebp+02Eh]
+        push eax
+        mov byte [byte ebp+031h], 30h
+        push dword [byte ebp+05Ah]
+        add esi, dword [byte ebp+062h]
+        call sub_E04E0
+        add esp, byte 8
+        mov dword [byte esi+01Ah], eax
+        lea eax, [byte ebp+02Eh]
+        push eax
+        push dword [byte ebp+05Ah]
+        mov byte [byte ebp+031h], 31h
+        call sub_E04E0
+        add esp, byte 8
+        mov dword [byte esi+01Eh], eax
+        lea eax, [byte ebp+02Eh]
+        push eax
+        push dword [byte ebp+05Ah]
+        mov byte [byte ebp+031h], 32h
+        call sub_E04E0
+        mov dword [byte esi+0Ch], 1
+        mov dword [byte esi+022h], eax
+        add esp, byte 8
+        movsx esi, word [word_17C9AE]
+        push esi
+        push str_02D2
+        lea eax, [byte ebp+02Eh]
+        push eax
+        call sprintf_
+        add esp, byte 0Ch
+        lea eax, [byte ebp+02Eh]
+        push eax
+        push dword [byte ebp+05Ah]
+        add esi, byte 4
+        call sub_E04E0
+        mov edx, eax
+        imul eax, esi, byte 66h
+        jmp near .29
+.31:
+        push dword [byte ebp+022h]
+        call sub_AADA4
+        add esp, byte 4
+        push dword [byte ebp+022h]
+        call sub_ABF4C
+        movsx eax, word [word_17C9B6]
+        inc eax
+        mov ebx, 0Ah
+        cdq
+        idiv ebx
+        add esp, byte 4
+        movzx eax, byte [byte_11FA2F]
+        push byte 20h
+        inc eax
+        push eax
+        movsx eax, dx
+        imul eax, byte 44h
+        add eax, asc_11DFC8
+        push eax
+        mov word [word_17C9B6], dx
+        call fputchar
+        add esp, byte 4
+        inc eax
+        push eax
+        call sub_AD35C
+        mov esi, eax
+        mov eax, dword [byte eax+02Ch]
+        mov edx, 1A0h
+        sub dx, word [byte eax+04h]
+        mov word [byte eax+0Ch], dx
+        mov eax, dword [byte esi+02Ch]
+        add esp, byte 0Ch
+        mov word [byte eax+0Eh], 0FBh
+        call sub_DD6C4
+        push dword [byte esi+02Ch]
+        call sub_AA988
+        add esp, byte 4
+        mov eax, dword [byte esi+02Ch]
+        xor edx, edx
+        call CopyBitmap
+        push esi
+        mov dword [byte ebp+022h], eax
+        call SetDrawBitmap
+        movsx eax, word [word_17C9B6]
+        imul eax, byte 44h
+        add esp, byte 4
+        xor ebx, ebx
+        xor edx, edx
+        add eax, asc_11DFC8
+        call DrawColorText
+        call sub_DD6C4
+        push dword [byte esi+02Ch]
+        call sub_AADA4
+        add esp, byte 4
+        push esi
+        call sub_ADBEC
+        add esp, byte 4
+        push dword [byte ebp+02Ah]
+        call sub_AADA4
+        add esp, byte 4
+        push dword [byte ebp+02Ah]
+        call sub_ABF4C
+        movsx eax, word [word_17C9B6]
+        imul eax, byte 44h
+        mov edx, asc_11DFC8
+        add esp, byte 4
+        add edx, eax
+        mov eax, unk_17C9CC
+        add edx, byte 26h
+.32:
+        call strcpy_
+        movzx eax, byte [byte_11FA2F]
+        push byte 20h
+        inc eax
+        push eax
+        push unk_17C9CC
+        call fputchar
+        add esp, byte 4
+        inc eax
+        push eax
+        call sub_AD35C
+        mov esi, eax
+        mov eax, dword [byte eax+02Ch]
+        mov edx, 1BBh
+        sub dx, word [byte eax+04h]
+        mov word [byte eax+0Ch], dx
+        mov eax, dword [byte esi+02Ch]
+        add esp, byte 0Ch
+        mov word [byte eax+0Eh], 152h
+        call sub_DD6C4
+        push dword [byte esi+02Ch]
+        call sub_AA988
+        add esp, byte 4
+        mov eax, dword [byte esi+02Ch]
+        xor edx, edx
+        call CopyBitmap
+        push esi
+        mov dword [byte ebp+02Ah], eax
+        call SetDrawBitmap
+        mov eax, unk_17C9CC
+.33:
+        add esp, byte 4
+        xor ebx, ebx
+        xor edx, edx
+        call DrawColorText
+        call sub_DD6C4
+        push dword [byte esi+02Ch]
+        call sub_AADA4
+        add esp, byte 4
+        push esi
+        call sub_ADBEC
+        jmp near .41
+.34:
+        mov edx, dword_17C9F4
+        lea eax, [byte ebp-0Eh]
+        call strcpy_
+        lea eax, [byte ebp-0Eh]
+        push eax
+        push dword 0F0h
+        mov ecx, 26h
+        push dword 140h
+        mov eax, 1F7h
+        mov ebx, byte_17BDAE
+        call GetLangText
+        mov edx, eax
+        xor eax, eax
+        call EditText
+        test eax, eax
+        je near .44
+        lea eax, [byte ebp-0Eh]
+        call strlen_
+        test eax, eax
+        je near .35
+        push dword [byte ebp+026h]
+        call sub_AADA4
+        add esp, byte 4
+        push dword [byte ebp+026h]
+        call sub_ABF4C
+        add esp, byte 4
+        lea edx, [byte ebp-0Eh]
+        mov eax, dword_17C9F4
+        call strcpy_
+        movzx eax, byte [byte_11FA2F]
+        push byte 20h
+        inc eax
+        push eax
+        push dword_17C9F4
+        call fputchar
+        add esp, byte 4
+        inc eax
+        push eax
+        call sub_AD35C
+        mov esi, eax
+        mov eax, dword [byte eax+02Ch]
+        mov edx, 1AFh
+        sub dx, word [byte eax+04h]
+        mov word [byte eax+0Ch], dx
+        mov eax, dword [byte esi+02Ch]
+        add esp, byte 0Ch
+        mov word [byte eax+0Eh], 127h
+        call sub_DD6C4
+        push dword [byte esi+02Ch]
+        call sub_AA988
+        add esp, byte 4
+        mov eax, dword [byte esi+02Ch]
+        xor edx, edx
+        call CopyBitmap
+        push esi
+        mov dword [byte ebp+026h], eax
+        call SetDrawBitmap
+        mov eax, dword_17C9F4
+        jmp near .33
+.35:
+        call GetLangText
+        push byte 2
+        push byte 0
+        push dword 0F0h
+        mov ecx, byte_17BDAE
+        push dword 140h
+        lea ebx, [byte ebp+036h]
+        mov dword [byte ebp+036h], eax
+        push byte 0
+        mov eax, 1F8h
+.36:
+        mov edx, 1
+        call GetLangText
+        call MessageBox
+        jmp near .44
+.37:
+        mov edx, unk_17C9CC
+        lea eax, [byte ebp-0Eh]
+        call strcpy_
+        lea eax, [byte ebp-0Eh]
+        push eax
+        push dword 0F0h
+        mov ecx, 26h
+        push dword 140h
+        mov eax, 1F9h
+        mov ebx, byte_17BDAE
+        call GetLangText
+        mov edx, eax
+        xor eax, eax
+        call EditText
+        test eax, eax
+        je near .44
+        lea eax, [byte ebp-0Eh]
+        call strlen_
+        test eax, eax
+        je short .38
+        push dword [byte ebp+02Ah]
+        call sub_AADA4
+        add esp, byte 4
+        push dword [byte ebp+02Ah]
+        call sub_ABF4C
+        add esp, byte 4
+        lea edx, [byte ebp-0Eh]
+        mov eax, unk_17C9CC
+        jmp near .32
+.38:
+        call GetLangText
+        push byte 2
+        push byte 0
+        push dword 0F0h
+        mov ecx, byte_17BDAE
+        push dword 140h
+        lea ebx, [byte ebp+036h]
+        mov dword [byte ebp+036h], eax
+        push byte 0
+        mov eax, 1FAh
+        jmp near .36
+.39:
+        cmp word [word_17C9B4], byte 0
+        sete al
+        movzx ax, al
+        mov word [word_17C9B4], ax
+        test ax, ax
+        je short .42
+        push str_TONE
+.40:
+        push dword [byte ebp+05Ah]
+        call sub_E04E0
+        add esp, byte 8
+        push eax
+        call sub_AADA4
+.41:
+        add esp, byte 4
+        jmp short .44
+.42:
+        push str_PULS
+        jmp short .40
+.43:
+        call SlideInTitleBar
+        mov dword [byte ebp+04Eh], 1
+.44:
+        cmp dword [byte ebp+04Eh], byte 0
+        jl near .23
+        xor esi, esi
+.45:
+        push dword [byte esi+ebp+022h]
+        call sub_ABF4C
+        add esi, byte 4
+        add esp, byte 4
+        cmp esi, byte 0Ch
+        jne short .45
+        push dword [byte ebp+05Ah]
+        call sub_ABF4C
+        add esp, byte 4
+        push dword [byte ebp+062h]
+        call sub_ABF4C
+        add esp, byte 4
+        mov eax, 3
+        call FadeOut
+ModemSettingsScreen_D42:
+        lea esp, [dword ebp+082h]
+        pop ebp
+ModemSettingsScreen_D49:
+        pop edi
+        pop esi
+        pop edx
+        pop ecx
+        pop ebx
+        ret
+;-----------------------------------------------------------------------------
+; ModemWaitIdle                                   74F0C  96 PC, low confidence
+; SoundIdle and one tick of the timer (sub_DFE9C(1)) while the modem screens
+; wait
+;-----------------------------------------------------------------------------
+ModemWaitIdle:
+        push ebx
+        push ecx
+        push edx
+        call SoundIdle
+        push byte 1
+        call sub_DFE9C
+        add esp, byte 4
+        pop edx
+        pop ecx
+        pop ebx
+        ret
+;-----------------------------------------------------------------------------
+; DrawPhoneNumber                              74F22  96 PC, medium confidence
+; Draws the phone number with the digit art (NUM%d, NM%d0, NM%d1)
+;-----------------------------------------------------------------------------
+DrawPhoneNumber:
+        push ebx
+        push ecx
+        push edx
+        push esi
+        push edi
+        enter 2Ch, 0
+        push eax
+        mov dword [byte ebp-024h], 0
+        xor esi, esi
+.1:
+        cmp dword [dword esi+dword_17D678], byte 0
+        je short .2
+        push dword [dword esi+dword_17D678]
+        call sub_ABF4C
+        add esp, byte 4
+.2:
+        mov eax, dword [byte ebp-024h]
+        xor al, 1
+        push eax
+        push str_NUMD
+        mov dword [byte ebp-020h], eax
+        lea eax, [byte ebp-02Ch]
+        push eax
+        call sprintf_
+        add esp, byte 0Ch
+        lea eax, [byte ebp-02Ch]
+        push eax
+        push dword [byte ebp-030h]
+        call sub_E04E0
+        add esp, byte 8
+        mov edi, eax
+        mov dword [byte ebp-014h], eax
+        push byte 0
+        movsx eax, word [byte eax+06h]
+        push eax
+        movsx eax, word [byte edi+04h]
+        push eax
+        call sub_AD35C
+        mov dword [byte ebp-01Ch], eax
+        mov dword [byte ebp-04h], eax
+        mov eax, dword [byte eax+02Ch]
+        mov dx, word [byte edi+0Ch]
+        mov word [byte eax+0Ch], dx
+        mov eax, dword [byte ebp-01Ch]
+        mov eax, dword [byte eax+02Ch]
+        mov dx, word [byte edi+0Eh]
+        add esp, byte 0Ch
+        mov word [byte eax+0Eh], dx
+        call sub_DD6C4
+        mov eax, dword [byte ebp-01Ch]
+        push dword [byte eax+02Ch]
+        call sub_AA988
+        add esp, byte 4
+        push dword [byte ebp-01Ch]
+        call SetDrawBitmap
+        add esp, byte 4
+        push byte 0
+        push byte 0
+        push edi
+        call sub_AAA40
+        add esp, byte 0Ch
+        push dword [byte ebp-020h]
+        push str_NMD0
+        lea eax, [byte ebp-02Ch]
+        push eax
+        mov dword [byte ebp-08h], 0Fh
+        mov edi, unk_17C9B8
+        call sprintf_
+        add esp, byte 0Ch
+.3:
+        cmp byte [edi], 0
+        je short .5
+        mov al, byte [edi]
+        mov byte [byte ebp-02Ah], al
+        lea eax, [byte ebp-02Ch]
+        push eax
+        push dword [byte ebp-030h]
+        call sub_E04E0
+        add esp, byte 8
+        mov dword [byte ebp-0Ch], eax
+        cmp dword [byte ebp-024h], byte 2
+        je short .4
+        mov ecx, 8
+        mov ebx, dword [byte ebp-08h]
+        mov edx, eax
+        mov eax, 0FAE1h
+        call DrawFrameAt
+.4:
+        mov eax, dword [byte ebp-0Ch]
+        movsx eax, word [byte eax+04h]
+        inc edi
+        add dword [byte ebp-08h], eax
+        jmp short .3
+.5:
+        mov eax, dword [byte ebp-04h]
+        xor edx, edx
+        mov eax, dword [byte eax+02Ch]
+        call CopyBitmap
+        mov dword [dword esi+dword_17D678], eax
+        cmp dword [dword esi+dword_17D680], byte 0
+        je short .6
+        push dword [dword esi+dword_17D680]
+        call sub_ABF4C
+        add esp, byte 4
+.6:
+        push byte 0
+        push byte 0
+        push dword [byte ebp-014h]
+        call sub_AAA40
+        mov eax, dword [byte ebp-024h]
+        add esp, byte 0Ch
+        xor al, 1
+        push eax
+        push str_NMD1
+        lea eax, [byte ebp-02Ch]
+        push eax
+        mov dword [byte ebp-018h], 0Fh
+        mov edi, unk_17C9B8
+        call sprintf_
+        add esp, byte 0Ch
+.7:
+        cmp byte [edi], 0
+        je short .9
+        mov al, byte [edi]
+        mov byte [byte ebp-02Ah], al
+        lea eax, [byte ebp-02Ch]
+        push eax
+        push dword [byte ebp-030h]
+        call sub_E04E0
+        add esp, byte 8
+        mov dword [byte ebp-010h], eax
+        cmp dword [byte ebp-024h], byte 2
+        je short .8
+        mov ecx, 8
+        mov ebx, dword [byte ebp-018h]
+        mov edx, eax
+        mov eax, 0FAE1h
+        call DrawFrameAt
+.8:
+        mov eax, dword [byte ebp-010h]
+        movsx eax, word [byte eax+04h]
+        inc edi
+        add dword [byte ebp-018h], eax
+        jmp short .7
+.9:
+        mov eax, dword [byte ebp-04h]
+        inc dword [byte ebp-024h]
+        xor edx, edx
+        mov eax, dword [byte eax+02Ch]
+        add esi, byte 4
+        call CopyBitmap
+        push dword [byte ebp-04h]
+        mov dword [dword esi+dword_17D67C], eax
+        call sub_ADBEC
+        add esp, byte 4
+        cmp dword [byte ebp-024h], byte 2
+        jl near .1
+        leave
+        jmp near ModemSettingsScreen_D49
+jpt_7510E:
+        dd ModemDialScreen_75A
+        dd ModemDialScreen_81F
+        dd ModemDialScreen_8DB
+        dd ModemDialScreen_9DA
+        dd ModemDialScreen_AB2
+        dd ModemDialScreen_AB2
+        dd ModemDialScreen_AB2
+        dd ModemDialScreen_AB2
+        dd ModemDialScreen_BB5
+        dd ModemDialScreen_BC1
+        dd ModemDialScreen_BD2
+;-----------------------------------------------------------------------------
+; ModemDialScreen                              7513A  96 PC, medium confidence
+; The modem connect screen: make the call (MAK), wait for a call (WFC), the
+; number; above 3E8h asks for the settings
+;-----------------------------------------------------------------------------
+ModemDialScreen:
+        push ebx
+        push ecx
+        push edx
+        push esi
+        push edi
+        enter 738h, 0
+        sub ebp, 82h
+        mov ecx, 12h
+        lea edi, [byte ebp-012h]
+        mov esi, unk_73F35
+        rep movsd
+        mov ecx, 90h
+        lea edi, [dword ebp-0252h]
+        mov esi, unk_73F7D
+        rep movsd
+        mov ax, word [word_114CE0]
+        xor ah, ah
+        and al, 1
+        cwde
+        mov dword [byte ebp+06Ah], 0FFFFFFFFh
+        test eax, eax
+        je short .1
+        xor eax, eax
+        jmp near ModemSettingsScreen_D42
+.1:
+        mov eax, 2
+        call SoundSecondsToBytes
+        call FillMusicStream
+        xor edx, edx
+        mov eax, 55h
+        call LoadPackedFile
+        push byte 0
+        mov esi, eax
+        mov dword [byte ebp+072h], eax
+        call sub_ADA50
+        add esp, byte 4
+        call BlackPalette
+        push str_bangpal
+        push esi
+        call sub_E04E0
+        add eax, byte 10h
+        add esp, byte 8
+        mov dword [byte ebp+076h], eax
+        call SetScreenColors
+        call sub_DD6C4
+        push str_BKGD22
+        push esi
+        call sub_E04E0
+        add esp, byte 8
+        push eax
+        call sub_AADA4
+        add esp, byte 4
+        lea edx, [dword ebp-06B6h]
+        mov eax, 0Bh
+        call InitMenuItems
+        cmp word [word_17C9B2], byte 0
+        jne short .2
+        push str_MAK2
+        push esi
+        call sub_E04E0
+        add esp, byte 8
+        mov dword [dword ebp-069Ch], eax
+        jmp short .3
+.2:
+        push str_MAK0
+        push esi
+        call sub_E04E0
+        add esp, byte 8
+        push str_MAK1
+        push esi
+        mov dword [dword ebp-069Ch], eax
+        call sub_E04E0
+        add esp, byte 8
+        push str_MAK2
+        push esi
+        mov dword [dword ebp-0698h], eax
+        call sub_E04E0
+        add esp, byte 8
+        mov dword [dword ebp-0694h], eax
+.3:
+        lea eax, [dword ebp-0252h]
+        mov dword [dword ebp-06A2h], eax
+        mov eax, dword [dword ebp-069Ch]
+        mov dword [dword ebp-06A6h], 6
+        movsx eax, word [byte eax+0Ch]
+        mov dword [dword ebp-0690h], eax
+        mov eax, dword [dword ebp-069Ch]
+        movsx eax, word [byte eax+0Eh]
+        mov byte [dword ebp-0673h], 2
+        mov dword [dword ebp-068Ch], eax
+        mov byte [dword ebp-0671h], 1
+        push dword [dword ebp-068Ch]
+        mov eax, dword [byte ebp-012h]
+        push dword [dword ebp-0690h]
+        mov dword [dword ebp-067Ch], eax
+        mov eax, dword [byte ebp-0Eh]
+        push dword [dword ebp-069Ch]
+        mov dword [dword ebp-0678h], eax
+        call sub_AAA40
+        add esp, byte 0Ch
+        cmp word [word_17C9B2], byte 0
+        je short .4
+        push str_WFC2
+        push dword [byte ebp+072h]
+        call sub_E04E0
+        add esp, byte 8
+        mov dword [dword ebp-0636h], eax
+        jmp short .5
+.4:
+        push str_WFC0
+        push dword [byte ebp+072h]
+        call sub_E04E0
+        add esp, byte 8
+        push str_WFC1
+        push dword [byte ebp+072h]
+        mov dword [dword ebp-0636h], eax
+        call sub_E04E0
+        add esp, byte 8
+        push str_WFC2
+        push dword [byte ebp+072h]
+        mov dword [dword ebp-0632h], eax
+        call sub_E04E0
+        add esp, byte 8
+        mov dword [dword ebp-062Eh], eax
+.5:
+        lea eax, [dword ebp-0212h]
+        mov dword [dword ebp-063Ch], eax
+        mov eax, dword [dword ebp-0636h]
+        mov dword [dword ebp-0640h], 6
+        movsx eax, word [byte eax+0Ch]
+        mov dword [dword ebp-062Ah], eax
+        mov eax, dword [dword ebp-0636h]
+        movsx eax, word [byte eax+0Eh]
+        mov byte [dword ebp-060Dh], 2
+        mov dword [dword ebp-0626h], eax
+        mov byte [dword ebp-060Ch], 0
+        push dword [dword ebp-0626h]
+        mov eax, dword [byte ebp-0Ah]
+        push dword [dword ebp-062Ah]
+        mov dword [dword ebp-0616h], eax
+        mov eax, dword [byte ebp-06h]
+        push dword [dword ebp-0636h]
+        mov dword [dword ebp-0612h], eax
+        call sub_AAA40
+        mov dword [dword_17D684], 0
+        mov dword [dword_17D680], 0
+        mov dword [dword_17D67C], 0
+        add esp, byte 0Ch
+        mov eax, dword [byte ebp+072h]
+        mov dword [dword_17D678], 0
+        call DrawPhoneNumber
+        call sub_DD6C4
+        cmp word [word_17C9B2], byte 0
+        jne short .6
+        mov eax, dword [dword_17D678]
+        mov dword [dword ebp-05D0h], eax
+        mov eax, dword [dword_17D67C]
+        jmp short .7
+.6:
+        mov eax, dword [dword_17D680]
+        mov dword [dword ebp-05D0h], eax
+        mov eax, dword [dword_17D684]
+        mov word [dword ebp-05D2h], 2
+.7:
+        mov dword [dword ebp-05CCh], eax
+        lea eax, [dword ebp-01D2h]
+        mov dword [dword ebp-05D6h], eax
+        mov eax, dword [dword ebp-05D0h]
+        mov dword [dword ebp-05DAh], 4
+        movsx eax, word [byte eax+0Ch]
+        mov dword [dword ebp-05C4h], eax
+        mov eax, dword [dword ebp-05D0h]
+        movsx eax, word [byte eax+0Eh]
+        mov byte [dword ebp-05A8h], 0
+        mov dword [dword ebp-05C0h], eax
+        mov byte [dword ebp-05A7h], 3
+        push dword [dword ebp-05C0h]
+        mov eax, dword [byte ebp-02h]
+        push dword [dword ebp-05C4h]
+        mov dword [dword ebp-05B0h], eax
+        mov eax, dword [byte ebp+02h]
+        push dword [dword ebp-05D0h]
+        mov dword [dword ebp-05ACh], eax
+        call sub_AAA40
+        add esp, byte 0Ch
+        cmp word [word_17C9B0], byte 0
+        je short .8
+        push str_YES0
+        push dword [byte ebp+072h]
+        call sub_E04E0
+        add esp, byte 8
+        push str_YES1
+        jmp short .9
+.8:
+        push str_NOO0
+        push dword [byte ebp+072h]
+        call sub_E04E0
+        add esp, byte 8
+        push str_NOO1
+.9:
+        push dword [byte ebp+072h]
+        mov dword [dword ebp-056Ah], eax
+        call sub_E04E0
+        add esp, byte 8
+        mov dword [dword ebp-0566h], eax
+        lea eax, [dword ebp-0192h]
+        mov dword [dword ebp-0570h], eax
+        mov eax, dword [dword ebp-056Ah]
+        mov dword [dword ebp-0574h], 4
+        movsx eax, word [byte eax+0Ch]
+        mov dword [dword ebp-055Eh], eax
+        mov eax, dword [dword ebp-056Ah]
+        movsx eax, word [byte eax+0Eh]
+        mov byte [dword ebp-0542h], 2
+        mov byte [dword ebp-0541h], 5
+        mov byte [dword ebp-0540h], 9
+        mov dword [dword ebp-055Ah], eax
+        mov byte [dword ebp-053Fh], 7
+        push dword [dword ebp-055Ah]
+        mov eax, dword [byte ebp+06h]
+        push dword [dword ebp-055Eh]
+        mov dword [dword ebp-054Ah], eax
+        mov eax, dword [byte ebp+0Ah]
+        push dword [dword ebp-056Ah]
+        mov dword [dword ebp-0546h], eax
+        call sub_AAA40
+        movsx eax, word [word_17C9AC]
+        add eax, byte 4
+        mov dword [byte ebp+06Eh], 4
+        mov dword [byte ebp+05Eh], eax
+        lea eax, [dword ebp-0252h]
+        mov dword [byte ebp+07Ah], 1
+        add eax, 100h
+        mov edi, 20h
+        mov dword [byte ebp+062h], eax
+        mov al, byte [byte ebp+06Eh]
+        mov esi, 198h
+        dec al
+        add esp, byte 0Ch
+        mov byte [byte ebp+07Eh], al
+.10:
+        push dword [byte ebp+07Ah]
+        push str_CMD02
+        lea eax, [byte ebp+04Eh]
+        push eax
+        call sprintf_
+        mov eax, dword [byte ebp+05Eh]
+        add esp, byte 0Ch
+        cmp eax, dword [byte ebp+06Eh]
+        jne short .11
+        lea eax, [byte ebp+04Eh]
+        push eax
+        push dword [byte ebp+072h]
+        mov byte [byte ebp+051h], 32h
+        call sub_E04E0
+        add esp, byte 8
+        mov dword [dword esi+ebp-069Ch], eax
+        jmp short .12
+.11:
+        lea eax, [byte ebp+04Eh]
+        push eax
+        push dword [byte ebp+072h]
+        mov byte [byte ebp+051h], 30h
+        call sub_E04E0
+        add esp, byte 8
+        mov dword [dword esi+ebp-069Ch], eax
+        lea eax, [byte ebp+04Eh]
+        push eax
+        push dword [byte ebp+072h]
+        mov byte [byte ebp+051h], 31h
+        call sub_E04E0
+        add esp, byte 8
+        mov dword [dword esi+ebp-0698h], eax
+        lea eax, [byte ebp+04Eh]
+        push eax
+        push dword [byte ebp+072h]
+        mov byte [byte ebp+051h], 32h
+        call sub_E04E0
+        add esp, byte 8
+        mov dword [dword esi+ebp-0694h], eax
+.12:
+        cmp dword [byte ebp+06Eh], byte 4
+        jne short .13
+        mov dword [dword esi+ebp-06A6h], 6
+        jmp short .14
+.13:
+        mov dword [dword esi+ebp-06A6h], 4
+.14:
+        mov eax, dword [byte ebp+062h]
+        mov dword [dword esi+ebp-06A2h], eax
+        mov eax, dword [dword esi+ebp-069Ch]
+        movsx eax, word [byte eax+0Ch]
+        mov dword [dword esi+ebp-0690h], eax
+        mov eax, dword [dword esi+ebp-069Ch]
+        movsx eax, word [byte eax+0Eh]
+        mov byte [dword esi+ebp-0674h], 3
+        mov byte [dword esi+ebp-0673h], 0Ah
+        mov dword [dword esi+ebp-068Ch], eax
+        mov eax, dword [byte edi+ebp-012h]
+        mov dword [dword esi+ebp-067Ch], eax
+        mov eax, dword [byte edi+ebp-0Eh]
+        mov dword [dword esi+ebp-0678h], eax
+        cmp dword [byte ebp+06Eh], byte 4
+        jne short .15
+        mov byte [dword esi+ebp-0672h], 9
+        jmp short .16
+.15:
+        mov al, byte [byte ebp+07Eh]
+        mov byte [dword esi+ebp-0672h], al
+.16:
+        mov al, byte [byte ebp+06Eh]
+        inc dword [byte ebp+07Ah]
+        add dword [byte ebp+062h], byte 40h
+        add esi, byte 66h
+        inc byte [byte ebp+07Eh]
+        add edi, byte 8
+        push dword [dword esi+ebp-06F2h]
+        inc dword [byte ebp+06Eh]
+        push dword [dword esi+ebp-06F6h]
+        inc al
+        push dword [dword esi+ebp-0702h]
+        mov byte [dword esi+ebp-06D7h], al
+        call sub_AAA40
+        add esp, byte 0Ch
+        cmp dword [byte ebp+06Eh], byte 8
+        jl near .10
+        push str_SET02
+        push dword [byte ebp+072h]
+        call sub_E04E0
+        add esp, byte 8
+        push str_SET13
+        push dword [byte ebp+072h]
+        mov dword [dword ebp-036Ch], eax
+        call sub_E04E0
+        add esp, byte 8
+        push str_SET23
+        push dword [byte ebp+072h]
+        mov dword [dword ebp-0368h], eax
+        call sub_E04E0
+        mov dword [dword ebp-0364h], eax
+        lea eax, [byte ebp-052h]
+        mov dword [dword ebp-0372h], eax
+        mov eax, dword [dword ebp-036Ch]
+        mov dword [dword ebp-0376h], 6
+        movsx eax, word [byte eax+0Ch]
+        lea edi, [dword ebp-0320h]
+        mov dword [dword ebp-0360h], eax
+        mov eax, dword [dword ebp-036Ch]
+        mov esi, dword_17BC7C
+        add esp, byte 8
+        movsx eax, word [byte eax+0Eh]
+        mov byte [dword ebp-0344h], 2
+        mov byte [dword ebp-0343h], 0Ah
+        mov byte [dword ebp-0342h], 7
+        mov dword [dword ebp-035Ch], eax
+        mov byte [dword ebp-0341h], 8
+        push dword [dword ebp-035Ch]
+        mov eax, dword [byte ebp+02Eh]
+        push dword [dword ebp-0360h]
+        mov dword [dword ebp-034Ch], eax
+        mov eax, dword [byte ebp+032h]
+        push dword [dword ebp-036Ch]
+        mov dword [dword ebp-0348h], eax
+        call sub_AAA40
+        add esp, byte 0Ch
+        mov eax, 6
+        mov ecx, 66h
+        call OpenScreen
+        rep movsb
+        mov byte [dword ebp-02DEh], 4
+        mov byte [dword ebp-02DDh], 9
+        mov ecx, 66h
+        lea edi, [dword ebp-02BAh]
+        mov esi, dword_17BD48
+        mov byte [dword ebp-02DCh], 9
+        mov byte [dword ebp-02DBh], 0Ah
+        rep movsb
+        mov byte [dword ebp-0278h], 8
+        mov byte [dword ebp-0277h], 0Ah
+        push dword [dword ebp-027Ch]
+        mov byte [dword ebp-0276h], 9
+        push dword [dword ebp-0280h]
+        mov byte [dword ebp-0275h], 0Ah
+        call MouseRead
+        mov ebx, 3
+        mov edx, dword [byte ebp+076h]
+        add esp, byte 8
+        xor eax, eax
+        mov dword [byte ebp+066h], 0Ah
+        call FadePalette
+.17:
+        call SoundIdle
+        cmp dword [byte ebp+066h], byte 0
+        jl short .19
+        cmp dword [byte ebp+066h], byte 0Bh
+        jge short .19
+        imul eax, dword [byte ebp+066h], byte 66h
+        mov edx, dword [mousex]
+        cmp edx, dword [dword eax+ebp-067Ch]
+        jne short .18
+        mov edx, dword [mousey]
+        cmp edx, dword [dword eax+ebp-0678h]
+        je short .19
+.18:
+        mov dword [byte ebp+066h], 0FFFFFFFFh
+.19:
+        push byte 2
+        lea eax, [byte ebp+066h]
+        push byte 9
+        mov ebx, 0FFFFFFFFh
+        lea edx, [dword ebp-06B6h]
+        push eax
+        xor ecx, ecx
+        mov eax, 0Bh
+        call RunMenu
+        cmp dword [byte ebp+066h], byte 0Ah
+        ja near ModemDialScreen_BD2.36
+        mov eax, dword [byte ebp+066h]
+        jmp dword [nosplit cs:eax*4+jpt_7510E]
+ModemDialScreen_75A:
+        cmp word [word_17C9B2], byte 0
+        je near ModemDialScreen_BD2.36
+        push str_WFC0
+        push dword [byte ebp+072h]
+        mov word [word_17C9B2], 0
+        call sub_E04E0
+        add esp, byte 8
+        push str_WFC1
+        push dword [byte ebp+072h]
+        mov dword [dword ebp-0636h], eax
+        call sub_E04E0
+        add esp, byte 8
+        push str_WFC2
+        push dword [byte ebp+072h]
+        mov dword [dword ebp-0632h], eax
+        call sub_E04E0
+        add esp, byte 8
+        push str_MAK2
+        mov dword [dword ebp-0644h], 1
+        push dword [byte ebp+072h]
+        mov dword [dword ebp-062Eh], eax
+        call sub_E04E0
+        mov dword [dword ebp-0694h], 0
+        mov dword [dword ebp-0698h], 0
+        mov dword [dword ebp-06AAh], 1
+        mov word [dword ebp-05D2h], 0
+        mov dword [dword ebp-069Ch], eax
+        mov eax, dword [dword_17D678]
+        mov dword [dword ebp-05DEh], 1
+        mov dword [dword ebp-05D0h], eax
+        mov eax, dword [dword_17D67C]
+.20:
+        add esp, byte 8
+.21:
+        mov dword [dword ebp-05CCh], eax
+        jmp near ModemDialScreen_BD2.36
+ModemDialScreen_81F:
+        cmp word [word_17C9B2], byte 0
+        jne near ModemDialScreen_BD2.36
+        push str_MAK0
+        push dword [byte ebp+072h]
+        mov word [word_17C9B2], 1
+        call sub_E04E0
+        add esp, byte 8
+        push str_MAK1
+        push dword [byte ebp+072h]
+        mov dword [dword ebp-069Ch], eax
+        call sub_E04E0
+        add esp, byte 8
+        push str_MAK2
+        push dword [byte ebp+072h]
+        mov dword [dword ebp-0698h], eax
+        call sub_E04E0
+        add esp, byte 8
+        push str_WFC2
+        mov dword [dword ebp-06AAh], 1
+        push dword [byte ebp+072h]
+        mov dword [dword ebp-0694h], eax
+        call sub_E04E0
+        mov dword [dword ebp-0694h], 0
+        mov dword [dword ebp-0632h], 0
+        mov dword [dword ebp-0644h], 1
+        mov word [dword ebp-05D2h], 2
+        mov dword [dword ebp-0636h], eax
+        mov eax, dword [dword_17D680]
+        mov dword [dword ebp-05DEh], 1
+        mov dword [dword ebp-05D0h], eax
+        mov eax, dword [dword_17D684]
+        jmp near ModemDialScreen_75A.20
+ModemDialScreen_8DB:
+        push dword [dword_17BC78]
+        call TextSetFont
+        add esp, byte 4
+        mov edx, unk_17C9B8
+        lea eax, [byte ebp+036h]
+        call strcpy_
+        lea eax, [byte ebp+036h]
+        push eax
+        push dword 0F0h
+        mov ecx, 12h
+        push dword 140h
+        mov eax, 1FBh
+        mov ebx, byte_17BDAE
+        call GetLangText
+        mov edx, eax
+        xor eax, eax
+        call EditText
+        test eax, eax
+        je near ModemDialScreen_BD2.36
+        lea edx, [byte ebp+036h]
+        lea eax, [byte ebp+036h]
+.22:
+        cmp byte [eax], 0
+        je short .24
+        movsx ebx, byte [eax]
+        cmp ebx, byte 2Fh
+        jle short .23
+        cmp ebx, byte 39h
+        jg short .23
+        mov bl, byte [eax]
+        mov byte [edx], bl
+        inc edx
+.23:
+        inc eax
+        jmp short .22
+.24:
+        lea eax, [byte ebp+036h]
+        mov byte [edx], 0
+        call strlen_
+        test eax, eax
+        je short .26
+        lea edx, [byte ebp+036h]
+        mov eax, unk_17C9B8
+        call strcpy_
+        mov eax, dword [byte ebp+072h]
+        call DrawPhoneNumber
+        cmp word [word_17C9B2], byte 0
+        jne short .25
+        mov eax, dword [dword_17D678]
+        mov dword [dword ebp-05D0h], eax
+        mov eax, dword [dword_17D67C]
+        jmp near ModemDialScreen_75A.21
+.25:
+        mov eax, dword [dword_17D680]
+        mov dword [dword ebp-05D0h], eax
+        mov eax, dword [dword_17D684]
+        jmp near ModemDialScreen_75A.21
+.26:
+        call GetLangText
+        push byte 2
+        push byte 0
+        push dword 0F0h
+        mov ecx, byte_17BDAE
+        push dword 140h
+        lea ebx, [byte ebp+056h]
+        mov dword [byte ebp+056h], eax
+        push byte 0
+        mov eax, 1FCh
+        mov edx, 1
+        call GetLangText
+        call MessageBox
+        jmp near ModemDialScreen_BD2.36
+ModemDialScreen_9DA:
+        cmp word [word_17C9B0], byte 0
+        je short .27
+        push str_NOO0
+        push dword [byte ebp+072h]
+        mov word [word_17C9B0], 0
+        call sub_E04E0
+        add esp, byte 8
+        push str_NOO1
+        mov edi, 2
+        mov esi, 4
+        jmp short .28
+.27:
+        push str_YES0
+        push dword [byte ebp+072h]
+        mov word [word_17C9B0], 1
+        call sub_E04E0
+        add esp, byte 8
+        push str_YES1
+        mov edi, 4
+        mov esi, 2
+.28:
+        push dword [byte ebp+072h]
+        mov dword [dword ebp-056Ah], eax
+        call sub_E04E0
+        add esp, byte 8
+        mov dword [dword ebp-0566h], eax
+        push str_YES0
+        lea eax, [byte ebp+04Eh]
+        push eax
+        mov dword [byte ebp+06Eh], edi
+        call sprintf_
+        add esp, byte 8
+.29:
+        cmp esi, dword [byte ebp+06Eh]
+        je near ModemDialScreen_BD2.36
+        mov al, byte [byte ebp+06Eh]
+        add al, 30h
+        mov byte [byte ebp+051h], al
+        lea eax, [byte ebp+04Eh]
+        push eax
+        push dword [byte ebp+072h]
+        call sub_E04E0
+        add esp, byte 8
+        push eax
+        call sub_AAA8C
+        add esp, byte 4
+        call GetTicks
+        add eax, byte 6
+        mov dword [byte ebp+05Ah], eax
+.30:
+        call GetTicks
+        cmp eax, dword [byte ebp+05Ah]
+        jl short .30
+        call SoundIdle
+        cmp edi, esi
+        jle short .31
+        dec dword [byte ebp+06Eh]
+        jmp short .29
+.31:
+        inc dword [byte ebp+06Eh]
+        jmp short .29
+ModemDialScreen_AB2:
+        mov eax, dword [byte ebp+066h]
+        movsx esi, word [word_17C9AC]
+        sub eax, byte 4
+        cmp esi, eax
+        je near ModemDialScreen_BD2.36
+        inc esi
+        push esi
+        add esi, byte 3
+        imul esi, byte 66h
+        mov eax, dword [byte ebp+066h]
+        sub eax, byte 4
+        mov word [word_17C9AC], ax
+        cwde
+        mov ax, word [nosplit eax*2+word_11E270]
+        push str_CMD02
+        mov word [word_17C9AE], ax
+        lea eax, [byte ebp+04Eh]
+        push eax
+        call sprintf_
+        add esp, byte 0Ch
+        lea eax, [byte ebp+04Eh]
+        push eax
+        push dword [byte ebp+072h]
+        mov byte [byte ebp+051h], 30h
+        call sub_E04E0
+        add esp, byte 8
+        mov dword [dword esi+ebp-069Ch], eax
+        lea eax, [byte ebp+04Eh]
+        push eax
+        push dword [byte ebp+072h]
+        mov byte [byte ebp+051h], 31h
+        call sub_E04E0
+        add esp, byte 8
+        mov dword [dword esi+ebp-0698h], eax
+        lea eax, [byte ebp+04Eh]
+        push eax
+        push dword [byte ebp+072h]
+        mov byte [byte ebp+051h], 32h
+        call sub_E04E0
+        mov dword [dword esi+ebp-06AAh], 1
+        mov dword [dword esi+ebp-0694h], eax
+        movsx esi, word [word_17C9AC]
+        add esp, byte 8
+        inc esi
+        push esi
+        push str_CMD2
+        lea eax, [byte ebp+04Eh]
+        push eax
+        call sprintf_
+        add esp, byte 0Ch
+        lea eax, [byte ebp+04Eh]
+        push eax
+        push dword [byte ebp+072h]
+        call sub_E04E0
+        mov edx, eax
+        lea eax, [byte esi+03h]
+        imul eax, byte 66h
+        mov dword [dword eax+ebp-0694h], 0
+        mov dword [dword eax+ebp-06AAh], 1
+        mov dword [dword eax+ebp-069Ch], edx
+        mov edx, dword [dword eax+ebp-0694h]
+        add esp, byte 8
+        mov dword [dword eax+ebp-0698h], edx
+        jmp near ModemDialScreen_BD2.36
+ModemDialScreen_BB5:
+        mov dword [byte ebp+06Ah], 3E9h
+        jmp near ModemDialScreen_BD2.36
+ModemDialScreen_BC1:
+        call SlideInSideBar
+        mov dword [byte ebp+06Ah], 0
+        jmp near ModemDialScreen_BD2.36
+ModemDialScreen_BD2:
+        call SlideInTitleBar
+        cmp word [word_17C9B2], byte 0
+        setne al
+        mov edx, ModemWaitIdle
+        movzx eax, al
+        call ModemGameOpen
+        test eax, eax
+        je near .35
+        mov eax, ModemWaitIdle
+        call ModemGameConnect
+        test eax, eax
+        je short .32
+        mov eax, dword [dword_17CA5C]
+        shl eax, 12h
+        shr eax, 1Fh
+        mov dword [byte ebp+06Ah], 12h
+        mov dword [dword_11E278], eax
+        test eax, eax
+        je short .36
+        and byte [byte_17CA5D], 0DFh
+        mov eax, dword [dword_17CA5C]
+        shl eax, 0Eh
+        and dword [dword_17CA5C], 0FFFC3FFFh
+        shr eax, 1Ch
+        or byte [byte_17CA5E], 2
+        mov dword [dword_11E27C], eax
+        jmp short .36
+.32:
+        call ModemGameClose
+.33:
+        call sub_DFF28
+        cmp eax, byte 1Bh
+        je short .34
+        push byte 1
+        call sub_DFE9C
+        add esp, byte 4
+        test eax, eax
+        je short .36
+.34:
+        call SoundIdle
+        jmp short .33
+.35:
+        call ModemGameClose
+.36:
+        cmp dword [byte ebp+06Ah], byte 0
+        jl near ModemDialScreen.17
+        xor esi, esi
+.37:
+        cmp dword [dword esi+dword_17D678], byte 0
+        je short .38
+        push dword [dword esi+dword_17D678]
+        call sub_ABF4C
+        add esp, byte 4
+.38:
+        cmp dword [dword esi+dword_17D680], byte 0
+        je short .39
+        push dword [dword esi+dword_17D680]
+        call sub_ABF4C
+        add esp, byte 4
+.39:
+        add esi, byte 4
+        cmp esi, byte 8
+        jne short .37
+        push dword [byte ebp+072h]
+        call sub_ABF4C
+        add esp, byte 4
+        mov eax, 3
+        call FadeOut
+        mov eax, dword [byte ebp+06Ah]
+        jmp near ModemSettingsScreen_D42
+;-----------------------------------------------------------------------------
+; RunModemSetup                                75E0C  96 PC, medium confidence
+; The dial screen, and the settings screen whenever it asks for it, until a
+; connection result
+;-----------------------------------------------------------------------------
+RunModemSetup:
+        push edx
+.1:
+        call ModemDialScreen
+        mov edx, eax
+        cmp eax, 3E8h
+        jle short .2
+        call ModemSettingsScreen
+.2:
+        cmp edx, 3E8h
+        jg short .1
+        mov eax, edx
+        pop edx
+        ret
+;-----------------------------------------------------------------------------
+; LinkSetupScreen                                 75E2C  96 PC, low confidence
+; With a serial link (word_114CE0 bit 1): the link screen (bkgd, data 56h)
+;-----------------------------------------------------------------------------
+LinkSetupScreen:
+        push ebx
+        push ecx
+        push edx
+        push esi
+        push edi
+        enter 144h, 0
+        sub ebp, 82h
+        mov ax, word [word_114CE0]
+        xor ah, ah
+        and al, 1
+        cwde
+        mov dword [byte ebp+076h], 0FFFFFFFFh
+        test eax, eax
+        je near ModemSettingsScreen_D42
+        mov eax, 2
+        call SoundSecondsToBytes
+        call FillMusicStream
+        xor edx, edx
+        mov eax, 56h
+        call LoadPackedFile
+        push byte 0
+        mov esi, eax
+        mov dword [byte ebp+072h], eax
+        call sub_ADA50
+        add esp, byte 4
+        call BlackPalette
+        push str_bangpal
+        push esi
+        call sub_E04E0
+        add eax, byte 10h
+        add esp, byte 8
+        mov dword [byte ebp+07Ah], eax
+        call SetScreenColors
+        call sub_DD6C4
+        push str_Bkgd23
+        push esi
+        call sub_E04E0
+        add esp, byte 8
+        push eax
+        lea edi, [dword ebp-0C2h]
+        call sub_AADA4
+        lea edx, [dword ebp-0C2h]
+        add esp, byte 4
+        mov eax, 3
+        mov esi, dword_17BC7C
+        call InitMenuItems
+        mov eax, 7
+        mov ecx, 66h
+        call OpenScreen
+        rep movsb
+        mov byte [byte ebp-080h], 2
+        mov byte [byte ebp-07Fh], 0
+        mov ecx, 66h
+        lea edi, [byte ebp-05Ch]
+        mov esi, dword_17BD48
+        mov byte [byte ebp-07Eh], 0
+        mov byte [byte ebp-07Dh], 1
+        rep movsb
+        mov byte [byte ebp-01Ah], 2
+        mov byte [byte ebp-019h], 1
+        mov ecx, 66h
+        lea edi, [byte ebp+0Ah]
+        mov esi, dword_17BCE2
+        mov byte [byte ebp-018h], 0
+        mov byte [byte ebp-017h], 1
+        rep movsb
+        mov byte [byte ebp+04Ch], 2
+        mov byte [byte ebp+04Dh], 1
+        push dword [byte ebp+048h]
+        mov byte [byte ebp+04Eh], 0
+        push dword [byte ebp+044h]
+        mov byte [byte ebp+04Fh], 2
+        call MouseRead
+        mov ebx, 3
+        mov edx, dword [byte ebp+07Ah]
+        add esp, byte 8
+        xor eax, eax
+        mov dword [byte ebp+07Eh], 2
+        call FadePalette
+.1:
+        call SoundIdle
+        cmp dword [byte ebp+07Eh], byte 0
+        jl short .3
+        cmp dword [byte ebp+07Eh], byte 3
+        jge short .3
+        imul eax, dword [byte ebp+07Eh], byte 66h
+        mov edx, dword [mousex]
+        cmp edx, dword [dword eax+ebp-088h]
+        jne short .2
+        mov edx, dword [mousey]
+        cmp edx, dword [dword eax+ebp-084h]
+        je short .3
+.2:
+        mov dword [byte ebp+07Eh], 0FFFFFFFFh
+.3:
+        push byte 3
+        lea eax, [byte ebp+07Eh]
+        push byte 0
+        mov ebx, 0FFFFFFFFh
+        lea edx, [dword ebp-0C2h]
+        push eax
+        xor ecx, ecx
+        mov eax, 3
+        call RunMenu
+        cmp dword [byte ebp+07Eh], byte 1
+        jb short .4
+        jbe short .5
+        cmp dword [byte ebp+07Eh], byte 2
+        je short .7
+        jmp near .8
+.4:
+        cmp dword [byte ebp+07Eh], byte 0
+        jne near .8
+        call SlideInSideBar
+        mov dword [byte ebp+076h], 12h
+        jmp short .8
+.5:
+        call SlideInTitleBar
+        call ModemGameQuit
+        cmp dword [dword_11E278], byte 0
+        je short .6
+        mov eax, dword [dword_11E27C]
+        or byte [byte_17CA5D], 20h
+        and eax, byte 0Fh
+        and dword [dword_17CA5C], 0FFFC3FFFh
+        shl eax, 0Eh
+        or dword [dword_17CA5C], eax
+.6:
+        mov dword [byte ebp+076h], 0
+        jmp short .8
+.7:
+        call SlideInBottomBar
+        push dword [dword_17BC78]
+        call TextSetFont
+        add esp, byte 4
+        mov ecx, 0FCh
+        mov ebx, 0FAh
+        push dword 0FEh
+        mov edx, 0F7h
+        mov eax, 1
+        call ModemChat
+.8:
+        cmp dword [byte ebp+076h], byte 0
+        jl near .1
+        push dword [byte ebp+072h]
+        call sub_ABF4C
+        add esp, byte 4
+        mov eax, 3
+        call FadeOut
+        mov eax, dword [byte ebp+076h]
+        jmp near ModemSettingsScreen_D42

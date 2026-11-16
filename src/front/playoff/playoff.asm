@@ -24,8 +24,8 @@ extern NameIndexLoad, NameIndexSave, NameIndexFree, NameIndexAdd, NameIndexFirst
 extern UpdateProgressBox, HideProgressBox, LoadTeamLogo, FileCopy, MakeDataPath, MakeDirPath, LoadPackedFile, sub_1E8E9
 extern LoadSeasonStats, LoadPlayoffStats, sub_29B9F, sub_4F159, sub_4F385, OpenScreen, SlideInTitleBar, SlideInSideBar
 extern SetScreenColors, FadePalette, FadeOut, SetTextColors, DrawColorText, DrawColorTextRight, DrawColorTextCentred, DrawFrameAt
-extern InitMenuItems, RunMenu, FillMusicStream, PlayMusic, MusicDone, SoundSecondsToBytes, RunControllerScreen, sub_77355
-extern sub_78E9E, sub_78EFA, sub_7BFAF, sub_7FF7F, sub_81D7C, sub_81EEA, sub_88509, sub_971E9
+extern InitMenuItems, RunMenu, FillMusicStream, PlayMusic, MusicDone, SoundSecondsToBytes, RunControllerScreen, GetLangText
+extern MakeSeasonDbPath, MakePlayoffDbPath, sub_7BFAF, sub_7FF7F, sub_81D7C, sub_81EEA, sub_88509, sub_971E9
 extern sub_A8B9B, sub_A8C75, sub_A9BAC, sub_AAA40, PutBlock, sub_AB758, sub_ABF4C, sub_AD35C
 extern sub_ADA80, sub_ADBEC, TextSetFont, sub_B0430, sub_B20D0, sub_B22B0, DrawArtOpaque, sub_B2C54
 extern sub_B7810, sub_C2500, sub_DD6C4, MouseRead, sub_E04E0, sub_E0584, str_S6, str_D17
@@ -296,7 +296,7 @@ sub_A524B:
         jne short .7
 .6:
         xor eax, eax
-        call sub_77355
+        call GetLangText
         push byte 2
         push byte 0
         push dword 0F0h
@@ -307,7 +307,7 @@ sub_A524B:
         push byte 0
         mov eax, 135h
         mov edx, 1
-        call sub_77355
+        call GetLangText
         call MessageBox
         jmp near .12
 .7:
@@ -923,7 +923,7 @@ sub_A540A:
         mov eax, 13Bh
         mov ebx, 10h
         mov edx, 69h
-        call sub_77355
+        call GetLangText
         call DrawColorTextCentred
         call sub_DD6C4
         push dword 96h
@@ -984,7 +984,7 @@ sub_A540A:
         cmp byte [byte_17D13A], 0
         jne short .27
         xor eax, eax
-        call sub_77355
+        call GetLangText
         push byte 2
         push byte 0
         push dword 0F0h
@@ -996,7 +996,7 @@ sub_A540A:
         mov eax, 136h
 .26:
         mov edx, 1
-        call sub_77355
+        call GetLangText
         call MessageBox
         mov dword [byte ebp+04Ah], 0FFFFFFFFh
         jmp near .33
@@ -1015,7 +1015,7 @@ sub_A540A:
         test edx, edx
         jne near .33
         xor eax, eax
-        call sub_77355
+        call GetLangText
         push byte 2
         push edx
         push dword 0F0h
@@ -1037,7 +1037,7 @@ sub_A540A:
         push dword 140h
         mov ecx, 0Fh
         mov ebx, byte_17BDAE
-        call sub_77355
+        call GetLangText
         mov edx, eax
         xor eax, eax
         call EditText
@@ -1074,7 +1074,7 @@ sub_A540A:
         mov eax, 13Bh
         mov ebx, 10h
         mov edx, 69h
-        call sub_77355
+        call GetLangText
         call DrawColorTextCentred
 .32:
         call sub_DD6C4
@@ -1251,12 +1251,12 @@ sub_A540A:
         mov dword [dword_17D162], eax
         mov eax, 225h
         mov edx, byte_17BDAE
-        call sub_77355
+        call GetLangText
         call ShowProgressBox
         lea eax, [byte ebp-0Eh]
         mov edx, esi
         xor ebx, ebx
-        call sub_78EFA
+        call MakePlayoffDbPath
         mov edx, 3
         lea eax, [byte ebp-04Eh]
         call MakeDataPath
@@ -1270,7 +1270,7 @@ sub_A540A:
         mov edx, esi
         call UpdateProgressBox
         lea eax, [byte ebp-0Eh]
-        call sub_78EFA
+        call MakePlayoffDbPath
         mov edx, 0BAh
         lea eax, [byte ebp-04Eh]
         call MakeDataPath
@@ -1286,7 +1286,7 @@ sub_A540A:
         mov edx, dword [byte ebp+04Eh]
         call UpdateProgressBox
         lea eax, [byte ebp-0Eh]
-        call sub_78EFA
+        call MakePlayoffDbPath
         mov edx, 5
         lea eax, [byte ebp-04Eh]
         call MakeDataPath
@@ -1302,7 +1302,7 @@ sub_A540A:
         mov edx, dword [byte ebp+04Eh]
         call UpdateProgressBox
         lea eax, [byte ebp-0Eh]
-        call sub_78EFA
+        call MakePlayoffDbPath
         mov edx, 6
         lea eax, [byte ebp-04Eh]
         call MakeDataPath
@@ -1318,7 +1318,7 @@ sub_A540A:
         mov edx, dword [byte ebp+04Eh]
         call UpdateProgressBox
         lea eax, [byte ebp-0Eh]
-        call sub_78EFA
+        call MakePlayoffDbPath
         mov edx, 7
         lea eax, [byte ebp-04Eh]
         call MakeDataPath
@@ -1334,7 +1334,7 @@ sub_A540A:
         mov edx, dword [byte ebp+04Eh]
         call UpdateProgressBox
         lea eax, [byte ebp-0Eh]
-        call sub_78EFA
+        call MakePlayoffDbPath
         mov edx, 8
         lea eax, [byte ebp-04Eh]
         call MakeDataPath
@@ -1355,7 +1355,7 @@ sub_A540A:
         mov edx, dword [dword_17D162]
         or dword [dword_17CF8E], eax
         lea eax, [byte ebp-0Eh]
-        call sub_78EFA
+        call MakePlayoffDbPath
         push dword 39Dh
         push unk_17CED5
         lea eax, [byte ebp-0Eh]
@@ -1464,7 +1464,7 @@ sub_A540A:
         cmp dword [byte ebp+04Ah], byte 1
         jne short .57
         xor eax, eax
-        call sub_77355
+        call GetLangText
         push byte 2
         push byte 0
         push dword 0F0h
@@ -1475,7 +1475,7 @@ sub_A540A:
         push byte 0
         mov eax, 267h
         mov edx, 1
-        call sub_77355
+        call GetLangText
         call MessageBox
 .57:
         mov eax, 3
@@ -1820,7 +1820,7 @@ sub_A68CD:
         push dword 140h
         mov ecx, 0Bh
         mov ebx, byte_17BDAE
-        call sub_77355
+        call GetLangText
         mov edx, eax
         xor eax, eax
         call EditText
@@ -2022,7 +2022,7 @@ sub_A6B94:
         mov dword [byte ebp+07Eh], eax
         xor eax, eax
         mov dword [gameopts], unk_17CED5
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp+05Eh], eax
         mov eax, 2
         call SoundSecondsToBytes
@@ -2037,7 +2037,7 @@ sub_A6B94:
         mov ebx, 0Ah
         lea eax, [byte ebp+02Eh]
         mov edx, dword [dword_17CBE7]
-        call sub_78E9E
+        call MakeSeasonDbPath
         push byte 0
         lea eax, [byte ebp+02Eh]
         push eax
@@ -2114,7 +2114,7 @@ sub_A6B94:
         call SetTextColors
         push byte_17D13A
         mov eax, 133h
-        call sub_77355
+        call GetLangText
         push eax
         lea eax, [byte ebp+06h]
         push eax
@@ -2571,7 +2571,7 @@ sub_A6B94:
         push byte 0
         lea ebx, [byte ebp+05Eh]
         mov edx, 1
-        call sub_77355
+        call GetLangText
         call MessageBox
         mov dword [byte ebp+05Ah], 0FFFFFFFFh
 .27:
@@ -3540,7 +3540,7 @@ sub_A80FC:
         enter 74h, 0
         push eax
         xor eax, eax
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp-018h], eax
         lea eax, [byte ebp-014h]
         call _dos_gettime_
@@ -3634,7 +3634,7 @@ sub_A80FC:
         push byte 0
         mov edx, 1
         mov dword [byte ebp-0Ch], 1
-        call sub_77355
+        call GetLangText
         call MessageBox
 .7:
         cmp dword [byte ebp-0Ch], byte 1

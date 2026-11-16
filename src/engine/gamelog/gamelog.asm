@@ -11,7 +11,7 @@ extern dword_11917F, dword_119183, dword_11A1BC, dword_11B310, dword_1571B3, dwo
 extern dword_179918, dword_179920, optflags, fputchar, gameclock, gameopts, gmode, hmroster
 extern hmtmgoalie, hmtmstruct, penshotplayer, sprintf_, str_FmtNumFirstLast, str_FmtNumInitialLast, str_FmtNumName, str_FmtNumNameSuffix
 extern str_FmtParenD, strcat_, strcpy_, strlen_, QueueOverlayPanel, CloseTextOverlay, EndCameraShot, PaEvent
-extern sub_77355, TextSetFont, unk_110E2D, str_S8, unk_156E6C, gsp, word_11A236, word_1656E8
+extern GetLangText, TextSetFont, unk_110E2D, str_S8, unk_156E6C, gsp, word_11A236, word_1656E8
 extern word_16581E, word_165942, word_176B6C, word_176B7A, word_176B80
 global FormatPlayerName, sub_4F58E, sub_4F626, BuildEventLines, PostGoalEvent, PostPenaltyEvent, PostInjuryEvent
 ;-----------------------------------------------------------------------------
@@ -204,7 +204,7 @@ sub_4F626:
         cmp eax, 0FFh
         jne short .3
         mov eax, 1Dh
-        call sub_77355
+        call GetLangText
         mov edx, eax
         mov eax, byte_1655E0
         call strcpy_
@@ -306,7 +306,7 @@ BuildEventLines:
         je short .2
         mov eax, 1Eh
 .1:
-        call sub_77355
+        call GetLangText
         jmp short .4
 .2:
         test al, 4
@@ -397,7 +397,7 @@ BuildEventLines:
         call sprintf_
         add esp, byte 10h
         mov eax, 20h
-        call sub_77355
+        call GetLangText
         mov edx, eax
         mov eax, byte_1655E0
         call strcpy_
@@ -435,7 +435,7 @@ BuildEventLines:
         push ecx
         mov eax, 21h
         lea ecx, [byte edx+07h]
-        call sub_77355
+        call GetLangText
         mov edx, eax
         mov eax, byte_165658
         call FormatPlayerName
@@ -454,7 +454,7 @@ BuildEventLines:
         call sprintf_
         add esp, byte 10h
         mov eax, 22h
-        call sub_77355
+        call GetLangText
         mov edx, eax
         mov eax, byte_16561C
         call strcpy_
@@ -475,7 +475,7 @@ BuildEventLines:
         cmp eax, 0FFh
         jne short .11
         mov eax, 23h
-        call sub_77355
+        call GetLangText
         mov edx, eax
         mov eax, byte_165658
         call strcpy_
@@ -483,7 +483,7 @@ BuildEventLines:
 .11:
         push eax
         mov eax, 24h
-        call sub_77355
+        call GetLangText
         push eax
         push byte_165658
         call sprintf_
@@ -491,7 +491,7 @@ BuildEventLines:
 .12:
         movzx eax, byte [byte_176B93]
         mov eax, dword [nosplit eax*4+dword_11A1BC]
-        call sub_77355
+        call GetLangText
         mov edx, eax
         mov eax, byte_1655E0
         call strcat_
@@ -506,7 +506,7 @@ BuildEventLines:
         mov dword [byte ebp-04h], eax
         mov eax, 25h
         mov dword [dword_1798AC], esi
-        call sub_77355
+        call GetLangText
         mov edx, eax
         mov eax, byte_16561C
         call strcpy_

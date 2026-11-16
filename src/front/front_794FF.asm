@@ -22,8 +22,8 @@ extern ShowMessage, ShowProgressBox, UpdateProgressBox, HideProgressBox, FileOpe
 extern sub_1E8E9, LoadSeasonStats, FreeStatsTables, sub_29B9F, sub_4F08B, sub_4F159, sub_4F2A8, sub_4F385
 extern OpenScreen, SlideInTitleBar, SlideInSideBar, SetScreenColors, BlackPalette, FadePalette, FadeOut, SetTextColors
 extern DrawColorText, DrawColorTextCentred, FillBox, InitMenuItems, RunMenu, FillMusicStream, PlayMusic, MusicDone
-extern SoundSecondsToBytes, RunControllerScreen, sub_77355, sub_77642, sub_77FF2, sub_78029, sub_78E9E, sub_78EFA
-extern sub_79060, sub_7D580, sub_7FF7F, sub_80E4D, sub_81D7C, sub_81EEA, sub_88509, sub_971E9
+extern SoundSecondsToBytes, RunControllerScreen, GetLangText, NewSeasonScreen, SetGreyPalette, DrawSeasonTeams, MakeSeasonDbPath, MakePlayoffDbPath
+extern ResetSeasonFiles, sub_7D580, sub_7FF7F, sub_80E4D, sub_81D7C, sub_81EEA, sub_88509, sub_971E9
 extern sub_A6B94, sub_A7A09, sub_A7B4B, sub_A7CC4, sub_A7E6D, sub_A800A, sub_A8AC5, sub_A8B9B
 extern sub_AAA40, sub_AAA8C, sub_AAADC, PutBlock, sub_AADA4, sub_ABF4C, sub_AD35C, sub_AD5C8
 extern sub_ADA80, sub_ADBEC, TextSetFont, sub_B0430, sub_B178B, sub_B20D0, sub_B20EC, sub_B22B0
@@ -63,7 +63,7 @@ sub_794FF:
         lea edx, [dword ebp-0BC2h]
         xor eax, eax
         rep movsd
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp+062h], eax
         mov eax, 10h
         call InitMenuItems
@@ -96,7 +96,7 @@ sub_794FF:
         call SetTextColors
         push byte_17CBEB
         mov eax, 1D7h
-        call sub_77355
+        call GetLangText
         push eax
         lea eax, [byte ebp-022h]
         lea edi, [dword ebp-0BC2h]
@@ -116,7 +116,7 @@ sub_794FF:
         call OpenScreen
         mov eax, dword [byte ebp+07Ah]
         mov ecx, 66h
-        call sub_77FF2
+        call SetGreyPalette
         rep movsb
         mov ecx, 66h
         lea edi, [dword ebp-0B5Ch]
@@ -461,7 +461,7 @@ sub_794FF:
         push eax
         mov edx, esi
         mov eax, dword [byte ebp+072h]
-        call sub_78029
+        call DrawSeasonTeams
         cmp dword [dword_17CC1B], byte 1
         jne short .9
         mov dword [byte ebp+07Eh], 0FFFFFFFFh
@@ -518,7 +518,7 @@ sub_794FF_7AC:
         lea ebx, [byte ebp+062h]
 .16:
         mov edx, 1
-        call sub_77355
+        call GetLangText
         call MessageBox
 .17:
         cmp dword [byte ebp+06Eh], byte 0
@@ -743,7 +743,7 @@ sub_794FF_A61:
         mov ebx, dword [dword_11E39C]
         mov eax, dword [byte ebp+072h]
 .31:
-        call sub_78029
+        call DrawSeasonTeams
         jmp near sub_794FF_7AC.17
 sub_794FF_ADF:
         mov dword [byte ebp+06Eh], 2713h
@@ -783,7 +783,7 @@ sub_794FF_AF7:
         jmp near sub_794FF_7AC.17
 .35:
         xor eax, eax
-        call sub_77355
+        call GetLangText
         push byte 2
         push byte 0
         push dword 0F0h
@@ -849,7 +849,7 @@ sub_794FF_C05:
         rep movsb
         lea eax, [byte ebp+012h]
         mov edx, dword [dword_17CBE7]
-        call sub_78E9E
+        call MakeSeasonDbPath
         push dword 39Dh
         push unk_17CED5
         lea eax, [byte ebp+012h]
@@ -921,7 +921,7 @@ sub_794FF_C68:
         mov ebx, 7
         lea eax, [byte ebp+012h]
         mov edx, dword [dword_17CBE7]
-        call sub_78E9E
+        call MakeSeasonDbPath
         push dword 3A7h
         push unk_17CB2E
         lea eax, [byte ebp+012h]
@@ -976,7 +976,7 @@ sub_7A2AE:
         mov ebx, 6
         lea eax, [byte ebp+03Ah]
         mov edx, dword [dword_17CBE7]
-        call sub_78E9E
+        call MakeSeasonDbPath
         push byte 0
         lea eax, [byte ebp+03Ah]
         push eax
@@ -1006,7 +1006,7 @@ sub_7A2AE:
         add esp, byte 4
         push byte_17CBEB
         mov eax, 1D7h
-        call sub_77355
+        call GetLangText
         push eax
         lea eax, [byte ebp+06h]
         push eax
@@ -1663,32 +1663,32 @@ sub_7A97E:
         xor ebx, ebx
         mov eax, 2Bh
         mov edx, 0Ah
-        call sub_77355
+        call GetLangText
         call DrawColorText
         mov eax, 30h
         mov edx, 0D2h
         xor ebx, ebx
-        call sub_77355
+        call GetLangText
         call DrawColorTextCentred
         mov eax, 2Ch
         mov edx, 0FAh
         xor ebx, ebx
-        call sub_77355
+        call GetLangText
         call DrawColorTextCentred
         mov eax, 2Dh
         mov edx, 122h
         xor ebx, ebx
-        call sub_77355
+        call GetLangText
         call DrawColorTextCentred
         mov eax, 2Eh
         mov edx, 14Ah
         xor ebx, ebx
-        call sub_77355
+        call GetLangText
         call DrawColorTextCentred
         mov eax, 2Fh
         mov edx, 172h
         xor ebx, ebx
-        call sub_77355
+        call GetLangText
         call DrawColorTextCentred
         lea eax, [dword ebp-012Ah]
         push eax
@@ -2042,7 +2042,7 @@ sub_7A97E:
         mov eax, 31h
         mov ebx, 14Ah
         mov edx, 64h
-        call sub_77355
+        call GetLangText
         call DrawColorTextCentred
 .41:
         cmp dword [byte ebp+04Eh], byte 0
@@ -2056,7 +2056,7 @@ sub_7A97E:
         mov eax, 32h
         mov ebx, 14Ah
         mov edx, 136h
-        call sub_77355
+        call GetLangText
         call DrawColorTextCentred
 .42:
         call sub_DD6C4
@@ -2087,20 +2087,20 @@ sub_7B15A:
         lea eax, [byte ebp-07Eh]
         mov dword [byte ebp+02Ah], eax
         mov eax, 33h
-        call sub_77355
+        call GetLangText
         mov edx, eax
         lea eax, [dword ebp-0AAh]
         call strcpy_
         mov eax, 1
         mov dword [byte ebp+04Eh], 0
-        call sub_77355
+        call GetLangText
         mov edx, eax
         lea eax, [byte ebp-07Eh]
         xor esi, esi
         call strcpy_
         mov eax, 1
         xor edi, edi
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp+036h], eax
         cmp dword [dword_17CC13], byte 2
         jne short .1
@@ -2123,7 +2123,7 @@ sub_7B15A:
         mov ecx, 0F0h
         mov ebx, 140h
         mov edx, byte_17BDAE
-        call sub_77355
+        call GetLangText
         call ShowMessage
         mov eax, dword [dword_17CBE7]
         call LoadSeasonStats
@@ -2147,7 +2147,7 @@ sub_7B15A:
         add eax, unk_17CC1F
         push eax
         mov eax, 38h
-        call sub_77355
+        call GetLangText
         push eax
         lea eax, [dword ebp-0DEh]
         push eax
@@ -2167,7 +2167,7 @@ sub_7B15A:
         mov edx, 1
         mov esi, 1
 .8:
-        call sub_77355
+        call GetLangText
         call MessageBox
         jmp short .11
 .9:
@@ -2207,7 +2207,7 @@ sub_7B15A:
         lea eax, [byte ebp-052h]
         mov edx, dword [dword_17CBE7]
         mov dword [byte ebp+06Ah], 1
-        call sub_78E9E
+        call MakeSeasonDbPath
         push esi
         lea eax, [byte ebp-052h]
         mov dword [byte ebp+05Ah], 41h
@@ -2223,7 +2223,7 @@ sub_7B15A:
         push dword [byte ebp+04Eh]
         mov eax, 39h
         mov edx, byte_17BDAE
-        call sub_77355
+        call GetLangText
         call ShowProgressBox
         mov edx, 4
         lea eax, [byte ebp-052h]
@@ -2284,7 +2284,7 @@ sub_7B15A:
         mov byte [dword esi+byte_17CC36], 0
         lea eax, [byte ebp-032h]
         mov edx, dword [dword_17CBE7]
-        call sub_78E9E
+        call MakeSeasonDbPath
         push dword 3A7h
         push unk_17CB2E
         lea eax, [byte ebp-032h]
@@ -2627,7 +2627,7 @@ sub_7B15A:
         mov ebx, 7
         lea eax, [byte ebp-052h]
         mov edx, dword [dword_17CBE7]
-        call sub_78E9E
+        call MakeSeasonDbPath
         push dword 3A7h
         push unk_17CB2E
         lea eax, [byte ebp-052h]
@@ -2637,7 +2637,7 @@ sub_7B15A:
         add esp, byte 0Ch
         lea eax, [byte ebp-052h]
         mov edx, dword [dword_17CBE7]
-        call sub_78E9E
+        call MakeSeasonDbPath
         push dword 39Dh
         push unk_17CED5
         lea eax, [byte ebp-052h]
@@ -2647,7 +2647,7 @@ sub_7B15A:
         add esp, byte 0Ch
         lea eax, [byte ebp-052h]
         mov edx, dword [dword_17CBE7]
-        call sub_78E9E
+        call MakeSeasonDbPath
         push dword [dword_117500]
         push dword [dword_1174E0]
         lea eax, [byte ebp-052h]
@@ -2657,7 +2657,7 @@ sub_7B15A:
         add esp, byte 0Ch
         lea eax, [byte ebp-052h]
         mov edx, dword [dword_17CBE7]
-        call sub_78E9E
+        call MakeSeasonDbPath
         lea eax, [byte ebp-052h]
         push eax
         call sub_B7810
@@ -2671,7 +2671,7 @@ sub_7B15A:
         add esp, byte 0Ch
         lea eax, [byte ebp-052h]
         mov edx, dword [dword_17CBE7]
-        call sub_78E9E
+        call MakeSeasonDbPath
         push dword [dword_117510]
         push dword [dword_1174F0]
         lea eax, [byte ebp-052h]
@@ -2753,7 +2753,7 @@ sub_7BA57:
         jmp near sub_7BA57_138.6
 sub_7BA57_6E:
         mov eax, esi
-        call sub_77642
+        call NewSeasonScreen
         mov edx, dword [dword_17D7D0]
         mov edi, eax
         mov ecx, eax
@@ -3029,7 +3029,7 @@ sub_7BA57_25A:
         add esp, byte 0Ch
         mov ebx, 140h
         mov edx, byte_17BDAE
-        call sub_77355
+        call GetLangText
         call ShowMessage
         imul ecx, dword [dword_17CEC3], dword 31Bh
         mov eax, dword [dword_17CEC7]
@@ -3097,10 +3097,10 @@ sub_7BFAF:
         mov esi, unk_7B991
         mov eax, 1
         rep movsd
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp+04Eh], eax
         xor eax, eax
-        call sub_77355
+        call GetLangText
         push byte 0
         push dword 0C2h
         push dword 1AEh
@@ -3488,7 +3488,7 @@ sub_7BFAF:
         mov eax, 3Fh
 .25:
         mov edx, 1
-        call sub_77355
+        call GetLangText
         call MessageBox
         jmp short .21
 .26:
@@ -3503,7 +3503,7 @@ sub_7BFAF:
         mov dword [byte ebp+062h], eax
         mov edx, eax
         lea eax, [byte ebp+026h]
-        call sub_78E9E
+        call MakeSeasonDbPath
         push byte 0
         lea eax, [byte ebp+026h]
         push eax
@@ -3525,7 +3525,7 @@ sub_7BFAF:
         mov edx, dword [byte ebp+062h]
         mov dword [byte ebp+06Ah], eax
         lea eax, [byte ebp+026h]
-        call sub_78E9E
+        call MakeSeasonDbPath
         push byte 0
         lea eax, [byte ebp+026h]
         push eax
@@ -3566,7 +3566,7 @@ sub_7BFAF:
         mov ebx, 7
         mov edx, eax
         lea eax, [byte ebp+026h]
-        call sub_78EFA
+        call MakePlayoffDbPath
         push byte 0
         lea eax, [byte ebp+026h]
         push eax
@@ -3616,7 +3616,7 @@ sub_7BFAF:
         add eax, byte 0Dh
         push eax
         mov eax, 1D8h
-        call sub_77355
+        call GetLangText
         push eax
         lea eax, [byte ebp-02Ah]
         push eax
@@ -3677,7 +3677,7 @@ sub_7BFAF:
         cmp edx, byte 5Ch
         jne short .39
         call sub_B178B
-        call sub_79060
+        call ResetSeasonFiles
         jmp near .45
 .40:
         mov eax, dword [dword ebp-0BBEh]
@@ -3702,43 +3702,43 @@ sub_7BFAF:
         mov edx, eax
         xor ebx, ebx
         lea eax, [byte ebp+026h]
-        call sub_78EFA
+        call MakePlayoffDbPath
         lea eax, [byte ebp+026h]
         mov ebx, 5
         call sub_B7256
         mov edx, ecx
         lea eax, [byte ebp+026h]
-        call sub_78EFA
+        call MakePlayoffDbPath
         lea eax, [byte ebp+026h]
         mov ebx, 1
         call sub_B7256
         mov edx, ecx
         lea eax, [byte ebp+026h]
-        call sub_78EFA
+        call MakePlayoffDbPath
         lea eax, [byte ebp+026h]
         mov ebx, 2
         call sub_B7256
         mov edx, ecx
         lea eax, [byte ebp+026h]
-        call sub_78EFA
+        call MakePlayoffDbPath
         lea eax, [byte ebp+026h]
         mov ebx, 3
         call sub_B7256
         mov edx, ecx
         lea eax, [byte ebp+026h]
-        call sub_78EFA
+        call MakePlayoffDbPath
         lea eax, [byte ebp+026h]
         mov ebx, 4
         call sub_B7256
         mov edx, ecx
         lea eax, [byte ebp+026h]
-        call sub_78EFA
+        call MakePlayoffDbPath
         lea eax, [byte ebp+026h]
         mov ebx, 7
         call sub_B7256
         mov edx, ecx
         lea eax, [byte ebp+026h]
-        call sub_78EFA
+        call MakePlayoffDbPath
         lea eax, [byte ebp+026h]
         mov edx, 6
         call sub_B7256

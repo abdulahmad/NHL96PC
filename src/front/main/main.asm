@@ -11,7 +11,7 @@ extern str_HardwareBeforeRunningHOC, str_IhreHardwareZuKonfigurie, str_LDON, str
 extern str_LOGOPACK, str_LSTA, str_spPressESCToReturnToDOS, str_YouMustFirstUseTheSETUPP, strcat_, strcmp_, strlen_, GripSetupScreen
 extern ClearSlotUsers, UserRecordsScreen, sub_57F0A, sub_583B8, LoadFrontEndArt, FreeFrontEndArt, RunIntro, RunCredits
 extern CopyBitmap, InitGraphicsFix, SetScreenMode, SetMenuMoveSfx, SetMenuSelectSfx, MainMenuScreen, StopMusic, FadeOutMusic
-extern TestCdSpeed, ShutdownSound, WriteGlobalSet, sub_6A675, sub_73BA5, sub_771F0, sub_77292, sub_77355
+extern TestCdSpeed, ShutdownSound, WriteGlobalSet, RunExhibitionMenus, sub_73BA5, LoadLangText, FreeLangText, GetLangText
 extern sub_7BA57, sub_88509, sub_A4961, sub_A4FD7, sub_AB758, sub_ABF4C, sub_AC868, sub_ADA50
 extern sub_AFCD0, sub_AFFD0, sub_B3100, sub_B3145, sub_B3160, sub_B31C0, sub_B3420, sub_DD6C4
 extern sub_DD800, sub_DD830, sub_DD87C, sub_DFA98, sub_DFB88, sub_DFF28, sub_E04D0, sub_E04E0
@@ -168,7 +168,7 @@ RunFrontEnd:
         call MainMenuScreen
         jmp short .17
 .6:
-        call sub_6A675
+        call RunExhibitionMenus
         jmp short .17
 .7:
         call sub_7BA57
@@ -243,17 +243,17 @@ CheckFreeMemory:
         jge near .5
         call sub_DD800
         mov eax, 262h
-        call sub_77355
+        call GetLangText
         push eax
         call printf_
         add esp, byte 4
         mov eax, 263h
-        call sub_77355
+        call GetLangText
         push eax
         call printf_
         add esp, byte 4
         mov eax, 1D6h
-        call sub_77355
+        call GetLangText
         push eax
         call printf_
         add esp, byte 4
@@ -267,17 +267,17 @@ CheckFreeMemory:
         jge short .5
         call sub_DD800
         mov eax, 264h
-        call sub_77355
+        call GetLangText
         push eax
         call printf_
         add esp, byte 4
         mov eax, 265h
-        call sub_77355
+        call GetLangText
         push eax
         call printf_
         add esp, byte 4
         mov eax, 1D6h
-        call sub_77355
+        call GetLangText
         push eax
         call printf_
         add esp, byte 4
@@ -330,17 +330,17 @@ CheckGameDirs:
         jle near StartUp_ret
         call sub_DD800
         mov eax, 25Dh
-        call sub_77355
+        call GetLangText
         push eax
         call printf_
         add esp, byte 4
         mov eax, 25Eh
-        call sub_77355
+        call GetLangText
         push eax
         call printf_
         add esp, byte 4
         mov eax, 1D6h
-        call sub_77355
+        call GetLangText
         push eax
         call printf_
         add esp, byte 4
@@ -506,18 +506,18 @@ StartUp:
         mov eax, dword [optflags]
         shl eax, 1Ch
         shr eax, 1Eh
-        call sub_771F0
+        call LoadLangText
         call DetectCPU
         cmp dword [dword_11F5E4], byte 0
         jne short .4
         call sub_DD800
         mov eax, 1D5h
-        call sub_77355
+        call GetLangText
         push eax
         call printf_
         add esp, byte 4
         mov eax, 1D6h
-        call sub_77355
+        call GetLangText
         push eax
         call printf_
         add esp, byte 4
@@ -631,7 +631,7 @@ ShutDown:
         call RunCredits
         call FreeFrontEndArt
         call ShutdownSound
-        call sub_77292
+        call FreeLangText
         push dword [dword_152F44]
         call sub_ABF4C
         add esp, byte 4

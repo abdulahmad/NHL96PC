@@ -50,9 +50,10 @@
 1 6A341 6A7D3 1170 front_settings front/settings/settings.asm
 1 6A7D3 6E233 14944 front_pause_menu front/pause_menu/pause_menu.asm
 1 6E233 711ED 12218 front_6E233 front/controller_screen/controller_screen.asm
-1 711ED 741BD 12240 modem_setup front/modem_setup/modem_setup.asm
-1 741BD 77642 13445 front_741BD front/front_741BD.asm
-1 77642 794FF 7869 front_77642 front/front_77642.asm
+1 711ED 76071 20100 modem_setup front/modem_setup/modem_setup.asm
+1 76071 771F0 4479 front_team_select front/team_select/team_select.asm
+1 771F0 77442 594 front_lang_text front/lang_text/lang_text.asm
+1 77442 794FF 8381 front_new_season front/new_season/new_season.asm
 1 794FF 7D580 16513 front_794FF front/front_794FF.asm
 1 7D580 7FF7F 10751 calendar front/calendar/calendar.asm
 1 7FF7F 81EEA 8043 front_7FF7F front/front_7FF7F.asm

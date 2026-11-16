@@ -14,7 +14,7 @@ extern LinkOpen, LinkSendMessage, LinkTimerTick, optblock_end, optflags, SetClip
 extern SetLinkMessageHandler, SetLinkSpareHook, SlotButtons, str_ABORT, str_HFwt, str_HGwt, str_LGwt, str_PAL22
 extern str_SHAD, str_X3, strcpy_, MessageBox, HideMessage, ShowMessage, CopyBitmap, SetTextColors
 extern DrawColorText, DrawColorTextCentred, DrawBox, StopMusic, QueueCurrentMusic, FillMusicStream, PlayMusic, FadeOutMusic
-extern SoundSecondsToBytes, SoundIdle, sub_77355, sub_AA664, sub_AA988, sub_AAA8C, sub_AADA4, sub_AB758
+extern SoundSecondsToBytes, SoundIdle, GetLangText, sub_AA664, sub_AA988, sub_AAA8C, sub_AADA4, sub_AB758
 extern sub_ABF4C, sub_AD35C, sub_AD620, sub_ADA80, sub_ADBEC, sub_DD6C4, sub_DD6E0, sub_DD724
 extern sub_DFE9C, sub_DFF28, sub_E04E0, unk_114CE6, unk_114D46, unk_114D6E, unk_15179C, unk_1519C0
 extern unk_151A04, unk_151A44, unk_151A94, unk_151ADC, unk_17C9B8, unk_17C9CC, unk_17D272, word_114CE0
@@ -67,7 +67,7 @@ ModemGameOpen:
         mov ebx, 140h
         mov edx, byte_17BDAE
         mov eax, 55h
-        call sub_77355
+        call GetLangText
         call ShowMessage
         xor edx, edx
         mov eax, 50h
@@ -144,7 +144,7 @@ ModemGameOpen:
         xor eax, eax
         call SetLinkAbortCheck
         xor eax, eax
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp-08h], eax
         push byte 2
         push byte 0
@@ -155,7 +155,7 @@ ModemGameOpen:
         lea ebx, [byte ebp-08h]
         mov edx, 1
         mov eax, 129h
-        call sub_77355
+        call GetLangText
         call MessageBox
         mov dword [byte_114D96], 0
         mov dword [byte ebp-04h], 0
@@ -666,7 +666,7 @@ ModemGameConnect:
         mov ebx, 140h
         mov edx, byte_17BDAE
         mov eax, 56h
-        call sub_77355
+        call GetLangText
         call ShowMessage
         jmp short .4
 .3:
@@ -674,7 +674,7 @@ ModemGameConnect:
         mov ebx, 140h
         mov edx, byte_17BDAE
         mov eax, 57h
-        call sub_77355
+        call GetLangText
         call ShowMessage
 .4:
         mov eax, dword [byte ebp-014h]
@@ -731,7 +731,7 @@ ModemGameConnect:
 .5:
         call HideMessage
         xor eax, eax
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp-0Ch], eax
         push byte 2
         push byte 0
@@ -742,7 +742,7 @@ ModemGameConnect:
         lea ebx, [byte ebp-0Ch]
         mov edx, 1
         mov eax, 58h
-        call sub_77355
+        call GetLangText
         call MessageBox
         mov dword [byte ebp-04h], 0
         jmp near .17
@@ -762,12 +762,12 @@ ModemGameConnect:
         cmp word [word_17C9B0], byte 0
         je short .9
         mov eax, 20Ah
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp-024h], eax
         jmp short .10
 .9:
         mov eax, 209h
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp-024h], eax
 .10:
         mov eax, dword [byte ebp-024h]
@@ -792,17 +792,17 @@ ModemGameConnect:
         jne short .14
         call HideMessage
         xor eax, eax
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp-0Ch], eax
         cmp word [word_114DBE], byte 0
         je short .12
         mov eax, 261h
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp-08h], eax
         jmp short .13
 .12:
         mov eax, 58h
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp-08h], eax
 .13:
         push byte 2
@@ -829,7 +829,7 @@ ModemGameConnect:
         mov ebx, 140h
         mov edx, byte_17BDAE
         mov eax, 59h
-        call sub_77355
+        call GetLangText
         call ShowMessage
         cmp word [word_114CE4], byte 0
         jne short .15
@@ -1888,7 +1888,7 @@ ModemChat:
         mov edx, dword [byte ebp-04Ch]
         sar edx, 1
         mov eax, 20Bh
-        call sub_77355
+        call GetLangText
         call DrawColorTextCentred
         movsx eax, word [byte ebp-0Ch]
         push eax
@@ -1946,7 +1946,7 @@ ModemChat:
         sar edx, 1
         add edx, dword [byte ebp-044h]
         mov eax, 20Bh
-        call sub_77355
+        call GetLangText
         call DrawColorTextCentred
         movsx eax, word [byte ebp-0Ch]
         push eax

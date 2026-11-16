@@ -16,7 +16,7 @@ extern SetViewRect, SlideInSideBar, SlideInTitleBar, SoundIdle, SoundSecondsToBy
 extern str_Bb02d, str_Bb10, str_Bb11, str_Bb19, str_Bb20, str_Bkgd5, str_Bt013, str_Bt023
 extern str_Bt02d, str_Bt102, str_Bt112, str_Bt19, str_Bt20, str_Bt28, str_Bt29, str_Hig1
 extern str_Hig2, str_Hig3, str_HILITESNDX, str_LOCALNDX2, str_Opt1, str_Opt2, str_Opt3, str_Pal11
-extern str_Sta1, str_Sta2, str_Sta3, str_Use1, str_Use2, str_Use3, sub_77355, sub_AA7E0
+extern str_Sta1, str_Sta2, str_Sta3, str_Use1, str_Use2, str_Use3, GetLangText, sub_AA7E0
 extern sub_AAA40, sub_AADA4, sub_ABF4C, sub_AD35C, sub_ADA50, sub_ADBEC, sub_BF8D0, sub_DD6C4
 extern sub_DFE9C, sub_E04E0, sub_E0584, vecdist, WaitRetrace, WaitRetraceEdges, word_114CE0, word_114CE4
 extern word_11D1B4, word_11D1B6, word_11D1B8, word_11D1BA, word_11D1C4, word_17C464, word_17C466, word_17C468
@@ -2914,7 +2914,7 @@ MainMenuScreen_8B5:
         jmp short .25
 .23:
         xor eax, eax
-        call sub_77355
+        call GetLangText
         push byte 2
         push byte 0
         push dword 122h
@@ -2926,7 +2926,7 @@ MainMenuScreen_8B5:
         mov eax, 25Fh
 .24:
         mov edx, 1
-        call sub_77355
+        call GetLangText
         call MessageBox
 .25:
         mov edx, esi
@@ -2953,7 +2953,7 @@ MainMenuScreen_939:
         jmp short MainMenuScreen_8B5.25
 .26:
         xor eax, eax
-        call sub_77355
+        call GetLangText
         push byte 2
         push byte 0
         push dword 122h
@@ -2967,10 +2967,10 @@ MainMenuScreen_939:
 MainMenuScreen_996:
         call SlideInSideBar
         mov eax, 2
-        call sub_77355
+        call GetLangText
         mov dword [byte ebp+05Ah], eax
         mov eax, 3
-        call sub_77355
+        call GetLangText
         push byte 2
         push byte 1
         push dword 12Ch
@@ -2981,7 +2981,7 @@ MainMenuScreen_996:
         push byte 0
         mov eax, 54h
         mov edx, 2
-        call sub_77355
+        call GetLangText
         call MessageBox
         test eax, eax
         jne short MainMenuScreen_A26.28

@@ -1,0 +1,36 @@
+# NHL 96 PC modem set-up and dialing screens, the team select screen, the language text (Localize). PC-only, source new.
+sub_741BD ModemSettingsScreen {confidence=medium} the modem settings screen (PICKS): modem type ("Generic Hayes-Compatible" ...), COM port and IRQ (01%d0, 02%d0, 0%d00), tone / pulse dialing
+sub_74F0C ModemWaitIdle {confidence=low} SoundIdle and one tick of the timer (sub_DFE9C(1)) while the modem screens wait
+sub_74F22 DrawPhoneNumber {confidence=medium} draws the phone number with the digit art (NUM%d, NM%d0, NM%d1)
+sub_7513A ModemDialScreen {confidence=medium} the modem connect screen: make the call (MAK), wait for a call (WFC), the number; above 3E8h asks for the settings
+sub_75E0C RunModemSetup {confidence=medium} the dial screen, and the settings screen whenever it asks for it, until a connection result
+sub_75E2C LinkSetupScreen {confidence=low} with a serial link (word_114CE0 bit 1): the link screen (bkgd, data 56h)
+sub_76231 DrawHomeTeamPanel {confidence=medium} the home team's panel on the team select screen: logo, name art, rank (rk%02d)
+sub_76394 DrawAwayTeamPanel {confidence=medium} the same for the away team
+sub_76518 TeamSelectScreen {confidence=high} the exhibition team select screen (arrows ahl / ahr / aal / aar, logos, names, ranks); returns the next screen
+sub_771F0 LoadLangText {confidence=high} at start-up: the language text index (data file) and the Localize buffer (800h) for the language
+sub_77292 FreeLangText {confidence=high} at shut-down: frees the language text index and buffer
+sub_772DB LoadLangBlock {confidence=high} (slot, block): reads a 200h-byte block of the language text file into a slot
+sub_77355 GetLangText {confidence=high} (text id): the text for an id from the language file (cached blocks); "LFERROR!!!" if missing
+sub_6A675 RunExhibitionMenus {confidence=medium} from RunFrontEnd: loads the exhibition set-up (EXHIBIT.NDX, stats), then team select, the controller screen and the next screens until a game or the main menu
+sub_741BD_D42 ModemSettingsScreen_D42 {no_record}
+sub_741BD_D49 ModemSettingsScreen_D49 {no_record}
+sub_7513A_75A ModemDialScreen_75A {no_record}
+sub_7513A_81F ModemDialScreen_81F {no_record}
+sub_7513A_8DB ModemDialScreen_8DB {no_record}
+sub_7513A_9DA ModemDialScreen_9DA {no_record}
+sub_7513A_AB2 ModemDialScreen_AB2 {no_record}
+sub_7513A_BB5 ModemDialScreen_BB5 {no_record}
+sub_7513A_BC1 ModemDialScreen_BC1 {no_record}
+sub_7513A_BD2 ModemDialScreen_BD2 {no_record}
+sub_76231_151 DrawHomeTeamPanel_151 {no_record}
+sub_76231_15D DrawHomeTeamPanel_15D {no_record}
+sub_76518_863 TeamSelectScreen_863 {no_record}
+sub_76518_91E TeamSelectScreen_91E {no_record}
+sub_76518_9C0 TeamSelectScreen_9C0 {no_record}
+sub_76518_A66 TeamSelectScreen_A66 {no_record}
+sub_76518_AFC TeamSelectScreen_AFC {no_record}
+sub_76518_BAA TeamSelectScreen_BAA {no_record}
+sub_76518_BB3 TeamSelectScreen_BB3 {no_record}
+sub_76518_BD7 TeamSelectScreen_BD7 {no_record}
+sub_76518_BE5 TeamSelectScreen_BE5 {no_record}

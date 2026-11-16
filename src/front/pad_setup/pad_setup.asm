@@ -11,7 +11,7 @@ extern mousex, mousey, ReadJoystickBits, SetGripButtonMap, sprintf_, str_A, str_
 extern str_BT01, str_BT02, str_D3, str_feB, str_GRIPCON, str_LTD0, str_Pal4, str_RGRIPCON
 extern strcpy_, strlen_, OpenScreen, SlideInTitleBar, SlideInSideBar, SetScreenColors, BlackPalette, FadePalette
 extern FadeOut, CopyBitmap, SetTextColors, DrawColorText, DrawColorTextRight, DrawColorTextCentred, InitMenuItems, RunMenu
-extern SetMenuMouse, FillMusicStream, SoundSecondsToBytes, SoundIdle, sub_77355, sub_AA988, sub_AADA4, sub_AB758
+extern SetMenuMouse, FillMusicStream, SoundSecondsToBytes, SoundIdle, GetLangText, sub_AA988, sub_AADA4, sub_AB758
 extern sub_ABF4C, sub_ADA50, sub_ADA80, sub_DD6C4, sub_DD724, sub_DFF28, sub_E04E0, TextSetFont
 extern unk_121FC8, unk_151648, unk_1516B8, unk_151720, unk_2018D, word_11758C, word_151768, word_158CBA
 extern word_158CBC, word_158D34, word_158D3C, word_158D44, word_158D46, word_158D74, word_158D76
@@ -746,12 +746,12 @@ GripSetupScreen:
         add esp, byte 14h
         mov ebx, 1
         mov edx, 4
-        call sub_77355
+        call GetLangText
         call DrawColorText
         mov eax, 1B1h
         mov ebx, 1
         mov edx, 27Dh
-        call sub_77355
+        call GetLangText
         call DrawColorTextRight
         mov eax, 2
         call OpenScreen
@@ -811,7 +811,7 @@ GripSetupScreen:
         inc eax
         push eax
         mov eax, 1B2h
-        call sub_77355
+        call GetLangText
         push eax
         lea eax, [byte ebp-060h]
         push eax
@@ -857,7 +857,7 @@ GripSetupScreen:
         push eax
         push dword [byte ebp-020h]
         mov eax, 1B3h
-        call sub_77355
+        call GetLangText
         push eax
         lea eax, [byte ebp-060h]
         push eax
@@ -866,7 +866,7 @@ GripSetupScreen:
         jmp short .6
 .5:
         mov eax, 1B4h
-        call sub_77355
+        call GetLangText
         mov edx, eax
         lea eax, [byte ebp-060h]
         call strcpy_
@@ -1019,7 +1019,7 @@ GripSetupScreen:
         imul edx, eax, byte 0Ah
         mov eax, 1B5h
         sub ebx, byte 3
-        call sub_77355
+        call GetLangText
         call DrawColorText
         movsx eax, word [word_158D76]
         lea edx, [byte eax+09h]
@@ -1278,7 +1278,7 @@ GripSetupScreen:
         imul edx, byte 6
         mov eax, 1B6h
         mov ebx, esi
-        call sub_77355
+        call GetLangText
         call DrawColorText
         mov eax, 0Fh
         xor edx, edx
@@ -1462,12 +1462,12 @@ GripSetupScreen:
         call SetTextColors
         mov eax, 1B7h
         mov edx, 140h
-        call sub_77355
+        call GetLangText
         call DrawColorTextCentred
         mov eax, 1B8h
         mov ebx, 0F2h
         mov edx, 140h
-        call sub_77355
+        call GetLangText
         call DrawColorTextCentred
 .32:
         call sub_DFF28
@@ -1773,11 +1773,11 @@ JoystickTestScreen:
         cmp dword [byte ebp+062h], byte 0
         jne near .12
         xor eax, eax
-        call sub_77355
+        call GetLangText
         push dword [byte ebp+076h]
         mov dword [byte ebp+05Ah], eax
         mov eax, 21Bh
-        call sub_77355
+        call GetLangText
         push eax
         lea eax, [byte ebp+02Ah]
         push eax

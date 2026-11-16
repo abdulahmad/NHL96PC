@@ -7,7 +7,7 @@ extern byte_117575, byte_157191, byte_157640, byte_157FD2, byte_158646, byte_158
 extern dword_1150D8, dword_1571B3, dword_15803D, dword_1580A1, dword_158654, dword_16411C, dword_164120, dword_164124
 extern dword_164128, dword_164798, dword_17CBE7, dword_17D162, dword_17D267, FatalError, FileClose, FileOpenRead
 extern FileReadAt, GameLoopActive, gameopts, GameOver, gmode, hmroster, hmrosterpos, lseek_
-extern MakeDataPath, optflags, strcpy_, FreeGameSprites, SetCrowdTarget, sub_77355, sub_78E9E, sub_78EFA
+extern MakeDataPath, optflags, strcpy_, FreeGameSprites, SetCrowdTarget, GetLangText, MakeSeasonDbPath, MakePlayoffDbPath
 extern sub_ABF4C, sub_B71D4, unk_156E6C, unk_157AF8, unk_157B1C, unk_157B82, unk_157F9C, unk_157FDA
 extern unk_1580AD, unk_1582F5, unk_1583C8, unk_158610, word_11510D, word_156E6E, word_156E70, word_156E72
 extern word_156E74, word_156E76, word_156E78, word_156E7A, word_157AFA, word_157AFC, word_165758, word_16578A
@@ -77,7 +77,7 @@ LoadGameRosters:
         mov ebx, 4
         lea eax, [byte ebp-03Ch]
         mov edx, dword [dword_17CBE7]
-        call sub_78E9E
+        call MakeSeasonDbPath
         jmp short .6
 .3:
         cmp dword [dword_17D267], byte 0
@@ -85,7 +85,7 @@ LoadGameRosters:
         mov ebx, 4
         lea eax, [byte ebp-03Ch]
         mov edx, dword [dword_17D162]
-        call sub_78EFA
+        call MakePlayoffDbPath
         jmp short .6
 .4:
         mov edx, 10Eh
@@ -107,7 +107,7 @@ LoadGameRosters:
         lea eax, [byte ebp-03Ch]
         push eax
         mov eax, 1B9h
-        call sub_77355
+        call GetLangText
         push eax
         call FatalError
         add esp, byte 8
@@ -120,7 +120,7 @@ LoadGameRosters:
         lea eax, [byte ebp-03Ch]
         push eax
         mov eax, 1BAh
-        call sub_77355
+        call GetLangText
         push eax
         call FatalError
         add esp, byte 8
@@ -132,7 +132,7 @@ LoadGameRosters:
         test eax, eax
         je short .10
         mov eax, 1BBh
-        call sub_77355
+        call GetLangText
         push eax
         call FatalError
         add esp, byte 4
@@ -148,7 +148,7 @@ LoadGameRosters:
         test eax, eax
         jge short .11
         mov eax, 1BCh
-        call sub_77355
+        call GetLangText
         push eax
         call FatalError
         add esp, byte 4
@@ -161,7 +161,7 @@ LoadGameRosters:
         test eax, eax
         je short .12
         mov eax, 1BDh
-        call sub_77355
+        call GetLangText
         push eax
         call FatalError
         add esp, byte 4
@@ -196,7 +196,7 @@ LoadGameRosters:
         mov ebx, 4
         lea eax, [byte ebp-03Ch]
         mov edx, dword [dword_17CBE7]
-        call sub_78E9E
+        call MakeSeasonDbPath
         jmp short .20
 .17:
         cmp dword [dword_17D267], byte 0
@@ -204,7 +204,7 @@ LoadGameRosters:
         mov ebx, 4
         lea eax, [byte ebp-03Ch]
         mov edx, dword [dword_17D162]
-        call sub_78EFA
+        call MakePlayoffDbPath
         jmp short .20
 .18:
         mov edx, 10Eh
@@ -226,7 +226,7 @@ LoadGameRosters:
         lea eax, [byte ebp-03Ch]
         push eax
         mov eax, 1B9h
-        call sub_77355
+        call GetLangText
         push eax
         call FatalError
         add esp, byte 8
@@ -239,7 +239,7 @@ LoadGameRosters:
         lea eax, [byte ebp-03Ch]
         push eax
         mov eax, 1BAh
-        call sub_77355
+        call GetLangText
         push eax
         call FatalError
         add esp, byte 8
@@ -251,7 +251,7 @@ LoadGameRosters:
         test eax, eax
         je short .24
         mov eax, 1BBh
-        call sub_77355
+        call GetLangText
         push eax
         call FatalError
         add esp, byte 4
@@ -267,7 +267,7 @@ LoadGameRosters:
         test eax, eax
         jge short .25
         mov eax, 1BCh
-        call sub_77355
+        call GetLangText
         push eax
         call FatalError
         add esp, byte 4
@@ -280,7 +280,7 @@ LoadGameRosters:
         test eax, eax
         je short .26
         mov eax, 1BDh
-        call sub_77355
+        call GetLangText
         push eax
         call FatalError
         add esp, byte 4
@@ -496,7 +496,7 @@ sub_1F8A6:
         test eax, eax
         je short .2
         mov eax, 1BEh
-        call sub_77355
+        call GetLangText
         push eax
         call FatalError
         add esp, byte 4
@@ -508,7 +508,7 @@ sub_1F8A6:
         test eax, eax
         jge short .3
         mov eax, 1BFh
-        call sub_77355
+        call GetLangText
         push eax
         call FatalError
         add esp, byte 4
@@ -521,7 +521,7 @@ sub_1F8A6:
         test eax, eax
         je short .4
         mov eax, 1C0h
-        call sub_77355
+        call GetLangText
         push eax
         call FatalError
         add esp, byte 4
@@ -533,7 +533,7 @@ sub_1F8A6:
         test eax, eax
         je short .5
         mov eax, 1C1h
-        call sub_77355
+        call GetLangText
         push eax
         call FatalError
         add esp, byte 4
@@ -545,7 +545,7 @@ sub_1F8A6:
         test eax, eax
         jge short .6
         mov eax, 1C2h
-        call sub_77355
+        call GetLangText
         push eax
         call FatalError
         add esp, byte 4
@@ -558,7 +558,7 @@ sub_1F8A6:
         test eax, eax
         je short .8
         mov eax, 1C3h
-        call sub_77355
+        call GetLangText
         push eax
         call FatalError
         add esp, byte 4
@@ -582,7 +582,7 @@ sub_1F8A6:
         test eax, eax
         je short .9
         mov eax, 1C4h
-        call sub_77355
+        call GetLangText
         push eax
         call FatalError
         add esp, byte 4
@@ -594,7 +594,7 @@ sub_1F8A6:
         test eax, eax
         jge short .10
         mov eax, 1C5h
-        call sub_77355
+        call GetLangText
         push eax
         call FatalError
         add esp, byte 4
@@ -607,7 +607,7 @@ sub_1F8A6:
         test eax, eax
         je short .11
         mov eax, 1C6h
-        call sub_77355
+        call GetLangText
         push eax
         call FatalError
         add esp, byte 4
@@ -621,7 +621,7 @@ sub_1F8A6:
         test eax, eax
         je short .12
         mov eax, 1C7h
-        call sub_77355
+        call GetLangText
         push eax
         call FatalError
         add esp, byte 4
@@ -633,7 +633,7 @@ sub_1F8A6:
         test eax, eax
         jge short .13
         mov eax, 1C8h
-        call sub_77355
+        call GetLangText
         push eax
         call FatalError
         add esp, byte 4
@@ -646,7 +646,7 @@ sub_1F8A6:
         test eax, eax
         je short .14
         mov eax, 1C9h
-        call sub_77355
+        call GetLangText
         push eax
         call FatalError
         add esp, byte 4
@@ -686,7 +686,7 @@ sub_1FACB:
         lea eax, [byte ebp-02Ch]
         mov edx, dword [dword_17CBE7]
         xor ebx, ebx
-        call sub_78E9E
+        call MakeSeasonDbPath
         jmp short .6
 .3:
         cmp dword [dword_17D267], byte 0
@@ -694,7 +694,7 @@ sub_1FACB:
         lea eax, [byte ebp-02Ch]
         mov edx, dword [dword_17D162]
         xor ebx, ebx
-        call sub_78EFA
+        call MakePlayoffDbPath
         jmp short .6
 .4:
         mov edx, 109h
@@ -709,7 +709,7 @@ sub_1FACB:
         test eax, eax
         je short .7
         mov eax, 1CAh
-        call sub_77355
+        call GetLangText
         push eax
         call FatalError
         add esp, byte 4
@@ -720,7 +720,7 @@ sub_1FACB:
         test eax, eax
         je short .8
         mov eax, 1CBh
-        call sub_77355
+        call GetLangText
         push eax
         call FatalError
         add esp, byte 4
@@ -745,7 +745,7 @@ sub_1FACB:
         mov ebx, 2
         lea eax, [byte ebp-02Ch]
         mov edx, dword [dword_17CBE7]
-        call sub_78E9E
+        call MakeSeasonDbPath
         jmp short .14
 .11:
         cmp dword [dword_17D267], byte 0
@@ -753,7 +753,7 @@ sub_1FACB:
         mov ebx, 2
         lea eax, [byte ebp-02Ch]
         mov edx, dword [dword_17D162]
-        call sub_78EFA
+        call MakePlayoffDbPath
         jmp short .14
 .12:
         mov edx, 10Fh
@@ -768,7 +768,7 @@ sub_1FACB:
         test eax, eax
         je short .15
         mov eax, 1CCh
-        call sub_77355
+        call GetLangText
         push eax
         call FatalError
         add esp, byte 4
@@ -779,7 +779,7 @@ sub_1FACB:
         test eax, eax
         je short .16
         mov eax, 1CDh
-        call sub_77355
+        call GetLangText
         push eax
         call FatalError
         add esp, byte 4
@@ -804,7 +804,7 @@ sub_1FACB:
         mov ebx, 5
         lea eax, [byte ebp-02Ch]
         mov edx, dword [dword_17CBE7]
-        call sub_78E9E
+        call MakeSeasonDbPath
         jmp short .22
 .19:
         cmp dword [dword_17D267], byte 0
@@ -812,7 +812,7 @@ sub_1FACB:
         mov ebx, 5
         lea eax, [byte ebp-02Ch]
         mov edx, dword [dword_17D162]
-        call sub_78EFA
+        call MakePlayoffDbPath
         jmp short .22
 .20:
         mov edx, 10Ch
@@ -827,7 +827,7 @@ sub_1FACB:
         test eax, eax
         je short .23
         mov eax, 1CEh
-        call sub_77355
+        call GetLangText
         push eax
         call FatalError
         add esp, byte 4
@@ -838,7 +838,7 @@ sub_1FACB:
         test eax, eax
         je short .24
         mov eax, 1CFh
-        call sub_77355
+        call GetLangText
         push eax
         call FatalError
         add esp, byte 4
@@ -869,7 +869,7 @@ sub_1FACB:
         mov ebx, 1
         lea eax, [byte ebp-02Ch]
         mov edx, dword [dword_17CBE7]
-        call sub_78E9E
+        call MakeSeasonDbPath
         jmp short .31
 .28:
         cmp dword [dword_17D267], byte 0
@@ -877,7 +877,7 @@ sub_1FACB:
         mov ebx, 1
         lea eax, [byte ebp-02Ch]
         mov edx, dword [dword_17D162]
-        call sub_78EFA
+        call MakePlayoffDbPath
         jmp short .31
 .29:
         mov edx, 113h
@@ -892,7 +892,7 @@ sub_1FACB:
         test eax, eax
         je short .32
         mov eax, 1D0h
-        call sub_77355
+        call GetLangText
         push eax
         call FatalError
         add esp, byte 4
@@ -903,7 +903,7 @@ sub_1FACB:
         test eax, eax
         je short .33
         mov eax, 1D1h
-        call sub_77355
+        call GetLangText
         push eax
         call FatalError
         add esp, byte 4

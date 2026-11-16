@@ -18,7 +18,7 @@ extern BlankForFadeIn, LoadSeasonStats, LoadPlayoffStats, LoadExhibitionStats, L
 extern UpdateUserRecords, sub_3A6F3, sub_4B59F, sub_5358E, InitGameView, FreeGameView, DrawGameFrame, ResetGameOverlays
 extern UpdateCamera, FreeSpriteCache, LoadFrontEndArt, FreeFrontEndArt, SetScreenColors, FadeOut, CopyBitmap, SetScreenMode
 extern StopMusic, QueueMusic, FadeOutMusic, PlaySfx, Crowd_Noise, SetCrowdTarget, CrowdFadeOut, ArenaClipReady
-extern StartArenaClip, StopArenaClip, StartGameSound, EndGameSound, SoundIdle, WriteGlobalSet, sub_77355, sub_AA664
+extern StartArenaClip, StopArenaClip, StartGameSound, EndGameSound, SoundIdle, WriteGlobalSet, GetLangText, sub_AA664
 extern sub_AB758, sub_ABF4C, sub_ADA50, sub_B0CA8, sub_DD6C4, sub_DD6E0, sub_DD7B8, sub_DFEC6
 extern sub_E04E0, unk_16443C, unk_17CB2E, unk_17CED5, unk_17D272, unk_17D32C, word_114CE0, word_114F14
 extern word_119111, word_119113, word_1515E4, word_1656D2, word_1656D6
@@ -55,7 +55,7 @@ PlayMenuGame:
         lea eax, [byte ebp-018h]
         mov dword [byte ebp-0Ch], eax
         xor eax, eax
-        call sub_77355
+        call GetLangText
         mov edx, eax
         lea eax, [byte ebp-018h]
         call strcpy_
@@ -251,7 +251,7 @@ PlayMenuGame_280:
         push byte 0
         mov eax, 3Fh
         mov edx, 1
-        call sub_77355
+        call GetLangText
         call MessageBox
         jmp short .12
 .11:

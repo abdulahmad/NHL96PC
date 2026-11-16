@@ -50,3 +50,9 @@ cut InitMenuItems front/menu Menus: the menu items, the menu input (mouse, pads,
 rename front/front_64F59 front/menu
 # step 9: front_6E233
 rename front/front_6E233 front/controller_screen The controller screen before a game: which controller plays for which team, with the users' names (96 PC).
+# step 10: front_741BD (modem screens, team select, language text) and front_77642 (new season)
+rename front/front_741BD front/modem_setup
+cut DrawHomeTeamPanel front/team_select The exhibition team select screen: home and away team panels (logo, name, rank) (96 PC).
+cut LoadLangText front/lang_text The language text: the Localize buffer, the text index and blocks, GetLangText (96 PC).
+cut CompareGrey front/new_season The new season: its set-up screen, creating the season files, the season and playoff database paths (96 PC).
+rename front/front_77642 front/new_season

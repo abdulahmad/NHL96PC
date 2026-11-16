@@ -4,7 +4,7 @@ bits 32
 section s_1EA14 progbits alloc exec nowrite align=1
 extern dword_1174E0, dword_1174E4, dword_1174E8, dword_1174EC, dword_1174F0, dword_1174F4, dword_1174F8, dword_1174FC
 extern dword_117500, dword_117504, dword_117508, dword_11750C, dword_117510, dword_117514, dword_117518, dword_11751C
-extern LoadDataFile, MakeDataPath, strcat_, strcpy_, sub_78E9E, sub_78EFA, sub_ABF4C, sub_B20D0
+extern LoadDataFile, MakeDataPath, strcat_, strcpy_, MakeSeasonDbPath, MakePlayoffDbPath, sub_ABF4C, sub_B20D0
 extern sub_B7810, unk_117522
 global LoadSeasonStats, LoadSeasonStats_11A, LoadPlayoffStats, LoadExhibitionStats, LoadExhibitionStats_17E, LoadModemStats, FreeStatsTables, sub_1F15E
 global sub_1F2C9, sub_1F2D4, sub_1F2DF, sub_1F2EA, sub_1F2F5
@@ -24,7 +24,7 @@ LoadSeasonStats:
         mov ebx, 5
         lea eax, [byte ebp-020h]
         mov edx, esi
-        call sub_78E9E
+        call MakeSeasonDbPath
         push byte 20h
         lea eax, [byte ebp-020h]
         push eax
@@ -39,7 +39,7 @@ LoadSeasonStats:
         mov dword [dword_117500], eax
         mov edx, esi
         lea eax, [byte ebp-020h]
-        call sub_78E9E
+        call MakeSeasonDbPath
         push byte 20h
         lea eax, [byte ebp-020h]
         push eax
@@ -54,7 +54,7 @@ LoadSeasonStats:
         mov dword [dword_117504], eax
         mov edx, esi
         lea eax, [byte ebp-020h]
-        call sub_78E9E
+        call MakeSeasonDbPath
         push byte 20h
         lea eax, [byte ebp-020h]
         push eax
@@ -69,7 +69,7 @@ LoadSeasonStats:
         mov edx, esi
         xor ebx, ebx
         lea eax, [byte ebp-020h]
-        call sub_78E9E
+        call MakeSeasonDbPath
         push byte 20h
         lea eax, [byte ebp-020h]
         push eax
@@ -84,7 +84,7 @@ LoadSeasonStats:
         mov dword [dword_11750C], eax
         mov edx, esi
         lea eax, [byte ebp-020h]
-        call sub_78E9E
+        call MakeSeasonDbPath
         push byte 20h
         lea eax, [byte ebp-020h]
         push eax
@@ -99,7 +99,7 @@ LoadSeasonStats:
         mov dword [dword_117510], eax
         mov edx, esi
         lea eax, [byte ebp-020h]
-        call sub_78E9E
+        call MakeSeasonDbPath
 LoadSeasonStats_11A:
         push byte 20h
         lea eax, [byte ebp-020h]
@@ -157,7 +157,7 @@ LoadPlayoffStats:
         mov ebx, 5
         lea eax, [byte ebp-020h]
         mov edx, esi
-        call sub_78EFA
+        call MakePlayoffDbPath
         push byte 20h
         lea eax, [byte ebp-020h]
         push eax
@@ -172,7 +172,7 @@ LoadPlayoffStats:
         mov dword [dword_117500], eax
         mov edx, esi
         lea eax, [byte ebp-020h]
-        call sub_78EFA
+        call MakePlayoffDbPath
         push byte 20h
         lea eax, [byte ebp-020h]
         push eax
@@ -187,7 +187,7 @@ LoadPlayoffStats:
         mov dword [dword_117504], eax
         mov edx, esi
         lea eax, [byte ebp-020h]
-        call sub_78EFA
+        call MakePlayoffDbPath
         push byte 20h
         lea eax, [byte ebp-020h]
         push eax
@@ -202,7 +202,7 @@ LoadPlayoffStats:
         mov edx, esi
         xor ebx, ebx
         lea eax, [byte ebp-020h]
-        call sub_78EFA
+        call MakePlayoffDbPath
         push byte 20h
         lea eax, [byte ebp-020h]
         push eax
@@ -217,7 +217,7 @@ LoadPlayoffStats:
         mov dword [dword_11750C], eax
         mov edx, esi
         lea eax, [byte ebp-020h]
-        call sub_78EFA
+        call MakePlayoffDbPath
         push byte 20h
         lea eax, [byte ebp-020h]
         push eax
@@ -232,7 +232,7 @@ LoadPlayoffStats:
         mov dword [dword_117510], eax
         mov edx, esi
         lea eax, [byte ebp-020h]
-        call sub_78EFA
+        call MakePlayoffDbPath
         jmp near LoadSeasonStats_11A
 ;-----------------------------------------------------------------------------
 ; LoadExhibitionStats                          1ECDB  96 PC, medium confidence

@@ -38,7 +38,7 @@ extern sub_25E7B, sub_25EB3, sub_261A6, sub_2751C, sub_2767F, sub_27BF1, sub_28A
 extern sub_28D97, sub_297C9, sub_299CF, sub_2E1BE, sub_4B38C, sub_4B4F3, sub_53BD7, sub_53C6F
 extern sub_54237, sub_54391, sub_5439F, sub_54427, SetCameraShot, ResetCameraShake, SetGameViewSize, SaveTeamPalette
 extern SetPlayerSpriteColors, SetRinkSpriteColors, LoadGameSprites, GetSpriteFrame, SpriteScale, DrawText, DrawTextCentred, SetTextColors
-extern DrawColorText, DrawColorTextRight, DrawColorTextCentred, FillBox, sub_6AA3B, sub_77355, sub_873AE, sub_AAA40
+extern DrawColorText, DrawColorTextRight, DrawColorTextCentred, FillBox, sub_6AA3B, GetLangText, sub_873AE, sub_AAA40
 extern sub_AAADC, sub_AB758, sub_ABF4C, sub_AD35C, sub_AD620, sub_AFFD0, sub_B0CA8, sub_B0F7C
 extern sub_B58D8, sub_B6140, sub_B6148, sub_BA3D0, sub_BB470, sub_BB570, sub_BB924, sub_BBA41
 extern sub_BBC04, sub_BC3A0, sub_BC3F4, sub_BC610, sub_BC674, sub_BC6D8, sub_BC760, sub_BD86C
@@ -3310,7 +3310,7 @@ DrawOverlayCaption:
         and edi, 0FFFFh
         mov eax, dword [byte ebp+eax*4-02Ch]
         mov cl, byte [byte_1798A4]
-        call sub_77355
+        call GetLangText
         push eax
         sar esi, cl
         call fputchar
@@ -3346,7 +3346,7 @@ DrawOverlayCaption:
         mov ecx, edi
         mov eax, dword [byte ebp+eax*4-02Ch]
         add ebx, edi
-        call sub_77355
+        call GetLangText
         call DrawColorText
         mov eax, dword [byte ebp-08h]
         mov ebx, dword [byte ebp-04h]
@@ -3433,7 +3433,7 @@ DrawTimedPanel:
         mov esi, dword [dword eax+esi*4+dword_11B9F4]
         mov eax, dword [esi]
         mov edi, 266h
-        call sub_77355
+        call GetLangText
         push dword [dword_179920]
         mov dword [byte ebp-010h], eax
         mov dword [byte ebp-0Ch], eax
@@ -3733,7 +3733,7 @@ DrawPenaltyClock:
         sar edx, cl
         mov eax, 7Dh
         add edx, dword [edi]
-        call sub_77355
+        call GetLangText
         call DrawColorText
         push dword [dword_179914]
         call TextSetFont
@@ -3900,7 +3900,7 @@ DrawPlayerPctPanel:
         sub eax, edx
         mov edx, eax
         mov eax, 7Eh
-        call sub_77355
+        call GetLangText
         call DrawColorTextRight
         push dword [dword_179918]
         call TextSetFont
@@ -3912,7 +3912,7 @@ DrawPlayerPctPanel:
         movsx eax, word [dword edi+word_1656DA]
         push eax
         mov eax, 7Fh
-        call sub_77355
+        call GetLangText
         push eax
         lea eax, [byte ebp-054h]
         push eax
@@ -3982,7 +3982,7 @@ DrawPlayerPctPanel:
         mov edx, eax
         mov eax, 80h
         add ebx, dword [byte esi+08h]
-        call sub_77355
+        call GetLangText
         call DrawColorTextRight
         push dword [dword_179918]
         call TextSetFont
@@ -4007,7 +4007,7 @@ DrawPlayerPctPanel:
         push eax
         mov eax, 82h
 .17:
-        call sub_77355
+        call GetLangText
         push eax
         lea eax, [byte ebp-054h]
         push eax
@@ -4243,7 +4243,7 @@ DrawTimeLeftPanel:
         call SetTextColors
         mov eax, 83h
         mov esi, 10h
-        call sub_77355
+        call GetLangText
         mov edx, eax
         lea eax, [byte ebp-060h]
         mov edi, 266h
@@ -4526,7 +4526,7 @@ GetPeriodText_86:
 .7:
         mov eax, 89h
 .8:
-        call sub_77355
+        call GetLangText
         mov edx, eax
         mov eax, ebx
         call strcpy_
@@ -5008,7 +5008,7 @@ DrawScorePanel_697:
 DrawScorePanel_69E:
         mov eax, 88h
 .22:
-        call sub_77355
+        call GetLangText
         mov edx, eax
         lea eax, [byte ebp-060h]
         call strcpy_
@@ -5187,7 +5187,7 @@ DrawPlayerNamePanel:
 .5:
         mov eax, 91h
 .6:
-        call sub_77355
+        call GetLangText
         mov edx, eax
         lea eax, [byte ebp-028h]
         call strcpy_
@@ -5222,7 +5222,7 @@ sub_5C7E2:
         cmp byte [byte_1655A4], 0
         je near .9
         mov eax, 20h
-        call sub_77355
+        call GetLangText
         mov edx, eax
         mov eax, byte_1655E0
         call strcmp_
@@ -5861,7 +5861,7 @@ DrawLineChangeBox:
         sub eax, byte 3
         push eax
         mov eax, 93h
-        call sub_77355
+        call GetLangText
         push eax
         lea eax, [byte ebp-050h]
         push eax
@@ -5871,7 +5871,7 @@ DrawLineChangeBox:
 .13:
         mov eax, 94h
 .14:
-        call sub_77355
+        call GetLangText
         push eax
         lea eax, [byte ebp-050h]
         push eax
@@ -5894,7 +5894,7 @@ DrawLineChangeBox:
         sub eax, byte 5
         push eax
         mov eax, 95h
-        call sub_77355
+        call GetLangText
         push eax
         lea eax, [byte ebp-050h]
         push eax
@@ -5911,7 +5911,7 @@ DrawLineChangeBox:
         inc eax
         push eax
         mov eax, 97h
-        call sub_77355
+        call GetLangText
         push eax
         lea eax, [byte ebp-050h]
         push eax
@@ -5920,7 +5920,7 @@ DrawLineChangeBox:
         jmp short .20
 .19:
         mov eax, 98h
-        call sub_77355
+        call GetLangText
         push eax
         lea eax, [byte ebp-050h]
         push eax

@@ -21,11 +21,11 @@ extern sub_AAA40, sub_AADA4, sub_ABF4C, sub_AD35C, sub_ADA50, sub_ADBEC, sub_BF8
 extern sub_DFE9C, sub_E04E0, sub_E0584, vecdist, WaitRetrace, WaitRetraceEdges, word_114CE0, word_114CE4
 extern word_11D1B4, word_11D1B6, word_11D1B8, word_11D1BA, word_11D1C4, word_17C464, word_17C466, word_17C468
 extern word_17C46A, word_17C46C, word_17C46E, word_17C470
-global InitMenuItems, PollMenuInput, SetMenuMoveSfx, SetMenuSelectSfx, sub_64E74, sub_64F47, sub_64F59, sub_66373
-global unk_663B9, jpt_66539, jpt_66549, jpt_66569, jpt_66579, sub_66589, sub_66589_B4, sub_66589_C9
-global sub_66589_DE, sub_66589_F3, sub_66589_621, sub_66589_671, sub_66589_6FC, sub_66589_724, sub_66589_74C, sub_66589_774
-global sub_66589_8A9, sub_66589_8B5, sub_66589_92D, sub_66589_939, sub_66589_996, sub_66589_9EE, sub_66589_A0B, sub_66589_A14
-global sub_66589_A1D, sub_66589_A26
+global InitMenuItems, PollMenuInput, SetMenuMoveSfx, SetMenuSelectSfx, sub_64E74, sub_64F47, RunMenu, SetMenuMouse
+global unk_663B9, jpt_66539, jpt_66549, jpt_66569, jpt_66579, MainMenuScreen, MainMenuScreen_B4, MainMenuScreen_C9
+global MainMenuScreen_DE, MainMenuScreen_F3, MainMenuScreen_621, MainMenuScreen_671, MainMenuScreen_6FC, MainMenuScreen_724, MainMenuScreen_74C, MainMenuScreen_774
+global MainMenuScreen_8A9, MainMenuScreen_8B5, MainMenuScreen_92D, MainMenuScreen_939, MainMenuScreen_996, MainMenuScreen_9EE, MainMenuScreen_A0B, MainMenuScreen_A14
+global MainMenuScreen_A1D, MainMenuScreen_A26
 ;-----------------------------------------------------------------------------
 ; InitMenuItems                                   64721  96 PC, low confidence
 ; (count, items): clears the menu item records (66h bytes) and sets their
@@ -720,9 +720,13 @@ sub_64F47:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_64F59                                                       64F59  96 PC
+; RunMenu                                                         64F59  96 PC
+; The menu loop of every front-end screen (message boxes, the stats, three
+; stars, pad set-up, user screens): items, highlight, mouse / pads / keys
+; (PollMenuInput), the link exchange in a link game; returns the chosen item
+; (-1 none)
 ;-----------------------------------------------------------------------------
-sub_64F59:
+RunMenu:
         push esi
         push edi
         enter 8Ch, 0
@@ -2286,9 +2290,11 @@ sub_64F59:
         pop esi
         ret 0Ch
 ;-----------------------------------------------------------------------------
-; sub_66373                                                       66373  96 PC
+; SetMenuMouse                                 66373  96 PC, medium confidence
+; (x, y): puts the menu mouse at x, y (in a link game keeps it for the other
+; side)
 ;-----------------------------------------------------------------------------
-sub_66373:
+SetMenuMouse:
         push ebx
         push ecx
         mov bx, word [word_114CE0]
@@ -2339,33 +2345,34 @@ unk_663B9:
         db 023h,02h,00h,00h,010h,01h,00h,00h,018h,02h,00h,00h,016h,01h,00h,00h
         db 0A8h,01h,00h,00h,016h,01h,00h,00h,09Dh,01h,00h,00h,0Fh,01h,00h,00h
 jpt_66539:
-        dd sub_66589_B4
-        dd sub_66589_C9
-        dd sub_66589_DE
-        dd sub_66589_F3
+        dd MainMenuScreen_B4
+        dd MainMenuScreen_C9
+        dd MainMenuScreen_DE
+        dd MainMenuScreen_F3
 jpt_66549:
-        dd sub_66589_621
-        dd sub_66589_774
-        dd sub_66589_8A9
-        dd sub_66589_8B5
-        dd sub_66589_92D
-        dd sub_66589_939
-        dd sub_66589_996
-        dd sub_66589_9EE
+        dd MainMenuScreen_621
+        dd MainMenuScreen_774
+        dd MainMenuScreen_8A9
+        dd MainMenuScreen_8B5
+        dd MainMenuScreen_92D
+        dd MainMenuScreen_939
+        dd MainMenuScreen_996
+        dd MainMenuScreen_9EE
 jpt_66569:
-        dd sub_66589_671
-        dd sub_66589_6FC
-        dd sub_66589_724
-        dd sub_66589_74C
+        dd MainMenuScreen_671
+        dd MainMenuScreen_6FC
+        dd MainMenuScreen_724
+        dd MainMenuScreen_74C
 jpt_66579:
-        dd sub_66589_A0B
-        dd sub_66589_A14
-        dd sub_66589_A1D
-        dd sub_66589_A26
+        dd MainMenuScreen_A0B
+        dd MainMenuScreen_A14
+        dd MainMenuScreen_A1D
+        dd MainMenuScreen_A26
 ;-----------------------------------------------------------------------------
-; sub_66589                                                       66589  96 PC
+; MainMenuScreen                               66589  96 PC, medium confidence
+; From RunFrontEnd: the main menu (bkgd, !pal, 8 items, buttons by optflags)
 ;-----------------------------------------------------------------------------
-sub_66589:
+MainMenuScreen:
         push ebx
         push ecx
         push edx
@@ -2412,30 +2419,30 @@ sub_66589:
         shr eax, 1Dh
         mov dword [byte ebp+072h], 0FFFFFFFFh
         cmp eax, byte 3
-        ja short sub_66589_F3.2
+        ja short MainMenuScreen_F3.2
         jmp dword [nosplit cs:eax*4+jpt_66539]
-sub_66589_B4:
+MainMenuScreen_B4:
         push str_Bt013
         push esi
         call sub_E04E0
         add esp, byte 8
         push str_Bt023
-        jmp short sub_66589_F3.1
-sub_66589_C9:
+        jmp short MainMenuScreen_F3.1
+MainMenuScreen_C9:
         push str_Bt102
         push esi
         call sub_E04E0
         add esp, byte 8
         push str_Bt112
-        jmp short sub_66589_F3.1
-sub_66589_DE:
+        jmp short MainMenuScreen_F3.1
+MainMenuScreen_DE:
         push str_Bt19
         push esi
         call sub_E04E0
         add esp, byte 8
         push str_Bt20
-        jmp short sub_66589_F3.1
-sub_66589_F3:
+        jmp short MainMenuScreen_F3.1
+MainMenuScreen_F3:
         push str_Bt28
         push esi
         call sub_E04E0
@@ -2701,12 +2708,12 @@ sub_66589_F3:
         push eax
         xor ecx, ecx
         mov eax, 8
-        call sub_64F59
+        call RunMenu
         cmp dword [byte ebp+06Ah], byte 7
-        ja near sub_66589_A26.28
+        ja near MainMenuScreen_A26.28
         mov eax, dword [byte ebp+06Ah]
         jmp dword [nosplit cs:eax*4+jpt_66549]
-sub_66589_621:
+MainMenuScreen_621:
         mov edx, dword [optflags]
         mov eax, dword [optflags]
         and edx, byte 70h
@@ -2727,9 +2734,9 @@ sub_66589_621:
         shl eax, 19h
         shr eax, 1Dh
         cmp eax, byte 3
-        ja near sub_66589_671.14
+        ja near MainMenuScreen_671.14
         jmp dword [nosplit cs:eax*4+jpt_66569]
-sub_66589_671:
+MainMenuScreen_671:
         push str_Bt013
         push dword [byte ebp+076h]
         call sub_E04E0
@@ -2746,7 +2753,7 @@ sub_66589_671:
 .14:
         mov eax, dword [byte ebp+07Eh]
         cmp eax, dword [byte ebp+07Ah]
-        jg near sub_66589_A26.28
+        jg near MainMenuScreen_A26.28
         push eax
         push str_Bt02d
         lea eax, [byte ebp+062h]
@@ -2770,7 +2777,7 @@ sub_66589_671:
         jge short .14
         call SoundIdle
         jmp short .15
-sub_66589_6FC:
+MainMenuScreen_6FC:
         push str_Bt102
         push dword [byte ebp+076h]
         call sub_E04E0
@@ -2778,8 +2785,8 @@ sub_66589_6FC:
         push str_Bt112
         mov dword [byte ebp+07Eh], 3
         mov dword [byte ebp+07Ah], 9
-        jmp near sub_66589_671.13
-sub_66589_724:
+        jmp near MainMenuScreen_671.13
+MainMenuScreen_724:
         push str_Bt19
         push dword [byte ebp+076h]
         call sub_E04E0
@@ -2787,8 +2794,8 @@ sub_66589_724:
         push str_Bt20
         mov dword [byte ebp+07Eh], 0Ch
         mov dword [byte ebp+07Ah], 12h
-        jmp near sub_66589_671.13
-sub_66589_74C:
+        jmp near MainMenuScreen_671.13
+MainMenuScreen_74C:
         push str_Bt28
         push dword [byte ebp+076h]
         call sub_E04E0
@@ -2796,8 +2803,8 @@ sub_66589_74C:
         push str_Bt29
         mov dword [byte ebp+07Eh], 15h
         mov dword [byte ebp+07Ah], 1Bh
-        jmp near sub_66589_671.13
-sub_66589_774:
+        jmp near MainMenuScreen_671.13
+MainMenuScreen_774:
         mov edx, dword [optflags]
         mov eax, dword [optflags]
         and edx, 180h
@@ -2860,7 +2867,7 @@ sub_66589_774:
 .21:
         mov eax, dword [byte ebp+07Eh]
         cmp eax, dword [byte ebp+07Ah]
-        jg near sub_66589_A26.28
+        jg near MainMenuScreen_A26.28
         push eax
         push str_Bb02d
         lea eax, [byte ebp+062h]
@@ -2884,10 +2891,10 @@ sub_66589_774:
         jge short .21
         call SoundIdle
         jmp short .22
-sub_66589_8A9:
+MainMenuScreen_8A9:
         mov dword [byte ebp+072h], 0Dh
-        jmp near sub_66589_A26.28
-sub_66589_8B5:
+        jmp near MainMenuScreen_A26.28
+MainMenuScreen_8B5:
         mov edx, 3
         lea eax, [byte ebp+026h]
         xor ebx, ebx
@@ -2925,11 +2932,11 @@ sub_66589_8B5:
         mov edx, esi
         xor eax, eax
         call NameIndexFree
-        jmp near sub_66589_A26.28
-sub_66589_92D:
+        jmp near MainMenuScreen_A26.28
+MainMenuScreen_92D:
         mov dword [byte ebp+072h], 4
-        jmp near sub_66589_A26.28
-sub_66589_939:
+        jmp near MainMenuScreen_A26.28
+MainMenuScreen_939:
         mov edx, 7
         lea eax, [byte ebp+026h]
         xor ebx, ebx
@@ -2943,7 +2950,7 @@ sub_66589_939:
         cmp dword [byte eax+066h], byte 0
         jle short .26
         mov dword [byte ebp+072h], 0Bh
-        jmp short sub_66589_8B5.25
+        jmp short MainMenuScreen_8B5.25
 .26:
         xor eax, eax
         call sub_77355
@@ -2956,8 +2963,8 @@ sub_66589_939:
         mov dword [byte ebp+05Ah], eax
         push byte 0
         mov eax, 51h
-        jmp near sub_66589_8B5.24
-sub_66589_996:
+        jmp near MainMenuScreen_8B5.24
+MainMenuScreen_996:
         call SlideInSideBar
         mov eax, 2
         call sub_77355
@@ -2977,34 +2984,34 @@ sub_66589_996:
         call sub_77355
         call MessageBox
         test eax, eax
-        jne short sub_66589_A26.28
+        jne short MainMenuScreen_A26.28
         mov dword [byte ebp+072h], 17h
-        jmp short sub_66589_A26.28
-sub_66589_9EE:
+        jmp short MainMenuScreen_A26.28
+MainMenuScreen_9EE:
         call SlideInTitleBar
         mov eax, dword [optflags]
         shl eax, 19h
         shr eax, 1Dh
         cmp eax, byte 3
-        ja short sub_66589_A26.27
+        ja short MainMenuScreen_A26.27
         jmp dword [nosplit cs:eax*4+jpt_66579]
-sub_66589_A0B:
+MainMenuScreen_A0B:
         mov dword [byte ebp+072h], 1
-        jmp short sub_66589_A26.28
-sub_66589_A14:
+        jmp short MainMenuScreen_A26.28
+MainMenuScreen_A14:
         mov dword [byte ebp+072h], 7
-        jmp short sub_66589_A26.28
-sub_66589_A1D:
+        jmp short MainMenuScreen_A26.28
+MainMenuScreen_A1D:
         mov dword [byte ebp+072h], 13h
-        jmp short sub_66589_A26.28
-sub_66589_A26:
+        jmp short MainMenuScreen_A26.28
+MainMenuScreen_A26:
         mov dword [byte ebp+072h], 12h
         jmp short .28
 .27:
         mov dword [byte ebp+072h], 0FFFFFFFFh
 .28:
         cmp dword [byte ebp+072h], byte 0
-        jl near sub_66589_F3.9
+        jl near MainMenuScreen_F3.9
         push dword [byte ebp+076h]
         call sub_ABF4C
         add esp, byte 4

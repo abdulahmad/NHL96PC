@@ -652,6 +652,9 @@ address,name,auto_name,source,confidence,evidence,file
 64776,PollMenuInput,sub_64776,new,medium,"reads the mouse, GrIP pads, joysticks and keys for the menus",src/front/menu/menu.asm
 64E54,SetMenuMoveSfx,sub_64E54,new,medium,(id below 49h): the menu cursor sound,src/front/menu/menu.asm
 64E64,SetMenuSelectSfx,sub_64E64,new,medium,(id below 49h): the menu select sound,src/front/menu/menu.asm
+64F59,RunMenu,sub_64F59,new,high,"the menu loop of every front-end screen (message boxes, the stats, three stars, pad set-up, user screens): items, highlight, mouse / pads / keys (PollMenuInput), the link exchange in a link game; returns the chosen item (-1 none)",src/front/menu/menu.asm
+66373,SetMenuMouse,sub_66373,new,medium,"(x, y): puts the menu mouse at x, y (in a link game keeps it for the other side)",src/front/menu/menu.asm
+66589,MainMenuScreen,sub_66589,new,medium,"from RunFrontEnd: the main menu (bkgd, !pal, 8 items, buttons by optflags)",src/front/menu/menu.asm
 67000,FindClipIndex,sub_67000,new,low,binary search of the 45h-entry table dword_11D242 for [eax]; stores the index (or -1) back,src/front/speech/speech.asm
 6705C,FindTeamPairClip,sub_6705C,new,medium,"(a, b): finds the pair a<<8|b or b<<8|a in the 16-entry table word_11D356 (two teams 0-1Ch from the event 8 call); the play-by-play adds 81h to the index",src/front/speech/speech.asm
 670E7,ResetSpeechChannels,sub_670E7,new,high,"clears the 3 speech play channels (3 x 14h at dword_17C5C0, request -1) and their counters",src/front/speech/speech.asm

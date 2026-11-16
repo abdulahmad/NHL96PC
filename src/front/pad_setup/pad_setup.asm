@@ -10,8 +10,8 @@ extern fputchar, GetGripButtonMap, GetInputDevices, GetTicks, InitInputDevices, 
 extern mousex, mousey, ReadJoystickBits, SetGripButtonMap, sprintf_, str_A, str_BKGD, str_BT00
 extern str_BT01, str_BT02, str_D3, str_feB, str_GRIPCON, str_LTD0, str_Pal4, str_RGRIPCON
 extern strcpy_, strlen_, OpenScreen, SlideInTitleBar, SlideInSideBar, SetScreenColors, BlackPalette, FadePalette
-extern FadeOut, CopyBitmap, SetTextColors, DrawColorText, DrawColorTextRight, DrawColorTextCentred, InitMenuItems, sub_64F59
-extern sub_66373, FillMusicStream, SoundSecondsToBytes, SoundIdle, sub_77355, sub_AA988, sub_AADA4, sub_AB758
+extern FadeOut, CopyBitmap, SetTextColors, DrawColorText, DrawColorTextRight, DrawColorTextCentred, InitMenuItems, RunMenu
+extern SetMenuMouse, FillMusicStream, SoundSecondsToBytes, SoundIdle, sub_77355, sub_AA988, sub_AADA4, sub_AB758
 extern sub_ABF4C, sub_ADA50, sub_ADA80, sub_DD6C4, sub_DD724, sub_DFF28, sub_E04E0, TextSetFont
 extern unk_121FC8, unk_151648, unk_1516B8, unk_151720, unk_2018D, word_11758C, word_151768, word_158CBA
 extern word_158CBC, word_158D34, word_158D3C, word_158D44, word_158D46, word_158D74, word_158D76
@@ -1354,7 +1354,7 @@ GripSetupScreen:
         mov edx, dword [dword eax+0102Eh]
         mov eax, dword [dword eax+0102Ah]
         mov ebx, 3
-        call sub_66373
+        call SetMenuMouse
         lea edx, [dword ebp-0360h]
         xor eax, eax
         mov dword [byte ebp-040h], 28h
@@ -1382,7 +1382,7 @@ GripSetupScreen:
         push eax
         mov edx, dword [dword_158D70]
         mov eax, 29h
-        call sub_64F59
+        call RunMenu
         cmp dword [byte ebp-040h], byte 28h
         je short .27
         mov eax, dword [byte ebp-040h]
@@ -1762,7 +1762,7 @@ JoystickTestScreen:
         push eax
         lea edx, [dword ebp-014Ah]
         mov eax, 3
-        call sub_64F59
+        call RunMenu
         cmp dword [byte ebp+062h], byte 1
         jb short .5
         jbe near .8

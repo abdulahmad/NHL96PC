@@ -18,7 +18,7 @@ extern sub_93E6A_E56, sub_93E6A_E5F, sub_93E6A_E68, sub_93E6A_E71, memcmp_, off_
 extern qword_1129AF, qword_1129B7, qword_1129FE, sprintf_, strcat_, strlen_, EditText, MessageBox
 extern ShowProgressBox, UpdateProgressBox, HideProgressBox, LoadTeamLogo, sub_1E643, LoadPackedFile, sub_1F2C9, sub_1F2D4
 extern sub_1F2DF, sub_1F2EA, sub_1F2F5, OpenScreen, SlideInSideBar, SetScreenColors, FadePalette, FadeOut
-extern SetTextColors, DrawColorText, DrawColorTextCentred, SetScreenPalette, DrawFrameAt, InitMenuItems, sub_64F59, FillMusicStream
+extern SetTextColors, DrawColorText, DrawColorTextCentred, SetScreenPalette, DrawFrameAt, InitMenuItems, RunMenu, FillMusicStream
 extern PlayMusic, MusicDone, SoundSecondsToBytes, sub_77355, sub_7CF78, sub_7D2CE, sub_7D2DC, sub_7D325
 extern sub_7D346, sub_7D349, sub_7D49C, sub_88735, sub_8B7BB, sub_9066F, sub_9C060, sub_AAA40
 extern PutBlock, sub_AADA4, sub_AADC0, sub_AB758, sub_ABF4C, sub_AD35C, FillRect, sub_ADBEC
@@ -1004,7 +1004,7 @@ sub_90AF8:
         push eax
         lea edx, [dword ebp-0850h]
         mov eax, esi
-        call sub_64F59
+        call RunMenu
         jmp short .30
 .31:
         mov eax, dword [dword ebp-0430h]

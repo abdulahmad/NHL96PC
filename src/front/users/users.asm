@@ -29,7 +29,7 @@ extern str_Uga, str_Ugf, str_Ulstreak, str_Ulxh, str_Ulxn, str_Ulyh, str_Ulyn, s
 extern str_Uopp, str_Upk, str_Upp, str_Upts, str_Urate, str_Uso, str_Usort, str_Ustreak
 extern str_Uteam, str_wt, strcat_, strcmp_, strcpy_, strlen_, OpenScreen, SlideInSideBar
 extern SetScreenColors, FadePalette, FadeOut, DrawText, DrawTextCentred, SetTextColors, DrawColorText, FillBox
-extern InitMenuItems, sub_64F59, PlaySfx, SoundIdle, sub_77355, sub_7CCB8, sub_7D2CE, sub_7D2DC
+extern InitMenuItems, RunMenu, PlaySfx, SoundIdle, sub_77355, sub_7CCB8, sub_7D2CE, sub_7D2DC
 extern sub_7D325, sub_7D346, sub_7D349, sub_8B7BB, sub_AA7E0, sub_AADA4, sub_AB758, sub_ABF4C
 extern sub_AD35C, sub_AD620, sub_ADBEC, sub_AFFD0, sub_B0254, sub_B026C, sub_DD6C4, sub_DD8B0
 extern sub_E04E0, sub_E15AC, TextSetFont, unk_160B50, WaitTicks, word_160ACC, word_1656DA, word_1656DC
@@ -1028,7 +1028,7 @@ PickUsersScreen:
         xor ecx, ecx
         mov eax, 11h
 .7:
-        call sub_64F59
+        call RunMenu
         jmp short .6
 .8:
         push byte 2
@@ -3925,7 +3925,7 @@ UserRecordsScreen:
         push eax
         xor ecx, ecx
         mov eax, 87h
-        call sub_64F59
+        call RunMenu
         jmp short .23
 .24:
         cmp dword [byte ebp+02Ah], byte 4

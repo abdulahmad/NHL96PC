@@ -11,7 +11,7 @@ extern dword_17D162, dword_17D267, dword_17D564, dword_17D580, dword_17D584, dwo
 extern dword_1843B4, fputchar, gameopts, sub_6CF0D_6, sprintf_, GetInputDevices, LinkSync, LinkSyncWithMessage
 extern ModemChat, LoadTeamLogo, LoadPackedFile, ClearSlotUser, GetTeamNameArt, OpenScreen, SlideInTitleBar, SlideInSideBar
 extern SlideInBottomBar, SetScreenColors, BlackPalette, FadePalette, FadeOut, CopyBitmap, SetTextColors, DrawColorText
-extern DrawColorTextRight, DrawFrameAt, InitMenuItems, sub_64F59, sub_66373, FillMusicStream, PlayMusic, MusicDone
+extern DrawColorTextRight, DrawFrameAt, InitMenuItems, RunMenu, SetMenuMouse, FillMusicStream, PlayMusic, MusicDone
 extern PlaySfx, SoundSecondsToBytes, SoundIdle, sub_6CF0D, sub_6CF1B, sub_6D350, sub_6D828, sub_6DB5C
 extern sub_6DC2F, sub_6DD1E, sub_77355, sub_8733C, sub_9CDDA, sub_AA988, sub_AAA40, PutBlock
 extern sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C, sub_ADA50, sub_ADBEC, TextSetFont, sub_DD6C4
@@ -2015,7 +2015,7 @@ sub_6F056:
         mov eax, dword [dword_17D580]
         mov edx, dword [dword eax+0968h]
         mov eax, dword [dword eax+0964h]
-        call sub_66373
+        call SetMenuMouse
         mov dword [byte ebp-044h], 17h
         mov word [word_17D58E], 0FFFFh
         mov word [word_17D58C], 0FFFFh
@@ -2068,7 +2068,7 @@ sub_6F056:
         push edx
         add eax, byte 18h
         mov edx, dword [dword_17D580]
-        call sub_64F59
+        call RunMenu
         mov esi, eax
         cmp dword [byte ebp-044h], byte 0
         jl near sub_6F056_1503.68
@@ -2271,7 +2271,7 @@ sub_6F056_11AB:
         imul ebx, eax, byte 66h
         mov eax, dword [dword_17D580]
         mov eax, dword [byte ebx+eax+03Ah]
-        call sub_66373
+        call SetMenuMouse
         mov eax, dword [byte ebp-048h]
         lea edx, [eax+eax*4]
         cmp word [nosplit eax*8+word_17D560], byte 0

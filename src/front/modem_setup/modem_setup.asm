@@ -11,7 +11,7 @@ extern str_Det1, str_Det22, byte_17CA1D, byte_17CA1E, byte_17CA1F, byte_17CA21, 
 extern byte_17D651, dword_114CD3, dword_11D1A8, dword_11DF80, dword_11DF84, mousex, mousey, dword_17BC7C
 extern dword_17BD48, dword_17C9A4, globalset, optblock, dword_17D590, dword_17D594, dword_17D654, sprintf_
 extern GetInputDevices, LoadPackedFile, JoystickTestScreen, OpenScreen, SlideInTitleBar, SlideInSideBar, SetScreenColors, BlackPalette
-extern FadePalette, FadeOut, CopyBitmap, InitMenuItems, sub_64F59, SetSpeechVolume, StopMusic, QueueCurrentMusic
+extern FadePalette, FadeOut, CopyBitmap, InitMenuItems, RunMenu, SetSpeechVolume, StopMusic, QueueCurrentMusic
 extern FillMusicStream, SetMusicVolume, PlayMusic, FadeOutMusic, PlaySfx, SoundSecondsToBytes, SoundIdle, WriteGlobalSet
 extern sub_AA988, sub_AAA40, sub_AAA8C, PutBlock, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C
 extern sub_ADA50, sub_ADBEC, sub_DD6C4, MouseRead, sub_DFE9C, sub_E04E0, unk_17D598, unk_708A9
@@ -713,7 +713,7 @@ sub_715E3_177:
         push eax
         mov edx, dword [dword_17D594]
         mov eax, 0Dh
-        call sub_64F59
+        call RunMenu
         cmp dword [byte ebp+05Ah], byte 0
         jl near sub_715E3_758.16
         cmp dword [byte ebp+05Ah], byte 9
@@ -1994,7 +1994,7 @@ sub_72140:
         push eax
         xor ecx, ecx
         mov eax, 15h
-        call sub_64F59
+        call RunMenu
         cmp dword [byte ebp+046h], byte 0Bh
         jb short .54
         jbe near .86

@@ -509,9 +509,9 @@
 ;  64E64  SetMenuSelectSfx                         front/menu/menu.asm                          1
 ;  64E74  sub_64E74                                front/menu/menu.asm                          2
 ;  64F47  sub_64F47                                front/menu/menu.asm                          1
-;  64F59  sub_64F59                                front/menu/menu.asm                          23
-;  66373  sub_66373                                front/menu/menu.asm                          10
-;  66589  sub_66589                                front/menu/menu.asm                          1
+;  64F59  RunMenu                                  front/menu/menu.asm                          23
+;  66373  SetMenuMouse                             front/menu/menu.asm                          10
+;  66589  MainMenuScreen                           front/menu/menu.asm                          1
 ;  67055  FindClipIndex_55                         front/speech/speech.asm                      1
 ;  67056  FindClipIndex_56                         front/speech/speech.asm                      1
 ;  670E1  FindTeamPairClip_85                      front/speech/speech.asm                      1

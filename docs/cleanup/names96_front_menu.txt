@@ -1,0 +1,24 @@
+# NHL 96 PC menus (old front_64F59): the menu loop every screen uses, the main menu. PC-only, source new.
+sub_64F59 RunMenu {confidence=high} the menu loop of every front-end screen (message boxes, the stats, three stars, pad set-up, user screens): items, highlight, mouse / pads / keys (PollMenuInput), the link exchange in a link game; returns the chosen item (-1 none)
+sub_66373 SetMenuMouse {confidence=medium} (x, y): puts the menu mouse at x, y (in a link game keeps it for the other side)
+sub_66589 MainMenuScreen {confidence=medium} from RunFrontEnd: the main menu (bkgd, !pal, 8 items, buttons by optflags)
+sub_66589_621 MainMenuScreen_621 {no_record}
+sub_66589_671 MainMenuScreen_671 {no_record}
+sub_66589_6FC MainMenuScreen_6FC {no_record}
+sub_66589_724 MainMenuScreen_724 {no_record}
+sub_66589_74C MainMenuScreen_74C {no_record}
+sub_66589_774 MainMenuScreen_774 {no_record}
+sub_66589_8A9 MainMenuScreen_8A9 {no_record}
+sub_66589_8B5 MainMenuScreen_8B5 {no_record}
+sub_66589_92D MainMenuScreen_92D {no_record}
+sub_66589_939 MainMenuScreen_939 {no_record}
+sub_66589_996 MainMenuScreen_996 {no_record}
+sub_66589_9EE MainMenuScreen_9EE {no_record}
+sub_66589_A0B MainMenuScreen_A0B {no_record}
+sub_66589_A14 MainMenuScreen_A14 {no_record}
+sub_66589_A1D MainMenuScreen_A1D {no_record}
+sub_66589_A26 MainMenuScreen_A26 {no_record}
+sub_66589_B4 MainMenuScreen_B4 {no_record}
+sub_66589_C9 MainMenuScreen_C9 {no_record}
+sub_66589_DE MainMenuScreen_DE {no_record}
+sub_66589_F3 MainMenuScreen_F3 {no_record}

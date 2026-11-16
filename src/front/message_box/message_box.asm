@@ -5,8 +5,8 @@ section s_1A04E progbits alloc exec nowrite align=1
 extern byte_11FA2F, byte_152C3B, byte_152C40, byte_152C41, byte_152C42, DrawArtOpaque, dword_1150C4, dword_1150C8
 extern dword_1150CC, dword_1150D0, dword_11F5C0, dword_152C3C, FillRect, fputchar, mousex, mousey
 extern PutBlock, SetDrawBitmap, sprintf_, str_02, str_BDMEN, str_BDREG, str_BUT, str_D14
-extern str_X, CopyBitmap, DrawTextCentred, SetTextColors, DrawColorTextCentred, DrawBox, InitMenuItems, sub_64F59
-extern sub_66373, SoundIdle, sub_AA7E0, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C, sub_AD620
+extern str_X, CopyBitmap, DrawTextCentred, SetTextColors, DrawColorTextCentred, DrawBox, InitMenuItems, RunMenu
+extern SetMenuMouse, SoundIdle, sub_AA7E0, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C, sub_AD620
 extern sub_ADA80, sub_ADBEC, sub_AFFD0, sub_DD6C4, sub_DD6E0, sub_DFE9C, unk_152B3C
 global DrawBoxButton, DrawBoxButton_ret, MessageBox, HideMessage, ShowMessage, ShowProgressBox, UpdateProgressBox, HideProgressBox
 ;-----------------------------------------------------------------------------
@@ -730,7 +730,7 @@ MessageBox:
         add eax, edx
         mov edx, dword [byte eax+03Eh]
         mov eax, dword [byte eax+03Ah]
-        call sub_66373
+        call SetMenuMouse
         mov dword [byte ebp-03Ch], edi
         call sub_DD6C4
         mov eax, dword [dword_152C3C]
@@ -777,7 +777,7 @@ MessageBox:
         mov ebx, 0FFFFFFFFh
         mov edx, dword [byte eax+024h]
         mov eax, dword [dword ebp-0344h]
-        call sub_64F59
+        call RunMenu
         cmp dword [byte ebp-03Ch], byte 0FFFFFFFEh
         je short .43
         mov eax, dword [dword_152C3C]

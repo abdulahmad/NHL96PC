@@ -38,7 +38,7 @@ extern qsort_, qword_11281C, qword_112824, qword_11283C, qword_112844, sprintf_,
 extern strcpy_, strlen_, LinkSync, LinkSyncWithMessage, ModemChat, EditText, MessageBox, ShowProgressBox
 extern UpdateProgressBox, HideProgressBox, sub_1E8E9, LoadSeasonStats, LoadPlayoffStats, LoadExhibitionStats, LoadModemStats, sub_1F15E
 extern sub_1F2C9, sub_1F2D4, OpenScreen, SlideInSideBar, SlideInBottomBar, SetScreenColors, FadePalette, FadeOut
-extern SetTextColors, DrawColorText, DrawColorTextCentred, FillBox, InitMenuItems, sub_64F59, FillMusicStream, PlayMusic
+extern SetTextColors, DrawColorText, DrawColorTextCentred, FillBox, InitMenuItems, RunMenu, FillMusicStream, PlayMusic
 extern MusicDone, SoundSecondsToBytes, SoundIdle, sub_77355, sub_7CCB8, sub_7CF78, sub_7D2CE, sub_7D2DC
 extern sub_7D2ED, sub_7D308, sub_7D325, sub_7D346, sub_7D349, sub_7D49C, sub_8B7BB, sub_8BF56
 extern sub_8C006, sub_8C210, sub_90879, sub_908FC, sub_909FE, sub_92A6A, sub_AAA40, PutBlock
@@ -2167,7 +2167,7 @@ sub_8C51B_1F1B:
         push eax
         mov edx, unk_17FDF8
         mov eax, 52h
-        call sub_64F59
+        call RunMenu
         mov dword [byte ebp+03Ah], eax
         jmp short .106
 sub_8C51B_1FAF:

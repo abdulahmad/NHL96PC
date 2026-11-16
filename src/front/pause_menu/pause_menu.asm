@@ -26,7 +26,7 @@ extern str_Ret02, str_Ret12, str_Ret22, str_Sav02, str_Sav12, str_Sid12, str_Sid
 extern str_Sts12, strcat_, strcpy_, sub_3A6F3, sub_5360D, sub_5439F, sub_564A4, sub_57B11
 extern DrawGameFrame, DrawGameClock, EndCameraShot, UpdateCamera, FreeFightSprites, LoadFightSprites, FreeTotalSprites, LoadTotalSprites
 extern FreeSpriteCache, LoadFrontEndArt, FreeFrontEndArt, FadePalette, FadeOut, CopyBitmap, SetScreenMode, SetTextColors
-extern DrawColorTextCentred, FillBox, DrawBox, SetScreenPalette, DrawFrameAt, InitMenuItems, sub_64F59, sub_66373
+extern DrawColorTextCentred, FillBox, DrawBox, SetScreenPalette, DrawFrameAt, InitMenuItems, RunMenu, SetMenuMouse
 extern sub_6F056, sub_77355, sub_78E9E, sub_78EFA, sub_9CDDA, sub_A25CD, sub_AA7E0, sub_AA988
 extern sub_AAA40, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C, sub_ADBEC, sub_B0CA8, sub_B22E0
 extern sub_B2C54, sub_B58D8, sub_BB8E0, sub_DD6C4, sub_E04E0, sub_E0584, TextSetFont, unk_11D7A4
@@ -1655,7 +1655,7 @@ sub_6B894:
         add esp, byte 10h
         mov eax, dword [dword ebp-01EAh]
         mov byte [byte ebp+042h], 0
-        call sub_66373
+        call SetMenuMouse
         mov eax, 1
         mov dword [byte ebp+07Ah], 1
         call LinkSync
@@ -1693,7 +1693,7 @@ sub_6B894:
         movzx eax, al
         lea edx, [dword ebp-028Ah]
         add eax, byte 6
-        call sub_64F59
+        call RunMenu
         cmp dword [byte ebp+07Ah], byte 6
         ja near sub_6B894_748.25
         mov eax, dword [byte ebp+07Ah]
@@ -2516,7 +2516,7 @@ sub_6C698_3A3:
         add esp, byte 10h
         sar edx, 1
         sar eax, 1
-        call sub_66373
+        call SetMenuMouse
         xor eax, eax
         call SetCrowdTarget
         mov eax, 7Fh

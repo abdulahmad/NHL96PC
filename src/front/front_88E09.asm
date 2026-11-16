@@ -22,7 +22,7 @@ extern dword_18209C, dword_1820AC, dword_1820B0, dword_1820B4, dword_1820B8, dwo
 extern fclose_, fopen_, fprintf_, jpt_88DE1, jpt_88DF9, qsort_, qword_11266E, sprintf_
 extern strcat_, strcmp_, strlen_, EditText, MessageBox, ShowProgressBox, UpdateProgressBox, HideProgressBox
 extern LoadPackedFile, LoadSeasonStats, LoadPlayoffStats, LoadModemStats, OpenScreen, SlideInSideBar, SetScreenColors, FadePalette
-extern FadeOut, SetTextColors, DrawColorText, DrawColorTextCentred, FillBox, InitMenuItems, sub_64F59, sub_77355
+extern FadeOut, SetTextColors, DrawColorText, DrawColorTextCentred, FillBox, InitMenuItems, RunMenu, sub_77355
 extern sub_7CCB8, sub_7CF78, sub_7D2CE, sub_7D2DC, sub_7D325, sub_7D346, sub_7D349, sub_7D49C
 extern sub_88AE6, sub_88B71, sub_88C21, PutBlock, sub_AB758, sub_ABF4C, sub_AD35C, sub_AD5C8
 extern sub_AD620, sub_ADBEC, sub_B0430, sub_B2C54, sub_C2500, sub_DD6C4, sub_DD724, sub_E04E0
@@ -1399,7 +1399,7 @@ sub_88E09_1380:
         push eax
         xor ecx, ecx
         mov eax, 6Bh
-        call sub_64F59
+        call RunMenu
         jmp short .75
 .76:
         cmp dword [byte ebp+02h], byte 1Fh

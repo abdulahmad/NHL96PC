@@ -23,7 +23,7 @@ extern dword_184398, dword_18439C, dword_1843A0, dword_1843A4, dword_1843A8, dwo
 extern gameopts, hmroster, qsort_, sprintf_, strcpy_, MessageBox, FileOpenWrite, FileClose
 extern FileWriteAt, MakeDataPath, LoadPackedFile, sub_1E8E9, LoadSeasonStats, LoadPlayoffStats, LoadExhibitionStats, sub_1F15E
 extern sub_1F2F5, OpenScreen, SlideInTitleBar, SlideInSideBar, SetScreenColors, FadePalette, FadeOut, SetTextColors
-extern DrawColorText, SetScreenPalette, DrawFrameAt, InitMenuItems, sub_64F59, FillMusicStream, PlayMusic, MusicDone
+extern DrawColorText, SetScreenPalette, DrawFrameAt, InitMenuItems, RunMenu, FillMusicStream, PlayMusic, MusicDone
 extern SoundSecondsToBytes, SoundIdle, sub_77355, sub_78E9E, sub_78EFA, sub_7CCB8, sub_7D2CE, sub_7D2DC
 extern sub_7D325, sub_7D349, sub_7D49C, sub_9CC19, sub_9CC2E, sub_9CD61, sub_AAA40, sub_AAA8C
 extern PutBlock, sub_AB758, sub_ABF4C, sub_AD35C, sub_ADBEC, DrawArtOpaque, sub_B2C54, sub_DD6C4
@@ -2204,7 +2204,7 @@ sub_9CFE3:
         push eax
         lea edx, [dword ebp-017EEh]
         mov eax, 2Dh
-        call sub_64F59
+        call RunMenu
         cmp word [word_11D1B4], byte 0
         jne short .121
         mov eax, dword [dword_18439C]

@@ -56,7 +56,7 @@ extern sub_297C9, sub_4B38C, sub_5358E, sub_535F2, InitGameView, FreeGameView, D
 extern DrawRinkSprite, DrawPlayerSprite, DrawSpriteShadow, DrawControlMarker, DrawPuckSprite, SetCameraShot, AngleXZ, AnglePitch
 extern CamShot23E, SetGameViewSize, UpdateCamera, FreeFightSprites, LoadFightSprites, LoadCupSprites, FreeSpriteCache, SpriteScale
 extern LoadFrontEndArt, FreeFrontEndArt, FadePalette, FadeOut, CopyBitmap, SetScreenMode, DrawText, DrawTextRight
-extern InitMenuItems, sub_64E74, sub_64F47, sub_64F59, sub_66373, FreeSpeechBuffer, RestoreSpeechBuffer, StopSpeech
+extern InitMenuItems, sub_64E74, sub_64F47, RunMenu, SetMenuMouse, FreeSpeechBuffer, RestoreSpeechBuffer, StopSpeech
 extern StopMusic, QueueMusic, FillMusicStream, PlayMusic, FadeOutMusic, MusicDone, PlaySfx, Crowd_Noise
 extern CrowdNoiseReset, CrowdPause, CrowdResume, StopArenaClip, StartGameSound, EndGameSound, SoundSecondsToBytes, SoundIdle
 extern sub_77355, sub_7BFAF, sub_AA988, sub_AAA40, sub_AAA8C, PutBlock, sub_AADA4, sub_AB758
@@ -2466,7 +2466,7 @@ sub_5643A:
         mov eax, dword [nosplit eax*8+dword_1797FC]
         sar edx, 10h
         sar eax, 10h
-        call sub_66373
+        call SetMenuMouse
 .1:
         pop edx
         ret
@@ -3147,7 +3147,7 @@ sub_564A4:
         add esp, byte 10h
         sar edx, 1
         sar eax, 1
-        call sub_66373
+        call SetMenuMouse
         call CrowdPause
         cmp dword [dword_11A3FC], byte 0
         je short .18
@@ -3171,7 +3171,7 @@ sub_564A4:
 .19:
         mov eax, 16h
 .20:
-        call sub_64F59
+        call RunMenu
         cmp dword [byte ebp-01Ch], byte 0FFFFFFFEh
         jne near .23
         mov edx, dword_1781D4

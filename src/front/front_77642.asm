@@ -16,7 +16,7 @@ extern rand_, sprintf_, srand_, strcat_, strcpy_, strlen_, NameIndexNew, NameInd
 extern NameIndexAdd, NameIndexFirstId, EditText, MessageBox, ShowProgressBox, UpdateProgressBox, HideProgressBox, LoadTeamLogo
 extern FileOpenRead, FileOpenReadWrite, FileClose, FileWriteAt, FileCopy, sub_1E222, sub_1E268, MakeDataPath
 extern MakeDirPath, LoadPackedFile, MakeDatabasePath, FreeStatsTables, sub_29B9F, OpenScreen, SlideInTitleBar, SlideInSideBar
-extern SetScreenColors, FadePalette, FadeOut, SetTextColors, DrawColorTextCentred, DrawFrameAt, InitMenuItems, sub_64F59
+extern SetScreenColors, FadePalette, FadeOut, SetTextColors, DrawColorTextCentred, DrawFrameAt, InitMenuItems, RunMenu
 extern FillMusicStream, SoundSecondsToBytes, sub_77355, sub_77535, sub_AAA8C, PutBlock, sub_AB758, sub_ABF4C
 extern sub_AD35C, sub_AD620, sub_ADBEC, TextSetFont, sub_B20D0, sub_B22B0, DrawArtOpaque, sub_B2C54
 extern sub_B7256, sub_B7810, sub_C254C, sub_C2600, sub_DD6C4, sub_DD908, sub_E04E0, sub_E0584
@@ -594,7 +594,7 @@ sub_77642_7F2:
         mov eax, dword [dword edi+dword_11D744]
         xor ecx, ecx
         add eax, byte 5
-        call sub_64F59
+        call RunMenu
         jmp short .19
 sub_77642_8AF:
         mov eax, 1

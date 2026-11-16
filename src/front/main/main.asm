@@ -10,7 +10,7 @@ extern ReadGlobalSet, srand_, StartSoundCard, str_CLEARER, str_dbgL, str_Dot, st
 extern str_HardwareBeforeRunningHOC, str_IhreHardwareZuKonfigurie, str_LDON, str_LEAS, str_Lgo, str_LNEW, str_LNHL, str_LNPA
 extern str_LOGOPACK, str_LSTA, str_spPressESCToReturnToDOS, str_YouMustFirstUseTheSETUPP, strcat_, strcmp_, strlen_, GripSetupScreen
 extern ClearSlotUsers, UserRecordsScreen, sub_57F0A, sub_583B8, LoadFrontEndArt, FreeFrontEndArt, RunIntro, RunCredits
-extern CopyBitmap, InitGraphicsFix, SetScreenMode, SetMenuMoveSfx, SetMenuSelectSfx, sub_66589, StopMusic, FadeOutMusic
+extern CopyBitmap, InitGraphicsFix, SetScreenMode, SetMenuMoveSfx, SetMenuSelectSfx, MainMenuScreen, StopMusic, FadeOutMusic
 extern TestCdSpeed, ShutdownSound, WriteGlobalSet, sub_6A675, sub_73BA5, sub_771F0, sub_77292, sub_77355
 extern sub_7BA57, sub_88509, sub_A4961, sub_A4FD7, sub_AB758, sub_ABF4C, sub_AC868, sub_ADA50
 extern sub_AFCD0, sub_AFFD0, sub_B3100, sub_B3145, sub_B3160, sub_B31C0, sub_B3420, sub_DD6C4
@@ -165,7 +165,7 @@ RunFrontEnd:
         je short .6
         jmp short .16
 .5:
-        call sub_66589
+        call MainMenuScreen
         jmp short .17
 .6:
         call sub_6A675

@@ -14,7 +14,7 @@ extern str_Card5, str_D02d2, str_D20, str_DD, str_DD11, str_DDD, str_fmtSS, str_
 extern str_METD, str_Pal25, str_PALS2, str_Plyr5, str_ProfileFsh5, str_SBACK, str_ST10, str_STDD
 extern str_STRD, str_STRK, MessageBox, sub_1E643, LoadPackedFile, sub_1F15E, OpenScreen, SlideInTitleBar
 extern SlideInBottomBar, SetScreenColors, BlackPalette, FadePalette, FadeOut, CopyBitmap, SetTextColors, DrawColorTextRight
-extern DrawColorTextCentred, SetScreenPalette, DrawFrameAt, RemapScreenColors, InitMenuItems, sub_64F59, sub_66373, PaEvent
+extern DrawColorTextCentred, SetScreenPalette, DrawFrameAt, RemapScreenColors, InitMenuItems, RunMenu, SetMenuMouse, PaEvent
 extern StopSpeech, StopMusic, FillMusicStream, PlayMusic, FadeOutMusic, MusicDone, SoundSecondsToBytes, SoundIdle
 extern sub_77355, sub_8C51B, sub_AA988, sub_AAA40, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C
 extern sub_ADA50, sub_ADBEC, sub_AFCD0, sub_B0430, sub_B0494, sub_DD6C4, sub_E04E0, sub_E0520
@@ -1274,7 +1274,7 @@ GameStatsScreen:
         call OpenScreen
         mov edx, dword [dword ebp-0B8h]
         mov eax, dword [dword ebp-0BCh]
-        call sub_66373
+        call SetMenuMouse
         mov dword [byte ebp+05Eh], 2
         call MusicDone
         test eax, eax
@@ -1332,7 +1332,7 @@ GameStatsScreen:
         push edx
         add eax, byte 3
         lea edx, [dword ebp-01C2h]
-        call sub_64F59
+        call RunMenu
         cmp dword [byte ebp+05Eh], byte 2
         jb short .6
         jbe near .9
@@ -2232,7 +2232,7 @@ ThreeStarsScreen:
         mov edx, dword [dword ebp-0158h]
         mov eax, dword [dword ebp-015Ch]
         mov ebx, 3
-        call sub_66373
+        call SetMenuMouse
         mov edx, dword [byte ebp+062h]
         xor eax, eax
         mov dword [byte ebp+046h], 2
@@ -2280,7 +2280,7 @@ ThreeStarsScreen:
         push edx
         add eax, byte 3
         lea edx, [dword ebp-0262h]
-        call sub_64F59
+        call RunMenu
         cmp dword [byte ebp+046h], byte 3
         ja near ThreeStarsScreen_936.15
         mov eax, dword [byte ebp+046h]

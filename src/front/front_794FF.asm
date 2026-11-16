@@ -21,7 +21,7 @@ extern NameIndexLoad, NameIndexSave, NameIndexFree, NameIndexRemove, NameIndexId
 extern ShowMessage, ShowProgressBox, UpdateProgressBox, HideProgressBox, FileOpenRead, FileClose, MakeDirPath, LoadPackedFile
 extern sub_1E8E9, LoadSeasonStats, FreeStatsTables, sub_29B9F, sub_4F08B, sub_4F159, sub_4F2A8, sub_4F385
 extern OpenScreen, SlideInTitleBar, SlideInSideBar, SetScreenColors, BlackPalette, FadePalette, FadeOut, SetTextColors
-extern DrawColorText, DrawColorTextCentred, FillBox, InitMenuItems, sub_64F59, FillMusicStream, PlayMusic, MusicDone
+extern DrawColorText, DrawColorTextCentred, FillBox, InitMenuItems, RunMenu, FillMusicStream, PlayMusic, MusicDone
 extern SoundSecondsToBytes, sub_70840, sub_77355, sub_77642, sub_77FF2, sub_78029, sub_78E9E, sub_78EFA
 extern sub_79060, sub_7D580, sub_7FF7F, sub_80E4D, sub_81D7C, sub_81EEA, sub_88509, sub_971E9
 extern sub_A6B94, sub_A7A09, sub_A7B4B, sub_A7CC4, sub_A7E6D, sub_A800A, sub_A8AC5, sub_A8B9B
@@ -537,7 +537,7 @@ sub_794FF_7AC:
         mov eax, dword [nosplit eax*4+dword_11D744]
         xor ecx, ecx
         add eax, byte 9
-        call sub_64F59
+        call RunMenu
         jmp short .18
 .19:
         imul eax, dword [byte ebp+07Eh], byte 1Ah
@@ -1097,7 +1097,7 @@ sub_7A2AE:
         push eax
         xor ecx, ecx
         mov eax, 2
-        call sub_64F59
+        call RunMenu
         jmp short .3
 .4:
         jbe short .5
@@ -3475,7 +3475,7 @@ sub_7BFAF:
         xor ecx, ecx
         mov eax, 12h
 .23:
-        call sub_64F59
+        call RunMenu
         jmp short .22
 .24:
         push byte 2

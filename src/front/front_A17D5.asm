@@ -34,7 +34,7 @@ extern sub_2E1BE, sub_3A6F3, DrawRinkView, DrawGameFrame, CloseTextOverlay, EndC
 extern FreeFightSprites, LoadFightSprites, FreeTotalSprites, LoadTotalSprites, FreeSpriteCache, LoadFrontEndArt, GetTeamNameArt, OpenScreen
 extern SlideInTitleBar, SlideInSideBar, SlideInBottomBar, FreeFrontEndArt, SetScreenColors, BlackPalette, FadePalette, FadeOut
 extern CopyBitmap, SetScreenMode, SetTextColors, DrawColorTextCentred, FillBox, DrawBox, SetScreenPalette, DrawFrameAt
-extern InitMenuItems, sub_64E74, sub_64F59, sub_66373, FreeSpeechBuffer, RestoreSpeechBuffer, SpeechBusy, PaEvent
+extern InitMenuItems, sub_64E74, RunMenu, SetMenuMouse, FreeSpeechBuffer, RestoreSpeechBuffer, SpeechBusy, PaEvent
 extern StopSpeech, StopMusic, QueueMusic, FillMusicStream, PlayMusic, FadeOutMusic, MusicDone, StopAllSfx
 extern Crowd_Noise, CrowdNoiseReset, GetCrowdTarget, SetCrowdTarget, CrowdFadeOut, sfx, CrowdReaction, StopArenaClip
 extern StartGameSound, EndGameSound, SoundSecondsToBytes, SoundIdle, sub_6B486, sub_6C64B, sub_6F056, sub_70840
@@ -936,7 +936,7 @@ sub_A21FB:
         add esp, byte 10h
         mov edx, dword [dword ebp-0104h]
         mov eax, dword [dword ebp-0108h]
-        call sub_66373
+        call SetMenuMouse
         xor eax, eax
         mov dword [byte ebp+076h], 0
         call LinkSync
@@ -969,7 +969,7 @@ sub_A21FB:
         push eax
         xor ecx, ecx
         mov eax, 3
-        call sub_64F59
+        call RunMenu
         cmp dword [byte ebp+076h], byte 1
         jb short .5
         jbe short .6
@@ -1240,7 +1240,7 @@ sub_A25CD:
         mov eax, dword [dword_11F5C0]
         sub edx, byte 0Ah
         sub eax, byte 0Ah
-        call sub_66373
+        call SetMenuMouse
         jmp near .21
 .15:
         push str_Qui0
@@ -1487,7 +1487,7 @@ sub_A25CD:
         add esp, byte 10h
         mov edx, dword [dword_1844B0]
         mov eax, dword [dword_1844AC]
-        call sub_66373
+        call SetMenuMouse
         mov dword [byte ebp-018h], 1
 .21:
         push byte 0
@@ -1663,7 +1663,7 @@ sub_A25CD:
         movzx eax, al
         add eax, byte 5
 .45:
-        call sub_64F59
+        call RunMenu
         cmp dword [byte ebp-018h], byte 0FFFFFFFCh
         jne short sub_A25CD_A9C.46
 sub_A25CD_A9C:
@@ -2895,7 +2895,7 @@ sub_A3CF8:
         mov edx, dword [dword ebp-024Eh]
         mov eax, dword [dword ebp-0252h]
         mov ebx, 3
-        call sub_66373
+        call SetMenuMouse
         mov edx, dword [byte ebp+07Ah]
         xor eax, eax
         mov dword [byte ebp+06Eh], 7
@@ -2924,7 +2924,7 @@ sub_A3CF8:
         push eax
         xor ecx, ecx
         mov eax, 9
-        call sub_64F59
+        call RunMenu
         cmp dword [byte ebp+06Eh], byte 8
         ja near sub_A3CF8_B78.15
         mov esi, dword [byte ebp+06Eh]
@@ -3154,7 +3154,7 @@ sub_A3CF8_B38:
         call sub_29B9F
         mov edx, dword [dword ebp-031Ah]
         mov eax, dword [dword ebp-031Eh]
-        call sub_66373
+        call SetMenuMouse
         mov dword [byte ebp+06Eh], 5
         jmp short sub_A3CF8_B78.15
 sub_A3CF8_B5C:

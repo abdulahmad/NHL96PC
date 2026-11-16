@@ -26,7 +26,7 @@ extern dword_184398, dword_18439C, dword_1843A0, dword_1843A4, dword_1843A8, dwo
 extern off_11E908, qsort_, qword_112D16, qword_112D1E, rand_, sprintf_, strcat_, strcmp_
 extern strcpy_, EditText, MessageBox, LoadTeamLogo, MakeDataPath, MakeDirPath, LoadPackedFile, LoadSeasonStats
 extern LoadExhibitionStats, LoadModemStats, GetTeamNameArt, OpenScreen, SlideInTitleBar, SlideInSideBar, SetScreenColors, FadePalette
-extern FadeOut, SetTextColors, DrawColorText, DrawColorTextRight, FillBox, DrawFrameAt, InitMenuItems, sub_64F59
+extern FadeOut, SetTextColors, DrawColorText, DrawColorTextRight, FillBox, DrawFrameAt, InitMenuItems, RunMenu
 extern sub_77355, sub_78E9E, sub_7CCB8, sub_7D2CE, sub_7D2DC, sub_7D325, sub_7D346, sub_7D349
 extern sub_7D49C, sub_90AF8, sub_93E6A, sub_9CFE3, sub_A0355, sub_A0480, sub_AAA40, PutBlock
 extern sub_AB758, sub_ABF4C, sub_AD35C, sub_AD5C8, FillRect, sub_ADBEC, sub_B0430, sub_B178B
@@ -2147,7 +2147,7 @@ sub_97420:
         push eax
         mov eax, 30h
         mov dword [byte ebp+03Eh], 0FFFFFFFFh
-        call sub_64F59
+        call RunMenu
         cmp dword [byte ebp+03Eh], byte 8
         jb near .67
         jbe near .156
@@ -5175,7 +5175,7 @@ sub_9AE18_BD2:
         lea edx, [dword ebp-01F32h]
         add eax, byte 5
         mov dword [byte ebp+056h], 0FFFFFFFFh
-        call sub_64F59
+        call RunMenu
         cmp dword [byte ebp+056h], byte 4
         ja near sub_9AE18_DBB.40
         mov eax, dword [byte ebp+056h]

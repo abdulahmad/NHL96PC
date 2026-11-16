@@ -22,7 +22,7 @@ extern off_11D44C, off_11D52C, sprintf_, strcat_, strcmp_, LinkSync, ModemChat, 
 extern FileOpenRead, FileClose, sub_1E222, sub_1E643, LoadPackedFile, sub_1F15E, GetTeamNameArt, OpenScreen
 extern SlideInTitleBar, SlideInSideBar, SlideInBottomBar, SetScreenColors, BlackPalette, FadePalette, FadeOut, CopyBitmap
 extern SetTextColors, SetTextColorsRgb, DrawColorTextRight, DrawColorTextCentred, SetScreenPalette, DrawFrameAt, RemapScreenColors, InitMenuItems
-extern sub_64F59, sub_66373, PaEvent, StopSpeech, FillMusicStream, SoundSecondsToBytes, SoundIdle, PlayMovieFile
+extern RunMenu, SetMenuMouse, PaEvent, StopSpeech, FillMusicStream, SoundSecondsToBytes, SoundIdle, PlayMovieFile
 extern sub_77355, sub_78E9E, sub_88E09, sub_8C51B, sub_90AF8, sub_93E6A, sub_9C866, sub_AA988
 extern sub_AAA8C, PutBlock, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C, sub_AD824, sub_ADA50
 extern sub_ADBEC, sub_B0254, sub_B026C, TextSetFont, sub_B0430, sub_B0494, sub_B31C0, sub_B7638
@@ -359,7 +359,7 @@ sub_849D5:
         inc eax
         inc eax
         lea edx, [dword ebp-0F2h]
-        call sub_64F59
+        call RunMenu
         cmp dword [byte ebp+072h], byte 1
         jb short .16
         jbe short .17
@@ -833,7 +833,7 @@ sub_84F20:
         mov edx, dword [dword ebp-0AEh]
         mov eax, dword [dword ebp-0B2h]
         mov ebx, 3
-        call sub_66373
+        call SetMenuMouse
         mov edx, dword [byte ebp+066h]
         xor eax, eax
         mov dword [byte ebp+046h], 1
@@ -1161,7 +1161,7 @@ sub_84F20:
         inc eax
         inc eax
         lea edx, [dword ebp-0152h]
-        call sub_64F59
+        call RunMenu
         cmp dword [byte ebp+046h], byte 1
         jb short .59
         jbe short .60
@@ -2005,7 +2005,7 @@ sub_85911:
         mov edx, dword [dword ebp-082h]
         mov eax, dword [dword ebp-086h]
         mov ebx, 3
-        call sub_66373
+        call SetMenuMouse
         mov edx, dword [byte ebp+06Ah]
         xor eax, eax
         mov dword [byte ebp+036h], 1
@@ -2058,7 +2058,7 @@ sub_85911:
         inc eax
         inc eax
         lea edx, [dword ebp-0126h]
-        call sub_64F59
+        call RunMenu
         cmp dword [byte ebp+036h], byte 1
         jb short .37
         jbe short .38
@@ -2557,7 +2557,7 @@ sub_86428:
         mov edx, dword [dword ebp-0F2h]
         mov eax, dword [dword ebp-0F6h]
         mov ebx, 3
-        call sub_66373
+        call SetMenuMouse
         mov edx, dword [byte ebp+06Eh]
         xor eax, eax
         mov dword [byte ebp+05Ah], 1
@@ -2608,7 +2608,7 @@ sub_86428:
         inc eax
         inc eax
         lea edx, [dword ebp-0196h]
-        call sub_64F59
+        call RunMenu
         cmp dword [byte ebp+05Ah], byte 1
         jb short .10
         jbe short .11
@@ -3090,7 +3090,7 @@ sub_86BE4:
         mov edx, dword [dword ebp-0DAh]
         mov eax, dword [dword ebp-0DEh]
         mov ebx, 3
-        call sub_66373
+        call SetMenuMouse
         mov edx, dword [byte ebp+076h]
         xor eax, eax
         mov dword [byte ebp+05Ah], 1
@@ -3135,7 +3135,7 @@ sub_86BE4:
         inc eax
         inc eax
         lea edx, [dword ebp-017Eh]
-        call sub_64F59
+        call RunMenu
         cmp dword [byte ebp+05Ah], byte 1
         jb short .10
         jbe short .11

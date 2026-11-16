@@ -61,7 +61,7 @@ extern str_Rlxh, str_Rlxn, str_Rlyh, str_Rlyn, str_Rsd0, str_Rsd1, str_Rubber, s
 extern str_Saveback, str_Score, str_SideD, str_SideNotFoundInRink, str_SideNotFoundInStands, str_STAND, str_STAND2ND, str_STANDS
 extern str_Stands2, str_STANDSFSH, str_Strobe, str_TEMP2, str_ThinRedLines, str_Top, str_Topboards, str_WALL
 extern str_Wedge, str_WHD0, str_Zamboni, str_Zambpath, strcat_, strcpy_, sub_1E643, sub_49300
-extern sub_4B38C, sub_4B4F3, DrawRinkSprite, SpriteScale, InitMenuItems, sub_64F59, sub_66373, FillMusicStream
+extern sub_4B38C, sub_4B4F3, DrawRinkSprite, SpriteScale, InitMenuItems, RunMenu, SetMenuMouse, FillMusicStream
 extern SoundSecondsToBytes, SoundIdle, sub_873AE, sub_87DD6, sub_8805A, sub_AA988, sub_AAA40, sub_AADA4
 extern sub_AB758, sub_ABF4C, sub_AC868, sub_AD35C, sub_AD620, sub_AD824, sub_ADBEC, sub_AFD00
 extern sub_B0494, sub_B049E, sub_B20D0, sub_B31C0, sub_B74B0, sub_B7810, sub_B78C0, sub_B78DC
@@ -10709,7 +10709,7 @@ sub_29B9F:
         mov edx, eax
         mov eax, dword [dword ebp-02D6h]
         mov byte [dword ebp-02CEh], 9
-        call sub_66373
+        call SetMenuMouse
         mov dword [byte ebp+05Eh], 0Bh
         call sub_DD6C4
         mov eax, dword [byte ebp+06Eh]
@@ -10764,7 +10764,7 @@ sub_29B9F:
         xor ecx, ecx
         mov eax, 3
 .11:
-        call sub_64F59
+        call RunMenu
         cmp dword [byte ebp+05Eh], byte 0
         jl near sub_29B9F_799.16
         cmp dword [byte ebp+05Eh], byte 9

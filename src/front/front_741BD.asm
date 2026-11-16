@@ -20,7 +20,7 @@ extern sub_77642_768, sub_77642_798, sub_77642_7C5, sub_77642_7F2, sub_77642_8AF
 extern qsort_, sprintf_, strcpy_, strlen_, ModemGameOpen, ModemGameConnect, ModemGameClose, ModemGameQuit
 extern ModemChat, EditText, MessageBox, LoadTeamLogo, MakeDataPath, LoadDataFile, LoadPackedFile, sub_29B9F
 extern GetTeamNameArt, OpenScreen, SlideInTitleBar, SlideInSideBar, SlideInBottomBar, SetScreenColors, BlackPalette, FadePalette
-extern FadeOut, CopyBitmap, SetTextColors, DrawColorText, DrawFrameAt, InitMenuItems, sub_64F59, sub_66373
+extern FadeOut, CopyBitmap, SetTextColors, DrawColorText, DrawFrameAt, InitMenuItems, RunMenu, SetMenuMouse
 extern FillMusicStream, SoundSecondsToBytes, SoundIdle, sub_AA988, sub_AAA40, sub_AAA8C, PutBlock, sub_AADA4
 extern sub_AB758, sub_ABF4C, sub_AD35C, sub_ADA50, sub_ADBEC, TextSetFont, sub_DD6C4, MouseRead
 extern sub_DFE9C, sub_DFF28, sub_E04E0, str_Rb, unk_152C44, unk_17C9B8, unk_17C9CC, optblock_end
@@ -564,7 +564,7 @@ sub_741BD:
         push eax
         xor ecx, ecx
         mov eax, 0Dh
-        call sub_64F59
+        call RunMenu
         cmp dword [byte ebp+03Ah], byte 9
         jb short .26
         jbe near .34
@@ -1645,7 +1645,7 @@ sub_7513A:
         push eax
         xor ecx, ecx
         mov eax, 0Bh
-        call sub_64F59
+        call RunMenu
         cmp dword [byte ebp+066h], byte 0Ah
         ja near sub_7513A_BD2.36
         mov eax, dword [byte ebp+066h]
@@ -2122,7 +2122,7 @@ sub_75E2C:
         push eax
         xor ecx, ecx
         mov eax, 3
-        call sub_64F59
+        call RunMenu
         cmp dword [byte ebp+07Eh], byte 1
         jb short .4
         jbe short .5
@@ -2852,7 +2852,7 @@ sub_76518:
         mov edx, dword [dword ebp-0184h]
         mov eax, dword [dword ebp-0188h]
         mov ebx, 3
-        call sub_66373
+        call SetMenuMouse
         mov edx, dword [byte ebp+072h]
         xor eax, eax
         mov dword [byte ebp+06Eh], 8
@@ -2881,7 +2881,7 @@ sub_76518:
         push eax
         xor ecx, ecx
         mov eax, 9
-        call sub_64F59
+        call RunMenu
         cmp dword [byte ebp+06Eh], byte 8
         ja near sub_76518_BE5.14
         mov edx, dword [byte ebp+06Eh]
@@ -3114,7 +3114,7 @@ sub_76518_BB3:
         call sub_29B9F
         mov edx, dword [dword ebp-0250h]
         mov eax, dword [dword ebp-0254h]
-        call sub_66373
+        call SetMenuMouse
         mov dword [byte ebp+06Eh], 6
         jmp short sub_76518_BE5.14
 sub_76518_BD7:

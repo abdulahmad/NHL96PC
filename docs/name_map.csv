@@ -505,6 +505,27 @@ address,name,auto_name,source,confidence,evidence,file
 52F68,SetupTeamLines,,95PC,medium,NHL95PC 658F3 (sem): C:676; C:679; D:11A310; D:176DD4,
 5313B,NormalizeDressFlags,,95PC,medium,NHL95PC 65B48 (sem): D:176DD4,
 5316C,CanRemovePlayer,sub_5316C,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: AddPenalty,src/engine/lines/lines.asm
+54519,StartReplay,sub_54519,new,medium,"into the replay: stops the arena clip and speech, frees the fight sprites, loads the replay art and font",src/front/replay_controls/replay_controls.asm
+54769,EndReplay,sub_54769,new,medium,"out of the replay: the sprite banks back (cup, fight), the view size and camera",src/front/replay_controls/replay_controls.asm
+54936,StepReplay,sub_54936,new,low,"plays the replay one step at the chosen speed and direction, with its sounds and camera shots",src/front/replay_controls/replay_controls.asm
+54FE0,ReplayCameraMatrix,sub_54FE0,new,low,the replay camera's rotation from its heading (dword_17709E),src/front/replay_controls/replay_controls.asm
+5504C,DrawReplayObjects,sub_5504C,new,low,"the replay's markers, names, numbers, puck and rink sprites",src/front/replay_controls/replay_controls.asm
+553E9,DrawReplayShadows,sub_553E9,new,low,the replay players' shadows,src/front/replay_controls/replay_controls.asm
+554F4,DrawReplayPlayers,sub_554F4,new,low,the replay players' sprites,src/front/replay_controls/replay_controls.asm
+55600,DrawReplayCounter,sub_55600,new,low,"the replay frame counter (""%d"", ""."")",src/front/replay_controls/replay_controls.asm
+55838,DrawReplayClock,sub_55838,new,medium,"the game clock during the replay (""%2d:%02d"", ""%2d.%01d"")",src/front/replay_controls/replay_controls.asm
+5594F,DrawReplayView,sub_5594F,new,medium,"one replay frame of the 3D view: rink, players, puck, markers, clock",src/front/replay_controls/replay_controls.asm
+55B9D,SetReplayCamera,sub_55B9D,new,medium,"(camera): sets the replay's camera shot (0Ah follow, 9 ... the shot records)",src/front/replay_controls/replay_controls.asm
+55C75,ReplayFreeCamera,sub_55C75,new,low,"the replay's free camera: moves and aims it (AngleXZ, AnglePitch)",src/front/replay_controls/replay_controls.asm
+55E0A,FindPlayerAtMouse,sub_55E0A,new,medium,"(x, y): the player nearest a screen point (within 2710h), -1 none",src/front/replay_controls/replay_controls.asm
+562BA,ReplayFrame,sub_562BA,new,medium,"one frame of the replay screen: steps the replay, camera, crowd, the frame art (topp, sid1/2) and DrawReplayView",src/front/replay_controls/replay_controls.asm
+5643A,PickReplayPlayer,sub_5643A,new,medium,picks the player under the mouse to follow (FindPlayerAtMouse) and puts the mouse on him,src/front/replay_controls/replay_controls.asm
+564A4,ReplayScreen,sub_564A4,new,high,"the instant replay screen (TRANSIT; puk, rew, bak ... buttons): play, rewind, frame steps, cameras, save as highlight; kept in step in a link game",src/front/replay_controls/replay_controls.asm
+57B11,RunReplay,sub_57B11,new,medium,"RunInGameMenu's replay request: frees the sprite cache, runs ReplayScreen, redraws",src/front/replay_controls/replay_controls.asm
+57BF7,SaveHighlight,sub_57BF7,new,medium,"saves the replay as a highlight (HILITES\, HILITES.NDX, %08d) under a name the user types",src/front/replay_controls/replay_controls.asm
+57EAF,ReadHighlight,sub_57EAF,new,low,reads a saved highlight file (FileReadAt),src/front/replay_controls/replay_controls.asm
+57F0A,WatchHighlight,sub_57F0A,new,medium,"from the main menu: sets up the game view and sounds, plays a saved highlight in the replay screen, then back to the front end",src/front/replay_controls/replay_controls.asm
+583B8,HighlightsMenu,sub_583B8,new,medium,"from the main menu: picks a saved highlight (HILITES.NDX, PickIndexEntryScreen) and plays it",src/front/replay_controls/replay_controls.asm
 584A0,DrawScaledSprite,sub_584A0,new,low,"draws one scaled sprite frame clipped to the view (dword_1228D8-1228E4), for DrawPlayerSprite",src/front/game_view/game_view.asm
 58690,BuildShadeMatch,sub_58690,new,low,"(level, palette): for each colour finds the nearest palette colour (distance from 270Fh down) at a shade level, for the shading LUT",src/front/game_view/game_view.asm
 587B7,BuildShadeLut,sub_587B7,new,low,"(level, palette): fills the shading LUT (dword_1798F8) for the palette at a brightness level",src/front/game_view/game_view.asm

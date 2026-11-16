@@ -1,0 +1,37 @@
+# NHL 96 PC instant replay and saved highlights. PC-only (the 96 3D replay), source new.
+sub_54519 StartReplay {confidence=medium} into the replay: stops the arena clip and speech, frees the fight sprites, loads the replay art and font
+sub_54769 EndReplay {confidence=medium} out of the replay: the sprite banks back (cup, fight), the view size and camera
+sub_54936 StepReplay {confidence=low} plays the replay one step at the chosen speed and direction, with its sounds and camera shots
+sub_54FE0 ReplayCameraMatrix {confidence=low} the replay camera's rotation from its heading (dword_17709E)
+sub_5504C DrawReplayObjects {confidence=low} the replay's markers, names, numbers, puck and rink sprites
+sub_553E9 DrawReplayShadows {confidence=low} the replay players' shadows
+sub_554F4 DrawReplayPlayers {confidence=low} the replay players' sprites
+sub_55600 DrawReplayCounter {confidence=low} the replay frame counter ("%d", ".")
+sub_55838 DrawReplayClock {confidence=medium} the game clock during the replay ("%2d:%02d", "%2d.%01d")
+sub_5594F DrawReplayView {confidence=medium} one replay frame of the 3D view: rink, players, puck, markers, clock
+sub_55B9D SetReplayCamera {confidence=medium} (camera): sets the replay's camera shot (0Ah follow, 9 ... the shot records)
+sub_55C75 ReplayFreeCamera {confidence=low} the replay's free camera: moves and aims it (AngleXZ, AnglePitch)
+sub_55E0A FindPlayerAtMouse {confidence=medium} (x, y): the player nearest a screen point (within 2710h), -1 none
+sub_5643A PickReplayPlayer {confidence=medium} picks the player under the mouse to follow (FindPlayerAtMouse) and puts the mouse on him
+sub_562BA ReplayFrame {confidence=medium} one frame of the replay screen: steps the replay, camera, crowd, the frame art (topp, sid1/2) and DrawReplayView
+sub_564A4 ReplayScreen {confidence=high} the instant replay screen (TRANSIT; puk, rew, bak ... buttons): play, rewind, frame steps, cameras, save as highlight; kept in step in a link game
+sub_57B11 RunReplay {confidence=medium} RunInGameMenu's replay request: frees the sprite cache, runs ReplayScreen, redraws
+sub_57BF7 SaveHighlight {confidence=medium} saves the replay as a highlight (HILITES\, HILITES.NDX, %08d) under a name the user types
+sub_57EAF ReadHighlight {confidence=low} reads a saved highlight file (FileReadAt)
+sub_57F0A WatchHighlight {confidence=medium} from the main menu: sets up the game view and sounds, plays a saved highlight in the replay screen, then back to the front end
+sub_583B8 HighlightsMenu {confidence=medium} from the main menu: picks a saved highlight (HILITES.NDX, PickIndexEntryScreen) and plays it
+sub_5504C_391 DrawReplayObjects_391 {no_record}
+sub_55600_231 DrawReplayCounter_231 {no_record}
+sub_55600_232 DrawReplayCounter_232 {no_record}
+sub_564A4_10E1 ReplayScreen_10E1 {no_record}
+sub_564A4_1110 ReplayScreen_1110 {no_record}
+sub_564A4_122D ReplayScreen_122D {no_record}
+sub_564A4_1255 ReplayScreen_1255 {no_record}
+sub_564A4_161B ReplayScreen_161B {no_record}
+sub_564A4_D18 ReplayScreen_D18 {no_record}
+sub_564A4_D42 ReplayScreen_D42 {no_record}
+sub_564A4_D83 ReplayScreen_D83 {no_record}
+sub_564A4_E86 ReplayScreen_E86 {no_record}
+sub_564A4_ECF ReplayScreen_ECF {no_record}
+sub_564A4_F5C ReplayScreen_F5C {no_record}
+sub_564A4_FF6 ReplayScreen_FF6 {no_record}

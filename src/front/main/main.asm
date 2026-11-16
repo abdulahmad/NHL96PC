@@ -9,7 +9,7 @@ extern LoadGripLibrary, LoadPackedFile, MakeDataPath, ModemGameClose, off_11D3DC
 extern ReadGlobalSet, srand_, StartSoundCard, str_CLEARER, str_dbgL, str_Dot, str_FhiL4, str_FhiR4
 extern str_HardwareBeforeRunningHOC, str_IhreHardwareZuKonfigurie, str_LDON, str_LEAS, str_Lgo, str_LNEW, str_LNHL, str_LNPA
 extern str_LOGOPACK, str_LSTA, str_spPressESCToReturnToDOS, str_YouMustFirstUseTheSETUPP, strcat_, strcmp_, strlen_, GripSetupScreen
-extern ClearSlotUsers, UserRecordsScreen, sub_57F0A, sub_583B8, LoadFrontEndArt, FreeFrontEndArt, RunIntro, RunCredits
+extern ClearSlotUsers, UserRecordsScreen, WatchHighlight, HighlightsMenu, LoadFrontEndArt, FreeFrontEndArt, RunIntro, RunCredits
 extern CopyBitmap, InitGraphicsFix, SetScreenMode, SetMenuMoveSfx, SetMenuSelectSfx, MainMenuScreen, StopMusic, FadeOutMusic
 extern TestCdSpeed, ShutdownSound, WriteGlobalSet, RunExhibitionMenus, sub_73BA5, LoadLangText, FreeLangText, GetLangText
 extern RunSeasonMenus, RunStatsMenu, RunModemGameSetup, sub_A4FD7, sub_AB758, sub_ABF4C, sub_AC868, sub_ADA50
@@ -183,7 +183,7 @@ RunFrontEnd:
         call UserRecordsScreen
         jmp short .17
 .11:
-        call sub_583B8
+        call HighlightsMenu
         jmp short .17
 .12:
         xor eax, eax
@@ -197,7 +197,7 @@ RunFrontEnd:
         call PlayMenuGame
         jmp short .17
 .15:
-        call sub_57F0A
+        call WatchHighlight
         jmp short .17
 .16:
         xor eax, eax

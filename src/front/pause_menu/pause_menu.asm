@@ -25,7 +25,7 @@ extern str_Ctr02, str_Ctr12, str_D16, str_Edt02, str_Edt12, str_EXHIBITNDX3, str
 extern str_GhiL3, str_GhiR3, str_GloL3, str_GloR3, str_Paus, str_PAUSREG, str_Qui02, str_Qui12
 extern str_Qui22, str_Rep0, str_Rep1, str_Ret02, str_Ret12, str_Ret22, str_Sav02, str_Sav12
 extern str_Sid12, str_Sid22, str_Sts02, str_Sts12, strcat_, strcpy_, sub_3A6F3, sub_5360D
-extern sub_5439F, sub_564A4, sub_57B11, sub_AA988, sub_AAA40, sub_AB758, sub_ABF4C, sub_AD35C
+extern sub_5439F, ReplayScreen, RunReplay, sub_AA988, sub_AAA40, sub_AB758, sub_ABF4C, sub_AD35C
 extern sub_ADBEC, sub_B0CA8, sub_B22E0, sub_B58D8, sub_BB8E0, sub_DD6C4, sub_E04E0, sub_E0584
 extern TextSetFont, unk_11D7A4, unk_11D7BC, unk_11D7D4, unk_11D7EC, unk_11D804, unk_11D80A, unk_11D810
 extern unk_11D816, unk_11D81C, unk_11D89C, unk_16443C, unk_17CB2E, unk_17CED5, unk_17D3E8, unk_17D52C
@@ -79,7 +79,7 @@ RunInGameMenu:
         cmp dword [curperiod], byte 0FFFFFFFFh
         je short .5
         call FreeSpeechBuffer
-        call sub_57B11
+        call RunReplay
         call RestoreSpeechBuffer
         jmp short .5
 .4:
@@ -2514,7 +2514,7 @@ PauseGame_3A3:
         call SetCrowdTarget
         mov eax, 7Fh
         call Crowd_Noise
-        call sub_564A4
+        call ReplayScreen
         call FreeSpriteCache
         push dword [dword_11F5C4]
         push dword [dword_11F5C0]

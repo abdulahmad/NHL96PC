@@ -390,10 +390,10 @@
 ;  54391  sub_54391                                engine/lines/lines.asm                       1
 ;  5439F  sub_5439F                                engine/lines/lines.asm                       3
 ;  54427  sub_54427                                engine/lines/lines.asm                       1
-;  564A4  sub_564A4                                front/replay_controls/replay_controls.asm    1
-;  57B11  sub_57B11                                front/replay_controls/replay_controls.asm    1
-;  57F0A  sub_57F0A                                front/replay_controls/replay_controls.asm    1
-;  583B8  sub_583B8                                front/replay_controls/replay_controls.asm    1
+;  564A4  ReplayScreen                             front/replay_controls/replay_controls.asm    1
+;  57B11  RunReplay                                front/replay_controls/replay_controls.asm    1
+;  57F0A  WatchHighlight                           front/replay_controls/replay_controls.asm    1
+;  583B8  HighlightsMenu                           front/replay_controls/replay_controls.asm    1
 ;  58468  unk_58468                                front/replay_controls/replay_controls.asm    1
 ;  5848C  unk_5848C                                front/replay_controls/replay_controls.asm    1
 ;  587B7  BuildShadeLut                            front/game_view/game_view.asm                1

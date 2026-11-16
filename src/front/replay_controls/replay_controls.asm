@@ -71,16 +71,18 @@ extern word_114CE0, word_114CE4, word_119127, word_11A40C, word_11A410, word_11A
 extern word_176FB8, word_176FD4, word_176FDA, word_176FF6, word_176FFA, word_176FFC, word_17704A, word_17704C
 extern word_17706C, word_17706E, word_17709C, word_1770AB, word_1770AD, word_1770AF, word_1770D3, word_1770D5
 extern word_177508, word_17750A, word_177CB6, word_177D1C, word_1781FC
-global jpt_56470, sub_5504C_391, sub_55600_231, sub_55600_232, sub_55EBA_42, sub_55EBA_82, sub_55EBA_C2, sub_55EBA_102
-global sub_55EBA_142, sub_55EBA_17B, sub_564A4_D18, sub_564A4_D42, sub_564A4_D83, sub_564A4_E86, sub_564A4_ECF, sub_564A4_F5C
-global sub_564A4_FF6, sub_564A4_10E1, sub_564A4_1110, sub_564A4_122D, sub_564A4_1255, sub_564A4_161B, sub_54519, sub_54769
-global sub_54936, sub_54FE0, sub_5504C, sub_553E9, sub_554F4, sub_55600, sub_55838, sub_5594F
-global sub_55B9D, sub_55C08, sub_55C75, sub_55E0A, sub_55EBA, sub_562BA, sub_5643A, sub_564A4
-global sub_57B11, sub_57BF7, sub_57EAF, sub_57F0A, sub_583B8, unk_55EA2, unk_58468, unk_5848C
+global jpt_56470, DrawReplayObjects_391, DrawReplayCounter_231, DrawReplayCounter_232, sub_55EBA_42, sub_55EBA_82, sub_55EBA_C2, sub_55EBA_102
+global sub_55EBA_142, sub_55EBA_17B, ReplayScreen_D18, ReplayScreen_D42, ReplayScreen_D83, ReplayScreen_E86, ReplayScreen_ECF, ReplayScreen_F5C
+global ReplayScreen_FF6, ReplayScreen_10E1, ReplayScreen_1110, ReplayScreen_122D, ReplayScreen_1255, ReplayScreen_161B, StartReplay, EndReplay
+global StepReplay, ReplayCameraMatrix, DrawReplayObjects, DrawReplayShadows, DrawReplayPlayers, DrawReplayCounter, DrawReplayClock, DrawReplayView
+global SetReplayCamera, sub_55C08, ReplayFreeCamera, FindPlayerAtMouse, sub_55EBA, ReplayFrame, PickReplayPlayer, ReplayScreen
+global RunReplay, SaveHighlight, ReadHighlight, WatchHighlight, HighlightsMenu, unk_55EA2, unk_58468, unk_5848C
 ;-----------------------------------------------------------------------------
-; sub_54519                                                       54519  96 PC
+; StartReplay                                  54519  96 PC, medium confidence
+; Into the replay: stops the arena clip and speech, frees the fight sprites,
+; loads the replay art and font
 ;-----------------------------------------------------------------------------
-sub_54519:
+StartReplay:
         push ebx
         push ecx
         push edx
@@ -199,11 +201,13 @@ sub_54519:
         mov byte [byte_178288], al
         mov al, byte [byte_1175A9]
         mov byte [byte_1175AA], al
-        jmp near sub_55600_232
+        jmp near DrawReplayCounter_232
 ;-----------------------------------------------------------------------------
-; sub_54769                                                       54769  96 PC
+; EndReplay                                    54769  96 PC, medium confidence
+; Out of the replay: the sprite banks back (cup, fight), the view size and
+; camera
 ;-----------------------------------------------------------------------------
-sub_54769:
+EndReplay:
         push ebx
         push ecx
         push edx
@@ -337,9 +341,11 @@ sub_54769:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_54936                                                       54936  96 PC
+; StepReplay                                      54936  96 PC, low confidence
+; Plays the replay one step at the chosen speed and direction, with its
+; sounds and camera shots
 ;-----------------------------------------------------------------------------
-sub_54936:
+StepReplay:
         push ebx
         push ecx
         push esi
@@ -800,9 +806,10 @@ sub_54936:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_54FE0                                                       54FE0  96 PC
+; ReplayCameraMatrix                              54FE0  96 PC, low confidence
+; The replay camera's rotation from its heading (dword_17709E)
 ;-----------------------------------------------------------------------------
-sub_54FE0:
+ReplayCameraMatrix:
         push ebx
         push ecx
         push edx
@@ -845,9 +852,10 @@ sub_54FE0:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_5504C                                                       5504C  96 PC
+; DrawReplayObjects                               5504C  96 PC, low confidence
+; The replay's markers, names, numbers, puck and rink sprites
 ;-----------------------------------------------------------------------------
-sub_5504C:
+DrawReplayObjects:
         push ebx
         push ecx
         push edx
@@ -1090,14 +1098,15 @@ sub_5504C:
         add dword [byte ebp+07Eh], byte 4
         cmp dword [byte ebp+07Eh], byte 44h
         jne near .14
-sub_5504C_391:
+DrawReplayObjects_391:
         lea esp, [dword ebp+082h]
         pop ebp
-        jmp near sub_55600_232
+        jmp near DrawReplayCounter_232
 ;-----------------------------------------------------------------------------
-; sub_553E9                                                       553E9  96 PC
+; DrawReplayShadows                               553E9  96 PC, low confidence
+; The replay players' shadows
 ;-----------------------------------------------------------------------------
-sub_553E9:
+DrawReplayShadows:
         push ebx
         push ecx
         push edx
@@ -1166,11 +1175,12 @@ sub_553E9:
         add edi, byte 4
         cmp edi, byte 44h
         jne near .1
-        jmp near sub_5504C_391
+        jmp near DrawReplayObjects_391
 ;-----------------------------------------------------------------------------
-; sub_554F4                                                       554F4  96 PC
+; DrawReplayPlayers                               554F4  96 PC, low confidence
+; The replay players' sprites
 ;-----------------------------------------------------------------------------
-sub_554F4:
+DrawReplayPlayers:
         push ebx
         push ecx
         push edx
@@ -1240,11 +1250,12 @@ sub_554F4:
         sub edi, byte 4
         cmp edi, byte 0FFFFFFFCh
         jne near .1
-        jmp near sub_5504C_391
+        jmp near DrawReplayObjects_391
 ;-----------------------------------------------------------------------------
-; sub_55600                                                       55600  96 PC
+; DrawReplayCounter                               55600  96 PC, low confidence
+; The replay frame counter ("%d", ".")
 ;-----------------------------------------------------------------------------
-sub_55600:
+DrawReplayCounter:
         push ebx
         push ecx
         push edx
@@ -1424,9 +1435,9 @@ sub_55600:
         push edi
         call FillRect
         add esp, byte 14h
-sub_55600_231:
+DrawReplayCounter_231:
         leave
-sub_55600_232:
+DrawReplayCounter_232:
         pop edi
         pop esi
         pop edx
@@ -1434,9 +1445,10 @@ sub_55600_232:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_55838                                                       55838  96 PC
+; DrawReplayClock                              55838  96 PC, medium confidence
+; The game clock during the replay ("%2d:%02d", "%2d.%01d")
 ;-----------------------------------------------------------------------------
-sub_55838:
+DrawReplayClock:
         push ebx
         push ecx
         push edx
@@ -1528,11 +1540,12 @@ sub_55838:
         push dword [dword_1778FC]
         call TextSetFont
         add esp, byte 4
-        jmp near sub_55600_231
+        jmp near DrawReplayCounter_231
 ;-----------------------------------------------------------------------------
-; sub_5594F                                                       5594F  96 PC
+; DrawReplayView                               5594F  96 PC, medium confidence
+; One replay frame of the 3D view: rink, players, puck, markers, clock
 ;-----------------------------------------------------------------------------
-sub_5594F:
+DrawReplayView:
         push ebx
         push ecx
         push edx
@@ -1584,7 +1597,7 @@ sub_5594F:
         add ebx, byte 0Ch
         cmp esi, byte 11h
         jl short .1
-        call sub_54FE0
+        call ReplayCameraMatrix
         movsx eax, word [word_176FD4]
         shl eax, 2
         mov dword [byte ebp-018h], eax
@@ -1695,20 +1708,22 @@ sub_5594F:
         call sub_28A87
         cmp byte [byte_1175A8], 0
         je short .13
-        call sub_554F4
+        call DrawReplayPlayers
 .13:
         cmp dword [dword_17997C], byte 0
         je short .14
-        call sub_553E9
+        call DrawReplayShadows
 .14:
-        call sub_5504C
+        call DrawReplayObjects
         call sub_28C50
-        call sub_55838
-        jmp near sub_55600_231
+        call DrawReplayClock
+        jmp near DrawReplayCounter_231
 ;-----------------------------------------------------------------------------
-; sub_55B9D                                                       55B9D  96 PC
+; SetReplayCamera                              55B9D  96 PC, medium confidence
+; (camera): sets the replay's camera shot (0Ah follow, 9 ... the shot
+; records)
 ;-----------------------------------------------------------------------------
-sub_55B9D:
+SetReplayCamera:
         push ecx
         push esi
         push edi
@@ -1807,9 +1822,10 @@ sub_55C08:
         pop ecx
         ret
 ;-----------------------------------------------------------------------------
-; sub_55C75                                                       55C75  96 PC
+; ReplayFreeCamera                                55C75  96 PC, low confidence
+; The replay's free camera: moves and aims it (AngleXZ, AnglePitch)
 ;-----------------------------------------------------------------------------
-sub_55C75:
+ReplayFreeCamera:
         push ebx
         push ecx
         push edx
@@ -1842,7 +1858,7 @@ sub_55C75:
         mov eax, dword_179E13
         call sub_55C08
         test eax, eax
-        je near sub_55600_231
+        je near DrawReplayCounter_231
         cmp dword [byte ebp-0Ch], 2A8h
         jg short .1
         cmp dword [byte ebp-0Ch], 0FFFFFD58h
@@ -1853,7 +1869,7 @@ sub_55C75:
         jge short .2
 .1:
         xor eax, eax
-        jmp near sub_55600_231
+        jmp near DrawReplayCounter_231
 .2:
         mov edi, dword [byte ebp-07Ch]
         lea esi, [byte ebp-0Ch]
@@ -1949,11 +1965,12 @@ sub_55C75:
         call AnglePitch
         mov dword [byte esi+0Dh], eax
         mov eax, 1
-        jmp near sub_55600_231
+        jmp near DrawReplayCounter_231
 ;-----------------------------------------------------------------------------
-; sub_55E0A                                                       55E0A  96 PC
+; FindPlayerAtMouse                            55E0A  96 PC, medium confidence
+; (x, y): the player nearest a screen point (within 2710h), -1 none
 ;-----------------------------------------------------------------------------
-sub_55E0A:
+FindPlayerAtMouse:
         push ebx
         push ecx
         push esi
@@ -2335,14 +2352,16 @@ sub_55EBA_17B:
         mov edx, dword [byte ebp+07Eh]
         mov dword [byte edx+0Dh], eax
         mov eax, 1
-        jmp near sub_5504C_391
+        jmp near DrawReplayObjects_391
 .26:
         xor eax, eax
-        jmp near sub_5504C_391
+        jmp near DrawReplayObjects_391
 ;-----------------------------------------------------------------------------
-; sub_562BA                                                       562BA  96 PC
+; ReplayFrame                                  562BA  96 PC, medium confidence
+; One frame of the replay screen: steps the replay, camera, crowd, the frame
+; art (topp, sid1/2) and DrawReplayView
 ;-----------------------------------------------------------------------------
-sub_562BA:
+ReplayFrame:
         push ebx
         push ecx
         push edx
@@ -2386,7 +2405,7 @@ sub_562BA:
         mov edx, dword [dword_11A3F8]
         mov eax, dword [dword_11A424]
         and edx, byte 10h
-        call sub_54936
+        call StepReplay
         cmp eax, byte 0FFFFFFFFh
         je short .9
         cmp dword [dword_11A424], byte 0
@@ -2442,8 +2461,8 @@ sub_562BA:
         push eax
         call sub_AADA4
         add esp, byte 4
-        call sub_55600
-        call sub_5594F
+        call DrawReplayCounter
+        call DrawReplayView
         mov eax, dword [dword_11B234]
         mov dword [esi], eax
         pop esi
@@ -2452,13 +2471,15 @@ sub_562BA:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_5643A                                                       5643A  96 PC
+; PickReplayPlayer                             5643A  96 PC, medium confidence
+; Picks the player under the mouse to follow (FindPlayerAtMouse) and puts the
+; mouse on him
 ;-----------------------------------------------------------------------------
-sub_5643A:
+PickReplayPlayer:
         push edx
         mov edx, dword [dword_11D1AC]
         mov eax, dword [dword_11D1A8]
-        call sub_55E0A
+        call FindPlayerAtMouse
         mov dword [dword_1781F4], eax
         cmp eax, byte 0FFFFFFFFh
         je short .1
@@ -2471,23 +2492,26 @@ sub_5643A:
         pop edx
         ret
 jpt_56470:
-        dd sub_564A4_D18
-        dd sub_564A4_D42
-        dd sub_564A4_D83
-        dd sub_564A4_ECF
-        dd sub_564A4_F5C
-        dd sub_564A4_FF6
-        dd sub_564A4_10E1
-        dd sub_564A4_1110
-        dd sub_564A4_161B
-        dd sub_564A4_E86
-        dd sub_564A4_E86
-        dd sub_564A4_122D
-        dd sub_564A4_1255
+        dd ReplayScreen_D18
+        dd ReplayScreen_D42
+        dd ReplayScreen_D83
+        dd ReplayScreen_ECF
+        dd ReplayScreen_F5C
+        dd ReplayScreen_FF6
+        dd ReplayScreen_10E1
+        dd ReplayScreen_1110
+        dd ReplayScreen_161B
+        dd ReplayScreen_E86
+        dd ReplayScreen_E86
+        dd ReplayScreen_122D
+        dd ReplayScreen_1255
 ;-----------------------------------------------------------------------------
-; sub_564A4                                                       564A4  96 PC
+; ReplayScreen                                                    564A4  96 PC
+; The instant replay screen (TRANSIT; puk, rew, bak ... buttons): play,
+; rewind, frame steps, cameras, save as highlight; kept in step in a link
+; game
 ;-----------------------------------------------------------------------------
-sub_564A4:
+ReplayScreen:
         push ebx
         push ecx
         push edx
@@ -2547,7 +2571,7 @@ sub_564A4:
         call sub_ABF4C
         add esp, byte 4
 .6:
-        call sub_54519
+        call StartReplay
         test byte [byte_17CA5D], 20h
         je short .7
         mov dword [dword_1781DC], unk_11AB30
@@ -3086,7 +3110,7 @@ sub_564A4:
         push dword [byte ebp-02Ch]
         push dword [byte ebp-030h]
         push dword [byte ebp-034h]
-        mov eax, sub_562BA
+        mov eax, ReplayFrame
         push dword [byte ebp-038h]
         xor edx, edx
         call sub_64E74
@@ -3100,7 +3124,7 @@ sub_564A4:
         mov dword [dword_11A408], eax
         mov eax, 0B4h
         mov dword [dword_177A58], 0
-        call sub_54936
+        call StepReplay
         mov eax, dword_178243
         call SetCameraShot
         push dword [dword_11B234]
@@ -3152,7 +3176,7 @@ sub_564A4:
         cmp dword [dword_11A3FC], byte 0
         je short .18
         lea eax, [byte ebp-014h]
-        call sub_562BA
+        call ReplayFrame
         call sub_DD6C4
         push byte 0
         mov eax, dword [byte ebp-014h]
@@ -3167,7 +3191,7 @@ sub_564A4:
 .18:
         mov eax, 1
         call LinkSync
-        jmp near sub_564A4_E86
+        jmp near ReplayScreen_E86
 .19:
         mov eax, 16h
 .20:
@@ -3179,18 +3203,18 @@ sub_564A4:
         call sub_64F47
         mov eax, dword [dword_1781D8]
         cmp eax, dword [byte ebp-038h]
-        jle near sub_564A4_E86
+        jle near ReplayScreen_E86
         mov eax, dword [dword_1781D4]
         cmp eax, dword [byte ebp-034h]
-        jle near sub_564A4_E86
+        jle near ReplayScreen_E86
         mov edx, eax
         mov eax, dword [dword_1781D8]
-        call sub_55E0A
+        call FindPlayerAtMouse
         mov dword [dword_1781F4], eax
         cmp eax, byte 0FFFFFFFFh
         jne short .21
         mov eax, unk_1781E4
-        call sub_55C75
+        call ReplayFreeCamera
         test eax, eax
         je short .22
         mov dword [dword_1781F0], 0FFFFFFFFh
@@ -3200,7 +3224,7 @@ sub_564A4:
 .22:
         mov dword [dword_1781F8], 1
         and byte [dword_11A3F8], 0BFh
-        jmp near sub_564A4_E86
+        jmp near ReplayScreen_E86
 .23:
         cmp dword [byte ebp-01Ch], byte 0Ch
         jle near .25
@@ -3214,19 +3238,19 @@ sub_564A4:
         call sub_55EBA
         mov dword [dword_1781F8], eax
         test eax, eax
-        je near sub_564A4_E86
+        je near ReplayScreen_E86
         test byte [dword_11A3F8], 10h
-        jne near sub_564A4_E86
+        jne near ReplayScreen_E86
         mov dword [dword_11A428], 0
-        jmp near sub_564A4_E86
+        jmp near ReplayScreen_E86
 .24:
         mov eax, dword [byte ebp-01Ch]
         sub eax, byte 0Ch
         cmp eax, byte 9
-        jg near sub_564A4_E86
-        call sub_55B9D
+        jg near ReplayScreen_E86
+        call SetReplayCamera
         test eax, eax
-        je near sub_564A4_E86
+        je near ReplayScreen_E86
         mov eax, dword_178243
         call SetCameraShot
         mov eax, dword [dword_165974]
@@ -3234,19 +3258,19 @@ sub_564A4:
         mov byte [eax], dl
         mov eax, dword [dword_165974]
         mov dword [dword_1781CC], eax
-        jmp near sub_564A4_E86
+        jmp near ReplayScreen_E86
 .25:
         cmp dword [byte ebp-01Ch], byte 0Ch
-        ja near sub_564A4_E86
+        ja near ReplayScreen_E86
         mov eax, dword [byte ebp-01Ch]
         jmp dword [nosplit cs:eax*4+jpt_56470]
-sub_564A4_D18:
+ReplayScreen_D18:
         mov dword [dword_11A428], 0
         mov dword [dword_1781F0], 0Eh
         mov dword [dword_1781F8], 1
         or byte [dword_11A3F8], 40h
-        jmp near sub_564A4_E86
-sub_564A4_D42:
+        jmp near ReplayScreen_E86
+ReplayScreen_D42:
         mov eax, dword [dword_11A428]
         shl eax, 2
         mov dword [dword_11A428], eax
@@ -3260,8 +3284,8 @@ sub_564A4_D42:
         call CrowdPause
 .26:
         mov dword [dword_1781CC], 0
-        jmp near sub_564A4_E86
-sub_564A4_D83:
+        jmp near ReplayScreen_E86
+ReplayScreen_D83:
         call CrowdPause
         test byte [dword_11A3F8], 4
         jne near .28
@@ -3306,7 +3330,7 @@ sub_564A4_D83:
         mov dword [dword_1781CC], 0
 .31:
         mov dword [dword_11A3F8], eax
-sub_564A4_E86:
+ReplayScreen_E86:
         call SoundIdle
         mov ax, word [word_114CE0]
         xor ah, ah
@@ -3315,7 +3339,7 @@ sub_564A4_E86:
         cwde
         push eax
         mov dword [byte ebp-01Ch], 0FFFFFFFFh
-        mov ecx, sub_5643A
+        mov ecx, PickReplayPlayer
         push byte 8
         lea eax, [byte ebp-01Ch]
         mov ebx, 0FFFFFFFFh
@@ -3323,13 +3347,13 @@ sub_564A4_E86:
         movzx eax, byte [byte_178247]
         mov edx, unk_177908
         cmp eax, byte 0Ah
-        jne near sub_564A4.19
+        jne near ReplayScreen.19
         mov eax, 13h
-        jmp near sub_564A4.20
-sub_564A4_ECF:
+        jmp near ReplayScreen.20
+ReplayScreen_ECF:
         call CrowdPause
         test byte [dword_11A3F8], 4
-        jne short sub_564A4_E86
+        jne short ReplayScreen_E86
         cmp dword [dword_11A400], byte 0
         jl short .32
         imul eax, dword [dword_11A400], byte 66h
@@ -3350,11 +3374,11 @@ sub_564A4_ECF:
         mov dword [dword_177A54], 0
         or al, 4
         mov dword [dword_177A58], 0
-        jmp near sub_564A4_D83.31
-sub_564A4_F5C:
+        jmp near ReplayScreen_D83.31
+ReplayScreen_F5C:
         call CrowdResume
         test byte [dword_11A3F8], 10h
-        jne near sub_564A4_E86
+        jne near ReplayScreen_E86
         cmp dword [dword_11A400], byte 0
         jl short .33
         imul eax, dword [dword_11A400], byte 66h
@@ -3376,8 +3400,8 @@ sub_564A4_F5C:
         mov dword [dword_177ABA], 0
         or al, 10h
         mov dword [dword_177ABE], 0
-        jmp near sub_564A4_D83.31
-sub_564A4_FF6:
+        jmp near ReplayScreen_D83.31
+ReplayScreen_FF6:
         call CrowdPause
         test byte [dword_11A3F8], 4
         jne near .35
@@ -3417,18 +3441,18 @@ sub_564A4_FF6:
         mov eax, dword [dword_11A3F8]
         and eax, 80000640h
         or al, 0Ch
-        jmp near sub_564A4_D83.31
-sub_564A4_10E1:
+        jmp near ReplayScreen_D83.31
+ReplayScreen_10E1:
         mov eax, dword [dword_11A3F8]
         and eax, 80000654h
         or al, 20h
         mov dword [dword_11A3F8], eax
         shl dword [dword_11A428], 2
         test byte [dword_11A3F8], 10h
-        jne near sub_564A4_E86
+        jne near ReplayScreen_E86
         call CrowdPause
-        jmp near sub_564A4_E86
-sub_564A4_1110:
+        jmp near ReplayScreen_E86
+ReplayScreen_1110:
         mov ax, word [word_114CE0]
         xor ah, ah
         and al, 1
@@ -3444,7 +3468,7 @@ sub_564A4_1110:
         mov edx, 1Bh
         xor eax, eax
         call ModemChat
-        jmp near sub_564A4_E86
+        jmp near ReplayScreen_E86
 .38:
         call CrowdPause
         cmp dword [dword_11A400], byte 0
@@ -3476,7 +3500,7 @@ sub_564A4_1110:
         xor eax, eax
         mov dword [dword_177A58], 0
         call sub_64E74
-        call sub_57BF7
+        call SaveHighlight
         push str_Rtrg
         push dword [dword_1781D0]
         call sub_E04E0
@@ -3491,10 +3515,10 @@ sub_564A4_1110:
         push dword [byte ebp-030h]
         push dword [byte ebp-034h]
         push dword [byte ebp-038h]
-        mov eax, sub_562BA
+        mov eax, ReplayFrame
         call sub_64E74
-        jmp near sub_564A4_E86
-sub_564A4_122D:
+        jmp near ReplayScreen_E86
+ReplayScreen_122D:
         test byte [byte_11A3F9], 2
         je short .40
         and byte [byte_11A3F9], 0FDh
@@ -3503,14 +3527,14 @@ sub_564A4_122D:
         or byte [byte_11A3F9], 2
 .41:
         mov dword [dword_1781F8], 1
-        jmp near sub_564A4_E86
-sub_564A4_1255:
+        jmp near ReplayScreen_E86
+ReplayScreen_1255:
         movzx eax, byte [byte_178247]
         cmp eax, byte 0Ah
         jne near .48
         mov eax, dword [dword_165974]
         movsx eax, byte [eax]
-        call sub_55B9D
+        call SetReplayCamera
         test eax, eax
         je short .42
         mov eax, dword_178243
@@ -3616,11 +3640,11 @@ sub_564A4_1255:
         add edi, byte 40h
         add esi, byte 66h
         cmp dword [byte ebp-010h], byte 16h
-        jge near sub_564A4_E86
+        jge near ReplayScreen_E86
         jmp near .43
 .48:
         mov eax, 0Ah
-        call sub_55B9D
+        call SetReplayCamera
         test eax, eax
         je short .49
         mov eax, dword_178243
@@ -3742,9 +3766,9 @@ sub_564A4_1255:
         add edi, byte 40h
         add esi, byte 66h
         cmp dword [byte ebp-010h], byte 13h
-        jge near sub_564A4_E86
+        jge near ReplayScreen_E86
         jmp near .50
-sub_564A4_161B:
+ReplayScreen_161B:
         call CrowdPause
         push byte 0
         push byte 0
@@ -3754,7 +3778,7 @@ sub_564A4_161B:
         push dword [byte ebp-038h]
         xor eax, eax
         call sub_64E74
-        call sub_54769
+        call EndReplay
         push dword [dword_11F5C4]
         push dword [dword_11F5C0]
         push byte 0
@@ -3765,11 +3789,13 @@ sub_564A4_161B:
         push dword [dword_11B320]
         call MouseRead
         add esp, byte 8
-        jmp near sub_55600_231
+        jmp near DrawReplayCounter_231
 ;-----------------------------------------------------------------------------
-; sub_57B11                                                       57B11  96 PC
+; RunReplay                                    57B11  96 PC, medium confidence
+; RunInGameMenu's replay request: frees the sprite cache, runs ReplayScreen,
+; redraws
 ;-----------------------------------------------------------------------------
-sub_57B11:
+RunReplay:
         push ebx
         push ecx
         push edx
@@ -3798,7 +3824,7 @@ sub_57B11:
         call sub_AA988
         add esp, byte 4
 .1:
-        call sub_564A4
+        call ReplayScreen
         cmp dword [dword_11B330], byte 8
         jge short .2
         push dword [dword_11B234]
@@ -3838,9 +3864,11 @@ sub_57B11:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_57BF7                                                       57BF7  96 PC
+; SaveHighlight                                57BF7  96 PC, medium confidence
+; Saves the replay as a highlight (HILITES\, HILITES.NDX, %08d) under a name
+; the user types
 ;-----------------------------------------------------------------------------
-sub_57BF7:
+SaveHighlight:
         push ebx
         push ecx
         push edx
@@ -4039,11 +4067,12 @@ sub_57BF7:
         push unk_1774C4
         call sub_B026C
         add esp, byte 4
-        jmp near sub_5504C_391
+        jmp near DrawReplayObjects_391
 ;-----------------------------------------------------------------------------
-; sub_57EAF                                                       57EAF  96 PC
+; ReadHighlight                                   57EAF  96 PC, low confidence
+; Reads a saved highlight file (FileReadAt)
 ;-----------------------------------------------------------------------------
-sub_57EAF:
+ReadHighlight:
         push ebx
         push ecx
         push edx
@@ -4073,9 +4102,11 @@ sub_57EAF:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_57F0A                                                       57F0A  96 PC
+; WatchHighlight                               57F0A  96 PC, medium confidence
+; From the main menu: sets up the game view and sounds, plays a saved
+; highlight in the replay screen, then back to the front end
 ;-----------------------------------------------------------------------------
-sub_57F0A:
+WatchHighlight:
         push ebx
         push ecx
         push edx
@@ -4211,7 +4242,7 @@ sub_57F0A:
         call sub_E0584
         add esp, byte 4
         call FreeSpeechBuffer
-        call sub_564A4
+        call ReplayScreen
         call FreeSpriteCache
         call RestoreSpeechBuffer
         call FreeGameView
@@ -4282,7 +4313,7 @@ sub_57F0A:
 .10:
         mov dword [dword_11A3FC], 0
         mov eax, 0Bh
-        jmp near sub_55600_231
+        jmp near DrawReplayCounter_231
         push ebx
         push ecx
         mov ebx, edx
@@ -4427,9 +4458,11 @@ sub_57F0A:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_583B8                                                       583B8  96 PC
+; HighlightsMenu                               583B8  96 PC, medium confidence
+; From the main menu: picks a saved highlight (HILITES.NDX,
+; PickIndexEntryScreen) and plays it
 ;-----------------------------------------------------------------------------
-sub_583B8:
+HighlightsMenu:
         push ebx
         push ecx
         push edx
@@ -4462,7 +4495,7 @@ sub_583B8:
 .3:
         test ebx, ebx
         je short .6
-        call sub_57EAF
+        call ReadHighlight
         test eax, eax
         je short .4
         mov ebx, 0Bh

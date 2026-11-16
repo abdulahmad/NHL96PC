@@ -21,9 +21,9 @@ extern hmroster, hmtmgoalie, hmtmstruct, lastplayer, lasttouch, lcblink, lcboxon
 extern off_11786C, off_11787C, puckc, PtrPuckFlags, off_117890, PtrPuckObject, off_117898, off_11789C
 extern asstab, off_118F79, penshotlive, penshotmode, penshotplayer, penshotstart, penshottimer, puckvx
 extern puckx, pucky, puckz, randomd0, regd2, regd3, sflags, shotongoal
-extern shotontarget, IsCupClinched, StartGoalLight, SwapPosition, assextra6, doinput, sub_39847, CountTeamSlots
-extern sub_3A7A4, asspsclear, sub_3E6D4, ChkShotStat, checkcoll, SetSPA, sub_4F452, AddPenalty2
-extern PenGoalStuff, EndPenaltyShot, sub_535D5, sub_53640, CloseTextOverlay, LoadCupSprites, PaEvent, StopAllSfx
+extern shotontarget, IsCupClinched, StartGoalLight, SwapPosition, assextra6, doinput, ResetInputRepeat, CountTeamSlots
+extern SetupPenaltyBoxSeats, asspsclear, SetCarryAnim, ChkShotStat, checkcoll, SetSPA, GameEventStub, AddPenalty2
+extern PenGoalStuff, EndPenaltyShot, ResetPeriodState, SortSpritesForDraw, CloseTextOverlay, LoadCupSprites, PaEvent, StopAllSfx
 extern PlaySfx, sfx, CrowdReaction, PlayArenaClip, StopArenaClip, vecdist, threat, unk_117A9C
 extern unk_118FA5, unk_156E6C, unk_156FFC, unk_157AF8, unk_157B0A, unk_157B1C, unk_157B4F, unk_157B82
 extern unk_157D8F, unk_157F9C, unk_157FDA, unk_1582F5, unk_158610, unk_164B5C, unk_165258, unk_165354
@@ -40,12 +40,12 @@ extern PassDistY, StoppageFlag, LastPlayerTouch
 global ClearSortCords, CompLine, DoGameFrame, InitCoachModes, SetPlList, SetupTeamForIntermission, StartPer, TeamLineEnergy
 global TryAddPlayerToList, UpdateCoachModes, clearteams, findpc, forceteams, changeplayer_316, CompLine_351, CompLine_3D1
 global getlinee_19, Goal_1F6, Goal_1FB, Goal_1FC, reenergizeteam, resetplstuff, setpersonel, setupice
-global SprSort, changeplayer, restorepl, AvgCline, AvgLinePair, getlinee, sub_46FA3, GetHot
+global SprSort, changeplayer, restorepl, AvgCline, AvgLinePair, getlinee, HotSpotFrame, GetHot
 global GetHotStick, GetHotOrStick, SetCoachMode, PenTeamScored, ChkTeamPlayerFlag, Goal, GiveControl, Setplass
-global setplayer, restoreteams, GetPeriodTime, ResetClock, sub_489CF, sub_48A4D, defaultsprites_0, sub_49300
-global sub_493D4, sub_494F7, checkwindow, RestoreBenchEnergy, periodicevents, sub_497A7, updateplayers, updateanim
+global setplayer, restoreteams, GetPeriodTime, ResetClock, InitBenchSprite, InitBenchSprites, defaultsprites_0, BenchSpriteFrame
+global AnimateBenchSprite, PickBenchIdleAnim, checkwindow, RestoreBenchEnergy, periodicevents, CheckBenchDoor, updateplayers, updateanim
 global cleargamevars, clockcont_0, ClockTick, GameOver, SetExitGame, Intermission, PeriodOver, ResetBench
-global StartGame, forcepldata, sub_4B38C, sub_4B4F3, sub_4B59F, sub_4B748
+global StartGame, forcepldata, PlayerSpriteFrame, PuckInNet, CrowdReactToPlay, PickSkateAnim
 ;-----------------------------------------------------------------------------
 ; SprSort                        465BA  93G hockey93_06.asm, medium confidence
 ; Copies each sort object's y (x when sfhor) to Ylist (SprSort_loop), then bubble
@@ -338,7 +338,7 @@ changeplayer:
         cmp word [byte ebx+01Ah], byte 0
         je short .23
         mov eax, ebx
-        call sub_3E6D4
+        call SetCarryAnim
         jmp short changeplayer_316
 .23:
         cmp dword [byte ecx+07Ah], byte 0
@@ -966,9 +966,11 @@ findpc:
         jl near .1
         jmp near Goal_1FB
 ;-----------------------------------------------------------------------------
-; sub_46FA3                                                       46FA3  96 PC
+; HotSpotFrame                                    46FA3  96 PC, low confidence
+; Works out the sprite frame a player's hot spot comes from, turned for the
+; camera
 ;-----------------------------------------------------------------------------
-sub_46FA3:
+HotSpotFrame:
         push ebx
         push ecx
         push edx
@@ -1056,7 +1058,7 @@ GetHot:
         mov edx, eax
         mov word [regd1], 0
         mov word [regd0], 0
-        call sub_46FA3
+        call HotSpotFrame
         test ax, ax
         jl short .1
         movsx ebx, ax
@@ -1089,7 +1091,7 @@ GetHotStick:
         mov edx, eax
         mov word [regd1], 0
         mov word [regd0], 0
-        call sub_46FA3
+        call HotSpotFrame
         test ax, ax
         jl short .1
         movsx ebx, ax
@@ -1150,7 +1152,7 @@ GetHotOrStick:
         mov word [regd0], 4
 .4:
         mov eax, edx
-        call sub_46FA3
+        call HotSpotFrame
         mov edx, eax
         test ax, ax
         jl near .10
@@ -1928,7 +1930,7 @@ Goal_1FC:
 .29:
         movsx edx, di
         mov eax, edx
-        call sub_4F452
+        call GameEventStub
         cmp edx, byte 1
         jne short .30
         add word [CwdExciteLvl], byte 0Ah
@@ -3111,9 +3113,10 @@ ClearSortCords:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_489CF                                                       489CF  96 PC
+; InitBenchSprite                                 489CF  96 PC, low confidence
+; Resets one bench or penalty box sprite with a random idle animation
 ;-----------------------------------------------------------------------------
-sub_489CF:
+InitBenchSprite:
         push edx
         mov edx, eax
         mov word [byte eax+010h], 0
@@ -3147,9 +3150,10 @@ sub_489CF:
         pop edx
         ret
 ;-----------------------------------------------------------------------------
-; sub_48A4D                                                       48A4D  96 PC
+; InitBenchSprites                                48A4D  96 PC, low confidence
+; Resets the bench and penalty box sprites for both teams
 ;-----------------------------------------------------------------------------
-sub_48A4D:
+InitBenchSprites:
         push ebx
         push ecx
         push edx
@@ -3168,7 +3172,7 @@ sub_48A4D:
 .2:
         mov eax, edx
         add edx, byte 2Ah
-        call sub_489CF
+        call InitBenchSprite
         cmp edx, ebx
         jne short .2
         imul edx, ecx, byte 7Eh
@@ -3178,7 +3182,7 @@ sub_48A4D:
 .3:
         mov eax, ebx
         add edx, byte 2Ah
-        call sub_489CF
+        call InitBenchSprite
         mov word [dword edx+dword_165244], 6
         add ebx, byte 2Ah
         mov word [dword edx+dword_165240], 8FEh
@@ -3293,7 +3297,7 @@ defaultsprites_0:
         mov byte [byte eax+058h], 0Fh
         mov word [word_1178F8], 0FFFFh
         call SprSort
-        call sub_48A4D
+        call InitBenchSprites
         jmp near Goal_1FC
 ;-----------------------------------------------------------------------------
 ; TryAddPlayerToList                           48BFF  95 PC, medium confidence
@@ -3751,7 +3755,7 @@ StartPer:
         mov dword [dword_11D3A6], 0
         call StopAllSfx
         call setupice
-        call sub_39847
+        call ResetInputRepeat
         call GetPeriodTime
         mov word [gameclock], ax
         mov word [word_176B80], ax
@@ -3802,16 +3806,16 @@ StartPer:
         mov eax, dword [off_11786C]
         and byte [sflags], 0AFh
         mov dword [dword_16596C], eax
-        call sub_535D5
+        call ResetPeriodState
         mov word [word_11D3A2], 0FFFFh
         call periodicevents
         call updateplayers
         call checkwindow
-        call sub_53640
+        call SortSpritesForDraw
         call periodicevents
         call updateplayers
         call checkwindow
-        call sub_53640
+        call SortSpritesForDraw
         movsx eax, word [gsp]
         mov word [CwdExciteLvl], 10h
         cmp eax, byte 2
@@ -3830,9 +3834,10 @@ StartPer:
         pop edx
         ret
 ;-----------------------------------------------------------------------------
-; sub_49300                                                       49300  96 PC
+; BenchSpriteFrame                                49300  96 PC, low confidence
+; Works out a bench sprite's frame, turned for the camera
 ;-----------------------------------------------------------------------------
-sub_49300:
+BenchSpriteFrame:
         push ebx
         push ecx
         push edx
@@ -3922,9 +3927,10 @@ sub_49300:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_493D4                                                       493D4  96 PC
+; AnimateBenchSprite                              493D4  96 PC, low confidence
+; Steps a bench sprite's animation
 ;-----------------------------------------------------------------------------
-sub_493D4:
+AnimateBenchSprite:
         push ebx
         push ecx
         push edx
@@ -4022,9 +4028,10 @@ sub_493D4:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_494F7                                                       494F7  96 PC
+; PickBenchIdleAnim                               494F7  96 PC, low confidence
+; Picks a random idle animation for a bench sprite that has none
 ;-----------------------------------------------------------------------------
-sub_494F7:
+PickBenchIdleAnim:
         push edx
         mov edx, eax
         cmp word [byte eax+018h], byte 0
@@ -4057,10 +4064,10 @@ checkwindow:
         xor ecx, ecx
 .2:
         mov eax, edx
-        call sub_493D4
+        call AnimateBenchSprite
         mov eax, edx
         inc ecx
-        call sub_494F7
+        call PickBenchIdleAnim
         add edx, byte 2Ah
         cmp ecx, byte 7
         jl short .2
@@ -4078,10 +4085,10 @@ checkwindow:
         cmp ecx, eax
         jge short .5
         mov eax, ebx
-        call sub_493D4
+        call AnimateBenchSprite
         mov eax, ebx
         inc ecx
-        call sub_494F7
+        call PickBenchIdleAnim
         add ebx, byte 2Ah
         cmp ecx, byte 3
         jl short .4
@@ -4104,7 +4111,7 @@ DoGameFrame:
         call periodicevents
         call updateplayers
         call checkwindow
-        jmp near sub_53640
+        jmp near SortSpritesForDraw
 ;-----------------------------------------------------------------------------
 ; RestoreBenchEnergy                495A1  94G hockey94.asm, medium confidence
 ; The 94G RestoreBenchEnergy: once a second with line changes on, bench
@@ -4176,7 +4183,7 @@ periodicevents:
         push edx
         push esi
         call chkprogress
-        call sub_4F452
+        call GameEventStub
         mov al, byte [gmode]
         and al, 1
         movsx eax, al
@@ -4265,9 +4272,10 @@ periodicevents:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_497A7                                                       497A7  96 PC
+; CheckBenchDoor                                  497A7  96 PC, low confidence
+; Checks whether a player is at his bench door for a line change
 ;-----------------------------------------------------------------------------
-sub_497A7:
+CheckBenchDoor:
         push ebx
         push ecx
         push edx
@@ -4509,7 +4517,7 @@ updateplayers:
         test eax, eax
         jne short .9
         mov eax, esi
-        call sub_497A7
+        call CheckBenchDoor
 .9:
         inc dword [byte ebp-04h]
         add esi, 0A0h
@@ -5767,7 +5775,7 @@ clockcont_0:
 .16:
         setl al
         movzx eax, al
-        call sub_4F452
+        call GameEventStub
         movsx eax, word [regd0]
         cmp eax, byte 8
         jne near .28
@@ -6180,7 +6188,7 @@ Intermission:
         cmp eax, byte 11h
         jl short .4
         call StartPer
-        call sub_3A7A4
+        call SetupPenaltyBoxSeats
 .6:
         pop edx
         ret
@@ -6236,7 +6244,7 @@ PeriodOver:
 .4:
         call Intermission
         call StartPer
-        call sub_3A7A4
+        call SetupPenaltyBoxSeats
         pop edx
         ret
 ;-----------------------------------------------------------------------------
@@ -6364,7 +6372,7 @@ StartGame:
         je near GameOver
         call Intermission
         call StartPer
-        jmp near sub_3A7A4
+        jmp near SetupPenaltyBoxSeats
 ;-----------------------------------------------------------------------------
 ; forceteams                                   4B2A0  95 PC, medium confidence
 ; Setpersonel + forcepldata for both teams
@@ -6453,9 +6461,10 @@ forcepldata:
         pop edx
         ret
 ;-----------------------------------------------------------------------------
-; sub_4B38C                                                       4B38C  96 PC
+; PlayerSpriteFrame                               4B38C  96 PC, low confidence
+; Works out a player's sprite frame, turned for the camera
 ;-----------------------------------------------------------------------------
-sub_4B38C:
+PlayerSpriteFrame:
         push ebx
         push ecx
         push edx
@@ -6593,9 +6602,10 @@ sub_4B38C:
         add eax, ebx
         jmp near Goal_1FC
 ;-----------------------------------------------------------------------------
-; sub_4B4F3                                                       4B4F3  96 PC
+; PuckInNet                                       4B4F3  96 PC, low confidence
+; Returns which goal net the puck is inside, if any
 ;-----------------------------------------------------------------------------
-sub_4B4F3:
+PuckInNet:
         push ebx
         push ecx
         push edx
@@ -6665,9 +6675,10 @@ sub_4B4F3:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_4B59F                                                       4B59F  96 PC
+; CrowdReactToPlay                                4B59F  96 PC, low confidence
+; Sets the crowd reaction from where the puck is and the game state
 ;-----------------------------------------------------------------------------
-sub_4B59F:
+CrowdReactToPlay:
         push ebx
         push ecx
         push edx
@@ -6813,9 +6824,10 @@ sub_4B59F:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_4B748                                                       4B748  96 PC
+; PickSkateAnim                                   4B748  96 PC, low confidence
+; Picks the skating animation from the player's speed and facing
 ;-----------------------------------------------------------------------------
-sub_4B748:
+PickSkateAnim:
         push ebx
         push edx
         mov ebx, eax

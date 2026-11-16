@@ -22,7 +22,7 @@ extern str_Bt283, str_Bt293, str_D6, str_dbgDash, str_Del1, str_Del2, str_Del3, 
 extern str_Mod2, str_Mod3, str_Pal15, str_Pal16, str_S, str_S05dCnzDb4, str_S05dCnzDb5, str_S05dCsgDb2
 extern str_S05dCsgDb3, str_SEASONNDX2, str_SLDR, str_Sta12, str_Sta22, str_Sta32, str_star, str_Stn1
 extern str_Stn2, str_Stn3, str_Tra1, str_Tra2, str_Tra3, strcpy_, strlen_, LoadDataFileLib
-extern sub_29B9F, sub_4F08B, sub_4F159, sub_4F2A8, sub_4F385, CalendarScreen, UpdateTeamDbs, SimSeasonGames
+extern GameOptionsScreen, ReadSeasonDbHeader, ReadPlayoffDbHeader, DeleteSeasonFiles, DeleteSeasonDb, CalendarScreen, UpdateTeamDbs, SimSeasonGames
 extern SaveSeasonTeams, SimulateGame, RunStatsMenu, RunRosterScreens, PlayoffTreeScreen, SeedPlayoffs, PlayoffRound1, PlayoffRound2
 extern PlayoffRound3, PlayoffFinal, ClearPlayoffTree, sub_A8B9B, sub_AAA40, sub_AAA8C, sub_AADA4, FreeMemBlock
 extern sub_AD35C, TintRows, sub_ADA80, sub_ADBEC, DosFileInfo, atoi_, OpenArtArchiveErr, OpenArtArchive
@@ -836,7 +836,7 @@ SeasonMenuScreen_C05:
         mov ecx, 0B9h
         xor eax, eax
         mov edi, unk_17CED5
-        call sub_29B9F
+        call GameOptionsScreen
         mov esi, dword [gameopts]
         rep movsb
         mov ecx, 0B9h
@@ -2795,7 +2795,7 @@ RunSeasonMenus_D2:
         and dword [dword_17CB2F], 0FFFE0FFFh
         shl eax, 0Ch
         or dword [dword_17CB2F], eax
-        call sub_4F08B
+        call ReadSeasonDbHeader
         mov dword [dword_1150D8], eax
         mov eax, dword [dword_17CBE7]
         mov ecx, 2715h
@@ -2840,7 +2840,7 @@ RunSeasonMenus_189:
         shl eax, 0Fh
         shr eax, 1Bh
         mov ecx, 2715h
-        call sub_4F159
+        call ReadPlayoffDbHeader
         mov dword [gameopts], unk_17CED5
         mov dword [dword_1150D8], eax
         jmp short RunSeasonMenus_138.6
@@ -2886,7 +2886,7 @@ RunSeasonMenus_25A:
         call PlayMenuGame
         cmp dword [dword_1150FC], byte 1
         jne near .21
-        call sub_4F385
+        call DeleteSeasonDb
         movsx eax, byte [byte_17D270]
         imul eax, byte 1Ah
         movsx eax, byte [dword eax+byte_17CFB1]
@@ -3012,7 +3012,7 @@ RunSeasonMenus_25A:
         imul eax, byte 1Ah
         mov byte [dword eax+byte_17CC38], 1
 .25:
-        call sub_4F2A8
+        call DeleteSeasonFiles
         mov ecx, 300h
         mov eax, dword [dword_17CEC3]
         lea edi, [dword ebp-0328h]

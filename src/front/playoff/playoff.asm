@@ -22,7 +22,7 @@ extern dword_184B04, dword_184B08, dword_184B0C, dword_184B10, dword_184B14, Pla
 extern jpt_A4FB7, off_11D44C, sprintf_, srand_, strcpy_, strlen_, PlayMenuGame, NameIndexNew
 extern NameIndexLoad, NameIndexSave, NameIndexFree, NameIndexAdd, NameIndexFirstId, EditText, MessageBox, ShowProgressBox
 extern UpdateProgressBox, HideProgressBox, LoadTeamLogo, FileCopy, MakeDataPath, MakeDirPath, LoadPackedFile, LoadDataFileLib
-extern LoadSeasonStats, LoadPlayoffStats, sub_29B9F, sub_4F159, sub_4F385, OpenScreen, SlideInTitleBar, SlideInSideBar
+extern LoadSeasonStats, LoadPlayoffStats, GameOptionsScreen, ReadPlayoffDbHeader, DeleteSeasonDb, OpenScreen, SlideInTitleBar, SlideInSideBar
 extern SetScreenColors, FadePalette, FadeOut, SetTextColors, DrawColorText, DrawColorTextRight, DrawColorTextCentred, DrawFrameAt
 extern InitMenuItems, RunMenu, FillMusicStream, PlayMusic, MusicDone, SoundSecondsToBytes, RunControllerScreen, GetLangText
 extern MakeSeasonDbPath, MakePlayoffDbPath, PickIndexEntryScreen, UpdateTeamDbs, SaveSeasonTeams, SimulateGame, RunStatsMenu, RunRosterScreens
@@ -114,7 +114,7 @@ RunPlayoffMenus_E1:
         mov eax, dword [dword_17CED6]
         shl eax, 0Fh
         shr eax, 1Bh
-        call sub_4F159
+        call ReadPlayoffDbHeader
         mov dword [dword_1150D8], eax
         mov eax, 0A5B5h
         call RunControllerScreen
@@ -131,7 +131,7 @@ RunPlayoffMenus_115:
         call PlayMenuGame
         cmp dword [dword_1150FC], byte 1
         jne near .16
-        call sub_4F385
+        call DeleteSeasonDb
         movsx eax, byte [byte_17D270]
         imul eax, byte 1Ah
         movsx eax, byte [dword eax+byte_17CFB1]
@@ -1033,7 +1033,7 @@ PlayoffSetupScreen:
         jmp short .26
 .30:
         mov eax, 1
-        call sub_29B9F
+        call GameOptionsScreen
         jmp near .33
 .31:
         push byte_17D13A
@@ -2589,7 +2589,7 @@ PlayoffTreeScreen:
         cmp dword [byte ebp+05Ah], byte 13h
         jne short .28
         xor eax, eax
-        call sub_29B9F
+        call GameOptionsScreen
 .28:
         cmp dword [byte ebp+05Ah], byte 3
         jne near .39

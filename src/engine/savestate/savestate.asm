@@ -16,7 +16,7 @@ extern optflags, passplayer, PBnum, Pencntdwn, Pencntdwn2, penshotctl, penshotli
 extern penshotplayer, penshotstart, penshottimer, PlList, psendcount, refhitcount, seed, sflags
 extern shotongoal, shotontarget, SortCords, sprintf_, SprSort, str_05d, str_05dCsg, str_CsgDb
 extern str_DB, strcat_, FileMissing, DeleteFiles, FileOpenRead, FileClose, FileWriteAt, MakeDirPath
-extern LoadGameRosters, sub_48A4D, sub_535D5, UnlinkJump, threat, unk_115108, unk_115113, unk_156E6C
+extern LoadGameRosters, InitBenchSprites, ResetPeriodState, UnlinkJump, threat, unk_115108, unk_115113, unk_156E6C
 extern unk_156FFC, unk_157AF8, unk_157B0A, unk_157B1C, unk_157B4F, unk_157B82, unk_157D8F, unk_157F9C
 extern unk_157FDA, unk_1582F5, unk_158610, unk_164B5C, unk_17CB2E, unk_17CED5, word_1178A8, word_1178AC
 extern word_1178AE, word_1178B4, word_1178B8, HomeControlSlot, word_1178CC, word_1178CE, word_1178D0, word_1178F4
@@ -26,8 +26,8 @@ extern word_118FAF, word_118FB1, word_11910B, word_11910F, word_119111, word_119
 extern word_11918B, word_11B274, word_11B276, word_11D3A2, word_16474C, word_16474E, word_164792, word_164794
 extern word_1656D2, word_1656D6, word_165942, word_16594E, word_165950, word_176B44, word_176B7C, word_176B80
 extern LastTouchTeam, PassDistY, StoppageFlag, LastPlayerTouch, yc1
-global SaveGameState, SaveGameState_7DD, LoadGameState, sub_4F08B, sub_4F08B_C2, sub_4F08B_C4, sub_4F08B_C8, sub_4F159
-global sub_4F2A8, sub_4F385, sub_4F452
+global SaveGameState, SaveGameState_7DD, LoadGameState, ReadSeasonDbHeader, ReadSeasonDbHeader_C2, ReadSeasonDbHeader_C4, ReadSeasonDbHeader_C8, ReadPlayoffDbHeader
+global DeleteSeasonFiles, DeleteSeasonDb, GameEventStub
 ;-----------------------------------------------------------------------------
 ; SaveGameState                                4DED8  95 PC, medium confidence
 ; Writes the in-game state to the open file eax with FileWriteAt (buffer,
@@ -717,7 +717,7 @@ SaveGameState_7DD:
         mov eax, ebx
         lea esp, [dword ebp+082h]
         pop ebp
-        jmp near sub_4F08B_C8
+        jmp near ReadSeasonDbHeader_C8
 ;-----------------------------------------------------------------------------
 ; LoadGameState                                4E6C3  95 PC, medium confidence
 ; Reads back what SaveGameState wrote, in the same order, with FileReadAt
@@ -1381,7 +1381,7 @@ LoadGameState:
         xor edx, edx
         xor esi, esi
         mov dword [dword_16596C], eax
-        call sub_535D5
+        call ResetPeriodState
         mov dword [fadeinpending], 1
         mov dword [dword_165806], SortCords
         mov dword [dword_1657EE], unk_157B82
@@ -1490,7 +1490,7 @@ LoadGameState:
         mov word [dword esi+word_176B44], cx
         cmp dword [byte ebp+07Eh], byte 11h
         jl near .24
-        call sub_48A4D
+        call InitBenchSprites
         call SprSort
 .37:
         lea eax, [byte ebp-01Eh]
@@ -1498,9 +1498,10 @@ LoadGameState:
         mov dword [dword_1150D8], 0FFFFFFFFh
         jmp near SaveGameState_7DD
 ;-----------------------------------------------------------------------------
-; sub_4F08B                                                       4F08B  96 PC
+; ReadSeasonDbHeader                              4F08B  96 PC, low confidence
+; Reads the season database header
 ;-----------------------------------------------------------------------------
-sub_4F08B:
+ReadSeasonDbHeader:
         push ebx
         push ecx
         push edx
@@ -1539,7 +1540,7 @@ sub_4F08B:
         lea eax, [byte ebp-044h]
         call FileOpenRead
         test eax, eax
-        jne short sub_4F08B_C4
+        jne short ReadSeasonDbHeader_C4
         mov ecx, 3A7h
         mov ebx, 0FFFFFFFFh
         lea edx, [dword ebp-03ECh]
@@ -1550,17 +1551,17 @@ sub_4F08B:
         lea eax, [byte ebp-04h]
         call FileClose
         mov dword [byte ebp-04h], 0FFFFFFFFh
-        jmp short sub_4F08B_C4
+        jmp short ReadSeasonDbHeader_C4
 .1:
         mov ecx, 0B9h
         lea esi, [dword ebp-03ECh]
         mov edi, unk_17CB2E
-sub_4F08B_C2:
+ReadSeasonDbHeader_C2:
         rep movsb
-sub_4F08B_C4:
+ReadSeasonDbHeader_C4:
         mov eax, dword [byte ebp-04h]
         leave
-sub_4F08B_C8:
+ReadSeasonDbHeader_C8:
         pop edi
         pop esi
         pop edx
@@ -1568,9 +1569,10 @@ sub_4F08B_C8:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_4F159                                                       4F159  96 PC
+; ReadPlayoffDbHeader                             4F159  96 PC, low confidence
+; Reads the season database header for the playoffs
 ;-----------------------------------------------------------------------------
-sub_4F159:
+ReadPlayoffDbHeader:
         push ebx
         push ecx
         push edx
@@ -1643,7 +1645,7 @@ sub_4F159:
         lea eax, [byte ebp-044h]
         call FileOpenRead
         test eax, eax
-        jne near sub_4F08B_C4
+        jne near ReadSeasonDbHeader_C4
 .5:
         mov ecx, 39Dh
         mov ebx, 0FFFFFFFFh
@@ -1655,18 +1657,19 @@ sub_4F159:
         lea eax, [byte ebp-04h]
         call FileClose
         mov dword [byte ebp-04h], 0FFFFFFFFh
-        jmp near sub_4F08B_C4
+        jmp near ReadSeasonDbHeader_C4
 .6:
         cmp dword [dword_17CC17], byte 0
-        jne near sub_4F08B_C4
+        jne near ReadSeasonDbHeader_C4
         mov ecx, 0B9h
         lea esi, [dword ebp-03E4h]
         mov edi, unk_17CED5
-        jmp near sub_4F08B_C2
+        jmp near ReadSeasonDbHeader_C2
 ;-----------------------------------------------------------------------------
-; sub_4F2A8                                                       4F2A8  96 PC
+; DeleteSeasonFiles                               4F2A8  96 PC, low confidence
+; Deletes the season's files
 ;-----------------------------------------------------------------------------
-sub_4F2A8:
+DeleteSeasonFiles:
         push ebx
         push edx
         enter 40h, 0
@@ -1734,9 +1737,10 @@ sub_4F2A8:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_4F385                                                       4F385  96 PC
+; DeleteSeasonDb                                  4F385  96 PC, low confidence
+; Deletes the season database file
 ;-----------------------------------------------------------------------------
-sub_4F385:
+DeleteSeasonDb:
         push ebx
         push edx
         enter 40h, 0
@@ -1800,7 +1804,8 @@ sub_4F385:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_4F452                                                       4F452  96 PC
+; GameEventStub                                   4F452  96 PC, low confidence
+; Game event hook that does nothing
 ;-----------------------------------------------------------------------------
-sub_4F452:
+GameEventStub:
         ret

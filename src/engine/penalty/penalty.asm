@@ -17,9 +17,9 @@ extern word_1190E7, word_1190E9, word_11910B, word_11910F, word_119111, word_119
 extern word_11A26C, word_1656E8, word_165710, word_16581E, word_165846, regd1, word_176B80, LastTouchTeam
 extern PassDistY, StoppageFlag, LastPlayerTouch
 global AddPenalty, ClearPenaltyBuffer, CountShotOnGoal, QuickShotChk, SetupPenaltyShot, ShotLaneOpen, chkatop, chkprogress
-global sub_503DE_E0, InProgress_71B, InProgress_7EE, sub_511CC_111, releasepl, AddPenalty2, sub_503DE, InProgress
-global Stop4Pen, checkfornewpen, sub_511CC, sub_51360, updatepentime, updatePPTeamTime, UpdatePowerPlayFlags, PenGoalStuff
-global StartPenaltyShot, EndPenaltyShot, sub_51CBA, sub_51D44, sub_51DD2
+global SortPlayersByDistance_E0, InProgress_71B, InProgress_7EE, ReleaseFromBox_111, releasepl, AddPenalty2, SortPlayersByDistance, InProgress
+global Stop4Pen, checkfornewpen, ReleaseFromBox, PenaltyHookStub, updatepentime, updatePPTeamTime, UpdatePowerPlayFlags, PenGoalStuff
+global StartPenaltyShot, EndPenaltyShot, PickForwardLines, PickDefencePairs, PickSpecialLines
 ;-----------------------------------------------------------------------------
 ; AddPenalty                       50154  94G penalty94.asm, medium confidence
 ; Call penalty pen on player p (AddPenalty2) unless the clock is stopped, p
@@ -255,9 +255,10 @@ AddPenalty2:
         pop edx
         ret
 ;-----------------------------------------------------------------------------
-; sub_503DE                                                       503DE  96 PC
+; SortPlayersByDistance                           503DE  96 PC, low confidence
+; Sorts the players by distance for the penalty checks
 ;-----------------------------------------------------------------------------
-sub_503DE:
+SortPlayersByDistance:
         push ebx
         push ecx
         push edx
@@ -320,7 +321,7 @@ sub_503DE:
         test esi, esi
         jne short .3
         xor eax, eax
-        jmp short sub_503DE_E0
+        jmp short SortPlayersByDistance_E0
 .3:
         lea eax, [byte ebp-038h]
         push eax
@@ -331,7 +332,7 @@ sub_503DE:
         imul eax, dword [byte ebp+esi*4-03Ch], dword 0A0h
         add esp, byte 0Ch
         add eax, SortCords
-sub_503DE_E0:
+SortPlayersByDistance_E0:
         leave
         pop edi
         pop esi
@@ -353,7 +354,7 @@ InProgress:
         push edi
         enter 18h, 0
         cmp word [word_1178F8], byte 0
-        je short sub_503DE_E0
+        je short SortPlayersByDistance_E0
 .1:
         cmp byte [byte_176AE2], 0
         jne near .7
@@ -363,7 +364,7 @@ InProgress:
         inc word [word_11910B]
         movsx eax, word [word_11910B]
         cmp eax, byte 0FFFFFFFFh
-        jl short sub_503DE_E0
+        jl short SortPlayersByDistance_E0
 .2:
         mov edx, hmtmstruct
         xor edi, edi
@@ -411,10 +412,10 @@ InProgress:
         movsx bx, byte [byte edx+eax+01Eh]
         movsx edx, byte [byte edx+eax+01Eh]
         cmp edx, byte 1Bh
-        je near sub_503DE_E0
+        je near SortPlayersByDistance_E0
         movsx edx, bx
         cmp edx, byte 1Ch
-        je near sub_503DE_E0
+        je near SortPlayersByDistance_E0
         mov edx, 1Bh
         jmp near .44
 .7:
@@ -438,14 +439,14 @@ InProgress:
         imul edx, dword 0A0h
         add edx, SortCords
         cmp word [byte edx+01Ah], byte 0
-        jge near sub_503DE_E0
+        jge near SortPlayersByDistance_E0
         mov byte [dword eax+byte_176AE3], 0
         mov dl, byte [dword eax+byte_176AE3]
         mov byte [dword eax+byte_176AE2], dl
-        jmp near sub_503DE_E0
+        jmp near SortPlayersByDistance_E0
 .10:
         cmp dword [dword_11B310], byte 0FFFFFFFFh
-        jne near sub_503DE_E0
+        jne near SortPlayersByDistance_E0
         movsx dx, byte [dword eax+byte_176AE2]
         mov dword [byte ebp-010h], edx
         movsx edx, byte [dword eax+byte_176AE2]
@@ -502,9 +503,9 @@ InProgress:
 .12:
         movsx eax, word [byte ebp-010h]
         cmp eax, byte 5
-        je near sub_503DE_E0
+        je near SortPlayersByDistance_E0
         cmp eax, byte 1Ch
-        je near sub_503DE_E0
+        je near SortPlayersByDistance_E0
         mov edx, dword [byte ebp-010h]
         mov word [word_1178F8], 0
         mov word [word_1178FA], dx
@@ -710,10 +711,10 @@ InProgress:
         jne short .29
 .28:
         mov eax, esi
-        call sub_503DE
+        call SortPlayersByDistance
         mov esi, eax
         test eax, eax
-        je near sub_503DE_E0
+        je near SortPlayersByDistance_E0
         movsx dx, byte [byte eax+047h]
         mov word [byte ebp-08h], dx
         movsx edx, word [byte ebp-0Ch]
@@ -828,9 +829,9 @@ InProgress:
         mov word [word_1178FC], ax
         movsx eax, word [byte ebp-010h]
         cmp eax, byte 5
-        je near sub_503DE_E0
+        je near SortPlayersByDistance_E0
         cmp eax, byte 1Ch
-        je near sub_503DE_E0
+        je near SortPlayersByDistance_E0
         mov edx, dword [byte ebp-010h]
         mov word [word_1178F8], 0
         mov word [word_1178FA], dx
@@ -845,7 +846,7 @@ InProgress:
         mov eax, dword [PtrPuckObject]
 .44:
         call assreplace
-        jmp near sub_503DE_E0
+        jmp near SortPlayersByDistance_E0
 InProgress_71B:
         dec word [word_1178F6]
         cmp word [word_1178F6], byte 0
@@ -1311,9 +1312,10 @@ chkatop:
         pop edx
         ret
 ;-----------------------------------------------------------------------------
-; sub_511CC                                                       511CC  96 PC
+; ReleaseFromBox                                  511CC  96 PC, low confidence
+; Lets a player out of the penalty box when his time is up
 ;-----------------------------------------------------------------------------
-sub_511CC:
+ReleaseFromBox:
         push ebx
         push ecx
         mov ebx, eax
@@ -1349,7 +1351,7 @@ sub_511CC:
         movsx ax, byte [dword ebx+eax+0B8h]
         mov word [byte ebp-08h], ax
         test ax, ax
-        jl near sub_511CC_111.7
+        jl near ReleaseFromBox_111.7
         dec word [regd1]
         cmp word [regd1], byte 0
         jl near .6
@@ -1398,10 +1400,10 @@ sub_511CC:
         dec edx
 .6:
         inc edx
-sub_511CC_111:
+ReleaseFromBox_111:
         movsx eax, dx
         cmp eax, byte 1Ch
-        jl near sub_511CC.2
+        jl near ReleaseFromBox.2
 .7:
         movsx eax, word [regd1]
         cmp eax, byte 1
@@ -1413,23 +1415,23 @@ sub_511CC_111:
         jne short .9
         movsx edx, byte [byte ebp-04h]
         mov eax, ebx
-        call sub_511CC
+        call ReleaseFromBox
         movsx edx, byte [byte ebp-03h]
         jmp short .10
 .9:
         cmp eax, byte 0FFFFFFFFh
-        jne near sub_503DE_E0
+        jne near SortPlayersByDistance_E0
         movsx edx, byte [byte ebp-03h]
 .10:
         mov eax, ebx
-        call sub_511CC
-        jmp near sub_503DE_E0
+        call ReleaseFromBox
+        jmp near SortPlayersByDistance_E0
         mov ax, word [gmode2]
         xor ah, ah
         and al, 20h
         cwde
         test eax, eax
-        je short sub_51360
+        je short PenaltyHookStub
         mov ax, word [gmode2]
         xor ah, ah
         and al, 40h
@@ -1442,7 +1444,11 @@ sub_511CC_111:
 .11:
         mov eax, awtmstruct
         inc word [byte eax+08h]
-sub_51360:
+;-----------------------------------------------------------------------------
+; PenaltyHookStub                                 51360  96 PC, low confidence
+; Penalty hook that does nothing
+;-----------------------------------------------------------------------------
+PenaltyHookStub:
         ret
 ;-----------------------------------------------------------------------------
 ; updatepentime                  51361  93G penalty93_1.asm, medium confidence
@@ -1457,12 +1463,12 @@ updatepentime:
         movsx eax, al
         and byte [byte_1178C8], 0BFh
         test eax, eax
-        jne short sub_51360
+        jne short PenaltyHookStub
         cmp dword [penshotlive], byte 0
-        jne short sub_51360
+        jne short PenaltyHookStub
         dec word [word_1178F4]
         cmp word [word_1178F4], byte 0
-        jge short sub_51360
+        jge short PenaltyHookStub
         or byte [byte_1178C8], 40h
         add word [word_1178F4], byte 18h
         call UpdatePowerPlayFlags
@@ -1507,7 +1513,7 @@ updatePPTeamTime:
         mov dword [regd3], 2
         xor esi, esi
         xor edx, edx
-        jmp near sub_511CC_111
+        jmp near ReleaseFromBox_111
 ;-----------------------------------------------------------------------------
 ; chkprogress                    5140E  93G penalty93_1.asm, medium confidence
 ; 93G chkprogress (fall-through from PenaltyManager): with gmpen (gmode bit
@@ -1770,7 +1776,7 @@ PenGoalStuff:
 .19:
         mov ax, word [byte ebx+038h]
         cmp ax, word [byte ecx+038h]
-        jle near sub_503DE_E0
+        jle near SortPlayersByDistance_E0
         mov eax, dword [byte ebp-014h]
         mov dword [byte ebp-08h], eax
         cmp dword [byte ebp-010h], byte 0
@@ -1798,7 +1804,7 @@ PenGoalStuff:
         inc word [byte ebx+02h]
         or byte [HmPlayerFlags], 1
         or byte [AwPlayerFlags], 1
-        jmp near sub_503DE_E0
+        jmp near SortPlayersByDistance_E0
 ;-----------------------------------------------------------------------------
 ; SetupPenaltyShot                             5176A  95 PC, medium confidence
 ; Stops puck, reassigns puck and shooter (penshotplayer) behaviours, clears
@@ -1930,7 +1936,7 @@ ShotLaneOpen:
         jge short .2
 .1:
         xor eax, eax
-        jmp near sub_503DE_E0
+        jmp near SortPlayersByDistance_E0
 .2:
         movsx eax, byte [eax]
         imul eax, dword 0A0h
@@ -1948,7 +1954,7 @@ ShotLaneOpen:
         jge short .4
 .3:
         xor eax, edi
-        jmp near sub_503DE_E0
+        jmp near SortPlayersByDistance_E0
 .4:
         push edx
         sub eax, 164h
@@ -2047,7 +2053,7 @@ ShotLaneOpen:
 .16:
         mov dword [shotontarget], 1
         mov eax, 1
-        jmp near sub_503DE_E0
+        jmp near SortPlayersByDistance_E0
 ;-----------------------------------------------------------------------------
 ; QuickShotChk                                 51A9E  95 PC, medium confidence
 ; Human-controlled carrier with gameopts bit 0, shotongoal set and
@@ -2224,9 +2230,10 @@ EndPenaltyShot:
         pop edx
         ret
 ;-----------------------------------------------------------------------------
-; sub_51CBA                                                       51CBA  96 PC
+; PickForwardLines                                51CBA  96 PC, low confidence
+; Picks the forward lines for the default lines
 ;-----------------------------------------------------------------------------
-sub_51CBA:
+PickForwardLines:
         push esi
         push edi
         push ebp
@@ -2281,9 +2288,10 @@ sub_51CBA:
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_51D44                                                       51D44  96 PC
+; PickDefencePairs                                51D44  96 PC, low confidence
+; Picks the defence pairs for the default lines
 ;-----------------------------------------------------------------------------
-sub_51D44:
+PickDefencePairs:
         push ecx
         push esi
         push ebp
@@ -2339,9 +2347,10 @@ sub_51D44:
         pop ecx
         ret
 ;-----------------------------------------------------------------------------
-; sub_51DD2                                                       51DD2  96 PC
+; PickSpecialLines                                51DD2  96 PC, low confidence
+; Picks the power play and penalty kill lines
 ;-----------------------------------------------------------------------------
-sub_51DD2:
+PickSpecialLines:
         push ecx
         push esi
         push edi

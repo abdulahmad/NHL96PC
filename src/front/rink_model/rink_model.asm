@@ -60,8 +60,8 @@ extern str_Puckshad, str_R02d, str_Redlite, str_Right1, str_Right2, str_Rink, st
 extern str_Rlxh, str_Rlxn, str_Rlyh, str_Rlyn, str_Rsd0, str_Rsd1, str_Rubber, str_Rubberside
 extern str_Saveback, str_Score, str_SideD, str_SideNotFoundInRink, str_SideNotFoundInStands, str_STAND, str_STAND2ND, str_STANDS
 extern str_Stands2, str_STANDSFSH, str_Strobe, str_TEMP2, str_ThinRedLines, str_Top, str_Topboards, str_WALL
-extern str_Wedge, str_WHD0, str_Zamboni, str_Zambpath, strcat_, strcpy_, SelectDataLibrary, sub_49300
-extern sub_4B38C, sub_4B4F3, DrawRinkSprite, SpriteScale, InitMenuItems, RunMenu, SetMenuMouse, FillMusicStream
+extern str_Wedge, str_WHD0, str_Zamboni, str_Zambpath, strcat_, strcpy_, SelectDataLibrary, BenchSpriteFrame
+extern PlayerSpriteFrame, PuckInNet, DrawRinkSprite, SpriteScale, InitMenuItems, RunMenu, SetMenuMouse, FillMusicStream
 extern SoundSecondsToBytes, SoundIdle, BuildAntiAliasTable, DrawFixedLine, DrawFixedLineClip, DrawShapeAtOwnPos, sub_AAA40, sub_AADA4
 extern AllocMemBlock, FreeMemBlock, sub_AC868, sub_AD35C, sub_AD620, sub_AD824, sub_ADBEC, sub_AFD00
 extern LoadResourceDataShared, sub_B049E, OpenArtArchiveErr, sub_B31C0, LoadFileToBlockShared, sub_B7810, SetRinkView, TransformRinkPoints
@@ -82,27 +82,27 @@ extern unk_15DB38, unk_15DF20, unk_15E020, unk_15E130, unk_15E230, unk_15E330, u
 extern IceLinePolys, unk_15E5A0, IceCenterPoly, FlashPolys, unk_15E904, unk_165258, unk_165354, unpack
 extern vecdist, word_114CE0, word_158D74, word_15E472, word_176FB8, word_176FDA, word_176FFC, word_17704C
 extern word_17706E
-global unk_21984, DrawIceCrud, sub_21B35, sub_21BC9, sub_21BC9_19, AddIceCrud, LoadFshFile, LoadFshFile_E1
-global LoadIceTexture, sub_21E3E, ClipEdgeToNear, ClipLineToNear, DrawFaceEdge, DrawFaceEdge_4F, sub_221AE, sub_22268
-global DrawFatLine, DrawFatLine_AC, sub_2234B, sub_223BA, DrawRubberEdge, sub_22494, RubberSideFace, RubberSideFace_8
-global RubberFace, sub_224DB, DrawStandsSide, TopBoardsFace, TopBoardsFace_E, BotBoardsFace, FatRedLineFace, FatRedLineFace_8
-global FatRedLineFace_17, FatBlueLineFace, ThinRedLineFace, GlassLineFace, GlassLineFace_17, GlassFace, sub_22734, GoalPipeFace
-global BuildCircleTable, DrawIceSurface, sub_22AF0, sub_22B3C, sub_22B3C_1DF, sub_22D27, sub_22DD7, FindNearestGlass
+global unk_21984, DrawIceCrud, DrawTexturedQuad, DrawIceTextureQuad, RinkNullCallback, AddIceCrud, LoadFshFile, LoadFshFile_E1
+global LoadIceTexture, FatLineEdge, ClipEdgeToNear, ClipLineToNear, DrawFaceEdge, DrawFaceEdge_4F, DrawThickSegment, DrawThickSegmentVisible
+global DrawFatLine, DrawFatLine_AC, DrawLineListClipped, DrawLineList, DrawRubberEdge, DrawStandsQuad, RubberSideFace, RubberSideFace_8
+global RubberFace, DrawStandsSideQuad, DrawStandsSide, TopBoardsFace, TopBoardsFace_E, BotBoardsFace, FatRedLineFace, FatRedLineFace_8
+global FatRedLineFace_17, FatBlueLineFace, ThinRedLineFace, GlassLineFace, GlassLineFace_17, GlassFace, DrawRinkFloorPolys, GoalPipeFace
+global BuildCircleTable, DrawIceSurface, DrawRinkLinePoly, DrawFaceoffCircle, DrawFaceoffCircle_1DF, DrawCentreMarkings, DrawEndZoneMarkings, FindNearestGlass
 global RandomTrianglePoint, AddGlassShard, SplitGlassShards, ShatterGlass, BreakGlass, ClearGlassHoles, ResetBrokenGlass, ResetBrokenGlass_1A8
 global StepGlassShards, ReplayBrokenGlass, ReplayBrokenGlass_79, FindNearestGlassVertex, ShakeGlass, ShakeGlass_129, ShakeGlass_167, StopGlassShake
 global ResetGlassShake, ResetGlassShake_C, ApplyGlassShake, ReplayGlassShake, RinkEdgeKind, NearestGlassPoint, StartGoalLight, UpdateGoalLight
-global DrawSpriteAtVertex, DrawSpriteAtVertex_55, DrawGoalLight, DrawGoalLight_A4, TransformRink, sub_243ED, sub_2458D, sub_2458D_23D
-global sub_2458D_24C, DrawStandsSides, sub_249E8, sub_24AA4, DrawGlassShards, DrawSideGlass, sub_24D32, sub_24D32_2C
-global sub_24D8C, sub_24D8C_194, sub_24D8C_19A, sub_24D8C_1A0, sub_24D8C_1A3, sub_24D8C_1A4, DrawPuckModel, DrawPuckShadowModel
+global DrawSpriteAtVertex, DrawSpriteAtVertex_55, DrawGoalLight, DrawGoalLight_A4, TransformRink, DrawGlassFrameLines, DrawBoardTopLines, DrawBoardTopLines_23D
+global DrawBoardTopLines_24C, DrawStandsSides, DrawKickplates, DrawRinkFloor, DrawGlassShards, DrawSideGlass, DrawBoardSegments, DrawBoardSegments_2C
+global DrawRinkFrontParts, DrawRinkFrontParts_194, DrawRinkFrontParts_19A, DrawRinkFrontParts_1A0, DrawRinkFrontParts_1A3, DrawRinkFrontParts_1A4, DrawPuckModel, DrawPuckShadowModel
 global PlacePuckModels, DrawZamboni, DrawZamboni_41, LoadZamboni, FreeZamboni, MoveZamboni, DrawGoalNet, PlaceGoalNet
 global BuildRinkSides, BuildRinkSides_602, SetIceLogoTexture, FreeStandsArt, FreeStandsArt_21, jpt_25EA3, LoadStandsArt, LoadStandsArt_25
 global LoadStandsArt_32, LoadStandsArt_3F, LoadStandsArt_61, LoadStandsArt_11B, BlendPaletteToGrey, LoadRinkModel, FreeRinkModel, SetViewCamera
-global sub_276B5, DrawIceMarkings, DrawRinkModels, DrawRinkPlayers, DrawBenchPlayers, DrawBenchPlayers_F1, DrawBenchPlayers_F6, DrawBenchSide
-global DrawPenaltyBoxPlayers, OpenPenaltyBoxDoor, OpenPenaltyBoxDoor_87, ClosePenaltyBoxDoor, SetPenaltyBoxDoor, sub_2849A, DrawPenaltyBoxSide, DrawRinkBack
-global DrawRinkFront, DrawWholeRink, DrawZamboniScene, SetRinkClipWindow, sub_297A8, sub_297C9, sub_297EA, sub_299CF
-global jpt_299EC, sub_29A14, sub_29A14_27, sub_29A14_3F, sub_29A14_5A, sub_29A14_75, sub_29A14_90, sub_29A14_AB
-global sub_29A14_C3, sub_29A14_DB, sub_29A14_F3, sub_29A14_10B, jpt_29B77, sub_29B9F, sub_29B9F_64F, sub_29B9F_66F
-global sub_29B9F_68C, sub_29B9F_6AA, sub_29B9F_6C8, sub_29B9F_6FD, sub_29B9F_71E, sub_29B9F_73F, sub_29B9F_761, sub_29B9F_799
+global DrawIceBackPoly, DrawIceMarkings, DrawRinkModels, DrawRinkPlayers, DrawBenchPlayers, DrawBenchPlayers_F1, DrawBenchPlayers_F6, DrawBenchSide
+global DrawPenaltyBoxPlayers, OpenPenaltyBoxDoor, OpenPenaltyBoxDoor_87, ClosePenaltyBoxDoor, SetPenaltyBoxDoor, DrawBenchArea, DrawPenaltyBoxSide, DrawRinkBack
+global DrawRinkFront, DrawWholeRink, DrawZamboniScene, SetRinkClipWindow, LoadShadowRemap, BeginShadowDraw, DrawShadowSprite, DrawShadowSpriteAt
+global OptionButtonJumpTable, DrawOptionButton, DrawOptionButton_27, DrawOptionButton_3F, DrawOptionButton_5A, DrawOptionButton_75, DrawOptionButton_90, DrawOptionButton_AB
+global DrawOptionButton_C3, DrawOptionButton_DB, DrawOptionButton_F3, DrawOptionButton_10B, GameOptionsJumpTable, GameOptionsScreen, GameOptionsScreen_64F, GameOptionsScreen_66F
+global GameOptionsScreen_68C, GameOptionsScreen_6AA, GameOptionsScreen_6C8, GameOptionsScreen_6FD, GameOptionsScreen_71E, GameOptionsScreen_73F, GameOptionsScreen_761, GameOptionsScreen_799
 unk_21984:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
@@ -230,11 +230,12 @@ DrawIceCrud:
         movsx eax, word [byte eax+04h]
         cmp eax, dword [byte ebp-0Ch]
         jg near .2
-        jmp near sub_24D8C_1A3
+        jmp near DrawRinkFrontParts_1A3
 ;-----------------------------------------------------------------------------
-; sub_21B35                                                       21B35  96 PC
+; DrawTexturedQuad                             21B35  96 PC, medium confidence
+; Draws a quad textured from the texture page, from four point indices
 ;-----------------------------------------------------------------------------
-sub_21B35:
+DrawTexturedQuad:
         push esi
         push edi
         enter 64h, 0
@@ -305,20 +306,25 @@ sub_21B35:
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_21BC9                                                       21BC9  96 PC
+; DrawIceTextureQuad                              21BC9  96 PC, low confidence
+; Callback that draws one textured ice quad
 ;-----------------------------------------------------------------------------
-sub_21BC9:
+DrawIceTextureQuad:
         push ebx
         push ecx
         push byte 1
         push dword [byte edx+04h]
         push dword [dword_15E84C]
-        call sub_21B35
+        call DrawTexturedQuad
         add esp, byte 0Ch
         xor eax, eax
         pop ecx
         pop ebx
-sub_21BC9_19:
+;-----------------------------------------------------------------------------
+; RinkNullCallback                                21BE2  96 PC, low confidence
+; Callback that does nothing
+;-----------------------------------------------------------------------------
+RinkNullCallback:
         ret
 ;-----------------------------------------------------------------------------
 ; AddIceCrud                                   21BE3  96 PC, medium confidence
@@ -333,11 +339,11 @@ AddIceCrud:
 .1:
         jle short .2
         cmp dword [dword_15E698], 0A666h
-        jge short sub_21BC9_19
+        jge short RinkNullCallback
         jmp short .3
 .2:
         cmp dword [dword_15E698], byte 0
-        jle short sub_21BC9_19
+        jle short RinkNullCallback
 .3:
         add dword [dword_15E698], eax
         mov eax, dword [dword_15E698]
@@ -532,16 +538,17 @@ LoadIceTexture:
         push dword [dword_15E8E4]
         call sub_B98E0
         add esp, byte 8
-        push sub_21BC9
+        push DrawIceTextureQuad
         push eax
         push dword [dword_15E8E4]
         call sub_B9B70
         add esp, byte 0Ch
-        jmp near sub_24D8C_1A4
+        jmp near DrawRinkFrontParts_1A4
 ;-----------------------------------------------------------------------------
-; sub_21E3E                                                       21E3E  96 PC
+; FatLineEdge                                     21E3E  96 PC, low confidence
+; Works out one edge of a fat line on screen
 ;-----------------------------------------------------------------------------
-sub_21E3E:
+FatLineEdge:
         push ecx
         push esi
         push edi
@@ -905,9 +912,10 @@ DrawFaceEdge_4F:
         pop esi
         ret 4
 ;-----------------------------------------------------------------------------
-; sub_221AE                                                       221AE  96 PC
+; DrawThickSegment                                221AE  96 PC, low confidence
+; Draws a line segment widened into a quad along its angle
 ;-----------------------------------------------------------------------------
-sub_221AE:
+DrawThickSegment:
         push esi
         push edi
         enter 0Ch, 0
@@ -977,9 +985,10 @@ sub_221AE:
         shrd eax, edx, 10h
         jmp near DrawFaceEdge_4F
 ;-----------------------------------------------------------------------------
-; sub_22268                                                       22268  96 PC
+; DrawThickSegmentVisible                         22268  96 PC, low confidence
+; Draws a thick segment when both ends are in front of the camera
 ;-----------------------------------------------------------------------------
-sub_22268:
+DrawThickSegmentVisible:
         push esi
         push ebp
         mov ebp, esp
@@ -997,7 +1006,7 @@ sub_22268:
         jle short .1
         push dword [byte ebp+010h]
         mov ecx, dword [byte ebp+0Ch]
-        call sub_221AE
+        call DrawThickSegment
         pop ebp
         pop esi
         ret 8
@@ -1046,24 +1055,24 @@ DrawFatLine:
         lea ebx, [byte ebp-028h]
         lea edx, [byte ebp-01Ch]
         lea eax, [byte ebp-08h]
-        call sub_21E3E
+        call FatLineEdge
         lea ebx, [byte ebp-01Ch]
         lea edx, [byte ebp-028h]
         lea eax, [byte ebp-010h]
         mov ecx, dword [byte ebp-02Ch]
-        call sub_21E3E
+        call FatLineEdge
         push dword [byte ebp+014h]
         lea ebx, [byte ebp-01Ch]
         lea edx, [byte ebp-08h]
         lea eax, [byte ebp-010h]
-        call sub_221AE
+        call DrawThickSegment
         push dword [byte ebp+014h]
         mov ecx, dword [byte ebp-02Ch]
         lea ebx, [byte ebp-028h]
         lea edx, [byte ebp-08h]
         mov esi, eax
         lea eax, [byte ebp-010h]
-        call sub_221AE
+        call DrawThickSegment
         push eax
         push esi
         push dword [byte ebp+010h]
@@ -1079,9 +1088,11 @@ DrawFatLine_AC:
         pop esi
         ret 8
 ;-----------------------------------------------------------------------------
-; sub_2234B                                                       2234B  96 PC
+; DrawLineListClipped                          2234B  96 PC, medium confidence
+; Draws a list of point pairs as clipped lines, skipping pairs too close to
+; the camera
 ;-----------------------------------------------------------------------------
-sub_2234B:
+DrawLineListClipped:
         push esi
         push edi
         push ebp
@@ -1131,9 +1142,11 @@ sub_2234B:
         jl short .1
         jmp short DrawFatLine_AC
 ;-----------------------------------------------------------------------------
-; sub_223BA                                                       223BA  96 PC
+; DrawLineList                                 223BA  96 PC, medium confidence
+; Draws a list of point pairs as lines, skipping pairs too close to the
+; camera
 ;-----------------------------------------------------------------------------
-sub_223BA:
+DrawLineList:
         push esi
         push edi
         push ebp
@@ -1226,9 +1239,10 @@ DrawRubberEdge:
         call sub_BA5D0
         jmp near DrawFaceEdge_4F
 ;-----------------------------------------------------------------------------
-; sub_22494                                                       22494  96 PC
+; DrawStandsQuad                                  22494  96 PC, low confidence
+; Draws one quad of the stands from the texture page
 ;-----------------------------------------------------------------------------
-sub_22494:
+DrawStandsQuad:
         push ecx
         push ebx
         push edx
@@ -1268,9 +1282,10 @@ RubberFace:
         push dword [dword_1798E4]
         jmp short RubberSideFace_8
 ;-----------------------------------------------------------------------------
-; sub_224DB                                                       224DB  96 PC
+; DrawStandsSideQuad                              224DB  96 PC, low confidence
+; Draws one quad of the stands side art
 ;-----------------------------------------------------------------------------
-sub_224DB:
+DrawStandsSideQuad:
         push ebx
         push ecx
         push edx
@@ -1428,7 +1443,7 @@ DrawStandsSide:
         xor dword [byte eax+08h], edx
 .9:
         xor eax, eax
-        jmp near sub_24D8C_1A3
+        jmp near DrawRinkFrontParts_1A3
 ;-----------------------------------------------------------------------------
 ; TopBoardsFace                                22669  96 PC, medium confidence
 ; Draw callback of the "topboards" line
@@ -1538,9 +1553,10 @@ GlassFace:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_22734                                                       22734  96 PC
+; DrawRinkFloorPolys                              22734  96 PC, low confidence
+; Transforms and fills the rink floor polygons
 ;-----------------------------------------------------------------------------
-sub_22734:
+DrawRinkFloorPolys:
         push ebx
         push edx
         mov edx, dword [byte eax+04h]
@@ -1788,7 +1804,7 @@ BuildCircleTable:
         mov dword [dword esi+dword_15E4BC], eax
         cmp edi, 0D000h
         jne short .6
-        jmp near sub_24D8C_1A3
+        jmp near DrawRinkFrontParts_1A3
 ;-----------------------------------------------------------------------------
 ; DrawIceSurface                                  22A3A  96 PC, low confidence
 ; Draws the ice surface
@@ -1844,9 +1860,10 @@ DrawIceSurface:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_22AF0                                                       22AF0  96 PC
+; DrawRinkLinePoly                                22AF0  96 PC, low confidence
+; Draws one ice line polygon and its edge
 ;-----------------------------------------------------------------------------
-sub_22AF0:
+DrawRinkLinePoly:
         push ebx
         push ecx
         push esi
@@ -1873,9 +1890,10 @@ sub_22AF0:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_22B3C                                                       22B3C  96 PC
+; DrawFaceoffCircle                               22B3C  96 PC, low confidence
+; Draws a faceoff circle with its marks
 ;-----------------------------------------------------------------------------
-sub_22B3C:
+DrawFaceoffCircle:
         push ebx
         push ecx
         push esi
@@ -1886,7 +1904,7 @@ sub_22B3C:
         mov dword [byte ebp+072h], edx
         mov eax, dword [byte eax+08h]
         cmp eax, dword [dword_15E840]
-        jl near sub_22B3C_1DF
+        jl near DrawFaceoffCircle_1DF
         push unk_158F88
         push edi
         push unk_158DA8
@@ -1914,7 +1932,7 @@ sub_22B3C:
         mov ecx, dword [byte ebp+07Ah]
         mov edx, dword [byte ebp+07Eh]
         add esi, byte 4
-        call sub_22268
+        call DrawThickSegmentVisible
         mov ecx, dword [byte ebp+07Eh]
         mov dword [byte esi+ebp-032h], eax
         mov eax, dword [byte ebp+07Ah]
@@ -1927,7 +1945,7 @@ sub_22B3C:
         mov ebx, eax
         push dword [dword_15E880]
         mov eax, dword [byte ebp+07Eh]
-        call sub_22268
+        call DrawThickSegmentVisible
         mov dword [byte esi+ebp-02Eh], eax
         lea eax, [byte ebp-02Eh]
         mov ecx, unk_159238
@@ -1936,9 +1954,9 @@ sub_22B3C:
         mov edx, dword_1594B8
         push dword [dword_15E7E0]
         mov eax, unk_158F88
-        call sub_2234B
+        call DrawLineListClipped
         cmp dword [byte ebp+072h], byte 0
-        je near sub_22B3C_1DF
+        je near DrawFaceoffCircle_1DF
         push unk_159338
         push edi
         push unk_159458
@@ -1966,7 +1984,7 @@ sub_22B3C:
         push esi
         mov edx, unk_158F50
         mov eax, unk_158F48
-        call sub_221AE
+        call DrawThickSegment
 .4:
         mov ecx, eax
         xor eax, eax
@@ -1992,7 +2010,7 @@ sub_22B3C:
         push edi
         mov edx, unk_158F70
         mov eax, unk_158F68
-        call sub_221AE
+        call DrawThickSegment
 .8:
         mov ecx, eax
         mov eax, esi
@@ -2012,8 +2030,8 @@ sub_22B3C:
         mov edx, unk_158F48
         push dword [dword_15E7E0]
         mov eax, unk_159338
-        call sub_223BA
-sub_22B3C_1DF:
+        call DrawLineList
+DrawFaceoffCircle_1DF:
         lea esp, [dword ebp+082h]
         pop ebp
         pop edi
@@ -2022,9 +2040,10 @@ sub_22B3C_1DF:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_22D27                                                       22D27  96 PC
+; DrawCentreMarkings                              22D27  96 PC, low confidence
+; Draws the centre ice circle and line
 ;-----------------------------------------------------------------------------
-sub_22D27:
+DrawCentreMarkings:
         push ebx
         push ecx
         push edx
@@ -2054,7 +2073,7 @@ sub_22D27:
         mov ecx, edx
         mov edx, edi
         add esi, byte 4
-        call sub_22268
+        call DrawThickSegmentVisible
         mov ebx, dword [byte ebp-04h]
         mov dword [byte esi+ebp-02Ch], eax
         mov eax, edi
@@ -2064,7 +2083,7 @@ sub_22D27:
         lea ecx, [byte ebx-0Ch]
         push dword [dword_15E880]
         lea edx, [byte edi-08h]
-        call sub_22268
+        call DrawThickSegmentVisible
         mov dword [byte esi+ebp-028h], eax
         lea eax, [byte ebp-028h]
         mov ecx, unk_159238
@@ -2073,12 +2092,13 @@ sub_22D27:
         mov edx, dword_1594B8
         push dword [dword_15E7E0]
         mov eax, unk_158F88
-        call sub_223BA
-        jmp near sub_24D8C_1A3
+        call DrawLineList
+        jmp near DrawRinkFrontParts_1A3
 ;-----------------------------------------------------------------------------
-; sub_22DD7                                                       22DD7  96 PC
+; DrawEndZoneMarkings                             22DD7  96 PC, low confidence
+; Draws one end zone's goal line, crease and marks
 ;-----------------------------------------------------------------------------
-sub_22DD7:
+DrawEndZoneMarkings:
         push ebx
         push ecx
         push esi
@@ -2176,7 +2196,7 @@ sub_22DD7:
         mov ecx, edx
         mov edx, edi
         add esi, byte 4
-        call sub_22268
+        call DrawThickSegmentVisible
         mov ebx, dword [byte ebp+07Eh]
         mov dword [byte esi+ebp+03Eh], eax
         mov eax, edi
@@ -2188,7 +2208,7 @@ sub_22DD7:
         lea eax, [byte edi-08h]
         push dword [dword_15E880]
         mov edx, edi
-        call sub_22268
+        call DrawThickSegmentVisible
         xor ebx, ebx
         mov dword [byte esi+ebp+042h], eax
         xor esi, esi
@@ -2224,7 +2244,7 @@ sub_22DD7:
         mov edx, dword_1594B8
         push dword [dword_15E7E0]
         mov eax, unk_158F88
-        call sub_223BA
+        call DrawLineList
         mov ecx, dword [dword_15E880]
         mov eax, dword [dword_159008]
         mov edx, dword [dword_15E888]
@@ -2241,7 +2261,7 @@ sub_22DD7:
         push edx
         mov eax, unk_159508
         mov edx, unk_159510
-        call sub_221AE
+        call DrawThickSegment
 .12:
         mov edx, eax
         xor eax, eax
@@ -2267,7 +2287,7 @@ sub_22DD7:
         push eax
         mov edx, unk_159528
         mov eax, unk_159520
-        call sub_221AE
+        call DrawThickSegment
 .16:
         mov ebx, eax
         mov eax, esi
@@ -2287,7 +2307,7 @@ sub_22DD7:
         mov edx, unk_159500
         push dword [dword_15E7E0]
         mov eax, unk_158FF4
-        call sub_223BA
+        call DrawLineList
         lea eax, [byte ebp+042h]
         mov ecx, unk_1176CD
         mov ebx, 2
@@ -2296,7 +2316,7 @@ sub_22DD7:
         mov eax, unk_159018
         push dword [dword_15E7E0]
         mov esi, 0B4h
-        call sub_223BA
+        call DrawLineList
         xor ebx, ebx
         xor eax, eax
 .19:
@@ -2315,14 +2335,14 @@ sub_22DD7:
         jl short .19
 .20:
         cmp ebx, byte 6
-        jne near sub_22B3C_1DF
+        jne near DrawFaceoffCircle_1DF
         lea eax, [byte ebp+012h]
         push eax
         push ebx
         push dword [dword_15E7F8]
         call sub_E0959
         add esp, byte 0Ch
-        jmp near sub_22B3C_1DF
+        jmp near DrawFaceoffCircle_1DF
 ;-----------------------------------------------------------------------------
 ; FindNearestGlass                             23106  96 PC, medium confidence
 ; (pos, &side, &face): the glass face of the 18 rink sides (dword_15D2B8, 88h
@@ -2783,7 +2803,7 @@ ShatterGlass:
         lea eax, [byte ebp-048h]
 .4:
         call SplitGlassShards
-        jmp near sub_24D8C_1A3
+        jmp near DrawRinkFrontParts_1A3
 ;-----------------------------------------------------------------------------
 ; BreakGlass                                   235F2  96 PC, medium confidence
 ; (pos, kind): from FallDown and wallcollb: breaks the nearest glass
@@ -2974,7 +2994,7 @@ ResetBrokenGlass_1A8:
         mov eax, dword [byte ebp-08h]
         cmp eax, dword [dword_15E6C8]
         jl near ResetBrokenGlass.3
-        jmp near sub_24D8C_1A3
+        jmp near DrawRinkFrontParts_1A3
 ;-----------------------------------------------------------------------------
 ; StepGlassShards                                 23812  96 PC, low confidence
 ; From DrawGameFrame: moves the falling shards while glass is breaking
@@ -3222,7 +3242,7 @@ ShakeGlass_167:
         add edx, 88h
         cmp ebx, byte 4
         jl short ResetGlassShake_C
-        jmp near sub_24D8C_1A4
+        jmp near DrawRinkFrontParts_1A4
 ;-----------------------------------------------------------------------------
 ; StopGlassShake                                  23AE5  96 PC, low confidence
 ; From StartReplay: ends a glass shake
@@ -3262,7 +3282,7 @@ ApplyGlassShake:
         push edi
         enter 4, 0
         cmp dword [dword_15E4A0], byte 0
-        je near sub_24D8C_1A3
+        je near DrawRinkFrontParts_1A3
         sub eax, dword [dword_15E498]
         imul edx, eax, dword 258h
         mov ebx, dword [dword_15E494]
@@ -3271,10 +3291,10 @@ ApplyGlassShake:
         test ebx, ebx
         jge short .1
         cmp dword [dword_15E4A0], byte 0
-        je near sub_24D8C_1A3
+        je near DrawRinkFrontParts_1A3
         mov dword [dword_15E4A0], 0
         call ResetGlassShake
-        jmp near sub_24D8C_1A3
+        jmp near DrawRinkFrontParts_1A3
 .1:
         shl eax, 4
         mov dword [byte ebp-04h], eax
@@ -3370,7 +3390,7 @@ ApplyGlassShake:
 .11:
         cmp esi, dword [dword_15E49C]
         jle near .2
-        jmp near sub_24D8C_1A3
+        jmp near DrawRinkFrontParts_1A3
 ;-----------------------------------------------------------------------------
 ; ReplayGlassShake                                23C91  96 PC, low confidence
 ; (ticks): the glass shake the replay recorded (byte_1770B2)
@@ -3385,14 +3405,14 @@ ReplayGlassShake:
         cmp byte [byte_1770B2], 0
         jne short .1
         call ResetGlassShake
-        jmp near sub_24D8C_1A3
+        jmp near DrawRinkFrontParts_1A3
 .1:
         imul edx, dword [dword_1770BB], dword 258h
         mov eax, dword [dword_1770B7]
         sub eax, edx
         mov edx, eax
         test eax, eax
-        jl near sub_24D8C_1A3
+        jl near DrawRinkFrontParts_1A3
         mov eax, dword [dword_1770BB]
         shl eax, 4
         mov dword [byte ebp-04h], eax
@@ -3496,7 +3516,7 @@ ReplayGlassShake:
         movsx eax, byte [byte_1770B6]
         cmp esi, eax
         jle near .2
-        jmp near sub_24D8C_1A3
+        jmp near DrawRinkFrontParts_1A3
 ;-----------------------------------------------------------------------------
 ; RinkEdgeKind                                    23E06  96 PC, low confidence
 ; (x, y): which rink edge a position is at, by the rink extents
@@ -3644,13 +3664,13 @@ UpdateGoalLight:
         push edi
         enter 0Ch, 0
         cmp dword [dword_15E484], byte 0
-        je near sub_24D8C_1A3
+        je near DrawRinkFrontParts_1A3
         sub eax, dword [dword_15E48C]
         cmp eax, 258h
         jle short .1
         mov dword [dword_15E484], 0
         mov dword [dword_15E488], 0
-        jmp near sub_24D8C_1A3
+        jmp near DrawRinkFrontParts_1A3
 .1:
         imul edi, eax, dword 0C4h
         push edi
@@ -3681,7 +3701,7 @@ UpdateGoalLight:
         shrd eax, edx, 10h
         mov dword [dword_15E488], 0
         test esi, esi
-        je near sub_24D8C_1A3
+        je near DrawRinkFrontParts_1A3
         lea eax, [dword edi+01999h]
         push eax
         mov dword [byte ebp-04h], eax
@@ -3689,7 +3709,7 @@ UpdateGoalLight:
         add esp, byte 4
         mov dword [byte ebp-08h], eax
         test eax, eax
-        je near sub_24D8C_1A3
+        je near DrawRinkFrontParts_1A3
         push edi
         call CosInterp
         add esp, byte 4
@@ -3706,7 +3726,7 @@ UpdateGoalLight:
         setg al
         movzx eax, al
         cmp edx, eax
-        jne near sub_24D8C_1A3
+        jne near DrawRinkFrontParts_1A3
         imul eax, edi, byte 28h
         mov ebx, esi
         cdq
@@ -3760,7 +3780,7 @@ UpdateGoalLight:
         mov dword [dword_158D84], esi
         mov dword [dword_158D90], esi
         mov dword [dword_158D9C], edi
-        jmp near sub_24D8C_1A3
+        jmp near DrawRinkFrontParts_1A3
 ;-----------------------------------------------------------------------------
 ; DrawSpriteAtVertex                              240F4  96 PC, low confidence
 ; Draws a scaled sprite at a rink vertex (SpriteScale)
@@ -3815,9 +3835,9 @@ DrawGoalLight:
         push edi
         enter 60h, 0
         cmp dword [dword_15E488], byte 0
-        je near sub_24D8C_1A3
+        je near DrawRinkFrontParts_1A3
         cmp dword [dword_11A3F8], byte 0
-        jne near sub_24D8C_1A3
+        jne near DrawRinkFrontParts_1A3
         lea eax, [byte ebp-010h]
         push eax
         push FlashPolys
@@ -3844,7 +3864,7 @@ DrawGoalLight:
         mov eax, dword [byte ebp-04h]
         add esp, byte 0Ch
         cmp dword [byte eax+ebp-058h], byte 50h
-        jl near sub_24D8C_1A3
+        jl near DrawRinkFrontParts_1A3
         inc edi
         add esi, byte 0Ch
         cmp edi, byte 4
@@ -3863,7 +3883,7 @@ DrawGoalLight:
         call DrawPolyList
 DrawGoalLight_A4:
         add esp, byte 8
-        jmp near sub_24D8C_1A3
+        jmp near DrawRinkFrontParts_1A3
 ;-----------------------------------------------------------------------------
 ; TransformRink                                   241F6  96 PC, low confidence
 ; Transforms the rink vertices and sets which rink ends face the camera
@@ -4009,7 +4029,7 @@ TransformRink:
         cmp dword [dword_15D458], byte 0
         jne short .17
         cmp dword [dword_15D2C0], byte 0
-        je near sub_24D8C_1A3
+        je near DrawRinkFrontParts_1A3
 .17:
         mov eax, 6E8h
 .18:
@@ -4017,11 +4037,12 @@ TransformRink:
         mov dword [dword eax+dword_15D238], 1
         cmp eax, 880h
         jne short .18
-        jmp near sub_24D8C_1A3
+        jmp near DrawRinkFrontParts_1A3
 ;-----------------------------------------------------------------------------
-; sub_243ED                                                       243ED  96 PC
+; DrawGlassFrameLines                             243ED  96 PC, low confidence
+; Draws the glass frame lines, clipped to the camera
 ;-----------------------------------------------------------------------------
-sub_243ED:
+DrawGlassFrameLines:
         push ebx
         push ecx
         push edx
@@ -4161,11 +4182,12 @@ sub_243ED:
 .8:
         cmp dword [byte ebp-08h], byte 10h
         jl near .6
-        jmp near sub_24D8C_1A3
+        jmp near DrawRinkFrontParts_1A3
 ;-----------------------------------------------------------------------------
-; sub_2458D                                                       2458D  96 PC
+; DrawBoardTopLines                               2458D  96 PC, low confidence
+; Draws the lines along the top of the boards
 ;-----------------------------------------------------------------------------
-sub_2458D:
+DrawBoardTopLines:
         push ebx
         push ecx
         push edx
@@ -4305,7 +4327,7 @@ sub_2458D:
 .8:
         cmp dword [byte ebp-08h], byte 10h
         jl near .6
-        jmp near sub_24D8C_1A3
+        jmp near DrawRinkFrontParts_1A3
 .9:
         mov eax, dword [byte ebp-018h]
         mov eax, dword [eax]
@@ -4366,17 +4388,17 @@ sub_2458D:
 .10:
         inc dword [byte ebp-014h]
         add dword [byte ebp-018h], byte 4
-sub_2458D_23D:
+DrawBoardTopLines_23D:
         mov edx, dword [byte ebp-04h]
         mov eax, dword [byte ebp-014h]
         cmp eax, dword [byte edx+010h]
-        jl near sub_2458D.9
-sub_2458D_24C:
+        jl near DrawBoardTopLines.9
+DrawBoardTopLines_24C:
         inc dword [byte ebp-08h]
         add dword [byte ebp-04h], 88h
         cmp dword [byte ebp-08h], byte 4
         jge near .15
-        jmp near sub_24D32_2C
+        jmp near DrawBoardSegments_2C
 .11:
         mov eax, dword [byte ebp-04h]
         cmp dword [eax], byte 0
@@ -4438,7 +4460,7 @@ sub_2458D_24C:
 .15:
         cmp dword [byte ebp-08h], byte 10h
         jl near .11
-        jmp near sub_24D8C_1A3
+        jmp near DrawRinkFrontParts_1A3
 ;-----------------------------------------------------------------------------
 ; DrawStandsSides                                 248B0  96 PC, low confidence
 ; (half): draws the stands of the rink sides on one half
@@ -4487,7 +4509,7 @@ DrawStandsSides:
         mov eax, dword [dword_15E86C]
         mov edx, dword [byte edx+04h]
         add dword [byte ebp-08h], byte 4
-        call sub_22494
+        call DrawStandsQuad
 .5:
         mov eax, dword [byte ebp-04h]
         cmp eax, dword [byte ecx+074h]
@@ -4505,7 +4527,7 @@ DrawStandsSides:
         jmp short .8
 .7:
         mov eax, dword [edx]
-        call sub_224DB
+        call DrawStandsSideQuad
 .8:
         inc ebx
         add edx, byte 4
@@ -4559,11 +4581,12 @@ DrawStandsSides:
         push dword [byte edx+078h]
         call SetRinkView
         add esp, byte 0Ch
-        jmp near sub_24D8C_1A3
+        jmp near DrawRinkFrontParts_1A3
 ;-----------------------------------------------------------------------------
-; sub_249E8                                                       249E8  96 PC
+; DrawKickplates                                  249E8  96 PC, low confidence
+; Draws the kickplate edges along the boards
 ;-----------------------------------------------------------------------------
-sub_249E8:
+DrawKickplates:
         push ebx
         push ecx
         push edx
@@ -4623,11 +4646,12 @@ sub_249E8:
         add esi, 88h
         cmp dword [byte ebp-04h], byte 10h
         jl near .1
-        jmp near sub_24D8C_1A3
+        jmp near DrawRinkFrontParts_1A3
 ;-----------------------------------------------------------------------------
-; sub_24AA4                                                       24AA4  96 PC
+; DrawRinkFloor                                   24AA4  96 PC, low confidence
+; Draws the rink floor outside the ice
 ;-----------------------------------------------------------------------------
-sub_24AA4:
+DrawRinkFloor:
         push ebx
         push ecx
         push edx
@@ -4664,7 +4688,7 @@ sub_24AA4:
         jne short .4
         mov eax, dword [byte ebp-04h]
         push dword [byte eax+04h]
-        call sub_22734
+        call DrawRinkFloorPolys
         imul eax, byte 14h
         mov edx, dword [byte ebp-010h]
         mov edx, dword [byte edx+014h]
@@ -4698,7 +4722,7 @@ sub_24AA4:
         add esi, 88h
         cmp dword [byte ebp-0Ch], byte 10h
         jl near .1
-        jmp near sub_24D8C_1A3
+        jmp near DrawRinkFrontParts_1A3
 ;-----------------------------------------------------------------------------
 ; DrawGlassShards                              24B87  96 PC, medium confidence
 ; Transforms and draws the falling glass shards
@@ -4791,7 +4815,7 @@ DrawGlassShards:
         cmp esi, dword [dword_15E6C8]
         jl short .3
         lea eax, [dword ebp-0124h]
-        jmp near sub_24D8C_19A
+        jmp near DrawRinkFrontParts_19A
 ;-----------------------------------------------------------------------------
 ; DrawSideGlass                                   24C7C  96 PC, low confidence
 ; Draws a rink side's glass faces (with the hole and shards)
@@ -4848,16 +4872,20 @@ DrawSideGlass:
         add esi, 88h
         cmp dword [byte ebp-08h], byte 10h
         jl short .1
-        jmp near sub_24D8C_1A3
+        jmp near DrawRinkFrontParts_1A3
         mov eax, 1
-        call sub_2458D
-        call sub_249E8
+        call DrawBoardTopLines
+        call DrawKickplates
         mov eax, 1
-        call sub_243ED
+        call DrawGlassFrameLines
         cmp byte [byte_1175A7], 0
         je near DrawSpriteAtVertex_55
         mov eax, 1
-sub_24D32:
+;-----------------------------------------------------------------------------
+; DrawBoardSegments                               24D32  96 PC, low confidence
+; Walks the board segment list for the boards drawing loop
+;-----------------------------------------------------------------------------
+DrawBoardSegments:
         push ebx
         push ecx
         push edx
@@ -4872,11 +4900,11 @@ sub_24D32:
         mov eax, dword [byte eax+078h]
         mov dword [byte ebp-0Ch], edx
         mov dword [byte ebp-010h], eax
-sub_24D32_2C:
+DrawBoardSegments_2C:
         mov eax, dword [byte ebp-04h]
         mov eax, dword [byte eax+04h]
         cmp eax, dword [byte ebp-050h]
-        jne near sub_2458D_24C
+        jne near DrawBoardTopLines_24C
         mov eax, dword [byte ebp-04h]
         mov eax, dword [byte eax+01Ch]
         mov edx, dword_15CE50
@@ -4884,11 +4912,12 @@ sub_24D32_2C:
         add edx, eax
         mov dword [byte ebp-014h], 0
         mov dword [byte ebp-018h], edx
-        jmp near sub_2458D_23D
+        jmp near DrawBoardTopLines_23D
 ;-----------------------------------------------------------------------------
-; sub_24D8C                                                       24D8C  96 PC
+; DrawRinkFrontParts                              24D8C  96 PC, low confidence
+; Draws the near side of the rink: glass, boards and bench parts
 ;-----------------------------------------------------------------------------
-sub_24D8C:
+DrawRinkFrontParts:
         push ebx
         push ecx
         push edx
@@ -5009,26 +5038,26 @@ sub_24D8C:
         jl short .10
 .13:
         xor eax, eax
-        call sub_243ED
+        call DrawGlassFrameLines
         cmp byte [byte_1175A7], 0
-        je short sub_24D8C_194
+        je short DrawRinkFrontParts_194
         push unk_15E020
         call SetRemapTable
         add esp, byte 4
         xor eax, eax
         call DrawSideGlass
         xor eax, eax
-        call sub_24D32
-sub_24D8C_194:
+        call DrawBoardSegments
+DrawRinkFrontParts_194:
         lea eax, [dword ebp-0114h]
-sub_24D8C_19A:
+DrawRinkFrontParts_19A:
         push eax
         call SetRemapTable
-sub_24D8C_1A0:
+DrawRinkFrontParts_1A0:
         add esp, byte 4
-sub_24D8C_1A3:
+DrawRinkFrontParts_1A3:
         leave
-sub_24D8C_1A4:
+DrawRinkFrontParts_1A4:
         pop edi
         pop esi
         pop edx
@@ -5087,15 +5116,15 @@ DrawPuckShadowModel:
         movsd
         movsd
         cmp dword [byte eax+ebp-080h], byte 0
-        jl near sub_24D8C_1A3
+        jl near DrawRinkFrontParts_1A3
         mov esi, dword [byte eax+ebp-080h]
         cmp esi, dword [dword_11F5C0]
-        jg near sub_24D8C_1A3
+        jg near DrawRinkFrontParts_1A3
         cmp dword [byte eax+ebp-07Ch], byte 0
-        jl near sub_24D8C_1A3
+        jl near DrawRinkFrontParts_1A3
         mov esi, dword [byte eax+ebp-07Ch]
         cmp esi, dword [dword_11F5C4]
-        jg near sub_24D8C_1A3
+        jg near DrawRinkFrontParts_1A3
         add eax, byte 8
         inc edx
 .2:
@@ -5252,7 +5281,7 @@ LoadZamboni:
         shl dword [dword_15E430], 10h
         shl dword [dword_15E438], 10h
         add esp, byte 8
-        jmp near sub_24D8C_1A4
+        jmp near DrawRinkFrontParts_1A4
 ;-----------------------------------------------------------------------------
 ; FreeZamboni                                  251E6  96 PC, medium confidence
 ; Frees the zamboni model and its art
@@ -5291,7 +5320,7 @@ MoveZamboni:
         movsd
         movsd
         cmp dword [dword_1176E5], byte 0
-        je near sub_24D8C_1A3
+        je near DrawRinkFrontParts_1A3
         mov eax, dword [dword_15E430]
         sar eax, 10h
         cmp eax, dword [dword_15E43C]
@@ -5498,7 +5527,7 @@ DrawGoalNet:
         jne short .5
         jmp short .4
 .3:
-        call sub_4B4F3
+        call PuckInNet
         cmp eax, edi
         jne short .5
 .4:
@@ -5559,7 +5588,7 @@ DrawGoalNet:
         push esi
         call sub_BC040
         add esp, byte 0Ch
-        jmp near sub_24D8C_1A3
+        jmp near DrawRinkFrontParts_1A3
 .9:
         push dword [dword_15E6EC]
         push dword [dword_15E6F0]
@@ -5675,7 +5704,7 @@ DrawGoalNet:
         add esp, byte 4
         push esi
         call sub_BC0C4
-        jmp near sub_24D8C_1A0
+        jmp near DrawRinkFrontParts_1A0
 ;-----------------------------------------------------------------------------
 ; PlaceGoalNet                                    25820  96 PC, low confidence
 ; (goal): sets the goal0 / goal1 model's position
@@ -6153,7 +6182,7 @@ BuildRinkSides:
 BuildRinkSides_602:
         lea esp, [dword ebp+082h]
         pop ebp
-        jmp near sub_24D8C_1A4
+        jmp near DrawRinkFrontParts_1A4
 ;-----------------------------------------------------------------------------
 ; SetIceLogoTexture                            25E4D  96 PC, medium confidence
 ; Sets the rink's "icelogo" texture (LoadIceLogo)
@@ -6298,7 +6327,7 @@ LoadStandsArt_61:
         xor eax, eax
 LoadStandsArt_11B:
         call SelectDataLibrary
-        jmp near sub_24D8C_1A3
+        jmp near DrawRinkFrontParts_1A3
         push ebx
         push ecx
         push esi
@@ -7758,9 +7787,10 @@ SetViewCamera:
         call SetRinkMatrix
         jmp near LoadFshFile_E1
 ;-----------------------------------------------------------------------------
-; sub_276B5                                                       276B5  96 PC
+; DrawIceBackPoly                                 276B5  96 PC, low confidence
+; Fills the far part of the ice surface
 ;-----------------------------------------------------------------------------
-sub_276B5:
+DrawIceBackPoly:
         push ebx
         push ecx
         push edx
@@ -8022,7 +8052,7 @@ DrawIceMarkings:
         cmp edx, dword [byte eax+08h]
         jge short .6
         xor edx, edx
-        call sub_22DD7
+        call DrawEndZoneMarkings
 .6:
         mov eax, dword [dword_15E610]
         cmp dword [byte eax+08h], byte 50h
@@ -8039,10 +8069,10 @@ DrawIceMarkings:
         cmp edx, dword [byte eax+08h]
         jge short .9
         mov edx, 1
-        call sub_22DD7
+        call DrawEndZoneMarkings
 .9:
         mov eax, dword [dword_15E614]
-        call sub_22D27
+        call DrawCentreMarkings
         push dword [dword_15E778]
         push dword [dword_15E784]
         push dword [dword_15E8E4]
@@ -8061,23 +8091,23 @@ DrawIceMarkings:
         mov eax, dword [dword_15E684]
         xor edx, edx
         mov ebx, 4
-        call sub_22B3C
+        call DrawFaceoffCircle
 .11:
         mov edx, 1
         mov eax, dword [dword ebx+dword_15E684]
         add ebx, byte 4
-        call sub_22B3C
+        call DrawFaceoffCircle
         cmp ebx, byte 14h
         jne short .11
         mov edx, dword [dword_15E7EC]
         mov eax, dword [dword_15E684]
         mov ebx, 4
-        call sub_22AF0
+        call DrawRinkLinePoly
 .12:
         mov edx, dword [dword_15E7E0]
         mov eax, dword [dword ebx+dword_15E684]
         add ebx, byte 4
-        call sub_22AF0
+        call DrawRinkLinePoly
         cmp ebx, byte 14h
         jne short .12
         xor ebx, ebx
@@ -8085,7 +8115,7 @@ DrawIceMarkings:
         mov edx, dword [dword_15E7E0]
         mov eax, dword [dword ebx+dword_1595B8]
         add ebx, byte 4
-        call sub_22AF0
+        call DrawRinkLinePoly
         cmp ebx, byte 10h
         jne short .13
         cmp byte [byte_1175A8], 0
@@ -8289,7 +8319,7 @@ DrawRinkPlayers:
         and byte [byte ebp+023h], 0F7h
 .3:
         lea eax, [byte ebp-032h]
-        call sub_4B38C
+        call PlayerSpriteFrame
         mov eax, dword [nosplit eax*4+dword_152FEC]
         mov dword [byte ebp+076h], eax
         mov eax, dword [byte ebp+06Eh]
@@ -8323,7 +8353,7 @@ DrawRinkPlayers:
         cmp eax, dword [byte ebp-042h]
         jg short .6
         mov eax, esi
-        call sub_4B38C
+        call PlayerSpriteFrame
         mov eax, dword [nosplit eax*4+dword_152FEC]
         mov dword [byte ebp+07Ah], eax
         mov eax, dword [byte ebp+06Eh]
@@ -8412,7 +8442,7 @@ DrawBenchPlayers:
 .3:
         mov eax, dword [byte ebp-010h]
 .4:
-        call sub_49300
+        call BenchSpriteFrame
         mov dword [byte ebp-04h], eax
         mov eax, dword [nosplit eax*4+dword_152FEC]
         mov dword [byte ebp-014h], eax
@@ -8689,7 +8719,7 @@ DrawPenaltyBoxPlayers:
 .6:
         mov eax, dword [byte ebp-04h]
 .7:
-        call sub_49300
+        call BenchSpriteFrame
         mov eax, dword [nosplit eax*4+dword_152FEC]
         mov dword [byte ebp-014h], eax
         push dword [byte edx+08h]
@@ -8875,9 +8905,10 @@ SetPenaltyBoxDoor:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_2849A                                                       2849A  96 PC
+; DrawBenchArea                                   2849A  96 PC, low confidence
+; Draws the bench and penalty box glass and frames
 ;-----------------------------------------------------------------------------
-sub_2849A:
+DrawBenchArea:
         push ebx
         push ecx
         push edx
@@ -8897,7 +8928,7 @@ sub_2849A:
         call GetRemapTable
         add esp, byte 4
         cmp dword [esi], byte 0
-        je near sub_24D8C_194
+        je near DrawRinkFrontParts_194
         cmp byte [byte_1175A7], 0
         je short .4
         mov edi, dword [byte esi+020h]
@@ -8992,7 +9023,7 @@ sub_2849A:
         call DrawFixedLine
         add esp, byte 1Ch
         cmp dword [byte esi+04h], byte 0
-        je near sub_24D8C_194
+        je near DrawRinkFrontParts_194
         mov eax, dword [byte esi+048h]
         mov dword [byte ebp-0Ch], eax
         imul eax, byte 0Ch
@@ -9024,7 +9055,7 @@ sub_2849A:
         push dword [esi]
         call DrawFixedLine
         add esp, byte 1Ch
-        jmp near sub_24D8C_194
+        jmp near DrawRinkFrontParts_194
 ;-----------------------------------------------------------------------------
 ; DrawPenaltyBoxSide                              28668  96 PC, low confidence
 ; Draws the penalty box side of the rink (DrawRinkPlayers,
@@ -9065,7 +9096,7 @@ DrawPenaltyBoxSide:
         cmp ebx, dword [dword_15E7A8]
         jl short .2
         mov eax, 1
-        call sub_2849A
+        call DrawBenchArea
 .2:
         mov edx, 0FFFFFFFFh
         mov eax, 1
@@ -9081,7 +9112,7 @@ DrawPenaltyBoxSide:
         cmp ebx, dword [dword_15E7A8]
         jge short .3
         mov eax, 1
-        call sub_2849A
+        call DrawBenchArea
 .3:
         push dword [dword_15E720]
         push dword [dword_15E76C]
@@ -9108,7 +9139,7 @@ DrawPenaltyBoxSide:
         cmp ebx, dword [dword_15E7A8]
         jl short .5
         xor eax, eax
-        call sub_2849A
+        call DrawBenchArea
 .5:
         mov ebx, dword [dword_15E884]
         cmp ebx, dword [dword_15E738]
@@ -9174,7 +9205,7 @@ DrawPenaltyBoxSide:
         cmp ebx, dword [dword_15E7A8]
         jl short .10
         xor eax, eax
-        call sub_2849A
+        call DrawBenchArea
 .10:
         mov edx, 0FFFFFFFFh
         xor eax, eax
@@ -9190,7 +9221,7 @@ DrawPenaltyBoxSide:
         cmp ebx, dword [dword_15E7A8]
         jge short .11
         xor eax, eax
-        call sub_2849A
+        call DrawBenchArea
 .11:
         push dword [dword_15E724]
         push dword [dword_15E768]
@@ -9217,7 +9248,7 @@ DrawPenaltyBoxSide:
         cmp ebx, dword [dword_15E7A8]
         jl short .13
         mov eax, 1
-        call sub_2849A
+        call DrawBenchArea
 .13:
         mov ebx, dword [dword_15E884]
         cmp ebx, dword [dword_15E734]
@@ -9266,7 +9297,7 @@ DrawPenaltyBoxSide:
         jge short .18
         mov eax, 1
 .17:
-        call sub_2849A
+        call DrawBenchArea
 .18:
         mov ebx, dword [dword_15E87C]
         cmp ebx, dword [dword_15E770]
@@ -9299,7 +9330,7 @@ DrawRinkBack:
         cmp dword [dword_11A3F8], byte 0
         je short .2
 .1:
-        call sub_276B5
+        call DrawIceBackPoly
 .2:
         cmp byte [byte_1175A9], 0
         je short .3
@@ -9388,16 +9419,16 @@ DrawRinkBack:
         mov eax, 1
         call DrawSideGlass
 .14:
-        call sub_24AA4
+        call DrawRinkFloor
         mov eax, 1
-        call sub_2458D
-        call sub_249E8
+        call DrawBoardTopLines
+        call DrawKickplates
         mov eax, 1
-        call sub_243ED
+        call DrawGlassFrameLines
         cmp byte [byte_1175A7], 0
         je short .15
         mov eax, 1
-        call sub_24D32
+        call DrawBoardSegments
 .15:
         pop edx
         pop ecx
@@ -9412,7 +9443,7 @@ DrawRinkFront:
         push ebx
         push ecx
         push edx
-        call sub_24D8C
+        call DrawRinkFrontParts
         mov eax, dword [dword_15E87C]
         cmp eax, dword [dword_15E7A8]
         jle short .1
@@ -9543,7 +9574,7 @@ DrawWholeRink:
         call sub_BC040
         add esp, byte 0Ch
         mov eax, 1
-        call sub_2849A
+        call DrawBenchArea
         push dword [dword_15E720]
         push dword [dword_15E76C]
         push dword [dword_15E8E4]
@@ -9562,7 +9593,7 @@ DrawWholeRink:
         cmp eax, dword [dword_15E7A8]
         jl short .3
         xor eax, eax
-        call sub_2849A
+        call DrawBenchArea
 .3:
         push dword [dword_15E714]
         push dword [dword_15E75C]
@@ -9591,7 +9622,7 @@ DrawWholeRink:
         call sub_BC040
         add esp, byte 0Ch
         xor eax, eax
-        call sub_2849A
+        call DrawBenchArea
         push dword [dword_15E724]
         push dword [dword_15E768]
         push dword [dword_15E8E4]
@@ -9610,7 +9641,7 @@ DrawWholeRink:
         cmp eax, dword [dword_15E7A8]
         jl short .7
         mov eax, 1
-        call sub_2849A
+        call DrawBenchArea
 .7:
         push dword [dword_15E710]
         push dword [dword_15E760]
@@ -9631,7 +9662,7 @@ DrawWholeRink:
         jge short .10
         mov eax, 1
 .9:
-        call sub_2849A
+        call DrawBenchArea
 .10:
         mov eax, dword [dword_15E87C]
         cmp eax, dword [dword_15E770]
@@ -9772,16 +9803,16 @@ DrawWholeRink:
         add esp, byte 4
         mov eax, 1
         call DrawSideGlass
-        call sub_24AA4
+        call DrawRinkFloor
         mov eax, 1
-        call sub_2458D
-        call sub_249E8
+        call DrawBoardTopLines
+        call DrawKickplates
         mov eax, 1
-        call sub_243ED
+        call DrawGlassFrameLines
         cmp byte [byte_1175A7], 0
         je short .24
         mov eax, 1
-        call sub_24D32
+        call DrawBoardSegments
 .24:
         push dword [dword_15E8C4]
         call sub_BC0C4
@@ -9820,7 +9851,7 @@ DrawZamboniScene:
         call sub_BC0C4
         add esp, byte 4
 .1:
-        call sub_24D8C
+        call DrawRinkFrontParts
         mov eax, dword [dword_15E87C]
         cmp eax, dword [dword_15E7A8]
         jle near .12
@@ -9846,7 +9877,7 @@ DrawZamboniScene:
         call sub_BC040
         add esp, byte 0Ch
         mov eax, 1
-        call sub_2849A
+        call DrawBenchArea
         push dword [dword_15E720]
         push dword [dword_15E76C]
         push dword [dword_15E8E4]
@@ -9865,7 +9896,7 @@ DrawZamboniScene:
         cmp eax, dword [dword_15E7A8]
         jl short .4
         xor eax, eax
-        call sub_2849A
+        call DrawBenchArea
 .4:
         push dword [dword_15E714]
         push dword [dword_15E75C]
@@ -9894,7 +9925,7 @@ DrawZamboniScene:
         call sub_BC040
         add esp, byte 0Ch
         xor eax, eax
-        call sub_2849A
+        call DrawBenchArea
         push dword [dword_15E724]
         push dword [dword_15E768]
         push dword [dword_15E8E4]
@@ -9913,7 +9944,7 @@ DrawZamboniScene:
         cmp eax, dword [dword_15E7A8]
         jl short .8
         mov eax, 1
-        call sub_2849A
+        call DrawBenchArea
 .8:
         push dword [dword_15E710]
         push dword [dword_15E760]
@@ -9934,7 +9965,7 @@ DrawZamboniScene:
         jge short .11
         mov eax, 1
 .10:
-        call sub_2849A
+        call DrawBenchArea
 .11:
         mov eax, dword [dword_15E87C]
         cmp eax, dword [dword_15E770]
@@ -10107,9 +10138,10 @@ SetRinkClipWindow:
         mov dword [dword_17DC1C], eax
         ret
 ;-----------------------------------------------------------------------------
-; sub_297A8                                                       297A8  96 PC
+; LoadShadowRemap                                 297A8  96 PC, low confidence
+; Loads the shadow colour remap
 ;-----------------------------------------------------------------------------
-sub_297A8:
+LoadShadowRemap:
         push ebx
         push ecx
         push edx
@@ -10124,9 +10156,10 @@ sub_297A8:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_297C9                                                       297C9  96 PC
+; BeginShadowDraw                                 297C9  96 PC, low confidence
+; Sets up drawing for player shadows
 ;-----------------------------------------------------------------------------
-sub_297C9:
+BeginShadowDraw:
         push ebx
         push ecx
         push edx
@@ -10141,9 +10174,10 @@ sub_297C9:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_297EA                                                       297EA  96 PC
+; DrawShadowSprite                                297EA  96 PC, low confidence
+; Draws a sprite as a shadow, clipped to the screen
 ;-----------------------------------------------------------------------------
-sub_297EA:
+DrawShadowSprite:
         push esi
         push edi
         enter 81Ch, 0
@@ -10309,9 +10343,10 @@ sub_297EA:
         pop esi
         ret 8
 ;-----------------------------------------------------------------------------
-; sub_299CF                                                       299CF  96 PC
+; DrawShadowSpriteAt                              299CF  96 PC, low confidence
+; Draws a sprite shadow at a position
 ;-----------------------------------------------------------------------------
-sub_299CF:
+DrawShadowSpriteAt:
         push esi
         mov esi, edx
         mov edx, ebx
@@ -10322,24 +10357,25 @@ sub_299CF:
         push ecx
         mov ecx, eax
         mov eax, esi
-        call sub_297EA
+        call DrawShadowSprite
         pop esi
         ret
-jpt_299EC:
-        dd sub_29A14_27
-        dd sub_29A14_3F
-        dd sub_29A14_5A
-        dd sub_29A14_75
-        dd sub_29A14_90
-        dd sub_29A14_AB
-        dd sub_29A14_C3
-        dd sub_29A14_DB
-        dd sub_29A14_F3
-        dd sub_29A14_10B
+OptionButtonJumpTable:
+        dd DrawOptionButton_27
+        dd DrawOptionButton_3F
+        dd DrawOptionButton_5A
+        dd DrawOptionButton_75
+        dd DrawOptionButton_90
+        dd DrawOptionButton_AB
+        dd DrawOptionButton_C3
+        dd DrawOptionButton_DB
+        dd DrawOptionButton_F3
+        dd DrawOptionButton_10B
 ;-----------------------------------------------------------------------------
-; sub_29A14                                                       29A14  96 PC
+; DrawOptionButton                                29A14  96 PC, low confidence
+; Builds the art name for an option button and draws it
 ;-----------------------------------------------------------------------------
-sub_29A14:
+DrawOptionButton:
         push ebx
         push ecx
         push edx
@@ -10350,9 +10386,9 @@ sub_29A14:
         mov edx, dword [edx]
         movzx ax, al
         cmp edx, byte 9
-        ja near sub_29A14_10B.2
-        jmp dword [nosplit cs:edx*4+jpt_299EC]
-sub_29A14_27:
+        ja near DrawOptionButton_10B.2
+        jmp dword [nosplit cs:edx*4+OptionButtonJumpTable]
+DrawOptionButton_27:
         cwde
         push eax
         mov eax, dword [dword_15EA08]
@@ -10360,8 +10396,8 @@ sub_29A14_27:
         and eax, byte 1
         push eax
         push str_B0DD
-        jmp near sub_29A14_10B.1
-sub_29A14_3F:
+        jmp near DrawOptionButton_10B.1
+DrawOptionButton_3F:
         cwde
         push eax
         mov eax, dword [dword_15EA08]
@@ -10370,8 +10406,8 @@ sub_29A14_3F:
         shr eax, 1Fh
         push eax
         push str_B1DD
-        jmp near sub_29A14_10B.1
-sub_29A14_5A:
+        jmp near DrawOptionButton_10B.1
+DrawOptionButton_5A:
         cwde
         push eax
         mov eax, dword [dword_15EA08]
@@ -10380,8 +10416,8 @@ sub_29A14_5A:
         shr eax, 1Fh
         push eax
         push str_B2DD
-        jmp near sub_29A14_10B.1
-sub_29A14_75:
+        jmp near DrawOptionButton_10B.1
+DrawOptionButton_75:
         cwde
         push eax
         mov eax, dword [dword_15EA08]
@@ -10390,8 +10426,8 @@ sub_29A14_75:
         shr eax, 1Fh
         push eax
         push str_B3DD
-        jmp near sub_29A14_10B.1
-sub_29A14_90:
+        jmp near DrawOptionButton_10B.1
+DrawOptionButton_90:
         cwde
         push eax
         mov eax, dword [dword_15EA08]
@@ -10400,8 +10436,8 @@ sub_29A14_90:
         shr eax, 1Eh
         push eax
         push str_B4DD
-        jmp near sub_29A14_10B.1
-sub_29A14_AB:
+        jmp near DrawOptionButton_10B.1
+DrawOptionButton_AB:
         cwde
         push eax
         mov eax, dword [dword_15EA08]
@@ -10410,8 +10446,8 @@ sub_29A14_AB:
         shr eax, 1Fh
         push eax
         push str_B5DD
-        jmp short sub_29A14_10B.1
-sub_29A14_C3:
+        jmp short DrawOptionButton_10B.1
+DrawOptionButton_C3:
         cwde
         push eax
         mov eax, dword [dword_15EA08]
@@ -10420,8 +10456,8 @@ sub_29A14_C3:
         shr eax, 1Fh
         push eax
         push str_B6DD
-        jmp short sub_29A14_10B.1
-sub_29A14_DB:
+        jmp short DrawOptionButton_10B.1
+DrawOptionButton_DB:
         cwde
         push eax
         mov eax, dword [dword_15EA08]
@@ -10430,8 +10466,8 @@ sub_29A14_DB:
         shr eax, 1Fh
         push eax
         push str_B7DD
-        jmp short sub_29A14_10B.1
-sub_29A14_F3:
+        jmp short DrawOptionButton_10B.1
+DrawOptionButton_F3:
         cwde
         push eax
         mov eax, dword [dword_15EA08]
@@ -10440,8 +10476,8 @@ sub_29A14_F3:
         shr eax, 1Eh
         push eax
         push str_B8DD
-        jmp short sub_29A14_10B.1
-sub_29A14_10B:
+        jmp short DrawOptionButton_10B.1
+DrawOptionButton_10B:
         cwde
         push eax
         mov eax, dword [dword_15EA08]
@@ -10475,21 +10511,22 @@ sub_29A14_10B:
         pop ecx
         pop ebx
         ret
-jpt_29B77:
-        dd sub_29B9F_64F
-        dd sub_29B9F_66F
-        dd sub_29B9F_68C
-        dd sub_29B9F_6AA
-        dd sub_29B9F_6C8
-        dd sub_29B9F_6FD
-        dd sub_29B9F_71E
-        dd sub_29B9F_73F
-        dd sub_29B9F_761
-        dd sub_29B9F_799
+GameOptionsJumpTable:
+        dd GameOptionsScreen_64F
+        dd GameOptionsScreen_66F
+        dd GameOptionsScreen_68C
+        dd GameOptionsScreen_6AA
+        dd GameOptionsScreen_6C8
+        dd GameOptionsScreen_6FD
+        dd GameOptionsScreen_71E
+        dd GameOptionsScreen_73F
+        dd GameOptionsScreen_761
+        dd GameOptionsScreen_799
 ;-----------------------------------------------------------------------------
-; sub_29B9F                                                       29B9F  96 PC
+; GameOptionsScreen                               29B9F  96 PC, low confidence
+; Game options screen: ten option buttons over the menu background
 ;-----------------------------------------------------------------------------
-sub_29B9F:
+GameOptionsScreen:
         push ebx
         push ecx
         push edx
@@ -10685,7 +10722,7 @@ sub_29B9F:
         mov dword [dword esi+ebp-0748h], edx
         mov edx, dword [dword eax+ebp-0292h]
         mov eax, dword [dword eax+ebp-028Eh]
-        mov dword [dword esi+ebp-073Ch], sub_29A14
+        mov dword [dword esi+ebp-073Ch], DrawOptionButton
         sub eax, byte 0Ah
         mov dword [dword esi+ebp-0734h], eax
         mov al, byte [byte ebp+07Eh]
@@ -10712,7 +10749,7 @@ sub_29B9F:
         add dword [byte ebp+072h], byte 40h
         mov eax, edi
         inc dword [byte ebp+07Ah]
-        call sub_29A14
+        call DrawOptionButton
         add edi, byte 66h
         cmp dword [byte ebp+07Ah], byte 0Ah
         jl near .3
@@ -10878,13 +10915,13 @@ sub_29B9F:
 .11:
         call RunMenu
         cmp dword [byte ebp+05Eh], byte 0
-        jl near sub_29B9F_799.16
+        jl near GameOptionsScreen_799.16
         cmp dword [byte ebp+05Eh], byte 9
-        jg near sub_29B9F_799.16
-        ja near sub_29B9F_799.19
+        jg near GameOptionsScreen_799.16
+        ja near GameOptionsScreen_799.19
         mov eax, dword [byte ebp+05Eh]
-        jmp dword [nosplit cs:eax*4+jpt_29B77]
-sub_29B9F_64F:
+        jmp dword [nosplit cs:eax*4+GameOptionsJumpTable]
+GameOptionsScreen_64F:
         mov edx, dword [dword_15EA08]
         lea eax, [byte edx+01h]
         test byte [byte edx+01h], 1
@@ -10894,8 +10931,8 @@ sub_29B9F_64F:
         and edx, byte 1
 .12:
         or dword [eax], edx
-        jmp near sub_29B9F_799.19
-sub_29B9F_66F:
+        jmp near GameOptionsScreen_799.19
+GameOptionsScreen_66F:
         mov edx, dword [dword_15EA08]
         lea eax, [byte edx+01h]
         test byte [byte edx+01h], 2
@@ -10904,8 +10941,8 @@ sub_29B9F_66F:
         and edx, byte 1
         and byte [eax], 0FDh
         add edx, edx
-        jmp short sub_29B9F_64F.12
-sub_29B9F_68C:
+        jmp short GameOptionsScreen_64F.12
+GameOptionsScreen_68C:
         mov edx, dword [dword_15EA08]
         lea eax, [byte edx+01h]
         test byte [byte edx+01h], 4
@@ -10914,8 +10951,8 @@ sub_29B9F_68C:
         and edx, byte 1
         and byte [eax], 0FBh
         shl edx, 2
-        jmp short sub_29B9F_64F.12
-sub_29B9F_6AA:
+        jmp short GameOptionsScreen_64F.12
+GameOptionsScreen_6AA:
         mov edx, dword [dword_15EA08]
         lea eax, [byte edx+01h]
         test byte [byte edx+01h], 8
@@ -10924,15 +10961,15 @@ sub_29B9F_6AA:
         and edx, byte 1
         and byte [eax], 0F7h
         shl edx, 3
-        jmp short sub_29B9F_64F.12
-sub_29B9F_6C8:
+        jmp short GameOptionsScreen_64F.12
+GameOptionsScreen_6C8:
         mov eax, dword [dword_15EA08]
         mov edx, dword [byte eax+01h]
         and edx, byte 30h
         cmp edx, byte 20h
         jne short .13
         and byte [byte eax+01h], 0CFh
-        jmp near sub_29B9F_799.19
+        jmp near GameOptionsScreen_799.19
 .13:
         mov edx, dword [byte eax+01h]
         shl edx, 1Ah
@@ -10943,8 +10980,8 @@ sub_29B9F_6C8:
         shl edx, 4
 .14:
         or dword [byte eax+01h], edx
-        jmp near sub_29B9F_799.19
-sub_29B9F_6FD:
+        jmp near GameOptionsScreen_799.19
+GameOptionsScreen_6FD:
         mov edx, dword [dword_15EA08]
         lea eax, [byte edx+01h]
         test byte [byte edx+01h], 40h
@@ -10953,8 +10990,8 @@ sub_29B9F_6FD:
         and edx, byte 1
         and byte [eax], 0BFh
         shl edx, 6
-        jmp near sub_29B9F_64F.12
-sub_29B9F_71E:
+        jmp near GameOptionsScreen_64F.12
+GameOptionsScreen_71E:
         mov edx, dword [dword_15EA08]
         lea eax, [byte edx+01h]
         test byte [byte edx+01h], 80h
@@ -10963,8 +11000,8 @@ sub_29B9F_71E:
         and edx, byte 1
         and byte [eax], 7Fh
         shl edx, 7
-        jmp near sub_29B9F_64F.12
-sub_29B9F_73F:
+        jmp near GameOptionsScreen_64F.12
+GameOptionsScreen_73F:
         mov edx, dword [dword_15EA08]
         lea eax, [byte edx+01h]
         test byte [byte edx+02h], 1
@@ -10973,15 +11010,15 @@ sub_29B9F_73F:
         and edx, byte 1
         and byte [byte eax+01h], 0FEh
         shl edx, 8
-        jmp near sub_29B9F_64F.12
-sub_29B9F_761:
+        jmp near GameOptionsScreen_64F.12
+GameOptionsScreen_761:
         mov eax, dword [dword_15EA08]
         mov edx, dword [byte eax+01h]
         and edx, 600h
         cmp edx, 400h
         jne short .15
         and byte [byte eax+02h], 0F9h
-        jmp near sub_29B9F_799.19
+        jmp near GameOptionsScreen_799.19
 .15:
         mov edx, dword [byte eax+01h]
         shl edx, 15h
@@ -10990,8 +11027,8 @@ sub_29B9F_761:
         and edx, byte 3
         and byte [byte eax+02h], 0F9h
         shl edx, 9
-        jmp near sub_29B9F_6C8.14
-sub_29B9F_799:
+        jmp near GameOptionsScreen_6C8.14
+GameOptionsScreen_799:
         mov edx, dword [dword_15EA08]
         lea eax, [byte edx+01h]
         test byte [byte edx+02h], 8
@@ -11000,7 +11037,7 @@ sub_29B9F_799:
         and edx, byte 1
         and byte [byte eax+01h], 0F7h
         shl edx, 0Bh
-        jmp near sub_29B9F_64F.12
+        jmp near GameOptionsScreen_64F.12
 .16:
         cmp dword [byte ebp+05Eh], byte 0Ah
         jb short .19
@@ -11019,7 +11056,7 @@ sub_29B9F_799:
         rep movsb
 .19:
         cmp dword [byte ebp+076h], byte 0
-        jl near sub_29B9F.7
+        jl near GameOptionsScreen.7
         push dword [byte ebp+066h]
         call sub_AADA4
         add esp, byte 4

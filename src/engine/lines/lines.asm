@@ -14,17 +14,17 @@ extern dword_176ED5, dword_176F90, dword_1770D8, dword_1770DC, dword_1770E0, dwo
 extern dword_1770F0, dword_1770F4, dword_1770F8, dword_1770FC, dword_177100, dword_177104, dword_177108, dword_1798BC
 extern optflags, dword_17CA5C, gameclock, gameopts, gmode, hmroster, off_11786C, off_11787C
 extern puckc, PtrPuckFlags, puckvx, puckvz, puckz, rand_, sflags, RunDemoGame
-extern LoadPackedFile, InitGameTeams, sub_4B4F3, sub_51CBA, sub_51D44, sub_51DD2, LoadFrontEndArt, FreeFrontEndArt
+extern LoadPackedFile, InitGameTeams, PuckInNet, PickForwardLines, PickDefencePairs, PickSpecialLines, LoadFrontEndArt, FreeFrontEndArt
 extern CopyBitmap, StartGameSound, EndGameSound, sub_AADA4, AllocMemBlock, FreeMemBlock, SetScreenTarget, SetClipWindow
 extern sub_E04E0, sub_E0584, unk_157B82, unk_157F9C, unk_158610, unk_176CA8, unk_176CDA, unk_176D0C
 extern unk_176D3E, unk_176DA2, unk_176E38, unk_176E6A, unk_176E9C, unk_176ED4, optblock_end, gmode2
 extern HomeControlSlot, word_1178CC, word_1178CE, word_1178D0, word_117902, word_11A3EE, word_11A3F0, word_11D3A2
 extern regd0, word_176ECE, word_176ED0, dressedskaters, word_176EDB
 global FillDressedSlots, NormalizeDressFlags, PickExtraSkater, PickForLineSlot, RemoveFromLines, SetupTeamLines, PickForLineSlot_3E3, SetupTeamLines_1CC
-global SetupTeamLines_1CD, sub_540C4_16C, sub_540C4_16D, BuildDefaultLines, CanFillLineSlot, PickGoalie, RefillLineSlots, CanRemovePlayer
-global sub_53260, sub_5358E, sub_535D5, sub_535F2, sub_5360D, sub_53640, sub_53BD7, sub_53C6F
-global sub_53C84, sub_53D26, sub_53F6E, sub_53FE6, sub_54024, sub_54060, sub_540C4, sub_54237
-global sub_54391, sub_5439F, sub_54427
+global SetupTeamLines_1CD, ResolveZones_16C, ResolveZones_16D, BuildDefaultLines, CanFillLineSlot, PickGoalie, RefillLineSlots, CanRemovePlayer
+global RunAttractMode, LoadGamePalette, ResetPeriodState, ReplayBufferStart, ReplayBufferEnd, SortSpritesForDraw, InitZoneManager, FreeZoneManager
+global AddZonePiece, SplitZoneRect, ClipZoneAgainstList, ClipCurrentZones, ClipPreviousZones, ZoneCovered, ResolveZones, DrawDirtyZones
+global ZoneRect, AddZone, CopyZonesToScreen
 ;-----------------------------------------------------------------------------
 ; BuildDefaultLines                            51F18  95 PC, medium confidence
 ; Ranks each team's players by position (SortPlayersByPos D/R/L/C,
@@ -131,25 +131,25 @@ BuildDefaultLines:
         mov ebx, dword [byte ebp+072h]
         mov eax, esi
         add edx, edi
-        call sub_51CBA
+        call PickForwardLines
         mov edx, unk_176E6A
         mov ecx, 52h
         mov ebx, dword [byte ebp+072h]
         mov eax, esi
         add edx, edi
-        call sub_51CBA
+        call PickForwardLines
         mov edx, unk_176DA2
         mov ecx, 4Ch
         mov ebx, dword [byte ebp+072h]
         mov eax, esi
         add edx, edi
-        call sub_51CBA
+        call PickForwardLines
         mov edx, unk_176CA8
         mov ecx, 43h
         mov ebx, dword [byte ebp+072h]
         mov eax, esi
         add edx, edi
-        call sub_51CBA
+        call PickForwardLines
         lea eax, [byte ebp+0Ah]
         mov edx, dword [byte ebp+076h]
         add edx, eax
@@ -159,35 +159,35 @@ BuildDefaultLines:
         mov edx, defsort_d
         mov ebx, dword [byte ebp+06Eh]
         add edx, edi
-        call sub_51CBA
+        call PickForwardLines
         mov edx, unk_176CDA
         mov ecx, 52h
         mov ebx, dword [byte ebp+06Eh]
         mov eax, esi
         add edx, edi
-        call sub_51CBA
+        call PickForwardLines
         mov edx, unk_176E38
         mov ecx, 4Ch
         mov ebx, dword [byte ebp+06Eh]
         mov eax, esi
         add edx, edi
-        call sub_51CBA
+        call PickForwardLines
         mov edx, unk_176D3E
         mov ecx, 43h
         mov ebx, dword [byte ebp+06Eh]
         mov eax, esi
         add edx, edi
-        call sub_51CBA
+        call PickForwardLines
         mov edx, offsort_fwd
         mov ebx, dword [byte ebp+072h]
         mov eax, esi
         add edx, edi
-        call sub_51D44
+        call PickDefencePairs
         mov edx, unk_176E9C
         mov ebx, dword [byte ebp+06Eh]
         mov eax, esi
         add edx, edi
-        call sub_51D44
+        call PickDefencePairs
         xor ebx, ebx
         jmp short .8
 .7:
@@ -230,7 +230,7 @@ BuildDefaultLines:
         add ebx, edx
         add edx, esi
         inc dword [byte ebp+07Eh]
-        call sub_51DD2
+        call PickSpecialLines
 .13:
         movsx eax, word [byte ebp+07Eh]
         cmp eax, byte 2
@@ -1826,9 +1826,10 @@ CanRemovePlayer:
         movzx eax, al
         jmp near SetupTeamLines_1CC
 ;-----------------------------------------------------------------------------
-; sub_53260                                                       53260  96 PC
+; RunAttractMode                               53260  96 PC, medium confidence
+; Attract mode: picks random teams and runs a demo game
 ;-----------------------------------------------------------------------------
-sub_53260:
+RunAttractMode:
         push ebx
         push ecx
         push edx
@@ -2021,9 +2022,10 @@ sub_53260:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_5358E                                                       5358E  96 PC
+; LoadGamePalette                              5358E  96 PC, medium confidence
+; Loads the game palette
 ;-----------------------------------------------------------------------------
-sub_5358E:
+LoadGamePalette:
         push ebx
         push ecx
         push edx
@@ -2053,17 +2055,19 @@ sub_5358E:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_535D5                                                       535D5  96 PC
+; ResetPeriodState                                535D5  96 PC, low confidence
+; Resets the period counters when a period starts or a game is loaded
 ;-----------------------------------------------------------------------------
-sub_535D5:
+ResetPeriodState:
         mov word [word_11A3EE], 1
         mov word [word_11A3F0], 0FFFFh
         mov dword [dword_176F90], 2
         ret
 ;-----------------------------------------------------------------------------
-; sub_535F2                                                       535F2  96 PC
+; ReplayBufferStart                               535F2  96 PC, low confidence
+; Returns where the replay buffer starts, allowing for a wrapped buffer
 ;-----------------------------------------------------------------------------
-sub_535F2:
+ReplayBufferStart:
         mov ax, word [sflags]
         xor ah, ah
         and al, 10h
@@ -2076,9 +2080,10 @@ sub_535F2:
         mov eax, dword [off_11786C]
         ret
 ;-----------------------------------------------------------------------------
-; sub_5360D                                                       5360D  96 PC
+; ReplayBufferEnd                                 5360D  96 PC, low confidence
+; Returns where the replay buffer ends
 ;-----------------------------------------------------------------------------
-sub_5360D:
+ReplayBufferEnd:
         mov eax, dword [dword_16596C]
         cmp eax, dword [off_11786C]
         jne short .2
@@ -2098,9 +2103,10 @@ sub_5360D:
         sub eax, 0E9h
         ret
 ;-----------------------------------------------------------------------------
-; sub_53640                                                       53640  96 PC
+; SortSpritesForDraw                              53640  96 PC, low confidence
+; Builds the draw order of the sprites from their screen depth
 ;-----------------------------------------------------------------------------
-sub_53640:
+SortSpritesForDraw:
         push ebx
         push ecx
         push edx
@@ -2464,7 +2470,7 @@ sub_53640:
         mov dx, word [word_117902]
         mov word [eax], dx
         add dword [dword_16596C], byte 2
-        call sub_4B4F3
+        call PuckInNet
         mov edx, eax
         mov eax, dword [dword_16596C]
         lea ebx, [byte eax+01h]
@@ -2483,9 +2489,11 @@ sub_53640:
         ret
         ret
 ;-----------------------------------------------------------------------------
-; sub_53BD7                                                       53BD7  96 PC
+; InitZoneManager                              53BD7  96 PC, medium confidence
+; Allocates the screen zone lists used to redraw only changed parts of the
+; screen
 ;-----------------------------------------------------------------------------
-sub_53BD7:
+InitZoneManager:
         push ebx
         push ecx
         push edx
@@ -2537,9 +2545,10 @@ sub_53BD7:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_53C6F                                                       53C6F  96 PC
+; FreeZoneManager                              53C6F  96 PC, medium confidence
+; Frees the screen zone lists
 ;-----------------------------------------------------------------------------
-sub_53C6F:
+FreeZoneManager:
         push ebx
         push ecx
         push edx
@@ -2551,9 +2560,10 @@ sub_53C6F:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_53C84                                                       53C84  96 PC
+; AddZonePiece                                 53C84  96 PC, medium confidence
+; Adds a rectangle piece to a zone list, stopping on overflow
 ;-----------------------------------------------------------------------------
-sub_53C84:
+AddZonePiece:
         push ebx
         push ecx
         push esi
@@ -2630,9 +2640,10 @@ sub_53C84:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_53D26                                                       53D26  96 PC
+; SplitZoneRect                                53D26  96 PC, medium confidence
+; Splits a rectangle around another and keeps the pieces outside it
 ;-----------------------------------------------------------------------------
-sub_53D26:
+SplitZoneRect:
         push ecx
         push esi
         push edi
@@ -2660,7 +2671,7 @@ sub_53D26:
         mov dword [byte ebp-08h], eax
         lea eax, [byte ebp-014h]
         mov esi, dword [byte ebp-04h]
-        call sub_53C84
+        call AddZonePiece
         movsd
         movsd
         movsd
@@ -2669,7 +2680,7 @@ sub_53D26:
         mov edx, ebx
         mov dword [byte ebp-0Ch], eax
         lea eax, [byte ebp-014h]
-        call sub_53C84
+        call AddZonePiece
         mov eax, dword [byte ebp-04h]
         mov eax, dword [byte eax+04h]
         cmp eax, dword [byte ecx+04h]
@@ -2688,7 +2699,7 @@ sub_53D26:
         mov edx, ebx
         mov dword [byte ebp-08h], eax
         lea eax, [byte ebp-014h]
-        call sub_53C84
+        call AddZonePiece
 .1:
         mov ebx, dword [byte ebp-04h]
         mov eax, dword [ecx]
@@ -2710,7 +2721,7 @@ sub_53D26:
         mov edx, ebx
         mov dword [byte ebp-010h], eax
         lea eax, [byte ebp-014h]
-        call sub_53C84
+        call AddZonePiece
         mov eax, dword [byte ebp-04h]
         mov eax, dword [byte eax+04h]
         cmp eax, dword [byte ecx+04h]
@@ -2728,7 +2739,7 @@ sub_53D26:
         mov edx, ebx
         mov dword [byte ebp-0Ch], eax
         lea eax, [byte ebp-014h]
-        call sub_53C84
+        call AddZonePiece
 .4:
         mov ebx, dword [byte ebp-04h]
         mov eax, dword [byte ecx+08h]
@@ -2755,7 +2766,7 @@ sub_53D26:
         mov edx, ebx
         mov dword [byte ebp-08h], eax
         lea eax, [byte ebp-014h]
-        call sub_53C84
+        call AddZonePiece
         mov eax, dword [byte ebp-04h]
         mov eax, dword [byte eax+04h]
         cmp eax, dword [byte ecx+04h]
@@ -2774,7 +2785,7 @@ sub_53D26:
         mov edx, ebx
         mov dword [byte ebp-08h], eax
         lea eax, [byte ebp-014h]
-        call sub_53C84
+        call AddZonePiece
 .9:
         mov ebx, dword [byte ebp-04h]
         mov eax, dword [byte ecx+0Ch]
@@ -2798,7 +2809,7 @@ sub_53D26:
         mov edx, ebx
         mov dword [byte ebp-014h], eax
         lea eax, [byte ebp-014h]
-        call sub_53C84
+        call AddZonePiece
 .11:
         mov ebx, dword [byte ebp-04h]
         mov eax, dword [ecx]
@@ -2825,7 +2836,7 @@ sub_53D26:
         mov edx, ebx
         mov dword [byte ebp-08h], eax
         lea eax, [byte ebp-014h]
-        call sub_53C84
+        call AddZonePiece
         mov eax, dword [byte ebp-04h]
         mov eax, dword [byte eax+04h]
         cmp eax, dword [byte ecx+04h]
@@ -2892,9 +2903,10 @@ sub_53D26:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_53F6E                                                       53F6E  96 PC
+; ClipZoneAgainstList                          53F6E  96 PC, medium confidence
+; Cuts a zone against every other live zone
 ;-----------------------------------------------------------------------------
-sub_53F6E:
+ClipZoneAgainstList:
         push ebx
         push ecx
         push esi
@@ -2934,7 +2946,7 @@ sub_53F6E:
         je short .5
         mov ebx, dword [byte ebp-04h]
         mov edx, ecx
-        call sub_53D26
+        call SplitZoneRect
         leave
         pop esi
         pop ecx
@@ -2952,9 +2964,10 @@ sub_53F6E:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_53FE6                                                       53FE6  96 PC
+; ClipCurrentZones                             53FE6  96 PC, medium confidence
+; Cuts this frame's zones against each other
 ;-----------------------------------------------------------------------------
-sub_53FE6:
+ClipCurrentZones:
         push ebx
         push ecx
         push edx
@@ -2972,7 +2985,7 @@ sub_53FE6:
         je short .2
         mov eax, edi
         xor edx, edx
-        call sub_53F6E
+        call ClipZoneAgainstList
 .2:
         add ebx, byte 4
         add ecx, byte 10h
@@ -2980,11 +2993,12 @@ sub_53FE6:
 .3:
         cmp esi, dword [dword_177100]
         jl short .1
-        jmp near sub_540C4_16D
+        jmp near ResolveZones_16D
 ;-----------------------------------------------------------------------------
-; sub_54024                                                       54024  96 PC
+; ClipPreviousZones                            54024  96 PC, medium confidence
+; Cuts last frame's zones against this frame's
 ;-----------------------------------------------------------------------------
-sub_54024:
+ClipPreviousZones:
         push ebx
         push ecx
         push edx
@@ -2999,7 +3013,7 @@ sub_54024:
         je short .2
         mov edx, 1
         mov eax, ebx
-        call sub_53F6E
+        call ClipZoneAgainstList
 .2:
         add ecx, byte 4
         inc esi
@@ -3013,9 +3027,10 @@ sub_54024:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_54060                                                       54060  96 PC
+; ZoneCovered                                  54060  96 PC, medium confidence
+; Checks whether a zone lies inside another live zone
 ;-----------------------------------------------------------------------------
-sub_54060:
+ZoneCovered:
         push ebx
         push ecx
         push esi
@@ -3061,9 +3076,10 @@ sub_54060:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_540C4                                                       540C4  96 PC
+; ResolveZones                                 540C4  96 PC, medium confidence
+; Removes overlaps between the zone lists
 ;-----------------------------------------------------------------------------
-sub_540C4:
+ResolveZones:
         push ebx
         push ecx
         push edx
@@ -3080,7 +3096,7 @@ sub_540C4:
         je short .3
         mov edx, 1
         mov eax, ebx
-        call sub_54060
+        call ZoneCovered
         add esi, byte 4
         inc ecx
         add ebx, byte 10h
@@ -3098,7 +3114,7 @@ sub_540C4:
         je short .5
         mov eax, ebx
         xor edx, edx
-        call sub_54060
+        call ZoneCovered
 .5:
         add esi, byte 4
         inc ecx
@@ -3106,7 +3122,7 @@ sub_540C4:
 .6:
         cmp ecx, dword [dword_177100]
         jl short .4
-        call sub_53FE6
+        call ClipCurrentZones
         mov dword [byte ebp-04h], 0
         mov ecx, dword [dword_1770F4]
         mov ebx, dword [dword_1770F8]
@@ -3141,7 +3157,7 @@ sub_540C4:
         mov esi, dword [byte ebp-04h]
         cmp esi, dword [dword_177100]
         jl short .7
-        call sub_54024
+        call ClipPreviousZones
         mov dword [byte ebp-08h], 0
         mov ecx, edx
         mov dword [byte ebp-0Ch], 0
@@ -3189,9 +3205,9 @@ sub_540C4:
         jmp short .13
 .14:
         mov eax, dword [dword_1770F8]
-sub_540C4_16C:
+ResolveZones_16C:
         leave
-sub_540C4_16D:
+ResolveZones_16D:
         pop edi
         pop esi
         pop edx
@@ -3199,9 +3215,10 @@ sub_540C4_16D:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_54237                                                       54237  96 PC
+; DrawDirtyZones                               54237  96 PC, medium confidence
+; Redraws the screen zones that changed this frame
 ;-----------------------------------------------------------------------------
-sub_54237:
+DrawDirtyZones:
         push ebx
         push ecx
         push edx
@@ -3217,7 +3234,7 @@ sub_54237:
         jne near .5
         cmp dword [dword_1798BC], byte 0
         jne near .5
-        call sub_540C4
+        call ResolveZones
         mov dword [byte ebp-04h], 0
         mov esi, eax
         xor edi, edi
@@ -3272,7 +3289,7 @@ sub_54237:
         add eax, eax
         add edi, byte 4
         cmp eax, dword [byte ebp-04h]
-        jle near sub_540C4_16C
+        jle near ResolveZones_16C
         jmp near .1
 .5:
         cmp dword [dword_11D91F], byte 0
@@ -3300,11 +3317,12 @@ sub_54237:
         push dword [byte eax+02Ch]
         call sub_AADA4
         add esp, byte 4
-        jmp near sub_540C4_16C
+        jmp near ResolveZones_16C
 ;-----------------------------------------------------------------------------
-; sub_54391                                                       54391  96 PC
+; ZoneRect                                     54391  96 PC, medium confidence
+; Returns the rectangle of a zone number
 ;-----------------------------------------------------------------------------
-sub_54391:
+ZoneRect:
         push edx
         mov edx, dword [dword_1770F4]
         shl eax, 4
@@ -3312,9 +3330,10 @@ sub_54391:
         pop edx
         ret
 ;-----------------------------------------------------------------------------
-; sub_5439F                                                       5439F  96 PC
+; AddZone                                      5439F  96 PC, medium confidence
+; Adds a screen rectangle to this frame's zone list
 ;-----------------------------------------------------------------------------
-sub_5439F:
+AddZone:
         push esi
         push edi
         enter 8, 0
@@ -3367,9 +3386,10 @@ sub_5439F:
         pop esi
         ret 4
 ;-----------------------------------------------------------------------------
-; sub_54427                                                       54427  96 PC
+; CopyZonesToScreen                            54427  96 PC, medium confidence
+; Copies the changed zones to the screen
 ;-----------------------------------------------------------------------------
-sub_54427:
+CopyZonesToScreen:
         push ebx
         push ecx
         push edx

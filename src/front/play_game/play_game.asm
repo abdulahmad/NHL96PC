@@ -15,7 +15,7 @@ extern PeriodOver, PickThreeStars, PollControllers, PostGameScreens, PullGoalie,
 extern RunInGameMenu, seed, SetupDemoGame, SetupGame, SetupTeamLines, SetViewRect, SlotButtons, str_FhiL2
 extern str_FhiR2, str_GhiL, str_GhiR, str_GloL5, str_GloR5, str_PAL, strcpy_, MessageBox
 extern BlankForFadeIn, LoadSeasonStats, LoadPlayoffStats, LoadExhibitionStats, LoadModemStats, FreeStatsTables, EndGameCleanup, InitGameTeams
-extern UpdateUserRecords, sub_3A6F3, sub_4B59F, sub_5358E, InitGameView, FreeGameView, DrawGameFrame, ResetGameOverlays
+extern UpdateUserRecords, RefreshControlSlots, CrowdReactToPlay, LoadGamePalette, InitGameView, FreeGameView, DrawGameFrame, ResetGameOverlays
 extern UpdateCamera, FreeSpriteCache, LoadFrontEndArt, FreeFrontEndArt, SetScreenColors, FadeOut, CopyBitmap, SetScreenMode
 extern StopMusic, QueueMusic, FadeOutMusic, PlaySfx, Crowd_Noise, SetCrowdTarget, CrowdFadeOut, ArenaClipReady
 extern StartArenaClip, StopArenaClip, StartGameSound, EndGameSound, SoundIdle, WriteGlobalSet, GetLangText, RemoveTimerCallback
@@ -655,7 +655,7 @@ GameLoop_inputcheck:
         mov dword [GameLoopActive], ecx
         jmp near GameLoop_inputcheck
 .1:
-        call sub_4B59F
+        call CrowdReactToPlay
         mov eax, ebx
         call Crowd_Noise
         mov ecx, dword [GameLoopActive]
@@ -797,7 +797,7 @@ RunDemoGame:
         call InitSlotTable
         call BlankForFadeIn
         mov eax, unk_16443C
-        call sub_5358E
+        call LoadGamePalette
         xor eax, eax
         call SetScreenMode
         call SetScreenTarget
@@ -893,7 +893,7 @@ PlayGame_initslotscall:
         call InitSlotTable
         call BlankForFadeIn
         mov eax, unk_16443C
-        call sub_5358E
+        call LoadGamePalette
         test byte [byte_17CA5D], 20h
         setne al
         movzx eax, al
@@ -907,7 +907,7 @@ PlayGame_initslotscall:
         call LinkResyncInput
         test esi, esi
         jl near PlayGame_menucall_42
-        call sub_3A6F3
+        call RefreshControlSlots
         call BuildDefaultLines
         call NormalizeDressFlags
         xor eax, eax

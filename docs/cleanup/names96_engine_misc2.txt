@@ -1,0 +1,39 @@
+sub_2D9D9 RunPreGameSkate {confidence=low,source=new} pre-game: sets up both teams and runs frames while the players skate out
+sub_2DE30 RunLineupLoop {confidence=low,source=new} the line-up loop: runs game frames for the line-up time before play, with the arena clip
+sub_2DE30_69 LineupLoopFrame {confidence=low,source=new} one pass of the line-up loop: simulation frames, crowd, camera and drawing
+sub_2E0C5 FillPanelEdge {confidence=low,source=new} fills the edge of an overlay panel
+sub_2E127 DrawPanelBorder {confidence=low,source=new} draws an overlay panel's border
+sub_2E171 DrawPanelShade {confidence=low,source=new} draws an overlay panel's shaded box
+sub_2E1BE DrawOverlayPanels {confidence=low,source=new} draws the game overlays: score, clock, line change and team panels
+sub_3509F assexitjump {confidence=medium,source=new} jumps to assexit
+sub_350A5 ResetFaceoffSkater {confidence=low,source=new} resets a skater's animation and flags before a faceoff
+sub_38AAF FindCheckTarget {confidence=low,source=new} finds the opponent a checking player can reach
+sub_38BFA DoCheckInput {confidence=low,source=new} handles the check button: picks a target and starts the check
+sub_39847 ResetInputRepeat {confidence=low,source=new} resets the four input repeat counters
+sub_39E93 ReceivePass {confidence=low,source=new} a player takes a pass, or one-times it
+sub_3A609 UpdateLineChangeState {confidence=low,source=new} updates the line change box state for teams with no human players
+sub_3A6F3 RefreshControlSlots {confidence=low,source=new} recounts the control slots and reassigns the controlled players
+sub_3A7A4 SetupPenaltyBoxSeats {confidence=low,source=new} sets up the penalty box seats for players still serving
+sub_3A8BC FreeBoxedPlayers {confidence=low,source=new} moves players whose penalties are over out of the penalty box
+sub_3B3C7 FaceoffPositions {confidence=low,source=new} works out where each player lines up for a faceoff
+sub_3E665 AutoSwitchPlayer {confidence=low,source=new} switches control to the team's best placed player when auto-switch is on
+sub_3E6D4 SetCarryAnim {confidence=low,source=new} sets the puck carrying animation
+sub_4137F SetPassDirection {confidence=low,source=new} stores the pass direction from the player's facing
+sub_41393 PickShotTarget {confidence=low,source=new} picks where a shot is aimed
+sub_41432 ShootPuck {confidence=low,source=new} shoots the puck: speed, height, aim and sound
+sub_415FF ShootOrAim {confidence=low,source=new} shoots when the shot button is released, else stores the aim direction
+sub_43605 PickPuckRebound {confidence=low,source=new} works out where the puck goes off a goalie or a stick
+sub_46593 SetControlledPlayer {confidence=low,source=new} gives a control slot a new player
+sub_4F08B ReadSeasonDbHeader {confidence=low,source=new} reads the season database header
+sub_4F159 ReadPlayoffDbHeader {confidence=low,source=new} reads the season database header for the playoffs
+sub_4F2A8 DeleteSeasonFiles {confidence=low,source=new} deletes the season's files
+sub_4F385 DeleteSeasonDb {confidence=low,source=new} deletes the season database file
+sub_4F452 GameEventStub {confidence=low,source=new} game event hook that does nothing
+sub_4F58E FormatScorerName {confidence=low,source=new} formats a goal scorer's name for the event list
+sub_4F626 FormatAssistNames {confidence=low,source=new} formats the assist names for the event list
+sub_503DE SortPlayersByDistance {confidence=low,source=new} sorts the players by distance for the penalty checks
+sub_511CC ReleaseFromBox {confidence=low,source=new} lets a player out of the penalty box when his time is up
+sub_51360 PenaltyHookStub {confidence=low,source=new} penalty hook that does nothing
+sub_51CBA PickForwardLines {confidence=low,source=new} picks the forward lines for the default lines
+sub_51D44 PickDefencePairs {confidence=low,source=new} picks the defence pairs for the default lines
+sub_51DD2 PickSpecialLines {confidence=low,source=new} picks the power play and penalty kill lines

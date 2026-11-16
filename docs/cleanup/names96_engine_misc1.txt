@@ -1,0 +1,42 @@
+sub_46FA3 HotSpotFrame {confidence=low,source=new} works out the sprite frame a player's hot spot comes from, turned for the camera
+sub_489CF InitBenchSprite {confidence=low,source=new} resets one bench or penalty box sprite with a random idle animation
+sub_48A4D InitBenchSprites {confidence=low,source=new} resets the bench and penalty box sprites for both teams
+sub_49300 BenchSpriteFrame {confidence=low,source=new} works out a bench sprite's frame, turned for the camera
+sub_493D4 AnimateBenchSprite {confidence=low,source=new} steps a bench sprite's animation
+sub_494F7 PickBenchIdleAnim {confidence=low,source=new} picks a random idle animation for a bench sprite that has none
+sub_497A7 CheckBenchDoor {confidence=low,source=new} checks whether a player is at his bench door for a line change
+sub_4B38C PlayerSpriteFrame {confidence=low,source=new} works out a player's sprite frame, turned for the camera
+sub_4B4F3 PuckInNet {confidence=low,source=new} returns which goal net the puck is inside, if any
+sub_4B59F CrowdReactToPlay {confidence=low,source=new} sets the crowd reaction from where the puck is and the game state
+sub_4B748 PickSkateAnim {confidence=low,source=new} picks the skating animation from the player's speed and facing
+sub_53260 RunAttractMode {confidence=medium,source=new} attract mode: picks random teams and runs a demo game
+sub_5358E LoadGamePalette {confidence=medium,source=new} loads the game palette
+sub_535D5 ResetPeriodState {confidence=low,source=new} resets the period counters when a period starts or a game is loaded
+sub_535F2 ReplayBufferStart {confidence=low,source=new} returns where the replay buffer starts, allowing for a wrapped buffer
+sub_5360D ReplayBufferEnd {confidence=low,source=new} returns where the replay buffer ends
+sub_53640 SortSpritesForDraw {confidence=low,source=new} builds the draw order of the sprites from their screen depth
+sub_53BD7 InitZoneManager {confidence=medium,source=new} allocates the screen zone lists used to redraw only changed parts of the screen
+sub_53C6F FreeZoneManager {confidence=medium,source=new} frees the screen zone lists
+sub_53C84 AddZonePiece {confidence=medium,source=new} adds a rectangle piece to a zone list, stopping on overflow
+sub_53D26 SplitZoneRect {confidence=medium,source=new} splits a rectangle around another and keeps the pieces outside it
+sub_53F6E ClipZoneAgainstList {confidence=medium,source=new} cuts a zone against every other live zone
+sub_53FE6 ClipCurrentZones {confidence=medium,source=new} cuts this frame's zones against each other
+sub_54024 ClipPreviousZones {confidence=medium,source=new} cuts last frame's zones against this frame's
+sub_54060 ZoneCovered {confidence=medium,source=new} checks whether a zone lies inside another live zone
+sub_540C4 ResolveZones {confidence=medium,source=new} removes overlaps between the zone lists
+sub_54237 DrawDirtyZones {confidence=medium,source=new} redraws the screen zones that changed this frame
+sub_54391 ZoneRect {confidence=medium,source=new} returns the rectangle of a zone number
+sub_5439F AddZone {confidence=medium,source=new} adds a screen rectangle to this frame's zone list
+sub_54427 CopyZonesToScreen {confidence=medium,source=new} copies the changed zones to the screen
+sub_9A6D6 RosterSlotStatus {confidence=low,source=new} returns the status letter for a roster slot
+sub_9A7D6 CountRosterSlots {confidence=low,source=new} counts the filled roster slots of one kind
+sub_9A838 FindRosterSlot {confidence=low,source=new} finds a roster slot
+sub_9A86E ListRosterPlayers {confidence=low,source=new} builds the roster list shown on the screen
+sub_9A95A ValidateRoster {confidence=low,source=new} checks a roster's size and goalies
+sub_9C127 CreatePlayerLimits {confidence=low,source=new} applies the rating limits when creating a player
+sub_9C5D9 SortTeamRatings {confidence=medium,source=new} sorts the player ratings of a team and totals the best ones
+sub_9C65A TeamRankScoring {confidence=low,source=new} team rating from one player rating, for the team ranks
+sub_9C6AE TeamRankSkating {confidence=low,source=new} team rating from another player rating, for the team ranks
+sub_9C6F8 TeamRankOffence {confidence=low,source=new} team rating from three skater ratings, for the team ranks
+sub_9C75D TeamRankDefence {confidence=low,source=new} team rating from three other skater ratings, for the team ranks
+sub_9C7CC TeamRankGoalie {confidence=low,source=new} team rating from the starting goalie, for the team ranks

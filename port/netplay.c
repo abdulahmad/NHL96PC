@@ -42,7 +42,7 @@
 /* ---- the game's code and data (original linear addresses, lst/HOCKEY.EXE.lst) ---- */
 #define O_PLAYGAME     SYM_PlayGame    /* PlayGame(eax): a game; eax < 0 a new one. push ebx, ecx, edx, esi; mov esi, eax (6 bytes) */
 #define O_AVAIL        SYM_GameLoop_inputcheck    /* GameLoop: cmp InputRecordCount, 0 (7 bytes), then jz the drawing */
-#define O_AVAIL2       SYM_sub_2DE30_69    /* sub_2DE30, the same loop for a set time (lineuptime) before play: the line-up at a faceoff */
+#define O_AVAIL2       SYM_LineupLoopFrame    /* sub_2DE30, the same loop for a set time (lineuptime) before play: the line-up at a faceoff */
 #define O_SAMPLER      SYM_InputRecordTimer    /* InputRecordTimer, the record timer: push ebx, ecx, edx, esi, edi, ebp */
 #define O_READPADS     SYM_PollControllers    /* PollControllers: the controllers into the slot table */
 #define O_INITPADS     SYM_InitSlotTable    /* InitSlotTable: the slot table from the set-up */

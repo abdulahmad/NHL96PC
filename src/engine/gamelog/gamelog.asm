@@ -13,7 +13,7 @@ extern hmtmgoalie, hmtmstruct, penshotplayer, sprintf_, str_FmtNumFirstLast, str
 extern str_FmtParenD, strcat_, strcpy_, strlen_, QueueOverlayPanel, CloseTextOverlay, EndCameraShot, PaEvent
 extern GetLangText, TextSetFont, unk_110E2D, str_S8, unk_156E6C, gsp, word_11A236, word_1656E8
 extern word_16581E, word_165942, word_176B6C, word_176B7A, word_176B80
-global FormatPlayerName, sub_4F58E, sub_4F626, BuildEventLines, PostGoalEvent, PostPenaltyEvent, PostInjuryEvent
+global FormatPlayerName, FormatScorerName, FormatAssistNames, BuildEventLines, PostGoalEvent, PostPenaltyEvent, PostInjuryEvent
 ;-----------------------------------------------------------------------------
 ; FormatPlayerName                             4F453  95 PC, medium confidence
 ; Sprintf '%s#%d %s %s%s' / '%s#%d %c. %s%s' variants of a roster name for
@@ -129,9 +129,10 @@ FormatPlayerName:
         pop esi
         ret 8
 ;-----------------------------------------------------------------------------
-; sub_4F58E                                                       4F58E  96 PC
+; FormatScorerName                                4F58E  96 PC, low confidence
+; Formats a goal scorer's name for the event list
 ;-----------------------------------------------------------------------------
-sub_4F58E:
+FormatScorerName:
         push esi
         push edi
         enter 0Ch, 0
@@ -186,9 +187,10 @@ sub_4F58E:
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_4F626                                                       4F626  96 PC
+; FormatAssistNames                               4F626  96 PC, low confidence
+; Formats the assist names for the event list
 ;-----------------------------------------------------------------------------
-sub_4F626:
+FormatAssistNames:
         push ecx
         push esi
         push edi
@@ -366,11 +368,11 @@ BuildEventLines:
         lea edx, [byte eax+07h]
         lea ecx, [byte ebp-010h]
         mov eax, byte_1655A4
-        call sub_4F58E
+        call FormatScorerName
         movzx edx, byte [byte_176B94]
         movzx eax, byte [byte_176B93]
         mov ebx, esi
-        call sub_4F626
+        call FormatAssistNames
         movzx eax, byte [byte_176B98]
         push eax
         movzx eax, byte [byte_176B97]

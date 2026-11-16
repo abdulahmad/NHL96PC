@@ -30,11 +30,11 @@ extern AllocMemBlock, FreeMemBlock, sub_AD35C, TintRows, sub_ADBEC, DosFileInfo,
 extern sub_B22B0, sub_B2C54, SetScreenTarget, sub_E04E0, TickDeadlinePassed, unk_152E36, unk_1821B4, unk_182224
 extern unk_182294, unk_96949, unk_96B89, unk_96C49, unk_96D09, unk_96DC9, unk_96FD9
 global RunRosterScreens, RunRosterScreens_230, RunRosterScreens_231, RosterScreen, DrawRosterTeams, DrawRosterTeams_17B, FormatRosterLine, FormatRosterLine_26D
-global DrawRosterPlayerInfo, sub_9A6D6, sub_9A7D6, sub_9A838, sub_9A86E, sub_9A95A, EditPlayerName, EditPlayerName_131
+global DrawRosterPlayerInfo, RosterSlotStatus, CountRosterSlots, FindRosterSlot, ListRosterPlayers, ValidateRoster, EditPlayerName, EditPlayerName_131
 global ConfirmTrade, ResetTeamLines, CycleLoadingArt, jpt_9ADF0, jpt_9AE04, CreatePlayerScreen, CreatePlayerScreen_6BE, CreatePlayerScreen_71A
 global CreatePlayerScreen_8D1, CreatePlayerScreen_8DA, CreatePlayerScreen_8E3, CreatePlayerScreen_8EC, CreatePlayerScreen_8F5, CreatePlayerScreen_BD2, CreatePlayerScreen_CF7, CreatePlayerScreen_DBB
-global DrawCreatePlayerRow, RatingBar, sub_9C127, CreatePlayerRatings, CompareRankA, CompareRankB, sub_9C5D9, sub_9C65A
-global sub_9C65A_48, sub_9C65A_4A, sub_9C6AE, sub_9C6F8, sub_9C75D, sub_9C7CC, ComputeTeamRanks
+global DrawCreatePlayerRow, RatingBar, CreatePlayerLimits, CreatePlayerRatings, CompareRankA, CompareRankB, SortTeamRatings, TeamRankScoring
+global TeamRankScoring_48, TeamRankScoring_4A, TeamRankSkating, TeamRankOffence, TeamRankDefence, TeamRankGoalie, ComputeTeamRanks
 ;-----------------------------------------------------------------------------
 ; RunRosterScreens                             971E9  96 PC, medium confidence
 ; From the exhibition and season menus: sets up the stat tables (StatDBPTRs,
@@ -1208,7 +1208,7 @@ RosterScreen:
         lea edx, [byte ebp+036h]
         movzx ecx, al
         lea eax, [dword ebp-0E6Ah]
-        call sub_9A7D6
+        call CountRosterSlots
         mov eax, dword [dword ebp-058Ah]
         lea ebx, [byte ebp+01Ah]
         cmp dword [dword ebp+eax*4-0BEh], byte 1Ah
@@ -1216,7 +1216,7 @@ RosterScreen:
         lea edx, [byte ebp+01Eh]
         movzx ecx, al
         lea eax, [dword ebp-01682h]
-        call sub_9A7D6
+        call CountRosterSlots
         lea eax, [byte ebp-016h]
         push eax
         lea eax, [byte ebp-0Eh]
@@ -1231,7 +1231,7 @@ RosterScreen:
         push eax
         lea edx, [byte ebp+016h]
         lea eax, [dword ebp-01682h]
-        call sub_9A6D6
+        call RosterSlotStatus
         lea eax, [byte ebp-012h]
         push eax
         lea eax, [byte ebp-0Ah]
@@ -1246,7 +1246,7 @@ RosterScreen:
         push eax
         lea edx, [byte ebp+02Eh]
         lea eax, [dword ebp-0E6Ah]
-        call sub_9A6D6
+        call RosterSlotStatus
         mov eax, dword [dword ebp-0452h]
         cmp dword [dword ebp+eax*4-0BEh], byte 1Ah
         jne short .42
@@ -1376,18 +1376,18 @@ RosterScreen:
         lea edx, [dword ebp-0E6Ah]
         lea eax, [dword ebp-01276h]
         mov dword [dword_11E8F8], 0
-        call sub_9A838
+        call FindRosterSlot
         lea edx, [dword ebp-01682h]
         lea eax, [dword ebp-01A8Eh]
-        call sub_9A838
+        call FindRosterSlot
         mov eax, dword [dword ebp-0452h]
         mov edx, dword [dword ebp+eax*4-0BEh]
         lea eax, [dword ebp-0E6Ah]
-        call sub_9A95A
+        call ValidateRoster
         mov eax, dword [dword ebp-058Ah]
         mov edx, dword [dword ebp+eax*4-0BEh]
         lea eax, [dword ebp-01682h]
-        call sub_9A95A
+        call ValidateRoster
         mov eax, dword [dword ebp-0452h]
         mov ecx, 3
         mov ebx, dword [byte ebp+012h]
@@ -1401,7 +1401,7 @@ RosterScreen:
         push eax
         add ebx, dword [byte ebp+016h]
         lea eax, [dword ebp-0E6Ah]
-        call sub_9A86E
+        call ListRosterPlayers
         mov eax, dword [dword ebp-058Ah]
         mov ecx, 3
         mov ebx, dword [byte ebp+02Ah]
@@ -1415,7 +1415,7 @@ RosterScreen:
         push eax
         sub ecx, dword [byte ebp+016h]
         lea eax, [dword ebp-01682h]
-        call sub_9A86E
+        call ListRosterPlayers
         mov eax, dword [dword ebp-0452h]
         mov eax, dword [dword ebp+eax*4-0BEh]
         call ResetTeamLines
@@ -1681,7 +1681,7 @@ RosterScreen:
         call FormatRosterLine
         lea edx, [byte ebp+036h]
         lea eax, [dword ebp-01E9Ah]
-        call sub_9A7D6
+        call CountRosterSlots
         lea eax, [byte ebp-012h]
         push eax
         lea eax, [byte ebp-0Ah]
@@ -1696,7 +1696,7 @@ RosterScreen:
         push eax
         lea edx, [byte ebp+02Eh]
         lea eax, [dword ebp-0E6Ah]
-        call sub_9A6D6
+        call RosterSlotStatus
         lea eax, [byte ebp-016h]
         push eax
         lea eax, [byte ebp-0Eh]
@@ -1711,7 +1711,7 @@ RosterScreen:
         push eax
         lea edx, [byte ebp+016h]
         lea eax, [dword ebp-01682h]
-        call sub_9A6D6
+        call RosterSlotStatus
         mov eax, dword [byte ebp+02Eh]
         add eax, dword [byte ebp+016h]
         add eax, dword [byte ebp+02Ah]
@@ -1792,34 +1792,34 @@ RosterScreen:
         lea edx, [dword ebp-0E6Ah]
         lea eax, [dword ebp-01276h]
         mov dword [dword_11E8F8], 0
-        call sub_9A838
+        call FindRosterSlot
         mov eax, dword [dword ebp-0452h]
         mov edx, dword [dword ebp+eax*4-0BEh]
         lea eax, [dword ebp-0E6Ah]
         mov ecx, 0FFFFFFFFh
-        call sub_9A95A
+        call ValidateRoster
         push byte 1Ah
         mov ebx, dword [byte ebp+02Ah]
         lea edx, [dword ebp-01276h]
         push byte 0FFFFFFFFh
         lea eax, [dword ebp-01E9Ah]
         add ebx, dword [byte ebp+02Eh]
-        call sub_9A86E
+        call ListRosterPlayers
         lea edx, [dword ebp-01682h]
         lea eax, [dword ebp-01276h]
-        call sub_9A838
+        call FindRosterSlot
         mov eax, dword [dword ebp-058Ah]
         mov edx, dword [dword ebp+eax*4-0BEh]
         lea eax, [dword ebp-01682h]
         mov ecx, 0FFFFFFFFh
-        call sub_9A95A
+        call ValidateRoster
         push byte 1Ah
         mov ebx, dword [byte ebp+012h]
         lea edx, [dword ebp-01276h]
         push byte 0FFFFFFFFh
         lea eax, [dword ebp-01E9Ah]
         add ebx, dword [byte ebp+016h]
-        call sub_9A86E
+        call ListRosterPlayers
         mov eax, dword [dword ebp-0452h]
         lea edx, [dword ebp-0E6Ah]
         mov eax, dword [dword ebp+eax*4-0BEh]
@@ -1930,7 +1930,7 @@ RosterScreen:
         lea edx, [byte ebp+036h]
         movzx ecx, al
         lea eax, [dword ebp-0E6Ah]
-        call sub_9A7D6
+        call CountRosterSlots
         lea eax, [byte ebp-012h]
         push eax
         lea eax, [byte ebp-0Ah]
@@ -1945,7 +1945,7 @@ RosterScreen:
         push eax
         lea edx, [byte ebp+02Eh]
         lea eax, [dword ebp-01682h]
-        call sub_9A6D6
+        call RosterSlotStatus
         mov eax, dword [dword ebp-058Ah]
         cmp dword [dword ebp+eax*4-0BEh], byte 1Ah
         jne short .104
@@ -2032,11 +2032,11 @@ RosterScreen:
         lea edx, [dword ebp-01682h]
         lea eax, [dword ebp-01276h]
         mov dword [dword_11E8F8], 0
-        call sub_9A838
+        call FindRosterSlot
         mov eax, dword [dword ebp-058Ah]
         mov edx, dword [dword ebp+eax*4-0BEh]
         lea eax, [dword ebp-01682h]
-        call sub_9A95A
+        call ValidateRoster
         mov eax, dword [dword ebp-0452h]
         mov ecx, 3
         mov ebx, dword [byte ebp+02Ah]
@@ -2048,7 +2048,7 @@ RosterScreen:
         push eax
         add ebx, dword [byte ebp+02Eh]
         lea eax, [dword ebp-0E6Ah]
-        call sub_9A86E
+        call ListRosterPlayers
         mov eax, dword [dword ebp-0452h]
         mov eax, dword [dword ebp+eax*4-0BEh]
         call ResetTeamLines
@@ -2182,7 +2182,7 @@ RosterScreen:
         lea edx, [byte ebp+036h]
         movzx ecx, al
         lea eax, [dword ebp-01682h]
-        call sub_9A7D6
+        call CountRosterSlots
         lea eax, [byte ebp-012h]
         push eax
         lea eax, [byte ebp-0Ah]
@@ -2197,7 +2197,7 @@ RosterScreen:
         push eax
         lea edx, [byte ebp+02Eh]
         lea eax, [dword ebp-0E6Ah]
-        call sub_9A6D6
+        call RosterSlotStatus
         cmp dword [dword ebp-0452h], byte 1Ah
         jne short .132
         mov dword [byte ebp+02h], 3
@@ -2242,11 +2242,11 @@ RosterScreen:
         lea edx, [dword ebp-0E6Ah]
         lea eax, [dword ebp-01276h]
         mov dword [dword_11E8F8], 0
-        call sub_9A838
+        call FindRosterSlot
         mov eax, dword [dword ebp-0452h]
         mov edx, dword [dword ebp+eax*4-0BEh]
         lea eax, [dword ebp-0E6Ah]
-        call sub_9A95A
+        call ValidateRoster
         mov eax, dword [dword ebp-058Ah]
         mov ecx, 3
         mov ebx, dword [byte ebp+02Ah]
@@ -2258,7 +2258,7 @@ RosterScreen:
         push eax
         add ebx, dword [byte ebp+02Eh]
         lea eax, [dword ebp-01682h]
-        call sub_9A86E
+        call ListRosterPlayers
         mov eax, dword [dword ebp-0452h]
         mov eax, dword [dword ebp+eax*4-0BEh]
         call ResetTeamLines
@@ -2312,7 +2312,7 @@ RosterScreen:
         lea edx, [byte ebp+036h]
         movzx ecx, al
         lea eax, [dword ebp-0E6Ah]
-        call sub_9A7D6
+        call CountRosterSlots
         mov eax, dword [dword ebp-058Ah]
         lea ebx, [byte ebp+01Ah]
         cmp dword [dword ebp+eax*4-0BEh], byte 1Ah
@@ -2320,7 +2320,7 @@ RosterScreen:
         lea edx, [byte ebp+01Eh]
         movzx ecx, al
         lea eax, [dword ebp-01682h]
-        call sub_9A7D6
+        call CountRosterSlots
         lea eax, [byte ebp-016h]
         push eax
         lea eax, [byte ebp-0Eh]
@@ -2335,7 +2335,7 @@ RosterScreen:
         push eax
         lea edx, [byte ebp+016h]
         lea eax, [dword ebp-01682h]
-        call sub_9A6D6
+        call RosterSlotStatus
         lea eax, [byte ebp-012h]
         push eax
         lea eax, [byte ebp-0Ah]
@@ -2350,7 +2350,7 @@ RosterScreen:
         push eax
         lea edx, [byte ebp+02Eh]
         lea eax, [dword ebp-0E6Ah]
-        call sub_9A6D6
+        call RosterSlotStatus
         mov eax, dword [dword ebp-0452h]
         cmp dword [dword ebp+eax*4-0BEh], byte 1Ah
         jne short .136
@@ -2486,18 +2486,18 @@ RosterScreen:
         lea edx, [dword ebp-0E6Ah]
         lea eax, [dword ebp-01276h]
         mov dword [dword_11E8F8], 0
-        call sub_9A838
+        call FindRosterSlot
         lea edx, [dword ebp-01682h]
         lea eax, [dword ebp-01A8Eh]
-        call sub_9A838
+        call FindRosterSlot
         mov eax, dword [dword ebp-0452h]
         mov edx, dword [dword ebp+eax*4-0BEh]
         lea eax, [dword ebp-0E6Ah]
-        call sub_9A95A
+        call ValidateRoster
         mov eax, dword [dword ebp-058Ah]
         mov edx, dword [dword ebp+eax*4-0BEh]
         lea eax, [dword ebp-01682h]
-        call sub_9A95A
+        call ValidateRoster
         mov eax, dword [dword ebp-0452h]
         mov ecx, 3
         mov ebx, dword [byte ebp+012h]
@@ -2511,7 +2511,7 @@ RosterScreen:
         push eax
         add ebx, dword [byte ebp+016h]
         lea eax, [dword ebp-0E6Ah]
-        call sub_9A86E
+        call ListRosterPlayers
         mov eax, dword [dword ebp-058Ah]
         mov ecx, 3
         mov ebx, dword [byte ebp+02Ah]
@@ -2525,7 +2525,7 @@ RosterScreen:
         push eax
         sub ecx, dword [byte ebp+016h]
         lea eax, [dword ebp-01682h]
-        call sub_9A86E
+        call ListRosterPlayers
         mov eax, dword [dword ebp-0452h]
         mov eax, dword [dword ebp+eax*4-0BEh]
         call ResetTeamLines
@@ -3647,9 +3647,10 @@ DrawRosterPlayerInfo:
         pop esi
         ret 4
 ;-----------------------------------------------------------------------------
-; sub_9A6D6                                                       9A6D6  96 PC
+; RosterSlotStatus                                9A6D6  96 PC, low confidence
+; Returns the status letter for a roster slot
 ;-----------------------------------------------------------------------------
-sub_9A6D6:
+RosterSlotStatus:
         push esi
         push edi
         enter 8, 0
@@ -3748,9 +3749,10 @@ sub_9A6D6:
         pop esi
         ret 14h
 ;-----------------------------------------------------------------------------
-; sub_9A7D6                                                       9A7D6  96 PC
+; CountRosterSlots                                9A7D6  96 PC, low confidence
+; Counts the filled roster slots of one kind
 ;-----------------------------------------------------------------------------
-sub_9A7D6:
+CountRosterSlots:
         push esi
         push edi
         enter 4, 0
@@ -3796,9 +3798,10 @@ sub_9A7D6:
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_9A838                                                       9A838  96 PC
+; FindRosterSlot                                  9A838  96 PC, low confidence
+; Finds a roster slot
 ;-----------------------------------------------------------------------------
-sub_9A838:
+FindRosterSlot:
         push ebx
         push ecx
         push esi
@@ -3822,9 +3825,10 @@ sub_9A838:
         jne short .1
         jmp near FormatRosterLine_26D
 ;-----------------------------------------------------------------------------
-; sub_9A86E                                                       9A86E  96 PC
+; ListRosterPlayers                               9A86E  96 PC, low confidence
+; Builds the roster list shown on the screen
 ;-----------------------------------------------------------------------------
-sub_9A86E:
+ListRosterPlayers:
         push esi
         push edi
         enter 14h, 0
@@ -3912,9 +3916,10 @@ sub_9A86E:
         jl near .1
         jmp near DrawRosterTeams_17B
 ;-----------------------------------------------------------------------------
-; sub_9A95A                                                       9A95A  96 PC
+; ValidateRoster                                  9A95A  96 PC, low confidence
+; Checks a roster's size and goalies
 ;-----------------------------------------------------------------------------
-sub_9A95A:
+ValidateRoster:
         push ebx
         push ecx
         push esi
@@ -4637,7 +4642,7 @@ CreatePlayerScreen:
         mov dword [dword ebp-01D5Ch], eax
         lea eax, [dword ebp-0120Ah]
         xor esi, esi
-        call sub_9C127
+        call CreatePlayerLimits
         lea eax, [dword ebp-0120Ah]
         mov ecx, 1FEh
         lea edi, [byte eax+040h]
@@ -4771,7 +4776,7 @@ CreatePlayerScreen_71A:
         call FormatRosterLine
         lea edx, [byte ebp+02Eh]
         lea eax, [dword ebp-0B0Ah]
-        call sub_9A7D6
+        call CountRosterSlots
         call SlideInTitleBar
         xor eax, eax
         call GetLangText
@@ -5452,7 +5457,7 @@ CreatePlayerScreen_DBB:
         lea ebx, [byte ebp-036h]
         lea edx, [byte ebp-01Eh]
         lea eax, [dword ebp-0120Ah]
-        call sub_9C127
+        call CreatePlayerLimits
         jmp near CreatePlayerScreen_BD2.29
 .50:
         mov eax, 3
@@ -5716,9 +5721,10 @@ RatingBar:
         pop esi
         ret 10h
 ;-----------------------------------------------------------------------------
-; sub_9C127                                                       9C127  96 PC
+; CreatePlayerLimits                              9C127  96 PC, low confidence
+; Applies the rating limits when creating a player
 ;-----------------------------------------------------------------------------
-sub_9C127:
+CreatePlayerLimits:
         push esi
         push edi
         enter 8, 0
@@ -6140,9 +6146,10 @@ CompareRankB:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_9C5D9                                                       9C5D9  96 PC
+; SortTeamRatings                              9C5D9  96 PC, medium confidence
+; Sorts the player ratings of a team and totals the best ones
 ;-----------------------------------------------------------------------------
-sub_9C5D9:
+SortTeamRatings:
         push ebx
         push ecx
         push edx
@@ -6198,9 +6205,10 @@ sub_9C5D9:
         mov eax, esi
         jmp near RunRosterScreens_230
 ;-----------------------------------------------------------------------------
-; sub_9C65A                                                       9C65A  96 PC
+; TeamRankScoring                                 9C65A  96 PC, low confidence
+; Team rating from one player rating, for the team ranks
 ;-----------------------------------------------------------------------------
-sub_9C65A:
+TeamRankScoring:
         push ebx
         push ecx
         push edx
@@ -6228,15 +6236,16 @@ sub_9C65A:
         add eax, byte 4
         cmp ebx, byte 19h
         jl short .1
-sub_9C65A_48:
+TeamRankScoring_48:
         mov eax, edx
-sub_9C65A_4A:
-        call sub_9C5D9
+TeamRankScoring_4A:
+        call SortTeamRatings
         jmp near RunRosterScreens_231
 ;-----------------------------------------------------------------------------
-; sub_9C6AE                                                       9C6AE  96 PC
+; TeamRankSkating                                 9C6AE  96 PC, low confidence
+; Team rating from another player rating, for the team ranks
 ;-----------------------------------------------------------------------------
-sub_9C6AE:
+TeamRankSkating:
         push ebx
         push ecx
         push edx
@@ -6264,11 +6273,12 @@ sub_9C6AE:
         add eax, byte 4
         cmp ebx, byte 19h
         jl short .1
-        jmp short sub_9C65A_48
+        jmp short TeamRankScoring_48
 ;-----------------------------------------------------------------------------
-; sub_9C6F8                                                       9C6F8  96 PC
+; TeamRankOffence                                 9C6F8  96 PC, low confidence
+; Team rating from three skater ratings, for the team ranks
 ;-----------------------------------------------------------------------------
-sub_9C6F8:
+TeamRankOffence:
         push ebx
         push ecx
         push edx
@@ -6302,11 +6312,12 @@ sub_9C6F8:
         cmp ecx, byte 19h
         jl short .1
         mov eax, esi
-        jmp near sub_9C65A_4A
+        jmp near TeamRankScoring_4A
 ;-----------------------------------------------------------------------------
-; sub_9C75D                                                       9C75D  96 PC
+; TeamRankDefence                                 9C75D  96 PC, low confidence
+; Team rating from three other skater ratings, for the team ranks
 ;-----------------------------------------------------------------------------
-sub_9C75D:
+TeamRankDefence:
         push ebx
         push ecx
         push edx
@@ -6342,11 +6353,12 @@ sub_9C75D:
         cmp esi, byte 19h
         jl short .1
         mov eax, ecx
-        jmp near sub_9C65A_4A
+        jmp near TeamRankScoring_4A
 ;-----------------------------------------------------------------------------
-; sub_9C7CC                                                       9C7CC  96 PC
+; TeamRankGoalie                                  9C7CC  96 PC, low confidence
+; Team rating from the starting goalie, for the team ranks
 ;-----------------------------------------------------------------------------
-sub_9C7CC:
+TeamRankGoalie:
         push ebx
         push ecx
         push edx
@@ -6433,7 +6445,7 @@ ComputeTeamRanks:
         mov eax, dword [byte ebp-04h]
         inc dword [byte ebp-04h]
         mov dword [byte edx+ebp-078h], eax
-        call sub_9C65A
+        call TeamRankScoring
         mov dword [dword edx+dword_182140], eax
 .5:
         cmp esi, dword [byte ebp-04h]
@@ -6465,7 +6477,7 @@ ComputeTeamRanks:
         mov eax, dword [byte ebp-04h]
         inc dword [byte ebp-04h]
         mov dword [byte edx+ebp-078h], eax
-        call sub_9C75D
+        call TeamRankDefence
         mov dword [dword edx+dword_182140], eax
 .9:
         cmp esi, dword [byte ebp-04h]
@@ -6497,7 +6509,7 @@ ComputeTeamRanks:
         mov eax, dword [byte ebp-04h]
         inc dword [byte ebp-04h]
         mov dword [byte edx+ebp-078h], eax
-        call sub_9C6F8
+        call TeamRankOffence
         mov dword [dword edx+dword_182140], eax
 .13:
         cmp esi, dword [byte ebp-04h]
@@ -6529,7 +6541,7 @@ ComputeTeamRanks:
         mov eax, dword [byte ebp-04h]
         inc dword [byte ebp-04h]
         mov dword [byte edx+ebp-078h], eax
-        call sub_9C7CC
+        call TeamRankGoalie
         mov dword [dword edx+dword_182140], eax
 .17:
         cmp esi, dword [byte ebp-04h]
@@ -6561,7 +6573,7 @@ ComputeTeamRanks:
         mov eax, dword [byte ebp-04h]
         inc dword [byte ebp-04h]
         mov dword [byte edx+ebp-078h], eax
-        call sub_9C6AE
+        call TeamRankSkating
         mov dword [dword edx+dword_182140], eax
 .21:
         cmp esi, dword [byte ebp-04h]

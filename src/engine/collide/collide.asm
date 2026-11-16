@@ -12,9 +12,9 @@ extern gameclock, gameopts, gmode, hmtmstruct, lastplayer, lasttouch, off_11787C
 extern PtrPuckFlags, off_117898, off_11789C, passplayer, penshotctl, penshotlive, penshotmode, penshotplayer
 extern penshotstart, puckvx, puckvz, puckx, pucky, puckz, randomd0, regd2
 extern regd3, setpersonel, sflags, shotongoal, shotontarget, BreakGlass, ShakeGlass, RinkEdgeKind
-extern NearestGlassPoint, assextra2, sub_3509F, puckflip, CanBlockShot, PassCompleted, changeplayer, restorepl
+extern NearestGlassPoint, assextra2, assexitjump, puckflip, CanBlockShot, PassCompleted, changeplayer, restorepl
 extern AvgCline, GetHot, GetHotStick, GetHotOrStick, Goal, GiveControl, doplayeracc, burst
-extern sub_4F452, PostInjuryEvent, AddPenalty2, Stop4Pen, EndPenaltyShot, CanRemovePlayer, CloseTextOverlay, PlaySfx
+extern GameEventStub, PostInjuryEvent, AddPenalty2, Stop4Pen, EndPenaltyShot, CanRemovePlayer, CloseTextOverlay, PlaySfx
 extern sfx, CrowdReaction, sub_BE960, vecdist, threat, unk_164B5C, unk_1657BC, unk_1658F2
 extern vtoa, wcradiusx, word_1178A0, word_1178A6, word_1178A8, word_1178AC, word_1178AE, word_1178B4
 extern yc1, gmode2, HomeControlSlot, gsp, word_117902, word_117914, word_117916, refhitcount
@@ -27,11 +27,11 @@ global PassLaneChk, PuckIChk, SkillForAnim, checkagr, checkcx, checkgoal, chk4lc
 global holdcheck, BlockShotDive_122, BlockShotDive_127, setpassmode_F, chk4pass_2F, chk4pass_4F1, chk4pass_4F6, chk4pass_4F7
 global passtoa0, setInjuryType, BlockShotDive, TryBlockShot, check4check, checkcheck, checkgoalp, checkint
 global checkob, ChkDelayedOffside, checkpuckcoll_ccx, checkpuckcoll, GetLowestPen, chk4lcauto, ScatterPass, dopass
-global CompPass, passmode, setpassmode, sub_4137F, sub_41393, sub_41432, sub_415FF, chk4shot
+global CompPass, passmode, setpassmode, SetPassDirection, PickShotTarget, ShootPuck, ShootOrAim, chk4shot
 global CompShoot, ChkShotStat, FallFrameByDir, FallFrameByFacing, NetCollide, FallDown, puckbody, puckshadow
-global puckglue, sub_43605, puckgoalie, puckstick, SetShotMode, ShotMode, Findhittype, shotdiradj
+global puckglue, PickPuckRebound, puckgoalie, puckstick, SetShotMode, ShotMode, Findhittype, shotdiradj
 global doshot, checkcoll, checkwallcoll, wallcollb, checkplcoll, SetInst, checkfight_sf, checkfight
-global ReturnGoalies, SetSPA, sub_46593, wallcoll
+global ReturnGoalies, SetSPA, SetControlledPlayer, wallcoll
 ;-----------------------------------------------------------------------------
 ; BlockShotDive                                3E6EC  95 PC, medium confidence
 ; eax = player, edx = dive direction from CanBlockShot. High puck or fast Zvel: SPA 14ADh /
@@ -3074,7 +3074,7 @@ dopass:
         jne short .21
         movsx edx, word [dword esi+086h]
         mov eax, dword [byte ebx+07Ah]
-        call sub_46593
+        call SetControlledPlayer
         jmp near chk4pass_4F6
 .21:
         mov eax, ebx
@@ -3882,7 +3882,7 @@ chk4pass_2F:
         cmp word [byte esi+01Ah], byte 0
         je near chk4pass_2F
         mov eax, esi
-        call sub_3509F
+        call assexitjump
 chk4pass_4F1:
         mov eax, 1
 chk4pass_4F6:
@@ -3895,18 +3895,20 @@ chk4pass_4F7:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_4137F                                                       4137F  96 PC
+; SetPassDirection                                4137F  96 PC, low confidence
+; Stores the pass direction from the player's facing
 ;-----------------------------------------------------------------------------
-sub_4137F:
+SetPassDirection:
         mov ax, word [byte eax+036h]
         xor ah, ah
         and al, 7
         or byte [sflags], 8
         jmp near setpassmode_F
 ;-----------------------------------------------------------------------------
-; sub_41393                                                       41393  96 PC
+; PickShotTarget                                  41393  96 PC, low confidence
+; Picks where a shot is aimed
 ;-----------------------------------------------------------------------------
-sub_41393:
+PickShotTarget:
         push ebx
         push ecx
         push edx
@@ -3974,9 +3976,10 @@ sub_41393:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_41432                                                       41432  96 PC
+; ShootPuck                                       41432  96 PC, low confidence
+; Shoots the puck: speed, height, aim and sound
 ;-----------------------------------------------------------------------------
-sub_41432:
+ShootPuck:
         push ebx
         push ecx
         push edx
@@ -3984,7 +3987,7 @@ sub_41432:
         push edi
         enter 4, 0
         mov ebx, eax
-        call sub_41393
+        call PickShotTarget
         and byte [sflags], 0F7h
         or byte [byte ebx+044h], 20h
         mov eax, dword [puckc]
@@ -4115,9 +4118,10 @@ sub_41432:
         or byte [byte ebx+044h], 20h
         jmp near chk4pass_4F6
 ;-----------------------------------------------------------------------------
-; sub_415FF                                                       415FF  96 PC
+; ShootOrAim                                      415FF  96 PC, low confidence
+; Shoots when the shot button is released, else stores the aim direction
 ;-----------------------------------------------------------------------------
-sub_415FF:
+ShootOrAim:
         push edx
         mov dx, word [regd2]
         xor dh, dh
@@ -4125,7 +4129,7 @@ sub_415FF:
         movsx edx, dx
         test edx, edx
         je short .1
-        call sub_41432
+        call ShootPuck
         pop edx
         ret
 .1:
@@ -5713,7 +5717,7 @@ FallDown:
         test eax, eax
         setne al
         movzx eax, al
-        call sub_4F452
+        call GameEventStub
         jmp near .63
 .51:
         movsx eax, word [dword esi+086h]
@@ -5873,7 +5877,7 @@ FallDown:
         cmp eax, byte 12h
         jne short .66
         mov eax, ecx
-        call sub_3509F
+        call assexitjump
 .66:
         movsx eax, word [crowdlevel]
         cmp eax, 3E8h
@@ -6761,9 +6765,10 @@ puckglue:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_43605                                                       43605  96 PC
+; PickPuckRebound                                 43605  96 PC, low confidence
+; Works out where the puck goes off a goalie or a stick
 ;-----------------------------------------------------------------------------
-sub_43605:
+PickPuckRebound:
         push ebx
         push ecx
         push edx
@@ -7031,7 +7036,7 @@ puckgoalie:
         jge near BlockShotDive_127
 .5:
         mov eax, esi
-        call sub_43605
+        call PickPuckRebound
         test eax, eax
         jne near BlockShotDive_127
         mov dword [byte esi+076h], eax
@@ -7635,7 +7640,7 @@ puckstick:
         cmp word [byte ebx+01Ah], byte 0
         jne short .29
         mov eax, ebx
-        call sub_43605
+        call PickPuckRebound
         test eax, eax
         jne near BlockShotDive_127
 .29:
@@ -10598,9 +10603,10 @@ SetSPA:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_46593                                                       46593  96 PC
+; SetControlledPlayer                             46593  96 PC, low confidence
+; Gives a control slot a new player
 ;-----------------------------------------------------------------------------
-sub_46593:
+SetControlledPlayer:
         push ebx
         push ecx
         lea ebx, [eax+eax]

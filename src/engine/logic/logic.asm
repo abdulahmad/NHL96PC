@@ -17,7 +17,7 @@ extern pucky, puckz, randomd0, regd2, regd3, sflags, shotongoal, skatetopuck
 extern SetPenaltyBoxDoor, GetPartner, defotarget, defdtarget, assextra3, assgoalie, check4check, checkob
 extern checkpuckcoll, chk4lcauto, CompPass, chk4shot, SetShotMode, ShotMode, Findhittype, doshot
 extern SetSPA, SprSort, changeplayer, GetHot, Setplass, setplayer, updateanim, SetExitGame
-extern sub_4B4F3, doplayeracc, EvadePC, skateto, PostGoalEvent, AddPenalty2, EndPenaltyShot, PlaySfxOr
+extern PuckInNet, doplayeracc, EvadePC, skateto, PostGoalEvent, AddPenalty2, EndPenaltyShot, PlaySfxOr
 extern PlaySfx, sfx, CrowdReaction, PlayArenaClip, StopArenaClip, vecdist, threat, unk_119D7C
 extern unk_119D9C, vtoa, word_1178A8, word_1178AC, word_1178AE, word_1178B4, yc1, fodir1
 extern fodir2, gmode2, HomeControlSlot, word_1178F8, word_1178FA, gsp, word_117902, word_117914
@@ -31,7 +31,7 @@ global assrefgoalpa, assreplace, assshoot, SwapPosition_91, asspuckc_394, assexi
 global assrefgoalpa_83E, assrefgoalpa_83F, assreplace_1, pucknorm, pucknorm_body, assextra4, asswingo, asscenterd
 global asscentero, SwapPosition, SwapDefWithFwd, asspuckc, asspuckc_chkdir, SwapPairSides, assextra5, assnearest
 global donothing, assscore, asseben, assleaveice, asspenalty, assdopen, assepen, assbench
-global assfaceoff, assfaceoffpl, pucknothing, SetLCmode, StartFaceoffLineChange, sub_3509F, sub_350A5, puckflip
+global assfaceoff, assfaceoffpl, pucknothing, SetLCmode, StartFaceoffLineChange, assexitjump, ResetFaceoffSkater, puckflip
 global assrefatdot, assreffollow, SkateToSpot, CrowdOnStoppage, assrefwhistle, assrefsignal, rtss, assrefgoalline
 global NextPathPoint, asspenshooter, chkhit, assfight, assfwatch, assextra6
 ;-----------------------------------------------------------------------------
@@ -5195,15 +5195,17 @@ a2touchpuck:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_3509F                                                       3509F  96 PC
+; assexitjump                                  3509F  96 PC, medium confidence
+; Jumps to assexit
 ;-----------------------------------------------------------------------------
-sub_3509F:
+assexitjump:
         push edx
         jmp near assexit
 ;-----------------------------------------------------------------------------
-; sub_350A5                                                       350A5  96 PC
+; ResetFaceoffSkater                              350A5  96 PC, low confidence
+; Resets a skater's animation and flags before a faceoff
 ;-----------------------------------------------------------------------------
-sub_350A5:
+ResetFaceoffSkater:
         push edx
         movsx edx, word [byte eax+03Ah]
         cmp edx, byte 4
@@ -6391,7 +6393,7 @@ assrefgoalpa:
         cwde
         test eax, eax
         jne near .4
-        call sub_4B4F3
+        call PuckInNet
         test eax, eax
         jge near .4
         movsx edx, word [byte ebx+036h]
@@ -6880,7 +6882,7 @@ assrefgoalpa:
         cwde
         test eax, eax
         je short .60
-        call sub_4B4F3
+        call PuckInNet
         test eax, eax
         jge short .60
         mov dx, word [regd2]

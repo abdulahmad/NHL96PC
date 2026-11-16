@@ -16,7 +16,7 @@
 #define SYM_PlayGame_initslotscall  0x174FFu   /* front/play_game/play_game.asm */
 #define SYM_PlayGame_menucall       0x175C4u   /* front/play_game/play_game.asm */
 #define SYM_EditText                0x197EDu   /* front/edit_text/edit_text.asm */
-#define SYM_sub_2DE30_69            0x2DE99u   /* engine/threestars/threestars.asm */
+#define SYM_LineupLoopFrame         0x2DE99u   /* engine/threestars/threestars.asm */
 #define SYM_PeriodOver              0x4B05Eu   /* engine/hockey/hockey.asm */
 #define SYM_ReadHotKeys             0x609C6u   /* front/camera/camera.asm */
 #define SYM_FreeSpriteCache         0x62311u   /* front/player_art/player_art.asm */

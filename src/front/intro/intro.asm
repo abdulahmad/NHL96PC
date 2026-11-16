@@ -7,7 +7,7 @@ extern FadeOutMusic, FadePalette, FillMusicStream, FillRect, fputchar, GetPresse
 extern MakeDataPath, off_11BDA8, OpenMusicStream, PaEvent, PlayMovie, PlayMusic, PutBlock, QueueMusic
 extern rand_, SetScreenColors, SetScreenMode, SetTextColors, SetTickDeadline, SoundIdle, SoundSecondsToBytes, StopMusic
 extern str_Bkgd3, str_Nhll, str_Nhlp, str_Pal2, str_Pal8, str_Pal9, str_Pl0, str_Pl1
-extern str_Scr1, str_Scr2, sub_53260, GetLangText, sub_AADA4, AllocMemBlock, FreeMemBlock, sub_AD35C
+extern str_Scr1, str_Scr2, RunAttractMode, GetLangText, sub_AADA4, AllocMemBlock, FreeMemBlock, sub_AD35C
 extern sub_ADBEC, SaveTextState, SetDrawTarget, sub_BF120, sub_BF2C4, SetScreenTarget, sub_DD7B8, KbdGetKey
 extern sub_E04E0, sub_E0584, TextSetFont, TickDeadlinePassed, unk_11BFA4, word_11D1D0
 global PlayIntroMovies, RunIntro, WaitOrSkip, LoadSlideImage, RunSlideEvents, jpt_634F9, RunSlideShow, RunSlideShow_78
@@ -60,7 +60,7 @@ PlayIntroMovies:
         call OpenMusicStream
         test edx, edx
         jne short .3
-        call sub_53260
+        call RunAttractMode
         mov edx, eax
 .3:
         test edx, edx

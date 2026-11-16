@@ -4,7 +4,7 @@ bits 32
 section s_4B7BB progbits alloc exec nowrite align=1
 extern SortCords, dword_11A11C, dword_11A15C, dword_11A19C, dword_165254, dword_176BDC, optflags, gameopts
 extern gmode, off_11787C, puckc, PtrPuckFlags, passplayer, puckvx, puckx, pucky
-extern randomd0, regd2, regd3, sub_3E6D4, SetSPA, GetHot, sub_4B748, PlaySfx
+extern randomd0, regd2, regd3, SetCarryAnim, SetSPA, GetHot, PickSkateAnim, PlaySfx
 extern vecdist, vtoa, word_1178B4, yc1, gmode2, word_1178F6, word_117914, word_117916
 extern word_165964, regd0, regd1
 global EvadePlayers, avdgoal_box, doplayeracc_7F4, EvadePlayers_2D8, skatetopuck, doplayeracc, EvadePC, skateto
@@ -78,7 +78,7 @@ doplayeracc:
         jmp short .7
 .6:
         mov eax, ecx
-        call sub_4B748
+        call PickSkateAnim
         mov ebx, eax
 .7:
         mov byte [byte ebp-07h], 0
@@ -1401,7 +1401,7 @@ skatetopuck:
         cmp edx, 5A4h
         ja short .22
         mov eax, esi
-        call sub_3E6D4
+        call SetCarryAnim
         jmp near EvadePlayers_2D8
 .22:
         mov eax, esi
@@ -3133,7 +3133,7 @@ noturn0:
         jmp short .19
 .18:
         mov eax, esi
-        call sub_4B748
+        call PickSkateAnim
 .19:
         mov dl, byte [byte esi+045h]
         and dl, 2

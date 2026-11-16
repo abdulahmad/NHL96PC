@@ -12,7 +12,7 @@ extern SlideInBottomBar, SlideInSideBar, SlideInTitleBar, SoundIdle, SoundSecond
 extern str_5GM, str_7GM, str_Aal0, str_Aal1, str_Aal2, str_Aar0, str_Aar1, str_Aar2
 extern str_Ahl0, str_Ahl1, str_Ahl2, str_Ahr0, str_Ahr1, str_Ahr2, str_Bkgd21, str_HaBck02
 extern str_HaBck12, str_Pal29, str_Rk02d, str_Rk222, str_Rul13, str_Rul23, str_Rul33, str_Swt0
-extern str_Swt12, str_SwtD2, sub_29B9F, RunPlayoffMenus_102, RunPlayoffMenus_115, RunPlayoffMenus_73, RunPlayoffMenus_89, RunPlayoffMenus_A6
+extern str_Swt12, str_SwtD2, GameOptionsScreen, RunPlayoffMenus_102, RunPlayoffMenus_115, RunPlayoffMenus_73, RunPlayoffMenus_89, RunPlayoffMenus_A6
 extern RunPlayoffMenus_CD, RunPlayoffMenus_D6, RunPlayoffMenus_E1, DrawShapeAtOwnPos, sub_AADA4, AllocMemBlock, FreeMemBlock, sub_AD35C
 extern sub_ADA50, sub_ADBEC, SetScreenTarget, sub_E04E0, TextSetFont, unk_152C44, unk_17D272, word_114CE0
 extern word_11ED38
@@ -946,7 +946,7 @@ ModemTeamSelectScreen_A8A:
         jmp near ModemTeamSelectScreen_94E.11
 ModemTeamSelectScreen_B38:
         mov eax, 1
-        call sub_29B9F
+        call GameOptionsScreen
         mov edx, dword [dword ebp-031Ah]
         mov eax, dword [dword ebp-031Eh]
         call SetMenuMouse

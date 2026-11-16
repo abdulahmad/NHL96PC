@@ -6,7 +6,7 @@ extern assextra4, assextra6, assinsert, assreplace, byte_176B83, check4bench, ch
 extern dword_16523C, dword_165240, dword_165244, dword_165248, EvadePC, gmode, gmode2, off_11787C
 extern off_117890, PBnum, Pencntdwn, playeracc, puckc, puckx, pucky, randomd0
 extern ReadJoy1, regd0, regd1, regd2, regd3, SetExitGame, SetSPA, skateto
-extern SkateToSpot, slotteam, SortCords, sub_2D9D9_450, sub_2D9D9_451, sub_3509F, sub_4F452, PlayArenaClip
+extern SkateToSpot, slotteam, SortCords, RunPreGameSkate_450, RunPreGameSkate_451, assexitjump, GameEventStub, PlayArenaClip
 extern SwapPosition, updateanim, vecdist, vtoa, word_165366, word_16536C, word_165462, word_165468
 extern word_16548C, word_165492
 global TurnToward, SkateToTarget, assboxenter, assbenchside, assstanley, asscupfollow, asscuptake, asscupleave
@@ -142,7 +142,7 @@ assboxenter:
         mov dx, word [dword ebx+086h]
         mov word [byte eax+02Eh], dx
         mov eax, ebx
-        call sub_3509F
+        call assexitjump
         pop edx
         pop ebx
         ret
@@ -180,7 +180,7 @@ assboxenter:
         test eax, eax
         setne al
         movzx eax, al
-        call sub_4F452
+        call GameEventStub
         mov byte [byte_176B83], 0
         mov byte [PBnum], 0
         mov al, byte [byte ebx+044h]
@@ -651,7 +651,7 @@ asscupfollow:
         and al, 20h
         movzx eax, al
         test eax, eax
-        jne near sub_2D9D9_451
+        jne near RunPreGameSkate_451
         mov al, byte [byte esi+044h]
         and al, 2
         movzx eax, al
@@ -763,7 +763,7 @@ asscupfollow:
         movsx edx, ax
         mov eax, esi
         call TurnToward
-        jmp near sub_2D9D9_451
+        jmp near RunPreGameSkate_451
 .11:
         mov eax, esi
         call SkateToTarget
@@ -778,14 +778,14 @@ asscupfollow:
         movzx eax, al
         add esp, byte 8
         test eax, eax
-        jne near sub_2D9D9_451
+        jne near RunPreGameSkate_451
         mov eax, 100h
         call randomd0
         cwde
         cmp word [byte esi+02Eh], byte 0
         jne near .17
         cmp word [byte esi+038h], byte 0
-        jne near sub_2D9D9_451
+        jne near RunPreGameSkate_451
         cmp eax, 0C8h
         jle short .12
         mov edx, 93Fh
@@ -793,7 +793,7 @@ asscupfollow:
         or byte [byte esi+045h], 2
         call SetSPA
         mov word [byte esi+02Eh], 1
-        jmp near sub_2D9D9_451
+        jmp near RunPreGameSkate_451
 .12:
         cmp edx, 1F4h
         jle short .14
@@ -819,7 +819,7 @@ asscupfollow:
         jmp short .13
 .17:
         cmp word [byte esi+038h], byte 0
-        jne near sub_2D9D9_451
+        jne near RunPreGameSkate_451
         cmp eax, 0C8h
         jle short .18
         mov edx, 95Dh
@@ -827,7 +827,7 @@ asscupfollow:
         or byte [byte esi+045h], 2
         call SetSPA
         mov word [byte esi+02Eh], 0
-        jmp near sub_2D9D9_451
+        jmp near RunPreGameSkate_451
 .18:
         cmp eax, byte 28h
         jge short .19
@@ -845,7 +845,7 @@ asscupfollow:
         mov eax, esi
 .21:
         call SetSPA
-        jmp near sub_2D9D9_451
+        jmp near RunPreGameSkate_451
 ;-----------------------------------------------------------------------------
 ; asscuptake                                   2FDE3  96 PC, medium confidence
 ; Asstab entry 34h, set by assstanley: skates to the cup holder, turns to
@@ -865,12 +865,12 @@ asscuptake:
         mov edi, SortCords
         add edi, edx
         cmp word [byte eax+02Eh], byte 0
-        jl near sub_2D9D9_450
+        jl near RunPreGameSkate_450
         mov al, byte [byte esi+044h]
         and al, 20h
         movzx eax, al
         test eax, eax
-        jne near sub_2D9D9_450
+        jne near RunPreGameSkate_450
         mov al, byte [byte esi+044h]
         and al, 2
         movzx eax, al
@@ -927,7 +927,7 @@ asscuptake:
         mov edx, 33h
         mov eax, edi
         call assreplace
-        jmp near sub_2D9D9_450
+        jmp near RunPreGameSkate_450
 .6:
         mov ax, word [byte edi+02h]
         mov word [byte esi+02Ah], ax
@@ -962,22 +962,22 @@ asscuptake:
         movsx edx, word [byte edi+036h]
         and eax, byte 7
         cmp edx, eax
-        jne near sub_2D9D9_450
+        jne near RunPreGameSkate_450
         mov edx, 9B7h
         mov eax, esi
         or byte [byte esi+044h], 20h
         call SetSPA
         mov word [byte esi+026h], 64h
-        jmp near sub_2D9D9_450
+        jmp near RunPreGameSkate_450
 .7:
         mov edx, eax
         mov eax, esi
         call TurnToward
-        jmp near sub_2D9D9_450
+        jmp near RunPreGameSkate_450
 .8:
         mov eax, esi
         call SkateToTarget
-        jmp near sub_2D9D9_450
+        jmp near RunPreGameSkate_450
 ;-----------------------------------------------------------------------------
 ; asscupleave                                  2FF84  96 PC, medium confidence
 ; Asstab entry 35h, given by clockcont to the losing team on a cup win:

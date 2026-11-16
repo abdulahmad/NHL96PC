@@ -206,16 +206,26 @@ address,name,auto_name,source,confidence,evidence,file
 21478,UpdateJoystickTest,sub_21478,new,medium,"joystick test screen, each frame: lights the arrow of the direction the tested pad points (byte_151778) and blinks it",src/front/pad_setup/pad_setup.asm
 21596,JoystickTestScreen,sub_21596,new,medium,"joystick test screen (BKGD, arrows LT00-LT71, buttons BT00-BT02): shows the pad's direction lit up while it is moved, mouse or pad on the buttons",src/front/pad_setup/pad_setup.asm
 21990,DrawIceCrud,sub_21990,new,low,rebuilds the ice texture with random crud marks up to the crud level (dword_15E698),src/front/rink_model/rink_model.asm
+21B35,DrawTexturedQuad,sub_21B35,new,medium,"draws a quad textured from the texture page, from four point indices",src/front/rink_model/rink_model.asm
+21BC9,DrawIceTextureQuad,sub_21BC9,new,low,callback that draws one textured ice quad,src/front/rink_model/rink_model.asm
+21BE2,RinkNullCallback,,new,low,callback that does nothing,src/front/rink_model/rink_model.asm
 21BE3,AddIceCrud,sub_21BE3,new,medium,"(amount): 0 resets the crud level, else adds to it (up to 0A666h) and redraws the ice (DrawIceCrud); from UpdateCamera and the in-game menu",src/front/rink_model/rink_model.asm
 21C1A,LoadFshFile,sub_21C1A,new,medium,"(name, flags): loads a .FSH art file (adds "".FSH"" when the name has no extension)",src/front/rink_model/rink_model.asm
 21D14,LoadIceTexture,sub_21D14,new,medium,"finds the ""ice"" texture of the rink, loads ice.fsh and its palette and the ""crud"" bitmap",src/front/rink_model/rink_model.asm
+21E3E,FatLineEdge,sub_21E3E,new,low,works out one edge of a fat line on screen,src/front/rink_model/rink_model.asm
 2207E,ClipEdgeToNear,sub_2207E,new,low,the point where an edge crosses the near plane (dword_11F5F0),src/front/rink_model/rink_model.asm
 220FB,ClipLineToNear,sub_220FB,new,low,clips a line to the near plane (ClipEdgeToNear); 0 when it is all behind,src/front/rink_model/rink_model.asm
 22159,DrawFaceEdge,sub_22159,new,low,draws a line between two projected vertices when both are in front (z > 50h),src/front/rink_model/rink_model.asm
+221AE,DrawThickSegment,sub_221AE,new,low,draws a line segment widened into a quad along its angle,src/front/rink_model/rink_model.asm
+22268,DrawThickSegmentVisible,sub_22268,new,low,draws a thick segment when both ends are in front of the camera,src/front/rink_model/rink_model.asm
 22299,DrawFatLine,sub_22299,new,low,"draws a fat ice line across a face, clipped to the near plane (FatRedLineFace, FatBlueLineFace)",src/front/rink_model/rink_model.asm
+2234B,DrawLineListClipped,sub_2234B,new,medium,"draws a list of point pairs as clipped lines, skipping pairs too close to the camera",src/front/rink_model/rink_model.asm
+223BA,DrawLineList,sub_223BA,new,medium,"draws a list of point pairs as lines, skipping pairs too close to the camera",src/front/rink_model/rink_model.asm
 2242A,DrawRubberEdge,sub_2242A,new,low,"draws the rubber edge of a face (RubberFace, RubberSideFace)",src/front/rink_model/rink_model.asm
+22494,DrawStandsQuad,sub_22494,new,low,draws one quad of the stands from the texture page,src/front/rink_model/rink_model.asm
 224AE,RubberSideFace,sub_224AE,new,medium,"draw callback of the rink's ""rubberside"" faces",src/front/rink_model/rink_model.asm
 224D1,RubberFace,sub_224D1,new,medium,"draw callback of the rink's ""rubber"" faces",src/front/rink_model/rink_model.asm
+224DB,DrawStandsSideQuad,sub_224DB,new,low,draws one quad of the stands side art,src/front/rink_model/rink_model.asm
 22522,DrawStandsSide,sub_22522,new,low,draws the stands at one side,src/front/rink_model/rink_model.asm
 22669,TopBoardsFace,sub_22669,new,medium,"draw callback of the ""topboards"" line",src/front/rink_model/rink_model.asm
 2268D,BotBoardsFace,sub_2268D,new,medium,"draw callback of the ""botboards"" line",src/front/rink_model/rink_model.asm
@@ -224,9 +234,14 @@ address,name,auto_name,source,confidence,evidence,file
 226E0,ThinRedLineFace,sub_226E0,new,medium,"draw callback of the ""thin_red_lines"" faces",src/front/rink_model/rink_model.asm
 226EA,GlassLineFace,sub_226EA,new,medium,"draw callback of the ""glassline"" line (with byte_1175A7, the glass on)",src/front/rink_model/rink_model.asm
 22717,GlassFace,sub_22717,new,medium,"draw callback of the ""glass"" faces (with byte_1175A7, the glass on)",src/front/rink_model/rink_model.asm
+22734,DrawRinkFloorPolys,sub_22734,new,low,transforms and fills the rink floor polygons,src/front/rink_model/rink_model.asm
 227E2,GoalPipeFace,sub_227E2,new,medium,"draw callback of the goal ""pipe"" faces",src/front/rink_model/rink_model.asm
 227F5,BuildCircleTable,sub_227F5,new,low,the 20h points of an ice circle (sin / cos by the radius dword_15E860),src/front/rink_model/rink_model.asm
 22A3A,DrawIceSurface,sub_22A3A,new,low,draws the ice surface,src/front/rink_model/rink_model.asm
+22AF0,DrawRinkLinePoly,sub_22AF0,new,low,draws one ice line polygon and its edge,src/front/rink_model/rink_model.asm
+22B3C,DrawFaceoffCircle,sub_22B3C,new,low,draws a faceoff circle with its marks,src/front/rink_model/rink_model.asm
+22D27,DrawCentreMarkings,sub_22D27,new,low,draws the centre ice circle and line,src/front/rink_model/rink_model.asm
+22DD7,DrawEndZoneMarkings,sub_22DD7,new,low,"draws one end zone's goal line, crease and marks",src/front/rink_model/rink_model.asm
 23106,FindNearestGlass,sub_23106,new,medium,"(pos, &side, &face): the glass face of the 18 rink sides (dword_15D2B8, 88h each) whose edge midpoint is nearest",src/front/rink_model/rink_model.asm
 23218,RandomTrianglePoint,sub_23218,new,medium,"a random point on a triangle (random weights), for the glass shards",src/front/rink_model/rink_model.asm
 233A2,AddGlassShard,sub_233A2,new,medium,adds a shard triangle (up to 6Ch at unk_159F58) with a random spin,src/front/rink_model/rink_model.asm
@@ -250,9 +265,15 @@ address,name,auto_name,source,confidence,evidence,file
 240F4,DrawSpriteAtVertex,sub_240F4,new,low,draws a scaled sprite at a rink vertex (SpriteScale),src/front/rink_model/rink_model.asm
 2414A,DrawGoalLight,sub_2414A,new,low,draws the lit goal light (4 points at dword_158D78),src/front/rink_model/rink_model.asm
 241F6,TransformRink,sub_241F6,new,low,transforms the rink vertices and sets which rink ends face the camera,src/front/rink_model/rink_model.asm
+243ED,DrawGlassFrameLines,sub_243ED,new,low,"draws the glass frame lines, clipped to the camera",src/front/rink_model/rink_model.asm
+2458D,DrawBoardTopLines,sub_2458D,new,low,draws the lines along the top of the boards,src/front/rink_model/rink_model.asm
 248B0,DrawStandsSides,sub_248B0,new,low,(half): draws the stands of the rink sides on one half,src/front/rink_model/rink_model.asm
+249E8,DrawKickplates,sub_249E8,new,low,draws the kickplate edges along the boards,src/front/rink_model/rink_model.asm
+24AA4,DrawRinkFloor,sub_24AA4,new,low,draws the rink floor outside the ice,src/front/rink_model/rink_model.asm
 24B87,DrawGlassShards,sub_24B87,new,medium,transforms and draws the falling glass shards,src/front/rink_model/rink_model.asm
 24C7C,DrawSideGlass,sub_24C7C,new,low,draws a rink side's glass faces (with the hole and shards),src/front/rink_model/rink_model.asm
+24D32,DrawBoardSegments,sub_24D32,new,low,walks the board segment list for the boards drawing loop,src/front/rink_model/rink_model.asm
+24D8C,DrawRinkFrontParts,sub_24D8C,new,low,"draws the near side of the rink: glass, boards and bench parts",src/front/rink_model/rink_model.asm
 24F36,DrawPuckModel,sub_24F36,new,medium,"draws the puck model (dword_15E8E0), from DrawPuckSprite",src/front/rink_model/rink_model.asm
 24F75,DrawPuckShadowModel,sub_24F75,new,medium,"draws the puck shadow model (dword_15E8D8) when on screen, from DrawPuckSprite",src/front/rink_model/rink_model.asm
 2500F,PlacePuckModels,sub_2500F,new,low,sets the puck and puck shadow models' positions,src/front/rink_model/rink_model.asm
@@ -270,6 +291,7 @@ address,name,auto_name,source,confidence,evidence,file
 261A6,LoadRinkModel,sub_261A6,new,high,"from InitGameView: loads the rink, stands, score, puck, puck shadow and net models, finds their named parts and lights, sets the face callbacks and the ice (LoadIceTexture, BuildRinkSides)",src/front/rink_model/rink_model.asm
 2751C,FreeRinkModel,sub_2751C,new,high,from FreeGameView: frees the rink models and art LoadRinkModel loaded,src/front/rink_model/rink_model.asm
 2767F,SetViewCamera,sub_2767F,new,medium,"(pos, matrix): sets the 3D camera position and matrix",src/front/rink_model/rink_model.asm
+276B5,DrawIceBackPoly,sub_276B5,new,low,fills the far part of the ice surface,src/front/rink_model/rink_model.asm
 278B9,DrawIceMarkings,sub_278B9,new,low,"draws the ice markings (circles, lines, creases)",src/front/rink_model/rink_model.asm
 27BF1,DrawRinkModels,sub_27BF1,new,medium,"draws the rink, the stands (byte_1175A9) and the score clock (byte_1175AC) models",src/front/rink_model/rink_model.asm
 27C5E,DrawRinkPlayers,sub_27C5E,new,low,draws the sorted players (SortCords) as rink sprites (DrawRinkSprite),src/front/rink_model/rink_model.asm
@@ -279,12 +301,19 @@ address,name,auto_name,source,confidence,evidence,file
 28327,OpenPenaltyBoxDoor,sub_28327,new,medium,(team): swings the penalty box door open (vertices of dword_15E6A0 / 15E6B4),src/front/rink_model/rink_model.asm
 283C1,ClosePenaltyBoxDoor,sub_283C1,new,medium,(team): puts the penalty box door back,src/front/rink_model/rink_model.asm
 28459,SetPenaltyBoxDoor,sub_28459,new,medium,"(team, open): from asspenalty, assdopen, assepen and puckfaceoff2: opens or closes a penalty box door",src/front/rink_model/rink_model.asm
+2849A,DrawBenchArea,sub_2849A,new,low,draws the bench and penalty box glass and frames,src/front/rink_model/rink_model.asm
 28668,DrawPenaltyBoxSide,sub_28668,new,low,"draws the penalty box side of the rink (DrawRinkPlayers, DrawPenaltyBoxPlayers)",src/front/rink_model/rink_model.asm
 28A87,DrawRinkBack,sub_28A87,new,low,"from DrawGameFrame / DrawReplayView: the rink passes behind the players (stands, ice, glass)",src/front/rink_model/rink_model.asm
 28C50,DrawRinkFront,sub_28C50,new,low,from DrawGameFrame / DrawReplayView: the rink passes in front of the players,src/front/rink_model/rink_model.asm
 28D97,DrawWholeRink,sub_28D97,new,medium,"from DrawRinkView: the whole rink with stands and glass on, no players",src/front/rink_model/rink_model.asm
 2929F,DrawZamboniScene,sub_2929F,new,medium,from DrawInGameMenuFrame: the rink with the zamboni,src/front/rink_model/rink_model.asm
 2976B,SetRinkClipWindow,sub_2976B,new,medium,copies the view clip window (dword_1228D8-1228E4) into 16.16 for the rink draw,src/front/rink_model/rink_model.asm
+297A8,LoadShadowRemap,sub_297A8,new,low,loads the shadow colour remap,src/front/rink_model/rink_model.asm
+297C9,BeginShadowDraw,sub_297C9,new,low,sets up drawing for player shadows,src/front/rink_model/rink_model.asm
+297EA,DrawShadowSprite,sub_297EA,new,low,"draws a sprite as a shadow, clipped to the screen",src/front/rink_model/rink_model.asm
+299CF,DrawShadowSpriteAt,sub_299CF,new,low,draws a sprite shadow at a position,src/front/rink_model/rink_model.asm
+29A14,DrawOptionButton,sub_29A14,new,low,builds the art name for an option button and draws it,src/front/rink_model/rink_model.asm
+29B9F,GameOptionsScreen,sub_29B9F,new,low,game options screen: ten option buttons over the menu background,src/front/rink_model/rink_model.asm
 2A502,ClearSlotUser,sub_2A502,new,high,"(slot): no user on that controller slot (word_160ACC entry 21h bytes: user id, name ""no user"" text)",src/front/users/users.asm
 2A52F,ClearSlotUsers,sub_2A52F,new,high,no user on any of the 4 controller slots,src/front/users/users.asm
 2A5B5,UserRecordRating,sub_2A5B5,new,low,"adds up a user record's counts (x3, 16.16) for its rating",src/front/users/users.asm
@@ -312,6 +341,13 @@ address,name,auto_name,source,confidence,evidence,file
 2C31A,LoadUserRecords,sub_2C31A,new,medium,reads every user's record file into the tables of the user records screen,src/front/users/users.asm
 2C65C,ExportUserRecords,sub_2C65C,new,medium,asks for a file name (EditText) and writes the user records table to it as text (fprintf),src/front/users/users.asm
 2CB9D,UserRecordsScreen,sub_2CB9D,new,medium,"the user records screen: allocates the column tables (uname, urate, upts, ugf, uga, upp, upk, uso, ustreak, ulstreak, uteam, uopp, usort), LoadUserRecords, sorts by the picked column (qsort), DrawUserRecords, export",src/front/users/users.asm
+2D9D9,RunPreGameSkate,sub_2D9D9,new,low,pre-game: sets up both teams and runs frames while the players skate out,src/engine/threestars/threestars.asm
+2DE30,RunLineupLoop,sub_2DE30,new,low,"the line-up loop: runs game frames for the line-up time before play, with the arena clip",src/engine/threestars/threestars.asm
+2DE99,LineupLoopFrame,,new,low,"one pass of the line-up loop: simulation frames, crowd, camera and drawing",src/engine/threestars/threestars.asm
+2E0C5,FillPanelEdge,sub_2E0C5,new,low,fills the edge of an overlay panel,src/engine/threestars/threestars.asm
+2E127,DrawPanelBorder,sub_2E127,new,low,draws an overlay panel's border,src/engine/threestars/threestars.asm
+2E171,DrawPanelShade,sub_2E171,new,low,draws an overlay panel's shaded box,src/engine/threestars/threestars.asm
+2E1BE,DrawOverlayPanels,sub_2E1BE,new,low,"draws the game overlays: score, clock, line change and team panels",src/engine/threestars/threestars.asm
 2E95C,StartPreGame,sub_2E95C,95PC,medium,"its call lines up with the NHL95PC call in SetupDemoGame, and its address keeps the NHL95PC module order",src/engine/threestars/threestars.asm
 2EA39,assintrostand,,95PC,medium,NHL95PC 4842A (sem): C:428; C:809,
 2EAEB,assintroline,sub_2EAEB,95PC,high,"asstab entry 38, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/threestars/threestars.asm
@@ -370,6 +406,8 @@ address,name,auto_name,source,confidence,evidence,file
 34D49,a2offsides,,95PC,medium,NHL95PC 4DCDD (sem): D:11919B; D:1191A7; D:117878; D:17C9A0,
 34DD3,ChkTwoLinePass,,95PC,medium,NHL95PC 4DD51 (sem): D:176B86; D:117878; D:17C9A0; D:1178C3,
 34EA6,a2touchpuck,,95PC,medium,NHL95PC 4DE14 (sem): C:405; C:404; C:647; D:176B86,
+3509F,assexitjump,sub_3509F,new,medium,jumps to assexit,src/engine/logic/logic.asm
+350A5,ResetFaceoffSkater,sub_350A5,new,low,resets a skater's animation and flags before a faceoff,src/engine/logic/logic.asm
 350D3,puckflip,sub_350D3,95PC,medium,called from wallcoll as NHL95PC puckflip; before assrefatdot,src/engine/logic/logic.asm
 35149,assrefatdot,sub_35149,95PC,high,"asstab entry 30, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
 35232,assreffollow,sub_35232,95PC,high,"asstab entry 31, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
@@ -398,27 +436,36 @@ address,name,auto_name,source,confidence,evidence,file
 3891F,OppInReach,,95PC,medium,NHL95PC 5033D (similar): mnemonic similarity 0.80 over 54 instructions,
 389B6,Holdplayer,sub_389B6,95PC,medium,"sits between OppInReach and lcselect as in the NHL95PC module, with the same count of routines between them and a like size (n95=38 n96=33) and call count",src/engine/input/input.asm
 38A0F,lcselect,,95PC,medium,NHL95PC 50434 (sem): C:589; D:17C9A0,
+38AAF,FindCheckTarget,sub_38AAF,new,low,finds the opponent a checking player can reach,src/engine/input/input.asm
+38BFA,DoCheckInput,sub_38BFA,new,low,handles the check button: picks a target and starts the check,src/engine/input/input.asm
 38F9F,doinput,sub_38F9F,95PC,medium,"called from updateplayers, before getlchoice as NHL95PC doinput; Holdplayer, SetLCmode, burst, checkob",src/engine/input/input.asm
 39769,getlchoice,,95PC,medium,NHL95PC 50908 (sem): R:400; R:441,
 397C0,lcfound,,95PC,medium,NHL95PC 50975 (sem): C:589; D:16595C; R:429; R:465,
+39847,ResetInputRepeat,sub_39847,new,low,resets the four input repeat counters,src/engine/input/input.asm
 3987A,SlotToJoy,sub_3987A,new,medium,called from ReadJoy1: SlotButtons of one slot to a direction and button bits,src/engine/input/input.asm
 398DB,ReadJoy1,,95PC,medium,NHL95PC 50A05 (sem): D:165960; D:16595C,
 39936,CenterMouse,sub_39936,95PC,medium,"its call lines up with the NHL95PC call in puckfaceoff2, and its address keeps the NHL95PC module order",src/engine/input/input.asm
 39955,PassCompleted,sub_39955,95PC,medium,"same named references as NHL95PC PassCompleted (4 of 4), same length, between CenterMouse and asspassrec in both",src/engine/input/input.asm
 399AB,assonetimer,sub_399AB,95PC,medium,"first after PassCompleted as in NHL95PC; Findhittype, doshot, passplayer",src/engine/input/input.asm
 39DB8,OneTimerChk,sub_39DB8,95PC,medium,second after PassCompleted as in NHL95PC,src/engine/input/input.asm
+39E93,ReceivePass,sub_39E93,new,low,"a player takes a pass, or one-times it",src/engine/input/input.asm
 3A0D2,asspassrec,,95PC,medium,NHL95PC 50F3F (sem): C:623; D:117874; D:1178C3; K:168,
 3A2F6,CountTeamSlots,sub_3A2F6,new,medium,counts the controller slots of each team and notes the first slot of each,src/engine/input/input.asm
 3A37E,CtlSwapScoreFix,,95PC,medium,NHL95PC 7CBB3 (sem): C:589; D:1656D8; D:117900; D:1178C3,
 3A433,CtlSwapTeamFlag,,95PC,medium,NHL95PC 7CC8A (sem): D:1656D8; D:1178C3,
 3A49C,ReassignCtlPlayer,,95PC,medium,NHL95PC 7CCE5 (sem): K:10000000; D:117870; D:117878; D:16479C,
+3A609,UpdateLineChangeState,sub_3A609,new,low,updates the line change box state for teams with no human players,src/engine/input/input.asm
+3A6F3,RefreshControlSlots,sub_3A6F3,new,low,recounts the control slots and reassigns the controlled players,src/engine/input/input.asm
+3A7A4,SetupPenaltyBoxSeats,sub_3A7A4,new,low,sets up the penalty box seats for players still serving,src/engine/faceoff/faceoff.asm
 3A829,TakePlayerFromBox,sub_3A829,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: assleavebox,src/engine/faceoff/faceoff.asm
+3A8BC,FreeBoxedPlayers,sub_3A8BC,new,low,moves players whose penalties are over out of the penalty box,src/engine/faceoff/faceoff.asm
 3A925,PenShotStart,sub_3A925,95PC,medium,its calls line up with the NHL95PC calls 5 time(s) in: puckfaceoff,src/engine/faceoff/faceoff.asm
 3AA02,PenShotAssign,,95PC,medium,NHL95PC 512A7 (sem): D:11919B; D:16479C; D:17C9A0,
 3ABAE,AllInPlace,,95PC,medium,NHL95PC 51440 (similar): mnemonic similarity 0.89 over 24 instructions,
 3ABDF,assleavebox,sub_3ABDF,95PC,high,"asstab entry 40, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/faceoff/faceoff.asm
 3AE48,AssignControlSlots,sub_3AE48,new,low,same code as in the next game,src/engine/faceoff/faceoff.asm
 3AEBA,puckfaceoff,,95PC,medium,NHL95PC 516E1 (sem): C:603; D:11919B; D:117900; D:16595C,
+3B3C7,FaceoffPositions,sub_3B3C7,new,low,works out where each player lines up for a faceoff,src/engine/faceoff/faceoff.asm
 3B847,puckfaceoff2,sub_3B847,95PC,high,"asstab entry 28, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/faceoff/faceoff.asm
 3C19A,assbenchwait,,95PC,medium,NHL95PC 526ED (similar): mnemonic similarity 0.81 over 15 instructions,
 3C1D3,asstakeposition,,95PC,medium,NHL95PC 52720 (sem): C:622; D:16595C; C:810; K:FF9C,
@@ -437,6 +484,8 @@ address,name,auto_name,source,confidence,evidence,file
 3D7F2,goaliehome,sub_3D7F2,new,medium,"target x from the crease table by side, or the post position by goalie level when the puck is behind the goal line, then goalieskateto",src/engine/faceoff/faceoff.asm
 3D86D,goalieposition,sub_3D86D,new,medium,"assgoalie's default action: positions the CPU goalie against the puck (ClampYPosition, GoalieToPuckVec, ShotLaneOpen, AdjustFacingDirection), calls goaliesave and goaliehome",src/engine/faceoff/faceoff.asm
 3DEBB,assgoalie,sub_3DEBB,95PC,high,"asstab entry 14, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/faceoff/faceoff.asm
+3E665,AutoSwitchPlayer,sub_3E665,new,low,switches control to the team's best placed player when auto-switch is on,src/engine/faceoff/faceoff.asm
+3E6D4,SetCarryAnim,sub_3E6D4,new,low,sets the puck carrying animation,src/engine/faceoff/faceoff.asm
 3E6EC,BlockShotDive,sub_3E6EC,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: TryBlockShot,src/engine/collide/collide.asm
 3E819,TryBlockShot,sub_3E819,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: check4check,src/engine/collide/collide.asm
 3E885,check4check,sub_3E885,95PC,medium,"its call lines up with the NHL95PC call in assdefd, and its address keeps the NHL95PC module order",src/engine/collide/collide.asm
@@ -462,6 +511,10 @@ address,name,auto_name,source,confidence,evidence,file
 40C14,setpassmode,sub_40C14,95PC,medium,"6 lines on sflags as NHL95PC setpassmode, last before passtoa0",src/engine/collide/collide.asm
 40C2A,passtoa0,,95PC,medium,NHL95PC 551CF (sem): C:1544; C:809,
 40E82,chk4pass,,95PC,medium,NHL95PC 55493 (sem): C:504; C:506; D:16595C; D:117870,
+4137F,SetPassDirection,sub_4137F,new,low,stores the pass direction from the player's facing,src/engine/collide/collide.asm
+41393,PickShotTarget,sub_41393,new,low,picks where a shot is aimed,src/engine/collide/collide.asm
+41432,ShootPuck,sub_41432,new,low,"shoots the puck: speed, height, aim and sound",src/engine/collide/collide.asm
+415FF,ShootOrAim,sub_415FF,new,low,"shoots when the shot button is released, else stores the aim direction",src/engine/collide/collide.asm
 41642,chk4shot,sub_41642,95PC,medium,"last before CompShoot as in NHL95PC; shares penshotlive, threat, gameclock",src/engine/collide/collide.asm
 418E7,CompShoot,sub_418E7,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: chk4lc,src/engine/collide/collide.asm
 41942,ChkOffsides,,95PC,medium,NHL95PC 55A9F (sem): C:666,
@@ -478,6 +531,7 @@ address,name,auto_name,source,confidence,evidence,file
 43294,PuckIChk,,95PC,medium,"NHL95PC 56E52 (neighbour): between Bcheck and doshot, mnemonic similarity 0.78",
 4331A,puckshadow,sub_4331A,95PC,high,"asstab entry 25, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/collide/collide.asm
 4334D,puckglue,sub_4334D,95PC,medium,"first after puckshadow as in NHL95PC; shares shotongoal, PassCompleted, EndPenaltyShot",src/engine/collide/collide.asm
+43605,PickPuckRebound,sub_43605,new,low,works out where the puck goes off a goalie or a stick,src/engine/collide/collide.asm
 437EB,puckgoalie,sub_437EB,95PC,medium,"order after puckglue as in NHL95PC; 313/305 lines, same named references",src/engine/collide/collide.asm
 43C7E,puckstick,sub_43C7E,95PC,medium,"order after puckgoalie as in NHL95PC; shares passplayer, LD",src/engine/collide/collide.asm
 441EF,SetShotMode,sub_441EF,95PC,medium,"order after puckstick as in NHL95PC; SetSPA, sflags",src/engine/collide/collide.asm
@@ -500,6 +554,7 @@ address,name,auto_name,source,confidence,evidence,file
 463AE,ReturnGoalies,sub_463AE,95PC,medium,"sits between ChkGoalies and ChkPullGoalieLate as in the NHL95PC module, with the same count of routines between them and a like size (n95=49 n96=33) and call count",src/engine/collide/collide.asm
 4640D,ChkPullGoalieLate,,95PC,medium,NHL95PC 593F5 (sem): D:117900; D:1656D8,
 464A6,SetSPA,sub_464A6,95PC,high,"called at the same position as in NHL95PC in 15 routine(s) named in both: Acheck,SkateToSpot,assintroline,assintrostand,assleavebox",src/engine/collide/collide.asm
+46593,SetControlledPlayer,sub_46593,new,low,gives a control slot a new player,src/engine/collide/collide.asm
 465BA,SprSort,sub_465BA,95PC,medium,"called from assepen, defaultsprites_0, puckfaceoff2 as NHL95PC SprSort",src/engine/hockey/hockey.asm
 4666C,changeplayer,sub_4666C,95PC,medium,"its calls line up with the NHL95PC calls 2 time(s) in: assleaveice,puckfaceoff2",src/engine/hockey/hockey.asm
 46988,restorepl,sub_46988,95PC,medium,between changeplayer and AvgCline as in NHL95PC; same named references,src/engine/hockey/hockey.asm
@@ -509,6 +564,7 @@ address,name,auto_name,source,confidence,evidence,file
 46E93,TeamLineEnergy,,95PC,medium,"NHL95PC 5A2EE (neighbour): between ChkPullGoalieLate and findpc, mnemonic similarity 0.86",
 46EA7,getlinee,sub_46EA7,95PC,medium,"sits between TeamLineEnergy and findpc as in the NHL95PC module, with the same count of routines between them and a like size (n95=18 n96=12) and call count",src/engine/hockey/hockey.asm
 46EC9,findpc,,95PC,medium,NHL95PC 5A341 (sem): D:117874; D:117870; D:117878; R:397,
+46FA3,HotSpotFrame,sub_46FA3,new,low,"works out the sprite frame a player's hot spot comes from, turned for the camera",src/engine/hockey/hockey.asm
 4704A,GetHot,sub_4704A,95PC,medium,"its calls line up with the NHL95PC calls 2 time(s) in: pucknorm_body,skatetopuck",src/engine/hockey/hockey.asm
 470AD,GetHotStick,sub_470AD,95PC,medium,"sits between GetHot and SetCoachMode as in the NHL95PC module, with the same count of routines between them and a like size (n95=37 n96=29) and call count",src/engine/hockey/hockey.asm
 4711E,GetHotOrStick,sub_4711E,95PC,medium,"called only from checkpuckcoll_ccx, between GetHotStick and SetCoachMode as NHL95PC GetHotOrStick",src/engine/hockey/hockey.asm
@@ -527,15 +583,21 @@ address,name,auto_name,source,confidence,evidence,file
 488E9,GetPeriodTime,sub_488E9,95PC,medium,first after restoreteams as in NHL95PC; reads gameopts,src/engine/hockey/hockey.asm
 48922,ResetClock,sub_48922,95PC,medium,second after restoreteams as in NHL95PC; sets gameclock,src/engine/hockey/hockey.asm
 4899C,ClearSortCords,,95PC,medium,"NHL95PC 5BA4E (neighbour): between reenergizeteam and setpersonel, mnemonic similarity 0.79",
+489CF,InitBenchSprite,sub_489CF,new,low,resets one bench or penalty box sprite with a random idle animation,src/engine/hockey/hockey.asm
+48A4D,InitBenchSprites,sub_48A4D,new,low,resets the bench and penalty box sprites for both teams,src/engine/hockey/hockey.asm
 48ACC,defaultsprites_0,sub_48ACC,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: setupice,src/engine/hockey/hockey.asm
 48BFF,TryAddPlayerToList,,95PC,medium,"NHL95PC 5BB9E (neighbour): between reenergizeteam and setpersonel, mnemonic similarity 0.76",
 48C79,SetPlList,,95PC,medium,NHL95PC 5BBFA (sem): C:587; D:165944; D:119197; R:589,
 48F65,setpersonel,,95PC,medium,NHL95PC 5BEF4 (sem): R:613; R:502; R:465,
 490F5,StartPer,,95PC,medium,NHL95PC 5C010 (sem): D:1191A3; D:11919B; D:11917B; D:119177,
+49300,BenchSpriteFrame,sub_49300,new,low,"works out a bench sprite's frame, turned for the camera",src/engine/hockey/hockey.asm
+493D4,AnimateBenchSprite,sub_493D4,new,low,steps a bench sprite's animation,src/engine/hockey/hockey.asm
+494F7,PickBenchIdleAnim,sub_494F7,new,low,picks a random idle animation for a bench sprite that has none,src/engine/hockey/hockey.asm
 49526,checkwindow,sub_49526,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: DoGameFrame,src/engine/hockey/hockey.asm
 4958D,DoGameFrame,,95PC,medium,NHL95PC 5C1C4 (sem): C:597; C:599; R:54,
 495A1,RestoreBenchEnergy,sub_495A1,95PC,medium,"after DoGameFrame as in NHL95PC; hmtmstruct, awtmstruct, gameopts, 47/41 lines",src/engine/hockey/hockey.asm
 49645,periodicevents,sub_49645,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: DoGameFrame,src/engine/hockey/hockey.asm
+497A7,CheckBenchDoor,sub_497A7,new,low,checks whether a player is at his bench door for a line change,src/engine/hockey/hockey.asm
 49848,updateplayers,sub_49848,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: DoGameFrame,src/engine/hockey/hockey.asm
 4A047,updateanim,sub_4A047,95PC,medium,"called from assonetimer, asspenshooter, updateplayers as NHL95PC updateanim; after updateplayers",src/engine/hockey/hockey.asm
 4A7C3,cleargamevars,sub_4A7C3,95PC,medium,"named references of NHL95PC cleargamevars (11 of 11), between updateplayers and setupice in both",src/engine/hockey/hockey.asm
@@ -552,6 +614,10 @@ address,name,auto_name,source,confidence,evidence,file
 4B247,StartGame,sub_4B247,95PC,medium,"between resetplstuff and forceteams as in NHL95PC; cleargamevars, clearteams, restoreteams",src/engine/hockey/hockey.asm
 4B2A0,forceteams,,95PC,medium,"NHL95PC 5E0B0 (neighbour): between SetupTeamForIntermission and skatetopuck, mnemonic similarity 0.88",
 4B2C3,forcepldata,sub_4B2C3,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: forceteams,src/engine/hockey/hockey.asm
+4B38C,PlayerSpriteFrame,sub_4B38C,new,low,"works out a player's sprite frame, turned for the camera",src/engine/hockey/hockey.asm
+4B4F3,PuckInNet,sub_4B4F3,new,low,"returns which goal net the puck is inside, if any",src/engine/hockey/hockey.asm
+4B59F,CrowdReactToPlay,sub_4B59F,new,low,sets the crowd reaction from where the puck is and the game state,src/engine/hockey/hockey.asm
+4B748,PickSkateAnim,sub_4B748,new,low,picks the skating animation from the player's speed and facing,src/engine/hockey/hockey.asm
 4B7BB,doplayeracc,sub_4B7BB,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: lineinput,src/engine/skate/skate.asm
 4BFB5,EvadePlayers,,95PC,medium,"NHL95PC 5E4C4 (neighbour): between SetupTeamForIntermission and skatetopuck, mnemonic similarity 0.78",
 4C294,EvadePC,sub_4C294,95PC,medium,"sits between EvadePlayers and skateto as in the NHL95PC module, with the same count of routines between them and a like size (n95=80 n96=81) and call count",src/engine/skate/skate.asm
@@ -567,18 +633,28 @@ address,name,auto_name,source,confidence,evidence,file
 4DE6E,burst,sub_4DE6E,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: check4check,src/engine/skate/skate.asm
 4DED8,SaveGameState,sub_4DED8,95PC,medium,"writes the same variable list LoadGameState reads, directly before it as NHL95PC SaveGameState",src/engine/savestate/savestate.asm
 4E6C3,LoadGameState,sub_4E6C3,95PC,medium,"called from PlayGame, reads the whole game state with FileReadAt as NHL95PC LoadGameState",src/engine/savestate/savestate.asm
+4F08B,ReadSeasonDbHeader,sub_4F08B,new,low,reads the season database header,src/engine/savestate/savestate.asm
+4F159,ReadPlayoffDbHeader,sub_4F159,new,low,reads the season database header for the playoffs,src/engine/savestate/savestate.asm
+4F2A8,DeleteSeasonFiles,sub_4F2A8,new,low,deletes the season's files,src/engine/savestate/savestate.asm
+4F385,DeleteSeasonDb,sub_4F385,new,low,deletes the season database file,src/engine/savestate/savestate.asm
+4F452,GameEventStub,sub_4F452,new,low,game event hook that does nothing,src/engine/savestate/savestate.asm
 4F453,FormatPlayerName,,95PC,medium,NHL95PC 61D48 (sem): S:%s#%d %s %s%s; D:110DC0; S:%s#%d %c. %s%s; D:110DCE,
+4F58E,FormatScorerName,sub_4F58E,new,low,formats a goal scorer's name for the event list,src/engine/gamelog/gamelog.asm
+4F626,FormatAssistNames,sub_4F626,new,low,formats the assist names for the event list,src/engine/gamelog/gamelog.asm
 4F735,BuildEventLines,sub_4F735,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: PostInjuryEvent,src/engine/gamelog/gamelog.asm
 4FB38,PostGoalEvent,sub_4FB38,95PC,medium,"first after BuildEventLines as NHL95PC PostGoalEvent; goalevent, hmtmgoalie",src/engine/gamelog/gamelog.asm
 4FDC0,PostPenaltyEvent,sub_4FDC0,95PC,medium,"called from InProgress, before PostInjuryEvent as NHL95PC PostPenaltyEvent",src/engine/gamelog/gamelog.asm
 500D4,PostInjuryEvent,sub_500D4,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: setInjuryType,src/engine/gamelog/gamelog.asm
 50154,AddPenalty,,95PC,medium,NHL95PC 62CF9 (sem): R:494; D:1191A7; D:17C9A0; D:1178C3,
 501EC,AddPenalty2,sub_501EC,95PC,high,"called at the same position as in NHL95PC in 2 routine(s) named in both: AddPenalty,CheckBump",src/engine/penalty/penalty.asm
+503DE,SortPlayersByDistance,sub_503DE,new,low,sorts the players by distance for the penalty checks,src/engine/penalty/penalty.asm
 504C5,InProgress,sub_504C5,95PC,medium,"order after AddPenalty2 as in NHL95PC; StartPenaltyShot, penmintab, sprintf_",src/engine/penalty/penalty.asm
 50CB5,Stop4Pen,sub_50CB5,95PC,medium,"order as in NHL95PC; Pencntdwn, fox, foy, penshotstart",src/engine/penalty/penalty.asm
 50F7B,checkfornewpen,sub_50F7B,95PC,medium,"last before releasepl as in NHL95PC; Pencntdwn, Pencntdwn2, penmintab, 100/100 lines",src/engine/penalty/penalty.asm
 5110E,releasepl,,95PC,medium,"NHL95PC 6392A (neighbour): between Stop4Pen and SetupPenaltyShot, mnemonic similarity 0.84",
 51179,chkatop,,95PC,medium,"NHL95PC 639A4 (neighbour): between Stop4Pen and SetupPenaltyShot, mnemonic similarity 0.80",
+511CC,ReleaseFromBox,sub_511CC,new,low,lets a player out of the penalty box when his time is up,src/engine/penalty/penalty.asm
+51360,PenaltyHookStub,sub_51360,new,low,penalty hook that does nothing,src/engine/penalty/penalty.asm
 51361,updatepentime,sub_51361,95PC,medium,"between chkatop and chkprogress as NHL95PC updatepentime; hmtmstruct, awtmstruct, penshotlive",src/engine/penalty/penalty.asm
 513E6,updatePPTeamTime,sub_513E6,95PC,medium,"called from updatepentime, 12/13 lines, before chkprogress as NHL95PC updatePPTeamTime",src/engine/penalty/penalty.asm
 5140E,chkprogress,,95PC,medium,NHL95PC 63C0C (sem): C:650; D:119115; D:1178F2; D:1178C3,
@@ -591,6 +667,9 @@ address,name,auto_name,source,confidence,evidence,file
 51B52,CountShotOnGoal,,95PC,medium,NHL95PC 64338 (similar): mnemonic similarity 0.86 over 28 instructions,
 51BB5,StartPenaltyShot,sub_51BB5,95PC,medium,"sits between CountShotOnGoal and EndPenaltyShot as in the NHL95PC module, with the same count of routines between them and a like size (n95=37 n96=25) and call count",src/engine/penalty/penalty.asm
 51C45,EndPenaltyShot,sub_51C45,95PC,medium,"its call lines up with the NHL95PC call in pucknorm_body, and its address keeps the NHL95PC module order",src/engine/penalty/penalty.asm
+51CBA,PickForwardLines,sub_51CBA,new,low,picks the forward lines for the default lines,src/engine/penalty/penalty.asm
+51D44,PickDefencePairs,sub_51D44,new,low,picks the defence pairs for the default lines,src/engine/penalty/penalty.asm
+51DD2,PickSpecialLines,sub_51DD2,new,low,picks the power play and penalty kill lines,src/engine/penalty/penalty.asm
 51F18,BuildDefaultLines,sub_51F18,95PC,medium,"its call lines up with the NHL95PC call in SetupDemoGame, and its address keeps the NHL95PC module order",src/engine/lines/lines.asm
 521C1,CanFillLineSlot,sub_521C1,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: FillDressedSlots,src/engine/lines/lines.asm
 524C1,FillDressedSlots,,95PC,medium,NHL95PC 64CA8 (sem): C:673; D:176DD4; D:157192; D:15718C,
@@ -602,6 +681,25 @@ address,name,auto_name,source,confidence,evidence,file
 52F68,SetupTeamLines,,95PC,medium,NHL95PC 658F3 (sem): C:676; C:679; D:11A310; D:176DD4,
 5313B,NormalizeDressFlags,,95PC,medium,NHL95PC 65B48 (sem): D:176DD4,
 5316C,CanRemovePlayer,sub_5316C,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: AddPenalty,src/engine/lines/lines.asm
+53260,RunAttractMode,sub_53260,new,medium,attract mode: picks random teams and runs a demo game,src/engine/lines/lines.asm
+5358E,LoadGamePalette,sub_5358E,new,medium,loads the game palette,src/engine/lines/lines.asm
+535D5,ResetPeriodState,sub_535D5,new,low,resets the period counters when a period starts or a game is loaded,src/engine/lines/lines.asm
+535F2,ReplayBufferStart,sub_535F2,new,low,"returns where the replay buffer starts, allowing for a wrapped buffer",src/engine/lines/lines.asm
+5360D,ReplayBufferEnd,sub_5360D,new,low,returns where the replay buffer ends,src/engine/lines/lines.asm
+53640,SortSpritesForDraw,sub_53640,new,low,builds the draw order of the sprites from their screen depth,src/engine/lines/lines.asm
+53BD7,InitZoneManager,sub_53BD7,new,medium,allocates the screen zone lists used to redraw only changed parts of the screen,src/engine/lines/lines.asm
+53C6F,FreeZoneManager,sub_53C6F,new,medium,frees the screen zone lists,src/engine/lines/lines.asm
+53C84,AddZonePiece,sub_53C84,new,medium,"adds a rectangle piece to a zone list, stopping on overflow",src/engine/lines/lines.asm
+53D26,SplitZoneRect,sub_53D26,new,medium,splits a rectangle around another and keeps the pieces outside it,src/engine/lines/lines.asm
+53F6E,ClipZoneAgainstList,sub_53F6E,new,medium,cuts a zone against every other live zone,src/engine/lines/lines.asm
+53FE6,ClipCurrentZones,sub_53FE6,new,medium,cuts this frame's zones against each other,src/engine/lines/lines.asm
+54024,ClipPreviousZones,sub_54024,new,medium,cuts last frame's zones against this frame's,src/engine/lines/lines.asm
+54060,ZoneCovered,sub_54060,new,medium,checks whether a zone lies inside another live zone,src/engine/lines/lines.asm
+540C4,ResolveZones,sub_540C4,new,medium,removes overlaps between the zone lists,src/engine/lines/lines.asm
+54237,DrawDirtyZones,sub_54237,new,medium,redraws the screen zones that changed this frame,src/engine/lines/lines.asm
+54391,ZoneRect,sub_54391,new,medium,returns the rectangle of a zone number,src/engine/lines/lines.asm
+5439F,AddZone,sub_5439F,new,medium,adds a screen rectangle to this frame's zone list,src/engine/lines/lines.asm
+54427,CopyZonesToScreen,sub_54427,new,medium,copies the changed zones to the screen,src/engine/lines/lines.asm
 54519,StartReplay,sub_54519,new,medium,"into the replay: stops the arena clip and speech, frees the fight sprites, loads the replay art and font",src/front/replay_controls/replay_controls.asm
 54769,EndReplay,sub_54769,new,medium,"out of the replay: the sprite banks back (cup, fight), the view size and camera",src/front/replay_controls/replay_controls.asm
 54936,StepReplay,sub_54936,new,low,"plays the replay one step at the chosen speed and direction, with its sounds and camera shots",src/front/replay_controls/replay_controls.asm
@@ -975,6 +1073,11 @@ address,name,auto_name,source,confidence,evidence,file
 9A1DB,DrawRosterTeams,sub_9A1DB,new,low,"the roster screen's team logos, names and player lists (LFRE free agents)",src/front/roster/roster.asm
 9A35C,FormatRosterLine,sub_9A35C,new,low,"formats the player lines of a roster list (""%c  %2d  %c. %s"")",src/front/roster/roster.asm
 9A5CF,DrawRosterPlayerInfo,sub_9A5CF,new,low,the picked player's info box on the roster screen,src/front/roster/roster.asm
+9A6D6,RosterSlotStatus,sub_9A6D6,new,low,returns the status letter for a roster slot,src/front/roster/roster.asm
+9A7D6,CountRosterSlots,sub_9A7D6,new,low,counts the filled roster slots of one kind,src/front/roster/roster.asm
+9A838,FindRosterSlot,sub_9A838,new,low,finds a roster slot,src/front/roster/roster.asm
+9A86E,ListRosterPlayers,sub_9A86E,new,low,builds the roster list shown on the screen,src/front/roster/roster.asm
+9A95A,ValidateRoster,sub_9A95A,new,low,checks a roster's size and goalies,src/front/roster/roster.asm
 9AB3B,EditPlayerName,sub_9AB3B,new,low,edits a created player's name (EditText),src/front/roster/roster.asm
 9AC78,ConfirmTrade,sub_9AC78,new,low,the trade question message box with both team names,src/front/roster/roster.asm
 9ACDF,ResetTeamLines,sub_9ACDF,new,low,"(team): after a roster change sorts the team's players and sets its lines again (AutoSetLines), not for team 1Ah",src/front/roster/roster.asm
@@ -982,9 +1085,16 @@ address,name,auto_name,source,confidence,evidence,file
 9AE18,CreatePlayerScreen,sub_9AE18,new,low,"the create player screen (GOL0, NME0-2 name, NUM0-2 number buttons, random ratings by CreatePlayerRatings), from the roster screen",src/front/roster/roster.asm
 9BEA0,DrawCreatePlayerRow,sub_9BEA0,new,low,one rating row (text and RatingBar) on the create player screen,src/front/roster/roster.asm
 9C060,RatingBar,sub_9C060,new,medium,"(value, x, y, w, h): draws a rating bar (FillRect)",src/front/roster/roster.asm
+9C127,CreatePlayerLimits,sub_9C127,new,low,applies the rating limits when creating a player,src/front/roster/roster.asm
 9C238,CreatePlayerRatings,sub_9C238,new,low,random ratings for a created player around the picked levels,src/front/roster/roster.asm
 9C5AF,CompareRankA,sub_9C5AF,new,low,qsort compare by dword_182FB8,src/front/roster/roster.asm
 9C5C4,CompareRankB,sub_9C5C4,new,low,qsort compare by dword_182144,src/front/roster/roster.asm
+9C5D9,SortTeamRatings,sub_9C5D9,new,medium,sorts the player ratings of a team and totals the best ones,src/front/roster/roster.asm
+9C65A,TeamRankScoring,sub_9C65A,new,low,"team rating from one player rating, for the team ranks",src/front/roster/roster.asm
+9C6AE,TeamRankSkating,sub_9C6AE,new,low,"team rating from another player rating, for the team ranks",src/front/roster/roster.asm
+9C6F8,TeamRankOffence,sub_9C6F8,new,low,"team rating from three skater ratings, for the team ranks",src/front/roster/roster.asm
+9C75D,TeamRankDefence,sub_9C75D,new,low,"team rating from three other skater ratings, for the team ranks",src/front/roster/roster.asm
+9C7CC,TeamRankGoalie,sub_9C7CC,new,low,"team rating from the starting goalie, for the team ranks",src/front/roster/roster.asm
 9C866,ComputeTeamRanks,sub_9C866,new,medium,"the teams' ranks (26 or 28 teams by optflags) from their rosters' ratings (qsort), for the team select and pre-game screens",src/front/roster/roster.asm
 9CC19,CompareRosterOrder,sub_9CC19,new,low,qsort compare by dword_183C98,src/front/edit_lines/edit_lines.asm
 9CC2E,ComparePlayerPos,sub_9CC2E,new,medium,"qsort compare of two players by position (PositionOrder), then name",src/front/edit_lines/edit_lines.asm

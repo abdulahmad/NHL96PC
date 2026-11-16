@@ -14,7 +14,7 @@ extern PtrPuckFlags, PtrPuckObject, off_11D44C, off_11D4BC, off_11D52C, optblock
 extern randomd0, reenergizeteam, regd0, regd1, regd2, resetplstuff, RunSimFrames, SetClipWindow
 extern setpersonel, SetSPA, sflags, sfx, skateto, SkateToSpot, SlotButtons, SortCords
 extern sprintf_, SprSort, str_fmt2d, str_MightyDucks, str_OfAnaheim, LinkResyncInput, LoadTeamLogo, EndGameCleanup
-extern sub_493D4, sub_4B59F, sub_5439F, DrawGameFrame, GetPeriodText, SetCameraShot, EndCameraShot, UpdateCamera
+extern AnimateBenchSprite, CrowdReactToPlay, AddZone, DrawGameFrame, GetPeriodText, SetCameraShot, EndCameraShot, UpdateCamera
 extern FreeSpriteCache, FadePalette, FadeOut, SetTextColors, DrawColorText, DrawColorTextRight, DrawColorTextCentred, DrawBox
 extern Crowd_Noise, CrowdFadeOut, CrowdReaction, PlayArenaClip, ArenaClipReady, StartArenaClip, StopArenaClip, SoundIdle
 extern GetLangText, sub_ADA80, sub_AFFD0, sub_B58D8, sub_B6140, FillRectColor, sub_DD7B8, SetRemapTable
@@ -24,13 +24,14 @@ extern updateanim, vtoa, word_1178A0, word_1178A2, word_1178B4, HomeControlSlot,
 extern word_118EA3, word_119D08, word_119D62, word_11D604, word_1515E4, word_156E6E, word_157AFA, word_157AFC
 extern word_157B00, word_157B06, word_1647CA, word_1656E8, word_16570A, word_165758, word_16581E, word_176BB8
 extern word_176BBA, yc1
-global sub_2D9D9, sub_2D9D9_450, sub_2D9D9_451, sub_2DE30, sub_2DE30_69, sub_2E0C5, sub_2E0C5_5C, sub_2E127
-global sub_2E171, sub_2E1BE, StartPreGame, assintrostand, assintroline, AddStar, StarEligible, StarCompare
+global RunPreGameSkate, RunPreGameSkate_450, RunPreGameSkate_451, RunLineupLoop, LineupLoopFrame, FillPanelEdge, FillPanelEdge_5C, DrawPanelBorder
+global DrawPanelShade, DrawOverlayPanels, StartPreGame, assintrostand, assintroline, AddStar, StarEligible, StarCompare
 global assextra1, PickThreeStars
 ;-----------------------------------------------------------------------------
-; sub_2D9D9                                                       2D9D9  96 PC
+; RunPreGameSkate                                 2D9D9  96 PC, low confidence
+; Pre-game: sets up both teams and runs frames while the players skate out
 ;-----------------------------------------------------------------------------
-sub_2D9D9:
+RunPreGameSkate:
         push ebx
         push ecx
         push edx
@@ -270,7 +271,7 @@ sub_2D9D9:
         mov word [byte ebx+01Ah], 0
         mov eax, ebx
         mov word [byte ebx+01Ch], 0FFFFh
-        call sub_493D4
+        call AnimateBenchSprite
         mov eax, 50h
         mov edx, dword [byte ebp-04h]
         call randomd0
@@ -304,9 +305,9 @@ sub_2D9D9:
         mov word [lcblink], 0
         mov word [word_118E9F], 0
         mov word [energywarn], 0
-sub_2D9D9_450:
+RunPreGameSkate_450:
         leave
-sub_2D9D9_451:
+RunPreGameSkate_451:
         pop edi
         pop esi
         pop edx
@@ -314,9 +315,10 @@ sub_2D9D9_451:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_2DE30                                                       2DE30  96 PC
+; RunLineupLoop                                  2DE30  96 PC, low confidence
+; The line-up loop: runs game frames for the line-up time before play, with the arena clip
 ;-----------------------------------------------------------------------------
-sub_2DE30:
+RunLineupLoop:
         push ebx
         push ecx
         push edx
@@ -328,9 +330,9 @@ sub_2DE30:
         mov dword [GameLoopActive], 1
 .1:
         cmp dword [lineuptime], byte 0
-        je near sub_2DE30_69.8
+        je near LineupLoopFrame.8
         cmp dword [dword_1150FC], byte 0
-        jne near sub_2DE30_69.8
+        jne near LineupLoopFrame.8
         mov ebx, dword [GameLoopActive]
         mov dword [GameLoopActive], 0
         call SoundIdle
@@ -342,7 +344,11 @@ sub_2DE30:
 .2:
         xor ebx, ebx
         xor esi, esi
-sub_2DE30_69:
+;-----------------------------------------------------------------------------
+; LineupLoopFrame                                2DE99  96 PC, low confidence
+; One pass of the line-up loop: simulation frames, crowd, camera and drawing
+;-----------------------------------------------------------------------------
+LineupLoopFrame:
         cmp dword [InputRecordCount], byte 0
         je near .4
         cmp dword [lineuptime], byte 0
@@ -391,11 +397,11 @@ sub_2DE30_69:
 .3:
         sub dword [lineuptime], ecx
         cmp dword [lineuptime], byte 0
-        jge near sub_2DE30_69
+        jge near LineupLoopFrame
         mov dword [lineuptime], 0
-        jmp near sub_2DE30_69
+        jmp near LineupLoopFrame
 .4:
-        call sub_4B59F
+        call CrowdReactToPlay
         mov eax, ebx
         call Crowd_Noise
         mov ecx, dword [GameLoopActive]
@@ -425,9 +431,9 @@ sub_2DE30_69:
         mov dword [GameLoopActive], ecx
 .7:
         cmp dword [InGameMenuRequest], byte 0
-        je near sub_2DE30.1
+        je near RunLineupLoop.1
         mov dword [lineuptime], 0
-        jmp near sub_2DE30.1
+        jmp near RunLineupLoop.1
 .8:
         mov dword [GameLoopActive], 0
         cmp dword [InGameMenuRequest], byte 0
@@ -452,14 +458,15 @@ sub_2DE30_69:
 .10:
         call EndGameCleanup
         mov eax, 0FFFFFFFFh
-        jmp near sub_2D9D9_450
+        jmp near RunPreGameSkate_450
 .11:
         xor eax, eax
-        jmp near sub_2D9D9_450
+        jmp near RunPreGameSkate_450
 ;-----------------------------------------------------------------------------
-; sub_2E0C5                                                       2E0C5  96 PC
+; FillPanelEdge                                   2E0C5  96 PC, low confidence
+; Fills the edge of an overlay panel
 ;-----------------------------------------------------------------------------
-sub_2E0C5:
+FillPanelEdge:
         push esi
         push edi
         enter 8, 0
@@ -495,15 +502,16 @@ sub_2E0C5:
         push dword [byte ebp+01Ch]
         call FillRectColor
         add esp, byte 14h
-sub_2E0C5_5C:
+FillPanelEdge_5C:
         leave
         pop edi
         pop esi
         ret 14h
 ;-----------------------------------------------------------------------------
-; sub_2E127                                                       2E127  96 PC
+; DrawPanelBorder                                 2E127  96 PC, low confidence
+; Draws an overlay panel's border
 ;-----------------------------------------------------------------------------
-sub_2E127:
+DrawPanelBorder:
         push esi
         push edi
         enter 4, 0
@@ -531,12 +539,13 @@ sub_2E127:
         mov ebx, esi
         push dword [byte ebp+010h]
         mov edx, edi
-        call sub_2E0C5
-        jmp short sub_2E0C5_5C
+        call FillPanelEdge
+        jmp short FillPanelEdge_5C
 ;-----------------------------------------------------------------------------
-; sub_2E171                                                       2E171  96 PC
+; DrawPanelShade                                  2E171  96 PC, low confidence
+; Draws an overlay panel's shaded box
 ;-----------------------------------------------------------------------------
-sub_2E171:
+DrawPanelShade:
         push esi
         push edi
         push ebp
@@ -565,15 +574,16 @@ sub_2E171:
         mov ebx, esi
         push dword [byte ebp+014h]
         mov edx, edi
-        call sub_2E0C5
+        call FillPanelEdge
         leave
         pop edi
         pop esi
         ret 18h
 ;-----------------------------------------------------------------------------
-; sub_2E1BE                                                       2E1BE  96 PC
+; DrawOverlayPanels                               2E1BE  96 PC, low confidence
+; Draws the game overlays: score, clock, line change and team panels
 ;-----------------------------------------------------------------------------
-sub_2E1BE:
+DrawOverlayPanels:
         push ebx
         push ecx
         push edx
@@ -723,7 +733,7 @@ sub_2E1BE:
         xor ecx, ecx
         xor edx, edx
         mov eax, dword [dword_177108]
-        call sub_5439F
+        call AddZone
         push dword [dword_11F5C4]
         push byte 0
         push dword [dword_11F5C0]
@@ -745,7 +755,7 @@ sub_2E1BE:
         push ebx
         movsx ecx, word [byte ebp-028h]
         mov eax, 5
-        call sub_2E127
+        call DrawPanelBorder
         cmp dword [byte ebp-05Ch], byte 0
         je short .14
         movsx eax, word [byte ebp-0Ah]
@@ -772,7 +782,7 @@ sub_2E1BE:
         movsx edx, word [byte ebp-022h]
 .15:
         mov eax, 5
-        call sub_2E127
+        call DrawPanelBorder
         push byte 0
         movsx eax, word [byte ebp-06h]
         push byte 0
@@ -807,7 +817,7 @@ sub_2E1BE:
         push eax
         mov edx, 7Ah
         mov eax, 7Dh
-        call sub_2E171
+        call DrawPanelShade
         cmp dword [byte ebp-05Ch], byte 0
         je short .16
         movsx eax, word [byte ebp-0Ch]
@@ -836,7 +846,7 @@ sub_2E1BE:
         push eax
         mov edx, 7Ah
         mov eax, 7Dh
-        call sub_2E171
+        call DrawPanelShade
         mov eax, dword [dword_152F4C]
         call sub_B58D8
         xor edx, edx
@@ -1178,12 +1188,12 @@ sub_2E1BE:
         lea eax, [byte ebp-058h]
         sar edx, 1
         call DrawColorTextCentred
-        jmp near sub_2D9D9_450
+        jmp near RunPreGameSkate_450
 .71:
         cmp dword [dword_119D04], byte 0
-        je near sub_2D9D9_450
+        je near RunPreGameSkate_450
         mov dword [dword_119D04], 0
-        jmp near sub_2D9D9_450
+        jmp near RunPreGameSkate_450
 ;-----------------------------------------------------------------------------
 ; StartPreGame                                 2E95C  95 PC, medium confidence
 ; Returns 0 when demoflag is set; else runs PreGameIntro unless eax is
@@ -1216,7 +1226,7 @@ StartPreGame:
 .1:
         test bx, bx
         jne short .2
-        call sub_2D9D9
+        call RunPreGameSkate
 .2:
         mov dword [dword_119D04], 1
         mov edx, 0FFFFFFFFh
@@ -1225,7 +1235,7 @@ StartPreGame:
         call CloseTextOverlay
         mov eax, 4
         call UpdateCamera
-        call sub_2DE30
+        call RunLineupLoop
         mov edx, eax
         mov eax, 8
         call EndCameraShot
@@ -2094,4 +2104,4 @@ PickThreeStars:
 .22:
         lea esp, [dword ebp+082h]
         pop ebp
-        jmp near sub_2D9D9_451
+        jmp near RunPreGameSkate_451

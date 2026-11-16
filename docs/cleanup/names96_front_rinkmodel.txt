@@ -1,0 +1,31 @@
+sub_21B35 DrawTexturedQuad {confidence=medium,source=new} draws a quad textured from the texture page, from four point indices
+sub_21BC9 DrawIceTextureQuad {confidence=low,source=new} callback that draws one textured ice quad
+sub_21BC9_19 RinkNullCallback {confidence=low,source=new} callback that does nothing
+sub_21E3E FatLineEdge {confidence=low,source=new} works out one edge of a fat line on screen
+sub_221AE DrawThickSegment {confidence=low,source=new} draws a line segment widened into a quad along its angle
+sub_22268 DrawThickSegmentVisible {confidence=low,source=new} draws a thick segment when both ends are in front of the camera
+sub_2234B DrawLineListClipped {confidence=medium,source=new} draws a list of point pairs as clipped lines, skipping pairs too close to the camera
+sub_223BA DrawLineList {confidence=medium,source=new} draws a list of point pairs as lines, skipping pairs too close to the camera
+sub_22494 DrawStandsQuad {confidence=low,source=new} draws one quad of the stands from the texture page
+sub_224DB DrawStandsSideQuad {confidence=low,source=new} draws one quad of the stands side art
+sub_22734 DrawRinkFloorPolys {confidence=low,source=new} transforms and fills the rink floor polygons
+sub_22AF0 DrawRinkLinePoly {confidence=low,source=new} draws one ice line polygon and its edge
+sub_22B3C DrawFaceoffCircle {confidence=low,source=new} draws a faceoff circle with its marks
+sub_22D27 DrawCentreMarkings {confidence=low,source=new} draws the centre ice circle and line
+sub_22DD7 DrawEndZoneMarkings {confidence=low,source=new} draws one end zone's goal line, crease and marks
+sub_243ED DrawGlassFrameLines {confidence=low,source=new} draws the glass frame lines, clipped to the camera
+sub_2458D DrawBoardTopLines {confidence=low,source=new} draws the lines along the top of the boards
+sub_249E8 DrawKickplates {confidence=low,source=new} draws the kickplate edges along the boards
+sub_24AA4 DrawRinkFloor {confidence=low,source=new} draws the rink floor outside the ice
+sub_24D32 DrawBoardSegments {confidence=low,source=new} walks the board segment list for the boards drawing loop
+sub_24D8C DrawRinkFrontParts {confidence=low,source=new} draws the near side of the rink: glass, boards and bench parts
+sub_276B5 DrawIceBackPoly {confidence=low,source=new} fills the far part of the ice surface
+sub_2849A DrawBenchArea {confidence=low,source=new} draws the bench and penalty box glass and frames
+sub_297A8 LoadShadowRemap {confidence=low,source=new} loads the shadow colour remap
+sub_297C9 BeginShadowDraw {confidence=low,source=new} sets up drawing for player shadows
+sub_297EA DrawShadowSprite {confidence=low,source=new} draws a sprite as a shadow, clipped to the screen
+sub_299CF DrawShadowSpriteAt {confidence=low,source=new} draws a sprite shadow at a position
+sub_29A14 DrawOptionButton {confidence=low,source=new} builds the art name for an option button and draws it
+jpt_299EC OptionButtonJumpTable {confidence=low,source=new} jump table for the option button art names
+sub_29B9F GameOptionsScreen {confidence=low,source=new} game options screen: ten option buttons over the menu background
+jpt_29B77 GameOptionsJumpTable {confidence=low,source=new} jump table for the option button actions

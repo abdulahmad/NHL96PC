@@ -12,8 +12,8 @@ extern gmode, hmroster, hmtmgoalie, hmtmstruct, introskipped, lcblink, lcboxon, 
 extern off_11787C, puckc, PtrPuckFlags, off_117890, PtrPuckObject, off_117898, off_11789C, passplayer
 extern penshotmode, penshotplayer, penshotstart, puckvx, puckvz, puckx, pucky, puckz
 extern randomd0, regd2, regd3, resetplstuff, setpersonel, sflags, shotongoal, shotontarget
-extern ResetBrokenGlass, SetPenaltyBoxDoor, StartFaceoffLineChange, sub_3509F, sub_350A5, SkateToSpot, CenterMouse, ReturnGoalies
-extern SetSPA, sub_46593, SprSort, changeplayer, GetHot, Setplass, setplayer, updateanim
+extern ResetBrokenGlass, SetPenaltyBoxDoor, StartFaceoffLineChange, assexitjump, ResetFaceoffSkater, SkateToSpot, CenterMouse, ReturnGoalies
+extern SetSPA, SetControlledPlayer, SprSort, changeplayer, GetHot, Setplass, setplayer, updateanim
 extern clockcont_0, SetExitGame, ResetBench, forcepldata, doplayeracc, EvadePC, skateto, playeracc
 extern avdgoal, stopna, AddPenalty2, Stop4Pen, PlaceGoalNets, PlaySfx, StopArenaClip, vecdist
 extern threat, unk_164B5C, vtoa, word_1178A0, word_1178A2, word_1178B4, yc1, word_1178B8
@@ -24,13 +24,14 @@ extern word_164794, word_165144, word_1656E8, word_165704, word_165706, word_165
 extern word_16583C, word_165950, word_165952, word_165954, word_165956, word_165958, word_16595A, word_165964
 extern regd0, regd1, word_176B7A, word_176B80, LastTouchTeam, PassDistY, StoppageFlag, LastPlayerTouch
 global AdjustFacingDirection, AllInPlace, GoalieToPuckVec, PenShotAssign, PullGoalie, SetTeamGoalie, assbenchwait, assrefpenshot
-global asstakeposition, check4bench, sub_3A7A4_7E, goalieposition_648, puckfaceoff, sub_3A7A4, TakePlayerFromBox, sub_3A8BC
-global PenShotStart, assleavebox, AssignControlSlots, sub_3B3C7, puckfaceoff2, asspsclear, goaliechasepuck, assgoalietopuck
-global ClampYPosition, goalieskateto, goaliesave, goaliehome, goalieposition, assgoalie, sub_3E665, sub_3E6D4
+global asstakeposition, check4bench, SetupPenaltyBoxSeats_7E, goalieposition_648, puckfaceoff, SetupPenaltyBoxSeats, TakePlayerFromBox, FreeBoxedPlayers
+global PenShotStart, assleavebox, AssignControlSlots, FaceoffPositions, puckfaceoff2, asspsclear, goaliechasepuck, assgoalietopuck
+global ClampYPosition, goalieskateto, goaliesave, goaliehome, goalieposition, assgoalie, AutoSwitchPlayer, SetCarryAnim
 ;-----------------------------------------------------------------------------
-; sub_3A7A4                                                       3A7A4  96 PC
+; SetupPenaltyBoxSeats                            3A7A4  96 PC, low confidence
+; Sets up the penalty box seats for players still serving
 ;-----------------------------------------------------------------------------
-sub_3A7A4:
+SetupPenaltyBoxSeats:
         push ebx
         push ecx
         push edx
@@ -69,7 +70,7 @@ sub_3A7A4:
         mov ebx, awtmstruct
         cmp esi, 780h
         jne short .1
-sub_3A7A4_7E:
+SetupPenaltyBoxSeats_7E:
         leave
         pop edi
         pop esi
@@ -119,18 +120,19 @@ TakePlayerFromBox:
         imul ebx, dword [byte ebp-08h], dword 136h
         mov byte [dword ecx+hmroster], 3
         mov word [dword ebx+edi*2+word_165758], 0FFFEh
-        jmp near sub_3A7A4_7E
+        jmp near SetupPenaltyBoxSeats_7E
 .2:
         inc esi
 .3:
         movsx edi, si
         cmp edi, byte 19h
         jl short .1
-        jmp near sub_3A7A4_7E
+        jmp near SetupPenaltyBoxSeats_7E
 ;-----------------------------------------------------------------------------
-; sub_3A8BC                                                       3A8BC  96 PC
+; FreeBoxedPlayers                                3A8BC  96 PC, low confidence
+; Moves players whose penalties are over out of the penalty box
 ;-----------------------------------------------------------------------------
-sub_3A8BC:
+FreeBoxedPlayers:
         push ebx
         push ecx
         push edx
@@ -164,7 +166,7 @@ sub_3A8BC:
         add edi, 4B4h
         cmp eax, byte 2
         jl short .1
-        jmp near sub_3A7A4_7E
+        jmp near SetupPenaltyBoxSeats_7E
 ;-----------------------------------------------------------------------------
 ; PenShotStart                                 3A925  95 PC, medium confidence
 ; With penshotmode off: for the team in eax, when penshotstart is set moves
@@ -655,7 +657,7 @@ AssignControlSlots:
         jne short .5
         movsx edx, word [dword eax+086h]
         mov eax, ecx
-        call sub_46593
+        call SetControlledPlayer
         jmp short .6
 .5:
         inc esi
@@ -720,7 +722,7 @@ puckfaceoff:
         cmp byte [eax], 0
         jl short .2
         mov eax, dword [PtrPuckFlags]
-        call sub_350A5
+        call ResetFaceoffSkater
 .2:
         mov eax, dword [puckc]
         mov byte [eax], 0FFh
@@ -738,7 +740,7 @@ puckfaceoff:
         je short .6
 .5:
         call SetExitGame
-        jmp near sub_3A7A4_7E
+        jmp near SetupPenaltyBoxSeats_7E
 .6:
         movsx eax, word [gsp]
         cmp eax, byte 3
@@ -747,7 +749,7 @@ puckfaceoff:
         cmp ax, word [word_16581E]
         je short .7
         call clockcont_0
-        jmp near sub_3A7A4_7E
+        jmp near SetupPenaltyBoxSeats_7E
 .7:
         mov al, byte [gmode]
         and al, 8
@@ -756,7 +758,7 @@ puckfaceoff:
         je short .8
         xor eax, eax
         call Stop4Pen
-        jmp near sub_3A7A4_7E
+        jmp near SetupPenaltyBoxSeats_7E
 .8:
         cmp dword [penshotmode], byte 0
         je short .9
@@ -976,9 +978,9 @@ puckfaceoff:
         cmp esi, byte 2
         jne near .24
         cmp word [byte ebx+026h], byte 0
-        jge near sub_3A7A4_7E
+        jge near SetupPenaltyBoxSeats_7E
         cmp word [byte ebx+028h], byte 0
-        jge near sub_3A7A4_7E
+        jge near SetupPenaltyBoxSeats_7E
         mov eax, dword [gameopts]
         mov eax, dword [byte eax+01h]
         and eax, byte 30h
@@ -1010,11 +1012,12 @@ puckfaceoff:
 .31:
         call assreplace
         mov word [byte ebx+02Eh], 3E8h
-        jmp near sub_3A7A4_7E
+        jmp near SetupPenaltyBoxSeats_7E
 ;-----------------------------------------------------------------------------
-; sub_3B3C7                                                       3B3C7  96 PC
+; FaceoffPositions                                3B3C7  96 PC, low confidence
+; Works out where each player lines up for a faceoff
 ;-----------------------------------------------------------------------------
-sub_3B3C7:
+FaceoffPositions:
         push ebx
         push ecx
         push edx
@@ -1374,18 +1377,18 @@ puckfaceoff2:
         je short .3
 .2:
         cmp word [word_1178F8], byte 0
-        jge near sub_3A7A4_7E
+        jge near SetupPenaltyBoxSeats_7E
         cmp word [word_11910B], byte 0
-        jge near sub_3A7A4_7E
+        jge near SetupPenaltyBoxSeats_7E
         call AllInPlace
         test eax, eax
-        je near sub_3A7A4_7E
+        je near SetupPenaltyBoxSeats_7E
 .3:
         and byte [byte ecx+044h], 0FDh
         xor edx, edx
         mov eax, dword [PtrPuckFlags]
         mov dword [penshotstart], 0
-        call sub_350A5
+        call ResetFaceoffSkater
         mov dword [shotontarget], 0
         mov dword [shotongoal], 0
         mov dword [dword_1191E7], 0
@@ -1402,7 +1405,7 @@ puckfaceoff2:
         mov eax, 1
         xor edx, edx
         call SetPenaltyBoxDoor
-        call sub_3A8BC
+        call FreeBoxedPlayers
         mov eax, dword [gameopts]
         test byte [byte eax+02h], 8
         jne short .4
@@ -1581,7 +1584,7 @@ puckfaceoff2:
         jne short .23
         mov edx, dword [penshotplayer]
         mov eax, esi
-        call sub_46593
+        call SetControlledPlayer
         jmp short .24
 .23:
         inc eax
@@ -1634,13 +1637,13 @@ puckfaceoff2:
         je short .30
         movsx edx, di
         mov eax, esi
-        call sub_46593
+        call SetControlledPlayer
         mov edi, 0FFFFFFFFh
         jmp short .31
 .30:
         mov edx, 0FFFFFFFFh
         mov eax, esi
-        call sub_46593
+        call SetControlledPlayer
 .31:
         inc esi
         inc ebx
@@ -1659,7 +1662,7 @@ puckfaceoff2:
         and byte [byte ecx+044h], 0FBh
         call assreplace
         call SetupPenaltyShot
-        jmp near sub_3A7A4_7E
+        jmp near SetupPenaltyBoxSeats_7E
 .32:
         call ResetBench
         mov eax, hmtmstruct
@@ -1707,7 +1710,7 @@ puckfaceoff2:
         call assinsert
 .37:
         mov eax, ebx
-        call sub_3B3C7
+        call FaceoffPositions
         mov ax, word [regd0]
         mov word [byte ebx+02h], ax
         mov ax, word [regd1]
@@ -1875,7 +1878,7 @@ puckfaceoff2:
 .53:
         mov word [fodir2], 0FFFFh
         mov word [fodir1], 0FFFFh
-        jmp near sub_3A7A4_7E
+        jmp near SetupPenaltyBoxSeats_7E
 .54:
         dec word [byte ecx+026h]
         cmp word [byte ecx+026h], byte 0
@@ -1888,23 +1891,23 @@ puckfaceoff2:
         call SetSPA
 .55:
         cmp word [byte ecx+026h], byte 0
-        je near sub_3A7A4_7E
+        je near SetupPenaltyBoxSeats_7E
         movsx eax, word [byte ecx+026h]
         add eax, byte 6
         sar eax, 3
         mov word [regd0], ax
         cwde
         cmp eax, byte 2
-        jg near sub_3A7A4_7E
+        jg near SetupPenaltyBoxSeats_7E
         mov edx, 0Ah
         mov ax, word [regd0]
         sub edx, eax
         mov word [word_165958], dx
-        jmp near sub_3A7A4_7E
+        jmp near SetupPenaltyBoxSeats_7E
 .56:
         mov eax, ecx
         call Endfaceoff
-        jmp near sub_3A7A4_7E
+        jmp near SetupPenaltyBoxSeats_7E
 ;-----------------------------------------------------------------------------
 ; assbenchwait                                 3C19A  95 PC, medium confidence
 ; Asstab 29h (after assleaveice, PenShotStart, setpersonel): clears +12h,
@@ -1960,7 +1963,7 @@ asstakeposition:
         cmp eax, byte 0FFFFFF9Ch
         jne short .3
         mov eax, ebx
-        call sub_3509F
+        call assexitjump
         movsx eax, word [byte ebx+01Ch]
         movsx eax, byte [byte ebx+eax+01Eh]
         cmp eax, byte 7
@@ -1969,7 +1972,7 @@ asstakeposition:
         jne near .27
 .2:
         mov eax, ebx
-        call sub_3509F
+        call assexitjump
         pop edx
         pop ecx
         pop ebx
@@ -2003,7 +2006,7 @@ asstakeposition:
         jmp short .7
 .6:
         mov eax, ebx
-        call sub_3B3C7
+        call FaceoffPositions
 .7:
         mov ax, word [regd0]
         mov word [byte ebx+02Ah], ax
@@ -2615,7 +2618,7 @@ assrefpenshot:
         cmp eax, byte 1
         jne short .4
         mov eax, dword [PtrPuckFlags]
-        call sub_350A5
+        call ResetFaceoffSkater
         mov eax, dword [puckc]
         mov byte [eax], 0FFh
         mov eax, dword [puckvz]
@@ -3155,7 +3158,7 @@ assgoalietopuck:
         je short .6
 .5:
         mov eax, ebx
-        call sub_3509F
+        call assexitjump
         pop edx
         pop ecx
         pop ebx
@@ -4962,9 +4965,10 @@ assgoalie:
         mov word [crowdlevel], 4B0h
         jmp near goalieposition_648
 ;-----------------------------------------------------------------------------
-; sub_3E665                                                       3E665  96 PC
+; AutoSwitchPlayer                                3E665  96 PC, low confidence
+; Switches control to the team's best placed player when auto-switch is on
 ;-----------------------------------------------------------------------------
-sub_3E665:
+AutoSwitchPlayer:
         push ebx
         push ecx
         mov ebx, edx
@@ -4999,7 +5003,7 @@ sub_3E665:
         test eax, eax
         jne short .3
         movsx eax, bx
-        call sub_46593
+        call SetControlledPlayer
 .3:
         pop ecx
         pop ebx
@@ -5007,9 +5011,10 @@ sub_3E665:
         shl eax, 10h
         ret
 ;-----------------------------------------------------------------------------
-; sub_3E6D4                                                       3E6D4  96 PC
+; SetCarryAnim                                    3E6D4  96 PC, low confidence
+; Sets the puck carrying animation
 ;-----------------------------------------------------------------------------
-sub_3E6D4:
+SetCarryAnim:
         push edx
         cmp word [byte eax+01Ah], byte 0
         jle short .1

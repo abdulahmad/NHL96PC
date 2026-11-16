@@ -10,8 +10,8 @@ extern dword_164744, dword_164748, dword_164750, dword_165254, dword_1797B4, gam
 extern hmtmstruct, introskipped, lcblink, lcboxon, lcline, off_11787C, puckc, PtrPuckFlags
 extern off_117898, off_11789C, passplayer, penshotlive, penshotmode, puckvx, puckx, pucky
 extern randomd0, regd2, regd3, setpersonel, sflags, skatetopuck, donothing, SetLCmode
-extern sub_3509F, sub_3E665, BlockShotDive, checkob, dopass, passmode, setpassmode, sub_4137F
-extern sub_415FF, SetShotMode, ShotMode, Findhittype, doshot, SetSPA, sub_46593, changeplayer
+extern assexitjump, AutoSwitchPlayer, BlockShotDive, checkob, dopass, passmode, setpassmode, SetPassDirection
+extern ShootOrAim, SetShotMode, ShotMode, Findhittype, doshot, SetSPA, SetControlledPlayer, changeplayer
 extern updateanim, doplayeracc, playeracc, sub_4DD1B, burst, PlaySfx, sfx, MouseRead
 extern vecdist, unk_164754, unk_164B5C, vtoa, word_1178A8, word_1178AC, word_1178AE, word_1178B4
 extern fodir1, fodir2, gmode2, HomeControlSlot, slotteam, gsp, word_118EA5, word_118EA9
@@ -19,8 +19,8 @@ extern word_118EB1, word_119EDA, word_16474C, word_164794, word_165078, word_165
 extern word_165710, regd0, regd1
 global Acheck, CtlSwapScoreFix, CtlSwapTeamFlag, OppInReach, ReadJoy1, ReassignCtlPlayer, asspassrec, getlchoice
 global lcfound, lcselect, lineinput, fightinput_287, CanBlockShot_31D, CanBlockShot_31F, CanBlockShot_320, faceoffinput
-global fightinput, CanBlockShot, Holdplayer, sub_38AAF, sub_38BFA, doinput, sub_39847, SlotToJoy
-global CenterMouse, PassCompleted, assonetimer, OneTimerChk, sub_39E93, CountTeamSlots, sub_3A609, sub_3A6F3
+global fightinput, CanBlockShot, Holdplayer, FindCheckTarget, DoCheckInput, doinput, ResetInputRepeat, SlotToJoy
+global CenterMouse, PassCompleted, assonetimer, OneTimerChk, ReceivePass, CountTeamSlots, UpdateLineChangeState, RefreshControlSlots
 ;-----------------------------------------------------------------------------
 ; lineinput                          38070  94G logic94.asm, medium confidence
 ; role. The PC line change box is one-button: the highlighted choice
@@ -953,9 +953,10 @@ lcselect:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_38AAF                                                       38AAF  96 PC
+; FindCheckTarget                                 38AAF  96 PC, low confidence
+; Finds the opponent a checking player can reach
 ;-----------------------------------------------------------------------------
-sub_38AAF:
+FindCheckTarget:
         push ebx
         push ecx
         push esi
@@ -1078,9 +1079,10 @@ sub_38AAF:
         mov eax, esi
         jmp near fightinput_287
 ;-----------------------------------------------------------------------------
-; sub_38BFA                                                       38BFA  96 PC
+; DoCheckInput                                    38BFA  96 PC, low confidence
+; Handles the check button: picks a target and starts the check
 ;-----------------------------------------------------------------------------
-sub_38BFA:
+DoCheckInput:
         push ebx
         push ecx
         push esi
@@ -1286,7 +1288,7 @@ sub_38BFA:
         or byte [byte esi+045h], 2
         mov eax, esi
         mov edx, dword [byte edi+04h]
-        call sub_38AAF
+        call FindCheckTarget
         test eax, eax
         je short .22
         mov eax, 319h
@@ -1310,7 +1312,7 @@ sub_38BFA:
         or byte [byte esi+045h], 2
         mov eax, esi
         mov edx, dword [byte edi+04h]
-        call sub_38AAF
+        call FindCheckTarget
         test eax, eax
         je short .27
         cmp byte [byte esi+065h], 0
@@ -1612,7 +1614,7 @@ doinput:
         cmp dword [dword esi+dword_1191D7], byte 1Eh
         jle short .20
         mov eax, ebx
-        call sub_3E665
+        call AutoSwitchPlayer
         mov dword [dword esi+dword_1191C7], 1
 .20:
         mov al, byte [byte ebx+044h]
@@ -1761,7 +1763,7 @@ doinput:
 .31:
         movsx edx, word [dword eax+086h]
         movsx eax, cx
-        call sub_46593
+        call SetControlledPlayer
         mov dword [dword_119173], 1
         pop edi
         pop esi
@@ -1807,7 +1809,7 @@ doinput:
         cmp word [byte ebx+01Ah], byte 0
         jne short .35
         mov eax, ebx
-        call sub_415FF
+        call ShootOrAim
         pop edi
         pop esi
         pop ecx
@@ -1877,7 +1879,7 @@ doinput:
 .39:
         movsx edx, cx
         mov eax, ebx
-        call sub_38BFA
+        call DoCheckInput
         test eax, eax
         jne near .54
         jmp near .53
@@ -1886,7 +1888,7 @@ doinput:
         test eax, eax
         je near .53
         mov eax, ebx
-        call sub_4137F
+        call SetPassDirection
         pop edi
         pop esi
         pop ecx
@@ -2144,9 +2146,10 @@ lcfound:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_39847                                                       39847  96 PC
+; ResetInputRepeat                                39847  96 PC, low confidence
+; Resets the four input repeat counters
 ;-----------------------------------------------------------------------------
-sub_39847:
+ResetInputRepeat:
         xor eax, eax
 .1:
         add eax, byte 10h
@@ -2342,7 +2345,7 @@ assonetimer:
         cmp eax, byte 13h
         jne short .6
         mov eax, ebx
-        call sub_3509F
+        call assexitjump
 .6:
         mov dword [dword_1191E7], 0
         mov dword [dword_119173], 0
@@ -2678,9 +2681,10 @@ OneTimerChk:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_39E93                                                       39E93  96 PC
+; ReceivePass                                     39E93  96 PC, low confidence
+; A player takes a pass, or one-times it
 ;-----------------------------------------------------------------------------
-sub_39E93:
+ReceivePass:
         push ebx
         push ecx
         push edx
@@ -2735,7 +2739,7 @@ sub_39E93:
         cmp eax, byte 13h
         jne near .10
         mov eax, edx
-        call sub_3509F
+        call assexitjump
         jmp near .10
 .5:
         cmp dword [dword_1191E7], byte 0
@@ -2827,7 +2831,7 @@ sub_39E93:
         cmp eax, byte 13h
         jne short .10
         mov eax, edx
-        call sub_3509F
+        call assexitjump
 .10:
         mov dword [dword_1191E7], 0
         mov dword [dword_119173], 0
@@ -2861,7 +2865,7 @@ asspassrec:
         mov dword [dword_119173], 0
         mov eax, esi
         and byte [byte esi+044h], 0FEh
-        call sub_3509F
+        call assexitjump
         mov eax, esi
         call donothing
         pop esi
@@ -2877,7 +2881,7 @@ asspassrec:
         test eax, eax
         je short .3
         mov eax, esi
-        call sub_39E93
+        call ReceivePass
 .2:
         mov eax, esi
         call assonetimer
@@ -2927,7 +2931,7 @@ asspassrec:
         je short .8
         mov word [regd1], ax
         mov eax, esi
-        call sub_39E93
+        call ReceivePass
         pop esi
         pop edx
         pop ecx
@@ -2992,7 +2996,7 @@ asspassrec:
 .15:
         mov eax, esi
         and byte [byte esi+044h], 0FEh
-        call sub_3509F
+        call assexitjump
         mov eax, dword [puckc]
         mov dword [dword_1191E7], 0
         mov dword [dword_119173], 0
@@ -3301,12 +3305,13 @@ ReassignCtlPlayer:
 .10:
         movsx edx, cx
         mov eax, ebx
-        call sub_46593
+        call SetControlledPlayer
         jmp near CanBlockShot_31F
 ;-----------------------------------------------------------------------------
-; sub_3A609                                                       3A609  96 PC
+; UpdateLineChangeState                           3A609  96 PC, low confidence
+; Updates the line change box state for teams with no human players
 ;-----------------------------------------------------------------------------
-sub_3A609:
+UpdateLineChangeState:
         push ebx
         push ecx
         push edx
@@ -3384,9 +3389,10 @@ sub_3A609:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_3A6F3                                                       3A6F3  96 PC
+; RefreshControlSlots                             3A6F3  96 PC, low confidence
+; Recounts the control slots and reassigns the controlled players
 ;-----------------------------------------------------------------------------
-sub_3A6F3:
+RefreshControlSlots:
         push ebx
         push ecx
         push edx
@@ -3400,7 +3406,7 @@ sub_3A6F3:
         call ReassignCtlPlayer
         cmp edx, byte 4
         jl short .1
-        call sub_3A609
+        call UpdateLineChangeState
         movsx edx, word [word_165078]
         movsx edx, byte [dword edx+byte_16507A]
         cmp edx, byte 1Bh

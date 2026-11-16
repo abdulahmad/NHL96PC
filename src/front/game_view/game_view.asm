@@ -35,8 +35,8 @@ extern str_42, str_B000, str_B001, str_DDD2, str_DDD3, str_DS, str_Goal0, str_Go
 extern str_Logo, str_Priority, str_SS2, strcmp_, strcpy_, StepGlassShards, ApplyGlassShake, UpdateGoalLight
 extern DrawPuckModel, DrawPuckShadowModel, PlacePuckModels, DrawZamboni, MoveZamboni, DrawGoalNet, PlaceGoalNet, SetIceLogoTexture
 extern FreeStandsArt, LoadStandsArt, LoadRinkModel, FreeRinkModel, SetViewCamera, DrawRinkModels, DrawRinkBack, DrawRinkFront
-extern DrawWholeRink, sub_297C9, sub_299CF, sub_2E1BE, sub_4B38C, sub_4B4F3, sub_53BD7, sub_53C6F
-extern sub_54237, sub_54391, sub_5439F, sub_54427, SetCameraShot, ResetCameraShake, SetGameViewSize, SaveTeamPalette
+extern DrawWholeRink, BeginShadowDraw, DrawShadowSpriteAt, DrawOverlayPanels, PlayerSpriteFrame, PuckInNet, InitZoneManager, FreeZoneManager
+extern DrawDirtyZones, ZoneRect, AddZone, CopyZonesToScreen, SetCameraShot, ResetCameraShake, SetGameViewSize, SaveTeamPalette
 extern SetPlayerSpriteColors, SetRinkSpriteColors, LoadGameSprites, GetSpriteFrame, SpriteScale, DrawText, DrawTextCentred, SetTextColors
 extern DrawColorText, DrawColorTextRight, DrawColorTextCentred, FillBox, DrawPauseFrame, GetLangText, BuildAntiAliasTable, sub_AAA40
 extern sub_AAADC, AllocMemBlock, FreeMemBlock, sub_AD35C, sub_AD620, sub_AFFD0, sub_B0CA8, sub_B0F7C
@@ -983,7 +983,7 @@ InitGameView:
         mov dword [dword_1797B0], 0FFFFFFFFh
         mov eax, 14h
         mov dword [dword_1797AC], 0FFFFFFFFh
-        call sub_53BD7
+        call InitZoneManager
 InitGameView_709:
         leave
 InitGameView_70A:
@@ -1063,7 +1063,7 @@ FreeGameView:
         push dword [dword_1798F8]
         call FreeMemBlock
         add esp, byte 4
-        call sub_53C6F
+        call FreeZoneManager
         push dword [dword_17D528]
         call FreeMemBlock
         add esp, byte 4
@@ -1409,7 +1409,7 @@ DrawPlayerSprite:
         jmp near DrawScaledSprite_1E2
 ;-----------------------------------------------------------------------------
 ; DrawSpriteShadow                                595DC  96 PC, low confidence
-; Draws a sprite's shadow on the ice (sub_299CF)
+; Draws a sprite's shadow on the ice (DrawShadowSpriteAt)
 ;-----------------------------------------------------------------------------
 DrawSpriteShadow:
         push esi
@@ -1431,7 +1431,7 @@ DrawSpriteShadow:
         mov ebx, edi
         mov eax, esi
         sar ebx, 10h
-        call sub_299CF
+        call DrawShadowSpriteAt
 .2:
         pop ebp
         pop edi
@@ -1666,7 +1666,7 @@ DrawPuckSprite:
         cmp byte [byte_1770D7], 0
         jmp short .2
 .1:
-        call sub_4B4F3
+        call PuckInNet
         test eax, eax
 .2:
         jge short .5
@@ -2015,7 +2015,7 @@ PlaceGoalNets_20B:
         cmp dword [dword esi+09Ch], byte 0
         jne near .27
         mov eax, esi
-        call sub_4B38C
+        call PlayerSpriteFrame
         mov edx, dword [nosplit eax*4+dword_152FEC]
         mov dword [byte ebp-020h], eax
         mov dword [byte ebp-010h], edx
@@ -2055,7 +2055,7 @@ PlaceGoalNets_20B:
         mov dword [byte ebp-0Ch], eax
         mov eax, edx
         mov dword [byte ebp-08h], ecx
-        call sub_4B38C
+        call PlayerSpriteFrame
         cmp eax, 0C1Bh
         jl short .21
         cmp eax, 0C41h
@@ -2166,7 +2166,7 @@ DrawPlayerShadows:
         push esi
         push edi
         enter 1Ch, 0
-        call sub_297C9
+        call BeginShadowDraw
         mov dword [byte ebp-0Ch], 0
 .1:
         mov eax, dword [byte ebp-0Ch]
@@ -2193,7 +2193,7 @@ DrawPlayerShadows:
         jle near .12
 .3:
         mov eax, esi
-        call sub_4B38C
+        call PlayerSpriteFrame
         mov edx, dword [nosplit eax*4+dword_152FEC]
         mov dword [byte ebp-014h], eax
         mov dword [byte ebp-010h], edx
@@ -2233,7 +2233,7 @@ DrawPlayerShadows:
         mov dword [byte ebp-01Ch], eax
         mov eax, ebx
         mov dword [byte ebp-018h], ecx
-        call sub_4B38C
+        call PlayerSpriteFrame
         cmp eax, 0C1Bh
         jl short .6
         cmp eax, 0C41h
@@ -2362,7 +2362,7 @@ DrawPlayers:
         jle near .12
 .3:
         mov eax, esi
-        call sub_4B38C
+        call PlayerSpriteFrame
         mov edx, dword [nosplit eax*4+dword_152FEC]
         mov dword [byte ebp-010h], eax
         mov dword [byte ebp-014h], edx
@@ -2403,7 +2403,7 @@ DrawPlayers:
         mov dword [byte ebp-020h], eax
         mov eax, edx
         mov dword [byte ebp-01Ch], ecx
-        call sub_4B38C
+        call PlayerSpriteFrame
         cmp eax, 0C1Bh
         jl short .6
         cmp eax, 0C41h
@@ -2841,7 +2841,7 @@ DrawGameFrame:
         setne al
         movzx eax, al
         mov dword [dword_1798BC], eax
-        call sub_54427
+        call CopyZonesToScreen
         call DimGameView
         mov eax, dword [dword_11B32C]
         mov ecx, dword [dword_11B32C]
@@ -2852,7 +2852,7 @@ DrawGameFrame:
         push eax
         add ebx, dword [dword_11B318]
         mov eax, dword [dword_177108]
-        call sub_5439F
+        call AddZone
         mov eax, dword [dword_11B32C]
         add eax, dword [dword_11B31C]
         push eax
@@ -3014,7 +3014,7 @@ DrawGameFrame:
         je short .34
         xor eax, eax
 .33:
-        call sub_2E1BE
+        call DrawOverlayPanels
         jmp short .36
 .34:
         cmp dword [dword_1798BC], byte 0
@@ -3033,7 +3033,7 @@ DrawGameFrame:
         mov eax, edi
         call DrawGameOverlays
 .36:
-        call sub_54237
+        call DrawDirtyZones
         push byte 3
         push byte 0
         call sub_AFFD0
@@ -3100,7 +3100,7 @@ DrawPanelLogo:
         lea ebx, [edi+eax]
         mov eax, dword [dword_177108]
         mov edx, edi
-        call sub_5439F
+        call AddZone
         leave
         pop edi
         pop esi
@@ -3275,7 +3275,7 @@ OpenOverlayPanel:
         push eax
         mov eax, dword [dword_177108]
         mov dword [dword_11B2E8], 0
-        call sub_5439F
+        call AddZone
         mov eax, 1
         leave
         pop edi
@@ -3358,7 +3358,7 @@ DrawOverlayCaption:
 DrawOverlayCaption_D7:
         mov eax, dword [dword_177108]
 DrawOverlayCaption_DC:
-        call sub_5439F
+        call AddZone
 DrawOverlayCaption_E1:
         leave
         pop edi
@@ -3368,7 +3368,7 @@ DrawOverlayCaption_E1:
         ret
         mov eax, 1
         mov dword [lineuptime], 1D6h
-        jmp near sub_2E1BE
+        jmp near DrawOverlayPanels
 ;-----------------------------------------------------------------------------
 ; ResetGameOverlays                            5AF42  96 PC, medium confidence
 ; Resets the overlay timers (clock 1770h, 1F40h), the panel queue (3 x 14h at
@@ -3676,9 +3676,9 @@ DrawPenaltyClock:
         push eax
         mov edx, esi
         mov eax, dword [dword_177108]
-        call sub_5439F
+        call AddZone
         mov eax, dword [dword_177108]
-        call sub_54391
+        call ZoneRect
         mov edi, eax
         cmp dword [byte ebp-02Ch], byte 0
         je short .7
@@ -3875,7 +3875,7 @@ DrawPlayerPctPanel:
         test eax, eax
         je near DrawOverlayCaption_E1
         mov eax, dword [dword_177108]
-        call sub_54391
+        call ZoneRect
         push dword [dword_179920]
         mov dword [byte ebp-04h], eax
         call TextSetFont
@@ -3965,7 +3965,7 @@ DrawPlayerPctPanel:
         test eax, eax
         je near DrawOverlayCaption_E1
         mov eax, dword [dword_177108]
-        call sub_54391
+        call ZoneRect
         mov esi, eax
         cmp dword [dword_1798A8], byte 0
         je short .14
@@ -4351,9 +4351,9 @@ DrawTimeLeftPanel:
         mov edx, edi
         push dword [byte ebp-0Ch]
         mov eax, dword [dword_177108]
-        call sub_5439F
+        call AddZone
         mov eax, dword [dword_177108]
-        call sub_54391
+        call ZoneRect
         mov esi, eax
         cmp dword [dword_1798A8], byte 0
         je short .13
@@ -4606,7 +4606,7 @@ DrawScorePanel:
         test eax, eax
         je near InitGameView_709
         mov eax, dword [dword_177108]
-        call sub_54391
+        call ZoneRect
         push dword [dword_179918]
         mov esi, eax
         mov edi, eax
@@ -4881,9 +4881,9 @@ DrawScorePanel:
         mov edx, edi
         push dword [byte ebp-0Ch]
         mov eax, dword [dword_177108]
-        call sub_5439F
+        call AddZone
         mov eax, dword [dword_177108]
-        call sub_54391
+        call ZoneRect
         mov esi, eax
         mov edi, eax
         mov eax, dword [dword_179908]
@@ -5052,7 +5052,7 @@ sub_5C55F:
         test eax, eax
         je near .5
         mov eax, dword [dword_177108]
-        call sub_54391
+        call ZoneRect
         push dword [dword_179920]
         mov esi, eax
         call TextSetFont
@@ -5143,7 +5143,7 @@ DrawPlayerNamePanel:
         test eax, eax
         je near DrawOverlayCaption_E1
         mov eax, dword [dword_177108]
-        call sub_54391
+        call ZoneRect
         imul ebx, dword [byte esi+0Ch], dword 4B4h
         imul edx, dword [byte esi+08h], byte 2Bh
         mov edi, eax
@@ -5235,7 +5235,7 @@ sub_5C7E2:
         test eax, eax
         je near .9
         mov eax, dword [dword_177108]
-        call sub_54391
+        call ZoneRect
         push dword [dword_179920]
         mov esi, eax
         call TextSetFont
@@ -5301,7 +5301,7 @@ sub_5C7E2:
         test eax, eax
         je near .9
         mov eax, dword [dword_177108]
-        call sub_54391
+        call ZoneRect
         push dword [dword_179920]
         mov esi, eax
         call TextSetFont
@@ -5408,7 +5408,7 @@ sub_5CA5B:
         test eax, eax
         je near .7
         mov eax, dword [dword_177108]
-        call sub_54391
+        call ZoneRect
         push dword [dword_179920]
         mov esi, eax
         call TextSetFont
@@ -6050,9 +6050,9 @@ DrawLineChangeBox:
         push eax
         mov ecx, esi
         mov eax, dword [dword_177108]
-        call sub_5439F
+        call AddZone
         mov eax, dword [dword_177108]
-        call sub_54391
+        call ZoneRect
         mov esi, eax
         test edi, edi
         je short .28
@@ -6093,7 +6093,7 @@ DrawLineChangeBox:
         mov ecx, 1
         call DrawPanelLogo
         mov eax, dword [dword_177108]
-        call sub_54391
+        call ZoneRect
         push dword [dword_179918]
         mov dword [byte ebp-020h], eax
         call TextSetFont

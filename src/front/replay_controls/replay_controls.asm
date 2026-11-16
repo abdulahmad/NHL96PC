@@ -52,7 +52,7 @@ extern LinkSync, ModemChat, NameIndexNew, NameIndexLoad, NameIndexFree, NameInde
 extern MessageBox, BlankForFadeIn, FileCreate, FileClose, FileWriteAt, MakeDirPath, LoadPackedFile, FreeStatsTables
 extern EndGameCleanup, ShatterGlass, ClearGlassHoles, ReplayBrokenGlass, StopGlassShake, ReplayGlassShake, PlacePuckModels, DrawGoalNet
 extern PlaceGoalNet, SetViewCamera, DrawRinkModels, OpenPenaltyBoxDoor, ClosePenaltyBoxDoor, DrawRinkBack, DrawRinkFront, SetRinkClipWindow
-extern sub_297C9, sub_4B38C, sub_5358E, sub_535F2, InitGameView, FreeGameView, DrawRosterName, DrawRosterNumber
+extern BeginShadowDraw, PlayerSpriteFrame, LoadGamePalette, ReplayBufferStart, InitGameView, FreeGameView, DrawRosterName, DrawRosterNumber
 extern DrawRinkSprite, DrawPlayerSprite, DrawSpriteShadow, DrawControlMarker, DrawPuckSprite, SetCameraShot, AngleXZ, AnglePitch
 extern CamShot23E, SetGameViewSize, UpdateCamera, FreeFightSprites, LoadFightSprites, LoadCupSprites, FreeSpriteCache, SpriteScale
 extern LoadFrontEndArt, FreeFrontEndArt, FadePalette, FadeOut, CopyBitmap, SetScreenMode, DrawText, DrawTextRight
@@ -140,7 +140,7 @@ StartReplay:
         mov esi, dword_179DBD
         mov dword [dword_11B374], 0
         mov dword [dword_177900], eax
-        call sub_535F2
+        call ReplayBufferStart
         mov dword [dword_1781CC], 0
         mov byte [byte_178247], 0FFh
         mov dword [dword_1781F0], 0Eh
@@ -1071,7 +1071,7 @@ DrawReplayObjects:
         and byte [byte ebp+027h], 0F7h
 .21:
         lea eax, [byte ebp-02Eh]
-        call sub_4B38C
+        call PlayerSpriteFrame
         mov edi, eax
         mov eax, dword [nosplit eax*4+dword_152FEC]
         mov dword [byte ebp+072h], eax
@@ -1114,7 +1114,7 @@ DrawReplayShadows:
         push edi
         enter 0A8h, 0
         sub ebp, 82h
-        call sub_297C9
+        call BeginShadowDraw
         xor edi, edi
 .1:
         mov esi, dword [dword edi+dword_179A7C]
@@ -1151,7 +1151,7 @@ DrawReplayShadows:
 .5:
         imul edx, esi, byte 0Ch
         lea eax, [byte ebp-026h]
-        call sub_4B38C
+        call PlayerSpriteFrame
         mov dword [byte ebp+07Eh], eax
         mov eax, dword [nosplit eax*4+dword_152FEC]
         push dword [dword edx+dword_179AC8]
@@ -1224,7 +1224,7 @@ DrawReplayPlayers:
 .5:
         imul edx, esi, byte 0Ch
         lea eax, [byte ebp-026h]
-        call sub_4B38C
+        call PlayerSpriteFrame
         mov dword [byte ebp+07Eh], eax
         mov eax, dword [nosplit eax*4+dword_152FEC]
         push dword [dword edx+dword_179AC8]
@@ -4227,7 +4227,7 @@ WatchHighlight:
 .5:
         call BlankForFadeIn
         mov eax, unk_16443C
-        call sub_5358E
+        call LoadGamePalette
         test byte [byte_17CA5D], 20h
         setne al
         movzx eax, al

@@ -13,24 +13,24 @@ extern CMainResult, dword_12443C, dword_124440, dword_19F2D0, dword_19F2D4, Scal
 extern exit_, fputc_, getcwd_, joycalactive, joyenablemask, sub_E1836_29, main_, off_14F074
 extern off_14F078, sprintf_, stricmp_, sub_AA9CC, sub_AC838, sub_AD35C, FillRect, sub_ADBEC
 extern sub_AFFD0, SaveTextState, SetDrawTarget, TextSetFont, sub_B2C54, InitMemoryPoolDefault, sub_B3145, sub_B31C0
-extern sub_B7810, AddVec3, sub_B9C70, sub_BD86C, sub_BEAE4, initgraphics, sub_C2AEC, sub_C4CCC
+extern FileSizeByName, AddVec3, OriScaleVector, sub_BD86C, sub_BEAE4, initgraphics, sub_C2AEC, sub_C4CCC
 extern sub_C4D80, InitFpuFlags, sub_D0650, CMainHook, __CommonInit_, sub_D06FC, sub_D077C, sub_D1080
 extern sub_D1280, DrawTextBoxedAt, sub_D1860, sub_D1920, sub_D19BC, sub_D1A88, sub_D1B3C, sub_D1BEC
-extern sub_D1CE0, SetScreenTarget, SetClipWindow, sub_DD830, sub_DD87C, SetBlitSource, CopyMappedSpan, sub_DDB22
-extern sub_DDC2A, PlotPixel, PlotPixelClipped, VesaSetBank, sub_DF22C, sub_DF2CC, sub_DF38C, sub_DF44C
+extern sub_D1CE0, SetScreenTarget, SetClipWindow, sub_DD830, sub_DD87C, SetBlitSource, CopyMappedSpan, CopyScaledSpanShadow
+extern CopyScaledSpan, PlotPixel, PlotPixelClipped, VesaSetBank, sub_DF22C, sub_DF2CC, sub_DF38C, sub_DF44C
 extern sub_DF50C, sub_DFB84, sub_DFB88, KbdGetKey, SetKbdIdleHook, sub_DFF7C, ReadJoystickPorts, sub_E0456
 extern sub_E0486, AddExitHandler, sub_E0584, InstallBreakHandler, vecdist, SetViewScreenOrigin, SetCameraAngles, sub_E193C
 extern sub_E1956, RestoreTextMode, sub_E272C, SinCosLookup, tolower_, unk_1210DC, unk_1213DC, InitRtnsEntry
 extern FiniRtnsEntry, unk_15158C, unk_18584C, vsprintf_, DefaultControlWord
 global __CMain, __FiniRtns, __HeapManager_expand_, __IOMode_, __InitRtns, __SetIOMode_, __doserror_, __fprtf_
 global __set_errno_dos_, __sys_init_387_emulator, _dosret0_, _nexpand_, _nmsize_, file_putc_, int386_, int386x_
-global isatty_, _nexpand__10, __HeapManager_expand__18F, __HeapManager_expand__1EA, sub_C60EC_168, min__10, BuildSpanOffsets_6C, min_
-global segread_, strnicmp_, sub_C4FA0, sub_C50E0, sub_C5410, sub_C59E0, sub_C5AE2, sub_C5AF0
-global sub_C5B18, PrintBoxedText, CdDirSearch, sub_C6000, sub_C6090, sub_C60EC, sub_C626C, sub_C62E0
-global sub_C63DC, PolyCrossProduct, sub_C65F8, sub_C6FA4, sub_C70A8, sub_C7A54, RasterShapeTriangle, DrawShapeTriangleMapped
-global DrawClippedPoly, sub_C8D50, sub_C955C, sub_C972C, sub_C98FC, sub_C9A20, sub_C9A80, sub_C9AD8
-global sub_C9D50, sub_C9D80, sub_C9E68, Div64By32, sub_C9F3A, Shl64, BuildSpanOffsets, sub_CA288
-global sub_CA584, FixedSinCos, unlink_
+global isatty_, _nexpand__10, __HeapManager_expand__18F, __HeapManager_expand__1EA, LocateBigEntry_168, min__10, BuildSpanOffsets_6C, min_
+global segread_, strnicmp_, DrawEllipse, DrawEllipseClipped, JoystickCalibrateScreen, ShowKeyboardOn, FpuHookStub, ShutdownSystem
+global InitSystem, PrintBoxedText, CdDirSearch, ToUpperChar, BigFileType, LocateBigEntry, LocateBigData, LocateBigs
+global WalkBigFile, PolyCrossProduct, RasterMappedTriangle, DrawMappedTriangle, RasterMappedTriangleShadow, DrawMappedTriangleShadow, RasterShapeTriangle, DrawShapeTriangleMapped
+global DrawClippedPoly, DrawMappedPolyClipped, DrawMappedStrip, DrawMappedStripShadow, DrawMappedStripDirect, DrawFlatPolyClipped, DrawFlatPolyMapped, TexSpanFill
+global VecLength3, NormalizeVec3, Mul32To64, Div64By32, Sar64, Shl64, BuildSpanOffsets, OriApplyMorph
+global OriRotateY, FixedSinCos, unlink_
 ;-----------------------------------------------------------------------------
 ; isatty_                                                       C4EA1  library
 ;-----------------------------------------------------------------------------
@@ -167,9 +167,10 @@ __SetIOMode_:
         ret
         db 00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_C4FA0                                                            C4FA0  
+; DrawEllipse                                     C4FA0  96 PC, low confidence
+; Draws an ellipse
 ;-----------------------------------------------------------------------------
-sub_C4FA0:
+DrawEllipse:
         push esi
         push edi
         push ebp
@@ -277,9 +278,10 @@ sub_C4FA0:
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_C50E0                                                            C50E0  
+; DrawEllipseClipped                              C50E0  96 PC, low confidence
+; Draws an ellipse inside the clip window
 ;-----------------------------------------------------------------------------
-sub_C50E0:
+DrawEllipseClipped:
         push ebp
         mov eax, dword [byte esp+08h]
         mov edx, dword [byte esp+0Ch]
@@ -295,7 +297,7 @@ sub_C50E0:
         push ebp
         push edx
         push eax
-        call sub_C4FA0
+        call DrawEllipse
         add esp, byte 0Ch
 .1:
         pop ebp
@@ -629,9 +631,10 @@ int386_:
         ret
         db 00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_C5410                                                            C5410  
+; JoystickCalibrateScreen                      C5410  96 PC, medium confidence
+; Joystick calibration screen
 ;-----------------------------------------------------------------------------
-sub_C5410:
+JoystickCalibrateScreen:
         push esi
         push edi
         push ebp
@@ -1087,9 +1090,10 @@ sub_C5410:
         ret
         db 00h
 ;-----------------------------------------------------------------------------
-; sub_C59E0                                                            C59E0  
+; ShowKeyboardOn                                  C59E0  96 PC, low confidence
+; Shows the keyboard on message
 ;-----------------------------------------------------------------------------
-sub_C59E0:
+ShowKeyboardOn:
         push byte 8
         xor edx, edx
         push str_KEYBOARDON
@@ -1228,15 +1232,17 @@ __FiniRtns:
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_C5AE2                                                            C5AE2  
+; FpuHookStub                                     C5AE2  96 PC, low confidence
+; Maths hook that does nothing
 ;-----------------------------------------------------------------------------
-sub_C5AE2:
+FpuHookStub:
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_C5AF0                                                            C5AF0  
+; ShutdownSystem                                  C5AF0  96 PC, low confidence
+; Restores text mode and shuts down the system
 ;-----------------------------------------------------------------------------
-sub_C5AF0:
+ShutdownSystem:
         push ebx
         push ecx
         push edx
@@ -1255,9 +1261,10 @@ sub_C5AF0:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_C5B18                                                            C5B18  
+; InitSystem                                      C5B18  96 PC, low confidence
+; Checks the DOS extender and sets up memory, graphics, timer and input
 ;-----------------------------------------------------------------------------
-sub_C5B18:
+InitSystem:
         push esi
         sub esp, 100h
         mov ebx, esp
@@ -1279,7 +1286,7 @@ sub_C5B18:
 .1:
         mov eax, esp
         push eax
-        call sub_B7810
+        call FileSizeByName
         add esp, byte 4
         cmp eax, 40CCCh
         je short .3
@@ -1303,12 +1310,12 @@ sub_C5B18:
         ret
         db 08Bh,0C0h
         push byte 0
-        call sub_C5B18
+        call InitSystem
         add esp, byte 4
         ret
         db 090h
         push byte 1
-        call sub_C5B18
+        call InitSystem
         add esp, byte 4
         ret
         db 090h
@@ -1318,7 +1325,7 @@ sub_C5B18:
         cmp dword [dword_124440], byte 0
         je short .4
         push byte 1
-        call sub_C5B18
+        call InitSystem
         add esp, byte 4
 .4:
         cmp dword [dword_1210CC], byte 0
@@ -1331,7 +1338,7 @@ sub_C5B18:
         jne short .6
         call sub_D06FC
         db 068h                                 ; insn: push 0B5AF0h
-        dd sub_C5AF0
+        dd ShutdownSystem
         mov dword [dword_12443C], eax
         call AddExitHandler
         add esp, byte 4
@@ -1720,9 +1727,10 @@ CdDirSearch:
         ret
         db 00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_C6000                                                            C6000  
+; ToUpperChar                                  C6000  96 PC, medium confidence
+; Converts a lower case letter to upper case
 ;-----------------------------------------------------------------------------
-sub_C6000:
+ToUpperChar:
         mov eax, dword [byte esp+04h]
         cmp eax, byte 61h
         jb short .1
@@ -1805,9 +1813,10 @@ unlink_:
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_C6090                                                            C6090  
+; BigFileType                                  C6090  96 PC, medium confidence
+; Checks a BIG archive header: 1 or 2 for the two formats
 ;-----------------------------------------------------------------------------
-sub_C6090:
+BigFileType:
         push ebx
         push ecx
         push esi
@@ -1849,9 +1858,10 @@ sub_C6090:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_C60EC                                                            C60EC  
+; LocateBigEntry                               C60EC  96 PC, medium confidence
+; Finds a file's entry in a BIG archive
 ;-----------------------------------------------------------------------------
-sub_C60EC:
+LocateBigEntry:
         push esi
         push edi
         push ebp
@@ -1859,7 +1869,7 @@ sub_C60EC:
         mov esi, dword [byte esp+014h]
         mov edx, dword [byte esp+018h]
         mov eax, ebx
-        call sub_C6090
+        call BigFileType
         cmp eax, byte 1
         jb near .7
         jbe short .1
@@ -1990,24 +2000,25 @@ sub_C60EC:
         push edx
         mov ebx, dword [byte esp+0Ch]
         push ebx
-        call sub_C60EC
+        call LocateBigEntry
         add esp, byte 0Ch
         ret
         db 08Dh,040h,00h
-sub_C60EC_168:
+LocateBigEntry_168:
         push byte 0
         mov edx, dword [byte esp+0Ch]
         push edx
         mov ebx, dword [byte esp+0Ch]
         push ebx
-        call sub_C60EC
+        call LocateBigEntry
         add esp, byte 0Ch
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_C626C                                                            C626C  
+; LocateBigData                                C626C  96 PC, medium confidence
+; Returns a pointer to a file's data in a BIG archive
 ;-----------------------------------------------------------------------------
-sub_C626C:
+LocateBigData:
         push esi
         mov edx, dword [byte esp+010h]
         push edx
@@ -2016,7 +2027,7 @@ sub_C626C:
         mov ecx, dword [byte esp+010h]
         push ecx
         xor esi, esi
-        call sub_C60EC
+        call LocateBigEntry
         add esp, byte 0Ch
         test eax, eax
         je short .1
@@ -2033,7 +2044,7 @@ sub_C626C:
         mov ebx, dword [byte esp+010h]
         push ebx
         xor esi, esi
-        call sub_C60EC
+        call LocateBigEntry
         add esp, byte 0Ch
         test eax, eax
         je short .2
@@ -2051,7 +2062,7 @@ sub_C626C:
         push edx
         mov ebx, dword [byte esp+010h]
         push ebx
-        call sub_C60EC
+        call LocateBigEntry
         add esp, byte 0Ch
         test eax, eax
         je short .3
@@ -2062,9 +2073,10 @@ sub_C626C:
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_C62E0                                                            C62E0  
+; LocateBigs                                   C62E0  96 PC, medium confidence
+; Finds a file in a BIG archive, stopping when it is not there
 ;-----------------------------------------------------------------------------
-sub_C62E0:
+LocateBigs:
         push esi
         push edi
         push ebp
@@ -2099,7 +2111,7 @@ sub_C62E0:
         push edi
         mov edx, dword [byte esp+01Ch]
         push edx
-        call sub_C626C
+        call LocateBigData
         add esp, byte 0Ch
         mov dword [esp], eax
         test eax, eax
@@ -2135,7 +2147,7 @@ sub_C62E0:
         push ebx
         mov ecx, dword [byte esp+010h]
         push ecx
-        call sub_C62E0
+        call LocateBigs
         add esp, byte 10h
         ret
         db 08Bh,0C0h
@@ -2146,14 +2158,14 @@ sub_C62E0:
         push ebx
         mov ecx, dword [byte esp+010h]
         push ecx
-        call sub_C62E0
+        call LocateBigs
         add esp, byte 10h
         ret
         db 08Bh,0C0h
         mov ebx, dword [byte esp+04h]
         mov eax, ebx
         xor edx, edx
-        call sub_C6090
+        call BigFileType
         xor ecx, ecx
         cmp eax, byte 1
         jb short .11
@@ -2180,16 +2192,17 @@ sub_C62E0:
         mov eax, ecx
         ret
 ;-----------------------------------------------------------------------------
-; sub_C63DC                                                            C63DC  
+; WalkBigFile                                     C63DC  96 PC, low confidence
+; Walks the entries of a BIG archive
 ;-----------------------------------------------------------------------------
-sub_C63DC:
+WalkBigFile:
         push esi
         push edi
         push ebp
         mov esi, dword [byte esp+014h]
         mov eax, dword [byte esp+010h]
         xor edx, edx
-        call sub_C6090
+        call BigFileType
         xor ebx, ebx
         cmp eax, byte 1
         jb near .7
@@ -2330,7 +2343,7 @@ sub_C63DC:
         push edx
         mov ebx, dword [byte esp+014h]
         push ebx
-        call sub_C63DC
+        call WalkBigFile
         add esp, byte 8
         test eax, eax
         je short .10
@@ -2408,9 +2421,10 @@ PolyCrossProduct:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_C65F8                                                            C65F8  
+; RasterMappedTriangle                            C65F8  96 PC, low confidence
+; Draws a mapped triangle row by row with scaled spans
 ;-----------------------------------------------------------------------------
-sub_C65F8:
+RasterMappedTriangle:
         push esi
         push edi
         push ebp
@@ -2852,7 +2866,7 @@ sub_C65F8:
         add edx, ebx
         add eax, dword [edx]
         push eax
-        call sub_DDC2A
+        call CopyScaledSpan
         add esp, byte 0Ch
 .29:
         mov eax, dword [byte esp+070h]
@@ -2921,7 +2935,7 @@ sub_C65F8:
         add eax, ebx
         add edx, dword [eax]
         push edx
-        call sub_DDC2A
+        call CopyScaledSpan
         add esp, byte 0Ch
 .35:
         mov eax, dword [byte esp+070h]
@@ -3132,7 +3146,7 @@ sub_C65F8:
         add edx, ebx
         add eax, dword [edx]
         push eax
-        call sub_DDC2A
+        call CopyScaledSpan
         add esp, byte 0Ch
 .51:
         mov eax, dword [byte esp+070h]
@@ -3201,7 +3215,7 @@ sub_C65F8:
         add eax, ebx
         add edx, dword [eax]
         push edx
-        call sub_DDC2A
+        call CopyScaledSpan
         add esp, byte 0Ch
 .57:
         mov eax, dword [byte esp+070h]
@@ -3228,9 +3242,10 @@ sub_C65F8:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_C6FA4                                                            C6FA4  
+; DrawMappedTriangle                              C6FA4  96 PC, low confidence
+; Draws a mapped triangle, opaque
 ;-----------------------------------------------------------------------------
-sub_C6FA4:
+DrawMappedTriangle:
         sub esp, byte 30h
         mov edx, dword [byte esp+038h]
         mov eax, dword [byte esp+03Ch]
@@ -3288,7 +3303,7 @@ sub_C6FA4:
         push eax
         mov edx, dword [byte esp+03Ch]
         push edx
-        call sub_C65F8
+        call RasterMappedTriangle
         add esp, byte 0Ch
         add esp, byte 30h
         ret
@@ -3308,9 +3323,10 @@ sub_C6FA4:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_C70A8                                                            C70A8  
+; RasterMappedTriangleShadow                      C70A8  96 PC, low confidence
+; Draws a mapped triangle row by row with see-through and shadow spans
 ;-----------------------------------------------------------------------------
-sub_C70A8:
+RasterMappedTriangleShadow:
         push esi
         push edi
         push ebp
@@ -3752,7 +3768,7 @@ sub_C70A8:
         add edx, ebx
         add eax, dword [edx]
         push eax
-        call sub_DDB22
+        call CopyScaledSpanShadow
         add esp, byte 0Ch
 .29:
         mov eax, dword [byte esp+070h]
@@ -3821,7 +3837,7 @@ sub_C70A8:
         add eax, ebx
         add edx, dword [eax]
         push edx
-        call sub_DDB22
+        call CopyScaledSpanShadow
         add esp, byte 0Ch
 .35:
         mov eax, dword [byte esp+070h]
@@ -4032,7 +4048,7 @@ sub_C70A8:
         add edx, ebx
         add eax, dword [edx]
         push eax
-        call sub_DDB22
+        call CopyScaledSpanShadow
         add esp, byte 0Ch
 .51:
         mov eax, dword [byte esp+070h]
@@ -4101,7 +4117,7 @@ sub_C70A8:
         add eax, ebx
         add edx, dword [eax]
         push edx
-        call sub_DDB22
+        call CopyScaledSpanShadow
         add esp, byte 0Ch
 .57:
         mov eax, dword [byte esp+070h]
@@ -4128,9 +4144,10 @@ sub_C70A8:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_C7A54                                                            C7A54  
+; DrawMappedTriangleShadow                        C7A54  96 PC, low confidence
+; Draws a mapped triangle with see-through and shadow colours
 ;-----------------------------------------------------------------------------
-sub_C7A54:
+DrawMappedTriangleShadow:
         sub esp, byte 30h
         mov edx, dword [byte esp+038h]
         mov eax, dword [byte esp+03Ch]
@@ -4188,7 +4205,7 @@ sub_C7A54:
         push eax
         mov edx, dword [byte esp+03Ch]
         push edx
-        call sub_C70A8
+        call RasterMappedTriangleShadow
         add esp, byte 0Ch
         add esp, byte 30h
         ret
@@ -5616,9 +5633,10 @@ DrawClippedPoly:
         ret
         db 00h,00h
 ;-----------------------------------------------------------------------------
-; sub_C8D50                                                            C8D50  
+; DrawMappedPolyClipped                           C8D50  96 PC, low confidence
+; Clips a mapped polygon and draws it as triangles
 ;-----------------------------------------------------------------------------
-sub_C8D50:
+DrawMappedPolyClipped:
         push esi
         push edi
         push ebp
@@ -6158,7 +6176,7 @@ sub_C8D50:
         push eax
         mov dword [byte esp+018h], edx
         mov dword [byte esp+020h], esi
-        call sub_C6FA4
+        call DrawMappedTriangle
         add esp, byte 0Ch
         mov edx, 1
         mov dword [esp], edi
@@ -6185,7 +6203,7 @@ sub_C8D50:
         push eax
         mov esi, dword [byte esp+048h]
         push esi
-        call sub_C6FA4
+        call DrawMappedTriangle
         add esp, byte 0Ch
         add esp, byte 30h
         pop ebp
@@ -6194,9 +6212,10 @@ sub_C8D50:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_C955C                                                            C955C  
+; DrawMappedStrip                                 C955C  96 PC, low confidence
+; Draws a strip of mapped triangles
 ;-----------------------------------------------------------------------------
-sub_C955C:
+DrawMappedStrip:
         push esi
         push edi
         push ebp
@@ -6243,7 +6262,7 @@ sub_C955C:
         push eax
         mov eax, dword [byte esp+04Ch]
         push eax
-        call sub_C6FA4
+        call DrawMappedTriangle
         add esp, byte 0Ch
         mov edx, 1
         mov eax, dword [byte esp+030h]
@@ -6277,7 +6296,7 @@ sub_C955C:
         push eax
         mov esi, dword [byte esp+04Ch]
         push esi
-        call sub_C6FA4
+        call DrawMappedTriangle
         add esp, byte 0Ch
         add esp, byte 34h
         pop ebp
@@ -6311,7 +6330,7 @@ sub_C955C:
         push eax
         mov dword [byte esp+018h], edx
         mov dword [byte esp+020h], esi
-        call sub_C7A54
+        call DrawMappedTriangleShadow
         add esp, byte 0Ch
         mov edx, 1
         mov dword [esp], edi
@@ -6338,7 +6357,7 @@ sub_C955C:
         push eax
         mov esi, dword [byte esp+048h]
         push esi
-        call sub_C7A54
+        call DrawMappedTriangleShadow
         add esp, byte 0Ch
         add esp, byte 30h
         pop ebp
@@ -6347,9 +6366,10 @@ sub_C955C:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_C972C                                                            C972C  
+; DrawMappedStripShadow                           C972C  96 PC, low confidence
+; Draws a strip of mapped triangles with see-through and shadow colours
 ;-----------------------------------------------------------------------------
-sub_C972C:
+DrawMappedStripShadow:
         push esi
         push edi
         push ebp
@@ -6396,7 +6416,7 @@ sub_C972C:
         push eax
         mov eax, dword [byte esp+04Ch]
         push eax
-        call sub_C7A54
+        call DrawMappedTriangleShadow
         add esp, byte 0Ch
         mov edx, 1
         mov eax, dword [byte esp+030h]
@@ -6430,7 +6450,7 @@ sub_C972C:
         push eax
         mov esi, dword [byte esp+04Ch]
         push esi
-        call sub_C7A54
+        call DrawMappedTriangleShadow
         add esp, byte 0Ch
         add esp, byte 34h
         pop ebp
@@ -6500,9 +6520,10 @@ sub_C972C:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_C98FC                                                            C98FC  
+; DrawMappedStripDirect                           C98FC  96 PC, low confidence
+; Draws a strip of triangles through the shape mapper
 ;-----------------------------------------------------------------------------
-sub_C98FC:
+DrawMappedStripDirect:
         push esi
         push edi
         push ebp
@@ -6592,9 +6613,10 @@ sub_C98FC:
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_C9A20                                                            C9A20  
+; DrawFlatPolyClipped                             C9A20  96 PC, low confidence
+; Clips and fills a flat polygon
 ;-----------------------------------------------------------------------------
-sub_C9A20:
+DrawFlatPolyClipped:
         push ebp
         sub esp, byte 20h
         mov edx, dword [byte esp+028h]
@@ -6627,9 +6649,10 @@ sub_C9A20:
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_C9A80                                                            C9A80  
+; DrawFlatPolyMapped                              C9A80  96 PC, low confidence
+; Clips and draws a flat mapped polygon
 ;-----------------------------------------------------------------------------
-sub_C9A80:
+DrawFlatPolyMapped:
         push ebp
         sub esp, byte 20h
         mov edx, dword [byte esp+028h]
@@ -6655,16 +6678,17 @@ sub_C9A80:
         lea eax, [byte esp+04h]
         push eax
         push edx
-        call sub_C8D50
+        call DrawMappedPolyClipped
         add esp, byte 0Ch
         add esp, byte 20h
         pop ebp
         ret
         db 00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_C9AD8                                                            C9AD8  
+; TexSpanFill                                     C9AD8  96 PC, low confidence
+; Fills one textured span
 ;-----------------------------------------------------------------------------
-sub_C9AD8:
+TexSpanFill:
         push esi
         push edi
         push ebp
@@ -6927,9 +6951,10 @@ strnicmp_:
         jmp short .1
         db 00h
 ;-----------------------------------------------------------------------------
-; sub_C9D50                                                            C9D50  
+; VecLength3                                   C9D50  96 PC, medium confidence
+; Returns the length of a 3D vector
 ;-----------------------------------------------------------------------------
-sub_C9D50:
+VecLength3:
         mov eax, dword [byte esp+04h]
         mov edx, dword [byte eax+08h]
         push edx
@@ -6945,9 +6970,10 @@ sub_C9D50:
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_C9D80                                                            C9D80  
+; NormalizeVec3                                   C9D80  96 PC, low confidence
+; Scales a 3D vector to unit length
 ;-----------------------------------------------------------------------------
-sub_C9D80:
+NormalizeVec3:
         push esi
         mov ebx, dword [byte esp+08h]
         mov esi, dword [byte esp+0Ch]
@@ -7012,7 +7038,7 @@ sub_C9D80:
         sar edx, cl
         push esi
         mov dword [byte esi+08h], edx
-        call sub_C9D50
+        call VecLength3
         mov edx, dword [esi]
         shl edx, 10h
         mov ebx, eax
@@ -7040,9 +7066,10 @@ sub_C9D80:
         mov dword [byte esi+04h], edx
         ret
 ;-----------------------------------------------------------------------------
-; sub_C9E68                                                            C9E68  
+; Mul32To64                                    C9E68  96 PC, medium confidence
+; Multiplies two numbers to a 64-bit result
 ;-----------------------------------------------------------------------------
-sub_C9E68:
+Mul32To64:
         imul edx
         mov dword [esi], eax
         mov dword [byte esi+04h], edx
@@ -7135,9 +7162,10 @@ Div64By32:
         pop ecx
         ret 0Ch
 ;-----------------------------------------------------------------------------
-; sub_C9F3A                                                            C9F3A  
+; Sar64                                        C9F3A  96 PC, medium confidence
+; Shifts a 64-bit number right, keeping the sign
 ;-----------------------------------------------------------------------------
-sub_C9F3A:
+Sar64:
         push ecx
         push edx
         mov eax, dword [byte esp+0Ch]
@@ -7517,9 +7545,10 @@ BuildSpanOffsets_6C:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_CA288                                                            CA288  
+; OriApplyMorph                                CA288  96 PC, medium confidence
+; Morphs an object's points between its key shapes
 ;-----------------------------------------------------------------------------
-sub_CA288:
+OriApplyMorph:
         push esi
         push edi
         push ebp
@@ -7623,7 +7652,7 @@ sub_CA288:
         mov ecx, dword [byte esp+034h]
         push ecx
         push ebp
-        call sub_B9C70
+        call OriScaleVector
         add esp, byte 0Ch
         push eax
         mov eax, dword [byte esp+02Ch]
@@ -7748,7 +7777,7 @@ sub_CA288:
         add edx, byte 4
         push esi
         mov dword [byte esp+020h], edx
-        call sub_B9C70
+        call OriScaleVector
         add esp, byte 0Ch
         mov ecx, dword [byte esp+010h]
         push eax
@@ -7789,9 +7818,10 @@ sub_CA288:
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_CA584                                                            CA584  
+; OriRotateY                                      CA584  96 PC, low confidence
+; Rotates points around the vertical axis
 ;-----------------------------------------------------------------------------
-sub_CA584:
+OriRotateY:
         push esi
         sub esp, byte 8
         mov esi, dword [byte esp+010h]

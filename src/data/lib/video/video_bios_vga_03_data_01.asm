@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_124244 progbits alloc noexec write align=1
-extern sub_C5AE2
+extern FpuHookStub
 global str_MUSICON, str_MUSICOFF, str_SOUNDON, str_SOUNDOFF, byte_124244, _Extender, _ExtenderSubtype, Is8087
 global _osmajor, _osminor, SavedTextMode, SavedTextPage, SavedTextRows, __real87, SpeechQueueOpen, CrowdPlaying
 global SndMasterVolume, HotkeyNesting, dword_1242CE, _dynend, _curbrk, _LpCmdLine, StackLow, _STACKLOW
@@ -85,7 +85,7 @@ _osmajor:
 _osminor:
         db 00h
 FpuInitHook:
-        dd sub_C5AE2
+        dd FpuHookStub
         db 00h,00h,00h
 dword_12443C:
         db 00h,00h,00h,00h

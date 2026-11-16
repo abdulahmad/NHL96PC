@@ -11,21 +11,22 @@ extern dword_190ECC, dword_190ED0, dword_190ED4, dword_1912DC, dword_1912E0, dwo
 extern dword_1912F4, dword_1912F8, dword_1912FC, dword_191304, dword_191308, dword_19130C, dword_191310, dword_191314
 extern dword_19131C, dword_191320, dword_191A9C, dword_191AA0, dword_191AA4, strnicmp_, sub_AB834, sub_ABD64
 extern FindCachedFile, unpack, sub_AFD00, sub_B31C0, MultiplyMatrix, DrawPolyList, sub_BD594, sub_BD92C
-extern sub_BDC74, sub_C4C6C, PolyCrossProduct, sub_C6FA4, sub_C7A54, DrawShapeTriangleMapped, DrawClippedPoly, sub_C8D50
-extern sub_C955C, sub_C972C, sub_C98FC, sub_C9A20, sub_C9A80, sub_C9AD8, sub_C9D50, sub_C9D80
+extern sub_BDC74, sub_C4C6C, PolyCrossProduct, DrawMappedTriangle, DrawMappedTriangleShadow, DrawShapeTriangleMapped, DrawClippedPoly, DrawMappedPolyClipped
+extern DrawMappedStrip, DrawMappedStripShadow, DrawMappedStripDirect, DrawFlatPolyClipped, DrawFlatPolyMapped, TexSpanFill, VecLength3, NormalizeVec3
 extern FillRectColor, sub_E04E7, bcopy, DosOpenFile, DosCloseFile, sub_E07CC, DosSeekFile, sub_E0959
 extern sub_E1575, TransposeMatrix, unk_122320, unk_190EDC
-global sub_B8AB0_2C8, sub_B75A0, sub_B7638, sub_B7654, sub_B7690, sub_B76A8, sub_B76C0, sub_B7810
-global SetRinkView, TransformRinkPoints, TransformRinkObject, ProjectRinkObject, sub_B79E0, sub_B7A70, sub_B7AC4, sub_B7B50
-global sub_B7BDC, sub_B7C68, sub_B7D38, sub_B7E08, sub_B7ED8, sub_B7FBC, sub_B809C, sub_B817C
-global sub_B8198, sub_B81B4, sub_B81D0, sub_B8230, sub_B8290, sub_B82F0, sub_B848C, sub_B8740
-global sub_B8840, sub_B88F8, sub_B89F8, sub_B8AB0, sub_B8D80, sub_B9060, sub_B9328, sub_B960C
-global sub_B9870, sub_B98E0, sub_B9928, sub_B9A18, sub_B9B34, sub_B9B70, FixedLerp, sub_B9BD0
-global AddVec3, SubVec3, sub_B9C70, sub_B9D04, sub_B9EE0, sub_B9F14, sub_BA2F0, sub_BA344
+global TexPolyFill_2C8, ReadFileRange, LoadPackedAlloc, LoadPackedAllocQuiet, LoadPackedHandle, LoadPackedHandleQuiet, LoadPackedCore, FileSizeByName
+global SetRinkView, TransformRinkPoints, TransformRinkObject, ProjectRinkObject, FillTexturePoly, FillTexturePolyClipped, OriTriOpaque, OriTriShadow
+global OriTriMapped, OriQuadOpaque, OriQuadMapped, OriQuadShadow, OriPolyShaded, OriPolyClipped, OriPolyMapped, OriStripOpaque
+global OriStripShadow, OriStripMapped, OriFlatPoly, OriFlatPolyMapped, OriFlatPolyList, FillFloorPlane, TexPolyEdgeTable, TexPolyEdgeMirroredClipped
+global TexPolyEdgeMirrored, TexPolyEdgeClipped, TexPolyEdge, TexPolyFill, TexPolyFillClipped, TexPolyFillMirrored, TexPolyFillMirroredClipped, DrawTexturedPoly
+global DrawTexturedPolyArgs, OriFindMaterial, OriLoadShapes, OriSetMaterialRgb, OriSetMaterialTexture, OriSetMaterialDrawFn, FixedLerp, FixedDivide
+global AddVec3, SubVec3, OriScaleVector, OriNormalizeTree, OriMatrixHelper, OriUpdateMatrices, PerspScale, ProjectPoint
 ;-----------------------------------------------------------------------------
-; sub_B75A0                                                            B75A0  
+; ReadFileRange                                   B75A0  96 PC, low confidence
+; Reads part of an open file into memory, unpacking it when packed
 ;-----------------------------------------------------------------------------
-sub_B75A0:
+ReadFileRange:
         push esi
         push edi
         push ebp
@@ -83,15 +84,17 @@ sub_B75A0:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_B7638                                                            B7638  
+; LoadPackedAlloc                                 B7638  96 PC, low confidence
+; Loads a file into a new memory block and returns its data, stopping on an
+; error
 ;-----------------------------------------------------------------------------
-sub_B7638:
+LoadPackedAlloc:
         push byte 1
         mov edx, dword [byte esp+0Ch]
         push edx
         mov ebx, dword [byte esp+0Ch]
         push ebx
-        call sub_B76C0
+        call LoadPackedCore
         add esp, byte 0Ch
         test eax, eax
         je short .1
@@ -100,15 +103,16 @@ sub_B7638:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_B7654                                                            B7654  
+; LoadPackedAllocQuiet                            B7654  96 PC, low confidence
+; Loads a file into a new memory block and returns its data, or 0 on an error
 ;-----------------------------------------------------------------------------
-sub_B7654:
+LoadPackedAllocQuiet:
         push byte 0
         mov edx, dword [byte esp+0Ch]
         push edx
         mov ebx, dword [byte esp+0Ch]
         push ebx
-        call sub_B76C0
+        call LoadPackedCore
         add esp, byte 0Ch
         test eax, eax
         je short .1
@@ -122,7 +126,7 @@ sub_B7654:
         push ebx
         mov ecx, dword [byte esp+0Ch]
         push ecx
-        call sub_B76C0
+        call LoadPackedCore
         add esp, byte 0Ch
         test eax, eax
         je short .2
@@ -131,35 +135,41 @@ sub_B7654:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_B7690                                                            B7690  
+; LoadPackedHandle                                B7690  96 PC, low confidence
+; Loads a file into a new memory block and returns the block, stopping on an
+; error
 ;-----------------------------------------------------------------------------
-sub_B7690:
+LoadPackedHandle:
         push byte 1
         mov edx, dword [byte esp+0Ch]
         push edx
         mov ebx, dword [byte esp+0Ch]
         push ebx
-        call sub_B76C0
+        call LoadPackedCore
         add esp, byte 0Ch
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_B76A8                                                            B76A8  
+; LoadPackedHandleQuiet                           B76A8  96 PC, low confidence
+; Loads a file into a new memory block and returns the block, or 0 on an
+; error
 ;-----------------------------------------------------------------------------
-sub_B76A8:
+LoadPackedHandleQuiet:
         push byte 0
         mov edx, dword [byte esp+0Ch]
         push edx
         mov ebx, dword [byte esp+0Ch]
         push ebx
-        call sub_B76C0
+        call LoadPackedCore
         add esp, byte 0Ch
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_B76C0                                                            B76C0  
+; LoadPackedCore                                  B76C0  96 PC, low confidence
+; Loads a file, from the file cache when it is there, unpacking it when
+; packed
 ;-----------------------------------------------------------------------------
-sub_B76C0:
+LoadPackedCore:
         push esi
         push edi
         push ebp
@@ -193,7 +203,7 @@ sub_B76C0:
         push ecx
         mov edi, dword [byte esp+0Ch]
         push edi
-        call sub_B75A0
+        call ReadFileRange
         add esp, byte 10h
         mov dword [byte esp+0Ch], eax
         test eax, eax
@@ -299,9 +309,10 @@ sub_B76C0:
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_B7810                                                            B7810  
+; FileSizeByName                                  B7810  96 PC, low confidence
+; Opens a file to get its size, then closes it
 ;-----------------------------------------------------------------------------
-sub_B7810:
+FileSizeByName:
         sub esp, byte 0Ch
         push byte 1
         lea eax, [byte esp+04h]
@@ -494,9 +505,10 @@ ProjectRinkObject:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_B79E0                                                            B79E0  
+; FillTexturePoly                                 B79E0  96 PC, low confidence
+; Fills a polygon with one colour from the texture page
 ;-----------------------------------------------------------------------------
-sub_B79E0:
+FillTexturePoly:
         push esi
         push edi
         push ebp
@@ -559,9 +571,10 @@ sub_B79E0:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_B7A70                                                            B7A70  
+; FillTexturePolyClipped                          B7A70  96 PC, low confidence
+; Fills a clipped polygon with one colour from the texture page
 ;-----------------------------------------------------------------------------
-sub_B7A70:
+FillTexturePolyClipped:
         push esi
         push edi
         push ebp
@@ -601,9 +614,10 @@ sub_B7A70:
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_B7AC4                                                            B7AC4  
+; OriTriOpaque                                    B7AC4  96 PC, low confidence
+; Material draw routine: mapped triangle, opaque
 ;-----------------------------------------------------------------------------
-sub_B7AC4:
+OriTriOpaque:
         push esi
         push edi
         sub esp, byte 30h
@@ -655,7 +669,7 @@ sub_B7AC4:
         push edx
         movsd
         movsd
-        call sub_C6FA4
+        call DrawMappedTriangle
         add esp, byte 0Ch
         add esp, byte 30h
         pop edi
@@ -663,9 +677,10 @@ sub_B7AC4:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_B7B50                                                            B7B50  
+; OriTriShadow                                    B7B50  96 PC, low confidence
+; Material draw routine: mapped triangle with see-through and shadow colours
 ;-----------------------------------------------------------------------------
-sub_B7B50:
+OriTriShadow:
         push esi
         push edi
         sub esp, byte 30h
@@ -717,7 +732,7 @@ sub_B7B50:
         push edx
         movsd
         movsd
-        call sub_C7A54
+        call DrawMappedTriangleShadow
         add esp, byte 0Ch
         add esp, byte 30h
         pop edi
@@ -725,9 +740,10 @@ sub_B7B50:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_B7BDC                                                            B7BDC  
+; OriTriMapped                                    B7BDC  96 PC, low confidence
+; Material draw routine: mapped triangle through the shape mapper
 ;-----------------------------------------------------------------------------
-sub_B7BDC:
+OriTriMapped:
         push esi
         push edi
         sub esp, byte 30h
@@ -787,9 +803,10 @@ sub_B7BDC:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_B7C68                                                            B7C68  
+; OriQuadOpaque                                   B7C68  96 PC, low confidence
+; Material draw routine: mapped quad, opaque
 ;-----------------------------------------------------------------------------
-sub_B7C68:
+OriQuadOpaque:
         push esi
         push edi
         sub esp, byte 50h
@@ -861,7 +878,7 @@ sub_B7C68:
         push edx
         movsd
         movsd
-        call sub_C6FA4
+        call DrawMappedTriangle
         add esp, byte 0Ch
         lea eax, [byte esp+010h]
         push eax
@@ -869,7 +886,7 @@ sub_B7C68:
         push eax
         mov ebx, dword [byte esp+064h]
         push ebx
-        call sub_C6FA4
+        call DrawMappedTriangle
         add esp, byte 0Ch
         add esp, byte 50h
         pop edi
@@ -877,9 +894,10 @@ sub_B7C68:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_B7D38                                                            B7D38  
+; OriQuadMapped                                   B7D38  96 PC, low confidence
+; Material draw routine: mapped quad through the shape mapper
 ;-----------------------------------------------------------------------------
-sub_B7D38:
+OriQuadMapped:
         push esi
         push edi
         sub esp, byte 50h
@@ -967,9 +985,10 @@ sub_B7D38:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_B7E08                                                            B7E08  
+; OriQuadShadow                                   B7E08  96 PC, low confidence
+; Material draw routine: mapped quad with see-through and shadow colours
 ;-----------------------------------------------------------------------------
-sub_B7E08:
+OriQuadShadow:
         push esi
         push edi
         sub esp, byte 50h
@@ -1041,7 +1060,7 @@ sub_B7E08:
         push edx
         movsd
         movsd
-        call sub_C7A54
+        call DrawMappedTriangleShadow
         add esp, byte 0Ch
         lea eax, [byte esp+010h]
         push eax
@@ -1049,7 +1068,7 @@ sub_B7E08:
         push eax
         mov ebx, dword [byte esp+064h]
         push ebx
-        call sub_C7A54
+        call DrawMappedTriangleShadow
         add esp, byte 0Ch
         add esp, byte 50h
         pop edi
@@ -1057,9 +1076,10 @@ sub_B7E08:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_B7ED8                                                            B7ED8  
+; OriPolyShaded                                   B7ED8  96 PC, low confidence
+; Material draw routine: shaded polygon
 ;-----------------------------------------------------------------------------
-sub_B7ED8:
+OriPolyShaded:
         push esi
         push edi
         sub esp, byte 40h
@@ -1142,9 +1162,10 @@ sub_B7ED8:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_B7FBC                                                            B7FBC  
+; OriPolyClipped                                  B7FBC  96 PC, low confidence
+; Material draw routine: clipped polygon
 ;-----------------------------------------------------------------------------
-sub_B7FBC:
+OriPolyClipped:
         push esi
         push edi
         sub esp, byte 40h
@@ -1225,9 +1246,10 @@ sub_B7FBC:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_B809C                                                            B809C  
+; OriPolyMapped                                   B809C  96 PC, low confidence
+; Material draw routine: clipped mapped polygon
 ;-----------------------------------------------------------------------------
-sub_B809C:
+OriPolyMapped:
         push esi
         push edi
         sub esp, byte 40h
@@ -1300,7 +1322,7 @@ sub_B809C:
         push eax
         mov edx, dword [byte esp+054h]
         push edx
-        call sub_C8D50
+        call DrawMappedPolyClipped
         add esp, byte 0Ch
         add esp, byte 40h
         pop edi
@@ -1308,51 +1330,55 @@ sub_B809C:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_B817C                                                            B817C  
+; OriStripOpaque                                  B817C  96 PC, low confidence
+; Material draw routine: mapped strip, opaque
 ;-----------------------------------------------------------------------------
-sub_B817C:
+OriStripOpaque:
         mov edx, dword [byte esp+08h]
         push edx
         mov ebx, dword [TexturePageBase]
         push ebx
         mov ecx, dword [byte esp+0Ch]
         push ecx
-        call sub_C955C
+        call DrawMappedStrip
         add esp, byte 0Ch
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_B8198                                                            B8198  
+; OriStripShadow                                  B8198  96 PC, low confidence
+; Material draw routine: mapped strip with see-through and shadow colours
 ;-----------------------------------------------------------------------------
-sub_B8198:
+OriStripShadow:
         mov edx, dword [byte esp+08h]
         push edx
         mov ebx, dword [TexturePageBase]
         push ebx
         mov ecx, dword [byte esp+0Ch]
         push ecx
-        call sub_C972C
+        call DrawMappedStripShadow
         add esp, byte 0Ch
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_B81B4                                                            B81B4  
+; OriStripMapped                                  B81B4  96 PC, low confidence
+; Material draw routine: mapped strip through the shape mapper
 ;-----------------------------------------------------------------------------
-sub_B81B4:
+OriStripMapped:
         mov edx, dword [byte esp+08h]
         push edx
         mov ebx, dword [TexturePageBase]
         push ebx
         mov ecx, dword [byte esp+0Ch]
         push ecx
-        call sub_C98FC
+        call DrawMappedStripDirect
         add esp, byte 0Ch
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_B81D0                                                            B81D0  
+; OriFlatPoly                                     B81D0  96 PC, low confidence
+; Material draw routine: flat polygon
 ;-----------------------------------------------------------------------------
-sub_B81D0:
+OriFlatPoly:
         push esi
         push edi
         sub esp, byte 20h
@@ -1388,7 +1414,7 @@ sub_B81D0:
         push edx
         movsd
         movsd
-        call sub_C9A20
+        call DrawFlatPolyClipped
         add esp, byte 8
         add esp, byte 20h
         pop edi
@@ -1396,9 +1422,10 @@ sub_B81D0:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_B8230                                                            B8230  
+; OriFlatPolyMapped                               B8230  96 PC, low confidence
+; Material draw routine: flat mapped polygon
 ;-----------------------------------------------------------------------------
-sub_B8230:
+OriFlatPolyMapped:
         push esi
         push edi
         sub esp, byte 20h
@@ -1434,7 +1461,7 @@ sub_B8230:
         push edx
         movsd
         movsd
-        call sub_C9A80
+        call DrawFlatPolyMapped
         add esp, byte 8
         add esp, byte 20h
         pop edi
@@ -1442,9 +1469,10 @@ sub_B8230:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_B8290                                                            B8290  
+; OriFlatPolyList                                 B8290  96 PC, low confidence
+; Material draw routine: list of flat polygons
 ;-----------------------------------------------------------------------------
-sub_B8290:
+OriFlatPolyList:
         push esi
         push edi
         sub esp, byte 20h
@@ -1488,9 +1516,10 @@ sub_B8290:
         ret
         db 00h
 ;-----------------------------------------------------------------------------
-; sub_B82F0                                                            B82F0  
+; FillFloorPlane                                  B82F0  96 PC, low confidence
+; Fills the floor plane below the horizon line
 ;-----------------------------------------------------------------------------
-sub_B82F0:
+FillFloorPlane:
         push esi
         push edi
         push ebp
@@ -1647,9 +1676,10 @@ sub_B82F0:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_B848C                                                            B848C  
+; TexPolyEdgeTable                                B848C  96 PC, low confidence
+; Builds the edge table for a textured polygon
 ;-----------------------------------------------------------------------------
-sub_B848C:
+TexPolyEdgeTable:
         push esi
         push edi
         push ebp
@@ -1897,9 +1927,10 @@ sub_B848C:
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_B8740                                                            B8740  
+; TexPolyEdgeMirroredClipped                      B8740  96 PC, low confidence
+; Steps one clipped edge of a mirrored textured polygon
 ;-----------------------------------------------------------------------------
-sub_B8740:
+TexPolyEdgeMirroredClipped:
         push esi
         push edi
         push ebp
@@ -1983,7 +2014,7 @@ sub_B8740:
         push edx
         mov ebx, dword [byte esp+024h]
         push ebx
-        call sub_C9AD8
+        call TexSpanFill
         add esp, byte 24h
 .3:
         add esp, byte 14h
@@ -1993,9 +2024,10 @@ sub_B8740:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_B8840                                                            B8840  
+; TexPolyEdgeMirrored                             B8840  96 PC, low confidence
+; Steps one edge of a mirrored textured polygon
 ;-----------------------------------------------------------------------------
-sub_B8840:
+TexPolyEdgeMirrored:
         push esi
         push edi
         push ebp
@@ -2050,7 +2082,7 @@ sub_B8840:
         add eax, edx
         push eax
         push esi
-        call sub_C9AD8
+        call TexSpanFill
         add esp, byte 24h
 .1:
         pop ebp
@@ -2058,9 +2090,10 @@ sub_B8840:
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_B88F8                                                            B88F8  
+; TexPolyEdgeClipped                              B88F8  96 PC, low confidence
+; Steps one clipped edge of a textured polygon
 ;-----------------------------------------------------------------------------
-sub_B88F8:
+TexPolyEdgeClipped:
         push esi
         push edi
         push ebp
@@ -2144,7 +2177,7 @@ sub_B88F8:
         push edx
         mov ebx, dword [byte esp+024h]
         push ebx
-        call sub_C9AD8
+        call TexSpanFill
         add esp, byte 24h
 .3:
         add esp, byte 14h
@@ -2154,9 +2187,10 @@ sub_B88F8:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_B89F8                                                            B89F8  
+; TexPolyEdge                                     B89F8  96 PC, low confidence
+; Steps one edge of a textured polygon
 ;-----------------------------------------------------------------------------
-sub_B89F8:
+TexPolyEdge:
         push esi
         push edi
         push ebp
@@ -2211,7 +2245,7 @@ sub_B89F8:
         add eax, edx
         push eax
         push esi
-        call sub_C9AD8
+        call TexSpanFill
         add esp, byte 24h
 .1:
         pop ebp
@@ -2219,9 +2253,10 @@ sub_B89F8:
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_B8AB0                                                            B8AB0  
+; TexPolyFill                                     B8AB0  96 PC, low confidence
+; Fills a textured polygon
 ;-----------------------------------------------------------------------------
-sub_B8AB0:
+TexPolyFill:
         push esi
         push edi
         push ebp
@@ -2252,7 +2287,7 @@ sub_B8AB0:
 .2:
         mov eax, dword [byte esp+018h]
         cmp ebp, eax
-        je near sub_B8AB0_2C8
+        je near TexPolyFill_2C8
         mov esi, eax
         mov ecx, 10h
         shl esi, 6
@@ -2292,7 +2327,7 @@ sub_B8AB0:
         dec edi
         cmp edi, byte 0FFFFFFFFh
         je near .1
-        call sub_B89F8
+        call TexPolyEdge
         mov ebx, dword [byte esp+04h]
         mov eax, dword [ScreenWidth]
         mov edx, dword [dword_191AA0]
@@ -2420,7 +2455,7 @@ sub_B8AB0:
         shrd eax, edx, 10h
         mov dword [dword_1912FC], eax
         jmp near .8
-sub_B8AB0_2C8:
+TexPolyFill_2C8:
         add esp, byte 8
         pop ebp
         pop edi
@@ -2428,9 +2463,10 @@ sub_B8AB0_2C8:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_B8D80                                                            B8D80  
+; TexPolyFillClipped                              B8D80  96 PC, low confidence
+; Fills a clipped textured polygon
 ;-----------------------------------------------------------------------------
-sub_B8D80:
+TexPolyFillClipped:
         push esi
         push edi
         push ebp
@@ -2461,7 +2497,7 @@ sub_B8D80:
 .2:
         mov eax, dword [byte esp+018h]
         cmp ebp, eax
-        je short sub_B8AB0_2C8
+        je short TexPolyFill_2C8
         mov esi, eax
         mov ecx, 10h
         shl esi, 6
@@ -2504,7 +2540,7 @@ sub_B8D80:
         mov eax, dword [byte esp+04h]
         cmp eax, dword [ClipLeftCol]
         jl short .9
-        call sub_B88F8
+        call TexPolyEdgeClipped
 .9:
         mov ebx, dword [byte esp+04h]
         mov ecx, dword [ScreenHeight]
@@ -2512,7 +2548,7 @@ sub_B8D80:
         add esi, byte 4
         mov dword [byte esp+04h], ebx
         cmp ebx, ecx
-        jge near sub_B8AB0_2C8
+        jge near TexPolyFill_2C8
         mov eax, dword [ScreenWidth]
         mov edx, dword [dword_191AA0]
         mov ecx, dword [dword_190EB4]
@@ -2637,9 +2673,10 @@ sub_B8D80:
         jmp near .8
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_B9060                                                            B9060  
+; TexPolyFillMirrored                             B9060  96 PC, low confidence
+; Fills a mirrored textured polygon
 ;-----------------------------------------------------------------------------
-sub_B9060:
+TexPolyFillMirrored:
         push esi
         push edi
         push ebp
@@ -2670,7 +2707,7 @@ sub_B9060:
 .2:
         mov eax, dword [byte esp+018h]
         cmp ebp, eax
-        je near sub_B8AB0_2C8
+        je near TexPolyFill_2C8
         mov esi, eax
         mov ecx, 10h
         shl esi, 6
@@ -2710,7 +2747,7 @@ sub_B9060:
         dec edi
         cmp edi, byte 0FFFFFFFFh
         je near .1
-        call sub_B8840
+        call TexPolyEdgeMirrored
         mov ebx, dword [byte esp+04h]
         mov eax, dword [ScreenWidth]
         mov edx, dword [dword_191AA0]
@@ -2839,9 +2876,10 @@ sub_B9060:
         mov dword [dword_1912FC], eax
         jmp near .8
 ;-----------------------------------------------------------------------------
-; sub_B9328                                                            B9328  
+; TexPolyFillMirroredClipped                      B9328  96 PC, low confidence
+; Fills a clipped mirrored textured polygon
 ;-----------------------------------------------------------------------------
-sub_B9328:
+TexPolyFillMirroredClipped:
         push esi
         push edi
         push ebp
@@ -2872,7 +2910,7 @@ sub_B9328:
 .2:
         mov eax, dword [byte esp+018h]
         cmp ebp, eax
-        je near sub_B8AB0_2C8
+        je near TexPolyFill_2C8
         mov esi, eax
         mov ecx, 10h
         shl esi, 6
@@ -2915,7 +2953,7 @@ sub_B9328:
         mov eax, dword [byte esp+04h]
         cmp eax, dword [ClipLeftCol]
         jl short .9
-        call sub_B8740
+        call TexPolyEdgeMirroredClipped
 .9:
         mov ebx, dword [byte esp+04h]
         mov ecx, dword [ScreenHeight]
@@ -2923,7 +2961,7 @@ sub_B9328:
         add esi, byte 4
         mov dword [byte esp+04h], ebx
         cmp ebx, ecx
-        jge near sub_B8AB0_2C8
+        jge near TexPolyFill_2C8
         mov eax, dword [ScreenWidth]
         mov edx, dword [dword_191AA0]
         mov ecx, dword [dword_190EB4]
@@ -3048,9 +3086,10 @@ sub_B9328:
         jmp near .8
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_B960C                                                            B960C  
+; DrawTexturedPoly                                B960C  96 PC, low confidence
+; Sets up a textured polygon, rejects it when off screen, and fills it
 ;-----------------------------------------------------------------------------
-sub_B960C:
+DrawTexturedPoly:
         push esi
         push edi
         push ebp
@@ -3211,7 +3250,7 @@ sub_B960C:
         mov ebx, dword [byte esp+03Ch]
         push ebx
         push edi
-        call sub_B848C
+        call TexPolyEdgeTable
         add esp, byte 18h
         mov eax, esi
         inc esi
@@ -3250,13 +3289,13 @@ sub_B960C:
         push ebp
         push eax
         push edx
-        call sub_B9328
+        call TexPolyFillMirroredClipped
         jmp short .20
 .17:
         push ebp
         push eax
         push edx
-        call sub_B9060
+        call TexPolyFillMirrored
         jmp short .20
 .18:
         cmp dword [esp], byte 0
@@ -3264,7 +3303,7 @@ sub_B960C:
         push ebp
         push eax
         push edx
-        call sub_B8D80
+        call TexPolyFillClipped
         add esp, byte 0Ch
         add esp, byte 0Ch
         pop ebp
@@ -3275,7 +3314,7 @@ sub_B960C:
         push ebp
         push eax
         push edx
-        call sub_B8AB0
+        call TexPolyFill
 .20:
         add esp, byte 0Ch
 .21:
@@ -3286,9 +3325,10 @@ sub_B960C:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_B9870                                                            B9870  
+; DrawTexturedPolyArgs                            B9870  96 PC, low confidence
+; Draws a textured polygon from its arguments
 ;-----------------------------------------------------------------------------
-sub_B9870:
+DrawTexturedPolyArgs:
         push ebp
         sub esp, byte 28h
         mov edx, dword [byte esp+030h]
@@ -3319,16 +3359,17 @@ sub_B9870:
         push eax
         push byte 4
         push edx
-        call sub_B960C
+        call DrawTexturedPoly
         add esp, byte 18h
         add esp, byte 28h
         pop ebp
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_B98E0                                                            B98E0  
+; OriFindMaterial                              B98E0  96 PC, medium confidence
+; Finds a material by its 8-character name, or -1
 ;-----------------------------------------------------------------------------
-sub_B98E0:
+OriFindMaterial:
         push esi
         push edi
         push ebp
@@ -3366,9 +3407,10 @@ sub_B98E0:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_B9928                                                            B9928  
+; OriLoadShapes                                   B9928  96 PC, low confidence
+; Looks up a model's shapes in its art file
 ;-----------------------------------------------------------------------------
-sub_B9928:
+OriLoadShapes:
         push esi
         push edi
         push ebp
@@ -3464,9 +3506,10 @@ sub_B9928:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_B9A18                                                            B9A18  
+; OriSetMaterialRgb                            B9A18  96 PC, medium confidence
+; Sets a material's colour
 ;-----------------------------------------------------------------------------
-sub_B9A18:
+OriSetMaterialRgb:
         push esi
         push edi
         push ebp
@@ -3580,9 +3623,10 @@ sub_B9A18:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_B9B34                                                            B9B34  
+; OriSetMaterialTexture                        B9B34  96 PC, medium confidence
+; Sets a material's texture
 ;-----------------------------------------------------------------------------
-sub_B9B34:
+OriSetMaterialTexture:
         push esi
         mov ecx, dword [byte esp+08h]
         mov ebx, dword [byte esp+0Ch]
@@ -3607,9 +3651,10 @@ sub_B9B34:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_B9B70                                                            B9B70  
+; OriSetMaterialDrawFn                         B9B70  96 PC, medium confidence
+; Sets a material's draw routine
 ;-----------------------------------------------------------------------------
-sub_B9B70:
+OriSetMaterialDrawFn:
         push esi
         mov ecx, dword [byte esp+08h]
         mov ebx, dword [byte esp+0Ch]
@@ -3650,9 +3695,10 @@ FixedLerp:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_B9BD0                                                            B9BD0  
+; FixedDivide                                  B9BD0  96 PC, medium confidence
+; Divides two numbers to a 16.16 fixed point result
 ;-----------------------------------------------------------------------------
-sub_B9BD0:
+FixedDivide:
         mov ebx, dword [byte esp+08h]
         test ebx, ebx
         jne short .1
@@ -3738,9 +3784,10 @@ SubVec3:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_B9C70                                                            B9C70  
+; OriScaleVector                                  B9C70  96 PC, low confidence
+; Scales a vector to a length
 ;-----------------------------------------------------------------------------
-sub_B9C70:
+OriScaleVector:
         push esi
         mov esi, dword [byte esp+08h]
         mov ebx, dword [byte esp+0Ch]
@@ -3789,7 +3836,7 @@ sub_B9C70:
         mov dword [byte esp+08h], eax
         mov eax, esp
         push eax
-        call sub_C9D50
+        call VecLength3
         add esp, byte 4
         add esp, byte 0Ch
         pop edi
@@ -3797,9 +3844,10 @@ sub_B9C70:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_B9D04                                                            B9D04  
+; OriNormalizeTree                                B9D04  96 PC, low confidence
+; Normalises the vectors of an object and its children
 ;-----------------------------------------------------------------------------
-sub_B9D04:
+OriNormalizeTree:
         push esi
         push edi
         mov ecx, dword [byte esp+0Ch]
@@ -3862,11 +3910,11 @@ sub_B9D04:
         push edx
         mov ebx, dword [byte esp+010h]
         push ebx
-        call sub_B9D04
+        call OriNormalizeTree
         add esp, byte 0Ch
         push esi
         push esi
-        call sub_C9D80
+        call NormalizeVec3
         add esp, byte 8
         mov eax, esi
         pop esi
@@ -3985,9 +4033,10 @@ sub_B9D04:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_B9EE0                                                            B9EE0  
+; OriMatrixHelper                                 B9EE0  96 PC, low confidence
+; Helper for building object matrices
 ;-----------------------------------------------------------------------------
-sub_B9EE0:
+OriMatrixHelper:
         push esi
         push edi
         push ebp
@@ -4014,9 +4063,10 @@ sub_B9EE0:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_B9F14                                                            B9F14  
+; OriUpdateMatrices                               B9F14  96 PC, low confidence
+; Builds the matrices of an object and its children
 ;-----------------------------------------------------------------------------
-sub_B9F14:
+OriUpdateMatrices:
         push esi
         push edi
         push ebp
@@ -4100,7 +4150,7 @@ sub_B9F14:
         push eax
         lea edi, [byte esp+078h]
         mov esi, unk_122320
-        call sub_B9F14
+        call OriUpdateMatrices
         mov ecx, 9
         add esp, byte 0Ch
         rep movsd
@@ -4145,7 +4195,7 @@ sub_B9F14:
         lea eax, [byte esp+050h]
         push eax
         add ebp, byte 4
-        call sub_B9EE0
+        call OriMatrixHelper
         add esp, byte 0Ch
         cmp ebp, byte 10h
         jne short .4
@@ -4215,7 +4265,7 @@ sub_B9F14:
         push eax
         mov edx, dword [byte esp+02Ch]
         push edx
-        call sub_C9D80
+        call NormalizeVec3
         add esp, byte 8
         mov ebx, 10000h
         sub ebx, dword [byte esp+014h]
@@ -4349,9 +4399,10 @@ sub_B9F14:
         ret
         db 00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_BA2F0                                                            BA2F0  
+; PerspScale                                   BA2F0  96 PC, medium confidence
+; Scales a size by the perspective factor for a depth
 ;-----------------------------------------------------------------------------
-sub_BA2F0:
+PerspScale:
         mov eax, dword [byte esp+04h]
         mov edx, dword [str_Punct_DrawRinkSurface]
         mov eax, dword [byte eax+08h]
@@ -4384,9 +4435,10 @@ sub_BA2F0:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_BA344                                                            BA344  
+; ProjectPoint                                 BA344  96 PC, medium confidence
+; Projects a 3D point to the screen
 ;-----------------------------------------------------------------------------
-sub_BA344:
+ProjectPoint:
         push esi
         push edi
         mov edi, dword [byte esp+0Ch]

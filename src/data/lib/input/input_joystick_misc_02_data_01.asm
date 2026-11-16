@@ -2,11 +2,11 @@
 bits 32
 %include "hockey.inc"
 section s_1222C8 progbits alloc noexec write align=1
-extern sub_B7AC4, sub_B7B50, sub_B7BDC, sub_B7C68, sub_B7D38, sub_B7E08, sub_B7ED8, sub_B7FBC
-extern sub_B809C, sub_B817C, sub_B8198, sub_B81B4, sub_B81D0, sub_B8230, sub_B8290
+extern OriTriOpaque, OriTriShadow, OriTriMapped, OriQuadOpaque, OriQuadMapped, OriQuadShadow, OriPolyShaded, OriPolyClipped
+extern OriPolyMapped, OriStripOpaque, OriStripShadow, OriStripMapped, OriFlatPoly, OriFlatPolyMapped, OriFlatPolyList
 global RemapTable, dword_1222C8, dword_1222CC, dword_1222D0, dword_1222D4, dword_1222D8, dword_1222DC, dword_12231C
 global dword_122350, dword_122378, dword_122384, dword_122388, dword_12238C, SinTable, CosTable, str_Punct_SetScreenScale
-global ScreenWidth, ClipBottom, off_1222E0, off_1222EC, off_1222F8, off_122304, off_122310, unk_122320
+global ScreenWidth, ClipBottom, OriTriDrawFuncs, OriPolyDrawFuncs, OriQuadDrawFuncs, OriFlatDrawFuncs, OriStripDrawFuncs, unk_122320
 global unk_122344, RinkMatrix, RinkTranslation
 dword_1222C8:
         db 056h,0Eh,02Dh,0F2h
@@ -20,26 +20,26 @@ dword_1222D8:
         db 07Dh,03Fh,035h,09Eh
 dword_1222DC:
         db 064h,03Bh,0DFh,06Fh
-off_1222E0:
-        dd sub_B7AC4
-        dd sub_B7BDC
-        dd sub_B7B50
-off_1222EC:
-        dd sub_B7ED8
-        dd sub_B7FBC
-        dd sub_B809C
-off_1222F8:
-        dd sub_B7C68
-        dd sub_B7D38
-        dd sub_B7E08
-off_122304:
-        dd sub_B81D0
-        dd sub_B8290
-        dd sub_B8230
-off_122310:
-        dd sub_B817C
-        dd sub_B81B4
-        dd sub_B8198
+OriTriDrawFuncs:
+        dd OriTriOpaque
+        dd OriTriMapped
+        dd OriTriShadow
+OriPolyDrawFuncs:
+        dd OriPolyShaded
+        dd OriPolyClipped
+        dd OriPolyMapped
+OriQuadDrawFuncs:
+        dd OriQuadOpaque
+        dd OriQuadMapped
+        dd OriQuadShadow
+OriFlatDrawFuncs:
+        dd OriFlatPoly
+        dd OriFlatPolyList
+        dd OriFlatPolyMapped
+OriStripDrawFuncs:
+        dd OriStripOpaque
+        dd OriStripMapped
+        dd OriStripShadow
 dword_12231C:
         db 01h,00h,00h,00h
 unk_122320:

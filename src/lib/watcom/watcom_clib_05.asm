@@ -15,10 +15,10 @@ extern StackLow, _STACKLOW, _STACKTOP, _Envptr, RowTableSize, MemLockHandle, dwo
 extern dword_185848, dword_185C4C, dword_18664C, dword_18B04C, dword_18B050, dword_18B054, dword_18B058, dword_18B05C
 extern dword_18B060, dword_18B064, dword_18B068, dword_18B06C, dword_18B070, dword_18B074, CdBufferSelector, CdBufferAllocated
 extern CdDriveLetter, dword_18B088, CdRequestSegment, CdBufferAddr, dword_18B094, CdRegs, CdDirEntryBuf, CdRegEbx
-extern CdRegEdi, CdRegEax, CdRegEdx, dword_19F2D4, int386_, int386x_, kaufmfont, sub_C60EC_168
+extern CdRegEdi, CdRegEax, CdRegEdx, dword_19F2D4, int386_, int386x_, kaufmfont, LocateBigEntry_168
 extern sub_E2335_5B, sub_E2335_81, segread_, AddMemRegion, AddMemRegions, AddHighMemRegion, TrimMemList, MemListEnd
 extern AllocMemBlock, FreeMemBlock, InitMemDescriptors, sub_BE926, sub_C2AC4, sub_C2C5C, ResetMemLock, MemLock
-extern MemUnlock, sub_C4C6C, sub_C5410, sub_C59E0, CdDirSearch, sub_C6000, KbdPeekKey, bcopy
+extern MemUnlock, sub_C4C6C, JoystickCalibrateScreen, ShowKeyboardOn, CdDirSearch, ToUpperChar, KbdPeekKey, bcopy
 extern DosOpenFile, DosCloseFile, sub_E07CC, DosSeekFile, sub_E2335, CdFileTable, __stdout_buf, unk_18704C
 extern unk_19BAD0, StartupStack, unlink_, str_Punct_InitFpuFlags, _psp, __no87, _Envptr_w4, CdBufferSegment
 extern CdRequestSelector, word_18B0BC, CdRegEs, CdRegSegs
@@ -520,11 +520,11 @@ sub_B3145:
 ; sub_B3160                                                            B3160  
 ;-----------------------------------------------------------------------------
 sub_B3160:
-        push sub_C5410
+        push JoystickCalibrateScreen
         push byte 0Ah
         call sub_E2335
         add esp, byte 8
-        push sub_C59E0
+        push ShowKeyboardOn
         push byte 0Bh
         call sub_E2335
         add esp, byte 8
@@ -5540,7 +5540,7 @@ DriveLetterIndex:
         xor eax, eax
         mov al, byte [edx]
         push eax
-        call sub_C6000
+        call ToUpperChar
         add esp, byte 4
         sub eax, byte 41h
         ret
@@ -6357,7 +6357,7 @@ OpenResourceArchive:
         push esi
         push edi
         mov esi, dword [byte esp+0Ch]
-        mov edx, sub_C60EC_168
+        mov edx, LocateBigEntry_168
         mov ebx, byte_18B0D0
         mov ecx, dword_19F2D4
         mov edi, 5DC0h

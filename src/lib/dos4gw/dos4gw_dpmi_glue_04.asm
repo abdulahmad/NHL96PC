@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_D14D1 progbits alloc exec nowrite align=1
 extern FatalError, asc_1141B4, str_BuildfixedtableminLinear, str_BuildtableminLinearmapfE, str_BuildtableminLinearmapfE2, RemapTable, ClipTopRow, ClipLeftCol
-extern ClipRight, ScreenHeight, DrawDestBuffer, dword_1228FC, sub_C9AD8, EmuTrapExit, EaEax, EaEcx
+extern ClipRight, ScreenHeight, DrawDestBuffer, dword_1228FC, TexSpanFill, EmuTrapExit, EaEax, EaEcx
 extern EaEdx, EaEbx, EaEsp, EaDisp32, EaEsi, EaEdi, EaEaxDisp8, EaEcxDisp8
 extern EaEdxDisp8, EaEbxDisp8, EaEspDisp8, EaEbpDisp8, EaEsiDisp8, EaEdiDisp8, EaEaxDisp32, EaEcxDisp32
 extern EaEdxDisp32, EaEbxDisp32, EaEspDisp32, EaEbpDisp32, EaEsiDisp32, EaEdiDisp32, EaSib, EmuUnsupported
@@ -984,7 +984,7 @@ sub_D1CE0:
         push ebp
         add eax, edx
         push eax
-        call sub_C9AD8
+        call TexSpanFill
         add esp, byte 24h
 .17:
         add esi, byte 4

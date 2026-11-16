@@ -64,10 +64,10 @@ extern str_Wedge, str_WHD0, str_Zamboni, str_Zambpath, strcat_, strcpy_, SelectD
 extern PlayerSpriteFrame, PuckInNet, DrawRinkSprite, SpriteScale, InitMenuItems, RunMenu, SetMenuMouse, FillMusicStream
 extern SoundSecondsToBytes, SoundIdle, BuildAntiAliasTable, DrawFixedLine, DrawFixedLineClip, DrawShapeAtOwnPos, sub_AAA40, sub_AADA4
 extern AllocMemBlock, FreeMemBlock, sub_AC868, sub_AD35C, sub_AD620, sub_AD824, sub_ADBEC, sub_AFD00
-extern LoadResourceDataShared, sub_B049E, OpenArtArchiveErr, sub_B31C0, LoadFileToBlockShared, sub_B7810, SetRinkView, TransformRinkPoints
-extern ProjectRinkObject, sub_B79E0, sub_B7A70, sub_B81D0, sub_B82F0, sub_B9870, sub_B98E0, sub_B9928
-extern sub_B9A18, sub_B9B34, sub_B9B70, FixedLerp, sub_B9BD0, AddVec3, SubVec3, sub_B9C70
-extern sub_BA2F0, sub_BA344, sub_BA3D0, AngleOfVector, SinInterp, CosInterp, sub_BA5D0, sub_BB384
+extern LoadResourceDataShared, sub_B049E, OpenArtArchiveErr, sub_B31C0, LoadFileToBlockShared, FileSizeByName, SetRinkView, TransformRinkPoints
+extern ProjectRinkObject, FillTexturePoly, FillTexturePolyClipped, OriFlatPoly, FillFloorPlane, DrawTexturedPolyArgs, OriFindMaterial, OriLoadShapes
+extern OriSetMaterialRgb, OriSetMaterialTexture, OriSetMaterialDrawFn, FixedLerp, FixedDivide, AddVec3, SubVec3, OriScaleVector
+extern PerspScale, ProjectPoint, sub_BA3D0, AngleOfVector, SinInterp, CosInterp, sub_BA5D0, sub_BB384
 extern DrawFlatPoly, DrawPolyOutline, sub_BB924, sub_BB9C4, sub_BBAA0, DrawPolyList, SetRinkMatrix, SetRinkTranslation
 extern SetScreenScale, sub_BBC14, sub_BBC80, sub_BBE50, sub_BC040, sub_BC0C4, sub_BC150, sub_BC3A0
 extern sub_BC3F4, sub_BC5C0, sub_BC674, sub_BC760, sub_BC7F0, sub_BC838, sub_BD86C, sub_BD9AC
@@ -299,7 +299,7 @@ DrawTexturedQuad:
         movsd
         movsd
         movsd
-        call sub_B9870
+        call DrawTexturedPolyArgs
         add esp, byte 10h
         leave
         pop edi
@@ -385,7 +385,7 @@ LoadFshFile:
 .4:
         lea eax, [byte ebp-040h]
         push eax
-        call sub_B7810
+        call FileSizeByName
         mov edi, eax
         add esp, byte 4
         cmp eax, 32000h
@@ -465,7 +465,7 @@ LoadIceTexture:
         push str_Ice
         push dword [dword_15E8E4]
         mov edi, byte_159C58
-        call sub_B98E0
+        call OriFindMaterial
         mov edx, 20h
         add esp, byte 8
         mov eax, str_IceFsh
@@ -536,12 +536,12 @@ LoadIceTexture:
         call AddIceCrud
         push str_Ice
         push dword [dword_15E8E4]
-        call sub_B98E0
+        call OriFindMaterial
         add esp, byte 8
         push DrawIceTextureQuad
         push eax
         push dword [dword_15E8E4]
-        call sub_B9B70
+        call OriSetMaterialDrawFn
         add esp, byte 0Ch
         jmp near DrawRinkFrontParts_1A4
 ;-----------------------------------------------------------------------------
@@ -573,7 +573,7 @@ FatLineEdge:
         push edx
         sub eax, dword [byte edi+08h]
         push eax
-        call sub_B9BD0
+        call FixedDivide
         add esp, byte 8
         mov edx, dword [byte ebp-04h]
         mov ebx, eax
@@ -614,7 +614,7 @@ FatLineEdge:
         push ebx
         add eax, dword [byte edi+08h]
         push eax
-        call sub_B9BD0
+        call FixedDivide
         add esp, byte 8
         mov edx, dword [byte ebp-0Ch]
         mov ebx, eax
@@ -666,7 +666,7 @@ FatLineEdge:
         push edx
         sub eax, dword [byte edi+08h]
         push eax
-        call sub_B9BD0
+        call FixedDivide
         mov edx, dword [esi]
         add esp, byte 8
         sub edx, dword [edi]
@@ -717,7 +717,7 @@ FatLineEdge:
         push edx
         add eax, dword [byte edi+08h]
         push eax
-        call sub_B9BD0
+        call FixedDivide
         mov edx, dword [esi]
         add esp, byte 8
         sub edx, dword [edi]
@@ -757,7 +757,7 @@ FatLineEdge:
         je short .7
         push dword [byte ebp-024h]
         push esi
-        call sub_BA344
+        call ProjectPoint
         add esp, byte 8
 .7:
         leave
@@ -784,7 +784,7 @@ ClipEdgeToNear:
         push eax
         lea eax, [byte ebx+01h]
         push eax
-        call sub_B9BD0
+        call FixedDivide
         mov ebx, eax
         add esp, byte 8
         mov eax, dword [edi]
@@ -860,7 +860,7 @@ ClipLineToNear:
         push edi
         push ecx
 .3:
-        call sub_BA344
+        call ProjectPoint
         add esp, byte 8
 .4:
         mov eax, 1
@@ -895,7 +895,7 @@ DrawFaceEdge:
         shl edi, 3
         push eax
         add edi, edx
-        call sub_BA2F0
+        call PerspScale
         add esp, byte 8
         push eax
         push eax
@@ -925,7 +925,7 @@ DrawThickSegment:
         mov dword [byte ebp-08h], ecx
         push dword [byte ebx+08h]
         push ecx
-        call sub_B9BD0
+        call FixedDivide
         add esp, byte 8
         cmp eax, 10000h
         jle short .1
@@ -934,7 +934,7 @@ DrawThickSegment:
 .1:
         push dword [byte esi+08h]
         push dword [byte ebp-08h]
-        call sub_B9BD0
+        call FixedDivide
         add esp, byte 8
 .2:
         mov dword [byte ebp-04h], eax
@@ -976,7 +976,7 @@ DrawThickSegment:
         mov edi, dword [byte ebp-04h]
         push esi
         add edi, eax
-        call sub_BA2F0
+        call PerspScale
         add esp, byte 8
         mov edx, edi
         imul edx
@@ -1545,7 +1545,7 @@ GlassFace:
         je short .1
         push dword [byte edx+04h]
         push byte 4
-        call sub_B7A70
+        call FillTexturePolyClipped
         add esp, byte 8
 .1:
         xor eax, eax
@@ -1624,7 +1624,7 @@ DrawRinkFloorPolys:
         push dword [byte esi+04h]
         mov eax, dword [byte edi+014h]
         push dword [byte edx+eax+0Ch]
-        call sub_B81D0
+        call OriFlatPoly
         add esp, byte 8
 .5:
         xor eax, eax
@@ -1767,7 +1767,7 @@ BuildCircleTable:
         push esi
         push dword 19999h
         push esi
-        call sub_B9C70
+        call OriScaleVector
         mov dword [dword_1176DD], 1
         add esi, byte 0Ch
         add esp, byte 0Ch
@@ -4105,13 +4105,13 @@ DrawGlassFrameLines:
         push dword [dword_15E8C0]
         lea eax, [byte ebp-038h]
         push eax
-        call sub_BA2F0
+        call PerspScale
         add esp, byte 8
         mov esi, eax
         push dword [dword_15E8C0]
         lea eax, [byte ebp-044h]
         push eax
-        call sub_BA2F0
+        call PerspScale
         add esp, byte 8
         push eax
         push esi
@@ -4152,14 +4152,14 @@ DrawGlassFrameLines:
         mov edi, dword [byte ebp-04h]
         push eax
         mov edi, dword [byte edi+034h]
-        call sub_BA2F0
+        call PerspScale
         mov esi, eax
         imul eax, edi, byte 0Ch
         add esp, byte 8
         push dword [dword_15E8C0]
         add eax, dword [byte ebp-0Ch]
         push eax
-        call sub_BA2F0
+        call PerspScale
         add esp, byte 8
         push eax
         mov eax, edi
@@ -4250,13 +4250,13 @@ DrawBoardTopLines:
         push dword [dword_15E8B8]
         lea eax, [byte ebp-038h]
         push eax
-        call sub_BA2F0
+        call PerspScale
         add esp, byte 8
         mov esi, eax
         push dword [dword_15E8B8]
         lea eax, [byte ebp-044h]
         push eax
-        call sub_BA2F0
+        call PerspScale
         add esp, byte 8
         push eax
         push esi
@@ -4297,14 +4297,14 @@ DrawBoardTopLines:
         mov edi, dword [byte ebp-04h]
         push eax
         mov edi, dword [byte edi+04Ch]
-        call sub_BA2F0
+        call PerspScale
         mov esi, eax
         imul eax, edi, byte 0Ch
         add esp, byte 8
         push dword [dword_15E8B8]
         add eax, dword [byte ebp-0Ch]
         push eax
-        call sub_BA2F0
+        call PerspScale
         add esp, byte 8
         push eax
         mov eax, edi
@@ -4368,13 +4368,13 @@ DrawBoardTopLines:
         push dword [dword_15E8BC]
         lea eax, [byte ebp-04Ch]
         push eax
-        call sub_BA2F0
+        call PerspScale
         add esp, byte 8
         mov esi, eax
         push dword [dword_15E8BC]
         lea eax, [byte ebp-040h]
         push eax
-        call sub_BA2F0
+        call PerspScale
         add esp, byte 8
         push eax
         push esi
@@ -4423,14 +4423,14 @@ DrawBoardTopLines_24C:
         push dword [dword_15E8BC]
         add eax, dword [byte ebp-010h]
         push eax
-        call sub_BA2F0
+        call PerspScale
         mov dword [byte ebp-01Ch], eax
         imul eax, dword [byte ebp-024h], byte 0Ch
         add esp, byte 8
         push dword [dword_15E8BC]
         add eax, dword [byte ebp-010h]
         push eax
-        call sub_BA2F0
+        call PerspScale
         mov edx, dword [byte ebp-024h]
         add esp, byte 8
         mov ebx, eax
@@ -4693,7 +4693,7 @@ DrawRinkFloor:
         mov edx, dword [byte ebp-010h]
         mov edx, dword [byte edx+014h]
         push dword [byte edx+eax+0Ch]
-        call sub_B81D0
+        call OriFlatPoly
         add esp, byte 8
         jmp short .4
 .3:
@@ -4708,7 +4708,7 @@ DrawRinkFloor:
         push dword [byte eax+04h]
         push byte 4
         push dword [dword_15E838]
-        call sub_B79E0
+        call FillTexturePoly
         add esp, byte 0Ch
 .4:
         inc dword [byte ebp-08h]
@@ -4858,7 +4858,7 @@ DrawSideGlass:
         mov eax, dword [edi]
         push dword [byte eax+04h]
         push byte 4
-        call sub_B7A70
+        call FillTexturePolyClipped
         add esp, byte 8
 .4:
         inc dword [byte ebp-04h]
@@ -4960,7 +4960,7 @@ DrawRinkFrontParts:
         mov eax, dword [edi]
         push dword [byte eax+04h]
         push byte 4
-        call sub_B7A70
+        call FillTexturePolyClipped
         add esp, byte 8
 .3:
         inc dword [byte ebp-04h]
@@ -4995,7 +4995,7 @@ DrawRinkFrontParts:
         mov edi, dword [esi]
         push dword [byte edi+04h]
         push byte 4
-        call sub_B7A70
+        call FillTexturePolyClipped
         add esp, byte 8
 .7:
         inc dword [byte ebp-08h]
@@ -5027,7 +5027,7 @@ DrawRinkFrontParts:
         mov eax, dword [esi]
         push dword [byte eax+04h]
         push byte 4
-        call sub_B7A70
+        call FillTexturePolyClipped
         add esp, byte 8
 .11:
         inc dword [byte ebp-0Ch]
@@ -5221,11 +5221,11 @@ LoadZamboni:
         call sub_BC150
         push eax
         mov dword [dword_15E81C], eax
-        call sub_B9A18
+        call OriSetMaterialRgb
         add esp, byte 4
         push dword [dword_15E7D8]
         push dword [dword_15E81C]
-        call sub_B9928
+        call OriLoadShapes
         mov eax, dword [dword_15E81C]
         or byte [byte eax+010h], 2
         mov eax, dword [dword_15E7F0]
@@ -5741,28 +5741,28 @@ BuildRinkSides:
         sub ebp, 82h
         push str_Glassline
         push dword [dword_15E8E4]
-        call sub_B98E0
+        call OriFindMaterial
         add esp, byte 8
         push str_Glass
         push dword [dword_15E8E4]
         mov dword [byte ebp+06h], eax
-        call sub_B98E0
+        call OriFindMaterial
         add esp, byte 8
         push str_Topboards
         push dword [dword_15E8E4]
         mov dword [byte ebp-06h], eax
-        call sub_B98E0
+        call OriFindMaterial
         add esp, byte 8
         push str_Botboards
         push dword [dword_15E8E4]
         mov dword [byte ebp+02h], eax
-        call sub_B98E0
+        call OriFindMaterial
         add esp, byte 8
         push str_FatRedLines
         mov dword [byte ebp+04Eh], 0
         push dword [dword_15E8E4]
         mov dword [byte ebp-02h], eax
-        call sub_B98E0
+        call OriFindMaterial
         add esp, byte 8
         mov dword [byte ebp+076h], 0
         mov dword [byte ebp+072h], 0
@@ -5771,7 +5771,7 @@ BuildRinkSides:
         mov dword [byte ebp+066h], 0
         push dword [dword_15E8E4]
         mov dword [dword_15E69C], eax
-        call sub_B98E0
+        call OriFindMaterial
         mov dword [dword_15E6AC], eax
         mov eax, dword [dword_15E8DC]
         mov dword [byte ebp+06Eh], 0
@@ -6195,12 +6195,12 @@ SetIceLogoTexture:
         mov esi, eax
         push str_Icelogo
         push dword [dword_15E8E4]
-        call sub_B98E0
+        call OriFindMaterial
         add esp, byte 8
         push esi
         push eax
         push dword [dword_15E8E4]
-        call sub_B9B34
+        call OriSetMaterialTexture
         add esp, byte 0Ch
         pop esi
         pop edx
@@ -6262,7 +6262,7 @@ LoadStandsArt_32:
 LoadStandsArt_3F:
         push byte 20h
         push str_STANDSFSH
-        call sub_B7810
+        call FileSizeByName
         add esp, byte 4
         push eax
         push str_STANDS
@@ -6280,7 +6280,7 @@ LoadStandsArt_61:
         xor edi, edi
         push dword [dword_15E900]
         xor esi, esi
-        call sub_B9928
+        call OriLoadShapes
         add esp, byte 8
 .3:
         push edi
@@ -6292,7 +6292,7 @@ LoadStandsArt_61:
         lea eax, [byte ebp-010h]
         push eax
         push dword [dword_15E900]
-        call sub_B98E0
+        call OriFindMaterial
         mov edx, eax
         imul edx, byte 14h
         mov eax, dword [dword_15E900]
@@ -6306,7 +6306,7 @@ LoadStandsArt_61:
         jl short .3
         push str_Wedge
         push eax
-        call sub_B98E0
+        call OriFindMaterial
         mov edx, eax
         imul ebx, edx, byte 14h
         mov eax, dword [dword_15E900]
@@ -6316,7 +6316,7 @@ LoadStandsArt_61:
         mov edx, dword [byte edx+ebx+0Ch]
         push eax
         mov dword [dword_15E824], edx
-        call sub_B98E0
+        call OriFindMaterial
         mov edx, eax
         imul edx, byte 14h
         mov eax, dword [dword_15E900]
@@ -6334,12 +6334,12 @@ LoadStandsArt_11B:
         mov esi, edx
         push eax
         push dword [dword_15E8E4]
-        call sub_B98E0
+        call OriFindMaterial
         add esp, byte 8
         push esi
         push eax
         push dword [dword_15E8E4]
-        call sub_B9B34
+        call OriSetMaterialTexture
         add esp, byte 0Ch
         pop esi
         pop ecx
@@ -6634,11 +6634,11 @@ LoadRinkModel:
         call sub_BC150
         push eax
         mov dword [dword_15E8E4], eax
-        call sub_B9A18
+        call OriSetMaterialRgb
         add esp, byte 4
         push dword [dword_15E8EC]
         push dword [dword_15E8E4]
-        call sub_B9928
+        call OriLoadShapes
         mov eax, dword [dword_15E8E4]
         mov edx, 20h
         add esp, byte 8
@@ -6665,11 +6665,11 @@ LoadRinkModel:
         call sub_BC150
         push eax
         mov dword [dword_15E8C4], eax
-        call sub_B9A18
+        call OriSetMaterialRgb
         add esp, byte 4
         push dword [dword_15E8C8]
         push dword [dword_15E8C4]
-        call sub_B9928
+        call OriLoadShapes
         mov eax, dword [dword_15E8C4]
         mov edx, 20h
         add esp, byte 8
@@ -6687,11 +6687,11 @@ LoadRinkModel:
         call sub_BC150
         push eax
         mov dword [dword_15E8E0], eax
-        call sub_B9A18
+        call OriSetMaterialRgb
         add esp, byte 4
         push dword [dword_15E818]
         push dword [dword_15E8E0]
-        call sub_B9928
+        call OriLoadShapes
         mov eax, dword [dword_15E8E0]
         mov edx, 20h
         add esp, byte 8
@@ -6718,11 +6718,11 @@ LoadRinkModel:
         call sub_BC150
         push eax
         mov dword [dword_15E8F8], eax
-        call sub_B9A18
+        call OriSetMaterialRgb
         add esp, byte 4
         push dword [dword_15E8D0]
         push dword [dword_15E8F8]
-        call sub_B9928
+        call OriLoadShapes
         add esp, byte 8
         push str_Goal02
         push dword [dword_15E8E4]
@@ -6744,11 +6744,11 @@ LoadRinkModel:
         call sub_BC150
         push eax
         mov dword [dword_15E8FC], eax
-        call sub_B9A18
+        call OriSetMaterialRgb
         add esp, byte 4
         push dword [dword_15E8D0]
         push dword [dword_15E8FC]
-        call sub_B9928
+        call OriLoadShapes
         add esp, byte 8
         push str_Goal12
         push dword [dword_15E8E4]
@@ -6776,7 +6776,7 @@ LoadRinkModel:
         push str_Pipe
         or byte [byte eax+010h], 2
         push dword [dword_15E8F8]
-        call sub_B98E0
+        call OriFindMaterial
         mov edi, eax
         imul edx, edi, byte 14h
         mov eax, dword [dword_15E8F8]
@@ -6793,12 +6793,12 @@ LoadRinkModel:
         push edi
         push dword [dword_15E8F8]
         mov dword [dword_15E7E8], eax
-        call sub_B9B70
+        call OriSetMaterialDrawFn
         add esp, byte 0Ch
         push GoalPipeFace
         push edi
         push dword [dword_15E8FC]
-        call sub_B9B70
+        call OriSetMaterialDrawFn
         add esp, byte 0Ch
         push str_Left1
         push dword [dword_15E8F8]
@@ -6914,7 +6914,7 @@ LoadRinkModel:
         push dword [dword_15E8E4]
         mov dword [dword_158DA0], eax
         mov dword [dword_158D94], eax
-        call sub_B98E0
+        call OriFindMaterial
         mov edx, eax
         imul ebx, edx, byte 14h
         mov eax, dword [dword_15E8E4]
@@ -6924,16 +6924,16 @@ LoadRinkModel:
         mov edx, dword [byte edx+ebx+0Ch]
         push eax
         mov dword [dword_15E47C], edx
-        call sub_B98E0
+        call OriFindMaterial
         add esp, byte 8
         push GlassFace
         push eax
         push dword [dword_15E8E4]
-        call sub_B9B70
+        call OriSetMaterialDrawFn
         add esp, byte 0Ch
         push str_Boardback
         push dword [dword_15E8E4]
-        call sub_B98E0
+        call OriFindMaterial
         mov edx, eax
         imul ebx, edx, byte 14h
         mov dword [dword_15E82C], eax
@@ -6944,7 +6944,7 @@ LoadRinkModel:
         mov edx, dword [byte edx+ebx+04h]
         push eax
         mov dword [dword_15E868], edx
-        call sub_B98E0
+        call OriFindMaterial
         mov edx, eax
         imul edx, byte 14h
         mov eax, dword [dword_15E8E4]
@@ -6984,21 +6984,21 @@ LoadRinkModel:
         add esp, byte 10h
         push str_Rubber
         push dword [dword_15E8E0]
-        call sub_B98E0
+        call OriFindMaterial
         add esp, byte 8
         push RubberFace
         push eax
         push dword [dword_15E8E0]
-        call sub_B9B70
+        call OriSetMaterialDrawFn
         add esp, byte 0Ch
         push str_Rubberside
         push dword [dword_15E8E0]
-        call sub_B98E0
+        call OriFindMaterial
         add esp, byte 8
         push RubberSideFace
         push eax
         push dword [dword_15E8E0]
-        call sub_B9B70
+        call OriSetMaterialDrawFn
         add esp, byte 0Ch
         push str_ICE2
         push dword [dword_15E8E4]
@@ -7032,7 +7032,7 @@ LoadRinkModel:
         push str_Redlite
         push dword [dword_15E8E4]
         mov dword [dword_15E830], eax
-        call sub_B98E0
+        call OriFindMaterial
         imul ebx, eax, byte 14h
         mov eax, dword [dword_15E8E4]
         add esp, byte 8
@@ -7051,7 +7051,7 @@ LoadRinkModel:
         push str_Grnlite
         push dword [dword_15E8E4]
         mov dword [dword_15E854], eax
-        call sub_B98E0
+        call OriFindMaterial
         imul edx, eax, byte 14h
         mov eax, dword [dword_15E8E4]
         add esp, byte 8
@@ -7403,7 +7403,7 @@ LoadRinkModel:
         call LoadIceTexture
         push str_Crease
         push dword [dword_15E8E4]
-        call sub_B98E0
+        call OriFindMaterial
         mov edx, eax
         imul edx, byte 14h
         mov eax, dword [dword_15E8E4]
@@ -7562,13 +7562,13 @@ LoadRinkModel:
         add esp, byte 10h
         push str_FatRedLines
         push dword [dword_15E8E4]
-        call sub_B98E0
+        call OriFindMaterial
         add esp, byte 8
         push FatRedLineFace
         push eax
         push dword [dword_15E8E4]
         mov edi, eax
-        call sub_B9B70
+        call OriSetMaterialDrawFn
         add esp, byte 0Ch
         imul edi, byte 14h
         mov eax, dword [dword_15E8E4]
@@ -7582,14 +7582,14 @@ LoadRinkModel:
         push str_FatBlueLines
         push dword [dword_15E8E4]
         mov dword [dword_15E7E0], eax
-        call sub_B98E0
+        call OriFindMaterial
         mov edi, eax
         imul edi, byte 14h
         add esp, byte 8
         push FatBlueLineFace
         push eax
         push dword [dword_15E8E4]
-        call sub_B9B70
+        call OriSetMaterialDrawFn
         mov eax, dword [dword_15E8E4]
         add esp, byte 0Ch
         mov eax, dword [byte eax+014h]
@@ -7602,14 +7602,14 @@ LoadRinkModel:
         push str_Glassline
         push dword [dword_15E8E4]
         mov dword [dword_15E7EC], eax
-        call sub_B98E0
+        call OriFindMaterial
         mov edi, eax
         imul edi, byte 14h
         add esp, byte 8
         push GlassLineFace
         push eax
         push dword [dword_15E8E4]
-        call sub_B9B70
+        call OriSetMaterialDrawFn
         mov eax, dword [dword_15E8E4]
         add esp, byte 0Ch
         mov eax, dword [byte eax+014h]
@@ -7622,14 +7622,14 @@ LoadRinkModel:
         push str_Topboards
         push dword [dword_15E8E4]
         mov dword [dword_15E7DC], eax
-        call sub_B98E0
+        call OriFindMaterial
         mov edi, eax
         add esp, byte 8
         imul edi, byte 14h
         push TopBoardsFace
         push eax
         push dword [dword_15E8E4]
-        call sub_B9B70
+        call OriSetMaterialDrawFn
         mov eax, dword [dword_15E8E4]
         add esp, byte 0Ch
         mov eax, dword [byte eax+014h]
@@ -7642,14 +7642,14 @@ LoadRinkModel:
         push str_Botboards
         push dword [dword_15E8E4]
         mov dword [dword_15E814], eax
-        call sub_B98E0
+        call OriFindMaterial
         mov edi, eax
         imul edi, byte 14h
         add esp, byte 8
         push BotBoardsFace
         push eax
         push dword [dword_15E8E4]
-        call sub_B9B70
+        call OriSetMaterialDrawFn
         mov eax, dword [dword_15E8E4]
         add esp, byte 0Ch
         mov eax, dword [byte eax+014h]
@@ -7662,12 +7662,12 @@ LoadRinkModel:
         push str_ThinRedLines
         push dword [dword_15E8E4]
         mov dword [dword_15E804], eax
-        call sub_B98E0
+        call OriFindMaterial
         add esp, byte 8
         push ThinRedLineFace
         push eax
         push dword [dword_15E8E4]
-        call sub_B9B70
+        call OriSetMaterialDrawFn
         add esp, byte 0Ch
         call BuildRinkSides
         mov dword [dword_15E484], 0
@@ -8017,7 +8017,7 @@ DrawIceMarkings:
         lea eax, [byte ebp-02Eh]
         push eax
         push byte 4
-        call sub_B82F0
+        call FillFloorPlane
         add esp, byte 0Ch
         push dword [dword_15E7CC]
         push dword [dword_15E808]
@@ -8958,7 +8958,7 @@ DrawBenchArea:
         mov eax, dword [edi]
         push dword [byte eax+04h]
         push byte 4
-        call sub_B7A70
+        call FillTexturePolyClipped
         add esp, byte 8
 .4:
         mov edi, dword [byte esi+018h]
@@ -8977,7 +8977,7 @@ DrawBenchArea:
         push dword [byte eax+04h]
         push byte 4
         push dword [dword_15E838]
-        call sub_B79E0
+        call FillTexturePoly
         add esp, byte 0Ch
         jmp short .6
 .5:
@@ -8987,7 +8987,7 @@ DrawBenchArea:
         mov eax, dword [edi]
         push dword [byte eax+04h]
         push byte 4
-        call sub_B7A70
+        call FillTexturePolyClipped
         add esp, byte 8
 .6:
         mov eax, dword [byte esi+030h]
@@ -8998,14 +8998,14 @@ DrawBenchArea:
         push dword [dword_15E8C0]
         add eax, dword [byte ebp-04h]
         push eax
-        call sub_BA2F0
+        call PerspScale
         mov edi, eax
         imul eax, dword [byte ebp-014h], byte 0Ch
         add esp, byte 8
         push dword [dword_15E8C0]
         add eax, dword [byte ebp-04h]
         push eax
-        call sub_BA2F0
+        call PerspScale
         add esp, byte 8
         push eax
         push edi
@@ -9031,14 +9031,14 @@ DrawBenchArea:
         add eax, dword [byte ebp-04h]
         push eax
         mov edi, dword [byte esi+04Ch]
-        call sub_BA2F0
+        call PerspScale
         mov esi, eax
         imul eax, edi, byte 0Ch
         add esp, byte 8
         push dword [dword_15E8B8]
         add eax, dword [byte ebp-04h]
         push eax
-        call sub_BA2F0
+        call PerspScale
         add esp, byte 8
         push eax
         push esi

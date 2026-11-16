@@ -7,7 +7,7 @@ extern ScreenHeight, dword_1228E8, dword_1228FC, BackBufferWidth, dword_123A88, 
 extern dword_1248C8, sub_ADA50, FillRectSpans, SetupRectFill, unk_18584C
 global SetDrawBitmap, WaitRetrace_36, SetScreenTarget, GetPaletteRange, FillRectColor, SetClipWindow, sub_DD7B8, sub_DD800
 global sub_DD830, sub_DD87C, SetRemapTable, GetRemapTable, sub_DD908, sub_DD920, SetBlitSource, sub_DD975
-global CopyMappedSpan, sub_DDA44, sub_DDB22, sub_DDB68, sub_DDBB4, sub_DDC2A, ReadPortStable, WaitRetrace
+global CopyMappedSpan, sub_DDA44, CopyScaledSpanShadow, sub_DDB68, sub_DDBB4, CopyScaledSpan, ReadPortStable, WaitRetrace
 global WaitRetraceEdges, SetCrtcStart, sub_DDF4F, ClearChain4, sub_DE01A, unk_DE06D, WaitDisplayRetrace
 ;-----------------------------------------------------------------------------
 ; SetScreenTarget                                 DD6C4  96 PC, low confidence
@@ -546,9 +546,10 @@ sub_DDA44:
         leave
         ret
 ;-----------------------------------------------------------------------------
-; sub_DDB22                                                            DDB22  
+; CopyScaledSpanShadow                         DDB22  96 PC, medium confidence
+; Copies a scaled row, skipping colour 0FFh and shading under colour 0FEh
 ;-----------------------------------------------------------------------------
-sub_DDB22:
+CopyScaledSpanShadow:
         push ebp
         LD mov, ebp, esp
         push esi
@@ -663,9 +664,10 @@ sub_DDBB4:
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_DDC2A                                                            DDC2A  
+; CopyScaledSpan                               DDC2A  96 PC, medium confidence
+; Copies a scaled row of pixels
 ;-----------------------------------------------------------------------------
-sub_DDC2A:
+CopyScaledSpan:
         push esi
         push edi
         push ebp

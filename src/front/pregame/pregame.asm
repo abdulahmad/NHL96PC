@@ -17,7 +17,7 @@ extern str_DSS, str_FSH, str_FSH3, str_H07d, str_Home, str_LG02d, str_MightyDuck
 extern str_PalFsh, str_PALS, str_Plyr, str_ProfileFsh, str_SCHEDULE2, str_SS3, str_Xlate, strcat_
 extern WriteDbRecord6, SelectDataLibrary, PlayerDbRecord, ComputeTeamRanks, DrawShapeAtOwnPos, sub_AAA8C, sub_AADA4, AllocMemBlock
 extern FreeMemBlock, sub_AD35C, sub_ADA50, sub_ADBEC, SaveTextState, SetDrawTarget, DosFileInfo, LoadResourceDataShared
-extern sub_B7638, PutBlockKeyed, SetScreenTarget, sub_DD908, sub_DD920, sub_E04E0, sub_E0584, TextSetFont
+extern LoadPackedAlloc, PutBlockKeyed, SetScreenTarget, sub_DD908, sub_DD920, sub_E04E0, sub_E0584, TextSetFont
 extern unk_112523, unk_152C44, unk_849C1, unk_849C7, unk_849CB, unk_849D1, word_114CE0
 global PreGameMatchupScreen, PreGameMatchupScreen_4E6, CycleScreenPalettes, PreGameTeamsScreen, PreGameCardsA, PreGameCardsB, PreGameCardsC, jpt_87328
 global PreGameScreens, PreGameScreens_24, PreGameScreens_44, PreGameScreens_4B, PreGameScreens_52, PreGameScreens_59
@@ -52,7 +52,7 @@ PreGameMatchupScreen:
         push byte 0
         lea eax, [byte ebp+062h]
         push eax
-        call sub_B7638
+        call LoadPackedAlloc
         add esp, byte 8
         push str_Down
         push eax
@@ -81,7 +81,7 @@ PreGameMatchupScreen:
         push byte 0
         lea eax, [byte ebp+062h]
         push eax
-        call sub_B7638
+        call LoadPackedAlloc
         add esp, byte 8
         push str_Home
         push eax
@@ -97,7 +97,7 @@ PreGameMatchupScreen:
         push byte 0
         push str_PalFsh
         mov dword [byte ebp+07Eh], 0
-        call sub_B7638
+        call LoadPackedAlloc
         add esp, byte 8
         mov dword [byte ebp+076h], eax
         push str_Pal3

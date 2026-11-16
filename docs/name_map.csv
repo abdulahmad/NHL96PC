@@ -1296,13 +1296,61 @@ B73CA,stricmp_,,WATCOM,high,IDA FLIRT library signature,
 B7498,LoadFileInto,sub_B7498,new,low,loads a file into a buffer,src/lib/ea/ea_gfx_04.asm
 B74B0,LoadFileToBlockShared,sub_B74B0,new,low,loads a file into a memory block in shared mode,src/lib/ea/ea_gfx_04.asm
 B74D0,LoadFileToBlockPlain,sub_B74D0,new,low,loads a file into a memory block,src/lib/ea/ea_gfx_04.asm
+B75A0,ReadFileRange,sub_B75A0,new,low,"reads part of an open file into memory, unpacking it when packed",src/lib/ea/ea_shpi_01.asm
+B7638,LoadPackedAlloc,sub_B7638,new,low,"loads a file into a new memory block and returns its data, stopping on an error",src/lib/ea/ea_shpi_01.asm
+B7654,LoadPackedAllocQuiet,sub_B7654,new,low,"loads a file into a new memory block and returns its data, or 0 on an error",src/lib/ea/ea_shpi_01.asm
+B7690,LoadPackedHandle,sub_B7690,new,low,"loads a file into a new memory block and returns the block, stopping on an error",src/lib/ea/ea_shpi_01.asm
+B76A8,LoadPackedHandleQuiet,sub_B76A8,new,low,"loads a file into a new memory block and returns the block, or 0 on an error",src/lib/ea/ea_shpi_01.asm
+B76C0,LoadPackedCore,sub_B76C0,new,low,"loads a file, from the file cache when it is there, unpacking it when packed",src/lib/ea/ea_shpi_01.asm
+B7810,FileSizeByName,sub_B7810,new,low,"opens a file to get its size, then closes it",src/lib/ea/ea_shpi_01.asm
 B78C0,SetRinkView,sub_B78C0,new,low,sets the rink view parameters,src/lib/ea/ea_shpi_01.asm
 B78DC,TransformRinkPoints,sub_B78DC,new,low,transforms rink points,src/lib/ea/ea_shpi_01.asm
 B7924,TransformRinkObject,sub_B7924,new,low,transforms a rink object,src/lib/ea/ea_shpi_01.asm
 B79C8,ProjectRinkObject,sub_B79C8,new,low,projects a rink object,src/lib/ea/ea_shpi_01.asm
+B79E0,FillTexturePoly,sub_B79E0,new,low,fills a polygon with one colour from the texture page,src/lib/ea/ea_shpi_01.asm
+B7A70,FillTexturePolyClipped,sub_B7A70,new,low,fills a clipped polygon with one colour from the texture page,src/lib/ea/ea_shpi_01.asm
+B7AC4,OriTriOpaque,sub_B7AC4,new,low,"material draw routine: mapped triangle, opaque",src/lib/ea/ea_shpi_01.asm
+B7B50,OriTriShadow,sub_B7B50,new,low,material draw routine: mapped triangle with see-through and shadow colours,src/lib/ea/ea_shpi_01.asm
+B7BDC,OriTriMapped,sub_B7BDC,new,low,material draw routine: mapped triangle through the shape mapper,src/lib/ea/ea_shpi_01.asm
+B7C68,OriQuadOpaque,sub_B7C68,new,low,"material draw routine: mapped quad, opaque",src/lib/ea/ea_shpi_01.asm
+B7D38,OriQuadMapped,sub_B7D38,new,low,material draw routine: mapped quad through the shape mapper,src/lib/ea/ea_shpi_01.asm
+B7E08,OriQuadShadow,sub_B7E08,new,low,material draw routine: mapped quad with see-through and shadow colours,src/lib/ea/ea_shpi_01.asm
+B7ED8,OriPolyShaded,sub_B7ED8,new,low,material draw routine: shaded polygon,src/lib/ea/ea_shpi_01.asm
+B7FBC,OriPolyClipped,sub_B7FBC,new,low,material draw routine: clipped polygon,src/lib/ea/ea_shpi_01.asm
+B809C,OriPolyMapped,sub_B809C,new,low,material draw routine: clipped mapped polygon,src/lib/ea/ea_shpi_01.asm
+B817C,OriStripOpaque,sub_B817C,new,low,"material draw routine: mapped strip, opaque",src/lib/ea/ea_shpi_01.asm
+B8198,OriStripShadow,sub_B8198,new,low,material draw routine: mapped strip with see-through and shadow colours,src/lib/ea/ea_shpi_01.asm
+B81B4,OriStripMapped,sub_B81B4,new,low,material draw routine: mapped strip through the shape mapper,src/lib/ea/ea_shpi_01.asm
+B81D0,OriFlatPoly,sub_B81D0,new,low,material draw routine: flat polygon,src/lib/ea/ea_shpi_01.asm
+B8230,OriFlatPolyMapped,sub_B8230,new,low,material draw routine: flat mapped polygon,src/lib/ea/ea_shpi_01.asm
+B8290,OriFlatPolyList,sub_B8290,new,low,material draw routine: list of flat polygons,src/lib/ea/ea_shpi_01.asm
+B82F0,FillFloorPlane,sub_B82F0,new,low,fills the floor plane below the horizon line,src/lib/ea/ea_shpi_01.asm
+B848C,TexPolyEdgeTable,sub_B848C,new,low,builds the edge table for a textured polygon,src/lib/ea/ea_shpi_01.asm
+B8740,TexPolyEdgeMirroredClipped,sub_B8740,new,low,steps one clipped edge of a mirrored textured polygon,src/lib/ea/ea_shpi_01.asm
+B8840,TexPolyEdgeMirrored,sub_B8840,new,low,steps one edge of a mirrored textured polygon,src/lib/ea/ea_shpi_01.asm
+B88F8,TexPolyEdgeClipped,sub_B88F8,new,low,steps one clipped edge of a textured polygon,src/lib/ea/ea_shpi_01.asm
+B89F8,TexPolyEdge,sub_B89F8,new,low,steps one edge of a textured polygon,src/lib/ea/ea_shpi_01.asm
+B8AB0,TexPolyFill,sub_B8AB0,new,low,fills a textured polygon,src/lib/ea/ea_shpi_01.asm
+B8D80,TexPolyFillClipped,sub_B8D80,new,low,fills a clipped textured polygon,src/lib/ea/ea_shpi_01.asm
+B9060,TexPolyFillMirrored,sub_B9060,new,low,fills a mirrored textured polygon,src/lib/ea/ea_shpi_01.asm
+B9328,TexPolyFillMirroredClipped,sub_B9328,new,low,fills a clipped mirrored textured polygon,src/lib/ea/ea_shpi_01.asm
+B960C,DrawTexturedPoly,sub_B960C,new,low,"sets up a textured polygon, rejects it when off screen, and fills it",src/lib/ea/ea_shpi_01.asm
+B9870,DrawTexturedPolyArgs,sub_B9870,new,low,draws a textured polygon from its arguments,src/lib/ea/ea_shpi_01.asm
+B98E0,OriFindMaterial,sub_B98E0,new,medium,"finds a material by its 8-character name, or -1",src/lib/ea/ea_shpi_01.asm
+B9928,OriLoadShapes,sub_B9928,new,low,looks up a model's shapes in its art file,src/lib/ea/ea_shpi_01.asm
+B9A18,OriSetMaterialRgb,sub_B9A18,new,medium,sets a material's colour,src/lib/ea/ea_shpi_01.asm
+B9B34,OriSetMaterialTexture,sub_B9B34,new,medium,sets a material's texture,src/lib/ea/ea_shpi_01.asm
+B9B70,OriSetMaterialDrawFn,sub_B9B70,new,medium,sets a material's draw routine,src/lib/ea/ea_shpi_01.asm
 B9BB0,FixedLerp,sub_B9BB0,new,low,interpolates two fixed-point values,src/lib/ea/ea_shpi_01.asm
+B9BD0,FixedDivide,sub_B9BD0,new,medium,divides two numbers to a 16.16 fixed point result,src/lib/ea/ea_shpi_01.asm
 B9C08,AddVec3,sub_B9C08,new,low,adds two 3-component vectors,src/lib/ea/ea_shpi_01.asm
 B9C3C,SubVec3,sub_B9C3C,new,low,subtracts one 3-component vector from another,src/lib/ea/ea_shpi_01.asm
+B9C70,OriScaleVector,sub_B9C70,new,low,scales a vector to a length,src/lib/ea/ea_shpi_01.asm
+B9D04,OriNormalizeTree,sub_B9D04,new,low,normalises the vectors of an object and its children,src/lib/ea/ea_shpi_01.asm
+B9EE0,OriMatrixHelper,sub_B9EE0,new,low,helper for building object matrices,src/lib/ea/ea_shpi_01.asm
+B9F14,OriUpdateMatrices,sub_B9F14,new,low,builds the matrices of an object and its children,src/lib/ea/ea_shpi_01.asm
+BA2F0,PerspScale,sub_BA2F0,new,medium,scales a size by the perspective factor for a depth,src/lib/ea/ea_shpi_01.asm
+BA344,ProjectPoint,sub_BA344,new,medium,projects a 3D point to the screen,src/lib/ea/ea_shpi_01.asm
 BA420,AngleOfVector,sub_BA420,new,low,"returns the angle of a 2D vector in 1024ths of a turn, by octant",src/lib/ea/ea_gfx_05.asm
 BA4F0,SinInterp,sub_BA4F0,new,low,"returns the sine of a fine angle, interpolating between table entries",src/lib/ea/ea_gfx_05.asm
 BA55C,CosInterp,sub_BA55C,new,low,"returns the cosine of a fine angle, interpolating between table entries",src/lib/ea/ea_gfx_05.asm
@@ -1481,30 +1529,60 @@ C4EBF,_dosret0_,,WATCOM,high,IDA FLIRT library signature,
 C4ECB,__set_errno_dos_,,WATCOM,high,IDA FLIRT library signature,
 C4F31,__IOMode_,,WATCOM,high,IDA FLIRT library signature,
 C4F86,__SetIOMode_,,WATCOM,high,IDA FLIRT library signature,
+C4FA0,DrawEllipse,sub_C4FA0,new,low,draws an ellipse,src/lib/watcom/watcom_clib_13.asm
+C50E0,DrawEllipseClipped,sub_C50E0,new,low,draws an ellipse inside the clip window,src/lib/watcom/watcom_clib_13.asm
 C511C,file_putc_,,WATCOM,high,IDA FLIRT library signature,
 C512D,__fprtf_,,WATCOM,high,IDA FLIRT library signature,
 C51B2,_nexpand_,,WATCOM,high,IDA FLIRT library signature,
 C51EA,__HeapManager_expand_,,WATCOM,high,IDA FLIRT library signature,
 C53DC,_nmsize_,,WATCOM,high,IDA FLIRT library signature,
 C53F0,int386_,,WATCOM,high,IDA FLIRT library signature,
+C5410,JoystickCalibrateScreen,sub_C5410,new,medium,joystick calibration screen,src/lib/watcom/watcom_clib_13.asm
+C59E0,ShowKeyboardOn,sub_C59E0,new,low,shows the keyboard on message,src/lib/watcom/watcom_clib_13.asm
 C59F8,__CMain,,WATCOM,high,IDA FLIRT library signature,
 C5A48,__InitRtns,,WATCOM,high,IDA FLIRT library signature,
 C5A93,__FiniRtns,,WATCOM,high,IDA FLIRT library signature,
+C5AE2,FpuHookStub,sub_C5AE2,new,low,maths hook that does nothing,src/lib/watcom/watcom_clib_13.asm
+C5AF0,ShutdownSystem,sub_C5AF0,new,low,restores text mode and shuts down the system,src/lib/watcom/watcom_clib_13.asm
+C5B18,InitSystem,sub_C5B18,new,low,"checks the DOS extender and sets up memory, graphics, timer and input",src/lib/watcom/watcom_clib_13.asm
 C5D00,PrintBoxedText,sub_C5D00,new,low,"formats text like printf and draws it on a box at x, y",src/lib/watcom/watcom_clib_13.asm
 C5D56,CdDirSearch,sub_C5D56,new,medium,searches the CD directory for a file name and fills a find record,src/lib/watcom/watcom_clib_13.asm
+C6000,ToUpperChar,sub_C6000,new,medium,converts a lower case letter to upper case,src/lib/watcom/watcom_clib_13.asm
 C6011,segread_,,WATCOM,high,IDA FLIRT library signature,
 C6039,int386x_,,WATCOM,high,IDA FLIRT library signature,
 C6052,__doserror_,,WATCOM,high,IDA FLIRT library signature,
 C6065,unlink_,,WATCOM,high,IDA FLIRT library signature,
+C6090,BigFileType,sub_C6090,new,medium,checks a BIG archive header: 1 or 2 for the two formats,src/lib/watcom/watcom_clib_13.asm
+C60EC,LocateBigEntry,sub_C60EC,new,medium,finds a file's entry in a BIG archive,src/lib/watcom/watcom_clib_13.asm
+C626C,LocateBigData,sub_C626C,new,medium,returns a pointer to a file's data in a BIG archive,src/lib/watcom/watcom_clib_13.asm
+C62E0,LocateBigs,sub_C62E0,new,medium,"finds a file in a BIG archive, stopping when it is not there",src/lib/watcom/watcom_clib_13.asm
+C63DC,WalkBigFile,sub_C63DC,new,low,walks the entries of a BIG archive,src/lib/watcom/watcom_clib_13.asm
 C65A0,PolyCrossProduct,sub_C65A0,new,medium,returns the 2D cross product of three indexed polygon points (its winding),src/lib/watcom/watcom_clib_13.asm
+C65F8,RasterMappedTriangle,sub_C65F8,new,low,draws a mapped triangle row by row with scaled spans,src/lib/watcom/watcom_clib_13.asm
+C6FA4,DrawMappedTriangle,sub_C6FA4,new,low,"draws a mapped triangle, opaque",src/lib/watcom/watcom_clib_13.asm
+C70A8,RasterMappedTriangleShadow,sub_C70A8,new,low,draws a mapped triangle row by row with see-through and shadow spans,src/lib/watcom/watcom_clib_13.asm
+C7A54,DrawMappedTriangleShadow,sub_C7A54,new,low,draws a mapped triangle with see-through and shadow colours,src/lib/watcom/watcom_clib_13.asm
 C7B58,RasterShapeTriangle,sub_C7B58,new,medium,"draws one triangle of a shape mapped onto screen coordinates, stepping source and destination edges in fixed point",src/lib/watcom/watcom_clib_13.asm
 C8504,DrawShapeTriangleMapped,sub_C8504,new,low,converts a source and a destination triangle to 16.16 fixed point and draws the mapped shape triangle,src/lib/watcom/watcom_clib_13.asm
 C85F0,DrawClippedPoly,sub_C85F0,new,medium,clips and draws a polygon,src/lib/watcom/watcom_clib_13.asm
+C8D50,DrawMappedPolyClipped,sub_C8D50,new,low,clips a mapped polygon and draws it as triangles,src/lib/watcom/watcom_clib_13.asm
+C955C,DrawMappedStrip,sub_C955C,new,low,draws a strip of mapped triangles,src/lib/watcom/watcom_clib_13.asm
+C972C,DrawMappedStripShadow,sub_C972C,new,low,draws a strip of mapped triangles with see-through and shadow colours,src/lib/watcom/watcom_clib_13.asm
+C98FC,DrawMappedStripDirect,sub_C98FC,new,low,draws a strip of triangles through the shape mapper,src/lib/watcom/watcom_clib_13.asm
+C9A20,DrawFlatPolyClipped,sub_C9A20,new,low,clips and fills a flat polygon,src/lib/watcom/watcom_clib_13.asm
+C9A80,DrawFlatPolyMapped,sub_C9A80,new,low,clips and draws a flat mapped polygon,src/lib/watcom/watcom_clib_13.asm
+C9AD8,TexSpanFill,sub_C9AD8,new,low,fills one textured span,src/lib/watcom/watcom_clib_13.asm
 C9CF8,strnicmp_,,WATCOM,high,IDA FLIRT library signature,
+C9D50,VecLength3,sub_C9D50,new,medium,returns the length of a 3D vector,src/lib/watcom/watcom_clib_13.asm
+C9D80,NormalizeVec3,sub_C9D80,new,low,scales a 3D vector to unit length,src/lib/watcom/watcom_clib_13.asm
+C9E68,Mul32To64,sub_C9E68,new,medium,multiplies two numbers to a 64-bit result,src/lib/watcom/watcom_clib_13.asm
 C9E70,Div64By32,sub_C9E70,new,medium,divides a 64-bit value by a 32-bit one; followed by the signed and remainder variants,src/lib/watcom/watcom_clib_13.asm
+C9F3A,Sar64,sub_C9F3A,new,medium,"shifts a 64-bit number right, keeping the sign",src/lib/watcom/watcom_clib_13.asm
 C9F8A,Shl64,sub_C9F8A,new,low,shifts a 64-bit value left,src/lib/watcom/watcom_clib_13.asm
 C9FB0,min_,,WATCOM,high,IDA FLIRT library signature,
 CA0B0,BuildSpanOffsets,sub_CA0B0,new,medium,fills the column offset table by stepping source coordinates in 16.16 fixed point,src/lib/watcom/watcom_clib_13.asm
+CA288,OriApplyMorph,sub_CA288,new,medium,morphs an object's points between its key shapes,src/lib/watcom/watcom_clib_13.asm
+CA584,OriRotateY,sub_CA584,new,low,rotates points around the vertical axis,src/lib/watcom/watcom_clib_13.asm
 CA650,FixedSinCos,sub_CA650,new,low,graphics library: sine and cosine of a fixed-point angle from the table,src/lib/watcom/watcom_clib_13.asm
 CA6B0,__sys_init_387_emulator,,WATCOM,high,IDA FLIRT library signature,
 CA6E0,InitFpuFlags,sub_CA6E0,95PC,high,same code as in the next game,src/lib/ea/ea_snap.asm
@@ -1938,6 +2016,8 @@ DD8B0,SetRemapTable,sub_DD8B0,new,low,copies a 256-entry colour remap table into
 DD8C8,GetRemapTable,sub_DD8C8,new,low,copies the current 256-entry colour remap table out,src/lib/video/video_bios_vga_01.asm
 DD960,SetBlitSource,sub_DD960,new,medium,sets the source pointer and the column offset table used by the span copiers,src/lib/video/video_bios_vga_01.asm
 DD982,CopyMappedSpan,sub_DD982,new,medium,"copies a span of pixels from the source through the column offset table, by pixel depth",src/lib/video/video_bios_vga_01.asm
+DDB22,CopyScaledSpanShadow,sub_DDB22,new,medium,"copies a scaled row, skipping colour 0FFh and shading under colour 0FEh",src/lib/video/video_bios_vga_01.asm
+DDC2A,CopyScaledSpan,sub_DDC2A,new,medium,copies a scaled row of pixels,src/lib/video/video_bios_vga_01.asm
 DDE74,ReadPortStable,sub_DDE74,new,low,reads a port twice and returns the bits set in both reads,src/lib/video/video_bios_vga_01.asm
 DDE7B,WaitRetrace,sub_DDE7B,new,high,busy-wait for the VGA vertical retrace,src/lib/video/video_bios_vga_01.asm
 DDEBC,WaitRetraceEdges,sub_DDEBC,new,medium,"as WaitRetrace, always waiting for both edges",src/lib/video/video_bios_vga_01.asm
@@ -4052,6 +4132,11 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 121F90,SinCosTable,dword_121F90,new,medium,sine/cosine lookup table,src/data/lib/watcom/watcom_clib_05_data_03.asm
 121FBC,CdStreamSpeed,dword_121FBC,new,medium,CD stream speed,src/data/lib/watcom/watcom_clib_05_data_03.asm
 121FC0,str_Viv,asc_121FC0,new,high,string '.viv',src/data/lib/watcom/watcom_clib_05_data_03.asm
+1222E0,OriTriDrawFuncs,off_1222E0,new,low,material draw routines for triangles,src/data/lib/input/input_joystick_misc_02_data_01.asm
+1222EC,OriPolyDrawFuncs,off_1222EC,new,low,material draw routines for polygons,src/data/lib/input/input_joystick_misc_02_data_01.asm
+1222F8,OriQuadDrawFuncs,off_1222F8,new,low,material draw routines for quads,src/data/lib/input/input_joystick_misc_02_data_01.asm
+122304,OriFlatDrawFuncs,off_122304,new,low,material draw routines for flat polygons,src/data/lib/input/input_joystick_misc_02_data_01.asm
+122310,OriStripDrawFuncs,off_122310,new,low,material draw routines for strips,src/data/lib/input/input_joystick_misc_02_data_01.asm
 122390,SinTable,dword_122390,new,low,quarter-wave sine table in 16.16 fixed point,src/data/lib/input/input_joystick_misc_02_data_01.asm
 122790,CosTable,dword_122790,new,medium,quarter-wave cosine table in 16.16 fixed point,src/data/lib/input/input_joystick_misc_02_data_01.asm
 122794,RemapTable,byte_122794,new,low,colour remap table,src/data/lib/input/input_joystick_misc_02_data_01.asm

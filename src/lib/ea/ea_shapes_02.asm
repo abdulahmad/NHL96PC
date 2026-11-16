@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_C4DE0 progbits alloc exec nowrite align=1
-extern str_FshVshQfsQvs, str_Vsh, str_Qvs, stricmp_, sub_AB834, sub_ABF88, FindCachedFile, sub_B76C0
+extern str_FshVshQfsQvs, str_Vsh, str_Qvs, stricmp_, sub_AB834, sub_ABF88, FindCachedFile, LoadPackedCore
 extern sub_D0360, sub_D0440, sub_D0640
 global sub_C4DE0
 ;-----------------------------------------------------------------------------
@@ -46,7 +46,7 @@ sub_C4DE0:
         push eax
         lea eax, [byte esp+08h]
         push eax
-        call sub_B76C0
+        call LoadPackedCore
         mov esi, eax
         add esp, byte 0Ch
         test eax, eax
@@ -79,7 +79,7 @@ sub_C4DE0:
         push ebp
         lea eax, [byte esp+08h]
         push eax
-        call sub_B76C0
+        call LoadPackedCore
         add esp, byte 0Ch
 .3:
         add esp, byte 64h

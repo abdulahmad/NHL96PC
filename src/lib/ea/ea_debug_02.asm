@@ -19,7 +19,7 @@ extern dword_1A11CC, dword_1A11D0, dword_1A11D4, dword_1A11D8, dword_1A11DC, dwo
 extern fprintf_, min_, off_1513B0, sprintf_, strncpy_, PutBlock, sub_AADA4, sub_ABF88
 extern sub_AC194, CompactDownLocked, CompactUpLocked, DebugSetLine, sub_ACCF8, sub_ACD24, sub_ACD38, FillRect
 extern sub_ADA80, sub_AFFD0, SaveTextState, SetDrawTarget, TextSetFont, sub_B31C0, sub_BF02C, sub_BF034
-extern sub_BF04B, initgraphics, sub_C2AEC, PrintBoxedText, sub_C6000, sub_CFE0C, sub_CFE8C, sub_D0650
+extern sub_BF04B, initgraphics, sub_C2AEC, PrintBoxedText, ToUpperChar, sub_CFE0C, sub_CFE8C, sub_D0650
 extern DrawTextBoxedAt, sub_DC158, sub_DC17C, sub_DC780, sub_DC830, sub_DCB90, SetScreenTarget, GetPaletteRange
 extern FillRectColor, SetClipWindow, sub_DD7B8, KbdGetKey, sub_DFF7C, sub_E04E0, sub_E0584, PollHotkeys
 extern sub_E193C, sub_E1956, sub_E1970, unk_114440, unk_11444C, unk_114570, unk_114594, unk_11466C
@@ -37,7 +37,7 @@ sub_D7DB0:
         push edx
         call PollHotkeys
         push eax
-        call sub_C6000
+        call ToUpperChar
         add esp, byte 4
         pop edx
         pop ecx
@@ -170,7 +170,7 @@ sub_D7DB0_147:
 .7:
         call PollHotkeys
         push eax
-        call sub_C6000
+        call ToUpperChar
         add esp, byte 4
         mov edi, eax
         test eax, eax
@@ -1580,7 +1580,7 @@ sub_D8E98:
         call KbdGetKey
         push eax
         mov dword [byte esp+034h], eax
-        call sub_C6000
+        call ToUpperChar
         add esp, byte 4
         mov edx, eax
         test eax, eax
@@ -2385,7 +2385,7 @@ sub_D94C0:
 .25:
         call PollHotkeys
         push eax
-        call sub_C6000
+        call ToUpperChar
         add esp, byte 4
         mov ebp, eax
         test eax, eax
@@ -3597,7 +3597,7 @@ sub_DA508:
 .6:
         call PollHotkeys
         push eax
-        call sub_C6000
+        call ToUpperChar
         add esp, byte 4
         test eax, eax
         je short .6

@@ -7,7 +7,7 @@ extern str_Punct_DrawRinkSurface, dword_123AC0, dword_152FEC, dword_179E4C, dwor
 extern dword_17BA3C, dword_17BA40, dword_17BA44, dword_17BA48, dword_17BA4C, dword_17BA50, dword_17BA54, gameopts
 extern off_11BB4C, str_CupRef, str_FightRef, str_NewpalQfs, str_OldshpQfs, str_OLDSHPQFS2, str_Pal6, str_RinkpalQfs
 extern str_TeampalQda, str_TotalRef, str_UNPACK, str_Unpacked, SelectDataLibrary, LoadShadowRemap, AllocMemBlock, FreeMemBlock
-extern sub_AC838, sub_AFCD0, sub_AFD00, OpenArtArchiveErr, sub_B3420, sub_B3458, sub_B7638, sub_BEFF0
+extern sub_AC838, sub_AFCD0, sub_AFD00, OpenArtArchiveErr, sub_B3420, sub_B3458, LoadPackedAlloc, sub_BEFF0
 extern sub_BF02C, sub_BF034, sub_E04E0, bcopy, sub_E1824, unk_16443C, unk_164688, unk_179E48
 extern unk_17B248, unk_17B488, unk_17B518, unk_17B830, unk_17B930, unk_17BA58, unpack
 global PutJerseyDigit, MakeJerseyNumber, SetTeamJerseyColors, SetTeamJerseyColors_A3, SaveTeamPalette, SetPlayerSpriteColors, SetRinkSpriteColors, IndexSpriteFrames
@@ -443,7 +443,7 @@ LoadTeamPalette:
         mov dword [byte ebp-08h], edx
         push byte 0
         push str_TeampalQda
-        call sub_B7638
+        call LoadPackedAlloc
         mov dword [byte ebp-010h], eax
         mov dword [byte ebp-0Ch], eax
         mov eax, esi
@@ -576,7 +576,7 @@ LoadPlayerSprites:
         push byte 0
         push str_RinkpalQfs
         mov dword [dword_17BA44], eax
-        call sub_B7638
+        call LoadPackedAlloc
         mov esi, eax
         add esp, byte 8
         push str_Pal6
@@ -645,7 +645,7 @@ LoadGameSprites:
         call SelectDataLibrary
         push byte 0
         push str_NewpalQfs
-        call sub_B7638
+        call LoadPackedAlloc
         add esp, byte 8
         mov edi, eax
         mov eax, dword [byte ebp-04h]

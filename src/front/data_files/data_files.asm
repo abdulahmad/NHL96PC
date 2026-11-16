@@ -5,8 +5,8 @@ section s_1E3C8 progbits alloc exec nowrite align=1
 extern DirPathTable, optflags, sprintf_, str_02d, str_07d, str_backslash2, str_D15, str_DB2
 extern str_dot3, strcat_, stricmp_, SyncMusicStream, AllocMemBlock, FreeMemBlock, sub_AC838, sub_AFD00
 extern LoadResourceBlockShared, LoadResourceData, LoadResourceDataShared, sub_B049E, OpenArtArchiveErr, OpenArtArchive, LoadDataFileErr, LoadFileAllocQuiet
-extern OpenResourceArchive, sub_B73C4, LoadFileInto, LoadFileToBlockShared, LoadFileToBlockPlain, sub_B7638, sub_B7654, sub_B7690
-extern sub_B76A8, DataDirPath, unk_1151A7, unk_115333, DataFilePath, unpack, word_11512D
+extern OpenResourceArchive, sub_B73C4, LoadFileInto, LoadFileToBlockShared, LoadFileToBlockPlain, LoadPackedAlloc, LoadPackedAllocQuiet, LoadPackedHandle
+extern LoadPackedHandleQuiet, DataDirPath, unk_1151A7, unk_115333, DataFilePath, unpack, word_11512D
 global jpt_1E3C8, jpt_1E3D8, MakeDataPath, MakeDataPath_42, MakeDataPath_4A, MakeDataPath_50, MakeDataPath_63, MakeDataPath_E0
 global MakeDataPath_E8, MakeDataPath_EE, MakeDataPath_101, jpt_1E54A, MakeDirPath, jpt_1E633, SelectDataLibrary, SelectDataLibrary_32
 global SelectDataLibrary_3A, SelectDataLibrary_40, SelectDataLibrary_54, LoadDataFile, LoadDataFile_1B, LoadDataFileFlag0, LoadDataFileHandle, LoadPackedFile
@@ -482,7 +482,7 @@ LoadPackedFile:
         jne short .3
         push byte 20h
         push DataFilePath
-        call sub_B7638
+        call LoadPackedAlloc
         add esp, byte 8
         mov esi, eax
 .3:
@@ -502,7 +502,7 @@ LoadPackedFile:
         call MakeDataPath
         push ebx
         push DataFilePath
-        call sub_B7654
+        call LoadPackedAllocQuiet
         jmp near LoadDataFile_1B
         push ebx
         push ecx
@@ -512,7 +512,7 @@ LoadPackedFile:
         call MakeDataPath
         push ebx
         push DataFilePath
-        call sub_B7690
+        call LoadPackedHandle
         jmp near LoadDataFile_1B
         push ebx
         push ecx
@@ -522,7 +522,7 @@ LoadPackedFile:
         call MakeDataPath
         push ebx
         push DataFilePath
-        call sub_B76A8
+        call LoadPackedHandleQuiet
         jmp near LoadDataFile_1B
 ;-----------------------------------------------------------------------------
 ; LoadDataFileLib                                 1E8E9  96 PC, low confidence

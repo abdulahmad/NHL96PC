@@ -1,0 +1,85 @@
+sub_B75A0 ReadFileRange {confidence=low,source=new} reads part of an open file into memory, unpacking it when packed
+sub_B7638 LoadPackedAlloc {confidence=low,source=new} loads a file into a new memory block and returns its data, stopping on an error
+sub_B7654 LoadPackedAllocQuiet {confidence=low,source=new} loads a file into a new memory block and returns its data, or 0 on an error
+sub_B7690 LoadPackedHandle {confidence=low,source=new} loads a file into a new memory block and returns the block, stopping on an error
+sub_B76A8 LoadPackedHandleQuiet {confidence=low,source=new} loads a file into a new memory block and returns the block, or 0 on an error
+sub_B76C0 LoadPackedCore {confidence=low,source=new} loads a file, from the file cache when it is there, unpacking it when packed
+sub_B7810 FileSizeByName {confidence=low,source=new} opens a file to get its size, then closes it
+sub_B79E0 FillTexturePoly {confidence=low,source=new} fills a polygon with one colour from the texture page
+sub_B7A70 FillTexturePolyClipped {confidence=low,source=new} fills a clipped polygon with one colour from the texture page
+sub_B7AC4 OriTriOpaque {confidence=low,source=new} material draw routine: mapped triangle, opaque
+sub_B7B50 OriTriShadow {confidence=low,source=new} material draw routine: mapped triangle with see-through and shadow colours
+sub_B7BDC OriTriMapped {confidence=low,source=new} material draw routine: mapped triangle through the shape mapper
+sub_B7C68 OriQuadOpaque {confidence=low,source=new} material draw routine: mapped quad, opaque
+sub_B7D38 OriQuadMapped {confidence=low,source=new} material draw routine: mapped quad through the shape mapper
+sub_B7E08 OriQuadShadow {confidence=low,source=new} material draw routine: mapped quad with see-through and shadow colours
+sub_B7ED8 OriPolyShaded {confidence=low,source=new} material draw routine: shaded polygon
+sub_B7FBC OriPolyClipped {confidence=low,source=new} material draw routine: clipped polygon
+sub_B809C OriPolyMapped {confidence=low,source=new} material draw routine: clipped mapped polygon
+sub_B817C OriStripOpaque {confidence=low,source=new} material draw routine: mapped strip, opaque
+sub_B8198 OriStripShadow {confidence=low,source=new} material draw routine: mapped strip with see-through and shadow colours
+sub_B81B4 OriStripMapped {confidence=low,source=new} material draw routine: mapped strip through the shape mapper
+sub_B81D0 OriFlatPoly {confidence=low,source=new} material draw routine: flat polygon
+sub_B8230 OriFlatPolyMapped {confidence=low,source=new} material draw routine: flat mapped polygon
+sub_B8290 OriFlatPolyList {confidence=low,source=new} material draw routine: list of flat polygons
+off_1222E0 OriTriDrawFuncs {confidence=low,source=new} material draw routines for triangles
+off_1222EC OriPolyDrawFuncs {confidence=low,source=new} material draw routines for polygons
+off_1222F8 OriQuadDrawFuncs {confidence=low,source=new} material draw routines for quads
+off_122304 OriFlatDrawFuncs {confidence=low,source=new} material draw routines for flat polygons
+off_122310 OriStripDrawFuncs {confidence=low,source=new} material draw routines for strips
+sub_B82F0 FillFloorPlane {confidence=low,source=new} fills the floor plane below the horizon line
+sub_B848C TexPolyEdgeTable {confidence=low,source=new} builds the edge table for a textured polygon
+sub_B8740 TexPolyEdgeMirroredClipped {confidence=low,source=new} steps one clipped edge of a mirrored textured polygon
+sub_B8840 TexPolyEdgeMirrored {confidence=low,source=new} steps one edge of a mirrored textured polygon
+sub_B88F8 TexPolyEdgeClipped {confidence=low,source=new} steps one clipped edge of a textured polygon
+sub_B89F8 TexPolyEdge {confidence=low,source=new} steps one edge of a textured polygon
+sub_B8AB0 TexPolyFill {confidence=low,source=new} fills a textured polygon
+sub_B8D80 TexPolyFillClipped {confidence=low,source=new} fills a clipped textured polygon
+sub_B9060 TexPolyFillMirrored {confidence=low,source=new} fills a mirrored textured polygon
+sub_B9328 TexPolyFillMirroredClipped {confidence=low,source=new} fills a clipped mirrored textured polygon
+sub_B960C DrawTexturedPoly {confidence=low,source=new} sets up a textured polygon, rejects it when off screen, and fills it
+sub_B9870 DrawTexturedPolyArgs {confidence=low,source=new} draws a textured polygon from its arguments
+sub_B98E0 OriFindMaterial {confidence=medium,source=new} finds a material by its 8-character name, or -1
+sub_B9928 OriLoadShapes {confidence=low,source=new} looks up a model's shapes in its art file
+sub_B9A18 OriSetMaterialRgb {confidence=medium,source=new} sets a material's colour
+sub_B9B34 OriSetMaterialTexture {confidence=medium,source=new} sets a material's texture
+sub_B9B70 OriSetMaterialDrawFn {confidence=medium,source=new} sets a material's draw routine
+sub_B9BD0 FixedDivide {confidence=medium,source=new} divides two numbers to a 16.16 fixed point result
+sub_B9C70 OriScaleVector {confidence=low,source=new} scales a vector to a length
+sub_B9D04 OriNormalizeTree {confidence=low,source=new} normalises the vectors of an object and its children
+sub_B9EE0 OriMatrixHelper {confidence=low,source=new} helper for building object matrices
+sub_B9F14 OriUpdateMatrices {confidence=low,source=new} builds the matrices of an object and its children
+sub_BA2F0 PerspScale {confidence=medium,source=new} scales a size by the perspective factor for a depth
+sub_BA344 ProjectPoint {confidence=medium,source=new} projects a 3D point to the screen
+sub_C4FA0 DrawEllipse {confidence=low,source=new} draws an ellipse
+sub_C50E0 DrawEllipseClipped {confidence=low,source=new} draws an ellipse inside the clip window
+sub_C5410 JoystickCalibrateScreen {confidence=medium,source=new} joystick calibration screen
+sub_C59E0 ShowKeyboardOn {confidence=low,source=new} shows the keyboard on message
+sub_C5AE2 FpuHookStub {confidence=low,source=new} maths hook that does nothing
+sub_C5AF0 ShutdownSystem {confidence=low,source=new} restores text mode and shuts down the system
+sub_C5B18 InitSystem {confidence=low,source=new} checks the DOS extender and sets up memory, graphics, timer and input
+sub_C6000 ToUpperChar {confidence=medium,source=new} converts a lower case letter to upper case
+sub_C6090 BigFileType {confidence=medium,source=new} checks a BIG archive header: 1 or 2 for the two formats
+sub_C60EC LocateBigEntry {confidence=medium,source=new} finds a file's entry in a BIG archive
+sub_C626C LocateBigData {confidence=medium,source=new} returns a pointer to a file's data in a BIG archive
+sub_C62E0 LocateBigs {confidence=medium,source=new} finds a file in a BIG archive, stopping when it is not there
+sub_C63DC WalkBigFile {confidence=low,source=new} walks the entries of a BIG archive
+sub_C65F8 RasterMappedTriangle {confidence=low,source=new} draws a mapped triangle row by row with scaled spans
+sub_C6FA4 DrawMappedTriangle {confidence=low,source=new} draws a mapped triangle, opaque
+sub_C70A8 RasterMappedTriangleShadow {confidence=low,source=new} draws a mapped triangle row by row with see-through and shadow spans
+sub_C7A54 DrawMappedTriangleShadow {confidence=low,source=new} draws a mapped triangle with see-through and shadow colours
+sub_C8D50 DrawMappedPolyClipped {confidence=low,source=new} clips a mapped polygon and draws it as triangles
+sub_C955C DrawMappedStrip {confidence=low,source=new} draws a strip of mapped triangles
+sub_C972C DrawMappedStripShadow {confidence=low,source=new} draws a strip of mapped triangles with see-through and shadow colours
+sub_C98FC DrawMappedStripDirect {confidence=low,source=new} draws a strip of triangles through the shape mapper
+sub_C9A20 DrawFlatPolyClipped {confidence=low,source=new} clips and fills a flat polygon
+sub_C9A80 DrawFlatPolyMapped {confidence=low,source=new} clips and draws a flat mapped polygon
+sub_C9AD8 TexSpanFill {confidence=low,source=new} fills one textured span
+sub_C9D50 VecLength3 {confidence=medium,source=new} returns the length of a 3D vector
+sub_C9D80 NormalizeVec3 {confidence=low,source=new} scales a 3D vector to unit length
+sub_C9E68 Mul32To64 {confidence=medium,source=new} multiplies two numbers to a 64-bit result
+sub_C9F3A Sar64 {confidence=medium,source=new} shifts a 64-bit number right, keeping the sign
+sub_CA288 OriApplyMorph {confidence=medium,source=new} morphs an object's points between its key shapes
+sub_CA584 OriRotateY {confidence=low,source=new} rotates points around the vertical axis
+sub_DDC2A CopyScaledSpan {confidence=medium,source=new} copies a scaled row of pixels
+sub_DDB22 CopyScaledSpanShadow {confidence=medium,source=new} copies a scaled row, skipping colour 0FFh and shading under colour 0FEh

@@ -7,8 +7,8 @@ extern ScreenHeight, dword_1228FC, ViewCenterY, str_D_ProjectPointsPersp, dword_
 extern dword_1986A0, dword_19A5E0, dword_19A5E4, dword_19A5E8, dword_19A5EC, dword_19A5F0, dword_19A5F4, dword_19A5F8
 extern dword_19A5FC, dword_19A600, dword_19A604, dword_19A608, dword_19A60C, dword_19A610, dword_19A614, dword_19A618
 extern dword_19A61C, dword_19A620, dword_19A624, dword_19A628, dword_19A630, dword_19A634, dword_19A638, dword_19A63C
-extern dword_19A640, dword_19A644, dword_19A648, dword_19A64C, strnicmp_, sub_B9BD0, sub_BEB48, sub_C6FA4
-extern sub_C9AD8, FillRectColor, sub_DE15C, sub_E0959, sub_E15D7, unk_1983E0
+extern dword_19A640, dword_19A644, dword_19A648, dword_19A64C, strnicmp_, FixedDivide, sub_BEB48, DrawMappedTriangle
+extern TexSpanFill, FillRectColor, sub_DE15C, sub_E0959, sub_E15D7, unk_1983E0
 global __CHP, sub_BC890_19F, sub_BCE10_1C9, sub_BC760, sub_BC7F0, sub_BC838, sub_BC890, sub_BCA38
 global sub_BCB58, sub_BCC24, sub_BCD44, sub_BCE10, sub_BCFE0, sub_BD1D4, sub_BD3A0, sub_BD594
 global sub_BD86C, sub_BD8B0, sub_BD92C, PolySideTest, sub_BD9AC, sub_BDBE8, sub_BDC74, sub_BE47C
@@ -438,7 +438,7 @@ sub_BCA38:
         add eax, ecx
         push eax
         push edx
-        call sub_C9AD8
+        call TexSpanFill
         add esp, byte 24h
 .3:
         add esp, byte 10h
@@ -508,7 +508,7 @@ sub_BCB58:
         add eax, edx
         push eax
         push esi
-        call sub_C9AD8
+        call TexSpanFill
         add esp, byte 24h
 .1:
         pop ebp
@@ -608,7 +608,7 @@ sub_BCC24:
         add eax, ecx
         push eax
         push edx
-        call sub_C9AD8
+        call TexSpanFill
         add esp, byte 24h
 .3:
         add esp, byte 10h
@@ -678,7 +678,7 @@ sub_BCD44:
         add eax, edx
         push eax
         push esi
-        call sub_C9AD8
+        call TexSpanFill
         add esp, byte 24h
 .1:
         pop ebp
@@ -1552,7 +1552,7 @@ sub_BD8B0:
         sub eax, edx
         inc eax
         push eax
-        call sub_B9BD0
+        call FixedDivide
         mov ebx, eax
         add esp, byte 8
         mov ecx, dword [esi]
@@ -2516,7 +2516,7 @@ sub_BE47C:
         push ebp
         movsd
         movsd
-        call sub_C6FA4
+        call DrawMappedTriangle
         add esp, byte 0Ch
         xor esi, esi
         mov dword [byte esp+08h], esi
@@ -2533,7 +2533,7 @@ sub_BE47C:
         push ebp
         movsd
         movsd
-        call sub_C6FA4
+        call DrawMappedTriangle
         add esp, byte 0Ch
         add esp, byte 34h
         pop ebp

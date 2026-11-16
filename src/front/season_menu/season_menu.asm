@@ -26,7 +26,7 @@ extern GameOptionsScreen, ReadSeasonDbHeader, ReadPlayoffDbHeader, DeleteSeasonF
 extern SaveSeasonTeams, SimulateGame, RunStatsMenu, RunRosterScreens, PlayoffTreeScreen, SeedPlayoffs, PlayoffRound1, PlayoffRound2
 extern PlayoffRound3, PlayoffFinal, ClearPlayoffTree, sub_A8B9B, sub_AAA40, sub_AAA8C, sub_AADA4, FreeMemBlock
 extern sub_AD35C, TintRows, sub_ADA80, sub_ADBEC, DosFileInfo, atoi_, OpenArtArchiveErr, OpenArtArchive
-extern sub_B22B0, sub_B2C54, UnlinkJump, sub_B7810, SetScreenTarget, sub_DD7B8, sub_E04E0, sub_E0584
+extern sub_B22B0, sub_B2C54, UnlinkJump, FileSizeByName, SetScreenTarget, sub_DD7B8, sub_E04E0, sub_E0584
 extern TextSetFont, TickDeadlinePassed, unk_152C44, unk_17CB2E, unk_17CC1F, unk_17CED5, unk_17CF9A, unk_792EB
 extern unk_79303, unk_79483, unk_794C3, UpdateProgressBox
 global SeasonMenuScreen, SeasonMenuScreen_794, SeasonMenuScreen_7AC, SeasonMenuScreen_858, SeasonMenuScreen_9D7, SeasonMenuScreen_A07, SeasonMenuScreen_A34, SeasonMenuScreen_A61
@@ -2661,7 +2661,7 @@ sub_7B15A:
         call MakeSeasonDbPath
         lea eax, [byte ebp-052h]
         push eax
-        call sub_B7810
+        call FileSizeByName
         add esp, byte 4
         push eax
         push dword [dword_17D7CC]

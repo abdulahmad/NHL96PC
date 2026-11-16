@@ -6,7 +6,7 @@ extern FatalError, str_SavefileblockaOPENFAILEDFOR, byte_11FA2C, byte_11FA2D, by
 extern TextOriginX, TextOriginY, dword_11FA24, dword_11FA28, dword_11FA34, dword_11FA38, dword_11FA3C, dword_11FA40
 extern dword_11FA44, dword_11FA48, dword_11FA4C, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight
 extern dword_1228E8, KeyedDraw, DrawDestBuffer, dword_1228FC, dword_185774, off_11FA10, MemDescPtr, MemDescSize
-extern SetTextOrigin, sub_C4CCC, sub_C4D80, sub_C50E0, sub_DE15C, sub_DEE68, sub_E069C, DosCloseFile
+extern SetTextOrigin, sub_C4CCC, sub_C4D80, DrawEllipseClipped, sub_DE15C, sub_DEE68, sub_E069C, DosCloseFile
 extern DosWriteFile
 global SaveDataFile, savefileblocka, sub_B2400, sub_B2B0C
 ;-----------------------------------------------------------------------------
@@ -587,7 +587,7 @@ sub_B2400:
         push esi
         mov eax, dword [byte esp+040h]
         push eax
-        call sub_C50E0
+        call DrawEllipseClipped
         add esp, byte 0Ch
 .36:
         mov al, byte [edi]
@@ -602,7 +602,7 @@ sub_B2400:
         push esi
         mov ebx, dword [byte esp+054h]
         push ebx
-        call sub_C50E0
+        call DrawEllipseClipped
         add esp, byte 0Ch
 .37:
         mov ecx, dword [byte esp+04Ch]

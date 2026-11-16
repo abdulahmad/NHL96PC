@@ -12,7 +12,7 @@ extern dword_1A10F4, dword_1A10F8, dword_1A10FC, dword_1A1100, fputchar, sub_D7D
 extern sub_E2335_81, mousepollfn, off_11F5F4, off_11F5F8, off_11F5FC, off_14FAD0, DrawArtRemapFunc, sprintf_
 extern DrawShapeCore, PutBlock, sub_AB6D8, FreeMemBlock, sub_ABF88, MemDescPtr, sub_AD2B4, sub_AD824
 extern sub_ADBEC, SetTextOrigin, sub_B049E, sub_B2400, DrawArtOpaque, sub_BF290, sub_C2AC4, sub_C2C5C
-extern sub_C5410, sub_C59E0, sub_CFE8C, sub_DA338, SetScreenTarget, SetClipWindow, SaveVideoState, RestoreVideoState
+extern JoystickCalibrateScreen, ShowKeyboardOn, sub_CFE8C, sub_DA338, SetScreenTarget, SetClipWindow, SaveVideoState, RestoreVideoState
 extern MouseReadMotion, sub_DFA98, bcopy, sub_E193C, sub_E1956, sub_E2335, IntrStubs, SavedStackSegment
 global __CHK, __GRO, __STK, __int386x_, sub_D09FC_A8, sub_D0B78_A0, __CommonInit_, IsTextModeWidth
 global sub_D06FC, sub_D077C, sub_D0800, sub_D0848, sub_D0918, sub_D0984, sub_D09FC, sub_D0B78
@@ -1086,11 +1086,11 @@ sub_D1280:
         push byte 5
         call sub_E2335
         add esp, byte 8
-        push sub_C5410
+        push JoystickCalibrateScreen
         push byte 0Ah
         call sub_E2335
         add esp, byte 8
-        push sub_C59E0
+        push ShowKeyboardOn
         push byte 0Bh
         call sub_E2335
         add esp, byte 8

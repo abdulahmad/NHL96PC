@@ -8,10 +8,10 @@ extern ClipLeftCol, ClipRight, ScreenHeight, DrawDestBuffer, dword_1228FC, ViewC
 extern dword_123AC0, AtanTable, str_Punct_AngleOfVector, dword_17DC18, dword_17DC1C, dword_17DC24, dword_17DC28, dword_1956B0
 extern dword_1956B4, dword_1956B8, dword_1956BC, dword_1956C0, dword_1956C4, dword_1956C8, dword_1956CC, dword_198388
 extern dword_19838C, dword_198390, dword_198394, dword_198398, dword_19839C, dword_1983A0, dword_1983A4, RinkViewChanged
-extern dword_1983B4, ScaledRowBuffer, min_, off_1222E0, off_1222EC, off_1222F8, off_122304, off_122310
+extern dword_1983B4, ScaledRowBuffer, min_, OriTriDrawFuncs, OriPolyDrawFuncs, OriQuadDrawFuncs, OriFlatDrawFuncs, OriStripDrawFuncs
 extern strncpy_, AllocMemBlock, FreeMemBlock, OpenArtArchive, SetRinkView, TransformRinkPoints, TransformRinkObject, ProjectRinkObject
-extern sub_B79E0, sub_B9A18, SubVec3, sub_BA344, sub_BD594, SortIndices, DrawClippedPoly, Div64By32
-extern Shl64, BuildSpanOffsets, sub_CA288, sub_CA584, FixedSinCos, FillRectColor, SetBlitSource, CopyMappedSpan
+extern FillTexturePoly, OriSetMaterialRgb, SubVec3, ProjectPoint, sub_BD594, SortIndices, DrawClippedPoly, Div64By32
+extern Shl64, BuildSpanOffsets, OriApplyMorph, OriRotateY, FixedSinCos, FillRectColor, SetBlitSource, CopyMappedSpan
 extern sub_E1824, unk_122320, unk_122344, RinkMatrix, RinkTranslation, unk_191AB0, unk_1938B0, unk_196380
 extern unk_196388, unk_196390, unk_196398, unk_197050, unk_19705C, unk_197068, unk_197074, unk_1983B8
 global AngleOfVectorJumpTable, AngleOfVector_90, AngleOfVector_92, AngleOfVector_9C, AngleOfVector_A8, AngleOfVector_AF, AngleOfVector_B9, AngleOfVector_BB
@@ -38,7 +38,7 @@ sub_BA3D0:
         push ebp
         push esi
         add ebp, byte 8
-        call sub_BA344
+        call ProjectPoint
         add esi, byte 0Ch
         add esp, byte 8
         jmp short .1
@@ -2671,7 +2671,7 @@ sub_BBEC8:
         mov ecx, dword [byte ebp+08h]
         push ecx
         push eax
-        call dword [dword ebx+off_1222E0]
+        call dword [dword ebx+OriTriDrawFuncs]
         jmp near .12
 .5:
         test si, 1000h
@@ -2688,14 +2688,14 @@ sub_BBEC8:
         push edx
         shr ebx, 1Ch
         push eax
-        call dword [nosplit ebx*4+off_1222F8]
+        call dword [nosplit ebx*4+OriQuadDrawFuncs]
         jmp short .12
 .7:
         push edi
         mov ecx, dword [byte ebp+08h]
         push ecx
         push eax
-        call dword [dword ebx+off_1222EC]
+        call dword [dword ebx+OriPolyDrawFuncs]
         jmp short .12
 .8:
         cmp dword [dword_1983A0], byte 0
@@ -2708,13 +2708,13 @@ sub_BBEC8:
         shl ebx, 19h
         push eax
         shr ebx, 1Ch
-        call dword [nosplit ebx*4+off_122310]
+        call dword [nosplit ebx*4+OriStripDrawFuncs]
         add esp, byte 8
         jmp short .13
 .10:
         push edi
         push eax
-        call dword [dword ebx+off_122304]
+        call dword [dword ebx+OriFlatDrawFuncs]
         add esp, byte 8
         jmp short .13
 .11:
@@ -2723,7 +2723,7 @@ sub_BBEC8:
         push edx
         mov ecx, dword [byte ebx+04h]
         push ecx
-        call sub_B79E0
+        call FillTexturePoly
 .12:
         add esp, byte 0Ch
 .13:
@@ -3009,11 +3009,11 @@ sub_BC150:
         test ch, 10h
         je short .10
         push ebp
-        call sub_CA288
+        call OriApplyMorph
         add esp, byte 4
 .10:
         push ebp
-        call sub_B9A18
+        call OriSetMaterialRgb
         add esp, byte 4
         mov eax, dword [byte esp+08h]
         mov eax, dword [byte eax+038h]
@@ -3078,7 +3078,7 @@ sub_BC3A0:
         lea eax, [byte esp+04h]
         push eax
         lea esi, [byte esp+08h]
-        call sub_CA584
+        call OriRotateY
         mov ecx, 9
         lea edi, [byte ebp+028h]
         add esp, byte 8

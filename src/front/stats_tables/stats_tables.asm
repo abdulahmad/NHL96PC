@@ -5,7 +5,7 @@ section s_1EA14 progbits alloc exec nowrite align=1
 extern dword_1174E0, dword_1174E4, dword_1174E8, dword_1174EC, dword_1174F0, dword_1174F4, dword_1174F8, dword_1174FC
 extern dword_117500, dword_117504, dword_117508, dword_11750C, dword_117510, dword_117514, dword_117518, dword_11751C
 extern LoadDataFile, MakeDataPath, strcat_, strcpy_, MakeSeasonDbPath, MakePlayoffDbPath, FreeMemBlock, OpenArtArchiveErr
-extern sub_B7810, unk_117522
+extern FileSizeByName, unk_117522
 global LoadSeasonStats, LoadSeasonStats_11A, LoadPlayoffStats, LoadExhibitionStats, LoadExhibitionStats_17E, LoadModemStats, FreeStatsTables, PlayerDbRecord
 global StatsDb5Record, StatsDb1Record, StatsDataBBRecord, StatsData4Record, StatsDb2Record
 ;-----------------------------------------------------------------------------
@@ -33,7 +33,7 @@ LoadSeasonStats:
         mov dword [dword_1174E0], eax
         lea eax, [byte ebp-020h]
         push eax
-        call sub_B7810
+        call FileSizeByName
         mov ebx, 1
         add esp, byte 4
         mov dword [dword_117500], eax
@@ -48,7 +48,7 @@ LoadSeasonStats:
         mov dword [dword_1174E4], eax
         lea eax, [byte ebp-020h]
         push eax
-        call sub_B7810
+        call FileSizeByName
         mov ebx, 3
         add esp, byte 4
         mov dword [dword_117504], eax
@@ -63,7 +63,7 @@ LoadSeasonStats:
         mov dword [dword_1174E8], eax
         lea eax, [byte ebp-020h]
         push eax
-        call sub_B7810
+        call FileSizeByName
         add esp, byte 4
         mov dword [dword_117508], eax
         mov edx, esi
@@ -78,7 +78,7 @@ LoadSeasonStats:
         mov dword [dword_1174EC], eax
         lea eax, [byte ebp-020h]
         push eax
-        call sub_B7810
+        call FileSizeByName
         mov ebx, 4
         add esp, byte 4
         mov dword [dword_11750C], eax
@@ -93,7 +93,7 @@ LoadSeasonStats:
         mov dword [dword_1174F0], eax
         lea eax, [byte ebp-020h]
         push eax
-        call sub_B7810
+        call FileSizeByName
         mov ebx, 2
         add esp, byte 4
         mov dword [dword_117510], eax
@@ -109,7 +109,7 @@ LoadSeasonStats_11A:
         mov dword [dword_1174F4], eax
         lea eax, [byte ebp-020h]
         push eax
-        call sub_B7810
+        call FileSizeByName
         mov edx, 20h
         add esp, byte 4
         mov dword [dword_117514], eax
@@ -121,7 +121,7 @@ LoadSeasonStats_11A:
         call MakeDataPath
         lea eax, [byte ebp-020h]
         push eax
-        call sub_B7810
+        call FileSizeByName
         mov edx, 20h
         add esp, byte 4
         mov dword [dword_11751C], eax
@@ -133,7 +133,7 @@ LoadSeasonStats_11A:
         call MakeDataPath
         lea eax, [byte ebp-020h]
         push eax
-        call sub_B7810
+        call FileSizeByName
         add esp, byte 4
         mov dword [dword_117518], eax
         leave
@@ -166,7 +166,7 @@ LoadPlayoffStats:
         mov dword [dword_1174E0], eax
         lea eax, [byte ebp-020h]
         push eax
-        call sub_B7810
+        call FileSizeByName
         mov ebx, 1
         add esp, byte 4
         mov dword [dword_117500], eax
@@ -181,7 +181,7 @@ LoadPlayoffStats:
         mov dword [dword_1174E4], eax
         lea eax, [byte ebp-020h]
         push eax
-        call sub_B7810
+        call FileSizeByName
         mov ebx, 3
         add esp, byte 4
         mov dword [dword_117504], eax
@@ -196,7 +196,7 @@ LoadPlayoffStats:
         mov dword [dword_1174E8], eax
         lea eax, [byte ebp-020h]
         push eax
-        call sub_B7810
+        call FileSizeByName
         add esp, byte 4
         mov dword [dword_117508], eax
         mov edx, esi
@@ -211,7 +211,7 @@ LoadPlayoffStats:
         mov dword [dword_1174EC], eax
         lea eax, [byte ebp-020h]
         push eax
-        call sub_B7810
+        call FileSizeByName
         mov ebx, 4
         add esp, byte 4
         mov dword [dword_11750C], eax
@@ -226,7 +226,7 @@ LoadPlayoffStats:
         mov dword [dword_1174F0], eax
         lea eax, [byte ebp-020h]
         push eax
-        call sub_B7810
+        call FileSizeByName
         mov ebx, 2
         add esp, byte 4
         mov dword [dword_117510], eax
@@ -253,7 +253,7 @@ LoadExhibitionStats:
         call MakeDataPath
         lea eax, [byte ebp-020h]
         push eax
-        call sub_B7810
+        call FileSizeByName
         mov edx, 20h
         add esp, byte 4
         mov dword [dword_117500], eax
@@ -265,7 +265,7 @@ LoadExhibitionStats:
         call MakeDataPath
         lea eax, [byte ebp-020h]
         push eax
-        call sub_B7810
+        call FileSizeByName
         mov edx, 20h
         add esp, byte 4
         mov dword [dword_117504], eax
@@ -277,7 +277,7 @@ LoadExhibitionStats:
         call MakeDataPath
         lea eax, [byte ebp-020h]
         push eax
-        call sub_B7810
+        call FileSizeByName
         mov edx, 20h
         add esp, byte 4
         mov dword [dword_117508], eax
@@ -289,7 +289,7 @@ LoadExhibitionStats:
         call MakeDataPath
         lea eax, [byte ebp-020h]
         push eax
-        call sub_B7810
+        call FileSizeByName
         add esp, byte 4
         mov dword [dword_11750C], eax
         mov edx, 20h
@@ -301,7 +301,7 @@ LoadExhibitionStats:
         call MakeDataPath
         lea eax, [byte ebp-020h]
         push eax
-        call sub_B7810
+        call FileSizeByName
         mov edx, 20h
         add esp, byte 4
         mov dword [dword_117510], eax
@@ -313,7 +313,7 @@ LoadExhibitionStats:
         call MakeDataPath
         lea eax, [byte ebp-020h]
         push eax
-        call sub_B7810
+        call FileSizeByName
         mov edx, 20h
         add esp, byte 4
         mov dword [dword_117514], eax
@@ -325,7 +325,7 @@ LoadExhibitionStats:
         call MakeDataPath
         lea eax, [byte ebp-020h]
         push eax
-        call sub_B7810
+        call FileSizeByName
         mov edx, 20h
         add esp, byte 4
         mov dword [dword_11751C], eax
@@ -338,7 +338,7 @@ LoadExhibitionStats_17E:
         call MakeDataPath
         lea eax, [byte ebp-020h]
         push eax
-        call sub_B7810
+        call FileSizeByName
         add esp, byte 4
         mov dword [dword_117518], eax
         leave
@@ -365,7 +365,7 @@ LoadModemStats:
         call MakeDataPath
         lea eax, [byte ebp-020h]
         push eax
-        call sub_B7810
+        call FileSizeByName
         mov edx, 20h
         add esp, byte 4
         mov dword [dword_117500], eax
@@ -377,7 +377,7 @@ LoadModemStats:
         call MakeDataPath
         lea eax, [byte ebp-020h]
         push eax
-        call sub_B7810
+        call FileSizeByName
         mov edx, 20h
         add esp, byte 4
         mov dword [dword_117504], eax
@@ -389,7 +389,7 @@ LoadModemStats:
         call MakeDataPath
         lea eax, [byte ebp-020h]
         push eax
-        call sub_B7810
+        call FileSizeByName
         mov edx, 20h
         add esp, byte 4
         mov dword [dword_117508], eax
@@ -401,7 +401,7 @@ LoadModemStats:
         call MakeDataPath
         lea eax, [byte ebp-020h]
         push eax
-        call sub_B7810
+        call FileSizeByName
         add esp, byte 4
         mov dword [dword_11750C], eax
         mov edx, 20h
@@ -413,7 +413,7 @@ LoadModemStats:
         call MakeDataPath
         lea eax, [byte ebp-020h]
         push eax
-        call sub_B7810
+        call FileSizeByName
         mov edx, 20h
         add esp, byte 4
         mov dword [dword_117510], eax
@@ -425,7 +425,7 @@ LoadModemStats:
         call MakeDataPath
         lea eax, [byte ebp-020h]
         push eax
-        call sub_B7810
+        call FileSizeByName
         mov edx, 20h
         add esp, byte 4
         mov dword [dword_117514], eax
@@ -437,7 +437,7 @@ LoadModemStats:
         call MakeDataPath
         lea eax, [byte ebp-020h]
         push eax
-        call sub_B7810
+        call FileSizeByName
         mov edx, 20h
         add esp, byte 4
         mov dword [dword_11751C], eax

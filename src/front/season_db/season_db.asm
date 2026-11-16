@@ -10,7 +10,7 @@ extern dword_17D202, dword_17D267, dword_17D26B, FillMusicStream, gameopts, GetL
 extern LoadSeasonStats, MakeDirPath, MakePlayoffDbPath, MakeSeasonDbPath, qsort_, ShowMessage, ShowProgressBox, SimulateGame
 extern SoundIdle, SoundSecondsToBytes, sprintf_, srand_, str_05dCNZDB, str_S05dCNZDB, strcat_, strlen_
 extern PlayoffRound1, PlayoffRound2, PlayoffRound3, PlayoffFinal, ClearPlayoffTree, FreeMemBlock, OpenArtArchiveErr, sub_B22B0
-extern sub_B7810, unk_17CB2E, unk_17CC1F, unk_17CED5, unk_17CF9A, unk_7FF77, UpdateProgressBox, word_1656DC
+extern FileSizeByName, unk_17CB2E, unk_17CC1F, unk_17CED5, unk_17CF9A, unk_7FF77, UpdateProgressBox, word_1656DC
 extern word_1656E8, word_16581E
 global UpdateTeamDbs, UpdateTeamDbs_86F, ApplyDayResults, SimSeasonGames, ApplyPlayoffDayResults, SaveSeasonTeams, unk_81ED1
 ;-----------------------------------------------------------------------------
@@ -1478,7 +1478,7 @@ SimSeasonGames:
         call MakeSeasonDbPath
         lea eax, [byte ebp-062h]
         push eax
-        call sub_B7810
+        call FileSizeByName
         add esp, byte 4
         push eax
         push dword [byte ebp-06Ah]
@@ -1502,7 +1502,7 @@ SimSeasonGames:
         call MakeSeasonDbPath
         lea eax, [byte ebp-062h]
         push eax
-        call sub_B7810
+        call FileSizeByName
         add esp, byte 4
         push eax
         push dword [byte ebp-06Ah]
@@ -1933,7 +1933,7 @@ SimSeasonGames:
         call MakeSeasonDbPath
         lea eax, [byte ebp-062h]
         push eax
-        call sub_B7810
+        call FileSizeByName
         add esp, byte 4
         push eax
         push dword [byte ebp-06Ah]
@@ -1957,7 +1957,7 @@ SimSeasonGames:
         call MakeSeasonDbPath
         lea eax, [byte ebp-062h]
         push eax
-        call sub_B7810
+        call FileSizeByName
         add esp, byte 4
         push eax
         push dword [byte ebp-06Ah]
@@ -1982,7 +1982,7 @@ SimSeasonGames:
         call MakeSeasonDbPath
         lea eax, [byte ebp-062h]
         push eax
-        call sub_B7810
+        call FileSizeByName
         add esp, byte 4
         push eax
         push dword [byte ebp-06Ah]

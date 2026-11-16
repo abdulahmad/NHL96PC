@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_D284C progbits alloc exec nowrite align=1
-extern __int7, _dos_setvect_, str_RATIONALDOS4G, Hook387Flag, Hook387Saved, FpuInitHook, FloatPow10Table, FloatPow10Exponents
-extern FloatFormatDigits, FloatFormatExponent, FloatFormatMantissaLo, FloatFormatMantissaHi, EmuOpcodeJumpTable, EmuModRmJumpTable, RestoreDS, EmuTrapFrame
+extern __int7, _dos_setvect_, str_RATIONALDOS4G, Hook387Flag, Hook387Saved, FpuInitHook, AdpcmDeltaTable, AdpcmIndexAdjust
+extern AdpcmLeftSample, AdpcmRightSample, AdpcmLeftIndex, AdpcmRightIndex, EmuOpcodeJumpTable, EmuModRmJumpTable, RestoreDS, EmuTrapFrame
 extern Hook387Save, EmuZeroTbyte, unk_D2444, unk_D2448, EmuRegRing, unk_D244C, unk_D244E, EmuRegTagMasks
 extern unk_D249C, unk_D24A0, unk_D24A2, EmuCompareCcBits, EmuFpremCcBits, EmuEaModRmTable, EmuEaSibTable
 global __hook387, __init_80x87, __unhook387, EmuDispatchD9RegJumpTable, EmuFtstFxamJumpTable, EmuSignOpsJumpTable, EmuLogOpsJumpTable, EmuRemOpsJumpTable
@@ -29,7 +29,7 @@ global AddMantissas, EmuCompare, EmuDiv, DivideMantissas, EmuMul, MultiplyMantis
 global LoadM32Int, sub_D459F, LoadM64Real, StoreM32Real, StoreM64Real, LoadM32Real, ExtToInt, EmuRemainder
 global RemainderStep, EmuRoundInt, RoundMantissa, EmuExamine, AddOne, EmuLog2, Log2Core, SinCosCore
 global EmuSin, EmuCos, EmuTan, EmuAtan, EmuExp2, PolyEval, PolyEvalOdd, EmuNoOp
-global InitFloatFormat, FormatFloat, EmuMantissaMasks, EmuRemPolyCoefs, EmuLog2PolyNum, EmuLog2PolyDen, EmuSinPolyCoefs, EmuCosPolyCoefs
+global AdpcmDecodeMono, AdpcmDecodeStereo, EmuMantissaMasks, EmuRemPolyCoefs, EmuLog2PolyNum, EmuLog2PolyDen, EmuSinPolyCoefs, EmuCosPolyCoefs
 global EmuSinCosTermCounts
 ;-----------------------------------------------------------------------------
 ; EmuTrapExit                                     D284C  96 PC, low confidence
@@ -4788,10 +4788,10 @@ __init_80x87:
         ret
         db 00h,00h,00h
 ;-----------------------------------------------------------------------------
-; InitFloatFormat                                 D57B4  96 PC, low confidence
-; Sets up the number formatting tables
+; AdpcmDecodeMono                                D57B4  96 PC, medium confidence
+; Decodes 4-bit ADPCM samples for one channel to 16-bit samples
 ;-----------------------------------------------------------------------------
-InitFloatFormat:
+AdpcmDecodeMono:
         push ebp
         LD mov, ebp, esp
         pusha
@@ -4817,7 +4817,7 @@ InitFloatFormat:
         and bl, 0Fh
         inc esi
 .3:
-        add edx, dword [dword eax+ebx*4+FloatPow10Table]
+        add edx, dword [dword eax+ebx*4+AdpcmDeltaTable]
         cmp edx, 7FFFh
         jg short .8
         cmp edx, 0FFFF8000h
@@ -4827,7 +4827,7 @@ InitFloatFormat:
         add edi, byte 2
         inc ecx
         and bl, 7
-        add eax, dword [nosplit ebx*4+FloatPow10Exponents]
+        add eax, dword [nosplit ebx*4+AdpcmIndexAdjust]
         cmp eax, 1600h
         jg short .6
         cmp eax, byte 0
@@ -4860,10 +4860,10 @@ InitFloatFormat:
         mov edx, 0FFFF8000h
         jmp short .4
 ;-----------------------------------------------------------------------------
-; FormatFloat                                     D585C  96 PC, low confidence
-; Formats a floating-point number
+; AdpcmDecodeStereo                              D585C  96 PC, medium confidence
+; Decodes 4-bit ADPCM samples for two channels to 16-bit samples
 ;-----------------------------------------------------------------------------
-FormatFloat:
+AdpcmDecodeStereo:
         push ebp
         LD mov, ebp, esp
         pusha
@@ -4872,76 +4872,76 @@ FormatFloat:
         mov edx, dword [byte ebp+01Ch]
         mov edx, dword [edx]
         movsx eax, dx
-        mov dword [FloatFormatMantissaLo], eax
+        mov dword [AdpcmLeftIndex], eax
         shr edx, 10h
         movsx eax, dx
-        mov dword [FloatFormatMantissaHi], eax
+        mov dword [AdpcmRightIndex], eax
         mov edx, dword [byte ebp+018h]
         mov edx, dword [edx]
         movsx eax, dx
-        mov dword [FloatFormatDigits], eax
+        mov dword [AdpcmLeftSample], eax
         shr edx, 10h
         movsx eax, dx
-        mov dword [FloatFormatExponent], eax
+        mov dword [AdpcmRightSample], eax
         mov esi, dword [byte ebp+0Ch]
         mov edi, dword [byte ebp+010h]
         LD xor, ebx, ebx
 .1:
         mov bl, byte [esi]
         shr bl, 4
-        mov eax, dword [FloatFormatMantissaLo]
-        mov edx, dword [FloatFormatDigits]
-        add edx, dword [dword eax+ebx*4+FloatPow10Table]
+        mov eax, dword [AdpcmLeftIndex]
+        mov edx, dword [AdpcmLeftSample]
+        add edx, dword [dword eax+ebx*4+AdpcmDeltaTable]
         cmp edx, 7FFFh
         jg near .9
         cmp edx, 0FFFF8000h
         jl near .10
 .2:
         mov word [edi+ecx*4], dx
-        mov dword [FloatFormatDigits], edx
+        mov dword [AdpcmLeftSample], edx
         and bl, 7
-        add eax, dword [nosplit ebx*4+FloatPow10Exponents]
+        add eax, dword [nosplit ebx*4+AdpcmIndexAdjust]
         cmp eax, 1600h
         jg near .7
         cmp eax, byte 0
         jl near .8
 .3:
-        mov dword [FloatFormatMantissaLo], eax
+        mov dword [AdpcmLeftIndex], eax
         mov bl, byte [esi]
         and bl, 0Fh
-        mov eax, dword [FloatFormatMantissaHi]
-        mov edx, dword [FloatFormatExponent]
-        add edx, dword [dword eax+ebx*4+FloatPow10Table]
+        mov eax, dword [AdpcmRightIndex]
+        mov edx, dword [AdpcmRightSample]
+        add edx, dword [dword eax+ebx*4+AdpcmDeltaTable]
         cmp edx, 7FFFh
         jg near .13
         cmp edx, 0FFFF8000h
         jl near .14
 .4:
         mov word [byte edi+ecx*4+02h], dx
-        mov dword [FloatFormatExponent], edx
+        mov dword [AdpcmRightSample], edx
         and bl, 7
-        add eax, dword [nosplit ebx*4+FloatPow10Exponents]
+        add eax, dword [nosplit ebx*4+AdpcmIndexAdjust]
         cmp eax, 1600h
         jg short .11
         cmp eax, byte 0
         jl short .12
 .5:
-        mov dword [FloatFormatMantissaHi], eax
+        mov dword [AdpcmRightIndex], eax
         add ecx, byte 1
         inc esi
         cmp ecx, dword [byte ebp+014h]
         jl near .1
         jmp short .6
 .6:
-        mov edx, dword [FloatFormatExponent]
+        mov edx, dword [AdpcmRightSample]
         shl edx, 10h
-        mov ecx, dword [FloatFormatDigits]
+        mov ecx, dword [AdpcmLeftSample]
         LD mov, dx, cx
         mov ecx, dword [byte ebp+018h]
         mov dword [ecx], edx
-        mov edx, dword [FloatFormatMantissaHi]
+        mov edx, dword [AdpcmRightIndex]
         shl edx, 10h
-        mov ecx, dword [FloatFormatMantissaLo]
+        mov ecx, dword [AdpcmLeftIndex]
         LD mov, dx, cx
         mov ecx, dword [byte ebp+01Ch]
         mov dword [ecx], edx

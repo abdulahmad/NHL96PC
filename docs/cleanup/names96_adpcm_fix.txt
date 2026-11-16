@@ -1,0 +1,8 @@
+InitFloatFormat AdpcmDecodeMono {confidence=medium,source=new} decodes 4-bit ADPCM samples for one channel to 16-bit samples
+FormatFloat AdpcmDecodeStereo {confidence=medium,source=new} decodes 4-bit ADPCM samples for two channels to 16-bit samples
+FloatPow10Table AdpcmDeltaTable {confidence=medium,source=new} ADPCM sample change for each step and code
+FloatPow10Exponents AdpcmIndexAdjust {confidence=medium,source=new} ADPCM step index change for each code
+FloatFormatDigits AdpcmLeftSample {confidence=medium,source=new} last decoded sample, first channel
+FloatFormatExponent AdpcmRightSample {confidence=medium,source=new} last decoded sample, second channel
+FloatFormatMantissaLo AdpcmLeftIndex {confidence=medium,source=new} ADPCM step index, first channel
+FloatFormatMantissaHi AdpcmRightIndex {confidence=medium,source=new} ADPCM step index, second channel

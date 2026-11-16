@@ -1676,8 +1676,8 @@ D5666,__hook387,,WATCOM,high,IDA FLIRT library signature,
 D5730,__unhook387,,WATCOM,high,IDA FLIRT library signature,
 D5789,EmuNoOp,sub_D5789,new,medium,x87 emulator: returns at once,src/lib/watcom/watcom_emu387.asm
 D578A,__init_80x87,,WATCOM,high,IDA FLIRT library signature,
-D57B4,InitFloatFormat,sub_D57B4,new,low,sets up the number formatting tables,src/lib/watcom/watcom_emu387.asm
-D585C,FormatFloat,sub_D585C,new,low,formats a floating-point number,src/lib/watcom/watcom_emu387.asm
+D57B4,AdpcmDecodeMono,sub_D57B4,new,medium,decodes 4-bit ADPCM samples for one channel to 16-bit samples,src/lib/watcom/watcom_emu387.asm
+D585C,AdpcmDecodeStereo,sub_D585C,new,medium,decodes 4-bit ADPCM samples for two channels to 16-bit samples,src/lib/watcom/watcom_emu387.asm
 D5B1E,ReturnArg,sub_D5B1E,new,low,returns its argument,src/lib/sound/snd_hw_sb.asm
 D5B7C,TimerCalibrate,sub_D5B7C,new,low,calibrates the timer,src/lib/sound/snd_hw_sb.asm
 D5B96,TimerRestore,sub_D5B96,new,low,restores the timer,src/lib/sound/snd_hw_sb.asm
@@ -4109,12 +4109,12 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 14FC74,DefaultControlWord,word_14FC74,new,low,default FPU control word,src/data/lib/watcom/watcom_emu387_data_01.asm
 14FC78,EmuInitHook,off_14FC78,new,low,x87 emulator init routine,src/data/lib/watcom/watcom_emu387_data_01.asm
 14FC7C,EmuFiniHook,off_14FC7C,new,low,x87 emulator shutdown routine,src/data/lib/watcom/watcom_emu387_data_01.asm
-14FC80,FloatPow10Table,dword_14FC80,new,low,powers of ten used to format floating-point numbers,src/data/lib/watcom/watcom_emu387_data_01.asm
-1512C0,FloatPow10Exponents,dword_1512C0,new,low,binary exponents of the powers of ten used to format numbers,src/data/lib/watcom/watcom_emu387_data_01.asm
-1512E0,FloatFormatDigits,dword_1512E0,new,low,digit count of the number being formatted,src/data/lib/watcom/watcom_emu387_data_01.asm
-1512E4,FloatFormatExponent,dword_1512E4,new,low,decimal exponent of the number being formatted,src/data/lib/watcom/watcom_emu387_data_01.asm
-1512E8,FloatFormatMantissaLo,dword_1512E8,new,low,low half of the mantissa being formatted,src/data/lib/watcom/watcom_emu387_data_01.asm
-1512EC,FloatFormatMantissaHi,dword_1512EC,new,low,high half of the mantissa being formatted,src/data/lib/watcom/watcom_emu387_data_01.asm
+14FC80,AdpcmDeltaTable,dword_14FC80,new,medium,ADPCM sample change for each step and code,src/data/lib/watcom/watcom_emu387_data_01.asm
+1512C0,AdpcmIndexAdjust,dword_1512C0,new,medium,ADPCM step index change for each code,src/data/lib/watcom/watcom_emu387_data_01.asm
+1512E0,AdpcmLeftSample,dword_1512E0,new,medium,"last decoded sample, first channel",src/data/lib/watcom/watcom_emu387_data_01.asm
+1512E4,AdpcmRightSample,dword_1512E4,new,medium,"last decoded sample, second channel",src/data/lib/watcom/watcom_emu387_data_01.asm
+1512E8,AdpcmLeftIndex,dword_1512E8,new,medium,"ADPCM step index, first channel",src/data/lib/watcom/watcom_emu387_data_01.asm
+1512EC,AdpcmRightIndex,dword_1512EC,new,medium,"ADPCM step index, second channel",src/data/lib/watcom/watcom_emu387_data_01.asm
 151320,IrqAckLast,dword_151320,new,medium,last IRQ status read by the interrupt acknowledge,src/data/lib/sound/snd_hw_sb_data_01.asm
 151324,GusEnvVarName,dword_151324,new,low,points to the name of the environment variable that holds the card settings,src/data/lib/sound/snd_hw_sb_data_01.asm
 151328,GusOpenCount,dword_151328,new,low,number of times the card has been opened without a matching close,src/data/lib/sound/snd_hw_sb_data_01.asm

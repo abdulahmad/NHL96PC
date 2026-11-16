@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_14FBF4 progbits alloc noexec write align=1
 extern EmuNoOp
-global Hook387Flag, Hook387Saved, FloatPow10Table, FloatPow10Exponents, FloatFormatDigits, FloatFormatExponent, FloatFormatMantissaLo, FloatFormatMantissaHi
+global Hook387Flag, Hook387Saved, AdpcmDeltaTable, AdpcmIndexAdjust, AdpcmLeftSample, AdpcmRightSample, AdpcmLeftIndex, AdpcmRightIndex
 global EmuInitHook, EmuFiniHook, EmuTrapFrame, DefaultControlWord
 EmuTrapFrame:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -24,7 +24,7 @@ EmuInitHook:
         dd EmuNoOp
 EmuFiniHook:
         dd EmuNoOp
-FloatPow10Table:
+AdpcmDeltaTable:
         db 00h,00h,00h,00h,01h,00h,00h,00h,03h,00h,00h,00h,04h,00h,00h,00h
         db 07h,00h,00h,00h,08h,00h,00h,00h,0Ah,00h,00h,00h,0Bh,00h,00h,00h
         db 00h,00h,00h,00h,0FFh,0FFh,0FFh,0FFh,0FDh,0FFh,0FFh,0FFh,0FCh,0FFh,0FFh,0FFh
@@ -381,14 +381,14 @@ FloatPow10Table:
         db 0FEh,08Fh,00h,00h,0FDh,0AFh,00h,00h,0FDh,0CFh,00h,00h,0FCh,0EFh,00h,00h
         db 01h,0F0h,0FFh,0FFh,02h,0D0h,0FFh,0FFh,02h,0B0h,0FFh,0FFh,03h,090h,0FFh,0FFh
         db 02h,070h,0FFh,0FFh,03h,050h,0FFh,0FFh,03h,030h,0FFh,0FFh,04h,010h,0FFh,0FFh
-FloatPow10Exponents:
+AdpcmIndexAdjust:
         db 0C0h,0FFh,0FFh,0FFh,0C0h,0FFh,0FFh,0FFh,0C0h,0FFh,0FFh,0FFh,0C0h,0FFh,0FFh,0FFh
         db 080h,00h,00h,00h,00h,01h,00h,00h,080h,01h,00h,00h,00h,02h,00h,00h
-FloatFormatDigits:
+AdpcmLeftSample:
         db 00h,00h,00h,00h
-FloatFormatExponent:
+AdpcmRightSample:
         db 00h,00h,00h,00h
-FloatFormatMantissaLo:
+AdpcmLeftIndex:
         db 00h,00h,00h,00h
-FloatFormatMantissaHi:
+AdpcmRightIndex:
         db 00h,00h,00h,00h

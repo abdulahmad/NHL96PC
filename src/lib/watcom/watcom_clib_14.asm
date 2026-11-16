@@ -11,7 +11,7 @@ extern dword_144FF8, dword_144FFC, dword_145000, dword_145004, dword_145008, dwo
 extern dword_145018, MixerReady, dword_14EFA0, MixerOutputRate, Mixer16Bit, dword_14EFAC, MixerChunkSamples, MixerChunkLeft
 extern dword_14EFB8, dword_14EFBC, MixerLoopLength, MixerLoopLimit, MixerLoopStart, dword_14EFD0, dword_14EFD4, dword_14EFD8
 extern dword_1A0B1C, MixerChannelTable, EmuInitHook, EmuFiniHook, sub_AADA4, FreeMemBlock, sub_ABF88, sub_AD2B4
-extern RestoreDS, AudioStreamCallback, StartChannelSample, PanVolumes, SbDelay, SbWaitRead, InitFloatFormat, FormatFloat
+extern RestoreDS, AudioStreamCallback, StartChannelSample, PanVolumes, SbDelay, SbWaitRead, AdpcmDecodeMono, AdpcmDecodeStereo
 extern SetScreenTarget, unk_146F9C, SndChannels, str_Punct_InitFpuFlags, __no87, OldFpuVectorSelector, FpuCr0Bits, DefaultControlWord
 extern word_1A0FA0, SbMixerAddrPort, word_1A0FA4, word_1A0FA6, word_1A0FA8, SbReadPort, SbWritePort
 global __chk8087_, __init_8087_, __rest_8087_, __save_8087_, __sys_fini_387_emulator, _fpreset_, MixerChunkLength_4A, MixerChunkLength_8F
@@ -1158,11 +1158,11 @@ sub_CC250:
         je short .10
         test dword [byte esi+04h], 4
         je short .9
-        mov eax, FormatFloat
+        mov eax, AdpcmDecodeStereo
         mov dword [byte esi+058h], eax
         jmp short .10
 .9:
-        mov eax, InitFloatFormat
+        mov eax, AdpcmDecodeMono
         mov dword [byte esi+058h], eax
 .10:
         mov eax, dword [byte esi+04h]

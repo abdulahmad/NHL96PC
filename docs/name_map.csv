@@ -772,6 +772,7 @@ address,name,auto_name,source,confidence,evidence,file
 5CD5E,DrawLineEnergyBar,sub_5CD5E,new,medium,"(team, line): one line's energy bar in a line change box",src/front/game_view/game_view.asm
 5CE42,DrawLineChangeBox,sub_5CE42,new,medium,"(team): the line change box (lcboxon, lcline, ""1""-""4"") with the team logo and line energies",src/front/game_view/game_view.asm
 5D4B4,DrawLineChangeBoxes,sub_5D4B4,new,medium,reads both teams' line energies (TeamLineEnergy) and draws their line change boxes,src/front/game_view/game_view.asm
+5D615,LowResViewWidths,,new,low,game view widths from 160 to 320 (unused table),src/front/game_view/game_view.asm
 5D639,ViewSizeScales,,new,low,game view scale for each view size,src/front/game_view/game_view.asm
 5D707,CameraPathCoeffs,sub_5D707,new,low,the coefficients of one camera path polynomial,src/front/camera/camera.asm
 5D7A2,CameraPathEval,sub_5D7A2,new,medium,"(coeffs, t): a 5th-degree polynomial in 16.16 by Horner's rule",src/front/camera/camera.asm
@@ -1348,6 +1349,7 @@ B153D,SerialIsrCom1,sub_B153D,new,low,serial interrupt handler for the first por
 B1546,SerialIsrCom2,,new,low,serial interrupt handler for the second port,src/lib/watcom/watcom_clib_03.asm
 B154F,SerialIsrCom3,,new,low,serial interrupt handler for the third port,src/lib/watcom/watcom_clib_03.asm
 B1558,SerialIsrCom4,,new,low,"serial interrupt handler for the fourth port, and the body all four share",src/lib/watcom/watcom_clib_03.asm
+B15EE,SerialIsrExit,,new,low,serial interrupt exit: acknowledges the interrupt and returns,src/lib/watcom/watcom_clib_03.asm
 B16C9,strstr_,,WATCOM,high,IDA FLIRT library signature,
 B178B,atoi_,sub_B178B,WATCOM,low,IDA FLIRT library signature (wa32rtd/wa32rt_),src/lib/watcom/watcom_clib_03.asm
 B17E2,strlen_,,WATCOM,high,IDA FLIRT library signature,

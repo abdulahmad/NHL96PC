@@ -32,7 +32,7 @@ extern str_Priority2, AddIceCrud, SetRinkClipWindow, AllocMemBlock, FreeMemBlock
 extern BuildPerspTable, KeyIsDown, KbdGetKey, ClearClipRect, SetViewScreenOrigin, SetViewFov
 
 extern ReplayCamTarget, CameraPathPoints, CamPathTarget
-extern NearNetZeroVec, CamAimZeroVec, ShotFromZeroVec, ShotToZeroVec, ShotNearZeroVec, CamTargetZeroVec, CamShotPositions, unk_5D591_84
+extern NearNetZeroVec, CamAimZeroVec, ShotFromZeroVec, ShotToZeroVec, ShotNearZeroVec, CamTargetZeroVec, CamShotPositions, LowResViewWidths
 extern ViewSizeScales, ViewSizeWidths, ViewSizeHeights, vecdist, PerTimeTotal, ReplayObjX, ReplayObjY
 
 global CameraPathCoeffs, CameraPathEval, CameraPathEval_70, CameraPathSlope, CameraPathCurve, CameraPathPoint, CameraPathDerivs, SetCameraShot
@@ -3673,7 +3673,7 @@ SetGameViewSize:
         enter 90h, 0
         mov ecx, 9
         lea edi, [byte ebp-024h]
-        mov esi, unk_5D591_84
+        mov esi, LowResViewWidths
         rep movsd
         mov ecx, 9
         lea edi, [byte ebp-048h]

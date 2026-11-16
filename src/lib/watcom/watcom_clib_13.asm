@@ -1141,9 +1141,9 @@ __InitRtns:
         push es
         mov edx, eax
 .1:
-        db 03Eh,0BEh                            ; insn: mov esi,4155Ch
+        db 03Eh,0BEh                            ; insn: mov esi,InitRtnsEntry
         dd InitRtnsEntry
-        db 03Eh,0BFh                            ; insn: mov edi,41580h
+        db 03Eh,0BFh                            ; insn: mov edi,FiniRtnsEntry
         dd FiniRtnsEntry
         mov ebx, edi
         mov al, dl
@@ -1191,9 +1191,9 @@ __FiniRtns:
         mov dh, dl
         mov dl, al
 .1:
-        db 03Eh,0BEh                            ; insn: mov esi,41580h
+        db 03Eh,0BEh                            ; insn: mov esi,FiniRtnsEntry
         dd FiniRtnsEntry
-        db 03Eh,0BFh                            ; insn: mov edi,4158Ch
+        db 03Eh,0BFh                            ; insn: mov edi,GusInitTable
         dd GusInitTable
         mov ebx, edi
         mov al, dl
@@ -1337,7 +1337,7 @@ InitSystem:
         cmp dword [GraphicsReady], byte 0
         jne short .6
         call SaveTextScreen
-        db 068h                                 ; insn: push 0B5AF0h
+        db 068h                                 ; insn: push ShutdownSystem
         dd ShutdownSystem
         mov dword [SavedTextScreen], eax
         call AddExitHandler

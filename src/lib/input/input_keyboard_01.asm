@@ -52,7 +52,7 @@ RemoveKeyboardHandler_6F:
         LD xor, eax, eax
         in al, 60h
         LD mov, ebx, eax
-        db 066h,02Eh,08Eh,01Dh                  ; insn: o16 mov ds,[cs:0F702h]
+        db 066h,02Eh,08Eh,01Dh                  ; insn: o16 mov ds,[cs:KbdDataSelector]
         dd KbdDataSelector
         mov byte [KeyboardHooked], al
         LD or, bl, bl
@@ -70,7 +70,7 @@ RemoveKeyboardHandler_6F:
         db 0E6h,020h                            ; insn: out 20h,al
         db 083h,0FBh,03Ah                       ; insn: cmp ebx,3Ah
         db 074h, .6-($+2)
-        db 0F6h,05h                             ; insn: test byte [0F6A8h],1
+        db 0F6h,05h                             ; insn: test byte [KeyStateTable+38h],1
         dd KeyStateTable+38h
         db 01h
         jne near .10

@@ -75,7 +75,7 @@ ZeroMem_29:
         and ebx, byte 0Fh
         mov eax, dword [nosplit ebx*2+JoyDirScanCodes]
 .5:
-        db 066h,03Bh,05h                        ; insn: cmp ax,[13DE4h]
+        db 066h,03Bh,05h                        ; insn: cmp ax,[JoyRepeatKey]
         dd JoyRepeatKey
         db 075h, .8-($+2)
         LD or, ax, ax

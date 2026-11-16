@@ -53,7 +53,7 @@ Random32:
         add eax, 40DDE76Dh
         mov dword [RandomState+0Ch], eax
         db 05h,0E1h,07Ah,032h,097h              ; insn: add eax,97327AE1h
-        db 0A3h                                 ; insn: mov [122D8h],eax
+        db 0A3h                                 ; insn: mov [RandomState+10h],eax
         dd RandomState+10h
         add eax, 0D1A9FBE7h
         mov dword [RandIndex], eax

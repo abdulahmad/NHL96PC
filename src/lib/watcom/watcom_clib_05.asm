@@ -5025,13 +5025,13 @@ start_74:
         mov byte [_Extender], al
         mov byte [_ExtenderSubtype], ah
         mov es, ebx
-        db 066h,026h,08Ch,01Dh                  ; insn: o16 mov [es:0A65DDh],ds
+        db 066h,026h,08Ch,01Dh                  ; insn: o16 mov [es:__saved_DS],ds
         dd __saved_DS
         mov dword [_Envptr], esi
         mov word [_Envptr_w4], cx
         push esi
         o16 mov es, word [_psp]
-        db 03Eh,0BAh                            ; insn: mov edx,91258h
+        db 03Eh,0BAh                            ; insn: mov edx,StartupStack
         dd StartupStack
         add edx, byte 0Fh
         and dl, 0F0h
@@ -5086,9 +5086,9 @@ start_74:
         mov word [__no87], bp
         mov dword [_STACKLOW], edi
         mov dword [_dynend], ebx
-        db 03Eh,0B9h                            ; insn: mov ecx,91258h
+        db 03Eh,0B9h                            ; insn: mov ecx,StartupStack
         dd StartupStack
-        db 03Eh,0BFh                            ; insn: mov edi,41598h
+        db 03Eh,0BFh                            ; insn: mov edi,kaufmfont
         dd kaufmfont
         sub ecx, edi
         cmp byte [_Extender], 1
@@ -5104,7 +5104,7 @@ start_74:
         mov cl, dl
         and cl, 3
         rep stosb
-        db 03Eh,0B8h                            ; insn: mov eax,91258h
+        db 03Eh,0B8h                            ; insn: mov eax,StartupStack
         dd StartupStack
         add eax, byte 0Fh
         and al, 0F0h
@@ -5123,7 +5123,7 @@ start_28F:
 WriteConsoleMessage:
         push edx
         push eax
-        db 0BAh                                 ; insn: mov edx,0A637Ch
+        db 0BAh                                 ; insn: mov edx,start_74
         dd start_74
         mov ax, 3D01h
         int 21h
@@ -5155,7 +5155,7 @@ WriteConsoleMessage_23:
 ; Loads the saved data segment (for interrupt handlers)
 ;-----------------------------------------------------------------------------
 RestoreDS:
-        db 066h,02Eh,08Eh,01Dh                  ; insn: o16 mov ds,[cs:0A65DDh]
+        db 066h,02Eh,08Eh,01Dh                  ; insn: o16 mov ds,[cs:__saved_DS]
         dd __saved_DS
         ret
 __saved_DS:

@@ -63,7 +63,7 @@ global DrawOverlayCaption_DC, DrawOverlayCaption_E1, ResetGameOverlays, DrawTime
 global DrawClockPanel, DrawTimeLeftPanel, GetPeriodTextJumpTable, GetPeriodText, GetPeriodText_1F, GetPeriodText_3C, GetPeriodText_59, GetPeriodText_86
 global ScorePanelPeriodJumpTable, DrawScorePanel, DrawScorePanel_689, DrawScorePanel_690, DrawScorePanel_697, DrawScorePanel_69E, DrawEventPanel, DrawPlayerNamePanel
 global DrawPenaltyEventPanel, DrawGoalEventPanel, QueueOverlayPanel, DrawGameOverlays, DrawLineEnergyBar, DrawLineChangeBox, DrawLineChangeBoxes, NearNetZeroVec
-global CamAimZeroVec, ShotFromZeroVec, ShotToZeroVec, ShotNearZeroVec, CamTargetZeroVec, CamShotPositions, unk_5D591_84, ViewSizeScales
+global CamAimZeroVec, ShotFromZeroVec, ShotToZeroVec, ShotNearZeroVec, CamTargetZeroVec, CamShotPositions, LowResViewWidths, ViewSizeScales
 global ViewSizeWidths, ViewSizeHeights
 ;-----------------------------------------------------------------------------
 ; DrawScaledSprite                                584A0  96 PC, low confidence
@@ -6373,9 +6373,10 @@ CamShotPositions:
         db 06Ch,0FDh,0FFh
         db 0FFh
 ;-----------------------------------------------------------------------------
-; unk_5D591_84                                                    5D615  96 PC
+; LowResViewWidths                                5D615  96 PC, low confidence
+; Game view widths from 160 to 320 (unused table)
 ;-----------------------------------------------------------------------------
-unk_5D591_84:
+LowResViewWidths:
         mov al, byte [0B4000000h]
         db 00h,00h,00h,0C8h,00h,00h,00h,0DCh,00h,00h,00h,0F0h,00h,00h,00h,04h
         db 01h,00h,00h,018h,01h,00h,00h,02Ch,01h,00h,00h,040h,01h,00h,00h

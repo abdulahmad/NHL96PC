@@ -2178,14 +2178,14 @@ SbIsrWritePort:
 SbIsrSingle:
         pusha
         push ds
-        db 066h,02Eh,0A1h                       ; insn: mov ax,[cs:0C796Ah]
+        db 066h,02Eh,0A1h                       ; insn: mov ax,[cs:SbIsrPicPort]
         dd SbIsrPicPort
         out 20h, al
-        db 066h,02Eh,08Bh,015h                  ; insn: mov dx,[cs:0C796Ch]
+        db 066h,02Eh,08Bh,015h                  ; insn: mov dx,[cs:SbIsrAckPort]
         dd SbIsrAckPort
         in al, dx
         mov ah, 14h
-        db 066h,02Eh,08Bh,015h                  ; insn: mov dx,[cs:0C796Eh]
+        db 066h,02Eh,08Bh,015h                  ; insn: mov dx,[cs:SbIsrWritePort]
         dd SbIsrWritePort
         mov ecx, 2710h
 .1:
@@ -2195,7 +2195,7 @@ SbIsrSingle:
         LD mov, al, ah
         out dx, al
         mov ah, 0FFh
-        db 066h,02Eh,08Bh,015h                  ; insn: mov dx,[cs:0C796Eh]
+        db 066h,02Eh,08Bh,015h                  ; insn: mov dx,[cs:SbIsrWritePort]
         dd SbIsrWritePort
         mov ecx, 2710h
 .2:
@@ -2205,7 +2205,7 @@ SbIsrSingle:
         LD mov, al, ah
         out dx, al
         mov ah, 0FFh
-        db 066h,02Eh,08Bh,015h                  ; insn: mov dx,[cs:0C796Eh]
+        db 066h,02Eh,08Bh,015h                  ; insn: mov dx,[cs:SbIsrWritePort]
         dd SbIsrWritePort
         mov ecx, 2710h
 .3:

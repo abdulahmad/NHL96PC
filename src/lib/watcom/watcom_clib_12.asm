@@ -1405,7 +1405,7 @@ ArtBitDepth:
         sub eax, byte 79h
         cmp eax, byte 6
         ja short ArtBitDepth_3D
-        db 02Eh,0FFh,024h,085h                  ; insn: jmp dword [cs:eax*4+0B4CB0h]
+        db 02Eh,0FFh,024h,085h                  ; insn: jmp dword [cs:eax*4+ArtBitDepthJumpTable]
         dd ArtBitDepthJumpTable
 ArtBitDepth_19:
         mov eax, 1

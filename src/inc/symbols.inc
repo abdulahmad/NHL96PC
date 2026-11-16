@@ -421,7 +421,7 @@
 ;  5D579  ShotNearZeroVec                          front/game_view/game_view.asm                1
 ;  5D585  CamTargetZeroVec                         front/game_view/game_view.asm                1
 ;  5D591  CamShotPositions                         front/game_view/game_view.asm                1
-;  5D615  unk_5D591_84                             front/game_view/game_view.asm                1
+;  5D615  LowResViewWidths                         front/game_view/game_view.asm                1
 ;  5D639  ViewSizeScales                           front/game_view/game_view.asm                1
 ;  5D65D  ViewSizeWidths                           front/game_view/game_view.asm                1
 ;  5D681  ViewSizeHeights                          front/game_view/game_view.asm                1

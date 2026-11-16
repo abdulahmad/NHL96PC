@@ -12,10 +12,10 @@ global Sb16IsrPicPort, Sb16IsrAckPort
 SbIsrAutoInit:
         push eax
         push edx
-        db 066h,02Eh,0A1h                       ; insn: mov ax,[cs:0C796Ah]
+        db 066h,02Eh,0A1h                       ; insn: mov ax,[cs:SbIsrPicPort]
         dd SbIsrPicPort
         out 20h, al
-        db 066h,02Eh,08Bh,015h                  ; insn: mov dx,[cs:0C796Ch]
+        db 066h,02Eh,08Bh,015h                  ; insn: mov dx,[cs:SbIsrAckPort]
         dd SbIsrAckPort
         in al, dx
         pop edx
@@ -33,10 +33,10 @@ SbProIsr:
         push eax
         push edx
         mov al, 20h
-        db 066h,02Eh,08Bh,015h                  ; insn: mov dx,[cs:0C79E3h]
+        db 066h,02Eh,08Bh,015h                  ; insn: mov dx,[cs:SbProIsrPicPort]
         dd SbProIsrPicPort
         out dx, al
-        db 066h,02Eh,08Bh,015h                  ; insn: mov dx,[cs:0C79E5h]
+        db 066h,02Eh,08Bh,015h                  ; insn: mov dx,[cs:SbProIsrAckPort]
         dd SbProIsrAckPort
         in al, dx
         pop edx
@@ -53,11 +53,11 @@ Sb16IsrAckPort:
 Sb16Isr:
         push eax
         push edx
-        db 066h,02Eh,08Bh,015h                  ; insn: mov dx,[cs:0C7A02h]
+        db 066h,02Eh,08Bh,015h                  ; insn: mov dx,[cs:Sb16IsrAckPort]
         dd Sb16IsrAckPort
         in al, dx
         mov al, 20h
-        db 066h,02Eh,08Bh,015h                  ; insn: mov dx,[cs:0C7A00h]
+        db 066h,02Eh,08Bh,015h                  ; insn: mov dx,[cs:Sb16IsrPicPort]
         dd Sb16IsrPicPort
         out dx, al
         pop edx

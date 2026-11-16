@@ -13,7 +13,7 @@ extern DosSetVector, LoadFileCached, ReadPaletteEntries8, AddExitHandler, DosOpe
 extern SerialPortCom2, SerialPortCom3, SerialPortCom4, SerialIrqMask
 extern SerialBaudDivisors, Crc16Table
 global __set_binary_, _dos_getdate_, _dos_gettime_, byteswap_, LoadResourceData_8, LoadFileDataFlags, SerialCarrier_75, SerialWrite_5
-global SerialReadWait_1A, SerialIsrCom2, SerialIsrCom3, SerialIsrCom4, SerialIsrCom1_85, unk_B15DE_10, med3__4F, lseek_
+global SerialReadWait_1A, SerialIsrCom2, SerialIsrCom3, SerialIsrCom4, SerialIsrCom1_85, SerialIsrExit, med3__4F, lseek_
 global med3_, open_, qsort_, rand_, read_, sopen_, srand_, strlen_
 global strncmp_, strstr_, GetRandState, DosFileInfo, LoadResourceBlockShared, LoadResourceData, LoadResourceDataShared, LoadFileData
 global InverseTableSlice, InverseTablePass, InverseTableScan, InverseTableFill, FreeColourLookup, BuildInverseTable, ExpandPalette, BuildInverseFromPalette
@@ -1821,7 +1821,7 @@ SerialIsrCom4:
         push esi
         push edi
         push ds
-        db 066h,02Eh,0A1h                       ; insn: mov ax,[cs:0FD68h]
+        db 066h,02Eh,0A1h                       ; insn: mov ax,[cs:SerialIrqMask]
         dd SerialIrqMask
         mov ds, ax
         inc dword [byte ebx+044h]
@@ -1832,7 +1832,7 @@ SerialIsrCom4:
         in al, dx
         test al, 1
         je short SerialIsrCom1_85.2
-        jmp short unk_B15DE_10
+        jmp short SerialIsrExit
         db 01Fh,05Fh,05Eh,05Ah,059h,058h,03Bh,01Dh
         dd SerialPortTable
         db 075h,08h,05Bh,0EAh
@@ -1857,20 +1857,21 @@ SerialIsrCom1_85:
         LD xor, eax, eax
         in al, dx
         test al, 1
-        jne short unk_B15DE_10
+        jne short SerialIsrExit
 .2:
         LD mov, esi, eax
         and esi, byte 6
         jmp dword [nosplit cs:esi*2+SerialIsrJumpTable]
 SerialIsrJumpTable:
-        dd unk_B15DE_10.1
-        dd unk_B15DE_10.6
-        dd unk_B15DE_10.12
-        dd unk_B15DE_10.12
+        dd SerialIsrExit.1
+        dd SerialIsrExit.6
+        dd SerialIsrExit.12
+        dd SerialIsrExit.12
 ;-----------------------------------------------------------------------------
-; unk_B15DE_10                                                         B15EE  
+; SerialIsrExit                                   B15EE  96 PC, low confidence
+; Serial interrupt exit: acknowledges the interrupt and returns
 ;-----------------------------------------------------------------------------
-unk_B15DE_10:
+SerialIsrExit:
         mov al, 20h
         out 20h, al
         pop ds

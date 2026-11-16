@@ -44,9 +44,9 @@ SetClipRect:
         mov dword [byte esi+010h], edx
         mov dword [byte esi+0Ch], ecx
         mov dword [byte esi+014h], ebx
-        db 0A3h                                 ; insn: mov [128D8h],eax
+        db 0A3h                                 ; insn: mov [DrawClipLeft],eax
         dd DrawClipLeft
-        db 089h,015h                            ; insn: mov [128E0h],edx
+        db 089h,015h                            ; insn: mov [DrawClipRight],edx
         dd DrawClipRight
         mov dword [DrawClipTop], ecx
         mov dword [DrawClipBottom], ebx

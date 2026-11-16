@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_D14D1 progbits alloc exec nowrite align=1
-extern FatalError, str_BuildtableminLinearmapfExcee, str_BuildfixedtableminLinear, str_BuildtableminLinearmapfE, str_BuildtableminLinearmapfE2, RemapTable, ClipTopRow, ClipLeftCol
-extern ClipRight, ScreenHeight, DrawDestBuffer, dword_1228FC, TexSpanFill, EmuTrapExit, EaEax, EaEcx
+extern FatalError, str_BuildtableminLinearmapfExcee, str_BuildfixedtableminLinear, str_BuildtableminLinearmapfE, str_BuildtableminLinearmapfE2, RemapTable, DrawClipLeft, DrawClipTop
+extern DrawClipRight, DrawClipBottom, DrawDestBuffer, dword_1228FC, TexSpanFill, EmuTrapExit, EaEax, EaEcx
 extern EaEdx, EaEbx, EaEsp, EaDisp32, EaEsi, EaEdi, EaEaxDisp8, EaEcxDisp8
 extern EaEdxDisp8, EaEbxDisp8, EaEspDisp8, EaEbpDisp8, EaEsiDisp8, EaEdiDisp8, EaEaxDisp32, EaEcxDisp32
 extern EaEdxDisp32, EaEbxDisp32, EaEspDisp32, EaEbpDisp32, EaEsiDisp32, EaEdiDisp32, EaSib, EmuUnsupported
@@ -152,12 +152,12 @@ BuildEdgeTableMin:
         mov ebx, dword [byte esp+018h]
         mov esi, dword [byte esp+01Ch]
         mov edi, dword [byte esp+020h]
-        cmp ebx, dword [ScreenHeight]
+        cmp ebx, dword [DrawClipBottom]
         jl short .1
         xor eax, eax
         jmp near .9
 .1:
-        mov ecx, dword [ClipLeftCol]
+        mov ecx, dword [DrawClipTop]
         lea eax, [ebx+esi]
         cmp eax, ecx
         jge short .2
@@ -180,7 +180,7 @@ BuildEdgeTableMin:
         jge short .3
         add edi, eax
 .3:
-        mov ecx, dword [ClipLeftCol]
+        mov ecx, dword [DrawClipTop]
         cmp ebx, ecx
         jge short .4
         mov eax, ecx
@@ -191,7 +191,7 @@ BuildEdgeTableMin:
         sub esi, eax
         add edi, edx
 .4:
-        mov edx, dword [ScreenHeight]
+        mov edx, dword [DrawClipBottom]
         lea eax, [ebx+esi]
         cmp eax, edx
         jl short .5
@@ -238,7 +238,7 @@ BuildEdgeTableMax:
         mov ecx, dword [byte esp+010h]
         mov edi, dword [byte esp+014h]
         mov ebx, dword [byte esp+018h]
-        cmp edi, dword [ScreenHeight]
+        cmp edi, dword [DrawClipBottom]
         jl short .1
         xor eax, eax
         pop ebp
@@ -246,7 +246,7 @@ BuildEdgeTableMax:
         pop esi
         ret
 .1:
-        mov esi, dword [ClipLeftCol]
+        mov esi, dword [DrawClipTop]
         lea eax, [edi+ebx]
         cmp eax, esi
         jge short .2
@@ -270,7 +270,7 @@ BuildEdgeTableMax:
         jle short .3
         add eax, esi
 .3:
-        mov edx, dword [ClipLeftCol]
+        mov edx, dword [DrawClipTop]
         cmp edi, edx
         jge short .4
         sub edx, edi
@@ -278,9 +278,9 @@ BuildEdgeTableMax:
         imul edi, edx
         sub ebx, edx
         add eax, edi
-        mov edi, dword [ClipLeftCol]
+        mov edi, dword [DrawClipTop]
 .4:
-        mov ebp, dword [ScreenHeight]
+        mov ebp, dword [DrawClipBottom]
         lea edx, [edi+ebx]
         cmp edx, ebp
         jl short .5
@@ -318,9 +318,9 @@ BuildFixedTableMin:
         mov ebx, dword [byte esp+018h]
         mov esi, dword [byte esp+01Ch]
         mov ecx, dword [byte esp+020h]
-        cmp ebx, dword [ScreenHeight]
+        cmp ebx, dword [DrawClipBottom]
         jge near .7
-        mov edi, dword [ClipLeftCol]
+        mov edi, dword [DrawClipTop]
         lea edx, [ebx+esi]
         cmp edx, edi
         jl near .7
@@ -337,7 +337,7 @@ BuildFixedTableMin:
         mov edi, dword [esp]
         add edi, ecx
 .1:
-        mov edx, dword [ClipLeftCol]
+        mov edx, dword [DrawClipTop]
         cmp ebx, edx
         jge short .2
         sub edx, ebx
@@ -345,9 +345,9 @@ BuildFixedTableMin:
         imul ebx, edx
         sub esi, edx
         add edi, ebx
-        mov ebx, dword [ClipLeftCol]
+        mov ebx, dword [DrawClipTop]
 .2:
-        mov ecx, dword [ScreenHeight]
+        mov ecx, dword [DrawClipBottom]
         lea edx, [ebx+esi]
         cmp edx, ecx
         jl short .3
@@ -399,9 +399,9 @@ BuildFixedTableMax:
         mov ebx, dword [byte esp+018h]
         mov esi, dword [byte esp+01Ch]
         mov ecx, dword [byte esp+020h]
-        cmp ebx, dword [ScreenHeight]
+        cmp ebx, dword [DrawClipBottom]
         jge near .6
-        mov edi, dword [ClipLeftCol]
+        mov edi, dword [DrawClipTop]
         lea edx, [ebx+esi]
         cmp edx, edi
         jl near .6
@@ -418,7 +418,7 @@ BuildFixedTableMax:
         mov edi, dword [esp]
         add edi, ecx
 .1:
-        mov edx, dword [ClipLeftCol]
+        mov edx, dword [DrawClipTop]
         cmp ebx, edx
         jge short .2
         sub edx, ebx
@@ -426,9 +426,9 @@ BuildFixedTableMax:
         imul ebx, edx
         sub esi, edx
         add edi, ebx
-        mov ebx, dword [ClipLeftCol]
+        mov ebx, dword [DrawClipTop]
 .2:
-        mov ecx, dword [ScreenHeight]
+        mov ecx, dword [DrawClipBottom]
         lea edx, [ebx+esi]
         cmp edx, ecx
         jl short .3
@@ -686,10 +686,10 @@ FillFlatPolyCore:
         cmp edx, byte 4
         jl short .1
         mov eax, dword [dword esp+04814h]
-        cmp eax, dword [ScreenHeight]
+        cmp eax, dword [DrawClipBottom]
         jge near .25
         mov eax, dword [dword esp+04810h]
-        cmp eax, dword [ClipLeftCol]
+        cmp eax, dword [DrawClipTop]
         jl near .25
         mov edx, dword [dword esp+04834h]
         inc edx
@@ -879,13 +879,13 @@ FillFlatPolyCore:
         jne near .9
 .11:
         mov eax, dword [dword esp+04814h]
-        mov ebx, dword [ClipLeftCol]
+        mov ebx, dword [DrawClipTop]
         cmp eax, ebx
         jge short .12
         mov dword [dword esp+04814h], ebx
 .12:
         mov eax, dword [dword esp+04810h]
-        mov ecx, dword [ScreenHeight]
+        mov ecx, dword [DrawClipBottom]
         cmp eax, ecx
         jl short .13
         lea eax, [byte ecx-01h]
@@ -913,9 +913,9 @@ FillFlatPolyCore:
         test ebx, ebx
         jle near .18
         mov eax, edx
-        cmp eax, dword [ClipRight]
+        cmp eax, dword [DrawClipRight]
         jge near .17
-        mov ecx, dword [ClipTopRow]
+        mov ecx, dword [DrawClipLeft]
         cmp ecx, dword [dword esp+esi+01800h]
         jg near .17
         mov edx, dword [dword esp+esi+03000h]
@@ -932,7 +932,7 @@ FillFlatPolyCore:
         sar edx, 1Fh
         idiv ebx
         mov dword [dword esp+04864h], ebp
-        mov ebp, dword [ClipTopRow]
+        mov ebp, dword [DrawClipLeft]
         mov edi, eax
         mov edx, dword [esp+esi]
         mov eax, dword [dword esp+esi+0C00h]
@@ -946,11 +946,11 @@ FillFlatPolyCore:
         mov ebp, edi
         imul ebp, edx
         sub ebx, edx
-        mov edx, dword [ClipTopRow]
+        mov edx, dword [DrawClipLeft]
         add dword [dword esp+04864h], ebp
         mov dword [esp+esi], edx
 .15:
-        mov ebp, dword [ClipRight]
+        mov ebp, dword [DrawClipRight]
         mov edx, dword [dword esp+esi+01800h]
         cmp edx, ebp
         jl short .16

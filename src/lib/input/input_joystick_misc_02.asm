@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_E0898 progbits alloc exec nowrite align=1
-extern NearClipZ, dword_1222C8, dword_1222CC, dword_1222D0, RandState, dword_1222D8, RandIndex, ClipTopRow
-extern ClipLeftCol, ClipRight, ScreenHeight, ViewHalfWidth, ViewHalfHeight, ViewOriginX, ViewOriginY, ViewCentreX
+extern NearClipZ, dword_1222C8, dword_1222CC, dword_1222D0, RandState, dword_1222D8, RandIndex, DrawClipLeft
+extern DrawClipTop, DrawClipRight, DrawClipBottom, ViewHalfWidth, ViewHalfHeight, ViewOriginX, ViewOriginY, ViewCentreX
 extern ViewCentreY, dword_123AAC, dword_123AB0, ViewFovX, ViewFovY, dword_123ABC, ShadowFillFunc, TitleBandFunc
 extern FillSpanList, RemapSpanList, FillRectSpans, FillRectColor, SetupRectFillBlend, SetupRectFill, AngleFromDelta, SinLookup
 extern CosLookup
@@ -122,9 +122,9 @@ FillPolygonCore:
         cld
         lea eax, [dword ebp-0282Ch]
         mov dword [byte ebp-02Ch], eax
-        mov eax, dword [ClipTopRow]
+        mov eax, dword [DrawClipLeft]
         mov dword [byte ebp-04h], eax
-        mov eax, dword [ClipRight]
+        mov eax, dword [DrawClipRight]
         dec eax
         mov dword [byte ebp-08h], eax
         mov eax, dword [byte esi+04h]
@@ -182,19 +182,19 @@ FillPolygonCore:
         cmp ebx, dword [byte ebp-08h]
         jge short .9
         mov eax, dword [byte ebp-020h]
-        cmp eax, dword [ClipLeftCol]
+        cmp eax, dword [DrawClipTop]
         jl short .9
         mov ecx, dword [byte ebp-018h]
-        cmp ecx, dword [ScreenHeight]
+        cmp ecx, dword [DrawClipBottom]
         jge short .9
         mov byte [byte ebp-012h], 0
         cmp edx, dword [byte ebp-08h]
         jg short .6
         cmp ebx, dword [byte ebp-04h]
         jl short .6
-        cmp eax, dword [ScreenHeight]
+        cmp eax, dword [DrawClipBottom]
         jge short .6
-        cmp ecx, dword [ClipLeftCol]
+        cmp ecx, dword [DrawClipTop]
         jge short .7
 .6:
         mov byte [byte ebp-012h], 1
@@ -284,15 +284,15 @@ FillPolygonCore:
         cmp edi, dword [byte ebp-024h]
         jne short .16
         mov eax, dword [byte ebp-020h]
-        cmp eax, dword [ScreenHeight]
+        cmp eax, dword [DrawClipBottom]
         jl short .21
-        mov eax, dword [ScreenHeight]
+        mov eax, dword [DrawClipBottom]
         dec eax
 .21:
         mov ebx, dword [byte ebp-018h]
-        cmp ebx, dword [ClipLeftCol]
+        cmp ebx, dword [DrawClipTop]
         jge short .22
-        mov ebx, dword [ClipLeftCol]
+        mov ebx, dword [DrawClipTop]
 .22:
         LD sub, eax, ebx
         jle short .23
@@ -329,7 +329,7 @@ FillBandEdges:
         LD sub, edi, ecx
         lea edi, [nosplit edi*4+00h]
         add edi, dword [byte ebp-02Ch]
-        mov eax, dword [ClipTopRow]
+        mov eax, dword [DrawClipLeft]
         push ecx
         push edi
         rep stosd
@@ -349,7 +349,7 @@ FillBandEdges:
         LD sub, edi, ecx
         lea edi, [nosplit edi*4+00h]
         add edi, dword [byte ebp-02Ch]
-        mov eax, dword [ClipRight]
+        mov eax, dword [DrawClipRight]
         push ecx
         push edi
         rep stosd
@@ -366,7 +366,7 @@ FillBandEdges:
         inc edi
         lea edi, [nosplit edi*4+00h]
         add edi, dword [byte ebp-02Ch]
-        mov eax, dword [ClipTopRow]
+        mov eax, dword [DrawClipLeft]
         push ecx
         push edi
         rep stosd
@@ -383,7 +383,7 @@ FillBandEdges:
         inc edi
         lea edi, [nosplit edi*4+00h]
         add edi, dword [byte ebp-02Ch]
-        mov eax, dword [ClipRight]
+        mov eax, dword [DrawClipRight]
         push ecx
         push edi
         rep stosd
@@ -1022,7 +1022,7 @@ jpt_E0F93_22F:
         LD sub, edi, ecx
         lea edi, [nosplit edi*4+00h]
         add edi, dword [byte ebp-02Ch]
-        mov eax, dword [ClipTopRow]
+        mov eax, dword [DrawClipLeft]
         rep stosd
 .47:
         mov ecx, dword [byte esi+028h]
@@ -1036,7 +1036,7 @@ jpt_E0F93_22F:
         lea edi, [nosplit edi*4+00h]
         add edi, dword [byte ebp-02Ch]
         add edi, 1400h
-        mov eax, dword [ClipRight]
+        mov eax, dword [DrawClipRight]
         dec eax
         rep stosd
 .48:
@@ -1047,7 +1047,7 @@ jpt_E0F93_22F:
         inc edi
         lea edi, [nosplit edi*4+00h]
         add edi, dword [byte ebp-02Ch]
-        mov eax, dword [ClipTopRow]
+        mov eax, dword [DrawClipLeft]
         rep stosd
 .49:
         mov ecx, dword [byte esi+02Ch]
@@ -1058,7 +1058,7 @@ jpt_E0F93_22F:
         lea edi, [nosplit edi*4+00h]
         add edi, dword [byte ebp-02Ch]
         add edi, 1400h
-        mov eax, dword [ClipRight]
+        mov eax, dword [DrawClipRight]
         dec eax
         rep stosd
 .50:
@@ -1096,9 +1096,9 @@ jpt_E0F93_22F:
         cld
         lea eax, [dword ebp-0282Ch]
         mov dword [byte ebp-02Ch], eax
-        mov eax, dword [ClipTopRow]
+        mov eax, dword [DrawClipLeft]
         mov dword [byte ebp-04h], eax
-        mov eax, dword [ClipRight]
+        mov eax, dword [DrawClipRight]
         dec eax
         mov dword [byte ebp-08h], eax
         mov edi, dword [esi]
@@ -1191,19 +1191,19 @@ jpt_E0F93_22F:
         cmp ebx, dword [byte ebp-08h]
         jge short .67
         mov eax, dword [byte ebp-020h]
-        cmp eax, dword [ClipLeftCol]
+        cmp eax, dword [DrawClipTop]
         jl short .67
         mov ecx, dword [byte ebp-018h]
-        cmp ecx, dword [ScreenHeight]
+        cmp ecx, dword [DrawClipBottom]
         jge short .67
         mov byte [byte ebp-012h], 0
         cmp edx, dword [byte ebp-08h]
         jg short .64
         cmp ebx, dword [byte ebp-04h]
         jl short .64
-        cmp eax, dword [ScreenHeight]
+        cmp eax, dword [DrawClipBottom]
         jge short .64
-        cmp ecx, dword [ClipLeftCol]
+        cmp ecx, dword [DrawClipTop]
         jge short .65
 .64:
         mov byte [byte ebp-012h], 1
@@ -1265,15 +1265,15 @@ jpt_E0F93_22F:
         jmp short .74
 .76:
         mov eax, dword [byte ebp-020h]
-        cmp eax, dword [ScreenHeight]
+        cmp eax, dword [DrawClipBottom]
         jl short .77
-        mov eax, dword [ScreenHeight]
+        mov eax, dword [DrawClipBottom]
         dec eax
 .77:
         mov ebx, dword [byte ebp-018h]
-        cmp ebx, dword [ClipLeftCol]
+        cmp ebx, dword [DrawClipTop]
         jge short .78
-        mov ebx, dword [ClipLeftCol]
+        mov ebx, dword [DrawClipTop]
 .78:
         LD sub, eax, ebx
         jle short .79

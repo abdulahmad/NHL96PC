@@ -3,8 +3,8 @@ bits 32
 %include "hockey.inc"
 section s_BA3D0 progbits alloc exec nowrite align=1
 extern FatalError, str_ORIINST, str_INVMATRX, str_Ori, str_OriloadCouldNotLoadORIGA, dword_11F5C0, dword_11F5C4, NearClipZ
-extern dword_122378, dword_122384, dword_122388, dword_12238C, SinTable, NearPlaneZ, ScreenWidth, ClipTopRow
-extern ClipLeftCol, ClipRight, ScreenHeight, DrawDestBuffer, dword_1228FC, ViewCentreX, ViewCentreY, dword_123ABC
+extern dword_122378, dword_122384, dword_122388, dword_12238C, SinTable, NearPlaneZ, ScreenWidth, DrawClipLeft
+extern DrawClipTop, DrawClipRight, DrawClipBottom, DrawDestBuffer, dword_1228FC, ViewCentreX, ViewCentreY, dword_123ABC
 extern dword_123AC0, AtanTable, str_Punct_AngleOfVector, dword_17DC18, dword_17DC1C, dword_17DC24, dword_17DC28, dword_1956B0
 extern dword_1956B4, dword_1956B8, dword_1956BC, dword_1956C0, dword_1956C4, dword_1956C8, dword_1956CC, dword_198388
 extern dword_19838C, dword_198390, dword_198394, dword_198398, dword_19839C, dword_1983A0, dword_1983A4, RinkViewChanged
@@ -1699,9 +1699,9 @@ BlitArtScaled:
         je near .13
         test esi, esi
         je near .13
-        cmp ecx, dword [ClipRight]
+        cmp ecx, dword [DrawClipRight]
         jge near .13
-        cmp ebp, dword [ScreenHeight]
+        cmp ebp, dword [DrawClipBottom]
         jge near .13
         test edx, edx
         jl short .1
@@ -1711,7 +1711,7 @@ BlitArtScaled:
         mov eax, edx
         neg eax
 .2:
-        mov ebx, dword [ClipTopRow]
+        mov ebx, dword [DrawClipLeft]
         add eax, ecx
         cmp eax, ebx
         jle near .13
@@ -1723,7 +1723,7 @@ BlitArtScaled:
         mov eax, esi
         neg eax
 .4:
-        mov edx, dword [ClipLeftCol]
+        mov edx, dword [DrawClipTop]
         add eax, ebp
         cmp eax, edx
         jle near .13
@@ -1766,7 +1766,7 @@ BlitArtScaled:
         shl edx, 10h
         add eax, edx
 .7:
-        mov edx, dword [ClipLeftCol]
+        mov edx, dword [DrawClipTop]
         cmp ebp, edx
         jge short .8
         sub edx, ebp
@@ -1774,16 +1774,16 @@ BlitArtScaled:
         mov edx, dword [esp]
         imul edx, ebp
         sub esi, ebp
-        mov ebp, dword [ClipLeftCol]
+        mov ebp, dword [DrawClipTop]
         add edi, edx
 .8:
         lea edx, [esi+ebp]
-        cmp edx, dword [ScreenHeight]
+        cmp edx, dword [DrawClipBottom]
         jle short .9
-        mov esi, dword [ScreenHeight]
+        mov esi, dword [DrawClipBottom]
         sub esi, ebp
 .9:
-        mov edx, dword [ClipTopRow]
+        mov edx, dword [DrawClipLeft]
         cmp ecx, edx
         jge short .10
         sub edx, ecx
@@ -1793,14 +1793,14 @@ BlitArtScaled:
         add eax, edx
         mov edx, dword [byte esp+018h]
         sub edx, ecx
-        mov ecx, dword [ClipTopRow]
+        mov ecx, dword [DrawClipLeft]
         mov dword [byte esp+018h], edx
 .10:
         mov edx, dword [byte esp+018h]
         add edx, ecx
-        cmp edx, dword [ClipRight]
+        cmp edx, dword [DrawClipRight]
         jle short .11
-        mov edx, dword [ClipRight]
+        mov edx, dword [DrawClipRight]
         sub edx, ecx
         mov dword [byte esp+018h], edx
 .11:

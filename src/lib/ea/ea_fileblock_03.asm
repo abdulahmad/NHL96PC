@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_BE8C5 progbits alloc exec nowrite align=1
-extern __fprtf_, __sys_fini_387_emulator, NearClipZ, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight
+extern __fprtf_, __sys_fini_387_emulator, NearClipZ, ScreenWidth, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom
 extern DrawDestBuffer, ViewCentreX, ViewCentreY, dword_123AAC, dword_123ABC, dword_123AC0, ScaledRowBuffer, Mul32To64
 extern Sar64, BuildSpanOffsets, SetBlitSource, ScaleRowRemapKeyed, ReverseBytes
 global fprintf_, imul32, FixedInverse, IntSqrt, SortIndices, BuildPerspTable, ProjectPointWide, ScaleArtRemapRows
@@ -396,9 +396,9 @@ ScaleArtRemapRows:
         je near .13
         test esi, esi
         je near .13
-        cmp ecx, dword [ClipRight]
+        cmp ecx, dword [DrawClipRight]
         jge near .13
-        cmp ebp, dword [ScreenHeight]
+        cmp ebp, dword [DrawClipBottom]
         jge near .13
         test edx, edx
         jl short .1
@@ -408,7 +408,7 @@ ScaleArtRemapRows:
         mov eax, edx
         neg eax
 .2:
-        mov ebx, dword [ClipTopRow]
+        mov ebx, dword [DrawClipLeft]
         add eax, ecx
         cmp eax, ebx
         jle near .13
@@ -420,7 +420,7 @@ ScaleArtRemapRows:
         mov eax, esi
         neg eax
 .4:
-        mov edx, dword [ClipLeftCol]
+        mov edx, dword [DrawClipTop]
         add eax, ebp
         cmp eax, edx
         jle near .13
@@ -463,7 +463,7 @@ ScaleArtRemapRows:
         shl edx, 10h
         add eax, edx
 .7:
-        mov edx, dword [ClipLeftCol]
+        mov edx, dword [DrawClipTop]
         cmp ebp, edx
         jge short .8
         sub edx, ebp
@@ -471,16 +471,16 @@ ScaleArtRemapRows:
         mov edx, dword [esp]
         imul edx, ebp
         sub esi, ebp
-        mov ebp, dword [ClipLeftCol]
+        mov ebp, dword [DrawClipTop]
         add edi, edx
 .8:
         lea edx, [esi+ebp]
-        cmp edx, dword [ScreenHeight]
+        cmp edx, dword [DrawClipBottom]
         jle short .9
-        mov esi, dword [ScreenHeight]
+        mov esi, dword [DrawClipBottom]
         sub esi, ebp
 .9:
-        mov edx, dword [ClipTopRow]
+        mov edx, dword [DrawClipLeft]
         cmp ecx, edx
         jge short .10
         sub edx, ecx
@@ -490,14 +490,14 @@ ScaleArtRemapRows:
         add eax, edx
         mov edx, dword [byte esp+018h]
         sub edx, ecx
-        mov ecx, dword [ClipTopRow]
+        mov ecx, dword [DrawClipLeft]
         mov dword [byte esp+018h], edx
 .10:
         mov edx, dword [byte esp+018h]
         add edx, ecx
-        cmp edx, dword [ClipRight]
+        cmp edx, dword [DrawClipRight]
         jle short .11
-        mov edx, dword [ClipRight]
+        mov edx, dword [DrawClipRight]
         sub edx, ecx
         mov dword [byte esp+018h], edx
 .11:

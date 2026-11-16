@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_CFDF1 progbits alloc exec nowrite align=1
 extern _EFG_Format_, __IOMode_, __STOSB, __cnvs2d_, __fatal_runtime_error_, __set_errno_, __set_errno_dos_, __shutdown_stream_
-extern _nmalloc_, str_NotEnoughMemoryTo, __iob_flags, ScreenWidth, ClipBottom, ClipTopRow, ClipRight, __nheapbeg
+extern _nmalloc_, str_NotEnoughMemoryTo, __iob_flags, ScreenWidth, ScreenHeight, DrawClipLeft, DrawClipRight, __nheapbeg
 extern __OpenStreams, __ClosedStreams, TextStringWidth, __freefp__39, __EFG_printf, __EFG_scanf, TextPrintAt, SetClipWindow
 extern SetClipRect, __iob, __iob_end
 global __InitFiles_, __full_io_exit_, __qwrite_, __setEFGfmt_, docloseall_, fcloseall_, memset_, ReturnFalse
@@ -38,13 +38,13 @@ PrintCentredBoxed:
         push esi
         push edi
         mov ebx, dword [byte esp+0Ch]
-        mov esi, dword [ClipRight]
-        mov edx, dword [ClipTopRow]
+        mov esi, dword [DrawClipRight]
+        mov edx, dword [DrawClipLeft]
         push ebx
         sub esi, edx
         call TextStringWidth
         sub esi, eax
-        mov ecx, dword [ClipTopRow]
+        mov ecx, dword [DrawClipLeft]
         mov eax, esi
         add esp, byte 4
         sar eax, 1
@@ -83,7 +83,7 @@ ResetClipRect:
 ; Sets the clip window to the whole screen
 ;-----------------------------------------------------------------------------
 ResetClipWindow:
-        mov edx, dword [ClipBottom]
+        mov edx, dword [ScreenHeight]
         push edx
         push byte 0
         mov ebx, dword [ScreenWidth]

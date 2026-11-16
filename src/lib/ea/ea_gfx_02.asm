@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_AD680 progbits alloc exec nowrite align=1
-extern byte_11FA2C, byte_11FA2D, byte_11FA2E, byte_11FA30, dword_11FA34, dword_11FA3C, ScreenWidth, ClipTopRow
-extern ClipLeftCol, ClipRight, ScreenHeight, KeyedDraw, dword_1228FC, dword_122930, str_F_PutBlock, FreeMemBlock
+extern byte_11FA2C, byte_11FA2D, byte_11FA2E, byte_11FA30, dword_11FA34, dword_11FA3C, ScreenWidth, DrawClipLeft
+extern DrawClipTop, DrawClipRight, DrawClipBottom, KeyedDraw, dword_1228FC, dword_122930, str_F_PutBlock, FreeMemBlock
 extern PushMemDescriptorLocked, removewindow, SetScreenTarget, VesaSetBank, FillRectCore, XorRectCore, ClearClipRect, FillMem
 extern SaveDrawState, RestoreDrawState
 global TextStringWidth, mem_putc_, FillRect, FillRectClipped, XorRect, XorRectClipped, ClearScreenColour, DrawRectOutline
@@ -168,28 +168,28 @@ FillRectClipped:
         mov ecx, dword [byte esp+014h]
         mov eax, dword [byte esp+018h]
         mov edx, dword [byte esp+01Ch]
-        mov ebx, dword [ClipLeftCol]
+        mov ebx, dword [DrawClipTop]
         sub ebx, ecx
         test ebx, ebx
         jle short .1
         sub edx, ebx
         add ecx, ebx
 .1:
-        mov edi, dword [ScreenHeight]
+        mov edi, dword [DrawClipBottom]
         lea ebx, [ecx+edx]
         sub ebx, edi
         test ebx, ebx
         jle short .2
         sub edx, ebx
 .2:
-        mov ebx, dword [ClipTopRow]
+        mov ebx, dword [DrawClipLeft]
         sub ebx, esi
         test ebx, ebx
         jle short .3
         sub eax, ebx
         add esi, ebx
 .3:
-        mov ebp, dword [ClipRight]
+        mov ebp, dword [DrawClipRight]
         lea ebx, [esi+eax]
         sub ebx, ebp
         test ebx, ebx
@@ -358,28 +358,28 @@ XorRectClipped:
         mov ecx, dword [byte esp+014h]
         mov eax, dword [byte esp+018h]
         mov edx, dword [byte esp+01Ch]
-        mov ebx, dword [ClipLeftCol]
+        mov ebx, dword [DrawClipTop]
         sub ebx, ecx
         test ebx, ebx
         jle short .1
         sub edx, ebx
         add ecx, ebx
 .1:
-        mov edi, dword [ScreenHeight]
+        mov edi, dword [DrawClipBottom]
         lea ebx, [ecx+edx]
         sub ebx, edi
         test ebx, ebx
         jle short .2
         sub edx, ebx
 .2:
-        mov ebx, dword [ClipTopRow]
+        mov ebx, dword [DrawClipLeft]
         sub ebx, esi
         test ebx, ebx
         jle short .3
         sub eax, ebx
         add esi, ebx
 .3:
-        mov ebp, dword [ClipRight]
+        mov ebp, dword [DrawClipRight]
         lea ebx, [esi+eax]
         sub ebx, ebp
         test ebx, ebx

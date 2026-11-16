@@ -8,7 +8,7 @@ extern str_ErrorInvalidVolume, str_ErrorInvalidHandle, str_ErrorInvalidPan, str_
 extern str_NoFreeChannelToPlayOn, str_TGV, str_TgvdecodeInvalidChunkTyp, str_RateDDAvgDD, SpeechQueuePlaying, CrowdLoaded, CrowdPaused, VolumeCurve
 extern SpeechQueueOpen, CrowdPlaying, SndMasterVolume, CrowdLayerPriority, CrowdLayerVolume, SndChannelType, SndChannelBendRange, SndChannelActive
 extern SndChannelSfx, SndChannelVolume, SndChannelGain, SndChannelPan, dword_11F5CC, dword_11F5D0, DebugMode, RowCopyFunc
-extern ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, KeyedDraw, SpeechQueue, SpeechQueueLead, SpeechQueueWrite
+extern DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, KeyedDraw, SpeechQueue, SpeechQueueLead, SpeechQueueWrite
 extern SpeechQueueRead, SpeechQueueVolume, SpeechChannelA, SpeechChannelB, SpeechChannelCur, StreamState, StreamChannel, StreamFrameBytes
 extern StreamSampleRate, StreamVolume, StreamOwner, StreamHeader, StreamPacketsPlayed, StreamSampleScale, SfxBanks, CrowdVolume
 extern CrowdIntensityGoal, CrowdRampMode, CrowdEvent, CrowdFadeStep, CrowdFadeGoal, CrowdFadeLevel, CrowdLastBendStore, CrowdLastBend
@@ -4206,7 +4206,7 @@ TgvBlitFrame:
         mov eax, dword [byte esp+02Ch]
         mov edx, dword [byte esp+02Ch]
         mov esi, dword [byte esp+030h]
-        mov edi, dword [ClipLeftCol]
+        mov edi, dword [DrawClipTop]
         add ecx, byte 10h
         mov eax, dword [byte eax+02h]
         mov edx, dword [byte edx+04h]
@@ -4221,14 +4221,14 @@ TgvBlitFrame:
         add ebp, edi
         add ecx, ebx
 .1:
-        mov ebx, dword [ScreenHeight]
+        mov ebx, dword [DrawClipBottom]
         lea edi, [edx+ebp]
         sub edi, ebx
         test edi, edi
         jle short .2
         sub edx, edi
 .2:
-        mov edi, dword [ClipTopRow]
+        mov edi, dword [DrawClipLeft]
         sub edi, esi
         test edi, edi
         jle short .3
@@ -4236,7 +4236,7 @@ TgvBlitFrame:
         sub eax, edi
         add esi, edi
 .3:
-        mov ebx, dword [ClipRight]
+        mov ebx, dword [DrawClipRight]
         lea edi, [esi+eax]
         sub edi, ebx
         test edi, edi

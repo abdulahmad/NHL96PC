@@ -7,7 +7,7 @@ extern byte_11F983, LastTickCount, KbdIdleHook, JoyTimeX, TimerCalibration, JoyT
 extern JoyCalibrateTicks, JoyReadTimeout, JoyAxisX1, JoyAxisY1, JoyAxisX2, JoyAxisY2, JoyAxisMask, str_P
 extern JoyX1Min, JoyX1Center, JoyX1Max, JoyX1Settle, JoyY1Min, JoyY1Max, str_P2, JoyY1MinSeen
 extern JoyY1Center, JoyY1MaxSeen, JoyY1Settle, JoyX2Min, JoyX2Max, JoyXScale, JoyYScale, SavedBreakOffset
-extern BreakCallFunc, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, exit_, joyenablemask, BiosKeyFunc
+extern BreakCallFunc, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, exit_, joyenablemask, BiosKeyFunc
 extern FillRect, RestoreDS, DosGetVector, DosSetVector, Random32, tickcount, tickdeadline, str_Locateshape44sSHAPENOTFOUND
 extern JoyAxisValues, word_11F914, word_11F918, word_11F91C, SavedBreakSelector, BreakDataSelector
 global GetTicks, SetTickDeadline, TickDeadlinePassed, TicksSince, WaitKey, WaitTickDeadline, FindShapeQuiet_2, ClearClipRect_30
@@ -739,11 +739,11 @@ bcopy:
 ClearClipRect:
         mov eax, dword [byte esp+04h]
         push eax
-        mov edx, dword [ScreenHeight]
-        mov ebx, dword [ClipLeftCol]
+        mov edx, dword [DrawClipBottom]
+        mov ebx, dword [DrawClipTop]
         LD sub, edx, ebx
-        mov eax, dword [ClipRight]
-        mov ecx, dword [ClipTopRow]
+        mov eax, dword [DrawClipRight]
+        mov ecx, dword [DrawClipLeft]
         LD sub, eax, ecx
         push edx
         push eax

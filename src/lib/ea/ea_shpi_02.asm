@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_D0360 progbits alloc exec nowrite align=1
-extern str_SHPI2, ClipTopRow, ClipRight, TextStringWidth, strncpy_, DosFileInfo, DrawTextBoxedAt, PutBytesLE
+extern str_SHPI2, DrawClipLeft, DrawClipRight, TextStringWidth, strncpy_, DosFileInfo, DrawTextBoxedAt, PutBytesLE
 extern bcopy
 global SplitFileExt, ConvertShapeBank, ConvertShapeBankInPlace, DrawTextCentredBoxed
 ;-----------------------------------------------------------------------------
@@ -316,13 +316,13 @@ DrawTextCentredBoxed:
         push esi
         push edi
         mov ebx, dword [byte esp+0Ch]
-        mov esi, dword [ClipRight]
-        mov edx, dword [ClipTopRow]
+        mov esi, dword [DrawClipRight]
+        mov edx, dword [DrawClipLeft]
         push ebx
         sub esi, edx
         call TextStringWidth
         sub esi, eax
-        mov ecx, dword [ClipTopRow]
+        mov ecx, dword [DrawClipLeft]
         mov eax, esi
         add esp, byte 4
         sar eax, 1

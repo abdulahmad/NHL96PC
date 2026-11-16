@@ -1,0 +1,5 @@
+ClipTopRow DrawClipLeft {confidence=medium,source=new} left edge of the draw target's clip rectangle; x below it is not drawn
+ClipLeftCol DrawClipTop {confidence=medium,source=new} top edge of the draw target's clip rectangle; y above it is not drawn
+ClipRight DrawClipRight {confidence=medium,source=new} right edge of the draw target's clip rectangle (exclusive)
+ScreenHeight DrawClipBottom {confidence=medium,source=new} bottom edge of the draw target's clip rectangle (exclusive)
+ClipBottom ScreenHeight {confidence=medium,source=new} screen height in pixels, the bottom of the full screen clip window

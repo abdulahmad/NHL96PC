@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_BC73C progbits alloc exec nowrite align=1
-extern FatalError, __sys_init_387_emulator, str_OrigetpartitionDIsAnInva, NearPlaneZ, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight
-extern ScreenHeight, dword_1228FC, ViewCentreX, ViewCentreY, dword_123AAC, dword_123AB0, dword_123ABC, dword_19869C
+extern FatalError, __sys_init_387_emulator, str_OrigetpartitionDIsAnInva, NearPlaneZ, ScreenWidth, DrawClipLeft, DrawClipTop, DrawClipRight
+extern DrawClipBottom, dword_1228FC, ViewCentreX, ViewCentreY, dword_123AAC, dword_123AB0, dword_123ABC, dword_19869C
 extern dword_1986A0, dword_19A5E0, dword_19A5E4, dword_19A5E8, dword_19A5EC, dword_19A5F0, dword_19A5F4, dword_19A5F8
 extern dword_19A5FC, dword_19A600, dword_19A604, dword_19A608, dword_19A60C, dword_19A610, dword_19A614, dword_19A618
 extern dword_19A61C, dword_19A620, dword_19A624, dword_19A628, dword_19A630, dword_19A634, dword_19A638, dword_19A63C
@@ -215,7 +215,7 @@ ShadedPolyStepEdge:
         mov ecx, dword [byte esp+01Ch]
         lea eax, [nosplit edi*8+00h]
         add eax, ecx
-        mov ebx, dword [ScreenHeight]
+        mov ebx, dword [DrawClipBottom]
         mov edx, dword [byte eax+04h]
         cmp edx, ebx
         jge near ShadedPolyStepEdge_19F
@@ -394,7 +394,7 @@ ShadedSpansLeftClipped:
         imul edx, eax
         mov eax, ebp
         sar eax, 10h
-        mov ebp, dword [ClipRight]
+        mov ebp, dword [DrawClipRight]
         add eax, edx
         lea edx, [ecx+ebx]
         cmp edx, ebp
@@ -402,7 +402,7 @@ ShadedSpansLeftClipped:
         mov ebx, ebp
         sub ebx, ecx
 .1:
-        mov edx, dword [ClipTopRow]
+        mov edx, dword [DrawClipLeft]
         cmp ecx, edx
         jge short .2
         mov ebp, edx
@@ -412,7 +412,7 @@ ShadedSpansLeftClipped:
         add esi, edx
         mov edx, dword [byte esp+0Ch]
         imul edx, ebp
-        mov ecx, dword [ClipTopRow]
+        mov ecx, dword [DrawClipLeft]
         sub ebx, ebp
         add edi, edx
 .2:
@@ -566,7 +566,7 @@ ShadedSpansRightClipped:
         imul edx, eax
         mov eax, ebp
         sar eax, 10h
-        mov ebp, dword [ClipRight]
+        mov ebp, dword [DrawClipRight]
         add eax, edx
         lea edx, [ecx+ebx]
         cmp edx, ebp
@@ -574,7 +574,7 @@ ShadedSpansRightClipped:
         mov ebx, ebp
         sub ebx, ecx
 .1:
-        mov edx, dword [ClipTopRow]
+        mov edx, dword [DrawClipLeft]
         cmp ecx, edx
         jge short .2
         mov ebp, edx
@@ -584,7 +584,7 @@ ShadedSpansRightClipped:
         add esi, edx
         mov edx, dword [byte esp+0Ch]
         imul edx, ebp
-        mov ecx, dword [ClipTopRow]
+        mov ecx, dword [DrawClipLeft]
         sub ebx, ebp
         add edi, edx
 .2:
@@ -901,13 +901,13 @@ FillShadedTriRightClipped:
         cmp esi, byte 0FFFFFFFFh
         je near .1
         mov eax, dword [byte esp+04h]
-        cmp eax, dword [ClipLeftCol]
+        cmp eax, dword [DrawClipTop]
         jl short .8
         call ShadedSpansRightClipped
 .8:
         mov eax, dword [byte esp+04h]
         inc eax
-        mov edx, dword [ScreenHeight]
+        mov edx, dword [DrawClipBottom]
         mov dword [byte esp+04h], eax
         cmp eax, edx
         jge near ShadedPolyStepEdge_19F
@@ -1176,13 +1176,13 @@ FillShadedTriLeftClipped:
         cmp esi, byte 0FFFFFFFFh
         je near .1
         mov eax, dword [byte esp+04h]
-        cmp eax, dword [ClipLeftCol]
+        cmp eax, dword [DrawClipTop]
         jl short .8
         call ShadedSpansLeftClipped
 .8:
         mov eax, dword [byte esp+04h]
         inc eax
-        mov edx, dword [ScreenHeight]
+        mov edx, dword [DrawClipBottom]
         mov dword [byte esp+04h], eax
         cmp eax, edx
         jge near ShadedPolyStepEdge_19F
@@ -1302,14 +1302,14 @@ FillShadedPoly:
         jl short .1
 .6:
         mov eax, dword [byte esp+08h]
-        cmp eax, dword [ScreenHeight]
+        cmp eax, dword [DrawClipBottom]
         jge near .21
-        cmp ebx, dword [ClipLeftCol]
+        cmp ebx, dword [DrawClipTop]
         jl near .21
-        mov edx, dword [ClipRight]
+        mov edx, dword [DrawClipRight]
         cmp edi, edx
         jge near .21
-        mov ecx, dword [ClipTopRow]
+        mov ecx, dword [DrawClipLeft]
         cmp esi, ecx
         jl near .21
         cmp edi, ecx
@@ -1317,9 +1317,9 @@ FillShadedPoly:
         cmp esi, edx
         jge short .7
         mov eax, dword [byte esp+08h]
-        cmp eax, dword [ClipLeftCol]
+        cmp eax, dword [DrawClipTop]
         jl short .7
-        cmp ebx, dword [ScreenHeight]
+        cmp ebx, dword [DrawClipBottom]
         jl short .8
 .7:
         mov eax, 1

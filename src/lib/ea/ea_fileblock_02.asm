@@ -4,7 +4,7 @@ bits 32
 section s_B22E0 progbits alloc exec nowrite align=1
 extern FatalError, str_SavefileblockaOPENFAILEDFOR, byte_11FA2C, byte_11FA2D, byte_11FA2E, byte_11FA2F, byte_11FA30, dword_11FA14
 extern TextOriginX, TextOriginY, dword_11FA24, dword_11FA28, dword_11FA34, dword_11FA38, dword_11FA3C, dword_11FA40
-extern dword_11FA44, dword_11FA48, dword_11FA4C, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight
+extern dword_11FA44, dword_11FA48, dword_11FA4C, ScreenWidth, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom
 extern dword_1228E8, KeyedDraw, DrawDestBuffer, dword_1228FC, dword_185774, off_11FA10, MemDescPtr, MemDescSize
 extern SetTextOrigin, ArtBitDepth, PixelToRgb, DrawEllipseClipped, PutPixel, BlitFontNibbles, CreateHandle, DosCloseFile
 extern DosWriteFile
@@ -338,9 +338,9 @@ TextPrint:
         mov dword [byte esp+010h], ecx
         cmp ecx, byte 0FFFFFFFFh
         je near .47
-        cmp esi, dword [ClipLeftCol]
+        cmp esi, dword [DrawClipTop]
         jl near .32
-        cmp esi, dword [ScreenHeight]
+        cmp esi, dword [DrawClipBottom]
         jge near .32
         mov eax, dword [byte esp+044h]
         mov dword [byte esp+064h], eax
@@ -504,26 +504,26 @@ TextPrint:
         cmp dword [dword_1228E8], byte 8
         jne near .34
         mov eax, dword [byte esp+044h]
-        cmp eax, dword [ClipTopRow]
+        cmp eax, dword [DrawClipLeft]
         jl near .34
-        cmp eax, dword [ClipRight]
+        cmp eax, dword [DrawClipRight]
         jge near .34
-        cmp esi, dword [ClipLeftCol]
+        cmp esi, dword [DrawClipTop]
         jl near .34
-        cmp esi, dword [ScreenHeight]
+        cmp esi, dword [DrawClipBottom]
         jge near .34
         mov edx, dword [byte esp+0Ch]
-        mov ebx, dword [ClipTopRow]
+        mov ebx, dword [DrawClipLeft]
         add eax, edx
         cmp eax, ebx
         jl short .34
-        cmp eax, dword [ClipRight]
+        cmp eax, dword [DrawClipRight]
         jge short .34
-        mov edx, dword [ClipLeftCol]
+        mov edx, dword [DrawClipTop]
         lea eax, [esi+edi]
         cmp eax, edx
         jl short .34
-        cmp eax, dword [ScreenHeight]
+        cmp eax, dword [DrawClipBottom]
         jge short .34
         mov eax, dword [byte esp+0Ch]
         inc eax
@@ -557,9 +557,9 @@ TextPrint:
         mov dword [byte esp+010h], eax
         cmp eax, byte 0FFFFFFFFh
         je near .47
-        cmp esi, dword [ClipLeftCol]
+        cmp esi, dword [DrawClipTop]
         jl near .42
-        cmp esi, dword [ScreenHeight]
+        cmp esi, dword [DrawClipBottom]
         jge near .42
         mov eax, dword [byte esp+044h]
         mov dword [byte esp+038h], eax
@@ -677,9 +677,9 @@ TextPrint:
         mov dword [byte esp+010h], edx
         cmp edx, byte 0FFFFFFFFh
         je short .47
-        cmp esi, dword [ClipLeftCol]
+        cmp esi, dword [DrawClipTop]
         jl short .43
-        cmp esi, dword [ScreenHeight]
+        cmp esi, dword [DrawClipBottom]
         jge short .43
         mov eax, dword [byte esp+044h]
         mov dword [byte esp+060h], eax

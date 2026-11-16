@@ -2,26 +2,26 @@
 bits 32
 %include "hockey.inc"
 section s_1228D6 progbits alloc noexec write align=1
-global __8087, FpuType, ColourRemap, dword_1228D6, ClipTopRow, dword_1228DA, ClipLeftCol, dword_1228DE
-global ClipRight, dword_1228E2, ScreenHeight, dword_1228E8, dword_1228F0, KeyedDraw, DrawDestBuffer, dword_1228FC
+global __8087, FpuType, ColourRemap, dword_1228D6, DrawClipLeft, dword_1228DA, DrawClipTop, dword_1228DE
+global DrawClipRight, dword_1228E2, DrawClipBottom, dword_1228E8, dword_1228F0, KeyedDraw, DrawDestBuffer, dword_1228FC
 global BackBufferWidth, ModeSetCount, dword_122908, dword_12290C, dword_122910, dword_122914, dword_122918, dword_122920
 global dword_122924, dword_122930, str_BK, dword_123390, dword_123930, str_F_PutBlock, dword_123A88, BlitColumnOffsets
 global BlitSourcePtr
 dword_1228D6:
         db 00h,00h
-ClipTopRow:
+DrawClipLeft:
         db 00h,00h
 dword_1228DA:
         db 00h,00h
-ClipLeftCol:
+DrawClipTop:
         db 00h,00h
 dword_1228DE:
         db 00h,00h
-ClipRight:
+DrawClipRight:
         db 080h,02h
 dword_1228E2:
         db 00h,00h
-ScreenHeight:
+DrawClipBottom:
         db 0E0h,01h,00h,00h
 dword_1228E8:
         db 08h,00h,00h,00h,00h,00h,00h,00h

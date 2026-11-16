@@ -4,7 +4,7 @@ bits 32
 section s_B75A0 progbits alloc exec nowrite align=1
 extern DebugPrintf, FatalError, __STOSD, _os_handle_0, _os_handle_1, str_UpsideDown, str_OrisetmaterialrgbInvalidMate, str_OrisetmaterialcolorInval
 extern str_OrisetmaterialtextureInvalid, str_OrisetmaterialdrawfnInva, byte_190EC0, byte_191300, NearClipZ, dword_12231C, dword_122350, SinTable
-extern NearPlaneZ, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, dword_1228FC, ViewCentreX
+extern NearPlaneZ, ScreenWidth, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, dword_1228FC, ViewCentreX
 extern ViewCentreY, dword_123AC0, TextureTileSize, TexturePageBase, TextureDetail, dword_190E9C, dword_190EA0, dword_190EA4
 extern dword_190EA8, dword_190EAC, dword_190EB0, dword_190EB4, dword_190EB8, dword_190EBC, dword_190EC4, dword_190EC8
 extern dword_190ECC, dword_190ED0, dword_190ED4, dword_1912DC, dword_1912E0, dword_1912E4, dword_1912E8, dword_1912EC
@@ -1630,7 +1630,7 @@ FillFloorPlane:
         mov edi, eax
         cmp ebp, dword [byte esp+01Ch]
         jle short .11
-        mov edx, dword [ScreenHeight]
+        mov edx, dword [DrawClipBottom]
         cmp ebp, edx
         jl short .8
         mov eax, ebp
@@ -1642,7 +1642,7 @@ FillFloorPlane:
         mov dword [byte esp+024h], eax
 .8:
         mov eax, dword [byte esp+01Ch]
-        mov ecx, dword [ClipLeftCol]
+        mov ecx, dword [DrawClipTop]
         cmp eax, ecx
         jge short .9
         mov dword [byte esp+01Ch], ecx
@@ -1704,7 +1704,7 @@ TexPolyEdgeTable:
         lea ecx, [nosplit edi*8+00h]
         add ecx, ebx
         mov eax, dword [byte ecx+04h]
-        mov edx, dword [ScreenHeight]
+        mov edx, dword [DrawClipBottom]
         mov dword [byte esi+014h], eax
         cmp eax, edx
         jg near .12
@@ -1801,11 +1801,11 @@ TexPolyEdgeTable:
         mov dword [byte esi+020h], ebx
         add eax, dword [byte esp+028h]
         mov dword [byte esi+024h], 0
-        mov ecx, dword [ClipLeftCol]
+        mov ecx, dword [DrawClipTop]
         mov ebx, dword [byte eax+04h]
         cmp ebx, ecx
         jl short .6
-        cmp ebx, dword [ScreenHeight]
+        cmp ebx, dword [DrawClipBottom]
         jge short .6
         mov eax, dword [nosplit ebx*4+dword_19131C]
         jmp short .7
@@ -1822,11 +1822,11 @@ TexPolyEdgeTable:
         mov ecx, dword [byte esp+028h]
         lea eax, [nosplit ebp*8+00h]
         add eax, ecx
-        mov edx, dword [ClipLeftCol]
+        mov edx, dword [DrawClipTop]
         mov ebx, dword [byte eax+04h]
         cmp ebx, edx
         jl short .8
-        cmp ebx, dword [ScreenHeight]
+        cmp ebx, dword [DrawClipBottom]
         jge short .8
         mov eax, dword [nosplit ebx*4+dword_19131C]
         jmp short .9
@@ -1966,13 +1966,13 @@ TexPolyEdgeMirroredClipped:
         add eax, edx
         mov dword [byte esp+0Ch], eax
         lea edx, [ecx+ebx]
-        mov eax, dword [ClipRight]
+        mov eax, dword [DrawClipRight]
         cmp edx, eax
         jle short .1
         mov ebx, eax
         sub ebx, ecx
 .1:
-        mov edx, dword [ClipTopRow]
+        mov edx, dword [DrawClipLeft]
         cmp ecx, edx
         jge short .2
         sub edx, ecx
@@ -1983,7 +1983,7 @@ TexPolyEdgeMirroredClipped:
         imul ecx, edx
         sub ebx, edx
         add edi, ecx
-        mov ecx, dword [ClipTopRow]
+        mov ecx, dword [DrawClipLeft]
 .2:
         mov edx, dword [dword_191AA4]
         mov eax, dword [byte edx+02h]
@@ -2129,13 +2129,13 @@ TexPolyEdgeClipped:
         add eax, edx
         mov dword [byte esp+0Ch], eax
         lea edx, [ecx+ebx]
-        mov eax, dword [ClipRight]
+        mov eax, dword [DrawClipRight]
         cmp edx, eax
         jle short .1
         mov ebx, eax
         sub ebx, ecx
 .1:
-        mov edx, dword [ClipTopRow]
+        mov edx, dword [DrawClipLeft]
         cmp ecx, edx
         jge short .2
         sub edx, ecx
@@ -2146,7 +2146,7 @@ TexPolyEdgeClipped:
         imul ecx, edx
         sub ebx, edx
         add edi, ecx
-        mov ecx, dword [ClipTopRow]
+        mov ecx, dword [DrawClipLeft]
 .2:
         mov edx, dword [dword_191AA4]
         mov eax, dword [byte edx+02h]
@@ -2538,12 +2538,12 @@ TexPolyFillClipped:
         cmp edi, byte 0FFFFFFFFh
         je near .1
         mov eax, dword [byte esp+04h]
-        cmp eax, dword [ClipLeftCol]
+        cmp eax, dword [DrawClipTop]
         jl short .9
         call TexPolyEdgeClipped
 .9:
         mov ebx, dword [byte esp+04h]
-        mov ecx, dword [ScreenHeight]
+        mov ecx, dword [DrawClipBottom]
         inc ebx
         add esi, byte 4
         mov dword [byte esp+04h], ebx
@@ -2951,12 +2951,12 @@ TexPolyFillMirroredClipped:
         cmp edi, byte 0FFFFFFFFh
         je near .1
         mov eax, dword [byte esp+04h]
-        cmp eax, dword [ClipLeftCol]
+        cmp eax, dword [DrawClipTop]
         jl short .9
         call TexPolyEdgeMirroredClipped
 .9:
         mov ebx, dword [byte esp+04h]
-        mov ecx, dword [ScreenHeight]
+        mov ecx, dword [DrawClipBottom]
         inc ebx
         add esi, byte 4
         mov dword [byte esp+04h], ebx
@@ -3152,16 +3152,16 @@ DrawTexturedPoly:
         cmp edx, ebp
         jl short .1
 .6:
-        cmp ebx, dword [ScreenHeight]
+        cmp ebx, dword [DrawClipBottom]
         jge near .21
         mov eax, dword [byte esp+08h]
-        mov edx, dword [ClipLeftCol]
+        mov edx, dword [DrawClipTop]
         cmp eax, edx
         jl near .21
-        mov ecx, dword [ClipRight]
+        mov ecx, dword [DrawClipRight]
         cmp esi, ecx
         jge near .21
-        mov eax, dword [ClipTopRow]
+        mov eax, dword [DrawClipLeft]
         cmp edi, eax
         jl near .21
         cmp esi, eax
@@ -3171,7 +3171,7 @@ DrawTexturedPoly:
         cmp ebx, edx
         jl short .7
         mov eax, dword [byte esp+08h]
-        cmp eax, dword [ScreenHeight]
+        cmp eax, dword [DrawClipBottom]
         jl short .8
 .7:
         mov eax, 1

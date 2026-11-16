@@ -4801,11 +4801,11 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 122898,RinkMatrix,unk_122898,new,low,rink rotation matrix,src/data/lib/input/input_joystick_misc_02_data_01.asm
 1228BC,RinkTranslation,unk_1228BC,new,low,rink translation vector,src/data/lib/input/input_joystick_misc_02_data_01.asm
 1228D0,ScreenWidth,dword_1228D0,new,low,screen width in pixels,src/data/lib/input/input_joystick_misc_02_data_01.asm
-1228D4,ClipBottom,dword_1228D4,new,low,bottom of the clip window,src/data/lib/input/input_joystick_misc_02_data_01.asm
-1228D8,ClipTopRow,dword_1228D8,new,low,top of the clip window,src/data/lib/watcom/watcom_clib_05_data_04.asm
-1228DC,ClipLeftCol,dword_1228DC,new,low,left of the clip window,src/data/lib/watcom/watcom_clib_05_data_04.asm
-1228E0,ClipRight,dword_1228E0,new,low,right of the clip window,src/data/lib/watcom/watcom_clib_05_data_04.asm
-1228E4,ScreenHeight,dword_1228E4,new,low,screen height in pixels,src/data/lib/watcom/watcom_clib_05_data_04.asm
+1228D4,ScreenHeight,dword_1228D4,new,medium,"screen height in pixels, the bottom of the full screen clip window",src/data/lib/input/input_joystick_misc_02_data_01.asm
+1228D8,DrawClipLeft,dword_1228D8,new,medium,left edge of the draw target's clip rectangle; x below it is not drawn,src/data/lib/watcom/watcom_clib_05_data_04.asm
+1228DC,DrawClipTop,dword_1228DC,new,medium,top edge of the draw target's clip rectangle; y above it is not drawn,src/data/lib/watcom/watcom_clib_05_data_04.asm
+1228E0,DrawClipRight,dword_1228E0,new,medium,right edge of the draw target's clip rectangle (exclusive),src/data/lib/watcom/watcom_clib_05_data_04.asm
+1228E4,DrawClipBottom,dword_1228E4,new,medium,bottom edge of the draw target's clip rectangle (exclusive),src/data/lib/watcom/watcom_clib_05_data_04.asm
 1228F4,KeyedDraw,dword_1228F4,new,medium,set to skip colour 0FFh when drawing art,src/data/lib/watcom/watcom_clib_05_data_04.asm
 1228F8,DrawDestBuffer,dword_1228F8,new,medium,buffer drawing routines write to,src/data/lib/watcom/watcom_clib_05_data_04.asm
 122900,BackBufferWidth,dword_122900,new,low,back buffer width,src/data/lib/watcom/watcom_clib_05_data_04.asm

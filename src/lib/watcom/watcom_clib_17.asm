@@ -4,7 +4,7 @@ bits 32
 section s_D069B progbits alloc exec nowrite align=1
 extern SetDrawBitmap, __fatal_runtime_error_, str_SaveText, str_CUtilMouse, str_Ptr0ptr1ptr2, str_StackOverflow, byte_11FA2F, MousePresent
 extern mousex, mousey, MouseMoved, dword_11F5B4, dword_11F5C0, dword_11F5C4, dword_11F5C8, dword_11F61C
-extern dword_11FA18, TextOriginX, TextOriginY, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, dword_1228FC
+extern dword_11FA18, TextOriginX, TextOriginY, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, dword_1228FC
 extern BackBufferWidth, _STACKLOW, __amblksiz, dword_14FAD8, CMainArgv, dword_1A109C, dword_1A10A0, dword_1A10A4
 extern dword_1A10A8, dword_1A10B0, dword_1A10B4, dword_1A10C0, dword_1A10C4, dword_1A10C8, dword_1A10CC, dword_1A10D0
 extern dword_1A10D4, dword_1A10D8, dword_1A10DC, dword_1A10E0, dword_1A10E4, dword_1A10E8, dword_1A10EC, dword_1A10F0
@@ -347,13 +347,13 @@ HidePointerKeep:
         call SetDrawBitmap
         add esp, byte 4
 .2:
-        mov eax, dword [ClipTopRow]
+        mov eax, dword [DrawClipLeft]
         mov dword [dword_1A10E8], eax
-        mov eax, dword [ClipLeftCol]
+        mov eax, dword [DrawClipTop]
         mov dword [dword_1A10EC], eax
-        mov eax, dword [ClipRight]
+        mov eax, dword [DrawClipRight]
         mov dword [dword_1A1100], eax
-        mov eax, dword [ScreenHeight]
+        mov eax, dword [DrawClipBottom]
         mov dword [dword_1A10FC], eax
         mov eax, esp
         push eax
@@ -392,13 +392,13 @@ HidePointer:
         call SetDrawBitmap
         add esp, byte 4
 .2:
-        mov eax, dword [ClipTopRow]
+        mov eax, dword [DrawClipLeft]
         mov dword [dword_1A10E8], eax
-        mov eax, dword [ClipLeftCol]
+        mov eax, dword [DrawClipTop]
         mov dword [dword_1A10EC], eax
-        mov eax, dword [ClipRight]
+        mov eax, dword [DrawClipRight]
         mov dword [dword_1A1100], eax
-        mov eax, dword [ScreenHeight]
+        mov eax, dword [DrawClipBottom]
         mov esi, dword [dword_1A10C4]
         mov dword [dword_1A10FC], eax
         test esi, esi
@@ -517,24 +517,24 @@ RestoreUnderPointer:
         mov eax, esp
         push eax
         call SaveDrawState
-        mov edx, dword [ClipTopRow]
+        mov edx, dword [DrawClipLeft]
         add esp, byte 4
         cmp ebp, edx
         jge short .1
         mov ebp, edx
 .1:
-        mov ebx, dword [ClipRight]
+        mov ebx, dword [DrawClipRight]
         cmp esi, ebx
         jle short .2
         mov esi, ebx
 .2:
         mov eax, dword [dword esp+080h]
-        mov ecx, dword [ClipLeftCol]
+        mov ecx, dword [DrawClipTop]
         cmp eax, ecx
         jge short .3
         mov dword [dword esp+080h], ecx
 .3:
-        mov eax, dword [ScreenHeight]
+        mov eax, dword [DrawClipBottom]
         cmp edi, eax
         jle short .4
         mov edi, eax
@@ -671,17 +671,17 @@ PointerService:
 .11:
         call ResetClipWindow
         mov ecx, dword [dword_1A10D0]
-        mov eax, dword [ClipRight]
+        mov eax, dword [DrawClipRight]
         push ecx
         mov dword [byte esp+064h], eax
-        mov eax, dword [ClipLeftCol]
+        mov eax, dword [DrawClipTop]
         push eax
         mov eax, dword [byte esp+068h]
         push eax
-        mov ebp, dword [ClipTopRow]
+        mov ebp, dword [DrawClipLeft]
         push ebp
         push edi
-        mov edx, dword [ScreenHeight]
+        mov edx, dword [DrawClipBottom]
         push esi
         mov dword [byte esp+07Ch], edx
         call RestoreUnderPointer

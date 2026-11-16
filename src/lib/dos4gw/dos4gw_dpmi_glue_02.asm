@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_C39C2 progbits alloc exec nowrite align=1
-extern _Extender, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, dword_1228F0, DrawDestBuffer, dword_1228FC
+extern _Extender, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, dword_1228F0, DrawDestBuffer, dword_1228FC
 extern MemLockState
 global _dos_getvect_, _dos_setvect_, DrawShapeOpaque_34, DrawShapeOpaque, ResetMemLock
 ;-----------------------------------------------------------------------------
@@ -113,10 +113,10 @@ DrawShapeOpaque_34:
         movsx ecx, word [byte esi+06h]
         lea edx, [byte esi+010h]
         LD mov, eax, ebx
-        cmp eax, dword [ClipLeftCol]
+        cmp eax, dword [DrawClipTop]
         jl short .2
         LD add, eax, ecx
-        sub eax, dword [ScreenHeight]
+        sub eax, dword [DrawClipBottom]
         jle short .3
         LD sub, ecx, eax
         jg short .3
@@ -127,7 +127,7 @@ DrawShapeOpaque_34:
         leave
         ret
 .2:
-        mov ebx, dword [ClipLeftCol]
+        mov ebx, dword [DrawClipTop]
         LD add, eax, ecx
         LD sub, eax, ebx
         jle short .1
@@ -140,7 +140,7 @@ DrawShapeOpaque_34:
         LD add, edx, eax
         LD mov, eax, ebx
         LD add, eax, ecx
-        sub eax, dword [ScreenHeight]
+        sub eax, dword [DrawClipBottom]
         jle short .3
         LD sub, ecx, eax
         jle short .1
@@ -152,24 +152,24 @@ DrawShapeOpaque_34:
         LD xor, edx, edx
         mov eax, dword [byte ebp-04h]
         LD mov, ebx, eax
-        cmp eax, dword [ClipTopRow]
+        cmp eax, dword [DrawClipLeft]
         jl short .4
         LD add, eax, ecx
-        sub eax, dword [ClipRight]
+        sub eax, dword [DrawClipRight]
         jl short .6
         LD sub, ecx, eax
         jle short .1
         LD mov, edx, eax
         jmp short .6
 .4:
-        mov ebx, dword [ClipTopRow]
+        mov ebx, dword [DrawClipLeft]
         LD add, eax, ecx
         LD sub, eax, ebx
         jle short .1
         LD mov, esi, ecx
         LD sub, esi, eax
         add dword [byte ebp-018h], esi
-        mov esi, dword [ClipRight]
+        mov esi, dword [DrawClipRight]
         LD sub, esi, ebx
         jle short .1
         LD cmp, eax, esi

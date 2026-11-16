@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_AA5C4 progbits alloc exec nowrite align=1
-extern FatalError, __STOSD, _dos_getvect_, _dos_setvect_, str_AddtimerLISTFULL, TimerTickStep, ScreenWidth, ClipTopRow
-extern ClipLeftCol, ClipRight, ScreenHeight, KeyedDraw, dword_1228FC, dword_122930, oldint8off, oldint8sel
+extern FatalError, __STOSD, _dos_getvect_, _dos_setvect_, str_AddtimerLISTFULL, TimerTickStep, ScreenWidth, DrawClipLeft
+extern DrawClipTop, DrawClipRight, DrawClipBottom, KeyedDraw, dword_1228FC, dword_122930, oldint8off, oldint8sel
 extern RestoreDS, BlitShapeClipped, VesaSetBank, AddExitHandler, bcopy, tickcount, timercallbacks
 global InstallTimer, RestoreTimer, TimerISR, addtimer, RemoveTimerCallback, DrawShapeCore, str_Locateshape44sSHAPENOTFOUND, TimerISR_tick
 ;-----------------------------------------------------------------------------
@@ -249,7 +249,7 @@ DrawShapeCore:
         mov word [byte edi+0Ch], dx
         xor ecx, ecx
         mov word [byte edi+0Eh], ax
-        mov edi, dword [ClipLeftCol]
+        mov edi, dword [DrawClipTop]
         sar ebx, 10h
         sar ebp, 10h
         mov dword [byte esp+04h], ecx
@@ -265,14 +265,14 @@ DrawShapeCore:
         add eax, edi
         add esi, ebx
 .2:
-        mov ebx, dword [ScreenHeight]
+        mov ebx, dword [DrawClipBottom]
         lea edi, [eax+ebp]
         sub edi, ebx
         test edi, edi
         jle short .3
         sub ebp, edi
 .3:
-        mov edi, dword [ClipTopRow]
+        mov edi, dword [DrawClipLeft]
         sub edi, edx
         test edi, edi
         jle short .4
@@ -286,7 +286,7 @@ DrawShapeCore:
         mov dword [byte esp+04h], ebx
 .4:
         mov edi, dword [byte esp+010h]
-        mov ecx, dword [ClipRight]
+        mov ecx, dword [DrawClipRight]
         add edi, edx
         sub edi, ecx
         test edi, edi

@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_AA988 progbits alloc exec nowrite align=1
 extern FatalError, str_InitmemmanadrINSUFFICIENTMEM, str_LOWMEM, str_HIGHMEM, str_GAP, str_UnlinkmemclassareaReleaseMem, dword_11F9B8, RowTable
-extern RowCopyFunc, dword_1210C8, MemPoolBase, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight
+extern RowCopyFunc, dword_1210C8, MemPoolBase, ScreenWidth, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom
 extern KeyedDraw, dword_1228FC, dword_122930, str_F_PutBlock, memlist1, MemBlockGuards, MemDescriptorTop, MemLockHandle
 extern MemFreeBytes, strncpy_, DrawShapeCore, AllocMemBlockEx, getmemblock, CopyRowKeyed, DrawShapeOpaque, ResetMemLock
 extern MemLock, MemUnlock, SetScreenTarget, SetClipWindow, VesaSetBank, BlitBlock, BlitBlockXor, BlitBlockAnd
@@ -234,7 +234,7 @@ PutBlock:
         sar edx, 10h
         sar ebp, 10h
         mov dword [byte esp+01Ch], eax
-        mov eax, dword [ClipLeftCol]
+        mov eax, dword [DrawClipTop]
         mov dword [byte esp+04h], ebx
         sub eax, ecx
         mov dword [byte esp+020h], edx
@@ -247,14 +247,14 @@ PutBlock:
         mov dword [byte esp+03Ch], edx
 .2:
         mov eax, dword [byte esp+03Ch]
-        mov ebx, dword [ScreenHeight]
+        mov ebx, dword [DrawClipBottom]
         add eax, ebp
         sub eax, ebx
         test eax, eax
         jle short .3
         sub ebp, eax
 .3:
-        mov eax, dword [ClipTopRow]
+        mov eax, dword [DrawClipLeft]
         sub eax, esi
         test eax, eax
         jle short .4
@@ -268,7 +268,7 @@ PutBlock:
         mov dword [byte esp+04h], edx
 .4:
         mov eax, dword [byte esp+020h]
-        mov ebx, dword [ClipRight]
+        mov ebx, dword [DrawClipRight]
         add eax, esi
         sub eax, ebx
         test eax, eax
@@ -621,7 +621,7 @@ DrawArtAnd:
         sar eax, 10h
         sar ebp, 10h
         mov dword [byte esp+0Ch], eax
-        mov eax, dword [ClipLeftCol]
+        mov eax, dword [DrawClipTop]
         mov dword [byte esp+04h], ebx
         sub eax, ecx
         mov dword [byte esp+08h], ebp
@@ -638,7 +638,7 @@ DrawArtAnd:
 .2:
         mov eax, dword [byte esp+028h]
         mov edx, dword [byte esp+0Ch]
-        mov ebx, dword [ScreenHeight]
+        mov ebx, dword [DrawClipBottom]
         add eax, edx
         sub eax, ebx
         test eax, eax
@@ -648,7 +648,7 @@ DrawArtAnd:
         mov dword [byte esp+0Ch], ecx
 .3:
         mov edi, dword [esp]
-        mov eax, dword [ClipTopRow]
+        mov eax, dword [DrawClipLeft]
         sub eax, edi
         test eax, eax
         jle short .4
@@ -664,7 +664,7 @@ DrawArtAnd:
 .4:
         mov eax, dword [esp]
         mov ecx, dword [byte esp+08h]
-        mov edi, dword [ClipRight]
+        mov edi, dword [DrawClipRight]
         add eax, ecx
         sub eax, edi
         test eax, eax
@@ -778,7 +778,7 @@ DrawArtOr:
         sar eax, 10h
         sar ebp, 10h
         mov dword [byte esp+0Ch], eax
-        mov eax, dword [ClipLeftCol]
+        mov eax, dword [DrawClipTop]
         mov dword [byte esp+04h], ebx
         sub eax, ecx
         mov dword [byte esp+08h], ebp
@@ -795,7 +795,7 @@ DrawArtOr:
 .2:
         mov eax, dword [byte esp+028h]
         mov edx, dword [byte esp+0Ch]
-        mov ebx, dword [ScreenHeight]
+        mov ebx, dword [DrawClipBottom]
         add eax, edx
         sub eax, ebx
         test eax, eax
@@ -805,7 +805,7 @@ DrawArtOr:
         mov dword [byte esp+0Ch], ecx
 .3:
         mov edi, dword [esp]
-        mov eax, dword [ClipTopRow]
+        mov eax, dword [DrawClipLeft]
         sub eax, edi
         test eax, eax
         jle short .4
@@ -821,7 +821,7 @@ DrawArtOr:
 .4:
         mov eax, dword [esp]
         mov ecx, dword [byte esp+08h]
-        mov edi, dword [ClipRight]
+        mov edi, dword [DrawClipRight]
         add eax, ecx
         sub eax, edi
         test eax, eax

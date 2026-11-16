@@ -7,7 +7,7 @@ extern __ioalloc_, __prtf_, __set_doserrno_, __set_errno_, _nfree_, _nmalloc_, _
 extern str_CalibrateYourJoystickByU, str_ToMoveTheJoystickPositio, str_BelowToAllSquares, str_PressJoystickButtonWhenC, str_KEYBOARDON, str_PATH_InitSystem, str_DOS4GWEXE, str_CS_InitSystem
 extern str_CheckextenderINCORRECTEX, str_LocatebigNOBIGFILESETNUL, str_LocatebigFILEISNOTAUNITFILE, str_LocatebigsFILENOTFOUNDS, str_OriinitmorphObjectCannotMorp, str_OriapplymorphObjectCannotMor, str_OriapplymorphObjectCanno, RemapTable
 extern _Extender, _ExtenderSubtype, _osmajor, __HeapFlags, dword_11F5A0, MousePresent, dword_11F5C0, dword_11F5C4
-extern dword_11F5C8, HeapList, MemPoolBase, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, KeyedDraw
+extern dword_11F5C8, HeapList, MemPoolBase, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, KeyedDraw
 extern DrawDestBuffer, dword_1228FC, DosErrnoTable, __NHandles, __io_mode, dword_12417C, str_G_JoystickCalibrateScreen, CMainEnv
 extern CMainResult, dword_12443C, dword_124440, dword_19F2D0, dword_19F2D4, ScaledRowBuffer, CMainArgc, CMainArgv
 extern exit_, fputc_, getcwd_, joycalactive, joyenablemask, ZeroMem_29, main_, off_14F074
@@ -285,13 +285,13 @@ DrawEllipseClipped:
         push ebp
         mov eax, dword [byte esp+08h]
         mov edx, dword [byte esp+0Ch]
-        cmp eax, dword [ClipTopRow]
+        cmp eax, dword [DrawClipLeft]
         jl short .1
-        cmp eax, dword [ClipRight]
+        cmp eax, dword [DrawClipRight]
         jge short .1
-        cmp edx, dword [ClipLeftCol]
+        cmp edx, dword [DrawClipTop]
         jl short .1
-        cmp edx, dword [ScreenHeight]
+        cmp edx, dword [DrawClipBottom]
         jge short .1
         mov ebp, dword [byte esp+010h]
         push ebp
@@ -2801,7 +2801,7 @@ RasterMappedTriangle:
         mov dword [byte esp+048h], eax
 .25:
         mov edx, dword [byte esp+0Ch]
-        mov eax, dword [ScreenHeight]
+        mov eax, dword [DrawClipBottom]
         cmp eax, edx
         jge short .26
         mov ebx, eax
@@ -2809,7 +2809,7 @@ RasterMappedTriangle:
 .26:
         mov ebx, edx
 .27:
-        mov ecx, dword [ClipLeftCol]
+        mov ecx, dword [DrawClipTop]
         mov dword [byte esp+038h], ebx
         cmp esi, ecx
         jl near .30
@@ -2817,12 +2817,12 @@ RasterMappedTriangle:
         mov edx, dword [dword esp+090h]
         shl eax, 3
         add eax, edx
-        mov ecx, dword [ClipTopRow]
+        mov ecx, dword [DrawClipLeft]
         mov edx, dword [eax]
         cmp edx, ecx
         jl near .30
         mov eax, edx
-        mov edx, dword [ClipRight]
+        mov edx, dword [DrawClipRight]
         cmp eax, edx
         jge near .30
         mov eax, dword [byte esp+020h]
@@ -2897,14 +2897,14 @@ RasterMappedTriangle:
         sar edx, 10h
         sar eax, 10h
         sub eax, edx
-        mov ecx, dword [ClipRight]
+        mov ecx, dword [DrawClipRight]
         lea ebx, [edx+eax]
         sub ebx, ecx
         test ebx, ebx
         jle short .32
         sub eax, ebx
 .32:
-        mov ebx, dword [ClipTopRow]
+        mov ebx, dword [DrawClipLeft]
         sub ebx, edx
         test ebx, ebx
         jle short .33
@@ -2916,7 +2916,7 @@ RasterMappedTriangle:
 .34:
         test eax, eax
         jle short .35
-        cmp esi, dword [ClipLeftCol]
+        cmp esi, dword [DrawClipTop]
         jl short .35
         push eax
         mov eax, dword [byte esp+07Ch]
@@ -3083,13 +3083,13 @@ RasterMappedTriangle:
         shl eax, 3
         add eax, edx
         mov eax, dword [byte eax+04h]
-        mov ebx, dword [ScreenHeight]
+        mov ebx, dword [DrawClipBottom]
         sar eax, 10h
         cmp eax, ebx
         jle short .49
         mov eax, ebx
 .49:
-        mov ecx, dword [ClipLeftCol]
+        mov ecx, dword [DrawClipTop]
         mov dword [byte esp+034h], eax
         cmp esi, ecx
         jl near .52
@@ -3097,12 +3097,12 @@ RasterMappedTriangle:
         mov ebx, dword [dword esp+090h]
         shl edx, 3
         add edx, ebx
-        mov ecx, dword [ClipTopRow]
+        mov ecx, dword [DrawClipLeft]
         mov ebx, dword [edx]
         cmp ebx, ecx
         jl near .52
         mov edx, ebx
-        mov ebx, dword [ClipRight]
+        mov ebx, dword [DrawClipRight]
         cmp edx, ebx
         jge near .52
         mov edx, dword [byte esp+020h]
@@ -3177,14 +3177,14 @@ RasterMappedTriangle:
         sar edx, 10h
         sar eax, 10h
         sub eax, edx
-        mov ecx, dword [ClipRight]
+        mov ecx, dword [DrawClipRight]
         lea ebx, [edx+eax]
         sub ebx, ecx
         test ebx, ebx
         jle short .54
         sub eax, ebx
 .54:
-        mov ebx, dword [ClipTopRow]
+        mov ebx, dword [DrawClipLeft]
         sub ebx, edx
         test ebx, ebx
         jle short .55
@@ -3196,7 +3196,7 @@ RasterMappedTriangle:
 .56:
         test eax, eax
         jle short .57
-        cmp esi, dword [ClipLeftCol]
+        cmp esi, dword [DrawClipTop]
         jl short .57
         push eax
         mov eax, dword [byte esp+07Ch]
@@ -3703,7 +3703,7 @@ RasterMappedTriangleShadow:
         mov dword [byte esp+048h], eax
 .25:
         mov edx, dword [byte esp+0Ch]
-        mov eax, dword [ScreenHeight]
+        mov eax, dword [DrawClipBottom]
         cmp eax, edx
         jge short .26
         mov ebx, eax
@@ -3711,7 +3711,7 @@ RasterMappedTriangleShadow:
 .26:
         mov ebx, edx
 .27:
-        mov ecx, dword [ClipLeftCol]
+        mov ecx, dword [DrawClipTop]
         mov dword [byte esp+038h], ebx
         cmp esi, ecx
         jl near .30
@@ -3719,12 +3719,12 @@ RasterMappedTriangleShadow:
         mov edx, dword [dword esp+090h]
         shl eax, 3
         add eax, edx
-        mov ecx, dword [ClipTopRow]
+        mov ecx, dword [DrawClipLeft]
         mov edx, dword [eax]
         cmp edx, ecx
         jl near .30
         mov eax, edx
-        mov edx, dword [ClipRight]
+        mov edx, dword [DrawClipRight]
         cmp eax, edx
         jge near .30
         mov eax, dword [byte esp+020h]
@@ -3799,14 +3799,14 @@ RasterMappedTriangleShadow:
         sar edx, 10h
         sar eax, 10h
         sub eax, edx
-        mov ecx, dword [ClipRight]
+        mov ecx, dword [DrawClipRight]
         lea ebx, [edx+eax]
         sub ebx, ecx
         test ebx, ebx
         jle short .32
         sub eax, ebx
 .32:
-        mov ebx, dword [ClipTopRow]
+        mov ebx, dword [DrawClipLeft]
         sub ebx, edx
         test ebx, ebx
         jle short .33
@@ -3818,7 +3818,7 @@ RasterMappedTriangleShadow:
 .34:
         test eax, eax
         jle short .35
-        cmp esi, dword [ClipLeftCol]
+        cmp esi, dword [DrawClipTop]
         jl short .35
         push eax
         mov eax, dword [byte esp+07Ch]
@@ -3985,13 +3985,13 @@ RasterMappedTriangleShadow:
         shl eax, 3
         add eax, edx
         mov eax, dword [byte eax+04h]
-        mov ebx, dword [ScreenHeight]
+        mov ebx, dword [DrawClipBottom]
         sar eax, 10h
         cmp eax, ebx
         jle short .49
         mov eax, ebx
 .49:
-        mov ecx, dword [ClipLeftCol]
+        mov ecx, dword [DrawClipTop]
         mov dword [byte esp+034h], eax
         cmp esi, ecx
         jl near .52
@@ -3999,12 +3999,12 @@ RasterMappedTriangleShadow:
         mov ebx, dword [dword esp+090h]
         shl edx, 3
         add edx, ebx
-        mov ecx, dword [ClipTopRow]
+        mov ecx, dword [DrawClipLeft]
         mov ebx, dword [edx]
         cmp ebx, ecx
         jl near .52
         mov edx, ebx
-        mov ebx, dword [ClipRight]
+        mov ebx, dword [DrawClipRight]
         cmp edx, ebx
         jge near .52
         mov edx, dword [byte esp+020h]
@@ -4079,14 +4079,14 @@ RasterMappedTriangleShadow:
         sar edx, 10h
         sar eax, 10h
         sub eax, edx
-        mov ecx, dword [ClipRight]
+        mov ecx, dword [DrawClipRight]
         lea ebx, [edx+eax]
         sub ebx, ecx
         test ebx, ebx
         jle short .54
         sub eax, ebx
 .54:
-        mov ebx, dword [ClipTopRow]
+        mov ebx, dword [DrawClipLeft]
         sub ebx, edx
         test ebx, ebx
         jle short .55
@@ -4098,7 +4098,7 @@ RasterMappedTriangleShadow:
 .56:
         test eax, eax
         jle short .57
-        cmp esi, dword [ClipLeftCol]
+        cmp esi, dword [DrawClipTop]
         jl short .57
         push eax
         mov eax, dword [byte esp+07Ch]
@@ -4606,7 +4606,7 @@ RasterShapeTriangle:
         mov dword [byte esp+048h], eax
 .25:
         mov edx, dword [byte esp+0Ch]
-        mov eax, dword [ScreenHeight]
+        mov eax, dword [DrawClipBottom]
         cmp eax, edx
         jge short .26
         mov ebx, eax
@@ -4614,7 +4614,7 @@ RasterShapeTriangle:
 .26:
         mov ebx, edx
 .27:
-        mov ecx, dword [ClipLeftCol]
+        mov ecx, dword [DrawClipTop]
         mov dword [byte esp+038h], ebx
         cmp esi, ecx
         jl near .30
@@ -4622,12 +4622,12 @@ RasterShapeTriangle:
         mov edx, dword [dword esp+090h]
         shl eax, 3
         add eax, edx
-        mov ecx, dword [ClipTopRow]
+        mov ecx, dword [DrawClipLeft]
         mov edx, dword [eax]
         cmp edx, ecx
         jl near .30
         mov eax, edx
-        mov edx, dword [ClipRight]
+        mov edx, dword [DrawClipRight]
         cmp eax, edx
         jge near .30
         mov eax, dword [byte esp+020h]
@@ -4702,14 +4702,14 @@ RasterShapeTriangle:
         sar edx, 10h
         sar eax, 10h
         sub eax, edx
-        mov ecx, dword [ClipRight]
+        mov ecx, dword [DrawClipRight]
         lea ebx, [edx+eax]
         sub ebx, ecx
         test ebx, ebx
         jle short .32
         sub eax, ebx
 .32:
-        mov ebx, dword [ClipTopRow]
+        mov ebx, dword [DrawClipLeft]
         sub ebx, edx
         test ebx, ebx
         jle short .33
@@ -4721,7 +4721,7 @@ RasterShapeTriangle:
 .34:
         test eax, eax
         jle short .35
-        cmp esi, dword [ClipLeftCol]
+        cmp esi, dword [DrawClipTop]
         jl short .35
         push eax
         mov eax, dword [byte esp+07Ch]
@@ -4888,13 +4888,13 @@ RasterShapeTriangle:
         shl eax, 3
         add eax, edx
         mov eax, dword [byte eax+04h]
-        mov ebx, dword [ScreenHeight]
+        mov ebx, dword [DrawClipBottom]
         sar eax, 10h
         cmp eax, ebx
         jle short .49
         mov eax, ebx
 .49:
-        mov ecx, dword [ClipLeftCol]
+        mov ecx, dword [DrawClipTop]
         mov dword [byte esp+034h], eax
         cmp esi, ecx
         jl near .52
@@ -4902,12 +4902,12 @@ RasterShapeTriangle:
         mov ebx, dword [dword esp+090h]
         shl edx, 3
         add edx, ebx
-        mov ecx, dword [ClipTopRow]
+        mov ecx, dword [DrawClipLeft]
         mov ebx, dword [edx]
         cmp ebx, ecx
         jl near .52
         mov edx, ebx
-        mov ebx, dword [ClipRight]
+        mov ebx, dword [DrawClipRight]
         cmp edx, ebx
         jge near .52
         mov edx, dword [byte esp+020h]
@@ -4982,14 +4982,14 @@ RasterShapeTriangle:
         sar edx, 10h
         sar eax, 10h
         sub eax, edx
-        mov ecx, dword [ClipRight]
+        mov ecx, dword [DrawClipRight]
         lea ebx, [edx+eax]
         sub ebx, ecx
         test ebx, ebx
         jle short .54
         sub eax, ebx
 .54:
-        mov ebx, dword [ClipTopRow]
+        mov ebx, dword [DrawClipLeft]
         sub ebx, edx
         test ebx, ebx
         jle short .55
@@ -5001,7 +5001,7 @@ RasterShapeTriangle:
 .56:
         test eax, eax
         jle short .57
-        cmp esi, dword [ClipLeftCol]
+        cmp esi, dword [DrawClipTop]
         jl short .57
         push eax
         mov eax, dword [byte esp+07Ch]
@@ -5158,10 +5158,10 @@ DrawClippedPoly:
         cmp edx, byte 4
         jl short .1
         mov eax, dword [dword esp+04814h]
-        cmp eax, dword [ScreenHeight]
+        cmp eax, dword [DrawClipBottom]
         jge near .25
         mov eax, dword [dword esp+04810h]
-        cmp eax, dword [ClipLeftCol]
+        cmp eax, dword [DrawClipTop]
         jl near .25
         mov edx, dword [dword esp+04834h]
         inc edx
@@ -5351,13 +5351,13 @@ DrawClippedPoly:
         jne near .9
 .11:
         mov eax, dword [dword esp+04814h]
-        mov ebx, dword [ClipLeftCol]
+        mov ebx, dword [DrawClipTop]
         cmp eax, ebx
         jge short .12
         mov dword [dword esp+04814h], ebx
 .12:
         mov eax, dword [dword esp+04810h]
-        mov ecx, dword [ScreenHeight]
+        mov ecx, dword [DrawClipBottom]
         cmp eax, ecx
         jl short .13
         lea eax, [byte ecx-01h]
@@ -5385,9 +5385,9 @@ DrawClippedPoly:
         test ebx, ebx
         jle near .18
         mov eax, edx
-        cmp eax, dword [ClipRight]
+        cmp eax, dword [DrawClipRight]
         jge near .17
-        mov ecx, dword [ClipTopRow]
+        mov ecx, dword [DrawClipLeft]
         cmp ecx, dword [dword esp+esi+01800h]
         jg near .17
         mov edx, dword [dword esp+esi+03000h]
@@ -5404,7 +5404,7 @@ DrawClippedPoly:
         sar edx, 1Fh
         idiv ebx
         mov dword [dword esp+04864h], ebp
-        mov ebp, dword [ClipTopRow]
+        mov ebp, dword [DrawClipLeft]
         mov edi, eax
         mov edx, dword [esp+esi]
         mov eax, dword [dword esp+esi+0C00h]
@@ -5418,11 +5418,11 @@ DrawClippedPoly:
         mov ebp, edi
         imul ebp, edx
         sub ebx, edx
-        mov edx, dword [ClipTopRow]
+        mov edx, dword [DrawClipLeft]
         add dword [dword esp+04864h], ebp
         mov dword [esp+esi], edx
 .15:
-        mov ebp, dword [ClipRight]
+        mov ebp, dword [DrawClipRight]
         mov edx, dword [dword esp+esi+01800h]
         cmp edx, ebp
         jl short .16
@@ -5676,10 +5676,10 @@ DrawMappedPolyClipped:
         cmp edx, byte 4
         jl short .1
         mov eax, dword [dword esp+04814h]
-        cmp eax, dword [ScreenHeight]
+        cmp eax, dword [DrawClipBottom]
         jge near .25
         mov eax, dword [dword esp+04810h]
-        cmp eax, dword [ClipLeftCol]
+        cmp eax, dword [DrawClipTop]
         jl near .25
         mov edx, dword [dword esp+04834h]
         inc edx
@@ -5869,13 +5869,13 @@ DrawMappedPolyClipped:
         jne near .9
 .11:
         mov eax, dword [dword esp+04814h]
-        mov ebx, dword [ClipLeftCol]
+        mov ebx, dword [DrawClipTop]
         cmp eax, ebx
         jge short .12
         mov dword [dword esp+04814h], ebx
 .12:
         mov eax, dword [dword esp+04810h]
-        mov ecx, dword [ScreenHeight]
+        mov ecx, dword [DrawClipBottom]
         cmp eax, ecx
         jl short .13
         lea eax, [byte ecx-01h]
@@ -5903,9 +5903,9 @@ DrawMappedPolyClipped:
         test ebx, ebx
         jle near .18
         mov eax, edx
-        cmp eax, dword [ClipRight]
+        cmp eax, dword [DrawClipRight]
         jge near .17
-        mov ecx, dword [ClipTopRow]
+        mov ecx, dword [DrawClipLeft]
         cmp ecx, dword [dword esp+esi+01800h]
         jg near .17
         mov edx, dword [dword esp+esi+03000h]
@@ -5922,7 +5922,7 @@ DrawMappedPolyClipped:
         sar edx, 1Fh
         idiv ebx
         mov dword [dword esp+04864h], ebp
-        mov ebp, dword [ClipTopRow]
+        mov ebp, dword [DrawClipLeft]
         mov edi, eax
         mov edx, dword [esp+esi]
         mov eax, dword [dword esp+esi+0C00h]
@@ -5936,11 +5936,11 @@ DrawMappedPolyClipped:
         mov ebp, edi
         imul ebp, edx
         sub ebx, edx
-        mov edx, dword [ClipTopRow]
+        mov edx, dword [DrawClipLeft]
         add dword [dword esp+04864h], ebp
         mov dword [esp+esi], edx
 .15:
-        mov ebp, dword [ClipRight]
+        mov ebp, dword [DrawClipRight]
         mov edx, dword [dword esp+esi+01800h]
         cmp edx, ebp
         jl short .16

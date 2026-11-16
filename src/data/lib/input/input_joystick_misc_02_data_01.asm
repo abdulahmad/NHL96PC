@@ -6,7 +6,7 @@ extern OriTriOpaque, OriTriShadow, OriTriMapped, OriQuadOpaque, OriQuadMapped, O
 extern OriPolyMapped, OriStripOpaque, OriStripShadow, OriStripMapped, OriFlatPoly, OriFlatPolyMapped, OriFlatPolyList
 global RemapTable, dword_1222C8, dword_1222CC, dword_1222D0, RandState, dword_1222D8, RandIndex, dword_12231C
 global dword_122350, dword_122378, dword_122384, dword_122388, dword_12238C, SinTable, CosTable, NearPlaneZ
-global ScreenWidth, ClipBottom, OriTriDrawFuncs, OriPolyDrawFuncs, OriQuadDrawFuncs, OriFlatDrawFuncs, OriStripDrawFuncs, unk_122320
+global ScreenWidth, ScreenHeight, OriTriDrawFuncs, OriPolyDrawFuncs, OriQuadDrawFuncs, OriFlatDrawFuncs, OriStripDrawFuncs, unk_122320
 global unk_122344, RinkMatrix, RinkTranslation
 dword_1222C8:
         db 056h,0Eh,02Dh,0F2h
@@ -155,5 +155,5 @@ RinkTranslation:
         db 00h,00h,00h,00h
 ScreenWidth:
         db 080h,02h,00h,00h
-ClipBottom:
+ScreenHeight:
         db 0E0h,01h

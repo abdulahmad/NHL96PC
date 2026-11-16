@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_DD6C4 progbits alloc exec nowrite align=1
-extern RemapTable, ColourRemap, dword_11F5A0, ScreenWidth, ClipBottom, ClipTopRow, ClipLeftCol, ClipRight
-extern ScreenHeight, dword_1228E8, dword_1228FC, BackBufferWidth, dword_123A88, BlitColumnOffsets, BlitSourcePtr, RetraceTimeout
+extern RemapTable, ColourRemap, dword_11F5A0, ScreenWidth, ScreenHeight, DrawClipLeft, DrawClipTop, DrawClipRight
+extern DrawClipBottom, dword_1228E8, dword_1228FC, BackBufferWidth, dword_123A88, BlitColumnOffsets, BlitSourcePtr, RetraceTimeout
 extern dword_1248C8, ClearScreenColour, FillRectSpans, SetupRectFill, unk_18584C
 global SetDrawBitmap, WaitRetrace_36, SetScreenTarget, GetPaletteRange, FillRectColor, SetClipWindow, SetPaletteEntries, SetTextMode
 global SetPaletteEntries8, ReadPaletteEntries8, SetRemapTable, GetRemapTable, SetColourRemap, GetColourRemap, SetBlitSource, SetBlendTables
@@ -113,14 +113,14 @@ SetClipWindow:
         jle short .3
         mov edx, dword [ScreenWidth]
 .3:
-        cmp ebx, dword [ClipBottom]
+        cmp ebx, dword [ScreenHeight]
         jle short .4
-        mov ebx, dword [ClipBottom]
+        mov ebx, dword [ScreenHeight]
 .4:
-        mov dword [ClipTopRow], eax
-        mov dword [ClipLeftCol], ecx
-        mov dword [ClipRight], edx
-        mov dword [ScreenHeight], ebx
+        mov dword [DrawClipLeft], eax
+        mov dword [DrawClipTop], ecx
+        mov dword [DrawClipRight], edx
+        mov dword [DrawClipBottom], ebx
         ret
 ;-----------------------------------------------------------------------------
 ; SetPaletteEntries                            DD7B8  96 PC, medium confidence

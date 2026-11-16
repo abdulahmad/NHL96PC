@@ -5,7 +5,7 @@ section s_CE06B progbits alloc exec nowrite align=1
 extern str_BLASTER, str_DMABUFFER, str_WSSDMA, str_DMABUFFER2, str_DMABUFFER3, str_DMABUF, str_DMABUF2, ColourRemap
 extern SpeechQueueOpen, CrowdPlaying, WssFormatBits, WssMixFormat, WssBytesPerFrame, SbProMixFormat, SbProFrameBytes, Sb16DspCommand
 extern Sb16DspModeByte, Sb16MixFormat, Sb16FrameBytes, SndTickBusy, GusConfigGf1Irq, GusConfigMidiIrq, CpuType, RowCopyFunc
-extern ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, dword_1228F0, KeyedDraw, DrawDestBuffer, dword_1228FC
+extern DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, dword_1228F0, KeyedDraw, DrawDestBuffer, dword_1228FC
 extern StreamState, StreamChannel, SndTickHold, WssDmaAlloc, WssRunning, GusDriverIsOpen, GusDmaAlloc, GusEnvRead
 extern GusCardFound, SbRunning, SbDmaAlloc, SbProRunning, SbProDmaAlloc, SbProChannels, Sb16Running, Sb16DmaAlloc
 extern Sb16Mode, GusStreamRefillB, WssBlockSamples, WssHalfBuffer, WssFormat, WssDmaChannel, WssDmaSize, WssDmaBuffer
@@ -2664,10 +2664,10 @@ PutBlockKeyedRows:
         movsx ecx, word [byte esi+06h]
         lea edx, [byte esi+010h]
         LD mov, eax, ebx
-        cmp eax, dword [ClipLeftCol]
+        cmp eax, dword [DrawClipTop]
         jl short .2
         LD add, eax, ecx
-        sub eax, dword [ScreenHeight]
+        sub eax, dword [DrawClipBottom]
         jle short .3
         LD sub, ecx, eax
         jg short .3
@@ -2678,7 +2678,7 @@ PutBlockKeyedRows:
         leave
         ret
 .2:
-        mov ebx, dword [ClipLeftCol]
+        mov ebx, dword [DrawClipTop]
         LD add, eax, ecx
         LD sub, eax, ebx
         jle short .1
@@ -2691,7 +2691,7 @@ PutBlockKeyedRows:
         LD add, edx, eax
         LD mov, eax, ebx
         LD add, eax, ecx
-        sub eax, dword [ScreenHeight]
+        sub eax, dword [DrawClipBottom]
         jle short .3
         LD sub, ecx, eax
         jle short .1
@@ -2703,24 +2703,24 @@ PutBlockKeyedRows:
         LD xor, edx, edx
         mov eax, dword [byte ebp-04h]
         LD mov, ebx, eax
-        cmp eax, dword [ClipTopRow]
+        cmp eax, dword [DrawClipLeft]
         jl short .4
         LD add, eax, ecx
-        sub eax, dword [ClipRight]
+        sub eax, dword [DrawClipRight]
         jl short .6
         LD sub, ecx, eax
         jle short .1
         LD mov, edx, eax
         jmp short .6
 .4:
-        mov ebx, dword [ClipTopRow]
+        mov ebx, dword [DrawClipLeft]
         LD add, eax, ecx
         LD sub, eax, ebx
         jle short .1
         LD mov, esi, ecx
         LD sub, esi, eax
         add dword [byte ebp-018h], esi
-        mov esi, dword [ClipRight]
+        mov esi, dword [DrawClipRight]
         LD sub, esi, ebx
         jle short .1
         LD cmp, eax, esi

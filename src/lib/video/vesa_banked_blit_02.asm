@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_DE084 progbits alloc exec nowrite align=1
-extern RemapTable, VesaBankShift, dword_11FD50, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, dword_1228F0
+extern RemapTable, VesaBankShift, dword_11FD50, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, dword_1228F0
 extern KeyedDraw, DrawDestBuffer, dword_1228FC, dword_122930, VesaBank, VesaBankFunc
 global VesaSetBankJumpTable, FillRectJumpTable, XorRectJumpTable, FillRectSpansJumpTable, PlotPixel_8, PlotPixelClipped_C, BlitShapeClipped_3A, jpt_DE3F8_27
 global BlitBlock_32, BlitBlockXor_32, BlitBlockAnd_32, AndPixel_C, BlitBlockOr_32, OrPixel_C, OrPixel_AA, FillRectCore_4
@@ -45,24 +45,24 @@ SetClipRect:
         mov dword [byte esi+0Ch], ecx
         mov dword [byte esi+014h], ebx
         db 0A3h                                 ; insn: mov [128D8h],eax
-        dd ClipTopRow
+        dd DrawClipLeft
         db 089h,015h                            ; insn: mov [128E0h],edx
-        dd ClipRight
-        mov dword [ClipLeftCol], ecx
-        mov dword [ScreenHeight], ebx
+        dd DrawClipRight
+        mov dword [DrawClipTop], ecx
+        mov dword [DrawClipBottom], ebx
         pop esi
         leave
         ret
         db 00h
         mov eax, dword [byte esp+04h]
         mov edx, dword [byte esp+08h]
-        cmp eax, dword [ClipTopRow]
+        cmp eax, dword [DrawClipLeft]
         jl short .2
-        cmp eax, dword [ClipRight]
+        cmp eax, dword [DrawClipRight]
         jge short .2
-        cmp edx, dword [ClipLeftCol]
+        cmp edx, dword [DrawClipTop]
         jl short .2
-        cmp edx, dword [ScreenHeight]
+        cmp edx, dword [DrawClipBottom]
         jl short PlotPixel_8
 .2:
         ret
@@ -102,13 +102,13 @@ PutPixel:
         mov eax, dword [byte esp+04h]
         mov edx, dword [byte esp+08h]
         mov ebx, dword [byte esp+0Ch]
-        cmp eax, dword [ClipTopRow]
+        cmp eax, dword [DrawClipLeft]
         jl short .1
-        cmp eax, dword [ClipRight]
+        cmp eax, dword [DrawClipRight]
         jge short .1
-        cmp edx, dword [ClipLeftCol]
+        cmp edx, dword [DrawClipTop]
         jl short .1
-        cmp edx, dword [ScreenHeight]
+        cmp edx, dword [DrawClipBottom]
         jl short PlotPixelClipped_C
 .1:
         ret
@@ -216,10 +216,10 @@ BlitShapeClipped_3A:
         movsx ecx, word [byte edi+06h]
         lea edx, [byte edi+010h]
         LD mov, eax, ebx
-        cmp eax, dword [ClipLeftCol]
+        cmp eax, dword [DrawClipTop]
         jl short .2
         LD add, eax, ecx
-        sub eax, dword [ScreenHeight]
+        sub eax, dword [DrawClipBottom]
         jle short .3
         LD sub, ecx, eax
         jg short .3
@@ -229,7 +229,7 @@ BlitShapeClipped_3A:
         leave
         ret
 .2:
-        mov ebx, dword [ClipLeftCol]
+        mov ebx, dword [DrawClipTop]
         LD add, eax, ecx
         LD sub, eax, ebx
         jle short .1
@@ -242,7 +242,7 @@ BlitShapeClipped_3A:
         LD add, edx, eax
         LD mov, eax, ebx
         LD add, eax, ecx
-        sub eax, dword [ScreenHeight]
+        sub eax, dword [DrawClipBottom]
         jle short .3
         LD sub, ecx, eax
         jle short .1
@@ -254,24 +254,24 @@ BlitShapeClipped_3A:
         LD xor, edx, edx
         mov ebx, dword [byte ebp-04h]
         LD mov, eax, ebx
-        cmp eax, dword [ClipTopRow]
+        cmp eax, dword [DrawClipLeft]
         jl short .4
         LD add, eax, ecx
-        sub eax, dword [ClipRight]
+        sub eax, dword [DrawClipRight]
         jl short .6
         LD sub, ecx, eax
         jle short .1
         LD mov, edx, eax
         jmp short .6
 .4:
-        mov ebx, dword [ClipTopRow]
+        mov ebx, dword [DrawClipLeft]
         LD add, eax, ecx
         LD sub, eax, ebx
         jle short .1
         LD mov, edi, ecx
         LD sub, edi, eax
         add dword [byte ebp-018h], edi
-        mov edi, dword [ClipRight]
+        mov edi, dword [DrawClipRight]
         LD sub, edi, ebx
         jle short .1
         LD cmp, eax, edi
@@ -521,10 +521,10 @@ BlitBlock_32:
         movsx ecx, word [byte esi+06h]
         lea edx, [byte esi+010h]
         LD mov, eax, ebx
-        cmp eax, dword [ClipLeftCol]
+        cmp eax, dword [DrawClipTop]
         jl short .2
         LD add, eax, ecx
-        sub eax, dword [ScreenHeight]
+        sub eax, dword [DrawClipBottom]
         jle short .3
         LD sub, ecx, eax
         jg short .3
@@ -534,7 +534,7 @@ BlitBlock_32:
         leave
         ret
 .2:
-        mov ebx, dword [ClipLeftCol]
+        mov ebx, dword [DrawClipTop]
         LD add, eax, ecx
         LD sub, eax, ebx
         jle short .1
@@ -547,7 +547,7 @@ BlitBlock_32:
         LD add, edx, eax
         LD mov, eax, ebx
         LD add, eax, ecx
-        sub eax, dword [ScreenHeight]
+        sub eax, dword [DrawClipBottom]
         jle short .3
         LD sub, ecx, eax
         jle short .1
@@ -559,24 +559,24 @@ BlitBlock_32:
         LD xor, edx, edx
         mov ebx, dword [byte ebp-04h]
         LD mov, eax, ebx
-        cmp eax, dword [ClipTopRow]
+        cmp eax, dword [DrawClipLeft]
         jl short .4
         LD add, eax, ecx
-        sub eax, dword [ClipRight]
+        sub eax, dword [DrawClipRight]
         jl short .6
         LD sub, ecx, eax
         jle short .1
         LD mov, edx, eax
         jmp short .6
 .4:
-        mov ebx, dword [ClipTopRow]
+        mov ebx, dword [DrawClipLeft]
         LD add, eax, ecx
         LD sub, eax, ebx
         jle short .1
         LD mov, esi, ecx
         LD sub, esi, eax
         add dword [byte ebp-018h], esi
-        mov esi, dword [ClipRight]
+        mov esi, dword [DrawClipRight]
         LD sub, esi, ebx
         jle short .1
         LD cmp, eax, esi
@@ -694,10 +694,10 @@ BlitBlockXor_32:
         movsx ecx, word [byte esi+06h]
         lea edx, [byte esi+010h]
         LD mov, eax, ebx
-        cmp eax, dword [ClipLeftCol]
+        cmp eax, dword [DrawClipTop]
         jl short .2
         LD add, eax, ecx
-        sub eax, dword [ScreenHeight]
+        sub eax, dword [DrawClipBottom]
         jle short .3
         LD sub, ecx, eax
         jg short .3
@@ -707,7 +707,7 @@ BlitBlockXor_32:
         leave
         ret
 .2:
-        mov ebx, dword [ClipLeftCol]
+        mov ebx, dword [DrawClipTop]
         LD add, eax, ecx
         LD sub, eax, ebx
         jle short .1
@@ -720,7 +720,7 @@ BlitBlockXor_32:
         LD add, edx, eax
         LD mov, eax, ebx
         LD add, eax, ecx
-        sub eax, dword [ScreenHeight]
+        sub eax, dword [DrawClipBottom]
         jle short .3
         LD sub, ecx, eax
         jle short .1
@@ -732,24 +732,24 @@ BlitBlockXor_32:
         LD xor, edx, edx
         mov ebx, dword [byte ebp-04h]
         LD mov, eax, ebx
-        cmp eax, dword [ClipTopRow]
+        cmp eax, dword [DrawClipLeft]
         jl short .4
         LD add, eax, ecx
-        sub eax, dword [ClipRight]
+        sub eax, dword [DrawClipRight]
         jl short .6
         LD sub, ecx, eax
         jle short .1
         LD mov, edx, eax
         jmp short .6
 .4:
-        mov ebx, dword [ClipTopRow]
+        mov ebx, dword [DrawClipLeft]
         LD add, eax, ecx
         LD sub, eax, ebx
         jle short .1
         LD mov, esi, ecx
         LD sub, esi, eax
         add dword [byte ebp-018h], esi
-        mov esi, dword [ClipRight]
+        mov esi, dword [DrawClipRight]
         LD sub, esi, ebx
         jle short .1
         LD cmp, eax, esi
@@ -881,10 +881,10 @@ BlitBlockAnd_32:
         movsx ecx, word [byte esi+06h]
         lea edx, [byte esi+010h]
         LD mov, eax, ebx
-        cmp eax, dword [ClipLeftCol]
+        cmp eax, dword [DrawClipTop]
         jl short .2
         LD add, eax, ecx
-        sub eax, dword [ScreenHeight]
+        sub eax, dword [DrawClipBottom]
         jle short .3
         LD sub, ecx, eax
         jg short .3
@@ -894,7 +894,7 @@ BlitBlockAnd_32:
         leave
         ret
 .2:
-        mov ebx, dword [ClipLeftCol]
+        mov ebx, dword [DrawClipTop]
         LD add, eax, ecx
         LD sub, eax, ebx
         jle short .1
@@ -907,7 +907,7 @@ BlitBlockAnd_32:
         LD add, edx, eax
         LD mov, eax, ebx
         LD add, eax, ecx
-        sub eax, dword [ScreenHeight]
+        sub eax, dword [DrawClipBottom]
         jle short .3
         LD sub, ecx, eax
         jle short .1
@@ -919,24 +919,24 @@ BlitBlockAnd_32:
         LD xor, edx, edx
         mov ebx, dword [byte ebp-04h]
         LD mov, eax, ebx
-        cmp eax, dword [ClipTopRow]
+        cmp eax, dword [DrawClipLeft]
         jl short .4
         LD add, eax, ecx
-        sub eax, dword [ClipRight]
+        sub eax, dword [DrawClipRight]
         jl short .6
         LD sub, ecx, eax
         jle short .1
         LD mov, edx, eax
         jmp short .6
 .4:
-        mov ebx, dword [ClipTopRow]
+        mov ebx, dword [DrawClipLeft]
         LD add, eax, ecx
         LD sub, eax, ebx
         jle short .1
         LD mov, esi, ecx
         LD sub, esi, eax
         add dword [byte ebp-018h], esi
-        mov esi, dword [ClipRight]
+        mov esi, dword [DrawClipRight]
         LD sub, esi, ebx
         jle short .1
         LD cmp, eax, esi
@@ -1025,13 +1025,13 @@ BlitBlockAnd_32:
         mov eax, dword [byte esp+04h]
         mov edx, dword [byte esp+08h]
         mov ebx, dword [byte esp+0Ch]
-        cmp eax, dword [ClipTopRow]
+        cmp eax, dword [DrawClipLeft]
         jl short .15
-        cmp eax, dword [ClipRight]
+        cmp eax, dword [DrawClipRight]
         jge short .15
-        cmp edx, dword [ClipLeftCol]
+        cmp edx, dword [DrawClipTop]
         jl short .15
-        cmp edx, dword [ScreenHeight]
+        cmp edx, dword [DrawClipBottom]
         jl short AndPixel_C
 .15:
         ret
@@ -1113,10 +1113,10 @@ BlitBlockOr_32:
         movsx ecx, word [byte esi+06h]
         lea edx, [byte esi+010h]
         LD mov, eax, ebx
-        cmp eax, dword [ClipLeftCol]
+        cmp eax, dword [DrawClipTop]
         jl short .2
         LD add, eax, ecx
-        sub eax, dword [ScreenHeight]
+        sub eax, dword [DrawClipBottom]
         jle short .3
         LD sub, ecx, eax
         jg short .3
@@ -1126,7 +1126,7 @@ BlitBlockOr_32:
         leave
         ret
 .2:
-        mov ebx, dword [ClipLeftCol]
+        mov ebx, dword [DrawClipTop]
         LD add, eax, ecx
         LD sub, eax, ebx
         jle short .1
@@ -1139,7 +1139,7 @@ BlitBlockOr_32:
         LD add, edx, eax
         LD mov, eax, ebx
         LD add, eax, ecx
-        sub eax, dword [ScreenHeight]
+        sub eax, dword [DrawClipBottom]
         jle short .3
         LD sub, ecx, eax
         jle short .1
@@ -1151,24 +1151,24 @@ BlitBlockOr_32:
         LD xor, edx, edx
         mov ebx, dword [byte ebp-04h]
         LD mov, eax, ebx
-        cmp eax, dword [ClipTopRow]
+        cmp eax, dword [DrawClipLeft]
         jl short .4
         LD add, eax, ecx
-        sub eax, dword [ClipRight]
+        sub eax, dword [DrawClipRight]
         jl short .6
         LD sub, ecx, eax
         jle short .1
         LD mov, edx, eax
         jmp short .6
 .4:
-        mov ebx, dword [ClipTopRow]
+        mov ebx, dword [DrawClipLeft]
         LD add, eax, ecx
         LD sub, eax, ebx
         jle short .1
         LD mov, esi, ecx
         LD sub, esi, eax
         add dword [byte ebp-018h], esi
-        mov esi, dword [ClipRight]
+        mov esi, dword [DrawClipRight]
         LD sub, esi, ebx
         jle short .1
         LD cmp, eax, esi
@@ -1257,13 +1257,13 @@ BlitBlockOr_32:
         mov eax, dword [byte esp+04h]
         mov edx, dword [byte esp+08h]
         mov ebx, dword [byte esp+0Ch]
-        cmp eax, dword [ClipTopRow]
+        cmp eax, dword [DrawClipLeft]
         jl short .15
-        cmp eax, dword [ClipRight]
+        cmp eax, dword [DrawClipRight]
         jge short .15
-        cmp edx, dword [ClipLeftCol]
+        cmp edx, dword [DrawClipTop]
         jl short .15
-        cmp edx, dword [ScreenHeight]
+        cmp edx, dword [DrawClipBottom]
         jl short OrPixel_C
 .15:
         ret
@@ -1302,7 +1302,7 @@ OrPixel_C:
         push ebp
         LD mov, ebp, esp
         push edi
-        mov edx, dword [ClipTopRow]
+        mov edx, dword [DrawClipLeft]
         LD mov, eax, edx
         sub eax, dword [byte ebp+08h]
         jle short .3
@@ -1312,22 +1312,22 @@ OrPixel_C:
 .3:
         mov eax, dword [byte ebp+08h]
         add eax, dword [byte ebp+010h]
-        sub eax, dword [ClipRight]
+        sub eax, dword [DrawClipRight]
         jle short .4
         sub dword [byte ebp+010h], eax
         jle short OrPixel_AA
 .4:
-        mov eax, dword [ClipLeftCol]
+        mov eax, dword [DrawClipTop]
         sub eax, dword [byte ebp+0Ch]
         jle short .5
         sub dword [byte ebp+014h], eax
         jle short OrPixel_AA
-        mov eax, dword [ClipLeftCol]
+        mov eax, dword [DrawClipTop]
         mov dword [byte ebp+0Ch], eax
 .5:
         mov eax, dword [byte ebp+0Ch]
         add eax, dword [byte ebp+014h]
-        mov ebx, dword [ScreenHeight]
+        mov ebx, dword [DrawClipBottom]
         LD sub, eax, ebx
         jle short FillRectCore_4
         sub dword [byte ebp+014h], eax
@@ -1446,7 +1446,7 @@ FillRectJumpTable:
         push ebp
         LD mov, ebp, esp
         push edi
-        mov edx, dword [ClipTopRow]
+        mov edx, dword [DrawClipLeft]
         LD mov, eax, edx
         sub eax, dword [byte ebp+08h]
         jle short .11
@@ -1456,22 +1456,22 @@ FillRectJumpTable:
 .11:
         mov eax, dword [byte ebp+08h]
         add eax, dword [byte ebp+010h]
-        sub eax, dword [ClipRight]
+        sub eax, dword [DrawClipRight]
         jle short .12
         sub dword [byte ebp+010h], eax
         jle short jpt_DEC90_DA
 .12:
-        mov eax, dword [ClipLeftCol]
+        mov eax, dword [DrawClipTop]
         sub eax, dword [byte ebp+0Ch]
         jle short .13
         sub dword [byte ebp+014h], eax
         jle short jpt_DEC90_DA
-        mov eax, dword [ClipLeftCol]
+        mov eax, dword [DrawClipTop]
         mov dword [byte ebp+0Ch], eax
 .13:
         mov eax, dword [byte ebp+0Ch]
         add eax, dword [byte ebp+014h]
-        mov ebx, dword [ScreenHeight]
+        mov ebx, dword [DrawClipBottom]
         LD sub, eax, ebx
         jle short XorRectCore_4
         sub dword [byte ebp+014h], eax
@@ -2695,10 +2695,10 @@ BlitBlockShadow_32:
         movsx ecx, word [byte esi+06h]
         lea edx, [byte esi+010h]
         LD mov, eax, ebx
-        cmp eax, dword [ClipLeftCol]
+        cmp eax, dword [DrawClipTop]
         jl short .2
         LD add, eax, ecx
-        sub eax, dword [ScreenHeight]
+        sub eax, dword [DrawClipBottom]
         jle short .3
         LD sub, ecx, eax
         jg short .3
@@ -2708,7 +2708,7 @@ BlitBlockShadow_32:
         leave
         ret
 .2:
-        mov ebx, dword [ClipLeftCol]
+        mov ebx, dword [DrawClipTop]
         LD add, eax, ecx
         LD sub, eax, ebx
         jle short .1
@@ -2721,7 +2721,7 @@ BlitBlockShadow_32:
         LD add, edx, eax
         LD mov, eax, ebx
         LD add, eax, ecx
-        sub eax, dword [ScreenHeight]
+        sub eax, dword [DrawClipBottom]
         jle short .3
         LD sub, ecx, eax
         jle short .1
@@ -2733,24 +2733,24 @@ BlitBlockShadow_32:
         LD xor, edx, edx
         mov eax, dword [byte ebp-04h]
         LD mov, ebx, eax
-        cmp eax, dword [ClipTopRow]
+        cmp eax, dword [DrawClipLeft]
         jl short .4
         LD add, eax, ecx
-        sub eax, dword [ClipRight]
+        sub eax, dword [DrawClipRight]
         jl short .6
         LD sub, ecx, eax
         jle short .1
         LD mov, edx, eax
         jmp short .6
 .4:
-        mov ebx, dword [ClipTopRow]
+        mov ebx, dword [DrawClipLeft]
         LD add, eax, ecx
         LD sub, eax, ebx
         jle short .1
         LD mov, esi, ecx
         LD sub, esi, eax
         add dword [byte ebp-018h], esi
-        mov esi, dword [ClipRight]
+        mov esi, dword [DrawClipRight]
         LD sub, esi, ebx
         jle short .1
         LD cmp, eax, esi

@@ -14,8 +14,8 @@ extern dword_11B23C, dword_11B240, dword_11B244, dword_11B248, dword_11B24C, dwo
 extern dword_11B2A8, dword_11B2E8, dword_11B2EC, dword_11B2F0, dword_11B2F4, dword_11B2F8, dword_11B2FC, dword_11B300
 extern dword_11B304, dword_11B308, dword_11B310, dword_11B318, dword_11B31C, dword_11B320, str_D_DrawGameFrame, dword_11B328
 extern dword_11B32C, dword_11B330, dword_11B364, dword_11B374, dword_11B9F4, dword_11BB14, dword_11BB18, dword_11BB1C
-extern dword_11BC24, dword_11D91F, dword_11F5C0, dword_11F5C4, dword_1219A4, ClipTopRow, ClipLeftCol, ClipRight
-extern ScreenHeight, DrawDestBuffer, dword_152F4C, dword_152FEC, dword_1531D0, dword_15E4BC, dword_15E4C0, dword_15E8D8
+extern dword_11BC24, dword_11D91F, dword_11F5C0, dword_11F5C4, dword_1219A4, DrawClipLeft, DrawClipTop, DrawClipRight
+extern DrawClipBottom, DrawDestBuffer, dword_152F4C, dword_152FEC, dword_1531D0, dword_15E4BC, dword_15E4C0, dword_15E8D8
 extern dword_15E8E0, dword_15E8E4, dword_15E8F8, dword_15E8FC, dword_1647A0, dword_1647A4, dword_164816, dword_164838
 extern ViewScreenHeight, dword_165060, dword_165064, dword_165166, dword_16516A, dword_16516E, dword_165172, dword_177108
 extern dword_17828C, dword_178290, dword_178294, dword_178298, dword_17829C, dword_1782A0, dword_1782A4, dword_1782A8
@@ -64,7 +64,7 @@ global unk_5D555, unk_5D561, unk_5D56D, unk_5D579, unk_5D585, unk_5D591, unk_5D5
 global unk_5D65D, unk_5D681
 ;-----------------------------------------------------------------------------
 ; DrawScaledSprite                                584A0  96 PC, low confidence
-; Draws one scaled sprite frame clipped to the view (ClipTopRow-1228E4),
+; Draws one scaled sprite frame clipped to the view (DrawClipLeft-1228E4),
 ; for DrawPlayerSprite
 ;-----------------------------------------------------------------------------
 DrawScaledSprite:
@@ -95,9 +95,9 @@ DrawScaledSprite:
         sub edx, eax
         mov dword [byte ebp-08h], 0
         mov dword [byte ebp-04h], edx
-        cmp edi, dword [ClipLeftCol]
+        cmp edi, dword [DrawClipTop]
         jge short .1
-        mov eax, dword [ClipLeftCol]
+        mov eax, dword [DrawClipTop]
         mov dword [byte ebp-010h], eax
         jmp short .2
 .1:
@@ -106,9 +106,9 @@ DrawScaledSprite:
         mov eax, dword [byte ebp-04h]
         sar eax, 10h
         sub edi, ecx
-        cmp eax, dword [ClipRight]
+        cmp eax, dword [DrawClipRight]
         jge near DrawScaledSprite_1E2
-        cmp edi, dword [ScreenHeight]
+        cmp edi, dword [DrawClipBottom]
         jge near DrawScaledSprite_1E2
         movsx eax, word [byte esi+06h]
         shl eax, 10h
@@ -170,35 +170,35 @@ DrawScaledSprite:
         mov edx, dword [byte ebp-08h]
         xor ebx, ebx
         sar eax, 10h
-        cmp edi, dword [ScreenHeight]
+        cmp edi, dword [DrawClipBottom]
         jge near DrawScaledSprite_1E2
-        cmp eax, dword [ClipRight]
+        cmp eax, dword [DrawClipRight]
         jl short .8
         cmp dword [byte ebp+018h], byte 0
         jg near DrawScaledSprite_1E2
         jmp near .12
 .8:
         lea ecx, [edx+eax]
-        cmp ecx, dword [ClipRight]
+        cmp ecx, dword [DrawClipRight]
         jl short .9
         mov edx, ecx
         mov ecx, dword [byte ebp-08h]
-        sub edx, dword [ClipRight]
+        sub edx, dword [DrawClipRight]
         sub ecx, edx
         mov edx, ecx
 .9:
-        cmp eax, dword [ClipTopRow]
+        cmp eax, dword [DrawClipLeft]
         jge short .11
         lea ebx, [eax+edx]
-        cmp ebx, dword [ClipTopRow]
+        cmp ebx, dword [DrawClipLeft]
         jge short .10
         cmp dword [byte ebp+018h], byte 0
         jl short DrawScaledSprite_1E2
         jmp short .12
 .10:
-        mov ebx, dword [ClipTopRow]
+        mov ebx, dword [DrawClipLeft]
         sub ebx, eax
-        mov eax, dword [ClipTopRow]
+        mov eax, dword [DrawClipLeft]
         sub edx, ebx
 .11:
         test edx, edx

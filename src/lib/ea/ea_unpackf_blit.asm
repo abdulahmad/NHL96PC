@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_DBFA8 progbits alloc exec nowrite align=1
-extern SetDrawBitmap, str_Unpackf, str_Targa, ClipBottom, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight
+extern SetDrawBitmap, str_Unpackf, str_Targa, ScreenHeight, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom
 extern dword_123AC8, off_151524, AllocMemBlock, AllocMemLocked, FreeMemBlock, XorRectClipped, SaveDataFile, FlipArtHorizontal
 extern GetPalette, PutBytesLE, FlipArtVertical, TranslateArtPixels, PlotPixel, UnpackArtRle, bcopy
 global DrawArtAnyFormat, DrawArtAnyFormatAt, DrawArtAnyFormatOwnPos, XorRectOutline, WriteTgaScreen, SelectBitmapHandle
@@ -761,11 +761,11 @@ WriteTgaScreen:
         mov dword [byte ebp-030h], eax
         mov dword [byte ebp-08h], edx
 .3:
-        mov eax, dword [ClipRight]
-        sub eax, dword [ClipTopRow]
-        mov ecx, dword [ClipLeftCol]
+        mov eax, dword [DrawClipRight]
+        sub eax, dword [DrawClipLeft]
+        mov ecx, dword [DrawClipTop]
         mov dword [byte ebp-0Ch], eax
-        mov eax, dword [ScreenHeight]
+        mov eax, dword [DrawClipBottom]
         mov ebx, dword [byte ebp-0Ch]
         sub eax, ecx
         imul ebx, eax
@@ -834,14 +834,14 @@ WriteTgaScreen:
         call PutBytesLE
         add esp, byte 0Ch
         push byte 2
-        mov ecx, dword [ClipTopRow]
+        mov ecx, dword [DrawClipLeft]
         push ecx
         lea eax, [byte esi+08h]
         push eax
         call PutBytesLE
         add esp, byte 0Ch
-        mov eax, dword [ClipBottom]
-        mov edx, dword [ScreenHeight]
+        mov eax, dword [ScreenHeight]
+        mov edx, dword [DrawClipBottom]
         push byte 2
         sub eax, edx
         push eax
@@ -904,15 +904,15 @@ WriteTgaScreen:
         cmp eax, 300h
         jne short .4
 .5:
-        mov eax, dword [ScreenHeight]
+        mov eax, dword [DrawClipBottom]
         dec eax
-        mov edi, dword [ClipLeftCol]
+        mov edi, dword [DrawClipTop]
         mov dword [byte ebp-04h], eax
         cmp eax, edi
         jl near .14
 .6:
-        mov edi, dword [ClipTopRow]
-        cmp edi, dword [ClipRight]
+        mov edi, dword [DrawClipLeft]
+        cmp edi, dword [DrawClipRight]
         jge near .13
 .7:
         mov ebx, dword [byte ebp-04h]
@@ -988,14 +988,14 @@ WriteTgaScreen:
         mov esi, dword [byte ebp-024h]
         mov byte [ebx], al
 .12:
-        mov edx, dword [ClipRight]
+        mov edx, dword [DrawClipRight]
         inc edi
         cmp edi, edx
         jl near .7
 .13:
         mov eax, dword [byte ebp-04h]
         dec eax
-        mov edx, dword [ClipLeftCol]
+        mov edx, dword [DrawClipTop]
         mov dword [byte ebp-04h], eax
         cmp eax, edx
         jge near .6

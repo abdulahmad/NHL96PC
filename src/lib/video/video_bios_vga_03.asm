@@ -5,7 +5,7 @@ section s_E19F0 progbits alloc exec nowrite align=1
 extern str_MUSICON, str_MUSICOFF, str_SOUNDON, str_SOUNDOFF, KeyStateTable, HotkeyScanTable, HotkeyModTable, SavedTextMode
 extern SavedTextPage, SavedTextRows, byte_14FAC0, byte_14FAC1, byte_14FAC2, byte_14FAC3, byte_14FAC5, byte_14FAC6
 extern byte_14FAC8, byte_14FAC9, byte_14FACB, str_KK, AngleOctantTable, TimerTickStep, SinCosTable, SinTable
-extern CosTable, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, str_BK, dword_123390, HotkeyNesting
+extern CosTable, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, str_BK, dword_123390, HotkeyNesting
 extern HotkeyFuncTable, dword_124444, dword_124448, dword_12444C, dword_124450, dword_124454, dword_124458, dword_1248C8
 extern dword_14F098, str_28, joyenablemask, off_14F07C, off_14F080, off_14F084, off_14F088, off_14F08C
 extern off_14F090, off_14F0B0, printf_, sprintf_, ClearScreenColour, ShowMessageBox, ReadJoystickPorts, AddExitHandler
@@ -72,8 +72,8 @@ SetupRectFill_5A:
         cmp byte [byte ebp-05h], 0
         jne short .11
         mov eax, dword [byte esi+0Ch]
-        mov ebx, dword [ClipLeftCol]
-        mov ecx, dword [ScreenHeight]
+        mov ebx, dword [DrawClipTop]
+        mov ecx, dword [DrawClipBottom]
         LD cmp, eax, ecx
         jl short .3
         mov dl, 8
@@ -93,8 +93,8 @@ SetupRectFill_5A:
         jl short .6
         or dl, 8
 .6:
-        mov ebx, dword [ClipTopRow]
-        mov ecx, dword [ClipRight]
+        mov ebx, dword [DrawClipLeft]
+        mov ecx, dword [DrawClipRight]
         mov eax, dword [byte esi+04h]
         LD cmp, eax, ebx
         jge short .7
@@ -218,7 +218,7 @@ jpt_E1B6F_40:
         ret
 .1:
         mov eax, dword [byte esi+0Ch]
-        mov ecx, dword [ClipLeftCol]
+        mov ecx, dword [DrawClipTop]
         mov dword [byte esi+0Ch], ecx
         LD sub, ecx, eax
         mov bl, byte [byte esi+034h]
@@ -275,7 +275,7 @@ RectFillClipLeftJumpTable:
         jmp near jpt_E1F8A_145
 .7:
         mov dword [byte esi+018h], 1
-        mov eax, dword [ClipLeftCol]
+        mov eax, dword [DrawClipTop]
         mov dword [byte esi+0Ch], eax
         mov eax, dword [byte esi+010h]
         mov dword [byte esi+04h], eax
@@ -301,7 +301,7 @@ RectFillClipLeftJumpTable:
 ;-----------------------------------------------------------------------------
 jpt_E1BCE_D2:
         mov ecx, dword [byte esi+014h]
-        mov edx, dword [ScreenHeight]
+        mov edx, dword [DrawClipBottom]
         dec edx
         mov dword [byte esi+014h], edx
         LD sub, ecx, edx
@@ -407,7 +407,7 @@ RectFillClipRightJumpTable:
         dd .8
         dd .9
 .1:
-        mov ecx, dword [ClipTopRow]
+        mov ecx, dword [DrawClipLeft]
         mov eax, dword [byte esi+010h]
         mov dword [byte esi+010h], ecx
         LD sub, ecx, eax
@@ -417,7 +417,7 @@ RectFillClipRightJumpTable:
         jmp near jpt_E1F8A_1AC
 .2:
         mov eax, dword [byte esi+04h]
-        mov ecx, dword [ClipTopRow]
+        mov ecx, dword [DrawClipLeft]
         mov dword [byte esi+04h], ecx
         LD sub, ecx, eax
         add dword [byte esi+020h], ecx
@@ -427,7 +427,7 @@ RectFillClipRightJumpTable:
 .3:
         mov eax, dword [esi]
         mov edx, dword [byte esi+04h]
-        mov ecx, dword [ClipTopRow]
+        mov ecx, dword [DrawClipLeft]
         mov dword [byte esi+010h], ecx
         LD sub, edx, ecx
         jl short .5
@@ -450,7 +450,7 @@ RectFillClipRightJumpTable:
         mov eax, 1
         jmp short .4
 .6:
-        mov edx, dword [ClipTopRow]
+        mov edx, dword [DrawClipLeft]
         LD xor, eax, eax
         sub eax, dword [esi]
         sbb edx, dword [byte esi+04h]
@@ -472,7 +472,7 @@ RectFillClipRightJumpTable:
         jmp short .10
 .8:
         mov eax, dword [byte esi+04h]
-        mov edx, dword [ClipTopRow]
+        mov edx, dword [DrawClipLeft]
         mov dword [byte esi+010h], edx
         LD sub, eax, edx
         LD mov, ecx, eax
@@ -490,7 +490,7 @@ RectFillClipRightJumpTable:
         jmp near jpt_E1F8A_1AC
 .9:
         mov ecx, dword [byte esi+04h]
-        mov eax, dword [ClipTopRow]
+        mov eax, dword [DrawClipLeft]
         mov dword [byte esi+04h], eax
         LD sub, eax, ecx
         sub dword [byte esi+018h], eax
@@ -516,7 +516,7 @@ jpt_E1DA4_14A:
         mov al, byte [byte esi+035h]
         test al, 4
         je short .11
-        mov ebx, dword [ClipLeftCol]
+        mov ebx, dword [DrawClipTop]
         mov dword [byte esi+0Ch], ebx
         mov dword [byte esi+08h], 0
         dec ebx
@@ -525,24 +525,24 @@ jpt_E1DA4_14A:
 .11:
         test al, 8
         je short .12
-        mov ebx, dword [ScreenHeight]
+        mov ebx, dword [DrawClipBottom]
         mov dword [byte esi+0Ch], ebx
         mov dword [byte esi+08h], 0
         jmp short .16
 .12:
         mov ecx, dword [byte esi+014h]
-        cmp ecx, dword [ScreenHeight]
+        cmp ecx, dword [DrawClipBottom]
         jl short .13
-        mov ecx, dword [ScreenHeight]
+        mov ecx, dword [DrawClipBottom]
         dec ecx
 .13:
         mov edx, dword [byte esi+0Ch]
         mov ebx, dword [byte esi+08h]
         add ebx, 80000000h
         adc edx, byte 0
-        cmp edx, dword [ClipLeftCol]
+        cmp edx, dword [DrawClipTop]
         jge short .14
-        mov edx, dword [ClipLeftCol]
+        mov edx, dword [DrawClipTop]
 .14:
         mov dword [byte esi+0Ch], edx
         mov dword [byte esi+08h], 0
@@ -582,7 +582,7 @@ RectFillStepJumpTable:
         jmp near jpt_E1DA4_14A
 .2:
         mov ecx, dword [byte esi+04h]
-        mov eax, dword [ClipRight]
+        mov eax, dword [DrawClipRight]
         dec eax
         mov dword [byte esi+04h], eax
         LD sub, ecx, eax
@@ -591,7 +591,7 @@ RectFillStepJumpTable:
         add dword [byte esi+028h], ecx
         jmp near jpt_E1B6F_40
 .3:
-        mov ecx, dword [ClipRight]
+        mov ecx, dword [DrawClipRight]
         dec ecx
         mov eax, dword [byte esi+010h]
         mov dword [byte esi+010h], ecx
@@ -603,7 +603,7 @@ RectFillStepJumpTable:
 .4:
         mov eax, dword [esi]
         mov edx, dword [byte esi+04h]
-        sub edx, dword [ClipRight]
+        sub edx, dword [DrawClipRight]
         inc edx
         mov ecx, dword [byte esi+030h]
         div ecx
@@ -619,7 +619,7 @@ RectFillStepJumpTable:
         sbb dword [byte esi+04h], edx
         jmp near jpt_E1B6F_40
 .5:
-        mov edx, dword [ClipRight]
+        mov edx, dword [DrawClipRight]
         dec edx
         mov dword [byte esi+010h], edx
         LD xor, eax, eax
@@ -642,7 +642,7 @@ RectFillStepJumpTable:
         jmp near jpt_E1B6F_40
 .6:
         mov eax, dword [byte esi+04h]
-        mov ecx, dword [ClipRight]
+        mov ecx, dword [DrawClipRight]
         dec ecx
         LD sub, eax, ecx
         mov dword [byte esi+04h], ecx
@@ -662,7 +662,7 @@ RectFillStepJumpTable:
         add dword [byte esi+028h], edx
         jmp near jpt_E1B6F_40
 .7:
-        mov eax, dword [ClipRight]
+        mov eax, dword [DrawClipRight]
         LD mov, ecx, eax
         dec ecx
         mov dword [byte esi+010h], ecx
@@ -692,23 +692,23 @@ jpt_E1F8A_145:
 jpt_E1F8A_153:
         LD xor, edx, edx
         mov eax, dword [byte esi+04h]
-        cmp eax, dword [ClipTopRow]
+        cmp eax, dword [DrawClipLeft]
         jge short .8
         or dh, 2
 .8:
         mov ebx, dword [esi]
         add ebx, 80000000h
         adc eax, byte 0
-        cmp eax, dword [ClipRight]
+        cmp eax, dword [DrawClipRight]
         jl short .9
         or dh, 1
 .9:
         mov eax, dword [byte esi+010h]
-        cmp eax, dword [ClipTopRow]
+        cmp eax, dword [DrawClipLeft]
         jge short .10
         or dl, 2
 .10:
-        cmp eax, dword [ClipRight]
+        cmp eax, dword [DrawClipRight]
         jl short .11
         or dl, 1
 .11:
@@ -748,7 +748,7 @@ jpt_E1F8A_1BF:
 .15:
         cmp byte [byte ebp-05h], 0
         jne short .17
-        mov ebx, dword [ClipLeftCol]
+        mov ebx, dword [DrawClipTop]
         LD cmp, eax, ebx
         jge short .18
         mov al, 4
@@ -768,7 +768,7 @@ jpt_E1F8A_1BF:
         mov dword [byte esi+018h], edx
         jmp near jpt_E1B6F_40
 .18:
-        mov ebx, dword [ScreenHeight]
+        mov ebx, dword [DrawClipBottom]
         LD cmp, eax, ebx
         jl short .19
         mov al, 8
@@ -780,21 +780,21 @@ jpt_E1F8A_1BF:
         LD sub, eax, ecx
         inc eax
         mov dword [byte esi+018h], eax
-        cmp edx, dword [ClipTopRow]
+        cmp edx, dword [DrawClipLeft]
         jge short .20
         dec dword [byte esi+014h]
         mov dword [byte esi+024h], 1
         mov al, 2
         jmp short .16
 .20:
-        cmp ecx, dword [ClipRight]
+        cmp ecx, dword [DrawClipRight]
         jl short .21
         dec dword [byte esi+014h]
         mov dword [byte esi+02Ch], 1
         mov al, 1
         jmp short .16
 .21:
-        mov eax, dword [ClipTopRow]
+        mov eax, dword [DrawClipLeft]
         LD mov, ebx, eax
         LD sub, eax, ecx
         jle short .22
@@ -802,7 +802,7 @@ jpt_E1F8A_1BF:
         sub dword [byte esi+018h], eax
 .22:
         LD mov, eax, edx
-        mov ebx, dword [ClipRight]
+        mov ebx, dword [DrawClipRight]
         dec ebx
         LD sub, eax, ebx
         jle short .23
@@ -834,19 +834,19 @@ jpt_E1F8A_27E:
         LD add, eax, ecx
         mov dword [byte esi+0Ch], eax
         LD mov, ebx, eax
-        sub eax, dword [ClipLeftCol]
+        sub eax, dword [DrawClipTop]
         jle short .29
         LD cmp, eax, ecx
         jle short .26
         LD mov, eax, ecx
 .26:
-        sub ebx, dword [ScreenHeight]
+        sub ebx, dword [DrawClipBottom]
         jle short .27
         LD sub, eax, ebx
         jle short .29
 .27:
         mov ebx, dword [byte esi+04h]
-        cmp ebx, dword [ClipTopRow]
+        cmp ebx, dword [DrawClipLeft]
         jge short .28
         add dword [byte esi+020h], eax
         jmp short .29
@@ -872,7 +872,7 @@ jpt_E1F8A_27E:
         LD sub, eax, ecx
         mov dword [byte esi+014h], eax
         LD mov, ebx, eax
-        sub eax, dword [ScreenHeight]
+        sub eax, dword [DrawClipBottom]
         inc eax
         jge short .35
         neg eax
@@ -880,14 +880,14 @@ jpt_E1F8A_27E:
         jle short .32
         LD mov, eax, ecx
 .32:
-        sub ebx, dword [ClipLeftCol]
+        sub ebx, dword [DrawClipTop]
         inc ebx
         jge short .33
         LD add, eax, ebx
         jle short .35
 .33:
         mov ebx, dword [byte esi+010h]
-        cmp ebx, dword [ClipTopRow]
+        cmp ebx, dword [DrawClipLeft]
         jge short .34
         add dword [byte esi+024h], eax
         jmp short .35

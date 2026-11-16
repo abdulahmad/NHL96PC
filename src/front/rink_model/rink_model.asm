@@ -7,7 +7,7 @@ extern byte_1175AB, byte_1175AC, byte_159C57, byte_159C58, byte_159C59, byte_159
 extern byte_159E61, byte_15EA03, byte_176F96, byte_17701E, byte_17703B, byte_1770A7, byte_1770B2, byte_1770B3
 extern byte_1770B4, byte_1770B5, byte_1770B6, byte_1770D7, dword_1175AD, dword_1175B1, dword_1175B5, dword_1175B9
 extern dword_1176DD, dword_1176E1, dword_1176E5, dword_1177EC, dword_1177F0, dword_11A3F8, dword_11F5C0, dword_11F5C4
-extern NearClipZ, SinTable, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, DrawDestBuffer, dword_152FEC
+extern NearClipZ, SinTable, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, DrawDestBuffer, dword_152FEC
 extern dword_158D78, dword_158D7C, GoalLightTimerFar, dword_158D88, GoalLightFrame, FarSideModel, GoalLightOn, dword_158DA0
 extern dword_158F24, dword_158F90, dword_159008, dword_159014, dword_15902C, dword_159038, dword_1591CC, dword_1591D0
 extern dword_1591D4, dword_159230, dword_159234, dword_159334, dword_159340, dword_15934C, dword_159370, dword_15937C
@@ -10120,20 +10120,20 @@ DrawZamboniScene:
         ret
 ;-----------------------------------------------------------------------------
 ; SetRinkClipWindow                            2976B  96 PC, medium confidence
-; Copies the view clip window (ClipTopRow-1228E4) into 16.16 for the rink
+; Copies the view clip window (DrawClipLeft-1228E4) into 16.16 for the rink
 ; draw
 ;-----------------------------------------------------------------------------
 SetRinkClipWindow:
-        movsx eax, word [ClipTopRow]
+        movsx eax, word [DrawClipLeft]
         shl eax, 10h
         mov dword [dword_17DC28], eax
-        movsx eax, word [ClipRight]
+        movsx eax, word [DrawClipRight]
         shl eax, 10h
         mov dword [dword_17DC18], eax
-        movsx eax, word [ClipLeftCol]
+        movsx eax, word [DrawClipTop]
         shl eax, 10h
         mov dword [dword_17DC24], eax
-        movsx eax, word [ScreenHeight]
+        movsx eax, word [DrawClipBottom]
         shl eax, 10h
         mov dword [dword_17DC1C], eax
         ret
@@ -10204,9 +10204,9 @@ DrawShadowSprite:
         mov dword [byte ebp-08h], 0
         sub edx, eax
         mov dword [byte ebp-04h], edx
-        cmp edi, dword [ClipLeftCol]
+        cmp edi, dword [DrawClipTop]
         jge short .1
-        mov eax, dword [ClipLeftCol]
+        mov eax, dword [DrawClipTop]
         mov dword [byte ebp-010h], eax
         jmp short .2
 .1:
@@ -10215,9 +10215,9 @@ DrawShadowSprite:
         mov eax, dword [byte ebp-04h]
         sar eax, 10h
         sub edi, ebx
-        cmp eax, dword [ClipRight]
+        cmp eax, dword [DrawClipRight]
         jge near .14
-        cmp edi, dword [ScreenHeight]
+        cmp edi, dword [DrawClipBottom]
         jge near .14
         movsx eax, word [byte esi+06h]
         shl eax, 10h
@@ -10281,35 +10281,35 @@ DrawShadowSprite:
         mov edx, dword [byte ebp-08h]
         xor ebx, ebx
         sar eax, 10h
-        cmp edi, dword [ScreenHeight]
+        cmp edi, dword [DrawClipBottom]
         jge near .14
-        cmp eax, dword [ClipRight]
+        cmp eax, dword [DrawClipRight]
         jl short .8
         cmp dword [byte ebp+014h], byte 0
         jg near .14
         jmp near .12
 .8:
         lea ecx, [edx+eax]
-        cmp ecx, dword [ClipRight]
+        cmp ecx, dword [DrawClipRight]
         jl short .9
         mov edx, ecx
         mov ecx, dword [byte ebp-08h]
-        sub edx, dword [ClipRight]
+        sub edx, dword [DrawClipRight]
         sub ecx, edx
         mov edx, ecx
 .9:
-        cmp eax, dword [ClipTopRow]
+        cmp eax, dword [DrawClipLeft]
         jge short .11
         lea ebx, [eax+edx]
-        cmp ebx, dword [ClipTopRow]
+        cmp ebx, dword [DrawClipLeft]
         jge short .10
         cmp dword [byte ebp+014h], byte 0
         jl short .14
         jmp short .12
 .10:
-        mov ebx, dword [ClipTopRow]
+        mov ebx, dword [DrawClipLeft]
         sub ebx, eax
-        mov eax, dword [ClipTopRow]
+        mov eax, dword [DrawClipLeft]
         sub edx, ebx
 .11:
         test edx, edx

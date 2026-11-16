@@ -7,8 +7,8 @@ extern DrawClipTop, DrawClipRight, DrawClipBottom, ViewHalfWidth, ViewHalfHeight
 extern ViewCentreY, FovScaleX, FovScaleY, ViewFovX, ViewFovY, ProjectFlags, ShadowFillFunc, TitleBandFunc
 extern FillSpanList, RemapSpanList, FillRectSpans, FillRectColor, SetupRectFillBlend, SetupRectFill, AngleFromDelta, SinLookup
 extern CosLookup
-global FillBandRowsJumpTable, FillBandRowsBlendJumpTable, FillBandRowsPlainJumpTable, FillPolygon_F, FillPolygonArgs_F, FillPolygonCore, jpt_E0C7A_38, jpt_E0DBA_3B
-global jpt_E0F93_22F, ClipEdgeToPlane_B, SetViewFov_2D, Random32, FillPolygon, FillPolygonArgs, FillBandEdges, FillBandRows
+global FillBandRowsJumpTable, FillBandRowsBlendJumpTable, FillBandRowsPlainJumpTable, FillPolygon_F, FillPolygonArgs_F, FillPolygonCore, FillBandRowsCases, FillBandRowsBlendCases
+global FillBandsFinish, ClipEdgeToPlane_B, SetViewFov_2D, Random32, FillPolygon, FillPolygonArgs, FillBandEdges, FillBandRows
 global FillBandRowsBlend, vecdist, RemapPolygonCore, RemapPolygon, RemapPolygonArgs, ClipEdgeToPlane, SetNearClipZ, SetViewScreenOrigin
 global SetViewFov, TransposeMatrix
 ;-----------------------------------------------------------------------------
@@ -399,7 +399,7 @@ FillBandEdges:
 FillBandRows:
         mov ecx, dword [byte esi+018h]
         LD or, ecx, ecx
-        jle short jpt_E0C7A_38
+        jle short FillBandRowsCases
         mov edi, dword [byte esi+0Ch]
         lea edi, [nosplit edi*4+00h]
         add edi, dword [byte ebp-02Ch]
@@ -407,16 +407,16 @@ FillBandRows:
         mov bl, byte [byte esi+034h]
         jmp dword [nosplit cs:ebx*4+FillBandRowsJumpTable]
 FillBandRowsJumpTable:
-        dd jpt_E0C7A_38
-        dd jpt_E0C7A_38
+        dd FillBandRowsCases
+        dd FillBandRowsCases
         dd .1
-        dd jpt_E0C7A_38.3
-        dd jpt_E0C7A_38.5
-        dd jpt_E0C7A_38.7
-        dd jpt_E0C7A_38.9
-        dd jpt_E0C7A_38.11
-        dd jpt_E0C7A_38.15
-        dd jpt_E0C7A_38
+        dd FillBandRowsCases.3
+        dd FillBandRowsCases.5
+        dd FillBandRowsCases.7
+        dd FillBandRowsCases.9
+        dd FillBandRowsCases.11
+        dd FillBandRowsCases.15
+        dd FillBandRowsCases
 .1:
         mov ecx, dword [byte esi+018h]
         mov eax, dword [byte esi+04h]
@@ -425,7 +425,11 @@ FillBandRowsJumpTable:
         stosd
         dec ecx
         jne short .2
-jpt_E0C7A_38:
+;-----------------------------------------------------------------------------
+; FillBandRowsCases                               E0CB2  96 PC, low confidence
+; Band row fill cases and early exit
+;-----------------------------------------------------------------------------
+FillBandRowsCases:
         ret
 .3:
         mov ecx, dword [byte esi+018h]
@@ -537,7 +541,7 @@ jpt_E0C7A_38:
 FillBandRowsBlend:
         mov ecx, dword [byte esi+018h]
         LD or, ecx, ecx
-        jle short jpt_E0DBA_3B
+        jle short FillBandRowsBlendCases
         mov edi, dword [byte esi+0Ch]
         lea edi, [nosplit edi*4+00h]
         add edi, dword [byte ebp-02Ch]
@@ -549,35 +553,39 @@ FillBandRowsBlend:
 .1:
         jmp dword [nosplit cs:ebx*4+FillBandRowsBlendJumpTable]
 FillBandRowsBlendJumpTable:
-        dd jpt_E0C7A_38
-        dd jpt_E0C7A_38
+        dd FillBandRowsCases
+        dd FillBandRowsCases
         dd .1
-        dd jpt_E0DBA_3B.5
-        dd jpt_E0DBA_3B.9
-        dd jpt_E0DBA_3B.13
-        dd jpt_E0DBA_3B.17
-        dd jpt_E0DBA_3B.21
-        dd jpt_E0DBA_3B.27
-        dd jpt_E0C7A_38
+        dd FillBandRowsBlendCases.5
+        dd FillBandRowsBlendCases.9
+        dd FillBandRowsBlendCases.13
+        dd FillBandRowsBlendCases.17
+        dd FillBandRowsBlendCases.21
+        dd FillBandRowsBlendCases.27
+        dd FillBandRowsCases
 .1:
         mov eax, dword [byte esi+04h]
 .2:
         cmp dword [dword edi+01400h], eax
-        jl short jpt_E0DBA_3B.3
+        jl short FillBandRowsBlendCases.3
         cmp dword [edi], eax
-        jle short jpt_E0DBA_3B.4
+        jle short FillBandRowsBlendCases.4
         stosd
         dec ecx
         jne short .2
-jpt_E0DBA_3B:
-        jmp near jpt_E0F93_22F
+;-----------------------------------------------------------------------------
+; FillBandRowsBlendCases                          E0DF5  96 PC, low confidence
+; Blended band row fill cases and early exit
+;-----------------------------------------------------------------------------
+FillBandRowsBlendCases:
+        jmp near FillBandsFinish
 .3:
         mov dword [dword edi+01400h], eax
 .4:
         add edi, byte 4
         dec ecx
         jne short FillBandRowsBlendJumpTable.2
-        jmp near jpt_E0F93_22F
+        jmp near FillBandsFinish
 .5:
         mov ecx, dword [byte esi+018h]
         mov eax, dword [byte esi+04h]
@@ -590,7 +598,7 @@ jpt_E0DBA_3B:
         dec eax
         dec ecx
         jne short .6
-        jmp near jpt_E0F93_22F
+        jmp near FillBandsFinish
 .7:
         mov dword [dword edi+01400h], eax
 .8:
@@ -598,7 +606,7 @@ jpt_E0DBA_3B:
         dec eax
         dec ecx
         jne short .6
-        jmp near jpt_E0F93_22F
+        jmp near FillBandsFinish
 .9:
         mov ecx, dword [byte esi+018h]
         mov eax, dword [byte esi+04h]
@@ -611,7 +619,7 @@ jpt_E0DBA_3B:
         inc eax
         dec ecx
         jne short .10
-        jmp near jpt_E0F93_22F
+        jmp near FillBandsFinish
 .11:
         mov dword [dword edi+01400h], eax
 .12:
@@ -619,7 +627,7 @@ jpt_E0DBA_3B:
         inc eax
         dec ecx
         jne short .10
-        jmp near jpt_E0F93_22F
+        jmp near FillBandsFinish
 .13:
         mov ecx, dword [byte esi+018h]
         mov eax, dword [byte esi+04h]
@@ -637,7 +645,7 @@ jpt_E0DBA_3B:
         sbb eax, byte 0
         dec ecx
         jne short .14
-        jmp near jpt_E0F93_22F
+        jmp near FillBandsFinish
 .15:
         mov dword [dword edi+01400h], eax
 .16:
@@ -646,7 +654,7 @@ jpt_E0DBA_3B:
         sbb eax, byte 0
         dec ecx
         jne short .14
-        jmp near jpt_E0F93_22F
+        jmp near FillBandsFinish
 .17:
         mov ecx, dword [byte esi+018h]
         mov eax, dword [byte esi+04h]
@@ -664,7 +672,7 @@ jpt_E0DBA_3B:
         adc eax, byte 0
         dec ecx
         jne short .18
-        jmp near jpt_E0F93_22F
+        jmp near FillBandsFinish
 .19:
         mov dword [dword edi+01400h], eax
 .20:
@@ -673,7 +681,7 @@ jpt_E0DBA_3B:
         adc eax, byte 0
         dec ecx
         jne short .18
-        jmp near jpt_E0F93_22F
+        jmp near FillBandsFinish
 .21:
         mov ecx, dword [byte esi+018h]
         mov eax, dword [byte esi+04h]
@@ -698,7 +706,7 @@ jpt_E0DBA_3B:
         dec ecx
         jne short .22
         sub edi, byte 4
-        jmp near jpt_E0F93_22F
+        jmp near FillBandsFinish
 .25:
         dec eax
         dec ecx
@@ -708,7 +716,7 @@ jpt_E0DBA_3B:
         jle short .26
         mov dword [edi], eax
 .26:
-        jmp near jpt_E0F93_22F
+        jmp near FillBandsFinish
 .27:
         mov ecx, dword [byte esi+018h]
         mov eax, dword [byte esi+04h]
@@ -733,7 +741,7 @@ jpt_E0DBA_3B:
         dec ecx
         jne short .28
         sub edi, byte 4
-        jmp near jpt_E0F93_22F
+        jmp near FillBandsFinish
 .31:
         inc eax
         dec ecx
@@ -742,10 +750,10 @@ jpt_E0DBA_3B:
         cmp dword [dword edi+01400h], eax
         jge short .26
         mov dword [dword edi+01400h], eax
-        jmp near jpt_E0F93_22F
+        jmp near FillBandsFinish
 FillBandRowsPlainJumpTable:
-        dd jpt_E0C7A_38
-        dd jpt_E0C7A_38
+        dd FillBandRowsCases
+        dd FillBandRowsCases
         dd .1
         dd .5
         dd .10
@@ -753,7 +761,7 @@ FillBandRowsPlainJumpTable:
         dd .20
         dd .25
         dd .36
-        dd jpt_E0C7A_38
+        dd FillBandRowsCases
 .1:
         mov ecx, dword [byte esi+018h]
         mov eax, dword [byte esi+04h]
@@ -765,14 +773,14 @@ FillBandRowsPlainJumpTable:
         add edi, byte 4
         dec ecx
         jne short .2
-        jmp near jpt_E0F93_22F
+        jmp near FillBandsFinish
 .3:
         rep stosd
-        jmp near jpt_E0F93_22F
+        jmp near FillBandsFinish
 .4:
         add edi, 1400h
         rep stosd
-        jmp near jpt_E0F93_22F
+        jmp near FillBandsFinish
 .5:
         mov ecx, dword [byte esi+018h]
         mov eax, dword [byte esi+04h]
@@ -785,13 +793,13 @@ FillBandRowsPlainJumpTable:
         dec eax
         dec ecx
         jne short .6
-        jmp near jpt_E0F93_22F
+        jmp near FillBandsFinish
 .7:
         stosd
         dec eax
         dec ecx
         jne short .7
-        jmp near jpt_E0F93_22F
+        jmp near FillBandsFinish
 .8:
         add edi, 1400h
 .9:
@@ -799,7 +807,7 @@ FillBandRowsPlainJumpTable:
         dec eax
         dec ecx
         jne short .9
-        jmp near jpt_E0F93_22F
+        jmp near FillBandsFinish
 .10:
         mov ecx, dword [byte esi+018h]
         mov eax, dword [byte esi+04h]
@@ -812,13 +820,13 @@ FillBandRowsPlainJumpTable:
         inc eax
         dec ecx
         jne short .11
-        jmp near jpt_E0F93_22F
+        jmp near FillBandsFinish
 .12:
         stosd
         inc eax
         dec ecx
         jne short .12
-        jmp near jpt_E0F93_22F
+        jmp near FillBandsFinish
 .13:
         add edi, 1400h
 .14:
@@ -826,7 +834,7 @@ FillBandRowsPlainJumpTable:
         inc eax
         dec ecx
         jne short .14
-        jmp near jpt_E0F93_22F
+        jmp near FillBandsFinish
 .15:
         mov ecx, dword [byte esi+018h]
         mov eax, dword [byte esi+04h]
@@ -844,14 +852,14 @@ FillBandRowsPlainJumpTable:
         sbb eax, byte 0
         dec ecx
         jne short .16
-        jmp near jpt_E0F93_22F
+        jmp near FillBandsFinish
 .17:
         stosd
         LD sub, edx, ebx
         sbb eax, byte 0
         dec ecx
         jne short .17
-        jmp near jpt_E0F93_22F
+        jmp near FillBandsFinish
 .18:
         add edi, 1400h
 .19:
@@ -860,7 +868,7 @@ FillBandRowsPlainJumpTable:
         sbb eax, byte 0
         dec ecx
         jne short .19
-        jmp near jpt_E0F93_22F
+        jmp near FillBandsFinish
 .20:
         mov ecx, dword [byte esi+018h]
         mov eax, dword [byte esi+04h]
@@ -878,14 +886,14 @@ FillBandRowsPlainJumpTable:
         adc eax, byte 0
         dec ecx
         jne short .21
-        jmp near jpt_E0F93_22F
+        jmp near FillBandsFinish
 .22:
         stosd
         LD add, edx, ebx
         adc eax, byte 0
         dec ecx
         jne short .22
-        jmp near jpt_E0F93_22F
+        jmp near FillBandsFinish
 .23:
         add edi, 1400h
 .24:
@@ -894,7 +902,7 @@ FillBandRowsPlainJumpTable:
         adc eax, byte 0
         dec ecx
         jne short .24
-        jmp near jpt_E0F93_22F
+        jmp near FillBandsFinish
 .25:
         mov ecx, dword [byte esi+018h]
         mov eax, dword [byte esi+04h]
@@ -920,7 +928,7 @@ FillBandRowsPlainJumpTable:
         jle short .28
         mov dword [edi], eax
 .28:
-        jmp near jpt_E0F93_22F
+        jmp near FillBandsFinish
 .29:
         add edi, 1400h
 .30:
@@ -931,11 +939,11 @@ FillBandRowsPlainJumpTable:
         jae short .32
         dec ecx
         jne short .30
-        jmp short jpt_E0F93_22F
+        jmp short FillBandsFinish
 .32:
         dec ecx
         jne short .31
-        jmp short jpt_E0F93_22F
+        jmp short FillBandsFinish
 .33:
         LD add, edx, ebx
         jae short .35
@@ -944,14 +952,14 @@ FillBandRowsPlainJumpTable:
         dec eax
         dec ecx
         jne short .33
-        jmp short jpt_E0F93_22F
+        jmp short FillBandsFinish
 .35:
         dec eax
         dec ecx
         jne short .33
         inc eax
         mov dword [edi], eax
-        jmp short jpt_E0F93_22F
+        jmp short FillBandsFinish
 .36:
         mov ecx, dword [byte esi+018h]
         mov eax, dword [byte esi+04h]
@@ -972,7 +980,7 @@ FillBandRowsPlainJumpTable:
         inc eax
         dec ecx
         jne short .37
-        jmp short jpt_E0F93_22F
+        jmp short FillBandsFinish
 .39:
         add edi, 1400h
 .40:
@@ -986,14 +994,14 @@ FillBandRowsPlainJumpTable:
         jne short .40
         dec eax
         mov dword [edi], eax
-        jmp short jpt_E0F93_22F
+        jmp short FillBandsFinish
 .42:
         dec ecx
         jne short .41
         add edi, byte 4
         dec eax
         mov dword [edi], eax
-        jmp short jpt_E0F93_22F
+        jmp short FillBandsFinish
 .43:
         LD add, edx, ebx
         jae short .45
@@ -1003,11 +1011,12 @@ FillBandRowsPlainJumpTable:
         inc eax
         dec ecx
         jne short .43
-        jmp short jpt_E0F93_22F
+        jmp short FillBandsFinish
 ;-----------------------------------------------------------------------------
-; jpt_E0F93_22F                                                        E11C2  
+; FillBandsFinish                                 E11C2  96 PC, low confidence
+; Finishes a band fill
 ;-----------------------------------------------------------------------------
-jpt_E0F93_22F:
+FillBandsFinish:
         cmp byte [byte ebp-012h], 0
         jne short .46
         ret

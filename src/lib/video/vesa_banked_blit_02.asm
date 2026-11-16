@@ -4,9 +4,9 @@ bits 32
 section s_DE084 progbits alloc exec nowrite align=1
 extern RemapTable, VesaBankShift, TextColourTable, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, DrawRowBytes
 extern KeyedDraw, DrawDestBuffer, DrawVideoBase, ScreenRowTable, VesaBank, VesaBankFunc
-global VesaSetBankJumpTable, FillRectJumpTable, XorRectJumpTable, FillRectSpansJumpTable, PlotPixel_8, PlotPixelClipped_C, BlitShapeClipped_3A, jpt_DE3F8_27
+global VesaSetBankJumpTable, FillRectJumpTable, XorRectJumpTable, FillRectSpansJumpTable, PlotPixel_8, PlotPixelClipped_C, BlitShapeClipped_3A, VesaSetBankBody
 global BlitBlock_32, BlitBlockXor_32, BlitBlockAnd_32, AndPixel_C, BlitBlockOr_32, OrPixel_C, OrPixel_AA, FillRectCore_4
-global jpt_DEC90_DA, XorRectCore_4, BlitArtOpaque_32, BlitShapeFast_3A, BlitBlockShadow_32, CopyRowShadowFast_34, SetClipRect, PlotPixel
+global FillRectExit, XorRectCore_4, BlitArtOpaque_32, BlitShapeFast_3A, BlitBlockShadow_32, CopyRowShadowFast_34, SetClipRect, PlotPixel
 global PutPixel, PlotPixelClipped, BlitShapeClipped, VesaSetBank, VesaSetMode, VgaSetModeTwice, BlitBlock, BlitBlockXor
 global BlitBlockAnd, AndPixel, BlitBlockOr, OrPixel, FillRectCore, XorRectCore, BlitFontNibbles, BlitArtOpaque
 global ReverseBytes, BlitShapeFast, FillRectSpansCore, FillSpansSet, FillSpansXor, FillSpansAnd, FillSpansOr, RemapSpans
@@ -364,16 +364,16 @@ BlitShapeClipped_3A:
 ;-----------------------------------------------------------------------------
 VesaSetBank:
         cmp al, byte [VesaBankShift]
-        je short jpt_DE3F8_27
+        je short VesaSetBankBody
         mov byte [VesaBankShift], al
         cmp eax, byte 0
-        jl short jpt_DE3F8_27
+        jl short VesaSetBankBody
         push edx
         mov edx, dword [VesaBank]
         jmp dword [nosplit edx*4+VesaSetBankJumpTable]
 VesaSetBankJumpTable:
         dd .1
-        dd jpt_DE3F8_27.2
+        dd VesaSetBankBody.2
 .1:
         push ebx
         push ecx
@@ -392,7 +392,11 @@ VesaSetBankJumpTable:
         pop ecx
         pop ebx
         pop edx
-jpt_DE3F8_27:
+;-----------------------------------------------------------------------------
+; VesaSetBankBody                                 DE41F  96 PC, low confidence
+; Sets the VESA bank when it changes
+;-----------------------------------------------------------------------------
+VesaSetBankBody:
         ret
 .2:
         push ebx
@@ -1452,20 +1456,20 @@ FillRectJumpTable:
         jle short .11
         mov dword [byte ebp+08h], edx
         sub dword [byte ebp+010h], eax
-        jle short jpt_DEC90_DA
+        jle short FillRectExit
 .11:
         mov eax, dword [byte ebp+08h]
         add eax, dword [byte ebp+010h]
         sub eax, dword [DrawClipRight]
         jle short .12
         sub dword [byte ebp+010h], eax
-        jle short jpt_DEC90_DA
+        jle short FillRectExit
 .12:
         mov eax, dword [DrawClipTop]
         sub eax, dword [byte ebp+0Ch]
         jle short .13
         sub dword [byte ebp+014h], eax
-        jle short jpt_DEC90_DA
+        jle short FillRectExit
         mov eax, dword [DrawClipTop]
         mov dword [byte ebp+0Ch], eax
 .13:
@@ -1475,12 +1479,13 @@ FillRectJumpTable:
         LD sub, eax, ebx
         jle short XorRectCore_4
         sub dword [byte ebp+014h], eax
-        jle short jpt_DEC90_DA
+        jle short FillRectExit
         jmp short XorRectCore_4
 ;-----------------------------------------------------------------------------
-; jpt_DEC90_DA                                                         DED6A  
+; FillRectExit                                    DED6A  96 PC, low confidence
+; Rectangle fill exit
 ;-----------------------------------------------------------------------------
-jpt_DEC90_DA:
+FillRectExit:
         pop edi
         leave
         ret
@@ -1497,9 +1502,9 @@ XorRectCore_4:
         mov ebx, dword [byte ebp+014h]
         mov ecx, dword [byte ebp+010h]
         cmp ecx, byte 0
-        jle short jpt_DEC90_DA
+        jle short FillRectExit
         cmp ebx, byte 0
-        jle short jpt_DEC90_DA
+        jle short FillRectExit
         mov dl, byte [byte ebp+018h]
         LD mov, dh, dl
         LD mov, eax, edx

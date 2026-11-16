@@ -2078,6 +2078,7 @@ D3760,EmuLogOps,sub_D3760,new,medium,"x87 emulator: F2XM1, FYL2X, FPTAN, FPATAN 
 D386A,EmuRemOps,sub_D386A,new,medium,"x87 emulator: FPREM, FSQRT, FRNDINT, FSCALE, FSIN, FCOS group",src/lib/watcom/watcom_emu387.asm
 D3982,EmuFucompp,sub_D3982,new,medium,x87 emulator: FUCOMPP,src/lib/watcom/watcom_emu387.asm
 D3A0B,EmuDispatchDBReg,sub_D3A0B,new,medium,"x87 emulator: dispatches FCLEX, FINIT and the DB register group",src/lib/watcom/watcom_emu387.asm
+D3A3F,EmuFinit,,new,medium,"X87 emulator FINIT: resets control, status and tag words",src/lib/watcom/watcom_emu387.asm
 D3A65,EmuFaddToSt,sub_D3A65,new,medium,"x87 emulator: FADD st(i),st",src/lib/watcom/watcom_emu387.asm
 D3A7A,EmuFmulToSt,sub_D3A7A,new,medium,"x87 emulator: FMUL st(i),st",src/lib/watcom/watcom_emu387.asm
 D3A8F,EmuFsubrToSt,sub_D3A8F,new,medium,"x87 emulator: FSUBR st(i),st",src/lib/watcom/watcom_emu387.asm
@@ -2097,6 +2098,11 @@ D3CE8,EmuFsubp,sub_D3CE8,new,medium,"x87 emulator: FSUBP st(i),st",src/lib/watco
 D3D33,EmuFdivrp,sub_D3D33,new,medium,"x87 emulator: FDIVRP st(i),st",src/lib/watcom/watcom_emu387.asm
 D3D7E,EmuFdivp,sub_D3D7E,new,medium,"x87 emulator: FDIVP st(i),st",src/lib/watcom/watcom_emu387.asm
 D3DC9,EmuDispatchDFReg,sub_D3DC9,new,medium,x87 emulator: dispatches the DF register group (FSTSW AX),src/lib/watcom/watcom_emu387.asm
+D3DF1,EmuFpatan,,new,low,X87 emulator FPATAN,src/lib/watcom/watcom_emu387.asm
+D3E3A,EmuFxtract,,new,low,X87 emulator FXTRACT,src/lib/watcom/watcom_emu387.asm
+D3E9F,EmuFprem1,,new,low,X87 emulator FPREM1,src/lib/watcom/watcom_emu387.asm
+D3EC9,EmuFrndint,,new,low,X87 emulator FRNDINT,src/lib/watcom/watcom_emu387.asm
+D3EE1,EmuFscale,,new,low,X87 emulator FSCALE,src/lib/watcom/watcom_emu387.asm
 D3F62,EmuSub,sub_D3F62,new,low,x87 emulator: subtracts two extended values (adds with the sign flipped),src/lib/watcom/watcom_emu387.asm
 D3F70,EmuAdd,sub_D3F70,new,low,x87 emulator: adds two extended values,src/lib/watcom/watcom_emu387.asm
 D3F9A,AddExtRaw,sub_D3F9A,new,low,x87 emulator: adds two extended values without rounding,src/lib/watcom/watcom_emu387.asm
@@ -2329,6 +2335,7 @@ DE15C,PutPixel,sub_DE15C,new,low,"plots a pixel of a colour at x, y when it is i
 DE18C,PlotPixelClipped,sub_DE18C,new,low,plots one pixel when it lies inside the clip window,src/lib/video/vesa_banked_blit_02.asm
 DE247,BlitShapeClipped,sub_DE247,new,low,"stores a shape's position and copies it to the draw target, clipped (opaque)",src/lib/video/vesa_banked_blit_02.asm
 DE3D8,VesaSetBank,sub_DE3D8,new,low,switches the VESA bank window when the wanted bank differs,src/lib/video/vesa_banked_blit_02.asm
+DE41F,VesaSetBankBody,,new,low,sets the VESA bank when it changes,src/lib/video/vesa_banked_blit_02.asm
 DE44E,VesaSetMode,sub_DE44E,new,medium,"sets a VESA video mode (int 10h, 4F02h)",src/lib/video/vesa_banked_blit_02.asm
 DE45F,VgaSetModeTwice,sub_DE45F,new,low,"sets mode 12h without clearing, then the given video mode",src/lib/video/vesa_banked_blit_02.asm
 DE4C7,BlitBlock,sub_DE4C7,new,low,"copies a block to the draw target at x, y, clipped (opaque)",src/lib/video/vesa_banked_blit_02.asm
@@ -2338,6 +2345,7 @@ DE97C,AndPixel,sub_DE97C,new,low,"ANDs a pixel of the draw target with a mask, o
 DE9F3,BlitBlockOr,sub_DE9F3,new,low,"ORs a block onto the draw target at x, y, clipped",src/lib/video/vesa_banked_blit_02.asm
 DEB94,OrPixel,sub_DEB94,new,low,"ORs a pixel of the draw target with a mask, on a linear or banked screen",src/lib/video/vesa_banked_blit_02.asm
 DEC41,FillRectCore,sub_DEC41,new,low,clips a rectangle and fills it with a colour on the draw target,src/lib/video/vesa_banked_blit_02.asm
+DED6A,FillRectExit,,new,low,rectangle fill exit,src/lib/video/vesa_banked_blit_02.asm
 DED6D,XorRectCore,sub_DED6D,new,low,XORs a rectangle of the draw target with a colour,src/lib/video/vesa_banked_blit_02.asm
 DEE68,BlitFontNibbles,sub_DEE68,new,low,"draws 4-bit font pixels through the text colour table, two pixels a byte",src/lib/video/vesa_banked_blit_02.asm
 DEEE3,BlitArtOpaque,sub_DEEE3,new,low,"copies art opaque to the draw target, clipped",src/lib/video/vesa_banked_blit_02.asm
@@ -2412,7 +2420,10 @@ E0992,FillPolygonArgs,sub_E0992,new,low,fills a polygon whose points are passed 
 E09B8,FillPolygonCore,,new,low,fills a polygon through the span and band fill routines set by the caller,src/lib/input/input_joystick_misc_02.asm
 E0B9B,FillBandEdges,sub_E0B9B,new,low,fills the soft edge columns of a shaded band,src/lib/input/input_joystick_misc_02.asm
 E0C59,FillBandRows,sub_E0C59,new,low,fills the rows of a shaded band with its colour,src/lib/input/input_joystick_misc_02.asm
+E0CB2,FillBandRowsCases,,new,low,band row fill cases and early exit,src/lib/input/input_joystick_misc_02.asm
 E0D8B,FillBandRowsBlend,sub_E0D8B,new,low,"fills the rows of a shaded band, blending with what is under it",src/lib/input/input_joystick_misc_02.asm
+E0DF5,FillBandRowsBlendCases,,new,low,blended band row fill cases and early exit,src/lib/input/input_joystick_misc_02.asm
+E11C2,FillBandsFinish,,new,low,finishes a band fill,src/lib/input/input_joystick_misc_02.asm
 E14C8,vecdist,sub_E14C8,95PC,high,called at the same position as in NHL95PC in 4 routine(s) named in both: ShotLaneOpen,src/lib/input/input_joystick_misc_02.asm
 E1530,RemapPolygonCore,sub_E1530,new,low,darkens a polygon through the remap table,src/lib/input/input_joystick_misc_02.asm
 E1575,RemapPolygon,sub_E1575,new,low,darkens a polygon from a point list through the remap table,src/lib/input/input_joystick_misc_02.asm
@@ -2431,6 +2442,16 @@ E1956,RestoreDrawState,sub_E1956,new,medium,copies a saved drawing state back,sr
 E1970,FindFirstFile,sub_E1970,new,low,finds the first file matching a pattern and keeps its name for the next search,src/lib/ea/ea_fileio_02.asm
 E19F0,SetupRectFillBlend,sub_E19F0,new,low,sets up a rectangle fill with the blend flag set,src/lib/video/video_bios_vga_03.asm
 E19FE,SetupRectFill,sub_E19FE,new,medium,clips a rectangle and fills in its fill description,src/lib/video/video_bios_vga_03.asm
+E1BAF,RectFillClipTopCase,,new,low,"rectangle fill: returns zero, or clips the top",src/lib/video/video_bios_vga_03.asm
+E1CA0,RectFillClipBottom,,new,low,rectangle fill: clips the bottom,src/lib/video/video_bios_vga_03.asm
+E1D99,RectFillClipRight,,new,low,rectangle fill: clips the right,src/lib/video/video_bios_vga_03.asm
+E1EEE,RectFillClassify,,new,low,rectangle fill: sets the clip flags,src/lib/video/video_bios_vga_03.asm
+E1F7E,RectFillStep,,new,low,rectangle fill: runs the step for the fill mode,src/lib/video/video_bios_vga_03.asm
+E20CF,RectFillCheckBottom,,new,low,rectangle fill: checks the bottom clip flag,src/lib/video/video_bios_vga_03.asm
+E20DD,RectFillClipFlags,,new,low,rectangle fill: works out the clip flags,src/lib/video/video_bios_vga_03.asm
+E2136,RectFillCheckRight,,new,low,rectangle fill: checks the right clip flag,src/lib/video/video_bios_vga_03.asm
+E2149,RectFillPickMode,,new,low,rectangle fill: picks the fill mode,src/lib/video/video_bios_vga_03.asm
+E2208,RectFillHalveCoords,,new,low,rectangle fill: halves the coordinates,src/lib/video/video_bios_vga_03.asm
 E22DC,DispatchHotkey,sub_E22DC,new,medium,looks up the handler registered for a key (ASCII or extended scan code) and calls it,src/lib/video/video_bios_vga_03.asm
 E2335,SetHotkey,sub_E2335,new,low,"sets the routine run for a hotkey, adding it to the hotkey list",src/lib/video/video_bios_vga_03.asm
 E2436,PrintfSaveRegs,sub_E2436,new,low,calls printf keeping the registers it would change,src/lib/video/video_bios_vga_03.asm

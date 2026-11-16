@@ -11,8 +11,8 @@ extern TickWaitTarget, FractionRowCount, joyenablemask, SoundOnHook, SoundOffHoo
 extern MusicToggleHook, FractionRowTable, printf_, sprintf_, ClearScreenColour, ShowMessageBox, ReadJoystickPorts, AddExitHandler
 extern SavedTextColumns
 global SetupRectFillJumpTable, RectFillClipLeftJumpTable, RectFillClipBottomJumpTable, RectFillClipRightJumpTable, RectFillStepJumpTable, SetupRectFill_C, SetupRectFill_5A, SetupRectFill_164
-global jpt_E1B6F_40, jpt_E1BCE_D2, jpt_E1CBA_DF, jpt_E1DA4_14A, jpt_E1DA4_1DA, jpt_E1F8A_145, jpt_E1F8A_153, jpt_E1F8A_1AC
-global jpt_E1F8A_1BF, jpt_E1F8A_27E, SetHotkey_5B, SetHotkey_81, SetupRectFillBlend, SetupRectFill, DispatchHotkey, SetHotkey
+global RectFillClipTopCase, RectFillClipBottom, RectFillClipRight, RectFillClassify, RectFillStep, RectFillCheckBottom, RectFillClipFlags, RectFillCheckRight
+global RectFillPickMode, RectFillHalveCoords, SetHotkey_5B, SetHotkey_81, SetupRectFillBlend, SetupRectFill, DispatchHotkey, SetHotkey
 global PrintfSaveRegs, SaveTextMode, RestoreTextMode, AngleFromDelta, SinLookup, CosLookup, DebugLineCount, ReadKeyPadBits
 global SinCosLookup, AngleFromDeltaJumpTable
 ;-----------------------------------------------------------------------------
@@ -66,7 +66,7 @@ SetupRectFill_C:
         mov dword [byte esi+014h], eax
 .2:
         jne short SetupRectFill_5A
-        jmp near jpt_E1F8A_1BF
+        jmp near RectFillPickMode
 SetupRectFill_5A:
         LD xor, edx, edx
         cmp byte [byte ebp-05h], 0
@@ -77,7 +77,7 @@ SetupRectFill_5A:
         LD cmp, eax, ecx
         jl short .3
         mov dl, 8
-        jmp near jpt_E1DA4_14A
+        jmp near RectFillClassify
 .3:
         LD cmp, eax, ebx
         jge short .4
@@ -87,7 +87,7 @@ SetupRectFill_5A:
         LD cmp, eax, ebx
         jge short .5
         mov dl, 4
-        jmp near jpt_E1DA4_14A
+        jmp near RectFillClassify
 .5:
         LD cmp, eax, ecx
         jl short .6
@@ -116,7 +116,7 @@ SetupRectFill_5A:
         test dh, dl
         je short .11
         LD and, dl, dh
-        jmp near jpt_E1DA4_14A
+        jmp near RectFillClassify
 .11:
         LD or, dl, dh
         movzx edx, dl
@@ -125,7 +125,7 @@ SetupRectFill_5A:
         sub ecx, dword [byte esi+0Ch]
         jno short .13
 .12:
-        jmp near jpt_E1F8A_27E
+        jmp near RectFillHalveCoords
 .13:
         mov edx, dword [byte esi+010h]
         sub edx, dword [byte esi+04h]
@@ -188,29 +188,30 @@ SetupRectFill_5A:
         mov dword [byte esi+018h], ecx
 SetupRectFill_164:
         mov ebx, dword [byte ebp-04h]
-        je short jpt_E1B6F_40
+        je short RectFillClipTopCase
         jmp dword [nosplit cs:ebx*4+SetupRectFillJumpTable]
 SetupRectFillJumpTable:
-        dd jpt_E1B6F_40
-        dd jpt_E1DA4_1DA
-        dd jpt_E1CBA_DF
-        dd jpt_E1CBA_DF
-        dd jpt_E1B6F_40.1
-        dd jpt_E1B6F_40.1
-        dd jpt_E1B6F_40.1
-        dd jpt_E1B6F_40.1
-        dd jpt_E1BCE_D2
-        dd jpt_E1BCE_D2
-        dd jpt_E1BCE_D2
-        dd jpt_E1BCE_D2
-        dd jpt_E1B6F_40.1
-        dd jpt_E1B6F_40.1
-        dd jpt_E1B6F_40.1
-        dd jpt_E1B6F_40.1
+        dd RectFillClipTopCase
+        dd RectFillStep
+        dd RectFillClipRight
+        dd RectFillClipRight
+        dd RectFillClipTopCase.1
+        dd RectFillClipTopCase.1
+        dd RectFillClipTopCase.1
+        dd RectFillClipTopCase.1
+        dd RectFillClipBottom
+        dd RectFillClipBottom
+        dd RectFillClipBottom
+        dd RectFillClipBottom
+        dd RectFillClipTopCase.1
+        dd RectFillClipTopCase.1
+        dd RectFillClipTopCase.1
+        dd RectFillClipTopCase.1
 ;-----------------------------------------------------------------------------
-; jpt_E1B6F_40                                                         E1BAF  
+; RectFillClipTopCase                             E1BAF  96 PC, low confidence
+; Rectangle fill: returns zero, or clips the top
 ;-----------------------------------------------------------------------------
-jpt_E1B6F_40:
+RectFillClipTopCase:
         LD xor, eax, eax
         pop edi
         pop esi
@@ -234,29 +235,29 @@ RectFillClipLeftJumpTable:
         dd .8
 .1:
         sub dword [byte esi+018h], ecx
-        jmp near jpt_E1F8A_145
+        jmp near RectFillCheckBottom
 .2:
         sub dword [byte esi+04h], ecx
         sub dword [byte esi+018h], ecx
-        jmp near jpt_E1F8A_145
+        jmp near RectFillCheckBottom
 .3:
         add dword [byte esi+04h], ecx
         sub dword [byte esi+018h], ecx
-        jmp near jpt_E1F8A_145
+        jmp near RectFillCheckBottom
 .4:
         mov eax, dword [byte esi+030h]
         mul ecx
         sub dword [esi], eax
         sbb dword [byte esi+04h], edx
         sub dword [byte esi+018h], ecx
-        jmp near jpt_E1F8A_145
+        jmp near RectFillCheckBottom
 .5:
         mov eax, dword [byte esi+030h]
         mul ecx
         add dword [esi], eax
         adc dword [byte esi+04h], edx
         sub dword [byte esi+018h], ecx
-        jmp near jpt_E1F8A_145
+        jmp near RectFillCheckBottom
 .6:
         mov dword [byte esi+0Ch], eax
         LD mov, edx, ecx
@@ -272,14 +273,14 @@ RectFillClipLeftJumpTable:
         mul dword [byte esi+030h]
         add dword [byte esi+08h], eax
         adc dword [byte esi+0Ch], edx
-        jmp near jpt_E1F8A_145
+        jmp near RectFillCheckBottom
 .7:
         mov dword [byte esi+018h], 1
         mov eax, dword [DrawClipTop]
         mov dword [byte esi+0Ch], eax
         mov eax, dword [byte esi+010h]
         mov dword [byte esi+04h], eax
-        jmp near jpt_E1F8A_145
+        jmp near RectFillCheckBottom
 .8:
         mov dword [byte esi+0Ch], eax
         LD mov, edx, ecx
@@ -295,11 +296,12 @@ RectFillClipLeftJumpTable:
         mul dword [byte esi+030h]
         add dword [byte esi+08h], eax
         adc dword [byte esi+0Ch], edx
-        jmp near jpt_E1F8A_145
+        jmp near RectFillCheckBottom
 ;-----------------------------------------------------------------------------
-; jpt_E1BCE_D2                                                         E1CA0  
+; RectFillClipBottom                              E1CA0  96 PC, low confidence
+; Rectangle fill: clips the bottom
 ;-----------------------------------------------------------------------------
-jpt_E1BCE_D2:
+RectFillClipBottom:
         mov ecx, dword [byte esi+014h]
         mov edx, dword [DrawClipBottom]
         dec edx
@@ -318,15 +320,15 @@ RectFillClipBottomJumpTable:
         dd .9
 .1:
         sub dword [byte esi+018h], ecx
-        jmp near jpt_E1F8A_153
+        jmp near RectFillClipFlags
 .2:
         add dword [byte esi+010h], ecx
         sub dword [byte esi+018h], ecx
-        jmp near jpt_E1F8A_153
+        jmp near RectFillClipFlags
 .3:
         sub dword [byte esi+010h], ecx
         sub dword [byte esi+018h], ecx
-        jmp near jpt_E1F8A_153
+        jmp near RectFillClipFlags
 .4:
         mov edx, dword [byte esi+018h]
         LD sub, edx, ecx
@@ -341,7 +343,7 @@ RectFillClipBottomJumpTable:
         add ebx, 80000000h
         adc ecx, byte 0
         mov dword [byte esi+010h], ecx
-        jmp near jpt_E1F8A_153
+        jmp near RectFillClipFlags
 .5:
         mov edx, dword [byte esi+018h]
         LD sub, edx, ecx
@@ -354,7 +356,7 @@ RectFillClipBottomJumpTable:
         add eax, 80000000h
         adc edx, byte 0
         mov dword [byte esi+010h], edx
-        jmp near jpt_E1F8A_153
+        jmp near RectFillClipFlags
 .6:
         LD xor, eax, eax
         sub eax, dword [byte esi+08h]
@@ -371,7 +373,7 @@ RectFillClipBottomJumpTable:
         mov dword [byte esi+010h], edx
         inc eax
         mov dword [byte esi+018h], eax
-        jmp near jpt_E1F8A_153
+        jmp near RectFillClipFlags
 .8:
         LD xor, eax, eax
         jmp short .7
@@ -390,11 +392,12 @@ RectFillClipBottomJumpTable:
         mov dword [byte esi+010h], edx
         inc eax
         mov dword [byte esi+018h], eax
-        jmp near jpt_E1F8A_153
+        jmp near RectFillClipFlags
 ;-----------------------------------------------------------------------------
-; jpt_E1CBA_DF                                                         E1D99  
+; RectFillClipRight                               E1D99  96 PC, low confidence
+; Rectangle fill: clips the right
 ;-----------------------------------------------------------------------------
-jpt_E1CBA_DF:
+RectFillClipRight:
         mov bl, byte [byte esi+034h]
         jmp dword [nosplit cs:ebx*4+RectFillClipRightJumpTable]
 RectFillClipRightJumpTable:
@@ -414,7 +417,7 @@ RectFillClipRightJumpTable:
         add dword [byte esi+024h], ecx
         sub dword [byte esi+018h], ecx
         sub dword [byte esi+014h], ecx
-        jmp near jpt_E1F8A_1AC
+        jmp near RectFillCheckRight
 .2:
         mov eax, dword [byte esi+04h]
         mov ecx, dword [DrawClipLeft]
@@ -423,7 +426,7 @@ RectFillClipRightJumpTable:
         add dword [byte esi+020h], ecx
         add dword [byte esi+0Ch], ecx
         sub dword [byte esi+018h], ecx
-        jmp near jpt_E1F8A_1AC
+        jmp near RectFillCheckRight
 .3:
         mov eax, dword [esi]
         mov edx, dword [byte esi+04h]
@@ -445,7 +448,7 @@ RectFillClipRightJumpTable:
         dec eax
         add eax, dword [byte esi+0Ch]
         mov dword [byte esi+014h], eax
-        jmp near jpt_E1F8A_1AC
+        jmp near RectFillCheckRight
 .5:
         mov eax, 1
         jmp short .4
@@ -467,7 +470,7 @@ RectFillClipRightJumpTable:
         mul dword [byte esi+030h]
         add dword [esi], eax
         adc dword [byte esi+04h], edx
-        jmp near jpt_E1F8A_1AC
+        jmp near RectFillCheckRight
 .7:
         jmp short .10
 .8:
@@ -487,7 +490,7 @@ RectFillClipRightJumpTable:
         LD sub, eax, edx
         mov dword [byte esi+014h], edx
         add dword [byte esi+024h], eax
-        jmp near jpt_E1F8A_1AC
+        jmp near RectFillCheckRight
 .9:
         mov ecx, dword [byte esi+04h]
         mov eax, dword [DrawClipLeft]
@@ -507,10 +510,14 @@ RectFillClipRightJumpTable:
         adc edx, byte 0
         LD sub, edx, ecx
         add dword [byte esi+020h], edx
-        jmp near jpt_E1F8A_1AC
+        jmp near RectFillCheckRight
 .10:
         mov edx, 2
-jpt_E1DA4_14A:
+;-----------------------------------------------------------------------------
+; RectFillClassify                                E1EEE  96 PC, low confidence
+; Rectangle fill: sets the clip flags
+;-----------------------------------------------------------------------------
+RectFillClassify:
         mov byte [byte esi+035h], dl
         mov dword [byte esi+018h], 0
         mov al, byte [byte esi+035h]
@@ -563,9 +570,10 @@ jpt_E1DA4_14A:
         leave
         ret
 ;-----------------------------------------------------------------------------
-; jpt_E1DA4_1DA                                                        E1F7E  
+; RectFillStep                                    E1F7E  96 PC, low confidence
+; Rectangle fill: runs the step for the fill mode
 ;-----------------------------------------------------------------------------
-jpt_E1DA4_1DA:
+RectFillStep:
         movzx ebx, byte [byte esi+034h]
         jmp dword [nosplit cs:ebx*4+RectFillStepJumpTable]
 RectFillStepJumpTable:
@@ -579,7 +587,7 @@ RectFillStepJumpTable:
         dd .7
 .1:
         mov edx, 1
-        jmp near jpt_E1DA4_14A
+        jmp near RectFillClassify
 .2:
         mov ecx, dword [byte esi+04h]
         mov eax, dword [DrawClipRight]
@@ -589,7 +597,7 @@ RectFillStepJumpTable:
         add dword [byte esi+0Ch], ecx
         sub dword [byte esi+018h], ecx
         add dword [byte esi+028h], ecx
-        jmp near jpt_E1B6F_40
+        jmp near RectFillClipTopCase
 .3:
         mov ecx, dword [DrawClipRight]
         dec ecx
@@ -599,7 +607,7 @@ RectFillStepJumpTable:
         add dword [byte esi+02Ch], eax
         sub dword [byte esi+018h], eax
         sub dword [byte esi+014h], eax
-        jmp near jpt_E1B6F_40
+        jmp near RectFillClipTopCase
 .4:
         mov eax, dword [esi]
         mov edx, dword [byte esi+04h]
@@ -617,7 +625,7 @@ RectFillStepJumpTable:
         mul dword [byte esi+030h]
         sub dword [esi], eax
         sbb dword [byte esi+04h], edx
-        jmp near jpt_E1B6F_40
+        jmp near RectFillClipTopCase
 .5:
         mov edx, dword [DrawClipRight]
         dec edx
@@ -639,7 +647,7 @@ RectFillStepJumpTable:
         dec eax
         add eax, dword [byte esi+0Ch]
         mov dword [byte esi+014h], eax
-        jmp near jpt_E1B6F_40
+        jmp near RectFillClipTopCase
 .6:
         mov eax, dword [byte esi+04h]
         mov ecx, dword [DrawClipRight]
@@ -660,7 +668,7 @@ RectFillStepJumpTable:
         adc edx, byte 0
         LD sub, edx, ecx
         add dword [byte esi+028h], edx
-        jmp near jpt_E1B6F_40
+        jmp near RectFillClipTopCase
 .7:
         mov eax, dword [DrawClipRight]
         LD mov, ecx, eax
@@ -678,18 +686,20 @@ RectFillStepJumpTable:
         LD sub, eax, edx
         mov dword [byte esi+014h], edx
         add dword [byte esi+02Ch], eax
-        jmp near jpt_E1B6F_40
+        jmp near RectFillClipTopCase
 ;-----------------------------------------------------------------------------
-; jpt_E1F8A_145                                                        E20CF  
+; RectFillCheckBottom                             E20CF  96 PC, low confidence
+; Rectangle fill: checks the bottom clip flag
 ;-----------------------------------------------------------------------------
-jpt_E1F8A_145:
+RectFillCheckBottom:
         test dword [byte ebp-04h], 8
-        je short jpt_E1F8A_153
-        jmp near jpt_E1BCE_D2
+        je short RectFillClipFlags
+        jmp near RectFillClipBottom
 ;-----------------------------------------------------------------------------
-; jpt_E1F8A_153                                                        E20DD  
+; RectFillClipFlags                               E20DD  96 PC, low confidence
+; Rectangle fill: works out the clip flags
 ;-----------------------------------------------------------------------------
-jpt_E1F8A_153:
+RectFillClipFlags:
         LD xor, edx, edx
         mov eax, dword [byte esi+04h]
         cmp eax, dword [DrawClipLeft]
@@ -715,26 +725,28 @@ jpt_E1F8A_153:
         test dh, dl
         je short .12
         LD and, dl, dh
-        jmp near jpt_E1DA4_14A
+        jmp near RectFillClassify
 .12:
         LD or, dl, dh
-        je short jpt_E1F8A_1AC.13
+        je short RectFillCheckRight.13
         movzx edx, dl
         mov dword [byte ebp-04h], edx
         jmp near SetupRectFill_164
 ;-----------------------------------------------------------------------------
-; jpt_E1F8A_1AC                                                        E2136  
+; RectFillCheckRight                              E2136  96 PC, low confidence
+; Rectangle fill: checks the right clip flag
 ;-----------------------------------------------------------------------------
-jpt_E1F8A_1AC:
+RectFillCheckRight:
         test dword [byte ebp-04h], 1
         je short .13
-        jmp near jpt_E1DA4_1DA
+        jmp near RectFillStep
 .13:
-        jmp near jpt_E1B6F_40
+        jmp near RectFillClipTopCase
 ;-----------------------------------------------------------------------------
-; jpt_E1F8A_1BF                                                        E2149  
+; RectFillPickMode                                E2149  96 PC, low confidence
+; Rectangle fill: picks the fill mode
 ;-----------------------------------------------------------------------------
-jpt_E1F8A_1BF:
+RectFillPickMode:
         mov byte [byte esi+034h], 1
         LD cmp, ecx, edx
         jne short .14
@@ -766,7 +778,7 @@ jpt_E1F8A_1BF:
         LD sub, edx, ecx
         inc edx
         mov dword [byte esi+018h], edx
-        jmp near jpt_E1B6F_40
+        jmp near RectFillClipTopCase
 .18:
         mov ebx, dword [DrawClipBottom]
         LD cmp, eax, ebx
@@ -809,11 +821,12 @@ jpt_E1F8A_1BF:
         sub dword [byte esi+018h], eax
         mov dword [byte esi+010h], ebx
 .23:
-        jmp near jpt_E1B6F_40
+        jmp near RectFillClipTopCase
 ;-----------------------------------------------------------------------------
-; jpt_E1F8A_27E                                                        E2208  
+; RectFillHalveCoords                             E2208  96 PC, low confidence
+; Rectangle fill: halves the coordinates
 ;-----------------------------------------------------------------------------
-jpt_E1F8A_27E:
+RectFillHalveCoords:
         mov ecx, dword [byte esi+014h]
         sar ecx, 1
         mov eax, dword [byte esi+0Ch]

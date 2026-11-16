@@ -7,8 +7,8 @@ extern AdpcmLeftSample, AdpcmRightSample, AdpcmLeftIndex, AdpcmRightIndex, EmuOp
 extern Hook387Save, EmuZeroTbyte, EmuRegRing, EmuRegLastSlot, EmuRegSlots, EmuRegTagMasks
 extern EmuCompareCcBits, EmuFpremCcBits, EmuEaModRmTable, EmuEaSibTable
 global __hook387, __init_80x87, __unhook387, EmuDispatchD9RegJumpTable, EmuFtstFxamJumpTable, EmuSignOpsJumpTable, EmuLogOpsJumpTable, EmuRemOpsJumpTable
-global EmuFucomppJumpTable, EmuDispatchDBRegJumpTable, EmuFcomppJumpTable, EmuDispatchDFRegJumpTable, RoundToDouble_32, RoundToDouble_49, RoundToDouble_84, jpt_D3A13_2C
-global jpt_D3DD1_20, jpt_D3DD1_69, jpt_D3DD1_CE, jpt_D3DD1_F8, jpt_D3DD1_110, EmuAdd_7, Emu387LdToInt_3, Emu387IntToLd_8
+global EmuFucomppJumpTable, EmuDispatchDBRegJumpTable, EmuFcomppJumpTable, EmuDispatchDFRegJumpTable, RoundToDouble_32, RoundToDouble_49, RoundToDouble_84, EmuFinit
+global EmuFpatan, EmuFxtract, EmuFprem1, EmuFrndint, EmuFscale, EmuAdd_7, Emu387LdToInt_3, Emu387IntToLd_8
 global EmuTan_E, EmuTrapExit, RoundToSingle, RoundToDouble, RaiseFpuError, EaEax, EaEcx, EaEdx
 global EaEbx, EaEsp, EaDisp32, EaEsi, EaEdi, EaEaxDisp8, EaEcxDisp8, EaEdxDisp8
 global EaEbxDisp8, EaEspDisp8, EaEbpDisp8, EaEsiDisp8, EaEdiDisp8, EaEaxDisp32, EaEcxDisp32, EaEdxDisp32
@@ -1085,7 +1085,7 @@ EmuFsave:
         movzx ebx, word [dword cs:ebx+EmuRegRing]
         loop .1
         LD mov, edi, ebx
-        jmp near jpt_D3A13_2C
+        jmp near EmuFinit
 ;-----------------------------------------------------------------------------
 ; EmuFstswM16                                  D3154  96 PC, medium confidence
 ; X87 emulator: FSTSW m16
@@ -1595,9 +1595,9 @@ EmuLogOpsJumpTable:
         dd .1
         dd .2
         dd .3
-        dd jpt_D3DD1_20
-        dd jpt_D3DD1_69
-        dd jpt_D3DD1_CE
+        dd EmuFpatan
+        dd EmuFxtract
+        dd EmuFprem1
         dd .4
         dd .5
 .1:
@@ -1655,8 +1655,8 @@ EmuRemOpsJumpTable:
         dd .2
         dd .3
         dd .4
-        dd jpt_D3DD1_F8
-        dd jpt_D3DD1_110
+        dd EmuFrndint
+        dd EmuFscale
         dd .5
         dd .6
 .1:
@@ -1758,7 +1758,7 @@ EmuDispatchDBRegJumpTable:
         dd EmuReservedOp
         dd EmuReservedOp
         dd .1
-        dd jpt_D3A13_2C
+        dd EmuFinit
         dd EmuReservedOp
         dd EmuReservedOp
         dd EmuReservedOp
@@ -1767,9 +1767,10 @@ EmuDispatchDBRegJumpTable:
         and word [byte ds:ebp+04h], 7F00h
         jmp near EmuTrapExit
 ;-----------------------------------------------------------------------------
-; jpt_D3A13_2C                                                         D3A3F  
+; EmuFinit                                     D3A3F  96 PC, medium confidence
+; X87 emulator FINIT: resets control, status and tag words
 ;-----------------------------------------------------------------------------
-jpt_D3A13_2C:
+EmuFinit:
         mov word [byte ds:ebp+00h], 33Fh
         mov word [byte ds:ebp+04h], 0
         mov word [byte ds:ebp+08h], 0FFFFh
@@ -2042,7 +2043,7 @@ EmuFdivp:
 EmuDispatchDFReg:
         jmp dword [nosplit cs:ebx*4+EmuDispatchDFRegJumpTable]
 EmuDispatchDFRegJumpTable:
-        dd jpt_D3DD1_110.6
+        dd EmuFscale.6
         dd EmuReservedOp
         dd EmuReservedOp
         dd EmuReservedOp
@@ -2051,9 +2052,10 @@ EmuDispatchDFRegJumpTable:
         dd EmuReservedOp
         dd EmuReservedOp
 ;-----------------------------------------------------------------------------
-; jpt_D3DD1_20                                                         D3DF1  
+; EmuFpatan                                       D3DF1  96 PC, low confidence
+; X87 emulator FPATAN
 ;-----------------------------------------------------------------------------
-jpt_D3DD1_20:
+EmuFpatan:
         lea edx, [byte edi+ebp+01Ch]
         mov bx, word [dword cs:edi+EmuRegTagMasks]
         and word [byte ds:ebp+08h], bx
@@ -2068,9 +2070,10 @@ jpt_D3DD1_20:
         call EmuRemainder
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
-; jpt_D3DD1_69                                                         D3E3A  
+; EmuFxtract                                      D3E3A  96 PC, low confidence
+; X87 emulator FXTRACT
 ;-----------------------------------------------------------------------------
-jpt_D3DD1_69:
+EmuFxtract:
         lea esi, [byte edi+ebp+01Ch]
         movzx edi, word [dword cs:edi+EmuRegLastSlot]
         mov bx, word [dword cs:edi+EmuRegSlots]
@@ -2095,9 +2098,10 @@ jpt_D3DD1_69:
         call StoreM32Int
         jmp near EmuTrapExit
 ;-----------------------------------------------------------------------------
-; jpt_D3DD1_CE                                                         D3E9F  
+; EmuFprem1                                       D3E9F  96 PC, low confidence
+; X87 emulator FPREM1
 ;-----------------------------------------------------------------------------
-jpt_D3DD1_CE:
+EmuFprem1:
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte esi+ebp+01Ch]
         call EmuRoundInt
@@ -2108,18 +2112,20 @@ jpt_D3DD1_CE:
         mov word [byte ds:ebp+04h], dx
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
-; jpt_D3DD1_F8                                                         D3EC9  
+; EmuFrndint                                      D3EC9  96 PC, low confidence
+; X87 emulator FRNDINT
 ;-----------------------------------------------------------------------------
-jpt_D3DD1_F8:
+EmuFrndint:
         lea eax, [byte edi+ebp+01Ch]
         mov dx, word [byte ds:ebp+00h]
         and dx, 0C00h
         call ExtToInt
         jmp near EmuTrapExit
 ;-----------------------------------------------------------------------------
-; jpt_D3DD1_110                                                        D3EE1  
+; EmuFscale                                       D3EE1  96 PC, low confidence
+; X87 emulator FSCALE
 ;-----------------------------------------------------------------------------
-jpt_D3DD1_110:
+EmuFscale:
         LD mov, esi, edi
         movzx edi, word [dword cs:edi+EmuRegRing]
         lea eax, [byte edi+ebp+01Ch]

@@ -35,8 +35,8 @@ extern energywarn, fadeinpending, forceteams, fox, foy, fputchar, gameopts, gmod
 extern hmroster, introskipped, lastplayer, lcblink, lcboxon, lcline, lseek_, off_11D3DC
 extern open_, passplayer, penshotlive, penshotmode, penshotplayer, penshotstart, printf_, puckx
 extern pucky, qsort_, read_, regd2, rmdir_, shotongoal, shotontarget, sprintf_
-extern srand_, strcat_, strcmp_, strcpy_, stricmp_, strlen_, strncpy_, sub_10095
-extern sub_1124D, sub_13288, sub_168FA, sub_1779C, sub_1780A, sub_17887, sub_178C0, sub_17B9A
+extern srand_, strcat_, strcmp_, strcpy_, stricmp_, strlen_, strncpy_, InitInputDevices
+extern LoadGripLibrary, sub_13288, sub_168FA, sub_1779C, sub_1780A, sub_17887, sub_178C0, sub_17B9A
 extern sub_17CC8, sub_17E8C, sub_17EE1, sub_1807B, sub_18090, sub_180DC, sub_1812E, sub_18165
 extern sub_18234, sub_2090F, sub_2A52F, sub_2CB9D, StartPreGame, SetSPA, ResetClock, GameOver
 extern StartGame, BuildDefaultLines, sub_57F0A, sub_583B8, sub_6215A, sub_625F7, sub_62ED9, sub_63076
@@ -3953,7 +3953,7 @@ sub_1B3AC:
         push edx
         push edi
         call sub_DFA98
-        call sub_1124D
+        call LoadGripLibrary
         push dword 0A0000h
         push dword 1000000h
         push dword 0C8h
@@ -4060,7 +4060,7 @@ sub_1B4D2:
         mov dword [dword_11F61C], 0
         call sub_ADA50
         add esp, byte 4
-        call sub_10095
+        call InitInputDevices
         call ReadGlobalSet
         test eax, eax
         jne short .2

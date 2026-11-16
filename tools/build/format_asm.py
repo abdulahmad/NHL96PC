@@ -243,6 +243,33 @@ def add_headers(path, srcs):
     return True
 
 
+def drop_stale_headers(path, srcs):
+    """--refresh (after renames): take out a header that has no description of its own, or whose name line no
+    longer names the label under it, so add_headers writes it again from docs/name_map.csv. A header with a
+    description keeps it."""
+    L = open(path, encoding='latin1').read().split('\n')
+    out = []; k = 0; changed = False
+    while k < len(L):
+        if L[k] == RULE and k + 1 < len(L) and L[k + 1].startswith('; '):
+            j = k + 2
+            while j < len(L) and L[j].startswith(';') and L[j] != RULE: j += 1
+            if j < len(L) and L[j] == RULE:
+                nm = L[k + 1][2:].split()[0] if L[k + 1][2:].split() else ''
+                below = next((x for x in L[j + 1:j + 6] if re.match(r'^[A-Za-z_][\w$?@]*:', x)), '')
+                lab = below.split(':')[0]
+                if j == k + 2 or (lab and nm != lab):
+                    desc = L[k + 2:j]
+                    if desc and lab:
+                        m = re.match(r'^; \S+\s+([0-9A-F]{5,6}\s.*)$', L[k + 1])
+                        right = m.group(1) if m else ''
+                        head = '; ' + lab
+                        out += [RULE, head + ' ' * max(2, 78 - len(head) - len(right)) + right] + desc + [RULE]
+                    changed = True; k = j + 1; continue
+        out.append(L[k]); k += 1
+    if changed: open(path, 'w', encoding='latin1').write('\n'.join(out))
+    return changed
+
+
 def files(args):
     return [os.path.abspath(a) for a in args] if args else asmaddr.asm_files()
 
@@ -272,8 +299,12 @@ def main(argv):
         sys.exit(0 if verify(argv[1] if len(argv) > 1 else 'HEAD') else 1)
     if argv[:1] == ['--headers']:
         srcs = name_sources()
+        refresh = '--refresh' in argv
+        argv = [a for a in argv if a != '--refresh']
         fs = files(argv[1:]) if argv[1:] else [f for f in asmaddr.asm_files()
                                                  if os.path.relpath(f, asmaddr.SRC).split(os.sep)[0] in GAME_DIRS]
+        if refresh:
+            for f in fs: drop_stale_headers(f, srcs)
         n = sum(add_headers(f, srcs) for f in fs)
         print('headers: %d files' % n); return
     check = '--check' in argv

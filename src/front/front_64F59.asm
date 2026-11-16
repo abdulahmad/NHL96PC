@@ -12,7 +12,7 @@ extern dword_17BD48, dword_17C3E4, dword_17C3E8, dword_17C3EC, dword_17C3F0, dwo
 extern dword_17C400, dword_17C404, dword_17C408, dword_17C40C, dword_17C410, dword_17C414, dword_17C418, dword_17C41C
 extern dword_17C420, dword_17C424, dword_17C428, dword_17C42C, dword_17C430, dword_17C434, dword_17C438, dword_17C43C
 extern dword_17C440, dword_17C448, dword_17C44C, dword_17C450, dword_17C454, dword_17C45C, dword_17C460, optflags
-extern sprintf_, sub_10010, sub_1290C, sub_193E8, sub_19522, sub_1A109, sub_1E5FC, sub_1E7F6
+extern sprintf_, GetInputDevices, sub_1290C, sub_193E8, sub_19522, sub_1A109, sub_1E5FC, sub_1E7F6
 extern sub_62AF7, sub_62D9B, sub_62E0E, sub_62F90, sub_63968, sub_63998, sub_63A5B, sub_63B0C
 extern sub_64721, sub_64776, sub_68AB1, sub_68BFA, sub_68C33, sub_68C8F, sub_68E31, sub_69A94
 extern sub_69A9B, sub_77355, sub_AA7E0, sub_AAA40, PutBlock, sub_AADA4, sub_ABF4C, sub_AD35C
@@ -1966,7 +1966,7 @@ sub_66589_F3:
         push dword [dword ebp-040Ah]
         call sub_AAA40
         add esp, byte 0Ch
-        call sub_10010
+        call GetInputDevices
         call sub_68C8F
         test eax, eax
         jne short .8

@@ -2,18 +2,18 @@
 ; Every label that one src/ file references in another: address, name, defining file, number of users.
 ; The files declare their own global/extern lists; tools/build/link_src.py resolves them by name.
 ;  10003  ___begtext                               lib/watcom/watcom_begtext.asm                1
-;  10010  sub_10010                                front/front_10010.asm                        6
-;  10095  sub_10095                                front/front_10010.asm                        2
+;  10010  GetInputDevices                          front/front_10010.asm                        6
+;  10095  InitInputDevices                         front/front_10010.asm                        2
 ;  108BB  InitSlotTable                            front/front_10010.asm                        3
-;  10A65  sub_10A65                                front/front_10010.asm                        3
+;  10A65  ResetInputSlots                          front/front_10010.asm                        3
 ;  10AF1  PollControllers                          front/front_10010.asm                        1
-;  10C9B  sub_10C9B                                front/front_10010.asm                        1
-;  10D17  sub_10D17                                front/front_10010.asm                        4
-;  1118B  sub_1118B                                front/front_10010.asm                        1
-;  111ED  sub_111ED                                front/front_10010.asm                        1
-;  1124D  sub_1124D                                front/front_10010.asm                        1
-;  11589  sub_11589                                front/front_10010.asm                        1
-;  11A88  sub_11A88                                front/front_10010.asm                        2
+;  10C9B  ResetSlotButtons                         front/front_10010.asm                        1
+;  10D17  GetPressedDevice                         front/front_10010.asm                        4
+;  1118B  SetGripButtonMap                         front/front_10010.asm                        1
+;  111ED  GetGripButtonMap                         front/front_10010.asm                        1
+;  1124D  LoadGripLibrary                          front/front_10010.asm                        1
+;  11589  GripReadSlots                            front/front_10010.asm                        1
+;  11A88  ReadJoystickBits                         front/front_10010.asm                        2
 ;  122A6  sub_122A6                                front/front_10010.asm                        1
 ;  125FF  sub_125FF                                front/front_10010.asm                        1
 ;  126E9  sub_126E9                                front/front_10010.asm                        1

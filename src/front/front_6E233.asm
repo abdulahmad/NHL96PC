@@ -8,7 +8,7 @@ extern str_P2G, byte_11FA2F, dword_1150D8, dword_11D910, dword_11D914, dword_11D
 extern dword_11D954, dword_11DED0, dword_11DED4, dword_11DF70, dword_11DF74, dword_11DF78, dword_11DF7C, mousex
 extern mousey, dword_17BC74, dword_17BC78, dword_17BC7C, dword_17BCE2, dword_17BD48, optflags, dword_17CBE7
 extern dword_17D162, dword_17D267, dword_17D564, dword_17D580, dword_17D584, dword_17D588, dword_1843AC, dword_1843B0
-extern dword_1843B4, fputchar, gameopts, sub_6CF0D_6, sprintf_, sub_10010, sub_13146, sub_131EC
+extern dword_1843B4, fputchar, gameopts, sub_6CF0D_6, sprintf_, GetInputDevices, sub_13146, sub_131EC
 extern sub_1377E, sub_1B05E, sub_1E7F6, sub_2A502, sub_62A0F, sub_62AF7, sub_62D9B, sub_62E0E
 extern sub_62E72, sub_62F90, sub_63968, sub_63998, sub_63A5B, sub_63B0C, sub_63F79, sub_63FEF
 extern sub_64054, sub_64296, sub_64721, sub_64F59, sub_66373, sub_68AB1, sub_68BFA, sub_68C8F
@@ -2010,7 +2010,7 @@ sub_6F056:
         mov byte [dword eax+09D4h], 18h
         call sub_6DD1E
         call sub_DD6C4
-        call sub_10010
+        call GetInputDevices
         mov dword [dword_17D584], eax
         mov eax, dword [dword_17D580]
         mov edx, dword [dword eax+0968h]

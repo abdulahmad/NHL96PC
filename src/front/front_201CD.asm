@@ -11,8 +11,8 @@ extern dword_151698, dword_1516A8, dword_158CC0, dword_158CCC, dword_158CD0, dwo
 extern dword_158D68, dword_158D6C, dword_158D70, dword_15E698, dword_15E6B0, dword_15E6C0, dword_15E6C4, dword_15E6CC
 extern dword_15E6D0, dword_15E6D4, dword_15E810, dword_15E824, dword_15E84C, dword_15E86C, dword_15E8E4, dword_1798E4
 extern dword_1798E8, dword_17BC78, dword_17BC7C, dword_17BD48, dword_190E94, dword_190E98, fputchar, sub_24D8C_1A3
-extern sub_24D8C_1A4, sub_27E24_F6, sprintf_, strcat_, strcpy_, strlen_, sub_10010, sub_10095
-extern sub_1118B, sub_111ED, sub_11A88, sub_1A109, sub_1E7F6, sub_62AF7, sub_62D9B, sub_62E0E
+extern sub_24D8C_1A4, sub_27E24_F6, sprintf_, strcat_, strcpy_, strlen_, GetInputDevices, InitInputDevices
+extern SetGripButtonMap, GetGripButtonMap, ReadJoystickBits, sub_1A109, sub_1E7F6, sub_62AF7, sub_62D9B, sub_62E0E
 extern sub_62F90, sub_63968, sub_63998, sub_63A5B, sub_63B0C, sub_63F79, sub_63FEF, sub_64054
 extern sub_640D3, sub_64721, sub_64F59, sub_66373, sub_68AB1, sub_69A94, sub_69A9B, sub_77355
 extern sub_87DD6, sub_8805A, sub_AA988, sub_AADA4, sub_AB758, sub_ABF4C, sub_AC868, sub_AD35C
@@ -703,8 +703,8 @@ sub_2090F:
         push edi
         enter 360h, 0
         mov eax, byte_17CA54
-        call sub_1118B
-        call sub_10010
+        call SetGripButtonMap
+        call GetInputDevices
         test al, 2
         jne short .1
         test al, 4
@@ -1439,7 +1439,7 @@ sub_2090F:
         add esp, byte 4
 .29:
         mov eax, byte_17CA54
-        call sub_111ED
+        call GetGripButtonMap
         jmp near sub_201CD_73B
         push ebx
         push ecx
@@ -1449,7 +1449,7 @@ sub_2090F:
         push dword [dword_17BC78]
         call TextSetFont
         add esp, byte 4
-        call sub_10010
+        call GetInputDevices
         mov edx, eax
         test al, 2
         je short .30
@@ -1488,7 +1488,7 @@ sub_2090F:
         je short .34
         mov dword [dword_114CB0], 1
         mov dword [dword_114CB4], 1
-        call sub_10095
+        call InitInputDevices
         push byte 0
         call sub_ADA50
         add esp, byte 4
@@ -1803,7 +1803,7 @@ sub_21596:
 .7:
         mov eax, dword [byte ebp+072h]
         mov dword [dword eax+dword_114CB0], 1
-        call sub_11A88
+        call ReadJoystickBits
         jmp short .12
 .8:
         call sub_62E0E

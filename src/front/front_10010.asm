@@ -34,17 +34,19 @@ extern word_11F914, word_11F918, word_11F91C, word_1515B5, word_151634, word_151
 extern word_151712, word_151714, word_15171C, word_15171E, word_15172A, word_15172C, word_151734, word_151736
 extern word_151744, word_15175C, word_151766, word_15177E, word_151782, word_151788, word_15178A, word_15178C
 extern word_151792, word_151AE0, word_151AE2, word_17C9AC, word_17C9B0, word_17C9B2
-global PollControllers, sub_1014B_52, sub_101D9_2D7, unk_1278E_18, sub_10010, sub_10095, sub_100F2, sub_1014B
-global sub_101D9, sub_104DC, sub_106CC, InitSlotTable, sub_10A65, sub_10C9B, sub_10D17, sub_10D66
-global sub_11107, sub_1110C, sub_1118B, sub_111ED, sub_1124D, sub_11378, sub_11589, sub_11782
-global sub_117C7, sub_11A88, sub_1214A, sub_1218A, sub_122A6, sub_1253E, sub_12577, sub_125FF
+global PollControllers, ReadEscReplayKeys_52, ReadKeyboardPad_2D7, unk_1278E_18, GetInputDevices, InitInputDevices, TestKeyBinding, ReadEscReplayKeys
+global ReadKeyboardPad, ReadMousePad, ReadJoyPad, InitSlotTable, ResetInputSlots, ResetSlotButtons, GetPressedDevice, GripLinkLibrary
+global GripUnlinkLibrary, GripUnlinkLibrary_5, SetGripButtonMap, GetGripButtonMap, LoadGripLibrary, GripScanSlots, GripReadSlots, GripReadPadBits
+global ReadAnalogJoysticks, ReadJoystickBits, GripShutdown, InitGrip, sub_122A6, sub_1253E, sub_12577, sub_125FF
 global sub_126E9, sub_1272E, sub_1277B, sub_1290C, sub_12A24, sub_12E50, sub_12F33, sub_12F77
 global sub_12FB3, sub_13146, sub_131EC, sub_13288, sub_13304, sub_13338, sub_13407, sub_1377E
 global unk_1278E, unk_144BD, unk_144C3, unk_144C9, unk_144D5, unk_144ED
 ;-----------------------------------------------------------------------------
-; sub_10010                                                       10010  96 PC
+; GetInputDevices                                                 10010  96 PC
+; Input device bitmask: 1 mouse present (word_114B42), 2/4/8/10h joystick or
+; GrIP pad 1-4 (word_114B40 bits); InitSlotTable keeps it in byte_114B48
 ;-----------------------------------------------------------------------------
-sub_10010:
+GetInputDevices:
         push ebx
         push ecx
         push edx
@@ -98,9 +100,11 @@ sub_10010:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_10095                                                       10095  96 PC
+; InitInputDevices                                                10095  96 PC
+; One-time device init: detects the mouse (int 33h, sub_DFA98) and polls it
+; once, then InitGrip; stores the joystick mask in word_114B40
 ;-----------------------------------------------------------------------------
-sub_10095:
+InitInputDevices:
         push ebx
         push ecx
         push edx
@@ -121,7 +125,7 @@ sub_10095:
 .1:
         mov word [word_114B44], 1
 .2:
-        call sub_1218A
+        call InitGrip
         mov word [word_114B40], ax
         pop ebp
         pop edi
@@ -131,9 +135,12 @@ sub_10095:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_100F2                                                       100F2  96 PC
+; TestKeyBinding                                                  100F2  96 PC
+; (ctrl, alt, binding, bit, &out): binding table dword_1515D0 entries {need
+; ctrl, need alt, scan code}; KeyDown on the scan code with the modifier
+; state; ORs bit into *out
 ;-----------------------------------------------------------------------------
-sub_100F2:
+TestKeyBinding:
         push esi
         push edi
         enter 4, 0
@@ -175,9 +182,11 @@ sub_100F2:
         pop esi
         ret 4
 ;-----------------------------------------------------------------------------
-; sub_1014B                                                       1014B  96 PC
+; ReadEscReplayKeys                            1014B  96 PC, medium confidence
+; Clears *out, then key bindings 0 (Esc) and 1 (R) -> bits 1 and 2;
+; PollControllers calls it first for the shared key word
 ;-----------------------------------------------------------------------------
-sub_1014B:
+ReadEscReplayKeys:
         push ebx
         push ecx
         push edx
@@ -199,15 +208,15 @@ sub_1014B:
         push esi
         xor ebx, ebx
         mov eax, dword [byte ebp-04h]
-        call sub_100F2
+        call TestKeyBinding
         mov ecx, 2
         mov ebx, 1
         push esi
         mov eax, dword [byte ebp-04h]
         mov edx, edi
-        call sub_100F2
+        call TestKeyBinding
         leave
-sub_1014B_52:
+ReadEscReplayKeys_52:
         pop edi
         pop esi
         pop edx
@@ -237,9 +246,13 @@ sub_1014B_52:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_101D9                                                       101D9  96 PC
+; ReadKeyboardPad                                                 101D9  96 PC
+; 96 keyboard pad through the key binding table: Space/Alt (or ;/') buttons
+; 80h/40h, arrows/keypad (or QWE/AD/ZXC) direction bits 4 up 8 down 10h right
+; 20h left, F1-F10 bits 400h-80000h with an 18-tick repeat; same job as 95 PC
+; ReadKeyboardPad
 ;-----------------------------------------------------------------------------
-sub_101D9:
+ReadKeyboardPad:
         push ebx
         push ecx
         push esi
@@ -262,85 +275,85 @@ sub_101D9:
         push esi
         mov edx, eax
         mov eax, dword [byte ebp-010h]
-        call sub_100F2
+        call TestKeyBinding
         mov ecx, 40h
         mov ebx, 2
         push esi
         mov eax, dword [byte ebp-010h]
         mov edx, edi
-        call sub_100F2
+        call TestKeyBinding
         mov ecx, 20h
         mov ebx, 4
         push esi
         mov eax, dword [byte ebp-010h]
         mov edx, edi
-        call sub_100F2
+        call TestKeyBinding
         mov ecx, 4
         mov eax, dword [byte ebp-010h]
         push esi
         mov edx, edi
         mov ebx, ecx
-        call sub_100F2
+        call TestKeyBinding
         mov ecx, 4
         mov ebx, 5
         push esi
         mov eax, dword [byte ebp-010h]
         mov edx, edi
-        call sub_100F2
+        call TestKeyBinding
         mov ecx, 4
         mov ebx, 6
         push esi
         mov eax, dword [byte ebp-010h]
         mov edx, edi
-        call sub_100F2
+        call TestKeyBinding
         mov ecx, 10h
         mov ebx, 6
         push esi
         mov eax, dword [byte ebp-010h]
         mov edx, edi
-        call sub_100F2
+        call TestKeyBinding
         mov ecx, 20h
         mov ebx, 7
         push esi
         mov eax, dword [byte ebp-010h]
         mov edx, edi
-        call sub_100F2
+        call TestKeyBinding
         mov ecx, 10h
         mov ebx, 8
         push esi
         mov eax, dword [byte ebp-010h]
         mov edx, edi
-        call sub_100F2
+        call TestKeyBinding
         mov ecx, 8
         mov ebx, 9
         push esi
         mov eax, dword [byte ebp-010h]
         mov edx, edi
-        call sub_100F2
+        call TestKeyBinding
         mov ecx, 20h
         mov ebx, 9
         push esi
         mov eax, dword [byte ebp-010h]
         mov edx, edi
-        call sub_100F2
+        call TestKeyBinding
         mov ecx, 8
         mov ebx, 0Ah
         push esi
         mov eax, dword [byte ebp-010h]
         mov edx, edi
-        call sub_100F2
+        call TestKeyBinding
         mov ecx, 8
         mov ebx, 0Bh
         push esi
         mov eax, dword [byte ebp-010h]
         mov edx, edi
-        call sub_100F2
+        call TestKeyBinding
         mov ecx, 10h
         mov ebx, 0Bh
         push esi
         mov eax, dword [byte ebp-010h]
         mov edx, edi
-        call sub_100F2
+        call TestKeyBinding
         mov edi, dword [esi]
         sar edi, 2
         mov eax, dword [dword_114B78]
@@ -378,79 +391,79 @@ sub_101D9:
         je near .6
         call GetTicks
         cmp eax, dword [dword_114B5C]
-        jle near sub_101D9_2D7
+        jle near ReadKeyboardPad_2D7
         mov ecx, 400h
         mov ebx, 0Ch
         push esi
         mov edx, dword [byte ebp-08h]
         mov eax, dword [byte ebp-04h]
-        call sub_100F2
+        call TestKeyBinding
         mov ecx, 800h
         mov ebx, 0Dh
         push esi
         mov edx, dword [byte ebp-08h]
         mov eax, dword [byte ebp-04h]
-        call sub_100F2
+        call TestKeyBinding
         mov ecx, 1000h
         mov ebx, 0Eh
         push esi
         mov edx, dword [byte ebp-08h]
         mov eax, dword [byte ebp-04h]
-        call sub_100F2
+        call TestKeyBinding
         mov ecx, 2000h
         mov ebx, 0Fh
         push esi
         mov edx, dword [byte ebp-08h]
         mov eax, dword [byte ebp-04h]
-        call sub_100F2
+        call TestKeyBinding
         mov ecx, 40000h
         mov ebx, 14h
         push esi
         mov edx, dword [byte ebp-08h]
         mov eax, dword [byte ebp-04h]
-        call sub_100F2
+        call TestKeyBinding
         call GetTicks
         add eax, byte 12h
         mov dword [dword_114B5C], eax
-        jmp near sub_101D9_2D7
+        jmp near ReadKeyboardPad_2D7
 .6:
         call GetTicks
         cmp eax, dword [dword_114B60]
-        jle short sub_101D9_2D7
+        jle short ReadKeyboardPad_2D7
         mov ecx, 4000h
         mov ebx, 10h
         push esi
         mov edx, dword [byte ebp-08h]
         mov eax, dword [byte ebp-04h]
-        call sub_100F2
+        call TestKeyBinding
         mov ecx, 8000h
         mov ebx, 11h
         push esi
         mov edx, dword [byte ebp-08h]
         mov eax, dword [byte ebp-04h]
-        call sub_100F2
+        call TestKeyBinding
         mov ecx, 10000h
         mov ebx, 12h
         push esi
         mov edx, dword [byte ebp-08h]
         mov eax, dword [byte ebp-04h]
-        call sub_100F2
+        call TestKeyBinding
         mov ecx, 20000h
         mov ebx, 13h
         push esi
         mov edx, dword [byte ebp-08h]
         mov eax, dword [byte ebp-04h]
-        call sub_100F2
+        call TestKeyBinding
         mov ecx, 80000h
         mov ebx, 15h
         push esi
         mov edx, dword [byte ebp-08h]
         mov eax, dword [byte ebp-04h]
-        call sub_100F2
+        call TestKeyBinding
         call GetTicks
         add eax, byte 12h
         mov dword [dword_114B60], eax
-sub_101D9_2D7:
+ReadKeyboardPad_2D7:
         leave
         pop edi
         pop esi
@@ -463,7 +476,7 @@ sub_101D9_2D7:
         push esi
         mov esi, eax
         mov edx, 1
-        call sub_101D9
+        call ReadKeyboardPad
         push byte 1Ch
         call sub_DFE9C
         add esp, byte 4
@@ -477,9 +490,12 @@ sub_101D9_2D7:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_104DC                                                       104DC  96 PC
+; ReadMousePad                                                    104DC  96 PC
+; Mouse pad: function keys as the keyboard pad, then mousepollfn; direction
+; from the mouse position against the screen edges/centre, mouse buttons ->
+; pad buttons; same job as 95 PC ReadMousePad
 ;-----------------------------------------------------------------------------
-sub_104DC:
+ReadMousePad:
         push ebx
         push ecx
         push esi
@@ -505,31 +521,31 @@ sub_104DC:
         push esi
         mov eax, dword [byte ebp-04h]
         mov edx, edi
-        call sub_100F2
+        call TestKeyBinding
         mov ecx, 800h
         mov ebx, 0Dh
         push esi
         mov eax, dword [byte ebp-04h]
         mov edx, edi
-        call sub_100F2
+        call TestKeyBinding
         mov ecx, 1000h
         mov ebx, 0Eh
         push esi
         mov eax, dword [byte ebp-04h]
         mov edx, edi
-        call sub_100F2
+        call TestKeyBinding
         mov ecx, 2000h
         mov ebx, 0Fh
         push esi
         mov eax, dword [byte ebp-04h]
         mov edx, edi
-        call sub_100F2
+        call TestKeyBinding
         mov ecx, 40000h
         mov ebx, 14h
         push esi
         mov eax, dword [byte ebp-04h]
         mov edx, edi
-        call sub_100F2
+        call TestKeyBinding
         call GetTicks
         add eax, byte 12h
         mov dword [dword_114B5C], eax
@@ -543,31 +559,31 @@ sub_104DC:
         push esi
         mov eax, dword [byte ebp-04h]
         mov edx, edi
-        call sub_100F2
+        call TestKeyBinding
         mov ecx, 8000h
         mov ebx, 11h
         push esi
         mov eax, dword [byte ebp-04h]
         mov edx, edi
-        call sub_100F2
+        call TestKeyBinding
         mov ecx, 10000h
         mov ebx, 12h
         push esi
         mov eax, dword [byte ebp-04h]
         mov edx, edi
-        call sub_100F2
+        call TestKeyBinding
         mov ecx, 20000h
         mov ebx, 13h
         push esi
         mov eax, dword [byte ebp-04h]
         mov edx, edi
-        call sub_100F2
+        call TestKeyBinding
         mov ecx, 80000h
         mov ebx, 15h
         push esi
         mov eax, dword [byte ebp-04h]
         mov edx, edi
-        call sub_100F2
+        call TestKeyBinding
         call GetTicks
         add eax, byte 12h
         mov dword [dword_114B60], eax
@@ -617,7 +633,7 @@ sub_104DC:
         or byte [esi], 40h
 .12:
         test al, 1
-        je near sub_101D9_2D7
+        je near ReadKeyboardPad_2D7
         jmp short .15
 .13:
         test al, 1
@@ -625,14 +641,17 @@ sub_104DC:
         or byte [esi], 40h
 .14:
         test al, 2
-        je near sub_101D9_2D7
+        je near ReadKeyboardPad_2D7
 .15:
         or byte [esi], 80h
-        jmp near sub_101D9_2D7
+        jmp near ReadKeyboardPad_2D7
 ;-----------------------------------------------------------------------------
-; sub_106CC                                                       106CC  96 PC
+; ReadJoyPad                                                      106CC  96 PC
+; Joystick n (0-3) pad: function keys as the keyboard pad, then direction and
+; buttons from the byte of joystick bits for pad n in byte_151778; same job
+; as 95 PC ReadJoyPad
 ;-----------------------------------------------------------------------------
-sub_106CC:
+ReadJoyPad:
         push ecx
         push esi
         push edi
@@ -658,31 +677,31 @@ sub_106CC:
         push esi
         mov edx, dword [byte ebp-04h]
         mov eax, edi
-        call sub_100F2
+        call TestKeyBinding
         mov ecx, 800h
         mov ebx, 0Dh
         push esi
         mov edx, dword [byte ebp-04h]
         mov eax, edi
-        call sub_100F2
+        call TestKeyBinding
         mov ecx, 1000h
         mov ebx, 0Eh
         push esi
         mov edx, dword [byte ebp-04h]
         mov eax, edi
-        call sub_100F2
+        call TestKeyBinding
         mov ecx, 2000h
         mov ebx, 0Fh
         push esi
         mov edx, dword [byte ebp-04h]
         mov eax, edi
-        call sub_100F2
+        call TestKeyBinding
         mov ecx, 40000h
         mov ebx, 14h
         push esi
         mov edx, dword [byte ebp-04h]
         mov eax, edi
-        call sub_100F2
+        call TestKeyBinding
         call GetTicks
         add eax, byte 12h
         mov dword [dword_114B5C], eax
@@ -696,31 +715,31 @@ sub_106CC:
         push esi
         mov edx, dword [byte ebp-04h]
         mov eax, edi
-        call sub_100F2
+        call TestKeyBinding
         mov ecx, 8000h
         mov ebx, 11h
         push esi
         mov edx, dword [byte ebp-04h]
         mov eax, edi
-        call sub_100F2
+        call TestKeyBinding
         mov ecx, 10000h
         mov ebx, 12h
         push esi
         mov edx, dword [byte ebp-04h]
         mov eax, edi
-        call sub_100F2
+        call TestKeyBinding
         mov ecx, 20000h
         mov ebx, 13h
         push esi
         mov edx, dword [byte ebp-04h]
         mov eax, edi
-        call sub_100F2
+        call TestKeyBinding
         mov ecx, 80000h
         mov ebx, 15h
         push esi
         mov edx, dword [byte ebp-04h]
         mov eax, edi
-        call sub_100F2
+        call TestKeyBinding
         call GetTicks
         add eax, byte 12h
         mov dword [dword_114B60], eax
@@ -810,7 +829,7 @@ InitSlotTable:
         mov dword [dword_114B5C], eax
         call GetTicks
         mov dword [dword_114B60], eax
-        call sub_10010
+        call GetInputDevices
         mov dword [byte_114B48], eax
         test byte [byte_17CA21], 80h
         je short .1
@@ -892,11 +911,13 @@ InitSlotTable:
         mov dword [dword_114B9C], 0
         mov dword [InputRecordHead], 0
         mov dword [GameLoopActive], 0
-        jmp near sub_1014B_52
+        jmp near ReadEscReplayKeys_52
 ;-----------------------------------------------------------------------------
-; sub_10A65                                                       10A65  96 PC
+; ResetInputSlots                                                 10A65  96 PC
+; Clears SlotTable, re-centres the mouse on the screen when present, clears
+; the input record ring and stops the game loop flag
 ;-----------------------------------------------------------------------------
-sub_10A65:
+ResetInputSlots:
         push ebx
         push ecx
         push edx
@@ -956,15 +977,15 @@ PollControllers:
         cmp word [word_15175C], byte 0
         je short .2
 .1:
-        call sub_11A88
+        call ReadJoystickBits
 .2:
         mov eax, dword_1515A8
-        call sub_1014B
+        call ReadEscReplayKeys
         cmp dword [dword_11D91F], byte 0
         je short .3
         mov edx, 1
         mov eax, dword_1515A8
-        call sub_101D9
+        call ReadKeyboardPad
         push byte 1Ch
         call sub_DFE9C
         add esp, byte 4
@@ -1007,7 +1028,7 @@ PollControllers:
         mov edx, dword [gameopts]
         mov eax, dword_1515A8
         movsx edx, byte [byte edx+esi+05h]
-        call sub_104DC
+        call ReadMousePad
         jmp short .14
 .8:
         mov edx, dword [gameopts]
@@ -1015,7 +1036,7 @@ PollControllers:
 .9:
         movsx ebx, byte [byte edx+esi+05h]
         mov edx, dword_1515A8
-        call sub_106CC
+        call ReadJoyPad
         jmp short .14
 .10:
         mov edx, dword [gameopts]
@@ -1033,7 +1054,7 @@ PollControllers:
         mov edx, dword [gameopts]
         mov eax, dword_1515A8
         movsx edx, byte [byte edx+esi+05h]
-        call sub_101D9
+        call ReadKeyboardPad
 .14:
         cmp dword [dword_11D91F], byte 0
         jne short .16
@@ -1068,9 +1089,11 @@ PollControllers:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_10C9B                                                       10C9B  96 PC
+; ResetSlotButtons                                                10C9B  96 PC
+; Clears SlotButtons and each slot's last direction; on a link game hands
+; over to sub_13338, else clears the input record ring
 ;-----------------------------------------------------------------------------
-sub_10C9B:
+ResetSlotButtons:
         push ecx
         push edx
         push edi
@@ -1110,9 +1133,11 @@ sub_10C9B:
         pop ecx
         ret
 ;-----------------------------------------------------------------------------
-; sub_10D17                                                       10D17  96 PC
+; GetPressedDevice                                                10D17  96 PC
+; Which device has a button down: 1 mouse, 2 joystick (bits 30h of any pad in
+; byte_151778), 3 keyboard (key waiting), 0 none
 ;-----------------------------------------------------------------------------
-sub_10D17:
+GetPressedDevice:
         push ebx
         push ecx
         push edx
@@ -1125,7 +1150,7 @@ sub_10D17:
         pop ebx
         ret
 .1:
-        call sub_11A88
+        call ReadJoystickBits
         xor eax, eax
 .2:
         mov edx, dword [byte_151778]
@@ -1152,9 +1177,12 @@ sub_10D17:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_10D66                                                       10D66  96 PC
+; GripLinkLibrary                                                 10D66  96 PC
+; (image, size): checks the GrIP GLL image ("DB" header, sizes, xor
+; checksum), copies it to DOS memory (DPMI 100h) and calls its init (8490h);
+; 0 on failure
 ;-----------------------------------------------------------------------------
-sub_10D66:
+GripLinkLibrary:
         push ebx
         push ecx
         push esi
@@ -1467,15 +1495,17 @@ sub_10D66:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_11107                                                       11107  96 PC
+; GripUnlinkLibrary                                               11107  96 PC
+; Calls the GrIP library's unlink (8491h) and frees its DOS memory (DPMI
+; 101h); 1 when done
 ;-----------------------------------------------------------------------------
-sub_11107:
+GripUnlinkLibrary:
         push ebx
         push ecx
         push edx
         push esi
         push edi
-sub_1110C:
+GripUnlinkLibrary_5:
         push ebp
         mov ebp, esp
         sub esp, 4
@@ -1519,9 +1549,11 @@ sub_1110C:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_1118B                                                       1118B  96 PC
+; SetGripButtonMap                             1118B  96 PC, medium confidence
+; Copies 4 pairs of button masks (bytes) into dword_151698 / dword_1516A8
+; (shoot / pass masks per GrIP pad)
 ;-----------------------------------------------------------------------------
-sub_1118B:
+SetGripButtonMap:
         push ebx
         push ecx
         push edx
@@ -1566,9 +1598,11 @@ sub_1118B:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_111ED                                                       111ED  96 PC
+; GetGripButtonMap                             111ED  96 PC, medium confidence
+; Copies the 4 pairs of GrIP button masks back out to a byte array (inverse
+; of SetGripButtonMap)
 ;-----------------------------------------------------------------------------
-sub_111ED:
+GetGripButtonMap:
         push ebx
         push ecx
         push edx
@@ -1613,9 +1647,12 @@ sub_111ED:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_1124D                                                       1124D  96 PC
+; LoadGripLibrary                                                 1124D  96 PC
+; Finds GRIP.GLL on the GRIP and PATH environment variables or in C:\GRIP\,
+; reads it (at most 32 KB) and links it with GripLinkLibrary; failure clears
+; dword_114CD3
 ;-----------------------------------------------------------------------------
-sub_1124D:
+LoadGripLibrary:
         push ebx
         push ecx
         push edx
@@ -1687,7 +1724,7 @@ sub_1124D:
         xor edx, edx
         mov dx, word [byte ebp-0Ch]
         mov eax, dword [byte ebp-08h]
-        call sub_10D66
+        call GripLinkLibrary
         test ax, ax
         je short .5
         mov dword [dword_114CD3], 0
@@ -1704,9 +1741,12 @@ sub_1124D:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_11378                                                       11378  96 PC
+; GripScanSlots                                                   11378  96 PC
+; After the GrIP library is up: reads the connected-slot mask (84B0h) and for
+; each slot its class/info (84D0h/84D1h, 84B1h/84B3h/84B4h): button counts
+; and axis ranges
 ;-----------------------------------------------------------------------------
-sub_11378:
+GripScanSlots:
         push ebx
         push ecx
         push edx
@@ -1879,9 +1919,12 @@ sub_11378:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_11589                                                       11589  96 PC
+; GripReadSlots                                                   11589  96 PC
+; Reads every connected GrIP slot's buttons (84C1h, against the shoot/pass
+; masks) and axes (84C0h, scaled by the axis range) into a direction+button
+; byte per pad in dword_151630 (double buffered by word_114CDB)
 ;-----------------------------------------------------------------------------
-sub_11589:
+GripReadSlots:
         push ebx
         push ecx
         push edx
@@ -2019,9 +2062,11 @@ sub_11589:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_11782                                                       11782  96 PC
+; GripReadPadBits                                                 11782  96 PC
+; GripReadSlots, then copies the current buffer of GrIP pad bits to
+; byte_151778 (0 when no GrIP pads)
 ;-----------------------------------------------------------------------------
-sub_11782:
+GripReadPadBits:
         push ebx
         push ecx
         push edx
@@ -2030,7 +2075,7 @@ sub_11782:
         push ebp
         mov ebp, esp
         sub esp, 0
-        call sub_11589
+        call GripReadSlots
         cmp dword [dword_114CD7], byte 0
         je short .1
         mov eax, dword [dword_114CD9]
@@ -2050,9 +2095,12 @@ sub_11782:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_117C7                                                       117C7  96 PC
+; ReadAnalogJoysticks                          117C7  96 PC, medium confidence
+; Reads the game-port joysticks (sub_E0051), marks joystick 1/2 present
+; (word_151714 / word_15172C), keeps calibration min/max/centre per axis on
+; first use and while reading
 ;-----------------------------------------------------------------------------
-sub_117C7:
+ReadAnalogJoysticks:
         push ebx
         push ecx
         push edx
@@ -2229,9 +2277,12 @@ sub_117C7:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_11A88                                                       11A88  96 PC
+; ReadJoystickBits                                                11A88  96 PC
+; The joystick bits of every pad in byte_151778: from GrIP (GripReadPadBits)
+; when the GrIP library is up, else from the analog joysticks against their
+; centre (+-7Ch dead zone)
 ;-----------------------------------------------------------------------------
-sub_11A88:
+ReadJoystickBits:
         push ebx
         push ecx
         push edx
@@ -2242,10 +2293,10 @@ sub_11A88:
         sub esp, 8
         cmp dword [dword_114CD3], byte 0
         jle short .1
-        call sub_11782
+        call GripReadPadBits
         jmp near .47
 .1:
-        call sub_117C7
+        call ReadAnalogJoysticks
         mov dword [byte_151778], 0
         cmp word [word_151714], byte 0
         je near .24
@@ -2745,9 +2796,10 @@ sub_11A88:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_1214A                                                       1214A  96 PC
+; GripShutdown                                                    1214A  96 PC
+; Atexit handler: closes the GrIP library (84A2h), then GripUnlinkLibrary
 ;-----------------------------------------------------------------------------
-sub_1214A:
+GripShutdown:
         push ebx
         push ecx
         push edx
@@ -2764,7 +2816,7 @@ sub_1214A:
 .1:
         cmp dword [dword_114CD3], byte 0
         jne short .2
-        call sub_11107
+        call GripUnlinkLibrary
 .2:
         pop ebp
         pop edi
@@ -2774,9 +2826,12 @@ sub_1214A:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_1218A                                                       1218A  96 PC
+; InitGrip                                                        1218A  96 PC
+; Joystick init: opens the GrIP library (84A1h) and scans its slots when
+; present (registering GripShutdown with atexit), else reads the analog
+; joysticks; returns the present mask (1/2/4/8)
 ;-----------------------------------------------------------------------------
-sub_1218A:
+InitGrip:
         push ebx
         push ecx
         push edx
@@ -2797,7 +2852,7 @@ sub_1218A:
         mov word [word_15172C], 0
         mov word [word_151744], 0
         mov word [word_15175C], 0
-        mov eax, sub_1214A
+        mov eax, GripShutdown
         push eax
         call sub_E04D0
         add esp, byte 4
@@ -2817,13 +2872,13 @@ sub_1218A:
 .4:
         cmp dword [dword_114CD3], byte 0
         jle short .5
-        call sub_11378
+        call GripScanSlots
         mov dword [dword_114CB4], 0
         mov eax, dword [dword_114CB4]
         mov dword [dword_114CB0], eax
         jmp short .6
 .5:
-        call sub_11A88
+        call ReadJoystickBits
 .6:
         mov dword [byte ebp-08h], 0
         cmp word [word_151714], byte 0

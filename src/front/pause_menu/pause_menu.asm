@@ -16,7 +16,7 @@ extern dword_17CBE7, dword_17CC17, dword_17CED6, dword_17D162, dword_17D267, dwo
 extern dword_17D4F4, dword_17D4F8, dword_17D4FC, dword_17D500, dword_17D504, dword_17D508, dword_17D50C, dword_17D510
 extern dword_17D514, dword_17D518, dword_17D51C, dword_17D520, dword_17D524, dword_17D528, dword_17D564, dword_17D56C
 extern dword_17D574, dword_17D57C, dword_17D580, dword_1843AC, dword_1843B0, dword_1843B4, gameclock, gameopts
-extern hmtmstruct, sprintf_, strcat_, strcpy_, sub_10010, InitSlotTable, sub_10A65, sub_13146
+extern hmtmstruct, sprintf_, strcat_, strcpy_, GetInputDevices, InitSlotTable, ResetInputSlots, sub_13146
 extern sub_1377E, sub_15344, sub_19384, sub_193E8, sub_19522, sub_1955B, sub_19799, EditText
 extern sub_1A109, sub_1B05E, sub_1DF34, sub_1DF55, sub_1DFEA, sub_1E5FC, sub_1EA14, sub_1EBBC
 extern sub_1ECDB, sub_1EE7C, sub_1EFFF, sub_2AB8F, sub_3A6F3, SaveGameState, sub_5360D, sub_5439F
@@ -1935,7 +1935,7 @@ sub_6C294:
         call sub_621D9
         call sub_68D25
         call sub_6986B
-        call sub_10A65
+        call ResetInputSlots
         push str_FhiL5
         push dword [dword_1150D4]
         call sub_E04E0
@@ -3590,7 +3590,7 @@ sub_6D828:
         push edx
         push esi
         enter 18h, 0
-        call sub_10010
+        call GetInputDevices
         mov dword [byte ebp-010h], eax
         mov eax, dword [optflags]
         and eax, byte 70h

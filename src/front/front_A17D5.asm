@@ -26,7 +26,7 @@ extern dword_18448C, dword_184490, dword_184494, dword_184498, dword_18449C, dwo
 extern dword_1844F6, dword_184558, dword_18455C, dword_1845BE, dword_1845C2, dword_184624, dword_184628, dword_184670
 extern dword_184674, dword_184678, dword_18467C, dword_184680, dword_184684, dword_1846F0, dword_1846F4, dword_1846F8
 extern fadeinpending, gameopts, hmtmstruct, sub_A4FD7_73, sub_A4FD7_89, sub_A4FD7_A6, sub_A4FD7_CD, sub_A4FD7_D6
-extern sub_A4FD7_E1, sub_A4FD7_102, sub_A4FD7_115, sprintf_, strcat_, strcpy_, InitSlotTable, sub_10A65
+extern sub_A4FD7_E1, sub_A4FD7_102, sub_A4FD7_115, sprintf_, strcat_, strcpy_, InitSlotTable, ResetInputSlots
 extern sub_13146, sub_1377E, sub_15344, sub_19384, sub_193E8, sub_19522, sub_1955B, sub_19799
 extern EditText, sub_1A109, sub_1B05E, sub_1E383, sub_1E3A7, sub_1E5FC, sub_1E7F6, sub_1EE7C
 extern sub_1EFFF, sub_21BE3, sub_25087, sub_251E6, sub_25EB3, sub_28459, sub_2929F, sub_29B9F
@@ -649,7 +649,7 @@ sub_A1FEF:
         push dword [dword_184400]
         xor eax, eax
         call sub_64E74
-        call sub_10A65
+        call ResetInputSlots
         mov eax, 2
         call sub_69A94
         call sub_68AB1

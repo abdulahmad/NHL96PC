@@ -1,0 +1,26 @@
+# NHL 96 PC front end, input devices (front_10010.asm first half). PC-only: no Genesis/SNES routine has these.
+sub_10010 GetInputDevices {confidence=high} input device bitmask: 1 mouse present (word_114B42), 2/4/8/10h joystick or GrIP pad 1-4 (word_114B40 bits); InitSlotTable keeps it in byte_114B48
+sub_10095 InitInputDevices {confidence=high} one-time device init: detects the mouse (int 33h, sub_DFA98) and polls it once, then InitGrip; stores the joystick mask in word_114B40
+sub_100F2 TestKeyBinding {confidence=high} (ctrl, alt, binding, bit, &out): binding table dword_1515D0 entries {need ctrl, need alt, scan code}; KeyDown on the scan code with the modifier state; ORs bit into *out
+sub_1014B ReadEscReplayKeys {confidence=medium} clears *out, then key bindings 0 (Esc) and 1 (R) -> bits 1 and 2; PollControllers calls it first for the shared key word
+sub_1014B_52 ReadEscReplayKeys_52 {no_record} shared epilogue
+sub_101D9 ReadKeyboardPad {source=95PC,confidence=high} 96 keyboard pad through the key binding table: Space/Alt (or ;/') buttons 80h/40h, arrows/keypad (or QWE/AD/ZXC) direction bits 4 up 8 down 10h right 20h left, F1-F10 bits 400h-80000h with an 18-tick repeat; same job as 95 PC ReadKeyboardPad
+sub_101D9_2D7 ReadKeyboardPad_2D7 {no_record} shared ret
+sub_104DC ReadMousePad {source=95PC,confidence=high} mouse pad: function keys as the keyboard pad, then mousepollfn; direction from the mouse position against the screen edges/centre, mouse buttons -> pad buttons; same job as 95 PC ReadMousePad
+sub_106CC ReadJoyPad {source=95PC,confidence=high} joystick n (0-3) pad: function keys as the keyboard pad, then direction and buttons from the byte of joystick bits for pad n in byte_151778; same job as 95 PC ReadJoyPad
+sub_10A65 ResetInputSlots {confidence=high} clears SlotTable, re-centres the mouse on the screen when present, clears the input record ring and stops the game loop flag
+sub_10C9B ResetSlotButtons {confidence=high} clears SlotButtons and each slot's last direction; on a link game hands over to sub_13338, else clears the input record ring
+sub_10D17 GetPressedDevice {confidence=high} which device has a button down: 1 mouse, 2 joystick (bits 30h of any pad in byte_151778), 3 keyboard (key waiting), 0 none
+sub_10D66 GripLinkLibrary {confidence=high} (image, size): checks the GrIP GLL image ("DB" header, sizes, xor checksum), copies it to DOS memory (DPMI 100h) and calls its init (8490h); 0 on failure
+sub_11107 GripUnlinkLibrary {confidence=high} calls the GrIP library's unlink (8491h) and frees its DOS memory (DPMI 101h); 1 when done
+sub_1110C GripUnlinkLibrary_5 {no_record} body after the register pushes
+sub_1118B SetGripButtonMap {confidence=medium} copies 4 pairs of button masks (bytes) into dword_151698 / dword_1516A8 (shoot / pass masks per GrIP pad)
+sub_111ED GetGripButtonMap {confidence=medium} copies the 4 pairs of GrIP button masks back out to a byte array (inverse of SetGripButtonMap)
+sub_1124D LoadGripLibrary {confidence=high} finds GRIP.GLL on the GRIP and PATH environment variables or in C:\GRIP\, reads it (at most 32 KB) and links it with GripLinkLibrary; failure clears dword_114CD3
+sub_11378 GripScanSlots {confidence=high} after the GrIP library is up: reads the connected-slot mask (84B0h) and for each slot its class/info (84D0h/84D1h, 84B1h/84B3h/84B4h): button counts and axis ranges
+sub_11589 GripReadSlots {confidence=high} reads every connected GrIP slot's buttons (84C1h, against the shoot/pass masks) and axes (84C0h, scaled by the axis range) into a direction+button byte per pad in dword_151630 (double buffered by word_114CDB)
+sub_11782 GripReadPadBits {confidence=high} GripReadSlots, then copies the current buffer of GrIP pad bits to byte_151778 (0 when no GrIP pads)
+sub_117C7 ReadAnalogJoysticks {confidence=medium} reads the game-port joysticks (sub_E0051), marks joystick 1/2 present (word_151714 / word_15172C), keeps calibration min/max/centre per axis on first use and while reading
+sub_11A88 ReadJoystickBits {confidence=high} the joystick bits of every pad in byte_151778: from GrIP (GripReadPadBits) when the GrIP library is up, else from the analog joysticks against their centre (+-7Ch dead zone)
+sub_1214A GripShutdown {confidence=high} atexit handler: closes the GrIP library (84A2h), then GripUnlinkLibrary
+sub_1218A InitGrip {confidence=high} joystick init: opens the GrIP library (84A1h) and scans its slots when present (registering GripShutdown with atexit), else reads the analog joysticks; returns the present mask (1/2/4/8)

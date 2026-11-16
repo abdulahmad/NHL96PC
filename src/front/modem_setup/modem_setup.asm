@@ -10,7 +10,7 @@ extern str_Jy11, str_Jy12, str_Jy1x, str_Jy20, str_Jy21, str_Jy22, str_Jy2x, str
 extern str_Det1, str_Det22, byte_17CA1D, byte_17CA1E, byte_17CA1F, byte_17CA21, byte_17CA22, byte_17D650
 extern byte_17D651, dword_114CD3, dword_11D1A8, dword_11DF80, dword_11DF84, mousex, mousey, dword_17BC7C
 extern dword_17BD48, dword_17C9A4, globalset, optblock, dword_17D590, dword_17D594, dword_17D654, sprintf_
-extern sub_10010, sub_1E7F6, sub_21596, sub_62AF7, sub_62D9B, sub_62E0E, sub_62F90, sub_63968
+extern GetInputDevices, sub_1E7F6, sub_21596, sub_62AF7, sub_62D9B, sub_62E0E, sub_62F90, sub_63968
 extern sub_63998, sub_63A5B, sub_63B0C, sub_64721, sub_64F59, sub_67531, sub_689D1, sub_68A0B
 extern sub_68AB1, sub_68BCD, sub_68BFA, sub_68C33, sub_68E31, sub_69A94, sub_69A9B, sub_6A5EB
 extern sub_AA988, sub_AAA40, sub_AAA8C, PutBlock, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C
@@ -1820,7 +1820,7 @@ sub_72140:
         mov dword [dword ebp-0800h], eax
         call sub_AAA40
         add esp, byte 0Ch
-        call sub_10010
+        call GetInputDevices
         mov dword [byte ebp+042h], eax
         test al, 2
         je short .46

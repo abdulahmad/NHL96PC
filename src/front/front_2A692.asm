@@ -24,7 +24,7 @@ extern dword_160C9C, dword_160CA0, dword_160CA4, dword_160CA8, dword_160CAC, dwo
 extern dword_160CFC, dword_160D02, dword_160D06, dword_160D0A, dword_160D0E, dword_160D12, dword_160D22, dword_160D26
 extern dword_17BC74, dword_17BC7C, dword_17BC96, dword_17BCA2, dword_17BCA6, optflags, fclose_, fopen_
 extern fprintf_, fputchar, gameopts, off_11D3DC, qsort_, sprintf_, str_fmtTenths, strcat_
-extern strcmp_, strcpy_, strlen_, sub_10D17, sub_19384, sub_193E8, sub_19491, sub_19522
+extern strcmp_, strcpy_, strlen_, GetPressedDevice, sub_19384, sub_193E8, sub_19491, sub_19522
 extern sub_1955B, sub_19659, sub_19706, sub_19731, sub_19799, EditText, sub_1A109, sub_1AA27
 extern sub_1AA62, sub_1DCDC, sub_1DED8, sub_1DF18, sub_1DF55, sub_1DFEA, sub_1E5FC, sub_1E7F6
 extern sub_2A5B5, sub_2A645, sub_62AF7, sub_62E0E, sub_62F90, sub_63998, sub_63A5B, sub_63E7C
@@ -150,14 +150,14 @@ sub_2A692:
         sar ebx, 1
         call sub_1AA62
 .6:
-        call sub_10D17
+        call GetPressedDevice
         test eax, eax
         jne short .7
         call sub_69A9B
         jmp short .6
 .7:
         call sub_69A9B
-        call sub_10D17
+        call GetPressedDevice
         test eax, eax
         jne short .7
         call sub_1AA27
@@ -228,14 +228,14 @@ sub_2A804:
         sar ebx, 1
         call sub_1AA62
 .1:
-        call sub_10D17
+        call GetPressedDevice
         test eax, eax
         jne short .2
         call sub_69A9B
         jmp short .1
 .2:
         call sub_69A9B
-        call sub_10D17
+        call GetPressedDevice
         test eax, eax
         jne short .2
         jmp short .7
@@ -261,14 +261,14 @@ sub_2A804:
         sar ebx, 1
         call sub_1AA62
 .5:
-        call sub_10D17
+        call GetPressedDevice
         test eax, eax
         jne short .6
         call sub_69A9B
         jmp short .5
 .6:
         call sub_69A9B
-        call sub_10D17
+        call GetPressedDevice
         test eax, eax
         jne short .6
 .7:
@@ -883,14 +883,14 @@ sub_2AB8F:
         call TextSetFont
         add esp, byte 4
 .15:
-        call sub_10D17
+        call GetPressedDevice
         test eax, eax
         jne short .16
         call sub_69A9B
         jmp short .15
 .16:
         call sub_69A9B
-        call sub_10D17
+        call GetPressedDevice
         test eax, eax
         jne short .16
         call sub_1AA27
@@ -1020,14 +1020,14 @@ sub_2AB8F:
         call TextSetFont
         add esp, byte 4
 .27:
-        call sub_10D17
+        call GetPressedDevice
         test eax, eax
         jne short .28
         call sub_69A9B
         jmp short .27
 .28:
         call sub_69A9B
-        call sub_10D17
+        call GetPressedDevice
         test eax, eax
         jne short .28
         call sub_1AA27
@@ -2667,14 +2667,14 @@ sub_2C65C:
         call sub_77355
         call sub_1AA62
 .1:
-        call sub_10D17
+        call GetPressedDevice
         test eax, eax
         jne short .2
         call sub_69A9B
         jmp short .1
 .2:
         call sub_69A9B
-        call sub_10D17
+        call GetPressedDevice
         test eax, eax
         jne short .2
         call sub_1AA27

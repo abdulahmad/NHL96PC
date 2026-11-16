@@ -18,7 +18,7 @@ extern dword_17C958, dword_17C960, dword_17C964, dword_17C968, tgvpalpending, dw
 extern dword_17C97C, dword_17C980, dword_17C984, dword_17C988, dword_17C98C, dword_17C990, dword_17C994, dword_17C998
 extern dword_17C99C, dword_17C9A4, optflags, dword_17C9F4, globalset, optblock, dword_17CA5C, dword_17CA76
 extern gameopts, getcwd_, gmode, sub_BFA45_90, rand_, srand_, strcat_, strlen_
-extern strncpy_, sub_10C9B, sub_10D17, sub_13338, sub_193E8, sub_19522, sub_1B807, sub_1BA4D
+extern strncpy_, ResetSlotButtons, GetPressedDevice, sub_13338, sub_193E8, sub_19522, sub_1B807, sub_1BA4D
 extern sub_1BB20, sub_1BC7A, sub_1BD67, sub_1BE50, sub_1BE72, sub_1C56B, sub_1C711, sub_1C729
 extern sub_1C957, sub_1C9DC, sub_1CA02, sub_1CA52, sub_1CAF0, sub_1D5D1, sub_1D658, sub_1DF55
 extern sub_1E3E8, sub_1E5FC, sub_1E73F, sub_1E779, sub_1ECDB, sub_57B11, sub_63A5B, sub_63BBA
@@ -4325,7 +4325,7 @@ sub_6A2A8:
         add esp, byte 8
         cmp byte [byte ebp-034h], 0
         je short .2
-        mov ecx, sub_10D17
+        mov ecx, GetPressedDevice
         mov ebx, 1
         lea eax, [byte ebp-034h]
         mov edx, ebx
@@ -4686,7 +4686,7 @@ RunInGameMenu:
         mov dword [InGameMenuRequest], 0
         mov dword [GameLoopActive], 0
         call sub_13338
-        call sub_10C9B
+        call ResetSlotButtons
         mov al, byte [gmode]
         and al, 80h
         cmp edx, byte 2
@@ -4727,7 +4727,7 @@ RunInGameMenu:
         jne short .5
         mov dword [dword_1150FC], 2
 .5:
-        call sub_10C9B
+        call ResetSlotButtons
         call sub_13338
         mov dword [InGameMenuRequest], 0
         mov dword [GameLoopActive], ebx

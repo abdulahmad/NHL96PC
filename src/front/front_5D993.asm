@@ -47,8 +47,8 @@ extern dword_17C454, dword_17C458, dword_17C45C, dword_17C460, dword_17CA5C, fox
 extern gameclock, gameopts, gmode, unk_5D591_84, mousepollfn, off_11787C, puckc, off_117890
 extern off_117894, off_11BB4C, off_11BDA8, passplayer, penshotlive, penshotmode, penshotstart, puckvx
 extern puckvz, qword_111084, qword_11108C, qword_111094, qword_11109C, qword_1110A4, qword_1110AC, qword_1110B4
-extern qword_1110BC, rand_, sflags, sprintf_, str_Pl1, sub_10010, sub_10D17, sub_11589
-extern sub_11A88, sub_1E3E8, sub_1E643, sub_1E7F6, sub_21BE3, sub_2976B, sub_297A8, sub_53260
+extern qword_1110BC, rand_, sflags, sprintf_, str_Pl1, GetInputDevices, GetPressedDevice, GripReadSlots
+extern ReadJoystickBits, sub_1E3E8, sub_1E643, sub_1E7F6, sub_21BE3, sub_2976B, sub_297A8, sub_53260
 extern sub_587B7, sub_589E4, sub_5CC12, sub_5D707, sub_5D82C, sub_5D87E, sub_5D8D1, sub_67A63
 extern sub_689D1, sub_68A10, sub_68AB1, sub_68B37, sub_68BA4, sub_68BFA, sub_68C33, sub_68E31
 extern sub_69A94, sub_69A9B, sub_6A229, sub_77355, sub_AA7E0, PutBlock, sub_AADA4, sub_AB758
@@ -6367,7 +6367,7 @@ sub_62FD8:
         mov ax, word [word_11D1D0]
         xor ah, ah
         and al, 1
-        mov ecx, sub_10D17
+        mov ecx, GetPressedDevice
         movsx edx, ax
         lea eax, [byte ebp-034h]
         add edx, 0BEh
@@ -6382,7 +6382,7 @@ sub_62FD8:
         mov ax, word [word_11D1D0]
         xor ah, ah
         and al, 1
-        mov ecx, sub_10D17
+        mov ecx, GetPressedDevice
         movsx edx, ax
         lea eax, [byte ebp-034h]
         add edx, 0C0h
@@ -6421,7 +6421,7 @@ sub_63076:
         enter 2Ch, 0
         mov dword [byte ebp-010h], 0
 .1:
-        call sub_10D17
+        call GetPressedDevice
         test eax, eax
         jne short .1
         mov eax, 0BDh
@@ -6529,7 +6529,7 @@ sub_63076:
         jne short .4
         cmp dword [byte ebp-010h], byte 0
         jne short .3
-        call sub_10D17
+        call GetPressedDevice
         mov dword [byte ebp-010h], eax
 .3:
         call sub_69A9B
@@ -6583,7 +6583,7 @@ sub_63076:
         jne short .7
         cmp dword [byte ebp-010h], byte 0
         jne short .6
-        call sub_10D17
+        call GetPressedDevice
         mov dword [byte ebp-010h], eax
 .6:
         call sub_69A9B
@@ -6677,7 +6677,7 @@ sub_63076:
         call GetTicks
         cmp eax, dword [byte ebp-028h]
         jle short .15
-        call sub_10D17
+        call GetPressedDevice
         mov edi, eax
 .15:
         test edi, edi
@@ -6714,7 +6714,7 @@ sub_63418:
         jne short .3
         test eax, eax
         jne short .2
-        call sub_10D17
+        call GetPressedDevice
         mov esi, eax
 .2:
         call sub_634A4
@@ -7001,7 +7001,7 @@ sub_63541_248:
         test eax, eax
         je short .8
 .7:
-        call sub_10D17
+        call GetPressedDevice
         test eax, eax
         jne short .7
         mov dword [byte ebp-010h], 0FFFFFFFFh
@@ -7077,7 +7077,7 @@ sub_63541_2E0:
         test eax, eax
         je short .10
 .9:
-        call sub_10D17
+        call GetPressedDevice
         test eax, eax
         jne short .9
         mov dword [byte ebp-010h], 0FFFFFFFFh
@@ -7144,7 +7144,7 @@ sub_63541_2E0:
 ; sub_63955                                                       63955  96 PC
 ;-----------------------------------------------------------------------------
 sub_63955:
-        call sub_10D17
+        call GetPressedDevice
         test eax, eax
         jne short sub_63955
         mov eax, unk_11BFA4
@@ -8575,7 +8575,7 @@ sub_64776:
         push edx
         mov esi, ebx
         mov dword [dword_11D1B0], 0
-        call sub_10010
+        call GetInputDevices
         test al, 1
         je short .1
         call dword [mousepollfn]
@@ -8585,8 +8585,8 @@ sub_64776:
         mov eax, dword [mousey]
         mov dword [dword_11D1AC], eax
 .1:
-        call sub_11589
-        call sub_11A88
+        call GripReadSlots
+        call ReadJoystickBits
         push byte 1Ch
         mov dword [byte ebp-04h], 0
         call sub_DFE9C

@@ -29,7 +29,7 @@ extern dword_15291C, dword_152F50, dword_152F54, dword_152F58, dword_152F5C, dwo
 extern dword_17BC78, dword_17BCE2, dword_17BD48, optflags, optblock, dword_17CBE7, dword_17D162, dword_17D267
 extern fadeinpending, gameopts, gmode, hmtmstruct, off_114F1C, off_114F24, penshotlive, rand_
 extern sprintf_, str_D02d2, str_DD, str_DDD, strcat_, strcpy_, strlen_, strncmp_
-extern strstr_, InitSlotTable, sub_10A65, sub_13146, sub_13338, sub_13407, sub_1377E, sub_187CF
+extern strstr_, InitSlotTable, ResetInputSlots, sub_13146, sub_13338, sub_13407, sub_1377E, sub_187CF
 extern sub_188AE, sub_189CD, sub_18A31, sub_18A81, sub_1A109, sub_1D6C1, sub_1E643, sub_1E7F6
 extern sub_1EA14, sub_1EBBC, sub_1ECDB, sub_1EE7C, sub_1EFFF, sub_1F15E, sub_1F300, sub_1F771
 extern sub_2B4B9, sub_3A6F3, ClockTick, PeriodOver, sub_4B59F, LoadGameState, BuildDefaultLines, sub_5358E
@@ -3211,7 +3211,7 @@ sub_1739F:
         call sub_AA664
         add esp, byte 4
         call sub_59188
-        call sub_10A65
+        call ResetInputSlots
         mov eax, 1
         call sub_63DC4
         push dword 1E0h
@@ -3353,7 +3353,7 @@ PlayGame_menucall_42:
         call sub_AA664
         add esp, byte 4
         call sub_13338
-        call sub_10A65
+        call ResetInputSlots
         mov eax, 1
         call sub_63DC4
         push dword 1E0h

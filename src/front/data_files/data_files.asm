@@ -6,7 +6,7 @@ extern DirPathTable, optflags, sprintf_, str_02d, str_07d, str_backslash2, str_D
 extern str_dot3, strcat_, stricmp_, SyncMusicStream, AllocMemBlock, FreeMemBlock, MemLargestFreeLocked, UnpackedSize
 extern LoadResourceBlockShared, LoadResourceData, LoadResourceDataShared, LoadFileData, OpenArtArchiveErr, OpenArtArchive, LoadDataFileErr, LoadFileAllocQuiet
 extern OpenResourceArchive, GetResourceArchiveName, LoadFileInto, LoadFileToBlockShared, LoadFileToBlockPlain, LoadPackedAlloc, LoadPackedAllocQuiet, LoadPackedHandle
-extern LoadPackedHandleQuiet, DataDirPath, ArtArchivePaths, str_X_SetArtArchive, DataFilePath, unpack, word_11512D
+extern LoadPackedHandleQuiet, DataDirPath, ArtArchivePaths, str_X_SetArtArchive, DataFilePath, unpack, DataLibIds
 global jpt_1E3C8, jpt_1E3D8, MakeDataPath, MakeDataPath_42, MakeDataPath_4A, MakeDataPath_50, MakeDataPath_63, MakeDataPath_E0
 global MakeDataPath_E8, MakeDataPath_EE, MakeDataPath_101, jpt_1E54A, MakeDirPath, jpt_1E633, SelectDataLibrary, SelectDataLibrary_32
 global SelectDataLibrary_3A, SelectDataLibrary_40, SelectDataLibrary_54, LoadDataFile, LoadDataFile_1B, LoadDataFileFlag0, LoadDataFileHandle, LoadPackedFile
@@ -74,7 +74,7 @@ MakeDataPath_63:
         cmp byte [ebx], 0
         je short .3
         imul eax, byte 0Fh
-        movsx eax, word [dword eax+word_11512D]
+        movsx eax, word [dword eax+DataLibIds]
 .3:
         imul eax, byte 0Fh
         mov edx, DataDirPath
@@ -131,7 +131,7 @@ MakeDataPath_101:
         cmp byte [edi], 0
         je short .9
         imul eax, byte 0Fh
-        movsx edx, word [dword eax+word_11512D]
+        movsx edx, word [dword eax+DataLibIds]
         imul edx, byte 0Fh
         mov eax, esi
         add edx, DataDirPath
@@ -202,7 +202,7 @@ jpt_1E54A:
         cmp byte [ecx], 0
         je short .7
         imul eax, byte 0Fh
-        movsx edx, word [dword eax+word_11512D]
+        movsx edx, word [dword eax+DataLibIds]
         imul edx, byte 0Fh
         mov eax, ebx
         add edx, DataDirPath
@@ -303,7 +303,7 @@ SelectDataLibrary_54:
         cmp byte [ebx], 0
         je short .3
         imul eax, byte 0Fh
-        movsx edx, word [dword eax+word_11512D]
+        movsx edx, word [dword eax+DataLibIds]
         imul edx, byte 0Fh
         lea eax, [byte ebp-028h]
         add edx, DataDirPath

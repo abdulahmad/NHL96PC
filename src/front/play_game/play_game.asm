@@ -6,10 +6,10 @@ extern GsOptions
 section s_168DA progbits alloc exec nowrite align=1
 extern _dos_gettime_, addtimer, BuildDefaultLines, textline1, textline2, textline3, textline4, textline5
 extern TitleTextStyle, SeasonGameHome, SeasonGameAway, ClockTick, CrowdNoiseReset, DemoMode, DoGameFrame
-extern DrawGameStats_DD0, SimSlotButtons, InputRecordIndex, GameLoopFrames, dword_1150D4
+extern DrawGameStats_DD0, SimSlotButtons, InputRecordIndex, GameLoopFrames, FrontShapesFile
 extern gameresult, LastEventPlayer, SfxMask, InMenuOverlay, dword_11F5C0, dword_11F5C4, SlotInput
 extern GameFrameCount, MenuRemoteCursorArt, MenuCursorPixels
-extern dword_152F58, MenuBitmapPixels, dword_157AF4, PlayoffTreeData, RosterFileHandle, dword_17D267, exitgame, fadeinpending
+extern pointerspr, MenuBitmapPixels, AttractResetFlag, PlayoffTreeData, RosterFileHandle, dword_17D267, exitgame, fadeinpending
 extern GameLoopActive, gameopts, gameover, GetTicks, gmode, InGameMenuRequest, InitSlotTable, InputRecordBusy
 extern InputRecordCount, InputRecordHead, InputRecordPhase, InputRecordRing, InputRecordTicks, LineChangeLine, LineChangeReq, LinkExchangeInput
 extern LinkResyncInput, LoadGameState, NormalizeDressFlags, optblock, optblock_end, optflags, PauseReplayPending, penshotlive
@@ -74,7 +74,7 @@ PlayMenuGame:
         shl eax, 19h
         mov dword [byte ebp-04h], 0
         shr eax, 1Dh
-        mov dword [dword_157AF4], 0
+        mov dword [AttractResetFlag], 0
         cmp eax, byte 3
         ja short PlayMenuGame_AF.2
         jmp dword [nosplit cs:eax*4+jpt_168DA]
@@ -113,17 +113,17 @@ PlayMenuGame_AF:
         test byte [GsOptions+1], 20h
         jne short .4
         push str_GloL5
-        push dword [dword_1150D4]
+        push dword [FrontShapesFile]
         call FindShape
         add esp, byte 8
         push str_GloR5
-        push dword [dword_1150D4]
-        mov dword [dword_152F58], eax
+        push dword [FrontShapesFile]
+        mov dword [pointerspr], eax
         call FindShape
         mov edx, 20h
         add esp, byte 8
         mov dword [MenuRemoteCursorArt], eax
-        mov eax, dword [dword_152F58]
+        mov eax, dword [pointerspr]
         call CopyBitmap
         mov edx, 20h
         mov dword [MenuCursorPixels], eax
@@ -133,12 +133,12 @@ PlayMenuGame_AF:
         jmp short .5
 .4:
         push str_GhiL
-        push dword [dword_1150D4]
+        push dword [FrontShapesFile]
         call FindShape
         add esp, byte 8
         push str_GhiR
-        push dword [dword_1150D4]
-        mov dword [dword_152F58], eax
+        push dword [FrontShapesFile]
+        mov dword [pointerspr], eax
         call FindShape
         add esp, byte 8
         mov dword [MenuRemoteCursorArt], eax
@@ -152,13 +152,13 @@ PlayMenuGame_AF:
         mov eax, esi
         call PlayGame
         push str_FhiL2
-        push dword [dword_1150D4]
+        push dword [FrontShapesFile]
         mov dword [byte ebp-08h], eax
         call FindShape
         add esp, byte 8
         push str_FhiR2
-        push dword [dword_1150D4]
-        mov dword [dword_152F58], eax
+        push dword [FrontShapesFile]
+        mov dword [pointerspr], eax
         call FindShape
         add esp, byte 8
         mov dword [MenuRemoteCursorArt], eax
@@ -175,7 +175,7 @@ PlayMenuGame_AF:
         test byte [GsOptions+1], 20h
         jne short .8
         mov edx, 20h
-        mov eax, dword [dword_152F58]
+        mov eax, dword [pointerspr]
         call CopyBitmap
         mov edx, 20h
         mov dword [MenuCursorPixels], eax

@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 extern BottomBarArt
 section s_6CF0D progbits alloc exec nowrite align=1
-extern BlackPalette, byte_11FA2F, ClearSlotUser, CopyBitmap, DrawColorText, DrawColorTextRight, DrawFrameAt, dword_1150D8
+extern BlackPalette, byte_11FA2F, ClearSlotUser, CopyBitmap, DrawColorText, DrawColorTextRight, DrawFrameAt, SaveFileHandle
 extern ControllerSlotX, ControllerSlotY, ControllerSlotStates, ControllerSlotItems, ControllerLayout, str_G, ControllerOptionRows, ControllerTitlePos
 extern dword_11F5C0, dword_11F5C4, FrontEndScreenBmp, MatchupLayer, TeamStatsBitmap
 extern MenuBoxStyle, PlayoffTreeData, RosterFileHandle, dword_17D267, dword_17D564, dword_17D56C, dword_17D574
@@ -1556,7 +1556,7 @@ SetControllerColumn:
         movzx eax, al
         test eax, eax
         je short .53
-        cmp dword [dword_1150D8], byte 0FFFFFFFFh
+        cmp dword [SaveFileHandle], byte 0FFFFFFFFh
         jne short .53
         mov eax, dword [dword_17D580]
         mov byte [dword eax+0909h], 14h
@@ -1607,7 +1607,7 @@ SetControllerColumn:
         movzx eax, al
         test eax, eax
         je short .62
-        cmp dword [dword_1150D8], byte 0FFFFFFFFh
+        cmp dword [SaveFileHandle], byte 0FFFFFFFFh
         jne short .62
         mov eax, dword [dword_17D580]
         mov byte [dword eax+096Eh], 15h
@@ -1664,7 +1664,7 @@ SetControllerIcon:
         and ebx, byte 70h
         cmp ebx, byte 30h
         je near SetControllerIcon_F9
-        cmp dword [dword_1150D8], byte 0FFFFFFFFh
+        cmp dword [SaveFileHandle], byte 0FFFFFFFFh
         jne near SetControllerIcon_F9
         test eax, eax
         jne short .1
@@ -3350,7 +3350,7 @@ ControllerScreen:
         and eax, byte 70h
         cmp eax, byte 30h
         je near .32
-        cmp dword [dword_1150D8], byte 0FFFFFFFFh
+        cmp dword [SaveFileHandle], byte 0FFFFFFFFh
         jne near .32
         cmp word [word_17D560], byte 0
         je short .26
@@ -3609,7 +3609,7 @@ ControllerScreen:
         movzx eax, al
         test eax, eax
         je short .42
-        cmp dword [dword_1150D8], byte 0FFFFFFFFh
+        cmp dword [SaveFileHandle], byte 0FFFFFFFFh
         jne short .42
         mov eax, dword [dword_17D580]
         mov byte [dword eax+06A3h], 14h
@@ -3988,7 +3988,7 @@ ControllerScreen_1503:
 ControllerScreen_1548:
         cmp eax, byte 30h
         je near ControllerScreen_16D6.76
-        cmp dword [dword_1150D8], byte 0FFFFFFFFh
+        cmp dword [SaveFileHandle], byte 0FFFFFFFFh
         jne near ControllerScreen_16D6.76
         mov edx, dword [dword_17D580]
         cmp dword [dword edx+0816h], byte 0
@@ -4019,7 +4019,7 @@ ControllerScreen_1548:
 ControllerScreen_15D1:
         cmp eax, byte 30h
         je near ControllerScreen_16D6.76
-        cmp dword [dword_1150D8], byte 0FFFFFFFFh
+        cmp dword [SaveFileHandle], byte 0FFFFFFFFh
         jne near ControllerScreen_16D6.76
         mov edx, dword [dword_17D580]
         cmp dword [dword edx+087Ch], byte 0
@@ -4189,7 +4189,7 @@ RunControllerScreen:
         mov ecx, dword [gameopts]
         test byte [byte ecx+02h], 8
         jne short .3
-        cmp dword [dword_1150D8], byte 0FFFFFFFFh
+        cmp dword [SaveFileHandle], byte 0FFFFFFFFh
         je short .4
 .3:
         mov eax, 15h

@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_1EA14 progbits alloc exec nowrite align=1
-extern seasondb, dword_1174E4, statsfromleague, dword_1174EC, statsplayoffs, dword_1174F4, dword_1174F8, dword_1174FC
-extern dword_117500, dword_117504, dword_117508, dword_11750C, dword_117510, dword_117514, dword_117518, dword_11751C
+extern seasondb, CareerDb, statsfromleague, TeamDb, statsplayoffs, AttributeDb, PlayerAttrFile, LeagueRecordsFile
+extern SeasonDbSize, CareerDbSize, LeagueStatsSize, TeamDbSize, PlayoffStatsSize, AttributeDbSize, PlayerAttrFileSize, LeagueRecordsSize
 extern LoadDataFile, MakeDataPath, strcat_, strcpy_, MakeSeasonDbPath, MakePlayoffDbPath, FreeMemBlock, OpenArtArchiveErr
 extern FileSizeByName, str_Punct_PlayerDbRecord
 global LoadSeasonStats, LoadSeasonStats_11A, LoadPlayoffStats, LoadExhibitionStats, LoadExhibitionStats_17E, LoadModemStats, FreeStatsTables, PlayerDbRecord
@@ -36,7 +36,7 @@ LoadSeasonStats:
         call FileSizeByName
         mov ebx, 1
         add esp, byte 4
-        mov dword [dword_117500], eax
+        mov dword [SeasonDbSize], eax
         mov edx, esi
         lea eax, [byte ebp-020h]
         call MakeSeasonDbPath
@@ -45,13 +45,13 @@ LoadSeasonStats:
         push eax
         call OpenArtArchiveErr
         add esp, byte 8
-        mov dword [dword_1174E4], eax
+        mov dword [CareerDb], eax
         lea eax, [byte ebp-020h]
         push eax
         call FileSizeByName
         mov ebx, 3
         add esp, byte 4
-        mov dword [dword_117504], eax
+        mov dword [CareerDbSize], eax
         mov edx, esi
         lea eax, [byte ebp-020h]
         call MakeSeasonDbPath
@@ -65,7 +65,7 @@ LoadSeasonStats:
         push eax
         call FileSizeByName
         add esp, byte 4
-        mov dword [dword_117508], eax
+        mov dword [LeagueStatsSize], eax
         mov edx, esi
         xor ebx, ebx
         lea eax, [byte ebp-020h]
@@ -75,13 +75,13 @@ LoadSeasonStats:
         push eax
         call OpenArtArchiveErr
         add esp, byte 8
-        mov dword [dword_1174EC], eax
+        mov dword [TeamDb], eax
         lea eax, [byte ebp-020h]
         push eax
         call FileSizeByName
         mov ebx, 4
         add esp, byte 4
-        mov dword [dword_11750C], eax
+        mov dword [TeamDbSize], eax
         mov edx, esi
         lea eax, [byte ebp-020h]
         call MakeSeasonDbPath
@@ -96,7 +96,7 @@ LoadSeasonStats:
         call FileSizeByName
         mov ebx, 2
         add esp, byte 4
-        mov dword [dword_117510], eax
+        mov dword [PlayoffStatsSize], eax
         mov edx, esi
         lea eax, [byte ebp-020h]
         call MakeSeasonDbPath
@@ -106,17 +106,17 @@ LoadSeasonStats_11A:
         push eax
         call OpenArtArchiveErr
         add esp, byte 8
-        mov dword [dword_1174F4], eax
+        mov dword [AttributeDb], eax
         lea eax, [byte ebp-020h]
         push eax
         call FileSizeByName
         mov edx, 20h
         add esp, byte 4
-        mov dword [dword_117514], eax
+        mov dword [AttributeDbSize], eax
         mov eax, 0BBh
         call LoadDataFile
         mov edx, 0BBh
-        mov dword [dword_1174FC], eax
+        mov dword [LeagueRecordsFile], eax
         lea eax, [byte ebp-020h]
         call MakeDataPath
         lea eax, [byte ebp-020h]
@@ -124,18 +124,18 @@ LoadSeasonStats_11A:
         call FileSizeByName
         mov edx, 20h
         add esp, byte 4
-        mov dword [dword_11751C], eax
+        mov dword [LeagueRecordsSize], eax
         mov eax, 4
         call LoadDataFile
         mov edx, 4
-        mov dword [dword_1174F8], eax
+        mov dword [PlayerAttrFile], eax
         lea eax, [byte ebp-020h]
         call MakeDataPath
         lea eax, [byte ebp-020h]
         push eax
         call FileSizeByName
         add esp, byte 4
-        mov dword [dword_117518], eax
+        mov dword [PlayerAttrFileSize], eax
         leave
         pop esi
         pop edx
@@ -169,7 +169,7 @@ LoadPlayoffStats:
         call FileSizeByName
         mov ebx, 1
         add esp, byte 4
-        mov dword [dword_117500], eax
+        mov dword [SeasonDbSize], eax
         mov edx, esi
         lea eax, [byte ebp-020h]
         call MakePlayoffDbPath
@@ -178,13 +178,13 @@ LoadPlayoffStats:
         push eax
         call OpenArtArchiveErr
         add esp, byte 8
-        mov dword [dword_1174E4], eax
+        mov dword [CareerDb], eax
         lea eax, [byte ebp-020h]
         push eax
         call FileSizeByName
         mov ebx, 3
         add esp, byte 4
-        mov dword [dword_117504], eax
+        mov dword [CareerDbSize], eax
         mov edx, esi
         lea eax, [byte ebp-020h]
         call MakePlayoffDbPath
@@ -198,7 +198,7 @@ LoadPlayoffStats:
         push eax
         call FileSizeByName
         add esp, byte 4
-        mov dword [dword_117508], eax
+        mov dword [LeagueStatsSize], eax
         mov edx, esi
         xor ebx, ebx
         lea eax, [byte ebp-020h]
@@ -208,13 +208,13 @@ LoadPlayoffStats:
         push eax
         call OpenArtArchiveErr
         add esp, byte 8
-        mov dword [dword_1174EC], eax
+        mov dword [TeamDb], eax
         lea eax, [byte ebp-020h]
         push eax
         call FileSizeByName
         mov ebx, 4
         add esp, byte 4
-        mov dword [dword_11750C], eax
+        mov dword [TeamDbSize], eax
         mov edx, esi
         lea eax, [byte ebp-020h]
         call MakePlayoffDbPath
@@ -229,7 +229,7 @@ LoadPlayoffStats:
         call FileSizeByName
         mov ebx, 2
         add esp, byte 4
-        mov dword [dword_117510], eax
+        mov dword [PlayoffStatsSize], eax
         mov edx, esi
         lea eax, [byte ebp-020h]
         call MakePlayoffDbPath
@@ -256,11 +256,11 @@ LoadExhibitionStats:
         call FileSizeByName
         mov edx, 20h
         add esp, byte 4
-        mov dword [dword_117500], eax
+        mov dword [SeasonDbSize], eax
         mov eax, 0BAh
         call LoadDataFile
         mov edx, 0BAh
-        mov dword [dword_1174E4], eax
+        mov dword [CareerDb], eax
         lea eax, [byte ebp-020h]
         call MakeDataPath
         lea eax, [byte ebp-020h]
@@ -268,7 +268,7 @@ LoadExhibitionStats:
         call FileSizeByName
         mov edx, 20h
         add esp, byte 4
-        mov dword [dword_117504], eax
+        mov dword [CareerDbSize], eax
         mov eax, 6
         call LoadDataFile
         mov edx, 6
@@ -280,18 +280,18 @@ LoadExhibitionStats:
         call FileSizeByName
         mov edx, 20h
         add esp, byte 4
-        mov dword [dword_117508], eax
+        mov dword [LeagueStatsSize], eax
         mov eax, 3
         call LoadDataFile
         mov edx, 3
-        mov dword [dword_1174EC], eax
+        mov dword [TeamDb], eax
         lea eax, [byte ebp-020h]
         call MakeDataPath
         lea eax, [byte ebp-020h]
         push eax
         call FileSizeByName
         add esp, byte 4
-        mov dword [dword_11750C], eax
+        mov dword [TeamDbSize], eax
         mov edx, 20h
         mov eax, 7
         call LoadDataFile
@@ -304,11 +304,11 @@ LoadExhibitionStats:
         call FileSizeByName
         mov edx, 20h
         add esp, byte 4
-        mov dword [dword_117510], eax
+        mov dword [PlayoffStatsSize], eax
         mov eax, 5
         call LoadDataFile
         mov edx, 5
-        mov dword [dword_1174F4], eax
+        mov dword [AttributeDb], eax
         lea eax, [byte ebp-020h]
         call MakeDataPath
         lea eax, [byte ebp-020h]
@@ -316,11 +316,11 @@ LoadExhibitionStats:
         call FileSizeByName
         mov edx, 20h
         add esp, byte 4
-        mov dword [dword_117514], eax
+        mov dword [AttributeDbSize], eax
         mov eax, 0BBh
         call LoadDataFile
         mov edx, 0BBh
-        mov dword [dword_1174FC], eax
+        mov dword [LeagueRecordsFile], eax
         lea eax, [byte ebp-020h]
         call MakeDataPath
         lea eax, [byte ebp-020h]
@@ -328,19 +328,19 @@ LoadExhibitionStats:
         call FileSizeByName
         mov edx, 20h
         add esp, byte 4
-        mov dword [dword_11751C], eax
+        mov dword [LeagueRecordsSize], eax
         mov eax, 4
         call LoadDataFile
         mov edx, 4
 LoadExhibitionStats_17E:
-        mov dword [dword_1174F8], eax
+        mov dword [PlayerAttrFile], eax
         lea eax, [byte ebp-020h]
         call MakeDataPath
         lea eax, [byte ebp-020h]
         push eax
         call FileSizeByName
         add esp, byte 4
-        mov dword [dword_117518], eax
+        mov dword [PlayerAttrFileSize], eax
         leave
         pop edx
         pop ecx
@@ -368,11 +368,11 @@ LoadModemStats:
         call FileSizeByName
         mov edx, 20h
         add esp, byte 4
-        mov dword [dword_117500], eax
+        mov dword [SeasonDbSize], eax
         mov eax, 113h
         call LoadDataFile
         mov edx, 113h
-        mov dword [dword_1174E4], eax
+        mov dword [CareerDb], eax
         lea eax, [byte ebp-020h]
         call MakeDataPath
         lea eax, [byte ebp-020h]
@@ -380,7 +380,7 @@ LoadModemStats:
         call FileSizeByName
         mov edx, 20h
         add esp, byte 4
-        mov dword [dword_117504], eax
+        mov dword [CareerDbSize], eax
         mov eax, 110h
         call LoadDataFile
         mov edx, 110h
@@ -392,18 +392,18 @@ LoadModemStats:
         call FileSizeByName
         mov edx, 20h
         add esp, byte 4
-        mov dword [dword_117508], eax
+        mov dword [LeagueStatsSize], eax
         mov eax, 109h
         call LoadDataFile
         mov edx, 109h
-        mov dword [dword_1174EC], eax
+        mov dword [TeamDb], eax
         lea eax, [byte ebp-020h]
         call MakeDataPath
         lea eax, [byte ebp-020h]
         push eax
         call FileSizeByName
         add esp, byte 4
-        mov dword [dword_11750C], eax
+        mov dword [TeamDbSize], eax
         mov edx, 20h
         mov eax, 10Eh
         call LoadDataFile
@@ -416,11 +416,11 @@ LoadModemStats:
         call FileSizeByName
         mov edx, 20h
         add esp, byte 4
-        mov dword [dword_117510], eax
+        mov dword [PlayoffStatsSize], eax
         mov eax, 10Fh
         call LoadDataFile
         mov edx, 10Fh
-        mov dword [dword_1174F4], eax
+        mov dword [AttributeDb], eax
         lea eax, [byte ebp-020h]
         call MakeDataPath
         lea eax, [byte ebp-020h]
@@ -428,11 +428,11 @@ LoadModemStats:
         call FileSizeByName
         mov edx, 20h
         add esp, byte 4
-        mov dword [dword_117514], eax
+        mov dword [AttributeDbSize], eax
         mov eax, 114h
         call LoadDataFile
         mov edx, 114h
-        mov dword [dword_1174FC], eax
+        mov dword [LeagueRecordsFile], eax
         lea eax, [byte ebp-020h]
         call MakeDataPath
         lea eax, [byte ebp-020h]
@@ -440,7 +440,7 @@ LoadModemStats:
         call FileSizeByName
         mov edx, 20h
         add esp, byte 4
-        mov dword [dword_11751C], eax
+        mov dword [LeagueRecordsSize], eax
         mov eax, 10Ah
         call LoadDataFile
         mov edx, 10Ah
@@ -453,12 +453,12 @@ FreeStatsTables:
         push ebx
         push ecx
         push edx
-        cmp dword [dword_1174F4], byte 0
+        cmp dword [AttributeDb], byte 0
         je short .1
-        push dword [dword_1174F4]
+        push dword [AttributeDb]
         call FreeMemBlock
-        mov dword [dword_1174F4], 0
-        mov dword [dword_117514], 0
+        mov dword [AttributeDb], 0
+        mov dword [AttributeDbSize], 0
         add esp, byte 4
 .1:
         cmp dword [statsplayoffs], byte 0
@@ -466,15 +466,15 @@ FreeStatsTables:
         push dword [statsplayoffs]
         call FreeMemBlock
         mov dword [statsplayoffs], 0
-        mov dword [dword_117510], 0
+        mov dword [PlayoffStatsSize], 0
         add esp, byte 4
 .2:
-        cmp dword [dword_1174EC], byte 0
+        cmp dword [TeamDb], byte 0
         je short .3
-        push dword [dword_1174EC]
+        push dword [TeamDb]
         call FreeMemBlock
-        mov dword [dword_1174EC], 0
-        mov dword [dword_11750C], 0
+        mov dword [TeamDb], 0
+        mov dword [TeamDbSize], 0
         add esp, byte 4
 .3:
         cmp dword [statsfromleague], byte 0
@@ -482,15 +482,15 @@ FreeStatsTables:
         push dword [statsfromleague]
         call FreeMemBlock
         mov dword [statsfromleague], 0
-        mov dword [dword_117508], 0
+        mov dword [LeagueStatsSize], 0
         add esp, byte 4
 .4:
-        cmp dword [dword_1174E4], byte 0
+        cmp dword [CareerDb], byte 0
         je short .5
-        push dword [dword_1174E4]
+        push dword [CareerDb]
         call FreeMemBlock
-        mov dword [dword_1174E4], 0
-        mov dword [dword_117504], 0
+        mov dword [CareerDb], 0
+        mov dword [CareerDbSize], 0
         add esp, byte 4
 .5:
         cmp dword [seasondb], byte 0
@@ -498,23 +498,23 @@ FreeStatsTables:
         push dword [seasondb]
         call FreeMemBlock
         mov dword [seasondb], 0
-        mov dword [dword_117500], 0
+        mov dword [SeasonDbSize], 0
         add esp, byte 4
 .6:
-        cmp dword [dword_1174FC], byte 0
+        cmp dword [LeagueRecordsFile], byte 0
         je short .7
-        push dword [dword_1174FC]
+        push dword [LeagueRecordsFile]
         call FreeMemBlock
-        mov dword [dword_1174FC], 0
-        mov dword [dword_11751C], 0
+        mov dword [LeagueRecordsFile], 0
+        mov dword [LeagueRecordsSize], 0
         add esp, byte 4
 .7:
-        cmp dword [dword_1174F8], byte 0
+        cmp dword [PlayerAttrFile], byte 0
         je short .8
-        push dword [dword_1174F8]
+        push dword [PlayerAttrFile]
         call FreeMemBlock
-        mov dword [dword_1174F8], 0
-        mov dword [dword_117518], 0
+        mov dword [PlayerAttrFile], 0
+        mov dword [PlayerAttrFileSize], 0
         add esp, byte 4
 .8:
         pop edx
@@ -523,12 +523,12 @@ FreeStatsTables:
         ret
 ;-----------------------------------------------------------------------------
 ; PlayerDbRecord                               1F15E  96 PC, medium confidence
-; (offset): pointer into the player table (stats db file 0, dword_1174EC):
+; (offset): pointer into the player table (stats db file 0, TeamDb):
 ; +1, +2 number and position, +3 first name, +13h last name
 ;-----------------------------------------------------------------------------
 PlayerDbRecord:
         push edx
-        mov edx, dword [dword_1174EC]
+        mov edx, dword [TeamDb]
         add eax, edx
         pop edx
         ret
@@ -565,7 +565,7 @@ PlayerDbRecord:
         mov byte [byte ebx+03h], 0
         jmp short .4
 .3:
-        mov esi, dword [dword_1174EC]
+        mov esi, dword [TeamDb]
         add esi, eax
         mov dl, byte [byte esi+02h]
         mov byte [ebx], dl
@@ -603,7 +603,7 @@ PlayerDbRecord:
         mov byte [byte ebx+03h], 0
         jmp short .7
 .6:
-        mov esi, dword [dword_1174EC]
+        mov esi, dword [TeamDb]
         add esi, eax
         mov dl, byte [byte esi+02h]
         mov byte [ebx], dl
@@ -668,41 +668,41 @@ StatsDb5Record:
         ret
 ;-----------------------------------------------------------------------------
 ; StatsDb1Record                                  1F2D4  96 PC, low confidence
-; (offset): pointer into stats db file 1 (dword_1174E4)
+; (offset): pointer into stats db file 1 (CareerDb)
 ;-----------------------------------------------------------------------------
 StatsDb1Record:
         push edx
-        mov edx, dword [dword_1174E4]
+        mov edx, dword [CareerDb]
         add eax, edx
         pop edx
         ret
 ;-----------------------------------------------------------------------------
 ; StatsDataBBRecord                               1F2DF  96 PC, low confidence
-; (offset): pointer into data file 0BBh (dword_1174FC)
+; (offset): pointer into data file 0BBh (LeagueRecordsFile)
 ;-----------------------------------------------------------------------------
 StatsDataBBRecord:
         push edx
-        mov edx, dword [dword_1174FC]
+        mov edx, dword [LeagueRecordsFile]
         add eax, edx
         pop edx
         ret
 ;-----------------------------------------------------------------------------
 ; StatsData4Record                                1F2EA  96 PC, low confidence
-; (offset): pointer into data file 4 (dword_1174F8)
+; (offset): pointer into data file 4 (PlayerAttrFile)
 ;-----------------------------------------------------------------------------
 StatsData4Record:
         push edx
-        mov edx, dword [dword_1174F8]
+        mov edx, dword [PlayerAttrFile]
         add eax, edx
         pop edx
         ret
 ;-----------------------------------------------------------------------------
 ; StatsDb2Record                                  1F2F5  96 PC, low confidence
-; (offset): pointer into stats db file 2 (dword_1174F4)
+; (offset): pointer into stats db file 2 (AttributeDb)
 ;-----------------------------------------------------------------------------
 StatsDb2Record:
         push edx
-        mov edx, dword [dword_1174F4]
+        mov edx, dword [AttributeDb]
         add eax, edx
         pop edx
         ret

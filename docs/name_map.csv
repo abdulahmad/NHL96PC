@@ -2601,7 +2601,9 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 110398,str_HardwareBeforeRunningHOC,asc_110398,new,high,string 'hardware before running HOCKEY. ',src/data/front/main_data_01.asm
 1103B9,str_spPressESCToReturnToDOS,asc_1103B9,new,high,string ' Press ESC to return to DOS.  ',src/data/front/main_data_01.asm
 1103D8,str_Punct_StartUp,asc_1103D8,new,high,"string ""\n--------------------------------------------------------------\n\n""",src/data/front/main_data_01.asm
+11041A,str_RunSetupFirstDe,unk_11041A,new,low,German message: run the set-up program first,src/data/front/main_data_01.asm
 110452,str_IhreHardwareZuKonfigurie,asc_110452,new,high,"string 'Ihre Hardware zu konfigurieren, bevor Sie HOCKEY starten. '",src/data/front/main_data_01.asm
+11048D,str_EscToDosDe,unk_11048D,new,low,German message: press Esc to return to DOS,src/data/front/main_data_01.asm
 1104B7,str_FhiL4,asc_1104B7,new,high,string 'FhiL',src/data/front/main_data_01.asm
 1104BC,str_FhiR4,asc_1104BC,new,high,string 'FhiR',src/data/front/main_data_01.asm
 1104C1,str_LOGOPACK,asc_1104C1,new,high,string 'LOGOPACK',src/data/front/main_data_01.asm
@@ -4583,14 +4585,36 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 11507C,LinkRxHead,dword_11507C,new,low,Link: receive ring head,src/data/front/front_1456D_data_02.asm
 115080,LinkRxCount,dword_115080,new,low,Link: bytes in the receive ring,src/data/front/front_1456D_data_02.asm
 115084,str_Punct_LinkTimerTick,byte_115084,new,high,"string "":""",src/data/front/front_1456D_data_02.asm
+115098,LinkPollState,dword_115098,new,low,link poll state,src/data/front/main_data_02.asm
 11509C,str_0123456789abcdefghijklmn,asc_11509C,new,high,string '0123456789abcdefghijklmnopqrstuvwxyz ',src/data/front/main_data_02.asm
+1150C4,MessageShown,dword_1150C4,new,low,message box is shown,src/data/front/main_data_02.asm
+1150C8,ProgressBoxBmp,dword_1150C8,new,low,progress box bitmap,src/data/front/main_data_02.asm
+1150CC,ProgressBoxTotal,dword_1150CC,new,low,progress box total,src/data/front/main_data_02.asm
+1150D0,ProgressBoxStep,dword_1150D0,new,low,progress box step,src/data/front/main_data_02.asm
+1150D4,FrontShapesFile,dword_1150D4,new,low,front end shape file,src/data/front/main_data_02.asm
+1150D8,SaveFileHandle,dword_1150D8,new,low,save file handle (-1 when closed),src/data/front/main_data_02.asm
+1150DC,CpuTestPattern,dword_1150DC,new,low,CPU test pattern pointer,src/data/front/main_data_02.asm
+1150E0,AsyncTicks,dword_1150E0,new,low,ticks counted during an async read,src/data/front/main_data_02.asm
 1150E4,AsyncQueueTail,dword_1150E4,new,low,last request in the async queue,src/data/front/main_data_02.asm
 1150E8,StreamBlockSize,dword_1150E8,new,low,stream block size,src/data/front/main_data_02.asm
 1150EC,StreamTimeout,dword_1150EC,new,low,stream timeout,src/data/front/main_data_02.asm
+1150F0,CdStreamReadTime,dword_1150F0,new,low,time spent on CD stream reads,src/data/front/main_data_02.asm
+1150F4,CdStreamFilled,dword_1150F4,new,low,CD stream bytes read,src/data/front/main_data_02.asm
+1150F8,CdStreamTicks,dword_1150F8,new,low,ticks counted during a CD stream read,src/data/front/main_data_02.asm
 1150FC,gameresult,dword_1150FC,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_data_02.asm
 115108,gsumheader,unk_115108,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_data_02.asm
+115109,GamePad1Dev,byte_115109,new,low,controller device for pad 1 at game start,src/data/front/main_data_02.asm
+11510A,GamePad2Dev,byte_11510A,new,low,controller device for pad 2 at game start,src/data/front/main_data_02.asm
+11510B,GameUserTeam,byte_11510B,new,low,user team at game start,src/data/front/main_data_02.asm
+11510C,GameModeFlags,byte_11510C,new,low,game mode flags at game start,src/data/front/main_data_02.asm
+11510D,GameStarted,word_11510D,new,low,game has started,src/data/front/main_data_02.asm
 115113,gsumtail,unk_115113,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_data_02.asm
+115114,HomeGoalCount,byte_115114,new,low,goals counted for the home team,src/data/front/main_data_02.asm
+115115,HomeShotCount,byte_115115,new,low,shots counted for the home team,src/data/front/main_data_02.asm
+115116,AwayGoalCount,byte_115116,new,low,goals counted for the away team,src/data/front/main_data_02.asm
+115117,AwayShotCount,byte_115117,new,low,shots counted for the away team,src/data/front/main_data_02.asm
 115120,DataDirPath,unk_115120,new,low,data directory path,src/data/front/main_data_02.asm
+11512D,DataLibIds,word_11512D,new,low,data library table,src/data/front/main_data_02.asm
 1151A7,ArtArchivePaths,unk_1151A7,new,low,art archive paths,src/data/front/main_data_02.asm
 115333,str_X_SetArtArchive,unk_115333,new,low,"string ""x""",src/data/front/main_data_02.asm
 117478,str_KEY3,unk_117478,new,high,string 'KEY',src/data/front/main_data_02.asm
@@ -4601,9 +4625,34 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 117496,str_SEASON4,unk_117496,95PC,high,string 'SEASON',src/data/front/main_data_02.asm
 11749D,str_SCHEDULE,unk_11749D,new,high,"string ""SCHEDULE""",src/data/front/main_data_02.asm
 1174E0,seasondb,dword_1174E0,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_data_02.asm
+1174E4,CareerDb,dword_1174E4,new,low,career stats database,src/data/front/main_data_02.asm
 1174E8,statsfromleague,dword_1174E8,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_data_02.asm
+1174EC,TeamDb,dword_1174EC,new,low,team stats database,src/data/front/main_data_02.asm
 1174F0,statsplayoffs,dword_1174F0,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_data_02.asm
+1174F4,AttributeDb,dword_1174F4,new,low,attribute database,src/data/front/main_data_02.asm
+1174F8,PlayerAttrFile,dword_1174F8,new,low,player attribute data file,src/data/front/main_data_02.asm
+1174FC,LeagueRecordsFile,dword_1174FC,new,low,league records data file,src/data/front/main_data_02.asm
+117500,SeasonDbSize,dword_117500,new,low,season database size,src/data/front/main_data_02.asm
+117504,CareerDbSize,dword_117504,new,low,career database size,src/data/front/main_data_02.asm
+117508,LeagueStatsSize,dword_117508,new,low,league stats size,src/data/front/main_data_02.asm
+11750C,TeamDbSize,dword_11750C,new,low,team database size,src/data/front/main_data_02.asm
+117510,PlayoffStatsSize,dword_117510,new,low,playoff stats size,src/data/front/main_data_02.asm
+117514,AttributeDbSize,dword_117514,new,low,attribute database size,src/data/front/main_data_02.asm
+117518,PlayerAttrFileSize,dword_117518,new,low,player attribute file size,src/data/front/main_data_02.asm
+11751C,LeagueRecordsSize,dword_11751C,new,low,league records file size,src/data/front/main_data_02.asm
 117522,str_Punct_PlayerDbRecord,unk_117522,new,high,"string "" """,src/data/front/main_data_02.asm
+117575,RosterSlotOrder,byte_117575,new,low,roster slot order,src/data/front/main_data_02.asm
+117588,JoyTestTime,dword_117588,new,low,joystick test time,src/data/front/main_data_02.asm
+11758C,JoyTestButtonMap,word_11758C,new,low,joystick test button map,src/data/front/main_data_02.asm
+1175A4,RinkFloorOn,byte_1175A4,new,low,draw the rink floor,src/data/front/main_data_02.asm
+1175A5,IceTextureOn,byte_1175A5,new,low,draw the ice texture,src/data/front/main_data_02.asm
+1175A6,IceLogosOn,byte_1175A6,new,low,draw the ice logos,src/data/front/main_data_02.asm
+1175A7,GlassOn,byte_1175A7,new,low,draw and collide with the glass,src/data/front/main_data_02.asm
+1175A8,PlayerDetailOn,byte_1175A8,new,low,draw detailed players,src/data/front/main_data_02.asm
+1175A9,StandsOn,byte_1175A9,new,low,draw the stands,src/data/front/main_data_02.asm
+1175AA,RinkBoardsOn,byte_1175AA,new,low,draw the boards,src/data/front/main_data_02.asm
+1175AB,BenchPlayersOn,byte_1175AB,new,low,draw the bench players,src/data/front/main_data_02.asm
+1175AC,ScoreClockOn,byte_1175AC,new,low,draw the score clock,src/data/front/main_data_02.asm
 1175BD,str_Punct_DrawIceSurface,unk_1175BD,new,high,"string "".""",src/data/front/rink_model_data_02.asm
 117605,IceSurfaceDef,unk_117605,new,medium,ice surface definition,src/data/front/rink_model_data_02.asm
 11764D,IceGeometryDef,unk_11764D,new,medium,ice geometry definition,src/data/front/rink_model_data_02.asm
@@ -5666,24 +5715,66 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 1527C0,LinkModemString,unk_1527C0,new,low,Link: modem command string,src/data/front/front_1456D_bss_01.asm
 152810,LinkRxRing,byte_152810,new,low,Link: serial receive ring buffer,src/data/front/front_1456D_bss_01.asm
 15291C,LinkAbortCheck,dword_15291C,new,low,Link: callback that aborts a link wait,src/data/front/front_1456D_bss_01.asm
+152920,LinkResendPkt,byte_152920,new,low,link packet asking the other side to resend,src/data/front/main_bss_01.asm
+15292C,LinkAckPkt,byte_15292C,new,low,link acknowledge packet,src/data/front/main_bss_01.asm
+152938,LinkRxHeader,unk_152938,new,low,header of the link packet being received,src/data/front/main_bss_01.asm
+152944,LinkRxBuffer,unk_152944,new,low,link receive buffer,src/data/front/main_bss_01.asm
+152A44,LinkMissingList,byte_152A44,new,low,list of missing link packets,src/data/front/main_bss_01.asm
+152A6C,PenaltyKillRanks,dword_152A6C,new,low,penalty kill rank per team,src/data/front/main_bss_01.asm
+152AD4,PowerPlayRanks,dword_152AD4,new,low,power play rank per team,src/data/front/main_bss_01.asm
+152B3C,MsgTextBuf,unk_152B3C,new,low,message box text buffer,src/data/front/main_bss_01.asm
+152C3C,dlgtextfg,dword_152C3C,new,low,message box text colour,src/data/front/main_bss_01.asm
+152C40,ProgressBoxState,byte_152C40,new,low,progress box state,src/data/front/main_bss_01.asm
 152C44,str_WesternConference2,unk_152C44,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_01.asm
+152E36,RosterTextBuf,unk_152E36,new,low,roster screen text buffer,src/data/front/main_bss_01.asm
+152F44,LogoPackBuf,dword_152F44,new,low,team logo pack buffer,src/data/front/main_bss_01.asm
+152F48,LogoPackFile,dword_152F48,new,low,team logo pack file,src/data/front/main_bss_01.asm
+152F4C,PanelShadeArt,dword_152F4C,new,low,panel shading art,src/data/front/main_bss_01.asm
 152F50,MenuRemoteCursorArt,dword_152F50,new,low,remote cursor art,src/data/front/main_bss_01.asm
 152F54,MenuCursorPixels,dword_152F54,new,low,local cursor pixels,src/data/front/main_bss_01.asm
+152F58,pointerspr,dword_152F58,new,low,mouse pointer sprite,src/data/front/main_bss_01.asm
 152F5C,MenuBitmapPixels,dword_152F5C,new,low,menu bitmap pixels,src/data/front/main_bss_01.asm
 152F60,AsyncRequests,dword_152F60,new,low,pool of async file requests,src/data/front/main_bss_01.asm
 152F64,AsyncCurFile,dword_152F64,new,low,file of the request being serviced,src/data/front/main_bss_01.asm
 152F68,AsyncCurOffset,dword_152F68,new,low,file offset of the request being serviced,src/data/front/main_bss_01.asm
 152F6C,AsyncFreeList,dword_152F6C,new,low,free list of async file requests,src/data/front/main_bss_01.asm
+152F70,AsyncCurRequest,dword_152F70,new,low,async request being serviced,src/data/front/main_bss_01.asm
+152F74,AsyncCdFile,dword_152F74,new,low,CD file the async reader has open,src/data/front/main_bss_01.asm
+152F78,AsyncOpenFile,dword_152F78,new,low,file opened for the async reader,src/data/front/main_bss_01.asm
+152F7C,AsyncMemFlags,dword_152F7C,new,low,memory flags for async read buffers,src/data/front/main_bss_01.asm
+152F80,AsyncState,dword_152F80,new,low,async reader state,src/data/front/main_bss_01.asm
 152F88,AsyncFileHandle,dword_152F88,new,low,DOS handle of the file being streamed,src/data/front/main_bss_01.asm
+152F8C,AsyncBytesLeft,dword_152F8C,new,low,bytes left to read for the request,src/data/front/main_bss_01.asm
+152F90,AsyncFileStart,dword_152F90,new,low,start offset of the file being read,src/data/front/main_bss_01.asm
+152F94,AsyncFileSize,dword_152F94,new,low,size of the file being read,src/data/front/main_bss_01.asm
+152F98,AsyncDestBlock,dword_152F98,new,low,memory block the async reader fills,src/data/front/main_bss_01.asm
+152F9C,AsyncReqUser,dword_152F9C,new,low,user word of the request being serviced,src/data/front/main_bss_01.asm
+152FA0,AsyncSkip,dword_152FA0,new,low,bytes to skip before the next read,src/data/front/main_bss_01.asm
+152FA4,AsyncDestPos,dword_152FA4,new,low,write position in the destination block,src/data/front/main_bss_01.asm
+152FA8,AsyncHeader,unk_152FA8,new,low,header read at the start of an async file,src/data/front/main_bss_01.asm
+152FB0,AsyncBudget,dword_152FB0,new,low,read budget left this tick,src/data/front/main_bss_01.asm
 152FB4,AsyncStreamFile,dword_152FB4,new,low,file the speech stream reads from,src/data/front/main_bss_01.asm
 152FB8,AsyncWaitTimer,dword_152FB8,new,low,countdown before the next async step,src/data/front/main_bss_01.asm
+152FBC,AsyncTicksPerRead,dword_152FBC,new,low,ticks one async read takes,src/data/front/main_bss_01.asm
+152FC4,AsyncReadResult,dword_152FC4,new,low,result of the last async read,src/data/front/main_bss_01.asm
+152FC8,AsyncMeasuredSpeed,dword_152FC8,new,low,measured async read speed,src/data/front/main_bss_01.asm
+152FCC,AsyncReadTime,dword_152FCC,new,low,time spent on async reads,src/data/front/main_bss_01.asm
+152FD0,AsyncBytesRead,dword_152FD0,new,low,bytes read by the async reader,src/data/front/main_bss_01.asm
+152FD4,AsyncBaseTicks,dword_152FD4,new,low,ticks measured when the reader started,src/data/front/main_bss_01.asm
+152FD8,StreamSpeed,dword_152FD8,new,low,CD stream ticks per block,src/data/front/main_bss_01.asm
+152FDC,StreamRate,dword_152FDC,new,low,CD stream rate,src/data/front/main_bss_01.asm
+152FE0,StreamWalk,dword_152FE0,new,low,stream entry being walked,src/data/front/main_bss_01.asm
 152FE4,StreamHandle,dword_152FE4,new,low,CD stream handle,src/data/front/main_bss_01.asm
 152FE8,curperiod,,95PC,medium,NHL95PC D8C84 (refset): referenced by the same 2 matched functions,
+152FEC,SpriteArtPtrs,dword_152FEC,new,low,art pointer for each sprite frame,src/data/front/main_bss_01.asm
+1531D0,SpriteFrameArt,dword_1531D0,new,low,art for each player sprite frame,src/data/front/main_bss_01.asm
 156E6C,hmplstats,unk_156E6C,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_01.asm
 156FFC,awplstats,unk_156FFC,new,low,Away skater game stats,src/data/front/main_bss_01.asm
 15718C,hmroster,,95PC,medium,NHL95PC DB3A8 (refset): referenced by the same 3 matched functions,
+157191,hmrosterflags,byte_157191,new,low,flags byte in each home roster entry,src/data/front/main_bss_01.asm
 157192,hmrosterpos,,95PC,medium,NHL95PC DB3AE (refset): referenced by the same 3 matched functions,
 157640,awroster,byte_157640,new,low,Away roster,src/data/front/main_bss_01.asm
+157AF4,AttractResetFlag,dword_157AF4,new,low,flag cleared when an attract or menu game starts,src/data/front/main_bss_01.asm
 157AF8,hmglstats,unk_157AF8,new,low,Home goalie game stats (clearteams: hmtmglstats),src/data/front/main_bss_01.asm
 157AFA,hmglstats_w2,word_157AFA,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_01.asm
 157B00,hmglstats_w8,word_157B00,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_01.asm
@@ -5697,8 +5788,12 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 157FDA,hmteamrec,unk_157FDA,new,low,Home team record (clearteams: hmtmteamrec),src/data/front/main_bss_01.asm
 1582F5,awteamrec,unk_1582F5,new,low,Away team record,src/data/front/main_bss_01.asm
 158610,hmlinetab,unk_158610,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_01.asm
+15864E,UnusedStateByte,byte_15864E,new,low,"saved and restored with the game state, otherwise unused",src/data/front/main_bss_01.asm
+15864F,UnusedStateFlag,byte_15864F,new,low,"saved and restored with the game state, otherwise unused",src/data/front/main_bss_01.asm
+158650,UnusedStateMode,byte_158650,new,low,"saved and restored with the game state, otherwise unused",src/data/front/main_bss_01.asm
 158651,pad2dev,byte_158651,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_01.asm
 158652,pad1dev,byte_158652,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_01.asm
+158654,GameExtraBlock,dword_158654,new,low,extra memory block freed when a game ends,src/data/front/main_bss_01.asm
 158658,DataFilePath,unk_158658,new,low,data file path buffer,src/data/front/main_bss_01.asm
 158CBA,JoyTestButtonsLit,word_158CBA,new,low,Joystick test screen: lit flag per button,src/data/front/front_201CD_bss_01.asm
 158CBC,JoyTestAxisVals,word_158CBC,new,low,Joystick test screen: axis values shown,src/data/front/front_201CD_bss_01.asm
@@ -5818,7 +5913,7 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 165468,CupGoalieSlotNext,word_165468,new,low,"cup celebration: away goalie's second record word, set to -1 when he leaves",src/data/engine/engine_2D9D9_bss_01.asm
 16548C,CupHomeGoalieSlot,word_16548C,new,low,"cup celebration: home goalie's record word, set to -1 when he leaves",src/data/engine/engine_2D9D9_bss_01.asm
 165492,CupHomeGoalieSlotNext,word_165492,new,low,"cup celebration: home goalie's second record word, set to -1 when he leaves",src/data/engine/engine_2D9D9_bss_01.asm
-1655A0,CrowdExciteTotal,dword_1655A0,new,low,"crowd excitement added up as it decays (RestoreBenchEnergy, periodicevents)",src/data/engine/engine_2D9D9_bss_01.asm
+1655A0,SumCwdExciteLvl,dword_1655A0,new,medium,sum of crowd excitement samples,src/data/engine/engine_2D9D9_bss_01.asm
 1655A4,textline1,byte_1655A4,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_2D9D9_bss_01.asm
 1655E0,textline2,byte_1655E0,new,low,second event caption line (scorer and assists),src/data/engine/engine_2D9D9_bss_01.asm
 16561C,textline3,byte_16561C,new,low,third event caption line,src/data/engine/engine_2D9D9_bss_01.asm
@@ -5958,11 +6053,21 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 176B24,Ylist,word_176B24,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/faceoff_bss_01.asm
 176B44,SavedPlayerWords,word_176B44,new,low,player words restored from the saved game (LoadGameState),src/data/engine/faceoff_bss_01.asm
 176B46,OOlistpos,,95PC,medium,NHL95PC E9A7A (refset): referenced by the same 4 matched functions,
+176B68,UnusedSpeechWord,word_176B68,new,low,"reset to -1 for each game, otherwise unused",src/data/front/main_bss_02.asm
 176B6A,SpeechPatchNext,word_176B6A,new,low,speech patch header: next (set to 0 at start up),src/data/front/main_bss_02.asm
 176B6C,joysampling,word_176B6C,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_02.asm
+176B6E,UnusedCrowdWord,word_176B6E,new,low,"reset for each game, otherwise unused",src/data/front/main_bss_02.asm
+176B70,MaxCwdExciteLvl,word_176B70,new,low,highest crowd excitement this game,src/data/front/main_bss_02.asm
+176B72,NumCwdExciteLvl,word_176B72,new,low,crowd excitement samples taken,src/data/front/main_bss_02.asm
 176B74,CwdExciteLvl,,95PC,medium,NHL95PC E9AA8 (refset): referenced by the same 2 matched functions,
+176B76,UnusedCrowdWordHi,word_176B76,new,low,"reset for each game, otherwise unused",src/data/front/main_bss_02.asm
+176B78,PeriodStartClock,word_176B78,new,low,clock value when the period started,src/data/front/main_bss_02.asm
+176B7A,penevteam,word_176B7A,new,low,team of the last penalty event,src/data/front/main_bss_02.asm
+176B7C,GoalSignalState,word_176B7C,new,low,goal signal state (2 or 4),src/data/front/main_bss_02.asm
+176B7E,UnusedEventWord,word_176B7E,new,low,"reset for each game, otherwise unused",src/data/front/main_bss_02.asm
 176B80,PerTimeTotal,word_176B80,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_02.asm
 176B82,PBnum,,95PC,medium,NHL95PC E9ABA (refset): referenced by the same 2 matched functions,
+176B83,PBflags,byte_176B83,new,low,penalty box flags (low nibble),src/data/front/main_bss_02.asm
 176B84,iflags,byte_176B84,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_02.asm
 176B85,icingPlayer,byte_176B85,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_02.asm
 176B86,lasttouch,,95PC,medium,NHL95PC E9AC2 (refset): referenced by the same 3 matched functions,
@@ -5978,13 +6083,20 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 176B98,curevent_b8,byte_176B98,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_02.asm
 176B9A,curevent_b9,byte_176B9A,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_02.asm
 176B9B,goalevent,,95PC,medium,NHL95PC E9AD3 (refset): referenced by the same 3 matched functions,
+176B9E,AssRefGoalTeam,byte_176B9E,new,low,team of the goal the referee signals,src/data/front/main_bss_02.asm
+176B9F,AssRefGoalData,byte_176B9F,new,low,referee goal signal data,src/data/front/main_bss_02.asm
 176BA6,OOlist,,95PC,medium,NHL95PC E9ADE (refset): referenced by the same 2 matched functions,
+176BB8,StarPoints,word_176BB8,new,low,three stars points per player,src/data/front/main_bss_02.asm
 176BBA,starpl,word_176BBA,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_02.asm
 176BC4,gwgteam,dword_176BC4,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_02.asm
 176BC8,lineuptime,dword_176BC8,new,medium,the set time the faceoff line-up loop (sub_2DE30) runs before play,src/data/front/main_bss_02.asm
 176BCC,gwgplayer,dword_176BCC,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_02.asm
+176BD0,FaceoffPuckDrop,dword_176BD0,new,low,faceoff puck drop pending,src/data/front/main_bss_02.asm
 176BD4,lastimpact,,95PC,medium,NHL95PC E9B28 (refset): referenced by the same 2 matched functions,
+176BD8,BenchDoorState,dword_176BD8,new,low,bench door state,src/data/front/main_bss_02.asm
+176BDC,SkateTurnDir,dword_176BDC,new,low,skating turn direction,src/data/front/main_bss_02.asm
 176BE0,lineslotmark,dword_176BE0,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_02.asm
+176C44,PenaltyCandidates,dword_176C44,new,low,players who can take a penalty,src/data/front/main_bss_02.asm
 176CA8,offsort_c,unk_176CA8,new,medium,Centres sorted by offensive rating (25 per team),src/data/engine/lines_bss_01.asm
 176CDA,defsort_r,unk_176CDA,new,low,Right wings sorted by defensive rating (25 per team),src/data/engine/lines_bss_01.asm
 176D0C,offsort_d,unk_176D0C,new,low,Defencemen sorted by offensive rating (25 per team),src/data/engine/lines_bss_01.asm

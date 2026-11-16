@@ -5,7 +5,7 @@ section s_122A6 progbits alloc exec nowrite align=1
 extern addtimer, LinkFlags, byte_11FA2F, ChatLine, LinkBlockHeader, LinkBlockAck, TitleTextStyle
 extern DebugPrintf, InputRecordIndex, LinkSyncInput, LinkCfgPort, LinkCfgMode, LinkCfgAnswer, LinkCfgDirect, LinkCfgBaud
 extern LinkCfgOption, LinkInputFrame, LinkSyncTarget, LinkSyncTimeout, LinkSyncCount, LinkInputDelay, LinkRxBlockCount, LinkRxBlockTicks
-extern str_Punct_ModemSettingsScreen, LinkBlockPtr, ModemReplyBuf, LinkTickCount, dword_1150D4, WaitBoxArt, dword_11F5C0, dword_11F5C4
+extern str_Punct_ModemSettingsScreen, LinkBlockPtr, ModemReplyBuf, LinkTickCount, FrontShapesFile, WaitBoxArt, dword_11F5C0, dword_11F5C4
 extern SlotInput, ChatActive, LinkSyncValue, LinkBlockLen, LinkBlockPos
 extern LinkInputHead, LinkInputTail, LinkMsgHead, LinkValueHead, LinkMsgTail, LinkRemoteHead, LinkValueTail, LinkRemoteTail
 extern LinkWaitBoxBmp, LinkAbortCheck, GsModemDial, FillRect, TextStringWidth
@@ -917,7 +917,7 @@ ShowLinkWaitBox:
         jne short .1
         mov eax, str_HGwt
         push eax
-        push dword [dword_1150D4]
+        push dword [FrontShapesFile]
         call FindShape
         add esp, byte 8
         mov dword [byte ebp-04h], eax
@@ -925,7 +925,7 @@ ShowLinkWaitBox:
 .1:
         mov eax, str_HFwt
         push eax
-        push dword [dword_1150D4]
+        push dword [FrontShapesFile]
         call FindShape
         add esp, byte 8
         mov dword [byte ebp-04h], eax
@@ -934,7 +934,7 @@ ShowLinkWaitBox:
 .3:
         mov eax, str_LGwt
         push eax
-        push dword [dword_1150D4]
+        push dword [FrontShapesFile]
         call FindShape
         add esp, byte 8
         mov dword [byte ebp-04h], eax

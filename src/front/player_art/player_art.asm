@@ -4,7 +4,7 @@ bits 32
 extern TeamRosterPtrs
 section s_61AD1 progbits alloc exec nowrite align=1
 extern JerseyDigitWidths, PlayerSpritesLoaded, SpriteFileHandles, FightSpritesLoaded, SpriteMemBlock, SpritesLoaded, SpriteCacheOn, SpriteCacheMem
-extern NearClipZ, dword_123AC0, dword_152FEC, SpriteCacheLinks, SpriteCache, SpriteCachePtr, SpriteCacheFree, SpriteCacheUsed
+extern NearClipZ, dword_123AC0, SpriteArtPtrs, SpriteCacheLinks, SpriteCache, SpriteCachePtr, SpriteCacheFree, SpriteCacheUsed
 extern SpriteCacheBlock, SpriteCacheSize, PlayerSpriteFile, PlayerSpriteCount, RinkSpriteFile, NetSpriteFile, MarkerSpriteFile, gameopts
 extern GameSpriteNames, str_CupRef, str_FightRef, str_NewpalQfs, str_OldshpQfs, str_OLDSHPQFS2, str_Pal6, str_RinkpalQfs
 extern str_TeampalQda, str_TotalRef, str_UNPACK, str_Unpacked, SelectDataLibrary, LoadShadowRemap, AllocMemBlock, FreeMemBlock
@@ -386,7 +386,7 @@ SetRinkSpriteColors:
 ;-----------------------------------------------------------------------------
 ; IndexSpriteFrames                               61DDF  96 PC, low confidence
 ; (bank): reads the frame table of a sprite bank (SpriteFileHandles) into
-; dword_152FEC and the largest frame
+; SpriteArtPtrs and the largest frame
 ;-----------------------------------------------------------------------------
 IndexSpriteFrames:
         push ebx
@@ -412,7 +412,7 @@ IndexSpriteFrames:
         push dword [dword eax+SpriteFileHandles]
         call ShapeBankEntry
         add esp, byte 8
-        mov dword [dword esi+dword_152FEC], eax
+        mov dword [dword esi+SpriteArtPtrs], eax
         add eax, byte 10h
         push eax
         inc dword [byte ebp-0Ch]

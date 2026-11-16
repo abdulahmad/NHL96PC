@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_165366 nobits alloc noexec write align=1
-global LineChangeLine, LineChangeReq, textline1, textline2, textline3, textline4, textline5, CrowdExciteTotal
+global LineChangeLine, LineChangeReq, textline1, textline2, textline3, textline4, textline5, SumCwdExciteLvl
 global hmtmstruct, CupLeaveSlot, CupLeaveSlotNext, CupGoalieSlot, CupGoalieSlotNext, CupHomeGoalieSlot, CupHomeGoalieSlotNext, PeriodEventCount
 global GameEventFlags, hmtmPwrGoals, hmtmPwrPlays
 CupLeaveSlot:
@@ -17,7 +17,7 @@ CupHomeGoalieSlot:
         resb 6
 CupHomeGoalieSlotNext:
         resb 270
-CrowdExciteTotal:
+SumCwdExciteLvl:
         resb 4
 textline1:
         resb 60

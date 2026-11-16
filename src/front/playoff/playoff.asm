@@ -12,7 +12,7 @@ extern str_PLA0, str_PLA1, str_PLA2, str_SM10, str_SM11, str_SM12, str_SM00, str
 extern str_SM02, str_AWD1, str_AWD2, str_RUL0, str_RUL14, str_RUL24, str_S05dCSGDB4, str_NUMD2
 extern byte_11F49C, byte_11F4A4, byte_11F4AC, byte_11F4B0, byte_11F4B4, byte_11F4B6, byte_11F4B8, byte_11F4B9
 extern TitleTextStyle, PlayoffTeams, SaveFileName, byte_17D262, byte_17D26F, byte_17D270, byte_17D271
-extern byte_184B24, byte_184B28, dword_1150D8, gameresult, MenuMouseX, MenuMouseY, TeamDivisions, TeamConferenceIds
+extern byte_184B24, byte_184B28, SaveFileHandle, gameresult, MenuMouseX, MenuMouseY, TeamDivisions, TeamConferenceIds
 extern PlayoffMode, PlayoffSlotX, PlayoffSlotY, PlayoffSetupTextIds, PlayoffRoundTextIds, PlayoffSeriesWins, PlayoffTreeY, str_Punct_DrawPlayoffTree
 extern dword_11EF10, dword_11EF80, PlayoffSparkleSoundOn, FrontEndScreenBmp, MatchupLayer, TeamStatsBitmap, optflags
 extern PlayoffTreeData, SeasonPlayoffs, SeasonDay, PlayoffGameOpts, cddriveptr, PlayoffRound, PlayoffTreeShape, RosterFileHandle
@@ -117,7 +117,7 @@ RunPlayoffMenus_E1:
         shl eax, 0Fh
         shr eax, 1Bh
         call ReadPlayoffDbHeader
-        mov dword [dword_1150D8], eax
+        mov dword [SaveFileHandle], eax
         mov eax, 0A5B5h
         call RunControllerScreen
         jmp short RunPlayoffMenus_89.4
@@ -128,7 +128,7 @@ RunPlayoffMenus_102:
         call RunRosterScreens
         jmp short RunPlayoffMenus_A6
 RunPlayoffMenus_115:
-        mov eax, dword [dword_1150D8]
+        mov eax, dword [SaveFileHandle]
         mov ebx, 0A5B5h
         call PlayMenuGame
         cmp dword [gameresult], byte 1

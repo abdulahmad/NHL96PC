@@ -2,42 +2,42 @@
 bits 32
 %include "hockey.inc"
 section s_176B68 nobits alloc noexec write align=1
-global CwdExciteLvl, OOlist, PBnum, byte_176B83, iflags, icingPlayer, curevent, byte_176B91
-global byte_176B92, curevent_b2, curevent_b5, byte_176B95, curevent_b6, curevent_b7, curevent_b8, byte_176B99
-global curevent_b9, goalevent, byte_176B9E, byte_176B9F, byte_176BA5, byte_176BA7, gwgteam, lineuptime
-global gwgplayer, dword_176BD0, dword_176BD8, dword_176BDC, lineslotmark, dword_176C44, lasttouch, word_176B68
-global SpeechPatchNext, joysampling, word_176B6E, word_176B70, word_176B72, word_176B76, word_176B78, word_176B7A
-global word_176B7C, word_176B7E, PerTimeTotal, LastTouchTeam, PassDistY, StoppageFlag, LastPlayerTouch, word_176BB8
+global CwdExciteLvl, OOlist, PBnum, PBflags, iflags, icingPlayer, curevent
+
+global goalevent, AssRefGoalTeam, AssRefGoalData, gwgteam, lineuptime
+global gwgplayer, FaceoffPuckDrop, BenchDoorState, SkateTurnDir, lineslotmark, PenaltyCandidates, lasttouch, UnusedSpeechWord
+global SpeechPatchNext, joysampling, UnusedCrowdWord, MaxCwdExciteLvl, NumCwdExciteLvl, UnusedCrowdWordHi, PeriodStartClock, penevteam
+global GoalSignalState, UnusedEventWord, PerTimeTotal, LastTouchTeam, PassDistY, StoppageFlag, LastPlayerTouch, StarPoints
 global starpl, lastimpact
-word_176B68:
+UnusedSpeechWord:
         resb 2
 SpeechPatchNext:
         resb 2
 joysampling:
         resb 2
-word_176B6E:
+UnusedCrowdWord:
         resb 2
-word_176B70:
+MaxCwdExciteLvl:
         resb 2
-word_176B72:
+NumCwdExciteLvl:
         resb 2
 CwdExciteLvl:
         resb 2
-word_176B76:
+UnusedCrowdWordHi:
         resb 2
-word_176B78:
+PeriodStartClock:
         resb 2
-word_176B7A:
+penevteam:
         resb 2
-word_176B7C:
+GoalSignalState:
         resb 2
-word_176B7E:
+UnusedEventWord:
         resb 2
 PerTimeTotal:
         resb 2
 PBnum:
         resb 1
-byte_176B83:
+PBflags:
         resb 1
 iflags:
         resb 1
@@ -55,39 +55,27 @@ LastPlayerTouch:
         resb 2
 curevent:
         resb 1
-byte_176B91:
         resb 1
-byte_176B92:
         resb 1
-curevent_b2:
         resb 1
-curevent_b5:
         resb 1
-byte_176B95:
         resb 1
-curevent_b6:
         resb 1
-curevent_b7:
         resb 1
-curevent_b8:
         resb 1
-byte_176B99:
         resb 1
-curevent_b9:
         resb 1
 goalevent:
         resb 3
-byte_176B9E:
+AssRefGoalTeam:
         resb 1
-byte_176B9F:
+AssRefGoalData:
         resb 6
-byte_176BA5:
         resb 1
 OOlist:
         resb 1
-byte_176BA7:
         resb 17
-word_176BB8:
+StarPoints:
         resb 2
 starpl:
         resb 10
@@ -97,15 +85,15 @@ lineuptime:
         resb 4
 gwgplayer:
         resb 4
-dword_176BD0:
+FaceoffPuckDrop:
         resb 4
 lastimpact:
         resb 4
-dword_176BD8:
+BenchDoorState:
         resb 4
-dword_176BDC:
+SkateTurnDir:
         resb 4
 lineslotmark:
         resb 100
-dword_176C44:
+PenaltyCandidates:
         resb 100

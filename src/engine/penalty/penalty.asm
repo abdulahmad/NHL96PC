@@ -6,7 +6,7 @@ extern CwdExciteLvl, PBnum, Pencntdwn, SortCords, assinsert, assreplace, awtmstr
 extern PenaltyAnnounced, PenCountdownOptTab, PenShotCountdownOpt, PenCountdownTab, PenShotCountdown, pendelaytab, PenShotDelay, LinePickOrderFrom1
 extern hmrosterpos, textline5, HmPlayerFlags, HmCoachGoalie, AwPlayerFlags, AwCoachGoalie
 extern PenaltyTimes, PenBuf, PenBuf_pl, crowdlevel, HomeEbenPlayer, AwayEbenPlayer, penshotfox, penshotteam
-extern AwayGoalsPeriod, HomeGoalsPeriod, PenaltyTypes, LastEventPlayer, lineslotmark, dword_176C44, fox, foy
+extern AwayGoalsPeriod, HomeGoalsPeriod, PenaltyTypes, LastEventPlayer, lineslotmark, PenaltyCandidates, fox, foy
 extern gameclock, gameopts, gmode, hmtmstruct, puckvy, puckc, PtrPuckFlags, PtrPuckObject
 extern penmintab, penshotlive, penshotmode, penshotplayer, penshotstart, penshottimer, puckvx, puckvz
 extern puckx, pucky, puckz, randomd0, regd2, regd3, shotongoal, shotontarget
@@ -2247,7 +2247,7 @@ PickForwardLines:
 .1:
         movsx esi, word [byte ebp-04h]
         imul esi, dword 4B4h
-        mov dword [dword eax+dword_176C44], ebx
+        mov dword [dword eax+PenaltyCandidates], ebx
         cmp cl, byte [dword edi+esi+hmrosterpos]
         je short .2
         mov dword [dword eax+lineslotmark], 0FFFFFFFFh
@@ -2263,7 +2263,7 @@ PickForwardLines:
         inc edx
         cmp ebx, byte 19h
         jl short .1
-        push dword_176C44
+        push PenaltyCandidates
         push lineslotmark
         push byte 19h
         call SortIndices
@@ -2276,7 +2276,7 @@ PickForwardLines:
         mov ebx, 0FFFFFFFFh
         jmp short .6
 .5:
-        movsx ebx, byte [dword eax+dword_176C44]
+        movsx ebx, byte [dword eax+PenaltyCandidates]
 .6:
         add eax, byte 4
         mov byte [edx], bl
@@ -2306,7 +2306,7 @@ PickDefencePairs:
         movsx esi, word [byte ebp-04h]
         imul esi, dword 4B4h
         movzx esi, byte [dword ecx+esi+hmrosterpos]
-        mov dword [dword eax+dword_176C44], ebx
+        mov dword [dword eax+PenaltyCandidates], ebx
         cmp esi, byte 44h
         jne short .2
         mov dword [dword eax+lineslotmark], 0FFFFFFFFh
@@ -2322,7 +2322,7 @@ PickDefencePairs:
         inc edx
         cmp ebx, byte 19h
         jl short .1
-        push dword_176C44
+        push PenaltyCandidates
         push lineslotmark
         push byte 19h
         call SortIndices
@@ -2335,7 +2335,7 @@ PickDefencePairs:
         mov ebx, 0FFFFFFFFh
         jmp short .6
 .5:
-        movsx ebx, byte [dword eax+dword_176C44]
+        movsx ebx, byte [dword eax+PenaltyCandidates]
 .6:
         add eax, byte 4
         mov byte [edx], bl
@@ -2424,7 +2424,7 @@ PickSpecialLines:
         jl short .7
         mov ebx, dword [byte ebp-018h]
         add dword [byte ebp-0Ch], byte 5
-        mov dword [dword ebx+dword_176C44], eax
+        mov dword [dword ebx+PenaltyCandidates], eax
         mov ebx, dword [byte ebp-04h]
         add dword [byte ebp-08h], byte 3
         add edx, byte 4
@@ -2445,7 +2445,7 @@ PickSpecialLines:
         mov byte [dword esi+0E0h], 5
         mov byte [dword esi+0E1h], 4
 .12:
-        push dword_176C44
+        push PenaltyCandidates
         lea eax, [byte ebp-048h]
         push eax
         push byte 4
@@ -2454,7 +2454,7 @@ PickSpecialLines:
         xor eax, eax
 .13:
         inc esi
-        mov dl, byte [dword eax+dword_176C44]
+        mov dl, byte [dword eax+PenaltyCandidates]
         add eax, byte 4
         mov byte [dword esi+0DBh], dl
         cmp eax, byte 10h

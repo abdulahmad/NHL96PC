@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_2F3DF progbits alloc exec nowrite align=1
-extern assextra4, assextra6, assinsert, assreplace, byte_176B83, check4bench, check4check, donothing
+extern assextra4, assextra6, assinsert, assreplace, PBflags, check4bench, check4check, donothing
 extern dword_16523C, dword_165240, dword_165244, dword_165248, EvadePC, gmode, gmode2, puckvy
 extern PtrRefObject, PBnum, Pencntdwn, playeracc, puckc, puckx, pucky, randomd0
 extern ReadJoy1, regd0, regd1, regd2, regd3, SetExitGame, SetSPA, skateto
@@ -181,7 +181,7 @@ assboxenter:
         setne al
         movzx eax, al
         call GameEventStub
-        mov byte [byte_176B83], 0
+        mov byte [PBflags], 0
         mov byte [PBnum], 0
         mov al, byte [byte ebx+044h]
         and al, 40h

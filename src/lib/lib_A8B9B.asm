@@ -5,8 +5,8 @@ extern BottomBarArt
 section s_A8B9B progbits alloc exec nowrite align=1
 extern __STOSB, __set_errno_, access_, str_Pal19, str_Bkgd27, str_FSH6, str_Plyr4, str_PROFILEFSH4
 extern str_Card4, str_Ard4, str_DSS5, str_SD8, str_SDD, str_S0, str_SDD2, str_0000
-extern byte_11F524, byte_11F52D, byte_184B3C, byte_184B3D, byte_184B3E, byte_1852C2, seasondb, dword_1174EC
-extern statsplayoffs, dword_117500, dword_117510, dword_11F4BC, dword_11F4F0, TeamStatsBitmap, PlayoffTreeData
+extern byte_11F524, byte_11F52D, byte_184B3C, byte_184B3D, byte_184B3E, byte_1852C2, seasondb, TeamDb
+extern statsplayoffs, SeasonDbSize, PlayoffStatsSize, dword_11F4BC, dword_11F4F0, TeamStatsBitmap, PlayoffTreeData
 extern SeasonType, cddriveptr, RosterFileHandle, dword_17D252, dword_17D256, dword_17D25A, dword_184B38, getcwd_
 extern getenv_, off_11F531, off_11F535, off_11F539, off_11F53D, off_11F541, off_11F545, off_11F549
 extern off_11F551, off_11F555, sprintf_, strcat_, strcpy_, strlen_, SelectDataLibrary, LoadDataFileLib
@@ -59,7 +59,7 @@ SaveLeagueDb:
         mov edx, dword [RosterFileHandle]
         call MakePlayoffDbPath
 .4:
-        push dword [dword_117500]
+        push dword [SeasonDbSize]
         push dword [seasondb]
         lea eax, [byte ebp-020h]
         push eax
@@ -78,7 +78,7 @@ SaveLeagueDb:
         mov edx, dword [RosterFileHandle]
         call MakePlayoffDbPath
 .6:
-        push dword [dword_117510]
+        push dword [PlayoffStatsSize]
         push dword [statsplayoffs]
         lea eax, [byte ebp-020h]
         push eax
@@ -190,7 +190,7 @@ BuildPlayoffLeaders:
         cmp esi, byte 0FFFFFFFFh
         je near .26
         mov ecx, 3Ch
-        mov eax, dword [dword_1174EC]
+        mov eax, dword [TeamDb]
         lea edi, [byte ebp-07Eh]
         add esi, eax
         rep movsb
@@ -399,7 +399,7 @@ BuildPlayoffLeaders:
         cmp esi, byte 0FFFFFFFFh
         je near .38
         mov ecx, 3Ch
-        mov eax, dword [dword_1174EC]
+        mov eax, dword [TeamDb]
         lea edi, [byte ebp-042h]
         add esi, eax
         rep movsb

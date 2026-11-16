@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_18E80 progbits alloc exec nowrite align=1
-extern dword_152A6C, dword_152AD4, PlayoffTreeData, RosterFileHandle, dword_17D267, lseek_, MakeDataPath, open_
+extern PenaltyKillRanks, PowerPlayRanks, PlayoffTreeData, RosterFileHandle, dword_17D267, lseek_, MakeDataPath, open_
 extern qsort_, read_, MakeSeasonDbPath, CloseFile
 global GetSpecialTeamsRanks, ComparePowerPlayPct, ComparePenaltyKillPct
 ;-----------------------------------------------------------------------------
@@ -48,14 +48,14 @@ GetSpecialTeamsRanks:
         movzx ebx, word [byte ebp+027h]
         cdq
         idiv ebx
-        mov dword [dword ecx+dword_152AD4], eax
+        mov dword [dword ecx+PowerPlayRanks], eax
         jmp short .3
 .2:
-        mov dword [dword ecx+dword_152AD4], 0
+        mov dword [dword ecx+PowerPlayRanks], 0
 .3:
-        cmp dword [dword ecx+dword_152AD4], 3E8h
+        cmp dword [dword ecx+PowerPlayRanks], 3E8h
         jle short .4
-        mov dword [dword ecx+dword_152AD4], 3E8h
+        mov dword [dword ecx+PowerPlayRanks], 3E8h
 .4:
         cmp word [byte ebp+02Bh], byte 0
         je short .5
@@ -66,14 +66,14 @@ GetSpecialTeamsRanks:
         idiv ebx
         mov edx, 3E8h
         sub edx, eax
-        mov dword [dword ecx+dword_152A6C], edx
+        mov dword [dword ecx+PenaltyKillRanks], edx
         jmp short .6
 .5:
-        mov dword [dword ecx+dword_152A6C], 0
+        mov dword [dword ecx+PenaltyKillRanks], 0
 .6:
-        cmp dword [dword ecx+dword_152A6C], byte 0
+        cmp dword [dword ecx+PenaltyKillRanks], byte 0
         jge short .7
-        mov dword [dword ecx+dword_152A6C], 0
+        mov dword [dword ecx+PenaltyKillRanks], 0
 .7:
         add ecx, byte 4
         add dword [byte ebp+076h], byte 63h
@@ -110,14 +110,14 @@ GetSpecialTeamsRanks:
         movzx ebx, word [byte ebp+027h]
         cdq
         idiv ebx
-        mov dword [dword ecx+dword_152AD4], eax
+        mov dword [dword ecx+PowerPlayRanks], eax
         jmp short .11
 .10:
-        mov dword [dword ecx+dword_152AD4], 0
+        mov dword [dword ecx+PowerPlayRanks], 0
 .11:
-        cmp dword [dword ecx+dword_152AD4], 3E8h
+        cmp dword [dword ecx+PowerPlayRanks], 3E8h
         jle short .12
-        mov dword [dword ecx+dword_152AD4], 3E8h
+        mov dword [dword ecx+PowerPlayRanks], 3E8h
 .12:
         cmp word [byte ebp+02Bh], byte 0
         je short .13
@@ -128,14 +128,14 @@ GetSpecialTeamsRanks:
         idiv ebx
         mov edx, 3E8h
         sub edx, eax
-        mov dword [dword ecx+dword_152A6C], edx
+        mov dword [dword ecx+PenaltyKillRanks], edx
         jmp short .14
 .13:
-        mov dword [dword ecx+dword_152A6C], 0
+        mov dword [dword ecx+PenaltyKillRanks], 0
 .14:
-        cmp dword [dword ecx+dword_152A6C], byte 0
+        cmp dword [dword ecx+PenaltyKillRanks], byte 0
         jge short .15
-        mov dword [dword ecx+dword_152A6C], 0
+        mov dword [dword ecx+PenaltyKillRanks], 0
 .15:
         add ecx, byte 4
         add dword [byte ebp+07Ah], byte 63h
@@ -173,14 +173,14 @@ GetSpecialTeamsRanks:
         movzx ebx, word [dword ebp-035Dh]
         cdq
         idiv ebx
-        mov dword [dword ecx+dword_152AD4], eax
+        mov dword [dword ecx+PowerPlayRanks], eax
         jmp short .19
 .18:
-        mov dword [dword ecx+dword_152AD4], 0
+        mov dword [dword ecx+PowerPlayRanks], 0
 .19:
-        cmp dword [dword ecx+dword_152AD4], 3E8h
+        cmp dword [dword ecx+PowerPlayRanks], 3E8h
         jle short .20
-        mov dword [dword ecx+dword_152AD4], 3E8h
+        mov dword [dword ecx+PowerPlayRanks], 3E8h
 .20:
         cmp word [dword ebp-0359h], byte 0
         je short .21
@@ -191,14 +191,14 @@ GetSpecialTeamsRanks:
         idiv ebx
         mov edx, 3E8h
         sub edx, eax
-        mov dword [dword ecx+dword_152A6C], edx
+        mov dword [dword ecx+PenaltyKillRanks], edx
         jmp short .22
 .21:
-        mov dword [dword ecx+dword_152A6C], 0
+        mov dword [dword ecx+PenaltyKillRanks], 0
 .22:
-        cmp dword [dword ecx+dword_152A6C], byte 0
+        cmp dword [dword ecx+PenaltyKillRanks], byte 0
         jge short .23
-        mov dword [dword ecx+dword_152A6C], 0
+        mov dword [dword ecx+PenaltyKillRanks], 0
 .23:
         add ecx, byte 4
         add dword [byte ebp+07Eh], 31Bh
@@ -244,14 +244,14 @@ GetSpecialTeamsRanks:
         movzx ebx, word [dword ebp-034Bh]
         cdq
         idiv ebx
-        mov dword [dword ecx+dword_152AD4], eax
+        mov dword [dword ecx+PowerPlayRanks], eax
         jmp short .29
 .28:
-        mov dword [dword ecx+dword_152AD4], 0
+        mov dword [dword ecx+PowerPlayRanks], 0
 .29:
-        cmp dword [dword ecx+dword_152AD4], 3E8h
+        cmp dword [dword ecx+PowerPlayRanks], 3E8h
         jle short .30
-        mov dword [dword ecx+dword_152AD4], 3E8h
+        mov dword [dword ecx+PowerPlayRanks], 3E8h
 .30:
         cmp word [dword ebp-0347h], byte 0
         je short .31
@@ -262,14 +262,14 @@ GetSpecialTeamsRanks:
         idiv ebx
         mov edx, 3E8h
         sub edx, eax
-        mov dword [dword ecx+dword_152A6C], edx
+        mov dword [dword ecx+PenaltyKillRanks], edx
         jmp short .32
 .31:
-        mov dword [dword ecx+dword_152A6C], 0
+        mov dword [dword ecx+PenaltyKillRanks], 0
 .32:
-        cmp dword [dword ecx+dword_152A6C], byte 0
+        cmp dword [dword ecx+PenaltyKillRanks], byte 0
         jge short .33
-        mov dword [dword ecx+dword_152A6C], 0
+        mov dword [dword ecx+PenaltyKillRanks], 0
 .33:
         add ecx, byte 4
         add dword [byte ebp+072h], 31Bh
@@ -293,7 +293,7 @@ GetSpecialTeamsRanks:
         lea eax, [byte ebp-07Ah]
         call qsort_
         mov eax, dword [dword ebp-039Ah]
-        mov eax, dword [nosplit eax*4+dword_152AD4]
+        mov eax, dword [nosplit eax*4+PowerPlayRanks]
         xor edx, edx
         mov dword [byte esi+04h], eax
         xor eax, eax
@@ -322,7 +322,7 @@ GetSpecialTeamsRanks:
         lea eax, [byte ebp-07Ah]
         call qsort_
         mov eax, dword [dword ebp-039Ah]
-        mov eax, dword [nosplit eax*4+dword_152A6C]
+        mov eax, dword [nosplit eax*4+PenaltyKillRanks]
         xor edx, edx
         mov dword [byte esi+0Ch], eax
         xor eax, eax
@@ -345,16 +345,16 @@ GetSpecialTeamsRanks:
         ret
 ;-----------------------------------------------------------------------------
 ; ComparePowerPlayPct                          19336  96 PC, medium confidence
-; Qsort comparator for GetSpecialTeamsRanks: by power play % (dword_152AD4),
+; Qsort comparator for GetSpecialTeamsRanks: by power play % (PowerPlayRanks),
 ; then team number
 ;-----------------------------------------------------------------------------
 ComparePowerPlayPct:
         push ebx
         push ecx
         mov ebx, dword [eax]
-        mov ecx, dword [nosplit ebx*4+dword_152AD4]
+        mov ecx, dword [nosplit ebx*4+PowerPlayRanks]
         mov ebx, dword [edx]
-        mov ebx, dword [nosplit ebx*4+dword_152AD4]
+        mov ebx, dword [nosplit ebx*4+PowerPlayRanks]
         cmp ecx, ebx
         je short .1
         mov eax, ebx
@@ -371,15 +371,15 @@ ComparePowerPlayPct:
 ;-----------------------------------------------------------------------------
 ; ComparePenaltyKillPct                        1935C  96 PC, medium confidence
 ; Qsort comparator for GetSpecialTeamsRanks: by penalty kill %
-; (dword_152A6C), then team number
+; (PenaltyKillRanks), then team number
 ;-----------------------------------------------------------------------------
 ComparePenaltyKillPct:
         push ebx
         push ecx
         mov ebx, dword [eax]
-        mov ecx, dword [nosplit ebx*4+dword_152A6C]
+        mov ecx, dword [nosplit ebx*4+PenaltyKillRanks]
         mov ebx, dword [edx]
-        mov ebx, dword [nosplit ebx*4+dword_152A6C]
+        mov ebx, dword [nosplit ebx*4+PenaltyKillRanks]
         cmp ecx, ebx
         je short .1
         mov eax, ebx

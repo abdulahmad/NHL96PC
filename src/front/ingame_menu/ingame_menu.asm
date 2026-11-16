@@ -4,14 +4,14 @@ bits 32
 extern LinesWorkTable
 extern TeamRosterPtrs
 section s_A17D5 progbits alloc exec nowrite align=1
-extern AwayClinchesSeries, awtmstruct, byte_1175A4, byte_1175A5, byte_1175A6, byte_1175A7, byte_1175A8, byte_1175A9
+extern AwayClinchesSeries, awtmstruct, RinkFloorOn, IceTextureOn, IceLogosOn, GlassOn, PlayerDetailOn, StandsOn
 extern MenuFrameColours, byte_11FA2F, StatsFromGame
 
 extern byte_18464C, byte_18464E, byte_18464F, byte_1846C4, CloseTextOverlay, ControllerScreen, CopyBitmap
 extern Crowd_Noise, CrowdFadeOut, CrowdNoiseReset, CrowdReaction, curperiod, DrawArtOpaque, DrawBox, DrawColorTextCentred
-extern DrawFrameAt, DrawGameFrame, DrawRinkView, dword_1150D4, gameresult, ReplayRemoteShape, ViewSizeStep, LastPaletteMode
-extern SfxMask, InMenuOverlay, InGameMenuStartTick, dword_11F5C0, dword_11F5C4, dword_152F4C, MenuRemoteCursorArt, MenuCursorPixels
-extern dword_152F58, MenuBitmapPixels, NameFont, NamePanelBmp, GsOptions, SeasonGameOpts, PlayoffTreeData, SeasonPlayoffs
+extern DrawFrameAt, DrawGameFrame, DrawRinkView, FrontShapesFile, gameresult, ReplayRemoteShape, ViewSizeStep, LastPaletteMode
+extern SfxMask, InMenuOverlay, InGameMenuStartTick, dword_11F5C0, dword_11F5C4, PanelShadeArt, MenuRemoteCursorArt, MenuCursorPixels
+extern pointerspr, MenuBitmapPixels, NameFont, NamePanelBmp, GsOptions, SeasonGameOpts, PlayoffTreeData, SeasonPlayoffs
 extern PlayoffGameOpts, PlayoffRound, RosterFileHandle, FrontShapeFile, LinesEditAway, LinesEditMode, LinesEditTeam
 extern InGameBoxRight, InGameBoxBottom, InGameBoxLeft, InGameBoxTop, InterRegBuffer
 
@@ -78,7 +78,7 @@ DrawInGameMenuFrame:
         call DrawZamboniScene
         cmp dword [gameresult], byte 1
         je near .15
-        mov eax, dword [dword_152F4C]
+        mov eax, dword [PanelShadeArt]
         call SetAaPalLut
         movzx edx, byte [MenuFrameColours+1]
         movzx eax, byte [MenuFrameColours]
@@ -649,12 +649,12 @@ OpenFrontEndFromGame:
         call FillMusicStream
         call FreeSpeechBuffer
         push str_FhiL3
-        push dword [dword_1150D4]
+        push dword [FrontShapesFile]
         call FindShape
         add esp, byte 8
         push str_FhiR3
-        push dword [dword_1150D4]
-        mov dword [dword_152F58], eax
+        push dword [FrontShapesFile]
+        mov dword [pointerspr], eax
         call FindShape
         add esp, byte 8
         mov dword [MenuRemoteCursorArt], eax
@@ -667,7 +667,7 @@ OpenFrontEndFromGame:
         call FreeMemBlock
         add esp, byte 4
         mov edx, 20h
-        mov eax, dword [dword_152F58]
+        mov eax, dword [pointerspr]
         call CopyBitmap
         mov edx, 20h
         mov dword [MenuCursorPixels], eax
@@ -708,17 +708,17 @@ ReturnToGameView:
         call FreeMemBlock
         add esp, byte 4
         push str_GloL2
-        push dword [dword_1150D4]
+        push dword [FrontShapesFile]
         call FindShape
         add esp, byte 8
         push str_GloR2
-        push dword [dword_1150D4]
-        mov dword [dword_152F58], eax
+        push dword [FrontShapesFile]
+        mov dword [pointerspr], eax
         call FindShape
         mov edx, 20h
         add esp, byte 8
         mov dword [MenuRemoteCursorArt], eax
-        mov eax, dword [dword_152F58]
+        mov eax, dword [pointerspr]
         call CopyBitmap
         mov edx, 20h
         mov dword [MenuCursorPixels], eax
@@ -728,12 +728,12 @@ ReturnToGameView:
         jmp short .2
 .1:
         push str_GhiL2
-        push dword [dword_1150D4]
+        push dword [FrontShapesFile]
         call FindShape
         add esp, byte 8
         push str_GhiR2
-        push dword [dword_1150D4]
-        mov dword [dword_152F58], eax
+        push dword [FrontShapesFile]
+        mov dword [pointerspr], eax
         call FindShape
         add esp, byte 8
         mov dword [MenuRemoteCursorArt], eax
@@ -1070,23 +1070,23 @@ InGameMenu:
         cmp edx, 15Eh
         jl short .4
         mov dword [InMenuOverlay], 1
-        movsx ax, byte [byte_1175A4]
-        mov byte [byte_1175A4], 1
+        movsx ax, byte [RinkFloorOn]
+        mov byte [RinkFloorOn], 1
         mov word [byte ebp-030h], ax
-        movsx ax, byte [byte_1175A5]
-        mov byte [byte_1175A5], 1
+        movsx ax, byte [IceTextureOn]
+        mov byte [IceTextureOn], 1
         mov word [byte ebp-02Eh], ax
-        movsx ax, byte [byte_1175A9]
-        mov byte [byte_1175A9], 1
+        movsx ax, byte [StandsOn]
+        mov byte [StandsOn], 1
         mov word [byte ebp-02Ch], ax
-        movsx ax, byte [byte_1175A8]
-        mov byte [byte_1175A8], 1
+        movsx ax, byte [PlayerDetailOn]
+        mov byte [PlayerDetailOn], 1
         mov word [byte ebp-02Ah], ax
-        movsx ax, byte [byte_1175A6]
-        mov byte [byte_1175A6], 1
+        movsx ax, byte [IceLogosOn]
+        mov byte [IceLogosOn], 1
         mov word [byte ebp-028h], ax
-        movsx ax, byte [byte_1175A7]
-        mov byte [byte_1175A7], 1
+        movsx ax, byte [GlassOn]
+        mov byte [GlassOn], 1
         mov word [byte ebp-026h], ax
         mov ax, word [ViewSizeStep]
         mov dword [ViewSizeStep], 8
@@ -1768,17 +1768,17 @@ InGameMenu_ABD:
 .51:
         call StopSpeech
         mov al, byte [byte ebp-030h]
-        mov byte [byte_1175A4], al
+        mov byte [RinkFloorOn], al
         mov al, byte [byte ebp-02Eh]
-        mov byte [byte_1175A5], al
+        mov byte [IceTextureOn], al
         mov al, byte [byte ebp-02Ch]
-        mov byte [byte_1175A9], al
+        mov byte [StandsOn], al
         mov al, byte [byte ebp-02Ah]
-        mov byte [byte_1175A8], al
+        mov byte [PlayerDetailOn], al
         mov al, byte [byte ebp-028h]
-        mov byte [byte_1175A6], al
+        mov byte [IceLogosOn], al
         mov al, byte [byte ebp-026h]
-        mov byte [byte_1175A7], al
+        mov byte [GlassOn], al
         movsx eax, word [byte ebp-024h]
         mov dword [InMenuOverlay], 0
         mov dword [ViewSizeStep], eax

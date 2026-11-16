@@ -14,10 +14,10 @@ extern goalevent, defsort_d, offsort_fwd, chkprogress, collflag, crowdlevel, cur
 extern awslotcount, hmfirstslot, awfirstslot, HomeEbenPlayer, AwayEbenPlayer, onetimerflag, penshotteam, AwayGoalsPeriod
 extern HomeGoalsPeriod, PassTargetLocked, PuckChasers, PuckChaserPlayer, GameHitCount, FightingOn, playsuspended, SeriesDecided
 extern InReplay, ScorePanelState, SfxMask, TeamConferenceIds
-extern dword_165166, dword_16516A, dword_165240, dword_165244, CrowdExciteTotal, hmtmnear, hmtmcoachenergy, hmtmlines
+extern dword_165166, dword_16516A, dword_165240, dword_165244, SumCwdExciteLvl, hmtmnear, hmtmcoachenergy, hmtmlines
 extern hmtmplattr, hmtmglattr, hmtmplstats, hmtmglstats, hmtmroster, hmtmteamrec, hmtmsort, awtmnear
 extern awtmcoachenergy, awtmlines, awtmplattr, awtmglattr, awtmplstats, awtmglstats, awtmroster, awtmteamrec
-extern awtmsort, ReplayBufferTop, GameVarsClear, dword_176BD8, LineBoxChoice, GoalFrameCount, CamShotObj, CamAngle
+extern awtmsort, ReplayBufferTop, GameVarsClear, BenchDoorState, LineBoxChoice, GoalFrameCount, CamShotObj, CamAngle
 extern optflags, energywarn, fadeinpending, fox, foy, gameclock, gameopts, gmode
 extern hmroster, hmtmgoalie, hmtmstruct, lastplayer, lasttouch, lcblink, lcboxon, lcline
 extern replaystart, puckvy, puckc, PtrPuckFlags, PtrRefObject, PtrPuckObject, PtrHomeNet, PtrAwayNet
@@ -37,7 +37,7 @@ extern ltack, BenchSpriteAnims, RosterStatusPdst, PlListLineSlots, BenchIdleAnim
 extern word_165144, word_165146, word_165148, PeriodEventCount, hmscore, hmtmline
 extern hmtmlcnt, hmtmextra, hmtmap, hmtmnearpl, HmChaserList, awscore, awtmline, awtmlcnt
 extern awtmextra, awtmnearpl, AwChaserList, regd4, regd5, LastShooterTeam, regd0, regd1
-extern Ylist, SpeechPatchNext, word_176B70, word_176B72, word_176B78, word_176B7C, PerTimeTotal, LastTouchTeam
+extern Ylist, SpeechPatchNext, MaxCwdExciteLvl, NumCwdExciteLvl, PeriodStartClock, GoalSignalState, PerTimeTotal, LastTouchTeam
 extern PassDistY, StoppageFlag, LastPlayerTouch
 global ClearSortCords, CompLine, DoGameFrame, InitCoachModes, SetPlList, SetupTeamForIntermission, StartPer, TeamLineEnergy
 global TryAddPlayerToList, UpdateCoachModes, clearteams, findpc, forceteams, changeplayer_316, CompLine_351, CompLine_3D1
@@ -1943,19 +1943,19 @@ Goal_1FC:
         mov ax, word [byte ebx+038h]
         cmp ax, word [byte esi+038h]
         jge short .32
-        mov word [word_176B7C], 2
+        mov word [GoalSignalState], 2
         inc word [byte ebx+012h]
         jmp short .34
 .32:
         jle short .33
-        mov word [word_176B7C], 4
+        mov word [GoalSignalState], 4
         jmp short .34
 .33:
-        mov word [word_176B7C], 1
+        mov word [GoalSignalState], 1
 .34:
         cmp word [byte esi+03Ah], byte 0
         jge short .35
-        or byte [word_176B7C], 8
+        or byte [GoalSignalState], 8
 .35:
         mov al, byte [gmode]
         and al, 10h
@@ -3064,7 +3064,7 @@ ResetClock:
         mov dx, word [gameclock]
         sub edx, eax
         or byte [gmode], 1
-        mov word [word_176B78], dx
+        mov word [PeriodStartClock], dx
         pop edx
         ret
         push edx
@@ -3770,7 +3770,7 @@ StartPer:
         mov dx, word [gameclock]
         sub edx, eax
         or byte [gmode], 1
-        mov word [word_176B78], dx
+        mov word [PeriodStartClock], dx
         cmp dword [hmslotcount], byte 0
         je short .1
         mov eax, dword [hmfirstslot]
@@ -4161,14 +4161,14 @@ RestoreBenchEnergy:
         pop ebx
         ret
         mov ax, word [CwdExciteLvl]
-        cmp ax, word [word_176B70]
+        cmp ax, word [MaxCwdExciteLvl]
         jle short .6
-        mov word [word_176B70], ax
+        mov word [MaxCwdExciteLvl], ax
 .6:
         movsx eax, word [CwdExciteLvl]
-        inc word [word_176B72]
+        inc word [NumCwdExciteLvl]
         dec word [CwdExciteLvl]
-        add dword [CrowdExciteTotal], eax
+        add dword [SumCwdExciteLvl], eax
         cmp word [CwdExciteLvl], byte 0
         jge short .7
         mov word [CwdExciteLvl], 0
@@ -4214,14 +4214,14 @@ periodicevents:
         xor byte [lldispodd], 1
         call ChkGoalies
         mov ax, word [CwdExciteLvl]
-        cmp ax, word [word_176B70]
+        cmp ax, word [MaxCwdExciteLvl]
         jle short .2
-        mov word [word_176B70], ax
+        mov word [MaxCwdExciteLvl], ax
 .2:
         movsx eax, word [CwdExciteLvl]
-        inc word [word_176B72]
+        inc word [NumCwdExciteLvl]
         dec word [CwdExciteLvl]
-        add dword [CrowdExciteTotal], eax
+        add dword [SumCwdExciteLvl], eax
         cmp word [CwdExciteLvl], byte 0
         jge short .3
         mov word [CwdExciteLvl], 0
@@ -4316,7 +4316,7 @@ CheckBenchDoor:
         pop ebx
         ret
 .4:
-        cmp dword [dword_176BD8], byte 0
+        cmp dword [BenchDoorState], byte 0
         je short .9
         jmp short .8
 .5:
@@ -4338,7 +4338,7 @@ CheckBenchDoor:
 .7:
         test eax, eax
         je short .3
-        cmp dword [dword_176BD8], byte 1
+        cmp dword [BenchDoorState], byte 1
         je short .9
 .8:
         mov dword [byte esi+076h], 1
@@ -4419,7 +4419,7 @@ updateplayers:
         mov dword [awtmnear], 0FFFFh
         mov word [awtmnearpl], 0FFFFh
         mov edi, dword [pucky]
-        mov dword [dword_176BD8], 0FFFFFFFFh
+        mov dword [BenchDoorState], 0FFFFFFFFh
         mov dword [playsuspended], eax
         movsx eax, word [edi]
         mov esi, SortCords
@@ -4436,7 +4436,7 @@ updateplayers:
         add esp, byte 8
         cmp eax, byte 18h
         ja short .4
-        mov dword [dword_176BD8], 0
+        mov dword [BenchDoorState], 0
         jmp short .5
 .4:
         mov edi, dword [pucky]
@@ -4454,7 +4454,7 @@ updateplayers:
         add esp, byte 8
         cmp eax, byte 18h
         ja short .5
-        mov dword [dword_176BD8], 1
+        mov dword [BenchDoorState], 1
 .5:
         mov dword [byte ebp-04h], 0
         jmp near .10

@@ -8,7 +8,7 @@ extern __CHP, __STOSD, AutoSetLines, SkaterRatingOrder, GoalieRatingOrder, Title
 extern PlayerPosCodes, LinesWorkTable, DrawColorText, DrawColorTextRight, DrawFrameAt, DrawScrollBar
 extern F32_0p001, F32_0p0208333, F32_0p00333333, F32_390, F32_0p005, F32_100, F32_neg50, F32_0p002
 extern F32_0p0111111, F32_0p1, F32_0p0142857, F32_0p0333333, F32_58, F32_90, F32_0p01, F32_347
-extern dword_1174E4, dword_1174EC, statsplayoffs, dword_1174F4, dword_117504, dword_11750C, dword_117510, dword_117514
+extern CareerDb, TeamDb, statsplayoffs, AttributeDb, CareerDbSize, TeamDbSize, PlayoffStatsSize, AttributeDbSize
 extern RosterDbPtrs, RosterPlayerIds, SkaterRatingTextIds, GoalieRatingTextIds, TradeTextIds, RosterFirstRun, RatingsGoalieShown, RatingsSkaterShown
 extern LoadingArtFrame, TeamStatsBitmap, PlayoffTreeData, RosterFileHandle, PlayerRecPtrs, PlayerHeightPtrs, PlayerWeightPtrs
 extern RosterFirstNamePtrs, RosterJerseyPtrs, RosterPlayerPtrs, RosterProfilePtrs, RosterLastNamePtrs, TeamScoringScore
@@ -29,7 +29,7 @@ extern str_S2dw2, str_S2ug2, str_S2up2, str_S33, str_S3dg2, str_S3dw2, str_S3ug2
 extern str_S4, str_S4dg, str_S4dw, str_S4ug, str_S4up, str_SD6, str_SGID, str_SS4
 extern str_StatDBPTRs2, str_Tra12, str_Tra22, str_Tra32, str_TraD, strcat_, strcpy_, DrawArt
 extern AllocMemBlock, FreeMemBlock, CreateBitmap, TintRows, FreeBitmap, DosFileInfo, atoi_, OpenArtArchiveErr
-extern SaveFileBlock, DrawArtOpaqueAtOwnPos, SetScreenTarget, FindShape, TickDeadlinePassed, unk_152E36, LineForwardOrder, LineDefenceOrder
+extern SaveFileBlock, DrawArtOpaqueAtOwnPos, SetScreenTarget, FindShape, TickDeadlinePassed, RosterTextBuf, LineForwardOrder, LineDefenceOrder
 extern RosterRecords, unk_96949, str_X_RosterScreen, unk_96C49, str_Punct_CreatePlayerScreen, unk_96DC9, unk_96FD9
 global RunRosterScreens, RunRosterScreens_230, RunRosterScreens_231, RosterScreen, DrawRosterTeams, DrawRosterTeams_17B, FormatRosterLine, FormatRosterLine_26D
 global DrawRosterPlayerInfo, RosterSlotStatus, CountRosterSlots, FindRosterSlot, ListRosterPlayers, ValidateRoster, EditPlayerName, EditPlayerName_131
@@ -376,7 +376,7 @@ RosterScreen:
         mov dword [byte ebp+046h], eax
         push str_Pal26
         push dword [byte ebp+046h]
-        mov esi, unk_152E36
+        mov esi, RosterTextBuf
         call FindShape
         add esp, byte 8
         lea edx, [byte eax+010h]
@@ -1607,8 +1607,8 @@ RosterScreen:
         xor ebx, ebx
         call MakeSeasonDbPath
 .74:
-        push dword [dword_11750C]
-        push dword [dword_1174EC]
+        push dword [TeamDbSize]
+        push dword [TeamDb]
         lea eax, [byte ebp-052h]
         push eax
         call SaveFileBlock
@@ -1625,7 +1625,7 @@ RosterScreen:
         mov edx, dword [PlayoffTreeData]
         call MakeSeasonDbPath
 .76:
-        push dword [dword_117510]
+        push dword [PlayoffStatsSize]
         push dword [statsplayoffs]
         lea eax, [byte ebp-052h]
         push eax
@@ -2668,7 +2668,7 @@ RosterScreen:
         mov eax, dword [byte ebp+06Eh]
         cmp dword [dword eax+ebp-0E4Ah], byte 0FFFFFFFFh
         je near .161
-        mov esi, dword [dword_1174EC]
+        mov esi, dword [TeamDb]
         add esi, dword [dword eax+ebp-0E4Ah]
         imul eax, ebx, byte 3Ch
         mov ecx, 3Ch
@@ -2740,7 +2740,7 @@ RosterScreen:
         mov eax, dword [byte ebp+076h]
         cmp dword [dword eax+ebp-01662h], byte 0FFFFFFFFh
         je near .166
-        mov esi, dword [dword_1174EC]
+        mov esi, dword [TeamDb]
         add esi, dword [dword eax+ebp-01662h]
         imul eax, ebx, byte 3Ch
         mov ecx, 3Ch
@@ -3337,7 +3337,7 @@ FormatRosterLine:
         inc dword [byte ebp-0Ch]
         cmp dword [byte ebp-04h], byte 0
         je near .11
-        mov edi, dword [dword_1174EC]
+        mov edi, dword [TeamDb]
         mov edx, dword [edx]
         add edx, edi
         test byte [optflags], 0Ch
@@ -3412,7 +3412,7 @@ FormatRosterLine:
         mov esi, edx
         jmp near .21
 .13:
-        mov edx, dword [dword_1174EC]
+        mov edx, dword [TeamDb]
         inc dword [byte ebp-0Ch]
         add edx, dword [byte esi+063h]
         test byte [optflags], 0Ch
@@ -3484,7 +3484,7 @@ FormatRosterLine:
 .23:
         cmp dword [dword ecx+0C7h], byte 0FFFFFFFFh
         je near .31
-        mov edx, dword [dword_1174EC]
+        mov edx, dword [TeamDb]
         inc dword [byte ebp-0Ch]
         add edx, dword [dword ecx+0C7h]
         test byte [optflags], 0Ch
@@ -3852,7 +3852,7 @@ ListRosterPlayers:
         mov edx, edi
         jmp near .9
 .1:
-        mov eax, dword [dword_1174EC]
+        mov eax, dword [TeamDb]
         add eax, dword [byte edx+020h]
         mov cl, byte [byte ebp+014h]
         mov byte [eax], cl
@@ -4130,7 +4130,7 @@ EditPlayerName:
         call atoi_
         mov byte [byte edx+01Eh], al
         mov eax, dword [byte ebp+07Ah]
-        mov edx, dword [dword_1174EC]
+        mov edx, dword [TeamDb]
         mov ecx, 28h
         add edx, dword [byte eax+020h]
         lea eax, [byte ebp+042h]
@@ -4813,7 +4813,7 @@ CreatePlayerScreen_71A:
         mov eax, 202h
         jmp short .15
 .17:
-        mov eax, dword [dword_1174EC]
+        mov eax, dword [TeamDb]
         movsx edx, byte [dword eax+0C34Fh]
         imul edx, byte 3Ch
         add eax, 0C350h
@@ -4920,7 +4920,7 @@ CreatePlayerScreen_8F5:
         jne short .23
         mov eax, dword [byte ebp+032h]
         mov ecx, 11h
-        mov edi, dword [dword_1174F4]
+        mov edi, dword [AttributeDb]
         lea esi, [byte ebp-01Eh]
         jmp short .26
 .23:
@@ -4939,27 +4939,27 @@ CreatePlayerScreen_8F5:
 .25:
         mov eax, dword [byte ebp+032h]
         mov ecx, 15h
-        mov edi, dword [dword_1174F4]
+        mov edi, dword [AttributeDb]
         lea esi, [byte ebp-036h]
 .26:
         add edi, dword [byte eax+024h]
         rep movsb
         mov eax, dword [byte ebp+032h]
-        mov ebx, dword [dword_1174E4]
-        mov edx, dword [dword_1174F4]
+        mov ebx, dword [CareerDb]
+        mov edx, dword [AttributeDb]
         add ebx, dword [byte eax+028h]
         add edx, dword [byte eax+024h]
         call CreatePlayerRatings
         cmp dword [byte ebp+04Ah], byte 4
         jne short .27
         mov eax, dword [byte ebp+032h]
-        mov edi, dword [dword_1174E4]
+        mov edi, dword [CareerDb]
         mov ecx, 2Ch
         add edi, dword [byte eax+028h]
         xor eax, eax
         rep stosb
 .27:
-        mov eax, dword [dword_1174EC]
+        mov eax, dword [TeamDb]
         movsx eax, byte [dword eax+0C34Fh]
         imul ebx, eax, byte 3Ch
         mov edx, 1Ch
@@ -4968,13 +4968,13 @@ CreatePlayerScreen_8F5:
         shl edx, 2
         add ebx, 0C350h
         mov dword [edx+eax], ebx
-        mov eax, dword [dword_1174EC]
+        mov eax, dword [TeamDb]
         mov edx, 3
         inc byte [dword eax+0C34Fh]
         lea eax, [byte ebp-056h]
         call MakeDataPath
-        push dword [dword_11750C]
-        push dword [dword_1174EC]
+        push dword [TeamDbSize]
+        push dword [TeamDb]
         lea eax, [byte ebp-056h]
         push eax
         call SaveFileBlock
@@ -4982,8 +4982,8 @@ CreatePlayerScreen_8F5:
         mov edx, 5
         lea eax, [byte ebp-056h]
         call MakeDataPath
-        push dword [dword_117514]
-        push dword [dword_1174F4]
+        push dword [AttributeDbSize]
+        push dword [AttributeDb]
         lea eax, [byte ebp-056h]
         push eax
         call SaveFileBlock
@@ -4991,8 +4991,8 @@ CreatePlayerScreen_8F5:
         mov edx, 0BAh
         lea eax, [byte ebp-056h]
         call MakeDataPath
-        push dword [dword_117504]
-        push dword [dword_1174E4]
+        push dword [CareerDbSize]
+        push dword [CareerDb]
         lea eax, [byte ebp-056h]
         push eax
         call SaveFileBlock
@@ -5005,7 +5005,7 @@ CreatePlayerScreen_8F5:
         mov dword [byte ebp+026h], eax
         cmp dword [byte ebp+02Eh], byte 1
         jle near CreatePlayerScreen_BD2.29
-        mov eax, dword [dword_1174EC]
+        mov eax, dword [TeamDb]
         movsx eax, byte [dword eax+0C34Fh]
         cmp eax, byte 3Ch
         jge near CreatePlayerScreen_BD2.29
@@ -6226,8 +6226,8 @@ TeamRankScoring:
         shl esi, 2
         cmp dword [byte eax+063h], byte 0FFFFFFFFh
         je short .2
-        mov ecx, dword [dword_1174EC]
-        mov edi, dword [dword_1174E4]
+        mov ecx, dword [TeamDb]
+        mov edi, dword [CareerDb]
         add ecx, dword [byte eax+063h]
         add edi, dword [byte ecx+028h]
         movzx ecx, word [byte edi+06h]
@@ -6263,8 +6263,8 @@ TeamRankSkating:
         shl esi, 2
         cmp dword [byte eax+063h], byte 0FFFFFFFFh
         je short .2
-        mov ecx, dword [dword_1174EC]
-        mov edi, dword [dword_1174E4]
+        mov ecx, dword [TeamDb]
+        mov edi, dword [CareerDb]
         add ecx, dword [byte eax+063h]
         add edi, dword [byte ecx+028h]
         movzx ecx, word [byte edi+08h]
@@ -6296,8 +6296,8 @@ TeamRankOffence:
         shl eax, 2
         cmp dword [byte ebx+063h], byte 0FFFFFFFFh
         je short .2
-        mov edx, dword [dword_1174EC]
-        mov edi, dword [dword_1174F4]
+        mov edx, dword [TeamDb]
+        mov edi, dword [AttributeDb]
         add edx, dword [byte ebx+063h]
         add edi, dword [byte edx+024h]
         mov edx, edi
@@ -6335,8 +6335,8 @@ TeamRankDefence:
         shl eax, 2
         cmp dword [byte ebx+063h], byte 0FFFFFFFFh
         je short .2
-        mov edx, dword [dword_1174EC]
-        mov edi, dword [dword_1174F4]
+        mov edx, dword [TeamDb]
+        mov edi, dword [AttributeDb]
         add edx, dword [byte ebx+063h]
         add edi, dword [byte edx+024h]
         mov edx, edi
@@ -6379,8 +6379,8 @@ TeamRankGoalie:
 .1:
         cmp dword [dword eax+0C7h], byte 0FFFFFFFFh
         je short .2
-        mov edx, dword [dword_1174EC]
-        mov edi, dword [dword_1174E4]
+        mov edx, dword [TeamDb]
+        mov edi, dword [CareerDb]
         add edx, dword [dword eax+0C7h]
         add edi, dword [byte edx+028h]
         mov edx, edi

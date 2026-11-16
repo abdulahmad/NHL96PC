@@ -3,8 +3,8 @@ bits 32
 %include "hockey.inc"
 extern TeamRosterPtrs
 section s_5D707 progbits alloc exec nowrite align=1
-extern __CHP, BuildShadeLut, byte_1175A4, byte_1175A5, byte_1175A6, byte_1175A7, byte_1175A8, byte_1175A9
-extern byte_1175AA, byte_1175AB, byte_1175AC
+extern __CHP, BuildShadeLut, RinkFloorOn, IceTextureOn, IceLogosOn, GlassOn, PlayerDetailOn, StandsOn
+extern RinkBoardsOn, BenchPlayersOn, ScoreClockOn
 extern CamLastSort, CamFirstFrame
 extern HexDigits, PenBuf, byte_1770A6, byte_1770B1, CamShotMode, CamShotPhase
 extern DemoMode, InReplay, ReplayRemoteShape, TimedPanelState, ViewTop, ViewWidth, ViewHeight
@@ -939,20 +939,20 @@ CameraNearNet_12E:
         pop ecx
         pop ebx
         ret
-        mov byte [byte_1175AC], 1
-        mov al, byte [byte_1175A9]
+        mov byte [ScoreClockOn], 1
+        mov al, byte [StandsOn]
         mov dword [CamNearNet], 1
-        mov byte [byte_1175AA], al
+        mov byte [RinkBoardsOn], al
         ret
 ;-----------------------------------------------------------------------------
 ; ResetCameraShake                                5E21C  96 PC, low confidence
-; In a game, clears byte_1175AC / 1175AA and CamNearNet
+; In a game, clears ScoreClockOn / 1175AA and CamNearNet
 ;-----------------------------------------------------------------------------
 ResetCameraShake:
         cmp dword [GameLoopActive], byte 1
         jne short .1
-        mov byte [byte_1175AC], 0
-        mov byte [byte_1175AA], 0
+        mov byte [ScoreClockOn], 0
+        mov byte [RinkBoardsOn], 0
         mov dword [CamNearNet], 0
 .1:
         ret
@@ -3268,10 +3268,10 @@ CamShot244:
         lea edi, [dword ebp-084h]
         mov esi, unk_5D591
         rep movsd
-        mov byte [byte_1175AC], 1
-        mov al, byte [byte_1175A9]
+        mov byte [ScoreClockOn], 1
+        mov al, byte [StandsOn]
         mov dword [CamNearNet], 1
-        mov byte [byte_1175AA], al
+        mov byte [RinkBoardsOn], al
         cmp dword [CamShotId], byte 0Ah
         jge short .2
         inc dword [CamShotId]
@@ -3414,13 +3414,13 @@ CamShot23B_B3:
         sub eax, dword [CamPosZ]
         push eax
         call AngleOfVector
-        mov byte [byte_1175AC], 1
+        mov byte [ScoreClockOn], 1
         neg eax
         mov dword [CamNearNet], 1
         mov dword [CamPosX], eax
-        mov al, byte [byte_1175A9]
+        mov al, byte [StandsOn]
         add esp, byte 8
-        mov byte [byte_1175AA], al
+        mov byte [RinkBoardsOn], al
 .6:
         pop edx
         pop ecx
@@ -3585,8 +3585,8 @@ CloseTextOverlay:
         mov dword [CameraViewTable+56Dh], 0
         and eax, byte 1
         mov dword [CameraViewTable+571h], 0FFFFE38Fh
-        mov byte [byte_1175AA], al
-        mov byte [byte_1175A9], al
+        mov byte [RinkBoardsOn], al
+        mov byte [StandsOn], al
         jmp near CameraNearNet_12E
 ;-----------------------------------------------------------------------------
 ; EndCameraShot                                60777  96 PC, medium confidence
@@ -3638,7 +3638,7 @@ EndCameraShot:
         cmp dword [byte ebp-04h], byte 8
         jne near CamShot242_278
         mov dword [CamShotId], 0FFFFFFFFh
-        mov byte [byte_1175AA], 0
+        mov byte [RinkBoardsOn], 0
         jmp near CamShot242_278
 .3:
         mov eax, edx
@@ -3782,7 +3782,7 @@ ReadHotKeys:
         xor al, 1
         and eax, byte 1
         and byte [GsOptions], 0FEh
-        mov byte [byte_1175A9], al
+        mov byte [StandsOn], al
         or dword [GsOptions], eax
         call GetTicks
         add eax, byte 19h
@@ -3803,7 +3803,7 @@ ReadHotKeys:
         and eax, byte 1
         lea edx, [eax+eax]
         and byte [GsOptions], 0FDh
-        mov byte [byte_1175A6], al
+        mov byte [IceLogosOn], al
         or dword [GsOptions], edx
         call GetTicks
         add eax, byte 19h
@@ -3825,7 +3825,7 @@ ReadHotKeys:
         mov edx, eax
         and byte [GsOptions], 0FBh
         shl edx, 2
-        mov byte [byte_1175A8], al
+        mov byte [PlayerDetailOn], al
         or dword [GsOptions], edx
         call GetTicks
         add eax, byte 19h
@@ -3847,7 +3847,7 @@ ReadHotKeys:
         mov edx, eax
         and byte [GsOptions], 0F7h
         shl edx, 3
-        mov byte [byte_1175A5], al
+        mov byte [IceTextureOn], al
         or dword [GsOptions], edx
         call GetTicks
         add eax, byte 19h
@@ -3869,7 +3869,7 @@ ReadHotKeys:
         mov edx, eax
         and byte [GsOptions], 0EFh
         shl edx, 4
-        mov byte [byte_1175A4], al
+        mov byte [RinkFloorOn], al
         or dword [GsOptions], edx
         call GetTicks
         add eax, byte 19h
@@ -3891,7 +3891,7 @@ ReadHotKeys:
         mov edx, eax
         and byte [GsOptions], 0DFh
         shl edx, 5
-        mov byte [byte_1175A7], al
+        mov byte [GlassOn], al
         or dword [GsOptions], edx
         call GetTicks
         add eax, byte 19h
@@ -3957,7 +3957,7 @@ ReadHotKeys:
         mov edx, eax
         and byte [GsOptions+1], 0FEh
         shl edx, 8
-        mov byte [byte_1175AB], al
+        mov byte [BenchPlayersOn], al
         or dword [GsOptions], edx
         call GetTicks
         add eax, byte 19h
@@ -4415,8 +4415,8 @@ UpdateCamera_174:
         mov dword [CamTargetObj], eax
         cmp dword [GameLoopActive], byte 1
         jne short .12
-        mov byte [byte_1175AC], 0
-        mov byte [byte_1175AA], 0
+        mov byte [ScoreClockOn], 0
+        mov byte [RinkBoardsOn], 0
         mov dword [CamNearNet], 0
 .12:
         cmp dword [CameraShotOn], byte 0

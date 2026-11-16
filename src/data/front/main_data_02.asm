@@ -3,36 +3,36 @@ bits 32
 %include "hockey.inc"
 section s_115098 progbits alloc noexec write align=1
 extern str_KWKJSKxxxxxx
-global str_0123456789abcdefghijklmn, byte_115109, byte_11510A, byte_11510B, byte_11510C, byte_115114, byte_115115, byte_115116
-global byte_115117, byte_117575, byte_1175A4, byte_1175A5, byte_1175A6, byte_1175A7, byte_1175A8, byte_1175A9
-global byte_1175AA, byte_1175AB, byte_1175AC, dword_115098, dword_1150C4, dword_1150C8, dword_1150CC, dword_1150D0
-global dword_1150D4, dword_1150D8, dword_1150DC, dword_1150E0, AsyncQueueTail, StreamBlockSize, StreamTimeout, dword_1150F0
-global dword_1150F4, dword_1150F8, gameresult, seasondb, dword_1174E4, statsfromleague, dword_1174EC, statsplayoffs
-global dword_1174F4, dword_1174F8, dword_1174FC, dword_117500, dword_117504, dword_117508, dword_11750C, dword_117510
-global dword_117514, dword_117518, dword_11751C, dword_117588, gsumheader, gsumtail, DataDirPath, ArtArchivePaths
+global str_0123456789abcdefghijklmn, GamePad1Dev, GamePad2Dev, GameUserTeam, GameModeFlags, HomeGoalCount, HomeShotCount, AwayGoalCount
+global AwayShotCount, RosterSlotOrder, RinkFloorOn, IceTextureOn, IceLogosOn, GlassOn, PlayerDetailOn, StandsOn
+global RinkBoardsOn, BenchPlayersOn, ScoreClockOn, LinkPollState, MessageShown, ProgressBoxBmp, ProgressBoxTotal, ProgressBoxStep
+global FrontShapesFile, SaveFileHandle, CpuTestPattern, AsyncTicks, AsyncQueueTail, StreamBlockSize, StreamTimeout, CdStreamReadTime
+global CdStreamFilled, CdStreamTicks, gameresult, seasondb, CareerDb, statsfromleague, TeamDb, statsplayoffs
+global AttributeDb, PlayerAttrFile, LeagueRecordsFile, SeasonDbSize, CareerDbSize, LeagueStatsSize, TeamDbSize, PlayoffStatsSize
+global AttributeDbSize, PlayerAttrFileSize, LeagueRecordsSize, JoyTestTime, gsumheader, gsumtail, DataDirPath, ArtArchivePaths
 global str_X_SetArtArchive, str_KEY3, str_CAREER2, str_ATT, str_CARTEAMS, str_TEAMS3, str_SEASON4, str_SCHEDULE
-global str_Punct_PlayerDbRecord, word_11510D, word_11512D, word_11758C
-dword_115098:
+global str_Punct_PlayerDbRecord, GameStarted, DataLibIds, JoyTestButtonMap
+LinkPollState:
         db 00h,00h,00h,00h
 str_0123456789abcdefghijklmn:
         db 030h,031h,032h,033h,034h,035h,036h,037h,038h,039h,061h,062h,063h,064h,065h,066h
         db 067h,068h,069h,06Ah,06Bh,06Ch,06Dh,06Eh,06Fh,070h,071h,072h,073h,074h,075h,076h
         db 077h,078h,079h,07Ah,0Ah,00h,00h,00h
-dword_1150C4:
+MessageShown:
         db 00h,00h,00h,00h
-dword_1150C8:
+ProgressBoxBmp:
         db 00h,00h,00h,00h
-dword_1150CC:
+ProgressBoxTotal:
         db 01h,00h,00h,00h
-dword_1150D0:
+ProgressBoxStep:
         db 00h,00h,00h,00h
-dword_1150D4:
+FrontShapesFile:
         db 00h,00h,00h,00h
-dword_1150D8:
+SaveFileHandle:
         db 0FFh,0FFh,0FFh,0FFh
-dword_1150DC:
+CpuTestPattern:
         dd str_KWKJSKxxxxxx
-dword_1150E0:
+AsyncTicks:
         db 00h,00h,00h,00h
 AsyncQueueTail:
         db 00h,00h,00h,00h
@@ -40,39 +40,39 @@ StreamBlockSize:
         db 0DAh,00h,00h,00h
 StreamTimeout:
         db 02Ch,01h,00h,00h
-dword_1150F0:
+CdStreamReadTime:
         db 00h,00h,00h,00h
-dword_1150F4:
+CdStreamFilled:
         db 00h,00h,00h,00h
-dword_1150F8:
+CdStreamTicks:
         db 00h,00h,00h,00h
 gameresult:
         db 00h,00h,00h,00h,0FFh,0FFh,0FFh,0FFh,0FEh,0FFh,0FFh,0FFh
 gsumheader:
         db 00h
-byte_115109:
+GamePad1Dev:
         db 00h
-byte_11510A:
+GamePad2Dev:
         db 00h
-byte_11510B:
+GameUserTeam:
         db 00h
-byte_11510C:
+GameModeFlags:
         db 00h
-word_11510D:
+GameStarted:
         db 00h,00h,00h,00h,00h,00h
 gsumtail:
         db 04h
-byte_115114:
+HomeGoalCount:
         db 00h
-byte_115115:
+HomeShotCount:
         db 00h
-byte_115116:
+AwayGoalCount:
         db 00h
-byte_115117:
+AwayShotCount:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h
 DataDirPath:
         db 02Eh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-word_11512D:
+DataLibIds:
         db 00h,00h,047h,045h,052h,04Dh,041h,04Eh,00h,00h,00h,00h,00h,00h,00h,01h
         db 00h,044h,041h,054h,041h,00h,00h,00h,00h,00h,00h,00h,00h,00h,01h,00h
         db 055h,053h,045h,052h,00h,00h,00h,00h,00h,00h,00h,00h,00h,03h,00h,053h
@@ -666,35 +666,35 @@ str_SCHEDULE:
         db 043h,048h,045h,044h,00h,050h,047h,053h,00h,047h,041h,04Dh,045h,00h
 seasondb:
         db 00h,00h,00h,00h
-dword_1174E4:
+CareerDb:
         db 00h,00h,00h,00h
 statsfromleague:
         db 00h,00h,00h,00h
-dword_1174EC:
+TeamDb:
         db 00h,00h,00h,00h
 statsplayoffs:
         db 00h,00h,00h,00h
-dword_1174F4:
+AttributeDb:
         db 00h,00h,00h,00h
-dword_1174F8:
+PlayerAttrFile:
         db 00h,00h,00h,00h
-dword_1174FC:
+LeagueRecordsFile:
         db 00h,00h,00h,00h
-dword_117500:
+SeasonDbSize:
         db 00h,00h,00h,00h
-dword_117504:
+CareerDbSize:
         db 00h,00h,00h,00h
-dword_117508:
+LeagueStatsSize:
         db 00h,00h,00h,00h
-dword_11750C:
+TeamDbSize:
         db 00h,00h,00h,00h
-dword_117510:
+PlayoffStatsSize:
         db 00h,00h,00h,00h
-dword_117514:
+AttributeDbSize:
         db 00h,00h,00h,00h
-dword_117518:
+PlayerAttrFileSize:
         db 00h,00h,00h,00h
-dword_11751C:
+LeagueRecordsSize:
         db 00h,00h,00h,00h,02Eh,00h
 str_Punct_PlayerDbRecord:
         db 020h,00h,0Ch,015h,00h,00h,025h,073h,02Eh,064h,062h,00h,00h,00h,00h,00h
@@ -703,29 +703,29 @@ str_Punct_PlayerDbRecord:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h
-byte_117575:
+RosterSlotOrder:
         db 07h,00h,04h,00h,03h,00h,06h,00h,01h,00h,08h,00h,02h,00h,00h,00h
         db 00h,00h,00h
-dword_117588:
+JoyTestTime:
         db 00h,00h,00h,00h
-word_11758C:
+JoyTestButtonMap:
         db 00h,00h,01h,00h,05h,00h,00h,00h,03h,00h,02h,00h,04h,00h,00h,00h
         db 07h,00h,08h,00h,06h,00h,00h,00h
-byte_1175A4:
+RinkFloorOn:
         db 01h
-byte_1175A5:
+IceTextureOn:
         db 01h
-byte_1175A6:
+IceLogosOn:
         db 01h
-byte_1175A7:
+GlassOn:
         db 01h
-byte_1175A8:
+PlayerDetailOn:
         db 01h
-byte_1175A9:
+StandsOn:
         db 01h
-byte_1175AA:
+RinkBoardsOn:
         db 01h
-byte_1175AB:
+BenchPlayersOn:
         db 01h
-byte_1175AC:
+ScoreClockOn:
         db 01h

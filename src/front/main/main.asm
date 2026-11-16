@@ -2,9 +2,9 @@
 bits 32
 %include "hockey.inc"
 section s_1B046 progbits alloc exec nowrite align=1
-extern _dos_gettime_, str_Punct_StartUp, chdir_, DetectCPU, GripLibHandle, dword_1150D4, dword_1150D8, dword_1150DC
-extern StartupPalette, CpuType, dword_11F61C, bailout_vec, DebugMode, dword_152F44, dword_152F48, dword_152F4C
-extern MenuRemoteCursorArt, MenuCursorPixels, dword_152F58, MenuBitmapPixels, globalset, InitInputDevices, InstallTimer, LoadDataFile
+extern _dos_gettime_, str_Punct_StartUp, chdir_, DetectCPU, GripLibHandle, FrontShapesFile, SaveFileHandle, CpuTestPattern
+extern StartupPalette, CpuType, dword_11F61C, bailout_vec, DebugMode, LogoPackBuf, LogoPackFile, PanelShadeArt
+extern MenuRemoteCursorArt, MenuCursorPixels, pointerspr, MenuBitmapPixels, globalset, InitInputDevices, InstallTimer, LoadDataFile
 extern LoadGripLibrary, LoadPackedFile, MakeDataPath, ModemGameClose, LogoNames, optflags, PlayMenuGame, printf_
 extern ReadGlobalSet, srand_, StartSoundCard, str_CLEARER, str_dbgL, str_Dot, str_FhiL4, str_FhiR4
 extern str_HardwareBeforeRunningHOC, str_IhreHardwareZuKonfigurie, str_LDON, str_LEAS, str_Lgo, str_LNEW, str_LNHL, str_LNPA
@@ -15,7 +15,7 @@ extern TestCdSpeed, ShutdownSound, WriteGlobalSet, RunExhibitionMenus, RunContro
 extern RunSeasonMenus, RunStatsMenu, RunModemGameSetup, RunPlayoffMenus, AllocMemBlock, FreeMemBlock, MemLargestFreeOfList, ClearScreenColour
 extern UnpackTo, TextSetColor, SetupMemoryPool, NumLockOff, InstallHotkeys, NearestColour, CreateAaPalLut, SetScreenTarget
 extern SetTextMode, SetPaletteEntries8, ReadPaletteEntries8, InitMouse, InstallKeyboardHandler, KbdGetKey, AddExitHandler, FindShape
-extern bcopy, InstallBreakHandler, TextSetFont, str_0_LoadTeamLogo, str_Punct_CheckGameDirs, unk_11041A, unk_11048D, DataDirPath
+extern bcopy, InstallBreakHandler, TextSetFont, str_0_LoadTeamLogo, str_Punct_CheckGameDirs, str_RunSetupFirstDe, str_EscToDosDe, DataDirPath
 extern unk_1210DC, unk_1213DC, str_WesternConference2, unk_18584C
 global jpt_1B046, LoadTeamLogo, LoadTeamLogo_3B, LoadTeamLogo_45, LoadTeamLogo_4F, LoadTeamLogo_59, LoadTeamLogo_63, LoadTeamLogo_6D
 global LoadTeamLogo_ret, RunFrontEnd, ReturnTrue, CheckFreeMemory, CheckGameDirs, InitHardware, StartUp, ShutDown
@@ -92,25 +92,25 @@ LoadTeamLogo_6D:
 .5:
         lea eax, [byte ebp-08h]
         push eax
-        push dword [dword_152F48]
+        push dword [LogoPackFile]
         call FindShape
         add esp, byte 8
         push byte 10h
-        push dword [dword_152F44]
+        push dword [LogoPackBuf]
         push eax
         mov esi, eax
         call bcopy
-        mov eax, dword [dword_152F44]
+        mov eax, dword [LogoPackBuf]
         add esp, byte 0Ch
         add eax, byte 10h
         push eax
         add esi, byte 10h
         push esi
         call UnpackTo
-        mov eax, dword [dword_152F44]
+        mov eax, dword [LogoPackBuf]
         and dword [eax], 0FFh
         add esp, byte 8
-        mov eax, dword [dword_152F44]
+        mov eax, dword [LogoPackBuf]
 LoadTeamLogo_ret:
         leave
         pop edi
@@ -193,7 +193,7 @@ RunFrontEnd:
         call RunModemGameSetup
         jmp short .17
 .14:
-        mov eax, dword [dword_1150D8]
+        mov eax, dword [SaveFileHandle]
         call PlayMenuGame
         jmp short .17
 .15:
@@ -463,7 +463,7 @@ StartUp:
         imul eax, edx
         call srand_
         mov dword [CpuType], 1
-        inc dword [dword_1150DC]
+        inc dword [CpuTestPattern]
         call InitHardware
         push byte 0
         mov dword [DebugMode], 0
@@ -487,13 +487,13 @@ StartUp:
         push str_Punct_StartUp
         call printf_
         add esp, byte 4
-        push unk_11041A
+        push str_RunSetupFirstDe
         call printf_
         add esp, byte 4
         push str_IhreHardwareZuKonfigurie
         call printf_
         add esp, byte 4
-        push unk_11048D
+        push str_EscToDosDe
         call printf_
         add esp, byte 4
 .1:
@@ -542,12 +542,12 @@ StartUp:
         call LoadPackedFile
         push str_FhiL4
         push eax
-        mov dword [dword_1150D4], eax
+        mov dword [FrontShapesFile], eax
         call FindShape
         add esp, byte 8
         push str_FhiR4
-        push dword [dword_1150D4]
-        mov dword [dword_152F58], eax
+        push dword [FrontShapesFile]
+        mov dword [pointerspr], eax
         call FindShape
         mov edx, 20h
         add esp, byte 8
@@ -557,23 +557,23 @@ StartUp:
         push byte 20h
         push dword 6910h
         push str_LOGOPACK
-        mov dword [dword_152F48], eax
+        mov dword [LogoPackFile], eax
         call AllocMemBlock
-        mov esi, dword [dword_152F58]
+        mov esi, dword [pointerspr]
         mov edi, eax
-        mov dword [dword_152F44], eax
+        mov dword [LogoPackBuf], eax
         movsd
         movsd
         movsd
         movsd
         movsb
-        mov eax, dword [dword_152F44]
+        mov eax, dword [LogoPackBuf]
         mov word [byte eax+04h], 0E0h
         add esp, byte 0Ch
-        mov eax, dword [dword_152F44]
+        mov eax, dword [LogoPackBuf]
         push str_Lgo
         mov word [byte eax+06h], 78h
-        push dword [dword_1150D4]
+        push dword [FrontShapesFile]
         mov edi, str_WesternConference2
         call FindShape
         add esp, byte 8
@@ -581,7 +581,7 @@ StartUp:
         lea esi, [byte eax+010h]
         rep movsb
         mov ebx, 20h
-        mov edx, dword_152F4C
+        mov edx, PanelShadeArt
         mov eax, str_WesternConference2
         call CreateAaPalLut
         mov ebx, 20h
@@ -602,7 +602,7 @@ StartUp:
         mov edx, 20h
         call SetScreenMode
         call LoadFrontEndArt
-        mov eax, dword [dword_152F58]
+        mov eax, dword [pointerspr]
         call CopyBitmap
         mov edx, 20h
         mov dword [MenuCursorPixels], eax
@@ -632,7 +632,7 @@ ShutDown:
         call FreeFrontEndArt
         call ShutdownSound
         call FreeLangText
-        push dword [dword_152F44]
+        push dword [LogoPackBuf]
         call FreeMemBlock
         add esp, byte 4
         push dword [MenuCursorPixels]
@@ -641,7 +641,7 @@ ShutDown:
         push dword [MenuBitmapPixels]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_1150D4]
+        push dword [FrontShapesFile]
         call FreeMemBlock
         add esp, byte 4
 ShutDown_51:

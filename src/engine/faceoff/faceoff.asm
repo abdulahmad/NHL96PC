@@ -9,7 +9,7 @@ extern awtmstruct, sflags3, apl, InputState
 extern hmtmgoaliehi, HmPlayerFlags, AwPlayerFlags, fofdata2_b3, fofdata2_b7, iflags, chk4pass, crowdlevel
 extern curperiod, hmslotcount, awslotcount, hmfirstslot, awfirstslot, onetimerflag, penshotteam, pspathdir
 extern PassTargetLocked, OneTimerPasser, PuckChasers, FaceoffPuckDropped, GoalieDepthTab, GoalReplayPending, dword_15E4C4, PtrPuckZone
-extern dword_176BD0, optflags, energywarn, fadeinpending, fox, foy, gameclock, gameopts
+extern FaceoffPuckDrop, optflags, energywarn, fadeinpending, fox, foy, gameclock, gameopts
 extern gmode, hmroster, hmtmgoalie, hmtmstruct, introskipped, lcblink, lcboxon, lcfound
 extern puckvy, puckc, PtrPuckFlags, PtrRefObject, PtrPuckObject, PtrHomeNet, PtrAwayNet, passplayer
 extern penshotmode, penshotplayer, penshotstart, puckvx, puckvz, puckx, pucky, puckz
@@ -24,7 +24,7 @@ extern Penaltytimer, gsp, clockticks, SortPending, energywarn_aw, lcblink_aw, lc
 extern puckfaceoff2_ptab, ovltimer, injurystop, bannermsg, bannertimer, GoalieSaveAnims, PenBoxSeatX, PenBoxSeatY
 extern puckcross, word_165144, hmscore, hmtmline, hmtmlcnt, hmtmpdst, awscore, awtmline
 extern awtmlcnt, fofdata2, PlayFlags, fofdata2_w4, fofdata2_w6, fofdata, FaceoffDropTimer, regd4
-extern regd0, regd1, word_176B7A, PerTimeTotal, LastTouchTeam, PassDistY, StoppageFlag, LastPlayerTouch
+extern regd0, regd1, penevteam, PerTimeTotal, LastTouchTeam, PassDistY, StoppageFlag, LastPlayerTouch
 global AdjustFacingDirection, AllInPlace, GoalieToPuckVec, PenShotAssign, PullGoalie, SetTeamGoalie, assbenchwait, assrefpenshot
 global asstakeposition, check4bench, SetupPenaltyBoxSeats_7E, goalieposition_648, puckfaceoff, SetupPenaltyBoxSeats, TakePlayerFromBox, FreeBoxedPlayers
 global PenShotStart, assleavebox, AssignControlSlots, FaceoffPositions, puckfaceoff2, asspsclear, goaliechasepuck, assgoalietopuck
@@ -1548,7 +1548,7 @@ puckfaceoff2:
         mov word [PassDistY], ax
         mov eax, dword [PtrRefObject]
         mov word [Penaltytimer], 0FFFFh
-        mov word [word_176B7A], 0FFFFh
+        mov word [penevteam], 0FFFFh
         mov word [byte eax+012h], 0ED9h
         mov eax, dword [PtrRefObject]
         mov word [byte eax+038h], 0
@@ -3363,7 +3363,7 @@ goalieskateto:
         movsx eax, word [regd1]
         sub eax, edx
         mov word [regd1], ax
-        cmp dword [dword_176BD0], byte 0
+        cmp dword [FaceoffPuckDrop], byte 0
         je near .13
         mov eax, dword [puckc]
         movsx ax, byte [eax]
@@ -4201,16 +4201,16 @@ goalieposition:
 .39:
         cmp edx, eax
         jle short .40
-        mov dword [dword_176BD0], 0
+        mov dword [FaceoffPuckDrop], 0
 .40:
-        cmp dword [dword_176BD0], byte 0
+        cmp dword [FaceoffPuckDrop], byte 0
         je short .41
         movzx eax, word [byte edi+02h]
         cmp eax, byte 23h
         jge near .68
 .41:
         movsx eax, word [edi]
-        cmp dword [dword_176BD0], byte 0
+        cmp dword [FaceoffPuckDrop], byte 0
         je near .52
         test eax, eax
         jge short .42
@@ -4321,7 +4321,7 @@ goalieposition:
         jle short .59
         add edx, byte 4
 .59:
-        cmp dword [dword_176BD0], byte 0
+        cmp dword [FaceoffPuckDrop], byte 0
         je short .65
         movsx eax, word [byte esi+04Eh]
         cmp eax, byte 19h
@@ -4396,7 +4396,7 @@ assgoalie:
         push esi
         push edi
         mov esi, eax
-        mov dword [dword_176BD0], 1
+        mov dword [FaceoffPuckDrop], 1
         cmp word [byte eax+04Ah], byte 0
         jle short .1
         dec word [byte eax+04Ah]

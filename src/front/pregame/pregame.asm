@@ -5,8 +5,8 @@ extern SimWork
 extern BottomBarArt
 section s_849D5 progbits alloc exec nowrite align=1
 extern BlackPalette, byte_11FA2F, PlayoffTeams, byte_17D262, CardsSpeechPending, TeamsSpeechPending, AwayCardsSpeechPending
-extern MatchupSpeechPending, CopyBitmap, DrawColorTextCentred, DrawColorTextRight, DrawFrameAt, seasondb, dword_1174E4, statsplayoffs
-extern dword_1174F8, dword_117518, TeamConferenceIds, FrontEndScreenBmp, MatchupLayer, TeamStatsBitmap, MenuBoxStyle
+extern MatchupSpeechPending, CopyBitmap, DrawColorTextCentred, DrawColorTextRight, DrawFrameAt, seasondb, CareerDb, statsplayoffs
+extern PlayerAttrFile, PlayerAttrFileSize, TeamConferenceIds, FrontEndScreenBmp, MatchupLayer, TeamStatsBitmap, MenuBoxStyle
 extern PlayoffTreeData, SeasonType, SeasonDay, SeasonGamePending, PlayoffGameOpts, cddriveptr, PlayoffRound, PlayoffTreeShape
 extern dword_17D1E2, dword_17D26B, RightLogoFrames, LeftLogoFrames, LogoSpinFrame, LogoSpinTime, FadeOut
 extern FadePalette, FileClose, FileOpenRead, FillMusicStream, gameopts, GetLangText, GetTeamNameArt, GetTicks
@@ -1793,10 +1793,10 @@ PreGameCardsA:
 .22:
         mov eax, dword [byte ebp+076h]
         mov eax, dword [byte eax+028h]
-        cmp eax, dword [dword_117518]
+        cmp eax, dword [PlayerAttrFileSize]
         jae short .24
         mov edx, dword [byte ebp+076h]
-        mov eax, dword [dword_1174F8]
+        mov eax, dword [PlayerAttrFile]
         add eax, dword [byte edx+028h]
         mov edi, 64h
         movzx esi, word [byte eax+010h]
@@ -1815,10 +1815,10 @@ PreGameCardsA:
 .23:
         mov eax, dword [byte ebp+076h]
         mov eax, dword [byte eax+028h]
-        cmp eax, dword [dword_117518]
+        cmp eax, dword [PlayerAttrFileSize]
         jae short .24
         mov edx, dword [byte ebp+076h]
-        mov eax, dword [dword_1174E4]
+        mov eax, dword [CareerDb]
         add eax, dword [byte edx+028h]
         mov edi, 64h
         movzx esi, word [byte eax+010h]
@@ -1902,10 +1902,10 @@ PreGameCardsA:
 .29:
         mov eax, dword [byte ebp+072h]
         mov eax, dword [byte eax+028h]
-        cmp eax, dword [dword_117518]
+        cmp eax, dword [PlayerAttrFileSize]
         jae short .31
         mov edx, dword [byte ebp+072h]
-        mov eax, dword [dword_1174F8]
+        mov eax, dword [PlayerAttrFile]
         add eax, dword [byte edx+028h]
         mov edi, 64h
         movzx esi, word [byte eax+010h]
@@ -1924,10 +1924,10 @@ PreGameCardsA:
 .30:
         mov eax, dword [byte ebp+072h]
         mov eax, dword [byte eax+028h]
-        cmp eax, dword [dword_117518]
+        cmp eax, dword [PlayerAttrFileSize]
         jae short .31
         mov edx, dword [byte ebp+072h]
-        mov eax, dword [dword_1174E4]
+        mov eax, dword [CareerDb]
         add eax, dword [byte edx+028h]
         mov edi, 64h
         movzx esi, word [byte eax+010h]

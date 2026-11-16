@@ -5,8 +5,8 @@ extern JoyButtonsTable
 extern InputRepeatState
 extern SeasonUsers
 section s_4DED8 progbits alloc exec nowrite align=1
-extern awtmstruct, sflags3, awroster, byte_15864E, byte_15864F, byte_158650, pad2dev, pad1dev
-extern PenBuf, iflags, curevent, collflag, curperiod, GameLoopFrames, dword_1150D8
+extern awtmstruct, sflags3, awroster, UnusedStateByte, UnusedStateFlag, UnusedStateMode, pad2dev, pad1dev
+extern PenBuf, iflags, curevent, collflag, curperiod, GameLoopFrames, SaveFileHandle
 extern PreGameSkateOn, onetimerflag, penshotfox, penshotteam, AwayGoalsPeriod, HomeGoalsPeriod, sopathx, sopathy
 extern sopathend, sopathpoint, pspathside, pspathdir, CamFollowObj, GameFrameCount, hmtmlines, hmtmplattr
 extern hmtmglattr, hmtmplstats, hmtmglstats, hmtmroster, hmtmteamrec, hmtmsort, awtmlines, awtmplattr
@@ -27,7 +27,7 @@ extern refsignal, RefStep, StoppageReason, Penaltytimer, clockticks, SortPending
 extern lcblinktime, lcblinktime_aw, lcsel, lcsel_aw, lcline_aw, lctimer, lctimer_aw, lcboxon_aw
 extern ObjInitFrame, ObjInitAttr, ovltimer, injurystop, bannermsg, bannertimer, lldispodd, ltack
 extern SavedGameMode, SavedViewMode, ovlstep, lastsfx, PuckCrossSave, puckcross
-extern PeriodEventCount, GameEventFlags, AwBackupGoalieMarks, fofdata2, SavedPlayerWords, word_176B7C, PerTimeTotal
+extern PeriodEventCount, GameEventFlags, AwBackupGoalieMarks, fofdata2, SavedPlayerWords, GoalSignalState, PerTimeTotal
 extern LastTouchTeam, PassDistY, StoppageFlag, LastPlayerTouch, yc1
 global SaveGameState, SaveGameState_7DD, LoadGameState, ReadSeasonDbHeader, ReadSeasonDbHeader_C2, ReadSeasonDbHeader_C4, ReadSeasonDbHeader_C8, ReadPlayoffDbHeader
 global DeleteSeasonFiles, DeleteSeasonDb, GameEventStub
@@ -288,7 +288,7 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [word_176B7C]
+        mov dx, word [GoalSignalState]
         mov word [eax], dx
         inc eax
         inc eax
@@ -348,13 +348,13 @@ SaveGameState:
         inc eax
         cmp ebx, byte 0Ch
         jne short .10
-        mov dl, byte [byte_15864F]
+        mov dl, byte [UnusedStateFlag]
         mov byte [eax], dl
-        mov dl, byte [byte_158650]
+        mov dl, byte [UnusedStateMode]
         mov byte [byte eax+01h], dl
         inc eax
         inc eax
-        mov dl, byte [byte_15864E]
+        mov dl, byte [UnusedStateByte]
         mov byte [eax], dl
         mov dl, byte [onetimerflag]
         mov byte [byte eax+01h], dl
@@ -989,7 +989,7 @@ LoadGameState:
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_176B7C], dx
+        mov word [GoalSignalState], dx
         mov dx, word [eax]
         inc eax
         inc eax
@@ -1051,13 +1051,13 @@ LoadGameState:
         cmp edx, byte 0Ch
         jne short .10
         mov dl, byte [eax]
-        mov byte [byte_15864F], dl
+        mov byte [UnusedStateFlag], dl
         mov dl, byte [byte eax+01h]
         inc eax
         inc eax
-        mov byte [byte_158650], dl
+        mov byte [UnusedStateMode], dl
         mov dl, byte [eax]
-        mov byte [byte_15864E], dl
+        mov byte [UnusedStateByte], dl
         movsx edx, byte [byte eax+01h]
         inc eax
         inc eax
@@ -1498,7 +1498,7 @@ LoadGameState:
 .37:
         lea eax, [byte ebp-01Eh]
         call FileClose
-        mov dword [dword_1150D8], 0FFFFFFFFh
+        mov dword [SaveFileHandle], 0FFFFFFFFh
         jmp near SaveGameState_7DD
 ;-----------------------------------------------------------------------------
 ; ReadSeasonDbHeader                              4F08B  96 PC, low confidence

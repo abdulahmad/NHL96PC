@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_4B7BB progbits alloc exec nowrite align=1
-extern SortCords, BurstEnergyCost, MaxSpeed, doplayeracc_ftab, PtrPuckZone, dword_176BDC, optflags, gameopts
+extern SortCords, BurstEnergyCost, MaxSpeed, doplayeracc_ftab, PtrPuckZone, SkateTurnDir, optflags, gameopts
 extern gmode, puckvy, puckc, PtrPuckFlags, passplayer, puckvx, puckx, pucky
 extern randomd0, regd2, regd3, SetCarryAnim, SetSPA, GetHot, PickSkateAnim, PlaySfx
 extern vecdist, vtoa, xc1, yc1, gmode2, refsignal, dirtab, dirtab_y
@@ -25,7 +25,7 @@ doplayeracc:
         mov ecx, eax
         mov word [byte ebp-08h], dx
         movsx eax, dx
-        mov dword [dword_176BDC], eax
+        mov dword [SkateTurnDir], eax
         cmp word [byte ecx+01Ah], byte 0
         jne short .1
         mov edx, eax
@@ -2414,9 +2414,9 @@ dostop:
         and eax, byte 7
         cmp eax, byte 4
         jle short .2
-        cmp dword [dword_176BDC], byte 9
+        cmp dword [SkateTurnDir], byte 9
         je short .1
-        mov edx, dword [dword_176BDC]
+        mov edx, dword [SkateTurnDir]
         movsx eax, word [byte esi+036h]
         sub edx, eax
         lea eax, [byte edx-03h]
@@ -2982,9 +2982,9 @@ noturn0:
         and eax, byte 7
         cmp eax, byte 4
         jle short .2
-        cmp dword [dword_176BDC], byte 9
+        cmp dword [SkateTurnDir], byte 9
         je short .1
-        mov eax, dword [dword_176BDC]
+        mov eax, dword [SkateTurnDir]
         sub eax, edx
         sub eax, byte 3
         and eax, byte 7

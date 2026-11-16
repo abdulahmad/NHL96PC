@@ -1,13 +1,15 @@
 ; Post-game screens: the three stars and the game statistics (96 PC).
 bits 32
 %include "hockey.inc"
+extern dword_1571B3
+extern hmroster
 extern BottomBarArt
 section s_1456D progbits alloc exec nowrite align=1
 extern awtmstruct, byte_11FA2F, TitleTextStyle, StatsFromGame, StarsSlideFrom, StarsSlideTo, StarsSlideTarget, StarsSpritePath
 extern StarsNameX, StarsNameXs, StarsTextX, StarsTextXs, StarsTimerA, StarsTimerFace, StarsTimerName, StarsTimerCard
 extern seasondb, dword_11F5C0, StarsBgBmp, StarsSaveBmp, StarsFaceBmps, StarsCardBmps, StarsPanelBmp, StarsNameBmps
-extern StarsTitleBmp, StarsAnimStep, StarsCardBmp, StarsShapeFile, StarsSlideX, StarsSlideY, StarsSlideStep, dword_152F58
-extern dword_1571B3, FrontEndScreenBmp, MatchupLayer, MenuBoxStyle, gameopts, GetTicks, hmtmstruct
+extern StarsTitleBmp, StarsAnimStep, StarsCardBmp, StarsShapeFile, StarsSlideX, StarsSlideY, StarsSlideStep, pointerspr
+extern FrontEndScreenBmp, MatchupLayer, MenuBoxStyle, gameopts, GetTicks, hmtmstruct
 extern LinkSync, ModemChat, mousex, mousey, PutBlock, rand_, SetDrawBitmap, sprintf_
 extern str_004, str_04d, str_AR005, str_AR015, str_AR105, str_AR115, str_Ard5, str_BALL7
 extern str_BANNER, str_BKGD28, str_BT006, str_BT0110, str_BT028, str_BT108, str_BT118, str_BT124
@@ -26,7 +28,7 @@ extern hmtmPPShots, hmtmPwrPlayTime, hmtmPenalties, hmtmPenMin, hmtmATOP, hmscor
 extern hmtmOneTimers, hmtmOneTimerGoals, hmtmBreakaways, hmtmBreakawayGoals, hmtmPenShots, hmtmPenShotGoals, hmtmChecks, hmpassatt
 extern hmpasscmp, awtmPwrGoals, awtmPwrPlays, awtmPPShots, awtmPwrPlayTime, awtmPenalties, awtmPenMin, awtmATOP
 extern awscore, awtmSHGoals, awtmFaceoffsWon, awtmOneTimers, awtmOneTimerGoals, awtmBreakaways, awtmBreakawayGoals, awtmPenShots
-extern awtmPenShotGoals, awtmChecks, awpassatt, awpasscmp, word_176BB8, starpl
+extern awtmPenShotGoals, awtmChecks, awpassatt, awpasscmp, StarPoints, starpl
 global DrawGameStats, DrawGameStats_DD0, DrawGameStats_DD1, GameStatsScreen, GameStatsScreen_722, jpt_15A72, AnimateStarsScreen, AnimateStarsScreen_D3
 global AnimateStarsScreen_E7, AnimateStarsScreen_114, AnimateStarsScreen_121, jpt_15E83, ThreeStarsScreen, ThreeStarsScreen_8CF, ThreeStarsScreen_91F, ThreeStarsScreen_928
 global ThreeStarsScreen_936, PostGameScreens
@@ -946,7 +948,7 @@ GameStatsScreen:
         push dword 0FE50h
         push str_BANNER
         call AllocMemBlock
-        mov esi, dword [dword_152F58]
+        mov esi, dword [pointerspr]
         mov edi, eax
         movsd
         movsd
@@ -1099,7 +1101,7 @@ GameStatsScreen:
         push eax
         push str_SBACK
         call AllocMemBlock
-        mov esi, dword [dword_152F58]
+        mov esi, dword [pointerspr]
         mov edi, eax
         movsd
         movsd
@@ -1728,7 +1730,7 @@ ThreeStarsScreen:
         xor edi, edi
         xor esi, esi
 .1:
-        movsx edx, word [dword esi+word_176BB8]
+        movsx edx, word [dword esi+StarPoints]
         imul edx, dword 4B4h
         movsx eax, word [dword esi+starpl]
         imul eax, byte 2Bh

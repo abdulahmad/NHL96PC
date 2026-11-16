@@ -3,8 +3,8 @@ bits 32
 %include "hockey.inc"
 extern TeamRosterPtrs
 section s_584A0 progbits alloc exec nowrite align=1
-extern str_LUT, awtmstruct, byte_1175A4, byte_1175A5, byte_1175A6, byte_1175A7, byte_1175A8, byte_1175A9
-extern byte_1175AA, byte_1175AB, byte_1175AC, byte_157191, textline1, textline2
+extern str_LUT, awtmstruct, RinkFloorOn, IceTextureOn, IceLogosOn, GlassOn, PlayerDetailOn, StandsOn
+extern RinkBoardsOn, BenchPlayersOn, ScoreClockOn, hmrosterflags, textline1, textline2
 extern textline3, textline4, textline5, byte_176F96, byte_1770A2, byte_1770A3, byte_1770A4, byte_1770A5
 extern byte_1770D7, PalUsedFlags
 
@@ -16,7 +16,7 @@ extern GoalReplayPending, PanelOpenTime, PanelCloseTime, TimedPanelTimer, Player
 extern PlayerNamePanelTimer, LineBoxStates, LastEventPlayer, ViewWidth, ViewHeight, ViewLeft, str_D_DrawGameFrame, ViewBitmap
 extern ViewPixels, ViewSizeStep, CamFollowObj, CamViewBits, CameraViewSlots, ShadowToggle, MarkerToggle, NameToggle
 extern LastPaletteMode, InMenuOverlay, dword_11F5C0, dword_11F5C4, dword_1219A4, DrawClipLeft, DrawClipTop, DrawClipRight
-extern DrawClipBottom, DrawDestBuffer, dword_152F4C, dword_152FEC, dword_1531D0, dword_15E4BC, dword_15E4C0, dword_15E8D8
+extern DrawClipBottom, DrawDestBuffer, PanelShadeArt, SpriteArtPtrs, SpriteFrameArt, dword_15E4BC, dword_15E4C0, dword_15E8D8
 extern dword_15E8E0, dword_15E8E4, dword_15E8F8, dword_15E8FC
 extern ViewScreenHeight, dword_165060, dword_165064, dword_165166, dword_16516A, dword_16516E, dword_165172, DrawFrameCount
 extern GameViewPanelIds
@@ -45,7 +45,7 @@ extern SetAaPalLut, DrawArtAaScaledInt, DrawArtAaScaled, ProjectPointList, DrawF
 extern SetScreenScale, OriSetObjectMatrix, OriSetObjectPosition, MakeRotXMatrix, MakeRotYMatrix, MakeRotZMatrix, OriFindGroup, InitReciprocalTable
 extern FixedInverse, IntSqrt, DrawArtScaledRemap, FlipArtHorizontal, SetScreenTarget, SetRemapTable, SetColourRemap, SetBlitSource
 extern SetBlendTables, ScaleRowBlend, JoyButtonMap, FindShape, ClearClipRect, SetNearClipZ, SetViewScreenOrigin, TeamLineEnergy
-extern TextSetFont, str_Empty, OverlayPanelQueue, unk_122320, hmteamrec, unk_157FF8, awteamrec, unk_158313
+extern TextSetFont, str_Empty, OverlayPanelQueue, unk_122320, hmteamrec, awteamrec
 extern HomeSpriteShades, AwaySpriteShades, RefSpriteShades, PuckModelPoints, DrawList, DrawListCount, ZoneRects
 extern JerseyColorMap, TeamPaletteSave, HomeJerseyPal, AwayJerseyPal, unk_17D3E8, str_T_DrawOverlayCaption, unk_5848C, vtoa
 extern HomeControlSlot, clockticks, bannermsg, ControlMarkerFrames, ControlMarkerAltFrames, GoalNetFrames, SavedViewMode, ovlstep
@@ -795,33 +795,33 @@ InitGameView:
         mov eax, dword [GsOptions]
         shl eax, 1Bh
         shr eax, 1Fh
-        mov byte [byte_1175A4], al
+        mov byte [RinkFloorOn], al
         mov eax, dword [GsOptions]
         shl eax, 1Ch
         shr eax, 1Fh
-        mov byte [byte_1175A5], al
+        mov byte [IceTextureOn], al
         mov eax, dword [GsOptions]
         and eax, byte 1
-        mov byte [byte_1175A9], al
+        mov byte [StandsOn], al
         mov eax, dword [GsOptions]
         shl eax, 1Dh
         shr eax, 1Fh
-        mov byte [byte_1175A8], al
+        mov byte [PlayerDetailOn], al
         mov eax, dword [GsOptions]
         shl eax, 1Eh
         shr eax, 1Fh
-        mov byte [byte_1175A6], al
+        mov byte [IceLogosOn], al
         mov eax, dword [GsOptions]
         shl eax, 1Ah
         shr eax, 1Fh
-        mov byte [byte_1175A7], al
+        mov byte [GlassOn], al
         mov eax, dword [GsOptions]
         shl eax, 17h
         shr eax, 1Fh
-        mov byte [byte_1175AB], al
+        mov byte [BenchPlayersOn], al
         mov eax, dword [GsOptions]
         shl eax, 19h
-        mov byte [byte_1175AA], 0
+        mov byte [RinkBoardsOn], 0
         shr eax, 1Fh
         push byte 20h
         mov dword [ShowShadows], eax
@@ -830,7 +830,7 @@ InitGameView:
         shl eax, 18h
         push str_Priority
         shr eax, 1Fh
-        mov byte [byte_1175AC], 0
+        mov byte [ScoreClockOn], 0
         mov dword [ShowMarkers], eax
         call AllocMemBlock
         mov dword [CamFollowObj], eax
@@ -1150,7 +1150,7 @@ DrawRosterNumber:
         imul edx, eax, dword 4B4h
         movsx eax, word [byte ebp-04h]
         imul eax, byte 2Bh
-        movzx eax, byte [dword edx+eax+byte_157191]
+        movzx eax, byte [dword edx+eax+hmrosterflags]
         push eax
         push str_DS
         lea eax, [byte ebp-010h]
@@ -1574,13 +1574,13 @@ DrawControlMarker_41:
         mov dword [byte ebp-0Ch], eax
         test byte [byte ebp-04h], 8
         je short .16
-        push dword [nosplit eax*4+dword_152FEC]
+        push dword [nosplit eax*4+SpriteArtPtrs]
         mov esi, eax
         call FlipArtHorizontal
         add esp, byte 4
         push dword [byte ebp-08h]
         push edi
-        push dword [nosplit esi*4+dword_152FEC]
+        push dword [nosplit esi*4+SpriteArtPtrs]
         test byte [GsOptions+1], 20h
         je short .14
         mov eax, 20000h
@@ -1592,7 +1592,7 @@ DrawControlMarker_41:
         call DrawArtScaledHotspot
         mov eax, dword [byte ebp-0Ch]
         add esp, byte 10h
-        push dword [nosplit eax*4+dword_152FEC]
+        push dword [nosplit eax*4+SpriteArtPtrs]
         call FlipArtHorizontal
         add esp, byte 4
         jmp near DrawOverlayCaption_E1
@@ -1602,7 +1602,7 @@ DrawControlMarker_41:
         push dword [byte ebp-08h]
         mov eax, dword [byte ebp-0Ch]
         push edi
-        push dword [nosplit eax*4+dword_152FEC]
+        push dword [nosplit eax*4+SpriteArtPtrs]
         test byte [GsOptions+1], 20h
         je short .17
         mov eax, 20000h
@@ -1640,14 +1640,14 @@ DrawControlMarker_41:
         jge short .22
         mov ecx, dword [byte ebp-08h]
         mov ebx, edi
-        mov edx, dword [dword eax+dword_152FEC]
+        mov edx, dword [dword eax+SpriteArtPtrs]
         mov eax, esi
         call DrawArtAaScaledInt
         jmp near DrawOverlayCaption_E1
 .22:
         push dword [byte ebp-08h]
         push edi
-        push dword [dword eax+dword_152FEC]
+        push dword [dword eax+SpriteArtPtrs]
         push esi
 .23:
         call DrawArtScaledHotspot
@@ -1817,7 +1817,7 @@ PlaceGoalNets_71:
         movsx edx, word [GoalNetFrames]
         sar ecx, 10h
         sar ebx, 10h
-        mov edx, dword [nosplit edx*4+dword_152FEC]
+        mov edx, dword [nosplit edx*4+SpriteArtPtrs]
         call DrawArtAaScaledInt
         jmp short PlaceGoalNets_E0
 .1:
@@ -1830,7 +1830,7 @@ PlaceGoalNets_71:
         sar edx, 10h
         push edx
         movsx edx, word [GoalNetFrames]
-        push dword [nosplit edx*4+dword_152FEC]
+        push dword [nosplit edx*4+SpriteArtPtrs]
         push eax
         call DrawArtScaledHotspot
         add esp, byte 10h
@@ -1938,7 +1938,7 @@ PlaceGoalNets_20B:
         cmp dword [dword eax+SpriteFrameIds], byte 50h
         jle short .11
         mov edx, dword [dword esi+GoalNetShapeIds]
-        mov edx, dword [nosplit edx*4+dword_152FEC]
+        mov edx, dword [nosplit edx*4+SpriteArtPtrs]
         push dword [dword eax+SpriteFrameIds]
         mov dword [byte ebp-024h], edx
         call SpriteScale
@@ -2017,7 +2017,7 @@ PlaceGoalNets_20B:
         jne near .27
         mov eax, esi
         call PlayerSpriteFrame
-        mov edx, dword [nosplit eax*4+dword_152FEC]
+        mov edx, dword [nosplit eax*4+SpriteArtPtrs]
         mov dword [byte ebp-020h], eax
         mov dword [byte ebp-010h], edx
         cmp eax, 0C1Bh
@@ -2072,7 +2072,7 @@ PlaceGoalNets_20B:
         setne dl
         mov ecx, edi
         movzx edx, dl
-        mov eax, dword [nosplit eax*4+dword_152FEC]
+        mov eax, dword [nosplit eax*4+SpriteArtPtrs]
         push edx
         mov ebx, dword [byte ebp-0Ch]
         mov edx, dword [byte ebp-08h]
@@ -2133,7 +2133,7 @@ PlaceGoalNets_20B:
         cmp dword [byte ebp-020h], 0E60h
         jge short .27
         mov eax, dword [byte ebp-020h]
-        mov eax, dword [nosplit eax*4+dword_1531D0]
+        mov eax, dword [nosplit eax*4+SpriteFrameArt]
         mov dword [byte ebp-018h], eax
         mov ax, word [byte esi+054h]
         xor al, al
@@ -2195,7 +2195,7 @@ DrawPlayerShadows:
 .3:
         mov eax, esi
         call PlayerSpriteFrame
-        mov edx, dword [nosplit eax*4+dword_152FEC]
+        mov edx, dword [nosplit eax*4+SpriteArtPtrs]
         mov dword [byte ebp-014h], eax
         mov dword [byte ebp-010h], edx
         cmp eax, 0C1Bh
@@ -2247,7 +2247,7 @@ DrawPlayerShadows:
         setne dl
         mov ecx, edi
         movzx edx, dl
-        mov eax, dword [nosplit eax*4+dword_152FEC]
+        mov eax, dword [nosplit eax*4+SpriteArtPtrs]
         push edx
         mov ebx, dword [byte ebp-01Ch]
         mov edx, dword [byte ebp-018h]
@@ -2302,7 +2302,7 @@ DrawPlayerShadows:
         cmp dword [byte ebp-014h], 0E60h
         jge short .12
         mov eax, dword [byte ebp-014h]
-        mov eax, dword [nosplit eax*4+dword_1531D0]
+        mov eax, dword [nosplit eax*4+SpriteFrameArt]
         mov dword [byte ebp-04h], eax
         mov ax, word [byte esi+054h]
         xor al, al
@@ -2364,7 +2364,7 @@ DrawPlayers:
 .3:
         mov eax, esi
         call PlayerSpriteFrame
-        mov edx, dword [nosplit eax*4+dword_152FEC]
+        mov edx, dword [nosplit eax*4+SpriteArtPtrs]
         mov dword [byte ebp-010h], eax
         mov dword [byte ebp-014h], edx
         cmp eax, 0C1Bh
@@ -2420,7 +2420,7 @@ DrawPlayers:
         setne dl
         mov ecx, edi
         movzx edx, dl
-        mov eax, dword [nosplit eax*4+dword_152FEC]
+        mov eax, dword [nosplit eax*4+SpriteArtPtrs]
         push edx
         mov ebx, dword [byte ebp-020h]
         mov edx, dword [byte ebp-01Ch]
@@ -2481,7 +2481,7 @@ DrawPlayers:
         cmp dword [byte ebp-010h], 0E60h
         jge short .12
         mov eax, dword [byte ebp-010h]
-        mov eax, dword [nosplit eax*4+dword_1531D0]
+        mov eax, dword [nosplit eax*4+SpriteFrameArt]
         mov dword [byte ebp-04h], eax
         mov ax, word [byte esi+054h]
         xor al, al
@@ -2504,7 +2504,7 @@ DrawPlayers:
         cmp dword [byte ebp-08h], byte 0FFFFFFFCh
         jne near .1
         jmp near InitGameView_709
-        cmp byte [byte_1175A8], 0
+        cmp byte [PlayerDetailOn], 0
         je short .13
         call DrawPlayers
 .13:
@@ -2885,7 +2885,7 @@ DrawGameFrame:
         call DrawZamboni
         jmp short .19
 .16:
-        cmp byte [byte_1175A8], 0
+        cmp byte [PlayerDetailOn], 0
         je short .17
         call DrawPlayers
 .17:
@@ -2981,22 +2981,22 @@ DrawGameFrame:
         jle short .30
         cmp eax, byte 8
         jge short .30
-        push dword [nosplit esi*4+dword_152FEC]
+        push dword [nosplit esi*4+SpriteArtPtrs]
         call FlipArtHorizontal
         add esp, byte 4
         push dword [byte ebp+076h]
         push dword [byte ebp+07Eh]
-        push dword [nosplit esi*4+dword_152FEC]
+        push dword [nosplit esi*4+SpriteArtPtrs]
         call DrawArtHotspot
         add esp, byte 0Ch
-        push dword [nosplit esi*4+dword_152FEC]
+        push dword [nosplit esi*4+SpriteArtPtrs]
         call FlipArtHorizontal
         add esp, byte 4
         jmp short .31
 .30:
         push dword [byte ebp+076h]
         push dword [byte ebp+07Eh]
-        push dword [nosplit esi*4+dword_152FEC]
+        push dword [nosplit esi*4+SpriteArtPtrs]
         call DrawArtHotspot
         add esp, byte 0Ch
 .31:
@@ -3072,7 +3072,7 @@ DrawPanelLogo:
         mov eax, 6666h
 .4:
         mov dword [byte ebp-04h], eax
-        mov eax, dword [dword_152F4C]
+        mov eax, dword [PanelShadeArt]
         mov ecx, dword [byte ebp-08h]
         call SetAaPalLut
         mov ebx, edi
@@ -4616,13 +4616,13 @@ DrawScorePanel:
         mov edx, 6
         mov eax, 0ADh
         call SetTextColors
-        push unk_158313
+        push awteamrec+1Eh
         push str_12s
         lea eax, [byte ebp-060h]
         push eax
         call sprintf_
         add esp, byte 0Ch
-        push unk_157FF8
+        push hmteamrec+1Eh
         push str_12s
         lea eax, [byte ebp-038h]
         push eax
@@ -5154,7 +5154,7 @@ DrawPlayerNamePanel:
         add eax, edx
         push str_Empty
         lea ecx, [byte eax+017h]
-        movzx ebx, byte [dword edx+ebx+byte_157191]
+        movzx ebx, byte [dword edx+ebx+hmrosterflags]
         push ecx
         lea ecx, [byte eax+07h]
         mov edx, str_Empty

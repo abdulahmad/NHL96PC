@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_1D6C1 progbits alloc exec nowrite align=1
 extern assinsert, BuildDefaultLines, apl, curevent, crowdlevel, CrowdNoiseReset, curperiod, GameLoopFrames
-extern gameresult, GameFrameCount, InputRepeatState, CrowdExciteTotal, energywarn, exitgame, fadeinpending
+extern gameresult, GameFrameCount, InputRepeatState, SumCwdExciteLvl, energywarn, exitgame, fadeinpending
 extern forceteams, fox, foy, GameLoopActive, gameopts, gameover, goalevent, gsp
 extern InGameMenuRequest, introskipped, lastplayer, lcblink, lcboxon, lcline, LineChangeLine, LineChangeReq
 extern optblock, passplayer, Pencntdwn, Pencntdwn2, penshotlive, penshotmode, penshotplayer, penshotstart
@@ -13,8 +13,8 @@ extern SetScreenTarget, threat, vtoa, VisTeam, passdir, passspeed, ClockFrameCou
 extern RefStep, StoppageReason, Penaltytimer, SortPending, energywarn_aw, lcblink_aw, lcblinktime, lcblinktime_aw
 extern lcsel, lcsel_aw, lcline_aw, lctimer, lctimer_aw, lcboxon_aw, FaceoffDotX, puckfaceoff2_ptab
 extern ovltimer, injurystop, bannertimer, PeriodEventCount, GameEventFlags, hmtmap, awtmap, regd4
-extern word_176B68, SpeechPatchNext, joysampling, word_176B6E, word_176B70, word_176B72, word_176B76, word_176B7A
-extern word_176B7E
+extern UnusedSpeechWord, SpeechPatchNext, joysampling, UnusedCrowdWord, MaxCwdExciteLvl, NumCwdExciteLvl, UnusedCrowdWordHi, penevteam
+extern UnusedEventWord
 global BlankForFadeIn, PlacePlayersAtStart, SetupGame, SetupDemoGame, ResetGameVars
 ;-----------------------------------------------------------------------------
 ; BlankForFadeIn                                  1D6C1  96 PC, low confidence
@@ -309,14 +309,14 @@ ResetGameVars:
         mov dword [shotongoal], 0
         mov dword [penshotplayer], 0FFFFFFFFh
         mov word [SpeechPatchNext], 0
-        mov word [word_176B7A], 0
-        mov word [word_176B7E], 0
-        mov word [word_176B72], 0
-        mov word [word_176B70], 0
-        mov word [word_176B6E], 0
-        mov word [word_176B76], 0
-        mov dword [CrowdExciteTotal], 0
-        mov word [word_176B68], 0FFFFh
+        mov word [penevteam], 0
+        mov word [UnusedEventWord], 0
+        mov word [NumCwdExciteLvl], 0
+        mov word [MaxCwdExciteLvl], 0
+        mov word [UnusedCrowdWord], 0
+        mov word [UnusedCrowdWordHi], 0
+        mov dword [SumCwdExciteLvl], 0
+        mov word [UnusedSpeechWord], 0FFFFh
         mov word [GameEventFlags], 0
         mov word [LineChangeLine], 0
         call StartGame

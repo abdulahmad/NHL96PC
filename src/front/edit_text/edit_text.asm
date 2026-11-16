@@ -2,11 +2,11 @@
 bits 32
 %include "hockey.inc"
 section s_197ED progbits alloc exec nowrite align=1
-extern byte_11FA2F, byte_152C3B, dword_11F5C0, FillRect, TextStringWidth, PutBlock, SetDrawBitmap, str_Disp
+extern byte_11FA2F, dword_11F5C0, FillRect, TextStringWidth, PutBlock, SetDrawBitmap, str_Disp
 extern str_space4, str_Temp3, str_W, str_X, strcat_, strcpy_, strlen_, CopyBitmap
 extern SetTextColors, DrawColorTextCentred, DrawBox, SoundIdle, DrawShapeCore, AllocMemLocked, FreeMemBlock, CreateBitmap
 extern TintRect, DrawRectOutline, FreeBitmap, TextSetColor, TextPrintAt, SetScreenTarget, GetPaletteRange, KeyIsDown
-extern KbdGetKey, unk_152B3C, unk_19382
+extern KbdGetKey, MsgTextBuf, unk_19382
 global EditText
 ;-----------------------------------------------------------------------------
 ; EditText                                                        197ED  96 PC
@@ -220,12 +220,12 @@ EditText:
         mov dword [byte ebp+02Eh], eax
         call SetDrawBitmap
         add esp, byte 4
-        push unk_152B3C
+        push MsgTextBuf
         lea eax, [dword ebp-031Eh]
         push eax
         push dword 6666h
         call TintRect
-        mov byte [byte_152C3B], 0FFh
+        mov byte [MsgTextBuf+0FFh], 0FFh
         add esp, byte 0Ch
         movzx eax, byte [byte esi+01h]
         push eax
@@ -239,7 +239,7 @@ EditText:
         xor edx, edx
         push eax
         dec ecx
-        mov eax, unk_152B3C
+        mov eax, MsgTextBuf
         call DrawBox
         movzx edx, byte [byte esi+01h]
         movzx eax, byte [esi]

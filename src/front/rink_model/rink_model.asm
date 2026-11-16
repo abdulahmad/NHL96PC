@@ -2,12 +2,12 @@
 bits 32
 %include "hockey.inc"
 section s_21984 progbits alloc exec nowrite align=1
-extern __CHP, byte_1175A4, byte_1175A5, byte_1175A6, byte_1175A7, byte_1175A8, byte_1175A9, byte_1175AA
-extern byte_1175AB, byte_1175AC, IceCrudMap
+extern __CHP, RinkFloorOn, IceTextureOn, IceLogosOn, GlassOn, PlayerDetailOn, StandsOn, RinkBoardsOn
+extern BenchPlayersOn, ScoreClockOn, IceCrudMap
 extern IceTextureData, byte_15EA03, byte_176F96, byte_17701E, byte_17703B, byte_1770A7, byte_1770B2, byte_1770B3
 extern byte_1770B4, byte_1770B5, byte_1770B6, byte_1770D7, dword_1175AD, dword_1175B1, dword_1175B5, dword_1175B9
 extern dword_1176DD, dword_1176E1, dword_1176E5, dword_1177EC, dword_1177F0, InReplay, dword_11F5C0, dword_11F5C4
-extern NearClipZ, SinTable, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, DrawDestBuffer, dword_152FEC
+extern NearClipZ, SinTable, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, DrawDestBuffer, SpriteArtPtrs
 extern GoalLightLamp, RinkModelBoards, GoalLightTimerFar, RinkModelGlass, GoalLightFrame, FarSideModel, GoalLightOn, RinkModelIce
 extern dword_158F24, dword_158F90, dword_159008, dword_159014, dword_15902C, dword_159038, dword_1591CC, dword_1591D0
 extern dword_1591D4, dword_159230, dword_159234, dword_159334, dword_159340, dword_15934C, dword_159370, dword_15937C
@@ -1515,12 +1515,12 @@ ThinRedLineFace:
         jmp short FatRedLineFace_8
 ;-----------------------------------------------------------------------------
 ; GlassLineFace                                226EA  96 PC, medium confidence
-; Draw callback of the "glassline" line (with byte_1175A7, the glass on)
+; Draw callback of the "glassline" line (with GlassOn, the glass on)
 ;-----------------------------------------------------------------------------
 GlassLineFace:
         push ebx
         push ecx
-        cmp byte [byte_1175A7], 0
+        cmp byte [GlassOn], 0
         je short GlassLineFace_17.1
         push dword [CenterCircleModel]
         mov ecx, dword [dword_15E7DC]
@@ -1536,12 +1536,12 @@ GlassLineFace_17:
         ret
 ;-----------------------------------------------------------------------------
 ; GlassFace                                    22717  96 PC, medium confidence
-; Draw callback of the "glass" faces (with byte_1175A7, the glass on)
+; Draw callback of the "glass" faces (with GlassOn, the glass on)
 ;-----------------------------------------------------------------------------
 GlassFace:
         push ebx
         push ecx
-        cmp byte [byte_1175A7], 0
+        cmp byte [GlassOn], 0
         je short .1
         push dword [byte edx+04h]
         push byte 4
@@ -4539,7 +4539,7 @@ DrawStandsSides:
         add ecx, 88h
         cmp esi, byte 10h
         jl near .1
-        cmp byte [byte_1175AA], 0
+        cmp byte [RinkBoardsOn], 0
         je short .17
         mov edx, dword_15D2B8
         xor esi, esi
@@ -4671,7 +4671,7 @@ DrawRinkFloor:
         add edi, dword_15DC48
         jmp near .5
 .2:
-        cmp byte [byte_1175A4], 0
+        cmp byte [RinkFloorOn], 0
         je short .3
         mov eax, dword [edi]
         mov dword [byte ebp-04h], eax
@@ -4878,7 +4878,7 @@ DrawSideGlass:
         call DrawKickplates
         mov eax, 1
         call DrawGlassFrameLines
-        cmp byte [byte_1175A7], 0
+        cmp byte [GlassOn], 0
         je near DrawSpriteAtVertex_55
         mov eax, 1
 ;-----------------------------------------------------------------------------
@@ -5039,7 +5039,7 @@ DrawRinkFrontParts:
 .13:
         xor eax, eax
         call DrawGlassFrameLines
-        cmp byte [byte_1175A7], 0
+        cmp byte [GlassOn], 0
         je short DrawRinkFrontParts_194
         push BenchRemap
         call SetRemapTable
@@ -7985,7 +7985,7 @@ DrawIceMarkings:
         sub ebp, 82h
         mov eax, dword [dword_15E8E4]
         and byte [byte eax+010h], 0FDh
-        cmp byte [byte_1175A5], 0
+        cmp byte [IceTextureOn], 0
         je short .2
         xor edx, edx
         xor ebx, ebx
@@ -8080,7 +8080,7 @@ DrawIceMarkings:
         mov eax, dword [dword_15E8E4]
         or byte [byte eax+010h], 2
         add esp, byte 0Ch
-        cmp byte [byte_1175A6], 0
+        cmp byte [IceLogosOn], 0
         je short .10
         push dword [dword_15E780]
         push dword [dword_15E774]
@@ -8118,7 +8118,7 @@ DrawIceMarkings:
         call DrawRinkLinePoly
         cmp ebx, byte 10h
         jne short .13
-        cmp byte [byte_1175A8], 0
+        cmp byte [PlayerDetailOn], 0
         je near BuildRinkSides_602
         push unk_15E230
         call SetRemapTable
@@ -8229,7 +8229,7 @@ DrawIceMarkings:
         jmp near BuildRinkSides_602
 ;-----------------------------------------------------------------------------
 ; DrawRinkModels                               27BF1  96 PC, medium confidence
-; Draws the rink, the stands (byte_1175A9) and the score clock (byte_1175AC)
+; Draws the rink, the stands (StandsOn) and the score clock (ScoreClockOn)
 ; models
 ;-----------------------------------------------------------------------------
 DrawRinkModels:
@@ -8242,7 +8242,7 @@ DrawRinkModels:
         push dword [dword_15E8E4]
         call ProjectModelPoints
         add esp, byte 4
-        cmp byte [byte_1175A9], 0
+        cmp byte [StandsOn], 0
         je short .1
         push dword [dword_15E900]
         call DrawModelFlat
@@ -8251,7 +8251,7 @@ DrawRinkModels:
         call ProjectModelPoints
         add esp, byte 4
 .1:
-        cmp byte [byte_1175AC], 0
+        cmp byte [ScoreClockOn], 0
         je short .2
         push dword [dword_15E8C4]
         call DrawModelFlat
@@ -8320,7 +8320,7 @@ DrawRinkPlayers:
 .3:
         lea eax, [byte ebp-032h]
         call PlayerSpriteFrame
-        mov eax, dword [nosplit eax*4+dword_152FEC]
+        mov eax, dword [nosplit eax*4+SpriteArtPtrs]
         mov dword [byte ebp+076h], eax
         mov eax, dword [byte ebp+06Eh]
         push dword [dword eax+SpriteFrameIds]
@@ -8354,7 +8354,7 @@ DrawRinkPlayers:
         jg short .6
         mov eax, esi
         call PlayerSpriteFrame
-        mov eax, dword [nosplit eax*4+dword_152FEC]
+        mov eax, dword [nosplit eax*4+SpriteArtPtrs]
         mov dword [byte ebp+07Ah], eax
         mov eax, dword [byte ebp+06Eh]
         push dword [dword eax+SpriteFrameIds]
@@ -8395,7 +8395,7 @@ DrawRinkPlayers:
         ret
 ;-----------------------------------------------------------------------------
 ; DrawBenchPlayers                                27E24  96 PC, low confidence
-; (team): draws a team's bench players (byte_1175AB)
+; (team): draws a team's bench players (BenchPlayersOn)
 ;-----------------------------------------------------------------------------
 DrawBenchPlayers:
         push ebx
@@ -8404,7 +8404,7 @@ DrawBenchPlayers:
         push edi
         enter 44h, 0
         push edx
-        cmp byte [byte_1175AB], 0
+        cmp byte [BenchPlayersOn], 0
         je near DrawBenchPlayers_F6
         imul esi, eax, byte 1Ch
         mov edx, dword [ShowMarkers]
@@ -8444,7 +8444,7 @@ DrawBenchPlayers:
 .4:
         call BenchSpriteFrame
         mov dword [byte ebp-04h], eax
-        mov eax, dword [nosplit eax*4+dword_152FEC]
+        mov eax, dword [nosplit eax*4+SpriteArtPtrs]
         mov dword [byte ebp-014h], eax
         push dword [byte edx+08h]
         call SpriteScale
@@ -8720,7 +8720,7 @@ DrawPenaltyBoxPlayers:
         mov eax, dword [byte ebp-04h]
 .7:
         call BenchSpriteFrame
-        mov eax, dword [nosplit eax*4+dword_152FEC]
+        mov eax, dword [nosplit eax*4+SpriteArtPtrs]
         mov dword [byte ebp-014h], eax
         push dword [byte edx+08h]
         call SpriteScale
@@ -8929,7 +8929,7 @@ DrawBenchArea:
         add esp, byte 4
         cmp dword [esi], byte 0
         je near DrawRinkFrontParts_194
-        cmp byte [byte_1175A7], 0
+        cmp byte [GlassOn], 0
         je short .4
         mov edi, dword [byte esi+020h]
         shl edi, 2
@@ -9325,14 +9325,14 @@ DrawRinkBack:
         mov eax, dword [dword_15E900]
         and byte [byte eax+010h], 0FDh
         call DrawIceMarkings
-        cmp byte [byte_1175A9], 0
+        cmp byte [StandsOn], 0
         je short .1
         cmp dword [InReplay], byte 0
         je short .2
 .1:
         call DrawIceBackPoly
 .2:
-        cmp byte [byte_1175A9], 0
+        cmp byte [StandsOn], 0
         je short .3
         xor eax, eax
         call DrawStandsSides
@@ -9411,7 +9411,7 @@ DrawRinkBack:
         mov eax, 0FFFFFF56h
         call DrawRinkPlayers
 .13:
-        cmp byte [byte_1175A7], 0
+        cmp byte [GlassOn], 0
         je short .14
         push GlassRemap
         call SetRemapTable
@@ -9425,7 +9425,7 @@ DrawRinkBack:
         call DrawKickplates
         mov eax, 1
         call DrawGlassFrameLines
-        cmp byte [byte_1175A7], 0
+        cmp byte [GlassOn], 0
         je short .15
         mov eax, 1
         call DrawBoardSegments
@@ -9514,7 +9514,7 @@ DrawRinkFront:
         mov eax, 0FFFFFF56h
         call DrawRinkPlayers
 .10:
-        cmp byte [byte_1175AC], 0
+        cmp byte [ScoreClockOn], 0
         je short .11
         push dword [dword_15E8C4]
         call DrawModelPolys
@@ -9533,11 +9533,11 @@ DrawWholeRink:
         push ecx
         push edx
         enter 108h, 0
-        movsx eax, byte [byte_1175A9]
-        mov byte [byte_1175A9], 1
+        movsx eax, byte [StandsOn]
+        mov byte [StandsOn], 1
         mov dword [byte ebp-08h], eax
-        movsx eax, byte [byte_1175AA]
-        mov byte [byte_1175AA], 1
+        movsx eax, byte [RinkBoardsOn]
+        mov byte [RinkBoardsOn], 1
         mov dword [byte ebp-04h], eax
         call TransformRink
         mov eax, dword [dword_15E900]
@@ -9809,7 +9809,7 @@ DrawWholeRink:
         call DrawKickplates
         mov eax, 1
         call DrawGlassFrameLines
-        cmp byte [byte_1175A7], 0
+        cmp byte [GlassOn], 0
         je short .24
         mov eax, 1
         call DrawBoardSegments
@@ -9817,10 +9817,10 @@ DrawWholeRink:
         push dword [dword_15E8C4]
         call DrawModelPolys
         mov al, byte [byte ebp-08h]
-        mov byte [byte_1175A9], al
+        mov byte [StandsOn], al
         mov al, byte [byte ebp-04h]
         add esp, byte 4
-        mov byte [byte_1175AA], al
+        mov byte [RinkBoardsOn], al
         leave
         pop edx
         pop ecx

@@ -1,16 +1,17 @@
 ; The teams of a game: rosters and lines from the mode's files, the end-of-game clean-up (96 PC).
 bits 32
 %include "hockey.inc"
+extern dword_1571B3
 section s_1F300 progbits alloc exec nowrite align=1
-extern byte_115109, byte_11510A, byte_11510B, byte_11510C, byte_115114, byte_115115, byte_115116, byte_115117
-extern byte_117575, byte_157191, awroster, byte_157FD2, byte_158646, pad2dev, pad1dev, curperiod
-extern dword_1150D8, dword_1571B3, dword_15803D, dword_1580A1, dword_158654, TeamRosterPtrs
+extern GamePad1Dev, GamePad2Dev, GameUserTeam, GameModeFlags, HomeGoalCount, HomeShotCount, AwayGoalCount, AwayShotCount
+extern RosterSlotOrder, hmrosterflags, awroster, pad2dev, pad1dev, curperiod
+extern SaveFileHandle, GameExtraBlock, TeamRosterPtrs
 extern ObjCleanupSlot, PlayoffTreeData, RosterFileHandle, dword_17D267, FatalError, FileClose, FileOpenRead
 extern FileReadAt, GameLoopActive, gameopts, GameOver, gmode, hmroster, hmrosterpos, lseek_
 extern MakeDataPath, optflags, strcpy_, FreeGameSprites, SetCrowdTarget, GetLangText, MakeSeasonDbPath, MakePlayoffDbPath
 extern FreeMemBlock, DosFindFirst, hmplstats, hmglstats, hmglattr, hmplattr, awlinetab, hmteamrec
-extern unk_1580AD, awteamrec, unk_1583C8, hmlinetab, word_11510D, word_156E6E, word_156E70, word_156E72
-extern word_156E74, word_156E76, word_156E78, word_156E7A, hmglstats_w2, word_157AFC, hmtmpdst, hmtmglpdst
+extern awteamrec, hmlinetab, GameStarted
+extern hmtmpdst, hmtmglpdst
 global EndGameCleanup, LoadGameRosters, InitGameTeams, ReadPlayerRecord, OpenRosterDb, FillTeamRoster, unk_2018D
 ;-----------------------------------------------------------------------------
 ; EndGameCleanup                               1F300  96 PC, medium confidence
@@ -32,11 +33,11 @@ EndGameCleanup:
         cmp eax, 0AA0h
         jne short .1
         call FreeGameSprites
-        cmp dword [dword_158654], byte 0
+        cmp dword [GameExtraBlock], byte 0
         je short .2
-        push dword [dword_158654]
+        push dword [GameExtraBlock]
         call FreeMemBlock
-        mov dword [dword_158654], 0
+        mov dword [GameExtraBlock], 0
         add esp, byte 4
 .2:
         mov dword [GameLoopActive], 0
@@ -95,7 +96,7 @@ LoadGameRosters:
 .6:
         test byte [optflags], 70h
         jne short .7
-        cmp dword [dword_1150D8], byte 0FFFFFFFFh
+        cmp dword [SaveFileHandle], byte 0FFFFFFFFh
         jne near .13
 .7:
         lea ebx, [byte ebp-068h]
@@ -173,7 +174,7 @@ LoadGameRosters:
         mov ecx, 31Bh
         mov ebx, 0FFFFFFFFh
         mov edx, hmteamrec
-        mov eax, dword [dword_1150D8]
+        mov eax, dword [SaveFileHandle]
         call FileReadAt
 .14:
         mov eax, dword [optflags]
@@ -214,7 +215,7 @@ LoadGameRosters:
 .20:
         test byte [optflags], 70h
         jne short .21
-        cmp dword [dword_1150D8], byte 0FFFFFFFFh
+        cmp dword [SaveFileHandle], byte 0FFFFFFFFh
         jne near .27
 .21:
         lea ebx, [byte ebp-068h]
@@ -292,7 +293,7 @@ LoadGameRosters:
         mov ecx, 31Bh
         mov ebx, 0FFFFFFFFh
         mov edx, awteamrec
-        mov eax, dword [dword_1150D8]
+        mov eax, dword [SaveFileHandle]
         call FileReadAt
 .28:
         lea eax, [byte ebp-014h]
@@ -358,22 +359,22 @@ LoadGameRosters:
 .31:
         mov ecx, 3Eh
         mov edi, hmlinetab
-        mov esi, unk_1580AD
+        mov esi, hmteamrec+0D3h
         rep movsb
         mov ecx, 3Eh
         mov edi, awlinetab
-        mov esi, unk_1583C8
+        mov esi, awteamrec+0D3h
         rep movsb
 .32:
         xor eax, eax
 .33:
-        movzx edx, byte [dword eax+byte_158646]
+        movzx edx, byte [dword eax+hmlinetab+36h]
         cmp edx, byte 64h
         je short .34
         imul edx, byte 2Bh
         mov byte [dword edx+hmroster], 2
 .34:
-        movzx edx, byte [dword eax+byte_157FD2]
+        movzx edx, byte [dword eax+awlinetab+36h]
         cmp edx, byte 64h
         je short .35
         imul edx, byte 2Bh
@@ -401,34 +402,34 @@ InitGameTeams:
         push edi
         mov dword [curperiod], 0FFFFFFFFh
         mov byte [pad1dev], al
-        mov byte [byte_115109], al
+        mov byte [GamePad1Dev], al
         mov eax, dword [gameopts]
         mov byte [pad2dev], dl
-        mov byte [byte_11510A], dl
+        mov byte [GamePad2Dev], dl
         mov edx, dword [byte eax+01h]
         shl edx, 0Fh
         shr edx, 1Bh
-        mov byte [byte_11510B], dl
+        mov byte [GameUserTeam], dl
         mov ebx, 190h
         mov eax, dword [byte eax+01h]
         xor edx, edx
-        mov word [word_11510D], 1
-        mov byte [byte_115114], 0
+        mov word [GameStarted], 1
+        mov byte [HomeGoalCount], 0
         shl eax, 0Ah
-        mov byte [byte_115115], 0
+        mov byte [HomeShotCount], 0
         shr eax, 1Bh
-        mov byte [byte_115116], 0
-        mov byte [byte_11510C], al
+        mov byte [AwayGoalCount], 0
+        mov byte [GameModeFlags], al
         xor eax, eax
-        mov byte [byte_115117], 0
+        mov byte [AwayShotCount], 0
         call LoadGameRosters
-        mov word [word_156E7A], 0
-        mov word [word_156E78], 0
-        mov word [word_156E76], 0
-        mov word [word_156E74], 0
-        mov word [word_156E72], 0
-        mov word [word_156E70], 0
-        mov word [word_156E6E], 0
+        mov word [hmplstats+0Eh], 0
+        mov word [hmplstats+0Ch], 0
+        mov word [hmplstats+0Ah], 0
+        mov word [hmplstats+8], 0
+        mov word [hmplstats+6], 0
+        mov word [hmplstats+4], 0
+        mov word [hmplstats+2], 0
         mov word [hmplstats], 0
 .1:
         mov ecx, ebx
@@ -447,8 +448,8 @@ InitGameTeams:
         add ebx, 190h
         cmp edx, byte 2
         jl short .1
-        mov word [word_157AFC], 0
-        mov word [hmglstats_w2], 0
+        mov word [hmglstats+4], 0
+        mov word [hmglstats+2], 0
         mov word [hmglstats], 0
         mov ebx, 12h
         xor edx, edx
@@ -488,7 +489,7 @@ ReadPlayerRecord:
         mov dword [byte ebp-08h], ecx
         test byte [optflags], 70h
         jne short .1
-        cmp dword [dword_1150D8], byte 0FFFFFFFFh
+        cmp dword [SaveFileHandle], byte 0FFFFFFFFh
         jne near .7
 .1:
         mov eax, dword [byte ebp-04h]
@@ -568,13 +569,13 @@ ReadPlayerRecord:
 .7:
         mov ecx, 3Ch
         mov ebx, 0FFFFFFFFh
-        mov eax, dword [dword_1150D8]
+        mov eax, dword [SaveFileHandle]
         mov edx, esi
         call FileReadAt
         mov ecx, dword [byte ebp+01Ch]
         mov ebx, 0FFFFFFFFh
         mov edx, dword [byte ebp+018h]
-        mov eax, dword [dword_1150D8]
+        mov eax, dword [SaveFileHandle]
         call FileReadAt
 .8:
         mov eax, edi
@@ -953,9 +954,9 @@ FillTeamRoster:
         mov dword [byte ebp+05Eh], ebx
 .1:
         mov eax, dword [byte ebp+06Ah]
-        cmp dword [dword eax+dword_15803D], byte 0
+        cmp dword [dword eax+hmteamrec+63h], byte 0
         jl near .12
-        cmp dword [dword eax+dword_15803D], byte 0FFFFFFFFh
+        cmp dword [dword eax+hmteamrec+63h], byte 0FFFFFFFFh
         je near .12
         push dword [dword ebp+08Ah]
         lea eax, [byte ebp-016h]
@@ -972,12 +973,12 @@ FillTeamRoster:
         mov eax, dword [byte ebp+06Ah]
         mov ebx, dword [dword ebp-0CAh]
         mov edx, dword [dword ebp-0C6h]
-        push dword [dword eax+dword_15803D]
+        push dword [dword eax+hmteamrec+63h]
         mov eax, dword [dword ebp-0C2h]
         call ReadPlayerRecord
         mov edx, dword [byte ebp+056h]
         mov al, byte [dword ebp-0B9h]
-        mov byte [dword edx+byte_157191], al
+        mov byte [dword edx+hmrosterflags], al
         mov al, byte [dword ebp-0B8h]
         mov byte [dword edx+hmrosterpos], al
         lea edx, [dword ebp-0B7h]
@@ -988,7 +989,7 @@ FillTeamRoster:
         call strcpy_
         mov eax, dword [byte ebp+06Ah]
         mov edx, dword [byte ebp+056h]
-        mov eax, dword [dword eax+dword_15803D]
+        mov eax, dword [dword eax+hmteamrec+63h]
         mov dword [dword edx+dword_1571B3], eax
         cmp dword [dword ebp-0BEh], byte 0
         je short .2
@@ -1022,7 +1023,7 @@ FillTeamRoster:
         jmp short .9
 .8:
         neg eax
-        mov al, byte [nosplit eax*2+byte_117575]
+        mov al, byte [nosplit eax*2+RosterSlotOrder]
         mov byte [dword edx+hmroster], al
 .9:
         mov edi, dword [byte ebp+042h]
@@ -1097,9 +1098,9 @@ FillTeamRoster:
         mov dword [byte ebp+052h], edx
 .14:
         mov eax, dword [byte ebp+06Eh]
-        cmp dword [dword eax+dword_1580A1], byte 0
+        cmp dword [dword eax+hmteamrec+0C7h], byte 0
         jl near .23
-        cmp dword [dword eax+dword_1580A1], byte 0FFFFFFFFh
+        cmp dword [dword eax+hmteamrec+0C7h], byte 0FFFFFFFFh
         je near .23
         push byte 0
         push byte 0
@@ -1115,7 +1116,7 @@ FillTeamRoster:
         mov eax, dword [byte ebp+06Eh]
         mov edx, dword [dword ebp-0C6h]
         xor ecx, ecx
-        push dword [dword eax+dword_1580A1]
+        push dword [dword eax+hmteamrec+0C7h]
         mov eax, dword [dword ebp-0C2h]
         call ReadPlayerRecord
         mov eax, dword [byte ebp+066h]
@@ -1123,7 +1124,7 @@ FillTeamRoster:
         imul ebx, eax, byte 2Bh
         mov edx, dword [byte ebp+04Eh]
         mov al, byte [dword ebp-0B9h]
-        mov byte [dword edx+byte_157191], al
+        mov byte [dword edx+hmrosterflags], al
         mov al, byte [dword ebp-0B8h]
         add ebx, dword [byte ebp+052h]
         mov byte [dword edx+hmrosterpos], al
@@ -1135,7 +1136,7 @@ FillTeamRoster:
         call strcpy_
         mov eax, dword [byte ebp+06Eh]
         mov edx, dword [byte ebp+04Eh]
-        mov eax, dword [dword eax+dword_1580A1]
+        mov eax, dword [dword eax+hmteamrec+0C7h]
         mov dword [dword edx+dword_1571B3], eax
         cmp dword [dword ebp-0BEh], byte 0
         je short .15
@@ -1169,7 +1170,7 @@ FillTeamRoster:
         jmp short .22
 .21:
         neg eax
-        mov al, byte [nosplit eax*2+byte_117575]
+        mov al, byte [nosplit eax*2+RosterSlotOrder]
         mov byte [dword edx+hmroster], al
 .22:
         mov edi, dword [byte ebp+046h]

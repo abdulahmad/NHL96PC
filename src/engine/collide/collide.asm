@@ -4,8 +4,8 @@ bits 32
 section s_3E6EC progbits alloc exec nowrite align=1
 extern Acheck, AddPenalty, CompLine, CountShotOnGoal, CwdExciteLvl, OOlist, OOlistpos, PBnum
 extern QuickShotChk, RemoveFromLines, ShotLaneOpen, SortCords, a2touchpuck, assinsert, assreplace, awtmstruct
-extern byte_115115, byte_115117, byte_1175A7, sflags3, byte_16514E, byte_16514F, OffsideCalled, PenBuf
-extern PenBuf_pl, iflags, byte_176BA5, byte_176BA7, collflag, crowdlevel, hmslotcount, awslotcount
+extern HomeShotCount, AwayShotCount, GlassOn, sflags3, byte_16514E, byte_16514F, OffsideCalled, PenBuf
+extern PenBuf_pl, iflags, collflag, crowdlevel, hmslotcount, awslotcount
 extern onetimerflag, PassTargetLocked, PassHoldFrames, OneTimerPasser, PuckChasers, PuckChaserPlayer, GameHitCount, FightingOn
 extern FallDownsOff, nethit, dword_15E844, dword_16516E, dword_165172, CamInjuredObj, optflags, fox
 extern gameclock, gameopts, gmode, hmtmstruct, lastplayer, lasttouch, puckvy, puckc
@@ -2160,8 +2160,8 @@ checkpuckcoll:
         mov cx, word [nosplit eax*2+OOlistpos]
         jmp short .5
 .4:
-        movsx dx, byte [dword eax+byte_176BA7]
-        movsx eax, byte [dword eax+byte_176BA7]
+        movsx dx, byte [dword eax+OOlist+1]
+        movsx eax, byte [dword eax+OOlist+1]
         movsx esi, word [byte ebx+06h]
         movsx eax, word [nosplit eax*2+Ylist]
         sub eax, esi
@@ -2182,8 +2182,8 @@ checkpuckcoll:
         je short .8
 .7:
         movsx eax, cx
-        movsx si, byte [dword eax+byte_176BA5]
-        movsx eax, byte [dword eax+byte_176BA5]
+        movsx si, byte [dword eax+OOlist-1]
+        movsx eax, byte [dword eax+OOlist-1]
         movsx edx, word [nosplit eax*2+Ylist]
         movsx eax, word [byte ebx+06h]
         sub eax, edx
@@ -4767,10 +4767,10 @@ ChkShotStat:
         movzx ebx, bl
         test ebx, ebx
         jne short .14
-        inc byte [byte_115115]
+        inc byte [HomeShotCount]
         jmp short .15
 .14:
-        inc byte [byte_115117]
+        inc byte [AwayShotCount]
 .15:
         movsx esi, byte [byte esi+047h]
         cmp esi, byte 19h
@@ -5627,7 +5627,7 @@ FallDown:
         lea edx, [byte ebp-024h]
         lea eax, [byte ebp-018h]
         call NearestGlassPoint
-        cmp byte [byte_1175A7], 0
+        cmp byte [GlassOn], 0
         je near .48
         mov eax, dword [byte ebp-010h]
         sub eax, dword [byte ebp-01Ch]
@@ -8634,16 +8634,16 @@ checkcoll:
         movsx ecx, di
         cmp ecx, byte 10h
         je short .6
-        movsx dx, byte [dword ecx+byte_176BA7]
+        movsx dx, byte [dword ecx+OOlist+1]
         mov word [byte ebp-04h], dx
-        movsx edx, byte [dword ecx+byte_176BA7]
+        movsx edx, byte [dword ecx+OOlist+1]
         mov ebx, dword [byte ebp-08h]
         cmp bx, word [nosplit edx*2+Ylist]
         jle short .6
         movsx edx, word [byte ebp-04h]
         mov bl, byte [byte ebp-04h]
         inc edi
-        mov byte [dword ecx+byte_176BA7], al
+        mov byte [dword ecx+OOlist+1], al
         inc word [nosplit esi*2+OOlistpos]
         mov byte [dword ecx+OOlist], bl
         dec word [nosplit edx*2+OOlistpos]
@@ -8656,15 +8656,15 @@ checkcoll:
         movsx esi, ax
 .7:
         movsx ecx, di
-        movsx dx, byte [dword ecx+byte_176BA5]
+        movsx dx, byte [dword ecx+OOlist-1]
         mov word [byte ebp-04h], dx
-        movsx edx, byte [dword ecx+byte_176BA5]
+        movsx edx, byte [dword ecx+OOlist-1]
         mov ebx, dword [byte ebp-08h]
         cmp bx, word [nosplit edx*2+Ylist]
         jge short .8
         movsx edx, word [byte ebp-04h]
         mov bl, byte [byte ebp-04h]
-        mov byte [dword ecx+byte_176BA5], al
+        mov byte [dword ecx+OOlist-1], al
         dec word [nosplit esi*2+OOlistpos]
         mov byte [dword ecx+OOlist], bl
         inc word [nosplit edx*2+OOlistpos]
@@ -9373,7 +9373,7 @@ wallcollb:
         mov dword [byte ebp-04h], eax
         lea eax, [byte ebp-0Ch]
         call NearestGlassPoint
-        cmp byte [byte_1175A7], 0
+        cmp byte [GlassOn], 0
         je short .1
         mov eax, dword [byte ebp-04h]
         sub eax, dword [byte ebp-010h]
@@ -9542,8 +9542,8 @@ checkplcoll:
         movsx eax, di
         cmp eax, byte 10h
         je short .3
-        movsx dx, byte [dword eax+byte_176BA7]
-        movsx eax, byte [dword eax+byte_176BA7]
+        movsx dx, byte [dword eax+OOlist+1]
+        movsx eax, byte [dword eax+OOlist+1]
         mov ax, word [nosplit eax*2+Ylist]
         sub eax, dword [byte ebp-04h]
         movsx ebx, ax
@@ -9562,8 +9562,8 @@ checkplcoll:
         je short .5
 .4:
         movsx eax, di
-        movsx dx, byte [dword eax+byte_176BA5]
-        movsx eax, byte [dword eax+byte_176BA5]
+        movsx dx, byte [dword eax+OOlist-1]
+        movsx eax, byte [dword eax+OOlist-1]
         mov ebx, dword [byte ebp-04h]
         sub bx, word [nosplit eax*2+Ylist]
         movsx ebx, bx

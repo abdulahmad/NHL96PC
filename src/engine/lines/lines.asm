@@ -4,11 +4,11 @@ bits 32
 section s_51F18 progbits alloc exec nowrite align=1
 extern DemoMode, FatalError, PBnum, SetDrawBitmap, SortCords, _dos_gettime_, str_GloL, str_GloR
 extern str_FhiL, str_FhiR, str_Pal30, str_ZONEMGR, str_ZM1ContactLance, str_ZM2ContactLance, str_ZMOverflowContactLance, dressbystatus
-extern lineslotgroups, lineslotgroupstart, CamLastSort, hmrosterpos, byte_176B83, defsort_d, dressflags
-extern dressflags_aw, offsort_fwd, AttractOptTeamsHi, AttractOptPads, crowdlevel, dword_1150D4
+extern lineslotgroups, lineslotgroupstart, CamLastSort, hmrosterpos, PBflags, defsort_d, dressflags
+extern dressflags_aw, offsort_fwd, AttractOptTeamsHi, AttractOptPads, crowdlevel, FrontShapesFile
 extern dword_1175B5, dword_1175B9, dword_1176E1, seed, ZonesDirty, SortSpriteCount, ReplayRemoteShape, SpinPuckFrame
-extern ViewSizeStep, CamFollowObj, InMenuOverlay, dword_11F5C0, dword_11F5C4, MenuRemoteCursorArt, MenuCursorPixels, dword_152F58
-extern MenuBitmapPixels, dword_157AF4, dword_15E494, dword_15E498, dword_15E49C, dword_15E4A0, dword_15E4A4, dword_15E4A8
+extern ViewSizeStep, CamFollowObj, InMenuOverlay, dword_11F5C0, dword_11F5C4, MenuRemoteCursorArt, MenuCursorPixels, pointerspr
+extern MenuBitmapPixels, AttractResetFlag, dword_15E494, dword_15E498, dword_15E49C, dword_15E4A0, dword_15E4A4, dword_15E4A8
 extern dword_15E4AC, dword_15E4B0, dword_15E4B4, dword_15E4B8, dword_15E4BC, dword_15E4C0, ReplayBufferTop, lineslotmark
 extern AttractOptTeams, SpriteSortDelay, ZoneBufFront, ZoneBufBack, ZoneBufCount, ZoneMarksFront, ZoneMarksBack, ZonePrevList
 extern ZonePrevCount, ZoneCurList, ZoneWorkBuf, ZoneCurCount, ZoneCapacity, ZoneMemBlock, DrawFrameCount, ViewDirty
@@ -1837,7 +1837,7 @@ RunAttractMode:
         push edi
         enter 10h, 0
         lea eax, [byte ebp-010h]
-        mov dword [dword_157AF4], 0
+        mov dword [AttractResetFlag], 0
         call _dos_gettime_
         movzx eax, byte [byte ebp-0Fh]
         movzx edx, byte [byte ebp-010h]
@@ -1943,19 +1943,19 @@ RunAttractMode:
         or dword [GsOptions], 20600h
         call InitGameTeams
         push str_GloL
-        push dword [dword_1150D4]
+        push dword [FrontShapesFile]
         call FindShape
         add esp, byte 8
         shl edi, 17h
         push str_GloR
         shr edi, 1Eh
-        push dword [dword_1150D4]
-        mov dword [dword_152F58], eax
+        push dword [FrontShapesFile]
+        mov dword [pointerspr], eax
         call FindShape
         mov edx, 20h
         add esp, byte 8
         mov dword [MenuRemoteCursorArt], eax
-        mov eax, dword [dword_152F58]
+        mov eax, dword [pointerspr]
         and edi, byte 3
         call CopyBitmap
         mov edx, 20h
@@ -1986,13 +1986,13 @@ RunAttractMode:
         and eax, byte 0Fh
         and byte [GsOptions+1], 0E1h
         shl eax, 9
-        push dword [dword_1150D4]
+        push dword [FrontShapesFile]
         or dword [GsOptions], eax
         call FindShape
         add esp, byte 8
         push str_FhiR
-        push dword [dword_1150D4]
-        mov dword [dword_152F58], eax
+        push dword [FrontShapesFile]
+        mov dword [pointerspr], eax
         call FindShape
         add esp, byte 8
         push dword [MenuCursorPixels]
@@ -2004,7 +2004,7 @@ RunAttractMode:
         add esp, byte 4
         mov edx, 20h
         call EndGameSound
-        mov eax, dword [dword_152F58]
+        mov eax, dword [pointerspr]
         call CopyBitmap
         mov edx, 20h
         mov dword [MenuCursorPixels], eax
@@ -2341,7 +2341,7 @@ SortSpritesForDraw:
         mov dword [ReplayBufferTop], ebx
         mov dl, byte [edx]
         mov byte [eax], dl
-        mov dl, byte [byte_176B83]
+        mov dl, byte [PBflags]
         mov al, byte [PBnum]
         and dl, 0Fh
         and al, 0Fh

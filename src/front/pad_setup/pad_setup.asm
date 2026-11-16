@@ -7,7 +7,7 @@ extern GripPassMap
 extern GripShootMap
 extern GripSlotIds
 extern byte_11FA2E, byte_11FA2F, Joy1State, GripSlotPresent, JoyPadBits, GripSetupSlots
-extern TitleTextStyle, GsJoy1Calib, GsJoy2Calib, GsGripButtons, Joy1NeedsCalib, Joy2NeedsCalib, dword_117588
+extern TitleTextStyle, GsJoy1Calib, GsJoy2Calib, GsGripButtons, Joy1NeedsCalib, Joy2NeedsCalib, JoyTestTime
 extern dword_11F5C0, JoyTestBmps, JoyTestDotX, JoyTestDotY, JoyTestArt, GripSetupLastBits
 extern JoyTestLastTick, JoyTestFrame, GripSetupTick, GripSetupCursor, MatchupLayer, TeamStatsBitmap, FillRect
 extern TextStringWidth, GetGripButtonMap, GetInputDevices, GetTicks, InitInputDevices, LoadPackedFile, MessageBox, MouseRead
@@ -17,7 +17,7 @@ extern strcpy_, strlen_, OpenScreen, SlideInTitleBar, SlideInSideBar, SetScreenC
 extern FadeOut, CopyBitmap, SetTextColors, DrawColorText, DrawColorTextRight, DrawColorTextCentred, InitMenuItems, RunMenu
 extern SetMenuMouse, FillMusicStream, SoundSecondsToBytes, SoundIdle, GetLangText, DrawShapeAtOwnPos, PutBlockAtOwnPos, AllocMemBlock
 extern FreeMemBlock, ClearScreenColour, DrawRectOutline, SetScreenTarget, FillRectColor, KbdGetKey, FindShape, TextSetFont
-extern unk_121FC8, GripSlotNames, GripSlotTypes, Joy2State, unk_2018D, word_11758C, JoyTestButtonsLit
+extern unk_121FC8, GripSlotNames, GripSlotTypes, Joy2State, unk_2018D, JoyTestButtonMap, JoyTestButtonsLit
 extern JoyTestAxisVals, GripSetupHeld, GripSetupCounts, GripSetupTimers, LastButtonCode, GripSetupSlot
 global DrawGripPads, DrawGripPads_73B, DrawGripPads_73C, GripSetupScreen, UpdateJoystickTest, JoystickTestScreen
 ;-----------------------------------------------------------------------------
@@ -1521,7 +1521,7 @@ UpdateJoystickTest:
         shl ecx, 3
         sar esi, cl
         and esi, byte 0Fh
-        movsx eax, word [nosplit esi*2+word_11758C]
+        movsx eax, word [nosplit esi*2+JoyTestButtonMap]
         cmp eax, dword [JoyTestLastTick]
         je near .2
         cmp dword [JoyTestLastTick], byte 0
@@ -1538,9 +1538,9 @@ UpdateJoystickTest:
 .1:
         lea eax, [esi+esi]
         mov dword [JoyTestLastTick], 0
-        cmp word [dword eax+word_11758C], byte 0
+        cmp word [dword eax+JoyTestButtonMap], byte 0
         je near .3
-        movsx eax, word [dword eax+word_11758C]
+        movsx eax, word [dword eax+JoyTestButtonMap]
         mov dword [JoyTestLastTick], eax
         mov word [nosplit eax*2+JoyTestButtonsLit], 1
         call SetScreenTarget
@@ -1552,7 +1552,7 @@ UpdateJoystickTest:
         add esp, byte 4
         call GetTicks
         add eax, byte 5
-        mov dword [dword_117588], eax
+        mov dword [JoyTestTime], eax
         pop esi
         pop edx
         pop ecx
@@ -1562,7 +1562,7 @@ UpdateJoystickTest:
         test eax, eax
         je short .3
         call GetTicks
-        cmp eax, dword [dword_117588]
+        cmp eax, dword [JoyTestTime]
         jle short .3
         mov eax, dword [JoyTestLastTick]
         movsx edx, word [nosplit eax*2+JoyTestButtonsLit]

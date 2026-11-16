@@ -2,75 +2,65 @@
 bits 32
 %include "hockey.inc"
 section s_152920 nobits alloc noexec write align=1
-global byte_152920, byte_152921, byte_152922, byte_152923, byte_15292C, byte_15292D, byte_15292E, byte_15292F
-global byte_15293A, byte_152A44, byte_152C3B, byte_152C40, byte_152C41, byte_152C42, byte_157166, byte_157191
-global hmrosterpos, byte_157193, awroster, byte_157B95, byte_157DA2, byte_157FD2, byte_158646, byte_15864E
-global byte_15864F, byte_158650, pad2dev, pad1dev, curperiod, dword_152A6C, dword_152AD4, dword_152C3C
-global dword_152F44, dword_152F48, dword_152F4C, MenuRemoteCursorArt, MenuCursorPixels, dword_152F58, MenuBitmapPixels, AsyncRequests
-global AsyncCurFile, AsyncCurOffset, AsyncFreeList, dword_152F70, dword_152F74, dword_152F78, dword_152F7C, dword_152F80
-global AsyncFileHandle, dword_152F8C, dword_152F90, dword_152F94, dword_152F98, dword_152F9C, dword_152FA0, dword_152FA4
-global dword_152FAC, dword_152FB0, AsyncStreamFile, AsyncWaitTimer, dword_152FBC, dword_152FC4, dword_152FC8, dword_152FCC
-global dword_152FD0, dword_152FD4, dword_152FD8, dword_152FDC, dword_152FE0, StreamHandle, dword_152FEC, dword_1531D0
-global dword_1571B3, dword_157AF4, dword_15803D, dword_1580A1, dword_158654, hmroster, unk_152938, unk_152944
-global unk_152B3C, str_WesternConference2, unk_152E36, unk_152FA8, hmplstats, awplstats, hmglstats, awglstats
-global hmglattr, awglattr, hmplattr, awplattr, awlinetab, hmteamrec, unk_157FF8, unk_1580AD
-global awteamrec, unk_158313, unk_1583C8, hmlinetab, DataFilePath, word_156E6E, word_156E70, word_156E72
-global word_156E74, word_156E76, word_156E78, word_156E7A, hmglstats_w2, word_157AFC, hmglstats_w8, hmglstats_w14
-byte_152920:
+global LinkResendPkt, LinkAckPkt
+global LinkMissingList, ProgressBoxState, hmrosterflags
+global hmrosterpos, awroster, UnusedStateByte
+global UnusedStateFlag, UnusedStateMode, pad2dev, pad1dev, curperiod, PenaltyKillRanks, PowerPlayRanks, dlgtextfg
+global LogoPackBuf, LogoPackFile, PanelShadeArt, MenuRemoteCursorArt, MenuCursorPixels, pointerspr, MenuBitmapPixels, AsyncRequests
+global AsyncCurFile, AsyncCurOffset, AsyncFreeList, AsyncCurRequest, AsyncCdFile, AsyncOpenFile, AsyncMemFlags, AsyncState
+global AsyncFileHandle, AsyncBytesLeft, AsyncFileStart, AsyncFileSize, AsyncDestBlock, AsyncReqUser, AsyncSkip, AsyncDestPos
+global AsyncBudget, AsyncStreamFile, AsyncWaitTimer, AsyncTicksPerRead, AsyncReadResult, AsyncMeasuredSpeed, AsyncReadTime
+global AsyncBytesRead, AsyncBaseTicks, StreamSpeed, StreamRate, StreamWalk, StreamHandle, SpriteArtPtrs, SpriteFrameArt
+global dword_1571B3, AttractResetFlag, GameExtraBlock, hmroster, LinkRxHeader, LinkRxBuffer
+global MsgTextBuf, str_WesternConference2, RosterTextBuf, AsyncHeader, hmplstats, awplstats, hmglstats, awglstats
+global hmglattr, awglattr, hmplattr, awplattr, awlinetab, hmteamrec
+global awteamrec, hmlinetab, DataFilePath
+
+LinkResendPkt:
         resb 1
-byte_152921:
         resb 1
-byte_152922:
         resb 1
-byte_152923:
         resb 9
-byte_15292C:
+LinkAckPkt:
         resb 1
-byte_15292D:
         resb 1
-byte_15292E:
         resb 1
-byte_15292F:
         resb 9
-unk_152938:
+LinkRxHeader:
         resb 2
-byte_15293A:
         resb 10
-unk_152944:
+LinkRxBuffer:
         resb 256
-byte_152A44:
+LinkMissingList:
         resb 40
-dword_152A6C:
+PenaltyKillRanks:
         resb 104
-dword_152AD4:
+PowerPlayRanks:
         resb 104
-unk_152B3C:
+MsgTextBuf:
         resb 255
-byte_152C3B:
         resb 1
-dword_152C3C:
+dlgtextfg:
         resb 4
-byte_152C40:
+ProgressBoxState:
         resb 1
-byte_152C41:
         resb 1
-byte_152C42:
         resb 2
 str_WesternConference2:
         resb 498
-unk_152E36:
+RosterTextBuf:
         resb 270
-dword_152F44:
+LogoPackBuf:
         resb 4
-dword_152F48:
+LogoPackFile:
         resb 4
-dword_152F4C:
+PanelShadeArt:
         resb 4
 MenuRemoteCursorArt:
         resb 4
 MenuCursorPixels:
         resb 4
-dword_152F58:
+pointerspr:
         resb 4
 MenuBitmapPixels:
         resb 4
@@ -82,111 +72,97 @@ AsyncCurOffset:
         resb 4
 AsyncFreeList:
         resb 4
-dword_152F70:
+AsyncCurRequest:
         resb 4
-dword_152F74:
+AsyncCdFile:
         resb 4
-dword_152F78:
+AsyncOpenFile:
         resb 4
-dword_152F7C:
+AsyncMemFlags:
         resb 4
-dword_152F80:
+AsyncState:
         resb 8
 AsyncFileHandle:
         resb 4
-dword_152F8C:
+AsyncBytesLeft:
         resb 4
-dword_152F90:
+AsyncFileStart:
         resb 4
-dword_152F94:
+AsyncFileSize:
         resb 4
-dword_152F98:
+AsyncDestBlock:
         resb 4
-dword_152F9C:
+AsyncReqUser:
         resb 4
-dword_152FA0:
+AsyncSkip:
         resb 4
-dword_152FA4:
+AsyncDestPos:
         resb 4
-unk_152FA8:
+AsyncHeader:
         resb 4
-dword_152FAC:
         resb 4
-dword_152FB0:
+AsyncBudget:
         resb 4
 AsyncStreamFile:
         resb 4
 AsyncWaitTimer:
         resb 4
-dword_152FBC:
+AsyncTicksPerRead:
         resb 8
-dword_152FC4:
+AsyncReadResult:
         resb 4
-dword_152FC8:
+AsyncMeasuredSpeed:
         resb 4
-dword_152FCC:
+AsyncReadTime:
         resb 4
-dword_152FD0:
+AsyncBytesRead:
         resb 4
-dword_152FD4:
+AsyncBaseTicks:
         resb 4
-dword_152FD8:
+StreamSpeed:
         resb 4
-dword_152FDC:
+StreamRate:
         resb 4
-dword_152FE0:
+StreamWalk:
         resb 4
 StreamHandle:
         resb 4
 curperiod:
         resb 4
-dword_152FEC:
+SpriteArtPtrs:
         resb 484
-dword_1531D0:
+SpriteFrameArt:
         resb 15516
 hmplstats:
         resb 2
-word_156E6E:
         resb 2
-word_156E70:
         resb 2
-word_156E72:
         resb 2
-word_156E74:
         resb 2
-word_156E76:
         resb 2
-word_156E78:
         resb 2
-word_156E7A:
         resb 386
 awplstats:
         resb 362
-byte_157166:
         resb 38
 hmroster:
         resb 5
-byte_157191:
+hmrosterflags:
         resb 1
 hmrosterpos:
         resb 1
-byte_157193:
         resb 32
 dword_1571B3:
         resb 1165
 awroster:
         resb 1204
-dword_157AF4:
+AttractResetFlag:
         resb 4
 hmglstats:
         resb 2
-hmglstats_w2:
         resb 2
-word_157AFC:
         resb 4
-hmglstats_w8:
         resb 6
-hmglstats_w14:
         resb 4
 awglstats:
         resb 18
@@ -196,47 +172,37 @@ awglattr:
         resb 51
 hmplattr:
         resb 19
-byte_157B95:
         resb 506
 awplattr:
         resb 19
-byte_157DA2:
         resb 506
 awlinetab:
         resb 54
-byte_157FD2:
         resb 8
 hmteamrec:
         resb 30
-unk_157FF8:
         resb 69
-dword_15803D:
         resb 100
-dword_1580A1:
         resb 12
-unk_1580AD:
         resb 584
 awteamrec:
         resb 30
-unk_158313:
         resb 181
-unk_1583C8:
         resb 584
 hmlinetab:
         resb 54
-byte_158646:
         resb 8
-byte_15864E:
+UnusedStateByte:
         resb 1
-byte_15864F:
+UnusedStateFlag:
         resb 1
-byte_158650:
+UnusedStateMode:
         resb 1
 pad2dev:
         resb 1
 pad1dev:
         resb 2
-dword_158654:
+GameExtraBlock:
         resb 4
 DataFilePath:
         resb 1634

@@ -4,14 +4,14 @@ bits 32
 extern BottomBarArt
 extern SideBarArt
 section s_9CB19 progbits alloc exec nowrite align=1
-extern byte_157191, HmGoalieSwapped, TitleTextStyle, PlayerPosCodes, LinesSlotTable
+extern hmrosterflags, HmGoalieSwapped, TitleTextStyle, PlayerPosCodes, LinesSlotTable
 extern LinesWorkTable
 
 
-extern DrawArtOpaque, DrawColorText, DrawFrameAt, DrawScrollBar, dword_1174EC, statsplayoffs
+extern DrawArtOpaque, DrawColorText, DrawFrameAt, DrawScrollBar, TeamDb, statsplayoffs
 extern MenuMouseX, MenuMouseY, RosterDbPtrs, RosterPlayerIds, ForwardLineSlots, DefenceLineSlots, LinesPanelEvenX, LinesPanelEvenY
 extern LinesPanelEvenNav, LinesPanelPowerX, LinesPanelPowerY, LinesPanelPowerNav, LinesPanelKillX, LinesPanelKillY, LinesPanelKillNav, LinesSlotMap
-extern LinesHeaderTextId, LinesTextIds, LinesIntroOn, MenuCursorPixels, dword_152F58, hmtmlines, hmtmroster, TeamStatsBitmap
+extern LinesHeaderTextId, LinesTextIds, LinesIntroOn, MenuCursorPixels, pointerspr, hmtmlines, hmtmroster, TeamStatsBitmap
 extern PlayerRecPtrs, PlayerHeightPtrs, PlayerWeightPtrs
 extern RatingsPlayerId, EditLinesBuffer, RosterFirstNamePtrs, RosterJerseyPtrs, RosterPlayerPtrs, RosterProfilePtrs, RosterLastNamePtrs, LinesSortedPlayers
 extern LinesPanelItems
@@ -228,16 +228,16 @@ EditLinesHoverPanel:
         mov eax, dword [LinesIntroTeam]
         mov word [MenuViewStored], 1
         mov eax, dword [byte eax+02Ch]
-        mov dword [dword_152F58], eax
+        mov dword [pointerspr], eax
         mov word [byte eax+08h], 19h
-        mov eax, dword [dword_152F58]
+        mov eax, dword [pointerspr]
         mov word [byte eax+0Ah], 19h
         mov eax, dword [LinesHoverArt]
         mov eax, dword [byte eax+02Ch]
         jmp short .2
 .1:
         mov eax, dword [LinesCursorArt]
-        mov dword [dword_152F58], eax
+        mov dword [pointerspr], eax
         mov eax, dword [EditLinesRecords+690h]
         mov word [MenuViewStored], 0
 .2:
@@ -415,7 +415,7 @@ EditLinesScreen:
         lea edi, [dword ebp-0246h]
         mov esi, unk_9CB19
         rep movsd
-        mov eax, dword [dword_152F58]
+        mov eax, dword [pointerspr]
         mov dword [LinesIntroOn], 0
         mov dword [byte ebp+042h], 0
         movsx ecx, word [byte eax+06h]
@@ -463,7 +463,7 @@ EditLinesScreen:
         push esi
         call CreateBitmap
         mov dword [LinesHoverArt], eax
-        mov eax, dword [dword_152F58]
+        mov eax, dword [pointerspr]
         mov dword [LinesCursorArt], eax
         mov eax, dword [MenuCursorPixels]
         add esp, byte 0Ch
@@ -629,7 +629,7 @@ EditLinesScreen:
         add edi, LinesSlotTable
         cmp dword [byte ebp+03Eh], byte 19h
         mov eax, dword [byte ebp+072h]
-        mov esi, dword [dword_1174EC]
+        mov esi, dword [TeamDb]
         mov ecx, 3Ch
         add esi, dword [byte eax+063h]
         rep movsb
@@ -637,7 +637,7 @@ EditLinesScreen:
         imul ebx, dword [byte ebp+03Eh], byte 3Ch
         imul edx, dword [LinesEditAway], dword 4B4h
         mov eax, dword [byte ebp+07Eh]
-        mov cl, byte [dword edx+eax+byte_157191]
+        mov cl, byte [dword edx+eax+hmrosterflags]
         mov al, byte [dword edx+eax+hmrosterpos]
         add edx, hmroster
         mov byte [dword ebx+LinesSlotTable+2], al
@@ -1371,7 +1371,7 @@ EditLinesScreen:
         call DrawLineJersey
         push byte 19h
         push byte 19h
-        push dword [dword_152F58]
+        push dword [pointerspr]
         call DrawArt
         add esp, byte 0Ch
         call SetScreenTarget
@@ -1946,7 +1946,7 @@ EditLinesScreen:
         call DrawLineJersey
         push byte 19h
         push byte 19h
-        push dword [dword_152F58]
+        push dword [pointerspr]
         call DrawArt
         add esp, byte 0Ch
         call SetScreenTarget
@@ -2297,7 +2297,7 @@ EditLinesScreen:
         mov dword [LinesCardSource], eax
         jmp short .105
 .101:
-        mov eax, dword [dword_1174EC]
+        mov eax, dword [TeamDb]
         add eax, 0A5F0h
         cmp eax, dword [dword edx+LinesPlayerOrder]
         jae short .102
@@ -2496,7 +2496,7 @@ EditLinesScreen:
         cmp dword [dword esi+LinesSortedPlayers], byte 0
         jne short .117
         mov eax, dword [LinesCursorArt]
-        mov dword [dword_152F58], eax
+        mov dword [pointerspr], eax
         mov eax, dword [EditLinesRecords+690h]
         push dword [LinesIntroTeam]
         mov dword [MenuCursorPixels], eax
@@ -2515,7 +2515,7 @@ EditLinesScreen:
         call DrawLineJersey
         push byte 19h
         push byte 19h
-        push dword [dword_152F58]
+        push dword [pointerspr]
         call DrawArt
         add esp, byte 0Ch
         call SetScreenTarget
@@ -2559,7 +2559,7 @@ EditLinesScreen:
         jne short .123
 .122:
         mov eax, dword [LinesCursorArt]
-        mov dword [dword_152F58], eax
+        mov dword [pointerspr], eax
         mov eax, dword [EditLinesRecords+690h]
         mov word [MenuViewStored], 0
         mov dword [MenuCursorPixels], eax
@@ -2576,7 +2576,7 @@ EditLinesScreen:
         cmp word [MenuViewStored], byte 0
         jne short .121
         mov eax, dword [LinesCursorArt]
-        mov dword [dword_152F58], eax
+        mov dword [pointerspr], eax
         mov eax, dword [EditLinesRecords+690h]
         mov dword [MenuCursorPixels], eax
         jmp near .121
@@ -2622,7 +2622,7 @@ EditLinesScreen:
         mov word [MenuViewStored], 0
         call FadeOut
         mov eax, dword [LinesCursorArt]
-        mov dword [dword_152F58], eax
+        mov dword [pointerspr], eax
         mov eax, dword [EditLinesRecords+690h]
         mov dword [MenuCursorPixels], eax
         cmp dword [byte ebp+056h], byte 3

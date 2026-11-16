@@ -4,19 +4,19 @@ bits 32
 section s_17675 progbits alloc exec nowrite align=1
 extern LinkRxPayload
 extern addtimer, str_Punct2, str_Punct_LinkTimerTick, LinkRxRing
-extern byte_152920, byte_152921, byte_152922, byte_152923, byte_15292C, byte_15292D, byte_15292E, byte_15292F
-extern byte_15293A, byte_152A44, ModemResultCount, ModemLastResult, LinkTickCount, LinkPortHandle, str_Punct_LinkOpen, LinkOpenFlags
+extern LinkResendPkt, LinkAckPkt
+extern LinkMissingList, ModemResultCount, ModemLastResult, LinkTickCount, LinkPortHandle, str_Punct_LinkOpen, LinkOpenFlags
 extern LinkRetryOn, LinkCarrierCheck, LinkPollOn, LinkIsOpen, LinkWindowSize, LinkAckOn, LinkResendOn, LinkOpenMode
 extern LinkErrorCount, LinkSpareHook, LinkMessageHandler, LinkTickHandler, LinkResendHandler, LinkTxSeq, LinkRxDeliverSeq, LinkAckedSeq
 extern LinkRxSeq, LinkPacketLen, LinkTxPending, LinkState, LinkCheckPeriod, str_D_LinkCopyBytes, LinkRxHead, LinkRxCount
-extern dword_115098, LinkRxSlots
+extern LinkPollState, LinkRxSlots
 extern LinkTxSlots, LinkAbortCheck, ModemResultTextTable, ModemResultCodeTable, str_0123456789abcdefghijklmn, str_22
 extern str_ATA, str_ATD, str_ATE1, str_ATF1, str_ATH0, str_ATM0, str_ATQ0, str_ATS01
 extern str_ATX3, str_ATX4, str_ATZS760S1155, str_ctl06, str_feP, str_newline, str_T, strcat_
 extern strcpy_, strlen_, strncmp_, strstr_, RemoveTimerCallback, SerialConfigure, SerialOpen, SerialClose
 extern SerialSetBaud, SerialRaiseDtr, SerialDropDtr, SerialCarrier, SerialWrite, SerialTxFree, SerialFlushTx, SerialWaitTxEmpty
 extern SerialRead, SerialReadWait, SerialFlushRx, atoi_, LinkCrc16, str_Punct_ModemSendCommand, str_AT, LinkRxMsgs
-extern LinkTxTimers, LinkPortName, LinkModemString, unk_152938, unk_152944, WaitTicks
+extern LinkTxTimers, LinkPortName, LinkModemString, LinkRxHeader, LinkRxBuffer, WaitTicks
 global ModemInitDefault, ModemInit, ModemHangup, ModemHangup_30, ModemHangup_54, ModemDial, ModemAutoAnswer, ModemWaitConnect
 global ModemReadResult, ModemSendCommand, ModemAttention, LinkCopyBytes, LinkRxPut, LinkRxPeek_none, LinkRxCopy, LinkCheckPacket
 global LinkParsePacket, LinkFirstMissingRx, LinkRxAckSeq, LinkDefaults, SetLinkAbortCheck, SetLinkSpareHook, SetLinkMessageHandler, SetLinkCheckPeriod
@@ -1761,16 +1761,16 @@ LinkRequestResend:
         test eax, eax
         je short .2
         mov eax, 43h
-        mov byte [byte_152920], 0BDh
+        mov byte [LinkResendPkt], 0BDh
         mov edx, esi
-        mov byte [byte_152921], al
-        mov byte [byte_152922], dl
+        mov byte [LinkResendPkt+1], al
+        mov byte [LinkResendPkt+2], dl
         call LinkRxAckSeq
         mov edx, 6
-        mov byte [byte_152923], al
-        mov eax, byte_152920
+        mov byte [LinkResendPkt+3], al
+        mov eax, LinkResendPkt
         call LinkSetChecksum
-        push byte_152920
+        push LinkResendPkt
         push byte 6
         push dword [LinkPortHandle]
         call SerialWrite
@@ -1804,15 +1804,15 @@ LinkSendAck:
         je short .1
         mov edx, 43h
         mov eax, 0FFh
-        mov byte [byte_15292C], 0BDh
-        mov byte [byte_15292D], dl
-        mov byte [byte_15292E], al
+        mov byte [LinkAckPkt], 0BDh
+        mov byte [LinkAckPkt+1], dl
+        mov byte [LinkAckPkt+2], al
         call LinkRxAckSeq
         mov edx, 6
-        mov byte [byte_15292F], al
-        mov eax, byte_15292C
+        mov byte [LinkAckPkt+3], al
+        mov eax, LinkAckPkt
         call LinkSetChecksum
-        push byte_15292C
+        push LinkAckPkt
         push byte 6
         push dword [LinkPortHandle]
         call SerialWrite
@@ -1963,7 +1963,7 @@ LinkReceive:
         push ebx
         push ecx
         push edx
-        push unk_152944
+        push LinkRxBuffer
         push dword 100h
         push dword [LinkPortHandle]
         call SerialRead
@@ -1975,10 +1975,10 @@ LinkReceive:
 .1:
         test edx, edx
         jle short LinkResendSlot_60
-        mov eax, unk_152944
+        mov eax, LinkRxBuffer
         call LinkRxPut
 .2:
-        mov eax, unk_152938
+        mov eax, LinkRxHeader
         call LinkParsePacket
         test eax, eax
         je near LinkResendSlot_60
@@ -1999,18 +1999,18 @@ LinkReceive:
 .4:
         cmp dword [LinkPacketLen], byte 0
         jne short .2
-        movzx eax, byte [byte_15293A]
+        movzx eax, byte [LinkRxHeader+2]
         shl eax, 4
         cmp dword [dword eax+LinkRxSlots], byte 0
         je short .5
         cmp dword [dword eax+LinkRxSlots], byte 2
         jne short .2
 .5:
-        mov eax, unk_152938
+        mov eax, LinkRxHeader
         call LinkStoreRxMessage
         test eax, eax
         je short .6
-        movzx edx, byte [byte_15293A]
+        movzx edx, byte [LinkRxHeader+2]
         mov eax, edx
         shl eax, 4
         mov dword [dword eax+LinkRxSlots], 1
@@ -2022,7 +2022,7 @@ LinkReceive:
         shl eax, 4
         mov dword [dword eax+LinkRxSlots], 0
 .6:
-        movzx eax, byte [byte_15293A]
+        movzx eax, byte [LinkRxHeader+2]
         call LinkRequestMissing
         jmp near .2
         push ebx
@@ -2104,7 +2104,7 @@ LinkReceive:
 LinkPoll:
         cmp dword [LinkPollOn], byte 0
         jne short .4
-        cmp dword [dword_115098], byte 0
+        cmp dword [LinkPollState], byte 0
         jne short .3
         call LinkReceive
         call LinkDeliverMessages
@@ -2122,10 +2122,10 @@ LinkPoll:
         jne short .2
         mov dword [LinkState], eax
 .2:
-        mov dword [dword_115098], 3
+        mov dword [LinkPollState], 3
         jmp short .4
 .3:
-        dec dword [dword_115098]
+        dec dword [LinkPollState]
 .4:
         cmp dword [LinkState], byte 0
         setne al
@@ -2271,12 +2271,12 @@ LinkRequestMissing:
         push ebx
         push ecx
         push edx
-        push byte_152A44
+        push LinkMissingList
         push byte 25h
         push dword [LinkPortHandle]
         call SerialReadWait
         add esp, byte 0Ch
-        mov byte [dword eax+byte_152A44], 0
+        mov byte [dword eax+LinkMissingList], 0
         pop edx
         pop ecx
         pop ebx

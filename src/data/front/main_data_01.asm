@@ -8,7 +8,7 @@ global str_spPressESCToReturnToDOS, str_Punct_StartUp, str_IhreHardwareZuKonfigu
 global str_SetasyncspeedSFILEISTOOS2, str_ASYNC, str_ASYNCFILE, str_AsyncreaderNOFILESPECIFI, str_AsyncreaderNOFILESPECIFI2, str_AsyncreaderNOFILESPECIFI3, str_GetasyncblockDNOASYNCBLO, str_CDSTREAM
 global str_SetstreamspeedSFILEISTOO, str_STREAM, str_DelstreamSTREAMNOTFOUND, str_SECCDSTREAM, str_StreamreaderILLEGALCHUNK, str_COPYBUFFER, str_ErrDiskFree2, str_07d
 global str_02d, str_backslash3, str_W, str_X, str_space4, str_02, str_KWKJSKxxxxxx, str_0_LoadTeamLogo
-global str_Dot, str_Punct_CheckGameDirs, unk_11041A, unk_11048D, str_backslash4, str_dot2, str_Punct_DeleteFiles, str_backslash2
+global str_Dot, str_Punct_CheckGameDirs, str_RunSetupFirstDe, str_EscToDosDe, str_backslash4, str_dot2, str_Punct_DeleteFiles, str_backslash2
 global str_D15, str_dot3, str_DB2, str_dbgL
 str_NAMEINDEX:
         db 04Eh,041h,04Dh,045h,049h,04Eh,044h,045h,058h,00h
@@ -76,7 +76,7 @@ str_Punct_StartUp:
         db 02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh
         db 02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,0Ah
         db 0Ah,00h
-unk_11041A:
+str_RunSetupFirstDe:
         db 053h,069h,065h,020h,04Dh,09Ah,073h,073h,065h,06Eh,020h,065h,072h,073h,074h,020h
         db 064h,061h,073h,020h,053h,045h,054h,055h,050h,020h,02Dh,020h,050h,072h,06Fh,067h
         db 072h,061h,06Dh,06Dh,020h,06Ch,061h,075h,066h,065h,06Eh,020h,06Ch,061h,073h,073h
@@ -86,7 +86,7 @@ str_IhreHardwareZuKonfigurie:
         db 020h,06Bh,06Fh,06Eh,066h,069h,067h,075h,072h,069h,065h,072h,065h,06Eh,02Ch,020h
         db 062h,065h,076h,06Fh,072h,020h,053h,069h,065h,020h,048h,04Fh,043h,04Bh,045h,059h
         db 020h,073h,074h,061h,072h,074h,065h,06Eh,02Eh,0Ah,00h
-unk_11048D:
+str_EscToDosDe:
         db 0Ah,045h,053h,043h,020h,064h,072h,09Ah,063h,06Bh,065h,06Eh,02Ch,020h,075h,06Dh
         db 020h,07Ah,075h,06Dh,020h,044h,04Fh,053h,020h,07Ah,075h,072h,09Ah,063h,06Bh,07Ah
         db 075h,06Bh,065h,068h,072h,065h,06Eh,02Eh,0Ah,00h

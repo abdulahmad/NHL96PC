@@ -4,7 +4,7 @@ bits 32
 section s_8BF56 progbits alloc exec nowrite align=1
 extern __CHP, str_FiveSpaces, str_FourSpaces, TeamHasCompare, HmGoalieSwapped, HmStarterGoalieMarks, TitleTextStyle, SeasonUserTeam
 extern SaveFileName, PlayerPosCodes, PlayerRowTeam, PlayerRowShown, PlayerStatsCompare, StatsFromGame
-extern CheckExportName, DrawColorText, DrawColorTextCentred, DrawScrollBar, statsfromleague, dword_1174EC, statsplayoffs, SimStatWeights
+extern CheckExportName, DrawColorText, DrawColorTextCentred, DrawScrollBar, statsfromleague, TeamDb, statsplayoffs, SimStatWeights
 extern RosterDbPtrs, PlayerStatsGoalies, RosterPlayerIds, SkaterColTextIds, GoalieColTextIds, PlayerStatsSort, PlayerStatsSeason, hmtmplstats
 extern hmtmglstats, hmtmroster, MatchupLayer, TeamStatsBitmap, MenuBoxStyle, PlayoffTreeData, RosterFileHandle, dword_17D267
 extern PlayerStatsButtonArt, PlayerStatsTabArt, PlayerStatsTabLit, PlayerStatsButtonPos
@@ -4635,7 +4635,7 @@ BuildPlayerStatRows:
         je near .5
         cmp byte [eax], 0
         je near .5
-        mov edx, dword [dword_1174EC]
+        mov edx, dword [TeamDb]
         mov edi, dword [byte eax+027h]
         add edi, edx
         mov dword [byte ebp-03Ch], edi
@@ -4794,7 +4794,7 @@ BuildPlayerStatRows:
         je near .24
         cmp byte [edx], 0
         je near .24
-        mov eax, dword [dword_1174EC]
+        mov eax, dword [TeamDb]
         mov dword [byte ebp-060h], eax
         mov eax, edx
         mov edx, dword [byte ebp-060h]

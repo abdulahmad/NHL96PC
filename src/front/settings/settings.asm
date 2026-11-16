@@ -4,7 +4,7 @@ bits 32
 section s_6A341 progbits alloc exec nowrite align=1
 extern _dos_close_, _dos_open_, GsModemFlags, GsJoy1Calib, GsJoy2Calib, GsGripButtons
 extern GlobalSetName
-extern GsPlayerPads, DetectCPU, dword_1150D8, DirPathTable, CpuHasCpuid, GlobalSetData, GsModemDial, GsOptions
+extern GsPlayerPads, DetectCPU, SaveFileHandle, DirPathTable, CpuHasCpuid, GlobalSetData, GsModemDial, GsOptions
 extern GsTeamSelect, FileClose, FileReadAt, gameopts, getcwd_, globalset, LoadExhibitionStats, MakeDataPath
 extern MakeDirPath, NameIndexFree, NameIndexLoad, optblock, optblock_end, optflags, str_5552362337, str_ATD2
 extern str_ATF, str_backslash, str_EXHIBITNDX, strcat_, strlen_, strncpy_, LoadDataFileFlag0, RunControllerScreen
@@ -306,7 +306,7 @@ RunExhibitionMenus:
         mov edx, optblock_end
         rep movsb
         mov ecx, 0B9h
-        mov eax, dword [dword_1150D8]
+        mov eax, dword [SaveFileHandle]
         call FileReadAt
         test eax, eax
         je short .10
@@ -323,9 +323,9 @@ RunExhibitionMenus:
         mov esi, unk_17D32C
         mov edi, optblock_end
         rep movsb
-        mov eax, dword_1150D8
+        mov eax, SaveFileHandle
         call FileClose
-        mov dword [dword_1150D8], 0FFFFFFFFh
+        mov dword [SaveFileHandle], 0FFFFFFFFh
 .12:
         cmp ebx, byte 1
         je near .1

@@ -1,6 +1,7 @@
 ; Pre-game intro skate and the three stars (95 PC engine/intro, 94G hockey94).
 bits 32
 %include "hockey.inc"
+extern hmglstats
 extern TeamRosterPtrs
 extern GsOptions
 section s_2D9D9 progbits alloc exec nowrite align=1
@@ -8,7 +9,7 @@ extern assinsert, assreplace, awfirstslot, awslotcount, awtmstruct, starskatermi
 extern textline1, textline2, textline3, textline4, textline5, CloseTextOverlay
 extern crowdlevel, CrowdNoiseReset, curperiod, DoGameFrame, InputRecordIndex
 extern GameLoopFrames, gameresult, PreGameSkateOn, ZonesDirty, LastEventPlayer, dword_11F5C0, dword_11F5C4
-extern dword_152F4C, gwgteam, gwgplayer, DrawFrameCount
+extern PanelShadeArt, gwgteam, gwgplayer, DrawFrameCount
 extern NameFont, NamePanelBmp, OverlayBmp, CamShotKeys, energywarn, exitgame, fadeinpending, forcepldata
 extern fox, foy, GameLoopActive, gameopts, GetTicks, hmfirstslot, hmroster, hmslotcount
 extern hmtmstruct, InGameMenuRequest, InputRecordCount, InputRecordRing, IsCupClinched, lasttouch, lcblink, lineuptime
@@ -23,8 +24,8 @@ extern GetLangText, DrawRectOutline, TextSetColor, SetAaPalLut, DrawArtAaScaledI
 extern TicksSinceLast, bcopy, FillPolygonArgs, RemapPolygonArgs, TextSetFont, str_C_DrawOverlayPanels, str_Punct_DrawOverlayPanels, StarPanelOffsets
 extern str_V_DrawOverlayPanels, hmplstats, hmplattr, AwSortCords, PreGameSkatePaths, unk_165354, unk_17D3E8
 extern updateanim, vtoa, camx, camy, xc1, HomeControlSlot, RefStep, energywarn_aw
-extern lcblink_aw, CupShown, IntroStandSpots, TeamJerseyStyle, word_156E6E, hmglstats_w2, word_157AFC
-extern hmglstats_w8, hmglstats_w14, hmscore, hmtmtouch1, hmtmpdst, awscore, word_176BB8
+extern lcblink_aw, CupShown, IntroStandSpots, TeamJerseyStyle
+extern hmscore, hmtmtouch1, hmtmpdst, awscore, StarPoints
 extern starpl, yc1
 global RunPreGameSkate, RunPreGameSkate_450, RunPreGameSkate_451, RunLineupLoop, LineupLoopFrame, FillPanelEdge, FillPanelEdge_5C, DrawPanelBorder
 global DrawPanelShade, DrawOverlayPanels, StartPreGame, assintrostand, assintroline, AddStar, StarEligible, StarCompare
@@ -849,7 +850,7 @@ DrawOverlayPanels:
         mov edx, 7Ah
         mov eax, 7Dh
         call DrawPanelShade
-        mov eax, dword [dword_152F4C]
+        mov eax, dword [PanelShadeArt]
         call SetAaPalLut
         xor edx, edx
         mov eax, 30h
@@ -1548,7 +1549,7 @@ AddStar:
         xor eax, eax
         jmp short .3
 .1:
-        cmp cx, word [dword eax+word_176BB8]
+        cmp cx, word [dword eax+StarPoints]
         jne short .2
         cmp bx, word [dword eax+starpl]
         jne short .2
@@ -1563,7 +1564,7 @@ AddStar:
 .3:
         cmp edx, edi
         jl short .1
-        mov word [nosplit edi*4+word_176BB8], cx
+        mov word [nosplit edi*4+StarPoints], cx
         mov eax, 1
         mov word [nosplit edi*4+starpl], bx
         pop edi
@@ -1836,7 +1837,7 @@ PickThreeStars:
         mov word [nosplit eax*4+starpl], 0FFFFh
         mov bx, word [nosplit eax*4+starpl]
         inc edx
-        mov word [nosplit eax*4+word_176BB8], bx
+        mov word [nosplit eax*4+StarPoints], bx
 .2:
         movsx eax, dx
         cmp eax, byte 3
@@ -1883,18 +1884,18 @@ PickThreeStars:
         cmp word [dword eax+hmscore], byte 0
         jne near .7
         imul eax, edx, byte 12h
-        mov dx, word [dword eax+hmglstats_w8]
+        mov dx, word [dword eax+hmglstats+8]
         xor ebx, ebx
-        cmp dx, word [dword eax+hmglstats_w2]
+        cmp dx, word [dword eax+hmglstats+2]
         jle short .5
         mov ebx, 1
 .5:
         movsx eax, di
         imul eax, byte 12h
-        mov dx, word [dword eax+hmglstats_w14]
-        cmp dx, word [dword eax+hmglstats_w2]
+        mov dx, word [dword eax+hmglstats+0Eh]
+        cmp dx, word [dword eax+hmglstats+2]
         jle short .6
-        cmp dx, word [dword eax+hmglstats_w8]
+        cmp dx, word [dword eax+hmglstats+8]
         jle short .6
         mov ebx, 2
 .6:
@@ -1909,7 +1910,7 @@ PickThreeStars:
         shl edx, 15h
         shr edx, 1Eh
         movsx dx, byte [dword edx+starskatermin]
-        cmp dx, word [dword eax+hmglstats_w2]
+        cmp dx, word [dword eax+hmglstats+2]
         jge short .7
         mov edx, dword [byte ebp+076h]
         add ebx, byte 19h
@@ -2000,7 +2001,7 @@ PickThreeStars:
         mov eax, edx
         shl eax, 4
         add eax, dword [byte ebp+07Ah]
-        movsx ebx, word [dword eax+word_156E6E]
+        movsx ebx, word [dword eax+hmplstats+2]
         movsx eax, word [dword eax+hmplstats]
         add eax, ebx
         cmp eax, byte 1
@@ -2038,11 +2039,11 @@ PickThreeStars:
         shr edx, 1Eh
         add eax, dword [byte ebp+062h]
         movsx dx, byte [dword edx+stargoaliemin]
-        cmp dx, word [dword eax+hmglstats_w2]
+        cmp dx, word [dword eax+hmglstats+2]
         jg short .16
-        movsx edx, word [dword eax+word_157AFC]
+        movsx edx, word [dword eax+hmglstats+4]
         imul edx, dword 3E8h
-        movsx ebx, word [dword eax+hmglstats_w2]
+        movsx ebx, word [dword eax+hmglstats+2]
         mov eax, ebx
         mov dword [byte ebp+07Ah], edx
         cdq

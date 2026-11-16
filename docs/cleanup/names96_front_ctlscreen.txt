@@ -1,0 +1,15 @@
+# NHL 96 PC controller screen (M_CONTROL): who plays which team before a game. PC-only, source new.
+sub_6E233 SetControllerIcon {confidence=low} (side, ...): puts the p1_1 / p2_1 pad image in a side's slot of the screen (not in a modem / link game)
+sub_6E332 DrawControllerColumns {confidence=medium} the controller screen's columns: the pads by team with the users' icons and names (usri, usrh, utext), with the move sound
+sub_6F056 ControllerScreen {confidence=high} the controller screen (M_CONTROL, ply%d, key1): moves each controller to home, away or neither; returns the screen to go to
+sub_70840 RunControllerScreen {confidence=medium} (from): runs ControllerScreen until it leaves (3 again), then the next step (0Fh, 15h, sub_8733C)
+sub_6E233_F9 SetControllerIcon_F9 {no_record}
+sub_6F056_11AB ControllerScreen_11AB {no_record}
+sub_6F056_149D ControllerScreen_149D {no_record}
+sub_6F056_14E4 ControllerScreen_14E4 {no_record}
+sub_6F056_1503 ControllerScreen_1503 {no_record}
+sub_6F056_1548 ControllerScreen_1548 {no_record}
+sub_6F056_15D1 ControllerScreen_15D1 {no_record}
+sub_6F056_168B ControllerScreen_168B {no_record}
+sub_6F056_16B0 ControllerScreen_16B0 {no_record}
+sub_6F056_16D6 ControllerScreen_16D6 {no_record}

@@ -22,7 +22,7 @@ extern ShowMessage, ShowProgressBox, UpdateProgressBox, HideProgressBox, FileOpe
 extern sub_1E8E9, LoadSeasonStats, FreeStatsTables, sub_29B9F, sub_4F08B, sub_4F159, sub_4F2A8, sub_4F385
 extern OpenScreen, SlideInTitleBar, SlideInSideBar, SetScreenColors, BlackPalette, FadePalette, FadeOut, SetTextColors
 extern DrawColorText, DrawColorTextCentred, FillBox, InitMenuItems, RunMenu, FillMusicStream, PlayMusic, MusicDone
-extern SoundSecondsToBytes, sub_70840, sub_77355, sub_77642, sub_77FF2, sub_78029, sub_78E9E, sub_78EFA
+extern SoundSecondsToBytes, RunControllerScreen, sub_77355, sub_77642, sub_77FF2, sub_78029, sub_78E9E, sub_78EFA
 extern sub_79060, sub_7D580, sub_7FF7F, sub_80E4D, sub_81D7C, sub_81EEA, sub_88509, sub_971E9
 extern sub_A6B94, sub_A7A09, sub_A7B4B, sub_A7CC4, sub_A7E6D, sub_A800A, sub_A8AC5, sub_A8B9B
 extern sub_AAA40, sub_AAA8C, sub_AAADC, PutBlock, sub_AADA4, sub_ABF4C, sub_AD35C, sub_AD5C8
@@ -2847,7 +2847,7 @@ sub_7BA57_189:
         jmp near sub_7BA57_138.6
 sub_7BA57_1E1:
         mov eax, 2714h
-        call sub_70840
+        call RunControllerScreen
         mov ecx, eax
         cmp eax, 2714h
         jne near sub_7BA57_138.6
@@ -3066,7 +3066,7 @@ sub_7BA57_25A:
         jmp near sub_7BA57_138.6
 sub_7BA57_533:
         mov eax, 0A5B5h
-        call sub_70840
+        call RunControllerScreen
         jmp near sub_7BA57_138.5
 .28:
         mov edx, dword [dword_17D7D0]

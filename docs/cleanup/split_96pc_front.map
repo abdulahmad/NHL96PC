@@ -48,3 +48,5 @@ cut PlayIntroMovies front/intro The intro at start-up (screens and movies) and t
 cut BlackPalette front/draw Drawing helpers: palette fades, the graphics mode, bitmap copies, text in colours, boxes, colour remapping (96 PC).
 cut InitMenuItems front/menu Menus: the menu items, the menu input (mouse, pads, joysticks, keys) and its sounds, the menu loop (96 PC; still to be named).
 rename front/front_64F59 front/menu
+# step 9: front_6E233
+rename front/front_6E233 front/controller_screen The controller screen before a game: which controller plays for which team, with the users' names (96 PC).

@@ -49,7 +49,7 @@
 1 69B1E 6A341 2083 front_movie front/movie/movie.asm
 1 6A341 6A7D3 1170 front_settings front/settings/settings.asm
 1 6A7D3 6E233 14944 front_pause_menu front/pause_menu/pause_menu.asm
-1 6E233 711ED 12218 front_6E233 front/front_6E233.asm
+1 6E233 711ED 12218 front_6E233 front/controller_screen/controller_screen.asm
 1 711ED 741BD 12240 modem_setup front/modem_setup/modem_setup.asm
 1 741BD 77642 13445 front_741BD front/front_741BD.asm
 1 77642 794FF 7869 front_77642 front/front_77642.asm

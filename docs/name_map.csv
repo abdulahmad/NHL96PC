@@ -719,6 +719,10 @@ address,name,auto_name,source,confidence,evidence,file
 6A341,ReadGlobalSet,sub_6A341,new,medium,"reads GLOBAL.SET, the settings file SETUP writes, at start",src/front/settings/settings.asm
 6A5EB,WriteGlobalSet,sub_6A5EB,new,high,"writes GLOBAL.SET back (BCh header, the name, B9h options), the file ReadGlobalSet reads",src/front/settings/settings.asm
 6A7D3,RunInGameMenu,sub_6A7D3,new,medium,"opens the menu InGameMenuRequest asks for (pre-game menu, pause)",src/front/pause_menu/pause_menu.asm
+6E233,SetControllerIcon,sub_6E233,new,low,"(side, ...): puts the p1_1 / p2_1 pad image in a side's slot of the screen (not in a modem / link game)",src/front/controller_screen/controller_screen.asm
+6E332,DrawControllerColumns,sub_6E332,new,medium,"the controller screen's columns: the pads by team with the users' icons and names (usri, usrh, utext), with the move sound",src/front/controller_screen/controller_screen.asm
+6F056,ControllerScreen,sub_6F056,new,high,"the controller screen (M_CONTROL, ply%d, key1): moves each controller to home, away or neither; returns the screen to go to",src/front/controller_screen/controller_screen.asm
+70840,RunControllerScreen,sub_70840,new,medium,"(from): runs ControllerScreen until it leaves (3 again), then the next step (0Fh, 15h, sub_8733C)",src/front/controller_screen/controller_screen.asm
 A9BCC,_searchenv_,,WATCOM,high,IDA FLIRT library signature,
 A9CB3,strcpy_,,WATCOM,high,IDA FLIRT library signature,
 A9CD2,strcat_,,WATCOM,high,IDA FLIRT library signature,

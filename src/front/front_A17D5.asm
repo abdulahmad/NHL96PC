@@ -37,7 +37,7 @@ extern CopyBitmap, SetScreenMode, SetTextColors, DrawColorTextCentred, FillBox, 
 extern InitMenuItems, sub_64E74, RunMenu, SetMenuMouse, FreeSpeechBuffer, RestoreSpeechBuffer, SpeechBusy, PaEvent
 extern StopSpeech, StopMusic, QueueMusic, FillMusicStream, PlayMusic, FadeOutMusic, MusicDone, StopAllSfx
 extern Crowd_Noise, CrowdNoiseReset, GetCrowdTarget, SetCrowdTarget, CrowdFadeOut, sfx, CrowdReaction, StopArenaClip
-extern StartGameSound, EndGameSound, SoundSecondsToBytes, SoundIdle, sub_6B486, sub_6C64B, sub_6F056, sub_70840
+extern StartGameSound, EndGameSound, SoundSecondsToBytes, SoundIdle, sub_6B486, sub_6C64B, ControllerScreen, RunControllerScreen
 extern sub_75E0C, sub_75E2C, sub_77355, sub_8C51B, sub_9C866, sub_9CDDA, sub_AA988, sub_AAA40
 extern PutBlock, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C, sub_ADA50, sub_ADBEC, TextSetFont
 extern sub_B0CA8, DrawArtOpaque, sub_B58D8, sub_DD6C4, SetClipWindow, SetViewRect, sub_E04E0, sub_E0584
@@ -1987,7 +1987,7 @@ sub_A25CD_D17:
 sub_A25CD_F31:
         call sub_A1FEF
         xor eax, eax
-        call sub_6F056
+        call ControllerScreen
         jmp near sub_A25CD_D17.64
 sub_A25CD_F42:
         mov eax, dword [optflags]
@@ -3252,7 +3252,7 @@ sub_A4961:
         cmp eax, byte 3
         jne short .5
         mov eax, 12h
-        call sub_70840
+        call RunControllerScreen
 .4:
         mov edx, eax
         jmp short .3

@@ -3,8 +3,8 @@ bits 32
 %include "hockey.inc"
 section s_E0658 progbits alloc exec nowrite align=1
 extern FatalError, str_OpenhandleSFILEERROR, ResourceArchiveName, dword_121B24, dword_121B28, dword_121B2C, ResourceArchive
-global openhandle_14, sub_E07CC_2, DosCallSplitDx, DosOpenFile, DosOpenReadOnly, sub_E069C, openhandle, DosCloseFile
-global DosWriteFile, sub_E07CC, DosSeekFile
+global openhandle_14, DosFileTransfer, DosCallSplitDx, DosOpenFile, DosOpenReadOnly, CreateHandle, openhandle, DosCloseFile
+global DosWriteFile, DosReadFile, DosSeekFile
 ;-----------------------------------------------------------------------------
 ; DosCallSplitDx                                  E0658  96 PC, low confidence
 ; Calls DOS with a 32-bit value split into CX:DX and joins DX:AX back into
@@ -49,9 +49,10 @@ DosOpenReadOnly:
         mov dword [byte ebp-08h], 3D00h
         jmp short openhandle_14
 ;-----------------------------------------------------------------------------
-; sub_E069C                                                            E069C  
+; CreateHandle                                    E069C  96 PC, low confidence
+; Creates a file and returns its handle through openhandle
 ;-----------------------------------------------------------------------------
-sub_E069C:
+CreateHandle:
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFF8h
@@ -175,13 +176,19 @@ DosCloseFile:
 ;-----------------------------------------------------------------------------
 DosWriteFile:
         mov ah, 40h
-        jmp short sub_E07CC_2
+        jmp short DosFileTransfer
 ;-----------------------------------------------------------------------------
-; sub_E07CC                                                            E07CC  
+; DosReadFile                                  E07CC  96 PC, medium confidence
+; Reads from a file handle (DOS 3Fh) in 16K pieces
 ;-----------------------------------------------------------------------------
-sub_E07CC:
+DosReadFile:
         mov ah, 3Fh
-sub_E07CC_2:
+;-----------------------------------------------------------------------------
+; DosFileTransfer                                 E07CE  96 PC, low confidence
+; Reads or writes a file handle with the DOS function passed in AH, in 16K
+; pieces
+;-----------------------------------------------------------------------------
+DosFileTransfer:
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFF4h

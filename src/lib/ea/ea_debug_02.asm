@@ -16,13 +16,13 @@ extern dword_11F5C0, dword_11F5C4, dword_1210CC, dword_15139C, dword_1513A0, dwo
 extern dword_1513B8, dword_1513BC, dword_1513C0, dword_1513C4, dword_1513C8, dword_1513CC, dword_1513D4, memlist1
 extern MemBlockGuards, dword_185738, dword_18573C, dword_185848, dword_1A11BC, dword_1A11C0, dword_1A11C4, dword_1A11C8
 extern dword_1A11CC, dword_1A11D0, dword_1A11D4, dword_1A11D8, dword_1A11DC, dword_1A11E0, fclose_, fopen_
-extern fprintf_, min_, off_1513B0, sprintf_, strncpy_, PutBlock, PutBlockAtOwnPos, sub_ABF88
-extern sub_AC194, CompactDownLocked, CompactUpLocked, DebugSetLine, sub_ACCF8, sub_ACD24, sub_ACD38, FillRect
-extern sub_ADA80, TextSetColor, SaveTextState, SetDrawTarget, TextSetFont, NearestColour, sub_BF02C, sub_BF034
-extern sub_BF04B, initgraphics, sub_C2AEC, PrintBoxedText, ToUpperChar, sub_CFE0C, sub_CFE8C, sub_D0650
-extern DrawTextBoxedAt, sub_DC158, sub_DC17C, sub_DC780, sub_DC830, sub_DCB90, SetScreenTarget, GetPaletteRange
-extern FillRectColor, SetClipWindow, SetPaletteEntries, KbdGetKey, sub_DFF7C, FindShape, sub_E0584, PollHotkeys
-extern SaveDrawState, RestoreDrawState, sub_E1970, unk_114440, unk_11444C, unk_114570, unk_114594, unk_11466C
+extern fprintf_, min_, off_1513B0, sprintf_, strncpy_, PutBlock, PutBlockAtOwnPos, PushMemDescriptorLocked
+extern MarkBlockPurgeable, CompactDownLocked, CompactUpLocked, DebugSetLine, DebugClearScreen, DebugSetRow, DebugSetAttr, FillRect
+extern DrawRectOutline, TextSetColor, SaveTextState, SetDrawTarget, TextSetFont, NearestColour, ShapeBankCount, ShapeBankEntry
+extern ShapeBankEntryId, initgraphics, ShowMessageBox, PrintBoxedText, ToUpperChar, ReturnFalse, ResetClipWindow, DrawTextCentredBoxed
+extern DrawTextBoxedAt, DrawArtAnyFormatAt, DrawArtAnyFormatOwnPos, XorRectOutline, WriteTgaScreen, SelectBitmapHandle, SetScreenTarget, GetPaletteRange
+extern FillRectColor, SetClipWindow, SetPaletteEntries, KbdGetKey, FlushKeys, FindShape, ClearClipRect, PollHotkeys
+extern SaveDrawState, RestoreDrawState, FindFirstFile, unk_114440, unk_11444C, unk_114570, unk_114594, unk_11466C
 extern unk_114670, unk_1146A0, unk_1146A4, unk_1146CC, str_Un, unk_114930, unk_1213DC
 global MemViewer, MemViewerKeys, MemViewerOpenAlt, MemViewerLoopNext, MemViewerLoop, DebugGetKey, MemViewerListHead, MemViewerSelectRow
 global FormatBlockFlags, MemViewerDrawList, MemPoolTotals, MemViewerDrawTitle, DebugSprintf, MemViewerBlockInfo, MemViewerHexDump, HexDumpRow
@@ -49,9 +49,9 @@ DebugGetKey:
         push ecx
         push edx
         push eax
-        call sub_E0584
+        call ClearClipRect
         add esp, byte 4
-        call sub_CFE0C
+        call ReturnFalse
         pop edx
         pop ecx
         pop ebx
@@ -96,7 +96,7 @@ MemViewer:
         mov al, byte [byte_11F9D8]
         push byte 0
         mov byte [dword esp+0CCh], al
-        call sub_ACD24
+        call DebugSetRow
         mov edx, dword [dword_11F5A0]
         add esp, byte 4
         test edx, edx
@@ -318,9 +318,9 @@ MemViewerLoop:
         call SetScreenTarget
         mov eax, dword [dword_15139C]
         push eax
-        call sub_E0584
+        call ClearClipRect
         add esp, byte 4
-        call sub_CFE0C
+        call ReturnFalse
 .10:
         mov esi, dword [dword_1513C0]
         cmp edi, byte 46h
@@ -350,7 +350,7 @@ MemViewerLoop:
 .15:
         cmp edi, byte 4Dh
         jne short .16
-        call sub_ACCF8
+        call DebugClearScreen
 .16:
         cmp edi, byte 50h
         je short .17
@@ -422,7 +422,7 @@ MemViewerLoop:
         jne short .28
         mov eax, dword [dword_1A11DC]
         push eax
-        call sub_ABF88
+        call PushMemDescriptorLocked
         add esp, byte 4
 .28:
         cmp edi, 5200h
@@ -437,7 +437,7 @@ MemViewerLoop:
         xor ch, ch
         push edx
         mov byte [dword esp+0B0h], ch
-        call sub_AC194
+        call MarkBlockPurgeable
         add esp, byte 4
 .29:
         mov eax, dword [dword esp+0B4h]
@@ -468,20 +468,20 @@ MemViewerLoop:
         mov eax, dword [dword esp+0B4h]
         mov dword [dword_1513C8], ebp
         mov dword [dword_1513C4], eax
-        call sub_DFF7C
+        call FlushKeys
         cmp dword [dword esp+0BCh], byte 0
         je short .33
         call SetScreenTarget
         mov eax, dword [dword_15139C]
         push eax
-        call sub_E0584
+        call ClearClipRect
         add esp, byte 4
-        call sub_CFE0C
+        call ReturnFalse
 .33:
         xor eax, eax
         mov al, byte [dword esp+0C8h]
         push eax
-        call sub_ACD24
+        call DebugSetRow
         add esp, byte 4
         lea eax, [byte esp+060h]
         push eax
@@ -714,7 +714,7 @@ MemViewerDrawList:
         push eax
         call DrawTextBoxedAt
         add esp, byte 0Ch
-        call sub_CFE0C
+        call ReturnFalse
         mov ecx, dword [dword_15139C]
         push ecx
         push byte 1
@@ -730,7 +730,7 @@ MemViewerDrawList:
         push eax
         call DrawTextBoxedAt
         add esp, byte 0Ch
-        call sub_CFE0C
+        call ReturnFalse
         mov edi, dword [dword_15139C]
         push edi
         push byte 1
@@ -746,7 +746,7 @@ MemViewerDrawList:
         push eax
         call DrawTextBoxedAt
         add esp, byte 0Ch
-        call sub_CFE0C
+        call ReturnFalse
         mov edx, dword [dword_15139C]
         push edx
         push byte 2
@@ -756,7 +756,7 @@ MemViewerDrawList:
         push byte 0
         call FillRect
         add esp, byte 14h
-        call sub_CFE0C
+        call ReturnFalse
         jmp near .7
 .5:
         mov ecx, 0Ah
@@ -907,7 +907,7 @@ MemViewerDrawList:
         push eax
         call DrawTextBoxedAt
         add esp, byte 0Ch
-        call sub_CFE0C
+        call ReturnFalse
         jmp near .15
 .11:
         lea edx, [byte ebp+026h]
@@ -933,7 +933,7 @@ MemViewerDrawList:
         jne short .14
         mov ecx, dword [dword_1A11BC]
         push ecx
-        call sub_ACD38
+        call DebugSetAttr
         add esp, byte 4
         lea eax, [byte ebp-02Eh]
         mov edx, dword [byte ebp+07Ah]
@@ -1029,7 +1029,7 @@ MemViewerDrawList:
         push eax
         call DrawTextBoxedAt
         add esp, byte 0Ch
-        call sub_CFE0C
+        call ReturnFalse
         jmp near .24
 .20:
         mov eax, dword [byte ebp+046h]
@@ -1061,7 +1061,7 @@ MemViewerDrawList:
         jne short .23
         mov ecx, dword [dword_1A11BC]
         push ecx
-        call sub_ACD38
+        call DebugSetAttr
         add esp, byte 4
         lea eax, [dword ebp-082h]
         mov edx, dword [byte ebp+07Ah]
@@ -1075,7 +1075,7 @@ MemViewerDrawList:
         call DebugSetLine
         add esp, byte 10h
         push byte 7
-        call sub_ACD38
+        call DebugSetAttr
         add esp, byte 4
         jmp short .24
 .23:
@@ -1127,16 +1127,16 @@ MemViewerDrawList:
         add esp, byte 10h
         mov eax, dword [dword_15139C]
         push eax
-        call sub_E0584
+        call ClearClipRect
         add esp, byte 4
-        call sub_CFE0C
-        call sub_CFE8C
+        call ReturnFalse
+        call ResetClipWindow
         jmp short .30
 .28:
         cmp edx, byte 1
         jne short .30
         push byte 7
-        call sub_ACD38
+        call DebugSetAttr
         mov ecx, dword [byte ebp+06Ah]
         add esp, byte 4
         cmp esi, ecx
@@ -1326,7 +1326,7 @@ MemViewerBlockInfo:
         push dword 111h
         push byte 37h
         push byte 2Eh
-        call sub_ADA80
+        call DrawRectOutline
         add esp, byte 14h
         mov ebx, dword [dword_1513AC]
         push ebx
@@ -1334,7 +1334,7 @@ MemViewerBlockInfo:
         push dword 110h
         push byte 38h
         push byte 2Fh
-        call sub_ADA80
+        call DrawRectOutline
         add esp, byte 14h
         mov ecx, dword [dword_15139C]
         push ecx
@@ -1359,7 +1359,7 @@ MemViewerBlockInfo:
         add esp, byte 10h
         xor esi, esi
         mov edi, 0F8h
-        call sub_CFE0C
+        call ReturnFalse
 .1:
         test ebp, 1
         je short .2
@@ -1368,7 +1368,7 @@ MemViewerBlockInfo:
         push unk_114594
         call DrawTextBoxedAt
         add esp, byte 0Ch
-        call sub_CFE0C
+        call ReturnFalse
 .2:
         mov ebx, 4
         mov edx, esi
@@ -1409,7 +1409,7 @@ MemViewerBlockInfo:
         call DrawTextBoxedAt
         add esp, byte 0Ch
         mov esi, 55h
-        call sub_CFE0C
+        call ReturnFalse
 .4:
         test byte [byte esp+09h], 20h
         je short .5
@@ -1429,7 +1429,7 @@ MemViewerBlockInfo:
         call DrawTextBoxedAt
         add esp, byte 0Ch
         add esi, byte 8
-        call sub_CFE0C
+        call ReturnFalse
 .5:
         test byte [byte esp+09h], 0A0h
         je short .6
@@ -1457,14 +1457,14 @@ MemViewerBlockInfo:
         call DrawTextBoxedAt
         add esp, byte 0Ch
         mov esi, ebp
-        call sub_CFE0C
+        call ReturnFalse
         push esi
         push edi
         push str_ConventionalMemory
         call DrawTextBoxedAt
         add esp, byte 0Ch
         lea ebp, [byte esi+014h]
-        call sub_CFE0C
+        call ReturnFalse
         mov bh, byte [byte esp+08h]
         add esi, byte 0Ah
         test bh, 10h
@@ -1481,7 +1481,7 @@ MemViewerBlockInfo:
         call DrawTextBoxedAt
         add esp, byte 0Ch
         mov esi, ebp
-        call sub_CFE0C
+        call ReturnFalse
         test byte [byte esp+08h], 40h
         je short .11
         push esi
@@ -1490,7 +1490,7 @@ MemViewerBlockInfo:
         call DrawTextBoxedAt
         add esp, byte 0Ch
         add esi, byte 0Ah
-        call sub_CFE0C
+        call ReturnFalse
 .11:
         test byte [byte esp+08h], 0Fh
         je short .12
@@ -1503,7 +1503,7 @@ MemViewerBlockInfo:
         call PrintBoxedText
         add esp, byte 10h
         add esi, byte 0Ah
-        call sub_CFE0C
+        call ReturnFalse
 .12:
         mov edx, dword [byte esp+04h]
         push edx
@@ -1512,7 +1512,7 @@ MemViewerBlockInfo:
         push edi
         call PrintBoxedText
         add esp, byte 10h
-        call sub_CFE0C
+        call ReturnFalse
         mov al, byte [byte esp+08h]
         add esi, byte 0Ah
         test al, 8
@@ -1522,12 +1522,12 @@ MemViewerBlockInfo:
         push str_BlockIsPURGABLE
         call DrawTextBoxedAt
         add esp, byte 0Ch
-        call sub_CFE0C
+        call ReturnFalse
 .13:
         cmp dword [esp], byte 0
         jne short .15
-        call sub_CFE0C
-        call sub_DFF7C
+        call ReturnFalse
+        call FlushKeys
 .14:
         call DebugGetKey
         test eax, eax
@@ -1553,7 +1553,7 @@ MemViewerHexDump:
         mov dword [byte esp+08h], eax
         test edx, edx
         jne short .1
-        call sub_ACCF8
+        call DebugClearScreen
         jmp near .37
 .1:
         mov eax, edx
@@ -1608,7 +1608,7 @@ MemViewerHexDump:
         mov eax, dword [byte esp+034h]
         mov dword [byte esp+014h], esi
         call HexDumpRow
-        call sub_CFE0C
+        call ReturnFalse
 .6:
         call KbdGetKey
         push eax
@@ -1864,7 +1864,7 @@ HexDumpRow:
         cmp ebp, dword [byte esp+020h]
         jne short .3
         push byte 70h
-        call sub_ACD38
+        call DebugSetAttr
         add esp, byte 4
 .3:
         xor eax, eax
@@ -1883,11 +1883,11 @@ HexDumpRow:
         call DebugPrintf
         add esp, byte 4
         push byte 7
-        call sub_ACD38
+        call DebugSetAttr
         jmp short .5
 .4:
         push byte 7
-        call sub_ACD38
+        call DebugSetAttr
         add esp, byte 4
         push unk_114670
         call DebugPrintf
@@ -1930,7 +1930,7 @@ HexDumpRow:
 .9:
         mov ecx, dword [dword_1A11BC]
         push ecx
-        call sub_ACD38
+        call DebugSetAttr
         add esp, byte 4
         xor eax, eax
         mov al, byte [byte esp+0Ch]
@@ -1943,7 +1943,7 @@ HexDumpRow:
         cmp edi, byte 10h
         jl short .7
         push byte 7
-        call sub_ACD38
+        call DebugSetAttr
         add esp, byte 4
         push asc_114674
         call DebugPrintf
@@ -2094,7 +2094,7 @@ DumpMemoryMap:
         push byte 14h
         lea eax, [byte esp+04h]
         push eax
-        call sub_C2AEC
+        call ShowMessageBox
         add esp, byte 8
 .1:
         mov edx, unk_1146CC
@@ -2107,7 +2107,7 @@ DumpMemoryMap:
         je short .2
         push byte 14h
         push str_ErrorDumpingMemoryMap
-        call sub_C2AEC
+        call ShowMessageBox
         add esp, byte 8
 .2:
         mov dword [dword_18573C], esi
@@ -2164,7 +2164,7 @@ ShapeViewer:
         call ReadShapeFileHeader
         mov edx, dword [byte esp+024h]
         push edx
-        call sub_BF02C
+        call ShapeBankCount
         add esp, byte 4
         mov dword [byte esp+03Ch], eax
         xor ah, ah
@@ -2179,23 +2179,23 @@ ShapeViewer:
         call SetScreenTarget
         mov eax, dword [dword_15139C]
         push eax
-        call sub_E0584
+        call ClearClipRect
         add esp, byte 4
-        call sub_CFE0C
+        call ReturnFalse
         mov esi, dword [dword_15139C]
         push esi
         mov edi, dword [dword_1513A4]
         push edi
         call TextSetColor
         add esp, byte 8
-        call sub_CFE0C
+        call ReturnFalse
         push byte 60h
         push str_ShapeFileIsInvalid
-        call sub_D0650
+        call DrawTextCentredBoxed
         add esp, byte 8
-        call sub_CFE0C
-        call sub_CFE0C
-        call sub_DFF7C
+        call ReturnFalse
+        call ReturnFalse
+        call FlushKeys
 .2:
         call DebugGetKey
         test eax, eax
@@ -2216,7 +2216,7 @@ ShapeViewer:
         push esi
         mov ecx, dword [byte esp+02Ch]
         push ecx
-        call sub_BF04B
+        call ShapeBankEntryId
         add esp, byte 0Ch
         xor eax, eax
         mov al, byte [esp]
@@ -2244,7 +2244,7 @@ ShapeViewer:
         cmp esi, ecx
         jl short .4
 .8:
-        call sub_ACCF8
+        call DebugClearScreen
         push edi
         mov esi, dword [byte esp+038h]
         push esi
@@ -2290,12 +2290,12 @@ ShapeViewer:
         push esi
         mov edi, dword [byte esp+02Ch]
         push edi
-        call sub_BF04B
+        call ShapeBankEntryId
         add esp, byte 0Ch
         push esi
         mov eax, dword [byte esp+028h]
         push eax
-        call sub_BF034
+        call ShapeBankEntry
         add esp, byte 8
         mov edx, dword [byte esp+08h]
         mov edi, eax
@@ -2322,7 +2322,7 @@ ShapeViewer:
         push byte 0
         call PrintBoxedText
         add esp, byte 14h
-        call sub_CFE0C
+        call ReturnFalse
         xor eax, eax
         mov al, byte [esp]
         cmp eax, byte 21h
@@ -2344,7 +2344,7 @@ ShapeViewer:
         push byte 0
         push byte 0
         push edi
-        call sub_DC158
+        call DrawArtAnyFormatAt
         add esp, byte 0Ch
         jmp short .18
 .14:
@@ -2358,7 +2358,7 @@ ShapeViewer:
         cmp dword [byte esp+044h], byte 0
         je short .16
         push edi
-        call sub_DC17C
+        call DrawArtAnyFormatOwnPos
         jmp short .17
 .16:
         push edi
@@ -2366,7 +2366,7 @@ ShapeViewer:
 .17:
         add esp, byte 4
 .18:
-        call sub_CFE0C
+        call ReturnFalse
         jmp near .24
 .19:
         push str_Bad
@@ -2374,9 +2374,9 @@ ShapeViewer:
         add esp, byte 4
         mov eax, dword [dword_15139C]
         push eax
-        call sub_E0584
+        call ClearClipRect
         add esp, byte 4
-        call sub_CFE0C
+        call ReturnFalse
         jmp short .24
 .20:
         mov eax, dword [byte edi+08h]
@@ -2419,7 +2419,7 @@ ShapeViewer:
         mov al, byte [esp]
         cmp eax, byte 21h
         je near .13
-        call sub_CFE0C
+        call ReturnFalse
 .25:
         call PollHotkeys
         push eax
@@ -2460,13 +2460,13 @@ ShapeViewer:
         call SetScreenTarget
         mov eax, dword [dword_15139C]
         push eax
-        call sub_E0584
+        call ClearClipRect
         add esp, byte 4
-        call sub_CFE0C
+        call ReturnFalse
 .31:
         cmp ebp, byte 4Dh
         jne short .32
-        call sub_ACCF8
+        call DebugClearScreen
 .32:
         cmp ebp, byte 50h
         jne short .33
@@ -2614,7 +2614,7 @@ ShapeInfo:
         push byte 70h
         call PrintBoxedText
         add esp, byte 20h
-        call sub_CFE0C
+        call ReturnFalse
         mov eax, dword [esi]
         mov edx, eax
         sar edx, 8
@@ -2626,7 +2626,7 @@ ShapeInfo:
         push byte 40h
         call PrintBoxedText
         add esp, byte 14h
-        call sub_CFE0C
+        call ReturnFalse
         cmp word [byte esi+04h], byte 0
         jl near .5
         mov ebx, dword [byte esi+02h]
@@ -2665,9 +2665,9 @@ ShapeInfo:
         call SetScreenTarget
         mov eax, dword [dword_15139C]
         push eax
-        call sub_E0584
+        call ClearClipRect
         add esp, byte 4
-        call sub_CFE0C
+        call ReturnFalse
         mov esi, dword [dword_15139C]
         push esi
         mov edi, dword [dword_1513A0]
@@ -2676,11 +2676,11 @@ ShapeInfo:
         add esp, byte 8
         push byte 60h
         push str_ShapeIsInvalidDraw
-        call sub_D0650
+        call DrawTextCentredBoxed
         add esp, byte 8
-        call sub_CFE0C
-        call sub_CFE0C
-        call sub_DFF7C
+        call ReturnFalse
+        call ReturnFalse
+        call FlushKeys
 .6:
         call DebugGetKey
         test eax, eax
@@ -2742,9 +2742,9 @@ DumpShapesList:
         lea eax, [byte esp+04h]
         push eax
         mov esi, dword [dword_18573C]
-        call sub_C2AEC
+        call ShowMessageBox
         add esp, byte 8
-        call sub_CFE0C
+        call ReturnFalse
         mov edx, unk_1146CC
         mov eax, esp
         call fopen_
@@ -2753,9 +2753,9 @@ DumpShapesList:
         jne short .1
         push byte 14h
         push str_ErrorDumpingShapesList
-        call sub_C2AEC
+        call ShowMessageBox
         add esp, byte 8
-        call sub_CFE0C
+        call ReturnFalse
         mov dword [dword_18573C], esi
         jmp near .7
 .1:
@@ -2830,14 +2830,14 @@ DumpShapesList:
         push esi
         mov ebp, dword [dword esp+08Ch]
         push ebp
-        call sub_BF04B
+        call ShapeBankEntryId
         add esp, byte 0Ch
         mov eax, dword [byte esp+074h]
         push esi
         mov ebp, dword [edi+eax]
         mov eax, dword [dword esp+088h]
         push eax
-        call sub_BF034
+        call ShapeBankEntry
         add esp, byte 8
         push ebp
         mov edx, eax
@@ -2939,9 +2939,9 @@ PaletteViewer:
         call SetScreenTarget
         mov eax, dword [dword_15139C]
         push eax
-        call sub_E0584
+        call ClearClipRect
         add esp, byte 4
-        call sub_CFE0C
+        call ReturnFalse
         xor eax, eax
         call PaletteViewerLabel
         push dword 0FFh
@@ -2951,7 +2951,7 @@ PaletteViewer:
         push byte 18h
         call FillRect
         add esp, byte 14h
-        call sub_CFE0C
+        call ReturnFalse
         mov edx, 19h
         xor ebx, ebx
         mov dword [dword esp+0308h], edx
@@ -2980,7 +2980,7 @@ PaletteViewer:
         mov dword [dword esp+0310h], edi
         cmp edi, 100h
         jne short .1
-        call sub_CFE0C
+        call ReturnFalse
         mov ecx, dword [dword_1513CC]
         push ecx
         push byte 21h
@@ -2993,9 +2993,9 @@ PaletteViewer:
         push edx
         mov dword [dword esp+0328h], edx
         mov dword [dword esp+0320h], ebx
-        call sub_DC780
+        call XorRectOutline
         add esp, byte 14h
-        call sub_CFE0C
+        call ReturnFalse
         xor eax, eax
         mov al, byte [esp]
         mov dword [dword esp+032Ch], eax
@@ -3229,7 +3229,7 @@ PaletteViewer:
         push ebx
         mov ecx, dword [dword esp+0310h]
         push ecx
-        call sub_DC780
+        call XorRectOutline
         add esp, byte 14h
         mov eax, dword [dword esp+031Ch]
         inc eax
@@ -3251,9 +3251,9 @@ PaletteViewer:
         push ecx
         mov eax, dword [dword esp+0324h]
         push eax
-        call sub_DC780
+        call XorRectOutline
         add esp, byte 14h
-        call sub_CFE0C
+        call ReturnFalse
         mov eax, edi
         shl eax, 4
         add eax, esi
@@ -3282,7 +3282,7 @@ PaletteViewer:
         push byte 44h
         call PrintBoxedText
         add esp, byte 14h
-        call sub_CFE0C
+        call ReturnFalse
         mov edx, dword [dword_15139C]
         push edx
         push byte 4
@@ -3295,7 +3295,7 @@ PaletteViewer:
         push dword 8Ch
         call PrintBoxedText
         add esp, byte 10h
-        call sub_CFE0C
+        call ReturnFalse
         mov ecx, dword [dword_15139C]
         push ecx
         push byte 2
@@ -3308,7 +3308,7 @@ PaletteViewer:
         push dword 0B4h
         call PrintBoxedText
         add esp, byte 10h
-        call sub_CFE0C
+        call ReturnFalse
         mov edx, dword [dword_15139C]
         push edx
         push byte 1
@@ -3321,7 +3321,7 @@ PaletteViewer:
         push dword 0DCh
         call PrintBoxedText
         add esp, byte 10h
-        call sub_CFE0C
+        call ReturnFalse
         call WaitTickDeadline
         cmp ebp, byte 1Bh
         jne near .3
@@ -3370,7 +3370,7 @@ PaletteViewerLabel:
         add esp, byte 10h
         inc edi
         add ebp, byte 0Ah
-        call sub_CFE0C
+        call ReturnFalse
         cmp esi, 139h
         jne short .1
         pop ebp
@@ -3406,9 +3406,9 @@ SaveScreenshot:
         push eax
         movsd
         movsb
-        call sub_C2AEC
+        call ShowMessageBox
         add esp, byte 8
-        call sub_CFE0C
+        call ReturnFalse
         mov eax, esp
         push eax
         call SaveDrawState
@@ -3424,7 +3424,7 @@ SaveScreenshot:
         add esp, byte 10h
         lea eax, [byte esp+060h]
         push eax
-        call sub_DC830
+        call WriteTgaScreen
         add esp, byte 4
         mov eax, esp
         push eax
@@ -3445,16 +3445,16 @@ MemViewerShowArt:
         push ebx
         push ecx
         push esi
-        call sub_ACCF8
+        call DebugClearScreen
         call SetScreenTarget
         mov eax, dword [dword_15139C]
         push eax
-        call sub_E0584
+        call ClearClipRect
         add esp, byte 4
-        call sub_CFE0C
+        call ReturnFalse
         mov edx, dword [dword_1A11DC]
         push edx
-        call sub_DCB90
+        call SelectBitmapHandle
         add esp, byte 4
         mov esi, dword [byte eax+02Ch]
         call SetScreenTarget
@@ -3471,7 +3471,7 @@ MemViewerShowArt:
         push byte 0
         push byte 0
         push esi
-        call sub_DC158
+        call DrawArtAnyFormatAt
         add esp, byte 0Ch
         jmp short .5
 .1:
@@ -3485,7 +3485,7 @@ MemViewerShowArt:
         test edx, edx
         je short .3
         push esi
-        call sub_DC17C
+        call DrawArtAnyFormatOwnPos
         jmp short .4
 .3:
         push esi
@@ -3493,11 +3493,11 @@ MemViewerShowArt:
 .4:
         add esp, byte 4
 .5:
-        call sub_CFE0C
+        call ReturnFalse
         xor esi, esi
 .6:
-        call sub_CFE0C
-        call sub_DFF7C
+        call ReturnFalse
+        call FlushKeys
 .7:
         call DebugGetKey
         test eax, eax
@@ -3612,7 +3612,7 @@ NextFreeFileName:
         add eax, byte 30h
         push edx
         mov byte [byte ebp+01h], al
-        call sub_E1970
+        call FindFirstFile
         add esp, byte 4
         test eax, eax
         je short .4
@@ -3640,8 +3640,8 @@ NextFreeFileName:
         push ebx
         push ecx
         push edx
-        call sub_CFE0C
-        call sub_DFF7C
+        call ReturnFalse
+        call FlushKeys
 .6:
         call PollHotkeys
         push eax

@@ -11,7 +11,7 @@ extern SlideInTitleBar, SoundIdle, SoundSecondsToBytes, sprintf_, str_Aal02, str
 extern str_Aar12, str_Aar22, str_Ahl02, str_Ahl12, str_Ahl22, str_Ahr02, str_Ahr12, str_Ahr22
 extern str_Bkgd24, str_HaBck0, str_HaBck1, str_Ldat, str_Pal10, str_Rk02d2, str_Rk22, str_Rul1
 extern str_Rul2, str_Rul3, str_Set0, str_Set1, str_Set2, str_Swt02, str_Swt1, str_SwtD
-extern GameOptionsScreen, DrawShapeAtOwnPos, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, CreateBitmap, sub_ADA50, FreeBitmap
+extern GameOptionsScreen, DrawShapeAtOwnPos, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, CreateBitmap, ClearScreenColour, FreeBitmap
 extern SetScreenTarget, FindShape, unk_152C44, word_11E280
 global unk_76071, DrawHomeTeamPanel, DrawHomeTeamPanel_151, DrawHomeTeamPanel_15D, DrawAwayTeamPanel, jpt_764F4, TeamSelectScreen, TeamSelectScreen_863
 global TeamSelectScreen_91E, TeamSelectScreen_9C0, TeamSelectScreen_A66, TeamSelectScreen_AFC, TeamSelectScreen_BAA, TeamSelectScreen_BB3, TeamSelectScreen_BD7, TeamSelectScreen_BE5
@@ -305,7 +305,7 @@ TeamSelectScreen:
         push byte 0
         mov dword [byte ebp+076h], eax
         mov dword [byte ebp+07Eh], eax
-        call sub_ADA50
+        call ClearScreenColour
         add esp, byte 4
         call BlackPalette
         xor eax, eax

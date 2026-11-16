@@ -27,7 +27,7 @@ extern str_LGR2, str_Menupicks, str_NOR, str_PAC, str_Pal20, str_PLR, str_PLY2, 
 extern str_PRN0, str_PRN1, str_PRN2, str_ROK, str_S2, str_SavetimeOut, str_SD2, str_SEA0
 extern str_SEA2, str_SEA3, str_Space2, str_spDDDD, str_TEA0, str_TEA1, str_TEA2, str_TXT
 extern str_VBAL, str_VERT, str_WES, str_WES0, str_Wt2, strcat_, strcmp_, strlen_
-extern PlayerCardScreen, PlayerRatingsScreen, AllocMemBlock, FreeMemBlock, CreateBitmap, TintRows, sub_AD620, FreeBitmap
+extern PlayerCardScreen, PlayerRatingsScreen, AllocMemBlock, FreeMemBlock, CreateBitmap, TintRows, TintRect, FreeBitmap
 extern DosFileInfo, DrawArtOpaqueAtOwnPos, DrawArtKeyed, SetScreenTarget, FillRectColor, FindShape, TickDeadlinePassed, unk_112633
 extern unk_11263E, unk_11266B, UpdateProgressBox, word_11D1D0, word_11E5FC, word_17E894, word_17E8C8, word_17E900
 extern word_17E934, word_17E968, word_17E99C
@@ -843,7 +843,7 @@ TeamStatsScreen:
         push eax
         push dword [byte ebp-0Eh]
         push dword 8000h
-        call sub_AD620
+        call TintRect
         add esp, byte 0Ch
         lea eax, [dword ebp-08DAh]
         push eax

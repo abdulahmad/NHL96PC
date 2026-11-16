@@ -9,11 +9,11 @@ extern str_D_ProjectPointsPersp, dword_123AC0, TextureTileSize, TexturePageBase,
 extern dword_190EA8, dword_190EAC, dword_190EB0, dword_190EB4, dword_190EB8, dword_190EBC, dword_190EC4, dword_190EC8
 extern dword_190ECC, dword_190ED0, dword_190ED4, dword_1912DC, dword_1912E0, dword_1912E4, dword_1912E8, dword_1912EC
 extern dword_1912F4, dword_1912F8, dword_1912FC, dword_191304, dword_191308, dword_19130C, dword_191310, dword_191314
-extern dword_19131C, dword_191320, dword_191A9C, dword_191AA0, dword_191AA4, strnicmp_, sub_AB834, sub_ABD64
+extern dword_19131C, dword_191320, dword_191A9C, dword_191AA0, dword_191AA4, strnicmp_, AllocMemBlockLockedAt, ResizeMemBlock
 extern FindCachedFile, unpack, UnpackedSize, NearestColour, MultiplyMatrix, DrawPolyList, FillShadedPoly, ClipAndProjectEdge
 extern DrawTexturedPolyCore, GetPalette, PolyCrossProduct, DrawMappedTriangle, DrawMappedTriangleShadow, DrawShapeTriangleMapped, DrawClippedPoly, DrawMappedPolyClipped
 extern DrawMappedStrip, DrawMappedStripShadow, DrawMappedStripDirect, DrawFlatPolyClipped, DrawFlatPolyMapped, TexSpanFill, VecLength3, NormalizeVec3
-extern FillRectColor, FindShapeQuiet, bcopy, DosOpenFile, DosCloseFile, sub_E07CC, DosSeekFile, FillPolygon
+extern FillRectColor, FindShapeQuiet, bcopy, DosOpenFile, DosCloseFile, DosReadFile, DosSeekFile, FillPolygon
 extern RemapPolygon, TransposeMatrix, unk_122320, unk_190EDC
 global TexPolyFill_2C8, ReadFileRange, LoadPackedAlloc, LoadPackedAllocQuiet, LoadPackedHandle, LoadPackedHandleQuiet, LoadPackedCore, FileSizeByName
 global SetRinkView, TransformRinkPoints, TransformRinkObject, ProjectRinkObject, FillTexturePoly, FillTexturePolyClipped, OriTriOpaque, OriTriShadow
@@ -58,7 +58,7 @@ ReadFileRange:
         lea eax, [byte esp+04h]
         push eax
         push ebp
-        call sub_E07CC
+        call DosReadFile
         add esp, byte 0Ch
         test eax, eax
         je short .4
@@ -232,7 +232,7 @@ LoadPackedCore:
         push eax
         push esi
         mov edi, eax
-        call sub_AB834
+        call AllocMemBlockLockedAt
         add esp, byte 10h
         mov esi, eax
         mov dword [byte esp+010h], eax
@@ -267,7 +267,7 @@ LoadPackedCore:
         push edi
         mov eax, dword [byte esp+08h]
         push eax
-        call sub_E07CC
+        call DosReadFile
         add esp, byte 0Ch
         push edi
         call UnpackedSize
@@ -294,7 +294,7 @@ LoadPackedCore:
         push esi
         mov edi, dword [byte esp+018h]
         push edi
-        call sub_ABD64
+        call ResizeMemBlock
         add esp, byte 0Ch
         mov ebp, dword [esp]
         push ebp

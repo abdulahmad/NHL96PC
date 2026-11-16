@@ -4,7 +4,7 @@ bits 32
 section s_7CCB8 progbits alloc exec nowrite align=1
 extern __CHP, dword_1122F8, dword_1122FC, dword_112300, dword_112304, dword_11D1A8, dword_11D1AC, PutBlock
 extern SetDrawBitmap, CalendarScreen_13D3, CalendarScreen_13E4, CalendarScreen_153A, CalendarScreen_1AC2, CalendarScreen_1B49, CalendarScreen_1B6C, DrawArt
-extern sub_AAADC, CreateBitmap, FreeBitmap, sub_B2C70, SetScreenTarget
+extern DrawArtHotspot, CreateBitmap, FreeBitmap, DrawArtOpaqueHotspot, SetScreenTarget
 global InitVScrollBar, InitVScrollBar_217, InitHScrollBar, InitHScrollBar_207, InitHScrollBar_337, ScrollBarRet, ScrollBarUp, ScrollBarDown
 global ScrollBarPageUp, ScrollBarPageUp_B, ScrollBarPageUp_14, ScrollBarPageUp_19, ScrollBarPageDown, FreeScrollBar, SetScrollBarPos, DrawScrollBar
 global ScrollBarToMouse, unk_7D4F4, unk_7D500, jpt_7D568
@@ -392,7 +392,7 @@ InitHScrollBar_207:
         mov eax, dword [byte esi+018h]
         push byte 0
         push dword [byte eax+02Ch]
-        call sub_B2C70
+        call DrawArtOpaqueHotspot
         fild dword [byte esi+024h]
         fmul dword [byte esi+01Ch]
         add esp, byte 0Ch
@@ -402,7 +402,7 @@ InitHScrollBar_207:
         fistp dword [byte ebp-04h]
         push dword [byte ebp-04h]
         push dword [dword esi+0134h]
-        call sub_AAADC
+        call DrawArtHotspot
         mov eax, dword [byte esi+04h]
         fild dword [byte esi+024h]
         add eax, byte 1Eh
@@ -593,7 +593,7 @@ DrawScrollBar:
         mov eax, dword [byte esi+018h]
         push byte 0
         push dword [byte eax+02Ch]
-        call sub_B2C70
+        call DrawArtOpaqueHotspot
         fild dword [byte esi+024h]
         fmul dword [byte esi+01Ch]
         fadd dword [dword_112300]
@@ -603,7 +603,7 @@ DrawScrollBar:
         push dword [byte ebp-04h]
         push byte 0
         push dword [dword esi+0134h]
-        call sub_AAADC
+        call DrawArtHotspot
         mov eax, dword [byte esi+04h]
         mov dword [byte esi+074h], eax
         fild dword [byte esi+024h]

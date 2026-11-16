@@ -12,7 +12,7 @@ extern str_LOGOPACK, str_LSTA, str_spPressESCToReturnToDOS, str_YouMustFirstUseT
 extern ClearSlotUsers, UserRecordsScreen, WatchHighlight, HighlightsMenu, LoadFrontEndArt, FreeFrontEndArt, RunIntro, RunCredits
 extern CopyBitmap, InitGraphicsFix, SetScreenMode, SetMenuMoveSfx, SetMenuSelectSfx, MainMenuScreen, StopMusic, FadeOutMusic
 extern TestCdSpeed, ShutdownSound, WriteGlobalSet, RunExhibitionMenus, RunControlSetup, LoadLangText, FreeLangText, GetLangText
-extern RunSeasonMenus, RunStatsMenu, RunModemGameSetup, RunPlayoffMenus, AllocMemBlock, FreeMemBlock, sub_AC868, sub_ADA50
+extern RunSeasonMenus, RunStatsMenu, RunModemGameSetup, RunPlayoffMenus, AllocMemBlock, FreeMemBlock, MemLargestFreeOfList, ClearScreenColour
 extern UnpackTo, TextSetColor, SetupMemoryPool, NumLockOff, InstallHotkeys, NearestColour, CreateAaPalLut, SetScreenTarget
 extern SetTextMode, SetPaletteEntries8, ReadPaletteEntries8, InitMouse, InstallKeyboardHandler, KbdGetKey, AddExitHandler, FindShape
 extern bcopy, InstallBreakHandler, TextSetFont, unk_110351, unk_110355, unk_11041A, unk_11048D, DataDirPath
@@ -228,11 +228,11 @@ CheckFreeMemory:
         push edx
         push esi
         push dword 220h
-        call sub_AC868
+        call MemLargestFreeOfList
         add esp, byte 4
         push byte 0
         mov esi, eax
-        call sub_AC868
+        call MemLargestFreeOfList
         add esp, byte 4
         add esi, eax
         cmp eax, 4CE1A4h
@@ -367,7 +367,7 @@ InitHardware:
         call SetupMemoryPool
         add esp, byte 0Ch
         push byte 0
-        call sub_AC868
+        call MemLargestFreeOfList
         add esp, byte 4
         push byte 0
         lea edi, [byte eax-0Ah]
@@ -384,7 +384,7 @@ InitHardware:
         call FreeMemBlock
         add esp, byte 4
         push dword 220h
-        call sub_AC868
+        call MemLargestFreeOfList
         add esp, byte 4
         push dword 220h
         lea edi, [byte eax-0Ah]
@@ -468,7 +468,7 @@ StartUp:
         push byte 0
         mov dword [DebugMode], 0
         mov dword [dword_11F61C], 0
-        call sub_ADA50
+        call ClearScreenColour
         add esp, byte 4
         call InitInputDevices
         call ReadGlobalSet

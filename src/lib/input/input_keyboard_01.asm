@@ -6,7 +6,7 @@ extern byte_11F668, KeyStateTable, byte_11F68D, KbdCtrlDown, KbdAltDown, KbdNumL
 extern byte_11F714, byte_11F76F, byte_11F7CA, byte_11F825, byte_11F880, str_Punct_DrawRinkSurface, dword_11F61C, KeyBuffer
 extern KeyBufferHead, KeyBufferTail, KeyBufferMask, SavedKbdVecOffset, SavedInt16Offset, SavedRealKbdOffset, dword_11F994, BiosKeyFunc
 extern RestoreDS, PrintScreenInt, DosSetVector, SavedKbdVecSelector, SavedInt16Selector, SavedRealKbdSegment, KbdDataSelector
-global RemoveKeyboardHandler_6F, RemoveKeyboardHandler, Int16Handler, Int16Service, sub_DFE9C, BiosKeyCall, unk_DFDDD
+global RemoveKeyboardHandler_6F, RemoveKeyboardHandler, Int16Handler, Int16Service, KeyIsDown, BiosKeyCall, unk_DFDDD
 ;-----------------------------------------------------------------------------
 ; RemoveKeyboardHandler                           DFC33  96 PC, low confidence
 ; Keyboard: restores the original keyboard interrupt
@@ -244,9 +244,10 @@ Int16Service:
         LD or, eax, eax
         ret
 ;-----------------------------------------------------------------------------
-; sub_DFE9C                                                            DFE9C  
+; KeyIsDown                                    DFE9C  96 PC, medium confidence
+; Returns whether a key is held down, from the key state table
 ;-----------------------------------------------------------------------------
-sub_DFE9C:
+KeyIsDown:
         push ebp
         LD mov, ebp, esp
         mov ebx, dword [byte ebp+08h]

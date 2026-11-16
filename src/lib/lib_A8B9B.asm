@@ -14,11 +14,12 @@ extern RunMenu, GetLangText, MakeSeasonDbPath, MakePlayoffDbPath, FreeMemBlock, 
 extern DrawArtOpaqueAtOwnPos, DrawArtKeyedAtOrigin, PutBlockKeyed, ErrnoPtr, SetColourRemap, FindShape, unk_17CED5, unk_184B78
 extern unk_184BB4, unk_184BF0, unk_184C2C, unk_184C68, unk_184CA4, unk_184D1C, unk_184D58, unk_184E48
 extern unk_184F48, unk_184F77, unk_185292
-global _searchenv_, sub_A8C81_555, sub_A8B9B, sub_A8C75, sub_A8C81, sub_A91DD, sub_A9BAC
+global _searchenv_, BuildPlayoffLeaders_555, SaveLeagueDb, PlayoffWinsNeeded, BuildPlayoffLeaders, ShowPlayoffLeaderCard, PlayoffLeadersScreens
 ;-----------------------------------------------------------------------------
-; sub_A8B9B                                                            A8B9B  
+; SaveLeagueDb                                    A8B9B  96 PC, low confidence
+; Saves the season or playoff database files
 ;-----------------------------------------------------------------------------
-sub_A8B9B:
+SaveLeagueDb:
         push ebx
         push ecx
         push edx
@@ -89,18 +90,20 @@ sub_A8B9B:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_A8C75                                                            A8C75  
+; PlayoffWinsNeeded                               A8C75  96 PC, low confidence
+; Returns the wins a playoff series needs from the series length option
 ;-----------------------------------------------------------------------------
-sub_A8C75:
+PlayoffWinsNeeded:
         mov eax, dword [dword_17CF8E]
         and eax, byte 7
         shr eax, 1
         inc eax
         ret
 ;-----------------------------------------------------------------------------
-; sub_A8C81                                                            A8C81  
+; BuildPlayoffLeaders                             A8C81  96 PC, low confidence
+; Builds the playoff stat leader lists
 ;-----------------------------------------------------------------------------
-sub_A8C81:
+BuildPlayoffLeaders:
         push ebx
         push ecx
         push edx
@@ -518,7 +521,7 @@ sub_A8C81:
         jl near .1
         mov eax, dword [byte ebp+072h]
         lea esp, [dword ebp+08Ah]
-sub_A8C81_555:
+BuildPlayoffLeaders_555:
         pop ebp
         pop edi
         pop esi
@@ -527,9 +530,10 @@ sub_A8C81_555:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_A91DD                                                            A91DD  
+; ShowPlayoffLeaderCard                           A91DD  96 PC, low confidence
+; Shows the player card screen of one playoff stat leader
 ;-----------------------------------------------------------------------------
-sub_A91DD:
+ShowPlayoffLeaderCard:
         push ebx
         push ecx
         push edx
@@ -1230,13 +1234,14 @@ sub_A91DD:
         add esp, byte 4
         mov eax, dword [byte ebp+06Eh]
         lea esp, [dword ebp+082h]
-        jmp near sub_A8C81_555
+        jmp near BuildPlayoffLeaders_555
 ;-----------------------------------------------------------------------------
-; sub_A9BAC                                                            A9BAC  
+; PlayoffLeadersScreens                           A9BAC  96 PC, low confidence
+; Builds the playoff leaders and shows each category's card until one is left
 ;-----------------------------------------------------------------------------
-sub_A9BAC:
+PlayoffLeadersScreens:
         push edx
-        call sub_A8C81
+        call BuildPlayoffLeaders
         xor edx, edx
         jmp short .2
 .1:
@@ -1245,7 +1250,7 @@ sub_A9BAC:
         cmp edx, byte 0Dh
         jge short .3
         mov eax, edx
-        call sub_A91DD
+        call ShowPlayoffLeaderCard
         test eax, eax
         jne short .1
 .3:

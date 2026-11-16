@@ -4,7 +4,7 @@ bits 32
 section s_D7BB2 progbits alloc exec nowrite align=1
 extern __EnterWVIDEO_, _nfree_, _nmalloc_, _Envptr, _environ, ___env_mask, memset_, strtod_
 extern WriteConsoleMessage, _Envptr_w4
-global __cnvs2d_, __exit_with_msg_, __fatal_runtime_error_, __setenvp_, forcedecpt_, sub_D7D44
+global __cnvs2d_, __exit_with_msg_, __fatal_runtime_error_, __setenvp_, forcedecpt_, PutBytesLE
 ;-----------------------------------------------------------------------------
 ; forcedecpt_                                                   D7BB2  library
 ;-----------------------------------------------------------------------------
@@ -229,9 +229,10 @@ __fatal_runtime_error_:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_D7D44                                                            D7D44  
+; PutBytesLE                                      D7D44  96 PC, low confidence
+; Stores n bytes of a value, low byte first
 ;-----------------------------------------------------------------------------
-sub_D7D44:
+PutBytesLE:
         sub esp, byte 4
         mov ebx, dword [byte esp+0Ch]
         mov edx, dword [byte esp+010h]

@@ -27,7 +27,7 @@ extern PtrPuckObject, passplayer, penshotlive, penshotmode, penshotstart, puckc,
 extern QueueOverlayPanel, qword_111084, qword_11108C, qword_111094, qword_11109C, qword_1110A4, qword_1110AC, qword_1110B4
 extern qword_1110BC, rand_, seed, seed_w2, SetClipWindow, SetDrawBitmap, sflags, SortCords
 extern str_Priority2, AddIceCrud, SetRinkClipWindow, AllocMemBlock, FreeMemBlock, AngleOfVector, TransformVector, MakeRotYMatrix
-extern BuildPerspTable, sub_DFE9C, KbdGetKey, sub_E0584, SetViewScreenOrigin, SetCameraAngles, unk_11B673, unk_11B6B8
+extern BuildPerspTable, KeyIsDown, KbdGetKey, ClearClipRect, SetViewScreenOrigin, SetCameraAngles, unk_11B673, unk_11B6B8
 extern unk_11B6FD, unk_11B811, unk_11B856, unk_11B89B, unk_11B8E0, unk_11B925, unk_11B96A, unk_11B9AF
 extern unk_16443C, unk_1781E4, unk_179CCC, unk_179CE4, unk_179CFC, unk_179D14, unk_179D2C, unk_179E02
 extern unk_5D549, unk_5D555, unk_5D561, unk_5D56D, unk_5D579, unk_5D585, unk_5D591, unk_5D591_84
@@ -3724,7 +3724,7 @@ SetGameViewSize:
         add esp, byte 4
         call FullViewClip
         push byte 0
-        call sub_E0584
+        call ClearClipRect
         mov eax, dword [dword_11B32C]
         add esp, byte 4
         add eax, dword [dword_11B31C]
@@ -3761,7 +3761,7 @@ ReadHotKeys:
         push esi
         push edi
         push byte 1Dh
-        call sub_DFE9C
+        call KeyIsDown
         add esp, byte 4
         test ax, ax
         je near .9
@@ -3769,7 +3769,7 @@ ReadHotKeys:
         cmp eax, dword [dword_11BAE8]
         jle near .9
         push byte 2
-        call sub_DFE9C
+        call KeyIsDown
         add esp, byte 4
         test eax, eax
         je short .1
@@ -3788,7 +3788,7 @@ ReadHotKeys:
         mov dword [dword_11BAEC], eax
 .1:
         push byte 3
-        call sub_DFE9C
+        call KeyIsDown
         add esp, byte 4
         test eax, eax
         je short .2
@@ -3809,7 +3809,7 @@ ReadHotKeys:
         mov dword [dword_11BAF0], eax
 .2:
         push byte 4
-        call sub_DFE9C
+        call KeyIsDown
         add esp, byte 4
         test eax, eax
         je short .3
@@ -3831,7 +3831,7 @@ ReadHotKeys:
         mov dword [dword_11BAF4], eax
 .3:
         push byte 5
-        call sub_DFE9C
+        call KeyIsDown
         add esp, byte 4
         test eax, eax
         je short .4
@@ -3853,7 +3853,7 @@ ReadHotKeys:
         mov dword [dword_11BAF8], eax
 .4:
         push byte 6
-        call sub_DFE9C
+        call KeyIsDown
         add esp, byte 4
         test eax, eax
         je short .5
@@ -3875,7 +3875,7 @@ ReadHotKeys:
         mov dword [dword_11BAFC], eax
 .5:
         push byte 7
-        call sub_DFE9C
+        call KeyIsDown
         add esp, byte 4
         test eax, eax
         je short .6
@@ -3897,7 +3897,7 @@ ReadHotKeys:
         mov dword [dword_11BB00], eax
 .6:
         push byte 8
-        call sub_DFE9C
+        call KeyIsDown
         add esp, byte 4
         test eax, eax
         je short .7
@@ -3919,7 +3919,7 @@ ReadHotKeys:
         mov dword [dword_11BB04], eax
 .7:
         push byte 9
-        call sub_DFE9C
+        call KeyIsDown
         add esp, byte 4
         test eax, eax
         je short .8
@@ -3941,7 +3941,7 @@ ReadHotKeys:
         mov dword [dword_11BB08], eax
 .8:
         push byte 0Ah
-        call sub_DFE9C
+        call KeyIsDown
         add esp, byte 4
         test eax, eax
         je short .9

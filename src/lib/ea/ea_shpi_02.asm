@@ -2,13 +2,14 @@
 bits 32
 %include "hockey.inc"
 section s_D0360 progbits alloc exec nowrite align=1
-extern str_SHPI2, ClipTopRow, ClipRight, fputchar, strncpy_, DosFileInfo, DrawTextBoxedAt, sub_D7D44
+extern str_SHPI2, ClipTopRow, ClipRight, TextStringWidth, strncpy_, DosFileInfo, DrawTextBoxedAt, PutBytesLE
 extern bcopy
-global sub_D0360, sub_D0440, sub_D0640, sub_D0650
+global SplitFileExt, ConvertShapeBank, ConvertShapeBankInPlace, DrawTextCentredBoxed
 ;-----------------------------------------------------------------------------
-; sub_D0360                                                            D0360  
+; SplitFileExt                                    D0360  96 PC, low confidence
+; Copies a file name and returns its extension
 ;-----------------------------------------------------------------------------
-sub_D0360:
+SplitFileExt:
         push esi
         push edi
         push ebp
@@ -129,9 +130,10 @@ sub_D0360:
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_D0440                                                            D0440  
+; ConvertShapeBank                                D0440  96 PC, low confidence
+; Converts a shape bank from its file layout to the layout in memory
 ;-----------------------------------------------------------------------------
-sub_D0440:
+ConvertShapeBank:
         push esi
         push edi
         push ebp
@@ -169,14 +171,14 @@ sub_D0440:
         push ecx
         add eax, byte 4
         push eax
-        call sub_D7D44
+        call PutBytesLE
         add esp, byte 0Ch
         push byte 4
         mov eax, dword [byte esp+044h]
         push esi
         add eax, byte 8
         push eax
-        call sub_D7D44
+        call PutBytesLE
         add esp, byte 0Ch
         lea eax, [byte ebp-06h]
         lea edi, [nosplit esi*8+00h]
@@ -225,13 +227,13 @@ sub_D0440:
         push eax
         mov edx, dword [byte esp+030h]
         push edx
-        call sub_D7D44
+        call PutBytesLE
         add esp, byte 0Ch
         push byte 4
         push esi
         mov ebx, dword [byte esp+024h]
         push ebx
-        call sub_D7D44
+        call PutBytesLE
         add esp, byte 0Ch
         push byte 10h
         lea eax, [byte esp+04h]
@@ -296,19 +298,21 @@ sub_D0440:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_D0640                                                            D0640  
+; ConvertShapeBankInPlace                         D0640  96 PC, low confidence
+; Converts a loaded shape bank in place
 ;-----------------------------------------------------------------------------
-sub_D0640:
+ConvertShapeBankInPlace:
         push byte 0
         mov edx, dword [byte esp+08h]
         push edx
-        call sub_D0440
+        call ConvertShapeBank
         add esp, byte 8
         ret
 ;-----------------------------------------------------------------------------
-; sub_D0650                                                            D0650  
+; DrawTextCentredBoxed                            D0650  96 PC, low confidence
+; Draws a boxed string centred across the clip rectangle
 ;-----------------------------------------------------------------------------
-sub_D0650:
+DrawTextCentredBoxed:
         push esi
         push edi
         mov ebx, dword [byte esp+0Ch]
@@ -316,7 +320,7 @@ sub_D0650:
         mov edx, dword [ClipTopRow]
         push ebx
         sub esi, edx
-        call fputchar
+        call TextStringWidth
         sub esi, eax
         mov ecx, dword [ClipTopRow]
         mov eax, esi

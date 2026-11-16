@@ -4532,7 +4532,7 @@ pucknorm_body:
 ;-----------------------------------------------------------------------------
 ; pucknorm                           348C9  94G logic94.asm, medium confidence
 ; Slot $18; head identical to 93G pucknorm: bclr pfna; clr temp1(+26h);
-; temp2(+28h)=$78; then calls the body sub_4D6B4
+; temp2(+28h)=$78; then calls pucknorm_body
 ;-----------------------------------------------------------------------------
 pucknorm:
         push edx

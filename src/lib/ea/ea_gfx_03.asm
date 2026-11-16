@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_B2B30 progbits alloc exec nowrite align=1
 extern RowCopyFunc, ScreenWidth, KeyedDraw, dword_1228FC, dword_122930, VesaSetBank, BlitArtOpaque
-global DrawArtOpaque, DrawArtOpaqueAtOwnPos, sub_B2C70
+global DrawArtOpaque, DrawArtOpaqueAtOwnPos, DrawArtOpaqueHotspot
 ;-----------------------------------------------------------------------------
 ; DrawArtOpaque                                B2B30  95 PC, medium confidence
 ;-----------------------------------------------------------------------------
@@ -124,9 +124,10 @@ DrawArtOpaqueAtOwnPos:
         add esp, byte 0Ch
         ret
 ;-----------------------------------------------------------------------------
-; sub_B2C70                                                            B2C70  
+; DrawArtOpaqueHotspot                            B2C70  96 PC, low confidence
+; Draws art opaque with its hotspot at x, y
 ;-----------------------------------------------------------------------------
-sub_B2C70:
+DrawArtOpaqueHotspot:
         mov edx, dword [byte esp+04h]
         mov eax, dword [byte edx+08h]
         mov ebx, dword [byte esp+0Ch]

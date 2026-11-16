@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_D79CC progbits alloc exec nowrite align=1
 extern _FtoS_, ColourRemap, dword_1228F0, DrawDestBuffer, dword_1228FC, forcedecpt_, SbIsrPicPort, SbIsrAckPort
-global _EFG_Format_, SbProIsr, Sb16Isr, sub_D7A44_34, SbIsrAutoInit, sub_D7A44, SbProIsrPicPort, SbProIsrAckPort
+global _EFG_Format_, SbProIsr, Sb16Isr, BlitBlockRemapKeyed_34, SbIsrAutoInit, BlitBlockRemapKeyed, SbProIsrPicPort, SbProIsrAckPort
 global Sb16IsrPicPort, Sb16IsrAckPort
 ;-----------------------------------------------------------------------------
 ; SbIsrAutoInit                                D79CC  96 PC, medium confidence
@@ -79,11 +79,12 @@ Sb16Isr:
         sub ax, word [byte esi+0Ah]
         cwde
         db 089h,045h,0F8h                       ; insn: mov [ebp-8],eax
-        db 0EBh, sub_D7A44_34-($+2)
+        db 0EBh, BlitBlockRemapKeyed_34-($+2)
 ;-----------------------------------------------------------------------------
-; sub_D7A44                                                            D7A44  
+; BlitBlockRemapKeyed                             D7A44  96 PC, low confidence
+; Draws a block through the colour remap at x, y, clipped
 ;-----------------------------------------------------------------------------
-sub_D7A44:
+BlitBlockRemapKeyed:
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFECh
@@ -95,7 +96,7 @@ sub_D7A44:
         mov dword [byte ebp-04h], eax
         mov eax, dword [byte ebp+010h]
         mov dword [byte ebp-08h], eax
-        jmp short sub_D7A44_34
+        jmp short BlitBlockRemapKeyed_34
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFECh
@@ -107,7 +108,7 @@ sub_D7A44:
         mov dword [byte ebp-04h], eax
         movsx eax, word [byte esi+0Eh]
         mov dword [byte ebp-08h], eax
-sub_D7A44_34:
+BlitBlockRemapKeyed_34:
         mov ebx, dword [byte ebp-08h]
         shl ebx, 2
         add ebx, dword [DrawDestBuffer]

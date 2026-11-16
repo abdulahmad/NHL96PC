@@ -3,8 +3,13 @@ bits 32
 %include "hockey.inc"
 section s_E1970 progbits alloc exec nowrite align=1
 extern dword_124084, unk_124020, unk_124088, unk_1240A6
-global sub_E1970
-sub_E1970:
+global FindFirstFile
+;-----------------------------------------------------------------------------
+; FindFirstFile                                   E1970  96 PC, low confidence
+; Finds the first file matching a pattern and keeps its name for the next
+; search
+;-----------------------------------------------------------------------------
+FindFirstFile:
         push ebp
         LD mov, ebp, esp
         push esi

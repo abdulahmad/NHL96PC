@@ -8,15 +8,15 @@ extern dword_114D3A, dword_114D9A, dword_114D9E, dword_114DA2, dword_114DA6, dwo
 extern dword_114DB6, dword_114DBA, dword_114DCA, dword_115008, dword_1150D4, dword_11BCE4, dword_11F5C0, dword_11F5C4
 extern dword_1515B7, dword_1515BE, dword_1515C5, dword_1515CC, dword_15199C, dword_1519B4, dword_1519B8, dword_1519BC
 extern dword_1519FC, dword_151A00, dword_151A40, dword_151A80, dword_151A84, dword_151A88, dword_151A8C, dword_151A90
-extern dword_151AD0, dword_151AD5, dword_151ADE, dword_15291C, dword_17C9AA, dword_17C9F4, FillRect, fputchar
+extern dword_151AD0, dword_151AD5, dword_151ADE, dword_15291C, dword_17C9AA, dword_17C9F4, FillRect, TextStringWidth
 extern GameLoopActive, GetTicks, InputRecordCount, InputRecordHead, InputRecordRing, LinkClose, LinkConnect, LinkCopyBytes
 extern LinkOpen, LinkSendMessage, LinkTimerTick, optblock_end, optflags, SetClipWindow, SetDrawBitmap, SetLinkAbortCheck
 extern SetLinkMessageHandler, SetLinkSpareHook, SlotButtons, str_ABORT, str_HFwt, str_HGwt, str_LGwt, str_PAL22
 extern str_SHAD, str_X3, strcpy_, MessageBox, HideMessage, ShowMessage, CopyBitmap, SetTextColors
 extern DrawColorText, DrawColorTextCentred, DrawBox, StopMusic, QueueCurrentMusic, FillMusicStream, PlayMusic, FadeOutMusic
 extern SoundSecondsToBytes, SoundIdle, GetLangText, RemoveTimerCallback, DrawShapeAtOwnPos, DrawShape, PutBlockAtOwnPos, AllocMemBlock
-extern FreeMemBlock, CreateBitmap, sub_AD620, sub_ADA80, FreeBitmap, SetScreenTarget, GetPaletteRange, FillRectColor
-extern sub_DFE9C, KbdGetKey, FindShape, unk_114CE6, unk_114D46, unk_114D6E, unk_15179C, unk_1519C0
+extern FreeMemBlock, CreateBitmap, TintRect, DrawRectOutline, FreeBitmap, SetScreenTarget, GetPaletteRange, FillRectColor
+extern KeyIsDown, KbdGetKey, FindShape, unk_114CE6, unk_114D46, unk_114D6E, unk_15179C, unk_1519C0
 extern unk_151A04, unk_151A44, unk_151A94, unk_151ADC, unk_17C9B8, unk_17C9CC, unk_17D272, word_114CE0
 extern word_114CE4, word_114DBE, word_114DC0, word_151AE0, word_151AE2, word_17C9AC, word_17C9B0, word_17C9B2
 global ModemGameOpen, LinkBlockStart, LinkBlockData, LinkSendBlock, LinkReceiveBlock, LinkSyncMessage, LinkGameMessage, jpt_1278E
@@ -1856,7 +1856,7 @@ ModemChat:
         mov eax, dword [byte ebp-028h]
         push eax
         push dword 851Eh
-        call sub_AD620
+        call TintRect
         add esp, byte 0Ch
         mov eax, dword [byte ebp-02Ch]
         push eax
@@ -1964,7 +1964,7 @@ ModemChat:
         mov eax, dword [byte ebp-044h]
         inc eax
         push eax
-        call sub_ADA80
+        call DrawRectOutline
         add esp, byte 14h
         movsx eax, word [byte ebp-0Ch]
         push eax
@@ -2020,12 +2020,12 @@ ModemChat:
         mov dword [dword_151A84], eax
 .3:
         push byte 1Ch
-        call sub_DFE9C
+        call KeyIsDown
         add esp, byte 4
         test eax, eax
         jne short .4
         push byte 1
-        call sub_DFE9C
+        call KeyIsDown
         add esp, byte 4
         test eax, eax
         je short .5
@@ -2063,7 +2063,7 @@ ModemChat:
         push eax
         mov eax, str_X3
         push eax
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         push eax
         mov eax, dword [byte ebp-040h]
@@ -2083,7 +2083,7 @@ ModemChat:
         push eax
         mov eax, str_X3
         push eax
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         push eax
         mov eax, dword [byte ebp-040h]
@@ -2169,7 +2169,7 @@ ModemChat:
         lea esi, [edx+eax]
         mov eax, str_X3
         push eax
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         add eax, esi
         inc eax
@@ -2201,7 +2201,7 @@ ModemChat:
         push eax
         mov eax, str_X3
         push eax
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         push eax
         mov edx, dword [byte ebp-040h]
@@ -2236,7 +2236,7 @@ ModemChat:
         call DrawColorText
         lea eax, [byte ebp-04h]
         push eax
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         add word [byte ebp-05Ch], ax
 .17:
@@ -2245,7 +2245,7 @@ ModemChat:
         je short .18
         mov eax, str_X3
         push eax
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         movsx edx, word [byte ebp-05Ch]
         add edx, eax
@@ -2408,7 +2408,7 @@ ModemChat:
         push eax
         mov eax, str_X3
         push eax
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         push eax
         mov eax, dword [byte ebp-040h]
@@ -2429,7 +2429,7 @@ ModemChat:
         jmp near .28
 .26:
         push byte 1
-        call sub_DFE9C
+        call KeyIsDown
         add esp, byte 4
         test eax, eax
         je short .27
@@ -2574,7 +2574,7 @@ ModemChat:
         lea esi, [edx+eax]
         mov eax, str_X3
         push eax
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         add eax, esi
         inc eax
@@ -2606,7 +2606,7 @@ ModemChat:
         push eax
         mov eax, str_X3
         push eax
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         push eax
         mov edx, dword [byte ebp-040h]
@@ -2641,7 +2641,7 @@ ModemChat:
         call DrawColorText
         lea eax, [byte ebp-04h]
         push eax
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         add word [byte ebp-05Ah], ax
 .44:
@@ -2651,7 +2651,7 @@ ModemChat:
         movsx esi, word [byte ebp-05Ah]
         mov eax, str_X3
         push eax
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         add esi, eax
         mov eax, dword [byte ebp-04Ch]
@@ -2813,7 +2813,7 @@ ModemChat:
         push eax
         mov eax, str_X3
         push eax
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         push eax
         mov eax, dword [byte ebp-040h]

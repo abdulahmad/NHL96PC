@@ -26,7 +26,7 @@ extern dword_1798F8, dword_1798FC, dword_179900, dword_179904, dword_179908, dwo
 extern dword_179918, dword_179920, dword_179924, dword_179928, dword_17992C, dword_179930, dword_179934, dword_179978
 extern dword_17997C, dword_179A7C, dword_179AC8, dword_179C88, dword_179C8C, dword_179C90, dword_179DCE, dword_179E0B
 extern dword_179E0F, dword_179E13, dword_179E17, dword_179E1B, dword_17BA4C, dword_17BA50, dword_17BA54, dword_17CA5C
-extern dword_17D528, FillRect, FormatPlayerName, fputchar, gameclock, gameopts, GetLowestPen, GetSpecialTeamsRanks
+extern dword_17D528, FillRect, FormatPlayerName, TextStringWidth, gameclock, gameopts, GetLowestPen, GetSpecialTeamsRanks
 extern gmode, gmode2, gsp, hmroster, hmtmstruct, lcboxon, lcline, lineuptime
 extern LoadPackedFile, LoadTeamLogo, MouseRead, mousex, mousey, PtrPuckFlags, off_11B278, optflags
 extern puckc, puckz, rand_, SetClipWindow, SetViewRect, SortCords, SortIndices, sprintf_
@@ -39,11 +39,11 @@ extern DrawWholeRink, BeginShadowDraw, DrawShadowSpriteAt, DrawOverlayPanels, Pl
 extern DrawDirtyZones, ZoneRect, AddZone, CopyZonesToScreen, SetCameraShot, ResetCameraShake, SetGameViewSize, SaveTeamPalette
 extern SetPlayerSpriteColors, SetRinkSpriteColors, LoadGameSprites, GetSpriteFrame, SpriteScale, DrawText, DrawTextCentred, SetTextColors
 extern DrawColorText, DrawColorTextRight, DrawColorTextCentred, FillBox, DrawPauseFrame, GetLangText, BuildAntiAliasTable, DrawArt
-extern sub_AAADC, AllocMemBlock, FreeMemBlock, CreateBitmap, sub_AD620, TextSetColor, FreeColourLookup, CreateColourLookup
+extern DrawArtHotspot, AllocMemBlock, FreeMemBlock, CreateBitmap, TintRect, TextSetColor, FreeColourLookup, CreateColourLookup
 extern SetAaPalLut, DrawArtAaScaledInt, DrawArtAaScaled, ProjectPointList, DrawFlatPoly, DrawPolyOutline, DrawArtScaledHotspot, MultiplyMatrix
 extern SetScreenScale, OriSetObjectMatrix, OriSetObjectPosition, MakeRotXMatrix, MakeRotYMatrix, MakeRotZMatrix, OriFindGroup, InitReciprocalTable
 extern FixedInverse, IntSqrt, DrawArtScaledRemap, FlipArtHorizontal, SetScreenTarget, SetRemapTable, SetColourRemap, SetBlitSource
-extern SetBlendTables, ScaleRowBlend, sub_E0486, FindShape, sub_E0584, SetNearClipZ, SetViewScreenOrigin, TeamLineEnergy
+extern SetBlendTables, ScaleRowBlend, JoyButtonMap, FindShape, ClearClipRect, SetNearClipZ, SetViewScreenOrigin, TeamLineEnergy
 extern TextSetFont, unk_111024, unk_11B2AC, unk_122320, unk_157FDA, unk_157FF8, unk_1582F5, unk_158313
 extern unk_16443C, unk_1782AC, unk_1786AC, unk_178AAC, unk_1798C0, unk_179980, unk_179AC0, unk_179BBC
 extern unk_17B248, unk_17B518, unk_17B830, unk_17B930, unk_17D3E8, unk_58468, unk_5848C, vtoa
@@ -58,8 +58,8 @@ global DrawPuckSprite, SpinPuckModel, PlaceGoalNets, PlaceGoalNets_65, PlaceGoal
 global DrawPlayers, DrawPlayerMarkers, DrawRinkView, DrawGameFrame, DrawPanelLogo, OpenOverlayPanel, DrawOverlayCaption, DrawOverlayCaption_D7
 global DrawOverlayCaption_DC, DrawOverlayCaption_E1, ResetGameOverlays, DrawTimedPanel, DrawGameClock, DrawPenaltyClock, DrawPowerPlayPanel, DrawPlayerPctPanel
 global DrawClockPanel, DrawTimeLeftPanel, jpt_5BD6D, GetPeriodText, GetPeriodText_1F, GetPeriodText_3C, GetPeriodText_59, GetPeriodText_86
-global jpt_5BE45, DrawScorePanel, DrawScorePanel_689, DrawScorePanel_690, DrawScorePanel_697, DrawScorePanel_69E, sub_5C55F, DrawPlayerNamePanel
-global sub_5C7E2, sub_5CA5B, QueueOverlayPanel, DrawGameOverlays, DrawLineEnergyBar, DrawLineChangeBox, DrawLineChangeBoxes, unk_5D549
+global jpt_5BE45, DrawScorePanel, DrawScorePanel_689, DrawScorePanel_690, DrawScorePanel_697, DrawScorePanel_69E, DrawEventPanel, DrawPlayerNamePanel
+global DrawPenaltyEventPanel, DrawGoalEventPanel, QueueOverlayPanel, DrawGameOverlays, DrawLineEnergyBar, DrawLineChangeBox, DrawLineChangeBoxes, unk_5D549
 global unk_5D555, unk_5D561, unk_5D56D, unk_5D579, unk_5D585, unk_5D591, unk_5D591_84, unk_5D639
 global unk_5D65D, unk_5D681
 ;-----------------------------------------------------------------------------
@@ -733,7 +733,7 @@ InitGameView:
         call SetClipWindow
         add esp, byte 10h
         push byte 0
-        call sub_E0584
+        call ClearClipRect
         add esp, byte 4
         push byte 50h
         call SetNearClipZ
@@ -965,7 +965,7 @@ InitGameView:
         push unk_17D3E8
         push unk_16443C
         push dword 0A666h
-        call sub_AD620
+        call TintRect
         add esp, byte 0Ch
         test byte [byte_17CA5D], 20h
         je short .12
@@ -1488,7 +1488,7 @@ DrawControlMarker_41:
         cmp dword [dword eax+dword_179AC8], byte 50h
         jg short .4
         push byte 2
-        call sub_E0486
+        call JoyButtonMap
         mov edx, dword [byte ebp-010h]
         shl edx, 4
         movsx eax, word [dword edx+eax*2+word_119127]
@@ -1565,7 +1565,7 @@ DrawControlMarker_41:
         cmp dword [byte ebp-04h], byte 0
         je near .16
         push dword [byte ebp-04h]
-        call sub_E0486
+        call JoyButtonMap
         mov edx, dword [byte ebp-010h]
         shl edx, 4
         movsx eax, word [dword edx+eax*2+word_119127]
@@ -2986,7 +2986,7 @@ DrawGameFrame:
         push dword [byte ebp+076h]
         push dword [byte ebp+07Eh]
         push dword [nosplit esi*4+dword_152FEC]
-        call sub_AAADC
+        call DrawArtHotspot
         add esp, byte 0Ch
         push dword [nosplit esi*4+dword_152FEC]
         call FlipArtHorizontal
@@ -2996,7 +2996,7 @@ DrawGameFrame:
         push dword [byte ebp+076h]
         push dword [byte ebp+07Eh]
         push dword [nosplit esi*4+dword_152FEC]
-        call sub_AAADC
+        call DrawArtHotspot
         add esp, byte 0Ch
 .31:
         push dword [dword_11F5C4]
@@ -3313,7 +3313,7 @@ DrawOverlayCaption:
         call GetLangText
         push eax
         sar esi, cl
-        call fputchar
+        call TextStringWidth
         add edi, esi
         mov cl, byte [byte_1798A4]
         add eax, byte 6
@@ -3446,7 +3446,7 @@ DrawTimedPanel:
         mov cl, byte [byte_1798A4]
         push dword [byte ebp-010h]
         sar edi, cl
-        call fputchar
+        call TextStringWidth
         mov cl, byte [byte_1798A4]
         sub edi, eax
         mov eax, dword [byte ebp-014h]
@@ -3456,7 +3456,7 @@ DrawTimedPanel:
         shr eax, 10h
         push dword [byte ebp-010h]
         add esi, eax
-        call fputchar
+        call TextStringWidth
         mov cl, byte [byte_1798A4]
         add eax, byte 6
         mov edx, dword [dword_17992C]
@@ -4252,7 +4252,7 @@ DrawTimeLeftPanel:
         mov cl, byte [byte_1798A4]
         push eax
         sar esi, cl
-        call fputchar
+        call TextStringWidth
         mov cl, byte [byte_1798A4]
         add esp, byte 4
         add eax, esi
@@ -5036,9 +5036,10 @@ DrawScorePanel_69E:
         mov dword [dword_11B2E8], 1
         jmp near InitGameView_709
 ;-----------------------------------------------------------------------------
-; sub_5C55F                                                       5C55F  96 PC
+; DrawEventPanel                                  5C55F  96 PC, low confidence
+; Draws the game event caption panel
 ;-----------------------------------------------------------------------------
-sub_5C55F:
+DrawEventPanel:
         push ebx
         push ecx
         push edx
@@ -5212,9 +5213,10 @@ DrawPlayerNamePanel:
         mov dword [dword_11B23C], 1F40h
         jmp near DrawOverlayCaption_E1
 ;-----------------------------------------------------------------------------
-; sub_5C7E2                                                       5C7E2  96 PC
+; DrawPenaltyEventPanel                           5C7E2  96 PC, low confidence
+; Draws the penalty caption panel (minor, major, misconduct)
 ;-----------------------------------------------------------------------------
-sub_5C7E2:
+DrawPenaltyEventPanel:
         push ebx
         push ecx
         push edx
@@ -5384,9 +5386,10 @@ sub_5C7E2:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_5CA5B                                                       5CA5B  96 PC
+; DrawGoalEventPanel                              5CA5B  96 PC, low confidence
+; Draws the goal caption panel with the scorer and assists
 ;-----------------------------------------------------------------------------
-sub_5CA5B:
+DrawGoalEventPanel:
         push ebx
         push ecx
         push edx
@@ -5585,17 +5588,17 @@ DrawGameOverlays:
         je short .4
         jmp short .6
 .3:
-        call sub_5CA5B
+        call DrawGoalEventPanel
         pop ecx
         pop ebx
         ret
 .4:
-        call sub_5C7E2
+        call DrawPenaltyEventPanel
         pop ecx
         pop ebx
         ret
 .5:
-        call sub_5C55F
+        call DrawEventPanel
         pop ecx
         pop ebx
         ret

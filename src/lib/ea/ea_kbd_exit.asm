@@ -3,15 +3,16 @@ bits 32
 %include "hockey.inc"
 section s_C27F8 progbits alloc exec nowrite align=1
 extern SetDrawBitmap, str_EXITTODOSY, str_PAUSEPRESSANYKEY, dword_11F994, BackBufferWidth, joycalactive, mousepollfn, off_11F5F4
-extern off_11F5F8, off_11F5FC, off_14F074, off_14F078, CreateBitmap, FillRect, sub_ADA80, FreeBitmap
-extern TextSetColor, SaveTextState, SetDrawTarget, TextSetFont, DrawArtOpaque, NearestColour, DrawArtFast, sub_CFE0C
-extern sub_CFE20, sub_CFE70, SetScreenTarget, SetClipRect, KbdGetKey, SaveDrawState, RestoreDrawState, DebugLineCount
+extern off_11F5F8, off_11F5FC, off_14F074, off_14F078, CreateBitmap, FillRect, DrawRectOutline, FreeBitmap
+extern TextSetColor, SaveTextState, SetDrawTarget, TextSetFont, DrawArtOpaque, NearestColour, DrawArtFast, ReturnFalse
+extern PrintCentredBoxed, ResetClipRect, SetScreenTarget, SetClipRect, KbdGetKey, SaveDrawState, RestoreDrawState, DebugLineCount
 extern unk_1213DC
-global sub_C27F8, sub_C2AC4, sub_C2AEC, sub_C2C5C, DosGetVector, DosSetVector
+global ShowPromptBox, AskExitToDos, ShowMessageBox, PauseUntilKey, DosGetVector, DosSetVector
 ;-----------------------------------------------------------------------------
-; sub_C27F8                                                            C27F8  
+; ShowPromptBox                                   C27F8  96 PC, low confidence
+; Shows a boxed prompt over the screen and waits for a key
 ;-----------------------------------------------------------------------------
-sub_C27F8:
+ShowPromptBox:
         push esi
         push edi
         push ebp
@@ -24,11 +25,11 @@ sub_C27F8:
         mov dword [joycalactive], 1
         call dword [off_14F074]
         push byte 0FFFFFFFFh
-        call sub_CFE0C
+        call ReturnFalse
         add esp, byte 4
         push byte 0
         mov dword [dword esp+0A4h], eax
-        call sub_CFE0C
+        call ReturnFalse
         add esp, byte 4
         push byte 0
         mov ebx, dword [dword esp+0D4h]
@@ -108,7 +109,7 @@ sub_C27F8:
         mov eax, dword [dword esp+0C4h]
         add eax, byte 4
         push eax
-        call sub_ADA80
+        call DrawRectOutline
         add esp, byte 14h
         push byte 0
         push dword 0FCFCFCh
@@ -122,11 +123,11 @@ sub_C27F8:
         push eax
         mov ebx, dword [dword esp+0A8h]
         push ebx
-        call sub_CFE20
+        call PrintCentredBoxed
         add esp, byte 8
         call dword [off_11F5FC]
         push BackBufferWidth
-        call sub_CFE70
+        call ResetClipRect
         add esp, byte 4
 .1:
         call dword [mousepollfn]
@@ -190,7 +191,7 @@ sub_C27F8:
         add esp, byte 4
         mov ebp, dword [dword esp+0A0h]
         push ebp
-        call sub_CFE0C
+        call ReturnFalse
         add esp, byte 4
         call dword [off_14F078]
         xor eax, eax
@@ -203,25 +204,27 @@ sub_C27F8:
         ret 8
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_C2AC4                                                            C2AC4  
+; AskExitToDos                                    C2AC4  96 PC, low confidence
+; Asks "EXIT TO DOS" and leaves through the exit routine on yes
 ;-----------------------------------------------------------------------------
-sub_C2AC4:
+AskExitToDos:
         push byte 7
         mov ecx, 0A0h
         mov ebx, 58h
         push byte 18h
         mov edx, 50h
         mov eax, str_EXITTODOSY
-        call sub_C27F8
+        call ShowPromptBox
         test eax, eax
         je short .1
         call dword [dword_11F994]
 .1:
         ret
 ;-----------------------------------------------------------------------------
-; sub_C2AEC                                                            C2AEC  
+; ShowMessageBox                                  C2AEC  96 PC, low confidence
+; Shows a boxed message over the screen
 ;-----------------------------------------------------------------------------
-sub_C2AEC:
+ShowMessageBox:
         push esi
         push edi
         push ebp
@@ -229,11 +232,11 @@ sub_C2AEC:
         mov edx, 1
         push byte 0FFFFFFFFh
         mov dword [joycalactive], edx
-        call sub_CFE0C
+        call ReturnFalse
         add esp, byte 4
         push byte 0
         mov edi, eax
-        call sub_CFE0C
+        call ReturnFalse
         add esp, byte 4
         push byte 0
         push byte 0Ah
@@ -291,7 +294,7 @@ sub_C2AEC:
         push dword 0BFh
         mov ecx, dword [dword esp+0B4h]
         push ecx
-        call sub_CFE20
+        call PrintCentredBoxed
         add esp, byte 8
         mov ebp, dword [dword esp+0B4h]
         call dword [off_11F5FC]
@@ -319,7 +322,7 @@ sub_C2AEC:
         call FreeBitmap
         add esp, byte 4
         push edi
-        call sub_CFE0C
+        call ReturnFalse
         xor edx, edx
         add esp, byte 4
         mov dword [joycalactive], edx
@@ -329,16 +332,17 @@ sub_C2AEC:
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_C2C5C                                                            C2C5C  
+; PauseUntilKey                                   C2C5C  96 PC, low confidence
+; Shows "PAUSE PRESS ANY KEY" and waits
 ;-----------------------------------------------------------------------------
-sub_C2C5C:
+PauseUntilKey:
         push byte 1
         mov ecx, 120h
         mov ebx, 58h
         push byte 18h
         mov edx, 10h
         mov eax, str_PAUSEPRESSANYKEY
-        call sub_C27F8
+        call ShowPromptBox
         ret
         db 00h,00h
 ;-----------------------------------------------------------------------------

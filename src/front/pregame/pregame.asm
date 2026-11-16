@@ -16,8 +16,8 @@ extern str_Ard, str_Bkgd13, str_BKGD14, str_Card, str_CS3, str_D2, str_dbgSpace,
 extern str_DSS, str_FSH, str_FSH3, str_H07d, str_Home, str_LG02d, str_MightyDucksOfAnaheim, str_Pal3
 extern str_PalFsh, str_PALS, str_Plyr, str_ProfileFsh, str_SCHEDULE2, str_SS3, str_Xlate, strcat_
 extern WriteDbRecord6, SelectDataLibrary, PlayerDbRecord, ComputeTeamRanks, DrawShapeAtOwnPos, DrawShape, PutBlockAtOwnPos, AllocMemBlock
-extern FreeMemBlock, CreateBitmap, sub_ADA50, FreeBitmap, SaveTextState, SetDrawTarget, DosFileInfo, LoadResourceDataShared
-extern LoadPackedAlloc, PutBlockKeyed, SetScreenTarget, SetColourRemap, GetColourRemap, FindShape, sub_E0584, TextSetFont
+extern FreeMemBlock, CreateBitmap, ClearScreenColour, FreeBitmap, SaveTextState, SetDrawTarget, DosFileInfo, LoadResourceDataShared
+extern LoadPackedAlloc, PutBlockKeyed, SetScreenTarget, SetColourRemap, GetColourRemap, FindShape, ClearClipRect, TextSetFont
 extern unk_112523, unk_152C44, unk_849C1, unk_849C7, unk_849CB, unk_849D1, word_114CE0
 global PreGameMatchupScreen, PreGameMatchupScreen_4E6, CycleScreenPalettes, PreGameTeamsScreen, PreGameCardsA, PreGameCardsB, PreGameCardsC, jpt_87328
 global PreGameScreens, PreGameScreens_24, PreGameScreens_44, PreGameScreens_4B, PreGameScreens_52, PreGameScreens_59
@@ -445,7 +445,7 @@ PreGameTeamsScreen:
         push byte 0
         mov dword [byte ebp+056h], eax
         mov dword [byte ebp+032h], eax
-        call sub_ADA50
+        call ClearScreenColour
         add esp, byte 4
         call BlackPalette
         push str_Pal3
@@ -1220,7 +1220,7 @@ PreGameCardsA:
         push byte 0
         mov esi, eax
         mov dword [byte ebp+056h], eax
-        call sub_ADA50
+        call ClearScreenColour
         add esp, byte 4
         call BlackPalette
         push str_Pal3
@@ -1410,7 +1410,7 @@ PreGameCardsA:
         call SetDrawBitmap
         add esp, byte 4
         push dword 0FFh
-        call sub_E0584
+        call ClearClipRect
         add esp, byte 4
         push byte 0
         push byte 0
@@ -1594,7 +1594,7 @@ PreGameCardsA:
         call SetDrawBitmap
         add esp, byte 4
         push dword 0FFh
-        call sub_E0584
+        call ClearClipRect
         add esp, byte 4
         push byte 0
         push byte 0
@@ -2247,7 +2247,7 @@ PreGameCardsB:
         push byte 0
         mov dword [byte ebp+07Eh], eax
         mov dword [byte ebp+05Eh], eax
-        call sub_ADA50
+        call ClearScreenColour
         add esp, byte 4
         call BlackPalette
         push str_Pal3
@@ -2310,7 +2310,7 @@ PreGameCardsB:
         call SetDrawBitmap
         add esp, byte 4
         push byte 9
-        call sub_E0584
+        call ClearClipRect
         mov eax, 828Fh
         add esp, byte 4
         mov edx, dword [byte esi+ebp-022h]
@@ -2784,7 +2784,7 @@ PreGameCardsC:
         push byte 0
         mov dword [byte ebp+07Eh], eax
         mov dword [byte ebp+05Eh], eax
-        call sub_ADA50
+        call ClearScreenColour
         add esp, byte 4
         call BlackPalette
         push str_Pal3
@@ -2843,7 +2843,7 @@ PreGameCardsC:
         call SetDrawBitmap
         add esp, byte 4
         push byte 16h
-        call sub_E0584
+        call ClearClipRect
         mov eax, 828Fh
         add esp, byte 4
         mov edx, dword [byte esi+ebp+01Eh]

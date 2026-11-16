@@ -23,7 +23,7 @@ extern str_S5, str_SD4, str_SEA4, str_SLDH2, str_Wt4, str_XTbl, strcat_, strlen_
 extern SelectDataLibrary, StatsDb5Record, StatsDb1Record, StatsDataBBRecord, StatsData4Record, StatsDb2Record, PlayerRatingsScreen_E11, PlayerRatingsScreen_E3B
 extern PlayerRatingsScreen_E44, PlayerRatingsScreen_E4D, PlayerRatingsScreen_E56, PlayerRatingsScreen_E5F, PlayerRatingsScreen_E68, PlayerRatingsScreen_E71, RatingBar, DrawArt
 extern PutBlockAtOwnPos, BlitShapeAt, AllocMemBlock, FreeMemBlock, CreateBitmap, FreeBitmap, DosFileInfo, LoadResourceDataShared
-extern DrawArtOpaqueAtOwnPos, sub_B2C70, PutBlockKeyed, SetScreenTarget, SetPaletteEntries, SetColourRemap, FindShape, TickDeadlinePassed
+extern DrawArtOpaqueAtOwnPos, DrawArtOpaqueHotspot, PutBlockKeyed, SetScreenTarget, SetPaletteEntries, SetColourRemap, FindShape, TickDeadlinePassed
 extern unk_1129C2, unk_1129E4, unk_1129F7, unk_152C44, UpdateProgressBox
 global unk_903B5, unk_903F5, unk_90401, unk_90501, ShowPlayerCardTitle, SwitchPlayerCard, DrawLeagueLogo, DrawLeagueLogo_7D
 global SlideCardLeft, SlideCardRight, PlayerCardScreen, unk_91F1C, unk_91F48, unk_91F70, unk_91F9C, DrawPlayerCardStats
@@ -133,7 +133,7 @@ ShowPlayerCardTitle:
         push byte 64h
         push dword 118h
         push dword [byte esi+02Ch]
-        call sub_B2C70
+        call DrawArtOpaqueHotspot
         add esp, byte 0Ch
         push esi
         call FreeBitmap

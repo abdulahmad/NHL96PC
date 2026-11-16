@@ -7,7 +7,7 @@ extern byte_17C60C, byte_17CA1D, dword_11D23E, dword_11D242, dword_11D376, dword
 extern dword_11D38E, dword_17C4A0, dword_17C4A4, dword_17C5BC, dword_17C5C0, dword_17C5C4, dword_17C5C8, dword_17C5CC
 extern dword_17C5D0, dword_17C5FC, dword_17C600, GetTicks, globalset, MakeDataPath, optflags, rand_
 extern setasyncspeed, sndcard, srand_, str_SPEECHBUF, AllocMemBlock, FreeMemBlock, OpenSpeechQueue, SetSpeechQueueVolume
-extern AddSpeechQueueClip, SpeechQueueBusy, StartSpeechQueue, FlushSpeechQueue, CloseSpeechQueue, DosOpenReadOnly, DosCloseFile, sub_E07CC
+extern AddSpeechQueueClip, SpeechQueueBusy, StartSpeechQueue, FlushSpeechQueue, CloseSpeechQueue, DosOpenReadOnly, DosCloseFile, DosReadFile
 extern DosSeekFile, word_11D23A, word_11D356, word_11D382, word_11D384, word_11D386, word_11D388, word_17C49C
 extern word_17C49E, word_17C63E, word_17C640
 global FindClipIndex, FindClipIndex_55, FindClipIndex_56, FindTeamPairClip, FindTeamPairClip_85, ResetSpeechChannels, OpenSpeechBanks, InitSpeech
@@ -265,7 +265,7 @@ OpenSpeechBanks:
         push dword [byte ebp-08h]
         push dword [byte ebp-0Ch]
         mov esi, dword [byte ebp-04h]
-        call sub_E07CC
+        call DosReadFile
         add esp, byte 0Ch
         mov eax, dword [nosplit esi*4+dword_17C5BC]
         push byte 20h
@@ -280,7 +280,7 @@ OpenSpeechBanks:
         push eax
         push dword [nosplit esi*4+dword_17C600]
         push dword [byte ebp-0Ch]
-        call sub_E07CC
+        call DosReadFile
         add esp, byte 0Ch
         push dword [byte ebp-0Ch]
         call DosCloseFile

@@ -30,9 +30,9 @@ extern str_Edt0, str_Edt1, str_EXHIBITNDX2, str_FhiL3, str_FhiR3, str_Gam0, str_
 extern str_GhiR2, str_GloL2, str_GloR2, str_INTERREG, str_Intr, str_Ply02, str_Ply1, str_Qui0
 extern str_Qui1, str_Qui2, str_Ret0, str_Ret1, str_Ret2, str_Sav0, str_Sav1, str_Sid1
 extern str_Sid2, str_Sts0, str_Sts1, strcat_, strcpy_, AddIceCrud, LoadZamboni, FreeZamboni
-extern LoadStandsArt, SetPenaltyBoxDoor, DrawZamboniScene, DrawOverlayPanels, RefreshControlSlots, sub_64E74, SaveGameFile, sub_6C64B
+extern LoadStandsArt, SetPenaltyBoxDoor, DrawZamboniScene, DrawOverlayPanels, RefreshControlSlots, SetGameBackdrop, SaveGameFile, LoadModeStats
 extern DrawArt, AllocMemBlock, FreeMemBlock, CreateBitmap, FreeBitmap, FreeColourLookup, SetAaPalLut, SetScreenTarget
-extern FindShape, sub_E0584, TextSetFont, unk_11D7A4, unk_11D7BC, unk_11D7D4, unk_11D7EC, unk_11D804
+extern FindShape, ClearClipRect, TextSetFont, unk_11D7A4, unk_11D7BC, unk_11D7D4, unk_11D7EC, unk_11D804
 extern unk_11D80A, unk_11D810, unk_11D816, unk_11D81C, unk_11D89C, unk_16443C, unk_17D3E8, unk_18440C
 extern unk_184688, unk_184692, UpdateCamera, word_114CE0, word_114F14, word_11ED34, word_1656E8, word_16581E
 global DrawInGameMenuFrame, RedrawInGameMenu, RedrawInGameMenu_7C, RedrawInGameMenu_7D, OpenFrontEndFromGame, ReturnToGameView, InGameReturnMenu, jpt_A25B5
@@ -640,7 +640,7 @@ OpenFrontEndFromGame:
         push dword [dword_184404]
         push dword [dword_184400]
         xor eax, eax
-        call sub_64E74
+        call SetGameBackdrop
         call ResetInputSlots
         mov eax, 2
         call SoundSecondsToBytes
@@ -754,7 +754,7 @@ ReturnToGameView:
         mov ebx, 2
         push dword [dword_184400]
         mov edx, unk_16443C
-        call sub_64E74
+        call SetGameBackdrop
         call RedrawInGameMenu
         xor eax, eax
         call FadePalette
@@ -1110,7 +1110,7 @@ InGameMenu:
         call SetDrawBitmap
         add esp, byte 4
         push dword 81h
-        call sub_E0584
+        call ClearClipRect
         add esp, byte 4
         call DrawRinkView
         test byte [byte_17CA5D], 20h
@@ -1499,7 +1499,7 @@ InGameMenu:
         mov ebx, 2
         push dword [dword_184400]
         mov edx, unk_16443C
-        call sub_64E74
+        call SetGameBackdrop
         call PlayMusic
         call RedrawInGameMenu
         xor eax, eax
@@ -1685,7 +1685,7 @@ InGameMenu_ABD:
         push dword [dword_184404]
         push dword [dword_184400]
         xor eax, eax
-        call sub_64E74
+        call SetGameBackdrop
         mov eax, 2
         call GetLangText
         mov dword [byte ebp-020h], eax
@@ -1724,7 +1724,7 @@ InGameMenu_ABD:
         push dword [dword_184404]
         push dword [dword_184400]
         mov eax, DrawInGameMenuFrame
-        call sub_64E74
+        call SetGameBackdrop
 .49:
         call RedrawInGameMenu
 .50:
@@ -1737,7 +1737,7 @@ InGameMenu_ABD:
         push dword [dword_184404]
         push dword [dword_184400]
         xor eax, eax
-        call sub_64E74
+        call SetGameBackdrop
         push dword [dword_11B234]
         call SetDrawBitmap
         add esp, byte 4
@@ -1755,7 +1755,7 @@ InGameMenu_ABD:
         call FreeColourLookup
         call SetScreenTarget
         push byte 0
-        call sub_E0584
+        call ClearClipRect
         add esp, byte 4
         cmp dword [dword_1150FC], byte 1
         je short .51
@@ -1890,7 +1890,7 @@ InGameMenu_D17:
         mov dword [dword_1843B4], eax
 .62:
         call OpenFrontEndFromGame
-        call sub_6C64B
+        call LoadModeStats
         mov eax, 1
         call RunEditLines
 .63:
@@ -1907,7 +1907,7 @@ InGameMenu_D17:
         push dword [dword_184404]
         push dword [dword_184400]
         xor eax, eax
-        call sub_64E74
+        call SetGameBackdrop
         mov eax, 1
         call GetLangText
         mov dword [byte ebp-020h], eax
@@ -1964,7 +1964,7 @@ InGameMenu_D17:
         push dword [dword_184404]
         push dword [dword_184400]
         xor eax, eax
-        call sub_64E74
+        call SetGameBackdrop
         xor eax, eax
         call GetLangText
         push byte 2
@@ -2007,7 +2007,7 @@ InGameMenu_F42:
         call OpenFrontEndFromGame
         cmp edx, byte 2
         jne short .70
-        call sub_6C64B
+        call LoadModeStats
         mov eax, dword [gameopts]
         mov eax, dword [byte eax+01h]
         shl eax, 0Fh
@@ -2028,7 +2028,7 @@ InGameMenu_FA8:
         xor eax, eax
         push dword [dword_184400]
         xor esi, esi
-        call sub_64E74
+        call SetGameBackdrop
         test byte [optflags], 70h
         jne short .74
         mov edx, 5

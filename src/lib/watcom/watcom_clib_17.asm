@@ -8,11 +8,11 @@ extern dword_11FA18, TextOriginX, TextOriginY, ClipTopRow, ClipLeftCol, ClipRigh
 extern BackBufferWidth, _STACKLOW, __amblksiz, dword_14FAD8, CMainArgv, dword_1A109C, dword_1A10A0, dword_1A10A4
 extern dword_1A10A8, dword_1A10B0, dword_1A10B4, dword_1A10C0, dword_1A10C4, dword_1A10C8, dword_1A10CC, dword_1A10D0
 extern dword_1A10D4, dword_1A10D8, dword_1A10DC, dword_1A10E0, dword_1A10E4, dword_1A10E8, dword_1A10EC, dword_1A10F0
-extern dword_1A10F4, dword_1A10F8, dword_1A10FC, dword_1A1100, fputchar, MemViewer, MemViewerOpenAlt, SetHotkey_5B
+extern dword_1A10F4, dword_1A10F8, dword_1A10FC, dword_1A1100, TextStringWidth, MemViewer, MemViewerOpenAlt, SetHotkey_5B
 extern SetHotkey_81, mousepollfn, off_11F5F4, off_11F5F8, off_11F5FC, off_14FAD0, DrawArtRemapFunc, sprintf_
-extern DrawShapeCore, PutBlock, sub_AB6D8, FreeMemBlock, sub_ABF88, MemDescPtr, sub_AD2B4, sub_AD824
-extern FreeBitmap, SetTextOrigin, LoadFileData, sub_B2400, DrawArtOpaque, sub_BF290, sub_C2AC4, sub_C2C5C
-extern JoystickCalibrateScreen, ShowKeyboardOn, sub_CFE8C, SaveScreenshot, SetScreenTarget, SetClipWindow, SaveVideoState, RestoreVideoState
+extern DrawShapeCore, PutBlock, AllocMemBlockLockedChecked, FreeMemBlock, PushMemDescriptorLocked, MemDescPtr, CreateBitmapDepth, FillRectClipped
+extern FreeBitmap, SetTextOrigin, LoadFileData, TextPrint, DrawArtOpaque, FindShapeListQuiet, AskExitToDos, PauseUntilKey
+extern JoystickCalibrateScreen, ShowKeyboardOn, ResetClipWindow, SaveScreenshot, SetScreenTarget, SetClipWindow, SaveVideoState, RestoreVideoState
 extern MouseReadMotion, InitMouse, bcopy, SaveDrawState, RestoreDrawState, SetHotkey, IntrStubs, SavedStackSegment
 global __CHK, __GRO, __STK, __int386x_, ShowPointer, PointerService, __CommonInit_, IsTextModeWidth
 global SaveTextScreen, RestoreTextScreen, PointerOnTarget, DrawPointer, UpdatePointerPos, HidePointerKeep, HidePointer, RestoreUnderPointer
@@ -90,7 +90,7 @@ SaveTextScreen:
         lea eax, [byte edi+018h]
         push eax
         push str_SaveText
-        call sub_AB6D8
+        call AllocMemBlockLockedChecked
         add esp, byte 0Ch
         push eax
         mov ebp, eax
@@ -170,7 +170,7 @@ RestoreTextScreen:
         call bcopy
         add esp, byte 0Ch
         push esi
-        call sub_ABF88
+        call PushMemDescriptorLocked
         add esp, byte 4
 .2:
         add esp, byte 24h
@@ -616,7 +616,7 @@ PointerService:
         call SetDrawBitmap
         add esp, byte 4
 .8:
-        call sub_CFE8C
+        call ResetClipWindow
         mov esi, dword [dword_1A10D4]
         mov edi, dword [dword_1A10D0]
         call UpdatePointerPos
@@ -625,7 +625,7 @@ PointerService:
         cmp edi, dword [dword_1A10D0]
         je near .14
 .9:
-        call sub_CFE8C
+        call ResetClipWindow
         mov ebp, dword [dword_1A10D0]
         push ebp
         mov eax, dword [dword_1A10D4]
@@ -669,7 +669,7 @@ PointerService:
         call SetDrawBitmap
         add esp, byte 4
 .11:
-        call sub_CFE8C
+        call ResetClipWindow
         mov ecx, dword [dword_1A10D0]
         mov eax, dword [ClipRight]
         push ecx
@@ -745,7 +745,7 @@ PointerService:
         call SetDrawBitmap
         add esp, byte 4
 .13:
-        call sub_CFE8C
+        call ResetClipWindow
         mov eax, dword [dword_1A10DC]
         mov esi, dword [dword_1A10C4]
         mov dword [dword_1A10C4], eax
@@ -831,7 +831,7 @@ PointerSetupBitmaps:
         push edi
         mov edx, dword [dword_1A10E4]
         push edx
-        call sub_AD2B4
+        call CreateBitmapDepth
         add esp, byte 10h
         push byte 20h
         mov ebx, dword [dword_11F5C8]
@@ -841,7 +841,7 @@ PointerSetupBitmaps:
         mov esi, dword [dword_1A10E4]
         push esi
         mov dword [dword_1A10C4], eax
-        call sub_AD2B4
+        call CreateBitmapDepth
         add esp, byte 10h
         push byte 20h
         mov edi, dword [dword_11F5C8]
@@ -851,7 +851,7 @@ PointerSetupBitmaps:
         mov dword [dword_1A10F0], eax
         mov eax, dword [dword_1A10E4]
         push eax
-        call sub_AD2B4
+        call CreateBitmapDepth
         add esp, byte 10h
         mov dword [dword_1A10DC], eax
         call dword [off_11F5FC]
@@ -1025,7 +1025,7 @@ InitPointer:
         push str_Ptr0ptr1ptr2
         mov edx, dword [dword_1A10D8]
         push edx
-        call sub_BF290
+        call FindShapeListQuiet
         add esp, byte 0Ch
 .4:
         lea eax, [dword esp+080h]
@@ -1116,7 +1116,7 @@ InstallDebugHotkeys:
         push byte 0Bh
         call SetHotkey
         add esp, byte 8
-        push sub_C2C5C
+        push PauseUntilKey
         push byte 10h
         call SetHotkey
         add esp, byte 8
@@ -1128,7 +1128,7 @@ InstallDebugHotkeys:
         push byte 13h
         call SetHotkey
         add esp, byte 8
-        push sub_C2AC4
+        push AskExitToDos
         push byte 18h
         call SetHotkey
         add esp, byte 8
@@ -1144,7 +1144,7 @@ InstallDebugHotkeys:
         push edx
         mov edi, dword [TextOriginX]
         mov esi, dword [TextOriginY]
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         mov ebx, dword [dword_11FA18]
         xor edx, edx
@@ -1154,11 +1154,11 @@ InstallDebugHotkeys:
         push eax
         push esi
         push edi
-        call sub_AD824
+        call FillRectClipped
         add esp, byte 14h
         mov ecx, dword [byte esp+0Ch]
         push ecx
-        call sub_B2400
+        call TextPrint
         add esp, byte 4
         pop edi
         pop esi
@@ -1183,7 +1183,7 @@ DrawTextBoxedAt:
         push ecx
         mov edi, dword [TextOriginX]
         mov esi, dword [TextOriginY]
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         mov ebp, dword [dword_11FA18]
         xor edx, edx
@@ -1193,11 +1193,11 @@ DrawTextBoxedAt:
         push eax
         push esi
         push edi
-        call sub_AD824
+        call FillRectClipped
         add esp, byte 14h
         mov eax, dword [byte esp+010h]
         push eax
-        call sub_B2400
+        call TextPrint
         add esp, byte 4
         pop ebp
         pop edi
@@ -1221,7 +1221,7 @@ DrawTextBoxedAt:
         push eax
         mov edi, dword [TextOriginX]
         mov esi, dword [TextOriginY]
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         mov ecx, dword [dword_11FA18]
         xor edx, edx
@@ -1231,11 +1231,11 @@ DrawTextBoxedAt:
         push eax
         push esi
         push edi
-        call sub_AD824
+        call FillRectClipped
         add esp, byte 14h
         mov eax, esp
         push eax
-        call sub_B2400
+        call TextPrint
         add esp, byte 4
         add esp, byte 4
         pop edi

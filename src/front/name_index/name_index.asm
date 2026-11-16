@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_19382 progbits alloc exec nowrite align=1
-extern fputchar, str_backslash3, str_NAMEINDEX, strcat_, strcmp_, strcpy_, strlen_, AllocMemBlock
+extern TextStringWidth, str_backslash3, str_NAMEINDEX, strcat_, strcmp_, strcpy_, strlen_, AllocMemBlock
 extern FreeMemBlock, OpenArtArchive, SaveDataFile
 global unk_19382, NameIndexNew, NameIndexLoad, NameIndexLoad_ret, NameIndexSave, NameIndexFree, NameIndexAdd, NameIndexRemove
 global NameIndexId, NameIndexPath, NameIndexFirstId
@@ -500,7 +500,7 @@ NameIndexFirstId:
         push edx
         mov byte [byte ebp-04h], al
         mov byte [esi], 0
-        call fputchar
+        call TextStringWidth
         mov dl, byte [byte ebp-04h]
         add esp, byte 4
         mov byte [esi], dl

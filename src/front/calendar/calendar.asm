@@ -15,8 +15,8 @@ extern dword_17D90C, dword_17D910, dword_17D914, dword_17D918, dword_17D91C, dwo
 extern jpt_7D568, sprintf_, MessageBox, LoadTeamLogo, LoadPackedFile, LoadDataFileLib, LoadSeasonStats, OpenScreen
 extern SlideInTitleBar, SlideInSideBar, SetScreenColors, FadePalette, FadeOut, SetTextColors, FillBox, DrawFrameAt
 extern InitMenuItems, RunMenu, GetLangText, MakeSeasonDbPath, SimSeasonGames, SimulateGame, DrawArt, DrawShape
-extern PutBlock, AllocMemBlock, FreeMemBlock, CreateBitmap, sub_AD620, FillRect, sub_ADA80, FreeBitmap
-extern OpenArtArchiveErr, DrawArtOpaqueAtOwnPos, DrawArtFast, PutBlockKeyed, SetScreenTarget, SetColourRemap, FindShape, sub_E0584
+extern PutBlock, AllocMemBlock, FreeMemBlock, CreateBitmap, TintRect, FillRect, DrawRectOutline, FreeBitmap
+extern OpenArtArchiveErr, DrawArtOpaqueAtOwnPos, DrawArtFast, PutBlockKeyed, SetScreenTarget, SetColourRemap, FindShape, ClearClipRect
 extern unk_11E3B6, unk_11E3F6, unk_11E436, unk_11E476, unk_152C44, unk_17CB2E, unk_7D4F4, unk_7D500
 global CalendarScreen_13D3, CalendarScreen_13E4, CalendarScreen_153A, CalendarScreen_1AC2, CalendarScreen_1B49, CalendarScreen_1B6C, CalendarScreen, DrawCalendar
 global unk_7FF77
@@ -287,7 +287,7 @@ CalendarScreen:
         push eax
         push dword [byte ebp-0Ah]
         push dword [byte ebp-06h]
-        call sub_ADA80
+        call DrawRectOutline
         add esp, byte 14h
         mov eax, dword [byte ebp-0Ah]
         push dword 0FDh
@@ -302,7 +302,7 @@ CalendarScreen:
         mov eax, dword [byte ebp-06h]
         inc eax
         push eax
-        call sub_ADA80
+        call DrawRectOutline
         add esp, byte 14h
         jmp short .13
 .12:
@@ -2245,7 +2245,7 @@ CalendarScreen_1B6C:
         push eax
         push dword [byte ebp+06Eh]
         push dword [byte ebp+072h]
-        call sub_ADA80
+        call DrawRectOutline
         add esp, byte 14h
         mov eax, dword [byte ebp+06Eh]
         push dword 0FDh
@@ -2261,7 +2261,7 @@ CalendarScreen_1B6C:
         inc eax
         push eax
 .46:
-        call sub_ADA80
+        call DrawRectOutline
         add esp, byte 14h
 .47:
         cmp dword [byte ebp-01Eh], byte 0
@@ -2298,7 +2298,7 @@ CalendarScreen_1B6C:
         push eax
         push dword [byte ebp+06Eh]
         push dword [byte ebp+072h]
-        call sub_ADA80
+        call DrawRectOutline
         add esp, byte 14h
         mov eax, dword [byte ebp+06Eh]
         push dword 0FDh
@@ -2359,7 +2359,7 @@ CalendarScreen_1B6C:
         push eax
         push dword [byte ebp+06Eh]
         push dword [byte ebp+072h]
-        call sub_ADA80
+        call DrawRectOutline
         add esp, byte 14h
         mov eax, dword [byte ebp+06Eh]
         push dword 0FDh
@@ -2374,7 +2374,7 @@ CalendarScreen_1B6C:
         mov eax, dword [byte ebp+072h]
         inc eax
         push eax
-        call sub_ADA80
+        call DrawRectOutline
         mov eax, dword [byte ebp-016h]
         movsx eax, byte [dword eax+ebp-084h]
         add esp, byte 14h
@@ -2509,13 +2509,13 @@ DrawCalendar:
         push eax
         push dword [dword ebp-0346h]
         push dword 14000h
-        call sub_AD620
+        call TintRect
         add esp, byte 0Ch
         lea eax, [dword ebp-0136h]
         push eax
         push dword [dword ebp-0346h]
         push dword 6666h
-        call sub_AD620
+        call TintRect
         mov eax, 0FCh
         add esp, byte 0Ch
         xor edx, edx
@@ -2717,7 +2717,7 @@ DrawCalendar:
         call SetDrawBitmap
         add esp, byte 4
         push dword 0FFh
-        call sub_E0584
+        call ClearClipRect
         add esp, byte 4
         lea eax, [dword ebp-0336h]
         push eax

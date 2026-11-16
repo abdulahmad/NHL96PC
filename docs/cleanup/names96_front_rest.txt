@@ -1,0 +1,27 @@
+sub_6CF0D ControllerSlotDefaults {confidence=low,source=new} six bytes of start values for the controller slots, kept in the code and copied by ControllerScreen
+sub_6CF0D_6 ControllerColumnDefaults {confidence=low,source=new} eight bytes of start values for the controller columns, kept in the code and copied by ControllerScreen
+sub_6D350 NextControllerDevice {confidence=low,source=new} returns the next input device after the current one that no other slot uses
+unk_6D31C NextControllerDeviceMasks {confidence=low,source=new} device masks NextControllerDevice searches
+jpt_6D32C NextControllerDeviceJumpTable {confidence=low,source=new} jump table of NextControllerDevice, one entry per device mask
+sub_6DB5C DeviceIconShape {confidence=low,source=new} returns the icon shape of an input device ("ply", "mse", "jy1" to "jy4", "key", "mdm")
+unk_6DB28 DeviceIconCodes {confidence=low,source=new} device codes DeviceIconShape searches
+jpt_6DB38 DeviceIconJumpTable {confidence=low,source=new} jump table of DeviceIconShape, one entry per device
+sub_6DC2F DrawControllerIcons {confidence=low,source=new} draws the device icon of each controller slot
+sub_9CD61 EditLinesHoverPanel {confidence=low,source=new} picks the edit lines panel under the mouse pointer
+sub_A1734 FindUnusedLinePlayer {confidence=low,source=new} finds a player of a position not yet on any line
+sub_5C55F DrawEventPanel {confidence=low,source=new} draws the game event caption panel
+sub_5C7E2 DrawPenaltyEventPanel {confidence=low,source=new} draws the penalty caption panel (minor, major, misconduct)
+sub_5CA5B DrawGoalEventPanel {confidence=low,source=new} draws the goal caption panel with the scorer and assists
+sub_64E74 SetGameBackdrop {confidence=low,source=new} keeps or frees the saved game screen behind the in-game menus
+sub_64F47 GetSavedViewSize {confidence=low,source=new} returns the saved game view width and height
+sub_6C64B LoadModeStats {confidence=low,source=new} loads the stats of the current game mode
+jpt_6C63B LoadModeStatsJumpTable {confidence=low,source=new} jump table of LoadModeStats, one entry per game mode
+sub_6C663 LoadCurrentSeasonStats {confidence=low,source=new} loads the current season's stats
+sub_6C66D LoadPlayoffOrSeasonStats {confidence=low,source=new} loads the playoff stats, or the season's when no playoffs are running
+sub_A6653 NextUnusedPlayoffTeam {confidence=low,source=new} steps to the next team not already in the playoff tree
+sub_55C08 ClipLineAtFloor {confidence=low,source=new} clips a 3D line where it crosses the floor
+sub_55EBA ReplayCameraUpdate {confidence=low,source=new} moves the replay camera by its mode
+unk_55EA2 ReplayCameraJumpTable {confidence=low,source=new} jump table of ReplayCameraUpdate, one entry per camera mode
+sub_55EBA_17B ReplayCameraAim {confidence=low,source=new} builds the replay camera matrix from its angles and points it at its target
+sub_7B15A SimulateRestOfSeason {confidence=low,source=new} simulates the rest of the season's games and the playoffs, with a progress box
+sub_4DD1B BurstDrainEnergy {confidence=low,source=new} takes energy from a skater for a speed burst

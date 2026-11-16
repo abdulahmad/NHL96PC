@@ -16,7 +16,7 @@ extern optflags, dword_17CA5C, gameclock, gameopts, gmode, hmroster, off_11786C,
 extern puckc, PtrPuckFlags, puckvx, puckvz, puckz, rand_, sflags, RunDemoGame
 extern LoadPackedFile, InitGameTeams, PuckInNet, PickForwardLines, PickDefencePairs, PickSpecialLines, LoadFrontEndArt, FreeFrontEndArt
 extern CopyBitmap, StartGameSound, EndGameSound, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, SetScreenTarget, SetClipWindow
-extern FindShape, sub_E0584, unk_157B82, unk_157F9C, unk_158610, unk_176CA8, unk_176CDA, unk_176D0C
+extern FindShape, ClearClipRect, unk_157B82, unk_157F9C, unk_158610, unk_176CA8, unk_176CDA, unk_176D0C
 extern unk_176D3E, unk_176DA2, unk_176E38, unk_176E6A, unk_176E9C, unk_176ED4, optblock_end, gmode2
 extern HomeControlSlot, word_1178CC, word_1178CE, word_1178D0, word_117902, word_11A3EE, word_11A3F0, word_11D3A2
 extern regd0, word_176ECE, word_176ED0, dressedskaters, word_176EDB
@@ -3267,7 +3267,7 @@ DrawDirtyZones:
         call SetClipWindow
         add esp, byte 10h
         push byte 0
-        call sub_E0584
+        call ClearClipRect
         add esp, byte 4
         call SetScreenTarget
         push dword [byte esi+0Ch]
@@ -3277,7 +3277,7 @@ DrawDirtyZones:
         call SetClipWindow
         add esp, byte 10h
         push byte 0
-        call sub_E0584
+        call ClearClipRect
         add esp, byte 4
 .3:
         mov eax, dword [dword_1770FC]
@@ -3410,7 +3410,7 @@ CopyZonesToScreen:
         call SetClipWindow
         add esp, byte 10h
         push byte 0
-        call sub_E0584
+        call ClearClipRect
         add esp, byte 4
 .2:
         cmp dword [dword_1770E0], byte 0

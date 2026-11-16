@@ -5,14 +5,16 @@ section s_ACED8 progbits alloc exec nowrite align=1
 extern FatalError, _dos_getdate_, _dos_gettime_, asc_113484, str_2d02d02d2, asc_1134A4, asc_1134F4, asc_1134FC
 extern str_CreatewindowblockBADBLOC, str_CreatewindowblockOUTOFRO, byte_11FA4F, TintTable, byte_1219A7, QuantizeTable, dword_11F5C8, DebugMode
 extern dword_11F9DC, TintMulGreen, TintMulBlue, TintRowCount, TintPixelGreen, TintPixelBlue, TintMulRed, TintRemapTable
-extern TintPixelRed, fputs_, sprintf_, AllocMemBlockLocked, MemLargestFreeLocked, DebugShowLines, sub_C3C37, FillRowTable
-extern ZeroMem, sub_E1970, vsprintf_
-global sub_ACED8, sub_ACF68, sub_AD00C, CreateBitmapEx, sub_AD2B4, CreateBitmap, TintRowPixels, TintRows
-global sub_AD620
+extern TintPixelRed, fputs_, sprintf_, AllocMemBlockLocked, MemLargestFreeLocked, DebugShowLines, VfprintfThunk, FillRowTable
+extern ZeroMem, FindFirstFile, vsprintf_
+global DebugLog, FindWildcardDigits, FormatDateStamp, CreateBitmapEx, CreateBitmapDepth, CreateBitmap, TintRowPixels, TintRows
+global TintRect
 ;-----------------------------------------------------------------------------
-; sub_ACED8                                                            ACED8  
+; DebugLog                                        ACED8  96 PC, low confidence
+; Prints a formatted line to the debug log file when the debug level is 2 or
+; more
 ;-----------------------------------------------------------------------------
-sub_ACED8:
+DebugLog:
         sub esp, byte 4
         cmp dword [DebugMode], byte 2
         jl short .1
@@ -25,7 +27,7 @@ sub_ACED8:
         mov eax, ebx
         mov ebx, esp
         xor ecx, ecx
-        call sub_C3C37
+        call VfprintfThunk
         mov dword [esp], ecx
 .1:
         add esp, byte 4
@@ -55,9 +57,10 @@ sub_ACED8:
         add esp, 104h
         ret
 ;-----------------------------------------------------------------------------
-; sub_ACF68                                                            ACF68  
+; FindWildcardDigits                              ACF68  96 PC, low confidence
+; Finds the run of ? characters in a file name pattern
 ;-----------------------------------------------------------------------------
-sub_ACF68:
+FindWildcardDigits:
         push ebx
         push ecx
         push edx
@@ -108,7 +111,7 @@ sub_ACF68:
         mov edx, dword [esp]
         push edx
         mov byte [byte ebp+01h], al
-        call sub_E1970
+        call FindFirstFile
         add esp, byte 4
         test eax, eax
         je short .6
@@ -143,9 +146,10 @@ sub_ACF68:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_AD00C                                                            AD00C  
+; FormatDateStamp                                 AD00C  96 PC, low confidence
+; Formats the current DOS date and time as a short stamp
 ;-----------------------------------------------------------------------------
-sub_AD00C:
+FormatDateStamp:
         push ebx
         push ecx
         push esi
@@ -425,9 +429,10 @@ CreateBitmapEx:
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_AD2B4                                                            AD2B4  
+; CreateBitmapDepth                               AD2B4  96 PC, low confidence
+; Creates a bitmap of a given depth and returns its pixel block
 ;-----------------------------------------------------------------------------
-sub_AD2B4:
+CreateBitmapDepth:
         push esi
         push byte 1
         mov edx, dword [byte esp+018h]
@@ -769,9 +774,10 @@ TintRows:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_AD620                                                            AD620  
+; TintRect                                        AD620  96 PC, low confidence
+; Tints a rectangle of the draw target through TintRows
 ;-----------------------------------------------------------------------------
-sub_AD620:
+TintRect:
         mov eax, dword [byte esp+04h]
         mov edx, dword [byte esp+0Ch]
         push edx

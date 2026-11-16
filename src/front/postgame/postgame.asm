@@ -17,8 +17,8 @@ extern SlideInBottomBar, SetScreenColors, BlackPalette, FadePalette, FadeOut, Co
 extern DrawColorTextCentred, SetScreenPalette, DrawFrameAt, RemapScreenColors, InitMenuItems, RunMenu, SetMenuMouse, PaEvent
 extern StopSpeech, StopMusic, FillMusicStream, PlayMusic, FadeOutMusic, MusicDone, SoundSecondsToBytes, SoundIdle
 extern GetLangText, PlayerStatsScreen, DrawShapeAtOwnPos, DrawArt, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, CreateBitmap
-extern sub_ADA50, FreeBitmap, UnpackTo, DosFileInfo, LoadResourceDataShared, SetScreenTarget, FindShape, bcopy
-extern sub_E0584, TextSetFont, unk_144BD, unk_144C3, unk_144C9, unk_144D5, unk_144ED, word_114CE0
+extern ClearScreenColour, FreeBitmap, UnpackTo, DosFileInfo, LoadResourceDataShared, SetScreenTarget, FindShape, bcopy
+extern ClearClipRect, TextSetFont, unk_144BD, unk_144C3, unk_144C9, unk_144D5, unk_144ED, word_114CE0
 extern word_114DD2, word_114DD4, word_114DD6, word_114DD8, word_114DDC, word_114DE4, word_114DE6, word_114EA8
 extern word_114EAC, word_114EF8, word_114EFA, word_114EFC, word_114EFE, word_114F00, word_1656DA, word_1656DC
 extern word_1656DE, word_1656E0, word_1656E2, word_1656E4, word_1656E6, word_1656E8, word_1656EA, word_1656EC
@@ -925,7 +925,7 @@ GameStatsScreen:
         call FillMusicStream
         call SetScreenTarget
         push byte 0
-        call sub_ADA50
+        call ClearScreenColour
         add esp, byte 4
         mov eax, 0FEh
         xor edx, edx
@@ -1838,7 +1838,7 @@ ThreeStarsScreen:
         push byte 0
         mov esi, eax
         mov dword [byte ebp+07Eh], eax
-        call sub_ADA50
+        call ClearScreenColour
         add esp, byte 4
         call BlackPalette
         push str_Pal25
@@ -1899,7 +1899,7 @@ ThreeStarsScreen:
         call SetDrawBitmap
         add esp, byte 4
         push byte 74h
-        call sub_E0584
+        call ClearClipRect
         mov eax, dword [byte ebp+066h]
         add esp, byte 4
         mov edx, dword [byte esi+ebp-022h]

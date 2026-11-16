@@ -8,7 +8,7 @@ extern dword_17BA3C, dword_17BA40, dword_17BA44, dword_17BA48, dword_17BA4C, dwo
 extern off_11BB4C, str_CupRef, str_FightRef, str_NewpalQfs, str_OldshpQfs, str_OLDSHPQFS2, str_Pal6, str_RinkpalQfs
 extern str_TeampalQda, str_TotalRef, str_UNPACK, str_Unpacked, SelectDataLibrary, LoadShadowRemap, AllocMemBlock, FreeMemBlock
 extern MemLargestFreeLocked, UnpackTo, UnpackedSize, OpenArtArchiveErr, CreateAaPalLut, BuildPaletteShadeTable, LoadPackedAlloc, FlipArtHorizontal
-extern sub_BF02C, sub_BF034, FindShape, bcopy, FillMem, unk_16443C, unk_164688, unk_179E48
+extern ShapeBankCount, ShapeBankEntry, FindShape, bcopy, FillMem, unk_16443C, unk_164688, unk_179E48
 extern unk_17B248, unk_17B488, unk_17B518, unk_17B830, unk_17B930, unk_17BA58, unpack
 global PutJerseyDigit, MakeJerseyNumber, SetTeamJerseyColors, SetTeamJerseyColors_A3, SaveTeamPalette, SetPlayerSpriteColors, SetRinkSpriteColors, IndexSpriteFrames
 global LoadTeamPalette, LoadPlayerSprites, LoadPlayerSprites_131, LoadGameSprites, FreeGameSprites, FreeFightSprites, LoadFightSprites, LoadFightSprites_3F
@@ -398,7 +398,7 @@ IndexSpriteFrames:
         shl esi, 2
         push dword [dword esi+dword_11BB3C]
         xor edi, edi
-        call sub_BF02C
+        call ShapeBankCount
         mov dword [byte ebp-08h], esi
         mov esi, dword [byte ebp-0Ch]
         add esp, byte 4
@@ -409,7 +409,7 @@ IndexSpriteFrames:
         mov eax, dword [byte ebp-08h]
         push edi
         push dword [dword eax+dword_11BB3C]
-        call sub_BF034
+        call ShapeBankEntry
         add esp, byte 8
         mov dword [dword esi+dword_152FEC], eax
         add eax, byte 10h

@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_B2158 progbits alloc exec nowrite align=1
-extern sub_AB834, FindCachedFile, DosOpenFile, DosCloseFile, sub_E07CC
+extern AllocMemBlockLockedAt, FindCachedFile, DosOpenFile, DosCloseFile, DosReadFile
 global LoadDataFileExt
 ;-----------------------------------------------------------------------------
 ; LoadDataFileExt                              B2158  96 PC, medium confidence
@@ -41,7 +41,7 @@ LoadDataFileExt:
         push edi
         push ebx
         push esi
-        call sub_AB834
+        call AllocMemBlockLockedAt
         mov esi, eax
         add esp, byte 10h
         test eax, eax
@@ -62,7 +62,7 @@ LoadDataFileExt:
         push edx
         mov ebx, dword [byte esp+08h]
         push ebx
-        call sub_E07CC
+        call DosReadFile
         add esp, byte 0Ch
         mov ecx, dword [esp]
         push ecx

@@ -4,7 +4,7 @@ bits 32
 section s_DD6C4 progbits alloc exec nowrite align=1
 extern RemapTable, ColourRemap, dword_11F5A0, ScreenWidth, ClipBottom, ClipTopRow, ClipLeftCol, ClipRight
 extern ScreenHeight, dword_1228E8, dword_1228FC, BackBufferWidth, dword_123A88, BlitColumnOffsets, BlitSourcePtr, RetraceTimeout
-extern dword_1248C8, sub_ADA50, FillRectSpans, SetupRectFill, unk_18584C
+extern dword_1248C8, ClearScreenColour, FillRectSpans, SetupRectFill, unk_18584C
 global SetDrawBitmap, WaitRetrace_36, SetScreenTarget, GetPaletteRange, FillRectColor, SetClipWindow, SetPaletteEntries, SetTextMode
 global SetPaletteEntries8, ReadPaletteEntries8, SetRemapTable, GetRemapTable, SetColourRemap, GetColourRemap, SetBlitSource, SetBlendTables
 global CopyMappedSpan, ScaleRowRemapKeyed, CopyScaledSpanShadow, ScaleRowShadow, ScaleRowBlend, CopyScaledSpan, ReadPortStable, WaitRetrace
@@ -161,7 +161,7 @@ SetPaletteEntries:
 ;-----------------------------------------------------------------------------
 SetTextMode:
         push byte 0
-        call sub_ADA50
+        call ClearScreenColour
         add esp, byte 4
         and byte [0410h], 0CFh
         or byte [0410h], 10h

@@ -8,9 +8,9 @@ extern KeyedDraw, dword_1228FC, dword_122930, dword_123934, memlist1, MemBlockGu
 extern dword_18573C, strncpy_, DrawShapeCore, AllocMemBlockEx, getmemblock, CopyRowKeyed, DrawShapeOpaque, ResetMemLock
 extern MemLock, MemUnlock, SetScreenTarget, SetClipWindow, VesaSetBank, BlitBlock, BlitBlockXor, BlitBlockAnd
 extern AndPixel, BlitBlockOr, OrPixel, bcopy, SaveDrawState, RestoreDrawState
-global PutBlock_25F, DrawArtAnd_132, DrawShapeAtOwnPos, sub_AA9CC, DrawArt, DrawShape, sub_AAADC, PutBlock
+global PutBlock_25F, DrawArtAnd_132, DrawShapeAtOwnPos, BlitToScreenWindow, DrawArt, DrawShape, DrawArtHotspot, PutBlock
 global PutBlockAtOwnPos, BlitShapeAt, CopyRowXor, DrawArtAnd, DrawArtOr, AddMemRegion, AddMemRegions, AddHighMemRegion
-global TrimMemList, MemListEnd, sub_AB6D8, AllocMemBlockLocked, AllocMemBlock, AllocMemLocked
+global TrimMemList, MemListEnd, AllocMemBlockLockedChecked, AllocMemBlockLocked, AllocMemBlock, AllocMemLocked
 ;-----------------------------------------------------------------------------
 ; DrawShapeAtOwnPos                               AA988  96 PC, low confidence
 ; Draws a shape at the position stored in its header; followed by the draw at
@@ -44,9 +44,10 @@ DrawShapeAtOwnPos:
         add esp, byte 0Ch
         ret
 ;-----------------------------------------------------------------------------
-; sub_AA9CC                                                            AA9CC  
+; BlitToScreenWindow                              AA9CC  96 PC, low confidence
+; Copies part of a bitmap to a window of the screen
 ;-----------------------------------------------------------------------------
-sub_AA9CC:
+BlitToScreenWindow:
         push esi
         push edi
         push ebp
@@ -163,9 +164,10 @@ DrawShape:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_AAADC                                                            AAADC  
+; DrawArtHotspot                                  AAADC  96 PC, low confidence
+; Draws art with its hotspot at x, y; keyed when keyed drawing is on
 ;-----------------------------------------------------------------------------
-sub_AAADC:
+DrawArtHotspot:
         push esi
         push edi
         mov eax, dword [byte esp+0Ch]
@@ -1333,9 +1335,11 @@ MemListEnd:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_AB6D8                                                            AB6D8  
+; AllocMemBlockLockedChecked                      AB6D8  96 PC, low confidence
+; Allocates a memory block with the memory lock held, with the error check
+; flag set
 ;-----------------------------------------------------------------------------
-sub_AB6D8:
+AllocMemBlockLockedChecked:
         push esi
         push edi
         mov edx, dword [MemLockHandle]

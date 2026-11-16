@@ -7,7 +7,7 @@ extern byte_17CA22, byte_17CA5D, byte_17CA5E, byte_17D650, byte_17D651, CopyBitm
 extern dword_114CD3, dword_11D1A8, dword_11DF80, dword_11DF84, dword_11E278, dword_11E27C, dword_17BC78, TeamStatsBitmap
 extern dword_17BCE2, dword_17BD48, GlobalSetData, dword_17C9F4, dword_17CA5C, dword_17D590, dword_17D594, dword_17D654
 extern dword_17D678, dword_17D67C, dword_17D680, dword_17D684, EditText, FadeOut, FadeOutMusic, FadePalette
-extern FillMusicStream, fputchar, GetInputDevices, GetLangText, GetTicks, globalset, InitMenuItems, JoystickTestScreen
+extern FillMusicStream, TextStringWidth, GetInputDevices, GetLangText, GetTicks, globalset, InitMenuItems, JoystickTestScreen
 extern LoadPackedFile, MessageBox, ModemChat, ModemGameClose, ModemGameConnect, ModemGameOpen, ModemGameQuit, MouseRead
 extern mousex, mousey, OpenScreen, optblock, PlayMusic, PlaySfx, PutBlock, QueueCurrentMusic
 extern RunMenu, SetDrawBitmap, SetMusicVolume, SetScreenColors, SetSpeechVolume, SetTextColors, SlideInBottomBar, SlideInSideBar
@@ -21,7 +21,7 @@ extern str_Mse1, str_Mse2, str_MseD, str_NMD0, str_NMD1, str_NOO0, str_NOO1, str
 extern str_Off0, str_Off1, str_Onn0, str_Onn1, str_Pal13, str_PICKS, str_PICKS2, str_PULS
 extern str_SET02, str_SET13, str_SET23, str_SldD, str_TONE, str_WFC0, str_WFC1, str_WFC2
 extern str_YES0, str_YES1, strcpy_, strlen_, DrawShapeAtOwnPos, DrawArt, DrawShape, PutBlockAtOwnPos
-extern AllocMemBlock, FreeMemBlock, CreateBitmap, sub_ADA50, FreeBitmap, SetScreenTarget, sub_DFE9C, KbdGetKey
+extern AllocMemBlock, FreeMemBlock, CreateBitmap, ClearScreenColour, FreeBitmap, SetScreenTarget, KeyIsDown, KbdGetKey
 extern FindShape, TextSetFont, unk_17C9B8, unk_17C9CC, unk_17D598, unk_708A9, unk_70901, unk_70BC1
 extern unk_70BCB, unk_70BD5, unk_70C4D, unk_70CED, word_114CE0, word_11E270, word_17C9AC, word_17C9AE
 extern word_17C9B0, word_17C9B2, word_17C9B4, word_17C9B6, WriteGlobalSet
@@ -154,7 +154,7 @@ jpt_7130F:
         dd PollOptionKeys_192
 ;-----------------------------------------------------------------------------
 ; PollOptionKeys                                  71333  96 PC, low confidence
-; Checks the 9 option keys (sub_DFE9C, held-tick timers dword_17D654), plays
+; Checks the 9 option keys (KeyIsDown, held-tick timers dword_17D654), plays
 ; sound 33h and toggles the option bits (byte_17D650)
 ;-----------------------------------------------------------------------------
 PollOptionKeys:
@@ -166,7 +166,7 @@ PollOptionKeys:
         enter 0Ch, 0
         push byte 1Dh
         mov dword [byte ebp-0Ch], 0FFFFFFFFh
-        call sub_DFE9C
+        call KeyIsDown
         add esp, byte 4
         test eax, eax
         je near PollOptionKeys_192.8
@@ -175,7 +175,7 @@ PollOptionKeys:
         xor esi, esi
 .1:
         push dword [byte ebp-08h]
-        call sub_DFE9C
+        call KeyIsDown
         add esp, byte 4
         test eax, eax
         je short .2
@@ -387,7 +387,7 @@ ControlPicksScreen:
         call LoadPackedFile
         push byte 0
         mov dword [dword_17D590], eax
-        call sub_ADA50
+        call ClearScreenColour
         add esp, byte 4
         call BlackPalette
         push str_Pal13
@@ -1135,7 +1135,7 @@ ControlSetupScreen:
         push byte 0
         mov esi, eax
         mov dword [byte ebp+032h], eax
-        call sub_ADA50
+        call ClearScreenColour
         add esp, byte 4
         call BlackPalette
         push str_Pal13
@@ -3021,7 +3021,7 @@ ModemSettingsScreen:
         push byte 0
         mov edi, eax
         mov dword [byte ebp+05Ah], eax
-        call sub_ADA50
+        call ClearScreenColour
         add esp, byte 4
         call BlackPalette
         push str_bangpal
@@ -3342,7 +3342,7 @@ ModemSettingsScreen:
         imul eax, byte 44h
         add eax, asc_11DFC8
         push eax
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         inc eax
         push eax
@@ -3384,7 +3384,7 @@ ModemSettingsScreen:
         inc eax
         push eax
         push dword_17C9F4
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         inc eax
         push eax
@@ -3424,7 +3424,7 @@ ModemSettingsScreen:
         inc eax
         push eax
         push unk_17C9CC
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         inc eax
         push eax
@@ -3729,7 +3729,7 @@ ModemSettingsScreen:
         add eax, asc_11DFC8
         push eax
         mov word [word_17C9B6], dx
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         inc eax
         push eax
@@ -3785,7 +3785,7 @@ ModemSettingsScreen:
         inc eax
         push eax
         push unk_17C9CC
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         inc eax
         push eax
@@ -3856,7 +3856,7 @@ ModemSettingsScreen:
         inc eax
         push eax
         push dword_17C9F4
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         inc eax
         push eax
@@ -3993,7 +3993,7 @@ ModemSettingsScreen_D49:
         ret
 ;-----------------------------------------------------------------------------
 ; ModemWaitIdle                                   74F0C  96 PC, low confidence
-; SoundIdle and one tick of the timer (sub_DFE9C(1)) while the modem screens
+; SoundIdle and one tick of the timer (KeyIsDown(1)) while the modem screens
 ; wait
 ;-----------------------------------------------------------------------------
 ModemWaitIdle:
@@ -4002,7 +4002,7 @@ ModemWaitIdle:
         push edx
         call SoundIdle
         push byte 1
-        call sub_DFE9C
+        call KeyIsDown
         add esp, byte 4
         pop edx
         pop ecx
@@ -4224,7 +4224,7 @@ ModemDialScreen:
         push byte 0
         mov esi, eax
         mov dword [byte ebp+072h], eax
-        call sub_ADA50
+        call ClearScreenColour
         add esp, byte 4
         call BlackPalette
         push str_bangpal
@@ -4921,7 +4921,7 @@ ModemDialScreen_BD2:
         cmp eax, byte 1Bh
         je short .34
         push byte 1
-        call sub_DFE9C
+        call KeyIsDown
         add esp, byte 4
         test eax, eax
         je short .36
@@ -5004,7 +5004,7 @@ LinkSetupScreen:
         push byte 0
         mov esi, eax
         mov dword [byte ebp+072h], eax
-        call sub_ADA50
+        call ClearScreenColour
         add esp, byte 4
         call BlackPalette
         push str_bangpal

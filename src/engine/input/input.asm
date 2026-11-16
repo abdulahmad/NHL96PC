@@ -12,7 +12,7 @@ extern off_117898, off_11789C, passplayer, penshotlive, penshotmode, puckvx, puc
 extern randomd0, regd2, regd3, setpersonel, sflags, skatetopuck, donothing, SetLCmode
 extern assexitjump, AutoSwitchPlayer, BlockShotDive, checkob, dopass, passmode, setpassmode, SetPassDirection
 extern ShootOrAim, SetShotMode, ShotMode, Findhittype, doshot, SetSPA, SetControlledPlayer, changeplayer
-extern updateanim, doplayeracc, playeracc, sub_4DD1B, burst, PlaySfx, sfx, MouseRead
+extern updateanim, doplayeracc, playeracc, BurstDrainEnergy, burst, PlaySfx, sfx, MouseRead
 extern vecdist, unk_164754, unk_164B5C, vtoa, word_1178A8, word_1178AC, word_1178AE, word_1178B4
 extern fodir1, fodir2, gmode2, HomeControlSlot, slotteam, gsp, word_118EA5, word_118EA9
 extern word_118EB1, word_119EDA, word_16474C, word_164794, word_165078, word_165082, word_1656E8, word_165704
@@ -1138,7 +1138,7 @@ DoCheckInput:
         jne short .5
         mov eax, esi
         mov edx, dword [byte edi+04h]
-        call sub_4DD1B
+        call BurstDrainEnergy
         mov edx, 375h
 .4:
         mov eax, esi
@@ -1254,14 +1254,14 @@ DoCheckInput:
 .19:
         mov eax, esi
         mov edx, dword [byte edi+04h]
-        call sub_4DD1B
+        call BurstDrainEnergy
         movsx edx, bx
         or byte [byte esi+044h], 20h
         jmp near .4
 .20:
         mov eax, esi
         mov edx, dword [byte edi+04h]
-        call sub_4DD1B
+        call BurstDrainEnergy
         mov eax, esi
         movsx edx, word [byte edi+04h]
         call doplayeracc
@@ -1280,7 +1280,7 @@ DoCheckInput:
         jne short .24
         mov eax, esi
         mov edx, dword [byte edi+04h]
-        call sub_4DD1B
+        call BurstDrainEnergy
         mov eax, esi
         movsx edx, word [byte edi+04h]
         call doplayeracc
@@ -1307,7 +1307,7 @@ DoCheckInput:
 .25:
         mov eax, esi
         mov edx, dword [byte edi+04h]
-        call sub_4DD1B
+        call BurstDrainEnergy
         or byte [byte esi+044h], 20h
         or byte [byte esi+045h], 2
         mov eax, esi
@@ -1346,7 +1346,7 @@ DoCheckInput:
 .29:
         mov eax, esi
         mov edx, dword [byte edi+04h]
-        call sub_4DD1B
+        call BurstDrainEnergy
         or byte [byte esi+044h], 20h
         or byte [byte esi+045h], 2
         cmp byte [byte esi+065h], 0
@@ -1369,7 +1369,7 @@ DoCheckInput:
         je near .20
         mov eax, esi
         mov edx, dword [byte edi+04h]
-        call sub_4DD1B
+        call BurstDrainEnergy
         or byte [byte esi+044h], 20h
         or byte [byte esi+045h], 2
         cmp byte [byte esi+065h], 0

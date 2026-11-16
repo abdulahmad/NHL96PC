@@ -19,7 +19,7 @@ extern UpdateUserRecords, RefreshControlSlots, CrowdReactToPlay, LoadGamePalette
 extern UpdateCamera, FreeSpriteCache, LoadFrontEndArt, FreeFrontEndArt, SetScreenColors, FadeOut, CopyBitmap, SetScreenMode
 extern StopMusic, QueueMusic, FadeOutMusic, PlaySfx, Crowd_Noise, SetCrowdTarget, CrowdFadeOut, ArenaClipReady
 extern StartArenaClip, StopArenaClip, StartGameSound, EndGameSound, SoundIdle, WriteGlobalSet, GetLangText, RemoveTimerCallback
-extern AllocMemBlock, FreeMemBlock, sub_ADA50, FreeColourLookup, SetScreenTarget, GetPaletteRange, SetPaletteEntries, TicksSinceLast
+extern AllocMemBlock, FreeMemBlock, ClearScreenColour, FreeColourLookup, SetScreenTarget, GetPaletteRange, SetPaletteEntries, TicksSinceLast
 extern FindShape, unk_16443C, unk_17CB2E, unk_17CED5, unk_17D272, unk_17D32C, word_114CE0, word_114F14
 extern word_119111, word_119113, word_1515E4, word_1656D2, word_1656D6
 global jpt_168DA, jpt_168EA, PlayMenuGame, PlayMenuGame_75, PlayMenuGame_85, PlayMenuGame_9F, PlayMenuGame_AF, PlayMenuGame_243
@@ -228,7 +228,7 @@ PlayMenuGame_280:
         mov eax, esi
         call SetScreenColors
         push byte 0
-        call sub_ADA50
+        call ClearScreenColour
         add esp, byte 4
         push esi
         push dword 100h

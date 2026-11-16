@@ -4,10 +4,10 @@ bits 32
 section s_AD680 progbits alloc exec nowrite align=1
 extern byte_11FA2C, byte_11FA2D, byte_11FA2E, byte_11FA30, dword_11FA34, dword_11FA3C, ScreenWidth, ClipTopRow
 extern ClipLeftCol, ClipRight, ScreenHeight, KeyedDraw, dword_1228FC, dword_122930, dword_123934, FreeMemBlock
-extern sub_ABF88, removewindow, SetScreenTarget, VesaSetBank, FillRectCore, XorRectCore, sub_E0584, FillMem
+extern PushMemDescriptorLocked, removewindow, SetScreenTarget, VesaSetBank, FillRectCore, XorRectCore, ClearClipRect, FillMem
 extern SaveDrawState, RestoreDrawState
-global fputchar, mem_putc_, FillRect, sub_AD824, XorRect, sub_AD9DC, sub_ADA50, sub_ADA80
-global sub_ADB30, FreeBitmap
+global TextStringWidth, mem_putc_, FillRect, FillRectClipped, XorRect, XorRectClipped, ClearScreenColour, DrawRectOutline
+global TextWidthN, FreeBitmap
 ;-----------------------------------------------------------------------------
 ; FillRect                                     AD680  95 PC, medium confidence
 ;-----------------------------------------------------------------------------
@@ -157,9 +157,10 @@ FillRect:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_AD824                                                            AD824  
+; FillRectClipped                                 AD824  96 PC, low confidence
+; Clips a rectangle to the clip rectangle and fills it
 ;-----------------------------------------------------------------------------
-sub_AD824:
+FillRectClipped:
         push esi
         push edi
         push ebp
@@ -346,9 +347,10 @@ XorRect:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_AD9DC                                                            AD9DC  
+; XorRectClipped                                  AD9DC  96 PC, low confidence
+; Clips a rectangle to the clip rectangle and XORs it
 ;-----------------------------------------------------------------------------
-sub_AD9DC:
+XorRectClipped:
         push esi
         push edi
         push ebp
@@ -403,9 +405,10 @@ sub_AD9DC:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_ADA50                                                            ADA50  
+; ClearScreenColour                               ADA50  96 PC, low confidence
+; Fills the whole screen with a colour
 ;-----------------------------------------------------------------------------
-sub_ADA50:
+ClearScreenColour:
         sub esp, byte 60h
         mov eax, esp
         push eax
@@ -414,7 +417,7 @@ sub_ADA50:
         call SetScreenTarget
         mov edx, dword [byte esp+064h]
         push edx
-        call sub_E0584
+        call ClearClipRect
         add esp, byte 4
         mov eax, esp
         push eax
@@ -424,9 +427,10 @@ sub_ADA50:
         ret
         db 00h
 ;-----------------------------------------------------------------------------
-; sub_ADA80                                                            ADA80  
+; DrawRectOutline                                 ADA80  96 PC, low confidence
+; Draws the outline of a rectangle as four filled edges
 ;-----------------------------------------------------------------------------
-sub_ADA80:
+DrawRectOutline:
         push esi
         push edi
         push ebp
@@ -463,7 +467,7 @@ sub_ADA80:
         dec eax
         push esi
         mov dword [byte esp+014h], eax
-        call sub_AD824
+        call FillRectClipped
         add esp, byte 14h
         mov eax, dword [byte esp+028h]
         push eax
@@ -473,7 +477,7 @@ sub_ADA80:
         inc edi
         push edi
         push ebp
-        call sub_AD824
+        call FillRectClipped
         add esp, byte 14h
         mov ebx, dword [byte esp+028h]
         push ebx
@@ -482,7 +486,7 @@ sub_ADA80:
         push byte 1
         push edi
         push esi
-        call sub_AD824
+        call FillRectClipped
         add esp, byte 14h
         mov edi, dword [byte esp+028h]
         push edi
@@ -492,7 +496,7 @@ sub_ADA80:
         mov eax, dword [byte esp+030h]
         push eax
         push esi
-        call sub_AD824
+        call FillRectClipped
         add esp, byte 14h
         add esp, byte 8
         pop ebp
@@ -501,9 +505,11 @@ sub_ADA80:
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_ADB30                                                            ADB30  
+; TextWidthN                                      ADB30  96 PC, low confidence
+; Returns the width in pixels of at most n characters of a string in the
+; current font
 ;-----------------------------------------------------------------------------
-sub_ADB30:
+TextWidthN:
         push esi
         push edi
         push ebp
@@ -560,13 +566,14 @@ sub_ADB30:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; fputchar                                                      ADBB4  library
+; TextStringWidth                              ADBB4  96 PC, medium confidence
+; Returns the width in pixels of a string in the current font
 ;-----------------------------------------------------------------------------
-fputchar:
+TextStringWidth:
         push dword 200h
         mov edx, dword [byte esp+08h]
         push edx
-        call sub_ADB30
+        call TextWidthN
         add esp, byte 8
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -576,7 +583,7 @@ fputchar:
         sub eax, byte 8
         call removewindow
         push edx
-        call sub_ABF88
+        call PushMemDescriptorLocked
         add esp, byte 4
         ret
         db 090h

@@ -8,7 +8,7 @@ extern _fmode, __OpenStreams, __ClosedStreams, lseek_, sopen_, strncmp_, strncpy
 extern GetPsp, McgaNoWindow, bcopy, tell_, tolower_
 global __MkTmpFile_, __doclose_, __doopen_, __hex_, __open_flags_, __shutdown_stream_, __update_buffer_, _fsopen_
 global _nfree_, _nmalloc_, _os_handle, _os_handle_0, _os_handle_1, close_file_, fclose_, fopen_
-global fread_, freopen_, fseek_, ftell_, strcat_, strcpy_, sub_AA500, PathBaseName
+global fread_, freopen_, fseek_, ftell_, strcat_, strcpy_, EmptyRoutine, PathBaseName
 ;-----------------------------------------------------------------------------
 ; strcpy_                                                       A9CB3  library
 ;-----------------------------------------------------------------------------
@@ -1009,9 +1009,10 @@ _nfree_:
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_AA500                                                            AA500  
+; EmptyRoutine                                 AA500  96 PC, medium confidence
+; Does nothing
 ;-----------------------------------------------------------------------------
-sub_AA500:
+EmptyRoutine:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------

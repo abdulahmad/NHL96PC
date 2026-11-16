@@ -3,10 +3,10 @@ bits 32
 %include "hockey.inc"
 section s_AC9F0 progbits alloc exec nowrite align=1
 extern str_DBUGTXT, str_FILES, str_DATES, str_TIMES, str_CLOSED, str_TIMES2, byte_11F9D8, byte_11F9D9
-extern byte_11F9DA, DebugMode, dword_11F9D0, DebugLineWidth, dword_11F9DC, fclose_, fopen_, sub_ACED8
-extern sub_ACF68, sub_AD00C, bcopy, ZeroMem, unk_113444, vsprintf_
+extern byte_11F9DA, DebugMode, dword_11F9D0, DebugLineWidth, dword_11F9DC, fclose_, fopen_, DebugLog
+extern FindWildcardDigits, FormatDateStamp, bcopy, ZeroMem, unk_113444, vsprintf_
 global DebugPrintf, DebugShowLines_D5, DebugShowLines_E6, DebugShowLines_124, DebugShowLines_140, DebugShowLines_149, DebugSetLine, DebugShowLines
-global sub_ACC74, sub_ACCF8, sub_ACD24, sub_ACD38, unk_ACABC
+global DebugScrollUp, DebugClearScreen, DebugSetRow, DebugSetAttr, unk_ACABC
 ;-----------------------------------------------------------------------------
 ; DebugPrintf                                  AC9F0  95 PC, medium confidence
 ;-----------------------------------------------------------------------------
@@ -123,7 +123,7 @@ DebugShowLines:
         mov al, cl
         cmp eax, byte 20h
         jl short .3
-        call sub_ACC74
+        call DebugScrollUp
         mov esi, dword [DebugLineWidth]
         mov ebx, dword [dword_11F9D0]
         xor ah, ah
@@ -178,7 +178,7 @@ DebugShowLines_124:
         lea esi, [byte eax+01h]
         imul esi, dword 0A0h
         mov dword [DebugLineWidth], esi
-        call sub_ACC74
+        call DebugScrollUp
         mov esi, dword [DebugLineWidth]
         jmp short DebugShowLines_149.7
 DebugShowLines_140:
@@ -219,9 +219,10 @@ DebugShowLines_149:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_ACC74                                                            ACC74  
+; DebugScrollUp                                   ACC74  96 PC, low confidence
+; Scrolls the debug monochrome screen up a line
 ;-----------------------------------------------------------------------------
-sub_ACC74:
+DebugScrollUp:
         push ebx
         push ecx
         push edx
@@ -266,9 +267,10 @@ sub_ACC74:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_ACCF8                                                            ACCF8  
+; DebugClearScreen                                ACCF8  96 PC, low confidence
+; Clears the debug monochrome screen
 ;-----------------------------------------------------------------------------
-sub_ACCF8:
+DebugClearScreen:
         mov ebx, dword [dword_11F9D0]
         cmp dword [DebugMode], byte 2
         jl short .2
@@ -283,9 +285,10 @@ sub_ACCF8:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_ACD24                                                            ACD24  
+; DebugSetRow                                     ACD24  96 PC, low confidence
+; Sets the debug screen's output row (0 to 24)
 ;-----------------------------------------------------------------------------
-sub_ACD24:
+DebugSetRow:
         mov eax, dword [byte esp+04h]
         test eax, eax
         jl short .1
@@ -296,9 +299,10 @@ sub_ACD24:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_ACD38                                                            ACD38  
+; DebugSetAttr                                    ACD38  96 PC, low confidence
+; Sets the debug screen's text attribute
 ;-----------------------------------------------------------------------------
-sub_ACD38:
+DebugSetAttr:
         mov al, byte [byte esp+04h]
         mov byte [byte_11F9D9], al
         ret
@@ -383,7 +387,7 @@ sub_ACD38:
         pop edi
         mov eax, esp
         mov edx, unk_113444
-        call sub_ACF68
+        call FindWildcardDigits
         mov eax, esp
         call fopen_
         mov dword [dword_11F9DC], eax
@@ -391,21 +395,21 @@ sub_ACD38:
         je short .7
         lea edx, [dword esp+09Ch]
         lea eax, [dword esp+088h]
-        call sub_AD00C
+        call FormatDateStamp
         mov eax, esp
         push eax
         push str_FILES
-        call sub_ACED8
+        call DebugLog
         add esp, byte 8
         lea eax, [dword esp+088h]
         push eax
         push str_DATES
-        call sub_ACED8
+        call DebugLog
         add esp, byte 8
         lea eax, [dword esp+09Ch]
         push eax
         push str_TIMES
-        call sub_ACED8
+        call DebugLog
         add esp, byte 8
         jmp short .8
 .7:
@@ -427,19 +431,19 @@ sub_ACD38:
         je short .9
         mov edx, esp
         lea eax, [byte esp+014h]
-        call sub_AD00C
+        call FormatDateStamp
         push str_CLOSED
-        call sub_ACED8
+        call DebugLog
         add esp, byte 4
         lea eax, [byte esp+014h]
         push eax
         push str_DATES
-        call sub_ACED8
+        call DebugLog
         add esp, byte 8
         mov eax, esp
         push eax
         push str_TIMES2
-        call sub_ACED8
+        call DebugLog
         add esp, byte 8
         mov eax, dword [dword_11F9DC]
         xor ebx, ebx

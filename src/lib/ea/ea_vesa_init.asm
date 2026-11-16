@@ -6,7 +6,7 @@ extern FatalError, __STOSB, str_InitgraphicsINITMEMMAN, str_InitgraphicsINVALIDS
 extern dword_11F5CC, dword_11F5D0, dword_11F5D4, dword_11F5D8, dword_1210CC, ScreenWidth, BackBufferWidth, dword_122904
 extern dword_122908, dword_12290C, dword_122910, dword_122914, dword_122918, dword_122920, dword_122924, dword_122930
 extern dword_123930, dword_123ACC, dword_123AD0, VesaBank, VesaBankFunc, dword_19B650, dword_1A0B1C, FreeBitmap
-extern sub_BF300, sub_BF42C, SetScreenTarget, VesaSetBank, VesaSetMode, VgaSetModeTwice, SaveTextMode
+extern VesaGetInfo, VesaGetModeInfo, SetScreenTarget, VesaSetBank, VesaSetMode, VgaSetModeTwice, SaveTextMode
 global initgraphics, TranslatePixels, SumRingRange
 ;-----------------------------------------------------------------------------
 ; initgraphics                                 BF534  95 PC, medium confidence
@@ -96,7 +96,7 @@ initgraphics:
         test esi, esi
         jl near .21
         lea eax, [dword esp+0100h]
-        call sub_BF300
+        call VesaGetInfo
         test eax, eax
         jne short .13
         push str_VESAVideoBiosDriver
@@ -116,7 +116,7 @@ initgraphics:
         or bh, 1
         mov edx, esp
         mov eax, ebx
-        call sub_BF42C
+        call VesaGetModeInfo
         mov edi, eax
         test eax, eax
         je short .16

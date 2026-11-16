@@ -18,8 +18,8 @@ extern Sb16DmaPos, getenv_, SbProIsr, Sb16Isr, AllocMemLocked, FreeMemBlock, ato
 extern SpeechQueueService, SetChannelVolume, StopSoundChannel, FlushAudioStream, CrowdService, PickOutputRate, CallDriverService, MixerInit
 extern MixerFillBuffer, MixerStopChannel, strtoul_, WssCodecStart, WssCodecStop, WssSetVolume, DmaMaskChannel, DmaProgram
 extern DmaPlayedHalf, PicSendEoi, IrqUnmask, IrqMask, IrqSetHandler, InstallRealIrqStub, RemoveRealIrqStub, GusGetEnvConfig
-extern GusProbePort, GusOpen, GusClose, GusMemAlloc, sub_D703C, GusStreamBusy, GusServiceStream, GusStartStream
-extern SbIsrSingle, SbIsrAutoInit, sub_D7A44, bcopy, SndChannels, SbHighDma, SbProHighDma, SbIsrPicPort
+extern GusProbePort, GusOpen, GusClose, GusMemAlloc, GusStopStream, GusStreamBusy, GusServiceStream, GusStartStream
+extern SbIsrSingle, SbIsrAutoInit, BlitBlockRemapKeyed, bcopy, SndChannels, SbHighDma, SbProHighDma, SbIsrPicPort
 extern SbIsrAckPort, SbIsrWritePort, SbProIsrPicPort, SbProIsrAckPort, Sb16IsrPicPort, Sb16IsrAckPort, unk_F0000, unk_F000D
 extern unk_F001A, unk_F0027, word_1A0FA0, SbMixerAddrPort, word_1A0FA4, word_1A0FA6, word_1A0FA8, SbReadPort
 extern SbWritePort, GusConfig, GusConfigPort, SbPort, SbOldIrqSelector, SbProOldIrqSelector, Sb16Port, Sb16OldIrqSelector
@@ -1004,7 +1004,7 @@ GusDriverClose:
 .1:
         cmp dword [GusDmaAlloc], byte 0
         je short .2
-        call sub_D703C
+        call GusStopStream
         push dword [GusDmaAlloc]
         call FreeMemBlock
         mov dword [GusDmaAlloc], 0
@@ -2867,7 +2867,7 @@ DrawArtKeyedRemap:
         push eax
         push ebx
         push edx
-        call sub_D7A44
+        call BlitBlockRemapKeyed
         add esp, byte 0Ch
         pop edi
         pop esi
@@ -2899,7 +2899,7 @@ DrawArtKeyedRemap:
         push eax
         push edx
         push ebx
-        call sub_D7A44
+        call BlitBlockRemapKeyed
         add esp, byte 0Ch
         pop edi
         pop esi
@@ -2936,7 +2936,7 @@ DrawArtKeyedRemap:
         push edx
         push ebx
         push eax
-        call sub_D7A44
+        call BlitBlockRemapKeyed
         add esp, byte 0Ch
         pop edi
         pop esi

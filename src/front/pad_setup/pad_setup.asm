@@ -6,13 +6,13 @@ extern byte_11FA2E, byte_11FA2F, byte_151708, byte_151774, byte_151778, byte_158
 extern byte_158D2D, byte_17BDAE, byte_17CA24, byte_17CA3C, byte_17CA54, dword_114CB0, dword_114CB4, dword_117588
 extern dword_11F5C0, dword_151698, dword_1516A8, dword_158CC0, dword_158CCC, dword_158CD0, dword_158CD4, dword_158D54
 extern dword_158D64, dword_158D68, dword_158D6C, dword_158D70, dword_17BC78, TeamStatsBitmap, dword_17BD48, FillRect
-extern fputchar, GetGripButtonMap, GetInputDevices, GetTicks, InitInputDevices, LoadPackedFile, MessageBox, MouseRead
+extern TextStringWidth, GetGripButtonMap, GetInputDevices, GetTicks, InitInputDevices, LoadPackedFile, MessageBox, MouseRead
 extern mousex, mousey, ReadJoystickBits, SetGripButtonMap, sprintf_, str_A, str_BKGD, str_BT00
 extern str_BT01, str_BT02, str_D3, str_feB, str_GRIPCON, str_LTD0, str_Pal4, str_RGRIPCON
 extern strcpy_, strlen_, OpenScreen, SlideInTitleBar, SlideInSideBar, SetScreenColors, BlackPalette, FadePalette
 extern FadeOut, CopyBitmap, SetTextColors, DrawColorText, DrawColorTextRight, DrawColorTextCentred, InitMenuItems, RunMenu
 extern SetMenuMouse, FillMusicStream, SoundSecondsToBytes, SoundIdle, GetLangText, DrawShapeAtOwnPos, PutBlockAtOwnPos, AllocMemBlock
-extern FreeMemBlock, sub_ADA50, sub_ADA80, SetScreenTarget, FillRectColor, KbdGetKey, FindShape, TextSetFont
+extern FreeMemBlock, ClearScreenColour, DrawRectOutline, SetScreenTarget, FillRectColor, KbdGetKey, FindShape, TextSetFont
 extern unk_121FC8, unk_151648, unk_1516B8, unk_151720, unk_2018D, word_11758C, word_151768, word_158CBA
 extern word_158CBC, word_158D34, word_158D3C, word_158D44, word_158D46, word_158D74, word_158D76
 global DrawGripPads, DrawGripPads_73B, DrawGripPads_73C, GripSetupScreen, UpdateJoystickTest, JoystickTestScreen
@@ -432,7 +432,7 @@ DrawGripPads:
         push edx
         push edi
         push eax
-        call sub_ADA80
+        call DrawRectOutline
         add esp, byte 14h
         imul eax, dword [byte ebp-0Ch], byte 66h
         mov edx, dword [dword_158D70]
@@ -469,7 +469,7 @@ DrawGripPads:
         inc eax
         inc eax
         push eax
-        call sub_ADA80
+        call DrawRectOutline
         add esp, byte 14h
         movsx eax, word [word_158D76]
         inc dword [byte ebp-0Ch]
@@ -541,7 +541,7 @@ DrawGripPads:
         push edx
         push edi
         push eax
-        call sub_ADA80
+        call DrawRectOutline
         add esp, byte 14h
         imul eax, dword [byte ebp-0Ch], byte 66h
         mov edx, dword [dword_158D70]
@@ -577,7 +577,7 @@ DrawGripPads:
         inc eax
         inc eax
         push eax
-        call sub_ADA80
+        call DrawRectOutline
         add esp, byte 14h
         movsx eax, word [word_158D76]
         imul eax, byte 0Ah
@@ -622,7 +622,7 @@ DrawGripPads:
         push eax
         push edi
         push dword [byte ebp-08h]
-        call sub_ADA80
+        call DrawRectOutline
         add esp, byte 14h
         mov eax, dword [dword_158D70]
         mov edx, dword [byte ebp-08h]
@@ -655,7 +655,7 @@ DrawGripPads:
         push eax
         push dword [byte ebp-020h]
         push edx
-        call sub_ADA80
+        call DrawRectOutline
         add esp, byte 14h
         add dword [byte ebp-030h], byte 66h
         inc dword [byte ebp-0Ch]
@@ -729,7 +729,7 @@ GripSetupScreen:
         call SetScreenColors
         call BlackPalette
         push byte 1
-        call sub_ADA50
+        call ClearScreenColour
         add esp, byte 4
         push dword [dword_17BC78]
         call TextSetFont
@@ -877,7 +877,7 @@ GripSetupScreen:
         test eax, eax
         je short .7
         push dword [byte ebp-01Ch]
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         add eax, byte 5
 .7:
@@ -976,7 +976,7 @@ GripSetupScreen:
         push edx
         push esi
         push eax
-        call sub_ADA80
+        call DrawRectOutline
         movsx eax, word [word_158D76]
         mov edx, eax
         lea ebx, [esi+eax]
@@ -997,7 +997,7 @@ GripSetupScreen:
         inc eax
         inc eax
         push eax
-        call sub_ADA80
+        call DrawRectOutline
         movzx edx, byte [byte_11FA2F]
         movsx eax, word [word_158D76]
         sar edx, 1
@@ -1095,7 +1095,7 @@ GripSetupScreen:
         inc eax
         push eax
         mov dword [byte ebp-03Ch], edx
-        call sub_ADA80
+        call DrawRectOutline
         movzx edx, byte [byte_11FA2F]
         movsx eax, word [word_158D76]
         sar edx, 1
@@ -1213,7 +1213,7 @@ GripSetupScreen:
         push eax
         push esi
         push dword [byte ebp-0Ch]
-        call sub_ADA80
+        call DrawRectOutline
         add esp, byte 14h
         movsx eax, word [word_158D76]
         mov edx, eax
@@ -1233,7 +1233,7 @@ GripSetupScreen:
         inc eax
         inc eax
         push eax
-        call sub_ADA80
+        call DrawRectOutline
         mov eax, dword [byte ebp-04h]
         add esp, byte 14h
         inc eax
@@ -1485,7 +1485,7 @@ GripSetupScreen:
         mov dword [dword_114CB4], 1
         call InitInputDevices
         push byte 0
-        call sub_ADA50
+        call ClearScreenColour
         add esp, byte 4
 .35:
         test byte [byte_17CA24], 1
@@ -1609,7 +1609,7 @@ JoystickTestScreen:
         push byte 0
         mov esi, eax
         mov dword [byte ebp+06Ah], eax
-        call sub_ADA50
+        call ClearScreenColour
         add esp, byte 4
         call BlackPalette
         push str_Pal4

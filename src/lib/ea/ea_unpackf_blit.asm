@@ -3,13 +3,14 @@ bits 32
 %include "hockey.inc"
 section s_DBFA8 progbits alloc exec nowrite align=1
 extern SetDrawBitmap, str_Unpackf, str_Targa, ClipBottom, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight
-extern dword_123AC8, off_151524, AllocMemBlock, AllocMemLocked, FreeMemBlock, sub_AD9DC, SaveDataFile, FlipArtHorizontal
-extern GetPalette, sub_D7D44, sub_DD220, sub_DD2A0, PlotPixel, UnpackArtRle, bcopy
-global sub_DBFA8, sub_DC158, sub_DC17C, sub_DC780, sub_DC830, sub_DCB90
+extern dword_123AC8, off_151524, AllocMemBlock, AllocMemLocked, FreeMemBlock, XorRectClipped, SaveDataFile, FlipArtHorizontal
+extern GetPalette, PutBytesLE, FlipArtVertical, TranslateArtPixels, PlotPixel, UnpackArtRle, bcopy
+global DrawArtAnyFormat, DrawArtAnyFormatAt, DrawArtAnyFormatOwnPos, XorRectOutline, WriteTgaScreen, SelectBitmapHandle
 ;-----------------------------------------------------------------------------
-; sub_DBFA8                                                            DBFA8  
+; DrawArtAnyFormat                                DBFA8  96 PC, low confidence
+; Draws art of any type (packed, run length or plain), scaled or not
 ;-----------------------------------------------------------------------------
-sub_DBFA8:
+DrawArtAnyFormat:
         push esi
         push edi
         push ebp
@@ -142,13 +143,13 @@ sub_DBFA8:
         sub ecx, eax
         mov dword [byte esp+02Ch], ebx
         mov dword [byte esp+0Ch], ecx
-        call sub_DD220
+        call FlipArtVertical
         add esp, byte 4
 .9:
         cmp dword [byte esp+020h], byte 0
         je short .10
         push esi
-        call sub_DD2A0
+        call TranslateArtPixels
         add esp, byte 4
 .10:
         mov edx, dword [byte esp+08h]
@@ -172,9 +173,10 @@ sub_DBFA8:
         ret 10h
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_DC158                                                            DC158  
+; DrawArtAnyFormatAt                              DC158  96 PC, low confidence
+; Draws art of any type at x, y
 ;-----------------------------------------------------------------------------
-sub_DC158:
+DrawArtAnyFormatAt:
         mov eax, dword [byte esp+04h]
         mov edx, dword [byte esp+08h]
         mov ebx, dword [byte esp+0Ch]
@@ -183,13 +185,14 @@ sub_DC158:
         push byte 0
         push byte 1
         xor ecx, ecx
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_DC17C                                                            DC17C  
+; DrawArtAnyFormatOwnPos                          DC17C  96 PC, low confidence
+; Draws art of any type at its own position
 ;-----------------------------------------------------------------------------
-sub_DC17C:
+DrawArtAnyFormatOwnPos:
         mov eax, dword [byte esp+04h]
         push dword 10000h
         push dword 10000h
@@ -198,7 +201,7 @@ sub_DC17C:
         push byte 1
         xor ebx, ebx
         xor edx, edx
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 08Dh,040h,00h
         mov eax, dword [byte esp+04h]
@@ -209,7 +212,7 @@ sub_DC17C:
         push byte 0
         push byte 1
         mov ecx, 1
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 08Dh,040h,00h
         mov eax, dword [byte esp+04h]
@@ -220,7 +223,7 @@ sub_DC17C:
         push byte 0
         push byte 1
         xor ecx, ecx
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 08Bh,0C0h
         mov eax, dword [byte esp+04h]
@@ -231,7 +234,7 @@ sub_DC17C:
         push byte 1
         xor ebx, ebx
         xor edx, edx
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 08Dh,040h,00h
         mov eax, dword [byte esp+04h]
@@ -242,7 +245,7 @@ sub_DC17C:
         push byte 0
         push byte 1
         mov ecx, 1
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 08Dh,040h,00h
         mov eax, dword [byte esp+04h]
@@ -253,7 +256,7 @@ sub_DC17C:
         push byte 0
         push byte 1
         xor ecx, ecx
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 08Bh,0C0h
         mov eax, dword [byte esp+04h]
@@ -264,7 +267,7 @@ sub_DC17C:
         push byte 1
         xor ebx, ebx
         xor edx, edx
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 08Dh,040h,00h
         mov eax, dword [byte esp+04h]
@@ -275,7 +278,7 @@ sub_DC17C:
         push byte 0
         push byte 1
         mov ecx, 1
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 08Dh,040h,00h
         mov eax, dword [byte esp+04h]
@@ -286,7 +289,7 @@ sub_DC17C:
         push byte 0
         push byte 1
         xor ecx, ecx
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 08Bh,0C0h
         mov eax, dword [byte esp+04h]
@@ -297,7 +300,7 @@ sub_DC17C:
         push byte 1
         xor ebx, ebx
         xor edx, edx
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 08Dh,040h,00h
         mov eax, dword [byte esp+04h]
@@ -308,7 +311,7 @@ sub_DC17C:
         push byte 0
         push byte 1
         mov ecx, 1
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 08Dh,040h,00h
         mov eax, dword [byte esp+04h]
@@ -319,7 +322,7 @@ sub_DC17C:
         push byte 0
         push byte 2
         xor ecx, ecx
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 08Bh,0C0h
         mov eax, dword [byte esp+04h]
@@ -330,7 +333,7 @@ sub_DC17C:
         push byte 2
         xor ebx, ebx
         xor edx, edx
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 08Dh,040h,00h
         mov eax, dword [byte esp+04h]
@@ -341,7 +344,7 @@ sub_DC17C:
         push byte 0
         push byte 2
         mov ecx, 1
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 08Dh,040h,00h
         mov eax, dword [byte esp+04h]
@@ -352,7 +355,7 @@ sub_DC17C:
         push byte 0
         push byte 2
         xor ecx, ecx
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 08Bh,0C0h
         mov eax, dword [byte esp+04h]
@@ -363,7 +366,7 @@ sub_DC17C:
         push byte 2
         xor ebx, ebx
         xor edx, edx
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 08Dh,040h,00h
         mov eax, dword [byte esp+04h]
@@ -374,7 +377,7 @@ sub_DC17C:
         push byte 0
         push byte 2
         mov ecx, 1
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 08Dh,040h,00h
         mov eax, dword [byte esp+04h]
@@ -385,7 +388,7 @@ sub_DC17C:
         push byte 0
         push byte 1
         xor ecx, ecx
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 08Bh,0C0h
         mov eax, dword [byte esp+04h]
@@ -396,7 +399,7 @@ sub_DC17C:
         push byte 1
         xor ebx, ebx
         xor edx, edx
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 08Dh,040h,00h
         mov eax, dword [byte esp+04h]
@@ -407,7 +410,7 @@ sub_DC17C:
         push byte 0
         push byte 1
         mov ecx, 1
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 08Dh,040h,00h
         mov eax, dword [byte esp+04h]
@@ -418,7 +421,7 @@ sub_DC17C:
         push byte 0
         push byte 1
         xor ecx, ecx
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 08Bh,0C0h
         mov eax, dword [byte esp+04h]
@@ -429,7 +432,7 @@ sub_DC17C:
         push byte 1
         xor ebx, ebx
         xor edx, edx
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 08Dh,040h,00h
         mov eax, dword [byte esp+04h]
@@ -440,7 +443,7 @@ sub_DC17C:
         push byte 0
         push byte 1
         mov ecx, 1
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 08Dh,040h,00h
         mov eax, dword [byte esp+04h]
@@ -451,7 +454,7 @@ sub_DC17C:
         push byte 0
         push byte 2
         xor ecx, ecx
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 08Bh,0C0h
         mov eax, dword [byte esp+04h]
@@ -462,7 +465,7 @@ sub_DC17C:
         push byte 2
         xor ebx, ebx
         xor edx, edx
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 08Dh,040h,00h
         mov eax, dword [byte esp+04h]
@@ -473,7 +476,7 @@ sub_DC17C:
         push byte 0
         push byte 2
         mov ecx, 1
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 08Dh,040h,00h
         mov eax, dword [byte esp+04h]
@@ -484,7 +487,7 @@ sub_DC17C:
         push byte 0
         push byte 2
         xor ecx, ecx
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 08Bh,0C0h
         mov eax, dword [byte esp+04h]
@@ -495,7 +498,7 @@ sub_DC17C:
         push byte 2
         xor ebx, ebx
         xor edx, edx
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 08Dh,040h,00h
         mov eax, dword [byte esp+04h]
@@ -506,7 +509,7 @@ sub_DC17C:
         push byte 0
         push byte 2
         mov ecx, 1
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 08Dh,040h,00h
         mov eax, dword [byte esp+04h]
@@ -517,7 +520,7 @@ sub_DC17C:
         push byte 1
         push byte 1
         xor ecx, ecx
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 08Bh,0C0h
         mov eax, dword [byte esp+04h]
@@ -528,7 +531,7 @@ sub_DC17C:
         push byte 1
         xor ebx, ebx
         xor edx, edx
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 08Dh,040h,00h
         mov eax, dword [byte esp+04h]
@@ -539,7 +542,7 @@ sub_DC17C:
         push byte 1
         push byte 1
         mov ecx, 1
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 08Dh,040h,00h
         mov eax, dword [byte esp+04h]
@@ -550,7 +553,7 @@ sub_DC17C:
         push byte 1
         push byte 1
         xor ecx, ecx
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 08Bh,0C0h
         mov eax, dword [byte esp+04h]
@@ -561,7 +564,7 @@ sub_DC17C:
         push byte 1
         xor ebx, ebx
         xor edx, edx
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 08Dh,040h,00h
         mov eax, dword [byte esp+04h]
@@ -572,7 +575,7 @@ sub_DC17C:
         push byte 1
         push byte 1
         mov ecx, 1
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 08Dh,040h,00h
         mov eax, dword [byte esp+04h]
@@ -583,7 +586,7 @@ sub_DC17C:
         push byte 1
         push byte 2
         xor ecx, ecx
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 08Bh,0C0h
         mov eax, dword [byte esp+04h]
@@ -594,7 +597,7 @@ sub_DC17C:
         push byte 2
         xor ebx, ebx
         xor edx, edx
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 08Dh,040h,00h
         mov eax, dword [byte esp+04h]
@@ -605,7 +608,7 @@ sub_DC17C:
         push byte 1
         push byte 2
         mov ecx, 1
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 08Dh,040h,00h
         mov eax, dword [byte esp+04h]
@@ -616,7 +619,7 @@ sub_DC17C:
         push byte 1
         push byte 2
         xor ecx, ecx
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 08Bh,0C0h
         mov eax, dword [byte esp+04h]
@@ -627,7 +630,7 @@ sub_DC17C:
         push byte 2
         xor ebx, ebx
         xor edx, edx
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 08Dh,040h,00h
         mov eax, dword [byte esp+04h]
@@ -638,13 +641,14 @@ sub_DC17C:
         push byte 1
         push byte 2
         mov ecx, 1
-        call sub_DBFA8
+        call DrawArtAnyFormat
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_DC780                                                            DC780  
+; XorRectOutline                                  DC780  96 PC, low confidence
+; XORs the outline of a rectangle as four edges
 ;-----------------------------------------------------------------------------
-sub_DC780:
+XorRectOutline:
         push esi
         push edi
         push ebp
@@ -681,7 +685,7 @@ sub_DC780:
         dec eax
         push esi
         mov dword [byte esp+014h], eax
-        call sub_AD9DC
+        call XorRectClipped
         add esp, byte 14h
         mov eax, dword [byte esp+028h]
         push eax
@@ -691,7 +695,7 @@ sub_DC780:
         inc edi
         push edi
         push ebp
-        call sub_AD9DC
+        call XorRectClipped
         add esp, byte 14h
         mov ebx, dword [byte esp+028h]
         push ebx
@@ -700,7 +704,7 @@ sub_DC780:
         push byte 1
         push edi
         push esi
-        call sub_AD9DC
+        call XorRectClipped
         add esp, byte 14h
         mov edi, dword [byte esp+028h]
         push edi
@@ -710,7 +714,7 @@ sub_DC780:
         mov eax, dword [byte esp+030h]
         push eax
         push esi
-        call sub_AD9DC
+        call XorRectClipped
         add esp, byte 14h
         add esp, byte 8
         pop ebp
@@ -719,9 +723,10 @@ sub_DC780:
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_DC830                                                            DC830  
+; WriteTgaScreen                                  DC830  96 PC, low confidence
+; Writes the screen to a TGA file at the current pixel depth
 ;-----------------------------------------------------------------------------
-sub_DC830:
+WriteTgaScreen:
         push esi
         push edi
         push ebp
@@ -788,7 +793,7 @@ sub_DC830:
         push byte 1
         push byte 0
         push eax
-        call sub_D7D44
+        call PutBytesLE
         add esp, byte 0Ch
         push byte 1
         cmp edi, byte 1
@@ -797,7 +802,7 @@ sub_DC830:
         push eax
         lea eax, [byte esi+01h]
         push eax
-        call sub_D7D44
+        call PutBytesLE
         add esp, byte 0Ch
         push byte 1
         cmp edi, byte 1
@@ -807,33 +812,33 @@ sub_DC830:
         push eax
         lea eax, [byte esi+02h]
         push eax
-        call sub_D7D44
+        call PutBytesLE
         add esp, byte 0Ch
         push byte 2
         push byte 0
         lea eax, [byte esi+03h]
         push eax
-        call sub_D7D44
+        call PutBytesLE
         add esp, byte 0Ch
         push byte 2
         mov ebx, dword [byte ebp-08h]
         push ebx
         lea eax, [byte esi+05h]
         push eax
-        call sub_D7D44
+        call PutBytesLE
         add esp, byte 0Ch
         push byte 1
         push byte 18h
         lea eax, [byte esi+07h]
         push eax
-        call sub_D7D44
+        call PutBytesLE
         add esp, byte 0Ch
         push byte 2
         mov ecx, dword [ClipTopRow]
         push ecx
         lea eax, [byte esi+08h]
         push eax
-        call sub_D7D44
+        call PutBytesLE
         add esp, byte 0Ch
         mov eax, dword [ClipBottom]
         mov edx, dword [ScreenHeight]
@@ -842,35 +847,35 @@ sub_DC830:
         push eax
         lea eax, [byte esi+0Ah]
         push eax
-        call sub_D7D44
+        call PutBytesLE
         add esp, byte 0Ch
         push byte 2
         mov ebx, dword [byte ebp-0Ch]
         push ebx
         lea eax, [byte esi+0Ch]
         push eax
-        call sub_D7D44
+        call PutBytesLE
         add esp, byte 0Ch
         push byte 2
         mov ecx, dword [byte ebp-014h]
         push ecx
         lea eax, [byte esi+0Eh]
         push eax
-        call sub_D7D44
+        call PutBytesLE
         add esp, byte 0Ch
         push byte 1
         lea eax, [nosplit edi*8+00h]
         push eax
         lea eax, [byte esi+010h]
         push eax
-        call sub_D7D44
+        call PutBytesLE
         add esp, byte 0Ch
         push byte 1
         push byte 0
         lea eax, [byte esi+011h]
         push eax
         add esi, byte 12h
-        call sub_D7D44
+        call PutBytesLE
         add esp, byte 0Ch
         cmp edi, byte 1
         jne short .5
@@ -1017,9 +1022,10 @@ sub_DC830:
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_DCB90                                                            DCB90  
+; SelectBitmapHandle                              DCB90  96 PC, low confidence
+; Makes the bitmap a handle points to the draw target
 ;-----------------------------------------------------------------------------
-sub_DCB90:
+SelectBitmapHandle:
         push esi
         mov esi, dword [byte esp+08h]
         mov esi, dword [esi]

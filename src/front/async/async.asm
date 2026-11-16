@@ -7,8 +7,8 @@ extern dword_152F74, dword_152F78, dword_152F7C, dword_152F80, dword_152F88, dwo
 extern dword_152F98, dword_152F9C, dword_152FA0, dword_152FA4, dword_152FAC, dword_152FB0, dword_152FB4, dword_152FB8
 extern dword_152FBC, dword_152FC4, dword_152FC8, dword_152FCC, dword_152FD0, dword_152FD4, FatalError, openhandle
 extern SetTickDeadline, str_ASYNC, str_ASYNCFILE, str_AsyncreaderNOFILESPECIFI, str_AsyncreaderNOFILESPECIFI2, str_AsyncreaderNOFILESPECIFI3, str_GetasyncblockDNOASYNCBLO, str_SetasyncspeedSFILEISTOOS
-extern str_SetasyncspeedSFILEISTOOS2, strcmp_, strncpy_, RemoveTimerCallback, sub_AB6D8, AllocMemBlock, FreeMemBlock, sub_ABF88
-extern CdOpenStream, CdHandleEntry, CdCloseFile, CdRead, CdSeek, TicksSinceLast, DosCloseFile, sub_E07CC
+extern str_SetasyncspeedSFILEISTOOS2, strcmp_, strncpy_, RemoveTimerCallback, AllocMemBlockLockedChecked, AllocMemBlock, FreeMemBlock, PushMemDescriptorLocked
+extern CdOpenStream, CdHandleEntry, CdCloseFile, CdRead, CdSeek, TicksSinceLast, DosCloseFile, DosReadFile
 extern DosSeekFile, unk_152FA8, WaitTickDeadline
 global setasyncspeed, setasyncspeed_ret, AsyncInit, AsyncClose, AsyncRequestOpen, AsyncRequestSection, AsyncCancelRequest, jpt_1BE62
 global asyncreader, asyncreader_B, asyncreader_34D, asyncreader_3EF, asyncreader_614, AsyncTimerTick, AsyncTimerTick_45, AsyncRequestDone
@@ -76,7 +76,7 @@ setasyncspeed:
         push byte 1
         push esi
         push dword [byte ebp-010h]
-        call sub_E07CC
+        call DosReadFile
         add esp, byte 0Ch
         push byte 32h
         call SetTickDeadline
@@ -86,7 +86,7 @@ setasyncspeed:
         push byte 1
         push esi
         push dword [byte ebp-0Ch]
-        call sub_E07CC
+        call DosReadFile
         add esp, byte 0Ch
         call TicksSinceLast
         mov esi, dword [byte ebp-014h]
@@ -106,7 +106,7 @@ setasyncspeed:
         push dword [byte ebp-04h]
         push dword [byte ebp-0Ch]
         sub esi, dword [byte ebp-08h]
-        call sub_E07CC
+        call DosReadFile
         add esp, byte 0Ch
         jmp short .4
 .7:
@@ -147,7 +147,7 @@ setasyncspeed:
         push byte 1
         push dword [byte ebp-04h]
         push dword [byte ebp-010h]
-        call sub_E07CC
+        call DosReadFile
         add esp, byte 0Ch
         call TicksSinceLast
         cmp eax, edi
@@ -577,7 +577,7 @@ asyncreader_B:
         push dword [dword esi+097h]
         push dword [dword_152F94]
         push esi
-        call sub_AB6D8
+        call AllocMemBlockLockedChecked
         mov dword [dword_152F98], eax
         mov eax, dword [dword_152F94]
         mov dword [dword_152F80], 3
@@ -720,7 +720,7 @@ asyncreader_34D:
         push eax
         push dword [dword_152F70]
         mov dword [dword_152F8C], eax
-        call sub_AB6D8
+        call AllocMemBlockLockedChecked
         mov dword [dword_152FA4], 0
         mov dword [dword_152F80], 3
         add esp, byte 0Ch
@@ -739,7 +739,7 @@ asyncreader_3EF:
 .22:
         push dword [dword_152F98]
         mov dword [dword_152F74], 0FFFFFFFFh
-        call sub_ABF88
+        call PushMemDescriptorLocked
         mov eax, dword [dword_152F70]
         inc dword [dword_1150E4]
         mov esi, dword [dword_152F6C]

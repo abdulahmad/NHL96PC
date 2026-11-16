@@ -8,7 +8,7 @@ extern byte_17CA7A, DetectCPU, dword_1150D8, DirPathTable, CpuHasCpuid, GlobalSe
 extern dword_17CA76, FileClose, FileReadAt, gameopts, getcwd_, globalset, LoadExhibitionStats, MakeDataPath
 extern MakeDirPath, NameIndexFree, NameIndexLoad, optblock, optblock_end, optflags, str_5552362337, str_ATD2
 extern str_ATF, str_backslash, str_EXHIBITNDX, strcat_, strlen_, strncpy_, LoadDataFileFlag0, RunControllerScreen
-extern TeamSelectScreen, PickIndexEntryScreen, RunRosterScreens, ComputeTeamRanks, FreeMemBlock, sub_E069C, DosCloseFile, DosWriteFile
+extern TeamSelectScreen, PickIndexEntryScreen, RunRosterScreens, ComputeTeamRanks, FreeMemBlock, CreateHandle, DosCloseFile, DosWriteFile
 extern unk_17C9B8, unk_17C9CC, unk_17D32C, word_17C9AC, word_17C9AE, word_17C9B0, word_17C9B2, word_17C9B4
 extern word_17C9B6, word_17CA7C
 global ReadGlobalSet, WriteGlobalSet, RunExhibitionMenus
@@ -189,7 +189,7 @@ WriteGlobalSet:
         push eax
         lea eax, [byte ebp-040h]
         push eax
-        call sub_E069C
+        call CreateHandle
         add esp, byte 10h
         push dword 0BCh
         push GlobalSetData

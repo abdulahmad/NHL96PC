@@ -3,11 +3,11 @@ bits 32
 %include "hockey.inc"
 section s_1A04E progbits alloc exec nowrite align=1
 extern byte_11FA2F, byte_152C3B, byte_152C40, byte_152C41, byte_152C42, DrawArtOpaque, dword_1150C4, dword_1150C8
-extern dword_1150CC, dword_1150D0, dword_11F5C0, dword_152C3C, FillRect, fputchar, mousex, mousey
+extern dword_1150CC, dword_1150D0, dword_11F5C0, dword_152C3C, FillRect, TextStringWidth, mousex, mousey
 extern PutBlock, SetDrawBitmap, sprintf_, str_02, str_BDMEN, str_BDREG, str_BUT, str_D14
 extern str_X, CopyBitmap, DrawTextCentred, SetTextColors, DrawColorTextCentred, DrawBox, InitMenuItems, RunMenu
-extern SetMenuMouse, SoundIdle, DrawShapeCore, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, CreateBitmap, sub_AD620
-extern sub_ADA80, FreeBitmap, TextSetColor, SetScreenTarget, GetPaletteRange, sub_DFE9C, unk_152B3C
+extern SetMenuMouse, SoundIdle, DrawShapeCore, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, CreateBitmap, TintRect
+extern DrawRectOutline, FreeBitmap, TextSetColor, SetScreenTarget, GetPaletteRange, KeyIsDown, unk_152B3C
 global DrawBoxButton, DrawBoxButton_ret, MessageBox, HideMessage, ShowMessage, ShowProgressBox, UpdateProgressBox, HideProgressBox
 ;-----------------------------------------------------------------------------
 ; DrawBoxButton                                1A04E  96 PC, medium confidence
@@ -42,7 +42,7 @@ DrawBoxButton:
         push dword [byte edx+eax+010h]
         push dword [byte edx+eax+04h]
         push dword [edx+eax]
-        call sub_ADA80
+        call DrawRectOutline
         mov eax, dword [dword_152C3C]
         mov eax, dword [byte eax+01Ch]
         add esp, byte 14h
@@ -68,7 +68,7 @@ DrawBoxButton:
         sar eax, 1
         mov dword [byte ebp-04h], ebx
         add esi, eax
-        call fputchar
+        call TextStringWidth
         mov ebx, dword [byte ebp-04h]
         mov edx, esi
         add esp, byte 4
@@ -124,7 +124,7 @@ MessageBox:
         cmp dword [byte ebp-014h], byte 0
         jle short .3
         push dword [edi]
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         cmp eax, dword [byte ebp-018h]
         jle short .2
@@ -135,7 +135,7 @@ MessageBox:
         jmp short .1
 .3:
         push str_X
-        call fputchar
+        call TextStringWidth
         mov edx, dword [byte ebp-018h]
         shl eax, 2
         add edx, eax
@@ -159,12 +159,12 @@ MessageBox:
         push dword [byte ebp-028h]
         mov byte [byte ebp-04h], al
         mov byte [edi], 0
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         cmp eax, dword [byte ebp-018h]
         jle short .5
         push dword [byte ebp-028h]
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         mov dword [byte ebp-018h], eax
 .5:
@@ -188,12 +188,12 @@ MessageBox:
         jmp short .8
 .9:
         push dword [byte ebp-028h]
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         cmp eax, dword [byte ebp-018h]
         jle short .6
         push dword [byte ebp-028h]
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         mov dword [byte ebp-018h], eax
         jmp short .6
@@ -201,12 +201,12 @@ MessageBox:
         cmp dword [byte ebp-018h], byte 0
         jne short .11
         push dword [dword ebp-0340h]
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         mov dword [byte ebp-018h], eax
 .11:
         push str_X
-        call fputchar
+        call TextStringWidth
         shl eax, 2
         add dword [byte ebp-018h], eax
         mov eax, dword [byte ebp-018h]
@@ -251,7 +251,7 @@ MessageBox:
         push dword [byte ebp-01Ch]
         mov byte [byte ebp-0Ch], al
         mov byte [edi], 0
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         cmp eax, dword [byte ebp-02Ch]
         jg short .17
@@ -361,7 +361,7 @@ MessageBox:
         lea eax, [dword ebp-033Ch]
         push eax
         push dword 6666h
-        call sub_AD620
+        call TintRect
         mov byte [byte_152C3B], 0FFh
         add esp, byte 0Ch
         movzx eax, byte [byte esi+01h]
@@ -405,14 +405,14 @@ MessageBox:
         push str_X
         mov byte [byte ebp-08h], al
         mov byte [edi], 0
-        call fputchar
+        call TextStringWidth
         mov edx, dword [byte ebp-02Ch]
         add eax, eax
         add esp, byte 4
         sub edx, eax
         push dword [dword ebp-0340h]
         mov dword [byte ebp-038h], edx
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         cmp eax, dword [byte ebp-038h]
         jg short .29
@@ -530,7 +530,7 @@ MessageBox:
         add eax, dword [byte ebp-020h]
         push str_X
         mov dword [byte ebp-038h], eax
-        call fputchar
+        call TextStringWidth
         mov edx, dword [byte ebp-038h]
         add edx, eax
         mov eax, dword [dword_152C3C]
@@ -552,7 +552,7 @@ MessageBox:
         add eax, edx
         push str_X
         mov dword [byte ebp-038h], eax
-        call fputchar
+        call TextStringWidth
         mov edx, dword [byte ebp-038h]
         sub edx, eax
         mov eax, dword [dword_152C3C]
@@ -647,7 +647,7 @@ MessageBox:
         add eax, dword [byte edx+018h]
         push str_X
         mov dword [byte ebp-038h], eax
-        call fputchar
+        call TextStringWidth
         mov edx, dword [byte ebp-038h]
         sub edx, eax
         lea eax, [byte edx+01h]
@@ -661,12 +661,12 @@ MessageBox:
         inc eax
         push eax
         push str_X
-        call fputchar
+        call TextStringWidth
         add eax, dword [byte ebp-020h]
         add esp, byte 4
         inc eax
         push eax
-        call sub_ADA80
+        call DrawRectOutline
         add esp, byte 14h
         movzx eax, byte [esi]
         push eax
@@ -679,7 +679,7 @@ MessageBox:
         add edx, dword [byte eax+018h]
         push str_X
         mov dword [byte ebp-038h], edx
-        call fputchar
+        call TextStringWidth
         mov edx, dword [byte ebp-038h]
         add esp, byte 4
         sub edx, eax
@@ -691,11 +691,11 @@ MessageBox:
         sub eax, edx
         push eax
         push str_X
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         add eax, dword [byte ebp-020h]
         push eax
-        call sub_ADA80
+        call DrawRectOutline
         movzx eax, byte [byte_11FA2F]
         lea ebx, [eax+eax*2]
         mov eax, dword [dword_152C3C]
@@ -742,7 +742,7 @@ MessageBox:
         add esp, byte 0Ch
 .42:
         push byte 1
-        call sub_DFE9C
+        call KeyIsDown
         add esp, byte 4
         test eax, eax
         je short .43
@@ -869,12 +869,12 @@ ShowMessage:
         call GetPaletteRange
         add esp, byte 0Ch
         push str_X
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         mov edi, eax
         push dword [dword ebp-0318h]
         shl edi, 2
-        call fputchar
+        call TextStringWidth
         add eax, edi
         add esp, byte 4
         mov dword [byte ebp-0Ch], eax
@@ -923,7 +923,7 @@ ShowMessage:
         lea eax, [dword ebp-0314h]
         push eax
         push dword 6666h
-        call sub_AD620
+        call TintRect
         mov byte [byte_152C3B], 0FFh
         add esp, byte 0Ch
         movzx eax, byte [byte esi+01h]
@@ -1012,12 +1012,12 @@ ShowProgressBox:
         call GetPaletteRange
         add esp, byte 0Ch
         push str_X
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         mov edi, eax
         push dword [byte ebp+07Ah]
         shl edi, 2
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         add edi, eax
         movzx eax, byte [byte_11FA2F]
@@ -1066,7 +1066,7 @@ ShowProgressBox:
         lea eax, [byte ebp+07Eh]
         push eax
         push dword 6666h
-        call sub_AD620
+        call TintRect
         mov eax, dword [byte ebp+076h]
         mov byte [byte_152C3B], 0FFh
         add esp, byte 0Ch
@@ -1113,7 +1113,7 @@ ShowProgressBox:
         add eax, byte 4
         push eax
         push str_X
-        call fputchar
+        call TextStringWidth
         mov edx, dword [dword_1150CC]
         add eax, eax
         sub edx, eax
@@ -1130,7 +1130,7 @@ ShowProgressBox:
         push eax
         push str_X
         movsx esi, word [byte esi+0Ch]
-        call fputchar
+        call TextStringWidth
         add eax, esi
         add esp, byte 4
         dec eax
@@ -1174,7 +1174,7 @@ UpdateProgressBox:
         cmp dword [dword_1150C8], byte 0
         je near DrawBoxButton_ret
         push str_X
-        call fputchar
+        call TextStringWidth
         mov edx, dword [dword_1150CC]
         add eax, eax
         sub edx, eax
@@ -1189,7 +1189,7 @@ UpdateProgressBox:
         xor esi, eax
 .1:
         push str_X
-        call fputchar
+        call TextStringWidth
         mov edx, dword [dword_1150CC]
         add eax, eax
         sub edx, eax
@@ -1197,7 +1197,7 @@ UpdateProgressBox:
         cmp esi, edx
         jle short .2
         push str_X
-        call fputchar
+        call TextStringWidth
         mov esi, dword [dword_1150CC]
         add eax, eax
         add esp, byte 4
@@ -1218,7 +1218,7 @@ UpdateProgressBox:
         movsx eax, word [byte eax+0Ch]
         push str_X
         mov dword [byte ebp-04h], eax
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         add eax, dword [byte ebp-04h]
         push eax
@@ -1231,7 +1231,7 @@ UpdateProgressBox:
         inc eax
         push eax
         push str_X
-        call fputchar
+        call TextStringWidth
         mov edx, dword [dword_1150CC]
         add eax, eax
         sub edx, eax
@@ -1249,7 +1249,7 @@ UpdateProgressBox:
         movsx eax, word [byte eax+0Ch]
         push str_X
         mov dword [byte ebp-04h], eax
-        call fputchar
+        call TextStringWidth
         add eax, dword [byte ebp-04h]
         add eax, esi
         add esp, byte 4

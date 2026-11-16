@@ -2,12 +2,20 @@
 bits 32
 %include "hockey.inc"
 section s_BF02C progbits alloc exec nowrite align=1
-global sub_BF02C, sub_BF034, sub_BF04B
-sub_BF02C:
+global ShapeBankCount, ShapeBankEntry, ShapeBankEntryId
+;-----------------------------------------------------------------------------
+; ShapeBankCount                               BF02C  96 PC, medium confidence
+; Returns the number of shapes in a shape bank
+;-----------------------------------------------------------------------------
+ShapeBankCount:
         mov ebx, dword [byte esp+04h]
         mov eax, dword [byte ebx+08h]
         ret
-sub_BF034:
+;-----------------------------------------------------------------------------
+; ShapeBankEntry                               BF034  96 PC, medium confidence
+; Returns a shape in a bank by index, or 0
+;-----------------------------------------------------------------------------
+ShapeBankEntry:
         mov eax, dword [byte esp+04h]
         mov ebx, dword [byte esp+08h]
         mov ecx, dword [byte eax+08h]
@@ -18,7 +26,11 @@ sub_BF034:
 .1:
         LD xor, eax, eax
         ret
-sub_BF04B:
+;-----------------------------------------------------------------------------
+; ShapeBankEntryId                             BF04B  96 PC, medium confidence
+; Stores a shape's id in a bank by index, or 0
+;-----------------------------------------------------------------------------
+ShapeBankEntryId:
         mov ebx, dword [byte esp+04h]
         mov eax, dword [byte esp+08h]
         mov edx, dword [byte esp+0Ch]

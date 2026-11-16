@@ -4,10 +4,10 @@ bits 32
 section s_DCC25 progbits alloc exec nowrite align=1
 extern __CHP, RemapTable, ColourRemap, str_Inf, str_Nan, DblMaxLow, DblMaxHigh, DblMinusMaxLow
 extern DblMinusMaxHigh, RowCopyFunc, KeyedDraw, F64_neg1_floor_, F64_Scale10Max, F64_Scale10Min, Pow10Table, PutBlock
-extern DrawArtOpaque, sub_BF02C, sub_BF034, sub_BF04B, TranslatePixels, BlitBlockShadow, CopyRowShadowFast, bcopy
+extern DrawArtOpaque, ShapeBankCount, ShapeBankEntry, ShapeBankEntryId, TranslatePixels, BlitBlockShadow, CopyRowShadowFast, bcopy
 extern Scale10Count
 global _Scale10V_, _Scale_, __Bin2String, __CmpBigInt, __Nan_Inf_, __Rnd2Int, __cvt_, floor_
-global frexp_, modf_, ModfCore, DecimalToInt64, NormalizeDouble, DrawArtShadow, sub_DD220, sub_DD2A0
+global frexp_, modf_, ModfCore, DecimalToInt64, NormalizeDouble, DrawArtShadow, FlipArtVertical, TranslateArtPixels
 global BigIntCallHook, BigIntNullHook, CopyRowShadow
 ;-----------------------------------------------------------------------------
 ; __Nan_Inf_                                                    DCC25  library
@@ -697,9 +697,10 @@ DrawArtShadow:
         ret
         db 00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_DD220                                                            DD220  
+; FlipArtVertical                                 DD220  96 PC, low confidence
+; Mirrors art top to bottom
 ;-----------------------------------------------------------------------------
-sub_DD220:
+FlipArtVertical:
         push esi
         push edi
         push ebp
@@ -756,9 +757,10 @@ sub_DD220:
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_DD2A0                                                            DD2A0  
+; TranslateArtPixels                              DD2A0  96 PC, low confidence
+; Passes all of an art's pixels through a translate table
 ;-----------------------------------------------------------------------------
-sub_DD2A0:
+TranslateArtPixels:
         mov ebx, dword [byte esp+04h]
         mov edx, dword [byte ebx+02h]
         mov eax, dword [byte ebx+04h]
@@ -784,7 +786,7 @@ sub_DD2A0:
         push eax
         push esi
         push edi
-        call sub_BF04B
+        call ShapeBankEntryId
         add esp, byte 0Ch
         xor eax, eax
         mov al, byte [esp]
@@ -792,7 +794,7 @@ sub_DD2A0:
         je short .2
         push esi
         push edi
-        call sub_BF034
+        call ShapeBankEntry
         mov ebx, dword [byte eax+02h]
         mov edx, dword [byte eax+04h]
         sar ebx, 10h
@@ -809,7 +811,7 @@ sub_DD2A0:
         inc esi
 .3:
         push edi
-        call sub_BF02C
+        call ShapeBankCount
         add esp, byte 4
         cmp esi, eax
         jl short .1

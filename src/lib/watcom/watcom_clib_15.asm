@@ -4,10 +4,10 @@ bits 32
 section s_CFDF1 progbits alloc exec nowrite align=1
 extern _EFG_Format_, __IOMode_, __STOSB, __cnvs2d_, __fatal_runtime_error_, __set_errno_, __set_errno_dos_, __shutdown_stream_
 extern _nmalloc_, str_NotEnoughMemoryTo, __iob_flags, ScreenWidth, ClipBottom, ClipTopRow, ClipRight, __nheapbeg
-extern __OpenStreams, __ClosedStreams, fputchar, __freefp__39, __EFG_printf, __EFG_scanf, sub_B2B0C, SetClipWindow
+extern __OpenStreams, __ClosedStreams, TextStringWidth, __freefp__39, __EFG_printf, __EFG_scanf, TextPrintAt, SetClipWindow
 extern SetClipRect, __iob, __iob_end
-global __InitFiles_, __full_io_exit_, __qwrite_, __setEFGfmt_, docloseall_, fcloseall_, memset_, sub_CFE0C
-global sub_CFE20, sub_CFE70, sub_CFE8C
+global __InitFiles_, __full_io_exit_, __qwrite_, __setEFGfmt_, docloseall_, fcloseall_, memset_, ReturnFalse
+global PrintCentredBoxed, ResetClipRect, ResetClipWindow
 ;-----------------------------------------------------------------------------
 ; __setEFGfmt_                                                  CFDF1  library
 ;-----------------------------------------------------------------------------
@@ -22,16 +22,19 @@ __setEFGfmt_:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_CFE0C                                                            CFE0C  
+; ReturnFalse                                     CFE0C  96 PC, low confidence
+; Returns 0; the debug viewers' empty check
 ;-----------------------------------------------------------------------------
-sub_CFE0C:
+ReturnFalse:
         mov eax, 0
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_CFE20                                                            CFE20  
+; PrintCentredBoxed                               CFE20  96 PC, low confidence
+; Draws a boxed string centred across the clip rectangle (the debug viewers'
+; copy)
 ;-----------------------------------------------------------------------------
-sub_CFE20:
+PrintCentredBoxed:
         push esi
         push edi
         mov ebx, dword [byte esp+0Ch]
@@ -39,7 +42,7 @@ sub_CFE20:
         mov edx, dword [ClipTopRow]
         push ebx
         sub esi, edx
-        call fputchar
+        call TextStringWidth
         sub esi, eax
         mov ecx, dword [ClipTopRow]
         mov eax, esi
@@ -52,16 +55,17 @@ sub_CFE20:
         push eax
         mov edi, dword [byte esp+014h]
         push edi
-        call sub_B2B0C
+        call TextPrintAt
         add esp, byte 0Ch
         pop edi
         pop esi
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_CFE70                                                            CFE70  
+; ResetClipRect                                   CFE70  96 PC, low confidence
+; Sets a bitmap's clip rectangle to the whole bitmap
 ;-----------------------------------------------------------------------------
-sub_CFE70:
+ResetClipRect:
         mov eax, dword [byte esp+04h]
         mov edx, dword [byte eax+04h]
         push edx
@@ -75,9 +79,10 @@ sub_CFE70:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_CFE8C                                                            CFE8C  
+; ResetClipWindow                                 CFE8C  96 PC, low confidence
+; Sets the clip window to the whole screen
 ;-----------------------------------------------------------------------------
-sub_CFE8C:
+ResetClipWindow:
         mov edx, dword [ClipBottom]
         push edx
         push byte 0

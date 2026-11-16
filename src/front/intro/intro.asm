@@ -3,13 +3,13 @@ bits 32
 %include "hockey.inc"
 section s_62FD8 progbits alloc exec nowrite align=1
 extern __STOSD, byte_11FA2F, CloseMusic, DrawColorText, dword_17BDD4, dword_17BDD8, dword_17BDDC, FadeOut
-extern FadeOutMusic, FadePalette, FillMusicStream, FillRect, fputchar, GetPressedDevice, GetTicks, LoadPackedFile
+extern FadeOutMusic, FadePalette, FillMusicStream, FillRect, TextStringWidth, GetPressedDevice, GetTicks, LoadPackedFile
 extern MakeDataPath, off_11BDA8, OpenMusicStream, PaEvent, PlayMovie, PlayMusic, PutBlock, QueueMusic
 extern rand_, SetScreenColors, SetScreenMode, SetTextColors, SetTickDeadline, SoundIdle, SoundSecondsToBytes, StopMusic
 extern str_Bkgd3, str_Nhll, str_Nhlp, str_Pal2, str_Pal8, str_Pal9, str_Pl0, str_Pl1
 extern str_Scr1, str_Scr2, RunAttractMode, GetLangText, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, CreateBitmap
-extern FreeBitmap, SaveTextState, SetDrawTarget, DrawArtFast, sub_BF2C4, SetScreenTarget, SetPaletteEntries, KbdGetKey
-extern FindShape, sub_E0584, TextSetFont, TickDeadlinePassed, unk_11BFA4, word_11D1D0
+extern FreeBitmap, SaveTextState, SetDrawTarget, DrawArtFast, FindShapeList, SetScreenTarget, SetPaletteEntries, KbdGetKey
+extern FindShape, ClearClipRect, TextSetFont, TickDeadlinePassed, unk_11BFA4, word_11D1D0
 global PlayIntroMovies, RunIntro, WaitOrSkip, LoadSlideImage, RunSlideEvents, jpt_634F9, RunSlideShow, RunSlideShow_78
 global RunSlideShow_A3, RunSlideShow_C7, RunSlideShow_E2, RunSlideShow_118, RunSlideShow_127, RunSlideShow_145, RunSlideShow_180, RunSlideShow_1A1
 global RunSlideShow_1B2, RunSlideShow_1D3, RunSlideShow_206, RunSlideShow_215, RunSlideShow_248, RunSlideShow_27C, RunSlideShow_2C3, RunSlideShow_2E0
@@ -636,7 +636,7 @@ RunSlideShow_1D3:
         mov edi, eax
 .6:
         push edi
-        call fputchar
+        call TextStringWidth
         cdq
         LD sub, eax, edx
         sar eax, 1
@@ -701,7 +701,7 @@ RunSlideShow_27C:
         push dword [byte edi+024h]
         push eax
         mov dword [byte edi+020h], eax
-        call sub_BF2C4
+        call FindShapeList
         jmp near RunSlideShow_C7.3
 RunSlideShow_2C3:
         cmp dword [byte esi+04h], byte 1
@@ -803,7 +803,7 @@ RunSlideShow_2E0:
 .16:
         call SetScreenTarget
         push byte 0
-        call sub_E0584
+        call ClearClipRect
         add esp, byte 4
         leave
         pop edi

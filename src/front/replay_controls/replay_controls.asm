@@ -56,14 +56,14 @@ extern BeginShadowDraw, PlayerSpriteFrame, LoadGamePalette, ReplayBufferStart, I
 extern DrawRinkSprite, DrawPlayerSprite, DrawSpriteShadow, DrawControlMarker, DrawPuckSprite, SetCameraShot, AngleXZ, AnglePitch
 extern CamShot23E, SetGameViewSize, UpdateCamera, FreeFightSprites, LoadFightSprites, LoadCupSprites, FreeSpriteCache, SpriteScale
 extern LoadFrontEndArt, FreeFrontEndArt, FadePalette, FadeOut, CopyBitmap, SetScreenMode, DrawText, DrawTextRight
-extern InitMenuItems, sub_64E74, sub_64F47, RunMenu, SetMenuMouse, FreeSpeechBuffer, RestoreSpeechBuffer, StopSpeech
+extern InitMenuItems, SetGameBackdrop, GetSavedViewSize, RunMenu, SetMenuMouse, FreeSpeechBuffer, RestoreSpeechBuffer, StopSpeech
 extern StopMusic, QueueMusic, FillMusicStream, PlayMusic, FadeOutMusic, MusicDone, PlaySfx, Crowd_Noise
 extern CrowdNoiseReset, CrowdPause, CrowdResume, StopArenaClip, StartGameSound, EndGameSound, SoundSecondsToBytes, SoundIdle
 extern GetLangText, PickIndexEntryScreen, DrawShapeAtOwnPos, DrawArt, DrawShape, PutBlock, PutBlockAtOwnPos, AllocMemBlock
 extern FreeMemBlock, CreateBitmap, FillRect, FreeBitmap, TextSetColor, SaveTextState, SetDrawTarget, TextSetFont
-extern FreeColourLookup, sub_B2B0C, SetAaPalLut, DrawArtAaScaledInt, ProjectPointList, DrawFlatPoly, DrawPolyOutline, DrawArtScaledHotspot
+extern FreeColourLookup, TextPrintAt, SetAaPalLut, DrawArtAaScaledInt, ProjectPointList, DrawFlatPoly, DrawPolyOutline, DrawArtScaledHotspot
 extern TransformVector, MultiplyMatrix, OriSetObjectMatrix, MakeRotXMatrix, MakeRotYMatrix, MakeRotZMatrix, SortIndices, BuildPerspTable
-extern SetScreenTarget, SetClipWindow, MouseRead, SetViewRect, TicksSinceLast, FindShape, sub_E0584, SetViewScreenOrigin
+extern SetScreenTarget, SetClipWindow, MouseRead, SetViewRect, TicksSinceLast, FindShape, ClearClipRect, SetViewScreenOrigin
 extern SetCameraAngles, TransposeMatrix, str_D19, str_dot4, unk_11A430, unk_11A770, unk_11A9B0, unk_11AB30
 extern unk_11AE70, unk_11B0B0, unk_11B230, unk_122344, unk_16443C, unk_1774C4, unk_177510, unk_1778C4
 extern unk_177908, unk_1781E4, unk_1781FE, unk_179980, unk_179AC0, unk_179E02, optblock_end, unk_17D32C
@@ -71,12 +71,12 @@ extern word_114CE0, word_114CE4, word_119127, word_11A40C, word_11A410, word_11A
 extern word_176FB8, word_176FD4, word_176FDA, word_176FF6, word_176FFA, word_176FFC, word_17704A, word_17704C
 extern word_17706C, word_17706E, word_17709C, word_1770AB, word_1770AD, word_1770AF, word_1770D3, word_1770D5
 extern word_177508, word_17750A, word_177CB6, word_177D1C, word_1781FC
-global jpt_56470, DrawReplayObjects_391, DrawReplayCounter_231, DrawReplayCounter_232, sub_55EBA_42, sub_55EBA_82, sub_55EBA_C2, sub_55EBA_102
-global sub_55EBA_142, sub_55EBA_17B, ReplayScreen_D18, ReplayScreen_D42, ReplayScreen_D83, ReplayScreen_E86, ReplayScreen_ECF, ReplayScreen_F5C
+global jpt_56470, DrawReplayObjects_391, DrawReplayCounter_231, DrawReplayCounter_232, ReplayCameraUpdate_42, ReplayCameraUpdate_82, ReplayCameraUpdate_C2, ReplayCameraUpdate_102
+global ReplayCameraUpdate_142, ReplayCameraAim, ReplayScreen_D18, ReplayScreen_D42, ReplayScreen_D83, ReplayScreen_E86, ReplayScreen_ECF, ReplayScreen_F5C
 global ReplayScreen_FF6, ReplayScreen_10E1, ReplayScreen_1110, ReplayScreen_122D, ReplayScreen_1255, ReplayScreen_161B, StartReplay, EndReplay
 global StepReplay, ReplayCameraMatrix, DrawReplayObjects, DrawReplayShadows, DrawReplayPlayers, DrawReplayCounter, DrawReplayClock, DrawReplayView
-global SetReplayCamera, sub_55C08, ReplayFreeCamera, FindPlayerAtMouse, sub_55EBA, ReplayFrame, PickReplayPlayer, ReplayScreen
-global RunReplay, SaveHighlight, ReadHighlight, WatchHighlight, HighlightsMenu, unk_55EA2, unk_58468, unk_5848C
+global SetReplayCamera, ClipLineAtFloor, ReplayFreeCamera, FindPlayerAtMouse, ReplayCameraUpdate, ReplayFrame, PickReplayPlayer, ReplayScreen
+global RunReplay, SaveHighlight, ReadHighlight, WatchHighlight, HighlightsMenu, ReplayCameraJumpTable, unk_58468, unk_5848C
 ;-----------------------------------------------------------------------------
 ; StartReplay                                  54519  96 PC, medium confidence
 ; Into the replay: stops the arena clip and speech, frees the fight sprites,
@@ -1329,7 +1329,7 @@ DrawReplayCounter:
         push byte 6
         push dword 9Ch
         push str_dot4
-        call sub_B2B0C
+        call TextPrintAt
         mov ebx, 6
         add esp, byte 0Ch
         mov edx, 9Ch
@@ -1342,7 +1342,7 @@ DrawReplayCounter:
         push byte 10h
         push dword 139h
         push str_dot4
-        call sub_B2B0C
+        call TextPrintAt
         mov ebx, 10h
         add esp, byte 0Ch
         mov edx, 139h
@@ -1763,9 +1763,10 @@ SetReplayCamera:
         pop ecx
         ret
 ;-----------------------------------------------------------------------------
-; sub_55C08                                                       55C08  96 PC
+; ClipLineAtFloor                                 55C08  96 PC, low confidence
+; Clips a 3D line where it crosses the floor
 ;-----------------------------------------------------------------------------
-sub_55C08:
+ClipLineAtFloor:
         push ecx
         push esi
         push edi
@@ -1856,7 +1857,7 @@ ReplayFreeCamera:
         add esp, byte 0Ch
         lea edx, [byte ebp-030h]
         mov eax, dword_179E13
-        call sub_55C08
+        call ClipLineAtFloor
         test eax, eax
         je near DrawReplayCounter_231
         cmp dword [byte ebp-0Ch], 2A8h
@@ -2027,17 +2028,18 @@ FindPlayerAtMouse:
         pop ecx
         pop ebx
         ret
-unk_55EA2:
-        dd sub_55EBA_42
-        dd sub_55EBA_82
-        dd sub_55EBA_C2
-        dd sub_55EBA_102
-        dd sub_55EBA_142
-        dd sub_55EBA_17B
+ReplayCameraJumpTable:
+        dd ReplayCameraUpdate_42
+        dd ReplayCameraUpdate_82
+        dd ReplayCameraUpdate_C2
+        dd ReplayCameraUpdate_102
+        dd ReplayCameraUpdate_142
+        dd ReplayCameraAim
 ;-----------------------------------------------------------------------------
-; sub_55EBA                                                       55EBA  96 PC
+; ReplayCameraUpdate                              55EBA  96 PC, low confidence
+; Moves the replay camera by its mode
 ;-----------------------------------------------------------------------------
-sub_55EBA:
+ReplayCameraUpdate:
         push ebx
         push ecx
         push edx
@@ -2056,13 +2058,13 @@ sub_55EBA:
         movsd
         movsd
         cmp eax, byte 5
-        ja near sub_55EBA_17B.7
+        ja near ReplayCameraAim.7
         mov ebx, eax
         mov eax, dword [dword_11A3F8]
         shl ebx, 2
         and eax, 80000654h
-        jmp dword [dword cs:ebx+unk_55EA2]
-sub_55EBA_42:
+        jmp dword [dword cs:ebx+ReplayCameraJumpTable]
+ReplayCameraUpdate_42:
         test byte [byte_11A3FB], 1
         jne short .1
         lea esi, [byte ebp+066h]
@@ -2075,10 +2077,10 @@ sub_55EBA_42:
 .1:
         dec dword [dword_11A418]
         cmp dword [dword_11A418], byte 0FFFFFFC0h
-        jge near sub_55EBA_17B.7
+        jge near ReplayCameraAim.7
         mov dword [dword_11A418], 0FFFFFFC0h
-        jmp near sub_55EBA_17B.7
-sub_55EBA_82:
+        jmp near ReplayCameraAim.7
+ReplayCameraUpdate_82:
         test byte [byte_11A3FB], 2
         jne short .2
         lea esi, [byte ebp+066h]
@@ -2091,10 +2093,10 @@ sub_55EBA_82:
 .2:
         inc dword [dword_11A418]
         cmp dword [dword_11A418], byte 40h
-        jle near sub_55EBA_17B.7
+        jle near ReplayCameraAim.7
         mov dword [dword_11A418], 40h
-        jmp near sub_55EBA_17B.7
-sub_55EBA_C2:
+        jmp near ReplayCameraAim.7
+ReplayCameraUpdate_C2:
         test byte [byte_11A3FB], 4
         jne short .3
         lea esi, [byte ebp+066h]
@@ -2107,10 +2109,10 @@ sub_55EBA_C2:
 .3:
         inc dword [dword_11A41C]
         cmp dword [dword_11A41C], byte 40h
-        jle near sub_55EBA_17B.7
+        jle near ReplayCameraAim.7
         mov dword [dword_11A41C], 40h
-        jmp near sub_55EBA_17B.7
-sub_55EBA_102:
+        jmp near ReplayCameraAim.7
+ReplayCameraUpdate_102:
         test byte [byte_11A3FB], 8
         jne short .4
         lea esi, [byte ebp+066h]
@@ -2123,10 +2125,10 @@ sub_55EBA_102:
 .4:
         dec dword [dword_11A41C]
         cmp dword [dword_11A41C], byte 0FFFFFFC0h
-        jge near sub_55EBA_17B.7
+        jge near ReplayCameraAim.7
         mov dword [dword_11A41C], 0FFFFFFC0h
-        jmp near sub_55EBA_17B.7
-sub_55EBA_142:
+        jmp near ReplayCameraAim.7
+ReplayCameraUpdate_142:
         test byte [byte_11A3FB], 10h
         jne short .5
         lea esi, [byte ebp+066h]
@@ -2139,10 +2141,14 @@ sub_55EBA_142:
 .5:
         inc dword [dword_11A420]
         cmp dword [dword_11A420], byte 40h
-        jle short sub_55EBA_17B.7
+        jle short ReplayCameraAim.7
         mov dword [dword_11A420], 40h
-        jmp short sub_55EBA_17B.7
-sub_55EBA_17B:
+        jmp short ReplayCameraAim.7
+;-----------------------------------------------------------------------------
+; ReplayCameraAim                                 56035  96 PC, low confidence
+; Builds the replay camera matrix from its angles and points it at its target
+;-----------------------------------------------------------------------------
+ReplayCameraAim:
         test byte [byte_11A3FB], 20h
         jne short .6
         lea esi, [byte ebp+066h]
@@ -3113,7 +3119,7 @@ ReplayScreen:
         mov eax, ReplayFrame
         push dword [byte ebp-038h]
         xor edx, edx
-        call sub_64E74
+        call SetGameBackdrop
         mov dword [dword_11A400], 3
         mov dword [dword_177A3E], 2
         mov eax, dword [dword_177A54]
@@ -3200,7 +3206,7 @@ ReplayScreen:
         jne near .23
         mov edx, dword_1781D4
         mov eax, dword_1781D8
-        call sub_64F47
+        call GetSavedViewSize
         mov eax, dword [dword_1781D8]
         cmp eax, dword [byte ebp-038h]
         jle near ReplayScreen_E86
@@ -3235,7 +3241,7 @@ ReplayScreen:
         jne short .24
         mov eax, dword [byte ebp-01Ch]
         sub eax, byte 0Dh
-        call sub_55EBA
+        call ReplayCameraUpdate
         mov dword [dword_1781F8], eax
         test eax, eax
         je near ReplayScreen_E86
@@ -3499,7 +3505,7 @@ ReplayScreen_1110:
         mov dword [dword_11A3F8], eax
         xor eax, eax
         mov dword [dword_177A58], 0
-        call sub_64E74
+        call SetGameBackdrop
         call SaveHighlight
         push str_Rtrg
         push dword [dword_1781D0]
@@ -3516,7 +3522,7 @@ ReplayScreen_1110:
         push dword [byte ebp-034h]
         push dword [byte ebp-038h]
         mov eax, ReplayFrame
-        call sub_64E74
+        call SetGameBackdrop
         jmp near ReplayScreen_E86
 ReplayScreen_122D:
         test byte [byte_11A3F9], 2
@@ -3777,7 +3783,7 @@ ReplayScreen_161B:
         push dword [byte ebp-034h]
         push dword [byte ebp-038h]
         xor eax, eax
-        call sub_64E74
+        call SetGameBackdrop
         call EndReplay
         push dword [dword_11F5C4]
         push dword [dword_11F5C0]
@@ -4239,7 +4245,7 @@ WatchHighlight:
         call CrowdPause
         call SetScreenTarget
         push byte 0
-        call sub_E0584
+        call ClearClipRect
         add esp, byte 4
         call FreeSpeechBuffer
         call ReplayScreen

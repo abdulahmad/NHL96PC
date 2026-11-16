@@ -63,7 +63,7 @@ extern str_Stands2, str_STANDSFSH, str_Strobe, str_TEMP2, str_ThinRedLines, str_
 extern str_Wedge, str_WHD0, str_Zamboni, str_Zambpath, strcat_, strcpy_, SelectDataLibrary, BenchSpriteFrame
 extern PlayerSpriteFrame, PuckInNet, DrawRinkSprite, SpriteScale, InitMenuItems, RunMenu, SetMenuMouse, FillMusicStream
 extern SoundSecondsToBytes, SoundIdle, BuildAntiAliasTable, DrawFixedLine, DrawFixedLineClip, DrawShapeAtOwnPos, DrawArt, PutBlockAtOwnPos
-extern AllocMemBlock, FreeMemBlock, sub_AC868, CreateBitmap, sub_AD620, sub_AD824, FreeBitmap, UnpackedSize
+extern AllocMemBlock, FreeMemBlock, MemLargestFreeOfList, CreateBitmap, TintRect, FillRectClipped, FreeBitmap, UnpackedSize
 extern LoadResourceDataShared, LoadFileData, OpenArtArchiveErr, NearestColour, LoadFileToBlockShared, FileSizeByName, SetRinkView, TransformRinkPoints
 extern ProjectRinkObject, FillTexturePoly, FillTexturePolyClipped, OriFlatPoly, FillFloorPlane, DrawTexturedPolyArgs, OriFindMaterial, OriLoadShapes
 extern OriSetMaterialRgb, OriSetMaterialTexture, OriSetMaterialDrawFn, FixedLerp, FixedDivide, AddVec3, SubVec3, OriScaleVector
@@ -391,7 +391,7 @@ LoadFshFile:
         cmp eax, 32000h
         jge near LoadFshFile_E1.7
         push byte 0
-        call sub_AC868
+        call MemLargestFreeOfList
         add esp, byte 4
         cmp edi, eax
         jge near LoadFshFile_E1.7
@@ -6606,17 +6606,17 @@ LoadRinkModel:
         push unk_15E330
         push esi
         push dword 11999h
-        call sub_AD620
+        call TintRect
         add esp, byte 0Ch
         push unk_15E130
         push esi
         push dword 9999h
-        call sub_AD620
+        call TintRect
         add esp, byte 0Ch
         push unk_15E020
         push esi
         push dword 0E666h
-        call sub_AD620
+        call TintRect
         add esp, byte 0Ch
         mov eax, 0FFFFFFFDh
         mov edx, 20h
@@ -7869,7 +7869,7 @@ DrawIceBackPoly:
         push dword [dword_11F5C0]
         push byte 0
         push byte 0
-        call sub_AD824
+        call FillRectClipped
         add esp, byte 14h
 .7:
         mov eax, dword [dword_11F5C4]
@@ -7886,7 +7886,7 @@ DrawIceBackPoly:
         inc eax
         push eax
         push byte 0
-        call sub_AD824
+        call FillRectClipped
         add esp, byte 14h
 .8:
         mov ebx, dword [byte ebp+06Eh]
@@ -10148,7 +10148,7 @@ LoadShadowRemap:
         push unk_15E904
         push eax
         push dword 0E666h
-        call sub_AD620
+        call TintRect
         mov byte [byte_15EA03], 0FFh
         add esp, byte 0Ch
         pop edx

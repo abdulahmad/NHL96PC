@@ -3,12 +3,13 @@ bits 32
 %include "hockey.inc"
 section s_B7410 progbits alloc exec nowrite align=1
 extern _os_handle_0, _os_handle_1, FreeMemBlock, FindCachedFileData, MemPtrSize, unpack, ReadFileRange, bcopy
-extern DosOpenFile, DosCloseFile, sub_E07CC
-global sub_B7410, LoadFileInto, LoadFileToBlockShared, LoadFileToBlockPlain
+extern DosOpenFile, DosCloseFile, DosReadFile
+global ReadFileCachedInto, LoadFileInto, LoadFileToBlockShared, LoadFileToBlockPlain
 ;-----------------------------------------------------------------------------
-; sub_B7410                                                            B7410  
+; ReadFileCachedInto                              B7410  96 PC, low confidence
+; Copies a cached file into a buffer, or reads it from disk
 ;-----------------------------------------------------------------------------
-sub_B7410:
+ReadFileCachedInto:
         push esi
         push edi
         sub esp, byte 0Ch
@@ -51,7 +52,7 @@ sub_B7410:
         push edi
         mov eax, dword [byte esp+08h]
         push eax
-        call sub_E07CC
+        call DosReadFile
         add esp, byte 0Ch
         mov edx, dword [esp]
         push edx
@@ -76,7 +77,7 @@ LoadFileInto:
         push edx
         mov ebx, dword [byte esp+0Ch]
         push ebx
-        call sub_B7410
+        call ReadFileCachedInto
         add esp, byte 0Ch
         ret
         db 08Dh,040h,00h
@@ -90,7 +91,7 @@ LoadFileToBlockShared:
         push edx
         mov ebx, dword [byte esp+0Ch]
         push ebx
-        call sub_B7410
+        call ReadFileCachedInto
         add esp, byte 0Ch
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -165,7 +166,7 @@ LoadFileToBlockPlain:
         mov ecx, dword [byte esp+08h]
         push ecx
         mov esi, eax
-        call sub_E07CC
+        call DosReadFile
         add esp, byte 0Ch
         push byte 0
         mov ebp, dword [byte esp+024h]

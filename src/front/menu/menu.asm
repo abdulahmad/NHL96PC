@@ -17,11 +17,11 @@ extern str_Bb02d, str_Bb10, str_Bb11, str_Bb19, str_Bb20, str_Bkgd5, str_Bt013, 
 extern str_Bt02d, str_Bt102, str_Bt112, str_Bt19, str_Bt20, str_Bt28, str_Bt29, str_Hig1
 extern str_Hig2, str_Hig3, str_HILITESNDX, str_LOCALNDX2, str_Opt1, str_Opt2, str_Opt3, str_Pal11
 extern str_Sta1, str_Sta2, str_Sta3, str_Use1, str_Use2, str_Use3, GetLangText, DrawShapeCore
-extern DrawArt, PutBlockAtOwnPos, FreeMemBlock, CreateBitmap, sub_ADA50, FreeBitmap, SumRingRange, SetScreenTarget
-extern sub_DFE9C, FindShape, sub_E0584, vecdist, WaitRetrace, WaitRetraceEdges, word_114CE0, word_114CE4
+extern DrawArt, PutBlockAtOwnPos, FreeMemBlock, CreateBitmap, ClearScreenColour, FreeBitmap, SumRingRange, SetScreenTarget
+extern KeyIsDown, FindShape, ClearClipRect, vecdist, WaitRetrace, WaitRetraceEdges, word_114CE0, word_114CE4
 extern word_11D1B4, word_11D1B6, word_11D1B8, word_11D1BA, word_11D1C4, word_17C464, word_17C466, word_17C468
 extern word_17C46A, word_17C46C, word_17C46E, word_17C470
-global InitMenuItems, PollMenuInput, SetMenuMoveSfx, SetMenuSelectSfx, sub_64E74, sub_64F47, RunMenu, SetMenuMouse
+global InitMenuItems, PollMenuInput, SetMenuMoveSfx, SetMenuSelectSfx, SetGameBackdrop, GetSavedViewSize, RunMenu, SetMenuMouse
 global unk_663B9, jpt_66539, jpt_66549, jpt_66569, jpt_66579, MainMenuScreen, MainMenuScreen_B4, MainMenuScreen_C9
 global MainMenuScreen_DE, MainMenuScreen_F3, MainMenuScreen_621, MainMenuScreen_671, MainMenuScreen_6FC, MainMenuScreen_724, MainMenuScreen_74C, MainMenuScreen_774
 global MainMenuScreen_8A9, MainMenuScreen_8B5, MainMenuScreen_92D, MainMenuScreen_939, MainMenuScreen_996, MainMenuScreen_9EE, MainMenuScreen_A0B, MainMenuScreen_A14
@@ -93,14 +93,14 @@ PollMenuInput:
         call ReadJoystickBits
         push byte 1Ch
         mov dword [byte ebp-04h], 0
-        call sub_DFE9C
+        call KeyIsDown
         add esp, byte 4
         test eax, eax
         je short .2
         mov dword [dword_11D1B0], 1
 .2:
         push byte 1
-        call sub_DFE9C
+        call KeyIsDown
         add esp, byte 4
         test eax, eax
         je short .3
@@ -130,35 +130,35 @@ PollMenuInput:
         mov word [word_11D1C4], 0
 .6:
         push byte 1Dh
-        call sub_DFE9C
+        call KeyIsDown
         add esp, byte 4
         test eax, eax
         je near .24
         cmp word [word_11D1BA], byte 0
         je near .24
         push byte 4Bh
-        call sub_DFE9C
+        call KeyIsDown
         add esp, byte 4
         test eax, eax
         je short .7
         or byte [byte ebp-04h], 8
 .7:
         push byte 4Dh
-        call sub_DFE9C
+        call KeyIsDown
         add esp, byte 4
         test eax, eax
         je short .8
         or byte [byte ebp-04h], 4
 .8:
         push byte 48h
-        call sub_DFE9C
+        call KeyIsDown
         add esp, byte 4
         test eax, eax
         je short .9
         or byte [byte ebp-04h], 1
 .9:
         push byte 50h
-        call sub_DFE9C
+        call KeyIsDown
         add esp, byte 4
         test eax, eax
         je short .10
@@ -246,7 +246,7 @@ PollMenuInput:
         push byte 4Bh
         mov dword [dword_17C458], 0
         mov dword [dword_17C444], 0
-        call sub_DFE9C
+        call KeyIsDown
         add esp, byte 4
         test eax, eax
         je short .25
@@ -264,7 +264,7 @@ PollMenuInput:
         mov dword [dword_17C3E4], eax
 .27:
         push byte 4Dh
-        call sub_DFE9C
+        call KeyIsDown
         add esp, byte 4
         test eax, eax
         je short .28
@@ -282,7 +282,7 @@ PollMenuInput:
         mov dword [dword_17C3E8], eax
 .30:
         push byte 48h
-        call sub_DFE9C
+        call KeyIsDown
         add esp, byte 4
         test eax, eax
         je short .31
@@ -300,7 +300,7 @@ PollMenuInput:
         mov dword [dword_17C3EC], eax
 .33:
         push byte 50h
-        call sub_DFE9C
+        call KeyIsDown
         add esp, byte 4
         test eax, eax
         je short .35
@@ -637,9 +637,10 @@ SetMenuSelectSfx:
 .1:
         ret
 ;-----------------------------------------------------------------------------
-; sub_64E74                                                       64E74  96 PC
+; SetGameBackdrop                                 64E74  96 PC, low confidence
+; Keeps or frees the saved game screen behind the in-game menus
 ;-----------------------------------------------------------------------------
-sub_64E74:
+SetGameBackdrop:
         push ebx
         push ecx
         push edx
@@ -709,9 +710,10 @@ sub_64E74:
         pop ebx
         ret 18h
 ;-----------------------------------------------------------------------------
-; sub_64F47                                                       64F47  96 PC
+; GetSavedViewSize                                64F47  96 PC, low confidence
+; Returns the saved game view width and height
 ;-----------------------------------------------------------------------------
-sub_64F47:
+GetSavedViewSize:
         push ebx
         mov ebx, dword [dword_17C450]
         mov dword [eax], ebx
@@ -1416,7 +1418,7 @@ RunMenu:
         call SetDrawBitmap
         add esp, byte 4
         push dword 0FFh
-        call sub_E0584
+        call ClearClipRect
         add esp, byte 4
         push byte 0
         push byte 0
@@ -1723,7 +1725,7 @@ RunMenu:
         call SetDrawBitmap
         add esp, byte 4
         push dword 0FFh
-        call sub_E0584
+        call ClearClipRect
         add esp, byte 4
         push byte 0
         push byte 0
@@ -2401,7 +2403,7 @@ MainMenuScreen:
         call SetScreenColors
         call SetScreenTarget
         push byte 0
-        call sub_ADA50
+        call ClearScreenColour
         add esp, byte 4
         call BlackPalette
         push str_Bkgd5

@@ -11,16 +11,16 @@ extern dword_11F5C8, HeapList, dword_1210CC, ClipTopRow, ClipLeftCol, ClipRight,
 extern DrawDestBuffer, dword_1228FC, dword_124109, __NHandles, __io_mode, dword_12417C, dword_1241A0, CMainEnv
 extern CMainResult, dword_12443C, dword_124440, dword_19F2D0, dword_19F2D4, ScaledRowBuffer, CMainArgc, CMainArgv
 extern exit_, fputc_, getcwd_, joycalactive, joyenablemask, ZeroMem_29, main_, off_14F074
-extern off_14F078, sprintf_, stricmp_, sub_AA9CC, MemLargestFreeLocked, CreateBitmap, FillRect, FreeBitmap
+extern off_14F078, sprintf_, stricmp_, BlitToScreenWindow, MemLargestFreeLocked, CreateBitmap, FillRect, FreeBitmap
 extern TextSetColor, SaveTextState, SetDrawTarget, TextSetFont, DrawArtOpaqueAtOwnPos, InitMemoryPoolDefault, NumLockOff, NearestColour
-extern FileSizeByName, AddVec3, OriScaleVector, InitReciprocalTable, BuildPerspTable, initgraphics, sub_C2AEC, ArtBitDepth
-extern PixelToRgb, InitFpuFlags, sub_D0650, CMainHook, __CommonInit_, SaveTextScreen, RestoreTextScreen, InitPointer
+extern FileSizeByName, AddVec3, OriScaleVector, InitReciprocalTable, BuildPerspTable, initgraphics, ShowMessageBox, ArtBitDepth
+extern PixelToRgb, InitFpuFlags, DrawTextCentredBoxed, CMainHook, __CommonInit_, SaveTextScreen, RestoreTextScreen, InitPointer
 extern InstallDebugHotkeys, DrawTextBoxedAt, BuildEdgeTableMin, BuildEdgeTableMax, BuildFixedTableMin, BuildFixedTableMax, MapPolySpans, MapPolySpansRemap
 extern FillFlatPolyCore, SetScreenTarget, SetClipWindow, SetPaletteEntries8, ReadPaletteEntries8, SetBlitSource, CopyMappedSpan, CopyScaledSpanShadow
 extern CopyScaledSpan, PlotPixel, PlotPixelClipped, VesaSetBank, FillSpansSet, FillSpansXor, FillSpansAnd, FillSpansOr
-extern RemapSpans, ReturnZero, InstallKeyboardHandler, KbdGetKey, SetKbdIdleHook, sub_DFF7C, ReadJoystickPorts, sub_E0456
-extern sub_E0486, AddExitHandler, sub_E0584, InstallBreakHandler, vecdist, SetViewScreenOrigin, SetCameraAngles, SaveDrawState
-extern RestoreDrawState, RestoreTextMode, sub_E272C, SinCosLookup, tolower_, unk_1210DC, unk_1213DC, InitRtnsEntry
+extern RemapSpans, ReturnZero, InstallKeyboardHandler, KbdGetKey, SetKbdIdleHook, FlushKeys, ReadJoystickPorts, JoyResetCentres
+extern JoyButtonMap, AddExitHandler, ClearClipRect, InstallBreakHandler, vecdist, SetViewScreenOrigin, SetCameraAngles, SaveDrawState
+extern RestoreDrawState, RestoreTextMode, ReadKeyPadBits, SinCosLookup, tolower_, unk_1210DC, unk_1213DC, InitRtnsEntry
 extern FiniRtnsEntry, unk_15158C, unk_18584C, vsprintf_, DefaultControlWord
 global __CMain, __FiniRtns, __HeapManager_expand_, __IOMode_, __InitRtns, __SetIOMode_, __doserror_, __fprtf_
 global __set_errno_dos_, __sys_init_387_emulator, _dosret0_, _nexpand_, _nmsize_, file_putc_, int386_, int386x_
@@ -646,7 +646,7 @@ JoystickCalibrateScreen:
         cmp eax, 0FA0h
         jl near .4
         mov dword [joyenablemask], 1
-        call sub_E272C
+        call ReadKeyPadBits
         test al, 10h
         jne near .5
         mov eax, esp
@@ -711,7 +711,7 @@ JoystickCalibrateScreen:
         push byte 0
         push byte 0
         push byte 0
-        call sub_AA9CC
+        call BlitToScreenWindow
         add esp, byte 18h
         call SetScreenTarget
         mov edx, dword [dword_11F5C4]
@@ -739,7 +739,7 @@ JoystickCalibrateScreen:
         call SetClipWindow
         add esp, byte 10h
         push byte 0
-        call sub_E0584
+        call ClearClipRect
         add esp, byte 4
         push byte 0
         push dword 3FFFFFCh
@@ -759,7 +759,7 @@ JoystickCalibrateScreen:
         add esp, byte 8
         push eax
         push str_CalibrateYourJoystickByU
-        call sub_D0650
+        call DrawTextCentredBoxed
         mov edx, dword [dword_11F5C4]
         lea eax, [nosplit edx*4+00h]
         sub eax, edx
@@ -773,7 +773,7 @@ JoystickCalibrateScreen:
         add esp, byte 8
         push eax
         push str_ToMoveTheJoystickPositio
-        call sub_D0650
+        call DrawTextCentredBoxed
         mov edx, dword [dword_11F5C4]
         lea eax, [nosplit edx*8+00h]
         sub eax, edx
@@ -786,7 +786,7 @@ JoystickCalibrateScreen:
         add esp, byte 8
         push eax
         push asc_113F2C
-        call sub_D0650
+        call DrawTextCentredBoxed
         imul edx, dword [dword_11F5C4], dword 0B9h
         mov ebx, 0C8h
         mov eax, edx
@@ -795,7 +795,7 @@ JoystickCalibrateScreen:
         add esp, byte 8
         push eax
         push str_PressJoystickButtonWhenC
-        call sub_D0650
+        call DrawTextCentredBoxed
         add esp, byte 8
         push dword 3FFFFFCh
         call NearestColour
@@ -970,7 +970,7 @@ JoystickCalibrateScreen:
         add esp, byte 14h
         push byte 2
         mov esi, 0FFFFFFFFh
-        call sub_E0456
+        call JoyResetCentres
         add esp, byte 4
 .1:
         call KbdGetKey
@@ -980,7 +980,7 @@ JoystickCalibrateScreen:
         test al, 30h
         jne near .3
         push eax
-        call sub_E0486
+        call JoyButtonMap
         add esp, byte 4
         mov edi, eax
         cmp eax, esi
@@ -1079,7 +1079,7 @@ JoystickCalibrateScreen:
         xor ebx, ebx
         mov dword [joyenablemask], ebx
 .5:
-        call sub_DFF7C
+        call FlushKeys
         xor edi, edi
         call dword [off_14F078]
         mov dword [joycalactive], edi
@@ -1098,7 +1098,7 @@ ShowKeyboardOn:
         xor edx, edx
         push str_KEYBOARDON
         mov dword [joyenablemask], edx
-        call sub_C2AEC
+        call ShowMessageBox
         add esp, byte 8
         ret
 ;-----------------------------------------------------------------------------

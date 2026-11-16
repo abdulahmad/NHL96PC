@@ -10,10 +10,10 @@ extern JoyY1Center, JoyY1MaxSeen, JoyY1Settle, JoyX2Min, JoyX2Max, JoyXScale, Jo
 extern BreakCallFunc, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, exit_, joyenablemask, BiosKeyFunc
 extern FillRect, RestoreDS, DosGetVector, DosSetVector, Random32, tickcount, tickdeadline, unk_AA7B0
 extern JoyAxisValues, word_11F914, word_11F918, word_11F91C, SavedBreakSelector, BreakDataSelector
-global GetTicks, SetTickDeadline, TickDeadlinePassed, TicksSince, WaitKey, WaitTickDeadline, FindShapeQuiet_2, sub_E0584_30
-global TicksSinceLast, WaitTicks, KbdGetKey, sub_DFF45, KbdPeekKey, SetKbdIdleHook, sub_DFF7C, CalibrateJoystick
-global ReadJoystickPorts, sub_E0456, sub_E0486, AddExitHandler, ExitProgram, FindShape, FindShapeQuiet, bcopy
-global sub_E0584, InstallBreakHandler, RemoveBreakHandler
+global GetTicks, SetTickDeadline, TickDeadlinePassed, TicksSince, WaitKey, WaitTickDeadline, FindShapeQuiet_2, ClearClipRect_30
+global TicksSinceLast, WaitTicks, KbdGetKey, CallKbdIdleHook, KbdPeekKey, SetKbdIdleHook, FlushKeys, CalibrateJoystick
+global ReadJoystickPorts, JoyResetCentres, JoyButtonMap, AddExitHandler, ExitProgram, FindShape, FindShapeQuiet, bcopy
+global ClearClipRect, InstallBreakHandler, RemoveBreakHandler
 ;-----------------------------------------------------------------------------
 ; GetTicks                                     DFEB4  95 PC, medium confidence
 ;-----------------------------------------------------------------------------
@@ -98,9 +98,10 @@ KbdGetKey:
 .2:
         ret
 ;-----------------------------------------------------------------------------
-; sub_DFF45                                                            DFF45  
+; CallKbdIdleHook                                 DFF45  96 PC, low confidence
+; Calls the keyboard idle hook
 ;-----------------------------------------------------------------------------
-sub_DFF45:
+CallKbdIdleHook:
         jmp dword [KbdIdleHook]
 ;-----------------------------------------------------------------------------
 ; KbdPeekKey                                      DFF4B  96 PC, low confidence
@@ -137,12 +138,13 @@ WaitKey:
         je short WaitKey
         ret
 ;-----------------------------------------------------------------------------
-; sub_DFF7C                                                            DFF7C  
+; FlushKeys                                    DFF7C  96 PC, medium confidence
+; Reads keys until the keyboard buffer is empty
 ;-----------------------------------------------------------------------------
-sub_DFF7C:
+FlushKeys:
         call KbdGetKey
         LD or, ax, ax
-        jne short sub_DFF7C
+        jne short FlushKeys
         ret
 .1:
         call dword [KbdIdleHook]
@@ -162,7 +164,7 @@ sub_DFF7C:
         mov dword [byte ebp-04h], eax
 .3:
         LD xor, eax, eax
-        call sub_DFF45
+        call CallKbdIdleHook
         LD or, eax, eax
         jne short .4
         call GetTicks
@@ -578,9 +580,10 @@ ReadJoystickPorts:
         or byte [JoyDirection], 1
         jmp short .27
 ;-----------------------------------------------------------------------------
-; sub_E0456                                                            E0456  
+; JoyResetCentres                                 E0456  96 PC, low confidence
+; Resets the joystick centres and enables the first joystick
 ;-----------------------------------------------------------------------------
-sub_E0456:
+JoyResetCentres:
         mov byte [joyenablemask], 1
         mov dword [str_P], 50h
         mov dword [JoyX1Center], 0
@@ -588,9 +591,10 @@ sub_E0456:
         mov dword [JoyY1Center], 0
         ret
 ;-----------------------------------------------------------------------------
-; sub_E0486                                                            E0486  
+; JoyButtonMap                                    E0486  96 PC, low confidence
+; Maps joystick button bits to pad buttons through a table
 ;-----------------------------------------------------------------------------
-sub_E0486:
+JoyButtonMap:
         push ebp
         LD mov, ebp, esp
         mov ebx, dword [byte ebp+08h]
@@ -729,9 +733,10 @@ bcopy:
         leave
         ret
 ;-----------------------------------------------------------------------------
-; sub_E0584                                                            E0584  
+; ClearClipRect                                   E0584  96 PC, low confidence
+; Fills the clip rectangle with a colour
 ;-----------------------------------------------------------------------------
-sub_E0584:
+ClearClipRect:
         mov eax, dword [byte esp+04h]
         push eax
         mov edx, dword [ScreenHeight]
@@ -748,7 +753,7 @@ sub_E0584:
         add esp, byte 14h
         ret
         db 00h,00h,00h
-sub_E0584_30:
+ClearClipRect_30:
         sti
         push ebx
         push ecx
@@ -793,7 +798,7 @@ InstallBreakHandler:
         mov word [SavedBreakSelector], dx
         mov ebx, 24h
         mov dx, cs
-        mov eax, sub_E0584_30
+        mov eax, ClearClipRect_30
         call DosSetVector
         push RemoveBreakHandler
         call AddExitHandler

@@ -6,14 +6,15 @@ extern FatalError, str_ReservememMEMORYMANAGERN, str_ReservememINVALIDSIZE, str_
 extern str_ResizememblockNOROOMTO, str_FindmemblockBLOCKNOTFOUND, asc_1133C0, str_GetmemblockNOMEMORYBLOCKS, FileCacheList, FreeSpaceList, dword_11F9C4, dword_1210CC
 extern memlist1, MemBlockGuards, MemDescriptorTop, MemLockHandle, dword_185738, dword_18573C, strncmp_, strncpy_
 extern PathBaseName, MemLock, MemUnlock, bcopy
-global findmemblock, sub_AB834, AllocMemBlockEx, sub_ABD64, FreeMemBlock, sub_ABF88, PushMemDescriptor, MergeFreeSpace
-global sub_AC194, FindNamedBlock, FindMemBlockNamed, FindFreeSpace, FindCachedFileData, FindCachedFile, CompactDownLocked, CompactMemListDown
-global CompactUpLocked, CompactMemListUp, MemLargestFreeLocked, sub_AC868, MemLargestFree, InitMemDescriptors, getmemblock, MemPtrSize
+global findmemblock, AllocMemBlockLockedAt, AllocMemBlockEx, ResizeMemBlock, FreeMemBlock, PushMemDescriptorLocked, PushMemDescriptor, MergeFreeSpace
+global MarkBlockPurgeable, FindNamedBlock, FindMemBlockNamed, FindFreeSpace, FindCachedFileData, FindCachedFile, CompactDownLocked, CompactMemListDown
+global CompactUpLocked, CompactMemListUp, MemLargestFreeLocked, MemLargestFreeOfList, MemLargestFree, InitMemDescriptors, getmemblock, MemPtrSize
 global MemDescPtr, MemDescSize, type_info__raw_name
 ;-----------------------------------------------------------------------------
-; sub_AB834                                                            AB834  
+; AllocMemBlockLockedAt                           AB834  96 PC, low confidence
+; Allocates a memory block in a given list with the memory lock held
 ;-----------------------------------------------------------------------------
-sub_AB834:
+AllocMemBlockLockedAt:
         push esi
         push edi
         push ebp
@@ -68,7 +69,7 @@ AllocMemBlockEx:
         cmp dword [byte esp+028h], byte 0
         je near .34
         push byte 0
-        call sub_AC868
+        call MemLargestFreeOfList
         add esp, byte 4
         push eax
         mov ebx, dword [byte esp+024h]
@@ -276,7 +277,7 @@ AllocMemBlockEx:
         cmp dword [byte esp+028h], byte 0
         je near .33
         push eax
-        call sub_AC868
+        call MemLargestFreeOfList
         add esp, byte 4
         push eax
         mov eax, dword [byte esp+024h]
@@ -419,7 +420,7 @@ AllocMemBlockEx:
         cmp dword [byte esp+028h], byte 0
         je short .33
         push byte 0
-        call sub_AC868
+        call MemLargestFreeOfList
         add esp, byte 4
         push eax
         mov edx, dword [byte esp+024h]
@@ -453,7 +454,7 @@ AllocMemBlockEx:
         call findmemblock
         add esp, byte 4
         push eax
-        call sub_ABD64
+        call ResizeMemBlock
         add esp, byte 0Ch
         ret
         db 08Dh,040h,00h
@@ -465,7 +466,7 @@ AllocMemBlockEx:
         call findmemblock
         add esp, byte 4
         push eax
-        call sub_ABD64
+        call ResizeMemBlock
         add esp, byte 0Ch
         ret
         db 08Bh,0C0h
@@ -477,7 +478,7 @@ AllocMemBlockEx:
         call findmemblock
         add esp, byte 4
         push eax
-        call sub_ABD64
+        call ResizeMemBlock
         add esp, byte 0Ch
         ret
         db 08Bh,0C0h
@@ -486,7 +487,7 @@ AllocMemBlockEx:
         push edx
         mov ebx, dword [byte esp+0Ch]
         push ebx
-        call sub_ABD64
+        call ResizeMemBlock
         add esp, byte 0Ch
         ret
         db 08Dh,040h,00h
@@ -495,14 +496,15 @@ AllocMemBlockEx:
         push edx
         mov ebx, dword [byte esp+0Ch]
         push ebx
-        call sub_ABD64
+        call ResizeMemBlock
         add esp, byte 0Ch
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_ABD64                                                            ABD64  
+; ResizeMemBlock                                  ABD64  96 PC, low confidence
+; Changes a memory block's size, compacting its list when needed
 ;-----------------------------------------------------------------------------
-sub_ABD64:
+ResizeMemBlock:
         push esi
         push edi
         push ebp
@@ -546,7 +548,7 @@ sub_ABD64:
         cmp dword [byte esp+01Ch], byte 0
         je near .6
         push byte 0
-        call sub_AC868
+        call MemLargestFreeOfList
         add esp, byte 4
         push eax
         mov esi, ebp
@@ -714,9 +716,10 @@ FreeMemBlock:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_ABF88                                                            ABF88  
+; PushMemDescriptorLocked                         ABF88  96 PC, low confidence
+; Pushes a memory descriptor with the memory lock held
 ;-----------------------------------------------------------------------------
-sub_ABF88:
+PushMemDescriptorLocked:
         mov edx, dword [MemLockHandle]
         push edx
         call MemLock
@@ -921,9 +924,10 @@ MergeFreeSpace:
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_AC194                                                            AC194  
+; MarkBlockPurgeable                              AC194  96 PC, low confidence
+; Marks a memory block purgeable with the memory lock held
 ;-----------------------------------------------------------------------------
-sub_AC194:
+MarkBlockPurgeable:
         push esi
         mov esi, dword [byte esp+08h]
         mov edx, dword [MemLockHandle]
@@ -1686,9 +1690,11 @@ MemLargestFreeLocked:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_AC868                                                            AC868  
+; MemLargestFreeOfList                            AC868  96 PC, low confidence
+; Returns the largest free gap of a given memory list, with the memory lock
+; held
 ;-----------------------------------------------------------------------------
-sub_AC868:
+MemLargestFreeOfList:
         push esi
         mov edx, dword [MemLockHandle]
         push edx
@@ -1755,7 +1761,7 @@ MemLargestFree:
         ret
         db 08Dh,040h,00h
         push byte 0
-        call sub_AC868
+        call MemLargestFreeOfList
         add esp, byte 4
         sar eax, 4
         ret

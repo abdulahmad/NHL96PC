@@ -7,7 +7,7 @@ extern dword_11D910, dword_11D914, dword_11D930, dword_11D940, dword_11D954, dwo
 extern dword_11DF74, dword_11DF78, dword_11DF7C, dword_11F5C0, dword_11F5C4, dword_17BC74, dword_17BC78, TeamStatsBitmap
 extern dword_17BCE2, dword_17BD48, dword_17CBE7, dword_17D162, dword_17D267, dword_17D564, dword_17D56C, dword_17D574
 extern dword_17D57C, dword_17D580, dword_17D584, dword_17D588, dword_1843AC, dword_1843B0, dword_1843B4, FadeOut
-extern FadePalette, FillMusicStream, fputchar, gameopts, GetInputDevices, GetLangText, GetTeamNameArt, GetTicks
+extern FadePalette, FillMusicStream, TextStringWidth, gameopts, GetInputDevices, GetLangText, GetTeamNameArt, GetTicks
 extern InitMenuItems, LinkSync, LinkSyncWithMessage, LoadPackedFile, LoadTeamLogo, ModemChat, mousex, mousey
 extern MusicDone, OpenScreen, optflags, PickUsersScreen, PlayMusic, PlaySfx, PreGameScreens, PutBlock
 extern RunEditLines, RunMenu, SetDrawBitmap, SetMenuMouse, SetScreenColors, SetTextColors, SlideInBottomBar, SlideInSideBar
@@ -15,27 +15,34 @@ extern SlideInTitleBar, SoundIdle, SoundSecondsToBytes, sprintf_, str_Bkgd6, str
 extern str_Jy2D, str_Jy3D, str_Jy4D, str_Key1, str_KeyD2, str_Log7, str_Logx, str_MCONTROL
 extern str_MdmD, str_MseD2, str_P11, str_P12, str_P13, str_P1G, str_P21, str_P22
 extern str_P23, str_P2G, str_Pal12, str_PlyD, str_Usrh, str_Usri, str_Utext, DrawShapeCore
-extern DrawShapeAtOwnPos, DrawArt, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, CreateBitmap, sub_ADA50, FreeBitmap
+extern DrawShapeAtOwnPos, DrawArt, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, CreateBitmap, ClearScreenColour, FreeBitmap
 extern DrawArtOpaqueAtOwnPos, SetScreenTarget, FindShape, TextSetFont, unk_11DE50, unk_11DE90, unk_152C44, word_114CE0
 extern word_114CE4, word_11D92C, word_11D92E, word_11D96C, word_11D9A8, word_11D9AC, word_11DA10, word_11DA14
 extern word_160ACC, word_17D560, word_17D562, word_17D568, word_17D570, word_17D578, word_17D58C, word_17D58E
-global sub_6CF0D, sub_6CF0D_6, ControllerUsersPanel, unk_6D31C, jpt_6D32C, sub_6D350, sub_6D350_2C, sub_6D350_F2
-global sub_6D350_199, sub_6D350_240, sub_6D350_2E7, sub_6D350_38E, sub_6D350_435, sub_6D350_4D0, ScanControllers, unk_6DB28
-global jpt_6DB38, sub_6DB5C, sub_6DB5C_51, sub_6DB5C_5D, sub_6DB5C_69, sub_6DB5C_75, sub_6DB5C_81, sub_6DB5C_8D
-global sub_6DB5C_99, sub_6DB5C_A5, sub_6DB5C_CB, sub_6DC2F, SetControllerColumn, SetControllerIcon, SetControllerIcon_F9, DrawControllerColumns
+global ControllerSlotDefaults, ControllerColumnDefaults, ControllerUsersPanel, NextControllerDeviceMasks, NextControllerDeviceJumpTable, NextControllerDevice, NextControllerDevice_2C, NextControllerDevice_F2
+global NextControllerDevice_199, NextControllerDevice_240, NextControllerDevice_2E7, NextControllerDevice_38E, NextControllerDevice_435, NextControllerDevice_4D0, ScanControllers, DeviceIconCodes
+global DeviceIconJumpTable, DeviceIconShape, DeviceIconShape_51, DeviceIconShape_5D, DeviceIconShape_69, DeviceIconShape_75, DeviceIconShape_81, DeviceIconShape_8D
+global DeviceIconShape_99, DeviceIconShape_A5, DeviceIconShape_CB, DrawControllerIcons, SetControllerColumn, SetControllerIcon, SetControllerIcon_F9, DrawControllerColumns
 global jpt_6F02E, jpt_6F042, ControllerScreen, ControllerScreen_11AB, ControllerScreen_149D, ControllerScreen_14E4, ControllerScreen_1503, ControllerScreen_1548
 global ControllerScreen_15D1, ControllerScreen_168B, ControllerScreen_16B0, ControllerScreen_16D6, RunControllerScreen, unk_708A9, unk_70901, unk_70BC1
 global unk_70BCB, unk_70BD5, unk_70C4D, unk_70CED
 ;-----------------------------------------------------------------------------
-; sub_6CF0D                                                       6CF0D  96 PC
+; ControllerSlotDefaults                          6CF0D  96 PC, low confidence
+; Six bytes of start values for the controller slots, kept in the code and
+; copied by ControllerScreen
 ;-----------------------------------------------------------------------------
-sub_6CF0D:
+ControllerSlotDefaults:
         jge short .1
 .1:
         sbb eax, dword [ecx]
         db 0B8h
         db 01h
-sub_6CF0D_6:
+;-----------------------------------------------------------------------------
+; ControllerColumnDefaults                        6CF13  96 PC, low confidence
+; Eight bytes of start values for the controller columns, kept in the code
+; and copied by ControllerScreen
+;-----------------------------------------------------------------------------
+ControllerColumnDefaults:
         test dword [eax], 1580127h
         mov byte [ecx], al
 ;-----------------------------------------------------------------------------
@@ -407,22 +414,23 @@ ControllerUsersPanel:
         pop edi
         pop esi
         ret
-unk_6D31C:
+NextControllerDeviceMasks:
         db 0FFh,03h,03Fh,00h,01Fh,00h,0Fh,00h,07h,00h,03h,00h,01h,00h,00h,00h
-jpt_6D32C:
-        dd sub_6D350_4D0
-        dd sub_6D350_2C
-        dd sub_6D350_F2
-        dd sub_6D350_199
-        dd sub_6D350_240
-        dd sub_6D350_2E7
-        dd sub_6D350_38E
-        dd sub_6D350_435
-        dd sub_6D350_4D0
+NextControllerDeviceJumpTable:
+        dd NextControllerDevice_4D0
+        dd NextControllerDevice_2C
+        dd NextControllerDevice_F2
+        dd NextControllerDevice_199
+        dd NextControllerDevice_240
+        dd NextControllerDevice_2E7
+        dd NextControllerDevice_38E
+        dd NextControllerDevice_435
+        dd NextControllerDevice_4D0
 ;-----------------------------------------------------------------------------
-; sub_6D350                                                       6D350  96 PC
+; NextControllerDevice                            6D350  96 PC, low confidence
+; Returns the next input device after the current one that no other slot uses
 ;-----------------------------------------------------------------------------
-sub_6D350:
+NextControllerDevice:
         push esi
         push edi
         enter 4, 0
@@ -430,12 +438,12 @@ sub_6D350:
         mov dword [byte ebp-04h], ecx
         dec eax
         cmp eax, 3FFh
-        ja near sub_6D350_4D0
+        ja near NextControllerDevice_4D0
         mov ecx, 9
-        mov edi, unk_6D31C
+        mov edi, NextControllerDeviceMasks
         repne scasw
-        jmp dword [nosplit cs:ecx*4+jpt_6D32C]
-sub_6D350_2C:
+        jmp dword [nosplit cs:ecx*4+NextControllerDeviceJumpTable]
+NextControllerDevice_2C:
         test byte [byte ebp+010h], 1
         je short .2
         cmp edx, byte 2
@@ -446,7 +454,7 @@ sub_6D350_2C:
         je short .2
 .1:
         mov esi, 2
-        jmp near sub_6D350_4D0
+        jmp near NextControllerDevice_4D0
 .2:
         test byte [byte ebp+010h], 2
         je short .4
@@ -458,7 +466,7 @@ sub_6D350_2C:
         je short .4
 .3:
         mov esi, 4
-        jmp near sub_6D350_4D0
+        jmp near NextControllerDevice_4D0
 .4:
         test byte [byte ebp+010h], 4
         je short .6
@@ -470,7 +478,7 @@ sub_6D350_2C:
         je short .6
 .5:
         mov esi, 8
-        jmp near sub_6D350_4D0
+        jmp near NextControllerDevice_4D0
 .6:
         test byte [byte ebp+010h], 8
         je short .8
@@ -482,7 +490,7 @@ sub_6D350_2C:
         je short .8
 .7:
         mov esi, 10h
-        jmp near sub_6D350_4D0
+        jmp near NextControllerDevice_4D0
 .8:
         test byte [byte ebp+010h], 10h
         je short .10
@@ -494,18 +502,18 @@ sub_6D350_2C:
         je short .10
 .9:
         mov esi, 20h
-        jmp near sub_6D350_4D0
+        jmp near NextControllerDevice_4D0
 .10:
         cmp edx, byte 40h
-        je near sub_6D350_4D0
+        je near NextControllerDevice_4D0
         cmp ebx, byte 40h
-        je near sub_6D350_4D0
+        je near NextControllerDevice_4D0
         cmp dword [byte ebp-04h], byte 40h
-        je near sub_6D350_4D0
+        je near NextControllerDevice_4D0
 .11:
         mov esi, 40h
-        jmp near sub_6D350_4D0
-sub_6D350_F2:
+        jmp near NextControllerDevice_4D0
+NextControllerDevice_F2:
         test byte [byte ebp+010h], 2
         je short .12
         cmp edx, byte 4
@@ -513,7 +521,7 @@ sub_6D350_F2:
         cmp ebx, byte 4
         je short .12
         cmp dword [byte ebp-04h], byte 4
-        jne near sub_6D350_2C.3
+        jne near NextControllerDevice_2C.3
 .12:
         test byte [byte ebp+010h], 4
         je short .13
@@ -522,7 +530,7 @@ sub_6D350_F2:
         cmp ebx, byte 8
         je short .13
         cmp dword [byte ebp-04h], byte 8
-        jne near sub_6D350_2C.5
+        jne near NextControllerDevice_2C.5
 .13:
         test byte [byte ebp+010h], 8
         je short .14
@@ -531,7 +539,7 @@ sub_6D350_F2:
         cmp ebx, byte 10h
         je short .14
         cmp dword [byte ebp-04h], byte 10h
-        jne near sub_6D350_2C.7
+        jne near NextControllerDevice_2C.7
 .14:
         test byte [byte ebp+010h], 10h
         je short .15
@@ -540,25 +548,25 @@ sub_6D350_F2:
         cmp ebx, byte 20h
         je short .15
         cmp dword [byte ebp-04h], byte 20h
-        jne near sub_6D350_2C.9
+        jne near NextControllerDevice_2C.9
 .15:
         cmp edx, byte 40h
         je short .16
         cmp ebx, byte 40h
         je short .16
         cmp dword [byte ebp-04h], byte 40h
-        jne near sub_6D350_2C.11
+        jne near NextControllerDevice_2C.11
 .16:
         test byte [byte ebp+010h], 1
-        je near sub_6D350_435.42
+        je near NextControllerDevice_435.42
         cmp edx, byte 2
-        je near sub_6D350_435.42
+        je near NextControllerDevice_435.42
         cmp ebx, byte 2
-        je near sub_6D350_435.42
+        je near NextControllerDevice_435.42
         cmp dword [byte ebp-04h], byte 2
-        jne near sub_6D350_2C.1
-        jmp near sub_6D350_435.42
-sub_6D350_199:
+        jne near NextControllerDevice_2C.1
+        jmp near NextControllerDevice_435.42
+NextControllerDevice_199:
         test byte [byte ebp+010h], 4
         je short .17
         cmp edx, byte 8
@@ -566,7 +574,7 @@ sub_6D350_199:
         cmp ebx, byte 8
         je short .17
         cmp dword [byte ebp-04h], byte 8
-        jne near sub_6D350_2C.5
+        jne near NextControllerDevice_2C.5
 .17:
         test byte [byte ebp+010h], 8
         je short .18
@@ -575,7 +583,7 @@ sub_6D350_199:
         cmp ebx, byte 10h
         je short .18
         cmp dword [byte ebp-04h], byte 10h
-        jne near sub_6D350_2C.7
+        jne near NextControllerDevice_2C.7
 .18:
         test byte [byte ebp+010h], 10h
         je short .19
@@ -584,14 +592,14 @@ sub_6D350_199:
         cmp ebx, byte 20h
         je short .19
         cmp dword [byte ebp-04h], byte 20h
-        jne near sub_6D350_2C.9
+        jne near NextControllerDevice_2C.9
 .19:
         cmp edx, byte 40h
         je short .20
         cmp ebx, byte 40h
         je short .20
         cmp dword [byte ebp-04h], byte 40h
-        jne near sub_6D350_2C.11
+        jne near NextControllerDevice_2C.11
 .20:
         test byte [byte ebp+010h], 1
         je short .21
@@ -600,18 +608,18 @@ sub_6D350_199:
         cmp ebx, byte 2
         je short .21
         cmp dword [byte ebp-04h], byte 2
-        jne near sub_6D350_2C.1
+        jne near NextControllerDevice_2C.1
 .21:
         test byte [byte ebp+010h], 2
-        je near sub_6D350_435.42
+        je near NextControllerDevice_435.42
         cmp edx, byte 4
-        je near sub_6D350_435.42
+        je near NextControllerDevice_435.42
         cmp ebx, byte 4
-        je near sub_6D350_435.42
+        je near NextControllerDevice_435.42
         cmp dword [byte ebp-04h], byte 4
-        jne near sub_6D350_2C.3
-        jmp near sub_6D350_435.42
-sub_6D350_240:
+        jne near NextControllerDevice_2C.3
+        jmp near NextControllerDevice_435.42
+NextControllerDevice_240:
         test byte [byte ebp+010h], 8
         je short .22
         cmp edx, byte 10h
@@ -619,7 +627,7 @@ sub_6D350_240:
         cmp ebx, byte 10h
         je short .22
         cmp dword [byte ebp-04h], byte 10h
-        jne near sub_6D350_2C.7
+        jne near NextControllerDevice_2C.7
 .22:
         test byte [byte ebp+010h], 10h
         je short .23
@@ -628,14 +636,14 @@ sub_6D350_240:
         cmp ebx, byte 20h
         je short .23
         cmp dword [byte ebp-04h], byte 20h
-        jne near sub_6D350_2C.9
+        jne near NextControllerDevice_2C.9
 .23:
         cmp edx, byte 40h
         je short .24
         cmp ebx, byte 40h
         je short .24
         cmp dword [byte ebp-04h], byte 40h
-        jne near sub_6D350_2C.11
+        jne near NextControllerDevice_2C.11
 .24:
         test byte [byte ebp+010h], 1
         je short .25
@@ -644,7 +652,7 @@ sub_6D350_240:
         cmp ebx, byte 2
         je short .25
         cmp dword [byte ebp-04h], byte 2
-        jne near sub_6D350_2C.1
+        jne near NextControllerDevice_2C.1
 .25:
         test byte [byte ebp+010h], 2
         je short .26
@@ -653,18 +661,18 @@ sub_6D350_240:
         cmp ebx, byte 4
         je short .26
         cmp dword [byte ebp-04h], byte 4
-        jne near sub_6D350_2C.3
+        jne near NextControllerDevice_2C.3
 .26:
         test byte [byte ebp+010h], 4
-        je near sub_6D350_435.42
+        je near NextControllerDevice_435.42
         cmp edx, byte 8
-        je near sub_6D350_435.42
+        je near NextControllerDevice_435.42
         cmp ebx, byte 8
-        je near sub_6D350_435.42
+        je near NextControllerDevice_435.42
         cmp dword [byte ebp-04h], byte 8
-        jne near sub_6D350_2C.5
-        jmp near sub_6D350_435.42
-sub_6D350_2E7:
+        jne near NextControllerDevice_2C.5
+        jmp near NextControllerDevice_435.42
+NextControllerDevice_2E7:
         test byte [byte ebp+010h], 10h
         je short .27
         cmp edx, byte 20h
@@ -672,14 +680,14 @@ sub_6D350_2E7:
         cmp ebx, byte 20h
         je short .27
         cmp dword [byte ebp-04h], byte 20h
-        jne near sub_6D350_2C.9
+        jne near NextControllerDevice_2C.9
 .27:
         cmp edx, byte 40h
         je short .28
         cmp ebx, byte 40h
         je short .28
         cmp dword [byte ebp-04h], byte 40h
-        jne near sub_6D350_2C.11
+        jne near NextControllerDevice_2C.11
 .28:
         test byte [byte ebp+010h], 1
         je short .29
@@ -688,7 +696,7 @@ sub_6D350_2E7:
         cmp ebx, byte 2
         je short .29
         cmp dword [byte ebp-04h], byte 2
-        jne near sub_6D350_2C.1
+        jne near NextControllerDevice_2C.1
 .29:
         test byte [byte ebp+010h], 2
         je short .30
@@ -697,7 +705,7 @@ sub_6D350_2E7:
         cmp ebx, byte 4
         je short .30
         cmp dword [byte ebp-04h], byte 4
-        jne near sub_6D350_2C.3
+        jne near NextControllerDevice_2C.3
 .30:
         test byte [byte ebp+010h], 4
         je short .31
@@ -706,24 +714,24 @@ sub_6D350_2E7:
         cmp ebx, byte 8
         je short .31
         cmp dword [byte ebp-04h], byte 8
-        jne near sub_6D350_2C.5
+        jne near NextControllerDevice_2C.5
 .31:
         test byte [byte ebp+010h], 8
-        je near sub_6D350_435.42
+        je near NextControllerDevice_435.42
         cmp edx, byte 10h
-        je near sub_6D350_435.42
+        je near NextControllerDevice_435.42
         cmp ebx, byte 10h
-        je near sub_6D350_435.42
+        je near NextControllerDevice_435.42
         cmp dword [byte ebp-04h], byte 10h
-        jne near sub_6D350_2C.7
-        jmp near sub_6D350_435.42
-sub_6D350_38E:
+        jne near NextControllerDevice_2C.7
+        jmp near NextControllerDevice_435.42
+NextControllerDevice_38E:
         cmp edx, byte 40h
         je short .32
         cmp ebx, byte 40h
         je short .32
         cmp dword [byte ebp-04h], byte 40h
-        jne near sub_6D350_2C.11
+        jne near NextControllerDevice_2C.11
 .32:
         test byte [byte ebp+010h], 1
         je short .33
@@ -732,7 +740,7 @@ sub_6D350_38E:
         cmp ebx, byte 2
         je short .33
         cmp dword [byte ebp-04h], byte 2
-        jne near sub_6D350_2C.1
+        jne near NextControllerDevice_2C.1
 .33:
         test byte [byte ebp+010h], 2
         je short .34
@@ -741,7 +749,7 @@ sub_6D350_38E:
         cmp ebx, byte 4
         je short .34
         cmp dword [byte ebp-04h], byte 4
-        jne near sub_6D350_2C.3
+        jne near NextControllerDevice_2C.3
 .34:
         test byte [byte ebp+010h], 4
         je short .35
@@ -750,7 +758,7 @@ sub_6D350_38E:
         cmp ebx, byte 8
         je short .35
         cmp dword [byte ebp-04h], byte 8
-        jne near sub_6D350_2C.5
+        jne near NextControllerDevice_2C.5
 .35:
         test byte [byte ebp+010h], 8
         je short .36
@@ -759,18 +767,18 @@ sub_6D350_38E:
         cmp ebx, byte 10h
         je short .36
         cmp dword [byte ebp-04h], byte 10h
-        jne near sub_6D350_2C.7
+        jne near NextControllerDevice_2C.7
 .36:
         test byte [byte ebp+010h], 10h
-        je near sub_6D350_435.42
+        je near NextControllerDevice_435.42
         cmp edx, byte 20h
-        je near sub_6D350_435.42
+        je near NextControllerDevice_435.42
         cmp ebx, byte 20h
-        je near sub_6D350_435.42
+        je near NextControllerDevice_435.42
         cmp dword [byte ebp-04h], byte 20h
-        jne near sub_6D350_2C.9
-        jmp near sub_6D350_435.42
-sub_6D350_435:
+        jne near NextControllerDevice_2C.9
+        jmp near NextControllerDevice_435.42
+NextControllerDevice_435:
         test byte [byte ebp+010h], 1
         je short .37
         cmp edx, byte 2
@@ -778,7 +786,7 @@ sub_6D350_435:
         cmp ebx, byte 2
         je short .37
         cmp dword [byte ebp-04h], byte 2
-        jne near sub_6D350_2C.1
+        jne near NextControllerDevice_2C.1
 .37:
         test byte [byte ebp+010h], 2
         je short .38
@@ -787,7 +795,7 @@ sub_6D350_435:
         cmp ebx, byte 4
         je short .38
         cmp dword [byte ebp-04h], byte 4
-        jne near sub_6D350_2C.3
+        jne near NextControllerDevice_2C.3
 .38:
         test byte [byte ebp+010h], 4
         je short .39
@@ -796,7 +804,7 @@ sub_6D350_435:
         cmp ebx, byte 8
         je short .39
         cmp dword [byte ebp-04h], byte 8
-        jne near sub_6D350_2C.5
+        jne near NextControllerDevice_2C.5
 .39:
         test byte [byte ebp+010h], 8
         je short .40
@@ -805,7 +813,7 @@ sub_6D350_435:
         cmp ebx, byte 10h
         je short .40
         cmp dword [byte ebp-04h], byte 10h
-        jne near sub_6D350_2C.7
+        jne near NextControllerDevice_2C.7
 .40:
         test byte [byte ebp+010h], 10h
         je short .41
@@ -814,17 +822,17 @@ sub_6D350_435:
         cmp ebx, byte 20h
         je short .41
         cmp dword [byte ebp-04h], byte 20h
-        jne near sub_6D350_2C.9
+        jne near NextControllerDevice_2C.9
 .41:
         cmp edx, byte 40h
         je short .42
         cmp ebx, byte 40h
         je short .42
         cmp dword [byte ebp-04h], byte 40h
-        jne near sub_6D350_2C.11
+        jne near NextControllerDevice_2C.11
 .42:
         mov esi, 1
-sub_6D350_4D0:
+NextControllerDevice_4D0:
         mov eax, esi
         leave
         pop edi
@@ -1059,7 +1067,7 @@ ScanControllers:
         movsx edx, word [byte edx+eax+09h]
 .26:
         mov eax, 1
-        call sub_6D350
+        call NextControllerDevice
         mov edx, eax
         mov eax, dword [gameopts]
         mov word [byte esi+eax+09h], dx
@@ -1076,22 +1084,24 @@ ScanControllers:
         pop ecx
         pop ebx
         ret
-unk_6DB28:
+DeviceIconCodes:
         db 00h,04h,040h,00h,020h,00h,010h,00h,08h,00h,04h,00h,02h,00h,01h,00h
-jpt_6DB38:
-        dd sub_6DB5C_CB
-        dd sub_6DB5C_51
-        dd sub_6DB5C_5D
-        dd sub_6DB5C_69
-        dd sub_6DB5C_75
-        dd sub_6DB5C_81
-        dd sub_6DB5C_8D
-        dd sub_6DB5C_99
-        dd sub_6DB5C_A5
+DeviceIconJumpTable:
+        dd DeviceIconShape_CB
+        dd DeviceIconShape_51
+        dd DeviceIconShape_5D
+        dd DeviceIconShape_69
+        dd DeviceIconShape_75
+        dd DeviceIconShape_81
+        dd DeviceIconShape_8D
+        dd DeviceIconShape_99
+        dd DeviceIconShape_A5
 ;-----------------------------------------------------------------------------
-; sub_6DB5C                                                       6DB5C  96 PC
+; DeviceIconShape                                 6DB5C  96 PC, low confidence
+; Returns the icon shape of an input device ("ply", "mse", "jy1" to "jy4",
+; "key", "mdm")
 ;-----------------------------------------------------------------------------
-sub_6DB5C:
+DeviceIconShape:
         push ecx
         push esi
         push edi
@@ -1117,52 +1127,52 @@ sub_6DB5C:
         mov eax, 400h
 .3:
         mov ecx, 9
-        mov edi, unk_6DB28
+        mov edi, DeviceIconCodes
         repne scasw
-        jmp dword [nosplit cs:ecx*4+jpt_6DB38]
-sub_6DB5C_51:
+        jmp dword [nosplit cs:ecx*4+DeviceIconJumpTable]
+DeviceIconShape_51:
         movsx eax, bx
         inc eax
         push eax
         push str_PlyD
-        jmp short sub_6DB5C_A5.4
-sub_6DB5C_5D:
+        jmp short DeviceIconShape_A5.4
+DeviceIconShape_5D:
         movsx eax, bx
         inc eax
         push eax
         push str_MseD2
-        jmp short sub_6DB5C_A5.4
-sub_6DB5C_69:
+        jmp short DeviceIconShape_A5.4
+DeviceIconShape_69:
         movsx eax, bx
         inc eax
         push eax
         push str_Jy1D
-        jmp short sub_6DB5C_A5.4
-sub_6DB5C_75:
+        jmp short DeviceIconShape_A5.4
+DeviceIconShape_75:
         movsx eax, bx
         inc eax
         push eax
         push str_Jy2D
-        jmp short sub_6DB5C_A5.4
-sub_6DB5C_81:
+        jmp short DeviceIconShape_A5.4
+DeviceIconShape_81:
         movsx eax, bx
         inc eax
         push eax
         push str_Jy3D
-        jmp short sub_6DB5C_A5.4
-sub_6DB5C_8D:
+        jmp short DeviceIconShape_A5.4
+DeviceIconShape_8D:
         movsx eax, bx
         inc eax
         push eax
         push str_Jy4D
-        jmp short sub_6DB5C_A5.4
-sub_6DB5C_99:
+        jmp short DeviceIconShape_A5.4
+DeviceIconShape_99:
         movsx eax, bx
         inc eax
         push eax
         push str_KeyD2
-        jmp short sub_6DB5C_A5.4
-sub_6DB5C_A5:
+        jmp short DeviceIconShape_A5.4
+DeviceIconShape_A5:
         movsx eax, bx
         inc eax
         push eax
@@ -1178,7 +1188,7 @@ sub_6DB5C_A5:
         call FindShape
         add esp, byte 8
         mov dword [byte ebp-04h], eax
-sub_6DB5C_CB:
+DeviceIconShape_CB:
         mov eax, dword [byte ebp-04h]
         leave
         pop edi
@@ -1186,9 +1196,10 @@ sub_6DB5C_CB:
         pop ecx
         ret
 ;-----------------------------------------------------------------------------
-; sub_6DC2F                                                       6DC2F  96 PC
+; DrawControllerIcons                             6DC2F  96 PC, low confidence
+; Draws the device icon of each controller slot
 ;-----------------------------------------------------------------------------
-sub_6DC2F:
+DrawControllerIcons:
         push ebx
         push ecx
         push edx
@@ -1813,7 +1824,7 @@ DrawControllerColumns:
         push dword [dword_17D584]
         movsx edx, word [nosplit eax*8+word_17D562]
         movsx eax, word [nosplit esi*8+word_17D562]
-        call sub_6D350
+        call NextControllerDevice
         mov word [nosplit esi*8+word_17D562], ax
         jmp short .9
 .8:
@@ -1883,12 +1894,12 @@ DrawControllerColumns:
         mov eax, dword [dword_17D588]
         movsx edx, word [nosplit ebx*8+word_17D562]
         mov esi, ebx
-        call sub_6DB5C
+        call DeviceIconShape
         mov edx, eax
         mov eax, dword [dword_17D580]
         mov dword [byte edi+eax+01Ah], edx
         mov eax, dword [dword_17D580]
-        mov dword [byte edi+eax+05Ah], sub_6DC2F
+        mov dword [byte edi+eax+05Ah], DrawControllerIcons
         mov eax, dword [dword_17D580]
         mov dword [byte edi+eax+062h], DrawControllerColumns
         mov eax, dword [dword_17D580]
@@ -1971,7 +1982,7 @@ DrawControllerColumns:
         push eax
         movzx edi, byte [byte_11FA2F]
         mov dword [byte ebp-01Ch], eax
-        call fputchar
+        call TextStringWidth
         lea edx, [byte edi+01h]
         imul eax, edx
         add esp, byte 4
@@ -1991,7 +2002,7 @@ DrawControllerColumns:
         movsd
         movsd
         movsb
-        call fputchar
+        call TextStringWidth
         mov edx, eax
         mov eax, dword [byte ebp-014h]
         mov eax, dword [dword eax+dword_11D940]
@@ -2219,13 +2230,13 @@ DrawControllerColumns:
         mov eax, dword [dword_17D588]
         movsx edx, word [nosplit ebx*8+word_17D562]
         mov esi, ebx
-        call sub_6DB5C
+        call DeviceIconShape
         mov edx, eax
         imul eax, dword [byte ebp-028h], byte 66h
         mov ebx, dword [dword_17D580]
         mov dword [byte ebx+eax+01Ah], edx
         mov ebx, dword [dword_17D580]
-        mov dword [byte ebx+eax+05Ah], sub_6DC2F
+        mov dword [byte ebx+eax+05Ah], DrawControllerIcons
         mov ebx, dword [dword_17D580]
         mov dword [byte ebx+eax+062h], DrawControllerColumns
         mov edi, dword [dword_17D580]
@@ -2273,7 +2284,7 @@ DrawControllerColumns:
         push dword [dword_17D584]
         movsx edx, word [nosplit eax*8+word_17D562]
         movsx eax, word [nosplit esi*8+word_17D562]
-        call sub_6D350
+        call NextControllerDevice
         mov word [nosplit esi*8+word_17D562], ax
         jmp short .37
 .36:
@@ -2338,13 +2349,13 @@ DrawControllerColumns:
         mov eax, dword [dword_17D588]
         movsx edx, word [nosplit ebx*8+word_17D562]
         mov esi, ebx
-        call sub_6DB5C
+        call DeviceIconShape
         mov edx, eax
         imul eax, dword [byte ebp-028h], byte 66h
         mov ebx, dword [dword_17D580]
         mov dword [byte ebx+eax+01Ah], edx
         mov ebx, dword [dword_17D580]
-        mov dword [byte ebx+eax+05Ah], sub_6DC2F
+        mov dword [byte ebx+eax+05Ah], DrawControllerIcons
         mov ebx, dword [dword_17D580]
         mov dword [byte ebx+eax+062h], DrawControllerColumns
         mov edi, dword [dword_17D580]
@@ -2427,7 +2438,7 @@ DrawControllerColumns:
         push eax
         inc edi
         mov dword [byte ebp-01Ch], eax
-        call fputchar
+        call TextStringWidth
         imul eax, edi
         add esp, byte 4
         add eax, byte 10h
@@ -2446,7 +2457,7 @@ DrawControllerColumns:
         movsd
         movsd
         movsb
-        call fputchar
+        call TextStringWidth
         mov edx, eax
         mov eax, dword [byte ebp-010h]
         mov eax, dword [dword eax+dword_11D940]
@@ -2583,13 +2594,13 @@ ControllerScreen:
         enter 68h, 0
         push eax
         lea edi, [byte ebp-060h]
-        mov esi, sub_6CF0D
+        mov esi, ControllerSlotDefaults
         push byte 20h
         movsd
         movsw
         push dword 9F6h
         lea edi, [byte ebp-068h]
-        mov esi, sub_6CF0D_6
+        mov esi, ControllerColumnDefaults
         push str_MCONTROL
         movsd
         movsd
@@ -2604,7 +2615,7 @@ ControllerScreen:
         call LoadPackedFile
         push byte 0
         mov dword [dword_17D588], eax
-        call sub_ADA50
+        call ClearScreenColour
         add esp, byte 4
         call BlackPalette
         push str_Pal12
@@ -2951,7 +2962,7 @@ ControllerScreen:
         movzx esi, byte [byte_11FA2F]
         push dword [byte ebp-014h]
         inc esi
-        call fputchar
+        call TextStringWidth
         imul eax, esi
         add esp, byte 4
         add eax, byte 10h
@@ -2971,7 +2982,7 @@ ControllerScreen:
         movsd
         movsd
         movsb
-        call fputchar
+        call TextStringWidth
         mov edx, eax
         mov eax, dword [byte ebp-018h]
         mov eax, dword [dword eax+dword_11D940]
@@ -3073,14 +3084,14 @@ ControllerScreen:
         movsx ebx, word [byte ebp-048h]
         mov eax, dword [dword_17D588]
         movsx edx, word [dword edx+word_17D562]
-        call sub_6DB5C
+        call DeviceIconShape
         mov edx, eax
         mov eax, dword [dword_17D580]
         mov dword [byte esi+eax+01Ah], edx
         mov eax, dword [dword_17D580]
         or byte [byte esi+eax+046h], 2
         mov eax, dword [dword_17D580]
-        mov dword [byte esi+eax+05Ah], sub_6DC2F
+        mov dword [byte esi+eax+05Ah], DrawControllerIcons
         mov eax, dword [dword_17D580]
         mov dword [byte esi+eax+062h], DrawControllerColumns
         jmp short .15
@@ -3232,7 +3243,7 @@ ControllerScreen:
         movzx esi, byte [byte_11FA2F]
         push dword [byte ebp-014h]
         inc esi
-        call fputchar
+        call TextStringWidth
         imul eax, esi
         add esp, byte 4
         add eax, byte 10h
@@ -3252,7 +3263,7 @@ ControllerScreen:
         movsd
         movsd
         movsb
-        call fputchar
+        call TextStringWidth
         mov edx, eax
         mov eax, dword [byte ebp-018h]
         mov eax, dword [dword eax+dword_11D940]
@@ -3777,7 +3788,7 @@ ControllerScreen_11AB:
         push eax
         inc esi
         mov dword [byte ebp-08h], eax
-        call fputchar
+        call TextStringWidth
         imul eax, esi
         add esp, byte 4
         add eax, byte 10h
@@ -3802,7 +3813,7 @@ ControllerScreen_11AB:
         movsd
         movsd
         movsb
-        call fputchar
+        call TextStringWidth
         mov edx, eax
         mov eax, dword [byte ebp-034h]
         mov eax, dword [dword eax+dword_11D940]

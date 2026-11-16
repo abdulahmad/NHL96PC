@@ -18,8 +18,8 @@ extern str_S05dCnzDb3, str_S05dCsgDb, str_Sched, str_SDB, str_SEASONNDX, str_Set
 extern str_Teams, strcat_, strcpy_, strlen_, WriteDbRecord6, ReadSeasonHeader, GameOptionsScreen, SeasonMenuScreen_794
 extern SeasonMenuScreen_7AC, SeasonMenuScreen_858, SeasonMenuScreen_9D7, SeasonMenuScreen_A07, SeasonMenuScreen_A34, SeasonMenuScreen_A61, SeasonMenuScreen_ADF, SeasonMenuScreen_AEB
 extern SeasonMenuScreen_AF7, SeasonMenuScreen_B7E, SeasonMenuScreen_C05, SeasonMenuScreen_C68, DrawShape, AllocMemBlock, FreeMemBlock, CreateBitmap
-extern sub_AD620, FreeBitmap, OpenArtArchiveErr, SaveFileBlock, DrawArtOpaqueAtOwnPos, UnlinkJump, FileSizeByName, DrawArtKeyedAtOrigin
-extern PutBlockKeyed, SetScreenTarget, SetColourRemap, FindShape, sub_E0584, TextSetFont, TickDeadlinePassed, unk_11E33C
+extern TintRect, FreeBitmap, OpenArtArchiveErr, SaveFileBlock, DrawArtOpaqueAtOwnPos, UnlinkJump, FileSizeByName, DrawArtKeyedAtOrigin
+extern PutBlockKeyed, SetScreenTarget, SetColourRemap, FindShape, ClearClipRect, TextSetFont, TickDeadlinePassed, unk_11E33C
 extern unk_11E354, unk_152C44, unk_17CB2E, unk_17CC1F, unk_17CED5, UpdateProgressBox
 global unk_77442, unk_7745A, CompareGrey, SortGreyColors, jpt_7761E, jpt_77632, NewSeasonScreen, NewSeasonScreen_5FB
 global NewSeasonScreen_768, NewSeasonScreen_798, NewSeasonScreen_7C5, NewSeasonScreen_7F2, NewSeasonScreen_8AF, NewSeasonScreen_8BB, NewSeasonScreen_8CB, NewSeasonScreen_8E0
@@ -259,7 +259,7 @@ NewSeasonScreen:
         push eax
         push dword [byte ebp+06Ah]
         push dword 8000h
-        call sub_AD620
+        call TintRect
         add esp, byte 0Ch
         lea edx, [dword ebp-01F6h]
         mov eax, dword [byte ebp+06Ah]
@@ -817,7 +817,7 @@ SetGreyPalette:
         push edx
         push eax
         push dword 8000h
-        call sub_AD620
+        call TintRect
         add esp, byte 0Ch
         mov eax, dword [byte ebp-04h]
         mov edx, esi
@@ -888,7 +888,7 @@ DrawSeasonTeams:
         call SetDrawBitmap
         add esp, byte 4
         push dword 0FFh
-        call sub_E0584
+        call ClearClipRect
         mov eax, dword [byte ebp-030h]
         movzx eax, byte [dword eax+byte_11D754]
         imul eax, byte 1Ah
@@ -1080,7 +1080,7 @@ DrawSeasonTeams:
         call SetDrawBitmap
         add esp, byte 4
         push dword 0FFh
-        call sub_E0584
+        call ClearClipRect
         mov eax, dword [byte ebp-038h]
         movzx eax, byte [dword eax+byte_11D754]
         imul eax, byte 1Ah

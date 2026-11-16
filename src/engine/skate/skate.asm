@@ -8,7 +8,7 @@ extern randomd0, regd2, regd3, SetCarryAnim, SetSPA, GetHot, PickSkateAnim, Play
 extern vecdist, vtoa, word_1178B4, yc1, gmode2, word_1178F6, word_117914, word_117916
 extern word_165964, regd0, regd1
 global EvadePlayers, avdgoal_box, doplayeracc_7F4, EvadePlayers_2D8, skatetopuck, doplayeracc, EvadePC, skateto
-global playeracc, avdgoal, dostop, stopna, goalieacc, noturn0, sub_4DD1B, burst
+global playeracc, avdgoal, dostop, stopna, goalieacc, noturn0, BurstDrainEnergy, burst
 ;-----------------------------------------------------------------------------
 ; doplayeracc                        4B7BB  94G logic94.asm, medium confidence
 ; player gets acc. in a direction (player a3 gets acc. in d0 dir).
@@ -3251,9 +3251,10 @@ noturn0:
         pop ecx
         ret
 ;-----------------------------------------------------------------------------
-; sub_4DD1B                                                       4DD1B  96 PC
+; BurstDrainEnergy                                4DD1B  96 PC, low confidence
+; Takes energy from a skater for a speed burst
 ;-----------------------------------------------------------------------------
-sub_4DD1B:
+BurstDrainEnergy:
         push ebx
         push ecx
         push esi
@@ -3391,7 +3392,7 @@ burst:
 .1:
         mov edx, ecx
         mov eax, ebx
-        call sub_4DD1B
+        call BurstDrainEnergy
         mov eax, ecx
         movsx edx, word [byte ebx+036h]
         sub eax, edx

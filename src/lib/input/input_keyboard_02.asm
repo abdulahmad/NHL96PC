@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_E0834 progbits alloc exec nowrite align=1
-extern WaitKey, dword_11F5A0, dword_11F994, dword_121B34, dword_12443C, PrintBoxedText, SetScreenTarget, sub_E2436
+extern WaitKey, dword_11F5A0, dword_11F994, dword_121B34, dword_12443C, PrintBoxedText, SetScreenTarget, PrintfSaveRegs
 extern RestoreTextMode
 global FatalError
 ;-----------------------------------------------------------------------------
@@ -22,14 +22,14 @@ FatalError:
         call WaitKey
 .1:
         call RestoreTextMode
-        call sub_E2436
+        call PrintfSaveRegs
         LD xor, eax, eax
         mov dword [dword_12443C], eax
         call dword [dword_11F994]
 .2:
         push dword [dword_121B34]
         call RestoreTextMode
-        call sub_E2436
+        call PrintfSaveRegs
         call dword [dword_11F994]
         ret
         push ebp

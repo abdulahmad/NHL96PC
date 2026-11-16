@@ -12,7 +12,7 @@ extern dword_17BD0C, dword_17BD14, dword_17BD1C, dword_17BD20, dword_17BD48, dwo
 extern dword_17BD66, dword_17BD6E, dword_17BD72, dword_17BD7A, dword_17BD82, dword_17BD86, GetTicks, InitMenuItems
 extern LoadPackedFile, PutBlock, SetDrawBitmap, SetScreenPalette, SoundIdle, sprintf_, str_CHECK, str_M03d
 extern str_Mhil, str_MODEM, str_Pal7, str_TN02d, str_X03d, str_XBUT, str_Xhil, str_Y03d
-extern str_Yhil, DrawShapeCore, AllocMemBlock, FreeMemBlock, CreateBitmap, sub_AD620, FreeBitmap, SaveTextState
+extern str_Yhil, DrawShapeCore, AllocMemBlock, FreeMemBlock, CreateBitmap, TintRect, FreeBitmap, SaveTextState
 extern SetDrawTarget, SetScreenTarget, KbdGetKey, FindShape, TextSetFont, unk_11BCE8, unk_11BD28, unk_11BD68
 extern unk_17BB24
 global LoadFrontEndArt, LoadFrontEndArt_412, GetTeamNameArt, CopyArtRows, OpenScreen, SlideInTitleBar, SlideInTitleBar_62, SlideInTitleBar_6A
@@ -709,7 +709,7 @@ SetScreenColors:
         push byte_17BB64
         push edx
         push dword 0AE14h
-        call sub_AD620
+        call TintRect
         jmp near SlideInTitleBar_6A
         push ebx
         push ecx

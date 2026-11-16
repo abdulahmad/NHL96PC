@@ -24,14 +24,14 @@ extern str_S05dCsgDb3, str_SEASONNDX2, str_SLDR, str_Sta12, str_Sta22, str_Sta32
 extern str_Stn2, str_Stn3, str_Tra1, str_Tra2, str_Tra3, strcpy_, strlen_, LoadDataFileLib
 extern GameOptionsScreen, ReadSeasonDbHeader, ReadPlayoffDbHeader, DeleteSeasonFiles, DeleteSeasonDb, CalendarScreen, UpdateTeamDbs, SimSeasonGames
 extern SaveSeasonTeams, SimulateGame, RunStatsMenu, RunRosterScreens, PlayoffTreeScreen, SeedPlayoffs, PlayoffRound1, PlayoffRound2
-extern PlayoffRound3, PlayoffFinal, ClearPlayoffTree, sub_A8B9B, DrawArt, DrawShape, PutBlockAtOwnPos, FreeMemBlock
-extern CreateBitmap, TintRows, sub_ADA80, FreeBitmap, DosFileInfo, atoi_, OpenArtArchiveErr, OpenArtArchive
-extern SaveFileBlock, DrawArtOpaqueAtOwnPos, UnlinkJump, FileSizeByName, SetScreenTarget, SetPaletteEntries, FindShape, sub_E0584
+extern PlayoffRound3, PlayoffFinal, ClearPlayoffTree, SaveLeagueDb, DrawArt, DrawShape, PutBlockAtOwnPos, FreeMemBlock
+extern CreateBitmap, TintRows, DrawRectOutline, FreeBitmap, DosFileInfo, atoi_, OpenArtArchiveErr, OpenArtArchive
+extern SaveFileBlock, DrawArtOpaqueAtOwnPos, UnlinkJump, FileSizeByName, SetScreenTarget, SetPaletteEntries, FindShape, ClearClipRect
 extern TextSetFont, TickDeadlinePassed, unk_152C44, unk_17CB2E, unk_17CC1F, unk_17CED5, unk_17CF9A, unk_792EB
 extern unk_79303, unk_79483, unk_794C3, UpdateProgressBox
 global SeasonMenuScreen, SeasonMenuScreen_794, SeasonMenuScreen_7AC, SeasonMenuScreen_858, SeasonMenuScreen_9D7, SeasonMenuScreen_A07, SeasonMenuScreen_A34, SeasonMenuScreen_A61
 global SeasonMenuScreen_ADF, SeasonMenuScreen_AEB, SeasonMenuScreen_AF7, SeasonMenuScreen_B7E, SeasonMenuScreen_C05, SeasonMenuScreen_C68, SeasonMenuScreen_D9C, StandingsScreen
-global CompareTeamPoints, DrawStandings, sub_7B15A, unk_7B991, unk_7BA11, jpt_7BA27, RunSeasonMenus, RunSeasonMenus_6E
+global CompareTeamPoints, DrawStandings, SimulateRestOfSeason, unk_7B991, unk_7BA11, jpt_7BA27, RunSeasonMenus, RunSeasonMenus_6E
 global RunSeasonMenus_CB, RunSeasonMenus_D2, RunSeasonMenus_138, RunSeasonMenus_182, RunSeasonMenus_189, RunSeasonMenus_1E1, RunSeasonMenus_224, RunSeasonMenus_238
 global RunSeasonMenus_24E, RunSeasonMenus_25A, RunSeasonMenus_533, PickIndexEntryScreen, DrawIndexEntries
 ;-----------------------------------------------------------------------------
@@ -814,7 +814,7 @@ SeasonMenuScreen_B7E:
 .38:
         mov edx, dword [byte ebp+07Ah]
         mov eax, dword [byte ebp+07Eh]
-        call sub_7B15A
+        call SimulateRestOfSeason
         lea eax, [byte ebp+03Ah]
         push eax
         lea eax, [dword ebp-0122h]
@@ -880,7 +880,7 @@ SeasonMenuScreen_C68:
         push dword [dword esi+ebp-055Eh]
         push dword [dword esi+ebp-0562h]
         mov dword [byte ebp+05Ah], eax
-        call sub_ADA80
+        call DrawRectOutline
         add esp, byte 14h
         mov eax, dword [dword esi+ebp-054Eh]
         push dword 0FDh
@@ -895,7 +895,7 @@ SeasonMenuScreen_C68:
         mov eax, dword [dword esi+ebp-0562h]
         inc eax
         push eax
-        call sub_ADA80
+        call DrawRectOutline
         add esp, byte 14h
         push dword [byte ebp+05Eh]
         call SetDrawBitmap
@@ -2073,9 +2073,11 @@ DrawStandings:
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_7B15A                                                       7B15A  96 PC
+; SimulateRestOfSeason                            7B15A  96 PC, low confidence
+; Simulates the rest of the season's games and the playoffs, with a progress
+; box
 ;-----------------------------------------------------------------------------
-sub_7B15A:
+SimulateRestOfSeason:
         push ebx
         push ecx
         push esi
@@ -2966,7 +2968,7 @@ RunSeasonMenus_25A:
         call PlayoffFinal
 .21:
         mov eax, 1
-        call sub_A8B9B
+        call SaveLeagueDb
         mov eax, 2
         call SoundSecondsToBytes
         call FillMusicStream
@@ -2993,7 +2995,7 @@ RunSeasonMenus_25A:
         jne near RunSeasonMenus_189.8
         call SetScreenTarget
         push byte 0
-        call sub_E0584
+        call ClearClipRect
         movzx eax, byte [byte_17CECB]
         add esp, byte 4
         cmp eax, byte 4

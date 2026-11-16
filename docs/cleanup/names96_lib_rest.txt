@@ -1,0 +1,80 @@
+sub_ACED8 DebugLog {confidence=low,source=new} prints a formatted line to the debug log file when the debug level is 2 or more
+sub_ACF68 FindWildcardDigits {confidence=low,source=new} finds the run of ? characters in a file name pattern
+sub_AD00C FormatDateStamp {confidence=low,source=new} formats the current DOS date and time as a short stamp
+sub_AD2B4 CreateBitmapDepth {confidence=low,source=new} creates a bitmap of a given depth and returns its pixel block
+sub_AD620 TintRect {confidence=low,source=new} tints a rectangle of the draw target through TintRows
+sub_ACC74 DebugScrollUp {confidence=low,source=new} scrolls the debug monochrome screen up a line
+sub_ACCF8 DebugClearScreen {confidence=low,source=new} clears the debug monochrome screen
+sub_ACD24 DebugSetRow {confidence=low,source=new} sets the debug screen's output row (0 to 24)
+sub_ACD38 DebugSetAttr {confidence=low,source=new} sets the debug screen's text attribute
+sub_B2400 TextPrint {confidence=low,source=new} draws a string at the text origin in the current font and colours
+sub_B2B0C TextPrintAt {confidence=low,source=new} sets the text origin and draws a string there
+fputchar TextStringWidth {confidence=medium,source=new} returns the width in pixels of a string in the current font
+sub_ADB30 TextWidthN {confidence=low,source=new} returns the width in pixels of at most n characters of a string in the current font
+sub_E069C CreateHandle {confidence=low,source=new} creates a file and returns its handle through openhandle
+sub_E07CC DosReadFile {confidence=medium,source=new} reads from a file handle (DOS 3Fh) in 16K pieces
+sub_E07CC_2 DosFileTransfer {confidence=low,source=new} reads or writes a file handle with the DOS function passed in AH, in 16K pieces
+sub_E1970 FindFirstFile {confidence=low,source=new} finds the first file matching a pattern and keeps its name for the next search
+sub_AA9CC BlitToScreenWindow {confidence=low,source=new} copies part of a bitmap to a window of the screen
+sub_AAADC DrawArtHotspot {confidence=low,source=new} draws art with its hotspot at x, y; keyed when keyed drawing is on
+sub_AB6D8 AllocMemBlockLockedChecked {confidence=low,source=new} allocates a memory block with the memory lock held, with the error check flag set
+sub_AB834 AllocMemBlockLockedAt {confidence=low,source=new} allocates a memory block in a given list with the memory lock held
+sub_ABD64 ResizeMemBlock {confidence=low,source=new} changes a memory block's size, compacting its list when needed
+sub_ABF88 PushMemDescriptorLocked {confidence=low,source=new} pushes a memory descriptor with the memory lock held
+sub_AC194 MarkBlockPurgeable {confidence=low,source=new} marks a memory block purgeable with the memory lock held
+sub_AC868 MemLargestFreeOfList {confidence=low,source=new} returns the largest free gap of a given memory list, with the memory lock held
+sub_AD824 FillRectClipped {confidence=low,source=new} clips a rectangle to the clip rectangle and fills it
+sub_AD9DC XorRectClipped {confidence=low,source=new} clips a rectangle to the clip rectangle and XORs it
+sub_ADA50 ClearScreenColour {confidence=low,source=new} fills the whole screen with a colour
+sub_ADA80 DrawRectOutline {confidence=low,source=new} draws the outline of a rectangle as four filled edges
+sub_DC780 XorRectOutline {confidence=low,source=new} XORs the outline of a rectangle as four edges
+sub_B2C70 DrawArtOpaqueHotspot {confidence=low,source=new} draws art opaque with its hotspot at x, y
+sub_B7410 ReadFileCachedInto {confidence=low,source=new} copies a cached file into a buffer, or reads it from disk
+sub_C27F8 ShowPromptBox {confidence=low,source=new} shows a boxed prompt over the screen and waits for a key
+sub_C2AC4 AskExitToDos {confidence=low,source=new} asks "EXIT TO DOS" and leaves through the exit routine on yes
+sub_C2AEC ShowMessageBox {confidence=low,source=new} shows a boxed message over the screen
+sub_C2C5C PauseUntilKey {confidence=low,source=new} shows "PAUSE PRESS ANY KEY" and waits
+sub_D0360 SplitFileExt {confidence=low,source=new} copies a file name and returns its extension
+sub_D0440 ConvertShapeBank {confidence=low,source=new} converts a shape bank from its file layout to the layout in memory
+sub_D0640 ConvertShapeBankInPlace {confidence=low,source=new} converts a loaded shape bank in place
+sub_D0650 DrawTextCentredBoxed {confidence=low,source=new} draws a boxed string centred across the clip rectangle
+sub_CFE20 PrintCentredBoxed {confidence=low,source=new} draws a boxed string centred across the clip rectangle (the debug viewers' copy)
+sub_BF02C ShapeBankCount {confidence=medium,source=new} returns the number of shapes in a shape bank
+sub_BF034 ShapeBankEntry {confidence=medium,source=new} returns a shape in a bank by index, or 0
+sub_BF04B ShapeBankEntryId {confidence=medium,source=new} stores a shape's id in a bank by index, or 0
+sub_DBFA8 DrawArtAnyFormat {confidence=low,source=new} draws art of any type (packed, run length or plain), scaled or not
+sub_DC158 DrawArtAnyFormatAt {confidence=low,source=new} draws art of any type at x, y
+sub_DC17C DrawArtAnyFormatOwnPos {confidence=low,source=new} draws art of any type at its own position
+sub_DC830 WriteTgaScreen {confidence=low,source=new} writes the screen to a TGA file at the current pixel depth
+sub_DCB90 SelectBitmapHandle {confidence=low,source=new} makes the bitmap a handle points to the draw target
+sub_DFF45 CallKbdIdleHook {confidence=low,source=new} calls the keyboard idle hook
+sub_DFF7C FlushKeys {confidence=medium,source=new} reads keys until the keyboard buffer is empty
+sub_E0456 JoyResetCentres {confidence=low,source=new} resets the joystick centres and enables the first joystick
+sub_E0486 JoyButtonMap {confidence=low,source=new} maps joystick button bits to pad buttons through a table
+sub_E0584 ClearClipRect {confidence=low,source=new} fills the clip rectangle with a colour
+sub_DFE9C KeyIsDown {confidence=medium,source=new} returns whether a key is held down, from the key state table
+sub_A8B9B SaveLeagueDb {confidence=low,source=new} saves the season or playoff database files
+sub_A8C75 PlayoffWinsNeeded {confidence=low,source=new} returns the wins a playoff series needs from the series length option
+sub_A8C81 BuildPlayoffLeaders {confidence=low,source=new} builds the playoff stat leader lists
+sub_A91DD ShowPlayoffLeaderCard {confidence=low,source=new} shows the player card screen of one playoff stat leader
+sub_A9BAC PlayoffLeadersScreens {confidence=low,source=new} builds the playoff leaders and shows each category's card until one is left
+sub_D703C GusStopStream {confidence=low,source=new} stops the GUS stream voices
+sub_D7A44 BlitBlockRemapKeyed {confidence=low,source=new} draws a block through the colour remap at x, y, clipped
+sub_E19F0 SetupRectFillBlend {confidence=low,source=new} sets up a rectangle fill with the blend flag set
+sub_E2436 PrintfSaveRegs {confidence=low,source=new} calls printf keeping the registers it would change
+sub_E272C ReadKeyPadBits {confidence=low,source=new} builds pad button bits from the keyboard keys set for the pad
+sub_AA500 EmptyRoutine {confidence=medium,source=new} does nothing
+sub_BF290 FindShapeListQuiet {confidence=low,source=new} finds a list of shapes by id, storing 0 for missing ones
+sub_BF2C4 FindShapeList {confidence=low,source=new} finds a list of shapes by id, stopping on a missing one
+sub_BF300 VesaGetInfo {confidence=low,source=new} reads the VESA controller information (4F00h) into a low memory buffer
+sub_BF42C VesaGetModeInfo {confidence=low,source=new} reads a VESA mode's information (4F01h) into a low memory buffer
+sub_C2CB6 __get_doserrno_ptr_ {confidence=medium,source=new} returns the address of the DOS error number
+sub_C3C37 VfprintfThunk {confidence=low,source=new} jumps to __fprtf_
+sub_CFE0C ReturnFalse {confidence=low,source=new} returns 0; the debug viewers' empty check
+sub_CFE70 ResetClipRect {confidence=low,source=new} sets a bitmap's clip rectangle to the whole bitmap
+sub_CFE8C ResetClipWindow {confidence=low,source=new} sets the clip window to the whole screen
+sub_D7D44 PutBytesLE {confidence=low,source=new} stores n bytes of a value, low byte first
+sub_DD220 FlipArtVertical {confidence=low,source=new} mirrors art top to bottom
+sub_DD2A0 TranslateArtPixels {confidence=low,source=new} passes all of an art's pixels through a translate table
+sub_D4524 Emu387LdToInt {confidence=low,source=new} 387 emulator: converts an extended real to an integer
+sub_D459F Emu387IntToLd {confidence=low,source=new} 387 emulator: converts an integer to a normalised extended real

@@ -28,11 +28,11 @@ extern str_LName3, str_Nhl1, str_Nhl2, str_Nhl3, str_Pal28, str_Player3, str_Pro
 extern str_Scr22, str_Scr3, str_Sld12, str_Sldw, str_Slid2, str_Slu12, str_Slup, str_Sta13
 extern str_Sta23, str_Sta33, str_StatDBPTRs3, strcmp_, strcpy_, LoadDataFileLib, PlayerDbRecord, StatsDb2Record
 extern DrawArt, DrawShape, AllocMemBlock, FreeMemBlock, CreateBitmap, FreeBitmap, DrawArtOpaqueAtOwnPos, SetScreenTarget
-extern FindShape, sub_E0584, TickDeadlinePassed, unk_157B1C, unk_157B82, unk_157FDA, unk_183D08, word_11D1B4
+extern FindShape, ClearClipRect, TickDeadlinePassed, unk_157B1C, unk_157B82, unk_157FDA, unk_183D08, word_11D1B4
 extern word_1656E8, word_16581E
-global unk_9CB19, CompareRosterOrder, ComparePlayerPos, PositionOrder, sub_9CD61, RunEditLines, EditLinesScreen, LinesValid
+global unk_9CB19, CompareRosterOrder, ComparePlayerPos, PositionOrder, EditLinesHoverPanel, RunEditLines, EditLinesScreen, LinesValid
 global CountLineSlots, CountLineSlots_4DD, HasDuplicateInLine, HasDuplicateInLine_45, DrawLinesPanel, DrawLineJersey, DrawLineJersey_104, DrawLinesPlayerList
-global SortTeamPlayers, AutoSetLines, sub_A1734
+global SortTeamPlayers, AutoSetLines, FindUnusedLinePlayer
 unk_9CB19:
         db 08Fh,00h,00h,00h,055h,00h,00h,00h,035h,01h,00h,00h,055h,00h,00h,00h
         db 035h,01h,00h,00h,073h,00h,00h,00h,090h,00h,00h,00h,073h,00h,00h,00h
@@ -211,9 +211,10 @@ PositionOrder:
         mov eax, 0FFFFFFFFh
         ret
 ;-----------------------------------------------------------------------------
-; sub_9CD61                                                       9CD61  96 PC
+; EditLinesHoverPanel                             9CD61  96 PC, low confidence
+; Picks the edit lines panel under the mouse pointer
 ;-----------------------------------------------------------------------------
-sub_9CD61:
+EditLinesHoverPanel:
         cmp dword [dword_11D1A8], 19Ah
         jge short .1
         cmp dword [dword_11D1AC], byte 7Ah
@@ -1355,7 +1356,7 @@ EditLinesScreen:
         call SetDrawBitmap
         add esp, byte 4
         push dword 0FFh
-        call sub_E0584
+        call ClearClipRect
         add esp, byte 4
         mov eax, dword [byte ebp+03Ah]
         mov ecx, dword [byte ebp+062h]
@@ -1931,7 +1932,7 @@ EditLinesScreen:
         call SetDrawBitmap
         add esp, byte 4
         push dword 0FFh
-        call sub_E0584
+        call ClearClipRect
         mov ecx, dword [byte ebp+062h]
         add esp, byte 4
         mov eax, dword [dword esi+dword_183C28]
@@ -2500,7 +2501,7 @@ EditLinesScreen:
         call SetDrawBitmap
         add esp, byte 4
         push dword 0FFh
-        call sub_E0584
+        call ClearClipRect
         mov ecx, dword [byte ebp+062h]
         add esp, byte 4
         mov eax, dword [dword esi+dword_183C28]
@@ -2564,7 +2565,7 @@ EditLinesScreen:
         push byte 3
         lea eax, [byte ebp+056h]
         push byte 15h
-        mov ecx, sub_9CD61
+        mov ecx, EditLinesHoverPanel
         mov ebx, 0FFFFFFFFh
         push eax
         lea edx, [dword ebp-017EEh]
@@ -4876,7 +4877,7 @@ AutoSetLines:
         push eax
         xor edx, edx
         mov eax, 4Ch
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843B8], al
 .68:
         movzx eax, byte [dword edi+byte_1843B8]
@@ -4889,7 +4890,7 @@ AutoSetLines:
         push eax
         xor edx, edx
         mov eax, 52h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843B8], al
 .69:
         movzx eax, byte [dword edi+byte_1843B8]
@@ -4902,7 +4903,7 @@ AutoSetLines:
         push eax
         xor edx, edx
         mov eax, 43h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843B8], al
 .70:
         movzx eax, byte [dword edi+byte_1843B8]
@@ -4915,7 +4916,7 @@ AutoSetLines:
         push eax
         xor edx, edx
         mov eax, 44h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843B8], al
 .71:
         movzx eax, byte [dword edi+byte_1843B9]
@@ -4928,7 +4929,7 @@ AutoSetLines:
         push eax
         xor edx, edx
         mov eax, 43h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843B9], al
 .72:
         movzx eax, byte [dword edi+byte_1843B9]
@@ -4941,7 +4942,7 @@ AutoSetLines:
         push eax
         xor edx, edx
         mov eax, 52h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843B9], al
 .73:
         movzx eax, byte [dword edi+byte_1843B9]
@@ -4954,7 +4955,7 @@ AutoSetLines:
         push eax
         xor edx, edx
         mov eax, 4Ch
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843B9], al
 .74:
         movzx eax, byte [dword edi+byte_1843B9]
@@ -4967,7 +4968,7 @@ AutoSetLines:
         push eax
         xor edx, edx
         mov eax, 44h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843B9], al
 .75:
         movzx eax, byte [dword edi+byte_1843BA]
@@ -4980,7 +4981,7 @@ AutoSetLines:
         push eax
         xor edx, edx
         mov eax, 52h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843BA], al
 .76:
         movzx eax, byte [dword edi+byte_1843BA]
@@ -4993,7 +4994,7 @@ AutoSetLines:
         push eax
         xor edx, edx
         mov eax, 4Ch
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843BA], al
 .77:
         movzx eax, byte [dword edi+byte_1843BA]
@@ -5006,7 +5007,7 @@ AutoSetLines:
         push eax
         xor edx, edx
         mov eax, 43h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843BA], al
 .78:
         movzx eax, byte [dword edi+byte_1843BA]
@@ -5019,7 +5020,7 @@ AutoSetLines:
         push eax
         xor edx, edx
         mov eax, 44h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843BA], al
 .79:
         add edi, byte 3
@@ -5037,7 +5038,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 44h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843C4], al
 .81:
         movzx eax, byte [dword edi+byte_1843C4]
@@ -5050,7 +5051,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 4Ch
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843C4], al
 .82:
         movzx eax, byte [dword edi+byte_1843C4]
@@ -5063,7 +5064,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 52h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843C4], al
 .83:
         inc edi
@@ -5082,7 +5083,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 44h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843C5], al
 .85:
         movzx eax, byte [dword edi+byte_1843C5]
@@ -5095,7 +5096,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 52h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843C5], al
 .86:
         movzx eax, byte [dword edi+byte_1843C5]
@@ -5108,7 +5109,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 4Ch
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843C5], al
 .87:
         inc edi
@@ -5127,7 +5128,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 4Ch
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843CA], al
 .89:
         movzx eax, byte [dword edi+byte_1843CA]
@@ -5140,7 +5141,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 52h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843CA], al
 .90:
         movzx eax, byte [dword edi+byte_1843CA]
@@ -5153,7 +5154,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 43h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843CA], al
 .91:
         add edi, byte 5
@@ -5171,7 +5172,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 43h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843CB], al
 .93:
         movzx eax, byte [dword edi+byte_1843CB]
@@ -5184,7 +5185,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 52h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843CB], al
 .94:
         movzx eax, byte [dword edi+byte_1843CB]
@@ -5197,7 +5198,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 4Ch
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843CB], al
 .95:
         add edi, byte 5
@@ -5215,7 +5216,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 52h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843CC], al
 .97:
         movzx eax, byte [dword edi+byte_1843CC]
@@ -5228,7 +5229,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 4Ch
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843CC], al
 .98:
         movzx eax, byte [dword edi+byte_1843CC]
@@ -5241,7 +5242,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 43h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843CC], al
 .99:
         add edi, byte 5
@@ -5259,7 +5260,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 44h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843CD], al
 .101:
         movzx eax, byte [dword edi+byte_1843CD]
@@ -5272,7 +5273,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 52h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843CD], al
 .102:
         movzx eax, byte [dword edi+byte_1843CD]
@@ -5285,7 +5286,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 4Ch
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843CD], al
 .103:
         add edi, byte 5
@@ -5303,7 +5304,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 44h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843CE], al
 .105:
         movzx eax, byte [dword edi+byte_1843CE]
@@ -5316,7 +5317,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 4Ch
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843CE], al
 .106:
         movzx eax, byte [dword edi+byte_1843CE]
@@ -5329,7 +5330,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 52h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843CE], al
 .107:
         add edi, byte 5
@@ -5347,7 +5348,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 4Ch
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843D4], al
 .109:
         movzx eax, byte [dword edi+byte_1843D4]
@@ -5360,7 +5361,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 52h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843D4], al
 .110:
         movzx eax, byte [dword edi+byte_1843D4]
@@ -5373,7 +5374,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 43h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843D4], al
 .111:
         add edi, byte 4
@@ -5391,7 +5392,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 43h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843D5], al
 .113:
         movzx eax, byte [dword edi+byte_1843D5]
@@ -5404,7 +5405,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 52h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843D5], al
 .114:
         movzx eax, byte [dword edi+byte_1843D5]
@@ -5417,7 +5418,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 4Ch
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843D5], al
 .115:
         add edi, byte 4
@@ -5435,7 +5436,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 52h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843D6], al
 .117:
         movzx eax, byte [dword edi+byte_1843D6]
@@ -5448,7 +5449,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 4Ch
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843D6], al
 .118:
         movzx eax, byte [dword edi+byte_1843D6]
@@ -5461,7 +5462,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 43h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843D6], al
 .119:
         add edi, byte 4
@@ -5479,7 +5480,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 44h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843D7], al
 .121:
         movzx eax, byte [dword edi+byte_1843D7]
@@ -5492,7 +5493,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 52h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843D7], al
 .122:
         movzx eax, byte [dword edi+byte_1843D7]
@@ -5505,7 +5506,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 4Ch
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843D7], al
 .123:
         add edi, byte 4
@@ -5523,7 +5524,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 4Ch
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843DE], al
 .125:
         movzx eax, byte [dword edi+byte_1843DE]
@@ -5536,7 +5537,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 52h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843DE], al
 .126:
         movzx eax, byte [dword edi+byte_1843DE]
@@ -5549,7 +5550,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 43h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843DE], al
 .127:
         add edi, byte 4
@@ -5567,7 +5568,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 43h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843DF], al
 .129:
         movzx eax, byte [dword edi+byte_1843DF]
@@ -5580,7 +5581,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 52h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843DF], al
 .130:
         movzx eax, byte [dword edi+byte_1843DF]
@@ -5593,7 +5594,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 4Ch
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843DF], al
 .131:
         add edi, byte 4
@@ -5611,7 +5612,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 44h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843E0], al
 .133:
         movzx eax, byte [dword edi+byte_1843E0]
@@ -5624,7 +5625,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 52h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843E0], al
 .134:
         movzx eax, byte [dword edi+byte_1843E0]
@@ -5637,7 +5638,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 4Ch
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843E0], al
 .135:
         add edi, byte 4
@@ -5655,7 +5656,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 44h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843E1], al
 .137:
         movzx eax, byte [dword edi+byte_1843E1]
@@ -5668,7 +5669,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 4Ch
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843E1], al
 .138:
         movzx eax, byte [dword edi+byte_1843E1]
@@ -5681,7 +5682,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 52h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843E1], al
 .139:
         add edi, byte 4
@@ -5699,7 +5700,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 43h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843E6], al
 .141:
         movzx eax, byte [dword edi+byte_1843E6]
@@ -5712,7 +5713,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 52h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843E6], al
 .142:
         movzx eax, byte [dword edi+byte_1843E6]
@@ -5725,7 +5726,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 4Ch
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843E6], al
 .143:
         add edi, byte 3
@@ -5743,7 +5744,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 44h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843E7], al
 .145:
         movzx eax, byte [dword edi+byte_1843E7]
@@ -5756,7 +5757,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 52h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843E7], al
 .146:
         movzx eax, byte [dword edi+byte_1843E7]
@@ -5769,7 +5770,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 4Ch
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843E7], al
 .147:
         add edi, byte 3
@@ -5787,7 +5788,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 44h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843E8], al
 .149:
         movzx eax, byte [dword edi+byte_1843E8]
@@ -5800,7 +5801,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 4Ch
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843E8], al
 .150:
         movzx eax, byte [dword edi+byte_1843E8]
@@ -5813,7 +5814,7 @@ AutoSetLines:
         push eax
         mov ecx, esi
         mov eax, 52h
-        call sub_A1734
+        call FindUnusedLinePlayer
         mov byte [dword edi+byte_1843E8], al
 .151:
         add edi, byte 3
@@ -5883,9 +5884,10 @@ AutoSetLines:
         jl short .155
         jmp near CountLineSlots_4DD
 ;-----------------------------------------------------------------------------
-; sub_A1734                                                       A1734  96 PC
+; FindUnusedLinePlayer                            A1734  96 PC, low confidence
+; Finds a player of a position not yet on any line
 ;-----------------------------------------------------------------------------
-sub_A1734:
+FindUnusedLinePlayer:
         push esi
         push edi
         enter 20h, 0

@@ -6,9 +6,9 @@ extern FatalError, str_SavefileblockaOPENFAILEDFOR, byte_11FA2C, byte_11FA2D, by
 extern TextOriginX, TextOriginY, dword_11FA24, dword_11FA28, dword_11FA34, dword_11FA38, dword_11FA3C, dword_11FA40
 extern dword_11FA44, dword_11FA48, dword_11FA4C, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight
 extern dword_1228E8, KeyedDraw, DrawDestBuffer, dword_1228FC, dword_185774, off_11FA10, MemDescPtr, MemDescSize
-extern SetTextOrigin, ArtBitDepth, PixelToRgb, DrawEllipseClipped, PutPixel, BlitFontNibbles, sub_E069C, DosCloseFile
+extern SetTextOrigin, ArtBitDepth, PixelToRgb, DrawEllipseClipped, PutPixel, BlitFontNibbles, CreateHandle, DosCloseFile
 extern DosWriteFile
-global SaveDataFile, savefileblocka, sub_B2400, sub_B2B0C
+global SaveDataFile, savefileblocka, TextPrint, TextPrintAt
 ;-----------------------------------------------------------------------------
 ; SaveDataFile                                    B22E0  96 PC, low confidence
 ; Saves a memory block to a file
@@ -92,7 +92,7 @@ savefileblocka:
         push eax
         mov edx, dword [byte esp+028h]
         push edx
-        call sub_E069C
+        call CreateHandle
         add esp, byte 10h
         mov ebx, dword [byte esp+08h]
         test ebx, ebx
@@ -126,9 +126,10 @@ savefileblocka:
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_B2400                                                            B2400  
+; TextPrint                                       B2400  96 PC, low confidence
+; Draws a string at the text origin in the current font and colours
 ;-----------------------------------------------------------------------------
-sub_B2400:
+TextPrint:
         push esi
         push edi
         push ebp
@@ -719,9 +720,10 @@ sub_B2400:
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_B2B0C                                                            B2B0C  
+; TextPrintAt                                     B2B0C  96 PC, low confidence
+; Sets the text origin and draws a string there
 ;-----------------------------------------------------------------------------
-sub_B2B0C:
+TextPrintAt:
         mov edx, dword [byte esp+0Ch]
         push edx
         mov ebx, dword [byte esp+0Ch]
@@ -730,7 +732,7 @@ sub_B2B0C:
         add esp, byte 8
         mov ecx, dword [byte esp+04h]
         push ecx
-        call sub_B2400
+        call TextPrint
         add esp, byte 4
         ret
         db 00h,00h,00h,00h

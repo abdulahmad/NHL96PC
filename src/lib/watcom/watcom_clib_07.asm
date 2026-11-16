@@ -5,7 +5,7 @@ section s_BF070 progbits alloc exec nowrite align=1
 extern FatalError, asc_1139D8, asc_1139E4, str_VESA, asc_113A14, ScreenWidth, KeyedDraw, dword_1228FC
 extern dword_122930, dword_123B0C, dword_19B654, dword_19B66C, dword_19B670, int386x_, segread_, strncmp_
 extern AllocMemBlock, FreeMemBlock, VesaSetBank, BlitShapeFast, FindShape, FindShapeQuiet, bcopy, word_19B676
-global __STOSB, __STOSD, DrawArtFast, sub_BF290, sub_BF2C4, sub_BF300, sub_BF42C
+global __STOSB, __STOSD, DrawArtFast, FindShapeListQuiet, FindShapeList, VesaGetInfo, VesaGetModeInfo
 ;-----------------------------------------------------------------------------
 ; __STOSB                                                       BF070  library
 ;-----------------------------------------------------------------------------
@@ -234,9 +234,10 @@ DrawArtFast:
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_BF290                                                            BF290  
+; FindShapeListQuiet                              BF290  96 PC, low confidence
+; Finds a list of shapes by id, storing 0 for missing ones
 ;-----------------------------------------------------------------------------
-sub_BF290:
+FindShapeListQuiet:
         push esi
         push edi
         push ebp
@@ -264,9 +265,10 @@ sub_BF290:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_BF2C4                                                            BF2C4  
+; FindShapeList                                   BF2C4  96 PC, low confidence
+; Finds a list of shapes by id, stopping on a missing one
 ;-----------------------------------------------------------------------------
-sub_BF2C4:
+FindShapeList:
         push esi
         push edi
         push ebp
@@ -294,9 +296,10 @@ sub_BF2C4:
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_BF300                                                            BF300  
+; VesaGetInfo                                     BF300  96 PC, low confidence
+; Reads the VESA controller information (4F00h) into a low memory buffer
 ;-----------------------------------------------------------------------------
-sub_BF300:
+VesaGetInfo:
         push ebx
         push ecx
         push edx
@@ -387,9 +390,10 @@ sub_BF300:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_BF42C                                                            BF42C  
+; VesaGetModeInfo                                 BF42C  96 PC, low confidence
+; Reads a VESA mode's information (4F01h) into a low memory buffer
 ;-----------------------------------------------------------------------------
-sub_BF42C:
+VesaGetModeInfo:
         push ebx
         push ecx
         push esi
@@ -462,7 +466,7 @@ sub_BF42C:
         push edx
         sub esp, 100h
         mov edx, esp
-        call sub_BF42C
+        call VesaGetModeInfo
         add esp, 100h
         pop edx
         ret

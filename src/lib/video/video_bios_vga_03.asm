@@ -8,17 +8,18 @@ extern byte_14FAC8, byte_14FAC9, byte_14FACB, byte_14FACC, AngleOctantTable, Tim
 extern CosTable, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, str_BK, dword_123390, HotkeyNesting
 extern dword_1242CE, dword_124444, dword_124448, dword_12444C, dword_124450, dword_124454, dword_124458, dword_1248C8
 extern dword_14F098, str_28, joyenablemask, off_14F07C, off_14F080, off_14F084, off_14F088, off_14F08C
-extern off_14F090, off_14F0B0, printf_, sprintf_, sub_ADA50, sub_C2AEC, ReadJoystickPorts, AddExitHandler
+extern off_14F090, off_14F0B0, printf_, sprintf_, ClearScreenColour, ShowMessageBox, ReadJoystickPorts, AddExitHandler
 extern SavedTextColumns
 global jpt_E1B6F, RectFillClipLeftJumpTable, RectFillClipBottomJumpTable, RectFillClipRightJumpTable, RectFillStepJumpTable, SetupRectFill_C, SetupRectFill_5A, SetupRectFill_164
 global jpt_E1B6F_40, jpt_E1BCE_D2, jpt_E1CBA_DF, jpt_E1DA4_14A, jpt_E1DA4_1DA, jpt_E1F8A_145, jpt_E1F8A_153, jpt_E1F8A_1AC
-global jpt_E1F8A_1BF, jpt_E1F8A_27E, SetHotkey_5B, SetHotkey_81, sub_E19F0, SetupRectFill, DispatchHotkey, SetHotkey
-global sub_E2436, SaveTextMode, RestoreTextMode, AngleFromDelta, SinLookup, CosLookup, DebugLineCount, sub_E272C
+global jpt_E1F8A_1BF, jpt_E1F8A_27E, SetHotkey_5B, SetHotkey_81, SetupRectFillBlend, SetupRectFill, DispatchHotkey, SetHotkey
+global PrintfSaveRegs, SaveTextMode, RestoreTextMode, AngleFromDelta, SinLookup, CosLookup, DebugLineCount, ReadKeyPadBits
 global SinCosLookup, AngleFromDeltaJumpTable
 ;-----------------------------------------------------------------------------
-; sub_E19F0                                                            E19F0  
+; SetupRectFillBlend                              E19F0  96 PC, low confidence
+; Sets up a rectangle fill with the blend flag set
 ;-----------------------------------------------------------------------------
-sub_E19F0:
+SetupRectFillBlend:
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFF8h
@@ -1012,7 +1013,7 @@ SetHotkey_81:
 .11:
         push byte 8
         push eax
-        call sub_C2AEC
+        call ShowMessageBox
         add sp, byte 8
         ret
         db 00h
@@ -1031,9 +1032,10 @@ SetHotkey_81:
         mov edi, dword [dword_124454]
         ret
 ;-----------------------------------------------------------------------------
-; sub_E2436                                                            E2436  
+; PrintfSaveRegs                                  E2436  96 PC, low confidence
+; Calls printf keeping the registers it would change
 ;-----------------------------------------------------------------------------
-sub_E2436:
+PrintfSaveRegs:
         mov dword [dword_124444], ebx
         mov dword [dword_124448], ecx
         mov dword [dword_12444C], edx
@@ -1134,7 +1136,7 @@ RestoreTextMode:
         cmp al, 30h
         jne short .4
         push byte 0
-        call sub_ADA50
+        call ClearScreenColour
         add esp, byte 4
 .4:
         mov ah, 0Bh
@@ -1295,9 +1297,10 @@ DebugLineCount:
         ret
         db 00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_E272C                                                            E272C  
+; ReadKeyPadBits                                  E272C  96 PC, low confidence
+; Builds pad button bits from the keyboard keys set for the pad
 ;-----------------------------------------------------------------------------
-sub_E272C:
+ReadKeyPadBits:
         LD xor, eax, eax
         LD xor, ebx, ebx
         mov bl, byte [byte_14FAC0]

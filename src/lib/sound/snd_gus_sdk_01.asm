@@ -12,7 +12,7 @@ extern GusClearCallbacks, GusSetVoiceCallbacks, GusRunInitTable, GusPeek, GusPok
 extern GusStreamLoopHi, GusStreamStartHi, GusStreamEndLo, GusStreamEndHi, GusBasePort, GusIrqStatusPort, GusIrqLatchPort, GusDmaLatchPort
 extern GusVoiceSelectPort, GusRegSelectPort, GusDataLowPort, GusDataHighPort, GusDramPort, GusDramSize, GusIrqFlags, GusActiveVoices
 global GusGetEnvConfig, GusProbePort, GusStopDmaAndTimers, GusUnhookIrqs, GusHookIrqs, GusOpenCard, GusStopAllVoices, GusOpen
-global GusClose, GusSetIrqDmaLatches, GusResetVoices, GusPokeBlock, GusPeekBlock, GusSizeDram, GusMemAlloc, sub_D703C
+global GusClose, GusSetIrqDmaLatches, GusResetVoices, GusPokeBlock, GusPeekBlock, GusSizeDram, GusMemAlloc, GusStopStream
 global GusStreamBusy, GusRefillStreamChannel, GusStreamVoiceIrq, GusServiceStream, GusStartStream, GusStopStreamVoices, SbIsrSingle, SbIsrPicPort
 global SbIsrAckPort, SbIsrWritePort
 ;-----------------------------------------------------------------------------
@@ -1381,9 +1381,10 @@ GusMemAlloc:
         pop ebp
         ret
 ;-----------------------------------------------------------------------------
-; sub_D703C                                                            D703C  
+; GusStopStream                                   D703C  96 PC, low confidence
+; Stops the GUS stream voices
 ;-----------------------------------------------------------------------------
-sub_D703C:
+GusStopStream:
         call GusStopStreamVoices
         ret
 ;-----------------------------------------------------------------------------

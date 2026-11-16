@@ -5,7 +5,7 @@ section s_E0898 progbits alloc exec nowrite align=1
 extern str_Punct_DrawRinkSurface, dword_1222C8, dword_1222CC, dword_1222D0, dword_1222D4, dword_1222D8, dword_1222DC, ClipTopRow
 extern ClipLeftCol, ClipRight, ScreenHeight, ViewCenterX, str_D_SetCameraAngles, CameraYaw, CameraPitch, ViewCenterY
 extern str_D_ProjectPointsPersp, dword_123AAC, dword_123AB0, CameraOriginX, CameraOriginY, dword_123ABC, ShadowFillFunc, TitleBandFunc
-extern FillSpanList, RemapSpanList, FillRectSpans, FillRectColor, sub_E19F0, SetupRectFill, AngleFromDelta, SinLookup
+extern FillSpanList, RemapSpanList, FillRectSpans, FillRectColor, SetupRectFillBlend, SetupRectFill, AngleFromDelta, SinLookup
 extern CosLookup
 global FillBandRowsJumpTable, FillBandRowsBlendJumpTable, FillBandRowsPlainJumpTable, FillPolygon_F, FillPolygonArgs_F, FillPolygonCore, jpt_E0C7A_38, jpt_E0DBA_3B
 global jpt_E0F93_22F, ClipEdgeToPlane_B, SetCameraAngles_2D, Random32, FillPolygon, FillPolygonArgs, FillBandEdges, FillBandRows
@@ -243,7 +243,7 @@ FillPolygonCore:
         call FillBandEdges
         jmp short .14
 .13:
-        call sub_E19F0
+        call SetupRectFillBlend
         mov dword [byte ebp-028h], edi
         call FillBandRows
 .14:
@@ -274,7 +274,7 @@ FillPolygonCore:
         call SetupRectFill
         jmp short .19
 .18:
-        call sub_E19F0
+        call SetupRectFillBlend
 .19:
         mov dword [byte ebp-028h], edi
         call FillBandRowsBlend

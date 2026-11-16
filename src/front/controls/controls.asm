@@ -13,7 +13,7 @@ extern dword_15172E, dword_151730, dword_151732, dword_151770, dword_15178E, dwo
 extern fread_, fseek_, ftell_, GameLoopActive, gameopts, GetTicks, InputRecordCount, InputRecordHead
 extern InputRecordRing, kaufmfont, LinkResyncInput, mousepollfn, MouseRead, mousex, mousey, SetViewRect
 extern SlotButtons, SlotTable, slotteam, str_CGRIP, str_GRIP, str_GRIPGLL, str_PATH, str_Rb2
-extern strcat_, strcpy_, CameraFacing, InitMouse, sub_DFE9C, KbdGetKey, CalibrateJoystick, sub_E0456
+extern strcat_, strcpy_, CameraFacing, InitMouse, KeyIsDown, KbdGetKey, CalibrateJoystick, JoyResetCentres
 extern AddExitHandler, unk_114BA8, unk_114C00, unk_151648, unk_1516B8, unk_151784, word_114B40, word_114B42
 extern word_114B44, word_114CDB, word_114CE0, word_114CE4, JoyAxisValues, word_11F914, word_11F918, word_11F91C
 extern word_1515B5, word_151634, word_151636, word_151638, word_15163A, word_151712, word_151714, word_15171C
@@ -139,7 +139,7 @@ TestKeyBinding:
         je short .5
         movsx eax, word [byte eax+02h]
         push eax
-        call sub_DFE9C
+        call KeyIsDown
         add esp, byte 4
         test eax, eax
         je short .5
@@ -152,7 +152,7 @@ TestKeyBinding:
 .3:
         movsx eax, word [byte eax+02h]
         push eax
-        call sub_DFE9C
+        call KeyIsDown
         add esp, byte 4
         test eax, eax
         je short .5
@@ -178,11 +178,11 @@ ReadEscReplayKeys:
         mov esi, eax
         push byte 1Dh
         mov dword [eax], 0
-        call sub_DFE9C
+        call KeyIsDown
         add esp, byte 4
         push byte 38h
         mov dword [byte ebp-04h], eax
-        call sub_DFE9C
+        call KeyIsDown
         mov ecx, 1
         add esp, byte 4
         mov edi, eax
@@ -243,12 +243,12 @@ ReadKeyboardPad:
         mov esi, eax
         mov dword [byte ebp-0Ch], edx
         push byte 1Dh
-        call sub_DFE9C
+        call KeyIsDown
         add esp, byte 4
         push byte 38h
         mov dword [byte ebp-010h], eax
         mov dword [byte ebp-04h], eax
-        call sub_DFE9C
+        call KeyIsDown
         mov ecx, 80h
         mov ebx, 3
         add esp, byte 4
@@ -460,7 +460,7 @@ ReadKeyboardPad_2D7:
         mov edx, 1
         call ReadKeyboardPad
         push byte 1Ch
-        call sub_DFE9C
+        call KeyIsDown
         add esp, byte 4
         test eax, eax
         je short .7
@@ -486,11 +486,11 @@ ReadMousePad:
         mov esi, eax
         mov dword [byte ebp-08h], edx
         push byte 1Dh
-        call sub_DFE9C
+        call KeyIsDown
         add esp, byte 4
         push byte 38h
         mov dword [byte ebp-04h], eax
-        call sub_DFE9C
+        call KeyIsDown
         mov edi, eax
         add esp, byte 4
         cmp dword [byte ebp-08h], byte 0
@@ -642,11 +642,11 @@ ReadJoyPad:
         mov esi, edx
         mov dword [byte ebp-0Ch], ebx
         push byte 1Dh
-        call sub_DFE9C
+        call KeyIsDown
         add esp, byte 4
         push byte 38h
         mov edi, eax
-        call sub_DFE9C
+        call KeyIsDown
         mov dword [byte ebp-04h], eax
         add esp, byte 4
         cmp dword [byte ebp-0Ch], byte 0
@@ -969,7 +969,7 @@ PollControllers:
         mov eax, dword_1515A8
         call ReadKeyboardPad
         push byte 1Ch
-        call sub_DFE9C
+        call KeyIsDown
         add esp, byte 4
         test eax, eax
         je short .3
@@ -2108,7 +2108,7 @@ ReadAnalogJoysticks:
         mov dword [byte ebp-08h], 1
 .3:
         push dword [byte ebp-08h]
-        call sub_E0456
+        call JoyResetCentres
         add esp, byte 4
         test byte [JoyPortMask], 3
         je short .5

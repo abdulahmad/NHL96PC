@@ -10,7 +10,7 @@ extern MixBuffer
 extern MixBuffer
 extern MixBuffer, MixerReady, MixerMode, MixerOutputRate, MixerBufferSamples, MixerOutBuffer, MixerChunkSamples, MixerChunkLeft
 extern MixerChunkPos, MixerChunkCount, MixerLoopLength, MixerLoopLimit, MixerLoopStart, MixStepFrac, MixStepWhole, MixerOutputFunc
-extern dword_1A0B1C, MixerChannelTable, EmuInitHook, EmuFiniHook, PutBlockAtOwnPos, FreeMemBlock, sub_ABF88, sub_AD2B4
+extern dword_1A0B1C, MixerChannelTable, EmuInitHook, EmuFiniHook, PutBlockAtOwnPos, FreeMemBlock, PushMemDescriptorLocked, CreateBitmapDepth
 extern RestoreDS, AudioStreamCallback, StartChannelSample, PanVolumes, SbDelay, SbWaitRead, AdpcmDecodeMono, AdpcmDecodeStereo
 extern SetScreenTarget, MixDecodeBuffer, SndChannels, str_Punct_InitFpuFlags, __no87, OldFpuVectorSelector, FpuCr0Bits, DefaultControlWord
 extern word_1A0FA0, SbMixerAddrPort, word_1A0FA4, word_1A0FA6, word_1A0FA8, SbReadPort, SbWritePort
@@ -192,7 +192,7 @@ __chk8087_:
         push ecx
         mov esi, dword [dword_11F5C0]
         push esi
-        call sub_AD2B4
+        call CreateBitmapDepth
         add esp, byte 10h
         mov dword [dword_1A0B1C], eax
 .3:
@@ -217,7 +217,7 @@ __chk8087_:
         push ecx
         mov esi, dword [dword_11F5C0]
         push esi
-        call sub_AD2B4
+        call CreateBitmapDepth
         add esp, byte 10h
         mov dword [dword_1A0B1C], eax
 .4:
@@ -375,7 +375,7 @@ FreeBankMemory:
         cmp dword [eax], byte 0
         je short .1
         push dword [eax]
-        call sub_ABF88
+        call PushMemDescriptorLocked
         add esp, byte 4
         mov dword [esi], 0
 .1:

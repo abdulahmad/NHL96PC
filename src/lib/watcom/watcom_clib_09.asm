@@ -7,7 +7,7 @@ extern _environ, __OpenStreams, __ClosedStreams, isatty_, lseek_, memset_, strni
 extern __NFiles, unk_19BA34, unk_19BA38, _psp
 global __FPE_exception_, __MemAllocator, __MemFree, __allocfp_, __chktty_, __close_, __flush_, __freefp_
 global __set_EDOM_, __set_EINVAL_, __set_ERANGE_, __set_doserrno_, __set_errno_, __unlink_, access_, getenv_
-global __freefp__39, __MemAllocator_A3, __MemFree_106, ErrnoPtr, sub_C2CB6, GetPsp, tell_, tolower_
+global __freefp__39, __MemAllocator_A3, __MemFree_106, ErrnoPtr, __get_doserrno_ptr_, GetPsp, tell_, tolower_
 ;-----------------------------------------------------------------------------
 ; ErrnoPtr                                        C2CB0  96 PC, low confidence
 ; Returns the address of errno
@@ -16,9 +16,10 @@ ErrnoPtr:
         mov eax, unk_19BA38
         ret
 ;-----------------------------------------------------------------------------
-; sub_C2CB6                                                            C2CB6  
+; __get_doserrno_ptr_                          C2CB6  96 PC, medium confidence
+; Returns the address of the DOS error number
 ;-----------------------------------------------------------------------------
-sub_C2CB6:
+__get_doserrno_ptr_:
         mov eax, unk_19BA34
         ret
 ;-----------------------------------------------------------------------------
@@ -145,7 +146,7 @@ __set_EINVAL_:
 __set_doserrno_:
         push edx
         mov edx, eax
-        call sub_C2CB6
+        call __get_doserrno_ptr_
         mov dword [eax], edx
         pop edx
         ret

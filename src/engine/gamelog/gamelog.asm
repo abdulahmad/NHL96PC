@@ -8,7 +8,7 @@ extern byte_1655A4, byte_1655E0, byte_16561C, byte_165658, byte_165694, byte_165
 extern byte_176B90, byte_176B91, byte_176B92, byte_176B93, byte_176B94, byte_176B95, byte_176B96, byte_176B97
 extern byte_176B98, byte_176B99, byte_176B9A, goalevent, byte_179DC1, byte_17CA5D, crowdlevel, curperiod
 extern dword_11917F, dword_119183, dword_11A1BC, dword_11B310, dword_1571B3, dword_164124, dword_1657EA, dword_1798AC
-extern dword_179918, dword_179920, optflags, fputchar, gameclock, gameopts, gmode, hmroster
+extern dword_179918, dword_179920, optflags, TextStringWidth, gameclock, gameopts, gmode, hmroster
 extern hmtmgoalie, hmtmstruct, penshotplayer, sprintf_, str_FmtNumFirstLast, str_FmtNumInitialLast, str_FmtNumName, str_FmtNumNameSuffix
 extern str_FmtParenD, strcat_, strcpy_, strlen_, QueueOverlayPanel, CloseTextOverlay, EndCameraShot, PaEvent
 extern GetLangText, TextSetFont, unk_110E2D, str_S8, unk_156E6C, gsp, word_11A236, word_1656E8
@@ -49,7 +49,7 @@ FormatPlayerName:
         call sprintf_
         add esp, byte 1Ch
         push esi
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         cmp eax, dword [byte ebp-08h]
         jle near .5
@@ -65,7 +65,7 @@ FormatPlayerName:
         call sprintf_
         add esp, byte 1Ch
         push esi
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         cmp eax, dword [byte ebp-08h]
         jle near .5
@@ -78,7 +78,7 @@ FormatPlayerName:
         call sprintf_
         add esp, byte 18h
         push esi
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         cmp eax, dword [byte ebp-08h]
         jle short .5
@@ -90,7 +90,7 @@ FormatPlayerName:
         call sprintf_
         add esp, byte 14h
         push esi
-        call fputchar
+        call TextStringWidth
         mov edx, dword [byte ebp-08h]
         add esp, byte 4
         sub edx, eax
@@ -104,7 +104,7 @@ FormatPlayerName:
 .3:
         lea eax, [byte ebp-02Ch]
         push eax
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         cmp eax, dword [byte ebp-018h]
         jle short .4
@@ -158,7 +158,7 @@ FormatScorerName:
         call sprintf_
         add esp, byte 14h
         push esi
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         cmp eax, dword [byte ebp-0Ch]
         jle short .3
@@ -171,7 +171,7 @@ FormatScorerName:
         call sprintf_
         add esp, byte 14h
         push esi
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         cmp eax, dword [byte ebp-0Ch]
         jle short .3
@@ -252,7 +252,7 @@ FormatAssistNames:
         call TextSetFont
         add esp, byte 4
         push byte_1655E0
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         cmp eax, dword [byte ebp-0Ch]
         jle short .6

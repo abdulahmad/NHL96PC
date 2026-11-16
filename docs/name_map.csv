@@ -630,6 +630,7 @@ address,name,auto_name,source,confidence,evidence,file
 4D7F1,stopna,sub_4D7F1,95PC,medium,"sits between avdgoal and goalieacc as in the NHL95PC module, with the same count of routines between them and a like size (n95=43 n96=44) and call count",src/engine/skate/skate.asm
 4D881,goalieacc,sub_4D881,95PC,medium,"its call lines up with the NHL95PC call in doplayeracc, and its address keeps the NHL95PC module order",src/engine/skate/skate.asm
 4DA09,noturn0,sub_4DA09,95PC,medium,"its call lines up with the NHL95PC call in doplayeracc, and its address keeps the NHL95PC module order",src/engine/skate/skate.asm
+4DD1B,BurstDrainEnergy,sub_4DD1B,new,low,takes energy from a skater for a speed burst,src/engine/skate/skate.asm
 4DE6E,burst,sub_4DE6E,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: check4check,src/engine/skate/skate.asm
 4DED8,SaveGameState,sub_4DED8,95PC,medium,"writes the same variable list LoadGameState reads, directly before it as NHL95PC SaveGameState",src/engine/savestate/savestate.asm
 4E6C3,LoadGameState,sub_4E6C3,95PC,medium,"called from PlayGame, reads the whole game state with FileReadAt as NHL95PC LoadGameState",src/engine/savestate/savestate.asm
@@ -711,8 +712,11 @@ address,name,auto_name,source,confidence,evidence,file
 55838,DrawReplayClock,sub_55838,new,medium,"the game clock during the replay (""%2d:%02d"", ""%2d.%01d"")",src/front/replay_controls/replay_controls.asm
 5594F,DrawReplayView,sub_5594F,new,medium,"one replay frame of the 3D view: rink, players, puck, markers, clock",src/front/replay_controls/replay_controls.asm
 55B9D,SetReplayCamera,sub_55B9D,new,medium,"(camera): sets the replay's camera shot (0Ah follow, 9 ... the shot records)",src/front/replay_controls/replay_controls.asm
+55C08,ClipLineAtFloor,sub_55C08,new,low,clips a 3D line where it crosses the floor,src/front/replay_controls/replay_controls.asm
 55C75,ReplayFreeCamera,sub_55C75,new,low,"the replay's free camera: moves and aims it (AngleXZ, AnglePitch)",src/front/replay_controls/replay_controls.asm
 55E0A,FindPlayerAtMouse,sub_55E0A,new,medium,"(x, y): the player nearest a screen point (within 2710h), -1 none",src/front/replay_controls/replay_controls.asm
+55EBA,ReplayCameraUpdate,sub_55EBA,new,low,moves the replay camera by its mode,src/front/replay_controls/replay_controls.asm
+56035,ReplayCameraAim,,new,low,builds the replay camera matrix from its angles and points it at its target,src/front/replay_controls/replay_controls.asm
 562BA,ReplayFrame,sub_562BA,new,medium,"one frame of the replay screen: steps the replay, camera, crowd, the frame art (topp, sid1/2) and DrawReplayView",src/front/replay_controls/replay_controls.asm
 5643A,PickReplayPlayer,sub_5643A,new,medium,picks the player under the mouse to follow (FindPlayerAtMouse) and puts the mouse on him,src/front/replay_controls/replay_controls.asm
 564A4,ReplayScreen,sub_564A4,new,high,"the instant replay screen (TRANSIT; puk, rew, bak ... buttons): play, rewind, frame steps, cameras, save as highlight; kept in step in a link game",src/front/replay_controls/replay_controls.asm
@@ -757,7 +761,10 @@ address,name,auto_name,source,confidence,evidence,file
 5B97A,DrawTimeLeftPanel,sub_5B97A,new,low,"the time-left panel at set minutes by period length (gameopts 600h bits; 7 / 0Eh, 5, 2)",src/front/game_view/game_view.asm
 5BD7D,GetPeriodText,sub_5BD7D,new,low,(buf): copies the text 84h-8Bh for the game phase (gsp) and the score,src/front/game_view/game_view.asm
 5BE55,DrawScorePanel,sub_5BE55,new,low,"the teams' panel ""%-12s %2d %-3s"" (name, score, shots)",src/front/game_view/game_view.asm
+5C55F,DrawEventPanel,sub_5C55F,new,low,draws the game event caption panel,src/front/game_view/game_view.asm
 5C677,DrawPlayerNamePanel,sub_5C677,new,low,(queued kind 3): a player's name panel (FormatPlayerName),src/front/game_view/game_view.asm
+5C7E2,DrawPenaltyEventPanel,sub_5C7E2,new,low,"draws the penalty caption panel (minor, major, misconduct)",src/front/game_view/game_view.asm
+5CA5B,DrawGoalEventPanel,sub_5CA5B,new,low,draws the goal caption panel with the scorer and assists,src/front/game_view/game_view.asm
 5CC12,QueueOverlayPanel,sub_5CC12,new,medium,"(kind, a, b, c): puts a panel in a free slot of the 3-panel queue (kind 3 waits 2EE0h), from BuildEventLines",src/front/game_view/game_view.asm
 5CC62,DrawGameOverlays,sub_5CC62,new,medium,"(ticks): per frame draws the overlay for the view state (byte_179DC1 9, 0Dh, 11h), the queued panels, the clock, time-left and score panels",src/front/game_view/game_view.asm
 5CD5E,DrawLineEnergyBar,sub_5CD5E,new,medium,"(team, line): one line's energy bar in a line change box",src/front/game_view/game_view.asm
@@ -868,6 +875,8 @@ address,name,auto_name,source,confidence,evidence,file
 64776,PollMenuInput,sub_64776,new,medium,"reads the mouse, GrIP pads, joysticks and keys for the menus",src/front/menu/menu.asm
 64E54,SetMenuMoveSfx,sub_64E54,new,medium,(id below 49h): the menu cursor sound,src/front/menu/menu.asm
 64E64,SetMenuSelectSfx,sub_64E64,new,medium,(id below 49h): the menu select sound,src/front/menu/menu.asm
+64E74,SetGameBackdrop,sub_64E74,new,low,keeps or frees the saved game screen behind the in-game menus,src/front/menu/menu.asm
+64F47,GetSavedViewSize,sub_64F47,new,low,returns the saved game view width and height,src/front/menu/menu.asm
 64F59,RunMenu,sub_64F59,new,high,"the menu loop of every front-end screen (message boxes, the stats, three stars, pad set-up, user screens): items, highlight, mouse / pads / keys (PollMenuInput), the link exchange in a link game; returns the chosen item (-1 none)",src/front/menu/menu.asm
 66373,SetMenuMouse,sub_66373,new,medium,"(x, y): puts the menu mouse at x, y (in a link game keeps it for the other side)",src/front/menu/menu.asm
 66589,MainMenuScreen,sub_66589,new,medium,"from RunFrontEnd: the main menu (bkgd, !pal, 8 items, buttons by optflags)",src/front/menu/menu.asm
@@ -943,9 +952,17 @@ address,name,auto_name,source,confidence,evidence,file
 6B894,PauseMenu,sub_6B894,new,medium,"the pause menu (PAUSREG; quit, return, chat ...) with RunMenu, kept in step in a link game (LinkSync)",src/front/pause_menu/pause_menu.asm
 6C294,PauseToFrontEnd,sub_6C294,new,medium,"from the pause: leaves the game view for a front-end screen (fade, free sprites and sounds, front-end sound banks, FhiL / FhiR)",src/front/pause_menu/pause_menu.asm
 6C3B0,PauseBackToGame,sub_6C3B0,new,medium,"back from a front-end screen into the paused game (music off, free the front-end art, controllers, GloL / GhiL art, screen mode)",src/front/pause_menu/pause_menu.asm
+6C64B,LoadModeStats,sub_6C64B,new,low,loads the stats of the current game mode,src/front/pause_menu/pause_menu.asm
+6C663,LoadCurrentSeasonStats,sub_6C663,new,low,loads the current season's stats,src/front/pause_menu/pause_menu.asm
+6C66D,LoadPlayoffOrSeasonStats,sub_6C66D,new,low,"loads the playoff stats, or the season's when no playoffs are running",src/front/pause_menu/pause_menu.asm
 6C698,PauseGame,sub_6C698,new,medium,"RunInGameMenu's pause (request 1): frees the speech buffer and sprite cache, quiets the crowd, runs the pause menu and its screens, restores the game",src/front/pause_menu/pause_menu.asm
+6CF0D,ControllerSlotDefaults,sub_6CF0D,new,low,"six bytes of start values for the controller slots, kept in the code and copied by ControllerScreen",src/front/controller_screen/controller_screen.asm
+6CF13,ControllerColumnDefaults,,new,low,"eight bytes of start values for the controller columns, kept in the code and copied by ControllerScreen",src/front/controller_screen/controller_screen.asm
 6CF1B,ControllerUsersPanel,sub_6CF1B,new,low,"the controller screen's users panel (log7 / logx), picking users (PickUsersScreen)",src/front/controller_screen/controller_screen.asm
+6D350,NextControllerDevice,sub_6D350,new,low,returns the next input device after the current one that no other slot uses,src/front/controller_screen/controller_screen.asm
 6D828,ScanControllers,sub_6D828,new,low,reads the devices (GetInputDevices) into the controller screen's slots,src/front/controller_screen/controller_screen.asm
+6DB5C,DeviceIconShape,sub_6DB5C,new,low,"returns the icon shape of an input device (""ply"", ""mse"", ""jy1"" to ""jy4"", ""key"", ""mdm"")",src/front/controller_screen/controller_screen.asm
+6DC2F,DrawControllerIcons,sub_6DC2F,new,low,draws the device icon of each controller slot,src/front/controller_screen/controller_screen.asm
 6DD1E,SetControllerColumn,sub_6DD1E,new,low,"the column (5, 0Ah, 0Fh, 16h) of the current controller by the side it is on",src/front/controller_screen/controller_screen.asm
 6E233,SetControllerIcon,sub_6E233,new,low,"(side, ...): puts the p1_1 / p2_1 pad image in a side's slot of the screen (not in a modem / link game)",src/front/controller_screen/controller_screen.asm
 6E332,DrawControllerColumns,sub_6E332,new,medium,"the controller screen's columns: the pads by team with the users' icons and names (usri, usrh, utext), with the move sound",src/front/controller_screen/controller_screen.asm
@@ -985,6 +1002,7 @@ address,name,auto_name,source,confidence,evidence,file
 7A2AE,StandingsScreen,sub_7A2AE,new,medium,"the standings screen by conference (1WST, 1EST)",src/front/season_menu/season_menu.asm
 7A787,CompareTeamPoints,sub_7A787,new,medium,"qsort compare of two teams by points (2 x wins + ties from the team record +30h, +32h), for the standings",src/front/season_menu/season_menu.asm
 7A97E,DrawStandings,sub_7A97E,new,medium,"draws the sorted standings table (with ""*"" marks and ""-"" for none)",src/front/season_menu/season_menu.asm
+7B15A,SimulateRestOfSeason,sub_7B15A,new,low,"simulates the rest of the season's games and the playoffs, with a progress box",src/front/season_menu/season_menu.asm
 7BA57,RunSeasonMenus,sub_7BA57,new,medium,from RunFrontEnd: loads SEASON.NDX and runs the season screens,src/front/season_menu/season_menu.asm
 7BFAF,PickIndexEntryScreen,sub_7BFAF,new,low,"picks an entry of a name index (seasons, exhibition records) from a scrolling list (BALL, "">%s""), with new / delete buttons (BT10-BT12)",src/front/season_menu/season_menu.asm
 7CBE5,DrawIndexEntries,sub_7CBE5,new,low,"draws the visible entries of that list ("">%s"" marks the current one)",src/front/season_menu/season_menu.asm
@@ -1099,6 +1117,7 @@ address,name,auto_name,source,confidence,evidence,file
 9CC19,CompareRosterOrder,sub_9CC19,new,low,qsort compare by dword_183C98,src/front/edit_lines/edit_lines.asm
 9CC2E,ComparePlayerPos,sub_9CC2E,new,medium,"qsort compare of two players by position (PositionOrder), then name",src/front/edit_lines/edit_lines.asm
 9CD22,PositionOrder,sub_9CD22,new,medium,"the sort order of a position letter (C, D, G, L, R)",src/front/edit_lines/edit_lines.asm
+9CD61,EditLinesHoverPanel,sub_9CD61,new,low,picks the edit lines panel under the mouse pointer,src/front/edit_lines/edit_lines.asm
 9CDDA,RunEditLines,sub_9CDDA,new,medium,"sets up the stat tables if needed and runs the edit lines screen, with the player card screen when it asks (from the controller screen and the in-game menu)",src/front/edit_lines/edit_lines.asm
 9CFE3,EditLinesScreen,sub_9CFE3,new,high,"the edit lines screen (bt09 / bh09, slid / slup / sldw scroll, power play bkpp and penalty kill bkpk boxes, jerseys): who plays on each line; returns 2 for a player card",src/front/edit_lines/edit_lines.asm
 9F0D8,LinesValid,sub_9F0D8,new,low,0 when a player is twice in the forward lines (4 x 3) or the defence pairs,src/front/edit_lines/edit_lines.asm
@@ -1109,6 +1128,7 @@ address,name,auto_name,source,confidence,evidence,file
 9FF64,DrawLinesPlayerList,sub_9FF64,new,low,"the player list of the edit lines screen (""%c %d"", ""%c. %s"") with its scroll bar",src/front/edit_lines/edit_lines.asm
 A0355,SortTeamPlayers,sub_A0355,new,low,the team's players into a sorted list (qsort) for the lines,src/front/edit_lines/edit_lines.asm
 A0480,AutoSetLines,sub_A0480,new,medium,"fills the team's lines with its best players by position and ratings (qsort), from the edit lines screen and after trades",src/front/edit_lines/edit_lines.asm
+A1734,FindUnusedLinePlayer,sub_A1734,new,low,finds a player of a position not yet on any line,src/front/edit_lines/edit_lines.asm
 A17D5,DrawInGameMenuFrame,sub_A17D5,new,medium,"the in-game menu's frame over the game: score with both team logos, period and clock, the side and bottom art (intr, sid1/2, bot1-3, gam0)",src/front/ingame_menu/ingame_menu.asm
 A1F6C,RedrawInGameMenu,sub_A1F6C,new,low,draws the in-game menu frame and its items again,src/front/ingame_menu/ingame_menu.asm
 A1FEF,OpenFrontEndFromGame,sub_A1FEF,new,medium,"leaves the game view for a front-end screen: fade, free the speech buffer, load the front-end art (FhiL / FhiR), screen mode",src/front/ingame_menu/ingame_menu.asm
@@ -1124,6 +1144,7 @@ A522F,SetPlayoffFormat,sub_A522F,new,low,sets the playoff format,src/front/playo
 A524B,PickPlayoffTeam,sub_A524B,new,low,picks a team for a play-off slot (both New York teams get their full names),src/front/playoff/playoff.asm
 A540A,PlayoffSetupScreen,sub_A540A,new,medium,"the new play-offs screen (1GM0, BT00-BT0x): the teams in the tree, name, series length",src/front/playoff/playoff.asm
 A6561,DrawPlayoffSlotLogo,sub_A6561,new,low,draws a team logo in a play-off slot,src/front/playoff/playoff.asm
+A6653,NextUnusedPlayoffTeam,sub_A6653,new,low,steps to the next team not already in the playoff tree,src/front/playoff/playoff.asm
 A675F,DrawPlayoffTeamList,sub_A675F,new,low,"draws the numbered team list (""%d."")",src/front/playoff/playoff.asm
 A68CD,EditPlayoffName,sub_A68CD,new,medium,edits the play-offs' name (EditText),src/front/playoff/playoff.asm
 A699C,DrawTreeLine,sub_A699C,new,low,draws a line of the play-off tree (DrawArtOpaque),src/front/playoff/playoff.asm
@@ -1136,6 +1157,11 @@ A800A,PlayoffFinal,sub_A800A,new,low,the same for the final,src/front/playoff/pl
 A80FC,SimPlayoffGame,sub_A80FC,new,medium,simulates one play-off game (SimulateGame) and saves the series (%s%05d%cSG.DB),src/front/playoff/playoff.asm
 A8351,DrawPlayoffTree,sub_A8351,new,low,"draws the tree: team logos, series wins (NUM%d), the awards (AWD0)",src/front/playoff/playoff.asm
 A8AC5,ClearPlayoffTree,sub_A8AC5,new,low,clears the tree's results,src/front/playoff/playoff.asm
+A8B9B,SaveLeagueDb,sub_A8B9B,new,low,saves the season or playoff database files,src/lib/lib_A8B9B.asm
+A8C75,PlayoffWinsNeeded,sub_A8C75,new,low,returns the wins a playoff series needs from the series length option,src/lib/lib_A8B9B.asm
+A8C81,BuildPlayoffLeaders,sub_A8C81,new,low,builds the playoff stat leader lists,src/lib/lib_A8B9B.asm
+A91DD,ShowPlayoffLeaderCard,sub_A91DD,new,low,shows the player card screen of one playoff stat leader,src/lib/lib_A8B9B.asm
+A9BAC,PlayoffLeadersScreens,sub_A9BAC,new,low,builds the playoff leaders and shows each category's card until one is left,src/lib/lib_A8B9B.asm
 A9BCC,_searchenv_,,WATCOM,high,IDA FLIRT library signature,
 A9CB3,strcpy_,,WATCOM,high,IDA FLIRT library signature,
 A9CD2,strcat_,,WATCOM,high,IDA FLIRT library signature,
@@ -1156,6 +1182,7 @@ AA15D,__doclose_,,WATCOM,high,IDA FLIRT library signature,
 AA1E6,_nmalloc_,,WATCOM,high,IDA FLIRT library signature,
 AA2C9,fread_,,WATCOM,high,IDA FLIRT library signature,
 AA493,_nfree_,,WATCOM,high,IDA FLIRT library signature,
+AA500,EmptyRoutine,sub_AA500,new,medium,does nothing,src/lib/watcom/watcom_clib_01.asm
 AA504,_os_handle,,WATCOM,high,IDA FLIRT library signature,
 AA50C,_os_handle_0,,WATCOM,high,IDA FLIRT library signature,
 AA514,_os_handle_1,,WATCOM,high,IDA FLIRT library signature,
@@ -1168,8 +1195,10 @@ AA6D0,RestoreTimer,,95PC,medium,NHL95PC 8E554 (sem): C:1696,
 AA734,InstallTimer,,95PC,medium,NHL95PC 8E5AC (sem): C:1696; C:2340; C:1555,
 AA7E0,DrawShapeCore,sub_AA7E0,new,medium,draws a shape: sets up its palette and blits it through the blit engine,src/lib/ea/ea_timer.asm
 AA988,DrawShapeAtOwnPos,sub_AA988,new,low,draws a shape at the position stored in its header; followed by the draw at a given position,src/lib/ea/ea_gfx_01.asm
+AA9CC,BlitToScreenWindow,sub_AA9CC,new,low,copies part of a bitmap to a window of the screen,src/lib/ea/ea_gfx_01.asm
 AAA40,DrawArt,sub_AAA40,new,medium,"draws art at x, y; keyed (transparent) when keyed drawing is on, otherwise opaque",src/lib/ea/ea_gfx_01.asm
 AAA8C,DrawShape,sub_AAA8C,new,medium,"draws art at its own position; keyed when keyed drawing is on, otherwise opaque",src/lib/ea/ea_gfx_01.asm
+AAADC,DrawArtHotspot,sub_AAADC,new,low,"draws art with its hotspot at x, y; keyed when keyed drawing is on",src/lib/ea/ea_gfx_01.asm
 AAB40,PutBlock,,95PC,medium,NHL95PC 903F0 (sem): C:2284; R:2174; R:2167; K:10000,
 AADA4,PutBlockAtOwnPos,sub_AADA4,new,low,copies a block to the screen at the position stored in its header,src/lib/ea/ea_gfx_01.asm
 AADC0,BlitShapeAt,sub_AADC0,new,low,"graphics library: draws a shape with transparency at x, y less its hot spot",src/lib/ea/ea_gfx_01.asm
@@ -1181,15 +1210,20 @@ AB3B4,AddMemRegions,sub_AB3B4,new,low,adds each region of a list of memory areas
 AB440,AddHighMemRegion,sub_AB440,new,low,adds the HIGHMEM region to a memory list with a GAP block for the hole below it,src/lib/ea/ea_gfx_01.asm
 AB5BC,TrimMemList,sub_AB5BC,new,low,releases the last block of a memory list and returns how much space it freed,src/lib/ea/ea_gfx_01.asm
 AB660,MemListEnd,sub_AB660,new,low,returns the end address of the last block of a memory list; followed by the free slot search,src/lib/ea/ea_gfx_01.asm
+AB6D8,AllocMemBlockLockedChecked,sub_AB6D8,new,low,"allocates a memory block with the memory lock held, with the error check flag set",src/lib/ea/ea_gfx_01.asm
 AB718,AllocMemBlockLocked,sub_AB718,new,low,allocates a memory block with the memory lock held,src/lib/ea/ea_gfx_01.asm
 AB758,AllocMemBlock,sub_AB758,95PC,medium,"memory manager: allocate a named block (name, size, flags), e.g. ""DMAN"", ""HIST""; under the memory lock",src/lib/ea/ea_gfx_01.asm
 AB798,AllocMemLocked,sub_AB798,new,low,"allocates a memory block with the memory lock held and returns its data pointer, or 0",src/lib/ea/ea_gfx_01.asm
+AB834,AllocMemBlockLockedAt,sub_AB834,new,low,allocates a memory block in a given list with the memory lock held,src/lib/ea/ea_memman.asm
 AB87C,AllocMemBlockEx,sub_AB87C,new,medium,the allocator under AllocMemBlock: finds room in the block's memory list (compacting if needed) and links a named block,src/lib/ea/ea_memman.asm
+ABD64,ResizeMemBlock,sub_ABD64,new,low,"changes a memory block's size, compacting its list when needed",src/lib/ea/ea_memman.asm
 ABEEC,findmemblock,,95PC,medium,"NHL95PC 8D2A0 (sem): S:findmemblock - BLOCK NOT FOUND (%p)
 ; D:113398; C:2357",
 ABF4C,FreeMemBlock,sub_ABF4C,95PC,high,same code as in the next game,src/lib/ea/ea_memman.asm
+ABF88,PushMemDescriptorLocked,sub_ABF88,new,low,pushes a memory descriptor with the memory lock held,src/lib/ea/ea_memman.asm
 ABFB4,PushMemDescriptor,sub_ABFB4,new,medium,returns a block descriptor to the free list; followed by the pop,src/lib/ea/ea_memman.asm
 AC0C4,MergeFreeSpace,sub_AC0C4,new,medium,walks a memory list and works out the free space around movable blocks for the requested placement,src/lib/ea/ea_memman.asm
+AC194,MarkBlockPurgeable,sub_AC194,new,low,marks a memory block purgeable with the memory lock held,src/lib/ea/ea_memman.asm
 AC244,FindNamedBlock,sub_AC244,new,low,returns the first block in a memory list whose name matches,src/lib/ea/ea_memman.asm
 AC2B4,FindMemBlockNamed,sub_AC2B4,new,low,returns the block in a memory list whose name matches the file name of a path,src/lib/ea/ea_memman.asm
 AC360,FindFreeSpace,sub_AC360,new,medium,"finds room for a block in a memory list, from the bottom or the top",src/lib/ea/ea_memman.asm
@@ -1200,6 +1234,7 @@ AC5AC,CompactMemListDown,sub_AC5AC,new,medium,slides movable blocks toward the s
 AC6D4,CompactUpLocked,sub_AC6D4,new,low,"under the memory lock, slides the movable blocks of the main list up to close gaps",src/lib/ea/ea_memman.asm
 AC70C,CompactMemListUp,sub_AC70C,new,medium,slides movable blocks toward the end of a memory list to close gaps between them,src/lib/ea/ea_memman.asm
 AC838,MemLargestFreeLocked,sub_AC838,new,low,"returns the largest free gap in a memory list, with the memory lock held",src/lib/ea/ea_memman.asm
+AC868,MemLargestFreeOfList,sub_AC868,new,low,"returns the largest free gap of a given memory list, with the memory lock held",src/lib/ea/ea_memman.asm
 AC89C,MemLargestFree,sub_AC89C,new,low,"compacts a memory list when allowed, then returns its largest free gap",src/lib/ea/ea_memman.asm
 AC950,InitMemDescriptors,sub_AC950,new,low,chains the block descriptor array into the free descriptor list,src/lib/ea/ea_memman.asm
 AC990,getmemblock,,95PC,medium,"NHL95PC 8DB8C (sem): S:getmemblock - NO MEMORY BLOCKS LEFT
@@ -1211,13 +1246,27 @@ AC9DC,type_info__raw_name,,WATCOM,high,IDA FLIRT library signature,
 AC9F0,DebugPrintf,,95PC,medium,NHL95PC 935E0 (sem): R:2164; K:104; R:2158; R:2167,
 ACA3C,DebugSetLine,sub_ACA3C,new,low,formats a debug message into one of the on-screen debug lines,src/lib/ea/ea_fileblock_01.asm
 ACAD0,DebugShowLines,sub_ACAD0,new,medium,draws the on-screen debug lines when debug output is on,src/lib/ea/ea_fileblock_01.asm
+ACC74,DebugScrollUp,sub_ACC74,new,low,scrolls the debug monochrome screen up a line,src/lib/ea/ea_fileblock_01.asm
+ACCF8,DebugClearScreen,sub_ACCF8,new,low,clears the debug monochrome screen,src/lib/ea/ea_fileblock_01.asm
+ACD24,DebugSetRow,sub_ACD24,new,low,sets the debug screen's output row (0 to 24),src/lib/ea/ea_fileblock_01.asm
+ACD38,DebugSetAttr,sub_ACD38,new,low,sets the debug screen's text attribute,src/lib/ea/ea_fileblock_01.asm
+ACED8,DebugLog,sub_ACED8,new,low,prints a formatted line to the debug log file when the debug level is 2 or more,src/lib/ea/ea_debug_01.asm
+ACF68,FindWildcardDigits,sub_ACF68,new,low,finds the run of ? characters in a file name pattern,src/lib/ea/ea_debug_01.asm
+AD00C,FormatDateStamp,sub_AD00C,new,low,formats the current DOS date and time as a short stamp,src/lib/ea/ea_debug_01.asm
 AD090,CreateBitmapEx,sub_AD090,new,medium,"creates a bitmap of a width, height and depth (4/8/16/24/32 bits) in a memory list, with its row table; stops on an error when asked",src/lib/ea/ea_debug_01.asm
+AD2B4,CreateBitmapDepth,sub_AD2B4,new,low,creates a bitmap of a given depth and returns its pixel block,src/lib/ea/ea_debug_01.asm
 AD35C,CreateBitmap,sub_AD35C,new,medium,creates a bitmap at the screen's pixel depth and returns its pixel block,src/lib/ea/ea_debug_01.asm
 AD420,TintRowPixels,sub_AD420,new,low,tints one row of pixels by the current colour multipliers,src/lib/ea/ea_debug_01.asm
 AD5C8,TintRows,sub_AD5C8,new,low,tints each row of a rectangle,src/lib/ea/ea_debug_01.asm
+AD620,TintRect,sub_AD620,new,low,tints a rectangle of the draw target through TintRows,src/lib/ea/ea_debug_01.asm
 AD680,FillRect,,95PC,medium,NHL95PC 90D20 (sem): C:2290; C:2373; R:1708; R:2162,
+AD824,FillRectClipped,sub_AD824,new,low,clips a rectangle to the clip rectangle and fills it,src/lib/ea/ea_gfx_02.asm
 AD8A8,XorRect,sub_AD8A8,new,low,XORs a rectangle of the draw target with a colour,src/lib/ea/ea_gfx_02.asm
-ADBB4,fputchar,,WATCOM,high,IDA FLIRT library signature,
+AD9DC,XorRectClipped,sub_AD9DC,new,low,clips a rectangle to the clip rectangle and XORs it,src/lib/ea/ea_gfx_02.asm
+ADA50,ClearScreenColour,sub_ADA50,new,low,fills the whole screen with a colour,src/lib/ea/ea_gfx_02.asm
+ADA80,DrawRectOutline,sub_ADA80,new,low,draws the outline of a rectangle as four filled edges,src/lib/ea/ea_gfx_02.asm
+ADB30,TextWidthN,sub_ADB30,new,low,returns the width in pixels of at most n characters of a string in the current font,src/lib/ea/ea_gfx_02.asm
+ADBB4,TextStringWidth,,new,medium,returns the width in pixels of a string in the current font,src/lib/ea/ea_gfx_02.asm
 ADBEC,FreeBitmap,sub_ADBEC,new,medium,removes a bitmap's window and frees its memory,src/lib/ea/ea_gfx_02.asm
 ADC05,mem_putc_,,WATCOM,high,IDA FLIRT library signature,
 ADC18,sprintf_,,WATCOM,high,IDA FLIRT library signature,
@@ -1309,8 +1358,11 @@ B2200,strcmp_,,WATCOM,high,IDA FLIRT library signature,
 B22B0,SaveFileBlock,sub_B22B0,new,low,writes a block of memory to a file through savefileblocka,src/lib/watcom/watcom_clib_04.asm
 B22E0,SaveDataFile,sub_B22E0,new,low,saves a memory block to a file,src/lib/ea/ea_fileblock_02.asm
 B2374,savefileblocka,,95PC,medium,NHL95PC 9336C (similar): mnemonic similarity 0.94 over 51 instructions,
+B2400,TextPrint,sub_B2400,new,low,draws a string at the text origin in the current font and colours,src/lib/ea/ea_fileblock_02.asm
+B2B0C,TextPrintAt,sub_B2B0C,new,low,sets the text origin and draws a string there,src/lib/ea/ea_fileblock_02.asm
 B2B30,DrawArtOpaque,,95PC,medium,NHL95PC 910E0 (sem): C:2293; K:10000; K:FFFF,
 B2C54,DrawArtOpaqueAtOwnPos,sub_B2C54,new,low,draws art opaque at the position stored in its header,src/lib/ea/ea_gfx_03.asm
+B2C70,DrawArtOpaqueHotspot,sub_B2C70,new,low,"draws art opaque with its hotspot at x, y",src/lib/ea/ea_gfx_03.asm
 B2C98,printf_,,WATCOM,high,IDA FLIRT library signature,
 B2CBA,chdir_,,WATCOM,high,IDA FLIRT library signature,
 B2CE0,GrabLargestBlock,sub_B2CE0,new,low,"allocates the largest block the memory manager gives, trying smaller sizes",src/lib/watcom/watcom_clib_05.asm
@@ -1377,6 +1429,7 @@ B72D4,_dos_getdiskfree_,,WATCOM,high,IDA FLIRT library signature,
 B7310,OpenResourceArchive,sub_B7310,new,low,frees the old archive and loads the named resource archive for later lookups,src/lib/watcom/watcom_clib_05.asm
 B73C4,GetResourceArchiveName,sub_B73C4,new,medium,returns the resource archive name buffer,src/lib/watcom/watcom_clib_05.asm
 B73CA,stricmp_,,WATCOM,high,IDA FLIRT library signature,
+B7410,ReadFileCachedInto,sub_B7410,new,low,"copies a cached file into a buffer, or reads it from disk",src/lib/ea/ea_gfx_04.asm
 B7498,LoadFileInto,sub_B7498,new,low,loads a file into a buffer,src/lib/ea/ea_gfx_04.asm
 B74B0,LoadFileToBlockShared,sub_B74B0,new,low,loads a file into a memory block in shared mode,src/lib/ea/ea_gfx_04.asm
 B74D0,LoadFileToBlockPlain,sub_B74D0,new,low,loads a file into a memory block,src/lib/ea/ea_gfx_04.asm
@@ -1507,9 +1560,16 @@ BEB48,ProjectPointWide,sub_BEB48,new,low,projects one 3D point with perspective 
 BEC30,ScaleArtRemapRows,sub_BEC30,new,low,"draws art scaled through the colour remap, row by row, clipped",src/lib/ea/ea_fileblock_03.asm
 BEF44,DrawArtScaledRemap,sub_BEF44,new,low,draws art scaled by a factor through the colour remap,src/lib/ea/ea_fileblock_03.asm
 BEFF0,FlipArtHorizontal,sub_BEFF0,new,low,mirrors art left to right and moves its hotspot to match,src/lib/ea/ea_fileblock_03.asm
+BF02C,ShapeBankCount,sub_BF02C,new,medium,returns the number of shapes in a shape bank,src/lib/ea/ea_sound_hl.asm
+BF034,ShapeBankEntry,sub_BF034,new,medium,"returns a shape in a bank by index, or 0",src/lib/ea/ea_sound_hl.asm
+BF04B,ShapeBankEntryId,sub_BF04B,new,medium,"stores a shape's id in a bank by index, or 0",src/lib/ea/ea_sound_hl.asm
 BF070,__STOSB,,WATCOM,high,IDA FLIRT library signature,
 BF0A7,__STOSD,,WATCOM,high,IDA FLIRT library signature,
 BF120,DrawArtFast,sub_BF120,new,low,stores art's position and copies it to the draw target without row copy routines,src/lib/watcom/watcom_clib_07.asm
+BF290,FindShapeListQuiet,sub_BF290,new,low,"finds a list of shapes by id, storing 0 for missing ones",src/lib/watcom/watcom_clib_07.asm
+BF2C4,FindShapeList,sub_BF2C4,new,low,"finds a list of shapes by id, stopping on a missing one",src/lib/watcom/watcom_clib_07.asm
+BF300,VesaGetInfo,sub_BF300,new,low,reads the VESA controller information (4F00h) into a low memory buffer,src/lib/watcom/watcom_clib_07.asm
+BF42C,VesaGetModeInfo,sub_BF42C,new,low,reads a VESA mode's information (4F01h) into a low memory buffer,src/lib/watcom/watcom_clib_07.asm
 BF534,initgraphics,,95PC,medium,NHL95PC 8E080 (sem): S:initgraphics - INITMEMMAN REQUIRED BEF; D:113A50; S:initgraphics - INVALID SCREEN SIZE (,
 BF8A8,TranslatePixels,sub_BF8A8,new,low,translates a run of 8-bit pixels through a table,src/lib/ea/ea_vesa_init.asm
 BF8D0,SumRingRange,sub_BF8D0,new,low,sums a range of entries of a circular table,src/lib/ea/ea_vesa_init.asm
@@ -1600,9 +1660,14 @@ C271E,utoa_,,WATCOM,high,IDA FLIRT library signature,
 C2768,itoa_,,WATCOM,high,IDA FLIRT library signature,
 C2784,memcmp_,,WATCOM,high,IDA FLIRT library signature,
 C27A4,PrintScreenInt,sub_C27A4,new,medium,calls the BIOS print screen interrupt,src/lib/watcom/watcom_clib_08.asm
+C27F8,ShowPromptBox,sub_C27F8,new,low,shows a boxed prompt over the screen and waits for a key,src/lib/ea/ea_kbd_exit.asm
+C2AC4,AskExitToDos,sub_C2AC4,new,low,"asks ""EXIT TO DOS"" and leaves through the exit routine on yes",src/lib/ea/ea_kbd_exit.asm
+C2AEC,ShowMessageBox,sub_C2AEC,new,low,shows a boxed message over the screen,src/lib/ea/ea_kbd_exit.asm
+C2C5C,PauseUntilKey,sub_C2C5C,new,low,"shows ""PAUSE PRESS ANY KEY"" and waits",src/lib/ea/ea_kbd_exit.asm
 C2C7C,DosGetVector,sub_C2C7C,new,low,reads an interrupt vector through DOS,src/lib/ea/ea_kbd_exit.asm
 C2C94,DosSetVector,sub_C2C94,new,low,sets an interrupt vector through DOS,src/lib/ea/ea_kbd_exit.asm
 C2CB0,ErrnoPtr,sub_C2CB0,new,low,returns the address of errno,src/lib/watcom/watcom_clib_09.asm
+C2CB6,__get_doserrno_ptr_,sub_C2CB6,new,medium,returns the address of the DOS error number,src/lib/watcom/watcom_clib_09.asm
 C2CBC,access_,,WATCOM,high,IDA FLIRT library signature,
 C2CF7,getenv_,,WATCOM,high,IDA FLIRT library signature,
 C2D51,__set_EDOM_,,WATCOM,high,IDA FLIRT library signature,
@@ -1649,6 +1714,7 @@ C3BE0,MemLock,sub_C3BE0,new,low,sets the memory lock; followed by the try-lock,s
 C3C04,MemUnlock,sub_C3C04,new,medium,clears the memory lock,src/lib/watcom/watcom_clib_11.asm
 C3C0F,mem_putc__0,,WATCOM,high,IDA FLIRT library signature,
 C3C22,vsprintf_,,WATCOM,high,IDA FLIRT library signature,
+C3C37,VfprintfThunk,sub_C3C37,new,low,jumps to __fprtf_,src/lib/watcom/watcom_clib_11.asm
 C3C3C,fputs_,,WATCOM,high,IDA FLIRT library signature,
 C3CC0,FillRowTable,sub_C3CC0,new,low,fills the screen row address table for a range of rows of the current screen,src/lib/ea/ea_shapes_01.asm
 C3D80,removewindow,,95PC,medium,NHL95PC 98DD8 (similar): mnemonic similarity 0.93 over 53 instructions,
@@ -1846,6 +1912,10 @@ CFB48,PutBlockKeyedRows,,new,medium,clipped row loop that puts a block skipping 
 CFCC0,CopyRowKeyedRemap,sub_CFCC0,new,medium,row copier that remaps colours and skips colour 0FFh,src/lib/sound/snd_soundblaster.asm
 CFCF8,DrawArtKeyedRemap,sub_CFCF8,new,medium,"draws art through the colour remap, skipping colour 0FFh when keyed drawing is on",src/lib/sound/snd_soundblaster.asm
 CFDF1,__setEFGfmt_,,WATCOM,high,IDA FLIRT library signature,
+CFE0C,ReturnFalse,sub_CFE0C,new,low,returns 0; the debug viewers' empty check,src/lib/watcom/watcom_clib_15.asm
+CFE20,PrintCentredBoxed,sub_CFE20,new,low,draws a boxed string centred across the clip rectangle (the debug viewers' copy),src/lib/watcom/watcom_clib_15.asm
+CFE70,ResetClipRect,sub_CFE70,new,low,sets a bitmap's clip rectangle to the whole bitmap,src/lib/watcom/watcom_clib_15.asm
+CFE8C,ResetClipWindow,sub_CFE8C,new,low,sets the clip window to the whole screen,src/lib/watcom/watcom_clib_15.asm
 CFEB0,memset_,,WATCOM,high,IDA FLIRT library signature,
 CFEC8,__InitFiles_,,WATCOM,high,IDA FLIRT library signature,
 CFF40,__full_io_exit_,,WATCOM,high,IDA FLIRT library signature,
@@ -1862,6 +1932,10 @@ D02A8,NoFloatSupport,sub_D02A8,new,medium,reports that floating-point support is
 D02DF,ultoa_,,WATCOM,high,IDA FLIRT library signature,
 D0328,ltoa_,,WATCOM,high,IDA FLIRT library signature,
 D0343,toupper_,,WATCOM,high,IDA FLIRT library signature,
+D0360,SplitFileExt,sub_D0360,new,low,copies a file name and returns its extension,src/lib/ea/ea_shpi_02.asm
+D0440,ConvertShapeBank,sub_D0440,new,low,converts a shape bank from its file layout to the layout in memory,src/lib/ea/ea_shpi_02.asm
+D0640,ConvertShapeBankInPlace,sub_D0640,new,low,converts a loaded shape bank in place,src/lib/ea/ea_shpi_02.asm
+D0650,DrawTextCentredBoxed,sub_D0650,new,low,draws a boxed string centred across the clip rectangle,src/lib/ea/ea_shpi_02.asm
 D0692,CMainHook,sub_D0692,new,low,start-up hook (returns at once),src/lib/sound/snd_pcspeaker.asm
 D069B,__CommonInit_,sub_D069B,WATCOM,high,IDA FLIRT library signature (wa32rtd/wa32rt_),src/lib/watcom/watcom_clib_17.asm
 D06B0,IsTextModeWidth,sub_D06B0,new,low,"returns whether the saved video state is a text mode of 40, 80, 100, 128 or 132 columns",src/lib/watcom/watcom_clib_17.asm
@@ -2032,7 +2106,9 @@ D41F9,DivideMantissas,sub_D41F9,new,low,x87 emulator: divides two mantissas,src/
 D43A4,EmuMul,sub_D43A4,new,low,x87 emulator: multiplies two extended values,src/lib/watcom/watcom_emu387.asm
 D43CE,MultiplyMantissas,sub_D43CE,new,low,x87 emulator: multiplies two mantissas,src/lib/watcom/watcom_emu387.asm
 D451F,StoreM32Int,sub_D451F,new,low,x87 emulator: stores an integer of 32 bits,src/lib/watcom/watcom_emu387.asm
+D4524,Emu387LdToInt,sub_D4524,new,low,387 emulator: converts an extended real to an integer,src/lib/watcom/watcom_emu387.asm
 D458E,LoadM32Int,sub_D458E,new,low,x87 emulator: loads a 32-bit integer operand,src/lib/watcom/watcom_emu387.asm
+D459F,Emu387IntToLd,sub_D459F,new,low,387 emulator: converts an integer to a normalised extended real,src/lib/watcom/watcom_emu387.asm
 D45D4,LoadM64Real,sub_D45D4,new,low,x87 emulator: loads a 64-bit real operand,src/lib/watcom/watcom_emu387.asm
 D4654,StoreM32Real,sub_D4654,new,low,x87 emulator: stores a 32-bit real,src/lib/watcom/watcom_emu387.asm
 D46D3,StoreM64Real,sub_D46D3,new,low,x87 emulator: stores a 64-bit real,src/lib/watcom/watcom_emu387.asm
@@ -2099,6 +2175,7 @@ D6C30,GusPokeBlock,sub_D6C30,new,low,writes a 16-byte block into card memory one
 D6C6C,GusPeekBlock,sub_D6C6C,new,low,reads a 16-byte block from card memory one byte at a time,src/lib/sound/snd_gus_sdk_01.asm
 D6CA4,GusSizeDram,sub_D6CA4,new,low,tests each 256K bank of card memory and records how much memory the card has,src/lib/sound/snd_gus_sdk_01.asm
 D6D4C,GusMemAlloc,sub_D6D4C,new,low,allocates a 32-byte aligned block of card memory from the free list kept in card memory,src/lib/sound/snd_gus_sdk_01.asm
+D703C,GusStopStream,sub_D703C,new,low,stops the GUS stream voices,src/lib/sound/snd_gus_sdk_01.asm
 D7042,GusStreamBusy,sub_D7042,new,medium,returns non-zero while either streaming channel is still playing,src/lib/sound/snd_gus_sdk_01.asm
 D704E,GusRefillStreamChannel,sub_D704E,new,low,copies the next half buffer of a streaming channel into card memory,src/lib/sound/snd_gus_sdk_01.asm
 D7104,GusStreamVoiceIrq,sub_D7104,new,low,voice interrupt callback for the streaming voices: flips the loop point and flags the half that needs refilling,src/lib/sound/snd_gus_sdk_01.asm
@@ -2109,12 +2186,14 @@ D7970,SbIsrSingle,sub_D7970,new,medium,Sound Blaster interrupt handler for singl
 D79CC,SbIsrAutoInit,sub_D79CC,new,medium,Sound Blaster interrupt handler for auto-init DMA,src/lib/video/vesa_banked_blit_01.asm
 D79E7,SbProIsr,,new,medium,Sound Blaster Pro interrupt handler,src/lib/video/vesa_banked_blit_01.asm
 D7A04,Sb16Isr,,new,medium,Sound Blaster 16 interrupt handler,src/lib/video/vesa_banked_blit_01.asm
+D7A44,BlitBlockRemapKeyed,sub_D7A44,new,low,"draws a block through the colour remap at x, y, clipped",src/lib/video/vesa_banked_blit_01.asm
 D7AD5,_EFG_Format_,,WATCOM,high,IDA FLIRT library signature,
 D7BB2,forcedecpt_,,WATCOM,high,IDA FLIRT library signature,
 D7BFA,__cnvs2d_,,WATCOM,high,IDA FLIRT library signature,
 D7C08,__setenvp_,,WATCOM,high,IDA FLIRT library signature,
 D7CDC,__exit_with_msg_,,WATCOM,high,IDA FLIRT library signature,
 D7CE1,__fatal_runtime_error_,,WATCOM,high,IDA FLIRT library signature,
+D7D44,PutBytesLE,sub_D7D44,new,low,"stores n bytes of a value, low byte first",src/lib/watcom/watcom_clib_18.asm
 D7DB0,DebugGetKey,sub_D7DB0,new,low,debug viewers: polls the hotkeys and returns the key pressed in upper case,src/lib/ea/ea_debug_02.asm
 D7DE0,MemViewer,,new,low,debug memory viewer: saves the screen and text state and runs the viewer,src/lib/ea/ea_debug_02.asm
 D7EF7,MemViewerKeys,,new,low,debug memory viewer: reads a key and moves the cursor or runs a command,src/lib/ea/ea_debug_02.asm
@@ -2188,6 +2267,12 @@ DBB04,AdjField_,,WATCOM,high,IDA FLIRT library signature,
 DBB6F,_FtoS_,,WATCOM,high,IDA FLIRT library signature,
 DBD93,strtod_,,WATCOM,high,IDA FLIRT library signature,
 DBF61,__EnterWVIDEO_,,WATCOM,high,IDA FLIRT library signature,
+DBFA8,DrawArtAnyFormat,sub_DBFA8,new,low,"draws art of any type (packed, run length or plain), scaled or not",src/lib/ea/ea_unpackf_blit.asm
+DC158,DrawArtAnyFormatAt,sub_DC158,new,low,"draws art of any type at x, y",src/lib/ea/ea_unpackf_blit.asm
+DC17C,DrawArtAnyFormatOwnPos,sub_DC17C,new,low,draws art of any type at its own position,src/lib/ea/ea_unpackf_blit.asm
+DC780,XorRectOutline,sub_DC780,new,low,XORs the outline of a rectangle as four edges,src/lib/ea/ea_unpackf_blit.asm
+DC830,WriteTgaScreen,sub_DC830,new,low,writes the screen to a TGA file at the current pixel depth,src/lib/ea/ea_unpackf_blit.asm
+DCB90,SelectBitmapHandle,sub_DCB90,new,low,makes the bitmap a handle points to the draw target,src/lib/ea/ea_unpackf_blit.asm
 DCBB0,GusConvertAddr16,sub_DCBB0,new,low,converts a card memory address for a 16-bit DMA transfer,src/lib/sound/snd_gus_sdk_03.asm
 DCC25,__Nan_Inf_,,WATCOM,high,IDA FLIRT library signature,
 DCCA9,floor_,,WATCOM,high,IDA FLIRT library signature,
@@ -2198,6 +2283,8 @@ DCFF4,ModfCore,sub_DCFF4,new,low,splits a double into its integer and fraction p
 DD084,DecimalToInt64,sub_DD084,new,low,converts a string of decimal digits to a 64-bit integer,src/lib/watcom/watcom_clib_21.asm
 DD0CF,NormalizeDouble,sub_DD0CF,new,low,normalises a 64-bit mantissa and exponent into a double,src/lib/watcom/watcom_clib_21.asm
 DD120,DrawArtShadow,sub_DD120,new,low,"draws art with shadow pixels at x, y (FFh skipped, FEh darkened)",src/lib/watcom/watcom_clib_21.asm
+DD220,FlipArtVertical,sub_DD220,new,low,mirrors art top to bottom,src/lib/watcom/watcom_clib_21.asm
+DD2A0,TranslateArtPixels,sub_DD2A0,new,low,passes all of an art's pixels through a translate table,src/lib/watcom/watcom_clib_21.asm
 DD32C,modf_,,WATCOM,high,IDA FLIRT library signature,
 DD346,__CmpBigInt,,WATCOM,high,IDA FLIRT library signature,
 DD380,__Rnd2Int,,WATCOM,high,IDA FLIRT library signature,
@@ -2280,6 +2367,7 @@ DFB88,InstallKeyboardHandler,sub_DFB88,new,low,installs the keyboard and int 16h
 DFC33,RemoveKeyboardHandler,sub_DFC33,new,low,keyboard: restores the original keyboard interrupt,src/lib/input/input_keyboard_01.asm
 DFDDE,Int16Handler,sub_DFDDE,new,low,keyboard: BIOS keyboard service replacement that reads from the game's key buffer,src/lib/input/input_keyboard_01.asm
 DFE28,Int16Service,sub_DFE28,new,low,keyboard: handles the BIOS keyboard read and status calls,src/lib/input/input_keyboard_01.asm
+DFE9C,KeyIsDown,sub_DFE9C,new,medium,"returns whether a key is held down, from the key state table",src/lib/input/input_keyboard_01.asm
 DFEAB,BiosKeyCall,sub_DFEAB,new,medium,keyboard: calls the BIOS keyboard service,src/lib/input/input_keyboard_01.asm
 DFEB4,GetTicks,,95PC,medium,NHL95PC B395C (sem): D:11F9A4; R:2374,
 DFEBA,TicksSince,,95PC,high,NHL95PC B3962 (exact): 4 instructions,
@@ -2289,24 +2377,32 @@ DFEF1,WaitTickDeadline,,95PC,high,NHL95PC B3999 (exact): 4 instructions,
 DFEFF,TickDeadlinePassed,,95PC,medium,NHL95PC B39A7 (sem): D:11F8DC; D:11F9A4,
 DFF0F,WaitTicks,sub_DFF0F,95PC,high,"timer library: wait a number of ticks, beside SetTickDeadline / WaitTickDeadline / TickDeadlinePassed as in NHL95PC",src/lib/input/input_joystick_misc_01.asm
 DFF28,KbdGetKey,sub_DFF28,new,low,"reads a key from the keyboard, or 0 when none is waiting",src/lib/input/input_joystick_misc_01.asm
+DFF45,CallKbdIdleHook,sub_DFF45,new,low,calls the keyboard idle hook,src/lib/input/input_joystick_misc_01.asm
 DFF4B,KbdPeekKey,sub_DFF4B,new,low,"returns the next key without removing it, or 0",src/lib/input/input_joystick_misc_01.asm
 DFF60,SetKbdIdleHook,sub_DFF60,new,low,sets the keyboard idle hook; followed by the getter,src/lib/input/input_joystick_misc_01.asm
 DFF70,WaitKey,,95PC,high,NHL95PC B3A18 (exact): 4 instructions,
+DFF7C,FlushKeys,sub_DFF7C,new,medium,reads keys until the keyboard buffer is empty,src/lib/input/input_joystick_misc_01.asm
 E0051,CalibrateJoystick,sub_E0051,new,low,times the joystick port with the timer chip to calibrate its range,src/lib/input/input_joystick_misc_01.asm
 E0158,ReadJoystickPorts,sub_E0158,new,low,reads the joystick buttons and axes by timing the port,src/lib/input/input_joystick_misc_01.asm
+E0456,JoyResetCentres,sub_E0456,new,low,resets the joystick centres and enables the first joystick,src/lib/input/input_joystick_misc_01.asm
+E0486,JoyButtonMap,sub_E0486,new,low,maps joystick button bits to pad buttons through a table,src/lib/input/input_joystick_misc_01.asm
 E04D0,AddExitHandler,sub_E04D0,new,low,registers an exit handler,src/lib/input/input_joystick_misc_01.asm
 E04D9,ExitProgram,sub_E04D9,new,medium,exits the program with code 0,src/lib/input/input_joystick_misc_01.asm
 E04E0,FindShape,sub_E04E0,new,medium,"finds a shape by id in a shape bank (bank, &id) and stops with ""shape not found"" when it is missing",src/lib/input/input_joystick_misc_01.asm
 E04E7,FindShapeQuiet,sub_E04E7,new,medium,"finds a shape by id in a shape bank (bank, &id); returns 0 when it is missing",src/lib/input/input_joystick_misc_01.asm
 E0520,bcopy,sub_E0520,new,low,"(src, dst, n): copies n bytes, backwards when they overlap (BSD order)",src/lib/input/input_joystick_misc_01.asm
+E0584,ClearClipRect,sub_E0584,new,low,fills the clip rectangle with a colour,src/lib/input/input_joystick_misc_01.asm
 E05DA,InstallBreakHandler,sub_E05DA,new,low,installs a Ctrl-Break handler through a real-mode callback in DOS memory and registers its removal at exit,src/lib/input/input_joystick_misc_01.asm
 E062F,RemoveBreakHandler,sub_E062F,new,low,frees the DOS memory of the Ctrl-Break callback and clears its selector,src/lib/input/input_joystick_misc_01.asm
 E0658,DosCallSplitDx,sub_E0658,new,low,calls DOS with a 32-bit value split into CX:DX and joins DX:AX back into EAX,src/lib/ea/ea_fileio_01.asm
 E0671,DosOpenFile,sub_E0671,new,medium,opens a file through DOS with the given mode,src/lib/ea/ea_fileio_01.asm
 E0686,DosOpenReadOnly,sub_E0686,new,medium,opens a file read-only through DOS,src/lib/ea/ea_fileio_01.asm
+E069C,CreateHandle,sub_E069C,new,low,creates a file and returns its handle through openhandle,src/lib/ea/ea_fileio_01.asm
 E06B2,openhandle,,95PC,high,NHL95PC B3B5A (exact): 87 instructions,
 E07B8,DosCloseFile,sub_E07B8,new,low,closes a DOS file handle when it is open,src/lib/ea/ea_fileio_01.asm
 E07C8,DosWriteFile,sub_E07C8,new,low,writes a buffer to a DOS file,src/lib/ea/ea_fileio_01.asm
+E07CC,DosReadFile,sub_E07CC,new,medium,reads from a file handle (DOS 3Fh) in 16K pieces,src/lib/ea/ea_fileio_01.asm
+E07CE,DosFileTransfer,,new,low,"reads or writes a file handle with the DOS function passed in AH, in 16K pieces",src/lib/ea/ea_fileio_01.asm
 E081C,DosSeekFile,sub_E081C,new,medium,moves a DOS file pointer to an absolute position,src/lib/ea/ea_fileio_01.asm
 E0834,FatalError,,95PC,high,NHL95PC B2CD8 (callsite): called at the same place of sub_B30BB,
 E0898,Random32,sub_E0898,new,medium,same code as in the next game,src/lib/input/input_joystick_misc_02.asm
@@ -2330,15 +2426,19 @@ E1836,ZeroMem,sub_E1836,new,medium,"clears memory (dst, count) to zero",src/lib/
 E1927,PollHotkeys,sub_E1927,new,low,reads a key and dispatches its hotkey handler,src/lib/video/video_bios_vga_02.asm
 E193C,SaveDrawState,sub_E193C,new,medium,"copies the drawing state (screen sizes, clip rectangle, target) into a buffer",src/lib/input/input_joystick_misc_03.asm
 E1956,RestoreDrawState,sub_E1956,new,medium,copies a saved drawing state back,src/lib/input/input_joystick_misc_03.asm
+E1970,FindFirstFile,sub_E1970,new,low,finds the first file matching a pattern and keeps its name for the next search,src/lib/ea/ea_fileio_02.asm
+E19F0,SetupRectFillBlend,sub_E19F0,new,low,sets up a rectangle fill with the blend flag set,src/lib/video/video_bios_vga_03.asm
 E19FE,SetupRectFill,sub_E19FE,new,medium,clips a rectangle and fills in its fill description,src/lib/video/video_bios_vga_03.asm
 E22DC,DispatchHotkey,sub_E22DC,new,medium,looks up the handler registered for a key (ASCII or extended scan code) and calls it,src/lib/video/video_bios_vga_03.asm
 E2335,SetHotkey,sub_E2335,new,low,"sets the routine run for a hotkey, adding it to the hotkey list",src/lib/video/video_bios_vga_03.asm
+E2436,PrintfSaveRegs,sub_E2436,new,low,calls printf keeping the registers it would change,src/lib/video/video_bios_vga_03.asm
 E2484,SaveTextMode,sub_E2484,95PC,high,video library: save the text mode and BIOS data area (the port stubs it as in NHL95PC),src/lib/video/video_bios_vga_03.asm
 E24C4,RestoreTextMode,sub_E24C4,95PC,high,video library: restore the text mode and BIOS data area,src/lib/video/video_bios_vga_03.asm
 E25E0,AngleFromDelta,sub_E25E0,new,low,returns the angle of a 2D vector from the ratio of its components,src/lib/video/video_bios_vga_03.asm
 E2680,SinLookup,sub_E2680,new,low,returns the sine of a 10-bit angle from the quarter-wave table,src/lib/video/video_bios_vga_03.asm
 E26A2,CosLookup,sub_E26A2,new,low,returns the cosine of a 10-bit angle from the quarter-wave table,src/lib/video/video_bios_vga_03.asm
 E270C,DebugLineCount,sub_E270C,new,low,returns the debug line count,src/lib/video/video_bios_vga_03.asm
+E272C,ReadKeyPadBits,sub_E272C,new,low,builds pad button bits from the keyboard keys set for the pad,src/lib/video/video_bios_vga_03.asm
 E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle from the quarter-wave tables,src/lib/video/video_bios_vga_03.asm
 100000,SbDmaPagePorts,byte_100000,new,low,Sound Blaster 8237 DMA page register port for each channel 0-3,src/dseg03/dseg03.asm
 100004,SbDmaMaskPorts,byte_100004,new,low,Sound Blaster 8237 DMA single-channel mask register port for each channel,src/dseg03/dseg03.asm

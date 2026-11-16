@@ -4,9 +4,9 @@ bits 32
 section s_63968 progbits alloc exec nowrite align=1
 extern ClearChain4, dword_11D18C, dword_11D190, dword_11D194, dword_11D198, dword_11D19C, dword_11D1A0, dword_11D1A4
 extern dword_11F5A0, dword_11F5C0, dword_11F5C4, dword_11FA14, dword_11FA18, dword_1219A4, dword_1228FC, BackBufferWidth
-extern dword_122904, FatalError, fputchar, GetTicks, initgraphics, SetViewRect, SoundIdle, str_COPY
-extern str_CouldNotAllocateLibraryB, str_LIBBUGFIX, str_NHLinitgraphicsfixNotCal, str_USETABLE, AllocMemBlock, AllocMemLocked, FreeMemBlock, sub_ADA50
-extern sub_ADA80, TextSetColor, FreeColourLookup, CreateColourLookup, sub_B2B0C, BuildAaPalLut, CreateAaPalLut, BuildPaletteShadeTable
+extern dword_122904, FatalError, TextStringWidth, GetTicks, initgraphics, SetViewRect, SoundIdle, str_COPY
+extern str_CouldNotAllocateLibraryB, str_LIBBUGFIX, str_NHLinitgraphicsfixNotCal, str_USETABLE, AllocMemBlock, AllocMemLocked, FreeMemBlock, ClearScreenColour
+extern DrawRectOutline, TextSetColor, FreeColourLookup, CreateColourLookup, TextPrintAt, BuildAaPalLut, CreateAaPalLut, BuildPaletteShadeTable
 extern SetAaPalLut, DrawArtAaScaledInt, TranslatePixels, SetScreenTarget, GetPaletteRange, SetPaletteEntries, WriteSequencerReg, SetModeX
 extern SetClipRect, bcopy, FillMem, unk_121FC8, IntroPalette, unk_17C0E0, WaitRetrace, WaitRetraceEdges
 global BlackPalette, FadePalette, FadeOut, CopyBitmapRows, CopyBitmapRows_76, CopyBitmap, InitGraphicsFix, SetGraphicsMode
@@ -472,7 +472,7 @@ SetScreenMode:
         add esp, byte 0Ch
         call SetScreenTarget
         push byte 0
-        call sub_ADA50
+        call ClearScreenColour
         add esp, byte 4
         cmp esi, dword [dword_11D194]
         je short SetGraphicsMode_204
@@ -495,7 +495,7 @@ SetScreenMode:
         call SetPaletteEntries
         add esp, byte 0Ch
         push byte 0
-        call sub_ADA50
+        call ClearScreenColour
         add esp, byte 4
         cmp esi, byte 1
         jne short .3
@@ -521,7 +521,7 @@ DrawText:
         push ebx
         push edx
         push eax
-        call sub_B2B0C
+        call TextPrintAt
         add esp, byte 0Ch
         pop ecx
         ret
@@ -538,14 +538,14 @@ DrawTextRight:
         mov edi, edx
         mov dword [byte ebp-04h], ebx
         push eax
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
 DrawTextRight_17:
         push dword [byte ebp-04h]
         sub edi, eax
         push edi
         push esi
-        call sub_B2B0C
+        call TextPrintAt
         add esp, byte 0Ch
         leave
         pop edi
@@ -565,7 +565,7 @@ DrawTextCentred:
         mov edi, edx
         mov dword [byte ebp-04h], ebx
         push eax
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         sar eax, 1
         jmp short DrawTextRight_17
@@ -720,7 +720,7 @@ DrawColorText:
         lea eax, [byte edi+01h]
         push eax
         push esi
-        call sub_B2B0C
+        call TextPrintAt
         add esp, byte 0Ch
         push dword [byte ebp-0Ch]
         push dword [dword_11D18C]
@@ -729,7 +729,7 @@ DrawColorText:
         push dword [byte ebp-04h]
         push edi
         push esi
-        call sub_B2B0C
+        call TextPrintAt
         add esp, byte 0Ch
         push dword [byte ebp-0Ch]
         push dword [byte ebp-08h]
@@ -750,7 +750,7 @@ DrawColorTextRight:
         push esi
         mov edi, dword [dword_11FA18]
         mov dword [byte ebp-0Ch], eax
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         mov edx, dword [byte ebp-08h]
 DrawColorTextRight_29:
@@ -767,7 +767,7 @@ DrawColorTextRight_29:
         inc eax
         push eax
         push esi
-        call sub_B2B0C
+        call TextPrintAt
         add esp, byte 0Ch
         push edi
         push dword [dword_11D18C]
@@ -776,7 +776,7 @@ DrawColorTextRight_29:
         push dword [byte ebp-04h]
         push dword [byte ebp-010h]
         push esi
-        call sub_B2B0C
+        call TextPrintAt
         add esp, byte 0Ch
         push edi
         push dword [byte ebp-0Ch]
@@ -804,7 +804,7 @@ DrawColorTextCentred:
         push esi
         mov edi, dword [dword_11FA18]
         mov dword [byte ebp-0Ch], eax
-        call fputchar
+        call TextStringWidth
         mov edx, dword [byte ebp-08h]
         add esp, byte 4
         sar eax, 1
@@ -935,7 +935,7 @@ DrawBox:
         lea eax, [byte esi+01h]
         push eax
 .2:
-        call sub_ADA80
+        call DrawRectOutline
         add esp, byte 14h
 .3:
         cmp dword [byte ebp+014h], byte 1
@@ -945,7 +945,7 @@ DrawBox:
         push dword [byte ebp-04h]
         push edi
         push esi
-        call sub_ADA80
+        call DrawRectOutline
         add esp, byte 14h
 .4:
         leave

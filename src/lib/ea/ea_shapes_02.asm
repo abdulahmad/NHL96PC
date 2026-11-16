@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_C4DE0 progbits alloc exec nowrite align=1
-extern str_FshVshQfsQvs, str_Vsh, str_Qvs, stricmp_, sub_AB834, sub_ABF88, FindCachedFile, LoadPackedCore
-extern sub_D0360, sub_D0440, sub_D0640
+extern str_FshVshQfsQvs, str_Vsh, str_Qvs, stricmp_, AllocMemBlockLockedAt, PushMemDescriptorLocked, FindCachedFile, LoadPackedCore
+extern SplitFileExt, ConvertShapeBank, ConvertShapeBankInPlace
 global LoadFileCached
 ;-----------------------------------------------------------------------------
 ; LoadFileCached                                  C4DE0  96 PC, low confidence
@@ -21,7 +21,7 @@ LoadFileCached:
         push eax
         mov edx, dword [byte esp+07Ch]
         push edx
-        call sub_D0360
+        call SplitFileExt
         add esp, byte 0Ch
         mov esi, eax
         mov eax, esp
@@ -54,24 +54,24 @@ LoadFileCached:
         je short .3
         mov ebx, dword [eax]
         push ebx
-        call sub_D0640
+        call ConvertShapeBankInPlace
         add esp, byte 4
         push edi
         push ebp
         push eax
         lea eax, [byte esp+0Ch]
         push eax
-        call sub_AB834
+        call AllocMemBlockLockedAt
         add esp, byte 10h
         mov ecx, dword [eax]
         push ecx
         mov ebp, dword [esi]
         push ebp
         mov edi, eax
-        call sub_D0440
+        call ConvertShapeBank
         add esp, byte 8
         push esi
-        call sub_ABF88
+        call PushMemDescriptorLocked
         add esp, byte 4
         mov eax, edi
         jmp short .3

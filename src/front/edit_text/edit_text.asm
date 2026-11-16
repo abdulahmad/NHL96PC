@@ -2,10 +2,10 @@
 bits 32
 %include "hockey.inc"
 section s_197ED progbits alloc exec nowrite align=1
-extern byte_11FA2F, byte_152C3B, dword_11F5C0, FillRect, fputchar, PutBlock, SetDrawBitmap, str_Disp
+extern byte_11FA2F, byte_152C3B, dword_11F5C0, FillRect, TextStringWidth, PutBlock, SetDrawBitmap, str_Disp
 extern str_space4, str_Temp3, str_W, str_X, strcat_, strcpy_, strlen_, CopyBitmap
 extern SetTextColors, DrawColorTextCentred, DrawBox, SoundIdle, DrawShapeCore, AllocMemLocked, FreeMemBlock, CreateBitmap
-extern sub_AD620, sub_ADA80, FreeBitmap, TextSetColor, sub_B2B0C, SetScreenTarget, GetPaletteRange, sub_DFE9C
+extern TintRect, DrawRectOutline, FreeBitmap, TextSetColor, TextPrintAt, SetScreenTarget, GetPaletteRange, KeyIsDown
 extern KbdGetKey, unk_152B3C, unk_19382
 global EditText
 ;-----------------------------------------------------------------------------
@@ -28,7 +28,7 @@ EditText:
         test eax, eax
         jne short .2
         push byte 1Ch
-        call sub_DFE9C
+        call KeyIsDown
         add esp, byte 4
         test eax, eax
         je short .3
@@ -63,14 +63,14 @@ EditText:
         jmp near .54
 .4:
         push str_W
-        call fputchar
+        call TextStringWidth
         mov edx, dword [byte ebp-06h]
         inc edx
         imul eax, edx
         add esp, byte 4
         push dword [dword ebp-0326h]
         mov dword [byte ebp+05Eh], eax
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         cmp eax, dword [byte ebp+05Eh]
         jle short .6
@@ -80,7 +80,7 @@ EditText:
         sub edx, eax
         push dword [dword ebp-0326h]
         mov dword [byte ebp+02h], edx
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         cmp eax, dword [byte ebp+02h]
         jle short .5
@@ -92,12 +92,12 @@ EditText:
         jmp short .6
 .5:
         push dword [dword ebp-0326h]
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         mov dword [byte ebp+05Eh], eax
 .6:
         push str_X
-        call fputchar
+        call TextStringWidth
         shl eax, 2
         add dword [byte ebp+05Eh], eax
         mov eax, dword [byte ebp+05Eh]
@@ -108,7 +108,7 @@ EditText:
         sub edx, eax
         push str_W
         mov dword [byte ebp+032h], edx
-        call fputchar
+        call TextStringWidth
         mov edx, dword [byte ebp-06h]
         inc edx
         imul eax, edx
@@ -147,7 +147,7 @@ EditText:
         mov eax, dword [byte ebp+056h]
         push dword [byte ebp+04Eh]
         mov byte [eax], 0
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         cmp eax, dword [byte ebp+042h]
         jle short .12
@@ -224,7 +224,7 @@ EditText:
         lea eax, [dword ebp-031Eh]
         push eax
         push dword 6666h
-        call sub_AD620
+        call TintRect
         mov byte [byte_152C3B], 0FFh
         add esp, byte 0Ch
         movzx eax, byte [byte esi+01h]
@@ -274,14 +274,14 @@ EditText:
         mov eax, dword [byte ebp+062h]
         push str_X
         mov byte [eax], 0
-        call fputchar
+        call TextStringWidth
         mov edx, dword [byte ebp+042h]
         add eax, eax
         add esp, byte 4
         sub edx, eax
         push dword [dword ebp-0326h]
         mov dword [byte ebp+02h], edx
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         cmp eax, dword [byte ebp+02h]
         jle short .20
@@ -332,7 +332,7 @@ EditText:
 .23:
         push str_W
         mov byte [byte ebp+067h], 0
-        call fputchar
+        call TextStringWidth
         mov edx, dword [dword ebp+08Eh]
         mov dword [byte ebp+02h], eax
         add esp, byte 4
@@ -397,12 +397,12 @@ EditText:
         dec edx
         push edx
         push eax
-        call sub_ADA80
+        call DrawRectOutline
         add esp, byte 14h
         push dword [byte ebp+052h]
         push dword [byte ebp+04Ah]
         push edi
-        call sub_B2B0C
+        call TextPrintAt
         mov eax, dword [byte ebp+012h]
         dec eax
         mov dword [byte ebp-0Ah], eax
@@ -433,7 +433,7 @@ EditText:
         push edi
         mov byte [byte ebp+072h], al
         mov byte [edx], 0
-        call fputchar
+        call TextStringWidth
         mov ebx, dword [byte ebp+0Eh]
         mov dl, byte [byte ebp+072h]
         add esp, byte 4
@@ -476,7 +476,7 @@ EditText:
         push dword [byte ebp-012h]
         lea eax, [byte ebp+066h]
         push eax
-        call sub_B2B0C
+        call TextPrintAt
         add esp, byte 0Ch
         push byte 0
         movzx eax, byte [esi]
@@ -512,7 +512,7 @@ EditText:
         push dword [byte ebp-012h]
         lea eax, [byte ebp+066h]
         push eax
-        call sub_B2B0C
+        call TextPrintAt
         mov al, byte [byte ebp+03Ah]
         add esp, byte 0Ch
         mov byte [byte ebp+066h], al
@@ -607,13 +607,13 @@ EditText:
         jge near .48
         lea eax, [byte ebp+066h]
         push eax
-        call fputchar
+        call TextStringWidth
         mov edx, dword [byte ebp+01Ah]
         add esp, byte 4
         sub edx, eax
         push edi
         mov dword [byte ebp+012h], edx
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         cmp eax, dword [byte ebp+012h]
         jge near .48
@@ -671,7 +671,7 @@ EditText:
         push dword [byte ebp+04Ah]
         push dword [byte ebp-02h]
 .47:
-        call sub_B2B0C
+        call TextPrintAt
         add esp, byte 0Ch
 .48:
         cmp dword [byte ebp+05Ah], byte 0
@@ -697,12 +697,12 @@ EditText:
         test eax, eax
         jne short .52
         push byte 1Ch
-        call sub_DFE9C
+        call KeyIsDown
         add esp, byte 4
         test eax, eax
         jne short .52
         push byte 1
-        call sub_DFE9C
+        call KeyIsDown
         add esp, byte 4
         test eax, eax
         je short .53

@@ -26,14 +26,14 @@ extern str_GhiL3, str_GhiR3, str_GloL3, str_GloR3, str_Paus, str_PAUSREG, str_Qu
 extern str_Qui22, str_Rep0, str_Rep1, str_Ret02, str_Ret12, str_Ret22, str_Sav02, str_Sav12
 extern str_Sid12, str_Sid22, str_Sts02, str_Sts12, strcat_, strcpy_, RefreshControlSlots, ReplayBufferEnd
 extern AddZone, ReplayScreen, RunReplay, DrawShapeAtOwnPos, DrawArt, AllocMemBlock, FreeMemBlock, CreateBitmap
-extern FreeBitmap, FreeColourLookup, SaveDataFile, SetAaPalLut, DrawArtScaled, SetScreenTarget, FindShape, sub_E0584
+extern FreeBitmap, FreeColourLookup, SaveDataFile, SetAaPalLut, DrawArtScaled, SetScreenTarget, FindShape, ClearClipRect
 extern TextSetFont, unk_11D7A4, unk_11D7BC, unk_11D7D4, unk_11D7EC, unk_11D804, unk_11D80A, unk_11D810
 extern unk_11D816, unk_11D81C, unk_11D89C, unk_16443C, unk_17CB2E, unk_17CED5, unk_17D3E8, unk_17D52C
 extern UpdateCamera, word_114CE0, word_114F14, word_117902, word_11D927, word_11D929, word_1656E8, word_16581E
 global RunInGameMenu, DrawPauseButtons, DrawPauseFrame, DrawPauseFrame_9C2, DrawPauseFrame_9C3, RunPausedFrame, jpt_6B476, SaveGameFile
 global SaveGameFile_59, SaveGameFile_60, SaveGameFile_6C, SaveGameFile_81, jpt_6B878, PauseMenu, PauseMenu_66B, PauseMenu_6F1
 global PauseMenu_6FD, PauseMenu_724, PauseMenu_730, PauseMenu_73C, PauseMenu_748, PauseToFrontEnd, PauseBackToGame, PauseBackToGame_28A
-global jpt_6C63B, sub_6C64B, sub_6C663, sub_6C66D, jpt_6C680, PauseGame, PauseGame_375, PauseGame_3A3
+global LoadModeStatsJumpTable, LoadModeStats, LoadCurrentSeasonStats, LoadPlayoffOrSeasonStats, jpt_6C680, PauseGame, PauseGame_375, PauseGame_3A3
 global PauseGame_47F, PauseGame_5F4, PauseGame_611, PauseGame_620
 ;-----------------------------------------------------------------------------
 ; RunInGameMenu                                6A7D3  96 PC, medium confidence
@@ -2219,33 +2219,36 @@ PauseBackToGame:
         pop ebx
 PauseBackToGame_28A:
         ret
-jpt_6C63B:
+LoadModeStatsJumpTable:
         dd LoadExhibitionStats
-        dd sub_6C663
-        dd sub_6C66D
+        dd LoadCurrentSeasonStats
+        dd LoadPlayoffOrSeasonStats
         dd LoadModemStats
 ;-----------------------------------------------------------------------------
-; sub_6C64B                                                       6C64B  96 PC
+; LoadModeStats                                   6C64B  96 PC, low confidence
+; Loads the stats of the current game mode
 ;-----------------------------------------------------------------------------
-sub_6C64B:
+LoadModeStats:
         mov eax, dword [optflags]
         shl eax, 19h
         shr eax, 1Dh
         cmp eax, byte 3
         ja short PauseBackToGame_28A
-        jmp dword [nosplit cs:eax*4+jpt_6C63B]
+        jmp dword [nosplit cs:eax*4+LoadModeStatsJumpTable]
 ;-----------------------------------------------------------------------------
-; sub_6C663                                                       6C663  96 PC
+; LoadCurrentSeasonStats                          6C663  96 PC, low confidence
+; Loads the current season's stats
 ;-----------------------------------------------------------------------------
-sub_6C663:
+LoadCurrentSeasonStats:
         mov eax, dword [dword_17CBE7]
         jmp near LoadSeasonStats
 ;-----------------------------------------------------------------------------
-; sub_6C66D                                                       6C66D  96 PC
+; LoadPlayoffOrSeasonStats                        6C66D  96 PC, low confidence
+; Loads the playoff stats, or the season's when no playoffs are running
 ;-----------------------------------------------------------------------------
-sub_6C66D:
+LoadPlayoffOrSeasonStats:
         cmp dword [dword_17D267], byte 0
-        jne short sub_6C663
+        jne short LoadCurrentSeasonStats
         mov eax, dword [dword_17D162]
         jmp near LoadPlayoffStats
 jpt_6C680:
@@ -2340,7 +2343,7 @@ PauseGame:
         call SetDrawBitmap
         add esp, byte 4
         push dword 0FFh
-        call sub_E0584
+        call ClearClipRect
         add esp, byte 4
         push byte 0
         push byte 0
@@ -2728,7 +2731,7 @@ PauseGame_620:
         call SetDrawBitmap
         add esp, byte 4
         push dword 0FFh
-        call sub_E0584
+        call ClearClipRect
         add esp, byte 4
         push byte 0
         push byte 0

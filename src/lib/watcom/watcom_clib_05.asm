@@ -17,9 +17,9 @@ extern dword_18B060, dword_18B064, dword_18B068, dword_18B06C, dword_18B070, dwo
 extern CdDriveLetter, dword_18B088, CdRequestSegment, CdBufferAddr, dword_18B094, CdRegs, CdDirEntryBuf, CdRegEbx
 extern CdRegEdi, CdRegEax, CdRegEdx, dword_19F2D4, int386_, int386x_, kaufmfont, LocateBigEntry_168
 extern SetHotkey_5B, SetHotkey_81, segread_, AddMemRegion, AddMemRegions, AddHighMemRegion, TrimMemList, MemListEnd
-extern AllocMemBlock, FreeMemBlock, InitMemDescriptors, FixedInverse, sub_C2AC4, sub_C2C5C, ResetMemLock, MemLock
+extern AllocMemBlock, FreeMemBlock, InitMemDescriptors, FixedInverse, AskExitToDos, PauseUntilKey, ResetMemLock, MemLock
 extern MemUnlock, GetPalette, JoystickCalibrateScreen, ShowKeyboardOn, CdDirSearch, ToUpperChar, KbdPeekKey, bcopy
-extern DosOpenFile, DosCloseFile, sub_E07CC, DosSeekFile, SetHotkey, CdFileTable, __stdout_buf, unk_18704C
+extern DosOpenFile, DosCloseFile, DosReadFile, DosSeekFile, SetHotkey, CdFileTable, __stdout_buf, unk_18704C
 extern unk_19BAD0, StartupStack, unlink_, str_Punct_InitFpuFlags, _psp, __no87, _Envptr_w4, CdBufferSegment
 extern CdRequestSelector, word_18B0BC, CdRegEs, CdRegSegs
 global _dos_close_, _dos_commit_, _dos_creat_, _dos_creatnew_, _dos_getdiskfree_, _dos_open_, _dos_read_, _dos_write_
@@ -531,7 +531,7 @@ InstallHotkeys:
         push byte 0Bh
         call SetHotkey
         add esp, byte 8
-        push sub_C2C5C
+        push PauseUntilKey
         push byte 10h
         call SetHotkey
         add esp, byte 8
@@ -543,7 +543,7 @@ InstallHotkeys:
         push byte 13h
         call SetHotkey
         add esp, byte 8
-        push sub_C2AC4
+        push AskExitToDos
         push byte 18h
         call SetHotkey
         add esp, byte 8
@@ -5396,7 +5396,7 @@ CdReadSectors:
         push edx
         mov edx, dword [dword esi+CdFileHandle]
         push edx
-        call sub_E07CC
+        call DosReadFile
         add esp, byte 0Ch
         jmp short .2
 .1:

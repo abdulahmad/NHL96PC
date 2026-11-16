@@ -8,7 +8,7 @@ extern Hook387Save, EmuZeroTbyte, unk_D2444, unk_D2448, EmuRegRing, unk_D244C, u
 extern unk_D249C, unk_D24A0, unk_D24A2, EmuCompareCcBits, EmuFpremCcBits, EmuEaModRmTable, EmuEaSibTable
 global __hook387, __init_80x87, __unhook387, EmuDispatchD9RegJumpTable, EmuFtstFxamJumpTable, EmuSignOpsJumpTable, EmuLogOpsJumpTable, EmuRemOpsJumpTable
 global jpt_D398A, EmuDispatchDBRegJumpTable, jpt_D3C1C, jpt_D3DD1, RoundToDouble_32, RoundToDouble_49, RoundToDouble_84, jpt_D3A13_2C
-global jpt_D3DD1_20, jpt_D3DD1_69, jpt_D3DD1_CE, jpt_D3DD1_F8, jpt_D3DD1_110, EmuAdd_7, sub_D4524_3, sub_D459F_8
+global jpt_D3DD1_20, jpt_D3DD1_69, jpt_D3DD1_CE, jpt_D3DD1_F8, jpt_D3DD1_110, EmuAdd_7, Emu387LdToInt_3, Emu387IntToLd_8
 global EmuTan_E, EmuTrapExit, RoundToSingle, RoundToDouble, RaiseFpuError, EaEax, EaEcx, EaEdx
 global EaEbx, EaEsp, EaDisp32, EaEsi, EaEdi, EaEaxDisp8, EaEcxDisp8, EaEdxDisp8
 global EaEbxDisp8, EaEspDisp8, EaEbpDisp8, EaEsiDisp8, EaEdiDisp8, EaEaxDisp32, EaEcxDisp32, EaEdxDisp32
@@ -25,8 +25,8 @@ global EmuFdivSt, EmuFdivrSt, EmuFldSt, EmuFxch, EmuFtstFxam, EmuSignOps, EmuLog
 global EmuFucompp, EmuDispatchDBReg, EmuFaddToSt, EmuFmulToSt, EmuFsubrToSt, EmuFsubToSt, EmuFdivrToSt, EmuFdivToSt
 global EmuFfree, EmuFstSt, EmuFucom, EmuFucomp, EmuFstpSt, EmuFaddp, EmuFmulp, EmuFcompp
 global EmuFsubrp, EmuFsubp, EmuFdivrp, EmuFdivp, EmuDispatchDFReg, EmuSub, EmuAdd, AddExtRaw
-global AddMantissas, EmuCompare, EmuDiv, DivideMantissas, EmuMul, MultiplyMantissas, StoreM32Int, sub_D4524
-global LoadM32Int, sub_D459F, LoadM64Real, StoreM32Real, StoreM64Real, LoadM32Real, ExtToInt, EmuRemainder
+global AddMantissas, EmuCompare, EmuDiv, DivideMantissas, EmuMul, MultiplyMantissas, StoreM32Int, Emu387LdToInt
+global LoadM32Int, Emu387IntToLd, LoadM64Real, StoreM32Real, StoreM64Real, LoadM32Real, ExtToInt, EmuRemainder
 global RemainderStep, EmuRoundInt, RoundMantissa, EmuExamine, AddOne, EmuLog2, Log2Core, SinCosCore
 global EmuSin, EmuCos, EmuTan, EmuAtan, EmuExp2, PolyEval, PolyEvalOdd, EmuNoOp
 global AdpcmDecodeMono, AdpcmDecodeStereo, EmuMantissaMasks, EmuRemPolyCoefs, EmuLog2PolyNum, EmuLog2PolyDen, EmuSinPolyCoefs, EmuCosPolyCoefs
@@ -1285,7 +1285,7 @@ EmuFildM64:
         and word [byte ds:ebp+08h], bx
         mov eax, dword [es:esi]
         lea edx, [byte edi+ebp+01Ch]
-        call sub_D459F
+        call Emu387IntToLd
         jmp near EmuTrapExit
 ;-----------------------------------------------------------------------------
 ; EmuFbstp                                     D3357  96 PC, medium confidence
@@ -1303,7 +1303,7 @@ EmuFistpM64:
         and dx, 0C00h
         call ExtToInt
         lea eax, [byte edi+ebp+01Ch]
-        call sub_D4524
+        call Emu387LdToInt
         mov dword [es:esi], eax
         jmp near RoundToDouble_49
 ;-----------------------------------------------------------------------------
@@ -2847,7 +2847,7 @@ MultiplyMantissas:
         jmp short .11
         push ebx
         mov bl, 0A0h
-        jmp short sub_D4524_3
+        jmp short Emu387LdToInt_3
         push ebx
         mov bh, byte [byte eax+09h]
         push ecx
@@ -2896,14 +2896,15 @@ MultiplyMantissas:
 StoreM32Int:
         push ebx
         mov bl, 1Fh
-        jmp short sub_D4524_3
+        jmp short Emu387LdToInt_3
 ;-----------------------------------------------------------------------------
-; sub_D4524                                                            D4524  
+; Emu387LdToInt                                   D4524  96 PC, low confidence
+; 387 emulator: converts an extended real to an integer
 ;-----------------------------------------------------------------------------
-sub_D4524:
+Emu387LdToInt:
         push ebx
         mov bl, 20h
-sub_D4524_3:
+Emu387LdToInt_3:
         mov bh, byte [byte eax+09h]
         shr bh, 1
         LD or, bh, bl
@@ -2967,14 +2968,18 @@ LoadM32Int:
         jns short .1
         neg eax
         mov edx, 0BFFFh
-        jmp short sub_D459F_8
+        jmp short Emu387IntToLd_8
 .1:
         pop ebx
-sub_D459F:
+;-----------------------------------------------------------------------------
+; Emu387IntToLd                                   D459F  96 PC, low confidence
+; 387 emulator: converts an integer to a normalised extended real
+;-----------------------------------------------------------------------------
+Emu387IntToLd:
         push ebx
         LD mov, ebx, edx
         mov edx, 3FFFh
-sub_D459F_8:
+Emu387IntToLd_8:
         push ecx
         LD or, eax, eax
         je short .1

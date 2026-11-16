@@ -6,7 +6,7 @@ extern byte_17DC70, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeigh
 extern dword_17DC18, dword_17DC1C, dword_17DC20, dword_17DC24, dword_17DC28, dword_17DC2C, dword_17DC30, dword_17DC34
 extern dword_17DC38, dword_17DC3C, dword_17DC40, dword_17DC44, dword_17DC48, dword_17DC4C, dword_17DC50, dword_17DC54
 extern dword_17DC58, dword_17DC5C, dword_17DC60, dword_17DC64, dword_17DC68, dword_17DC6C, PlotPixel, SetClipWindow
-extern str_AALIAS, AllocMemBlock, sub_AD824, NearestColour, FixedLerp, PlotPixelClipped
+extern str_AALIAS, AllocMemBlock, FillRectClipped, NearestColour, FixedLerp, PlotPixelClipped
 global BuildAntiAliasTable, ClipLineY, ClipLineX, DrawLineYPlot, DrawLineYPlot_186, DrawLineYPlot_187, DrawLineY, DrawLineXPlot
 global DrawLineX, DrawFixedLine, DrawFixedLineClip
 ;-----------------------------------------------------------------------------
@@ -475,7 +475,7 @@ DrawLineYPlot:
         push eax
         push dword [byte ebp-04h]
         push esi
-        call sub_AD824
+        call FillRectClipped
         add esp, byte 14h
 .7:
         cmp dword [byte ebp-08h], byte 0
@@ -698,7 +698,7 @@ DrawLineXPlot:
         push byte 1
         push esi
         push edi
-        call sub_AD824
+        call FillRectClipped
         add esp, byte 14h
 .7:
         cmp dword [byte ebp-0Ch], byte 0

@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_C3BE0 progbits alloc exec nowrite align=1
 extern __flush_, __fprtf_, __ioalloc_, __prtf_, fputc_
-global fputs_, mem_putc__0, MemLock, MemUnlock, sub_C3C37, vsprintf_
+global fputs_, mem_putc__0, MemLock, MemUnlock, VfprintfThunk, vsprintf_
 ;-----------------------------------------------------------------------------
 ; MemLock                                         C3BE0  96 PC, low confidence
 ; Sets the memory lock; followed by the try-lock
@@ -59,9 +59,10 @@ vsprintf_:
         pop ecx
         ret
 ;-----------------------------------------------------------------------------
-; sub_C3C37                                                            C3C37  
+; VfprintfThunk                                   C3C37  96 PC, low confidence
+; Jumps to __fprtf_
 ;-----------------------------------------------------------------------------
-sub_C3C37:
+VfprintfThunk:
         jmp near __fprtf_
 ;-----------------------------------------------------------------------------
 ; fputs_                                                        C3C3C  library

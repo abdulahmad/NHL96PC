@@ -16,7 +16,7 @@ extern dword_160C56, dword_160C5A, dword_160C92, dword_160C96, dword_160C9C, dwo
 extern dword_160CAC, dword_160CBC, dword_160CC0, dword_160CF8, dword_160CFC, dword_160D02, dword_160D06, dword_160D0A
 extern dword_160D0E, dword_160D12, dword_160D22, dword_160D26, dword_17BC74, TeamStatsBitmap, dword_17BC96, dword_17BCA2
 extern dword_17BCA6, EditText, fclose_, FileClose, FileCreate, FileOpenRead, FileOpenReadWrite, FileReadAt
-extern FileWriteAt, fopen_, fprintf_, fputchar, gameopts, GetPressedDevice, HideMessage, LoadPackedFile
+extern FileWriteAt, fopen_, fprintf_, TextStringWidth, gameopts, GetPressedDevice, HideMessage, LoadPackedFile
 extern MakeDirPath, MessageBox, MouseRead, NameIndexAdd, NameIndexFirstId, NameIndexFree, NameIndexId, NameIndexLoad
 extern NameIndexNew, NameIndexPath, NameIndexRemove, NameIndexSave, off_11D3DC, optflags, PutBlock, qsort_
 extern SetDrawBitmap, ShowMessage, sprintf_, str_00, str_08d, str_1000, str_20s, str_3d3d
@@ -31,7 +31,7 @@ extern str_Uteam, str_wt, strcat_, strcmp_, strcpy_, strlen_, OpenScreen, SlideI
 extern SetScreenColors, FadePalette, FadeOut, DrawText, DrawTextCentred, SetTextColors, DrawColorText, FillBox
 extern InitMenuItems, RunMenu, PlaySfx, SoundIdle, GetLangText, InitVScrollBar, ScrollBarUp, ScrollBarDown
 extern FreeScrollBar, SetScrollBarPos, DrawScrollBar, CheckExportName, DrawShapeCore, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock
-extern CreateBitmap, sub_AD620, FreeBitmap, TextSetColor, SaveTextState, SetDrawTarget, SetScreenTarget, SetRemapTable
+extern CreateBitmap, TintRect, FreeBitmap, TextSetColor, SaveTextState, SetDrawTarget, SetScreenTarget, SetRemapTable
 extern FindShape, RemapPolygonArgs, TextSetFont, unk_160B50, WaitTicks, word_160ACC, word_1656DA, word_1656DC
 extern word_1656E8, word_165810, word_165812, word_16581E
 global unk_2A3D6, unk_2A3E2, unk_2A3EE, unk_2A3F6, unk_2A402, unk_2A442, unk_2A482, ClearSlotUser
@@ -546,7 +546,7 @@ DrawUserList:
         call strcpy_
         lea eax, [byte ebp-038h]
         push eax
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         cmp eax, byte 5Fh
         jl short .7
@@ -556,7 +556,7 @@ DrawUserList:
 .6:
         lea eax, [byte ebp-038h]
         push eax
-        call fputchar
+        call TextStringWidth
         add esp, byte 4
         cmp eax, byte 5Fh
         jl short .7
@@ -3488,7 +3488,7 @@ UserRecordsScreen:
         push dword [byte ebp+036h]
         push dword 0E666h
         mov dword [byte ebp+03Eh], eax
-        call sub_AD620
+        call TintRect
         add esp, byte 0Ch
         call SetScreenTarget
         push str_BKGD2

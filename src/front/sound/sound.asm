@@ -9,7 +9,7 @@ extern dword_11D1FE, dword_11D202, dword_11D206, dword_11D236, dword_11D37E, dwo
 extern dword_11D3B2, dword_17C604, dword_17C608, FadeOutMusic, FeedMusicStream, FindClipIndex_55, FindTeamPairClip_85, GetTicks
 extern globalset, InitSpeech, MakeDataPath, OpenSpeechBanks, optblock, setstreamspeed, SetTickDeadline, ShutdownSpeech
 extern sndcard, SndSetDriver, StopSpeech, StopSpeech_1FA, StopSpeech_207, LoadDataFileFlag0, LoadDataFileHandle, FreeMemBlock
-extern MemLargestFreeLocked, sub_AC868, DriveLetterIndex, IsCdDrive, AllocCdBuffer, SpeechQueueBusy, FadeChannelVolume, SetChannelVolume
+extern MemLargestFreeLocked, MemLargestFreeOfList, DriveLetterIndex, IsCdDrive, AllocCdBuffer, SpeechQueueBusy, FadeChannelVolume, SetChannelVolume
 extern StopSoundChannel, InitAudioStream, StartAudioStream, FeedAudioStream, AudioStreamPosition, RegisterSfxBank, UnregisterSfxBank, PlaySfxVolume
 extern PauseCrowdChannels, ResumeCrowdChannels, TriggerCrowdEvent, SetCrowdIntensity, CloseCrowdSound, LoadCrowdBank, SetCrowdVolume, StartCrowdSound
 extern StopCrowdChannels, DetectSoundDriver, SetSoundMixMode, SndCloseDriver, TicksSinceLast, unk_17C474, WaitTickDeadline, word_11D1D0
@@ -874,7 +874,7 @@ StartGameSound:
         add esp, byte 0Ch
         push byte 0
         mov dword [dword_11D1D6], eax
-        call sub_AC868
+        call MemLargestFreeOfList
         add esp, byte 4
         cmp eax, 600000h
         jle short .3

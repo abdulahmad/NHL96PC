@@ -40,8 +40,8 @@ extern str_FName, str_GlobalSort, str_HBAL2, str_HD01, str_HD02, str_HD03, str_H
 extern str_LocalSort, str_Pal21, str_Player, str_PLR0, str_PlusMinus, str_Profiles, str_S3, str_SD3
 extern str_SEA02, str_Shot, str_SLDH, str_SLDV, str_Space, str_StatDBPTRs, str_Stats, str_VBAL2
 extern str_Wt3, strcat_, strcmp_, strcpy_, strlen_, LoadDataFileLib, PlayerDbRecord, StatsDb5Record
-extern StatsDb1Record, DrawArt, AllocMemBlock, FreeMemBlock, CreateBitmap, TintRows, sub_AD620, FreeBitmap
-extern DosFileInfo, DrawArtOpaqueAtOwnPos, sub_B2C70, DrawArtKeyed, SetScreenTarget, FindShape, TextSetFont, TickDeadlinePassed
+extern StatsDb1Record, DrawArt, AllocMemBlock, FreeMemBlock, CreateBitmap, TintRows, TintRect, FreeBitmap
+extern DosFileInfo, DrawArtOpaqueAtOwnPos, DrawArtOpaqueHotspot, DrawArtKeyed, SetScreenTarget, FindShape, TextSetFont, TickDeadlinePassed
 extern unk_11282F, unk_11E71A, unk_17FDF8, unk_17FE5E, unk_17FEC4, unk_17FF2A, unk_17FF90, unk_180128
 extern unk_1802C0, unk_8B87F, unk_8BD9F, unk_8BF1F, UpdateProgressBox, word_114CE0, word_1656E8, word_181EB4
 extern word_181EB6, word_181EB8, word_181EBA, word_181EBC, word_181EBE, word_181EC0, word_181EC2, word_181EC4
@@ -512,7 +512,7 @@ ShowPlayerStatsTitle:
         push byte 46h
         push dword 226h
         push dword [byte esi+02Ch]
-        call sub_B2C70
+        call DrawArtOpaqueHotspot
         add esp, byte 0Ch
         push esi
         call FreeBitmap
@@ -829,7 +829,7 @@ PlayerStatsScreen:
         push eax
         push dword [byte ebp+02Ah]
         push dword 8000h
-        call sub_AD620
+        call TintRect
         add esp, byte 0Ch
         lea eax, [dword ebp-056Eh]
         push eax

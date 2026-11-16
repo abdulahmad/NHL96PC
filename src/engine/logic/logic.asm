@@ -14,7 +14,7 @@ extern foy, gameclock, gameopts, getlchoice, gmode, hmtmstruct, lasttouch, lcbli
 extern lcboxon, lcline, off_11787C, puckc, off_11788C, off_117890, off_117894, passplayer
 extern penshotlive, penshotmode, penshotplayer, penshotstart, psendcount, puckvx, puckvz, puckx
 extern pucky, puckz, randomd0, regd2, regd3, sflags, shotongoal, skatetopuck
-extern sub_28459, GetPartner, defotarget, defdtarget, assextra3, assgoalie, check4check, checkob
+extern SetPenaltyBoxDoor, GetPartner, defotarget, defdtarget, assextra3, assgoalie, check4check, checkob
 extern checkpuckcoll, chk4lcauto, CompPass, chk4shot, SetShotMode, ShotMode, Findhittype, doshot
 extern SetSPA, SprSort, changeplayer, GetHot, Setplass, setplayer, updateanim, SetExitGame
 extern sub_4B4F3, doplayeracc, EvadePC, skateto, PostGoalEvent, AddPenalty2, EndPenaltyShot, PlaySfxOr
@@ -3423,7 +3423,7 @@ asspenalty:
         test eax, eax
         setne al
         movzx eax, al
-        call sub_28459
+        call SetPenaltyBoxDoor
         mov eax, 22h
         call PlaySfx
         pop edx
@@ -3482,7 +3482,7 @@ assdopen:
         test eax, eax
         setne al
         movzx eax, al
-        call sub_28459
+        call SetPenaltyBoxDoor
         mov eax, 23h
         call PlaySfx
         mov al, byte [byte ebx+044h]
@@ -3577,7 +3577,7 @@ assepen:
         mov edx, 1
         mov eax, ecx
         or byte [byte ebx+044h], 20h
-        call sub_28459
+        call SetPenaltyBoxDoor
         mov eax, 22h
         call PlaySfx
         call SprSort
@@ -3599,7 +3599,7 @@ assepen:
         mov word [byte ebx+01Ch], dx
         xor edx, edx
         or byte [byte ebx+044h], 2
-        call sub_28459
+        call SetPenaltyBoxDoor
         mov eax, 23h
         call PlaySfx
         mov eax, dword [dword ebx+088h]

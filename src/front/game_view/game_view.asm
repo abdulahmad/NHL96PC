@@ -32,10 +32,10 @@ extern LoadPackedFile, LoadTeamLogo, MouseRead, mousex, mousey, off_11788C, off_
 extern puckc, puckz, rand_, SetClipWindow, SetViewRect, SortCords, SortIndices, sprintf_
 extern str_12, str_12s, str_24, str_2d, str_2d01d, str_2d02d2, str_32, str_3s
 extern str_42, str_B000, str_B001, str_DDD2, str_DDD3, str_DS, str_Goal0, str_Goal1
-extern str_Logo, str_Priority, str_SS2, strcmp_, strcpy_, sub_23812, sub_23B16, sub_23F6A
-extern sub_24F36, sub_24F75, sub_2500F, sub_2503F, sub_25226, sub_25502, sub_25820, sub_25E4D
-extern sub_25E7B, sub_25EB3, sub_261A6, sub_2751C, sub_2767F, sub_27BF1, sub_28A87, sub_28C50
-extern sub_28D97, sub_297C9, sub_299CF, sub_2E1BE, sub_4B38C, sub_4B4F3, sub_53BD7, sub_53C6F
+extern str_Logo, str_Priority, str_SS2, strcmp_, strcpy_, StepGlassShards, ApplyGlassShake, UpdateGoalLight
+extern DrawPuckModel, DrawPuckShadowModel, PlacePuckModels, DrawZamboni, MoveZamboni, DrawGoalNet, PlaceGoalNet, SetIceLogoTexture
+extern FreeStandsArt, LoadStandsArt, LoadRinkModel, FreeRinkModel, SetViewCamera, DrawRinkModels, DrawRinkBack, DrawRinkFront
+extern DrawWholeRink, sub_297C9, sub_299CF, sub_2E1BE, sub_4B38C, sub_4B4F3, sub_53BD7, sub_53C6F
 extern sub_54237, sub_54391, sub_5439F, sub_54427, SetCameraShot, ResetCameraShake, SetGameViewSize, SaveTeamPalette
 extern SetPlayerSpriteColors, SetRinkSpriteColors, LoadGameSprites, GetSpriteFrame, SpriteScale, DrawText, DrawTextCentred, SetTextColors
 extern DrawColorText, DrawColorTextRight, DrawColorTextCentred, FillBox, DrawPauseFrame, GetLangText, BuildAntiAliasTable, sub_AAA40
@@ -545,7 +545,7 @@ LoadIceLogo:
         mov dword [dword_1798F0], eax
         call sub_E04E0
         add esp, byte 8
-        call sub_25E4D
+        call SetIceLogoTexture
         pop edx
         pop ecx
         pop ebx
@@ -772,13 +772,13 @@ InitGameView:
         add esp, byte 8
         mov edx, unk_122320
         mov eax, dword_179E13
-        call sub_2767F
+        call SetViewCamera
         mov eax, unk_16443C
         mov ecx, unk_16443C
-        call sub_261A6
+        call LoadRinkModel
         mov eax, 0FFFFFFFFh
         mov ebx, 28h
-        call sub_25EB3
+        call LoadStandsArt
         push byte 20h
         mov edx, ebx
         mov eax, ebx
@@ -1048,8 +1048,8 @@ FreeGameView:
         mov eax, esi
         test esi, esi
         jne short .1
-        call sub_25E7B
-        call sub_2751C
+        call FreeStandsArt
+        call FreeRinkModel
         call sub_B0CA8
         push dword [dword_1798E8]
         call sub_ABF4C
@@ -1683,13 +1683,13 @@ DrawPuckSprite:
         push unk_17D3E8
         call sub_DD8B0
         add esp, byte 4
-        call sub_24F75
+        call DrawPuckShadowModel
         pop edx
         pop ecx
         pop ebx
         ret
 .4:
-        call sub_24F36
+        call DrawPuckModel
 .5:
         pop edx
         pop ecx
@@ -1976,7 +1976,7 @@ PlaceGoalNets_20B:
 .14:
         movsx eax, word [dword esi+086h]
         sub eax, byte 0Ch
-        call sub_25502
+        call DrawGoalNet
         jmp near .27
 .15:
         movsx edx, word [byte esi+012h]
@@ -2595,9 +2595,9 @@ DrawRinkView:
         add esp, byte 10h
         lea edx, [byte ebp-06Ch]
         mov eax, dword_179E13
-        call sub_2767F
-        call sub_27BF1
-        call sub_28D97
+        call SetViewCamera
+        call DrawRinkModels
+        call DrawWholeRink
         leave
         pop edx
         pop ecx
@@ -2662,7 +2662,7 @@ DrawGameFrame:
 .3:
         mov eax, dword [byte ebp+07Ah]
         mov edx, ecx
-        call sub_25820
+        call PlaceGoalNet
         mov dword [dword_11B2A8], 1
 .4:
         inc dword [byte ebp+07Ah]
@@ -2682,7 +2682,7 @@ DrawGameFrame:
         sar eax, 0Eh
         mov dword [byte ebp+072h], eax
         lea eax, [byte ebp+06Ah]
-        call sub_2500F
+        call PlacePuckModels
         mov eax, dword [dword_179E13]
         mov dword [byte ebp+05Eh], eax
         mov eax, dword [dword_179E17]
@@ -2865,23 +2865,23 @@ DrawGameFrame:
         add esp, byte 10h
         lea edx, [byte ebp+03Ah]
         mov eax, dword_179E13
-        call sub_2767F
-        call sub_27BF1
+        call SetViewCamera
+        call DrawRinkModels
         add dword [dword_179910], edi
         mov eax, dword [dword_179910]
-        call sub_23F6A
+        call UpdateGoalLight
         add dword [dword_15E4BC], edi
         mov eax, dword [dword_15E4BC]
-        call sub_23812
+        call StepGlassShards
         add dword [dword_15E4C0], edi
         mov eax, dword [dword_15E4C0]
-        call sub_23B16
+        call ApplyGlassShake
         mov eax, edi
-        call sub_25226
-        call sub_28A87
+        call MoveZamboni
+        call DrawRinkBack
         cmp dword [dword_1176E5], byte 0
         je short .16
-        call sub_2503F
+        call DrawZamboni
         jmp short .19
 .16:
         cmp byte [byte_1175A8], 0
@@ -2894,7 +2894,7 @@ DrawGameFrame:
 .18:
         call DrawPlayerMarkers
 .19:
-        call sub_28C50
+        call DrawRinkFront
         cmp dword [dword_11D91F], byte 0
         jne near .31
         xor ebx, ebx

@@ -50,8 +50,8 @@ extern optblock, dword_17CA5C, gameclock, gameopts, gmode, hmroster, off_11786C,
 extern rand_, sflags, sprintf_, strcat_, strcpy_, strlen_, LinkSendBlock, LinkReceiveBlock
 extern LinkSync, ModemChat, NameIndexNew, NameIndexLoad, NameIndexFree, NameIndexAdd, NameIndexFirstId, EditText
 extern MessageBox, BlankForFadeIn, FileCreate, FileClose, FileWriteAt, MakeDirPath, LoadPackedFile, FreeStatsTables
-extern EndGameCleanup, sub_23476, sub_2363D, sub_23820, sub_23AE5, sub_23C91, sub_2500F, sub_25502
-extern sub_25820, sub_2767F, sub_27BF1, sub_28327, sub_283C1, sub_28A87, sub_28C50, sub_2976B
+extern EndGameCleanup, ShatterGlass, ClearGlassHoles, ReplayBrokenGlass, StopGlassShake, ReplayGlassShake, PlacePuckModels, DrawGoalNet
+extern PlaceGoalNet, SetViewCamera, DrawRinkModels, OpenPenaltyBoxDoor, ClosePenaltyBoxDoor, DrawRinkBack, DrawRinkFront, SetRinkClipWindow
 extern sub_297C9, sub_4B38C, sub_5358E, sub_535F2, InitGameView, FreeGameView, DrawRosterName, DrawRosterNumber
 extern DrawRinkSprite, DrawPlayerSprite, DrawSpriteShadow, DrawControlMarker, DrawPuckSprite, SetCameraShot, AngleXZ, AnglePitch
 extern CamShot23E, SetGameViewSize, UpdateCamera, FreeFightSprites, LoadFightSprites, LoadCupSprites, FreeSpriteCache, SpriteScale
@@ -101,8 +101,8 @@ StartReplay:
         mov dword [dword_1778F4], eax
         mov eax, dword [dword_15E4BC]
         mov dword [dword_1778F8], eax
-        call sub_2363D
-        call sub_23AE5
+        call ClearGlassHoles
+        call StopGlassShake
         call FreeFightSprites
         test byte [byte_17CA5D], 20h
         je short .1
@@ -196,7 +196,7 @@ StartReplay:
         push dword [dword_11B328]
         call SetClipWindow
         add esp, byte 10h
-        call sub_2976B
+        call SetRinkClipWindow
         mov al, byte [byte_1175AA]
         mov byte [byte_178288], al
         mov al, byte [byte_1175A9]
@@ -227,7 +227,7 @@ EndReplay:
 .1:
         call LoadFightSprites
 .2:
-        call sub_2363D
+        call ClearGlassHoles
         mov eax, dword [dword_1778EC]
         mov dword [dword_1176E1], eax
         mov eax, dword [dword_1778F0]
@@ -240,25 +240,25 @@ EndReplay:
         mov dword [dword_15E4BC], eax
         cmp dword [dword_15E4C4], byte 0
         je short .3
-        call sub_23476
+        call ShatterGlass
 .3:
         cmp dword [dword_1175B5], byte 0
         je short .4
         xor eax, eax
-        call sub_28327
+        call OpenPenaltyBoxDoor
         jmp short .5
 .4:
         xor eax, eax
-        call sub_283C1
+        call ClosePenaltyBoxDoor
 .5:
         cmp dword [dword_1175B9], byte 0
         je short .6
         mov eax, 1
-        call sub_28327
+        call OpenPenaltyBoxDoor
         jmp short .7
 .6:
         mov eax, 1
-        call sub_283C1
+        call ClosePenaltyBoxDoor
 .7:
         mov eax, dword [dword_11B294]
         neg eax
@@ -316,7 +316,7 @@ EndReplay:
         add esp, byte 4
         mov dword [byte ebp-08h], eax
         xor eax, eax
-        call sub_25820
+        call PlaceGoalNet
         mov eax, dword [dword_164FBC]
         sar eax, 0Eh
         mov dword [byte ebp-0Ch], eax
@@ -328,7 +328,7 @@ EndReplay:
         lea edx, [byte ebp-0Ch]
         mov dword [byte ebp-08h], eax
         mov eax, 1
-        call sub_25820
+        call PlaceGoalNet
         mov eax, 1
         call LinkSync
         cmp dword [dword_11A3FC], byte 0
@@ -1026,7 +1026,7 @@ DrawReplayObjects:
         jne short .16
 .15:
         lea eax, [byte esi-0Ch]
-        call sub_25502
+        call DrawGoalNet
         jmp near .23
 .16:
         movsx eax, word [nosplit esi*2+word_176FFC]
@@ -1588,7 +1588,7 @@ DrawReplayView:
 .2:
         mov edx, ebx
         mov eax, edi
-        call sub_25820
+        call PlaceGoalNet
 .3:
         inc ecx
         inc ecx
@@ -1608,7 +1608,7 @@ DrawReplayView:
         shl eax, 2
         mov dword [byte ebp-010h], eax
         lea eax, [byte ebp-018h]
-        call sub_2500F
+        call PlacePuckModels
         mov eax, dword [dword_179E13]
         mov dword [byte ebp-0Ch], eax
         mov eax, dword [dword_179E17]
@@ -1683,29 +1683,29 @@ DrawReplayView:
         add esp, byte 10h
         mov edx, unk_1778C4
         mov eax, dword_179E13
-        call sub_2767F
-        call sub_27BF1
+        call SetViewCamera
+        call DrawRinkModels
         cmp byte [byte_1770A9], 0
         je short .9
         xor eax, eax
-        call sub_28327
+        call OpenPenaltyBoxDoor
         jmp short .10
 .9:
         xor eax, eax
-        call sub_283C1
+        call ClosePenaltyBoxDoor
 .10:
         cmp byte [byte_1770AA], 0
         je short .11
         mov eax, 1
-        call sub_28327
+        call OpenPenaltyBoxDoor
         jmp short .12
 .11:
         mov eax, 1
-        call sub_283C1
+        call ClosePenaltyBoxDoor
 .12:
-        call sub_23C91
-        call sub_23820
-        call sub_28A87
+        call ReplayGlassShake
+        call ReplayBrokenGlass
+        call DrawRinkBack
         cmp byte [byte_1175A8], 0
         je short .13
         call DrawReplayPlayers
@@ -1715,7 +1715,7 @@ DrawReplayView:
         call DrawReplayShadows
 .14:
         call DrawReplayObjects
-        call sub_28C50
+        call DrawRinkFront
         call DrawReplayClock
         jmp near DrawReplayCounter_231
 ;-----------------------------------------------------------------------------

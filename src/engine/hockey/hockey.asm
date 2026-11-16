@@ -21,7 +21,7 @@ extern hmroster, hmtmgoalie, hmtmstruct, lastplayer, lasttouch, lcblink, lcboxon
 extern off_11786C, off_11787C, puckc, off_11788C, off_117890, off_117894, off_117898, off_11789C
 extern asstab, off_118F79, penshotlive, penshotmode, penshotplayer, penshotstart, penshottimer, puckvx
 extern puckx, pucky, puckz, randomd0, regd2, regd3, sflags, shotongoal
-extern shotontarget, IsCupClinched, sub_23F05, SwapPosition, assextra6, doinput, sub_39847, CountTeamSlots
+extern shotontarget, IsCupClinched, StartGoalLight, SwapPosition, assextra6, doinput, sub_39847, CountTeamSlots
 extern sub_3A7A4, asspsclear, sub_3E6D4, ChkShotStat, checkcoll, SetSPA, sub_4F452, AddPenalty2
 extern PenGoalStuff, EndPenaltyShot, sub_535D5, sub_53640, CloseTextOverlay, LoadCupSprites, PaEvent, StopAllSfx
 extern PlaySfx, sfx, CrowdReaction, PlayArenaClip, StopArenaClip, vecdist, threat, unk_117A9C
@@ -2165,7 +2165,7 @@ Goal_1FC:
         setle al
         xor edx, edx
         movzx eax, al
-        call sub_23F05
+        call StartGoalLight
         mov edx, 7
         mov eax, dword [dword esi+012Eh]
         call AddPenalty2

@@ -12,7 +12,7 @@ extern gmode, hmroster, hmtmgoalie, hmtmstruct, introskipped, lcblink, lcboxon, 
 extern off_11787C, puckc, off_11788C, off_117890, off_117894, off_117898, off_11789C, passplayer
 extern penshotmode, penshotplayer, penshotstart, puckvx, puckvz, puckx, pucky, puckz
 extern randomd0, regd2, regd3, resetplstuff, setpersonel, sflags, shotongoal, shotontarget
-extern sub_23656, sub_28459, StartFaceoffLineChange, sub_3509F, sub_350A5, SkateToSpot, CenterMouse, ReturnGoalies
+extern ResetBrokenGlass, SetPenaltyBoxDoor, StartFaceoffLineChange, sub_3509F, sub_350A5, SkateToSpot, CenterMouse, ReturnGoalies
 extern SetSPA, sub_46593, SprSort, changeplayer, GetHot, Setplass, setplayer, updateanim
 extern clockcont_0, SetExitGame, ResetBench, forcepldata, doplayeracc, EvadePC, skateto, playeracc
 extern avdgoal, stopna, AddPenalty2, Stop4Pen, PlaceGoalNets, PlaySfx, StopArenaClip, vecdist
@@ -1397,10 +1397,10 @@ puckfaceoff2:
         and byte [sflags], 0F3h
         xor eax, eax
         and byte [gmode2], 0EFh
-        call sub_28459
+        call SetPenaltyBoxDoor
         mov eax, 1
         xor edx, edx
-        call sub_28459
+        call SetPenaltyBoxDoor
         call sub_3A8BC
         mov eax, dword [gameopts]
         test byte [byte eax+02h], 8
@@ -1527,7 +1527,7 @@ puckfaceoff2:
         mov word [byte eax+02h], 0
         mov eax, dword [off_11789C]
         mov word [byte eax+06h], 0FE9Ch
-        call sub_23656
+        call ResetBrokenGlass
         cmp dword [dword_11B2A8], byte 0
         je short .19
         call PlaceGoalNets

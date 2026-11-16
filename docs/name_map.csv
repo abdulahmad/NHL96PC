@@ -205,6 +205,84 @@ address,name,auto_name,source,confidence,evidence,file
 2090F,GripSetupScreen,sub_2090F,new,high,"start-up screen when GrIP pads are connected (GRIPCON / RGRIPCON art): pick the buttons that shoot and pass on each pad (SetGripButtonMap / GetGripButtonMap, kept in byte_17CA54), Enter to go on",src/front/pad_setup/pad_setup.asm
 21478,UpdateJoystickTest,sub_21478,new,medium,"joystick test screen, each frame: lights the arrow of the direction the tested pad points (byte_151778) and blinks it",src/front/pad_setup/pad_setup.asm
 21596,JoystickTestScreen,sub_21596,new,medium,"joystick test screen (BKGD, arrows LT00-LT71, buttons BT00-BT02): shows the pad's direction lit up while it is moved, mouse or pad on the buttons",src/front/pad_setup/pad_setup.asm
+21990,DrawIceCrud,sub_21990,new,low,rebuilds the ice texture with random crud marks up to the crud level (dword_15E698),src/front/rink_model/rink_model.asm
+21BE3,AddIceCrud,sub_21BE3,new,medium,"(amount): 0 resets the crud level, else adds to it (up to 0A666h) and redraws the ice (DrawIceCrud); from UpdateCamera and the in-game menu",src/front/rink_model/rink_model.asm
+21C1A,LoadFshFile,sub_21C1A,new,medium,"(name, flags): loads a .FSH art file (adds "".FSH"" when the name has no extension)",src/front/rink_model/rink_model.asm
+21D14,LoadIceTexture,sub_21D14,new,medium,"finds the ""ice"" texture of the rink, loads ice.fsh and its palette and the ""crud"" bitmap",src/front/rink_model/rink_model.asm
+2207E,ClipEdgeToNear,sub_2207E,new,low,the point where an edge crosses the near plane (dword_11F5F0),src/front/rink_model/rink_model.asm
+220FB,ClipLineToNear,sub_220FB,new,low,clips a line to the near plane (ClipEdgeToNear); 0 when it is all behind,src/front/rink_model/rink_model.asm
+22159,DrawFaceEdge,sub_22159,new,low,draws a line between two projected vertices when both are in front (z > 50h),src/front/rink_model/rink_model.asm
+22299,DrawFatLine,sub_22299,new,low,"draws a fat ice line across a face, clipped to the near plane (FatRedLineFace, FatBlueLineFace)",src/front/rink_model/rink_model.asm
+2242A,DrawRubberEdge,sub_2242A,new,low,"draws the rubber edge of a face (RubberFace, RubberSideFace)",src/front/rink_model/rink_model.asm
+224AE,RubberSideFace,sub_224AE,new,medium,"draw callback of the rink's ""rubberside"" faces",src/front/rink_model/rink_model.asm
+224D1,RubberFace,sub_224D1,new,medium,"draw callback of the rink's ""rubber"" faces",src/front/rink_model/rink_model.asm
+22669,TopBoardsFace,sub_22669,new,medium,"draw callback of the ""topboards"" line",src/front/rink_model/rink_model.asm
+2268D,BotBoardsFace,sub_2268D,new,medium,"draw callback of the ""botboards"" line",src/front/rink_model/rink_model.asm
+2269D,FatRedLineFace,sub_2269D,new,medium,"draw callback of the ""fat_red_lines"" faces",src/front/rink_model/rink_model.asm
+226C7,FatBlueLineFace,sub_226C7,new,medium,"draw callback of the ""fat_blue_lines"" faces",src/front/rink_model/rink_model.asm
+226E0,ThinRedLineFace,sub_226E0,new,medium,"draw callback of the ""thin_red_lines"" faces",src/front/rink_model/rink_model.asm
+226EA,GlassLineFace,sub_226EA,new,medium,"draw callback of the ""glassline"" line (with byte_1175A7, the glass on)",src/front/rink_model/rink_model.asm
+22717,GlassFace,sub_22717,new,medium,"draw callback of the ""glass"" faces (with byte_1175A7, the glass on)",src/front/rink_model/rink_model.asm
+227E2,GoalPipeFace,sub_227E2,new,medium,"draw callback of the goal ""pipe"" faces",src/front/rink_model/rink_model.asm
+227F5,BuildCircleTable,sub_227F5,new,low,the 20h points of an ice circle (sin / cos by the radius dword_15E860),src/front/rink_model/rink_model.asm
+23106,FindNearestGlass,sub_23106,new,medium,"(pos, &side, &face): the glass face of the 18 rink sides (dword_15D2B8, 88h each) whose edge midpoint is nearest",src/front/rink_model/rink_model.asm
+23218,RandomTrianglePoint,sub_23218,new,medium,"a random point on a triangle (random weights), for the glass shards",src/front/rink_model/rink_model.asm
+233A2,AddGlassShard,sub_233A2,new,medium,adds a shard triangle (up to 6Ch at unk_159F58) with a random spin,src/front/rink_model/rink_model.asm
+23419,SplitGlassShards,sub_23419,new,medium,"splits a triangle into shards, recursively (RandomTrianglePoint, AddGlassShard)",src/front/rink_model/rink_model.asm
+23476,ShatterGlass,sub_23476,new,medium,breaks the hit glass face (dword_1176E1) into shards,src/front/rink_model/rink_model.asm
+235F2,BreakGlass,sub_235F2,new,medium,"(pos, kind): from FallDown and wallcollb: breaks the nearest glass (FindNearestGlass, ShatterGlass)",src/front/rink_model/rink_model.asm
+2363D,ClearGlassHoles,sub_2363D,new,medium,"clears the broken face of the 18 rink sides (StartReplay, EndReplay)",src/front/rink_model/rink_model.asm
+23656,ResetBrokenGlass,sub_23656,new,medium,at the faceoff (puckfaceoff2): ends the falling shards and clears the broken glass,src/front/rink_model/rink_model.asm
+23812,StepGlassShards,sub_23812,new,low,from DrawGameFrame: moves the falling shards while glass is breaking,src/front/rink_model/rink_model.asm
+23820,ReplayBrokenGlass,sub_23820,new,low,from DrawReplayView: breaks the glass the replay recorded (dword_1770C7) and moves the shards,src/front/rink_model/rink_model.asm
+238C4,FindNearestGlassVertex,sub_238C4,new,low,the vertex of the first 4 rink sides nearest a position,src/front/rink_model/rink_model.asm
+23965,ShakeGlass,sub_23965,new,low,"(pos, strength): from FallDown: starts a glass shake at the nearest vertex for a time (GetTicks)",src/front/rink_model/rink_model.asm
+23AE5,StopGlassShake,sub_23AE5,new,low,from StartReplay: ends a glass shake,src/front/rink_model/rink_model.asm
+23AF8,ResetGlassShake,sub_23AF8,new,low,puts the shaken vertices back,src/front/rink_model/rink_model.asm
+23B16,ApplyGlassShake,sub_23B16,new,low,(ticks): from DrawGameFrame: moves the glass vertices by a fading wave (sine table dword_122390),src/front/rink_model/rink_model.asm
+23C91,ReplayGlassShake,sub_23C91,new,low,(ticks): the glass shake the replay recorded (byte_1770B2),src/front/rink_model/rink_model.asm
+23E06,RinkEdgeKind,sub_23E06,new,low,"(x, y): which rink edge a position is at, by the rink extents (dword_15E820, dword_15E85C)",src/front/rink_model/rink_model.asm
+23E4E,NearestGlassPoint,sub_23E4E,new,low,"(pos, out): the midpoint of the nearest glass edge; 0 when the position is not at the glass",src/front/rink_model/rink_model.asm
+23F05,StartGoalLight,sub_23F05,new,low,"(side, ticks): from Goal: turns the goal light of a side on for 258h ticks",src/front/rink_model/rink_model.asm
+23F6A,UpdateGoalLight,sub_23F6A,new,low,"(ticks): from DrawGameFrame: the goal light's flashing, off after 258h ticks",src/front/rink_model/rink_model.asm
+240F4,DrawSpriteAtVertex,sub_240F4,new,low,draws a scaled sprite at a rink vertex (SpriteScale),src/front/rink_model/rink_model.asm
+2414A,DrawGoalLight,sub_2414A,new,low,draws the lit goal light (4 points at dword_158D78),src/front/rink_model/rink_model.asm
+241F6,TransformRink,sub_241F6,new,low,transforms the rink vertices and sets which rink ends face the camera,src/front/rink_model/rink_model.asm
+248B0,DrawStandsSides,sub_248B0,new,low,(half): draws the stands of the rink sides on one half,src/front/rink_model/rink_model.asm
+24B87,DrawGlassShards,sub_24B87,new,medium,transforms and draws the falling glass shards,src/front/rink_model/rink_model.asm
+24C7C,DrawSideGlass,sub_24C7C,new,low,draws a rink side's glass faces (with the hole and shards),src/front/rink_model/rink_model.asm
+24F36,DrawPuckModel,sub_24F36,new,medium,"draws the puck model (dword_15E8E0), from DrawPuckSprite",src/front/rink_model/rink_model.asm
+24F75,DrawPuckShadowModel,sub_24F75,new,medium,"draws the puck shadow model (dword_15E8D8) when on screen, from DrawPuckSprite",src/front/rink_model/rink_model.asm
+2500F,PlacePuckModels,sub_2500F,new,low,sets the puck and puck shadow models' positions,src/front/rink_model/rink_model.asm
+2503F,DrawZamboni,sub_2503F,new,medium,draws the zamboni model when it is loaded (dword_1176E5),src/front/rink_model/rink_model.asm
+25087,LoadZamboni,sub_25087,new,medium,"from the in-game menu: loads the ""zamboni"" model and sets it up",src/front/rink_model/rink_model.asm
+251E6,FreeZamboni,sub_251E6,new,medium,frees the zamboni model and its art,src/front/rink_model/rink_model.asm
+25226,MoveZamboni,sub_25226,new,low,moves the zamboni along its path (from DrawGameFrame and the menu scene),src/front/rink_model/rink_model.asm
+25502,DrawGoalNet,sub_25502,new,medium,(goal): draws the goal0 / goal1 net model,src/front/rink_model/rink_model.asm
+25820,PlaceGoalNet,sub_25820,new,low,(goal): sets the goal0 / goal1 model's position,src/front/rink_model/rink_model.asm
+2583F,BuildRinkSides,sub_2583F,new,medium,"finds the 18 rink sides (Side%d) in the rink and stands models with their glass, glassline, boards and ice line parts",src/front/rink_model/rink_model.asm
+25E4D,SetIceLogoTexture,sub_25E4D,new,medium,"sets the rink's ""icelogo"" texture (LoadIceLogo)",src/front/rink_model/rink_model.asm
+25E7B,FreeStandsArt,sub_25E7B,new,medium,frees the stands art (dword_1175B1),src/front/rink_model/rink_model.asm
+25EB3,LoadStandsArt,sub_25EB3,new,medium,"(crowd): loads the stands art for the crowd size (EMPTY.FSH, HALF.FSH, STANDS.FSH) and its crowd frames",src/front/rink_model/rink_model.asm
+26000,BlendPaletteToGrey,sub_26000,new,low,"(src, dst, ..., amount): moves each palette colour toward its grey level by an amount",src/front/rink_model/rink_model.asm
+261A6,LoadRinkModel,sub_261A6,new,high,"from InitGameView: loads the rink, stands, score, puck, puck shadow and net models, finds their named parts and lights, sets the face callbacks and the ice (LoadIceTexture, BuildRinkSides)",src/front/rink_model/rink_model.asm
+2751C,FreeRinkModel,sub_2751C,new,high,from FreeGameView: frees the rink models and art LoadRinkModel loaded,src/front/rink_model/rink_model.asm
+2767F,SetViewCamera,sub_2767F,new,medium,"(pos, matrix): sets the 3D camera position and matrix",src/front/rink_model/rink_model.asm
+278B9,DrawIceMarkings,sub_278B9,new,low,"draws the ice markings (circles, lines, creases)",src/front/rink_model/rink_model.asm
+27BF1,DrawRinkModels,sub_27BF1,new,medium,"draws the rink, the stands (byte_1175A9) and the score clock (byte_1175AC) models",src/front/rink_model/rink_model.asm
+27C5E,DrawRinkPlayers,sub_27C5E,new,low,draws the sorted players (SortCords) as rink sprites (DrawRinkSprite),src/front/rink_model/rink_model.asm
+27E24,DrawBenchPlayers,sub_27E24,new,low,(team): draws a team's bench players (byte_1175AB),src/front/rink_model/rink_model.asm
+27F20,DrawBenchSide,sub_27F20,new,low,"draws the bench side of the rink (DrawRinkPlayers, DrawBenchPlayers)",src/front/rink_model/rink_model.asm
+281DC,DrawPenaltyBoxPlayers,sub_281DC,new,medium,(team): draws up to 3 players in a team's penalty box (PBnum),src/front/rink_model/rink_model.asm
+28327,OpenPenaltyBoxDoor,sub_28327,new,medium,(team): swings the penalty box door open (vertices of dword_15E6A0 / 15E6B4),src/front/rink_model/rink_model.asm
+283C1,ClosePenaltyBoxDoor,sub_283C1,new,medium,(team): puts the penalty box door back,src/front/rink_model/rink_model.asm
+28459,SetPenaltyBoxDoor,sub_28459,new,medium,"(team, open): from asspenalty, assdopen, assepen and puckfaceoff2: opens or closes a penalty box door",src/front/rink_model/rink_model.asm
+28668,DrawPenaltyBoxSide,sub_28668,new,low,"draws the penalty box side of the rink (DrawRinkPlayers, DrawPenaltyBoxPlayers)",src/front/rink_model/rink_model.asm
+28A87,DrawRinkBack,sub_28A87,new,low,"from DrawGameFrame / DrawReplayView: the rink passes behind the players (stands, ice, glass)",src/front/rink_model/rink_model.asm
+28C50,DrawRinkFront,sub_28C50,new,low,from DrawGameFrame / DrawReplayView: the rink passes in front of the players,src/front/rink_model/rink_model.asm
+28D97,DrawWholeRink,sub_28D97,new,medium,"from DrawRinkView: the whole rink with stands and glass on, no players",src/front/rink_model/rink_model.asm
+2929F,DrawZamboniScene,sub_2929F,new,medium,from DrawInGameMenuFrame: the rink with the zamboni,src/front/rink_model/rink_model.asm
+2976B,SetRinkClipWindow,sub_2976B,new,medium,copies the view clip window (dword_1228D8-1228E4) into 16.16 for the rink draw,src/front/rink_model/rink_model.asm
 2A502,ClearSlotUser,sub_2A502,new,high,"(slot): no user on that controller slot (word_160ACC entry 21h bytes: user id, name ""no user"" text)",src/front/users/users.asm
 2A52F,ClearSlotUsers,sub_2A52F,new,high,no user on any of the 4 controller slots,src/front/users/users.asm
 2A5B5,UserRecordRating,sub_2A5B5,new,low,"adds up a user record's counts (x3, 16.16) for its rating",src/front/users/users.asm

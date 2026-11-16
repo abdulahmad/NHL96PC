@@ -29,8 +29,8 @@ extern str_Bot2, str_Bot3, str_Cht0, str_Cht1, str_CsgDb2, str_Ctr0, str_Ctr1, s
 extern str_Edt0, str_Edt1, str_EXHIBITNDX2, str_FhiL3, str_FhiR3, str_Gam0, str_Gam1, str_GhiL2
 extern str_GhiR2, str_GloL2, str_GloR2, str_INTERREG, str_Intr, str_Ply02, str_Ply1, str_Qui0
 extern str_Qui1, str_Qui2, str_Ret0, str_Ret1, str_Ret2, str_Sav0, str_Sav1, str_Sid1
-extern str_Sid2, str_Sts0, str_Sts1, strcat_, strcpy_, sub_21BE3, sub_25087, sub_251E6
-extern sub_25EB3, sub_28459, sub_2929F, sub_2E1BE, sub_3A6F3, sub_64E74, SaveGameFile, sub_6C64B
+extern str_Sid2, str_Sts0, str_Sts1, strcat_, strcpy_, AddIceCrud, LoadZamboni, FreeZamboni
+extern LoadStandsArt, SetPenaltyBoxDoor, DrawZamboniScene, sub_2E1BE, sub_3A6F3, sub_64E74, SaveGameFile, sub_6C64B
 extern sub_AAA40, sub_AB758, sub_ABF4C, sub_AD35C, sub_ADBEC, sub_B0CA8, sub_B58D8, sub_DD6C4
 extern sub_E04E0, sub_E0584, TextSetFont, unk_11D7A4, unk_11D7BC, unk_11D7D4, unk_11D7EC, unk_11D804
 extern unk_11D80A, unk_11D810, unk_11D816, unk_11D81C, unk_11D89C, unk_16443C, unk_17D3E8, unk_18440C
@@ -73,7 +73,7 @@ DrawInGameMenuFrame:
         call DrawArtOpaque
         add esp, byte 0Ch
         mov eax, esi
-        call sub_2929F
+        call DrawZamboniScene
         cmp dword [dword_1150FC], byte 1
         je near .15
         mov eax, dword [dword_152F4C]
@@ -1047,12 +1047,12 @@ InGameMenu:
         setne al
         movzx eax, al
         xor edx, edx
-        call sub_25EB3
+        call LoadStandsArt
         xor eax, eax
-        call sub_28459
+        call SetPenaltyBoxDoor
         mov eax, 1
         xor edx, edx
-        call sub_28459
+        call SetPenaltyBoxDoor
         mov eax, unk_16443C
         mov edx, 0FFFFFFFFh
         call SetScreenPalette
@@ -1136,7 +1136,7 @@ InGameMenu:
         rep movsb
         mov dword [dword_184678], 3D70h
 .6:
-        call sub_25087
+        call LoadZamboni
         push dword [dword_11F5C4]
         push byte 0
         push dword [dword_11F5C0]
@@ -1747,7 +1747,7 @@ InGameMenu_ABD:
         push dword [dword_184408]
         call sub_ABF4C
         add esp, byte 4
-        call sub_251E6
+        call FreeZamboni
         mov eax, 1
         call LinkSync
         mov eax, 3
@@ -1790,9 +1790,9 @@ InGameMenu_ABD:
         call LoadFightSprites
         call LoadTotalSprites
         mov eax, 2
-        call sub_25EB3
+        call LoadStandsArt
         xor eax, eax
-        call sub_21BE3
+        call AddIceCrud
         mov eax, unk_16443C
         call SetScreenPalette
         mov eax, 1

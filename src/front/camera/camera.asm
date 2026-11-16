@@ -26,7 +26,7 @@ extern foy, FullViewClip, gameclock, GameLoopActive, GetTicks, gmode, off_11787C
 extern off_117894, passplayer, penshotlive, penshotmode, penshotstart, puckc, puckvx, puckvz
 extern QueueOverlayPanel, qword_111084, qword_11108C, qword_111094, qword_11109C, qword_1110A4, qword_1110AC, qword_1110B4
 extern qword_1110BC, rand_, seed, seed_w2, SetClipWindow, SetDrawBitmap, sflags, SortCords
-extern str_Priority2, sub_21BE3, sub_2976B, sub_AB758, sub_ABF4C, sub_BA420, sub_BB9C4, sub_BC674
+extern str_Priority2, AddIceCrud, SetRinkClipWindow, sub_AB758, sub_ABF4C, sub_BA420, sub_BB9C4, sub_BC674
 extern sub_BEAE4, sub_DFE9C, sub_DFF28, sub_E0584, sub_E1638, sub_E167A, unk_11B673, unk_11B6B8
 extern unk_11B6FD, unk_11B811, unk_11B856, unk_11B89B, unk_11B8E0, unk_11B925, unk_11B96A, unk_11B9AF
 extern unk_16443C, unk_1781E4, unk_179CCC, unk_179CE4, unk_179CFC, unk_179D14, unk_179D2C, unk_179E02
@@ -3736,7 +3736,7 @@ SetGameViewSize:
         push dword [dword_11B328]
         call SetClipWindow
         add esp, byte 10h
-        call sub_2976B
+        call SetRinkClipWindow
         mov eax, dword [dword_11B330]
         and eax, byte 0Fh
         and dword [dword_17CA5C], 0FFFC3FFFh
@@ -4389,7 +4389,7 @@ UpdateCamera:
         cmp byte [byte_11BB24], 0
         jne short .9
         mov eax, 1000h
-        call sub_21BE3
+        call AddIceCrud
         mov byte [byte_11BB24], 1
         jmp short .9
 .8:

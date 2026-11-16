@@ -1,0 +1,108 @@
+# NHL 96 PC rink model: loading the 3D rink (rink, stands, score, puck, net and zamboni models, .FSH art, the
+# 18 rink sides), the ice crud texture, breaking and shaking glass, the goal light, the penalty box doors and
+# the rink draw passes. PC-only (96's 3D view), source new. The 3D library (sub_B7xxx-BExxx) is still unnamed,
+# so the deeper draw helpers stay low confidence or unnamed.
+sub_21990 DrawIceCrud {confidence=low} rebuilds the ice texture with random crud marks up to the crud level (dword_15E698)
+sub_21BE3 AddIceCrud {confidence=medium} (amount): 0 resets the crud level, else adds to it (up to 0A666h) and redraws the ice (DrawIceCrud); from UpdateCamera and the in-game menu
+sub_21C1A LoadFshFile {confidence=medium} (name, flags): loads a .FSH art file (adds ".FSH" when the name has no extension)
+sub_21D14 LoadIceTexture {confidence=medium} finds the "ice" texture of the rink, loads ice.fsh and its palette and the "crud" bitmap
+sub_2207E ClipEdgeToNear {confidence=low} the point where an edge crosses the near plane (dword_11F5F0)
+sub_220FB ClipLineToNear {confidence=low} clips a line to the near plane (ClipEdgeToNear); 0 when it is all behind
+sub_22159 DrawFaceEdge {confidence=low} draws a line between two projected vertices when both are in front (z > 50h)
+sub_22299 DrawFatLine {confidence=low} draws a fat ice line across a face, clipped to the near plane (FatRedLineFace, FatBlueLineFace)
+sub_2242A DrawRubberEdge {confidence=low} draws the rubber edge of a face (RubberFace, RubberSideFace)
+sub_224AE RubberSideFace {confidence=medium} draw callback of the rink's "rubberside" faces
+sub_224D1 RubberFace {confidence=medium} draw callback of the rink's "rubber" faces
+sub_22669 TopBoardsFace {confidence=medium} draw callback of the "topboards" line
+sub_2268D BotBoardsFace {confidence=medium} draw callback of the "botboards" line
+sub_2269D FatRedLineFace {confidence=medium} draw callback of the "fat_red_lines" faces
+sub_226C7 FatBlueLineFace {confidence=medium} draw callback of the "fat_blue_lines" faces
+sub_226E0 ThinRedLineFace {confidence=medium} draw callback of the "thin_red_lines" faces
+sub_226EA GlassLineFace {confidence=medium} draw callback of the "glassline" line (with byte_1175A7, the glass on)
+sub_22717 GlassFace {confidence=medium} draw callback of the "glass" faces (with byte_1175A7, the glass on)
+sub_227E2 GoalPipeFace {confidence=medium} draw callback of the goal "pipe" faces
+sub_227F5 BuildCircleTable {confidence=low} the 20h points of an ice circle (sin / cos by the radius dword_15E860)
+sub_23106 FindNearestGlass {confidence=medium} (pos, &side, &face): the glass face of the 18 rink sides (dword_15D2B8, 88h each) whose edge midpoint is nearest
+sub_23218 RandomTrianglePoint {confidence=medium} a random point on a triangle (random weights), for the glass shards
+sub_233A2 AddGlassShard {confidence=medium} adds a shard triangle (up to 6Ch at unk_159F58) with a random spin
+sub_23419 SplitGlassShards {confidence=medium} splits a triangle into shards, recursively (RandomTrianglePoint, AddGlassShard)
+sub_23476 ShatterGlass {confidence=medium} breaks the hit glass face (dword_1176E1) into shards
+sub_235F2 BreakGlass {confidence=medium} (pos, kind): from FallDown and wallcollb: breaks the nearest glass (FindNearestGlass, ShatterGlass)
+sub_2363D ClearGlassHoles {confidence=medium} clears the broken face of the 18 rink sides (StartReplay, EndReplay)
+sub_23656 ResetBrokenGlass {confidence=medium} at the faceoff (puckfaceoff2): ends the falling shards and clears the broken glass
+sub_23812 StepGlassShards {confidence=low} from DrawGameFrame: moves the falling shards while glass is breaking
+sub_23820 ReplayBrokenGlass {confidence=low} from DrawReplayView: breaks the glass the replay recorded (dword_1770C7) and moves the shards
+sub_238C4 FindNearestGlassVertex {confidence=low} the vertex of the first 4 rink sides nearest a position
+sub_23965 ShakeGlass {confidence=low} (pos, strength): from FallDown: starts a glass shake at the nearest vertex for a time (GetTicks)
+sub_23AE5 StopGlassShake {confidence=low} from StartReplay: ends a glass shake
+sub_23AF8 ResetGlassShake {confidence=low} puts the shaken vertices back
+sub_23B16 ApplyGlassShake {confidence=low} (ticks): from DrawGameFrame: moves the glass vertices by a fading wave (sine table dword_122390)
+sub_23C91 ReplayGlassShake {confidence=low} (ticks): the glass shake the replay recorded (byte_1770B2)
+sub_23E06 RinkEdgeKind {confidence=low} (x, y): which rink edge a position is at, by the rink extents (dword_15E820, dword_15E85C)
+sub_23E4E NearestGlassPoint {confidence=low} (pos, out): the midpoint of the nearest glass edge; 0 when the position is not at the glass
+sub_23F05 StartGoalLight {confidence=low} (side, ticks): from Goal: turns the goal light of a side on for 258h ticks
+sub_23F6A UpdateGoalLight {confidence=low} (ticks): from DrawGameFrame: the goal light's flashing, off after 258h ticks
+sub_240F4 DrawSpriteAtVertex {confidence=low} draws a scaled sprite at a rink vertex (SpriteScale)
+sub_2414A DrawGoalLight {confidence=low} draws the lit goal light (4 points at dword_158D78)
+sub_241F6 TransformRink {confidence=low} transforms the rink vertices and sets which rink ends face the camera
+sub_248B0 DrawStandsSides {confidence=low} (half): draws the stands of the rink sides on one half
+sub_24B87 DrawGlassShards {confidence=medium} transforms and draws the falling glass shards
+sub_24C7C DrawSideGlass {confidence=low} draws a rink side's glass faces (with the hole and shards)
+sub_24F36 DrawPuckModel {confidence=medium} draws the puck model (dword_15E8E0), from DrawPuckSprite
+sub_24F75 DrawPuckShadowModel {confidence=medium} draws the puck shadow model (dword_15E8D8) when on screen, from DrawPuckSprite
+sub_2500F PlacePuckModels {confidence=low} sets the puck and puck shadow models' positions
+sub_2503F DrawZamboni {confidence=medium} draws the zamboni model when it is loaded (dword_1176E5)
+sub_25087 LoadZamboni {confidence=medium} from the in-game menu: loads the "zamboni" model and sets it up
+sub_251E6 FreeZamboni {confidence=medium} frees the zamboni model and its art
+sub_25226 MoveZamboni {confidence=low} moves the zamboni along its path (from DrawGameFrame and the menu scene)
+sub_25502 DrawGoalNet {confidence=medium} (goal): draws the goal0 / goal1 net model
+sub_25820 PlaceGoalNet {confidence=low} (goal): sets the goal0 / goal1 model's position
+sub_2583F BuildRinkSides {confidence=medium} finds the 18 rink sides (Side%d) in the rink and stands models with their glass, glassline, boards and ice line parts
+sub_25E4D SetIceLogoTexture {confidence=medium} sets the rink's "icelogo" texture (LoadIceLogo)
+sub_25E7B FreeStandsArt {confidence=medium} frees the stands art (dword_1175B1)
+sub_25EB3 LoadStandsArt {confidence=medium} (crowd): loads the stands art for the crowd size (EMPTY.FSH, HALF.FSH, STANDS.FSH) and its crowd frames
+sub_26000 BlendPaletteToGrey {confidence=low} (src, dst, ..., amount): moves each palette colour toward its grey level by an amount
+sub_261A6 LoadRinkModel {confidence=high} from InitGameView: loads the rink, stands, score, puck, puck shadow and net models, finds their named parts and lights, sets the face callbacks and the ice (LoadIceTexture, BuildRinkSides)
+sub_2751C FreeRinkModel {confidence=high} from FreeGameView: frees the rink models and art LoadRinkModel loaded
+sub_2767F SetViewCamera {confidence=medium} (pos, matrix): sets the 3D camera position and matrix
+sub_278B9 DrawIceMarkings {confidence=low} draws the ice markings (circles, lines, creases)
+sub_27BF1 DrawRinkModels {confidence=medium} draws the rink, the stands (byte_1175A9) and the score clock (byte_1175AC) models
+sub_27C5E DrawRinkPlayers {confidence=low} draws the sorted players (SortCords) as rink sprites (DrawRinkSprite)
+sub_27E24 DrawBenchPlayers {confidence=low} (team): draws a team's bench players (byte_1175AB)
+sub_27F20 DrawBenchSide {confidence=low} draws the bench side of the rink (DrawRinkPlayers, DrawBenchPlayers)
+sub_281DC DrawPenaltyBoxPlayers {confidence=medium} (team): draws up to 3 players in a team's penalty box (PBnum)
+sub_28327 OpenPenaltyBoxDoor {confidence=medium} (team): swings the penalty box door open (vertices of dword_15E6A0 / 15E6B4)
+sub_283C1 ClosePenaltyBoxDoor {confidence=medium} (team): puts the penalty box door back
+sub_28459 SetPenaltyBoxDoor {confidence=medium} (team, open): from asspenalty, assdopen, assepen and puckfaceoff2: opens or closes a penalty box door
+sub_28668 DrawPenaltyBoxSide {confidence=low} draws the penalty box side of the rink (DrawRinkPlayers, DrawPenaltyBoxPlayers)
+sub_28A87 DrawRinkBack {confidence=low} from DrawGameFrame / DrawReplayView: the rink passes behind the players (stands, ice, glass)
+sub_28C50 DrawRinkFront {confidence=low} from DrawGameFrame / DrawReplayView: the rink passes in front of the players
+sub_28D97 DrawWholeRink {confidence=medium} from DrawRinkView: the whole rink with stands and glass on, no players
+sub_2929F DrawZamboniScene {confidence=medium} from DrawInGameMenuFrame: the rink with the zamboni
+sub_2976B SetRinkClipWindow {confidence=medium} copies the view clip window (dword_1228D8-1228E4) into 16.16 for the rink draw
+sub_21C1A_E1 LoadFshFile_E1 {no_record}
+sub_22159_4F DrawFaceEdge_4F {no_record}
+sub_22299_AC DrawFatLine_AC {no_record}
+sub_224AE_8 RubberSideFace_8 {no_record}
+sub_22669_E TopBoardsFace_E {no_record}
+sub_2269D_17 FatRedLineFace_17 {no_record}
+sub_2269D_8 FatRedLineFace_8 {no_record}
+sub_226EA_17 GlassLineFace_17 {no_record}
+sub_23656_1A8 ResetBrokenGlass_1A8 {no_record}
+sub_23820_79 ReplayBrokenGlass_79 {no_record}
+sub_23965_129 ShakeGlass_129 {no_record}
+sub_23965_167 ShakeGlass_167 {no_record}
+sub_23AF8_C ResetGlassShake_C {no_record}
+sub_240F4_55 DrawSpriteAtVertex_55 {no_record}
+sub_2414A_A4 DrawGoalLight_A4 {no_record}
+sub_2503F_41 DrawZamboni_41 {no_record}
+sub_2583F_602 BuildRinkSides_602 {no_record}
+sub_25E7B_21 FreeStandsArt_21 {no_record}
+sub_25EB3_11B LoadStandsArt_11B {no_record}
+sub_25EB3_25 LoadStandsArt_25 {no_record}
+sub_25EB3_32 LoadStandsArt_32 {no_record}
+sub_25EB3_3F LoadStandsArt_3F {no_record}
+sub_25EB3_61 LoadStandsArt_61 {no_record}
+sub_27E24_F1 DrawBenchPlayers_F1 {no_record}
+sub_27E24_F6 DrawBenchPlayers_F6 {no_record}
+sub_28327_87 OpenPenaltyBoxDoor_87 {no_record}

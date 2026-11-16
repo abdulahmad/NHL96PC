@@ -11,8 +11,8 @@ extern dword_119F90, nethit, dword_15E844, dword_16516E, dword_165172, dword_179
 extern gameclock, gameopts, gmode, hmtmstruct, lastplayer, lasttouch, off_11787C, puckc
 extern off_11788C, off_117898, off_11789C, passplayer, penshotctl, penshotlive, penshotmode, penshotplayer
 extern penshotstart, puckvx, puckvz, puckx, pucky, puckz, randomd0, regd2
-extern regd3, setpersonel, sflags, shotongoal, shotontarget, sub_235F2, sub_23965, sub_23E06
-extern sub_23E4E, assextra2, sub_3509F, puckflip, CanBlockShot, PassCompleted, changeplayer, restorepl
+extern regd3, setpersonel, sflags, shotongoal, shotontarget, BreakGlass, ShakeGlass, RinkEdgeKind
+extern NearestGlassPoint, assextra2, sub_3509F, puckflip, CanBlockShot, PassCompleted, changeplayer, restorepl
 extern AvgCline, GetHot, GetHotStick, GetHotOrStick, Goal, GiveControl, doplayeracc, burst
 extern sub_4F452, PostInjuryEvent, AddPenalty2, Stop4Pen, EndPenaltyShot, CanRemovePlayer, CloseTextOverlay, PlaySfx
 extern sfx, CrowdReaction, sub_BE960, vecdist, threat, unk_164B5C, unk_1657BC, unk_1658F2
@@ -5622,7 +5622,7 @@ FallDown:
 .39:
         lea edx, [byte ebp-024h]
         lea eax, [byte ebp-018h]
-        call sub_23E4E
+        call NearestGlassPoint
         cmp byte [byte_1175A7], 0
         je near .48
         mov eax, dword [byte ebp-010h]
@@ -5672,7 +5672,7 @@ FallDown:
         call sfx
         xor edx, edx
         lea eax, [byte ebp-018h]
-        call sub_235F2
+        call BreakGlass
         mov eax, 24h
         mov dword [byte ebp-04h], 1
         call PlaySfx
@@ -5686,7 +5686,7 @@ FallDown:
         jg short .49
         mov edx, 10000h
         lea eax, [byte ebp-018h]
-        call sub_23965
+        call ShakeGlass
 .49:
         cmp bx, word [byte ecx+038h]
         jne near .60
@@ -9354,7 +9354,7 @@ wallcollb:
 .2:
         movsx edx, word [byte esi+06h]
         movsx eax, word [byte esi+02h]
-        call sub_23E06
+        call RinkEdgeKind
         movsx edx, word [byte esi+0Ah]
         mov ebx, eax
         cmp edx, eax
@@ -9367,7 +9367,7 @@ wallcollb:
         lea edx, [byte ebp-018h]
         mov dword [byte ebp-04h], eax
         lea eax, [byte ebp-0Ch]
-        call sub_23E4E
+        call NearestGlassPoint
         cmp byte [byte_1175A7], 0
         je short .1
         mov eax, dword [byte ebp-04h]
@@ -9425,7 +9425,7 @@ wallcollb:
         mov edx, 4
         mov dword [byte ebp-01Ch], eax
         lea eax, [byte ebp-024h]
-        call sub_235F2
+        call BreakGlass
         mov eax, 24h
         call PlaySfx
         jmp near .12

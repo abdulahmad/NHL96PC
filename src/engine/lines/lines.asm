@@ -4,7 +4,7 @@ bits 32
 section s_51F18 progbits alloc exec nowrite align=1
 extern DemoMode, FatalError, PBnum, SetDrawBitmap, SortCords, _dos_gettime_, str_GloL, str_GloR
 extern str_FhiL, str_FhiR, str_Pal30, str_ZONEMGR, str_ZM1ContactLance, str_ZM2ContactLance, str_ZMOverflowContactLance, dressbystatus
-extern lineslotgroups, lineslotgroupstart, byte_11BB20, hmrosterpos, byte_1647E0, byte_176B83, defsort_d, dressflags
+extern lineslotgroups, lineslotgroupstart, byte_11BB20, hmrosterpos, byte_176B83, defsort_d, dressflags
 extern dressflags_aw, offsort_fwd, AttractOptTeamsHi, AttractOptPads, crowdlevel, dword_1150D4
 extern dword_1175B5, dword_1175B9, dword_1176E1, seed, ZonesDirty, SortSpriteCount, ReplayRemoteShape, dword_11B294
 extern dword_11B330, dword_11B364, dword_11D91F, dword_11F5C0, dword_11F5C4, MenuRemoteCursorArt, MenuCursorPixels, dword_152F58
@@ -18,7 +18,7 @@ extern LoadPackedFile, InitGameTeams, PuckInNet, PickForwardLines, PickDefencePa
 extern CopyBitmap, StartGameSound, EndGameSound, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, SetScreenTarget, SetClipWindow
 extern FindShape, ClearClipRect, hmplattr, awlinetab, hmlinetab, offsort_c, defsort_r, offsort_d
 extern defsort_c, offsort_l, defsort_l, offsort_r, defsort_fwd, AttractGameOpts, optblock_end, gmode2
-extern HomeControlSlot, word_1178CC, word_1178CE, word_1178D0, clockticks, SortFrameCount, SortLastIndex, lastsfx
+extern HomeControlSlot, AwayControlSlot, HomeSecondControlSlot, AwaySecondControlSlot, clockticks, SortFrameCount, SortLastIndex, lastsfx
 extern regd0, dressedfwds, dresseddefs, dressedskaters, AttractOptPadFlags
 global FillDressedSlots, NormalizeDressFlags, PickExtraSkater, PickForLineSlot, RemoveFromLines, SetupTeamLines, PickForLineSlot_3E3, SetupTeamLines_1CC
 global SetupTeamLines_1CD, ResolveZones_16C, ResolveZones_16D, BuildDefaultLines, CanFillLineSlot, PickGoalie, RefillLineSlots, CanRemovePlayer
@@ -2313,7 +2313,7 @@ SortSpritesForDraw:
         mov dword [ReplayBufferTop], edx
         mov dl, byte [lastsfx]
         mov byte [eax], dl
-        mov dl, byte [word_1178CC]
+        mov dl, byte [AwayControlSlot]
         mov al, byte [HomeControlSlot]
         and dl, 0Fh
         and al, 0Fh
@@ -2325,8 +2325,8 @@ SortSpritesForDraw:
         mov word [SortLastIndex], 0FFFFh
         mov dword [ReplayBufferTop], ebx
         mov byte [eax], dl
-        mov dl, byte [word_1178D0]
-        mov ah, byte [word_1178CE]
+        mov dl, byte [AwaySecondControlSlot]
+        mov ah, byte [HomeSecondControlSlot]
         and dl, 0Fh
         and ah, 0Fh
         shl dl, 4
@@ -2396,7 +2396,7 @@ SortSpritesForDraw:
         mov dword [SortSpriteCount], eax
 .22:
         imul eax, dword [SortSpriteCount], dword 0A0h
-        mov al, byte [dword eax+byte_1647E0]
+        mov al, byte [dword eax+SortCords+44h]
         and al, 80h
         movzx eax, al
         test eax, eax

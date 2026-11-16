@@ -18,7 +18,7 @@ extern str_P23, str_P2G, str_Pal12, str_PlyD, str_Usrh, str_Usri, str_Utext, Dra
 extern DrawShapeAtOwnPos, DrawArt, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, CreateBitmap, ClearScreenColour, FreeBitmap
 extern DrawArtOpaqueAtOwnPos, SetScreenTarget, FindShape, TextSetFont, str_Punct_ControllerScreen, unk_11DE90, str_WesternConference2, SlotsTwoPlayer
 extern ControllerScreenMode, word_11D92C, word_11D92E, word_11D96C, word_11D9A8, word_11D9AC, word_11DA10, word_11DA14
-extern word_160ACC, word_17D560, word_17D562, word_17D568, word_17D570, word_17D578, word_17D58C, word_17D58E
+extern SlotUserNames, word_17D560, word_17D562, word_17D568, word_17D570, word_17D578, word_17D58C, word_17D58E
 global ControllerSlotDefaults, ControllerColumnDefaults, ControllerUsersPanel, NextControllerDeviceMasks, NextControllerDeviceJumpTable, NextControllerDevice, NextControllerDevice_2C, NextControllerDevice_F2
 global NextControllerDevice_199, NextControllerDevice_240, NextControllerDevice_2E7, NextControllerDevice_38E, NextControllerDevice_435, NextControllerDevice_4D0, ScanControllers, DeviceIconCodes
 global DeviceIconJumpTable, DeviceIconShape, DeviceIconShape_51, DeviceIconShape_5D, DeviceIconShape_69, DeviceIconShape_75, DeviceIconShape_81, DeviceIconShape_8D
@@ -1975,7 +1975,7 @@ DrawControllerColumns:
         jmp near .17
 .16:
         imul eax, byte 21h
-        add eax, word_160ACC
+        add eax, SlotUserNames
         push byte 20h
         inc eax
         inc eax
@@ -2035,7 +2035,7 @@ DrawControllerColumns:
         mov ebx, dword [dword edi+word_11D96C]
         mov edx, dword [dword edi+str_feO]
         sub ebx, byte 5
-        add eax, word_160ACC
+        add eax, SlotUserNames
         add edx, byte 6
         inc eax
         inc eax
@@ -2430,7 +2430,7 @@ DrawControllerColumns:
         jmp near .45
 .44:
         imul eax, byte 21h
-        add eax, word_160ACC
+        add eax, SlotUserNames
         push byte 20h
         inc eax
         inc eax
@@ -2491,7 +2491,7 @@ DrawControllerColumns:
         mov ebx, dword [dword edi+dword_11D954]
         mov edx, dword [dword edi+str_dbgO]
         sub ebx, byte 5
-        add eax, word_160ACC
+        add eax, SlotUserNames
         sub edx, byte 4
         inc eax
         inc eax
@@ -2882,7 +2882,7 @@ ControllerScreen:
         mov dword [byte ebp-01Ch], 0
         call FindShape
         mov dword [byte ebp-010h], eax
-        mov eax, word_160ACC
+        mov eax, SlotUserNames
         mov dword [byte ebp-018h], 0
         inc eax
         inc eax
@@ -3780,7 +3780,7 @@ ControllerScreen_11AB:
         add esp, byte 4
 .49:
         imul eax, dword [byte ebp-048h], byte 21h
-        add eax, word_160ACC
+        add eax, SlotUserNames
         push byte 20h
         inc eax
         inc eax
@@ -3856,7 +3856,7 @@ ControllerScreen_11AB:
         imul esi, edx, byte 21h
         add esp, byte 4
         lea eax, [edx+edx*4]
-        add esi, word_160ACC
+        add esi, SlotUserNames
         shl eax, 6
         inc esi
         inc esi

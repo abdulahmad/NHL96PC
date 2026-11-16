@@ -4,14 +4,14 @@ bits 32
 section s_110B48 progbits alloc noexec write align=1
 global str_08d, str_LOCALNDX, str_Ulxn, str_Ulxh, str_Ulyn, str_Ulyh, str_Slid, str_Ball
 global str_Slu1, str_Slu2, str_Sld1, str_Sld2, str_BKGD2, str_TXTD, str_3d3d3d, str_3d3d
-global str_1000, str_00, str_FL00, str_FL01, str_Punct_ExportUserRecords, asc_110C09, str_20s, str_sp3s
-global asc_110C57, str_sp3d3d3d3d3d3d3d3d, str_sp3d3d2d2d2d, str_sp3s2, asc_110CAC, str_sp00, str_sp1000, str_sp3d1d
+global str_1000, str_00, str_FL00, str_FL01, str_Punct_ExportUserRecords, str_ExportDashes, str_20s, str_sp3s
+global str_ExportSpacesWide, str_sp3d3d3d3d3d3d3d3d, str_sp3d3d2d2d2d, str_sp3s2, str_ExportSpaces, str_sp00, str_sp1000, str_sp3d1d
 global str_sp002, str_sp10002, str_sp3d1d2, str_spD, str_Uname, str_Urate, str_Upts, str_Ugf
 global str_Uga, str_Upp, str_Upk, str_Uso, str_Ustreak, str_Ulstreak, str_Uteam, str_Uopp
 global str_Usort, str_Logname, str_Logbook, str_Pal5, str_Shadtbl, str_BT002, str_BT012, str_BT022
 global str_BT10, str_BT11, str_BT12, str_TB01, str_TB00, str_TB11, str_TB10, str_MightyDucks
-global str_fmt2d, str_OfAnaheim, byte_110B48, str_fmtTenths, str_D4, str_dbgS, str_wt
-byte_110B48:
+global str_fmt2d, str_OfAnaheim, UserNameBuf, str_fmtTenths, str_D4, str_dbgS, str_wt
+UserNameBuf:
         db 00h
 str_08d:
         db 025h,030h,038h,064h,00h
@@ -66,7 +66,7 @@ str_Punct_ExportUserRecords:
         db 02Dh,02Dh,02Dh,02Dh,020h,02Dh,02Dh,02Dh,02Dh,020h,020h,02Dh,02Dh,02Dh,02Dh,02Dh
         db 02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,020h,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh
         db 02Dh,02Dh,020h,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,00h
-asc_110C09:
+str_ExportDashes:
         db 020h,02Dh,02Dh,02Dh,020h,02Dh,02Dh,02Dh,020h,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh
         db 02Dh,020h,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,020h,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh
         db 02Dh,020h,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,020h,02Dh,02Dh,02Dh,02Dh,02Dh
@@ -76,7 +76,7 @@ str_20s:
         db 025h,02Dh,032h,030h,073h,00h
 str_sp3s:
         db 020h,020h,025h,033h,073h,00h
-asc_110C57:
+str_ExportSpacesWide:
         db 020h,020h,020h,020h,020h,00h
 str_sp3d3d3d3d3d3d3d3d:
         db 020h,020h,025h,033h,064h,02Dh,025h,033h,064h,02Dh,025h,033h,064h,020h,025h,033h
@@ -88,7 +88,7 @@ str_sp3d3d2d2d2d:
         db 032h,064h,00h
 str_sp3s2:
         db 020h,020h,020h,020h,020h,020h,025h,033h,073h,00h
-asc_110CAC:
+str_ExportSpaces:
         db 020h,020h,020h,020h,020h,020h,020h,020h,020h,00h
 str_sp00:
         db 020h,020h,020h,020h,020h,030h,02Eh,030h,00h

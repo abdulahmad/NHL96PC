@@ -2,16 +2,16 @@
 bits 32
 %include "hockey.inc"
 section s_1177F4 progbits alloc noexec write align=1
-extern dword_164F1C, dword_164FBC, ViewScreenHeight, unk_16505E, unk_165062, unk_165066, unk_165068, unk_16506A
-extern unk_16506C, unk_16509E, unk_1650FC, unk_16519C, ReplayBuffer
-global Pencntdwn, byte_1178C8, byte_1178F9, collflag, UserRecordsTop, UserRecordsFirst, UserRecordsRow, str_J
+extern HomeNetObject, AwayNetObject, ViewScreenHeight, unk_16505E, unk_165062, unk_165066, unk_165068, unk_16506A
+extern unk_16506C, unk_16509E, RefObject, unk_16519C, ReplayBuffer
+global Pencntdwn, sflags3, PenaltyAnnounced, collflag, UserRecordsTop, UserRecordsFirst, UserRecordsRow, str_J
 global str_V, hmslotcount, awslotcount, hmfirstslot, awfirstslot, HomeEbenPlayer, AwayEbenPlayer, seed
 global fox, foy, gameclock, gmode, lastplayer, replaystart, puckvy, puckc
-global PtrPuckFlags, off_117890, PtrPuckObject, off_117898, off_11789C, passplayer, puckvx, puckvz
-global puckx, pucky, puckz, sflags, threat, wcradiusx, word_1178A0, word_1178A2
-global word_1178A6, VisTeam, word_1178AC, word_1178AE, word_1178B4, yc1, ltx, fodir1
-global fodir2, gmode2, HomeControlSlot, word_1178CC, word_1178CE, word_1178D0, slotteam, word_1178F4
-global refsignal, RefStep, word_1178FA, Penaltytimer, gsp, clockticks, dirtab, dirtab_y
+global PtrPuckFlags, PtrRefObject, PtrPuckObject, PtrHomeNet, PtrAwayNet, passplayer, puckvx, puckvz
+global puckx, pucky, puckz, sflags, threat, wcradiusx, camx, camy
+global wcradiusy, VisTeam, passdir, passspeed, xc1, yc1, ltx, fodir1
+global fodir2, gmode2, HomeControlSlot, AwayControlSlot, HomeSecondControlSlot, AwaySecondControlSlot, slotteam, ClockFrameCount
+global refsignal, RefStep, StoppageReason, Penaltytimer, gsp, clockticks, dirtab, dirtab_y
 global seed_w2
 UserRecordsTop:
         db 00h,00h,00h,00h
@@ -47,35 +47,35 @@ puckc:
         dd unk_16509E
 PtrPuckFlags:
         dd ViewScreenHeight
-off_117890:
-        dd unk_1650FC
+PtrRefObject:
+        dd RefObject
 PtrPuckObject:
         dd unk_16519C
-off_117898:
-        dd dword_164F1C
-off_11789C:
-        dd dword_164FBC
-word_1178A0:
+PtrHomeNet:
+        dd HomeNetObject
+PtrAwayNet:
+        dd AwayNetObject
+camx:
         db 00h,00h
-word_1178A2:
+camy:
         db 00h,00h
 wcradiusx:
         db 00h,00h
-word_1178A6:
+wcradiusy:
         db 00h,00h
 VisTeam:
         db 00h,00h
 lastplayer:
         db 00h,00h
-word_1178AC:
+passdir:
         db 00h,00h
-word_1178AE:
+passspeed:
         db 00h,00h
 passplayer:
         db 00h,00h
 threat:
         db 00h,00h
-word_1178B4:
+xc1:
         db 00h,00h
 yc1:
         db 00h,00h
@@ -97,15 +97,15 @@ sflags:
         db 00h,00h
 gmode2:
         db 00h,00h
-byte_1178C8:
+sflags3:
         db 00h,00h
 HomeControlSlot:
         db 0FFh,0FFh
-word_1178CC:
+AwayControlSlot:
         db 0FFh,0FFh
-word_1178CE:
+HomeSecondControlSlot:
         db 0FFh,0FFh
-word_1178D0:
+AwaySecondControlSlot:
         db 0FFh,0FFh
 slotteam:
         db 00h,00h,00h,00h,00h,00h,00h,00h
@@ -123,15 +123,15 @@ AwayEbenPlayer:
         db 0FFh,0FFh,0FFh,0FFh
 Pencntdwn:
         db 0FFh,0FFh
-word_1178F4:
+ClockFrameCount:
         db 00h,00h
 refsignal:
         db 00h,00h
 RefStep:
         db 0FFh
-byte_1178F9:
+PenaltyAnnounced:
         db 0FFh
-word_1178FA:
+StoppageReason:
         db 00h,00h
 Penaltytimer:
         db 0FFh,0FFh

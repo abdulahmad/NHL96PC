@@ -2,20 +2,21 @@
 bits 32
 %include "hockey.inc"
 section s_38070 progbits alloc exec nowrite align=1
+extern JoyButtonsTable
 extern LineChangeLine, LineChangeReq, Pencntdwn, RequestLineChange, SlotButtons, SortCords, a2touchpuck, SlotJoyMap
-extern lchoicetab, assonetimer_blade_y, OneTimerSpots, ReceivePassLeadX, ReceivePassLeadY, byte_164741, byte_16507A, InputState
+extern lchoicetab, assonetimer_blade_y, OneTimerSpots, ReceivePassLeadX, ReceivePassLeadY, LineChangeFlags, byte_16507A, InputState
 extern HmPlayerFlags, crowdlevel, hmslotcount, awslotcount, hmfirstslot, awfirstslot, HomeEbenPlayer, AwayEbenPlayer
 extern onetimerflag, PassTargetLocked, PassHoldFrames, OneTimerPasser, PuckChasers, playsuspended, dword_11F5C0, dword_11F5C4
-extern dword_164744, dword_164748, dword_164750, PtrPuckZone, dword_1797B4, gameclock, gameopts, gmode
+extern InputRepeatState, PtrPuckZone, dword_1797B4, gameclock, gameopts, gmode
 extern hmtmstruct, introskipped, lcblink, lcboxon, lcline, puckvy, puckc, PtrPuckFlags
-extern off_117898, off_11789C, passplayer, penshotlive, penshotmode, puckvx, puckx, pucky
+extern PtrHomeNet, PtrAwayNet, passplayer, penshotlive, penshotmode, puckvx, puckx, pucky
 extern randomd0, regd2, regd3, setpersonel, sflags, skatetopuck, donothing, SetLCmode
 extern assexitjump, AutoSwitchPlayer, BlockShotDive, checkob, dopass, passmode, setpassmode, SetPassDirection
 extern ShootOrAim, SetShotMode, ShotMode, Findhittype, doshot, SetSPA, SetControlledPlayer, changeplayer
 extern updateanim, doplayeracc, playeracc, BurstDrainEnergy, burst, PlaySfx, sfx, MouseRead
-extern vecdist, JoyStateTable, AwSortCords, vtoa, VisTeam, word_1178AC, word_1178AE, word_1178B4
+extern vecdist, JoyStateTable, AwSortCords, vtoa, VisTeam, passdir, passspeed, xc1
 extern fodir1, fodir2, gmode2, HomeControlSlot, slotteam, gsp, lcblinktime, lcsel
-extern lctimer, LineInputLines, word_16474C, puckcross, word_165078, word_165082, hmscore, hmtmline
+extern lctimer, LineInputLines, puckcross, word_165078, word_165082, hmscore, hmtmline
 extern hmtmap, regd0, regd1
 global Acheck, CtlSwapScoreFix, CtlSwapTeamFlag, OppInReach, ReadJoy1, ReassignCtlPlayer, asspassrec, getlchoice
 global lcfound, lcselect, lineinput, fightinput_287, CanBlockShot_31D, CanBlockShot_31F, CanBlockShot_320, faceoffinput
@@ -317,7 +318,7 @@ fightinput:
         jle short .6
         neg dword [byte ebx+076h]
 .6:
-        movsx edx, word [word_1178B4]
+        movsx edx, word [xc1]
         movsx eax, word [byte ebx+02h]
         sub eax, edx
         test eax, eax
@@ -344,7 +345,7 @@ fightinput:
         jne short .11
         neg eax
 .11:
-        movsx edx, word [word_1178B4]
+        movsx edx, word [xc1]
         movsx esi, word [byte ebx+02h]
         add eax, edx
         sub eax, esi
@@ -559,10 +560,10 @@ CanBlockShot:
         movzx eax, al
         test eax, eax
         je short .4
-        mov eax, dword [off_11789C]
+        mov eax, dword [PtrAwayNet]
         jmp short .5
 .4:
-        mov eax, dword [off_117898]
+        mov eax, dword [PtrHomeNet]
 .5:
         mov dword [byte ebp-04h], eax
         cmp dword [byte ebp-010h], byte 0
@@ -1720,7 +1721,7 @@ doinput:
 .28:
         mov ax, word [PtrPuckZone]
 .29:
-        mov word [word_1178AC], ax
+        mov word [passdir], ax
         pop edi
         pop esi
         pop ecx
@@ -2153,10 +2154,10 @@ ResetInputRepeat:
         xor eax, eax
 .1:
         add eax, byte 10h
-        mov dword [dword eax+dword_164744], 8
-        mov dword [dword eax+dword_164748], 8
-        mov dword [dword eax+word_16474C], 0
-        mov dword [dword eax+dword_164750], 0
+        mov dword [dword eax+InputRepeatState], 8
+        mov dword [dword eax+InputRepeatState+4], 8
+        mov dword [dword eax+JoyButtonsTable], 0
+        mov dword [dword eax+InputRepeatState+0Ch], 0
         cmp eax, byte 40h
         jne short .1
         ret
@@ -2222,11 +2223,11 @@ ReadJoy1:
         and al, 70h
         mov word [regd1], ax
         mov eax, ebx
-        mov bx, word [nosplit eax*2+word_16474C]
+        mov bx, word [nosplit eax*2+JoyButtonsTable]
         mov word [regd2], bx
         mov bx, word [regd1]
         xor word [regd2], bx
-        mov word [nosplit eax*2+word_16474C], bx
+        mov word [nosplit eax*2+JoyButtonsTable], bx
         mov ax, word [regd2]
         mov word [regd3], bx
         and word [regd1], ax
@@ -2461,17 +2462,17 @@ assonetimer:
         cmp eax, byte 0FFFFFFF6h
         jge near .27
 .18:
-        movsx eax, word [word_1178AC]
+        movsx eax, word [passdir]
         cmp eax, byte 8
         jle short .19
-        mov word [word_1178AC], 8
+        mov word [passdir], 8
 .19:
         movzx eax, byte [byte ebx+05Bh]
         cdq
         LD sub, eax, edx
         sar eax, 1
         add eax, byte 1Eh
-        mov word [word_1178AE], ax
+        mov word [passspeed], ax
         mov word [byte ebx+03Ah], 4
         mov eax, ebx
         mov word [byte ebx+03Ch], 4
@@ -3336,13 +3337,13 @@ UpdateLineChangeState:
         mov edx, 3C0h
 .4:
         add edx, 0A0h
-        and byte [dword edx+byte_164741], 0F7h
+        and byte [dword edx+LineChangeFlags], 0F7h
         cmp edx, 780h
         je short .6
         jmp short .4
 .5:
         add edx, 0A0h
-        and byte [dword edx+byte_164741], 0F7h
+        and byte [dword edx+LineChangeFlags], 0F7h
         cmp edx, 3C0h
         jne short .5
 .6:

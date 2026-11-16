@@ -1,6 +1,7 @@
 ; Player sprite art: the sprite banks (fight.ref, total.ref, oldshp.qfs, cup.ref), the UNPACK frame cache, team palettes, jersey colours and numbers (96 PC).
 bits 32
 %include "hockey.inc"
+extern TeamRosterPtrs
 section s_61AD1 progbits alloc exec nowrite align=1
 extern byte_11BC28, dword_11BB38, dword_11BB3C, dword_11BB40, dword_11BB44, dword_11BCD1, dword_11BCD5, dword_11BCD9
 extern NearClipZ, dword_123AC0, dword_152FEC, dword_179E4C, dword_179E50, dword_17BA30, dword_17BA34, dword_17BA38
@@ -8,7 +9,7 @@ extern dword_17BA3C, dword_17BA40, dword_17BA44, dword_17BA48, dword_17BA4C, dwo
 extern off_11BB4C, str_CupRef, str_FightRef, str_NewpalQfs, str_OldshpQfs, str_OLDSHPQFS2, str_Pal6, str_RinkpalQfs
 extern str_TeampalQda, str_TotalRef, str_UNPACK, str_Unpacked, SelectDataLibrary, LoadShadowRemap, AllocMemBlock, FreeMemBlock
 extern MemLargestFreeLocked, UnpackTo, UnpackedSize, OpenArtArchiveErr, CreateAaPalLut, BuildPaletteShadeTable, LoadPackedAlloc, FlipArtHorizontal
-extern ShapeBankCount, ShapeBankEntry, FindShape, bcopy, FillMem, exhstate, unk_164688, unk_179E48
+extern ShapeBankCount, ShapeBankEntry, FindShape, bcopy, FillMem, TeamPaletteBuf, unk_179E48
 extern unk_17B248, unk_17B488, unk_17B518, unk_17B830, unk_17B930, unk_17BA58, unpack
 global PutJerseyDigit, MakeJerseyNumber, SetTeamJerseyColors, SetTeamJerseyColors_A3, SaveTeamPalette, SetPlayerSpriteColors, SetRinkSpriteColors, IndexSpriteFrames
 global LoadTeamPalette, LoadPlayerSprites, LoadPlayerSprites_131, LoadGameSprites, FreeGameSprites, FreeFightSprites, LoadFightSprites, LoadFightSprites_3F
@@ -502,7 +503,7 @@ LoadTeamPalette:
         jne short .1
         mov ecx, dword [byte ebp-04h]
         lea esi, [dword ebp-0310h]
-        mov edi, unk_164688
+        mov edi, TeamPaletteBuf
         add ecx, ebx
         rep movsb
         push dword [byte ebp-0Ch]
@@ -679,9 +680,9 @@ LoadGameSprites:
         call SetTeamJerseyColors
         xor eax, eax
         call SelectDataLibrary
-        mov eax, exhstate
+        mov eax, TeamRosterPtrs+320h
         call BuildPaletteShadeTable
-        mov eax, exhstate
+        mov eax, TeamRosterPtrs+320h
         call LoadShadowRemap
         leave
         jmp near LoadPlayerSprites_131

@@ -4,7 +4,7 @@ bits 32
 section s_2F3DF progbits alloc exec nowrite align=1
 extern assextra4, assextra6, assinsert, assreplace, byte_176B83, check4bench, check4check, donothing
 extern dword_16523C, dword_165240, dword_165244, dword_165248, EvadePC, gmode, gmode2, puckvy
-extern off_117890, PBnum, Pencntdwn, playeracc, puckc, puckx, pucky, randomd0
+extern PtrRefObject, PBnum, Pencntdwn, playeracc, puckc, puckx, pucky, randomd0
 extern ReadJoy1, regd0, regd1, regd2, regd3, SetExitGame, SetSPA, skateto
 extern SkateToSpot, slotteam, SortCords, RunPreGameSkate_450, RunPreGameSkate_451, assexitjump, GameEventStub, PlayArenaClip
 extern SwapPosition, updateanim, vecdist, vtoa, CupLeaveSlot, CupLeaveSlotNext, CupGoalieSlot, CupGoalieSlotNext
@@ -52,7 +52,7 @@ SkateToTarget:
         push ecx
         push edx
         mov ebx, eax
-        mov eax, dword [off_117890]
+        mov eax, dword [PtrRefObject]
         movsx eax, word [byte eax+02Eh]
         imul eax, dword 0A0h
         mov ecx, SortCords
@@ -69,7 +69,7 @@ SkateToTarget:
         movsx eax, byte [byte ebx+eax+01Eh]
         cmp eax, byte 33h
         jne short .1
-        mov eax, dword [off_117890]
+        mov eax, dword [PtrRefObject]
         cmp word [byte eax+02Eh], byte 0
         jl short .1
         mov ax, word [byte ecx+06h]
@@ -92,7 +92,7 @@ SkateToTarget:
         movsx eax, word [regd0]
         cmp eax, byte 7
         jg short .5
-        mov eax, dword [off_117890]
+        mov eax, dword [PtrRefObject]
         mov dx, word [dword ebx+086h]
         cmp dx, word [byte eax+02Eh]
         jne short .4
@@ -133,12 +133,12 @@ assboxenter:
         movsx eax, word [byte ebx+03Ah]
         cmp eax, byte 8
         jl near .11
-        mov eax, dword [off_117890]
+        mov eax, dword [PtrRefObject]
         mov word [byte eax+026h], 0C8h
         movsx edx, byte [byte ebx+047h]
         mov eax, dword [dword ebx+088h]
         mov word [byte eax+edx*2+048h], 800h
-        mov eax, dword [off_117890]
+        mov eax, dword [PtrRefObject]
         mov dx, word [dword ebx+086h]
         mov word [byte eax+02Eh], dx
         mov eax, ebx
@@ -162,10 +162,10 @@ assboxenter:
         movsx eax, word [byte ebx+026h]
         cmp eax, 0C8h
         jne short .3
-        mov eax, dword [off_117890]
+        mov eax, dword [PtrRefObject]
         or byte [byte eax+044h], 20h
         mov edx, 8F1h
-        mov eax, dword [off_117890]
+        mov eax, dword [PtrRefObject]
         call SetSPA
         mov edx, 991h
         mov eax, ebx
@@ -197,15 +197,15 @@ assboxenter:
 .3:
         cmp eax, byte 64h
         jne short .4
-        mov eax, dword [off_117890]
+        mov eax, dword [PtrRefObject]
         movsx edx, word [byte eax+026h]
         cmp edx, byte 64h
         jne near .11
         mov byte [byte eax+046h], 0
-        mov eax, dword [off_117890]
+        mov eax, dword [PtrRefObject]
         or byte [byte eax+044h], 20h
         mov edx, 8D7h
-        mov eax, dword [off_117890]
+        mov eax, dword [PtrRefObject]
         call SetSPA
         mov byte [byte ebx+046h], 0
         mov edx, 9A5h
@@ -361,7 +361,7 @@ assbenchside:
 .5:
         cmp eax, 12Ch
         jne near .9
-        mov edx, dword [off_117890]
+        mov edx, dword [PtrRefObject]
         movsx eax, word [byte edx+02Eh]
         imul eax, dword 0A0h
         add eax, SortCords
@@ -408,7 +408,7 @@ assbenchside:
         movsx eax, word [byte ebx+026h]
         cmp eax, 0C8h
         jne short .10
-        mov eax, dword [off_117890]
+        mov eax, dword [PtrRefObject]
         cmp word [byte eax+02Eh], byte 0
         jl short .10
         mov word [byte ebx+026h], 12Ch
@@ -642,7 +642,7 @@ asscupfollow:
         push esi
         push edi
         mov esi, eax
-        mov eax, dword [off_117890]
+        mov eax, dword [PtrRefObject]
         movsx eax, word [byte eax+02Eh]
         imul eax, dword 0A0h
         mov ebx, SortCords
@@ -679,7 +679,7 @@ asscupfollow:
         mov al, byte [byte esi+057h]
         mov byte [byte esi+058h], al
 .2:
-        mov eax, dword [off_117890]
+        mov eax, dword [PtrRefObject]
         cmp word [byte eax+02Eh], byte 0
         jl near .8
         cmp word [byte esi+0Ch], byte 0
@@ -859,7 +859,7 @@ asscuptake:
         push edi
         enter 8, 0
         mov esi, eax
-        mov eax, dword [off_117890]
+        mov eax, dword [PtrRefObject]
         movsx edx, word [byte eax+02Eh]
         imul edx, dword 0A0h
         mov edi, SortCords
@@ -917,7 +917,7 @@ asscuptake:
         mov edx, 8
         mov eax, esi
         call assreplace
-        mov eax, dword [off_117890]
+        mov eax, dword [PtrRefObject]
         mov dx, word [dword esi+086h]
         mov word [byte eax+02Eh], dx
         mov edx, 95Dh

@@ -4,22 +4,22 @@ bits 32
 section s_3E6EC progbits alloc exec nowrite align=1
 extern Acheck, AddPenalty, CompLine, CountShotOnGoal, CwdExciteLvl, OOlist, OOlistpos, PBnum
 extern QuickShotChk, RemoveFromLines, ShotLaneOpen, SortCords, a2touchpuck, assinsert, assreplace, awtmstruct
-extern byte_115115, byte_115117, byte_1175A7, byte_1178C8, byte_16514E, byte_16514F, OffsideCalled, PenBuf
+extern byte_115115, byte_115117, byte_1175A7, sflags3, byte_16514E, byte_16514F, OffsideCalled, PenBuf
 extern PenBuf_pl, iflags, byte_176BA5, byte_176BA7, collflag, crowdlevel, hmslotcount, awslotcount
 extern onetimerflag, PassTargetLocked, PassHoldFrames, OneTimerPasser, PuckChasers, PuckChaserPlayer, GameHitCount, FightingOn
 extern FallDownsOff, nethit, dword_15E844, dword_16516E, dword_165172, dword_179D70, optflags, fox
 extern gameclock, gameopts, gmode, hmtmstruct, lastplayer, lasttouch, puckvy, puckc
-extern PtrPuckFlags, off_117898, off_11789C, passplayer, penshotctl, penshotlive, penshotmode, penshotplayer
+extern PtrPuckFlags, PtrHomeNet, PtrAwayNet, passplayer, penshotctl, penshotlive, penshotmode, penshotplayer
 extern penshotstart, puckvx, puckvz, puckx, pucky, puckz, randomd0, regd2
 extern regd3, setpersonel, sflags, shotongoal, shotontarget, BreakGlass, ShakeGlass, RinkEdgeKind
 extern NearestGlassPoint, assextra2, assexitjump, puckflip, CanBlockShot, PassCompleted, changeplayer, restorepl
 extern AvgCline, GetHot, GetHotStick, GetHotOrStick, Goal, GiveControl, doplayeracc, burst
 extern GameEventStub, PostInjuryEvent, AddPenalty2, Stop4Pen, EndPenaltyShot, CanRemovePlayer, CloseTextOverlay, PlaySfx
 extern sfx, CrowdReaction, IntSqrt, vecdist, threat, AwSortCords, HmFightFlags, AwFightFlags
-extern vtoa, wcradiusx, word_1178A0, word_1178A6, VisTeam, word_1178AC, word_1178AE, word_1178B4
+extern vtoa, wcradiusx, camx, wcradiusy, VisTeam, passdir, passspeed, xc1
 extern yc1, gmode2, HomeControlSlot, gsp, clockticks, dirtab, dirtab_y, refhitcount
 extern injurystop, bannermsg, bannertimer, ltack, blockspd, blockspd_y, CheckPowerTab, shotsets
-extern ShotTypeParams, puckcross, word_1647A2, word_165144, word_16514A, word_16514C, hmtmap, awtmap
+extern ShotTypeParams, puckcross, word_165144, word_16514A, word_16514C, hmtmap, awtmap
 extern regd4, regd5, LastShooterTeam, regd0, regd1, Ylist, SpeechPatchNext, PerTimeTotal
 extern lastimpact
 global Bcheck, CPgoalie, CheckBump, ChkGoalies, ChkOffsides, ChkPullGoalieLate, FacingBoards, MarkTwoLinePlayers
@@ -1173,7 +1173,7 @@ checkgoalp:
         movsx eax, cx
         neg eax
 .9:
-        movsx edi, word [word_1178A6]
+        movsx edi, word [wcradiusy]
         add edi, byte 6
         jmp short .16
 .10:
@@ -1200,7 +1200,7 @@ checkgoalp:
 .14:
         movsx eax, cx
 .15:
-        movsx edi, word [word_1178A6]
+        movsx edi, word [wcradiusy]
         inc edi
 .16:
         cmp eax, edi
@@ -2878,7 +2878,7 @@ dopass:
 .4:
         shl eax, 2
         add eax, 0A0h
-        mov word [word_1178AE], ax
+        mov word [passspeed], ax
         movsx eax, word [dword ebx+086h]
         cmp eax, byte 6
         jge short .5
@@ -2918,7 +2918,7 @@ dopass:
         mov edx, eax
         mov eax, edi
         call vtoa
-        sub ax, word [word_1178AC]
+        sub ax, word [passdir]
         xor ah, ah
         and al, 7
         movsx edx, ax
@@ -2966,8 +2966,8 @@ dopass:
         call passtoa0
         jmp short .14
 .13:
-        movsx eax, word [word_1178AC]
-        movsx ecx, word [word_1178AE]
+        movsx eax, word [passdir]
+        movsx ecx, word [passspeed]
         movsx eax, word [nosplit eax*4+dirtab_y]
         imul eax, ecx
         shl eax, 0Ah
@@ -2978,7 +2978,7 @@ dopass:
         mov eax, dword [puckvy]
         add di, word [byte ebx+0Eh]
         mov word [eax], di
-        movsx eax, word [word_1178AC]
+        movsx eax, word [passdir]
         movsx eax, word [nosplit eax*4+dirtab]
         imul eax, ecx
         shl eax, 0Ah
@@ -3113,7 +3113,7 @@ CompPass:
         shl eax, 2
         add eax, 0A0h
         mov edx, ecx
-        mov word [word_1178AE], ax
+        mov word [passspeed], ax
         mov eax, ebx
         call PassLaneChk
         test eax, eax
@@ -3241,7 +3241,7 @@ passmode:
         xor dh, dh
         and dl, 7
         or byte [regd0], 8
-        mov word [word_1178AC], dx
+        mov word [passdir], dx
         cmp word [byte eax+01Ah], byte 0
         je short .3
         cmp dword [nosplit ebx*4+PassHoldFrames], byte 1Eh
@@ -3278,7 +3278,7 @@ setpassmode:
         and al, 7
         or byte [sflags], 4
 setpassmode_F:
-        mov word [word_1178AC], ax
+        mov word [passdir], ax
         ret
 ;-----------------------------------------------------------------------------
 ; passtoa0                           40C2A  94G logic94.asm, medium confidence
@@ -3335,7 +3335,7 @@ passtoa0:
         add eax, ebx
         add eax, eax
         mov dword [byte ebp-0Ch], eax
-        movsx eax, word [word_1178AE]
+        movsx eax, word [passspeed]
         sar eax, 2
         mov ebx, eax
         movsx eax, word [byte ebp-08h]
@@ -3588,10 +3588,10 @@ chk4pass_2F:
         movzx eax, al
         test eax, eax
         je short .7
-        mov ebx, dword [off_11789C]
+        mov ebx, dword [PtrAwayNet]
         jmp short .8
 .7:
-        mov ebx, dword [off_117898]
+        mov ebx, dword [PtrHomeNet]
 .8:
         mov ax, word [byte edi+06h]
         sub ax, word [byte esi+06h]
@@ -3779,7 +3779,7 @@ chk4pass_2F:
         mov al, byte [byte edi+052h]
         xor al, 4
         cbw
-        mov word [word_1178AC], ax
+        mov word [passdir], ax
         movsx eax, word [byte edi+04Eh]
         mov dword [regd2], eax
         movsx eax, word [dword esi+086h]
@@ -3801,7 +3801,7 @@ chk4pass_2F:
         xor al, 4
         cbw
         mov dword [byte ebp-04h], eax
-        mov ax, word [word_1178AC]
+        mov ax, word [passdir]
         sub eax, dword [byte ebp-04h]
         inc eax
         xor ah, ah
@@ -3969,7 +3969,7 @@ PickShotTarget:
 .6:
         mov eax, 5
 .7:
-        mov word [word_1178AC], ax
+        mov word [passdir], ax
 .8:
         pop edx
         pop ecx
@@ -4014,9 +4014,9 @@ ShootPuck:
         mov eax, esi
         shl eax, 2
         add eax, 0A0h
-        mov word [word_1178AE], ax
+        mov word [passspeed], ax
         movsx edi, ax
-        movsx eax, word [word_1178AC]
+        movsx eax, word [passdir]
         movsx eax, word [nosplit eax*4+dirtab_y]
         imul eax, edi
         shl eax, 0Ah
@@ -4027,7 +4027,7 @@ ShootPuck:
         mov eax, dword [puckvy]
         add cx, word [byte ebx+0Eh]
         mov word [eax], cx
-        movsx eax, word [word_1178AC]
+        movsx eax, word [passdir]
         movsx eax, word [nosplit eax*4+dirtab]
         imul eax, edi
         shl eax, 0Ah
@@ -4143,7 +4143,7 @@ ShootOrAim:
         xor ah, ah
         and al, 7
         or byte [regd0], 8
-        mov word [word_1178AC], ax
+        mov word [passdir], ax
 .2:
         pop edx
         ret
@@ -4825,11 +4825,11 @@ setInjuryType:
         add word [CwdExciteLvl], byte 1Eh
         call sfx
         mov ax, word [byte esi+02h]
-        mov word [word_1178B4], ax
+        mov word [xc1], ax
         mov ax, word [byte esi+06h]
         mov word [yc1], ax
         mov ax, word [byte esi+02h]
-        cmp ax, word [word_1178A0]
+        cmp ax, word [camx]
         jge short .2
         add word [yc1], byte 32h
 .2:
@@ -6591,7 +6591,7 @@ puckglue:
         mov byte [byte ecx+035h], 0FFh
         mov byte [byte ecx+037h], 0FFh
         or byte [byte ecx+046h], 8
-        mov ax, word [byte_1178C8]
+        mov ax, word [sflags3]
         xor ah, ah
         and al, 10h
         cwde
@@ -6600,7 +6600,7 @@ puckglue:
         mov al, byte [gmode]
         and al, 10h
         movsx eax, al
-        and byte [byte_1178C8], 0EFh
+        and byte [sflags3], 0EFh
         test eax, eax
         jne short .4
         inc word [byte edx+014h]
@@ -7063,19 +7063,19 @@ puckgoalie:
         je near .13
         movsx eax, word [VisTeam]
         imul eax, dword 0A0h
-        cmp word [dword eax+word_1647A2], byte 0
+        cmp word [dword eax+SortCords+6], byte 0
         jge short .6
-        movsx eax, word [dword eax+word_1647A2]
+        movsx eax, word [dword eax+SortCords+6]
         neg eax
         jmp short .7
 .6:
-        movsx eax, word [dword eax+word_1647A2]
+        movsx eax, word [dword eax+SortCords+6]
 .7:
         cmp eax, byte 7Eh
         jle near .13
         movsx eax, word [VisTeam]
         imul eax, dword 0A0h
-        cmp word [dword eax+word_1647A2], byte 0
+        cmp word [dword eax+SortCords+6], byte 0
         setg al
         movzx edx, al
         mov al, byte [byte esi+044h]
@@ -7138,13 +7138,13 @@ puckgoalie:
         je short .16
         movsx eax, word [VisTeam]
         imul eax, dword 0A0h
-        cmp word [dword eax+word_1647A2], byte 0
+        cmp word [dword eax+SortCords+6], byte 0
         jge short .14
-        movsx eax, word [dword eax+word_1647A2]
+        movsx eax, word [dword eax+SortCords+6]
         neg eax
         jmp short .15
 .14:
-        movsx eax, word [dword eax+word_1647A2]
+        movsx eax, word [dword eax+SortCords+6]
 .15:
         cmp eax, byte 7Eh
 .16:
@@ -7359,19 +7359,19 @@ puckstick:
         je near .8
         movsx eax, word [VisTeam]
         imul eax, dword 0A0h
-        cmp word [dword eax+word_1647A2], byte 0
+        cmp word [dword eax+SortCords+6], byte 0
         jge short .1
-        movsx eax, word [dword eax+word_1647A2]
+        movsx eax, word [dword eax+SortCords+6]
         neg eax
         jmp short .2
 .1:
-        movsx eax, word [dword eax+word_1647A2]
+        movsx eax, word [dword eax+SortCords+6]
 .2:
         cmp eax, byte 7Eh
         jle near .8
         movsx eax, word [VisTeam]
         imul eax, dword 0A0h
-        cmp word [dword eax+word_1647A2], byte 0
+        cmp word [dword eax+SortCords+6], byte 0
         setg al
         movzx eax, al
         mov edi, eax
@@ -7715,7 +7715,7 @@ SetShotMode:
         push ecx
         push edx
         mov ebx, eax
-        mov word [word_1178AC], 8
+        mov word [passdir], 8
         mov word [regd0], 0
         or byte [sflags], 8
         mov al, byte [byte eax+044h]
@@ -7736,7 +7736,7 @@ SetShotMode:
         sub ax, word [byte ebx+02h]
         cwde
         call vtoa
-        mov word [word_1178AE], 0Fh
+        mov word [passspeed], 0Fh
         mov word [regd0], ax
         mov cx, word [byte ebx+036h]
         sub ecx, eax
@@ -7806,7 +7806,7 @@ ShotMode:
         mov byte [OffsideCalled], 0
         and byte [regd0], 7
         mov dx, word [regd0]
-        mov word [word_1178AC], dx
+        mov word [passdir], dx
 .2:
         movsx edx, word [byte eax+03Ah]
         cmp edx, byte 8
@@ -7876,12 +7876,12 @@ ShotMode:
         cmp edx, byte 4
         jg short .13
 .12:
-        inc word [word_1178AE]
+        inc word [passspeed]
 .13:
-        movsx edx, word [word_1178AE]
+        movsx edx, word [passspeed]
         cmp edx, byte 23h
         jle short .14
-        mov word [word_1178AE], 23h
+        mov word [passspeed], 23h
 .14:
         mov dx, word [regd2]
         xor dh, dh
@@ -7977,7 +7977,7 @@ shotdiradj:
         mov ax, word [dword eax+0100h]
         test ax, ax
         jge short .1
-        mov word [word_1178AC], 8
+        mov word [passdir], 8
         jmp near chk4pass_4F6
 .1:
         cwde
@@ -8061,7 +8061,7 @@ shotdiradj:
 .5:
         cmp eax, byte 2Ch
         jle short .6
-        mov word [word_1178AC], 0
+        mov word [passdir], 0
         jmp near chk4pass_4F6
 .6:
         mov al, byte [byte esi+044h]
@@ -8073,10 +8073,10 @@ shotdiradj:
 .7:
         test bx, bx
         jl short .8
-        mov word [word_1178AC], 2
+        mov word [passdir], 2
         jmp near chk4pass_4F6
 .8:
-        mov word [word_1178AC], 6
+        mov word [passdir], 6
         jmp near chk4pass_4F6
 ;-----------------------------------------------------------------------------
 ; doshot                             44609  94G logic94.asm, medium confidence
@@ -8137,12 +8137,12 @@ doshot:
         cmp eax, 117h
         jne short .3
 .2:
-        movsx eax, word [word_1178AE]
+        movsx eax, word [passspeed]
         mov edx, eax
         sar edx, 2
         sub eax, edx
         mov dword [byte ebp-0Ch], 0Bh
-        mov word [word_1178AE], ax
+        mov word [passspeed], ax
         jmp short .4
 .3:
         mov dword [byte ebp-0Ch], 0Ah
@@ -8239,21 +8239,21 @@ doshot:
         imul eax, edx
         sar eax, 0Ch
         movsx edx, ax
-        movsx eax, word [word_1178AE]
+        movsx eax, word [passspeed]
         add edx, byte 14h
         imul eax, edx
-        mov word [word_1178AE], ax
+        mov word [passspeed], ax
         cwde
         imul eax, dword 5249h
         shr eax, 10h
-        mov word [word_1178AE], ax
+        mov word [passspeed], ax
         cmp dword [shotongoal], byte 0
         je short .19
         call ShotLaneOpen
         mov eax, dword [shotontarget]
         mov dword [shotongoal], eax
 .19:
-        movsx eax, word [word_1178AE]
+        movsx eax, word [passspeed]
         mov edx, 3
         sar eax, 4
         sub edx, eax
@@ -8283,7 +8283,7 @@ doshot:
         jne short .23
         mov edx, 0FFFFFE9Ch
 .23:
-        movsx edi, word [word_1178AC]
+        movsx edi, word [passdir]
         mov ebx, dword [puckx]
         mov ax, word [nosplit edi*4+shotsets]
         sub ax, word [ebx]
@@ -8335,7 +8335,7 @@ doshot:
         cmp eax, byte 0Eh
         jg near .35
 .27:
-        movsx eax, word [word_1178AE]
+        movsx eax, word [passspeed]
         sar eax, 4
         mov dword [byte ebp-014h], eax
         movsx eax, dx
@@ -8407,7 +8407,7 @@ doshot:
         call randomd0
         add edi, eax
 .35:
-        movsx eax, word [word_1178AE]
+        movsx eax, word [passspeed]
         imul edx, eax, byte 44h
         movsx eax, word [byte ebp-08h]
         imul eax, edx
@@ -8430,7 +8430,7 @@ doshot:
 .38:
         mov eax, dword [puckvx]
         mov word [eax], bx
-        movsx eax, word [word_1178AE]
+        movsx eax, word [passspeed]
         imul eax, byte 44h
         movsx edx, word [byte ebp-04h]
         imul eax, edx
@@ -8513,7 +8513,7 @@ doshot:
 .50:
         test di, di
         je short .52
-        movsx eax, word [word_1178AE]
+        movsx eax, word [passspeed]
         mov dword [byte ebp-014h], eax
         imul edx, eax, byte 44h
         movsx eax, di
@@ -8578,7 +8578,7 @@ checkcoll:
         mov ax, word [dword ecx+082h]
         mov word [wcradiusx], ax
         mov ax, word [dword ecx+084h]
-        mov word [word_1178A6], ax
+        mov word [wcradiusy], ax
         mov eax, ecx
         movsx ebx, word [byte ecx+06h]
         movsx edx, word [byte ecx+02h]
@@ -8593,7 +8593,7 @@ checkcoll:
         mov eax, ecx
         call GetHot
         mov word [wcradiusx], 1
-        mov word [word_1178A6], 1
+        mov word [wcradiusy], 1
         mov ax, word [byte ecx+06h]
         add ax, word [regd1]
         movsx ebx, ax
@@ -8696,7 +8696,7 @@ checkwallcoll:
         sub ax, word [wcradiusx]
         mov dword [byte ebp-04h], eax
         mov eax, 190h
-        sub ax, word [word_1178A6]
+        sub ax, word [wcradiusy]
         mov dword [byte ebp-08h], eax
         mov eax, 40h
         sub eax, dword [byte ebp-04h]

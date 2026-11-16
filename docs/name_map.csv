@@ -2772,6 +2772,7 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 110B36,str_Rlxh,asc_110B36,new,high,string 'rlxh',src/data/front/rink_model_data_01.asm
 110B3B,str_Rlyn,asc_110B3B,new,high,string 'rlyn',src/data/front/rink_model_data_01.asm
 110B40,str_Rlyh,asc_110B40,new,high,string 'rlyh',src/data/front/rink_model_data_01.asm
+110B48,UserNameBuf,byte_110B48,new,low,User name being edited,src/data/front/front_2A692_data_01.asm
 110B49,str_08d,asc_110B49,new,high,string '%08d',src/data/front/front_2A692_data_01.asm
 110B4E,str_LOCALNDX,asc_110B4E,new,high,string 'LOCAL.NDX',src/data/front/front_2A692_data_01.asm
 110B58,str_Ulxn,asc_110B58,new,high,string 'ulxn',src/data/front/front_2A692_data_01.asm
@@ -2797,11 +2798,14 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 110BC6,str_FL01,asc_110BC6,new,high,string 'FL01',src/data/front/front_2A692_data_01.asm
 110BCB,str_wt,unk_110BCB,95PC,high,string 'wt',src/data/front/front_2A692_data_01.asm
 110BCE,str_Punct_ExportUserRecords,asc_110BCE,new,high,"string ""-------------------- ----  ----------- ----------- -------""",src/data/front/front_2A692_data_01.asm
+110C09,str_ExportDashes,asc_110C09,new,low,""" ---"": user records export placeholder",src/data/front/front_2A692_data_01.asm
 110C4B,str_20s,asc_110C4B,new,high,string '%-20s',src/data/front/front_2A692_data_01.asm
 110C51,str_sp3s,asc_110C51,new,high,string '  %3s',src/data/front/front_2A692_data_01.asm
+110C57,str_ExportSpacesWide,asc_110C57,new,low,Spaces: user records export padding,src/data/front/front_2A692_data_01.asm
 110C5D,str_sp3d3d3d3d3d3d3d3d,asc_110C5D,new,high,string '  %3d-%3d-%3d %3d-%3d-%3d %3d-%3d',src/data/front/front_2A692_data_01.asm
 110C7F,str_sp3d3d2d2d2d,asc_110C7F,new,high,string ' %3d %3d    %2d       %2d      %2d',src/data/front/front_2A692_data_01.asm
 110CA2,str_sp3s2,asc_110CA2,new,high,string '      %3s',src/data/front/front_2A692_data_01.asm
+110CAC,str_ExportSpaces,asc_110CAC,new,low,Spaces: user records export padding,src/data/front/front_2A692_data_01.asm
 110CB6,str_sp00,asc_110CB6,new,high,string '     0.0',src/data/front/front_2A692_data_01.asm
 110CBF,str_sp1000,asc_110CBF,new,high,string '   100.0',src/data/front/front_2A692_data_01.asm
 110CC8,str_sp3d1d,asc_110CC8,new,high,string '   %3d.%1d',src/data/front/front_2A692_data_01.asm
@@ -4603,12 +4607,21 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 117884,puckvz,,95PC,medium,NHL95PC C9090 (refset): referenced by the same 2 matched functions,
 117888,puckc,off_117888,95PC,high,ClampYPosition reads the carrier through it as NHL95PC puckc,src/data/front/front_2A692_data_02.asm
 11788C,PtrPuckFlags,off_11788C,new,low,pointer to the puck flags,src/data/front/front_2A692_data_02.asm
+117890,PtrRefObject,off_117890,new,low,Pointer to the referee's object,src/data/front/front_2A692_data_02.asm
 117894,PtrPuckObject,off_117894,new,low,pointer to the puck object,src/data/front/front_2A692_data_02.asm
+117898,PtrHomeNet,off_117898,new,low,Pointer to the home net object,src/data/front/front_2A692_data_02.asm
+11789C,PtrAwayNet,off_11789C,new,low,Pointer to the away net object,src/data/front/front_2A692_data_02.asm
+1178A0,camx,word_1178A0,new,low,Camera x,src/data/front/front_2A692_data_02.asm
+1178A2,camy,word_1178A2,new,low,Camera y,src/data/front/front_2A692_data_02.asm
 1178A4,wcradiusx,,95PC,medium,NHL95PC C909C (refset): referenced by the same 4 matched functions,
+1178A6,wcradiusy,word_1178A6,new,low,Wall collision radius y,src/data/front/front_2A692_data_02.asm
 1178A8,VisTeam,word_1178A8,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_2A692_data_02.asm
 1178AA,lastplayer,,95PC,medium,NHL95PC C90A2 (refset): referenced by the same 2 matched functions,
+1178AC,passdir,word_1178AC,new,low,Pass direction,src/data/front/front_2A692_data_02.asm
+1178AE,passspeed,word_1178AE,new,low,Pass speed,src/data/front/front_2A692_data_02.asm
 1178B0,passplayer,,95PC,medium,NHL95PC C90A8 (refset): referenced by the same 5 matched functions,
 1178B2,threat,,95PC,medium,NHL95PC C90AA (refset): referenced by the same 2 matched functions,
+1178B4,xc1,word_1178B4,new,low,Puck check x (collision),src/data/front/front_2A692_data_02.asm
 1178B6,yc1,word_1178B6,93G,medium,"checkfight sets it to the mean Ypos of the two fighters, clamped at the boards, as NHLPA93Genesis yc1",src/data/front/front_2A692_data_02.asm
 1178B8,ltx,word_1178B8,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_2A692_data_02.asm
 1178BA,foy,,95PC,medium,NHL95PC C90B4 (refset): referenced by the same 8 matched functions,
@@ -4619,7 +4632,11 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 1178C3,gmode,,95PC,medium,NHL95PC C90BB (refset): referenced by the same 11 matched functions,
 1178C4,sflags,,95PC,medium,NHL95PC C90BC (refset): referenced by the same 4 matched functions,
 1178C6,gmode2,word_1178C6,95PC,high,assfaceoff tests bit 0 as NHL95PC assfaceoff tests gmode2 bit 0; lines up in TryBlockShot and chkprogress too,src/data/front/front_2A692_data_02.asm
+1178C8,sflags3,byte_1178C8,new,low,"Game state flags, third set",src/data/front/front_2A692_data_02.asm
 1178CA,HomeControlSlot,word_1178CA,new,medium,home control slot (-1 none),src/data/front/front_2A692_data_02.asm
+1178CC,AwayControlSlot,word_1178CC,new,low,Away team's controlled player slot,src/data/front/front_2A692_data_02.asm
+1178CE,HomeSecondControlSlot,word_1178CE,new,low,Home team's second controlled player slot,src/data/front/front_2A692_data_02.asm
+1178D0,AwaySecondControlSlot,word_1178D0,new,low,Away team's second controlled player slot,src/data/front/front_2A692_data_02.asm
 1178D2,slotteam,word_1178D2,new,medium,"4 words read by CountTeamSlots: 1 home, 2 away",src/data/front/front_2A692_data_02.asm
 1178DA,hmslotcount,dword_1178DA,new,medium,CountTeamSlots: slots with slotteam 1,src/data/front/front_2A692_data_02.asm
 1178DE,awslotcount,dword_1178DE,new,medium,CountTeamSlots: slots with slotteam 2,src/data/front/front_2A692_data_02.asm
@@ -4628,8 +4645,11 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 1178EA,HomeEbenPlayer,dword_1178EA,new,low,home extra bench player (-1 none),src/data/front/front_2A692_data_02.asm
 1178EE,AwayEbenPlayer,dword_1178EE,new,low,away extra bench player (-1 none),src/data/front/front_2A692_data_02.asm
 1178F2,Pencntdwn,,95PC,medium,NHL95PC C90CE (refset): referenced by the same 5 matched functions,
+1178F4,ClockFrameCount,word_1178F4,new,low,Frames left in the current clock second (17h),src/data/front/front_2A692_data_02.asm
 1178F6,refsignal,word_1178F6,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_2A692_data_02.asm
 1178F8,RefStep,word_1178F8,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_2A692_data_02.asm
+1178F9,PenaltyAnnounced,byte_1178F9,new,low,Set when a penalty has been announced,src/data/front/front_2A692_data_02.asm
+1178FA,StoppageReason,word_1178FA,new,low,Reason play stopped,src/data/front/front_2A692_data_02.asm
 1178FC,Penaltytimer,word_1178FC,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_2A692_data_02.asm
 1178FE,gsp,word_1178FE,95PC,medium,"the period number from 0 (the port reads it for the netplay log), as NHL95PC gsp",src/data/front/front_2A692_data_02.asm
 117900,gameclock,,95PC,medium,NHL95PC C90DC (refset): referenced by the same 4 matched functions,
@@ -5424,12 +5444,36 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 158651,pad2dev,byte_158651,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_01.asm
 158652,pad1dev,byte_158652,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_01.asm
 158658,DataFilePath,unk_158658,new,low,data file path buffer,src/data/front/main_bss_01.asm
+158CBA,JoyTestButtonsLit,word_158CBA,new,low,Joystick test screen: lit flag per button,src/data/front/front_201CD_bss_01.asm
+158CBC,JoyTestAxisVals,word_158CBC,new,low,Joystick test screen: axis values shown,src/data/front/front_201CD_bss_01.asm
+158CC0,JoyTestBmps,dword_158CC0,new,low,Joystick test screen: bitmaps,src/data/front/front_201CD_bss_01.asm
+158CCC,JoyTestDotX,dword_158CCC,new,low,Joystick test screen: x of the stick dot,src/data/front/front_201CD_bss_01.asm
+158CD0,JoyTestDotY,dword_158CD0,new,low,Joystick test screen: y of the stick dot,src/data/front/front_201CD_bss_01.asm
+158CD4,JoyTestArt,dword_158CD4,new,low,Joystick test screen: art pieces,src/data/front/front_201CD_bss_01.asm
+158D2A,GripSetupSlots,byte_158D2A,new,low,GrIP set-up screen: per-slot state bytes,src/data/front/front_201CD_bss_01.asm
+158D34,GripSetupHeld,word_158D34,new,low,GrIP set-up screen: button held per slot,src/data/front/front_201CD_bss_01.asm
+158D3C,GripSetupCounts,word_158D3C,new,low,GrIP set-up screen: press counts per slot,src/data/front/front_201CD_bss_01.asm
+158D44,GripSetupTimers,word_158D44,new,low,GrIP set-up screen: timers per slot,src/data/front/front_201CD_bss_01.asm
+158D54,GripSetupLastBits,dword_158D54,new,low,GrIP set-up screen: last pad bits per slot,src/data/front/front_201CD_bss_01.asm
+158D64,JoyTestLastTick,dword_158D64,new,low,Joystick test screen: tick of the last update,src/data/front/front_201CD_bss_01.asm
+158D68,JoyTestFrame,dword_158D68,new,low,Joystick test screen: frame counter,src/data/front/front_201CD_bss_01.asm
+158D6C,GripSetupTick,dword_158D6C,new,low,GrIP set-up screen: tick of the last update,src/data/front/front_201CD_bss_01.asm
+158D70,GripSetupCursor,dword_158D70,new,low,GrIP set-up screen: cursor,src/data/front/front_201CD_bss_01.asm
+158D74,LastButtonCode,word_158D74,new,low,Last button code seen by the set-up screen and the goal light start,src/data/front/front_201CD_bss_01.asm
+158D76,GripSetupSlot,word_158D76,new,low,GrIP set-up screen: slot being set up,src/data/front/front_201CD_bss_01.asm
+158D78,GoalLightLamp,dword_158D78,new,low,Goal light: lamp state drawn by DrawGoalLight,src/data/front/front_201CD_bss_01.asm
+158D7C,RinkModelBoards,dword_158D7C,new,low,Rink model: board pieces,src/data/front/front_201CD_bss_01.asm
 158D84,GoalLightTimerFar,dword_158D84,new,low,"goal light timer, far net",src/data/front/front_201CD_bss_01.asm
+158D88,RinkModelGlass,dword_158D88,new,low,Rink model: glass pieces,src/data/front/front_201CD_bss_01.asm
 158D90,GoalLightFrame,dword_158D90,new,low,goal light frame,src/data/front/front_201CD_bss_01.asm
 158D94,FarSideModel,dword_158D94,new,low,far side model,src/data/front/front_201CD_bss_01.asm
 158D9C,GoalLightOn,dword_158D9C,new,low,goal light on,src/data/front/front_201CD_bss_01.asm
+158DA0,RinkModelIce,dword_158DA0,new,low,Rink model: ice pieces,src/data/front/front_201CD_bss_01.asm
+158DA8,IcePolyBuffer,unk_158DA8,new,low,"Ice surface polygon buffer (DrawIceSurface, DrawFaceoffCircle)",src/data/front/front_201CD_bss_01.asm
 1591D8,IceSurfacePolys,unk_1591D8,new,medium,ice surface polygons,src/data/front/rink_model_bss_01.asm
 1593F8,BoardLinePolys,unk_1593F8,new,medium,board line polygons,src/data/front/rink_model_bss_01.asm
+159C5A,IceCrudMap,byte_159C5A,new,low,"Ice crud map (DrawIceCrud), read from three bytes before",src/data/front/front_201CD_bss_02.asm
+159E61,IceTextureData,byte_159E61,new,low,"Ice texture bytes (LoadIceTexture), read from two bytes before",src/data/front/front_201CD_bss_02.asm
 15D2A4,RinkModelTexInfo,dword_15D2A4,new,low,rink model texture info,src/data/front/rink_model_bss_02.asm
 15D2B4,RinkModelBounds,dword_15D2B4,new,low,rink model bounds,src/data/front/rink_model_bss_02.asm
 15DEE0,StandsArt,dword_15DEE0,new,low,stands art,src/data/front/rink_model_bss_02.asm
@@ -5469,23 +5513,47 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 15E8BC,CenterCircleModel,dword_15E8BC,new,low,center circle model,src/data/front/rink_model_bss_02.asm
 15E8C0,BenchLineModel,dword_15E8C0,new,low,bench line model,src/data/front/rink_model_bss_02.asm
 15E8E8,RinkSidesModel,dword_15E8E8,new,low,rink sides model,src/data/front/rink_model_bss_02.asm
+15EA0C,UserMenuBoxes,dword_15EA0C,new,low,"User records screen: menu boxes, 40h bytes each",src/data/front/front_2A692_bss_01.asm
 160A8C,UserRecordList,dword_160A8C,new,low,user record list (374 bytes each),src/data/front/front_2A692_bss_01.asm
+160A90,UserStreakField,dword_160A90,new,low,User records: record field of the streak (comparators and the table),src/data/front/front_2A692_bss_01.asm
 160A94,UserOpponentColumn,dword_160A94,new,low,user records opponent column,src/data/front/front_2A692_bss_01.asm
+160A98,UserPowerPlayField,dword_160A98,new,low,User records: record field of the power play (comparators and the table),src/data/front/front_2A692_bss_01.asm
+160A9C,UserShutoutField,dword_160A9C,new,low,User records: record field of the shutout (comparators and the table),src/data/front/front_2A692_bss_01.asm
+160AA0,UserGoalsAgainstField,dword_160AA0,new,low,User records: record field of the goals against (comparators and the table),src/data/front/front_2A692_bss_01.asm
+160AA4,UserLongStreakField,dword_160AA4,new,low,User records: record field of the longest streak (comparators and the table),src/data/front/front_2A692_bss_01.asm
+160AA8,UserGoalsForField,dword_160AA8,new,low,User records: record field of the goals for (comparators and the table),src/data/front/front_2A692_bss_01.asm
 160AAC,UserRatingColumn,dword_160AAC,new,low,user records rating column,src/data/front/front_2A692_bss_01.asm
 160AB0,UserShutoutColumn,dword_160AB0,new,low,user records shutout column,src/data/front/front_2A692_bss_01.asm
 160AB4,UserNameIndex,dword_160AB4,new,low,user name index,src/data/front/front_2A692_bss_01.asm
 160AB8,UserStreakColumn,dword_160AB8,new,low,user records streak column,src/data/front/front_2A692_bss_01.asm
+160ABC,UserNameField,dword_160ABC,new,low,User records: record field of the name (comparators and the table),src/data/front/front_2A692_bss_01.asm
 160AC0,UserLongStreakColumn,dword_160AC0,new,low,user records longest streak column,src/data/front/front_2A692_bss_01.asm
 160AC4,UserPowerPlayColumn,dword_160AC4,new,low,user records power play column,src/data/front/front_2A692_bss_01.asm
+160AC8,UserTeamField,dword_160AC8,new,low,User records: record field of the team (comparators and the table),src/data/front/front_2A692_bss_01.asm
+160ACC,SlotUserNames,word_160ACC,new,low,Controller screen: user name per slot,src/data/front/front_2A692_bss_01.asm
+160AFA,UserPopupRecords,dword_160AFA,new,low,"User records screen: popup records, 66h bytes each",src/data/front/front_2A692_bss_01.asm
+16411C,TeamRosterPtrs,dword_16411C,new,low,FillTeamRoster: roster pointer table,src/data/front/front_2A692_bss_01.asm
 164124,plseasongoals,dword_164124,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_2A692_bss_01.asm
 16443C,exhstate,unk_16443C,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_2A692_bss_01.asm
+164688,TeamPaletteBuf,unk_164688,new,low,LoadTeamPalette: team palette buffer,src/data/front/front_2A692_bss_01.asm
+164716,PenBoxSeatX,word_164716,new,low,Penalty box seat x per seat (-1 for empty),src/data/front/front_2A692_bss_01.asm
+16472A,PenBoxSeatY,word_16472A,new,low,Penalty box seat y per seat,src/data/front/front_2A692_bss_01.asm
+164741,LineChangeFlags,byte_164741,new,low,Line change state flags (UpdateLineChangeState),src/data/front/front_2A692_bss_01.asm
+164744,InputRepeatState,dword_164744,new,low,Input repeat state per pad,src/data/front/front_2A692_bss_01.asm
+16474C,JoyButtonsTable,word_16474C,new,low,Joystick buttons per pad (saved with the game state),src/data/front/front_2A692_bss_01.asm
 164754,JoyStateTable,unk_164754,new,low,joystick state per slot,src/data/front/front_2A692_bss_01.asm
+164792,PuckCrossSave,word_164792,new,low,Puck crossing word restored by LoadGameState,src/data/front/front_2A692_bss_01.asm
 164794,puckcross,word_164794,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_2A692_bss_01.asm
 164796,puckcross2,word_164796,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_2A692_bss_01.asm
+164798,ObjCleanupSlot,dword_164798,new,low,Object slot cleared by EndGameCleanup,src/data/front/front_2A692_bss_01.asm
 16479A,puckcross6,word_16479A,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_2A692_bss_01.asm
 16479C,SortCords,,95PC,medium,NHL95PC DF81C (refset): referenced by the same 10 matched functions,
 164B5C,AwSortCords,unk_164B5C,new,low,Away team's sort coordinate entries (awtmsort),src/data/front/front_2A692_bss_01.asm
+164E7C,PreGameSkatePaths,unk_164E7C,new,low,Pre-game skate paths,src/data/front/front_2A692_bss_01.asm
+164F1C,HomeNetObject,dword_164F1C,new,low,The home net object,src/data/front/replay_controls_bss_01.asm
+164FBC,AwayNetObject,dword_164FBC,new,low,The away net object,src/data/front/replay_controls_bss_01.asm
 16505C,ViewScreenHeight,dword_16505C,new,low,full screen height the game view is sized against (compared with 300),src/data/front/replay_controls_bss_01.asm
+1650FC,RefObject,unk_1650FC,new,low,The referee's object,src/data/front/replay_controls_bss_01.asm
 165250,InputState,byte_165250,new,low,input state,src/data/front/replay_controls_bss_01.asm
 165254,PtrPuckZone,dword_165254,new,low,pointer to the puck zone record,src/data/front/replay_controls_bss_01.asm
 165366,CupLeaveSlot,word_165366,new,low,cup celebration: per team (126h) and player (2Ah) record; set to -1 when the player leaves,src/data/engine/engine_2D9D9_bss_01.asm

@@ -1,9 +1,10 @@
 ; The 3D game view: set-up and frame draw, shading LUT, player and puck sprites, controller markers, the game overlays (clock, power play, panels) and the line change boxes (96 PC).
 bits 32
 %include "hockey.inc"
+extern TeamRosterPtrs
 section s_584A0 progbits alloc exec nowrite align=1
 extern str_LUT, awtmstruct, byte_1175A4, byte_1175A5, byte_1175A6, byte_1175A7, byte_1175A8, byte_1175A9
-extern byte_1175AA, byte_1175AB, byte_1175AC, byte_157191, byte_1647E0, byte_1647FA, textline1, textline2
+extern byte_1175AA, byte_1175AB, byte_1175AC, byte_157191, textline1, textline2
 extern textline3, textline4, textline5, byte_176F96, byte_1770A2, byte_1770A3, byte_1770A4, byte_1770A5
 extern byte_1770D7, byte_1796AC, byte_1796BF, byte_1796C0, byte_1796DC, byte_179700, byte_179701, byte_17970A
 extern byte_17970B, byte_17970D, byte_179712, byte_179713, byte_179715, byte_17971B, byte_17971C, byte_179722
@@ -16,7 +17,7 @@ extern dword_11B304, dword_11B308, dword_11B310, dword_11B318, dword_11B31C, dwo
 extern dword_11B32C, dword_11B330, dword_11B364, dword_11B374, dword_11B9F4, dword_11BB14, dword_11BB18, dword_11BB1C
 extern dword_11BC24, dword_11D91F, dword_11F5C0, dword_11F5C4, dword_1219A4, DrawClipLeft, DrawClipTop, DrawClipRight
 extern DrawClipBottom, DrawDestBuffer, dword_152F4C, dword_152FEC, dword_1531D0, dword_15E4BC, dword_15E4C0, dword_15E8D8
-extern dword_15E8E0, dword_15E8E4, dword_15E8F8, dword_15E8FC, dword_1647A0, dword_1647A4, dword_164816, dword_164838
+extern dword_15E8E0, dword_15E8E4, dword_15E8F8, dword_15E8FC
 extern ViewScreenHeight, dword_165060, dword_165064, dword_165166, dword_16516A, dword_16516E, dword_165172, DrawFrameCount
 extern dword_17828C, dword_178290, dword_178294, dword_178298, dword_17829C, dword_1782A0, dword_1782A4, dword_1782A8
 extern dword_178EA8, dword_178EAC, dword_1792AC, dword_1797AC, dword_1797B0, dword_1797B4, dword_1797B8, dword_1797BC
@@ -45,10 +46,10 @@ extern SetScreenScale, OriSetObjectMatrix, OriSetObjectPosition, MakeRotXMatrix,
 extern FixedInverse, IntSqrt, DrawArtScaledRemap, FlipArtHorizontal, SetScreenTarget, SetRemapTable, SetColourRemap, SetBlitSource
 extern SetBlendTables, ScaleRowBlend, JoyButtonMap, FindShape, ClearClipRect, SetNearClipZ, SetViewScreenOrigin, TeamLineEnergy
 extern TextSetFont, unk_111024, OverlayPanelQueue, unk_122320, hmteamrec, unk_157FF8, awteamrec, unk_158313
-extern exhstate, unk_1782AC, unk_1786AC, unk_178AAC, unk_1798C0, unk_179980, unk_179AC0, unk_179BBC
+extern unk_1782AC, unk_1786AC, unk_178AAC, unk_1798C0, unk_179980, unk_179AC0, unk_179BBC
 extern unk_17B248, unk_17B518, unk_17B830, unk_17B930, unk_17D3E8, str_T_DrawOverlayCaption, unk_5848C, vtoa
 extern HomeControlSlot, clockticks, bannermsg, ControlMarkerFrames, ControlMarkerAltFrames, GoalNetFrames, word_11B274, ovlstep
-extern SlotDevice, word_1647A8, word_1647AA, word_1650A6, word_165144, word_165146, word_165148, word_16514A
+extern SlotDevice, word_1650A6, word_165144, word_165146, word_165148, word_16514A
 extern word_16514C, hmtmPwrGoals, hmtmPwrPlays, hmscore, hmtmline, hmtmap, awscore, awtmline
 extern awtmap, word_17709C
 global DrawScaledSprite, DrawScaledSprite_1E2, BuildShadeMatch, BuildShadeLut, AllocShadeLut, AllocShadeLut_5A, LoadIceLogo, FullViewClip
@@ -590,7 +591,7 @@ DimGameView:
         cmp dword [dword_11B270], byte 1
         jne short .2
         sub dword [dword_1798EC], 28Fh
-        mov edx, exhstate
+        mov edx, TeamRosterPtrs+320h
         mov eax, dword [dword_1798EC]
         call BuildShadeLut
         mov dword [dword_11B270], 0
@@ -616,9 +617,9 @@ InitGameView:
         enter 100h, 0
         call LoadGameSprites
         call FreeColourLookup
-        push exhstate
+        push TeamRosterPtrs+320h
         call CreateColourLookup
-        mov edx, exhstate
+        mov edx, TeamRosterPtrs+320h
         add esp, byte 4
         mov dword [dword_1219A4], eax
         mov eax, 64h
@@ -652,7 +653,7 @@ InitGameView:
         movzx eax, al
         mov dword [dword_11B248], eax
         mov eax, 20h
-        mov edx, exhstate
+        mov edx, TeamRosterPtrs+320h
         call AllocShadeLut
         mov eax, 4000h
         mov dword [dword_1798EC], 4000h
@@ -773,8 +774,8 @@ InitGameView:
         mov edx, unk_122320
         mov eax, dword_179E13
         call SetViewCamera
-        mov eax, exhstate
-        mov ecx, exhstate
+        mov eax, TeamRosterPtrs+320h
+        mov ecx, TeamRosterPtrs+320h
         call LoadRinkModel
         mov eax, 0FFFFFFFFh
         mov ebx, 28h
@@ -784,7 +785,7 @@ InitGameView:
         mov eax, ebx
         call BuildAntiAliasTable
         push byte 20h
-        mov ecx, exhstate
+        mov ecx, TeamRosterPtrs+320h
         mov ebx, 50h
         mov dword [dword_1798E8], eax
         mov edx, ebx
@@ -963,7 +964,7 @@ InitGameView:
         mov dword [dword_179908], eax
         call LoadIceLogo
         push unk_17D3E8
-        push exhstate
+        push TeamRosterPtrs+320h
         push dword 0A666h
         call TintRect
         add esp, byte 0Ch
@@ -1200,7 +1201,7 @@ DrawRinkSprite:
         test edx, edx
         je short .4
         imul eax, dword 0A0h
-        mov al, byte [dword eax+byte_1647E0]
+        mov al, byte [dword eax+SortCords+44h]
         and al, 40h
         movzx eax, al
         test eax, eax
@@ -1212,7 +1213,7 @@ DrawRinkSprite:
         setg dl
         imul ebx, eax, dword 0A0h
         movzx edi, dl
-        movzx ebx, byte [dword ebx+byte_1647FA]
+        movzx ebx, byte [dword ebx+SortCords+5Eh]
 .5:
         test byte [GsOptions+1], 20h
         je short .6
@@ -1351,7 +1352,7 @@ DrawPlayerSprite:
         test eax, eax
         je short .3
         imul eax, edx, dword 0A0h
-        mov al, byte [dword eax+byte_1647E0]
+        mov al, byte [dword eax+SortCords+44h]
         and al, 40h
         movzx eax, al
         test eax, eax
@@ -1363,7 +1364,7 @@ DrawPlayerSprite:
         setg al
         movzx ecx, al
         imul eax, edx, dword 0A0h
-        movzx ebx, byte [dword eax+byte_1647FA]
+        movzx ebx, byte [dword eax+SortCords+5Eh]
 .4:
         test ecx, ecx
         je short .5
@@ -1481,7 +1482,7 @@ DrawControlMarker_41:
         test esi, esi
         jl near DrawOverlayCaption_E1
         imul eax, esi, dword 0A0h
-        cmp dword [dword eax+dword_164838], byte 0
+        cmp dword [dword eax+SortCords+9Ch], byte 0
 .3:
         jne near DrawOverlayCaption_E1
         imul eax, esi, byte 0Ch
@@ -2543,7 +2544,7 @@ DrawPlayerMarkers:
         cmp dword [dword eax+dword_179AC8], byte 50h
         jle near PlaceGoalNets_E0
         imul edx, dword 0A0h
-        cmp dword [dword edx+dword_164816], byte 0FFFFFFFFh
+        cmp dword [dword edx+SortCords+7Ah], byte 0FFFFFFFFh
         jne near PlaceGoalNets_E0
         push dword [dword eax+dword_179AC8]
         call SpriteScale
@@ -2644,10 +2645,10 @@ DrawGameFrame:
         mov eax, dword [dword ebx+SortCords]
         sar eax, 0Eh
         mov dword [ecx], eax
-        mov eax, dword [dword ebx+dword_1647A0]
+        mov eax, dword [dword ebx+SortCords+4]
         sar eax, 0Eh
         mov dword [byte ecx+08h], eax
-        mov eax, dword [dword ebx+dword_1647A4]
+        mov eax, dword [dword ebx+SortCords+8]
         sar eax, 0Eh
         mov dword [byte ecx+04h], eax
         cmp esi, byte 0Ch
@@ -2655,9 +2656,9 @@ DrawGameFrame:
         cmp esi, byte 0Dh
         jne short .4
 .2:
-        cmp word [dword ebx+word_1647A8], byte 0
+        cmp word [dword ebx+SortCords+0Ch], byte 0
         jne short .3
-        cmp word [dword ebx+word_1647AA], byte 0
+        cmp word [dword ebx+SortCords+0Eh], byte 0
         je short .4
 .3:
         mov eax, dword [byte ebp+07Ah]

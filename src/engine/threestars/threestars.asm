@@ -1,13 +1,14 @@
 ; Pre-game intro skate and the three stars (95 PC engine/intro, 94G hockey94).
 bits 32
 %include "hockey.inc"
+extern TeamRosterPtrs
 extern GsOptions
 section s_2D9D9 progbits alloc exec nowrite align=1
-extern assinsert, assreplace, awfirstslot, awslotcount, awtmstruct, starskatermin, stargoaliemin, byte_164920
-extern byte_164CE0, textline1, textline2, textline3, textline4, textline5, CloseTextOverlay
+extern assinsert, assreplace, awfirstslot, awslotcount, awtmstruct, starskatermin, stargoaliemin
+extern textline1, textline2, textline3, textline4, textline5, CloseTextOverlay
 extern crowdlevel, CrowdNoiseReset, curperiod, DoGameFrame, InputRecordIndex
 extern GameLoopFrames, gameresult, PreGameSkateOn, ZonesDirty, dword_11B310, dword_11F5C0, dword_11F5C4
-extern dword_152F4C, dword_164956, dword_164D16, gwgteam, gwgplayer, DrawFrameCount
+extern dword_152F4C, gwgteam, gwgplayer, DrawFrameCount
 extern dword_179918, dword_179920, dword_179924, dword_179DBD, energywarn, exitgame, fadeinpending, forcepldata
 extern fox, foy, GameLoopActive, gameopts, GetTicks, hmfirstslot, hmroster, hmslotcount
 extern hmtmstruct, InGameMenuRequest, InputRecordCount, InputRecordRing, IsCupClinched, lasttouch, lcblink, lineuptime
@@ -20,10 +21,10 @@ extern FreeSpriteCache, FadePalette, FadeOut, SetTextColors, DrawColorText, Draw
 extern Crowd_Noise, CrowdFadeOut, CrowdReaction, PlayArenaClip, ArenaClipReady, StartArenaClip, StopArenaClip, SoundIdle
 extern GetLangText, DrawRectOutline, TextSetColor, SetAaPalLut, DrawArtAaScaledInt, FillRectColor, SetPaletteEntries, SetRemapTable
 extern TicksSinceLast, bcopy, FillPolygonArgs, RemapPolygonArgs, TextSetFont, str_C_DrawOverlayPanels, str_Punct_DrawOverlayPanels, StarPanelOffsets
-extern str_V_DrawOverlayPanels, hmplstats, hmplattr, exhstate, AwSortCords, unk_164E7C, unk_165354, unk_17D3E8
-extern updateanim, vtoa, word_1178A0, word_1178A2, word_1178B4, HomeControlSlot, RefStep, energywarn_aw
+extern str_V_DrawOverlayPanels, hmplstats, hmplattr, AwSortCords, PreGameSkatePaths, unk_165354, unk_17D3E8
+extern updateanim, vtoa, camx, camy, xc1, HomeControlSlot, RefStep, energywarn_aw
 extern lcblink_aw, CupShown, IntroStandSpots, word_11D604, word_156E6E, hmglstats_w2, word_157AFC
-extern hmglstats_w8, hmglstats_w14, word_1647CA, hmscore, hmtmtouch1, hmtmpdst, awscore, word_176BB8
+extern hmglstats_w8, hmglstats_w14, hmscore, hmtmtouch1, hmtmpdst, awscore, word_176BB8
 extern starpl, yc1
 global RunPreGameSkate, RunPreGameSkate_450, RunPreGameSkate_451, RunLineupLoop, LineupLoopFrame, FillPanelEdge, FillPanelEdge_5C, DrawPanelBorder
 global DrawPanelShade, DrawOverlayPanels, StartPreGame, assintrostand, assintroline, AddStar, StarEligible, StarCompare
@@ -76,7 +77,7 @@ RunPreGameSkate:
         mov eax, awtmstruct
         call reenergizeteam
         mov eax, awtmstruct
-        mov ebx, unk_164E7C
+        mov ebx, PreGameSkatePaths
         call setpersonel
         mov eax, awtmstruct
         xor ecx, ecx
@@ -298,9 +299,9 @@ RunPreGameSkate:
         mov dword [GameLoopFrames], 0
         mov byte [eax], 0FFh
         mov dword [GameLoopActive], 0
-        mov word [word_1178A0], 0
-        mov word [word_1178B4], 0
-        mov word [word_1178A2], 0
+        mov word [camx], 0
+        mov word [xc1], 0
+        mov word [camy], 0
         mov word [yc1], 0
         mov word [lcblink_aw], 0
         mov word [lcblink], 0
@@ -422,7 +423,7 @@ LineupLoopFrame:
         cmp dword [fadeinpending], byte 0
         je short .7
         mov ebx, 1
-        mov edx, exhstate
+        mov edx, TeamRosterPtrs+320h
         mov ecx, dword [GameLoopActive]
         xor eax, eax
         mov dword [GameLoopActive], 0
@@ -1213,7 +1214,7 @@ StartPreGame:
         mov eax, dword [gameopts]
         test byte [byte eax+02h], 8
         je short .1
-        push exhstate
+        push TeamRosterPtrs+320h
         push dword 100h
         push byte 0
         call SetPaletteEntries
@@ -1243,15 +1244,15 @@ StartPreGame:
         cmp dword [hmslotcount], byte 0
         je short .3
         mov eax, dword [hmfirstslot]
-        and byte [byte_164920], 0F7h
-        mov dword [dword_164956], eax
+        and byte [SortCords+184h], 0F7h
+        mov dword [SortCords+1BAh], eax
         mov word [nosplit eax*2+HomeControlSlot], 2
 .3:
         cmp dword [awslotcount], byte 0
         je short .4
         mov eax, dword [awfirstslot]
-        and byte [byte_164CE0], 0F7h
-        mov dword [dword_164D16], eax
+        and byte [AwSortCords+184h], 0F7h
+        mov dword [AwSortCords+1BAh], eax
         mov word [nosplit eax*2+HomeControlSlot], 8
 .4:
         mov eax, edx
@@ -1349,7 +1350,7 @@ assintroline:
         xor eax, eax
         jmp short .2
 .1:
-        movsx edx, word [dword eax+word_1647CA]
+        movsx edx, word [dword eax+SortCords+2Eh]
         cmp edx, byte 0FFFFFF9Ch
         jne near .16
         add eax, 0A0h

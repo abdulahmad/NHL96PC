@@ -1,6 +1,7 @@
 ; The in-game menu: RunInGameMenu and the pause menu screens of a game (96 PC; its routines still to be named).
 bits 32
 %include "hockey.inc"
+extern TeamRosterPtrs
 extern SeasonUsers
 extern GsOptions
 section s_6A7D3 progbits alloc exec nowrite align=1
@@ -30,7 +31,7 @@ extern str_Sid12, str_Sid22, str_Sts02, str_Sts12, strcat_, strcpy_, RefreshCont
 extern AddZone, ReplayScreen, RunReplay, DrawShapeAtOwnPos, DrawArt, AllocMemBlock, FreeMemBlock, CreateBitmap
 extern FreeBitmap, FreeColourLookup, SaveDataFile, SetAaPalLut, DrawArtScaled, SetScreenTarget, FindShape, ClearClipRect
 extern TextSetFont, unk_11D7A4, unk_11D7BC, str_Punct_InGameMenu, unk_11D7EC, str_N_InGameMenu, str_F_InGameMenu, unk_11D810
-extern unk_11D816, unk_11D81C, unk_11D89C, exhstate, SeasonUserRecords, unk_17CED5, unk_17D3E8, unk_17D52C
+extern unk_11D816, unk_11D81C, unk_11D89C, SeasonUserRecords, unk_17CED5, unk_17D3E8, unk_17D52C
 extern UpdateCamera, SlotsTwoPlayer, PauseRequested, clockticks, word_11D927, word_11D929, hmscore, awscore
 global RunInGameMenu, DrawPauseButtons, DrawPauseFrame, DrawPauseFrame_9C2, DrawPauseFrame_9C3, RunPausedFrame, jpt_6B476, SaveGameFile
 global SaveGameFile_59, SaveGameFile_60, SaveGameFile_6C, SaveGameFile_81, jpt_6B878, PauseMenu, PauseMenu_66B, PauseMenu_6F1
@@ -2173,7 +2174,7 @@ PauseBackToGame:
         add esp, byte 4
         mov dword [PauseClockArea], esi
         call RestoreSpeechBuffer
-        mov eax, exhstate
+        mov eax, TeamRosterPtrs+320h
         call SetScreenPalette
         call FreeSpeechBuffer
         push byte 0
@@ -2208,7 +2209,7 @@ PauseBackToGame:
         mov ebx, 2
         add esp, byte 0Ch
         xor eax, eax
-        mov edx, exhstate
+        mov edx, TeamRosterPtrs+320h
         call DrawPauseButtons
         xor eax, eax
         mov word [word_11D927], 0
@@ -2480,7 +2481,7 @@ PauseGame:
         cmp word [PauseRequested], byte 0
         je short .10
         mov ebx, 2
-        mov edx, exhstate
+        mov edx, TeamRosterPtrs+320h
         xor eax, eax
         call FadePalette
         mov word [PauseRequested], 0

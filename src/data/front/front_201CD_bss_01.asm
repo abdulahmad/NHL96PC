@@ -2,59 +2,55 @@
 bits 32
 %include "hockey.inc"
 section s_158CBA nobits alloc noexec write align=1
-global byte_158D2A, byte_158D2B, byte_158D2C, byte_158D2D, dword_158CC0, dword_158CCC, dword_158CD0, dword_158CD4
-global dword_158D54, dword_158D64, dword_158D68, dword_158D6C, dword_158D70, dword_158D78, dword_158D7C, GoalLightTimerFar
-global dword_158D88, GoalLightFrame, FarSideModel, GoalLightOn, dword_158DA0, unk_158DA8, word_158CBA, word_158CBC
-global word_158D34, word_158D3C, word_158D44, word_158D46, word_158D74, word_158D76
-word_158CBA:
+global GripSetupSlots, JoyTestBmps, JoyTestDotX, JoyTestDotY, JoyTestArt
+global GripSetupLastBits, JoyTestLastTick, JoyTestFrame, GripSetupTick, GripSetupCursor, GoalLightLamp, RinkModelBoards, GoalLightTimerFar
+global RinkModelGlass, GoalLightFrame, FarSideModel, GoalLightOn, RinkModelIce, IcePolyBuffer, JoyTestButtonsLit, JoyTestAxisVals
+global GripSetupHeld, GripSetupCounts, GripSetupTimers, LastButtonCode, GripSetupSlot
+JoyTestButtonsLit:
         resb 2
-word_158CBC:
+JoyTestAxisVals:
         resb 4
-dword_158CC0:
+JoyTestBmps:
         resb 12
-dword_158CCC:
+JoyTestDotX:
         resb 4
-dword_158CD0:
+JoyTestDotY:
         resb 4
-dword_158CD4:
+JoyTestArt:
         resb 86
-byte_158D2A:
+GripSetupSlots:
         resb 1
-byte_158D2B:
         resb 1
-byte_158D2C:
         resb 1
-byte_158D2D:
         resb 7
-word_158D34:
+GripSetupHeld:
         resb 8
-word_158D3C:
+GripSetupCounts:
         resb 8
-word_158D44:
+GripSetupTimers:
         resb 2
-word_158D46:
         resb 14
-dword_158D54:
+GripSetupLastBits:
         resb 16
-dword_158D64:
+JoyTestLastTick:
         resb 4
-dword_158D68:
+JoyTestFrame:
         resb 4
-dword_158D6C:
+GripSetupTick:
         resb 4
-dword_158D70:
+GripSetupCursor:
         resb 4
-word_158D74:
+LastButtonCode:
         resb 2
-word_158D76:
+GripSetupSlot:
         resb 2
-dword_158D78:
+GoalLightLamp:
         resb 4
-dword_158D7C:
+RinkModelBoards:
         resb 8
 GoalLightTimerFar:
         resb 4
-dword_158D88:
+RinkModelGlass:
         resb 8
 GoalLightFrame:
         resb 4
@@ -62,7 +58,7 @@ FarSideModel:
         resb 8
 GoalLightOn:
         resb 4
-dword_158DA0:
+RinkModelIce:
         resb 8
-unk_158DA8:
+IcePolyBuffer:
         resb 380

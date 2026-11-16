@@ -1,9 +1,11 @@
 ; Saved game state: save and load the game in progress (95 PC pc/game_saveload).
 bits 32
 %include "hockey.inc"
+extern JoyButtonsTable
+extern InputRepeatState
 extern SeasonUsers
 section s_4DED8 progbits alloc exec nowrite align=1
-extern awtmstruct, byte_1178C8, awroster, byte_15864E, byte_15864F, byte_158650, pad2dev, pad1dev
+extern awtmstruct, sflags3, awroster, byte_15864E, byte_15864F, byte_158650, pad2dev, pad1dev
 extern PenBuf, iflags, curevent, collflag, curperiod, GameLoopFrames, dword_1150D8
 extern PreGameSkateOn, onetimerflag, penshotfox, penshotteam, AwayGoalsPeriod, HomeGoalsPeriod, sopathx, sopathy
 extern sopathend, sopathpoint, pspathside, pspathdir, dword_11B364, GameFrameCount, hmtmlines, hmtmplattr
@@ -19,12 +21,12 @@ extern shotongoal, shotontarget, SortCords, sprintf_, SprSort, str_05d, str_05dC
 extern str_DB, strcat_, FileMissing, DeleteFiles, FileOpenRead, FileClose, FileWriteAt, MakeDirPath
 extern LoadGameRosters, InitBenchSprites, ResetPeriodState, UnlinkJump, threat, gsumheader, gsumtail, hmplstats
 extern awplstats, hmglstats, awglstats, hmglattr, awglattr, hmplattr, awplattr, awlinetab
-extern hmteamrec, awteamrec, hmlinetab, AwSortCords, SeasonUserRecords, unk_17CED5, VisTeam, word_1178AC
-extern word_1178AE, word_1178B4, ltx, HomeControlSlot, word_1178CC, word_1178CE, word_1178D0, word_1178F4
-extern refsignal, RefStep, word_1178FA, Penaltytimer, clockticks, SortPending, energywarn_aw, lcblink_aw
+extern hmteamrec, awteamrec, hmlinetab, AwSortCords, SeasonUserRecords, unk_17CED5, VisTeam, passdir
+extern passspeed, xc1, ltx, HomeControlSlot, AwayControlSlot, HomeSecondControlSlot, AwaySecondControlSlot, ClockFrameCount
+extern refsignal, RefStep, StoppageReason, Penaltytimer, clockticks, SortPending, energywarn_aw, lcblink_aw
 extern lcblinktime, lcblinktime_aw, lcsel, lcsel_aw, lcline_aw, lctimer, lctimer_aw, lcboxon_aw
 extern ObjInitFrame, ObjInitAttr, ovltimer, injurystop, bannermsg, bannertimer, lldispodd, ltack
-extern SavedGameMode, word_11B274, ovlstep, lastsfx, word_16474C, word_16474E, word_164792, puckcross
+extern SavedGameMode, word_11B274, ovlstep, lastsfx, PuckCrossSave, puckcross
 extern PeriodEventCount, GameEventFlags, AwBackupGoalieMarks, fofdata2, SavedPlayerWords, word_176B7C, PerTimeTotal
 extern LastTouchTeam, PassDistY, StoppageFlag, LastPlayerTouch, yc1
 global SaveGameState, SaveGameState_7DD, LoadGameState, ReadSeasonDbHeader, ReadSeasonDbHeader_C2, ReadSeasonDbHeader_C4, ReadSeasonDbHeader_C8, ReadPlayoffDbHeader
@@ -120,11 +122,11 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [word_1178AC]
+        mov dx, word [passdir]
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [word_1178AE]
+        mov dx, word [passspeed]
         mov word [eax], dx
         inc eax
         inc eax
@@ -146,11 +148,11 @@ SaveGameState:
         inc eax
         cmp ebx, byte 8
         jne short .8
-        mov dx, word [word_16474C]
+        mov dx, word [JoyButtonsTable]
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [word_16474E]
+        mov dx, word [InputRepeatState+0Ah]
         mov word [eax], dx
         inc eax
         inc eax
@@ -166,7 +168,7 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [word_1178B4]
+        mov dx, word [xc1]
         mov word [eax], dx
         inc eax
         inc eax
@@ -202,7 +204,7 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [byte_1178C8]
+        mov dx, word [sflags3]
         mov word [eax], dx
         inc eax
         inc eax
@@ -210,15 +212,15 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [word_1178CC]
+        mov dx, word [AwayControlSlot]
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [word_1178CE]
+        mov dx, word [HomeSecondControlSlot]
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [word_1178D0]
+        mov dx, word [AwaySecondControlSlot]
         mov word [eax], dx
         inc eax
         inc eax
@@ -226,7 +228,7 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [word_1178F4]
+        mov dx, word [ClockFrameCount]
         mov word [eax], dx
         inc eax
         inc eax
@@ -238,7 +240,7 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [word_1178FA]
+        mov dx, word [StoppageReason]
         mov word [eax], dx
         inc eax
         inc eax
@@ -821,11 +823,11 @@ LoadGameState:
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_1178AC], dx
+        mov word [passdir], dx
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_1178AE], dx
+        mov word [passspeed], dx
         mov dx, word [eax]
         inc eax
         inc eax
@@ -841,17 +843,17 @@ LoadGameState:
         mov cx, word [eax]
         inc eax
         inc eax
-        mov word [dword edx+word_164792], cx
+        mov word [dword edx+PuckCrossSave], cx
         cmp edx, byte 8
         jne short .8
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_16474C], dx
+        mov word [JoyButtonsTable], dx
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_16474E], dx
+        mov word [InputRepeatState+0Ah], dx
         mov dx, word [eax]
         inc eax
         inc eax
@@ -867,7 +869,7 @@ LoadGameState:
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_1178B4], dx
+        mov word [xc1], dx
         mov dx, word [eax]
         inc eax
         inc eax
@@ -903,7 +905,7 @@ LoadGameState:
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [byte_1178C8], dx
+        mov word [sflags3], dx
         mov dx, word [eax]
         inc eax
         inc eax
@@ -911,15 +913,15 @@ LoadGameState:
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_1178CC], dx
+        mov word [AwayControlSlot], dx
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_1178CE], dx
+        mov word [HomeSecondControlSlot], dx
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_1178D0], dx
+        mov word [AwaySecondControlSlot], dx
         mov dx, word [eax]
         inc eax
         inc eax
@@ -927,7 +929,7 @@ LoadGameState:
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_1178F4], dx
+        mov word [ClockFrameCount], dx
         mov dx, word [eax]
         inc eax
         inc eax
@@ -939,7 +941,7 @@ LoadGameState:
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_1178FA], dx
+        mov word [StoppageReason], dx
         mov dx, word [eax]
         inc eax
         inc eax

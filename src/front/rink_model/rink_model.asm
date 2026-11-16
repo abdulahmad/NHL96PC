@@ -3,12 +3,12 @@ bits 32
 %include "hockey.inc"
 section s_21984 progbits alloc exec nowrite align=1
 extern __CHP, byte_1175A4, byte_1175A5, byte_1175A6, byte_1175A7, byte_1175A8, byte_1175A9, byte_1175AA
-extern byte_1175AB, byte_1175AC, byte_159C57, byte_159C58, byte_159C59, byte_159C5A, byte_159E5F, byte_159E60
-extern byte_159E61, byte_15EA03, byte_176F96, byte_17701E, byte_17703B, byte_1770A7, byte_1770B2, byte_1770B3
+extern byte_1175AB, byte_1175AC, IceCrudMap
+extern IceTextureData, byte_15EA03, byte_176F96, byte_17701E, byte_17703B, byte_1770A7, byte_1770B2, byte_1770B3
 extern byte_1770B4, byte_1770B5, byte_1770B6, byte_1770D7, dword_1175AD, dword_1175B1, dword_1175B5, dword_1175B9
 extern dword_1176DD, dword_1176E1, dword_1176E5, dword_1177EC, dword_1177F0, InReplay, dword_11F5C0, dword_11F5C4
 extern NearClipZ, SinTable, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, DrawDestBuffer, dword_152FEC
-extern dword_158D78, dword_158D7C, GoalLightTimerFar, dword_158D88, GoalLightFrame, FarSideModel, GoalLightOn, dword_158DA0
+extern GoalLightLamp, RinkModelBoards, GoalLightTimerFar, RinkModelGlass, GoalLightFrame, FarSideModel, GoalLightOn, RinkModelIce
 extern dword_158F24, dword_158F90, dword_159008, dword_159014, dword_15902C, dword_159038, dword_1591CC, dword_1591D0
 extern dword_1591D4, dword_159230, dword_159234, dword_159334, dword_159340, dword_15934C, dword_159370, dword_15937C
 extern dword_1594B8, dword_1594BC, dword_159530, dword_159534, dword_1595B8, dword_1595BC, dword_1595C0, dword_1595C4
@@ -73,14 +73,14 @@ extern SetScreenScale, ProjectModelPoints, DrawModelFlat, DrawModelSorted, DrawM
 extern OriSetObjectPosition, OriLoadModel, MakeRotYMatrix, OriFindGroup, OriFindPartition, OriGetPartition, InitReciprocalTable, ClipPolyNearZ
 extern DrawMarkingPolys, SetPolyVertexArrays, FixedInverse, SetScreenTarget, SetRemapTable, GetRemapTable, SetColourRemap, SetBlitSource
 extern ScaleRowShadow, FindShape, bcopy, Random32, FillPolygon, RemapPolygon, SetNearClipZ, str_Punct_DrawIceSurface
-extern IceSurfaceDef, IceGeometryDef, unk_1176AD, unk_1176CD, unk_1176EC, unk_158DA8, unk_158F28, unk_158F48
+extern IceSurfaceDef, IceGeometryDef, unk_1176AD, unk_1176CD, unk_1176EC, IcePolyBuffer, unk_158F28, unk_158F48
 extern unk_158F50, unk_158F68, unk_158F70, unk_158F88, unk_158FF4, unk_159000, unk_159018, unk_159024
 extern unk_15903C, unk_159108, unk_159148, unk_159190, IceSurfacePolys, unk_159238, unk_159338, unk_159368
 extern unk_159398, BoardLinePolys, unk_159458, unk_159500, unk_159508, unk_159510, unk_159518, unk_159520
 extern unk_159528, unk_159F58, unk_15AE88, unk_15BF20, unk_15D0E0, unk_15D1D0, unk_15D340, unk_15D450
 extern unk_15DB38, GlassRemap, BenchRemap, unk_15E130, unk_15E230, unk_15E330, unk_15E44C, unk_15E4C8
 extern IceLinePolys, unk_15E5A0, IceCenterPoly, FlashPolys, unk_15E904, unk_165258, unk_165354, unpack
-extern vecdist, SlotsTwoPlayer, word_158D74, word_15E472, word_176FB8, word_176FDA, word_176FFC, word_17704C
+extern vecdist, SlotsTwoPlayer, LastButtonCode, word_15E472, word_176FB8, word_176FDA, word_176FFC, word_17704C
 extern word_17706E
 global unk_21984, DrawIceCrud, DrawTexturedQuad, DrawIceTextureQuad, RinkNullCallback, AddIceCrud, LoadFshFile, LoadFshFile_E1
 global LoadIceTexture, FatLineEdge, ClipEdgeToNear, ClipLineToNear, DrawFaceEdge, DrawFaceEdge_4F, DrawThickSegment, DrawThickSegmentVisible
@@ -153,7 +153,7 @@ DrawIceCrud:
         add edx, dword [dword ebp+eax*4-08E8h]
         movzx eax, byte [esi]
         lea eax, [eax+eax*2]
-        movzx eax, byte [dword eax+byte_159C58]
+        movzx eax, byte [dword eax+IceCrudMap-2]
         sub eax, dword [dword_15E6D4]
         imul edx
         add eax, 8000h
@@ -167,7 +167,7 @@ DrawIceCrud:
         add edx, dword [dword ebp+eax*4-08E8h]
         movzx eax, byte [esi]
         lea eax, [eax+eax*2]
-        movzx eax, byte [dword eax+byte_159C59]
+        movzx eax, byte [dword eax+IceCrudMap-1]
         sub eax, dword [dword_15E6C4]
         imul edx
         add eax, 8000h
@@ -181,7 +181,7 @@ DrawIceCrud:
         add edx, dword [dword ebp+eax*4-08E8h]
         movzx eax, byte [esi]
         lea eax, [eax+eax*2]
-        movzx eax, byte [dword eax+byte_159C5A]
+        movzx eax, byte [dword eax+IceCrudMap]
         sub eax, dword [dword_15E6CC]
         imul edx
         add eax, 8000h
@@ -464,7 +464,7 @@ LoadIceTexture:
         mov esi, eax
         push str_Ice
         push dword [dword_15E8E4]
-        mov edi, byte_159C58
+        mov edi, IceCrudMap-2
         call OriFindMaterial
         mov edx, 20h
         add esp, byte 8
@@ -477,22 +477,22 @@ LoadIceTexture:
         xor eax, eax
 .1:
         inc eax
-        shl byte [dword eax+byte_159C57], 2
+        shl byte [dword eax+IceCrudMap-3], 2
         cmp eax, 210h
         jge short .3
         jmp short .1
 .2:
         inc eax
-        mov byte [dword eax+byte_159C57], 0
+        mov byte [dword eax+IceCrudMap-3], 0
 .3:
         cmp eax, 300h
         jl short .2
-        movzx eax, byte [byte_159E5F]
+        movzx eax, byte [IceTextureData-2]
         mov dword [dword_15E6D4], eax
-        movzx eax, byte [byte_159E60]
+        movzx eax, byte [IceTextureData-1]
         push str_Crud
         mov dword [dword_15E6C4], eax
-        movzx eax, byte [byte_159E61]
+        movzx eax, byte [IceTextureData]
         push dword [dword_15E6D0]
         mov dword [dword_15E6CC], eax
         call FindShape
@@ -1813,7 +1813,7 @@ DrawIceSurface:
         push ebx
         push ecx
         push edx
-        push unk_158DA8
+        push IcePolyBuffer
         push FlashPolys
         push dword_1595C8
         push byte 20h
@@ -1907,7 +1907,7 @@ DrawFaceoffCircle:
         jl near DrawFaceoffCircle_1DF
         push unk_158F88
         push edi
-        push unk_158DA8
+        push IcePolyBuffer
         push byte 20h
         call DrawPolyOutline
         add esp, byte 10h
@@ -3643,7 +3643,7 @@ StartGoalLight:
         mov edx, dword [dword_15E7A4]
 .3:
         add eax, byte 0Ch
-        mov dword [dword eax+word_158D74], edx
+        mov dword [dword eax+LastButtonCode], edx
         cmp eax, byte 30h
         jne short .1
         pop ebx
@@ -3776,7 +3776,7 @@ UpdateGoalLight:
         jge short .8
         mov esi, eax
 .8:
-        mov dword [dword_158D78], edi
+        mov dword [GoalLightLamp], edi
         mov dword [GoalLightTimerFar], esi
         mov dword [GoalLightFrame], esi
         mov dword [GoalLightOn], edi
@@ -3825,7 +3825,7 @@ DrawSpriteAtVertex_55:
         ret
 ;-----------------------------------------------------------------------------
 ; DrawGoalLight                                   2414A  96 PC, low confidence
-; Draws the lit goal light (4 points at dword_158D78)
+; Draws the lit goal light (4 points at GoalLightLamp)
 ;-----------------------------------------------------------------------------
 DrawGoalLight:
         push ebx
@@ -3847,7 +3847,7 @@ DrawGoalLight:
         lea eax, [byte ebp-060h]
         push eax
         push FlashPolys
-        push dword_158D78
+        push GoalLightLamp
         push byte 4
         lea esi, [byte ebp-060h]
         xor edi, edi
@@ -6908,11 +6908,11 @@ LoadRinkModel:
         mov dword [GoalLightModel], eax
         mov eax, dword [byte ebp-08h]
         push str_Strobe
-        mov dword [dword_158D88], eax
-        mov dword [dword_158D7C], eax
+        mov dword [RinkModelGlass], eax
+        mov dword [RinkModelBoards], eax
         sub eax, byte 14h
         push dword [dword_15E8E4]
-        mov dword [dword_158DA0], eax
+        mov dword [RinkModelIce], eax
         mov dword [FarSideModel], eax
         call OriFindMaterial
         mov edx, eax

@@ -2,9 +2,9 @@
 bits 32
 %include "hockey.inc"
 section s_50154 progbits alloc exec nowrite align=1
-extern CwdExciteLvl, PBnum, Pencntdwn, SortCords, assinsert, assreplace, awtmstruct, byte_1178C8
-extern byte_1178F9, PenCountdownOptTab, PenShotCountdownOpt, PenCountdownTab, PenShotCountdown, pendelaytab, PenShotDelay, LinePickOrderFrom1
-extern hmrosterpos, byte_1647E1, byte_1647E3, textline5, HmPlayerFlags, HmCoachGoalie, AwPlayerFlags, AwCoachGoalie
+extern CwdExciteLvl, PBnum, Pencntdwn, SortCords, assinsert, assreplace, awtmstruct, sflags3
+extern PenaltyAnnounced, PenCountdownOptTab, PenShotCountdownOpt, PenCountdownTab, PenShotCountdown, pendelaytab, PenShotDelay, LinePickOrderFrom1
+extern hmrosterpos, textline5, HmPlayerFlags, HmCoachGoalie, AwPlayerFlags, AwCoachGoalie
 extern PenaltyTimes, PenBuf, PenBuf_pl, crowdlevel, HomeEbenPlayer, AwayEbenPlayer, penshotfox, penshotteam
 extern AwayGoalsPeriod, HomeGoalsPeriod, PenaltyTypes, dword_11B310, lineslotmark, dword_176C44, fox, foy
 extern gameclock, gameopts, gmode, hmtmstruct, puckvy, puckc, PtrPuckFlags, PtrPuckObject
@@ -12,7 +12,7 @@ extern penmintab, penshotlive, penshotmode, penshotplayer, penshotstart, penshot
 extern puckx, pucky, puckz, randomd0, regd2, regd3, shotongoal, shotontarget
 extern sprintf_, SetSPA, Setplass, setplayer, PostPenaltyEvent, CanRemovePlayer, PlaySfxOr, PlaySfx
 extern sfx, CrowdReaction, GetLangText, SortIndices, vecdist, awlinetab, hmlinetab, gmode2
-extern word_1178F4, refsignal, RefStep, word_1178FA, Penaltytimer, gsp, clockticks, SortPending
+extern ClockFrameCount, refsignal, RefStep, StoppageReason, Penaltytimer, gsp, clockticks, SortPending
 extern PenShotStartX, PenShotStartY, ovltimer, injurystop, bannermsg, bannertimer, Pencntdwn2, InProgressTextIds
 extern penbannertab, hmscore, hmtmap, awscore, awtmap, regd1, PerTimeTotal, LastTouchTeam
 extern PassDistY, StoppageFlag, LastPlayerTouch
@@ -240,7 +240,7 @@ AddPenalty2:
         cmp edx, byte 1Ch
         je short .18
         mov word [RefStep], 0
-        mov word [word_1178FA], ax
+        mov word [StoppageReason], ax
         cmp edx, byte 7
         jne short .16
         mov eax, 23h
@@ -508,7 +508,7 @@ InProgress:
         je near SortPlayersByDistance_E0
         mov edx, dword [byte ebp-010h]
         mov word [RefStep], 0
-        mov word [word_1178FA], dx
+        mov word [StoppageReason], dx
         cmp eax, byte 7
         jne short .14
         mov eax, 23h
@@ -834,7 +834,7 @@ InProgress:
         je near SortPlayersByDistance_E0
         mov edx, dword [byte ebp-010h]
         mov word [RefStep], 0
-        mov word [word_1178FA], dx
+        mov word [StoppageReason], dx
         cmp eax, byte 7
         jne short .42
         mov eax, 23h
@@ -883,7 +883,7 @@ InProgress_71B:
 .47:
         mov eax, dword [PtrPuckFlags]
         mov word [byte eax+026h], 1C20h
-        mov byte [byte_1178F9], 0FFh
+        mov byte [PenaltyAnnounced], 0FFh
         mov word [refsignal], 0
         cmp word [bannertimer], byte 0
         jne short InProgress_7EE
@@ -1461,16 +1461,16 @@ updatepentime:
         mov al, byte [gmode]
         and al, 1
         movsx eax, al
-        and byte [byte_1178C8], 0BFh
+        and byte [sflags3], 0BFh
         test eax, eax
         jne short PenaltyHookStub
         cmp dword [penshotlive], byte 0
         jne short PenaltyHookStub
-        dec word [word_1178F4]
-        cmp word [word_1178F4], byte 0
+        dec word [ClockFrameCount]
+        cmp word [ClockFrameCount], byte 0
         jge short PenaltyHookStub
-        or byte [byte_1178C8], 40h
-        add word [word_1178F4], byte 18h
+        or byte [sflags3], 40h
+        add word [ClockFrameCount], byte 18h
         call UpdatePowerPlayFlags
         call chkatop
         mov ax, word [gmode2]
@@ -1755,7 +1755,7 @@ PenGoalStuff:
         jge short .16
         imul eax, dword 0A0h
         dec dword [byte ebp-0Ch]
-        and byte [dword eax+byte_1647E1], 0EFh
+        and byte [dword eax+SortCords+45h], 0EFh
 .16:
         movsx eax, si
         mov byte [nosplit eax*2+PenBuf_pl], 0
@@ -2189,7 +2189,7 @@ StartPenaltyShot:
         imul eax, dword [penshotplayer], dword 0A0h
         mov word [hmtmap], 1
         mov word [awtmap], 1
-        movsx eax, byte [dword eax+byte_1647E3]
+        movsx eax, byte [dword eax+SortCords+47h]
         mov dword [penshotmode], 1
         mov dword [penshotfox], eax
         movsx eax, word [foy]

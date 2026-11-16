@@ -5,10 +5,10 @@ section s_201CD progbits alloc exec nowrite align=1
 extern GripPassMap
 extern GripShootMap
 extern GripSlotIds
-extern byte_11FA2E, byte_11FA2F, Joy1State, GripSlotPresent, JoyPadBits, byte_158D2A, byte_158D2B, byte_158D2C
-extern byte_158D2D, byte_17BDAE, GsJoy1Calib, GsJoy2Calib, GsGripButtons, Joy1NeedsCalib, Joy2NeedsCalib, dword_117588
-extern dword_11F5C0, dword_158CC0, dword_158CCC, dword_158CD0, dword_158CD4, dword_158D54
-extern dword_158D64, dword_158D68, dword_158D6C, dword_158D70, MatchupLayer, TeamStatsBitmap, str_Standings, FillRect
+extern byte_11FA2E, byte_11FA2F, Joy1State, GripSlotPresent, JoyPadBits, GripSetupSlots
+extern byte_17BDAE, GsJoy1Calib, GsJoy2Calib, GsGripButtons, Joy1NeedsCalib, Joy2NeedsCalib, dword_117588
+extern dword_11F5C0, JoyTestBmps, JoyTestDotX, JoyTestDotY, JoyTestArt, GripSetupLastBits
+extern JoyTestLastTick, JoyTestFrame, GripSetupTick, GripSetupCursor, MatchupLayer, TeamStatsBitmap, str_Standings, FillRect
 extern TextStringWidth, GetGripButtonMap, GetInputDevices, GetTicks, InitInputDevices, LoadPackedFile, MessageBox, MouseRead
 extern mousex, mousey, ReadJoystickBits, SetGripButtonMap, sprintf_, str_A, str_BKGD, str_BT00
 extern str_BT01, str_BT02, str_D3, str_feB, str_GRIPCON, str_LTD0, str_Pal4, str_RGRIPCON
@@ -16,8 +16,8 @@ extern strcpy_, strlen_, OpenScreen, SlideInTitleBar, SlideInSideBar, SetScreenC
 extern FadeOut, CopyBitmap, SetTextColors, DrawColorText, DrawColorTextRight, DrawColorTextCentred, InitMenuItems, RunMenu
 extern SetMenuMouse, FillMusicStream, SoundSecondsToBytes, SoundIdle, GetLangText, DrawShapeAtOwnPos, PutBlockAtOwnPos, AllocMemBlock
 extern FreeMemBlock, ClearScreenColour, DrawRectOutline, SetScreenTarget, FillRectColor, KbdGetKey, FindShape, TextSetFont
-extern unk_121FC8, GripSlotNames, GripSlotTypes, Joy2State, unk_2018D, word_11758C, word_158CBA
-extern word_158CBC, word_158D34, word_158D3C, word_158D44, word_158D46, word_158D74, word_158D76
+extern unk_121FC8, GripSlotNames, GripSlotTypes, Joy2State, unk_2018D, word_11758C, JoyTestButtonsLit
+extern JoyTestAxisVals, GripSetupHeld, GripSetupCounts, GripSetupTimers, LastButtonCode, GripSetupSlot
 global DrawGripPads, DrawGripPads_73B, DrawGripPads_73C, GripSetupScreen, UpdateJoystickTest, JoystickTestScreen
 ;-----------------------------------------------------------------------------
 ; DrawGripPads                                 201CD  96 PC, medium confidence
@@ -45,28 +45,28 @@ DrawGripPads:
         and eax, 0FFh
         mov edx, dword [byte ebp-018h]
         mov dword [byte ebp-04h], eax
-        cmp eax, dword [dword edx+dword_158D54]
+        cmp eax, dword [dword edx+GripSetupLastBits]
         je near .14
         test byte [byte ebp-04h], 1
         je near .5
         test byte [byte ebp-04h], 8
         je short .2
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         push eax
         push eax
         push eax
-        movsx edx, word [dword esi+word_158D3C]
+        movsx edx, word [dword esi+GripSetupCounts]
         push edx
         add eax, eax
         push eax
         call FillRect
         add esp, byte 14h
         push byte 2
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         push eax
         lea edx, [eax+eax]
         push edx
-        movsx ebx, word [dword esi+word_158D3C]
+        movsx ebx, word [dword esi+GripSetupCounts]
         push ebx
         add eax, edx
         jmp near .4
@@ -74,40 +74,40 @@ DrawGripPads:
         test byte [byte ebp-04h], 4
         je short .3
         push byte 2
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         push eax
         add eax, eax
         push eax
-        movsx edx, word [dword esi+word_158D3C]
+        movsx edx, word [dword esi+GripSetupCounts]
         push edx
         push eax
         call FillRect
         add esp, byte 14h
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         push eax
         push eax
         push eax
-        movsx edx, word [dword esi+word_158D3C]
+        movsx edx, word [dword esi+GripSetupCounts]
         add eax, eax
         push edx
         add eax, eax
         jmp short .4
 .3:
         push byte 2
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         push eax
         push eax
-        movsx edx, word [dword esi+word_158D3C]
+        movsx edx, word [dword esi+GripSetupCounts]
         push edx
         add eax, eax
         push eax
         call FillRect
         add esp, byte 14h
-        movsx edi, word [word_158D76]
+        movsx edi, word [GripSetupSlot]
         push edi
         push edi
         push edi
-        movsx eax, word [dword esi+word_158D3C]
+        movsx eax, word [dword esi+GripSetupCounts]
         push eax
         lea eax, [edi+edi]
         add eax, edi
@@ -115,10 +115,10 @@ DrawGripPads:
         call FillRect
         add esp, byte 14h
         push byte 2
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         push eax
         push eax
-        movsx edx, word [dword esi+word_158D3C]
+        movsx edx, word [dword esi+GripSetupCounts]
         add eax, eax
         push edx
         add eax, eax
@@ -127,11 +127,11 @@ DrawGripPads:
         call FillRect
         add esp, byte 14h
         push byte 2
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         push eax
         lea edx, [eax+eax*2]
         push edx
-        movsx edx, word [dword esi+word_158D3C]
+        movsx edx, word [dword esi+GripSetupCounts]
         add edx, eax
         push edx
         add eax, eax
@@ -139,12 +139,12 @@ DrawGripPads:
         call FillRect
         add esp, byte 14h
         push byte 2
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         push eax
         lea edx, [eax+eax*2]
         push edx
         add eax, eax
-        movsx edx, word [dword esi+word_158D3C]
+        movsx edx, word [dword esi+GripSetupCounts]
         add edx, eax
         push edx
         jmp near .13
@@ -152,22 +152,22 @@ DrawGripPads:
         test byte [byte ebp-04h], 2
         je near .9
         push byte 2
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         push eax
         lea edx, [eax+eax*2]
         push edx
-        movsx edx, word [dword esi+word_158D3C]
+        movsx edx, word [dword esi+GripSetupCounts]
         push edx
         add eax, eax
         push eax
         call FillRect
         add esp, byte 14h
         push byte 2
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         push eax
         lea edx, [eax+eax*2]
         push edx
-        movsx edx, word [dword esi+word_158D3C]
+        movsx edx, word [dword esi+GripSetupCounts]
         add edx, eax
         push edx
         add eax, eax
@@ -176,10 +176,10 @@ DrawGripPads:
         add esp, byte 14h
         test byte [byte ebp-04h], 8
         je short .6
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         push eax
         push eax
-        movsx edx, word [dword esi+word_158D3C]
+        movsx edx, word [dword esi+GripSetupCounts]
         push eax
         add eax, eax
         add edx, eax
@@ -188,10 +188,10 @@ DrawGripPads:
         call FillRect
         add esp, byte 14h
         push byte 2
-        movsx edi, word [word_158D76]
+        movsx edi, word [GripSetupSlot]
         push edi
         lea eax, [edi+edi]
-        movsx edx, word [dword esi+word_158D3C]
+        movsx edx, word [dword esi+GripSetupCounts]
         push eax
         add edx, eax
         push edx
@@ -201,21 +201,21 @@ DrawGripPads:
         test byte [byte ebp-04h], 4
         je short .8
         push byte 2
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         push eax
         add eax, eax
-        movsx edx, word [dword esi+word_158D3C]
+        movsx edx, word [dword esi+GripSetupCounts]
         push eax
         add edx, eax
         push edx
         push eax
         call FillRect
         add esp, byte 14h
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         push eax
 .7:
         push eax
-        movsx edx, word [dword esi+word_158D3C]
+        movsx edx, word [dword esi+GripSetupCounts]
         push eax
         add eax, eax
         add edx, eax
@@ -224,9 +224,9 @@ DrawGripPads:
         jmp near .13
 .8:
         push byte 2
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         push eax
-        movsx edx, word [dword esi+word_158D3C]
+        movsx edx, word [dword esi+GripSetupCounts]
         push eax
         add eax, eax
         add edx, eax
@@ -234,10 +234,10 @@ DrawGripPads:
         push eax
         call FillRect
         add esp, byte 14h
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         push eax
         push eax
-        movsx ebx, word [dword esi+word_158D3C]
+        movsx ebx, word [dword esi+GripSetupCounts]
         push eax
         lea edx, [eax+eax]
         add ebx, edx
@@ -247,15 +247,15 @@ DrawGripPads:
         call FillRect
         add esp, byte 14h
         push byte 2
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         jmp short .7
 .9:
         push byte 2
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         push eax
         lea edx, [eax+eax*2]
         push edx
-        movsx edx, word [dword esi+word_158D3C]
+        movsx edx, word [dword esi+GripSetupCounts]
         push edx
         add eax, eax
         push eax
@@ -263,10 +263,10 @@ DrawGripPads:
         add esp, byte 14h
         test byte [byte ebp-04h], 8
         je short .10
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         push eax
         push eax
-        movsx edx, word [dword esi+word_158D3C]
+        movsx edx, word [dword esi+GripSetupCounts]
         push eax
         add edx, eax
         push edx
@@ -275,10 +275,10 @@ DrawGripPads:
         call FillRect
         add esp, byte 14h
         push byte 2
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         push eax
         lea edx, [eax+eax]
-        movsx ebx, word [dword esi+word_158D3C]
+        movsx ebx, word [dword esi+GripSetupCounts]
         push edx
         add ebx, eax
         push ebx
@@ -288,20 +288,20 @@ DrawGripPads:
         test byte [byte ebp-04h], 4
         je short .11
         push byte 2
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         push eax
         lea edx, [eax+eax]
-        movsx ebx, word [dword esi+word_158D3C]
+        movsx ebx, word [dword esi+GripSetupCounts]
         push edx
         add eax, ebx
         push eax
         push edx
         call FillRect
         add esp, byte 14h
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         push eax
         push eax
-        movsx edx, word [dword esi+word_158D3C]
+        movsx edx, word [dword esi+GripSetupCounts]
         push eax
         add edx, eax
         add eax, eax
@@ -310,9 +310,9 @@ DrawGripPads:
         jmp short .12
 .11:
         push byte 2
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         push eax
-        movsx edx, word [dword esi+word_158D3C]
+        movsx edx, word [dword esi+GripSetupCounts]
         push eax
         add edx, eax
         push edx
@@ -320,10 +320,10 @@ DrawGripPads:
         push eax
         call FillRect
         add esp, byte 14h
-        movsx edi, word [word_158D76]
+        movsx edi, word [GripSetupSlot]
         push edi
         push edi
-        movsx eax, word [dword esi+word_158D3C]
+        movsx eax, word [dword esi+GripSetupCounts]
         push edi
         add eax, edi
         push eax
@@ -333,9 +333,9 @@ DrawGripPads:
         call FillRect
         add esp, byte 14h
         push byte 2
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         push eax
-        movsx edx, word [dword esi+word_158D3C]
+        movsx edx, word [dword esi+GripSetupCounts]
         push eax
         add edx, eax
         add eax, eax
@@ -346,12 +346,12 @@ DrawGripPads:
         call FillRect
         add esp, byte 14h
         push byte 2
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         push eax
         lea edx, [eax+eax*2]
         push edx
         add eax, eax
-        movsx edx, word [dword esi+word_158D3C]
+        movsx edx, word [dword esi+GripSetupCounts]
         add edx, eax
         push edx
 .13:
@@ -360,28 +360,28 @@ DrawGripPads:
         add esp, byte 14h
         mov edx, dword [byte ebp-018h]
         mov eax, dword [byte ebp-04h]
-        mov dword [dword edx+dword_158D54], eax
+        mov dword [dword edx+GripSetupLastBits], eax
 .14:
         imul eax, dword [byte ebp-010h], byte 0Ah
-        movsx edi, word [dword esi+word_158D3C]
+        movsx edi, word [dword esi+GripSetupCounts]
         mov dword [byte ebp-0Ch], eax
         test byte [byte ebp-04h], 10h
         setne al
         movzx edx, al
-        movsx eax, byte [dword esi+byte_158D2C]
+        movsx eax, byte [dword esi+GripSetupSlots+2]
         xor eax, edx
         je short .17
         lea edx, [byte edi+01h]
         test byte [byte ebp-04h], 10h
         je short .15
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         mov ebx, eax
         sar ebx, 1
         add ebx, eax
         push byte 2
         jmp short .16
 .15:
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         mov ebx, eax
         sar ebx, 1
         add ebx, eax
@@ -398,7 +398,7 @@ DrawGripPads:
         call FillRect
         add esp, byte 14h
         movzx ebx, byte [byte_11FA2F]
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         sar ebx, 1
         lea edx, [edi+eax]
         sub edx, ebx
@@ -411,18 +411,18 @@ DrawGripPads:
         call DrawColorTextCentred
         test byte [byte ebp-04h], 10h
         setne al
-        mov byte [dword esi+byte_158D2C], al
+        mov byte [dword esi+GripSetupSlots+2], al
 .17:
-        cmp word [dword esi+word_158D34], byte 0
+        cmp word [dword esi+GripSetupHeld], byte 0
         jne short .18
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         mov ebx, eax
         lea edx, [edi+eax]
         sar ebx, 1
         push byte 4
         jmp short .19
 .18:
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         mov edx, eax
         lea ebx, [edi+eax]
         sar edx, 1
@@ -438,12 +438,12 @@ DrawGripPads:
         call DrawRectOutline
         add esp, byte 14h
         imul eax, dword [byte ebp-0Ch], byte 66h
-        mov edx, dword [dword_158D70]
+        mov edx, dword [GripSetupCursor]
         add eax, edx
         lea edx, [byte edi+02h]
         cmp dword [byte eax+04h], byte 0
         je short .20
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         lea ebx, [edi+eax]
         mov dword [byte ebp-02Ch], ebx
         mov ebx, eax
@@ -452,7 +452,7 @@ DrawGripPads:
         push byte 0Eh
         jmp short .21
 .20:
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         lea ebx, [edi+eax]
         mov dword [byte ebp-02Ch], ebx
         mov ebx, eax
@@ -474,10 +474,10 @@ DrawGripPads:
         push eax
         call DrawRectOutline
         add esp, byte 14h
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         inc dword [byte ebp-0Ch]
         lea edx, [byte eax+09h]
-        movsx ebx, byte [dword esi+byte_158D2D]
+        movsx ebx, byte [dword esi+GripSetupSlots+3]
         add edi, edx
         test byte [byte ebp-04h], 20h
         setne dl
@@ -507,7 +507,7 @@ DrawGripPads:
         call FillRect
         add esp, byte 14h
         movzx edx, byte [byte_11FA2F]
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         sar edx, 1
         lea ebx, [edi+eax]
         sub ebx, edx
@@ -520,18 +520,18 @@ DrawGripPads:
         call DrawColorTextCentred
         test byte [byte ebp-04h], 20h
         setne al
-        mov byte [dword esi+byte_158D2D], al
+        mov byte [dword esi+GripSetupSlots+3], al
 .24:
-        cmp word [dword esi+word_158D34], byte 0
+        cmp word [dword esi+GripSetupHeld], byte 0
         je short .25
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         mov ebx, eax
         lea edx, [edi+eax]
         sar ebx, 1
         push byte 4
         jmp short .26
 .25:
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         mov edx, eax
         lea ebx, [edi+eax]
         sar edx, 1
@@ -547,12 +547,12 @@ DrawGripPads:
         call DrawRectOutline
         add esp, byte 14h
         imul eax, dword [byte ebp-0Ch], byte 66h
-        mov edx, dword [dword_158D70]
+        mov edx, dword [GripSetupCursor]
         add eax, edx
         lea edx, [byte edi+02h]
         cmp dword [byte eax+04h], byte 0
         je short .27
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         lea ebx, [edi+eax]
         mov dword [byte ebp-02Ch], ebx
         mov ebx, eax
@@ -561,7 +561,7 @@ DrawGripPads:
         push byte 0Eh
         jmp short .28
 .27:
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         mov ecx, eax
         lea ebx, [edi+eax]
         sar ecx, 1
@@ -582,7 +582,7 @@ DrawGripPads:
         push eax
         call DrawRectOutline
         add esp, byte 14h
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         imul eax, byte 0Ah
         mov dword [byte ebp-08h], eax
         lea eax, [byte edi+02h]
@@ -600,20 +600,20 @@ DrawGripPads:
         cmp eax, dword [byte ebp-014h]
         jle near .34
         mov eax, dword [byte ebp-028h]
-        movsx eax, word [dword eax+word_158D34]
+        movsx eax, word [dword eax+GripSetupHeld]
         add eax, eax
         add eax, dword [byte ebp-034h]
-        movsx eax, word [dword eax+word_158D44]
+        movsx eax, word [dword eax+GripSetupTimers]
         cmp eax, dword [byte ebp-014h]
         jne short .30
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         mov ebx, eax
         lea edx, [edi+eax]
         sar ebx, 1
         push byte 4
         jmp short .31
 .30:
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         mov ebx, eax
         lea edx, [edi+eax]
         sar ebx, 1
@@ -627,14 +627,14 @@ DrawGripPads:
         push dword [byte ebp-08h]
         call DrawRectOutline
         add esp, byte 14h
-        mov eax, dword [dword_158D70]
+        mov eax, dword [GripSetupCursor]
         mov edx, dword [byte ebp-08h]
         add eax, dword [byte ebp-030h]
         inc edx
         inc edx
         cmp dword [byte eax+04h], byte 0
         je short .32
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         mov ecx, eax
         lea ebx, [edi+eax]
         sar ecx, 1
@@ -642,7 +642,7 @@ DrawGripPads:
         push byte 0Eh
         jmp short .33
 .32:
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         mov ecx, eax
         lea ebx, [edi+eax]
         sar ecx, 1
@@ -663,7 +663,7 @@ DrawGripPads:
         add dword [byte ebp-030h], byte 66h
         inc dword [byte ebp-0Ch]
 .34:
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         inc eax
         inc eax
         inc dword [byte ebp-014h]
@@ -722,11 +722,11 @@ GripSetupScreen:
         mov esi, unk_121FC8
         push str_RGRIPCON
         lea edi, [dword ebp-0360h]
-        mov dword [dword_158D70], eax
+        mov dword [GripSetupCursor], eax
         call AllocMemBlock
         add esp, byte 0Ch
         mov ecx, 300h
-        mov dword [dword_158D6C], eax
+        mov dword [GripSetupTick], eax
         rep movsb
         lea eax, [dword ebp-0360h]
         call SetScreenColors
@@ -759,17 +759,17 @@ GripSetupScreen:
         mov eax, 2
         call OpenScreen
         mov eax, 29h
-        mov edx, dword [dword_158D70]
+        mov edx, dword [GripSetupCursor]
         call InitMenuItems
         call SetScreenTarget
         movzx ax, byte [byte_11FA2F]
-        mov word [word_158D74], ax
+        mov word [LastButtonCode], ax
         movzx ax, byte [byte_11FA2E]
-        cmp ax, word [word_158D74]
+        cmp ax, word [LastButtonCode]
         jg short .2
-        mov ax, word [word_158D74]
+        mov ax, word [LastButtonCode]
 .2:
-        mov word [word_158D76], ax
+        mov word [GripSetupSlot], ax
         mov dword [byte ebp-024h], 0FFFFFFFFh
         mov dword [byte ebp-014h], 0
         mov dword [byte ebp-020h], GripSlotNames
@@ -786,7 +786,7 @@ GripSetupScreen:
         push byte 0
         call FillRectColor
         movzx edx, byte [byte_11FA2F]
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         sub eax, edx
         sar eax, 1
         add esp, byte 14h
@@ -800,7 +800,7 @@ GripSetupScreen:
         push byte 0
         call FillRectColor
         movzx eax, byte [byte_11FA2F]
-        movsx edx, word [word_158D76]
+        movsx edx, word [GripSetupSlot]
         sub edx, eax
         mov eax, edx
         sar eax, 1
@@ -820,7 +820,7 @@ GripSetupScreen:
         push eax
         mov ebx, esi
         call sprintf_
-        movsx edx, word [word_158D76]
+        movsx edx, word [GripSetupSlot]
         add esp, byte 0Ch
         lea eax, [byte ebp-060h]
         add edx, edx
@@ -837,7 +837,7 @@ GripSetupScreen:
         call strlen_
         test eax, eax
         je short .4
-        movsx edx, word [word_158D76]
+        movsx edx, word [GripSetupSlot]
         imul edx, byte 6
         mov eax, dword [byte ebp-01Ch]
         mov ebx, esi
@@ -884,7 +884,7 @@ GripSetupScreen:
         add esp, byte 4
         add eax, byte 5
 .7:
-        movsx edx, word [word_158D76]
+        movsx edx, word [GripSetupSlot]
         imul edx, byte 6
         mov ebx, dword [byte ebp-02Ch]
         add edx, eax
@@ -895,79 +895,79 @@ GripSetupScreen:
         mov edx, dword [byte ebp-010h]
         add esi, eax
         mov eax, dword [byte ebp-010h]
-        mov word [dword edi+word_158D34], 0
+        mov word [dword edi+GripSetupHeld], 0
         mov edx, dword [dword edx+GripShootMap+4]
-        mov word [dword eax+word_158D44], 0
+        mov word [dword eax+GripSetupTimers], 0
 .8:
         test dl, 1
         jne short .9
         sar edx, 1
-        inc word [dword eax+word_158D44]
+        inc word [dword eax+GripSetupTimers]
         jmp short .8
 .9:
         mov edx, dword [dword eax+GripPassMap+4]
-        mov word [dword eax+word_158D46], 0
+        mov word [dword eax+GripSetupTimers+2], 0
         mov eax, dword [byte ebp-010h]
 .10:
         test dl, 1
         jne short .11
         sar edx, 1
-        inc word [dword eax+word_158D46]
+        inc word [dword eax+GripSetupTimers+2]
         jmp short .10
 .11:
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         imul ebx, eax, byte 6
         mov eax, dword [byte ebp-038h]
-        mov edx, dword [dword_158D6C]
+        mov edx, dword [GripSetupTick]
         shl eax, 6
-        mov word [dword edi+word_158D3C], si
+        mov word [dword edi+GripSetupCounts], si
         mov dword [edx+eax], ebx
-        mov edx, dword [dword_158D6C]
+        mov edx, dword [GripSetupTick]
         mov dword [byte edx+eax+04h], esi
-        movsx edx, word [word_158D76]
+        movsx edx, word [GripSetupSlot]
         imul ebx, edx, byte 7
-        mov edx, dword [dword_158D6C]
+        mov edx, dword [GripSetupTick]
         mov dword [byte edx+eax+08h], ebx
-        mov edx, dword [dword_158D6C]
+        mov edx, dword [GripSetupTick]
         mov ebx, dword [byte edx+eax+04h]
         mov dword [byte edx+eax+0Ch], ebx
-        mov edx, dword [dword_158D6C]
+        mov edx, dword [GripSetupTick]
         mov ebx, dword [byte edx+eax+08h]
         mov dword [byte edx+eax+010h], ebx
-        movsx edx, word [word_158D76]
+        movsx edx, word [GripSetupSlot]
         lea ebx, [esi+edx]
         sar edx, 1
         add ebx, edx
-        mov edx, dword [dword_158D6C]
+        mov edx, dword [GripSetupTick]
         mov dword [byte edx+eax+014h], ebx
-        mov edx, dword [dword_158D6C]
+        mov edx, dword [GripSetupTick]
         mov ebx, dword [edx+eax]
         mov dword [byte edx+eax+018h], ebx
-        mov edx, dword [dword_158D6C]
+        mov edx, dword [GripSetupTick]
         mov ebx, dword [byte edx+eax+014h]
         mov dword [byte edx+eax+01Ch], ebx
         imul edx, dword [byte ebp-038h], byte 66h
-        mov ebx, dword [dword_158D70]
+        mov ebx, dword [GripSetupCursor]
         mov dword [byte edx+ebx+010h], 4
-        mov ebx, dword [dword_158D6C]
+        mov ebx, dword [GripSetupTick]
         add ebx, eax
         mov dword [byte ebp-03Ch], ebx
-        mov ebx, dword [dword_158D70]
+        mov ebx, dword [GripSetupCursor]
         mov ecx, dword [byte ebp-03Ch]
         mov dword [byte edx+ebx+014h], ecx
-        mov ebx, dword [dword_158D6C]
+        mov ebx, dword [GripSetupTick]
         mov ebx, dword [byte ebx+eax+010h]
         sub ebx, byte 5
         mov dword [byte ebp-03Ch], ebx
-        mov ebx, dword [dword_158D70]
+        mov ebx, dword [GripSetupCursor]
         mov ecx, dword [byte ebp-03Ch]
         mov dword [byte edx+ebx+03Ah], ecx
-        mov ebx, dword [dword_158D6C]
+        mov ebx, dword [GripSetupTick]
         mov eax, dword [byte ebx+eax+014h]
-        mov ebx, dword [dword_158D70]
+        mov ebx, dword [GripSetupCursor]
         sub eax, byte 5
         mov dword [byte edx+ebx+03Eh], eax
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         mov ebx, eax
         lea edx, [esi+eax]
         sar ebx, 1
@@ -980,7 +980,7 @@ GripSetupScreen:
         push esi
         push eax
         call DrawRectOutline
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         mov edx, eax
         lea ebx, [esi+eax]
         sar edx, 1
@@ -1002,7 +1002,7 @@ GripSetupScreen:
         push eax
         call DrawRectOutline
         movzx edx, byte [byte_11FA2F]
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         sar edx, 1
         lea ebx, [esi+eax]
         sub ebx, edx
@@ -1015,7 +1015,7 @@ GripSetupScreen:
         inc edx
         call DrawColorTextCentred
         movzx edx, byte [byte_11FA2F]
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         sar edx, 1
         lea ebx, [esi+eax]
         sub ebx, edx
@@ -1024,61 +1024,61 @@ GripSetupScreen:
         sub ebx, byte 3
         call GetLangText
         call DrawColorText
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         lea edx, [byte eax+09h]
         imul ebx, eax, byte 6
         inc dword [byte ebp-038h]
         add esi, edx
         mov eax, dword [byte ebp-038h]
-        mov edx, dword [dword_158D6C]
+        mov edx, dword [GripSetupTick]
         shl eax, 6
         mov dword [edx+eax], ebx
-        mov edx, dword [dword_158D6C]
+        mov edx, dword [GripSetupTick]
         mov dword [byte edx+eax+04h], esi
-        movsx ebx, word [word_158D76]
+        movsx ebx, word [GripSetupSlot]
         imul ebx, byte 7
-        mov edx, dword [dword_158D6C]
+        mov edx, dword [GripSetupTick]
         mov dword [byte edx+eax+08h], ebx
-        mov edx, dword [dword_158D6C]
+        mov edx, dword [GripSetupTick]
         mov ebx, dword [byte edx+eax+04h]
         mov dword [byte edx+eax+0Ch], ebx
-        mov edx, dword [dword_158D6C]
+        mov edx, dword [GripSetupTick]
         mov ebx, dword [byte edx+eax+08h]
         mov dword [byte edx+eax+010h], ebx
-        movsx edx, word [word_158D76]
+        movsx edx, word [GripSetupSlot]
         lea ebx, [esi+edx]
         sar edx, 1
         add ebx, edx
-        mov edx, dword [dword_158D6C]
+        mov edx, dword [GripSetupTick]
         mov dword [byte edx+eax+014h], ebx
-        mov edx, dword [dword_158D6C]
+        mov edx, dword [GripSetupTick]
         mov ebx, dword [edx+eax]
         mov dword [byte edx+eax+018h], ebx
-        mov edx, dword [dword_158D6C]
+        mov edx, dword [GripSetupTick]
         mov ebx, dword [byte edx+eax+014h]
         mov dword [byte edx+eax+01Ch], ebx
         imul edx, dword [byte ebp-038h], byte 66h
-        mov ebx, dword [dword_158D70]
+        mov ebx, dword [GripSetupCursor]
         mov dword [byte edx+ebx+010h], 4
-        mov ebx, dword [dword_158D6C]
+        mov ebx, dword [GripSetupTick]
         add ebx, eax
         mov dword [byte ebp-03Ch], ebx
-        mov ebx, dword [dword_158D70]
+        mov ebx, dword [GripSetupCursor]
         mov ecx, dword [byte ebp-03Ch]
         mov dword [byte edx+ebx+014h], ecx
-        mov ebx, dword [dword_158D6C]
+        mov ebx, dword [GripSetupTick]
         mov ebx, dword [byte ebx+eax+010h]
         sub ebx, byte 5
         mov dword [byte ebp-03Ch], ebx
-        mov ebx, dword [dword_158D70]
+        mov ebx, dword [GripSetupCursor]
         mov ecx, dword [byte ebp-03Ch]
         mov dword [byte edx+ebx+03Ah], ecx
-        mov ebx, dword [dword_158D6C]
+        mov ebx, dword [GripSetupTick]
         mov ebx, dword [byte ebx+eax+014h]
-        mov eax, dword [dword_158D70]
+        mov eax, dword [GripSetupCursor]
         sub ebx, byte 5
         mov dword [byte edx+eax+03Eh], ebx
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         mov ebx, eax
         lea edx, [esi+eax]
         sar ebx, 1
@@ -1100,7 +1100,7 @@ GripSetupScreen:
         mov dword [byte ebp-03Ch], edx
         call DrawRectOutline
         movzx edx, byte [byte_11FA2F]
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         sar edx, 1
         lea ebx, [esi+eax]
         sub ebx, edx
@@ -1112,7 +1112,7 @@ GripSetupScreen:
         mov eax, str_feB
         inc edx
         call DrawColorTextCentred
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         imul eax, byte 0Ah
         mov dword [byte ebp-0Ch], eax
         mov eax, dword [byte ebp-03Ch]
@@ -1132,79 +1132,79 @@ GripSetupScreen:
         movzx eax, byte [dword eax+GripSlotPresent]
         cmp eax, dword [byte ebp-04h]
         jle near .15
-        mov edx, dword [dword_158D6C]
+        mov edx, dword [GripSetupTick]
         add edx, dword [byte ebp-08h]
         mov eax, dword [byte ebp-0Ch]
         mov dword [edx], eax
-        mov eax, dword [dword_158D6C]
+        mov eax, dword [GripSetupTick]
         add eax, dword [byte ebp-08h]
         mov dword [byte eax+04h], esi
-        mov eax, dword [dword_158D6C]
-        movsx edx, word [word_158D76]
+        mov eax, dword [GripSetupTick]
+        movsx edx, word [GripSetupSlot]
         add eax, dword [byte ebp-08h]
         add edx, dword [byte ebp-0Ch]
         mov dword [byte eax+08h], edx
-        mov eax, dword [dword_158D6C]
+        mov eax, dword [GripSetupTick]
         add eax, dword [byte ebp-08h]
         mov edx, dword [byte eax+04h]
         mov dword [byte eax+0Ch], edx
-        mov eax, dword [dword_158D6C]
+        mov eax, dword [GripSetupTick]
         add eax, dword [byte ebp-08h]
         mov edx, dword [byte eax+08h]
         mov dword [byte eax+010h], edx
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         lea edx, [esi+eax]
         sar eax, 1
         add edx, eax
-        mov eax, dword [dword_158D6C]
+        mov eax, dword [GripSetupTick]
         add eax, dword [byte ebp-08h]
         mov dword [byte eax+014h], edx
-        mov eax, dword [dword_158D6C]
+        mov eax, dword [GripSetupTick]
         add eax, dword [byte ebp-08h]
         mov edx, dword [eax]
         mov dword [byte eax+018h], edx
-        mov eax, dword [dword_158D6C]
+        mov eax, dword [GripSetupTick]
         add eax, dword [byte ebp-08h]
         mov edx, dword [byte eax+014h]
         mov dword [byte eax+01Ch], edx
-        mov eax, dword [dword_158D70]
+        mov eax, dword [GripSetupCursor]
         add eax, dword [byte ebp-018h]
         mov dword [byte eax+010h], 4
         mov edx, dword [byte ebp-08h]
-        mov eax, dword [dword_158D6C]
+        mov eax, dword [GripSetupTick]
         add edx, eax
-        mov eax, dword [dword_158D70]
+        mov eax, dword [GripSetupCursor]
         add eax, dword [byte ebp-018h]
         mov dword [byte eax+014h], edx
-        mov eax, dword [dword_158D6C]
+        mov eax, dword [GripSetupTick]
         add eax, dword [byte ebp-08h]
         mov edx, dword [byte eax+010h]
-        mov eax, dword [dword_158D70]
+        mov eax, dword [GripSetupCursor]
         add eax, dword [byte ebp-018h]
         sub edx, byte 5
         mov dword [byte eax+03Ah], edx
-        mov eax, dword [dword_158D6C]
+        mov eax, dword [GripSetupTick]
         add eax, dword [byte ebp-08h]
         mov edx, dword [byte eax+014h]
-        mov eax, dword [dword_158D70]
+        mov eax, dword [GripSetupCursor]
         add eax, dword [byte ebp-018h]
         sub edx, byte 5
         mov dword [byte eax+03Eh], edx
         mov eax, dword [byte ebp-034h]
-        movsx eax, word [dword eax+word_158D34]
+        movsx eax, word [dword eax+GripSetupHeld]
         add eax, eax
         add eax, dword [byte ebp-030h]
-        movsx eax, word [dword eax+word_158D44]
+        movsx eax, word [dword eax+GripSetupTimers]
         cmp eax, dword [byte ebp-04h]
         jne short .13
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         mov edx, eax
         lea ebx, [esi+eax]
         sar edx, 1
         push byte 4
         jmp short .14
 .13:
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         mov ebx, eax
         lea edx, [esi+eax]
         sar ebx, 1
@@ -1218,7 +1218,7 @@ GripSetupScreen:
         push dword [byte ebp-0Ch]
         call DrawRectOutline
         add esp, byte 14h
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         mov edx, eax
         lea ebx, [esi+eax]
         sar edx, 1
@@ -1247,7 +1247,7 @@ GripSetupScreen:
         add dword [byte ebp-018h], byte 66h
         call sprintf_
         movzx edx, byte [byte_11FA2F]
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         add esp, byte 0Ch
         lea ebx, [esi+eax]
         sar eax, 1
@@ -1264,11 +1264,11 @@ GripSetupScreen:
         mov dword [byte ebp-024h], eax
         jmp short .16
 .15:
-        mov eax, dword [dword_158D70]
+        mov eax, dword [GripSetupCursor]
         add eax, dword [byte ebp-018h]
         mov word [byte eax+018h], 2
 .16:
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         lea edx, [byte eax+02h]
         inc dword [byte ebp-04h]
         add dword [byte ebp-0Ch], edx
@@ -1277,7 +1277,7 @@ GripSetupScreen:
         add eax, eax
         jmp short .19
 .17:
-        movsx edx, word [word_158D76]
+        movsx edx, word [GripSetupSlot]
         imul edx, byte 6
         mov eax, 1B6h
         mov ebx, esi
@@ -1290,7 +1290,7 @@ GripSetupScreen:
         imul eax, dword [byte ebp-038h], byte 66h
 .18:
         inc dword [byte ebp-038h]
-        mov ebx, dword [dword_158D70]
+        mov ebx, dword [GripSetupCursor]
         mov edx, eax
         inc dword [byte ebp-04h]
         add eax, byte 66h
@@ -1320,19 +1320,19 @@ GripSetupScreen:
         inc edi
         inc edi
         call FillRectColor
-        movsx eax, word [word_158D76]
+        movsx eax, word [GripSetupSlot]
         add esp, byte 14h
         sub eax, byte 4
-        mov byte [dword edi+byte_158D2A], 2
+        mov byte [dword edi+GripSetupSlots], 2
         add esi, eax
         mov eax, dword [byte ebp-010h]
-        mov byte [dword edi+byte_158D2B], 2
+        mov byte [dword edi+GripSetupSlots+1], 2
         add dword [byte ebp-010h], byte 4
-        mov dword [dword eax+dword_158D54], 0FFFFFFFFh
+        mov dword [dword eax+GripSetupLastBits], 0FFFFFFFFh
         cmp dword [byte ebp-014h], byte 4
         jl near .3
         call DrawGripPads
-        mov esi, dword [dword_158D70]
+        mov esi, dword [GripSetupCursor]
         mov ecx, 66h
         lea edi, [dword esi+0FF0h]
         mov esi, str_Standings
@@ -1345,15 +1345,15 @@ GripSetupScreen:
         mov eax, dword [byte ebp-024h]
 .21:
         mov dl, al
-        mov eax, dword [dword_158D70]
+        mov eax, dword [GripSetupCursor]
         mov byte [dword eax+01032h], dl
-        mov eax, dword [dword_158D70]
+        mov eax, dword [GripSetupCursor]
         mov byte [dword eax+01034h], 28h
-        mov eax, dword [dword_158D70]
+        mov eax, dword [GripSetupCursor]
         mov byte [dword eax+01035h], 28h
-        mov eax, dword [dword_158D70]
+        mov eax, dword [GripSetupCursor]
         mov byte [dword eax+01033h], 28h
-        mov eax, dword [dword_158D70]
+        mov eax, dword [GripSetupCursor]
         mov edx, dword [dword eax+0102Eh]
         mov eax, dword [dword eax+0102Ah]
         mov ebx, 3
@@ -1367,7 +1367,7 @@ GripSetupScreen:
         jl short .24
         cmp dword [byte ebp-040h], byte 29h
         jge short .24
-        mov eax, dword [dword_158D70]
+        mov eax, dword [GripSetupCursor]
         mov edx, dword [mousex]
         cmp edx, dword [dword eax+0102Ah]
         jne short .23
@@ -1383,7 +1383,7 @@ GripSetupScreen:
         mov ecx, DrawGripPads
         mov ebx, 0FFFFFFFFh
         push eax
-        mov edx, dword [dword_158D70]
+        mov edx, dword [GripSetupCursor]
         mov eax, 29h
         call RunMenu
         cmp dword [byte ebp-040h], byte 28h
@@ -1401,21 +1401,21 @@ GripSetupScreen:
         cmp dword [byte ebp-04h], byte 2
         jge short .25
         mov edx, dword [byte ebp-04h]
-        mov word [dword eax+word_158D34], dx
+        mov word [dword eax+GripSetupHeld], dx
         jmp short .28
 .25:
         mov ebx, dword [byte ebp-04h]
         mov ecx, dword [byte ebp-04h]
         shl esi, 2
-        movsx edx, word [dword eax+word_158D34]
+        movsx edx, word [dword eax+GripSetupHeld]
         dec ebx
         dec ebx
         dec ecx
         dec ecx
-        mov word [dword esi+edx*2+word_158D44], bx
+        mov word [dword esi+edx*2+GripSetupTimers], bx
         mov edx, 1
         shl edx, cl
-        cmp word [dword eax+word_158D34], byte 0
+        cmp word [dword eax+GripSetupHeld], byte 0
         je short .26
         mov dword [dword esi+GripPassMap+4], edx
         jmp short .28
@@ -1429,10 +1429,10 @@ GripSetupScreen:
         jne near .22
         mov eax, 3
         call FadeOut
-        push dword [dword_158D70]
+        push dword [GripSetupCursor]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_158D6C]
+        push dword [GripSetupTick]
         call FreeMemBlock
         add esp, byte 4
 .29:
@@ -1515,38 +1515,38 @@ UpdateJoystickTest:
         push ecx
         push edx
         push esi
-        mov ecx, dword [dword_158D68]
+        mov ecx, dword [JoyTestFrame]
         mov esi, dword [JoyPadBits]
         shl ecx, 3
         sar esi, cl
         and esi, byte 0Fh
         movsx eax, word [nosplit esi*2+word_11758C]
-        cmp eax, dword [dword_158D64]
+        cmp eax, dword [JoyTestLastTick]
         je near .2
-        cmp dword [dword_158D64], byte 0
+        cmp dword [JoyTestLastTick], byte 0
         je short .1
-        mov eax, dword [dword_158D64]
-        mov word [nosplit eax*2+word_158CBA], 0
+        mov eax, dword [JoyTestLastTick]
+        mov word [nosplit eax*2+JoyTestButtonsLit], 0
         call SetScreenTarget
-        mov eax, dword [dword_158D64]
+        mov eax, dword [JoyTestLastTick]
         dec eax
         imul eax, byte 0Ch
-        push dword [dword eax+dword_158CCC]
+        push dword [dword eax+JoyTestDotX]
         call PutBlockAtOwnPos
         add esp, byte 4
 .1:
         lea eax, [esi+esi]
-        mov dword [dword_158D64], 0
+        mov dword [JoyTestLastTick], 0
         cmp word [dword eax+word_11758C], byte 0
         je near .3
         movsx eax, word [dword eax+word_11758C]
-        mov dword [dword_158D64], eax
-        mov word [nosplit eax*2+word_158CBA], 1
+        mov dword [JoyTestLastTick], eax
+        mov word [nosplit eax*2+JoyTestButtonsLit], 1
         call SetScreenTarget
-        mov eax, dword [dword_158D64]
+        mov eax, dword [JoyTestLastTick]
         dec eax
         imul eax, byte 0Ch
-        push dword [dword eax+dword_158CD0]
+        push dword [dword eax+JoyTestDotY]
         call PutBlockAtOwnPos
         add esp, byte 4
         call GetTicks
@@ -1563,20 +1563,20 @@ UpdateJoystickTest:
         call GetTicks
         cmp eax, dword [dword_117588]
         jle short .3
-        mov eax, dword [dword_158D64]
-        movsx edx, word [nosplit eax*2+word_158CBA]
+        mov eax, dword [JoyTestLastTick]
+        movsx edx, word [nosplit eax*2+JoyTestButtonsLit]
         cmp edx, byte 1
         sete dl
         movzx dx, dl
         inc edx
-        mov word [nosplit eax*2+word_158CBA], dx
+        mov word [nosplit eax*2+JoyTestButtonsLit], dx
         call SetScreenTarget
-        mov edx, dword [dword_158D64]
+        mov edx, dword [JoyTestLastTick]
         dec edx
         imul eax, edx, byte 0Ch
-        movsx ecx, word [nosplit edx*2+word_158CBC]
+        movsx ecx, word [nosplit edx*2+JoyTestAxisVals]
         shl ecx, 2
-        push dword [dword ecx+eax+dword_158CCC]
+        push dword [dword ecx+eax+JoyTestDotX]
         call PutBlockAtOwnPos
         add esp, byte 4
 .3:
@@ -1646,7 +1646,7 @@ JoystickTestScreen:
         push dword [byte ebp+06Ah]
         call FindShape
         add esp, byte 8
-        mov dword [dword esi+dword_158CD0], eax
+        mov dword [dword esi+JoyTestDotY], eax
         lea eax, [byte ebp+052h]
         push eax
         inc edi
@@ -1655,24 +1655,24 @@ JoystickTestScreen:
         mov byte [byte ebp+055h], 31h
         call FindShape
         add esp, byte 8
-        mov dword [dword esi+dword_158CD4], eax
+        mov dword [dword esi+JoyTestArt], eax
         xor edx, edx
-        mov eax, dword [dword esi+dword_158CD0]
+        mov eax, dword [dword esi+JoyTestDotY]
         add esi, byte 0Ch
         call CopyBitmap
         push eax
         inc dword [byte ebp+066h]
-        mov dword [dword esi+dword_158CC0], eax
+        mov dword [dword esi+JoyTestBmps], eax
         call DrawShapeAtOwnPos
         add esp, byte 4
-        mov word [dword edi+word_158CBA], 0
+        mov word [dword edi+JoyTestButtonsLit], 0
         cmp dword [byte ebp+066h], byte 8
         jl short .1
         mov eax, dword [dword ebp-014Eh]
         lea edx, [dword ebp-014Ah]
-        mov dword [dword_158D68], eax
+        mov dword [JoyTestFrame], eax
         mov eax, 3
-        mov dword [dword_158D64], 0
+        mov dword [JoyTestLastTick], 0
         call InitMenuItems
         push str_BT00
         push dword [byte ebp+06Ah]
@@ -1831,7 +1831,7 @@ JoystickTestScreen:
         jl near .2
         xor esi, esi
 .13:
-        push dword [dword esi+dword_158CCC]
+        push dword [dword esi+JoyTestDotX]
         call FreeMemBlock
         add esi, byte 0Ch
         add esp, byte 4

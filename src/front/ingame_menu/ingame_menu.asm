@@ -1,6 +1,7 @@
 ; The in-game menu over the game view: its frame, quit / return, the front-end screens during a game and back (96 PC).
 bits 32
 %include "hockey.inc"
+extern TeamRosterPtrs
 section s_A17D5 progbits alloc exec nowrite align=1
 extern AwayClinchesSeries, awtmstruct, byte_1175A4, byte_1175A5, byte_1175A6, byte_1175A7, byte_1175A8, byte_1175A9
 extern byte_11D91C, byte_11D91D, byte_11FA2F, byte_1820F1, byte_1843CC, byte_18444E, byte_184451
@@ -33,7 +34,7 @@ extern str_Sid2, str_Sts0, str_Sts1, strcat_, strcpy_, AddIceCrud, LoadZamboni, 
 extern LoadStandsArt, SetPenaltyBoxDoor, DrawZamboniScene, DrawOverlayPanels, RefreshControlSlots, SetGameBackdrop, SaveGameFile, LoadModeStats
 extern DrawArt, AllocMemBlock, FreeMemBlock, CreateBitmap, FreeBitmap, FreeColourLookup, SetAaPalLut, SetScreenTarget
 extern FindShape, ClearClipRect, TextSetFont, unk_11D7A4, unk_11D7BC, str_Punct_InGameMenu, unk_11D7EC, str_N_InGameMenu
-extern str_F_InGameMenu, unk_11D810, unk_11D816, unk_11D81C, unk_11D89C, exhstate, unk_17D3E8, unk_18440C
+extern str_F_InGameMenu, unk_11D810, unk_11D816, unk_11D81C, unk_11D89C, unk_17D3E8, unk_18440C
 extern unk_184688, unk_184692, UpdateCamera, SlotsTwoPlayer, PauseRequested, word_11ED34, hmscore, awscore
 global DrawInGameMenuFrame, RedrawInGameMenu, RedrawInGameMenu_7C, RedrawInGameMenu_7D, OpenFrontEndFromGame, ReturnToGameView, InGameReturnMenu, jpt_A25B5
 global InGameMenu, InGameMenu_A9C, InGameMenu_ABD, InGameMenu_D17, InGameMenu_F31, InGameMenu_F42, InGameMenu_FA8
@@ -736,7 +737,7 @@ ReturnToGameView:
         add esp, byte 8
         mov dword [MenuRemoteCursorArt], eax
 .2:
-        mov eax, exhstate
+        mov eax, TeamRosterPtrs+320h
         call SetScreenPalette
         call InitSlotTable
         call RefreshControlSlots
@@ -753,7 +754,7 @@ ReturnToGameView:
         push dword [dword_184404]
         mov ebx, 2
         push dword [dword_184400]
-        mov edx, exhstate
+        mov edx, TeamRosterPtrs+320h
         call SetGameBackdrop
         call RedrawInGameMenu
         xor eax, eax
@@ -1053,7 +1054,7 @@ InGameMenu:
         mov eax, 1
         xor edx, edx
         call SetPenaltyBoxDoor
-        mov eax, exhstate
+        mov eax, TeamRosterPtrs+320h
         mov edx, 0FFFFFFFFh
         call SetScreenPalette
         mov eax, 9
@@ -1498,7 +1499,7 @@ InGameMenu:
         push dword [dword_184404]
         mov ebx, 2
         push dword [dword_184400]
-        mov edx, exhstate
+        mov edx, TeamRosterPtrs+320h
         call SetGameBackdrop
         call PlayMusic
         call RedrawInGameMenu
@@ -1793,7 +1794,7 @@ InGameMenu_ABD:
         call LoadStandsArt
         xor eax, eax
         call AddIceCrud
-        mov eax, exhstate
+        mov eax, TeamRosterPtrs+320h
         call SetScreenPalette
         mov eax, 1
         call LinkSync

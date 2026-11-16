@@ -3,14 +3,14 @@ bits 32
 %include "hockey.inc"
 section s_1D6C1 progbits alloc exec nowrite align=1
 extern assinsert, BuildDefaultLines, apl, curevent, crowdlevel, CrowdNoiseReset, curperiod, GameLoopFrames
-extern gameresult, GameFrameCount, dword_164744, dword_164748, CrowdExciteTotal, energywarn, exitgame, fadeinpending
+extern gameresult, GameFrameCount, InputRepeatState, CrowdExciteTotal, energywarn, exitgame, fadeinpending
 extern forceteams, fox, foy, GameLoopActive, gameopts, gameover, goalevent, gsp
 extern InGameMenuRequest, introskipped, lastplayer, lcblink, lcboxon, lcline, LineChangeLine, LineChangeReq
 extern optblock, passplayer, Pencntdwn, Pencntdwn2, penshotlive, penshotmode, penshotplayer, penshotstart
 extern puckx, pucky, refhitcount, regd0, regd1, regd2, ResetClock, SetSPA
 extern SetupTeamLines, shotongoal, shotontarget, SortCords, StartGame, StartPreGame, EmptyRoutine, TextSetColor
-extern SetScreenTarget, threat, vtoa, VisTeam, word_1178AC, word_1178AE, word_1178F4, refsignal
-extern RefStep, word_1178FA, Penaltytimer, SortPending, energywarn_aw, lcblink_aw, lcblinktime, lcblinktime_aw
+extern SetScreenTarget, threat, vtoa, VisTeam, passdir, passspeed, ClockFrameCount, refsignal
+extern RefStep, StoppageReason, Penaltytimer, SortPending, energywarn_aw, lcblink_aw, lcblinktime, lcblinktime_aw
 extern lcsel, lcsel_aw, lcline_aw, lctimer, lctimer_aw, lcboxon_aw, FaceoffDotX, puckfaceoff2_ptab
 extern ovltimer, injurystop, bannertimer, PeriodEventCount, GameEventFlags, hmtmap, awtmap, regd4
 extern word_176B68, SpeechPatchNext, joysampling, word_176B6E, word_176B70, word_176B72, word_176B76, word_176B7A
@@ -271,14 +271,14 @@ ResetGameVars:
         mov word [Pencntdwn2], 0FFFFh
         mov word [threat], 0
         mov word [passplayer], 0
-        mov word [word_1178AE], 0
-        mov word [word_1178AC], 0
+        mov word [passspeed], 0
+        mov word [passdir], 0
         mov word [lastplayer], 0
         mov word [VisTeam], 0
         mov word [SortPending], 0
-        mov word [word_1178FA], 0
+        mov word [StoppageReason], 0
         mov word [refsignal], 0
-        mov word [word_1178F4], 0
+        mov word [ClockFrameCount], 0
         mov word [lcblinktime_aw], 0
         mov word [lcblinktime], 0
         mov word [lcblink_aw], 0
@@ -297,8 +297,8 @@ ResetGameVars:
         mov word [lcline], 0
         mov word [lcsel_aw], 0
         mov word [lcsel], 0
-        mov dword [dword_164748], 0
-        mov dword [dword_164744], 0
+        mov dword [InputRepeatState+4], 0
+        mov dword [InputRepeatState], 0
         mov word [bannertimer], 0
         mov word [injurystop], 0
         mov word [refhitcount], 0

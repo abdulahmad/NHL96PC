@@ -5,7 +5,7 @@ section s_4B7BB progbits alloc exec nowrite align=1
 extern SortCords, BurstEnergyCost, MaxSpeed, doplayeracc_ftab, PtrPuckZone, dword_176BDC, optflags, gameopts
 extern gmode, puckvy, puckc, PtrPuckFlags, passplayer, puckvx, puckx, pucky
 extern randomd0, regd2, regd3, SetCarryAnim, SetSPA, GetHot, PickSkateAnim, PlaySfx
-extern vecdist, vtoa, word_1178B4, yc1, gmode2, refsignal, dirtab, dirtab_y
+extern vecdist, vtoa, xc1, yc1, gmode2, refsignal, dirtab, dirtab_y
 extern regd4, regd0, regd1
 global EvadePlayers, avdgoal_box, doplayeracc_7F4, EvadePlayers_2D8, skatetopuck, doplayeracc, EvadePC, skateto
 global playeracc, avdgoal, dostop, stopna, goalieacc, noturn0, BurstDrainEnergy, burst
@@ -1147,7 +1147,7 @@ skateto:
         movzx eax, al
         test eax, eax
         je short .13
-        mov ax, word [word_1178B4]
+        mov ax, word [xc1]
         mov word [regd0], ax
         mov ax, word [yc1]
         jmp short .14

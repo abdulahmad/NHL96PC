@@ -4,8 +4,8 @@ bits 32
 section s_1F300 progbits alloc exec nowrite align=1
 extern byte_115109, byte_11510A, byte_11510B, byte_11510C, byte_115114, byte_115115, byte_115116, byte_115117
 extern byte_117575, byte_157191, awroster, byte_157FD2, byte_158646, pad2dev, pad1dev, curperiod
-extern dword_1150D8, dword_1571B3, dword_15803D, dword_1580A1, dword_158654, dword_16411C, dword_164120, plseasongoals
-extern dword_164128, dword_164798, PlayoffTreeData, dword_17D162, dword_17D267, FatalError, FileClose, FileOpenRead
+extern dword_1150D8, dword_1571B3, dword_15803D, dword_1580A1, dword_158654, TeamRosterPtrs
+extern ObjCleanupSlot, PlayoffTreeData, dword_17D162, dword_17D267, FatalError, FileClose, FileOpenRead
 extern FileReadAt, GameLoopActive, gameopts, GameOver, gmode, hmroster, hmrosterpos, lseek_
 extern MakeDataPath, optflags, strcpy_, FreeGameSprites, SetCrowdTarget, GetLangText, MakeSeasonDbPath, MakePlayoffDbPath
 extern FreeMemBlock, DosFindFirst, hmplstats, hmglstats, hmglattr, hmplattr, awlinetab, hmteamrec
@@ -28,7 +28,7 @@ EndGameCleanup:
         xor eax, eax
 .1:
         add eax, 0A0h
-        mov dword [dword eax+dword_164798], 0
+        mov dword [dword eax+ObjCleanupSlot], 0
         cmp eax, 0AA0h
         jne short .1
         call FreeGameSprites
@@ -1042,29 +1042,29 @@ FillTeamRoster:
         jne short .11
         mov edx, dword [byte ebp+072h]
         movzx eax, word [byte ebp+0Eh]
-        mov dword [dword edx+dword_16411C], eax
+        mov dword [dword edx+TeamRosterPtrs], eax
         mov edx, eax
         movzx eax, word [byte ebp+010h]
         add eax, edx
         mov edx, dword [byte ebp+072h]
-        mov dword [dword edx+dword_164120], eax
+        mov dword [dword edx+TeamRosterPtrs+4], eax
         movzx eax, word [byte ebp-044h]
-        mov dword [dword edx+plseasongoals], eax
+        mov dword [dword edx+TeamRosterPtrs+8], eax
         mov edx, eax
         movzx eax, word [byte ebp-042h]
 .10:
         add eax, edx
         mov edx, dword [byte ebp+072h]
-        mov dword [dword edx+dword_164128], eax
+        mov dword [dword edx+TeamRosterPtrs+0Ch], eax
         jmp short .13
 .11:
         mov eax, dword [byte ebp+072h]
-        mov dword [dword eax+dword_16411C], 0
+        mov dword [dword eax+TeamRosterPtrs], 0
         mov edx, dword [byte ebp+072h]
-        mov eax, dword [dword eax+dword_16411C]
-        mov dword [dword edx+dword_164120], eax
+        mov eax, dword [dword eax+TeamRosterPtrs]
+        mov dword [dword edx+TeamRosterPtrs+4], eax
         movzx eax, word [byte ebp-032h]
-        mov dword [dword edx+plseasongoals], eax
+        mov dword [dword edx+TeamRosterPtrs+8], eax
         mov edx, eax
         movzx eax, word [byte ebp-030h]
         jmp short .10

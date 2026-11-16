@@ -2,54 +2,47 @@
 bits 32
 %include "hockey.inc"
 section s_15EA0C nobits alloc noexec write align=1
-global SortCords, byte_160B2D, byte_160B92, byte_160B93, byte_160B94, byte_160B95, byte_160BF8, byte_160BFA
-global byte_160BFB, byte_160C5E, byte_160C60, byte_160C61, byte_160CC5, byte_160CC6, byte_160CC7, byte_160D2B
-global byte_160D2C, byte_160D2D, byte_164741, byte_164797, byte_16479B, byte_1647E0, byte_1647E1, byte_1647E3
-global byte_1647FA, byte_164920, byte_164CE0, dword_15EA0C, dword_15EA10, dword_15EA14, dword_15EA18, dword_15EA1C
-global dword_15EA20, dword_15EA24, dword_15EA28, UserRecordList, dword_160A90, UserOpponentColumn, dword_160A98, dword_160A9C
-global dword_160AA0, dword_160AA4, dword_160AA8, UserRatingColumn, UserShutoutColumn, UserNameIndex, UserStreakColumn, dword_160ABC
-global UserLongStreakColumn, UserPowerPlayColumn, dword_160AC8, dword_160AFA, dword_160B24, dword_160B28, dword_160B60, dword_160B64
-global dword_160B76, dword_160B7A, dword_160B8A, dword_160B8E, dword_160BC6, dword_160BCA, dword_160BD0, dword_160BD4
-global dword_160BD8, dword_160BDC, dword_160BE0, dword_160BF0, dword_160BF4, dword_160C2C, dword_160C30, dword_160C36
-global dword_160C3A, dword_160C3E, dword_160C42, dword_160C46, dword_160C56, dword_160C5A, dword_160C92, dword_160C96
-global dword_160C9C, dword_160CA0, dword_160CA4, dword_160CA8, dword_160CAC, dword_160CBC, dword_160CC0, dword_160CF8
-global dword_160CFC, dword_160D02, dword_160D06, dword_160D0A, dword_160D0E, dword_160D12, dword_160D22, dword_160D26
-global dword_16411C, dword_164120, plseasongoals, dword_164128, dword_164744, dword_164748, dword_164750, dword_164798
-global dword_1647A0, dword_1647A4, dword_164806, dword_164816, dword_164838, dword_164956, dword_164D16, unk_160B50
-global exhstate, unk_164688, JoyStateTable, AwSortCords, unk_164E7C, word_160ACC, word_164716, word_16472A
-global word_16474C, word_16474E, word_164792, puckcross, puckcross2, puckcross6, word_16479E, word_1647A2
-global word_1647A8, word_1647AA, word_1647B6, word_1647CA, word_1647DA, word_1647E4
-dword_15EA0C:
+global SortCords
+
+global LineChangeFlags
+global UserMenuBoxes
+global UserRecordList, UserStreakField, UserOpponentColumn, UserPowerPlayField, UserShutoutField
+global UserGoalsAgainstField, UserLongStreakField, UserGoalsForField, UserRatingColumn, UserShutoutColumn, UserNameIndex, UserStreakColumn, UserNameField
+global UserLongStreakColumn, UserPowerPlayColumn, UserTeamField, UserPopupRecords
+
+
+
+
+
+global TeamRosterPtrs, InputRepeatState, JoyButtonsTable, ObjCleanupSlot
+
+global TeamPaletteBuf, JoyStateTable, AwSortCords, PreGameSkatePaths, SlotUserNames, PenBoxSeatX, PenBoxSeatY
+global PuckCrossSave, puckcross, puckcross2, puckcross6
+
+UserMenuBoxes:
         resb 4
-dword_15EA10:
         resb 4
-dword_15EA14:
         resb 4
-dword_15EA18:
         resb 4
-dword_15EA1C:
         resb 4
-dword_15EA20:
         resb 4
-dword_15EA24:
         resb 4
-dword_15EA28:
         resb 8292
 UserRecordList:
         resb 4
-dword_160A90:
+UserStreakField:
         resb 4
 UserOpponentColumn:
         resb 4
-dword_160A98:
+UserPowerPlayField:
         resb 4
-dword_160A9C:
+UserShutoutField:
         resb 4
-dword_160AA0:
+UserGoalsAgainstField:
         resb 4
-dword_160AA4:
+UserLongStreakField:
         resb 4
-dword_160AA8:
+UserGoalsForField:
         resb 4
 UserRatingColumn:
         resb 4
@@ -59,231 +52,139 @@ UserNameIndex:
         resb 4
 UserStreakColumn:
         resb 4
-dword_160ABC:
+UserNameField:
         resb 4
 UserLongStreakColumn:
         resb 4
 UserPowerPlayColumn:
         resb 4
-dword_160AC8:
+UserTeamField:
         resb 4
-word_160ACC:
+SlotUserNames:
         resb 46
-dword_160AFA:
+UserPopupRecords:
         resb 42
-dword_160B24:
         resb 4
-dword_160B28:
         resb 5
-byte_160B2D:
         resb 35
-unk_160B50:
         resb 16
-dword_160B60:
         resb 4
-dword_160B64:
         resb 18
-dword_160B76:
         resb 4
-dword_160B7A:
         resb 16
-dword_160B8A:
         resb 4
-dword_160B8E:
         resb 4
-byte_160B92:
         resb 1
-byte_160B93:
         resb 1
-byte_160B94:
         resb 1
-byte_160B95:
         resb 49
-dword_160BC6:
         resb 4
-dword_160BCA:
         resb 6
-dword_160BD0:
         resb 4
-dword_160BD4:
         resb 4
-dword_160BD8:
         resb 4
-dword_160BDC:
         resb 4
-dword_160BE0:
         resb 16
-dword_160BF0:
         resb 4
-dword_160BF4:
         resb 4
-byte_160BF8:
         resb 2
-byte_160BFA:
         resb 1
-byte_160BFB:
         resb 49
-dword_160C2C:
         resb 4
-dword_160C30:
         resb 6
-dword_160C36:
         resb 4
-dword_160C3A:
         resb 4
-dword_160C3E:
         resb 4
-dword_160C42:
         resb 4
-dword_160C46:
         resb 16
-dword_160C56:
         resb 4
-dword_160C5A:
         resb 4
-byte_160C5E:
         resb 2
-byte_160C60:
         resb 1
-byte_160C61:
         resb 49
-dword_160C92:
         resb 4
-dword_160C96:
         resb 6
-dword_160C9C:
         resb 4
-dword_160CA0:
         resb 4
-dword_160CA4:
         resb 4
-dword_160CA8:
         resb 4
-dword_160CAC:
         resb 16
-dword_160CBC:
         resb 4
-dword_160CC0:
         resb 5
-byte_160CC5:
         resb 1
-byte_160CC6:
         resb 1
-byte_160CC7:
         resb 49
-dword_160CF8:
         resb 4
-dword_160CFC:
         resb 6
-dword_160D02:
         resb 4
-dword_160D06:
         resb 4
-dword_160D0A:
         resb 4
-dword_160D0E:
         resb 4
-dword_160D12:
         resb 16
-dword_160D22:
         resb 4
-dword_160D26:
         resb 5
-byte_160D2B:
         resb 1
-byte_160D2C:
         resb 1
-byte_160D2D:
         resb 13295
-dword_16411C:
+TeamRosterPtrs:
         resb 4
-dword_164120:
         resb 4
-plseasongoals:
         resb 4
-dword_164128:
         resb 788
-exhstate:
         resb 588
-unk_164688:
+TeamPaletteBuf:
         resb 142
-word_164716:
+PenBoxSeatX:
         resb 20
-word_16472A:
+PenBoxSeatY:
         resb 23
-byte_164741:
+LineChangeFlags:
         resb 3
-dword_164744:
+InputRepeatState:
         resb 4
-dword_164748:
         resb 4
-word_16474C:
+JoyButtonsTable:
         resb 2
-word_16474E:
         resb 2
-dword_164750:
         resb 4
 JoyStateTable:
         resb 62
-word_164792:
+PuckCrossSave:
         resb 2
 puckcross:
         resb 2
 puckcross2:
         resb 1
-byte_164797:
         resb 1
-dword_164798:
+ObjCleanupSlot:
         resb 2
 puckcross6:
         resb 1
-byte_16479B:
         resb 1
 SortCords:
         resb 2
-word_16479E:
         resb 2
-dword_1647A0:
         resb 2
-word_1647A2:
         resb 2
-dword_1647A4:
         resb 4
-word_1647A8:
         resb 2
-word_1647AA:
         resb 12
-word_1647B6:
         resb 20
-word_1647CA:
         resb 16
-word_1647DA:
         resb 6
-byte_1647E0:
         resb 1
-byte_1647E1:
         resb 2
-byte_1647E3:
         resb 1
-word_1647E4:
         resb 22
-byte_1647FA:
         resb 12
-dword_164806:
         resb 16
-dword_164816:
         resb 34
-dword_164838:
         resb 232
-byte_164920:
         resb 54
-dword_164956:
         resb 518
 AwSortCords:
         resb 388
-byte_164CE0:
         resb 54
-dword_164D16:
         resb 358
-unk_164E7C:
+PreGameSkatePaths:
         resb 160

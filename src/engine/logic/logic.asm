@@ -4,14 +4,14 @@ bits 32
 section s_313D2 progbits alloc exec nowrite align=1
 extern AddPenalty, ChkOffsides, ChkPullGoalieLate, CwdExciteLvl, DemoMode, EvadePlayers, GameLoopActive, MarkTwoLinePlayers
 extern OOlist, PBnum, PenShotAssign, Pencntdwn, PuckIChk, RemoveFromLines, SortCords, awtmstruct
-extern byte_1178C8, Endfaceoff_ftab_m1, PositionAssignTab, byte_157B95, byte_157DA2, byte_1647E3, byte_16514E, OffsideCalled
+extern sflags3, Endfaceoff_ftab_m1, PositionAssignTab, byte_157B95, byte_157DA2, byte_16514E, OffsideCalled
 extern PenBuf, PenBuf_pl, byte_176B83, iflags, icingPlayer, goalevent, byte_176B9E, byte_176B9F
 extern check4bench, chk4lc, chk4pass, crowdlevel, hmslotcount, awslotcount, HomeEbenPlayer, AwayEbenPlayer
 extern onetimerflag, penshotteam, sopathx, sopathy, sopathend, sopathpoint, pspathside, pspathdir
 extern OneTimerPasser, PuckChasers, PuckChaserPlayer, ScoreCelebrating, str_wildcard, PathPointTab, ShootoutPathData_y, dword_16523C
 extern dword_165240, dword_165244, dword_165248, dword_16524C, hmtmnear, awtmnear, findpc, fox
 extern foy, gameclock, gameopts, getlchoice, gmode, hmtmstruct, lasttouch, lcblink
-extern lcboxon, lcline, puckvy, puckc, PtrPuckFlags, off_117890, PtrPuckObject, passplayer
+extern lcboxon, lcline, puckvy, puckc, PtrPuckFlags, PtrRefObject, PtrPuckObject, passplayer
 extern penshotlive, penshotmode, penshotplayer, penshotstart, psendcount, puckvx, puckvz, puckx
 extern pucky, puckz, randomd0, regd2, regd3, sflags, shotongoal, skatetopuck
 extern SetPenaltyBoxDoor, GetPartner, defotarget, defdtarget, assextra3, assgoalie, check4check, checkob
@@ -19,11 +19,11 @@ extern checkpuckcoll, chk4lcauto, CompPass, chk4shot, SetShotMode, ShotMode, Fin
 extern SetSPA, SprSort, changeplayer, GetHot, Setplass, setplayer, updateanim, SetExitGame
 extern PuckInNet, doplayeracc, EvadePC, skateto, PostGoalEvent, AddPenalty2, EndPenaltyShot, PlaySfxOr
 extern PlaySfx, sfx, CrowdReaction, PlayArenaClip, StopArenaClip, vecdist, threat, ExtraAttackerSpots
-extern str_Q, vtoa, VisTeam, word_1178AC, word_1178AE, word_1178B4, yc1, fodir1
-extern fodir2, gmode2, HomeControlSlot, RefStep, word_1178FA, gsp, clockticks, dirtab
+extern str_Q, vtoa, VisTeam, passdir, passspeed, xc1, yc1, fodir1
+extern fodir2, gmode2, HomeControlSlot, RefStep, StoppageReason, gsp, clockticks, dirtab
 extern dirtab_y, CheckHitAnims, lcblinktime, lcsel, lctimer, ovltimer, injurystop, PuckCarrySpotX
-extern PuckCarrySpotY, ScoreCelebrateAnims, refsigdir, RefSignalAnims, FightAnimTab, puckcross2, puckcross6, word_16479E
-extern word_1647A2, word_1647B6, word_1647DA, word_1650A6, word_165144, hmscore, hmtmap, awscore
+extern PuckCarrySpotY, ScoreCelebrateAnims, refsigdir, RefSignalAnims, FightAnimTab, puckcross2, puckcross6
+extern word_1650A6, word_165144, hmscore, hmtmap, awscore
 extern awtmap, fofdata2, PlayFlags, fofdata2_w4, fofdata2_w6, regd4, regd0, regd1
 extern joysampling, word_176B7C, PerTimeTotal, LastTouchTeam, PassDistY, StoppageFlag, LastPlayerTouch
 global ChkTwoLinePass, Endfaceoff, RequestLineChange, StartShootoutPath, a2offsides, a2touchpuck, assinsert, assrefdrop
@@ -244,7 +244,7 @@ assextra4:
         mov eax, dword [puckc]
         movsx eax, byte [eax]
         imul eax, dword 0A0h
-        cmp word [dword eax+word_1647B6], byte 0
+        cmp word [dword eax+SortCords+1Ah], byte 0
         jne short .16
         movsx eax, word [byte ebx+02Ah]
         cmp eax, byte 55h
@@ -456,7 +456,7 @@ asswingo:
         mov eax, dword [puckc]
         movsx eax, byte [eax]
         imul eax, dword 0A0h
-        cmp word [dword eax+word_1647B6], byte 0
+        cmp word [dword eax+SortCords+1Ah], byte 0
         jg short .3
         mov ax, word [gmode2]
         xor ah, ah
@@ -666,7 +666,7 @@ asscentero:
         mov eax, dword [puckc]
         movsx eax, byte [eax]
         imul eax, dword 0A0h
-        cmp word [dword eax+word_1647B6], byte 0
+        cmp word [dword eax+SortCords+1Ah], byte 0
         jg short .3
         mov ax, word [gmode2]
         xor ah, ah
@@ -2810,7 +2810,7 @@ assscore:
         movsx eax, al
         test eax, eax
         je short .4
-        mov eax, dword [off_117890]
+        mov eax, dword [PtrRefObject]
         cmp word [byte eax+026h], byte 0
         jl short .4
 .2:
@@ -2884,11 +2884,11 @@ assscore:
 .7:
         movsx eax, word [VisTeam]
         imul eax, dword 0A0h
-        mov ax, word [dword eax+word_16479E]
+        mov ax, word [dword eax+SortCords+2]
         mov word [byte ebx+02Ah], ax
         movsx eax, word [VisTeam]
         imul eax, dword 0A0h
-        mov ax, word [dword eax+word_1647A2]
+        mov ax, word [dword eax+SortCords+6]
         mov word [byte ebx+02Ch], ax
 .8:
         mov ax, word [dword ebx+086h]
@@ -2901,7 +2901,7 @@ assscore:
         movsx eax, al
         test eax, eax
         je short .10
-        mov eax, dword [off_117890]
+        mov eax, dword [PtrRefObject]
         movsx eax, word [byte eax+026h]
         cmp eax, 12Ch
         je near .2
@@ -4749,12 +4749,12 @@ Endfaceoff:
         movsx ax, byte [dword eax+Endfaceoff_ftab_m1]
         mov dword [byte ebp-04h], 0
         add ebx, eax
-        or byte [byte_1178C8], 10h
+        or byte [sflags3], 10h
         mov word [regd2], bx
         jmp short .2
 .1:
         imul eax, dword 0A0h
-        movsx eax, word [dword eax+word_1647B6]
+        movsx eax, word [dword eax+SortCords+1Ah]
         cmp eax, byte 4
         je short .3
         inc dword [byte ebp-04h]
@@ -4767,7 +4767,7 @@ Endfaceoff:
         jmp short .5
 .4:
         imul eax, dword 0A0h
-        movsx eax, word [dword eax+word_1647B6]
+        movsx eax, word [dword eax+SortCords+1Ah]
         cmp eax, byte 4
         je short .6
         inc esi
@@ -4778,13 +4778,13 @@ Endfaceoff:
 .6:
         movsx ecx, si
         imul ecx, dword 0A0h
-        movsx eax, byte [dword ecx+byte_1647E3]
+        movsx eax, byte [dword ecx+SortCords+47h]
         imul eax, byte 15h
         movsx ebx, word [byte ebp-04h]
         imul ebx, dword 0A0h
         movzx ax, byte [dword eax+byte_157DA2]
         mov dword [byte ebp-08h], eax
-        movsx eax, byte [dword ebx+byte_1647E3]
+        movsx eax, byte [dword ebx+SortCords+47h]
         imul eax, byte 15h
         mov edi, dword [byte ebp-08h]
         movzx ax, byte [dword eax+byte_157B95]
@@ -4799,7 +4799,7 @@ Endfaceoff:
         mov word [lasttouch], si
         call randomd0
         add eax, 8
-        mov word [dword ebx+word_1647DA], ax
+        mov word [dword ebx+SortCords+3Eh], ax
         jmp short .8
 .7:
         mov eax, dword [byte ebp-04h]
@@ -4808,7 +4808,7 @@ Endfaceoff:
         mov di, word [PlayFlags]
         call randomd0
         add eax, 8
-        mov word [dword ecx+word_1647DA], ax
+        mov word [dword ecx+SortCords+3Eh], ax
 .8:
         and edi, 800h
         movsx eax, di
@@ -5974,7 +5974,7 @@ CrowdOnStoppage:
         push ebx
         push ecx
         push edx
-        movsx eax, word [word_1178FA]
+        movsx eax, word [StoppageReason]
         cmp eax, byte 1Dh
         je short .1
         cmp eax, byte 1Eh
@@ -6265,7 +6265,7 @@ assrefsignal:
         movsx eax, al
         test eax, eax
         je short .1
-        movsx eax, word [word_1178FA]
+        movsx eax, word [StoppageReason]
         cmp eax, byte 2
         jne short .1
         call SetExitGame
@@ -6274,7 +6274,7 @@ assrefsignal:
         ret
 .1:
         and byte [byte ebx+044h], 0FDh
-        movsx eax, word [word_1178FA]
+        movsx eax, word [StoppageReason]
         cmp word [nosplit eax*2+refsigdir], byte 0
         jge short .3
 .2:
@@ -6320,7 +6320,7 @@ assrefsignal:
         mov eax, ebx
         add word [byte ebx+026h], byte 8
         call SetSPA
-        movsx eax, word [word_1178FA]
+        movsx eax, word [StoppageReason]
         mov ax, word [nosplit eax*2+refsigdir]
         mov word [regd2], ax
         cmp ax, word [byte ebx+036h]
@@ -6348,7 +6348,7 @@ assrefsignal:
         cmp ax, word [byte ebx+036h]
         jne short .11
         or byte [byte ebx+044h], 20h
-        movsx eax, word [word_1178FA]
+        movsx eax, word [StoppageReason]
         movsx edx, word [nosplit eax*2+RefSignalAnims]
         mov eax, ebx
         call SetSPA
@@ -7148,7 +7148,7 @@ assrefdrop:
         mov word [RefStep], 0FFFFh
         test eax, eax
         je short .17
-        mov eax, dword [off_117890]
+        mov eax, dword [PtrRefObject]
         cmp word [byte eax+02Eh], byte 0
         jl near .19
         mov eax, ebx
@@ -7660,10 +7660,10 @@ asspenshooter:
         jge short .8
         add ecx, byte 3
 .8:
-        mov word [word_1178AC], cx
+        mov word [passdir], cx
         movzx ax, byte [byte ebx+05Bh]
         add eax, 14h
-        mov word [word_1178AE], ax
+        mov word [passspeed], ax
         mov ax, word [byte ebx+02h]
         mov word [regd0], ax
         neg word [regd0]
@@ -7764,7 +7764,7 @@ chkhit:
         cmp edi, byte 0Ah
         jne short .4
         and byte [byte ebx+045h], 0DFh
-        movsx eax, word [word_1178B4]
+        movsx eax, word [xc1]
         cmp eax, byte 5Ah
         jle short .2
         mov eax, 5Ah
@@ -8222,7 +8222,7 @@ assfight:
         cdq
         LD sub, eax, edx
         sar eax, 1
-        mov word [word_1178B4], ax
+        mov word [xc1], ax
         mov al, byte [byte esi+044h]
         and al, 8
         movzx eax, al
@@ -8466,11 +8466,11 @@ assfight:
         lea eax, [byte esi+0Ch]
         cmp edx, byte 2
         jne short .52
-        movsx edx, word [word_1178B4]
+        movsx edx, word [xc1]
         sub edx, byte 0Ah
         jmp short .53
 .52:
-        movsx edx, word [word_1178B4]
+        movsx edx, word [xc1]
         add edx, byte 0Ah
 .53:
         movsx ebx, word [byte esi+02h]
@@ -8489,11 +8489,11 @@ assfight:
         lea eax, [byte esi+0Ch]
         cmp edx, byte 2
         jne short .56
-        movsx edx, word [word_1178B4]
+        movsx edx, word [xc1]
         sub edx, byte 14h
         jmp short .53
 .56:
-        movsx edx, word [word_1178B4]
+        movsx edx, word [xc1]
         add edx, byte 14h
         jmp short .53
 .57:
@@ -8514,11 +8514,11 @@ assfight:
         lea eax, [byte esi+0Ch]
         cmp edx, byte 2
         jne short .60
-        movsx edx, word [word_1178B4]
+        movsx edx, word [xc1]
         sub edx, byte 8
         jmp short .61
 .60:
-        movsx edx, word [word_1178B4]
+        movsx edx, word [xc1]
         add edx, byte 8
 .61:
         movsx ebx, word [byte esi+02h]
@@ -8531,11 +8531,11 @@ assfight:
         lea eax, [byte esi+0Ch]
         cmp edx, byte 2
         jne short .63
-        movsx edx, word [word_1178B4]
+        movsx edx, word [xc1]
         sub edx, byte 8
         jmp short .64
 .63:
-        movsx edx, word [word_1178B4]
+        movsx edx, word [xc1]
         add edx, byte 8
 .64:
         movsx ebx, word [byte esi+02h]
@@ -8856,7 +8856,7 @@ assfwatch:
         mov ax, word [yc1]
         sub ax, word [byte ebx+06h]
         movsx edx, ax
-        mov ax, word [word_1178B4]
+        mov ax, word [xc1]
         sub ax, word [byte ebx+02h]
         cwde
         call vtoa
@@ -8949,7 +8949,7 @@ assfwatch:
         test edx, edx
         jge near .46
 .36:
-        movsx edx, word [word_1178B4]
+        movsx edx, word [xc1]
         movsx eax, word [byte ebx+02h]
         sub eax, edx
         test eax, eax
@@ -8970,14 +8970,14 @@ assfwatch:
         add eax, edx
         mov word [regd1], ax
         mov ax, word [byte ebx+02h]
-        cmp ax, word [word_1178B4]
+        cmp ax, word [xc1]
         jge short .40
         mov eax, 0FFFFFFB0h
         jmp short .41
 .40:
         mov eax, 50h
 .41:
-        movsx edx, word [word_1178B4]
+        movsx edx, word [xc1]
         add eax, edx
         mov word [regd0], ax
         test ax, ax
@@ -8991,14 +8991,14 @@ assfwatch:
         cmp eax, 0AAh
         jle short .46
         mov ax, word [byte ebx+02h]
-        cmp ax, word [word_1178B4]
+        cmp ax, word [xc1]
         jge short .44
         mov eax, 50h
         jmp short .45
 .44:
         mov eax, 0FFFFFFB0h
 .45:
-        movsx edx, word [word_1178B4]
+        movsx edx, word [xc1]
         add eax, edx
         mov word [regd0], ax
 .46:
@@ -9034,7 +9034,7 @@ assfwatch:
         mov ax, word [yc1]
         sub ax, word [byte ebx+06h]
         movsx edx, ax
-        mov ax, word [word_1178B4]
+        mov ax, word [xc1]
         sub ax, word [byte ebx+02h]
         cwde
         call vtoa

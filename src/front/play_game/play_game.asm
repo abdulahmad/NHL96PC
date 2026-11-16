@@ -1,6 +1,7 @@
 ; Playing a game: from the menus by game mode, the input record timer, the game loop, the demo game (95 PC front/main, 96 PC).
 bits 32
 %include "hockey.inc"
+extern TeamRosterPtrs
 extern GsOptions
 section s_168DA progbits alloc exec nowrite align=1
 extern _dos_gettime_, addtimer, BuildDefaultLines, textline1, textline2, textline3, textline4, textline5
@@ -21,7 +22,7 @@ extern UpdateCamera, FreeSpriteCache, LoadFrontEndArt, FreeFrontEndArt, SetScree
 extern StopMusic, QueueMusic, FadeOutMusic, PlaySfx, Crowd_Noise, SetCrowdTarget, CrowdFadeOut, ArenaClipReady
 extern StartArenaClip, StopArenaClip, StartGameSound, EndGameSound, SoundIdle, WriteGlobalSet, GetLangText, RemoveTimerCallback
 extern AllocMemBlock, FreeMemBlock, ClearScreenColour, FreeColourLookup, SetScreenTarget, GetPaletteRange, SetPaletteEntries, TicksSinceLast
-extern FindShape, exhstate, SeasonUserRecords, unk_17CED5, unk_17D272, unk_17D32C, SlotsTwoPlayer, PauseRequested
+extern FindShape, SeasonUserRecords, unk_17CED5, unk_17D272, unk_17D32C, SlotsTwoPlayer, PauseRequested
 extern bannermsg, bannertimer, PeriodEventCount, GameEventFlags
 global jpt_168DA, jpt_168EA, PlayMenuGame, PlayMenuGame_75, PlayMenuGame_85, PlayMenuGame_9F, PlayMenuGame_AF, PlayMenuGame_243
 global PlayMenuGame_25F, PlayMenuGame_26B, PlayMenuGame_280, InputRecordTimer, HandleSlotButtons, HandleSlotButtons_18D, RunSimFrames, GameLoop
@@ -690,7 +691,7 @@ GameLoop_hotkeyscall:
 GameLoop_hotkeyscall_5:
         cmp dword [fadeinpending], byte 0
         je short .1
-        push exhstate
+        push TeamRosterPtrs+320h
         push dword 100h
         push byte 0
         call SetPaletteEntries
@@ -797,7 +798,7 @@ RunDemoGame:
         mov dword [seed], edx
         call InitSlotTable
         call BlankForFadeIn
-        mov eax, exhstate
+        mov eax, TeamRosterPtrs+320h
         call LoadGamePalette
         xor eax, eax
         call SetScreenMode
@@ -893,7 +894,7 @@ PlayGame:
 PlayGame_initslotscall:
         call InitSlotTable
         call BlankForFadeIn
-        mov eax, exhstate
+        mov eax, TeamRosterPtrs+320h
         call LoadGamePalette
         test byte [GsOptions+1], 20h
         setne al

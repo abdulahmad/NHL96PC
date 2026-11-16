@@ -1,11 +1,12 @@
 ; The game camera: its path polynomials and the camera shots (96 PC).
 bits 32
 %include "hockey.inc"
+extern TeamRosterPtrs
 section s_5D707 progbits alloc exec nowrite align=1
 extern __CHP, BuildShadeLut, byte_1175A4, byte_1175A5, byte_1175A6, byte_1175A7, byte_1175A8, byte_1175A9
 extern byte_1175AA, byte_1175AB, byte_1175AC, byte_11B380, byte_11B3C5, byte_11B40A, byte_11B44F, byte_11B494
 extern byte_11B4D9, byte_11B51E, byte_11B563, byte_11B5A8, byte_11B5ED, byte_11B632, byte_11BB20, byte_11BB24
-extern HexDigits, byte_1647E3, PenBuf, byte_1770A6, byte_1770B1, byte_179D7C, byte_179DC1, byte_179E47
+extern HexDigits, PenBuf, byte_1770A6, byte_1770B1, byte_179D7C, byte_179DC1, byte_179E47
 extern DemoMode, InReplay, ReplayRemoteShape, dword_11B244, dword_11B314, dword_11B318, dword_11B31C
 extern dword_11B320, str_D_DrawGameFrame, dword_11B328, dword_11B32C, dword_11B330, dword_11B334, str_C_CloseTextOverlay, dword_11B364
 extern dword_11B368, dword_11B370, dword_11B374, dword_11B37C, dword_11B381, dword_11B3C1, dword_11B3C6, dword_11B406
@@ -15,21 +16,21 @@ extern dword_11B633, dword_11B678, dword_11B6BD, dword_11B702, dword_11B747, dwo
 extern dword_11B8E5, dword_11B8E9, dword_11B8ED, dword_11B8F1, dword_11B8F5, dword_11B8F9, dword_11B92A, dword_11B96F
 extern dword_11B9B4, dword_11B9F4, dword_11BAD4, dword_11BAD8, dword_11BADC, dword_11BAE0, dword_11BAE4, dword_11BAE8
 extern dword_11BAEC, dword_11BAF0, dword_11BAF4, dword_11BAF8, dword_11BAFC, dword_11BB00, dword_11BB04, dword_11BB08
-extern dword_11BB0C, dword_11BB10, dword_11BB14, dword_11BB18, dword_11BB1C, dword_1647A0, dword_1647A4, ViewScreenHeight
+extern dword_11BB0C, dword_11BB10, dword_11BB14, dword_11BB18, dword_11BB1C, ViewScreenHeight
 extern dword_165060, dword_1781F0, dword_178243, dword_1798EC, dword_179978, dword_17997C, dword_179CBC, dword_179CC0
 extern dword_179CC4, dword_179CC8, dword_179D44, dword_179D48, dword_179D50, dword_179D54, dword_179D58, dword_179D5C
 extern dword_179D60, dword_179D64, dword_179D68, dword_179D6C, dword_179D70, dword_179D74, dword_179D78, dword_179D7D
 extern dword_179DBD, dword_179DC2, dword_179DC6, dword_179DCA, dword_179DCE, dword_179DD2, dword_179DD6, dword_179E0B
 extern dword_179E0F, dword_179E13, dword_179E17, dword_179E1B, dword_179E1F, dword_179E23, dword_179E27, dword_179E2B
 extern dword_179E2F, dword_179E33, dword_179E37, dword_179E3B, dword_179E3F, dword_179E43, GsOptions, fox
-extern foy, FullViewClip, gameclock, GameLoopActive, GetTicks, gmode, puckvy, off_117890
+extern foy, FullViewClip, gameclock, GameLoopActive, GetTicks, gmode, puckvy, PtrRefObject
 extern PtrPuckObject, passplayer, penshotlive, penshotmode, penshotstart, puckc, puckvx, puckvz
 extern QueueOverlayPanel, F64_0p00277778, F64_65536_CamView236, F64_0p00277778_CamView236, qword_11109C, F64_0p00277778_CamView238, F64_65536_CamView238, F64_0p00277778_CamView239
 extern F64_65536_CamView239, rand_, seed, seed_w2, SetClipWindow, SetDrawBitmap, sflags, SortCords
 extern str_Priority2, AddIceCrud, SetRinkClipWindow, AllocMemBlock, FreeMemBlock, AngleOfVector, TransformVector, MakeRotYMatrix
 extern BuildPerspTable, KeyIsDown, KbdGetKey, ClearClipRect, SetViewScreenOrigin, SetViewFov, unk_11B673, unk_11B6B8
 extern unk_11B6FD, unk_11B811, unk_11B856, unk_11B89B, unk_11B8E0, unk_11B925, unk_11B96A, unk_11B9AF
-extern exhstate, unk_1781E4, unk_179CCC, unk_179CE4, unk_179CFC, unk_179D14, unk_179D2C, unk_179E02
+extern unk_1781E4, unk_179CCC, unk_179CE4, unk_179CFC, unk_179D14, unk_179D2C, unk_179E02
 extern unk_5D549, unk_5D555, unk_5D561, unk_5D56D, unk_5D579, unk_5D585, unk_5D591, unk_5D591_84
 extern str_D_SetGameViewSize, unk_5D65D, unk_5D681, vecdist, PerTimeTotal, word_176FB8, word_176FDA, word_1770AB
 extern word_1770AD, word_1770AF, word_179DC8, word_179DCC, word_179E0D, word_179E11
@@ -682,8 +683,8 @@ CameraTrackPuck:
         mov edx, dword [dword eax+SortCords]
         sar edx, 0Eh
         mov dword [dword_179D50], edx
-        mov edx, dword [dword eax+dword_1647A0]
-        mov eax, dword [dword eax+dword_1647A4]
+        mov edx, dword [dword eax+SortCords+4]
+        mov eax, dword [dword eax+SortCords+8]
         sar edx, 0Eh
         sar eax, 0Eh
         mov dword [dword_179D58], edx
@@ -694,8 +695,8 @@ CameraTrackPuck:
         mov edx, dword [dword eax+SortCords]
         sar edx, 0Eh
         mov dword [dword_179D50], edx
-        mov edx, dword [dword eax+dword_1647A0]
-        mov eax, dword [dword eax+dword_1647A4]
+        mov edx, dword [dword eax+SortCords+4]
+        mov eax, dword [dword eax+SortCords+8]
         sar eax, 0Eh
         sar edx, 0Eh
         mov dword [dword_179D54], eax
@@ -2854,7 +2855,7 @@ CamShot242:
         call GetTicks
         mov dword [dword_11BADC], eax
         imul eax, dword [dword_179D6C], dword 0A0h
-        mov al, byte [dword eax+byte_1647E3]
+        mov al, byte [dword eax+SortCords+47h]
         mov byte [byte_179E47], al
 .1:
         call GetTicks
@@ -2864,7 +2865,7 @@ CamShot242:
         cmp dword [dword_179D5C], byte 1Eh
         je short .2
         imul eax, dword [dword_179CBC], dword 0A0h
-        mov al, byte [dword eax+byte_1647E3]
+        mov al, byte [dword eax+SortCords+47h]
         cmp al, byte [byte_179E47]
         je short .3
 .2:
@@ -3034,7 +3035,7 @@ CamShot245:
         pop edx
         ret
 .1:
-        mov eax, dword [off_117890]
+        mov eax, dword [PtrRefObject]
         movsx edx, word [byte eax+026h]
         cmp edx, 12Ch
         jne short .2
@@ -3159,13 +3160,13 @@ CamShot247:
         mov edx, SortCords
         mov ebx, dword [dword eax+SortCords]
         add edx, eax
-        mov eax, dword [dword eax+dword_1647A0]
+        mov eax, dword [dword eax+SortCords+4]
         sar eax, 0Eh
         mov dword [byte ebp-01Ch], eax
         movsx eax, word [byte edx+014h]
         imul eax, dword 0A0h
         mov edx, dword [dword eax+SortCords]
-        mov eax, dword [dword eax+dword_1647A0]
+        mov eax, dword [dword eax+SortCords+4]
         sar eax, 0Eh
         sar ebx, 0Eh
         mov dword [byte ebp-010h], eax
@@ -3436,7 +3437,7 @@ CamShot23C:
         push edx
         cmp dword [dword_1798EC], 4000h
         je short .1
-        mov edx, exhstate
+        mov edx, TeamRosterPtrs+320h
         mov eax, 4000h
         mov dword [dword_1798EC], 4000h
         call BuildShadeLut

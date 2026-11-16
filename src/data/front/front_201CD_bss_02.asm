@@ -2,13 +2,11 @@
 bits 32
 %include "hockey.inc"
 section s_159C57 nobits alloc noexec write align=1
-global IceCrudMap, IceTextureData
+
         resb 1
         resb 1
         resb 1
-IceCrudMap:
         resb 517
         resb 1
         resb 1
-IceTextureData:
         resb 247

@@ -9,7 +9,7 @@ extern CompLine, Endfaceoff, PBnum, SetupPenaltyShot, ShotLaneOpen, SortCords, a
 extern awtmstruct, sflags3, apl, InputState
 extern hmtmgoaliehi, HmPlayerFlags, AwPlayerFlags, fofdata2_b3, fofdata2_b7, iflags, chk4pass, crowdlevel
 extern curperiod, hmslotcount, awslotcount, hmfirstslot, awfirstslot, onetimerflag, penshotteam, pspathdir
-extern PassTargetLocked, OneTimerPasser, PuckChasers, FaceoffPuckDropped, GoalieDepthTab, GoalReplayPending, dword_15E4C4, PtrPuckZone
+extern PassTargetLocked, OneTimerPasser, PuckChasers, FaceoffPuckDropped, GoalieDepthTab, GoalReplayPending, GlassBroken, PtrPuckZone
 extern FaceoffPuckDrop, optflags, energywarn, fadeinpending, fox, foy, gameclock, gameopts
 extern gmode, hmroster, hmtmgoalie, hmtmstruct, introskipped, lcblink, lcboxon, lcfound
 extern puckvy, puckc, PtrPuckFlags, PtrRefObject, PtrPuckObject, PtrHomeNet, PtrAwayNet, passplayer
@@ -1424,7 +1424,7 @@ puckfaceoff2:
 .4:
         cmp word [injurystop], byte 0
         jne short .5
-        cmp dword [dword_15E4C4], byte 0
+        cmp dword [GlassBroken], byte 0
         jne short .5
         cmp dword [GoalReplayPending], byte 0
         je short .6

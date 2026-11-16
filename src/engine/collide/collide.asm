@@ -8,7 +8,7 @@ extern QuickShotChk, RemoveFromLines, ShotLaneOpen, SortCords, a2touchpuck, assi
 extern HomeShotCount, AwayShotCount, GlassOn, sflags3, OffsideCalled, PenBuf
 extern PenBuf_pl, iflags, collflag, crowdlevel, hmslotcount, awslotcount
 extern onetimerflag, PassTargetLocked, PassHoldFrames, OneTimerPasser, PuckChasers, PuckChaserPlayer, GameHitCount, FightingOn
-extern FallDownsOff, nethit, dword_15E844, CamInjuredObj, optflags, fox
+extern FallDownsOff, nethit, RinkB00FirstVert, CamInjuredObj, optflags, fox
 extern gameclock, gameopts, gmode, hmtmstruct, lastplayer, lasttouch, puckvy, puckc
 extern PtrPuckFlags, PtrHomeNet, PtrAwayNet, passplayer, penshotctl, penshotlive, penshotmode, penshotplayer
 extern penshotstart, puckvx, puckvz, puckx, pucky, puckz, randomd0, regd2
@@ -9149,7 +9149,7 @@ wallcoll:
         add eax, byte 4
         test ax, ax
         movsx eax, word [byte edx+0Ah]
-        cmp eax, dword [dword_15E844]
+        cmp eax, dword [RinkB00FirstVert]
         jg short .8
         mov eax, dword [puckc]
         cmp byte [eax], 0

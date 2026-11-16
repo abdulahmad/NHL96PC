@@ -8,8 +8,8 @@ extern lineslotgroups, lineslotgroupstart, CamLastSort, hmrosterpos, PBflags, de
 extern dressflags_aw, offsort_fwd, AttractOptTeamsHi, AttractOptPads, crowdlevel, FrontShapesFile
 extern dword_1175B5, dword_1175B9, dword_1176E1, seed, ZonesDirty, SortSpriteCount, ReplayRemoteShape, SpinPuckFrame
 extern ViewSizeStep, CamFollowObj, InMenuOverlay, dword_11F5C0, dword_11F5C4, MenuRemoteCursorArt, MenuCursorPixels, pointerspr
-extern MenuBitmapPixels, AttractResetFlag, dword_15E494, dword_15E498, dword_15E49C, dword_15E4A0, dword_15E4A4, dword_15E4A8
-extern dword_15E4AC, dword_15E4B0, dword_15E4B4, dword_15E4B8, dword_15E4BC, dword_15E4C0, ReplayBufferTop, lineslotmark
+extern MenuBitmapPixels, AttractResetFlag, GlassShakeX, GlassShakeY, GlassShakeDir, GlassShakeOn, GlassShakeSide, GlassShakeStep
+extern GlassShakeTimer, GlassBreakX, GlassBreakY, GlassBreakStep, GlassBreakPanel, GlassBreakShards, ReplayBufferTop, lineslotmark
 extern AttractOptTeams, SpriteSortDelay, ZoneBufFront, ZoneBufBack, ZoneBufCount, ZoneMarksFront, ZoneMarksBack, ZonePrevList
 extern ZonePrevCount, ZoneCurList, ZoneWorkBuf, ZoneCurCount, ZoneCapacity, ZoneMemBlock, DrawFrameCount, ViewDirty
 extern optflags, GsOptions, gameclock, gameopts, gmode, hmroster, replaystart, puckvy
@@ -2408,41 +2408,41 @@ SortSpritesForDraw:
         mov eax, dword [ReplayBufferTop]
         lea edx, [byte eax+01h]
         mov dword [ReplayBufferTop], edx
-        mov dl, byte [dword_15E4A0]
+        mov dl, byte [GlassShakeOn]
         mov byte [eax], dl
         mov eax, dword [ReplayBufferTop]
         lea edx, [byte eax+01h]
         mov dword [ReplayBufferTop], edx
-        mov dl, byte [dword_15E4AC]
+        mov dl, byte [GlassShakeTimer]
         mov byte [eax], dl
         mov eax, dword [ReplayBufferTop]
         lea edx, [byte eax+01h]
         mov dword [ReplayBufferTop], edx
-        mov dl, byte [dword_15E4A8]
+        mov dl, byte [GlassShakeStep]
         mov byte [eax], dl
         mov eax, dword [ReplayBufferTop]
         lea edx, [byte eax+01h]
         mov dword [ReplayBufferTop], edx
-        mov dl, byte [dword_15E4A4]
+        mov dl, byte [GlassShakeSide]
         mov byte [eax], dl
         mov eax, dword [ReplayBufferTop]
         lea edx, [byte eax+01h]
         mov dword [ReplayBufferTop], edx
-        mov dl, byte [dword_15E49C]
+        mov dl, byte [GlassShakeDir]
         mov byte [eax], dl
-        mov edx, dword [dword_15E4C0]
+        mov edx, dword [GlassBreakShards]
         mov eax, dword [ReplayBufferTop]
-        sub edx, dword [dword_15E498]
+        sub edx, dword [GlassShakeY]
         mov dword [eax], edx
         add dword [ReplayBufferTop], byte 4
         mov eax, dword [ReplayBufferTop]
-        mov edx, dword [dword_15E494]
+        mov edx, dword [GlassShakeX]
         mov dword [eax], edx
         add dword [ReplayBufferTop], byte 4
         mov eax, dword [ReplayBufferTop]
         lea edx, [byte eax+01h]
         mov dword [ReplayBufferTop], edx
-        mov dl, byte [dword_15E4B8]
+        mov dl, byte [GlassBreakStep]
         mov byte [eax], dl
         mov eax, dword [ReplayBufferTop]
         lea edx, [byte eax+01h]
@@ -2452,14 +2452,14 @@ SortSpritesForDraw:
         mov eax, dword [ReplayBufferTop]
         lea edx, [byte eax+01h]
         mov dword [ReplayBufferTop], edx
-        mov dl, byte [dword_15E4B4]
+        mov dl, byte [GlassBreakY]
         mov byte [eax], dl
         mov eax, dword [ReplayBufferTop]
-        mov dx, word [dword_15E4B0]
+        mov dx, word [GlassBreakX]
         mov word [eax], dx
         add dword [ReplayBufferTop], byte 2
         mov eax, dword [ReplayBufferTop]
-        mov dx, word [dword_15E4BC]
+        mov dx, word [GlassBreakPanel]
         mov word [eax], dx
         add dword [ReplayBufferTop], byte 2
         mov eax, dword [ReplayBufferTop]

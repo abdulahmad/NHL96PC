@@ -18,8 +18,8 @@ extern GoalReplayPending, PanelOpenTime, PanelCloseTime, TimedPanelTimer, Player
 extern PlayerNamePanelTimer, LineBoxStates, LastEventPlayer, ViewWidth, ViewHeight, ViewLeft, str_D_DrawGameFrame, ViewBitmap
 extern ViewPixels, ViewSizeStep, CamFollowObj, CamViewBits, CameraViewSlots, ShadowToggle, MarkerToggle, NameToggle
 extern LastPaletteMode, InMenuOverlay, dword_11F5C0, dword_11F5C4, dword_1219A4, DrawClipLeft, DrawClipTop, DrawClipRight
-extern DrawClipBottom, DrawDestBuffer, PanelShadeArt, SpriteArtPtrs, SpriteFrameArt, dword_15E4BC, dword_15E4C0, dword_15E8D8
-extern dword_15E8E0, dword_15E8E4, dword_15E8F8, dword_15E8FC
+extern DrawClipBottom, DrawDestBuffer, PanelShadeArt, SpriteArtPtrs, SpriteFrameArt, GlassBreakPanel, GlassBreakShards, PuckShadowInstance
+extern PuckInstance, RinkInstance, HomeNetInstance, AwayNetInstance
 extern PuckObject, DrawFrameCount
 extern GameViewPanelIds
 extern ShadeMatchFrom1, ShadeMatch, ShadeLutPtrs, LineBoxOpen, LineBoxShown, LineBoxChoice, LineBoxTimer, LineBoxBmps
@@ -1748,7 +1748,7 @@ SpinPuckModel:
         call MultiplyMatrix
         add esp, byte 0Ch
         push PuckModelPoints
-        push dword [dword_15E8E0]
+        push dword [PuckInstance]
         jmp short .3
 .2:
         cmp dword [SpinPuckFrame], byte 0
@@ -1758,13 +1758,13 @@ SpinPuckModel:
         push PuckModelPoints
         mov edi, PuckModelPoints
         mov esi, unk_122320
-        push dword [dword_15E8E0]
+        push dword [PuckInstance]
         rep movsd
 .3:
         call OriSetObjectMatrix
         add esp, byte 8
         push PuckModelPoints
-        push dword [dword_15E8D8]
+        push dword [PuckShadowInstance]
         call OriSetObjectMatrix
         add esp, byte 8
         jmp near InitGameView_709
@@ -1778,27 +1778,27 @@ PlaceGoalNets:
         push ecx
         push edx
         push str_Goal0
-        push dword [dword_15E8E4]
+        push dword [RinkInstance]
         call OriFindGroup
         imul edx, eax, byte 0Ch
-        mov eax, dword [dword_15E8E4]
+        mov eax, dword [RinkInstance]
         mov eax, dword [byte eax+070h]
         add esp, byte 8
         add eax, edx
         push eax
-        push dword [dword_15E8F8]
+        push dword [HomeNetInstance]
         call OriSetObjectPosition
         add esp, byte 8
         push str_Goal1
-        push dword [dword_15E8E4]
+        push dword [RinkInstance]
         call OriFindGroup
         imul edx, eax, byte 0Ch
-        mov eax, dword [dword_15E8E4]
+        mov eax, dword [RinkInstance]
         mov eax, dword [byte eax+070h]
         add esp, byte 8
         add eax, edx
         push eax
-        push dword [dword_15E8FC]
+        push dword [AwayNetInstance]
         call OriSetObjectPosition
         add esp, byte 8
         pop edx
@@ -2873,11 +2873,11 @@ DrawGameFrame:
         add dword [GoalFrameCount], edi
         mov eax, dword [GoalFrameCount]
         call UpdateGoalLight
-        add dword [dword_15E4BC], edi
-        mov eax, dword [dword_15E4BC]
+        add dword [GlassBreakPanel], edi
+        mov eax, dword [GlassBreakPanel]
         call StepGlassShards
-        add dword [dword_15E4C0], edi
-        mov eax, dword [dword_15E4C0]
+        add dword [GlassBreakShards], edi
+        mov eax, dword [GlassBreakShards]
         call ApplyGlassShake
         mov eax, edi
         call MoveZamboni

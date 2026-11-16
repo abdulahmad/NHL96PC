@@ -26,8 +26,8 @@ extern dword_1175B9, dword_1176E1, PreGameSkateOn, InReplay, ReplayRunning, High
 extern ReplayCamSteps, ReplayCamZoomIn, ReplayCamZoomOut, ReplayFrameTick, ReplayFrameDelta, ReplayTimeAccum, ReplayRemoteShape, SpinPuckFrame
 extern ViewTop, ViewWidth, ViewHeight, ViewLeft, str_D_DrawGameFrame, ViewBitmap, ViewPixels, ViewSizeStep
 extern CamViewBits, CameraViewSlots, LastPaletteMode, ModeLinear, MenuMouseX, MenuMouseY, dword_11F5C0, dword_11F5C4
-extern MenuRemoteCursorArt, MenuCursorPixels, pointerspr, MenuBitmapPixels, SpriteArtPtrs, dword_15E4B0, dword_15E4B4, dword_15E4B8
-extern dword_15E4BC, dword_15E4C4, dword_15E8D8, dword_15E8E0, HomeNetObject, AwayNetObject
+extern MenuRemoteCursorArt, MenuCursorPixels, pointerspr, MenuBitmapPixels, SpriteArtPtrs, GlassBreakX, GlassBreakY, GlassBreakStep
+extern GlassBreakPanel, GlassBroken, PuckShadowInstance, PuckInstance, HomeNetObject, AwayNetObject
 extern ReplayBufferTop, ReplayFrameCount
 extern ReplaySavedState
 
@@ -95,13 +95,13 @@ StartReplay:
         call StopSpeech
         mov eax, dword [dword_1176E1]
         mov dword [ReplaySavedState+4], eax
-        mov eax, dword [dword_15E4B4]
+        mov eax, dword [GlassBreakY]
         mov dword [ReplaySavedState+8], eax
-        mov eax, dword [dword_15E4B8]
+        mov eax, dword [GlassBreakStep]
         mov dword [ReplaySavedState], eax
-        mov eax, dword [dword_15E4B0]
+        mov eax, dword [GlassBreakX]
         mov dword [ReplaySavedState+0Ch], eax
-        mov eax, dword [dword_15E4BC]
+        mov eax, dword [GlassBreakPanel]
         mov dword [ReplaySavedState+10h], eax
         call ClearGlassHoles
         call StopGlassShake
@@ -233,14 +233,14 @@ EndReplay:
         mov eax, dword [ReplaySavedState+4]
         mov dword [dword_1176E1], eax
         mov eax, dword [ReplaySavedState+8]
-        mov dword [dword_15E4B4], eax
+        mov dword [GlassBreakY], eax
         mov eax, dword [ReplaySavedState]
-        mov dword [dword_15E4B8], eax
+        mov dword [GlassBreakStep], eax
         mov eax, dword [ReplaySavedState+0Ch]
-        mov dword [dword_15E4B0], eax
+        mov dword [GlassBreakX], eax
         mov eax, dword [ReplaySavedState+10h]
-        mov dword [dword_15E4BC], eax
-        cmp dword [dword_15E4C4], byte 0
+        mov dword [GlassBreakPanel], eax
+        cmp dword [GlassBroken], byte 0
         je short .3
         call ShatterGlass
 .3:
@@ -287,12 +287,12 @@ EndReplay:
         add esp, byte 0Ch
         lea eax, [byte ebp-078h]
         push eax
-        push dword [dword_15E8E0]
+        push dword [PuckInstance]
         call OriSetObjectMatrix
         add esp, byte 8
         lea eax, [byte ebp-078h]
         push eax
-        push dword [dword_15E8D8]
+        push dword [PuckShadowInstance]
         call OriSetObjectMatrix
         mov eax, dword [ReplaySavedState+18h]
         mov dword [CamViewBits], eax
@@ -840,12 +840,12 @@ ReplayCameraMatrix:
         add esp, byte 0Ch
         lea eax, [byte ebp-024h]
         push eax
-        push dword [dword_15E8E0]
+        push dword [PuckInstance]
         call OriSetObjectMatrix
         add esp, byte 8
         lea eax, [byte ebp-024h]
         push eax
-        push dword [dword_15E8D8]
+        push dword [PuckShadowInstance]
         call OriSetObjectMatrix
         add esp, byte 8
         leave

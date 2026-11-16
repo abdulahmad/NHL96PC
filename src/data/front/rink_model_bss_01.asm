@@ -2,125 +2,70 @@
 bits 32
 %include "hockey.inc"
 section s_158F24 nobits alloc noexec write align=1
-global dword_158F24, dword_158F90, dword_159008, dword_159014, dword_15902C, dword_159038, dword_1591CC, dword_1591D0
-global dword_1591D4, dword_159230, dword_159234, dword_159334, dword_159340, dword_15934C, dword_159370, dword_15937C
-global dword_1594B8, dword_1594BC, dword_159530, dword_159534, dword_1595B8, dword_1595BC, dword_1595C0, dword_1595C4
-global dword_1595C8, dword_1595CC, dword_1595D0, dword_159748, dword_15974C, dword_159750, unk_158F28, unk_158F48
-global unk_158F50, unk_158F68, unk_158F70, unk_158F88, unk_158FF4, unk_159000, unk_159018, unk_159024
-global unk_15903C, unk_159108, unk_159148, unk_159190, IceSurfacePolys, unk_159238, unk_159338, unk_159368
-global unk_159398, BoardLinePolys, unk_159458, unk_159500, unk_159508, unk_159510, unk_159518, unk_159520
-global unk_159528
-dword_158F24:
+global RinkMarkingPoints
+
+
+global GlassShards
+
+
+
+
+RinkMarkingPoints:
         resb 4
-unk_158F28:
         resb 32
-unk_158F48:
         resb 8
-unk_158F50:
         resb 24
-unk_158F68:
         resb 8
-unk_158F70:
         resb 24
-unk_158F88:
         resb 8
-dword_158F90:
         resb 100
-unk_158FF4:
         resb 12
-unk_159000:
         resb 8
-dword_159008:
         resb 12
-dword_159014:
         resb 4
-unk_159018:
         resb 12
-unk_159024:
         resb 8
-dword_15902C:
         resb 12
-dword_159038:
         resb 4
-unk_15903C:
         resb 204
-unk_159108:
         resb 64
-unk_159148:
         resb 72
-unk_159190:
         resb 60
-dword_1591CC:
         resb 4
-dword_1591D0:
         resb 4
-dword_1591D4:
         resb 4
-IceSurfacePolys:
         resb 88
-dword_159230:
         resb 4
-dword_159234:
         resb 4
-unk_159238:
         resb 252
-dword_159334:
         resb 4
-unk_159338:
         resb 8
-dword_159340:
         resb 12
-dword_15934C:
         resb 28
-unk_159368:
         resb 8
-dword_159370:
         resb 12
-dword_15937C:
         resb 28
-unk_159398:
         resb 96
-BoardLinePolys:
         resb 96
-unk_159458:
         resb 96
-dword_1594B8:
         resb 4
-dword_1594BC:
         resb 68
-unk_159500:
         resb 8
-unk_159508:
         resb 8
-unk_159510:
         resb 8
-unk_159518:
         resb 8
-unk_159520:
         resb 8
-unk_159528:
         resb 8
-dword_159530:
         resb 4
-dword_159534:
         resb 132
-dword_1595B8:
         resb 4
-dword_1595BC:
         resb 4
-dword_1595C0:
         resb 4
-dword_1595C4:
         resb 4
-dword_1595C8:
         resb 4
-dword_1595CC:
         resb 4
-dword_1595D0:
         resb 376
-dword_159748:
+GlassShards:
         resb 4
-dword_15974C:
         resb 4
-dword_159750:
         resb 1287

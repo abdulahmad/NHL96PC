@@ -2,222 +2,179 @@
 bits 32
 %include "hockey.inc"
 section s_159F58 nobits alloc noexec write align=1
-global byte_15EA03, dword_15BDB8, dword_15BE80, dword_15CE50, dword_15D0A8, dword_15D0C4, dword_15D0DC, dword_15D1A8
-global dword_15D1CC, dword_15D238, dword_15D254, dword_15D298, RinkModelTexInfo, dword_15D2A8, RinkModelBounds, dword_15D2B8
-global dword_15D2BC, dword_15D2C0, dword_15D31C, dword_15D338, dword_15D33C, dword_15D344, dword_15D348, dword_15D3C0
-global dword_15D3C4, dword_15D3C8, dword_15D3CC, dword_15D3D0, dword_15D42C, dword_15D448, dword_15D44C, dword_15D454
-global dword_15D458, dword_15D4D0, dword_15D4D4, dword_15DC48, dword_15DD10, dword_15DEA0, dword_15DEDC, StandsArt
-global dword_15E120, dword_15E124, dword_15E128, RinkModelNormals, dword_15E430, dword_15E434, dword_15E438, dword_15E43C
-global dword_15E440, dword_15E444, dword_15E448, dword_15E470, dword_15E474, dword_15E478, FarSideData, GoalLightModel
-global GoalCheerTeam, GoalLightState, dword_15E48C, dword_15E490, dword_15E494, dword_15E498, dword_15E49C, dword_15E4A0
-global dword_15E4A4, dword_15E4A8, dword_15E4AC, dword_15E4B0, dword_15E4B4, dword_15E4B8, dword_15E4BC, dword_15E4C0
-global dword_15E4C4, dword_15E60C, dword_15E610, dword_15E614, RinkLength, RinkWidth, RinkCorner, dword_15E690
-global dword_15E694, dword_15E698, dword_15E69C, RinkModelSize, RinkModelFlags, RinkModelHeader, BenchDoorArt, dword_15E6B0
-global RinkModelVerts, RinkModelPolys, dword_15E6BC, dword_15E6C0, dword_15E6C4, dword_15E6C8, dword_15E6CC, dword_15E6D0
-global dword_15E6D4, dword_15E6D8, dword_15E6DC, dword_15E6E0, dword_15E6E4, dword_15E6E8, dword_15E6EC, dword_15E6F0
-global dword_15E6F4, dword_15E6F8, dword_15E6FC, dword_15E700, dword_15E704, dword_15E708, dword_15E70C, str_C2
-global dword_15E714, dword_15E718, dword_15E71C, dword_15E720, dword_15E724, dword_15E728, dword_15E734, dword_15E738
-global dword_15E73C, dword_15E748, dword_15E74C, dword_15E750, dword_15E754, dword_15E758, dword_15E75C, dword_15E760
-global dword_15E764, dword_15E768, dword_15E76C, dword_15E770, dword_15E774, dword_15E778, dword_15E780, dword_15E784
-global dword_15E788, dword_15E78C, dword_15E790, dword_15E794, dword_15E79C, dword_15E7A0, dword_15E7A4, dword_15E7A8
-global dword_15E7AC, dword_15E7B0, dword_15E7B4, dword_15E7B8, dword_15E7BC, dword_15E7C0, dword_15E7C4, dword_15E7C8
-global dword_15E7CC, dword_15E7D0, dword_15E7D4, dword_15E7D8, dword_15E7DC, dword_15E7E0, dword_15E7E4, dword_15E7E8
-global dword_15E7EC, dword_15E7F0, dword_15E7F4, dword_15E7F8, dword_15E7FC, dword_15E800, dword_15E804, dword_15E808
-global dword_15E80C, dword_15E810, dword_15E814, dword_15E818, dword_15E81C, dword_15E820, dword_15E824, BenchSideModel
-global dword_15E82C, dword_15E830, dword_15E834, dword_15E838, dword_15E83C, RinkMarkingModel, dword_15E844, CreaseModel
-global dword_15E84C, dword_15E854, dword_15E858, dword_15E85C, RinkGeometryModel, BoxModelData, dword_15E868, dword_15E86C
-global RinkGeometryParts, dword_15E874, RinkGeometryData, CameraFlashOn, dword_15E880, BenchSideIndex, NeutralSpotModel, CenterSpotModel
-global CreasePolyModel, BoardsTopModel, CenterCircleModel, BenchLineModel, dword_15E8C4, dword_15E8C8, dword_15E8CC, dword_15E8D0
-global dword_15E8D4, dword_15E8D8, dword_15E8DC, dword_15E8E0, dword_15E8E4, RinkSidesModel, dword_15E8EC, dword_15E8F0
-global dword_15E8F4, dword_15E8F8, dword_15E8FC, dword_15E900, dword_15EA04, dword_15EA08, unk_159F58, unk_15AE88
-global unk_15BF20, unk_15D0E0, unk_15D1D0, unk_15D340, unk_15D450, unk_15DB38, GlassRemap, BenchRemap
-global unk_15E130, unk_15E230, unk_15E330, unk_15E44C, unk_15E4C8, IceLinePolys, unk_15E5A0, IceCenterPoly
-global FlashPolys, unk_15E904, word_15E472
-unk_159F58:
+global ShadowRemapEnd, StandsSidePoints, GlassPanelShake, BoardPoints, PenBoxBenchGroups, BenchGroups, RinkSideTables
+global PenBoxNearGroups, RinkModelTexInfo, PenBoxFarGroups, RinkModelBounds, GlassPanelList
+global RinkSideStructs
+
+global RinkFloorPoints, SideGlassPoints, IceLogoGroups, StandsArtTable, StandsArt
+global RinkC03Group, RinkC02Group, RinkC01Group, RinkModelNormals, ZamboniState
+
+global GoalLightTime, GoalLightLit, GlassShakeX, GlassShakeY, GlassShakeDir, GlassShakeOn
+global GlassShakeSide, GlassShakeStep, GlassShakeTimer, GlassBreakX, GlassBreakY, GlassBreakStep, GlassBreakPanel, GlassBreakShards
+global GlassBroken, CircleTableCount, CircleTableUsed, CircleTablePtr, RinkLength, RinkWidth, RinkCorner, RinkModelBytes
+global RinkModelFile, IceCrudCount, KickplateClipX, RinkModelSize, RinkModelFlags, RinkModelHeader, BenchDoorArt, IceCrudBase
+global RinkModelVerts, RinkModelPolys, RinkDoor12Group, IceTextureBmp, IceCrudOffset, GlassShardCount, IceTextureOffset, IceTextureFile
+global IceTextureSize, RinkRight2Faces, RinkLeft2Faces, BenchGroupCount, RinkLeft2Count, RinkRight1Faces, RinkLeft1Faces, RinkLeft1Count
+global RinkTopCount, RinkTopFaces, RinkBackFaces, RinkBackCount, RinkRight2Count, PenBoxGroupCount, RinkRight1Count, str_C2
+global RinkPenBoxZ0Faces, RinkPenBackCount, RinkBenchDividerFaces, RinkPenBoxT1Faces, RinkPenBoxT0Faces, RinkPenBottomFaces, RinkPenBoxZ1LastVert, RinkPenBoxZ0LastVert
+global RinkBenchBackFaces, RinkBenchBottomFaces, RinkPenBottomCount, RinkPenBoxT1LastVert, RinkPenBoxT0LastVert, RinkPenBackFaces, RinkPenBoxZ0Count, dword_15E760
+global RinkBenchZ1Faces, RinkPenBoxT0Count, RinkPenBoxT1Count, RinkPenBoxT0Id, RinkIceLogo2Count, RinkIceLineFaces, RinkIceLogo2Faces, RinkIceLineCount
+global RinkBenchBackCount, RinkLitesFaces, RinkWallFaces, RinkBenchXGroup, RinkBenchZ1Group, RinkBenchZ0Group, RinkMaxZGroup, RinkMaxXGroup
+global RinkStand2ndFaces, RinkMinXGroup, RinkMinZGroup, RinkLitesCount, RinkBenchDividerCount, RinkBenchZ0Count, RinkBenchZ1Count, RinkBenchZ0Faces
+global RinkIce2Faces, RinkBenchBottomCount, RinkStandFaces, ZamboniModel, GlassLineAATable, FatLineAATable, ZamboniShapes, GoalPipeAATable
+global BlueLineAATable, RinkZamboniPathFaces, RinkWallCount, RinkCreaseMaterial, RinkStand2ndCount, RinkZamboniPathCount, BotBoardsAATable, RinkIce2Count
+global RinkStandCount, IceCrudColour, TopBoardsAATable, PuckShapes, ZamboniInstance, RinkGt007LastVert, StandsSideArt, BenchSideModel
+global RinkBoardBackMaterial, RinkRedLite1Group, RinkRedLite0Group, RinkFlatBoardsMaterial, RinkGt004FirstVert, RinkMarkingModel, RinkB00FirstVert, CreaseModel
+global IceTextureQuad, RinkGreenLite1Group, RinkGreenLite0Group, RinkGt004LastVert, RinkGeometryModel, BoxModelData, RinkEdgeFlags, StandsSideShapes
+global RinkGeometryParts, RinkGt302FirstVert, RinkGeometryData, CameraFlashOn, MarkingAATable, BenchSideIndex, NeutralSpotModel, CenterSpotModel
+global CreasePolyModel, BoardsTopModel, CenterCircleModel, BenchLineModel, ScoreInstance, ScoreShapes, ScoreModel, NetShapes
+global PuckShadowModel, PuckShadowInstance, RinkModel, PuckInstance, RinkInstance, RinkSidesModel, RinkShapes, PuckModel
+global NetModel, HomeNetInstance, AwayNetInstance, Stands2Instance, OptionButtonArt, dword_15EA08, GlassShardVerts, GlassShardScreen
+global GlassShardDraw, BenchAreaPoints
+global RinkFrontRemap, IceLinesRemap, IceLogosRemap, IceSurfacePoly, IceLinePolys, CentreIcePoly, IceCenterPoly
+global FlashPolys, ShadowRemap
+GlassShardVerts:
         resb 3888
-unk_15AE88:
+GlassShardScreen:
         resb 3888
-dword_15BDB8:
+StandsSidePoints:
         resb 200
-dword_15BE80:
+GlassPanelShake:
         resb 160
-unk_15BF20:
+GlassShardDraw:
         resb 3888
-dword_15CE50:
+BoardPoints:
         resb 600
-dword_15D0A8:
+PenBoxBenchGroups:
         resb 28
-dword_15D0C4:
+BenchGroups:
         resb 24
-dword_15D0DC:
+RinkSideTables:
         resb 4
-unk_15D0E0:
         resb 200
-dword_15D1A8:
         resb 36
-dword_15D1CC:
         resb 4
-unk_15D1D0:
         resb 104
-dword_15D238:
         resb 28
-dword_15D254:
         resb 68
-dword_15D298:
+PenBoxNearGroups:
         resb 12
 RinkModelTexInfo:
         resb 4
-dword_15D2A8:
+PenBoxFarGroups:
         resb 12
 RinkModelBounds:
         resb 4
-dword_15D2B8:
+GlassPanelList:
         resb 4
-dword_15D2BC:
+RinkSideStructs:
         resb 4
-dword_15D2C0:
         resb 92
-dword_15D31C:
         resb 28
-dword_15D338:
         resb 4
-dword_15D33C:
         resb 4
-unk_15D340:
         resb 4
-dword_15D344:
         resb 4
-dword_15D348:
         resb 120
-dword_15D3C0:
         resb 4
-dword_15D3C4:
         resb 4
-dword_15D3C8:
         resb 4
-dword_15D3CC:
         resb 4
-dword_15D3D0:
         resb 92
-dword_15D42C:
         resb 28
-dword_15D448:
         resb 4
-dword_15D44C:
         resb 4
-unk_15D450:
         resb 4
-dword_15D454:
         resb 4
-dword_15D458:
         resb 120
-dword_15D4D0:
         resb 4
-dword_15D4D4:
         resb 1636
-unk_15DB38:
+BenchAreaPoints:
         resb 272
-dword_15DC48:
+RinkFloorPoints:
         resb 200
-dword_15DD10:
+SideGlassPoints:
         resb 400
-dword_15DEA0:
+IceLogoGroups:
         resb 60
-dword_15DEDC:
+StandsArtTable:
         resb 4
 StandsArt:
         resb 64
-GlassRemap:
         resb 256
-BenchRemap:
         resb 256
-dword_15E120:
+RinkC03Group:
         resb 4
-dword_15E124:
+RinkC02Group:
         resb 4
-dword_15E128:
+RinkC01Group:
         resb 4
 RinkModelNormals:
         resb 4
-unk_15E130:
+RinkFrontRemap:
         resb 256
-unk_15E230:
+IceLinesRemap:
         resb 256
-unk_15E330:
+IceLogosRemap:
         resb 256
-dword_15E430:
+ZamboniState:
         resb 4
-dword_15E434:
         resb 4
-dword_15E438:
         resb 4
-dword_15E43C:
         resb 4
-dword_15E440:
         resb 4
-dword_15E444:
         resb 4
-dword_15E448:
         resb 4
-unk_15E44C:
         resb 36
-dword_15E470:
         resb 2
-word_15E472:
         resb 2
-dword_15E474:
         resb 4
-dword_15E478:
         resb 4
-FarSideData:
         resb 4
-GoalLightModel:
         resb 4
-GoalCheerTeam:
         resb 4
-GoalLightState:
         resb 4
-dword_15E48C:
+GoalLightTime:
         resb 4
-dword_15E490:
+GoalLightLit:
         resb 4
-dword_15E494:
+GlassShakeX:
         resb 4
-dword_15E498:
+GlassShakeY:
         resb 4
-dword_15E49C:
+GlassShakeDir:
         resb 4
-dword_15E4A0:
+GlassShakeOn:
         resb 4
-dword_15E4A4:
+GlassShakeSide:
         resb 4
-dword_15E4A8:
+GlassShakeStep:
         resb 4
-dword_15E4AC:
+GlassShakeTimer:
         resb 4
-dword_15E4B0:
+GlassBreakX:
         resb 4
-dword_15E4B4:
+GlassBreakY:
         resb 4
-dword_15E4B8:
+GlassBreakStep:
         resb 4
-dword_15E4BC:
+GlassBreakPanel:
         resb 4
-dword_15E4C0:
+GlassBreakShards:
         resb 4
-dword_15E4C4:
+GlassBroken:
         resb 4
-unk_15E4C8:
+IceSurfacePoly:
         resb 108
 IceLinePolys:
         resb 108
-unk_15E5A0:
+CentreIcePoly:
         resb 108
-dword_15E60C:
+CircleTableCount:
         resb 4
-dword_15E610:
+CircleTableUsed:
         resb 4
-dword_15E614:
+CircleTablePtr:
         resb 4
 IceCenterPoly:
         resb 108
@@ -227,13 +184,13 @@ RinkWidth:
         resb 4
 RinkCorner:
         resb 4
-dword_15E690:
+RinkModelBytes:
         resb 4
-dword_15E694:
+RinkModelFile:
         resb 4
-dword_15E698:
+IceCrudCount:
         resb 4
-dword_15E69C:
+KickplateClipX:
         resb 4
 RinkModelSize:
         resb 4
@@ -243,225 +200,225 @@ RinkModelHeader:
         resb 4
 BenchDoorArt:
         resb 4
-dword_15E6B0:
+IceCrudBase:
         resb 4
 RinkModelVerts:
         resb 4
 RinkModelPolys:
         resb 4
-dword_15E6BC:
+RinkDoor12Group:
         resb 4
-dword_15E6C0:
+IceTextureBmp:
         resb 4
-dword_15E6C4:
+IceCrudOffset:
         resb 4
-dword_15E6C8:
+GlassShardCount:
         resb 4
-dword_15E6CC:
+IceTextureOffset:
         resb 4
-dword_15E6D0:
+IceTextureFile:
         resb 4
-dword_15E6D4:
+IceTextureSize:
         resb 4
-dword_15E6D8:
+RinkRight2Faces:
         resb 4
-dword_15E6DC:
+RinkLeft2Faces:
         resb 4
-dword_15E6E0:
+BenchGroupCount:
         resb 4
-dword_15E6E4:
+RinkLeft2Count:
         resb 4
-dword_15E6E8:
+RinkRight1Faces:
         resb 4
-dword_15E6EC:
+RinkLeft1Faces:
         resb 4
-dword_15E6F0:
+RinkLeft1Count:
         resb 4
-dword_15E6F4:
+RinkTopCount:
         resb 4
-dword_15E6F8:
+RinkTopFaces:
         resb 4
-dword_15E6FC:
+RinkBackFaces:
         resb 4
-dword_15E700:
+RinkBackCount:
         resb 4
-dword_15E704:
+RinkRight2Count:
         resb 4
-dword_15E708:
+PenBoxGroupCount:
         resb 4
-dword_15E70C:
+RinkRight1Count:
         resb 4
 str_C2:
         resb 4
-dword_15E714:
+RinkPenBoxZ0Faces:
         resb 4
-dword_15E718:
+RinkPenBackCount:
         resb 4
-dword_15E71C:
+RinkBenchDividerFaces:
         resb 4
-dword_15E720:
+RinkPenBoxT1Faces:
         resb 4
-dword_15E724:
+RinkPenBoxT0Faces:
         resb 4
-dword_15E728:
+RinkPenBottomFaces:
         resb 12
-dword_15E734:
+RinkPenBoxZ1LastVert:
         resb 4
-dword_15E738:
+RinkPenBoxZ0LastVert:
         resb 4
-dword_15E73C:
+RinkBenchBackFaces:
         resb 12
-dword_15E748:
+RinkBenchBottomFaces:
         resb 4
-dword_15E74C:
+RinkPenBottomCount:
         resb 4
-dword_15E750:
+RinkPenBoxT1LastVert:
         resb 4
-dword_15E754:
+RinkPenBoxT0LastVert:
         resb 4
-dword_15E758:
+RinkPenBackFaces:
         resb 4
-dword_15E75C:
+RinkPenBoxZ0Count:
         resb 4
 dword_15E760:
         resb 4
-dword_15E764:
+RinkBenchZ1Faces:
         resb 4
-dword_15E768:
+RinkPenBoxT0Count:
         resb 4
-dword_15E76C:
+RinkPenBoxT1Count:
         resb 4
-dword_15E770:
+RinkPenBoxT0Id:
         resb 4
-dword_15E774:
+RinkIceLogo2Count:
         resb 4
-dword_15E778:
+RinkIceLineFaces:
         resb 8
-dword_15E780:
+RinkIceLogo2Faces:
         resb 4
-dword_15E784:
+RinkIceLineCount:
         resb 4
-dword_15E788:
+RinkBenchBackCount:
         resb 4
-dword_15E78C:
+RinkLitesFaces:
         resb 4
-dword_15E790:
+RinkWallFaces:
         resb 4
-dword_15E794:
+RinkBenchXGroup:
         resb 8
-dword_15E79C:
+RinkBenchZ1Group:
         resb 4
-dword_15E7A0:
+RinkBenchZ0Group:
         resb 4
-dword_15E7A4:
+RinkMaxZGroup:
         resb 4
-dword_15E7A8:
+RinkMaxXGroup:
         resb 4
-dword_15E7AC:
+RinkStand2ndFaces:
         resb 4
-dword_15E7B0:
+RinkMinXGroup:
         resb 4
-dword_15E7B4:
+RinkMinZGroup:
         resb 4
-dword_15E7B8:
+RinkLitesCount:
         resb 4
-dword_15E7BC:
+RinkBenchDividerCount:
         resb 4
-dword_15E7C0:
+RinkBenchZ0Count:
         resb 4
-dword_15E7C4:
+RinkBenchZ1Count:
         resb 4
-dword_15E7C8:
+RinkBenchZ0Faces:
         resb 4
-dword_15E7CC:
+RinkIce2Faces:
         resb 4
-dword_15E7D0:
+RinkBenchBottomCount:
         resb 4
-dword_15E7D4:
+RinkStandFaces:
         resb 4
-dword_15E7D8:
+ZamboniModel:
         resb 4
-dword_15E7DC:
+GlassLineAATable:
         resb 4
-dword_15E7E0:
+FatLineAATable:
         resb 4
-dword_15E7E4:
+ZamboniShapes:
         resb 4
-dword_15E7E8:
+GoalPipeAATable:
         resb 4
-dword_15E7EC:
+BlueLineAATable:
         resb 4
-dword_15E7F0:
+RinkZamboniPathFaces:
         resb 4
-dword_15E7F4:
+RinkWallCount:
         resb 4
-dword_15E7F8:
+RinkCreaseMaterial:
         resb 4
-dword_15E7FC:
+RinkStand2ndCount:
         resb 4
-dword_15E800:
+RinkZamboniPathCount:
         resb 4
-dword_15E804:
+BotBoardsAATable:
         resb 4
-dword_15E808:
+RinkIce2Count:
         resb 4
-dword_15E80C:
+RinkStandCount:
         resb 4
-dword_15E810:
+IceCrudColour:
         resb 4
-dword_15E814:
+TopBoardsAATable:
         resb 4
-dword_15E818:
+PuckShapes:
         resb 4
-dword_15E81C:
+ZamboniInstance:
         resb 4
-dword_15E820:
+RinkGt007LastVert:
         resb 4
-dword_15E824:
+StandsSideArt:
         resb 4
 BenchSideModel:
         resb 4
-dword_15E82C:
+RinkBoardBackMaterial:
         resb 4
-dword_15E830:
+RinkRedLite1Group:
         resb 4
-dword_15E834:
+RinkRedLite0Group:
         resb 4
-dword_15E838:
+RinkFlatBoardsMaterial:
         resb 4
-dword_15E83C:
+RinkGt004FirstVert:
         resb 4
 RinkMarkingModel:
         resb 4
-dword_15E844:
+RinkB00FirstVert:
         resb 4
 CreaseModel:
         resb 4
-dword_15E84C:
+IceTextureQuad:
         resb 8
-dword_15E854:
+RinkGreenLite1Group:
         resb 4
-dword_15E858:
+RinkGreenLite0Group:
         resb 4
-dword_15E85C:
+RinkGt004LastVert:
         resb 4
 RinkGeometryModel:
         resb 4
 BoxModelData:
         resb 4
-dword_15E868:
+RinkEdgeFlags:
         resb 4
-dword_15E86C:
+StandsSideShapes:
         resb 4
 RinkGeometryParts:
         resb 4
-dword_15E874:
+RinkGt302FirstVert:
         resb 4
 RinkGeometryData:
         resb 4
 CameraFlashOn:
         resb 4
-dword_15E880:
+MarkingAATable:
         resb 4
 BenchSideIndex:
         resb 4
@@ -479,43 +436,43 @@ CenterCircleModel:
         resb 4
 BenchLineModel:
         resb 4
-dword_15E8C4:
+ScoreInstance:
         resb 4
-dword_15E8C8:
+ScoreShapes:
         resb 4
-dword_15E8CC:
+ScoreModel:
         resb 4
-dword_15E8D0:
+NetShapes:
         resb 4
-dword_15E8D4:
+PuckShadowModel:
         resb 4
-dword_15E8D8:
+PuckShadowInstance:
         resb 4
-dword_15E8DC:
+RinkModel:
         resb 4
-dword_15E8E0:
+PuckInstance:
         resb 4
-dword_15E8E4:
+RinkInstance:
         resb 4
 RinkSidesModel:
         resb 4
-dword_15E8EC:
+RinkShapes:
         resb 4
-dword_15E8F0:
+PuckModel:
         resb 4
-dword_15E8F4:
+NetModel:
         resb 4
-dword_15E8F8:
+HomeNetInstance:
         resb 4
-dword_15E8FC:
+AwayNetInstance:
         resb 4
-dword_15E900:
+Stands2Instance:
         resb 4
-unk_15E904:
+ShadowRemap:
         resb 255
-byte_15EA03:
+ShadowRemapEnd:
         resb 1
-dword_15EA04:
+OptionButtonArt:
         resb 4
 dword_15EA08:
         resb 4

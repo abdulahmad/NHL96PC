@@ -5843,40 +5843,189 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 158D9C,GoalLightOn,dword_158D9C,new,low,goal light on,src/data/front/front_201CD_bss_01.asm
 158DA0,RinkModelIce,dword_158DA0,new,low,Rink model: ice pieces,src/data/front/front_201CD_bss_01.asm
 158DA8,IcePolyBuffer,unk_158DA8,new,low,"Ice surface polygon buffer (DrawIceSurface, DrawFaceoffCircle)",src/data/front/front_201CD_bss_01.asm
+158F24,RinkMarkingPoints,dword_158F24,new,low,rink marking point buffers,src/data/front/rink_model_bss_01.asm
 1591D8,IceSurfacePolys,unk_1591D8,new,medium,ice surface polygons,src/data/front/rink_model_bss_01.asm
 1593F8,BoardLinePolys,unk_1593F8,new,medium,board line polygons,src/data/front/rink_model_bss_01.asm
+159748,GlassShards,dword_159748,new,low,broken glass shard records,src/data/front/rink_model_bss_01.asm
 159C5A,IceCrudMap,byte_159C5A,new,low,"Ice crud map (DrawIceCrud), read from three bytes before",src/data/front/front_201CD_bss_02.asm
 159E61,IceTextureData,byte_159E61,new,low,"Ice texture bytes (LoadIceTexture), read from two bytes before",src/data/front/front_201CD_bss_02.asm
+159F58,GlassShardVerts,unk_159F58,new,low,broken glass shard vertices,src/data/front/rink_model_bss_02.asm
+15AE88,GlassShardScreen,unk_15AE88,new,low,broken glass shard screen points,src/data/front/rink_model_bss_02.asm
+15BDB8,StandsSidePoints,dword_15BDB8,new,low,stands side points,src/data/front/rink_model_bss_02.asm
+15BE80,GlassPanelShake,dword_15BE80,new,low,glass panel shake offsets,src/data/front/rink_model_bss_02.asm
+15BF20,GlassShardDraw,unk_15BF20,new,low,broken glass shards to draw,src/data/front/rink_model_bss_02.asm
+15CE50,BoardPoints,dword_15CE50,new,low,board points,src/data/front/rink_model_bss_02.asm
+15D0A8,PenBoxBenchGroups,dword_15D0A8,new,low,penalty box bench model groups,src/data/front/rink_model_bss_02.asm
+15D0C4,BenchGroups,dword_15D0C4,new,low,player bench model groups,src/data/front/rink_model_bss_02.asm
+15D0DC,RinkSideTables,dword_15D0DC,new,low,rink side tables,src/data/front/rink_model_bss_02.asm
+15D298,PenBoxNearGroups,dword_15D298,new,low,penalty box near model groups,src/data/front/rink_model_bss_02.asm
 15D2A4,RinkModelTexInfo,dword_15D2A4,new,low,rink model texture info,src/data/front/rink_model_bss_02.asm
+15D2A8,PenBoxFarGroups,dword_15D2A8,new,low,penalty box far model groups,src/data/front/rink_model_bss_02.asm
 15D2B4,RinkModelBounds,dword_15D2B4,new,low,rink model bounds,src/data/front/rink_model_bss_02.asm
+15D2B8,GlassPanelList,dword_15D2B8,new,low,glass panel list,src/data/front/rink_model_bss_02.asm
+15D2BC,RinkSideStructs,dword_15D2BC,new,low,rink side structures,src/data/front/rink_model_bss_02.asm
+15DB38,BenchAreaPoints,unk_15DB38,new,low,bench area points,src/data/front/rink_model_bss_02.asm
+15DC48,RinkFloorPoints,dword_15DC48,new,low,rink floor points,src/data/front/rink_model_bss_02.asm
+15DD10,SideGlassPoints,dword_15DD10,new,low,side glass points,src/data/front/rink_model_bss_02.asm
+15DEA0,IceLogoGroups,dword_15DEA0,new,low,ice logo model groups,src/data/front/rink_model_bss_02.asm
+15DEDC,StandsArtTable,dword_15DEDC,new,low,stands art table,src/data/front/rink_model_bss_02.asm
 15DEE0,StandsArt,dword_15DEE0,new,low,stands art,src/data/front/rink_model_bss_02.asm
 15DF20,GlassRemap,unk_15DF20,new,low,glass colour remap,src/data/front/rink_model_bss_02.asm
 15E020,BenchRemap,unk_15E020,new,low,bench colour remap,src/data/front/rink_model_bss_02.asm
+15E120,RinkC03Group,dword_15E120,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E124,RinkC02Group,dword_15E124,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E128,RinkC01Group,dword_15E128,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
 15E12C,RinkModelNormals,dword_15E12C,new,low,rink model normals,src/data/front/rink_model_bss_02.asm
+15E130,RinkFrontRemap,unk_15E130,new,low,colour remap for the rink front parts,src/data/front/rink_model_bss_02.asm
+15E230,IceLinesRemap,unk_15E230,new,low,colour remap for the ice lines,src/data/front/rink_model_bss_02.asm
+15E330,IceLogosRemap,unk_15E330,new,low,colour remap for the ice logos,src/data/front/rink_model_bss_02.asm
+15E430,ZamboniState,dword_15E430,new,low,Zamboni state,src/data/front/rink_model_bss_02.asm
 15E47C,FarSideData,dword_15E47C,new,low,far side data,src/data/front/rink_model_bss_02.asm
 15E480,GoalLightModel,dword_15E480,new,low,goal light model,src/data/front/rink_model_bss_02.asm
 15E484,GoalCheerTeam,dword_15E484,new,low,team cheering a goal,src/data/front/rink_model_bss_02.asm
 15E488,GoalLightState,dword_15E488,new,low,goal light state,src/data/front/rink_model_bss_02.asm
+15E48C,GoalLightTime,dword_15E48C,new,low,goal light time,src/data/front/rink_model_bss_02.asm
+15E490,GoalLightLit,dword_15E490,new,low,goal light is lit,src/data/front/rink_model_bss_02.asm
+15E494,GlassShakeX,dword_15E494,new,low,glass shake x,src/data/front/rink_model_bss_02.asm
+15E498,GlassShakeY,dword_15E498,new,low,glass shake y,src/data/front/rink_model_bss_02.asm
+15E49C,GlassShakeDir,dword_15E49C,new,low,glass shake direction,src/data/front/rink_model_bss_02.asm
+15E4A0,GlassShakeOn,dword_15E4A0,new,low,glass shake is on,src/data/front/rink_model_bss_02.asm
+15E4A4,GlassShakeSide,dword_15E4A4,new,low,glass shake side,src/data/front/rink_model_bss_02.asm
+15E4A8,GlassShakeStep,dword_15E4A8,new,low,glass shake step,src/data/front/rink_model_bss_02.asm
+15E4AC,GlassShakeTimer,dword_15E4AC,new,low,glass shake timer,src/data/front/rink_model_bss_02.asm
+15E4B0,GlassBreakX,dword_15E4B0,new,low,glass break x,src/data/front/rink_model_bss_02.asm
+15E4B4,GlassBreakY,dword_15E4B4,new,low,glass break y,src/data/front/rink_model_bss_02.asm
+15E4B8,GlassBreakStep,dword_15E4B8,new,low,glass break step,src/data/front/rink_model_bss_02.asm
+15E4BC,GlassBreakPanel,dword_15E4BC,new,low,broken glass panel,src/data/front/rink_model_bss_02.asm
+15E4C0,GlassBreakShards,dword_15E4C0,new,low,broken glass shard count,src/data/front/rink_model_bss_02.asm
+15E4C4,GlassBroken,dword_15E4C4,new,low,glass is broken,src/data/front/rink_model_bss_02.asm
+15E4C8,IceSurfacePoly,unk_15E4C8,new,low,ice surface polygon,src/data/front/rink_model_bss_02.asm
 15E534,IceLinePolys,unk_15E534,new,medium,ice line polygons,src/data/front/rink_model_bss_02.asm
+15E5A0,CentreIcePoly,unk_15E5A0,new,low,centre ice polygon,src/data/front/rink_model_bss_02.asm
+15E60C,CircleTableCount,dword_15E60C,new,low,circle table count,src/data/front/rink_model_bss_02.asm
+15E610,CircleTableUsed,dword_15E610,new,low,circle table entries used,src/data/front/rink_model_bss_02.asm
+15E614,CircleTablePtr,dword_15E614,new,low,circle table pointer,src/data/front/rink_model_bss_02.asm
 15E618,IceCenterPoly,unk_15E618,new,medium,ice center polygon,src/data/front/rink_model_bss_02.asm
 15E684,RinkLength,dword_15E684,new,low,rink length,src/data/front/rink_model_bss_02.asm
 15E688,RinkWidth,dword_15E688,new,low,rink width,src/data/front/rink_model_bss_02.asm
 15E68C,RinkCorner,dword_15E68C,new,low,rink corner radius,src/data/front/rink_model_bss_02.asm
+15E690,RinkModelBytes,dword_15E690,new,low,rink model size,src/data/front/rink_model_bss_02.asm
+15E694,RinkModelFile,dword_15E694,new,low,rink model file,src/data/front/rink_model_bss_02.asm
+15E698,IceCrudCount,dword_15E698,new,low,ice crud count,src/data/front/rink_model_bss_02.asm
+15E69C,KickplateClipX,dword_15E69C,new,low,kickplate clip x,src/data/front/rink_model_bss_02.asm
 15E6A0,RinkModelSize,dword_15E6A0,new,low,rink model size,src/data/front/rink_model_bss_02.asm
 15E6A4,RinkModelFlags,dword_15E6A4,new,low,rink model flags,src/data/front/rink_model_bss_02.asm
 15E6A8,RinkModelHeader,dword_15E6A8,new,low,rink model header,src/data/front/rink_model_bss_02.asm
 15E6AC,BenchDoorArt,dword_15E6AC,new,low,bench door art,src/data/front/rink_model_bss_02.asm
+15E6B0,IceCrudBase,dword_15E6B0,new,low,ice crud base,src/data/front/rink_model_bss_02.asm
 15E6B4,RinkModelVerts,dword_15E6B4,new,low,rink model vertices,src/data/front/rink_model_bss_02.asm
 15E6B8,RinkModelPolys,dword_15E6B8,new,low,rink model polygons,src/data/front/rink_model_bss_02.asm
+15E6BC,RinkDoor12Group,dword_15E6BC,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E6C0,IceTextureBmp,dword_15E6C0,new,low,ice texture bitmap,src/data/front/rink_model_bss_02.asm
+15E6C4,IceCrudOffset,dword_15E6C4,new,low,ice crud offset,src/data/front/rink_model_bss_02.asm
+15E6C8,GlassShardCount,dword_15E6C8,new,low,glass shard count,src/data/front/rink_model_bss_02.asm
+15E6CC,IceTextureOffset,dword_15E6CC,new,low,ice texture offset,src/data/front/rink_model_bss_02.asm
+15E6D0,IceTextureFile,dword_15E6D0,new,low,ice texture file,src/data/front/rink_model_bss_02.asm
+15E6D4,IceTextureSize,dword_15E6D4,new,low,ice texture size,src/data/front/rink_model_bss_02.asm
+15E6D8,RinkRight2Faces,dword_15E6D8,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E6DC,RinkLeft2Faces,dword_15E6DC,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E6E0,BenchGroupCount,dword_15E6E0,new,low,bench model groups found,src/data/front/rink_model_bss_02.asm
+15E6E4,RinkLeft2Count,dword_15E6E4,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E6E8,RinkRight1Faces,dword_15E6E8,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E6EC,RinkLeft1Faces,dword_15E6EC,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E6F0,RinkLeft1Count,dword_15E6F0,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E6F4,RinkTopCount,dword_15E6F4,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E6F8,RinkTopFaces,dword_15E6F8,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E6FC,RinkBackFaces,dword_15E6FC,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E700,RinkBackCount,dword_15E700,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E704,RinkRight2Count,dword_15E704,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E708,PenBoxGroupCount,dword_15E708,new,low,penalty box model groups found,src/data/front/rink_model_bss_02.asm
+15E70C,RinkRight1Count,dword_15E70C,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
 15E710,str_C2,dword_15E710,new,low,"string ""c2""",src/data/front/rink_model_bss_02.asm
+15E714,RinkPenBoxZ0Faces,dword_15E714,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E718,RinkPenBackCount,dword_15E718,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E71C,RinkBenchDividerFaces,dword_15E71C,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E720,RinkPenBoxT1Faces,dword_15E720,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E724,RinkPenBoxT0Faces,dword_15E724,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E728,RinkPenBottomFaces,dword_15E728,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E734,RinkPenBoxZ1LastVert,dword_15E734,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E738,RinkPenBoxZ0LastVert,dword_15E738,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E73C,RinkBenchBackFaces,dword_15E73C,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E748,RinkBenchBottomFaces,dword_15E748,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E74C,RinkPenBottomCount,dword_15E74C,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E750,RinkPenBoxT1LastVert,dword_15E750,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E754,RinkPenBoxT0LastVert,dword_15E754,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E758,RinkPenBackFaces,dword_15E758,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E75C,RinkPenBoxZ0Count,dword_15E75C,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E764,RinkBenchZ1Faces,dword_15E764,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E768,RinkPenBoxT0Count,dword_15E768,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E76C,RinkPenBoxT1Count,dword_15E76C,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E770,RinkPenBoxT0Id,dword_15E770,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E774,RinkIceLogo2Count,dword_15E774,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E778,RinkIceLineFaces,dword_15E778,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E780,RinkIceLogo2Faces,dword_15E780,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E784,RinkIceLineCount,dword_15E784,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E788,RinkBenchBackCount,dword_15E788,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E78C,RinkLitesFaces,dword_15E78C,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E790,RinkWallFaces,dword_15E790,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E794,RinkBenchXGroup,dword_15E794,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E79C,RinkBenchZ1Group,dword_15E79C,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E7A0,RinkBenchZ0Group,dword_15E7A0,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E7A4,RinkMaxZGroup,dword_15E7A4,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E7A8,RinkMaxXGroup,dword_15E7A8,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E7AC,RinkStand2ndFaces,dword_15E7AC,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E7B0,RinkMinXGroup,dword_15E7B0,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E7B4,RinkMinZGroup,dword_15E7B4,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E7B8,RinkLitesCount,dword_15E7B8,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E7BC,RinkBenchDividerCount,dword_15E7BC,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E7C0,RinkBenchZ0Count,dword_15E7C0,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E7C4,RinkBenchZ1Count,dword_15E7C4,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E7C8,RinkBenchZ0Faces,dword_15E7C8,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E7CC,RinkIce2Faces,dword_15E7CC,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E7D0,RinkBenchBottomCount,dword_15E7D0,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E7D4,RinkStandFaces,dword_15E7D4,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E7D8,ZamboniModel,dword_15E7D8,new,low,Zamboni model,src/data/front/rink_model_bss_02.asm
+15E7DC,GlassLineAATable,dword_15E7DC,new,low,glass line anti-alias table,src/data/front/rink_model_bss_02.asm
+15E7E0,FatLineAATable,dword_15E7E0,new,low,fat line anti-alias table,src/data/front/rink_model_bss_02.asm
+15E7E4,ZamboniShapes,dword_15E7E4,new,low,Zamboni shapes,src/data/front/rink_model_bss_02.asm
+15E7E8,GoalPipeAATable,dword_15E7E8,new,low,goal pipe anti-alias table,src/data/front/rink_model_bss_02.asm
+15E7EC,BlueLineAATable,dword_15E7EC,new,low,blue line anti-alias table,src/data/front/rink_model_bss_02.asm
+15E7F0,RinkZamboniPathFaces,dword_15E7F0,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E7F4,RinkWallCount,dword_15E7F4,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E7F8,RinkCreaseMaterial,dword_15E7F8,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E7FC,RinkStand2ndCount,dword_15E7FC,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E800,RinkZamboniPathCount,dword_15E800,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E804,BotBoardsAATable,dword_15E804,new,low,bottom boards anti-alias table,src/data/front/rink_model_bss_02.asm
+15E808,RinkIce2Count,dword_15E808,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E80C,RinkStandCount,dword_15E80C,new,medium,rink model partition from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E810,IceCrudColour,dword_15E810,new,low,ice crud colour,src/data/front/rink_model_bss_02.asm
+15E814,TopBoardsAATable,dword_15E814,new,low,top boards anti-alias table,src/data/front/rink_model_bss_02.asm
+15E818,PuckShapes,dword_15E818,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E81C,ZamboniInstance,dword_15E81C,new,low,Zamboni instance,src/data/front/rink_model_bss_02.asm
+15E820,RinkGt007LastVert,dword_15E820,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E824,StandsSideArt,dword_15E824,new,low,stands side art,src/data/front/rink_model_bss_02.asm
 15E828,BenchSideModel,dword_15E828,new,low,bench side model,src/data/front/rink_model_bss_02.asm
+15E82C,RinkBoardBackMaterial,dword_15E82C,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E830,RinkRedLite1Group,dword_15E830,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E834,RinkRedLite0Group,dword_15E834,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E838,RinkFlatBoardsMaterial,dword_15E838,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E83C,RinkGt004FirstVert,dword_15E83C,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
 15E840,RinkMarkingModel,dword_15E840,new,low,rink marking model,src/data/front/rink_model_bss_02.asm
+15E844,RinkB00FirstVert,dword_15E844,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
 15E848,CreaseModel,dword_15E848,new,low,crease model,src/data/front/rink_model_bss_02.asm
+15E84C,IceTextureQuad,dword_15E84C,new,low,ice texture quad,src/data/front/rink_model_bss_02.asm
+15E854,RinkGreenLite1Group,dword_15E854,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E858,RinkGreenLite0Group,dword_15E858,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E85C,RinkGt004LastVert,dword_15E85C,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
 15E860,RinkGeometryModel,dword_15E860,new,low,rink geometry model,src/data/front/rink_model_bss_02.asm
 15E864,BoxModelData,dword_15E864,new,low,penalty box model data,src/data/front/rink_model_bss_02.asm
+15E868,RinkEdgeFlags,dword_15E868,new,low,rink edge flags,src/data/front/rink_model_bss_02.asm
+15E86C,StandsSideShapes,dword_15E86C,new,low,stands side shapes,src/data/front/rink_model_bss_02.asm
 15E870,RinkGeometryParts,dword_15E870,new,low,rink geometry parts,src/data/front/rink_model_bss_02.asm
+15E874,RinkGt302FirstVert,dword_15E874,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
 15E878,RinkGeometryData,dword_15E878,new,low,rink geometry data,src/data/front/rink_model_bss_02.asm
 15E87C,CameraFlashOn,dword_15E87C,new,low,camera flashes on,src/data/front/rink_model_bss_02.asm
+15E880,MarkingAATable,dword_15E880,new,low,marking anti-alias table,src/data/front/rink_model_bss_02.asm
 15E884,BenchSideIndex,dword_15E884,new,low,bench side index,src/data/front/rink_model_bss_02.asm
 15E888,NeutralSpotModel,dword_15E888,new,low,neutral zone spot model,src/data/front/rink_model_bss_02.asm
 15E88C,FlashPolys,unk_15E88C,new,medium,camera flash polygons,src/data/front/rink_model_bss_02.asm
@@ -5885,7 +6034,25 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 15E8B8,BoardsTopModel,dword_15E8B8,new,low,boards top model,src/data/front/rink_model_bss_02.asm
 15E8BC,CenterCircleModel,dword_15E8BC,new,low,center circle model,src/data/front/rink_model_bss_02.asm
 15E8C0,BenchLineModel,dword_15E8C0,new,low,bench line model,src/data/front/rink_model_bss_02.asm
+15E8C4,ScoreInstance,dword_15E8C4,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E8C8,ScoreShapes,dword_15E8C8,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E8CC,ScoreModel,dword_15E8CC,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E8D0,NetShapes,dword_15E8D0,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E8D4,PuckShadowModel,dword_15E8D4,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E8D8,PuckShadowInstance,dword_15E8D8,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E8DC,RinkModel,dword_15E8DC,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E8E0,PuckInstance,dword_15E8E0,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E8E4,RinkInstance,dword_15E8E4,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
 15E8E8,RinkSidesModel,dword_15E8E8,new,low,rink sides model,src/data/front/rink_model_bss_02.asm
+15E8EC,RinkShapes,dword_15E8EC,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E8F0,PuckModel,dword_15E8F0,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E8F4,NetModel,dword_15E8F4,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E8F8,HomeNetInstance,dword_15E8F8,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E8FC,AwayNetInstance,dword_15E8FC,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E900,Stands2Instance,dword_15E900,new,medium,rink model item from LoadRinkModel,src/data/front/rink_model_bss_02.asm
+15E904,ShadowRemap,unk_15E904,new,low,shadow colour remap,src/data/front/rink_model_bss_02.asm
+15EA03,ShadowRemapEnd,byte_15EA03,new,low,last byte of the shadow colour remap,src/data/front/rink_model_bss_02.asm
+15EA04,OptionButtonArt,dword_15EA04,new,low,option button art,src/data/front/rink_model_bss_02.asm
 15EA0C,UserMenuBoxes,dword_15EA0C,new,low,"User records screen: menu boxes, 40h bytes each",src/data/front/front_2A692_bss_01.asm
 160A8C,UserRecordList,dword_160A8C,new,low,user record list (374 bytes each),src/data/front/front_2A692_bss_01.asm
 160A90,UserStreakField,dword_160A90,new,low,User records: record field of the streak (comparators and the table),src/data/front/front_2A692_bss_01.asm

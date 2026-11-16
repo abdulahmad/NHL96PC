@@ -2,9 +2,12 @@
 bits 32
 %include "hockey.inc"
 section s_201CD progbits alloc exec nowrite align=1
-extern byte_11FA2E, byte_11FA2F, byte_151708, byte_151774, byte_151778, byte_158D2A, byte_158D2B, byte_158D2C
+extern GripPassMap
+extern GripShootMap
+extern GripSlotIds
+extern byte_11FA2E, byte_11FA2F, Joy1State, GripSlotPresent, JoyPadBits, byte_158D2A, byte_158D2B, byte_158D2C
 extern byte_158D2D, byte_17BDAE, byte_17CA24, byte_17CA3C, byte_17CA54, dword_114CB0, dword_114CB4, dword_117588
-extern dword_11F5C0, dword_151698, dword_1516A8, dword_158CC0, dword_158CCC, dword_158CD0, dword_158CD4, dword_158D54
+extern dword_11F5C0, dword_158CC0, dword_158CCC, dword_158CD0, dword_158CD4, dword_158D54
 extern dword_158D64, dword_158D68, dword_158D6C, dword_158D70, MatchupLayer, TeamStatsBitmap, str_Standings, FillRect
 extern TextStringWidth, GetGripButtonMap, GetInputDevices, GetTicks, InitInputDevices, LoadPackedFile, MessageBox, MouseRead
 extern mousex, mousey, ReadJoystickBits, SetGripButtonMap, sprintf_, str_A, str_BKGD, str_BT00
@@ -13,13 +16,13 @@ extern strcpy_, strlen_, OpenScreen, SlideInTitleBar, SlideInSideBar, SetScreenC
 extern FadeOut, CopyBitmap, SetTextColors, DrawColorText, DrawColorTextRight, DrawColorTextCentred, InitMenuItems, RunMenu
 extern SetMenuMouse, FillMusicStream, SoundSecondsToBytes, SoundIdle, GetLangText, DrawShapeAtOwnPos, PutBlockAtOwnPos, AllocMemBlock
 extern FreeMemBlock, ClearScreenColour, DrawRectOutline, SetScreenTarget, FillRectColor, KbdGetKey, FindShape, TextSetFont
-extern unk_121FC8, unk_151648, unk_1516B8, unk_151720, unk_2018D, word_11758C, word_151768, word_158CBA
+extern unk_121FC8, GripSlotNames, GripSlotTypes, Joy2State, unk_2018D, word_11758C, word_158CBA
 extern word_158CBC, word_158D34, word_158D3C, word_158D44, word_158D46, word_158D74, word_158D76
 global DrawGripPads, DrawGripPads_73B, DrawGripPads_73C, GripSetupScreen, UpdateJoystickTest, JoystickTestScreen
 ;-----------------------------------------------------------------------------
 ; DrawGripPads                                 201CD  96 PC, medium confidence
 ; Draws the GrIP set-up panel: each connected pad with its live direction and
-; buttons (byte_151778) and its A / B (shoot / pass) button assignment
+; buttons (JoyPadBits) and its A / B (shoot / pass) button assignment
 ;-----------------------------------------------------------------------------
 DrawGripPads:
         push ebx
@@ -34,10 +37,10 @@ DrawGripPads:
         xor esi, esi
 .1:
         mov eax, dword [byte ebp-010h]
-        cmp byte [dword eax+byte_151774], 0
+        cmp byte [dword eax+GripSlotPresent], 0
         jbe near .35
         mov cl, byte [byte ebp-01Ch]
-        mov eax, dword [byte_151778]
+        mov eax, dword [JoyPadBits]
         sar eax, cl
         and eax, 0FFh
         mov edx, dword [byte ebp-018h]
@@ -593,7 +596,7 @@ DrawGripPads:
         mov dword [byte ebp-030h], eax
 .29:
         mov eax, dword [byte ebp-010h]
-        movzx eax, byte [dword eax+byte_151774]
+        movzx eax, byte [dword eax+GripSlotPresent]
         cmp eax, dword [byte ebp-014h]
         jle near .34
         mov eax, dword [byte ebp-028h]
@@ -769,8 +772,8 @@ GripSetupScreen:
         mov word [word_158D76], ax
         mov dword [byte ebp-024h], 0FFFFFFFFh
         mov dword [byte ebp-014h], 0
-        mov dword [byte ebp-020h], unk_151648
-        mov dword [byte ebp-01Ch], unk_1516B8
+        mov dword [byte ebp-020h], GripSlotNames
+        mov dword [byte ebp-01Ch], GripSlotTypes
         movzx esi, byte [byte_11FA2F]
         xor edi, edi
         add esi, byte 14h
@@ -828,7 +831,7 @@ GripSetupScreen:
         imul eax, dword [byte ebp-014h], byte 0Ah
         mov dword [byte ebp-038h], eax
         mov eax, dword [byte ebp-014h]
-        cmp byte [dword eax+byte_151774], 0
+        cmp byte [dword eax+GripSlotPresent], 0
         je near .17
         mov eax, dword [byte ebp-01Ch]
         call strlen_
@@ -847,11 +850,11 @@ GripSetupScreen:
         call strlen_
         test eax, eax
         je short .5
-        mov ax, word [dword edi+word_151768]
+        mov ax, word [dword edi+GripSlotIds+2]
         xor ah, ah
         movzx eax, ax
         push eax
-        movzx eax, word [dword edi+word_151768]
+        movzx eax, word [dword edi+GripSlotIds+2]
         sar eax, 8
         and eax, 0FFh
         push eax
@@ -893,7 +896,7 @@ GripSetupScreen:
         add esi, eax
         mov eax, dword [byte ebp-010h]
         mov word [dword edi+word_158D34], 0
-        mov edx, dword [dword edx+dword_151698]
+        mov edx, dword [dword edx+GripShootMap+4]
         mov word [dword eax+word_158D44], 0
 .8:
         test dl, 1
@@ -902,7 +905,7 @@ GripSetupScreen:
         inc word [dword eax+word_158D44]
         jmp short .8
 .9:
-        mov edx, dword [dword eax+dword_1516A8]
+        mov edx, dword [dword eax+GripPassMap+4]
         mov word [dword eax+word_158D46], 0
         mov eax, dword [byte ebp-010h]
 .10:
@@ -1126,7 +1129,7 @@ GripSetupScreen:
         mov dword [byte ebp-08h], eax
 .12:
         mov eax, dword [byte ebp-014h]
-        movzx eax, byte [dword eax+byte_151774]
+        movzx eax, byte [dword eax+GripSlotPresent]
         cmp eax, dword [byte ebp-04h]
         jle near .15
         mov edx, dword [dword_158D6C]
@@ -1414,10 +1417,10 @@ GripSetupScreen:
         shl edx, cl
         cmp word [dword eax+word_158D34], byte 0
         je short .26
-        mov dword [dword esi+dword_1516A8], edx
+        mov dword [dword esi+GripPassMap+4], edx
         jmp short .28
 .26:
-        mov dword [dword esi+dword_151698], edx
+        mov dword [dword esi+GripShootMap+4], edx
         jmp short .28
 .27:
         call SlideInTitleBar
@@ -1492,20 +1495,20 @@ GripSetupScreen:
         je short .36
         mov ecx, 18h
         mov esi, byte_17CA24
-        mov edi, byte_151708
+        mov edi, Joy1State
         rep movsb
 .36:
         test byte [byte_17CA3C], 1
         je near DrawGripPads_73C
         mov ecx, 18h
         mov esi, byte_17CA3C
-        mov edi, unk_151720
+        mov edi, Joy2State
         rep movsb
         jmp near DrawGripPads_73C
 ;-----------------------------------------------------------------------------
 ; UpdateJoystickTest                           21478  96 PC, medium confidence
 ; Joystick test screen, each frame: lights the arrow of the direction the
-; tested pad points (byte_151778) and blinks it
+; tested pad points (JoyPadBits) and blinks it
 ;-----------------------------------------------------------------------------
 UpdateJoystickTest:
         push ebx
@@ -1513,7 +1516,7 @@ UpdateJoystickTest:
         push edx
         push esi
         mov ecx, dword [dword_158D68]
-        mov esi, dword [byte_151778]
+        mov esi, dword [JoyPadBits]
         shl ecx, 3
         sar esi, cl
         and esi, byte 0Fh
@@ -1735,7 +1738,7 @@ JoystickTestScreen:
         mov dword [byte ebp+076h], eax
         imul eax, dword [dword ebp-014Eh], byte 18h
         mov dword [byte ebp+07Eh], eax
-        mov eax, byte_151708
+        mov eax, Joy1State
         add eax, dword [byte ebp+07Eh]
         mov dword [byte ebp+05Eh], eax
 .2:
@@ -1821,7 +1824,7 @@ JoystickTestScreen:
         mov ecx, 18h
         mov esi, dword [byte ebp+05Eh]
         mov dword [byte ebp+07Ah], 1
-        or byte [dword eax+byte_151708], 1
+        or byte [dword eax+Joy1State], 1
         rep movsb
 .12:
         cmp dword [byte ebp+07Ah], byte 0

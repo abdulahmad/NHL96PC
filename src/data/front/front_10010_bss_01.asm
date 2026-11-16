@@ -2,216 +2,194 @@
 bits 32
 %include "hockey.inc"
 section s_15159C nobits alloc noexec write align=1
-global InputRecordRing, SlotTable, byte_1515BB, byte_1515C2, byte_1515C9, byte_151708, byte_151773, byte_151774
-global byte_151778, byte_151779, GripLinkByte, byte_151794, byte_1519A0, byte_151AD4, byte_151ADA, byte_151ADB
-global dword_15159C, SlotWords, dword_1515B0, InputPlaybackOn, dword_1515BE, dword_1515C5, dword_1515CC, dword_1515D0
-global dword_1515D8, dword_1515DC, dword_1515E0, dword_151630, dword_151694, dword_151698, dword_1516A4, dword_1516A8
-global dword_15170A, dword_15170C, dword_15170E, dword_151710, dword_151716, dword_151718, dword_15171A, dword_151722
-global dword_151724, dword_151726, dword_151728, dword_15172E, dword_151730, dword_151732, dword_151770, dword_15178E
-global dword_151798, dword_15199C, dword_1519B4, dword_1519B8, dword_1519BC, dword_1519FC, dword_151A00, dword_151A40
-global dword_151A80, dword_151A84, dword_151A88, dword_151A8C, dword_151A90, dword_151AD0, dword_151AD5, dword_151ADE
-global unk_151648, unk_1516B8, unk_151720, GripFarCall, unk_15179C, unk_1519C0, unk_151A04, unk_151A44
-global unk_151A94, unk_151ADC, word_1515B5, word_1515E4, word_151634, word_151636, word_151638, word_15163A
-global word_151712, word_151714, word_15171C, word_15171E, word_15172A, word_15172C, word_151734, word_151736
-global word_151744, word_15175C, word_151766, word_151768, word_15177E, GripDriverSeg, word_151788, GripDataSeg
-global GripResult, word_151792, word_151AE0, word_151AE2
-dword_15159C:
+global InputRecordRing, SlotTable, Joy1State, GripSlotPresent
+global JoyPadBits, GripLinkByte, GripPadState, ChatLine, LinkBlockHeader, LinkBlockAck
+global SlotPollState, SlotWords, LastKeyPollTick, SlotInput, KeyBindingSet
+global GripPadBits, GripShootMap, GripPassMap
+global Joy1MinX, Joy1MinY, Joy1MaxX, Joy1X, Joy1Y, Joy1CentreX
+global Joy2MinX, Joy2MinY, Joy2MaxX, Joy2X, Joy2Y, Joy2CentreX, GripSlotMask, GripButtonsRaw
+global GripCurSlot, ChatActive, LinkSyncValue, LinkBlockLen, LinkBlockPos, LinkInputHead, LinkInputTail, LinkMsgHead
+global LinkValueHead, LinkMsgTail, LinkRemoteHead, LinkValueTail, LinkRemoteTail, LinkWaitBoxBmp
+global GripSlotNames, GripSlotTypes, Joy2State, GripFarCall, LinkBlockBuffer, LinkMsgQueue, LinkValueQueue, LinkInputQueue
+global LinkRemoteQueue, LinkAckReply, SlotDevice, GripAxisMin, GripAxisMax
+global Joy1MaxY, Joy1Present, Joy1CentreY, Joy1Buttons, Joy2MaxY, Joy2Present, Joy2CentreY, Joy2Buttons
+global Joy1RepeatState, Joy2RepeatState, GripSlotIds, GripLinkStatus, GripDriverSeg, GripLibSeg, GripDataSeg
+global GripResult, GripAxesRaw, ChatLocalLen, ChatRemoteLen
+SlotPollState:
         resb 12
 SlotWords:
         resb 8
-dword_1515B0:
+LastKeyPollTick:
         resb 4
 SlotTable:
         resb 1
-word_1515B5:
+SlotDevice:
         resb 2
-InputPlaybackOn:
+SlotInput:
         resb 4
-byte_1515BB:
         resb 3
-dword_1515BE:
         resb 4
-byte_1515C2:
         resb 3
-dword_1515C5:
         resb 4
-byte_1515C9:
         resb 3
-dword_1515CC:
         resb 4
-dword_1515D0:
+KeyBindingSet:
         resb 4
 InputRecordRing:
         resb 4
-dword_1515D8:
         resb 4
-dword_1515DC:
         resb 4
-dword_1515E0:
         resb 4
-word_1515E4:
         resb 76
-dword_151630:
+GripPadBits:
         resb 4
-word_151634:
+GripAxisMin:
         resb 2
-word_151636:
+GripAxisMax:
         resb 2
-word_151638:
         resb 2
-word_15163A:
         resb 14
-unk_151648:
+GripSlotNames:
         resb 76
-dword_151694:
+GripShootMap:
         resb 4
-dword_151698:
         resb 12
-dword_1516A4:
+GripPassMap:
         resb 4
-dword_1516A8:
         resb 16
-unk_1516B8:
+GripSlotTypes:
         resb 80
-byte_151708:
+Joy1State:
         resb 2
-dword_15170A:
         resb 2
-dword_15170C:
+Joy1MinX:
         resb 2
-dword_15170E:
+Joy1MinY:
         resb 2
-dword_151710:
+Joy1MaxX:
         resb 2
-word_151712:
+Joy1MaxY:
         resb 2
-word_151714:
+Joy1Present:
         resb 2
-dword_151716:
+Joy1X:
         resb 2
-dword_151718:
+Joy1Y:
         resb 2
-dword_15171A:
+Joy1CentreX:
         resb 2
-word_15171C:
+Joy1CentreY:
         resb 2
-word_15171E:
+Joy1Buttons:
         resb 2
-unk_151720:
+Joy2State:
         resb 2
-dword_151722:
         resb 2
-dword_151724:
+Joy2MinX:
         resb 2
-dword_151726:
+Joy2MinY:
         resb 2
-dword_151728:
+Joy2MaxX:
         resb 2
-word_15172A:
+Joy2MaxY:
         resb 2
-word_15172C:
+Joy2Present:
         resb 2
-dword_15172E:
+Joy2X:
         resb 2
-dword_151730:
+Joy2Y:
         resb 2
-dword_151732:
+Joy2CentreX:
         resb 2
-word_151734:
+Joy2CentreY:
         resb 2
-word_151736:
+Joy2Buttons:
         resb 14
-word_151744:
+Joy1RepeatState:
         resb 24
-word_15175C:
+Joy2RepeatState:
         resb 10
-word_151766:
+GripSlotIds:
         resb 2
-word_151768:
         resb 8
-dword_151770:
+GripSlotMask:
         resb 3
-byte_151773:
         resb 1
-byte_151774:
+GripSlotPresent:
         resb 4
-byte_151778:
+JoyPadBits:
         resb 1
-byte_151779:
         resb 3
 GripLinkByte:
         resb 2
-word_15177E:
+GripLinkStatus:
         resb 4
 GripDriverSeg:
         resb 2
 GripFarCall:
         resb 4
-word_151788:
+GripLibSeg:
         resb 2
 GripDataSeg:
         resb 2
 GripResult:
         resb 2
-dword_15178E:
+GripButtonsRaw:
         resb 4
-word_151792:
+GripAxesRaw:
         resb 2
-byte_151794:
+GripPadState:
         resb 4
-dword_151798:
+GripCurSlot:
         resb 4
-unk_15179C:
+LinkBlockBuffer:
         resb 512
-dword_15199C:
+ChatActive:
         resb 4
-byte_1519A0:
+ChatLine:
         resb 20
-dword_1519B4:
+LinkSyncValue:
         resb 4
-dword_1519B8:
+LinkBlockLen:
         resb 4
-dword_1519BC:
+LinkBlockPos:
         resb 4
-unk_1519C0:
+LinkMsgQueue:
         resb 60
-dword_1519FC:
+LinkInputHead:
         resb 4
-dword_151A00:
+LinkInputTail:
         resb 4
-unk_151A04:
+LinkValueQueue:
         resb 60
-dword_151A40:
+LinkMsgHead:
         resb 4
-unk_151A44:
+LinkInputQueue:
         resb 60
-dword_151A80:
+LinkValueHead:
         resb 4
-dword_151A84:
+LinkMsgTail:
         resb 4
-dword_151A88:
+LinkRemoteHead:
         resb 4
-dword_151A8C:
+LinkValueTail:
         resb 4
-dword_151A90:
+LinkRemoteTail:
         resb 4
-unk_151A94:
+LinkRemoteQueue:
         resb 60
-dword_151AD0:
+LinkWaitBoxBmp:
         resb 4
-byte_151AD4:
+LinkBlockHeader:
         resb 1
-dword_151AD5:
         resb 5
-byte_151ADA:
+LinkBlockAck:
         resb 1
-byte_151ADB:
         resb 1
-unk_151ADC:
+LinkAckReply:
         resb 2
-dword_151ADE:
         resb 2
-word_151AE0:
+ChatLocalLen:
         resb 2
-word_151AE2:
+ChatRemoteLen:
         resb 2

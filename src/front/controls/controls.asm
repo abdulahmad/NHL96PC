@@ -2,23 +2,23 @@
 bits 32
 %include "hockey.inc"
 section s_10010 progbits alloc exec nowrite align=1
-extern _nfree_, _nmalloc_, _searchenv_, byte_114B48, byte_114C58, JoyPortMask, byte_1515BB, byte_1515C2
-extern byte_1515C9, byte_151773, byte_151774, byte_151778, byte_151779, GripLinkByte, byte_151794, byte_17CA21
+extern _nfree_, _nmalloc_, _searchenv_, byte_114B48, byte_114C58, JoyPortMask
+extern GripSlotPresent, JoyPadBits, GripLinkByte, GripPadState, byte_17CA21
 extern byte_17CA22, byte_17CA5D, dword_114B5C, dword_114B60, dword_114B64, dword_114B68, dword_114B78, dword_114B7C
 extern dword_114B80, dword_114B9C, dword_114CB0, dword_114CB4, GripLinked, dword_114CD3, dword_114CD7, dword_114CD9
-extern dword_11D91F, dword_11F5C0, dword_11F5C4, dword_15159C, SlotWords, dword_1515B0, InputPlaybackOn, dword_1515D0
-extern dword_151630, dword_151694, dword_151698, dword_1516A4, dword_1516A8, dword_15170A, dword_15170C, dword_15170E
-extern dword_151710, dword_151716, dword_151718, dword_15171A, dword_151722, dword_151724, dword_151726, dword_151728
-extern dword_15172E, dword_151730, dword_151732, dword_151770, dword_15178E, dword_151798, fclose_, fopen_
+extern dword_11D91F, dword_11F5C0, dword_11F5C4, SlotPollState, SlotWords, LastKeyPollTick, SlotInput, KeyBindingSet
+extern GripPadBits, GripShootMap, GripPassMap, Joy1MinX, Joy1MinY
+extern Joy1MaxX, Joy1X, Joy1Y, Joy1CentreX, Joy2MinX, Joy2MinY, Joy2MaxX
+extern Joy2X, Joy2Y, Joy2CentreX, GripSlotMask, GripButtonsRaw, GripCurSlot, fclose_, fopen_
 extern fread_, fseek_, ftell_, GameLoopActive, gameopts, GetTicks, InputRecordCount, InputRecordHead
 extern InputRecordRing, kaufmfont, LinkResyncInput, mousepollfn, MouseRead, mousex, mousey, SetViewRect
 extern SlotButtons, SlotTable, slotteam, str_CGRIP, str_GRIP, str_GRIPGLL, str_PATH, str_Rb2
 extern strcat_, strcpy_, CameraFacing, InitMouse, KeyIsDown, KbdGetKey, CalibrateJoystick, JoyResetCentres
-extern AddExitHandler, unk_114BA8, unk_114C00, unk_151648, unk_1516B8, GripFarCall, word_114B40, word_114B42
+extern AddExitHandler, KeyBindings, KeyBindingsAlt, GripSlotNames, GripSlotTypes, GripFarCall, word_114B40, word_114B42
 extern word_114B44, word_114CDB, word_114CE0, word_114CE4, JoyAxisValues, word_11F914, word_11F918, word_11F91C
-extern word_1515B5, word_151634, word_151636, word_151638, word_15163A, word_151712, word_151714, word_15171C
-extern word_15171E, word_15172A, word_15172C, word_151734, word_151736, word_151744, word_15175C, word_151766
-extern word_15177E, GripDriverSeg, word_151788, GripDataSeg, GripResult, word_151792
+extern SlotDevice, GripAxisMin, GripAxisMax, Joy1MaxY, Joy1Present, Joy1CentreY
+extern Joy1Buttons, Joy2MaxY, Joy2Present, Joy2CentreY, Joy2Buttons, Joy1RepeatState, Joy2RepeatState, GripSlotIds
+extern GripLinkStatus, GripDriverSeg, GripLibSeg, GripDataSeg, GripResult, GripAxesRaw
 global GetInputDevices, InitInputDevices, TestKeyBinding, ReadEscReplayKeys, ReadEscReplayKeys_52, ReadKeyboardPad, ReadKeyboardPad_2D7, ReadMousePad
 global ReadJoyPad, InitSlotTable, ResetInputSlots, PollControllers, ResetSlotButtons, GetPressedDevice, GripLinkLibrary, GripUnlinkLibrary
 global GripUnlinkLibrary_5, SetGripButtonMap, GetGripButtonMap, LoadGripLibrary, GripScanSlots, GripReadSlots, GripReadPadBits, ReadAnalogJoysticks
@@ -118,7 +118,7 @@ InitInputDevices:
         ret
 ;-----------------------------------------------------------------------------
 ; TestKeyBinding                                                  100F2  96 PC
-; (ctrl, alt, binding, bit, &out): binding table dword_1515D0 entries {need
+; (ctrl, alt, binding, bit, &out): binding table KeyBindingSet entries {need
 ; ctrl, need alt, scan code}; KeyDown on the scan code with the modifier
 ; state; ORs bit into *out
 ;-----------------------------------------------------------------------------
@@ -129,7 +129,7 @@ TestKeyBinding:
         mov esi, dword [byte ebp+010h]
         mov dword [byte ebp-04h], eax
         mov edi, ecx
-        mov eax, dword [dword_1515D0]
+        mov eax, dword [KeyBindingSet]
         shl ebx, 2
         add eax, ebx
         cmp byte [eax], 0
@@ -349,7 +349,7 @@ ReadKeyboardPad:
         test edi, edi
         je short .5
         call GetTicks
-        cmp edi, dword [dword_1515B0]
+        cmp edi, dword [LastKeyPollTick]
         jne short .2
         cmp eax, dword [dword_114B64]
         jge short .2
@@ -367,7 +367,7 @@ ReadKeyboardPad:
         mov dword [dword_114B64], eax
         jmp short .5
 .4:
-        mov dword [dword_1515B0], edi
+        mov dword [LastKeyPollTick], edi
 .5:
         cmp dword [byte ebp-0Ch], byte 0
         je near .6
@@ -630,7 +630,7 @@ ReadMousePad:
 ;-----------------------------------------------------------------------------
 ; ReadJoyPad                                                      106CC  96 PC
 ; Joystick n (0-3) pad: function keys as the keyboard pad, then direction and
-; buttons from the byte of joystick bits for pad n in byte_151778; same job
+; buttons from the byte of joystick bits for pad n in JoyPadBits; same job
 ; as 95 PC ReadJoyPad
 ;-----------------------------------------------------------------------------
 ReadJoyPad:
@@ -727,7 +727,7 @@ ReadJoyPad:
         mov dword [dword_114B60], eax
 .2:
         mov ecx, dword [byte ebp-010h]
-        mov eax, dword [byte_151778]
+        mov eax, dword [JoyPadBits]
         shl ecx, 3
         sar eax, cl
         and eax, byte 3Fh
@@ -801,9 +801,9 @@ InitSlotTable:
         push edx
         push esi
         push edi
-        mov dword [dword_1515B0], 0
+        mov dword [LastKeyPollTick], 0
         mov dword [dword_114B78], 0
-        mov dword [dword_15159C], 0
+        mov dword [SlotPollState], 0
         mov dword [kaufmfont], 0
         mov dword [dword_114B80], 0
         mov dword [dword_114B7C], 0
@@ -815,10 +815,10 @@ InitSlotTable:
         mov dword [byte_114B48], eax
         test byte [byte_17CA21], 80h
         je short .1
-        mov dword [dword_1515D0], unk_114C00
+        mov dword [KeyBindingSet], KeyBindingsAlt
         jmp short .2
 .1:
-        mov dword [dword_1515D0], unk_114BA8
+        mov dword [KeyBindingSet], KeyBindings
 .2:
         mov ecx, 1Ch
         mov edi, SlotTable
@@ -833,7 +833,7 @@ InitSlotTable:
 .3:
         mov ecx, dword [gameopts]
         mov cx, word [byte ecx+eax+09h]
-        mov word [dword edx+word_1515B5], cx
+        mov word [dword edx+SlotDevice], cx
         movsx ecx, di
         mov byte [dword edx+SlotTable], 1
         test ecx, ecx
@@ -841,14 +841,14 @@ InitSlotTable:
         movsx ecx, word [word_114CE4]
         cmp ecx, byte 1
         jne short .4
-        mov byte [byte_1515C2], 2
-        mov byte [byte_1515C9], 2
+        mov byte [SlotTable+0Eh], 2
+        mov byte [SlotTable+15h], 2
         jmp short .5
 .4:
         mov byte [SlotTable], 2
-        mov byte [byte_1515BB], 2
+        mov byte [SlotTable+7], 2
 .5:
-        movsx ecx, word [dword edx+word_1515B5]
+        movsx ecx, word [dword edx+SlotDevice]
         cmp ecx, byte 1
         jne short .6
         mov word [dword eax+slotteam], 0
@@ -950,13 +950,13 @@ PollControllers:
         push edx
         push esi
         enter 4, 0
-        cmp word [word_151714], byte 0
+        cmp word [Joy1Present], byte 0
         jne short .1
-        cmp word [word_15172C], byte 0
+        cmp word [Joy2Present], byte 0
         jne short .1
-        cmp word [word_151744], byte 0
+        cmp word [Joy1RepeatState], byte 0
         jne short .1
-        cmp word [word_15175C], byte 0
+        cmp word [Joy2RepeatState], byte 0
         je short .2
 .1:
         call ReadJoystickBits
@@ -985,7 +985,7 @@ PollControllers:
         movsx eax, byte [dword ecx+SlotTable]
         cmp eax, byte 1
         jne near .17
-        mov ax, word [dword ecx+word_1515B5]
+        mov ax, word [dword ecx+SlotDevice]
         cmp ax, 8
         jb short .6
         jbe near .10
@@ -1058,7 +1058,7 @@ PollControllers:
         or dword [edx], ebx
 .16:
         mov eax, dword [SlotWords]
-        mov dword [dword ecx+InputPlaybackOn], eax
+        mov dword [dword ecx+SlotInput], eax
 .17:
         inc esi
         add ecx, byte 7
@@ -1086,7 +1086,7 @@ ResetSlotButtons:
         xor eax, eax
 .1:
         add eax, byte 7
-        mov dword [dword eax+dword_1515B0], 0
+        mov dword [dword eax+LastKeyPollTick], 0
         cmp eax, byte 1Ch
         jne short .1
         mov ax, word [word_114CE0]
@@ -1117,7 +1117,7 @@ ResetSlotButtons:
 ;-----------------------------------------------------------------------------
 ; GetPressedDevice                                                10D17  96 PC
 ; Which device has a button down: 1 mouse, 2 joystick (bits 30h of any pad in
-; byte_151778), 3 keyboard (key waiting), 0 none
+; JoyPadBits), 3 keyboard (key waiting), 0 none
 ;-----------------------------------------------------------------------------
 GetPressedDevice:
         push ebx
@@ -1135,7 +1135,7 @@ GetPressedDevice:
         call ReadJoystickBits
         xor eax, eax
 .2:
-        mov edx, dword [byte_151778]
+        mov edx, dword [JoyPadBits]
         mov cl, al
         sar edx, cl
         test dl, 30h
@@ -1434,11 +1434,11 @@ GripLinkLibrary:
         mov byte [dword eax+GripLinkByte], dl
         jmp short .27
 .29:
-        mov word [word_15177E], 0
+        mov word [GripLinkStatus], 0
         mov ax, word [GripResult]
         mov word [GripDriverSeg], ax
         mov ax, word [GripResult]
-        mov word [word_151788], ax
+        mov word [GripLibSeg], ax
         mov eax, dword [byte ebp-020h]
         mov word [byte eax+012h], 0
         mov eax, dword [byte ebp-020h]
@@ -1532,7 +1532,7 @@ GripUnlinkLibrary_5:
         ret
 ;-----------------------------------------------------------------------------
 ; SetGripButtonMap                             1118B  96 PC, medium confidence
-; Copies 4 pairs of button masks (bytes) into dword_151698 / dword_1516A8
+; Copies 4 pairs of button masks (bytes) into GripShootMap+4 / GripPassMap+4
 ; (shoot / pass masks per GrIP pad)
 ;-----------------------------------------------------------------------------
 SetGripButtonMap:
@@ -1561,14 +1561,14 @@ SetGripButtonMap:
         movsx edx, byte [eax]
         mov eax, dword [byte ebp-04h]
         shl eax, 2
-        mov dword [dword eax+dword_151698], edx
+        mov dword [dword eax+GripShootMap+4], edx
         mov eax, dword [byte ebp-04h]
         add eax, eax
         add eax, dword [byte ebp-08h]
         movsx edx, byte [byte eax+01h]
         mov eax, dword [byte ebp-04h]
         shl eax, 2
-        mov dword [dword eax+dword_1516A8], edx
+        mov dword [dword eax+GripPassMap+4], edx
         jmp short .2
 .4:
         mov esp, ebp
@@ -1609,14 +1609,14 @@ GetGripButtonMap:
         mov eax, dword [byte ebp-04h]
         add eax, eax
         add eax, dword [byte ebp-08h]
-        mov dl, byte [dword edx+dword_151698]
+        mov dl, byte [dword edx+GripShootMap+4]
         mov byte [eax], dl
         mov edx, dword [byte ebp-04h]
         shl edx, 2
         mov eax, dword [byte ebp-04h]
         add eax, eax
         add eax, dword [byte ebp-08h]
-        mov dl, byte [dword edx+dword_1516A8]
+        mov dl, byte [dword edx+GripPassMap+4]
         mov byte [byte eax+01h], dl
         jmp short .2
 .4:
@@ -1755,7 +1755,7 @@ GripScanSlots:
         mov dword [dword_114CD7], 0
         mov ax, 84B0h
         call far [GripFarCall]
-        mov dword [dword_151770], eax
+        mov dword [GripSlotMask], eax
         mov dword [byte ebp-08h], 1
 .5:
         cmp dword [byte ebp-08h], byte 5
@@ -1767,14 +1767,14 @@ GripScanSlots:
         jmp short .5
 .7:
         mov cl, byte [byte ebp-08h]
-        mov eax, dword [dword_151770]
+        mov eax, dword [GripSlotMask]
         shr eax, cl
         test al, 1
         je near .18
         mov eax, dword [byte ebp-08h]
         dec eax
         imul eax, byte 14h
-        mov edi, unk_1516B8
+        mov edi, GripSlotTypes
         add edi, eax
         mov bh, byte [byte ebp-08h]
         mov ax, 84D0h
@@ -1786,7 +1786,7 @@ GripScanSlots:
         mov eax, dword [byte ebp-08h]
         dec eax
         imul eax, byte 14h
-        mov edi, unk_151648
+        mov edi, GripSlotNames
         add edi, eax
         mov bh, byte [byte ebp-08h]
         mov ax, 84D1h
@@ -1797,7 +1797,7 @@ GripScanSlots:
         mov dword [byte edi+0Ch], esi
         mov edi, dword [byte ebp-08h]
         add edi, edi
-        mov word [dword edi+word_151766], ax
+        mov word [dword edi+GripSlotIds], ax
         mov dword [byte ebp-0Ch], 1
         mov bh, byte [byte ebp-08h]
         mov ax, 84B1h
@@ -1811,9 +1811,9 @@ GripScanSlots:
         mov bl, al
         mov eax, dword [byte ebp-08h]
         inc bl
-        mov byte [dword eax+byte_151773], bl
+        mov byte [dword eax+GripSlotPresent-1], bl
         mov eax, dword [byte ebp-08h]
-        mov al, byte [dword eax+byte_151773]
+        mov al, byte [dword eax+GripSlotPresent-1]
         and eax, 0FFh
         cmp eax, byte 2
         jge short .8
@@ -1822,15 +1822,15 @@ GripScanSlots:
 .8:
         mov eax, dword [byte ebp-08h]
         shl eax, 2
-        mov dword [dword eax+dword_151694], 1
+        mov dword [dword eax+GripShootMap], 1
         mov eax, dword [byte ebp-08h]
         shl eax, 2
-        mov dword [dword eax+dword_1516A4], 2
+        mov dword [dword eax+GripPassMap], 2
 .9:
         jmp short .11
 .10:
         mov eax, dword [byte ebp-08h]
-        mov byte [dword eax+byte_151773], 0
+        mov byte [dword eax+GripSlotPresent-1], 0
         mov dword [byte ebp-0Ch], 0
 .11:
         cmp dword [byte ebp-0Ch], byte 0
@@ -1863,7 +1863,7 @@ GripScanSlots:
         call far [GripFarCall]
         mov edx, dword [byte ebp-08h]
         shl edx, 2
-        mov word [dword edx+word_151634], ax
+        mov word [dword edx+GripAxisMin], ax
         mov ch, 1
         mov bl, 2
         mov bh, byte [byte ebp-08h]
@@ -1871,7 +1871,7 @@ GripScanSlots:
         call far [GripFarCall]
         mov edx, dword [byte ebp-08h]
         shl edx, 2
-        mov word [dword edx+word_151636], ax
+        mov word [dword edx+GripAxisMax], ax
 .15:
         jmp short .17
 .16:
@@ -1888,7 +1888,7 @@ GripScanSlots:
         mov ecx, dword [byte ebp-08h]
         dec ecx
         imul ecx, byte 18h
-        mov word [dword ecx+word_151714], 1
+        mov word [dword ecx+Joy1Present], 1
 .18:
         jmp near .6
 .19:
@@ -1904,7 +1904,7 @@ GripScanSlots:
 ; GripReadSlots                                                   11589  96 PC
 ; Reads every connected GrIP slot's buttons (84C1h, against the shoot/pass
 ; masks) and axes (84C0h, scaled by the axis range) into a direction+button
-; byte per pad in dword_151630 (double buffered by word_114CDB)
+; byte per pad in GripPadBits (double buffered by word_114CDB)
 ;-----------------------------------------------------------------------------
 GripReadSlots:
         push ebx
@@ -1921,117 +1921,117 @@ GripReadSlots:
         xor al, 1
         cwde
         shl eax, 2
-        mov dword [dword eax+dword_151630], 0
-        mov dword [dword_151798], 0
+        mov dword [dword eax+GripPadBits], 0
+        mov dword [GripCurSlot], 0
 .1:
-        cmp dword [dword_151798], byte 4
+        cmp dword [GripCurSlot], byte 4
         jl short .3
         jmp near .10
 .2:
-        inc dword [dword_151798]
+        inc dword [GripCurSlot]
         jmp short .1
 .3:
         mov edx, 1
         mov ax, 84A0h
         call far [GripFarCall]
-        mov dword [byte_151794], 0
-        mov cl, byte [dword_151798]
+        mov dword [GripPadState], 0
+        mov cl, byte [GripCurSlot]
         mov edx, 1
         shl edx, cl
         test dword [dword_114CD7], edx
         je near .9
-        mov eax, dword [dword_151798]
-        mov cl, byte [dword eax+byte_151774]
+        mov eax, dword [GripCurSlot]
+        mov cl, byte [dword eax+GripSlotPresent]
         dec cl
         xor ch, ch
         mov bl, 1
-        mov bh, byte [dword_151798]
+        mov bh, byte [GripCurSlot]
         inc bh
         mov ax, 84C1h
         call far [GripFarCall]
-        mov dword [dword_15178E], eax
-        mov eax, dword [dword_151798]
+        mov dword [GripButtonsRaw], eax
+        mov eax, dword [GripCurSlot]
         shl eax, 2
-        mov edx, dword [dword_15178E]
-        test dword [dword eax+dword_151698], edx
+        mov edx, dword [GripButtonsRaw]
+        test dword [dword eax+GripShootMap+4], edx
         je short .4
-        or byte [byte_151794], 10h
+        or byte [GripPadState], 10h
 .4:
-        mov eax, dword [dword_151798]
+        mov eax, dword [GripCurSlot]
         shl eax, 2
-        mov edx, dword [dword_15178E]
-        test dword [dword eax+dword_1516A8], edx
+        mov edx, dword [GripButtonsRaw]
+        test dword [dword eax+GripPassMap+4], edx
         je short .5
-        or byte [byte_151794], 20h
+        or byte [GripPadState], 20h
 .5:
         xor ch, ch
         mov bl, 2
-        mov bh, byte [dword_151798]
+        mov bh, byte [GripCurSlot]
         inc bh
         mov ax, 84C0h
         call far [GripFarCall]
-        mov word [word_151792], ax
-        mov edx, dword [dword_151798]
+        mov word [GripAxesRaw], ax
+        mov edx, dword [GripCurSlot]
         shl edx, 2
         xor ebx, ebx
-        mov bx, word [dword edx+word_151638]
+        mov bx, word [dword edx+GripAxisMin+4]
         xor edx, edx
-        mov dx, word [word_151792]
+        mov dx, word [GripAxesRaw]
         lea edx, [edx+edx*2]
         mov eax, edx
         sar edx, 1Fh
         idiv ebx
-        mov word [word_151792], ax
+        mov word [GripAxesRaw], ax
         xor eax, eax
-        mov ax, word [word_151792]
+        mov ax, word [GripAxesRaw]
         cmp eax, byte 1
         jle short .6
-        or byte [byte_151794], 4
+        or byte [GripPadState], 4
         jmp short .7
 .6:
-        cmp word [word_151792], byte 0
+        cmp word [GripAxesRaw], byte 0
         jne short .7
-        or byte [byte_151794], 8
+        or byte [GripPadState], 8
 .7:
         mov ch, 1
         mov bl, 2
-        mov bh, byte [dword_151798]
+        mov bh, byte [GripCurSlot]
         inc bh
         mov ax, 84C0h
         call far [GripFarCall]
-        mov word [word_151792], ax
-        mov edx, dword [dword_151798]
+        mov word [GripAxesRaw], ax
+        mov edx, dword [GripCurSlot]
         shl edx, 2
         xor ebx, ebx
-        mov bx, word [dword edx+word_15163A]
+        mov bx, word [dword edx+GripAxisMax+4]
         xor edx, edx
-        mov dx, word [word_151792]
+        mov dx, word [GripAxesRaw]
         lea edx, [edx+edx*2]
         mov eax, edx
         sar edx, 1Fh
         idiv ebx
-        mov word [word_151792], ax
+        mov word [GripAxesRaw], ax
         xor eax, eax
-        mov ax, word [word_151792]
+        mov ax, word [GripAxesRaw]
         cmp eax, byte 1
         jle short .8
-        or byte [byte_151794], 1
+        or byte [GripPadState], 1
         jmp short .9
 .8:
-        cmp word [word_151792], byte 0
+        cmp word [GripAxesRaw], byte 0
         jne short .9
-        or byte [byte_151794], 2
+        or byte [GripPadState], 2
 .9:
         mov ax, word [word_114CDB]
         xor al, 1
         cwde
         shl eax, 2
-        mov ecx, dword [dword_151798]
+        mov ecx, dword [GripCurSlot]
         shl ecx, 3
-        mov edx, dword [byte_151794]
+        mov edx, dword [GripPadState]
         shl edx, cl
         mov ecx, edx
-        or dword [dword eax+dword_151630], ecx
+        or dword [dword eax+GripPadBits], ecx
         jmp near .2
 .10:
         xor byte [word_114CDB], 1
@@ -2046,7 +2046,7 @@ GripReadSlots:
 ;-----------------------------------------------------------------------------
 ; GripReadPadBits                                                 11782  96 PC
 ; GripReadSlots, then copies the current buffer of GrIP pad bits to
-; byte_151778 (0 when no GrIP pads)
+; JoyPadBits (0 when no GrIP pads)
 ;-----------------------------------------------------------------------------
 GripReadPadBits:
         push ebx
@@ -2063,11 +2063,11 @@ GripReadPadBits:
         mov eax, dword [dword_114CD9]
         sar eax, 10h
         shl eax, 2
-        mov eax, dword [dword eax+dword_151630]
-        mov dword [byte_151778], eax
+        mov eax, dword [dword eax+GripPadBits]
+        mov dword [JoyPadBits], eax
         jmp short .2
 .1:
-        mov dword [byte_151778], 0
+        mov dword [JoyPadBits], 0
 .2:
         pop ebp
         pop edi
@@ -2079,7 +2079,7 @@ GripReadPadBits:
 ;-----------------------------------------------------------------------------
 ; ReadAnalogJoysticks                          117C7  96 PC, medium confidence
 ; Reads the game-port joysticks (CalibrateJoystick), marks joystick 1/2 present
-; (word_151714 / word_15172C), keeps calibration min/max/centre per axis on
+; (Joy1Present / Joy2Present), keeps calibration min/max/centre per axis on
 ; first use and while reading
 ;-----------------------------------------------------------------------------
 ReadAnalogJoysticks:
@@ -2121,10 +2121,10 @@ ReadAnalogJoysticks:
 .5:
         jmp short .7
 .6:
-        mov word [word_151714], 1
+        mov word [Joy1Present], 1
         jmp short .8
 .7:
-        mov word [word_151714], 0
+        mov word [Joy1Present], 0
 .8:
         test byte [JoyPortMask], 0Ch
         je short .10
@@ -2137,119 +2137,119 @@ ReadAnalogJoysticks:
 .10:
         jmp short .12
 .11:
-        mov word [word_15172C], 1
+        mov word [Joy2Present], 1
         jmp short .13
 .12:
-        mov word [word_15172C], 0
+        mov word [Joy2Present], 0
 .13:
-        mov word [word_151744], 0
-        mov word [word_15175C], 0
+        mov word [Joy1RepeatState], 0
+        mov word [Joy2RepeatState], 0
 .14:
         cmp dword [dword_114CB0], byte 0
         je short .15
         mov ax, word [JoyAxisValues]
-        mov word [dword_15170C], ax
+        mov word [Joy1MinX], ax
         mov ax, word [word_11F914]
-        mov word [dword_15170E], ax
+        mov word [Joy1MinY], ax
         mov ax, word [JoyAxisValues]
-        mov word [dword_151710], ax
+        mov word [Joy1MaxX], ax
         mov ax, word [word_11F914]
-        mov word [word_151712], ax
+        mov word [Joy1MaxY], ax
         mov ax, word [JoyAxisValues]
-        mov word [dword_15171A], ax
+        mov word [Joy1CentreX], ax
         mov ax, word [word_11F914]
-        mov word [word_15171C], ax
+        mov word [Joy1CentreY], ax
         mov dword [dword_114CB0], 0
 .15:
         cmp dword [dword_114CB4], byte 0
         je short .16
         mov ax, word [word_11F918]
-        mov word [dword_151724], ax
+        mov word [Joy2MinX], ax
         mov ax, word [word_11F91C]
-        mov word [dword_151726], ax
+        mov word [Joy2MinY], ax
         mov ax, word [word_11F918]
-        mov word [dword_151728], ax
+        mov word [Joy2MaxX], ax
         mov ax, word [word_11F91C]
-        mov word [word_15172A], ax
+        mov word [Joy2MaxY], ax
         mov ax, word [word_11F918]
-        mov word [dword_151732], ax
+        mov word [Joy2CentreX], ax
         mov ax, word [word_11F91C]
-        mov word [word_151734], ax
+        mov word [Joy2CentreY], ax
         mov dword [dword_114CB4], 0
 .16:
-        mov eax, dword [dword_15170A]
+        mov eax, dword [Joy1MinX-2]
         sar eax, 10h
         cmp eax, dword [JoyAxisValues]
         jle short .17
         mov ax, word [JoyAxisValues]
-        mov word [dword_15170C], ax
+        mov word [Joy1MinX], ax
 .17:
-        mov eax, dword [dword_15170E]
+        mov eax, dword [Joy1MinY]
         sar eax, 10h
         cmp eax, dword [JoyAxisValues]
         jge short .18
         mov ax, word [JoyAxisValues]
-        mov word [dword_151710], ax
+        mov word [Joy1MaxX], ax
 .18:
-        mov eax, dword [dword_15170C]
+        mov eax, dword [Joy1MinX]
         sar eax, 10h
         cmp eax, dword [word_11F914]
         jle short .19
         mov ax, word [word_11F914]
-        mov word [dword_15170E], ax
+        mov word [Joy1MinY], ax
 .19:
-        mov eax, dword [dword_151710]
+        mov eax, dword [Joy1MaxX]
         sar eax, 10h
         cmp eax, dword [word_11F914]
         jge short .20
         mov ax, word [word_11F914]
-        mov word [word_151712], ax
+        mov word [Joy1MaxY], ax
 .20:
         mov ax, word [JoyAxisValues]
-        mov word [dword_151716], ax
+        mov word [Joy1X], ax
         mov ax, word [word_11F914]
-        mov word [dword_151718], ax
+        mov word [Joy1Y], ax
         mov eax, dword [byte ebp-04h]
         or eax, 0FFFFFFFCh
-        mov word [word_15171E], ax
-        not word [word_15171E]
-        mov eax, dword [dword_151722]
+        mov word [Joy1Buttons], ax
+        not word [Joy1Buttons]
+        mov eax, dword [Joy2MinX-2]
         sar eax, 10h
         cmp eax, dword [word_11F918]
         jle short .21
         mov ax, word [word_11F918]
-        mov word [dword_151724], ax
+        mov word [Joy2MinX], ax
 .21:
-        mov eax, dword [dword_151726]
+        mov eax, dword [Joy2MinY]
         sar eax, 10h
         cmp eax, dword [word_11F918]
         jge short .22
         mov ax, word [word_11F918]
-        mov word [dword_151728], ax
+        mov word [Joy2MaxX], ax
 .22:
-        mov eax, dword [dword_151724]
+        mov eax, dword [Joy2MinX]
         sar eax, 10h
         cmp eax, dword [word_11F91C]
         jle short .23
         mov ax, word [word_11F91C]
-        mov word [dword_151726], ax
+        mov word [Joy2MinY], ax
 .23:
-        mov eax, dword [dword_151728]
+        mov eax, dword [Joy2MaxX]
         sar eax, 10h
         cmp eax, dword [word_11F91C]
         jge short .24
         mov ax, word [word_11F91C]
-        mov word [word_15172A], ax
+        mov word [Joy2MaxY], ax
 .24:
         mov ax, word [word_11F918]
-        mov word [dword_15172E], ax
+        mov word [Joy2X], ax
         mov ax, word [word_11F91C]
-        mov word [dword_151730], ax
+        mov word [Joy2Y], ax
         mov eax, dword [byte ebp-04h]
         sar eax, 2
         or eax, byte 0FFFFFFFCh
         not eax
-        mov word [word_151736], ax
+        mov word [Joy2Buttons], ax
         mov esp, ebp
         pop ebp
         pop edi
@@ -2260,7 +2260,7 @@ ReadAnalogJoysticks:
         ret
 ;-----------------------------------------------------------------------------
 ; ReadJoystickBits                                                11A88  96 PC
-; The joystick bits of every pad in byte_151778: from GrIP (GripReadPadBits)
+; The joystick bits of every pad in JoyPadBits: from GrIP (GripReadPadBits)
 ; when the GrIP library is up, else from the analog joysticks against their
 ; centre (+-7Ch dead zone)
 ;-----------------------------------------------------------------------------
@@ -2279,11 +2279,11 @@ ReadJoystickBits:
         jmp near .47
 .1:
         call ReadAnalogJoysticks
-        mov dword [byte_151778], 0
-        cmp word [word_151714], byte 0
+        mov dword [JoyPadBits], 0
+        cmp word [Joy1Present], byte 0
         je near .24
         mov dword [byte ebp-08h], 0
-        mov ax, word [word_151714]
+        mov ax, word [Joy1Present]
         or al, 6
         cwde
         cmp eax, byte 6
@@ -2291,117 +2291,117 @@ ReadJoystickBits:
         mov dword [byte ebp-08h], 1
         jmp near .10
 .2:
-        mov ax, word [word_151714]
+        mov ax, word [Joy1Present]
         or al, 6
         cwde
         cmp eax, byte 2
         jne short .5
-        mov eax, dword [dword_151718]
+        mov eax, dword [Joy1Y]
         sar eax, 10h
-        mov edx, dword [word_151714]
+        mov edx, dword [Joy1Present]
         sar edx, 10h
         add eax, byte 7Ch
         cmp edx, eax
         jle short .3
-        or byte [word_151714], 4
+        or byte [Joy1Present], 4
         mov dword [byte ebp-08h], 1
         jmp short .4
 .3:
-        mov eax, dword [dword_151718]
+        mov eax, dword [Joy1Y]
         sar eax, 10h
-        mov edx, dword [word_151714]
+        mov edx, dword [Joy1Present]
         sar edx, 10h
         sub eax, byte 7Ch
         cmp edx, eax
         jge short .4
-        or byte [byte_151778], 8
+        or byte [JoyPadBits], 8
 .4:
         jmp near .10
 .5:
-        mov ax, word [word_151714]
+        mov ax, word [Joy1Present]
         or al, 6
         cwde
         cmp eax, byte 4
         jne short .8
-        mov eax, dword [dword_151718]
+        mov eax, dword [Joy1Y]
         sar eax, 10h
-        mov edx, dword [word_151714]
+        mov edx, dword [Joy1Present]
         sar edx, 10h
         sub eax, byte 7Ch
         cmp edx, eax
         jge short .6
-        or byte [word_151714], 2
+        or byte [Joy1Present], 2
         mov dword [byte ebp-08h], 1
         jmp short .7
 .6:
-        mov eax, dword [dword_151718]
+        mov eax, dword [Joy1Y]
         sar eax, 10h
-        mov edx, dword [word_151714]
+        mov edx, dword [Joy1Present]
         sar edx, 10h
         add eax, byte 7Ch
         cmp edx, eax
         jle short .7
-        or byte [byte_151778], 4
+        or byte [JoyPadBits], 4
 .7:
         jmp short .10
 .8:
-        mov eax, dword [dword_151718]
+        mov eax, dword [Joy1Y]
         sar eax, 10h
-        mov edx, dword [word_151714]
+        mov edx, dword [Joy1Present]
         sar edx, 10h
         sub eax, byte 7Ch
         cmp edx, eax
         jge short .9
-        or byte [word_151714], 2
-        or byte [byte_151778], 8
+        or byte [Joy1Present], 2
+        or byte [JoyPadBits], 8
         jmp short .10
 .9:
-        mov eax, dword [dword_151718]
+        mov eax, dword [Joy1Y]
         sar eax, 10h
-        mov edx, dword [word_151714]
+        mov edx, dword [Joy1Present]
         sar edx, 10h
         add eax, byte 7Ch
         cmp edx, eax
         jle short .10
-        or byte [word_151714], 4
-        or byte [byte_151778], 4
+        or byte [Joy1Present], 4
+        or byte [JoyPadBits], 4
 .10:
         cmp dword [byte ebp-08h], byte 0
         je short .12
-        mov edx, dword [dword_15170E]
+        mov edx, dword [Joy1MinY]
         sar edx, 10h
-        mov eax, dword [dword_15170A]
+        mov eax, dword [Joy1MinX-2]
         sar eax, 10h
         sub edx, eax
         cmp edx, 0F8h
         jle short .12
-        mov edx, dword [dword_15170E]
+        mov edx, dword [Joy1MinY]
         sar edx, 10h
-        mov eax, dword [dword_15170A]
+        mov eax, dword [Joy1MinX-2]
         sar eax, 10h
         add eax, edx
         sar eax, 1
         mov dword [byte ebp-08h], eax
-        mov edx, dword [word_151714]
+        mov edx, dword [Joy1Present]
         sar edx, 10h
         mov eax, dword [byte ebp-08h]
         sar eax, 1
         cmp edx, eax
         jge short .11
-        or byte [byte_151778], 8
+        or byte [JoyPadBits], 8
         jmp short .12
 .11:
         mov eax, dword [byte ebp-08h]
         sar eax, 1
         add eax, dword [byte ebp-08h]
-        mov edx, dword [word_151714]
+        mov edx, dword [Joy1Present]
         sar edx, 10h
         cmp edx, eax
         jle short .12
-        or byte [byte_151778], 4
+        or byte [JoyPadBits], 4
 .12:
         mov dword [byte ebp-08h], 0
-        mov ax, word [word_151714]
+        mov ax, word [Joy1Present]
         or al, 18h
         cwde
         cmp eax, byte 18h
@@ -2409,124 +2409,124 @@ ReadJoystickBits:
         mov dword [byte ebp-08h], 1
         jmp near .21
 .13:
-        mov ax, word [word_151714]
+        mov ax, word [Joy1Present]
         or al, 18h
         cwde
         cmp eax, byte 8
         jne short .16
-        mov eax, dword [dword_15171A]
+        mov eax, dword [Joy1CentreX]
         sar eax, 10h
-        mov edx, dword [dword_151716]
+        mov edx, dword [Joy1X]
         sar edx, 10h
         add eax, byte 7Ch
         cmp edx, eax
         jle short .14
-        or byte [word_151714], 10h
+        or byte [Joy1Present], 10h
         mov dword [byte ebp-08h], 1
         jmp short .15
 .14:
-        mov eax, dword [dword_15171A]
+        mov eax, dword [Joy1CentreX]
         sar eax, 10h
-        mov edx, dword [dword_151716]
+        mov edx, dword [Joy1X]
         sar edx, 10h
         sub eax, byte 7Ch
         cmp edx, eax
         jge short .15
-        or byte [byte_151778], 1
+        or byte [JoyPadBits], 1
 .15:
         jmp near .21
 .16:
-        mov ax, word [word_151714]
+        mov ax, word [Joy1Present]
         or al, 18h
         cwde
         cmp eax, byte 10h
         jne short .19
-        mov eax, dword [dword_15171A]
+        mov eax, dword [Joy1CentreX]
         sar eax, 10h
-        mov edx, dword [dword_151716]
+        mov edx, dword [Joy1X]
         sar edx, 10h
         sub eax, byte 7Ch
         cmp edx, eax
         jge short .17
-        or byte [word_151714], 8
+        or byte [Joy1Present], 8
         mov dword [byte ebp-08h], 1
         jmp short .18
 .17:
-        mov eax, dword [dword_15171A]
+        mov eax, dword [Joy1CentreX]
         sar eax, 10h
-        mov edx, dword [dword_151716]
+        mov edx, dword [Joy1X]
         sar edx, 10h
         add eax, byte 7Ch
         cmp edx, eax
         jle short .18
-        or byte [byte_151778], 2
+        or byte [JoyPadBits], 2
 .18:
         jmp short .21
 .19:
-        mov eax, dword [dword_15171A]
+        mov eax, dword [Joy1CentreX]
         sar eax, 10h
-        mov edx, dword [dword_151716]
+        mov edx, dword [Joy1X]
         sar edx, 10h
         sub eax, byte 7Ch
         cmp edx, eax
         jge short .20
-        or byte [word_151714], 8
-        or byte [byte_151778], 1
+        or byte [Joy1Present], 8
+        or byte [JoyPadBits], 1
         jmp short .21
 .20:
-        mov eax, dword [dword_15171A]
+        mov eax, dword [Joy1CentreX]
         sar eax, 10h
-        mov edx, dword [dword_151716]
+        mov edx, dword [Joy1X]
         sar edx, 10h
         add eax, byte 7Ch
         cmp edx, eax
         jle short .21
-        or byte [word_151714], 10h
-        or byte [byte_151778], 2
+        or byte [Joy1Present], 10h
+        or byte [JoyPadBits], 2
 .21:
         cmp dword [byte ebp-08h], byte 0
         je short .23
-        mov edx, dword [dword_151710]
+        mov edx, dword [Joy1MaxX]
         sar edx, 10h
-        mov eax, dword [dword_15170C]
+        mov eax, dword [Joy1MinX]
         sar eax, 10h
         sub edx, eax
         cmp edx, 0F8h
         jle short .23
-        mov edx, dword [dword_151710]
+        mov edx, dword [Joy1MaxX]
         sar edx, 10h
-        mov eax, dword [dword_15170C]
+        mov eax, dword [Joy1MinX]
         sar eax, 10h
         add eax, edx
         sar eax, 1
         mov dword [byte ebp-08h], eax
-        mov edx, dword [dword_151716]
+        mov edx, dword [Joy1X]
         sar edx, 10h
         mov eax, dword [byte ebp-08h]
         sar eax, 1
         cmp edx, eax
         jge short .22
-        or byte [byte_151778], 1
+        or byte [JoyPadBits], 1
         jmp short .23
 .22:
         mov eax, dword [byte ebp-08h]
         sar eax, 1
         add eax, dword [byte ebp-08h]
-        mov edx, dword [dword_151716]
+        mov edx, dword [Joy1X]
         sar edx, 10h
         cmp edx, eax
         jle short .23
-        or byte [byte_151778], 2
+        or byte [JoyPadBits], 2
 .23:
-        mov eax, dword [word_15171C]
+        mov eax, dword [Joy1CentreY]
         sar eax, 10h
         shl eax, 4
-        or dword [byte_151778], eax
+        or dword [JoyPadBits], eax
 .24:
-        cmp word [word_15172C], byte 0
+        cmp word [Joy2Present], byte 0
         je near .47
         mov dword [byte ebp-08h], 0
-        mov ax, word [word_15172C]
+        mov ax, word [Joy2Present]
         or al, 6
         cwde
         cmp eax, byte 6
@@ -2534,117 +2534,117 @@ ReadJoystickBits:
         mov dword [byte ebp-08h], 1
         jmp near .33
 .25:
-        mov ax, word [word_15172C]
+        mov ax, word [Joy2Present]
         or al, 6
         cwde
         cmp eax, byte 2
         jne short .28
-        mov eax, dword [dword_151730]
+        mov eax, dword [Joy2Y]
         sar eax, 10h
-        mov edx, dword [word_15172C]
+        mov edx, dword [Joy2Present]
         sar edx, 10h
         add eax, byte 7Ch
         cmp edx, eax
         jle short .26
-        or byte [word_15172C], 4
+        or byte [Joy2Present], 4
         mov dword [byte ebp-08h], 1
         jmp short .27
 .26:
-        mov eax, dword [dword_151730]
+        mov eax, dword [Joy2Y]
         sar eax, 10h
-        mov edx, dword [word_15172C]
+        mov edx, dword [Joy2Present]
         sar edx, 10h
         sub eax, byte 7Ch
         cmp edx, eax
         jge short .27
-        or byte [byte_151779], 8
+        or byte [JoyPadBits+1], 8
 .27:
         jmp near .33
 .28:
-        mov ax, word [word_15172C]
+        mov ax, word [Joy2Present]
         or al, 6
         cwde
         cmp eax, byte 4
         jne short .31
-        mov eax, dword [dword_151730]
+        mov eax, dword [Joy2Y]
         sar eax, 10h
-        mov edx, dword [word_15172C]
+        mov edx, dword [Joy2Present]
         sar edx, 10h
         sub eax, byte 7Ch
         cmp edx, eax
         jge short .29
-        or byte [word_15172C], 2
+        or byte [Joy2Present], 2
         mov dword [byte ebp-08h], 1
         jmp short .30
 .29:
-        mov eax, dword [dword_151730]
+        mov eax, dword [Joy2Y]
         sar eax, 10h
-        mov edx, dword [word_15172C]
+        mov edx, dword [Joy2Present]
         sar edx, 10h
         add eax, byte 7Ch
         cmp edx, eax
         jle short .30
-        or byte [byte_151779], 4
+        or byte [JoyPadBits+1], 4
 .30:
         jmp short .33
 .31:
-        mov eax, dword [dword_151730]
+        mov eax, dword [Joy2Y]
         sar eax, 10h
-        mov edx, dword [word_15172C]
+        mov edx, dword [Joy2Present]
         sar edx, 10h
         sub eax, byte 7Ch
         cmp edx, eax
         jge short .32
-        or byte [word_15172C], 2
-        or byte [byte_151779], 8
+        or byte [Joy2Present], 2
+        or byte [JoyPadBits+1], 8
         jmp short .33
 .32:
-        mov eax, dword [dword_151730]
+        mov eax, dword [Joy2Y]
         sar eax, 10h
-        mov edx, dword [word_15172C]
+        mov edx, dword [Joy2Present]
         sar edx, 10h
         add eax, byte 7Ch
         cmp edx, eax
         jle short .33
-        or byte [word_15172C], 4
-        or byte [byte_151779], 4
+        or byte [Joy2Present], 4
+        or byte [JoyPadBits+1], 4
 .33:
         cmp dword [byte ebp-08h], byte 0
         je short .35
-        mov edx, dword [dword_151726]
+        mov edx, dword [Joy2MinY]
         sar edx, 10h
-        mov eax, dword [dword_151722]
+        mov eax, dword [Joy2MinX-2]
         sar eax, 10h
         sub edx, eax
         cmp edx, 0F8h
         jle short .35
-        mov edx, dword [dword_151726]
+        mov edx, dword [Joy2MinY]
         sar edx, 10h
-        mov eax, dword [dword_151722]
+        mov eax, dword [Joy2MinX-2]
         sar eax, 10h
         add eax, edx
         sar eax, 1
         mov dword [byte ebp-08h], eax
-        mov edx, dword [word_15172C]
+        mov edx, dword [Joy2Present]
         sar edx, 10h
         mov eax, dword [byte ebp-08h]
         sar eax, 1
         cmp edx, eax
         jge short .34
-        or byte [byte_151779], 8
+        or byte [JoyPadBits+1], 8
         jmp short .35
 .34:
         mov eax, dword [byte ebp-08h]
         sar eax, 1
         add eax, dword [byte ebp-08h]
-        mov edx, dword [word_15172C]
+        mov edx, dword [Joy2Present]
         sar edx, 10h
         cmp edx, eax
         jle short .35
-        or byte [byte_151779], 4
+        or byte [JoyPadBits+1], 4
 .35:
         mov dword [byte ebp-08h], 0
-        mov ax, word [word_15172C]
+        mov ax, word [Joy2Present]
         or al, 18h
         cwde
         cmp eax, byte 18h
@@ -2652,121 +2652,121 @@ ReadJoystickBits:
         mov dword [byte ebp-08h], 1
         jmp near .44
 .36:
-        mov ax, word [word_15172C]
+        mov ax, word [Joy2Present]
         or al, 18h
         cwde
         cmp eax, byte 8
         jne short .39
-        mov eax, dword [dword_151732]
+        mov eax, dword [Joy2CentreX]
         sar eax, 10h
-        mov edx, dword [dword_15172E]
+        mov edx, dword [Joy2X]
         sar edx, 10h
         add eax, byte 7Ch
         cmp edx, eax
         jle short .37
-        or byte [word_15172C], 10h
+        or byte [Joy2Present], 10h
         mov dword [byte ebp-08h], 1
         jmp short .38
 .37:
-        mov eax, dword [dword_151732]
+        mov eax, dword [Joy2CentreX]
         sar eax, 10h
-        mov edx, dword [dword_15172E]
+        mov edx, dword [Joy2X]
         sar edx, 10h
         sub eax, byte 7Ch
         cmp edx, eax
         jge short .38
-        or byte [byte_151779], 1
+        or byte [JoyPadBits+1], 1
 .38:
         jmp near .44
 .39:
-        mov ax, word [word_15172C]
+        mov ax, word [Joy2Present]
         or al, 18h
         cwde
         cmp eax, byte 10h
         jne short .42
-        mov eax, dword [dword_151732]
+        mov eax, dword [Joy2CentreX]
         sar eax, 10h
-        mov edx, dword [dword_15172E]
+        mov edx, dword [Joy2X]
         sar edx, 10h
         sub eax, byte 7Ch
         cmp edx, eax
         jge short .40
-        or byte [word_15172C], 8
+        or byte [Joy2Present], 8
         mov dword [byte ebp-08h], 1
         jmp short .41
 .40:
-        mov eax, dword [dword_151732]
+        mov eax, dword [Joy2CentreX]
         sar eax, 10h
-        mov edx, dword [dword_15172E]
+        mov edx, dword [Joy2X]
         sar edx, 10h
         add eax, byte 7Ch
         cmp edx, eax
         jle short .41
-        or byte [byte_151779], 2
+        or byte [JoyPadBits+1], 2
 .41:
         jmp short .44
 .42:
-        mov eax, dword [dword_151732]
+        mov eax, dword [Joy2CentreX]
         sar eax, 10h
-        mov edx, dword [dword_15172E]
+        mov edx, dword [Joy2X]
         sar edx, 10h
         sub eax, byte 7Ch
         cmp edx, eax
         jge short .43
-        or byte [word_15172C], 8
-        or byte [byte_151779], 1
+        or byte [Joy2Present], 8
+        or byte [JoyPadBits+1], 1
         jmp short .44
 .43:
-        mov eax, dword [dword_151732]
+        mov eax, dword [Joy2CentreX]
         sar eax, 10h
-        mov edx, dword [dword_15172E]
+        mov edx, dword [Joy2X]
         sar edx, 10h
         add eax, byte 7Ch
         cmp edx, eax
         jle short .44
-        or byte [word_15172C], 10h
-        or byte [byte_151779], 2
+        or byte [Joy2Present], 10h
+        or byte [JoyPadBits+1], 2
 .44:
         cmp dword [byte ebp-08h], byte 0
         je short .46
-        mov edx, dword [dword_151728]
+        mov edx, dword [Joy2MaxX]
         sar edx, 10h
-        mov eax, dword [dword_151724]
+        mov eax, dword [Joy2MinX]
         sar eax, 10h
         sub edx, eax
         cmp edx, 0F8h
         jle short .46
-        mov edx, dword [dword_151728]
+        mov edx, dword [Joy2MaxX]
         sar edx, 10h
-        mov eax, dword [dword_151724]
+        mov eax, dword [Joy2MinX]
         sar eax, 10h
         add eax, edx
         sar eax, 1
         mov dword [byte ebp-08h], eax
-        mov edx, dword [dword_15172E]
+        mov edx, dword [Joy2X]
         sar edx, 10h
         mov eax, dword [byte ebp-08h]
         sar eax, 1
         cmp edx, eax
         jge short .45
-        or byte [byte_151779], 1
+        or byte [JoyPadBits+1], 1
         jmp short .46
 .45:
         mov eax, dword [byte ebp-08h]
         sar eax, 1
         add eax, dword [byte ebp-08h]
-        mov edx, dword [dword_15172E]
+        mov edx, dword [Joy2X]
         sar edx, 10h
         cmp edx, eax
         jle short .46
-        or byte [byte_151779], 2
+        or byte [JoyPadBits+1], 2
 .46:
-        mov eax, dword [word_151734]
+        mov eax, dword [Joy2CentreY]
         sar eax, 10h
         shl eax, 0Ch
-        or dword [byte_151778], eax
+        or dword [JoyPadBits], eax
 .47:
-        mov eax, dword [byte_151778]
+        mov eax, dword [JoyPadBits]
         mov dword [byte ebp-04h], eax
         mov eax, dword [byte ebp-04h]
         mov esp, ebp
@@ -2830,10 +2830,10 @@ InitGrip:
 .1:
         jmp near .6
 .2:
-        mov word [word_151714], 0
-        mov word [word_15172C], 0
-        mov word [word_151744], 0
-        mov word [word_15175C], 0
+        mov word [Joy1Present], 0
+        mov word [Joy2Present], 0
+        mov word [Joy1RepeatState], 0
+        mov word [Joy2RepeatState], 0
         mov eax, GripShutdown
         push eax
         call AddExitHandler
@@ -2863,19 +2863,19 @@ InitGrip:
         call ReadJoystickBits
 .6:
         mov dword [byte ebp-08h], 0
-        cmp word [word_151714], byte 0
+        cmp word [Joy1Present], byte 0
         je short .7
         or dword [byte ebp-08h], byte 1
 .7:
-        cmp word [word_15172C], byte 0
+        cmp word [Joy2Present], byte 0
         je short .8
         or dword [byte ebp-08h], byte 2
 .8:
-        cmp word [word_151744], byte 0
+        cmp word [Joy1RepeatState], byte 0
         je short .9
         or dword [byte ebp-08h], byte 4
 .9:
-        cmp word [word_15175C], byte 0
+        cmp word [Joy2RepeatState], byte 0
         je short .10
         or dword [byte ebp-08h], byte 8
 .10:

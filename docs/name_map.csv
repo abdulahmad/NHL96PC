@@ -4444,6 +4444,8 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 114B8C,SlotButtons,dword_114B8C,new,high,the 4 slot button dwords of the current frame,
 114BA0,InputRecordHead,dword_114BA0,new,high,ring write index,
 114BA4,InputRecordCount,dword_114BA4,new,high,records in ring (max 5),
+114BA8,KeyBindings,unk_114BA8,new,low,Default keyboard binding set,src/data/front/front_10010_data_01.asm
+114C00,KeyBindingsAlt,unk_114C00,new,low,Alternate keyboard binding set,src/data/front/front_10010_data_01.asm
 114CB8,str_GRIPGLL,asc_114CB8,new,high,string 'GRIP.GLL',src/data/front/front_10010_data_01.asm
 114CC1,str_GRIP,asc_114CC1,new,high,string 'GRIP',src/data/front/front_10010_data_01.asm
 114CC6,str_CGRIP,asc_114CC6,new,high,string 'C:\GRIP\',src/data/front/front_10010_data_01.asm
@@ -5190,15 +5192,84 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 151580,FiniRtnsEntry,unk_151580,new,low,shut down routine entry,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
 15158C,GusInitTable,unk_15158C,new,low,Gravis register initialisation table,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
 151598,kaufmfont,,95PC,high,NHL95PC D8B68 (position): same fixup of sub_B195C,
+15159C,SlotPollState,dword_15159C,new,low,"Controller slot poll state, cleared by InitSlotTable",src/data/front/front_10010_bss_01.asm
 1515A8,SlotWords,dword_1515A8,new,low,"8 words: high byte device (bits 0-2) and team (bit 7), low byte buttons",src/data/front/front_10010_bss_01.asm
+1515B0,LastKeyPollTick,dword_1515B0,new,low,Tick of the last keyboard pad read,src/data/front/front_10010_bss_01.asm
 1515B4,SlotTable,byte_1515B4,new,high,"4 entries x 7 bytes: on byte, device word, buttons dword",
-1515B7,InputPlaybackOn,dword_1515B7,new,low,set while recorded input plays back,src/data/front/front_10010_bss_01.asm
+1515B5,SlotDevice,word_1515B5,new,low,SlotTable record +1: controller device of the slot (7-byte records),src/data/front/front_10010_bss_01.asm
+1515B7,SlotInput,dword_1515B7,new,medium,SlotTable record +3: the slot's input bits for this frame (sent over the link),src/data/front/front_10010_bss_01.asm
+1515D0,KeyBindingSet,dword_1515D0,new,low,"Active keyboard binding set (KeyBindingsAlt with the alternate option, else KeyBindings)",src/data/front/front_10010_bss_01.asm
 1515D4,InputRecordRing,dword_1515D4,new,high,ring of 5 records x 0x12 bytes,
+151630,GripPadBits,dword_151630,new,low,GrIP: direction and button bits per pad,src/data/front/front_10010_bss_01.asm
+151634,GripAxisMin,word_151634,new,low,GrIP: axis range low word per slot (4 bytes per slot),src/data/front/front_10010_bss_01.asm
+151636,GripAxisMax,word_151636,new,low,GrIP: axis range high word per slot,src/data/front/front_10010_bss_01.asm
+151648,GripSlotNames,unk_151648,new,low,"GrIP: slot name strings, shown on the pad setup screen",src/data/front/front_10010_bss_01.asm
+151694,GripShootMap,dword_151694,new,low,GrIP: shoot button map per slot,src/data/front/front_10010_bss_01.asm
+1516A4,GripPassMap,dword_1516A4,new,low,GrIP: pass button map per slot,src/data/front/front_10010_bss_01.asm
+1516B8,GripSlotTypes,unk_1516B8,new,low,"GrIP: slot type strings, shown on the pad setup screen",src/data/front/front_10010_bss_01.asm
+151708,Joy1State,byte_151708,new,low,Joystick 1 state block (18h bytes),src/data/front/front_10010_bss_01.asm
+15170C,Joy1MinX,dword_15170C,new,low,Joystick 1 calibration: minimum x,src/data/front/front_10010_bss_01.asm
+15170E,Joy1MinY,dword_15170E,new,low,Joystick 1 calibration: minimum y,src/data/front/front_10010_bss_01.asm
+151710,Joy1MaxX,dword_151710,new,low,Joystick 1 calibration: maximum x,src/data/front/front_10010_bss_01.asm
+151712,Joy1MaxY,word_151712,new,low,Joystick 1 calibration: maximum y,src/data/front/front_10010_bss_01.asm
+151714,Joy1Present,word_151714,new,low,Joystick 1 connected,src/data/front/front_10010_bss_01.asm
+151716,Joy1X,dword_151716,new,low,Joystick 1 x reading,src/data/front/front_10010_bss_01.asm
+151718,Joy1Y,dword_151718,new,low,Joystick 1 y reading,src/data/front/front_10010_bss_01.asm
+15171A,Joy1CentreX,dword_15171A,new,low,Joystick 1 calibration: centre x,src/data/front/front_10010_bss_01.asm
+15171C,Joy1CentreY,word_15171C,new,low,Joystick 1 calibration: centre y,src/data/front/front_10010_bss_01.asm
+15171E,Joy1Buttons,word_15171E,new,low,Joystick 1 buttons,src/data/front/front_10010_bss_01.asm
+151720,Joy2State,unk_151720,new,low,Joystick 2 state block (18h bytes),src/data/front/front_10010_bss_01.asm
+151724,Joy2MinX,dword_151724,new,low,Joystick 2 calibration: minimum x,src/data/front/front_10010_bss_01.asm
+151726,Joy2MinY,dword_151726,new,low,Joystick 2 calibration: minimum y,src/data/front/front_10010_bss_01.asm
+151728,Joy2MaxX,dword_151728,new,low,Joystick 2 calibration: maximum x,src/data/front/front_10010_bss_01.asm
+15172A,Joy2MaxY,word_15172A,new,low,Joystick 2 calibration: maximum y,src/data/front/front_10010_bss_01.asm
+15172C,Joy2Present,word_15172C,new,low,Joystick 2 connected,src/data/front/front_10010_bss_01.asm
+15172E,Joy2X,dword_15172E,new,low,Joystick 2 x reading,src/data/front/front_10010_bss_01.asm
+151730,Joy2Y,dword_151730,new,low,Joystick 2 y reading,src/data/front/front_10010_bss_01.asm
+151732,Joy2CentreX,dword_151732,new,low,Joystick 2 calibration: centre x,src/data/front/front_10010_bss_01.asm
+151734,Joy2CentreY,word_151734,new,low,Joystick 2 calibration: centre y,src/data/front/front_10010_bss_01.asm
+151736,Joy2Buttons,word_151736,new,low,Joystick 2 buttons,src/data/front/front_10010_bss_01.asm
+151744,Joy1RepeatState,word_151744,new,low,"Joystick 1 button repeat state, cleared on calibration",src/data/front/front_10010_bss_01.asm
+15175C,Joy2RepeatState,word_15175C,new,low,"Joystick 2 button repeat state, cleared on calibration",src/data/front/front_10010_bss_01.asm
+151766,GripSlotIds,word_151766,new,low,GrIP: device id word per slot,src/data/front/front_10010_bss_01.asm
+151770,GripSlotMask,dword_151770,new,low,GrIP: connected slots mask (84B0h),src/data/front/front_10010_bss_01.asm
+151774,GripSlotPresent,byte_151774,new,low,GrIP: slot present byte per slot,src/data/front/front_10010_bss_01.asm
+151778,JoyPadBits,byte_151778,new,low,Combined pad bits of the joystick and GrIP pads,src/data/front/front_10010_bss_01.asm
 15177C,GripLinkByte,byte_15177C,new,low,Gravis GrIP link scratch byte,src/data/front/front_10010_bss_01.asm
+15177E,GripLinkStatus,word_15177E,new,low,GrIP: library link status,src/data/front/front_10010_bss_01.asm
 151782,GripDriverSeg,word_151782,new,low,Gravis GrIP driver segment,src/data/front/front_10010_bss_01.asm
 151784,GripFarCall,unk_151784,new,low,Gravis GrIP far call pointer,src/data/front/front_10010_bss_01.asm
+151788,GripLibSeg,word_151788,new,low,GrIP: library segment,src/data/front/front_10010_bss_01.asm
 15178A,GripDataSeg,word_15178A,new,low,Gravis GrIP data segment,src/data/front/front_10010_bss_01.asm
 15178C,GripResult,word_15178C,new,low,Gravis GrIP call result,src/data/front/front_10010_bss_01.asm
+15178E,GripButtonsRaw,dword_15178E,new,low,GrIP: raw button bits of the slot being read (84C1h),src/data/front/front_10010_bss_01.asm
+151792,GripAxesRaw,word_151792,new,low,GrIP: raw axis bits of the slot being read (84C0h),src/data/front/front_10010_bss_01.asm
+151794,GripPadState,byte_151794,new,low,GrIP: pad state bits of the slot being read,src/data/front/front_10010_bss_01.asm
+151798,GripCurSlot,dword_151798,new,low,GrIP: slot being read,src/data/front/front_10010_bss_01.asm
+15179C,LinkBlockBuffer,unk_15179C,new,low,Link: 512-byte block transfer buffer,src/data/front/front_10010_bss_01.asm
+15199C,ChatActive,dword_15199C,new,low,Modem chat running,src/data/front/front_10010_bss_01.asm
+1519A0,ChatLine,byte_1519A0,new,low,Modem chat line being typed,src/data/front/front_10010_bss_01.asm
+1519B4,LinkSyncValue,dword_1519B4,new,low,Link: last sync value received,src/data/front/front_10010_bss_01.asm
+1519B8,LinkBlockLen,dword_1519B8,new,low,Link: length of the block being sent or received,src/data/front/front_10010_bss_01.asm
+1519BC,LinkBlockPos,dword_1519BC,new,low,Link: position in the block,src/data/front/front_10010_bss_01.asm
+1519C0,LinkMsgQueue,unk_1519C0,new,low,"Link: message queue, 10 entries of 6 bytes",src/data/front/front_10010_bss_01.asm
+1519FC,LinkInputHead,dword_1519FC,new,low,Link: input queue head,src/data/front/front_10010_bss_01.asm
+151A00,LinkInputTail,dword_151A00,new,low,Link: input queue tail,src/data/front/front_10010_bss_01.asm
+151A04,LinkValueQueue,unk_151A04,new,low,"Link: value queue, 10 entries of 6 bytes",src/data/front/front_10010_bss_01.asm
+151A40,LinkMsgHead,dword_151A40,new,low,Link: message queue head,src/data/front/front_10010_bss_01.asm
+151A44,LinkInputQueue,unk_151A44,new,low,"Link: input queue, 10 entries of 6 bytes",src/data/front/front_10010_bss_01.asm
+151A80,LinkValueHead,dword_151A80,new,low,Link: value queue head,src/data/front/front_10010_bss_01.asm
+151A84,LinkMsgTail,dword_151A84,new,low,Link: message queue tail,src/data/front/front_10010_bss_01.asm
+151A88,LinkRemoteHead,dword_151A88,new,low,Link: remote queue head,src/data/front/front_10010_bss_01.asm
+151A8C,LinkValueTail,dword_151A8C,new,low,Link: value queue tail,src/data/front/front_10010_bss_01.asm
+151A90,LinkRemoteTail,dword_151A90,new,low,Link: remote queue tail,src/data/front/front_10010_bss_01.asm
+151A94,LinkRemoteQueue,unk_151A94,new,low,"Link: remote queue, 10 entries of 6 bytes",src/data/front/front_10010_bss_01.asm
+151AD0,LinkWaitBoxBmp,dword_151AD0,new,low,Link: saved screen under the wait box,src/data/front/front_10010_bss_01.asm
+151AD4,LinkBlockHeader,byte_151AD4,new,low,"Link: block header packet (type 3, then the length)",src/data/front/front_10010_bss_01.asm
+151ADA,LinkBlockAck,byte_151ADA,new,low,"Link: block acknowledge packet (type 4, then the status)",src/data/front/front_10010_bss_01.asm
+151ADC,LinkAckReply,unk_151ADC,new,low,Link: reply to the block acknowledge,src/data/front/front_10010_bss_01.asm
+151AE0,ChatLocalLen,word_151AE0,new,low,Modem chat: length of the local line,src/data/front/front_10010_bss_01.asm
+151AE2,ChatRemoteLen,word_151AE2,new,low,Modem chat: length of the remote line,src/data/front/front_10010_bss_01.asm
 151B80,fadeinpending,,95PC,medium,NHL95PC CBEC4 (refset): referenced by the same 2 matched functions,
 152C44,str_WesternConference2,unk_152C44,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_01.asm
 152F50,MenuRemoteCursorArt,dword_152F50,new,low,remote cursor art,src/data/front/main_bss_01.asm

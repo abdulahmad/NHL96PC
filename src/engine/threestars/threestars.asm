@@ -5,8 +5,8 @@ section s_2D9D9 progbits alloc exec nowrite align=1
 extern assinsert, assreplace, awfirstslot, awslotcount, awtmstruct, starskatermin, stargoaliemin, byte_164920
 extern byte_164CE0, textline1, textline2, textline3, textline4, textline5, byte_17CA5D, CloseTextOverlay
 extern crowdlevel, CrowdNoiseReset, curperiod, DoGameFrame, dword_114B90, dword_114B94, dword_114B98, dword_114B9C
-extern dword_114F16, gameresult, PreGameSkateOn, ZonesDirty, dword_11B310, dword_11F5C0, dword_11F5C4, dword_1515D8
-extern dword_1515DC, dword_1515E0, dword_152F4C, dword_164956, dword_164D16, gwgteam, gwgplayer, DrawFrameCount
+extern dword_114F16, gameresult, PreGameSkateOn, ZonesDirty, dword_11B310, dword_11F5C0, dword_11F5C4
+extern dword_152F4C, dword_164956, dword_164D16, gwgteam, gwgplayer, DrawFrameCount
 extern dword_179918, dword_179920, dword_179924, dword_179DBD, energywarn, exitgame, fadeinpending, forcepldata
 extern fox, foy, GameLoopActive, gameopts, GetTicks, hmfirstslot, hmroster, hmslotcount
 extern hmtmstruct, InGameMenuRequest, InputRecordCount, InputRecordRing, IsCupClinched, lasttouch, lcblink, lineuptime
@@ -21,7 +21,7 @@ extern GetLangText, DrawRectOutline, TextSetColor, SetAaPalLut, DrawArtAaScaledI
 extern TicksSinceLast, bcopy, FillPolygonArgs, RemapPolygonArgs, TextSetFont, str_C_DrawOverlayPanels, str_Punct_DrawOverlayPanels, StarPanelOffsets
 extern str_V_DrawOverlayPanels, hmplstats, hmplattr, exhstate, AwSortCords, unk_164E7C, unk_165354, unk_17D3E8
 extern updateanim, vtoa, word_1178A0, word_1178A2, word_1178B4, HomeControlSlot, RefStep, energywarn_aw
-extern lcblink_aw, CupShown, IntroStandSpots, word_11D604, word_1515E4, word_156E6E, hmglstats_w2, word_157AFC
+extern lcblink_aw, CupShown, IntroStandSpots, word_11D604, word_156E6E, hmglstats_w2, word_157AFC
 extern hmglstats_w8, hmglstats_w14, word_1647CA, hmscore, hmtmtouch1, hmtmpdst, awscore, word_176BB8
 extern starpl, yc1
 global RunPreGameSkate, RunPreGameSkate_450, RunPreGameSkate_451, RunLineupLoop, LineupLoopFrame, FillPanelEdge, FillPanelEdge_5C, DrawPanelBorder
@@ -360,13 +360,13 @@ LineupLoopFrame:
         imul eax, dword [dword_114B9C], byte 12h
         mov ecx, dword [dword eax+InputRecordRing]
         mov dword [SlotButtons], ecx
-        mov ecx, dword [dword eax+dword_1515D8]
+        mov ecx, dword [dword eax+InputRecordRing+4]
         mov dword [dword_114B90], ecx
-        mov ecx, dword [dword eax+dword_1515DC]
+        mov ecx, dword [dword eax+InputRecordRing+8]
         mov dword [dword_114B94], ecx
-        mov ecx, dword [dword eax+dword_1515E0]
+        mov ecx, dword [dword eax+InputRecordRing+0Ch]
         mov dword [dword_114B98], ecx
-        movsx ecx, word [dword eax+word_1515E4]
+        movsx ecx, word [dword eax+InputRecordRing+10h]
         mov eax, dword [dword_114B9C]
         inc eax
         mov dword [byte ebp-04h], 5

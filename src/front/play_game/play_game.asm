@@ -5,8 +5,8 @@ section s_168DA progbits alloc exec nowrite align=1
 extern _dos_gettime_, addtimer, BuildDefaultLines, textline1, textline2, textline3, textline4, textline5
 extern byte_17BDAE, byte_17CA5D, byte_17CECB, byte_17CECC, ClockTick, CrowdNoiseReset, DemoMode, DoGameFrame
 extern DrawGameStats_DD0, dword_114B88, dword_114B90, dword_114B94, dword_114B98, dword_114B9C, dword_114F16, dword_1150D4
-extern gameresult, dword_11B310, dword_11D3A6, dword_11D91F, dword_11F5C0, dword_11F5C4, InputPlaybackOn, dword_1515BE
-extern dword_1515C5, dword_1515CC, dword_1515D8, dword_1515DC, dword_1515E0, dword_151B84, MenuRemoteCursorArt, MenuCursorPixels
+extern gameresult, dword_11B310, dword_11D3A6, dword_11D91F, dword_11F5C0, dword_11F5C4, SlotInput
+extern dword_151B84, MenuRemoteCursorArt, MenuCursorPixels
 extern dword_152F58, MenuBitmapPixels, dword_157AF4, PlayoffTreeData, dword_17D162, dword_17D267, exitgame, fadeinpending
 extern GameLoopActive, gameopts, gameover, GetTicks, gmode, InGameMenuRequest, InitSlotTable, InputRecordBusy
 extern InputRecordCount, InputRecordHead, InputRecordPhase, InputRecordRing, InputRecordTicks, LineChangeLine, LineChangeReq, LinkExchangeInput
@@ -21,7 +21,7 @@ extern StopMusic, QueueMusic, FadeOutMusic, PlaySfx, Crowd_Noise, SetCrowdTarget
 extern StartArenaClip, StopArenaClip, StartGameSound, EndGameSound, SoundIdle, WriteGlobalSet, GetLangText, RemoveTimerCallback
 extern AllocMemBlock, FreeMemBlock, ClearScreenColour, FreeColourLookup, SetScreenTarget, GetPaletteRange, SetPaletteEntries, TicksSinceLast
 extern FindShape, exhstate, SeasonUserRecords, unk_17CED5, unk_17D272, unk_17D32C, word_114CE0, word_114F14
-extern bannermsg, bannertimer, word_1515E4, PeriodEventCount, GameEventFlags
+extern bannermsg, bannertimer, PeriodEventCount, GameEventFlags
 global jpt_168DA, jpt_168EA, PlayMenuGame, PlayMenuGame_75, PlayMenuGame_85, PlayMenuGame_9F, PlayMenuGame_AF, PlayMenuGame_243
 global PlayMenuGame_25F, PlayMenuGame_26B, PlayMenuGame_280, InputRecordTimer, HandleSlotButtons, HandleSlotButtons_18D, RunSimFrames, GameLoop
 global GameLoop_E, GameLoop_18, GameLoop_38, GameLoop_inputcheck, GameLoop_hotkeyscall, GameLoop_hotkeyscall_5, GameLoop_menucall, GameLoop_menucall_A
@@ -328,16 +328,16 @@ InputRecordTimer:
         idiv ebx
         mov dword [InputRecordHead], edx
         inc dword [InputRecordCount]
-        mov ebx, dword [InputPlaybackOn]
+        mov ebx, dword [SlotInput]
         mov edx, dword [byte ebp-04h]
         mov dword [edx], ebx
-        mov ebx, dword [dword_1515BE]
+        mov ebx, dword [SlotInput+7]
         mov edx, dword [byte ebp-04h]
         mov dword [byte edx+04h], ebx
-        mov ebx, dword [dword_1515C5]
+        mov ebx, dword [SlotInput+0Eh]
         mov edx, dword [byte ebp-04h]
         mov dword [byte edx+08h], ebx
-        mov ebx, dword [dword_1515CC]
+        mov ebx, dword [SlotInput+15h]
         mov edx, dword [byte ebp-04h]
         mov dword [byte edx+0Ch], ebx
         mov bx, word [InputRecordTicks]
@@ -620,13 +620,13 @@ GameLoop_inputcheck:
         imul eax, dword [dword_114B9C], byte 12h
         mov ecx, dword [dword eax+InputRecordRing]
         mov dword [SlotButtons], ecx
-        mov ecx, dword [dword eax+dword_1515D8]
+        mov ecx, dword [dword eax+InputRecordRing+4]
         mov dword [dword_114B90], ecx
-        mov ecx, dword [dword eax+dword_1515DC]
+        mov ecx, dword [dword eax+InputRecordRing+8]
         mov dword [dword_114B94], ecx
-        mov ecx, dword [dword eax+dword_1515E0]
+        mov ecx, dword [dword eax+InputRecordRing+0Ch]
         mov dword [dword_114B98], ecx
-        movsx ecx, word [dword eax+word_1515E4]
+        movsx ecx, word [dword eax+InputRecordRing+10h]
         mov eax, dword [dword_114B9C]
         inc eax
         mov dword [byte ebp-04h], 5

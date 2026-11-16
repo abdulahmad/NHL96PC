@@ -2,13 +2,13 @@
 bits 32
 %include "hockey.inc"
 section s_122A6 progbits alloc exec nowrite align=1
-extern addtimer, byte_114D96, byte_11FA2F, byte_1519A0, byte_151AD4, byte_151ADA, byte_151ADB, byte_17BDAE
+extern addtimer, byte_114D96, byte_11FA2F, ChatLine, LinkBlockHeader, LinkBlockAck, byte_17BDAE
 extern DebugPrintf, dword_114B9C, dword_114CE2, dword_114D0E, str_Punct_ModemGameOpen, dword_114D1A, dword_114D1E, dword_114D36
 extern dword_114D3A, dword_114D9A, dword_114D9E, dword_114DA2, dword_114DA6, dword_114DAA, dword_114DAE, dword_114DB2
 extern str_Punct_ModemSettingsScreen, dword_114DBA, dword_114DCA, dword_115008, dword_1150D4, dword_11BCE4, dword_11F5C0, dword_11F5C4
-extern InputPlaybackOn, dword_1515BE, dword_1515C5, dword_1515CC, dword_15199C, dword_1519B4, dword_1519B8, dword_1519BC
-extern dword_1519FC, dword_151A00, dword_151A40, dword_151A80, dword_151A84, dword_151A88, dword_151A8C, dword_151A90
-extern dword_151AD0, dword_151AD5, dword_151ADE, dword_15291C, dword_17C9AA, dword_17C9F4, FillRect, TextStringWidth
+extern SlotInput, ChatActive, LinkSyncValue, LinkBlockLen, LinkBlockPos
+extern LinkInputHead, LinkInputTail, LinkMsgHead, LinkValueHead, LinkMsgTail, LinkRemoteHead, LinkValueTail, LinkRemoteTail
+extern LinkWaitBoxBmp, dword_15291C, dword_17C9AA, dword_17C9F4, FillRect, TextStringWidth
 extern GameLoopActive, GetTicks, InputRecordCount, InputRecordHead, InputRecordRing, LinkClose, LinkConnect, LinkCopyBytes
 extern LinkOpen, LinkSendMessage, LinkTimerTick, optblock_end, optflags, SetClipWindow, SetDrawBitmap, SetLinkAbortCheck
 extern SetLinkMessageHandler, SetLinkSpareHook, SlotButtons, str_ABORT, str_HFwt, str_HGwt, str_LGwt, str_PAL22
@@ -16,9 +16,9 @@ extern str_SHAD, str_X3, strcpy_, MessageBox, HideMessage, ShowMessage, CopyBitm
 extern DrawColorText, DrawColorTextCentred, DrawBox, StopMusic, QueueCurrentMusic, FillMusicStream, PlayMusic, FadeOutMusic
 extern SoundSecondsToBytes, SoundIdle, GetLangText, RemoveTimerCallback, DrawShapeAtOwnPos, DrawShape, PutBlockAtOwnPos, AllocMemBlock
 extern FreeMemBlock, CreateBitmap, TintRect, DrawRectOutline, FreeBitmap, SetScreenTarget, GetPaletteRange, FillRectColor
-extern KeyIsDown, KbdGetKey, FindShape, unk_114CE6, unk_114D46, unk_114D6E, unk_15179C, unk_1519C0
-extern unk_151A04, unk_151A44, unk_151A94, unk_151ADC, unk_17C9B8, unk_17C9CC, unk_17D272, word_114CE0
-extern word_114CE4, word_114DBE, word_114DC0, word_151AE0, word_151AE2, word_17C9AC, word_17C9B0, word_17C9B2
+extern KeyIsDown, KbdGetKey, FindShape, unk_114CE6, unk_114D46, unk_114D6E, LinkBlockBuffer, LinkMsgQueue
+extern LinkValueQueue, LinkInputQueue, LinkRemoteQueue, LinkAckReply, unk_17C9B8, unk_17C9CC, unk_17D272, word_114CE0
+extern word_114CE4, word_114DBE, word_114DC0, ChatLocalLen, ChatRemoteLen, word_17C9AC, word_17C9B0, word_17C9B2
 global ModemGameOpen, LinkBlockStart, LinkBlockData, LinkSendBlock, LinkReceiveBlock, LinkSyncMessage, LinkGameMessage, jpt_1278E
 global LinkGameMessage_18, LinkExchangeValues, ModemGameConnect, ShowLinkWaitBox, HideLinkWaitBox, LinkSyncTimedOut, LinkSyncPoint, LinkSync
 global LinkSyncWithMessage, ModemGameClose, ModemGameQuit, LinkResyncInput, LinkExchangeInput, ModemChat, unk_144BD, unk_144C3
@@ -89,34 +89,34 @@ ModemGameOpen:
         mov dword [dword_114D1A], eax
         mov ecx, 3Ch
         xor eax, eax
-        mov edi, unk_151A94
+        mov edi, LinkRemoteQueue
         rep stosb
-        mov dword [dword_151A88], 0
-        mov eax, dword [dword_151A88]
-        mov dword [dword_151A90], eax
+        mov dword [LinkRemoteHead], 0
+        mov eax, dword [LinkRemoteHead]
+        mov dword [LinkRemoteTail], eax
         mov ecx, 3Ch
         xor eax, eax
-        mov edi, unk_151A04
+        mov edi, LinkValueQueue
         rep stosb
-        mov dword [dword_151A80], 0
-        mov eax, dword [dword_151A80]
-        mov dword [dword_151A8C], eax
+        mov dword [LinkValueHead], 0
+        mov eax, dword [LinkValueHead]
+        mov dword [LinkValueTail], eax
         mov ecx, 3Ch
         xor eax, eax
-        mov edi, unk_151A44
+        mov edi, LinkInputQueue
         rep stosb
         mov dword [dword_114D9A], 0
         mov eax, dword [dword_114D9A]
-        mov dword [dword_1519FC], eax
-        mov eax, dword [dword_1519FC]
-        mov dword [dword_151A00], eax
+        mov dword [LinkInputHead], eax
+        mov eax, dword [LinkInputHead]
+        mov dword [LinkInputTail], eax
         mov ecx, 3Ch
         xor eax, eax
-        mov edi, unk_1519C0
+        mov edi, LinkMsgQueue
         rep stosb
-        mov dword [dword_151A40], 0
-        mov eax, dword [dword_151A40]
-        mov dword [dword_151A84], eax
+        mov dword [LinkMsgHead], 0
+        mov eax, dword [LinkMsgHead]
+        mov dword [LinkMsgTail], eax
         mov dword [dword_114DA6], 0
         mov dword [dword_114DAE], 0
         mov dword [dword_114DB2], 0
@@ -185,7 +185,7 @@ ModemGameOpen:
 ;-----------------------------------------------------------------------------
 ; LinkBlockStart                                                  1253E  96 PC
 ; Received message type 3: a block of the given length follows (into
-; unk_15179C)
+; LinkBlockBuffer)
 ;-----------------------------------------------------------------------------
 LinkBlockStart:
         push ebx
@@ -198,9 +198,9 @@ LinkBlockStart:
         sub esp, 4
         mov dword [byte ebp-04h], eax
         mov eax, dword [byte ebp-04h]
-        mov dword [dword_1519B8], eax
-        mov dword [dword_114DBA], unk_15179C
-        mov eax, dword [dword_1519B8]
+        mov dword [LinkBlockLen], eax
+        mov dword [dword_114DBA], LinkBlockBuffer
+        mov eax, dword [LinkBlockLen]
         mov eax, dword [byte eax+01h]
         mov dword [str_Punct_ModemSettingsScreen], eax
         mov esp, ebp
@@ -227,7 +227,7 @@ LinkBlockData:
         sub esp, 4
         mov dword [byte ebp-04h], eax
         mov eax, dword [byte ebp-04h]
-        mov dword [dword_1519BC], eax
+        mov dword [LinkBlockPos], eax
         cmp dword [dword_114DBA], byte 0
         je short .1
         cmp dword [str_Punct_ModemSettingsScreen], byte 0
@@ -235,16 +235,16 @@ LinkBlockData:
 .1:
         jmp short .3
 .2:
-        mov eax, dword [dword_1519BC]
+        mov eax, dword [LinkBlockPos]
         movsx ebx, byte [byte eax+01h]
-        mov eax, dword [dword_1519BC]
+        mov eax, dword [LinkBlockPos]
         lea edx, [byte eax+02h]
         mov eax, dword [dword_114DBA]
         call LinkCopyBytes
-        mov eax, dword [dword_1519BC]
+        mov eax, dword [LinkBlockPos]
         movsx eax, byte [byte eax+01h]
         sub dword [str_Punct_ModemSettingsScreen], eax
-        mov eax, dword [dword_1519BC]
+        mov eax, dword [LinkBlockPos]
         movsx eax, byte [byte eax+01h]
         add dword [dword_114DBA], eax
         cmp dword [str_Punct_ModemSettingsScreen], byte 0
@@ -276,26 +276,26 @@ LinkSendBlock:
         mov dword [byte ebp-014h], eax
         mov dword [byte ebp-010h], edx
         mov word [word_114DC0], 0
-        mov byte [byte_151AD4], 3
+        mov byte [LinkBlockHeader], 3
         mov eax, dword [byte ebp-010h]
-        mov dword [dword_151AD5], eax
+        mov dword [LinkBlockHeader+1], eax
 .1:
         mov edx, 6
-        mov eax, byte_151AD4
+        mov eax, LinkBlockHeader
         call LinkSendMessage
         test eax, eax
         jne short .2
         call SoundIdle
         jmp short .1
 .2:
-        mov dword [dword_114DBA], unk_15179C
+        mov dword [dword_114DBA], LinkBlockBuffer
         mov ebx, dword [byte ebp-010h]
         mov edx, dword [byte ebp-014h]
         mov eax, dword [dword_114DBA]
         call LinkCopyBytes
         mov eax, dword [byte ebp-010h]
         mov dword [str_Punct_ModemSettingsScreen], eax
-        mov byte [byte_151ADA], 4
+        mov byte [LinkBlockAck], 4
 .3:
         cmp dword [str_Punct_ModemSettingsScreen], byte 4
         jle short .4
@@ -306,13 +306,13 @@ LinkSendBlock:
         mov dword [byte ebp-08h], eax
 .5:
         mov al, byte [byte ebp-08h]
-        mov byte [byte_151ADB], al
+        mov byte [LinkBlockAck+1], al
         mov ebx, dword [byte ebp-08h]
         mov edx, dword [dword_114DBA]
-        mov eax, unk_151ADC
+        mov eax, LinkAckReply
         call LinkCopyBytes
         mov edx, 6
-        mov eax, byte_151ADA
+        mov eax, LinkBlockAck
         call LinkSendMessage
         test eax, eax
         je short .6
@@ -358,7 +358,7 @@ LinkReceiveBlock:
         jmp short .1
 .2:
         mov ebx, dword [byte ebp-08h]
-        mov edx, unk_15179C
+        mov edx, LinkBlockBuffer
         mov eax, dword [byte ebp-0Ch]
         call LinkCopyBytes
         mov esp, ebp
@@ -384,12 +384,12 @@ LinkSyncMessage:
         sub esp, 4
         mov dword [byte ebp-04h], eax
         mov eax, dword [byte ebp-04h]
-        mov dword [dword_1519B4], eax
-        mov eax, dword [dword_1519B4]
+        mov dword [LinkSyncValue], eax
+        mov eax, dword [LinkSyncValue]
         movsx ax, byte [byte eax+05h]
         cmp ax, word [word_114CE4]
         je short .1
-        mov eax, dword [dword_1519B4]
+        mov eax, dword [LinkSyncValue]
         mov eax, dword [byte eax+01h]
         mov dword [dword_114D9E], eax
         jmp short .2
@@ -442,77 +442,77 @@ LinkGameMessage_18:
 .1:
         mov ebx, 6
         mov edx, dword [byte ebp-04h]
-        imul eax, dword [dword_151A40], byte 6
-        mov ecx, unk_1519C0
+        imul eax, dword [LinkMsgHead], byte 6
+        mov ecx, LinkMsgQueue
         add eax, ecx
         call LinkCopyBytes
-        mov edx, dword [dword_151A40]
+        mov edx, dword [LinkMsgHead]
         inc edx
         mov ebx, 0Ah
         mov eax, edx
         sar edx, 1Fh
         idiv ebx
-        mov dword [dword_151A40], edx
-        mov eax, dword [dword_151A40]
-        cmp eax, dword [dword_151A84]
+        mov dword [LinkMsgHead], edx
+        mov eax, dword [LinkMsgHead]
+        cmp eax, dword [LinkMsgTail]
         jne short .2
-        mov edx, dword [dword_151A84]
+        mov edx, dword [LinkMsgTail]
         inc edx
         mov ebx, 0Ah
         mov eax, edx
         sar edx, 1Fh
         idiv ebx
-        mov dword [dword_151A84], edx
+        mov dword [LinkMsgTail], edx
 .2:
         mov ebx, 6
         mov edx, dword [byte ebp-04h]
-        imul eax, dword [dword_151A88], byte 6
-        mov ecx, unk_151A94
+        imul eax, dword [LinkRemoteHead], byte 6
+        mov ecx, LinkRemoteQueue
         add eax, ecx
         call LinkCopyBytes
-        mov edx, dword [dword_151A88]
+        mov edx, dword [LinkRemoteHead]
         inc edx
         mov ebx, 0Ah
         mov eax, edx
         sar edx, 1Fh
         idiv ebx
-        mov dword [dword_151A88], edx
-        mov eax, dword [dword_151A88]
-        cmp eax, dword [dword_151A90]
+        mov dword [LinkRemoteHead], edx
+        mov eax, dword [LinkRemoteHead]
+        cmp eax, dword [LinkRemoteTail]
         jne short .3
-        mov edx, dword [dword_151A90]
+        mov edx, dword [LinkRemoteTail]
         inc edx
         mov ebx, 0Ah
         mov eax, edx
         sar edx, 1Fh
         idiv ebx
-        mov dword [dword_151A90], edx
+        mov dword [LinkRemoteTail], edx
 .3:
         jmp near .9
 .4:
         mov ebx, 6
         mov edx, dword [byte ebp-04h]
-        imul eax, dword [dword_151A80], byte 6
-        mov ecx, unk_151A04
+        imul eax, dword [LinkValueHead], byte 6
+        mov ecx, LinkValueQueue
         add eax, ecx
         call LinkCopyBytes
-        mov edx, dword [dword_151A80]
+        mov edx, dword [LinkValueHead]
         inc edx
         mov ebx, 0Ah
         mov eax, edx
         sar edx, 1Fh
         idiv ebx
-        mov dword [dword_151A80], edx
-        mov eax, dword [dword_151A80]
-        cmp eax, dword [dword_151A8C]
+        mov dword [LinkValueHead], edx
+        mov eax, dword [LinkValueHead]
+        cmp eax, dword [LinkValueTail]
         jne short .5
-        mov edx, dword [dword_151A80]
+        mov edx, dword [LinkValueHead]
         inc edx
         mov ebx, 0Ah
         mov eax, edx
         sar edx, 1Fh
         idiv ebx
-        mov dword [dword_151A8C], edx
+        mov dword [LinkValueTail], edx
 .5:
         jmp short .9
 .6:
@@ -579,8 +579,8 @@ LinkExchangeValues:
         mov dword [byte ebp-08h], eax
         mov dword [byte ebp-04h], 0
 .4:
-        mov eax, dword [dword_151A8C]
-        cmp eax, dword [dword_151A80]
+        mov eax, dword [LinkValueTail]
+        cmp eax, dword [LinkValueHead]
         jne short .8
         call GetTicks
         cmp eax, dword [byte ebp-08h]
@@ -596,8 +596,8 @@ LinkExchangeValues:
         call SoundIdle
         jmp short .4
 .8:
-        imul eax, dword [dword_151A8C], byte 6
-        mov edx, unk_151A04
+        imul eax, dword [LinkValueTail], byte 6
+        mov edx, LinkValueQueue
         add edx, eax
         mov dword [byte ebp-010h], edx
         mov edx, dword [byte ebp-010h]
@@ -617,13 +617,13 @@ LinkExchangeValues:
         and edx, byte 1
         mov eax, dword [byte ebp+014h]
         mov dword [eax], edx
-        mov edx, dword [dword_151A8C]
+        mov edx, dword [LinkValueTail]
         inc edx
         mov ebx, 0Ah
         mov eax, edx
         sar edx, 1Fh
         idiv ebx
-        mov dword [dword_151A8C], edx
+        mov dword [LinkValueTail], edx
         cmp dword [byte ebp-04h], byte 0
         je short .9
         call HideLinkWaitBox
@@ -682,34 +682,34 @@ ModemGameConnect:
         mov dword [dword_114DA6], 0
         mov ecx, 3Ch
         xor eax, eax
-        mov edi, unk_151A94
+        mov edi, LinkRemoteQueue
         rep stosb
-        mov dword [dword_151A88], 0
-        mov eax, dword [dword_151A88]
-        mov dword [dword_151A90], eax
+        mov dword [LinkRemoteHead], 0
+        mov eax, dword [LinkRemoteHead]
+        mov dword [LinkRemoteTail], eax
         mov ecx, 3Ch
         xor eax, eax
-        mov edi, unk_151A04
+        mov edi, LinkValueQueue
         rep stosb
-        mov dword [dword_151A80], 0
-        mov eax, dword [dword_151A80]
-        mov dword [dword_151A8C], eax
+        mov dword [LinkValueHead], 0
+        mov eax, dword [LinkValueHead]
+        mov dword [LinkValueTail], eax
         mov ecx, 3Ch
         xor eax, eax
-        mov edi, unk_151A44
+        mov edi, LinkInputQueue
         rep stosb
         mov dword [dword_114D9A], 0
         mov eax, dword [dword_114D9A]
-        mov dword [dword_1519FC], eax
-        mov eax, dword [dword_1519FC]
-        mov dword [dword_151A00], eax
+        mov dword [LinkInputHead], eax
+        mov eax, dword [LinkInputHead]
+        mov dword [LinkInputTail], eax
         mov ecx, 3Ch
         xor eax, eax
-        mov edi, unk_1519C0
+        mov edi, LinkMsgQueue
         rep stosb
-        mov dword [dword_151A40], 0
-        mov eax, dword [dword_151A40]
-        mov dword [dword_151A84], eax
+        mov dword [LinkMsgHead], 0
+        mov eax, dword [LinkMsgHead]
+        mov dword [LinkMsgTail], eax
         mov dword [dword_114DAE], 0
         mov dword [dword_114DB2], 0
         mov dword [str_Punct_ModemSettingsScreen], 0
@@ -909,7 +909,7 @@ ShowLinkWaitBox:
         push ebp
         mov ebp, esp
         sub esp, 4
-        cmp dword [dword_151AD0], byte 0
+        cmp dword [LinkWaitBoxBmp], byte 0
         jne near .5
         cmp dword [dword_11F5C0], 140h
         jle short .3
@@ -960,8 +960,8 @@ ShowLinkWaitBox:
         xor edx, edx
         mov eax, dword [byte ebp-04h]
         call CopyBitmap
-        mov dword [dword_151AD0], eax
-        push dword [dword_151AD0]
+        mov dword [LinkWaitBoxBmp], eax
+        push dword [LinkWaitBoxBmp]
         call DrawShapeAtOwnPos
         add esp, byte 4
         mov eax, dword [byte ebp-04h]
@@ -990,15 +990,15 @@ HideLinkWaitBox:
         push ebp
         mov ebp, esp
         sub esp, 0
-        cmp dword [dword_151AD0], byte 0
+        cmp dword [LinkWaitBoxBmp], byte 0
         je short .1
-        push dword [dword_151AD0]
+        push dword [LinkWaitBoxBmp]
         call PutBlockAtOwnPos
         add esp, byte 4
-        push dword [dword_151AD0]
+        push dword [LinkWaitBoxBmp]
         call FreeMemBlock
         add esp, byte 4
-        mov dword [dword_151AD0], 0
+        mov dword [LinkWaitBoxBmp], 0
 .1:
         pop ebp
         pop edi
@@ -1418,12 +1418,12 @@ LinkResyncInput:
         mov dword [dword_114DAA], 0
         xor eax, eax
         call LinkSync
-        mov dword [dword_151A88], 0
-        mov eax, dword [dword_151A88]
-        mov dword [dword_151A90], eax
-        mov dword [dword_1519FC], 0
-        mov eax, dword [dword_1519FC]
-        mov dword [dword_151A00], eax
+        mov dword [LinkRemoteHead], 0
+        mov eax, dword [LinkRemoteHead]
+        mov dword [LinkRemoteTail], eax
+        mov dword [LinkInputHead], 0
+        mov eax, dword [LinkInputHead]
+        mov dword [LinkInputTail], eax
         mov dword [dword_114D9A], 0
         mov ecx, 5Ah
         xor eax, eax
@@ -1483,8 +1483,8 @@ LinkExchangeInput:
 .3:
         jmp near .7
 .4:
-        imul eax, dword [dword_1519FC], byte 6
-        mov edx, unk_151A44
+        imul eax, dword [LinkInputHead], byte 6
+        mov edx, LinkInputQueue
         add edx, eax
         mov dword [byte ebp-018h], edx
         mov eax, dword [byte ebp-018h]
@@ -1493,15 +1493,15 @@ LinkExchangeInput:
         sar eax, 10h
         cmp eax, byte 1
         jne short .5
-        mov eax, dword [InputPlaybackOn]
+        mov eax, dword [SlotInput]
         mov dword [byte ebp-0Ch], eax
-        mov eax, dword [dword_1515BE]
+        mov eax, dword [SlotInput+7]
         mov dword [byte ebp-08h], eax
         jmp short .6
 .5:
-        mov eax, dword [dword_1515C5]
+        mov eax, dword [SlotInput+0Eh]
         mov dword [byte ebp-0Ch], eax
-        mov eax, dword [dword_1515CC]
+        mov eax, dword [SlotInput+15h]
         mov dword [byte ebp-08h], eax
 .6:
         mov edx, dword [byte ebp-0Ch]
@@ -1545,18 +1545,18 @@ LinkExchangeInput:
         test eax, eax
         je short .7
         inc dword [dword_114D9A]
-        mov edx, dword [dword_1519FC]
+        mov edx, dword [LinkInputHead]
         inc edx
         mov ebx, 0Ah
         mov eax, edx
         sar edx, 1Fh
         idiv ebx
-        mov dword [dword_1519FC], edx
+        mov dword [LinkInputHead], edx
 .7:
         cmp dword [dword_114D9A], byte 1
         jle short .8
-        mov eax, dword [dword_151A90]
-        cmp eax, dword [dword_151A88]
+        mov eax, dword [LinkRemoteTail]
+        cmp eax, dword [LinkRemoteHead]
         jne short .9
 .8:
         jmp short .10
@@ -1583,29 +1583,29 @@ LinkExchangeInput:
         idiv ebx
         mov dword [InputRecordHead], edx
         inc dword [InputRecordCount]
-        imul eax, dword [dword_151A00], byte 6
-        mov edx, unk_151A44
+        imul eax, dword [LinkInputTail], byte 6
+        mov edx, LinkInputQueue
         add edx, eax
         mov dword [byte ebp-018h], edx
-        mov edx, dword [dword_151A00]
+        mov edx, dword [LinkInputTail]
         inc edx
         mov ebx, 0Ah
         mov eax, edx
         sar edx, 1Fh
         idiv ebx
-        mov dword [dword_151A00], edx
+        mov dword [LinkInputTail], edx
         dec dword [dword_114D9A]
-        imul eax, dword [dword_151A90], byte 6
-        mov edx, unk_151A94
+        imul eax, dword [LinkRemoteTail], byte 6
+        mov edx, LinkRemoteQueue
         add edx, eax
         mov dword [byte ebp-014h], edx
-        mov edx, dword [dword_151A90]
+        mov edx, dword [LinkRemoteTail]
         inc edx
         mov ebx, 0Ah
         mov eax, edx
         sar edx, 1Fh
         idiv ebx
-        mov dword [dword_151A90], edx
+        mov dword [LinkRemoteTail], edx
         mov eax, dword [byte ebp-018h]
         mov eax, dword [byte eax+01h]
         mov dword [byte ebp-0Ch], eax
@@ -2007,17 +2007,17 @@ ModemChat:
         call FillRectColor
         add esp, byte 14h
 .2:
-        mov word [word_151AE0], 0
-        mov ax, word [word_151AE0]
-        mov word [word_151AE2], ax
+        mov word [ChatLocalLen], 0
+        mov ax, word [ChatLocalLen]
+        mov word [ChatRemoteLen], ax
         mov byte [byte ebp-06Ch], 6
         mov ecx, 3Ch
         xor eax, eax
-        mov edi, unk_1519C0
+        mov edi, LinkMsgQueue
         rep stosb
-        mov dword [dword_151A40], 0
-        mov eax, dword [dword_151A40]
-        mov dword [dword_151A84], eax
+        mov dword [LinkMsgHead], 0
+        mov eax, dword [LinkMsgHead]
+        mov dword [LinkMsgTail], eax
 .3:
         push byte 1Ch
         call KeyIsDown
@@ -2045,7 +2045,7 @@ ModemChat:
         call SoundIdle
         jmp short .3
 .9:
-        mov dword [dword_15199C], 0
+        mov dword [ChatActive], 0
         mov eax, 1
         call LinkSync
         mov word [byte ebp-032h], 0
@@ -2123,29 +2123,29 @@ ModemChat:
         cmp eax, byte 0Dh
         jne near .25
 .14:
-        mov edx, dword [dword_151ADE]
+        mov edx, dword [ChatLocalLen-2]
         sar edx, 10h
         inc edx
         mov ebx, 14h
         mov eax, edx
         sar edx, 1Fh
         idiv ebx
-        mov eax, dword [word_151AE0]
+        mov eax, dword [ChatLocalLen]
         sar eax, 10h
         cmp edx, eax
         je near .25
-        mov edx, dword [dword_151ADE]
+        mov edx, dword [ChatLocalLen-2]
         sar edx, 10h
         mov al, byte [byte ebp-020h]
-        mov byte [dword edx+byte_1519A0], al
-        mov edx, dword [dword_151ADE]
+        mov byte [dword edx+ChatLine], al
+        mov edx, dword [ChatLocalLen-2]
         sar edx, 10h
         inc edx
         mov ebx, 14h
         mov eax, edx
         sar edx, 1Fh
         idiv ebx
-        mov word [word_151AE0], dx
+        mov word [ChatLocalLen], dx
         cmp word [byte ebp-024h], byte 0
         je near .15
         mov eax, dword [byte ebp-040h]
@@ -2440,59 +2440,59 @@ ModemChat:
         cmp word [byte ebp-01Ch], byte 0
         je short .28
         mov word [byte ebp-020h], 1Bh
-        mov edx, dword [dword_151ADE]
+        mov edx, dword [ChatLocalLen-2]
         sar edx, 10h
         inc edx
         mov ebx, 14h
         mov eax, edx
         sar edx, 1Fh
         idiv ebx
-        mov eax, dword [word_151AE0]
+        mov eax, dword [ChatLocalLen]
         sar eax, 10h
         cmp edx, eax
         je short .28
-        mov edx, dword [dword_151ADE]
+        mov edx, dword [ChatLocalLen-2]
         sar edx, 10h
         mov al, byte [byte ebp-020h]
-        mov byte [dword edx+byte_1519A0], al
-        mov edx, dword [dword_151ADE]
+        mov byte [dword edx+ChatLine], al
+        mov edx, dword [ChatLocalLen-2]
         sar edx, 10h
         inc edx
         mov ebx, 14h
         mov eax, edx
         sar edx, 1Fh
         idiv ebx
-        mov word [word_151AE0], dx
+        mov word [ChatLocalLen], dx
 .28:
         call GetTicks
         cmp eax, dword [byte ebp-058h]
         jle near .35
-        mov ax, word [word_151AE2]
-        cmp ax, word [word_151AE0]
+        mov ax, word [ChatRemoteLen]
+        cmp ax, word [ChatLocalLen]
         je near .35
         mov dword [byte ebp-054h], 0
 .29:
-        mov ax, word [word_151AE2]
-        cmp ax, word [word_151AE0]
+        mov ax, word [ChatRemoteLen]
+        cmp ax, word [ChatLocalLen]
         je short .30
         cmp dword [byte ebp-054h], byte 4
         jl short .31
 .30:
         jmp short .32
 .31:
-        mov edx, dword [word_151AE0]
+        mov edx, dword [ChatLocalLen]
         sar edx, 10h
-        mov bl, byte [dword edx+byte_1519A0]
+        mov bl, byte [dword edx+ChatLine]
         mov edx, dword [byte ebp-054h]
         mov byte [byte edx+ebp-06Ah], bl
-        mov edx, dword [word_151AE0]
+        mov edx, dword [ChatLocalLen]
         sar edx, 10h
         inc edx
         mov ebx, 14h
         mov eax, edx
         sar edx, 1Fh
         idiv ebx
-        mov word [word_151AE2], dx
+        mov word [ChatRemoteLen], dx
         mov edx, dword [byte ebp-054h]
         inc dword [byte ebp-054h]
         jmp short .29
@@ -2512,14 +2512,14 @@ ModemChat:
         add eax, byte 3
         mov dword [byte ebp-058h], eax
 .35:
-        mov eax, dword [dword_151A84]
-        cmp eax, dword [dword_151A40]
+        mov eax, dword [LinkMsgTail]
+        cmp eax, dword [LinkMsgHead]
         je near .54
-        mov eax, dword [dword_151A40]
+        mov eax, dword [LinkMsgHead]
         mov dword [byte ebp-060h], eax
         mov dword [byte ebp-08h], 0
 .36:
-        mov eax, dword [dword_151A84]
+        mov eax, dword [LinkMsgTail]
         cmp eax, dword [byte ebp-060h]
         je short .37
         movsx eax, word [byte ebp-08h]
@@ -2528,8 +2528,8 @@ ModemChat:
 .37:
         jmp near .54
 .38:
-        imul eax, dword [dword_151A84], byte 6
-        mov edx, unk_1519C0
+        imul eax, dword [LinkMsgTail], byte 6
+        mov edx, LinkMsgQueue
         add edx, eax
         mov dword [byte ebp-050h], edx
         mov dword [byte ebp-054h], 0
@@ -2835,13 +2835,13 @@ ModemChat:
         inc dword [byte ebp-054h]
         jmp near .39
 .53:
-        mov edx, dword [dword_151A84]
+        mov edx, dword [LinkMsgTail]
         inc edx
         mov ebx, 0Ah
         mov eax, edx
         sar edx, 1Fh
         idiv ebx
-        mov dword [dword_151A84], edx
+        mov dword [LinkMsgTail], edx
         jmp near .36
 .54:
         call GetTicks

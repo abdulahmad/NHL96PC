@@ -7,7 +7,7 @@ global byte_114C58, byte_114D96, dword_114B5C, dword_114B60, dword_114B64, dword
 global dword_114B80, dword_114B88, dword_114B90, dword_114B94, dword_114B98, dword_114B9C, dword_114CB0, dword_114CB4
 global GripLinked, dword_114CD3, dword_114CD7, dword_114CD9, dword_114CE2, dword_114D0E, str_Punct_ModemGameOpen, dword_114D1A
 global dword_114D1E, dword_114D36, dword_114D3A, dword_114D9A, dword_114D9E, dword_114DA2, dword_114DA6, dword_114DAA
-global dword_114DAE, dword_114DB2, str_Punct_ModemSettingsScreen, dword_114DBA, dword_114DCA, unk_114BA8, unk_114C00, unk_114CE6
+global dword_114DAE, dword_114DB2, str_Punct_ModemSettingsScreen, dword_114DBA, dword_114DCA, KeyBindings, KeyBindingsAlt, unk_114CE6
 global unk_114D46, unk_114D6E, word_114B40, word_114B42, word_114B44, word_114CDB, word_114CE0, word_114CE4
 global word_114DBE, word_114DC0
 word_114B40:
@@ -50,14 +50,14 @@ InputRecordHead:
         db 00h,00h,00h,00h
 InputRecordCount:
         db 00h,00h,00h,00h
-unk_114BA8:
+KeyBindings:
         db 00h,00h,01h,00h,00h,00h,013h,00h,00h,01h,038h,00h,00h,00h,039h,00h
         db 00h,00h,047h,00h,00h,00h,048h,00h,00h,00h,049h,00h,00h,00h,04Bh,00h
         db 00h,00h,04Dh,00h,00h,00h,04Fh,00h,00h,00h,050h,00h,00h,00h,051h,00h
         db 00h,00h,03Bh,00h,00h,00h,03Ch,00h,00h,00h,03Dh,00h,00h,00h,03Eh,00h
         db 00h,00h,03Fh,00h,00h,00h,040h,00h,00h,00h,041h,00h,00h,00h,042h,00h
         db 00h,00h,043h,00h,00h,00h,044h,00h
-unk_114C00:
+KeyBindingsAlt:
         db 00h,00h,01h,00h,00h,00h,013h,00h,00h,00h,027h,00h,00h,00h,028h,00h
         db 00h,00h,010h,00h,00h,00h,011h,00h,00h,00h,012h,00h,00h,00h,01Eh,00h
         db 00h,00h,020h,00h,00h,00h,02Ch,00h,00h,00h,02Dh,00h,00h,00h,02Eh,00h

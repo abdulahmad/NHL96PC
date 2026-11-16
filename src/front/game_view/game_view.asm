@@ -48,7 +48,7 @@ extern TextSetFont, unk_111024, OverlayPanelQueue, unk_122320, hmteamrec, unk_15
 extern exhstate, unk_1782AC, unk_1786AC, unk_178AAC, unk_1798C0, unk_179980, unk_179AC0, unk_179BBC
 extern unk_17B248, unk_17B518, unk_17B830, unk_17B930, unk_17D3E8, str_T_DrawOverlayCaption, unk_5848C, vtoa
 extern HomeControlSlot, clockticks, bannermsg, ControlMarkerFrames, ControlMarkerAltFrames, GoalNetFrames, word_11B274, ovlstep
-extern word_1515B5, word_1647A8, word_1647AA, word_1650A6, word_165144, word_165146, word_165148, word_16514A
+extern SlotDevice, word_1647A8, word_1647AA, word_1650A6, word_165144, word_165146, word_165148, word_16514A
 extern word_16514C, hmtmPwrGoals, hmtmPwrPlays, hmscore, hmtmline, hmtmap, awscore, awtmline
 extern awtmap, word_17709C
 global DrawScaledSprite, DrawScaledSprite_1E2, BuildShadeMatch, BuildShadeLut, AllocShadeLut, AllocShadeLut_5A, LoadIceLogo, FullViewClip
@@ -2900,7 +2900,7 @@ DrawGameFrame:
         xor ebx, ebx
         xor eax, eax
 .20:
-        movsx edx, word [dword eax+word_1515B5]
+        movsx edx, word [dword eax+SlotDevice]
         cmp edx, byte 2
         je short .21
         add eax, byte 7

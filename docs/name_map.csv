@@ -720,6 +720,17 @@ address,name,auto_name,source,confidence,evidence,file
 6A5EB,WriteGlobalSet,sub_6A5EB,new,high,"writes GLOBAL.SET back (BCh header, the name, B9h options), the file ReadGlobalSet reads",src/front/settings/settings.asm
 6A675,RunExhibitionMenus,sub_6A675,new,medium,"from RunFrontEnd: loads the exhibition set-up (EXHIBIT.NDX, stats), then team select, the controller screen and the next screens until a game or the main menu",src/front/settings/settings.asm
 6A7D3,RunInGameMenu,sub_6A7D3,new,medium,"opens the menu InGameMenuRequest asks for (pre-game menu, pause)",src/front/pause_menu/pause_menu.asm
+6A891,DrawPauseButtons,sub_6A891,new,medium,"draws the pause menu's buttons (qui0 quit, ret0 return, rep0 replay, ctr0 controllers, sts0 stats, edt0 edit lines, sav0 save, cht0 chat)",src/front/pause_menu/pause_menu.asm
+6AA3B,DrawPauseFrame,sub_6AA3B,new,medium,"from DrawGameFrame while paused: the pause frame over the game (paus, sid1/2, bot1-3), score with both logos, period and clock",src/front/pause_menu/pause_menu.asm
+6B404,RunPausedFrame,sub_6B404,new,low,"one paused frame: overlays and camera shot off, crowd, camera, DrawGameFrame",src/front/pause_menu/pause_menu.asm
+6B486,SaveGameFile,sub_6B486,new,low,creates the save file (FileCreate) and writes the game by the game kind (optflags),src/front/pause_menu/pause_menu.asm
+6B894,PauseMenu,sub_6B894,new,medium,"the pause menu (PAUSREG; quit, return, chat ...) with RunMenu, kept in step in a link game (LinkSync)",src/front/pause_menu/pause_menu.asm
+6C294,PauseToFrontEnd,sub_6C294,new,medium,"from the pause: leaves the game view for a front-end screen (fade, free sprites and sounds, front-end sound banks, FhiL / FhiR)",src/front/pause_menu/pause_menu.asm
+6C3B0,PauseBackToGame,sub_6C3B0,new,medium,"back from a front-end screen into the paused game (music off, free the front-end art, controllers, GloL / GhiL art, screen mode)",src/front/pause_menu/pause_menu.asm
+6C698,PauseGame,sub_6C698,new,medium,"RunInGameMenu's pause (request 1): frees the speech buffer and sprite cache, quiets the crowd, runs the pause menu and its screens, restores the game",src/front/pause_menu/pause_menu.asm
+6CF1B,ControllerUsersPanel,sub_6CF1B,new,low,"the controller screen's users panel (log7 / logx), picking users (PickUsersScreen)",src/front/controller_screen/controller_screen.asm
+6D828,ScanControllers,sub_6D828,new,low,reads the devices (GetInputDevices) into the controller screen's slots,src/front/controller_screen/controller_screen.asm
+6DD1E,SetControllerColumn,sub_6DD1E,new,low,"the column (5, 0Ah, 0Fh, 16h) of the current controller by the side it is on",src/front/controller_screen/controller_screen.asm
 6E233,SetControllerIcon,sub_6E233,new,low,"(side, ...): puts the p1_1 / p2_1 pad image in a side's slot of the screen (not in a modem / link game)",src/front/controller_screen/controller_screen.asm
 6E332,DrawControllerColumns,sub_6E332,new,medium,"the controller screen's columns: the pads by team with the users' icons and names (usri, usrh, utext), with the move sound",src/front/controller_screen/controller_screen.asm
 6F056,ControllerScreen,sub_6F056,new,high,"the controller screen (M_CONTROL, ply%d, key1): moves each controller to home, away or neither; returns the screen to go to",src/front/controller_screen/controller_screen.asm

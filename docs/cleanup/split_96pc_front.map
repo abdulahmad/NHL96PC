@@ -80,3 +80,6 @@ rename front/front_9CFE3 front/edit_lines
 # step 16: front_A17D5 (in-game menu, modem game set-up)
 rename front/front_A17D5 front/ingame_menu The in-game menu over the game view: its frame, quit / return, the front-end screens during a game and back (96 PC).
 cut DrawModemHomePanel front/modem_teams The modem / link game set-up from the main menu: team select and the steps to the game (96 PC).
+# step 17: the controller screen helpers at the end of pause_menu join controller_screen
+cut sub_6CF0D front/controller_screen The controller screen before a game: which controller plays for which team, with the users' names (96 PC).
+rename front/controller_screen front/controller_screen

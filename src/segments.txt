@@ -48,8 +48,8 @@
 1 68D25 69B1E 3577 front_sound front/sound/sound.asm
 1 69B1E 6A341 2083 front_movie front/movie/movie.asm
 1 6A341 6A7D3 1170 front_settings front/settings/settings.asm
-1 6A7D3 6E233 14944 front_pause_menu front/pause_menu/pause_menu.asm
-1 6E233 711ED 12218 front_6E233 front/controller_screen/controller_screen.asm
+1 6A7D3 6CF0D 10042 front_pause_menu front/pause_menu/pause_menu.asm
+1 6CF0D 711ED 17120 front_controller_screen front/controller_screen/controller_screen.asm
 1 711ED 76071 20100 modem_setup front/modem_setup/modem_setup.asm
 1 76071 771F0 4479 front_team_select front/team_select/team_select.asm
 1 771F0 77442 594 front_lang_text front/lang_text/lang_text.asm

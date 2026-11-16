@@ -445,7 +445,7 @@
   {
    "obj": 1,
    "start": 436179,
-   "end": 451123,
+   "end": 446221,
    "module": "front_pause_menu",
    "file": "front/pause_menu/pause_menu.asm",
    "desc": "The in-game menu: RunInGameMenu and the pause menu screens of a game (96 PC; its routines still to be named).",
@@ -453,12 +453,14 @@
    "group": "front"
   },
   {
-   "start": 451123,
-   "end": 463341,
-   "module": "front_6E233",
    "obj": 1,
+   "start": 446221,
+   "end": 463341,
+   "module": "front_controller_screen",
    "file": "front/controller_screen/controller_screen.asm",
-   "note": "placeholder"
+   "desc": "The controller screen before a game: which controller plays for which team, with the users' names (96 PC).",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "front"
   },
   {
    "start": 463341,

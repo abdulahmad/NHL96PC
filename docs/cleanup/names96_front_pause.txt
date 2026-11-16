@@ -1,0 +1,32 @@
+# NHL 96 PC pause menu (RunInGameMenu's pause), and controller screen helpers that sit before it. PC-only, source new.
+sub_6A891 DrawPauseButtons {confidence=medium} draws the pause menu's buttons (qui0 quit, ret0 return, rep0 replay, ctr0 controllers, sts0 stats, edt0 edit lines, sav0 save, cht0 chat)
+sub_6AA3B DrawPauseFrame {confidence=medium} from DrawGameFrame while paused: the pause frame over the game (paus, sid1/2, bot1-3), score with both logos, period and clock
+sub_6B404 RunPausedFrame {confidence=low} one paused frame: overlays and camera shot off, crowd, camera, DrawGameFrame
+sub_6B486 SaveGameFile {confidence=low} creates the save file (FileCreate) and writes the game by the game kind (optflags)
+sub_6B894 PauseMenu {confidence=medium} the pause menu (PAUSREG; quit, return, chat ...) with RunMenu, kept in step in a link game (LinkSync)
+sub_6C294 PauseToFrontEnd {confidence=medium} from the pause: leaves the game view for a front-end screen (fade, free sprites and sounds, front-end sound banks, FhiL / FhiR)
+sub_6C3B0 PauseBackToGame {confidence=medium} back from a front-end screen into the paused game (music off, free the front-end art, controllers, GloL / GhiL art, screen mode)
+sub_6C698 PauseGame {confidence=medium} RunInGameMenu's pause (request 1): frees the speech buffer and sprite cache, quiets the crowd, runs the pause menu and its screens, restores the game
+sub_6CF1B ControllerUsersPanel {confidence=low} the controller screen's users panel (log7 / logx), picking users (PickUsersScreen)
+sub_6D828 ScanControllers {confidence=low} reads the devices (GetInputDevices) into the controller screen's slots
+sub_6DD1E SetControllerColumn {confidence=low} the column (5, 0Ah, 0Fh, 16h) of the current controller by the side it is on
+sub_6AA3B_9C2 DrawPauseFrame_9C2 {no_record}
+sub_6AA3B_9C3 DrawPauseFrame_9C3 {no_record}
+sub_6B486_59 SaveGameFile_59 {no_record}
+sub_6B486_60 SaveGameFile_60 {no_record}
+sub_6B486_6C SaveGameFile_6C {no_record}
+sub_6B486_81 SaveGameFile_81 {no_record}
+sub_6B894_66B PauseMenu_66B {no_record}
+sub_6B894_6F1 PauseMenu_6F1 {no_record}
+sub_6B894_6FD PauseMenu_6FD {no_record}
+sub_6B894_724 PauseMenu_724 {no_record}
+sub_6B894_730 PauseMenu_730 {no_record}
+sub_6B894_73C PauseMenu_73C {no_record}
+sub_6B894_748 PauseMenu_748 {no_record}
+sub_6C3B0_28A PauseBackToGame_28A {no_record}
+sub_6C698_375 PauseGame_375 {no_record}
+sub_6C698_3A3 PauseGame_3A3 {no_record}
+sub_6C698_47F PauseGame_47F {no_record}
+sub_6C698_5F4 PauseGame_5F4 {no_record}
+sub_6C698_611 PauseGame_611 {no_record}
+sub_6C698_620 PauseGame_620 {no_record}

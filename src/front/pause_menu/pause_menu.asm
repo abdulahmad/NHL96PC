@@ -2,46 +2,39 @@
 bits 32
 %include "hockey.inc"
 section s_6A7D3 progbits alloc exec nowrite align=1
-extern awtmstruct, byte_11D91C, byte_11FA2F, byte_17CA5D, byte_17CC37, CloseTextOverlay, Crowd_Noise, CrowdNoiseReset
-extern CrowdPause, CrowdResume, curperiod, dword_1150D4, dword_1150D8, dword_1150FC, dword_1174EC, dword_1174F0
-extern dword_1174F4, dword_11B234, dword_11B320, dword_11B324, dword_11BC24, dword_11D91F, dword_11D923, dword_11F5C0
-extern dword_11F5C4, dword_152F4C, dword_152F50, dword_152F54, dword_152F58, dword_152F5C, dword_16596C, dword_177108
-extern dword_179918, dword_179920, dword_17CB2F, dword_17CBE7, dword_17CC17, dword_17CED6, dword_17D162, dword_17D267
-extern dword_17D4E8, dword_17D4EC, dword_17D4F0, dword_17D4F4, dword_17D4F8, dword_17D4FC, dword_17D500, dword_17D504
-extern dword_17D508, dword_17D50C, dword_17D510, dword_17D514, dword_17D518, dword_17D51C, dword_17D520, dword_17D524
-extern dword_17D528, dword_17D564, dword_17D56C, dword_17D574, dword_17D57C, dword_17D580, dword_1843AC, dword_1843B0
-extern dword_1843B4, EditText, EndGameSound, FadeOutMusic, FileClose, FileCreate, FileWriteAt, FreeSpeechBuffer
-extern FreeStatsTables, gameclock, GameLoopActive, gameopts, GameStatsScreen, GetCrowdTarget, GetInputDevices, GetSoundCard
-extern GetTicks, gmode, gsp, hmtmstruct, InGameMenuRequest, InitSlotTable, LinkResyncInput, LinkSync
-extern LoadExhibitionStats, LoadModemStats, LoadPlayoffStats, LoadSeasonStats, LoadTeamLogo, MakeDirPath, MessageBox, ModemChat
+extern awtmstruct, byte_11D91C, byte_11FA2F, byte_17CA5D, byte_17CC37, CloseTextOverlay, ControllerScreen, CopyBitmap
+extern Crowd_Noise, CrowdNoiseReset, CrowdPause, CrowdResume, curperiod, DrawBox, DrawColorTextCentred, DrawFrameAt
+extern DrawGameClock, DrawGameFrame, dword_1150D4, dword_1150FC, dword_1174EC, dword_1174F0, dword_1174F4, dword_11B234
+extern dword_11B320, dword_11B324, dword_11BC24, dword_11D91F, dword_11D923, dword_11F5C0, dword_11F5C4, dword_152F4C
+extern dword_152F50, dword_152F54, dword_152F58, dword_152F5C, dword_16596C, dword_177108, dword_179918, dword_179920
+extern dword_17CB2F, dword_17CBE7, dword_17CC17, dword_17CED6, dword_17D162, dword_17D267, dword_17D4E8, dword_17D4EC
+extern dword_17D4F0, dword_17D4F4, dword_17D4F8, dword_17D4FC, dword_17D500, dword_17D504, dword_17D508, dword_17D50C
+extern dword_17D510, dword_17D514, dword_17D518, dword_17D51C, dword_17D520, dword_17D524, dword_17D528, dword_1843AC
+extern dword_1843B0, dword_1843B4, EditText, EndCameraShot, EndGameSound, FadeOut, FadeOutMusic, FadePalette
+extern FileClose, FileCreate, FileWriteAt, FillBox, FreeFightSprites, FreeFrontEndArt, FreeSpeechBuffer, FreeSpriteCache
+extern FreeStatsTables, FreeTotalSprites, gameclock, GameLoopActive, gameopts, GameStatsScreen, GetCrowdTarget, GetLangText
+extern GetSoundCard, GetTicks, gmode, gsp, hmtmstruct, InGameMenu, InGameMenuRequest, InitMenuItems
+extern InitSlotTable, LinkResyncInput, LinkSync, LoadExhibitionStats, LoadFightSprites, LoadFrontEndArt, LoadModemStats, LoadPlayoffStats
+extern LoadSeasonStats, LoadTeamLogo, LoadTotalSprites, MakeDirPath, MakePlayoffDbPath, MakeSeasonDbPath, MessageBox, ModemChat
 extern MouseRead, mousex, mousey, NameIndexAdd, NameIndexFirstId, NameIndexFree, NameIndexLoad, NameIndexNew
-extern optblock_end, optflags, PickUsersScreen, PutBlock, QueueMusic, ResetInputSlots, ResetSlotButtons, RestoreSpeechBuffer
-extern SaveGameState, SetClipWindow, SetCrowdTarget, SetDrawBitmap, SetViewRect, SoundIdle, sprintf_, StartGameSound
-extern StopAllSfx, StopArenaClip, StopMusic, str_05d4, str_08d3, str_Bot12, str_Bot22, str_Bot32
-extern str_Cht02, str_Cht12, str_CsgDb3, str_Ctr02, str_Ctr12, str_D16, str_Edt02, str_Edt12
-extern str_EXHIBITNDX3, str_FhiL5, str_FhiR5, str_GhiL3, str_GhiR3, str_GloL3, str_GloR3, str_Jy1D
-extern str_Jy2D, str_Jy3D, str_Jy4D, str_KeyD2, str_Log7, str_Logx, str_MdmD, str_MseD2
-extern str_Paus, str_PAUSREG, str_PlyD, str_Qui02, str_Qui12, str_Qui22, str_Rep0, str_Rep1
-extern str_Ret02, str_Ret12, str_Ret22, str_Sav02, str_Sav12, str_Sid12, str_Sid22, str_Sts02
-extern str_Sts12, strcat_, strcpy_, sub_3A6F3, sub_5360D, sub_5439F, sub_564A4, sub_57B11
-extern DrawGameFrame, DrawGameClock, EndCameraShot, UpdateCamera, FreeFightSprites, LoadFightSprites, FreeTotalSprites, LoadTotalSprites
-extern FreeSpriteCache, LoadFrontEndArt, FreeFrontEndArt, FadePalette, FadeOut, CopyBitmap, SetScreenMode, SetTextColors
-extern DrawColorTextCentred, FillBox, DrawBox, SetScreenPalette, DrawFrameAt, InitMenuItems, RunMenu, SetMenuMouse
-extern ControllerScreen, GetLangText, MakeSeasonDbPath, MakePlayoffDbPath, RunEditLines, InGameMenu, sub_AA7E0, sub_AA988
-extern sub_AAA40, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C, sub_ADBEC, sub_B0CA8, sub_B22E0
-extern sub_B2C54, sub_B58D8, sub_BB8E0, sub_DD6C4, sub_E04E0, sub_E0584, TextSetFont, unk_11D7A4
-extern unk_11D7BC, unk_11D7D4, unk_11D7EC, unk_11D804, unk_11D80A, unk_11D810, unk_11D816, unk_11D81C
-extern unk_11D89C, unk_16443C, unk_17CB2E, unk_17CED5, unk_17D3E8, unk_17D52C, word_114CE0, word_114CE4
-extern word_114F14, word_117902, word_11D927, word_11D929, word_1656E8, word_16581E, word_17D58C, word_17D58E
-global RunInGameMenu, sub_6A891, sub_6AA3B, sub_6AA3B_9C2, sub_6AA3B_9C3, sub_6B404, jpt_6B476, sub_6B486
-global sub_6B486_59, sub_6B486_60, sub_6B486_6C, sub_6B486_81, jpt_6B878, sub_6B894, sub_6B894_66B, sub_6B894_6F1
-global sub_6B894_6FD, sub_6B894_724, sub_6B894_730, sub_6B894_73C, sub_6B894_748, sub_6C294, sub_6C3B0, sub_6C3B0_28A
-global jpt_6C63B, sub_6C64B, sub_6C663, sub_6C66D, jpt_6C680, sub_6C698, sub_6C698_375, sub_6C698_3A3
-global sub_6C698_47F, sub_6C698_5F4, sub_6C698_611, sub_6C698_620, sub_6CF0D, sub_6CF0D_6, sub_6CF1B, unk_6D31C
-global jpt_6D32C, sub_6D350, sub_6D350_2C, sub_6D350_F2, sub_6D350_199, sub_6D350_240, sub_6D350_2E7, sub_6D350_38E
-global sub_6D350_435, sub_6D350_4D0, sub_6D828, unk_6DB28, jpt_6DB38, sub_6DB5C, sub_6DB5C_51, sub_6DB5C_5D
-global sub_6DB5C_69, sub_6DB5C_75, sub_6DB5C_81, sub_6DB5C_8D, sub_6DB5C_99, sub_6DB5C_A5, sub_6DB5C_CB, sub_6DC2F
-global sub_6DD1E
+extern optblock_end, optflags, PutBlock, QueueMusic, ResetInputSlots, ResetSlotButtons, RestoreSpeechBuffer, RunEditLines
+extern RunMenu, SaveGameState, SetClipWindow, SetCrowdTarget, SetDrawBitmap, SetMenuMouse, SetScreenMode, SetScreenPalette
+extern SetTextColors, SetViewRect, SoundIdle, sprintf_, StartGameSound, StopAllSfx, StopArenaClip, StopMusic
+extern str_05d4, str_08d3, str_Bot12, str_Bot22, str_Bot32, str_Cht02, str_Cht12, str_CsgDb3
+extern str_Ctr02, str_Ctr12, str_D16, str_Edt02, str_Edt12, str_EXHIBITNDX3, str_FhiL5, str_FhiR5
+extern str_GhiL3, str_GhiR3, str_GloL3, str_GloR3, str_Paus, str_PAUSREG, str_Qui02, str_Qui12
+extern str_Qui22, str_Rep0, str_Rep1, str_Ret02, str_Ret12, str_Ret22, str_Sav02, str_Sav12
+extern str_Sid12, str_Sid22, str_Sts02, str_Sts12, strcat_, strcpy_, sub_3A6F3, sub_5360D
+extern sub_5439F, sub_564A4, sub_57B11, sub_AA988, sub_AAA40, sub_AB758, sub_ABF4C, sub_AD35C
+extern sub_ADBEC, sub_B0CA8, sub_B22E0, sub_B58D8, sub_BB8E0, sub_DD6C4, sub_E04E0, sub_E0584
+extern TextSetFont, unk_11D7A4, unk_11D7BC, unk_11D7D4, unk_11D7EC, unk_11D804, unk_11D80A, unk_11D810
+extern unk_11D816, unk_11D81C, unk_11D89C, unk_16443C, unk_17CB2E, unk_17CED5, unk_17D3E8, unk_17D52C
+extern UpdateCamera, word_114CE0, word_114F14, word_117902, word_11D927, word_11D929, word_1656E8, word_16581E
+global RunInGameMenu, DrawPauseButtons, DrawPauseFrame, DrawPauseFrame_9C2, DrawPauseFrame_9C3, RunPausedFrame, jpt_6B476, SaveGameFile
+global SaveGameFile_59, SaveGameFile_60, SaveGameFile_6C, SaveGameFile_81, jpt_6B878, PauseMenu, PauseMenu_66B, PauseMenu_6F1
+global PauseMenu_6FD, PauseMenu_724, PauseMenu_730, PauseMenu_73C, PauseMenu_748, PauseToFrontEnd, PauseBackToGame, PauseBackToGame_28A
+global jpt_6C63B, sub_6C64B, sub_6C663, sub_6C66D, jpt_6C680, PauseGame, PauseGame_375, PauseGame_3A3
+global PauseGame_47F, PauseGame_5F4, PauseGame_611, PauseGame_620
 ;-----------------------------------------------------------------------------
 ; RunInGameMenu                                6A7D3  96 PC, medium confidence
 ; Opens the menu InGameMenuRequest asks for (pre-game menu, pause)
@@ -72,7 +65,7 @@ RunInGameMenu:
         mov dword [dword_1150FC], edx
         jmp short .5
 .2:
-        call sub_6C698
+        call PauseGame
         jmp short .5
 .3:
         movsx eax, al
@@ -103,9 +96,11 @@ RunInGameMenu:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_6A891                                                       6A891  96 PC
+; DrawPauseButtons                             6A891  96 PC, medium confidence
+; Draws the pause menu's buttons (qui0 quit, ret0 return, rep0 replay, ctr0
+; controllers, sts0 stats, edt0 edit lines, sav0 save, cht0 chat)
 ;-----------------------------------------------------------------------------
-sub_6A891:
+DrawPauseButtons:
         push ebx
         push ecx
         push edx
@@ -242,11 +237,13 @@ sub_6A891:
         push eax
         call sub_AAA40
         add esp, byte 0Ch
-        jmp near sub_6AA3B_9C3
+        jmp near DrawPauseFrame_9C3
 ;-----------------------------------------------------------------------------
-; sub_6AA3B                                                       6AA3B  96 PC
+; DrawPauseFrame                               6AA3B  96 PC, medium confidence
+; From DrawGameFrame while paused: the pause frame over the game (paus,
+; sid1/2, bot1-3), score with both logos, period and clock
 ;-----------------------------------------------------------------------------
-sub_6AA3B:
+DrawPauseFrame:
         push ebx
         push ecx
         push edx
@@ -270,7 +267,7 @@ sub_6AA3B:
         idiv ebx
         mov dword [byte ebp-0Ch], eax
         cmp dword [dword_11D91F], byte 0
-        je near sub_6AA3B_9C2
+        je near DrawPauseFrame_9C2
         call GetTicks
         mov edi, eax
         sub edi, dword [dword_17D510]
@@ -825,7 +822,7 @@ sub_6AA3B:
         push dword [byte ebp-018h]
         call sub_BB8E0
         add esp, byte 10h
-        jmp near sub_6AA3B_9C2
+        jmp near DrawPauseFrame_9C2
 .28:
         push str_Paus
         push dword [dword_17D528]
@@ -971,11 +968,11 @@ sub_6AA3B:
         call sub_AA988
         add esp, byte 4
         xor eax, eax
-        call sub_6A891
+        call DrawPauseButtons
         mov word [word_11D929], 0
-sub_6AA3B_9C2:
+DrawPauseFrame_9C2:
         leave
-sub_6AA3B_9C3:
+DrawPauseFrame_9C3:
         pop edi
         pop esi
         pop edx
@@ -983,9 +980,11 @@ sub_6AA3B_9C3:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_6B404                                                       6B404  96 PC
+; RunPausedFrame                                  6B404  96 PC, low confidence
+; One paused frame: overlays and camera shot off, crowd, camera,
+; DrawGameFrame
 ;-----------------------------------------------------------------------------
-sub_6B404:
+RunPausedFrame:
         push ebx
         push ecx
         push edx
@@ -1009,7 +1008,7 @@ sub_6B404:
         mov dword [dword_17D510], eax
 .3:
         test esi, esi
-        je short sub_6AA3B_9C3
+        je short DrawPauseFrame_9C3
         call GetTicks
         mov ebx, eax
         sub eax, edi
@@ -1028,14 +1027,16 @@ sub_6B404:
         mov edi, ebx
         jmp short .3
 jpt_6B476:
-        dd sub_6B486_59
-        dd sub_6B486_60
-        dd sub_6B486_6C
-        dd sub_6B486_81
+        dd SaveGameFile_59
+        dd SaveGameFile_60
+        dd SaveGameFile_6C
+        dd SaveGameFile_81
 ;-----------------------------------------------------------------------------
-; sub_6B486                                                       6B486  96 PC
+; SaveGameFile                                    6B486  96 PC, low confidence
+; Creates the save file (FileCreate) and writes the game by the game kind
+; (optflags)
 ;-----------------------------------------------------------------------------
-sub_6B486:
+SaveGameFile:
         push ebx
         push ecx
         push edx
@@ -1046,36 +1047,36 @@ sub_6B486:
         mov dword [byte ebp-04h], 1
         call FileCreate
         test eax, eax
-        jne near sub_6B486_81.16
+        jne near SaveGameFile_81.16
         mov eax, dword [optflags]
         shl eax, 19h
         shr eax, 1Dh
         cmp eax, byte 1
         jb short .1
-        jbe near sub_6B486_81.11
+        jbe near SaveGameFile_81.11
         cmp eax, byte 2
-        je near sub_6B486_81.12
-        jmp near sub_6B486_81.14
+        je near SaveGameFile_81.12
+        jmp near SaveGameFile_81.14
 .1:
         test eax, eax
-        jne near sub_6B486_81.14
+        jne near SaveGameFile_81.14
         cmp eax, byte 3
-        ja short sub_6B486_81.2
+        ja short SaveGameFile_81.2
         jmp dword [nosplit cs:eax*4+jpt_6B476]
-sub_6B486_59:
+SaveGameFile_59:
         call LoadExhibitionStats
-        jmp short sub_6B486_81.2
-sub_6B486_60:
+        jmp short SaveGameFile_81.2
+SaveGameFile_60:
         mov eax, dword [dword_17CBE7]
         call LoadSeasonStats
-        jmp short sub_6B486_81.2
-sub_6B486_6C:
+        jmp short SaveGameFile_81.2
+SaveGameFile_6C:
         cmp dword [dword_17D267], byte 0
-        jne short sub_6B486_60
+        jne short SaveGameFile_60
         mov eax, dword [dword_17D162]
         call LoadPlayoffStats
-        jmp short sub_6B486_81.2
-sub_6B486_81:
+        jmp short SaveGameFile_81.2
+SaveGameFile_81:
         call LoadModemStats
 .2:
         mov ecx, 0B9h
@@ -1315,19 +1316,21 @@ sub_6B486_81:
         cmp dword [byte ebp-04h], byte 0
         sete al
         movzx eax, al
-        jmp near sub_6AA3B_9C2
+        jmp near DrawPauseFrame_9C2
 jpt_6B878:
-        dd sub_6B894_66B
-        dd sub_6B894_6F1
-        dd sub_6B894_6FD
-        dd sub_6B894_724
-        dd sub_6B894_730
-        dd sub_6B894_73C
-        dd sub_6B894_748
+        dd PauseMenu_66B
+        dd PauseMenu_6F1
+        dd PauseMenu_6FD
+        dd PauseMenu_724
+        dd PauseMenu_730
+        dd PauseMenu_73C
+        dd PauseMenu_748
 ;-----------------------------------------------------------------------------
-; sub_6B894                                                       6B894  96 PC
+; PauseMenu                                    6B894  96 PC, medium confidence
+; The pause menu (PAUSREG; quit, return, chat ...) with RunMenu, kept in step
+; in a link game (LinkSync)
 ;-----------------------------------------------------------------------------
-sub_6B894:
+PauseMenu:
         push ebx
         push ecx
         push edx
@@ -1348,7 +1351,7 @@ sub_6B894:
         call PutBlock
         add esp, byte 0Ch
         xor eax, eax
-        call sub_6A891
+        call DrawPauseButtons
         call sub_DD6C4
         push byte 0
         mov eax, dword [dword_11B234]
@@ -1695,10 +1698,10 @@ sub_6B894:
         add eax, byte 6
         call RunMenu
         cmp dword [byte ebp+07Ah], byte 6
-        ja near sub_6B894_748.25
+        ja near PauseMenu_748.25
         mov eax, dword [byte ebp+07Ah]
         jmp dword [nosplit cs:eax*4+jpt_6B878]
-sub_6B894_66B:
+PauseMenu_66B:
         mov eax, 2
         call GetLangText
         mov dword [dword_17D4FC], eax
@@ -1726,16 +1729,16 @@ sub_6B894_66B:
         call GetLangText
         call MessageBox
         test eax, eax
-        jne near sub_6B894_748.25
+        jne near PauseMenu_748.25
         mov dword [dword_1150FC], 2
         mov eax, 3
         mov dword [byte ebp+07Eh], 0FFFFFFFEh
         call FadeOut
-        jmp near sub_6B894_748.25
-sub_6B894_6F1:
+        jmp near PauseMenu_748.25
+PauseMenu_6F1:
         mov dword [byte ebp+07Eh], 0FFFFFFFEh
-        jmp near sub_6B894_748.25
-sub_6B894_6FD:
+        jmp near PauseMenu_748.25
+PauseMenu_6FD:
         mov ax, word [word_114CE0]
         xor ah, ah
         and al, 1
@@ -1743,20 +1746,20 @@ sub_6B894_6FD:
         test eax, eax
         je short .12
         mov dword [byte ebp+07Eh], 4
-        jmp near sub_6B894_748.25
+        jmp near PauseMenu_748.25
 .12:
         mov dword [byte ebp+07Eh], 2
-        jmp near sub_6B894_748.25
-sub_6B894_724:
+        jmp near PauseMenu_748.25
+PauseMenu_724:
         mov dword [byte ebp+07Eh], 1
-        jmp near sub_6B894_748.25
-sub_6B894_730:
+        jmp near PauseMenu_748.25
+PauseMenu_730:
         mov dword [byte ebp+07Eh], 0
-        jmp near sub_6B894_748.25
-sub_6B894_73C:
+        jmp near PauseMenu_748.25
+PauseMenu_73C:
         mov dword [byte ebp+07Eh], 5
-        jmp near sub_6B894_748.25
-sub_6B894_748:
+        jmp near PauseMenu_748.25
+PauseMenu_748:
         xor esi, esi
         test byte [optflags], 70h
         jne short .14
@@ -1880,7 +1883,7 @@ sub_6B894_748:
         mov eax, dword [gameopts]
         and byte [eax], 0FEh
         mov eax, unk_17D52C
-        call sub_6B486
+        call SaveGameFile
         test eax, eax
         jne short .21
         call GetLangText
@@ -1952,18 +1955,20 @@ sub_6B894_748:
         call NameIndexFree
 .25:
         cmp dword [byte ebp+07Eh], byte 0FFFFFFFFh
-        je near sub_6B894.9
+        je near PauseMenu.9
         push dword [dword_17D4E8]
         call sub_ABF4C
         mov eax, dword [byte ebp+07Eh]
         add esp, byte 4
         lea esp, [dword ebp+082h]
         pop ebp
-        jmp near sub_6AA3B_9C3
+        jmp near DrawPauseFrame_9C3
 ;-----------------------------------------------------------------------------
-; sub_6C294                                                       6C294  96 PC
+; PauseToFrontEnd                              6C294  96 PC, medium confidence
+; From the pause: leaves the game view for a front-end screen (fade, free
+; sprites and sounds, front-end sound banks, FhiL / FhiR)
 ;-----------------------------------------------------------------------------
-sub_6C294:
+PauseToFrontEnd:
         push ebx
         push ecx
         push edx
@@ -2038,9 +2043,11 @@ sub_6C294:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_6C3B0                                                       6C3B0  96 PC
+; PauseBackToGame                              6C3B0  96 PC, medium confidence
+; Back from a front-end screen into the paused game (music off, free the
+; front-end art, controllers, GloL / GhiL art, screen mode)
 ;-----------------------------------------------------------------------------
-sub_6C3B0:
+PauseBackToGame:
         push ebx
         push ecx
         push edx
@@ -2200,7 +2207,7 @@ sub_6C3B0:
         add esp, byte 0Ch
         xor eax, eax
         mov edx, unk_16443C
-        call sub_6A891
+        call DrawPauseButtons
         xor eax, eax
         mov word [word_11D927], 0
         call FadePalette
@@ -2210,7 +2217,7 @@ sub_6C3B0:
         pop edx
         pop ecx
         pop ebx
-sub_6C3B0_28A:
+PauseBackToGame_28A:
         ret
 jpt_6C63B:
         dd LoadExhibitionStats
@@ -2225,7 +2232,7 @@ sub_6C64B:
         shl eax, 19h
         shr eax, 1Dh
         cmp eax, byte 3
-        ja short sub_6C3B0_28A
+        ja short PauseBackToGame_28A
         jmp dword [nosplit cs:eax*4+jpt_6C63B]
 ;-----------------------------------------------------------------------------
 ; sub_6C663                                                       6C663  96 PC
@@ -2242,16 +2249,19 @@ sub_6C66D:
         mov eax, dword [dword_17D162]
         jmp near LoadPlayoffStats
 jpt_6C680:
-        dd sub_6C698_375
-        dd sub_6C698_3A3
-        dd sub_6C698_47F
-        dd sub_6C698_620
-        dd sub_6C698_5F4
-        dd sub_6C698_611
+        dd PauseGame_375
+        dd PauseGame_3A3
+        dd PauseGame_47F
+        dd PauseGame_620
+        dd PauseGame_5F4
+        dd PauseGame_611
 ;-----------------------------------------------------------------------------
-; sub_6C698                                                       6C698  96 PC
+; PauseGame                                    6C698  96 PC, medium confidence
+; RunInGameMenu's pause (request 1): frees the speech buffer and sprite
+; cache, quiets the crowd, runs the pause menu and its screens, restores the
+; game
 ;-----------------------------------------------------------------------------
-sub_6C698:
+PauseGame:
         push ebx
         push ecx
         push edx
@@ -2413,7 +2423,7 @@ sub_6C698:
         call PutBlock
         add esp, byte 0Ch
         mov eax, 1
-        call sub_6A891
+        call DrawPauseButtons
         push dword [dword_11B234]
         call SetDrawBitmap
         add esp, byte 4
@@ -2457,7 +2467,7 @@ sub_6C698:
 .8:
         mov eax, 1
         mov dword [byte ebp-04h], 1
-        call sub_6B404
+        call RunPausedFrame
 .9:
         xor eax, eax
         mov word [word_11D929], 1
@@ -2473,13 +2483,13 @@ sub_6C698:
         mov word [word_11D927], 0
         call CrowdPause
 .11:
-        call sub_6B894
+        call PauseMenu
         mov dword [byte ebp-010h], eax
         cmp eax, byte 5
-        ja near sub_6C698_620
+        ja near PauseGame_620
         jmp dword [nosplit cs:eax*4+jpt_6C680]
-sub_6C698_375:
-        call sub_6C294
+PauseGame_375:
+        call PauseToFrontEnd
 .12:
         xor eax, eax
         call ControllerScreen
@@ -2492,8 +2502,8 @@ sub_6C698_375:
 .13:
         cmp edx, byte 0Fh
         je short .12
-        jmp near sub_6C698_611.29
-sub_6C698_3A3:
+        jmp near PauseGame_611.29
+PauseGame_3A3:
         cmp dword [curperiod], byte 0FFFFFFFFh
         je near .15
         call sub_5360D
@@ -2524,7 +2534,7 @@ sub_6C698_3A3:
         call CrowdPause
 .14:
         mov word [word_11D927], 1
-        jmp near sub_6C698_620
+        jmp near PauseGame_620
 .15:
         xor eax, eax
         call GetLangText
@@ -2550,8 +2560,8 @@ sub_6C698_3A3:
         mov edx, 1
         call GetLangText
         call MessageBox
-        jmp near sub_6C698_620
-sub_6C698_47F:
+        jmp near PauseGame_620
+PauseGame_47F:
         xor edx, edx
         xor eax, eax
         xor ebx, ebx
@@ -2603,10 +2613,10 @@ sub_6C698_47F:
 .23:
         mov dword [dword_1843B4], eax
 .24:
-        call sub_6C294
+        call PauseToFrontEnd
         xor eax, eax
         call RunEditLines
-        jmp near sub_6C698_611.29
+        jmp near PauseGame_611.29
 .25:
         mov eax, 1
         call GetLangText
@@ -2634,7 +2644,7 @@ sub_6C698_47F:
         call MessageBox
         mov dword [dword_1843AC], eax
         test eax, eax
-        je near sub_6C698_620
+        je near PauseGame_620
         mov dword [dword_1843B0], 3
         cmp eax, byte 2
         jne short .26
@@ -2666,23 +2676,23 @@ sub_6C698_47F:
         mov ebx, dword_17D4FC
         push edx
         mov eax, 208h
-        jmp near sub_6C698_3A3.16
-sub_6C698_5F4:
+        jmp near PauseGame_3A3.16
+PauseGame_5F4:
         push byte 0
         mov ecx, 30h
         mov ebx, 7Eh
         mov edx, 1Bh
         xor eax, eax
         call ModemChat
-        jmp near sub_6C698_3A3.14
-sub_6C698_611:
-        call sub_6C294
+        jmp near PauseGame_3A3.14
+PauseGame_611:
+        call PauseToFrontEnd
         call GameStatsScreen
 .29:
-        call sub_6C3B0
-sub_6C698_620:
+        call PauseBackToGame
+PauseGame_620:
         cmp dword [byte ebp-010h], byte 0
-        jge near sub_6C698.11
+        jge near PauseGame.11
         mov eax, 1
         call LinkSync
         push dword [dword_17D518]
@@ -2801,7 +2811,7 @@ sub_6C698_620:
         call PutBlock
         add esp, byte 0Ch
         mov eax, 1
-        call sub_6A891
+        call DrawPauseButtons
         push dword [dword_11B234]
         call SetDrawBitmap
         add esp, byte 4
@@ -2823,7 +2833,7 @@ sub_6C698_620:
         cmp dword [byte ebp-04h], byte 0
         je short .30
         xor eax, eax
-        call sub_6B404
+        call RunPausedFrame
         jmp short .32
 .30:
         mov eax, 0FAh
@@ -2842,1607 +2852,4 @@ sub_6C698_620:
         call FreeSpriteCache
         call RestoreSpeechBuffer
         mov dword [dword_11D91F], 0
-        jmp near sub_6AA3B_9C2
-;-----------------------------------------------------------------------------
-; sub_6CF0D                                                       6CF0D  96 PC
-;-----------------------------------------------------------------------------
-sub_6CF0D:
-        jge short .1
-.1:
-        sbb eax, dword [ecx]
-        db 0B8h
-        db 01h
-sub_6CF0D_6:
-        test dword [eax], 1580127h
-        mov byte [ecx], al
-sub_6CF1B:
-        push esi
-        push edi
-        enter 50h, 0
-        push eax
-        push edx
-        push ebx
-        push ecx
-        call GetTicks
-        push byte 0
-        push dword [dword_11F5C4]
-        push dword [dword_11F5C0]
-        lea edi, [byte eax+03h]
-        call sub_AD35C
-        add esp, byte 0Ch
-        push byte 0
-        push byte 0
-        mov esi, eax
-        push dword [byte eax+02Ch]
-        mov dword [byte ebp-030h], eax
-        call sub_AA7E0
-        add esp, byte 0Ch
-        push esi
-        call SetDrawBitmap
-        add esp, byte 4
-        push dword [byte ebp-060h]
-        call sub_AADA4
-        mov eax, dword [byte ebp-060h]
-        movsx eax, word [byte eax+0Ch]
-        mov dword [byte ebp-08h], eax
-        mov eax, dword [byte ebp-060h]
-        movsx eax, word [byte eax+0Eh]
-        mov dword [byte ebp-04h], eax
-        mov eax, dword [byte ebp-060h]
-        mov esi, dword [byte ebp-08h]
-        movsx eax, word [byte eax+04h]
-        add esi, eax
-        mov eax, dword [byte ebp-060h]
-        mov dword [byte ebp-010h], esi
-        mov esi, dword [byte ebp-04h]
-        movsx eax, word [byte eax+06h]
-        mov dword [byte ebp-01Ch], 0
-        add esi, eax
-        add esp, byte 4
-        mov dword [byte ebp-018h], esi
-.1:
-        call GetTicks
-        cmp eax, edi
-        jl short .1
-        push str_Log7
-        push dword [byte ebp-054h]
-        call sub_E04E0
-        movsx esi, word [byte eax+0Eh]
-        mov eax, dword [byte ebp-060h]
-        movsx eax, word [byte eax+0Eh]
-        sub esi, eax
-        mov eax, esi
-        mov esi, 7
-        cdq
-        idiv esi
-        lea edi, [byte ebp-050h]
-        mov esi, str_Logx
-        mov dword [byte ebp-024h], eax
-        mov dword [byte ebp-040h], eax
-        movsd
-        movsb
-        neg eax
-        mov esi, dword [byte ebp-024h]
-        mov dword [byte ebp-0Ch], 1
-        add esi, eax
-        add esp, byte 8
-        mov dword [byte ebp-028h], esi
-.2:
-        mov al, byte [byte ebp-0Ch]
-        add al, 30h
-        mov byte [byte ebp-04Dh], al
-        lea eax, [byte ebp-050h]
-        push eax
-        push dword [byte ebp-054h]
-        call sub_E04E0
-        add esp, byte 8
-        mov esi, eax
-        cmp dword [byte ebp-0Ch], byte 7
-        jne short .3
-        movsx edx, word [byte eax+0Ch]
-        movsx eax, word [byte eax+0Eh]
-        mov dword [byte ebp-044h], edx
-        mov dword [byte ebp-020h], eax
-        jmp short .5
-.3:
-        mov edi, dword [byte ebp-060h]
-        mov edx, dword [byte ebp-028h]
-        movsx edi, word [byte edi+0Eh]
-        add edx, edi
-        mov dword [byte ebp-020h], edx
-        cmp dword [byte ebp-05Ch], byte 0
-        je short .4
-        mov edx, 280h
-        movsx edi, word [byte eax+0Ch]
-        sub edx, edi
-        movsx eax, word [byte eax+04h]
-        mov edi, edx
-        sub edi, eax
-        mov dword [byte ebp-044h], edi
-        jmp short .5
-.4:
-        movsx eax, word [byte eax+0Ch]
-        mov dword [byte ebp-044h], eax
-.5:
-        cmp dword [byte ebp-01Ch], byte 0
-        je short .6
-        push dword [byte ebp-01Ch]
-        call sub_ADBEC
-        add esp, byte 4
-.6:
-        mov eax, dword [byte ebp-044h]
-        cmp eax, dword [byte ebp-08h]
-        jge short .7
-        mov dword [byte ebp-08h], eax
-.7:
-        movsx eax, word [byte esi+04h]
-        add eax, dword [byte ebp-044h]
-        cmp eax, dword [byte ebp-010h]
-        jle short .8
-        mov dword [byte ebp-010h], eax
-.8:
-        mov eax, dword [byte ebp-020h]
-        cmp eax, dword [byte ebp-04h]
-        jge short .9
-        mov dword [byte ebp-04h], eax
-.9:
-        movsx eax, word [byte esi+06h]
-        add eax, dword [byte ebp-020h]
-        cmp eax, dword [byte ebp-018h]
-        jle short .10
-        mov dword [byte ebp-018h], eax
-.10:
-        mov eax, dword [byte ebp-018h]
-        sub eax, dword [byte ebp-04h]
-        push byte 0
-        inc eax
-        push eax
-        mov eax, dword [byte ebp-010h]
-        sub eax, dword [byte ebp-08h]
-        inc eax
-        push eax
-        call sub_AD35C
-        mov edi, eax
-        mov dword [byte ebp-01Ch], eax
-        mov eax, dword [byte eax+02Ch]
-        mov edx, dword [byte ebp-08h]
-        mov word [byte eax+0Ch], dx
-        add esp, byte 0Ch
-        mov eax, dword [byte edi+02Ch]
-        mov edx, dword [byte ebp-04h]
-        push edi
-        mov word [byte eax+0Eh], dx
-        call SetDrawBitmap
-        add esp, byte 4
-        call GetTicks
-        add eax, byte 3
-        mov dword [byte ebp-03Ch], eax
-        mov eax, dword [byte ebp-04h]
-        neg eax
-        push eax
-        mov eax, dword [byte ebp-08h]
-        neg eax
-        push eax
-        mov eax, dword [byte ebp-030h]
-        push dword [byte eax+02Ch]
-        call PutBlock
-        mov eax, dword [byte ebp-020h]
-        add esp, byte 0Ch
-        sub eax, dword [byte ebp-04h]
-        push eax
-        mov eax, dword [byte ebp-044h]
-        sub eax, dword [byte ebp-08h]
-        push eax
-        push esi
-        call sub_AAA40
-        add esp, byte 0Ch
-        call sub_DD6C4
-        push dword [byte edi+02Ch]
-        call sub_B2C54
-        add esp, byte 4
-.11:
-        call GetTicks
-        cmp eax, dword [byte ebp-03Ch]
-        jl short .11
-        mov eax, dword [byte ebp-044h]
-        mov edx, dword [byte ebp-044h]
-        mov dword [byte ebp-08h], eax
-        movsx eax, word [byte esi+04h]
-        add edx, eax
-        mov eax, dword [byte ebp-020h]
-        mov dword [byte ebp-010h], edx
-        mov edx, dword [byte ebp-020h]
-        mov dword [byte ebp-04h], eax
-        movsx eax, word [byte esi+06h]
-        inc dword [byte ebp-0Ch]
-        add edx, eax
-        mov eax, dword [byte ebp-040h]
-        mov dword [byte ebp-018h], edx
-        add dword [byte ebp-028h], eax
-        cmp dword [byte ebp-0Ch], byte 8
-        jl near .2
-        mov edx, dword [byte ebp-058h]
-        mov eax, dword [byte ebp-054h]
-        call PickUsersScreen
-        mov eax, dword [byte ebp-024h]
-        mov dword [byte ebp-034h], eax
-        imul eax, byte 6
-        lea edi, [byte ebp-050h]
-        mov esi, str_Logx
-        mov dword [byte ebp-0Ch], 6
-        movsd
-        movsb
-        neg dword [byte ebp-034h]
-        mov dword [byte ebp-02Ch], eax
-.12:
-        mov al, byte [byte ebp-0Ch]
-        add al, 30h
-        mov byte [byte ebp-04Dh], al
-        cmp dword [byte ebp-0Ch], byte 0
-        je short .14
-        lea eax, [byte ebp-050h]
-        push eax
-        push dword [byte ebp-054h]
-        mov edi, dword [byte ebp-060h]
-        call sub_E04E0
-        mov edx, dword [byte ebp-02Ch]
-        movsx edi, word [byte edi+0Eh]
-        add esp, byte 8
-        add edx, edi
-        mov esi, eax
-        mov dword [byte ebp-048h], edx
-        cmp dword [byte ebp-05Ch], byte 0
-        je short .13
-        mov edx, 280h
-        movsx edi, word [byte eax+0Ch]
-        sub edx, edi
-        movsx eax, word [byte eax+04h]
-        mov edi, edx
-        sub edi, eax
-        mov dword [byte ebp-014h], edi
-        jmp short .16
-.13:
-        movsx eax, word [byte eax+0Ch]
-        jmp short .15
-.14:
-        mov esi, dword [byte ebp-060h]
-        movsx eax, word [byte esi+0Eh]
-        mov dword [byte ebp-048h], eax
-        movsx eax, word [byte esi+0Ch]
-.15:
-        mov dword [byte ebp-014h], eax
-.16:
-        cmp dword [byte ebp-01Ch], byte 0
-        je short .17
-        push dword [byte ebp-01Ch]
-        call sub_ADBEC
-        add esp, byte 4
-.17:
-        mov eax, dword [byte ebp-014h]
-        cmp eax, dword [byte ebp-08h]
-        jge short .18
-        mov dword [byte ebp-08h], eax
-.18:
-        movsx eax, word [byte esi+04h]
-        add eax, dword [byte ebp-014h]
-        cmp eax, dword [byte ebp-010h]
-        jle short .19
-        mov dword [byte ebp-010h], eax
-.19:
-        mov eax, dword [byte ebp-048h]
-        cmp eax, dword [byte ebp-04h]
-        jge short .20
-        mov dword [byte ebp-04h], eax
-.20:
-        movsx eax, word [byte esi+06h]
-        add eax, dword [byte ebp-048h]
-        cmp eax, dword [byte ebp-018h]
-        jle short .21
-        mov dword [byte ebp-018h], eax
-.21:
-        mov eax, dword [byte ebp-018h]
-        sub eax, dword [byte ebp-04h]
-        push byte 0
-        inc eax
-        push eax
-        mov eax, dword [byte ebp-010h]
-        sub eax, dword [byte ebp-08h]
-        inc eax
-        push eax
-        call sub_AD35C
-        mov edi, eax
-        mov dword [byte ebp-01Ch], eax
-        mov eax, dword [byte eax+02Ch]
-        mov edx, dword [byte ebp-08h]
-        mov word [byte eax+0Ch], dx
-        add esp, byte 0Ch
-        mov eax, dword [byte edi+02Ch]
-        mov edx, dword [byte ebp-04h]
-        push edi
-        mov word [byte eax+0Eh], dx
-        call SetDrawBitmap
-        add esp, byte 4
-        call GetTicks
-        add eax, byte 3
-        mov dword [byte ebp-038h], eax
-        mov eax, dword [byte ebp-04h]
-        neg eax
-        push eax
-        mov eax, dword [byte ebp-08h]
-        neg eax
-        push eax
-        mov eax, dword [byte ebp-030h]
-        push dword [byte eax+02Ch]
-        call PutBlock
-        mov eax, dword [byte ebp-048h]
-        add esp, byte 0Ch
-        sub eax, dword [byte ebp-04h]
-        push eax
-        mov eax, dword [byte ebp-014h]
-        sub eax, dword [byte ebp-08h]
-        push eax
-        push esi
-        call sub_AAA40
-        add esp, byte 0Ch
-        call sub_DD6C4
-        push dword [byte edi+02Ch]
-        call sub_B2C54
-        add esp, byte 4
-.22:
-        call GetTicks
-        cmp eax, dword [byte ebp-038h]
-        jl short .22
-        mov eax, dword [byte ebp-014h]
-        mov edx, dword [byte ebp-014h]
-        mov dword [byte ebp-08h], eax
-        movsx eax, word [byte esi+04h]
-        add edx, eax
-        mov eax, dword [byte ebp-048h]
-        mov dword [byte ebp-010h], edx
-        mov edx, dword [byte ebp-048h]
-        mov dword [byte ebp-04h], eax
-        movsx eax, word [byte esi+06h]
-        dec dword [byte ebp-0Ch]
-        add edx, eax
-        mov eax, dword [byte ebp-034h]
-        mov dword [byte ebp-018h], edx
-        add dword [byte ebp-02Ch], eax
-        cmp dword [byte ebp-0Ch], byte 0
-        jge near .12
-        push dword [byte ebp-01Ch]
-        call sub_ADBEC
-        add esp, byte 4
-        push dword [byte ebp-030h]
-        call sub_ADBEC
-        add esp, byte 4
-        leave
-        pop edi
-        pop esi
-        ret
-unk_6D31C:
-        db 0FFh,03h,03Fh,00h,01Fh,00h,0Fh,00h,07h,00h,03h,00h,01h,00h,00h,00h
-jpt_6D32C:
-        dd sub_6D350_4D0
-        dd sub_6D350_2C
-        dd sub_6D350_F2
-        dd sub_6D350_199
-        dd sub_6D350_240
-        dd sub_6D350_2E7
-        dd sub_6D350_38E
-        dd sub_6D350_435
-        dd sub_6D350_4D0
-;-----------------------------------------------------------------------------
-; sub_6D350                                                       6D350  96 PC
-;-----------------------------------------------------------------------------
-sub_6D350:
-        push esi
-        push edi
-        enter 4, 0
-        mov esi, eax
-        mov dword [byte ebp-04h], ecx
-        dec eax
-        cmp eax, 3FFh
-        ja near sub_6D350_4D0
-        mov ecx, 9
-        mov edi, unk_6D31C
-        repne scasw
-        jmp dword [nosplit cs:ecx*4+jpt_6D32C]
-sub_6D350_2C:
-        test byte [byte ebp+010h], 1
-        je short .2
-        cmp edx, byte 2
-        je short .2
-        cmp ebx, byte 2
-        je short .2
-        cmp dword [byte ebp-04h], byte 2
-        je short .2
-.1:
-        mov esi, 2
-        jmp near sub_6D350_4D0
-.2:
-        test byte [byte ebp+010h], 2
-        je short .4
-        cmp edx, byte 4
-        je short .4
-        cmp ebx, byte 4
-        je short .4
-        cmp dword [byte ebp-04h], byte 4
-        je short .4
-.3:
-        mov esi, 4
-        jmp near sub_6D350_4D0
-.4:
-        test byte [byte ebp+010h], 4
-        je short .6
-        cmp edx, byte 8
-        je short .6
-        cmp ebx, byte 8
-        je short .6
-        cmp dword [byte ebp-04h], byte 8
-        je short .6
-.5:
-        mov esi, 8
-        jmp near sub_6D350_4D0
-.6:
-        test byte [byte ebp+010h], 8
-        je short .8
-        cmp edx, byte 10h
-        je short .8
-        cmp ebx, byte 10h
-        je short .8
-        cmp dword [byte ebp-04h], byte 10h
-        je short .8
-.7:
-        mov esi, 10h
-        jmp near sub_6D350_4D0
-.8:
-        test byte [byte ebp+010h], 10h
-        je short .10
-        cmp edx, byte 20h
-        je short .10
-        cmp ebx, byte 20h
-        je short .10
-        cmp dword [byte ebp-04h], byte 20h
-        je short .10
-.9:
-        mov esi, 20h
-        jmp near sub_6D350_4D0
-.10:
-        cmp edx, byte 40h
-        je near sub_6D350_4D0
-        cmp ebx, byte 40h
-        je near sub_6D350_4D0
-        cmp dword [byte ebp-04h], byte 40h
-        je near sub_6D350_4D0
-.11:
-        mov esi, 40h
-        jmp near sub_6D350_4D0
-sub_6D350_F2:
-        test byte [byte ebp+010h], 2
-        je short .12
-        cmp edx, byte 4
-        je short .12
-        cmp ebx, byte 4
-        je short .12
-        cmp dword [byte ebp-04h], byte 4
-        jne near sub_6D350_2C.3
-.12:
-        test byte [byte ebp+010h], 4
-        je short .13
-        cmp edx, byte 8
-        je short .13
-        cmp ebx, byte 8
-        je short .13
-        cmp dword [byte ebp-04h], byte 8
-        jne near sub_6D350_2C.5
-.13:
-        test byte [byte ebp+010h], 8
-        je short .14
-        cmp edx, byte 10h
-        je short .14
-        cmp ebx, byte 10h
-        je short .14
-        cmp dword [byte ebp-04h], byte 10h
-        jne near sub_6D350_2C.7
-.14:
-        test byte [byte ebp+010h], 10h
-        je short .15
-        cmp edx, byte 20h
-        je short .15
-        cmp ebx, byte 20h
-        je short .15
-        cmp dword [byte ebp-04h], byte 20h
-        jne near sub_6D350_2C.9
-.15:
-        cmp edx, byte 40h
-        je short .16
-        cmp ebx, byte 40h
-        je short .16
-        cmp dword [byte ebp-04h], byte 40h
-        jne near sub_6D350_2C.11
-.16:
-        test byte [byte ebp+010h], 1
-        je near sub_6D350_435.42
-        cmp edx, byte 2
-        je near sub_6D350_435.42
-        cmp ebx, byte 2
-        je near sub_6D350_435.42
-        cmp dword [byte ebp-04h], byte 2
-        jne near sub_6D350_2C.1
-        jmp near sub_6D350_435.42
-sub_6D350_199:
-        test byte [byte ebp+010h], 4
-        je short .17
-        cmp edx, byte 8
-        je short .17
-        cmp ebx, byte 8
-        je short .17
-        cmp dword [byte ebp-04h], byte 8
-        jne near sub_6D350_2C.5
-.17:
-        test byte [byte ebp+010h], 8
-        je short .18
-        cmp edx, byte 10h
-        je short .18
-        cmp ebx, byte 10h
-        je short .18
-        cmp dword [byte ebp-04h], byte 10h
-        jne near sub_6D350_2C.7
-.18:
-        test byte [byte ebp+010h], 10h
-        je short .19
-        cmp edx, byte 20h
-        je short .19
-        cmp ebx, byte 20h
-        je short .19
-        cmp dword [byte ebp-04h], byte 20h
-        jne near sub_6D350_2C.9
-.19:
-        cmp edx, byte 40h
-        je short .20
-        cmp ebx, byte 40h
-        je short .20
-        cmp dword [byte ebp-04h], byte 40h
-        jne near sub_6D350_2C.11
-.20:
-        test byte [byte ebp+010h], 1
-        je short .21
-        cmp edx, byte 2
-        je short .21
-        cmp ebx, byte 2
-        je short .21
-        cmp dword [byte ebp-04h], byte 2
-        jne near sub_6D350_2C.1
-.21:
-        test byte [byte ebp+010h], 2
-        je near sub_6D350_435.42
-        cmp edx, byte 4
-        je near sub_6D350_435.42
-        cmp ebx, byte 4
-        je near sub_6D350_435.42
-        cmp dword [byte ebp-04h], byte 4
-        jne near sub_6D350_2C.3
-        jmp near sub_6D350_435.42
-sub_6D350_240:
-        test byte [byte ebp+010h], 8
-        je short .22
-        cmp edx, byte 10h
-        je short .22
-        cmp ebx, byte 10h
-        je short .22
-        cmp dword [byte ebp-04h], byte 10h
-        jne near sub_6D350_2C.7
-.22:
-        test byte [byte ebp+010h], 10h
-        je short .23
-        cmp edx, byte 20h
-        je short .23
-        cmp ebx, byte 20h
-        je short .23
-        cmp dword [byte ebp-04h], byte 20h
-        jne near sub_6D350_2C.9
-.23:
-        cmp edx, byte 40h
-        je short .24
-        cmp ebx, byte 40h
-        je short .24
-        cmp dword [byte ebp-04h], byte 40h
-        jne near sub_6D350_2C.11
-.24:
-        test byte [byte ebp+010h], 1
-        je short .25
-        cmp edx, byte 2
-        je short .25
-        cmp ebx, byte 2
-        je short .25
-        cmp dword [byte ebp-04h], byte 2
-        jne near sub_6D350_2C.1
-.25:
-        test byte [byte ebp+010h], 2
-        je short .26
-        cmp edx, byte 4
-        je short .26
-        cmp ebx, byte 4
-        je short .26
-        cmp dword [byte ebp-04h], byte 4
-        jne near sub_6D350_2C.3
-.26:
-        test byte [byte ebp+010h], 4
-        je near sub_6D350_435.42
-        cmp edx, byte 8
-        je near sub_6D350_435.42
-        cmp ebx, byte 8
-        je near sub_6D350_435.42
-        cmp dword [byte ebp-04h], byte 8
-        jne near sub_6D350_2C.5
-        jmp near sub_6D350_435.42
-sub_6D350_2E7:
-        test byte [byte ebp+010h], 10h
-        je short .27
-        cmp edx, byte 20h
-        je short .27
-        cmp ebx, byte 20h
-        je short .27
-        cmp dword [byte ebp-04h], byte 20h
-        jne near sub_6D350_2C.9
-.27:
-        cmp edx, byte 40h
-        je short .28
-        cmp ebx, byte 40h
-        je short .28
-        cmp dword [byte ebp-04h], byte 40h
-        jne near sub_6D350_2C.11
-.28:
-        test byte [byte ebp+010h], 1
-        je short .29
-        cmp edx, byte 2
-        je short .29
-        cmp ebx, byte 2
-        je short .29
-        cmp dword [byte ebp-04h], byte 2
-        jne near sub_6D350_2C.1
-.29:
-        test byte [byte ebp+010h], 2
-        je short .30
-        cmp edx, byte 4
-        je short .30
-        cmp ebx, byte 4
-        je short .30
-        cmp dword [byte ebp-04h], byte 4
-        jne near sub_6D350_2C.3
-.30:
-        test byte [byte ebp+010h], 4
-        je short .31
-        cmp edx, byte 8
-        je short .31
-        cmp ebx, byte 8
-        je short .31
-        cmp dword [byte ebp-04h], byte 8
-        jne near sub_6D350_2C.5
-.31:
-        test byte [byte ebp+010h], 8
-        je near sub_6D350_435.42
-        cmp edx, byte 10h
-        je near sub_6D350_435.42
-        cmp ebx, byte 10h
-        je near sub_6D350_435.42
-        cmp dword [byte ebp-04h], byte 10h
-        jne near sub_6D350_2C.7
-        jmp near sub_6D350_435.42
-sub_6D350_38E:
-        cmp edx, byte 40h
-        je short .32
-        cmp ebx, byte 40h
-        je short .32
-        cmp dword [byte ebp-04h], byte 40h
-        jne near sub_6D350_2C.11
-.32:
-        test byte [byte ebp+010h], 1
-        je short .33
-        cmp edx, byte 2
-        je short .33
-        cmp ebx, byte 2
-        je short .33
-        cmp dword [byte ebp-04h], byte 2
-        jne near sub_6D350_2C.1
-.33:
-        test byte [byte ebp+010h], 2
-        je short .34
-        cmp edx, byte 4
-        je short .34
-        cmp ebx, byte 4
-        je short .34
-        cmp dword [byte ebp-04h], byte 4
-        jne near sub_6D350_2C.3
-.34:
-        test byte [byte ebp+010h], 4
-        je short .35
-        cmp edx, byte 8
-        je short .35
-        cmp ebx, byte 8
-        je short .35
-        cmp dword [byte ebp-04h], byte 8
-        jne near sub_6D350_2C.5
-.35:
-        test byte [byte ebp+010h], 8
-        je short .36
-        cmp edx, byte 10h
-        je short .36
-        cmp ebx, byte 10h
-        je short .36
-        cmp dword [byte ebp-04h], byte 10h
-        jne near sub_6D350_2C.7
-.36:
-        test byte [byte ebp+010h], 10h
-        je near sub_6D350_435.42
-        cmp edx, byte 20h
-        je near sub_6D350_435.42
-        cmp ebx, byte 20h
-        je near sub_6D350_435.42
-        cmp dword [byte ebp-04h], byte 20h
-        jne near sub_6D350_2C.9
-        jmp near sub_6D350_435.42
-sub_6D350_435:
-        test byte [byte ebp+010h], 1
-        je short .37
-        cmp edx, byte 2
-        je short .37
-        cmp ebx, byte 2
-        je short .37
-        cmp dword [byte ebp-04h], byte 2
-        jne near sub_6D350_2C.1
-.37:
-        test byte [byte ebp+010h], 2
-        je short .38
-        cmp edx, byte 4
-        je short .38
-        cmp ebx, byte 4
-        je short .38
-        cmp dword [byte ebp-04h], byte 4
-        jne near sub_6D350_2C.3
-.38:
-        test byte [byte ebp+010h], 4
-        je short .39
-        cmp edx, byte 8
-        je short .39
-        cmp ebx, byte 8
-        je short .39
-        cmp dword [byte ebp-04h], byte 8
-        jne near sub_6D350_2C.5
-.39:
-        test byte [byte ebp+010h], 8
-        je short .40
-        cmp edx, byte 10h
-        je short .40
-        cmp ebx, byte 10h
-        je short .40
-        cmp dword [byte ebp-04h], byte 10h
-        jne near sub_6D350_2C.7
-.40:
-        test byte [byte ebp+010h], 10h
-        je short .41
-        cmp edx, byte 20h
-        je short .41
-        cmp ebx, byte 20h
-        je short .41
-        cmp dword [byte ebp-04h], byte 20h
-        jne near sub_6D350_2C.9
-.41:
-        cmp edx, byte 40h
-        je short .42
-        cmp ebx, byte 40h
-        je short .42
-        cmp dword [byte ebp-04h], byte 40h
-        jne near sub_6D350_2C.11
-.42:
-        mov esi, 1
-sub_6D350_4D0:
-        mov eax, esi
-        leave
-        pop edi
-        pop esi
-        ret 4
-;-----------------------------------------------------------------------------
-; sub_6D828                                                       6D828  96 PC
-;-----------------------------------------------------------------------------
-sub_6D828:
-        push ebx
-        push ecx
-        push edx
-        push esi
-        enter 18h, 0
-        call GetInputDevices
-        mov dword [byte ebp-010h], eax
-        mov eax, dword [optflags]
-        and eax, byte 70h
-        mov dword [byte ebp-0Ch], 0
-        cmp eax, byte 30h
-        setne byte [byte ebp-04h]
-        xor eax, eax
-.1:
-        movzx edx, byte [byte ebp-04h]
-        test edx, edx
-        je short .2
-        mov edx, dword [gameopts]
-        movsx edx, word [byte edx+eax+09h]
-        cmp edx, 400h
-        je near .15
-.2:
-        mov ecx, dword [byte ebp-0Ch]
-        inc ecx
-        movsx edx, cx
-        mov word [byte eax+ebp-018h], 0
-        cmp edx, byte 4
-        jne short .3
-        xor ecx, ecx
-.3:
-        mov ebx, ecx
-        inc ebx
-        movsx edx, bx
-        cmp edx, byte 4
-        jne short .4
-        xor ebx, ebx
-.4:
-        mov edx, ebx
-        inc edx
-        mov dword [byte ebp-08h], edx
-        movsx edx, dx
-        cmp edx, byte 4
-        jne short .5
-        mov dword [byte ebp-08h], 0
-.5:
-        mov edx, dword [gameopts]
-        mov si, word [byte edx+eax+09h]
-        cmp si, byte 8
-        jb short .7
-        jbe near .12
-        cmp si, byte 20h
-        jb short .6
-        jbe near .14
-        cmp si, byte 40h
-        je short .8
-        jmp near .16
-.6:
-        cmp si, byte 10h
-        je near .13
-        jmp near .16
-.7:
-        cmp si, byte 2
-        jb near .16
-        jbe short .10
-        cmp si, byte 4
-        je short .11
-        jmp near .16
-.8:
-        movsx ecx, cx
-        movsx ecx, word [byte edx+ecx*2+09h]
-        cmp ecx, byte 40h
-        je near .15
-        movsx ebx, bx
-        movsx ebx, word [byte edx+ebx*2+09h]
-        cmp ebx, byte 40h
-        je near .15
-        movsx ebx, word [byte ebp-08h]
-        movsx edx, word [byte edx+ebx*2+09h]
-        cmp edx, byte 40h
-.9:
-        jne near .16
-        jmp near .15
-.10:
-        test byte [byte ebp-010h], 1
-        je near .15
-        movsx esi, cx
-        movsx ecx, word [byte edx+esi*2+09h]
-        cmp ecx, byte 2
-        je near .15
-        movsx ebx, bx
-        movsx ebx, word [byte edx+ebx*2+09h]
-        cmp ebx, byte 2
-        je near .15
-        movsx ebx, word [byte ebp-08h]
-        movsx edx, word [byte edx+ebx*2+09h]
-        cmp edx, byte 2
-        jmp short .9
-.11:
-        test byte [byte ebp-010h], 2
-        je near .15
-        movsx ecx, cx
-        movsx ecx, word [byte edx+ecx*2+09h]
-        cmp ecx, byte 4
-        je near .15
-        movsx ebx, bx
-        movsx ebx, word [byte edx+ebx*2+09h]
-        cmp ebx, byte 4
-        je near .15
-        movsx ebx, word [byte ebp-08h]
-        movsx edx, word [byte edx+ebx*2+09h]
-        cmp edx, byte 4
-        jmp short .9
-.12:
-        test byte [byte ebp-010h], 4
-        je near .15
-        movsx ecx, cx
-        movsx ecx, word [byte edx+ecx*2+09h]
-        cmp ecx, byte 8
-        je near .15
-        movsx ebx, bx
-        movsx ebx, word [byte edx+ebx*2+09h]
-        cmp ebx, byte 8
-        je near .15
-        movsx ebx, word [byte ebp-08h]
-        movsx edx, word [byte edx+ebx*2+09h]
-        cmp edx, byte 8
-        jmp near .9
-.13:
-        test byte [byte ebp-010h], 8
-        je short .15
-        movsx ecx, cx
-        movsx ecx, word [byte edx+ecx*2+09h]
-        cmp ecx, byte 10h
-        je short .15
-        movsx ebx, bx
-        movsx ebx, word [byte edx+ebx*2+09h]
-        cmp ebx, byte 10h
-        je short .15
-        movsx ebx, word [byte ebp-08h]
-        movsx edx, word [byte edx+ebx*2+09h]
-        cmp edx, byte 10h
-        jmp near .9
-.14:
-        test byte [byte ebp-010h], 10h
-        je short .15
-        movsx ecx, cx
-        movsx ecx, word [byte edx+ecx*2+09h]
-        cmp ecx, byte 20h
-        je short .15
-        movsx ebx, bx
-        movsx ebx, word [byte edx+ebx*2+09h]
-        cmp ebx, byte 20h
-        je short .15
-        movsx ebx, word [byte ebp-08h]
-        movsx edx, word [byte edx+ebx*2+09h]
-        cmp edx, byte 20h
-        jne short .16
-.15:
-        mov word [byte eax+ebp-018h], 1
-.16:
-        inc dword [byte ebp-0Ch]
-        inc eax
-        inc eax
-        cmp dword [byte ebp-0Ch], byte 4
-        jl near .1
-        mov dword [byte ebp-0Ch], 0
-        xor esi, esi
-.17:
-        mov eax, dword [byte ebp-0Ch]
-        inc eax
-        movsx edx, ax
-        cmp edx, byte 4
-        jne short .18
-        xor eax, eax
-.18:
-        mov edx, eax
-        inc edx
-        movsx ebx, dx
-        cmp ebx, byte 4
-        jne short .19
-        xor edx, edx
-.19:
-        mov ebx, edx
-        inc ebx
-        movsx ecx, bx
-        cmp ecx, byte 4
-        jne short .20
-        xor ebx, ebx
-.20:
-        cmp word [byte esi+ebp-018h], byte 0
-        je near .27
-        movsx ebx, bx
-        add ebx, ebx
-        push dword [byte ebp-010h]
-        cmp word [byte ebx+ebp-018h], byte 0
-        je short .21
-        mov ecx, 1
-        jmp short .22
-.21:
-        mov ecx, dword [gameopts]
-        movsx ecx, word [byte ecx+ebx+09h]
-.22:
-        movsx edx, dx
-        add edx, edx
-        cmp word [byte edx+ebp-018h], byte 0
-        je short .23
-        mov edx, 1
-        jmp short .24
-.23:
-        mov ebx, dword [gameopts]
-        movsx edx, word [byte edx+ebx+09h]
-.24:
-        cwde
-        add eax, eax
-        mov ebx, edx
-        cmp word [byte eax+ebp-018h], byte 0
-        je short .25
-        mov edx, 1
-        jmp short .26
-.25:
-        mov edx, dword [gameopts]
-        movsx edx, word [byte edx+eax+09h]
-.26:
-        mov eax, 1
-        call sub_6D350
-        mov edx, eax
-        mov eax, dword [gameopts]
-        mov word [byte esi+eax+09h], dx
-        mov word [byte esi+ebp-018h], 0
-.27:
-        inc dword [byte ebp-0Ch]
-        inc esi
-        inc esi
-        cmp dword [byte ebp-0Ch], byte 4
-        jl near .17
-        leave
-        pop esi
-        pop edx
-        pop ecx
-        pop ebx
-        ret
-unk_6DB28:
-        db 00h,04h,040h,00h,020h,00h,010h,00h,08h,00h,04h,00h,02h,00h,01h,00h
-jpt_6DB38:
-        dd sub_6DB5C_CB
-        dd sub_6DB5C_51
-        dd sub_6DB5C_5D
-        dd sub_6DB5C_69
-        dd sub_6DB5C_75
-        dd sub_6DB5C_81
-        dd sub_6DB5C_8D
-        dd sub_6DB5C_99
-        dd sub_6DB5C_A5
-;-----------------------------------------------------------------------------
-; sub_6DB5C                                                       6DB5C  96 PC
-;-----------------------------------------------------------------------------
-sub_6DB5C:
-        push ecx
-        push esi
-        push edi
-        enter 0Ch, 0
-        mov esi, eax
-        mov eax, edx
-        mov edx, dword [optflags]
-        and edx, byte 70h
-        cmp edx, byte 30h
-        jne short .3
-        movsx edx, word [word_114CE4]
-        cmp edx, byte 1
-        jne short .1
-        movsx edx, bx
-        cmp edx, byte 1
-        jle short .3
-        jmp short .2
-.1:
-        movsx edx, bx
-        cmp edx, byte 2
-        jge short .3
-.2:
-        mov eax, 400h
-.3:
-        mov ecx, 9
-        mov edi, unk_6DB28
-        repne scasw
-        jmp dword [nosplit cs:ecx*4+jpt_6DB38]
-sub_6DB5C_51:
-        movsx eax, bx
-        inc eax
-        push eax
-        push str_PlyD
-        jmp short sub_6DB5C_A5.4
-sub_6DB5C_5D:
-        movsx eax, bx
-        inc eax
-        push eax
-        push str_MseD2
-        jmp short sub_6DB5C_A5.4
-sub_6DB5C_69:
-        movsx eax, bx
-        inc eax
-        push eax
-        push str_Jy1D
-        jmp short sub_6DB5C_A5.4
-sub_6DB5C_75:
-        movsx eax, bx
-        inc eax
-        push eax
-        push str_Jy2D
-        jmp short sub_6DB5C_A5.4
-sub_6DB5C_81:
-        movsx eax, bx
-        inc eax
-        push eax
-        push str_Jy3D
-        jmp short sub_6DB5C_A5.4
-sub_6DB5C_8D:
-        movsx eax, bx
-        inc eax
-        push eax
-        push str_Jy4D
-        jmp short sub_6DB5C_A5.4
-sub_6DB5C_99:
-        movsx eax, bx
-        inc eax
-        push eax
-        push str_KeyD2
-        jmp short sub_6DB5C_A5.4
-sub_6DB5C_A5:
-        movsx eax, bx
-        inc eax
-        push eax
-        push str_MdmD
-.4:
-        lea eax, [byte ebp-0Ch]
-        push eax
-        call sprintf_
-        add esp, byte 0Ch
-        lea eax, [byte ebp-0Ch]
-        push eax
-        push esi
-        call sub_E04E0
-        add esp, byte 8
-        mov dword [byte ebp-04h], eax
-sub_6DB5C_CB:
-        mov eax, dword [byte ebp-04h]
-        leave
-        pop edi
-        pop esi
-        pop ecx
-        ret
-;-----------------------------------------------------------------------------
-; sub_6DC2F                                                       6DC2F  96 PC
-;-----------------------------------------------------------------------------
-sub_6DC2F:
-        push ebx
-        push ecx
-        push edx
-        push esi
-        mov esi, eax
-        cmp dword [eax], byte 5
-        jge short .1
-        push dword [dword_17D564]
-        call sub_AADA4
-        mov eax, dword [optflags]
-        and eax, byte 70h
-        add esp, byte 4
-        cmp eax, byte 30h
-        jne near .6
-        movsx eax, word [word_114CE4]
-        cmp eax, byte 1
-        jne short .3
-        jmp near .6
-.1:
-        cmp dword [eax], byte 0Ah
-        jge short .4
-        push dword [dword_17D56C]
-        call sub_AADA4
-        mov eax, dword [optflags]
-        and eax, byte 70h
-        add esp, byte 4
-        cmp eax, byte 30h
-        jne near .6
-        movsx eax, word [word_114CE4]
-        cmp eax, byte 1
-.2:
-        je near .6
-.3:
-        mov si, word [esi]
-        mov word [word_17D58C], si
-        pop esi
-        pop edx
-        pop ecx
-        pop ebx
-        ret
-.4:
-        cmp dword [eax], byte 0Fh
-        jge short .5
-        push dword [dword_17D574]
-        call sub_AADA4
-        mov eax, dword [optflags]
-        and eax, byte 70h
-        add esp, byte 4
-        cmp eax, byte 30h
-        jne short .6
-        cmp word [word_114CE4], byte 0
-        jmp short .2
-.5:
-        cmp dword [eax], byte 14h
-        jge short .7
-        push dword [dword_17D57C]
-        call sub_AADA4
-        mov eax, dword [optflags]
-        and eax, byte 70h
-        add esp, byte 4
-        cmp eax, byte 30h
-        jne short .6
-        cmp word [word_114CE4], byte 0
-        jne short .3
-        mov ax, word [esi]
-        mov word [word_17D58E], ax
-        pop esi
-        pop edx
-        pop ecx
-        pop ebx
-        ret
-.6:
-        mov si, word [esi]
-        mov word [word_17D58E], si
-.7:
-        pop esi
-        pop edx
-        pop ecx
-        pop ebx
-        ret
-;-----------------------------------------------------------------------------
-; sub_6DD1E                                                       6DD1E  96 PC
-;-----------------------------------------------------------------------------
-sub_6DD1E:
-        push edx
-        mov eax, dword [dword_17D580]
-        cmp dword [dword eax+0218h], byte 0
-        je short .1
-        mov byte [byte eax+043h], 5
-        jmp short .4
-.1:
-        cmp dword [dword eax+0416h], byte 0
-        je short .2
-        mov byte [byte eax+043h], 0Ah
-        jmp short .4
-.2:
-        cmp dword [dword eax+0614h], byte 0
-        je short .3
-        mov byte [byte eax+043h], 0Fh
-        jmp short .4
-.3:
-        mov byte [byte eax+043h], 16h
-.4:
-        mov eax, dword [dword_17D580]
-        cmp dword [byte eax+01Ah], byte 0
-        sete dl
-        mov byte [dword eax+0AAh], dl
-        mov eax, dword [dword_17D580]
-        cmp dword [dword eax+01B2h], byte 0
-        setne dl
-        add dl, 3
-        mov byte [dword eax+0177h], dl
-        mov eax, dword [optflags]
-        and eax, byte 70h
-        cmp eax, byte 30h
-        jne short .5
-        mov eax, dword [dword_17D580]
-        mov byte [dword eax+0174h], 18h
-.5:
-        mov eax, dword [optflags]
-        and eax, byte 70h
-        cmp eax, byte 30h
-        jne short .6
-        mov eax, dword [dword_17D580]
-        mov byte [dword eax+01DAh], 18h
-.6:
-        mov eax, dword [dword_17D580]
-        cmp dword [dword eax+03B0h], byte 0
-        je short .7
-        mov byte [dword eax+01DBh], 9
-        jmp short .10
-.7:
-        cmp dword [dword eax+05AEh], byte 0
-        je short .8
-        mov byte [dword eax+01DBh], 0Eh
-        jmp short .10
-.8:
-        cmp dword [dword eax+07ACh], byte 0
-        je short .9
-        mov byte [dword eax+01DBh], 13h
-        jmp short .10
-.9:
-        mov byte [dword eax+01DBh], 17h
-.10:
-        mov eax, dword [dword_17D580]
-        cmp dword [byte eax+01Ah], byte 0
-        sete dl
-        mov byte [dword eax+0240h], dl
-        mov eax, dword [dword_17D580]
-        cmp dword [dword eax+0416h], byte 0
-        je short .11
-        mov byte [dword eax+0241h], 0Ah
-        jmp short .13
-.11:
-        cmp dword [dword eax+0614h], byte 0
-        je short .12
-        mov byte [dword eax+0241h], 0Fh
-        jmp short .13
-.12:
-        mov byte [dword eax+0241h], 16h
-.13:
-        mov eax, dword [dword_17D580]
-        cmp dword [dword eax+0218h], byte 0
-        sete dl
-        add dl, 5
-        mov byte [dword eax+02A8h], dl
-        mov eax, dword [dword_17D580]
-        cmp dword [dword eax+03B0h], byte 0
-        setne dl
-        add dl, 8
-        mov byte [dword eax+0375h], dl
-        mov eax, dword [dword_17D580]
-        cmp dword [dword eax+01B2h], byte 0
-        je short .14
-        mov byte [dword eax+03D8h], 4
-        jmp short .16
-.14:
-        mov edx, dword [optflags]
-        and edx, byte 70h
-        cmp edx, byte 30h
-        jne short .15
-        mov byte [dword eax+03D8h], 18h
-        jmp short .16
-.15:
-        mov byte [dword eax+03D8h], 3
-.16:
-        mov eax, dword [dword_17D580]
-        cmp dword [dword eax+05AEh], byte 0
-        je short .17
-        mov byte [dword eax+03D9h], 0Eh
-        jmp short .19
-.17:
-        cmp dword [dword eax+07ACh], byte 0
-        je short .18
-        mov byte [dword eax+03D9h], 13h
-        jmp short .19
-.18:
-        mov byte [dword eax+03D9h], 17h
-.19:
-        mov eax, dword [dword_17D580]
-        cmp dword [dword eax+0218h], byte 0
-        je short .20
-        mov byte [dword eax+043Eh], 5
-        jmp short .22
-.20:
-        cmp dword [byte eax+01Ah], byte 0
-        je short .21
-        mov byte [dword eax+043Eh], 0
-        jmp short .22
-.21:
-        mov byte [dword eax+043Eh], 6
-.22:
-        mov eax, dword [dword_17D580]
-        cmp dword [dword eax+0614h], byte 0
-        je short .23
-        mov byte [dword eax+043Fh], 0Fh
-        jmp short .24
-.23:
-        mov byte [dword eax+043Fh], 16h
-.24:
-        mov eax, dword [dword_17D580]
-        cmp dword [dword eax+0416h], byte 0
-        je short .25
-        mov byte [dword eax+04A6h], 0Ah
-        jmp short .26
-.25:
-        mov byte [dword eax+04A6h], 16h
-.26:
-        mov eax, dword [dword_17D580]
-        cmp dword [dword eax+05AEh], byte 0
-        je short .27
-        mov byte [dword eax+0573h], 0Eh
-        jmp short .28
-.27:
-        mov byte [dword eax+0573h], 17h
-.28:
-        mov eax, dword [dword_17D580]
-        cmp dword [dword eax+03B0h], byte 0
-        je short .29
-        mov byte [dword eax+05D6h], 9
-        jmp short .32
-.29:
-        cmp dword [dword eax+01B2h], byte 0
-        je short .30
-        mov byte [dword eax+05D6h], 4
-        jmp short .32
-.30:
-        mov edx, dword [optflags]
-        and edx, byte 70h
-        cmp edx, byte 30h
-        jne short .31
-        mov byte [dword eax+05D6h], 18h
-        jmp short .32
-.31:
-        mov byte [dword eax+05D6h], 8
-.32:
-        mov eax, dword [dword_17D580]
-        cmp dword [dword eax+07ACh], byte 0
-        je short .33
-        mov byte [dword eax+05D7h], 13h
-        jmp short .34
-.33:
-        mov byte [dword eax+05D7h], 17h
-.34:
-        mov eax, dword [dword_17D580]
-        cmp dword [dword eax+0416h], byte 0
-        je short .35
-        mov byte [dword eax+063Ch], 0Ah
-.35:
-        mov eax, dword [dword_17D580]
-        cmp dword [dword eax+0218h], byte 0
-        je short .36
-        mov byte [dword eax+063Ch], 5
-        jmp short .38
-.36:
-        cmp dword [byte eax+01Ah], byte 0
-        je short .37
-        mov byte [dword eax+063Ch], 0
-        jmp short .38
-.37:
-        mov byte [dword eax+063Ch], 6
-.38:
-        mov eax, dword [dword_17D580]
-        cmp dword [dword eax+0614h], byte 0
-        je short .39
-        mov byte [dword eax+06A4h], 0Fh
-        jmp short .40
-.39:
-        mov byte [dword eax+06A4h], 16h
-.40:
-        mov eax, dword [dword_17D580]
-        cmp dword [dword eax+07ACh], byte 0
-        je short .41
-        mov byte [dword eax+0771h], 13h
-        jmp short .42
-.41:
-        mov byte [dword eax+0771h], 17h
-.42:
-        mov eax, dword [dword_17D580]
-        cmp dword [dword eax+05AEh], byte 0
-        je short .43
-        mov byte [dword eax+07D4h], 0Eh
-        jmp short .47
-.43:
-        cmp dword [dword eax+03B0h], byte 0
-        je short .44
-        mov byte [dword eax+07D4h], 9
-        jmp short .47
-.44:
-        cmp dword [dword eax+01B2h], byte 0
-        je short .45
-        mov byte [dword eax+07D4h], 4
-        jmp short .47
-.45:
-        mov edx, dword [optflags]
-        and edx, byte 70h
-        cmp edx, byte 30h
-        jne short .46
-        mov byte [dword eax+07D4h], 18h
-        jmp short .47
-.46:
-        mov byte [dword eax+07D4h], 0Dh
-.47:
-        mov eax, dword [dword_17D580]
-        cmp dword [dword eax+0614h], byte 0
-        je short .48
-        mov byte [dword eax+0906h], 0Fh
-        jmp short .52
-.48:
-        cmp dword [dword eax+0416h], byte 0
-        je short .49
-        mov byte [dword eax+0906h], 0Ah
-        jmp short .52
-.49:
-        cmp dword [dword eax+0218h], byte 0
-        je short .50
-        mov byte [dword eax+0906h], 5
-        jmp short .52
-.50:
-        cmp dword [byte eax+01Ah], byte 0
-        je short .51
-        mov byte [dword eax+0906h], 0
-        jmp short .52
-.51:
-        mov byte [dword eax+0906h], 10h
-.52:
-        mov eax, dword [optflags]
-        and eax, byte 70h
-        cmp eax, byte 30h
-        setne al
-        movzx eax, al
-        test eax, eax
-        je short .53
-        cmp dword [dword_1150D8], byte 0FFFFFFFFh
-        jne short .53
-        mov eax, dword [dword_17D580]
-        mov byte [dword eax+0909h], 14h
-        jmp short .55
-.53:
-        mov eax, dword [dword_17D580]
-        cmp dword [dword eax+0614h], byte 0
-        je short .54
-        mov byte [dword eax+0909h], 0Fh
-        jmp short .55
-.54:
-        mov byte [dword eax+0909h], 10h
-.55:
-        mov eax, dword [dword_17D580]
-        cmp dword [dword eax+07ACh], byte 0
-        je short .56
-        mov byte [dword eax+096Ch], 13h
-        jmp short .61
-.56:
-        cmp dword [dword eax+05AEh], byte 0
-        je short .57
-        mov byte [dword eax+096Ch], 0Eh
-        jmp short .61
-.57:
-        cmp dword [dword eax+03B0h], byte 0
-        je short .58
-        mov byte [dword eax+096Ch], 9
-        jmp short .61
-.58:
-        cmp dword [dword eax+01B2h], byte 0
-        je short .59
-        mov byte [dword eax+096Ch], 4
-        jmp short .61
-.59:
-        mov edx, dword [optflags]
-        and edx, byte 70h
-        cmp edx, byte 30h
-        jne short .60
-        mov byte [dword eax+096Ch], 18h
-        jmp short .61
-.60:
-        mov byte [dword eax+096Ch], 12h
-.61:
-        mov eax, dword [optflags]
-        and eax, byte 70h
-        cmp eax, byte 30h
-        setne al
-        movzx eax, al
-        test eax, eax
-        je short .62
-        cmp dword [dword_1150D8], byte 0FFFFFFFFh
-        jne short .62
-        mov eax, dword [dword_17D580]
-        mov byte [dword eax+096Eh], 15h
-        jmp short .64
-.62:
-        mov eax, dword [dword_17D580]
-        cmp dword [dword eax+07ACh], byte 0
-        je short .63
-        mov byte [dword eax+096Eh], 13h
-        jmp short .64
-.63:
-        mov byte [dword eax+096Eh], 12h
-.64:
-        mov eax, dword [dword_17D580]
-        cmp dword [dword eax+01B2h], byte 0
-        je short .65
-        mov byte [dword eax+09D3h], 4
-        pop edx
-        ret
-.65:
-        cmp dword [dword eax+03B0h], byte 0
-        je short .66
-        mov byte [dword eax+09D3h], 9
-        pop edx
-        ret
-.66:
-        cmp dword [dword eax+05AEh], byte 0
-        je short .67
-        mov byte [dword eax+09D3h], 0Eh
-        pop edx
-        ret
-.67:
-        cmp dword [dword eax+07ACh], byte 0
-        je short .68
-        mov byte [dword eax+09D3h], 13h
-        pop edx
-        ret
-.68:
-        mov byte [dword eax+09D3h], 17h
-        pop edx
-        ret
+        jmp near DrawPauseFrame_9C2

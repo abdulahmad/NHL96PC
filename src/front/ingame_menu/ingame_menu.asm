@@ -30,7 +30,7 @@ extern str_Edt0, str_Edt1, str_EXHIBITNDX2, str_FhiL3, str_FhiR3, str_Gam0, str_
 extern str_GhiR2, str_GloL2, str_GloR2, str_INTERREG, str_Intr, str_Ply02, str_Ply1, str_Qui0
 extern str_Qui1, str_Qui2, str_Ret0, str_Ret1, str_Ret2, str_Sav0, str_Sav1, str_Sid1
 extern str_Sid2, str_Sts0, str_Sts1, strcat_, strcpy_, sub_21BE3, sub_25087, sub_251E6
-extern sub_25EB3, sub_28459, sub_2929F, sub_2E1BE, sub_3A6F3, sub_64E74, sub_6B486, sub_6C64B
+extern sub_25EB3, sub_28459, sub_2929F, sub_2E1BE, sub_3A6F3, sub_64E74, SaveGameFile, sub_6C64B
 extern sub_AAA40, sub_AB758, sub_ABF4C, sub_AD35C, sub_ADBEC, sub_B0CA8, sub_B58D8, sub_DD6C4
 extern sub_E04E0, sub_E0584, TextSetFont, unk_11D7A4, unk_11D7BC, unk_11D7D4, unk_11D7EC, unk_11D804
 extern unk_11D80A, unk_11D810, unk_11D816, unk_11D81C, unk_11D89C, unk_16443C, unk_17D3E8, unk_18440C
@@ -2159,7 +2159,7 @@ InGameMenu_FA8:
         mov eax, dword [gameopts]
         or byte [eax], 1
         mov eax, unk_184692
-        call sub_6B486
+        call SaveGameFile
         test eax, eax
         jne short .85
         call GetLangText

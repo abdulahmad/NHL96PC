@@ -38,7 +38,7 @@ extern sub_25E7B, sub_25EB3, sub_261A6, sub_2751C, sub_2767F, sub_27BF1, sub_28A
 extern sub_28D97, sub_297C9, sub_299CF, sub_2E1BE, sub_4B38C, sub_4B4F3, sub_53BD7, sub_53C6F
 extern sub_54237, sub_54391, sub_5439F, sub_54427, SetCameraShot, ResetCameraShake, SetGameViewSize, SaveTeamPalette
 extern SetPlayerSpriteColors, SetRinkSpriteColors, LoadGameSprites, GetSpriteFrame, SpriteScale, DrawText, DrawTextCentred, SetTextColors
-extern DrawColorText, DrawColorTextRight, DrawColorTextCentred, FillBox, sub_6AA3B, GetLangText, BuildAntiAliasTable, sub_AAA40
+extern DrawColorText, DrawColorTextRight, DrawColorTextCentred, FillBox, DrawPauseFrame, GetLangText, BuildAntiAliasTable, sub_AAA40
 extern sub_AAADC, sub_AB758, sub_ABF4C, sub_AD35C, sub_AD620, sub_AFFD0, sub_B0CA8, sub_B0F7C
 extern sub_B58D8, sub_B6140, sub_B6148, sub_BA3D0, sub_BB470, sub_BB570, sub_BB924, sub_BBA41
 extern sub_BBC04, sub_BC3A0, sub_BC3F4, sub_BC610, sub_BC674, sub_BC6D8, sub_BC760, sub_BD86C
@@ -3007,7 +3007,7 @@ DrawGameFrame:
         add esp, byte 10h
         cmp dword [dword_11D91F], byte 0
         je short .32
-        call sub_6AA3B
+        call DrawPauseFrame
         jmp short .36
 .32:
         cmp dword [dword_119D04], byte 0

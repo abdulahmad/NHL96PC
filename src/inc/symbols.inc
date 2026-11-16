@@ -2,7 +2,7 @@
 ; Every label that one src/ file references in another: address, name, defining file, number of users.
 ; The files declare their own global/extern lists; tools/build/link_src.py resolves them by name.
 ;  10003  ___begtext                               lib/watcom/watcom_begtext.asm                1
-;  10010  GetInputDevices                          front/controls/controls.asm                  5
+;  10010  GetInputDevices                          front/controls/controls.asm                  4
 ;  10095  InitInputDevices                         front/controls/controls.asm                  2
 ;  108BB  InitSlotTable                            front/controls/controls.asm                  3
 ;  10A65  ResetInputSlots                          front/controls/controls.asm                  3
@@ -568,17 +568,9 @@
 ;  6A5EB  WriteGlobalSet                           front/settings/settings.asm                  3
 ;  6A675  RunExhibitionMenus                       front/settings/settings.asm                  1
 ;  6A7D3  RunInGameMenu                            front/pause_menu/pause_menu.asm              1
-;  6AA3B  sub_6AA3B                                front/pause_menu/pause_menu.asm              1
-;  6B486  sub_6B486                                front/pause_menu/pause_menu.asm              1
+;  6AA3B  DrawPauseFrame                           front/pause_menu/pause_menu.asm              1
+;  6B486  SaveGameFile                             front/pause_menu/pause_menu.asm              1
 ;  6C64B  sub_6C64B                                front/pause_menu/pause_menu.asm              1
-;  6CF0D  sub_6CF0D                                front/pause_menu/pause_menu.asm              1
-;  6CF13  sub_6CF0D_6                              front/pause_menu/pause_menu.asm              1
-;  6CF1B  sub_6CF1B                                front/pause_menu/pause_menu.asm              1
-;  6D350  sub_6D350                                front/pause_menu/pause_menu.asm              1
-;  6D828  sub_6D828                                front/pause_menu/pause_menu.asm              1
-;  6DB5C  sub_6DB5C                                front/pause_menu/pause_menu.asm              1
-;  6DC2F  sub_6DC2F                                front/pause_menu/pause_menu.asm              1
-;  6DD1E  sub_6DD1E                                front/pause_menu/pause_menu.asm              1
 ;  6F056  ControllerScreen                         front/controller_screen/controller_screen.asm 2
 ;  70840  RunControllerScreen                      front/controller_screen/controller_screen.asm 4
 ;  708A9  unk_708A9                                front/controller_screen/controller_screen.asm 1
@@ -748,7 +740,7 @@
 ;  AAA8C  sub_AAA8C                                lib/ea/ea_gfx_01.asm                         9
 ;  AAADC  sub_AAADC                                lib/ea/ea_gfx_01.asm                         2
 ;  AAB40  PutBlock                                 lib/ea/ea_gfx_01.asm                         32
-;  AADA4  sub_AADA4                                lib/ea/ea_gfx_01.asm                         20
+;  AADA4  sub_AADA4                                lib/ea/ea_gfx_01.asm                         19
 ;  AADC0  sub_AADC0                                lib/ea/ea_gfx_01.asm                         1
 ;  AB2EC  sub_AB2EC                                lib/ea/ea_gfx_01.asm                         1
 ;  AB3B4  sub_AB3B4                                lib/ea/ea_gfx_01.asm                         1
@@ -1574,7 +1566,7 @@
 ;  DFE28  sub_DFE28                                lib/input/input_keyboard_01.asm              1
 ;  DFE9C  sub_DFE9C                                lib/input/input_keyboard_01.asm              7
 ;  DFEAB  sub_DFEAB                                lib/input/input_keyboard_01.asm              1
-;  DFEB4  GetTicks                                 lib/input/input_joystick_misc_01.asm         28
+;  DFEB4  GetTicks                                 lib/input/input_joystick_misc_01.asm         29
 ;  DFEBA  TicksSince                               lib/input/input_joystick_misc_01.asm         2
 ;  DFEC6  sub_DFEC6                                lib/input/input_joystick_misc_01.asm         7
 ;  DFEE1  SetTickDeadline                          lib/input/input_joystick_misc_01.asm         15
@@ -2559,7 +2551,7 @@
 ;  111E3E  str_GhiR3                                data/front/pause_menu_data_01.asm            1
 ;  111E44  str_Log7                                 data/front/pause_menu_data_01.asm            1
 ;  111E49  str_Logx                                 data/front/pause_menu_data_01.asm            1
-;  111E4E  str_PlyD                                 data/front/pause_menu_data_01.asm            2
+;  111E4E  str_PlyD                                 data/front/pause_menu_data_01.asm            1
 ;  111E54  str_MseD2                                data/front/pause_menu_data_01.asm            1
 ;  111E5A  str_Jy1D                                 data/front/pause_menu_data_01.asm            1
 ;  111E60  str_Jy2D                                 data/front/pause_menu_data_01.asm            1
@@ -3698,7 +3690,7 @@
 ;  114CDB  word_114CDB                              data/front/front_10010_data_01.asm           1
 ;  114CE0  word_114CE0                              data/front/front_10010_data_01.asm           14
 ;  114CE2  dword_114CE2                             data/front/front_10010_data_01.asm           1
-;  114CE4  word_114CE4                              data/front/front_10010_data_01.asm           6
+;  114CE4  word_114CE4                              data/front/front_10010_data_01.asm           5
 ;  114CE6  unk_114CE6                               data/front/front_10010_data_01.asm           1
 ;  114D0E  dword_114D0E                             data/front/front_10010_data_01.asm           1
 ;  114D12  dword_114D12                             data/front/front_10010_data_01.asm           1
@@ -3797,7 +3789,7 @@
 ;  1150CC  dword_1150CC                             data/front/main_data_02.asm                  1
 ;  1150D0  dword_1150D0                             data/front/main_data_02.asm                  1
 ;  1150D4  dword_1150D4                             data/front/main_data_02.asm                  7
-;  1150D8  dword_1150D8                             data/front/main_data_02.asm                  9
+;  1150D8  dword_1150D8                             data/front/main_data_02.asm                  8
 ;  1150DC  dword_1150DC                             data/front/main_data_02.asm                  1
 ;  1150E0  dword_1150E0                             data/front/main_data_02.asm                  1
 ;  1150E4  dword_1150E4                             data/front/main_data_02.asm                  1
@@ -4519,8 +4511,8 @@
 ;  11F5B4  dword_11F5B4                             data/lib/lib_A8B9B_data_02.asm               2
 ;  11F5B8  dword_11F5B8                             data/lib/lib_A8B9B_data_02.asm               1
 ;  11F5BC  joyenablemask                            data/lib/lib_A8B9B_data_02.asm               3
-;  11F5C0  dword_11F5C0                             data/lib/lib_A8B9B_data_02.asm               26
-;  11F5C4  dword_11F5C4                             data/lib/lib_A8B9B_data_02.asm               22
+;  11F5C0  dword_11F5C0                             data/lib/lib_A8B9B_data_02.asm               27
+;  11F5C4  dword_11F5C4                             data/lib/lib_A8B9B_data_02.asm               23
 ;  11F5C8  dword_11F5C8                             data/lib/lib_A8B9B_data_02.asm               4
 ;  11F5CC  dword_11F5CC                             data/lib/lib_A8B9B_data_02.asm               2
 ;  11F5D0  dword_11F5D0                             data/lib/lib_A8B9B_data_02.asm               2
@@ -6784,18 +6776,18 @@
 ;  17D52C  unk_17D52C                               data/front/pause_menu_bss_01.asm             1
 ;  17D560  word_17D560                              data/front/pause_menu_bss_01.asm             1
 ;  17D562  word_17D562                              data/front/pause_menu_bss_01.asm             1
-;  17D564  dword_17D564                             data/front/pause_menu_bss_01.asm             2
+;  17D564  dword_17D564                             data/front/pause_menu_bss_01.asm             1
 ;  17D568  word_17D568                              data/front/pause_menu_bss_01.asm             1
 ;  17D56C  dword_17D56C                             data/front/pause_menu_bss_01.asm             1
 ;  17D570  word_17D570                              data/front/pause_menu_bss_01.asm             1
 ;  17D574  dword_17D574                             data/front/pause_menu_bss_01.asm             1
 ;  17D578  word_17D578                              data/front/pause_menu_bss_01.asm             1
 ;  17D57C  dword_17D57C                             data/front/pause_menu_bss_01.asm             1
-;  17D580  dword_17D580                             data/front/pause_menu_bss_01.asm             2
+;  17D580  dword_17D580                             data/front/pause_menu_bss_01.asm             1
 ;  17D584  dword_17D584                             data/front/pause_menu_bss_01.asm             1
 ;  17D588  dword_17D588                             data/front/pause_menu_bss_01.asm             1
-;  17D58C  word_17D58C                              data/front/pause_menu_bss_01.asm             2
-;  17D58E  word_17D58E                              data/front/pause_menu_bss_01.asm             2
+;  17D58C  word_17D58C                              data/front/pause_menu_bss_01.asm             1
+;  17D58E  word_17D58E                              data/front/pause_menu_bss_01.asm             1
 ;  17D590  dword_17D590                             data/front/pause_menu_bss_01.asm             1
 ;  17D594  dword_17D594                             data/front/pause_menu_bss_01.asm             1
 ;  17D598  unk_17D598                               data/front/pause_menu_bss_01.asm             1

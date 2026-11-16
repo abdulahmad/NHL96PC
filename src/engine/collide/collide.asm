@@ -6535,9 +6535,7 @@ PuckIChk:
         ret
 ;-----------------------------------------------------------------------------
 ; puckshadow                                            4331A  94G logic94.asm
-; Asstab slot 25; field alignment 100% of 6 known-field accesses; content
-; rank 2/34 vs other slot routines; 0 known Genesis callees present, 0
-; missing, 0 extra
+; Assignment table slot 19h: the puck shadow object
 ;-----------------------------------------------------------------------------
 puckshadow:
         push edx

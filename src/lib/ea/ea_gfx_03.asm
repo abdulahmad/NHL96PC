@@ -8,6 +8,8 @@ extern RowCopyFunc, ScreenWidth, KeyedDraw, DrawVideoBase, ScreenRowTable, VesaS
 global DrawArtOpaque, DrawArtOpaqueAtOwnPos, DrawArtOpaqueHotspot
 ;-----------------------------------------------------------------------------
 ; DrawArtOpaque                                B2B30  95 PC, medium confidence
+; Draws art without transparency, through the keyed drawer when keyed drawing
+; is on
 ;-----------------------------------------------------------------------------
 DrawArtOpaque:
         push esi

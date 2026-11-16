@@ -1,0 +1,2 @@
+SpeechService_58 SoundIdleSpeech {no_record} rest of SoundIdle: speech service, then the music stream
+SpeechService_6B SoundIdleDone {no_record} SoundIdle return

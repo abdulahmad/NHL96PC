@@ -1343,9 +1343,7 @@ FaceoffPositions:
         ret
 ;-----------------------------------------------------------------------------
 ; puckfaceoff2                                          3B847  94G logic94.asm
-; Asstab slot 28; field alignment 69% of 29 known-field accesses; content
-; rank 1/34 vs other slot routines; 3 known Genesis callees present, 0
-; missing, 0 extra
+; Assignment table slot 1Ch: the puck while the faceoff is set up
 ;-----------------------------------------------------------------------------
 puckfaceoff2:
         push ebx
@@ -4388,9 +4386,7 @@ goalieposition_648:
         ret
 ;-----------------------------------------------------------------------------
 ; assgoalie                                             3DEBB  94G logic94.asm
-; Asstab slot 14; field alignment 68% of 59 known-field accesses; content
-; rank 1/34 vs other slot routines; 2 known Genesis callees present, 0
-; missing, 1 extra
+; Assignment table slot 0Eh: the goalie in net, following the puck
 ;-----------------------------------------------------------------------------
 assgoalie:
         push ebx

@@ -8,6 +8,7 @@ extern savefileblocka
 global strcmp_, SaveFileBlock
 ;-----------------------------------------------------------------------------
 ; strcmp_                                                       B2200  library
+; Run-time library strcmp: compares two strings
 ;-----------------------------------------------------------------------------
 strcmp_:
         push ebx

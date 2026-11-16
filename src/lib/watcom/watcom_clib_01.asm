@@ -13,6 +13,7 @@ global _nfree_, _nmalloc_, _os_handle, _os_handle_0, _os_handle_1, close_file_, 
 global fread_, freopen_, fseek_, ftell_, strcat_, strcpy_, EmptyRoutine, PathBaseName
 ;-----------------------------------------------------------------------------
 ; strcpy_                                                       A9CB3  library
+; Run-time library strcpy: copies a string
 ;-----------------------------------------------------------------------------
 strcpy_:
         push ecx
@@ -34,6 +35,7 @@ strcpy_:
         ret
 ;-----------------------------------------------------------------------------
 ; strcat_                                                       A9CD2  library
+; Run-time library strcat: appends a string
 ;-----------------------------------------------------------------------------
 strcat_:
         push ecx
@@ -71,6 +73,7 @@ strcat_:
         ret
 ;-----------------------------------------------------------------------------
 ; __open_flags_                                                 A9D09  library
+; Run-time library: turns an fopen mode string into open flags
 ;-----------------------------------------------------------------------------
 __open_flags_:
         push ebx
@@ -156,6 +159,7 @@ __open_flags_:
         ret
 ;-----------------------------------------------------------------------------
 ; __doopen_                                                     A9DBD  library
+; Run-time library: opens a file for a stream
 ;-----------------------------------------------------------------------------
 __doopen_:
         push esi
@@ -242,6 +246,7 @@ __doopen_:
         ret
 ;-----------------------------------------------------------------------------
 ; _fsopen_                                                      A9E85  library
+; Run-time library _fsopen: opens a stream with a share mode
 ;-----------------------------------------------------------------------------
 _fsopen_:
         push ecx
@@ -260,6 +265,7 @@ _fsopen_:
         ret
 ;-----------------------------------------------------------------------------
 ; fopen_                                                        A9EA0  library
+; Run-time library fopen: opens a stream
 ;-----------------------------------------------------------------------------
 fopen_:
         push ebx
@@ -269,6 +275,7 @@ fopen_:
         ret
 ;-----------------------------------------------------------------------------
 ; close_file_                                                   A9EAA  library
+; Run-time library: closes the file of a stream
 ;-----------------------------------------------------------------------------
 close_file_:
         push ebx
@@ -323,6 +330,7 @@ close_file_:
         ret
 ;-----------------------------------------------------------------------------
 ; freopen_                                                      A9F12  library
+; Run-time library freopen: closes a stream and opens a file on it again
 ;-----------------------------------------------------------------------------
 freopen_:
         push ecx
@@ -343,6 +351,7 @@ freopen_:
         ret
 ;-----------------------------------------------------------------------------
 ; __update_buffer_                                              A9F36  library
+; Run-time library: syncs a stream's buffer after a seek
 ;-----------------------------------------------------------------------------
 __update_buffer_:
         push ebx
@@ -380,6 +389,7 @@ __update_buffer_:
         ret
 ;-----------------------------------------------------------------------------
 ; fseek_                                                        A9F78  library
+; Run-time library fseek: moves a stream's file position
 ;-----------------------------------------------------------------------------
 fseek_:
         push ecx
@@ -497,6 +507,7 @@ fseek_:
         ret
 ;-----------------------------------------------------------------------------
 ; ftell_                                                        AA074  library
+; Run-time library ftell: a stream's file position
 ;-----------------------------------------------------------------------------
 ftell_:
         push ebx
@@ -528,6 +539,7 @@ ftell_:
         ret
 ;-----------------------------------------------------------------------------
 ; fclose_                                                       AA0A4  library
+; Run-time library fclose: closes a stream
 ;-----------------------------------------------------------------------------
 fclose_:
         push ebx
@@ -556,6 +568,7 @@ fclose_:
         ret
 ;-----------------------------------------------------------------------------
 ; __shutdown_stream_                                            AA0D3  library
+; Run-time library: flushes and closes a stream
 ;-----------------------------------------------------------------------------
 __shutdown_stream_:
         push ebx
@@ -569,6 +582,7 @@ __shutdown_stream_:
         ret
 ;-----------------------------------------------------------------------------
 ; __hex_                                                        AA0E8  library
+; Run-time library: a value 0-15 to its lower case hex digit
 ;-----------------------------------------------------------------------------
 __hex_:
         add eax, byte 30h
@@ -579,6 +593,7 @@ __hex_:
         ret
 ;-----------------------------------------------------------------------------
 ; __MkTmpFile_                                                  AA0F4  library
+; Run-time library: makes the name of a temporary file
 ;-----------------------------------------------------------------------------
 __MkTmpFile_:
         push ebx
@@ -624,6 +639,7 @@ __MkTmpFile_:
         ret
 ;-----------------------------------------------------------------------------
 ; __doclose_                                                    AA15D  library
+; Run-time library: closes a stream and frees its buffer
 ;-----------------------------------------------------------------------------
 __doclose_:
         push ebx
@@ -685,6 +701,7 @@ __doclose_:
         ret
 ;-----------------------------------------------------------------------------
 ; _nmalloc_                                                     AA1E6  library
+; Run-time library: allocates from the near heap
 ;-----------------------------------------------------------------------------
 _nmalloc_:
         push ebx
@@ -786,6 +803,7 @@ _nmalloc_:
         ret
 ;-----------------------------------------------------------------------------
 ; fread_                                                        AA2C9  library
+; Run-time library fread: reads from a stream
 ;-----------------------------------------------------------------------------
 fread_:
         push esi
@@ -967,6 +985,7 @@ fread_:
         ret
 ;-----------------------------------------------------------------------------
 ; _nfree_                                                       AA493  library
+; Run-time library: frees near heap memory
 ;-----------------------------------------------------------------------------
 _nfree_:
         push ebx
@@ -1019,6 +1038,7 @@ EmptyRoutine:
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
 ; _os_handle                                                    AA504  library
+; Run-time library: returns the operating system handle of a file handle
 ;-----------------------------------------------------------------------------
 _os_handle:
         mov eax, dword [byte esp+04h]

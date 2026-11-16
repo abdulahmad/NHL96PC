@@ -654,6 +654,7 @@ ResizeMemBlock:
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
 ; findmemblock                                 ABEEC  95 PC, medium confidence
+; EA library: finds the memory block that holds a pointer, through the block lists
 ;-----------------------------------------------------------------------------
 findmemblock:
         push esi
@@ -695,6 +696,8 @@ findmemblock:
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
 ; FreeMemBlock                                                    ABF4C  95 PC
+; Memory manager: findmemblock on the pointer and frees the block (under the
+; memory lock MemLockHandle); 600+ calls
 ;-----------------------------------------------------------------------------
 FreeMemBlock:
         push esi
@@ -1831,6 +1834,8 @@ InitMemDescriptors:
         db 090h
 ;-----------------------------------------------------------------------------
 ; getmemblock                                  AC990  95 PC, medium confidence
+; Takes a free memory descriptor from the descriptor list; fatal error when
+; none are left
 ;-----------------------------------------------------------------------------
 getmemblock:
         cmp dword [MemDescriptorTop], byte 0
@@ -1875,6 +1880,7 @@ MemDescSize:
         ret
 ;-----------------------------------------------------------------------------
 ; type_info__raw_name                                           AC9DC  library
+; Run-time library: returns the name field of a type info record
 ;-----------------------------------------------------------------------------
 type_info__raw_name:
         mov eax, dword [byte esp+04h]

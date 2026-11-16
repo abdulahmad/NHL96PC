@@ -24,6 +24,7 @@ global MixerPickRoutines, MixerChunkLength, MixerCalcStep, MixerBuildVolumeTable
 global MixOutputSkipMono16, MixOutputSkipStereo, MixOutputSkip, ClearMixBuffer, MixerStepTable
 ;-----------------------------------------------------------------------------
 ; __sys_fini_387_emulator                                       CA835  library
+; Run-time library: removes the x87 emulator
 ;-----------------------------------------------------------------------------
 __sys_fini_387_emulator:
         cmp byte [__real87], 1
@@ -114,6 +115,7 @@ EmuRestoreRealVector:
         ret
 ;-----------------------------------------------------------------------------
 ; __save_8087_                                                  CA90B  library
+; Run-time library: saves the FPU state
 ;-----------------------------------------------------------------------------
 __save_8087_:
         wait
@@ -122,6 +124,7 @@ __save_8087_:
         ret
 ;-----------------------------------------------------------------------------
 ; __rest_8087_                                                  CA910  library
+; Run-time library: restores the FPU state
 ;-----------------------------------------------------------------------------
 __rest_8087_:
         frstor [eax]
@@ -129,6 +132,7 @@ __rest_8087_:
         ret
 ;-----------------------------------------------------------------------------
 ; __init_8087_                                                  CA914  library
+; Run-time library: initialises the FPU
 ;-----------------------------------------------------------------------------
 __init_8087_:
         push ebx
@@ -148,6 +152,7 @@ __init_8087_:
         ret
 ;-----------------------------------------------------------------------------
 ; _fpreset_                                                     CA945  library
+; Run-time library _fpreset: resets the floating point package
 ;-----------------------------------------------------------------------------
 _fpreset_:
         cmp byte [FpuType], 0
@@ -155,6 +160,7 @@ _fpreset_:
         ret
 ;-----------------------------------------------------------------------------
 ; __chk8087_                                                    CA94F  library
+; Run-time library: detects the FPU at start-up
 ;-----------------------------------------------------------------------------
 __chk8087_:
         push edx

@@ -155,6 +155,7 @@ BlitBlockRemapKeyed_34:
         ret
 ;-----------------------------------------------------------------------------
 ; _EFG_Format_                                                  D7AD5  library
+; Run-time library: the float format hook for printf (%e, %f, %g)
 ;-----------------------------------------------------------------------------
 _EFG_Format_:
         push ecx

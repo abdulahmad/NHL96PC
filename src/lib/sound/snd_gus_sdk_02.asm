@@ -1225,6 +1225,7 @@ GusServiceIrq:
         ret
 ;-----------------------------------------------------------------------------
 ; inpw_                                                         DB131  library
+; Run-time library inpw: reads a word from an I/O port
 ;-----------------------------------------------------------------------------
 inpw_:
         push edx
@@ -1307,6 +1308,7 @@ GusRunInitTable:
         ret
 ;-----------------------------------------------------------------------------
 ; outpw_                                                        DB1A7  library
+; Run-time library outpw: writes a word to an I/O port
 ;-----------------------------------------------------------------------------
 outpw_:
         push ebx
@@ -2146,6 +2148,7 @@ GusDramDmaDone:
         ret
 ;-----------------------------------------------------------------------------
 ; _SetMaxPrec_                                                  DB9F4  library
+; Run-time library: limits the precision of a float format
 ;-----------------------------------------------------------------------------
 _SetMaxPrec_:
         mov dword [MaxPrecision], eax

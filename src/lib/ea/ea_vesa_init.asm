@@ -12,6 +12,8 @@ extern VesaGetInfo, VesaGetModeInfo, SetScreenTarget, VesaSetBank, VesaSetMode, 
 global initgraphics, TranslatePixels, SumRingRange
 ;-----------------------------------------------------------------------------
 ; initgraphics                                 BF534  95 PC, medium confidence
+; Starts the graphics system for the chosen screen mode; the memory manager
+; must be running
 ;-----------------------------------------------------------------------------
 initgraphics:
         push esi

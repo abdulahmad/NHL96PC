@@ -209,6 +209,8 @@ DrawArtHotspot:
         db 00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
 ; PutBlock                                     AAB40  95 PC, medium confidence
+; Copies a bitmap block to the draw target, through the keyed drawer when
+; keyed drawing is on
 ;-----------------------------------------------------------------------------
 PutBlock:
         push esi
@@ -1397,6 +1399,8 @@ AllocMemBlockLocked:
         ret
 ;-----------------------------------------------------------------------------
 ; AllocMemBlock                                AB758  95 PC, medium confidence
+; Memory manager: allocate a named block (name, size, flags), e.g. "DMAN",
+; "HIST"; under the memory lock
 ;-----------------------------------------------------------------------------
 AllocMemBlock:
         push esi

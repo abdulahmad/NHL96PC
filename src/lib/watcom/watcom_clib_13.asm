@@ -36,6 +36,7 @@ global VecLength3, NormalizeVec3, Mul32To64, Div64By32, Sar64, Shl64, BuildSpanO
 global OriRotateY, FixedSinCos, unlink_
 ;-----------------------------------------------------------------------------
 ; isatty_                                                       C4EA1  library
+; Run-time library isatty: whether a handle is a terminal
 ;-----------------------------------------------------------------------------
 isatty_:
         push ebx
@@ -56,6 +57,7 @@ isatty_:
         ret
 ;-----------------------------------------------------------------------------
 ; _dosret0_                                                     C4EBF  library
+; Run-time library: returns 0 or sets errno from a DOS call
 ;-----------------------------------------------------------------------------
 _dosret0_:
         test edx, edx
@@ -68,6 +70,7 @@ _dosret0_:
         ret
 ;-----------------------------------------------------------------------------
 ; __set_errno_dos_                                              C4ECB  library
+; Run-time library: stores a DOS error code and maps it to errno
 ;-----------------------------------------------------------------------------
 __set_errno_dos_:
         push ebx
@@ -116,6 +119,7 @@ __set_errno_dos_:
         ret
 ;-----------------------------------------------------------------------------
 ; __IOMode_                                                     C4F31  library
+; Run-time library: the mode bits of a file handle
 ;-----------------------------------------------------------------------------
 __IOMode_:
         push ebx
@@ -157,6 +161,7 @@ __IOMode_:
         ret
 ;-----------------------------------------------------------------------------
 ; __SetIOMode_                                                  C4F86  library
+; Run-time library: sets the mode bits of a file handle
 ;-----------------------------------------------------------------------------
 __SetIOMode_:
         push ebx
@@ -308,6 +313,7 @@ DrawEllipseClipped:
         db 00h,00h
 ;-----------------------------------------------------------------------------
 ; file_putc_                                                    C511C  library
+; Run-time library: writes one character to a stream (fprintf output)
 ;-----------------------------------------------------------------------------
 file_putc_:
         push ebx
@@ -320,6 +326,7 @@ file_putc_:
         ret
 ;-----------------------------------------------------------------------------
 ; __fprtf_                                                      C512D  library
+; Run-time library: the fprintf engine
 ;-----------------------------------------------------------------------------
 __fprtf_:
         push ecx
@@ -380,6 +387,7 @@ __fprtf_:
         ret
 ;-----------------------------------------------------------------------------
 ; _nexpand_                                                     C51B2  library
+; Run-time library: grows a near heap block in place
 ;-----------------------------------------------------------------------------
 _nexpand_:
         push ebx
@@ -406,6 +414,7 @@ _nexpand__10:
         jmp near __HeapManager_expand__1EA
 ;-----------------------------------------------------------------------------
 ; __HeapManager_expand_                                         C51EA  library
+; Run-time heap: grows a block in place
 ;-----------------------------------------------------------------------------
 __HeapManager_expand_:
         push esi
@@ -610,6 +619,7 @@ __HeapManager_expand__1EA:
         ret
 ;-----------------------------------------------------------------------------
 ; _nmsize_                                                      C53DC  library
+; Run-time library: the size of a near heap block
 ;-----------------------------------------------------------------------------
 _nmsize_:
         mov eax, dword [byte eax-04h]
@@ -619,6 +629,7 @@ _nmsize_:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
 ; int386_                                                       C53F0  library
+; Run-time library int386: calls an interrupt
 ;-----------------------------------------------------------------------------
 int386_:
         push ecx
@@ -1106,6 +1117,7 @@ ShowKeyboardOn:
         ret
 ;-----------------------------------------------------------------------------
 ; __CMain                                                       C59F8  library
+; Run-time library: calls main
 ;-----------------------------------------------------------------------------
 __CMain:
         push edx
@@ -1135,6 +1147,7 @@ __CMain:
         db 089h,0ECh,05Dh,05Ah,0C3h,00h
 ;-----------------------------------------------------------------------------
 ; __InitRtns                                                    C5A48  library
+; Run-time library: runs the init routine table by priority
 ;-----------------------------------------------------------------------------
 __InitRtns:
         push esi
@@ -1185,6 +1198,7 @@ __InitRtns:
         ret
 ;-----------------------------------------------------------------------------
 ; __FiniRtns                                                    C5A93  library
+; Run-time library: runs the fini routine table by priority
 ;-----------------------------------------------------------------------------
 __FiniRtns:
         push esi
@@ -1744,6 +1758,7 @@ ToUpperChar:
         ret
 ;-----------------------------------------------------------------------------
 ; segread_                                                      C6011  library
+; Run-time library segread: reads the segment registers
 ;-----------------------------------------------------------------------------
 segread_:
         push edx
@@ -1764,6 +1779,7 @@ segread_:
         ret
 ;-----------------------------------------------------------------------------
 ; int386x_                                                      C6039  library
+; Run-time library int386x: calls an interrupt with segment registers
 ;-----------------------------------------------------------------------------
 int386x_:
         push esi
@@ -1782,6 +1798,7 @@ int386x_:
         ret
 ;-----------------------------------------------------------------------------
 ; __doserror_                                                   C6052  library
+; Run-time library: sets errno from a DOS error
 ;-----------------------------------------------------------------------------
 __doserror_:
         jae short .1
@@ -1796,6 +1813,7 @@ __doserror_:
         ret
 ;-----------------------------------------------------------------------------
 ; unlink_                                                       C6065  library
+; Run-time library unlink: deletes a file
 ;-----------------------------------------------------------------------------
 unlink_:
         push edx
@@ -6903,6 +6921,7 @@ TexSpanFill:
         jmp short .6
 ;-----------------------------------------------------------------------------
 ; strnicmp_                                                     C9CF8  library
+; Run-time library strnicmp: compares at most n characters, ignoring case
 ;-----------------------------------------------------------------------------
 strnicmp_:
         push ecx
@@ -7232,6 +7251,7 @@ Shl64:
         db 00h
 ;-----------------------------------------------------------------------------
 ; min_                                                          C9FB0  library
+; Returns the smaller of two signed numbers
 ;-----------------------------------------------------------------------------
 min_:
         cmp eax, edx
@@ -7934,6 +7954,7 @@ FixedSinCos:
         db 00h
 ;-----------------------------------------------------------------------------
 ; __sys_init_387_emulator                                       CA6B0  library
+; Run-time library: installs the x87 emulator when there is no FPU
 ;-----------------------------------------------------------------------------
 __sys_init_387_emulator:
         push es

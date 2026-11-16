@@ -1309,6 +1309,7 @@ FillBandsFinish:
         ret
 ;-----------------------------------------------------------------------------
 ; vecdist                                                         E14C8  95 PC
+; (dx, dy): approximate length of a vector from its angle
 ;-----------------------------------------------------------------------------
 vecdist:
         push ebp

@@ -638,6 +638,7 @@ LinkRxPut:
         ret
 ;-----------------------------------------------------------------------------
 ; LinkRxPeek_none                                                 17BFC  96 PC
+; Receive ring peek when nothing has arrived: returns -1
 ;-----------------------------------------------------------------------------
 LinkRxPeek_none:
         mov eax, 0FFFFFFFFh

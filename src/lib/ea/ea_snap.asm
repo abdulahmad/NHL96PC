@@ -9,6 +9,7 @@ extern FpuSystemFlags, OldFpuVectorOffset, EmuHookFlags, SavedEsSelector, OldFpu
 global InitFpuFlags, MakeFpuGate, HookCoprocessorVector, SetSystemFpuFlag
 ;-----------------------------------------------------------------------------
 ; InitFpuFlags                                                    CA6E0  95 PC
+; Sets the FPU present flags, reads CR0's FPU bits and finds the coprocessor interrupt gate
 ;-----------------------------------------------------------------------------
 InitFpuFlags:
         mov byte [__8087], 3

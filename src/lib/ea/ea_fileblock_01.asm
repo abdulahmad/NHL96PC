@@ -11,6 +11,7 @@ global DebugPrintf, DebugShowLines_D5, DebugShowLines_E6, DebugShowLines_124, De
 global DebugScrollUp, DebugClearScreen, DebugSetRow, DebugSetAttr, DebugShowLinesJumpTable
 ;-----------------------------------------------------------------------------
 ; DebugPrintf                                  AC9F0  95 PC, medium confidence
+; Prints a formatted debug message on screen
 ;-----------------------------------------------------------------------------
 DebugPrintf:
         sub esp, 104h

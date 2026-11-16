@@ -8,6 +8,7 @@ extern __prtf_, mem_putc_
 global sprintf_, UnpackHuffman
 ;-----------------------------------------------------------------------------
 ; sprintf_                                                      ADC18  library
+; Run-time library sprintf: formats into a string
 ;-----------------------------------------------------------------------------
 sprintf_:
         push ebx

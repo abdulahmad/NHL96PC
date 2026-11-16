@@ -979,7 +979,7 @@
 ;  BE6E0  DrawMarkingPolys                         lib/watcom/watcom_clib_06.asm                1
 ;  BE8AC  SetPolyVertexArrays                      lib/watcom/watcom_clib_06.asm                1
 ;  BE8C0  Init387Emulator                          lib/watcom/watcom_clib_06.asm                1
-;  BE8C5  imul32                                   lib/ea/ea_fileblock_03.asm                   1
+;  BE8C5  Fini387Emulator                          lib/ea/ea_fileblock_03.asm                   1
 ;  BE926  FixedInverse                             lib/ea/ea_fileblock_03.asm                   3
 ;  BE93C  fprintf_                                 lib/ea/ea_fileblock_03.asm                   5
 ;  BE960  IntSqrt                                  lib/ea/ea_fileblock_03.asm                   2

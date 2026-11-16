@@ -394,9 +394,7 @@ assextra4:
         jmp near assrefgoalpa_83E
 ;-----------------------------------------------------------------------------
 ; asswingo                                              31805  94G logic94.asm
-; Asstab slot 4; field alignment 83% of 18 known-field accesses; content rank
-; 1/34 vs other slot routines; 0 known Genesis callees present, 0 missing, 1
-; extra
+; Assignment table slot 4: a winger while his team attacks
 ;-----------------------------------------------------------------------------
 asswingo:
         push ebx
@@ -512,9 +510,7 @@ asswingo:
         ret
 ;-----------------------------------------------------------------------------
 ; asscenterd                                            31958  94G logic94.asm
-; Asstab slot 5; field alignment 80% of 10 known-field accesses; content rank
-; 1/34 vs other slot routines; 0 known Genesis callees present, 0 missing, 0
-; extra
+; Assignment table slot 5: the centre while his team defends
 ;-----------------------------------------------------------------------------
 asscenterd:
         push ebx
@@ -605,9 +601,7 @@ asscenterd:
         ret
 ;-----------------------------------------------------------------------------
 ; asscentero                                            31A53  94G logic94.asm
-; Asstab slot 6; field alignment 82% of 17 known-field accesses; content rank
-; 1/34 vs other slot routines; 0 known Genesis callees present, 0 missing, 1
-; extra
+; Assignment table slot 6: the centre while his team attacks
 ;-----------------------------------------------------------------------------
 asscentero:
         push ebx
@@ -1752,9 +1746,7 @@ assextra5:
         ret
 ;-----------------------------------------------------------------------------
 ; assnearest                                            327A2  94G logic94.asm
-; Asstab slot 17; field alignment 61% of 28 known-field accesses; content
-; rank 1/34 vs other slot routines; 1 known Genesis callees present, 0
-; missing, 0 extra
+; Assignment table slot 11h: the player nearest the puck goes after it
 ;-----------------------------------------------------------------------------
 assnearest:
         push ebx
@@ -2572,9 +2564,7 @@ assnearest:
         jmp near assrefgoalpa_83E
 ;-----------------------------------------------------------------------------
 ; assshoot                           33214  94G logic94.asm, medium confidence
-; Asstab slot 18; field alignment 100% of 3 known-field accesses; content
-; rank 1/34 vs other slot routines; 0 known Genesis callees present, 0
-; missing, 1 extra
+; Assignment table slot 12h: the player taking a shot
 ;-----------------------------------------------------------------------------
 assshoot:
         push ebx
@@ -2790,9 +2780,7 @@ donothing:
         jmp near assrefgoalpa_83E
 ;-----------------------------------------------------------------------------
 ; assscore                                              33478  94G logic94.asm
-; Asstab slot 7; field alignment 92% of 13 known-field accesses; content rank
-; 1/34 vs other slot routines; 2 known Genesis callees present, 0 missing, 0
-; extra
+; Assignment table slot 7: goal celebration skate
 ;-----------------------------------------------------------------------------
 assscore:
         push ebx
@@ -2968,9 +2956,7 @@ assscore:
         ret
 ;-----------------------------------------------------------------------------
 ; asseben                                               336BC  94G logic94.asm
-; Asstab slot 9; field alignment 88% of 16 known-field accesses; content rank
-; 1/34 vs other slot routines; 1 known Genesis callees present, 0 missing, 0
-; extra
+; Assignment table slot 9: skate to the bench at the end of a period
 ;-----------------------------------------------------------------------------
 asseben:
         push ebx
@@ -3256,9 +3242,7 @@ assleaveice:
         ret
 ;-----------------------------------------------------------------------------
 ; asspenalty                                            33A23  94G logic94.asm
-; Asstab slot 12; field alignment 97% of 30 known-field accesses; content
-; rank 1/34 vs other slot routines; 1 known Genesis callees present, 0
-; missing, 0 extra
+; Assignment table slot 0Ch: the penalised player skates to the penalty box
 ;-----------------------------------------------------------------------------
 asspenalty:
         push ebx
@@ -3509,9 +3493,7 @@ assdopen:
         ret
 ;-----------------------------------------------------------------------------
 ; assepen                                               33D20  94G logic94.asm
-; Asstab slot 10; field alignment 84% of 19 known-field accesses; content
-; rank 1/34 vs other slot routines; 1 known Genesis callees present, 0
-; missing, 0 extra
+; Assignment table slot 0Ah: a player leaving the penalty box
 ;-----------------------------------------------------------------------------
 assepen:
         push ebx
@@ -3645,9 +3627,7 @@ assepen:
         ret
 ;-----------------------------------------------------------------------------
 ; assbench                                              33EBF  94G logic94.asm
-; Asstab slot 11; field alignment 85% of 41 known-field accesses; content
-; rank 1/34 vs other slot routines; 1 known Genesis callees present, 0
-; missing, 0 extra
+; Assignment table slot 0Bh: a player going to the bench on a line change
 ;-----------------------------------------------------------------------------
 assbench:
         push ebx
@@ -4018,9 +3998,7 @@ assbench:
         jmp near asspuckc_394
 ;-----------------------------------------------------------------------------
 ; assfaceoff                                            34300  94G logic94.asm
-; Asstab slot 22; field alignment 100% of 1 known-field accesses; content
-; rank 1/34 vs other slot routines; 0 known Genesis callees present, 0
-; missing, 0 extra
+; Assignment table slot 16h: take a faceoff position
 ;-----------------------------------------------------------------------------
 assfaceoff:
         push edx
@@ -4557,9 +4535,7 @@ pucknorm:
         ret
 ;-----------------------------------------------------------------------------
 ; pucknothing                                           348F8  94G logic94.asm
-; Asstab slot 26; field alignment n/a of 0 known-field accesses; content rank
-; 2/34 vs other slot routines; 0 known Genesis callees present, 0 missing, 0
-; extra
+; Assignment table slot 1Ah: the puck with nothing to do
 ;-----------------------------------------------------------------------------
 pucknothing:
         push ebx
@@ -7199,9 +7175,7 @@ assrefdrop:
         pop ebx
 ;-----------------------------------------------------------------------------
 ; rtss                                                36924  94G collide94.asm
-; Asstab slot 0; field alignment n/a of 0 known-field accesses; content rank
-; 1/34 vs other slot routines; 0 known Genesis callees present, 0 missing, 0
-; extra
+; Assignment table slot 0: empty assignment, returns at once
 ;-----------------------------------------------------------------------------
 rtss:
         ret

@@ -7,12 +7,13 @@ section s_BE8C5 progbits alloc exec nowrite align=1
 extern __fprtf_, __sys_fini_387_emulator, NearClipZ, ScreenWidth, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom
 extern DrawDestBuffer, ViewCentreX, ViewCentreY, FovScaleX, ProjectFlags, SortBuffer, ScaledRowBuffer, Mul32To64
 extern Sar64, BuildSpanOffsets, SetBlitSource, ScaleRowRemapKeyed, ReverseBytes
-global fprintf_, imul32, FixedInverse, IntSqrt, SortIndices, BuildPerspTable, ProjectPointWide, ScaleArtRemapRows
+global fprintf_, Fini387Emulator, FixedInverse, IntSqrt, SortIndices, BuildPerspTable, ProjectPointWide, ScaleArtRemapRows
 global DrawArtScaledRemap, FlipArtHorizontal
 ;-----------------------------------------------------------------------------
-; imul32                                       BE8C5  95 PC, medium confidence
+; Fini387Emulator                                 BE8C5  95 PC, low confidence
+; Shut down entry of the 387 emulator: jumps to the emulator shut down
 ;-----------------------------------------------------------------------------
-imul32:
+Fini387Emulator:
         jmp near __sys_fini_387_emulator
         db 00h,00h
         mov eax, dword [byte esp+04h]
@@ -63,6 +64,7 @@ FixedInverse:
         db 00h,00h,00h
 ;-----------------------------------------------------------------------------
 ; fprintf_                                                      BE93C  library
+; Run-time library fprintf: formats to a stream
 ;-----------------------------------------------------------------------------
 fprintf_:
         push ebx
@@ -176,6 +178,7 @@ IntSqrt:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
 ; SortIndices                                  BEA30  95 PC, medium confidence
+; Sort library: sort n indices by their keys (n, keys, indices)
 ;-----------------------------------------------------------------------------
 SortIndices:
         push esi

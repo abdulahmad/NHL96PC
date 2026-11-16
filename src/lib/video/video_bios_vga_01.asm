@@ -53,6 +53,7 @@ GetPaletteRange:
         db 00h,00h,00h
 ;-----------------------------------------------------------------------------
 ; SetDrawBitmap                                DD708  95 PC, medium confidence
+; Copies a 12-word bitmap header into the screen bitmap the draw routines use
 ;-----------------------------------------------------------------------------
 SetDrawBitmap:
         LD mov, edx, edi
@@ -97,6 +98,7 @@ FillRectColor:
         ret
 ;-----------------------------------------------------------------------------
 ; SetClipWindow                                DD760  95 PC, medium confidence
+; (x0, y0, x1, y1): sets the drawing clip window, limited to the screen
 ;-----------------------------------------------------------------------------
 SetClipWindow:
         mov eax, dword [byte esp+04h]

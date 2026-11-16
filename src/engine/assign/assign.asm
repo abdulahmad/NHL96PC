@@ -418,9 +418,7 @@ assbenchside:
         ret
 ;-----------------------------------------------------------------------------
 ; assstanley                                            2F8BF  94G logic94.asm
-; Asstab slot 8; field alignment 70% of 10 known-field accesses; content rank
-; 1/34 vs other slot routines; 2 known Genesis callees present, 0 missing, 0
-; extra
+; Assignment table slot 8: the Stanley Cup skate after the final
 ;-----------------------------------------------------------------------------
 assstanley:
         push ebx
@@ -1401,9 +1399,7 @@ defotarget:
         ret
 ;-----------------------------------------------------------------------------
 ; assdefo                                               30483  94G logic94.asm
-; Asstab slot 1; field alignment 82% of 11 known-field accesses; content rank
-; 1/34 vs other slot routines; 0 known Genesis callees present, 0 missing, 0
-; extra
+; Assignment table slot 1: a defenceman while his team attacks
 ;-----------------------------------------------------------------------------
 assdefo:
         push ebx
@@ -1914,9 +1910,7 @@ defdtarget:
         ret
 ;-----------------------------------------------------------------------------
 ; assdefd                                               30A9B  94G logic94.asm
-; Asstab slot 2; field alignment 81% of 31 known-field accesses; content rank
-; 1/34 vs other slot routines; 0 known Genesis callees present, 0 missing, 0
-; extra
+; Assignment table slot 2: a defenceman while his team defends
 ;-----------------------------------------------------------------------------
 assdefd:
         push ebx
@@ -2557,9 +2551,7 @@ assextra3:
         ret
 ;-----------------------------------------------------------------------------
 ; asswingd                                              312D7  94G logic94.asm
-; Asstab slot 3; field alignment 80% of 10 known-field accesses; content rank
-; 2/34 vs other slot routines; 0 known Genesis callees present, 0 missing, 0
-; extra
+; Assignment table slot 3: a winger while his team defends
 ;-----------------------------------------------------------------------------
 asswingd:
         push ebx

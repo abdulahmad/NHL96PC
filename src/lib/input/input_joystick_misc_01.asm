@@ -18,12 +18,14 @@ global ReadJoystickPorts, JoyResetCentres, JoyButtonMap, AddExitHandler, ExitPro
 global ClearClipRect, InstallBreakHandler, RemoveBreakHandler
 ;-----------------------------------------------------------------------------
 ; GetTicks                                     DFEB4  95 PC, medium confidence
+; Returns the timer tick count
 ;-----------------------------------------------------------------------------
 GetTicks:
         mov eax, dword [tickcount]
         ret
 ;-----------------------------------------------------------------------------
 ; TicksSince                                                      DFEBA  95 PC
+; (start): ticks since the given tick count
 ;-----------------------------------------------------------------------------
 TicksSince:
         mov ecx, dword [byte esp+04h]
@@ -45,6 +47,7 @@ TicksSinceLast:
         ret
 ;-----------------------------------------------------------------------------
 ; SetTickDeadline                                                 DFEE1  95 PC
+; (ticks): sets the tick deadline that many ticks from now
 ;-----------------------------------------------------------------------------
 SetTickDeadline:
         mov eax, dword [byte esp+04h]
@@ -53,6 +56,7 @@ SetTickDeadline:
         ret
 ;-----------------------------------------------------------------------------
 ; WaitTickDeadline                                                DFEF1  95 PC
+; Waits until the tick deadline has passed
 ;-----------------------------------------------------------------------------
 WaitTickDeadline:
         mov eax, dword [tickcount]
@@ -61,6 +65,7 @@ WaitTickDeadline:
         ret
 ;-----------------------------------------------------------------------------
 ; TickDeadlinePassed                           DFEFF  95 PC, medium confidence
+; Returns 1 when the tick deadline has passed, else 0
 ;-----------------------------------------------------------------------------
 TickDeadlinePassed:
         mov ebx, dword [tickcount]
@@ -70,6 +75,7 @@ TickDeadlinePassed:
         ret
 ;-----------------------------------------------------------------------------
 ; WaitTicks                                                       DFF0F  95 PC
+; (ticks): waits that many ticks, running the idle handlers
 ;-----------------------------------------------------------------------------
 WaitTicks:
         mov eax, dword [byte esp+04h]
@@ -133,6 +139,7 @@ SetKbdIdleHook:
         ret
 ;-----------------------------------------------------------------------------
 ; WaitKey                                                         DFF70  95 PC
+; Waits for a key, calling the keyboard idle hook until one arrives
 ;-----------------------------------------------------------------------------
 WaitKey:
         call dword [KbdIdleHook]

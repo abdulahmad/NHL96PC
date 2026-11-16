@@ -12,6 +12,7 @@ global __InitFiles_, __full_io_exit_, __qwrite_, __setEFGfmt_, docloseall_, fclo
 global PrintCentredBoxed, ResetClipRect, ResetClipWindow
 ;-----------------------------------------------------------------------------
 ; __setEFGfmt_                                                  CFDF1  library
+; Run-time library: installs the float format hook for printf
 ;-----------------------------------------------------------------------------
 __setEFGfmt_:
         push ebx
@@ -97,6 +98,7 @@ ResetClipWindow:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
 ; memset_                                                       CFEB0  library
+; Run-time library memset: fills a block of memory
 ;-----------------------------------------------------------------------------
 memset_:
         push eax
@@ -113,6 +115,7 @@ memset_:
         ret
 ;-----------------------------------------------------------------------------
 ; __InitFiles_                                                  CFEC8  library
+; Run-time library: sets up the standard streams
 ;-----------------------------------------------------------------------------
 __InitFiles_:
         push ebx
@@ -157,6 +160,7 @@ __InitFiles_:
         ret
 ;-----------------------------------------------------------------------------
 ; __full_io_exit_                                               CFF40  library
+; Run-time library: closes all streams at exit
 ;-----------------------------------------------------------------------------
 __full_io_exit_:
         xor eax, eax
@@ -164,6 +168,7 @@ __full_io_exit_:
         jmp near __freefp__39
 ;-----------------------------------------------------------------------------
 ; fcloseall_                                                    CFF4C  library
+; Run-time library fcloseall: closes every stream but the standard ones
 ;-----------------------------------------------------------------------------
 fcloseall_:
         mov eax, 5
@@ -213,6 +218,7 @@ docloseall_:
         ret
 ;-----------------------------------------------------------------------------
 ; __qwrite_                                                     CFFA3  library
+; Run-time library: writes to a file handle
 ;-----------------------------------------------------------------------------
 __qwrite_:
         push ecx

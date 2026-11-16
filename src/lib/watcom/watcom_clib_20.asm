@@ -9,6 +9,7 @@ extern floor_, memset_, DecimalToInt64
 global AdjField_, DoEFormat_, DoFFormat_, _FtoS_, __EnterWVIDEO_, DoEFormat__A5, strtod_
 ;-----------------------------------------------------------------------------
 ; DoEFormat_                                                    DB9FA  library
+; Run-time library: formats a float in %e style
 ;-----------------------------------------------------------------------------
 DoEFormat_:
         push esi
@@ -93,6 +94,7 @@ DoEFormat__A5:
         ret
 ;-----------------------------------------------------------------------------
 ; DoFFormat_                                                    DBAA1  library
+; Run-time library: formats a float in %f style
 ;-----------------------------------------------------------------------------
 DoFFormat_:
         push esi
@@ -161,6 +163,7 @@ DoFFormat_:
         jmp short .8
 ;-----------------------------------------------------------------------------
 ; AdjField_                                                     DBB04  library
+; Run-time library: pads a formatted number to its field width
 ;-----------------------------------------------------------------------------
 AdjField_:
         push ebp
@@ -219,6 +222,7 @@ AdjField_:
         ret
 ;-----------------------------------------------------------------------------
 ; _FtoS_                                                        DBB6F  library
+; Run-time library: a float to a string
 ;-----------------------------------------------------------------------------
 _FtoS_:
         push ebp
@@ -466,6 +470,7 @@ _FtoS_:
         ret 14h
 ;-----------------------------------------------------------------------------
 ; strtod_                                                       DBD93  library
+; Run-time library strtod: a string to a double
 ;-----------------------------------------------------------------------------
 strtod_:
         push ebp
@@ -675,6 +680,7 @@ strtod_:
         ret
 ;-----------------------------------------------------------------------------
 ; __EnterWVIDEO_                                                DBF61  library
+; Run-time library: debugger hook (WVIDEO entry)
 ;-----------------------------------------------------------------------------
 __EnterWVIDEO_:
         cmp byte [WVideoActive], 0

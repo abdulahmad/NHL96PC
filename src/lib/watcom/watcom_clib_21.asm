@@ -13,6 +13,7 @@ global frexp_, modf_, ModfCore, DecimalToInt64, NormalizeDouble, DrawArtShadow, 
 global BigIntCallHook, BigIntNullHook, CopyRowShadow
 ;-----------------------------------------------------------------------------
 ; __Nan_Inf_                                                    DCC25  library
+; Run-time library: formats NaN and infinity
 ;-----------------------------------------------------------------------------
 __Nan_Inf_:
         push ebx
@@ -65,6 +66,7 @@ __Nan_Inf_:
         ret 0Ch
 ;-----------------------------------------------------------------------------
 ; floor_                                                        DCCA9  library
+; Run-time library floor
 ;-----------------------------------------------------------------------------
 floor_:
         push ebp
@@ -98,6 +100,7 @@ floor_:
         ret 8
 ;-----------------------------------------------------------------------------
 ; _Scale_                                                       DCCE5  library
+; Run-time library: scales a double by a power of two
 ;-----------------------------------------------------------------------------
 _Scale_:
         push ebp
@@ -134,6 +137,7 @@ _Scale_:
         ret 10h
 ;-----------------------------------------------------------------------------
 ; _Scale10V_                                                    DCD26  library
+; Run-time library: scales a double by a power of ten
 ;-----------------------------------------------------------------------------
 _Scale10V_:
         push eax
@@ -225,6 +229,7 @@ _Scale10V_:
         ret 0Ch
 ;-----------------------------------------------------------------------------
 ; __cvt_                                                        DCE0D  library
+; Run-time library: a double to its decimal digits
 ;-----------------------------------------------------------------------------
 __cvt_:
         push ebp
@@ -824,6 +829,7 @@ TranslateArtPixels:
         db 00h
 ;-----------------------------------------------------------------------------
 ; modf_                                                         DD32C  library
+; Run-time library modf: splits a double into integer and fraction
 ;-----------------------------------------------------------------------------
 modf_:
         push eax
@@ -839,6 +845,7 @@ modf_:
         db 00h
 ;-----------------------------------------------------------------------------
 ; __CmpBigInt                                                   DD346  library
+; Run-time library: compares two big integers (float conversion)
 ;-----------------------------------------------------------------------------
 __CmpBigInt:
         push edi
@@ -875,6 +882,7 @@ __CmpBigInt:
         ret
 ;-----------------------------------------------------------------------------
 ; __Rnd2Int                                                     DD380  library
+; Run-time library: rounds a double to an integer
 ;-----------------------------------------------------------------------------
 __Rnd2Int:
         push ebx
@@ -932,6 +940,7 @@ __Rnd2Int:
         ret
 ;-----------------------------------------------------------------------------
 ; __Bin2String                                                  DD3EB  library
+; Run-time library: a binary value to decimal digits
 ;-----------------------------------------------------------------------------
 __Bin2String:
         push ebp
@@ -1020,6 +1029,7 @@ BigIntNullHook:
         ret
 ;-----------------------------------------------------------------------------
 ; frexp_                                                        DD50C  library
+; Run-time library frexp: splits a double into mantissa and exponent
 ;-----------------------------------------------------------------------------
 frexp_:
         push eax

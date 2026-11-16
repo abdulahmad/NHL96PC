@@ -17,6 +17,7 @@ global InitReciprocalTable, ClipEdgeAtZ, ClipAndProjectEdge, PolySideTest, ClipP
 global DrawMarkingPolys, SetPolyVertexArrays, Init387Emulator
 ;-----------------------------------------------------------------------------
 ; __CHP                                                         BC73C  library
+; Run-time library: rounds the x87 top of stack to an integer (chop)
 ;-----------------------------------------------------------------------------
 __CHP:
         push eax

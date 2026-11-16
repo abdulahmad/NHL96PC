@@ -34,6 +34,7 @@ MemUnlock:
         ret
 ;-----------------------------------------------------------------------------
 ; mem_putc__0                                                   C3C0F  library
+; Run-time library: stores one character into a memory string stream (vsprintf output)
 ;-----------------------------------------------------------------------------
 mem_putc__0:
         push ebx
@@ -49,6 +50,7 @@ mem_putc__0:
         ret
 ;-----------------------------------------------------------------------------
 ; vsprintf_                                                     C3C22  library
+; Run-time library vsprintf: formats into a string
 ;-----------------------------------------------------------------------------
 vsprintf_:
         push ecx
@@ -68,6 +70,7 @@ VfprintfThunk:
         jmp near __fprtf_
 ;-----------------------------------------------------------------------------
 ; fputs_                                                        C3C3C  library
+; Run-time library fputs: writes a string to a stream
 ;-----------------------------------------------------------------------------
 fputs_:
         push ebx

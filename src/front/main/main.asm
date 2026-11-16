@@ -653,6 +653,7 @@ StartUp_ret:
         ret
 ;-----------------------------------------------------------------------------
 ; main_                                                         1B7F8  library
+; Program entry from the C start-up: sets up the game and runs the front end
 ;-----------------------------------------------------------------------------
 main_:
         push ebx

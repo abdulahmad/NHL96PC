@@ -7,6 +7,7 @@ section s_DA5AF progbits alloc exec nowrite align=1
 global inp_, outp_
 ;-----------------------------------------------------------------------------
 ; outp_                                                         DA5AF  library
+; Run-time library outp: writes a byte to an I/O port
 ;-----------------------------------------------------------------------------
 outp_:
         push ebx
@@ -21,6 +22,7 @@ outp_:
         ret
 ;-----------------------------------------------------------------------------
 ; inp_                                                          DA5BD  library
+; Run-time library inp: reads a byte from an I/O port
 ;-----------------------------------------------------------------------------
 inp_:
         push edx

@@ -28,7 +28,7 @@ extern PlaySampleOnChannel, FreeBankMemory, UpdateChannelGain, ResetMixChannel, 
 extern MixerSetChannelRate, MixerSamplesLeft, ParseBlasterEnv, SbDspVersion, WssProbePort, GusDetect, SndTimerCallback, TgvCopyBlock
 extern TgvFillBlock, GatherPlaneBytes, DrawArtKeyedAt, PutBlockKeyedAt, CopyRowKeyedRemap, SetScreenTarget, WriteSequencerReg, ReturnZero
 extern AddExitHandler, bcopy, Random32, CrowdBank, CrowdLayers, SndChannels, MixerStepTable
-global _Alphabet, abs_, fini_void_, getcwd_, itoa_, SndErrorTextJumpTable, SetSpeechQueueVolume, SetCrowdLayerLevels_18C
+global _Alphabet, abs_, TgvShowFrameRateQuiet, getcwd_, itoa_, SndErrorTextJumpTable, SetSpeechQueueVolume, SetCrowdLayerLevels_18C
 global memcmp_, SpeechQueueService, ClearSpeechSlot, ResetSpeechQueue, OpenSpeechQueue, AddSpeechQueueClip, SpeechQueueBusy, StartSpeechQueue
 global FlushSpeechQueue, CloseSpeechQueue, FadeChannelVolume, SetChannelVolume, SetChannelBend, StopSoundChannel, ChannelSamplesLeft, ChannelIdle
 global OpenAudioStream, QueueStreamPacket, AudioStreamCallback, InitAudioStream, StartAudioStream, FeedAudioStream, AudioStreamActive, FlushAudioStream
@@ -42,6 +42,7 @@ global TgvBlitFrame, DisableInterrupts, EnableInterrupts, CopyRowKeyed, DrawArtK
 global WssBasePorts, utoa_
 ;-----------------------------------------------------------------------------
 ; abs_                                                          BF949  library
+; Run-time library abs: the absolute value of an integer
 ;-----------------------------------------------------------------------------
 abs_:
         test eax, eax
@@ -4167,9 +4168,10 @@ TgvShowFrameRate:
         add esp, byte 8
         ret
 ;-----------------------------------------------------------------------------
-; fini_void_                                                    C2248  library
+; TgvShowFrameRateQuiet                           C2248  96 PC, low confidence
+; Counts a movie frame for the frame rate without printing it (unused)
 ;-----------------------------------------------------------------------------
-fini_void_:
+TgvShowFrameRateQuiet:
         push byte 0
         push ReturnZero
         call TgvShowFrameRate
@@ -4370,6 +4372,7 @@ EnableInterrupts:
         ret
 ;-----------------------------------------------------------------------------
 ; getcwd_                                                       C2444  library
+; Run-time library getcwd: the current directory
 ;-----------------------------------------------------------------------------
 getcwd_:
         push ebx
@@ -4684,6 +4687,7 @@ _Alphabet:                                      ; IDA FLIRT library signature; u
         db 077h,078h,079h,07Ah,00h
 ;-----------------------------------------------------------------------------
 ; utoa_                                                         C271E  library
+; Run-time library utoa: an unsigned integer to a string
 ;-----------------------------------------------------------------------------
 utoa_:
         push ecx
@@ -4725,6 +4729,7 @@ utoa_:
         ret
 ;-----------------------------------------------------------------------------
 ; itoa_                                                         C2768  library
+; Run-time library itoa: an integer to a string
 ;-----------------------------------------------------------------------------
 itoa_:
         push ecx
@@ -4744,6 +4749,7 @@ itoa_:
         db 00h
 ;-----------------------------------------------------------------------------
 ; memcmp_                                                       C2784  library
+; Run-time library memcmp: compares two blocks
 ;-----------------------------------------------------------------------------
 memcmp_:
         push ecx

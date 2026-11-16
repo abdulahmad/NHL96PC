@@ -10,6 +10,7 @@ global getprintspecs_, ArtBitDepthJumpTable, far_strlen__1F, ArtBitDepth_19, Art
 global ArtBitDepth_37, ArtBitDepth_3D, memmove_, RefPackSize, GetPalette, ArtBitDepth, PixelToRgb, zupstr_
 ;-----------------------------------------------------------------------------
 ; __prtf_                                                       C40B4  library
+; Run-time library: the printf formatting engine
 ;-----------------------------------------------------------------------------
 __prtf_:
         push esi
@@ -265,6 +266,7 @@ __prtf_:
         ret
 ;-----------------------------------------------------------------------------
 ; getprintspecs_                                                C4335  library
+; Run-time library: reads one printf format specification
 ;-----------------------------------------------------------------------------
 getprintspecs_:
         push ecx
@@ -420,6 +422,7 @@ getprintspecs_:
         ret
 ;-----------------------------------------------------------------------------
 ; evalflags_                                                    C4468  library
+; Run-time library: reads the flags of a printf specification
 ;-----------------------------------------------------------------------------
 evalflags_:
         push ebx
@@ -469,6 +472,7 @@ evalflags_:
         ret
 ;-----------------------------------------------------------------------------
 ; far_strlen_                                                   C44C3  library
+; Run-time library: length of a far string (printf)
 ;-----------------------------------------------------------------------------
 far_strlen_:
         push ecx
@@ -498,6 +502,7 @@ far_strlen__1F:
         ret
 ;-----------------------------------------------------------------------------
 ; far_other_strlen_                                             C44E7  library
+; Run-time library: length of a far wide string (printf)
 ;-----------------------------------------------------------------------------
 far_other_strlen_:
         push ecx
@@ -521,6 +526,7 @@ far_other_strlen_:
         jmp short .1
 ;-----------------------------------------------------------------------------
 ; fmt4hex_                                                      C450A  library
+; Run-time library: formats a value as four hex digits
 ;-----------------------------------------------------------------------------
 fmt4hex_:
         push ecx
@@ -579,6 +585,7 @@ fmt4hex_:
         ret
 ;-----------------------------------------------------------------------------
 ; FixedPoint_Format_                                            C456B  library
+; Run-time library: formats a fixed point value
 ;-----------------------------------------------------------------------------
 FixedPoint_Format_:
         push ecx
@@ -689,12 +696,14 @@ FixedPoint_Format_:
         ret
 ;-----------------------------------------------------------------------------
 ; float_format_                                                 C4646  library
+; Run-time library: formats a float for printf
 ;-----------------------------------------------------------------------------
 float_format_:
         call dword [__EFG_printf]
         ret
 ;-----------------------------------------------------------------------------
 ; formstring_                                                   C464D  library
+; Run-time library: formats an integer into its digits for printf
 ;-----------------------------------------------------------------------------
 formstring_:
         push esi
@@ -1128,6 +1137,7 @@ formstring_:
         ret
 ;-----------------------------------------------------------------------------
 ; zupstr_                                                       C4A96  library
+; Run-time library: makes a string upper case (printf %X)
 ;-----------------------------------------------------------------------------
 zupstr_:
         push edx
@@ -1146,6 +1156,7 @@ zupstr_:
         ret
 ;-----------------------------------------------------------------------------
 ; memmove_                                                      C4AAE  library
+; Run-time library memmove: copies a block that may overlap
 ;-----------------------------------------------------------------------------
 memmove_:
         push ecx

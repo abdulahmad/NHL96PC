@@ -1565,7 +1565,7 @@ BE47C,SubdivideMappedTriangle,sub_BE47C,new,low,"draws a mapped triangle, splitt
 BE6E0,DrawMarkingPolys,sub_BE6E0,new,low,"clips, projects and fills a list of flat polygons (ice markings)",src/lib/watcom/watcom_clib_06.asm
 BE8AC,SetPolyVertexArrays,sub_BE8AC,new,low,sets the point arrays and colour DrawMarkingPolys uses,src/lib/watcom/watcom_clib_06.asm
 BE8C0,Init387Emulator,sub_BE8C0,new,low,jumps to the 387 emulator set-up,src/lib/watcom/watcom_clib_06.asm
-BE8C5,imul32,,95PC,medium,NHL95PC 933F0 (similar): mnemonic similarity 0.82 over 47 instructions,
+BE8C5,Fini387Emulator,,95PC,low,shut down entry of the 387 emulator: jumps to the emulator shut down,src/lib/ea/ea_fileblock_03.asm
 BE926,FixedInverse,sub_BE926,new,low,returns 1/x in 16.16 fixed point,src/lib/ea/ea_fileblock_03.asm
 BE93C,fprintf_,,WATCOM,high,IDA FLIRT library signature,
 BE960,IntSqrt,sub_BE960,new,low,returns the integer square root of a number,src/lib/ea/ea_fileblock_03.asm
@@ -1660,7 +1660,7 @@ C1FC0,TgvAllocDecoder,sub_C1FC0,new,medium,allocates and clears a TGV video deco
 C1FEC,TgvDecodeFrame,sub_C1FEC,new,medium,"decodes one TGV video frame chunk, key or delta",src/lib/watcom/watcom_clib_08.asm
 C204C,TgvFreeDecoder,sub_C204C,new,medium,frees a TGV video decoder and its buffers,src/lib/watcom/watcom_clib_08.asm
 C20E0,TgvShowFrameRate,sub_C20E0,new,medium,counts frames and prints the playback rate and average,src/lib/watcom/watcom_clib_08.asm
-C2248,fini_void_,,WATCOM,high,IDA FLIRT library signature,
+C2248,TgvShowFrameRateQuiet,,WATCOM,low,counts a movie frame for the frame rate without printing it (unused),src/lib/watcom/watcom_clib_08.asm
 C2268,TgvResetFrameRate,sub_C2268,new,medium,resets the frame rate counters,src/lib/watcom/watcom_clib_08.asm
 C2290,TgvBlitFrame,sub_C2290,new,medium,"copies a decoded TGV frame to the screen, clipped",src/lib/watcom/watcom_clib_08.asm
 C2440,DisableInterrupts,sub_C2440,new,high,disables interrupts,src/lib/watcom/watcom_clib_08.asm

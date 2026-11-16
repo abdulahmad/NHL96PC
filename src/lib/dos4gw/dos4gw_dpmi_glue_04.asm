@@ -27,6 +27,7 @@ global EmuRegRing, EmuRegLastSlot, EmuRegSlots, EmuRegTagMasks
 global EmuCompareCcBits, EmuFpremCcBits, EmuEaModRmTable, EmuEaSibTable
 ;-----------------------------------------------------------------------------
 ; _DoINTR_                                                      D14D1  library
+; Run-time library: the intr call helper
 ;-----------------------------------------------------------------------------
 _DoINTR_:
         pusha
@@ -1376,6 +1377,8 @@ EmuModRmJumpTable:                              ; jump table for the switch case
         dd EmuReservedOp
 ;-----------------------------------------------------------------------------
 ; __int7_pl3                                                    D27B8  library
+; Coprocessor not available trap (ring 3 extender): passes the frame to the
+; 387 emulator
 ;-----------------------------------------------------------------------------
 __int7_pl3:
         sti
@@ -1395,6 +1398,8 @@ __int7_pl3:
         db 087h,0DBh,090h
 ;-----------------------------------------------------------------------------
 ; __int7_X32VM                                                  D27DC  library
+; Coprocessor not available trap (X32VM extender): builds a frame and runs the
+; 387 emulator
 ;-----------------------------------------------------------------------------
 __int7_X32VM:
         sti
@@ -1438,6 +1443,7 @@ __int7_X32VM:
         db 087h,0DBh
 ;-----------------------------------------------------------------------------
 ; __int7                                                        D2828  library
+; Coprocessor not available trap: builds a frame and runs the 387 emulator
 ;-----------------------------------------------------------------------------
 __int7:
         sti

@@ -10,6 +10,7 @@ extern AllocMemBlock, FreeMemBlock, VesaSetBank, BlitShapeFast, FindShape, FindS
 global __STOSB, __STOSD, DrawArtFast, FindShapeListQuiet, FindShapeList, VesaGetInfo, VesaGetModeInfo
 ;-----------------------------------------------------------------------------
 ; __STOSB                                                       BF070  library
+; Run-time library: fills bytes (memset helper)
 ;-----------------------------------------------------------------------------
 __STOSB:
         or ecx, ecx
@@ -42,6 +43,7 @@ __STOSB:
         db 090h,090h,090h,090h,090h,090h
 ;-----------------------------------------------------------------------------
 ; __STOSD                                                       BF0A7  library
+; Run-time library: fills dwords (memset helper)
 ;-----------------------------------------------------------------------------
 __STOSD:
         or ecx, ecx

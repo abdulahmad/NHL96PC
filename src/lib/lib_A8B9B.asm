@@ -1262,6 +1262,7 @@ PlayoffLeadersScreens:
         db 00h,00h,00h
 ;-----------------------------------------------------------------------------
 ; _searchenv_                                                   A9BCC  library
+; Run-time library _searchenv: finds a file on the paths of an environment variable
 ;-----------------------------------------------------------------------------
 _searchenv_:
         push ecx

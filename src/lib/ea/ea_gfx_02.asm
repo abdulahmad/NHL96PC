@@ -12,6 +12,8 @@ global TextStringWidth, mem_putc_, FillRect, FillRectClipped, XorRect, XorRectCl
 global TextWidthN, FreeBitmap
 ;-----------------------------------------------------------------------------
 ; FillRect                                     AD680  95 PC, medium confidence
+; Graphics library: fill a rectangle (x, y, w, h, colour) on the current draw
+; target, by pixel depth
 ;-----------------------------------------------------------------------------
 FillRect:
         push esi
@@ -604,6 +606,7 @@ FreeBitmap:
         ret
 ;-----------------------------------------------------------------------------
 ; mem_putc_                                                     ADC05  library
+; Run-time library: stores one character into a memory string stream (sprintf output)
 ;-----------------------------------------------------------------------------
 mem_putc_:
         push ebx

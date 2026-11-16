@@ -10,6 +10,7 @@ extern RestoreDS, BlitShapeClipped, VesaSetBank, AddExitHandler, bcopy, tickcoun
 global InstallTimer, RestoreTimer, TimerISR, addtimer, RemoveTimerCallback, DrawShapeCore, str_Locateshape44sSHAPENOTFOUND, TimerISR_tick
 ;-----------------------------------------------------------------------------
 ; TimerISR                                     AA5C4  95 PC, medium confidence
+; Timer interrupt handler: increments tickcount
 ;-----------------------------------------------------------------------------
 TimerISR:
         pusha
@@ -59,6 +60,7 @@ TimerISR_tick:
         iret
 ;-----------------------------------------------------------------------------
 ; addtimer                                     AA62C  95 PC, medium confidence
+; Adds a routine to the timer callback list
 ;-----------------------------------------------------------------------------
 addtimer:
         mov edx, dword [timercallbacks]
@@ -141,6 +143,7 @@ RemoveTimerCallback:
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
 ; RestoreTimer                                 AA6D0  95 PC, medium confidence
+; Puts the original timer interrupt handler and the timer rate back
 ;-----------------------------------------------------------------------------
 RestoreTimer:
         push ebx
@@ -181,6 +184,7 @@ RestoreTimer:
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
 ; InstallTimer                                 AA734  95 PC, medium confidence
+; Allocates the timer stack, masks the timer and installs the timer interrupt
 ;-----------------------------------------------------------------------------
 InstallTimer:
         mov ecx, 8

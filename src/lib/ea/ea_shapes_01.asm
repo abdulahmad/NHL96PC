@@ -106,6 +106,7 @@ FillRowTable:
         ret
 ;-----------------------------------------------------------------------------
 ; removewindow                                 C3D80  95 PC, medium confidence
+; EA library: releases a drawing window (drops its reference and frees it at zero)
 ;-----------------------------------------------------------------------------
 removewindow:
         push ebx

@@ -63,6 +63,7 @@ CreateHandle:
         jmp short openhandle_14
 ;-----------------------------------------------------------------------------
 ; openhandle                                                      E06B2  95 PC
+; EA library: opens a file with the DOS create or open call and returns its handle
 ;-----------------------------------------------------------------------------
 openhandle:
         push ebp

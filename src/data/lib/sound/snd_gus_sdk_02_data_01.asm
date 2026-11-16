@@ -4,7 +4,7 @@
 bits 32
 %include "hockey.inc"
 section s_151418 progbits alloc noexec write align=1
-extern __InitFiles_, __chk8087_, __full_io_exit_, __setEFGfmt_, __setenvp_, imul32, DrawArt, PutBlock
+extern __InitFiles_, __chk8087_, __full_io_exit_, __setEFGfmt_, __setenvp_, Fini387Emulator, DrawArt, PutBlock
 extern Init387Emulator, SaveStackSegment, GusSizeDram, GusInitDma, DrawArtShadow
 global GusDmaLatchBits, GusDmaPageTable, GusDramSized, WVideoActive, GusDmaReady, GusIrqOldHandler, GusMidiPending, GusMidiIrqCount
 global GusTimerCallback, GusDmaDoneCallback, GusRecordDoneCallback, GusWaveCallback, GusVolumeCallback, GusTimer1Callback, GusTimer2Callback, GusWaveIrqCallback
@@ -136,7 +136,7 @@ InitRtnsEntry:                                  ; start up routine entry; used b
         dd SaveStackSegment
 FiniRtnsEntry:                                  ; shut down routine entry; used by __FiniRtns, __InitRtns
         db 00h,01h
-        dd imul32
+        dd Fini387Emulator
         db 00h,020h
         dd __full_io_exit_
 GusInitTable:                                   ; Gravis register initialisation table; used by

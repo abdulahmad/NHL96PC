@@ -32,6 +32,7 @@ GetRandState:
         ret
 ;-----------------------------------------------------------------------------
 ; rand_                                                         B03F8  library
+; Run-time library rand: the next random number
 ;-----------------------------------------------------------------------------
 rand_:
         push edx
@@ -49,6 +50,7 @@ rand_:
         ret
 ;-----------------------------------------------------------------------------
 ; srand_                                                        B041C  library
+; Run-time library srand: seeds the random numbers
 ;-----------------------------------------------------------------------------
 srand_:
         push edx
@@ -1141,6 +1143,7 @@ CreateColourLookup:
         db 00h
 ;-----------------------------------------------------------------------------
 ; _dos_getdate_                                                 B1004  library
+; Run-time library _dos_getdate: the DOS date
 ;-----------------------------------------------------------------------------
 _dos_getdate_:
         push edx
@@ -1160,6 +1163,7 @@ _dos_getdate_:
         ret
 ;-----------------------------------------------------------------------------
 ; _dos_gettime_                                                 B101F  library
+; Run-time library _dos_gettime: the DOS time
 ;-----------------------------------------------------------------------------
 _dos_gettime_:
         push edx
@@ -1852,6 +1856,8 @@ SerialIsrCom4:
         db 00h,00h
 ;-----------------------------------------------------------------------------
 ; SerialIsrCom1_85                                                     B15C2  
+; Serial port interrupt body: reads the interrupt id and jumps to the receive,
+; send or status case
 ;-----------------------------------------------------------------------------
 SerialIsrCom1_85:
         mov dx, word [byte ebx+08h]
@@ -1980,6 +1986,7 @@ SerialIsrExit:
         jmp near SerialIsrCom1_85
 ;-----------------------------------------------------------------------------
 ; strstr_                                                       B16C9  library
+; Run-time library strstr: finds a substring
 ;-----------------------------------------------------------------------------
 strstr_:
         push ebx
@@ -2099,6 +2106,7 @@ strstr_:
         ret
 ;-----------------------------------------------------------------------------
 ; atoi_                                                         B178B  library
+; Run-time library atoi: a decimal string to an integer
 ;-----------------------------------------------------------------------------
 atoi_:
         push ebx
@@ -2147,6 +2155,7 @@ atoi_:
         ret
 ;-----------------------------------------------------------------------------
 ; strlen_                                                       B17E2  library
+; Run-time library strlen: the length of a string
 ;-----------------------------------------------------------------------------
 strlen_:
         push ecx
@@ -2168,6 +2177,7 @@ strlen_:
         ret
 ;-----------------------------------------------------------------------------
 ; strncmp_                                                      B17FB  library
+; Run-time library strncmp: compares at most n characters
 ;-----------------------------------------------------------------------------
 strncmp_:
         push ecx
@@ -2231,6 +2241,7 @@ LinkCrc16:
         ret
 ;-----------------------------------------------------------------------------
 ; open_                                                         B186C  library
+; Run-time library open: opens a file
 ;-----------------------------------------------------------------------------
 open_:
         push ebx
@@ -2251,6 +2262,7 @@ open_:
         ret
 ;-----------------------------------------------------------------------------
 ; sopen_                                                        B1890  library
+; Run-time library sopen: opens a file with a share mode
 ;-----------------------------------------------------------------------------
 sopen_:
         push ebx
@@ -2432,6 +2444,7 @@ sopen_:
         ret
 ;-----------------------------------------------------------------------------
 ; __set_binary_                                                 B1A55  library
+; Run-time library: puts a file handle in binary mode
 ;-----------------------------------------------------------------------------
 __set_binary_:
         push ebx
@@ -2486,6 +2499,7 @@ __set_binary_:
         ret
 ;-----------------------------------------------------------------------------
 ; lseek_                                                        B1ABA  library
+; Run-time library lseek: moves a file handle's position
 ;-----------------------------------------------------------------------------
 lseek_:
         push ecx
@@ -2518,6 +2532,8 @@ lseek_:
         ret
 ;-----------------------------------------------------------------------------
 ; read_                                                         B1AFB  library
+; Run-time library read: reads from a file handle, converting line ends in
+; text mode
 ;-----------------------------------------------------------------------------
 read_:
         push ecx
@@ -2644,6 +2660,7 @@ CloseFile:
         jmp near __close_
 ;-----------------------------------------------------------------------------
 ; byteswap_                                                     B1C13  library
+; Run-time library: swaps two memory blocks (qsort helper)
 ;-----------------------------------------------------------------------------
 byteswap_:
         push es
@@ -2674,6 +2691,7 @@ byteswap_:
         ret
 ;-----------------------------------------------------------------------------
 ; med3_                                                         B1C39  library
+; Run-time library: the median of three elements (qsort helper)
 ;-----------------------------------------------------------------------------
 med3_:
         push esi
@@ -2727,6 +2745,7 @@ med3__4F:
         ret
 ;-----------------------------------------------------------------------------
 ; qsort_                                                        B1C91  library
+; Run-time library qsort: sorts an array
 ;-----------------------------------------------------------------------------
 qsort_:
         push esi

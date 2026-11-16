@@ -21,6 +21,7 @@ global SaveTextScreen, RestoreTextScreen, PointerOnTarget, DrawPointer, UpdatePo
 global PointerSetupBitmaps, PointerLoadShapes, InitPointer, InstallDebugHotkeys, DrawTextBoxedAt, SaveStackSegment, IntrLoadSegRegs
 ;-----------------------------------------------------------------------------
 ; __CommonInit_                                                 D069B  library
+; Run-time library: common start-up (DPMI lock of the DS restore code)
 ;-----------------------------------------------------------------------------
 __CommonInit_:
         mov dword [__amblksiz], 8000h
@@ -1253,6 +1254,7 @@ SaveStackSegment:
         ret
 ;-----------------------------------------------------------------------------
 ; __CHK                                                         D1434  library
+; Run-time library: stack overflow check
 ;-----------------------------------------------------------------------------
 __CHK:
         xchg eax, dword [byte esp+04h]
@@ -1261,11 +1263,13 @@ __CHK:
         ret 4
 ;-----------------------------------------------------------------------------
 ; __GRO                                                         D1444  library
+; Run-time library: stack grow check
 ;-----------------------------------------------------------------------------
 __GRO:
         ret 4
 ;-----------------------------------------------------------------------------
 ; __STK                                                         D1447  library
+; Run-time library: stack check on routine entry
 ;-----------------------------------------------------------------------------
 __STK:
         cmp eax, esp

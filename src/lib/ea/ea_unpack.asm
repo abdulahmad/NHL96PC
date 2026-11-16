@@ -1340,6 +1340,7 @@ PackedTypeOf:
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
 ; unpack                                       AFB88  95 PC, medium confidence
+; EA library: unpacks a compressed block (the packed size is in its big-endian header)
 ;-----------------------------------------------------------------------------
 unpack:
         push esi
@@ -1973,6 +1974,7 @@ SetDrawTarget:
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
 ; TextSetFont                                  B0284  95 PC, medium confidence
+; Sets the text font: tag, first and last character, width and height
 ;-----------------------------------------------------------------------------
 TextSetFont:
         push esi

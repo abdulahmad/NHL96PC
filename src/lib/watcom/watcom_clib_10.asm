@@ -10,6 +10,7 @@ global _Full_at_exit_rtn_, __filbuf_, __fill_buffer_, __ioalloc_, __null_int23_e
 global exit_, fgetc_
 ;-----------------------------------------------------------------------------
 ; __ioalloc_                                                    C3727  library
+; Run-time library: allocates a stream's buffer
 ;-----------------------------------------------------------------------------
 __ioalloc_:
         push ecx
@@ -57,6 +58,7 @@ __ioalloc_:
         ret
 ;-----------------------------------------------------------------------------
 ; __qread_                                                      C379E  library
+; Run-time library: reads from a file handle
 ;-----------------------------------------------------------------------------
 __qread_:
         push ecx
@@ -76,6 +78,7 @@ __qread_:
         ret
 ;-----------------------------------------------------------------------------
 ; fgetc_                                                        C37BD  library
+; Run-time library fgetc: reads a character from a stream
 ;-----------------------------------------------------------------------------
 fgetc_:
         push ebx
@@ -141,6 +144,7 @@ fgetc_:
         ret
 ;-----------------------------------------------------------------------------
 ; __filbuf_                                                     C3846  library
+; Run-time library: fills a stream's buffer and returns its first character
 ;-----------------------------------------------------------------------------
 __filbuf_:
         push ebx
@@ -170,6 +174,7 @@ __filbuf_:
         ret
 ;-----------------------------------------------------------------------------
 ; __fill_buffer_                                                C3875  library
+; Run-time library: reads the next block into a stream's buffer
 ;-----------------------------------------------------------------------------
 __fill_buffer_:
         push ebx
@@ -242,6 +247,7 @@ __fill_buffer_:
         ret
 ;-----------------------------------------------------------------------------
 ; _Full_at_exit_rtn_                                            C3920  library
+; Run-time library: runs the atexit routines
 ;-----------------------------------------------------------------------------
 _Full_at_exit_rtn_:
         push ebx
@@ -268,6 +274,7 @@ _Full_at_exit_rtn_:
         ret
 ;-----------------------------------------------------------------------------
 ; atexit_                                                       C3957  library
+; Run-time library atexit: registers an exit routine
 ;-----------------------------------------------------------------------------
 atexit_:
         push ebx
@@ -296,11 +303,13 @@ atexit_:
         ret
 ;-----------------------------------------------------------------------------
 ; __null_int23_exit_                                            C3993  library
+; Run-time library: empty Ctrl+C exit hook
 ;-----------------------------------------------------------------------------
 __null_int23_exit_:
         ret
 ;-----------------------------------------------------------------------------
 ; exit_                                                         C3994  library
+; Run-time library exit: runs the exit routines and ends the program
 ;-----------------------------------------------------------------------------
 exit_:
         push edx
@@ -313,6 +322,7 @@ exit_:
         ret
 ;-----------------------------------------------------------------------------
 ; _exit_                                                        C39AC  library
+; Run-time library _exit: ends the program at once
 ;-----------------------------------------------------------------------------
 _exit_:
         push edx

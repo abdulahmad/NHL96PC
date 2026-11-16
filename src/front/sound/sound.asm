@@ -19,7 +19,7 @@ global StopAllSfx, StopAllSfx_8D, StopAllSfx_BA, StopAllSfx_BF, StopAllSfx_F7, P
 global CrowdNoiseReset, GetCrowdTarget, SetCrowdTarget, CrowdPause, CrowdResume, CrowdFadeOut, sfx, sfx_3B
 global CrowdReaction, PlayArenaClip, ArenaClipService, ArenaClipReady, StartArenaClip, StopArenaClip, GetSoundCard, GetSoundCardJumpTable
 global TestCdSpeed, StartSoundCardJumpTable, StartSoundCard, StartSoundCard_23, StartSoundCard_2A, StartSoundCard_31, StartSoundCard_38, StartSoundCard_3F
-global StartGameSound, EndGameSound, ShutdownSound, SoundSecondsToBytes, SoundIdle, SpeechService, SpeechService_58, SpeechService_6B
+global StartGameSound, EndGameSound, ShutdownSound, SoundSecondsToBytes, SoundIdle, SpeechService, SoundIdleSpeech, SoundIdleDone
 ;-----------------------------------------------------------------------------
 ; StopAllSfx                                   68D25  96 PC, medium confidence
 ; With a sound effect bank loaded, stops every sound effect voice that is
@@ -1165,10 +1165,10 @@ SoundSecondsToBytes:
 ;-----------------------------------------------------------------------------
 SoundIdle:
         cmp dword [SoundCardOn], byte 0
-        je short SpeechService_58
+        je short SoundIdleSpeech
         call ArenaClipService
         cmp dword [ArenaClipState], byte 0
-        jne short SpeechService_6B
+        jne short SoundIdleDone
 ;-----------------------------------------------------------------------------
 ; SpeechService                                                   69AB2  96 PC
 ; Feeds the speech async reads and starts the next queued clip
@@ -1192,9 +1192,14 @@ SpeechService:
         call asyncreader
         mov dword [byte ebp-04h], 0
         jmp near StopSpeech_1FA
-SpeechService_58:
+;-----------------------------------------------------------------------------
+; SoundIdleSpeech                                                 69B0A  96 PC
+; Rest of SoundIdle: services speech, then feeds the music stream unless a
+; speech clip is starting
+;-----------------------------------------------------------------------------
+SoundIdleSpeech:
         call SpeechService
         cmp word [SpeechStarting], byte 0
         je near FeedMusicStream
-SpeechService_6B:
+SoundIdleDone:
         ret

@@ -8,6 +8,7 @@ extern __fatal_runtime_error_, __flush_, __ioalloc_, __set_errno_, str_FloatingP
 global __flushall_, fputc_, getche_, ltoa_, NoFloatSupport, toupper_, ultoa_, str_0123456789abcdefghijklmnopqr_ultoa_
 ;-----------------------------------------------------------------------------
 ; __flushall_                                                   D01B5  library
+; Run-time library: flushes every open stream whose flags match the mask
 ;-----------------------------------------------------------------------------
 __flushall_:
         push ebx
@@ -37,6 +38,7 @@ __flushall_:
         ret
 ;-----------------------------------------------------------------------------
 ; getche_                                                       D01E4  library
+; Run-time library getche: reads a key and echoes it
 ;-----------------------------------------------------------------------------
 getche_:
         push edx
@@ -53,6 +55,7 @@ getche_:
         ret
 ;-----------------------------------------------------------------------------
 ; fputc_                                                        D0201  library
+; Run-time library fputc: writes a character to a stream
 ;-----------------------------------------------------------------------------
 fputc_:
         push ebx
@@ -147,6 +150,7 @@ str_0123456789abcdefghijklmnopqr_ultoa_:        ; string "0123456789abcdefghijkl
         db 077h,078h,079h,07Ah,00h
 ;-----------------------------------------------------------------------------
 ; ultoa_                                                        D02DF  library
+; Run-time library ultoa: an unsigned long to a string
 ;-----------------------------------------------------------------------------
 ultoa_:
         push ecx
@@ -186,6 +190,7 @@ ultoa_:
         ret
 ;-----------------------------------------------------------------------------
 ; ltoa_                                                         D0328  library
+; Run-time library ltoa: a long to a string
 ;-----------------------------------------------------------------------------
 ltoa_:
         push ecx
@@ -204,6 +209,7 @@ ltoa_:
         ret
 ;-----------------------------------------------------------------------------
 ; toupper_                                                      D0343  library
+; Run-time library toupper: a character to upper case
 ;-----------------------------------------------------------------------------
 toupper_:
         cmp eax, byte 61h

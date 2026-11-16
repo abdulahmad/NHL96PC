@@ -90,6 +90,7 @@ global CopyDtaIn, UnlinkJump, OpenResourceArchive, GetResourceArchiveName, AaSet
 global AaAddQuarterJumpTable, AaSetThirdJumpTable, AaAddThirdJumpTable, AaSetTwoThirdsJumpTable, AaAddTwoThirdsJumpTable, AaRowStepJumpTable, AaRowStepLastJumpTable, __saved_DS
 ;-----------------------------------------------------------------------------
 ; printf_                                                       B2C98  library
+; Run-time library printf: formats to standard output
 ;-----------------------------------------------------------------------------
 printf_:
         push ebx
@@ -107,6 +108,7 @@ printf_:
         ret
 ;-----------------------------------------------------------------------------
 ; chdir_                                                        B2CBA  library
+; Run-time library chdir: changes the current directory
 ;-----------------------------------------------------------------------------
 chdir_:
         push edx
@@ -652,6 +654,7 @@ NearestColour:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
 ; DetectCPU                                                       B32E0  95 PC
+; Detects the CPU type (386, 486, Pentium) and its CPUID features
 ;-----------------------------------------------------------------------------
 DetectCPU:
         mov dword [CpuIs386], 1
@@ -4862,6 +4865,7 @@ DrawArtAaScaledXY:
         db 00h,00h,00h
 ;-----------------------------------------------------------------------------
 ; start                                                         B6308  library
+; Program entry point: the C run-time start-up
 ;-----------------------------------------------------------------------------
 start:
         jmp short start_74.1
@@ -5517,6 +5521,7 @@ CdSeek:
         ret
 ;-----------------------------------------------------------------------------
 ; strncpy_                                                      B6991  library
+; Run-time library strncpy: copies at most n characters
 ;-----------------------------------------------------------------------------
 strncpy_:
         push ecx
@@ -6167,6 +6172,7 @@ CdDirEntry:
         ret
 ;-----------------------------------------------------------------------------
 ; _dos_close_                                                   B71A6  library
+; Run-time library _dos_close: closes a DOS file handle
 ;-----------------------------------------------------------------------------
 _dos_close_:
         push ebx
@@ -6178,6 +6184,7 @@ _dos_close_:
         ret
 ;-----------------------------------------------------------------------------
 ; _dos_commit_                                                  B71B5  library
+; Run-time library _dos_commit: flushes a DOS file to disk
 ;-----------------------------------------------------------------------------
 _dos_commit_:
         push ebx
@@ -6190,6 +6197,7 @@ _dos_commit_:
         ret
 ;-----------------------------------------------------------------------------
 ; _dos_open_                                                    B71C5  library
+; Run-time library _dos_open: opens a DOS file
 ;-----------------------------------------------------------------------------
 _dos_open_:
         xchg edx, eax
@@ -6298,6 +6306,7 @@ UnlinkJump:
         jmp near unlink_
 ;-----------------------------------------------------------------------------
 ; rmdir_                                                        B725B  library
+; Run-time library rmdir: removes a directory
 ;-----------------------------------------------------------------------------
 rmdir_:
         push edx
@@ -6318,6 +6327,8 @@ rmdir_:
         ret
 ;-----------------------------------------------------------------------------
 ; _dos_creat_                                                   B727A  library
+; Run-time library _dos_creat: creates or truncates a file and returns its
+; handle
 ;-----------------------------------------------------------------------------
 _dos_creat_:
         push ecx
@@ -6333,6 +6344,7 @@ _dos_creat_:
         ret
 ;-----------------------------------------------------------------------------
 ; _dos_creatnew_                                                B728E  library
+; Run-time library _dos_creatnew: creates a file that must not exist yet
 ;-----------------------------------------------------------------------------
 _dos_creatnew_:
         push ecx
@@ -6348,6 +6360,7 @@ _dos_creatnew_:
         ret
 ;-----------------------------------------------------------------------------
 ; _dos_read_                                                    B72A2  library
+; Run-time library _dos_read: reads from a DOS file handle
 ;-----------------------------------------------------------------------------
 _dos_read_:
         push dword 3F00h
@@ -6371,6 +6384,8 @@ _dos_read__5:
         ret 4
 ;-----------------------------------------------------------------------------
 ; _dos_write_                                                   B72CC  library
+; Run-time library _dos_write: writes to a DOS file handle through the shared
+; read and write code
 ;-----------------------------------------------------------------------------
 _dos_write_:
         push dword 4000h
@@ -6378,6 +6393,7 @@ _dos_write_:
         db 00h
 ;-----------------------------------------------------------------------------
 ; _dos_getdiskfree_                                             B72D4  library
+; Run-time library _dos_getdiskfree: free space of a drive
 ;-----------------------------------------------------------------------------
 _dos_getdiskfree_:
         push edi
@@ -6495,6 +6511,7 @@ GetResourceArchiveName:
         ret
 ;-----------------------------------------------------------------------------
 ; stricmp_                                                      B73CA  library
+; Run-time library stricmp: compares two strings, ignoring case
 ;-----------------------------------------------------------------------------
 stricmp_:
         push ebx

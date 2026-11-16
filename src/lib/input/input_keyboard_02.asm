@@ -9,6 +9,7 @@ extern RestoreTextMode
 global FatalError
 ;-----------------------------------------------------------------------------
 ; FatalError                                                      E0834  95 PC
+; Prints an error message, in a box when graphics are up, and exits to DOS
 ;-----------------------------------------------------------------------------
 FatalError:
         pop eax

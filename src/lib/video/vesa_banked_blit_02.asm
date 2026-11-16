@@ -70,6 +70,7 @@ SetClipRect:
         ret
 ;-----------------------------------------------------------------------------
 ; PlotPixel                                    DE10D  95 PC, medium confidence
+; Graphics library: plots a pixel, clipped to the window
 ;-----------------------------------------------------------------------------
 PlotPixel:
         mov eax, dword [byte esp+04h]

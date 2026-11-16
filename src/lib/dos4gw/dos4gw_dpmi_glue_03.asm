@@ -8,6 +8,7 @@ extern _Extender, _ExtenderSubtype, _curbrk, _STACKTOP, ErrnoPtr
 global __brk_, flushall_, sbrk__B9, sbrk_
 ;-----------------------------------------------------------------------------
 ; sbrk_                                                         D002F  library
+; Run-time library sbrk: grows the program's data break
 ;-----------------------------------------------------------------------------
 sbrk_:
         push ebx
@@ -90,6 +91,7 @@ sbrk__B9:
         ret
 ;-----------------------------------------------------------------------------
 ; __brk_                                                        D00EE  library
+; Run-time library brk: sets the program's data break
 ;-----------------------------------------------------------------------------
 __brk_:
         push ebx
@@ -174,6 +176,7 @@ __brk_:
         jmp near sbrk__B9
 ;-----------------------------------------------------------------------------
 ; flushall_                                                     D01B0  library
+; Run-time library flushall: writes out every stream
 ;-----------------------------------------------------------------------------
 flushall_:
         mov eax, 0FFFFFFFFh

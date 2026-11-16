@@ -9,6 +9,7 @@ extern MemLockState
 global _dos_getvect_, _dos_setvect_, DrawShapeOpaque_34, DrawShapeOpaque, ResetMemLock
 ;-----------------------------------------------------------------------------
 ; _dos_setvect_                                                 C39C2  library
+; Run-time library _dos_setvect: sets an interrupt vector
 ;-----------------------------------------------------------------------------
 _dos_setvect_:
         push edx
@@ -37,6 +38,7 @@ _dos_setvect_:
         ret
 ;-----------------------------------------------------------------------------
 ; _dos_getvect_                                                 C39ED  library
+; Run-time library _dos_getvect: reads an interrupt vector
 ;-----------------------------------------------------------------------------
 _dos_getvect_:
         push ebx

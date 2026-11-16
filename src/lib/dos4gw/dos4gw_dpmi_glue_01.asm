@@ -10,6 +10,7 @@ global RationalAlloc_, __AdjustAmount_, __CreateNewNHeap_, __ExpandDGROUP_, __Fr
 global RationalAlloc__CA, RationalAlloc__CD
 ;-----------------------------------------------------------------------------
 ; __FreeDPMIBlocks_                                             C31C4  library
+; Run-time heap: frees the DPMI memory blocks of the near heap
 ;-----------------------------------------------------------------------------
 __FreeDPMIBlocks_:
         push ebx
@@ -58,6 +59,7 @@ __FreeDPMIBlocks_:
         jmp short .1
 ;-----------------------------------------------------------------------------
 ; __ReAllocDPMIBlock_                                           C3222  library
+; Run-time heap: resizes a DPMI memory block
 ;-----------------------------------------------------------------------------
 __ReAllocDPMIBlock_:
         push ebx
@@ -163,6 +165,7 @@ __ReAllocDPMIBlock_:
         ret
 ;-----------------------------------------------------------------------------
 ; __LinkUpNewMHeap_                                             C3325  library
+; Run-time heap: links a new memory block into the near heap list
 ;-----------------------------------------------------------------------------
 __LinkUpNewMHeap_:
         push ebx
@@ -212,6 +215,7 @@ __LinkUpNewMHeap_:
         ret
 ;-----------------------------------------------------------------------------
 ; __LastFree_                                                   C3399  library
+; Run-time heap: finds the last free entry of the heap
 ;-----------------------------------------------------------------------------
 __LastFree_:
         push ebx
@@ -249,6 +253,7 @@ __LastFree_:
         ret
 ;-----------------------------------------------------------------------------
 ; RationalAlloc_                                                C33E7  library
+; DOS/4GW: allocates memory through the extender
 ;-----------------------------------------------------------------------------
 RationalAlloc_:
         push ebx
@@ -343,6 +348,7 @@ RationalAlloc__CD:
         ret
 ;-----------------------------------------------------------------------------
 ; __CreateNewNHeap_                                             C34BA  library
+; Run-time heap: creates a new near heap segment
 ;-----------------------------------------------------------------------------
 __CreateNewNHeap_:
         push ebx
@@ -414,6 +420,7 @@ __CreateNewNHeap_:
         jmp near RationalAlloc__CA
 ;-----------------------------------------------------------------------------
 ; __ExpandDGROUP_                                               C3569  library
+; Run-time heap: grows the data group for the near heap
 ;-----------------------------------------------------------------------------
 __ExpandDGROUP_:
         push ebx
@@ -543,6 +550,7 @@ __ExpandDGROUP_:
         ret
 ;-----------------------------------------------------------------------------
 ; __AdjustAmount_                                               C36AD  library
+; Run-time heap: rounds a request size to the heap granularity
 ;-----------------------------------------------------------------------------
 __AdjustAmount_:
         push ebx

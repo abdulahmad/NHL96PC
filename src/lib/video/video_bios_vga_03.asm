@@ -1067,6 +1067,7 @@ PrintfSaveRegs:
         ret
 ;-----------------------------------------------------------------------------
 ; SaveTextMode                                                    E2484  95 PC
+; Saves the BIOS text mode, page, columns and rows before the game changes the screen
 ;-----------------------------------------------------------------------------
 SaveTextMode:
         cmp byte [SavedTextMode], 0
@@ -1087,6 +1088,7 @@ SaveTextMode:
         ret
 ;-----------------------------------------------------------------------------
 ; RestoreTextMode                                                 E24C4  95 PC
+; Restores the text mode saved by SaveTextMode
 ;-----------------------------------------------------------------------------
 RestoreTextMode:
         pusha

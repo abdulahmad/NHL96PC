@@ -9,6 +9,7 @@ extern WriteConsoleMessage, _Envptr_w4
 global __cnvs2d_, __exit_with_msg_, __fatal_runtime_error_, __setenvp_, forcedecpt_, PutBytesLE
 ;-----------------------------------------------------------------------------
 ; forcedecpt_                                                   D7BB2  library
+; Run-time library: makes sure a formatted float has a decimal point
 ;-----------------------------------------------------------------------------
 forcedecpt_:
         push ebx
@@ -56,6 +57,7 @@ forcedecpt_:
         ret
 ;-----------------------------------------------------------------------------
 ; __cnvs2d_                                                     D7BFA  library
+; Run-time library: a decimal string to a double
 ;-----------------------------------------------------------------------------
 __cnvs2d_:
         push ebx
@@ -67,6 +69,7 @@ __cnvs2d_:
         ret
 ;-----------------------------------------------------------------------------
 ; __setenvp_                                                    D7C08  library
+; Run-time library: builds the environment pointer table at start-up
 ;-----------------------------------------------------------------------------
 __setenvp_:
         push ebx
@@ -162,11 +165,13 @@ __setenvp_:
         ret
 ;-----------------------------------------------------------------------------
 ; __exit_with_msg_                                              D7CDC  library
+; Run-time library: prints a message and exits
 ;-----------------------------------------------------------------------------
 __exit_with_msg_:
         jmp near WriteConsoleMessage
 ;-----------------------------------------------------------------------------
 ; __fatal_runtime_error_                                        D7CE1  library
+; Run-time library: prints a fatal run-time error and exits
 ;-----------------------------------------------------------------------------
 __fatal_runtime_error_:
         push ebx

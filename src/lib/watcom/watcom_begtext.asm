@@ -7,6 +7,8 @@ section s_10000 progbits alloc exec nowrite align=1
 global ___begtext, begtext_forever
 ;-----------------------------------------------------------------------------
 ; begtext_forever                                                      10000  
+; Start of the code segment: a breakpoint loop that traps a call through a
+; null pointer
 ;-----------------------------------------------------------------------------
 begtext_forever:
         int3

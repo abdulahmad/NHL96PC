@@ -2,9 +2,9 @@
 bits 32
 %include "hockey.inc"
 section s_E0898 progbits alloc exec nowrite align=1
-extern NearClipZ, dword_1222C8, dword_1222CC, dword_1222D0, RandState, dword_1222D8, RandIndex, DrawClipLeft
+extern NearClipZ, RandomState, RandIndex, DrawClipLeft
 extern DrawClipTop, DrawClipRight, DrawClipBottom, ViewHalfWidth, ViewHalfHeight, ViewOriginX, ViewOriginY, ViewCentreX
-extern ViewCentreY, dword_123AAC, dword_123AB0, ViewFovX, ViewFovY, dword_123ABC, ShadowFillFunc, TitleBandFunc
+extern ViewCentreY, FovScaleX, FovScaleY, ViewFovX, ViewFovY, ProjectFlags, ShadowFillFunc, TitleBandFunc
 extern FillSpanList, RemapSpanList, FillRectSpans, FillRectColor, SetupRectFillBlend, SetupRectFill, AngleFromDelta, SinLookup
 extern CosLookup
 global FillBandRowsJumpTable, FillBandRowsBlendJumpTable, FillBandRowsPlainJumpTable, FillPolygon_F, FillPolygonArgs_F, FillPolygonCore, jpt_E0C7A_38, jpt_E0DBA_3B
@@ -17,27 +17,27 @@ global SetViewFov, TransposeMatrix
 ;-----------------------------------------------------------------------------
 Random32:
         mov eax, dword [RandIndex]
-        add eax, dword [dword_1222D8]
-        mov dword [dword_1222D8], eax
-        adc eax, dword [RandState]
-        mov dword [RandState], eax
-        adc eax, dword [dword_1222D0]
-        mov dword [dword_1222D0], eax
-        adc eax, dword [dword_1222CC]
-        mov dword [dword_1222CC], eax
-        adc eax, dword [dword_1222C8]
-        mov dword [dword_1222C8], eax
+        add eax, dword [RandomState+10h]
+        mov dword [RandomState+10h], eax
+        adc eax, dword [RandomState+0Ch]
+        mov dword [RandomState+0Ch], eax
+        adc eax, dword [RandomState+8]
+        mov dword [RandomState+8], eax
+        adc eax, dword [RandomState+4]
+        mov dword [RandomState+4], eax
+        adc eax, dword [RandomState]
+        mov dword [RandomState], eax
         inc dword [RandIndex]
         jne short .1
-        inc dword [dword_1222D8]
+        inc dword [RandomState+10h]
         jne short .1
-        inc dword [RandState]
+        inc dword [RandomState+0Ch]
         jne short .1
-        inc dword [dword_1222D0]
+        inc dword [RandomState+8]
         jne short .1
-        inc dword [dword_1222CC]
+        inc dword [RandomState+4]
         jne short .1
-        inc dword [dword_1222C8]
+        inc dword [RandomState]
         inc eax
 .1:
         ret
@@ -45,16 +45,16 @@ Random32:
         LD mov, ebp, esp
         mov eax, dword [byte ebp+08h]
         add eax, 0F22D0E56h
-        mov dword [dword_1222C8], eax
+        mov dword [RandomState], eax
         add eax, 96041893h
-        mov dword [dword_1222CC], eax
+        mov dword [RandomState+4], eax
         add eax, 3DF3B646h
-        mov dword [dword_1222D0], eax
+        mov dword [RandomState+8], eax
         add eax, 40DDE76Dh
-        mov dword [RandState], eax
+        mov dword [RandomState+0Ch], eax
         db 05h,0E1h,07Ah,032h,097h              ; insn: add eax,97327AE1h
         db 0A3h                                 ; insn: mov [122D8h],eax
-        dd dword_1222D8
+        dd RandomState+10h
         add eax, 0D1A9FBE7h
         mov dword [RandIndex], eax
         leave
@@ -1568,7 +1568,7 @@ SetViewFov_2D:
         LD mov, ecx, eax
         LD mov, eax, esi
         div ecx
-        mov dword [dword_123AAC], eax
+        mov dword [FovScaleX], eax
         mov ebx, dword [ViewFovY]
         LD or, ebx, ebx
         je short .1
@@ -1584,7 +1584,7 @@ SetViewFov_2D:
         LD mov, eax, esi
         div ecx
         neg eax
-        mov dword [dword_123AB0], eax
+        mov dword [FovScaleY], eax
         pop edi
         pop esi
         leave
@@ -1596,7 +1596,7 @@ SetViewFov_2D:
         shr ebx, 1
         LD sub, eax, ebx
         neg eax
-        mov dword [dword_123AB0], eax
+        mov dword [FovScaleY], eax
         neg eax
         push dword [ViewHalfHeight]
         push eax
@@ -1612,12 +1612,12 @@ SetViewFov_2D:
         cmp dword [byte ebx+08h], byte 0
         jle short .2
         mov eax, dword [ebx]
-        imul dword [dword_123AAC]
+        imul dword [FovScaleX]
         idiv dword [byte ebx+08h]
         add eax, dword [ViewCentreX]
         mov dword [ecx], eax
         mov eax, dword [byte ebx+04h]
-        imul dword [dword_123AB0]
+        imul dword [FovScaleY]
         idiv dword [byte ebx+08h]
         add eax, dword [ViewCentreY]
         mov dword [byte ecx+04h], eax
@@ -1625,7 +1625,7 @@ SetViewFov_2D:
 .2:
         mov dword [ecx], 80000000h
         mov dword [byte ecx+04h], 80000000h
-        or dword [dword_123ABC], byte 1
+        or dword [ProjectFlags], byte 1
         ret
         db 00h
 ;-----------------------------------------------------------------------------

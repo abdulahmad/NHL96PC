@@ -2,11 +2,11 @@
 bits 32
 %include "hockey.inc"
 section s_AEE40 progbits alloc exec nowrite align=1
-extern FatalError, str_Lzh, str_Copyright, str_UnpackINVALIDPACKCODE, str_TextTable, byte_11FA2C, byte_11FA2D, byte_11FA2E
-extern byte_11FA2F, byte_11FA30, byte_11FA31, str_ctl07, byte_11FB50, byte_11FC50, dword_11FA14, dword_11FA18
-extern TextOriginX, TextOriginY, dword_11FA24, dword_11FA28, dword_11FA34, dword_11FA38, dword_11FA3C, dword_11FA40
-extern dword_11FA44, dword_11FA48, dword_11FA4C, dword_11FD50, UnpackSrcPtr, UnpackDestPtr, dword_185768, UnpackStackPtr
-extern UnpackPairTable, memmove_, off_11FA10, strncmp_, AllocMemBlock, FreeMemBlock, UnpackHuffman, NearestColour
+extern FatalError, str_Lzh, str_Copyright, str_UnpackINVALIDPACKCODE, str_TextTable, TextFirstChar, TextLastChar, TextCharW
+extern TextCharH, TextSpacing, TextFontH, str_ctl07, LzhPosCode, LzhPosLen, TextColour, TextBgColour
+extern TextOriginX, TextOriginY, TextShadowOn, TextFontTag, TextWidthTable, TextCursorX, TextCursorY, TextLeft
+extern TextTop, TextRight, TextBottom, TextColourTable, UnpackSrcPtr, UnpackDestPtr, UnpackPairState, UnpackStackPtr
+extern UnpackPairTable, memmove_, TextFont, strncmp_, AllocMemBlock, FreeMemBlock, UnpackHuffman, NearestColour
 extern RefPackSize, GetPalette, ArtBitDepth, PixelToRgb, bcopy
 global ExpandBytePair, UnpackBytePair, UnpackDelta, UnpackRunLength, LzhGetBit, LzhGetByte, LzhStartHuff, LzhReconstruct
 global LzhUpdate, LzhDecodeChar, LzhDecodePosition, UnpackLzh, SkipCopyrightHeader, PackedTypeOf, unpack, UnpackTo
@@ -148,7 +148,7 @@ UnpackBytePair:
 .5:
         jge near .10
         mov eax, dword [UnpackDestPtr]
-        mov dword [dword_185768], ebx
+        mov dword [UnpackPairState], ebx
         mov dword [UnpackSrcPtr], esi
         mov al, byte [edx+eax]
 .6:
@@ -186,7 +186,7 @@ UnpackBytePair:
 .9:
         mov esi, dword [UnpackSrcPtr]
         inc esi
-        mov ebx, dword [dword_185768]
+        mov ebx, dword [UnpackPairState]
         mov byte [byte esi-01h], al
         jmp near .4
 .10:
@@ -201,7 +201,7 @@ UnpackBytePair:
 .11:
         mov eax, dword [dword esp+0304h]
         mov dword [UnpackSrcPtr], esi
-        mov dword [dword_185768], ebx
+        mov dword [UnpackPairState], ebx
         add esp, 30Ch
         pop edi
         pop esi
@@ -757,11 +757,11 @@ LzhDecodePosition:
         mov ebx, eax
         xor edx, edx
         call LzhGetByte
-        mov dl, byte [dword eax+byte_11FB50]
+        mov dl, byte [dword eax+LzhPosCode]
         mov esi, edx
         xor edx, edx
         mov ecx, eax
-        mov dl, byte [dword eax+byte_11FC50]
+        mov dl, byte [dword eax+LzhPosLen]
         shl esi, 6
         sub edx, byte 2
 .1:
@@ -1534,7 +1534,7 @@ BuildTextColourTable:
         push dword 100h
         push byte 0
         call GetPalette
-        mov edx, dword [dword_11FD50]
+        mov edx, dword [TextColourTable]
         add esp, byte 0Ch
         test edx, edx
         jne short .1
@@ -1543,7 +1543,7 @@ BuildTextColourTable:
         push str_TextTable
         call AllocMemBlock
         add esp, byte 0Ch
-        mov dword [dword_11FD50], eax
+        mov dword [TextColourTable], eax
 .1:
         mov edi, dword [dword esp+0300h]
         xor esi, esi
@@ -1637,7 +1637,7 @@ BuildTextColourTable:
         add esp, byte 4
         mov ebx, eax
         mov eax, dword [dword esp+0318h]
-        mov edx, dword [dword_11FD50]
+        mov edx, dword [TextColourTable]
         or eax, edi
         add esi, byte 4
         mov byte [edx+eax], bl
@@ -1738,19 +1738,19 @@ TextSetColor:
         sub esp, byte 3Ch
         mov esi, dword [byte esp+04Ch]
         mov edi, dword [byte esp+050h]
-        cmp dword [dword_11FA24], byte 0
+        cmp dword [TextShadowOn], byte 0
         je short .1
         mov eax, esi
         call TextBuildShades
 .1:
-        mov ecx, dword [dword_11FA28]
-        mov dword [dword_11FA14], esi
-        mov dword [dword_11FA18], edi
+        mov ecx, dword [TextFontTag]
+        mov dword [TextColour], esi
+        mov dword [TextBgColour], edi
         xor ebx, ebx
         cmp ecx, 464E544Dh
         je short .2
         mov ecx, 4
-        mov eax, dword_11FA28
+        mov eax, TextFontTag
         mov eax, dword [eax]
         bswap eax
         neg ecx
@@ -1759,7 +1759,7 @@ TextSetColor:
         cmp eax, 464E5449h
         je short .2
         mov ecx, 4
-        mov eax, dword_11FA28
+        mov eax, TextFontTag
         mov eax, dword [eax]
         bswap eax
         neg ecx
@@ -1768,7 +1768,7 @@ TextSetColor:
         cmp eax, 464E544Dh
         je short .2
         mov ecx, 4
-        mov eax, dword_11FA28
+        mov eax, TextFontTag
         mov eax, dword [eax]
         bswap eax
         neg ecx
@@ -1781,13 +1781,13 @@ TextSetColor:
 .3:
         test ebx, ebx
         je short .4
-        mov ebp, dword [dword_11FA48]
+        mov ebp, dword [TextRight]
         push ebp
         call ArtBitDepth
         add esp, byte 4
         jmp short .5
 .4:
-        mov eax, dword [off_11FA10]
+        mov eax, dword [TextFont]
         mov al, byte [byte eax+03h]
         and eax, 0FFh
         sub eax, byte 30h
@@ -1948,7 +1948,7 @@ SaveTextState:
         push edi
         mov ecx, 10h
         mov edi, dword [byte esp+0Ch]
-        mov esi, off_11FA10
+        mov esi, TextFont
         rep movsd
         pop edi
         pop esi
@@ -1963,7 +1963,7 @@ SetDrawTarget:
         push edi
         mov ecx, 10h
         mov esi, dword [byte esp+0Ch]
-        mov edi, off_11FA10
+        mov edi, TextFont
         rep movsd
         pop edi
         pop esi
@@ -1976,27 +1976,27 @@ TextSetFont:
         push esi
         mov edx, dword [byte esp+08h]
         mov ebx, dword [edx]
-        mov dword [dword_11FA28], ebx
+        mov dword [TextFontTag], ebx
         mov bl, byte [byte edx+04h]
-        mov byte [byte_11FA2C], bl
+        mov byte [TextFirstChar], bl
         mov bl, byte [byte edx+05h]
-        mov byte [byte_11FA2D], bl
+        mov byte [TextLastChar], bl
         mov bl, byte [byte edx+06h]
-        mov byte [byte_11FA2E], bl
+        mov byte [TextCharW], bl
         mov bl, byte [byte edx+07h]
-        mov byte [byte_11FA2F], bl
+        mov byte [TextCharH], bl
         mov bl, byte [byte edx+08h]
-        mov byte [byte_11FA30], bl
+        mov byte [TextSpacing], bl
         mov bl, byte [byte edx+09h]
-        mov byte [byte_11FA31], bl
+        mov byte [TextFontH], bl
         mov bl, byte [byte edx+0Ah]
         mov byte [str_ctl07], bl
         xor ebx, ebx
-        mov dword [dword_11FA24], ebx
+        mov dword [TextShadowOn], ebx
         mov ebx, dword [byte edx+010h]
         mov eax, edx
         sar ebx, 10h
-        mov dword [off_11FA10], edx
+        mov dword [TextFont], edx
         test ebx, ebx
         je short .1
         add edx, ebx
@@ -2004,7 +2004,7 @@ TextSetFont:
 .1:
         xor edx, edx
 .2:
-        mov dword [dword_11FA34], edx
+        mov dword [TextWidthTable], edx
         mov edx, dword [byte eax+014h]
         shl edx, 10h
         sar edx, 10h
@@ -2012,14 +2012,14 @@ TextSetFont:
         je short .3
         add edx, eax
 .3:
-        mov dword [dword_11FA38], edx
+        mov dword [TextCursorX], edx
         mov edx, dword [byte eax+014h]
         sar edx, 10h
         test edx, edx
         je short .4
         add edx, eax
 .4:
-        mov dword [dword_11FA3C], edx
+        mov dword [TextCursorY], edx
         mov edx, dword [byte eax+018h]
         shl edx, 10h
         sar edx, 10h
@@ -2027,24 +2027,24 @@ TextSetFont:
         je short .5
         add edx, eax
 .5:
-        mov dword [dword_11FA40], edx
+        mov dword [TextLeft], edx
         mov edx, dword [byte eax+018h]
         sar edx, 10h
         test edx, edx
         je short .6
         add edx, eax
 .6:
-        mov dword [dword_11FA44], edx
+        mov dword [TextTop], edx
         mov edx, dword [byte eax+01Ch]
         lea ebx, [eax+edx]
-        mov ecx, dword [dword_11FA28]
+        mov ecx, dword [TextFontTag]
         add eax, byte 20h
-        mov dword [dword_11FA48], ebx
-        mov dword [dword_11FA4C], eax
+        mov dword [TextRight], ebx
+        mov dword [TextBottom], eax
         cmp ecx, 464E544Dh
         je short .7
         mov ecx, 4
-        mov eax, dword_11FA28
+        mov eax, TextFontTag
         mov eax, dword [eax]
         bswap eax
         neg ecx
@@ -2053,7 +2053,7 @@ TextSetFont:
         cmp eax, 464E5449h
         je short .7
         mov ecx, 4
-        mov eax, dword_11FA28
+        mov eax, TextFontTag
         mov eax, dword [eax]
         bswap eax
         neg ecx
@@ -2062,7 +2062,7 @@ TextSetFont:
         cmp eax, 464E544Dh
         je short .7
         mov ecx, 4
-        mov eax, dword_11FA28
+        mov eax, TextFontTag
         mov eax, dword [eax]
         bswap eax
         neg ecx
@@ -2071,7 +2071,7 @@ TextSetFont:
         cmp eax, 464E5450h
         jne short .8
 .7:
-        mov esi, dword [dword_11FA48]
+        mov esi, dword [TextRight]
         test esi, esi
         je short .8
         push esi
@@ -2080,10 +2080,10 @@ TextSetFont:
         cmp eax, byte 1
         setg al
         and eax, 0FFh
-        mov dword [dword_11FA24], eax
+        mov dword [TextShadowOn], eax
 .8:
         pop esi
         ret
         db 090h
-        mov eax, dword [dword_11FA38]
+        mov eax, dword [TextCursorX]
         ret

@@ -3,9 +3,9 @@ bits 32
 %include "hockey.inc"
 extern BottomBarArt
 section s_6CF0D progbits alloc exec nowrite align=1
-extern BlackPalette, byte_11FA2F, ClearSlotUser, CopyBitmap, DrawColorText, DrawColorTextRight, DrawFrameAt, SaveFileHandle
+extern BlackPalette, TextCharH, ClearSlotUser, CopyBitmap, DrawColorText, DrawColorTextRight, DrawFrameAt, SaveFileHandle
 extern ControllerSlotX, ControllerSlotY, ControllerSlotStates, ControllerSlotItems, ControllerLayout, str_G, ControllerOptionRows, ControllerTitlePos
-extern dword_11F5C0, dword_11F5C4, FrontEndScreenBmp, MatchupLayer, TeamStatsBitmap
+extern ViewScreenWidth, ViewScreenHeight, FrontEndScreenBmp, MatchupLayer, TeamStatsBitmap
 extern MenuBoxStyle, PlayoffTreeData, RosterFileHandle, PlayoffsActive, ControllerSlotIcon
 extern ControllerColumnArt, ControllerBackBmp, ControllerIconArt, LinesEditAway, LinesEditMode, LinesEditTeam, FadeOut
 extern FadePalette, FillMusicStream, TextStringWidth, gameopts, GetInputDevices, GetLangText, GetTeamNameArt, GetTicks
@@ -61,8 +61,8 @@ ControllerUsersPanel:
         push ecx
         call GetTicks
         push byte 0
-        push dword [dword_11F5C4]
-        push dword [dword_11F5C0]
+        push dword [ViewScreenHeight]
+        push dword [ViewScreenWidth]
         lea edi, [byte eax+03h]
         call CreateBitmap
         add esp, byte 0Ch
@@ -1981,7 +1981,7 @@ DrawControllerColumns:
         inc eax
         inc eax
         push eax
-        movzx edi, byte [byte_11FA2F]
+        movzx edi, byte [TextCharH]
         mov dword [byte ebp-01Ch], eax
         call TextStringWidth
         lea edx, [byte edi+01h]
@@ -2009,7 +2009,7 @@ DrawControllerColumns:
         mov eax, dword [dword eax+ControllerSlotItems]
         mov word [byte eax+04h], dx
         mov eax, dword [byte ebp-014h]
-        movzx dx, byte [byte_11FA2F]
+        movzx dx, byte [TextCharH]
         mov eax, dword [dword eax+ControllerSlotItems]
         inc edx
         add esp, byte 4
@@ -2435,7 +2435,7 @@ DrawControllerColumns:
         push byte 20h
         inc eax
         inc eax
-        movzx edi, byte [byte_11FA2F]
+        movzx edi, byte [TextCharH]
         push eax
         inc edi
         mov dword [byte ebp-01Ch], eax
@@ -2464,7 +2464,7 @@ DrawControllerColumns:
         mov eax, dword [dword eax+ControllerSlotItems]
         mov word [byte eax+04h], dx
         mov eax, dword [byte ebp-010h]
-        movzx dx, byte [byte_11FA2F]
+        movzx dx, byte [TextCharH]
         mov eax, dword [dword eax+ControllerSlotItems]
         inc edx
         add esp, byte 4
@@ -2960,7 +2960,7 @@ ControllerScreen:
         add esp, byte 8
         mov dword [byte eax+01Eh], edx
         push byte 20h
-        movzx esi, byte [byte_11FA2F]
+        movzx esi, byte [TextCharH]
         push dword [byte ebp-014h]
         inc esi
         call TextStringWidth
@@ -2989,7 +2989,7 @@ ControllerScreen:
         mov eax, dword [dword eax+ControllerSlotItems]
         mov word [byte eax+04h], dx
         mov eax, dword [byte ebp-018h]
-        movzx dx, byte [byte_11FA2F]
+        movzx dx, byte [TextCharH]
         mov esi, dword [byte ebp-04Ch]
         inc edx
         mov eax, dword [dword eax+ControllerSlotItems]
@@ -3241,7 +3241,7 @@ ControllerScreen:
         add esp, byte 8
         mov dword [byte eax+01Eh], edx
         push byte 20h
-        movzx esi, byte [byte_11FA2F]
+        movzx esi, byte [TextCharH]
         push dword [byte ebp-014h]
         inc esi
         call TextStringWidth
@@ -3270,7 +3270,7 @@ ControllerScreen:
         mov eax, dword [dword eax+ControllerSlotItems]
         mov word [byte eax+04h], dx
         mov eax, dword [byte ebp-018h]
-        movzx dx, byte [byte_11FA2F]
+        movzx dx, byte [TextCharH]
         mov esi, dword [byte ebp-04Ch]
         inc edx
         mov eax, dword [dword eax+ControllerSlotItems]
@@ -3785,7 +3785,7 @@ ControllerScreen_11AB:
         push byte 20h
         inc eax
         inc eax
-        movzx esi, byte [byte_11FA2F]
+        movzx esi, byte [TextCharH]
         push eax
         inc esi
         mov dword [byte ebp-08h], eax
@@ -3820,7 +3820,7 @@ ControllerScreen_11AB:
         mov eax, dword [dword eax+ControllerSlotItems]
         mov word [byte eax+04h], dx
         mov eax, dword [byte ebp-034h]
-        movzx dx, byte [byte_11FA2F]
+        movzx dx, byte [TextCharH]
         mov eax, dword [dword eax+ControllerSlotItems]
         inc edx
         mov word [byte eax+06h], dx

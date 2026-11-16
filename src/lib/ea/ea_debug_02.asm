@@ -6,24 +6,24 @@ extern DebugPrintf, SetTickDeadline, WaitTickDeadline, _dos_getdate_, _dos_getti
 extern str_HW7uPool7uMax7uDOSHW7uDOSPoo, str_Used77xFree77xLargst77x, str_Used7uFree7u, str_NAMESIZEADRFLAG, str_IDXNAMESIZEADRFLAG, str_80s, str_S9, str_S_MemViewerDrawList
 extern str_SPACE10x8s8s, str_SPACE10d8s8s, str_SPACE1010x88s88s, str_SPACE10d88s88s, str_1212s10x8s8s, str_1212s10d8s8s, str_33d1212s1010x88s88s44x, str_33d1212s10d88s88s44x
 extern str_MEMMANAGER, str_044X00000000, str_SYSTEM, str_SPACE3, str_HIGHMemoryBlock, str_LOWMemoryBlock, str_ConventionalMemory, str_RelocatableBlock
-extern str_NonRelocatableBlock, str_ALIGNFlagIsSet, str_PRIORITY1d, str_SequenceD, str_BlockIsPURGABLE, str_04x2, str_02x, asc_114674
+extern str_NonRelocatableBlock, str_ALIGNFlagIsSet, str_PRIORITY1d, str_SequenceD, str_BlockIsPURGABLE, str_04x2, str_02x, str_FourSpacesHex
 extern str_FILES2, str_DATES2, str_TIMES3, str_HexmemdspOS, str_XxMMAPTXT, str_ErrorDumpingMemoryMap, str_ShapeFileIsInvalid, str_NumDPackedD
 extern str_ThereAreNoShapes, str_44s05x, str_Bad, str_CxCy3d3d, str_NotDrawn, str_Bytes3dRows3d, str_Spacked, str_Packed
 extern str_Unpacked_ShapeInfo, str_3d3d3d3dS, str_Type02xNext05x, str_ShapeIsInvalidDraw, str_MEMSHPTXT, str_ErrorDumpingShapesList, str_ShapeFileName0, str_ShapeFileSizeLd
 extern str_NumberOfShapesD, str_44s66ld, str_Bytes3dRows3d2, str_XY3d3d, str_033d022X, str_R022d, str_G022d, str_B022d
-extern str_02d_PaletteViewerLabel, str_SCREEN2, str_Tga, str_02d3s02d_FormatDateTime, str_2d02d02d, byte_11F9D8, byte_1A11D9, dword_11F5A0
-extern dword_11F5C0, dword_11F5C4, MemPoolBase, dword_15139C, dword_1513A0, dword_1513A4, dword_1513A8, dword_1513AC
+extern str_02d_PaletteViewerLabel, str_SCREEN2, str_Tga, str_02d3s02d_FormatDateTime, str_2d02d02d, DebugRow, GraphicsReady
+extern ViewScreenWidth, ViewScreenHeight, MemPoolBase, dword_15139C, dword_1513A0, dword_1513A4, dword_1513A8, dword_1513AC
 extern dword_1513B8, dword_1513BC, dword_1513C0, dword_1513C4, dword_1513C8, dword_1513CC, str_UU, memlist1
-extern MemBlockGuards, MemFreeStart, MemFreeBytes, MemPoolSize, dword_1A11BC, dword_1A11C0, dword_1A11C4, dword_1A11C8
-extern dword_1A11CC, dword_1A11D0, dword_1A11D4, dword_1A11D8, dword_1A11DC, dword_1A11E0, fclose_, fopen_
+extern MemBlockGuards, MemFreeStart, MemFreeBytes, MemPoolSize, MemViewTop, MemViewCount, MemViewSel, MemViewTitle
+extern MemViewRow, MemViewList, MemViewKey, MemViewFlags, MemViewMode, MemViewPrevSel, fclose_, fopen_
 extern fprintf_, min_, off_1513B0, sprintf_, strncpy_, PutBlock, PutBlockAtOwnPos, PushMemDescriptorLocked
 extern MarkBlockPurgeable, CompactDownLocked, CompactUpLocked, DebugSetLine, DebugClearScreen, DebugSetRow, DebugSetAttr, FillRect
 extern DrawRectOutline, TextSetColor, SaveTextState, SetDrawTarget, TextSetFont, NearestColour, ShapeBankCount, ShapeBankEntry
 extern ShapeBankEntryId, initgraphics, ShowMessageBox, PrintBoxedText, ToUpperChar, ReturnFalse, ResetClipWindow, DrawTextCentredBoxed
 extern DrawTextBoxedAt, DrawArtAnyFormatAt, DrawArtAnyFormatOwnPos, XorRectOutline, WriteTgaScreen, SelectBitmapHandle, SetScreenTarget, GetPaletteRange
 extern FillRectColor, SetClipWindow, SetPaletteEntries, KbdGetKey, FlushKeys, FindShape, ClearClipRect, PollHotkeys
-extern SaveDrawState, RestoreDrawState, FindFirstFile, str_C, unk_11444C, str_X_DebugSprintf, str_1_MemViewerBlockInfo, str_Punct_HexDumpRow
-extern unk_114670, str_N_WriteMemMap, str_FF, str_W_DumpMemoryMap, str_Un, str_Punct_DumpShapesList, unk_1213DC
+extern SaveDrawState, RestoreDrawState, FindFirstFile, str_C, MemViewStrings, str_X_DebugSprintf, str_1_MemViewerBlockInfo, str_Punct_HexDumpRow
+extern str_SpaceHex, str_N_WriteMemMap, str_FF, str_W_DumpMemoryMap, str_Un, str_Punct_DumpShapesList, DefaultFont
 global MemViewer, MemViewerKeys, MemViewerOpenAlt, MemViewerLoopNext, MemViewerLoop, DebugGetKey, MemViewerListHead, MemViewerSelectRow
 global FormatBlockFlags, MemViewerDrawList, MemPoolTotals, MemViewerDrawTitle, DebugSprintf, MemViewerBlockInfo, MemViewerHexDump, HexDumpRow
 global WriteMemMap, DumpMemoryMap, ShapeViewer, ReadShapeFileHeader, ShapeInfo, DumpShapesList, PaletteViewer, PaletteViewerLabel
@@ -62,7 +62,7 @@ DebugGetKey:
 ; Debug memory viewer: saves the screen and text state and runs the viewer
 ;-----------------------------------------------------------------------------
 MemViewer:
-        cmp dword [dword_11F5A0], byte 9
+        cmp dword [GraphicsReady], byte 9
         jne short .1
         push byte 0
         push dword 0C8h
@@ -90,14 +90,14 @@ MemViewer:
         push eax
         call SaveTextState
         add esp, byte 4
-        push unk_1213DC
+        push DefaultFont
         call TextSetFont
         add esp, byte 4
-        mov al, byte [byte_11F9D8]
+        mov al, byte [DebugRow]
         push byte 0
         mov byte [dword esp+0CCh], al
         call DebugSetRow
-        mov edx, dword [dword_11F5A0]
+        mov edx, dword [GraphicsReady]
         add esp, byte 4
         test edx, edx
         jne short .3
@@ -309,8 +309,8 @@ MemViewerLoop:
         cmp edi, byte 0Dh
         jne short .9
         mov ebx, dword [dword esp+0B0h]
-        mov edx, dword [dword_1A11E0]
-        mov eax, dword [dword_1A11C4]
+        mov edx, dword [MemViewPrevSel]
+        mov eax, dword [MemViewSel]
         call MemViewerHexDump
 .9:
         cmp edi, byte 43h
@@ -336,8 +336,8 @@ MemViewerLoop:
         cmp edi, byte 42h
         jne short .13
         mov ebx, dword [dword esp+0B0h]
-        mov edx, dword [dword_1A11D4]
-        mov eax, dword [dword_1A11D8]
+        mov edx, dword [MemViewKey]
+        mov eax, dword [MemViewFlags]
         call MemViewerBlockInfo
 .13:
         cmp edi, byte 3Eh
@@ -370,11 +370,11 @@ MemViewerLoop:
         cmp edi, 4D00h
         jne short .22
 .19:
-        test byte [byte_1A11D9], 80h
+        test byte [MemViewFlags+1], 80h
         jne short .20
         mov ebx, dword [dword esp+0B0h]
-        mov edx, dword [dword_1A11E0]
-        mov eax, dword [dword_1A11C4]
+        mov edx, dword [MemViewPrevSel]
+        mov eax, dword [MemViewSel]
         mov ecx, edi
         call ShapeViewer
         jmp short .22
@@ -403,7 +403,7 @@ MemViewerLoop:
         cmp edi, byte 57h
         jne short .25
         mov edx, dword [dword esp+0B0h]
-        mov eax, dword [dword_1A11C4]
+        mov eax, dword [MemViewSel]
         call MemViewerShowArt
 .25:
         mov esi, dword [dword_1513C0]
@@ -418,22 +418,22 @@ MemViewerLoop:
         mov dword [dword_1513C0], esi
         cmp edi, 5300h
         jne short .28
-        test byte [byte_1A11D9], 80h
+        test byte [MemViewFlags+1], 80h
         jne short .28
-        mov eax, dword [dword_1A11DC]
+        mov eax, dword [MemViewMode]
         push eax
         call PushMemDescriptorLocked
         add esp, byte 4
 .28:
         cmp edi, 5200h
         jne short .29
-        test byte [byte_1A11D9], 80h
+        test byte [MemViewFlags+1], 80h
         jne short .29
         mov ebx, 0Ch
         lea eax, [dword esp+0A0h]
-        mov edx, dword [dword_1A11C0]
+        mov edx, dword [MemViewCount]
         call strncpy_
-        mov edx, dword [dword_1A11DC]
+        mov edx, dword [MemViewMode]
         xor ch, ch
         push edx
         mov byte [dword esp+0B0h], ch
@@ -542,24 +542,24 @@ MemViewerSelectRow:
         cmp eax, ecx
         jne short .3
         mov eax, dword [dword_1513A0]
-        mov dword [dword_1A11CC], eax
+        mov dword [MemViewRow], eax
         mov eax, dword [byte esp+04h]
-        mov dword [dword_1A11C4], eax
+        mov dword [MemViewSel], eax
         mov eax, dword [byte esp+08h]
-        mov dword [dword_1A11E0], eax
+        mov dword [MemViewPrevSel], eax
         mov eax, dword [byte esp+0Ch]
         mov ebx, 70h
-        mov dword [dword_1A11D8], eax
+        mov dword [MemViewFlags], eax
         mov eax, dword [byte esp+010h]
-        mov dword [dword_1A11BC], ebx
-        mov dword [dword_1A11D4], eax
+        mov dword [MemViewTop], ebx
+        mov dword [MemViewKey], eax
         xor eax, eax
         ret 10h
 .3:
         mov eax, dword [dword_15139C]
         mov edx, 7
-        mov dword [dword_1A11CC], eax
-        mov dword [dword_1A11BC], edx
+        mov dword [MemViewRow], eax
+        mov dword [MemViewTop], edx
 .4:
         xor eax, eax
         ret 10h
@@ -702,7 +702,7 @@ MemViewerDrawList:
         mov edx, dword [dword_15139C]
         push edx
         push byte 0
-        mov ebx, dword [dword_11F5C0]
+        mov ebx, dword [ViewScreenWidth]
         push ebx
         push byte 0
         push byte 0
@@ -718,7 +718,7 @@ MemViewerDrawList:
         mov ecx, dword [dword_15139C]
         push ecx
         push byte 1
-        mov esi, dword [dword_11F5C0]
+        mov esi, dword [ViewScreenWidth]
         push esi
         push byte 8
         push byte 0
@@ -734,7 +734,7 @@ MemViewerDrawList:
         mov edi, dword [dword_15139C]
         push edi
         push byte 1
-        mov eax, dword [dword_11F5C0]
+        mov eax, dword [ViewScreenWidth]
         push eax
         push byte 11h
         push byte 0
@@ -750,7 +750,7 @@ MemViewerDrawList:
         mov edx, dword [dword_15139C]
         push edx
         push byte 2
-        mov ebx, dword [dword_11F5C0]
+        mov ebx, dword [ViewScreenWidth]
         push ebx
         push byte 1Ah
         push byte 0
@@ -793,7 +793,7 @@ MemViewerDrawList:
         push byte 0
         call DebugSetLine
         add esp, byte 10h
-        push unk_11444C
+        push MemViewStrings
         push str_80s
         push byte 3
         push byte 0
@@ -806,21 +806,21 @@ MemViewerDrawList:
         lea eax, [byte ebp-02Eh]
         push eax
         push str_S9
-        mov ebx, dword [dword_1A11D0]
+        mov ebx, dword [MemViewList]
         push ebx
         call fprintf_
         add esp, byte 0Ch
         lea eax, [dword ebp-082h]
         push eax
         push str_S9
-        mov ecx, dword [dword_1A11D0]
+        mov ecx, dword [MemViewList]
         push ecx
         call fprintf_
         add esp, byte 0Ch
         lea eax, [dword ebp-0D6h]
         push eax
         push str_S_MemViewerDrawList
-        mov esi, dword [dword_1A11D0]
+        mov esi, dword [MemViewList]
         push esi
         call fprintf_
         add esp, byte 0Ch
@@ -892,7 +892,7 @@ MemViewerDrawList:
         add esp, byte 14h
         mov ecx, dword [dword_1513AC]
         push ecx
-        mov eax, dword [dword_1A11CC]
+        mov eax, dword [MemViewRow]
         push eax
         call TextSetColor
         mov edx, dword [byte ebp+07Ah]
@@ -931,7 +931,7 @@ MemViewerDrawList:
         add esp, byte 14h
         cmp eax, byte 1
         jne short .14
-        mov ecx, dword [dword_1A11BC]
+        mov ecx, dword [MemViewTop]
         push ecx
         call DebugSetAttr
         add esp, byte 4
@@ -953,7 +953,7 @@ MemViewerDrawList:
         lea eax, [byte ebp-02Eh]
         push eax
         push str_S9
-        mov ebx, dword [dword_1A11D0]
+        mov ebx, dword [MemViewList]
         push ebx
         call fprintf_
         add esp, byte 0Ch
@@ -977,10 +977,10 @@ MemViewerDrawList:
         jne near .24
         cmp esi, dword [byte ebp+076h]
         jne short .17
-        mov eax, dword [dword_1A11C8]
-        mov dword [dword_1A11DC], eax
+        mov eax, dword [MemViewTitle]
+        mov dword [MemViewMode], eax
         add eax, byte 4
-        mov dword [dword_1A11C0], eax
+        mov dword [MemViewCount], eax
 .17:
         lea edx, [byte ebp+032h]
         mov eax, dword [byte ebp+03Eh]
@@ -1012,7 +1012,7 @@ MemViewerDrawList:
         push eax
         call sprintf_
         add esp, byte 18h
-        mov edx, dword [dword_1A11CC]
+        mov edx, dword [MemViewRow]
         push edx
         mov ebx, dword [dword_1513A8]
         push ebx
@@ -1059,7 +1059,7 @@ MemViewerDrawList:
         add esp, byte 20h
         cmp eax, byte 1
         jne short .23
-        mov ecx, dword [dword_1A11BC]
+        mov ecx, dword [MemViewTop]
         push ecx
         call DebugSetAttr
         add esp, byte 4
@@ -1084,7 +1084,7 @@ MemViewerDrawList:
         lea eax, [dword ebp-082h]
         push eax
         push str_S9
-        mov ebx, dword [dword_1A11D0]
+        mov ebx, dword [MemViewList]
         push ebx
         call fprintf_
         add esp, byte 0Ch
@@ -1106,20 +1106,20 @@ MemViewerDrawList:
         mov ecx, dword [byte ebp+07Ah]
         mov eax, esi
         sub eax, ecx
-        mov ebx, dword [dword_11F5C4]
+        mov ebx, dword [ViewScreenHeight]
         shl eax, 3
         push ebx
         add eax, byte 1Ch
         push eax
-        mov edi, dword [dword_11F5C0]
+        mov edi, dword [ViewScreenWidth]
         push edi
         push edx
         jmp short .27
 .26:
-        mov eax, dword [dword_11F5C4]
+        mov eax, dword [ViewScreenHeight]
         push eax
         push dword 0C4h
-        mov edx, dword [dword_11F5C0]
+        mov edx, dword [ViewScreenWidth]
         push edx
         push byte 0
 .27:
@@ -1149,7 +1149,7 @@ MemViewerDrawList:
         add eax, edx
         mov dword [byte ebp+06Eh], eax
 .29:
-        push unk_11444C
+        push MemViewStrings
         push str_80s
         push edi
         push byte 0
@@ -1228,7 +1228,7 @@ MemViewerDrawTitle:
         push edi
         push ebp
         sub esp, byte 4
-        mov esi, dword [dword_1A11C8]
+        mov esi, dword [MemViewTitle]
         mov edi, eax
         mov eax, dword [dword_1513C0]
         mov dword [esp], eax
@@ -1289,7 +1289,7 @@ MemViewerDrawTitle:
         mov eax, dword [ebx]
 .5:
         mov dword [edx], eax
-        mov dword [dword_1A11C8], esi
+        mov dword [MemViewTitle], esi
         add esp, byte 4
         pop ebp
         pop edi
@@ -1889,7 +1889,7 @@ HexDumpRow:
         push byte 7
         call DebugSetAttr
         add esp, byte 4
-        push unk_114670
+        push str_SpaceHex
         call DebugPrintf
 .5:
         add esp, byte 4
@@ -1897,7 +1897,7 @@ HexDumpRow:
         and eax, byte 3
         cmp eax, byte 3
         jne short .6
-        push unk_114670
+        push str_SpaceHex
         call DebugPrintf
         add esp, byte 4
 .6:
@@ -1905,7 +1905,7 @@ HexDumpRow:
         inc esi
         cmp edi, byte 10h
         jl near .2
-        push unk_114670
+        push str_SpaceHex
         call DebugPrintf
         sub esi, byte 10h
         xor edi, edi
@@ -1917,7 +1917,7 @@ HexDumpRow:
         xor eax, eax
         mov edx, 7
         mov al, byte [byte esp+0Ch]
-        mov dword [dword_1A11BC], edx
+        mov dword [MemViewTop], edx
         cmp eax, byte 20h
         jge short .8
         mov byte [byte esp+0Ch], 2Eh
@@ -1926,9 +1926,9 @@ HexDumpRow:
         and al, 80h
         and eax, 0FFh
         je short .9
-        mov dword [dword_1A11BC], 70h
+        mov dword [MemViewTop], 70h
 .9:
-        mov ecx, dword [dword_1A11BC]
+        mov ecx, dword [MemViewTop]
         push ecx
         call DebugSetAttr
         add esp, byte 4
@@ -1945,7 +1945,7 @@ HexDumpRow:
         push byte 7
         call DebugSetAttr
         add esp, byte 4
-        push asc_114674
+        push str_FourSpacesHex
         call DebugPrintf
         add esp, byte 4
         mov ebx, dword [byte esp+04h]
@@ -1960,7 +1960,7 @@ HexDumpRow:
         cmp ebp, byte 19h
         jge short .12
 .11:
-        push unk_11444C
+        push MemViewStrings
         push str_80s
         inc edi
         call DebugPrintf
@@ -1988,41 +1988,41 @@ WriteMemMap:
         test edx, edx
         je near .5
         mov eax, esp
-        mov dword [dword_1A11D0], edx
+        mov dword [MemViewList], edx
         lea edx, [byte esp+014h]
         call FormatDateTime
         mov edx, dword [off_1513B0]
         push edx
         push str_S9
-        mov ebx, dword [dword_1A11D0]
+        mov ebx, dword [MemViewList]
         push ebx
         call fprintf_
         add esp, byte 0Ch
         mov ecx, dword [byte esp+03Ch]
         push ecx
         push str_FILES2
-        mov esi, dword [dword_1A11D0]
+        mov esi, dword [MemViewList]
         push esi
         call fprintf_
         add esp, byte 0Ch
         mov eax, esp
         push eax
         push str_DATES2
-        mov edi, dword [dword_1A11D0]
+        mov edi, dword [MemViewList]
         push edi
         call fprintf_
         add esp, byte 0Ch
         lea eax, [byte esp+014h]
         push eax
         push str_TIMES3
-        mov ebp, dword [dword_1A11D0]
+        mov ebp, dword [MemViewList]
         push ebp
         call fprintf_
         add esp, byte 0Ch
         mov eax, dword [off_1513B0]
         push eax
         push str_S9
-        mov edx, dword [dword_1A11D0]
+        mov edx, dword [MemViewList]
         push edx
         call fprintf_
         mov ebx, dword [dword_1513B8]
@@ -2036,7 +2036,7 @@ WriteMemMap:
 .2:
         push eax
         push str_HexmemdspOS
-        mov ecx, dword [dword_1A11D0]
+        mov ecx, dword [MemViewList]
         push ecx
         call fprintf_
         add esp, byte 0Ch
@@ -2087,7 +2087,7 @@ DumpMemoryMap:
         mov eax, esp
         mov byte [byte esp+01h], dl
         call NextFreeFileName
-        mov edx, dword [dword_11F5A0]
+        mov edx, dword [GraphicsReady]
         mov esi, dword [MemFreeBytes]
         test edx, edx
         je short .1
@@ -2100,10 +2100,10 @@ DumpMemoryMap:
         mov edx, str_W_DumpMemoryMap
         mov eax, esp
         call fopen_
-        mov dword [dword_1A11D0], eax
+        mov dword [MemViewList], eax
         test eax, eax
         jne short .3
-        cmp dword [dword_11F5A0], byte 0
+        cmp dword [GraphicsReady], byte 0
         je short .2
         push byte 14h
         push str_ErrorDumpingMemoryMap
@@ -2119,7 +2119,7 @@ DumpMemoryMap:
         push eax
         call WriteMemMap
         add esp, byte 8
-        mov eax, dword [dword_1A11D0]
+        mov eax, dword [MemViewList]
         call fclose_
 .4:
         add esp, byte 40h
@@ -2578,7 +2578,7 @@ ShapeInfo:
         add esp, byte 1Ch
         test al, 80h
         je short .1
-        mov eax, unk_11444C
+        mov eax, MemViewStrings
         jmp short .2
 .1:
         mov eax, str_Un
@@ -2630,28 +2630,28 @@ ShapeInfo:
         cmp word [byte esi+04h], byte 0
         jl near .5
         mov ebx, dword [byte esi+02h]
-        mov edx, dword [dword_11F5C0]
+        mov edx, dword [ViewScreenWidth]
         sar ebx, 10h
         cmp ebx, edx
         jg short .5
         cmp word [byte esi+06h], byte 0
         jl short .5
         mov eax, dword [byte esi+04h]
-        mov ecx, dword [dword_11F5C4]
+        mov ecx, dword [ViewScreenHeight]
         sar eax, 10h
         cmp eax, ecx
         jg short .5
         cmp word [byte esi+0Ch], byte 0
         jl short .5
         mov edx, dword [byte esi+0Ah]
-        mov edi, dword [dword_11F5C0]
+        mov edi, dword [ViewScreenWidth]
         sar edx, 10h
         cmp edx, edi
         jg short .5
         cmp word [byte esi+0Eh], byte 0
         jl short .5
         mov esi, dword [byte esi+0Ch]
-        mov ebp, dword [dword_11F5C4]
+        mov ebp, dword [ViewScreenHeight]
         sar esi, 10h
         cmp esi, ebp
         jg short .5
@@ -2748,7 +2748,7 @@ DumpShapesList:
         mov edx, str_W_DumpMemoryMap
         mov eax, esp
         call fopen_
-        mov dword [dword_1A11D0], eax
+        mov dword [MemViewList], eax
         test eax, eax
         jne short .1
         push byte 14h
@@ -2766,42 +2766,42 @@ DumpShapesList:
         mov edx, dword [off_1513B0]
         push edx
         push str_S9
-        mov ebx, dword [dword_1A11D0]
+        mov ebx, dword [MemViewList]
         push ebx
         call fprintf_
         add esp, byte 0Ch
         mov eax, esp
         push eax
         push str_FILES2
-        mov ecx, dword [dword_1A11D0]
+        mov ecx, dword [MemViewList]
         push ecx
         call fprintf_
         add esp, byte 0Ch
         lea eax, [byte esp+040h]
         push eax
         push str_DATES2
-        mov esi, dword [dword_1A11D0]
+        mov esi, dword [MemViewList]
         push esi
         call fprintf_
         add esp, byte 0Ch
         lea eax, [byte esp+054h]
         push eax
         push str_TIMES3
-        mov edi, dword [dword_1A11D0]
+        mov edi, dword [MemViewList]
         push edi
         call fprintf_
         add esp, byte 0Ch
         mov ebp, dword [off_1513B0]
         push ebp
         push str_S9
-        mov eax, dword [dword_1A11D0]
+        mov eax, dword [MemViewList]
         push eax
         call fprintf_
         add esp, byte 0Ch
-        mov edx, dword [dword_1A11C0]
+        mov edx, dword [MemViewCount]
         push edx
         push str_ShapeFileName0
-        mov ebx, dword [dword_1A11D0]
+        mov ebx, dword [MemViewList]
         push ebx
         call fprintf_
         add esp, byte 0Ch
@@ -2809,14 +2809,14 @@ DumpShapesList:
         mov ecx, dword [eax]
         push ecx
         push str_ShapeFileSizeLd
-        mov esi, dword [dword_1A11D0]
+        mov esi, dword [MemViewList]
         push esi
         call fprintf_
         add esp, byte 0Ch
         mov edi, dword [dword esp+088h]
         push edi
         push str_NumberOfShapesD
-        mov ebp, dword [dword_1A11D0]
+        mov ebp, dword [MemViewList]
         push ebp
         xor esi, esi
         call fprintf_
@@ -2844,7 +2844,7 @@ DumpShapesList:
         lea eax, [byte esp+06Ch]
         push eax
         push str_44s66ld
-        mov ebx, dword [dword_1A11D0]
+        mov ebx, dword [MemViewList]
         push ebx
         call fprintf_
         mov eax, dword [byte edx+04h]
@@ -2855,7 +2855,7 @@ DumpShapesList:
         sar eax, 10h
         push eax
         push str_Bytes3dRows3d2
-        mov ecx, dword [dword_1A11D0]
+        mov ecx, dword [MemViewList]
         push ecx
         call fprintf_
         mov eax, dword [byte edx+08h]
@@ -2872,7 +2872,7 @@ DumpShapesList:
         sar eax, 10h
         push eax
         push str_XY3d3d
-        mov ebp, dword [dword_1A11D0]
+        mov ebp, dword [MemViewList]
         push ebp
         call fprintf_
         mov eax, dword [edx]
@@ -2880,14 +2880,14 @@ DumpShapesList:
         add esp, byte 18h
         test al, 80h
         je short .3
-        mov eax, unk_11444C
+        mov eax, MemViewStrings
         jmp short .4
 .3:
         mov eax, str_Un
 .4:
         push eax
         push str_Spacked
-        mov edx, dword [dword_1A11D0]
+        mov edx, dword [MemViewList]
         push edx
         call fprintf_
         add esp, byte 0Ch
@@ -2900,12 +2900,12 @@ DumpShapesList:
         cmp dword [dword esp+088h], byte 0
         je short .6
         push str_Punct_DumpShapesList
-        mov esi, dword [dword_1A11D0]
+        mov esi, dword [MemViewList]
         push esi
         call fprintf_
         add esp, byte 8
 .6:
-        mov eax, dword [dword_1A11D0]
+        mov eax, dword [MemViewList]
         call fclose_
 .7:
         add esp, 8Ch
@@ -3414,10 +3414,10 @@ SaveScreenshot:
         call SaveDrawState
         add esp, byte 4
         call SetScreenTarget
-        mov edx, dword [dword_11F5C4]
+        mov edx, dword [ViewScreenHeight]
         push edx
         push byte 0
-        mov ebx, dword [dword_11F5C0]
+        mov ebx, dword [ViewScreenWidth]
         push ebx
         push byte 0
         call SetClipWindow
@@ -3452,7 +3452,7 @@ MemViewerShowArt:
         call ClearClipRect
         add esp, byte 4
         call ReturnFalse
-        mov edx, dword [dword_1A11DC]
+        mov edx, dword [MemViewMode]
         push edx
         call SelectBitmapHandle
         add esp, byte 4

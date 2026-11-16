@@ -4,7 +4,7 @@ bits 32
 extern TeamRosterPtrs
 section s_61AD1 progbits alloc exec nowrite align=1
 extern JerseyDigitWidths, PlayerSpritesLoaded, SpriteFileHandles, FightSpritesLoaded, SpriteMemBlock, SpritesLoaded, SpriteCacheOn, SpriteCacheMem
-extern NearClipZ, dword_123AC0, SpriteArtPtrs, SpriteCacheLinks, SpriteCache, SpriteCachePtr, SpriteCacheFree, SpriteCacheUsed
+extern NearClipZ, SortBuffer, SpriteArtPtrs, SpriteCacheLinks, SpriteCache, SpriteCachePtr, SpriteCacheFree, SpriteCacheUsed
 extern SpriteCacheBlock, SpriteCacheSize, PlayerSpriteFile, PlayerSpriteCount, RinkSpriteFile, NetSpriteFile, MarkerSpriteFile, gameopts
 extern GameSpriteNames, str_CupRef, str_FightRef, str_NewpalQfs, str_OldshpQfs, str_OLDSHPQFS2, str_Pal6, str_RinkpalQfs
 extern str_TeampalQda, str_TotalRef, str_UNPACK, str_Unpacked, SelectDataLibrary, LoadShadowRemap, AllocMemBlock, FreeMemBlock
@@ -1088,7 +1088,7 @@ SpriteScale:
         inc ecx
 .4:
         mov edx, eax
-        mov eax, dword [dword_123AC0]
+        mov eax, dword [SortBuffer]
         shl edx, 2
         mov eax, dword [edx+eax]
         sar eax, cl

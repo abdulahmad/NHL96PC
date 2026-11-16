@@ -2,65 +2,52 @@
 bits 32
 %include "hockey.inc"
 section s_191AB0 nobits alloc noexec write align=1
-global dword_1956B0, dword_1956B4, dword_1956B8, dword_1956BC, dword_1956C0, dword_1956C4, dword_1956C8, dword_1956CC
-global dword_198388, dword_19838C, dword_198390, dword_198394, dword_198398, dword_19839C, dword_1983A0, dword_1983A4
-global RinkViewChanged, dword_1983B4, unk_191AB0, unk_1938B0, unk_196380, unk_196388, unk_196390, unk_196398
-global unk_197050, unk_19705C, unk_197068, unk_197074, unk_1983B8
-unk_191AB0:
+global PerspQuadState
+global SubdivDepth, SubdivLimit, ModelPolyColour, ModelPolyFlags, ModelPolyFirst, ModelPolyCount, ModelPolyClip, ModelPolyShade
+global RinkViewChanged, ModelPolyDrawFn, PolyLeftEdges, PolyRightEdges, PerspQuadVerts
+global PerspQuadTex, OriPositionBuf
+PolyLeftEdges:
         resb 7680
-unk_1938B0:
+PolyRightEdges:
         resb 7680
-dword_1956B0:
+PerspQuadState:
         resb 4
-dword_1956B4:
         resb 4
-dword_1956B8:
         resb 4
-dword_1956BC:
         resb 4
-dword_1956C0:
         resb 4
-dword_1956C4:
         resb 4
-dword_1956C8:
         resb 4
-dword_1956CC:
         resb 3252
-unk_196380:
+PerspQuadVerts:
         resb 8
-unk_196388:
         resb 8
-unk_196390:
         resb 8
-unk_196398:
         resb 3256
-unk_197050:
+PerspQuadTex:
         resb 12
-unk_19705C:
         resb 12
-unk_197068:
         resb 12
-unk_197074:
         resb 4884
-dword_198388:
+SubdivDepth:
         resb 4
-dword_19838C:
+SubdivLimit:
         resb 4
-dword_198390:
+ModelPolyColour:
         resb 4
-dword_198394:
+ModelPolyFlags:
         resb 4
-dword_198398:
+ModelPolyFirst:
         resb 4
-dword_19839C:
+ModelPolyCount:
         resb 4
-dword_1983A0:
+ModelPolyClip:
         resb 4
-dword_1983A4:
+ModelPolyShade:
         resb 4
 RinkViewChanged:
         resb 12
-dword_1983B4:
+ModelPolyDrawFn:
         resb 4
-unk_1983B8:
+OriPositionBuf:
         resb 40

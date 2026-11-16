@@ -2,10 +2,10 @@
 bits 32
 %include "hockey.inc"
 section s_122A6 progbits alloc exec nowrite align=1
-extern addtimer, LinkFlags, byte_11FA2F, ChatLine, LinkBlockHeader, LinkBlockAck, TitleTextStyle
+extern addtimer, LinkFlags, TextCharH, ChatLine, LinkBlockHeader, LinkBlockAck, TitleTextStyle
 extern DebugPrintf, InputRecordIndex, LinkSyncInput, LinkCfgPort, LinkCfgMode, LinkCfgAnswer, LinkCfgDirect, LinkCfgBaud
 extern LinkCfgOption, LinkInputFrame, LinkSyncTarget, LinkSyncTimeout, LinkSyncCount, LinkInputDelay, LinkRxBlockCount, LinkRxBlockTicks
-extern str_Punct_ModemSettingsScreen, LinkBlockPtr, ModemReplyBuf, LinkTickCount, FrontShapesFile, WaitBoxArt, dword_11F5C0, dword_11F5C4
+extern str_Punct_ModemSettingsScreen, LinkBlockPtr, ModemReplyBuf, LinkTickCount, FrontShapesFile, WaitBoxArt, ViewScreenWidth, ViewScreenHeight
 extern SlotInput, ChatActive, LinkSyncValue, LinkBlockLen, LinkBlockPos
 extern LinkInputHead, LinkInputTail, LinkMsgHead, LinkValueHead, LinkMsgTail, LinkRemoteHead, LinkValueTail, LinkRemoteTail
 extern LinkWaitBoxBmp, LinkAbortCheck, GsModemDial, FillRect, TextStringWidth
@@ -911,7 +911,7 @@ ShowLinkWaitBox:
         sub esp, 4
         cmp dword [LinkWaitBoxBmp], byte 0
         jne near .5
-        cmp dword [dword_11F5C0], 140h
+        cmp dword [ViewScreenWidth], 140h
         jle short .3
         cmp dword [WaitBoxArt], byte 0
         jne short .1
@@ -943,7 +943,7 @@ ShowLinkWaitBox:
         mov eax, dword [byte eax+02h]
         sar eax, 10h
         sar eax, 1
-        mov edx, dword [dword_11F5C0]
+        mov edx, dword [ViewScreenWidth]
         sar edx, 1
         sub edx, eax
         mov eax, dword [byte ebp-04h]
@@ -952,7 +952,7 @@ ShowLinkWaitBox:
         mov eax, dword [byte eax+04h]
         sar eax, 10h
         sar eax, 1
-        mov edx, dword [dword_11F5C4]
+        mov edx, dword [ViewScreenHeight]
         sar edx, 1
         sub edx, eax
         mov eax, dword [byte ebp-04h]
@@ -1763,28 +1763,28 @@ ModemChat:
         cwde
         test eax, eax
         je near .57
-        mov eax, dword [dword_11F5C0]
+        mov eax, dword [ViewScreenWidth]
         sar eax, 2
-        mov edx, dword [dword_11F5C0]
+        mov edx, dword [ViewScreenWidth]
         sub edx, eax
         mov dword [byte ebp-04Ch], edx
-        mov eax, dword [dword_11F5C4]
+        mov eax, dword [ViewScreenHeight]
         sar eax, 2
-        mov edx, dword [dword_11F5C4]
+        mov edx, dword [ViewScreenHeight]
         sub edx, eax
         mov dword [byte ebp-048h], edx
-        mov eax, dword [dword_11F5C0]
+        mov eax, dword [ViewScreenWidth]
         sub eax, dword [byte ebp-04Ch]
         sar eax, 1
         mov dword [byte ebp-044h], eax
-        mov eax, dword [dword_11F5C4]
+        mov eax, dword [ViewScreenHeight]
         sub eax, dword [byte ebp-048h]
         sar eax, 1
         mov dword [byte ebp-040h], eax
         mov ax, word [str_X3]
         mov dword [byte ebp-04h], eax
         xor eax, eax
-        mov al, byte [byte_11FA2F]
+        mov al, byte [TextCharH]
         add eax, byte 6
         mov edx, dword [byte ebp-048h]
         sub edx, eax
@@ -1793,7 +1793,7 @@ ModemChat:
         sub eax, byte 3
         mov dword [byte ebp-03Ch], eax
         xor eax, eax
-        mov al, byte [byte_11FA2F]
+        mov al, byte [TextCharH]
         add eax, byte 6
         mov dword [byte ebp-074h], eax
         mov eax, dword [byte ebp-074h]
@@ -1893,14 +1893,14 @@ ModemChat:
         movsx eax, word [byte ebp-0Ch]
         push eax
         xor eax, eax
-        mov al, byte [byte_11FA2F]
+        mov al, byte [TextCharH]
         add eax, byte 5
         push eax
         mov eax, dword [byte ebp-04Ch]
         sub eax, byte 3
         push eax
         xor eax, eax
-        mov al, byte [byte_11FA2F]
+        mov al, byte [TextCharH]
         add eax, byte 5
         push eax
         push byte 1
@@ -1969,7 +1969,7 @@ ModemChat:
         movsx eax, word [byte ebp-0Ch]
         push eax
         xor eax, eax
-        mov al, byte [byte_11FA2F]
+        mov al, byte [TextCharH]
         add eax, dword [byte ebp-040h]
         add eax, byte 5
         push eax
@@ -1978,7 +1978,7 @@ ModemChat:
         sub eax, byte 3
         push eax
         xor eax, eax
-        mov al, byte [byte_11FA2F]
+        mov al, byte [TextCharH]
         add eax, dword [byte ebp-040h]
         add eax, byte 5
         push eax
@@ -2058,7 +2058,7 @@ ModemChat:
         movsx eax, word [byte ebp-014h]
         push eax
         xor eax, eax
-        mov al, byte [byte_11FA2F]
+        mov al, byte [TextCharH]
         dec eax
         push eax
         mov eax, str_X3
@@ -2078,7 +2078,7 @@ ModemChat:
         movsx eax, word [byte ebp-010h]
         push eax
         xor eax, eax
-        mov al, byte [byte_11FA2F]
+        mov al, byte [TextCharH]
         dec eax
         push eax
         mov eax, str_X3
@@ -2153,7 +2153,7 @@ ModemChat:
         movsx edx, word [byte ebp-034h]
         add eax, edx
         xor edx, edx
-        mov dl, byte [byte_11FA2F]
+        mov dl, byte [TextCharH]
         inc eax
         add eax, edx
         push eax
@@ -2185,9 +2185,9 @@ ModemChat:
         push dword [byte eax+02Ch]
         call PutBlockAtOwnPos
         add esp, byte 4
-        push dword [dword_11F5C4]
+        push dword [ViewScreenHeight]
         push byte 0
-        push dword [dword_11F5C0]
+        push dword [ViewScreenWidth]
         push byte 0
         call SetClipWindow
         add esp, byte 10h
@@ -2196,7 +2196,7 @@ ModemChat:
         movsx eax, word [byte ebp+010h]
         push eax
         xor eax, eax
-        mov al, byte [byte_11FA2F]
+        mov al, byte [TextCharH]
         dec eax
         push eax
         mov eax, str_X3
@@ -2256,11 +2256,11 @@ ModemChat:
 .18:
         mov word [byte ebp-05Ch], 0
         xor eax, eax
-        mov al, byte [byte_11FA2F]
+        mov al, byte [TextCharH]
         add eax, 3
         add word [byte ebp-034h], ax
         xor eax, eax
-        mov al, byte [byte_11FA2F]
+        mov al, byte [TextCharH]
         mov edx, dword [byte ebp-03Ch]
         sub edx, eax
         mov eax, edx
@@ -2276,7 +2276,7 @@ ModemChat:
         movsx eax, word [byte ebp-034h]
         add eax, edx
         xor edx, edx
-        mov dl, byte [byte_11FA2F]
+        mov dl, byte [TextCharH]
         inc eax
         add eax, edx
         push eax
@@ -2299,9 +2299,9 @@ ModemChat:
         push dword [byte eax+02Ch]
         call PutBlockAtOwnPos
         add esp, byte 4
-        push dword [dword_11F5C4]
+        push dword [ViewScreenHeight]
         push byte 0
-        push dword [dword_11F5C0]
+        push dword [ViewScreenWidth]
         push byte 0
         call SetClipWindow
         add esp, byte 10h
@@ -2310,7 +2310,7 @@ ModemChat:
         movsx eax, word [byte ebp+010h]
         push eax
         xor eax, eax
-        mov al, byte [byte_11FA2F]
+        mov al, byte [TextCharH]
         push eax
         mov eax, dword [byte ebp-04Ch]
         sub eax, byte 5
@@ -2328,12 +2328,12 @@ ModemChat:
         add esp, byte 14h
 .21:
         xor eax, eax
-        mov al, byte [byte_11FA2F]
+        mov al, byte [TextCharH]
         add eax, dword [byte ebp-034h]
         add eax, 3
         mov dword [byte ebp-018h], eax
         xor eax, eax
-        mov al, byte [byte_11FA2F]
+        mov al, byte [TextCharH]
         mov edx, dword [byte ebp-03Ch]
         sub edx, eax
         mov eax, edx
@@ -2349,7 +2349,7 @@ ModemChat:
         movsx eax, word [byte ebp-018h]
         add eax, edx
         xor edx, edx
-        mov dl, byte [byte_11FA2F]
+        mov dl, byte [TextCharH]
         inc eax
         add eax, edx
         push eax
@@ -2372,9 +2372,9 @@ ModemChat:
         push dword [byte eax+02Ch]
         call PutBlockAtOwnPos
         add esp, byte 4
-        push dword [dword_11F5C4]
+        push dword [ViewScreenHeight]
         push byte 0
-        push dword [dword_11F5C0]
+        push dword [ViewScreenWidth]
         push byte 0
         call SetClipWindow
         add esp, byte 10h
@@ -2383,7 +2383,7 @@ ModemChat:
         movsx eax, word [byte ebp+010h]
         push eax
         xor eax, eax
-        mov al, byte [byte_11FA2F]
+        mov al, byte [TextCharH]
         push eax
         mov eax, dword [byte ebp-04Ch]
         sub eax, byte 5
@@ -2403,7 +2403,7 @@ ModemChat:
         movsx eax, word [byte ebp-014h]
         push eax
         xor eax, eax
-        mov al, byte [byte_11FA2F]
+        mov al, byte [TextCharH]
         dec eax
         push eax
         mov eax, str_X3
@@ -2558,7 +2558,7 @@ ModemChat:
         movsx edx, word [byte ebp-032h]
         add eax, edx
         xor edx, edx
-        mov dl, byte [byte_11FA2F]
+        mov dl, byte [TextCharH]
         inc eax
         add eax, edx
         push eax
@@ -2590,9 +2590,9 @@ ModemChat:
         push dword [byte eax+02Ch]
         call PutBlockAtOwnPos
         add esp, byte 4
-        push dword [dword_11F5C4]
+        push dword [ViewScreenHeight]
         push byte 0
-        push dword [dword_11F5C0]
+        push dword [ViewScreenWidth]
         push byte 0
         call SetClipWindow
         add esp, byte 10h
@@ -2601,7 +2601,7 @@ ModemChat:
         movsx eax, word [byte ebp+010h]
         push eax
         xor eax, eax
-        mov al, byte [byte_11FA2F]
+        mov al, byte [TextCharH]
         dec eax
         push eax
         mov eax, str_X3
@@ -2661,11 +2661,11 @@ ModemChat:
 .45:
         mov word [byte ebp-05Ah], 0
         xor eax, eax
-        mov al, byte [byte_11FA2F]
+        mov al, byte [TextCharH]
         add eax, 3
         add word [byte ebp-032h], ax
         xor eax, eax
-        mov al, byte [byte_11FA2F]
+        mov al, byte [TextCharH]
         mov edx, dword [byte ebp-03Ch]
         sub edx, eax
         mov eax, edx
@@ -2681,7 +2681,7 @@ ModemChat:
         movsx eax, word [byte ebp-032h]
         add eax, edx
         xor edx, edx
-        mov dl, byte [byte_11FA2F]
+        mov dl, byte [TextCharH]
         inc eax
         add eax, edx
         push eax
@@ -2704,9 +2704,9 @@ ModemChat:
         push dword [byte eax+02Ch]
         call PutBlockAtOwnPos
         add esp, byte 4
-        push dword [dword_11F5C4]
+        push dword [ViewScreenHeight]
         push byte 0
-        push dword [dword_11F5C0]
+        push dword [ViewScreenWidth]
         push byte 0
         call SetClipWindow
         add esp, byte 10h
@@ -2715,7 +2715,7 @@ ModemChat:
         movsx eax, word [byte ebp+010h]
         push eax
         xor eax, eax
-        mov al, byte [byte_11FA2F]
+        mov al, byte [TextCharH]
         push eax
         mov eax, dword [byte ebp-04Ch]
         sub eax, byte 5
@@ -2733,12 +2733,12 @@ ModemChat:
         add esp, byte 14h
 .48:
         xor eax, eax
-        mov al, byte [byte_11FA2F]
+        mov al, byte [TextCharH]
         add eax, dword [byte ebp-032h]
         add eax, 3
         mov dword [byte ebp-018h], eax
         xor eax, eax
-        mov al, byte [byte_11FA2F]
+        mov al, byte [TextCharH]
         mov edx, dword [byte ebp-03Ch]
         sub edx, eax
         mov eax, edx
@@ -2754,7 +2754,7 @@ ModemChat:
         movsx eax, word [byte ebp-018h]
         add eax, edx
         xor edx, edx
-        mov dl, byte [byte_11FA2F]
+        mov dl, byte [TextCharH]
         inc eax
         add eax, edx
         push eax
@@ -2777,9 +2777,9 @@ ModemChat:
         push dword [byte eax+02Ch]
         call PutBlockAtOwnPos
         add esp, byte 4
-        push dword [dword_11F5C4]
+        push dword [ViewScreenHeight]
         push byte 0
-        push dword [dword_11F5C0]
+        push dword [ViewScreenWidth]
         push byte 0
         call SetClipWindow
         add esp, byte 10h
@@ -2788,7 +2788,7 @@ ModemChat:
         movsx eax, word [byte ebp+010h]
         push eax
         xor eax, eax
-        mov al, byte [byte_11FA2F]
+        mov al, byte [TextCharH]
         push eax
         mov eax, dword [byte ebp-04Ch]
         sub eax, byte 5
@@ -2808,7 +2808,7 @@ ModemChat:
         movsx eax, word [byte ebp-010h]
         push eax
         xor eax, eax
-        mov al, byte [byte_11FA2F]
+        mov al, byte [TextCharH]
         dec eax
         push eax
         mov eax, str_X3

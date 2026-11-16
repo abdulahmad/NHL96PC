@@ -8,7 +8,7 @@ section s_2D9D9 progbits alloc exec nowrite align=1
 extern assinsert, assreplace, awfirstslot, awslotcount, awtmstruct, starskatermin, stargoaliemin
 extern textline1, textline2, textline3, textline4, textline5, CloseTextOverlay
 extern crowdlevel, CrowdNoiseReset, curperiod, DoGameFrame, InputRecordIndex
-extern GameLoopFrames, gameresult, PreGameSkateOn, ZonesDirty, LastEventPlayer, dword_11F5C0, dword_11F5C4
+extern GameLoopFrames, gameresult, PreGameSkateOn, ZonesDirty, LastEventPlayer, ViewScreenWidth, ViewScreenHeight
 extern PanelShadeArt, gwgteam, gwgplayer, DrawFrameCount
 extern NameFont, NamePanelBmp, OverlayBmp, CamShotKeys, energywarn, exitgame, fadeinpending, forcepldata
 extern fox, foy, GameLoopActive, gameopts, GetTicks, hmfirstslot, hmroster, hmslotcount
@@ -642,7 +642,7 @@ DrawOverlayPanels:
         cmp eax, byte 0Ah
         jne short .3
         sub word [byte ebp-01Ch], bx
-        mov edx, dword [dword_11F5C0]
+        mov edx, dword [ViewScreenWidth]
         movsx eax, word [byte esi+0Ah]
         sub edx, eax
         mov eax, edx
@@ -661,7 +661,7 @@ DrawOverlayPanels:
 .5:
         mov eax, dword [byte ebp-04h]
         add word [byte ebp-01Ah], bx
-        mov edx, dword [dword_11F5C4]
+        mov edx, dword [ViewScreenHeight]
         movsx eax, word [byte eax+010h]
         sub edx, eax
         mov eax, edx
@@ -690,7 +690,7 @@ DrawOverlayPanels:
         cmp eax, byte 0Ah
         jne short .7
         sub word [byte ebp-01Ch], bx
-        mov edx, dword [dword_11F5C0]
+        mov edx, dword [ViewScreenWidth]
         movsx eax, word [byte esi+0Ah]
         sub edx, eax
         mov eax, edx
@@ -730,16 +730,16 @@ DrawOverlayPanels:
 .12:
         cmp dword [byte ebp-05Ch], byte 2
         jge short .13
-        push dword [dword_11F5C4]
-        mov ebx, dword [dword_11F5C0]
+        push dword [ViewScreenHeight]
+        mov ebx, dword [ViewScreenWidth]
         inc dword [DrawFrameCount]
         xor ecx, ecx
         xor edx, edx
         mov eax, dword [DrawFrameCount]
         call AddZone
-        push dword [dword_11F5C4]
+        push dword [ViewScreenHeight]
         push byte 0
-        push dword [dword_11F5C0]
+        push dword [ViewScreenWidth]
         push byte 0
         call SetClipWindow
         add esp, byte 10h

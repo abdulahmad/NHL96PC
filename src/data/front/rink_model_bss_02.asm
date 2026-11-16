@@ -15,9 +15,9 @@ global GlassBroken, CircleTableCount, CircleTableUsed, CircleTablePtr, RinkLengt
 global RinkModelFile, IceCrudCount, KickplateClipX, RinkModelSize, RinkModelFlags, RinkModelHeader, BenchDoorArt, IceCrudBase
 global RinkModelVerts, RinkModelPolys, RinkDoor12Group, IceTextureBmp, IceCrudOffset, GlassShardCount, IceTextureOffset, IceTextureFile
 global IceTextureSize, RinkRight2Faces, RinkLeft2Faces, BenchGroupCount, RinkLeft2Count, RinkRight1Faces, RinkLeft1Faces, RinkLeft1Count
-global RinkTopCount, RinkTopFaces, RinkBackFaces, RinkBackCount, RinkRight2Count, PenBoxGroupCount, RinkRight1Count, str_C2
+global RinkTopCount, RinkTopFaces, RinkBackFaces, RinkBackCount, RinkRight2Count, PenBoxGroupCount, RinkRight1Count, RinkPenBoxZ1Faces
 global RinkPenBoxZ0Faces, RinkPenBackCount, RinkBenchDividerFaces, RinkPenBoxT1Faces, RinkPenBoxT0Faces, RinkPenBottomFaces, RinkPenBoxZ1LastVert, RinkPenBoxZ0LastVert
-global RinkBenchBackFaces, RinkBenchBottomFaces, RinkPenBottomCount, RinkPenBoxT1LastVert, RinkPenBoxT0LastVert, RinkPenBackFaces, RinkPenBoxZ0Count, dword_15E760
+global RinkBenchBackFaces, RinkBenchBottomFaces, RinkPenBottomCount, RinkPenBoxT1LastVert, RinkPenBoxT0LastVert, RinkPenBackFaces, RinkPenBoxZ0Count, RinkPenBoxZ1Count
 global RinkBenchZ1Faces, RinkPenBoxT0Count, RinkPenBoxT1Count, RinkPenBoxT0Id, RinkIceLogo2Count, RinkIceLineFaces, RinkIceLogo2Faces, RinkIceLineCount
 global RinkBenchBackCount, RinkLitesFaces, RinkWallFaces, RinkBenchXGroup, RinkBenchZ1Group, RinkBenchZ0Group, RinkMaxZGroup, RinkMaxXGroup
 global RinkStand2ndFaces, RinkMinXGroup, RinkMinZGroup, RinkLitesCount, RinkBenchDividerCount, RinkBenchZ0Count, RinkBenchZ1Count, RinkBenchZ0Faces
@@ -29,7 +29,7 @@ global IceTextureQuad, RinkGreenLite1Group, RinkGreenLite0Group, RinkGt004LastVe
 global RinkGeometryParts, RinkGt302FirstVert, RinkGeometryData, CameraFlashOn, MarkingAATable, BenchSideIndex, NeutralSpotModel, CenterSpotModel
 global CreasePolyModel, BoardsTopModel, CenterCircleModel, BenchLineModel, ScoreInstance, ScoreShapes, ScoreModel, NetShapes
 global PuckShadowModel, PuckShadowInstance, RinkModel, PuckInstance, RinkInstance, RinkSidesModel, RinkShapes, PuckModel
-global NetModel, HomeNetInstance, AwayNetInstance, Stands2Instance, OptionButtonArt, dword_15EA08, GlassShardVerts, GlassShardScreen
+global NetModel, HomeNetInstance, AwayNetInstance, Stands2Instance, OptionButtonArt, OptionButtonBmp, GlassShardVerts, GlassShardScreen
 global GlassShardDraw, BenchAreaPoints
 global RinkFrontRemap, IceLinesRemap, IceLogosRemap, IceSurfacePoly, IceLinePolys, CentreIcePoly, IceCenterPoly
 global FlashPolys, ShadowRemap
@@ -248,7 +248,7 @@ PenBoxGroupCount:
         resb 4
 RinkRight1Count:
         resb 4
-str_C2:
+RinkPenBoxZ1Faces:
         resb 4
 RinkPenBoxZ0Faces:
         resb 4
@@ -280,7 +280,7 @@ RinkPenBackFaces:
         resb 4
 RinkPenBoxZ0Count:
         resb 4
-dword_15E760:
+RinkPenBoxZ1Count:
         resb 4
 RinkBenchZ1Faces:
         resb 4
@@ -474,5 +474,5 @@ ShadowRemapEnd:
         resb 1
 OptionButtonArt:
         resb 4
-dword_15EA08:
+OptionButtonBmp:
         resb 4

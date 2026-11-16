@@ -7,7 +7,7 @@ section s_168DA progbits alloc exec nowrite align=1
 extern _dos_gettime_, addtimer, BuildDefaultLines, textline1, textline2, textline3, textline4, textline5
 extern TitleTextStyle, SeasonGameHome, SeasonGameAway, ClockTick, CrowdNoiseReset, DemoMode, DoGameFrame
 extern DrawGameStats_DD0, SimSlotButtons, InputRecordIndex, GameLoopFrames, FrontShapesFile
-extern gameresult, LastEventPlayer, SfxMask, InMenuOverlay, dword_11F5C0, dword_11F5C4, SlotInput
+extern gameresult, LastEventPlayer, SfxMask, InMenuOverlay, ViewScreenWidth, ViewScreenHeight, SlotInput
 extern GameFrameCount, MenuRemoteCursorArt, MenuCursorPixels
 extern pointerspr, MenuBitmapPixels, AttractResetFlag, PlayoffTreeData, RosterFileHandle, PlayoffsActive, exitgame, fadeinpending
 extern GameLoopActive, gameopts, gameover, GetTicks, gmode, InGameMenuRequest, InitSlotTable, InputRecordBusy
@@ -241,11 +241,11 @@ PlayMenuGame_280:
         call FreeMemBlock
         add esp, byte 4
         push byte 3
-        mov eax, dword [dword_11F5C4]
+        mov eax, dword [ViewScreenHeight]
         push byte 0
         sar eax, 1
         push eax
-        mov eax, dword [dword_11F5C0]
+        mov eax, dword [ViewScreenWidth]
         sar eax, 1
         push eax
         mov ecx, TitleTextStyle

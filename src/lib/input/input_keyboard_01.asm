@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_DFC33 progbits alloc exec nowrite align=1
-extern byte_11F668, KeyStateTable, byte_11F68D, KbdCtrlDown, KbdAltDown, KbdNumLock, KbdScrollLock, byte_11F708
-extern byte_11F714, byte_11F76F, byte_11F7CA, byte_11F825, byte_11F880, NearClipZ, dword_11F61C, KeyBuffer
+extern byte_11F668, KeyStateTable, byte_11F68D, KbdCtrlDown, KbdAltDown, KbdNumLock, KbdScrollLock, KeyboardHooked
+extern KeyAscii, KeyAsciiShift, KeyAsciiNum, KeyAsciiCtrl, KeyAsciiAlt, NearClipZ, dword_11F61C, KeyBuffer
 extern KeyBufferHead, KeyBufferTail, KeyBufferMask, SavedKbdVecOffset, SavedInt16Offset, SavedRealKbdOffset, bailout_vec, BiosKeyFunc
 extern RestoreDS, PrintScreenInt, DosSetVector, SavedKbdVecSelector, SavedInt16Selector, SavedRealKbdSegment, KbdDataSelector
 global RemoveKeyboardHandler_6F, RemoveKeyboardHandler, Int16Handler, Int16Service, KeyIsDown, BiosKeyCall, unk_DFDDD
@@ -54,7 +54,7 @@ RemoveKeyboardHandler_6F:
         LD mov, ebx, eax
         db 066h,02Eh,08Eh,01Dh                  ; insn: o16 mov ds,[cs:0F702h]
         dd KbdDataSelector
-        mov byte [byte_11F708], al
+        mov byte [KeyboardHooked], al
         LD or, bl, bl
         jns short .2
         mov byte [dword ebx+NearClipZ], 0
@@ -82,7 +82,7 @@ RemoveKeyboardHandler_6F:
         jne short .8
         test byte [byte_11F668], 1
         jne near .12
-        mov al, byte [dword ebx+byte_11F714]
+        mov al, byte [dword ebx+KeyAscii]
 .3:
         cmp al, 80h
         jae short .7
@@ -115,7 +115,7 @@ RemoveKeyboardHandler_6F:
         and ah, 7Fh
         jmp short .4
 .8:
-        mov al, byte [dword ebx+byte_11F76F]
+        mov al, byte [dword ebx+KeyAsciiShift]
         cmp ebx, byte 37h
         jne short .3
         cmp dword [dword_11F61C], byte 0
@@ -124,7 +124,7 @@ RemoveKeyboardHandler_6F:
         call PrintScreenInt
         jmp short .3
 .9:
-        mov al, byte [dword ebx+byte_11F825]
+        mov al, byte [dword ebx+KeyAsciiCtrl]
         cmp ebx, byte 1
         jne short .3
         jmp short .14
@@ -132,10 +132,10 @@ RemoveKeyboardHandler_6F:
         test byte [byte_11F68D], 1
         jne short .13
 .11:
-        mov al, byte [dword ebx+byte_11F880]
+        mov al, byte [dword ebx+KeyAsciiAlt]
         jmp near .3
 .12:
-        mov al, byte [dword ebx+byte_11F7CA]
+        mov al, byte [dword ebx+KeyAsciiNum]
         jmp near .3
 .13:
         test byte [KbdScrollLock], 1

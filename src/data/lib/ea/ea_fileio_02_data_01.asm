@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_124020 progbits alloc noexec write align=1
-global dword_124084, dword_124108, DosErrnoTable, dword_124120, unk_124020, unk_124088, unk_1240A6
-unk_124020:
+global FindFilePtr, PaletteHookFn, DosErrnoTable, SopenMask, FindFileDta, FindFileName, FindFilePattern
+FindFileDta:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -11,12 +11,12 @@ unk_124020:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h
-dword_124084:
+FindFilePtr:
         db 00h,00h,00h,00h
-unk_124088:
+FindFileName:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_1240A6:
+FindFilePattern:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -24,10 +24,10 @@ unk_1240A6:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h
-dword_124108:
+PaletteHookFn:
         db 00h
 DosErrnoTable:
         db 00h,00h,00h,00h,09h,01h,01h,0Bh,06h,04h,05h,05h,05h,02h,03h,0FFh
         db 0FFh,07h,08h,06h,08h,01h,0FFh
-dword_124120:
+SopenMask:
         db 00h,00h,00h,00h

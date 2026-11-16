@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_DE084 progbits alloc exec nowrite align=1
-extern RemapTable, VesaBankShift, dword_11FD50, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, dword_1228F0
+extern RemapTable, VesaBankShift, TextColourTable, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, dword_1228F0
 extern KeyedDraw, DrawDestBuffer, dword_1228FC, dword_122930, VesaBank, VesaBankFunc
 global VesaSetBankJumpTable, FillRectJumpTable, XorRectJumpTable, FillRectSpansJumpTable, PlotPixel_8, PlotPixelClipped_C, BlitShapeClipped_3A, jpt_DE3F8_27
 global BlitBlock_32, BlitBlockXor_32, BlitBlockAnd_32, AndPixel_C, BlitBlockOr_32, OrPixel_C, OrPixel_AA, FillRectCore_4
@@ -1630,7 +1630,7 @@ BlitFontNibbles:
         push edi
         LD xor, ebx, ebx
         mov ecx, dword [byte ebp+014h]
-        mov edx, dword [dword_11FD50]
+        mov edx, dword [TextColourTable]
         mov esi, dword [byte ebp+08h]
         mov edi, dword [byte ebp+0Ch]
         cmp dword [byte ebp+010h], byte 0

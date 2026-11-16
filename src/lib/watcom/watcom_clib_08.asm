@@ -7,7 +7,7 @@ extern str_InvalidDriver, str_CardNotDetected, str_ErrorAllocatingMemory, str_Er
 extern str_ErrorInvalidVolume, str_ErrorInvalidHandle, str_ErrorInvalidPan, str_ErrorUnsupportedAudioTyp, str_ErrorInvalidBend, str_ErrorCouldNotResolveSfxB, str_ErrorInvalidBankNumber, str_ErrorInvalidSfxNumber
 extern str_NoFreeChannelToPlayOn, str_TGV, str_TgvdecodeInvalidChunkTyp, str_RateDDAvgDD, SpeechQueuePlaying, CrowdLoaded, CrowdPaused, VolumeCurve
 extern SpeechQueueOpen, CrowdPlaying, SndMasterVolume, CrowdLayerPriority, CrowdLayerVolume, SndChannelType, SndChannelBendRange, SndChannelActive
-extern SndChannelSfx, SndChannelVolume, SndChannelGain, SndChannelPan, dword_11F5CC, dword_11F5D0, DebugMode, RowCopyFunc
+extern SndChannelSfx, SndChannelVolume, SndChannelGain, SndChannelPan, ScreenPitch, ScreenBuffer, DebugMode, RowCopyFunc
 extern DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, KeyedDraw, SpeechQueue, SpeechQueueLead, SpeechQueueWrite
 extern SpeechQueueRead, SpeechQueueVolume, SpeechChannelA, SpeechChannelB, SpeechChannelCur, StreamState, StreamChannel, StreamFrameBytes
 extern StreamSampleRate, StreamVolume, StreamOwner, StreamHeader, StreamPacketsPlayed, StreamSampleScale, SfxBanks, CrowdVolume
@@ -4135,9 +4135,9 @@ TgvShowFrameRate:
         idiv esi
         push eax
         push str_RateDDAvgDD
-        mov esi, dword [dword_11F5D0]
+        mov esi, dword [ScreenBuffer]
         push esi
-        mov ebp, dword [dword_11F5CC]
+        mov ebp, dword [ScreenPitch]
         push ebp
         mov dword [TgvFirstPeriod], ecx
         call dword [byte esp+02Ch]

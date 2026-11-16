@@ -6,7 +6,7 @@ section s_2A3D6 progbits alloc exec nowrite align=1
 extern str_Punct_ExportUserRecords, str_ExportDashes, str_ExportSpacesWide, str_ExportSpaces, UserNameBuf
 
 extern TitleTextStyle, DeleteFiles
-extern UserRecordsTop, UserRecordsFirst, UserRecordsRow, str_J, str_V, dword_11F5C0, dword_11F5C4, UserMenuBoxes
+extern UserRecordsTop, UserRecordsFirst, UserRecordsRow, str_J, str_V, ViewScreenWidth, ViewScreenHeight, UserMenuBoxes
 extern UserRecordList
 extern UserStreakField, UserOpponentColumn, UserPowerPlayField, UserShutoutField, UserGoalsAgainstField, UserLongStreakField, UserGoalsForField, UserRatingColumn
 extern UserShutoutColumn, UserNameIndex, UserStreakColumn, UserNameField, UserLongStreakColumn, UserPowerPlayColumn, UserTeamField, UserPopupRecords
@@ -355,8 +355,8 @@ DeleteUser:
         call strcpy_
         mov edx, TitleTextStyle
         lea eax, [byte ebp-05Ch]
-        mov ecx, dword [dword_11F5C4]
-        mov ebx, dword [dword_11F5C0]
+        mov ecx, dword [ViewScreenHeight]
+        mov ebx, dword [ViewScreenWidth]
         sar ecx, 1
         sar ebx, 1
         call ShowMessage
@@ -435,8 +435,8 @@ NewUser:
         call strcpy_
         mov edx, TitleTextStyle
         lea eax, [byte ebp-068h]
-        mov ecx, dword [dword_11F5C4]
-        mov ebx, dword [dword_11F5C0]
+        mov ecx, dword [ViewScreenHeight]
+        mov ebx, dword [ViewScreenWidth]
         sar ecx, 1
         sar ebx, 1
         call ShowMessage
@@ -468,8 +468,8 @@ NewUser:
         call strcpy_
         mov edx, TitleTextStyle
         lea eax, [byte ebp-068h]
-        mov ecx, dword [dword_11F5C4]
-        mov ebx, dword [dword_11F5C0]
+        mov ecx, dword [ViewScreenHeight]
+        mov ebx, dword [ViewScreenWidth]
         sar ecx, 1
         sar ebx, 1
         call ShowMessage
@@ -1093,8 +1093,8 @@ PickUsersScreen:
         call SetDrawTarget
         mov eax, 71h
         mov edx, TitleTextStyle
-        mov ecx, dword [dword_11F5C4]
-        mov ebx, dword [dword_11F5C0]
+        mov ecx, dword [ViewScreenHeight]
+        mov ebx, dword [ViewScreenWidth]
         add esp, byte 4
         sar ecx, 1
         sar ebx, 1
@@ -1230,8 +1230,8 @@ PickUsersScreen:
         call SetDrawTarget
         mov eax, 70h
         mov edx, TitleTextStyle
-        mov ecx, dword [dword_11F5C4]
-        mov ebx, dword [dword_11F5C0]
+        mov ecx, dword [ViewScreenHeight]
+        mov ebx, dword [ViewScreenWidth]
         add esp, byte 4
         sar ecx, 1
         sar ebx, 1
@@ -2902,8 +2902,8 @@ ExportUserRecords:
         jne short .3
         mov eax, 6Ch
         mov edx, TitleTextStyle
-        mov ecx, dword [dword_11F5C4]
-        mov ebx, dword [dword_11F5C0]
+        mov ecx, dword [ViewScreenHeight]
+        mov ebx, dword [ViewScreenWidth]
         sar ecx, 1
         sar ebx, 1
         call GetLangText

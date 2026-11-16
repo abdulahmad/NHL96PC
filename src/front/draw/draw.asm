@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_63968 progbits alloc exec nowrite align=1
 extern ClearChain4, textcolor, textshadow, ModeLinear, GraphicsFixOn, StartupPalette, NearestColorCount, NearestColorLimit
-extern dword_11F5A0, dword_11F5C0, dword_11F5C4, dword_11FA14, dword_11FA18, dword_1219A4, dword_1228FC, BackBufferWidth
+extern GraphicsReady, ViewScreenWidth, ViewScreenHeight, TextColour, TextBgColour, ColourLookup, dword_1228FC, BackBufferWidth
 extern ModeSetCount, FatalError, TextStringWidth, GetTicks, initgraphics, SetViewRect, SoundIdle, str_COPY
 extern str_CouldNotAllocateLibraryB, str_LIBBUGFIX, str_NHLinitgraphicsfixNotCal, str_USETABLE, AllocMemBlock, AllocMemLocked, FreeMemBlock, ClearScreenColour
 extern DrawRectOutline, TextSetColor, FreeColourLookup, CreateColourLookup, TextPrintAt, BuildAaPalLut, CreateAaPalLut, BuildPaletteShadeTable
@@ -378,9 +378,9 @@ SetGraphicsMode:
         call SetPaletteEntries
         add esp, byte 0Ch
         call ClearChain4
-        mov dword [dword_11F5C4], 0F0h
+        mov dword [ViewScreenHeight], 0F0h
         call SetModeX
-        mov eax, dword [dword_11F5C4]
+        mov eax, dword [ViewScreenHeight]
         add eax, eax
         push eax
         push byte 0
@@ -388,12 +388,12 @@ SetGraphicsMode:
         push byte 0
         push BackBufferWidth
         call SetClipRect
-        mov eax, dword [dword_11F5C4]
+        mov eax, dword [ViewScreenHeight]
         add eax, eax
         add esp, byte 14h
         mov dword [ModeSetCount], eax
         call SetScreenTarget
-        mov dword [dword_11F5A0], 9
+        mov dword [GraphicsReady], 9
         call WaitRetrace
         jmp short .5
 .4:
@@ -422,11 +422,11 @@ SetGraphicsMode:
         push dword 10000h
         push dword 0A0000h
         call FillMem
-        mov eax, dword [dword_11F5C4]
+        mov eax, dword [ViewScreenHeight]
         add esp, byte 0Ch
         dec eax
         push eax
-        mov eax, dword [dword_11F5C0]
+        mov eax, dword [ViewScreenWidth]
         dec eax
         push eax
         push byte 0
@@ -706,9 +706,9 @@ DrawColorText:
         mov esi, eax
         mov edi, edx
         mov dword [byte ebp-04h], ebx
-        mov eax, dword [dword_11FA14]
+        mov eax, dword [TextColour]
         mov dword [byte ebp-08h], eax
-        mov eax, dword [dword_11FA18]
+        mov eax, dword [TextBgColour]
         push eax
         push dword [textshadow]
         mov dword [byte ebp-0Ch], eax
@@ -746,9 +746,9 @@ DrawColorTextRight:
         mov esi, eax
         mov dword [byte ebp-08h], edx
         mov dword [byte ebp-04h], ebx
-        mov eax, dword [dword_11FA14]
+        mov eax, dword [TextColour]
         push esi
-        mov edi, dword [dword_11FA18]
+        mov edi, dword [TextBgColour]
         mov dword [byte ebp-0Ch], eax
         call TextStringWidth
         add esp, byte 4
@@ -800,9 +800,9 @@ DrawColorTextCentred:
         mov esi, eax
         mov dword [byte ebp-08h], edx
         mov dword [byte ebp-04h], ebx
-        mov eax, dword [dword_11FA14]
+        mov eax, dword [TextColour]
         push esi
-        mov edi, dword [dword_11FA18]
+        mov edi, dword [TextBgColour]
         mov dword [byte ebp-0Ch], eax
         call TextStringWidth
         mov edx, dword [byte ebp-08h]
@@ -966,7 +966,7 @@ SetScreenPalette:
         push esi
         call CreateColourLookup
         add esp, byte 4
-        mov dword [dword_1219A4], eax
+        mov dword [ColourLookup], eax
         mov eax, esi
         call BuildPaletteShadeTable
         cmp dword [StartupPalette], byte 0

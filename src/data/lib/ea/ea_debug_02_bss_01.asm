@@ -2,31 +2,30 @@
 bits 32
 %include "hockey.inc"
 section s_1A11BC nobits alloc noexec write align=1
-global byte_1A11D9, GusPlayDmaChannel, GusIrqLatch, GusRecordDmaChannel, GusMidiIrq, GusWaveIrq, GusDmaControl, dword_1A11BC
-global dword_1A11C0, dword_1A11C4, dword_1A11C8, dword_1A11CC, dword_1A11D0, dword_1A11D4, dword_1A11D8, dword_1A11DC
-global dword_1A11E0, GusVoiceIrqBits, GusDmaLeft, GusDmaChunkSize, GusDmaDone, GusDmaChannels, StartupStack, GusDosResult
+global GusPlayDmaChannel, GusIrqLatch, GusRecordDmaChannel, GusMidiIrq, GusWaveIrq, GusDmaControl, MemViewTop
+global MemViewCount, MemViewSel, MemViewTitle, MemViewRow, MemViewList, MemViewKey, MemViewFlags, MemViewMode
+global MemViewPrevSel, GusVoiceIrqBits, GusDmaLeft, GusDmaChunkSize, GusDmaDone, GusDmaChannels, StartupStack, GusDosResult
 global GusIrqFlags, GusActiveVoices, GusCriticalDepth, GusDmaChunkLo, GusDmaChunkHi, GusDmaFlags
-dword_1A11BC:
+MemViewTop:
         resb 4
-dword_1A11C0:
+MemViewCount:
         resb 4
-dword_1A11C4:
+MemViewSel:
         resb 4
-dword_1A11C8:
+MemViewTitle:
         resb 4
-dword_1A11CC:
+MemViewRow:
         resb 4
-dword_1A11D0:
+MemViewList:
         resb 4
-dword_1A11D4:
+MemViewKey:
         resb 4
-dword_1A11D8:
+MemViewFlags:
         resb 1
-byte_1A11D9:
         resb 3
-dword_1A11DC:
+MemViewMode:
         resb 4
-dword_1A11E0:
+MemViewPrevSel:
         resb 4
 GusDosResult:
         resb 2

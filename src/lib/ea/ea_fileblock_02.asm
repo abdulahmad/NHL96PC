@@ -2,10 +2,10 @@
 bits 32
 %include "hockey.inc"
 section s_B22E0 progbits alloc exec nowrite align=1
-extern FatalError, str_SavefileblockaOPENFAILEDFOR, byte_11FA2C, byte_11FA2D, byte_11FA2E, byte_11FA2F, byte_11FA30, dword_11FA14
-extern TextOriginX, TextOriginY, dword_11FA24, dword_11FA28, dword_11FA34, dword_11FA38, dword_11FA3C, dword_11FA40
-extern dword_11FA44, dword_11FA48, dword_11FA4C, ScreenWidth, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom
-extern dword_1228E8, KeyedDraw, DrawDestBuffer, dword_1228FC, dword_185774, off_11FA10, MemDescPtr, MemDescSize
+extern FatalError, str_SavefileblockaOPENFAILEDFOR, TextFirstChar, TextLastChar, TextCharW, TextCharH, TextSpacing, TextColour
+extern TextOriginX, TextOriginY, TextShadowOn, TextFontTag, TextWidthTable, TextCursorX, TextCursorY, TextLeft
+extern TextTop, TextRight, TextBottom, ScreenWidth, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom
+extern dword_1228E8, KeyedDraw, DrawDestBuffer, dword_1228FC, TextColumnTable, TextFont, MemDescPtr, MemDescSize
 extern SetTextOrigin, ArtBitDepth, PixelToRgb, DrawEllipseClipped, PutPixel, BlitFontNibbles, CreateHandle, DosCloseFile
 extern DosWriteFile
 global SaveDataFile, savefileblocka, TextPrint, TextPrintAt
@@ -134,23 +134,23 @@ TextPrint:
         push edi
         push ebp
         sub esp, byte 68h
-        mov eax, dword [off_11FA10]
+        mov eax, dword [TextFont]
         xor edx, edx
         mov dword [byte esp+01Ch], eax
         xor eax, eax
-        mov dl, byte [byte_11FA2D]
-        mov al, byte [byte_11FA2C]
+        mov dl, byte [TextLastChar]
+        mov al, byte [TextFirstChar]
         sub edx, eax
         inc edx
-        mov ebp, dword [dword_11FA14]
+        mov ebp, dword [TextColour]
         mov dword [byte esp+04h], edx
         xor edx, edx
-        mov ebx, dword [dword_11FA28]
+        mov ebx, dword [TextFontTag]
         mov dword [esp], edx
         cmp ebx, 464E544Dh
         je short .1
         mov ecx, 4
-        mov eax, dword_11FA28
+        mov eax, TextFontTag
         mov eax, dword [eax]
         bswap eax
         neg ecx
@@ -159,7 +159,7 @@ TextPrint:
         cmp eax, 464E5449h
         je short .1
         mov ecx, 4
-        mov eax, dword_11FA28
+        mov eax, TextFontTag
         mov eax, dword [eax]
         bswap eax
         neg ecx
@@ -168,7 +168,7 @@ TextPrint:
         cmp eax, 464E544Dh
         je short .1
         mov ecx, 4
-        mov eax, dword_11FA28
+        mov eax, TextFontTag
         mov eax, dword [eax]
         bswap eax
         neg ecx
@@ -180,7 +180,7 @@ TextPrint:
         mov dword [esp], 1
 .2:
         mov edi, dword [esp]
-        mov esi, dword [dword_11FA48]
+        mov esi, dword [TextRight]
         test edi, edi
         je short .3
         push esi
@@ -223,23 +223,23 @@ TextPrint:
         lea edx, [byte eax+01h]
         mov dword [byte esp+078h], edx
         mov al, byte [eax]
-        sub al, byte [byte_11FA2C]
+        sub al, byte [TextFirstChar]
         mov ebx, dword [byte esp+04h]
         movzx esi, al
         cmp esi, ebx
         jge short .8
-        mov ecx, dword [dword_11FA34]
+        mov ecx, dword [TextWidthTable]
         test ecx, ecx
         je short .9
         mov edx, ecx
         mov ah, byte [edx+esi]
         jmp short .10
 .9:
-        mov ah, byte [byte_11FA2E]
+        mov ah, byte [TextCharW]
 .10:
         xor edx, edx
         mov dl, ah
-        mov esi, dword [dword_11FA38]
+        mov esi, dword [TextCursorX]
         mov dword [byte esp+0Ch], edx
         test esi, esi
         je short .11
@@ -248,23 +248,23 @@ TextPrint:
         mov ah, byte [edx+esi]
         jmp short .12
 .11:
-        mov ah, byte [byte_11FA2F]
+        mov ah, byte [TextCharH]
 .12:
-        mov edx, dword [dword_11FA3C]
+        mov edx, dword [TextCursorY]
         movzx edi, ah
         test edx, edx
         je short .13
         xor edx, edx
-        mov esi, dword [dword_11FA3C]
+        mov esi, dword [TextCursorY]
         mov dl, al
         movsx esi, byte [edx+esi]
         jmp short .14
 .13:
         mov ebx, dword [byte esp+0Ch]
-        movzx esi, byte [byte_11FA30]
+        movzx esi, byte [TextSpacing]
         add esi, ebx
 .14:
-        mov ecx, dword [dword_11FA40]
+        mov ecx, dword [TextLeft]
         mov dword [byte esp+024h], esi
         test ecx, ecx
         je short .15
@@ -278,7 +278,7 @@ TextPrint:
 .16:
         mov edx, dword [TextOriginX]
         add edx, esi
-        mov esi, dword [dword_11FA44]
+        mov esi, dword [TextTop]
         mov dword [byte esp+044h], edx
         test esi, esi
         je short .17
@@ -287,7 +287,7 @@ TextPrint:
         movsx esi, byte [edx+esi]
 .17:
         add esi, dword [TextOriginY]
-        mov edx, dword [dword_11FA4C]
+        mov edx, dword [TextBottom]
         and eax, 0FFh
         mov ebx, dword [esp]
         mov eax, dword [edx+eax*4]
@@ -497,7 +497,7 @@ TextPrint:
         mov dword [byte esp+040h], edx
         jmp near .22
 .33:
-        cmp dword [dword_11FA24], byte 0
+        cmp dword [TextShadowOn], byte 0
         je near .34
         cmp dword [KeyedDraw], byte 0
         jne near .34
@@ -567,7 +567,7 @@ TextPrint:
         mov edi, dword [byte esp+040h]
         mov dword [byte esp+018h], eax
         mov eax, dword [byte esp+044h]
-        mov edx, dword [dword_11FA24]
+        mov edx, dword [TextShadowOn]
         inc eax
         test edx, edx
         je near .38
@@ -580,7 +580,7 @@ TextPrint:
         sar eax, 4
         test eax, eax
         je short .36
-        mov ecx, dword [nosplit eax*4+dword_185774]
+        mov ecx, dword [nosplit eax*4+TextColumnTable]
         push ecx
         call PixelToRgb
         add esp, byte 4
@@ -595,7 +595,7 @@ TextPrint:
         and al, 0Fh
         and eax, 0FFh
         je short .37
-        mov edx, dword [nosplit eax*4+dword_185774]
+        mov edx, dword [nosplit eax*4+TextColumnTable]
         push edx
         call PixelToRgb
         add esp, byte 4
@@ -627,7 +627,7 @@ TextPrint:
         sar eax, 4
         test eax, eax
         je short .40
-        mov ecx, dword [nosplit eax*4+dword_185774]
+        mov ecx, dword [nosplit eax*4+TextColumnTable]
         push ecx
         push esi
         mov eax, dword [byte esp+040h]
@@ -639,7 +639,7 @@ TextPrint:
         and al, 0Fh
         and eax, 0FFh
         je short .41
-        mov edx, dword [nosplit eax*4+dword_185774]
+        mov edx, dword [nosplit eax*4+TextColumnTable]
         push edx
         push esi
         mov ebx, dword [byte esp+064h]

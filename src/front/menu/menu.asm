@@ -5,7 +5,7 @@ extern BottomBarArt
 extern globalset
 section s_64721 progbits alloc exec nowrite align=1
 extern abs_, BlackPalette, TitleTextStyle, CopyBitmap, MenuMouseX, MenuMouseY, MenuMouseButtons
-extern MenuMoveSfx, MenuSelectSfx, dword_11F5C0, dword_11F5C4, MenuRemoteCursorArt, MenuCursorPixels, pointerspr, MenuBitmapPixels
+extern MenuMoveSfx, MenuSelectSfx, ViewScreenWidth, ViewScreenHeight, MenuRemoteCursorArt, MenuCursorPixels, pointerspr, MenuBitmapPixels
 extern TeamStatsBitmap, MenuLastMouseX, MenuLastMouseY, MenuLastButtons, MenuButtons, MenuViewTop, MenuViewBottom
 extern MenuViewLeft, MenuViewRight, MenuRemoteItem, MenuRemoteLayer, MenuLocalCursorY, MenuLocalCursorX, MenuItemLeaveFunc, MenuLocalLayer
 extern MenuCurrentItem, MenuSavedRemoteArt, MenuLocalItem, MenuRemoteCursorY, MenuRemoteCursorX, MenuSavedCursorArt, MenuViewCallback, MenuItemEnterFunc
@@ -54,10 +54,10 @@ InitMenuItems:
         mov byte [byte edx+043h], bl
         mov byte [byte edx+044h], bl
         mov byte [byte edx+045h], bl
-        mov eax, dword [dword_11F5C0]
+        mov eax, dword [ViewScreenWidth]
         mov dword [byte edx+052h], eax
         add edx, byte 66h
-        mov eax, dword [dword_11F5C4]
+        mov eax, dword [ViewScreenHeight]
         inc ebx
         mov dword [byte edx-010h], eax
 .2:
@@ -749,22 +749,22 @@ RunMenu:
         movsx ebx, word [byte eax+06h]
         movsx edx, word [byte eax+0Ah]
         sub ebx, edx
-        mov edx, dword [dword_11F5C4]
+        mov edx, dword [ViewScreenHeight]
         sub edx, ebx
         push edx
         movsx edx, word [byte eax+04h]
         movsx eax, word [byte eax+08h]
         sub edx, eax
         mov eax, edx
-        mov edx, dword [dword_11F5C0]
+        mov edx, dword [ViewScreenWidth]
         jmp short .2
 .1:
         mov eax, dword [pointerspr]
-        mov ebx, dword [dword_11F5C4]
+        mov ebx, dword [ViewScreenHeight]
         movsx edx, word [byte eax+06h]
         movsx eax, word [byte eax+04h]
         sub ebx, edx
-        mov edx, dword [dword_11F5C0]
+        mov edx, dword [ViewScreenWidth]
         push ebx
 .2:
         sub edx, eax
@@ -1118,23 +1118,23 @@ RunMenu:
         movsx ebx, word [byte eax+06h]
         movsx edx, word [byte eax+0Ah]
         sub ebx, edx
-        mov edx, dword [dword_11F5C4]
+        mov edx, dword [ViewScreenHeight]
         sub edx, ebx
         push edx
         movsx edx, word [byte eax+04h]
         movsx eax, word [byte eax+08h]
         sub edx, eax
-        mov eax, dword [dword_11F5C0]
+        mov eax, dword [ViewScreenWidth]
         sub eax, edx
         push eax
         jmp short .50
 .49:
         mov eax, dword [pointerspr]
-        mov ebx, dword [dword_11F5C4]
+        mov ebx, dword [ViewScreenHeight]
         movsx edx, word [byte eax+06h]
         movsx eax, word [byte eax+04h]
         sub ebx, edx
-        mov edx, dword [dword_11F5C0]
+        mov edx, dword [ViewScreenWidth]
         push ebx
         sub edx, eax
         push edx
@@ -1534,23 +1534,23 @@ RunMenu:
         movsx ebx, word [byte eax+06h]
         movsx edx, word [byte eax+0Ah]
         sub ebx, edx
-        mov edx, dword [dword_11F5C4]
+        mov edx, dword [ViewScreenHeight]
         sub edx, ebx
         push edx
         movsx edx, word [byte eax+04h]
         movsx eax, word [byte eax+08h]
         sub edx, eax
-        mov eax, dword [dword_11F5C0]
+        mov eax, dword [ViewScreenWidth]
         sub eax, edx
         push eax
         jmp short .97
 .96:
         mov eax, dword [pointerspr]
-        mov ebx, dword [dword_11F5C4]
+        mov ebx, dword [ViewScreenHeight]
         movsx edx, word [byte eax+06h]
         movsx eax, word [byte eax+04h]
         sub ebx, edx
-        mov edx, dword [dword_11F5C0]
+        mov edx, dword [ViewScreenWidth]
         push ebx
         sub edx, eax
         push edx

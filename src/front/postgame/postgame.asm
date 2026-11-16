@@ -5,9 +5,9 @@ extern dword_1571B3
 extern hmroster
 extern BottomBarArt
 section s_1456D progbits alloc exec nowrite align=1
-extern awtmstruct, byte_11FA2F, TitleTextStyle, StatsFromGame, StarsSlideFrom, StarsSlideTo, StarsSlideTarget, StarsSpritePath
+extern awtmstruct, TextCharH, TitleTextStyle, StatsFromGame, StarsSlideFrom, StarsSlideTo, StarsSlideTarget, StarsSpritePath
 extern StarsNameX, StarsNameXs, StarsTextX, StarsTextXs, StarsTimerA, StarsTimerFace, StarsTimerName, StarsTimerCard
-extern seasondb, dword_11F5C0, StarsBgBmp, StarsSaveBmp, StarsFaceBmps, StarsCardBmps, StarsPanelBmp, StarsNameBmps
+extern seasondb, ViewScreenWidth, StarsBgBmp, StarsSaveBmp, StarsFaceBmps, StarsCardBmps, StarsPanelBmp, StarsNameBmps
 extern StarsTitleBmp, StarsAnimStep, StarsCardBmp, StarsShapeFile, StarsSlideX, StarsSlideY, StarsSlideStep, pointerspr
 extern FrontEndScreenBmp, MatchupLayer, MenuBoxStyle, gameopts, GetTicks, hmtmstruct
 extern LinkSync, ModemChat, mousex, mousey, PutBlock, rand_, SetDrawBitmap, sprintf_
@@ -1087,13 +1087,13 @@ GameStatsScreen:
         mov dword [byte ebp+062h], eax
         call SetScreenColors
         movsx eax, word [GameStatsRowStep]
-        movzx edx, byte [byte_11FA2F]
+        movzx edx, byte [TextCharH]
         add eax, edx
         movsx edx, word [GameStatsLabelPos]
         inc eax
         inc eax
         sub eax, edx
-        mov edx, dword [dword_11F5C0]
+        mov edx, dword [ViewScreenWidth]
         sub edx, byte 0Ah
         imul eax, edx
         push byte 0
@@ -1112,12 +1112,12 @@ GameStatsScreen:
         mov dx, word [GameStatsLabelPos]
         dec edx
         mov word [byte eax+0Eh], dx
-        mov dx, word [dword_11F5C0]
+        mov dx, word [ViewScreenWidth]
         sub edx, byte 0Ah
         mov dword [byte ebp+06Ah], eax
         mov word [byte eax+04h], dx
         mov dword [byte ebp+072h], eax
-        movzx ax, byte [byte_11FA2F]
+        movzx ax, byte [TextCharH]
         add ax, word [GameStatsRowStep]
         mov si, word [GameStatsLabelPos]
         inc eax

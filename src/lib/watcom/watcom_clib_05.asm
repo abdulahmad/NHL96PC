@@ -7,8 +7,8 @@ extern __set_errno_dos_, _nexpand_, _nfree_, _nmalloc_, _nmsize_, str_Initmemman
 extern str_InitmemmanDOSSUBMEMORYNOTALL, str_InitmemmanDOSSUBMEMORYNO, str_AAPLUT, str_OpenblockhandleSNOHANDLESLEF, str_OpenblockhandleSPATHNAME, str_CDROMDATA, str_CDROMBUFFER, str_CdromcheckCDROMSTATUSNOTRETU
 extern str_CdromreadREADGREATERTHANMAXR, str_CdromreadREADSTATUSERRORX, str_CdromseekSEEKSTATUSX, str_CdromdirectoryentryERROR, str_Viv, QuantizeTable, ResourceArchiveName, _Extender
 extern _ExtenderSubtype, _osmajor, _osminor, ResourceArchiveData, CpuIs386, CpuIs486, CpuType, CpuHasCpuid
-extern CpuFeatures, dword_11F9B8, RowTable, dword_1210C8, MemPoolBase, dword_1219A0, dword_1219A4, AaWeights
-extern FpuFlags, dword_121B24, dword_121B28, dword_121B2C, ResourceArchive, CdSectorSize, CdFileMode, CdFileHandle
+extern CpuFeatures, dword_11F9B8, RowTable, dword_1210C8, MemPoolBase, NearestColourCache, ColourLookup, AaWeights
+extern FpuFlags, ArchiveHandle, ArchiveOpenFn, ArchiveCount, ResourceArchive, CdSectorSize, CdFileMode, CdFileHandle
 extern CdFileStart, CdFileSize, CdFilePos, CdFileBuffer, CdDriveCount, CdStreamSpeed, ScreenWidth, dword_1228D6
 extern dword_1228DA, dword_1228DE, dword_1228E2, DrawDestBuffer, dword_1228FC, _dynend, _curbrk, _LpCmdLine
 extern StackLow, _STACKLOW, _STACKTOP, _Envptr, RowTableSize, MemLockHandle, MemFreeStart, MemFreeBytes
@@ -560,7 +560,7 @@ NearestColour:
         push ebp
         sub esp, 310h
         mov esi, dword [dword esp+0320h]
-        mov edx, dword [dword_1219A4]
+        mov edx, dword [ColourLookup]
         test edx, edx
         je short .1
         mov ecx, esi
@@ -576,12 +576,12 @@ NearestColour:
         and eax, byte 1Fh
         or edx, ecx
         or eax, edx
-        mov edx, dword [dword_1219A4]
+        mov edx, dword [ColourLookup]
         mov al, byte [edx+eax]
         and eax, 0FFh
         jmp near .6
 .1:
-        cmp dword [dword_1219A0], byte 0
+        cmp dword [NearestColourCache], byte 0
         jne short .2
         mov eax, esp
         push eax
@@ -600,7 +600,7 @@ NearestColour:
         and eax, 0FFh
         and esi, 0FFh
         mov dword [dword esp+0308h], eax
-        mov eax, dword [dword_1219A0]
+        mov eax, dword [NearestColourCache]
         mov dword [dword esp+0304h], esi
         test eax, eax
         jne short .3
@@ -4664,7 +4664,7 @@ AaDrawScaledArt_653:
         shr edx, 3
         or esi, edi
         or esi, edx
-        mov edx, dword [dword_1219A4]
+        mov edx, dword [ColourLookup]
         mov dl, byte [edx+esi]
         mov byte [eax], dl
 .13:
@@ -6410,9 +6410,9 @@ OpenResourceArchive:
         mov ecx, dword_19F2D4
         mov edi, 5DC0h
         xor ah, ah
-        mov dword [dword_121B28], edx
-        mov dword [dword_121B24], ebx
-        mov dword [dword_121B2C], ecx
+        mov dword [ArchiveOpenFn], edx
+        mov dword [ArchiveHandle], ebx
+        mov dword [ArchiveCount], ecx
         mov dword [ResourceArchive], edi
         mov byte [ResourceArchiveData], ah
         mov byte [ResourceArchiveName], ah

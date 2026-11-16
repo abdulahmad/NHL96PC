@@ -3,8 +3,8 @@ bits 32
 %include "hockey.inc"
 section s_123A94 progbits alloc noexec write align=1
 extern unk_19A650
-global ViewHalfWidth, ViewHalfHeight, ViewOriginX, ViewOriginY, ViewCentreX, ViewCentreY, dword_123AAC, dword_123AB0
-global ViewFovX, ViewFovY, dword_123ABC, dword_123AC0, RetraceTimeout, dword_123AC8, dword_123ACC, dword_123AD0
+global ViewHalfWidth, ViewHalfHeight, ViewOriginX, ViewOriginY, ViewCentreX, ViewCentreY, FovScaleX, FovScaleY
+global ViewFovX, ViewFovY, ProjectFlags, SortBuffer, RetraceTimeout, TgaBytesPerPixel, VideoModeWidths, VideoModeHeights
 global VesaModeInfo, SpeechQueue, SpeechQueueLead
 ViewHalfWidth:
         db 0A0h,00h,00h,00h
@@ -18,25 +18,25 @@ ViewCentreX:
         db 0A0h,00h,00h,00h
 ViewCentreY:
         db 064h,00h,00h,00h
-dword_123AAC:
+FovScaleX:
         db 00h,00h,00h,00h
-dword_123AB0:
+FovScaleY:
         db 00h,00h,00h,00h
 ViewFovX:
         db 00h,00h,00h,00h
 ViewFovY:
         db 00h,00h,00h,00h
-dword_123ABC:
+ProjectFlags:
         db 00h,00h,00h,00h
-dword_123AC0:
+SortBuffer:
         dd unk_19A650
 RetraceTimeout:
         db 0A0h,086h,01h,00h
-dword_123AC8:
+TgaBytesPerPixel:
         db 02h,00h,00h,00h
-dword_123ACC:
+VideoModeWidths:
         db 080h,02h,00h,00h
-dword_123AD0:
+VideoModeHeights:
         db 090h,01h,00h,00h,080h,02h,00h,00h,0E0h,01h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,020h,03h,00h,00h,058h,02h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,04h,00h,00h,00h,03h,00h,00h,00h,00h,00h,00h

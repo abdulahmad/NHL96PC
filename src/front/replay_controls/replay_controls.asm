@@ -21,11 +21,11 @@ extern HighlightBuffer, HighlightHeader
 
 
 
-extern ReplayCamMode, ReplaySavedSound, crowdlevel, curperiod, FrontShapesFile, SaveFileHandle, dword_1175B5
-extern dword_1175B9, dword_1176E1, PreGameSkateOn, InReplay, ReplayRunning, HighlightSlot, HighlightStart, HighlightEnd
+extern ReplayCamMode, ReplaySavedSound, crowdlevel, curperiod, FrontShapesFile, SaveFileHandle, PenBoxDoorHome
+extern PenBoxDoorAway, GlassHitFace, PreGameSkateOn, InReplay, ReplayRunning, HighlightSlot, HighlightStart, HighlightEnd
 extern ReplayCamSteps, ReplayCamZoomIn, ReplayCamZoomOut, ReplayFrameTick, ReplayFrameDelta, ReplayTimeAccum, ReplayRemoteShape, SpinPuckFrame
 extern ViewTop, ViewWidth, ViewHeight, ViewLeft, str_D_DrawGameFrame, ViewBitmap, ViewPixels, ViewSizeStep
-extern CamViewBits, CameraViewSlots, LastPaletteMode, ModeLinear, MenuMouseX, MenuMouseY, dword_11F5C0, dword_11F5C4
+extern CamViewBits, CameraViewSlots, LastPaletteMode, ModeLinear, MenuMouseX, MenuMouseY, ViewScreenWidth, ViewScreenHeight
 extern MenuRemoteCursorArt, MenuCursorPixels, pointerspr, MenuBitmapPixels, SpriteArtPtrs, GlassBreakX, GlassBreakY, GlassBreakStep
 extern GlassBreakPanel, GlassBroken, PuckShadowInstance, PuckInstance, HomeNetObject, AwayNetObject
 extern ReplayBufferTop, ReplayFrameCount
@@ -67,7 +67,7 @@ extern FreeColourLookup, TextPrintAt, SetAaPalLut, DrawArtAaScaledInt, ProjectPo
 extern TransformVector, MultiplyMatrix, OriSetObjectMatrix, MakeRotXMatrix, MakeRotYMatrix, MakeRotZMatrix, SortIndices, BuildPerspTable
 extern SetScreenTarget, SetClipWindow, MouseRead, SetViewRect, TicksSinceLast, FindShape, ClearClipRect, SetViewScreenOrigin
 extern SetViewFov, TransposeMatrix, str_D19, str_dot4, ReplayButtonsLong, ReplayButtonPosLong, ReplayButtonPosMid, ReplayButtonsShort
-extern ReplayButtonPosShort, str_Punct_ReplayScreen, str_0_SaveHighlight, unk_122344, ReplayFileName, ReplayViewItems, ReplayViewText
+extern ReplayButtonPosShort, str_Punct_ReplayScreen, str_0_SaveHighlight, CameraMatrix, ReplayFileName, ReplayViewItems, ReplayViewText
 extern ReplayScreenItems, ReplayCamTarget, ReplaySaveArea, DrawList, DrawListCount, CamPathTarget, optblock_end, SavedGameOpts
 extern SlotsTwoPlayer, ControllerScreenMode, GoalNetFrames, str_Punct_DrawReplayCounter, ReplayCounterX, ReplayCounterY, regd0, regd1
 extern ReplayObjX, ReplayObjY, ReplayObjZ, ReplayObjFrame
@@ -93,7 +93,7 @@ StartReplay:
         xor eax, eax
         call StopArenaClip
         call StopSpeech
-        mov eax, dword [dword_1176E1]
+        mov eax, dword [GlassHitFace]
         mov dword [ReplaySavedState+4], eax
         mov eax, dword [GlassBreakY]
         mov dword [ReplaySavedState+8], eax
@@ -231,7 +231,7 @@ EndReplay:
 .2:
         call ClearGlassHoles
         mov eax, dword [ReplaySavedState+4]
-        mov dword [dword_1176E1], eax
+        mov dword [GlassHitFace], eax
         mov eax, dword [ReplaySavedState+8]
         mov dword [GlassBreakY], eax
         mov eax, dword [ReplaySavedState]
@@ -244,7 +244,7 @@ EndReplay:
         je short .3
         call ShatterGlass
 .3:
-        cmp dword [dword_1175B5], byte 0
+        cmp dword [PenBoxDoorHome], byte 0
         je short .4
         xor eax, eax
         call OpenPenaltyBoxDoor
@@ -253,7 +253,7 @@ EndReplay:
         xor eax, eax
         call ClosePenaltyBoxDoor
 .5:
-        cmp dword [dword_1175B9], byte 0
+        cmp dword [PenBoxDoorAway], byte 0
         je short .6
         mov eax, 1
         call OpenPenaltyBoxDoor
@@ -1880,7 +1880,7 @@ ReplayFreeCamera:
         movsd
         movsd
         lea edi, [byte ebp-018h]
-        mov esi, unk_122344
+        mov esi, CameraMatrix
         movsd
         movsd
         movsd
@@ -2050,7 +2050,7 @@ ReplayCameraUpdate:
         enter 94h, 0
         sub ebp, 82h
         lea edi, [byte ebp+066h]
-        mov esi, unk_122344
+        mov esi, CameraMatrix
         movsd
         movsd
         movsd
@@ -3169,13 +3169,13 @@ ReplayScreen:
         push eax
         call DrawShape
         add esp, byte 4
-        push dword [dword_11F5C4]
-        push dword [dword_11F5C0]
+        push dword [ViewScreenHeight]
+        push dword [ViewScreenWidth]
         push byte 0
         push byte 0
         call SetViewRect
-        mov edx, dword [dword_11F5C4]
-        mov eax, dword [dword_11F5C0]
+        mov edx, dword [ViewScreenHeight]
+        mov eax, dword [ViewScreenWidth]
         add esp, byte 10h
         sar edx, 1
         sar eax, 1
@@ -3787,8 +3787,8 @@ ReplayScreen_161B:
         xor eax, eax
         call SetGameBackdrop
         call EndReplay
-        push dword [dword_11F5C4]
-        push dword [dword_11F5C0]
+        push dword [ViewScreenHeight]
+        push dword [ViewScreenWidth]
         push byte 0
         push byte 0
         call SetViewRect
@@ -3812,15 +3812,15 @@ RunReplay:
         cmp dword [ViewSizeStep], byte 8
         jge short .1
         call SetScreenTarget
-        push dword [dword_11F5C4]
+        push dword [ViewScreenHeight]
         push byte 0
-        push dword [dword_11F5C0]
+        push dword [ViewScreenWidth]
         push byte 0
         call SetClipWindow
         add esp, byte 10h
         push byte 0
-        push dword [dword_11F5C4]
-        push dword [dword_11F5C0]
+        push dword [ViewScreenHeight]
+        push dword [ViewScreenWidth]
         call CreateBitmap
         mov edx, dword [byte eax+02Ch]
         mov word [byte edx+0Ch], 0
@@ -3838,9 +3838,9 @@ RunReplay:
         push dword [ReplayRemoteShape]
         call SetDrawBitmap
         add esp, byte 4
-        push dword [dword_11F5C4]
+        push dword [ViewScreenHeight]
         push byte 0
-        push dword [dword_11F5C0]
+        push dword [ViewScreenWidth]
         push byte 0
         call SetClipWindow
         add esp, byte 10h
@@ -3850,9 +3850,9 @@ RunReplay:
         call PutBlock
         add esp, byte 0Ch
         call SetScreenTarget
-        push dword [dword_11F5C4]
+        push dword [ViewScreenHeight]
         push byte 0
-        push dword [dword_11F5C0]
+        push dword [ViewScreenWidth]
         push byte 0
         call SetClipWindow
         add esp, byte 10h
@@ -4010,10 +4010,10 @@ SaveHighlight:
         mov byte [byte ebp+02Ah], al
         lea eax, [byte ebp+02Ah]
         push eax
-        mov eax, dword [dword_11F5C4]
+        mov eax, dword [ViewScreenHeight]
         sar eax, 1
         push eax
-        mov eax, dword [dword_11F5C0]
+        mov eax, dword [ViewScreenWidth]
         sar eax, 1
         mov ecx, 1Eh
         push eax
@@ -4057,11 +4057,11 @@ SaveHighlight:
         or al, 2
         cwde
         push eax
-        mov eax, dword [dword_11F5C4]
+        mov eax, dword [ViewScreenHeight]
         push byte 0
         sar eax, 2
         push eax
-        mov eax, dword [dword_11F5C0]
+        mov eax, dword [ViewScreenWidth]
         sar eax, 1
         push eax
         mov ecx, str_0_SaveHighlight

@@ -16,7 +16,7 @@ extern RunSeasonMenus, RunStatsMenu, RunModemGameSetup, RunPlayoffMenus, AllocMe
 extern UnpackTo, TextSetColor, SetupMemoryPool, NumLockOff, InstallHotkeys, NearestColour, CreateAaPalLut, SetScreenTarget
 extern SetTextMode, SetPaletteEntries8, ReadPaletteEntries8, InitMouse, InstallKeyboardHandler, KbdGetKey, AddExitHandler, FindShape
 extern bcopy, InstallBreakHandler, TextSetFont, str_0_LoadTeamLogo, str_Punct_CheckGameDirs, str_RunSetupFirstDe, str_EscToDosDe, DataDirPath
-extern unk_1210DC, unk_1213DC, str_WesternConference2, unk_18584C
+extern SystemInfo, DefaultFont, str_WesternConference2, PaletteShadow
 global jpt_1B046, LoadTeamLogo, LoadTeamLogo_3B, LoadTeamLogo_45, LoadTeamLogo_4F, LoadTeamLogo_59, LoadTeamLogo_63, LoadTeamLogo_6D
 global LoadTeamLogo_ret, RunFrontEnd, ReturnTrue, CheckFreeMemory, CheckGameDirs, InitHardware, StartUp, ShutDown
 global ShutDown_51, StartUp_ret, main_
@@ -412,12 +412,12 @@ InitHardware:
         call InitGraphicsFix
         mov eax, 1
         call SetScreenMode
-        push unk_1210DC
+        push SystemInfo
         push dword 100h
         push byte 0
         call SetPaletteEntries8
         add esp, byte 0Ch
-        push unk_1213DC
+        push DefaultFont
         call TextSetFont
         add esp, byte 4
         push dword 0FF000000h
@@ -431,7 +431,7 @@ InitHardware:
         call TextSetColor
         add esp, byte 8
         call SetScreenTarget
-        push unk_18584C
+        push PaletteShadow
         push dword 100h
         push byte 0
         call ReadPaletteEntries8

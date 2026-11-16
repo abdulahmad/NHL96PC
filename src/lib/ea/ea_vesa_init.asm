@@ -2,10 +2,10 @@
 bits 32
 %include "hockey.inc"
 section s_BF534 progbits alloc exec nowrite align=1
-extern FatalError, __STOSB, str_InitgraphicsINITMEMMAN, str_InitgraphicsINVALIDSCREEN, str_VESAVideoBiosDriver, dword_11F5A0, dword_11F5C0, dword_11F5C4
-extern dword_11F5CC, dword_11F5D0, dword_11F5D4, dword_11F5D8, MemPoolBase, ScreenWidth, BackBufferWidth, ModeSetCount
+extern FatalError, __STOSB, str_InitgraphicsINITMEMMAN, str_InitgraphicsINVALIDSCREEN, str_VESAVideoBiosDriver, GraphicsReady, ViewScreenWidth, ViewScreenHeight
+extern ScreenPitch, ScreenBuffer, ScreenModeWidth, ScreenModeHeight, MemPoolBase, ScreenWidth, BackBufferWidth, ModeSetCount
 extern dword_122908, dword_12290C, dword_122910, dword_122914, dword_122918, dword_122920, dword_122924, dword_122930
-extern dword_123930, dword_123ACC, dword_123AD0, VesaBank, VesaBankFunc, dword_19B650, dword_1A0B1C, FreeBitmap
+extern dword_123930, VideoModeWidths, VideoModeHeights, VesaBank, VesaBankFunc, dword_19B650, dword_1A0B1C, FreeBitmap
 extern VesaGetInfo, VesaGetModeInfo, SetScreenTarget, VesaSetBank, VesaSetMode, VgaSetModeTwice, SaveTextMode
 global initgraphics, TranslatePixels, SumRingRange
 ;-----------------------------------------------------------------------------
@@ -25,7 +25,7 @@ initgraphics:
         call FatalError
         add esp, byte 4
 .1:
-        cmp dword [dword_11F5A0], byte 0
+        cmp dword [GraphicsReady], byte 0
         jne short .2
         call SaveTextMode
 .2:
@@ -120,7 +120,7 @@ initgraphics:
         mov edi, eax
         test eax, eax
         je short .16
-        cmp dword [dword_11F5A0], byte 0
+        cmp dword [GraphicsReady], byte 0
         je short .15
         mov ebx, esi
         or bh, 81h
@@ -172,14 +172,14 @@ initgraphics:
         mov ebx, 140h
         mov edx, 0C8h
         add esp, byte 4
-        mov dword [dword_11F5A0], edi
+        mov dword [GraphicsReady], edi
         jmp short .25
 .22:
         mov ecx, 2
         mov eax, dword [byte esp+02h]
-        mov ebx, dword [nosplit esi*8+dword_123ACC]
-        mov edx, dword [nosplit esi*8+dword_123AD0]
-        mov dword [dword_11F5A0], ecx
+        mov ebx, dword [nosplit esi*8+VideoModeWidths]
+        mov edx, dword [nosplit esi*8+VideoModeHeights]
+        mov dword [GraphicsReady], ecx
         xor esi, esi
         sar eax, 10h
         mov dword [VesaBankFunc], esi
@@ -203,22 +203,22 @@ initgraphics:
         mov dword [VesaBank], 1
 .25:
         mov ebp, 8
-        mov eax, dword [dword_11F5CC]
-        mov ecx, dword [dword_11F5A0]
-        mov dword [dword_11F5C0], ebx
-        mov dword [dword_11F5C4], edx
+        mov eax, dword [ScreenPitch]
+        mov ecx, dword [GraphicsReady]
+        mov dword [ViewScreenWidth], ebx
+        mov dword [ViewScreenHeight], edx
         mov esi, ebx
         mov dword [BackBufferWidth], ebx
         mov dword [ModeSetCount], edx
         mov dword [dword_122910], ebx
         sub esi, eax
-        mov eax, dword [dword_11F5D0]
-        mov dword [dword_11F5D4], esi
+        mov eax, dword [ScreenBuffer]
+        mov dword [ScreenModeWidth], esi
         mov esi, edx
         mov dword [dword_122914], edx
         sub esi, eax
         mov dword [dword_122920], ebx
-        mov dword [dword_11F5D8], esi
+        mov dword [ScreenModeHeight], esi
         xor esi, esi
         mov dword [dword_122918], ebp
         mov dword [dword_122908], esi

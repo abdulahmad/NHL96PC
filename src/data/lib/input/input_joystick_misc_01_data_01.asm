@@ -3,19 +3,19 @@ bits 32
 %include "hockey.inc"
 section s_11F8DC progbits alloc noexec write align=1
 extern memlist1, ExitProgram, PollHotkeys, str_Jan, str_Feb2, str_Mar, str_Apr, str_May
-extern str_Jun, str_Jul, str_Aug, str_Sep, str_Oct, str_Nov, str_Dec, unk_1213DC
-extern unk_1213FC, unk_1215B8
-global JoyCalibrating, JoyButtonBits, JoyPortMask, JoyButtons, JoyButtonsPrev, JoyDirection, byte_11F983, byte_11F9D8
-global DebugBackColor, byte_11F9DA, byte_11FA2C, byte_11FA2D, byte_11FA2E, byte_11FA2F, byte_11FA30, byte_11FA31
-global str_ctl07, byte_11FA4F, TintTable, byte_11FB50, byte_11FC50, LastTickCount, KbdIdleHook, HeapList
+extern str_Jun, str_Jul, str_Aug, str_Sep, str_Oct, str_Nov, str_Dec, DefaultFont
+extern DefaultFontInfo, DefaultFontWidths
+global JoyCalibrating, JoyButtonBits, JoyPortMask, JoyButtons, JoyButtonsPrev, JoyDirection, JoyButtonTable, DebugRow
+global DebugBackColor, DebugAttr, TextFirstChar, TextLastChar, TextCharW, TextCharH, TextSpacing, TextFontH
+global str_ctl07, TintByte, TintTable, LzhPosCode, LzhPosLen, LastTickCount, KbdIdleHook, HeapList
 global HeapRover, HeapLargestFree, JoyTimeX, TimerCalibration, JoyTimeY, JoyTimeSecondX, JoyTimeSecondY, JoyCalibrateTicks
 global JoyReadTimeout, JoyAxisX1, JoyAxisY1, JoyAxisX2, JoyAxisY2, JoyAxisMask, str_P, JoyX1Min
 global JoyX1Center, JoyX1Max, JoyX1Settle, JoyY1Min, JoyY1Max, str_P2, JoyY1MinSeen, JoyY1Center
 global JoyY1MaxSeen, JoyY1Settle, JoyX2Min, JoyX2Max, JoyXScale, JoyYScale, bailout_vec, TimerTickStep
 global FileCacheList, dword_11F9B8, RowTable, FreeSpaceList, MemLockOn, DebugMode, dword_11F9D0, DebugLineWidth
-global dword_11F9DC, dword_11FA14, dword_11FA18, TextOriginX, TextOriginY, dword_11FA24, dword_11FA28, dword_11FA34
-global dword_11FA38, dword_11FA3C, dword_11FA40, dword_11FA44, dword_11FA48, dword_11FA4C, dword_11FD50, joycalactive
-global off_11FA10, oldint8off, oldint8sel, tickcount, tickdeadline, JoyAxisValues, word_11F914, word_11F918
+global DebugLogOn, TextColour, TextBgColour, TextOriginX, TextOriginY, TextShadowOn, TextFontTag, TextWidthTable
+global TextCursorX, TextCursorY, TextLeft, TextTop, TextRight, TextBottom, TextColourTable, joycalactive
+global TextFont, oldint8off, oldint8sel, tickcount, tickdeadline, JoyAxisValues, JoyReadX, JoyReadY
 global word_11F91C
 tickdeadline:
         db 00h,00h,00h,00h
@@ -45,9 +45,9 @@ JoyCalibrating:
         db 00h,00h,00h,00h
 JoyAxisValues:
         db 00h,00h,00h,00h
-word_11F914:
+JoyReadX:
         db 00h,00h,00h,00h
-word_11F918:
+JoyReadY:
         db 00h,00h,00h,00h
 word_11F91C:
         db 00h,00h,00h,00h
@@ -105,7 +105,7 @@ JoyXScale:
         db 00h,00h,00h,00h
 JoyYScale:
         db 00h,00h,00h,00h
-byte_11F983:
+JoyButtonTable:
         db 00h,01h,05h,00h,03h,02h,04h,03h,07h,08h,06h,07h,00h,01h,05h,00h
         db 00h
 bailout_vec:
@@ -137,13 +137,13 @@ dword_11F9D0:
         db 00h,00h,0Bh,00h
 DebugLineWidth:
         db 080h,07h,00h,00h
-byte_11F9D8:
+DebugRow:
         db 00h
 DebugBackColor:
         db 07h
-byte_11F9DA:
+DebugAttr:
         db 08h,063h
-dword_11F9DC:
+DebugLogOn:
         db 00h,00h,00h,00h
         dd str_Jan
         dd str_Feb2
@@ -157,49 +157,49 @@ dword_11F9DC:
         dd str_Oct
         dd str_Nov
         dd str_Dec
-off_11FA10:
-        dd unk_1213DC
-dword_11FA14:
+TextFont:
+        dd DefaultFont
+TextColour:
         db 0Fh,00h,00h,00h
-dword_11FA18:
+TextBgColour:
         db 00h,00h,00h,00h
 TextOriginX:
         db 00h,00h,00h,00h
 TextOriginY:
         db 00h,00h,00h,00h
-dword_11FA24:
+TextShadowOn:
         db 00h,00h,00h,00h
-dword_11FA28:
+TextFontTag:
         db 031h,044h,033h,046h
-byte_11FA2C:
+TextFirstChar:
         db 020h
-byte_11FA2D:
+TextLastChar:
         db 08Eh
-byte_11FA2E:
+TextCharW:
         db 08h
-byte_11FA2F:
+TextCharH:
         db 08h
-byte_11FA30:
+TextSpacing:
         db 00h
-byte_11FA31:
+TextFontH:
         db 08h
 str_ctl07:
         db 07h,00h
-dword_11FA34:
-        dd unk_1215B8
-dword_11FA38:
+TextWidthTable:
+        dd DefaultFontWidths
+TextCursorX:
         db 00h,00h,00h,00h
-dword_11FA3C:
+TextCursorY:
         db 00h,00h,00h,00h
-dword_11FA40:
+TextLeft:
         db 00h,00h,00h,00h
-dword_11FA44:
+TextTop:
         db 00h,00h,00h,00h
-dword_11FA48:
+TextRight:
         db 00h,00h,00h,00h
-dword_11FA4C:
-byte_11FA4F equ $+3
-        dd unk_1213FC
+TextBottom:
+TintByte equ $+3
+        dd DefaultFontInfo
 TintTable:
         db 01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h
         db 01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h
@@ -217,7 +217,7 @@ TintTable:
         db 01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h
         db 01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h
         db 01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h
-byte_11FB50:
+LzhPosCode:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h
@@ -234,7 +234,7 @@ byte_11FB50:
         db 020h,020h,021h,021h,022h,022h,023h,023h,024h,024h,025h,025h,026h,026h,027h,027h
         db 028h,028h,029h,029h,02Ah,02Ah,02Bh,02Bh,02Ch,02Ch,02Dh,02Dh,02Eh,02Eh,02Fh,02Fh
         db 030h,031h,032h,033h,034h,035h,036h,037h,038h,039h,03Ah,03Bh,03Ch,03Dh,03Eh,03Fh
-byte_11FC50:
+LzhPosLen:
         db 03h,03h,03h,03h,03h,03h,03h,03h,03h,03h,03h,03h,03h,03h,03h,03h
         db 03h,03h,03h,03h,03h,03h,03h,03h,03h,03h,03h,03h,03h,03h,03h,03h
         db 04h,04h,04h,04h,04h,04h,04h,04h,04h,04h,04h,04h,04h,04h,04h,04h
@@ -251,5 +251,5 @@ byte_11FC50:
         db 07h,07h,07h,07h,07h,07h,07h,07h,07h,07h,07h,07h,07h,07h,07h,07h
         db 07h,07h,07h,07h,07h,07h,07h,07h,07h,07h,07h,07h,07h,07h,07h,07h
         db 08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h
-dword_11FD50:
+TextColourTable:
         db 00h,00h,00h,00h

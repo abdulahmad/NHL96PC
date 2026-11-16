@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_69B1E progbits alloc exec nowrite align=1
 extern TgvStatus, CdStreamFreePacket, CdStreamNextPacket, CdStreamOpenDefault, CdStreamOpenSecondary, CdStreamStart, CloseMusic, delstream
-extern TgvFpsSetting, TgvFlags, TgvStartTick, TgvPauseTick, dword_11F5C0, dword_11F5C4, TgvBufSize, TgvFrameCallback
+extern TgvFpsSetting, TgvFlags, TgvStartTick, TgvPauseTick, ViewScreenWidth, ViewScreenHeight, TgvBufSize, TgvFrameCallback
 extern MovieSkipped, TgvFrame, TgvHeaderRead, TgvState, TgvChunkLen, TgvAudioOn, TgvVideoOn, TgvDataPtr
 extern TgvDataEnd, TgvChunkType, TgvLastFrame, TgvFramesDecoded, TgvAborted, TgvFileHandle, TgvAudioBuf, TgvAudioPos
 extern TgvVideoBmp, TgvFrameTime, TgvMemBlock, FadeOutMusic, FillMusicStream, GetPressedDevice, GetSoundCard, GetTicks
@@ -469,7 +469,7 @@ TgvPlayFrames:
         mov esi, eax
         test eax, eax
         je near .6
-        mov edx, dword [dword_11F5C0]
+        mov edx, dword [ViewScreenWidth]
         movsx eax, word [byte eax+04h]
         sub edx, eax
         mov eax, edx
@@ -478,7 +478,7 @@ TgvPlayFrames:
         sar eax, 1
         add eax, byte 3
         and al, 0FCh
-        mov edx, dword [dword_11F5C4]
+        mov edx, dword [ViewScreenHeight]
         mov dword [byte ebp-08h], eax
         movsx eax, word [byte esi+06h]
         sub edx, eax
@@ -491,16 +491,16 @@ TgvPlayFrames:
         mov dword [byte ebp-0Ch], eax
         mov eax, dword [byte ebp-04h]
         inc eax
-        imul eax, dword [dword_11F5C4]
+        imul eax, dword [ViewScreenHeight]
         push eax
         mov eax, dword [byte ebp-04h]
-        imul eax, dword [dword_11F5C4]
+        imul eax, dword [ViewScreenHeight]
         push eax
         push dword 140h
         push byte 0
         call SetClipWindow
         mov eax, dword [byte ebp-04h]
-        imul eax, dword [dword_11F5C4]
+        imul eax, dword [ViewScreenHeight]
         add esp, byte 10h
         add eax, dword [byte ebp-0Ch]
         push eax
@@ -513,7 +513,7 @@ TgvPlayFrames:
         call DisableInterrupts
 .2:
         mov eax, dword [byte ebp-04h]
-        imul eax, dword [dword_11F5C4]
+        imul eax, dword [ViewScreenHeight]
         imul eax, dword 140h
         cdq
         shl edx, 2

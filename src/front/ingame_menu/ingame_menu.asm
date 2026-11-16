@@ -5,12 +5,12 @@ extern LinesWorkTable
 extern TeamRosterPtrs
 section s_A17D5 progbits alloc exec nowrite align=1
 extern AwayClinchesSeries, awtmstruct, RinkFloorOn, IceTextureOn, IceLogosOn, GlassOn, PlayerDetailOn, StandsOn
-extern MenuFrameColours, byte_11FA2F, StatsFromGame
+extern MenuFrameColours, TextCharH, StatsFromGame
 
 extern InGameMenuState, InGameTitleText, CloseTextOverlay, ControllerScreen, CopyBitmap
 extern Crowd_Noise, CrowdFadeOut, CrowdNoiseReset, CrowdReaction, curperiod, DrawArtOpaque, DrawBox, DrawColorTextCentred
 extern DrawFrameAt, DrawGameFrame, DrawRinkView, FrontShapesFile, gameresult, ReplayRemoteShape, ViewSizeStep, LastPaletteMode
-extern SfxMask, InMenuOverlay, InGameMenuStartTick, dword_11F5C0, dword_11F5C4, PanelShadeArt, MenuRemoteCursorArt, MenuCursorPixels
+extern SfxMask, InMenuOverlay, InGameMenuStartTick, ViewScreenWidth, ViewScreenHeight, PanelShadeArt, MenuRemoteCursorArt, MenuCursorPixels
 extern pointerspr, MenuBitmapPixels, NameFont, NamePanelBmp, GsOptions, SeasonGameOpts, PlayoffTreeData, SeasonPlayoffs
 extern PlayoffGameOpts, PlayoffRound, RosterFileHandle, FrontShapeFile, LinesEditAway, LinesEditMode, LinesEditTeam
 extern InGameBoxRight, InGameBoxBottom, InGameBoxLeft, InGameBoxTop, InterRegBuffer
@@ -203,7 +203,7 @@ DrawInGameMenuFrame:
         push str_D13
         push InGameScoreText
         call sprintf_
-        movzx edx, byte [byte_11FA2F]
+        movzx edx, byte [TextCharH]
         mov eax, dword [InGameTitleItems]
         inc edx
         inc edx
@@ -333,7 +333,7 @@ DrawInGameMenuFrame:
         push str_D13
         push InGameScoreText
         call sprintf_
-        movzx edx, byte [byte_11FA2F]
+        movzx edx, byte [TextCharH]
         mov eax, dword [InGameTitleItems]
         inc edx
         inc edx
@@ -347,7 +347,7 @@ DrawInGameMenuFrame:
         mov eax, dword [InGameTitleItems]
         push byte 0
         movsx ebx, word [byte eax+012h]
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         push byte 0
         add eax, ebx
         push byte 1
@@ -927,8 +927,8 @@ InGameReturnMenu:
         push dword [byte eax+02Ch]
         call PutBlock
         add esp, byte 0Ch
-        push dword [dword_11F5C4]
-        push dword [dword_11F5C0]
+        push dword [ViewScreenHeight]
+        push dword [ViewScreenWidth]
         push byte 0
         push byte 0
         call SetViewRect
@@ -1139,9 +1139,9 @@ InGameMenu:
         mov dword [InGameScaleStep], 3D70h
 .6:
         call LoadZamboni
-        push dword [dword_11F5C4]
+        push dword [ViewScreenHeight]
         push byte 0
-        push dword [dword_11F5C0]
+        push dword [ViewScreenWidth]
         push byte 0
         call SetClipWindow
         add esp, byte 10h
@@ -1191,16 +1191,16 @@ InGameMenu:
         mov eax, 4
         call SoundSecondsToBytes
         call FillMusicStream
-        mov eax, dword [dword_11F5C0]
+        mov eax, dword [ViewScreenWidth]
         add eax, byte 0Ah
         mov dword [InGameBoxLeft], eax
-        mov eax, dword [dword_11F5C4]
+        mov eax, dword [ViewScreenHeight]
         add eax, byte 0Ah
         mov dword [InGameBoxTop], eax
-        mov eax, dword [dword_11F5C0]
+        mov eax, dword [ViewScreenWidth]
         add eax, byte 14h
         mov dword [InGameBoxRight], eax
-        mov eax, dword [dword_11F5C4]
+        mov eax, dword [ViewScreenHeight]
         add eax, byte 14h
         mov edx, InGameMenuWork
         mov dword [InGameBoxBottom], eax
@@ -1220,26 +1220,26 @@ InGameMenu:
         mov edx, dword [byte eax+0Ch]
         mov eax, dword [InterRegBuffer]
         mov dword [byte eax+04h], edx
-        mov edx, dword [dword_11F5C0]
+        mov edx, dword [ViewScreenWidth]
         mov eax, dword [InterRegBuffer]
         dec edx
         mov dword [byte eax+010h], edx
         mov eax, dword [InterRegBuffer]
         mov dword [byte eax+08h], edx
-        mov edx, dword [dword_11F5C4]
+        mov edx, dword [ViewScreenHeight]
         mov eax, dword [InterRegBuffer]
         dec edx
         mov dword [byte eax+01Ch], edx
         mov eax, dword [InterRegBuffer]
         mov dword [byte eax+014h], edx
-        mov eax, dword [dword_11F5C0]
+        mov eax, dword [ViewScreenWidth]
         sar eax, 1
         mov dword [InGameMenuWork+3Ah], eax
-        mov eax, dword [dword_11F5C4]
+        mov eax, dword [ViewScreenHeight]
         sar eax, 1
-        mov edx, dword [dword_11F5C4]
+        mov edx, dword [ViewScreenHeight]
         mov dword [InGameMenuWork+3Eh], eax
-        mov eax, dword [dword_11F5C0]
+        mov eax, dword [ViewScreenWidth]
         sub edx, byte 0Ah
         sub eax, byte 0Ah
         call SetMenuMouse
@@ -1481,8 +1481,8 @@ InGameMenu:
         add ebx, byte 5
         cmp ecx, ebx
         jl near .19
-        push dword [dword_11F5C4]
-        push dword [dword_11F5C0]
+        push dword [ViewScreenHeight]
+        push dword [ViewScreenWidth]
         push byte 0
         push byte 0
         call SetViewRect
@@ -1700,11 +1700,11 @@ InGameMenu_ABD:
         or al, 2
         cwde
         push eax
-        mov eax, dword [dword_11F5C4]
+        mov eax, dword [ViewScreenHeight]
         push byte 1
         sar eax, 1
         push eax
-        mov eax, dword [dword_11F5C0]
+        mov eax, dword [ViewScreenWidth]
         sar eax, 1
         push eax
         mov ecx, MenuFrameColours
@@ -1920,11 +1920,11 @@ InGameMenu_D17:
         call GetLangText
         push byte 2
         mov dword [byte ebp-018h], eax
-        mov eax, dword [dword_11F5C4]
+        mov eax, dword [ViewScreenHeight]
         push byte 0
         sar eax, 1
         push eax
-        mov eax, dword [dword_11F5C0]
+        mov eax, dword [ViewScreenWidth]
         sar eax, 1
         push eax
         mov ecx, MenuFrameColours
@@ -1971,11 +1971,11 @@ InGameMenu_D17:
         call GetLangText
         push byte 2
         mov dword [byte ebp-020h], eax
-        mov eax, dword [dword_11F5C4]
+        mov eax, dword [ViewScreenHeight]
         push edx
         sar eax, 1
         push eax
-        mov eax, dword [dword_11F5C0]
+        mov eax, dword [ViewScreenWidth]
         sar eax, 1
         push eax
         mov ecx, MenuFrameColours
@@ -2131,11 +2131,11 @@ InGameMenu_FA8:
         xor eax, eax
         jmp short .84
 .81:
-        mov eax, dword [dword_11F5C4]
+        mov eax, dword [ViewScreenHeight]
         push InGameTitleText
         sar eax, 1
         push eax
-        mov eax, dword [dword_11F5C0]
+        mov eax, dword [ViewScreenWidth]
         sar eax, 1
         mov byte [InGameTitleText], 0
         push eax
@@ -2172,11 +2172,11 @@ InGameMenu_FA8:
         or al, 2
         cwde
         push eax
-        mov eax, dword [dword_11F5C4]
+        mov eax, dword [ViewScreenHeight]
         push byte 0
         sar eax, 1
         push eax
-        mov eax, dword [dword_11F5C0]
+        mov eax, dword [ViewScreenWidth]
         sar eax, 1
         push eax
         mov ecx, MenuFrameColours
@@ -2205,11 +2205,11 @@ InGameMenu_FA8:
         or al, 2
         cwde
         push eax
-        mov eax, dword [dword_11F5C4]
+        mov eax, dword [ViewScreenHeight]
         push byte 0
         sar eax, 1
         push eax
-        mov eax, dword [dword_11F5C0]
+        mov eax, dword [ViewScreenWidth]
         sar eax, 1
         push eax
         mov ecx, MenuFrameColours

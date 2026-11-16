@@ -2,60 +2,40 @@
 bits 32
 %include "hockey.inc"
 section s_184B38 nobits alloc noexec write align=1
-global byte_184B3C, byte_184B3D, byte_184B3E, byte_1852C2, dword_184B38, memlist1, MemBlockGuards, RowTableSize
-global MemDescriptorTop, MemLockHandle, MemFreeStart, MemFreeBytes, timercallbacks, unk_184B78, unk_184BB4, unk_184BF0
-global unk_184C2C, unk_184C68, unk_184CA4, unk_184D1C, unk_184D58, unk_184E48, unk_184E7E, unk_184EB4
-global unk_184EEA, unk_184F19, unk_184F48, unk_184F77, unk_185292, unk_1855AD, unk_1855DC, unk_18560B
-global unk_18563A
-dword_184B38:
+global LeaderTable, LeaderTableCount, LeaderTableRows, LeaderCardIndex, memlist1, MemBlockGuards, RowTableSize
+global MemDescriptorTop, MemLockHandle, MemFreeStart, MemFreeBytes, timercallbacks, PlayoffLeaderLists
+
+
+
+LeaderCardIndex:
         resb 4
-byte_184B3C:
+LeaderTable:
         resb 1
-byte_184B3D:
+LeaderTableCount:
         resb 1
-byte_184B3E:
+LeaderTableRows:
         resb 58
-unk_184B78:
+PlayoffLeaderLists:
         resb 60
-unk_184BB4:
         resb 60
-unk_184BF0:
         resb 60
-unk_184C2C:
         resb 60
-unk_184C68:
         resb 60
-unk_184CA4:
         resb 120
-unk_184D1C:
         resb 60
-unk_184D58:
         resb 240
-unk_184E48:
         resb 54
-unk_184E7E:
         resb 54
-unk_184EB4:
         resb 54
-unk_184EEA:
         resb 47
-unk_184F19:
         resb 47
-unk_184F48:
         resb 47
-unk_184F77:
         resb 795
-unk_185292:
         resb 48
-byte_1852C2:
         resb 747
-unk_1855AD:
         resb 47
-unk_1855DC:
         resb 47
-unk_18560B:
         resb 47
-unk_18563A:
         resb 50
 timercallbacks:
         resb 32

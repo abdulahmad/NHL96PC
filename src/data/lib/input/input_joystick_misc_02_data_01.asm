@@ -4,19 +4,15 @@ bits 32
 section s_1222C8 progbits alloc noexec write align=1
 extern OriTriOpaque, OriTriShadow, OriTriMapped, OriQuadOpaque, OriQuadMapped, OriQuadShadow, OriPolyShaded, OriPolyClipped
 extern OriPolyMapped, OriStripOpaque, OriStripShadow, OriStripMapped, OriFlatPoly, OriFlatPolyMapped, OriFlatPolyList
-global RemapTable, dword_1222C8, dword_1222CC, dword_1222D0, RandState, dword_1222D8, RandIndex, dword_12231C
-global dword_122350, dword_122378, dword_122384, dword_122388, dword_12238C, SinTable, CosTable, NearPlaneZ
-global ScreenWidth, ScreenHeight, OriTriDrawFuncs, OriPolyDrawFuncs, OriQuadDrawFuncs, OriFlatDrawFuncs, OriStripDrawFuncs, unk_122320
-global unk_122344, RinkMatrix, RinkTranslation
-dword_1222C8:
+global RemapTable, RandomState, RandIndex, FloorPlaneOn
+global MatrixScale, SubdivTable, SubdivMinDepth, SubdivMaxSize, QuadDepthLimit, SinTable, CosTable, NearPlaneZ
+global ScreenWidth, ScreenHeight, OriTriDrawFuncs, OriPolyDrawFuncs, OriQuadDrawFuncs, OriFlatDrawFuncs, OriStripDrawFuncs, IdentityMatrix
+global CameraMatrix, RinkMatrix, RinkTranslation
+RandomState:
         db 056h,0Eh,02Dh,0F2h
-dword_1222CC:
         db 0E9h,026h,031h,088h
-dword_1222D0:
         db 02Fh,0DDh,024h,0C6h
-RandState:
         db 09Ch,0C4h,02h,07h
-dword_1222D8:
         db 07Dh,03Fh,035h,09Eh
 RandIndex:
         db 064h,03Bh,0DFh,06Fh
@@ -40,25 +36,25 @@ OriStripDrawFuncs:
         dd OriStripOpaque
         dd OriStripMapped
         dd OriStripShadow
-dword_12231C:
+FloorPlaneOn:
         db 01h,00h,00h,00h
-unk_122320:
+IdentityMatrix:
         db 00h,00h,01h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,01h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,01h,00h
-unk_122344:
+CameraMatrix:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-dword_122350:
+MatrixScale:
         db 00h,040h,00h,00h,00h,0E0h,0FFh,0FFh,00h,018h,00h,00h,00h,0ECh,0FFh,0FFh
         db 080h,011h,00h,00h,040h,0F0h,0FFh,0FFh,070h,0Eh,00h,00h,098h,0F2h,0FFh,0FFh
         db 092h,0Ch,00h,00h,021h,0F4h,0FFh,0FFh
-dword_122378:
+SubdivTable:
         db 00h,00h,00h,00h,01h,00h,00h,00h,01h,00h,00h,00h
-dword_122384:
+SubdivMinDepth:
         db 02h,00h,00h,00h
-dword_122388:
+SubdivMaxSize:
         db 01Bh,00h,00h,00h
-dword_12238C:
+QuadDepthLimit:
         db 00h,040h,00h,00h
 SinTable:
         db 00h,00h,00h,00h,092h,01h,00h,00h,024h,03h,00h,00h,0B6h,04h,00h,00h

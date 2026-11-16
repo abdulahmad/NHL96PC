@@ -8,7 +8,7 @@ extern _nfree_, _nmalloc_, _searchenv_, InputDeviceMask, EscReplayKeyMap, JoyPor
 extern GripSlotPresent, JoyPadBits, GripLinkByte, GripPadState
 extern KeyPollTick, MousePollTick, KeyRepeatTick, JoyPollTicks, KeyPadActive, JoyPadActive
 extern MousePadActive, InputRecordIndex, Joy1NeedsCalib, Joy2NeedsCalib, GripLinked, GripLibHandle, GripSlotsScanned, GripPadBitsPrev
-extern InMenuOverlay, dword_11F5C0, dword_11F5C4, SlotPollState, SlotWords, LastKeyPollTick, SlotInput, KeyBindingSet
+extern InMenuOverlay, ViewScreenWidth, ViewScreenHeight, SlotPollState, SlotWords, LastKeyPollTick, SlotInput, KeyBindingSet
 extern GripPadBits, GripShootMap, GripPassMap, Joy1MinX, Joy1MinY
 extern Joy1MaxX, Joy1X, Joy1Y, Joy1CentreX, Joy2MinX, Joy2MinY, Joy2MaxX
 extern Joy2X, Joy2Y, Joy2CentreX, GripSlotMask, GripButtonsRaw, GripCurSlot, fclose_, fopen_
@@ -17,7 +17,7 @@ extern InputRecordRing, kaufmfont, LinkResyncInput, mousepollfn, MouseRead, mous
 extern SlotButtons, SlotTable, slotteam, str_CGRIP, str_GRIP, str_GRIPGLL, str_PATH, str_Rb2
 extern strcat_, strcpy_, CameraFacing, InitMouse, KeyIsDown, KbdGetKey, CalibrateJoystick, JoyResetCentres
 extern AddExitHandler, KeyBindings, KeyBindingsAlt, GripSlotNames, GripSlotTypes, GripFarCall, InputDevicesFound, InputDevicesReady
-extern MouseReady, GripBufferSide, SlotsTwoPlayer, ControllerScreenMode, JoyAxisValues, word_11F914, word_11F918, word_11F91C
+extern MouseReady, GripBufferSide, SlotsTwoPlayer, ControllerScreenMode, JoyAxisValues, JoyReadX, JoyReadY, word_11F91C
 extern SlotDevice, GripAxisMin, GripAxisMax, Joy1MaxY, Joy1Present, Joy1CentreY
 extern Joy1Buttons, Joy2MaxY, Joy2Present, Joy2CentreY, Joy2Buttons, Joy1RepeatState, Joy2RepeatState, GripSlotIds
 extern GripLinkStatus, GripDriverSeg, GripLibSeg, GripDataSeg, GripResult, GripAxesRaw
@@ -912,16 +912,16 @@ ResetInputSlots:
         rep stosb
         test byte [InputDeviceMask], 1
         je short .1
-        push dword [dword_11F5C4]
-        push dword [dword_11F5C0]
+        push dword [ViewScreenHeight]
+        push dword [ViewScreenWidth]
         push byte 0
         push byte 0
         call SetViewRect
-        mov eax, dword [dword_11F5C4]
+        mov eax, dword [ViewScreenHeight]
         add esp, byte 10h
         sar eax, 1
         push eax
-        mov eax, dword [dword_11F5C0]
+        mov eax, dword [ViewScreenWidth]
         sar eax, 1
         push eax
         call MouseRead
@@ -2116,7 +2116,7 @@ ReadAnalogJoysticks:
         je short .5
         cmp dword [JoyAxisValues], byte 0
         jne short .4
-        cmp dword [word_11F914], byte 0
+        cmp dword [JoyReadX], byte 0
         je short .5
 .4:
         jmp short .6
@@ -2130,7 +2130,7 @@ ReadAnalogJoysticks:
 .8:
         test byte [JoyPortMask], 0Ch
         je short .10
-        cmp dword [word_11F918], byte 0
+        cmp dword [JoyReadY], byte 0
         jne short .9
         cmp dword [word_11F91C], byte 0
         je short .10
@@ -2151,29 +2151,29 @@ ReadAnalogJoysticks:
         je short .15
         mov ax, word [JoyAxisValues]
         mov word [Joy1MinX], ax
-        mov ax, word [word_11F914]
+        mov ax, word [JoyReadX]
         mov word [Joy1MinY], ax
         mov ax, word [JoyAxisValues]
         mov word [Joy1MaxX], ax
-        mov ax, word [word_11F914]
+        mov ax, word [JoyReadX]
         mov word [Joy1MaxY], ax
         mov ax, word [JoyAxisValues]
         mov word [Joy1CentreX], ax
-        mov ax, word [word_11F914]
+        mov ax, word [JoyReadX]
         mov word [Joy1CentreY], ax
         mov dword [Joy1NeedsCalib], 0
 .15:
         cmp dword [Joy2NeedsCalib], byte 0
         je short .16
-        mov ax, word [word_11F918]
+        mov ax, word [JoyReadY]
         mov word [Joy2MinX], ax
         mov ax, word [word_11F91C]
         mov word [Joy2MinY], ax
-        mov ax, word [word_11F918]
+        mov ax, word [JoyReadY]
         mov word [Joy2MaxX], ax
         mov ax, word [word_11F91C]
         mov word [Joy2MaxY], ax
-        mov ax, word [word_11F918]
+        mov ax, word [JoyReadY]
         mov word [Joy2CentreX], ax
         mov ax, word [word_11F91C]
         mov word [Joy2CentreY], ax
@@ -2195,21 +2195,21 @@ ReadAnalogJoysticks:
 .18:
         mov eax, dword [Joy1MinX]
         sar eax, 10h
-        cmp eax, dword [word_11F914]
+        cmp eax, dword [JoyReadX]
         jle short .19
-        mov ax, word [word_11F914]
+        mov ax, word [JoyReadX]
         mov word [Joy1MinY], ax
 .19:
         mov eax, dword [Joy1MaxX]
         sar eax, 10h
-        cmp eax, dword [word_11F914]
+        cmp eax, dword [JoyReadX]
         jge short .20
-        mov ax, word [word_11F914]
+        mov ax, word [JoyReadX]
         mov word [Joy1MaxY], ax
 .20:
         mov ax, word [JoyAxisValues]
         mov word [Joy1X], ax
-        mov ax, word [word_11F914]
+        mov ax, word [JoyReadX]
         mov word [Joy1Y], ax
         mov eax, dword [byte ebp-04h]
         or eax, 0FFFFFFFCh
@@ -2217,16 +2217,16 @@ ReadAnalogJoysticks:
         not word [Joy1Buttons]
         mov eax, dword [Joy2MinX-2]
         sar eax, 10h
-        cmp eax, dword [word_11F918]
+        cmp eax, dword [JoyReadY]
         jle short .21
-        mov ax, word [word_11F918]
+        mov ax, word [JoyReadY]
         mov word [Joy2MinX], ax
 .21:
         mov eax, dword [Joy2MinY]
         sar eax, 10h
-        cmp eax, dword [word_11F918]
+        cmp eax, dword [JoyReadY]
         jge short .22
-        mov ax, word [word_11F918]
+        mov ax, word [JoyReadY]
         mov word [Joy2MaxX], ax
 .22:
         mov eax, dword [Joy2MinX]
@@ -2243,7 +2243,7 @@ ReadAnalogJoysticks:
         mov ax, word [word_11F91C]
         mov word [Joy2MaxY], ax
 .24:
-        mov ax, word [word_11F918]
+        mov ax, word [JoyReadY]
         mov word [Joy2X], ax
         mov ax, word [word_11F91C]
         mov word [Joy2Y], ax

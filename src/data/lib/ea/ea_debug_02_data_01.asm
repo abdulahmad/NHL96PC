@@ -6,12 +6,12 @@ global str_HW77xPool77xMax77xDOSHW77xDO, str_HW7uPool7uMax7uDOSHW7uDOSPoo, str_U
 global str_S_MemViewerDrawList, str_SPACE10x8s8s, str_SPACE10d8s8s, str_SPACE1010x88s88s, str_SPACE10d88s88s, str_1212s10x8s8s, str_1212s10d8s8s, str_33d1212s1010x88s88s44x
 global str_33d1212s10d88s88s44x, str_MEMMANAGER, str_044X00000000, str_SYSTEM, str_SPACE3, str_HIGHMemoryBlock, str_LOWMemoryBlock, str_ConventionalMemory
 global str_RelocatableBlock, str_NonRelocatableBlock, str_ALIGNFlagIsSet, str_PRIORITY1d, str_SequenceD, str_BlockIsPURGABLE, str_04x2, str_02x
-global asc_114674, str_FILES2, str_DATES2, str_TIMES3, str_HexmemdspOS, str_XxMMAPTXT, str_ErrorDumpingMemoryMap, str_ShapeFileIsInvalid
+global str_FourSpacesHex, str_FILES2, str_DATES2, str_TIMES3, str_HexmemdspOS, str_XxMMAPTXT, str_ErrorDumpingMemoryMap, str_ShapeFileIsInvalid
 global str_NumDPackedD, str_ThereAreNoShapes, str_44s05x, str_Bad, str_CxCy3d3d, str_NotDrawn, str_Bytes3dRows3d, str_Spacked
 global str_Packed, str_Unpacked_ShapeInfo, str_3d3d3d3dS, str_Type02xNext05x, str_ShapeIsInvalidDraw, str_MEMSHPTXT, str_ErrorDumpingShapesList, str_ShapeFileName0
 global str_ShapeFileSizeLd, str_NumberOfShapesD, str_44s66ld, str_Bytes3dRows3d2, str_XY3d3d, str_033d022X, str_R022d, str_G022d
 global str_B022d, str_02d_PaletteViewerLabel, str_SCREEN2, str_Tga, str_02d3s02d_FormatDateTime, str_2d02d02d, str_Unpackf, str_Targa
-global str_C, unk_11444C, str_X_DebugSprintf, str_1_MemViewerBlockInfo, str_Punct_HexDumpRow, unk_114670, str_N_WriteMemMap, str_FF
+global str_C, MemViewStrings, str_X_DebugSprintf, str_1_MemViewerBlockInfo, str_Punct_HexDumpRow, str_SpaceHex, str_N_WriteMemMap, str_FF
 global str_W_DumpMemoryMap, str_Un, str_Punct_DumpShapesList
 str_HW77xPool77xMax77xDOSHW77xDO:
         db 020h,020h,048h,057h,03Dh,025h,037h,02Eh,037h,078h,020h,050h,06Fh,06Fh,06Ch,03Dh
@@ -42,7 +42,7 @@ str_C:
         db 025h,063h,00h,048h
 str_80s:
         db 025h,02Dh,038h,030h,073h,00h,020h,044h
-unk_11444C:
+MemViewStrings:
         db 00h,053h,050h,06Fh
 str_S9:
         db 025h,073h,0Ah,00h
@@ -120,9 +120,9 @@ str_02x:
         db 025h,030h,032h,078h,00h,06Dh,065h,06Dh
 str_Punct_HexDumpRow:
         db 02Ah,00h,079h,020h
-unk_114670:
+str_SpaceHex:
         db 020h,00h,06Fh,063h
-asc_114674:
+str_FourSpacesHex:
         db 020h,020h,020h,020h,00h,04Fh,057h,020h
 str_FILES2:
         db 02Ah,020h,046h,049h,04Ch,045h,03Ah,020h,025h,073h,0Ah,00h

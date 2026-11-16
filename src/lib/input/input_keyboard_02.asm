@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_E0834 progbits alloc exec nowrite align=1
-extern WaitKey, dword_11F5A0, bailout_vec, dword_121B34, dword_12443C, PrintBoxedText, SetScreenTarget, PrintfSaveRegs
+extern WaitKey, GraphicsReady, bailout_vec, FatalErrorHook, dword_12443C, PrintBoxedText, SetScreenTarget, PrintfSaveRegs
 extern RestoreTextMode
 global FatalError
 ;-----------------------------------------------------------------------------
@@ -10,9 +10,9 @@ global FatalError
 ;-----------------------------------------------------------------------------
 FatalError:
         pop eax
-        cmp dword [dword_121B34], byte 0
+        cmp dword [FatalErrorHook], byte 0
         jne short .2
-        cmp dword [dword_11F5A0], byte 0
+        cmp dword [GraphicsReady], byte 0
         je short .1
         call SetScreenTarget
         push byte 0
@@ -27,7 +27,7 @@ FatalError:
         mov dword [dword_12443C], eax
         call dword [bailout_vec]
 .2:
-        push dword [dword_121B34]
+        push dword [FatalErrorHook]
         call RestoreTextMode
         call PrintfSaveRegs
         call dword [bailout_vec]
@@ -35,6 +35,6 @@ FatalError:
         push ebp
         LD mov, ebp, esp
         mov eax, dword [byte ebp+08h]
-        mov dword [dword_121B34], eax
+        mov dword [FatalErrorHook], eax
         leave
         ret

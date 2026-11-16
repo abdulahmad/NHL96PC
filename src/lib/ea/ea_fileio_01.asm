@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_E0658 progbits alloc exec nowrite align=1
-extern FatalError, str_OpenhandleSFILEERROR, ResourceArchiveName, dword_121B24, dword_121B28, dword_121B2C, ResourceArchive
+extern FatalError, str_OpenhandleSFILEERROR, ResourceArchiveName, ArchiveHandle, ArchiveOpenFn, ArchiveCount, ResourceArchive
 global openhandle_14, DosFileTransfer, DosCallSplitDx, DosOpenFile, DosOpenReadOnly, CreateHandle, openhandle, DosCloseFile
 global DosWriteFile, DosReadFile, DosSeekFile
 ;-----------------------------------------------------------------------------
@@ -107,7 +107,7 @@ openhandle_14:
         mov ebx, dword [byte ebp+0Ch]
         mov dword [ebx], eax
         LD mov, ebx, eax
-        mov edx, dword [dword_121B24]
+        mov edx, dword [ArchiveHandle]
         cmp byte [edx], 0
         jne short .2
         mov ecx, dword [ResourceArchive]
@@ -116,14 +116,14 @@ openhandle_14:
         jb short .3
 .2:
         push dword [byte ebp+08h]
-        push dword [dword_121B24]
-        call dword [dword_121B28]
+        push dword [ArchiveHandle]
+        call dword [ArchiveOpenFn]
         add esp, byte 8
         LD or, eax, eax
         je short .3
         mov ebx, dword [byte ebp+010h]
         mov dword [ebx], eax
-        mov ebx, dword [dword_121B2C]
+        mov ebx, dword [ArchiveCount]
         mov ecx, dword [ebx]
         mov ebx, dword [byte ebp+014h]
         mov dword [ebx], ecx

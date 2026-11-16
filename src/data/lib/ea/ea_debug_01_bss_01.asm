@@ -3,12 +3,12 @@ bits 32
 %include "hockey.inc"
 section s_185740 nobits alloc noexec write align=1
 global TintMulGreen, TintMulBlue, TintRowCount, TintPixelGreen, TintPixelBlue, TintMulRed, TintRemapTable, TintPixelRed
-global UnpackSrcPtr, UnpackDestPtr, dword_185768, UnpackStackPtr, UnpackPairTable, dword_185774, InvTabDist, InvTabRStep
+global UnpackSrcPtr, UnpackDestPtr, UnpackPairState, UnpackStackPtr, UnpackPairTable, TextColumnTable, InvTabDist, InvTabRStep
 global InvTabGStep, InvTabBStep, InvTabRMin, InvTabOut, InvTabDistBuf, InvTabGMin, InvTabGCenter, InvTabBCenter
 global InvTabCell, InvTabRCenter, InvTabR, InvTabG, InvTabB, InvTabColor, InvTabRMax, InvTabGMax
 global InvTabBMin, InvTabBMax, InvTabRow, InvTabPass, InvTabGLo, InvTabGHi, InvTabBLo, InvTabBHi
 global InvTabGInc, InvTabBInc, InvTabDistInc, InvTabDistStart, InvTabFillPtr, InvTabFillCount, InvTabFillStep, InvTabFillDist
-global MemPoolSize, unk_18584C
+global MemPoolSize, PaletteShadow
 TintMulGreen:
         resb 4
 TintMulBlue:
@@ -29,13 +29,13 @@ UnpackSrcPtr:
         resb 4
 UnpackDestPtr:
         resb 4
-dword_185768:
+UnpackPairState:
         resb 4
 UnpackStackPtr:
         resb 4
 UnpackPairTable:
         resb 4
-dword_185774:
+TextColumnTable:
         resb 64
 InvTabDist:
         resb 4
@@ -107,5 +107,5 @@ InvTabFillDist:
         resb 16
 MemPoolSize:
         resb 4
-unk_18584C:
+PaletteShadow:
         resb 1024

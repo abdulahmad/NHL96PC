@@ -6,7 +6,7 @@ extern SetDrawBitmap, str_EXITTODOSY, str_PAUSEPRESSANYKEY, bailout_vec, BackBuf
 extern off_11F5F8, off_11F5FC, off_14F074, off_14F078, CreateBitmap, FillRect, DrawRectOutline, FreeBitmap
 extern TextSetColor, SaveTextState, SetDrawTarget, TextSetFont, DrawArtOpaque, NearestColour, DrawArtFast, ReturnFalse
 extern PrintCentredBoxed, ResetClipRect, SetScreenTarget, SetClipRect, KbdGetKey, SaveDrawState, RestoreDrawState, DebugLineCount
-extern unk_1213DC
+extern DefaultFont
 global ShowPromptBox, AskExitToDos, ShowMessageBox, PauseUntilKey, DosGetVector, DosSetVector
 ;-----------------------------------------------------------------------------
 ; ShowPromptBox                                   C27F8  96 PC, low confidence
@@ -48,7 +48,7 @@ ShowPromptBox:
         push eax
         call SaveTextState
         add esp, byte 4
-        push unk_1213DC
+        push DefaultFont
         call TextSetFont
         add esp, byte 4
         mov eax, dword [dword esp+0B8h]
@@ -252,7 +252,7 @@ ShowMessageBox:
         push eax
         call SaveTextState
         add esp, byte 4
-        push unk_1213DC
+        push DefaultFont
         call TextSetFont
         add esp, byte 4
         push esi

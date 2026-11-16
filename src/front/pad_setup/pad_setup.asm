@@ -6,9 +6,9 @@ section s_201CD progbits alloc exec nowrite align=1
 extern GripPassMap
 extern GripShootMap
 extern GripSlotIds
-extern byte_11FA2E, byte_11FA2F, Joy1State, GripSlotPresent, JoyPadBits, GripSetupSlots
+extern TextCharW, TextCharH, Joy1State, GripSlotPresent, JoyPadBits, GripSetupSlots
 extern TitleTextStyle, GsJoy1Calib, GsJoy2Calib, GsGripButtons, Joy1NeedsCalib, Joy2NeedsCalib, JoyTestTime
-extern dword_11F5C0, JoyTestBmps, JoyTestDotX, JoyTestDotY, JoyTestArt, GripSetupLastBits
+extern ViewScreenWidth, JoyTestBmps, JoyTestDotX, JoyTestDotY, JoyTestArt, GripSetupLastBits
 extern JoyTestLastTick, JoyTestFrame, GripSetupTick, GripSetupCursor, MatchupLayer, TeamStatsBitmap, FillRect
 extern TextStringWidth, GetGripButtonMap, GetInputDevices, GetTicks, InitInputDevices, LoadPackedFile, MessageBox, MouseRead
 extern mousex, mousey, ReadJoystickBits, SetGripButtonMap, sprintf_, str_A, str_BKGD, str_BT00
@@ -398,7 +398,7 @@ DrawGripPads:
         push eax
         call FillRect
         add esp, byte 14h
-        movzx ebx, byte [byte_11FA2F]
+        movzx ebx, byte [TextCharH]
         movsx eax, word [GripSetupSlot]
         sar ebx, 1
         lea edx, [edi+eax]
@@ -507,7 +507,7 @@ DrawGripPads:
         push ebx
         call FillRect
         add esp, byte 14h
-        movzx edx, byte [byte_11FA2F]
+        movzx edx, byte [TextCharH]
         movsx eax, word [GripSetupSlot]
         sar edx, 1
         lea ebx, [edi+eax]
@@ -738,11 +738,11 @@ GripSetupScreen:
         push dword [MatchupLayer]
         call TextSetFont
         add esp, byte 4
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         push byte 4
         add eax, byte 3
         push eax
-        push dword [dword_11F5C0]
+        push dword [ViewScreenWidth]
         push byte 0
         push byte 0
         call FillRect
@@ -763,9 +763,9 @@ GripSetupScreen:
         mov edx, dword [GripSetupCursor]
         call InitMenuItems
         call SetScreenTarget
-        movzx ax, byte [byte_11FA2F]
+        movzx ax, byte [TextCharH]
         mov word [LastButtonCode], ax
-        movzx ax, byte [byte_11FA2E]
+        movzx ax, byte [TextCharW]
         cmp ax, word [LastButtonCode]
         jg short .2
         mov ax, word [LastButtonCode]
@@ -775,18 +775,18 @@ GripSetupScreen:
         mov dword [byte ebp-014h], 0
         mov dword [byte ebp-020h], GripSlotNames
         mov dword [byte ebp-01Ch], GripSlotTypes
-        movzx esi, byte [byte_11FA2F]
+        movzx esi, byte [TextCharH]
         xor edi, edi
         add esi, byte 14h
         mov dword [byte ebp-010h], edi
 .3:
         push byte 4
         push esi
-        push dword [dword_11F5C0]
+        push dword [ViewScreenWidth]
         push esi
         push byte 0
         call FillRectColor
-        movzx edx, byte [byte_11FA2F]
+        movzx edx, byte [TextCharH]
         movsx eax, word [GripSetupSlot]
         sub eax, edx
         sar eax, 1
@@ -796,11 +796,11 @@ GripSetupScreen:
         push byte 4
         add esi, eax
         push esi
-        push dword [dword_11F5C0]
+        push dword [ViewScreenWidth]
         push esi
         push byte 0
         call FillRectColor
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         movsx edx, word [GripSetupSlot]
         sub edx, eax
         mov eax, edx
@@ -891,7 +891,7 @@ GripSetupScreen:
         add edx, eax
         lea eax, [byte ebp-060h]
         call DrawColorText
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         add eax, byte 5
         mov edx, dword [byte ebp-010h]
         add esi, eax
@@ -1002,7 +1002,7 @@ GripSetupScreen:
         inc eax
         push eax
         call DrawRectOutline
-        movzx edx, byte [byte_11FA2F]
+        movzx edx, byte [TextCharH]
         movsx eax, word [GripSetupSlot]
         sar edx, 1
         lea ebx, [esi+eax]
@@ -1015,7 +1015,7 @@ GripSetupScreen:
         mov eax, str_A
         inc edx
         call DrawColorTextCentred
-        movzx edx, byte [byte_11FA2F]
+        movzx edx, byte [TextCharH]
         movsx eax, word [GripSetupSlot]
         sar edx, 1
         lea ebx, [esi+eax]
@@ -1100,7 +1100,7 @@ GripSetupScreen:
         push eax
         mov dword [byte ebp-03Ch], edx
         call DrawRectOutline
-        movzx edx, byte [byte_11FA2F]
+        movzx edx, byte [TextCharH]
         movsx eax, word [GripSetupSlot]
         sar edx, 1
         lea ebx, [esi+eax]
@@ -1247,7 +1247,7 @@ GripSetupScreen:
         push eax
         add dword [byte ebp-018h], byte 66h
         call sprintf_
-        movzx edx, byte [byte_11FA2F]
+        movzx edx, byte [TextCharH]
         movsx eax, word [GripSetupSlot]
         add esp, byte 0Ch
         lea ebx, [esi+eax]
@@ -1298,13 +1298,13 @@ GripSetupScreen:
         mov word [byte edx+ebx+018h], 2
         cmp dword [byte ebp-04h], byte 8
         jl short .18
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         add eax, byte 5
 .19:
         add esi, eax
         push byte 4
         push esi
-        push dword [dword_11F5C0]
+        push dword [ViewScreenWidth]
         push esi
         push byte 0
         call FillRectColor
@@ -1312,7 +1312,7 @@ GripSetupScreen:
         push byte 4
         lea eax, [byte esi+02h]
         push eax
-        push dword [dword_11F5C0]
+        push dword [ViewScreenWidth]
         push eax
         add dword [byte ebp-020h], byte 14h
         add dword [byte ebp-01Ch], byte 14h

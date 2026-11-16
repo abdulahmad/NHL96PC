@@ -2,18 +2,18 @@
 bits 32
 %include "hockey.inc"
 section s_BA3D0 progbits alloc exec nowrite align=1
-extern FatalError, str_ORIINST, str_INVMATRX, str_Ori, str_OriloadCouldNotLoadORIGA, dword_11F5C0, dword_11F5C4, NearClipZ
-extern dword_122378, dword_122384, dword_122388, dword_12238C, SinTable, NearPlaneZ, ScreenWidth, DrawClipLeft
-extern DrawClipTop, DrawClipRight, DrawClipBottom, DrawDestBuffer, dword_1228FC, ViewCentreX, ViewCentreY, dword_123ABC
-extern dword_123AC0, AtanTable, str_Punct_AngleOfVector, LineClipRight, LineClipBottom, LineClipTop, LineClipLeft, dword_1956B0
-extern dword_1956B4, dword_1956B8, dword_1956BC, dword_1956C0, dword_1956C4, dword_1956C8, dword_1956CC, dword_198388
-extern dword_19838C, dword_198390, dword_198394, dword_198398, dword_19839C, dword_1983A0, dword_1983A4, RinkViewChanged
-extern dword_1983B4, ScaledRowBuffer, min_, OriTriDrawFuncs, OriPolyDrawFuncs, OriQuadDrawFuncs, OriFlatDrawFuncs, OriStripDrawFuncs
+extern FatalError, str_ORIINST, str_INVMATRX, str_Ori, str_OriloadCouldNotLoadORIGA, ViewScreenWidth, ViewScreenHeight, NearClipZ
+extern SubdivTable, SubdivMinDepth, SubdivMaxSize, QuadDepthLimit, SinTable, NearPlaneZ, ScreenWidth, DrawClipLeft
+extern DrawClipTop, DrawClipRight, DrawClipBottom, DrawDestBuffer, dword_1228FC, ViewCentreX, ViewCentreY, ProjectFlags
+extern SortBuffer, AtanTable, str_Punct_AngleOfVector, LineClipRight, LineClipBottom, LineClipTop, LineClipLeft, PerspQuadState
+extern SubdivDepth
+extern SubdivLimit, ModelPolyColour, ModelPolyFlags, ModelPolyFirst, ModelPolyCount, ModelPolyClip, ModelPolyShade, RinkViewChanged
+extern ModelPolyDrawFn, ScaledRowBuffer, min_, OriTriDrawFuncs, OriPolyDrawFuncs, OriQuadDrawFuncs, OriFlatDrawFuncs, OriStripDrawFuncs
 extern strncpy_, AllocMemBlock, FreeMemBlock, OpenArtArchive, SetRinkView, TransformRinkPoints, TransformRinkObject, ProjectRinkObject
 extern FillTexturePoly, OriSetMaterialRgb, SubVec3, ProjectPoint, FillShadedPoly, SortIndices, DrawClippedPoly, Div64By32
 extern Shl64, BuildSpanOffsets, OriApplyMorph, OriRotateY, FixedSinCos, FillRectColor, SetBlitSource, CopyMappedSpan
-extern FillMem, unk_122320, unk_122344, RinkMatrix, RinkTranslation, unk_191AB0, unk_1938B0, unk_196380
-extern unk_196388, unk_196390, unk_196398, unk_197050, unk_19705C, unk_197068, unk_197074, unk_1983B8
+extern FillMem, IdentityMatrix, CameraMatrix, RinkMatrix, RinkTranslation, PolyLeftEdges, PolyRightEdges, PerspQuadVerts
+extern PerspQuadTex, OriPositionBuf
 global AngleOfVectorJumpTable, AngleOfVector_90, AngleOfVector_92, AngleOfVector_9C, AngleOfVector_A8, AngleOfVector_AF, AngleOfVector_B9, AngleOfVector_BB
 global AngleOfVector_C0, DrawModelFlat_93, DrawSortedModelPolys_B3, DrawModelPoly_174, ProjectPointList, AngleOfVector, SinInterp, CosInterp
 global FillPolyIndexed, ClassifyQuadDepth, SubdivideTexturedQuad, DrawPerspQuad, DrawFlatPoly, DrawPolyOutline, BlitArtScaled, DrawArtScaled
@@ -329,7 +329,7 @@ FillPolyIndexed:
         mov edi, dword [edx]
         mov ebp, dword [byte edx+04h]
         mov edx, dword [byte esp+024h]
-        mov esi, unk_191AB0
+        mov esi, PolyLeftEdges
         cmp eax, edx
         je near .16
 .8:
@@ -412,7 +412,7 @@ FillPolyIndexed:
         cmp eax, ebx
         jne near .8
 .16:
-        sub esi, unk_191AB0
+        sub esi, PolyLeftEdges
         mov eax, dword [byte esp+08h]
         sar esi, 2
         mov dword [byte esp+040h], eax
@@ -428,7 +428,7 @@ FillPolyIndexed:
         mov edi, dword [edx]
         mov ebp, dword [byte edx+04h]
         mov edx, dword [byte esp+024h]
-        mov esi, unk_1938B0
+        mov esi, PolyRightEdges
         cmp eax, edx
         je near .25
         mov eax, dword [byte esp+014h]
@@ -514,8 +514,8 @@ FillPolyIndexed:
         cmp eax, ebx
         jne near .17
 .25:
-        mov eax, unk_191AB0
-        mov edx, unk_1938B0
+        mov eax, PolyLeftEdges
+        mov edx, PolyRightEdges
         mov esi, dword [byte esp+02Ch]
         xor ebx, ebx
         test esi, esi
@@ -526,16 +526,16 @@ FillPolyIndexed:
         mov ebp, dword [edx]
         cmp ecx, ebp
         jge short .27
-        mov eax, unk_191AB0
-        mov edx, unk_1938B0
+        mov eax, PolyLeftEdges
+        mov edx, PolyRightEdges
         mov dword [byte esp+058h], eax
         mov dword [byte esp+05Ch], edx
         jmp short .29
 .27:
         cmp ebp, ecx
         jge short .28
-        mov edi, unk_1938B0
-        mov ebp, unk_191AB0
+        mov edi, PolyRightEdges
+        mov ebp, PolyLeftEdges
         mov dword [byte esp+058h], edi
         mov dword [byte esp+05Ch], ebp
         jmp short .29
@@ -905,7 +905,7 @@ ClassifyQuadDepth:
         ret
 .8:
         mov ecx, ebx
-        mov edx, dword [dword_12238C]
+        mov edx, dword [QuadDepthLimit]
         sub ecx, eax
         mov eax, ebx
         imul edx
@@ -952,7 +952,7 @@ SubdivideTexturedQuad:
         cmp eax, byte 3
         je near .4
         mov eax, dword [dword esp+090h]
-        mov edi, dword [dword_11F5C4]
+        mov edi, dword [ViewScreenHeight]
         cmp edi, dword [byte eax+04h]
         jg short .1
         mov eax, dword [dword esp+094h]
@@ -966,7 +966,7 @@ SubdivideTexturedQuad:
         jle near .9
 .1:
         mov eax, dword [dword esp+090h]
-        mov esi, dword [dword_11F5C0]
+        mov esi, dword [ViewScreenWidth]
         cmp esi, dword [eax]
         jg short .2
         mov eax, dword [dword esp+094h]
@@ -1008,13 +1008,13 @@ SubdivideTexturedQuad:
         cmp edx, byte 3
         jne short .5
         mov eax, dword [byte esp+07Ch]
-        cmp eax, dword [dword_122388]
+        cmp eax, dword [SubdivMaxSize]
         jg near .9
 .5:
         test edx, edx
         je short .6
         mov eax, dword [byte esp+07Ch]
-        cmp eax, dword [dword_122388]
+        cmp eax, dword [SubdivMaxSize]
         jl near .7
 .6:
         lea edi, [byte esp+020h]
@@ -1049,17 +1049,17 @@ SubdivideTexturedQuad:
         mov esi, dword [dword esp+0ACh]
         movsd
         movsd
-        mov edi, dword [dword_198388]
+        mov edi, dword [SubdivDepth]
         push edi
         lea eax, [byte esp+024h]
         push eax
         lea eax, [byte esp+08h]
         push eax
         push byte 4
-        mov ebp, dword [dword_19838C]
+        mov ebp, dword [SubdivLimit]
         push ebp
         call FillShadedPoly
-        mov eax, dword [dword_122378]
+        mov eax, dword [SubdivTable]
         add esp, byte 14h
         test eax, eax
         je near .9
@@ -1123,13 +1123,13 @@ SubdivideTexturedQuad:
 .7:
         mov edx, eax
         shl eax, 2
-        mov edi, unk_197050
+        mov edi, PerspQuadTex
         sub eax, edx
         mov ebp, edx
         shl eax, 2
         shl ebp, 3
         add edi, eax
-        mov eax, unk_196380
+        mov eax, PerspQuadVerts
         add eax, ebp
         mov edx, dword [dword esp+084h]
         mov dword [byte esp+068h], eax
@@ -1221,13 +1221,13 @@ SubdivideTexturedQuad:
         add eax, ecx
         push byte 5
         sar eax, 1
-        add ebp, dword_1956B0
+        add ebp, PerspQuadState
         mov dword [byte edi+038h], eax
         call ProjectPointsPersp
         add esp, byte 10h
         lea edx, [byte esi+028h]
 .8:
-        mov eax, dword [dword_122384]
+        mov eax, dword [SubdivMinDepth]
         mov ebx, dword [byte esi+04h]
         add esi, byte 8
         sub ebx, eax
@@ -1291,13 +1291,13 @@ SubdivideTexturedQuad:
         sar eax, 1
         mov dword [byte ebp+024h], eax
         lea eax, [byte ebp+018h]
-        mov esi, dword [dword_122384]
+        mov esi, dword [SubdivMinDepth]
         mov dword [byte esp+040h], eax
         push eax
         lea eax, [byte ebp+020h]
         inc esi
         push eax
-        mov dword [dword_122384], esi
+        mov dword [SubdivMinDepth], esi
         mov ebx, dword [dword esp+0A8h]
         push ebp
         mov dword [byte esp+06Ch], eax
@@ -1410,10 +1410,10 @@ SubdivideTexturedQuad:
         mov ebp, dword [dword esp+08Ch]
         push ebp
         call SubdivideTexturedQuad
-        mov eax, dword [dword_122384]
+        mov eax, dword [SubdivMinDepth]
         dec eax
         add esp, byte 34h
-        mov dword [dword_122384], eax
+        mov dword [SubdivMinDepth], eax
 .9:
         add esp, byte 6Ch
         pop ebp
@@ -1433,14 +1433,14 @@ DrawPerspQuad:
         mov ebp, dword [byte esp+018h]
         mov edx, dword [byte esp+01Ch]
         mov eax, dword [byte esp+010h]
-        mov dword [dword_19838C], eax
+        mov dword [SubdivLimit], eax
         mov eax, dword [byte esp+020h]
         xor ebx, ebx
-        mov dword [dword_198388], eax
+        mov dword [SubdivDepth], eax
         xor eax, eax
 .1:
         imul esi, dword [edx], byte 0Ch
-        lea edi, [dword ebx+unk_197050]
+        lea edi, [dword ebx+PerspQuadTex]
         add esi, ecx
         movsd
         movsd
@@ -1448,7 +1448,7 @@ DrawPerspQuad:
         mov esi, dword [edx]
         add edx, byte 4
         shl esi, 3
-        lea edi, [dword eax+unk_196380]
+        lea edi, [dword eax+PerspQuadVerts]
         add esi, ebp
         add eax, byte 8
         add ebx, byte 0Ch
@@ -1456,37 +1456,37 @@ DrawPerspQuad:
         movsd
         cmp eax, byte 20h
         jne short .1
-        push dword_1956C8
-        push dword_1956C0
-        push dword_1956B8
+        push PerspQuadState+18h
+        push PerspQuadState+10h
+        push PerspQuadState+8
         xor ebp, ebp
-        push dword_1956B0
-        mov eax, dword [dword_19838C]
-        mov dword [dword_1956B0], ebp
-        push unk_196398
-        mov dword [dword_1956B4], ebp
-        mov dword [dword_1956BC], ebp
-        push unk_196390
-        mov dword [dword_1956C8], ebp
+        push PerspQuadState
+        mov eax, dword [SubdivLimit]
+        mov dword [PerspQuadState], ebp
+        push PerspQuadVerts+18h
+        mov dword [PerspQuadState+4], ebp
+        mov dword [PerspQuadState+0Ch], ebp
+        push PerspQuadVerts+10h
+        mov dword [PerspQuadState+18h], ebp
         mov edx, dword [byte eax+02h]
-        push unk_196388
+        push PerspQuadVerts+8
         sar edx, 10h
-        push unk_196380
+        push PerspQuadVerts
         mov eax, dword [byte eax+04h]
         dec edx
-        push unk_197074
+        push PerspQuadTex+24h
         sar eax, 10h
-        push unk_197068
+        push PerspQuadTex+18h
         shl edx, 10h
         dec eax
-        push unk_19705C
-        mov dword [dword_1956B8], edx
-        mov dword [dword_1956C0], edx
-        push unk_197050
+        push PerspQuadTex+0Ch
+        mov dword [PerspQuadState+8], edx
+        mov dword [PerspQuadState+10h], edx
+        push PerspQuadTex
         shl eax, 10h
         push byte 4
-        mov dword [dword_1956C4], eax
-        mov dword [dword_1956CC], eax
+        mov dword [PerspQuadState+14h], eax
+        mov dword [PerspQuadState+1Ch], eax
         call SubdivideTexturedQuad
         add esp, byte 34h
         pop ebp
@@ -2190,7 +2190,7 @@ ProjectPointsPersp:
         mov dword [byte ebx+04h], 80000000h
         mov eax, dword [byte ebx+04h]
         mov dword [ebx], eax
-        or byte [dword_123ABC], 1
+        or byte [ProjectFlags], 1
         jmp short .7
 .2:
         mov edx, dword [byte esp+024h]
@@ -2214,7 +2214,7 @@ ProjectPointsPersp:
         sar eax, 2
         add edx, byte 2
 .6:
-        mov edi, dword [dword_123AC0]
+        mov edi, dword [SortBuffer]
         mov edi, dword [edi+eax*4]
         mov eax, dword [esi]
         imul eax, edi
@@ -2625,11 +2625,11 @@ DrawModelPoly:
         mov eax, dword [byte esp+014h]
 .1:
         imul eax, byte 0Ch
-        mov ebp, dword [dword_198394]
+        mov ebp, dword [ModelPolyFlags]
         add ebp, eax
         mov esi, dword [byte ebp+00h]
         mov eax, esi
-        mov edx, dword [dword_1983B4]
+        mov edx, dword [ModelPolyDrawFn]
         and eax, byte 7
         mov edi, dword [byte ebp+04h]
         mov dword [esp], eax
@@ -2663,11 +2663,11 @@ DrawModelPoly:
         shl eax, 8
         shr eax, 18h
         imul eax, byte 14h
-        mov ebx, dword [dword_198390]
+        mov ebx, dword [ModelPolyColour]
         add ebx, eax
         cmp dword [byte ebx+010h], byte 0
         je short .4
-        mov eax, dword [dword_1983A4]
+        mov eax, dword [ModelPolyShade]
         mov edx, ebp
         call dword [byte ebx+010h]
         test eax, eax
@@ -2695,7 +2695,7 @@ DrawModelPoly:
 .5:
         test si, 1000h
         je short .8
-        cmp dword [dword_1983A0], byte 0
+        cmp dword [ModelPolyClip], byte 0
         jne short .6
         test si, 2000h
         je short .7
@@ -2717,7 +2717,7 @@ DrawModelPoly:
         call dword [dword ebx+OriPolyDrawFuncs]
         jmp short .12
 .8:
-        cmp dword [dword_1983A0], byte 0
+        cmp dword [ModelPolyClip], byte 0
         jne short .9
         test si, 2000h
         je short .10
@@ -2770,28 +2770,28 @@ DrawModelPolyList:
         mov edi, dword [byte esp+014h]
         mov esi, dword [byte esp+018h]
         mov edx, dword [eax]
-        mov dword [dword_198398], edx
+        mov dword [ModelPolyFirst], edx
         mov ebx, dword [byte edx+028h]
         mov edx, dword [byte edx+020h]
-        mov dword [dword_19839C], edx
+        mov dword [ModelPolyCount], edx
         mov edx, dword [byte eax+014h]
-        mov dword [dword_198390], edx
+        mov dword [ModelPolyColour], edx
         mov edx, dword [byte eax+010h]
         shl edx, 1Eh
         shr edx, 1Fh
-        mov dword [dword_1983B4], edx
+        mov dword [ModelPolyDrawFn], edx
         mov edx, dword [byte eax+010h]
         shl edx, 19h
         shr edx, 1Fh
-        mov dword [dword_1983A0], edx
-        mov edx, dword [dword_19839C]
+        mov dword [ModelPolyClip], edx
+        mov edx, dword [ModelPolyCount]
         push edx
-        mov dword [dword_198394], ebx
+        mov dword [ModelPolyFlags], ebx
         mov ebx, dword [byte eax+07Ch]
         push ebx
         mov ecx, dword [byte eax+078h]
         push ecx
-        mov dword [dword_1983A4], eax
+        mov dword [ModelPolyShade], eax
         call SetRinkView
         add esp, byte 0Ch
 .1:
@@ -3008,13 +3008,13 @@ OriCreateInstance:
         mov ecx, 9
         shl edx, 2
         mov eax, dword [byte ebp+014h]
-        mov esi, unk_122320
+        mov esi, IdentityMatrix
         add eax, edx
         lea edi, [byte ebp+028h]
         mov dword [dword ebp+088h], eax
         rep movsd
         mov bh, byte [byte ebp+010h]
-        mov esi, unk_122344
+        mov esi, CameraMatrix
         or bh, 4
         lea edi, [byte ebp+01Ch]
         mov byte [byte ebp+010h], bh
@@ -3134,7 +3134,7 @@ OriSetObjectPosition:
         db 00h,00h,00h,00h,00h
         mov edx, dword [byte esp+04h]
         mov ebx, 28h
-        mov eax, unk_1983B8
+        mov eax, OriPositionBuf
         jmp near strncpy_
         db 090h
 ;-----------------------------------------------------------------------------
@@ -3236,7 +3236,7 @@ OriReadModel:
         sub esp, byte 50h
         mov ecx, eax
         mov ebp, edx
-        mov esi, unk_1983B8
+        mov esi, OriPositionBuf
         mov edi, esp
         push edi
 .1:

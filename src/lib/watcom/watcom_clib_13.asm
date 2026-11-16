@@ -6,8 +6,8 @@ extern FatalError, InstallTimer, SetDrawBitmap, _IsTable, __CHK, __ExpandDGROUP_
 extern __ioalloc_, __prtf_, __set_doserrno_, __set_errno_, _nfree_, _nmalloc_, _searchenv_, abs_
 extern str_CalibrateYourJoystickByU, str_ToMoveTheJoystickPositio, str_BelowToAllSquares, str_PressJoystickButtonWhenC, str_KEYBOARDON, str_PATH_InitSystem, str_DOS4GWEXE, str_CS_InitSystem
 extern str_CheckextenderINCORRECTEX, str_LocatebigNOBIGFILESETNUL, str_LocatebigFILEISNOTAUNITFILE, str_LocatebigsFILENOTFOUNDS, str_OriinitmorphObjectCannotMorp, str_OriapplymorphObjectCannotMor, str_OriapplymorphObjectCanno, RemapTable
-extern _Extender, _ExtenderSubtype, _osmajor, __HeapFlags, dword_11F5A0, MousePresent, dword_11F5C0, dword_11F5C4
-extern dword_11F5C8, HeapList, MemPoolBase, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, KeyedDraw
+extern _Extender, _ExtenderSubtype, _osmajor, __HeapFlags, GraphicsReady, MousePresent, ViewScreenWidth, ViewScreenHeight
+extern MenuScreenBitmap, HeapList, MemPoolBase, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, KeyedDraw
 extern DrawDestBuffer, dword_1228FC, DosErrnoTable, __NHandles, __io_mode, dword_12417C, str_G_JoystickCalibrateScreen, CMainEnv
 extern CMainResult, dword_12443C, dword_124440, dword_19F2D0, dword_19F2D4, ScaledRowBuffer, CMainArgc, CMainArgv
 extern exit_, fputc_, getcwd_, joycalactive, joyenablemask, ZeroMem_29, main_, off_14F074
@@ -20,8 +20,8 @@ extern FillFlatPolyCore, SetScreenTarget, SetClipWindow, SetPaletteEntries8, Rea
 extern CopyScaledSpan, PlotPixel, PlotPixelClipped, VesaSetBank, FillSpansSet, FillSpansXor, FillSpansAnd, FillSpansOr
 extern RemapSpans, ReturnZero, InstallKeyboardHandler, KbdGetKey, SetKbdIdleHook, FlushKeys, ReadJoystickPorts, JoyResetCentres
 extern JoyButtonMap, AddExitHandler, ClearClipRect, InstallBreakHandler, vecdist, SetViewScreenOrigin, SetViewFov, SaveDrawState
-extern RestoreDrawState, RestoreTextMode, ReadKeyPadBits, SinCosLookup, tolower_, unk_1210DC, unk_1213DC, InitRtnsEntry
-extern FiniRtnsEntry, GusInitTable, unk_18584C, vsprintf_, DefaultControlWord
+extern RestoreDrawState, RestoreTextMode, ReadKeyPadBits, SinCosLookup, tolower_, SystemInfo, DefaultFont, InitRtnsEntry
+extern FiniRtnsEntry, GusInitTable, PaletteShadow, vsprintf_, DefaultControlWord
 global __CMain, __FiniRtns, __HeapManager_expand_, __IOMode_, __InitRtns, __SetIOMode_, __doserror_, __fprtf_
 global __set_errno_dos_, __sys_init_387_emulator, _dosret0_, _nexpand_, _nmsize_, file_putc_, int386_, int386x_
 global isatty_, _nexpand__10, __HeapManager_expand__18F, __HeapManager_expand__1EA, LocateBigEntry_168, FillSpanList, RemapSpanList, min_
@@ -657,9 +657,9 @@ JoystickCalibrateScreen:
         push eax
         call SaveTextState
         add esp, byte 4
-        push unk_1213DC
+        push DefaultFont
         call TextSetFont
-        mov edx, dword [dword_11F5C4]
+        mov edx, dword [ViewScreenHeight]
         lea eax, [nosplit edx*4+00h]
         sub eax, edx
         shl eax, 3
@@ -671,7 +671,7 @@ JoystickCalibrateScreen:
         idiv ebx
         add esp, byte 4
         push byte 0
-        mov edx, dword [dword_11F5C0]
+        mov edx, dword [ViewScreenWidth]
         push eax
         lea eax, [nosplit edx*4+00h]
         add edx, eax
@@ -686,7 +686,7 @@ JoystickCalibrateScreen:
         push eax
         mov ebp, eax
         call SetDrawBitmap
-        mov edx, dword [dword_11F5C4]
+        mov edx, dword [ViewScreenHeight]
         lea eax, [nosplit edx*4+00h]
         sub eax, edx
         shl eax, 3
@@ -697,7 +697,7 @@ JoystickCalibrateScreen:
         sar edx, 1Fh
         idiv ebx
         add esp, byte 4
-        mov edx, dword [dword_11F5C0]
+        mov edx, dword [ViewScreenWidth]
         push eax
         lea eax, [nosplit edx*4+00h]
         add edx, eax
@@ -714,7 +714,7 @@ JoystickCalibrateScreen:
         call BlitToScreenWindow
         add esp, byte 18h
         call SetScreenTarget
-        mov edx, dword [dword_11F5C4]
+        mov edx, dword [ViewScreenHeight]
         lea eax, [nosplit edx*4+00h]
         sub eax, edx
         shl eax, 3
@@ -724,7 +724,7 @@ JoystickCalibrateScreen:
         mov eax, edx
         sar edx, 1Fh
         idiv ebx
-        mov edx, dword [dword_11F5C0]
+        mov edx, dword [ViewScreenWidth]
         push eax
         lea eax, [nosplit edx*4+00h]
         add edx, eax
@@ -747,7 +747,7 @@ JoystickCalibrateScreen:
         add esp, byte 4
         push eax
         call TextSetColor
-        mov edx, dword [dword_11F5C4]
+        mov edx, dword [ViewScreenHeight]
         lea eax, [nosplit edx*8+00h]
         add eax, edx
         shl eax, 2
@@ -760,7 +760,7 @@ JoystickCalibrateScreen:
         push eax
         push str_CalibrateYourJoystickByU
         call DrawTextCentredBoxed
-        mov edx, dword [dword_11F5C4]
+        mov edx, dword [ViewScreenHeight]
         lea eax, [nosplit edx*4+00h]
         sub eax, edx
         mov edx, eax
@@ -774,7 +774,7 @@ JoystickCalibrateScreen:
         push eax
         push str_ToMoveTheJoystickPositio
         call DrawTextCentredBoxed
-        mov edx, dword [dword_11F5C4]
+        mov edx, dword [ViewScreenHeight]
         lea eax, [nosplit edx*8+00h]
         sub eax, edx
         shl eax, 3
@@ -787,7 +787,7 @@ JoystickCalibrateScreen:
         push eax
         push str_BelowToAllSquares
         call DrawTextCentredBoxed
-        imul edx, dword [dword_11F5C4], dword 0B9h
+        imul edx, dword [ViewScreenHeight], dword 0B9h
         mov ebx, 0C8h
         mov eax, edx
         sar edx, 1Fh
@@ -799,7 +799,7 @@ JoystickCalibrateScreen:
         add esp, byte 8
         push dword 3FFFFFCh
         call NearestColour
-        mov edi, dword [dword_11F5C4]
+        mov edi, dword [ViewScreenHeight]
         imul edx, edi, byte 5Bh
         add esp, byte 4
         mov ebx, 0C8h
@@ -808,7 +808,7 @@ JoystickCalibrateScreen:
         sar edx, 1Fh
         idiv ebx
         push eax
-        mov eax, dword [dword_11F5C0]
+        mov eax, dword [ViewScreenWidth]
         mov edx, eax
         mov ebx, 140h
         sar edx, 1Fh
@@ -823,7 +823,7 @@ JoystickCalibrateScreen:
         mov eax, edx
         sar edx, 1Fh
         idiv ebx
-        mov edx, dword [dword_11F5C0]
+        mov edx, dword [ViewScreenWidth]
         push eax
         mov eax, edx
         shl eax, 6
@@ -840,18 +840,18 @@ JoystickCalibrateScreen:
         call NearestColour
         add esp, byte 4
         push eax
-        imul edx, dword [dword_11F5C4], byte 5Bh
+        imul edx, dword [ViewScreenHeight], byte 5Bh
         mov ebx, 0C8h
         mov eax, edx
         sar edx, 1Fh
         idiv ebx
         push eax
-        mov eax, dword [dword_11F5C0]
+        mov eax, dword [ViewScreenWidth]
         mov edx, eax
         mov ebx, 140h
         sar edx, 1Fh
         idiv ebx
-        mov edx, dword [dword_11F5C4]
+        mov edx, dword [ViewScreenHeight]
         push eax
         lea eax, [nosplit edx*8+00h]
         add eax, edx
@@ -862,7 +862,7 @@ JoystickCalibrateScreen:
         mov eax, edx
         sar edx, 1Fh
         idiv ebx
-        mov edx, dword [dword_11F5C0]
+        mov edx, dword [ViewScreenWidth]
         push eax
         lea eax, [nosplit edx*4+00h]
         add eax, edx
@@ -881,12 +881,12 @@ JoystickCalibrateScreen:
         call NearestColour
         add esp, byte 4
         push eax
-        mov eax, dword [dword_11F5C4]
+        mov eax, dword [ViewScreenHeight]
         mov edx, eax
         mov ebx, 0C8h
         sar edx, 1Fh
         idiv ebx
-        mov edx, dword [dword_11F5C0]
+        mov edx, dword [ViewScreenWidth]
         push eax
         mov eax, edx
         shl eax, 4
@@ -897,7 +897,7 @@ JoystickCalibrateScreen:
         mov eax, edx
         sar edx, 1Fh
         idiv ebx
-        mov edx, dword [dword_11F5C4]
+        mov edx, dword [ViewScreenHeight]
         push eax
         lea eax, [nosplit edx*4+00h]
         sub eax, edx
@@ -908,7 +908,7 @@ JoystickCalibrateScreen:
         mov eax, edx
         sar edx, 1Fh
         idiv ebx
-        mov edx, dword [dword_11F5C0]
+        mov edx, dword [ViewScreenWidth]
         push eax
         lea eax, [nosplit edx*4+00h]
         sub eax, edx
@@ -927,12 +927,12 @@ JoystickCalibrateScreen:
         call NearestColour
         add esp, byte 4
         push eax
-        mov eax, dword [dword_11F5C4]
+        mov eax, dword [ViewScreenHeight]
         mov edx, eax
         mov ebx, 0C8h
         sar edx, 1Fh
         idiv ebx
-        mov edx, dword [dword_11F5C0]
+        mov edx, dword [ViewScreenWidth]
         push eax
         mov eax, edx
         shl eax, 4
@@ -943,7 +943,7 @@ JoystickCalibrateScreen:
         mov eax, edx
         sar edx, 1Fh
         idiv ebx
-        mov edx, dword [dword_11F5C4]
+        mov edx, dword [ViewScreenHeight]
         push eax
         mov eax, edx
         shl eax, 6
@@ -953,7 +953,7 @@ JoystickCalibrateScreen:
         mov eax, edx
         sar edx, 1Fh
         idiv ebx
-        mov edx, dword [dword_11F5C0]
+        mov edx, dword [ViewScreenWidth]
         push eax
         lea eax, [nosplit edx*4+00h]
         sub eax, edx
@@ -987,20 +987,20 @@ JoystickCalibrateScreen:
         je short .1
         xor esi, esi
 .2:
-        imul edx, dword [dword_11F5C4], byte 18h
+        imul edx, dword [ViewScreenHeight], byte 18h
         mov ebx, 0C8h
         mov eax, edx
         sar edx, 1Fh
         idiv ebx
         push byte 0
-        mov edx, dword [dword_11F5C0]
+        mov edx, dword [ViewScreenWidth]
         mov ebx, 140h
         shl edx, 5
         push eax
         mov eax, edx
         sar edx, 1Fh
         idiv ebx
-        mov ecx, dword [dword_11F5C4]
+        mov ecx, dword [ViewScreenHeight]
         mov edx, dword [dword esi+str_G_JoystickCalibrateScreen]
         imul edx, ecx
         mov ebx, 0C8h
@@ -1010,7 +1010,7 @@ JoystickCalibrateScreen:
         idiv ebx
         push eax
         mov edx, dword [dword esi+dword_12417C]
-        imul edx, dword [dword_11F5C0]
+        imul edx, dword [ViewScreenWidth]
         mov ebx, 140h
         mov eax, edx
         sar edx, 1Fh
@@ -1023,21 +1023,21 @@ JoystickCalibrateScreen:
         jne short .2
         push dword 2A00000h
         call NearestColour
-        imul edx, dword [dword_11F5C4], byte 18h
+        imul edx, dword [ViewScreenHeight], byte 18h
         add esp, byte 4
         push eax
         mov ebx, 0C8h
         mov eax, edx
         sar edx, 1Fh
         idiv ebx
-        mov edx, dword [dword_11F5C0]
+        mov edx, dword [ViewScreenWidth]
         mov ebx, 140h
         shl edx, 5
         push eax
         mov eax, edx
         sar edx, 1Fh
         idiv ebx
-        mov ecx, dword [dword_11F5C4]
+        mov ecx, dword [ViewScreenHeight]
         mov edx, dword [nosplit edi*4+str_G_JoystickCalibrateScreen]
         imul edx, ecx
         mov ebx, 0C8h
@@ -1045,7 +1045,7 @@ JoystickCalibrateScreen:
         mov eax, edx
         sar edx, 1Fh
         idiv ebx
-        mov esi, dword [dword_11F5C0]
+        mov esi, dword [ViewScreenWidth]
         mov edx, dword [nosplit edi*4+dword_12417C]
         imul edx, esi
         mov ebx, 140h
@@ -1334,7 +1334,7 @@ InitSystem:
         call InitMemoryPoolDefault
         add esp, byte 4
 .5:
-        cmp dword [dword_11F5A0], byte 0
+        cmp dword [GraphicsReady], byte 0
         jne short .6
         call SaveTextScreen
         db 068h                                 ; insn: push 0B5AF0h
@@ -1342,21 +1342,21 @@ InitSystem:
         mov dword [dword_12443C], eax
         call AddExitHandler
         add esp, byte 4
-        mov esi, dword [dword_11F5C8]
+        mov esi, dword [MenuScreenBitmap]
         push esi
-        mov edi, dword [dword_11F5C4]
+        mov edi, dword [ViewScreenHeight]
         push edi
-        mov ebp, dword [dword_11F5C0]
+        mov ebp, dword [ViewScreenWidth]
         push ebp
         call initgraphics
         add esp, byte 0Ch
 .6:
-        push unk_1210DC
+        push SystemInfo
         push dword 100h
         push byte 0
         call SetPaletteEntries8
         add esp, byte 0Ch
-        push unk_1213DC
+        push DefaultFont
         call TextSetFont
         add esp, byte 4
         push dword 0FF000000h
@@ -1386,9 +1386,9 @@ InitSystem:
         call SetKbdIdleHook
         add esp, byte 4
         call InstallDebugHotkeys
-        mov edx, dword [dword_11F5C4]
+        mov edx, dword [ViewScreenHeight]
         push edx
-        mov ebx, dword [dword_11F5C0]
+        mov ebx, dword [ViewScreenWidth]
         push ebx
         push byte 14h
         push byte 1Eh
@@ -1400,7 +1400,7 @@ InitSystem:
         add esp, byte 8
         call BuildPerspTable
         call InitReciprocalTable
-        push unk_18584C
+        push PaletteShadow
         push dword 100h
         push byte 0
         call ReadPaletteEntries8

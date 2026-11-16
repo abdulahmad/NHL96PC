@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_DF8AC progbits alloc exec nowrite align=1
 extern mouseminx, mouseminy, mousemaxx, mousemaxy, MouseDeltaX, MouseButtonState, dword_11F598, MousePresent
-extern mousex, mousey, MouseMoved, dword_11F5B4, dword_11F5B8, dword_11F5C0, dword_11F5C4, SavedKbdVecOffset
+extern mousex, mousey, MouseMoved, PointerCount, MouseButtons, ViewScreenWidth, ViewScreenHeight, SavedKbdVecOffset
 extern SavedInt16Offset, SavedRealKbdOffset, RemoveKeyboardHandler_6F, mousepollfn, off_11F5F4, off_11F5F8, off_11F5FC, BiosKeyFunc
 extern DosGetVector, DosSetVector, RemoveKeyboardHandler, Int16Handler, Int16Service, AddExitHandler, unk_DFDDD, MouseSavedSensX
 extern MouseSavedSensY, MouseSavedThreshold, SavedKbdVecSelector, SavedInt16Selector, SavedRealKbdSegment, KbdDataSelector
@@ -180,14 +180,14 @@ MouseReadMotion:
 ; Counts the mouse pointer shown once more
 ;-----------------------------------------------------------------------------
 PointerCountUp:
-        inc dword [dword_11F5B4]
+        inc dword [PointerCount]
         ret
 ;-----------------------------------------------------------------------------
 ; PointerCountDown                                DFA73  96 PC, low confidence
 ; Counts the mouse pointer hidden once more
 ;-----------------------------------------------------------------------------
 PointerCountDown:
-        dec dword [dword_11F5B4]
+        dec dword [PointerCount]
         ret
 ;-----------------------------------------------------------------------------
 ; MouseRestoreSensitivity                         DFA7A  96 PC, low confidence
@@ -210,8 +210,8 @@ MouseRestoreSensitivity:
 InitMouse:
         pusha
         mov dword [MousePresent], 0
-        mov dword [dword_11F5B4], 0
-        mov dword [dword_11F5B8], 0
+        mov dword [PointerCount], 0
+        mov dword [MouseButtons], 0
         LD xor, eax, eax
         int 33h
         LD or, ax, ax
@@ -219,22 +219,22 @@ InitMouse:
         inc dword [MousePresent]
         cmp dword [dword_11F598], byte 0
         je short .1
-        mov dword [dword_11F5B8], 2
+        mov dword [MouseButtons], 2
         mov eax, 3
         int 33h
         LD or, ax, ax
         jne short .1
         mov dword [MousePresent], 2
 .1:
-        push dword [dword_11F5C4]
-        push dword [dword_11F5C0]
+        push dword [ViewScreenHeight]
+        push dword [ViewScreenWidth]
         push byte 0
         push byte 0
         call SetViewRect
-        mov eax, dword [dword_11F5C4]
+        mov eax, dword [ViewScreenHeight]
         shr eax, 2
         mov dword [mousex], eax
-        mov eax, dword [dword_11F5C0]
+        mov eax, dword [ViewScreenWidth]
         shr eax, 2
         mov dword [mousey], eax
         mov ax, 1Bh

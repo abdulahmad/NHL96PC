@@ -3,13 +3,13 @@ bits 32
 %include "hockey.inc"
 section s_DFEB4 progbits alloc exec nowrite align=1
 extern FatalError, atexit_, JoyCalibrating, JoyButtonBits, JoyPortMask, JoyButtons, JoyButtonsPrev, JoyDirection
-extern byte_11F983, LastTickCount, KbdIdleHook, JoyTimeX, TimerCalibration, JoyTimeY, JoyTimeSecondX, JoyTimeSecondY
+extern JoyButtonTable, LastTickCount, KbdIdleHook, JoyTimeX, TimerCalibration, JoyTimeY, JoyTimeSecondX, JoyTimeSecondY
 extern JoyCalibrateTicks, JoyReadTimeout, JoyAxisX1, JoyAxisY1, JoyAxisX2, JoyAxisY2, JoyAxisMask, str_P
 extern JoyX1Min, JoyX1Center, JoyX1Max, JoyX1Settle, JoyY1Min, JoyY1Max, str_P2, JoyY1MinSeen
 extern JoyY1Center, JoyY1MaxSeen, JoyY1Settle, JoyX2Min, JoyX2Max, JoyXScale, JoyYScale, SavedBreakOffset
 extern BreakCallFunc, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, exit_, joyenablemask, BiosKeyFunc
 extern FillRect, RestoreDS, DosGetVector, DosSetVector, Random32, tickcount, tickdeadline, str_Locateshape44sSHAPENOTFOUND
-extern JoyAxisValues, word_11F914, word_11F918, word_11F91C, SavedBreakSelector, BreakDataSelector
+extern JoyAxisValues, JoyReadX, JoyReadY, word_11F91C, SavedBreakSelector, BreakDataSelector
 global GetTicks, SetTickDeadline, TickDeadlinePassed, TicksSince, WaitKey, WaitTickDeadline, FindShapeQuiet_2, ClearClipRect_30
 global TicksSinceLast, WaitTicks, KbdGetKey, CallKbdIdleHook, KbdPeekKey, SetKbdIdleHook, FlushKeys, CalibrateJoystick
 global ReadJoystickPorts, JoyResetCentres, JoyButtonMap, AddExitHandler, ExitProgram, FindShape, FindShapeQuiet, bcopy
@@ -227,8 +227,8 @@ FlushKeys:
         shr al, 4
         mov byte [JoyButtonBits], al
         mov dword [JoyAxisValues], ebp
-        mov dword [word_11F914], esi
-        mov dword [word_11F918], edi
+        mov dword [JoyReadX], esi
+        mov dword [JoyReadY], edi
         mov dword [word_11F91C], ebx
         pop edi
         pop esi
@@ -599,7 +599,7 @@ JoyButtonMap:
         LD mov, ebp, esp
         mov ebx, dword [byte ebp+08h]
         and ebx, byte 0Fh
-        mov al, byte [dword ebx+byte_11F983]
+        mov al, byte [dword ebx+JoyButtonTable]
         LD xor, ah, ah
         movzx eax, ax
         leave

@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_B03F2 progbits alloc exec nowrite align=1
 extern GetTicks, TicksSince, _IsTable, __IOMode_, __SetIOMode_, __close_, __set_errno_, __set_errno_dos_
-extern str_Inversetbl, str_Inversetmp, QuantizeTable, dword_1219A4, _fmode, dword_124120, InvTabDist, InvTabRStep
+extern str_Inversetbl, str_Inversetmp, QuantizeTable, ColourLookup, _fmode, SopenMask, InvTabDist, InvTabRStep
 extern InvTabGStep, InvTabBStep, InvTabRMin, InvTabOut, InvTabDistBuf, InvTabGMin, InvTabGCenter, InvTabBCenter
 extern InvTabCell, InvTabRCenter, InvTabR, InvTabG, InvTabB, InvTabColor, InvTabRMax, InvTabGMax
 extern InvTabBMin, InvTabBMax, InvTabRow, InvTabPass, InvTabGLo, InvTabGHi, InvTabBLo, InvTabBHi
@@ -778,14 +778,14 @@ FreeColourLookup:
         push ebx
         push ecx
         push edx
-        mov edx, dword [dword_1219A4]
+        mov edx, dword [ColourLookup]
         test edx, edx
         je short .1
         push edx
         call FreeMemBlock
         xor ecx, ecx
         add esp, byte 4
-        mov dword [dword_1219A4], ecx
+        mov dword [ColourLookup], ecx
 .1:
         pop edx
         pop ecx
@@ -1108,14 +1108,14 @@ CreateColourLookup:
         ret
         push esi
         sub esp, 400h
-        mov edx, dword [dword_1219A4]
+        mov edx, dword [ColourLookup]
         xor esi, esi
         test edx, edx
         je short .1
         push edx
         call FreeMemBlock
         add esp, byte 4
-        mov dword [dword_1219A4], esi
+        mov dword [ColourLookup], esi
 .1:
         mov eax, esp
         push eax
@@ -1127,7 +1127,7 @@ CreateColourLookup:
         push eax
         call BuildInverseTable
         add esp, byte 4
-        mov dword [dword_1219A4], eax
+        mov dword [ColourLookup], eax
         test eax, eax
         je short .2
         mov esi, 1
@@ -2338,7 +2338,7 @@ sopen_:
         jne short .7
         mov eax, 180h
 .7:
-        xor eax, dword [dword_124120]
+        xor eax, dword [SopenMask]
         xor ecx, ecx
         test al, 80h
         jne short .8

@@ -2,9 +2,9 @@
 bits 32
 %include "hockey.inc"
 section s_1210D0 progbits alloc noexec write align=1
-global str_OpenhandleSFILEERROR, QuantizeByte, QuantizeTable, ResourceArchiveName, SavedBreakOffset, BreakCallFunc, dword_1219A0, dword_1219A4
-global AaWeights, FpuFlags, dword_121B24, dword_121B28, dword_121B2C, ResourceArchive, dword_121B34, unk_1210DC
-global unk_1213DC, unk_1213FC, unk_1215B8, SavedBreakSelector, BreakDataSelector, str_Punct_InitFpuFlags, SavedEsSelector
+global str_OpenhandleSFILEERROR, QuantizeByte, QuantizeTable, ResourceArchiveName, SavedBreakOffset, BreakCallFunc, NearestColourCache, ColourLookup
+global AaWeights, FpuFlags, ArchiveHandle, ArchiveOpenFn, ArchiveCount, ResourceArchive, FatalErrorHook, SystemInfo
+global DefaultFont, DefaultFontInfo, DefaultFontWidths, SavedBreakSelector, BreakDataSelector, str_Punct_InitFpuFlags, SavedEsSelector
 SavedBreakOffset:
         db 00h,00h,00h,00h
 SavedBreakSelector:
@@ -13,7 +13,7 @@ BreakCallFunc:
         db 00h,00h,00h,00h
 BreakDataSelector:
         db 00h,00h
-unk_1210DC:
+SystemInfo:
         db 00h,00h,00h,00h,00h,0A8h,00h,0A8h,00h,00h,0A8h,0A8h,0A8h,00h,00h,0A8h
         db 00h,0A8h,0A8h,054h,00h,0A8h,0A8h,0A8h,054h,054h,054h,054h,054h,0FCh,054h,0FCh
         db 054h,054h,0FCh,0FCh,0FCh,054h,054h,0FCh,054h,0FCh,0FCh,0FCh,054h,0FCh,0FCh,0FCh
@@ -62,10 +62,10 @@ unk_1210DC:
         db 080h,080h,080h,088h,088h,088h,090h,090h,090h,098h,098h,098h,0A0h,0A0h,0A0h,0A8h
         db 0A8h,0A8h,0B0h,0B0h,0B0h,0B8h,0B8h,0B8h,0C0h,0C0h,0C0h,0C8h,0C8h,0C8h,0D0h,0D0h
         db 0D0h,0D8h,0D8h,0D8h,0E0h,0E0h,0E0h,0E8h,0E8h,0E8h,0F0h,0F0h,0F0h,0FFh,0FFh,0FFh
-unk_1213DC:
+DefaultFont:
         db 046h,050h,043h,031h,020h,08Eh,08h,08h,00h,08h,06h,01h,00h,00h,00h,0FFh
         db 00h,00h,0DCh,01h,00h,00h,00h,00h,00h,00h,00h,00h,053h,048h,041h,057h
-unk_1213FC:
+DefaultFontInfo:
         db 04Bh,02h,00h,00h,053h,02h,00h,00h,05Bh,02h,00h,00h,063h,02h,00h,00h
         db 06Bh,02h,00h,00h,073h,02h,00h,00h,07Bh,02h,00h,00h,083h,02h,00h,00h
         db 08Bh,02h,00h,00h,093h,02h,00h,00h,09Bh,02h,00h,00h,0A3h,02h,00h,00h
@@ -94,7 +94,7 @@ unk_1213FC:
         db 06Bh,05h,00h,00h,073h,05h,00h,00h,07Bh,05h,00h,00h,083h,05h,00h,00h
         db 08Bh,05h,00h,00h,093h,05h,00h,00h,09Bh,05h,00h,00h,0A3h,05h,00h,00h
         db 0ABh,05h,00h,00h,0B3h,05h,00h,00h,0BBh,05h,00h,00h
-unk_1215B8:
+DefaultFontWidths:
         db 08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h
         db 08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h
         db 08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h
@@ -158,9 +158,9 @@ unk_1215B8:
         db 020h,060h,0FEh,0FEh,060h,020h,00h,00h,00h,00h,00h,00h,00h,00h,0FFh,080h
         db 0C0h,0E0h,0F0h,0E0h,0C0h,080h,00h,00h,0F0h,088h,084h,084h,084h,07Ch,00h,030h
         db 048h,048h,0FCh,0FCh,0FCh,0FCh,00h,00h
-dword_1219A0:
+NearestColourCache:
         db 00h,00h,00h,00h
-dword_1219A4:
+ColourLookup:
         db 00h,00h,00h
 QuantizeByte:
         db 00h
@@ -198,13 +198,13 @@ ResourceArchiveName:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h
-dword_121B24:
+ArchiveHandle:
         db 00h,00h,00h,00h
-dword_121B28:
+ArchiveOpenFn:
         db 00h,00h,00h,00h
-dword_121B2C:
+ArchiveCount:
         db 00h,00h,00h,00h
 ResourceArchive:
         db 00h,00h,00h,00h
-dword_121B34:
+FatalErrorHook:
         db 00h,00h,00h,00h

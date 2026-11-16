@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_E1970 progbits alloc exec nowrite align=1
-extern dword_124084, unk_124020, unk_124088, unk_1240A6
+extern FindFilePtr, FindFileDta, FindFileName, FindFilePattern
 global FindFirstFile
 ;-----------------------------------------------------------------------------
 ; FindFirstFile                                   E1970  96 PC, low confidence
@@ -14,7 +14,7 @@ FindFirstFile:
         LD mov, ebp, esp
         push esi
         push edi
-        mov edx, unk_124088
+        mov edx, FindFileName
         mov ah, 1Ah
         int 21h
         mov edx, dword [byte ebp+08h]
@@ -22,8 +22,8 @@ FindFirstFile:
         mov ah, 4Eh
         int 21h
         jb short .6
-        mov edi, unk_124020
-        mov dword [dword_124084], edi
+        mov edi, FindFileDta
+        mov dword [FindFilePtr], edi
         mov esi, dword [byte ebp+08h]
         mov ecx, 57h
 .1:
@@ -38,17 +38,17 @@ FindFirstFile:
         cmp al, 5Ch
         jne short .3
 .2:
-        mov dword [dword_124084], edi
+        mov dword [FindFilePtr], edi
 .3:
         dec ecx
         jne short .1
 .4:
-        mov esi, unk_1240A6
-        mov edi, dword [dword_124084]
+        mov esi, FindFilePattern
+        mov edi, dword [FindFilePtr]
         mov ecx, 0Dh
         cld
         rep movsb
-        mov eax, unk_124020
+        mov eax, FindFileDta
 .5:
         pop edi
         pop esi
@@ -61,7 +61,7 @@ FindFirstFile:
         LD mov, ebp, esp
         push esi
         push edi
-        mov edx, unk_124088
+        mov edx, FindFileName
         mov ah, 1Ah
         int 21h
         mov ah, 4Fh

@@ -4,7 +4,7 @@ bits 32
 extern SimWork
 extern BottomBarArt
 section s_849D5 progbits alloc exec nowrite align=1
-extern BlackPalette, byte_11FA2F, PlayoffTeams, PlayoffRoundNum, CardsSpeechPending, TeamsSpeechPending, AwayCardsSpeechPending
+extern BlackPalette, TextCharH, PlayoffTeams, PlayoffRoundNum, CardsSpeechPending, TeamsSpeechPending, AwayCardsSpeechPending
 extern MatchupSpeechPending, CopyBitmap, DrawColorTextCentred, DrawColorTextRight, DrawFrameAt, seasondb, CareerDb, statsplayoffs
 extern PlayerAttrFile, PlayerAttrFileSize, TeamConferenceIds, FrontEndScreenBmp, MatchupLayer, TeamStatsBitmap, MenuBoxStyle
 extern PlayoffTreeData, SeasonType, SeasonDay, SeasonGamePending, PlayoffGameOpts, cddriveptr, PlayoffRound, PlayoffTreeShape
@@ -1694,7 +1694,7 @@ PreGameCardsA:
         lea eax, [byte ebp+0Eh]
         mov ebx, ecx
         call DrawColorTextCentred
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         add eax, byte 3
         add ecx, eax
         mov eax, dword [byte ebp+076h]
@@ -1733,7 +1733,7 @@ PreGameCardsA:
         mov ebx, ecx
         lea eax, [byte ebp+0Eh]
         call DrawColorTextCentred
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         add eax, byte 3
         add ecx, eax
         mov eax, dword [optflags]
@@ -2465,7 +2465,7 @@ PreGameCardsB:
         cdq
         idiv ebx
         lea ecx, [eax+eax]
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         movsx ebx, word [byte ecx+ebp+056h]
         inc eax
         inc eax
@@ -2998,7 +2998,7 @@ PreGameCardsC:
         LD sub, eax, edx
         sar eax, 1
         lea ecx, [eax+eax]
-        movzx ebx, byte [byte_11FA2F]
+        movzx ebx, byte [TextCharH]
         movsx eax, word [byte ecx+ebp+056h]
         inc ebx
         inc ebx

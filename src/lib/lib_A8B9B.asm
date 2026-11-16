@@ -5,16 +5,16 @@ extern BottomBarArt
 section s_A8B9B progbits alloc exec nowrite align=1
 extern __STOSB, __set_errno_, access_, str_Pal19, str_Bkgd27, str_FSH6, str_Plyr4, str_PROFILEFSH4
 extern str_Card4, str_Ard4, str_DSS5, str_SD8, str_SDD, str_S0, str_SDD2, str_0000
-extern byte_11F524, byte_11F52D, byte_184B3C, byte_184B3D, byte_184B3E, byte_1852C2, seasondb, TeamDb
-extern statsplayoffs, SeasonDbSize, PlayoffStatsSize, dword_11F4BC, dword_11F4F0, TeamStatsBitmap, PlayoffTreeData
-extern SeasonType, cddriveptr, RosterFileHandle, FinalTeamHome, FinalTeamAway, PlayoffChampion, dword_184B38, getcwd_
-extern getenv_, off_11F531, off_11F535, off_11F539, off_11F53D, off_11F541, off_11F545, off_11F549
-extern off_11F551, off_11F555, sprintf_, strcat_, strcpy_, strlen_, SelectDataLibrary, LoadDataFileLib
+extern LeaderCardFlags, LeadersBuilt, LeaderTable, LeaderTableCount, LeaderTableRows, seasondb, TeamDb
+extern statsplayoffs, SeasonDbSize, PlayoffStatsSize, LeaderCardTextIds, LeaderColTextIds, TeamStatsBitmap, PlayoffTreeData
+extern SeasonType, cddriveptr, RosterFileHandle, FinalTeamHome, FinalTeamAway, PlayoffChampion, LeaderCardIndex, getcwd_
+extern getenv_, LeaderListPtrs
+extern sprintf_, strcat_, strcpy_, strlen_, SelectDataLibrary, LoadDataFileLib
 extern OpenScreen, SlideInTitleBar, SlideInSideBar, SetScreenColors, FadePalette, FadeOut, DrawColorText, DrawColorTextCentred
 extern RunMenu, GetLangText, MakeSeasonDbPath, MakePlayoffDbPath, FreeMemBlock, DosFileInfo, LoadResourceDataShared, SaveFileBlock
-extern DrawArtOpaqueAtOwnPos, DrawArtKeyedAtOrigin, PutBlockKeyed, ErrnoPtr, SetColourRemap, FindShape, PlayoffHeader, unk_184B78
-extern unk_184BB4, unk_184BF0, unk_184C2C, unk_184C68, unk_184CA4, unk_184D1C, unk_184D58, unk_184E48
-extern unk_184F48, unk_184F77, unk_185292
+extern DrawArtOpaqueAtOwnPos, DrawArtKeyedAtOrigin, PutBlockKeyed, ErrnoPtr, SetColourRemap, FindShape, PlayoffHeader, PlayoffLeaderLists
+
+
 global _searchenv_, BuildPlayoffLeaders_555, SaveLeagueDb, PlayoffWinsNeeded, BuildPlayoffLeaders, ShowPlayoffLeaderCard, PlayoffLeadersScreens
 ;-----------------------------------------------------------------------------
 ; SaveLeagueDb                                    A8B9B  96 PC, low confidence
@@ -157,18 +157,18 @@ BuildPlayoffLeaders:
         cmp edx, dword [byte ebp+07Ah]
         jne short .6
         mov al, byte [dword ebp-036Ah]
-        cmp al, byte [byte_1852C2]
+        cmp al, byte [PlayoffLeaderLists+74Ah]
         jbe short .6
 .5:
         mov ecx, 31Bh
         lea esi, [dword ebp-039Ah]
         mov eax, dword [dword ebp+086h]
         mov byte [byte ebp+069h], 0FFh
-        mov edi, unk_185292
+        mov edi, PlayoffLeaderLists+71Ah
         mov dword [dword ebp+082h], ebx
         mov dword [byte ebp+07Ah], edx
         rep movsb
-        mov dword [dword_184B38], eax
+        mov dword [LeaderCardIndex], eax
 .6:
         cmp byte [byte ebp+06Eh], 0
         je short .7
@@ -179,7 +179,7 @@ BuildPlayoffLeaders:
         mov ecx, 31Bh
         lea esi, [dword ebp-039Ah]
         movzx eax, byte [dword ebp-0358h]
-        mov edi, unk_184F77
+        mov edi, PlayoffLeaderLists+3FFh
         mov byte [byte ebp+06Eh], 0FFh
         mov dword [byte ebp+076h], eax
         rep movsb
@@ -201,7 +201,7 @@ BuildPlayoffLeaders:
         rep movsb
         cmp word [byte ebp+032h], byte 0
         jbe near .26
-        mov edx, dword [off_11F531]
+        mov edx, dword [LeaderListPtrs]
         cmp byte [byte ebp+062h], 0
         je short .10
         mov eax, dword [byte ebp+034h]
@@ -214,7 +214,7 @@ BuildPlayoffLeaders:
 .10:
         mov ecx, 0Fh
         lea esi, [byte ebp-07Eh]
-        mov edi, byte_184B3C
+        mov edi, LeaderTable
         rep movsd
         mov ecx, 2Fh
         lea esi, [byte ebp+032h]
@@ -222,7 +222,7 @@ BuildPlayoffLeaders:
         rep movsb
         mov byte [byte ebp+062h], 0FFh
 .11:
-        mov edx, dword [off_11F535]
+        mov edx, dword [LeaderListPtrs+4]
         cmp byte [byte ebp+063h], 0
         je short .12
         mov eax, dword [byte ebp+038h]
@@ -235,7 +235,7 @@ BuildPlayoffLeaders:
 .12:
         mov ecx, 0Fh
         lea esi, [byte ebp-07Eh]
-        mov edi, unk_184B78
+        mov edi, PlayoffLeaderLists
         rep movsd
         mov ecx, 2Fh
         lea esi, [byte ebp+032h]
@@ -246,7 +246,7 @@ BuildPlayoffLeaders:
         movsx eax, byte [byte ebp-07Ch]
         cmp eax, byte 44h
         jne short .15
-        mov edx, dword [off_11F539]
+        mov edx, dword [LeaderListPtrs+8]
         cmp byte [byte ebp+064h], 0
         je short .14
         mov eax, dword [byte ebp+038h]
@@ -259,7 +259,7 @@ BuildPlayoffLeaders:
 .14:
         mov ecx, 0Fh
         lea esi, [byte ebp-07Eh]
-        mov edi, unk_184BB4
+        mov edi, PlayoffLeaderLists+3Ch
         rep movsd
         mov ecx, 2Fh
         lea esi, [byte ebp+032h]
@@ -275,7 +275,7 @@ BuildPlayoffLeaders:
         cmp eax, byte 43h
         jne short .18
 .16:
-        mov edx, dword [off_11F53D]
+        mov edx, dword [LeaderListPtrs+0Ch]
         cmp byte [byte ebp+065h], 0
         je short .17
         mov eax, dword [byte ebp+042h]
@@ -288,7 +288,7 @@ BuildPlayoffLeaders:
 .17:
         mov ecx, 0Fh
         lea esi, [byte ebp-07Eh]
-        mov edi, unk_184BF0
+        mov edi, PlayoffLeaderLists+78h
         rep movsd
         mov ecx, 2Fh
         lea esi, [byte ebp+032h]
@@ -302,7 +302,7 @@ BuildPlayoffLeaders:
         movsx eax, byte [byte ebp-044h]
         cmp eax, byte 59h
         jne short .20
-        mov edx, dword [off_11F549]
+        mov edx, dword [LeaderListPtrs+18h]
         cmp byte [byte ebp+068h], 0
         je short .19
         mov eax, dword [byte ebp+038h]
@@ -315,7 +315,7 @@ BuildPlayoffLeaders:
 .19:
         mov ecx, 0Fh
         lea esi, [byte ebp-07Eh]
-        mov edi, unk_184CA4
+        mov edi, PlayoffLeaderLists+12Ch
         rep movsd
         mov ecx, 2Fh
         lea esi, [byte ebp+032h]
@@ -324,7 +324,7 @@ BuildPlayoffLeaders:
         mov byte [byte ebp+068h], 0FFh
 .20:
         movzx eax, byte [byte ebp-07Eh]
-        mov edx, dword [off_11F551]
+        mov edx, dword [LeaderListPtrs+20h]
         cmp eax, dword [PlayoffChampion]
         jne short .22
         cmp byte [byte ebp+06Ah], 0
@@ -339,7 +339,7 @@ BuildPlayoffLeaders:
 .21:
         mov ecx, 0Fh
         lea esi, [byte ebp-07Eh]
-        mov edi, unk_184D1C
+        mov edi, PlayoffLeaderLists+1A4h
         rep movsd
         mov ecx, 2Fh
         lea esi, [byte ebp+032h]
@@ -347,17 +347,17 @@ BuildPlayoffLeaders:
         rep movsb
         mov byte [byte ebp+06Ah], 0FFh
 .22:
-        movsx eax, byte [byte_11F52D]
+        movsx eax, byte [LeadersBuilt]
         cmp eax, byte 1
         jne short .23
-        mov eax, dword [off_11F555]
+        mov eax, dword [LeaderListPtrs+24h]
         movzx esi, word [byte eax+028h]
         movzx edx, word [byte eax+02Ah]
         add esi, edx
         movzx edx, word [byte eax+02Ch]
         jmp short .24
 .23:
-        mov eax, dword [off_11F555]
+        mov eax, dword [LeaderListPtrs+24h]
         movzx edx, word [byte eax+030h]
         movzx esi, word [byte eax+032h]
         add edx, esi
@@ -380,15 +380,15 @@ BuildPlayoffLeaders:
 .25:
         mov ecx, 0Fh
         lea esi, [byte ebp-07Eh]
-        mov edi, unk_184D58
+        mov edi, PlayoffLeaderLists+1E0h
         rep movsd
         mov ecx, 2Fh
         lea esi, [byte ebp+032h]
-        mov edi, unk_184F48
+        mov edi, PlayoffLeaderLists+3D0h
         mov byte [byte ebp+06Bh], 0FFh
         rep movsb
-        mov dword [off_11F555], unk_184F48
-        mov byte [byte_11F52D], 1
+        mov dword [LeaderListPtrs+24h], PlayoffLeaderLists+3D0h
+        mov byte [LeadersBuilt], 1
 .26:
         add ebx, byte 4
         cmp ebx, byte 64h
@@ -410,7 +410,7 @@ BuildPlayoffLeaders:
         rep movsb
         cmp word [byte ebp-06h], byte 0
         jbe near .38
-        mov edx, dword [off_11F541]
+        mov edx, dword [LeaderListPtrs+10h]
         cmp byte [byte ebp+066h], 0
         je short .28
         mov eax, dword [byte ebp-04h]
@@ -423,7 +423,7 @@ BuildPlayoffLeaders:
 .28:
         mov ecx, 0Fh
         lea esi, [byte ebp-042h]
-        mov edi, unk_184C2C
+        mov edi, PlayoffLeaderLists+0B4h
         rep movsd
         mov ecx, 36h
         lea esi, [byte ebp-06h]
@@ -432,7 +432,7 @@ BuildPlayoffLeaders:
         mov byte [byte ebp+066h], 0FFh
 .29:
         movzx eax, word [byte ebp-06h]
-        mov edx, dword [off_11F545]
+        mov edx, dword [LeaderListPtrs+14h]
         cmp eax, byte 19h
         jl short .30
         cmp dword [SeasonType], byte 0
@@ -462,7 +462,7 @@ BuildPlayoffLeaders:
 .33:
         mov ecx, 0Fh
         lea esi, [byte ebp-042h]
-        mov edi, unk_184C68
+        mov edi, PlayoffLeaderLists+0F0h
         rep movsd
         mov ecx, 36h
         lea esi, [byte ebp-06h]
@@ -470,17 +470,17 @@ BuildPlayoffLeaders:
         rep movsb
         mov byte [byte ebp+067h], 0FFh
 .34:
-        movsx eax, byte [byte_11F52D]
+        movsx eax, byte [LeadersBuilt]
         cmp eax, byte 1
         jne short .35
-        mov eax, dword [off_11F555]
+        mov eax, dword [LeaderListPtrs+24h]
         movzx edx, word [byte eax+028h]
         movzx esi, word [byte eax+02Ah]
         add edx, esi
         movzx esi, word [byte eax+02Ch]
         jmp short .36
 .35:
-        mov eax, dword [off_11F555]
+        mov eax, dword [LeaderListPtrs+24h]
         movzx edx, word [byte eax+030h]
         movzx esi, word [byte eax+032h]
         add esi, edx
@@ -503,15 +503,15 @@ BuildPlayoffLeaders:
 .37:
         mov ecx, 0Fh
         lea esi, [byte ebp-07Eh]
-        mov edi, unk_184D58
+        mov edi, PlayoffLeaderLists+1E0h
         rep movsd
         mov ecx, 36h
         lea esi, [byte ebp-06h]
-        mov edi, unk_184E48
+        mov edi, PlayoffLeaderLists+2D0h
         mov byte [byte ebp+06Bh], 0FFh
         rep movsb
-        mov dword [off_11F555], unk_184E48
-        mov byte [byte_11F52D], 0
+        mov dword [LeaderListPtrs+24h], PlayoffLeaderLists+2D0h
+        mov byte [LeadersBuilt], 0
 .38:
         add ebx, byte 4
         cmp ebx, byte 0Ch
@@ -543,7 +543,7 @@ ShowPlayoffLeaderCard:
         enter 214h, 0
         push eax
         sub ebp, 82h
-        mov eax, dword [nosplit eax*4+dword_11F4BC]
+        mov eax, dword [nosplit eax*4+LeaderCardTextIds]
         xor edx, edx
         call LoadDataFileLib
         push str_Pal19
@@ -554,7 +554,7 @@ ShowPlayoffLeaderCard:
         add eax, byte 10h
         mov dword [byte ebp+07Eh], eax
         mov eax, dword [dword ebp-0196h]
-        movsx eax, byte [dword eax+byte_11F524]
+        movsx eax, byte [dword eax+LeaderCardFlags]
         add esp, byte 8
         cmp eax, byte 2
         je near .11
@@ -569,7 +569,7 @@ ShowPlayoffLeaderCard:
         call SelectDataLibrary
         imul eax, dword [dword ebp-0196h], byte 3Ch
         lea edi, [byte ebp+03Ah]
-        add eax, byte_184B3C
+        add eax, LeaderTable
         mov ecx, 4
         lea esi, [byte eax+030h]
         mov edx, str_FSH6
@@ -651,13 +651,13 @@ ShowPlayoffLeaderCard:
         mov ecx, 12Ch
         rep movsb
         imul ecx, dword [dword ebp-0196h], byte 3Ch
-        mov eax, byte_184B3C
+        mov eax, LeaderTable
         add eax, ecx
         lea edx, [byte eax+013h]
         push edx
         add eax, byte 3
         push eax
-        movzx eax, byte [dword ecx+byte_184B3D]
+        movzx eax, byte [dword ecx+LeaderTableCount]
         push eax
         push str_DSS5
         lea eax, [byte ebp+03Ah]
@@ -668,14 +668,14 @@ ShowPlayoffLeaderCard:
         mov edx, 1E0h
         lea eax, [byte ebp+03Ah]
         call DrawColorTextCentred
-        movsx eax, byte [dword ecx+byte_184B3E]
+        movsx eax, byte [dword ecx+LeaderTableRows]
         mov ecx, dword [dword ebp-0196h]
         shl ecx, 2
         cmp eax, byte 47h
         je near .9
         cmp dword [dword ebp-0196h], byte 8
         je near .8
-        mov eax, dword [dword ecx+off_11F531]
+        mov eax, dword [dword ecx+LeaderListPtrs]
         movzx eax, word [eax]
         push eax
         mov eax, 0DCh
@@ -690,7 +690,7 @@ ShowPlayoffLeaderCard:
         mov edx, 172h
         lea eax, [byte ebp+03Ah]
         call DrawColorText
-        mov eax, dword [dword ecx+off_11F531]
+        mov eax, dword [dword ecx+LeaderListPtrs]
         movzx eax, word [byte eax+02h]
         push eax
         mov eax, 0DDh
@@ -705,7 +705,7 @@ ShowPlayoffLeaderCard:
         mov edx, 172h
         lea eax, [byte ebp+03Ah]
         call DrawColorText
-        mov eax, dword [dword ecx+off_11F531]
+        mov eax, dword [dword ecx+LeaderListPtrs]
         movzx eax, word [byte eax+04h]
         push eax
         mov eax, 0DEh
@@ -720,7 +720,7 @@ ShowPlayoffLeaderCard:
         mov edx, 172h
         lea eax, [byte ebp+03Ah]
         call DrawColorText
-        mov eax, dword [dword ecx+off_11F531]
+        mov eax, dword [dword ecx+LeaderListPtrs]
         movzx eax, word [byte eax+06h]
         push eax
         mov eax, 0DFh
@@ -735,7 +735,7 @@ ShowPlayoffLeaderCard:
         mov edx, 1D6h
         lea eax, [byte ebp+03Ah]
         call DrawColorText
-        mov eax, dword [dword ecx+off_11F531]
+        mov eax, dword [dword ecx+LeaderListPtrs]
         movzx eax, word [byte eax+0Ch]
         push eax
         mov eax, 0E3h
@@ -750,7 +750,7 @@ ShowPlayoffLeaderCard:
         mov edx, 1D6h
         lea eax, [byte ebp+03Ah]
         call DrawColorText
-        mov eax, dword [dword ecx+off_11F531]
+        mov eax, dword [dword ecx+LeaderListPtrs]
         movsx eax, word [byte eax+010h]
         push eax
         mov eax, 0E2h
@@ -765,7 +765,7 @@ ShowPlayoffLeaderCard:
         mov edx, 1D6h
         lea eax, [byte ebp+03Ah]
         call DrawColorText
-        mov eax, dword [dword ecx+off_11F531]
+        mov eax, dword [dword ecx+LeaderListPtrs]
         movzx eax, word [byte eax+08h]
         push eax
         mov eax, 0E0h
@@ -780,7 +780,7 @@ ShowPlayoffLeaderCard:
         mov edx, 23Ah
         lea eax, [byte ebp+03Ah]
         call DrawColorText
-        mov eax, dword [dword ecx+off_11F531]
+        mov eax, dword [dword ecx+LeaderListPtrs]
         movzx eax, word [byte eax+0Ah]
         push eax
         mov eax, 0E1h
@@ -795,7 +795,7 @@ ShowPlayoffLeaderCard:
         mov edx, 23Ah
         lea eax, [byte ebp+03Ah]
         call DrawColorText
-        mov eax, dword [dword ecx+off_11F531]
+        mov eax, dword [dword ecx+LeaderListPtrs]
         cmp word [byte eax+0Eh], byte 0
         je short .7
         movzx edi, word [byte eax+02h]
@@ -836,7 +836,7 @@ ShowPlayoffLeaderCard:
         add esp, byte 0Ch
         jmp short .6
 .8:
-        mov eax, dword [dword ecx+off_11F531]
+        mov eax, dword [dword ecx+LeaderListPtrs]
         movzx eax, word [byte eax+012h]
         push eax
         mov eax, 0DCh
@@ -851,7 +851,7 @@ ShowPlayoffLeaderCard:
         mov edx, 172h
         lea eax, [byte ebp+03Ah]
         call DrawColorText
-        mov eax, dword [dword ecx+off_11F531]
+        mov eax, dword [dword ecx+LeaderListPtrs]
         movzx eax, word [byte eax+014h]
         push eax
         mov eax, 0DDh
@@ -866,7 +866,7 @@ ShowPlayoffLeaderCard:
         mov edx, 172h
         lea eax, [byte ebp+03Ah]
         call DrawColorText
-        mov eax, dword [dword ecx+off_11F531]
+        mov eax, dword [dword ecx+LeaderListPtrs]
         movzx eax, word [byte eax+016h]
         push eax
         mov eax, 0DEh
@@ -881,7 +881,7 @@ ShowPlayoffLeaderCard:
         mov edx, 172h
         lea eax, [byte ebp+03Ah]
         call DrawColorText
-        mov eax, dword [dword ecx+off_11F531]
+        mov eax, dword [dword ecx+LeaderListPtrs]
         movzx eax, word [byte eax+018h]
         push eax
         mov eax, 0DFh
@@ -896,7 +896,7 @@ ShowPlayoffLeaderCard:
         mov edx, 1D6h
         lea eax, [byte ebp+03Ah]
         call DrawColorText
-        mov eax, dword [dword ecx+off_11F531]
+        mov eax, dword [dword ecx+LeaderListPtrs]
         movzx eax, word [byte eax+01Eh]
         push eax
         mov eax, 0E3h
@@ -911,7 +911,7 @@ ShowPlayoffLeaderCard:
         mov edx, 1D6h
         lea eax, [byte ebp+03Ah]
         call DrawColorText
-        mov eax, dword [dword ecx+off_11F531]
+        mov eax, dword [dword ecx+LeaderListPtrs]
         movsx eax, word [byte eax+022h]
         push eax
         mov eax, 0E2h
@@ -926,7 +926,7 @@ ShowPlayoffLeaderCard:
         mov edx, 1D6h
         lea eax, [byte ebp+03Ah]
         call DrawColorText
-        mov eax, dword [dword ecx+off_11F531]
+        mov eax, dword [dword ecx+LeaderListPtrs]
         movzx eax, word [byte eax+01Ah]
         push eax
         mov eax, 0E0h
@@ -941,7 +941,7 @@ ShowPlayoffLeaderCard:
         mov edx, 23Ah
         lea eax, [byte ebp+03Ah]
         call DrawColorText
-        mov eax, dword [dword ecx+off_11F531]
+        mov eax, dword [dword ecx+LeaderListPtrs]
         movzx eax, word [byte eax+01Ch]
         push eax
         mov eax, 0E1h
@@ -956,7 +956,7 @@ ShowPlayoffLeaderCard:
         mov edx, 23Ah
         lea eax, [byte ebp+03Ah]
         call DrawColorText
-        mov eax, dword [dword ecx+off_11F531]
+        mov eax, dword [dword ecx+LeaderListPtrs]
         cmp word [byte eax+020h], byte 0
         je near .7
         movzx esi, word [byte eax+014h]
@@ -974,7 +974,7 @@ ShowPlayoffLeaderCard:
         idiv ecx
         jmp near .5
 .9:
-        mov eax, dword [dword ecx+off_11F531]
+        mov eax, dword [dword ecx+LeaderListPtrs]
         movzx eax, word [eax]
         push eax
         mov eax, 0E8h
@@ -989,7 +989,7 @@ ShowPlayoffLeaderCard:
         mov edx, 172h
         lea eax, [byte ebp+03Ah]
         call DrawColorText
-        mov eax, dword [dword ecx+off_11F531]
+        mov eax, dword [dword ecx+LeaderListPtrs]
         movzx eax, word [byte eax+02h]
         push eax
         mov eax, 0EBh
@@ -1004,7 +1004,7 @@ ShowPlayoffLeaderCard:
         mov edx, 172h
         lea eax, [byte ebp+03Ah]
         call DrawColorText
-        mov eax, dword [dword ecx+off_11F531]
+        mov eax, dword [dword ecx+LeaderListPtrs]
         movzx eax, word [byte eax+04h]
         push eax
         mov eax, 0ECh
@@ -1019,7 +1019,7 @@ ShowPlayoffLeaderCard:
         mov edx, 172h
         lea eax, [byte ebp+03Ah]
         call DrawColorText
-        mov eax, dword [dword ecx+off_11F531]
+        mov eax, dword [dword ecx+LeaderListPtrs]
         movzx eax, word [byte eax+06h]
         push eax
         mov eax, 0EDh
@@ -1034,7 +1034,7 @@ ShowPlayoffLeaderCard:
         mov edx, 172h
         lea eax, [byte ebp+03Ah]
         call DrawColorText
-        mov eax, dword [dword ecx+off_11F531]
+        mov eax, dword [dword ecx+LeaderListPtrs]
         movzx eax, word [byte eax+08h]
         push eax
         mov eax, 0EFh
@@ -1049,7 +1049,7 @@ ShowPlayoffLeaderCard:
         mov edx, 208h
         lea eax, [byte ebp+03Ah]
         call DrawColorText
-        mov eax, dword [dword ecx+off_11F531]
+        mov eax, dword [dword ecx+LeaderListPtrs]
         movzx eax, word [byte eax+0Ch]
         push eax
         mov eax, 0E9h
@@ -1064,7 +1064,7 @@ ShowPlayoffLeaderCard:
         mov edx, 208h
         lea eax, [byte ebp+03Ah]
         call DrawColorText
-        mov esi, dword [dword ecx+off_11F531]
+        mov esi, dword [dword ecx+LeaderListPtrs]
         movzx esi, word [byte esi+010h]
         mov eax, esi
         mov edi, 64h
@@ -1087,7 +1087,7 @@ ShowPlayoffLeaderCard:
         mov edx, 208h
         lea eax, [byte ebp+03Ah]
         call DrawColorText
-        mov ecx, dword [dword ecx+off_11F531]
+        mov ecx, dword [dword ecx+LeaderListPtrs]
         movzx ecx, word [byte ecx+014h]
         mov eax, ecx
         mov esi, 0Ah
@@ -1112,7 +1112,7 @@ ShowPlayoffLeaderCard:
         lea eax, [byte ebp+03Ah]
         call DrawColorText
         imul eax, dword [dword ebp-0196h], byte 3Ch
-        movzx eax, byte [dword eax+byte_184B3C]
+        movzx eax, byte [dword eax+LeaderTable]
         imul eax, dword 31Bh
         mov edx, dword [statsplayoffs]
         mov ebx, 10Eh
@@ -1122,7 +1122,7 @@ ShowPlayoffLeaderCard:
         call DrawColorTextCentred
         mov eax, dword [dword ebp-0196h]
         mov ebx, 122h
-        mov eax, dword [nosplit eax*4+dword_11F4F0]
+        mov eax, dword [nosplit eax*4+LeaderColTextIds]
         mov edx, 1E0h
         jmp near .18
 .11:
@@ -1144,7 +1144,7 @@ ShowPlayoffLeaderCard:
 .12:
         cmp dword [dword ebp-0196h], byte 7
         jne short .16
-        mov esi, dword [dword_184B38]
+        mov esi, dword [LeaderCardIndex]
         jmp short .16
 .13:
         mov esi, dword [FinalTeamHome]
@@ -1172,7 +1172,7 @@ ShowPlayoffLeaderCard:
         mov eax, dword [dword ebp-0196h]
         mov ebx, 1C2h
         add esp, byte 4
-        mov eax, dword [nosplit eax*4+dword_11F4F0]
+        mov eax, dword [nosplit eax*4+LeaderColTextIds]
         mov edx, 140h
 .18:
         call GetLangText
@@ -1222,7 +1222,7 @@ ShowPlayoffLeaderCard:
         push dword [byte ebp+076h]
         call FreeMemBlock
         mov eax, dword [dword ebp-0196h]
-        movsx eax, byte [dword eax+byte_11F524]
+        movsx eax, byte [dword eax+LeaderCardFlags]
         add esp, byte 4
         cmp eax, byte 2
         je short .23

@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 extern BottomBarArt
 section s_711ED progbits alloc exec nowrite align=1
-extern str_GenericHayesCompatible, BlackPalette, byte_11FA2F, TitleTextStyle
+extern str_GenericHayesCompatible, BlackPalette, TextCharH, TitleTextStyle
 extern ControlPickFlags, CopyBitmap, DrawColorText, DrawFrameAt
 extern GripLibHandle, MenuMouseX, ControlPickRows, str_Punct_ControlPicksScreen, DialAborted, LinkSetupSlots, MatchupLayer, TeamStatsBitmap
 extern MenuBoxStyle, GlobalSetData, GsModemDial, GsOptions, ControlPicksArt, ControlPicksBmp, ControlPickKeys
@@ -3335,7 +3335,7 @@ ModemSettingsScreen:
         mov edx, 0FEh
         mov eax, 0FCh
         call SetTextColors
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         push byte 20h
         inc eax
         push eax
@@ -3380,7 +3380,7 @@ ModemSettingsScreen:
         push esi
         call FreeBitmap
         add esp, byte 4
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         push byte 20h
         inc eax
         push eax
@@ -3420,7 +3420,7 @@ ModemSettingsScreen:
         push esi
         call FreeBitmap
         add esp, byte 4
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         push byte 20h
         inc eax
         push eax
@@ -3721,7 +3721,7 @@ ModemSettingsScreen:
         cdq
         idiv ebx
         add esp, byte 4
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         push byte 20h
         inc eax
         push eax
@@ -3781,7 +3781,7 @@ ModemSettingsScreen:
         add edx, byte 26h
 .32:
         call strcpy_
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         push byte 20h
         inc eax
         push eax
@@ -3852,7 +3852,7 @@ ModemSettingsScreen:
         lea edx, [byte ebp-0Eh]
         mov eax, GsModemDial
         call strcpy_
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         push byte 20h
         inc eax
         push eax

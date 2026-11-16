@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_AC9F0 progbits alloc exec nowrite align=1
-extern str_DBUGTXT, str_FILES, str_DATES, str_TIMES, str_CLOSED, str_TIMES2, byte_11F9D8, DebugBackColor
-extern byte_11F9DA, DebugMode, dword_11F9D0, DebugLineWidth, dword_11F9DC, fclose_, fopen_, DebugLog
+extern str_DBUGTXT, str_FILES, str_DATES, str_TIMES, str_CLOSED, str_TIMES2, DebugRow, DebugBackColor
+extern DebugAttr, DebugMode, dword_11F9D0, DebugLineWidth, DebugLogOn, fclose_, fopen_, DebugLog
 extern FindWildcardDigits, FormatDateStamp, bcopy, ZeroMem, str_Wt, vsprintf_
 global DebugPrintf, DebugShowLines_D5, DebugShowLines_E6, DebugShowLines_124, DebugShowLines_140, DebugShowLines_149, DebugSetLine, DebugShowLines
 global DebugScrollUp, DebugClearScreen, DebugSetRow, DebugSetAttr, unk_ACABC
@@ -154,7 +154,7 @@ DebugShowLines_D5:
         sub esi, byte 2
         jmp near DebugShowLines_149.7
 DebugShowLines_E6:
-        movzx ebp, byte [byte_11F9DA]
+        movzx ebp, byte [DebugAttr]
         cmp ebp, byte 1
         jle near DebugShowLines_149.7
         imul eax, dword 0A0h
@@ -182,7 +182,7 @@ DebugShowLines_124:
         mov esi, dword [DebugLineWidth]
         jmp short DebugShowLines_149.7
 DebugShowLines_140:
-        movzx esi, byte [byte_11F9D8]
+        movzx esi, byte [DebugRow]
         jmp short DebugShowLines_149.6
 DebugShowLines_149:
         cmp dword [DebugMode], byte 2
@@ -194,7 +194,7 @@ DebugShowLines_149:
         cmp eax, 0FA0h
         jl short .4
 .5:
-        movzx esi, byte [byte_11F9D8]
+        movzx esi, byte [DebugRow]
         mov dword [dword_11F9D0], ebx
 .6:
         imul esi, dword 0A0h
@@ -231,7 +231,7 @@ DebugScrollUp:
         jl short .1
         xor edx, edx
         mov eax, 19h
-        mov dl, byte [byte_11F9D8]
+        mov dl, byte [DebugRow]
         sub eax, edx
         lea ebx, [byte eax-01h]
         lea eax, [nosplit ebx*4+00h]
@@ -294,7 +294,7 @@ DebugSetRow:
         jl short .1
         cmp eax, byte 18h
         jg short .1
-        mov byte [byte_11F9D8], al
+        mov byte [DebugRow], al
 .1:
         ret
         db 090h
@@ -310,7 +310,7 @@ DebugSetAttr:
         mov eax, dword [byte esp+04h]
         cmp eax, byte 1
         jl short .1
-        mov byte [byte_11F9DA], al
+        mov byte [DebugAttr], al
 .1:
         ret
         db 090h
@@ -326,7 +326,7 @@ DebugSetAttr:
         push esi
         push edi
         sub esp, 0B0h
-        cmp dword [dword_11F9DC], byte 0
+        cmp dword [DebugLogOn], byte 0
         jne near .8
         mov edi, esp
         mov esi, eax
@@ -390,7 +390,7 @@ DebugSetAttr:
         call FindWildcardDigits
         mov eax, esp
         call fopen_
-        mov dword [dword_11F9DC], eax
+        mov dword [DebugLogOn], eax
         test eax, eax
         je short .7
         lea edx, [dword esp+09Ch]
@@ -427,7 +427,7 @@ DebugSetAttr:
         push ecx
         push edx
         sub esp, byte 28h
-        cmp dword [dword_11F9DC], byte 0
+        cmp dword [DebugLogOn], byte 0
         je short .9
         mov edx, esp
         lea eax, [byte esp+014h]
@@ -445,10 +445,10 @@ DebugSetAttr:
         push str_TIMES2
         call DebugLog
         add esp, byte 8
-        mov eax, dword [dword_11F9DC]
+        mov eax, dword [DebugLogOn]
         xor ebx, ebx
         call fclose_
-        mov dword [dword_11F9DC], ebx
+        mov dword [DebugLogOn], ebx
 .9:
         add esp, byte 28h
         pop edx

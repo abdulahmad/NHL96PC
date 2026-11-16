@@ -3,18 +3,18 @@ bits 32
 %include "hockey.inc"
 section s_B75A0 progbits alloc exec nowrite align=1
 extern DebugPrintf, FatalError, __STOSD, _os_handle_0, _os_handle_1, str_UpsideDown, str_OrisetmaterialrgbInvalidMate, str_OrisetmaterialcolorInval
-extern str_OrisetmaterialtextureInvalid, str_OrisetmaterialdrawfnInva, byte_190EC0, byte_191300, NearClipZ, dword_12231C, dword_122350, SinTable
+extern str_OrisetmaterialtextureInvalid, str_OrisetmaterialdrawfnInva, NearClipZ, FloorPlaneOn, MatrixScale, SinTable
 extern NearPlaneZ, ScreenWidth, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, dword_1228FC, ViewCentreX
-extern ViewCentreY, dword_123AC0, TextureTileSize, TexturePageBase, TextureDetail, dword_190E9C, dword_190EA0, dword_190EA4
-extern dword_190EA8, dword_190EAC, dword_190EB0, dword_190EB4, dword_190EB8, dword_190EBC, dword_190EC4, dword_190EC8
-extern dword_190ECC, dword_190ED0, dword_190ED4, dword_1912DC, dword_1912E0, dword_1912E4, dword_1912E8, dword_1912EC
-extern dword_1912F4, dword_1912F8, dword_1912FC, dword_191304, dword_191308, dword_19130C, dword_191310, dword_191314
-extern dword_19131C, dword_191320, dword_191A9C, dword_191AA0, dword_191AA4, strnicmp_, AllocMemBlockLockedAt, ResizeMemBlock
+extern ViewCentreY, SortBuffer, TextureTileSize, TexturePageBase, TextureDetail, TexPolyLeft
+
+extern TexPolyRight
+
+extern TexEdgeTable, FloorPlaneRows, TexEdgeCount, TexEdgeStep, TexEdgeVerts, strnicmp_, AllocMemBlockLockedAt, ResizeMemBlock
 extern FindCachedFile, unpack, UnpackedSize, NearestColour, MultiplyMatrix, DrawPolyList, FillShadedPoly, ClipAndProjectEdge
 extern DrawTexturedPolyCore, GetPalette, PolyCrossProduct, DrawMappedTriangle, DrawMappedTriangleShadow, DrawShapeTriangleMapped, DrawClippedPoly, DrawMappedPolyClipped
 extern DrawMappedStrip, DrawMappedStripShadow, DrawMappedStripDirect, DrawFlatPolyClipped, DrawFlatPolyMapped, TexSpanFill, VecLength3, NormalizeVec3
 extern FillRectColor, FindShapeQuiet, bcopy, DosOpenFile, DosCloseFile, DosReadFile, DosSeekFile, FillPolygon
-extern RemapPolygon, TransposeMatrix, unk_122320, unk_190EDC
+extern RemapPolygon, TransposeMatrix, IdentityMatrix, TexPolyRowTable
 global TexPolyFill_2C8, ReadFileRange, LoadPackedAlloc, LoadPackedAllocQuiet, LoadPackedHandle, LoadPackedHandleQuiet, LoadPackedCore, FileSizeByName
 global SetRinkView, TransformRinkPoints, TransformRinkObject, ProjectRinkObject, FillTexturePoly, FillTexturePolyClipped, OriTriOpaque, OriTriShadow
 global OriTriMapped, OriQuadOpaque, OriQuadMapped, OriQuadShadow, OriPolyShaded, OriPolyClipped, OriPolyMapped, OriStripOpaque
@@ -1525,14 +1525,14 @@ FillFloorPlane:
         push ebp
         sub esp, byte 28h
         mov ebp, dword [byte esp+03Ch]
-        cmp dword [dword_12231C], byte 0
+        cmp dword [FloorPlaneOn], byte 0
         je short .1
         mov ecx, 1E0h
         mov edx, 3E8h
-        mov eax, dword_19131C
+        mov eax, TexEdgeTable
         xor ebx, ebx
         call __STOSD
-        mov dword [dword_12231C], ebx
+        mov dword [FloorPlaneOn], ebx
 .1:
         mov esi, 1
         mov eax, dword [byte esp+038h]
@@ -1660,7 +1660,7 @@ FillFloorPlane:
         mov eax, 0
         div ebx
         add esi, edi
-        mov dword [dword ecx+dword_191320], eax
+        mov dword [dword ecx+FloorPlaneRows], eax
         cmp ecx, ebp
         jl short .12
         jmp short .10
@@ -1807,7 +1807,7 @@ TexPolyEdgeTable:
         jl short .6
         cmp ebx, dword [DrawClipBottom]
         jge short .6
-        mov eax, dword [nosplit ebx*4+dword_19131C]
+        mov eax, dword [nosplit ebx*4+TexEdgeTable]
         jmp short .7
 .6:
         lea eax, [nosplit edi*4+00h]
@@ -1828,7 +1828,7 @@ TexPolyEdgeTable:
         jl short .8
         cmp ebx, dword [DrawClipBottom]
         jge short .8
-        mov eax, dword [nosplit ebx*4+dword_19131C]
+        mov eax, dword [nosplit ebx*4+TexEdgeTable]
         jmp short .9
 .8:
         lea eax, [nosplit ebp*4+00h]
@@ -1935,21 +1935,21 @@ TexPolyEdgeMirroredClipped:
         push edi
         push ebp
         sub esp, byte 14h
-        mov ecx, dword [dword_190E9C]
-        mov ebx, dword [dword_1912DC]
+        mov ecx, dword [TexPolyLeft]
+        mov ebx, dword [TexPolyRight]
         sub ebx, ecx
         inc ebx
         test ebx, ebx
         jle near .3
-        mov esi, dword [dword_190EB8]
-        mov edx, dword [dword_1912F8]
+        mov esi, dword [TexPolyLeft+1Ch]
+        mov edx, dword [TexPolyRight+1Ch]
         sub edx, esi
         mov eax, edx
         sar edx, 1Fh
         idiv ebx
-        mov ebp, dword [dword_1912FC]
+        mov ebp, dword [TexPolyRight+20h]
         mov dword [esp], ebp
-        mov edi, dword [dword_190EBC]
+        mov edi, dword [TexPolyLeft+20h]
         mov edx, dword [esp]
         sub edx, edi
         mov ebp, eax
@@ -1958,7 +1958,7 @@ TexPolyEdgeMirroredClipped:
         idiv ebx
         mov dword [byte esp+010h], eax
         mov edx, eax
-        mov eax, dword [dword_191A9C]
+        mov eax, dword [TexEdgeCount]
         sar edx, 10h
         imul eax, edx
         mov edx, ebp
@@ -1985,7 +1985,7 @@ TexPolyEdgeMirroredClipped:
         add edi, ecx
         mov ecx, dword [DrawClipLeft]
 .2:
-        mov edx, dword [dword_191AA4]
+        mov edx, dword [TexEdgeVerts]
         mov eax, dword [byte edx+02h]
         sar eax, 10h
         mov dword [byte esp+08h], eax
@@ -2000,7 +2000,7 @@ TexPolyEdgeMirroredClipped:
         add eax, edx
         mov ebx, dword [byte esp+010h]
         mov dword [byte esp+08h], eax
-        mov eax, dword [dword_191A9C]
+        mov eax, dword [TexEdgeCount]
         push ebx
         lea edx, [ebx+eax]
         push edx
@@ -2008,7 +2008,7 @@ TexPolyEdgeMirroredClipped:
         push edx
         push edi
         push ebp
-        mov edx, dword [dword_191AA0]
+        mov edx, dword [TexEdgeStep]
         push esi
         add edx, ecx
         push edx
@@ -2031,54 +2031,54 @@ TexPolyEdgeMirrored:
         push esi
         push edi
         push ebp
-        mov edx, dword [dword_1912DC]
-        sub edx, dword [dword_190E9C]
+        mov edx, dword [TexPolyRight]
+        sub edx, dword [TexPolyLeft]
         lea ebx, [byte edx+01h]
         test ebx, ebx
         jle near .1
-        mov edx, dword [dword_1912F8]
-        mov ecx, dword [dword_190EB8]
+        mov edx, dword [TexPolyRight+1Ch]
+        mov ecx, dword [TexPolyLeft+1Ch]
         sub edx, ecx
         mov eax, edx
         sar edx, 1Fh
         idiv ebx
-        mov esi, dword [dword_190EBC]
-        mov edx, dword [dword_1912FC]
+        mov esi, dword [TexPolyLeft+20h]
+        mov edx, dword [TexPolyRight+20h]
         sub edx, esi
         mov ecx, eax
         mov eax, edx
         sar edx, 1Fh
         idiv ebx
         mov edx, eax
-        mov esi, dword [dword_191A9C]
+        mov esi, dword [TexEdgeCount]
         sar edx, 10h
         imul esi, edx
         mov edx, ecx
         sar edx, 10h
         add edx, esi
-        mov esi, dword [dword_190EBC]
-        mov edi, dword [dword_191A9C]
+        mov esi, dword [TexPolyLeft+20h]
+        mov edi, dword [TexEdgeCount]
         sar esi, 10h
         imul edi, esi
-        mov esi, dword [dword_191AA4]
+        mov esi, dword [TexEdgeVerts]
         add esi, byte 10h
         add esi, edi
-        mov edi, dword [dword_190EB8]
+        mov edi, dword [TexPolyLeft+1Ch]
         sar edi, 10h
         push ebx
         add esi, edi
-        mov edi, dword [dword_191A9C]
+        mov edi, dword [TexEdgeCount]
         push edx
         add edx, edi
         push edx
         push eax
-        mov ebp, dword [dword_190EBC]
+        mov ebp, dword [TexPolyLeft+20h]
         push ebp
         push ecx
-        mov eax, dword [dword_190EB8]
-        mov edx, dword [dword_190E9C]
+        mov eax, dword [TexPolyLeft+1Ch]
+        mov edx, dword [TexPolyLeft]
         push eax
-        mov eax, dword [dword_191AA0]
+        mov eax, dword [TexEdgeStep]
         add eax, edx
         push eax
         push esi
@@ -2098,21 +2098,21 @@ TexPolyEdgeClipped:
         push edi
         push ebp
         sub esp, byte 14h
-        mov ecx, dword [dword_1912DC]
-        mov ebx, dword [dword_190E9C]
+        mov ecx, dword [TexPolyRight]
+        mov ebx, dword [TexPolyLeft]
         sub ebx, ecx
         inc ebx
         test ebx, ebx
         jle near .3
-        mov esi, dword [dword_1912F8]
-        mov edx, dword [dword_190EB8]
+        mov esi, dword [TexPolyRight+1Ch]
+        mov edx, dword [TexPolyLeft+1Ch]
         sub edx, esi
         mov eax, edx
         sar edx, 1Fh
         idiv ebx
-        mov ebp, dword [dword_190EBC]
+        mov ebp, dword [TexPolyLeft+20h]
         mov dword [esp], ebp
-        mov edi, dword [dword_1912FC]
+        mov edi, dword [TexPolyRight+20h]
         mov edx, dword [esp]
         sub edx, edi
         mov ebp, eax
@@ -2121,7 +2121,7 @@ TexPolyEdgeClipped:
         idiv ebx
         mov dword [byte esp+010h], eax
         mov edx, eax
-        mov eax, dword [dword_191A9C]
+        mov eax, dword [TexEdgeCount]
         sar edx, 10h
         imul eax, edx
         mov edx, ebp
@@ -2148,7 +2148,7 @@ TexPolyEdgeClipped:
         add edi, ecx
         mov ecx, dword [DrawClipLeft]
 .2:
-        mov edx, dword [dword_191AA4]
+        mov edx, dword [TexEdgeVerts]
         mov eax, dword [byte edx+02h]
         sar eax, 10h
         mov dword [byte esp+08h], eax
@@ -2163,7 +2163,7 @@ TexPolyEdgeClipped:
         add eax, edx
         mov ebx, dword [byte esp+010h]
         mov dword [byte esp+08h], eax
-        mov eax, dword [dword_191A9C]
+        mov eax, dword [TexEdgeCount]
         push ebx
         lea edx, [ebx+eax]
         push edx
@@ -2171,7 +2171,7 @@ TexPolyEdgeClipped:
         push edx
         push edi
         push ebp
-        mov edx, dword [dword_191AA0]
+        mov edx, dword [TexEdgeStep]
         push esi
         add edx, ecx
         push edx
@@ -2194,54 +2194,54 @@ TexPolyEdge:
         push esi
         push edi
         push ebp
-        mov edx, dword [dword_190E9C]
-        sub edx, dword [dword_1912DC]
+        mov edx, dword [TexPolyLeft]
+        sub edx, dword [TexPolyRight]
         lea ebx, [byte edx+01h]
         test ebx, ebx
         jle near .1
-        mov edx, dword [dword_190EB8]
-        mov ecx, dword [dword_1912F8]
+        mov edx, dword [TexPolyLeft+1Ch]
+        mov ecx, dword [TexPolyRight+1Ch]
         sub edx, ecx
         mov eax, edx
         sar edx, 1Fh
         idiv ebx
-        mov esi, dword [dword_1912FC]
-        mov edx, dword [dword_190EBC]
+        mov esi, dword [TexPolyRight+20h]
+        mov edx, dword [TexPolyLeft+20h]
         sub edx, esi
         mov ecx, eax
         mov eax, edx
         sar edx, 1Fh
         idiv ebx
         mov edx, eax
-        mov esi, dword [dword_191A9C]
+        mov esi, dword [TexEdgeCount]
         sar edx, 10h
         imul esi, edx
         mov edx, ecx
         sar edx, 10h
         add edx, esi
-        mov esi, dword [dword_1912FC]
-        mov edi, dword [dword_191A9C]
+        mov esi, dword [TexPolyRight+20h]
+        mov edi, dword [TexEdgeCount]
         sar esi, 10h
         imul edi, esi
-        mov esi, dword [dword_191AA4]
+        mov esi, dword [TexEdgeVerts]
         add esi, byte 10h
         add esi, edi
-        mov edi, dword [dword_1912F8]
+        mov edi, dword [TexPolyRight+1Ch]
         sar edi, 10h
         push ebx
         add esi, edi
-        mov edi, dword [dword_191A9C]
+        mov edi, dword [TexEdgeCount]
         push edx
         add edx, edi
         push edx
         push eax
-        mov ebp, dword [dword_1912FC]
+        mov ebp, dword [TexPolyRight+20h]
         push ebp
         push ecx
-        mov eax, dword [dword_1912F8]
-        mov edx, dword [dword_1912DC]
+        mov eax, dword [TexPolyRight+1Ch]
+        mov edx, dword [TexPolyRight]
         push eax
-        mov eax, dword [dword_191AA0]
+        mov eax, dword [TexEdgeStep]
         add eax, edx
         push eax
         push esi
@@ -2262,7 +2262,7 @@ TexPolyFill:
         push ebp
         sub esp, byte 8
         mov ebp, dword [byte esp+01Ch]
-        mov eax, dword [dword_190EB0]
+        mov eax, dword [TexPolyLeft+14h]
         mov dword [byte esp+04h], eax
         mov ebx, dword [byte esp+04h]
         mov eax, dword [ScreenWidth]
@@ -2272,10 +2272,10 @@ TexPolyFill:
         add edx, eax
         mov eax, dword [byte esp+020h]
         dec eax
-        mov dword [dword_191AA0], edx
+        mov dword [TexEdgeStep], edx
         mov dword [esp], eax
 .1:
-        cmp dword [dword_190EB4], byte 0
+        cmp dword [TexPolyLeft+18h], byte 0
         jg short .3
         mov esi, dword [byte esp+018h]
         dec esi
@@ -2291,12 +2291,12 @@ TexPolyFill:
         mov esi, eax
         mov ecx, 10h
         shl esi, 6
-        mov edi, dword_190E9C
-        lea esi, [dword esi+unk_190EDC]
+        mov edi, TexPolyLeft
+        lea esi, [dword esi+TexPolyRowTable]
         rep movsd
         jmp short .1
 .3:
-        mov edx, dword [dword_1912F4]
+        mov edx, dword [TexPolyRight+18h]
         test edx, edx
         jg short .5
         mov ecx, dword [byte esp+020h]
@@ -2308,12 +2308,12 @@ TexPolyFill:
         mov esi, ebp
         mov ecx, 10h
         shl esi, 6
-        mov edi, dword_1912DC
-        lea esi, [dword esi+unk_190EDC]
+        mov edi, TexPolyRight
+        lea esi, [dword esi+TexPolyRowTable]
         rep movsd
         jmp short .3
 .5:
-        mov ebx, dword [dword_190EB4]
+        mov ebx, dword [TexPolyLeft+18h]
         cmp edx, ebx
         jge short .6
         mov edi, edx
@@ -2330,130 +2330,130 @@ TexPolyFill:
         call TexPolyEdge
         mov ebx, dword [byte esp+04h]
         mov eax, dword [ScreenWidth]
-        mov edx, dword [dword_191AA0]
-        mov ecx, dword [dword_190E9C]
+        mov edx, dword [TexEdgeStep]
+        mov ecx, dword [TexPolyLeft]
         add esi, byte 4
         inc ebx
         add edx, eax
-        mov eax, dword [dword_190EA0]
-        mov dword [dword_191AA0], edx
+        mov eax, dword [TexPolyLeft+4]
+        mov dword [TexEdgeStep], edx
         mov dword [byte esp+04h], ebx
-        mov edx, dword [dword_190ED4]
-        mov ebx, dword [dword_190EAC]
+        mov edx, dword [TexPolyLeft+38h]
+        mov ebx, dword [TexPolyLeft+10h]
         add ecx, eax
-        mov eax, dword [dword_190EB4]
-        mov dword [dword_190E9C], ecx
+        mov eax, dword [TexPolyLeft+18h]
+        mov dword [TexPolyLeft], ecx
         dec eax
         inc edx
-        mov dword [dword_190EB4], eax
-        mov eax, dword [dword_190EA4]
-        mov ecx, dword [dword_190EA8]
+        mov dword [TexPolyLeft+18h], eax
+        mov eax, dword [TexPolyLeft+8]
+        mov ecx, dword [TexPolyLeft+0Ch]
         add ebx, eax
-        mov dword [dword_190ED4], edx
-        mov dword [dword_190EAC], ebx
+        mov dword [TexPolyLeft+38h], edx
+        mov dword [TexPolyLeft+10h], ebx
         cmp ebx, ecx
         jl short .9
-        mov eax, dword [dword_190E9C]
+        mov eax, dword [TexPolyLeft]
         mov edx, ebx
         inc eax
         sub edx, ecx
-        mov dword [dword_190E9C], eax
-        mov dword [dword_190EAC], edx
+        mov dword [TexPolyLeft], eax
+        mov dword [TexPolyLeft+10h], edx
 .9:
-        test byte [byte_190EC0], 1
+        test byte [TexPolyLeft+24h], 1
         je short .10
-        mov edx, dword [dword_190ECC]
-        imul edx, dword [dword_190ED4]
-        mov ecx, dword [dword_190EA8]
+        mov edx, dword [TexPolyLeft+30h]
+        imul edx, dword [TexPolyLeft+38h]
+        mov ecx, dword [TexPolyLeft+0Ch]
         mov eax, edx
         sar edx, 1Fh
         idiv ecx
-        mov edx, dword [dword_190EC4]
-        mov ebx, dword [dword esi+dword_19131C]
+        mov edx, dword [TexPolyLeft+28h]
+        mov ebx, dword [dword esi+TexEdgeTable]
         add eax, edx
         mov edx, ebx
         imul edx
         add eax, 8000h
         adc edx, byte 0
         shrd eax, edx, 10h
-        mov dword [dword_190EB8], eax
+        mov dword [TexPolyLeft+1Ch], eax
 .10:
-        test byte [byte_190EC0], 2
+        test byte [TexPolyLeft+24h], 2
         je short .11
-        mov edx, dword [dword_190ED0]
-        imul edx, dword [dword_190ED4]
-        mov ecx, dword [dword_190EA8]
+        mov edx, dword [TexPolyLeft+34h]
+        imul edx, dword [TexPolyLeft+38h]
+        mov ecx, dword [TexPolyLeft+0Ch]
         mov eax, edx
         sar edx, 1Fh
         idiv ecx
-        mov edx, dword [dword_190EC8]
-        mov ebx, dword [dword esi+dword_19131C]
+        mov edx, dword [TexPolyLeft+2Ch]
+        mov ebx, dword [dword esi+TexEdgeTable]
         add eax, edx
         mov edx, ebx
         imul edx
         add eax, 8000h
         adc edx, byte 0
         shrd eax, edx, 10h
-        mov dword [dword_190EBC], eax
+        mov dword [TexPolyLeft+20h], eax
 .11:
-        mov eax, dword [dword_1912E0]
-        mov ebx, dword [dword_1912DC]
-        mov ecx, dword [dword_1912F4]
-        mov edx, dword [dword_1912EC]
+        mov eax, dword [TexPolyRight+4]
+        mov ebx, dword [TexPolyRight]
+        mov ecx, dword [TexPolyRight+18h]
+        mov edx, dword [TexPolyRight+10h]
         add ebx, eax
-        mov eax, dword [dword_191314]
+        mov eax, dword [TexPolyRight+38h]
         dec ecx
         inc eax
-        mov dword [dword_1912DC], ebx
-        mov dword [dword_191314], eax
-        mov eax, dword [dword_1912E4]
-        mov dword [dword_1912F4], ecx
+        mov dword [TexPolyRight], ebx
+        mov dword [TexPolyRight+38h], eax
+        mov eax, dword [TexPolyRight+8]
+        mov dword [TexPolyRight+18h], ecx
         add edx, eax
-        mov ebx, dword [dword_1912E8]
-        mov dword [dword_1912EC], edx
+        mov ebx, dword [TexPolyRight+0Ch]
+        mov dword [TexPolyRight+10h], edx
         cmp edx, ebx
         jl short .12
-        mov ecx, dword [dword_1912DC]
+        mov ecx, dword [TexPolyRight]
         sub edx, ebx
         inc ecx
-        mov dword [dword_1912EC], edx
-        mov dword [dword_1912DC], ecx
+        mov dword [TexPolyRight+10h], edx
+        mov dword [TexPolyRight], ecx
 .12:
-        test byte [byte_191300], 1
+        test byte [TexPolyRight+24h], 1
         je short .13
-        mov edx, dword [dword_19130C]
-        imul edx, dword [dword_191314]
-        mov ecx, dword [dword_1912E8]
+        mov edx, dword [TexPolyRight+30h]
+        imul edx, dword [TexPolyRight+38h]
+        mov ecx, dword [TexPolyRight+0Ch]
         mov eax, edx
         sar edx, 1Fh
         idiv ecx
-        mov edx, dword [dword_191304]
-        mov ebx, dword [dword esi+dword_19131C]
+        mov edx, dword [TexPolyRight+28h]
+        mov ebx, dword [dword esi+TexEdgeTable]
         add eax, edx
         mov edx, ebx
         imul edx
         add eax, 8000h
         adc edx, byte 0
         shrd eax, edx, 10h
-        mov dword [dword_1912F8], eax
+        mov dword [TexPolyRight+1Ch], eax
 .13:
-        test byte [byte_191300], 2
+        test byte [TexPolyRight+24h], 2
         je near .8
-        mov edx, dword [dword_191310]
-        imul edx, dword [dword_191314]
-        mov ecx, dword [dword_1912E8]
+        mov edx, dword [TexPolyRight+34h]
+        imul edx, dword [TexPolyRight+38h]
+        mov ecx, dword [TexPolyRight+0Ch]
         mov eax, edx
         sar edx, 1Fh
         idiv ecx
-        mov edx, dword [dword_191308]
-        mov ebx, dword [dword esi+dword_19131C]
+        mov edx, dword [TexPolyRight+2Ch]
+        mov ebx, dword [dword esi+TexEdgeTable]
         add eax, edx
         mov edx, ebx
         imul edx
         add eax, 8000h
         adc edx, byte 0
         shrd eax, edx, 10h
-        mov dword [dword_1912FC], eax
+        mov dword [TexPolyRight+20h], eax
         jmp near .8
 TexPolyFill_2C8:
         add esp, byte 8
@@ -2472,7 +2472,7 @@ TexPolyFillClipped:
         push ebp
         sub esp, byte 8
         mov ebp, dword [byte esp+01Ch]
-        mov eax, dword [dword_190EB0]
+        mov eax, dword [TexPolyLeft+14h]
         mov dword [byte esp+04h], eax
         mov ebx, dword [byte esp+04h]
         mov eax, dword [ScreenWidth]
@@ -2482,10 +2482,10 @@ TexPolyFillClipped:
         add edx, eax
         mov eax, dword [byte esp+020h]
         dec eax
-        mov dword [dword_191AA0], edx
+        mov dword [TexEdgeStep], edx
         mov dword [esp], eax
 .1:
-        cmp dword [dword_190EB4], byte 0
+        cmp dword [TexPolyLeft+18h], byte 0
         jg short .3
         mov esi, dword [byte esp+018h]
         dec esi
@@ -2501,12 +2501,12 @@ TexPolyFillClipped:
         mov esi, eax
         mov ecx, 10h
         shl esi, 6
-        mov edi, dword_190E9C
-        lea esi, [dword esi+unk_190EDC]
+        mov edi, TexPolyLeft
+        lea esi, [dword esi+TexPolyRowTable]
         rep movsd
         jmp short .1
 .3:
-        mov edx, dword [dword_1912F4]
+        mov edx, dword [TexPolyRight+18h]
         test edx, edx
         jg short .5
         mov ecx, dword [byte esp+020h]
@@ -2518,12 +2518,12 @@ TexPolyFillClipped:
         mov esi, ebp
         mov ecx, 10h
         shl esi, 6
-        mov edi, dword_1912DC
-        lea esi, [dword esi+unk_190EDC]
+        mov edi, TexPolyRight
+        lea esi, [dword esi+TexPolyRowTable]
         rep movsd
         jmp short .3
 .5:
-        mov ebx, dword [dword_190EB4]
+        mov ebx, dword [TexPolyLeft+18h]
         cmp edx, ebx
         jge short .6
         mov edi, edx
@@ -2550,126 +2550,126 @@ TexPolyFillClipped:
         cmp ebx, ecx
         jge near TexPolyFill_2C8
         mov eax, dword [ScreenWidth]
-        mov edx, dword [dword_191AA0]
-        mov ecx, dword [dword_190EB4]
-        mov ebx, dword [dword_190E9C]
+        mov edx, dword [TexEdgeStep]
+        mov ecx, dword [TexPolyLeft+18h]
+        mov ebx, dword [TexPolyLeft]
         dec ecx
         add edx, eax
-        mov eax, dword [dword_190EA0]
-        mov dword [dword_191AA0], edx
+        mov eax, dword [TexPolyLeft+4]
+        mov dword [TexEdgeStep], edx
         add ebx, eax
-        mov eax, dword [dword_190ED4]
-        mov dword [dword_190EB4], ecx
+        mov eax, dword [TexPolyLeft+38h]
+        mov dword [TexPolyLeft+18h], ecx
         inc eax
-        mov edx, dword [dword_190EAC]
-        mov dword [dword_190ED4], eax
-        mov eax, dword [dword_190EA4]
-        mov dword [dword_190E9C], ebx
+        mov edx, dword [TexPolyLeft+10h]
+        mov dword [TexPolyLeft+38h], eax
+        mov eax, dword [TexPolyLeft+8]
+        mov dword [TexPolyLeft], ebx
         add edx, eax
-        mov ebx, dword [dword_190EA8]
-        mov dword [dword_190EAC], edx
+        mov ebx, dword [TexPolyLeft+0Ch]
+        mov dword [TexPolyLeft+10h], edx
         cmp edx, ebx
         jl short .10
-        mov ecx, dword [dword_190E9C]
+        mov ecx, dword [TexPolyLeft]
         sub edx, ebx
         inc ecx
-        mov dword [dword_190EAC], edx
-        mov dword [dword_190E9C], ecx
+        mov dword [TexPolyLeft+10h], edx
+        mov dword [TexPolyLeft], ecx
 .10:
-        test byte [byte_190EC0], 1
+        test byte [TexPolyLeft+24h], 1
         je short .11
-        mov edx, dword [dword_190ECC]
-        imul edx, dword [dword_190ED4]
-        mov ecx, dword [dword_190EA8]
+        mov edx, dword [TexPolyLeft+30h]
+        imul edx, dword [TexPolyLeft+38h]
+        mov ecx, dword [TexPolyLeft+0Ch]
         mov eax, edx
         sar edx, 1Fh
         idiv ecx
-        mov edx, dword [dword_190EC4]
-        mov ebx, dword [dword esi+dword_19131C]
+        mov edx, dword [TexPolyLeft+28h]
+        mov ebx, dword [dword esi+TexEdgeTable]
         add eax, edx
         mov edx, ebx
         imul edx
         add eax, 8000h
         adc edx, byte 0
         shrd eax, edx, 10h
-        mov dword [dword_190EB8], eax
+        mov dword [TexPolyLeft+1Ch], eax
 .11:
-        test byte [byte_190EC0], 2
+        test byte [TexPolyLeft+24h], 2
         je short .12
-        mov edx, dword [dword_190ED0]
-        imul edx, dword [dword_190ED4]
-        mov ecx, dword [dword_190EA8]
+        mov edx, dword [TexPolyLeft+34h]
+        imul edx, dword [TexPolyLeft+38h]
+        mov ecx, dword [TexPolyLeft+0Ch]
         mov eax, edx
         sar edx, 1Fh
         idiv ecx
-        mov edx, dword [dword_190EC8]
-        mov ebx, dword [dword esi+dword_19131C]
+        mov edx, dword [TexPolyLeft+2Ch]
+        mov ebx, dword [dword esi+TexEdgeTable]
         add eax, edx
         mov edx, ebx
         imul edx
         add eax, 8000h
         adc edx, byte 0
         shrd eax, edx, 10h
-        mov dword [dword_190EBC], eax
+        mov dword [TexPolyLeft+20h], eax
 .12:
-        mov eax, dword [dword_1912E0]
-        mov ebx, dword [dword_1912DC]
-        mov ecx, dword [dword_1912F4]
-        mov edx, dword [dword_1912EC]
+        mov eax, dword [TexPolyRight+4]
+        mov ebx, dword [TexPolyRight]
+        mov ecx, dword [TexPolyRight+18h]
+        mov edx, dword [TexPolyRight+10h]
         add ebx, eax
-        mov eax, dword [dword_191314]
+        mov eax, dword [TexPolyRight+38h]
         dec ecx
         inc eax
-        mov dword [dword_1912DC], ebx
-        mov dword [dword_191314], eax
-        mov eax, dword [dword_1912E4]
-        mov dword [dword_1912F4], ecx
+        mov dword [TexPolyRight], ebx
+        mov dword [TexPolyRight+38h], eax
+        mov eax, dword [TexPolyRight+8]
+        mov dword [TexPolyRight+18h], ecx
         add edx, eax
-        mov ebx, dword [dword_1912E8]
-        mov dword [dword_1912EC], edx
+        mov ebx, dword [TexPolyRight+0Ch]
+        mov dword [TexPolyRight+10h], edx
         cmp edx, ebx
         jl short .13
-        mov ecx, dword [dword_1912DC]
+        mov ecx, dword [TexPolyRight]
         sub edx, ebx
         inc ecx
-        mov dword [dword_1912EC], edx
-        mov dword [dword_1912DC], ecx
+        mov dword [TexPolyRight+10h], edx
+        mov dword [TexPolyRight], ecx
 .13:
-        test byte [byte_191300], 1
+        test byte [TexPolyRight+24h], 1
         je short .14
-        mov edx, dword [dword_19130C]
-        imul edx, dword [dword_191314]
-        mov ecx, dword [dword_1912E8]
+        mov edx, dword [TexPolyRight+30h]
+        imul edx, dword [TexPolyRight+38h]
+        mov ecx, dword [TexPolyRight+0Ch]
         mov eax, edx
         sar edx, 1Fh
         idiv ecx
-        mov edx, dword [dword_191304]
-        mov ebx, dword [dword esi+dword_19131C]
+        mov edx, dword [TexPolyRight+28h]
+        mov ebx, dword [dword esi+TexEdgeTable]
         add eax, edx
         mov edx, ebx
         imul edx
         add eax, 8000h
         adc edx, byte 0
         shrd eax, edx, 10h
-        mov dword [dword_1912F8], eax
+        mov dword [TexPolyRight+1Ch], eax
 .14:
-        test byte [byte_191300], 2
+        test byte [TexPolyRight+24h], 2
         je near .8
-        mov edx, dword [dword_191310]
-        imul edx, dword [dword_191314]
-        mov ecx, dword [dword_1912E8]
+        mov edx, dword [TexPolyRight+34h]
+        imul edx, dword [TexPolyRight+38h]
+        mov ecx, dword [TexPolyRight+0Ch]
         mov eax, edx
         sar edx, 1Fh
         idiv ecx
-        mov edx, dword [dword_191308]
-        mov ebx, dword [dword esi+dword_19131C]
+        mov edx, dword [TexPolyRight+2Ch]
+        mov ebx, dword [dword esi+TexEdgeTable]
         add eax, edx
         mov edx, ebx
         imul edx
         add eax, 8000h
         adc edx, byte 0
         shrd eax, edx, 10h
-        mov dword [dword_1912FC], eax
+        mov dword [TexPolyRight+20h], eax
         jmp near .8
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
@@ -2682,7 +2682,7 @@ TexPolyFillMirrored:
         push ebp
         sub esp, byte 8
         mov ebp, dword [byte esp+01Ch]
-        mov eax, dword [dword_190EB0]
+        mov eax, dword [TexPolyLeft+14h]
         mov dword [byte esp+04h], eax
         mov ebx, dword [byte esp+04h]
         mov eax, dword [ScreenWidth]
@@ -2692,10 +2692,10 @@ TexPolyFillMirrored:
         add edx, eax
         mov eax, dword [byte esp+020h]
         dec eax
-        mov dword [dword_191AA0], edx
+        mov dword [TexEdgeStep], edx
         mov dword [esp], eax
 .1:
-        cmp dword [dword_190EB4], byte 0
+        cmp dword [TexPolyLeft+18h], byte 0
         jg short .3
         mov esi, dword [byte esp+018h]
         dec esi
@@ -2711,12 +2711,12 @@ TexPolyFillMirrored:
         mov esi, eax
         mov ecx, 10h
         shl esi, 6
-        mov edi, dword_190E9C
-        lea esi, [dword esi+unk_190EDC]
+        mov edi, TexPolyLeft
+        lea esi, [dword esi+TexPolyRowTable]
         rep movsd
         jmp short .1
 .3:
-        mov edx, dword [dword_1912F4]
+        mov edx, dword [TexPolyRight+18h]
         test edx, edx
         jg short .5
         mov ecx, dword [byte esp+020h]
@@ -2728,12 +2728,12 @@ TexPolyFillMirrored:
         mov esi, ebp
         mov ecx, 10h
         shl esi, 6
-        mov edi, dword_1912DC
-        lea esi, [dword esi+unk_190EDC]
+        mov edi, TexPolyRight
+        lea esi, [dword esi+TexPolyRowTable]
         rep movsd
         jmp short .3
 .5:
-        mov ebx, dword [dword_190EB4]
+        mov ebx, dword [TexPolyLeft+18h]
         cmp edx, ebx
         jge short .6
         mov edi, edx
@@ -2750,130 +2750,130 @@ TexPolyFillMirrored:
         call TexPolyEdgeMirrored
         mov ebx, dword [byte esp+04h]
         mov eax, dword [ScreenWidth]
-        mov edx, dword [dword_191AA0]
-        mov ecx, dword [dword_190E9C]
+        mov edx, dword [TexEdgeStep]
+        mov ecx, dword [TexPolyLeft]
         add esi, byte 4
         inc ebx
         add edx, eax
-        mov eax, dword [dword_190EA0]
-        mov dword [dword_191AA0], edx
+        mov eax, dword [TexPolyLeft+4]
+        mov dword [TexEdgeStep], edx
         mov dword [byte esp+04h], ebx
-        mov edx, dword [dword_190ED4]
-        mov ebx, dword [dword_190EAC]
+        mov edx, dword [TexPolyLeft+38h]
+        mov ebx, dword [TexPolyLeft+10h]
         add ecx, eax
-        mov eax, dword [dword_190EB4]
-        mov dword [dword_190E9C], ecx
+        mov eax, dword [TexPolyLeft+18h]
+        mov dword [TexPolyLeft], ecx
         dec eax
         inc edx
-        mov dword [dword_190EB4], eax
-        mov eax, dword [dword_190EA4]
-        mov ecx, dword [dword_190EA8]
+        mov dword [TexPolyLeft+18h], eax
+        mov eax, dword [TexPolyLeft+8]
+        mov ecx, dword [TexPolyLeft+0Ch]
         add ebx, eax
-        mov dword [dword_190ED4], edx
-        mov dword [dword_190EAC], ebx
+        mov dword [TexPolyLeft+38h], edx
+        mov dword [TexPolyLeft+10h], ebx
         cmp ebx, ecx
         jl short .9
-        mov eax, dword [dword_190E9C]
+        mov eax, dword [TexPolyLeft]
         mov edx, ebx
         inc eax
         sub edx, ecx
-        mov dword [dword_190E9C], eax
-        mov dword [dword_190EAC], edx
+        mov dword [TexPolyLeft], eax
+        mov dword [TexPolyLeft+10h], edx
 .9:
-        test byte [byte_190EC0], 1
+        test byte [TexPolyLeft+24h], 1
         je short .10
-        mov edx, dword [dword_190ECC]
-        imul edx, dword [dword_190ED4]
-        mov ecx, dword [dword_190EA8]
+        mov edx, dword [TexPolyLeft+30h]
+        imul edx, dword [TexPolyLeft+38h]
+        mov ecx, dword [TexPolyLeft+0Ch]
         mov eax, edx
         sar edx, 1Fh
         idiv ecx
-        mov edx, dword [dword_190EC4]
-        mov ebx, dword [dword esi+dword_19131C]
+        mov edx, dword [TexPolyLeft+28h]
+        mov ebx, dword [dword esi+TexEdgeTable]
         add eax, edx
         mov edx, ebx
         imul edx
         add eax, 8000h
         adc edx, byte 0
         shrd eax, edx, 10h
-        mov dword [dword_190EB8], eax
+        mov dword [TexPolyLeft+1Ch], eax
 .10:
-        test byte [byte_190EC0], 2
+        test byte [TexPolyLeft+24h], 2
         je short .11
-        mov edx, dword [dword_190ED0]
-        imul edx, dword [dword_190ED4]
-        mov ecx, dword [dword_190EA8]
+        mov edx, dword [TexPolyLeft+34h]
+        imul edx, dword [TexPolyLeft+38h]
+        mov ecx, dword [TexPolyLeft+0Ch]
         mov eax, edx
         sar edx, 1Fh
         idiv ecx
-        mov edx, dword [dword_190EC8]
-        mov ebx, dword [dword esi+dword_19131C]
+        mov edx, dword [TexPolyLeft+2Ch]
+        mov ebx, dword [dword esi+TexEdgeTable]
         add eax, edx
         mov edx, ebx
         imul edx
         add eax, 8000h
         adc edx, byte 0
         shrd eax, edx, 10h
-        mov dword [dword_190EBC], eax
+        mov dword [TexPolyLeft+20h], eax
 .11:
-        mov eax, dword [dword_1912E0]
-        mov ebx, dword [dword_1912DC]
-        mov ecx, dword [dword_1912F4]
-        mov edx, dword [dword_1912EC]
+        mov eax, dword [TexPolyRight+4]
+        mov ebx, dword [TexPolyRight]
+        mov ecx, dword [TexPolyRight+18h]
+        mov edx, dword [TexPolyRight+10h]
         add ebx, eax
-        mov eax, dword [dword_191314]
+        mov eax, dword [TexPolyRight+38h]
         dec ecx
         inc eax
-        mov dword [dword_1912DC], ebx
-        mov dword [dword_191314], eax
-        mov eax, dword [dword_1912E4]
-        mov dword [dword_1912F4], ecx
+        mov dword [TexPolyRight], ebx
+        mov dword [TexPolyRight+38h], eax
+        mov eax, dword [TexPolyRight+8]
+        mov dword [TexPolyRight+18h], ecx
         add edx, eax
-        mov ebx, dword [dword_1912E8]
-        mov dword [dword_1912EC], edx
+        mov ebx, dword [TexPolyRight+0Ch]
+        mov dword [TexPolyRight+10h], edx
         cmp edx, ebx
         jl short .12
-        mov ecx, dword [dword_1912DC]
+        mov ecx, dword [TexPolyRight]
         sub edx, ebx
         inc ecx
-        mov dword [dword_1912EC], edx
-        mov dword [dword_1912DC], ecx
+        mov dword [TexPolyRight+10h], edx
+        mov dword [TexPolyRight], ecx
 .12:
-        test byte [byte_191300], 1
+        test byte [TexPolyRight+24h], 1
         je short .13
-        mov edx, dword [dword_19130C]
-        imul edx, dword [dword_191314]
-        mov ecx, dword [dword_1912E8]
+        mov edx, dword [TexPolyRight+30h]
+        imul edx, dword [TexPolyRight+38h]
+        mov ecx, dword [TexPolyRight+0Ch]
         mov eax, edx
         sar edx, 1Fh
         idiv ecx
-        mov edx, dword [dword_191304]
-        mov ebx, dword [dword esi+dword_19131C]
+        mov edx, dword [TexPolyRight+28h]
+        mov ebx, dword [dword esi+TexEdgeTable]
         add eax, edx
         mov edx, ebx
         imul edx
         add eax, 8000h
         adc edx, byte 0
         shrd eax, edx, 10h
-        mov dword [dword_1912F8], eax
+        mov dword [TexPolyRight+1Ch], eax
 .13:
-        test byte [byte_191300], 2
+        test byte [TexPolyRight+24h], 2
         je near .8
-        mov edx, dword [dword_191310]
-        imul edx, dword [dword_191314]
-        mov ecx, dword [dword_1912E8]
+        mov edx, dword [TexPolyRight+34h]
+        imul edx, dword [TexPolyRight+38h]
+        mov ecx, dword [TexPolyRight+0Ch]
         mov eax, edx
         sar edx, 1Fh
         idiv ecx
-        mov edx, dword [dword_191308]
-        mov ebx, dword [dword esi+dword_19131C]
+        mov edx, dword [TexPolyRight+2Ch]
+        mov ebx, dword [dword esi+TexEdgeTable]
         add eax, edx
         mov edx, ebx
         imul edx
         add eax, 8000h
         adc edx, byte 0
         shrd eax, edx, 10h
-        mov dword [dword_1912FC], eax
+        mov dword [TexPolyRight+20h], eax
         jmp near .8
 ;-----------------------------------------------------------------------------
 ; TexPolyFillMirroredClipped                      B9328  96 PC, low confidence
@@ -2885,7 +2885,7 @@ TexPolyFillMirroredClipped:
         push ebp
         sub esp, byte 8
         mov ebp, dword [byte esp+01Ch]
-        mov eax, dword [dword_190EB0]
+        mov eax, dword [TexPolyLeft+14h]
         mov dword [byte esp+04h], eax
         mov ebx, dword [byte esp+04h]
         mov eax, dword [ScreenWidth]
@@ -2895,10 +2895,10 @@ TexPolyFillMirroredClipped:
         add edx, eax
         mov eax, dword [byte esp+020h]
         dec eax
-        mov dword [dword_191AA0], edx
+        mov dword [TexEdgeStep], edx
         mov dword [esp], eax
 .1:
-        cmp dword [dword_190EB4], byte 0
+        cmp dword [TexPolyLeft+18h], byte 0
         jg short .3
         mov esi, dword [byte esp+018h]
         dec esi
@@ -2914,12 +2914,12 @@ TexPolyFillMirroredClipped:
         mov esi, eax
         mov ecx, 10h
         shl esi, 6
-        mov edi, dword_190E9C
-        lea esi, [dword esi+unk_190EDC]
+        mov edi, TexPolyLeft
+        lea esi, [dword esi+TexPolyRowTable]
         rep movsd
         jmp short .1
 .3:
-        mov edx, dword [dword_1912F4]
+        mov edx, dword [TexPolyRight+18h]
         test edx, edx
         jg short .5
         mov ecx, dword [byte esp+020h]
@@ -2931,12 +2931,12 @@ TexPolyFillMirroredClipped:
         mov esi, ebp
         mov ecx, 10h
         shl esi, 6
-        mov edi, dword_1912DC
-        lea esi, [dword esi+unk_190EDC]
+        mov edi, TexPolyRight
+        lea esi, [dword esi+TexPolyRowTable]
         rep movsd
         jmp short .3
 .5:
-        mov ebx, dword [dword_190EB4]
+        mov ebx, dword [TexPolyLeft+18h]
         cmp edx, ebx
         jge short .6
         mov edi, edx
@@ -2963,126 +2963,126 @@ TexPolyFillMirroredClipped:
         cmp ebx, ecx
         jge near TexPolyFill_2C8
         mov eax, dword [ScreenWidth]
-        mov edx, dword [dword_191AA0]
-        mov ecx, dword [dword_190EB4]
-        mov ebx, dword [dword_190E9C]
+        mov edx, dword [TexEdgeStep]
+        mov ecx, dword [TexPolyLeft+18h]
+        mov ebx, dword [TexPolyLeft]
         dec ecx
         add edx, eax
-        mov eax, dword [dword_190EA0]
-        mov dword [dword_191AA0], edx
+        mov eax, dword [TexPolyLeft+4]
+        mov dword [TexEdgeStep], edx
         add ebx, eax
-        mov eax, dword [dword_190ED4]
-        mov dword [dword_190EB4], ecx
+        mov eax, dword [TexPolyLeft+38h]
+        mov dword [TexPolyLeft+18h], ecx
         inc eax
-        mov edx, dword [dword_190EAC]
-        mov dword [dword_190ED4], eax
-        mov eax, dword [dword_190EA4]
-        mov dword [dword_190E9C], ebx
+        mov edx, dword [TexPolyLeft+10h]
+        mov dword [TexPolyLeft+38h], eax
+        mov eax, dword [TexPolyLeft+8]
+        mov dword [TexPolyLeft], ebx
         add edx, eax
-        mov ebx, dword [dword_190EA8]
-        mov dword [dword_190EAC], edx
+        mov ebx, dword [TexPolyLeft+0Ch]
+        mov dword [TexPolyLeft+10h], edx
         cmp edx, ebx
         jl short .10
-        mov ecx, dword [dword_190E9C]
+        mov ecx, dword [TexPolyLeft]
         sub edx, ebx
         inc ecx
-        mov dword [dword_190EAC], edx
-        mov dword [dword_190E9C], ecx
+        mov dword [TexPolyLeft+10h], edx
+        mov dword [TexPolyLeft], ecx
 .10:
-        test byte [byte_190EC0], 1
+        test byte [TexPolyLeft+24h], 1
         je short .11
-        mov edx, dword [dword_190ECC]
-        imul edx, dword [dword_190ED4]
-        mov ecx, dword [dword_190EA8]
+        mov edx, dword [TexPolyLeft+30h]
+        imul edx, dword [TexPolyLeft+38h]
+        mov ecx, dword [TexPolyLeft+0Ch]
         mov eax, edx
         sar edx, 1Fh
         idiv ecx
-        mov edx, dword [dword_190EC4]
-        mov ebx, dword [dword esi+dword_19131C]
+        mov edx, dword [TexPolyLeft+28h]
+        mov ebx, dword [dword esi+TexEdgeTable]
         add eax, edx
         mov edx, ebx
         imul edx
         add eax, 8000h
         adc edx, byte 0
         shrd eax, edx, 10h
-        mov dword [dword_190EB8], eax
+        mov dword [TexPolyLeft+1Ch], eax
 .11:
-        test byte [byte_190EC0], 2
+        test byte [TexPolyLeft+24h], 2
         je short .12
-        mov edx, dword [dword_190ED0]
-        imul edx, dword [dword_190ED4]
-        mov ecx, dword [dword_190EA8]
+        mov edx, dword [TexPolyLeft+34h]
+        imul edx, dword [TexPolyLeft+38h]
+        mov ecx, dword [TexPolyLeft+0Ch]
         mov eax, edx
         sar edx, 1Fh
         idiv ecx
-        mov edx, dword [dword_190EC8]
-        mov ebx, dword [dword esi+dword_19131C]
+        mov edx, dword [TexPolyLeft+2Ch]
+        mov ebx, dword [dword esi+TexEdgeTable]
         add eax, edx
         mov edx, ebx
         imul edx
         add eax, 8000h
         adc edx, byte 0
         shrd eax, edx, 10h
-        mov dword [dword_190EBC], eax
+        mov dword [TexPolyLeft+20h], eax
 .12:
-        mov eax, dword [dword_1912E0]
-        mov ebx, dword [dword_1912DC]
-        mov ecx, dword [dword_1912F4]
-        mov edx, dword [dword_1912EC]
+        mov eax, dword [TexPolyRight+4]
+        mov ebx, dword [TexPolyRight]
+        mov ecx, dword [TexPolyRight+18h]
+        mov edx, dword [TexPolyRight+10h]
         add ebx, eax
-        mov eax, dword [dword_191314]
+        mov eax, dword [TexPolyRight+38h]
         dec ecx
         inc eax
-        mov dword [dword_1912DC], ebx
-        mov dword [dword_191314], eax
-        mov eax, dword [dword_1912E4]
-        mov dword [dword_1912F4], ecx
+        mov dword [TexPolyRight], ebx
+        mov dword [TexPolyRight+38h], eax
+        mov eax, dword [TexPolyRight+8]
+        mov dword [TexPolyRight+18h], ecx
         add edx, eax
-        mov ebx, dword [dword_1912E8]
-        mov dword [dword_1912EC], edx
+        mov ebx, dword [TexPolyRight+0Ch]
+        mov dword [TexPolyRight+10h], edx
         cmp edx, ebx
         jl short .13
-        mov ecx, dword [dword_1912DC]
+        mov ecx, dword [TexPolyRight]
         sub edx, ebx
         inc ecx
-        mov dword [dword_1912EC], edx
-        mov dword [dword_1912DC], ecx
+        mov dword [TexPolyRight+10h], edx
+        mov dword [TexPolyRight], ecx
 .13:
-        test byte [byte_191300], 1
+        test byte [TexPolyRight+24h], 1
         je short .14
-        mov edx, dword [dword_19130C]
-        imul edx, dword [dword_191314]
-        mov ecx, dword [dword_1912E8]
+        mov edx, dword [TexPolyRight+30h]
+        imul edx, dword [TexPolyRight+38h]
+        mov ecx, dword [TexPolyRight+0Ch]
         mov eax, edx
         sar edx, 1Fh
         idiv ecx
-        mov edx, dword [dword_191304]
-        mov ebx, dword [dword esi+dword_19131C]
+        mov edx, dword [TexPolyRight+28h]
+        mov ebx, dword [dword esi+TexEdgeTable]
         add eax, edx
         mov edx, ebx
         imul edx
         add eax, 8000h
         adc edx, byte 0
         shrd eax, edx, 10h
-        mov dword [dword_1912F8], eax
+        mov dword [TexPolyRight+1Ch], eax
 .14:
-        test byte [byte_191300], 2
+        test byte [TexPolyRight+24h], 2
         je near .8
-        mov edx, dword [dword_191310]
-        imul edx, dword [dword_191314]
-        mov ecx, dword [dword_1912E8]
+        mov edx, dword [TexPolyRight+34h]
+        imul edx, dword [TexPolyRight+38h]
+        mov ecx, dword [TexPolyRight+0Ch]
         mov eax, edx
         sar edx, 1Fh
         idiv ecx
-        mov edx, dword [dword_191308]
-        mov ebx, dword [dword esi+dword_19131C]
+        mov edx, dword [TexPolyRight+2Ch]
+        mov ebx, dword [dword esi+TexEdgeTable]
         add eax, edx
         mov edx, ebx
         imul edx
         add eax, 8000h
         adc edx, byte 0
         shrd eax, edx, 10h
-        mov dword [dword_1912FC], eax
+        mov dword [TexPolyRight+20h], eax
         jmp near .8
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
@@ -3239,7 +3239,7 @@ DrawTexturedPoly:
         xor esi, esi
         test ebp, ebp
         jle short .15
-        mov edi, unk_190EDC
+        mov edi, TexPolyRowTable
 .14:
         push eax
         push esi
@@ -3267,21 +3267,21 @@ DrawTexturedPoly:
         mov esi, edx
         mov ecx, 10h
         shl esi, 6
-        mov edi, dword_190E9C
-        lea esi, [dword esi+unk_190EDC]
+        mov edi, TexPolyLeft
+        lea esi, [dword esi+TexPolyRowTable]
         rep movsd
         mov esi, eax
         mov ecx, 10h
         shl esi, 6
-        mov edi, dword_1912DC
-        lea esi, [dword esi+unk_190EDC]
+        mov edi, TexPolyRight
+        lea esi, [dword esi+TexPolyRowTable]
         mov ebx, dword [byte esp+01Ch]
         rep movsd
-        mov dword [dword_191AA4], ebx
+        mov dword [TexEdgeVerts], ebx
         mov ebx, dword [byte ebx+02h]
         sar ebx, 10h
         mov ecx, dword [byte esp+030h]
-        mov dword [dword_191A9C], ebx
+        mov dword [TexEdgeCount], ebx
         test ecx, ecx
         jge short .18
         cmp dword [esp], byte 0
@@ -4145,11 +4145,11 @@ OriUpdateMatrices:
         add esp, byte 0Ch
         lea eax, [dword esp+090h]
         push eax
-        push unk_122320
+        push IdentityMatrix
         lea eax, [byte esp+02Ch]
         push eax
         lea edi, [byte esp+078h]
-        mov esi, unk_122320
+        mov esi, IdentityMatrix
         call OriUpdateMatrices
         mov ecx, 9
         add esp, byte 0Ch
@@ -4175,7 +4175,7 @@ OriUpdateMatrices:
         lea ebx, [byte esp+06Ch]
         lea ecx, [byte esp+024h]
         mov edi, dword [dword esp+0B8h]
-        mov esi, dword [dword ebp+dword_122350]
+        mov esi, dword [dword ebp+MatrixScale]
 .5:
         mov edx, esi
         mov eax, dword [ebx]
@@ -4256,7 +4256,7 @@ OriUpdateMatrices:
         test ebx, ebx
         jne short .6
         mov ecx, 9
-        mov esi, unk_122320
+        mov esi, IdentityMatrix
         mov edi, ebp
         rep movsd
         jmp near .7
@@ -4427,7 +4427,7 @@ PerspScale:
         sar eax, 2
         add ecx, byte 2
 .4:
-        mov edx, dword [dword_123AC0]
+        mov edx, dword [SortBuffer]
         mov ebx, dword [byte esp+08h]
         mov eax, dword [edx+eax*4]
         imul eax, ebx
@@ -4470,7 +4470,7 @@ ProjectPoint:
         sar eax, 2
         add edx, byte 2
 .4:
-        mov esi, dword [dword_123AC0]
+        mov esi, dword [SortBuffer]
         mov eax, dword [esi+eax*4]
         mov esi, dword [edi]
         imul esi, eax

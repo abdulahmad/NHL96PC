@@ -3,8 +3,8 @@ bits 32
 %include "hockey.inc"
 section s_ACED8 progbits alloc exec nowrite align=1
 extern FatalError, _dos_getdate_, _dos_gettime_, str_02d3s02d, str_2d02d02d2, str_CreatewindowblockINVALIDWIND, str_WINDOW, str_CreatewindowblockOUTOFMEMORY
-extern str_CreatewindowblockBADBLOC, str_CreatewindowblockOUTOFRO, byte_11FA4F, TintTable, QuantizeByte, QuantizeTable, dword_11F5C8, DebugMode
-extern dword_11F9DC, TintMulGreen, TintMulBlue, TintRowCount, TintPixelGreen, TintPixelBlue, TintMulRed, TintRemapTable
+extern str_CreatewindowblockBADBLOC, str_CreatewindowblockOUTOFRO, TintByte, TintTable, QuantizeByte, QuantizeTable, MenuScreenBitmap, DebugMode
+extern DebugLogOn, TintMulGreen, TintMulBlue, TintRowCount, TintPixelGreen, TintPixelBlue, TintMulRed, TintRemapTable
 extern TintPixelRed, fputs_, sprintf_, AllocMemBlockLocked, MemLargestFreeLocked, DebugShowLines, VfprintfThunk, FillRowTable
 extern ZeroMem, FindFirstFile, vsprintf_
 global DebugLog, FindWildcardDigits, FormatDateStamp, CreateBitmapEx, CreateBitmapDepth, CreateBitmap, TintRowPixels, TintRows
@@ -18,7 +18,7 @@ DebugLog:
         sub esp, byte 4
         cmp dword [DebugMode], byte 2
         jl short .1
-        mov ebx, dword [dword_11F9DC]
+        mov ebx, dword [DebugLogOn]
         test ebx, ebx
         je short .1
         lea eax, [byte esp+0Ch]
@@ -43,7 +43,7 @@ DebugLog:
         mov eax, esp
         call vsprintf_
         xor ebx, ebx
-        mov ecx, dword [dword_11F9DC]
+        mov ecx, dword [DebugLogOn]
         mov dword [dword esp+0100h], ebx
         test ecx, ecx
         je short .2
@@ -169,7 +169,7 @@ FormatDateStamp:
         xor eax, eax
         mov al, byte [byte esp+01h]
         push edx
-        mov edx, dword [nosplit eax*4+dword_11F9DC]
+        mov edx, dword [nosplit eax*4+DebugLogOn]
         xor eax, eax
         push edx
         mov al, byte [byte esp+08h]
@@ -474,7 +474,7 @@ CreateBitmapDepth:
         push edx
         mov ebx, dword [byte esp+018h]
         push ebx
-        mov ecx, dword [dword_11F5C8]
+        mov ecx, dword [MenuScreenBitmap]
         push ecx
         mov esi, dword [byte esp+01Ch]
         push esi
@@ -494,7 +494,7 @@ CreateBitmapDepth:
         push byte 0
         mov edx, dword [byte esp+014h]
         push edx
-        mov ebx, dword [dword_11F5C8]
+        mov ebx, dword [MenuScreenBitmap]
         push ebx
         mov ecx, dword [byte esp+018h]
         push ecx
@@ -518,7 +518,7 @@ CreateBitmap:
         push byte 1
         mov edx, dword [byte esp+014h]
         push edx
-        mov ebx, dword [dword_11F5C8]
+        mov ebx, dword [MenuScreenBitmap]
         push ebx
         mov ecx, dword [byte esp+018h]
         push ecx
@@ -582,7 +582,7 @@ CreateBitmap:
         push byte 1
         mov edx, dword [byte esp+014h]
         push edx
-        mov ebx, dword [dword_11F5C8]
+        mov ebx, dword [MenuScreenBitmap]
         push ebx
         mov ecx, dword [byte esp+018h]
         push ecx
@@ -799,7 +799,7 @@ TintRect:
         inc eax
         mov bl, byte [edx]
         inc edx
-        mov byte [dword eax+byte_11FA4F], bl
+        mov byte [dword eax+TintByte], bl
         cmp eax, 100h
         jl short .1
 .2:

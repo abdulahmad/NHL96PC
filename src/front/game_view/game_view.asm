@@ -12,12 +12,12 @@ extern PalUsedFlags
 
 
 extern OverlayPanelId, OverlayQueueLen, OverlayQueue, CamShotMode, CamViewFlags, CloseTextOverlay
-extern curperiod, dword_1176E5, PreGameSkateOn, ZonesDirty, playsuspended, InReplay, ReplayRemoteShape, ClockPanelState
+extern curperiod, ZamboniLoaded, PreGameSkateOn, ZonesDirty, playsuspended, InReplay, ReplayRemoteShape, ClockPanelState
 extern ScorePanelState, TimeLeftPanelState, TimedPanelState, RinkSpriteMode, GameFrameShapes, ViewDimmed, SpinPuckFrame, GoalNetShapeIds
 extern GoalReplayPending, PanelOpenTime, PanelCloseTime, TimedPanelTimer, PlayerPctPanelTimer, ClockPanelTimer, TimeLeftPanelTimer, ScorePanelTimer
 extern PlayerNamePanelTimer, LineBoxStates, LastEventPlayer, ViewWidth, ViewHeight, ViewLeft, str_D_DrawGameFrame, ViewBitmap
 extern ViewPixels, ViewSizeStep, CamFollowObj, CamViewBits, CameraViewSlots, ShadowToggle, MarkerToggle, NameToggle
-extern LastPaletteMode, InMenuOverlay, dword_11F5C0, dword_11F5C4, dword_1219A4, DrawClipLeft, DrawClipTop, DrawClipRight
+extern LastPaletteMode, InMenuOverlay, ViewScreenWidth, ViewScreenHeight, ColourLookup, DrawClipLeft, DrawClipTop, DrawClipRight
 extern DrawClipBottom, DrawDestBuffer, PanelShadeArt, SpriteArtPtrs, SpriteFrameArt, GlassBreakPanel, GlassBreakShards, PuckShadowInstance
 extern PuckInstance, RinkInstance, HomeNetInstance, AwayNetInstance
 extern PuckObject, DrawFrameCount
@@ -47,7 +47,7 @@ extern SetAaPalLut, DrawArtAaScaledInt, DrawArtAaScaled, ProjectPointList, DrawF
 extern SetScreenScale, OriSetObjectMatrix, OriSetObjectPosition, MakeRotXMatrix, MakeRotYMatrix, MakeRotZMatrix, OriFindGroup, InitReciprocalTable
 extern FixedInverse, IntSqrt, DrawArtScaledRemap, FlipArtHorizontal, SetScreenTarget, SetRemapTable, SetColourRemap, SetBlitSource
 extern SetBlendTables, ScaleRowBlend, JoyButtonMap, FindShape, ClearClipRect, SetNearClipZ, SetViewScreenOrigin, TeamLineEnergy
-extern TextSetFont, str_Empty, OverlayPanelQueue, unk_122320, hmteamrec, awteamrec
+extern TextSetFont, str_Empty, OverlayPanelQueue, IdentityMatrix, hmteamrec, awteamrec
 extern HomeSpriteShades, AwaySpriteShades, RefSpriteShades, PuckModelPoints, DrawList, DrawListCount, ZoneRects
 extern JerseyColorMap, TeamPaletteSave, HomeJerseyPal, AwayJerseyPal, OverlayRemap, str_T_DrawOverlayCaption, unk_5848C, vtoa
 extern HomeControlSlot, clockticks, bannermsg, ControlMarkerFrames, ControlMarkerAltFrames, GoalNetFrames, SavedViewMode, ovlstep
@@ -417,7 +417,7 @@ BuildShadeLut:
         mov eax, dword [byte ebp-024h]
         sar eax, 3
         or eax, edx
-        mov edx, dword [dword_1219A4]
+        mov edx, dword [ColourLookup]
         add eax, edx
         mov al, byte [eax]
         mov byte [ebx], al
@@ -560,15 +560,15 @@ LoadIceLogo:
         jmp near AllocShadeLut_5A
 ;-----------------------------------------------------------------------------
 ; FullViewClip                                                    589E4  96 PC
-; SetClipWindow to the whole screen (0, 0, dword_11F5C0, dword_11F5C4)
+; SetClipWindow to the whole screen (0, 0, ViewScreenWidth, ViewScreenHeight)
 ;-----------------------------------------------------------------------------
 FullViewClip:
         push ebx
         push ecx
         push edx
-        push dword [dword_11F5C4]
+        push dword [ViewScreenHeight]
         push byte 0
-        push dword [dword_11F5C0]
+        push dword [ViewScreenWidth]
         push byte 0
         call SetClipWindow
         add esp, byte 10h
@@ -623,7 +623,7 @@ InitGameView:
         call CreateColourLookup
         mov edx, TeamRosterPtrs+320h
         add esp, byte 4
-        mov dword [dword_1219A4], eax
+        mov dword [ColourLookup], eax
         mov eax, 64h
         call BuildShadeMatch
         mov byte [PalUsedFlags+81h], 1
@@ -729,9 +729,9 @@ InitGameView:
         add esp, byte 0Ch
         mov dword [ReplayRemoteShape], eax
         call SetScreenTarget
-        push dword [dword_11F5C4]
+        push dword [ViewScreenHeight]
         push byte 0
-        push dword [dword_11F5C0]
+        push dword [ViewScreenWidth]
         push byte 0
         call SetClipWindow
         add esp, byte 10h
@@ -773,7 +773,7 @@ InitGameView:
         movsd
         call SetViewScreenOrigin
         add esp, byte 8
-        mov edx, unk_122320
+        mov edx, IdentityMatrix
         mov eax, CamPathState
         call SetViewCamera
         mov eax, TeamRosterPtrs+320h
@@ -856,9 +856,9 @@ InitGameView:
         mov word [SavedViewMode], 0FFFFh
 .7:
         call ResetCameraShake
-        push dword [dword_11F5C4]
+        push dword [ViewScreenHeight]
         mov dword [LastEventPlayer], 0FFFFFFFFh
-        push dword [dword_11F5C0]
+        push dword [ViewScreenWidth]
         mov byte [textline5], 0
         push byte 0
         mov byte [textline4], 0
@@ -1757,7 +1757,7 @@ SpinPuckModel:
         mov ecx, 9
         push PuckModelPoints
         mov edi, PuckModelPoints
-        mov esi, unk_122320
+        mov esi, IdentityMatrix
         push dword [PuckInstance]
         rep movsd
 .3:
@@ -2590,9 +2590,9 @@ DrawRinkView:
         push edx
         call MultiplyMatrix
         add esp, byte 0Ch
-        push dword [dword_11F5C4]
+        push dword [ViewScreenHeight]
         push byte 0
-        push dword [dword_11F5C0]
+        push dword [ViewScreenWidth]
         push byte 0
         call SetClipWindow
         add esp, byte 10h
@@ -2882,7 +2882,7 @@ DrawGameFrame:
         mov eax, edi
         call MoveZamboni
         call DrawRinkBack
-        cmp dword [dword_1176E5], byte 0
+        cmp dword [ZamboniLoaded], byte 0
         je short .16
         call DrawZamboni
         jmp short .19
@@ -3002,9 +3002,9 @@ DrawGameFrame:
         call DrawArtHotspot
         add esp, byte 0Ch
 .31:
-        push dword [dword_11F5C4]
+        push dword [ViewScreenHeight]
         push byte 0
-        push dword [dword_11F5C0]
+        push dword [ViewScreenWidth]
         push byte 0
         call SetClipWindow
         add esp, byte 10h
@@ -3665,9 +3665,9 @@ DrawPenaltyClock:
         push edx
         call FillRect
         add esp, byte 14h
-        push dword [dword_11F5C4]
+        push dword [ViewScreenHeight]
         push byte 0
-        push dword [dword_11F5C0]
+        push dword [ViewScreenWidth]
         push byte 0
         call SetClipWindow
         mov eax, dword [byte ebp-04h]
@@ -6042,9 +6042,9 @@ DrawLineChangeBox:
         push eax
         call FillRect
         add esp, byte 14h
-        push dword [dword_11F5C4]
+        push dword [ViewScreenHeight]
         push byte 0
-        push dword [dword_11F5C0]
+        push dword [ViewScreenWidth]
         push byte 0
         call SetClipWindow
         mov eax, dword [byte ebp-0Ch]

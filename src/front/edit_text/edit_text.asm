@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_197ED progbits alloc exec nowrite align=1
-extern byte_11FA2F, dword_11F5C0, FillRect, TextStringWidth, PutBlock, SetDrawBitmap, str_Disp
+extern TextCharH, ViewScreenWidth, FillRect, TextStringWidth, PutBlock, SetDrawBitmap, str_Disp
 extern str_space4, str_Temp3, str_W, str_X, strcat_, strcpy_, strlen_, CopyBitmap
 extern SetTextColors, DrawColorTextCentred, DrawBox, SoundIdle, DrawShapeCore, AllocMemLocked, FreeMemBlock, CreateBitmap
 extern TintRect, DrawRectOutline, FreeBitmap, TextSetColor, TextPrintAt, SetScreenTarget, GetPaletteRange, KeyIsDown
@@ -74,8 +74,8 @@ EditText:
         add esp, byte 4
         cmp eax, dword [byte ebp+05Eh]
         jle short .6
-        mov eax, dword [dword_11F5C0]
-        mov edx, dword [dword_11F5C0]
+        mov eax, dword [ViewScreenWidth]
+        mov edx, dword [ViewScreenWidth]
         sar eax, 2
         sub edx, eax
         push dword [dword ebp-0326h]
@@ -84,8 +84,8 @@ EditText:
         add esp, byte 4
         cmp eax, dword [byte ebp+02h]
         jle short .5
-        mov eax, dword [dword_11F5C0]
-        mov edx, dword [dword_11F5C0]
+        mov eax, dword [ViewScreenWidth]
+        mov edx, dword [ViewScreenWidth]
         sar eax, 2
         sub edx, eax
         mov dword [byte ebp+05Eh], edx
@@ -167,7 +167,7 @@ EditText:
         inc dword [byte ebp+04Eh]
         mov eax, dword [byte ebp+04Eh]
         mov dword [byte ebp+056h], eax
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         add dword [byte ebp+05Eh], eax
         jmp near .7
 .12:
@@ -179,13 +179,13 @@ EditText:
         inc dword [byte ebp+056h]
         jmp near .7
 .13:
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         add eax, byte 6
         add dword [byte ebp+05Eh], eax
 .14:
         mov eax, dword [byte ebp+05Eh]
         mov dword [byte ebp+052h], eax
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         add eax, byte 6
         add dword [byte ebp+05Eh], eax
         mov eax, dword [byte ebp+05Eh]
@@ -303,7 +303,7 @@ EditText:
         mov byte [eax], 0
         mov eax, dword [dword ebp-0326h]
         call DrawColorTextCentred
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         add dword [byte ebp-0Eh], eax
         mov eax, dword [byte ebp+062h]
         inc dword [byte ebp+062h]
@@ -359,7 +359,7 @@ EditText:
         add esp, byte 8
         movzx eax, byte [byte esi+01h]
         push eax
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         inc eax
         inc eax
         push eax
@@ -383,7 +383,7 @@ EditText:
         movzx eax, byte [esi]
         push eax
         mov eax, dword [byte ebp+052h]
-        movzx edx, byte [byte_11FA2F]
+        movzx edx, byte [TextCharH]
         inc eax
         add eax, edx
         push eax
@@ -443,7 +443,7 @@ EditText:
         add edx, eax
         movzx eax, byte [byte esi+02h]
         push eax
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         push eax
         push dword [byte ebp+026h]
         push dword [byte ebp+052h]
@@ -494,7 +494,7 @@ EditText:
 .30:
         movzx eax, byte [byte esi+01h]
         push eax
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         inc eax
         inc eax
         push eax
@@ -555,7 +555,7 @@ EditText:
 .35:
         movzx eax, byte [byte esi+01h]
         push eax
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         inc eax
         inc eax
         push eax
@@ -635,7 +635,7 @@ EditText:
         mov byte [edi+eax], dl
         movzx eax, byte [byte esi+01h]
         push eax
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         inc eax
         inc eax
         push eax

@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_BC73C progbits alloc exec nowrite align=1
 extern FatalError, __sys_init_387_emulator, str_OrigetpartitionDIsAnInva, NearPlaneZ, ScreenWidth, DrawClipLeft, DrawClipTop, DrawClipRight
-extern DrawClipBottom, dword_1228FC, ViewCentreX, ViewCentreY, dword_123AAC, dword_123AB0, dword_123ABC, dword_19869C
+extern DrawClipBottom, dword_1228FC, ViewCentreX, ViewCentreY, FovScaleX, FovScaleY, ProjectFlags, dword_19869C
 extern dword_1986A0, dword_19A5E0, dword_19A5E4, dword_19A5E8, dword_19A5EC, dword_19A5F0, dword_19A5F4, dword_19A5F8
 extern dword_19A5FC, dword_19A600, dword_19A604, dword_19A608, dword_19A60C, dword_19A610, dword_19A614, dword_19A618
 extern dword_19A61C, dword_19A620, dword_19A624, dword_19A628, dword_19A630, dword_19A634, dword_19A638, dword_19A63C
@@ -2456,12 +2456,12 @@ DrawTexturedPolyCore:
         cmp dword [byte esi+08h], byte 0
         jle short .18
         mov eax, dword [esi]
-        imul dword [dword_123AAC]
+        imul dword [FovScaleX]
         idiv dword [byte esi+08h]
         add eax, dword [ViewCentreX]
         mov dword [edi], eax
         mov eax, dword [byte esi+04h]
-        imul dword [dword_123AB0]
+        imul dword [FovScaleY]
         idiv dword [byte esi+08h]
         add eax, dword [ViewCentreY]
         mov dword [byte edi+04h], eax
@@ -2469,7 +2469,7 @@ DrawTexturedPolyCore:
 .18:
         mov dword [edi], 80000000h
         mov dword [byte edi+04h], 80000000h
-        or dword [dword_123ABC], byte 1
+        or dword [ProjectFlags], byte 1
 .19:
         mov eax, dword [dword_19A64C]
         push eax
@@ -2612,12 +2612,12 @@ SubdivideMappedTriangle:
         cmp dword [byte esi+08h], byte 0
         jle short .2
         mov eax, dword [esi]
-        imul dword [dword_123AAC]
+        imul dword [FovScaleX]
         idiv dword [byte esi+08h]
         add eax, dword [ViewCentreX]
         mov dword [edi], eax
         mov eax, dword [byte esi+04h]
-        imul dword [dword_123AB0]
+        imul dword [FovScaleY]
         idiv dword [byte esi+08h]
         add eax, dword [ViewCentreY]
         mov dword [byte edi+04h], eax
@@ -2625,7 +2625,7 @@ SubdivideMappedTriangle:
 .2:
         mov dword [edi], 80000000h
         mov dword [byte edi+04h], 80000000h
-        or dword [dword_123ABC], byte 1
+        or dword [ProjectFlags], byte 1
 .3:
         jmp near .8
 .4:
@@ -2655,12 +2655,12 @@ SubdivideMappedTriangle:
         cmp dword [byte esi+08h], byte 0
         jle short .5
         mov eax, dword [esi]
-        imul dword [dword_123AAC]
+        imul dword [FovScaleX]
         idiv dword [byte esi+08h]
         add eax, dword [ViewCentreX]
         mov dword [edi], eax
         mov eax, dword [byte esi+04h]
-        imul dword [dword_123AB0]
+        imul dword [FovScaleY]
         idiv dword [byte esi+08h]
         add eax, dword [ViewCentreY]
         mov dword [byte edi+04h], eax
@@ -2668,7 +2668,7 @@ SubdivideMappedTriangle:
 .5:
         mov dword [edi], 80000000h
         mov dword [byte edi+04h], 80000000h
-        or dword [dword_123ABC], byte 1
+        or dword [ProjectFlags], byte 1
 .6:
         mov ecx, dword [byte esp+044h]
         inc ecx

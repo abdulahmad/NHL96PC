@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_62FD8 progbits alloc exec nowrite align=1
-extern __STOSD, byte_11FA2F, CloseMusic, DrawColorText, SlideImageBmp, SlideImageIndex, SlideEventPtr, FadeOut
+extern __STOSD, TextCharH, CloseMusic, DrawColorText, SlideImageBmp, SlideImageIndex, SlideEventPtr, FadeOut
 extern FadeOutMusic, FadePalette, FillMusicStream, FillRect, TextStringWidth, GetPressedDevice, GetTicks, LoadPackedFile
 extern MakeDataPath, SlideEventFuncs, OpenMusicStream, PaEvent, PlayMovie, PlayMusic, PutBlock, QueueMusic
 extern rand_, SetScreenColors, SetScreenMode, SetTextColors, SetTickDeadline, SoundIdle, SoundSecondsToBytes, StopMusic
@@ -615,7 +615,7 @@ RunSlideShow_1A1:
         call FadeOutMusic
         jmp near RunSlideShow_2E0.12
 RunSlideShow_1B2:
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         mov edx, dword [byte esi+04h]
         imul eax, edx
         cdq
@@ -647,7 +647,7 @@ RunSlideShow_1D3:
         mov eax, edi
         call DrawColorText
 RunSlideShow_206:
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         add dword [byte ebp-0Ch], eax
         jmp near RunSlideShow_2E0.12
 RunSlideShow_215:

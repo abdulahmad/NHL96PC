@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_1A04E progbits alloc exec nowrite align=1
-extern byte_11FA2F, ProgressBoxState, DrawArtOpaque, MessageShown, ProgressBoxBmp
-extern ProgressBoxTotal, ProgressBoxStep, dword_11F5C0, dlgtextfg, FillRect, TextStringWidth, mousex, mousey
+extern TextCharH, ProgressBoxState, DrawArtOpaque, MessageShown, ProgressBoxBmp
+extern ProgressBoxTotal, ProgressBoxStep, ViewScreenWidth, dlgtextfg, FillRect, TextStringWidth, mousex, mousey
 extern PutBlock, SetDrawBitmap, sprintf_, str_02, str_BDMEN, str_BDREG, str_BUT, str_D14
 extern str_X, CopyBitmap, DrawTextCentred, SetTextColors, DrawColorTextCentred, DrawBox, InitMenuItems, RunMenu
 extern SetMenuMouse, SoundIdle, DrawShapeCore, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, CreateBitmap, TintRect
@@ -56,7 +56,7 @@ DrawBoxButton:
         mov edi, dword [byte eax+028h]
         mov ebx, dword [byte eax+0Ch]
         add edi, edx
-        movzx edx, byte [byte_11FA2F]
+        movzx edx, byte [TextCharH]
         add ebx, dword [byte eax+014h]
         lea edx, [edx+edx*2]
         mov esi, dword [esi]
@@ -213,8 +213,8 @@ MessageBox:
         add esp, byte 4
         cmp eax, dword [byte ebp-02Ch]
         jle short .13
-        mov eax, dword [dword_11F5C0]
-        mov edx, dword [dword_11F5C0]
+        mov eax, dword [ViewScreenWidth]
+        mov edx, dword [ViewScreenWidth]
         sar eax, 2
         sub edx, eax
         mov eax, edx
@@ -310,7 +310,7 @@ MessageBox:
         sub ebx, edx
         mov dword [byte eax+08h], ebx
         mov edx, dword [byte ebp-014h]
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         add edx, byte 6
         imul edx, eax
         mov eax, dword [dlgtextfg]
@@ -383,7 +383,7 @@ MessageBox:
         movzx eax, byte [esi]
         mov edi, dword [dword ebp-0340h]
         call SetTextColors
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         inc edi
         mov dword [byte ebp-014h], eax
 .26:
@@ -451,7 +451,7 @@ MessageBox:
         mov eax, dword [dword ebp-0340h]
         sar edx, 1
         call DrawColorTextCentred
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         mov byte [edi], cl
         inc edi
         add dword [byte ebp-014h], eax
@@ -537,7 +537,7 @@ MessageBox:
         mov eax, dword [byte eax+020h]
         mov dword [edi+eax], edx
         mov eax, dword [dlgtextfg]
-        movzx ebx, byte [byte_11FA2F]
+        movzx ebx, byte [TextCharH]
         mov edx, dword [byte eax+0Ch]
         shl ebx, 2
         add edx, dword [byte eax+014h]
@@ -559,7 +559,7 @@ MessageBox:
         mov eax, dword [byte eax+020h]
         mov dword [byte edi+eax+08h], edx
         mov eax, dword [dlgtextfg]
-        movzx edx, byte [byte_11FA2F]
+        movzx edx, byte [TextCharH]
         mov ebx, dword [byte eax+0Ch]
         shl edx, 2
         add ebx, dword [byte eax+014h]
@@ -572,7 +572,7 @@ MessageBox:
         mov dword [byte edi+eax+010h], edx
         mov eax, dword [dlgtextfg]
         mov edx, dword [byte eax+0Ch]
-        movzx ebx, byte [byte_11FA2F]
+        movzx ebx, byte [TextCharH]
         add edx, dword [byte eax+014h]
         mov eax, dword [byte eax+020h]
         sub edx, ebx
@@ -584,7 +584,7 @@ MessageBox:
         mov dword [byte edi+eax+018h], edx
         mov eax, dword [dlgtextfg]
         mov edx, dword [byte eax+0Ch]
-        movzx ebx, byte [byte_11FA2F]
+        movzx ebx, byte [TextCharH]
         add edx, dword [byte eax+014h]
         mov eax, dword [byte eax+020h]
         sub edx, ebx
@@ -639,7 +639,7 @@ MessageBox:
         mov edx, dword [dlgtextfg]
         push eax
         mov ebx, dword [byte edx+014h]
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         sub ebx, eax
         lea eax, [byte ebx+01h]
         push eax
@@ -652,7 +652,7 @@ MessageBox:
         sub edx, eax
         lea eax, [byte edx+01h]
         add esp, byte 4
-        movzx edx, byte [byte_11FA2F]
+        movzx edx, byte [TextCharH]
         push eax
         mov eax, dword [dlgtextfg]
         shl edx, 2
@@ -671,7 +671,7 @@ MessageBox:
         movzx eax, byte [esi]
         push eax
         mov eax, dword [dlgtextfg]
-        movzx edx, byte [byte_11FA2F]
+        movzx edx, byte [TextCharH]
         mov ebx, dword [byte eax+014h]
         sub ebx, edx
         mov edx, dword [byte ebp-020h]
@@ -685,7 +685,7 @@ MessageBox:
         sub edx, eax
         mov eax, dword [dlgtextfg]
         push edx
-        movzx edx, byte [byte_11FA2F]
+        movzx edx, byte [TextCharH]
         mov eax, dword [byte eax+014h]
         shl edx, 2
         sub eax, edx
@@ -696,7 +696,7 @@ MessageBox:
         add eax, dword [byte ebp-020h]
         push eax
         call DrawRectOutline
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         lea ebx, [eax+eax*2]
         mov eax, dword [dlgtextfg]
         mov edx, dword [byte eax+014h]
@@ -878,7 +878,7 @@ ShowMessage:
         add eax, edi
         add esp, byte 4
         mov dword [byte ebp-0Ch], eax
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         push byte 0
         lea eax, [eax+eax*2]
         push eax
@@ -887,7 +887,7 @@ ShowMessage:
         add esp, byte 0Ch
         mov edi, eax
         call SetScreenTarget
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         lea eax, [eax+eax*2]
         mov edx, dword [byte ebp-04h]
         sar eax, 1
@@ -909,7 +909,7 @@ ShowMessage:
         mov edx, dword [byte ebp-08h]
         mov dword [MessageShown], eax
         mov word [byte eax+0Ch], dx
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         lea eax, [eax+eax*2]
         mov edx, dword [byte ebp-04h]
         sar eax, 1
@@ -931,7 +931,7 @@ ShowMessage:
         movzx eax, byte [esi]
         mov ecx, dword [byte ebp-0Ch]
         push eax
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         xor ebx, ebx
         lea eax, [eax+eax*2]
         push byte 2
@@ -944,7 +944,7 @@ ShowMessage:
         movzx edx, byte [byte esi+01h]
         movzx eax, byte [esi]
         call SetTextColors
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         lea ebx, [eax+eax*2]
         sar ebx, 1
         sar eax, 1
@@ -953,7 +953,7 @@ ShowMessage:
         mov eax, dword [dword ebp-0318h]
         call DrawColorTextCentred
         call SetScreenTarget
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         lea eax, [eax+eax*2]
         mov edx, dword [byte ebp-04h]
         sar eax, 1
@@ -1020,7 +1020,7 @@ ShowProgressBox:
         call TextStringWidth
         add esp, byte 4
         add edi, eax
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         push byte 0
         lea eax, [eax+eax*4]
         push eax
@@ -1030,7 +1030,7 @@ ShowProgressBox:
         add esp, byte 0Ch
         mov esi, eax
         call SetScreenTarget
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         lea eax, [eax+eax*4]
         mov edx, dword [byte ebp+06Eh]
         sar eax, 1
@@ -1052,7 +1052,7 @@ ShowProgressBox:
         mov edx, dword [dword ebp+037Eh]
         mov dword [ProgressBoxBmp], eax
         mov word [byte eax+0Ch], dx
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         lea eax, [eax+eax*4]
         mov edx, dword [byte ebp+06Eh]
         sar eax, 1
@@ -1075,7 +1075,7 @@ ShowProgressBox:
         mov eax, dword [byte ebp+076h]
         movzx eax, byte [eax]
         push eax
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         lea ecx, [byte edi-01h]
         lea eax, [eax+eax*4]
         push byte 2
@@ -1092,7 +1092,7 @@ ShowProgressBox:
         call SetTextColors
         mov edx, dword [dword ebp+0382h]
         mov eax, dword [byte ebp+07Ah]
-        movzx ebx, byte [byte_11FA2F]
+        movzx ebx, byte [TextCharH]
         call DrawColorTextCentred
         call SetScreenTarget
         mov eax, dword [ProgressBoxBmp]
@@ -1109,7 +1109,7 @@ ShowProgressBox:
         add esp, byte 4
         movzx eax, byte [eax]
         push eax
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         add eax, byte 4
         push eax
         push str_X
@@ -1121,7 +1121,7 @@ ShowProgressBox:
         lea eax, [byte edx+02h]
         mov esi, dword [ProgressBoxBmp]
         push eax
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         movsx edx, word [byte esi+0Eh]
         lea eax, [eax+eax*2]
         add eax, edx
@@ -1142,7 +1142,7 @@ ShowProgressBox:
         movzx eax, byte [byte eax+01h]
         push eax
         call TextSetColor
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         mov esi, dword [ProgressBoxBmp]
         mov edx, dword [ProgressBoxTotal]
         lea eax, [eax+eax*2]
@@ -1205,7 +1205,7 @@ UpdateProgressBox:
 .2:
         movzx eax, byte [ProgressBoxState+2]
         push eax
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         lea edx, [byte eax+02h]
         push edx
         lea edx, [eax+eax*2]
@@ -1226,7 +1226,7 @@ UpdateProgressBox:
         add esp, byte 14h
         movzx eax, byte [ProgressBoxState]
         push eax
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         inc eax
         inc eax
         push eax
@@ -1238,7 +1238,7 @@ UpdateProgressBox:
         lea eax, [byte esi+01h]
         add esp, byte 4
         sub edx, eax
-        movzx eax, byte [byte_11FA2F]
+        movzx eax, byte [TextCharH]
         push edx
         lea edx, [eax+eax*2]
         mov eax, dword [ProgressBoxBmp]
@@ -1270,7 +1270,7 @@ UpdateProgressBox:
         lea eax, [byte ebp-0Ch]
         push eax
         call sprintf_
-        movzx ebx, byte [byte_11FA2F]
+        movzx ebx, byte [TextCharH]
         mov eax, dword [ProgressBoxBmp]
         lea ebx, [ebx+ebx*2]
         movsx edx, word [byte eax+0Eh]

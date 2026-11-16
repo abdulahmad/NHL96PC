@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_C40B4 progbits alloc exec nowrite align=1
-extern dword_1228E8, dword_124108, itoa_, ltoa_, __EFG_printf, toupper_, ultoa_, unk_18584C
+extern dword_1228E8, PaletteHookFn, itoa_, ltoa_, __EFG_printf, toupper_, ultoa_, PaletteShadow
 global FixedPoint_Format_, __prtf_, evalflags_, far_other_strlen_, far_strlen_, float_format_, fmt4hex_, formstring_
 global getprintspecs_, ArtBitDepthJumpTable, far_strlen__1F, ArtBitDepth_19, ArtBitDepth_1F, ArtBitDepth_25, ArtBitDepth_2B, ArtBitDepth_31
 global ArtBitDepth_37, ArtBitDepth_3D, memmove_, RefPackSize, GetPalette, ArtBitDepth, PixelToRgb, zupstr_
@@ -1358,9 +1358,9 @@ RefPackSize:
 ; hooked reader
 ;-----------------------------------------------------------------------------
 GetPalette:
-        cmp dword [dword_124108], byte 0
+        cmp dword [PaletteHookFn], byte 0
         je short .1
-        jmp dword [dword_124108]
+        jmp dword [PaletteHookFn]
 .1:
         push ebp
         LD mov, ebp, esp
@@ -1523,7 +1523,7 @@ PixelToRgb:
         mov eax, edx
         ret
 .4:
-        mov eax, dword [nosplit edx*4+unk_18584C]
+        mov eax, dword [nosplit edx*4+PaletteShadow]
         ret
 .5:
         xor eax, eax

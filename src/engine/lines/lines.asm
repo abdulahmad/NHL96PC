@@ -6,8 +6,8 @@ extern DemoMode, FatalError, PBnum, SetDrawBitmap, SortCords, _dos_gettime_, str
 extern str_FhiL, str_FhiR, str_Pal30, str_ZONEMGR, str_ZM1ContactLance, str_ZM2ContactLance, str_ZMOverflowContactLance, dressbystatus
 extern lineslotgroups, lineslotgroupstart, CamLastSort, hmrosterpos, PBflags, defsort_d, dressflags
 extern dressflags_aw, offsort_fwd, AttractOptTeamsHi, AttractOptPads, crowdlevel, FrontShapesFile
-extern dword_1175B5, dword_1175B9, dword_1176E1, seed, ZonesDirty, SortSpriteCount, ReplayRemoteShape, SpinPuckFrame
-extern ViewSizeStep, CamFollowObj, InMenuOverlay, dword_11F5C0, dword_11F5C4, MenuRemoteCursorArt, MenuCursorPixels, pointerspr
+extern PenBoxDoorHome, PenBoxDoorAway, GlassHitFace, seed, ZonesDirty, SortSpriteCount, ReplayRemoteShape, SpinPuckFrame
+extern ViewSizeStep, CamFollowObj, InMenuOverlay, ViewScreenWidth, ViewScreenHeight, MenuRemoteCursorArt, MenuCursorPixels, pointerspr
 extern MenuBitmapPixels, AttractResetFlag, GlassShakeX, GlassShakeY, GlassShakeDir, GlassShakeOn, GlassShakeSide, GlassShakeStep
 extern GlassShakeTimer, GlassBreakX, GlassBreakY, GlassBreakStep, GlassBreakPanel, GlassBreakShards, ReplayBufferTop, lineslotmark
 extern AttractOptTeams, SpriteSortDelay, ZoneBufFront, ZoneBufBack, ZoneBufCount, ZoneMarksFront, ZoneMarksBack, ZonePrevList
@@ -2351,8 +2351,8 @@ SortSpritesForDraw:
         lea ebx, [byte eax+01h]
         mov dword [ReplayBufferTop], ebx
         mov byte [eax], dl
-        mov dl, byte [dword_1175B9]
-        mov ah, byte [dword_1175B5]
+        mov dl, byte [PenBoxDoorAway]
+        mov ah, byte [PenBoxDoorHome]
         and dl, 0Fh
         and ah, 0Fh
         shl dl, 4
@@ -2447,7 +2447,7 @@ SortSpritesForDraw:
         mov eax, dword [ReplayBufferTop]
         lea edx, [byte eax+01h]
         mov dword [ReplayBufferTop], edx
-        mov dl, byte [dword_1176E1]
+        mov dl, byte [GlassHitFace]
         mov byte [eax], dl
         mov eax, dword [ReplayBufferTop]
         lea edx, [byte eax+01h]
@@ -3299,9 +3299,9 @@ DrawDirtyZones:
         cmp dword [ViewDirty], byte 0
         je short .7
 .6:
-        push dword [dword_11F5C4]
+        push dword [ViewScreenHeight]
         push byte 0
-        push dword [dword_11F5C0]
+        push dword [ViewScreenWidth]
         push byte 0
         jmp short .8
 .7:
@@ -3360,9 +3360,9 @@ AddZone:
 .3:
         mov dword [eax], edx
         mov edx, dword [byte ebp-08h]
-        cmp edx, dword [dword_11F5C0]
+        cmp edx, dword [ViewScreenWidth]
         jle short .4
-        mov edx, dword [dword_11F5C0]
+        mov edx, dword [ViewScreenWidth]
 .4:
         mov dword [byte eax+04h], edx
         test edi, edi
@@ -3371,9 +3371,9 @@ AddZone:
 .5:
         mov edx, dword [byte ebp+010h]
         mov dword [byte eax+08h], edi
-        cmp edx, dword [dword_11F5C4]
+        cmp edx, dword [ViewScreenHeight]
         jle short .6
-        mov edi, dword [dword_11F5C4]
+        mov edi, dword [ViewScreenHeight]
         jmp short .7
 .6:
         mov edi, edx
@@ -3403,9 +3403,9 @@ CopyZonesToScreen:
         cmp dword [ViewDirty], byte 0
         je short .2
 .1:
-        push dword [dword_11F5C4]
+        push dword [ViewScreenHeight]
         push byte 0
-        push dword [dword_11F5C0]
+        push dword [ViewScreenWidth]
         push byte 0
         call SetClipWindow
         add esp, byte 10h

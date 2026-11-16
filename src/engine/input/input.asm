@@ -7,7 +7,7 @@ extern JoyButtonsTable
 extern LineChangeLine, LineChangeReq, Pencntdwn, RequestLineChange, SlotButtons, SortCords, a2touchpuck, SlotJoyMap
 extern lchoicetab, assonetimer_blade_y, OneTimerSpots, ReceivePassLeadX, ReceivePassLeadY, LineChangeFlags, InputState
 extern HmPlayerFlags, crowdlevel, hmslotcount, awslotcount, hmfirstslot, awfirstslot, HomeEbenPlayer, AwayEbenPlayer
-extern onetimerflag, PassTargetLocked, PassHoldFrames, OneTimerPasser, PuckChasers, playsuspended, dword_11F5C0, dword_11F5C4
+extern onetimerflag, PassTargetLocked, PassHoldFrames, OneTimerPasser, PuckChasers, playsuspended, ViewScreenWidth, ViewScreenHeight
 extern InputRepeatState, PtrPuckZone, LineBoxChoice, gameclock, gameopts, gmode
 extern hmtmstruct, introskipped, lcblink, lcboxon, lcline, puckvy, puckc, PtrPuckFlags
 extern PtrHomeNet, PtrAwayNet, passplayer, penshotlive, penshotmode, puckvx, puckx, pucky
@@ -2245,10 +2245,10 @@ CenterMouse:
         push ebx
         push ecx
         push edx
-        mov eax, dword [dword_11F5C4]
+        mov eax, dword [ViewScreenHeight]
         sar eax, 1
         push eax
-        mov eax, dword [dword_11F5C0]
+        mov eax, dword [ViewScreenWidth]
         sar eax, 1
         push eax
         call MouseRead

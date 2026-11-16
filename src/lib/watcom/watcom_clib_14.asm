@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_CA835 progbits alloc exec nowrite align=1
 extern SetDrawBitmap, __init_80x87, __unhook387, __8087, FpuType, _Extender, Is8087, __real87
-extern SndMasterVolume, dword_11F5C0, dword_11F5C4, dword_11F5C8, FpuFlags, FpuSystemFlags, OldFpuVectorOffset, snddriver
+extern SndMasterVolume, ViewScreenWidth, ViewScreenHeight, MenuScreenBitmap, FpuFlags, FpuSystemFlags, OldFpuVectorOffset, snddriver
 extern MixerVolumeLookup, MixBuffer
 extern MixBuffer
 extern MixBuffer
@@ -186,11 +186,11 @@ __chk8087_:
         test edx, edx
         jne short .3
         push edx
-        mov ebx, dword [dword_11F5C8]
+        mov ebx, dword [MenuScreenBitmap]
         push ebx
-        mov ecx, dword [dword_11F5C4]
+        mov ecx, dword [ViewScreenHeight]
         push ecx
-        mov esi, dword [dword_11F5C0]
+        mov esi, dword [ViewScreenWidth]
         push esi
         call CreateBitmapDepth
         add esp, byte 10h
@@ -211,11 +211,11 @@ __chk8087_:
         test edx, edx
         jne short .4
         push edx
-        mov ebx, dword [dword_11F5C8]
+        mov ebx, dword [MenuScreenBitmap]
         push ebx
-        mov ecx, dword [dword_11F5C4]
+        mov ecx, dword [ViewScreenHeight]
         push ecx
-        mov esi, dword [dword_11F5C0]
+        mov esi, dword [ViewScreenWidth]
         push esi
         call CreateBitmapDepth
         add esp, byte 10h

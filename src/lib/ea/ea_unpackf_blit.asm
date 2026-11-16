@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_DBFA8 progbits alloc exec nowrite align=1
 extern SetDrawBitmap, str_Unpackf, str_Targa, ScreenHeight, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom
-extern dword_123AC8, off_151524, AllocMemBlock, AllocMemLocked, FreeMemBlock, XorRectClipped, SaveDataFile, FlipArtHorizontal
+extern TgaBytesPerPixel, off_151524, AllocMemBlock, AllocMemLocked, FreeMemBlock, XorRectClipped, SaveDataFile, FlipArtHorizontal
 extern GetPalette, PutBytesLE, FlipArtVertical, TranslateArtPixels, PlotPixel, UnpackArtRle, bcopy
 global DrawArtAnyFormat, DrawArtAnyFormatAt, DrawArtAnyFormatOwnPos, XorRectOutline, WriteTgaScreen, SelectBitmapHandle
 ;-----------------------------------------------------------------------------
@@ -734,7 +734,7 @@ WriteTgaScreen:
         sub esp, 334h
         mov edx, 1
         mov ebx, 100h
-        mov ecx, dword [dword_123AC8]
+        mov ecx, dword [TgaBytesPerPixel]
         mov dword [byte ebp-030h], edx
         mov edi, edx
         mov dword [byte ebp-08h], ebx
@@ -746,14 +746,14 @@ WriteTgaScreen:
         mov dword [byte ebp-030h], esi
         mov dword [byte ebp-08h], eax
 .1:
-        cmp dword [dword_123AC8], byte 4
+        cmp dword [TgaBytesPerPixel], byte 4
         jne short .2
         mov edi, 3
         xor ecx, ecx
         mov dword [byte ebp-030h], edi
         mov dword [byte ebp-08h], ecx
 .2:
-        cmp dword [dword_123AC8], byte 7
+        cmp dword [TgaBytesPerPixel], byte 7
         jne short .3
         mov edi, 3
         mov eax, 4

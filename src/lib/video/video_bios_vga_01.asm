@@ -2,9 +2,9 @@
 bits 32
 %include "hockey.inc"
 section s_DD6C4 progbits alloc exec nowrite align=1
-extern RemapTable, ColourRemap, dword_11F5A0, ScreenWidth, ScreenHeight, DrawClipLeft, DrawClipTop, DrawClipRight
+extern RemapTable, ColourRemap, GraphicsReady, ScreenWidth, ScreenHeight, DrawClipLeft, DrawClipTop, DrawClipRight
 extern DrawClipBottom, dword_1228E8, dword_1228FC, BackBufferWidth, dword_123A88, BlitColumnOffsets, BlitSourcePtr, RetraceTimeout
-extern dword_1248C8, ClearScreenColour, FillRectSpans, SetupRectFill, unk_18584C
+extern dword_1248C8, ClearScreenColour, FillRectSpans, SetupRectFill, PaletteShadow
 global SetDrawBitmap, WaitRetrace_36, SetScreenTarget, GetPaletteRange, FillRectColor, SetClipWindow, SetPaletteEntries, SetTextMode
 global SetPaletteEntries8, ReadPaletteEntries8, SetRemapTable, GetRemapTable, SetColourRemap, GetColourRemap, SetBlitSource, SetBlendTables
 global CopyMappedSpan, ScaleRowRemapKeyed, CopyScaledSpanShadow, ScaleRowShadow, ScaleRowBlend, CopyScaledSpan, ReadPortStable, WaitRetrace
@@ -135,7 +135,7 @@ SetPaletteEntries:
         mov edx, 3C8h
         mov eax, dword [byte esp+010h]
         out dx, al
-        lea edi, [nosplit eax*4+unk_18584C]
+        lea edi, [nosplit eax*4+PaletteShadow]
         mov ebx, dword [byte esp+014h]
         inc edx
 .1:
@@ -170,7 +170,7 @@ SetTextMode:
         mov ah, 0Bh
         LD xor, ebx, ebx
         int 10h
-        mov dword [dword_11F5A0], 0
+        mov dword [GraphicsReady], 0
         ret
 ;-----------------------------------------------------------------------------
 ; SetPaletteEntries8                           DD830  96 PC, medium confidence
@@ -185,7 +185,7 @@ SetPaletteEntries8:
         mov edx, 3C8h
         mov eax, dword [byte esp+010h]
         out dx, al
-        lea edi, [nosplit eax*4+unk_18584C]
+        lea edi, [nosplit eax*4+PaletteShadow]
         mov ebx, dword [byte esp+014h]
         inc edx
         push edx

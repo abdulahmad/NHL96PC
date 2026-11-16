@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_BE8C5 progbits alloc exec nowrite align=1
 extern __fprtf_, __sys_fini_387_emulator, NearClipZ, ScreenWidth, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom
-extern DrawDestBuffer, ViewCentreX, ViewCentreY, dword_123AAC, dword_123ABC, dword_123AC0, ScaledRowBuffer, Mul32To64
+extern DrawDestBuffer, ViewCentreX, ViewCentreY, FovScaleX, ProjectFlags, SortBuffer, ScaledRowBuffer, Mul32To64
 extern Sar64, BuildSpanOffsets, SetBlitSource, ScaleRowRemapKeyed, ReverseBytes
 global fprintf_, imul32, FixedInverse, IntSqrt, SortIndices, BuildPerspTable, ProjectPointWide, ScaleArtRemapRows
 global DrawArtScaledRemap, FlipArtHorizontal
@@ -243,10 +243,10 @@ SortIndices:
         ret
         db 00h,00h,00h,00h,00h,00h
         mov edx, dword [byte esp+04h]
-        mov eax, dword [dword_123AC0]
+        mov eax, dword [SortBuffer]
         test edx, edx
         je short .7
-        mov dword [dword_123AC0], edx
+        mov dword [SortBuffer], edx
 .7:
         ret
 ;-----------------------------------------------------------------------------
@@ -256,8 +256,8 @@ SortIndices:
 BuildPerspTable:
         push esi
         push edi
-        mov esi, dword [dword_123AAC]
-        mov edi, dword [dword_123AC0]
+        mov esi, dword [FovScaleX]
+        mov edi, dword [SortBuffer]
         mov ecx, 0Ah
         xor ebx, ebx
 .1:
@@ -285,8 +285,8 @@ BuildPerspTable:
         mov dword [byte ecx+edx-04h], eax
         cmp ebx, 400h
         jl short .2
-        mov dword [dword_123AC0], edi
-        mov dword [dword_123AAC], esi
+        mov dword [SortBuffer], edi
+        mov dword [FovScaleX], esi
         pop edi
         pop esi
         ret
@@ -309,7 +309,7 @@ ProjectPointWide:
         mov dword [byte edi+04h], 80000000h
         mov eax, dword [byte edi+04h]
         mov dword [edi], eax
-        or byte [dword_123ABC], 1
+        or byte [ProjectFlags], 1
         jmp near .6
 .1:
         mov ebx, 10h
@@ -333,7 +333,7 @@ ProjectPointWide:
         sar eax, 2
         add ebx, byte 2
 .5:
-        mov ecx, dword [dword_123AC0]
+        mov ecx, dword [SortBuffer]
         lea esi, [byte esp+018h]
         mov ecx, dword [ecx+eax*4]
         push ebx

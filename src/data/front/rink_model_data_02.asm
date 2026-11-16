@@ -2,15 +2,15 @@
 bits 32
 %include "hockey.inc"
 section s_1175AD progbits alloc noexec write align=1
-global dword_1175AD, dword_1175B1, dword_1175B5, dword_1175B9, dword_1176DD, dword_1176E1, dword_1176E5, dword_1177EC
-global dword_1177F0, str_Punct_DrawIceSurface, IceSurfaceDef, IceGeometryDef, unk_1176AD, unk_1176CD, unk_1176EC
-dword_1175AD:
+global IceLogoGroupCount, StandsArtLoaded, PenBoxDoorHome, PenBoxDoorAway, CircleTableBuilt, GlassHitFace, ZamboniLoaded, OptionButtonDX
+global OptionButtonDY, str_Punct_DrawIceSurface, IceSurfaceDef, IceGeometryDef, FaceoffCircleOrder, EndZoneOrder, ShadowFill
+IceLogoGroupCount:
         db 00h,00h,00h,00h
-dword_1175B1:
+StandsArtLoaded:
         db 00h,00h,00h,00h
-dword_1175B5:
+PenBoxDoorHome:
         db 00h,00h,00h,00h
-dword_1175B9:
+PenBoxDoorAway:
         db 00h,00h,00h,00h
 str_Punct_DrawIceSurface:
         db 02Eh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,036h,00h,00h,00h
@@ -31,18 +31,18 @@ IceGeometryDef:
         db 06Dh,0FFh,0FFh,0FFh,00h,00h,00h,00h,012h,00h,00h,00h,04Fh,0FFh,0FFh,0FFh
         db 00h,00h,00h,00h,012h,00h,00h,00h,06Dh,0FFh,0FFh,0FFh,00h,00h,00h,00h
         db 0EEh,0FFh,0FFh,0FFh,04Fh,0FFh,0FFh,0FFh,00h,00h,00h,00h,0EEh,0FFh,0FFh,0FFh
-unk_1176AD:
+FaceoffCircleOrder:
         db 00h,00h,00h,00h,01h,00h,00h,00h,02h,00h,00h,00h,03h,00h,00h,00h
         db 04h,00h,00h,00h,05h,00h,00h,00h,06h,00h,00h,00h,07h,00h,00h,00h
-unk_1176CD:
+EndZoneOrder:
         db 00h,00h,00h,00h,01h,00h,00h,00h,01h,00h,00h,00h,02h,00h,00h,00h
-dword_1176DD:
+CircleTableBuilt:
         db 00h,00h,00h,00h
-dword_1176E1:
+GlassHitFace:
         db 0FFh,0FFh,0FFh,0FFh
-dword_1176E5:
+ZamboniLoaded:
         db 00h,00h,00h,00h,00h,00h,00h
-unk_1176EC:
+ShadowFill:
         db 0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh
         db 0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh
         db 0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh
@@ -59,7 +59,7 @@ unk_1176EC:
         db 0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh
         db 0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh
         db 0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FFh
-dword_1177EC:
+OptionButtonDX:
         db 00h,00h,00h,00h
-dword_1177F0:
+OptionButtonDY:
         db 00h,00h,00h,00h

@@ -5,10 +5,10 @@ extern TeamRosterPtrs
 extern SeasonUsers
 extern GsOptions
 section s_6A7D3 progbits alloc exec nowrite align=1
-extern awtmstruct, MenuFrameColours, byte_11FA2F, CloseTextOverlay, ControllerScreen, CopyBitmap
+extern awtmstruct, MenuFrameColours, TextCharH, CloseTextOverlay, ControllerScreen, CopyBitmap
 extern Crowd_Noise, CrowdNoiseReset, CrowdPause, CrowdResume, curperiod, DrawBox, DrawColorTextCentred, DrawFrameAt
 extern DrawGameClock, DrawGameFrame, FrontShapesFile, gameresult, TeamDb, statsplayoffs, AttributeDb, ReplayRemoteShape
-extern ViewLeft, str_D_DrawGameFrame, LastPaletteMode, InMenuOverlay, PauseRedraw, dword_11F5C0, dword_11F5C4, PanelShadeArt
+extern ViewLeft, str_D_DrawGameFrame, LastPaletteMode, InMenuOverlay, PauseRedraw, ViewScreenWidth, ViewScreenHeight, PanelShadeArt
 extern MenuRemoteCursorArt, MenuCursorPixels, pointerspr, MenuBitmapPixels, ReplayBufferTop, DrawFrameCount, NameFont, NamePanelBmp
 extern SeasonGameOpts, PlayoffTreeData, SeasonPlayoffs, PlayoffGameOpts, RosterFileHandle, PlayoffsActive, PauseRegBuffer, PauseBoxXs
 extern PauseBoxYs, PauseListH, PauseTitleW, PauseMsgTop, PauseMsgBottom, PauseMsgExtra, PauseTitleX, PauseListY
@@ -285,15 +285,15 @@ DrawPauseFrame:
         mov eax, 30h
         mov dword [LastPaletteMode], 0FFFFFFFFh
         call SetTextColors
-        push dword [dword_11F5C4]
-        mov ebx, dword [dword_11F5C0]
+        push dword [ViewScreenHeight]
+        mov ebx, dword [ViewScreenWidth]
         inc dword [DrawFrameCount]
         xor edx, edx
         mov eax, dword [DrawFrameCount]
         call AddZone
-        push dword [dword_11F5C4]
+        push dword [ViewScreenHeight]
         push byte 0
-        push dword [dword_11F5C0]
+        push dword [ViewScreenWidth]
         push byte 0
         call SetClipWindow
         mov eax, dword [PauseTitleItems]
@@ -446,7 +446,7 @@ DrawPauseFrame:
         push str_D16
         push PauseTextBuf
         call sprintf_
-        movzx edx, byte [byte_11FA2F]
+        movzx edx, byte [TextCharH]
         mov eax, dword [PauseItemList]
         inc edx
         inc edx
@@ -462,17 +462,17 @@ DrawPauseFrame:
         call DrawColorTextCentred
         mov eax, dword [PauseTitleItems]
         movsx ebx, word [byte eax+0Ah]
-        mov eax, dword [dword_11F5C0]
+        mov eax, dword [ViewScreenWidth]
         sub eax, ebx
         imul eax, edi
         mov ecx, 0FAh
         cdq
         idiv ecx
-        mov esi, dword [dword_11F5C0]
+        mov esi, dword [ViewScreenWidth]
         sub esi, eax
         cmp dword [PauseRedraw], byte 0
         jne short .7
-        add ebx, dword [dword_11F5C0]
+        add ebx, dword [ViewScreenWidth]
         sub ebx, esi
         mov esi, ebx
 .7:
@@ -612,7 +612,7 @@ DrawPauseFrame:
         push str_D16
         push PauseTextBuf
         call sprintf_
-        movzx edx, byte [byte_11FA2F]
+        movzx edx, byte [TextCharH]
         mov eax, dword [PauseItemList]
         inc edx
         inc edx
@@ -628,17 +628,17 @@ DrawPauseFrame:
         call DrawColorTextCentred
         mov eax, dword [PauseItemList]
         movsx ebx, word [byte eax+012h]
-        mov eax, dword [dword_11F5C4]
+        mov eax, dword [ViewScreenHeight]
         sub eax, ebx
         imul eax, edi
         mov ecx, 0FAh
         cdq
         idiv ecx
-        mov esi, dword [dword_11F5C4]
+        mov esi, dword [ViewScreenHeight]
         sub esi, eax
         cmp dword [PauseRedraw], byte 0
         jne short .12
-        add ebx, dword [dword_11F5C4]
+        add ebx, dword [ViewScreenHeight]
         sub ebx, esi
         mov esi, ebx
 .12:
@@ -956,8 +956,8 @@ DrawPauseFrame:
         call FreeBitmap
         add esp, byte 4
         push byte 0
-        push dword [dword_11F5C4]
-        push dword [dword_11F5C0]
+        push dword [ViewScreenHeight]
+        push dword [ViewScreenWidth]
         call CreateBitmap
         mov dword [PauseClockArea], eax
         mov eax, dword [byte eax+02Ch]
@@ -1652,8 +1652,8 @@ PauseMenu:
         push dword [NameFont]
         call TextSetFont
         add esp, byte 4
-        push dword [dword_11F5C4]
-        push dword [dword_11F5C0]
+        push dword [ViewScreenHeight]
+        push dword [ViewScreenWidth]
         push byte 0
         push byte 0
         call SetViewRect
@@ -1717,11 +1717,11 @@ PauseMenu_66B:
         or al, 2
         cwde
         push eax
-        mov eax, dword [dword_11F5C4]
+        mov eax, dword [ViewScreenHeight]
         push byte 1
         sar eax, 1
         push eax
-        mov eax, dword [dword_11F5C0]
+        mov eax, dword [ViewScreenWidth]
         sar eax, 1
         push eax
         mov ecx, MenuFrameColours
@@ -1863,10 +1863,10 @@ PauseMenu_748:
 .19:
         lea eax, [byte ebp+042h]
         push eax
-        mov eax, dword [dword_11F5C4]
+        mov eax, dword [ViewScreenHeight]
         sar eax, 1
         push eax
-        mov eax, dword [dword_11F5C0]
+        mov eax, dword [ViewScreenWidth]
         mov byte [byte ebp+042h], 0
         sar eax, 1
         mov ecx, 1Eh
@@ -1897,11 +1897,11 @@ PauseMenu_748:
         or al, 2
         cwde
         push eax
-        mov eax, dword [dword_11F5C4]
+        mov eax, dword [ViewScreenHeight]
         push byte 0
         sar eax, 1
         push eax
-        mov eax, dword [dword_11F5C0]
+        mov eax, dword [ViewScreenWidth]
         sar eax, 1
         push eax
         mov ecx, MenuFrameColours
@@ -1930,11 +1930,11 @@ PauseMenu_748:
         or al, 2
         cwde
         push eax
-        mov eax, dword [dword_11F5C4]
+        mov eax, dword [ViewScreenHeight]
         push byte 0
         sar eax, 1
         push eax
-        mov eax, dword [dword_11F5C0]
+        mov eax, dword [ViewScreenWidth]
         sar eax, 1
         push eax
         mov ecx, MenuFrameColours
@@ -2522,13 +2522,13 @@ PauseGame_3A3:
         call Crowd_Noise
         call ReplayScreen
         call FreeSpriteCache
-        push dword [dword_11F5C4]
-        push dword [dword_11F5C0]
+        push dword [ViewScreenHeight]
+        push dword [ViewScreenWidth]
         push byte 0
         push byte 0
         call SetViewRect
-        mov edx, dword [dword_11F5C4]
-        mov eax, dword [dword_11F5C0]
+        mov edx, dword [ViewScreenHeight]
+        mov eax, dword [ViewScreenWidth]
         add esp, byte 10h
         sar edx, 1
         sar eax, 1
@@ -2551,11 +2551,11 @@ PauseGame_3A3:
         or al, 2
         cwde
         push eax
-        mov eax, dword [dword_11F5C4]
+        mov eax, dword [ViewScreenHeight]
         push byte 0
         sar eax, 1
         push eax
-        mov eax, dword [dword_11F5C0]
+        mov eax, dword [ViewScreenWidth]
         sar eax, 1
         push eax
         mov ecx, MenuFrameColours
@@ -2634,11 +2634,11 @@ PauseGame_47F:
         call GetLangText
         push byte 2
         mov dword [PauseMsgExtra], eax
-        mov eax, dword [dword_11F5C4]
+        mov eax, dword [ViewScreenHeight]
         push byte 0
         sar eax, 1
         push eax
-        mov eax, dword [dword_11F5C0]
+        mov eax, dword [ViewScreenWidth]
         sar eax, 1
         push eax
         mov ecx, MenuFrameColours
@@ -2671,11 +2671,11 @@ PauseGame_47F:
         call GetLangText
         push byte 2
         mov dword [PauseMsgTop], eax
-        mov eax, dword [dword_11F5C4]
+        mov eax, dword [ViewScreenHeight]
         push edx
         sar eax, 1
         push eax
-        mov eax, dword [dword_11F5C0]
+        mov eax, dword [ViewScreenWidth]
         sar eax, 1
         push eax
         mov ecx, MenuFrameColours
@@ -2823,8 +2823,8 @@ PauseGame_620:
         add esp, byte 4
         cmp dword [gameresult], byte 0
         jne short .31
-        push dword [dword_11F5C4]
-        push dword [dword_11F5C0]
+        push dword [ViewScreenHeight]
+        push dword [ViewScreenWidth]
         push byte 0
         push byte 0
         call SetViewRect

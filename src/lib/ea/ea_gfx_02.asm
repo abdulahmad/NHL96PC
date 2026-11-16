@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_AD680 progbits alloc exec nowrite align=1
-extern byte_11FA2C, byte_11FA2D, byte_11FA2E, byte_11FA30, dword_11FA34, dword_11FA3C, ScreenWidth, DrawClipLeft
+extern TextFirstChar, TextLastChar, TextCharW, TextSpacing, TextWidthTable, TextCursorY, ScreenWidth, DrawClipLeft
 extern DrawClipTop, DrawClipRight, DrawClipBottom, KeyedDraw, dword_1228FC, dword_122930, str_F_PutBlock, FreeMemBlock
 extern PushMemDescriptorLocked, removewindow, SetScreenTarget, VesaSetBank, FillRectCore, XorRectCore, ClearClipRect, FillMem
 extern SaveDrawState, RestoreDrawState
@@ -516,24 +516,24 @@ TextWidthN:
         mov edx, dword [byte esp+010h]
         mov ecx, dword [byte esp+014h]
         xor ebx, ebx
-        movzx esi, byte [byte_11FA2D]
-        mov bl, byte [byte_11FA2C]
+        movzx esi, byte [TextLastChar]
+        mov bl, byte [TextFirstChar]
         xor eax, eax
         sub esi, ebx
         mov bl, byte [edx]
         lea edi, [byte esi+01h]
         test bl, bl
         je short .7
-        mov ebp, dword [dword_11FA34]
+        mov ebp, dword [TextWidthTable]
 .1:
         test ecx, ecx
         je short .7
         mov bl, byte [edx]
-        sub bl, byte [byte_11FA2C]
+        sub bl, byte [TextFirstChar]
         and ebx, 0FFh
         cmp ebx, edi
         jge short .6
-        mov esi, dword [dword_11FA3C]
+        mov esi, dword [TextCursorY]
         test esi, esi
         je short .2
         movsx ebx, byte [esi+ebx]
@@ -547,9 +547,9 @@ TextWidthN:
         jmp short .4
 .3:
         xor ebx, ebx
-        movzx esi, byte [byte_11FA2E]
+        movzx esi, byte [TextCharW]
 .4:
-        mov bl, byte [byte_11FA30]
+        mov bl, byte [TextSpacing]
         add ebx, esi
 .5:
         add eax, ebx

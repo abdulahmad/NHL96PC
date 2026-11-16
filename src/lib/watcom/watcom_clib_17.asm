@@ -2,9 +2,9 @@
 bits 32
 %include "hockey.inc"
 section s_D069B progbits alloc exec nowrite align=1
-extern SetDrawBitmap, __fatal_runtime_error_, str_SaveText, str_CUtilMouse, str_Ptr0ptr1ptr2, str_StackOverflow, byte_11FA2F, MousePresent
-extern mousex, mousey, MouseMoved, dword_11F5B4, dword_11F5C0, dword_11F5C4, dword_11F5C8, dword_11F61C
-extern dword_11FA18, TextOriginX, TextOriginY, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, dword_1228FC
+extern SetDrawBitmap, __fatal_runtime_error_, str_SaveText, str_CUtilMouse, str_Ptr0ptr1ptr2, str_StackOverflow, TextCharH, MousePresent
+extern mousex, mousey, MouseMoved, PointerCount, ViewScreenWidth, ViewScreenHeight, MenuScreenBitmap, dword_11F61C
+extern TextBgColour, TextOriginX, TextOriginY, DrawClipLeft, DrawClipTop, DrawClipRight, DrawClipBottom, dword_1228FC
 extern BackBufferWidth, _STACKLOW, __amblksiz, dword_14FAD8, CMainArgv, dword_1A109C, dword_1A10A0, dword_1A10A4
 extern dword_1A10A8, dword_1A10B0, dword_1A10B4, dword_1A10C0, dword_1A10C4, dword_1A10C8, dword_1A10CC, dword_1A10D0
 extern dword_1A10D4, dword_1A10D8, dword_1A10DC, dword_1A10E0, dword_1A10E4, dword_1A10E8, dword_1A10EC, dword_1A10F0
@@ -326,9 +326,9 @@ UpdatePointerPos:
 ;-----------------------------------------------------------------------------
 HidePointerKeep:
         sub esp, byte 60h
-        mov edx, dword [dword_11F5B4]
+        mov edx, dword [PointerCount]
         dec edx
-        mov dword [dword_11F5B4], edx
+        mov dword [PointerCount], edx
         jne short .3
         mov eax, esp
         push eax
@@ -371,9 +371,9 @@ HidePointer:
         push edi
         push ebp
         sub esp, byte 60h
-        mov edx, dword [dword_11F5B4]
+        mov edx, dword [PointerCount]
         dec edx
-        mov dword [dword_11F5B4], edx
+        mov dword [PointerCount], edx
         jne near .4
         mov eax, esp
         push eax
@@ -433,9 +433,9 @@ ShowPointer:
         push ebp
         mov ebp, esp
         sub esp, byte 60h
-        mov edx, dword [dword_11F5B4]
+        mov edx, dword [PointerCount]
         inc edx
-        mov dword [dword_11F5B4], edx
+        mov dword [PointerCount], edx
         cmp edx, byte 1
         jl near .11
         jne near .10
@@ -457,14 +457,14 @@ ShowPointer:
         add esp, byte 4
 .6:
         mov eax, dword [dword_1A10FC]
-        mov edi, dword [dword_11F5C4]
+        mov edi, dword [ViewScreenHeight]
         cmp eax, edi
         jl short .7
         mov eax, edi
 .7:
         push eax
         mov eax, dword [dword_1A10EC]
-        mov edx, dword [dword_11F5C0]
+        mov edx, dword [ViewScreenWidth]
         push eax
         mov eax, dword [dword_1A1100]
         cmp eax, edx
@@ -494,7 +494,7 @@ ShowPointer:
         call RestoreDrawState
         add esp, byte 4
 .10:
-        mov dword [dword_11F5B4], 1
+        mov dword [PointerCount], 1
 .11:
         mov esp, ebp
         pop ebp
@@ -579,7 +579,7 @@ PointerService:
         push edi
         push ebp
         sub esp, byte 68h
-        cmp dword [dword_11F5B4], byte 1
+        cmp dword [PointerCount], byte 1
         jl near .16
         mov esi, dword [dword_1A10C8]
         mov edi, dword [mousex]
@@ -826,7 +826,7 @@ PointerSetupBitmaps:
         ret
 .3:
         push byte 20h
-        mov ebp, dword [dword_11F5C8]
+        mov ebp, dword [MenuScreenBitmap]
         push ebp
         push edi
         mov edx, dword [dword_1A10E4]
@@ -834,7 +834,7 @@ PointerSetupBitmaps:
         call CreateBitmapDepth
         add esp, byte 10h
         push byte 20h
-        mov ebx, dword [dword_11F5C8]
+        mov ebx, dword [MenuScreenBitmap]
         push ebx
         mov ecx, dword [dword_1A10E0]
         push ecx
@@ -844,7 +844,7 @@ PointerSetupBitmaps:
         call CreateBitmapDepth
         add esp, byte 10h
         push byte 20h
-        mov edi, dword [dword_11F5C8]
+        mov edi, dword [MenuScreenBitmap]
         push edi
         mov ebp, dword [dword_1A10E0]
         push ebp
@@ -959,21 +959,21 @@ InitPointer:
         push edi
         push ebp
         sub esp, 8Ch
-        mov eax, dword [dword_11F5C0]
+        mov eax, dword [ViewScreenWidth]
         xor edx, edx
         mov esi, dword [MousePresent]
         mov dword [dword_1A10C4], edx
         mov dword [dword_1A10F0], edx
         mov dword [dword_1A10DC], edx
         mov dword [dword_1A10D4], edx
-        mov dword [dword_11F5B4], edx
+        mov dword [PointerCount], edx
         mov dword [dword_1A10A4], edx
         mov dword [dword_1A10A0], edx
         mov dword [dword_1A109C], edx
         mov dword [dword_1A10D8], edx
         mov dword [dword_1A10E8], edx
         mov dword [dword_1A1100], eax
-        mov eax, dword [dword_11F5C4]
+        mov eax, dword [ViewScreenHeight]
         mov dword [dword_1A10EC], edx
         mov dword [dword_1A10FC], eax
         test esi, esi
@@ -1053,7 +1053,7 @@ InitPointer:
         push ebp
         cmp dword [dword_14FAD8], byte 0
         je near .9
-        cmp dword [dword_11F5B4], byte 0
+        cmp dword [PointerCount], byte 0
         jle short .6
         call dword [off_11F5F8]
 .6:
@@ -1146,10 +1146,10 @@ InstallDebugHotkeys:
         mov esi, dword [TextOriginY]
         call TextStringWidth
         add esp, byte 4
-        mov ebx, dword [dword_11FA18]
+        mov ebx, dword [TextBgColour]
         xor edx, edx
         push ebx
-        mov dl, byte [byte_11FA2F]
+        mov dl, byte [TextCharH]
         push edx
         push eax
         push esi
@@ -1185,10 +1185,10 @@ DrawTextBoxedAt:
         mov esi, dword [TextOriginY]
         call TextStringWidth
         add esp, byte 4
-        mov ebp, dword [dword_11FA18]
+        mov ebp, dword [TextBgColour]
         xor edx, edx
         push ebp
-        mov dl, byte [byte_11FA2F]
+        mov dl, byte [TextCharH]
         push edx
         push eax
         push esi
@@ -1223,10 +1223,10 @@ DrawTextBoxedAt:
         mov esi, dword [TextOriginY]
         call TextStringWidth
         add esp, byte 4
-        mov ecx, dword [dword_11FA18]
+        mov ecx, dword [TextBgColour]
         xor edx, edx
         push ecx
-        mov dl, byte [byte_11FA2F]
+        mov dl, byte [TextCharH]
         push edx
         push eax
         push esi

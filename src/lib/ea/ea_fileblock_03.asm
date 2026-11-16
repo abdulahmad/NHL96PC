@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_BE8C5 progbits alloc exec nowrite align=1
-extern __fprtf_, __sys_fini_387_emulator, str_Punct_DrawRinkSurface, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight
-extern DrawDestBuffer, ViewCenterY, str_D_ProjectPointsPersp, dword_123AAC, dword_123ABC, dword_123AC0, ScaledRowBuffer, Mul32To64
+extern __fprtf_, __sys_fini_387_emulator, NearClipZ, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight
+extern DrawDestBuffer, ViewCentreX, ViewCentreY, dword_123AAC, dword_123ABC, dword_123AC0, ScaledRowBuffer, Mul32To64
 extern Sar64, BuildSpanOffsets, SetBlitSource, ScaleRowRemapKeyed, ReverseBytes
 global fprintf_, imul32, FixedInverse, IntSqrt, SortIndices, BuildPerspTable, ProjectPointWide, ScaleArtRemapRows
 global DrawArtScaledRemap, FlipArtHorizontal
@@ -302,7 +302,7 @@ ProjectPointWide:
         sub esp, byte 20h
         mov ebp, dword [byte esp+030h]
         mov edi, dword [byte esp+034h]
-        mov edx, dword [str_Punct_DrawRinkSurface]
+        mov edx, dword [NearClipZ]
         mov eax, dword [byte ebp+08h]
         cmp eax, edx
         jg short .1
@@ -347,7 +347,7 @@ ProjectPointWide:
         lea esi, [byte esp+014h]
         call Sar64
         mov edx, dword [byte esp+08h]
-        mov eax, dword [ViewCenterY]
+        mov eax, dword [ViewCentreX]
         lea esi, [byte esp+010h]
         add eax, edx
         push ebx
@@ -362,7 +362,7 @@ ProjectPointWide:
         lea esi, [byte esp+0Ch]
         call Sar64
         mov esi, dword [esp]
-        mov eax, dword [str_D_ProjectPointsPersp]
+        mov eax, dword [ViewCentreY]
         sub eax, esi
         mov dword [byte edi+04h], eax
 .6:

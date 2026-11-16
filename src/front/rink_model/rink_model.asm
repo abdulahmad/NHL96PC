@@ -7,7 +7,7 @@ extern byte_1175AB, byte_1175AC, byte_159C57, byte_159C58, byte_159C59, byte_159
 extern byte_159E61, byte_15EA03, byte_176F96, byte_17701E, byte_17703B, byte_1770A7, byte_1770B2, byte_1770B3
 extern byte_1770B4, byte_1770B5, byte_1770B6, byte_1770D7, dword_1175AD, dword_1175B1, dword_1175B5, dword_1175B9
 extern dword_1176DD, dword_1176E1, dword_1176E5, dword_1177EC, dword_1177F0, dword_11A3F8, dword_11F5C0, dword_11F5C4
-extern str_Punct_DrawRinkSurface, SinTable, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, DrawDestBuffer, dword_152FEC
+extern NearClipZ, SinTable, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, DrawDestBuffer, dword_152FEC
 extern dword_158D78, dword_158D7C, GoalLightTimerFar, dword_158D88, GoalLightFrame, FarSideModel, GoalLightOn, dword_158DA0
 extern dword_158F24, dword_158F90, dword_159008, dword_159014, dword_15902C, dword_159038, dword_1591CC, dword_1591D0
 extern dword_1591D4, dword_159230, dword_159234, dword_159334, dword_159340, dword_15934C, dword_159370, dword_15937C
@@ -767,7 +767,7 @@ FatLineEdge:
         ret
 ;-----------------------------------------------------------------------------
 ; ClipEdgeToNear                                  2207E  96 PC, low confidence
-; The point where an edge crosses the near plane (str_Punct_DrawRinkSurface)
+; The point where an edge crosses the near plane (NearClipZ)
 ;-----------------------------------------------------------------------------
 ClipEdgeToNear:
         push ecx
@@ -778,7 +778,7 @@ ClipEdgeToNear:
         mov edi, edx
         mov dword [byte ebp-04h], ebx
         mov eax, dword [byte edx+08h]
-        mov ebx, dword [str_Punct_DrawRinkSurface]
+        mov ebx, dword [NearClipZ]
         sub eax, dword [byte esi+08h]
         sub ebx, dword [byte esi+08h]
         push eax
@@ -811,7 +811,7 @@ ClipEdgeToNear:
         mov edx, dword [byte ebp-04h]
         add eax, ebx
         mov dword [byte edx+04h], eax
-        mov ebx, dword [str_Punct_DrawRinkSurface]
+        mov ebx, dword [NearClipZ]
         inc ebx
         mov dword [byte edx+08h], ebx
         leave
@@ -832,10 +832,10 @@ ClipLineToNear:
         mov edi, edx
         mov esi, ebx
         mov eax, dword [byte ebx+08h]
-        cmp eax, dword [str_Punct_DrawRinkSurface]
+        cmp eax, dword [NearClipZ]
         jg short .2
         mov eax, dword [byte ecx+08h]
-        cmp eax, dword [str_Punct_DrawRinkSurface]
+        cmp eax, dword [NearClipZ]
         jg short .1
         xor eax, eax
         leave
@@ -851,7 +851,7 @@ ClipLineToNear:
         jmp short .3
 .2:
         mov eax, dword [byte ecx+08h]
-        cmp eax, dword [str_Punct_DrawRinkSurface]
+        cmp eax, dword [NearClipZ]
         jg short .4
         mov ebx, ecx
         mov edx, esi
@@ -993,7 +993,7 @@ DrawThickSegmentVisible:
         push ebp
         mov ebp, esp
         mov esi, dword [byte ebx+08h]
-        cmp esi, dword [str_Punct_DrawRinkSurface]
+        cmp esi, dword [NearClipZ]
         jg short .2
 .1:
         xor eax, eax
@@ -1002,7 +1002,7 @@ DrawThickSegmentVisible:
         ret 8
 .2:
         mov ecx, dword [byte ecx+08h]
-        cmp ecx, dword [str_Punct_DrawRinkSurface]
+        cmp ecx, dword [NearClipZ]
         jle short .1
         push dword [byte ebp+010h]
         mov ecx, dword [byte ebp+0Ch]
@@ -1971,14 +1971,14 @@ DrawFaceoffCircle:
         mov esi, dword [NeutralSpotModel]
         mov eax, dword [dword_159340]
         add esp, byte 0Ch
-        cmp eax, dword [str_Punct_DrawRinkSurface]
+        cmp eax, dword [NearClipZ]
         jg short .3
 .2:
         xor eax, eax
         jmp short .4
 .3:
         mov eax, dword [dword_15934C]
-        cmp eax, dword [str_Punct_DrawRinkSurface]
+        cmp eax, dword [NearClipZ]
         jle short .2
         mov ebx, unk_159338
         push esi
@@ -1997,14 +1997,14 @@ DrawFaceoffCircle:
         mov ecx, dword [dword_15E880]
         mov eax, dword [dword_159370]
         mov edi, dword [NeutralSpotModel]
-        cmp eax, dword [str_Punct_DrawRinkSurface]
+        cmp eax, dword [NearClipZ]
         jg short .7
 .6:
         xor eax, eax
         jmp short .8
 .7:
         mov eax, dword [dword_15937C]
-        cmp eax, dword [str_Punct_DrawRinkSurface]
+        cmp eax, dword [NearClipZ]
         jle short .6
         mov ebx, unk_159368
         push edi
@@ -2248,14 +2248,14 @@ DrawEndZoneMarkings:
         mov ecx, dword [dword_15E880]
         mov eax, dword [dword_159008]
         mov edx, dword [NeutralSpotModel]
-        cmp eax, dword [str_Punct_DrawRinkSurface]
+        cmp eax, dword [NearClipZ]
         jg short .11
 .10:
         xor eax, eax
         jmp short .12
 .11:
         mov eax, dword [dword_159014]
-        cmp eax, dword [str_Punct_DrawRinkSurface]
+        cmp eax, dword [NearClipZ]
         jle short .10
         mov ebx, unk_159000
         push edx
@@ -2274,14 +2274,14 @@ DrawEndZoneMarkings:
         mov ecx, dword [dword_15E880]
         mov edx, dword [dword_15902C]
         mov eax, dword [NeutralSpotModel]
-        cmp edx, dword [str_Punct_DrawRinkSurface]
+        cmp edx, dword [NearClipZ]
         jg short .15
 .14:
         xor eax, eax
         jmp short .16
 .15:
         mov edx, dword [dword_159038]
-        cmp edx, dword [str_Punct_DrawRinkSurface]
+        cmp edx, dword [NearClipZ]
         jle short .14
         mov ebx, unk_159024
         push eax
@@ -7832,7 +7832,7 @@ DrawIceBackPoly:
 .2:
         cmp edx, ecx
         jl short .1
-        push dword [str_Punct_DrawRinkSurface]
+        push dword [NearClipZ]
         lea eax, [byte ebp-03Ah]
         push eax
         lea eax, [dword ebp-01CAh]

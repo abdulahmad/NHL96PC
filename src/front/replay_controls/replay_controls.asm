@@ -64,7 +64,7 @@ extern FreeMemBlock, CreateBitmap, FillRect, FreeBitmap, TextSetColor, SaveTextS
 extern FreeColourLookup, TextPrintAt, SetAaPalLut, DrawArtAaScaledInt, ProjectPointList, DrawFlatPoly, DrawPolyOutline, DrawArtScaledHotspot
 extern TransformVector, MultiplyMatrix, OriSetObjectMatrix, MakeRotXMatrix, MakeRotYMatrix, MakeRotZMatrix, SortIndices, BuildPerspTable
 extern SetScreenTarget, SetClipWindow, MouseRead, SetViewRect, TicksSinceLast, FindShape, ClearClipRect, SetViewScreenOrigin
-extern SetCameraAngles, TransposeMatrix, str_D19, str_dot4, unk_11A430, unk_11A770, unk_11A9B0, unk_11AB30
+extern SetViewFov, TransposeMatrix, str_D19, str_dot4, unk_11A430, unk_11A770, unk_11A9B0, unk_11AB30
 extern unk_11AE70, str_Punct_ReplayScreen, str_0_SaveHighlight, unk_122344, exhstate, unk_1774C4, unk_177510, unk_1778C4
 extern unk_177908, unk_1781E4, unk_1781FE, unk_179980, unk_179AC0, unk_179E02, optblock_end, unk_17D32C
 extern word_114CE0, word_114CE4, word_119127, str_Punct_DrawReplayCounter, word_11A410, word_11A414, regd0, regd1
@@ -176,7 +176,7 @@ StartReplay:
         add eax, edx
         push dword [dword_11B314]
         mov dword [str_D_DrawGameFrame], eax
-        call SetCameraAngles
+        call SetViewFov
         add esp, byte 10h
         call BuildPerspTable
         push dword [dword_11B32C]

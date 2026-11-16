@@ -27,7 +27,7 @@ extern PtrPuckObject, passplayer, penshotlive, penshotmode, penshotstart, puckc,
 extern QueueOverlayPanel, F64_0p00277778, F64_65536_CamView236, F64_0p00277778_CamView236, qword_11109C, F64_0p00277778_CamView238, F64_65536_CamView238, F64_0p00277778_CamView239
 extern F64_65536_CamView239, rand_, seed, seed_w2, SetClipWindow, SetDrawBitmap, sflags, SortCords
 extern str_Priority2, AddIceCrud, SetRinkClipWindow, AllocMemBlock, FreeMemBlock, AngleOfVector, TransformVector, MakeRotYMatrix
-extern BuildPerspTable, KeyIsDown, KbdGetKey, ClearClipRect, SetViewScreenOrigin, SetCameraAngles, unk_11B673, unk_11B6B8
+extern BuildPerspTable, KeyIsDown, KbdGetKey, ClearClipRect, SetViewScreenOrigin, SetViewFov, unk_11B673, unk_11B6B8
 extern unk_11B6FD, unk_11B811, unk_11B856, unk_11B89B, unk_11B8E0, unk_11B925, unk_11B96A, unk_11B9AF
 extern exhstate, unk_1781E4, unk_179CCC, unk_179CE4, unk_179CFC, unk_179D14, unk_179D2C, unk_179E02
 extern unk_5D549, unk_5D555, unk_5D561, unk_5D56D, unk_5D579, unk_5D585, unk_5D591, unk_5D591_84
@@ -445,7 +445,7 @@ SetCameraShot:
         push dword [dword_11B318]
         push byte 0
         push dword [dword_11B314]
-        call SetCameraAngles
+        call SetViewFov
         add esp, byte 10h
         mov edi, dword_179DBD
         call BuildPerspTable
@@ -3712,7 +3712,7 @@ SetGameViewSize:
         push dword [dword_11B318]
         push byte 0
         push dword [dword_11B314]
-        call SetCameraAngles
+        call SetViewFov
         add esp, byte 10h
         call BuildPerspTable
         push dword [dword_11B32C]
@@ -3999,7 +3999,7 @@ ReadHotKeys:
         push byte 0
         push dword [dword_11B314]
         xor byte [dword_11B374], 1
-        call SetCameraAngles
+        call SetViewFov
         add esp, byte 10h
         mov edi, unk_179E02
         mov esi, dword_179DBD

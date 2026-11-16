@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_61AD1 progbits alloc exec nowrite align=1
 extern byte_11BC28, dword_11BB38, dword_11BB3C, dword_11BB40, dword_11BB44, dword_11BCD1, dword_11BCD5, dword_11BCD9
-extern str_Punct_DrawRinkSurface, dword_123AC0, dword_152FEC, dword_179E4C, dword_179E50, dword_17BA30, dword_17BA34, dword_17BA38
+extern NearClipZ, dword_123AC0, dword_152FEC, dword_179E4C, dword_179E50, dword_17BA30, dword_17BA34, dword_17BA38
 extern dword_17BA3C, dword_17BA40, dword_17BA44, dword_17BA48, dword_17BA4C, dword_17BA50, dword_17BA54, gameopts
 extern off_11BB4C, str_CupRef, str_FightRef, str_NewpalQfs, str_OldshpQfs, str_OLDSHPQFS2, str_Pal6, str_RinkpalQfs
 extern str_TeampalQda, str_TotalRef, str_UNPACK, str_Unpacked, SelectDataLibrary, LoadShadowRemap, AllocMemBlock, FreeMemBlock
@@ -1057,13 +1057,13 @@ GetSpriteFrame:
         jmp near SetTeamJerseyColors_A3
 ;-----------------------------------------------------------------------------
 ; SpriteScale                                     625AA  96 PC, low confidence
-; (distance): the sprite scale shift for a distance (0 past str_Punct_DrawRinkSurface)
+; (distance): the sprite scale shift for a distance (0 past NearClipZ)
 ;-----------------------------------------------------------------------------
 SpriteScale:
         push ebp
         mov ebp, esp
         mov eax, dword [byte ebp+08h]
-        cmp eax, dword [str_Punct_DrawRinkSurface]
+        cmp eax, dword [NearClipZ]
         jg short .1
         xor eax, eax
         pop ebp

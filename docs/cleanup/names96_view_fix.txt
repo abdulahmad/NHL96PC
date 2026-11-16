@@ -1,0 +1,11 @@
+CameraOriginX ViewFovX {confidence=medium,source=new} the view's horizontal field of view, in 1024ths of a turn
+CameraOriginY ViewFovY {confidence=medium,source=new} the view's vertical field of view, in 1024ths of a turn
+CameraYaw ViewOriginX {confidence=medium,source=new} the view's left edge on the screen
+CameraPitch ViewOriginY {confidence=medium,source=new} the view's top edge on the screen
+ViewCenterX ViewHalfWidth {confidence=medium,source=new} half the view's width in pixels
+str_D_SetCameraAngles ViewHalfHeight {confidence=medium,source=new} half the view's height in pixels
+ViewCenterY ViewCentreX {confidence=medium,source=new} the screen x of the view's centre, where projected points are placed from
+str_D_ProjectPointsPersp ViewCentreY {confidence=medium,source=new} the screen y of the view's centre, where projected points are placed from
+str_Punct_SetScreenScale NearPlaneZ {confidence=low,source=new} the projection plane distance set by SetScreenScale
+str_Punct_DrawRinkSurface NearClipZ {confidence=medium,source=new} the near clip distance: points at or nearer than it are not projected
+SetCameraAngles SetViewFov {confidence=medium,source=new} converts the field of view angles from degrees to 1024ths of a turn and sets up the view's size and projection

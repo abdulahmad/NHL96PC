@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_DFC33 progbits alloc exec nowrite align=1
 extern byte_11F668, KeyStateTable, byte_11F68D, KbdCtrlDown, KbdAltDown, KbdNumLock, KbdScrollLock, byte_11F708
-extern byte_11F714, byte_11F76F, byte_11F7CA, byte_11F825, byte_11F880, str_Punct_DrawRinkSurface, dword_11F61C, KeyBuffer
+extern byte_11F714, byte_11F76F, byte_11F7CA, byte_11F825, byte_11F880, NearClipZ, dword_11F61C, KeyBuffer
 extern KeyBufferHead, KeyBufferTail, KeyBufferMask, SavedKbdVecOffset, SavedInt16Offset, SavedRealKbdOffset, bailout_vec, BiosKeyFunc
 extern RestoreDS, PrintScreenInt, DosSetVector, SavedKbdVecSelector, SavedInt16Selector, SavedRealKbdSegment, KbdDataSelector
 global RemoveKeyboardHandler_6F, RemoveKeyboardHandler, Int16Handler, Int16Service, KeyIsDown, BiosKeyCall, unk_DFDDD
@@ -57,7 +57,7 @@ RemoveKeyboardHandler_6F:
         mov byte [byte_11F708], al
         LD or, bl, bl
         jns short .2
-        mov byte [dword ebx+str_Punct_DrawRinkSurface], 0
+        mov byte [dword ebx+NearClipZ], 0
         mov al, 20h
         out 20h, al
         pop ds

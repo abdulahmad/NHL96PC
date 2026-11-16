@@ -3,28 +3,28 @@ bits 32
 %include "hockey.inc"
 section s_123A94 progbits alloc noexec write align=1
 extern unk_19A650
-global ViewCenterX, str_D_SetCameraAngles, CameraYaw, CameraPitch, ViewCenterY, str_D_ProjectPointsPersp, dword_123AAC, dword_123AB0
-global CameraOriginX, CameraOriginY, dword_123ABC, dword_123AC0, RetraceTimeout, dword_123AC8, dword_123ACC, dword_123AD0
+global ViewHalfWidth, ViewHalfHeight, ViewOriginX, ViewOriginY, ViewCentreX, ViewCentreY, dword_123AAC, dword_123AB0
+global ViewFovX, ViewFovY, dword_123ABC, dword_123AC0, RetraceTimeout, dword_123AC8, dword_123ACC, dword_123AD0
 global VesaModeInfo, SpeechQueue, SpeechQueueLead
-ViewCenterX:
+ViewHalfWidth:
         db 0A0h,00h,00h,00h
-str_D_SetCameraAngles:
+ViewHalfHeight:
         db 064h,00h,00h,00h
-CameraYaw:
+ViewOriginX:
         db 00h,00h,00h,00h
-CameraPitch:
+ViewOriginY:
         db 00h,00h,00h,00h
-ViewCenterY:
+ViewCentreX:
         db 0A0h,00h,00h,00h
-str_D_ProjectPointsPersp:
+ViewCentreY:
         db 064h,00h,00h,00h
 dword_123AAC:
         db 00h,00h,00h,00h
 dword_123AB0:
         db 00h,00h,00h,00h
-CameraOriginX:
+ViewFovX:
         db 00h,00h,00h,00h
-CameraOriginY:
+ViewFovY:
         db 00h,00h,00h,00h
 dword_123ABC:
         db 00h,00h,00h,00h

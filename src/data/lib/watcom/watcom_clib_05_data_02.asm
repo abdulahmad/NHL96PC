@@ -4,7 +4,7 @@ bits 32
 section s_11F5DC progbits alloc noexec write align=1
 extern ReturnZero, BiosKeyCall
 global byte_11F668, KeyStateTable, byte_11F68D, KbdCtrlDown, KbdAltDown, KbdNumLock, KbdScrollLock, CpuIs386
-global CpuIs486, CpuType, CpuHasCpuid, CpuFeatures, str_Punct_DrawRinkSurface, dword_11F61C, KeyBuffer, KeyBufferHead
+global CpuIs486, CpuType, CpuHasCpuid, CpuFeatures, NearClipZ, dword_11F61C, KeyBuffer, KeyBufferHead
 global KeyBufferTail, KeyBufferMask, SavedKbdVecOffset, SavedInt16Offset, SavedRealKbdOffset, mousepollfn, off_11F5F4, off_11F5F8
 global off_11F5FC, BiosKeyFunc, SavedKbdVecSelector, SavedInt16Selector, SavedRealKbdSegment, KbdDataSelector
 CpuIs386:
@@ -17,7 +17,7 @@ CpuHasCpuid:
         db 00h,00h,00h,00h
 CpuFeatures:
         db 00h,00h,00h,00h
-str_Punct_DrawRinkSurface:
+NearClipZ:
         db 0Ah,00h,00h,00h
 off_11F5F4:
         dd ReturnZero

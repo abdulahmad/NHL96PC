@@ -19,7 +19,7 @@ extern InstallDebugHotkeys, DrawTextBoxedAt, BuildEdgeTableMin, BuildEdgeTableMa
 extern FillFlatPolyCore, SetScreenTarget, SetClipWindow, SetPaletteEntries8, ReadPaletteEntries8, SetBlitSource, CopyMappedSpan, CopyScaledSpanShadow
 extern CopyScaledSpan, PlotPixel, PlotPixelClipped, VesaSetBank, FillSpansSet, FillSpansXor, FillSpansAnd, FillSpansOr
 extern RemapSpans, ReturnZero, InstallKeyboardHandler, KbdGetKey, SetKbdIdleHook, FlushKeys, ReadJoystickPorts, JoyResetCentres
-extern JoyButtonMap, AddExitHandler, ClearClipRect, InstallBreakHandler, vecdist, SetViewScreenOrigin, SetCameraAngles, SaveDrawState
+extern JoyButtonMap, AddExitHandler, ClearClipRect, InstallBreakHandler, vecdist, SetViewScreenOrigin, SetViewFov, SaveDrawState
 extern RestoreDrawState, RestoreTextMode, ReadKeyPadBits, SinCosLookup, tolower_, unk_1210DC, unk_1213DC, InitRtnsEntry
 extern FiniRtnsEntry, GusInitTable, unk_18584C, vsprintf_, DefaultControlWord
 global __CMain, __FiniRtns, __HeapManager_expand_, __IOMode_, __InitRtns, __SetIOMode_, __doserror_, __fprtf_
@@ -1392,7 +1392,7 @@ InitSystem:
         push ebx
         push byte 14h
         push byte 1Eh
-        call SetCameraAngles
+        call SetViewFov
         add esp, byte 10h
         push byte 0
         push byte 0

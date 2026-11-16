@@ -2,9 +2,9 @@
 bits 32
 %include "hockey.inc"
 section s_BA3D0 progbits alloc exec nowrite align=1
-extern FatalError, str_ORIINST, str_INVMATRX, str_Ori, str_OriloadCouldNotLoadORIGA, dword_11F5C0, dword_11F5C4, str_Punct_DrawRinkSurface
-extern dword_122378, dword_122384, dword_122388, dword_12238C, SinTable, str_Punct_SetScreenScale, ScreenWidth, ClipTopRow
-extern ClipLeftCol, ClipRight, ScreenHeight, DrawDestBuffer, dword_1228FC, ViewCenterY, str_D_ProjectPointsPersp, dword_123ABC
+extern FatalError, str_ORIINST, str_INVMATRX, str_Ori, str_OriloadCouldNotLoadORIGA, dword_11F5C0, dword_11F5C4, NearClipZ
+extern dword_122378, dword_122384, dword_122388, dword_12238C, SinTable, NearPlaneZ, ScreenWidth, ClipTopRow
+extern ClipLeftCol, ClipRight, ScreenHeight, DrawDestBuffer, dword_1228FC, ViewCentreX, ViewCentreY, dword_123ABC
 extern dword_123AC0, AtanTable, str_Punct_AngleOfVector, dword_17DC18, dword_17DC1C, dword_17DC24, dword_17DC28, dword_1956B0
 extern dword_1956B4, dword_1956B8, dword_1956BC, dword_1956C0, dword_1956C4, dword_1956C8, dword_1956CC, dword_198388
 extern dword_19838C, dword_198390, dword_198394, dword_198398, dword_19839C, dword_1983A0, dword_1983A4, RinkViewChanged
@@ -887,7 +887,7 @@ ClassifyQuadDepth:
         jge short .6
         mov ebx, ebp
 .6:
-        mov ecx, dword [str_Punct_DrawRinkSurface]
+        mov ecx, dword [NearClipZ]
         cmp ebx, ecx
         jg short .7
         mov eax, 1
@@ -2183,7 +2183,7 @@ ProjectPointsPersp:
         dec ebp
         cmp ebp, byte 0FFFFFFFFh
         je near .8
-        mov edx, dword [str_Punct_DrawRinkSurface]
+        mov edx, dword [NearClipZ]
         mov eax, dword [byte esi+08h]
         cmp eax, edx
         jg short .2
@@ -2222,12 +2222,12 @@ ProjectPointsPersp:
         sar eax, cl
         mov dword [esp], eax
         mov ecx, dword [esp]
-        mov eax, dword [ViewCenterY]
+        mov eax, dword [ViewCentreX]
         add eax, ecx
         mov dword [ebx], eax
         imul edi, dword [byte esi+04h]
         mov cl, dl
-        mov eax, dword [str_D_ProjectPointsPersp]
+        mov eax, dword [ViewCentreY]
         sar edi, cl
         sub eax, edi
         mov dword [byte ebx+04h], eax
@@ -2316,9 +2316,9 @@ SetRinkTranslation:
 ;-----------------------------------------------------------------------------
 SetScreenScale:
         mov eax, dword [byte esp+04h]
-        mov dword [str_Punct_SetScreenScale], eax
+        mov dword [NearPlaneZ], eax
         dec eax
-        mov dword [str_Punct_DrawRinkSurface], eax
+        mov dword [NearClipZ], eax
         ret
 ;-----------------------------------------------------------------------------
 ; ProjectModelPoints                              BBC14  96 PC, low confidence

@@ -2419,7 +2419,8 @@ E15AC,RemapPolygonArgs,sub_E15AC,new,low,darkens a polygon whose points are pass
 E15D7,ClipEdgeToPlane,sub_E15D7,new,low,finds where an edge crosses a Z plane,src/lib/input/input_joystick_misc_02.asm
 E162A,SetNearClipZ,sub_E162A,new,low,sets the near clip plane distance,src/lib/input/input_joystick_misc_02.asm
 E1638,SetViewScreenOrigin,sub_E1638,new,low,sets the view's screen origin and works out its far corner from the view size,src/lib/input/input_joystick_misc_02.asm
-E167A,SetCameraAngles,sub_E167A,new,low,converts the camera angles from degrees to 1024ths of a turn and builds the camera rotation,src/lib/input/input_joystick_misc_02.asm
+E167A,SetViewFov,sub_E167A,new,medium,converts the field of view angles from degrees to 1024ths of a turn and sets up the view's size and projection,src/lib/input/input_joystick_misc_02.asm
+E16A7,SetViewFov_2D,,new,medium,SetViewFov after the angle conversion: sets up the view's size and projection,src/lib/input/input_joystick_misc_02.asm
 E17B8,TransposeMatrix,sub_E17B8,new,low,"transposes a 3x3 matrix, in place or into another matrix",src/lib/input/input_joystick_misc_02.asm
 E1824,FillMem,sub_E1824,new,medium,"fills memory (dst, count, byte value)",src/lib/video/video_bios_vga_02.asm
 E1836,ZeroMem,sub_E1836,new,medium,"clears memory (dst, count) to zero",src/lib/video/video_bios_vga_02.asm
@@ -4677,7 +4678,7 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 11F5E4,CpuType,dword_11F5E4,new,low,CPU type,src/data/lib/watcom/watcom_clib_05_data_02.asm
 11F5E8,CpuHasCpuid,dword_11F5E8,new,low,CPU has CPUID,src/data/lib/watcom/watcom_clib_05_data_02.asm
 11F5EC,CpuFeatures,dword_11F5EC,new,low,CPUID feature bits,src/data/lib/watcom/watcom_clib_05_data_02.asm
-11F5F0,str_Punct_DrawRinkSurface,dword_11F5F0,new,high,"string ""\n""",src/data/lib/watcom/watcom_clib_05_data_02.asm
+11F5F0,NearClipZ,dword_11F5F0,new,medium,the near clip distance: points at or nearer than it are not projected,src/data/lib/watcom/watcom_clib_05_data_02.asm
 11F600,mousepollfn,,95PC,medium,NHL95PC D3078 (refset): referenced by the same 2 matched functions,
 11F618,BiosKeyFunc,off_11F618,new,low,routine that calls the BIOS keyboard service,src/data/lib/watcom/watcom_clib_05_data_02.asm
 11F620,KeyBuffer,dword_11F620,new,medium,keyboard buffer ring,src/data/lib/watcom/watcom_clib_05_data_02.asm
@@ -4796,7 +4797,7 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 122390,SinTable,dword_122390,new,low,quarter-wave sine table in 16.16 fixed point,src/data/lib/input/input_joystick_misc_02_data_01.asm
 122790,CosTable,dword_122790,new,medium,quarter-wave cosine table in 16.16 fixed point,src/data/lib/input/input_joystick_misc_02_data_01.asm
 122794,RemapTable,byte_122794,new,low,colour remap table,src/data/lib/input/input_joystick_misc_02_data_01.asm
-122894,str_Punct_SetScreenScale,dword_122894,new,high,"string ""\n""",src/data/lib/input/input_joystick_misc_02_data_01.asm
+122894,NearPlaneZ,dword_122894,new,low,the projection plane distance set by SetScreenScale,src/data/lib/input/input_joystick_misc_02_data_01.asm
 122898,RinkMatrix,unk_122898,new,low,rink rotation matrix,src/data/lib/input/input_joystick_misc_02_data_01.asm
 1228BC,RinkTranslation,unk_1228BC,new,low,rink translation vector,src/data/lib/input/input_joystick_misc_02_data_01.asm
 1228D0,ScreenWidth,dword_1228D0,new,low,screen width in pixels,src/data/lib/input/input_joystick_misc_02_data_01.asm
@@ -4816,14 +4817,14 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 123988,ColourRemap,byte_123988,new,medium,"colour remap table, 256 entries",src/data/lib/watcom/watcom_clib_05_data_04.asm
 123A8C,BlitColumnOffsets,dword_123A8C,new,medium,column offset table of the span copy,src/data/lib/watcom/watcom_clib_05_data_04.asm
 123A90,BlitSourcePtr,dword_123A90,new,medium,source pointer of the span copy,src/data/lib/watcom/watcom_clib_05_data_04.asm
-123A94,ViewCenterX,dword_123A94,new,medium,view center X,src/data/lib/input/input_joystick_misc_02_data_02.asm
-123A98,str_D_SetCameraAngles,dword_123A98,new,medium,"string ""d""",src/data/lib/input/input_joystick_misc_02_data_02.asm
-123A9C,CameraYaw,dword_123A9C,new,medium,camera yaw angle,src/data/lib/input/input_joystick_misc_02_data_02.asm
-123AA0,CameraPitch,dword_123AA0,new,medium,camera pitch angle,src/data/lib/input/input_joystick_misc_02_data_02.asm
-123AA4,ViewCenterY,dword_123AA4,new,medium,view center Y,src/data/lib/input/input_joystick_misc_02_data_02.asm
-123AA8,str_D_ProjectPointsPersp,dword_123AA8,new,medium,"string ""d""",src/data/lib/input/input_joystick_misc_02_data_02.asm
-123AB4,CameraOriginX,dword_123AB4,new,medium,view origin X used by the camera,src/data/lib/input/input_joystick_misc_02_data_02.asm
-123AB8,CameraOriginY,dword_123AB8,new,medium,view origin Y used by the camera,src/data/lib/input/input_joystick_misc_02_data_02.asm
+123A94,ViewHalfWidth,dword_123A94,new,medium,half the view's width in pixels,src/data/lib/input/input_joystick_misc_02_data_02.asm
+123A98,ViewHalfHeight,dword_123A98,new,medium,half the view's height in pixels,src/data/lib/input/input_joystick_misc_02_data_02.asm
+123A9C,ViewOriginX,dword_123A9C,new,medium,the view's left edge on the screen,src/data/lib/input/input_joystick_misc_02_data_02.asm
+123AA0,ViewOriginY,dword_123AA0,new,medium,the view's top edge on the screen,src/data/lib/input/input_joystick_misc_02_data_02.asm
+123AA4,ViewCentreX,dword_123AA4,new,medium,"the screen x of the view's centre, where projected points are placed from",src/data/lib/input/input_joystick_misc_02_data_02.asm
+123AA8,ViewCentreY,dword_123AA8,new,medium,"the screen y of the view's centre, where projected points are placed from",src/data/lib/input/input_joystick_misc_02_data_02.asm
+123AB4,ViewFovX,dword_123AB4,new,medium,"the view's horizontal field of view, in 1024ths of a turn",src/data/lib/input/input_joystick_misc_02_data_02.asm
+123AB8,ViewFovY,dword_123AB8,new,medium,"the view's vertical field of view, in 1024ths of a turn",src/data/lib/input/input_joystick_misc_02_data_02.asm
 123AC4,RetraceTimeout,dword_123AC4,new,low,loop count before giving up on vertical retrace,src/data/lib/input/input_joystick_misc_02_data_02.asm
 123B0C,VesaModeInfo,dword_123B0C,new,low,VESA mode information block pointer,src/data/lib/input/input_joystick_misc_02_data_02.asm
 123B10,SpeechQueue,dword_123B10,new,medium,speech queue: 20 slots of clip and lead samples,src/data/lib/input/input_joystick_misc_02_data_02.asm

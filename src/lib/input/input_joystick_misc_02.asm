@@ -2,15 +2,15 @@
 bits 32
 %include "hockey.inc"
 section s_E0898 progbits alloc exec nowrite align=1
-extern str_Punct_DrawRinkSurface, dword_1222C8, dword_1222CC, dword_1222D0, RandState, dword_1222D8, RandIndex, ClipTopRow
-extern ClipLeftCol, ClipRight, ScreenHeight, ViewCenterX, str_D_SetCameraAngles, CameraYaw, CameraPitch, ViewCenterY
-extern str_D_ProjectPointsPersp, dword_123AAC, dword_123AB0, CameraOriginX, CameraOriginY, dword_123ABC, ShadowFillFunc, TitleBandFunc
+extern NearClipZ, dword_1222C8, dword_1222CC, dword_1222D0, RandState, dword_1222D8, RandIndex, ClipTopRow
+extern ClipLeftCol, ClipRight, ScreenHeight, ViewHalfWidth, ViewHalfHeight, ViewOriginX, ViewOriginY, ViewCentreX
+extern ViewCentreY, dword_123AAC, dword_123AB0, ViewFovX, ViewFovY, dword_123ABC, ShadowFillFunc, TitleBandFunc
 extern FillSpanList, RemapSpanList, FillRectSpans, FillRectColor, SetupRectFillBlend, SetupRectFill, AngleFromDelta, SinLookup
 extern CosLookup
 global FillBandRowsJumpTable, FillBandRowsBlendJumpTable, FillBandRowsPlainJumpTable, FillPolygon_F, FillPolygonArgs_F, FillPolygonCore, jpt_E0C7A_38, jpt_E0DBA_3B
-global jpt_E0F93_22F, ClipEdgeToPlane_B, SetCameraAngles_2D, Random32, FillPolygon, FillPolygonArgs, FillBandEdges, FillBandRows
+global jpt_E0F93_22F, ClipEdgeToPlane_B, SetViewFov_2D, Random32, FillPolygon, FillPolygonArgs, FillBandEdges, FillBandRows
 global FillBandRowsBlend, vecdist, RemapPolygonCore, RemapPolygon, RemapPolygonArgs, ClipEdgeToPlane, SetNearClipZ, SetViewScreenOrigin
-global SetCameraAngles, TransposeMatrix
+global SetViewFov, TransposeMatrix
 ;-----------------------------------------------------------------------------
 ; Random32                                     E0898  96 PC, medium confidence
 ; Same code as in the next game
@@ -1436,7 +1436,7 @@ RemapPolygonArgs:
         add esp, byte 0FFFFFFF8h
         push esi
         push edi
-        mov eax, dword [str_Punct_DrawRinkSurface]
+        mov eax, dword [NearClipZ]
         jmp short ClipEdgeToPlane_B
 ;-----------------------------------------------------------------------------
 ; ClipEdgeToPlane                                 E15D7  96 PC, low confidence
@@ -1488,7 +1488,7 @@ SetNearClipZ:
         push ebp
         LD mov, ebp, esp
         mov eax, dword [byte ebp+08h]
-        mov dword [str_Punct_DrawRinkSurface], eax
+        mov dword [NearClipZ], eax
         leave
         ret
         db 00h
@@ -1501,13 +1501,13 @@ SetViewScreenOrigin:
         push ebp
         LD mov, ebp, esp
         mov eax, dword [byte ebp+08h]
-        mov dword [CameraYaw], eax
-        add eax, dword [ViewCenterX]
-        mov dword [ViewCenterY], eax
+        mov dword [ViewOriginX], eax
+        add eax, dword [ViewHalfWidth]
+        mov dword [ViewCentreX], eax
         mov eax, dword [byte ebp+0Ch]
-        mov dword [CameraPitch], eax
-        add eax, dword [str_D_SetCameraAngles]
-        mov dword [str_D_ProjectPointsPersp], eax
+        mov dword [ViewOriginY], eax
+        add eax, dword [ViewHalfHeight]
+        mov dword [ViewCentreY], eax
         leave
         ret
         push ebp
@@ -1515,16 +1515,16 @@ SetViewScreenOrigin:
         push esi
         push edi
         mov eax, dword [byte ebp+08h]
-        mov dword [CameraOriginX], eax
+        mov dword [ViewFovX], eax
         mov eax, dword [byte ebp+0Ch]
-        mov dword [CameraOriginY], eax
-        jmp short SetCameraAngles_2D
+        mov dword [ViewFovY], eax
+        jmp short SetViewFov_2D
 ;-----------------------------------------------------------------------------
-; SetCameraAngles                                 E167A  96 PC, low confidence
+; SetViewFov                                 E167A  96 PC, low confidence
 ; Converts the camera angles from degrees to 1024ths of a turn and builds the
 ; camera rotation
 ;-----------------------------------------------------------------------------
-SetCameraAngles:
+SetViewFov:
         push ebp
         LD mov, ebp, esp
         push esi
@@ -1534,45 +1534,50 @@ SetCameraAngles:
         LD xor, edx, edx
         mov ecx, 168h
         div ecx
-        mov dword [CameraOriginX], eax
+        mov dword [ViewFovX], eax
         mov eax, dword [byte ebp+0Ch]
         shl eax, 0Ah
         LD xor, edx, edx
         mov ecx, 168h
         div ecx
-        mov dword [CameraOriginY], eax
-SetCameraAngles_2D:
+        mov dword [ViewFovY], eax
+;-----------------------------------------------------------------------------
+; SetViewFov_2D                                E16A7  96 PC, medium confidence
+; SetViewFov after the angle conversion: sets up the view's size and
+; projection
+;-----------------------------------------------------------------------------
+SetViewFov_2D:
         mov eax, dword [byte ebp+010h]
         shr eax, 1
-        mov dword [ViewCenterX], eax
-        add eax, dword [CameraYaw]
-        mov dword [ViewCenterY], eax
+        mov dword [ViewHalfWidth], eax
+        add eax, dword [ViewOriginX]
+        mov dword [ViewCentreX], eax
         mov eax, dword [byte ebp+014h]
         shr eax, 1
-        mov dword [str_D_SetCameraAngles], eax
-        add eax, dword [CameraPitch]
-        mov dword [str_D_ProjectPointsPersp], eax
-        push dword [CameraOriginX]
+        mov dword [ViewHalfHeight], eax
+        add eax, dword [ViewOriginY]
+        mov dword [ViewCentreY], eax
+        push dword [ViewFovX]
         call CosLookup
         add esp, byte 4
-        mul dword [ViewCenterX]
+        mul dword [ViewHalfWidth]
         LD mov, esi, eax
-        push dword [CameraOriginX]
+        push dword [ViewFovX]
         call SinLookup
         add esp, byte 4
         LD mov, ecx, eax
         LD mov, eax, esi
         div ecx
         mov dword [dword_123AAC], eax
-        mov ebx, dword [CameraOriginY]
+        mov ebx, dword [ViewFovY]
         LD or, ebx, ebx
         je short .1
-        push dword [CameraOriginY]
+        push dword [ViewFovY]
         call CosLookup
         add esp, byte 4
-        mul dword [str_D_SetCameraAngles]
+        mul dword [ViewHalfHeight]
         LD mov, esi, eax
-        push dword [CameraOriginY]
+        push dword [ViewFovY]
         call SinLookup
         add esp, byte 4
         LD mov, ecx, eax
@@ -1593,11 +1598,11 @@ SetCameraAngles_2D:
         neg eax
         mov dword [dword_123AB0], eax
         neg eax
-        push dword [str_D_SetCameraAngles]
+        push dword [ViewHalfHeight]
         push eax
         call AngleFromDelta
         add esp, byte 8
-        mov dword [CameraOriginY], eax
+        mov dword [ViewFovY], eax
         pop edi
         pop esi
         leave
@@ -1609,12 +1614,12 @@ SetCameraAngles_2D:
         mov eax, dword [ebx]
         imul dword [dword_123AAC]
         idiv dword [byte ebx+08h]
-        add eax, dword [ViewCenterY]
+        add eax, dword [ViewCentreX]
         mov dword [ecx], eax
         mov eax, dword [byte ebx+04h]
         imul dword [dword_123AB0]
         idiv dword [byte ebx+08h]
-        add eax, dword [str_D_ProjectPointsPersp]
+        add eax, dword [ViewCentreY]
         mov dword [byte ecx+04h], eax
         ret
 .2:

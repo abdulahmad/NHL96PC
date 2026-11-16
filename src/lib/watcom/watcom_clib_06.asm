@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_BC73C progbits alloc exec nowrite align=1
-extern FatalError, __sys_init_387_emulator, str_OrigetpartitionDIsAnInva, str_Punct_SetScreenScale, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight
-extern ScreenHeight, dword_1228FC, ViewCenterY, str_D_ProjectPointsPersp, dword_123AAC, dword_123AB0, dword_123ABC, dword_19869C
+extern FatalError, __sys_init_387_emulator, str_OrigetpartitionDIsAnInva, NearPlaneZ, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight
+extern ScreenHeight, dword_1228FC, ViewCentreX, ViewCentreY, dword_123AAC, dword_123AB0, dword_123ABC, dword_19869C
 extern dword_1986A0, dword_19A5E0, dword_19A5E4, dword_19A5E8, dword_19A5EC, dword_19A5F0, dword_19A5F4, dword_19A5F8
 extern dword_19A5FC, dword_19A600, dword_19A604, dword_19A608, dword_19A60C, dword_19A610, dword_19A614, dword_19A618
 extern dword_19A61C, dword_19A620, dword_19A624, dword_19A628, dword_19A630, dword_19A634, dword_19A638, dword_19A63C
@@ -2420,7 +2420,7 @@ DrawTexturedPolyCore:
         sub eax, edx
         shl eax, 2
         add eax, edi
-        mov ebx, dword [str_Punct_SetScreenScale]
+        mov ebx, dword [NearPlaneZ]
         cmp ebx, dword [byte eax+08h]
         jle short .16
         cmp ebx, dword [byte esi+08h]
@@ -2458,12 +2458,12 @@ DrawTexturedPolyCore:
         mov eax, dword [esi]
         imul dword [dword_123AAC]
         idiv dword [byte esi+08h]
-        add eax, dword [ViewCenterY]
+        add eax, dword [ViewCentreX]
         mov dword [edi], eax
         mov eax, dword [byte esi+04h]
         imul dword [dword_123AB0]
         idiv dword [byte esi+08h]
-        add eax, dword [str_D_ProjectPointsPersp]
+        add eax, dword [ViewCentreY]
         mov dword [byte edi+04h], eax
         jmp short .19
 .18:
@@ -2594,7 +2594,7 @@ SubdivideMappedTriangle:
         imul edx, byte 0Ch
         mov esi, dword [dword_19A648]
         add edi, esi
-        mov ecx, dword [str_Punct_SetScreenScale]
+        mov ecx, dword [NearPlaneZ]
         add esi, edx
         cmp ecx, dword [byte edi+08h]
         jle short .4
@@ -2614,12 +2614,12 @@ SubdivideMappedTriangle:
         mov eax, dword [esi]
         imul dword [dword_123AAC]
         idiv dword [byte esi+08h]
-        add eax, dword [ViewCenterY]
+        add eax, dword [ViewCentreX]
         mov dword [edi], eax
         mov eax, dword [byte esi+04h]
         imul dword [dword_123AB0]
         idiv dword [byte esi+08h]
-        add eax, dword [str_D_ProjectPointsPersp]
+        add eax, dword [ViewCentreY]
         mov dword [byte edi+04h], eax
         jmp short .3
 .2:
@@ -2657,12 +2657,12 @@ SubdivideMappedTriangle:
         mov eax, dword [esi]
         imul dword [dword_123AAC]
         idiv dword [byte esi+08h]
-        add eax, dword [ViewCenterY]
+        add eax, dword [ViewCentreX]
         mov dword [edi], eax
         mov eax, dword [byte esi+04h]
         imul dword [dword_123AB0]
         idiv dword [byte esi+08h]
-        add eax, dword [str_D_ProjectPointsPersp]
+        add eax, dword [ViewCentreY]
         mov dword [byte edi+04h], eax
         jmp short .6
 .5:
@@ -2754,7 +2754,7 @@ DrawMarkingPolys:
         imul edi, dword [dword esp+0338h], byte 0Ch
         mov eax, dword [dword_19A648]
         add esi, eax
-        mov ecx, dword [str_Punct_SetScreenScale]
+        mov ecx, dword [NearPlaneZ]
         add eax, edi
         cmp ecx, dword [byte esi+08h]
         jle short .2

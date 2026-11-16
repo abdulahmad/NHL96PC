@@ -14,7 +14,7 @@ extern off_11788C, off_117894, off_11D44C, off_11D4BC, off_11D52C, optblock, puc
 extern randomd0, reenergizeteam, regd0, regd1, regd2, resetplstuff, RunSimFrames, SetClipWindow
 extern setpersonel, SetSPA, sflags, sfx, skateto, SkateToSpot, SlotButtons, SortCords
 extern sprintf_, SprSort, str_fmt2d, str_MightyDucks, str_OfAnaheim, LinkResyncInput, LoadTeamLogo, EndGameCleanup
-extern sub_493D4, sub_4B59F, sub_5439F, sub_5A572, sub_5BD7D, sub_5DBC0, sub_60777, sub_612BC
+extern sub_493D4, sub_4B59F, sub_5439F, DrawGameFrame, GetPeriodText, sub_5DBC0, sub_60777, sub_612BC
 extern sub_62311, sub_63998, sub_63A5B, sub_63F79, sub_63FEF, sub_64054, sub_640D3, sub_641D4
 extern Crowd_Noise, CrowdFadeOut, CrowdReaction, PlayArenaClip, ArenaClipReady, StartArenaClip, StopArenaClip, SoundIdle
 extern sub_77355, sub_ADA80, sub_AFFD0, sub_B58D8, sub_B6140, sub_DD724, sub_DD7B8, sub_DD8B0
@@ -411,7 +411,7 @@ sub_2DE30_69:
         call sub_612BC
 .6:
         mov eax, ebx
-        call sub_5A572
+        call DrawGameFrame
         cmp dword [fadeinpending], byte 0
         je short .7
         mov ebx, 1
@@ -1161,7 +1161,7 @@ sub_2E1BE:
         jmp short .68
 .67:
         lea eax, [byte ebp-058h]
-        call sub_5BD7D
+        call GetPeriodText
 .68:
         test byte [byte_17CA5D], 20h
         je short .69

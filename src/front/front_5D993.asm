@@ -49,7 +49,7 @@ extern off_117894, off_11BB4C, off_11BDA8, passplayer, penshotlive, penshotmode,
 extern puckvz, qword_111084, qword_11108C, qword_111094, qword_11109C, qword_1110A4, qword_1110AC, qword_1110B4
 extern qword_1110BC, rand_, sflags, sprintf_, str_Pl1, GetInputDevices, GetPressedDevice, GripReadSlots
 extern ReadJoystickBits, MakeDataPath, sub_1E643, LoadPackedFile, sub_21BE3, sub_2976B, sub_297A8, sub_53260
-extern sub_587B7, sub_589E4, sub_5CC12, sub_5D707, sub_5D82C, sub_5D87E, sub_5D8D1, PaEvent
+extern BuildShadeLut, FullViewClip, QueueOverlayPanel, CameraPathCoeffs, CameraPathSlope, CameraPathCurve, CameraPathPoint, PaEvent
 extern StopMusic, QueueMusic, FillMusicStream, CloseMusic, OpenMusicStream, PlayMusic, FadeOutMusic, PlaySfx
 extern SoundSecondsToBytes, SoundIdle, PlayMovie, sub_77355, sub_AA7E0, PutBlock, sub_AADA4, sub_AB758
 extern sub_AB798, sub_ABF4C, sub_AC838, sub_AD35C, sub_AD620, FillRect, sub_ADA50, sub_ADA80
@@ -118,49 +118,49 @@ sub_5D993:
         mov ecx, unk_179CCC
         mov edx, dword [dword_179D48]
         mov ebx, unk_179CCC
-        call sub_5D82C
+        call CameraPathSlope
         mov edx, dword [dword_179D48]
         add ecx, byte 18h
         mov dword [dword_179E2F], eax
         mov eax, ecx
         add ebx, byte 30h
-        call sub_5D82C
+        call CameraPathSlope
         mov edx, dword [dword_179D48]
         mov dword [dword_179E33], eax
         mov eax, ebx
-        call sub_5D82C
+        call CameraPathSlope
         mov edx, dword [dword_179D48]
         mov dword [dword_179E37], eax
         mov eax, unk_179CCC
-        call sub_5D87E
+        call CameraPathCurve
         mov edx, dword [dword_179D48]
         mov dword [dword_179E3B], eax
         mov eax, ecx
-        call sub_5D87E
+        call CameraPathCurve
         mov edx, dword [dword_179D48]
         mov dword [dword_179E3F], eax
         mov eax, ebx
         mov ecx, unk_179CCC
-        call sub_5D87E
+        call CameraPathCurve
         add ecx, byte 48h
         mov edx, dword [dword_179D48]
         mov dword [dword_179E43], eax
         mov eax, ecx
         mov ebx, unk_179CCC
-        call sub_5D82C
+        call CameraPathSlope
         add ebx, byte 60h
         mov edx, dword [dword_179D48]
         mov dword [dword_179E1F], eax
         mov eax, ebx
-        call sub_5D82C
+        call CameraPathSlope
         mov edx, dword [dword_179D48]
         mov dword [dword_179E23], eax
         mov eax, ecx
-        call sub_5D87E
+        call CameraPathCurve
         mov edx, dword [dword_179D48]
         mov dword [dword_179E27], eax
         mov eax, ebx
-        call sub_5D87E
+        call CameraPathCurve
         mov dword [dword_179E2B], eax
 .2:
         mov ebx, dword [byte edi+09h]
@@ -192,7 +192,7 @@ sub_5D993:
         mov ebx, dword [byte esi+02Dh]
         mov edx, dword [byte edi+011h]
         mov eax, dword [byte esi+011h]
-        call sub_5D707
+        call CameraPathCoeffs
         mov eax, dword [byte ebp-04h]
         mov ecx, dword [byte esi+03Dh]
         add eax, byte 18h
@@ -200,7 +200,7 @@ sub_5D993:
         push eax
         mov edx, dword [byte edi+015h]
         mov eax, dword [byte esi+015h]
-        call sub_5D707
+        call CameraPathCoeffs
         mov eax, dword [byte ebp-04h]
         mov ecx, dword [byte esi+041h]
         add eax, byte 30h
@@ -208,7 +208,7 @@ sub_5D993:
         push eax
         mov edx, dword [byte edi+019h]
         mov eax, dword [byte esi+019h]
-        call sub_5D707
+        call CameraPathCoeffs
         mov eax, dword [byte ebp-04h]
         mov ecx, dword [byte esi+025h]
         add eax, byte 48h
@@ -216,7 +216,7 @@ sub_5D993:
         push eax
         mov edx, dword [byte edi+09h]
         mov eax, dword [byte esi+09h]
-        call sub_5D707
+        call CameraPathCoeffs
         mov eax, dword [byte ebp-04h]
         mov ecx, dword [byte esi+029h]
         add eax, byte 60h
@@ -224,7 +224,7 @@ sub_5D993:
         push eax
         mov edx, dword [byte edi+0Dh]
         mov eax, dword [byte esi+0Dh]
-        call sub_5D707
+        call CameraPathCoeffs
         jmp near sub_5FD46_278
 ;-----------------------------------------------------------------------------
 ; sub_5DBC0                                                       5DBC0  96 PC
@@ -3114,7 +3114,7 @@ sub_603FF:
         mov eax, 2
         mov ebx, ecx
         mov edx, ecx
-        call sub_5CC12
+        call QueueOverlayPanel
 .1:
         pop edx
         pop ecx
@@ -3200,7 +3200,7 @@ sub_60543:
         mov edx, unk_16443C
         mov eax, 4000h
         mov dword [dword_1798EC], 4000h
-        call sub_587B7
+        call BuildShadeLut
 .1:
         mov dword [dword_179DCE], 2A8h
         mov dword [dword_179DD2], 1B8h
@@ -3479,7 +3479,7 @@ sub_60823:
         push dword [dword_11B234]
         call SetDrawBitmap
         add esp, byte 4
-        call sub_589E4
+        call FullViewClip
         push byte 0
         call sub_E0584
         mov eax, dword [dword_11B32C]
@@ -4209,7 +4209,7 @@ sub_612BC_174:
         cmp eax, dword [dword_11B747]
         jne near sub_612BC_667.34
 .15:
-        call sub_5D8D1
+        call CameraPathPoint
         cmp dword [dword_11A3F8], byte 0
         jne short .16
         cmp dword [edx], byte 0
@@ -4484,7 +4484,7 @@ sub_612BC_667:
         mov dword [dword_179D48], 0
         jmp near sub_5FD46_278
 .34:
-        call sub_5D8D1
+        call CameraPathPoint
         jmp near sub_5FD46_278
 ;-----------------------------------------------------------------------------
 ; sub_619E2                                                       619E2  96 PC

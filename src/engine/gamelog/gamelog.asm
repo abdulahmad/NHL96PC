@@ -10,7 +10,7 @@ extern byte_176B98, byte_176B99, byte_176B9A, goalevent, byte_179DC1, byte_17CA5
 extern dword_11917F, dword_119183, dword_11A1BC, dword_11B310, dword_1571B3, dword_164124, dword_1657EA, dword_1798AC
 extern dword_179918, dword_179920, optflags, fputchar, gameclock, gameopts, gmode, hmroster
 extern hmtmgoalie, hmtmstruct, penshotplayer, sprintf_, str_FmtNumFirstLast, str_FmtNumInitialLast, str_FmtNumName, str_FmtNumNameSuffix
-extern str_FmtParenD, strcat_, strcpy_, strlen_, sub_5CC12, CloseTextOverlay, sub_60777, PaEvent
+extern str_FmtParenD, strcat_, strcpy_, strlen_, QueueOverlayPanel, CloseTextOverlay, sub_60777, PaEvent
 extern sub_77355, TextSetFont, unk_110E2D, str_S8, unk_156E6C, gsp, word_11A236, word_1656E8
 extern word_16581E, word_165942, word_176B6C, word_176B7A, word_176B80
 global FormatPlayerName, sub_4F58E, sub_4F626, BuildEventLines, PostGoalEvent, PostPenaltyEvent, PostInjuryEvent
@@ -535,7 +535,7 @@ BuildEventLines:
         add esp, byte 10h
         mov edx, edi
         mov eax, 3
-        call sub_5CC12
+        call QueueOverlayPanel
 .14:
         mov dword [dword_11B310], 1F4h
 .15:

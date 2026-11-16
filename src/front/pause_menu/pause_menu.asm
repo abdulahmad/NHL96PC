@@ -24,7 +24,7 @@ extern str_Jy2D, str_Jy3D, str_Jy4D, str_KeyD2, str_Log7, str_Logx, str_MdmD, st
 extern str_Paus, str_PAUSREG, str_PlyD, str_Qui02, str_Qui12, str_Qui22, str_Rep0, str_Rep1
 extern str_Ret02, str_Ret12, str_Ret22, str_Sav02, str_Sav12, str_Sid12, str_Sid22, str_Sts02
 extern str_Sts12, strcat_, strcpy_, sub_3A6F3, sub_5360D, sub_5439F, sub_564A4, sub_57B11
-extern sub_5A572, sub_5B0F9, sub_60777, sub_612BC, sub_621D9, sub_62201, sub_6225D, sub_62285
+extern DrawGameFrame, DrawGameClock, sub_60777, sub_612BC, sub_621D9, sub_62201, sub_6225D, sub_62285
 extern sub_62311, sub_625F7, sub_62ED9, sub_63998, sub_63A5B, sub_63B0C, sub_63DC4, sub_63F79
 extern sub_640D3, sub_64103, sub_641D4, sub_6423E, sub_64296, sub_64721, sub_64F59, sub_66373
 extern sub_6F056, sub_77355, sub_78E9E, sub_78EFA, sub_9CDDA, sub_A25CD, sub_AA7E0, sub_AA988
@@ -665,7 +665,7 @@ sub_6AA3B:
         mov eax, dword [dword_17D51C]
         add edx, esi
         movsx eax, word [byte eax+012h]
-        call sub_5B0F9
+        call DrawGameClock
         push dword [dword_179918]
         call TextSetFont
         add esp, byte 4
@@ -1020,7 +1020,7 @@ sub_6B404:
         call sub_612BC
         xor eax, eax
         sub esi, edx
-        call sub_5A572
+        call DrawGameFrame
         test esi, esi
         jge short .4
         xor esi, esi
@@ -2461,7 +2461,7 @@ sub_6C698:
 .9:
         xor eax, eax
         mov word [word_11D929], 1
-        call sub_5A572
+        call DrawGameFrame
         cmp word [word_114F14], byte 0
         je short .10
         mov ebx, 2

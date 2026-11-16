@@ -15,7 +15,7 @@ extern randomd0, regd2, regd3, resetplstuff, setpersonel, sflags, shotongoal, sh
 extern sub_23656, sub_28459, StartFaceoffLineChange, sub_3509F, sub_350A5, SkateToSpot, CenterMouse, ReturnGoalies
 extern SetSPA, sub_46593, SprSort, changeplayer, GetHot, Setplass, setplayer, updateanim
 extern clockcont_0, SetExitGame, ResetBench, forcepldata, doplayeracc, EvadePC, skateto, playeracc
-extern avdgoal, stopna, AddPenalty2, Stop4Pen, sub_59A36, PlaySfx, StopArenaClip, vecdist
+extern avdgoal, stopna, AddPenalty2, Stop4Pen, PlaceGoalNets, PlaySfx, StopArenaClip, vecdist
 extern threat, unk_164B5C, vtoa, word_1178A0, word_1178A2, word_1178B4, yc1, word_1178B8
 extern fodir1, fodir2, gmode2, word_1178CA, slotteam, word_1178F6, word_1178F8, word_1178FA
 extern word_1178FC, gsp, word_117902, word_118E8F, word_118E9F, word_118EA3, word_118EB7, word_1190D7
@@ -1530,7 +1530,7 @@ puckfaceoff2:
         call sub_23656
         cmp dword [dword_11B2A8], byte 0
         je short .19
-        call sub_59A36
+        call PlaceGoalNets
         mov dword [dword_11B2A8], 0
 .19:
         mov ax, word [foy]

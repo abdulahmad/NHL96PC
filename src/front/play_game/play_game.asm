@@ -15,7 +15,7 @@ extern PeriodOver, PickThreeStars, PollControllers, PostGameScreens, PullGoalie,
 extern RunInGameMenu, seed, SetupDemoGame, SetupGame, SetupTeamLines, SetViewRect, SlotButtons, str_FhiL2
 extern str_FhiR2, str_GhiL, str_GhiR, str_GloL5, str_GloR5, str_PAL, strcpy_, MessageBox
 extern BlankForFadeIn, LoadSeasonStats, LoadPlayoffStats, LoadExhibitionStats, LoadModemStats, FreeStatsTables, EndGameCleanup, InitGameTeams
-extern UpdateUserRecords, sub_3A6F3, sub_4B59F, sub_5358E, sub_58A58, sub_59188, sub_5A572, sub_5AF42
+extern UpdateUserRecords, sub_3A6F3, sub_4B59F, sub_5358E, InitGameView, FreeGameView, DrawGameFrame, ResetGameOverlays
 extern sub_612BC, sub_62311, sub_625F7, sub_62ED9, sub_62F90, sub_63A5B, sub_63B0C, sub_63DC4
 extern StopMusic, QueueMusic, FadeOutMusic, PlaySfx, Crowd_Noise, SetCrowdTarget, CrowdFadeOut, ArenaClipReady
 extern StartArenaClip, StopArenaClip, StartGameSound, EndGameSound, SoundIdle, WriteGlobalSet, sub_77355, sub_AA664
@@ -571,7 +571,7 @@ RunSimFrames:
         mov edx, eax
         call sub_612BC
         mov eax, edx
-        call sub_5A572
+        call DrawGameFrame
         call ReadHotKeys
         pop edx
         ret
@@ -595,7 +595,7 @@ GameLoop_18:
         jne near GameLoop_gameovercall
         cmp dword [dword_1150FC], byte 0
         jne near GameLoop_gameovercall
-        call sub_5AF42
+        call ResetGameOverlays
 GameLoop_38:
         cmp word [exitgame], byte 0
         jne near GameLoop_menucall_A
@@ -683,7 +683,7 @@ GameLoop_inputcheck:
         mov eax, ebx
         call sub_612BC
         mov eax, ebx
-        call sub_5A572
+        call DrawGameFrame
 GameLoop_hotkeyscall:
         call ReadHotKeys
 GameLoop_hotkeyscall_5:
@@ -801,7 +801,7 @@ RunDemoGame:
         xor eax, eax
         call sub_63DC4
         call sub_DD6C4
-        call sub_58A58
+        call InitGameView
         push InputRecordTimer
         mov dword [GameLoopActive], 0
         mov dword [InputRecordTicks], 0
@@ -821,7 +821,7 @@ RunDemoGame:
         push InputRecordTimer
         call sub_AA664
         add esp, byte 4
-        call sub_59188
+        call FreeGameView
         call ResetInputSlots
         mov eax, 1
         call sub_63DC4
@@ -898,7 +898,7 @@ PlayGame_initslotscall:
         setne al
         movzx eax, al
         call sub_63DC4
-        call sub_58A58
+        call InitGameView
         push InputRecordTimer
         mov dword [GameLoopActive], 0
         mov dword [InputRecordTicks], 0
@@ -930,7 +930,7 @@ PlayGame_initslotscall:
 .2:
         mov dword [dword_1150FC], 0
         mov word [word_114F14], 1
-        call sub_5AF42
+        call ResetGameOverlays
 PlayGame_menucall:
         call RunInGameMenu
         cmp dword [dword_1150FC], byte 0
@@ -959,7 +959,7 @@ PlayGame_menucall_42:
 .3:
         mov dword [dword_1150FC], 2
 .4:
-        call sub_59188
+        call FreeGameView
         push InputRecordTimer
         call sub_AA664
         add esp, byte 4

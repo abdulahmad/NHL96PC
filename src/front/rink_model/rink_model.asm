@@ -61,7 +61,7 @@ extern str_Rlxh, str_Rlxn, str_Rlyh, str_Rlyn, str_Rsd0, str_Rsd1, str_Rubber, s
 extern str_Saveback, str_Score, str_SideD, str_SideNotFoundInRink, str_SideNotFoundInStands, str_STAND, str_STAND2ND, str_STANDS
 extern str_Stands2, str_STANDSFSH, str_Strobe, str_TEMP2, str_ThinRedLines, str_Top, str_Topboards, str_WALL
 extern str_Wedge, str_WHD0, str_Zamboni, str_Zambpath, strcat_, strcpy_, sub_1E643, sub_49300
-extern sub_4B38C, sub_4B4F3, sub_59349, sub_625AA, sub_64721, sub_64F59, sub_66373, FillMusicStream
+extern sub_4B38C, sub_4B4F3, DrawRinkSprite, sub_625AA, sub_64721, sub_64F59, sub_66373, FillMusicStream
 extern SoundSecondsToBytes, SoundIdle, sub_873AE, sub_87DD6, sub_8805A, sub_AA988, sub_AAA40, sub_AADA4
 extern sub_AB758, sub_ABF4C, sub_AC868, sub_AD35C, sub_AD620, sub_AD824, sub_ADBEC, sub_AFD00
 extern sub_B0494, sub_B049E, sub_B20D0, sub_B31C0, sub_B74B0, sub_B7810, sub_B78C0, sub_B78DC
@@ -8254,7 +8254,7 @@ sub_27C5E:
 .5:
         mov ebx, dword [dword ebx+dword_179800]
         mov edx, dword [dword edx+dword_1797FC]
-        call sub_59349
+        call DrawRinkSprite
 .6:
         add dword [byte ebp+072h], byte 8
         add dword [byte ebp+06Eh], byte 0Ch
@@ -8333,7 +8333,7 @@ sub_27E24:
         push byte 0
         mov edx, dword [edi]
         mov eax, dword [byte ebp-014h]
-        call sub_59349
+        call DrawRinkSprite
 .5:
         cmp dword [byte ebp-048h], byte 0
         jle short .6
@@ -8607,7 +8607,7 @@ sub_281DC:
         push byte 0
         mov ebx, dword [byte ebx+04h]
         mov edx, dword [edx]
-        call sub_59349
+        call DrawRinkSprite
         cmp dword [byte ebp-048h], byte 0
         jle short .8
         add esi, byte 4

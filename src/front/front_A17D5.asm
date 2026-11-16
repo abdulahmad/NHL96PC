@@ -30,7 +30,7 @@ extern sub_A4FD7_E1, sub_A4FD7_102, sub_A4FD7_115, sprintf_, strcat_, strcpy_, I
 extern LinkSync, ModemChat, GameStatsScreen, NameIndexNew, NameIndexLoad, NameIndexFree, NameIndexAdd, NameIndexFirstId
 extern EditText, MessageBox, LoadTeamLogo, HomeClinchesSeries, AwayClinchesSeries, MakeDirPath, LoadPackedFile, LoadModemStats
 extern FreeStatsTables, sub_21BE3, sub_25087, sub_251E6, sub_25EB3, sub_28459, sub_2929F, sub_29B9F
-extern sub_2E1BE, sub_3A6F3, sub_5A4FF, sub_5A572, CloseTextOverlay, sub_60777, sub_60823, sub_612BC
+extern sub_2E1BE, sub_3A6F3, DrawRinkView, DrawGameFrame, CloseTextOverlay, sub_60777, sub_60823, sub_612BC
 extern sub_621D9, sub_62201, sub_6225D, sub_62285, sub_62311, sub_625F7, sub_62A0F, sub_62AF7
 extern sub_62D9B, sub_62E0E, sub_62E72, sub_62ED9, sub_62F90, sub_63968, sub_63998, sub_63A5B
 extern sub_63B0C, sub_63DC4, sub_63F79, sub_640D3, sub_64103, sub_641D4, sub_6423E, sub_64296
@@ -1112,7 +1112,7 @@ sub_A25CD:
         push dword 81h
         call sub_E0584
         add esp, byte 4
-        call sub_5A4FF
+        call DrawRinkView
         test byte [byte_17CA5D], 20h
         je short .5
         mov dword [dword_18467C], unk_11D7D4
@@ -1810,7 +1810,7 @@ sub_A25CD_ABD:
         mov eax, 9
         call sub_60777
         mov eax, 1
-        call sub_5A572
+        call DrawGameFrame
         mov eax, 7Fh
         call Crowd_Noise
         mov eax, 7Fh

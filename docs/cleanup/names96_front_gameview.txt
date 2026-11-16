@@ -1,0 +1,73 @@
+# NHL 96 PC game view: the 3D rink view set-up and frame draw, player sprites and markers, the game overlays
+# (clock, penalty clock, stat panels, line change boxes) and the camera path polynomials. PC-only (96's 3D view), source new.
+sub_584A0 DrawScaledSprite {confidence=low} draws one scaled sprite frame clipped to the view (dword_1228D8-1228E4), for DrawPlayerSprite
+sub_58690 BuildShadeMatch {confidence=low} (level, palette): for each colour finds the nearest palette colour (distance from 270Fh down) at a shade level, for the shading LUT
+sub_587B7 BuildShadeLut {confidence=low} (level, palette): fills the shading LUT (dword_1798F8) for the palette at a brightness level
+sub_588F7 AllocShadeLut {confidence=medium} allocates the LUT block (dword_1798F4 x 100h bytes)
+sub_58992 LoadIceLogo {confidence=medium} loads the centre ice logo of the home team (data file 0Eh + team, "logo")
+sub_589E4 FullViewClip {confidence=high} SetClipWindow to the whole screen (0, 0, dword_11F5C0, dword_11F5C4)
+sub_58A03 DimGameView {confidence=low} in a replay (gmode 1) lowers the view brightness (dword_1798EC) by 28Fh every other frame down to F5Ch and rebuilds the LUT
+sub_58A58 InitGameView {confidence=high} before a game (PlayGame_initslotscall, RunDemoGame): sets up the 3D rink view: palette, shading LUT, ice logo, priority / b000 / b001 art, the overlays (ResetGameOverlays)
+sub_59188 FreeGameView {confidence=high} after a game: frees what InitGameView allocated (fonts, logo, art, LUT, models)
+sub_59256 DrawRosterName {confidence=medium} (x, y, team, player): draws a player's name from hmroster (record +17h) in the small font
+sub_592BA DrawRosterNumber {confidence=low} (x, y, team, player, pos): draws "%d %s", the player's number with a position text
+sub_59349 DrawRinkSprite {confidence=low} draws a sprite at a rink position, scaled by its distance (from the rink model and the player draw)
+sub_594F1 DrawPlayerSprite {confidence=low} draws one player sprite (team art from gmode / player flags) through DrawScaledSprite
+sub_595DC DrawSpriteShadow {confidence=low} draws a sprite's shadow on the ice (sub_299CF)
+sub_5961F DrawControlMarker {confidence=medium} (controller): draws the marker under the player a controller (byte_1770A2-1770A5) controls, or the puck carrier
+sub_598DA DrawPuckSprite {confidence=low} draws the puck (or its shadow) by its height (puckz)
+sub_5993B SpinPuckModel {confidence=low} turns the puck model (dword_11B294) while the puck moves
+sub_59A36 PlaceGoalNets {confidence=medium} from puckfaceoff2: sets the goal0 / goal1 objects of the rink model to their places
+sub_59F78 DrawPlayerShadows {confidence=low} the shadows of the sorted, visible players
+sub_5A1B2 DrawPlayers {confidence=low} the sorted, visible players back to front (DrawPlayerSprite), with their shadows
+sub_5A43C DrawPlayerMarkers {confidence=medium} the 4 controller markers (DrawControlMarker) and the puck carrier's
+sub_5A4FF DrawRinkView {confidence=medium} from the in-game menu: draws the rink model from the camera with no players
+sub_5A572 DrawGameFrame {confidence=high} (ticks): one frame of the game view from the camera (GameLoop_inputcheck, RunSimFrames, the menus): rink, players, puck, markers, overlays (DrawGameOverlays), line change boxes
+sub_5AB8A DrawPanelLogo {confidence=low} draws a team logo model into an overlay panel (scale by hi-res dword_1798A8)
+sub_5AC3E OpenOverlayPanel {confidence=low} the box of an overlay panel (logo, fill), drawn again only when the panel changes (byte_179CB8 / 179CB9)
+sub_5AE47 DrawOverlayCaption {confidence=low} with word_119111 set, draws its caption text (table unk_58468, text 0ADh)
+sub_5AF42 ResetGameOverlays {confidence=medium} resets the overlay timers (clock 1770h, 1F40h), the panel queue (3 x 14h at unk_11B2AC) and the hi-res flag
+sub_5AFAE DrawTimedPanel {confidence=low} (ticks): shows the panel dword_11B244 for 12Ch ticks
+sub_5B0F9 DrawGameClock {confidence=high} draws the game clock "%2d:%02d" (or "%2d.%01d" under a minute)
+sub_5B1B3 DrawPenaltyClock {confidence=medium} (pp, seconds): the power play box with the team logo and the penalty time
+sub_5B456 DrawPowerPlayPanel {confidence=medium} with penalties on (gmode2 20h) and a penalty running (GetLowestPen), draws the penalty clock; 1 if drawn
+sub_5B4B6 DrawPlayerPctPanel {confidence=low} (queued kind 2): a player stat panel with "%d.%d%% (%d)" percentages
+sub_5B838 DrawClockPanel {confidence=medium} the power play panel or the game clock, with its show / hide timers
+sub_5B97A DrawTimeLeftPanel {confidence=low} the time-left panel at set minutes by period length (gameopts 600h bits; 7 / 0Eh, 5, 2)
+sub_5BD7D GetPeriodText {confidence=low} (buf): copies the text 84h-8Bh for the game phase (gsp) and the score
+sub_5BE55 DrawScorePanel {confidence=low} the teams' panel "%-12s %2d %-3s" (name, score, shots)
+sub_5C677 DrawPlayerNamePanel {confidence=low} (queued kind 3): a player's name panel (FormatPlayerName)
+sub_5CC12 QueueOverlayPanel {confidence=medium} (kind, a, b, c): puts a panel in a free slot of the 3-panel queue (kind 3 waits 2EE0h), from BuildEventLines
+sub_5CC62 DrawGameOverlays {confidence=medium} (ticks): per frame draws the overlay for the view state (byte_179DC1 9, 0Dh, 11h), the queued panels, the clock, time-left and score panels
+sub_5CD5E DrawLineEnergyBar {confidence=medium} (team, line): one line's energy bar in a line change box
+sub_5CE42 DrawLineChangeBox {confidence=medium} (team): the line change box (lcboxon, lcline, "1"-"4") with the team logo and line energies
+sub_5D4B4 DrawLineChangeBoxes {confidence=medium} reads both teams' line energies (TeamLineEnergy) and draws their line change boxes
+sub_5D707 CameraPathCoeffs {confidence=low} the coefficients of one camera path polynomial
+sub_5D7A2 CameraPathEval {confidence=medium} (coeffs, t): a 5th-degree polynomial in 16.16 by Horner's rule
+sub_5D82C CameraPathSlope {confidence=medium} (coeffs, t): its first derivative (5, 4, 3, 2)
+sub_5D87E CameraPathCurve {confidence=medium} (coeffs, t): its second derivative (20, 12, 6, 2)
+sub_5D8D1 CameraPathPoint {confidence=medium} evaluates the 5 camera path polynomials at dword_179D48 into the camera position and angles (dword_179E0B-179E1B)
+sub_584A0_1E2 DrawScaledSprite_1E2 {no_record}
+sub_588F7_5A AllocShadeLut_5A {no_record}
+sub_58A58_709 InitGameView_709 {no_record}
+sub_58A58_70A InitGameView_70A {no_record}
+sub_5961F_26 DrawControlMarker_26 {no_record}
+sub_5961F_2F DrawControlMarker_2F {no_record}
+sub_5961F_38 DrawControlMarker_38 {no_record}
+sub_5961F_41 DrawControlMarker_41 {no_record}
+sub_59A36_20B PlaceGoalNets_20B {no_record}
+sub_59A36_65 PlaceGoalNets_65 {no_record}
+sub_59A36_71 PlaceGoalNets_71 {no_record}
+sub_59A36_E0 PlaceGoalNets_E0 {no_record}
+sub_5AE47_D7 DrawOverlayCaption_D7 {no_record}
+sub_5AE47_DC DrawOverlayCaption_DC {no_record}
+sub_5AE47_E1 DrawOverlayCaption_E1 {no_record}
+sub_5BD7D_1F GetPeriodText_1F {no_record}
+sub_5BD7D_3C GetPeriodText_3C {no_record}
+sub_5BD7D_59 GetPeriodText_59 {no_record}
+sub_5BD7D_86 GetPeriodText_86 {no_record}
+sub_5BE55_689 DrawScorePanel_689 {no_record}
+sub_5BE55_690 DrawScorePanel_690 {no_record}
+sub_5BE55_697 DrawScorePanel_697 {no_record}
+sub_5BE55_69E DrawScorePanel_69E {no_record}
+sub_5D7A2_70 CameraPathEval_70 {no_record}

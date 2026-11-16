@@ -52,8 +52,8 @@ extern LinkSync, ModemChat, NameIndexNew, NameIndexLoad, NameIndexFree, NameInde
 extern MessageBox, BlankForFadeIn, FileCreate, FileClose, FileWriteAt, MakeDirPath, LoadPackedFile, FreeStatsTables
 extern EndGameCleanup, sub_23476, sub_2363D, sub_23820, sub_23AE5, sub_23C91, sub_2500F, sub_25502
 extern sub_25820, sub_2767F, sub_27BF1, sub_28327, sub_283C1, sub_28A87, sub_28C50, sub_2976B
-extern sub_297C9, sub_4B38C, sub_5358E, sub_535F2, sub_58A58, sub_59188, sub_59256, sub_592BA
-extern sub_59349, sub_594F1, sub_595DC, sub_5961F, sub_598DA, sub_5DBC0, sub_5DCDD, sub_5DCF8
+extern sub_297C9, sub_4B38C, sub_5358E, sub_535F2, InitGameView, FreeGameView, DrawRosterName, DrawRosterNumber
+extern DrawRinkSprite, DrawPlayerSprite, DrawSpriteShadow, DrawControlMarker, DrawPuckSprite, sub_5DBC0, sub_5DCDD, sub_5DCF8
 extern sub_5FB02, sub_60823, sub_612BC, sub_621D9, sub_62201, sub_622CD, sub_62311, sub_625AA
 extern sub_625F7, sub_62ED9, sub_63998, sub_63A5B, sub_63B0C, sub_63DC4, sub_63E7C, sub_63E8A
 extern sub_64721, sub_64E74, sub_64F47, sub_64F59, sub_66373, FreeSpeechBuffer, RestoreSpeechBuffer, StopSpeech
@@ -863,7 +863,7 @@ sub_5504C:
         movsx edx, byte [byte_1770A6]
         mov eax, esi
         inc esi
-        call sub_5961F
+        call DrawControlMarker
         cmp esi, byte 4
         jl short .1
         cmp byte [byte_1770A6], 0
@@ -958,7 +958,7 @@ sub_5504C:
         cwde
         movsx ecx, byte [dword esi+byte_17702F]
 .8:
-        call sub_59256
+        call DrawRosterName
         jmp near .13
 .9:
         movsx eax, byte [dword esi+byte_177090]
@@ -998,7 +998,7 @@ sub_5504C:
         mov eax, dword [byte ebp+076h]
         movsx ecx, byte [dword esi+byte_17702F]
         cwde
-        call sub_592BA
+        call DrawRosterNumber
 .13:
         add dword [byte ebp+07Ah], byte 2
         inc esi
@@ -1042,7 +1042,7 @@ sub_5504C:
         cmp esi, byte 0Fh
         sete al
         movzx eax, al
-        call sub_598DA
+        call DrawPuckSprite
         jmp near .23
 .19:
         cmp byte [dword esi+byte_176F96], 0
@@ -1085,7 +1085,7 @@ sub_5504C:
         push eax
         mov edx, dword [nosplit esi*8+dword_1797FC]
         mov eax, dword [byte ebp+072h]
-        call sub_59349
+        call DrawRinkSprite
 .23:
         add dword [byte ebp+07Eh], byte 4
         cmp dword [byte ebp+07Eh], byte 44h
@@ -1161,7 +1161,7 @@ sub_553E9:
         push eax
         mov edx, dword [nosplit esi*8+dword_1797FC]
         mov eax, dword [byte ebp+07Ah]
-        call sub_595DC
+        call DrawSpriteShadow
 .7:
         add edi, byte 4
         cmp edi, byte 44h
@@ -1235,7 +1235,7 @@ sub_554F4:
         push eax
         mov edx, dword [nosplit esi*8+dword_1797FC]
         mov eax, dword [byte ebp+07Ah]
-        call sub_594F1
+        call DrawPlayerSprite
 .7:
         sub edi, byte 4
         cmp edi, byte 0FFFFFFFCh
@@ -4201,7 +4201,7 @@ sub_57F0A:
         setne al
         movzx eax, al
         call sub_63DC4
-        call sub_58A58
+        call InitGameView
         mov eax, dword [optblock]
         and eax, byte 7Fh
         call CrowdNoiseReset
@@ -4214,7 +4214,7 @@ sub_57F0A:
         call sub_564A4
         call sub_62311
         call RestoreSpeechBuffer
-        call sub_59188
+        call FreeGameView
         mov eax, 2
         call sub_63A5B
         call EndGameCleanup

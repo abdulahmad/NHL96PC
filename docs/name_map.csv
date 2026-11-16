@@ -505,6 +505,53 @@ address,name,auto_name,source,confidence,evidence,file
 52F68,SetupTeamLines,,95PC,medium,NHL95PC 658F3 (sem): C:676; C:679; D:11A310; D:176DD4,
 5313B,NormalizeDressFlags,,95PC,medium,NHL95PC 65B48 (sem): D:176DD4,
 5316C,CanRemovePlayer,sub_5316C,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: AddPenalty,src/engine/lines/lines.asm
+584A0,DrawScaledSprite,sub_584A0,new,low,"draws one scaled sprite frame clipped to the view (dword_1228D8-1228E4), for DrawPlayerSprite",src/front/game_view/game_view.asm
+58690,BuildShadeMatch,sub_58690,new,low,"(level, palette): for each colour finds the nearest palette colour (distance from 270Fh down) at a shade level, for the shading LUT",src/front/game_view/game_view.asm
+587B7,BuildShadeLut,sub_587B7,new,low,"(level, palette): fills the shading LUT (dword_1798F8) for the palette at a brightness level",src/front/game_view/game_view.asm
+588F7,AllocShadeLut,sub_588F7,new,medium,allocates the LUT block (dword_1798F4 x 100h bytes),src/front/game_view/game_view.asm
+58992,LoadIceLogo,sub_58992,new,medium,"loads the centre ice logo of the home team (data file 0Eh + team, ""logo"")",src/front/game_view/game_view.asm
+589E4,FullViewClip,sub_589E4,new,high,"SetClipWindow to the whole screen (0, 0, dword_11F5C0, dword_11F5C4)",src/front/game_view/game_view.asm
+58A03,DimGameView,sub_58A03,new,low,in a replay (gmode 1) lowers the view brightness (dword_1798EC) by 28Fh every other frame down to F5Ch and rebuilds the LUT,src/front/game_view/game_view.asm
+58A58,InitGameView,sub_58A58,new,high,"before a game (PlayGame_initslotscall, RunDemoGame): sets up the 3D rink view: palette, shading LUT, ice logo, priority / b000 / b001 art, the overlays (ResetGameOverlays)",src/front/game_view/game_view.asm
+59188,FreeGameView,sub_59188,new,high,"after a game: frees what InitGameView allocated (fonts, logo, art, LUT, models)",src/front/game_view/game_view.asm
+59256,DrawRosterName,sub_59256,new,medium,"(x, y, team, player): draws a player's name from hmroster (record +17h) in the small font",src/front/game_view/game_view.asm
+592BA,DrawRosterNumber,sub_592BA,new,low,"(x, y, team, player, pos): draws ""%d %s"", the player's number with a position text",src/front/game_view/game_view.asm
+59349,DrawRinkSprite,sub_59349,new,low,"draws a sprite at a rink position, scaled by its distance (from the rink model and the player draw)",src/front/game_view/game_view.asm
+594F1,DrawPlayerSprite,sub_594F1,new,low,draws one player sprite (team art from gmode / player flags) through DrawScaledSprite,src/front/game_view/game_view.asm
+595DC,DrawSpriteShadow,sub_595DC,new,low,draws a sprite's shadow on the ice (sub_299CF),src/front/game_view/game_view.asm
+5961F,DrawControlMarker,sub_5961F,new,medium,"(controller): draws the marker under the player a controller (byte_1770A2-1770A5) controls, or the puck carrier",src/front/game_view/game_view.asm
+598DA,DrawPuckSprite,sub_598DA,new,low,draws the puck (or its shadow) by its height (puckz),src/front/game_view/game_view.asm
+5993B,SpinPuckModel,sub_5993B,new,low,turns the puck model (dword_11B294) while the puck moves,src/front/game_view/game_view.asm
+59A36,PlaceGoalNets,sub_59A36,new,medium,from puckfaceoff2: sets the goal0 / goal1 objects of the rink model to their places,src/front/game_view/game_view.asm
+59F78,DrawPlayerShadows,sub_59F78,new,low,"the shadows of the sorted, visible players",src/front/game_view/game_view.asm
+5A1B2,DrawPlayers,sub_5A1B2,new,low,"the sorted, visible players back to front (DrawPlayerSprite), with their shadows",src/front/game_view/game_view.asm
+5A43C,DrawPlayerMarkers,sub_5A43C,new,medium,the 4 controller markers (DrawControlMarker) and the puck carrier's,src/front/game_view/game_view.asm
+5A4FF,DrawRinkView,sub_5A4FF,new,medium,from the in-game menu: draws the rink model from the camera with no players,src/front/game_view/game_view.asm
+5A572,DrawGameFrame,sub_5A572,new,high,"(ticks): one frame of the game view from the camera (GameLoop_inputcheck, RunSimFrames, the menus): rink, players, puck, markers, overlays (DrawGameOverlays), line change boxes",src/front/game_view/game_view.asm
+5AB8A,DrawPanelLogo,sub_5AB8A,new,low,draws a team logo model into an overlay panel (scale by hi-res dword_1798A8),src/front/game_view/game_view.asm
+5AC3E,OpenOverlayPanel,sub_5AC3E,new,low,"the box of an overlay panel (logo, fill), drawn again only when the panel changes (byte_179CB8 / 179CB9)",src/front/game_view/game_view.asm
+5AE47,DrawOverlayCaption,sub_5AE47,new,low,"with word_119111 set, draws its caption text (table unk_58468, text 0ADh)",src/front/game_view/game_view.asm
+5AF42,ResetGameOverlays,sub_5AF42,new,medium,"resets the overlay timers (clock 1770h, 1F40h), the panel queue (3 x 14h at unk_11B2AC) and the hi-res flag",src/front/game_view/game_view.asm
+5AFAE,DrawTimedPanel,sub_5AFAE,new,low,(ticks): shows the panel dword_11B244 for 12Ch ticks,src/front/game_view/game_view.asm
+5B0F9,DrawGameClock,sub_5B0F9,new,high,"draws the game clock ""%2d:%02d"" (or ""%2d.%01d"" under a minute)",src/front/game_view/game_view.asm
+5B1B3,DrawPenaltyClock,sub_5B1B3,new,medium,"(pp, seconds): the power play box with the team logo and the penalty time",src/front/game_view/game_view.asm
+5B456,DrawPowerPlayPanel,sub_5B456,new,medium,"with penalties on (gmode2 20h) and a penalty running (GetLowestPen), draws the penalty clock; 1 if drawn",src/front/game_view/game_view.asm
+5B4B6,DrawPlayerPctPanel,sub_5B4B6,new,low,"(queued kind 2): a player stat panel with ""%d.%d%% (%d)"" percentages",src/front/game_view/game_view.asm
+5B838,DrawClockPanel,sub_5B838,new,medium,"the power play panel or the game clock, with its show / hide timers",src/front/game_view/game_view.asm
+5B97A,DrawTimeLeftPanel,sub_5B97A,new,low,"the time-left panel at set minutes by period length (gameopts 600h bits; 7 / 0Eh, 5, 2)",src/front/game_view/game_view.asm
+5BD7D,GetPeriodText,sub_5BD7D,new,low,(buf): copies the text 84h-8Bh for the game phase (gsp) and the score,src/front/game_view/game_view.asm
+5BE55,DrawScorePanel,sub_5BE55,new,low,"the teams' panel ""%-12s %2d %-3s"" (name, score, shots)",src/front/game_view/game_view.asm
+5C677,DrawPlayerNamePanel,sub_5C677,new,low,(queued kind 3): a player's name panel (FormatPlayerName),src/front/game_view/game_view.asm
+5CC12,QueueOverlayPanel,sub_5CC12,new,medium,"(kind, a, b, c): puts a panel in a free slot of the 3-panel queue (kind 3 waits 2EE0h), from BuildEventLines",src/front/game_view/game_view.asm
+5CC62,DrawGameOverlays,sub_5CC62,new,medium,"(ticks): per frame draws the overlay for the view state (byte_179DC1 9, 0Dh, 11h), the queued panels, the clock, time-left and score panels",src/front/game_view/game_view.asm
+5CD5E,DrawLineEnergyBar,sub_5CD5E,new,medium,"(team, line): one line's energy bar in a line change box",src/front/game_view/game_view.asm
+5CE42,DrawLineChangeBox,sub_5CE42,new,medium,"(team): the line change box (lcboxon, lcline, ""1""-""4"") with the team logo and line energies",src/front/game_view/game_view.asm
+5D4B4,DrawLineChangeBoxes,sub_5D4B4,new,medium,reads both teams' line energies (TeamLineEnergy) and draws their line change boxes,src/front/game_view/game_view.asm
+5D707,CameraPathCoeffs,sub_5D707,new,low,the coefficients of one camera path polynomial,src/front/camera/camera.asm
+5D7A2,CameraPathEval,sub_5D7A2,new,medium,"(coeffs, t): a 5th-degree polynomial in 16.16 by Horner's rule",src/front/camera/camera.asm
+5D82C,CameraPathSlope,sub_5D82C,new,medium,"(coeffs, t): its first derivative (5, 4, 3, 2)",src/front/camera/camera.asm
+5D87E,CameraPathCurve,sub_5D87E,new,medium,"(coeffs, t): its second derivative (20, 12, 6, 2)",src/front/camera/camera.asm
+5D8D1,CameraPathPoint,sub_5D8D1,new,medium,evaluates the 5 camera path polynomials at dword_179D48 into the camera position and angles (dword_179E0B-179E1B),src/front/camera/camera.asm
 606B9,CloseTextOverlay,sub_606B9,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: PostInjuryEvent,src/front/front_5D993.asm
 609C6,ReadHotKeys,sub_609C6,95PC,medium,"the hot keys read straight from the keyboard in the game loop, as NHL95PC ReadHotKeys",src/front/front_5D993.asm
 61A18,randomd0,,95PC,medium,NHL95PC 8C230 (similar): mnemonic similarity 0.97 over 34 instructions,

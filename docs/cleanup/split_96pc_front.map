@@ -37,3 +37,6 @@ cut StopAllSfx front/sound Digital sound effects, crowd noise, arena clips, the 
 cut TgvClock front/movie TGV movies: open the movie and its audio stream, decode and show the frames, play a movie file between screens (96 PC).
 cut ReadGlobalSet front/settings GLOBAL.SET, the settings file SETUP writes, read at start and written back; the EXHIBIT.NDX start of the front-end menus (96 PC).
 cut RunInGameMenu front/pause_menu The in-game menu: RunInGameMenu and the pause menu screens of a game (96 PC; its routines still to be named).
+# step 7: front_584A0, the game view
+rename front/front_584A0 front/game_view The 3D game view: set-up and frame draw, shading LUT, player and puck sprites, controller markers, the game overlays (clock, power play, panels) and the line change boxes (96 PC).
+cut CameraPathCoeffs front/camera The game camera: its path polynomials and the camera shots (96 PC).

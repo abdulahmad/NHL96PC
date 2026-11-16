@@ -328,11 +328,21 @@
   },
   {
    "start": 361632,
-   "end": 383379,
+   "end": 382727,
    "module": "front_584A0",
    "obj": 1,
-   "file": "front/front_584A0.asm",
+   "file": "front/game_view/game_view.asm",
    "note": "placeholder"
+  },
+  {
+   "obj": 1,
+   "start": 382727,
+   "end": 383379,
+   "module": "front_camera",
+   "file": "front/camera/camera.asm",
+   "desc": "The game camera: its path polynomials and the camera shots (96 PC).",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "front"
   },
   {
    "start": 383379,

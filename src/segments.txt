@@ -36,7 +36,8 @@
 1 50154 51F18 7620 penalty engine/penalty/penalty.asm
 1 51F18 54519 9729 lines engine/lines/lines.asm
 1 54519 584A0 16263 replay_controls front/replay_controls/replay_controls.asm
-1 584A0 5D993 21747 front_584A0 front/front_584A0.asm
+1 584A0 5D707 21095 front_584A0 front/game_view/game_view.asm
+1 5D707 5D993 652 front_camera front/camera/camera.asm
 1 5D993 64F59 30150 front_5D993 front/front_5D993.asm
 1 64F59 67000 8359 front_64F59 front/front_64F59.asm
 1 67000 689D1 6609 front_67000 front/speech/speech.asm

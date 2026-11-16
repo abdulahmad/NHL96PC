@@ -616,11 +616,21 @@
   },
   {
    "start": 661461,
-   "end": 675799,
+   "end": 669777,
    "module": "front_A17D5",
    "obj": 1,
-   "file": "front/front_A17D5.asm",
+   "file": "front/ingame_menu/ingame_menu.asm",
    "note": "placeholder"
+  },
+  {
+   "obj": 1,
+   "start": 669777,
+   "end": 675799,
+   "module": "front_modem_teams",
+   "file": "front/modem_teams/modem_teams.asm",
+   "desc": "The modem / link game set-up from the main menu: team select and the steps to the game (96 PC).",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "front"
   },
   {
    "start": 675799,

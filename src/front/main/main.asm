@@ -12,7 +12,7 @@ extern str_LOGOPACK, str_LSTA, str_spPressESCToReturnToDOS, str_YouMustFirstUseT
 extern ClearSlotUsers, UserRecordsScreen, sub_57F0A, sub_583B8, LoadFrontEndArt, FreeFrontEndArt, RunIntro, RunCredits
 extern CopyBitmap, InitGraphicsFix, SetScreenMode, SetMenuMoveSfx, SetMenuSelectSfx, MainMenuScreen, StopMusic, FadeOutMusic
 extern TestCdSpeed, ShutdownSound, WriteGlobalSet, RunExhibitionMenus, sub_73BA5, LoadLangText, FreeLangText, GetLangText
-extern RunSeasonMenus, RunStatsMenu, sub_A4961, sub_A4FD7, sub_AB758, sub_ABF4C, sub_AC868, sub_ADA50
+extern RunSeasonMenus, RunStatsMenu, RunModemGameSetup, sub_A4FD7, sub_AB758, sub_ABF4C, sub_AC868, sub_ADA50
 extern sub_AFCD0, sub_AFFD0, sub_B3100, sub_B3145, sub_B3160, sub_B31C0, sub_B3420, sub_DD6C4
 extern sub_DD800, sub_DD830, sub_DD87C, sub_DFA98, sub_DFB88, sub_DFF28, sub_E04D0, sub_E04E0
 extern sub_E0520, sub_E05DA, TextSetFont, unk_110351, unk_110355, unk_11041A, unk_11048D, unk_115120
@@ -190,7 +190,7 @@ RunFrontEnd:
         call RunStatsMenu
         jmp short .17
 .13:
-        call sub_A4961
+        call RunModemGameSetup
         jmp short .17
 .14:
         mov eax, dword [dword_1150D8]

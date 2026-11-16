@@ -27,7 +27,7 @@ extern str_Sts12, strcat_, strcpy_, sub_3A6F3, sub_5360D, sub_5439F, sub_564A4, 
 extern DrawGameFrame, DrawGameClock, EndCameraShot, UpdateCamera, FreeFightSprites, LoadFightSprites, FreeTotalSprites, LoadTotalSprites
 extern FreeSpriteCache, LoadFrontEndArt, FreeFrontEndArt, FadePalette, FadeOut, CopyBitmap, SetScreenMode, SetTextColors
 extern DrawColorTextCentred, FillBox, DrawBox, SetScreenPalette, DrawFrameAt, InitMenuItems, RunMenu, SetMenuMouse
-extern ControllerScreen, GetLangText, MakeSeasonDbPath, MakePlayoffDbPath, RunEditLines, sub_A25CD, sub_AA7E0, sub_AA988
+extern ControllerScreen, GetLangText, MakeSeasonDbPath, MakePlayoffDbPath, RunEditLines, InGameMenu, sub_AA7E0, sub_AA988
 extern sub_AAA40, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C, sub_ADBEC, sub_B0CA8, sub_B22E0
 extern sub_B2C54, sub_B58D8, sub_BB8E0, sub_DD6C4, sub_E04E0, sub_E0584, TextSetFont, unk_11D7A4
 extern unk_11D7BC, unk_11D7D4, unk_11D7EC, unk_11D804, unk_11D80A, unk_11D810, unk_11D816, unk_11D81C
@@ -90,7 +90,7 @@ RunInGameMenu:
         call RestoreSpeechBuffer
         jmp short .5
 .4:
-        call sub_A25CD
+        call InGameMenu
         test eax, eax
         jne short .5
         mov dword [dword_1150FC], 2

@@ -863,6 +863,16 @@ address,name,auto_name,source,confidence,evidence,file
 9FF64,DrawLinesPlayerList,sub_9FF64,new,low,"the player list of the edit lines screen (""%c %d"", ""%c. %s"") with its scroll bar",src/front/edit_lines/edit_lines.asm
 A0355,SortTeamPlayers,sub_A0355,new,low,the team's players into a sorted list (qsort) for the lines,src/front/edit_lines/edit_lines.asm
 A0480,AutoSetLines,sub_A0480,new,medium,"fills the team's lines with its best players by position and ratings (qsort), from the edit lines screen and after trades",src/front/edit_lines/edit_lines.asm
+A17D5,DrawInGameMenuFrame,sub_A17D5,new,medium,"the in-game menu's frame over the game: score with both team logos, period and clock, the side and bottom art (intr, sid1/2, bot1-3, gam0)",src/front/ingame_menu/ingame_menu.asm
+A1F6C,RedrawInGameMenu,sub_A1F6C,new,low,draws the in-game menu frame and its items again,src/front/ingame_menu/ingame_menu.asm
+A1FEF,OpenFrontEndFromGame,sub_A1FEF,new,medium,"leaves the game view for a front-end screen: fade, free the speech buffer, load the front-end art (FhiL / FhiR), screen mode",src/front/ingame_menu/ingame_menu.asm
+A20D1,ReturnToGameView,sub_A20D1,new,medium,"back from a front-end screen into the game view: fade, free the front-end art, restore the speech buffer and the controllers, screen mode (GloL / GloR, GhiL / GhiR)",src/front/ingame_menu/ingame_menu.asm
+A21FB,InGameReturnMenu,sub_A21FB,new,low,"the small return menu (ret0-2, gam0-1, ply0-1) in a link game, kept in step with the other side (LinkSync)",src/front/ingame_menu/ingame_menu.asm
+A25CD,InGameMenu,sub_A25CD,new,high,"the in-game menu RunInGameMenu opens: quit (qui0-2), return (ret0-2) and the other items (INTERREG), stops the crowd and speech, runs the front-end screens in a game (stats, edit lines, player cards)",src/front/ingame_menu/ingame_menu.asm
+A3A11,DrawModemHomePanel,sub_A3A11,new,medium,"the home team's panel on the modem team select screen (logo, name, rank rk%02d)",src/front/modem_teams/modem_teams.asm
+A3B74,DrawModemAwayPanel,sub_A3B74,new,medium,the same for the away team,src/front/modem_teams/modem_teams.asm
+A3CF8,ModemTeamSelectScreen,sub_A3CF8,new,medium,the team select screen of a modem or link game (ahl / ahr / aal arrows),src/front/modem_teams/modem_teams.asm
+A4961,RunModemGameSetup,sub_A4961,new,medium,"from the main menu: the modem set-up (or a serial link), the modem game stats and team ranks, team select, the controller screen, until a game starts",src/front/modem_teams/modem_teams.asm
 A9BCC,_searchenv_,,WATCOM,high,IDA FLIRT library signature,
 A9CB3,strcpy_,,WATCOM,high,IDA FLIRT library signature,
 A9CD2,strcat_,,WATCOM,high,IDA FLIRT library signature,

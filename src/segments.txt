@@ -67,7 +67,8 @@
 1 93E6A 971E9 13183 front_93E6A front/player_ratings/player_ratings.asm
 1 971E9 9CB19 22832 front_971E9 front/roster/roster.asm
 1 9CB19 A17D5 19644 front_edit_lines front/edit_lines/edit_lines.asm
-1 A17D5 A4FD7 14338 front_A17D5 front/front_A17D5.asm
+1 A17D5 A3851 8316 front_A17D5 front/ingame_menu/ingame_menu.asm
+1 A3851 A4FD7 6022 front_modem_teams front/modem_teams/modem_teams.asm
 1 A4FD7 A8B9B 15300 playoff front/playoff/playoff.asm
 1 A8B9B A9CB3 4376 lib_A8B9B lib/lib_A8B9B.asm
 1 A9CB3 AA5C4 2321 watcom_clib_01 lib/watcom/watcom_clib_01.asm

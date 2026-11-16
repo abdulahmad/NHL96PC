@@ -1,0 +1,30 @@
+# NHL 96 PC in-game menu (pause) and the modem / link game set-up from the main menu. PC-only, source new.
+sub_A17D5 DrawInGameMenuFrame {confidence=medium} the in-game menu's frame over the game: score with both team logos, period and clock, the side and bottom art (intr, sid1/2, bot1-3, gam0)
+sub_A1F6C RedrawInGameMenu {confidence=low} draws the in-game menu frame and its items again
+sub_A1FEF OpenFrontEndFromGame {confidence=medium} leaves the game view for a front-end screen: fade, free the speech buffer, load the front-end art (FhiL / FhiR), screen mode
+sub_A20D1 ReturnToGameView {confidence=medium} back from a front-end screen into the game view: fade, free the front-end art, restore the speech buffer and the controllers, screen mode (GloL / GloR, GhiL / GhiR)
+sub_A21FB InGameReturnMenu {confidence=low} the small return menu (ret0-2, gam0-1, ply0-1) in a link game, kept in step with the other side (LinkSync)
+sub_A25CD InGameMenu {confidence=high} the in-game menu RunInGameMenu opens: quit (qui0-2), return (ret0-2) and the other items (INTERREG), stops the crowd and speech, runs the front-end screens in a game (stats, edit lines, player cards)
+sub_A3A11 DrawModemHomePanel {confidence=medium} the home team's panel on the modem team select screen (logo, name, rank rk%02d)
+sub_A3B74 DrawModemAwayPanel {confidence=medium} the same for the away team
+sub_A3CF8 ModemTeamSelectScreen {confidence=medium} the team select screen of a modem or link game (ahl / ahr / aal arrows)
+sub_A4961 RunModemGameSetup {confidence=medium} from the main menu: the modem set-up (or a serial link), the modem game stats and team ranks, team select, the controller screen, until a game starts
+sub_A1F6C_7C RedrawInGameMenu_7C {no_record}
+sub_A1F6C_7D RedrawInGameMenu_7D {no_record}
+sub_A25CD_A9C InGameMenu_A9C {no_record}
+sub_A25CD_ABD InGameMenu_ABD {no_record}
+sub_A25CD_D17 InGameMenu_D17 {no_record}
+sub_A25CD_F31 InGameMenu_F31 {no_record}
+sub_A25CD_F42 InGameMenu_F42 {no_record}
+sub_A25CD_FA8 InGameMenu_FA8 {no_record}
+sub_A3A11_151 DrawModemHomePanel_151 {no_record}
+sub_A3A11_15D DrawModemHomePanel_15D {no_record}
+sub_A3CF8_7F1 ModemTeamSelectScreen_7F1 {no_record}
+sub_A3CF8_8AC ModemTeamSelectScreen_8AC {no_record}
+sub_A3CF8_94E ModemTeamSelectScreen_94E {no_record}
+sub_A3CF8_9F4 ModemTeamSelectScreen_9F4 {no_record}
+sub_A3CF8_A8A ModemTeamSelectScreen_A8A {no_record}
+sub_A3CF8_B38 ModemTeamSelectScreen_B38 {no_record}
+sub_A3CF8_B5C ModemTeamSelectScreen_B5C {no_record}
+sub_A3CF8_B6A ModemTeamSelectScreen_B6A {no_record}
+sub_A3CF8_B78 ModemTeamSelectScreen_B78 {no_record}

@@ -11,26 +11,29 @@ extern assrefwhistle, assrefsignal, rtss, assrefgoalline, asspenshooter, assfigh
 extern puckfaceoff2, asspsclear, assgoalietopuck, assgoalie, puckshadow
 global PenCountdownOptTab, PenShotCountdownOpt, PenCountdownTab, PenShotCountdown, pendelaytab, PenShotDelay, LinePickOrderFrom1, asstab
 global penmintab, HotSpotFrames, CheckHitAnims
-PenCountdownOptTab:
+PenCountdownOptTab:                             ; Penalty countdown per penalty type with the game option set
+                                                ; (gameopts+2 bit 3); used by checkfornewpen
         db 00h,0Ah,0Ah,03h,01h,00h,01h,01h,01h,0Ah,0Ah,04h,04h
-PenShotCountdownOpt:
+PenShotCountdownOpt:                            ; Penalty shot countdown with the game option set; used by
+                                                ; checkfornewpen
         db 04h,04h,04h,04h,04h,04h,04h,04h,04h,04h,04h,04h,04h,04h,01h,00h
         db 01h,01h,01h,028h,028h,028h
-PenCountdownTab:
+PenCountdownTab:                                ; Penalty countdown per penalty type; used by checkfornewpen
         db 00h,0Ah,0Ah,06h,05h,00h,05h,05h,05h,0Ah,0Ah,07h,07h
-PenShotCountdown:
+PenShotCountdown:                               ; Penalty shot countdown; used by checkfornewpen
         db 07h,07h,07h,07h,07h,07h,07h,07h,07h,07h,07h,07h,07h,07h,05h,00h
         db 05h,05h,05h,028h,028h,028h
-penmintab:
+penmintab:                                      ; used by AddPenalty2, InProgress, PenGoalStuff ...
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,02h,00h,02h,02h,02h,02h,02h
         db 02h,02h,02h,02h,02h,02h,0FFh,05h,05h,05h,00h,00h,00h,00h,00h,02h
         db 05h,05h,02h
-pendelaytab:
+pendelaytab:                                    ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 00h,02h,02h,02h
-PenShotDelay:
+PenShotDelay:                                   ; Penalty shot delay; used by checkfornewpen
         db 02h,00h,02h,04h,02h,06h,02h,02h,02h,02h,02h,02h,02h,02h,02h,02h
         db 02h,02h,02h,02h,02h,02h,02h,00h,02h,02h,02h,02h,00h,00h,00h
-asstab:
+asstab:                                         ; used by updateplayers
         dd rtss
         dd assdefo
         dd assdefd
@@ -85,9 +88,10 @@ asstab:
         dd asscupfollow
         dd asscuptake
         dd asscupleave
-HotSpotFrames:
+HotSpotFrames:                                  ; HotSpotFrame / BenchSpriteFrame: frame offsets; used by
+                                                ; AnimateBenchSprite, BenchSpriteFrame, HotSpotFrame ...
         db 00h,00h,00h,00h,01h,00h
-CheckHitAnims:
+CheckHitAnims:                                  ; chkhit: hit animation per check type; used by chkhit
         db 00h,00h,0F6h,0FFh,00h,00h,01h,00h,08h,00h,0F6h,0FFh,00h,00h,08h,00h
         db 010h,00h,04h,00h,018h,00h,04h,00h,020h,00h,04h,00h,028h,00h,04h,00h
         db 030h,00h,04h,00h,038h,00h,04h,00h,040h,00h,04h,00h,048h,00h,0FCh,0FFh
@@ -406,5 +410,5 @@ CheckHitAnims:
         db 03Fh,0Dh,08h,00h,047h,0Dh,08h,00h,04Fh,0Dh,08h,00h,057h,0Dh,08h,00h
         db 05Fh,0Dh,08h,00h,067h,0Dh,08h,00h,06Fh,0Dh,08h,00h,077h,0Dh,0F8h,0FFh
         db 00h,00h,01h,00h,03Fh,0Dh,0F8h,0FFh,01h,00h,01h,00h,0DBh,0Eh,0FCh
-LinePickOrderFrom1:
+LinePickOrderFrom1:                             ; same code as in the next game; used by releasepl
         db 0FFh

@@ -21,317 +21,317 @@ global str_MightyDucks2, str_Bruins, str_Sabres, str_Flames, str_Blackhawks, str
 global str_Panthers, str_Whalers, str_Kings, str_Canadiens, str_Devils, str_Islanders, str_Rangers, str_Senators
 global str_Flyers, str_Penguins, str_Nordiques, str_Blues, str_Sharks, str_Lightning, str_MapleLeafs, str_Canucks
 global str_Capitals, str_Jets, str_AllStars
-str_Pal11:
+str_Pal11:                                      ; string '!pal'; used by MainMenuScreen
         db 021h,070h,061h,06Ch,00h
-str_Bkgd5:
+str_Bkgd5:                                      ; string 'bkgd'; used by MainMenuScreen
         db 062h,06Bh,067h,064h,00h
-str_Bt013:
+str_Bt013:                                      ; string 'bt01'; used by MainMenuScreen
         db 062h,074h,030h,031h,00h
-str_Bt023:
+str_Bt023:                                      ; string 'bt02'; used by MainMenuScreen
         db 062h,074h,030h,032h,00h
-str_Bt102:
+str_Bt102:                                      ; string 'bt10'; used by MainMenuScreen
         db 062h,074h,031h,030h,00h
-str_Bt112:
+str_Bt112:                                      ; string 'bt11'; used by MainMenuScreen
         db 062h,074h,031h,031h,00h
-str_Bt19:
+str_Bt19:                                       ; string 'bt19'; used by MainMenuScreen
         db 062h,074h,031h,039h,00h
-str_Bt20:
+str_Bt20:                                       ; string 'bt20'; used by MainMenuScreen
         db 062h,074h,032h,030h,00h
-str_Bt28:
+str_Bt28:                                       ; string 'bt28'; used by MainMenuScreen
         db 062h,074h,032h,038h,00h
-str_Bt29:
+str_Bt29:                                       ; string 'bt29'; used by MainMenuScreen
         db 062h,074h,032h,039h,00h
-str_Bb01:
+str_Bb01:                                       ; string 'bb01'; used by MainMenuScreen
         db 062h,062h,030h,031h,00h
-str_Bb02:
+str_Bb02:                                       ; string 'bb02'; used by MainMenuScreen
         db 062h,062h,030h,032h,00h
-str_Bb10:
+str_Bb10:                                       ; string 'bb10'; used by MainMenuScreen
         db 062h,062h,031h,030h,00h
-str_Bb11:
+str_Bb11:                                       ; string 'bb11'; used by MainMenuScreen
         db 062h,062h,031h,031h,00h
-str_Bb19:
+str_Bb19:                                       ; string 'bb19'; used by MainMenuScreen
         db 062h,062h,031h,039h,00h
-str_Bb20:
+str_Bb20:                                       ; string 'bb20'; used by MainMenuScreen
         db 062h,062h,032h,030h,00h
-str_Sta1:
+str_Sta1:                                       ; string 'sta1'; used by MainMenuScreen
         db 073h,074h,061h,031h,00h
-str_Sta2:
+str_Sta2:                                       ; string 'sta2'; used by MainMenuScreen
         db 073h,074h,061h,032h,00h
-str_Sta3:
+str_Sta3:                                       ; string 'sta3'; used by MainMenuScreen
         db 073h,074h,061h,033h,00h
-str_Use1:
+str_Use1:                                       ; string 'use1'; used by MainMenuScreen
         db 075h,073h,065h,031h,00h
-str_Use2:
+str_Use2:                                       ; string 'use2'; used by MainMenuScreen
         db 075h,073h,065h,032h,00h
-str_Use3:
+str_Use3:                                       ; string 'use3'; used by MainMenuScreen
         db 075h,073h,065h,033h,00h
-str_Opt1:
+str_Opt1:                                       ; string 'opt1'; used by MainMenuScreen
         db 06Fh,070h,074h,031h,00h
-str_Opt2:
+str_Opt2:                                       ; string 'opt2'; used by MainMenuScreen
         db 06Fh,070h,074h,032h,00h
-str_Opt3:
+str_Opt3:                                       ; string 'opt3'; used by MainMenuScreen
         db 06Fh,070h,074h,033h,00h
-str_Hig1:
+str_Hig1:                                       ; string 'hig1'; used by MainMenuScreen
         db 068h,069h,067h,031h,00h
-str_Hig2:
+str_Hig2:                                       ; string 'hig2'; used by MainMenuScreen
         db 068h,069h,067h,032h,00h
-str_Hig3:
+str_Hig3:                                       ; string 'hig3'; used by MainMenuScreen
         db 068h,069h,067h,033h,00h
-str_Bt02d:
+str_Bt02d:                                      ; string 'bt%02d'; used by MainMenuScreen
         db 062h,074h,025h,030h,032h,064h,00h
-str_Bb02d:
+str_Bb02d:                                      ; string 'bb%02d'; used by MainMenuScreen
         db 062h,062h,025h,030h,032h,064h,00h
-str_LOCALNDX2:
+str_LOCALNDX2:                                  ; string 'LOCAL.NDX'; used by MainMenuScreen
         db 04Ch,04Fh,043h,041h,04Ch,02Eh,04Eh,044h,058h,00h
-str_HILITESNDX:
+str_HILITESNDX:                                 ; string 'HILITES.NDX'; used by MainMenuScreen
         db 048h,049h,04Ch,049h,054h,045h,053h,02Eh,04Eh,044h,058h,00h
-str_SPEECHBUF:
+str_SPEECHBUF:                                  ; string 'SPEECHBUF'; used by InitSpeech, RestoreSpeechBuffer
         db 053h,050h,045h,045h,043h,048h,042h,055h,046h,00h,00h,00h
-str_TEMP:
+str_TEMP:                                       ; string 'TEMP'; used by TgvOpen
         db 054h,045h,04Dh,050h,00h,00h,00h,00h
-str_5552362337:
+str_5552362337:                                 ; string "5552362337"; used by ReadGlobalSet
         db 035h,035h,035h,032h,033h,036h,032h,033h,033h,037h,00h
-str_ATF:
+str_ATF:                                        ; string 'AT &F'; used by ReadGlobalSet
         db 041h,054h,020h,026h,046h,00h
-str_ATD2:
+str_ATD2:                                       ; string 'ATD'; used by ReadGlobalSet
         db 041h,054h,044h,00h
-str_backslash:
+str_backslash:                                  ; string '\'; used by ReadGlobalSet
         db 05Ch,00h,00h
-str_EXHIBITNDX:
+str_EXHIBITNDX:                                 ; string 'EXHIBIT.NDX'; used by RunExhibitionMenus
         db 045h,058h,048h,049h,042h,049h,054h,02Eh,04Eh,044h,058h,00h
-str_ANA2:
+str_ANA2:                                       ; string 'ANA'
         db 041h,04Eh,041h,00h
-str_BOS2:
+str_BOS2:                                       ; string 'BOS'
         db 042h,04Fh,053h,00h
-str_BUF4:
+str_BUF4:                                       ; string 'BUF'
         db 042h,055h,046h,00h
-str_CGY2:
+str_CGY2:                                       ; string 'CGY'
         db 043h,047h,059h,00h
-str_CHI2:
+str_CHI2:                                       ; string 'CHI'
         db 043h,048h,049h,00h
-str_DAL2:
+str_DAL2:                                       ; string 'DAL'
         db 044h,041h,04Ch,00h
-str_DET2:
+str_DET2:                                       ; string 'DET'
         db 044h,045h,054h,00h
-str_EDM2:
+str_EDM2:                                       ; string 'EDM'
         db 045h,044h,04Dh,00h
-str_FLA2:
+str_FLA2:                                       ; string 'FLA'
         db 046h,04Ch,041h,00h
-str_HFD2:
+str_HFD2:                                       ; string 'HFD'
         db 048h,046h,044h,00h
-str_LA2:
+str_LA2:                                        ; string 'LA'
         db 04Ch,041h,00h
-str_MTL2:
+str_MTL2:                                       ; string 'MTL'
         db 04Dh,054h,04Ch,00h
-str_NJ2:
+str_NJ2:                                        ; string 'NJ'
         db 04Eh,04Ah,00h
-str_NYI2:
+str_NYI2:                                       ; string 'NYI'
         db 04Eh,059h,049h,00h
-str_NYR2:
+str_NYR2:                                       ; string 'NYR'
         db 04Eh,059h,052h,00h
-str_OTT2:
+str_OTT2:                                       ; string 'OTT'
         db 04Fh,054h,054h,00h
-str_PHI2:
+str_PHI2:                                       ; string 'PHI'
         db 050h,048h,049h,00h
-str_PIT2:
+str_PIT2:                                       ; string 'PIT'
         db 050h,049h,054h,00h
-str_QUE2:
+str_QUE2:                                       ; string 'QUE'
         db 051h,055h,045h,00h
-str_STL2:
+str_STL2:                                       ; string 'STL'
         db 053h,054h,04Ch,00h
-str_SJ2:
+str_SJ2:                                        ; string 'SJ'
         db 053h,04Ah,00h
-str_TB2:
+str_TB2:                                        ; string 'TB'
         db 054h,042h,00h
-str_TOR2:
+str_TOR2:                                       ; string 'TOR'
         db 054h,04Fh,052h,00h
-str_VAN2:
+str_VAN2:                                       ; string 'VAN'
         db 056h,041h,04Eh,00h
-str_WSH2:
+str_WSH2:                                       ; string 'WSH'
         db 057h,053h,048h,00h
-str_WPG2:
+str_WPG2:                                       ; string 'WPG'
         db 057h,050h,047h,00h
-str_ASW2:
+str_ASW2:                                       ; string 'ASW'
         db 041h,053h,057h,00h
-str_ASE2:
+str_ASE2:                                       ; string 'ASE'
         db 041h,053h,045h,00h
-str_Anaheim:
+str_Anaheim:                                    ; string 'Anaheim'
         db 041h,06Eh,061h,068h,065h,069h,06Dh,00h
-str_Boston:
+str_Boston:                                     ; string 'Boston'
         db 042h,06Fh,073h,074h,06Fh,06Eh,00h
-str_Buffalo:
+str_Buffalo:                                    ; string 'Buffalo'
         db 042h,075h,066h,066h,061h,06Ch,06Fh,00h
-str_Calgary:
+str_Calgary:                                    ; string 'Calgary'
         db 043h,061h,06Ch,067h,061h,072h,079h,00h
-str_Chicago:
+str_Chicago:                                    ; string 'Chicago'
         db 043h,068h,069h,063h,061h,067h,06Fh,00h
-str_Dallas:
+str_Dallas:                                     ; string 'Dallas'
         db 044h,061h,06Ch,06Ch,061h,073h,00h
-str_Detroit:
+str_Detroit:                                    ; string 'Detroit'
         db 044h,065h,074h,072h,06Fh,069h,074h,00h
-str_Edmonton:
+str_Edmonton:                                   ; string 'Edmonton'
         db 045h,064h,06Dh,06Fh,06Eh,074h,06Fh,06Eh,00h
-str_Florida:
+str_Florida:                                    ; string 'Florida'
         db 046h,06Ch,06Fh,072h,069h,064h,061h,00h
-str_Hartford:
+str_Hartford:                                   ; string 'Hartford'
         db 048h,061h,072h,074h,066h,06Fh,072h,064h,00h
-str_LosAngeles:
+str_LosAngeles:                                 ; string 'Los Angeles'
         db 04Ch,06Fh,073h,020h,041h,06Eh,067h,065h,06Ch,065h,073h,00h
-str_Montreal:
+str_Montreal:                                   ; string 'Montreal'
         db 04Dh,06Fh,06Eh,074h,072h,065h,061h,06Ch,00h
-str_NewJersey:
+str_NewJersey:                                  ; string 'New Jersey'
         db 04Eh,065h,077h,020h,04Ah,065h,072h,073h,065h,079h,00h
-str_NewYork:
+str_NewYork:                                    ; string 'New York'
         db 04Eh,065h,077h,020h,059h,06Fh,072h,06Bh,00h
-str_Ottawa:
+str_Ottawa:                                     ; string 'Ottawa'
         db 04Fh,074h,074h,061h,077h,061h,00h
-str_Philadelphia:
+str_Philadelphia:                               ; string 'Philadelphia'
         db 050h,068h,069h,06Ch,061h,064h,065h,06Ch,070h,068h,069h,061h,00h
-str_Pittsburgh:
+str_Pittsburgh:                                 ; string 'Pittsburgh'
         db 050h,069h,074h,074h,073h,062h,075h,072h,067h,068h,00h
-str_Quebec:
+str_Quebec:                                     ; string 'Quebec'
         db 051h,075h,065h,062h,065h,063h,00h
-str_StLouis:
+str_StLouis:                                    ; string 'St Louis'
         db 053h,074h,020h,04Ch,06Fh,075h,069h,073h,00h
-str_SanJose:
+str_SanJose:                                    ; string 'San Jose'
         db 053h,061h,06Eh,020h,04Ah,06Fh,073h,065h,00h
-str_TampaBay:
+str_TampaBay:                                   ; string 'Tampa Bay'
         db 054h,061h,06Dh,070h,061h,020h,042h,061h,079h,00h
-str_Toronto:
+str_Toronto:                                    ; string 'Toronto'
         db 054h,06Fh,072h,06Fh,06Eh,074h,06Fh,00h
-str_Vancouver:
+str_Vancouver:                                  ; string 'Vancouver'
         db 056h,061h,06Eh,063h,06Fh,075h,076h,065h,072h,00h
-str_Washington:
+str_Washington:                                 ; string 'Washington'
         db 057h,061h,073h,068h,069h,06Eh,067h,074h,06Fh,06Eh,00h
-str_Winnipeg:
+str_Winnipeg:                                   ; string 'Winnipeg'
         db 057h,069h,06Eh,06Eh,069h,070h,065h,067h,00h
-str_Western:
+str_Western:                                    ; string 'Western'
         db 057h,065h,073h,074h,065h,072h,06Eh,00h
-str_Eastern:
+str_Eastern:                                    ; string 'Eastern'
         db 045h,061h,073h,074h,065h,072h,06Eh,00h
-str_AnaheimCalifornia:
+str_AnaheimCalifornia:                          ; string 'Anaheim, California'
         db 041h,06Eh,061h,068h,065h,069h,06Dh,02Ch,020h,043h,061h,06Ch,069h,066h,06Fh,072h
         db 06Eh,069h,061h,00h
-str_BostonMassachusetts:
+str_BostonMassachusetts:                        ; string 'Boston, Massachusetts'
         db 042h,06Fh,073h,074h,06Fh,06Eh,02Ch,020h,04Dh,061h,073h,073h,061h,063h,068h,075h
         db 073h,065h,074h,074h,073h,00h
-str_BuffaloNewYork:
+str_BuffaloNewYork:                             ; string 'Buffalo, New York'
         db 042h,075h,066h,066h,061h,06Ch,06Fh,02Ch,020h,04Eh,065h,077h,020h,059h,06Fh,072h
         db 06Bh,00h
-str_CalgaryAlberta:
+str_CalgaryAlberta:                             ; string 'Calgary, Alberta'
         db 043h,061h,06Ch,067h,061h,072h,079h,02Ch,020h,041h,06Ch,062h,065h,072h,074h,061h
         db 00h
-str_ChicagoIllinois:
+str_ChicagoIllinois:                            ; string 'Chicago, Illinois'
         db 043h,068h,069h,063h,061h,067h,06Fh,02Ch,020h,049h,06Ch,06Ch,069h,06Eh,06Fh,069h
         db 073h,00h
-str_DallasTexas:
+str_DallasTexas:                                ; string 'Dallas, Texas'
         db 044h,061h,06Ch,06Ch,061h,073h,02Ch,020h,054h,065h,078h,061h,073h,00h
-str_DetroitMichigan:
+str_DetroitMichigan:                            ; string 'Detroit, Michigan'
         db 044h,065h,074h,072h,06Fh,069h,074h,02Ch,020h,04Dh,069h,063h,068h,069h,067h,061h
         db 06Eh,00h
-str_EdmontonAlberta:
+str_EdmontonAlberta:                            ; string 'Edmonton, Alberta'
         db 045h,064h,06Dh,06Fh,06Eh,074h,06Fh,06Eh,02Ch,020h,041h,06Ch,062h,065h,072h,074h
         db 061h,00h
-str_MiamiFlorida:
+str_MiamiFlorida:                               ; string 'Miami, Florida'
         db 04Dh,069h,061h,06Dh,069h,02Ch,020h,046h,06Ch,06Fh,072h,069h,064h,061h,00h
-str_HartfordConnecticut:
+str_HartfordConnecticut:                        ; string 'Hartford, Connecticut'
         db 048h,061h,072h,074h,066h,06Fh,072h,064h,02Ch,020h,043h,06Fh,06Eh,06Eh,065h,063h
         db 074h,069h,063h,075h,074h,00h
-str_InglewoodCalifornia:
+str_InglewoodCalifornia:                        ; string 'Inglewood, California'
         db 049h,06Eh,067h,06Ch,065h,077h,06Fh,06Fh,064h,02Ch,020h,043h,061h,06Ch,069h,066h
         db 06Fh,072h,06Eh,069h,061h,00h
-str_MontrealQuebec:
+str_MontrealQuebec:                             ; string 'Montreal, Quebec'
         db 04Dh,06Fh,06Eh,074h,072h,065h,061h,06Ch,02Ch,020h,051h,075h,065h,062h,065h,063h
         db 00h
-str_EastRutherfordNJ:
+str_EastRutherfordNJ:                           ; string 'East Rutherford, N.J.'
         db 045h,061h,073h,074h,020h,052h,075h,074h,068h,065h,072h,066h,06Fh,072h,064h,02Ch
         db 020h,04Eh,02Eh,04Ah,02Eh,00h
-str_UniondaleNewYork:
+str_UniondaleNewYork:                           ; string 'Uniondale, New York'
         db 055h,06Eh,069h,06Fh,06Eh,064h,061h,06Ch,065h,02Ch,020h,04Eh,065h,077h,020h,059h
         db 06Fh,072h,06Bh,00h
-str_NewYorkNewYork:
+str_NewYorkNewYork:                             ; string 'New York, New York'
         db 04Eh,065h,077h,020h,059h,06Fh,072h,06Bh,02Ch,020h,04Eh,065h,077h,020h,059h,06Fh
         db 072h,06Bh,00h
-str_OttawaOntario:
+str_OttawaOntario:                              ; string 'Ottawa, Ontario'
         db 04Fh,074h,074h,061h,077h,061h,02Ch,020h,04Fh,06Eh,074h,061h,072h,069h,06Fh,00h
-str_PhiladelphiaPA:
+str_PhiladelphiaPA:                             ; string 'Philadelphia, PA'
         db 050h,068h,069h,06Ch,061h,064h,065h,06Ch,070h,068h,069h,061h,02Ch,020h,050h,041h
         db 00h
-str_PittsburghPA:
+str_PittsburghPA:                               ; string 'Pittsburgh, PA'
         db 050h,069h,074h,074h,073h,062h,075h,072h,067h,068h,02Ch,020h,050h,041h,00h
-str_QuebecCityQuebec:
+str_QuebecCityQuebec:                           ; string 'Quebec City, Quebec'
         db 051h,075h,065h,062h,065h,063h,020h,043h,069h,074h,079h,02Ch,020h,051h,075h,065h
         db 062h,065h,063h,00h
-str_StLouisMissouri:
+str_StLouisMissouri:                            ; string 'St. Louis, Missouri'
         db 053h,074h,02Eh,020h,04Ch,06Fh,075h,069h,073h,02Ch,020h,04Dh,069h,073h,073h,06Fh
         db 075h,072h,069h,00h
-str_SanJoseCalifornia:
+str_SanJoseCalifornia:                          ; string 'San Jose, California'
         db 053h,061h,06Eh,020h,04Ah,06Fh,073h,065h,02Ch,020h,043h,061h,06Ch,069h,066h,06Fh
         db 072h,06Eh,069h,061h,00h
-str_TampaFlorida:
+str_TampaFlorida:                               ; string 'Tampa, Florida'
         db 054h,061h,06Dh,070h,061h,02Ch,020h,046h,06Ch,06Fh,072h,069h,064h,061h,00h
-str_TorontoOntario:
+str_TorontoOntario:                             ; string 'Toronto, Ontario'
         db 054h,06Fh,072h,06Fh,06Eh,074h,06Fh,02Ch,020h,04Fh,06Eh,074h,061h,072h,069h,06Fh
         db 00h
-str_VancouverBC:
+str_VancouverBC:                                ; string 'Vancouver, B.C.'
         db 056h,061h,06Eh,063h,06Fh,075h,076h,065h,072h,02Ch,020h,042h,02Eh,043h,02Eh,00h
-str_LandoverMaryland:
+str_LandoverMaryland:                           ; string 'Landover, Maryland'
         db 04Ch,061h,06Eh,064h,06Fh,076h,065h,072h,02Ch,020h,04Dh,061h,072h,079h,06Ch,061h
         db 06Eh,064h,00h
-str_WinnipegManitoba:
+str_WinnipegManitoba:                           ; string 'Winnipeg, Manitoba'
         db 057h,069h,06Eh,06Eh,069h,070h,065h,067h,02Ch,020h,04Dh,061h,06Eh,069h,074h,06Fh
         db 062h,061h,00h
-str_MightyDucks2:
+str_MightyDucks2:                               ; string 'Mighty Ducks'
         db 04Dh,069h,067h,068h,074h,079h,020h,044h,075h,063h,06Bh,073h,00h
-str_Bruins:
+str_Bruins:                                     ; string 'Bruins'
         db 042h,072h,075h,069h,06Eh,073h,00h
-str_Sabres:
+str_Sabres:                                     ; string 'Sabres'
         db 053h,061h,062h,072h,065h,073h,00h
-str_Flames:
+str_Flames:                                     ; string 'Flames'
         db 046h,06Ch,061h,06Dh,065h,073h,00h
-str_Blackhawks:
+str_Blackhawks:                                 ; string 'Blackhawks'
         db 042h,06Ch,061h,063h,06Bh,068h,061h,077h,06Bh,073h,00h
-str_Stars:
+str_Stars:                                      ; string 'Stars'
         db 053h,074h,061h,072h,073h,00h
-str_RedWings:
+str_RedWings:                                   ; string 'Red Wings'
         db 052h,065h,064h,020h,057h,069h,06Eh,067h,073h,00h
-str_Oilers:
+str_Oilers:                                     ; string 'Oilers'
         db 04Fh,069h,06Ch,065h,072h,073h,00h
-str_Panthers:
+str_Panthers:                                   ; string 'Panthers'
         db 050h,061h,06Eh,074h,068h,065h,072h,073h,00h
-str_Whalers:
+str_Whalers:                                    ; string 'Whalers'
         db 057h,068h,061h,06Ch,065h,072h,073h,00h
-str_Kings:
+str_Kings:                                      ; string 'Kings'
         db 04Bh,069h,06Eh,067h,073h,00h
-str_Canadiens:
+str_Canadiens:                                  ; string 'Canadiens'
         db 043h,061h,06Eh,061h,064h,069h,065h,06Eh,073h,00h
-str_Devils:
+str_Devils:                                     ; string 'Devils'
         db 044h,065h,076h,069h,06Ch,073h,00h
-str_Islanders:
+str_Islanders:                                  ; string 'Islanders'
         db 049h,073h,06Ch,061h,06Eh,064h,065h,072h,073h,00h
-str_Rangers:
+str_Rangers:                                    ; string 'Rangers'
         db 052h,061h,06Eh,067h,065h,072h,073h,00h
-str_Senators:
+str_Senators:                                   ; string 'Senators'
         db 053h,065h,06Eh,061h,074h,06Fh,072h,073h,00h
-str_Flyers:
+str_Flyers:                                     ; string 'Flyers'
         db 046h,06Ch,079h,065h,072h,073h,00h
-str_Penguins:
+str_Penguins:                                   ; string 'Penguins'
         db 050h,065h,06Eh,067h,075h,069h,06Eh,073h,00h
-str_Nordiques:
+str_Nordiques:                                  ; string 'Nordiques'
         db 04Eh,06Fh,072h,064h,069h,071h,075h,065h,073h,00h
-str_Blues:
+str_Blues:                                      ; string 'Blues'
         db 042h,06Ch,075h,065h,073h,00h
-str_Sharks:
+str_Sharks:                                     ; string 'Sharks'
         db 053h,068h,061h,072h,06Bh,073h,00h
-str_Lightning:
+str_Lightning:                                  ; string 'Lightning'
         db 04Ch,069h,067h,068h,074h,06Eh,069h,06Eh,067h,00h
-str_MapleLeafs:
+str_MapleLeafs:                                 ; string 'Maple Leafs'
         db 04Dh,061h,070h,06Ch,065h,020h,04Ch,065h,061h,066h,073h,00h
-str_Canucks:
+str_Canucks:                                    ; string 'Canucks'
         db 043h,061h,06Eh,075h,063h,06Bh,073h,00h
-str_Capitals:
+str_Capitals:                                   ; string 'Capitals'
         db 043h,061h,070h,069h,074h,061h,06Ch,073h,00h
-str_Jets:
+str_Jets:                                       ; string 'Jets'
         db 04Ah,065h,074h,073h,00h
-str_AllStars:
+str_AllStars:                                   ; string 'All Stars'
         db 041h,06Ch,06Ch,020h,053h,074h,061h,072h,073h,00h,00h,00h

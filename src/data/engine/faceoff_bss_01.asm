@@ -6,55 +6,75 @@ global OOlistpos, fofdata2_b3, fofdata2_b7, OffsideCalled, ReplayFrameFlags, Rep
 global PenBuf_pl, ReplayBufferTop, ReplayFrameCount, GameVarsClear, regd2, regd3, ReplayBuffer, fofdata2_w4
 global fofdata2_w6, fofdata, FaceoffDropTimer, regd4, regd5, LastShooterTeam, regd0, regd1
 global Ylist, SavedPlayerWords
-fofdata2_b3:
+fofdata2_b3:                                    ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 1
-fofdata2_w4:
+fofdata2_w4:                                    ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 2
-fofdata2_w6:
+fofdata2_w6:                                    ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 1
-fofdata2_b7:
+fofdata2_b7:                                    ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 1
-fofdata:
+fofdata:                                        ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 2
-FaceoffDropTimer:
+FaceoffDropTimer:                               ; face-off drop timer set to 8000h by puckfaceoff2; used by
+                                                ; puckfaceoff2
         resb 2
-regd2:
+regd2:                                          ; used by Endfaceoff, EvadePC, EvadePlayers ...
         resb 4
-regd3:
+regd3:                                          ; used by ClampYPosition, Endfaceoff, ReadJoy1 ...
         resb 4
-regd4:
+regd4:                                          ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 4
-regd5:
+regd5:                                          ; used by checkcx, checkgoal, checkwallcoll ...
         resb 4
-ReplayBufferTop:
+ReplayBufferTop:                                ; where the replay buffer ends (ReplayBufferEnd); used by
+                                                ; DrawReplayCounter, LoadGameState, PauseGame ...
         resb 4
-LastShooterTeam:
+LastShooterTeam:                                ; team of the last player to shoot (doshot); cleared with the
+                                                ; game variables; used by checkcx, cleargamevars,
+                                                ; updateplayers
         resb 4
-ReplayFrameCount:
+ReplayFrameCount:                               ; frames recorded in the replay buffer; used by
+                                                ; DrawReplayCounter, ReplayScreen, StartReplay ...
         resb 4
-GameVarsClear:
+GameVarsClear:                                  ; game word cleared with the game variables; used by
+                                                ; cleargamevars
         resb 4
-regd0:
+regd0:                                          ; used by AvgCline, ChkOffsides, ClampYPosition ...
         resb 1
-OffsideCalled:
+OffsideCalled:                                  ; cleared at a face-off; set when offside is called; used by
+                                                ; Endfaceoff, ShotMode
         resb 1
-ReplayFrameFlags:
+ReplayFrameFlags:                               ; flags of the replay frame being played; used by StepReplay
         resb 2
-regd1:
+regd1:                                          ; used by ClampYPosition, CompShoot, EvadePC ...
         resb 1
-ReplayFrameButtons:
+ReplayFrameButtons:                             ; button bits of the replay frame being played; used by
+                                                ; StepReplay
         resb 85
-ReplayBuffer:
+ReplayBuffer:                                   ; the replay buffer: frames of every object's position and
+                                                ; animation
         resb 69898
-PenaltyTimes:
+PenaltyTimes:                                   ; penalty box times, a word per slot (InProgress); used by
+                                                ; InProgress
         resb 2
-PenBuf:
+PenBuf:                                         ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 1
-PenBuf_pl:
+PenBuf_pl:                                      ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 65
-Ylist:
+Ylist:                                          ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 32
-SavedPlayerWords:
+SavedPlayerWords:                               ; player words restored from the saved game (LoadGameState);
+                                                ; used by LoadGameState
         resb 2
-OOlistpos:
+OOlistpos:                                      ; used by InitBenchSprites, SprSort, checkcoll ...
         resb 34

@@ -523,17 +523,17 @@ ShowPlayerStatsTitle:
         pop ecx
         pop ebx
         ret
-PlayerStatsSortJumpTable:
+PlayerStatsSortJumpTable:                       ; jump table for the switch cases of PlayerStatsScreen
         dd PlayerStatsScreen_FF0
         dd PlayerStatsScreen_1008
         dd PlayerStatsScreen_1020
         dd PlayerStatsScreen_1038
-PlayerStatsModeJumpTable:
+PlayerStatsModeJumpTable:                       ; jump table for the switch cases of PlayerStatsScreen
         dd PlayerStatsScreen_13B5
         dd PlayerStatsScreen_13D1
         dd PlayerStatsScreen_13BC
         dd PlayerStatsScreen_13DD
-PlayerStatsChoiceJumpTable:
+PlayerStatsChoiceJumpTable:                     ; jump table for the switch cases of PlayerStatsScreen
         dd PlayerStatsScreen_1630
         dd PlayerStatsScreen_1641
         dd PlayerStatsScreen_1693
@@ -550,7 +550,7 @@ PlayerStatsChoiceJumpTable:
         dd PlayerStatsScreen_1F0E
         dd PlayerStatsScreen_1F0E
         dd PlayerStatsScreen_1F1B
-PlayerStatsSortResetJumpTable:
+PlayerStatsSortResetJumpTable:                  ; jump table for the switch cases of PlayerStatsScreen
         dd PlayerStatsScreen_1C3D
         dd PlayerStatsScreen_1D23
         dd PlayerStatsScreen_1D52
@@ -3918,7 +3918,7 @@ FindPlayerStatRow:
         pop edi
         pop esi
         ret
-ExportPlayerStatsJumpTable:
+ExportPlayerStatsJumpTable:                     ; jump table for the switch cases of ExportPlayerStats
         dd ExportPlayerStats_146
         dd ExportPlayerStats_171
         dd ExportPlayerStats_178

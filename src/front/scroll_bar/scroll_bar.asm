@@ -712,9 +712,9 @@ ScrollBarToMouse:
         leave
         pop edx
         ret
-DaysInMonth:
+DaysInMonth:                                    ; used by DrawCalendar
         db 01Fh,01Ch,01Fh,01Eh,01Fh,01Eh,01Fh,01Fh,01Eh,01Fh,01Eh,01Fh
-CalendarDayShades:
+CalendarDayShades:                              ; used by DrawCalendar
         db 0CDh,0CCh,0CCh,03Eh,0CDh,0CCh,0CCh,03Eh,0CDh,0CCh,0CCh,03Eh,0CDh,0CCh,0CCh,03Eh
         db 033h,033h,0B3h,03Eh,033h,033h,0B3h,03Eh,0CDh,0CCh,0CCh,03Eh,033h,033h,0B3h,03Eh
         db 033h,033h,0B3h,03Eh,033h,033h,0B3h,03Eh,0CDh,0CCh,0CCh,03Eh,033h,033h,0B3h,03Eh
@@ -722,7 +722,7 @@ CalendarDayShades:
         db 033h,033h,0B3h,03Eh,0CDh,0CCh,0CCh,03Eh,033h,033h,0B3h,03Eh,0CDh,0CCh,0CCh,03Eh
         db 0CDh,0CCh,0CCh,03Eh,0CDh,0CCh,0CCh,03Eh,0CDh,0CCh,0CCh,03Eh,0CDh,0CCh,0CCh,03Eh
         db 0CDh,0CCh,0CCh,03Eh,0CDh,0CCh,0CCh,03Eh
-CalendarChoiceJumpTable:
+CalendarChoiceJumpTable:                        ; jump table for the switch cases of CalendarScreen
         dd CalendarScreen_13D3
         dd CalendarScreen_13E4
         dd CalendarScreen_153A

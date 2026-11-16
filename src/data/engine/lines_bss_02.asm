@@ -4,31 +4,45 @@ bits 32
 section s_1770D8 nobits alloc noexec write align=1
 global HighlightBuffer, ZoneBufFront, ZoneBufBack, ZoneBufCount, ZoneMarksFront, ZoneMarksBack, ZonePrevList
 global ZonePrevCount, ZoneCurList, ZoneWorkBuf, ZoneCurCount, ZoneCapacity, ZoneMemBlock, DrawFrameCount
-ZoneBufFront:
+ZoneBufFront:                                   ; Zone manager: front list of changed screen rectangles; used
+                                                ; by CopyZonesToScreen, InitZoneManager
         resb 4
-ZoneBufBack:
+ZoneBufBack:                                    ; Zone manager: back list of changed screen rectangles; used
+                                                ; by CopyZonesToScreen, InitZoneManager
         resb 4
-ZoneBufCount:
+ZoneBufCount:                                   ; Zone manager: rectangles in the front list; used by
+                                                ; CopyZonesToScreen, InitZoneManager
         resb 4
-ZoneMarksFront:
+ZoneMarksFront:                                 ; Zone manager: front mark list; used by CopyZonesToScreen,
+                                                ; InitZoneManager
         resb 4
-ZoneMarksBack:
+ZoneMarksBack:                                  ; Zone manager: back mark list; used by CopyZonesToScreen,
+                                                ; InitZoneManager
         resb 4
-ZonePrevList:
+ZonePrevList:                                   ; Zone manager: previous frame's zone list; used by
+                                                ; AddZonePiece, ClipPreviousZones, CopyZonesToScreen ...
         resb 4
-ZonePrevCount:
+ZonePrevCount:                                  ; Zone manager: zones in the previous frame's list; used by
+                                                ; AddZonePiece, ClipPreviousZones, CopyZonesToScreen ...
         resb 4
-ZoneCurList:
+ZoneCurList:                                    ; Zone manager: current frame's zone list; used by AddZone,
+                                                ; AddZonePiece, ClipCurrentZones ...
         resb 4
-ZoneWorkBuf:
+ZoneWorkBuf:                                    ; Zone manager: work buffer; used by InitZoneManager,
+                                                ; ResolveZones
         resb 4
-ZoneCurCount:
+ZoneCurCount:                                   ; Zone manager: zones in the current frame's list; used by
+                                                ; AddZone, AddZonePiece, ClipCurrentZones ...
         resb 4
-ZoneCapacity:
+ZoneCapacity:                                   ; Zone manager: zones each list can hold; used by AddZone,
+                                                ; AddZonePiece, ClipCurrentZones ...
         resb 4
-ZoneMemBlock:
+ZoneMemBlock:                                   ; Zone manager: the allocated block holding all lists; used by
+                                                ; FreeZoneManager, InitZoneManager
         resb 4
-DrawFrameCount:
+DrawFrameCount:                                 ; Frames drawn (the draw routines count it up); used by
+                                                ; CopyZonesToScreen, DrawEventPanel, DrawGameClock ...
         resb 4
-HighlightBuffer:
+HighlightBuffer:                                ; Saved highlights, 1DCh bytes each; used by ReadHighlight,
+                                                ; SaveHighlight, WatchHighlight
         resb 952

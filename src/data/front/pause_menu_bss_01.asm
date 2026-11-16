@@ -7,73 +7,95 @@ global PauseMsgBottom, PauseMsgExtra, PauseTitleX, PauseListY, PauseMsgTime, Pau
 global PauseItemList, PauseScaleStep, FrontShapeFile, ControllerSlotIcon, ControllerColumnArt
 global ControllerBackBmp, ControllerIconArt, ControlPicksArt, ControlPicksBmp, ControlPickKeys, PauseTextBuf, ControlPicksItems, ControllerSlotDevice
 global ControllerSlotTeam, ControllerPadIcons, ControllerDragSlot, ControllerDragIcon
-PauseRegBuffer:
+PauseRegBuffer:                                 ; pause screen register buffer; used by PauseMenu
         resb 4
-PauseBoxXs:
+PauseBoxXs:                                     ; pause menu box x positions in use; used by DrawPauseButtons,
+                                                ; PauseGame, PauseMenu
         resb 4
-PauseBoxYs:
+PauseBoxYs:                                     ; pause menu box y positions in use; used by DrawPauseButtons,
+                                                ; PauseGame, PauseMenu
         resb 4
-PauseListH:
+PauseListH:                                     ; pause menu list height; used by DrawPauseFrame, PauseGame
         resb 4
-PauseTitleW:
+PauseTitleW:                                    ; pause menu title width; used by DrawPauseFrame, PauseGame
         resb 4
-PauseMsgTop:
+PauseMsgTop:                                    ; pause screen message, top line; used by PauseGame, PauseMenu
         resb 4
-PauseMsgBottom:
+PauseMsgBottom:                                 ; pause screen message, bottom line; used by PauseGame,
+                                                ; PauseMenu
         resb 4
-PauseMsgExtra:
+PauseMsgExtra:                                  ; pause screen extra message; used by PauseGame
         resb 4
-PauseTitleX:
+PauseTitleX:                                    ; pause menu title x position; used by DrawPauseFrame,
+                                                ; PauseGame
         resb 4
-PauseListY:
+PauseListY:                                     ; pause menu list y position; used by DrawPauseFrame,
+                                                ; PauseGame
         resb 4
-PauseMsgTime:
+PauseMsgTime:                                   ; used by DrawPauseFrame, PauseGame, RunPausedFrame
         resb 4
-PauseFrameBmp:
+PauseFrameBmp:                                  ; pause menu frame bitmap; used by DrawPauseFrame, PauseGame
         resb 4
-PauseClockArea:
+PauseClockArea:                                 ; pause clock area; used by DrawPauseFrame, PauseBackToGame,
+                                                ; PauseGame ...
         resb 4
-PauseTitleItems:
+PauseTitleItems:                                ; pause menu title items in use; used by DrawPauseButtons,
+                                                ; DrawPauseFrame, PauseGame
         resb 4
-PauseItemList:
+PauseItemList:                                  ; pause menu items in use; used by DrawPauseButtons,
+                                                ; DrawPauseFrame, PauseGame
         resb 4
-PauseScaleStep:
+PauseScaleStep:                                 ; pause menu scale step; used by DrawPauseFrame, PauseGame
         resb 4
-FrontShapeFile:
+FrontShapeFile:                                 ; front end shape file; used by DrawInGameMenuFrame,
+                                                ; DrawPauseButtons, DrawPauseFrame ...
         resb 4
-PauseTextBuf:
+PauseTextBuf:                                   ; pause screen text buffer; used by DrawPauseFrame, PauseMenu
         resb 52
-ControllerSlotDevice:
+ControllerSlotDevice:                           ; controller slot table: device (8 bytes per slot); used by
+                                                ; ControllerScreen, DrawControllerColumns
         resb 2
-ControllerSlotTeam:
+ControllerSlotTeam:                             ; controller slot table: team; used by ControllerScreen,
+                                                ; DrawControllerColumns
         resb 2
-ControllerSlotIcon:
+ControllerSlotIcon:                             ; controller slot table: icon art; used by ControllerScreen,
+                                                ; DrawControllerColumns, DrawControllerIcons
         resb 4
-ControllerPadIcons:
-        resb 4
-        resb 4
-        resb 4
-        resb 4
+ControllerPadIcons:                             ; controller pad flags and icon art; used by ControllerScreen,
+                                                ; DrawControllerIcons
         resb 4
         resb 4
-ControllerColumnArt:
         resb 4
-ControllerBackBmp:
         resb 4
-ControllerIconArt:
         resb 4
-ControllerDragSlot:
+        resb 4
+ControllerColumnArt:                            ; controller column art; used by ControllerScreen,
+                                                ; DrawControllerColumns, SetControllerColumn ...
+        resb 4
+ControllerBackBmp:                              ; controller screen background bitmap; used by
+                                                ; ControllerScreen, DrawControllerColumns
+        resb 4
+ControllerIconArt:                              ; controller icon art; used by ControllerScreen,
+                                                ; DrawControllerColumns, SetControllerIcon
+        resb 4
+ControllerDragSlot:                             ; controller slot being dragged (-1 for none); used by
+                                                ; ControllerScreen, DrawControllerColumns, DrawControllerIcons
         resb 2
-ControllerDragIcon:
+ControllerDragIcon:                             ; controller icon being dragged (-1 for none); used by
+                                                ; ControllerScreen, DrawControllerColumns, DrawControllerIcons
         resb 2
-ControlPicksArt:
+ControlPicksArt:                                ; control picks screen art; used by ControlPicksScreen,
+                                                ; PollOptionKeys
         resb 4
-ControlPicksBmp:
+ControlPicksBmp:                                ; control picks screen bitmap; used by ControlPicksScreen,
+                                                ; PollOptionKeys
         resb 4
-ControlPicksItems:
+ControlPicksItems:                              ; control picks screen items; used by ControlPicksScreen
         resb 184
-ControlPickFlags:
+ControlPickFlags:                               ; control picks option flags; used by ControlPicksScreen,
+                                                ; PollOptionKeys
         resb 1
         resb 3
-ControlPickKeys:
+ControlPickKeys:                                ; control picks key table; used by ControlPicksScreen,
+                                                ; PollOptionKeys
         resb 36

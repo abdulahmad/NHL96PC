@@ -13,11 +13,15 @@ global TeamStatSortColumn, PlayerStatsButtonArt
 global TeamHomePoints, TeamPowerPlayPct, TeamPenaltyKillPct, TeamPoints, TeamRoadPoints, TeamPointsPct
         resb 4
         resb 180
-TeamStatsTabArt:
+TeamStatsTabArt:                                ; team stats tab bitmap per column pair; used by
+                                                ; AnimateTeamStatsButton, AnimateTeamStatsButtons,
+                                                ; CompareTeamStatRows ...
         resb 4
-TeamStatsTabLit:
+TeamStatsTabLit:                                ; team stats tab bitmap, highlighted; used by
+                                                ; AnimateTeamStatsButton, AnimateTeamStatsButtons,
+                                                ; CompareTeamStatRows ...
         resb 4
-TeamStatsButtonPos:
+TeamStatsButtonPos:                             ; team stats button positions; used by TeamStatsScreen
         resb 4
         resb 4
         resb 4
@@ -38,7 +42,8 @@ TeamStatsButtonPos:
         resb 12
         resb 4
         resb 4
-TeamStatsButtonBmps:
+TeamStatsButtonBmps:                            ; team stats button bitmaps built for the screen; used by
+                                                ; TeamStatsScreen
         resb 4
         resb 4
         resb 4
@@ -47,16 +52,21 @@ TeamStatsButtonBmps:
         resb 4
         resb 4
         resb 356
-TeamStatsHeaderArt:
+TeamStatsHeaderArt:                             ; team stats column header bitmaps; used by
+                                                ; AnimateTeamStatsButton, AnimateTeamStatsButtons,
+                                                ; TeamStatsScreen
         resb 4
         resb 4
         resb 120
-TeamStatRows:
+TeamStatRows:                                   ; team stats table rows (28h bytes per team); used by
+                                                ; BuildTeamStatTables, DrawTeamStatsTable, DumpSaveTimes ...
         resb 4
         resb 4
         resb 4
         resb 4
-TeamStatRowValues:
+TeamStatRowValues:                              ; stat values within each team stats row; used by
+                                                ; BuildTeamStatTables, CompareTeamStatRows, DrawTeamStatsTable
+                                                ; ...
         resb 4
         resb 4
         resb 4
@@ -67,7 +77,8 @@ TeamStatRowValues:
         resb 4
         resb 4
         resb 988
-TeamStatColumns:
+TeamStatColumns:                                ; team stats column descriptors; used by BuildTeamStatTables,
+                                                ; CompareTeamStatRows, DrawTeamStatsTable ...
         resb 16
         resb 4
         resb 4
@@ -81,19 +92,27 @@ TeamStatColumns:
         resb 4
         resb 4
         resb 1204
-TeamHomePoints:
+TeamHomePoints:                                 ; home points per team; used by BuildTeamStatTables,
+                                                ; DumpSaveTimes
         resb 52
-TeamPowerPlayPct:
+TeamPowerPlayPct:                               ; power play percentage per team (tenths); used by
+                                                ; BuildTeamStatTables, DumpSaveTimes
         resb 52
-TeamStatSortColumn:
+TeamStatSortColumn:                             ; column the team stats table is sorted by; used by
+                                                ; CompareTeamStatRows, DrawTeamStatsTable, ExportTeamStats ...
         resb 4
-TeamPenaltyKillPct:
+TeamPenaltyKillPct:                             ; penalty kill percentage per team (tenths); used by
+                                                ; BuildTeamStatTables, DumpSaveTimes
         resb 52
-TeamPoints:
+TeamPoints:                                     ; points per team; used by BuildTeamStatTables, DumpSaveTimes
         resb 52
-TeamRoadPoints:
+TeamRoadPoints:                                 ; road points per team; used by BuildTeamStatTables,
+                                                ; DumpSaveTimes
         resb 52
-TeamPointsPct:
+TeamPointsPct:                                  ; points percentage per team (tenths); used by
+                                                ; BuildTeamStatTables, DumpSaveTimes
         resb 52
-PlayerStatsButtonArt:
+PlayerStatsButtonArt:                           ; player stats screen button bitmaps; used by
+                                                ; AnimatePlayerStatsButton, AnimatePlayerStatsButtons,
+                                                ; PlayerStatsScreen
         resb 4

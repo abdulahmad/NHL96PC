@@ -10,167 +10,185 @@ global str_SetstreamspeedSFILEISTOO, str_STREAM, str_DelstreamSTREAMNOTFOUND, st
 global str_02d, str_backslash3, str_W, str_X, str_space4, str_02, str_KWKJSKxxxxxx, str_0_LoadTeamLogo
 global str_Dot, str_Punct_CheckGameDirs, str_RunSetupFirstDe, str_EscToDosDe, str_backslash4, str_dot2, str_Punct_DeleteFiles, str_backslash2
 global str_D15, str_dot3, str_DB2, str_dbgL
-str_NAMEINDEX:
+str_NAMEINDEX:                                  ; string 'NAMEINDEX'; used by NameIndexAdd, NameIndexNew,
+                                                ; NameIndexRemove
         db 04Eh,041h,04Dh,045h,049h,04Eh,044h,045h,058h,00h
-str_backslash3:
+str_backslash3:                                 ; string '\'; used by NameIndexLoad, NameIndexPath,
+                                                ; NameIndexSave
         db 05Ch,00h
-str_Temp3:
+str_Temp3:                                      ; string 'temp'; used by EditText
         db 074h,065h,06Dh,070h,00h
-str_Disp:
+str_Disp:                                       ; string 'disp'; used by EditText
         db 064h,069h,073h,070h,00h
-str_W:
+str_W:                                          ; string 'W'; used by EditText
         db 057h,00h
-str_X:
+str_X:                                          ; string 'X'; used by DrawBoxButton, EditText, MessageBox ...
         db 058h,00h
-str_space4:
+str_space4:                                     ; string ' '; used by EditText
         db 020h,00h
-str_BUT:
+str_BUT:                                        ; string 'BUT'; used by MessageBox
         db 042h,055h,054h,00h
-str_BDREG:
+str_BDREG:                                      ; string 'BD_REG'; used by MessageBox
         db 042h,044h,05Fh,052h,045h,047h,00h
-str_BDMEN:
+str_BDMEN:                                      ; string 'BD_MEN'; used by MessageBox
         db 042h,044h,05Fh,04Dh,045h,04Eh,00h
-str_02:
+str_02:                                         ; string '0%'; used by ShowProgressBox
         db 030h,025h,00h
-str_D14:
+str_D14:                                        ; string '%d%%'; used by UpdateProgressBox
         db 025h,064h,025h,025h,00h,00h,00h
-str_KWKJSKxxxxxx:
+str_KWKJSKxxxxxx:                               ; string 'KWKJSKxxxxxx'
         db 04Bh,057h,04Bh,04Ah,053h,04Bh,078h,078h,078h,078h,078h,078h,00h
-str_dbgL:
+str_dbgL:                                       ; string 'L'; used by LoadTeamLogo
         db 04Ch,00h
-str_LNPA:
+str_LNPA:                                       ; string 'LNPA'; used by LoadTeamLogo
         db 04Ch,04Eh,050h,041h,00h
-str_LNHL:
+str_LNHL:                                       ; string 'LNHL'; used by LoadTeamLogo
         db 04Ch,04Eh,048h,04Ch,00h
-str_LDON:
+str_LDON:                                       ; string 'LDON'; used by LoadTeamLogo
         db 04Ch,044h,04Fh,04Eh,00h
-str_LNEW:
+str_LNEW:                                       ; string 'LNEW'; used by LoadTeamLogo
         db 04Ch,04Eh,045h,057h,00h
-str_LSTA:
+str_LSTA:                                       ; string 'LSTA'; used by LoadTeamLogo
         db 04Ch,053h,054h,041h,00h
-str_LEAS:
+str_LEAS:                                       ; string 'LEAS'; used by LoadTeamLogo
         db 04Ch,045h,041h,053h,00h
-str_0_LoadTeamLogo:
+str_0_LoadTeamLogo:                             ; string "0"; used by LoadTeamLogo
         db 030h,00h
-str_Dot:
+str_Dot:                                        ; string '.'; used by CheckGameDirs
         db 02Eh,00h
-str_Punct_CheckGameDirs:
+str_Punct_CheckGameDirs:                        ; string ".."; used by CheckGameDirs
         db 02Eh,02Eh,00h
-str_CLEARER:
+str_CLEARER:                                    ; string 'CLEARER'; used by InitHardware
         db 043h,04Ch,045h,041h,052h,045h,052h,00h
-str_YouMustFirstUseTheSETUPP:
+str_YouMustFirstUseTheSETUPP:                   ; string 'You must first use the SETUP program to configure
+                                                ; your '; used by StartUp
         db 059h,06Fh,075h,020h,06Dh,075h,073h,074h,020h,066h,069h,072h,073h,074h,020h,075h
         db 073h,065h,020h,074h,068h,065h,020h,053h,045h,054h,055h,050h,020h,070h,072h,06Fh
         db 067h,072h,061h,06Dh,020h,074h,06Fh,020h,063h,06Fh,06Eh,066h,069h,067h,075h,072h
         db 065h,020h,079h,06Fh,075h,072h,0Ah,00h
-str_HardwareBeforeRunningHOC:
+str_HardwareBeforeRunningHOC:                   ; string 'hardware before running HOCKEY. '; used by StartUp
         db 068h,061h,072h,064h,077h,061h,072h,065h,020h,062h,065h,066h,06Fh,072h,065h,020h
         db 072h,075h,06Eh,06Eh,069h,06Eh,067h,020h,048h,04Fh,043h,04Bh,045h,059h,02Eh,0Ah
         db 00h
-str_spPressESCToReturnToDOS:
+str_spPressESCToReturnToDOS:                    ; string ' Press ESC to return to DOS. '; used by StartUp
         db 0Ah,050h,072h,065h,073h,073h,020h,045h,053h,043h,020h,074h,06Fh,020h,072h,065h
         db 074h,075h,072h,06Eh,020h,074h,06Fh,020h,044h,04Fh,053h,02Eh,0Ah,0Ah,00h
-str_Punct_StartUp:
+str_Punct_StartUp:                              ; string
+                                                ; "\n---------------------------------------------------------
+                                                ; -----\n\n"; used by StartUp
         db 0Ah,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh
         db 02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh
         db 02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh
         db 02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,02Dh,0Ah
         db 0Ah,00h
-str_RunSetupFirstDe:
+str_RunSetupFirstDe:                            ; German message: run the set-up program first; used by
+                                                ; StartUp
         db 053h,069h,065h,020h,04Dh,09Ah,073h,073h,065h,06Eh,020h,065h,072h,073h,074h,020h
         db 064h,061h,073h,020h,053h,045h,054h,055h,050h,020h,02Dh,020h,050h,072h,06Fh,067h
         db 072h,061h,06Dh,06Dh,020h,06Ch,061h,075h,066h,065h,06Eh,020h,06Ch,061h,073h,073h
         db 065h,06Eh,02Ch,020h,075h,06Dh,0Ah,00h
-str_IhreHardwareZuKonfigurie:
+str_IhreHardwareZuKonfigurie:                   ; string 'Ihre Hardware zu konfigurieren, bevor Sie HOCKEY
+                                                ; starten. '; used by StartUp
         db 049h,068h,072h,065h,020h,048h,061h,072h,064h,077h,061h,072h,065h,020h,07Ah,075h
         db 020h,06Bh,06Fh,06Eh,066h,069h,067h,075h,072h,069h,065h,072h,065h,06Eh,02Ch,020h
         db 062h,065h,076h,06Fh,072h,020h,053h,069h,065h,020h,048h,04Fh,043h,04Bh,045h,059h
         db 020h,073h,074h,061h,072h,074h,065h,06Eh,02Eh,0Ah,00h
-str_EscToDosDe:
+str_EscToDosDe:                                 ; German message: press Esc to return to DOS; used by StartUp
         db 0Ah,045h,053h,043h,020h,064h,072h,09Ah,063h,06Bh,065h,06Eh,02Ch,020h,075h,06Dh
         db 020h,07Ah,075h,06Dh,020h,044h,04Fh,053h,020h,07Ah,075h,072h,09Ah,063h,06Bh,07Ah
         db 075h,06Bh,065h,068h,072h,065h,06Eh,02Eh,0Ah,00h
-str_FhiL4:
+str_FhiL4:                                      ; string 'FhiL'; used by StartUp
         db 046h,068h,069h,04Ch,00h
-str_FhiR4:
+str_FhiR4:                                      ; string 'FhiR'; used by StartUp
         db 046h,068h,069h,052h,00h
-str_LOGOPACK:
+str_LOGOPACK:                                   ; string 'LOGOPACK'; used by StartUp
         db 04Ch,04Fh,047h,04Fh,050h,041h,043h,04Bh,00h
-str_Lgo:
+str_Lgo:                                        ; string '!lgo'; used by StartUp
         db 021h,06Ch,067h,06Fh,00h,00h
-str_SetasyncspeedSFILEISTOOS:
+str_SetasyncspeedSFILEISTOOS:                   ; string 'setasyncspeed - %s FILE IS TOO SMALL TO ESTIMATE
+                                                ; ASYNC SPEED '; used by setasyncspeed
         db 073h,065h,074h,061h,073h,079h,06Eh,063h,073h,070h,065h,065h,064h,020h,02Dh,020h
         db 025h,073h,020h,046h,049h,04Ch,045h,020h,049h,053h,020h,054h,04Fh,04Fh,020h,053h
         db 04Dh,041h,04Ch,04Ch,020h,054h,04Fh,020h,045h,053h,054h,049h,04Dh,041h,054h,045h
         db 020h,041h,053h,059h,04Eh,043h,020h,053h,050h,045h,045h,044h,0Ah,00h
-str_SetasyncspeedSFILEISTOOS2:
+str_SetasyncspeedSFILEISTOOS2:                  ; string 'setasyncspeed - %s FILE IS TOO SMALL TO ESTIMATE
+                                                ; ASYNC SPEED '; used by setasyncspeed
         db 073h,065h,074h,061h,073h,079h,06Eh,063h,073h,070h,065h,065h,064h,020h,02Dh,020h
         db 025h,073h,020h,046h,049h,04Ch,045h,020h,049h,053h,020h,054h,04Fh,04Fh,020h,053h
         db 04Dh,041h,04Ch,04Ch,020h,054h,04Fh,020h,045h,053h,054h,049h,04Dh,041h,054h,045h
         db 020h,041h,053h,059h,04Eh,043h,020h,053h,050h,045h,045h,044h,0Ah,00h
-str_ASYNC:
+str_ASYNC:                                      ; string 'ASYNC'; used by setasyncspeed
         db 041h,053h,059h,04Eh,043h,00h
-str_ASYNCFILE:
+str_ASYNCFILE:                                  ; string 'ASYNC FILE'; used by AsyncInit
         db 041h,053h,059h,04Eh,043h,020h,046h,049h,04Ch,045h,00h
-str_AsyncreaderNOFILESPECIFI:
+str_AsyncreaderNOFILESPECIFI:                   ; string 'asyncreader - NO FILE SPECIFIED FOR CHUNK READ ';
+                                                ; used by asyncreader
         db 061h,073h,079h,06Eh,063h,072h,065h,061h,064h,065h,072h,020h,02Dh,020h,04Eh,04Fh
         db 020h,046h,049h,04Ch,045h,020h,053h,050h,045h,043h,049h,046h,049h,045h,044h,020h
         db 046h,04Fh,052h,020h,043h,048h,055h,04Eh,04Bh,020h,052h,045h,041h,044h,0Ah,00h
-str_AsyncreaderNOFILESPECIFI2:
+str_AsyncreaderNOFILESPECIFI2:                  ; string 'asyncreader - NO FILE SPECIFIED FOR SECTION READ ';
+                                                ; used by asyncreader
         db 061h,073h,079h,06Eh,063h,072h,065h,061h,064h,065h,072h,020h,02Dh,020h,04Eh,04Fh
         db 020h,046h,049h,04Ch,045h,020h,053h,050h,045h,043h,049h,046h,049h,045h,044h,020h
         db 046h,04Fh,052h,020h,053h,045h,043h,054h,049h,04Fh,04Eh,020h,052h,045h,041h,044h
         db 0Ah,00h
-str_AsyncreaderNOFILESPECIFI3:
+str_AsyncreaderNOFILESPECIFI3:                  ; string 'asyncreader - NO FILE SPECIFIED FOR HANDLE READ ';
+                                                ; used by asyncreader
         db 061h,073h,079h,06Eh,063h,072h,065h,061h,064h,065h,072h,020h,02Dh,020h,04Eh,04Fh
         db 020h,046h,049h,04Ch,045h,020h,053h,050h,045h,043h,049h,046h,049h,045h,044h,020h
         db 046h,04Fh,052h,020h,048h,041h,04Eh,044h,04Ch,045h,020h,052h,045h,041h,044h,0Ah
         db 00h
-str_GetasyncblockDNOASYNCBLO:
+str_GetasyncblockDNOASYNCBLO:                   ; string 'getasyncblock[%d] - NO ASYNC BLOCKS LEFT '; used by
+                                                ; getasyncblock
         db 067h,065h,074h,061h,073h,079h,06Eh,063h,062h,06Ch,06Fh,063h,06Bh,05Bh,025h,064h
         db 05Dh,020h,02Dh,020h,04Eh,04Fh,020h,041h,053h,059h,04Eh,043h,020h,042h,04Ch,04Fh
         db 043h,04Bh,053h,020h,04Ch,045h,046h,054h,0Ah,00h,00h,00h
-str_CDSTREAM:
+str_CDSTREAM:                                   ; string "CDSTREAM"; used by CdStreamOpen
         db 043h,044h,053h,054h,052h,045h,041h,04Dh,00h
-str_SetstreamspeedSFILEISTOO:
+str_SetstreamspeedSFILEISTOO:                   ; string 'setstreamspeed - %s FILE IS TOO SMALL TO ESTIMATE
+                                                ; DATA STREAM SPEED Size is %d. Require %d. '; used by
+                                                ; setstreamspeed
         db 073h,065h,074h,073h,074h,072h,065h,061h,06Dh,073h,070h,065h,065h,064h,020h,02Dh
         db 020h,025h,073h,020h,046h,049h,04Ch,045h,020h,049h,053h,020h,054h,04Fh,04Fh,020h
         db 053h,04Dh,041h,04Ch,04Ch,020h,054h,04Fh,020h,045h,053h,054h,049h,04Dh,041h,054h
         db 045h,020h,044h,041h,054h,041h,020h,053h,054h,052h,045h,041h,04Dh,020h,053h,050h
         db 045h,045h,044h,0Ah,053h,069h,07Ah,065h,020h,069h,073h,020h,025h,064h,02Eh,020h
         db 052h,065h,071h,075h,069h,072h,065h,020h,025h,064h,02Eh,0Ah,00h
-str_STREAM:
+str_STREAM:                                     ; string 'STREAM'; used by setstreamspeed
         db 053h,054h,052h,045h,041h,04Dh,00h
-str_DelstreamSTREAMNOTFOUND:
+str_DelstreamSTREAMNOTFOUND:                    ; string 'delstream - STREAM NOT FOUND '; used by delstream
         db 064h,065h,06Ch,073h,074h,072h,065h,061h,06Dh,020h,02Dh,020h,053h,054h,052h,045h
         db 041h,04Dh,020h,04Eh,04Fh,054h,020h,046h,04Fh,055h,04Eh,044h,0Ah,00h
-str_SECCDSTREAM:
+str_SECCDSTREAM:                                ; string "SECCDSTREAM"; used by CdStreamOpenSecondary
         db 053h,045h,043h,043h,044h,053h,054h,052h,045h,041h,04Dh,00h
-str_StreamreaderILLEGALCHUNK:
+str_StreamreaderILLEGALCHUNK:                   ; string 'streamreader - ILLEGAL CHUNK SIZE %d BUFFERSIZE %d
+                                                ; '; used by CdStreamService
         db 073h,074h,072h,065h,061h,06Dh,072h,065h,061h,064h,065h,072h,020h,02Dh,020h,049h
         db 04Ch,04Ch,045h,047h,041h,04Ch,020h,043h,048h,055h,04Eh,04Bh,020h,053h,049h,05Ah
         db 045h,020h,025h,064h,020h,042h,055h,046h,046h,045h,052h,053h,049h,05Ah,045h,020h
         db 025h,064h,0Ah,00h,00h
-str_backslash4:
+str_backslash4:                                 ; string '\'; used by DeleteFiles
         db 05Ch,00h
-str_dot2:
+str_dot2:                                       ; string '.'; used by DeleteFiles
         db 02Eh,00h
-str_Punct_DeleteFiles:
+str_Punct_DeleteFiles:                          ; string "*"; used by DeleteFiles
         db 02Ah,00h
-str_COPYBUFFER:
+str_COPYBUFFER:                                 ; string 'COPYBUFFER'; used by FileCopy
         db 043h,04Fh,050h,059h,042h,055h,046h,046h,045h,052h,00h
-str_ErrDiskFree2:
+str_ErrDiskFree2:                               ; string 'error getting disk space free '; used by
+                                                ; ReadSeasonHeader
         db 065h,072h,072h,06Fh,072h,020h,067h,065h,074h,074h,069h,06Eh,067h,020h,064h,069h
         db 073h,06Bh,020h,073h,070h,061h,063h,065h,020h,066h,072h,065h,065h,0Ah,00h
-str_backslash2:
+str_backslash2:                                 ; string '\'; used by MakeDataPath,
+                                                ; MakeDataPathArchiveJumpTable, MakeDirPath ...
         db 05Ch,00h,00h,00h
-str_07d:
+str_07d:                                        ; string '%07d'; used by MakeDatabasePath
         db 025h,030h,037h,064h,00h
-str_D15:
+str_D15:                                        ; string '%d'; used by MakeDatabasePath
         db 025h,064h,00h
-str_dot3:
+str_dot3:                                       ; string '.'; used by MakeDatabasePath
         db 02Eh,00h
-str_DB2:
+str_DB2:                                        ; string 'DB'; used by MakeDatabasePath
         db 044h,042h,00h
-str_02d:
+str_02d:                                        ; string '%02d'; used by MakeDatabasePath
         db 025h,030h,032h,064h,00h,00h,00h

@@ -20,7 +20,7 @@ extern SystemInfo, DefaultFont, str_WesternConference2, PaletteShadow
 global LoadTeamLogoJumpTable, LoadTeamLogo, LoadTeamLogo_3B, LoadTeamLogo_45, LoadTeamLogo_4F, LoadTeamLogo_59, LoadTeamLogo_63, LoadTeamLogo_6D
 global LoadTeamLogo_ret, RunFrontEnd, ReturnTrue, CheckFreeMemory, CheckGameDirs, InitHardware, StartUp, ShutDown
 global ShutDown_51, StartUp_ret, main_
-LoadTeamLogoJumpTable:
+LoadTeamLogoJumpTable:                          ; jump table for the switch cases of LoadTeamLogo
         dd LoadTeamLogo_6D
         dd LoadTeamLogo_3B
         dd LoadTeamLogo_45

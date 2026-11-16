@@ -371,7 +371,7 @@ VesaSetBank:
         push edx
         mov edx, dword [VesaBank]
         jmp dword [nosplit edx*4+VesaSetBankJumpTable]
-VesaSetBankJumpTable:
+VesaSetBankJumpTable:                           ; jump table for the switch cases of VesaSetBank
         dd .1
         dd VesaSetBankBody.2
 .1:
@@ -1373,7 +1373,7 @@ FillRectCore_4:
         and ecx, byte 3
         jmp dword [nosplit ecx*4+FillRectJumpTable]
         db 02Eh,08Bh,0C0h
-FillRectJumpTable:
+FillRectJumpTable:                              ; jump table for the switch cases of FillRectCore
         dd .1
         dd .3
         dd .5
@@ -1521,7 +1521,7 @@ XorRectCore_4:
         and ecx, byte 3
         jmp dword [nosplit ecx*4+XorRectJumpTable]
         db 02Eh,08Bh,0C0h
-XorRectJumpTable:
+XorRectJumpTable:                               ; jump table for the switch cases of XorRectCore
         dd .1
         dd .5
         dd .9
@@ -1900,7 +1900,7 @@ FillRectSpansCore:
         mov al, byte [byte esi+01Ch]
         mov ebx, dword [byte esi+034h]
         jmp dword [nosplit cs:ebx*4+FillRectSpansJumpTable]
-FillRectSpansJumpTable:
+FillRectSpansJumpTable:                         ; jump table for the switch cases of FillRectSpansCore
         dd .2
         dd .2
         dd .4

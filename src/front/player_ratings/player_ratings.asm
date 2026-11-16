@@ -1535,7 +1535,7 @@ PlayerRatingsScreen_E71:
         pop edi
         pop esi
         ret
-GoalieRatingBarJumpTable:
+GoalieRatingBarJumpTable:                       ; jump table for the switch cases of DrawRatingBars
         dd DrawRatingBars_2CA
         dd DrawRatingBars_30B
         dd DrawRatingBars_331
@@ -1547,7 +1547,7 @@ GoalieRatingBarJumpTable:
         dd DrawRatingBars_469
         dd DrawRatingBars_495
         dd DrawRatingBars_4C1
-SkaterRatingBarJumpTable:
+SkaterRatingBarJumpTable:                       ; jump table for the switch cases of DrawRatingBars
         dd DrawRatingBars_5E5
         dd DrawRatingBars_620
         dd DrawRatingBars_640
@@ -3248,7 +3248,7 @@ DrawRatingsName:
         pop esi
         pop ecx
         ret
-RosterHotspots:
+RosterHotspots:                                 ; used by RosterScreen
         db 0F9h,00h,00h,00h,0E4h,00h,00h,00h,02h,01h,00h,00h,0DAh,00h,00h,00h
         db 07Fh,01h,00h,00h,0DAh,00h,00h,00h,088h,01h,00h,00h,0E6h,00h,00h,00h
         db 07Dh,01h,00h,00h,0F0h,00h,00h,00h,01h,01h,00h,00h,0EFh,00h,00h,00h
@@ -3289,7 +3289,7 @@ RosterHotspots:
 ; RosterTabHotspots                               96B89  96 PC, low confidence
 ; Roster screen tab click areas
 ;-----------------------------------------------------------------------------
-RosterTabHotspots:
+RosterTabHotspots:                              ; roster screen tab click areas; used by RosterScreen
         db 058h,00h,00h,00h,0C4h,01h,00h,00h,05Fh,00h,00h,00h,0BBh,01h,00h,00h
         db 0CEh,00h,00h,00h,0BBh,01h,00h,00h,0D5h,00h,00h,00h,0C5h,01h,00h,00h
         db 0D0h,00h,00h,00h,0D0h,01h,00h,00h,061h,00h,00h,00h,0D0h,01h,00h,00h
@@ -3302,7 +3302,7 @@ RosterTabHotspots:
         db 01Fh,02h,00h,00h,0BAh,01h,00h,00h,029h,02h,00h,00h,0C5h,01h,00h,00h
         db 01Fh,02h,00h,00h,0CEh,01h,00h,00h,0B4h,01h,00h,00h,0CEh,01h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-RosterKeyTable:
+RosterKeyTable:                                 ; used by RosterScreen
         db 016h,00h,00h,0Ah,01Bh,01h,0Bh,01h,02h,014h,02h,010h,03h,04h,01Ch,026h
         db 03h,07h,01Dh,027h,04h,08h,020h,07h,04h,08h,07h,02Ah,04h,08h,05h,06h
         db 07h,09h,025h,02Fh,08h,09h,0Ah,0Bh,025h,0Ah,00h,09h,02Fh,0Bh,09h,01h
@@ -3319,7 +3319,7 @@ RosterKeyTable:
 ; CreatePlayerHotspots                            96D09  96 PC, low confidence
 ; Create player screen click areas
 ;-----------------------------------------------------------------------------
-CreatePlayerHotspots:
+CreatePlayerHotspots:                           ; create player screen click areas; used by CreatePlayerScreen
         db 02Dh,00h,00h,00h,0ABh,00h,00h,00h,034h,00h,00h,00h,0A1h,00h,00h,00h
         db 0ACh,00h,00h,00h,0A1h,00h,00h,00h,0B6h,00h,00h,00h,0AEh,00h,00h,00h
         db 0ABh,00h,00h,00h,0B9h,00h,00h,00h,036h,00h,00h,00h,0B9h,00h,00h,00h
@@ -3332,7 +3332,7 @@ CreatePlayerHotspots:
         db 08Eh,01h,00h,00h,0A0h,00h,00h,00h,095h,01h,00h,00h,0A8h,00h,00h,00h
         db 093h,01h,00h,00h,0B4h,00h,00h,00h,08Fh,01h,00h,00h,0BAh,00h,00h,00h
         db 0F9h,00h,00h,00h,0BBh,00h,00h,00h,0F1h,00h,00h,00h,0B5h,00h,00h,00h
-CreateSkaterNavLinks:
+CreateSkaterNavLinks:                           ; used by CreatePlayerScreen
         db 02h,00h,00h,01Dh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 03h,01h,01Fh,01h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 02h,00h,02h,04h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -3366,7 +3366,7 @@ CreateSkaterNavLinks:
         db 01Ah,01Eh,01Dh,020h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 01Bh,01Fh,020h,01h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 01Ch,020h,01Eh,01Fh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-CreateGoalieNavLinks:
+CreateGoalieNavLinks:                           ; used by CreatePlayerScreen
         db 02h,00h,00h,015h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 03h,01h,013h,01h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 02h,00h,02h,04h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h

@@ -5,41 +5,52 @@ section s_17D7D4 nobits alloc noexec write align=1
 global CalCellBmp, CalCellHiliteBmp, CalBtnUpBmp, CalBtnDownBmp, CalCellGameBmp
 global CalBtnHiliteBmp, CalHeaderBmp, CalDayBmp, CalPageBmp, CalSimWeekBmp, CalFrameBmp, CalFrameDownBmp, CalSelectedDay
 global CalFrameUpBmp, CalFrameAltDownBmp, CalSimDayBmp, CalFrameAltUpBmp, CalSimRestBmp, CalFrameAltBmp
-CalCellBmp:
+CalCellBmp:                                     ; Calendar day cell bitmaps, one per cell; used by
+                                                ; CalendarScreen
         resb 48
-CalCellHiliteBmp:
+CalCellHiliteBmp:                               ; Calendar day cell bitmaps, highlighted; used by
+                                                ; CalendarScreen
         resb 48
-CalBtnUpBmp:
+CalBtnUpBmp:                                    ; Calendar button bitmaps, up (copied to the button's normal
+                                                ; art; indexed from 1); used by CalendarScreen
         resb 48
-CalBtnDownBmp:
+CalBtnDownBmp:                                  ; Calendar button bitmaps, pressed (indexed from 1); used by
+                                                ; CalendarScreen
         resb 48
-CalCellGameBmp:
+CalCellGameBmp:                                 ; Calendar day cell bitmaps with a game drawn in; used by
+                                                ; CalendarScreen
         resb 48
-CalBtnHiliteBmp:
+CalBtnHiliteBmp:                                ; Calendar button bitmaps, highlighted (indexed from 1); used
+                                                ; by CalendarScreen
         resb 48
-CalHeaderBmp:
+CalHeaderBmp:                                   ; Calendar header bitmap (screen width x 52h); used by
+                                                ; CalendarScreen
         resb 4
-CalDayBmp:
+CalDayBmp:                                      ; Calendar day bitmap (44h x 44h); used by CalendarScreen
         resb 4
-CalPageBmp:
+CalPageBmp:                                     ; Calendar page bitmap (1DCh x 154h); used by CalendarScreen
         resb 4
-CalSimWeekBmp:
+CalSimWeekBmp:                                  ; Calendar sim button art (second sim shape); used by
+                                                ; CalendarScreen
         resb 4
-CalFrameBmp:
+CalFrameBmp:                                    ; Calendar frame art (LFDK shape); used by CalendarScreen
         resb 4
-CalFrameDownBmp:
+CalFrameDownBmp:                                ; Calendar frame button, pressed; used by CalendarScreen
         resb 4
-CalSelectedDay:
+CalSelectedDay:                                 ; Selected calendar day, -1 for none; used by CalendarScreen
         resb 4
-CalFrameUpBmp:
+CalFrameUpBmp:                                  ; Calendar frame button, up; used by CalendarScreen
         resb 4
-CalFrameAltDownBmp:
+CalFrameAltDownBmp:                             ; Second calendar frame button, pressed; used by
+                                                ; CalendarScreen
         resb 4
-CalSimDayBmp:
+CalSimDayBmp:                                   ; Calendar sim button art (first sim shape); used by
+                                                ; CalendarScreen
         resb 4
-CalFrameAltUpBmp:
+CalFrameAltUpBmp:                               ; Second calendar frame button, up; used by CalendarScreen
         resb 4
-CalSimRestBmp:
+CalSimRestBmp:                                  ; Calendar sim button art (third sim shape); used by
+                                                ; CalendarScreen
         resb 4
-CalFrameAltBmp:
+CalFrameAltBmp:                                 ; Second calendar frame art; used by CalendarScreen
         resb 4

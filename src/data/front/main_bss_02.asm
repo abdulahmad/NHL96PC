@@ -9,51 +9,69 @@ global gwgplayer, FaceoffPuckDrop, BenchDoorState, SkateTurnDir, lineslotmark, P
 global SpeechPatchNext, joysampling, UnusedCrowdWord, MaxCwdExciteLvl, NumCwdExciteLvl, UnusedCrowdWordHi, PeriodStartClock, penevteam
 global GoalSignalState, UnusedEventWord, PerTimeTotal, LastTouchTeam, PassDistY, StoppageFlag, LastPlayerTouch, StarPoints
 global starpl, lastimpact
-UnusedSpeechWord:
+UnusedSpeechWord:                               ; reset to -1 for each game, otherwise unused; used by
+                                                ; ResetGameVars
         resb 2
-SpeechPatchNext:
+SpeechPatchNext:                                ; speech patch header: next (set to 0 at start up); used by
+                                                ; ResetGameVars, StartPer, puckstick
         resb 2
-joysampling:
+joysampling:                                    ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 2
-UnusedCrowdWord:
+UnusedCrowdWord:                                ; reset for each game, otherwise unused; used by ResetGameVars
         resb 2
-MaxCwdExciteLvl:
+MaxCwdExciteLvl:                                ; highest crowd excitement this game; used by ResetGameVars,
+                                                ; RestoreBenchEnergy, periodicevents
         resb 2
-NumCwdExciteLvl:
+NumCwdExciteLvl:                                ; crowd excitement samples taken; used by ResetGameVars,
+                                                ; RestoreBenchEnergy, periodicevents
         resb 2
-CwdExciteLvl:
+CwdExciteLvl:                                   ; used by AddPenalty2, ChkShotStat, FallDown ...
         resb 2
-UnusedCrowdWordHi:
+UnusedCrowdWordHi:                              ; reset for each game, otherwise unused; used by ResetGameVars
         resb 2
-PeriodStartClock:
+PeriodStartClock:                               ; clock value when the period started; used by ResetClock,
+                                                ; StartPer
         resb 2
-penevteam:
+penevteam:                                      ; team of the last penalty event; used by PostPenaltyEvent,
+                                                ; ResetGameVars, puckfaceoff2
         resb 2
-GoalSignalState:
+GoalSignalState:                                ; goal signal state (2 or 4); used by Goal, LoadGameState,
+                                                ; SaveGameState ...
         resb 2
-UnusedEventWord:
+UnusedEventWord:                                ; reset for each game, otherwise unused; used by ResetGameVars
         resb 2
-PerTimeTotal:
+PerTimeTotal:                                   ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 2
-PBnum:
+PBnum:                                          ; used by AddPenalty, DrawPenaltyBoxPlayers, FallDown ...
         resb 1
-PBflags:
+PBflags:                                        ; penalty box flags (low nibble); used by SortSpritesForDraw,
+                                                ; assboxenter, assdopen
         resb 1
-iflags:
+iflags:                                         ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 1
-icingPlayer:
+icingPlayer:                                    ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 1
-lasttouch:
+lasttouch:                                      ; used by ChkDelayedOffside, ChkOffsides, ChkTeamPlayerFlag
+                                                ; ...
         resb 2
-LastTouchTeam:
+LastTouchTeam:                                  ; team that last touched the puck; used by EndPenaltyShot,
+                                                ; Goal, LoadGameState ...
         resb 2
-PassDistY:
+PassDistY:                                      ; pass distance Y; used by ChkTwoLinePass, EndPenaltyShot,
+                                                ; Goal ...
         resb 2
-StoppageFlag:
+StoppageFlag:                                   ; play stopped; used by EndPenaltyShot, Goal, LoadGameState
+                                                ; ...
         resb 2
-LastPlayerTouch:
+LastPlayerTouch:                                ; last player to touch the puck; used by EndPenaltyShot, Goal,
+                                                ; LoadGameState ...
         resb 2
-curevent:
+curevent:                                       ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 1
         resb 1
         resb 1
@@ -65,35 +83,44 @@ curevent:
         resb 1
         resb 1
         resb 1
-goalevent:
+goalevent:                                      ; used by LoadGameState, PostGoalEvent, ResetGameVars ...
         resb 3
-AssRefGoalTeam:
+AssRefGoalTeam:                                 ; team of the goal the referee signals; used by assrefgoalpa
         resb 1
-AssRefGoalData:
+AssRefGoalData:                                 ; referee goal signal data; used by assrefgoalpa
         resb 6
         resb 1
-OOlist:
+OOlist:                                         ; used by InitBenchSprites, LoadGameState, SprSort ...
         resb 1
         resb 17
-StarPoints:
+StarPoints:                                     ; three stars points per player; used by AddStar,
+                                                ; PickThreeStars, ThreeStarsScreen
         resb 2
-starpl:
+starpl:                                         ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 10
-gwgteam:
+gwgteam:                                        ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 4
-lineuptime:
+lineuptime:                                     ; the set time the faceoff line-up loop (RunLineupLoop) runs
+                                                ; before play; used by DrawGameFrame, DrawInGameMenuFrame,
+                                                ; DrawOverlayCaption ...
         resb 4
-gwgplayer:
+gwgplayer:                                      ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 4
-FaceoffPuckDrop:
+FaceoffPuckDrop:                                ; faceoff puck drop pending; used by assgoalie,
+                                                ; goalieposition, goalieskateto
         resb 4
-lastimpact:
+lastimpact:                                     ; used by FallDown, checkcx, checkint ...
         resb 4
-BenchDoorState:
+BenchDoorState:                                 ; bench door state; used by CheckBenchDoor, updateplayers
         resb 4
-SkateTurnDir:
+SkateTurnDir:                                   ; skating turn direction; used by doplayeracc, dostop, noturn0
         resb 4
-lineslotmark:
+lineslotmark:                                   ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 100
-PenaltyCandidates:
+PenaltyCandidates:                              ; players who can take a penalty; used by PickDefencePairs,
+                                                ; PickForwardLines, PickSpecialLines
         resb 100

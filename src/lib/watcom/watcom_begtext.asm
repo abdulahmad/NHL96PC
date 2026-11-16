@@ -3,8 +3,11 @@ bits 32
 %include "hockey.inc"
 section s_10000 progbits alloc exec nowrite align=1
 global ___begtext, begtext_forever
+;-----------------------------------------------------------------------------
+; begtext_forever                                                      10000  
+;-----------------------------------------------------------------------------
 begtext_forever:
         int3
         jmp short begtext_forever
-___begtext:
+___begtext:                                     ; IDA FLIRT library signature; used by start
         db 090h,090h,090h,090h,090h,090h,090h,090h,090h,090h,090h,090h,090h

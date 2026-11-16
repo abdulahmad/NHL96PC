@@ -14,60 +14,87 @@ global CrowdFadeStep, CrowdFadeGoal, CrowdFadeLevel, CrowdLastBendStore, CrowdLa
 global SndMixMode, StereoPanCurve, NextSndChannel, SndTimerAdded, SndExitHandlerAdded, TgvFrames, TgvTotalFrames, TgvRateTicks
 global TgvTotalTicks, TgvFrameRate, TgvFirstPeriod, SndDriverTable, SndDriverClose, SndDriverService, SndDriverQuery, SndCardNameNone
 global SndCardNameSb10, SndCardNameSb15, SndCardNameSb20, SndCardNameSbPro10, SndCardNameSbPro20, SndCardNameSb16, SndCardNameGus, SndCardNameWss
-SpeechQueueWrite:
+SpeechQueueWrite:                               ; speech queue write index; used by AddSpeechQueueClip,
+                                                ; FlushSpeechQueue, OpenSpeechQueue ...
         db 00h,00h,00h,00h
-SpeechQueueRead:
+SpeechQueueRead:                                ; speech queue read index; used by FlushSpeechQueue,
+                                                ; OpenSpeechQueue, ResetSpeechQueue ...
         db 00h,00h,00h,00h
-SpeechQueuePlaying:
+SpeechQueuePlaying:                             ; set while the speech queue plays; used by CloseSpeechQueue,
+                                                ; FlushSpeechQueue, OpenSpeechQueue ...
         db 00h
-SpeechQueueVolume:
+SpeechQueueVolume:                              ; speech queue volume; used by OpenSpeechQueue,
+                                                ; SetSpeechQueueVolume, SpeechQueueService
         db 07Fh,00h,00h,00h
-SpeechVoicePing:
+SpeechVoicePing:                                ; one of the two speech voices used in turn; used by
+                                                ; CloseSpeechQueue, FlushSpeechQueue, OpenSpeechQueue ...
         db 00h,00h,00h,00h
-SpeechVoicePong:
+SpeechVoicePong:                                ; the other speech voice used in turn; used by
+                                                ; CloseSpeechQueue, FlushSpeechQueue, OpenSpeechQueue ...
         db 01h,00h,00h,00h
-SpeechChannelCur:
+SpeechChannelCur:                               ; speech channel now playing; used by FlushSpeechQueue,
+                                                ; OpenSpeechQueue, ResetSpeechQueue ...
         db 00h,00h,00h,00h,00h,00h,00h
-StreamState:
+StreamState:                                    ; audio stream state: 0 closed, 2 playing, 3 waiting for its
+                                                ; header; used by AudioStreamActive, AudioStreamCallback,
+                                                ; AudioStreamPacketsPlayed ...
         db 00h,00h,00h,00h
-StreamChannel:
+StreamChannel:                                  ; audio stream sound channel; used by InitAudioStream,
+                                                ; OpenAudioStream, SndTimerTick ...
         db 0FFh,0FFh,0FFh,0FFh
-StreamFrameBytes:
+StreamFrameBytes:                               ; audio stream bytes per sample frame; used by
+                                                ; AudioStreamCallback, AudioStreamPosition, OpenAudioStream
         db 00h,00h,00h,00h
-StreamSampleRate:
+StreamSampleRate:                               ; audio stream sample rate; used by AudioStreamPosition,
+                                                ; OpenAudioStream
         db 00h,00h,00h,00h
-StreamVolume:
+StreamVolume:                                   ; audio stream volume; used by InitAudioStream,
+                                                ; OpenAudioStream
         db 00h,00h,00h,00h
-StreamOwner:
+StreamOwner:                                    ; used by FeedAudioStream, InitAudioStream, QueueStreamPacket
         db 00h,00h,00h,00h
-StreamHeader:
+StreamHeader:                                   ; audio stream header; used by OpenAudioStream,
+                                                ; StartAudioStream
         db 00h,00h,00h,00h
-StreamPacketsPlayed:
+StreamPacketsPlayed:                            ; audio stream packets played; used by AudioStreamCallback,
+                                                ; AudioStreamPacketsPlayed, InitAudioStream ...
         db 00h,00h,00h,00h
-StreamSampleScale:
+StreamSampleScale:                              ; audio stream sample size factor; used by
+                                                ; AudioStreamPosition, OpenAudioStream
         db 01h,00h,00h,00h
-SfxBanks:
+SfxBanks:                                       ; loaded sound effect banks; used by RegisterSfxBank,
+                                                ; UnregisterSfxBank
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h
-CrowdLoaded:
+CrowdLoaded:                                    ; set once a crowd bank is loaded; used by CloseCrowdSound,
+                                                ; CrowdService, LoadCrowdBank ...
         db 00h
-CrowdPaused:
+CrowdPaused:                                    ; set while the crowd is paused; used by CrowdService,
+                                                ; LoadCrowdBank, PauseCrowdChannels ...
         db 00h
-CrowdVolume:
+CrowdVolume:                                    ; crowd volume; used by CrowdService, ResumeCrowdChannels,
+                                                ; SetCrowdLayerLevels ...
         db 07Fh,00h,00h,00h
-CrowdIntensityGoal:
+CrowdIntensityGoal:                             ; crowd intensity target; used by CrowdService, LoadCrowdBank,
+                                                ; SetCrowdIntensity
         db 00h,00h,00h,00h
-CrowdRampMode:
+CrowdRampMode:                                  ; crowd excitement ramp: 0 rising to an event, 1 holding, 2
+                                                ; drifting; used by CrowdService, SetCrowdRampRate,
+                                                ; StartCrowdSound ...
         db 02h,00h,00h,00h
-CrowdEvent:
+CrowdEvent:                                     ; current crowd event; used by SetCrowdRampRate,
+                                                ; TriggerCrowdEvent
         db 00h,00h,00h,00h
-CrowdFadeStep:
+CrowdFadeStep:                                  ; crowd fade-in step; used by CrowdService,
+                                                ; ResumeCrowdChannels
         db 00h,00h,00h,00h
-CrowdFadeGoal:
+CrowdFadeGoal:                                  ; crowd fade-in target volume; used by CrowdService,
+                                                ; ResumeCrowdChannels
         db 00h,00h,00h,00h
-CrowdFadeLevel:
+CrowdFadeLevel:                                 ; crowd fade-in level; used by CrowdService,
+                                                ; ResumeCrowdChannels
         db 00h,00h,00h,00h
-VolumeCurve:
+VolumeCurve:                                    ; volume curve, 128 steps; used by SetCrowdLayerLevels
         db 00h,00h,01h,02h,03h,04h,04h,05h,06h,07h,08h,08h,09h,0Ah,0Bh,0Ch
         db 0Dh,0Dh,0Eh,0Fh,010h,011h,011h,012h,013h,014h,015h,016h,016h,017h,018h,019h
         db 01Ah,01Bh,01Bh,01Ch,01Dh,01Eh,01Fh,020h,020h,021h,022h,023h,024h,025h,026h,026h
@@ -76,28 +103,35 @@ VolumeCurve:
         db 044h,045h,046h,047h,048h,049h,04Ah,04Bh,04Ch,04Dh,04Eh,04Fh,050h,051h,052h,053h
         db 055h,056h,057h,058h,059h,05Ah,05Bh,05Ch,05Dh,05Fh,060h,061h,062h,063h,065h,066h
         db 067h,069h,06Ah,06Bh,06Dh,06Eh,06Fh,071h,072h,074h,076h,077h
-CrowdLastBendStore:
+CrowdLastBendStore:                             ; store index for each layer's last bend (one entry ahead);
+                                                ; used by SetCrowdLayerLevels, StartCrowdSound
         db 079h,07Bh,07Dh,07Fh
-CrowdLastBend:
+CrowdLastBend:                                  ; last bend sent for each crowd layer; used by
+                                                ; SetCrowdLayerLevels
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-CrowdLastVolumeStore:
+CrowdLastVolumeStore:                           ; store index for each layer's last volume (one entry ahead);
+                                                ; used by SetCrowdLayerLevels, StartCrowdSound
         db 00h,00h,00h,00h
-CrowdLastVolume:
+CrowdLastVolume:                                ; last volume sent for each crowd layer; used by
+                                                ; SetCrowdLayerLevels
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-CrowdTicks:
+CrowdTicks:                                     ; crowd tick count; used by CrowdService
         db 0FFh,0FFh,0FFh,0FFh,00h,00h
-SndMixMode:
+SndMixMode:                                     ; sound mix mode; used by SetSoundMixMode, SndSetDriver
         db 00h,00h,00h,00h
-StereoPanCurve:
+StereoPanCurve:                                 ; stereo spread percentages near the pan edges; used by
+                                                ; SplitStereoPan
         db 096h,00h,00h,00h,08Ch,00h,00h,00h,082h,00h,00h,00h,078h,00h,00h,00h
         db 06Eh,00h,00h,00h
-SndDriverTable:
+SndDriverTable:                                 ; driver entries (open, close, service, query, end) for each
+                                                ; sound card; used by SndSetDriver
         dd NullDriverOpen
-SndDriverClose:
+SndDriverClose:                                 ; driver close entry; used by SndCloseDriver
         dd NullDriverReturn
-SndDriverService:
+SndDriverService:                               ; driver service entry; used by CallDriverService
         dd NullDriverReturn
-SndDriverQuery:
+SndDriverQuery:                                 ; driver query entry; used by AllocSoundChannel,
+                                                ; SetSoundMixMode
         dd NullDriverQuery
         dd NullDriverEnd
         dd GusDriverOpen
@@ -126,39 +160,45 @@ SndDriverQuery:
         dd Sb16Query
         dd Sb16End
         dd str_spEACSNDFLIB32BitSoundLibr
-NextSndChannel:
+NextSndChannel:                                 ; channel the next search starts at; used by AllocSoundChannel
         db 00h,00h,00h,00h
-SndTimerAdded:
+SndTimerAdded:                                  ; set once the sound timer is added; used by SndCloseDriver,
+                                                ; SndSetDriver
         db 00h,00h,00h,00h
-SndExitHandlerAdded:
+SndExitHandlerAdded:                            ; set once the sound exit handler is added; used by
+                                                ; SndSetDriver
         db 00h,00h,00h,00h
-SndCardNameNone:
+SndCardNameNone:                                ; card name: none; used by AllocSoundChannel
         dd str_NoCardInstalled
-SndCardNameSb10:
+SndCardNameSb10:                                ; card name: Sound Blaster 1.0; used by AllocSoundChannel
         dd str_SoundBlaster10
-SndCardNameSb15:
+SndCardNameSb15:                                ; card name: Sound Blaster 1.5; used by AllocSoundChannel
         dd str_SoundBlaster15
-SndCardNameSb20:
+SndCardNameSb20:                                ; card name: Sound Blaster 2.0; used by AllocSoundChannel
         dd str_SoundBlaster20
-SndCardNameSbPro10:
+SndCardNameSbPro10:                             ; card name: Sound Blaster Pro 1.0; used by AllocSoundChannel
         dd str_SoundBlasterPro10
-SndCardNameSbPro20:
+SndCardNameSbPro20:                             ; card name: Sound Blaster Pro 2.0; used by AllocSoundChannel
         dd str_SoundBlasterPro20
-SndCardNameSb16:
+SndCardNameSb16:                                ; card name: Sound Blaster 16; used by AllocSoundChannel
         dd str_SoundBlaster16
-SndCardNameGus:
+SndCardNameGus:                                 ; card name: Gravis UltraSound; used by AllocSoundChannel
         dd str_GravisUltraSound
-SndCardNameWss:
+SndCardNameWss:                                 ; card name: Windows Sound System; used by AllocSoundChannel
         dd str_WindowsSoundSystem
-TgvFrames:
+TgvFrames:                                      ; frames since the last rate report; used by
+                                                ; TgvResetFrameRate, TgvShowFrameRate
         db 00h,00h,00h,00h
-TgvTotalFrames:
+TgvTotalFrames:                                 ; frames counted for the average rate; used by
+                                                ; TgvResetFrameRate, TgvShowFrameRate
         db 00h,00h,00h,00h
-TgvRateTicks:
+TgvRateTicks:                                   ; ticks at the last rate report; used by TgvResetFrameRate,
+                                                ; TgvShowFrameRate
         db 00h,00h,00h,00h
-TgvTotalTicks:
+TgvTotalTicks:                                  ; ticks counted for the average rate; used by
+                                                ; TgvResetFrameRate, TgvShowFrameRate
         db 00h,00h,00h,00h
-TgvFrameRate:
+TgvFrameRate:                                   ; last frame rate; used by TgvResetFrameRate, TgvShowFrameRate
         db 00h,00h,00h,00h
-TgvFirstPeriod:
+TgvFirstPeriod:                                 ; first rate period length; used by TgvShowFrameRate
         db 00h,00h,00h,00h

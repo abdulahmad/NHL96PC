@@ -143,7 +143,7 @@ DrawOnOffSlider:
         pop edi
         pop esi
         ret
-PollOptionKeysJumpTable:
+PollOptionKeysJumpTable:                        ; jump table for the switch cases of PollOptionKeys
         dd PollOptionKeys_94
         dd PollOptionKeys_B6
         dd PollOptionKeys_D5
@@ -325,7 +325,7 @@ PollOptionKeys_192:
 .9:
         leave
         jmp near ControlPicksScreen_B57
-ControlPicksJumpTable:
+ControlPicksJumpTable:                          ; jump table for the switch cases of ControlPicksScreen
         dd ControlPicksScreen_124
         dd ControlPicksScreen_12E
         dd ControlPicksScreen_13B
@@ -335,7 +335,7 @@ ControlPicksJumpTable:
         dd ControlPicksScreen_163
         dd ControlPicksScreen_16D
         dd ControlPicksScreen_177
-ControlPicksSlotJumpTable:
+ControlPicksSlotJumpTable:                      ; jump table for the switch cases of ControlPicksScreen
         dd ControlPicksScreen_657
         dd ControlPicksScreen_67C
         dd ControlPicksScreen_69B
@@ -345,7 +345,7 @@ ControlPicksSlotJumpTable:
         dd ControlPicksScreen_71C
         dd ControlPicksScreen_73A
         dd ControlPicksScreen_758
-ControlPicksButtonJumpTable:
+ControlPicksButtonJumpTable:                    ; jump table for the switch cases of ControlPicksScreen
         dd ControlPicksScreen_84D
         dd ControlPicksScreen_96B
         dd ControlPicksScreen_AF2
@@ -2886,14 +2886,14 @@ RunControlSetup:
         je short .1
         pop edx
         ret
-ModemSettingsLabelPos:
+ModemSettingsLabelPos:                          ; used by ModemSettingsScreen
         db 0B6h,01h,00h,00h,089h,00h,00h,00h,0EBh,01h,00h,00h,089h,00h,00h,00h
         db 01Bh,02h,00h,00h,089h,00h,00h,00h,04Ah,02h,00h,00h,089h,00h,00h,00h
         db 0CBh,01h,00h,00h,0C3h,00h,00h,00h,0FBh,01h,00h,00h,0C3h,00h,00h,00h
         db 02Eh,02h,00h,00h,0C3h,00h,00h,00h,059h,02h,00h,00h,0C3h,00h,00h,00h
         db 0Ch,02h,00h,00h,01h,01h,00h,00h,019h,02h,00h,00h,02Ch,01h,00h,00h
         db 026h,02h,00h,00h,057h,01h,00h,00h,033h,02h,00h,00h,081h,01h,00h,00h
-ModemSettingsHotspots:
+ModemSettingsHotspots:                          ; used by ModemSettingsScreen
         db 097h,01h,00h,00h,07Fh,00h,00h,00h,0A2h,01h,00h,00h,079h,00h,00h,00h
         db 0C5h,01h,00h,00h,079h,00h,00h,00h,0C5h,01h,00h,00h,092h,00h,00h,00h
         db 0A1h,01h,00h,00h,092h,00h,00h,00h,097h,01h,00h,00h,089h,00h,00h,00h
@@ -2942,13 +2942,13 @@ ModemSettingsHotspots:
         db 06Ah,02h,00h,00h,074h,01h,00h,00h,074h,02h,00h,00h,07Ch,01h,00h,00h
         db 074h,02h,00h,00h,085h,01h,00h,00h,065h,02h,00h,00h,08Ah,01h,00h,00h
         db 0F9h,01h,00h,00h,08Ah,01h,00h,00h,0EEh,01h,00h,00h,082h,01h,00h,00h
-ModemDialLabelPos:
+ModemDialLabelPos:                              ; used by ModemDialScreen
         db 0C4h,01h,00h,00h,091h,00h,00h,00h,047h,02h,00h,00h,091h,00h,00h,00h
         db 0B3h,01h,00h,00h,0DCh,00h,00h,00h,0A7h,01h,00h,00h,022h,01h,00h,00h
         db 062h,01h,00h,00h,06Ch,01h,00h,00h,09Ch,01h,00h,00h,06Ch,01h,00h,00h
         db 0DCh,01h,00h,00h,06Ch,01h,00h,00h,012h,02h,00h,00h,06Dh,01h,00h,00h
         db 064h,02h,00h,00h,06Dh,01h,00h,00h
-ModemDialHotspots:
+ModemDialHotspots:                              ; used by ModemDialScreen
         db 07Ch,01h,00h,00h,086h,00h,00h,00h,086h,01h,00h,00h,07Ch,00h,00h,00h
         db 0F0h,01h,00h,00h,07Ch,00h,00h,00h,0F0h,01h,00h,00h,09Bh,00h,00h,00h
         db 086h,01h,00h,00h,09Bh,00h,00h,00h,07Ch,01h,00h,00h,091h,00h,00h,00h
@@ -4173,7 +4173,7 @@ DrawPhoneNumber:
         jl near .1
         leave
         jmp near ModemSettingsScreen_D49
-ModemDialChoiceJumpTable:
+ModemDialChoiceJumpTable:                       ; jump table for the switch cases of ModemDialScreen
         dd ModemDialScreen_75A
         dd ModemDialScreen_81F
         dd ModemDialScreen_8DB

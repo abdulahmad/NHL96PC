@@ -2682,7 +2682,7 @@ SaveSeasonTeams:
         pop ecx
         pop ebx
         ret
-SimGameZero:
+SimGameZero:                                    ; used by SimulateGame
         db 00h,00h
         push esi
         mov esi, edx

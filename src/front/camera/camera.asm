@@ -3760,7 +3760,7 @@ SetGameViewSize:
         shl eax, 0Eh
         or dword [GsOptions], eax
         jmp near CamShotOrbitFrom_278
-MarkerToggleJumpTable:
+MarkerToggleJumpTable:                          ; jump table for the switch cases of ReadHotKeys
         dd ReadHotKeys_6FB
         dd ReadHotKeys_748
         dd ReadHotKeys_78C
@@ -4306,7 +4306,7 @@ ReadHotKeys_7CF:
 .42:
         mov dword [TimedPanelState], 0
         jmp near CamShotOrbitFrom_279
-UpdateCameraModeJumpTable:
+UpdateCameraModeJumpTable:                      ; jump table for the switch cases of UpdateCamera
         dd UpdateCamera_174
         dd UpdateCamera_480
         dd UpdateCamera_41F

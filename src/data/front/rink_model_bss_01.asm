@@ -10,7 +10,8 @@ global GlassShards
 
 
 
-RinkMarkingPoints:
+RinkMarkingPoints:                              ; rink marking point buffers; used by BuildCircleTable,
+                                                ; DrawCentreMarkings, DrawEndZoneMarkings ...
         resb 4
         resb 32
         resb 8
@@ -65,7 +66,8 @@ RinkMarkingPoints:
         resb 4
         resb 4
         resb 376
-GlassShards:
+GlassShards:                                    ; broken glass shard records; used by AddGlassShard,
+                                                ; DrawIceCrud, LoadIceTexture ...
         resb 4
         resb 4
         resb 1287

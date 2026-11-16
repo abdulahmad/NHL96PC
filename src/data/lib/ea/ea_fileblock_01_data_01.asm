@@ -4,43 +4,48 @@ bits 32
 section s_113438 progbits alloc noexec write align=1
 global str_DBUGTXT, str_FILES, str_DATES, str_TIMES, str_CLOSED, str_TIMES2, str_02d3s02d, str_2d02d02d2
 global str_CreatewindowblockINVALIDWIND, str_WINDOW, str_CreatewindowblockOUTOFMEMORY, str_CreatewindowblockBADBLOC, str_CreatewindowblockOUTOFRO, str_Wt
-str_DBUGTXT:
+str_DBUGTXT:                                    ; string "DBUG??.TXT"; used by DebugSetAttr
         db 044h,042h,055h,047h,03Fh,03Fh,02Eh,054h,058h,054h,00h,072h
-str_Wt:
+str_Wt:                                         ; string "wt"; used by DebugSetAttr
         db 077h,074h,00h,06Eh
-str_FILES:
+str_FILES:                                      ; string "FILE: %s "; used by DebugSetAttr
         db 046h,049h,04Ch,045h,03Ah,020h,025h,073h,0Ah,00h,069h,06Eh
-str_DATES:
+str_DATES:                                      ; string "DATE: %s "; used by DebugSetAttr
         db 044h,041h,054h,045h,03Ah,020h,025h,073h,0Ah,00h,031h,02Ch
-str_TIMES:
+str_TIMES:                                      ; string "TIME: %s "; used by DebugSetAttr
         db 054h,049h,04Dh,045h,03Ah,020h,025h,073h,0Ah,0Ah,00h,079h
-str_CLOSED:
+str_CLOSED:                                     ; string " CLOSED "; used by DebugSetAttr
         db 0Ah,043h,04Ch,04Fh,053h,045h,044h,0Ah,00h,069h,06Eh,074h
-str_TIMES2:
+str_TIMES2:                                     ; string "TIME: %s "; used by DebugSetAttr
         db 054h,049h,04Dh,045h,03Ah,020h,025h,073h,0Ah,00h,02Ch,069h
-str_02d3s02d:
+str_02d3s02d:                                   ; string "%02d-%3s-%02d"; used by FormatDateStamp
         db 025h,030h,032h,064h,02Dh,025h,033h,073h,02Dh,025h,030h,032h,064h,00h,063h,064h
-str_2d02d02d2:
+str_2d02d02d2:                                  ; string '%2d:%02d:%02d'; used by FormatDateStamp
         db 025h,032h,064h,03Ah,025h,030h,032h,064h,03Ah,025h,030h,032h,064h,00h,00h,00h
-str_CreatewindowblockINVALIDWIND:
+str_CreatewindowblockINVALIDWIND:               ; string "createwindowblock - INVALID WINDOW
+                                                ; DIMENSIONS\nrequested: %dx%d maximum: %dx%d\n"; used by
+                                                ; CreateBitmapEx
         db 063h,072h,065h,061h,074h,065h,077h,069h,06Eh,064h,06Fh,077h,062h,06Ch,06Fh,063h
         db 06Bh,020h,02Dh,020h,049h,04Eh,056h,041h,04Ch,049h,044h,020h,057h,049h,04Eh,044h
         db 04Fh,057h,020h,044h,049h,04Dh,045h,04Eh,053h,049h,04Fh,04Eh,053h,0Ah,072h,065h
         db 071h,075h,065h,073h,074h,065h,064h,03Ah,020h,025h,064h,078h,025h,064h,020h,06Dh
         db 061h,078h,069h,06Dh,075h,06Dh,03Ah,020h,025h,064h,078h,025h,064h,0Ah,00h,031h
-str_WINDOW:
+str_WINDOW:                                     ; string "WINDOW"; used by CreateBitmapEx
         db 057h,049h,04Eh,044h,04Fh,057h,00h,02Ch
-str_CreatewindowblockOUTOFMEMORY:
+str_CreatewindowblockOUTOFMEMORY:               ; string "createwindowblock - OUT OF MEMORY\nrequested: %dx%d
+                                                ; available: %ld\n"; used by CreateBitmapEx
         db 063h,072h,065h,061h,074h,065h,077h,069h,06Eh,064h,06Fh,077h,062h,06Ch,06Fh,063h
         db 06Bh,020h,02Dh,020h,04Fh,055h,054h,020h,04Fh,046h,020h,04Dh,045h,04Dh,04Fh,052h
         db 059h,0Ah,072h,065h,071h,075h,065h,073h,074h,065h,064h,03Ah,020h,025h,064h,078h
         db 025h,064h,020h,061h,076h,061h,069h,06Ch,061h,062h,06Ch,065h,03Ah,020h,025h,06Ch
         db 064h,0Ah,00h,06Eh
-str_CreatewindowblockBADBLOC:
+str_CreatewindowblockBADBLOC:                   ; string 'createwindowblock - BAD BLOCK requested: %dx%d ';
+                                                ; used by CreateBitmapEx
         db 063h,072h,065h,061h,074h,065h,077h,069h,06Eh,064h,06Fh,077h,062h,06Ch,06Fh,063h
         db 06Bh,020h,02Dh,020h,042h,041h,044h,020h,042h,04Ch,04Fh,043h,04Bh,0Ah,072h,065h
         db 071h,075h,065h,073h,074h,065h,064h,03Ah,020h,025h,064h,078h,025h,064h,0Ah,00h
-str_CreatewindowblockOUTOFRO:
+str_CreatewindowblockOUTOFRO:                   ; string 'createwindowblock - OUT OF ROW SPACE requested:
+                                                ; %dx%d '; used by CreateBitmapEx
         db 063h,072h,065h,061h,074h,065h,077h,069h,06Eh,064h,06Fh,077h,062h,06Ch,06Fh,063h
         db 06Bh,020h,02Dh,020h,04Fh,055h,054h,020h,04Fh,046h,020h,052h,04Fh,057h,020h,053h
         db 050h,041h,043h,045h,0Ah,072h,065h,071h,075h,065h,073h,074h,065h,064h,03Ah,020h

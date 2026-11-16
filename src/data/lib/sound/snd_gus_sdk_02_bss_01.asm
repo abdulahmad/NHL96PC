@@ -3,5 +3,5 @@ bits 32
 %include "hockey.inc"
 section s_151598 nobits alloc noexec write align=1
 global kaufmfont
-kaufmfont:
+kaufmfont:                                      ; used by GusRunInitTable, InitSlotTable, ReadJoyPad ...
         resb 4

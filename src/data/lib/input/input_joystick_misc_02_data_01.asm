@@ -8,55 +8,59 @@ global RemapTable, RandomState, RandIndex, FloorPlaneOn
 global MatrixScale, SubdivTable, SubdivMinDepth, SubdivMaxSize, QuadDepthLimit, SinTable, CosTable, NearPlaneZ
 global ScreenWidth, ScreenHeight, OriTriDrawFuncs, OriPolyDrawFuncs, OriQuadDrawFuncs, OriFlatDrawFuncs, OriStripDrawFuncs, IdentityMatrix
 global CameraMatrix, RinkMatrix, RinkTranslation
-RandomState:
+RandomState:                                    ; random number generator state; used by Random32
         db 056h,0Eh,02Dh,0F2h
         db 0E9h,026h,031h,088h
         db 02Fh,0DDh,024h,0C6h
         db 09Ch,0C4h,02h,07h
         db 07Dh,03Fh,035h,09Eh
-RandIndex:
+RandIndex:                                      ; random generator step counter; used by Random32
         db 064h,03Bh,0DFh,06Fh
-OriTriDrawFuncs:
+OriTriDrawFuncs:                                ; material draw routines for triangles; used by DrawModelPoly
         dd OriTriOpaque
         dd OriTriMapped
         dd OriTriShadow
-OriPolyDrawFuncs:
+OriPolyDrawFuncs:                               ; material draw routines for polygons; used by DrawModelPoly
         dd OriPolyShaded
         dd OriPolyClipped
         dd OriPolyMapped
-OriQuadDrawFuncs:
+OriQuadDrawFuncs:                               ; material draw routines for quads; used by DrawModelPoly
         dd OriQuadOpaque
         dd OriQuadMapped
         dd OriQuadShadow
-OriFlatDrawFuncs:
+OriFlatDrawFuncs:                               ; material draw routines for flat polygons; used by
+                                                ; DrawModelPoly
         dd OriFlatPoly
         dd OriFlatPolyList
         dd OriFlatPolyMapped
-OriStripDrawFuncs:
+OriStripDrawFuncs:                              ; material draw routines for strips; used by DrawModelPoly
         dd OriStripOpaque
         dd OriStripMapped
         dd OriStripShadow
-FloorPlaneOn:
+FloorPlaneOn:                                   ; floor plane drawing is on; used by FillFloorPlane
         db 01h,00h,00h,00h
-IdentityMatrix:
+IdentityMatrix:                                 ; identity matrix; used by InitGameView, OriCreateInstance,
+                                                ; OriUpdateMatrices ...
         db 00h,00h,01h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,01h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,01h,00h
-CameraMatrix:
+CameraMatrix:                                   ; camera matrix; used by OriCreateInstance,
+                                                ; ReplayCameraUpdate, ReplayFreeCamera
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-MatrixScale:
+MatrixScale:                                    ; matrix scale; used by OriUpdateMatrices
         db 00h,040h,00h,00h,00h,0E0h,0FFh,0FFh,00h,018h,00h,00h,00h,0ECh,0FFh,0FFh
         db 080h,011h,00h,00h,040h,0F0h,0FFh,0FFh,070h,0Eh,00h,00h,098h,0F2h,0FFh,0FFh
         db 092h,0Ch,00h,00h,021h,0F4h,0FFh,0FFh
-SubdivTable:
+SubdivTable:                                    ; subdivision table; used by SubdivideTexturedQuad
         db 00h,00h,00h,00h,01h,00h,00h,00h,01h,00h,00h,00h
-SubdivMinDepth:
+SubdivMinDepth:                                 ; subdivision minimum depth; used by SubdivideTexturedQuad
         db 02h,00h,00h,00h
-SubdivMaxSize:
+SubdivMaxSize:                                  ; subdivision maximum size; used by SubdivideTexturedQuad
         db 01Bh,00h,00h,00h
-QuadDepthLimit:
+QuadDepthLimit:                                 ; quad depth limit; used by ClassifyQuadDepth
         db 00h,040h,00h,00h
-SinTable:
+SinTable:                                       ; quarter-wave sine table in 16.16 fixed point; used by
+                                                ; ApplyGlassShake, CosInterp, CosLookup ...
         db 00h,00h,00h,00h,092h,01h,00h,00h,024h,03h,00h,00h,0B6h,04h,00h,00h
         db 048h,06h,00h,00h,0DAh,07h,00h,00h,06Ch,09h,00h,00h,0FEh,0Ah,00h,00h
         db 08Fh,0Ch,00h,00h,021h,0Eh,00h,00h,0B2h,0Fh,00h,00h,044h,011h,00h,00h
@@ -121,9 +125,11 @@ SinTable:
         db 04Eh,0FFh,00h,00h,06Ah,0FFh,00h,00h,084h,0FFh,00h,00h,09Ch,0FFh,00h,00h
         db 0B1h,0FFh,00h,00h,0C3h,0FFh,00h,00h,0D3h,0FFh,00h,00h,0E1h,0FFh,00h,00h
         db 0ECh,0FFh,00h,00h,0F4h,0FFh,00h,00h,0FBh,0FFh,00h,00h,0FEh,0FFh,00h,00h
-CosTable:
+CosTable:                                       ; quarter-wave cosine table in 16.16 fixed point; used by
+                                                ; SinCosLookup
         db 00h,00h,01h,00h
-RemapTable:
+RemapTable:                                     ; colour remap table; used by BlitBlockShadow,
+                                                ; BuildSpanOffsets, CopyRowShadow ...
         db 00h,09Eh,06Eh,07Eh,02Eh,0BEh,03Eh,08h,01Eh,08Dh,06Ah,07Ch,0DFh,0BCh,04Ch,018h
         db 018h,019h,019h,01Ah,08h,08h,01Ch,01Ch,01Ch,01Dh,01Eh,01Eh,01Fh,01Fh,01Fh,00h
         db 019h,0C9h,0CAh,0CBh,0DFh,0DFh,02Ch,02Ch,02Dh,02Dh,02Eh,02Eh,02Fh,02Fh,02Fh,00h
@@ -140,16 +146,21 @@ RemapTable:
         db 019h,019h,0C9h,0CAh,0CAh,0CBh,0CBh,0CBh,0CCh,0CCh,0CCh,0CDh,03Eh,03Eh,03Fh,03Fh
         db 0BCh,0BCh,0BCh,0BCh,0BCh,0BCh,0BCh,0BCh,0BCh,0BCh,0BCh,0BCh,0BCh,0BCh,0BCh,0BCh
         db 0BCh,0BCh,0BCh,0BCh,0BCh,0BCh,0BCh,0BCh,0BCh,0BCh,0BCh,0BCh,0BCh,0BCh,0BCh,018h
-NearPlaneZ:
+NearPlaneZ:                                     ; the projection plane distance set by SetScreenScale; used by
+                                                ; DrawMarkingPolys, DrawTexturedPolyCore, SetScreenScale ...
         db 0Ah,00h,00h,00h
-RinkMatrix:
+RinkMatrix:                                     ; rink rotation matrix; used by DrawModelFlat, SetRinkMatrix
         db 00h,00h,01h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,01h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,01h,00h
-RinkTranslation:
+RinkTranslation:                                ; rink translation vector; used by DrawModelFlat,
+                                                ; SetRinkTranslation
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h
-ScreenWidth:
+ScreenWidth:                                    ; screen width in pixels; used by AaDrawScaledArt,
+                                                ; BlitArtScaled, DrawArtFast ...
         db 080h,02h,00h,00h
-ScreenHeight:
+ScreenHeight:                                   ; screen height in pixels, the bottom of the full screen clip
+                                                ; window; used by ResetClipWindow, SetClipWindow,
+                                                ; WriteTgaScreen
         db 0E0h,01h

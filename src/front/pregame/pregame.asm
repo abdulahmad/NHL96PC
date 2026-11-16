@@ -3167,7 +3167,7 @@ PreGameDefenceCards:
         call StopSpeech
         mov eax, dword [byte ebp+06Eh]
         jmp near PreGameMatchupScreen_4E6
-PreGameScreensJumpTable:
+PreGameScreensJumpTable:                        ; jump table for the switch cases of PreGameScreens
         dd PreGameScreens_24
         dd PreGameScreens_44
         dd PreGameScreens_4B

@@ -2165,11 +2165,11 @@ GusStopStreamVoices:
         pop ebp
         popf
         ret
-SbIsrPicPort:
+SbIsrPicPort:                                   ; used by SbIsrAutoInit, SbIsrSingle, SbOpen
         db 00h,00h
-SbIsrAckPort:
+SbIsrAckPort:                                   ; used by SbIsrAutoInit, SbIsrSingle, SbOpen
         db 00h,00h
-SbIsrWritePort:
+SbIsrWritePort:                                 ; used by SbIsrSingle, SbOpen
         db 00h,00h
 ;-----------------------------------------------------------------------------
 ; SbIsrSingle                                  D7970  96 PC, medium confidence

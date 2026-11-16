@@ -4,45 +4,50 @@ bits 32
 section s_1175AD progbits alloc noexec write align=1
 global IceLogoGroupCount, StandsArtLoaded, PenBoxDoorHome, PenBoxDoorAway, CircleTableBuilt, GlassHitFace, ZamboniLoaded, OptionButtonDX
 global OptionButtonDY, IceCircleVertices, IceSurfaceDef, IceGeometryDef, FaceoffCircleOrder, EndZoneOrder, ShadowFill
-IceLogoGroupCount:
+IceLogoGroupCount:                              ; ice logo model groups found; used by DrawIceBackPoly,
+                                                ; DrawIceMarkings, LoadRinkModel
         db 00h,00h,00h,00h
-StandsArtLoaded:
+StandsArtLoaded:                                ; stands art is loaded; used by FreeStandsArt, LoadStandsArt
         db 00h,00h,00h,00h
-PenBoxDoorHome:
+PenBoxDoorHome:                                 ; home penalty box door state; used by EndReplay,
+                                                ; SetPenaltyBoxDoor, SortSpritesForDraw
         db 00h,00h,00h,00h
-PenBoxDoorAway:
+PenBoxDoorAway:                                 ; away penalty box door state; used by EndReplay,
+                                                ; SetPenaltyBoxDoor, SortSpritesForDraw
         db 00h,00h,00h,00h
-IceCircleVertices:
+IceCircleVertices:                              ; ice circle vertices; used by DrawIceSurface
         db 02Eh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,036h,00h,00h,00h
         db 00h,00h,00h,00h,01Dh,00h,00h,00h,01Eh,00h,00h,00h,00h,00h,00h,00h
         db 039h,00h,00h,00h,0E2h,0FFh,0FFh,0FFh,00h,00h,00h,00h,039h,00h,00h,00h
         db 0CAh,0FFh,0FFh,0FFh,00h,00h,00h,00h,01Dh,00h,00h,00h,0D2h,0FFh,0FFh,0FFh
         db 00h,00h,00h,00h,00h,00h,00h,00h
-IceSurfaceDef:
+IceSurfaceDef:                                  ; ice surface definition; used by DrawIceSurface
         db 041h,00h,00h,00h,00h,00h,00h,00h,0C9h,0FFh,0FFh,0FFh,041h,00h,00h,00h
         db 00h,00h,00h,00h,0BFh,0FFh,0FFh,0FFh,037h,00h,00h,00h,00h,00h,00h,00h
         db 0BFh,0FFh,0FFh,0FFh,0BFh,0FFh,0FFh,0FFh,00h,00h,00h,00h,0C9h,0FFh,0FFh,0FFh
         db 0BFh,0FFh,0FFh,0FFh,00h,00h,00h,00h,0BFh,0FFh,0FFh,0FFh,0C9h,0FFh,0FFh,0FFh
         db 00h,00h,00h,00h,0BFh,0FFh,0FFh,0FFh
-IceGeometryDef:
+IceGeometryDef:                                 ; ice geometry definition; used by BuildCircleTable,
+                                                ; DrawIceSurface
         db 093h,00h,00h,00h,00h,00h,00h,00h,012h,00h,00h,00h,0B1h,00h,00h,00h
         db 00h,00h,00h,00h,012h,00h,00h,00h,093h,00h,00h,00h,00h,00h,00h,00h
         db 0EEh,0FFh,0FFh,0FFh,0B1h,00h,00h,00h,00h,00h,00h,00h,0EEh,0FFh,0FFh,0FFh
         db 06Dh,0FFh,0FFh,0FFh,00h,00h,00h,00h,012h,00h,00h,00h,04Fh,0FFh,0FFh,0FFh
         db 00h,00h,00h,00h,012h,00h,00h,00h,06Dh,0FFh,0FFh,0FFh,00h,00h,00h,00h
         db 0EEh,0FFh,0FFh,0FFh,04Fh,0FFh,0FFh,0FFh,00h,00h,00h,00h,0EEh,0FFh,0FFh,0FFh
-FaceoffCircleOrder:
+FaceoffCircleOrder:                             ; faceoff circle draw order; used by DrawFaceoffCircle
         db 00h,00h,00h,00h,01h,00h,00h,00h,02h,00h,00h,00h,03h,00h,00h,00h
         db 04h,00h,00h,00h,05h,00h,00h,00h,06h,00h,00h,00h,07h,00h,00h,00h
-EndZoneOrder:
+EndZoneOrder:                                   ; end zone marking draw order; used by DrawEndZoneMarkings
         db 00h,00h,00h,00h,01h,00h,00h,00h,01h,00h,00h,00h,02h,00h,00h,00h
-CircleTableBuilt:
+CircleTableBuilt:                               ; circle table has been built; used by BuildCircleTable
         db 00h,00h,00h,00h
-GlassHitFace:
+GlassHitFace:                                   ; used by BreakGlass, EndReplay, ReplayBrokenGlass ...
         db 0FFh,0FFh,0FFh,0FFh
-ZamboniLoaded:
+ZamboniLoaded:                                  ; Zamboni model is loaded; used by DrawGameFrame, DrawZamboni,
+                                                ; DrawZamboniScene ...
         db 00h,00h,00h,00h,00h,00h,00h
-ShadowFill:
+ShadowFill:                                     ; shadow fill pattern; used by BeginShadowDraw
         db 0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh
         db 0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh
         db 0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh
@@ -59,7 +64,9 @@ ShadowFill:
         db 0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh
         db 0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh
         db 0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FEh,0FFh
-OptionButtonDX:
+OptionButtonDX:                                 ; option button x offset; used by DrawOptionButton,
+                                                ; GameOptionsScreen
         db 00h,00h,00h,00h
-OptionButtonDY:
+OptionButtonDY:                                 ; option button y offset; used by DrawOptionButton,
+                                                ; GameOptionsScreen
         db 00h,00h,00h,00h

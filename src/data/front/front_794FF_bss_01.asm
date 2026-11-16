@@ -6,23 +6,33 @@ global PlayoffTeams, SaveFileName, SeasonRandomSeed, PlayoffGameOpts, cddriveptr
 global PlayoffTreeShape, RosterFileHandle, PlayoffHeader, PlayoffName
         resb 1
         resb 3
-SeasonRandomSeed:
+SeasonRandomSeed:                               ; season random seed; used by CreateSeason, SimSeasonGames,
+                                                ; SimulateRestOfSeason
         resb 4
-PlayoffHeader:
+PlayoffHeader:                                  ; playoff file header byte; used by CreateSeason,
+                                                ; PickIndexEntryScreen, PlayMenuGame ...
         resb 1
-PlayoffGameOpts:
+PlayoffGameOpts:                                ; playoff game options; used by ApplyPlayoffDayResults,
+                                                ; InGameMenu, PauseMenu ...
         resb 184
-cddriveptr:
+cddriveptr:                                     ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 4
-PlayoffRound:
+PlayoffRound:                                   ; current playoff round; used by DrawPlayoffTree, InGameMenu,
+                                                ; PlayoffTreeScreen ...
         resb 4
-PlayoffTreeShape:
+PlayoffTreeShape:                               ; playoff tree shape; used by DrawPlayoffTree,
+                                                ; PlayoffTreeScreen, PreGameMatchupScreen
         resb 4
-PlayoffName:
+PlayoffName:                                    ; playoff name; used by DrawPlayoffTree, PickPlayoffTeam,
+                                                ; PlayoffSetupScreen ...
         resb 23
-PlayoffTeams:
+PlayoffTeams:                                   ; playoff team table; used by ClearPlayoffTree,
+                                                ; DrawPlayoffTeamList, DrawPlayoffTree ...
         resb 393
-SaveFileName:
+SaveFileName:                                   ; save file name; used by CreateSeason, ExportPlayerCard,
+                                                ; PlayerStatsScreen ...
         resb 40
-RosterFileHandle:
+RosterFileHandle:                               ; roster file handle; used by ApplyPlayoffDayResults,
+                                                ; ControllerScreen, DeleteSeasonDb ...
         resb 4

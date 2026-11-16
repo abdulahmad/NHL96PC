@@ -941,10 +941,10 @@ RecordStreakClips:
         pop edi
         pop esi
         ret
-PaMasksFrom12Bits:
+PaMasksFrom12Bits:                              ; used by PaEvent
         db 0FFh,0Fh,0FFh,07h,0FFh,03h,0FFh,01h,0FFh,00h,07Fh,00h,03Fh,00h,01Fh,00h
         db 0Fh,00h,07h,00h,03h,00h,01h,00h,00h,00h
-PaLongMaskJumpTable:
+PaLongMaskJumpTable:                            ; jump table for the switch cases of PaEvent
         dd FindClipIndex_55
         dd PaEvent_47B
         dd PaEvent_5BD
@@ -959,10 +959,10 @@ PaLongMaskJumpTable:
         dd PaEvent_4A9
         dd PaEvent_64
         dd PaEvent_50
-PaMasksFrom9Bits:
+PaMasksFrom9Bits:                               ; used by PaEvent
         db 0FFh,01h,0FFh,00h,07Fh,00h,03Fh,00h,01Fh,00h,0Fh,00h,07h,00h,03h,00h
         db 01h,00h,00h,00h
-PaShortMaskJumpTable:
+PaShortMaskJumpTable:                           ; jump table for the switch cases of PaEvent
         dd PaEvent_20E
         dd PaEvent_1B4
         dd PaEvent_1C6
@@ -974,7 +974,7 @@ PaShortMaskJumpTable:
         dd PaEvent_202
         dd PaEvent_209
         dd PaEvent_1D8
-PaClipJumpTable:
+PaClipJumpTable:                                ; jump table for the switch cases of PaEvent
         dd PaEvent_2AD
         dd PaEvent_2B7
         dd PaEvent_2C1
@@ -987,7 +987,7 @@ PaClipJumpTable:
         dd PaEvent_34C
         dd PaEvent_388
         dd PaEvent_3B0
-PaClipGroupJumpTable:
+PaClipGroupJumpTable:                           ; jump table for the switch cases of PaEvent
         dd PaEvent_61F
         dd PaEvent_6BB
         dd PaEvent_71D

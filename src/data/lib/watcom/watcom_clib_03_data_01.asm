@@ -6,16 +6,17 @@ extern SerialIsrCom2, SerialIsrCom3, SerialIsrCom4, SerialIsrCom1, bcopy
 global RowCopyFunc, MemPoolTop, MemPoolBase, SerialPortTable, RandSeed, SerialPortCom1
 global SerialPortCom2, SerialPortCom3, SerialPortCom4, SerialIrqMask
 global SerialBaudDivisors, Crc16Table
-RandSeed:
+RandSeed:                                       ; random number generator seed; used by GetRandState
         db 01h,00h,00h,00h
-SerialPortTable:
+SerialPortTable:                                ; serial port record per COM port; used by SerialCarrier,
+                                                ; SerialClose, SerialConfigure ...
         dd SerialPortCom1
         dd SerialPortCom2
         dd SerialPortCom3
         dd SerialPortCom4
-SerialIrqMask:
+SerialIrqMask:                                  ; serial IRQ mask; used by SerialIsrCom4, SerialOpen
         db 00h,00h
-SerialPortCom1:
+SerialPortCom1:                                 ; COM1 serial port state; used by SerialIsrCom1, SerialIsrCom4
         db 02h,00h,00h,03h,0Ch,00h,010h,00h,0F8h,03h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         dd SerialIsrCom1
@@ -87,7 +88,7 @@ SerialPortCom1:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h
-SerialPortCom2:
+SerialPortCom2:                                 ; COM2 serial port state; used by SerialIsrCom2, SerialIsrCom4
         db 02h,00h,00h,03h,0Bh,00h,08h,00h,0F8h,02h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         dd SerialIsrCom2
@@ -159,7 +160,7 @@ SerialPortCom2:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h
-SerialPortCom3:
+SerialPortCom3:                                 ; COM3 serial port state; used by SerialIsrCom3, SerialIsrCom4
         db 02h,00h,00h,03h,0Ch,00h,010h,00h,0E8h,03h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         dd SerialIsrCom3
@@ -231,7 +232,7 @@ SerialPortCom3:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h
-SerialPortCom4:
+SerialPortCom4:                                 ; COM4 serial port state; used by SerialIsrCom4
         db 02h,00h,00h,03h,0Bh,00h,08h,00h,0E8h,02h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         dd SerialIsrCom4
@@ -303,11 +304,11 @@ SerialPortCom4:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h
-SerialBaudDivisors:
+SerialBaudDivisors:                             ; baud rate divisor table; used by SerialConfigure
         db 080h,01h,0C0h,00h,060h,00h,040h,00h,03Ah,00h,030h,00h,020h,00h,018h,00h
         db 010h,00h,0Ch,00h,08h,00h,06h,00h,04h,00h,02h,00h,01h,00h,043h,04Fh
         db 04Dh,04Dh,00h,00h,00h,00h
-Crc16Table:
+Crc16Table:                                     ; CRC-16 table; used by LinkCrc16
         db 00h,00h,0C1h,0C0h,081h,0C1h,040h,01h,01h,0C3h,0C0h,03h,080h,02h,041h,0C2h
         db 01h,0C6h,0C0h,06h,080h,07h,041h,0C7h,00h,05h,0C1h,0C5h,081h,0C4h,040h,04h
         db 01h,0CCh,0C0h,0Ch,080h,0Dh,041h,0CDh,00h,0Fh,0C1h,0CFh,081h,0CEh,040h,0Eh
@@ -340,10 +341,12 @@ Crc16Table:
         db 00h,04Eh,0C1h,08Eh,081h,08Fh,040h,04Fh,01h,08Dh,0C0h,04Dh,080h,04Ch,041h,08Ch
         db 00h,044h,0C1h,084h,081h,085h,040h,045h,01h,087h,0C0h,047h,080h,046h,041h,086h
         db 01h,082h,0C0h,042h,080h,043h,041h,083h,00h,041h,0C1h,081h,081h,080h,040h,040h
-RowCopyFunc:
+RowCopyFunc:                                    ; routine that copies one row when drawing art; used by
+                                                ; CopyRowShadow, CopyRowXor, DrawArt ...
         dd bcopy
         db 00h,00h,00h,00h
-MemPoolTop:
+MemPoolTop:                                     ; end of the memory pool; used by DrawArtOr, InitMemoryPool
         db 00h,00h,00h,00h
-MemPoolBase:
+MemPoolBase:                                    ; memory pool base; used by AllocMemBlockEx, DrawArtOr,
+                                                ; InitMemoryPool ...
         db 00h,00h,00h,00h

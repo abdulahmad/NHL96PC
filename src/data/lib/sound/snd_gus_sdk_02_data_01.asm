@@ -9,30 +9,43 @@ global GusTimerCallback, GusDmaDoneCallback, GusRecordDoneCallback, GusWaveCallb
 global GusVolumeIrqCallback, GusMidiXmitCallback, GusMidiRecvCallback, GusDmaBusy, MaxPrecision, ArtDrawModeFuncs, InitRtnsEntry, FiniRtnsEntry
 global GusInitTable, GusMidiControlPort, GusMidiDataPort, GusVoiceSelectPort, GusRegSelectPort, GusDataLowPort, GusDataHighPort, GusDramPort
 global GusIrqVectorTable, GusIrqOldSelector, GusIrqPending
-GusMidiControlPort:
+GusMidiControlPort:                             ; card port of the MIDI control register; used by
+                                                ; GusMidiIrqService
         db 020h,03h
-GusMidiDataPort:
+GusMidiDataPort:                                ; card port of the MIDI data register; used by
+                                                ; GusMidiIrqService
         db 021h,03h
-GusVoiceSelectPort:
+GusVoiceSelectPort:                             ; card port that selects the active voice; used by
+                                                ; GusResetVoices, GusStartStream, GusStopAllVoices ...
         db 022h,03h
-GusRegSelectPort:
+GusRegSelectPort:                               ; card port that selects a synthesizer register; used by
+                                                ; GusDramDmaDone, GusPeek, GusPoke ...
         db 023h,03h
-GusDataLowPort:
+GusDataLowPort:                                 ; card port of the 16-bit register data; used by GusPeek,
+                                                ; GusPoke, GusPokeFill ...
         db 024h,03h
-GusDataHighPort:
+GusDataHighPort:                                ; card port of the 8-bit register data; used by
+                                                ; GusDramDmaDone, GusPeek, GusPoke ...
         db 025h,03h
-GusDramPort:
+GusDramPort:                                    ; card port of the card memory data byte; used by GusDelay,
+                                                ; GusPeek, GusPoke ...
         db 027h,03h
-GusDmaLatchBits:
+GusDmaLatchBits:                                ; latch register bits for each DMA channel the card can use;
+                                                ; used by GusInitPlayDma, GusInitRecordDma,
+                                                ; GusSetIrqDmaLatches
         db 00h,01h,00h,02h,00h,03h,04h,05h,00h,00h
-GusDmaPageTable:
+GusDmaPageTable:                                ; ISA DMA page port and channel bits for each DMA channel;
+                                                ; used by GusSetupDmaChannel
         db 087h,00h,083h,00h,081h,00h,082h,00h,08Fh,00h,08Bh,00h,089h,00h,08Ah,00h
         db 00h,00h
-GusIrqVectorTable:
+GusIrqVectorTable:                              ; interrupt vector and saved old handler of each card IRQ
+                                                ; line; used by GusHookIrq, GusUnhookIrq
         db 08h,00h
-GusIrqOldHandler:
+GusIrqOldHandler:                               ; saved old handler offset in the IRQ table; used by
+                                                ; GusHookIrq, GusUnhookIrq
         db 00h,00h,00h,00h
-GusIrqOldSelector:
+GusIrqOldSelector:                              ; saved old handler selector in the IRQ table; used by
+                                                ; GusHookIrq, GusUnhookIrq
         db 00h,00h,09h,00h,00h,00h,00h,00h,00h,00h,0Ah,00h,00h,00h,00h,00h
         db 00h,00h,0Bh,00h,00h,00h,00h,00h,00h,00h,0Ch,00h,00h,00h,00h,00h
         db 00h,00h,0Dh,00h,00h,00h,00h,00h,00h,00h,0Eh,00h,00h,00h,00h,00h
@@ -41,44 +54,61 @@ GusIrqOldSelector:
         db 00h,00h,073h,00h,00h,00h,00h,00h,00h,00h,074h,00h,00h,00h,00h,00h
         db 00h,00h,075h,00h,00h,00h,00h,00h,00h,00h,076h,00h,00h,00h,00h,00h
         db 00h,00h,077h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-GusMidiPending:
+GusMidiPending:                                 ; used by GusMidiIrqHandler
         db 00h,00h,00h,00h,00h,00h,00h,00h
-GusIrqPending:
+GusIrqPending:                                  ; pending interrupt flags of the card; used by
+                                                ; GusClearIrqState
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h
-GusMidiIrqCount:
+GusMidiIrqCount:                                ; number of MIDI interrupts serviced; used by
+                                                ; GusClearCallbacks, GusMidiIrqService
         db 00h,00h,00h,00h
-GusTimerCallback:
+GusTimerCallback:                               ; callback for the card timers; used by GusClearCallbacks,
+                                                ; GusSetVoiceCallbacks
         db 00h,00h,00h,00h
-GusDmaDoneCallback:
+GusDmaDoneCallback:                             ; callback when a DMA transfer to card memory ends; used by
+                                                ; GusClearCallbacks, GusServiceIrq, GusSetDmaCallbacks
         db 00h,00h,00h,00h
-GusRecordDoneCallback:
+GusRecordDoneCallback:                          ; callback when a DMA record transfer ends; used by
+                                                ; GusClearCallbacks, GusServiceIrq, GusSetDmaCallbacks
         db 00h,00h,00h,00h
-GusWaveCallback:
+GusWaveCallback:                                ; callback when a voice reaches its end; used by
+                                                ; GusClearCallbacks, GusServiceIrq, GusSetVoiceCallbacks
         db 00h,00h,00h,00h
-GusVolumeCallback:
+GusVolumeCallback:                              ; callback when a voice volume ramp ends; used by
+                                                ; GusClearCallbacks, GusServiceIrq, GusSetVoiceCallbacks
         db 00h,00h,00h,00h
-GusTimer1Callback:
+GusTimer1Callback:                              ; callback for the first card timer; used by
+                                                ; GusClearCallbacks, GusServiceIrq, GusSetVoiceCallbacks
         db 00h,00h,00h,00h
-GusTimer2Callback:
+GusTimer2Callback:                              ; callback for the second card timer; used by
+                                                ; GusClearCallbacks, GusServiceIrq, GusSetVoiceCallbacks
         db 00h,00h,00h,00h
-GusWaveIrqCallback:
+GusWaveIrqCallback:                             ; callback for voice wave interrupts; used by
+                                                ; GusClearCallbacks, GusServiceIrq, GusSetVoiceCallbacks
         db 00h,00h,00h,00h
-GusVolumeIrqCallback:
+GusVolumeIrqCallback:                           ; callback for voice volume interrupts; used by
+                                                ; GusClearCallbacks, GusServiceIrq, GusSetVoiceCallbacks
         db 00h,00h,00h,00h
-GusMidiXmitCallback:
+GusMidiXmitCallback:                            ; callback when the MIDI port can send; used by
+                                                ; GusClearCallbacks, GusMidiIrqService, GusSetVoiceCallbacks
         db 00h,00h,00h,00h
-GusMidiRecvCallback:
+GusMidiRecvCallback:                            ; callback when the MIDI port has received a byte; used by
+                                                ; GusClearCallbacks, GusMidiIrqService, GusSetVoiceCallbacks
         db 00h,00h,00h,00h
-GusDramSized:
+GusDramSized:                                   ; set once the card memory size has been measured; used by
+                                                ; GusSizeDram
         db 00h,00h,00h,00h
-GusDmaBusy:
+GusDmaBusy:                                     ; set while a DMA transfer to card memory runs; used by
+                                                ; GusDownload, GusDramDmaDone, GusInitDma
         db 01h,00h,00h,00h
-MaxPrecision:
+MaxPrecision:                                   ; maximum number of digits printed for a floating-point
+                                                ; number; used by _SetMaxPrec_
         db 011h,00h,00h,00h
-WVideoActive:
+WVideoActive:                                   ; debugger video active; used by __EnterWVIDEO_
         db 00h,00h,00h,00h
-ArtDrawModeFuncs:
+ArtDrawModeFuncs:                               ; draw routine for each art draw mode; used by
+                                                ; DrawArtAnyFormat
         dd PutBlock
         dd PutBlock
         dd DrawArt
@@ -86,9 +116,10 @@ ArtDrawModeFuncs:
         db 044h,0ACh,0C8h,0A0h,0BBh,096h,0DDh,08Dh,0FCh,085h,0EEh,07Eh,096h,078h,0D8h,072h
         db 09Fh,06Dh,0DBh,068h,07Dh,064h,078h,060h,0C2h,05Ch,052h,059h,022h,056h,029h,053h
         db 064h,050h,0CCh,04Dh,05Dh,04Bh
-GusDmaReady:
+GusDmaReady:                                    ; set once the DMA channels have been set up; used by
+                                                ; GusInitDma
         db 00h,00h
-InitRtnsEntry:
+InitRtnsEntry:                                  ; start up routine entry; used by __InitRtns
         db 00h,01h
         dd Init387Emulator
         db 00h,02h
@@ -101,12 +132,13 @@ InitRtnsEntry:
         dd __setenvp_
         db 00h,020h
         dd SaveStackSegment
-FiniRtnsEntry:
+FiniRtnsEntry:                                  ; shut down routine entry; used by __FiniRtns, __InitRtns
         db 00h,01h
         dd imul32
         db 00h,020h
         dd __full_io_exit_
-GusInitTable:
+GusInitTable:                                   ; Gravis register initialisation table; used by
+                                                ; GusRunInitTable, __FiniRtns
         db 00h,00h
         dd GusSizeDram
         db 00h,00h

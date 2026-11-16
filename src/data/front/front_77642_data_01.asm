@@ -8,91 +8,93 @@ global str_Del1, str_Del2, str_Del3, str_Mod1, str_Mod2, str_Mod3, str_Bt015, st
 global str_Bt104, str_Bt114, str_Bt193, str_Bt203, str_Bt283, str_Bt293, str_1WST, str_1EST
 global str_Bt09, str_S05dCsgDb2, str_S05dCnzDb4, str_SEASONNDX2, str_Pal16, str_BKGD11, str_BT003, str_BT016
 global str_BT026, str_star, str_D6, str_dbgDash
-str_05d2:
+str_05d2:                                       ; string '%05d'; used by MakePlayoffDbPath, MakeSeasonDbPath
         db 025h,030h,035h,064h,00h
-str_SDB:
+str_SDB:                                        ; string '%s.DB'; used by MakePlayoffDbPath, MakeSeasonDbPath
         db 025h,073h,02Eh,044h,042h,00h
-str_S05dCnzDb3:
+str_S05dCnzDb3:                                 ; string '%s%05d%cnz.db'; used by ResetSeasonFiles
         db 025h,073h,025h,030h,035h,064h,025h,063h,06Eh,07Ah,02Eh,064h,062h,00h
-str_S05dCsgDb:
+str_S05dCsgDb:                                  ; string '%s%05d%csg.db'; used by ResetSeasonFiles
         db 025h,073h,025h,030h,035h,064h,025h,063h,073h,067h,02Eh,064h,062h,00h,00h
-str_Pal15:
+str_Pal15:                                      ; string '!pal'; used by SeasonMenuScreen, StandingsScreen
         db 021h,070h,061h,06Ch,00h
-str_Bkgd10:
+str_Bkgd10:                                     ; string 'bkgd'; used by DrawStandings, SeasonMenuScreen,
+                                                ; StandingsScreen
         db 062h,06Bh,067h,064h,00h
-str_Bt02d3:
+str_Bt02d3:                                     ; string 'bt%02d'; used by SeasonMenuScreen, StandingsScreen
         db 062h,074h,025h,030h,032h,064h,00h
-str_Stn1:
+str_Stn1:                                       ; string 'stn1'; used by SeasonMenuScreen
         db 073h,074h,06Eh,031h,00h
-str_Stn2:
+str_Stn2:                                       ; string 'stn2'; used by SeasonMenuScreen
         db 073h,074h,06Eh,032h,00h
-str_Stn3:
+str_Stn3:                                       ; string 'stn3'; used by SeasonMenuScreen
         db 073h,074h,06Eh,033h,00h
-str_Sta12:
+str_Sta12:                                      ; string 'sta1'; used by SeasonMenuScreen
         db 073h,074h,061h,031h,00h
-str_Sta22:
+str_Sta22:                                      ; string 'sta2'; used by SeasonMenuScreen
         db 073h,074h,061h,032h,00h
-str_Sta32:
+str_Sta32:                                      ; string 'sta3'; used by SeasonMenuScreen
         db 073h,074h,061h,033h,00h
-str_Tra1:
+str_Tra1:                                       ; string 'tra1'; used by SeasonMenuScreen
         db 074h,072h,061h,031h,00h
-str_Tra2:
+str_Tra2:                                       ; string 'tra2'; used by SeasonMenuScreen
         db 074h,072h,061h,032h,00h
-str_Tra3:
+str_Tra3:                                       ; string 'tra3'; used by SeasonMenuScreen
         db 074h,072h,061h,033h,00h
-str_Del1:
+str_Del1:                                       ; string 'del1'; used by SeasonMenuScreen
         db 064h,065h,06Ch,031h,00h
-str_Del2:
+str_Del2:                                       ; string 'del2'; used by SeasonMenuScreen
         db 064h,065h,06Ch,032h,00h
-str_Del3:
+str_Del3:                                       ; string 'del3'; used by SeasonMenuScreen
         db 064h,065h,06Ch,033h,00h
-str_Mod1:
+str_Mod1:                                       ; string 'mod1'; used by SeasonMenuScreen
         db 06Dh,06Fh,064h,031h,00h
-str_Mod2:
+str_Mod2:                                       ; string 'mod2'; used by SeasonMenuScreen
         db 06Dh,06Fh,064h,032h,00h
-str_Mod3:
+str_Mod3:                                       ; string 'mod3'; used by SeasonMenuScreen
         db 06Dh,06Fh,064h,033h,00h
-str_Bt015:
+str_Bt015:                                      ; string 'bt01'; used by SeasonMenuScreen, StandingsScreen
         db 062h,074h,030h,031h,00h
-str_Bt025:
+str_Bt025:                                      ; string 'bt02'; used by SeasonMenuScreen
         db 062h,074h,030h,032h,00h
-str_Bt104:
+str_Bt104:                                      ; string 'bt10'; used by SeasonMenuScreen
         db 062h,074h,031h,030h,00h
-str_Bt114:
+str_Bt114:                                      ; string 'bt11'; used by SeasonMenuScreen
         db 062h,074h,031h,031h,00h
-str_Bt193:
+str_Bt193:                                      ; string 'bt19'; used by SeasonMenuScreen
         db 062h,074h,031h,039h,00h
-str_Bt203:
+str_Bt203:                                      ; string 'bt20'; used by SeasonMenuScreen
         db 062h,074h,032h,030h,00h
-str_Bt283:
+str_Bt283:                                      ; string 'bt28'; used by SeasonMenuScreen
         db 062h,074h,032h,038h,00h
-str_Bt293:
+str_Bt293:                                      ; string 'bt29'; used by SeasonMenuScreen
         db 062h,074h,032h,039h,00h
-str_1WST:
+str_1WST:                                       ; string '1WST'; used by StandingsScreen
         db 031h,057h,053h,054h,00h
-str_1EST:
+str_1EST:                                       ; string '1EST'; used by StandingsScreen
         db 031h,045h,053h,054h,00h
-str_Bt09:
+str_Bt09:                                       ; string 'bt09'; used by StandingsScreen
         db 062h,074h,030h,039h,00h
-str_star:
+str_star:                                       ; string '*'; used by DrawStandings
         db 02Ah,00h
-str_D6:
+str_D6:                                         ; string '%d'; used by DrawStandings
         db 025h,064h,00h
-str_dbgDash:
+str_dbgDash:                                    ; string '-'; used by DrawStandings
         db 02Dh,00h
-str_S05dCsgDb2:
+str_S05dCsgDb2:                                 ; string '%s%05d%csg.db'; used by SimulateRestOfSeason
         db 025h,073h,025h,030h,035h,064h,025h,063h,073h,067h,02Eh,064h,062h,00h
-str_S05dCnzDb4:
+str_S05dCnzDb4:                                 ; string '%s%05d%cnz.db'; used by SimulateRestOfSeason
         db 025h,073h,025h,030h,035h,064h,025h,063h,06Eh,07Ah,02Eh,064h,062h,00h,00h,00h
-str_SEASONNDX2:
+str_SEASONNDX2:                                 ; string 'SEASON.NDX'; used by RunSeasonMenus
         db 053h,045h,041h,053h,04Fh,04Eh,02Eh,04Eh,044h,058h,00h
-str_Pal16:
+str_Pal16:                                      ; string '!pal'; used by PickIndexEntryScreen
         db 021h,070h,061h,06Ch,00h
-str_BKGD11:
+str_BKGD11:                                     ; string 'BKGD'; used by DrawIndexEntries,
+                                                ; PickIndexEntryScreen
         db 042h,04Bh,047h,044h,00h
-str_BT003:
+str_BT003:                                      ; string 'BT00'; used by PickIndexEntryScreen
         db 042h,054h,030h,030h,00h
-str_BT016:
+str_BT016:                                      ; string 'BT01'; used by PickIndexEntryScreen
         db 042h,054h,030h,031h,00h
-str_BT026:
+str_BT026:                                      ; string 'BT02'; used by PickIndexEntryScreen
         db 042h,054h,030h,032h,00h

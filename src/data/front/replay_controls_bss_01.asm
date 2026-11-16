@@ -8,15 +8,16 @@ global ExtraAttackerOn, ExtraAttackerTeam, ExtraAttackerPlayer, ExtraAttackerPen
 global RefObject, ExtraObject
 global BenchSprites, BenchSpriteCount
 
-HomeNetObject:
+HomeNetObject:                                  ; The home net object; used by EndReplay
         resb 4
         resb 4
         resb 152
-AwayNetObject:
+AwayNetObject:                                  ; The away net object; used by EndReplay
         resb 4
         resb 4
         resb 152
-PuckObject:
+PuckObject:                                     ; puck object (A0h bytes); used by CameraNearNet,
+                                                ; DrawGameFrame, RefreshControlSlots ...
         resb 2
         resb 2
         resb 2
@@ -31,7 +32,8 @@ PuckObject:
         resb 28
         resb 8
         resb 86
-RefObject:
+RefObject:                                      ; The referee's object; used by DrawGameFrame, PlaceGoalNets,
+                                                ; StartPer ...
         resb 72
         resb 2
         resb 2
@@ -44,23 +46,31 @@ RefObject:
         resb 4
         resb 4
         resb 42
-ExtraObject:
+ExtraObject:                                    ; object after the referee, reached through PtrPuckObject
         resb 160
-ExtraAttackerOn:
+ExtraAttackerOn:                                ; extra attacker state; used by assextra2, assextra5,
+                                                ; assextra6
         resb 4
-ExtraAttackerTeam:
+ExtraAttackerTeam:                              ; team with the extra attacker; used by InitBenchSprites,
+                                                ; assextra2, assextra5 ...
         resb 4
-ExtraAttackerPlayer:
+ExtraAttackerPlayer:                            ; extra attacker player; used by InitBenchSprites, assextra2,
+                                                ; assextra6
         resb 4
-ExtraAttackerPending:
+ExtraAttackerPending:                           ; extra attacker change pending; used by assextra2, assextra5,
+                                                ; assextra6
         resb 4
-ExtraGoalieOut:
+ExtraGoalieOut:                                 ; goalie pulled for the extra attacker; used by assextra5,
+                                                ; assextra6
         resb 4
-InputState:
+InputState:                                     ; input state; used by assgoalie, doinput, goalieposition
         resb 4
-PtrPuckZone:
+PtrPuckZone:                                    ; pointer to the puck zone record; used by assgoalie, burst,
+                                                ; doinput
         resb 4
-BenchSprites:
+BenchSprites:                                   ; bench and penalty box sprites; used by
+                                                ; DrawPenaltyBoxPlayers, InitBenchSprites, checkwindow
         resb 252
-BenchSpriteCount:
+BenchSpriteCount:                               ; bench sprite counts; used by DrawBenchPlayers,
+                                                ; InitBenchSprites, RunPreGameSkate ...
         resb 18

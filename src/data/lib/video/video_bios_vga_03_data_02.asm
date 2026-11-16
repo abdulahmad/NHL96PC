@@ -5,38 +5,41 @@ section s_14FAC0 progbits alloc noexec write align=1
 extern DrawArtKeyedRemap, str_Mouse
 global str_StackOverflow, KeyPadFireKey, KeyPadSelectKey, KeyPadUpLeftKey, KeyPadUpKey, KeyPadUpRightKey, KeyPadRightKey, KeyPadDownRightKey
 global KeyPadDownKey, KeyPadDownLeftKey, KeyPadLeftKey, AngleOctantTable, PointerInstalled, PointerFileName, DrawArtRemapFunc, SavedStackSegment
-KeyPadFireKey:
+KeyPadFireKey:                                  ; scan code of the fire key; used by ReadKeyPadBits
         db 039h
-KeyPadSelectKey:
+KeyPadSelectKey:                                ; scan code of the select key; used by ReadKeyPadBits
         db 01Ch
-KeyPadUpLeftKey:
+KeyPadUpLeftKey:                                ; scan code of the up left key; used by ReadKeyPadBits
         db 047h
-KeyPadUpKey:
+KeyPadUpKey:                                    ; scan code of the up key; used by ReadKeyPadBits
         db 048h,048h
-KeyPadUpRightKey:
+KeyPadUpRightKey:                               ; scan code of the up right key; used by ReadKeyPadBits
         db 049h
-KeyPadRightKey:
+KeyPadRightKey:                                 ; scan code of the right key; used by ReadKeyPadBits
         db 04Dh,04Dh
-KeyPadDownRightKey:
+KeyPadDownRightKey:                             ; scan code of the down right key; used by ReadKeyPadBits
         db 051h
-KeyPadDownKey:
+KeyPadDownKey:                                  ; scan code of the down key; used by ReadKeyPadBits
         db 050h,050h
-KeyPadDownLeftKey:
+KeyPadDownLeftKey:                              ; scan code of the down left key; used by ReadKeyPadBits
         db 04Fh
-KeyPadLeftKey:
+KeyPadLeftKey:                                  ; scan code of the left key; used by ReadKeyPadBits
         db 04Bh,04Bh,00h,00h
-PointerFileName:
+PointerFileName:                                ; mouse pointer shape file name; used by InitPointer,
+                                                ; PointerLoadShapes
         dd str_Mouse
-DrawArtRemapFunc:
+DrawArtRemapFunc:                               ; routine used to draw remapped art; used by DrawPointer
         dd DrawArtKeyedRemap
-PointerInstalled:
+PointerInstalled:                               ; mouse pointer is set up; used by InitPointer
         db 00h,00h,00h,00h
-SavedStackSegment:
+SavedStackSegment:                              ; stack segment saved at start up; used by SaveStackSegment,
+                                                ; __STK
         db 00h,00h
-str_StackOverflow:
+str_StackOverflow:                              ; string "Stack Overflow! "; used by __STK
         db 053h,074h,061h,063h,06Bh,020h,04Fh,076h,065h,072h,066h,06Ch,06Fh,077h,021h,0Dh
         db 0Ah,00h
-AngleOctantTable:
+AngleOctantTable:                               ; octant per delta slope for AngleFromDelta; used by
+                                                ; AngleFromDelta
         db 00h,01h,01h,02h,03h,03h,04h,04h,05h,06h,06h,07h,08h,08h,09h,0Ah
         db 0Ah,0Bh,0Bh,0Ch,0Dh,0Dh,0Eh,0Fh,0Fh,010h,010h,011h,012h,012h,013h,014h
         db 014h,015h,016h,016h,017h,017h,018h,019h,019h,01Ah,01Bh,01Bh,01Ch,01Ch,01Dh,01Eh

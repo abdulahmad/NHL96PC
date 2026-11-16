@@ -19,7 +19,8 @@ global TeamRosterPtrs, InputRepeatState, JoyButtonsTable, ObjCleanupSlot
 global TeamPaletteBuf, JoyStateTable, AwSortCords, PreGameSkatePaths, SlotUserNames, PenBoxSeatX, PenBoxSeatY
 global PuckCrossSave, puckcross, puckcross2, puckcross6
 
-UserMenuBoxes:
+UserMenuBoxes:                                  ; User records screen: menu boxes, 40h bytes each; used by
+                                                ; UserRecordsScreen
         resb 4
         resb 4
         resb 4
@@ -28,41 +29,70 @@ UserMenuBoxes:
         resb 4
         resb 4
         resb 8292
-UserRecordList:
+UserRecordList:                                 ; user record list (374 bytes each); used by LoadUserRecords,
+                                                ; UserRecordsScreen
         resb 4
-UserStreakField:
+UserStreakField:                                ; User records: record field of the streak (comparators and
+                                                ; the table); used by CompareUsersByStreak, DrawUserRecords,
+                                                ; ExportUserRecords ...
         resb 4
-UserOpponentColumn:
+UserOpponentColumn:                             ; user records opponent column; used by
+                                                ; CompareUsersByPenaltyKill, DrawUserRecords,
+                                                ; ExportUserRecords ...
         resb 4
-UserPowerPlayField:
+UserPowerPlayField:                             ; User records: record field of the power play (comparators
+                                                ; and the table); used by CompareUsersByPowerPlay,
+                                                ; DrawUserRecords, ExportUserRecords ...
         resb 4
-UserShutoutField:
+UserShutoutField:                               ; User records: record field of the shutout (comparators and
+                                                ; the table); used by CompareUsersByShutouts, DrawUserRecords,
+                                                ; ExportUserRecords ...
         resb 4
-UserGoalsAgainstField:
+UserGoalsAgainstField:                          ; User records: record field of the goals against (comparators
+                                                ; and the table); used by CompareUsersByGoalsAgainst,
+                                                ; DrawUserRecords, ExportUserRecords ...
         resb 4
-UserLongStreakField:
+UserLongStreakField:                            ; User records: record field of the longest streak
+                                                ; (comparators and the table); used by CompareUsersByStreak,
+                                                ; DrawUserRecords, ExportUserRecords ...
         resb 4
-UserGoalsForField:
+UserGoalsForField:                              ; User records: record field of the goals for (comparators and
+                                                ; the table); used by CompareUsersByGoalsFor, DrawUserRecords,
+                                                ; ExportUserRecords ...
         resb 4
-UserRatingColumn:
+UserRatingColumn:                               ; user records rating column; used by
+                                                ; CompareUsersByGoalsAgainst, CompareUsersByGoalsFor,
+                                                ; CompareUsersByName ...
         resb 4
-UserShutoutColumn:
+UserShutoutColumn:                              ; user records shutout column; used by CompareUsersByRating,
+                                                ; DrawUserRecords, ExportUserRecords ...
         resb 4
-UserNameIndex:
+UserNameIndex:                                  ; user name index; used by DrawUserRecords, ExportUserRecords,
+                                                ; LoadUserRecords ...
         resb 4
-UserStreakColumn:
+UserStreakColumn:                               ; user records streak column; used by LoadUserRecords,
+                                                ; UserRecordsScreen
         resb 4
-UserNameField:
+UserNameField:                                  ; User records: record field of the name (comparators and the
+                                                ; table); used by DrawUserRecords, ExportUserRecords,
+                                                ; UserRecordsScreen
         resb 4
-UserLongStreakColumn:
+UserLongStreakColumn:                           ; user records longest streak column; used by
+                                                ; CompareUsersByRecord, DrawUserRecords, ExportUserRecords ...
         resb 4
-UserPowerPlayColumn:
+UserPowerPlayColumn:                            ; user records power play column; used by
+                                                ; CompareUsersByOpponent, DrawUserRecords, ExportUserRecords
+                                                ; ...
         resb 4
-UserTeamField:
+UserTeamField:                                  ; User records: record field of the team (comparators and the
+                                                ; table); used by CompareUsersByTeam, DrawUserRecords,
+                                                ; ExportUserRecords ...
         resb 4
-SlotUserNames:
+SlotUserNames:                                  ; Controller screen: user name per slot; used by
+                                                ; ClearSlotUser, ClearSlotUsers, ControllerScreen ...
         resb 46
-UserPopupRecords:
+UserPopupRecords:                               ; User records screen: popup records, 66h bytes each; used by
+                                                ; UserRecordsScreen
         resb 42
         resb 4
         resb 5
@@ -126,42 +156,54 @@ UserPopupRecords:
         resb 1
         resb 1
         resb 13295
-TeamRosterPtrs:
+TeamRosterPtrs:                                 ; FillTeamRoster: roster pointer table; used by
+                                                ; BuildEventLines, CamShotDimPath, DimGameView ...
         resb 4
         resb 4
         resb 4
         resb 788
         resb 588
-TeamPaletteBuf:
+TeamPaletteBuf:                                 ; LoadTeamPalette: team palette buffer; used by
+                                                ; LoadTeamPalette
         resb 142
-PenBoxSeatX:
+PenBoxSeatX:                                    ; Penalty box seat x per seat (-1 for empty); used by
+                                                ; SetupPenaltyBoxSeats
         resb 20
-PenBoxSeatY:
+PenBoxSeatY:                                    ; Penalty box seat y per seat; used by SetupPenaltyBoxSeats
         resb 23
-LineChangeFlags:
+LineChangeFlags:                                ; Line change state flags (UpdateLineChangeState); used by
+                                                ; UpdateLineChangeState
         resb 3
-InputRepeatState:
+InputRepeatState:                               ; Input repeat state per pad; used by LoadGameState,
+                                                ; ResetGameVars, ResetInputRepeat ...
         resb 4
         resb 4
-JoyButtonsTable:
+JoyButtonsTable:                                ; Joystick buttons per pad (saved with the game state); used
+                                                ; by LoadGameState, ReadJoy1, ResetInputRepeat ...
         resb 2
         resb 2
         resb 4
-JoyStateTable:
+JoyStateTable:                                  ; joystick state per slot; used by DoCheckInput, SlotToJoy,
+                                                ; fightinput
         resb 62
-PuckCrossSave:
+PuckCrossSave:                                  ; Puck crossing word restored by LoadGameState; used by
+                                                ; LoadGameState
         resb 2
-puckcross:
+puckcross:                                      ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 2
-puckcross2:
+puckcross2:                                     ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 1
         resb 1
-ObjCleanupSlot:
+ObjCleanupSlot:                                 ; Object slot cleared by EndGameCleanup; used by
+                                                ; EndGameCleanup
         resb 2
-puckcross6:
+puckcross6:                                     ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 1
         resb 1
-SortCords:
+SortCords:                                      ; used by AllInPlace, AssignControlSlots, AutoSwitchPlayer ...
         resb 2
         resb 2
         resb 2
@@ -182,9 +224,10 @@ SortCords:
         resb 232
         resb 54
         resb 518
-AwSortCords:
+AwSortCords:                                    ; Away team's sort coordinate entries (awtmsort); used by
+                                                ; AssignControlSlots, ChkTeamPlayerFlag, LoadGameState ...
         resb 388
         resb 54
         resb 358
-PreGameSkatePaths:
+PreGameSkatePaths:                              ; Pre-game skate paths; used by RunPreGameSkate
         resb 160

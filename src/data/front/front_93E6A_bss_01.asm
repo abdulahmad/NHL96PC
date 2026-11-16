@@ -4,22 +4,31 @@ bits 32
 section s_182128 nobits alloc noexec write align=1
 global RatingsCardBmp, RatingsGoalieOrder, GoalieCardRemap, SkaterCardRemap, RatingsDimRemap, RatingsShownId, TeamScoringScore
 global LineForwardOrder, LineDefenceOrder
-RatingsCardBmp:
+RatingsCardBmp:                                 ; ratings card bitmap; used by PlayerRatingsScreen,
+                                                ; SwitchRatingsCard
         resb 4
-RatingsGoalieOrder:
+RatingsGoalieOrder:                             ; goalie order on the ratings page; used by
+                                                ; PlayerRatingsScreen, SwitchRatingsCard
         resb 4
-GoalieCardRemap:
+GoalieCardRemap:                                ; goalie card colour remap; used by PlayerRatingsScreen,
+                                                ; SwitchRatingsCard
         resb 4
-SkaterCardRemap:
+SkaterCardRemap:                                ; skater card colour remap; used by PlayerRatingsScreen,
+                                                ; SwitchRatingsCard
         resb 4
-RatingsDimRemap:
+RatingsDimRemap:                                ; ratings screen dimming remap; used by PlayerRatingsScreen,
+                                                ; SwitchRatingsCard
         resb 4
-RatingsShownId:
+RatingsShownId:                                 ; player shown on the ratings card; used by
+                                                ; PlayerRatingsScreen, SwitchRatingsCard
         resb 4
         resb 4
-TeamScoringScore:
+TeamScoringScore:                               ; scoring score per team for the team rankings; used by
+                                                ; CompareTeamScoring, ComputeTeamRanks, PlayerRatingsScreen
+                                                ; ...
         resb 112
-LineForwardOrder:
+LineForwardOrder:                               ; forwards sorted for automatic lines; used by ResetTeamLines
         resb 112
-LineDefenceOrder:
+LineDefenceOrder:                               ; defencemen sorted for automatic lines; used by
+                                                ; ResetTeamLines
         resb 112

@@ -46,19 +46,25 @@ global BottomBarDef, TitleBarDef, SideBarDef, SlideEvents
 
 
 global CreditsText, MenuViewStored, MenuLinkActive, MenuClipActive, MenuInputPaused, MenuInputReady
-TextOverlayFadeSteps:
+TextOverlayFadeSteps:                           ; text overlay fade steps; used by CloseTextOverlay
         db 063h,00h,00h,00h,062h,00h,00h,00h,05Fh,00h,00h,00h,01Eh,00h,00h,00h
         db 014h,00h,00h,00h,0Eh,00h,00h,00h,0Dh,00h,00h,00h,0Ch,00h,00h,00h
         db 0Bh,00h,00h,00h,0Bh,00h,00h,00h,0Ah,00h,00h,00h
-CamFollowObj:
+CamFollowObj:                                   ; Camera: object followed by the shot; used by
+                                                ; CloseTextOverlay, DrawTimedPanel, EndCameraShot ...
         db 00h,00h,00h,00h
-CamLeadDist:
+CamLeadDist:                                    ; Camera: lead distance; used by CameraLeadOffset, EaCamView,
+                                                ; NhlCamOneView ...
         db 00h,00h,00h,00h,00h,00h,00h,00h
-CamAimDist:
+CamAimDist:                                     ; Camera: aim distance; used by CamShotReferee,
+                                                ; CameraLeadOffset, CameraNearNet ...
         db 00h,00h,00h,00h
-CamViewBits:
+CamViewBits:                                    ; Camera: view bits; used by CamShotPuckMid, CamShotPuckNear,
+                                                ; EaCamView ...
         db 00h,00h,00h,00h,010h,00h,00h,00h
-CameraViewTable:
+CameraViewTable:                                ; Camera views and shots, 45h bytes each (text id, kind,
+                                                ; routine, settings); used by CloseTextOverlay, ReadHotKeys,
+                                                ; UpdateCamera
         db 030h,02h,00h,00h
         db 01h
         dd NhlCamOneView
@@ -217,10 +223,11 @@ CameraViewTable:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-CameraViewSlots:
+CameraViewSlots:                                ; Camera view per slot; used by DrawTimedPanel, InitGameView,
+                                                ; SetReplayCamera ...
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         dd CameraViewTable
-ReplayCameraView:
+ReplayCameraView:                               ; Replay camera view; used by SetReplayCamera
         dd CameraViewTable+45h
         db 00h,00h,00h,00h,00h,00h,00h,00h
         dd CameraViewTable+8Ah
@@ -259,17 +266,18 @@ ReplayCameraView:
         dd CameraViewTable+5EEh
         dd CameraViewTable+633h
         dd CameraViewTable+33Ch
-CamFocusObj:
+CamFocusObj:                                    ; Camera: focus object; used by CameraLeadOffset,
+                                                ; CameraNearNet, EaCamView ...
         db 00h,00h,00h,00h
-CamFixedObj:
+CamFixedObj:                                    ; Camera: fixed view object, -1 for none; used by ZoneCamView
         db 0FFh,0FFh,0FFh,0FFh
-CamShotFromObj:
+CamShotFromObj:                                 ; Camera shot: from object; used by CamShotOrbitFrom
         db 0FFh,0FFh,0FFh,0FFh
-CamShotToObj:
+CamShotToObj:                                   ; Camera shot: to object; used by CamShotOrbitTo
         db 0FFh,0FFh,0FFh,0FFh
-CamShotNearObj:
+CamShotNearObj:                                 ; Camera shot: near object; used by CamShotOrbitNear
         db 0FFh,0FFh,0FFh,0FFh
-HotKeyStates:
+HotKeyStates:                                   ; Hot key states; used by ReadHotKeys
         db 00h,00h,00h,00h
         db 00h,00h,00h,00h
         db 00h,00h,00h,00h
@@ -281,27 +289,30 @@ HotKeyStates:
         db 00h,00h,00h,00h
         db 00h,00h,00h,00h
         db 00h,00h,00h,00h
-ShadowToggle:
+ShadowToggle:                                   ; Shadow hot key toggle; used by InitGameView, ReadHotKeys
         db 00h,00h,00h,00h
-MarkerToggle:
+MarkerToggle:                                   ; Marker hot key toggle; used by InitGameView, ReadHotKeys
         db 00h,00h,00h,00h
-NameToggle:
+NameToggle:                                     ; Name hot key toggle; used by InitGameView, ReadHotKeys
         db 00h,00h,00h,00h
-CamLastSort:
+CamLastSort:                                    ; Camera: last sort; used by SortSpritesForDraw, UpdateCamera
         db 00h,00h,00h,00h
-CamFirstFrame:
+CamFirstFrame:                                  ; Camera: first frame; used by UpdateCamera
         db 01h,00h,00h,00h
-HexDigits:
+HexDigits:                                      ; hex digit characters; used by vtoa
         db 01h,07h,03h,05h,00h,00h,04h,04h,02h,06h,02h,06h,01h,07h,03h,05h
-PlayerSpritesLoaded:
+PlayerSpritesLoaded:                            ; Player sprites loaded; used by FreeGameSprites,
+                                                ; LoadPlayerSprites
         db 00h,00h,00h,00h
-SpriteFileHandles:
+SpriteFileHandles:                              ; Sprite file handles; used by FreeGameSprites,
+                                                ; FreeTotalSprites, IndexSpriteFrames ...
         db 00h,00h,00h,00h
-FightSpritesLoaded:
+FightSpritesLoaded:                             ; Fight sprites loaded; used by FreeFightSprites,
+                                                ; LoadCupSprites, LoadFightSprites ...
         db 00h,00h,00h,00h
-SpriteMemBlock:
+SpriteMemBlock:                                 ; Sprite memory block; used by LoadPlayerSprites
         db 00h,00h,00h,00h,00h,00h,00h,00h
-GameSpriteNames:
+GameSpriteNames:                                ; Game sprite file names; used by LoadGameSprites
         dd str_Anh
         dd str_Ana
         dd str_Bsh
@@ -356,9 +367,10 @@ GameSpriteNames:
         dd str_Wna
         dd str_Asw
         dd str_Ase
-LastPaletteMode:
+LastPaletteMode:                                ; Last palette mode, -1 for none; used by DrawInGameMenuFrame,
+                                                ; DrawPanelLogo, DrawPauseFrame ...
         db 0FFh,0FFh,0FFh,0FFh
-JerseyDigitWidths:
+JerseyDigitWidths:                              ; Jersey digit widths; used by PutJerseyDigit
         db 02h,02h,02h,02h,01h,02h,02h,01h,02h,02h,01h,02h,02h,02h,02h,01h
         db 01h,02h,01h,01h,02h,01h,01h,02h,01h,01h,02h,01h,01h,02h,02h,02h
         db 02h,01h,01h,02h,01h,02h,01h,02h,01h,01h,02h,02h,02h,02h,02h,02h
@@ -370,35 +382,38 @@ JerseyDigitWidths:
         db 01h,02h,01h,02h,02h,02h,02h,02h,02h,02h,02h,01h,02h,02h,02h,02h
         db 01h,01h,02h,02h,02h,01h,02h,01h,01h,02h,01h,01h,02h,01h,01h,02h
         db 01h,01h,02h,01h,01h,00h,00h,00h,00h
-SpritesLoaded:
+SpritesLoaded:                                  ; Sprites loaded; used by FreeGameSprites, LoadPlayerSprites
         db 00h,00h,00h,00h
-SpriteCacheOn:
+SpriteCacheOn:                                  ; Sprite cache on; used by GetSpriteFrame
         db 01h,00h,00h,00h
-SpriteCacheMem:
+SpriteCacheMem:                                 ; Sprite cache memory; used by FreeSpriteCache, GetSpriteFrame
         db 00h,00h,00h,00h,00h,00h,00h
-TeamNameArt:
+TeamNameArt:                                    ; Team name art; used by FreeFrontEndArt, GetTeamNameArt,
+                                                ; LoadFrontEndArt
         db 00h,00h,00h,00h
-WaitBoxArt:
+WaitBoxArt:                                     ; Wait box art; used by FreeFrontEndArt, LoadFrontEndArt,
+                                                ; ShowLinkWaitBox
         db 00h,00h,00h,00h
-BottomBarDef:
+BottomBarDef:                                   ; Bottom bar definition; used by LoadFrontEndArt
         db 045h,02h,00h,00h,028h,00h,00h,00h,053h,02h,00h,00h,01Bh,00h,00h,00h
         db 066h,02h,00h,00h,01Bh,00h,00h,00h,074h,02h,00h,00h,02Ah,00h,00h,00h
         db 074h,02h,00h,00h,03Ah,00h,00h,00h,065h,02h,00h,00h,04Ah,00h,00h,00h
         db 054h,02h,00h,00h,04Ah,00h,00h,00h,045h,02h,00h,00h,03Ch,00h,00h,00h
-TitleBarDef:
+TitleBarDef:                                    ; Title bar definition; used by LoadFrontEndArt
         db 03Eh,02h,00h,00h,0B4h,01h,00h,00h,04Bh,02h,00h,00h,0A5h,01h,00h,00h
         db 061h,02h,00h,00h,0A5h,01h,00h,00h,06Ch,02h,00h,00h,0B4h,01h,00h,00h
         db 06Ch,02h,00h,00h,0C6h,01h,00h,00h,05Eh,02h,00h,00h,0D2h,01h,00h,00h
         db 04Ch,02h,00h,00h,0D2h,01h,00h,00h,03Eh,02h,00h,00h,0C4h,01h,00h,00h
-SideBarDef:
+SideBarDef:                                     ; Side bar definition; used by LoadFrontEndArt
         db 012h,00h,00h,00h,0B1h,01h,00h,00h,01Fh,00h,00h,00h,0A5h,01h,00h,00h
         db 033h,00h,00h,00h,0A5h,01h,00h,00h,040h,00h,00h,00h,0B1h,01h,00h,00h
         db 040h,00h,00h,00h,0C7h,01h,00h,00h,030h,00h,00h,00h,0D3h,01h,00h,00h
         db 021h,00h,00h,00h,0D3h,01h,00h,00h,013h,00h,00h,00h,0C7h,01h,00h,00h
-SlideEventFuncs:
+SlideEventFuncs:                                ; Slide show event routines; used by RunSlideEvents,
+                                                ; RunSlideShow
         dd DrawShape
         dd DrawArt
-SlideEvents:
+SlideEvents:                                    ; Slide show events
         db 078h,00h,00h,00h,048h,00h,00h,00h
         db 090h,01h,00h,00h,050h,01h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -450,7 +465,7 @@ SlideEvents:
         dd str_SH21
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,081h,01h,00h,00h
         dd str_SH22
-CreditsText:
+CreditsText:                                    ; Credits text; used by RunCredits
         db 07h,00h,00h,00h,02Bh,00h,00h,00h,00h,00h,00h,00h,02h,00h,00h,00h
         db 082h,01h,00h,00h
         dd str_CRDT
@@ -947,37 +962,49 @@ CreditsText:
         db 05h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,09h,00h,00h,00h
         db 047h,00h,00h,00h,00h,00h,00h,00h,013h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h
-textcolor:
+textcolor:                                      ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 0Fh,00h,00h,00h
-textshadow:
+textshadow:                                     ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 00h,00h,00h,00h
-ModeLinear:
+ModeLinear:                                     ; set when the graphics mode has a linear frame buffer; used
+                                                ; by SetGraphicsMode, SetScreenMode, WatchHighlight
         db 02h,00h,00h,00h
-GraphicsFixOn:
+GraphicsFixOn:                                  ; Graphics fix on; used by InitGraphicsFix, SetGraphicsMode
         db 00h,00h,00h,00h
-StartupPalette:
+StartupPalette:                                 ; Start-up palette; used by SetScreenPalette, StartUp
         db 00h,00h,00h,00h
-NearestColorCount:
+NearestColorCount:                              ; Colours searched by NearestColor; used by NearestColor,
+                                                ; RemapScreenColors
         db 00h,00h,00h,00h
-NearestColorLimit:
+NearestColorLimit:                              ; Nearest colour limit (14h); used by NearestColor,
+                                                ; RemapScreenColors
         db 014h,00h,00h,00h
-MenuMouseX:
+MenuMouseX:                                     ; Menu mouse x; used by ControlSetupScreen, DrawTreeLine,
+                                                ; EditLinesHoverPanel ...
         db 00h,00h,00h,00h
-MenuMouseY:
+MenuMouseY:                                     ; Menu mouse y; used by DrawTreeLine, EditLinesHoverPanel,
+                                                ; EditLinesScreen ...
         db 00h,00h,00h,00h
-MenuMouseButtons:
+MenuMouseButtons:                               ; Menu mouse buttons; used by PollMenuInput, RunMenu
         db 00h,00h,00h,00h
-MenuViewStored:
+MenuViewStored:                                 ; Set while the menu view is saved; used by
+                                                ; EditLinesHoverPanel, EditLinesScreen, RunMenu
         db 00h,00h
-MenuLinkActive:
+MenuLinkActive:                                 ; Set when the menu is driven over a link; used by RunMenu,
+                                                ; SetMenuMouse
         db 00h,00h
-MenuClipActive:
+MenuClipActive:                                 ; Set while the menu clip rectangle is used; used by RunMenu,
+                                                ; SetGameBackdrop
         db 00h,00h
-MenuInputPaused:
+MenuInputPaused:                                ; Menu input paused; used by PollMenuInput, SetGameBackdrop
         db 00h,00h
-MenuMoveSfx:
+MenuMoveSfx:                                    ; Menu move sound, -1 for none; used by PollMenuInput,
+                                                ; SetMenuMoveSfx
         db 0FFh,0FFh,0FFh,0FFh
-MenuSelectSfx:
+MenuSelectSfx:                                  ; Menu select sound, -1 for none; used by RunMenu,
+                                                ; SetMenuSelectSfx
         db 0FFh,0FFh,0FFh,0FFh
-MenuInputReady:
+MenuInputReady:                                 ; Menu input ready; used by PollMenuInput
         db 00h,00h,00h,00h

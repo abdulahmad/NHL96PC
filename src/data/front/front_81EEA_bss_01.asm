@@ -9,12 +9,15 @@ global AwayShotTotals, SimAwayStatsBufs, SimAwaySetBufs
 
 
 
-SimWork:
+SimWork:                                        ; simulated game work area; used by PreGameTeamsScreen,
+                                                ; SimulateGame
         resb 8
         resb 8
-SimGoalieBufs:
+SimGoalieBufs:                                  ; goalie stat buffers for simulated games; used by
+                                                ; SimulateGame
         resb 24
-SimPlayerBufs:
+SimPlayerBufs:                                  ; player stat buffers for simulated games; used by
+                                                ; SimulateGame
         resb 200
         resb 8
         resb 8
@@ -23,13 +26,14 @@ SimPlayerBufs:
         resb 8
         resb 8
         resb 8
-AwayShotTotals:
+AwayShotTotals:                                 ; away shot totals; used by SimulateGame
         resb 4
         resb 4
-SimAwayStatsBufs:
+SimAwayStatsBufs:                               ; away stat buffers for simulated games; used by SimulateGame
         resb 4
         resb 4
-SimAwaySetBufs:
+SimAwaySetBufs:                                 ; away game set buffers for simulated games; used by
+                                                ; SimulateGame
         resb 8
         resb 4
         resb 4
@@ -59,7 +63,8 @@ SimAwaySetBufs:
         resb 4
         resb 3
         resb 1
-SimLineCounts:
+SimLineCounts:                                  ; line appearance counts for simulated games; used by
+                                                ; SimulateGame
         resb 50
         resb 50
         resb 50

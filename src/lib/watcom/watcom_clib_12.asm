@@ -1386,7 +1386,7 @@ GetPalette:
         leave
         ret
         db 00h,00h,00h,00h,00h,00h
-ArtBitDepthJumpTable:
+ArtBitDepthJumpTable:                           ; jump table for the switch cases of ArtBitDepth
         dd ArtBitDepth_19
         dd ArtBitDepth_1F
         dd ArtBitDepth_25

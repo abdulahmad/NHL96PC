@@ -864,7 +864,7 @@ BuildPaletteShadeTable:
         pop ecx
         pop ebx
         ret
-AaSetFullJumpTable:
+AaSetFullJumpTable:                             ; jump table for the switch cases of AaSetFull
         dd AaSetFull_46
         dd AaSetFull_53
         dd AaSetFull_6B
@@ -1220,7 +1220,7 @@ AaSetFull_2C9:
         pop ebx
         ret
         db 08Bh,0C0h
-AaSetHalfJumpTable:
+AaSetHalfJumpTable:                             ; jump table for the switch cases of AaSetHalf
         dd AaSetHalf_46
         dd AaSetHalf_54
         dd AaSetHalf_6D
@@ -1567,7 +1567,7 @@ AaSetHalf_282:
         add ebx, byte 4
         jmp near AaSetHalf.1
         db 090h
-AaAddHalfJumpTable:
+AaAddHalfJumpTable:                             ; jump table for the switch cases of AaAddHalf
         dd AaAddHalf_46
         dd AaAddHalf_54
         dd AaAddHalf_6D
@@ -1926,7 +1926,7 @@ AaAddHalf_2AD:
         add edx, byte 4
         jmp near AaAddHalf.1
         db 08Dh,040h,00h
-AaSetQuarterJumpTable:
+AaSetQuarterJumpTable:                          ; jump table for the switch cases of AaSetQuarter
         dd AaSetQuarter_46
         dd AaSetQuarter_54
         dd AaSetQuarter_6D
@@ -2273,7 +2273,7 @@ AaSetQuarter_282:
         add ebx, byte 4
         jmp near AaSetQuarter.1
         db 090h
-AaAddQuarterJumpTable:
+AaAddQuarterJumpTable:                          ; jump table for the switch cases of AaAddQuarter
         dd AaAddQuarter_46
         dd AaAddQuarter_54
         dd AaAddQuarter_6D
@@ -2632,7 +2632,7 @@ AaAddQuarter_2AD:
         add edx, byte 4
         jmp near AaAddQuarter.1
         db 08Dh,040h,00h
-AaSetThirdJumpTable:
+AaSetThirdJumpTable:                            ; jump table for the switch cases of AaSetThird
         dd AaSetThird_46
         dd AaSetThird_54
         dd AaSetThird_6D
@@ -2979,7 +2979,7 @@ AaSetThird_282:
         add ebx, byte 4
         jmp near AaSetThird.1
         db 090h
-AaAddThirdJumpTable:
+AaAddThirdJumpTable:                            ; jump table for the switch cases of AaAddThird
         dd AaAddThird_46
         dd AaAddThird_54
         dd AaAddThird_6D
@@ -3338,7 +3338,7 @@ AaAddThird_2AD:
         add edx, byte 4
         jmp near AaAddThird.1
         db 08Dh,040h,00h
-AaSetTwoThirdsJumpTable:
+AaSetTwoThirdsJumpTable:                        ; jump table for the switch cases of AaSetTwoThirds
         dd AaSetTwoThirds_46
         dd AaSetTwoThirds_54
         dd AaSetTwoThirds_6D
@@ -3685,7 +3685,7 @@ AaSetTwoThirds_282:
         add ebx, byte 4
         jmp near AaSetTwoThirds.1
         db 090h
-AaAddTwoThirdsJumpTable:
+AaAddTwoThirdsJumpTable:                        ; jump table for the switch cases of AaAddTwoThirds
         dd AaAddTwoThirds_46
         dd AaAddTwoThirds_54
         dd AaAddTwoThirds_6D
@@ -4123,7 +4123,7 @@ SetAaPalLut:
         mov dword [AaPalLut], eax
         ret
         db 08Bh,0C0h
-AaRowStepJumpTable:
+AaRowStepJumpTable:                             ; jump table for the switch cases of AaDrawScaledArt
         dd AaDrawScaledArt_1CA
         dd AaDrawScaledArt_1D4
         dd AaDrawScaledArt_1F7
@@ -4157,7 +4157,7 @@ AaRowStepJumpTable:
         dd AaDrawScaledArt_3A6
         dd AaDrawScaledArt_2D6
         dd AaDrawScaledArt_3A1
-AaRowStepLastJumpTable:
+AaRowStepLastJumpTable:                         ; jump table for the switch cases of AaDrawScaledArt
         dd AaDrawScaledArt_1CA
         dd AaDrawScaledArt_474
         dd AaDrawScaledArt_487
@@ -5154,11 +5154,12 @@ WriteConsoleMessage_23:
 ; RestoreDS                                       B65D4  96 PC, low confidence
 ; Loads the saved data segment (for interrupt handlers)
 ;-----------------------------------------------------------------------------
-RestoreDS:
+RestoreDS:                                      ; loads the saved data segment (for interrupt handlers); used
+                                                ; by AudioStreamCallback, ClearClipRect, EmuTrapExit ...
         db 066h,02Eh,08Eh,01Dh                  ; insn: o16 mov ds,[cs:__saved_DS]
         dd __saved_DS
         ret
-__saved_DS:
+__saved_DS:                                     ; used by RestoreDS, start
         db 00h,00h,00h
 ;-----------------------------------------------------------------------------
 ; CdOpenFile                                   B65E0  96 PC, medium confidence

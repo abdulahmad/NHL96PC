@@ -482,7 +482,7 @@ AsyncCancelRequest:
         mov dword [dword eax+097h], 0FFFFFFFFh
         pop ebp
         ret
-AsyncReaderStateJumpTable:
+AsyncReaderStateJumpTable:                      ; jump table for the switch cases of asyncreader
         dd asyncreader_B
         dd asyncreader_34D
         dd asyncreader_3EF

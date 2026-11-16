@@ -9,19 +9,23 @@ global ReplayFrameState
 global ReplayObjX, ReplayObjY
 global ReplayObjZ, ReplayObjFrame, ReplayObjAttr
 
-ReplayFrameState:
+ReplayFrameState:                               ; replay frame state being decoded; used by CameraLeadOffset,
+                                                ; CameraTrackPuck, DrawControlMarker ...
         resb 1
         resb 1
         resb 17
         resb 17
-ReplayObjX:
+ReplayObjX:                                     ; replay object x positions; used by CameraTrackPuck,
+                                                ; DrawReplayView, DrawRinkPlayers ...
         resb 28
         resb 6
-ReplayObjY:
+ReplayObjY:                                     ; replay object y positions; used by CameraTrackPuck,
+                                                ; DrawReplayView, DrawRinkPlayers ...
         resb 28
         resb 4
         resb 2
-ReplayObjZ:
+ReplayObjZ:                                     ; replay object heights; used by DrawReplayObjects,
+                                                ; DrawReplayPlayers, DrawReplayShadows ...
         resb 34
         resb 16
         resb 1
@@ -29,10 +33,12 @@ ReplayObjZ:
         resb 1
         resb 15
         resb 2
-ReplayObjFrame:
+ReplayObjFrame:                                 ; replay object frames; used by DrawReplayObjects,
+                                                ; DrawReplayPlayers, DrawReplayShadows ...
         resb 32
         resb 2
-ReplayObjAttr:
+ReplayObjAttr:                                  ; replay object attributes; used by DrawReplayObjects,
+                                                ; DrawReplayPlayers, DrawReplayShadows ...
         resb 33
         resb 1
         resb 12

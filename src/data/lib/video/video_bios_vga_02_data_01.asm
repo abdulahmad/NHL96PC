@@ -6,35 +6,37 @@ extern __null_int23_exit_, __ClosedStreams
 global JoyDebounceCount, __iob_flags, VesaBankShift, JoyDirScanCodes, JoyRepeatStart, _fmode, VesaBank, VesaBankFunc
 global ExitHook, Int23Hook, FpuExitHook, __iob, __stdout_buf, __iob_end, __NFiles, JoyRepeatKey
 global JoyPendingKey, JoyRepeatDelay
-JoyDirScanCodes:
+JoyDirScanCodes:                                ; key scan code for each joystick direction; used by ZeroMem
         db 00h,00h,00h,00h,00h,048h,00h,00h,00h,050h,00h,00h,00h,00h,00h,00h
         db 00h,04Dh,00h,00h,00h,049h,00h,00h,00h,051h,00h,00h,00h,00h,00h,00h
         db 00h,04Bh,00h,00h,00h,047h,00h,00h,00h,04Fh,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-JoyRepeatKey:
+JoyRepeatKey:                                   ; key the joystick is repeating; used by ZeroMem
         db 00h,00h
-JoyPendingKey:
+JoyPendingKey:                                  ; key read on the last joystick poll; used by ZeroMem
         db 00h,00h
-JoyDebounceCount:
+JoyDebounceCount:                               ; polls left before a joystick key counts; used by ZeroMem
         db 00h
-JoyRepeatDelay:
+JoyRepeatDelay:                                 ; ticks before the joystick key repeats; used by ZeroMem
         db 00h,00h
-JoyRepeatStart:
+JoyRepeatStart:                                 ; tick count when the joystick key repeat started; used by
+                                                ; ZeroMem
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h
-__iob:
+__iob:                                          ; stdio stream table; used by __InitFiles_, __allocfp_,
+                                                ; docloseall_
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,01h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-__stdout_buf:
+__stdout_buf:                                   ; stdout buffer; used by printf_
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,02h,00h,00h,00h
         db 01h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,02h
-__iob_flags:
+__iob_flags:                                    ; stdio stream flags; used by __InitFiles_
         db 00h,00h,00h,02h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,03h,00h,00h,00h,03h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,02h,00h,00h,00h,04h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h
-__iob_end:
+__iob_end:                                      ; end of the stdio stream table; used by docloseall_
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -60,21 +62,23 @@ __iob_end:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h
-__NFiles:
+__NFiles:                                       ; number of stdio streams; used by __allocfp_
         db 061h
-_fmode:
+_fmode:                                         ; default file translation mode; used by __open_flags_, sopen_
         db 00h,01h,00h,00h
         dd __ClosedStreams
         db 00h,00h,00h
-ExitHook:
+ExitHook:                                       ; routine called by exit; used by atexit_, exit_
         dd __null_int23_exit_
-Int23Hook:
+Int23Hook:                                      ; ctrl-C handler; used by _exit_, exit_
         dd __null_int23_exit_
-FpuExitHook:
+FpuExitHook:                                    ; FPU shutdown routine called at exit; used by _exit_
         dd __null_int23_exit_
-VesaBank:
+VesaBank:                                       ; current VESA bank; used by VesaSetBank, initgraphics
         db 00h,00h,00h,00h
-VesaBankFunc:
+VesaBankFunc:                                   ; VESA bank switch routine; used by VesaSetBankBody,
+                                                ; VesaSetBankJumpTable, initgraphics
         db 00h,00h,00h,00h
-VesaBankShift:
+VesaBankShift:                                  ; VESA bank granularity shift; used by AndPixel, OrPixel,
+                                                ; PlotPixel ...
         db 00h,00h,00h,00h

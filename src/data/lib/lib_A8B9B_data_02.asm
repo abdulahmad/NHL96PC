@@ -10,21 +10,23 @@ global MouseDeltaX, MouseButtonState, MouseForceTwoButtons, GraphicsReady, Mouse
 global PointerCount, MouseButtons, ViewScreenWidth, ViewScreenHeight, MenuScreenBitmap, ScreenPitch, ScreenBuffer, ScreenModeWidth
 global ScreenModeHeight, joyenablemask, LeaderListPtrs
 global MouseSavedSensX, MouseSavedSensY, MouseSavedThreshold
-LeaderCardTextIds:
+LeaderCardTextIds:                              ; playoff leader card text ids; used by ShowPlayoffLeaderCard
         db 040h,01h,00h,00h,043h,01h,00h,00h,042h,01h,00h,00h,044h,01h,00h,00h
         db 046h,01h,00h,00h,041h,01h,00h,00h,03Eh,01h,00h,00h,048h,01h,00h,00h
         db 045h,01h,00h,00h,03Fh,01h,00h,00h,047h,01h,00h,00h,04Ah,01h,00h,00h
         db 049h,01h,00h,00h
-LeaderColTextIds:
+LeaderColTextIds:                               ; playoff leader column text ids; used by
+                                                ; ShowPlayoffLeaderCard
         db 03Ch,01h,00h,00h,03Dh,01h,00h,00h,03Eh,01h,00h,00h,03Fh,01h,00h,00h
         db 040h,01h,00h,00h,041h,01h,00h,00h,042h,01h,00h,00h,043h,01h,00h,00h
         db 044h,01h,00h,00h,045h,01h,00h,00h,046h,01h,00h,00h,047h,01h,00h,00h
         db 048h,01h,00h,00h
-LeaderCardFlags:
+LeaderCardFlags:                                ; playoff leader card flags; used by ShowPlayoffLeaderCard
         db 01h,01h,01h,01h,00h,00h,01h,02h,01h
-LeadersBuilt:
+LeadersBuilt:                                   ; playoff leaders have been built; used by BuildPlayoffLeaders
         db 01h,02h,02h,02h
-LeaderListPtrs:
+LeaderListPtrs:                                 ; pointers to the playoff leader lists; used by
+                                                ; BuildPlayoffLeaders, ShowPlayoffLeaderCard
         dd PlayoffLeaderLists+0AC2h
         dd PlayoffLeaderLists+0A93h
         dd PlayoffLeaderLists+3A1h
@@ -36,54 +38,71 @@ LeaderListPtrs:
         dd PlayoffLeaderLists+372h
         dd PlayoffLeaderLists+3D0h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-mouseminx:
+mouseminx:                                      ; used by MouseRead, MouseReadMotion, PollMenuInput ...
         db 00h,00h,00h,00h
-mouseminy:
+mouseminy:                                      ; mouse library: pointer range, top; used by MouseRead,
+                                                ; MouseReadMotion, PollMenuInput ...
         db 00h,00h,00h,00h
-mousemaxx:
+mousemaxx:                                      ; mouse library: pointer range, right (exclusive); used by
+                                                ; MouseRead, MouseReadMotion, PollMenuInput ...
         db 040h,01h,00h,00h
-mousemaxy:
+mousemaxy:                                      ; mouse library: pointer range, bottom (exclusive); used by
+                                                ; MouseRead, MouseReadMotion, PollMenuInput ...
         db 0C8h,00h,00h,00h
-MouseDeltaX:
+MouseDeltaX:                                    ; mouse motion X since the last read; used by MouseReadMotion
         db 00h,00h,00h,00h
-MouseButtonState:
+MouseButtonState:                               ; mouse button state; used by MouseReadButtons,
+                                                ; MouseReadMotion
         db 01h,00h,00h,00h
-MouseSavedSensX:
+MouseSavedSensX:                                ; mouse X sensitivity saved at start up; used by InitMouse,
+                                                ; MouseRestoreSensitivity
         db 00h,00h
-MouseSavedSensY:
+MouseSavedSensY:                                ; mouse Y sensitivity saved at start up; used by InitMouse,
+                                                ; MouseRestoreSensitivity
         db 00h,00h
-MouseSavedThreshold:
+MouseSavedThreshold:                            ; mouse double speed threshold saved at start up; used by
+                                                ; InitMouse, MouseRestoreSensitivity
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h
-MouseForceTwoButtons:
+MouseForceTwoButtons:                           ; treat the mouse as two buttons; used by InitMouse
         db 00h,00h,00h,00h,01h,00h,00h,00h
-GraphicsReady:
+GraphicsReady:                                  ; graphics are set up; used by DumpMemoryMap, FatalError,
+                                                ; InitSystem ...
         db 00h,00h,00h,00h
-MousePresent:
+MousePresent:                                   ; mouse driver found; used by InitMouse, InitPointer,
+                                                ; InitSystem ...
         db 00h,00h,00h,00h
-mousex:
+mousex:                                         ; used by ControlPicksScreen, ControlSetupScreen,
+                                                ; ControllerScreen ...
         db 00h,00h,00h,00h
-mousey:
+mousey:                                         ; used by ControlPicksScreen, ControlSetupScreen,
+                                                ; ControllerScreen ...
         db 00h,00h,00h,00h
-MouseMoved:
+MouseMoved:                                     ; mouse moved since the last read; used by MouseReadMotion,
+                                                ; PointerService, UpdatePointerPos
         db 00h,00h,00h,00h
-PointerCount:
+PointerCount:                                   ; mouse pointer show count; used by HidePointer,
+                                                ; HidePointerKeep, InitMouse ...
         db 00h,00h,00h,00h
-MouseButtons:
+MouseButtons:                                   ; mouse buttons; used by InitMouse
         db 00h,00h,00h,00h
-joyenablemask:
+joyenablemask:                                  ; used by JoyResetCentres, JoystickCalibrateScreen,
+                                                ; ReadJoystickPorts ...
         db 00h,00h,00h,00h
-ViewScreenWidth:
+ViewScreenWidth:                                ; full screen width the game view is sized against; used by
+                                                ; AddZone, CenterMouse, ControllerUsersPanel ...
         db 00h,00h,00h,00h
-ViewScreenHeight:
+ViewScreenHeight:                               ; full screen height the game view is sized against; used by
+                                                ; AddZone, CenterMouse, ControllerUsersPanel ...
         db 00h,00h,00h,00h
-MenuScreenBitmap:
+MenuScreenBitmap:                               ; menu screen bitmap; used by CreateBitmap, CreateBitmapDepth,
+                                                ; InitSystem ...
         db 00h,00h,00h,00h
-ScreenPitch:
+ScreenPitch:                                    ; screen pitch; used by TgvShowFrameRate, initgraphics
         db 00h,00h,00h,00h
-ScreenBuffer:
+ScreenBuffer:                                   ; screen buffer; used by TgvShowFrameRate, initgraphics
         db 00h,00h,00h,00h
-ScreenModeWidth:
+ScreenModeWidth:                                ; screen mode width; used by initgraphics
         db 040h,01h,00h,00h
-ScreenModeHeight:
+ScreenModeHeight:                               ; screen mode height; used by initgraphics
         db 0C8h,00h,00h,00h

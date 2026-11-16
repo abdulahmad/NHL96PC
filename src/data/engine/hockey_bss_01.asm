@@ -6,63 +6,89 @@ global PlList, awtmgoalie, AwPlayerFlags, awtmpbox, awtmcoach_d2, awtmcoach_d3, 
 global AwRosterMap, AwGoalieSwapped, AwStarterGoalieMarks, LinePlayersAway, awtmnear, awtmcoachenergy, awtmlines, awtmplattr
 global awtmglattr, awtmplstats, awtmglstats, awtmroster, awtmteamrec, awtmsort, AwFightFlags, awtmextra
 global awtmap, awtmnearpl, AwChaserList, AwBackupGoalieMarks, fofdata2, PlayFlags
-awtmextra:
+awtmextra:                                      ; Away team struct +30h: extra attacker pnum and the last
+                                                ; three touches; used by clearteams
         resb 8
-awtmap:
+awtmap:                                         ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 2
-awtmgoalie:
+awtmgoalie:                                     ; used by Goal, SimulateGame, clearteams
         resb 6
-awtmnear:
+awtmnear:                                       ; Away team struct +40h: nearest skater's distance to the
+                                                ; puck; used by pucknorm_body, updateplayers
         resb 4
-awtmnearpl:
+awtmnearpl:                                     ; Away team struct +44h: nearest skater to the puck, -1 for
+                                                ; none; used by updateplayers
         resb 2
-AwPlayerFlags:
+AwPlayerFlags:                                  ; away team: flags per roster player; used by PenGoalStuff,
+                                                ; puckfaceoff, releasepl
         resb 114
-awtmpbox:
+awtmpbox:                                       ; Away team struct +B8h: penalty box list of roster indexes;
+                                                ; used by clearteams
         resb 28
-awtmcoach_d2:
+awtmcoach_d2:                                   ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 1
-awtmcoach_d3:
+awtmcoach_d3:                                   ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 1
-AwCoachGoalie:
+AwCoachGoalie:                                  ; away team: coach goalie mode; used by InitCoachModes,
+                                                ; SetCoachMode, UpdateCoachModes ...
         resb 1
-awtmcoachmode:
+awtmcoachmode:                                  ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 1
-awtmcoachenergy:
+awtmcoachenergy:                                ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 4
-AwRosterMap:
+AwRosterMap:                                    ; away team: roster index per slot; used by clearteams
         resb 8
-AwFightFlags:
+AwFightFlags:                                   ; Away team struct +E4h: fight state byte per roster player;
+                                                ; used by checkfight
         resb 28
-AwChaserList:
+AwChaserList:                                   ; Away team struct +100h: puck chaser slots, reset to -1 each
+                                                ; frame; used by updateplayers
         resb 18
-awtmlines:
+awtmlines:                                      ; Away team struct +112h: pointer to the away line table; used
+                                                ; by LoadGameState, clearteams
         resb 4
-awtmplattr:
+awtmplattr:                                     ; Away team struct +116h: pointer to the away skater
+                                                ; attributes; used by LoadGameState, clearteams
         resb 4
-awtmglattr:
+awtmglattr:                                     ; Away team struct +11Ah: pointer to the away goalie
+                                                ; attributes; used by LoadGameState, clearteams
         resb 4
-awtmplstats:
+awtmplstats:                                    ; Away team struct +11Eh: pointer to the away skater game
+                                                ; stats; used by LoadGameState, clearteams
         resb 4
-awtmglstats:
+awtmglstats:                                    ; Away team struct +122h: pointer to the away goalie game
+                                                ; stats; used by LoadGameState, clearteams
         resb 4
-awtmroster:
+awtmroster:                                     ; Away team struct +126h: pointer to the away roster; used by
+                                                ; LoadGameState, clearteams
         resb 4
-awtmteamrec:
+awtmteamrec:                                    ; Away team struct +12Ah: pointer to the away team record;
+                                                ; used by LoadGameState, clearteams
         resb 4
-awtmsort:
+awtmsort:                                       ; Away team struct +12Eh: pointer to the away team's first
+                                                ; sort entry (clearteams: AwSortCords); used by LoadGameState,
+                                                ; clearteams
         resb 4
-AwGoalieSwapped:
+AwGoalieSwapped:                                ; Away team struct +132h: toggled when the goalie is changed
+                                                ; in a tied game; used by SimulateGame, UpdateTeamDbs
         resb 1
-AwStarterGoalieMarks:
+AwStarterGoalieMarks:                           ; Away team struct +133h: game marks for the starting goalie;
+                                                ; used by PostGoalEvent
         resb 1
-AwBackupGoalieMarks:
+AwBackupGoalieMarks:                            ; Away team struct +134h: game marks for the backup goalie;
+                                                ; used by LoadGameState, PostGoalEvent
         resb 2
-PlList:
+PlList:                                         ; used by SaveGameState, SetPlList, TryAddPlayerToList ...
         resb 6
-LinePlayersAway:
+LinePlayersAway:                                ; away line players; used by SetPlList, setpersonel
         resb 6
-fofdata2:
+fofdata2:                                       ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 2
-PlayFlags:
+PlayFlags:                                      ; play state flags; used by Endfaceoff, puckfaceoff2
         resb 1

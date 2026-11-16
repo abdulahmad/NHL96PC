@@ -7,13 +7,17 @@ global TextureTileSize, TexturePageBase, TextureDetail, TexPolyLeft
 global TexPolyRight
 
 global TexEdgeTable, FloorPlaneRows, TexEdgeCount, TexEdgeStep, TexEdgeVerts, TexPolyRowTable
-TextureTileSize:
+TextureTileSize:                                ; size of one rink texture tile; used by OriPolyClipped,
+                                                ; OriPolyMapped, OriPolyShaded ...
         resb 4
-TexturePageBase:
+TexturePageBase:                                ; base of the texture page being built; used by
+                                                ; DrawStandsQuad, DrawStandsSide, DrawStandsSideQuad ...
         resb 4
-TextureDetail:
+TextureDetail:                                  ; texture detail level; used by DrawIceMarkings,
+                                                ; DrawStandsQuad, DrawStandsSide ...
         resb 4
-TexPolyLeft:
+TexPolyLeft:                                    ; textured polygon left edge state; used by DrawTexturedPoly,
+                                                ; TexPolyEdge, TexPolyEdgeClipped ...
         resb 4
         resb 4
         resb 4
@@ -29,9 +33,11 @@ TexPolyLeft:
         resb 4
         resb 4
         resb 8
-TexPolyRowTable:
+TexPolyRowTable:                                ; textured polygon row table; used by DrawTexturedPoly,
+                                                ; TexPolyFill, TexPolyFillClipped ...
         resb 1024
-TexPolyRight:
+TexPolyRight:                                   ; textured polygon right edge state; used by DrawTexturedPoly,
+                                                ; TexPolyEdge, TexPolyEdgeClipped ...
         resb 4
         resb 4
         resb 4
@@ -46,13 +52,17 @@ TexPolyRight:
         resb 4
         resb 4
         resb 8
-TexEdgeTable:
+TexEdgeTable:                                   ; textured polygon edge table; used by FillFloorPlane,
+                                                ; TexPolyEdgeTable, TexPolyFill ...
         resb 4
-FloorPlaneRows:
+FloorPlaneRows:                                 ; floor plane rows; used by FillFloorPlane
         resb 1916
-TexEdgeCount:
+TexEdgeCount:                                   ; textured polygon edge count; used by DrawTexturedPoly,
+                                                ; TexPolyEdge, TexPolyEdgeClipped ...
         resb 4
-TexEdgeStep:
+TexEdgeStep:                                    ; textured polygon edge step; used by TexPolyEdge,
+                                                ; TexPolyEdgeClipped, TexPolyEdgeMirrored ...
         resb 4
-TexEdgeVerts:
+TexEdgeVerts:                                   ; textured polygon edge vertices; used by DrawTexturedPoly,
+                                                ; TexPolyEdge, TexPolyEdgeClipped ...
         resb 12

@@ -16,124 +16,154 @@ global MsgTextBuf, str_WesternConference2, RosterTextBuf, AsyncHeader, hmplstats
 global hmglattr, awglattr, hmplattr, awplattr, awlinetab, hmteamrec
 global awteamrec, hmlinetab, DataFilePath
 
-LinkResendPkt:
+LinkResendPkt:                                  ; link packet asking the other side to resend; used by
+                                                ; LinkRequestResend
         resb 1
         resb 1
         resb 1
         resb 9
-LinkAckPkt:
+LinkAckPkt:                                     ; link acknowledge packet; used by LinkSendAck
         resb 1
         resb 1
         resb 1
         resb 9
-LinkRxHeader:
+LinkRxHeader:                                   ; header of the link packet being received; used by
+                                                ; LinkReceive
         resb 2
         resb 10
-LinkRxBuffer:
+LinkRxBuffer:                                   ; link receive buffer; used by LinkReceive
         resb 256
-LinkMissingList:
+LinkMissingList:                                ; list of missing link packets; used by LinkRequestMissing
         resb 40
-PenaltyKillRanks:
+PenaltyKillRanks:                               ; penalty kill rank per team; used by ComparePenaltyKillPct,
+                                                ; GetSpecialTeamsRanks
         resb 104
-PowerPlayRanks:
+PowerPlayRanks:                                 ; power play rank per team; used by ComparePowerPlayPct,
+                                                ; GetSpecialTeamsRanks
         resb 104
-MsgTextBuf:
+MsgTextBuf:                                     ; message box text buffer; used by EditText, MessageBox,
+                                                ; ShowMessage ...
         resb 255
         resb 1
-dlgtextfg:
+dlgtextfg:                                      ; message box text colour; used by DrawBoxButton, MessageBox
         resb 4
-ProgressBoxState:
+ProgressBoxState:                               ; progress box state; used by ShowProgressBox,
+                                                ; UpdateProgressBox
         resb 1
         resb 1
         resb 2
-str_WesternConference2:
+str_WesternConference2:                         ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 498
-RosterTextBuf:
+RosterTextBuf:                                  ; roster screen text buffer; used by RosterScreen
         resb 270
-LogoPackBuf:
+LogoPackBuf:                                    ; team logo pack buffer; used by LoadTeamLogo, ShutDown,
+                                                ; StartUp
         resb 4
-LogoPackFile:
+LogoPackFile:                                   ; team logo pack file; used by LoadTeamLogo, StartUp
         resb 4
-PanelShadeArt:
+PanelShadeArt:                                  ; panel shading art; used by DrawInGameMenuFrame,
+                                                ; DrawOverlayPanels, DrawPanelLogo ...
         resb 4
-MenuRemoteCursorArt:
+MenuRemoteCursorArt:                            ; remote cursor art; used by OpenFrontEndFromGame,
+                                                ; PauseBackToGame, PauseToFrontEnd ...
         resb 4
-MenuCursorPixels:
+MenuCursorPixels:                               ; local cursor pixels; used by EditLinesHoverPanel,
+                                                ; EditLinesScreen, OpenFrontEndFromGame ...
         resb 4
-pointerspr:
+pointerspr:                                     ; mouse pointer sprite; used by EditLinesHoverPanel,
+                                                ; EditLinesScreen, GameStatsScreen ...
         resb 4
-MenuBitmapPixels:
+MenuBitmapPixels:                               ; menu bitmap pixels; used by OpenFrontEndFromGame,
+                                                ; PauseBackToGame, PauseToFrontEnd ...
         resb 4
-AsyncRequests:
+AsyncRequests:                                  ; pool of async file requests; used by AsyncClose, AsyncInit
         resb 4
-AsyncCurFile:
+AsyncCurFile:                                   ; file of the request being serviced; used by AsyncClose,
+                                                ; AsyncRequestOpen, AsyncRequestSection ...
         resb 4
-AsyncCurOffset:
+AsyncCurOffset:                                 ; file offset of the request being serviced; used by
+                                                ; AsyncClose, AsyncRequestOpen, AsyncRequestSection ...
         resb 4
-AsyncFreeList:
+AsyncFreeList:                                  ; free list of async file requests; used by AsyncInit,
+                                                ; AsyncRequestDone, AsyncTimerTick ...
         resb 4
-AsyncCurRequest:
+AsyncCurRequest:                                ; async request being serviced; used by asyncreader
         resb 4
-AsyncCdFile:
+AsyncCdFile:                                    ; CD file the async reader has open; used by AsyncClose,
+                                                ; AsyncInit, asyncreader
         resb 4
-AsyncOpenFile:
+AsyncOpenFile:                                  ; file opened for the async reader; used by AsyncClose,
+                                                ; AsyncInit, asyncreader
         resb 4
-AsyncMemFlags:
+AsyncMemFlags:                                  ; memory flags for async read buffers; used by asyncreader
         resb 4
-AsyncState:
+AsyncState:                                     ; async reader state; used by AsyncInit, asyncreader
         resb 8
-AsyncFileHandle:
+AsyncFileHandle:                                ; DOS handle of the file being streamed; used by AsyncInit,
+                                                ; asyncreader, setasyncspeed ...
         resb 4
-AsyncBytesLeft:
+AsyncBytesLeft:                                 ; bytes left to read for the request; used by asyncreader
         resb 4
-AsyncFileStart:
+AsyncFileStart:                                 ; start offset of the file being read; used by asyncreader
         resb 4
-AsyncFileSize:
+AsyncFileSize:                                  ; size of the file being read; used by asyncreader
         resb 4
-AsyncDestBlock:
+AsyncDestBlock:                                 ; memory block the async reader fills; used by asyncreader
         resb 4
-AsyncReqUser:
+AsyncReqUser:                                   ; user word of the request being serviced; used by asyncreader
         resb 4
-AsyncSkip:
+AsyncSkip:                                      ; bytes to skip before the next read; used by asyncreader
         resb 4
-AsyncDestPos:
+AsyncDestPos:                                   ; write position in the destination block; used by asyncreader
         resb 4
-AsyncHeader:
+AsyncHeader:                                    ; header read at the start of an async file; used by
+                                                ; asyncreader
         resb 4
         resb 4
-AsyncBudget:
+AsyncBudget:                                    ; read budget left this tick; used by AsyncInit,
+                                                ; AsyncTimerTick, asyncreader
         resb 4
-AsyncStreamFile:
+AsyncStreamFile:                                ; file the speech stream reads from; used by AsyncInit,
+                                                ; setasyncspeed, setasyncspeed_ret
         resb 4
-AsyncWaitTimer:
+AsyncWaitTimer:                                 ; countdown before the next async step; used by AsyncInit,
+                                                ; asyncreader, setasyncspeed ...
         resb 4
-AsyncTicksPerRead:
+AsyncTicksPerRead:                              ; ticks one async read takes; used by AsyncInit, asyncreader,
+                                                ; setasyncspeed ...
         resb 8
-AsyncReadResult:
+AsyncReadResult:                                ; result of the last async read; used by asyncreader
         resb 4
-AsyncMeasuredSpeed:
+AsyncMeasuredSpeed:                             ; measured async read speed; used by setasyncspeed
         resb 4
-AsyncReadTime:
+AsyncReadTime:                                  ; time spent on async reads; used by asyncreader
         resb 4
-AsyncBytesRead:
+AsyncBytesRead:                                 ; bytes read by the async reader; used by asyncreader
         resb 4
-AsyncBaseTicks:
+AsyncBaseTicks:                                 ; ticks measured when the reader started; used by
+                                                ; setasyncspeed
         resb 4
-StreamSpeed:
+StreamSpeed:                                    ; CD stream ticks per block; used by setstreamspeed
         resb 4
-StreamRate:
+StreamRate:                                     ; CD stream rate; used by setstreamspeed
         resb 4
-StreamWalk:
+StreamWalk:                                     ; stream entry being walked; used by CdStreamInit,
+                                                ; CdStreamService
         resb 4
-StreamHandle:
+StreamHandle:                                   ; CD stream handle; used by CdStreamInit,
+                                                ; CdStreamInitSecondary, CdStreamService ...
         resb 4
-curperiod:
+curperiod:                                      ; used by ClockTick, DrawGameFrame, InGameMenu ...
         resb 4
-SpriteArtPtrs:
+SpriteArtPtrs:                                  ; art pointer for each sprite frame; used by DrawBenchPlayers,
+                                                ; DrawControlMarker, DrawGameFrame ...
         resb 484
-SpriteFrameArt:
+SpriteFrameArt:                                 ; art for each player sprite frame; used by DrawPlayerShadows,
+                                                ; DrawPlayers, PlaceGoalNets
         resb 15516
-hmplstats:
+hmplstats:                                      ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 2
         resb 2
         resb 2
@@ -142,67 +172,89 @@ hmplstats:
         resb 2
         resb 2
         resb 386
-awplstats:
+awplstats:                                      ; Away skater game stats; used by LoadGameState,
+                                                ; WatchHighlight, clearteams
         resb 362
         resb 38
-hmroster:
+hmroster:                                       ; used by BuildDefaultLines, BuildEventLines, CanFillLineSlot
+                                                ; ...
         resb 5
-hmrosterflags:
+hmrosterflags:                                  ; flags byte in each home roster entry; used by
+                                                ; BuildEventLines, DrawPlayerNamePanel, DrawRosterNumber ...
         resb 1
-hmrosterpos:
+hmrosterpos:                                    ; used by CanFillLineSlot, EditLinesScreen, FillDressedSlots
+                                                ; ...
         resb 1
         resb 32
-RosterStatsBase:
+RosterStatsBase:                                ; roster player stat words, indexed by team and player; used
+                                                ; by FillTeamRoster, PostGoalEvent, PostPenaltyEvent ...
         resb 1165
-awroster:
+awroster:                                       ; Away roster; used by LoadGameRosters, LoadGameState,
+                                                ; clearteams
         resb 1204
-AttractResetFlag:
+AttractResetFlag:                               ; flag cleared when an attract or menu game starts; used by
+                                                ; PlayMenuGame, RunAttractMode
         resb 4
-hmglstats:
+hmglstats:                                      ; Home goalie game stats (clearteams: hmtmglstats); used by
+                                                ; InitGameTeams, LoadGameState, PickThreeStars ...
         resb 2
         resb 2
         resb 4
         resb 6
         resb 4
-awglstats:
+awglstats:                                      ; Away goalie game stats; used by LoadGameState, clearteams
         resb 18
-hmglattr:
+hmglattr:                                       ; Home goalie attributes (clearteams: hmtmglattr); used by
+                                                ; AutoSetLines, FillTeamRoster, LoadGameState ...
         resb 51
-awglattr:
+awglattr:                                       ; Away goalie attributes; used by LoadGameState, clearteams
         resb 51
-hmplattr:
+hmplattr:                                       ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 19
         resb 506
-awplattr:
+awplattr:                                       ; Away skater attributes (clearteams: awtmplattr); used by
+                                                ; Endfaceoff, LoadGameState, clearteams
         resb 19
         resb 506
-awlinetab:
+awlinetab:                                      ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 54
         resb 8
-hmteamrec:
+hmteamrec:                                      ; Home team record (clearteams: hmtmteamrec); used by
+                                                ; DrawPlayerPctPanel, DrawScorePanel, DrawTimeLeftPanel ...
         resb 30
         resb 69
         resb 100
         resb 12
         resb 584
-awteamrec:
+awteamrec:                                      ; Away team record; used by DrawScorePanel, DrawTimeLeftPanel,
+                                                ; LoadGameRosters ...
         resb 30
         resb 181
         resb 584
-hmlinetab:
+hmlinetab:                                      ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 54
         resb 8
-UnusedStateByte:
+UnusedStateByte:                                ; saved and restored with the game state, otherwise unused;
+                                                ; used by LoadGameState, SaveGameState
         resb 1
-UnusedStateFlag:
+UnusedStateFlag:                                ; saved and restored with the game state, otherwise unused;
+                                                ; used by LoadGameState, SaveGameState
         resb 1
-UnusedStateMode:
+UnusedStateMode:                                ; saved and restored with the game state, otherwise unused;
+                                                ; used by LoadGameState, SaveGameState
         resb 1
-pad2dev:
+pad2dev:                                        ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 1
-pad1dev:
+pad1dev:                                        ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 2
-GameExtraBlock:
+GameExtraBlock:                                 ; extra memory block freed when a game ends; used by
+                                                ; EndGameCleanup
         resb 4
-DataFilePath:
+DataFilePath:                                   ; data file path buffer; used by LoadArtArchiveFile,
+                                                ; LoadDataFile, LoadDataFileHandle ...
         resb 1634

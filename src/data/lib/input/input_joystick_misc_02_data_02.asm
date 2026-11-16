@@ -6,46 +6,64 @@ extern SortBufferData
 global ViewHalfWidth, ViewHalfHeight, ViewOriginX, ViewOriginY, ViewCentreX, ViewCentreY, FovScaleX, FovScaleY
 global ViewFovX, ViewFovY, ProjectFlags, SortBuffer, RetraceTimeout, TgaBytesPerPixel, VideoModeWidths, VideoModeHeights
 global VesaModeInfo, SpeechQueue, SpeechQueueLead
-ViewHalfWidth:
+ViewHalfWidth:                                  ; half the view's width in pixels; used by SetViewFov,
+                                                ; SetViewScreenOrigin
         db 0A0h,00h,00h,00h
-ViewHalfHeight:
+ViewHalfHeight:                                 ; half the view's height in pixels; used by SetViewFov,
+                                                ; SetViewScreenOrigin
         db 064h,00h,00h,00h
-ViewOriginX:
+ViewOriginX:                                    ; the view's left edge on the screen; used by SetViewFov,
+                                                ; SetViewScreenOrigin
         db 00h,00h,00h,00h
-ViewOriginY:
+ViewOriginY:                                    ; the view's top edge on the screen; used by SetViewFov,
+                                                ; SetViewScreenOrigin
         db 00h,00h,00h,00h
-ViewCentreX:
+ViewCentreX:                                    ; the screen x of the view's centre, where projected points
+                                                ; are placed from; used by DrawTexturedPolyCore, ProjectPoint,
+                                                ; ProjectPointWide ...
         db 0A0h,00h,00h,00h
-ViewCentreY:
+ViewCentreY:                                    ; the screen y of the view's centre, where projected points
+                                                ; are placed from; used by DrawTexturedPolyCore, ProjectPoint,
+                                                ; ProjectPointWide ...
         db 064h,00h,00h,00h
-FovScaleX:
+FovScaleX:                                      ; field of view x scale; used by BuildPerspTable,
+                                                ; DrawTexturedPolyCore, SetViewFov ...
         db 00h,00h,00h,00h
-FovScaleY:
+FovScaleY:                                      ; field of view y scale; used by DrawTexturedPolyCore,
+                                                ; SetViewFov, SubdivideMappedTriangle
         db 00h,00h,00h,00h
-ViewFovX:
+ViewFovX:                                       ; the view's horizontal field of view, in 1024ths of a turn;
+                                                ; used by SetViewFov, SetViewScreenOrigin
         db 00h,00h,00h,00h
-ViewFovY:
+ViewFovY:                                       ; the view's vertical field of view, in 1024ths of a turn;
+                                                ; used by SetViewFov, SetViewScreenOrigin
         db 00h,00h,00h,00h
-ProjectFlags:
+ProjectFlags:                                   ; projection flags; used by DrawTexturedPolyCore,
+                                                ; ProjectPointWide, ProjectPointsPersp ...
         db 00h,00h,00h,00h
-SortBuffer:
+SortBuffer:                                     ; sort buffer; used by BuildPerspTable, PerspScale,
+                                                ; ProjectPoint ...
         dd SortBufferData
-RetraceTimeout:
+RetraceTimeout:                                 ; loop count before giving up on vertical retrace; used by
+                                                ; WaitDisplayRetrace, WaitRetrace, WaitRetraceEdges
         db 0A0h,086h,01h,00h
-TgaBytesPerPixel:
+TgaBytesPerPixel:                               ; TGA bytes per pixel; used by WriteTgaScreen
         db 02h,00h,00h,00h
-VideoModeWidths:
+VideoModeWidths:                                ; video mode widths (8 bytes per mode); used by initgraphics
         db 080h,02h,00h,00h
-VideoModeHeights:
+VideoModeHeights:                               ; video mode heights; used by initgraphics
         db 090h,01h,00h,00h,080h,02h,00h,00h,0E0h,01h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,020h,03h,00h,00h,058h,02h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,04h,00h,00h,00h,03h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,05h,00h,00h,00h,04h,00h,00h
-VesaModeInfo:
+VesaModeInfo:                                   ; VESA mode information block pointer; used by VesaGetInfo,
+                                                ; VesaGetModeInfo
         db 00h,00h,00h,00h
-SpeechQueue:
+SpeechQueue:                                    ; speech queue: 20 slots of clip and lead samples; used by
+                                                ; AddSpeechQueueClip, FlushSpeechQueue, OpenSpeechQueue ...
         db 00h,00h,00h,00h
-SpeechQueueLead:
+SpeechQueueLead:                                ; samples left when the next queued clip starts, per slot;
+                                                ; used by AddSpeechQueueClip
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h

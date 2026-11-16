@@ -1408,7 +1408,7 @@ GameStatsScreen_722:
         lea esp, [dword ebp+082h]
         pop ebp
         jmp near DrawGameStats_DD1
-AnimateStarsJumpTable:
+AnimateStarsJumpTable:                          ; jump table for the switch cases of AnimateStarsScreen
         dd AnimateStarsScreen_E7
         dd AnimateStarsScreen_E7
         dd AnimateStarsScreen_D3
@@ -1677,7 +1677,7 @@ AnimateStarsScreen_121:
         pop ecx
         pop ebx
         ret
-ThreeStarsChoiceJumpTable:
+ThreeStarsChoiceJumpTable:                      ; jump table for the switch cases of ThreeStarsScreen
         dd ThreeStarsScreen_8CF
         dd ThreeStarsScreen_91F
         dd ThreeStarsScreen_928

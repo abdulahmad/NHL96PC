@@ -13,15 +13,18 @@ global wcradiusy, VisTeam, passdir, passspeed, xc1, yc1, ltx, fodir1
 global fodir2, gmode2, HomeControlSlot, AwayControlSlot, HomeSecondControlSlot, AwaySecondControlSlot, slotteam, ClockFrameCount
 global refsignal, RefStep, StoppageReason, Penaltytimer, gsp, clockticks, dirtab, dirtab_y
 global seed_w2
-UserRecordsTop:
+UserRecordsTop:                                 ; user records list top; used by CompareUsersByRecord,
+                                                ; CompareUsersByStreak, DrawUserRecords ...
         db 00h,00h,00h,00h
-UserRecordsFirst:
+UserRecordsFirst:                               ; first user record shown; used by DrawUserRecords,
+                                                ; UserRecordsScreen
         db 00h,00h,00h,00h
-UserRecordsRow:
+UserRecordsRow:                                 ; user records row; used by DrawUserRecords, UserRecordsScreen
         db 00h,00h,00h,00h
-UserRecordsBarColour:
+UserRecordsBarColour:                           ; user records highlight bar colour; used by DrawUserRecords,
+                                                ; UserRecordsScreen
         db 06Ah,00h,00h,00h
-UserRecordsRowY:
+UserRecordsRowY:                                ; user records row positions; used by UserRecordsScreen
         db 076h,00h,00h,00h,082h,00h,00h,00h,08Eh,00h,00h,00h,09Bh,00h,00h,00h
         db 0A7h,00h,00h,00h,0B3h,00h,00h,00h,0BFh,00h,00h,00h,0CBh,00h,00h,00h
         db 0D7h,00h,00h,00h,0E3h,00h,00h,00h,0EFh,00h,00h,00h,0FCh,00h,00h,00h
@@ -29,125 +32,161 @@ UserRecordsRowY:
         db 039h,01h,00h,00h,046h,01h,00h,00h,052h,01h,00h,00h,05Eh,01h,00h,00h
         db 06Ah,01h,00h,00h,076h,01h,00h,00h,082h,01h,00h,00h,08Fh,01h,00h,00h
         db 09Bh,01h,00h,00h,0A7h,01h,00h,00h
-replaystart:
+replaystart:                                    ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         dd ReplayBuffer
-puckx:
+puckx:                                          ; used by CanBlockShot, CrowdReactToPlay, GoalieToPuckVec ...
         dd PuckObject+2
-puckvx:
+puckvx:                                         ; used by CameraTrackPuck, ChkShotStat, CompPass ...
         dd PuckObject+0Ch
-pucky:
+pucky:                                          ; used by CanBlockShot, CheckBump, ChkDelayedOffside ...
         dd PuckObject+6
-puckvy:
+puckvy:                                         ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         dd PuckObject+0Eh
-puckz:
+puckz:                                          ; used by BlockShotDive, DrawPuckSprite, Endfaceoff ...
         dd PuckObject+0Ah
-puckvz:
+puckvz:                                         ; used by BlockShotDive, CameraTrackPuck, ScatterPass ...
         dd PuckObject+10h
-puckc:
+puckc:                                          ; used by CameraLeadOffset, CanBlockShot, ChkGoalies ...
         dd PuckObject+42h
-PtrPuckFlags:
+PtrPuckFlags:                                   ; pointer to the puck flags; used by CanBlockShot, CompPass,
+                                                ; EndPenaltyShot ...
         dd PuckObject
-PtrRefObject:
+PtrRefObject:                                   ; Pointer to the referee's object; used by CamShotReferee,
+                                                ; SkateToTarget, assbenchside ...
         dd RefObject
-PtrPuckObject:
+PtrPuckObject:                                  ; pointer to the puck object; used by AddPenalty2,
+                                                ; EndPenaltyShot, Endfaceoff ...
         dd ExtraObject
-PtrHomeNet:
+PtrHomeNet:                                     ; Pointer to the home net object; used by CanBlockShot,
+                                                ; PuckInNet, chk4pass ...
         dd HomeNetObject
-PtrAwayNet:
+PtrAwayNet:                                     ; Pointer to the away net object; used by CanBlockShot,
+                                                ; PuckInNet, chk4pass ...
         dd AwayNetObject
-camx:
+camx:                                           ; Camera x; used by Goal, RunPreGameSkate, StartPer ...
         db 00h,00h
-camy:
+camy:                                           ; Camera y; used by Goal, RunPreGameSkate, StartPer ...
         db 00h,00h
-wcradiusx:
+wcradiusx:                                      ; used by checkcoll, checkgoal, checkgoalp ...
         db 00h,00h
-wcradiusy:
+wcradiusy:                                      ; Wall collision radius y; used by checkcoll, checkgoalp,
+                                                ; checkwallcoll
         db 00h,00h
-VisTeam:
+VisTeam:                                        ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 00h,00h
-lastplayer:
+lastplayer:                                     ; used by CompPass, GiveControl, LoadGameState ...
         db 00h,00h
-passdir:
+passdir:                                        ; Pass direction; used by LoadGameState, PickShotTarget,
+                                                ; ResetGameVars ...
         db 00h,00h
-passspeed:
+passspeed:                                      ; Pass speed; used by CompPass, LoadGameState, ResetGameVars
+                                                ; ...
         db 00h,00h
-passplayer:
+passplayer:                                     ; used by CameraLeadOffset, CameraTrackPuck, LoadGameState ...
         db 00h,00h
-threat:
+threat:                                         ; used by LoadGameState, ResetGameVars, SaveGameState ...
         db 00h,00h
-xc1:
+xc1:                                            ; Puck check x (collision); used by Goal, LoadGameState,
+                                                ; RunPreGameSkate ...
         db 00h,00h
-yc1:
+yc1:                                            ; checkfight sets it to the mean Ypos of the two fighters,
+                                                ; clamped at the boards, as NHLPA93Genesis yc1; used by Goal,
+                                                ; LoadGameState, RunPreGameSkate ...
         db 00h,00h
-ltx:
+ltx:                                            ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 00h,00h
-foy:
+foy:                                            ; used by CameraTrackPuck, FaceoffPositions, Goal ...
         db 00h,00h
-fox:
+fox:                                            ; used by CameraTrackPuck, ChkPullGoalieLate, FaceoffPositions
+                                                ; ...
         db 00h,00h
-fodir1:
+fodir1:                                         ; used by Endfaceoff, LoadGameState, SaveGameState ...
         db 00h,00h
-fodir2:
+fodir2:                                         ; used by Endfaceoff, LoadGameState, SaveGameState ...
         db 00h,00h
-collflag:
+collflag:                                       ; used by Bcheck, Goal, LoadGameState ...
         db 00h
-gmode:
+gmode:                                          ; used by AddPenalty, BuildEventLines, CamShotReferee ...
         db 00h
-sflags:
+sflags:                                         ; used by CameraTrackPuck, CheckBump, CompPass ...
         db 00h,00h
-gmode2:
+gmode2:                                         ; used by ChkDelayedOffside, ChkShotStat, CompPass ...
         db 00h,00h
-sflags3:
+sflags3:                                        ; Game state flags, third set; used by Endfaceoff,
+                                                ; LoadGameState, SaveGameState ...
         db 00h,00h
-HomeControlSlot:
+HomeControlSlot:                                ; home control slot (-1 none); used by AssignControlSlots,
+                                                ; DrawControlMarker, DrawGameFrame ...
         db 0FFh,0FFh
-AwayControlSlot:
+AwayControlSlot:                                ; Away team's controlled player slot; used by LoadGameState,
+                                                ; SaveGameState, SortSpritesForDraw
         db 0FFh,0FFh
-HomeSecondControlSlot:
+HomeSecondControlSlot:                          ; Home team's second controlled player slot; used by
+                                                ; LoadGameState, SaveGameState, SortSpritesForDraw
         db 0FFh,0FFh
-AwaySecondControlSlot:
+AwaySecondControlSlot:                          ; Away team's second controlled player slot; used by
+                                                ; LoadGameState, SaveGameState, SortSpritesForDraw
         db 0FFh,0FFh
-slotteam:
+slotteam:                                       ; 4 words read by CountTeamSlots: 1 home, 2 away; used by
+                                                ; AssignControlSlots, CountTeamSlots, GiveControl ...
         db 00h,00h,00h,00h,00h,00h,00h,00h
-hmslotcount:
+hmslotcount:                                    ; CountTeamSlots: slots with slotteam 1; used by ChkGoalies,
+                                                ; ChkPullGoalieLate, CountTeamSlots ...
         db 00h,00h,00h,00h
-awslotcount:
+awslotcount:                                    ; CountTeamSlots: slots with slotteam 2; used by ChkGoalies,
+                                                ; ChkPullGoalieLate, CountTeamSlots ...
         db 00h,00h,00h,00h
-hmfirstslot:
+hmfirstslot:                                    ; CountTeamSlots: first slot with slotteam 1, -1 none; used by
+                                                ; CountTeamSlots, GiveControl, StartPer ...
         db 0FFh,0FFh,0FFh,0FFh
-awfirstslot:
+awfirstslot:                                    ; CountTeamSlots: first slot with slotteam 2, -1 none; used by
+                                                ; CountTeamSlots, GiveControl, StartPer ...
         db 0FFh,0FFh,0FFh,0FFh
-HomeEbenPlayer:
+HomeEbenPlayer:                                 ; home extra bench player (-1 none); used by CountTeamSlots,
+                                                ; InProgress, asseben ...
         db 0FFh,0FFh,0FFh,0FFh
-AwayEbenPlayer:
+AwayEbenPlayer:                                 ; away extra bench player (-1 none); used by CountTeamSlots,
+                                                ; InProgress, asseben ...
         db 0FFh,0FFh,0FFh,0FFh
-Pencntdwn:
+Pencntdwn:                                      ; used by InProgress, LoadGameState, ResetGameVars ...
         db 0FFh,0FFh
-ClockFrameCount:
+ClockFrameCount:                                ; Frames left in the current clock second (17h); used by
+                                                ; LoadGameState, ResetClock, ResetGameVars ...
         db 00h,00h
-refsignal:
+refsignal:                                      ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 00h,00h
-RefStep:
+RefStep:                                        ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 0FFh
-PenaltyAnnounced:
+PenaltyAnnounced:                               ; Set when a penalty has been announced; used by InProgress
         db 0FFh
-StoppageReason:
+StoppageReason:                                 ; Reason play stopped; used by AddPenalty2, CrowdOnStoppage,
+                                                ; InProgress ...
         db 00h,00h
-Penaltytimer:
+Penaltytimer:                                   ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 0FFh,0FFh
-gsp:
+gsp:                                            ; used by CPgoalie, ChkPullGoalieLate, CompLine ...
         db 00h,00h
-gameclock:
+gameclock:                                      ; used by CPgoalie, ChkPullGoalieLate, ClockTick ...
         db 00h,00h
-clockticks:
+clockticks:                                     ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 00h,00h,040h,01h,00h,00h,0C8h,00h,00h,00h,0A0h,00h,00h,00h,064h,00h
         db 00h,00h
-dirtab:
+dirtab:                                         ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 00h,00h
-dirtab_y:
+dirtab_y:                                       ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 0C8h,00h,08Dh,00h,08Dh,00h,0C8h,00h,00h,00h,08Dh,00h,073h,0FFh,00h,00h
         db 038h,0FFh,073h,0FFh,073h,0FFh,038h,0FFh,00h,00h,073h,0FFh,08Dh,00h
-seed:
+seed:                                           ; used by LoadGameState, PlayGame, RunAttractMode ...
         db 021h,043h
-seed_w2:
+seed_w2:                                        ; seed+2: the high word randomd0 reads; used by randomd0
         db 0CDh,0ABh

@@ -68,7 +68,7 @@ DebugSetLine:
         add esp, 104h
         pop esi
         ret
-DebugShowLinesJumpTable:
+DebugShowLinesJumpTable:                        ; jump table for the switch cases of DebugShowLines
         dd DebugShowLines_D5
         dd DebugShowLines_E6
         dd DebugShowLines_124

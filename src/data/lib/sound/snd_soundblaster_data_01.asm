@@ -7,89 +7,95 @@ global str_FloatingPointSupportNot, str_SaveText, str_CUtilMouse, str_Ptr0ptr1pt
 global str_RATIONALDOS4G, str_RMHandler, str_Mouse, str_ULTRASND, str_StarRule, str_Fs, str_Jan2, str_Feb3
 global str_Mar2, str_Apr2, str_May2, str_Jun2, str_Jul2, str_Aug2, str_Sep2, str_Oct2
 global str_Nov2, str_Dec2
-str_BLASTER:
+str_BLASTER:                                    ; string "BLASTER"; used by ParseBlasterEnv
         db 042h,04Ch,041h,053h,054h,045h,052h,00h
-str_DMABUFFER:
+str_DMABUFFER:                                  ; string 'DMA BUFFER'; used by WssOpen
         db 044h,04Dh,041h,020h,042h,055h,046h,046h,045h,052h,00h
-str_WSSDMA:
+str_WSSDMA:                                     ; string 'WSSDMA'; used by WssSetupCard
         db 057h,053h,053h,044h,04Dh,041h,00h,00h,00h
-str_DMABUFFER2:
+str_DMABUFFER2:                                 ; string 'DMA BUFFER'; used by GusStart
         db 044h,04Dh,041h,020h,042h,055h,046h,046h,045h,052h,00h,00h
-str_DMABUFFER3:
+str_DMABUFFER3:                                 ; string 'DMA BUFFER'; used by SbOpen
         db 044h,04Dh,041h,020h,042h,055h,046h,046h,045h,052h,00h,00h
-str_DMABUF:
+str_DMABUF:                                     ; string 'DMABUF'; used by SbProOpen
         db 044h,04Dh,041h,042h,055h,046h,00h,00h
-str_DMABUF2:
+str_DMABUF2:                                    ; string 'DMABUF'; used by Sb16Open
         db 044h,04Dh,041h,042h,055h,046h,00h,00h
-str_NotEnoughMemoryTo:
+str_NotEnoughMemoryTo:                          ; string "Not enough memory to allocate file structures ";
+                                                ; used by __InitFiles_
         db 04Eh,06Fh,074h,020h,065h,06Eh,06Fh,075h,067h,068h,020h,06Dh,065h,06Dh,06Fh,072h
         db 079h,020h,074h,06Fh,020h,061h,06Ch,06Ch,06Fh,063h,061h,074h,065h,020h,066h,069h
         db 06Ch,065h,020h,073h,074h,072h,075h,063h,074h,075h,072h,065h,073h,0Dh,0Ah,00h
-str_FloatingPointSupportNot:
+str_FloatingPointSupportNot:                    ; string "Floating-point support not loaded "; used by
+                                                ; NoFloatSupport
         db 046h,06Ch,06Fh,061h,074h,069h,06Eh,067h,02Dh,070h,06Fh,069h,06Eh,074h,020h,073h
         db 075h,070h,070h,06Fh,072h,074h,020h,06Eh,06Fh,074h,020h,06Ch,06Fh,061h,064h,065h
         db 064h,0Dh,0Ah,00h
-str_SaveText:
+str_SaveText:                                   ; string 'Save Text'; used by SaveTextScreen
         db 053h,061h,076h,065h,020h,054h,065h,078h,074h,00h,00h,00h
-str_Mouse:
+str_Mouse:                                      ; string "mouse"
         db 06Dh,06Fh,075h,073h,065h,00h,069h,064h
-str_CUtilMouse:
+str_CUtilMouse:                                 ; string "c:\util\mouse"; used by InitPointer
         db 063h,03Ah,05Ch,075h,074h,069h,06Ch,05Ch,06Dh,06Fh,075h,073h,065h,00h,075h,061h
-str_Ptr0ptr1ptr2:
+str_Ptr0ptr1ptr2:                               ; string 'ptr0ptr1ptr2'; used by InitPointer
         db 070h,074h,072h,030h,070h,074h,072h,031h,070h,074h,072h,032h,00h,00h,00h,00h
-str_BuildtableminLinearmapfExcee:
+str_BuildtableminLinearmapfExcee:               ; string "buildtablemin (linearmapf) - exceeded 768 max height
+                                                ; (%d)\n"; used by BuildEdgeTableMin
         db 062h,075h,069h,06Ch,064h,074h,061h,062h,06Ch,065h,06Dh,069h,06Eh,020h,028h,06Ch
         db 069h,06Eh,065h,061h,072h,06Dh,061h,070h,066h,029h,020h,02Dh,020h,065h,078h,063h
         db 065h,065h,064h,065h,064h,020h,037h,036h,038h,020h,06Dh,061h,078h,020h,068h,065h
         db 069h,067h,068h,074h,020h,028h,025h,064h,029h,0Ah,00h,020h
-str_BuildfixedtableminLinear:
+str_BuildfixedtableminLinear:                   ; string 'buildfixedtablemin (linearmapf) - exceeded 768 max
+                                                ; height (%d) '; used by BuildFixedTableMin
         db 062h,075h,069h,06Ch,064h,066h,069h,078h,065h,064h,074h,061h,062h,06Ch,065h,06Dh
         db 069h,06Eh,020h,028h,06Ch,069h,06Eh,065h,061h,072h,06Dh,061h,070h,066h,029h,020h
         db 02Dh,020h,065h,078h,063h,065h,065h,064h,065h,064h,020h,037h,036h,038h,020h,06Dh
         db 061h,078h,020h,068h,065h,069h,067h,068h,074h,020h,028h,025h,064h,029h,0Ah,00h
-str_BuildtableminLinearmapfE:
+str_BuildtableminLinearmapfE:                   ; string 'buildtablemin (linearmapf) - exceeded 768 max height
+                                                ; (%d) '; used by BuildFixedTableMin
         db 062h,075h,069h,06Ch,064h,074h,061h,062h,06Ch,065h,06Dh,069h,06Eh,020h,028h,06Ch
         db 069h,06Eh,065h,061h,072h,06Dh,061h,070h,066h,029h,020h,02Dh,020h,065h,078h,063h
         db 065h,065h,064h,065h,064h,020h,037h,036h,038h,020h,06Dh,061h,078h,020h,068h,065h
         db 069h,067h,068h,074h,020h,028h,025h,064h,029h,0Ah,00h,00h
-str_BuildtableminLinearmapfE2:
+str_BuildtableminLinearmapfE2:                  ; string 'buildtablemin (linearmapf) - exceeded 768 max height
+                                                ; (%d) '; used by BuildFixedTableMax
         db 062h,075h,069h,06Ch,064h,074h,061h,062h,06Ch,065h,06Dh,069h,06Eh,020h,028h,06Ch
         db 069h,06Eh,065h,061h,072h,06Dh,061h,070h,066h,029h,020h,02Dh,020h,065h,078h,063h
         db 065h,065h,064h,065h,064h,020h,037h,036h,038h,020h,06Dh,061h,078h,020h,068h,065h
         db 069h,067h,068h,074h,020h,028h,025h,064h,029h,0Ah,00h,00h
-str_RATIONALDOS4G:
+str_RATIONALDOS4G:                              ; string "RATIONAL DOS/4G"; used by __hook387
         db 052h,041h,054h,049h,04Fh,04Eh,041h,04Ch,020h,044h,04Fh,053h,02Fh,034h,047h,00h
-str_RMHandler:
+str_RMHandler:                                  ; string 'RMHandler'; used by InstallRealIrqStub
         db 052h,04Dh,048h,061h,06Eh,064h,06Ch,065h,072h,00h,00h,00h
-str_ULTRASND:
+str_ULTRASND:                                   ; string 'ULTRASND'
         db 055h,04Ch,054h,052h,041h,053h,04Eh,044h,00h,00h,00h,00h
-str_StarRule:
+str_StarRule:                                   ; line of stars
         db 02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah
         db 02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah
         db 02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,02Ah,00h,064h,065h,064h
-str_Fs:
+str_Fs:                                         ; string '%Fs'
         db 025h,046h,073h,00h
-str_Jan2:
+str_Jan2:                                       ; string 'Jan'
         db 04Ah,061h,06Eh,00h
-str_Feb3:
+str_Feb3:                                       ; string 'Feb'
         db 046h,065h,062h,00h
-str_Mar2:
+str_Mar2:                                       ; string 'Mar'
         db 04Dh,061h,072h,00h
-str_Apr2:
+str_Apr2:                                       ; string 'Apr'
         db 041h,070h,072h,00h
-str_May2:
+str_May2:                                       ; string 'May'
         db 04Dh,061h,079h,00h
-str_Jun2:
+str_Jun2:                                       ; string 'Jun'
         db 04Ah,075h,06Eh,00h
-str_Jul2:
+str_Jul2:                                       ; string 'Jul'
         db 04Ah,075h,06Ch,00h
-str_Aug2:
+str_Aug2:                                       ; string 'Aug'
         db 041h,075h,067h,00h
-str_Sep2:
+str_Sep2:                                       ; string 'Sep'
         db 053h,065h,070h,00h
-str_Oct2:
+str_Oct2:                                       ; string 'Oct'
         db 04Fh,063h,074h,00h
-str_Nov2:
+str_Nov2:                                       ; string 'Nov'
         db 04Eh,06Fh,076h,00h
-str_Dec2:
+str_Dec2:                                       ; string 'Dec'
         db 044h,065h,063h,00h

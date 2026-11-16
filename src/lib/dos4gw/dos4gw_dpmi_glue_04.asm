@@ -86,7 +86,7 @@ IntrLoadRegs:
         mov ebx, dword [byte ebx+04h]
         pop ds
         ret
-IntrStubs:
+IntrStubs:                                      ; used by IntrLoadRegs, IntrLoadSegRegs
         db 0CDh,00h
         ret
         db 0CDh,01h,0C3h,0CDh,02h,0C3h,0CCh,090h,0C3h,0CDh,04h,0C3h,0CDh,05h,0C3h,0CDh
@@ -1160,25 +1160,26 @@ FillFlatPolyCore:
         pop esi
         ret
         db 00h,00h
-EmuZeroTbyte:
+EmuZeroTbyte:                                   ; used by EmuFtstFxamJumpTable
         db 00h,00h,00h,00h
         db 00h,00h,00h,00h
         db 00h,00h
-EmuRegRing:
+EmuRegRing:                                     ; used by EmuFaddp, EmuFcomppJumpTable, EmuFdivp ...
         db 0Ah,00h
 ;-----------------------------------------------------------------------------
 ; EmuRegLastSlot                                  D244C  96 PC, low confidence
 ; Offset of the last emulator register slot
 ;-----------------------------------------------------------------------------
-EmuRegLastSlot:
+EmuRegLastSlot:                                 ; offset of the last emulator register slot; used by
+                                                ; EmuFildM16, EmuFildM32, EmuFildM64 ...
         db 046h,00h
-EmuRegSlots:
+EmuRegSlots:                                    ; used by EmuFaddp, EmuFcomppJumpTable, EmuFdivp ...
         db 00h,00h,00h,00h,00h,00h,014h,00h,00h,00h,00h,08h,01h,00h,00h,00h
         db 01Eh,00h,0Ah,00h,00h,010h,02h,00h,00h,00h,028h,00h,014h,00h,00h,018h
         db 03h,00h,00h,00h,032h,00h,01Eh,00h,00h,020h,04h,00h,00h,00h,03Ch,00h
         db 028h,00h,00h,028h,05h,00h,00h,00h,046h,00h,032h,00h,00h,030h,06h,00h
         db 00h,00h,00h,00h,03Ch,00h,00h,038h,07h,00h,00h,00h
-EmuRegTagMasks:
+EmuRegTagMasks:                                 ; used by EmuExamine, EmuFaddp, EmuFcomppJumpTable ...
         db 0FCh,0FFh
         db 01h,00h,00h,00h
         db 02h,00h
@@ -1187,11 +1188,11 @@ EmuRegTagMasks:
         db 0FFh,0FCh,00h,01h,00h,00h,00h,02h,00h,03h,0FFh,0F3h,00h,04h,00h,00h
         db 00h,08h,00h,0Ch,0FFh,0CFh,00h,010h,00h,00h,00h,020h,00h,030h,0FFh,03Fh
         db 00h,040h,00h,00h,00h,080h,00h,0C0h
-EmuCompareCcBits:
+EmuCompareCcBits:                               ; used by RoundToDouble
         db 01h,040h,00h,045h
-EmuFpremCcBits:
+EmuFpremCcBits:                                 ; used by EmuFprem1, EmuRemOpsJumpTable
         db 00h,02h,040h,042h,01h,03h,041h,043h,087h,0DBh
-EmuEaModRmTable:
+EmuEaModRmTable:                                ; used by EmuTrapExit
         dd EaEax
         dd EaEcx
         dd EaEdx
@@ -1216,7 +1217,7 @@ EmuEaModRmTable:
         dd EaEbpDisp32
         dd EaEsiDisp32
         dd EaEdiDisp32
-EmuEaSibTable:
+EmuEaSibTable:                                  ; used by EaSib
         dd EaEax
         dd EaEcx
         dd EaEdx
@@ -1241,7 +1242,7 @@ EmuEaSibTable:
         dd EaEbpDisp32
         dd EaEsiDisp32
         dd EaEdiDisp32
-EmuOpcodeJumpTable:
+EmuOpcodeJumpTable:                             ; jump table for the switch cases of EmuTrapExit
         dd EmuFaddM32
         dd EmuFldM32
         dd EmuFiaddM32
@@ -1306,7 +1307,7 @@ EmuOpcodeJumpTable:
         dd EmuFstswM16
         dd EmuFidivrM16
         dd EmuFistpM64
-EmuModRmJumpTable:
+EmuModRmJumpTable:                              ; jump table for the switch cases of EmuTrapExit
         dd EmuFaddSt
         dd EmuFldSt
         dd EmuReservedOp

@@ -6,57 +6,82 @@ global PlayoffRoundNum, PlayoffUserTeam, PlayoffHomeTeam, PlayoffAwayTeam, Modem
 global PlayoffFormatTeams, FinalHomeWins, FinalAwayWins, PlayoffPickTeams, PlayoffSlotTeams, PlayoffWinners, PlayoffDivLeaders, PlayoffSimTeams
 global PlayoffWildCards, FinalTeamHome, FinalTeamAway, PlayoffChampion, PlayoffMaxSeed, cupseries, PlayoffsActive, PlayoffFlags
 global ModemGameOpts, SavedGameOpts, OverlayRemap
-PlayoffSeeds:
+PlayoffSeeds:                                   ; playoff seed of each slot; used by ClearPlayoffTree,
+                                                ; DrawPlayoffTree, PlayoffRound1 ...
         resb 4
-PlayoffSeriesScore:
+PlayoffSeriesScore:                             ; wins in each playoff series; used by PlayoffRound1,
+                                                ; PlayoffRound2, PlayoffRound3
         resb 36
-PlayoffFormatTeams:
+PlayoffFormatTeams:                             ; teams per playoff format; used by SetPlayoffFormat
         resb 72
-FinalHomeWins:
+FinalHomeWins:                                  ; wins by the first team in the final; used by PlayoffFinal
         resb 4
-FinalAwayWins:
+FinalAwayWins:                                  ; wins by the second team in the final; used by PlayoffFinal
         resb 4
-PlayoffPickTeams:
+PlayoffPickTeams:                               ; teams picked for the playoffs; used by PickPlayoffTeam
         resb 4
-PlayoffSlotTeams:
+PlayoffSlotTeams:                               ; team in each playoff slot; used by ApplyPlayoffDayResults,
+                                                ; ClearPlayoffTree, CreateSeason ...
         resb 4
-PlayoffWinners:
+PlayoffWinners:                                 ; winner of each playoff series; used by PlayoffRound2,
+                                                ; PlayoffRound3
         resb 4
-PlayoffDivLeaders:
+PlayoffDivLeaders:                              ; division leaders for the playoffs; used by
+                                                ; NextUnusedPlayoffTeam
         resb 24
-PlayoffSimTeams:
+PlayoffSimTeams:                                ; playoff teams for simulated games; used by
+                                                ; NextUnusedPlayoffTeam, SimSeasonGames, SimulateRestOfSeason
         resb 8
-PlayoffWildCards:
+PlayoffWildCards:                               ; wild card teams for the playoffs; used by
+                                                ; NextUnusedPlayoffTeam
         resb 72
-FinalTeamHome:
+FinalTeamHome:                                  ; first team in the final; used by PlayoffFinal,
+                                                ; ShowPlayoffLeaderCard
         resb 4
-FinalTeamAway:
+FinalTeamAway:                                  ; second team in the final; used by PlayoffFinal,
+                                                ; ShowPlayoffLeaderCard
         resb 4
-PlayoffChampion:
+PlayoffChampion:                                ; playoff champion (63h for none); used by
+                                                ; BuildPlayoffLeaders, DrawPlayoffTree, PlayoffFinal ...
         resb 4
-PlayoffMaxSeed:
+PlayoffMaxSeed:                                 ; highest seed left; used by PlayoffFinal, PlayoffRound1,
+                                                ; PlayoffRound2 ...
         resb 4
-PlayoffRoundNum:
+PlayoffRoundNum:                                ; current playoff round (3 for the final); used by
+                                                ; IsCupClinched, PlayoffFinal, PlayoffRound1 ...
         resb 1
-cupseries:
+cupseries:                                      ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 4
-PlayoffsActive:
+PlayoffsActive:                                 ; playoffs are running; used by ApplyPlayoffDayResults,
+                                                ; ControllerScreen, CreateSeason ...
         resb 4
-PlayoffFlags:
+PlayoffFlags:                                   ; playoff flags; used by DrawPlayoffTree, PlayoffTreeScreen,
+                                                ; PreGameTeamsScreen ...
         resb 4
-PlayoffUserTeam:
+PlayoffUserTeam:                                ; user team in the playoffs; used by RunPlayoffMenus,
+                                                ; RunSeasonMenus, SimulateGame ...
         resb 1
-PlayoffHomeTeam:
+PlayoffHomeTeam:                                ; home team of the playoff game; used by
+                                                ; ApplyPlayoffDayResults, DrawPlayoffTree, PlayoffTreeScreen
+                                                ; ...
         resb 1
-PlayoffAwayTeam:
+PlayoffAwayTeam:                                ; away team of the playoff game; used by
+                                                ; ApplyPlayoffDayResults, DrawPlayoffTree, PlayoffTreeScreen
+                                                ; ...
         resb 1
-ModemGameOpts:
+ModemGameOpts:                                  ; game options for a modem game; used by DrawModemAwayPanel,
+                                                ; DrawModemHomePanel, ModemGameConnect ...
         resb 1
         resb 2
         resb 14
-ModemOptTeams:
+ModemOptTeams:                                  ; team bytes within the modem game options; used by
+                                                ; DrawModemAwayPanel, DrawModemHomePanel
         resb 169
-SavedGameOpts:
+SavedGameOpts:                                  ; saved copy of the game options; used by PlayMenuGame,
+                                                ; RunExhibitionMenus, WatchHighlight
         resb 188
-OverlayRemap:
+OverlayRemap:                                   ; colour remap table for the overlay panels; used by
+                                                ; DrawInGameMenuFrame, DrawLineChangeBox, DrawLineEnergyBar
+                                                ; ...
         resb 256

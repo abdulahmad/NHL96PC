@@ -5,15 +5,19 @@ section s_1210D0 progbits alloc noexec write align=1
 global str_OpenhandleSFILEERROR, QuantizeByte, QuantizeTable, ResourceArchiveName, SavedBreakOffset, BreakCallFunc, NearestColourCache, ColourLookup
 global AaWeights, FpuFlags, ArchiveHandle, ArchiveOpenFn, ArchiveCount, ResourceArchive, FatalErrorHook, SystemInfo
 global DefaultFont, DefaultFontInfo, DefaultFontWidths, SavedBreakSelector, BreakDataSelector, EmuHookFlags, SavedEsSelector
-SavedBreakOffset:
+SavedBreakOffset:                               ; previous ctrl-break handler offset; used by
+                                                ; InstallBreakHandler, RemoveBreakHandler
         db 00h,00h,00h,00h
-SavedBreakSelector:
+SavedBreakSelector:                             ; previous ctrl-break handler selector; used by
+                                                ; InstallBreakHandler, RemoveBreakHandler
         db 00h,00h
-BreakCallFunc:
+BreakCallFunc:                                  ; ctrl-break chain routine; used by ClearClipRect,
+                                                ; InstallBreakHandler
         db 00h,00h,00h,00h
-BreakDataSelector:
+BreakDataSelector:                              ; data selector for the ctrl-break handler; used by
+                                                ; InstallBreakHandler
         db 00h,00h
-SystemInfo:
+SystemInfo:                                     ; system information block; used by InitHardware, InitSystem
         db 00h,00h,00h,00h,00h,0A8h,00h,0A8h,00h,00h,0A8h,0A8h,0A8h,00h,00h,0A8h
         db 00h,0A8h,0A8h,054h,00h,0A8h,0A8h,0A8h,054h,054h,054h,054h,054h,0FCh,054h,0FCh
         db 054h,054h,0FCh,0FCh,0FCh,054h,054h,0FCh,054h,0FCh,0FCh,0FCh,054h,0FCh,0FCh,0FCh
@@ -62,10 +66,11 @@ SystemInfo:
         db 080h,080h,080h,088h,088h,088h,090h,090h,090h,098h,098h,098h,0A0h,0A0h,0A0h,0A8h
         db 0A8h,0A8h,0B0h,0B0h,0B0h,0B8h,0B8h,0B8h,0C0h,0C0h,0C0h,0C8h,0C8h,0C8h,0D0h,0D0h
         db 0D0h,0D8h,0D8h,0D8h,0E0h,0E0h,0E0h,0E8h,0E8h,0E8h,0F0h,0F0h,0F0h,0FFh,0FFh,0FFh
-DefaultFont:
+DefaultFont:                                    ; default font; used by InitHardware, InitSystem,
+                                                ; JoystickCalibrateScreen ...
         db 046h,050h,043h,031h,020h,08Eh,08h,08h,00h,08h,06h,01h,00h,00h,00h,0FFh
         db 00h,00h,0DCh,01h,00h,00h,00h,00h,00h,00h,00h,00h,053h,048h,041h,057h
-DefaultFontInfo:
+DefaultFontInfo:                                ; default font information
         db 04Bh,02h,00h,00h,053h,02h,00h,00h,05Bh,02h,00h,00h,063h,02h,00h,00h
         db 06Bh,02h,00h,00h,073h,02h,00h,00h,07Bh,02h,00h,00h,083h,02h,00h,00h
         db 08Bh,02h,00h,00h,093h,02h,00h,00h,09Bh,02h,00h,00h,0A3h,02h,00h,00h
@@ -94,7 +99,7 @@ DefaultFontInfo:
         db 06Bh,05h,00h,00h,073h,05h,00h,00h,07Bh,05h,00h,00h,083h,05h,00h,00h
         db 08Bh,05h,00h,00h,093h,05h,00h,00h,09Bh,05h,00h,00h,0A3h,05h,00h,00h
         db 0ABh,05h,00h,00h,0B3h,05h,00h,00h,0BBh,05h,00h,00h
-DefaultFontWidths:
+DefaultFontWidths:                              ; default font widths
         db 08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h
         db 08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h
         db 08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h
@@ -158,13 +163,15 @@ DefaultFontWidths:
         db 020h,060h,0FEh,0FEh,060h,020h,00h,00h,00h,00h,00h,00h,00h,00h,0FFh,080h
         db 0C0h,0E0h,0F0h,0E0h,0C0h,080h,00h,00h,0F0h,088h,084h,084h,084h,07Ch,00h,030h
         db 048h,048h,0FCh,0FCh,0FCh,0FCh,00h,00h
-NearestColourCache:
+NearestColourCache:                             ; nearest colour cache; used by NearestColour
         db 00h,00h,00h,00h
-ColourLookup:
+ColourLookup:                                   ; colour lookup table; used by AaDrawScaledArt, BuildShadeLut,
+                                                ; CreateColourLookup ...
         db 00h,00h,00h
-QuantizeByte:
+QuantizeByte:                                   ; quantise scratch byte; used by TintRect
         db 00h
-QuantizeTable:
+QuantizeTable:                                  ; colour quantise table; used by InverseTableSlice,
+                                                ; NearestColour, TintRowPixels
         db 01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h
         db 01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h
         db 01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h
@@ -181,30 +188,39 @@ QuantizeTable:
         db 01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h
         db 01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h
         db 01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,00h,00h
-AaWeights:
+AaWeights:                                      ; the twelve 16.16 weights of the anti-aliasing colour table
+                                                ; (1, 2/3, 1/2, 4/9, 1/3, 1/4, ... 1/16); used by
+                                                ; BuildAaPalLut
         db 00h,00h,01h,00h,0AAh,0AAh,00h,00h,00h,080h,00h,00h,0C7h,071h,00h,00h
         db 055h,055h,00h,00h,00h,040h,00h,00h,0E3h,038h,00h,00h,0AAh,02Ah,00h,00h
         db 00h,020h,00h,00h,071h,01Ch,00h,00h,055h,015h,00h,00h,00h,010h,00h,00h
-FpuFlags:
+FpuFlags:                                       ; FPU flags set at start up; used by InitFpuFlags,
+                                                ; __sys_fini_387_emulator, start
         db 00h,00h,00h,00h
-EmuHookFlags:
+EmuHookFlags:                                   ; floating point emulator hook flags; used by InitFpuFlags,
+                                                ; __sys_fini_387_emulator, start
         db 020h,00h
-SavedEsSelector:
+SavedEsSelector:                                ; ES selector saved at start up; used by InitFpuFlags
         db 00h,00h
-str_OpenhandleSFILEERROR:
+str_OpenhandleSFILEERROR:                       ; string "openhandle - %s FILE ERROR "; used by openhandle
         db 06Fh,070h,065h,06Eh,068h,061h,06Eh,064h,06Ch,065h,020h,02Dh,020h,025h,073h,020h
         db 046h,049h,04Ch,045h,020h,045h,052h,052h,04Fh,052h,0Dh,00h
-ResourceArchiveName:
+ResourceArchiveName:                            ; name of the open resource archive; used by
+                                                ; GetResourceArchiveName, OpenResourceArchive, openhandle
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h
-ArchiveHandle:
+ArchiveHandle:                                  ; resource archive handle; used by OpenResourceArchive,
+                                                ; openhandle
         db 00h,00h,00h,00h
-ArchiveOpenFn:
+ArchiveOpenFn:                                  ; resource archive open routine; used by OpenResourceArchive,
+                                                ; openhandle
         db 00h,00h,00h,00h
-ArchiveCount:
+ArchiveCount:                                   ; resource archive count; used by OpenResourceArchive,
+                                                ; openhandle
         db 00h,00h,00h,00h
-ResourceArchive:
+ResourceArchive:                                ; memory block of the open resource archive; used by
+                                                ; OpenResourceArchive, openhandle
         db 00h,00h,00h,00h
-FatalErrorHook:
+FatalErrorHook:                                 ; fatal error hook; used by FatalError
         db 00h,00h,00h,00h

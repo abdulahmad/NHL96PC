@@ -9,105 +9,106 @@ global str_Pal29, str_Bkgd21, str_Ahl0, str_Ahl1, str_Ahl2, str_Ahr0, str_Ahr1, 
 global str_Aal0, str_Aal1, str_Aal2, str_Aar0, str_Aar1, str_Aar2, str_Swt0, str_Swt12
 global str_Rul13, str_Rul23, str_Rul33, str_HaBck02, str_HaBck12, str_Rk222, str_SwtD2, str_7GM
 global str_5GM, str_3GM, str_1GM
-str_Ret1:
+str_Ret1:                                       ; string 'ret1'; used by InGameMenu, InGameReturnMenu
         db 072h,065h,074h,031h,00h
-str_Ret2:
+str_Ret2:                                       ; string 'ret2'; used by InGameMenu, InGameReturnMenu
         db 072h,065h,074h,032h,00h
-str_Gam1:
+str_Gam1:                                       ; string 'gam1'; used by InGameReturnMenu
         db 067h,061h,06Dh,031h,00h
-str_Ply02:
+str_Ply02:                                      ; string 'ply0'; used by InGameReturnMenu
         db 070h,06Ch,079h,030h,00h
-str_Ply1:
+str_Ply1:                                       ; string 'ply1'; used by InGameReturnMenu
         db 070h,06Ch,079h,031h,00h
-str_INTERREG:
+str_INTERREG:                                   ; string 'INTERREG'; used by InGameMenu
         db 049h,04Eh,054h,045h,052h,052h,045h,047h,00h
-str_Qui0:
+str_Qui0:                                       ; string 'qui0'; used by InGameMenu
         db 071h,075h,069h,030h,00h
-str_Qui1:
+str_Qui1:                                       ; string 'qui1'; used by InGameMenu
         db 071h,075h,069h,031h,00h
-str_Qui2:
+str_Qui2:                                       ; string 'qui2'; used by InGameMenu
         db 071h,075h,069h,032h,00h
-str_Cht0:
+str_Cht0:                                       ; string 'cht0'; used by InGameMenu
         db 063h,068h,074h,030h,00h
-str_Cht1:
+str_Cht1:                                       ; string 'cht1'; used by InGameMenu
         db 063h,068h,074h,031h,00h
-str_Edt0:
+str_Edt0:                                       ; string 'edt0'; used by InGameMenu
         db 065h,064h,074h,030h,00h
-str_Edt1:
+str_Edt1:                                       ; string 'edt1'; used by InGameMenu
         db 065h,064h,074h,031h,00h
-str_Ctr0:
+str_Ctr0:                                       ; string 'ctr0'; used by InGameMenu
         db 063h,074h,072h,030h,00h
-str_Ctr1:
+str_Ctr1:                                       ; string 'ctr1'; used by InGameMenu
         db 063h,074h,072h,031h,00h
-str_Sts0:
+str_Sts0:                                       ; string 'sts0'; used by InGameMenu
         db 073h,074h,073h,030h,00h
-str_Sts1:
+str_Sts1:                                       ; string 'sts1'; used by InGameMenu
         db 073h,074h,073h,031h,00h
-str_Sav0:
+str_Sav0:                                       ; string 'sav0'; used by InGameMenu
         db 073h,061h,076h,030h,00h
-str_Sav1:
+str_Sav1:                                       ; string 'sav1'; used by InGameMenu
         db 073h,061h,076h,031h,00h
-str_EXHIBITNDX2:
+str_EXHIBITNDX2:                                ; string 'EXHIBIT.NDX'; used by InGameMenu
         db 045h,058h,048h,049h,042h,049h,054h,02Eh,04Eh,044h,058h,00h
-str_08d2:
+str_08d2:                                       ; string '%08d'; used by InGameMenu
         db 025h,030h,038h,064h,00h
-str_05d3:
+str_05d3:                                       ; string '%05d'; used by InGameMenu
         db 025h,030h,035h,064h,00h
-str_CsgDb2:
+str_CsgDb2:                                     ; string '%csg.db'; used by InGameMenu
         db 025h,063h,073h,067h,02Eh,064h,062h,00h,00h,00h
-str_Rk02d:
+str_Rk02d:                                      ; string 'rk%02d'; used by DrawModemAwayPanel,
+                                                ; DrawModemHomePanel
         db 072h,06Bh,025h,030h,032h,064h,00h
-str_Pal29:
+str_Pal29:                                      ; string '!pal'; used by ModemTeamSelectScreen
         db 021h,070h,061h,06Ch,00h
-str_Bkgd21:
+str_Bkgd21:                                     ; string 'bkgd'; used by ModemTeamSelectScreen
         db 062h,06Bh,067h,064h,00h
-str_Ahl0:
+str_Ahl0:                                       ; string 'ahl0'; used by ModemTeamSelectScreen
         db 061h,068h,06Ch,030h,00h
-str_Ahl1:
+str_Ahl1:                                       ; string 'ahl1'; used by ModemTeamSelectScreen
         db 061h,068h,06Ch,031h,00h
-str_Ahl2:
+str_Ahl2:                                       ; string 'ahl2'; used by ModemTeamSelectScreen
         db 061h,068h,06Ch,032h,00h
-str_Ahr0:
+str_Ahr0:                                       ; string 'ahr0'; used by ModemTeamSelectScreen
         db 061h,068h,072h,030h,00h
-str_Ahr1:
+str_Ahr1:                                       ; string 'ahr1'; used by ModemTeamSelectScreen
         db 061h,068h,072h,031h,00h
-str_Ahr2:
+str_Ahr2:                                       ; string 'ahr2'; used by ModemTeamSelectScreen
         db 061h,068h,072h,032h,00h
-str_Aal0:
+str_Aal0:                                       ; string 'aal0'; used by ModemTeamSelectScreen
         db 061h,061h,06Ch,030h,00h
-str_Aal1:
+str_Aal1:                                       ; string 'aal1'; used by ModemTeamSelectScreen
         db 061h,061h,06Ch,031h,00h
-str_Aal2:
+str_Aal2:                                       ; string 'aal2'; used by ModemTeamSelectScreen
         db 061h,061h,06Ch,032h,00h
-str_Aar0:
+str_Aar0:                                       ; string 'aar0'; used by ModemTeamSelectScreen
         db 061h,061h,072h,030h,00h
-str_Aar1:
+str_Aar1:                                       ; string 'aar1'; used by ModemTeamSelectScreen
         db 061h,061h,072h,031h,00h
-str_Aar2:
+str_Aar2:                                       ; string 'aar2'; used by ModemTeamSelectScreen
         db 061h,061h,072h,032h,00h
-str_Swt0:
+str_Swt0:                                       ; string 'swt0'; used by ModemTeamSelectScreen
         db 073h,077h,074h,030h,00h
-str_Swt12:
+str_Swt12:                                      ; string 'swt1'; used by ModemTeamSelectScreen
         db 073h,077h,074h,031h,00h
-str_Rul13:
+str_Rul13:                                      ; string 'rul1'; used by ModemTeamSelectScreen
         db 072h,075h,06Ch,031h,00h
-str_Rul23:
+str_Rul23:                                      ; string 'rul2'; used by ModemTeamSelectScreen
         db 072h,075h,06Ch,032h,00h
-str_Rul33:
+str_Rul33:                                      ; string 'rul3'; used by ModemTeamSelectScreen
         db 072h,075h,06Ch,033h,00h
-str_HaBck02:
+str_HaBck02:                                    ; string 'ha-bck0'; used by ModemTeamSelectScreen
         db 068h,061h,02Dh,062h,063h,06Bh,030h,00h
-str_HaBck12:
+str_HaBck12:                                    ; string 'ha-bck1'; used by ModemTeamSelectScreen
         db 068h,061h,02Dh,062h,063h,06Bh,031h,00h
-str_Rk222:
+str_Rk222:                                      ; string 'rk22'; used by ModemTeamSelectScreen
         db 072h,06Bh,032h,032h,00h
-str_SwtD2:
+str_SwtD2:                                      ; string 'swt%d'; used by ModemTeamSelectScreen
         db 073h,077h,074h,025h,064h,00h,00h,00h,00h
-str_7GM:
+str_7GM:                                        ; string '7GM'; used by PlayoffSeriesLabels
         db 037h,047h,04Dh,00h
-str_5GM:
+str_5GM:                                        ; string '5GM'; used by PlayoffSeriesLabels
         db 035h,047h,04Dh,00h
-str_3GM:
+str_3GM:                                        ; string '3GM'; used by PlayoffSeriesLabels
         db 033h,047h,04Dh,00h
-str_1GM:
+str_1GM:                                        ; string '1GM'; used by PlayoffSeriesLabels
         db 031h,047h,04Dh,00h

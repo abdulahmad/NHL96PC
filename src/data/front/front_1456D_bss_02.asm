@@ -11,145 +11,210 @@ global hmpasscmp, hmtmline, hmtmlcnt, hmtmextra, hmtmtouch1, hmtmap, hmtmnearpl,
 global hmtmglpdst, HmChaserList, awtmPwrGoals, awtmPwrPlays, awtmPPShots, awtmPwrPlayTime, awtmPenalties, awtmPenMin
 global awtmATOP, awscore, awtmSHGoals, awtmFaceoffsWon, awtmOneTimers, awtmOneTimerGoals, awtmBreakaways, awtmBreakawayGoals
 global awtmPenShots, awtmPenShotGoals, awtmChecks, awpassatt, awpasscmp, awtmline, awtmlcnt
-hmtmPPShots:
+hmtmPPShots:                                    ; Home team struct +06h: power-play shots (game stats page);
+                                                ; used by DrawGameStats
         resb 2
-hmtmPwrPlayTime:
+hmtmPwrPlayTime:                                ; Home team struct +08h: power-play time in seconds (game
+                                                ; stats page, m:ss); used by DrawGameStats
         resb 2
-hmtmPenalties:
+hmtmPenalties:                                  ; Home team struct +0Ah: penalties; used by DrawGameStats,
+                                                ; SimulateGame
         resb 2
-hmtmPenMin:
+hmtmPenMin:                                     ; Home team struct +0Ch: penalty minutes; used by
+                                                ; DrawGameStats
         resb 2
-hmtmATOP:
+hmtmATOP:                                       ; Home team struct +0Eh: attack zone time of possession in
+                                                ; seconds; used by DrawGameStats
         resb 2
-hmscore:
+hmscore:                                        ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 2
-hmtmSHGoals:
+hmtmSHGoals:                                    ; Home team struct +12h: shorthanded goals (Goal with fewer
+                                                ; skaters on the ice); used by DrawGameStats
         resb 2
-hmtmFaceoffsWon:
+hmtmFaceoffsWon:                                ; Home team struct +14h: faceoffs won; used by DrawGameStats
         resb 6
-hmtmOneTimers:
+hmtmOneTimers:                                  ; Home team struct +1Ah: one-timer attempts; used by
+                                                ; DrawGameStats
         resb 2
-hmtmOneTimerGoals:
+hmtmOneTimerGoals:                              ; Home team struct +1Ch: one-timer goals; used by
+                                                ; DrawGameStats
         resb 2
-hmtmBreakaways:
+hmtmBreakaways:                                 ; Home team struct +1Eh: breakaways; used by DrawGameStats
         resb 2
-hmtmBreakawayGoals:
+hmtmBreakawayGoals:                             ; Home team struct +20h: breakaway goals; used by
+                                                ; DrawGameStats
         resb 2
-hmtmPenShots:
+hmtmPenShots:                                   ; Home team struct +22h: penalty shots; used by DrawGameStats
         resb 2
-hmtmPenShotGoals:
+hmtmPenShotGoals:                               ; Home team struct +24h: penalty shot goals; used by
+                                                ; DrawGameStats
         resb 2
-hmtmChecks:
+hmtmChecks:                                     ; Home team struct +26h: body checks; used by DrawGameStats
         resb 2
-hmpassatt:
+hmpassatt:                                      ; Home team struct +28h: passes attempted; used by
+                                                ; DrawGameStats
         resb 2
-hmpasscmp:
+hmpasscmp:                                      ; Home team struct +2Ah: passes completed; used by
+                                                ; DrawGameStats
         resb 2
-hmtmline:
+hmtmline:                                       ; Home team struct +2Ch: current line; used by
+                                                ; DrawLineChangeBoxes, InitCoachModes, UpdateLineChangeState
+                                                ; ...
         resb 2
-hmtmlcnt:
+hmtmlcnt:                                       ; Home team struct +2Eh: even-strength line rotation count;
+                                                ; used by InitCoachModes, puckfaceoff
         resb 2
-hmtmextra:
+hmtmextra:                                      ; Home team struct +30h: extra attacker pnum, -1 with the
+                                                ; goalie in; used by clearteams
         resb 2
-hmtmtouch1:
+hmtmtouch1:                                     ; Home team struct +32h: last three touches (scorer, first and
+                                                ; second assist), words; used by PickThreeStars
         resb 6
-hmtmap:
+hmtmap:                                         ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 2
-hmtmgoalie:
+hmtmgoalie:                                     ; used by Goal, PostGoalEvent, PostPenaltyEvent ...
         resb 1
-hmtmgoaliehi:
+hmtmgoaliehi:                                   ; Home team struct +3Bh: high byte of tmgoalie (set to -1 when
+                                                ; the goalie is pulled); used by PullGoalie, SetTeamGoalie
         resb 5
-hmtmnear:
+hmtmnear:                                       ; Home team struct +40h: nearest skater's distance to the
+                                                ; puck; used by pucknorm_body, updateplayers
         resb 4
-hmtmnearpl:
+hmtmnearpl:                                     ; Home team struct +44h: nearest skater to the puck, -1 for
+                                                ; none; used by updateplayers
         resb 2
-HmPlayerFlags:
+HmPlayerFlags:                                  ; home team: flags per roster player; used by PenGoalStuff,
+                                                ; UpdateLineChangeState, puckfaceoff ...
         resb 58
-hmtmpdst:
+hmtmpdst:                                       ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 50
-hmtmglpdst:
+hmtmglpdst:                                     ; Home team struct +B2h: tmpdst entries of the three goalies;
+                                                ; used by FillTeamRoster
         resb 6
-hmtmpbox:
+hmtmpbox:                                       ; Home team struct +B8h: penalty box list of roster indexes,
+                                                ; ends with a negative byte; used by clearteams
         resb 28
-hmtmcoach_d2:
+hmtmcoach_d2:                                   ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 1
-hmtmcoach_d3:
+hmtmcoach_d3:                                   ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 1
-HmCoachGoalie:
+HmCoachGoalie:                                  ; home team: coach goalie mode; used by InitCoachModes,
+                                                ; SetCoachMode, UpdateCoachModes ...
         resb 1
-hmtmcoachmode:
+hmtmcoachmode:                                  ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 1
-hmtmcoachenergy:
+hmtmcoachenergy:                                ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 4
-HmRosterMap:
+HmRosterMap:                                    ; home team: roster index per slot; used by clearteams
         resb 8
-HmFightFlags:
+HmFightFlags:                                   ; Home team struct +E4h: fight state byte per roster player,
+                                                ; cleared when a fight ends; used by checkfight
         resb 28
-HmChaserList:
+HmChaserList:                                   ; Home team struct +100h: puck chaser slots, reset to -1 each
+                                                ; frame by updateplayers; used by updateplayers
         resb 18
-hmtmlines:
+hmtmlines:                                      ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 4
-hmtmplattr:
+hmtmplattr:                                     ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 4
-hmtmglattr:
+hmtmglattr:                                     ; Home team struct +11Ah: pointer to the home goalie
+                                                ; attributes; used by LoadGameState, clearteams
         resb 4
-hmtmplstats:
+hmtmplstats:                                    ; Home team struct +11Eh: pointer to the home skater game
+                                                ; stats; used by BuildPlayerStatRows, LoadGameState,
+                                                ; SimulateGame ...
         resb 4
-hmtmglstats:
+hmtmglstats:                                    ; Home team struct +122h: pointer to the home goalie game
+                                                ; stats; used by BuildPlayerStatRows, LoadGameState,
+                                                ; SimulateGame ...
         resb 4
-hmtmroster:
+hmtmroster:                                     ; Home team struct +126h: pointer to the home roster
+                                                ; (clearteams: hmroster); used by BuildPlayerStatRows,
+                                                ; LoadGameState, SimulateGame ...
         resb 4
-hmtmteamrec:
+hmtmteamrec:                                    ; Home team struct +12Ah: pointer to the home team record;
+                                                ; used by LoadGameState, clearteams
         resb 4
-hmtmsort:
+hmtmsort:                                       ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 4
-HmGoalieSwapped:
+HmGoalieSwapped:                                ; Home team struct +132h: toggled when the goalie is changed
+                                                ; in a tied game; used by BuildPlayerStatRows,
+                                                ; EditLinesScreen, SimulateGame ...
         resb 1
-HmStarterGoalieMarks:
+HmStarterGoalieMarks:                           ; Home team struct +133h: game marks for the starting goalie
+                                                ; (reset at 0-0); used by BuildPlayerStatRows, PostGoalEvent,
+                                                ; SimulateGame ...
         resb 1
-HmBackupGoalieMarks:
+HmBackupGoalieMarks:                            ; Home team struct +134h: game marks for the backup goalie
+                                                ; (reset at 0-0); used by PostGoalEvent, SimulateGame
         resb 2
-awtmstruct:
+awtmstruct:                                     ; used by AutoSwitchPlayer, BuildEventLines, ChkGoalies ...
         resb 2
-awtmPwrGoals:
+awtmPwrGoals:                                   ; Away team struct +02h: power-play goals; used by
+                                                ; DrawGameStats, UpdateUserRecords
         resb 2
-awtmPwrPlays:
+awtmPwrPlays:                                   ; Away team struct +04h: power plays; used by DrawGameStats,
+                                                ; SimulateGame, UpdateUserRecords
         resb 2
-awtmPPShots:
+awtmPPShots:                                    ; Away team struct +06h: power-play shots; used by
+                                                ; DrawGameStats
         resb 2
-awtmPwrPlayTime:
+awtmPwrPlayTime:                                ; Away team struct +08h: power-play time in seconds; used by
+                                                ; DrawGameStats
         resb 2
-awtmPenalties:
+awtmPenalties:                                  ; Away team struct +0Ah: penalties; used by DrawGameStats
         resb 2
-awtmPenMin:
+awtmPenMin:                                     ; Away team struct +0Ch: penalty minutes; used by
+                                                ; DrawGameStats
         resb 2
-awtmATOP:
+awtmATOP:                                       ; Away team struct +0Eh: attack zone time of possession in
+                                                ; seconds; used by DrawGameStats
         resb 2
-awscore:
+awscore:                                        ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 2
-awtmSHGoals:
+awtmSHGoals:                                    ; Away team struct +12h: shorthanded goals; used by
+                                                ; DrawGameStats
         resb 2
-awtmFaceoffsWon:
+awtmFaceoffsWon:                                ; Away team struct +14h: faceoffs won; used by DrawGameStats
         resb 6
-awtmOneTimers:
+awtmOneTimers:                                  ; Away team struct +1Ah: one-timer attempts; used by
+                                                ; DrawGameStats
         resb 2
-awtmOneTimerGoals:
+awtmOneTimerGoals:                              ; Away team struct +1Ch: one-timer goals; used by
+                                                ; DrawGameStats
         resb 2
-awtmBreakaways:
+awtmBreakaways:                                 ; Away team struct +1Eh: breakaways; used by DrawGameStats
         resb 2
-awtmBreakawayGoals:
+awtmBreakawayGoals:                             ; Away team struct +20h: breakaway goals; used by
+                                                ; DrawGameStats
         resb 2
-awtmPenShots:
+awtmPenShots:                                   ; Away team struct +22h: penalty shots; used by DrawGameStats
         resb 2
-awtmPenShotGoals:
+awtmPenShotGoals:                               ; Away team struct +24h: penalty shot goals; used by
+                                                ; DrawGameStats
         resb 2
-awtmChecks:
+awtmChecks:                                     ; Away team struct +26h: body checks; used by DrawGameStats
         resb 2
-awpassatt:
+awpassatt:                                      ; Away team struct +28h: passes attempted; used by
+                                                ; DrawGameStats
         resb 2
-awpasscmp:
+awpasscmp:                                      ; Away team struct +2Ah: passes completed; used by
+                                                ; DrawGameStats
         resb 2
-awtmline:
+awtmline:                                       ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 2
-awtmlcnt:
+awtmlcnt:                                       ; Away team struct +2Eh: even-strength line rotation count;
+                                                ; used by InitCoachModes, puckfaceoff
         resb 2

@@ -7,25 +7,30 @@ extern str_INC, str_TRD, str_PLY
 global CalMonthNumbers, CalMonthDays, SixTeamColX, SixTeamRowY, SevenTeamColX, SevenTeamRowY
 global SeasonMenuLast, SimStatWeights, SimTeamFactors, SimPlayerOrder, SeasonDbExts, SixTeamGrid, SevenTeamGrid, CalButtonDefs
 global TeamMovieTextIds
-SixTeamColX:
+SixTeamColX:                                    ; team column x positions for a six team division; used by
+                                                ; DrawSeasonTeams
         db 032h,00h,00h,00h,0B0h,00h,00h,00h,02Eh,01h,00h,00h,032h,00h,00h,00h
         db 0B0h,00h,00h,00h,02Eh,01h,00h,00h
-SixTeamRowY:
+SixTeamRowY:                                    ; team row y positions for a six team division; used by
+                                                ; DrawSeasonTeams
         db 02h,00h,00h,00h,02h,00h,00h,00h,02h,00h,00h,00h,078h,00h,00h,00h
         db 078h,00h,00h,00h,078h,00h,00h,00h
-SevenTeamColX:
+SevenTeamColX:                                  ; team column x positions for a seven team division; used by
+                                                ; DrawSeasonTeams
         db 04h,00h,00h,00h,073h,00h,00h,00h,0E2h,00h,00h,00h,065h,01h,00h,00h
         db 032h,00h,00h,00h,0B0h,00h,00h,00h,02Eh,01h,00h,00h
-SevenTeamRowY:
+SevenTeamRowY:                                  ; team row y positions for a seven team division; used by
+                                                ; DrawSeasonTeams
         db 02h,00h,00h,00h,02h,00h,00h,00h,02h,00h,00h,00h,02h,00h,00h,00h
         db 078h,00h,00h,00h,078h,00h,00h,00h,078h,00h,00h,00h
-SixTeamGrid:
+SixTeamGrid:                                    ; team grid for a six team division; used by DrawSeasonTeams
         db 063h,03h,063h,01h,063h,04h,00h,02h,063h,05h,01h,063h,00h,063h,063h,04h
         db 01h,063h,03h,05h,02h,063h,04h,063h
-SevenTeamGrid:
+SevenTeamGrid:                                  ; team grid for a seven team division; used by DrawSeasonTeams
         db 063h,04h,063h,01h,063h,05h,00h,02h,063h,06h,01h,03h,063h,06h,02h,063h
         db 01h,063h,063h,05h,02h,063h,04h,06h,03h,063h,05h,063h
-SeasonDbExts:
+SeasonDbExts:                                   ; season database file extensions; used by MakePlayoffDbPath,
+                                                ; MakeSeasonDbPath
         dd str_KEY
         dd str_CAR
         dd str_ATT2
@@ -37,15 +42,16 @@ SeasonDbExts:
         dd str_INC
         dd str_TRD
         dd str_PLY
-SeasonMenuLast:
+SeasonMenuLast:                                 ; last season menu choice; used by SeasonMenuScreen
         db 0FFh,0FFh,0FFh,0FFh
-CalMonthNumbers:
+CalMonthNumbers:                                ; month numbers shown on the calendar; used by CalendarScreen
         db 08h
         db 09h,0Ah,0Bh,00h,01h,02h,03h
-CalMonthDays:
+CalMonthDays:                                   ; days in each calendar month; used by CalendarScreen,
+                                                ; DrawCalendar
         db 04h
         db 05h,00h,03h,03h,06h,01h,04h,00h,00h,04h,06h,02h,04h
-CalButtonDefs:
+CalButtonDefs:                                  ; calendar button definitions; used by CalendarScreen
         db 0EAh,00h,00h,00h,015h,00h,00h,00h,091h,01h,00h,00h,015h,00h,00h,00h
         db 085h,01h,00h,00h,02Eh,00h,00h,00h,0F5h,00h,00h,00h,02Eh,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -63,15 +69,16 @@ CalButtonDefs:
         db 07Bh,01h,00h,00h,0CDh,01h,00h,00h,09h,01h,00h,00h,0CDh,01h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h
-SimStatWeights:
+SimStatWeights:                                 ; stat weights for simulated games; used by ApplyDayResults,
+                                                ; ApplyPlayoffDayResults, BuildPlayerStatRows ...
         db 0Fh,00h,00h,00h,01Eh,00h,00h,00h,03Ch,00h,00h,00h
-SimTeamFactors:
+SimTeamFactors:                                 ; team factors for simulated games; used by SimulateGame
         db 00h,00h,00h,00h,01h,00h,00h,00h,02h,00h,00h,00h,03h,00h,00h,00h
         db 00h,00h,00h,00h,01h,00h,00h,00h,02h,00h,00h,00h,00h,00h,00h,00h
         db 01h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,01h,00h,00h,00h
         db 02h,00h,00h,00h,03h,00h,00h,00h,00h,00h,00h,00h,01h,00h,00h,00h
         db 02h,00h,00h,00h,00h,00h,00h,00h,01h,00h,00h,00h,00h,00h,00h,00h
-SimPlayerOrder:
+SimPlayerOrder:                                 ; player order for simulated games; used by SimulateGame
         db 00h,00h,00h,00h,01h,00h,00h,00h,02h,00h,00h,00h,00h,00h,00h,00h
         db 01h,00h,00h,00h,02h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -87,7 +94,8 @@ SimPlayerOrder:
         db 0F4h,01h,00h,00h,0A8h,0FDh,0FFh,0FFh,064h,00h,00h,00h,020h,03h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,064h,00h,00h,00h,090h,01h,00h,00h
         db 096h,00h,00h,00h,0A8h,0FDh,0FFh,0FFh
-TeamMovieTextIds:
+TeamMovieTextIds:                               ; text ids for team movies; used by GetTeamMovieText,
+                                                ; PlayTeamMovie
         db 0F5h,00h,0D9h,01h,05Ah,01h,0E3h,00h,079h,02h,09Ch,02h,08Eh,00h,027h,01h
         db 094h,01h,0B5h,01h,073h,02h,0Bh,00h,021h,02h,05Ah,02h,07Fh,02h,061h,01h
         db 02Ch,00h,0C0h,00h,074h,00h,072h,00h

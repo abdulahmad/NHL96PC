@@ -10,138 +10,175 @@ global LinkCfgDirect, LinkCfgBaud, LinkCfgOption, LinkInputFrame, LinkSyncTarget
 global LinkRxBlockCount, LinkRxBlockTicks, LinkRxBlockOffset, LinkBlockPtr, ModemReplyBuf, KeyBindings, KeyBindingsAlt, LinkConfig
 global LinkCfgInit, LinkCfgDial, InputDevicesFound, InputDevicesReady, MouseReady, GripBufferSide, SlotsTwoPlayer, ControllerScreenMode
 global LinkSyncWord, BaudRateTable
-InputDevicesFound:
+InputDevicesFound:                              ; Input devices found by GetInputDevices; used by
+                                                ; GetInputDevices, InitInputDevices
         db 00h,00h
-InputDevicesReady:
+InputDevicesReady:                              ; Input devices initialised; used by GetInputDevices,
+                                                ; InitInputDevices
         db 00h,00h
-MouseReady:
+MouseReady:                                     ; Mouse driver found and set up; used by InitInputDevices
         db 00h,00h,00h,00h
-InputDeviceMask:
+InputDeviceMask:                                ; Input device bits (bit 0 keyboard, then mouse, joysticks,
+                                                ; GrIP); used by InitSlotTable, ResetInputSlots
         db 00h,00h,00h,00h
-SlotJoyMap:
+SlotJoyMap:                                     ; SlotToJoy: joystick number per slot code; used by SlotToJoy
         db 08h,00h,04h,08h,02h,01h,03h,08h,06h,07h,05h,08h,08h,08h,08h,00h
-KeyPollTick:
+KeyPollTick:                                    ; Tick of the last keyboard read; used by InitSlotTable,
+                                                ; ReadJoyPad, ReadKeyboardPad ...
         db 00h,00h,00h,00h
-MousePollTick:
+MousePollTick:                                  ; Tick of the last mouse read; used by InitSlotTable,
+                                                ; ReadJoyPad, ReadKeyboardPad ...
         db 00h,00h,00h,00h
-KeyRepeatTick:
+KeyRepeatTick:                                  ; Keyboard pad repeat tick; used by ReadKeyboardPad
         db 00h,00h,00h,00h
-JoyPollTicks:
+JoyPollTicks:                                   ; Tick of the last read per joystick; used by ReadJoyPad
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-KeyPadActive:
+KeyPadActive:                                   ; Keyboard pad in use this frame; used by InitSlotTable,
+                                                ; ReadKeyboardPad
         db 00h,00h,00h,00h
-JoyPadActive:
+JoyPadActive:                                   ; Joystick pad in use, per joystick; used by InitSlotTable,
+                                                ; ReadJoyPad
         db 00h,00h,00h,00h
-MousePadActive:
+MousePadActive:                                 ; Mouse pad in use; used by InitSlotTable
         db 00h,00h,00h,00h,00h,00h,00h,00h
-SimSlotButtons:
+SimSlotButtons:                                 ; Slot buttons used while simulating frames; used by
+                                                ; RunSimFrames
         db 00h,00h,00h,00h
-SlotButtons:
+SlotButtons:                                    ; the 4 slot button dwords of the current frame; used by
+                                                ; GameLoop_inputcheck, HandleSlotButtons, InitSlotTable ...
         db 00h,00h,00h,00h
         db 00h,00h,00h,00h
         db 00h,00h,00h,00h
         db 00h,00h,00h,00h
-InputRecordIndex:
+InputRecordIndex:                               ; Input record ring index being replayed; used by
+                                                ; GameLoop_inputcheck, InitSlotTable, LineupLoopFrame ...
         db 00h,00h,00h,00h
-InputRecordHead:
+InputRecordHead:                                ; ring write index; used by InitSlotTable, InputRecordTimer,
+                                                ; LinkExchangeInput ...
         db 00h,00h,00h,00h
-InputRecordCount:
+InputRecordCount:                               ; records in ring (max 5); used by GameLoop_inputcheck,
+                                                ; InitSlotTable, InputRecordTimer ...
         db 00h,00h,00h,00h
-KeyBindings:
+KeyBindings:                                    ; Default keyboard binding set; used by InitSlotTable
         db 00h,00h,01h,00h,00h,00h,013h,00h,00h,01h,038h,00h,00h,00h,039h,00h
         db 00h,00h,047h,00h,00h,00h,048h,00h,00h,00h,049h,00h,00h,00h,04Bh,00h
         db 00h,00h,04Dh,00h,00h,00h,04Fh,00h,00h,00h,050h,00h,00h,00h,051h,00h
         db 00h,00h,03Bh,00h,00h,00h,03Ch,00h,00h,00h,03Dh,00h,00h,00h,03Eh,00h
         db 00h,00h,03Fh,00h,00h,00h,040h,00h,00h,00h,041h,00h,00h,00h,042h,00h
         db 00h,00h,043h,00h,00h,00h,044h,00h
-KeyBindingsAlt:
+KeyBindingsAlt:                                 ; Alternate keyboard binding set; used by InitSlotTable
         db 00h,00h,01h,00h,00h,00h,013h,00h,00h,00h,027h,00h,00h,00h,028h,00h
         db 00h,00h,010h,00h,00h,00h,011h,00h,00h,00h,012h,00h,00h,00h,01Eh,00h
         db 00h,00h,020h,00h,00h,00h,02Ch,00h,00h,00h,02Dh,00h,00h,00h,02Eh,00h
         db 00h,00h,03Bh,00h,00h,00h,03Ch,00h,00h,00h,03Dh,00h,00h,00h,03Eh,00h
         db 00h,00h,03Fh,00h,00h,00h,040h,00h,00h,00h,041h,00h,00h,00h,042h,00h
         db 00h,00h,043h,00h,00h,00h,044h,00h
-EscReplayKeyMap:
+EscReplayKeyMap:                                ; ReadEscReplayKeys / PollControllers: key to pad bit map;
+                                                ; used by PollControllers, ReadEscReplayKeys
         db 00h,01h,02h,00h,04h,05h,06h,00h,08h,09h,0Ah,00h,09h,06h,00h,05h
         db 01h,04h,00h,0Ah,08h,02h,00h,08h,04h,00h,01h,09h,05h,00h,02h,0Ah
         db 06h,00h,0Ah,05h,00h,09h,08h,01h,00h,06h,02h,04h,00h,02h,01h,00h
         db 08h,0Ah,09h,00h,04h,06h,05h,00h,06h,09h,00h,0Ah,02h,08h,00h,05h
         db 04h,01h,00h,04h,08h,00h,02h,06h,0Ah,00h,01h,05h,09h,00h,05h,0Ah
         db 00h,06h,04h,02h,00h,09h,01h,08h
-Joy1NeedsCalib:
+Joy1NeedsCalib:                                 ; Joystick 1 calibration not done yet; used by
+                                                ; GripSetupScreen, InitGrip, JoystickTestScreen ...
         db 01h,00h,00h,00h
-Joy2NeedsCalib:
+Joy2NeedsCalib:                                 ; Joystick 2 calibration not done yet; used by
+                                                ; GripSetupScreen, InitGrip, ReadAnalogJoysticks
         db 01h,00h,00h,00h
-str_GRIPGLL:
+str_GRIPGLL:                                    ; string 'GRIP.GLL'; used by LoadGripLibrary
         db 047h,052h,049h,050h,02Eh,047h,04Ch,04Ch,00h
-str_GRIP:
+str_GRIP:                                       ; string 'GRIP'; used by LoadGripLibrary
         db 047h,052h,049h,050h,00h
-str_CGRIP:
+str_CGRIP:                                      ; string 'C:\GRIP\'; used by LoadGripLibrary
         db 043h,03Ah,05Ch,047h,052h,049h,050h,05Ch,00h
-GripLinked:
+GripLinked:                                     ; Gravis GrIP library linked; used by GripLinkLibrary,
+                                                ; GripUnlinkLibrary
         db 00h,00h,00h,00h
-GripLibHandle:
+GripLibHandle:                                  ; GrIP library handle, -1 when not loaded; used by
+                                                ; ControlSetupScreen, GripShutdown, InitGrip ...
         db 0FFh,0FFh,0FFh,0FFh
-GripSlotsScanned:
+GripSlotsScanned:                               ; GrIP slots have been scanned; used by GripReadPadBits,
+                                                ; GripReadSlots, GripScanSlots ...
         db 00h,00h
-GripPadBitsPrev:
+GripPadBitsPrev:                                ; GrIP pad bits of the previous read; used by GripReadPadBits
         db 00h,00h
-GripBufferSide:
+GripBufferSide:                                 ; GrIP pad bits buffer side (toggled each read); used by
+                                                ; GripReadSlots
         db 00h,00h,00h,00h,00h
-SlotsTwoPlayer:
+SlotsTwoPlayer:                                 ; Controller screen: two-player slot mode; used by
+                                                ; ControllerScreen, DrawPauseButtons, GameOptionsScreen ...
         db 00h,00h
-LinkSyncInput:
+LinkSyncInput:                                  ; Link: input value at the sync point; used by
+                                                ; LinkExchangeInput, LinkSyncPoint
         db 00h,00h
-ControllerScreenMode:
+ControllerScreenMode:                           ; Controller screen mode (icons and columns); used by
+                                                ; ControllerScreen, DeviceIconShape, DrawControllerColumns ...
         db 01h,00h
-LinkConfig:
+LinkConfig:                                     ; Link set-up block passed to LinkOpen; used by ModemGameOpen
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h
-LinkCfgPort:
+LinkCfgPort:                                    ; Link set-up: serial port; used by ModemGameOpen
         db 00h,00h,00h,00h
-LinkCfgMode:
+LinkCfgMode:                                    ; Link set-up: connection mode (9 for a direct link); used by
+                                                ; ModemGameOpen
         db 09h,00h,00h,00h,00h,00h,00h,00h
-LinkCfgAnswer:
+LinkCfgAnswer:                                  ; Link set-up: answer an incoming call; used by
+                                                ; ModemGameConnect, ModemGameOpen
         db 01h,00h,00h,00h
-LinkCfgDirect:
+LinkCfgDirect:                                  ; Link set-up: direct (null-modem) link; used by ModemGameOpen
         db 00h,00h,00h,00h,01h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,01h,00h,00h,00h
-LinkCfgBaud:
+LinkCfgBaud:                                    ; Link set-up: baud rate; used by ModemGameOpen
         db 00h,00h,00h,00h
-LinkCfgOption:
+LinkCfgOption:                                  ; Link set-up: link option from GLOBAL.SET; used by
+                                                ; ModemGameOpen
         db 01h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-LinkCfgInit:
+LinkCfgInit:                                    ; Link set-up: modem init string; used by ModemGameOpen
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h
-LinkCfgDial:
+LinkCfgDial:                                    ; Link set-up: modem dial string; used by ModemGameOpen
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h
-LinkFlags:
+LinkFlags:                                      ; Link: status bits (bit 1 connected); used by
+                                                ; LinkExchangeInput, LinkExchangeValues, LinkResyncInput ...
         db 00h,00h,00h,00h
-LinkInputFrame:
+LinkInputFrame:                                 ; Link: input frame number; used by LinkExchangeInput,
+                                                ; LinkResyncInput, ModemGameConnect ...
         db 00h,00h,00h,00h
-LinkSyncTarget:
+LinkSyncTarget:                                 ; Link: sync point being waited for; used by LinkSyncMessage,
+                                                ; LinkSyncPoint
         db 00h,00h,00h,00h
-LinkSyncTimeout:
+LinkSyncTimeout:                                ; Link: tick when the sync wait times out; used by LinkSync,
+                                                ; LinkSyncTimedOut, LinkSyncWithMessage
         db 00h,00h,00h,00h
-LinkSyncCount:
+LinkSyncCount:                                  ; Link: sync points passed; used by LinkSync,
+                                                ; LinkSyncWithMessage, ModemGameConnect ...
         db 00h,00h,00h,00h
-LinkInputDelay:
+LinkInputDelay:                                 ; Link: input delay in frames; used by LinkExchangeInput,
+                                                ; LinkResyncInput
         db 01h,00h,00h,00h
-LinkRxBlockCount:
+LinkRxBlockCount:                               ; Link: blocks received; used by LinkBlockData,
+                                                ; LinkReceiveBlock, ModemGameConnect ...
         db 00h,00h,00h,00h
-LinkRxBlockTicks:
+LinkRxBlockTicks:                               ; Link: ticks spent receiving the block; used by
+                                                ; LinkReceiveBlock, ModemGameConnect, ModemGameOpen
         db 00h,00h,00h,00h
-LinkRxBlockOffset:
+LinkRxBlockOffset:                              ; offset into the received link block; used by LinkBlockData,
+                                                ; LinkBlockStart, LinkSendBlock ...
         db 00h,00h,00h,00h
-LinkBlockPtr:
+LinkBlockPtr:                                   ; Link: pointer into the block being sent or received; used by
+                                                ; LinkBlockData, LinkBlockStart, LinkSendBlock ...
         db 00h,00h,00h,00h
-LinkSyncWord:
+LinkSyncWord:                                   ; Link: sync word; used by LinkSyncMessage, LinkSyncPoint,
+                                                ; ModemGameConnect ...
         db 00h,00h
-BaudRateTable:
+BaudRateTable:                                  ; Baud rate per GsBaudIndex; used by LinkExchangeInput,
+                                                ; LinkExchangeValues, LinkGameMessageJumpTable ...
         db 00h,00h,02h,00h,03h,00h,04h,00h,07h,00h
-ModemReplyBuf:
+ModemReplyBuf:                                  ; Modem reply buffer; used by ModemGameClose, ModemGameConnect
         db 00h,00h,00h,00h,00h,00h,075h,02h

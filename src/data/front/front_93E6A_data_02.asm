@@ -7,23 +7,31 @@ extern str_PLA, str_PosCEN, str_LFT, str_RHT, str_PosDEF, str_PosGOL
 global SkaterCardFlash, GoalieCardFlash, SkaterFlashTime, GoalieFlashTime, SkaterCardPhoto, GoalieCardPhoto, SkaterPhotoLoaded, GoaliePhotoLoaded
 global TradeTextIds, RosterFirstRun, RatingsGoalieShown, RatingsSkaterShown, LoadingArtFrame, ForwardLineSlots, DefenceLineSlots, LinesPanelEvenX
 global RatingsTabNames, PositionTags
-SkaterCardFlash:
+SkaterCardFlash:                                ; skater card highlight is on; used by PlayerRatingsScreen,
+                                                ; SwitchRatingsCard
         db 00h,00h,00h,00h
-GoalieCardFlash:
+GoalieCardFlash:                                ; goalie card highlight is on; used by PlayerRatingsScreen,
+                                                ; SwitchRatingsCard
         db 00h,00h,00h,00h
-SkaterFlashTime:
+SkaterFlashTime:                                ; tick count of the skater card highlight; used by
+                                                ; PlayerRatingsScreen, SwitchRatingsCard
         db 00h,00h,00h,00h
-GoalieFlashTime:
+GoalieFlashTime:                                ; tick count of the goalie card highlight; used by
+                                                ; PlayerRatingsScreen, SwitchRatingsCard
         db 00h,00h,00h,00h
-SkaterCardPhoto:
+SkaterCardPhoto:                                ; skater card photo; used by LoadRatingsPicture,
+                                                ; PlayerRatingsScreen, SwitchRatingsCard
         db 00h,00h,00h,00h
-GoalieCardPhoto:
+GoalieCardPhoto:                                ; goalie card photo; used by LoadRatingsPicture,
+                                                ; PlayerRatingsScreen, SwitchRatingsCard
         db 00h,00h,00h,00h
-SkaterPhotoLoaded:
+SkaterPhotoLoaded:                              ; skater card photo is loaded; used by LoadRatingsPicture,
+                                                ; PlayerRatingsScreen
         db 00h,00h,00h,00h
-GoaliePhotoLoaded:
+GoaliePhotoLoaded:                              ; goalie card photo is loaded; used by LoadRatingsPicture,
+                                                ; PlayerRatingsScreen
         db 00h,00h,00h,00h
-RatingsTabNames:
+RatingsTabNames:                                ; ratings screen tab tags; used by PlayerRatingsScreen
         dd str_RatingsRAT
         dd str_45S
         dd str_45P
@@ -33,33 +41,38 @@ RatingsTabNames:
         dd str_CRP
         dd str_RatingsSEA
         dd str_PLA
-TradeTextIds:
+TradeTextIds:                                   ; trade screen text ids; used by ConfirmTrade
         db 0EFh,01h,00h,00h,0F0h,01h,00h,00h,0F1h,01h,00h,00h,0F2h,01h,00h,00h
         db 0F3h,01h,00h,00h,0F4h,01h,00h,00h,0F5h,01h,00h,00h,0F6h,01h,00h,00h
         db 02Bh,02h,00h,00h
-RosterFirstRun:
+RosterFirstRun:                                 ; roster screens not opened yet; used by RosterScreen,
+                                                ; RunRosterScreens
         db 01h,00h,00h,00h
-RatingsGoalieShown:
+RatingsGoalieShown:                             ; goalie shown on the ratings page; used by
+                                                ; PlayerRatingsScreen, RosterScreen
         db 0FFh,0FFh,0FFh,0FFh
-RatingsSkaterShown:
+RatingsSkaterShown:                             ; skater shown on the ratings page; used by
+                                                ; PlayerRatingsScreen, RosterScreen
         db 0FFh,0FFh,0FFh,0FFh
-LoadingArtFrame:
+LoadingArtFrame:                                ; loading art animation frame; used by CycleLoadingArt
         db 01h,00h,00h,00h
-PositionTags:
+PositionTags:                                   ; position tags for the create player screen; used by
+                                                ; CreatePlayerScreen
         dd str_PosCEN
         dd str_LFT
         dd str_RHT
         dd str_PosDEF
         dd str_PosGOL
-ForwardLineSlots:
+ForwardLineSlots:                               ; forward slots used by automatic lines
         db 01h,00h,00h,00h,02h,00h,00h,00h,04h,00h,00h,00h,05h,00h,00h,00h
         db 06h,00h,00h,00h,07h,00h,00h,00h,08h,00h,00h,00h,09h,00h,00h,00h
         db 0Ah,00h,00h,00h,0Bh,00h,00h,00h,0Dh,00h,00h,00h
-DefenceLineSlots:
+DefenceLineSlots:                               ; defence slots used by automatic lines
         db 01h,00h,00h,00h,02h,00h,00h,00h,03h,00h,00h,00h,04h,00h,00h,00h
         db 05h,00h,00h,00h,06h,00h,00h,00h,07h,00h,00h,00h,09h,00h,00h,00h
         db 0Ah,00h,00h,00h,0Bh,00h,00h,00h
-LinesPanelEvenX:
+LinesPanelEvenX:                                ; line slot x positions, even strength panel; used by
+                                                ; DrawLinesPanel
         db 042h,00h,00h,00h,07Dh,00h,00h,00h,0B8h,00h,00h,00h,042h,00h,00h,00h
         db 07Dh,00h,00h,00h,0B8h,00h,00h,00h,042h,00h,00h,00h,07Dh,00h,00h,00h
         db 0B8h,00h,00h,00h,042h,00h,00h,00h,07Dh,00h,00h,00h,0B8h,00h,00h,00h

@@ -168,7 +168,7 @@ removewindow:
         pop ebx
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-FillRectSpansModeTable:
+FillRectSpansModeTable:                         ; used by FillRectSpans
         dd FillRectSpans_AC
         dd FillRectSpans_AC
         dd FillRectSpans_CD

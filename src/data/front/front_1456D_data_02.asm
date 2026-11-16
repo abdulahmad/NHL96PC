@@ -18,27 +18,33 @@ global LinkAckedSeq, LinkRxSeq, LinkPacketLen, LinkTxPending, LinkState, LinkChe
 global LinkCopyHigh, LinkCopyStep, LinkRxHead, LinkRxCount, ModemResultTextTable, ModemResultCodeTable, GameStatsLabelX, GameStatsTop
 global GameStatsRight, GameStatsColX, GameStatsLabelPos, GameStatsRowStep, GameStatsScroll, StarsCardX, StarsCardY, StarsShowFaces
 global StarsShowNames, StarsShowCards, StarsPhase, StarsCurrent, PauseRequested
-GameStatsLabelX:
+GameStatsLabelX:                                ; Game stats page: label column x; used by DrawGameStats
         db 03Ch,01h
-GameStatsTop:
+GameStatsTop:                                   ; Game stats page: first row y; used by DrawGameStats
         db 082h,00h
-GameStatsRight:
+GameStatsRight:                                 ; Game stats page: right edge; used by DrawGameStats
         db 0FCh,01h
-GameStatsColX:
+GameStatsColX:                                  ; Game stats page: column x positions; used by DrawGameStats
         db 0A9h,00h,037h,01h
-GameStatsLabelPos:
+GameStatsLabelPos:                              ; Game stats page: label positions (part of the column table);
+                                                ; used by DrawGameStats, GameStatsScreen
         db 07Eh,00h,0ABh,00h,0D8h,00h,08h,01h
-GameStatsRowStep:
+GameStatsRowStep:                               ; Game stats page: row spacing; used by GameStatsScreen
         db 038h,01h
-GameStatsScroll:
+GameStatsScroll:                                ; Game stats page: page shown; used by DrawGameStats,
+                                                ; GameStatsScreen
         db 00h,00h
-StarsSlideFrom:
+StarsSlideFrom:                                 ; Three stars screen: slide start positions; used by
+                                                ; AnimateStarsScreen
         db 00h,00h,00h,00h,05Ah,00h,00h,00h
-StarsSlideTo:
+StarsSlideTo:                                   ; Three stars screen: slide end positions; used by
+                                                ; AnimateStarsScreen
         db 040h,01h,00h,00h
-StarsSlideTarget:
+StarsSlideTarget:                               ; Three stars screen: slide target positions; used by
+                                                ; AnimateStarsScreen
         db 05Ah,00h,00h,00h,040h,01h,00h,00h
-StarsSpritePath:
+StarsSpritePath:                                ; Three stars screen: sprite path points; used by
+                                                ; AnimateStarsScreen
         db 0DAh,00h,00h,00h,00h,00h,00h,00h,0DBh,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,07h,02h,00h,00h
@@ -50,56 +56,72 @@ StarsSpritePath:
         db 04Fh,01h,00h,00h,01Eh,01h,00h,00h,04Fh,01h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-StarsCardX:
+StarsCardX:                                     ; Three stars screen: card x; used by AnimateStarsScreen
         db 0FEh,00h,00h,00h
-StarsCardY:
+StarsCardY:                                     ; Three stars screen: card y; used by AnimateStarsScreen
         db 09Dh,00h,00h,00h
-StarsNameX:
+StarsNameX:                                     ; Three stars screen: name x; used by ThreeStarsScreen
         db 036h,02h,00h,00h
-StarsNameXs:
+StarsNameXs:                                    ; Three stars screen: name x per star; used by
+                                                ; ThreeStarsScreen
         db 0A0h,00h,00h,00h,0EAh,00h,00h,00h,0ABh,01h,00h,00h,0F6h,01h,00h,00h
         db 0D8h,00h,00h,00h,01Eh,02h,00h,00h,0B8h,01h,00h,00h
-StarsTextX:
+StarsTextX:                                     ; Three stars screen: text x; used by ThreeStarsScreen
         db 0EBh,00h,00h,00h
-StarsTextXs:
+StarsTextXs:                                    ; Three stars screen: text x per star; used by
+                                                ; ThreeStarsScreen
         db 05h,01h,00h,00h,06Ah,01h,00h,00h,0D8h,00h,00h,00h,019h,02h,00h,00h
         db 03Fh,01h,00h,00h
-StarsRandomTimer:
+StarsRandomTimer:                               ; tick count for the next random three stars animation; used
+                                                ; by AnimateStarsScreen, ThreeStarsScreen
         db 00h,00h,00h,00h
-StarsTimerFace:
+StarsTimerFace:                                 ; Three stars screen: face timer; used by AnimateStarsScreen,
+                                                ; ThreeStarsScreen
         db 00h,00h,00h,00h
-StarsTimerName:
+StarsTimerName:                                 ; Three stars screen: name timer; used by AnimateStarsScreen,
+                                                ; ThreeStarsScreen
         db 00h,00h,00h,00h
-StarsTimerCard:
+StarsTimerCard:                                 ; Three stars screen: card timer; used by AnimateStarsScreen,
+                                                ; ThreeStarsScreen
         db 00h,00h,00h,00h
-StarsShowFaces:
+StarsShowFaces:                                 ; Three stars screen: faces shown; used by AnimateStarsScreen,
+                                                ; ThreeStarsScreen
         db 00h,00h
-StarsShowNames:
+StarsShowNames:                                 ; Three stars screen: names shown; used by AnimateStarsScreen,
+                                                ; ThreeStarsScreen
         db 00h,00h
-StarsShowCards:
+StarsShowCards:                                 ; Three stars screen: cards shown; used by AnimateStarsScreen,
+                                                ; ThreeStarsScreen
         db 00h,00h
-StarsPhase:
+StarsPhase:                                     ; Three stars screen: phase (2 when done); used by
+                                                ; AnimateStarsScreen, ThreeStarsScreen
         db 00h,00h
-StarsCurrent:
+StarsCurrent:                                   ; Three stars screen: star being shown; used by
+                                                ; AnimateStarsScreen, ThreeStarsScreen
         db 00h,00h,00h,00h
-InputRecordTicks:
+InputRecordTicks:                               ; ticks since last record, capped 0x3E8; used by
+                                                ; InputRecordTimer, PlayGame_initslotscall, RunDemoGame
         db 00h,00h,00h,00h
-GameLoopActive:
+GameLoopActive:                                 ; 1 while the in-game loop runs; used by EndGameCleanup,
+                                                ; GameLoop, GameLoop_gameovercall ...
         db 00h,00h,00h,00h
-InputRecordBusy:
+InputRecordBusy:                                ; re-entry guard of the timer; used by InputRecordTimer
         db 00h,00h
-InputRecordPhase:
+InputRecordPhase:                               ; 3..0 down counter; record on 0; used by InputRecordTimer
         db 00h,00h,00h,00h,00h,00h
-PauseRequested:
+PauseRequested:                                 ; Pause requested from the game loop; used by InGameMenu,
+                                                ; PauseGame, PlayGame ...
         db 00h,00h
-GameLoopFrames:
+GameLoopFrames:                                 ; Game loop frames (saved with the game state); used by
+                                                ; GameLoop_inputcheck, GameLoop_nextperiodcall,
+                                                ; LineupLoopFrame ...
         db 00h,00h,00h,00h
-PauseReplayPending:
+PauseReplayPending:                             ; bit0 pause, bit1 replay seen; used by HandleSlotButtons
         db 00h,00h
-ModemResultTextTable:
+ModemResultTextTable:                           ; modem result text string table; used by ModemReadResult
         dd str_OK
         dd str_0
-ModemResultCodeTable:
+ModemResultCodeTable:                           ; modem result code string table; used by ModemReadResult
         dd str_0_ModemResultCodeTable
         dd str_CONNECT
         dd str_1
@@ -155,72 +177,94 @@ ModemResultCodeTable:
         dd str_CONNECT14400ARQHST
         dd str_36
         dd str_362
-ModemResultCount:
+ModemResultCount:                               ; number of modem result codes; used by ModemReadResult
         db 013h,00h,00h,00h
-ModemLastResult:
+ModemLastResult:                                ; last modem result code; used by ModemReadResult
         db 00h,00h,00h,00h
-LinkTickCount:
+LinkTickCount:                                  ; Link: timer ticks; used by LinkDefaults, LinkExchangeInput,
+                                                ; LinkTimerTick
         db 00h,00h,00h,00h
-LinkPortHandle:
+LinkPortHandle:                                 ; Link: serial port handle; used by LinkCarrierOK, LinkClose,
+                                                ; LinkConnect ...
         db 00h,00h,00h,00h
-LinkBaudSetting:
+LinkBaudSetting:                                ; link baud rate setting; used by LinkDefaults, LinkOpen
         db 09h,00h,00h,00h
-LinkOpenFlags:
+LinkOpenFlags:                                  ; Link: open flags; used by LinkDefaults, LinkOpen
         db 00h,00h,00h,00h
-LinkRetryOn:
+LinkRetryOn:                                    ; Link: retries on; used by LinkConnect, LinkDefaults,
+                                                ; LinkOpen
         db 01h,00h,00h,00h
-LinkCarrierCheck:
+LinkCarrierCheck:                               ; Link: check the carrier; used by LinkCarrierOK, LinkClose,
+                                                ; LinkConnect ...
         db 01h,00h,00h,00h
-LinkPollOn:
+LinkPollOn:                                     ; Link: timer polling on; used by LinkDefaults, LinkOpen,
+                                                ; LinkPoll ...
         db 01h,00h,00h,00h
-LinkIsOpen:
+LinkIsOpen:                                     ; Link: port open; used by LinkClose, LinkDefaults, LinkOpen
         db 00h,00h,00h,00h
-LinkWindowSize:
+LinkWindowSize:                                 ; Link: packets in flight (4); used by LinkDefaults, LinkOpen
         db 04h,00h,00h,00h
-LinkAckOn:
+LinkAckOn:                                      ; Link: acknowledges on; used by LinkConnect, LinkDefaults,
+                                                ; LinkOpen ...
         db 01h,00h,00h,00h
-LinkResendOn:
+LinkResendOn:                                   ; Link: resends on; used by LinkDefaults, LinkOpen
         db 01h,00h,00h,00h
-LinkOpenMode:
+LinkOpenMode:                                   ; Link: open mode; used by LinkOpen
         db 01h,00h,00h,00h
-LinkErrorCount:
+LinkErrorCount:                                 ; Link: errors; used by LinkDefaults, LinkOpen
         db 00h,00h,00h,00h
-LinkSpareHook:
+LinkSpareHook:                                  ; Link: spare hook; used by SetLinkSpareHook
         db 00h,00h,00h,00h
-LinkMessageHandler:
+LinkMessageHandler:                             ; Link: message handler; used by LinkDeliverMessages,
+                                                ; SetLinkMessageHandler
         db 00h,00h,00h,00h
-LinkTickHandler:
+LinkTickHandler:                                ; Link: per-tick handler; used by LinkPoll, LinkReceive,
+                                                ; LinkTimerTick ...
         db 00h,00h,00h,00h
-LinkResendHandler:
+LinkResendHandler:                              ; Link: resend handler; used by LinkParsePacket,
+                                                ; LinkRequestResend, SetLinkMessageHandler
         db 00h,00h,00h,00h
-LinkTxSeq:
+LinkTxSeq:                                      ; Link: next transmit sequence; used by LinkDefaults,
+                                                ; LinkSendMessage
         db 00h,00h,00h,00h
-LinkRxDeliverSeq:
+LinkRxDeliverSeq:                               ; Link: next sequence to deliver; used by LinkDefaults,
+                                                ; LinkDeliverMessages
         db 00h,00h,00h,00h
-LinkAckedSeq:
+LinkAckedSeq:                                   ; Link: last acknowledged sequence, -1 for none; used by
+                                                ; LinkAckThrough, LinkDefaults
         db 0FFh,0FFh,0FFh,0FFh
-LinkRxSeq:
+LinkRxSeq:                                      ; Link: last received sequence, -1 for none; used by
+                                                ; LinkCheckTimeouts, LinkDefaults, LinkFirstMissingRx ...
         db 0FFh,0FFh,0FFh,0FFh
-LinkPacketLen:
+LinkPacketLen:                                  ; Link: length of the packet being parsed; used by
+                                                ; LinkParsePacket, LinkReceive
         db 00h,00h,00h,00h
-LinkTxPending:
+LinkTxPending:                                  ; Link: packets waiting for an acknowledge; used by
+                                                ; LinkAckThrough, LinkDefaults, LinkSendMessage
         db 00h,00h,00h,00h
-LinkState:
+LinkState:                                      ; Link: connection state; used by LinkClose, LinkConnect,
+                                                ; LinkDefaults ...
         db 00h,00h,00h,00h
-LinkCheckPeriod:
+LinkCheckPeriod:                                ; Link: ticks between checks; used by LinkDefaults, LinkOpen,
+                                                ; LinkPoll ...
         db 00h,00h,00h,00h
-LinkRetryLimit:
+LinkRetryLimit:                                 ; link retry limit; used by LinkDefaults, LinkOpen, LinkPoll
+                                                ; ...
         db 06h,00h,00h,00h
-LinkCopyLow:
+LinkCopyLow:                                    ; link copy lower limit; used by LinkCheckTimeouts,
+                                                ; LinkCopyBytes
         db 032h,00h,00h,00h
-LinkCopyHigh:
+LinkCopyHigh:                                   ; link copy upper limit; used by LinkCheckTimeouts,
+                                                ; LinkCopyBytes, LinkRequestMissing ...
         db 064h,00h,00h,00h
-LinkCopyStep:
+LinkCopyStep:                                   ; link copy step; used by LinkCheckTimeouts, LinkCopyBytes
         db 0Ah,00h,00h,00h
-LinkRxHead:
+LinkRxHead:                                     ; Link: receive ring head; used by LinkDefaults,
+                                                ; LinkParsePacket, LinkReceive ...
         db 00h,00h,00h,00h
-LinkRxCount:
+LinkRxCount:                                    ; Link: bytes in the receive ring; used by LinkDefaults,
+                                                ; LinkParsePacket, LinkReceive ...
         db 00h,00h,00h,00h
-LinkChannelTimers:
+LinkChannelTimers:                              ; link channel timers; used by LinkTimerTick
         db 03Ah,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h

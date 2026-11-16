@@ -4319,13 +4319,13 @@ CycleLoadingArt:
         pop ecx
         pop ebx
         ret
-CreatePlayerChoiceJumpTable:
+CreatePlayerChoiceJumpTable:                    ; jump table for the switch cases of CreatePlayerScreen
         dd CreatePlayerScreen_6BE
         dd CreatePlayerScreen_71A
         dd CreatePlayerScreen_BD2
         dd CreatePlayerScreen_CF7
         dd CreatePlayerScreen_DBB
-CreatePlayerFieldJumpTable:
+CreatePlayerFieldJumpTable:                     ; jump table for the switch cases of CreatePlayerScreen
         dd CreatePlayerScreen_8D1
         dd CreatePlayerScreen_8DA
         dd CreatePlayerScreen_8E3

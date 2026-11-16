@@ -11,13 +11,15 @@ global LinesPanelPlayers
 global LinesPlayerOrder, LinesPlayerScore, LinesCursorArt, LinesHoverArt
 global LinesIntroTeam, LinesCardSource, LinesEditAway, LinesEditMode, LinesEditTeam
 global EditLinesRecords
-LinesSortedPlayers:
+LinesSortedPlayers:                             ; players sorted for the line editor; used by EditLinesScreen
         resb 112
-LinesSlotTable:
+LinesSlotTable:                                 ; line editor slot table; used by EditLinesScreen,
+                                                ; SortTeamPlayers
         resb 1
         resb 1
         resb 1614
-LinesPanelItems:
+LinesPanelItems:                                ; line editor panel items; used by DrawLinesPanel,
+                                                ; EditLinesScreen
         resb 4
         resb 4
         resb 4
@@ -34,34 +36,46 @@ LinesPanelItems:
         resb 4
         resb 4
         resb 1152
-LinesPanelPlayers:
+LinesPanelPlayers:                              ; player shown in each line editor slot; used by
+                                                ; DrawLinesPanel
         resb 100
-LinesPlayerOrder:
+LinesPlayerOrder:                               ; line editor players in position order; used by AutoSetLines,
+                                                ; ComparePlayerPos, CountLineSlots ...
         resb 112
-LinesPlayerScore:
+LinesPlayerScore:                               ; score of each player for automatic lines; used by
+                                                ; AutoSetLines, CompareRosterOrder
         resb 112
-EditLinesRecords:
+EditLinesRecords:                               ; line editor player records (3Ch bytes each); used by
+                                                ; EditLinesHoverPanel, EditLinesScreen
         resb 2
         resb 34
         resb 4
         resb 4
         resb 1636
         resb 4
-LinesCursorArt:
+LinesCursorArt:                                 ; line editor cursor art; used by EditLinesHoverPanel,
+                                                ; EditLinesScreen
         resb 4
-LinesHoverArt:
+LinesHoverArt:                                  ; line editor hover cursor art; used by EditLinesHoverPanel,
+                                                ; EditLinesScreen
         resb 4
-LinesIntroTeam:
+LinesIntroTeam:                                 ; team shown in the lines intro; used by EditLinesHoverPanel,
+                                                ; EditLinesScreen
         resb 4
-LinesCardSource:
+LinesCardSource:                                ; player list the line editor opens cards from; used by
+                                                ; EditLinesScreen, RunEditLines
         resb 4
-LinesEditAway:
+LinesEditAway:                                  ; line editor is editing the away team; used by AutoSetLines,
+                                                ; ControllerScreen, EditLinesScreen ...
         resb 4
-LinesEditMode:
+LinesEditMode:                                  ; line editor mode; used by AutoSetLines, ControllerScreen,
+                                                ; DrawLinesPanel ...
         resb 4
-LinesEditTeam:
+LinesEditTeam:                                  ; team the line editor is editing; used by ControllerScreen,
+                                                ; EditLinesScreen, InGameMenu ...
         resb 4
-LinesWorkTable:
+LinesWorkTable:                                 ; line assignments being edited; used by AutoSetLines,
+                                                ; CountLineSlots, DrawLinesPanel ...
         resb 1
         resb 1
         resb 6

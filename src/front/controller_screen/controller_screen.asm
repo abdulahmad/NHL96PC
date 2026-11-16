@@ -415,9 +415,9 @@ ControllerUsersPanel:
         pop edi
         pop esi
         ret
-NextControllerDeviceMasks:
+NextControllerDeviceMasks:                      ; used by NextControllerDevice
         db 0FFh,03h,03Fh,00h,01Fh,00h,0Fh,00h,07h,00h,03h,00h,01h,00h,00h,00h
-NextControllerDeviceJumpTable:
+NextControllerDeviceJumpTable:                  ; jump table for the switch cases of NextControllerDevice
         dd NextControllerDevice_4D0
         dd NextControllerDevice_2C
         dd NextControllerDevice_F2
@@ -1085,9 +1085,9 @@ ScanControllers:
         pop ecx
         pop ebx
         ret
-DeviceIconCodes:
+DeviceIconCodes:                                ; used by DeviceIconShape
         db 00h,04h,040h,00h,020h,00h,010h,00h,08h,00h,04h,00h,02h,00h,01h,00h
-DeviceIconJumpTable:
+DeviceIconJumpTable:                            ; jump table for the switch cases of DeviceIconShape
         dd DeviceIconShape_CB
         dd DeviceIconShape_51
         dd DeviceIconShape_5D
@@ -2569,13 +2569,13 @@ DrawControllerColumns:
 .53:
         call SetControllerColumn
         jmp near SetControllerIcon_F9
-ControllerScreenItemJumpTable:
+ControllerScreenItemJumpTable:                  ; jump table for the switch cases of ControllerScreen
         dd ControllerScreen_11AB
         dd ControllerScreen_149D
         dd ControllerScreen_14E4
         dd ControllerScreen_1503
         dd ControllerScreen_11AB
-ControllerScreenModeJumpTable:
+ControllerScreenModeJumpTable:                  ; jump table for the switch cases of ControllerScreen
         dd ControllerScreen_1548
         dd ControllerScreen_15D1
         dd ControllerScreen_168B
@@ -4206,14 +4206,14 @@ RunControllerScreen:
         pop ecx
         pop ebx
         ret
-ControlPicksSlotPoints:
+ControlPicksSlotPoints:                         ; used by ControlPicksScreen
         db 0FAh,01h,00h,00h,069h,00h,00h,00h,0F3h,01h,00h,00h,088h,00h,00h,00h
         db 0EAh,01h,00h,00h,0A9h,00h,00h,00h,0E2h,01h,00h,00h,0C7h,00h,00h,00h
         db 0D9h,01h,00h,00h,0E7h,00h,00h,00h,0CEh,01h,00h,00h,09h,01h,00h,00h
         db 0C5h,01h,00h,00h,027h,01h,00h,00h,0BCh,01h,00h,00h,049h,01h,00h,00h
         db 0AEh,01h,00h,00h,066h,01h,00h,00h,0C9h,01h,00h,00h,086h,01h,00h,00h
         db 0C9h,01h,00h,00h,0A6h,01h,00h,00h
-ControlPicksHotspots:
+ControlPicksHotspots:                           ; used by ControlPicksScreen
         db 0D9h,01h,00h,00h,05Ch,00h,00h,00h,09h,02h,00h,00h,05Ch,00h,00h,00h
         db 04h,02h,00h,00h,06Fh,00h,00h,00h,0D4h,01h,00h,00h,06Fh,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -4258,15 +4258,15 @@ ControlPicksHotspots:
         db 0FBh,01h,00h,00h,0AFh,01h,00h,00h,079h,01h,00h,00h,0AFh,01h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-ControlSetupRowY:
+ControlSetupRowY:                               ; used by ControlSetupScreen
         db 081h,00h,06Dh,00h,05Bh,00h,04Ah,00h,038h,00h
-ControlSetupColumnX:
+ControlSetupColumnX:                            ; used by ControlSetupScreen
         db 089h,00h,0C9h,00h,09h,01h,04Ah,01h,08Ch,01h
 ;-----------------------------------------------------------------------------
 ; ControlSetupPoints                              70BD5  96 PC, low confidence
 ; Control setup screen points
 ;-----------------------------------------------------------------------------
-ControlSetupPoints:
+ControlSetupPoints:                             ; control setup screen points; used by ControlSetupScreen
         db 06Eh,00h,00h,00h,086h,00h,00h,00h,0Ah,01h,00h,00h,085h,00h,00h,00h
         db 034h,01h,00h,00h,06Bh,00h,00h,00h,059h,00h,00h,00h,0C6h,00h,00h,00h
         db 0F5h,00h,00h,00h,0C5h,00h,00h,00h,022h,01h,00h,00h,0ABh,00h,00h,00h
@@ -4275,7 +4275,7 @@ ControlSetupPoints:
         db 0D3h,00h,00h,00h,046h,01h,00h,00h,0FEh,00h,00h,00h,02Ah,01h,00h,00h
         db 025h,00h,00h,00h,089h,01h,00h,00h,0C1h,00h,00h,00h,088h,01h,00h,00h
         db 0ECh,00h,00h,00h,06Bh,01h,00h,00h
-str_R:
+str_R:                                          ; string "r"; used by ControlSetupScreen
         db 072h,00h,00h,00h,088h,00h,00h,00h,0Eh,01h,00h,00h,088h,00h,00h,00h
         db 059h,01h,00h,00h,082h,00h,00h,00h,05Eh,00h,00h,00h,0C8h,00h,00h,00h
         db 0FAh,00h,00h,00h,0C8h,00h,00h,00h,047h,01h,00h,00h,0C2h,00h,00h,00h
@@ -4286,7 +4286,7 @@ str_R:
         db 0Ah,01h,00h,00h,083h,01h,00h,00h,06Bh,02h,00h,00h,08Dh,00h,00h,00h
         db 06Bh,02h,00h,00h,0DEh,00h,00h,00h,06Bh,02h,00h,00h,030h,01h,00h,00h
         db 06Bh,02h,00h,00h,082h,01h,00h,00h,0A3h,01h,00h,00h,0B3h,01h,00h,00h
-str_F:
+str_F:                                          ; string "f"; used by ControlSetupScreen
         db 066h,00h,00h,00h,086h,00h,00h,00h,06Ch,00h,00h,00h,083h,00h,00h,00h
         db 07Ah,00h,00h,00h,083h,00h,00h,00h,07Ah,00h,00h,00h,08Dh,00h,00h,00h
         db 06Ah,00h,00h,00h,08Dh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h

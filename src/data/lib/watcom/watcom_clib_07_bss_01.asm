@@ -6,58 +6,75 @@ global CrowdLayerPriority, CrowdLayerVolume, VesaRealModeRegs, StreamPacketTail,
 global CrowdIntensityCopy, CrowdMixLevel, CrowdIntensityTerm, CrowdExcitementTerm, CrowdExcitementWeight, CrowdIntensityWeight, CrowdExcitement, CrowdIntensityLevel
 global CrowdExcitementGoal, CrowdLayerCount, CrowdEventCount, CrowdDriftRange, CrowdDriftRiseTime, CrowdDriftFallTime, CrowdStartEvent, CrowdCurveRise
 global CrowdCurveFall, CrowdLayerSample, CrowdBank, CrowdLayers
-VesaRealModeRegs:
+VesaRealModeRegs:                               ; real mode registers for VESA calls; used by VesaGetInfo,
+                                                ; VesaGetModeInfo
         resb 24
         resb 4
         resb 6
         resb 18
-StreamPacketTail:
+StreamPacketTail:                               ; last queued audio stream packet; used by
+                                                ; AudioStreamCallback, FeedAudioStream, FlushAudioStream ...
         resb 4
-StreamPacketHead:
+StreamPacketHead:                               ; first queued audio stream packet; used by
+                                                ; AudioStreamCallback, AudioStreamPosition, FeedAudioStream
+                                                ; ...
         resb 4
-CrowdExcitementWhole:
+CrowdExcitementWhole:                           ; crowd excitement, whole part; used by SetCrowdLayerLevels
         resb 4
-CrowdIntensityCopy:
+CrowdIntensityCopy:                             ; crowd intensity used in the mix; used by SetCrowdLayerLevels
         resb 4
-CrowdMixLevel:
+CrowdMixLevel:                                  ; combined crowd level; used by SetCrowdLayerLevels
         resb 4
-CrowdIntensityTerm:
+CrowdIntensityTerm:                             ; weighted intensity part of the crowd level; used by
+                                                ; SetCrowdLayerLevels
         resb 4
-CrowdExcitementTerm:
+CrowdExcitementTerm:                            ; weighted excitement part of the crowd level; used by
+                                                ; SetCrowdLayerLevels
         resb 4
-CrowdBank:
+CrowdBank:                                      ; copy of the crowd bank header; used by LoadCrowdBank,
+                                                ; ResumeCrowdChannels
         resb 16
-CrowdExcitementWeight:
+CrowdExcitementWeight:                          ; weight of excitement in the crowd level; used by
+                                                ; SetCrowdLayerLevels
         resb 4
-CrowdIntensityWeight:
+CrowdIntensityWeight:                           ; weight of intensity in the crowd level; used by
+                                                ; SetCrowdLayerLevels
         resb 4
-CrowdExcitement:
+CrowdExcitement:                                ; crowd excitement; used by CrowdService, SetCrowdLayerLevels,
+                                                ; SetCrowdRampRate ...
         resb 4
-CrowdIntensityLevel:
+CrowdIntensityLevel:                            ; crowd intensity, moving towards its target; used by
+                                                ; CrowdService, SetCrowdLayerLevels
         resb 4
-CrowdExcitementGoal:
+CrowdExcitementGoal:                            ; crowd excitement the ramp is heading for; used by
+                                                ; CrowdService, SetCrowdRampRate, StartCrowdSound ...
         resb 4
-CrowdLayerCount:
+CrowdLayerCount:                                ; number of crowd layers; used by SetCrowdLayerLevels,
+                                                ; StartCrowdSound, StopCrowdChannels
         resb 4
-CrowdEventCount:
+CrowdEventCount:                                ; number of crowd events; used by LoadCrowdBank,
+                                                ; TriggerCrowdEvent
         resb 4
-CrowdDriftRange:
+CrowdDriftRange:                                ; range of random crowd excitement goals; used by
+                                                ; SetCrowdRampRate
         resb 4
-CrowdDriftRiseTime:
+CrowdDriftRiseTime:                             ; time to drift up; used by SetCrowdRampRate
         resb 4
-CrowdDriftFallTime:
+CrowdDriftFallTime:                             ; time to drift down; used by SetCrowdRampRate
         resb 4
-CrowdStartEvent:
+CrowdStartEvent:                                ; crowd event played when the crowd starts; used by
+                                                ; StartCrowdSound
         resb 4
-CrowdCurveRise:
+CrowdCurveRise:                                 ; rise time for each crowd curve; used by SetCrowdRampRate
         resb 4
-CrowdCurveFall:
+CrowdCurveFall:                                 ; fall time for each crowd curve; used by SetCrowdRampRate
         resb 60
-CrowdLayers:
+CrowdLayers:                                    ; crowd layer records, 74h bytes each; used by LoadCrowdBank,
+                                                ; StartCrowdSound
         resb 4
-CrowdLayerSample:
+CrowdLayerSample:                               ; crowd layer sample; used by LoadCrowdBank
         resb 16
-CrowdLayerPriority:
+CrowdLayerPriority:                             ; crowd layer channel priority; used by LoadCrowdBank
         resb 5
-CrowdLayerVolume:
+CrowdLayerVolume:                               ; crowd layer volume; used by LoadCrowdBank
         resb 39

@@ -11,133 +11,175 @@ global Sb16Rate, Sb16HighDma, Sb16ActiveDma, Sb16LowDma, Sb16Irq, Sb16DmaBuffer,
 global Sb16DmaPos, RationalAllocLimit, CMainArgc, CMainArgv, PointerShapes, PointerHotY
 global SbHighDma, SbProHighDma, GusConfig, GusConfigPort, SbPort, SbOldIrqSelector, SbProOldIrqSelector, Sb16Port
 global Sb16OldIrqSelector, RationalAllocFlags
-WssBlockSamples:
+WssBlockSamples:                                ; samples per Windows Sound System block; used by WssOpen
         resb 4
-WssHalfBuffer:
+WssHalfBuffer:                                  ; half the Windows Sound System DMA buffer; used by WssOpen,
+                                                ; WssService
         resb 4
-WssFormat:
+WssFormat:                                      ; codec register 8 value: rate select and sample format; used
+                                                ; by WssCodecSetup, WssOpen
         resb 4
-WssDmaChannel:
+WssDmaChannel:                                  ; Windows Sound System DMA channel; used by WssOpen,
+                                                ; WssService
         resb 4
-WssDmaSize:
+WssDmaSize:                                     ; codec DMA buffer size; used by WssCodecSetup, WssOpen
         resb 4
-WssDmaBuffer:
+WssDmaBuffer:                                   ; Windows Sound System DMA buffer; used by WssOpen, WssService
         resb 4
-WssRate:
+WssRate:                                        ; Windows Sound System output rate; used by WssOpen,
+                                                ; WssQueryRate
         resb 4
-WssDmaPos:
+WssDmaPos:                                      ; Windows Sound System DMA position at the last service; used
+                                                ; by WssService
         resb 4
-GusConfig:
+GusConfig:                                      ; Gravis settings read from the environment; used by
+                                                ; GusDetect, GusDriverOpen, GusStart
         resb 2
-GusConfigPort:
+GusConfigPort:                                  ; Gravis base port; used by GusDetect, GusDriverOpen, GusStart
         resb 2
-GusConfigGf1Irq:
+GusConfigGf1Irq:                                ; Gravis sound interrupt; used by GusStart
         resb 1
-GusConfigMidiIrq:
+GusConfigMidiIrq:                               ; Gravis MIDI interrupt; used by GusStart
         resb 3
-GusStreamMem:
+GusStreamMem:                                   ; Gravis card memory for the output stream; used by GusStart
         resb 4
-GusDriverDmaBuf:
+GusDriverDmaBuf:                                ; DMA buffer of the Gravis driver; used by GusDriverUpdate,
+                                                ; GusStart
         resb 4
-SbHalfBuffer:
+SbHalfBuffer:                                   ; half the Sound Blaster DMA buffer; used by SbOpen, SbService
         resb 4
-SbDmaSize:
+SbDmaSize:                                      ; Sound Blaster DMA buffer size; used by SbOpen, SbStartDma
         resb 4
-SbRate:
+SbRate:                                         ; Sound Blaster output rate; used by SbOpen, SbQueryRate,
+                                                ; SbStartDma
         resb 4
-SbHighDma:
+SbHighDma:                                      ; Sound Blaster 16-bit DMA channel from BLASTER; used by
+                                                ; SbOpen
         resb 4
-SbDma:
+SbDma:                                          ; Sound Blaster DMA channel; used by SbClose, SbOpen,
+                                                ; SbService ...
         resb 4
-SbIrq:
+SbIrq:                                          ; Sound Blaster interrupt; used by SbClose, SbOpen, SbStartDma
         resb 4
-SbDmaBuffer:
+SbDmaBuffer:                                    ; Sound Blaster DMA buffer; used by SbOpen, SbService,
+                                                ; SbStartDma
         resb 4
-SbVersion:
+SbVersion:                                      ; Sound Blaster DSP version; used by SbClose, SbOpen, SbQuery
+                                                ; ...
         resb 4
-SbPort:
+SbPort:                                         ; Sound Blaster base port; used by SbOpen
         resb 4
-SbOldIrqOffset:
+SbOldIrqOffset:                                 ; interrupt handler the Sound Blaster driver replaced
+                                                ; (offset); used by SbClose, SbStartDma
         resb 4
-SbOldIrqSelector:
+SbOldIrqSelector:                               ; interrupt handler the Sound Blaster driver replaced
+                                                ; (selector); used by SbClose, SbStartDma
         resb 2
-SbDmaPos:
+SbDmaPos:                                       ; Sound Blaster DMA position at the last service; used by
+                                                ; SbService
         resb 6
-SbProRealOldOffset:
+SbProRealOldOffset:                             ; real mode interrupt handler the Sound Blaster Pro driver
+                                                ; replaced (offset); used by SbProStartDma, SbProStopDma
         resb 4
-SbProRealOldSegment:
+SbProRealOldSegment:                            ; real mode interrupt handler the Sound Blaster Pro driver
+                                                ; replaced (segment); used by SbProStartDma, SbProStopDma
         resb 4
-SbProRealHandler:
+SbProRealHandler:                               ; real mode interrupt hook the Sound Blaster Pro driver set
+                                                ; up; used by SbProStartDma, SbProStopDma
         resb 4
-SbProBlockSamples:
+SbProBlockSamples:                              ; samples per Sound Blaster Pro block; used by SbProOpen
         resb 4
-SbProHalfBuffer:
+SbProHalfBuffer:                                ; half the Sound Blaster Pro DMA buffer; used by SbProOpen,
+                                                ; SbProService, SbProStartDma
         resb 4
-SbProDmaSize:
+SbProDmaSize:                                   ; Sound Blaster Pro DMA buffer size; used by SbProOpen,
+                                                ; SbProStartDma
         resb 4
-SbProRate:
+SbProRate:                                      ; Sound Blaster Pro output rate; used by SbProOpen,
+                                                ; SbProQueryRate, SbProStartDma
         resb 4
-SbProHighDma:
+SbProHighDma:                                   ; 16-bit DMA channel from BLASTER; used by SbProOpen
         resb 4
-SbProDma:
+SbProDma:                                       ; Sound Blaster Pro DMA channel; used by SbProOpen,
+                                                ; SbProService, SbProStartDma ...
         resb 4
-SbProOldFilter:
+SbProOldFilter:                                 ; filter bit before the driver started; used by SbProStartDma,
+                                                ; SbProStopDma
         resb 4
-SbProIrq:
+SbProIrq:                                       ; Sound Blaster Pro interrupt; used by SbProOpen,
+                                                ; SbProStartDma, SbProStopDma
         resb 4
-SbProDmaBuffer:
+SbProDmaBuffer:                                 ; Sound Blaster Pro DMA buffer; used by SbProOpen,
+                                                ; SbProService, SbProStartDma
         resb 4
-SbProOldStereo:
+SbProOldStereo:                                 ; stereo bit before the driver started; used by SbProStartDma,
+                                                ; SbProStopDma
         resb 4
-SbProVersion:
+SbProVersion:                                   ; Sound Blaster Pro DSP version; used by SbProOpen, SbProQuery
         resb 4
-SbProPort:
+SbProPort:                                      ; Sound Blaster Pro base port; used by SbProOpen,
+                                                ; SbProStartDma
         resb 4
-SbProOldIrqOffset:
+SbProOldIrqOffset:                              ; interrupt handler the driver replaced (offset); used by
+                                                ; SbProStartDma, SbProStopDma
         resb 4
-SbProOldIrqSelector:
+SbProOldIrqSelector:                            ; interrupt handler the driver replaced (selector); used by
+                                                ; SbProStartDma, SbProStopDma
         resb 2
-SbProDmaPos:
+SbProDmaPos:                                    ; Sound Blaster Pro DMA position at the last service; used by
+                                                ; SbProService
         resb 6
-Sb16BlockSamples:
+Sb16BlockSamples:                               ; samples per Sound Blaster 16 block; used by Sb16Open
         resb 4
-Sb16DmaSize:
+Sb16DmaSize:                                    ; Sound Blaster 16 DMA buffer size; used by Sb16Open,
+                                                ; Sb16StartDma
         resb 4
-Sb16HalfBuffer:
+Sb16HalfBuffer:                                 ; half the Sound Blaster 16 DMA buffer; used by Sb16Open,
+                                                ; Sb16Service, Sb16StartDma
         resb 4
-Sb16Rate:
+Sb16Rate:                                       ; Sound Blaster 16 output rate; used by Sb16Open,
+                                                ; Sb16QueryRate, Sb16StartDma
         resb 4
-Sb16HighDma:
+Sb16HighDma:                                    ; Sound Blaster 16 16-bit DMA channel; used by Sb16Open
         resb 4
-Sb16ActiveDma:
+Sb16ActiveDma:                                  ; DMA channel the Sound Blaster 16 uses; used by Sb16Close,
+                                                ; Sb16Open, Sb16Service ...
         resb 4
-Sb16LowDma:
+Sb16LowDma:                                     ; Sound Blaster 16 8-bit DMA channel; used by Sb16Open
         resb 4
-Sb16Irq:
+Sb16Irq:                                        ; Sound Blaster 16 interrupt; used by Sb16Close, Sb16Open,
+                                                ; Sb16StartDma ...
         resb 4
-Sb16DmaBuffer:
+Sb16DmaBuffer:                                  ; Sound Blaster 16 DMA buffer; used by Sb16Open, Sb16Service,
+                                                ; Sb16StartDma
         resb 4
-Sb16Version:
+Sb16Version:                                    ; Sound Blaster 16 DSP version; used by Sb16Open, Sb16Query
         resb 4
-Sb16Port:
+Sb16Port:                                       ; Sound Blaster 16 base port; used by Sb16Open
         resb 4
-Sb16OldIrqOffset:
+Sb16OldIrqOffset:                               ; interrupt handler the driver replaced (offset); used by
+                                                ; Sb16Close, Sb16StartDma, Sb16StopDma
         resb 4
-Sb16OldIrqSelector:
+Sb16OldIrqSelector:                             ; interrupt handler the driver replaced (selector); used by
+                                                ; Sb16Close, Sb16StartDma, Sb16StopDma
         resb 2
-Sb16DmaPos:
+Sb16DmaPos:                                     ; Sound Blaster 16 DMA position at the last service; used by
+                                                ; Sb16Service
         resb 6
-RationalAllocLimit:
+RationalAllocLimit:                             ; rational allocator size limit; used by RationalAlloc_
         resb 2
-RationalAllocFlags:
+RationalAllocFlags:                             ; rational allocator flags; used by RationalAlloc_
         resb 2
-CMainArgc:
+CMainArgc:                                      ; argument count passed to main; used by __CMain
         resb 4
-CMainArgv:
+CMainArgv:                                      ; argument vector passed to main; used by PointerLoadShapes,
+                                                ; __CMain
         resb 4
-PointerShapes:
+PointerShapes:                                  ; mouse pointer shape for each state; used by DrawPointer,
+                                                ; InitPointer, PointerLoadShapes ...
         resb 4
         resb 4
         resb 4
-PointerHotY:
+PointerHotY:                                    ; mouse pointer hot spot Y for each state; used by
+                                                ; PointerService, PointerSetupBitmaps, UpdatePointerPos
         resb 8

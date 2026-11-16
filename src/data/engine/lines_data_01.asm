@@ -4,9 +4,11 @@ bits 32
 section s_11A310 progbits alloc noexec write align=1
 global DemoMode, dressbystatus, lineslotgroups, lineslotgroupstart, ReplayMenuFlags, ReplayCameraFlags, SortSpriteCount, InReplay
 global ReplayRunning, HighlightSlot, HighlightStart, HighlightEnd, SortFrameCount, SortLastIndex, ReplayCounterXByRes
-dressbystatus:
+dressbystatus:                                  ; used by BuildDefaultLines, CanFillLineSlot, PickExtraSkater
+                                                ; ...
         db 00h,00h,02h,01h,01h,00h,00h,01h,00h
-lineslotgroups:
+lineslotgroups:                                 ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 00h,03h,06h,09h,0FFh,01h,04h,07h,0Ah,0FFh,02h,05h,08h,0Bh,0FFh,0Ch
         db 0Eh,010h,0FFh,0Dh,0Fh,011h,0FFh,012h,017h,01Ch,020h,00h,03h,06h,09h,0FFh
         db 013h,018h,01Dh,021h,01h,04h,07h,0Ah,0FFh,014h,019h,02h,05h,08h,0Bh,0FFh
@@ -17,32 +19,43 @@ lineslotgroups:
         db 0Ah,0FFh,028h,02Ch,02Fh,032h,0Ch,0Eh,010h,0FFh,029h,02Dh,030h,033h,0Dh,0Fh
         db 011h,0FFh,02Eh,031h,027h,02Bh,01h,04h,07h,0Ah,0FFh,02Fh,032h,028h,02Ch,0Ch
         db 0Eh,010h,0FFh,030h,033h,029h,02Dh,0Dh,0Fh,011h,0FFh
-lineslotgroupstart:
+lineslotgroupstart:                             ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 00h,05h,0Ah,00h,05h,0Ah,00h,05h,0Ah,00h,05h,0Ah,0Fh,013h,0Fh,013h
         db 0Fh,013h,017h,020h,029h,030h,038h,017h,020h,029h,030h,038h,040h,049h,052h,05Ah
         db 040h,049h,052h,05Ah,05h,05h,062h,069h,072h,07Ah,062h,069h,072h,07Ah,082h,08Bh
         db 093h,082h,08Bh,093h
-DemoMode:
+DemoMode:                                       ; 1 during the attract demo; used by CamShotNetShake,
+                                                ; CrowdOnStoppage, GameLoop_gameovercall ...
         db 00h,00h,00h,00h,0FFh,0FFh
-SortFrameCount:
+SortFrameCount:                                 ; Sprite sort frame counter; used by ResetPeriodState,
+                                                ; SortSpritesForDraw
         db 01h,00h
-SortLastIndex:
+SortLastIndex:                                  ; Last sprite sort index, -1 for none; used by
+                                                ; ResetPeriodState, SortSpritesForDraw
         db 0FFh,0FFh
-SortSpriteCount:
+SortSpriteCount:                                ; Sprites in the sort list; used by SortSpritesForDraw
         db 00h,00h,00h,00h,00h,00h
-InReplay:
+InReplay:                                       ; Set while a replay or highlight plays (camera code checks
+                                                ; it); used by CamShotPuckMid, CamShotPuckNear, CameraAim ...
         db 00h
-ReplayMenuFlags:
+ReplayMenuFlags:                                ; Replay screen flags; used by ReplayScreen
         db 00h,00h
-ReplayCameraFlags:
+ReplayCameraFlags:                              ; Replay camera flags; used by ReplayCameraAim,
+                                                ; ReplayCameraUpdate
         db 00h
-ReplayRunning:
+ReplayRunning:                                  ; Set while the replay screen runs a replay; used by
+                                                ; EndReplay, ReplayScreen, WatchHighlight
         db 00h,00h,00h,00h
-HighlightSlot:
+HighlightSlot:                                  ; Highlight slot being saved, -1 for none; used by
+                                                ; ReplayScreen, StepReplay
         db 0FFh,0FFh,0FFh,0FFh
-HighlightStart:
+HighlightStart:                                 ; Start frame of the highlight being saved; used by
+                                                ; ReplayScreen, StepReplay
         db 00h,00h,00h,00h
-HighlightEnd:
+HighlightEnd:                                   ; End frame of the highlight being saved; used by
+                                                ; ReplayScreen, StepReplay
         db 00h,00h,00h,00h
-ReplayCounterXByRes:
+ReplayCounterXByRes:                            ; replay counter X for each screen resolution; used by
+                                                ; DrawReplayCounter
         db 03Fh,00h,07Eh,00h

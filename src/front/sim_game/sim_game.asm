@@ -2867,11 +2867,11 @@ SimulateGame:
         pop edi
         pop esi
         ret 4
-ThreeCardColumnsX:
+ThreeCardColumnsX:                              ; used by PreGameForwardCards
         db 0EAh,00h,074h,01h,0F9h,01h
-ThreeCardRowsY:
+ThreeCardRowsY:                                 ; used by PreGameForwardCards
         db 085h,00h,020h,01h
-TwoCardColumnsX:
+TwoCardColumnsX:                                ; used by PreGameDefenceCards
         db 01Dh,01h,0A7h,01h,00h,00h
-TwoCardRowsY:
+TwoCardRowsY:                                   ; used by PreGameDefenceCards
         db 085h,00h,020h,01h

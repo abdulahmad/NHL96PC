@@ -8,81 +8,105 @@ global TgvFrame, TgvHeaderRead, TgvState, TgvChunkLen, TgvAudioOn, TgvVideoOn, t
 global TgvDataEnd, TgvChunkType, TgvLastFrame, TgvFramesDecoded, TgvAborted, TgvFileHandle, TgvAudioBuf, TgvAudioPos
 global TgvVideoBmp, TgvFrameTime, TgvMemBlock, GlobalSetData, optflags, gameopts, TgvFrameBuf, SpeechActiveCount
 global SpeechPlaying
-SpeechBankPtrs:
+SpeechBankPtrs:                                 ; pointers to the loaded speech banks; used by InitSpeech,
+                                                ; OpenSpeechBanks, ShutdownSpeech
         resb 4
-SpeechChannels:
+SpeechChannels:                                 ; speech channel handles; used by ResetSpeechChannels,
+                                                ; StopSpeech
         resb 4
         resb 4
         resb 4
         resb 4
         resb 44
-SpeechVolume:
+SpeechVolume:                                   ; speech volume level; used by OpenSpeechBanks, StopSpeech
         resb 4
-SpeechBankFiles:
+SpeechBankFiles:                                ; open speech bank file handles; used by InitSpeech,
+                                                ; OpenSpeechBanks, QueueSpeechClip ...
         resb 4
-MusicVolume:
+MusicVolume:                                    ; music volume level; used by CloseMusic, FadeOutMusic,
+                                                ; FeedMusicStream ...
         resb 4
-ArenaClipHandle:
+ArenaClipHandle:                                ; handle of the arena sound clip that is playing; used by
+                                                ; ArenaClipService, PlayArenaClip, StartArenaClip ...
         resb 4
-SpeechBankNames:
+SpeechBankNames:                                ; speech bank file name buffer; used by InitSpeech,
+                                                ; OpenSpeechBanks, ShutdownSpeech
         resb 50
-SpeechActiveCount:
+SpeechActiveCount:                              ; number of speech clips playing; used by ResetSpeechChannels,
+                                                ; StopSpeech
         resb 2
-SpeechPlaying:
+SpeechPlaying:                                  ; non-zero while a speech clip plays; used by
+                                                ; ResetSpeechChannels, SpeechService, StopSpeech
         resb 4
-TgvFrameBuf:
+TgvFrameBuf:                                    ; movie frame decode buffer; used by TgvNextFrame,
+                                                ; TgvPlayFrames
         resb 768
-TgvBufSize:
+TgvBufSize:                                     ; size of the movie buffer; used by PlayTGV, TgvOpen
         resb 4
-TgvFrameCallback:
+TgvFrameCallback:                               ; routine called for each decoded movie frame; used by
+                                                ; PlayMovie, PlayTGV, TgvNextFrame ...
         resb 4
-MovieSkipped:
+MovieSkipped:                                   ; set when the player skips a movie; used by PlayMovie
         resb 4
-TgvFrame:
+TgvFrame:                                       ; current movie frame number; used by TgvNextFrame, TgvOpen
         resb 4
-TgvHeaderRead:
+TgvHeaderRead:                                  ; set once the movie header has been read; used by
+                                                ; TgvNextFrame, TgvOpen
         resb 4
-TgvState:
+TgvState:                                       ; movie player state; used by TgvNextFrame, TgvOpen
         resb 4
-TgvStatus:
+TgvStatus:                                      ; movie player status code; used by PlayTGV, TgvNextFrame,
+                                                ; TgvOpen
         resb 4
-TgvChunkLen:
+TgvChunkLen:                                    ; length of the current movie chunk; used by TgvNextFrame,
+                                                ; TgvOpen
         resb 4
-TgvAudioOn:
+TgvAudioOn:                                     ; movie audio track enabled; used by PlayTGV, TgvClock,
+                                                ; TgvNextFrame ...
         resb 4
-TgvVideoOn:
+TgvVideoOn:                                     ; movie video track enabled; used by TgvClock, TgvNextFrame,
+                                                ; TgvOpen
         resb 4
-tgvpalpending:
+tgvpalpending:                                  ; the TGV player has a palette chunk for this frame; used by
+                                                ; TgvNextFrame, TgvOpen, TgvPlayFrames
         resb 4
-TgvDataPtr:
+TgvDataPtr:                                     ; read pointer into movie data; used by TgvNextFrame, TgvOpen
         resb 4
-TgvDataEnd:
+TgvDataEnd:                                     ; end of the movie data in the buffer; used by PlayTGV,
+                                                ; TgvNextFrame
         resb 4
-TgvChunkType:
+TgvChunkType:                                   ; type of the current movie chunk; used by TgvNextFrame
         resb 4
-TgvLastFrame:
+TgvLastFrame:                                   ; last movie frame number; used by TgvNextFrame
         resb 4
-TgvFramesDecoded:
+TgvFramesDecoded:                               ; count of decoded movie frames; used by TgvNextFrame, TgvOpen
         resb 4
-TgvAborted:
+TgvAborted:                                     ; set when movie playback is aborted; used by PlayMovie,
+                                                ; PlayTGV, TgvClock ...
         resb 4
-TgvFileHandle:
+TgvFileHandle:                                  ; open movie file handle; used by PlayTGV, TgvNextFrame,
+                                                ; TgvOpen
         resb 4
-TgvAudioBuf:
+TgvAudioBuf:                                    ; movie audio buffer; used by TgvNextFrame
         resb 4
-TgvAudioPos:
+TgvAudioPos:                                    ; movie audio buffer position; used by TgvNextFrame
         resb 4
-TgvVideoBmp:
+TgvVideoBmp:                                    ; movie video bitmap; used by PlayMovie, TgvNextFrame, TgvOpen
         resb 4
-TgvFrameTime:
+TgvFrameTime:                                   ; time stamp of the current movie frame; used by TgvNextFrame
         resb 4
-TgvMemBlock:
+TgvMemBlock:                                    ; memory block that holds the movie; used by TgvNextFrame,
+                                                ; TgvOpen
         resb 4
-gameopts:
+gameopts:                                       ; used by AddPenalty, AutoSwitchPlayer, Bcheck ...
         resb 4
-GlobalSetData:
+GlobalSetData:                                  ; GLOBAL.SET settings; used by ControlPicksScreen,
+                                                ; ReadGlobalSet, WriteGlobalSet
         resb 4
-optflags:
+optflags:                                       ; game option flags (bits 7-8 the skill level: 0 Rookie, 80h
+                                                ; Pro, 100h All-Star); used by BuildEventLines,
+                                                ; BurstDrainEnergy, CalendarScreen ...
         resb 1
-GsModemFlags:
+GsModemFlags:                                   ; GLOBAL.SET: modem flag bits (bit 0 cleared on defaults);
+                                                ; used by ReadGlobalSet
         resb 1

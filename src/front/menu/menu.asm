@@ -2323,7 +2323,7 @@ SetMenuMouse:
         pop ecx
         pop ebx
         ret
-MainMenuHotspots:
+MainMenuHotspots:                               ; used by MainMenuScreen
         db 085h,00h,00h,00h,084h,00h,00h,00h,019h,01h,00h,00h,084h,00h,00h,00h
         db 019h,01h,00h,00h,09Dh,00h,00h,00h,085h,00h,00h,00h,09Dh,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -2348,12 +2348,12 @@ MainMenuHotspots:
         db 018h,02h,00h,00h,00h,01h,00h,00h,023h,02h,00h,00h,05h,01h,00h,00h
         db 023h,02h,00h,00h,010h,01h,00h,00h,018h,02h,00h,00h,016h,01h,00h,00h
         db 0A8h,01h,00h,00h,016h,01h,00h,00h,09Dh,01h,00h,00h,0Fh,01h,00h,00h
-MainMenuModeArtJumpTable:
+MainMenuModeArtJumpTable:                       ; jump table for the switch cases of MainMenuScreen
         dd MainMenuScreen_B4
         dd MainMenuScreen_C9
         dd MainMenuScreen_DE
         dd MainMenuScreen_F3
-MainMenuChoiceJumpTable:
+MainMenuChoiceJumpTable:                        ; jump table for the switch cases of MainMenuScreen
         dd MainMenuScreen_621
         dd MainMenuScreen_774
         dd MainMenuScreen_8A9
@@ -2362,12 +2362,12 @@ MainMenuChoiceJumpTable:
         dd MainMenuScreen_939
         dd MainMenuScreen_996
         dd MainMenuScreen_9EE
-MainMenuModeButtonJumpTable:
+MainMenuModeButtonJumpTable:                    ; jump table for the switch cases of MainMenuScreen
         dd MainMenuScreen_671
         dd MainMenuScreen_6FC
         dd MainMenuScreen_724
         dd MainMenuScreen_74C
-MainMenuModeResultJumpTable:
+MainMenuModeResultJumpTable:                    ; jump table for the switch cases of MainMenuScreen
         dd MainMenuScreen_A0B
         dd MainMenuScreen_A14
         dd MainMenuScreen_A1D

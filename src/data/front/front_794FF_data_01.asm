@@ -8,88 +8,88 @@ global str_DK00, str_Bkgd12, str_Pal17, str_DK02d, str_LFDK, str_RTDK, str_LT02d
 global str_RTLT, str_Sim1, str_Sim2, str_Sim3, str_Hmaw, str_WhtD, str_Rd, str_Bl
 global str_Disk, str_SD, str_Octo, str_Aprl, str_Junn, str_Bar, F32_0p5, F32_0p5_InitHScrollBar
 global F32_14_InitScrollTable, F32_0p5_ScrollBarToMouse
-str_BT105:
+str_BT105:                                      ; string 'BT10'; used by PickIndexEntryScreen
         db 042h,054h,031h,030h,00h
-str_BT115:
+str_BT115:                                      ; string 'BT11'; used by PickIndexEntryScreen
         db 042h,054h,031h,031h,00h
-str_BT122:
+str_BT122:                                      ; string 'BT12'; used by PickIndexEntryScreen
         db 042h,054h,031h,032h,00h
-str_SLDR:
+str_SLDR:                                       ; string 'SLDR'; used by PickIndexEntryScreen
         db 053h,04Ch,044h,052h,00h
-str_BALL3:
+str_BALL3:                                      ; string 'BALL'; used by PickIndexEntryScreen
         db 042h,041h,04Ch,04Ch,00h
-str_AR00:
+str_AR00:                                       ; string 'AR00'; used by PickIndexEntryScreen
         db 041h,052h,030h,030h,00h
-str_AR01:
+str_AR01:                                       ; string 'AR01'; used by PickIndexEntryScreen
         db 041h,052h,030h,031h,00h
-str_AR10:
+str_AR10:                                       ; string 'AR10'; used by PickIndexEntryScreen
         db 041h,052h,031h,030h,00h
-str_AR11:
+str_AR11:                                       ; string 'AR11'; used by PickIndexEntryScreen
         db 041h,052h,031h,031h,00h
-str_S05dCsgDb3:
+str_S05dCsgDb3:                                 ; string '%s%05d%csg.db'; used by PickIndexEntryScreen
         db 025h,073h,025h,030h,035h,064h,025h,063h,073h,067h,02Eh,064h,062h,00h
-str_S05dCnzDb5:
+str_S05dCnzDb5:                                 ; string '%s%05d%cnz.db'; used by PickIndexEntryScreen
         db 025h,073h,025h,030h,035h,064h,025h,063h,06Eh,07Ah,02Eh,064h,062h,00h
-str_S:
+str_S:                                          ; string '>%s'; used by DrawIndexEntries
         db 03Eh,025h,073h,00h,00h,00h,00h
-F32_0p5:
+F32_0p5:                                        ; float constant 0.5; used by InitVScrollBar
         db 00h,00h,00h,03Fh
-F32_0p5_InitHScrollBar:
+F32_0p5_InitHScrollBar:                         ; float constant 0.5; used by InitHScrollBar
         db 00h,00h,00h,03Fh
-F32_14_InitScrollTable:
+F32_14_InitScrollTable:                         ; float constant 14; used by DrawScrollBar, InitHScrollBar
         db 00h,00h,0F0h,041h
-F32_0p5_ScrollBarToMouse:
+F32_0p5_ScrollBarToMouse:                       ; float constant 0.5; used by ScrollBarToMouse
         db 00h,00h,00h,03Fh
-str_MonthChoice:
+str_MonthChoice:                                ; string 'Month Choice'; used by CalendarScreen
         db 04Dh,06Fh,06Eh,074h,068h,020h,043h,068h,06Fh,069h,063h,065h,00h
-str_CalendarChoices:
+str_CalendarChoices:                            ; string 'Calendar Choices'; used by CalendarScreen
         db 043h,061h,06Ch,065h,06Eh,064h,061h,072h,020h,043h,068h,06Fh,069h,063h,065h,073h
         db 00h
-str_Regions:
+str_Regions:                                    ; string 'regions'; used by CalendarScreen
         db 072h,065h,067h,069h,06Fh,06Eh,073h,00h
-str_Monthregions:
+str_Monthregions:                               ; string 'monthregions'; used by CalendarScreen
         db 06Dh,06Fh,06Eh,074h,068h,072h,065h,067h,069h,06Fh,06Eh,073h,00h
-str_DK00:
+str_DK00:                                       ; string 'DK00'; used by CalendarScreen
         db 044h,04Bh,030h,030h,00h
-str_Bkgd12:
+str_Bkgd12:                                     ; string 'bkgd'; used by CalendarScreen, DrawCalendar
         db 062h,06Bh,067h,064h,00h
-str_Pal17:
+str_Pal17:                                      ; string '!pal'; used by CalendarScreen
         db 021h,070h,061h,06Ch,00h
-str_DK02d:
+str_DK02d:                                      ; string 'DK%02d'; used by CalendarScreen
         db 044h,04Bh,025h,030h,032h,064h,00h
-str_LFDK:
+str_LFDK:                                       ; string 'LFDK'; used by CalendarScreen
         db 04Ch,046h,044h,04Bh,00h
-str_RTDK:
+str_RTDK:                                       ; string 'RTDK'; used by CalendarScreen
         db 052h,054h,044h,04Bh,00h
-str_LT02d:
+str_LT02d:                                      ; string 'LT%02d'; used by CalendarScreen
         db 04Ch,054h,025h,030h,032h,064h,00h
-str_LFLT:
+str_LFLT:                                       ; string 'LFLT'; used by CalendarScreen
         db 04Ch,046h,04Ch,054h,00h
-str_RTLT:
+str_RTLT:                                       ; string 'RTLT'; used by CalendarScreen
         db 052h,054h,04Ch,054h,00h
-str_Sim1:
+str_Sim1:                                       ; string 'sim1'; used by CalendarScreen
         db 073h,069h,06Dh,031h,00h
-str_Sim2:
+str_Sim2:                                       ; string 'sim2'; used by CalendarScreen
         db 073h,069h,06Dh,032h,00h
-str_Sim3:
+str_Sim3:                                       ; string 'sim3'; used by CalendarScreen
         db 073h,069h,06Dh,033h,00h
-str_Hmaw:
+str_Hmaw:                                       ; string 'hmaw'; used by CalendarScreen
         db 068h,06Dh,061h,077h,00h
-str_WhtD:
+str_WhtD:                                       ; string 'wht%d'; used by DrawCalendar
         db 077h,068h,074h,025h,064h,00h
-str_Rd:
+str_Rd:                                         ; string 'rd-'; used by DrawCalendar
         db 072h,064h,02Dh,00h
-str_Bl:
+str_Bl:                                         ; string 'bl-'; used by DrawCalendar
         db 062h,06Ch,02Dh,00h
-str_Disk:
+str_Disk:                                       ; string 'disk'; used by DrawCalendar
         db 064h,069h,073h,06Bh,00h
-str_SD:
+str_SD:                                         ; string '%s%d'; used by DrawCalendar
         db 025h,073h,025h,064h,00h
-str_Octo:
+str_Octo:                                       ; string 'octo'; used by DrawCalendar
         db 06Fh,063h,074h,06Fh,00h
-str_Aprl:
+str_Aprl:                                       ; string 'aprl'; used by DrawCalendar
         db 061h,070h,072h,06Ch,00h
-str_Junn:
+str_Junn:                                       ; string 'junn'; used by DrawCalendar
         db 06Ah,075h,06Eh,06Eh,00h
-str_Bar:
+str_Bar:                                        ; string 'bar '; used by DrawCalendar
         db 062h,061h,072h,020h,00h

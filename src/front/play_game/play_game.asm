@@ -28,12 +28,12 @@ global PlayGameModeJumpTable, PlayGameStatsLoadJumpTable, PlayMenuGame, PlayMenu
 global PlayMenuGame_25F, PlayMenuGame_26B, PlayMenuGame_280, InputRecordTimer, HandleSlotButtons, HandleSlotButtons_18D, RunSimFrames, GameLoop
 global GameLoop_E, GameLoop_18, GameLoop_38, GameLoop_inputcheck, GameLoop_hotkeyscall, GameLoop_hotkeyscall_5, GameLoop_menucall, GameLoop_menucall_A
 global GameLoop_nextperiodcall, GameLoop_nextperiodcall_6C, GameLoop_gameovercall, RunDemoGame, PlayGame, PlayGame_initslotscall, PlayGame_menucall, PlayGame_menucall_42
-PlayGameModeJumpTable:
+PlayGameModeJumpTable:                          ; jump table for the switch cases of PlayMenuGame
         dd PlayMenuGame_75
         dd PlayMenuGame_85
         dd PlayMenuGame_9F
         dd PlayMenuGame_AF
-PlayGameStatsLoadJumpTable:
+PlayGameStatsLoadJumpTable:                     ; jump table for the switch cases of PlayMenuGame
         dd PlayMenuGame_243
         dd PlayMenuGame_25F
         dd PlayMenuGame_26B

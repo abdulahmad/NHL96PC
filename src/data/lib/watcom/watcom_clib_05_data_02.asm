@@ -7,49 +7,60 @@ global KbdCapsLock, KeyStateTable, CpuIs386
 global CpuIs486, CpuType, CpuHasCpuid, CpuFeatures, NearClipZ, DebugKeysEnabled, KeyBuffer, KeyBufferHead
 global KeyBufferTail, KeyBufferMask, SavedKbdVecOffset, SavedInt16Offset, SavedRealKbdOffset, mousepollfn, HidePointerKeepHook, HidePointerHook
 global ShowPointerHook, BiosKeyFunc, SavedKbdVecSelector, SavedInt16Selector, SavedRealKbdSegment, KbdDataSelector
-CpuIs386:
+CpuIs386:                                       ; CPU is a 386; used by DetectCPU
         db 00h,00h,00h,00h
-CpuIs486:
+CpuIs486:                                       ; CPU is a 486; used by DetectCPU
         db 00h,00h,00h,00h
-CpuType:
+CpuType:                                        ; CPU type; used by DetectCPU, GatherPlaneBytes, StartUp
         db 00h,00h,00h,00h
-CpuHasCpuid:
+CpuHasCpuid:                                    ; CPU has CPUID; used by DetectCPU, ReadGlobalSet
         db 00h,00h,00h,00h
-CpuFeatures:
+CpuFeatures:                                    ; CPUID feature bits; used by DetectCPU
         db 00h,00h,00h,00h
-NearClipZ:
+NearClipZ:                                      ; the near clip distance: points at or nearer than it are not
+                                                ; projected; used by ClassifyQuadDepth, ClipEdgeToNear,
+                                                ; ClipLineToNear ...
         db 0Ah,00h,00h,00h
-HidePointerKeepHook:
+HidePointerKeepHook:                            ; hides the pointer keeping the screen; used by InitMouse,
+                                                ; InitPointer, ShowMessageBox ...
         dd ReturnZero
-HidePointerHook:
+HidePointerHook:                                ; hides the pointer; used by InitMouse, InitPointer,
+                                                ; PointerSetupBitmaps ...
         dd ReturnZero
-ShowPointerHook:
+ShowPointerHook:                                ; shows the pointer; used by InitMouse, InitPointer,
+                                                ; PointerSetupBitmaps ...
         dd ReturnZero
-mousepollfn:
-        dd ReturnZero
-        dd ReturnZero
-        dd ReturnZero
-        dd ReturnZero
+mousepollfn:                                    ; used by GetPressedDevice, InitInputDevices, InitMouse ...
         dd ReturnZero
         dd ReturnZero
-BiosKeyFunc:
+        dd ReturnZero
+        dd ReturnZero
+        dd ReturnZero
+        dd ReturnZero
+BiosKeyFunc:                                    ; routine that calls the BIOS keyboard service; used by
+                                                ; InstallKeyboardHandler, KbdGetKey, KbdPeekKey ...
         dd BiosKeyCall
-DebugKeysEnabled:
+DebugKeysEnabled:                               ; debug hot keys are on; used by InstallDebugHotkeys,
+                                                ; RemoveKeyboardHandler, StartUp
         db 01h,00h,00h,00h
-KeyBuffer:
+KeyBuffer:                                      ; keyboard buffer ring; used by Int16Service,
+                                                ; RemoveKeyboardHandler
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-KeyBufferHead:
+KeyBufferHead:                                  ; keyboard buffer read position; used by Int16Service,
+                                                ; RemoveKeyboardHandler
         db 00h,00h,00h,00h
-KeyBufferTail:
+KeyBufferTail:                                  ; keyboard buffer write position; used by Int16Service
         db 00h,00h,00h,00h
-KbdCapsLock:
+KbdCapsLock:                                    ; caps lock state; used by RemoveKeyboardHandler
         db 00h,00h,00h,00h
-KeyBufferMask:
+KeyBufferMask:                                  ; keyboard buffer index mask; used by Int16Service,
+                                                ; RemoveKeyboardHandler
         db 01h,00h,00h,00h
-KeyStateTable:
+KeyStateTable:                                  ; key down state per scan code; used by Int16Service,
+                                                ; KeyIsDown, ReadKeyPadBits ...
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -60,17 +71,23 @@ KeyStateTable:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-SavedKbdVecOffset:
+SavedKbdVecOffset:                              ; previous keyboard interrupt offset; used by
+                                                ; InstallKeyboardHandler, RemoveKeyboardHandler
         db 00h,00h,00h,00h
-SavedKbdVecSelector:
+SavedKbdVecSelector:                            ; previous keyboard interrupt selector; used by
+                                                ; InstallKeyboardHandler, RemoveKeyboardHandler
         db 00h,00h
-SavedInt16Offset:
+SavedInt16Offset:                               ; previous INT 16h offset; used by InstallKeyboardHandler,
+                                                ; RemoveKeyboardHandler
         db 00h,00h,00h,00h
-SavedInt16Selector:
+SavedInt16Selector:                             ; previous INT 16h selector; used by InstallKeyboardHandler,
+                                                ; RemoveKeyboardHandler
         db 00h,00h
-SavedRealKbdOffset:
+SavedRealKbdOffset:                             ; previous real mode keyboard handler offset; used by
+                                                ; InstallKeyboardHandler, RemoveKeyboardHandler
         db 00h,00h,00h,00h
-SavedRealKbdSegment:
+SavedRealKbdSegment:                            ; previous real mode keyboard handler segment; used by
+                                                ; InstallKeyboardHandler, RemoveKeyboardHandler
         db 00h,00h
-KbdDataSelector:
+KbdDataSelector:                                ; data selector used by the keyboard handler
         db 00h,00h,00h,00h,00h,00h

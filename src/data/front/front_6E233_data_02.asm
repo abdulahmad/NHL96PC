@@ -5,17 +5,23 @@ section s_11D92C progbits alloc noexec write align=1
 global ControllerSlotStates, ControllerSlotItems, ControllerColumnInfo, ControllerLayout, ControllerSlotPositions, ControllerOptionRows, ControllerTitlePos
 global ControlPickRows, ControlPickColumns, ControllerButtonOutline, ControllerTextIds, ControllerPreGame, ControllerColumnsDrawn
 
-ControllerPreGame:
+ControllerPreGame:                              ; controller screen opened before a game; used by
+                                                ; ControllerScreen, RunControllerScreen
         db 00h,00h
-ControllerColumnsDrawn:
+ControllerColumnsDrawn:                         ; controller columns have been drawn; used by
+                                                ; ControllerScreen, DrawControllerColumns
         db 01h,00h
-ControllerSlotStates:
+ControllerSlotStates:                           ; state of each controller slot; used by ControllerScreen,
+                                                ; DrawControllerColumns
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-ControllerSlotItems:
+ControllerSlotItems:                            ; item shown in each controller slot; used by
+                                                ; ControllerScreen, DrawControllerColumns
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-ControllerColumnInfo:
+ControllerColumnInfo:                           ; controller screen column info; used by ControllerScreen,
+                                                ; DrawControllerColumns
         db 04Fh,00h,00h,00h
-ControllerLayout:
+ControllerLayout:                               ; controller screen layout table; used by ControllerScreen,
+                                                ; DrawControllerColumns
         db 0F5h,00h,00h,00h,077h,00h,00h,00h,0F5h,00h,00h,00h,077h,00h,00h,00h
         db 023h,01h,00h,00h
         db 04Fh,00h,00h,00h
@@ -100,19 +106,19 @@ ControllerLayout:
         db 0B4h,01h,00h,00h,09h,02h,00h,00h,0B4h,01h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-ControllerButtonOutline:
+ControllerButtonOutline:                        ; controller screen button outline; used by ControllerScreen
         db 07Eh,00h,00h,00h,0C4h,01h,00h,00h,08Ah,00h,00h,00h,0BEh,01h,00h,00h
         db 0FAh,00h,00h,00h,0BEh,01h,00h,00h,05h,01h,00h,00h,0C5h,01h,00h,00h
         db 05h,01h,00h,00h,0CFh,01h,00h,00h,0FAh,00h,00h,00h,0D4h,01h,00h,00h
         db 08Ah,00h,00h,00h,0D4h,01h,00h,00h,07Eh,00h,00h,00h,0CDh,01h,00h,00h
-ControllerTextIds:
+ControllerTextIds:                              ; controller screen text ids; used by ControllerScreen
         db 07Eh,01h,00h,00h,0C4h,01h,00h,00h,089h,01h,00h,00h,0BDh,01h,00h,00h
         db 0F7h,01h,00h,00h,0BDh,01h,00h,00h,03h,02h,00h,00h,0C5h,01h,00h,00h
         db 03h,02h,00h,00h,0CFh,01h,00h,00h,0F5h,01h,00h,00h,0D5h,01h,00h,00h
         db 088h,01h,00h,00h,0D5h,01h,00h,00h,07Eh,01h,00h,00h,0CDh,01h,00h,00h
-ControllerSlotPositions:
+ControllerSlotPositions:                        ; controller slot positions; used by ControllerScreen
         db 067h,00h,00h,00h
-ControllerOptionRows:
+ControllerOptionRows:                           ; controller option rows; used by ControllerScreen
         db 011h,01h,00h,00h,0A5h,00h,00h,00h,011h,01h,00h,00h,043h,01h,00h,00h
         db 011h,01h,00h,00h,0E0h,01h,00h,00h,011h,01h,00h,00h,020h,02h,00h,00h
         db 011h,01h,00h,00h,067h,00h,00h,00h,042h,01h,00h,00h,0A5h,00h,00h,00h
@@ -123,14 +129,16 @@ ControllerOptionRows:
         db 072h,01h,00h,00h,067h,00h,00h,00h,0A3h,01h,00h,00h,0A5h,00h,00h,00h
         db 0A3h,01h,00h,00h,043h,01h,00h,00h,0A3h,01h,00h,00h,0E0h,01h,00h,00h
         db 0A3h,01h,00h,00h,020h,02h,00h,00h,0A3h,01h,00h,00h
-ControllerTitlePos:
+ControllerTitlePos:                             ; controller screen title position; used by ControllerScreen
         db 0BDh,00h,00h,00h
         db 0CAh,01h,00h,00h
         db 0BCh,01h,00h,00h
         db 0CAh,01h,00h,00h
-ControlPickRows:
+ControlPickRows:                                ; control pick rows; used by ControlPicksScreen,
+                                                ; PollOptionKeys
         db 0D3h,01h,00h,00h
-ControlPickColumns:
+ControlPickColumns:                             ; control pick slot positions; used by ControlPicksScreen,
+                                                ; PollOptionKeys
         db 05Bh,00h,00h,00h,0CAh,01h,00h,00h,07Ah,00h,00h,00h,0C1h,01h,00h,00h
         db 09Ah,00h,00h,00h,0B8h,01h,00h,00h,0BAh,00h,00h,00h,0AFh,01h,00h,00h
         db 0DAh,00h,00h,00h,0A6h,01h,00h,00h,0FBh,00h,00h,00h,09Dh,01h,00h,00h

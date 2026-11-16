@@ -8,25 +8,29 @@ global SbProRealIsr220, SbProRealIsr240, SbProRealIsrHigh220, SbProRealIsrHigh24
 ; Real mode interrupt stub (port 220h, low IRQ) that SbProStartDma installs:
 ; EOI and chain
 ;-----------------------------------------------------------------------------
-SbProRealIsr220:
+SbProRealIsr220:                                ; real mode interrupt stub (port 220h, low IRQ) that
+                                                ; SbProStartDma installs: EOI and chain; used by SbProStartDma
         db 050h,052h,0B0h,020h,0E6h,020h,0BAh,02Eh,02h,0ECh,05Ah,058h,0CFh
 ;-----------------------------------------------------------------------------
 ; SbProRealIsr240                                 F000D  96 PC, low confidence
 ; Real mode interrupt stub (other port, low IRQ) that SbProStartDma installs
 ;-----------------------------------------------------------------------------
-SbProRealIsr240:
+SbProRealIsr240:                                ; real mode interrupt stub (other port, low IRQ) that
+                                                ; SbProStartDma installs; used by SbProStartDma
         db 050h,052h,0B0h,020h,0E6h,020h,0BAh,04Eh,02h,0ECh,05Ah,058h,0CFh
 ;-----------------------------------------------------------------------------
 ; SbProRealIsrHigh220                             F001A  96 PC, low confidence
 ; Real mode interrupt stub (port 220h, IRQ 8 or above) that SbProStartDma
 ; installs
 ;-----------------------------------------------------------------------------
-SbProRealIsrHigh220:
+SbProRealIsrHigh220:                            ; real mode interrupt stub (port 220h, IRQ 8 or above) that
+                                                ; SbProStartDma installs; used by SbProStartDma
         db 050h,052h,0B0h,020h,0E6h,0A0h,0BAh,02Eh,02h,0ECh,05Ah,058h,0CFh
 ;-----------------------------------------------------------------------------
 ; SbProRealIsrHigh240                             F0027  96 PC, low confidence
 ; Real mode interrupt stub (other port, IRQ 8 or above) that SbProStartDma
 ; installs
 ;-----------------------------------------------------------------------------
-SbProRealIsrHigh240:
+SbProRealIsrHigh240:                            ; real mode interrupt stub (other port, IRQ 8 or above) that
+                                                ; SbProStartDma installs; used by SbProStartDma
         db 050h,052h,0B0h,020h,0E6h,0A0h,0BAh,04Eh,02h,0ECh,05Ah,058h,0CFh

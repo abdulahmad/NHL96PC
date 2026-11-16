@@ -4,23 +4,26 @@ bits 32
 section s_11A410 progbits alloc noexec write align=1
 global ReplayCamSteps, ReplayCamZoomIn, ReplayCamZoomOut, ReplayFrameTick, ReplayFrameDelta, ReplayTimeAccum, ReplayRemoteShape, ReplayButtonsLong
 global ReplayButtonPosLong, ReplayButtonPosMid, ReplayButtonsShort, ReplayButtonPosShort, ReplayHotspots, str_0_SaveHighlight, ReplayCounterX, ReplayCounterY
-ReplayCounterX:
+ReplayCounterX:                                 ; replay counter x positions; used by DrawReplayCounter
         db 0BBh,00h,077h,01h
-ReplayCounterY:
+ReplayCounterY:                                 ; replay counter y positions; used by DrawReplayCounter
         db 016h,00h,036h,00h
-ReplayCamSteps:
+ReplayCamSteps:                                 ; replay camera steps; used by ReplayCameraAim,
+                                                ; ReplayCameraUpdate
         db 00h,00h,00h,00h
-ReplayCamZoomIn:
+ReplayCamZoomIn:                                ; replay camera zoom in count; used by ReplayCameraAim,
+                                                ; ReplayCameraUpdate
         db 00h,00h,00h,00h
-ReplayCamZoomOut:
+ReplayCamZoomOut:                               ; replay camera zoom out count; used by ReplayCameraAim,
+                                                ; ReplayCameraUpdate
         db 00h,00h,00h,00h
-ReplayFrameTick:
+ReplayFrameTick:                                ; replay frame tick; used by ReplayFrame
         db 00h,00h,00h,00h
-ReplayFrameDelta:
+ReplayFrameDelta:                               ; replay frame delta; used by ReplayFrame, ReplayScreen
         db 00h,00h,00h,00h
-ReplayTimeAccum:
+ReplayTimeAccum:                                ; replay time accumulator; used by ReplayScreen
         db 00h,00h,00h,00h
-ReplayButtonsLong:
+ReplayButtonsLong:                              ; replay buttons, full set; used by ReplayScreen
         db 05h,00h,00h,00h,03h,00h,00h,00h,015h,00h,00h,00h,02h,00h,00h,00h
         db 024h,00h,00h,00h,04h,00h,00h,00h,024h,00h,00h,00h,0Ah,00h,00h,00h
         db 014h,00h,00h,00h,0Bh,00h,00h,00h,05h,00h,00h,00h,0Ah,00h,00h,00h
@@ -73,7 +76,7 @@ ReplayButtonsLong:
         db 025h,00h,00h,00h,0B6h,00h,00h,00h,025h,00h,00h,00h,0BCh,00h,00h,00h
         db 014h,00h,00h,00h,0BDh,00h,00h,00h,04h,00h,00h,00h,0BBh,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-ReplayButtonPosLong:
+ReplayButtonPosLong:                            ; replay button positions, full set; used by ReplayScreen
         db 05h,00h,00h,00h,024h,00h,00h,00h,014h,00h,00h,00h,022h,00h,00h,00h
         db 024h,00h,00h,00h,025h,00h,00h,00h,024h,00h,00h,00h,02Ah,00h,00h,00h
         db 013h,00h,00h,00h,02Ch,00h,00h,00h,05h,00h,00h,00h,029h,00h,00h,00h
@@ -110,7 +113,7 @@ ReplayButtonPosLong:
         db 025h,00h,00h,00h,08Fh,00h,00h,00h,025h,00h,00h,00h,094h,00h,00h,00h
         db 014h,00h,00h,00h,097h,00h,00h,00h,05h,00h,00h,00h,094h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-ReplayButtonPosMid:
+ReplayButtonPosMid:                             ; replay button positions, middle set; used by ReplayScreen
         db 04h,00h,00h,00h,030h,00h,00h,00h,0Dh,00h,00h,00h,02Ah,00h,00h,00h
         db 013h,00h,00h,00h,02Ah,00h,00h,00h,013h,00h,00h,00h,041h,00h,00h,00h
         db 0Ah,00h,00h,00h,041h,00h,00h,00h,04h,00h,00h,00h,037h,00h,00h,00h
@@ -135,7 +138,7 @@ ReplayButtonPosMid:
         db 023h,00h,00h,00h,09Ah,00h,00h,00h,01Ah,00h,00h,00h,0A1h,00h,00h,00h
         db 010h,00h,00h,00h,0A1h,00h,00h,00h,07h,00h,00h,00h,09Ah,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-ReplayButtonsShort:
+ReplayButtonsShort:                             ; replay buttons, short set; used by ReplayScreen
         db 08h,00h,00h,00h,09h,00h,00h,00h,02Ah,00h,00h,00h,06h,00h,00h,00h
         db 04Bh,00h,00h,00h,0Ah,00h,00h,00h,04Bh,00h,00h,00h,01Ah,00h,00h,00h
         db 028h,00h,00h,00h,01Eh,00h,00h,00h,08h,00h,00h,00h,019h,00h,00h,00h
@@ -188,7 +191,7 @@ ReplayButtonsShort:
         db 04Bh,00h,00h,00h,0B4h,01h,00h,00h,04Bh,00h,00h,00h,0C4h,01h,00h,00h
         db 028h,00h,00h,00h,0C7h,01h,00h,00h,07h,00h,00h,00h,0C2h,01h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-ReplayButtonPosShort:
+ReplayButtonPosShort:                           ; replay button positions, short set; used by ReplayScreen
         db 08h,00h,00h,00h,056h,00h,00h,00h,02Ah,00h,00h,00h,053h,00h,00h,00h
         db 04Bh,00h,00h,00h,056h,00h,00h,00h,04Bh,00h,00h,00h,066h,00h,00h,00h
         db 028h,00h,00h,00h,06Ah,00h,00h,00h,08h,00h,00h,00h,066h,00h,00h,00h
@@ -225,7 +228,7 @@ ReplayButtonPosShort:
         db 04Bh,00h,00h,00h,058h,01h,00h,00h,04Bh,00h,00h,00h,064h,01h,00h,00h
         db 029h,00h,00h,00h,069h,01h,00h,00h,0Ah,00h,00h,00h,063h,01h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-ReplayHotspots:
+ReplayHotspots:                                 ; replay screen click areas; used by ReplayScreen
         db 0Ah,00h,00h,00h,07Ah,00h,00h,00h,01Bh,00h,00h,00h,064h,00h,00h,00h
         db 026h,00h,00h,00h,064h,00h,00h,00h,026h,00h,00h,00h,09Ch,00h,00h,00h
         db 019h,00h,00h,00h,09Ch,00h,00h,00h,0Ah,00h,00h,00h,085h,00h,00h,00h
@@ -250,7 +253,8 @@ ReplayHotspots:
         db 045h,00h,00h,00h,073h,01h,00h,00h,032h,00h,00h,00h,081h,01h,00h,00h
         db 022h,00h,00h,00h,081h,01h,00h,00h,0Fh,00h,00h,00h,072h,01h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-str_0_SaveHighlight:
+str_0_SaveHighlight:                            ; string "0"; used by SaveHighlight
         db 030h,00h,041h,00h
-ReplayRemoteShape:
+ReplayRemoteShape:                              ; replay remote shape; used by CopyZonesToScreen,
+                                                ; DrawDirtyZones, DrawInGameMenuFrame ...
         db 00h,00h,00h,00h

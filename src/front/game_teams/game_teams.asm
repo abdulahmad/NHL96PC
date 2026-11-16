@@ -1198,7 +1198,7 @@ FillTeamRoster:
         pop edi
         pop esi
         ret 0Ch
-JoystickTestOutline:
+JoystickTestOutline:                            ; used by JoystickTestScreen
         db 08h,01h,00h,00h,0C3h,01h,00h,00h,014h,01h,00h,00h,0BDh,01h,00h,00h
         db 083h,01h,00h,00h,0BDh,01h,00h,00h,08Fh,01h,00h,00h,0C3h,01h,00h,00h
         db 08Fh,01h,00h,00h,0CEh,01h,00h,00h,083h,01h,00h,00h,0D3h,01h,00h,00h

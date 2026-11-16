@@ -2030,7 +2030,7 @@ FindPlayerAtMouse:
         pop ecx
         pop ebx
         ret
-ReplayCameraJumpTable:
+ReplayCameraJumpTable:                          ; jump table for the switch cases of ReplayCameraUpdate
         dd ReplayCameraUpdate_42
         dd ReplayCameraUpdate_82
         dd ReplayCameraUpdate_C2
@@ -2499,7 +2499,7 @@ PickReplayPlayer:
 .1:
         pop edx
         ret
-ReplayChoiceJumpTable:
+ReplayChoiceJumpTable:                          ; jump table for the switch cases of ReplayScreen
         dd ReplayScreen_D18
         dd ReplayScreen_D42
         dd ReplayScreen_D83
@@ -4538,10 +4538,10 @@ HighlightsMenu:
 ; OverlayCaptionTextIds                           58468  96 PC, low confidence
 ; Overlay caption text ids
 ;-----------------------------------------------------------------------------
-OverlayCaptionTextIds:
+OverlayCaptionTextIds:                          ; overlay caption text ids; used by DrawOverlayCaption
         db 074h,00h,00h,00h,075h,00h,00h,00h,076h,00h,00h,00h,077h,00h,00h,00h
         db 078h,00h,00h,00h,079h,00h,00h,00h,07Ah,00h,00h,00h,07Bh,00h,00h,00h
         db 019h,00h,00h,00h
-LineEnergyBarSteps:
+LineEnergyBarSteps:                             ; used by DrawLineEnergyBar
         db 01Bh,00h,00h,00h,02Bh,00h,00h,00h,041h,00h,00h,00h,04Ch,00h,00h,00h
         db 04Ch,00h,00h,00h

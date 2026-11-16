@@ -8,93 +8,118 @@ global CrowdEvents, CrowdEventRaise, CrowdEventCap, CrowdEventCurve, CrowdEventS
 global AtexitTable, SpeechBankCount, MemLockState, BigEntryNamePtr, BigEntryLength, ScaledRowBuffer, ScreenSaveBitmap, SndChannelRate
 global SfxTable, SfxTableNext, _doserrno, errno, DefaultRowTable, SndChannels, SbBasePort, SbMixerAddrPort
 global SbMixerIndexPort, SbMixerDataPort, SbResetPort, SbReadPort, SbWritePort
-CrowdLayerData:
+CrowdLayerData:                                 ; crowd layer sample data; used by LoadCrowdBank
         resb 16
-CrowdLayerChannel:
+CrowdLayerChannel:                              ; crowd layer sound channel; used by SetCrowdLayerLevels,
+                                                ; StartCrowdSound, StopCrowdChannels
         resb 4
-CrowdLayerCurVolume:
+CrowdLayerCurVolume:                            ; crowd layer volume now; used by SetCrowdLayerLevels
         resb 4
-CrowdLayerCurBend:
+CrowdLayerCurBend:                              ; crowd layer bend now; used by SetCrowdLayerLevels
         resb 4
-CrowdLayerThreshold:
+CrowdLayerThreshold:                            ; crowd level where a layer starts to rise; used by
+                                                ; SetCrowdLayerLevels
         resb 8
-CrowdLayerMinVolume:
+CrowdLayerMinVolume:                            ; crowd layer quietest volume; used by SetCrowdLayerLevels
         resb 4
-CrowdLayerMaxVolume:
+CrowdLayerMaxVolume:                            ; crowd layer loudest volume; used by SetCrowdLayerLevels
         resb 360
-CrowdEvents:
+CrowdEvents:                                    ; crowd event records, 14h bytes each; used by
+                                                ; TriggerCrowdEvent
         resb 4
-CrowdEventRaise:
+CrowdEventRaise:                                ; excitement a crowd event adds; used by SetCrowdRampRate,
+                                                ; TriggerCrowdEvent
         resb 4
-CrowdEventCap:
+CrowdEventCap:                                  ; highest excitement a crowd event reaches; used by
+                                                ; TriggerCrowdEvent
         resb 4
-CrowdEventCurve:
+CrowdEventCurve:                                ; rise curve of a crowd event; used by SetCrowdRampRate
         resb 4
-CrowdEventSfx:
+CrowdEventSfx:                                  ; sound effect a crowd event plays; used by TriggerCrowdEvent
         resb 304
-CrowdRampRate:
+CrowdRampRate:                                  ; crowd excitement change per tick; used by CrowdService,
+                                                ; SetCrowdRampRate
         resb 4
-_doserrno:
+_doserrno:                                      ; DOS error number; used by __get_doserrno_ptr_
         resb 4
-errno:
+errno:                                          ; C library errno; used by ErrnoPtr
         resb 4
-__OpenStreams:
+__OpenStreams:                                  ; list of open stdio streams; used by __InitFiles_,
+                                                ; __allocfp_, __freefp_ ...
         resb 4
-__ClosedStreams:
+__ClosedStreams:                                ; list of closed stdio streams; used by __InitFiles_,
+                                                ; __allocfp_, __flushall_ ...
         resb 4
-__HeapFlags:
+__HeapFlags:                                    ; heap manager flags; used by _Full_at_exit_rtn_,
+                                                ; __HeapManager_expand_
         resb 1
-__nheap_clean:
+__nheap_clean:                                  ; near heap clean flag; used by _nfree_, _nmalloc_
         resb 3
-AtexitTable:
+AtexitTable:                                    ; atexit routines; used by atexit_
         resb 128
-SpeechBankCount:
+SpeechBankCount:                                ; number of registered speech banks; used by
+                                                ; _Full_at_exit_rtn_, atexit_
         resb 4
-MemLockState:
+MemLockState:                                   ; memory lock state; used by ResetMemLock
         resb 4
-DefaultRowTable:
+DefaultRowTable:                                ; row table used when none is given; used by InitMemoryPool
         resb 14336
-BigEntryNamePtr:
+BigEntryNamePtr:                                ; name of the archive entry found; used by WalkBigFile
         resb 4
-BigEntryLength:
+BigEntryLength:                                 ; length of the archive entry found; used by LocateBigEntry,
+                                                ; OpenResourceArchive, WalkBigFile
         resb 4
-ScaledRowBuffer:
+ScaledRowBuffer:                                ; scaled shape row buffer; used by BlitArtScaled,
+                                                ; RasterMappedTriangle, RasterMappedTriangleShadow ...
         resb 6212
-ScreenSaveBitmap:
+ScreenSaveBitmap:                               ; bitmap holding a copy of the screen; used by __chk8087_,
+                                                ; initgraphics
         resb 4
-SndChannels:
+SndChannels:                                    ; sound channel records, 16 of 28h bytes; used by
+                                                ; AllocSoundChannel, ChannelPanVolumes, FadeChannelVolume ...
         resb 11
-SndChannelType:
+SndChannelType:                                 ; sound channel type: 1 effect, 2 stream; used by
+                                                ; SetChannelBend
         resb 1
-SndChannelRate:
+SndChannelRate:                                 ; sound channel base sample rate; used by SetChannelBend
         resb 5
-SndChannelBendRange:
+SndChannelBendRange:                            ; sound channel pitch bend range; used by SetChannelBend
         resb 5
-SndChannelActive:
+SndChannelActive:                               ; set while a sound channel plays; used by ChannelIdle,
+                                                ; FadeChannelVolume, SetChannelBend ...
         resb 1
-SndChannelSfx:
+SndChannelSfx:                                  ; sound effect number a channel plays; used by StartSfxChannel
         resb 13
-SndChannelVolume:
+SndChannelVolume:                               ; sound channel volume; used by StopSoundChannel
         resb 2
-SndChannelGain:
+SndChannelGain:                                 ; sound channel output gain; used by SetChannelVolume
         resb 1
-SndChannelPan:
+SndChannelPan:                                  ; sound channel pan; used by SetChannelVolume
         resb 601
-SfxTable:
+SfxTable:                                       ; sound effect records by number; used by PlaySfxPanned,
+                                                ; RegisterSfxBank, UnregisterSfxBank
         resb 4
-SfxTableNext:
+SfxTableNext:                                   ; sound effect table from the second entry, for stereo pairs;
+                                                ; used by PlaySfxPanned
         resb 508
-SbBasePort:
+SbBasePort:                                     ; base port of the Sound Blaster; used by ClearMixBuffer,
+                                                ; ParseBlasterEnv, SbWaitRead
         resb 2
-SbMixerAddrPort:
+SbMixerAddrPort:                                ; Sound Blaster mixer address port; used by ClearMixBuffer,
+                                                ; ParseBlasterEnv
         resb 2
-SbMixerIndexPort:
+SbMixerIndexPort:                               ; Sound Blaster mixer register select port (base plus 4); used
+                                                ; by ClearMixBuffer, ParseBlasterEnv, SbProSetFilter ...
         resb 2
-SbMixerDataPort:
+SbMixerDataPort:                                ; Sound Blaster mixer data port; used by ClearMixBuffer,
+                                                ; ParseBlasterEnv, SbProSetFilter ...
         resb 2
-SbResetPort:
+SbResetPort:                                    ; Sound Blaster DSP reset port; used by ClearMixBuffer,
+                                                ; ParseBlasterEnv, SbResetDsp
         resb 2
-SbReadPort:
+SbReadPort:                                     ; Sound Blaster DSP read port; used by ClearMixBuffer,
+                                                ; ParseBlasterEnv, SbWriteDsp
         resb 2
-SbWritePort:
+SbWritePort:                                    ; Sound Blaster DSP write port; used by ClearMixBuffer,
+                                                ; ParseBlasterEnv, SbDelay ...
         resb 4

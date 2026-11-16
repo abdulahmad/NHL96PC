@@ -38,12 +38,12 @@ global TeamStatsScreen_957, TeamStatsScreen_96F, TeamStatsScreen_132A, TeamStats
 global CopyTeamStatName, CopyTeamStatName_82, CopyTeamStatName_89, CopyTeamStatName_90, CopyTeamStatName_97, FindTeamStatRow, ExportTeamStatsJumpTable, ExportTeamStats
 global ExportTeamStats_117, ExportTeamStats_11E, ExportTeamStats_125, ExportTeamStats_12C, BuildTeamStatTables, BuildTeamStatTables_265, BuildTeamStatTables_266, DumpSaveTimes
 global CheckExportName, PlayerStatsNavLinks, PlayerStatsHotspots, PlayerStatsColumnLabels
-StatsMenuItemMap:
+StatsMenuItemMap:                               ; used by RunStatsMenu
         db 00h,00h,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,01h,00h,0FFh,0FFh,02h,00h,0FFh,0FFh
         db 0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,03h,00h,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh
         db 04h,00h,05h,00h,06h,00h,07h,00h,08h,00h,0FFh,0FFh,0FFh,0FFh,09h,00h
         db 0FFh,0FFh,0FFh,0FFh
-RunStatsMenuJumpTable:
+RunStatsMenuJumpTable:                          ; jump table for the switch cases of RunStatsMenu
         dd RunStatsMenu_25
         dd RunStatsMenu_13E
         dd RunStatsMenu_104
@@ -259,7 +259,7 @@ GetTeamMovieText:
         pop ecx
         pop ebx
         ret
-str_U:
+str_U:                                          ; string "u"; used by TeamStatsScreen
         db 075h,00h,00h,00h,067h,00h,00h,00h,0F7h,00h,00h,00h,067h,00h,00h,00h
         db 0F7h,00h,00h,00h,082h,00h,00h,00h,075h,00h,00h,00h,082h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -284,7 +284,7 @@ str_U:
         db 014h,02h,00h,00h,0C0h,01h,00h,00h,01Fh,02h,00h,00h,0C8h,01h,00h,00h
         db 017h,02h,00h,00h,0D3h,01h,00h,00h,097h,01h,00h,00h,0D3h,01h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-TeamStatsColumnLabels:
+TeamStatsColumnLabels:                          ; used by TeamStatsScreen
         dd str_000
         dd str_SEA2
         dd str_PLY2
@@ -297,7 +297,7 @@ TeamStatsColumnLabels:
         dd str_NOR
         dd str_CEN
         dd str_ATL
-TeamStatsNavLinks:
+TeamStatsNavLinks:                              ; used by TeamStatsScreen
         db 03h,06h,00h,0Eh,01h,00h,01h,05h,02h,00h,02h,05h,03h,024h,00h,04h
         db 04h,01Fh,03h,05h,05h,021h,04h,0Ah,0Dh,06h,00h,07h,067h,07h,06h,08h
         db 010h,08h,07h,0Fh,09h,0Bh,023h,09h,0Ah,0Bh,023h,0Ah,09h,0Bh,065h,0Bh
@@ -603,14 +603,14 @@ AnimateTeamStatsButtons:
         pop edi
         pop esi
         ret 14h
-TeamStatsColumnJumpTable:
+TeamStatsColumnJumpTable:                       ; jump table for the switch cases of TeamStatsScreen
         dd TeamStatsScreen_92E
         dd TeamStatsScreen_946
         dd TeamStatsScreen_96F
         dd TeamStatsScreen_957
         dd TeamStatsScreen_8FE
         dd TeamStatsScreen_916
-TeamStatsItemJumpTable:
+TeamStatsItemJumpTable:                         ; jump table for the switch cases of TeamStatsScreen
         dd TeamStatsScreen_132A
         dd TeamStatsScreen_134F
         dd TeamStatsScreen_1380
@@ -2378,7 +2378,7 @@ DrawTeamStatsTable:
         pop edi
         pop esi
         ret 10h
-CopyTeamStatNameJumpTable:
+CopyTeamStatNameJumpTable:                      ; jump table for the switch cases of CopyTeamStatName
         dd CopyTeamStatName_82
         dd CopyTeamStatName_90
         dd CopyTeamStatName_89
@@ -2561,7 +2561,7 @@ FindTeamStatRow:
         pop edi
         pop esi
         ret
-ExportTeamStatsJumpTable:
+ExportTeamStatsJumpTable:                       ; jump table for the switch cases of ExportTeamStats
         dd ExportTeamStats_117
         dd ExportTeamStats_11E
         dd ExportTeamStats_12C
@@ -3811,7 +3811,7 @@ CheckExportName:
         pop ecx
         pop ebx
         ret
-PlayerStatsNavLinks:
+PlayerStatsNavLinks:                            ; used by PlayerStatsScreen
         db 02h,00h,00h,05h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 01h,0Ch,01h,04h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 02h,011h,02h,03h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -3898,7 +3898,7 @@ PlayerStatsNavLinks:
 ; PlayerStatsHotspots                             8BD9F  96 PC, low confidence
 ; Player stats screen click areas
 ;-----------------------------------------------------------------------------
-PlayerStatsHotspots:
+PlayerStatsHotspots:                            ; player stats screen click areas; used by PlayerStatsScreen
         db 075h,00h,00h,00h,067h,00h,00h,00h,0F7h,00h,00h,00h,067h,00h,00h,00h
         db 0F7h,00h,00h,00h,082h,00h,00h,00h,075h,00h,00h,00h,082h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -3923,7 +3923,7 @@ PlayerStatsHotspots:
         db 016h,02h,00h,00h,0BFh,01h,00h,00h,020h,02h,00h,00h,0C9h,01h,00h,00h
         db 016h,02h,00h,00h,0D4h,01h,00h,00h,09Ah,01h,00h,00h,0D5h,01h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-PlayerStatsColumnLabels:
+PlayerStatsColumnLabels:                        ; used by PlayerStatsScreen
         dd str_DEF
         dd str_ALL
         dd str_FOR

@@ -9,103 +9,145 @@ global InvTabCell, InvTabRCenter, InvTabR, InvTabG, InvTabB, InvTabColor, InvTab
 global InvTabBMin, InvTabBMax, InvTabRow, InvTabPass, InvTabGLo, InvTabGHi, InvTabBLo, InvTabBHi
 global InvTabGInc, InvTabBInc, InvTabDistInc, InvTabDistStart, InvTabFillPtr, InvTabFillCount, InvTabFillStep, InvTabFillDist
 global MemPoolSize, PaletteShadow
-TintMulGreen:
+TintMulGreen:                                   ; green multiplier of the screen tint; used by TintRowPixels,
+                                                ; TintRows
         resb 4
-TintMulBlue:
+TintMulBlue:                                    ; blue multiplier of the screen tint; used by TintRowPixels,
+                                                ; TintRows
         resb 4
-TintRowCount:
+TintRowCount:                                   ; rows of the tint rectangle left to do; used by
+                                                ; TintRowPixels, TintRows
         resb 4
-TintPixelGreen:
+TintPixelGreen:                                 ; green component of the pixel being tinted; used by
+                                                ; TintRowPixels
         resb 4
-TintPixelBlue:
+TintPixelBlue:                                  ; blue component of the pixel being tinted; used by
+                                                ; TintRowPixels
         resb 4
-TintMulRed:
+TintMulRed:                                     ; red multiplier of the screen tint; used by TintRowPixels,
+                                                ; TintRows
         resb 4
-TintRemapTable:
+TintRemapTable:                                 ; colour table the tinted pixels are matched against; used by
+                                                ; TintRowPixels
         resb 4
-TintPixelRed:
+TintPixelRed:                                   ; red component of the pixel being tinted; used by
+                                                ; TintRowPixels
         resb 4
-UnpackSrcPtr:
+UnpackSrcPtr:                                   ; byte pair unpacker source pointer; used by ExpandBytePair,
+                                                ; UnpackBytePair
         resb 4
-UnpackDestPtr:
+UnpackDestPtr:                                  ; byte pair unpacker destination pointer; used by
+                                                ; ExpandBytePair, UnpackBytePair
         resb 4
-UnpackPairState:
+UnpackPairState:                                ; byte pair unpacker state; used by UnpackBytePair
         resb 4
-UnpackStackPtr:
+UnpackStackPtr:                                 ; byte pair unpacker expansion stack pointer; used by
+                                                ; ExpandBytePair, UnpackBytePair
         resb 4
-UnpackPairTable:
+UnpackPairTable:                                ; byte pair unpacker pair table; used by BuildTextColourTable,
+                                                ; ExpandBytePair, TextSetColor ...
         resb 4
-TextColumnTable:
+TextColumnTable:                                ; text column table; used by TextPrint
         resb 64
-InvTabDist:
+InvTabDist:                                     ; inverse colour table: distance; used by InverseTablePass,
+                                                ; InverseTableScan
         resb 4
-InvTabRStep:
+InvTabRStep:                                    ; inverse colour table: red step; used by InverseTablePass,
+                                                ; InverseTableSlice
         resb 4
-InvTabGStep:
+InvTabGStep:                                    ; inverse colour table: green step; used by InverseTableFill,
+                                                ; InverseTableSlice
         resb 4
-InvTabBStep:
+InvTabBStep:                                    ; inverse colour table: blue step; used by InverseTablePass,
+                                                ; InverseTableSlice
         resb 4
-InvTabRMin:
+InvTabRMin:                                     ; inverse colour table: red minimum; used by InverseTableSlice
         resb 4
-InvTabOut:
+InvTabOut:                                      ; inverse colour table: output buffer; used by
+                                                ; InverseTableFill, InverseTablePass, InverseTableScan ...
         resb 4
-InvTabDistBuf:
+InvTabDistBuf:                                  ; inverse colour table: distance buffer; used by
+                                                ; InverseTableFill, InverseTablePass, InverseTableScan ...
         resb 4
-InvTabGMin:
+InvTabGMin:                                     ; inverse colour table: green minimum; used by
+                                                ; InverseTableFill, InverseTableScan
         resb 4
-InvTabGCenter:
+InvTabGCenter:                                  ; inverse colour table: green center; used by
+                                                ; InverseTablePass, InverseTableScan
         resb 4
-InvTabBCenter:
+InvTabBCenter:                                  ; inverse colour table: blue center; used by InverseTableFill,
+                                                ; InverseTableScan
         resb 4
-InvTabCell:
+InvTabCell:                                     ; inverse colour table: cell pointer; used by
+                                                ; InverseTableScan, InverseTableSlice
         resb 4
-InvTabRCenter:
+InvTabRCenter:                                  ; inverse colour table: red center; used by InverseTablePass,
+                                                ; InverseTableSlice
         resb 4
-InvTabR:
+InvTabR:                                        ; inverse colour table: red; used by InverseTablePass,
+                                                ; InverseTableSlice
         resb 4
-InvTabG:
+InvTabG:                                        ; inverse colour table: green; used by InverseTableFill,
+                                                ; InverseTableSlice
         resb 4
-InvTabB:
+InvTabB:                                        ; inverse colour table: blue; used by InverseTableScan,
+                                                ; InverseTableSlice
         resb 4
-InvTabColor:
+InvTabColor:                                    ; inverse colour table: colour index; used by
+                                                ; InverseTableScan, InverseTableSlice
         resb 4
-InvTabRMax:
+InvTabRMax:                                     ; inverse colour table: red maximum; used by InverseTableFill,
+                                                ; InverseTableSlice
         resb 4
-InvTabGMax:
+InvTabGMax:                                     ; inverse colour table: green maximum; used by
+                                                ; InverseTablePass, InverseTableSlice
         resb 4
-InvTabBMin:
+InvTabBMin:                                     ; inverse colour table: blue minimum; used by
+                                                ; InverseTablePass, InverseTableSlice
         resb 4
-InvTabBMax:
+InvTabBMax:                                     ; inverse colour table: blue maximum; used by
+                                                ; InverseTablePass, InverseTableScan, InverseTableSlice
         resb 4
-InvTabRow:
+InvTabRow:                                      ; inverse colour table: row pointer; used by InverseTableFill,
+                                                ; InverseTableScan, InverseTableSlice
         resb 4
-InvTabPass:
+InvTabPass:                                     ; inverse colour table: pass count; used by InverseTablePass
         resb 4
-InvTabGLo:
+InvTabGLo:                                      ; inverse colour table scan: green low; used by
+                                                ; InverseTableScan
         resb 4
-InvTabGHi:
+InvTabGHi:                                      ; inverse colour table scan: green high; used by
+                                                ; InverseTableScan
         resb 4
-InvTabBLo:
+InvTabBLo:                                      ; inverse colour table scan: blue low; used by
+                                                ; InverseTableScan
         resb 4
-InvTabBHi:
+InvTabBHi:                                      ; inverse colour table scan: blue high; used by
+                                                ; InverseTableScan
         resb 4
-InvTabGInc:
+InvTabGInc:                                     ; inverse colour table scan: green increment; used by
+                                                ; InverseTableScan
         resb 4
-InvTabBInc:
+InvTabBInc:                                     ; inverse colour table scan: blue increment; used by
+                                                ; InverseTableScan
         resb 4
-InvTabDistInc:
+InvTabDistInc:                                  ; inverse colour table scan: distance increment; used by
+                                                ; InverseTableScan
         resb 4
-InvTabDistStart:
+InvTabDistStart:                                ; inverse colour table scan: start distance; used by
+                                                ; InverseTableScan
         resb 4
-InvTabFillPtr:
+InvTabFillPtr:                                  ; inverse colour table fill: pointer; used by InverseTableFill
         resb 4
-InvTabFillCount:
+InvTabFillCount:                                ; inverse colour table fill: count; used by InverseTableFill
         resb 4
-InvTabFillStep:
+InvTabFillStep:                                 ; inverse colour table fill: step; used by InverseTableFill
         resb 4
-InvTabFillDist:
+InvTabFillDist:                                 ; inverse colour table fill: distance; used by
+                                                ; InverseTableFill
         resb 16
-MemPoolSize:
+MemPoolSize:                                    ; memory pool size; used by InitMemoryPool, MemViewerDrawList
         resb 4
-PaletteShadow:
+PaletteShadow:                                  ; copy of the hardware palette (4 bytes per entry); used by
+                                                ; InitHardware, InitSystem, PixelToRgb ...
         resb 1024

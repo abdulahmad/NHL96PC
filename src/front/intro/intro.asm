@@ -467,7 +467,7 @@ RunSlideEvents:
         pop ecx
         pop ebx
         ret
-SlideShowStepJumpTable:
+SlideShowStepJumpTable:                         ; jump table for the switch cases of RunSlideShow
         dd RunSlideShow_78
         dd RunSlideShow_A3
         dd RunSlideShow_C7

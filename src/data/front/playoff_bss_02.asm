@@ -7,69 +7,87 @@ global InGameMenuArt, InGameMenuShapes, InGameBoxXs, InGameBoxYs, InGameScaleSte
 global InGameTitleItems, InGameFrameBmp, ModemPanelArt, TreeLineShift, ModemPanelShapes, PlayoffTreeLines
 global PlayoffSlotLogos, PlayoffSlotFlags, TreeBackBmp, TreeScrollStep, statspalshape, TreeViewBmp, TreeScrollY
 global TreeScrollTarget, TreeScrollPos, InGameTimeText, InGameScoreText
-PlayoffTreeLabels:
+PlayoffTreeLabels:                              ; playoff tree label positions; used by PlayoffTreeScreen
         resb 4
         resb 12
         resb 4
         resb 20
-InGameMenuArt:
+InGameMenuArt:                                  ; in-game menu art; used by InGameMenu
         resb 4
-InGameMenuShapes:
+InGameMenuShapes:                               ; in-game menu shapes; used by InGameMenu
         resb 36
-InGameMenuState:
+InGameMenuState:                                ; in-game menu state bytes; used by InGameMenu
         resb 2
         resb 1
         resb 33
-InGameBoxXs:
+InGameBoxXs:                                    ; in-game menu box x positions in use; used by
+                                                ; DrawInGameMenuFrame, InGameMenu, InGameReturnMenu
         resb 4
-InGameBoxYs:
+InGameBoxYs:                                    ; in-game menu box y positions in use; used by
+                                                ; DrawInGameMenuFrame, InGameMenu, InGameReturnMenu
         resb 4
-InGameScaleStep:
+InGameScaleStep:                                ; in-game menu scale step; used by DrawInGameMenuFrame,
+                                                ; InGameMenu
         resb 4
-InGameItemList:
+InGameItemList:                                 ; in-game menu items in use; used by DrawInGameMenuFrame,
+                                                ; InGameMenu
         resb 4
-InGameTitleItems:
+InGameTitleItems:                               ; in-game menu title items in use; used by
+                                                ; DrawInGameMenuFrame, InGameMenu
         resb 4
-InGameFrameBmp:
+InGameFrameBmp:                                 ; in-game menu frame bitmap; used by DrawInGameMenuFrame,
+                                                ; InGameMenu
         resb 4
-InGameTimeText:
+InGameTimeText:                                 ; in-game menu time text; used by InGameMenu
         resb 10
-InGameScoreText:
+InGameScoreText:                                ; in-game menu score text; used by DrawInGameMenuFrame,
+                                                ; InGameMenu
         resb 50
-InGameTitleText:
+InGameTitleText:                                ; in-game menu title text; used by InGameMenu
         resb 44
-ModemPanelArt:
+ModemPanelArt:                                  ; modem team panel art; used by ModemTeamSelectScreen
         resb 4
-TreeLineShift:
+TreeLineShift:                                  ; tree line shift per entry; used by DrawModemAwayPanel,
+                                                ; DrawModemHomePanel, DrawTreeLine ...
         resb 4
-ModemPanelShapes:
+ModemPanelShapes:                               ; modem team panel shapes; used by DrawModemAwayPanel,
+                                                ; DrawModemHomePanel, ModemTeamSelectScreen
         resb 4
-PlayoffTreeLines:
+PlayoffTreeLines:                               ; playoff tree lines, copied from the template; used by
+                                                ; DrawPlayoffTree, PlayoffTreeScreen
         resb 4
         resb 12
         resb 4
         resb 940
-PlayoffSlotLogos:
+PlayoffSlotLogos:                               ; logo in each playoff setup slot; used by PickPlayoffTeam,
+                                                ; PlayoffSetupScreen
         resb 32
-PlayoffSlotFlags:
+PlayoffSlotFlags:                               ; flags of each playoff setup slot; used by PlayoffSetupScreen
         resb 32
-TreeBackBmp:
+TreeBackBmp:                                    ; playoff tree background bitmap; used by DrawPlayoffTree,
+                                                ; DrawTreeLine, PlayoffTreeScreen
         resb 4
-TreeScrollStep:
+TreeScrollStep:                                 ; playoff tree scroll step; used by DrawTreeLine,
+                                                ; PlayoffTreeScreen
         resb 4
-statspalshape:
+statspalshape:                                  ; stats palette shape; used by DrawTreeLine, PlayoffTreeScreen
         resb 4
-TreeViewBmp:
+TreeViewBmp:                                    ; playoff tree view bitmap; used by DrawTreeLine,
+                                                ; PlayoffTreeScreen
         resb 4
-TreeScrollY:
+TreeScrollY:                                    ; playoff tree scroll position; used by DrawPlayoffTree,
+                                                ; DrawTreeLine, PlayoffTreeScreen
         resb 4
-TreeScrollTarget:
+TreeScrollTarget:                               ; playoff tree scroll target; used by DrawTreeLine,
+                                                ; PlayoffTreeScreen
         resb 4
-TreeScrollPos:
+TreeScrollPos:                                  ; playoff tree scroll positions; used by DrawTreeLine,
+                                                ; PickPlayoffTeam, PlayoffTreeScreen ...
         resb 8
         resb 4
         resb 4
-PlayoffSlotOn:
+PlayoffSlotOn:                                  ; playoff slot is in use; used by PlayoffTreeScreen
         resb 4
-PlayoffTeamIn:
+PlayoffTeamIn:                                  ; team is in the playoffs; used by ClearPlayoffTree,
+                                                ; DrawPlayoffTree, PlayoffRound1 ...
         resb 16

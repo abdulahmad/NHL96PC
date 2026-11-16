@@ -7,77 +7,81 @@ global MenuLocalLayer, MenuCurrentItem, MenuSavedRemoteArt, MenuLocalItem, MenuR
 global MenuItemEnterFunc, MenuItemHoverFunc, MenuItemExitFunc, MenuRepeatTick, MenuBackdropBmp, MenuBackdropPixels, MenuSavedViewWidth, MenuSavedViewHeight
 global MenuLinkKey, MenuCursorArt, MenuBitmapReady, ArenaClipName, MenuStarted, MenuViewSaved
 global MenuCursorX, MenuCursorY, MenuCursorShown, MenuMouseMode, MenuStartSelection, SpeechClipQueue
-MenuViewBottom:
+MenuViewBottom:                                 ; Menu view bottom; used by RunMenu
         resb 4
-MenuViewLeft:
+MenuViewLeft:                                   ; Menu view left; used by RunMenu, SetGameBackdrop
         resb 4
-MenuViewRight:
+MenuViewRight:                                  ; Menu view right; used by RunMenu
         resb 4
-MenuRemoteItem:
+MenuRemoteItem:                                 ; menu item under the remote cursor; used by RunMenu
         resb 4
-MenuRemoteLayer:
+MenuRemoteLayer:                                ; remote cursor draw layer; used by RunMenu
         resb 4
-MenuLocalCursorY:
+MenuLocalCursorY:                               ; local cursor y; used by RunMenu
         resb 4
-MenuLocalCursorX:
+MenuLocalCursorX:                               ; local cursor x; used by RunMenu
         resb 4
-MenuItemLeaveFunc:
+MenuItemLeaveFunc:                              ; menu item leave routine; used by RunMenu
         resb 4
-MenuLocalLayer:
+MenuLocalLayer:                                 ; local cursor draw layer; used by RunMenu
         resb 4
-MenuCurrentItem:
+MenuCurrentItem:                                ; Menu item under the cursor; used by RunMenu
         resb 4
-MenuSavedRemoteArt:
+MenuSavedRemoteArt:                             ; saved remote cursor art; used by RunMenu
         resb 4
-MenuLocalItem:
+MenuLocalItem:                                  ; menu item under the local cursor; used by RunMenu
         resb 4
-MenuRemoteCursorY:
+MenuRemoteCursorY:                              ; remote cursor y; used by RunMenu
         resb 4
-MenuRemoteCursorX:
+MenuRemoteCursorX:                              ; remote cursor x; used by RunMenu
         resb 4
-MenuSavedCursorArt:
+MenuSavedCursorArt:                             ; Saved cursor art; used by RunMenu
         resb 4
-MenuViewCallback:
+MenuViewCallback:                               ; Routine called when the menu view is restored; used by
+                                                ; RunMenu, SetGameBackdrop
         resb 4
-MenuItemEnterFunc:
+MenuItemEnterFunc:                              ; menu item enter routine; used by RunMenu
         resb 4
-MenuItemHoverFunc:
+MenuItemHoverFunc:                              ; Menu item hover routine; used by RunMenu
         resb 4
-MenuItemExitFunc:
+MenuItemExitFunc:                               ; Menu item leave routine; used by RunMenu
         resb 4
-MenuRepeatTick:
+MenuRepeatTick:                                 ; Tick of the next menu key repeat; used by PollMenuInput
         resb 4
-MenuBackdropBmp:
+MenuBackdropBmp:                                ; Menu backdrop bitmap; used by RunMenu, SetGameBackdrop
         resb 4
-MenuBackdropPixels:
+MenuBackdropPixels:                             ; Menu backdrop pixels; used by RunMenu, SetGameBackdrop
         resb 4
-MenuSavedViewWidth:
+MenuSavedViewWidth:                             ; Saved menu view width; used by GetSavedViewSize, RunMenu
         resb 4
-MenuSavedViewHeight:
+MenuSavedViewHeight:                            ; Saved menu view height; used by GetSavedViewSize, RunMenu
         resb 4
-MenuLinkKey:
+MenuLinkKey:                                    ; Menu key sent over the link; used by PollMenuInput
         resb 4
-MenuCursorArt:
+MenuCursorArt:                                  ; local cursor art; used by RunMenu, SetGameBackdrop
         resb 4
-MenuBitmapReady:
+MenuBitmapReady:                                ; Set once the menu bitmaps exist; used by RunMenu,
+                                                ; SetGameBackdrop
         resb 4
-MenuStarted:
+MenuStarted:                                    ; Set once the menu has started; used by RunMenu
         resb 2
-MenuViewSaved:
+MenuViewSaved:                                  ; set while the menu view is saved; used by RunMenu
         resb 2
-MenuCursorX:
+MenuCursorX:                                    ; Local cursor x; used by RunMenu
         resb 2
-MenuCursorY:
+MenuCursorY:                                    ; Local cursor y; used by RunMenu
         resb 2
-MenuCursorShown:
+MenuCursorShown:                                ; Cursor shown; used by RunMenu
         resb 2
-MenuMouseMode:
+MenuMouseMode:                                  ; Menu mouse mode; used by RunMenu, SetMenuMouse
         resb 2
-MenuStartSelection:
+MenuStartSelection:                             ; Selection the next menu starts on; used by RunMenu,
+                                                ; SetMenuMouse
         resb 4
-ArenaClipName:
+ArenaClipName:                                  ; Arena clip file name; used by PlayArenaClip
         resb 40
-SpeechClipQueue:
+SpeechClipQueue:                                ; Speech clip queue entries; used by InitSpeech,
+                                                ; OpenSpeechBanks, QueueSpeechClip ...
         resb 2
         resb 2
         resb 4

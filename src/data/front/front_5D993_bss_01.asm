@@ -20,159 +20,208 @@ global SlideImageBmp, SlideImageIndex, SlideEventPtr, MenuLastMouseX, MenuLastMo
 global MenuButtons, MenuViewTop, CameraPathPoints, CamPathTarget
 global SpriteCacheHead, JerseyColorMap, RinkColorMap, TeamPaletteSave, HomeJerseyPal, AwayJerseyPal, SpriteColorRanges, FrontEndArtFiles
 global SlideImageNames, IntroPalette, fadepalbuf
-CamTargetObj:
+CamTargetObj:                                   ; Camera: object followed; used by CamShotOnTarget,
+                                                ; CamShotOrbitFrom, CamShotReferee ...
         resb 4
-CamLeadX:
+CamLeadX:                                       ; Camera: lead x; used by CameraLeadOffset, CameraTrackPuck
         resb 4
-CamLeadY:
+CamLeadY:                                       ; Camera: lead y; used by CameraTrackPuck
         resb 4
-CamLeadOn:
+CamLeadOn:                                      ; Camera: lead on; used by CameraLeadOffset, CameraTrackPuck
         resb 4
-CameraPathPoints:
+CameraPathPoints:                               ; Camera path points, 24 bytes each; used by CameraPathDerivs,
+                                                ; CameraPathPoint
         resb 24
         resb 24
         resb 24
         resb 24
         resb 24
-CamShotTime:
+CamShotTime:                                    ; Camera shot time; used by CamShotDimPath, SetCameraShot
         resb 4
-CamPathPos:
+CamPathPos:                                     ; Camera path position; used by CamShotDimPath,
+                                                ; CameraPathDerivs, CameraPathPoint ...
         resb 8
-CamAimX:
+CamAimX:                                        ; Camera aim x; used by CamShotDimPath, CamShotFollowPath,
+                                                ; CamShotNetShake ...
         resb 4
-CamAimShift:
+CamAimShift:                                    ; Camera aim shift; used by CamShotDimPath, CamShotFollowPath,
+                                                ; CamShotNetShake ...
         resb 4
-CamAimY:
+CamAimY:                                        ; Camera aim y; used by CamShotDimPath, CamShotFollowPath,
+                                                ; CamShotNetShake ...
         resb 4
-CamShotTimer:
+CamShotTimer:                                   ; Camera shot timer; used by CamShotOrbitFrom,
+                                                ; CamShotOrbitNear, CameraAim ...
         resb 4
-CamShakeStart:
+CamShakeStart:                                  ; Camera shake start; used by CamShotNetShake, UpdateCamera
         resb 4
-CamShakeCount:
+CamShakeCount:                                  ; Camera shake count; used by CamShotNetShake, UpdateCamera
         resb 4
-CamShotId:
+CamShotId:                                      ; Camera shot id, -1 for none; used by CamShotNetShake,
+                                                ; CloseTextOverlay, EndCameraShot ...
         resb 4
-CamShotObj:
+CamShotObj:                                     ; Camera shot object; used by CamShotOrbitFrom, Goal,
+                                                ; UpdateCamera
         resb 4
-CamInjuredObj:
+CamInjuredObj:                                  ; Camera: injured player object; used by UpdateCamera,
+                                                ; setInjuryType
         resb 4
-CamNearNet:
+CamNearNet:                                     ; Camera near the net; used by CamShotFollowPath,
+                                                ; CamShotNetShake, CameraNearNet ...
         resb 4
-CameraShotState:
+CameraShotState:                                ; Camera shot state block; used by CamShotDimPath,
+                                                ; EndCameraShot, ReadHotKeys ...
         resb 4
         resb 1
         resb 64
-CamShotKeys:
+CamShotKeys:                                    ; Camera shot keys; used by CamShotDimPath, CameraPathDerivs,
+                                                ; EndCameraShot ...
         resb 4
-CamShotMode:
+CamShotMode:                                    ; Camera shot mode; used by CamShotDimPath, DrawGameOverlays,
+                                                ; DrawLineChangeBoxes ...
         resb 1
-CamShotSaved:
+CamShotSaved:                                   ; Camera shot saved state; used by CamShotDimPath,
+                                                ; EndCameraShot, ReadHotKeys ...
         resb 4
-CamPosX:
+CamPosX:                                        ; Camera position x (16.16); used by CamShotDimPath,
+                                                ; CamShotFollowPath, CamShotNetShake ...
         resb 2
         resb 2
-CamPosY:
+CamPosY:                                        ; Camera position y (16.16); used by CamShotFollowPath,
+                                                ; CamShotNetShake, CamShotOrbitTo ...
         resb 2
         resb 2
-CamPosZ:
+CamPosZ:                                        ; Camera position z; used by CamShotDimPath,
+                                                ; CamShotFollowPath, CamShotNetShake ...
         resb 4
-CamDistance:
+CamDistance:                                    ; Camera distance; used by CamShotDimPath, CamShotFollowPath,
+                                                ; CamShotNetShake ...
         resb 4
-CamMatrix:
+CamMatrix:                                      ; Camera matrix; used by CamShotDimPath, CamShotFollowPath,
+                                                ; CamShotNetShake ...
         resb 44
-CamPathTarget:
+CamPathTarget:                                  ; Camera path target; used by CameraPathDerivs, ReadHotKeys,
+                                                ; ReplayCameraAim ...
         resb 4
-CamViewFlags:
+CamViewFlags:                                   ; Camera view flags; used by InitGameView
         resb 5
-CamAngle:
+CamAngle:                                       ; Camera angle (16.16); used by BenchSpriteFrame,
+                                                ; CamShotDimPath, CameraFacing ...
         resb 2
         resb 2
-CamPitch:
+CamPitch:                                       ; Camera pitch (16.16); used by CameraPathPoint,
+                                                ; DrawGameFrame, DrawReplayView ...
         resb 2
         resb 2
-CamPathState:
+CamPathState:                                   ; Camera path state; used by CamShotDimPath,
+                                                ; CamShotFollowPath, CamShotOrbitNear ...
         resb 4
-CamZoom:
+CamZoom:                                        ; Camera zoom; used by CameraPathPoint, DrawGameFrame,
+                                                ; DrawReplayView ...
         resb 4
-CamPathActive:
+CamPathActive:                                  ; Camera path active; used by CamShotDimPath,
+                                                ; CamShotFollowPath, CamShotOrbitNear ...
         resb 4
-CamPathDerivs:
-        resb 4
-        resb 4
-        resb 4
-        resb 4
-        resb 4
+CamPathDerivs:                                  ; Camera path derivatives; used by CameraPathDerivs
         resb 4
         resb 4
         resb 4
         resb 4
         resb 4
-CamShotPhase:
+        resb 4
+        resb 4
+        resb 4
+        resb 4
+        resb 4
+CamShotPhase:                                   ; Camera shot phase; used by CamShotOrbitFrom
         resb 1
-SpriteCacheHead:
+SpriteCacheHead:                                ; Sprite cache head; used by GetSpriteFrame
         resb 4
-SpriteCacheLinks:
+SpriteCacheLinks:                               ; Sprite cache links; used by GetSpriteFrame
         resb 4
-SpriteCache:
+SpriteCache:                                    ; Sprite cache entries; used by GetSpriteFrame
         resb 5112
-JerseyColorMap:
+JerseyColorMap:                                 ; Jersey colour map; used by DrawRinkSprite,
+                                                ; SetTeamJerseyColors
         resb 576
-RinkColorMap:
+RinkColorMap:                                   ; Rink sprite colour map; used by SetRinkSpriteColors,
+                                                ; SetTeamJerseyColors
         resb 144
-TeamPaletteSave:
+TeamPaletteSave:                                ; Saved team palettes; used by DrawPlayerSprite,
+                                                ; SaveTeamPalette
         resb 792
-HomeJerseyPal:
+HomeJerseyPal:                                  ; Home jersey palette; used by DrawRinkSprite, InitGameView,
+                                                ; LoadTeamPalette ...
         resb 256
-AwayJerseyPal:
+AwayJerseyPal:                                  ; Away jersey palette; used by DrawRinkSprite, InitGameView,
+                                                ; LoadTeamPalette ...
         resb 256
-SpriteCachePtr:
+SpriteCachePtr:                                 ; Sprite cache pointer; used by GetSpriteFrame
         resb 4
-SpriteCacheFree:
+SpriteCacheFree:                                ; Sprite cache free list; used by GetSpriteFrame
         resb 4
-SpriteCacheUsed:
+SpriteCacheUsed:                                ; Sprite cache used; used by GetSpriteFrame
         resb 4
-SpriteCacheBlock:
+SpriteCacheBlock:                               ; Sprite cache memory block; used by FreeSpriteCache,
+                                                ; GetSpriteFrame
         resb 4
-SpriteCacheSize:
+SpriteCacheSize:                                ; Sprite cache size; used by GetSpriteFrame
         resb 4
-PlayerSpriteFile:
+PlayerSpriteFile:                               ; Player sprite file; used by FreeGameSprites, GetSpriteFrame,
+                                                ; LoadPlayerSprites
         resb 4
-PlayerSpriteCount:
+PlayerSpriteCount:                              ; Player sprites; used by IndexSpriteFrames, LoadPlayerSprites
         resb 4
-RinkSpriteFile:
+RinkSpriteFile:                                 ; Rink sprite file; used by DrawRinkSprite, FreeGameSprites,
+                                                ; LoadGameSprites
         resb 4
-NetSpriteFile:
+NetSpriteFile:                                  ; Net sprite file; used by DrawRinkSprite, FreeGameSprites,
+                                                ; LoadGameSprites
         resb 4
-MarkerSpriteFile:
+MarkerSpriteFile:                               ; Player marker sprite file; used by DrawPlayerMarkers,
+                                                ; DrawReplayObjects, DrawRinkSprite ...
         resb 4
-SpriteColorRanges:
+SpriteColorRanges:                              ; Sprite colour ranges (SetPlayerSpriteColors,
+                                                ; SetRinkSpriteColors); used by SetPlayerSpriteColors,
+                                                ; SetRinkSpriteColors
         resb 36
-FrontEndBarShapes:
+FrontEndBarShapes:                              ; Front end bar shapes: side, bottom and title (34h bytes each
+                                                ; with a count); used by LoadFrontEndArt, OpenScreen
         resb 52
         resb 4
         resb 52
         resb 4
         resb 52
         resb 4
-FrontEndArtFiles:
+FrontEndArtFiles:                               ; Front end art files; used by FreeFrontEndArt,
+                                                ; LoadFrontEndArt
         resb 64
-ScreenColorMap:
+ScreenColorMap:                                 ; Front end screen colour map; used by CopyArtRows,
+                                                ; SetScreenColors
         resb 256
-SideBarBmp:
+SideBarBmp:                                     ; Front end side bar bitmap; used by FreeFrontEndArt,
+                                                ; LoadFrontEndArt, OpenScreen ...
         resb 4
-BottomBarBmp:
+BottomBarBmp:                                   ; Front end bottom bar bitmap; used by FreeFrontEndArt,
+                                                ; LoadFrontEndArt, OpenScreen ...
         resb 4
-ScreenPaletteBuf:
+ScreenPaletteBuf:                               ; Front end screen palette; used by LoadFrontEndArt,
+                                                ; SetScreenColors
         resb 4
-TitleBarBmp:
+TitleBarBmp:                                    ; Front end title bar bitmap; used by FreeFrontEndArt,
+                                                ; LoadFrontEndArt, OpenScreen ...
         resb 4
-FrontEndScreenBmp:
+FrontEndScreenBmp:                              ; Front end screen bitmap; used by ControllerScreen,
+                                                ; DrawControllerColumns, DrawPlayoffTeamList ...
         resb 4
-MatchupLayer:
+MatchupLayer:                                   ; matchup draw layer; used by ControllerScreen,
+                                                ; DrawControllerColumns, DrawPlayoffTeamList ...
         resb 4
-TeamStatsBitmap:
+TeamStatsBitmap:                                ; team stats bitmap; used by CalendarScreen,
+                                                ; ControlPicksScreen, ControllerScreen ...
         resb 16
-SideBarArt:
+SideBarArt:                                     ; Front end side bar art record; used by DrawLinesPanel,
+                                                ; DrawUserRecords, LoadFrontEndArt ...
         resb 4
         resb 6
         resb 4
@@ -186,9 +235,11 @@ SideBarArt:
         resb 1
         resb 1
         resb 33
-MenuBoxStyle:
+MenuBoxStyle:                                   ; Front end menu box style; used by ControllerScreen,
+                                                ; FreeFrontEndArt, GameStatsScreen ...
         resb 16
-BottomBarArt:
+BottomBarArt:                                   ; Front end bottom bar art record; used by CalendarScreen,
+                                                ; ControlPicksScreen, ControlSetupScreen ...
         resb 4
         resb 6
         resb 4
@@ -203,7 +254,8 @@ BottomBarArt:
         resb 1
         resb 33
         resb 16
-TitleBarArt:
+TitleBarArt:                                    ; Front end title bar art record; used by LoadFrontEndArt,
+                                                ; OpenScreen, SlideInTitleBar
         resb 4
         resb 6
         resb 4
@@ -217,29 +269,35 @@ TitleBarArt:
         resb 1
         resb 1
         resb 33
-TitleTextStyle:
+TitleTextStyle:                                 ; Front end title text style; used by CalendarScreen,
+                                                ; CheckExportName, ConfirmTrade ...
         resb 1
         resb 1
         resb 4
-SlideImageNames:
+SlideImageNames:                                ; Slide show image names
         resb 32
-SlideImageBmp:
+SlideImageBmp:                                  ; Slide show image bitmap; used by LoadSlideImage,
+                                                ; RunSlideShow
         resb 4
-SlideImageIndex:
+SlideImageIndex:                                ; Slide show image shown; used by LoadSlideImage, RunSlideShow
         resb 4
-SlideEventPtr:
+SlideEventPtr:                                  ; Slide show event pointer; used by RunSlideEvents,
+                                                ; RunSlideShow
         resb 4
-IntroPalette:
+IntroPalette:                                   ; intro palette; used by FadeOut
         resb 768
-fadepalbuf:
+fadepalbuf:                                     ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 772
-MenuLastMouseX:
+MenuLastMouseX:                                 ; Menu mouse x last frame; used by PollMenuInput, RunMenu
         resb 4
-MenuLastMouseY:
+MenuLastMouseY:                                 ; Menu mouse y last frame; used by PollMenuInput, RunMenu
         resb 4
-MenuLastButtons:
+MenuLastButtons:                                ; Menu mouse buttons last frame; used by PollMenuInput,
+                                                ; RunMenu
         resb 4
-MenuButtons:
+MenuButtons:                                    ; Menu mouse buttons this frame; used by PollMenuInput,
+                                                ; RunMenu
         resb 4
-MenuViewTop:
+MenuViewTop:                                    ; Menu view top; used by RunMenu, SetGameBackdrop
         resb 4

@@ -25,9 +25,11 @@ global ReplayActive, ReplaySavedView, FreeCamX, FreeCamY, ReplayButtonDefs, Repl
 global ReplayStepping, ReplayCamShot, ReplayCamRoutine, FreeCamDX, FreeCamDY, FreeCamTable, ReplayFileName, ReplayViewItems
 global ReplayViewText, ReplayScreenItems, ReplayCamTarget, ReplaySaveArea
 global ReplayFramesShown
-ReplayFileName:
+ReplayFileName:                                 ; replay file name; used by EndReplay, SaveHighlight,
+                                                ; StartReplay ...
         resb 64
-HighlightHeader:
+HighlightHeader:                                ; highlight file header; used by ReadHighlight, SaveHighlight,
+                                                ; WatchHighlight
         resb 1
         resb 1
         resb 1
@@ -35,11 +37,12 @@ HighlightHeader:
         resb 2
         resb 2
         resb 4
-ReplayViewItems:
+ReplayViewItems:                                ; replay view items; used by DrawReplayView
         resb 948
-ReplayViewText:
+ReplayViewText:                                 ; replay view text; used by DrawReplayView, ReplayFreeCamera
         resb 36
-ReplaySavedState:
+ReplaySavedState:                               ; game state saved while a replay runs; used by
+                                                ; DrawReplayClock, EndReplay, SaveHighlight ...
         resb 4
         resb 4
         resb 4
@@ -48,7 +51,8 @@ ReplaySavedState:
         resb 4
         resb 4
         resb 4
-ReplayScreenItems:
+ReplayScreenItems:                              ; replay screen items (66h bytes each); used by ReplayScreen,
+                                                ; StepReplay
         resb 4
         resb 8
         resb 4
@@ -189,41 +193,52 @@ ReplayScreenItems:
         resb 4
         resb 4
         resb 954
-ReplayActive:
+ReplayActive:                                   ; replay is active; used by ReplayScreen, StartReplay,
+                                                ; StepReplay
         resb 4
-ReplaySavedView:
+ReplaySavedView:                                ; view saved while a replay runs; used by EndReplay,
+                                                ; ReplayFrame, ReplayScreen ...
         resb 4
-FreeCamX:
+FreeCamX:                                       ; free camera x; used by ReplayFreeCamera, ReplayScreen
         resb 4
-FreeCamY:
+FreeCamY:                                       ; free camera y; used by ReplayFreeCamera, ReplayScreen
         resb 4
-ReplayButtonDefs:
+ReplayButtonDefs:                               ; replay button definitions in use; used by ReplayScreen
         resb 4
-ReplayCounterShown:
+ReplayCounterShown:                             ; replay counter is shown; used by DrawReplayCounter,
+                                                ; StartReplay
         resb 4
-ReplayCamTarget:
+ReplayCamTarget:                                ; replay camera target; used by CameraTrackPuck,
+                                                ; ReplayCameraAim, ReplayScreen
         resb 12
-ReplayCamFollow:
+ReplayCamFollow:                                ; replay camera follows an object; used by CameraLeadOffset,
+                                                ; CameraTrackPuck, ReplayCameraAim ...
         resb 4
-ReplayMenuResult:
+ReplayMenuResult:                               ; replay menu result; used by DrawReplayObjects,
+                                                ; PickReplayPlayer, ReplayScreen ...
         resb 4
-ReplayStepping:
+ReplayStepping:                                 ; replay is stepping frames; used by ReplayFrame,
+                                                ; ReplayScreen, StartReplay
         resb 4
-ReplayFramesShown:
+ReplayFramesShown:                              ; replay frames shown; used by ReplayFrame, ReplayScreen,
+                                                ; StartReplay
         resb 2
-ReplaySaveArea:
+ReplaySaveArea:                                 ; replay save area; used by EndReplay, StartReplay
         resb 69
-ReplayCamShot:
+ReplayCamShot:                                  ; replay camera shot; used by ReadHotKeys, ReplayCameraAim,
+                                                ; ReplayFrame ...
         resb 4
-ReplayCamMode:
+ReplayCamMode:                                  ; replay camera mode (FFh for none); used by ReplayFrame,
+                                                ; ReplayScreen, SetReplayCamera ...
         resb 1
-ReplayCamRoutine:
+ReplayCamRoutine:                               ; replay camera routine; used by SetReplayCamera
         resb 4
-FreeCamDX:
+FreeCamDX:                                      ; free camera x speed; used by ReplayFreeCamera
         resb 4
-FreeCamDY:
+FreeCamDY:                                      ; free camera y speed; used by ReplayFreeCamera
         resb 4
-FreeCamTable:
+FreeCamTable:                                   ; free camera table; used by ReplayFreeCamera
         resb 52
-ReplaySavedSound:
+ReplaySavedSound:                               ; sound setting saved while a replay runs; used by EndReplay,
+                                                ; StartReplay
         resb 4

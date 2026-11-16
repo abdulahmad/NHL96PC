@@ -13,171 +13,171 @@ global str_Ilh, str_Ila, str_Rgh, str_Rga, str_Oth, str_Ota, str_Phh, str_Pha
 global str_Pth, str_Pta, str_Quh, str_Qua, str_Slh, str_Sla, str_Sjh, str_Sja
 global str_Tbh, str_Tba, str_Trh, str_Tra, str_Vnh, str_Vna, str_Wsh, str_Wsa
 global str_Wnh, str_Wna, str_Asw, str_Ase
-str_LUT:
+str_LUT:                                        ; string "LUT"; used by AllocShadeLut
         db 04Ch,055h,054h,00h
-str_Logo:
+str_Logo:                                       ; string 'logo'; used by LoadIceLogo
         db 06Ch,06Fh,067h,06Fh,00h
-str_Priority:
+str_Priority:                                   ; string 'priority'; used by InitGameView
         db 070h,072h,069h,06Fh,072h,069h,074h,079h,00h
-str_B001:
+str_B001:                                       ; string 'b001'; used by InitGameView
         db 062h,030h,030h,031h,00h
-str_B000:
+str_B000:                                       ; string 'b000'; used by InitGameView
         db 062h,030h,030h,030h,00h
-str_Empty:
+str_Empty:                                      ; Empty string; used by DrawPlayerNamePanel, DrawRosterNumber
         db 00h
-str_DS:
+str_DS:                                         ; string '%d %s'; used by DrawRosterNumber
         db 025h,064h,020h,025h,073h,00h
-str_Goal0:
+str_Goal0:                                      ; string 'goal0'; used by PlaceGoalNets
         db 067h,06Fh,061h,06Ch,030h,00h
-str_Goal1:
+str_Goal1:                                      ; string 'goal1'; used by PlaceGoalNets
         db 067h,06Fh,061h,06Ch,031h,00h
-str_2d02d2:
+str_2d02d2:                                     ; string '%2d:%02d'; used by DrawGameClock, DrawPenaltyClock
         db 025h,032h,064h,03Ah,025h,030h,032h,064h,00h
-str_2d01d:
+str_2d01d:                                      ; string '%2d.%01d'; used by DrawGameClock
         db 025h,032h,064h,02Eh,025h,030h,031h,064h,00h
-str_DDD2:
+str_DDD2:                                       ; string '%d.%d%% (%d)'; used by DrawPlayerPctPanel
         db 025h,064h,02Eh,025h,064h,025h,025h,020h,028h,025h,064h,029h,00h
-str_DDD3:
+str_DDD3:                                       ; string '%d.%d%% (%d)'; used by DrawPlayerPctPanel
         db 025h,064h,02Eh,025h,064h,025h,025h,020h,020h,028h,025h,064h,029h,00h
-str_3s:
+str_3s:                                         ; string '%-3s'; used by DrawScorePanel, DrawTimeLeftPanel
         db 025h,02Dh,033h,073h,00h
-str_2d:
+str_2d:                                         ; string '%2d'; used by DrawScorePanel, DrawTimeLeftPanel
         db 025h,032h,064h,00h
-str_12s:
+str_12s:                                        ; string '%-12s'; used by DrawScorePanel
         db 025h,02Dh,031h,032h,073h,00h
-str_SS2:
+str_SS2:                                        ; string '%s %s'; used by DrawGoalEventPanel
         db 025h,073h,020h,025h,073h,00h
-str_12:
+str_12:                                         ; string '1'; used by DrawLineChangeBox
         db 031h,00h
-str_24:
+str_24:                                         ; string '2'; used by DrawLineChangeBox
         db 032h,00h
-str_32:
+str_32:                                         ; string '3'; used by DrawLineChangeBox
         db 033h,00h
-str_42:
+str_42:                                         ; string '4'; used by DrawLineChangeBox
         db 034h,00h,00h,00h,00h
-F64_0p00277778:
+F64_0p00277778:                                 ; double constant 0.00277778; used by PressCamOneView
         db 016h,06Ch,0C1h,016h,06Ch,0C1h,066h,03Fh
-F64_65536_PressCamOneView:
+F64_65536_PressCamOneView:                      ; double constant 65536; used by PressCamOneView
         db 00h,00h,00h,00h,00h,00h,0F0h,040h
-F64_0p00277778_PressCamOneView:
+F64_0p00277778_PressCamOneView:                 ; double constant 0.00277778; used by PressCamTwoView
         db 016h,06Ch,0C1h,016h,06Ch,0C1h,066h,03Fh
-CamViewScale:
+CamViewScale:                                   ; Camera view scale (double); used by PressCamTwoView
         db 00h,00h,00h,00h,00h,00h,0F0h,040h
-F64_0p00277778_PressCamThreeView:
+F64_0p00277778_PressCamThreeView:               ; double constant 0.00277778; used by PressCamThreeView
         db 016h,06Ch,0C1h,016h,06Ch,0C1h,066h,03Fh
-F64_65536_PressCamThreeView:
+F64_65536_PressCamThreeView:                    ; double constant 65536; used by PressCamThreeView
         db 00h,00h,00h,00h,00h,00h,0F0h,040h
-F64_0p00277778_PressCamFourView:
+F64_0p00277778_PressCamFourView:                ; double constant 0.00277778; used by PressCamFourView
         db 016h,06Ch,0C1h,016h,06Ch,0C1h,066h,03Fh
-F64_65536_PressCamFourView:
+F64_65536_PressCamFourView:                     ; double constant 65536; used by PressCamFourView
         db 00h,00h,00h,00h,00h,00h,0F0h,040h
-str_Priority2:
+str_Priority2:                                  ; string 'priority'; used by CloseTextOverlay
         db 070h,072h,069h,06Fh,072h,069h,074h,079h,00h,00h,00h,00h
-str_Anh:
+str_Anh:                                        ; string '!anh'
         db 021h,061h,06Eh,068h,00h
-str_Ana:
+str_Ana:                                        ; string '!ana'
         db 021h,061h,06Eh,061h,00h
-str_Bsh:
+str_Bsh:                                        ; string '!bsh'
         db 021h,062h,073h,068h,00h
-str_Bsa:
+str_Bsa:                                        ; string '!bsa'
         db 021h,062h,073h,061h,00h
-str_Bfh:
+str_Bfh:                                        ; string '!bfh'
         db 021h,062h,066h,068h,00h
-str_Bfa:
+str_Bfa:                                        ; string '!bfa'
         db 021h,062h,066h,061h,00h
-str_Cgh:
+str_Cgh:                                        ; string '!cgh'
         db 021h,063h,067h,068h,00h
-str_Cga:
+str_Cga:                                        ; string '!cga'
         db 021h,063h,067h,061h,00h
-str_Chh:
+str_Chh:                                        ; string '!chh'
         db 021h,063h,068h,068h,00h
-str_Cha:
+str_Cha:                                        ; string '!cha'
         db 021h,063h,068h,061h,00h
-str_Dlh:
+str_Dlh:                                        ; string '!dlh'
         db 021h,064h,06Ch,068h,00h
-str_Dla:
+str_Dla:                                        ; string '!dla'
         db 021h,064h,06Ch,061h,00h
-str_Dth:
+str_Dth:                                        ; string '!dth'
         db 021h,064h,074h,068h,00h
-str_Dta:
+str_Dta:                                        ; string '!dta'
         db 021h,064h,074h,061h,00h
-str_Edh:
+str_Edh:                                        ; string '!edh'
         db 021h,065h,064h,068h,00h
-str_Eda:
+str_Eda:                                        ; string '!eda'
         db 021h,065h,064h,061h,00h
-str_Flh:
+str_Flh:                                        ; string '!flh'
         db 021h,066h,06Ch,068h,00h
-str_Fla:
+str_Fla:                                        ; string '!fla'
         db 021h,066h,06Ch,061h,00h
-str_Hrh:
+str_Hrh:                                        ; string '!hrh'
         db 021h,068h,072h,068h,00h
-str_Hra:
+str_Hra:                                        ; string '!hra'
         db 021h,068h,072h,061h,00h
-str_Lah:
+str_Lah:                                        ; string '!lah'
         db 021h,06Ch,061h,068h,00h
-str_Laa:
+str_Laa:                                        ; string '!laa'
         db 021h,06Ch,061h,061h,00h
-str_Mth:
+str_Mth:                                        ; string '!mth'
         db 021h,06Dh,074h,068h,00h
-str_Mta:
+str_Mta:                                        ; string '!mta'
         db 021h,06Dh,074h,061h,00h
-str_Njh:
+str_Njh:                                        ; string '!njh'
         db 021h,06Eh,06Ah,068h,00h
-str_Nja:
+str_Nja:                                        ; string '!nja'
         db 021h,06Eh,06Ah,061h,00h
-str_Ilh:
+str_Ilh:                                        ; string '!ilh'
         db 021h,069h,06Ch,068h,00h
-str_Ila:
+str_Ila:                                        ; string '!ila'
         db 021h,069h,06Ch,061h,00h
-str_Rgh:
+str_Rgh:                                        ; string '!rgh'
         db 021h,072h,067h,068h,00h
-str_Rga:
+str_Rga:                                        ; string '!rga'
         db 021h,072h,067h,061h,00h
-str_Oth:
+str_Oth:                                        ; string '!oth'
         db 021h,06Fh,074h,068h,00h
-str_Ota:
+str_Ota:                                        ; string '!ota'
         db 021h,06Fh,074h,061h,00h
-str_Phh:
+str_Phh:                                        ; string '!phh'
         db 021h,070h,068h,068h,00h
-str_Pha:
+str_Pha:                                        ; string '!pha'
         db 021h,070h,068h,061h,00h
-str_Pth:
+str_Pth:                                        ; string '!pth'
         db 021h,070h,074h,068h,00h
-str_Pta:
+str_Pta:                                        ; string '!pta'
         db 021h,070h,074h,061h,00h
-str_Quh:
+str_Quh:                                        ; string '!quh'
         db 021h,071h,075h,068h,00h
-str_Qua:
+str_Qua:                                        ; string '!qua'
         db 021h,071h,075h,061h,00h
-str_Slh:
+str_Slh:                                        ; string '!slh'
         db 021h,073h,06Ch,068h,00h
-str_Sla:
+str_Sla:                                        ; string '!sla'
         db 021h,073h,06Ch,061h,00h
-str_Sjh:
+str_Sjh:                                        ; string '!sjh'
         db 021h,073h,06Ah,068h,00h
-str_Sja:
+str_Sja:                                        ; string '!sja'
         db 021h,073h,06Ah,061h,00h
-str_Tbh:
+str_Tbh:                                        ; string '!tbh'
         db 021h,074h,062h,068h,00h
-str_Tba:
+str_Tba:                                        ; string '!tba'
         db 021h,074h,062h,061h,00h
-str_Trh:
+str_Trh:                                        ; string '!trh'
         db 021h,074h,072h,068h,00h
-str_Tra:
+str_Tra:                                        ; string '!tra'
         db 021h,074h,072h,061h,00h
-str_Vnh:
+str_Vnh:                                        ; string '!vnh'
         db 021h,076h,06Eh,068h,00h
-str_Vna:
+str_Vna:                                        ; string '!vna'
         db 021h,076h,06Eh,061h,00h
-str_Wsh:
+str_Wsh:                                        ; string '!wsh'
         db 021h,077h,073h,068h,00h
-str_Wsa:
+str_Wsa:                                        ; string '!wsa'
         db 021h,077h,073h,061h,00h
-str_Wnh:
+str_Wnh:                                        ; string '!wnh'
         db 021h,077h,06Eh,068h,00h
-str_Wna:
+str_Wna:                                        ; string '!wna'
         db 021h,077h,06Eh,061h,00h
-str_Asw:
+str_Asw:                                        ; string '!asw'
         db 021h,061h,073h,077h,00h
-str_Ase:
+str_Ase:                                        ; string '!ase'
         db 021h,061h,073h,065h,00h

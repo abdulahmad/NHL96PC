@@ -1862,7 +1862,7 @@ SerialIsrCom1_85:
         LD mov, esi, eax
         and esi, byte 6
         jmp dword [nosplit cs:esi*2+SerialIsrJumpTable]
-SerialIsrJumpTable:
+SerialIsrJumpTable:                             ; jump table for the switch cases of SerialIsrCom4
         dd SerialIsrExit.1
         dd SerialIsrExit.6
         dd SerialIsrExit.12

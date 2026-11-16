@@ -10,7 +10,8 @@ global _STACKTOP, CMainEnv, CMainResult, UngetChar, _Envptr, FpuInitHook, SavedT
 global PrintfSavedEbx, PrintfSavedEcx, PrintfSavedEdx, PrintfSavedEsi, PrintfSavedEdi, PrintfSavedReturn, AtanTable, AtanSlopeTable
 global ShadowFillFunc, TitleBandFunc, FpuSystemFlags, OldFpuVectorOffset, RetraceMode, snddriver, SndTickHold, SndMaxRate
 global _psp, __no87, _Envptr_w4, SavedTextColumns, OldFpuVectorSelector, FpuCr0Bits
-HotkeyModTable:
+HotkeyModTable:                                 ; shift state per registered hotkey; used by DispatchHotkey,
+                                                ; SetHotkey
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -20,9 +21,10 @@ HotkeyModTable:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h
-HotkeyNesting:
+HotkeyNesting:                                  ; hotkey dispatch nesting count; used by DispatchHotkey
         db 01h,00h,00h,00h
-HotkeyFuncTable:
+HotkeyFuncTable:                                ; routine per registered hotkey; used by DispatchHotkey,
+                                                ; SetHotkey
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -40,80 +42,91 @@ HotkeyFuncTable:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h
-str_MUSICON:
+str_MUSICON:                                    ; string 'MUSIC ON'; used by SetHotkey
         db 04Dh,055h,053h,049h,043h,020h,04Fh,04Eh,00h
-str_MUSICOFF:
+str_MUSICOFF:                                   ; string 'MUSIC OFF'; used by SetHotkey
         db 04Dh,055h,053h,049h,043h,020h,04Fh,046h,046h,00h
-str_SOUNDON:
+str_SOUNDON:                                    ; string 'SOUND ON'; used by SetHotkey
         db 053h,04Fh,055h,04Eh,044h,020h,04Fh,04Eh,00h
-str_SOUNDOFF:
+str_SOUNDOFF:                                   ; string 'SOUND OFF'; used by SetHotkey
         db 053h,04Fh,055h,04Eh,044h,020h,04Fh,046h,046h,00h,00h,00h
-_dynend:
+_dynend:                                        ; used by start
         db 00h,00h,00h,00h
-_curbrk:
+_curbrk:                                        ; used by __CreateNewNHeap_, __ExpandDGROUP_, __LastFree_ ...
         db 00h,00h,00h,00h
-_LpCmdLine:
+_LpCmdLine:                                     ; used by start
         db 00h,00h,00h,00h
-StackLow:
+StackLow:                                       ; lowest address of the program stack; used by start
         db 00h,00h,00h,00h
-_psp:
+_psp:                                           ; used by GetPsp, start
         db 00h,00h,00h,00h
-_STACKLOW:
+_STACKLOW:                                      ; used by CMainHook, __STK, start
         db 00h,00h,00h,00h
-_STACKTOP:
+_STACKTOP:                                      ; used by __brk_, start
         db 00h,00h,00h,00h
-CMainEnv:
+CMainEnv:                                       ; environment pointer passed to main; used by __CMain
         db 00h,00h,00h,00h
-CMainResult:
+CMainResult:                                    ; value main returned; used by __CMain
         db 00h,00h,00h,00h
-UngetChar:
+UngetChar:                                      ; character pushed back by ungetch; used by getche_
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-__no87:
+__no87:                                         ; used by __chk8087_, start
         db 00h,00h
-_Extender:
+_Extender:                                      ; used by CopyDtaIn, CopyDtaOut, EmuRestoreFpuVector ...
         db 00h
-_ExtenderSubtype:
+_ExtenderSubtype:                               ; used by __AdjustAmount_, __ExpandDGROUP_,
+                                                ; __HeapManager_expand_ ...
         db 00h
-Is8087:
+Is8087:                                         ; set when a coprocessor (or the emulator) is present; used by
+                                                ; InitFpuFlags, __ExpandDGROUP_, __LastFree_ ...
         db 00h
-_Envptr:
+_Envptr:                                        ; used by __setenvp_, start
         db 00h,00h,00h,00h
-_Envptr_w4:
+_Envptr_w4:                                     ; _Envptr+4: the selector half of the far pointer; used by
+                                                ; __setenvp_, start
         db 00h,00h
-_osmajor:
+_osmajor:                                       ; used by __set_errno_dos_, start
         db 00h
-_osminor:
+_osminor:                                       ; used by start
         db 00h
-FpuInitHook:
+FpuInitHook:                                    ; function that sets up the coprocessor; used by
+                                                ; RaiseFpuError, __FPE_exception_
         dd FpuHookStub
         db 00h,00h,00h
-SavedTextScreen:
+SavedTextScreen:                                ; text screen saved at start up; used by FatalError,
+                                                ; InitSystem, ShutdownSystem
         db 00h,00h,00h,00h
-SystemNeedsInit:
+SystemNeedsInit:                                ; system set up must run before the game starts; used by
+                                                ; InitSystem
         db 01h,00h,00h,00h
-PrintfSavedEbx:
+PrintfSavedEbx:                                 ; EBX kept across printf; used by PrintfSaveRegs, SetHotkey
         db 00h,00h,00h,00h
-PrintfSavedEcx:
+PrintfSavedEcx:                                 ; ECX kept across printf; used by PrintfSaveRegs, SetHotkey
         db 00h,00h,00h,00h
-PrintfSavedEdx:
+PrintfSavedEdx:                                 ; EDX kept across printf; used by PrintfSaveRegs, SetHotkey
         db 00h,00h,00h,00h
-PrintfSavedEsi:
+PrintfSavedEsi:                                 ; ESI kept across printf; used by PrintfSaveRegs, SetHotkey
         db 00h,00h,00h,00h
-PrintfSavedEdi:
+PrintfSavedEdi:                                 ; EDI kept across printf; used by PrintfSaveRegs, SetHotkey
         db 00h,00h,00h,00h
-PrintfSavedReturn:
+PrintfSavedReturn:                              ; return address kept across printf; used by PrintfSaveRegs,
+                                                ; SetHotkey
         db 00h,00h,00h,00h
-SavedTextMode:
+SavedTextMode:                                  ; text mode saved at start up; used by RestoreTextMode,
+                                                ; SaveTextMode
         db 00h
-SavedTextPage:
+SavedTextPage:                                  ; text page saved at start up; used by RestoreTextMode,
+                                                ; SaveTextMode
         db 00h
-SavedTextColumns:
+SavedTextColumns:                               ; text columns saved at start up; used by RestoreTextMode,
+                                                ; SaveTextMode
         db 00h,00h
-SavedTextRows:
+SavedTextRows:                                  ; text rows saved at start up; used by RestoreTextMode,
+                                                ; SaveTextMode
         db 00h,00h,00h,00h
-AtanTable:
+AtanTable:                                      ; arctangent table of the angle routine; used by AngleOfVector
         db 00h,00h,00h,00h
-AtanSlopeTable:
+AtanSlopeTable:                                 ; arctangent table; used by AngleOfVector
         db 029h,00h,00h,00h,051h,00h,00h,00h,07Ah,00h,00h,00h,0A3h,00h,00h,00h
         db 0CCh,00h,00h,00h,0F4h,00h,00h,00h,01Dh,01h,00h,00h,046h,01h,00h,00h
         db 06Fh,01h,00h,00h,097h,01h,00h,00h,0C0h,01h,00h,00h,0E9h,01h,00h,00h
@@ -179,34 +192,48 @@ AtanSlopeTable:
         db 06Fh,01Fh,00h,00h,084h,01Fh,00h,00h,099h,01Fh,00h,00h,0AEh,01Fh,00h,00h
         db 0C3h,01Fh,00h,00h,0D7h,01Fh,00h,00h,0ECh,01Fh,00h,00h,00h,020h,00h,00h
         db 00h,020h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-ShadowFillFunc:
+ShadowFillFunc:                                 ; shadow fill routine; used by FillBandsFinish, FillPolygon,
+                                                ; FillPolygonArgs ...
         db 00h,00h,00h,00h
-TitleBandFunc:
+TitleBandFunc:                                  ; title band draw routine; used by FillBandsFinish,
+                                                ; FillPolygon, FillPolygonArgs ...
         db 00h,00h,00h,00h
-FpuSystemFlags:
+FpuSystemFlags:                                 ; DOS extender coprocessor flags; used by
+                                                ; EmuRestoreRealVector, SetSystemFpuFlag
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-OldFpuVectorOffset:
+OldFpuVectorOffset:                             ; saved offset of the old coprocessor-missing vector; used by
+                                                ; EmuRestoreFpuVector, HookCoprocessorVector
         db 00h,00h,00h,00h
-OldFpuVectorSelector:
+OldFpuVectorSelector:                           ; saved selector of the old coprocessor-missing vector; used
+                                                ; by EmuRestoreFpuVector, HookCoprocessorVector
         db 00h,00h
-FpuCr0Bits:
+FpuCr0Bits:                                     ; saved CR0 coprocessor bits; used by EmuRestoreFpuVector,
+                                                ; EmuRestoreRealVector, InitFpuFlags ...
         db 00h,00h
-__real87:
+__real87:                                       ; same code as in the next game; used by InitFpuFlags,
+                                                ; __sys_fini_387_emulator
         db 00h,00h,00h,00h
-RetraceMode:
+RetraceMode:                                    ; how the wait for retrace works; used by CosLookup,
+                                                ; WaitRetrace
         db 00h,00h,00h,00h
-snddriver:
+snddriver:                                      ; the driver table index SndSetDriver made current (0: none);
+                                                ; used by AllocSoundChannel, CallDriverService, ChannelIdle
+                                                ; ...
         db 00h,00h,00h,00h
-SpeechQueueOpen:
+SpeechQueueOpen:                                ; set while the speech queue is open; used by
+                                                ; AddSpeechQueueClip, CloseSpeechQueue, FlushSpeechQueue ...
         db 00h
-CrowdPlaying:
+CrowdPlaying:                                   ; set while the crowd layers play; used by CrowdService,
+                                                ; SndTimerTick, StartCrowdSound ...
         db 00h
-SndTickHold:
+SndTickHold:                                    ; non-zero to hold the sound tick; used by SndTimerCallback
         db 00h,00h,00h,00h
-SndMaxRate:
+SndMaxRate:                                     ; highest output rate the card allows; used by PickOutputRate,
+                                                ; SetSoundMixMode
         db 022h,056h,00h,00h
-SndMasterVolume:
+SndMasterVolume:                                ; master volume for every sound channel; used by
+                                                ; StopSoundChannel, UpdateChannelGain
         db 07Fh,00h

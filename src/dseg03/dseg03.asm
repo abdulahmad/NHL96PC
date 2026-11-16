@@ -7,35 +7,41 @@ global SbDmaPagePorts, SbDmaMaskPorts, SbDmaModePorts, SbDmaFlipFlopPorts, SbDma
 ; SbDmaPagePorts                                 100000  96 PC, low confidence
 ; Sound Blaster 8237 DMA page register port for each channel 0-3
 ;-----------------------------------------------------------------------------
-SbDmaPagePorts:
+SbDmaPagePorts:                                 ; Sound Blaster 8237 DMA page register port for each channel
+                                                ; 0-3; used by WssCodecSetup
         db 087h,083h,081h,082h
 ;-----------------------------------------------------------------------------
 ; SbDmaMaskPorts                                 100004  96 PC, low confidence
 ; Sound Blaster 8237 DMA single-channel mask register port for each channel
 ;-----------------------------------------------------------------------------
-SbDmaMaskPorts:
+SbDmaMaskPorts:                                 ; Sound Blaster 8237 DMA single-channel mask register port for
+                                                ; each channel; used by WssCodecSetup, WssStopDma
         db 0Ah,0Ah,0Ah,0Ah
 ;-----------------------------------------------------------------------------
 ; SbDmaModePorts                                 100008  96 PC, low confidence
 ; Sound Blaster 8237 DMA mode register port for each channel
 ;-----------------------------------------------------------------------------
-SbDmaModePorts:
+SbDmaModePorts:                                 ; Sound Blaster 8237 DMA mode register port for each channel;
+                                                ; used by WssCodecSetup
         db 0Bh,0Bh,0Bh,0Bh
 ;-----------------------------------------------------------------------------
 ; SbDmaFlipFlopPorts                             10000C  96 PC, low confidence
 ; Sound Blaster 8237 DMA clear flip-flop register port for each channel
 ;-----------------------------------------------------------------------------
-SbDmaFlipFlopPorts:
+SbDmaFlipFlopPorts:                             ; Sound Blaster 8237 DMA clear flip-flop register port for
+                                                ; each channel; used by WssCodecSetup
         db 0Ch,0Ch,0Ch,0Ch
 ;-----------------------------------------------------------------------------
 ; SbDmaAddressPorts                              100010  96 PC, low confidence
 ; Sound Blaster 8237 DMA base address register port for each channel
 ;-----------------------------------------------------------------------------
-SbDmaAddressPorts:
+SbDmaAddressPorts:                              ; Sound Blaster 8237 DMA base address register port for each
+                                                ; channel; used by WssCodecSetup
         db 00h,02h,04h,06h
 ;-----------------------------------------------------------------------------
 ; SbDmaCountPorts                                100014  96 PC, low confidence
 ; Sound Blaster 8237 DMA count register port for each channel
 ;-----------------------------------------------------------------------------
-SbDmaCountPorts:
+SbDmaCountPorts:                                ; Sound Blaster 8237 DMA count register port for each channel;
+                                                ; used by WssCodecSetup
         db 01h,03h,05h,07h

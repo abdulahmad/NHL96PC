@@ -5,51 +5,68 @@ section s_11ED30 progbits alloc noexec write align=1
 global InGameMenuStartTick, ModemAwayPanelX, ModemPanelXs, ModemHomeBmp, ModemAwayBmp, ModemHomeLogo, ModemAwayLogo, ModemHomeName
 global ModemAwayName, ModemHomeText, ModemAwayText, PlayoffMode, PlayoffSlotX, PlayoffSlotY, PlayoffSetupTextIds, PlayoffRoundTextIds
 global PlayoffSeriesWins, PlayoffTreeY, InGameMenuDrawn, ModemPanelY
-InGameMenuStartTick:
+InGameMenuStartTick:                            ; tick count when the in-game menu opened; used by
+                                                ; DrawInGameMenuFrame, InGameMenu, InGameReturnMenu ...
         db 00h,00h,00h,00h
-InGameMenuDrawn:
+InGameMenuDrawn:                                ; in-game menu frame has been drawn; used by
+                                                ; DrawInGameMenuFrame, InGameReturnMenu
         db 00h,00h,00h,00h
-ModemPanelY:
+ModemPanelY:                                    ; modem team select panel y position; used by
+                                                ; ModemTeamSelectScreen
         db 081h,00h,00h,00h
-ModemAwayPanelX:
+ModemAwayPanelX:                                ; modem away team panel x position; used by
+                                                ; DrawModemAwayPanel, ModemTeamSelectScreen
         db 0FFh,01h,00h,00h
-ModemPanelXs:
+ModemPanelXs:                                   ; modem team select panel x positions; used by
+                                                ; DrawModemAwayPanel, DrawModemHomePanel,
+                                                ; ModemTeamSelectScreen
         db 020h,01h,00h,00h,03Ch,01h,00h,00h,058h,01h,00h,00h,074h,01h,00h,00h
         db 091h,01h,00h,00h,0ADh,01h,00h,00h
-ModemHomeBmp:
+ModemHomeBmp:                                   ; modem home team panel bitmap; used by DrawModemHomePanel,
+                                                ; ModemTeamSelectScreen
         db 00h,00h,00h,00h
-ModemAwayBmp:
+ModemAwayBmp:                                   ; modem away team panel bitmap; used by DrawModemAwayPanel,
+                                                ; ModemTeamSelectScreen
         db 00h,00h,00h,00h
-ModemHomeLogo:
+ModemHomeLogo:                                  ; modem home team logo; used by DrawModemHomePanel,
+                                                ; ModemTeamSelectScreen
         db 00h,00h,00h,00h
-ModemAwayLogo:
+ModemAwayLogo:                                  ; modem away team logo; used by DrawModemAwayPanel,
+                                                ; ModemTeamSelectScreen
         db 00h,00h,00h,00h
-ModemHomeName:
+ModemHomeName:                                  ; modem home team name; used by DrawModemHomePanel,
+                                                ; ModemTeamSelectScreen
         db 00h,00h,00h,00h
-ModemAwayName:
+ModemAwayName:                                  ; modem away team name; used by DrawModemAwayPanel,
+                                                ; ModemTeamSelectScreen
         db 00h,00h,00h,00h
-ModemHomeText:
+ModemHomeText:                                  ; modem home team text; used by DrawModemHomePanel,
+                                                ; ModemTeamSelectScreen
         db 00h,00h,00h,00h
-ModemAwayText:
+ModemAwayText:                                  ; modem away team text; used by DrawModemAwayPanel,
+                                                ; ModemTeamSelectScreen
         db 00h,00h,00h,00h
-PlayoffMode:
+PlayoffMode:                                    ; playoff menus mode; used by PlayoffSetupScreen,
+                                                ; RunPlayoffMenus
         db 00h,00h,00h,00h
-PlayoffSlotX:
+PlayoffSlotX:                                   ; playoff setup slot x positions; used by DrawPlayoffSlotLogo,
+                                                ; DrawPlayoffTeamList, PlayoffSetupScreen
         db 035h,00h,00h,00h,039h,00h,00h,00h,03Eh,00h,00h,00h,041h,00h,00h,00h
         db 046h,00h,00h,00h,04Ah,00h,00h,00h,04Eh,00h,00h,00h,052h,00h,00h,00h
-PlayoffSlotY:
+PlayoffSlotY:                                   ; playoff setup slot y positions; used by DrawPlayoffSlotLogo,
+                                                ; DrawPlayoffTeamList, PlayoffSetupScreen
         db 087h,00h,00h,00h,0A8h,00h,00h,00h,0D4h,00h,00h,00h,0F4h,00h,00h,00h
         db 01Fh,01h,00h,00h,041h,01h,00h,00h,06Eh,01h,00h,00h,08Eh,01h,00h,00h
-PlayoffSetupTextIds:
+PlayoffSetupTextIds:                            ; playoff setup text ids; used by PlayoffSetupScreen
         db 026h,02h,00h,00h,021h,02h,00h,00h,01Eh,02h,00h,00h,01Ah,02h,00h,00h
-PlayoffRoundTextIds:
+PlayoffRoundTextIds:                            ; playoff round text ids; used by PlayoffTreeScreen
         db 016h,02h,00h,00h,013h,02h,00h,00h,011h,02h,00h,00h,0Ch,02h,00h,00h
-PlayoffSeriesWins:
+PlayoffSeriesWins:                              ; wins needed in each playoff series; used by DrawPlayoffTree
         db 04h,00h,00h,00h,04h,00h,00h,00h,04h,00h,00h,00h,04h,00h,00h,00h
         db 08h,00h,00h,00h,08h,00h,00h,00h,010h,00h,00h,00h,020h,00h,00h,00h
         db 020h,00h,00h,00h,020h,00h,00h,00h,020h,00h,00h,00h,040h,00h,00h,00h
         db 040h,00h,00h,00h,080h,00h,00h,00h,00h,01h,00h,00h
-PlayoffTreeY:
+PlayoffTreeY:                                   ; playoff tree y positions; used by DrawPlayoffTree
         db 01Eh,00h,00h,00h,020h,00h,00h,00h,023h,00h,00h,00h,025h,00h,00h,00h
         db 027h,00h,00h,00h,02Ah,00h,00h,00h,02Dh,00h,00h,00h,030h,00h,00h,00h
         db 0BBh,03h,00h,00h,0B7h,03h,00h,00h,0B5h,03h,00h,00h,0B1h,03h,00h,00h

@@ -7,69 +7,96 @@ global AaSrcWidthFixed, AaStepX, AaDestHeight, AaDestWidth, AaSrcHeightFixed, Aa
 global CdDriveLetter, CdRequestCount, CdRequestSegment, CdBufferAddr, CdRequestSector, CdRegs, CdDirEntryBuf, CdRegEbx
 global CdRegEdi, CdRegEax, CdRegEdx, PaletteShadeTable, CdBufferSegment, CdRequestSelector, CdRegFlags, CdRegEs
 global CdRegSegs
-AaColumnCodes:
+AaColumnCodes:                                  ; step code for each column of an anti-aliased scale; used by
+                                                ; AaAddHalf, AaAddQuarter, AaAddThird ...
         resb 2560
-AaColumnSums:
+AaColumnSums:                                   ; weighted colour sums for each column; used by AaAddHalf,
+                                                ; AaAddQuarter, AaAddThird ...
         resb 2560
-PaletteShadeTable:
+PaletteShadeTable:                              ; palette colours at 16 brightness levels; used by
+                                                ; AaDrawScaledArt, BuildPaletteShadeTable
         resb 16384
-AaPalLut:
+AaPalLut:                                       ; anti-alias palette lookup table; used by AaAddHalf,
+                                                ; AaAddQuarter, AaAddThird ...
         resb 4
-AaStepY:
+AaStepY:                                        ; source rows per destination row; used by AaDrawScaledArt,
+                                                ; DrawArtAaScaled, DrawArtAaScaledXY
         resb 4
-AaDestX:
+AaDestX:                                        ; destination X; used by AaDrawScaledArt, DrawArtAaScaled,
+                                                ; DrawArtAaScaledXY
         resb 4
-AaDestY:
+AaDestY:                                        ; destination Y; used by AaDrawScaledArt, DrawArtAaScaled,
+                                                ; DrawArtAaScaledXY
         resb 4
-AaSrcPtr:
+AaSrcPtr:                                       ; source pixel pointer; used by AaAddHalf, AaAddQuarter,
+                                                ; AaAddThird ...
         resb 4
-AaSrcWidthFixed:
+AaSrcWidthFixed:                                ; source width in 16.16; used by AaBuildColumnSteps,
+                                                ; DrawArtAaScaled, DrawArtAaScaledXY
         resb 4
-AaStepX:
+AaStepX:                                        ; source columns per destination column; used by
+                                                ; AaBuildColumnSteps, AaDrawScaledArt, DrawArtAaScaled ...
         resb 4
-AaDestHeight:
+AaDestHeight:                                   ; destination height; used by AaDrawScaledArt,
+                                                ; DrawArtAaScaled, DrawArtAaScaledXY
         resb 4
-AaDestWidth:
+AaDestWidth:                                    ; destination width; used by AaBuildColumnSteps,
+                                                ; AaDrawScaledArt, DrawArtAaScaled ...
         resb 4
-AaSrcHeightFixed:
+AaSrcHeightFixed:                               ; source height in 16.16; used by AaDrawScaledArt,
+                                                ; DrawArtAaScaled, DrawArtAaScaledXY
         resb 4
-AaSrcWidth:
+AaSrcWidth:                                     ; source width; used by AaDrawScaledArt, DrawArtAaScaled,
+                                                ; DrawArtAaScaledXY
         resb 4
-CdBufferSegment:
+CdBufferSegment:                                ; real mode segment of the CD buffer; used by AllocCdBuffer,
+                                                ; CdDirEntry, CdReadRequest ...
         resb 4
-CdBufferSelector:
+CdBufferSelector:                               ; selector of the CD buffer; used by AllocCdBuffer,
+                                                ; CdDirEntry, CdPrefetch ...
         resb 4
-CdBufferAllocated:
+CdBufferAllocated:                              ; CD buffer allocated; used by AllocCdBuffer
         resb 4
-CdDriveLetter:
+CdDriveLetter:                                  ; CD drive number; used by AllocCdBuffer, CdDirEntry,
+                                                ; CdPrefetch ...
         resb 4
-CdRequestCount:
+CdRequestCount:                                 ; sectors in the CD read request; used by CdReadRequest
         resb 4
-CdRequestSegment:
+CdRequestSegment:                               ; real mode segment of the CD request header; used by
+                                                ; AllocCdBuffer, CdDirEntry, CdReadRequest ...
         resb 4
-CdBufferAddr:
+CdBufferAddr:                                   ; linear address of the CD buffer; used by AllocCdBuffer,
+                                                ; CdReadRequest
         resb 4
-CdRequestSector:
+CdRequestSector:                                ; first sector of the CD read request; used by CdReadRequest
         resb 4
-CdRequestSelector:
+CdRequestSelector:                              ; selector of the CD request header; used by AllocCdBuffer,
+                                                ; CdDirEntry, CdPrefetch ...
         resb 4
-CdRegs:
+CdRegs:                                         ; real mode registers for MSCDEX calls; used by CdDirEntry,
+                                                ; CdPrefetch, CdReadRequest ...
         resb 4
-CdDirEntryBuf:
+CdDirEntryBuf:                                  ; CD directory entry; used by CdDirEntry
         resb 12
-CdRegEbx:
+CdRegEbx:                                       ; MSCDEX call EBX; used by CdDirEntry, CdPrefetch,
+                                                ; CdReadRequest ...
         resb 4
-CdRegEdi:
+CdRegEdi:                                       ; MSCDEX call EDI; used by DetectMscdex
         resb 4
-CdRegEax:
+CdRegEax:                                       ; MSCDEX call EAX; used by CdDirEntry, CdPrefetch,
+                                                ; CdReadRequest ...
         resb 4
-CdRegEdx:
+CdRegEdx:                                       ; MSCDEX call EDX; used by CdDirEntry, CdPrefetch,
+                                                ; CdReadRequest ...
         resb 4
-CdRegFlags:
+CdRegFlags:                                     ; flags from the CD real mode call; used by CdDirEntry,
+                                                ; DetectMscdex
         resb 2
-CdRegEs:
+CdRegEs:                                        ; MSCDEX call ES; used by CdDirEntry, CdPrefetch,
+                                                ; CdReadRequest ...
         resb 2
-CdRegSegs:
+CdRegSegs:                                      ; MSCDEX call segment registers; used by DetectMscdex
         resb 16
-ResourceArchiveData:
+ResourceArchiveData:                            ; data of the open resource archive; used by
+                                                ; OpenResourceArchive
         resb 24000

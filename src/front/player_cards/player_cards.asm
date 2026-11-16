@@ -39,16 +39,16 @@ global ExportPlayerCard_492, ExportPlayerCard_498, ExportPlayerCard_49E, ExportP
 global ExportPlayerCard_71D, ExportPlayerCard_723, ExportPlayerCard_729, ExportPlayerCard_72F, ExportPlayerCard_735, ExportPlayerCard_73B, ExportPlayerCard_741, ExportPlayerCard_747
 global ExportPlayerCard_74D, ExportPlayerCard_860, ExportPlayerCard_87B, ExportPlayerCard_881, ExportPlayerCard_887, ExportPlayerCard_88D, ExportPlayerCard_893, ExportPlayerCard_899
 global ExportPlayerCard_89F, ExportPlayerCard_8A5, ExportPlayerCard_8AB, ScaleBlock, PlayerRatingsHotspots, PlayerRatingsTabHotspots, PlayerRatingsNavLinks, PlayerRatingsChoiceJumpTable
-PlayerCardSlideHotspots:
+PlayerCardSlideHotspots:                        ; used by PlayerCardScreen
         db 018h,01h,00h,00h,064h,00h,00h,00h,068h,01h,00h,00h,064h,00h,00h,00h
         db 068h,01h,00h,00h,0AAh,00h,00h,00h,018h,01h,00h,00h,0AAh,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-PlayerCardTabLabels:
+PlayerCardTabLabels:                            ; used by PlayerCardScreen
         dd str_RAT
         dd str_SEA4
         dd str_PLY4
-PlayerCardHotspots:
+PlayerCardHotspots:                             ; used by PlayerCardScreen
         db 0FFh,00h,00h,00h,0C3h,01h,00h,00h,07h,01h,00h,00h,0B8h,01h,00h,00h
         db 080h,01h,00h,00h,0B8h,01h,00h,00h,08Ah,01h,00h,00h,0C5h,01h,00h,00h
         db 07Fh,01h,00h,00h,0D0h,01h,00h,00h,07h,01h,00h,00h,0CEh,01h,00h,00h
@@ -65,7 +65,7 @@ PlayerCardHotspots:
         db 0E1h,00h,00h,00h,0CFh,01h,00h,00h,073h,00h,00h,00h,0CFh,01h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-PlayerCardNavLinks:
+PlayerCardNavLinks:                             ; used by PlayerCardScreen
         db 00h,02h,04h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 06h,01h,08h,02h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,02h,01h,02h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -1828,7 +1828,7 @@ PlayerCardScreen:
         pop edi
         pop esi
         ret 4
-GoalieStatsJumpTable:
+GoalieStatsJumpTable:                           ; jump table for the switch cases of DrawPlayerCardStats
         dd DrawPlayerCardStats_1C4
         dd DrawPlayerCardStats_1DE
         dd DrawPlayerCardStats_1E4
@@ -1840,7 +1840,7 @@ GoalieStatsJumpTable:
         dd DrawPlayerCardStats_235
         dd DrawPlayerCardStats_23B
         dd DrawPlayerCardStats_241
-SkaterStatsJumpTable:
+SkaterStatsJumpTable:                           ; jump table for the switch cases of DrawPlayerCardStats
         dd DrawPlayerCardStats_3D9
         dd DrawPlayerCardStats_3F3
         dd DrawPlayerCardStats_3F9
@@ -1851,7 +1851,7 @@ SkaterStatsJumpTable:
         dd DrawPlayerCardStats_417
         dd DrawPlayerCardStats_41D
         dd DrawPlayerCardStats_423
-GoalieCareerJumpTable:
+GoalieCareerJumpTable:                          ; jump table for the switch cases of DrawPlayerCardStats
         dd DrawPlayerCardStats_5E6
         dd DrawPlayerCardStats_601
         dd DrawPlayerCardStats_607
@@ -1863,7 +1863,7 @@ GoalieCareerJumpTable:
         dd DrawPlayerCardStats_658
         dd DrawPlayerCardStats_65E
         dd DrawPlayerCardStats_664
-SkaterCareerJumpTable:
+SkaterCareerJumpTable:                          ; jump table for the switch cases of DrawPlayerCardStats
         dd DrawPlayerCardStats_7FC
         dd DrawPlayerCardStats_817
         dd DrawPlayerCardStats_81D
@@ -3259,7 +3259,7 @@ DrawPlayerCardName:
         pop edi
         pop esi
         ret
-ExportGoalieStatsJumpTable:
+ExportGoalieStatsJumpTable:                     ; jump table for the switch cases of ExportPlayerCard
         dd ExportPlayerCard_2BF
         dd ExportPlayerCard_2D9
         dd ExportPlayerCard_2DF
@@ -3271,7 +3271,7 @@ ExportGoalieStatsJumpTable:
         dd ExportPlayerCard_330
         dd ExportPlayerCard_336
         dd ExportPlayerCard_33C
-ExportGoalieCareerJumpTable:
+ExportGoalieCareerJumpTable:                    ; jump table for the switch cases of ExportPlayerCard
         dd ExportPlayerCard_438
         dd ExportPlayerCard_453
         dd ExportPlayerCard_459
@@ -3283,7 +3283,7 @@ ExportGoalieCareerJumpTable:
         dd ExportPlayerCard_4AA
         dd ExportPlayerCard_4B0
         dd ExportPlayerCard_4B6
-ExportSkaterStatsJumpTable:
+ExportSkaterStatsJumpTable:                     ; jump table for the switch cases of ExportPlayerCard
         dd ExportPlayerCard_703
         dd ExportPlayerCard_71D
         dd ExportPlayerCard_723
@@ -3294,7 +3294,7 @@ ExportSkaterStatsJumpTable:
         dd ExportPlayerCard_741
         dd ExportPlayerCard_747
         dd ExportPlayerCard_74D
-ExportSkaterCareerJumpTable:
+ExportSkaterCareerJumpTable:                    ; jump table for the switch cases of ExportPlayerCard
         dd ExportPlayerCard_860
         dd ExportPlayerCard_87B
         dd ExportPlayerCard_881
@@ -4299,7 +4299,7 @@ ScaleBlock:
         pop ecx
         pop ebx
         ret 0Ch
-PlayerRatingsHotspots:
+PlayerRatingsHotspots:                          ; used by PlayerRatingsScreen
         db 0F4h,00h,00h,00h,0C3h,00h,00h,00h,0F7h,00h,00h,00h,0BCh,00h,00h,00h
         db 07Eh,01h,00h,00h,0BCh,00h,00h,00h,084h,01h,00h,00h,0C3h,00h,00h,00h
         db 084h,01h,00h,00h,0CFh,00h,00h,00h,07Dh,01h,00h,00h,0D4h,00h,00h,00h
@@ -4312,7 +4312,7 @@ PlayerRatingsHotspots:
         db 02Dh,00h,00h,00h,0DFh,01h,00h,00h,00h,00h,00h,00h,0DFh,01h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-PlayerRatingsTabHotspots:
+PlayerRatingsTabHotspots:                       ; used by PlayerRatingsScreen
         db 0F9h,00h,00h,00h,0AFh,00h,00h,00h,01Dh,01h,00h,00h,08Ah,00h,00h,00h
         db 05Eh,01h,00h,00h,08Ah,00h,00h,00h,081h,01h,00h,00h,0AEh,00h,00h,00h
         db 05Eh,01h,00h,00h,0D6h,00h,00h,00h,01Ch,01h,00h,00h,0D5h,00h,00h,00h
@@ -4321,7 +4321,7 @@ PlayerRatingsTabHotspots:
         db 082h,01h,00h,00h,0E3h,00h,00h,00h,087h,01h,00h,00h,0EBh,00h,00h,00h
         db 086h,01h,00h,00h,0F8h,00h,00h,00h,081h,01h,00h,00h,0FDh,00h,00h,00h
         db 0FCh,00h,00h,00h,0FDh,00h,00h,00h,0F5h,00h,00h,00h,0F7h,00h,00h,00h
-PlayerRatingsNavLinks:
+PlayerRatingsNavLinks:                          ; used by PlayerRatingsScreen
         db 0Ch,0Dh,05h,0Ah,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 01h,02h,01h,08h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 05h,02h,02h,0Fh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -4340,7 +4340,7 @@ PlayerRatingsNavLinks:
         db 0Dh,0Fh,02h,0Ah,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 0Dh,010h,02h,0Ah,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 011h,02h,011h,08h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-PlayerRatingsChoiceJumpTable:
+PlayerRatingsChoiceJumpTable:                   ; jump table for the switch cases of PlayerRatingsScreen
         dd PlayerRatingsScreen_E11
         dd PlayerRatingsScreen_E3B
         dd PlayerRatingsScreen_E44

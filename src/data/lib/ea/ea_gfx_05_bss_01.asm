@@ -6,11 +6,12 @@ global PerspQuadState
 global SubdivDepth, SubdivLimit, ModelPolyColour, ModelPolyFlags, ModelPolyFirst, ModelPolyCount, ModelPolyClip, ModelPolyShade
 global RinkViewChanged, ModelPolyDrawFn, PolyLeftEdges, PolyRightEdges, PerspQuadVerts
 global PerspQuadTex, OriPositionBuf
-PolyLeftEdges:
+PolyLeftEdges:                                  ; polygon left edges; used by FillPolyIndexed
         resb 7680
-PolyRightEdges:
+PolyRightEdges:                                 ; polygon right edges; used by FillPolyIndexed
         resb 7680
-PerspQuadState:
+PerspQuadState:                                 ; perspective quad state; used by DrawPerspQuad,
+                                                ; SubdivideTexturedQuad
         resb 4
         resb 4
         resb 4
@@ -19,35 +20,46 @@ PerspQuadState:
         resb 4
         resb 4
         resb 3252
-PerspQuadVerts:
+PerspQuadVerts:                                 ; perspective quad vertices; used by DrawPerspQuad,
+                                                ; SubdivideTexturedQuad
         resb 8
         resb 8
         resb 8
         resb 3256
-PerspQuadTex:
+PerspQuadTex:                                   ; perspective quad texture points; used by DrawPerspQuad,
+                                                ; SubdivideTexturedQuad
         resb 12
         resb 12
         resb 12
         resb 4884
-SubdivDepth:
+SubdivDepth:                                    ; subdivision depth; used by DrawPerspQuad,
+                                                ; SubdivideTexturedQuad
         resb 4
-SubdivLimit:
+SubdivLimit:                                    ; subdivision limit; used by DrawPerspQuad,
+                                                ; SubdivideTexturedQuad
         resb 4
-ModelPolyColour:
+ModelPolyColour:                                ; model polygon colour; used by DrawModelPoly,
+                                                ; DrawModelPolyList
         resb 4
-ModelPolyFlags:
+ModelPolyFlags:                                 ; model polygon flags; used by DrawModelPoly,
+                                                ; DrawModelPolyList
         resb 4
-ModelPolyFirst:
+ModelPolyFirst:                                 ; model polygon first entry; used by DrawModelPolyList
         resb 4
-ModelPolyCount:
+ModelPolyCount:                                 ; model polygon count; used by DrawModelPolyList
         resb 4
-ModelPolyClip:
+ModelPolyClip:                                  ; model polygon clip flag; used by DrawModelPoly,
+                                                ; DrawModelPolyList
         resb 4
-ModelPolyShade:
+ModelPolyShade:                                 ; model polygon shade; used by DrawModelPoly,
+                                                ; DrawModelPolyList
         resb 4
-RinkViewChanged:
+RinkViewChanged:                                ; set when the rink view matrix changes; used by
+                                                ; DrawModelFlat, SetRinkMatrix
         resb 12
-ModelPolyDrawFn:
+ModelPolyDrawFn:                                ; model polygon draw routine; used by DrawModelPoly,
+                                                ; DrawModelPolyList
         resb 4
-OriPositionBuf:
+OriPositionBuf:                                 ; model position buffer; used by OriReadModel,
+                                                ; OriSetObjectPosition
         resb 40

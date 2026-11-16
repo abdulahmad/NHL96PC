@@ -6,55 +6,75 @@ global HotList, HotList_y, HotStickList, HotStickList_y, AwayGoalsPeriod, HomeGo
 global sopathend, sopathpoint, pspathside, pspathdir, PassTargetLocked, PassHoldFrames, OneTimerPasser, PuckChasers
 global FaceoffPuckDropped, PuckChaserPlayer, GameHitCount, FightingOn, ZonesDirty, penshotlive, penshotmode, penshotstart
 global penshottimer, psendcount, shotontarget, SavedGameMode
-SavedGameMode:
+SavedGameMode:                                  ; game mode word kept in the saved game; used by
+                                                ; LoadGameState, SaveGameState
         db 00h,00h,00h,00h
-AwayGoalsPeriod:
+AwayGoalsPeriod:                                ; away goals this period; used by EndPenaltyShot, Goal,
+                                                ; LoadGameState ...
         db 00h,00h,00h,00h
-HomeGoalsPeriod:
+HomeGoalsPeriod:                                ; home goals this period; used by EndPenaltyShot, Goal,
+                                                ; LoadGameState ...
         db 00h,00h,00h,00h
-penshotmode:
+penshotmode:                                    ; used by CPgoalie, CamShotOnTarget, CountShotOnGoal ...
         db 00h,00h,00h,00h
-penshotstart:
+penshotstart:                                   ; used by AddPenalty2, CamShotOnTarget, ChkDelayedOffside ...
         db 00h,00h,00h,00h
-penshottimer:
+penshottimer:                                   ; used by ClockTick, LoadGameState, SaveGameState ...
         db 00h,00h,00h,00h
-shotontarget:
+shotontarget:                                   ; used by CountShotOnGoal, LoadGameState, QuickShotChk ...
         db 00h,00h,00h,00h
-penshotlive:
+penshotlive:                                    ; used by AddPenalty, CamShotOnTarget, ChkDelayedOffside ...
         db 00h,00h,00h,00h
-psendcount:
+psendcount:                                     ; used by LoadGameState, SaveGameState, pucknorm ...
         db 00h,00h,00h,00h
-sopathx:
+sopathx:                                        ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 00h,00h,00h,00h
-sopathy:
+sopathy:                                        ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 00h,00h,00h,00h
-sopathend:
+sopathend:                                      ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 00h,00h,00h,00h
-sopathpoint:
+sopathpoint:                                    ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 00h,00h,00h,00h
-pspathside:
+pspathside:                                     ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 00h,00h,00h,00h
-pspathdir:
+pspathdir:                                      ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 00h,00h,00h,00h
-PassTargetLocked:
+PassTargetLocked:                               ; per team: set when a pass target is locked (passmode,
+                                                ; ShotMode, assgoalie); used by ShotMode, assgoalie,
+                                                ; changeplayer ...
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-PassHoldFrames:
+PassHoldFrames:                                 ; per team: frames the pass button has been held (passmode,
+                                                ; doinput); used by doinput, passmode
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-OneTimerPasser:
+OneTimerPasser:                                 ; one-timer passer; used by CompPass, ReceivePass, assnearest
+                                                ; ...
         db 00h,00h,00h,00h
-PuckChasers:
+PuckChasers:                                    ; puck chaser per team; used by a2touchpuck, assnearest,
+                                                ; asspuckc ...
         db 00h,00h,00h,00h
-FaceoffPuckDropped:
+FaceoffPuckDropped:                             ; cleared at the face-off; set when puckfaceoff2 drops the
+                                                ; puck; used by puckfaceoff2
         db 00h,00h,00h,00h
-PuckChaserPlayer:
+PuckChaserPlayer:                               ; per team: player number chasing the puck, or -1; used by
+                                                ; asspuckc, changeplayer, passmode
         db 0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh
-GameHitCount:
+GameHitCount:                                   ; body checks counted in the game (FallDown, checkfight); used
+                                                ; by FallDown, StartGame, checkfight
         db 00h,00h,00h,00h
-FightingOn:
+FightingOn:                                     ; set from the fighting game option at the start of the game;
+                                                ; used by StartGame, checkfight
         db 00h,00h,00h,00h
-HotList:
+HotList:                                        ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 0FDh
-HotList_y:
+HotList_y:                                      ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 0Eh,07h,0Ch,0Eh,03h,0Ch,0F8h,03h,0F2h,0F8h,0F3h,0F2h,0FDh,0F3h,07h,02h
         db 0Fh,0Ch,09h,0Fh,0FEh,09h,0F3h,0FEh,0F1h,0F3h,0F6h,0F1h,02h,0F6h,0Ch,00h
         db 010h,0Bh,0Bh,010h,00h,0Bh,0F4h,00h,0F0h,0F4h,0F4h,0F0h,00h,0F4h,0Bh,01h
@@ -227,12 +247,16 @@ HotList_y:
         db 0Ah,09h,04h,0Ah,0FDh,04h,0F6h,0FDh,0F6h,0F6h,0FBh,0F6h,03h,0FBh,09h,04h
         db 09h,09h,03h,09h,0FCh,03h,0F6h,0FCh,0F7h,0F6h,0FCh,0F7h,04h,0FCh,09h,01h
         db 08h,06h,04h,08h,0FFh,04h,0F9h,0FFh,0F8h,0F9h,0FBh,0F8h,01h,0FBh,06h
-HotStickList:
+HotStickList:                                   ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 07h
-HotStickList_y:
+HotStickList_y:                                 ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 0FDh,02h,0F8h,0FDh,0F9h,0F8h,0FDh,0F9h,03h,0FDh,07h,03h,07h,07h,02h,0Dh
         db 02h,0Ah,0F8h,02h,0F3h,0F8h,0F5h,0F3h,0FEh,0F5h,07h,0FEh,0Dh,07h,0Ah,0F6h
         db 00h,0F8h,07h,00h,0Ah,07h,07h,0Ah,00h,07h,0F8h,00h,0F6h,0F8h,0F8h,0F5h
         db 0FEh,0F6h,06h,0FEh,0Bh,06h,09h,0Bh,02h,09h,0F9h,02h,0F5h,0F9h,0F6h,00h
-ZonesDirty:
+ZonesDirty:                                     ; set while screen zones wait to be redrawn (DrawDirtyZones,
+                                                ; CopyZonesToScreen); used by CopyZonesToScreen,
+                                                ; DrawDirtyZones, DrawGameFrame ...
         db 00h,00h,00h,00h

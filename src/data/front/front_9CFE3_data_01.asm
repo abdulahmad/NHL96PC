@@ -9,101 +9,102 @@ global str_Bt17, str_Bh01, str_Bt018, str_LinesSort, str_Bkpp, str_Bkpk, str_Jer
 global str_CD2, str_CS4, str_Intr, str_Sid1, str_Sid2, str_Bot1, str_Bot2, str_Bot3
 global str_Gam0, str_FhiL3, str_FhiR3, str_GloL2, str_GloR2, str_GhiL2, str_GhiR2, str_Ret0
 global str_D13
-str_Bt092:
+str_Bt092:                                      ; string 'bt09'; used by EditLinesScreen
         db 062h,074h,030h,039h,00h
-str_Bh09:
+str_Bh09:                                       ; string 'bh09'; used by EditLinesScreen
         db 062h,068h,030h,039h,00h
-str_Bkgd20:
+str_Bkgd20:                                     ; string 'bkgd'; used by DrawLinesPanel, DrawLinesPlayerList,
+                                                ; EditLinesScreen
         db 062h,06Bh,067h,064h,00h
-str_Slid2:
+str_Slid2:                                      ; string 'slid'; used by EditLinesScreen
         db 073h,06Ch,069h,064h,00h
-str_Ball6:
+str_Ball6:                                      ; string 'ball'; used by EditLinesScreen
         db 062h,061h,06Ch,06Ch,00h
-str_Slu12:
+str_Slu12:                                      ; string 'slu1'; used by EditLinesScreen
         db 073h,06Ch,075h,031h,00h
-str_Slup:
+str_Slup:                                       ; string 'slup'; used by EditLinesScreen
         db 073h,06Ch,075h,070h,00h
-str_Sld12:
+str_Sld12:                                      ; string 'sld1'; used by EditLinesScreen
         db 073h,06Ch,064h,031h,00h
-str_Sldw:
+str_Sldw:                                       ; string 'sldw'; used by EditLinesScreen
         db 073h,06Ch,064h,077h,00h
-str_Pal28:
+str_Pal28:                                      ; string '!pal'; used by EditLinesScreen
         db 021h,070h,061h,06Ch,00h
-str_Nhl1:
+str_Nhl1:                                       ; string 'nhl1'; used by EditLinesScreen
         db 06Eh,068h,06Ch,031h,00h
-str_Nhl2:
+str_Nhl2:                                       ; string 'nhl2'; used by EditLinesScreen
         db 06Eh,068h,06Ch,032h,00h
-str_Nhl3:
+str_Nhl3:                                       ; string 'nhl3'; used by EditLinesScreen
         db 06Eh,068h,06Ch,033h,00h
-str_Scr12:
+str_Scr12:                                      ; string 'scr1'; used by EditLinesScreen
         db 073h,063h,072h,031h,00h
-str_Scr22:
+str_Scr22:                                      ; string 'scr2'; used by EditLinesScreen
         db 073h,063h,072h,032h,00h
-str_Scr3:
+str_Scr3:                                       ; string 'scr3'; used by EditLinesScreen
         db 073h,063h,072h,033h,00h
-str_Drs1:
+str_Drs1:                                       ; string 'drs1'; used by EditLinesScreen
         db 064h,072h,073h,031h,00h
-str_Drs2:
+str_Drs2:                                       ; string 'drs2'; used by EditLinesScreen
         db 064h,072h,073h,032h,00h
-str_Drs3:
+str_Drs3:                                       ; string 'drs3'; used by EditLinesScreen
         db 064h,072h,073h,033h,00h
-str_Sta13:
+str_Sta13:                                      ; string 'sta1'; used by EditLinesScreen
         db 073h,074h,061h,031h,00h
-str_Sta23:
+str_Sta23:                                      ; string 'sta2'; used by EditLinesScreen
         db 073h,074h,061h,032h,00h
-str_Sta33:
+str_Sta33:                                      ; string 'sta3'; used by EditLinesScreen
         db 073h,074h,061h,033h,00h
-str_Bh17:
+str_Bh17:                                       ; string 'bh17'; used by EditLinesScreen
         db 062h,068h,031h,037h,00h
-str_Bt02d4:
+str_Bt02d4:                                     ; string 'bt%02d'; used by EditLinesScreen
         db 062h,074h,025h,030h,032h,064h,00h
-str_Bt17:
+str_Bt17:                                       ; string 'bt17'; used by EditLinesScreen
         db 062h,074h,031h,037h,00h
-str_Bh01:
+str_Bh01:                                       ; string 'bh01'; used by EditLinesScreen
         db 062h,068h,030h,031h,00h
-str_Bt018:
+str_Bt018:                                      ; string 'bt01'; used by EditLinesScreen
         db 062h,074h,030h,031h,00h
-str_LinesSort:
+str_LinesSort:                                  ; string 'Lines Sort'; used by EditLinesScreen
         db 04Ch,069h,06Eh,065h,073h,020h,053h,06Fh,072h,074h,00h
-str_Bkpp:
+str_Bkpp:                                       ; string 'bkpp'; used by DrawLinesPanel
         db 062h,06Bh,070h,070h,00h
-str_Bkpk:
+str_Bkpk:                                       ; string 'bkpk'; used by DrawLinesPanel
         db 062h,06Bh,070h,06Bh,00h
-str_Jers:
+str_Jers:                                       ; string 'jers'; used by DrawLineJersey
         db 06Ah,065h,072h,073h,00h
-str_Jrhl:
+str_Jrhl:                                       ; string 'jrhl'; used by DrawLineJersey
         db 06Ah,072h,068h,06Ch,00h
-str_CD2:
+str_CD2:                                        ; string '%c %d'; used by DrawLinesPlayerList
         db 025h,063h,020h,025h,064h,00h
-str_CS4:
+str_CS4:                                        ; string '%c. %s'; used by DrawLinesPlayerList
         db 025h,063h,02Eh,020h,025h,073h,00h,00h,00h,00h
-str_D13:
+str_D13:                                        ; string '%d'; used by DrawInGameMenuFrame
         db 025h,064h,00h
-str_Intr:
+str_Intr:                                       ; string 'intr'; used by DrawInGameMenuFrame
         db 069h,06Eh,074h,072h,00h
-str_Sid1:
+str_Sid1:                                       ; string 'sid1'; used by DrawInGameMenuFrame
         db 073h,069h,064h,031h,00h
-str_Sid2:
+str_Sid2:                                       ; string 'sid2'; used by DrawInGameMenuFrame
         db 073h,069h,064h,032h,00h
-str_Bot1:
+str_Bot1:                                       ; string 'bot1'; used by DrawInGameMenuFrame
         db 062h,06Fh,074h,031h,00h
-str_Bot2:
+str_Bot2:                                       ; string 'bot2'; used by DrawInGameMenuFrame
         db 062h,06Fh,074h,032h,00h
-str_Bot3:
+str_Bot3:                                       ; string 'bot3'; used by DrawInGameMenuFrame
         db 062h,06Fh,074h,033h,00h
-str_Gam0:
+str_Gam0:                                       ; string 'gam0'; used by DrawInGameMenuFrame, InGameReturnMenu
         db 067h,061h,06Dh,030h,00h
-str_FhiL3:
+str_FhiL3:                                      ; string 'FhiL'; used by OpenFrontEndFromGame
         db 046h,068h,069h,04Ch,00h
-str_FhiR3:
+str_FhiR3:                                      ; string 'FhiR'; used by OpenFrontEndFromGame
         db 046h,068h,069h,052h,00h
-str_GloL2:
+str_GloL2:                                      ; string 'GloL'; used by ReturnToGameView
         db 047h,06Ch,06Fh,04Ch,00h
-str_GloR2:
+str_GloR2:                                      ; string 'GloR'; used by ReturnToGameView
         db 047h,06Ch,06Fh,052h,00h
-str_GhiL2:
+str_GhiL2:                                      ; string 'GhiL'; used by ReturnToGameView
         db 047h,068h,069h,04Ch,00h
-str_GhiR2:
+str_GhiR2:                                      ; string 'GhiR'; used by ReturnToGameView
         db 047h,068h,069h,052h,00h
-str_Ret0:
+str_Ret0:                                       ; string 'ret0'; used by InGameMenu, InGameReturnMenu
         db 072h,065h,074h,030h,00h

@@ -8,17 +8,22 @@ global InGameBoxRight, InGameBoxBottom, InGameBoxLeft, InGameBoxTop, InterRegBuf
 
 
 global InGameMenuWork
-InGameBoxRight:
+InGameBoxRight:                                 ; in-game menu box right edge; used by InGameMenu,
+                                                ; OpenFrontEndFromGame, ReturnToGameView
         resb 4
-InGameBoxBottom:
+InGameBoxBottom:                                ; in-game menu box bottom edge; used by InGameMenu,
+                                                ; OpenFrontEndFromGame, ReturnToGameView
         resb 4
-InGameBoxLeft:
+InGameBoxLeft:                                  ; in-game menu box left edge; used by InGameMenu,
+                                                ; OpenFrontEndFromGame, ReturnToGameView
         resb 4
-InGameBoxTop:
+InGameBoxTop:                                   ; in-game menu box top edge; used by InGameMenu,
+                                                ; OpenFrontEndFromGame, ReturnToGameView
         resb 4
-InterRegBuffer:
+InterRegBuffer:                                 ; intermission register buffer; used by InGameMenu,
+                                                ; InGameReturnMenu
         resb 4
-InGameMenuWork:
+InGameMenuWork:                                 ; in-game menu work area; used by InGameMenu, RedrawInGameMenu
         resb 16
         resb 4
         resb 6

@@ -2699,7 +2699,7 @@ SimulateRestOfSeason:
 ; PickIndexHotspots                               7B991  96 PC, low confidence
 ; Name index screen click areas
 ;-----------------------------------------------------------------------------
-PickIndexHotspots:
+PickIndexHotspots:                              ; name index screen click areas; used by PickIndexEntryScreen
         db 074h,00h,00h,00h,0BAh,01h,00h,00h,082h,00h,00h,00h,0B4h,01h,00h,00h
         db 0F0h,00h,00h,00h,0B4h,01h,00h,00h,0FCh,00h,00h,00h,0BBh,01h,00h,00h
         db 0FCh,00h,00h,00h,0C6h,01h,00h,00h,0EEh,00h,00h,00h,0CAh,01h,00h,00h
@@ -2708,10 +2708,10 @@ PickIndexHotspots:
         db 07h,02h,00h,00h,0B4h,01h,00h,00h,013h,02h,00h,00h,0BBh,01h,00h,00h
         db 013h,02h,00h,00h,0C4h,01h,00h,00h,05h,02h,00h,00h,0CBh,01h,00h,00h
         db 097h,01h,00h,00h,0CBh,01h,00h,00h,08Dh,01h,00h,00h,0C2h,01h,00h,00h
-SeasonMenuCommands:
+SeasonMenuCommands:                             ; used by RunSeasonMenus
         db 0A1h,0A5h,03h,027h,02h,027h,01h,027h,00h,027h,0FFh,026h,0FEh,026h,0FDh,026h
         db 0FCh,026h,0FBh,026h,00h,00h
-SeasonMenuCommandJumpTable:
+SeasonMenuCommandJumpTable:                     ; jump table for the switch cases of RunSeasonMenus
         dd RunSeasonMenus_CB
         dd RunSeasonMenus_25A
         dd RunSeasonMenus_138

@@ -406,7 +406,7 @@ FillBandRows:
         LD xor, ebx, ebx
         mov bl, byte [byte esi+034h]
         jmp dword [nosplit cs:ebx*4+FillBandRowsJumpTable]
-FillBandRowsJumpTable:
+FillBandRowsJumpTable:                          ; jump table for the switch cases of FillBandRows
         dd FillBandRowsCases
         dd FillBandRowsCases
         dd .1
@@ -552,7 +552,8 @@ FillBandRowsBlend:
         jmp dword [nosplit cs:ebx*4+FillBandRowsPlainJumpTable]
 .1:
         jmp dword [nosplit cs:ebx*4+FillBandRowsBlendJumpTable]
-FillBandRowsBlendJumpTable:
+FillBandRowsBlendJumpTable:                     ; jump table for the switch cases of FillBandRowsBlend,
+                                                ; FillBandRowsBlendCases
         dd FillBandRowsCases
         dd FillBandRowsCases
         dd .1
@@ -751,7 +752,7 @@ FillBandRowsBlendCases:
         jge short .26
         mov dword [dword edi+01400h], eax
         jmp near FillBandsFinish
-FillBandRowsPlainJumpTable:
+FillBandRowsPlainJumpTable:                     ; jump table for the switch cases of FillBandRowsBlend
         dd FillBandRowsCases
         dd FillBandRowsCases
         dd .1

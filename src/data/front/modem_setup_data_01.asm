@@ -9,101 +9,103 @@ global str_YES1, str_NOO0, str_NOO1, str_CMD02, str_SET02, str_SET13, str_SET23,
 global str_Bkgd23, str_Rk02d2, str_Pal10, str_Bkgd24, str_Ahl02, str_Ahl12, str_Ahl22, str_Ahr02
 global str_Ahr12, str_Ahr22, str_Aal02, str_Aal12, str_Aal22, str_Aar02, str_Aar12, str_Aar22
 global str_Swt02
-str_Jy2x:
+str_Jy2x:                                       ; string 'jy2x'; used by ControlSetupScreen
         db 06Ah,079h,032h,078h,00h
-str_Det0:
+str_Det0:                                       ; string 'det0'; used by ControlSetupScreen
         db 064h,065h,074h,030h,00h
-str_Det1:
+str_Det1:                                       ; string 'det1'; used by ControlSetupScreen
         db 064h,065h,074h,031h,00h
-str_Det22:
+str_Det22:                                      ; string 'det2'; used by ControlSetupScreen
         db 064h,065h,074h,032h,00h,00h
-str_PICKS2:
+str_PICKS2:                                     ; string 'PICKS'; used by ModemSettingsScreen
         db 050h,049h,043h,04Bh,053h,00h
-str_bangpal:
+str_bangpal:                                    ; string '!pal'; used by LinkSetupScreen, ModemDialScreen,
+                                                ; ModemSettingsScreen
         db 021h,070h,061h,06Ch,00h
-str_BKGD22:
+str_BKGD22:                                     ; string 'BKGD'; used by ModemDialScreen, ModemSettingsScreen
         db 042h,04Bh,047h,044h,00h
-str_01D0:
+str_01D0:                                       ; string '01%d0'; used by ModemSettingsScreen
         db 030h,031h,025h,064h,030h,00h
-str_02D0:
+str_02D0:                                       ; string '02%d0'; used by ModemSettingsScreen
         db 030h,032h,025h,064h,030h,00h
-str_0D00:
+str_0D00:                                       ; string '0%d00'; used by ModemSettingsScreen
         db 030h,025h,064h,030h,030h,00h
-str_TONE:
+str_TONE:                                       ; string 'TONE'; used by ModemSettingsScreen
         db 054h,04Fh,04Eh,045h,00h
-str_PULS:
+str_PULS:                                       ; string 'PULS'; used by ModemSettingsScreen
         db 050h,055h,04Ch,053h,00h
-str_02D2:
+str_02D2:                                       ; string '02%d2'; used by ModemSettingsScreen
         db 030h,032h,025h,064h,032h,00h
-str_01D2:
+str_01D2:                                       ; string '01%d2'; used by ModemSettingsScreen
         db 030h,031h,025h,064h,032h,00h
-str_NUMD:
+str_NUMD:                                       ; string 'NUM%d'; used by DrawPhoneNumber
         db 04Eh,055h,04Dh,025h,064h,00h
-str_NMD0:
+str_NMD0:                                       ; string 'NM%d0'; used by DrawPhoneNumber
         db 04Eh,04Dh,025h,064h,030h,00h
-str_NMD1:
+str_NMD1:                                       ; string 'NM%d1'; used by DrawPhoneNumber
         db 04Eh,04Dh,025h,064h,031h,00h
-str_MAK2:
+str_MAK2:                                       ; string 'MAK2'; used by ModemDialScreen
         db 04Dh,041h,04Bh,032h,00h
-str_MAK0:
+str_MAK0:                                       ; string 'MAK0'; used by ModemDialScreen
         db 04Dh,041h,04Bh,030h,00h
-str_MAK1:
+str_MAK1:                                       ; string 'MAK1'; used by ModemDialScreen
         db 04Dh,041h,04Bh,031h,00h
-str_WFC2:
+str_WFC2:                                       ; string 'WFC2'; used by ModemDialScreen
         db 057h,046h,043h,032h,00h
-str_WFC0:
+str_WFC0:                                       ; string 'WFC0'; used by ModemDialScreen
         db 057h,046h,043h,030h,00h
-str_WFC1:
+str_WFC1:                                       ; string 'WFC1'; used by ModemDialScreen
         db 057h,046h,043h,031h,00h
-str_YES0:
+str_YES0:                                       ; string 'YES0'; used by ModemDialScreen
         db 059h,045h,053h,030h,00h
-str_YES1:
+str_YES1:                                       ; string 'YES1'; used by ModemDialScreen
         db 059h,045h,053h,031h,00h
-str_NOO0:
+str_NOO0:                                       ; string 'NOO0'; used by ModemDialScreen
         db 04Eh,04Fh,04Fh,030h,00h
-str_NOO1:
+str_NOO1:                                       ; string 'NOO1'; used by ModemDialScreen
         db 04Eh,04Fh,04Fh,031h,00h
-str_CMD02:
+str_CMD02:                                      ; string 'CM%d0'; used by ModemDialScreen
         db 043h,04Dh,025h,064h,030h,00h
-str_SET02:
+str_SET02:                                      ; string 'SET0'; used by ModemDialScreen
         db 053h,045h,054h,030h,00h
-str_SET13:
+str_SET13:                                      ; string 'SET1'; used by ModemDialScreen
         db 053h,045h,054h,031h,00h
-str_SET23:
+str_SET23:                                      ; string 'SET2'; used by ModemDialScreen
         db 053h,045h,054h,032h,00h
-str_CMD2:
+str_CMD2:                                       ; string 'CM%d2'; used by ModemDialScreen
         db 043h,04Dh,025h,064h,032h,00h
-str_Bkgd23:
+str_Bkgd23:                                     ; string 'bkgd'; used by LinkSetupScreen
         db 062h,06Bh,067h,064h,00h
-str_Rk02d2:
+str_Rk02d2:                                     ; string 'rk%02d'; used by DrawAwayTeamPanel,
+                                                ; DrawHomeTeamPanel
         db 072h,06Bh,025h,030h,032h,064h,00h
-str_Pal10:
+str_Pal10:                                      ; string '!pal'; used by TeamSelectScreen
         db 021h,070h,061h,06Ch,00h
-str_Bkgd24:
+str_Bkgd24:                                     ; string 'bkgd'; used by TeamSelectScreen
         db 062h,06Bh,067h,064h,00h
-str_Ahl02:
+str_Ahl02:                                      ; string 'ahl0'; used by TeamSelectScreen
         db 061h,068h,06Ch,030h,00h
-str_Ahl12:
+str_Ahl12:                                      ; string 'ahl1'; used by TeamSelectScreen
         db 061h,068h,06Ch,031h,00h
-str_Ahl22:
+str_Ahl22:                                      ; string 'ahl2'; used by TeamSelectScreen
         db 061h,068h,06Ch,032h,00h
-str_Ahr02:
+str_Ahr02:                                      ; string 'ahr0'; used by TeamSelectScreen
         db 061h,068h,072h,030h,00h
-str_Ahr12:
+str_Ahr12:                                      ; string 'ahr1'; used by TeamSelectScreen
         db 061h,068h,072h,031h,00h
-str_Ahr22:
+str_Ahr22:                                      ; string 'ahr2'; used by TeamSelectScreen
         db 061h,068h,072h,032h,00h
-str_Aal02:
+str_Aal02:                                      ; string 'aal0'; used by TeamSelectScreen
         db 061h,061h,06Ch,030h,00h
-str_Aal12:
+str_Aal12:                                      ; string 'aal1'; used by TeamSelectScreen
         db 061h,061h,06Ch,031h,00h
-str_Aal22:
+str_Aal22:                                      ; string 'aal2'; used by TeamSelectScreen
         db 061h,061h,06Ch,032h,00h
-str_Aar02:
+str_Aar02:                                      ; string 'aar0'; used by TeamSelectScreen
         db 061h,061h,072h,030h,00h
-str_Aar12:
+str_Aar12:                                      ; string 'aar1'; used by TeamSelectScreen
         db 061h,061h,072h,031h,00h
-str_Aar22:
+str_Aar22:                                      ; string 'aar2'; used by TeamSelectScreen
         db 061h,061h,072h,032h,00h
-str_Swt02:
+str_Swt02:                                      ; string 'swt0'; used by TeamSelectScreen
         db 073h,077h,074h,030h,00h

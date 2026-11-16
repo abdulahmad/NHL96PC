@@ -11,7 +11,8 @@ global MixerChunkPos, MixerChunkCount, MixerLoopLength, MixerLoopLimit, MixerLoo
 global MixerChannelTable, MixerChannels
 
 global MixDecodeBuffer
-MixerVolumeLookup:
+MixerVolumeLookup:                              ; mixer volume lookup table; used by MixMono16Lookup,
+                                                ; MixMono8, MixStereo16Lookup ...
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -8204,7 +8205,7 @@ MixerVolumeLookup:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-MixerChannels:
+MixerChannels:                                  ; mixer channel records, 16 of 6Ch bytes
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -8317,7 +8318,9 @@ MixerChannels:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-MixBuffer:
+MixBuffer:                                      ; mixing accumulator: a left and right total for each output
+                                                ; sample; used by ClearMixBuffer, MixMono16, MixMono16Lookup
+                                                ; ...
         db 00h,00h,00h,00h
         db 00h,00h,00h,00h
         db 00h,00h,00h,00h
@@ -8854,7 +8857,8 @@ MixBuffer:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h
-MixDecodeBuffer:
+MixDecodeBuffer:                                ; buffer that compressed samples are decoded into; used by
+                                                ; MixerChunkLength
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -10903,37 +10907,49 @@ MixDecodeBuffer:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-MixerReady:
+MixerReady:                                     ; mixer initialised; used by MixerInit, MixerSamplesLeft,
+                                                ; MixerSetChannelRate
         db 00h,00h,00h,00h
-MixerMode:
+MixerMode:                                      ; mixer mode: 1 mixes 16-bit samples through the volume
+                                                ; lookup; used by MixerPickRoutines, SetMixerMode
         db 00h,00h,00h,00h
-MixerOutputRate:
+MixerOutputRate:                                ; mixer output rate; used by MixerCalcStep, MixerInit
         db 00h,00h,00h,00h
-MixerBufferSamples:
+MixerBufferSamples:                             ; output samples per DMA buffer half; used by ClearMixBuffer,
+                                                ; MixOutputMono8, MixOutputStereo16 ...
         db 00h,00h,00h,00h
-MixerOutBuffer:
+MixerOutBuffer:                                 ; DMA buffer half being filled; used by MixOutputMono8,
+                                                ; MixOutputStereo16, MixOutputStereo8 ...
         db 00h,00h,00h,00h
-MixerChunkSamples:
+MixerChunkSamples:                              ; samples in this mixer chunk; used by MixMono16,
+                                                ; MixMono16Lookup, MixMono8 ...
         db 00h,00h,00h,00h
-MixerChunkLeft:
+MixerChunkLeft:                                 ; samples left in this mixer chunk; used by MixerChunkLength,
+                                                ; MixerFillBuffer
         db 00h,00h,00h,00h
-MixerChunkPos:
+MixerChunkPos:                                  ; output sample the current chunk starts at; used by
+                                                ; MixMono16, MixMono16Lookup, MixMono8 ...
         db 00h,00h,00h,00h
-MixerChunkCount:
+MixerChunkCount:                                ; output samples in the current chunk; used by MixMono16,
+                                                ; MixMono16Lookup, MixMono8 ...
         db 00h,00h,00h,00h,00h,00h,00h,00h
-MixerLoopLength:
+MixerLoopLength:                                ; mixer loop length; used by MixerChunkLength
         db 00h,00h,00h,00h
-MixerLoopLimit:
+MixerLoopLimit:                                 ; mixer loop limit; used by MixerChunkLength
         db 00h,00h,00h,00h
-MixerLoopStart:
+MixerLoopStart:                                 ; mixer loop start; used by MixerChunkLength
         db 00h,00h,00h,00h
-MixStepFrac:
+MixStepFrac:                                    ; channel step per output sample, fraction; used by MixMono16,
+                                                ; MixMono16Lookup, MixMono8 ...
         db 00h,00h,00h,00h
-MixStepWhole:
+MixStepWhole:                                   ; channel step per output sample, whole samples; used by
+                                                ; MixMono16, MixMono16Lookup, MixMono8 ...
         db 00h,00h,00h,00h
-MixerOutputFunc:
+MixerOutputFunc:                                ; routine that writes the mixing buffer to the DMA buffer;
+                                                ; used by MixerFillBuffer, MixerInit
         db 00h,00h,00h,00h
-MixerChannelTable:
+MixerChannelTable:                              ; mixer channel record per channel; used by MixMono16,
+                                                ; MixMono16Lookup, MixMono8 ...
         dd MixerChannels
         dd MixerChannels+6Ch
         dd MixerChannels+0D8h

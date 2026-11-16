@@ -28,17 +28,15 @@ global PlayerStatsHScroll, PlayerStatsVScroll, PlayerStatColFlags
         resb 4
         resb 4
         resb 116
-PlayerStatsTabArt:
+PlayerStatsTabArt:                              ; player stats tab bitmap per column pair; used by
+                                                ; AnimatePlayerStatsButton, AnimatePlayerStatsButtons,
+                                                ; PlayerStatsColumnLabels ...
         resb 4
-PlayerStatsTabLit:
+PlayerStatsTabLit:                              ; player stats tab bitmap, highlighted; used by
+                                                ; AnimatePlayerStatsButton, AnimatePlayerStatsButtons,
+                                                ; PlayerStatsColumnLabels ...
         resb 4
-PlayerStatsButtonPos:
-        resb 4
-        resb 4
-        resb 4
-        resb 4
-        resb 4
-        resb 4
+PlayerStatsButtonPos:                           ; player stats button positions; used by PlayerStatsScreen
         resb 4
         resb 4
         resb 4
@@ -47,7 +45,14 @@ PlayerStatsButtonPos:
         resb 4
         resb 4
         resb 4
-PlayerStatsButtonBmps:
+        resb 4
+        resb 4
+        resb 4
+        resb 4
+        resb 4
+        resb 4
+PlayerStatsButtonBmps:                          ; player stats button bitmaps built for the screen; used by
+                                                ; PlayerStatsScreen
         resb 4
         resb 4
         resb 4
@@ -56,26 +61,39 @@ PlayerStatsButtonBmps:
         resb 4
         resb 4
         resb 228
-PlayerStatsHeaderArt:
+PlayerStatsHeaderArt:                           ; player stats column header bitmaps; used by
+                                                ; AnimatePlayerStatsButton, AnimatePlayerStatsButtons,
+                                                ; PlayerStatsScreen
         resb 4
         resb 4
         resb 88
-PlayerPosCodes:
+PlayerPosCodes:                                 ; position letter of each roster player; used by
+                                                ; BuildPlayerStatRows, CountPlayerStatRows, DrawPlayerCardName
+                                                ; ...
         resb 28
-RatingsPosCodes:
+RatingsPosCodes:                                ; position letter of each player on the ratings screen; used
+                                                ; by PlayerRatingsScreen
         resb 740
-PlayerRecPtrs:
+PlayerRecPtrs:                                  ; pointer to each roster player's record; used by
+                                                ; BuildPlayerStatRows, CountPlayerStatRows,
+                                                ; DrawPlayerStatsTable ...
         resb 3071
-PlayerRowTeam:
+PlayerRowTeam:                                  ; team of each player stats row; used by BuildPlayerStatRows,
+                                                ; FillGoalieStatRows, FillSkaterStatRows
         resb 1
-PlayerRowShown:
+PlayerRowShown:                                 ; player stats row is shown; used by CountPlayerStatRows
         resb 764
         resb 4
-PlayerHeightPtrs:
+PlayerHeightPtrs:                               ; pointers to each player's height; used by
+                                                ; BuildPlayerStatRows, ComparePlayerStatRows,
+                                                ; DrawPlayerCardName ...
         resb 4
-PlayerWeightPtrs:
+PlayerWeightPtrs:                               ; pointers to each player's weight; used by
+                                                ; BuildPlayerStatRows, DrawPlayerCardName,
+                                                ; DrawPlayerStatsTable ...
         resb 4
-PlayerStatsItems:
+PlayerStatsItems:                               ; player stats screen items (66h bytes each); used by
+                                                ; PlayerStatsScreen
         resb 16
         resb 4
         resb 6
@@ -149,7 +167,8 @@ PlayerStatsItems:
         resb 16
         resb 4
         resb 40
-PlayerStatsHScroll:
+PlayerStatsHScroll:                             ; player stats horizontal scroll bar; used by
+                                                ; PlayerStatsScreen
         resb 26
         resb 4
         resb 8
@@ -159,7 +178,7 @@ PlayerStatsHScroll:
         resb 8
         resb 4
         resb 60
-PlayerStatsVScroll:
+PlayerStatsVScroll:                             ; player stats vertical scroll bar; used by PlayerStatsScreen
         resb 26
         resb 4
         resb 8
@@ -170,15 +189,19 @@ PlayerStatsVScroll:
         resb 8
         resb 4
         resb 6792
-TitleBlinkTime:
+TitleBlinkTime:                                 ; tick count for the next title frame; used by
+                                                ; PlayerStatsScreen, ShowPlayerStatsTitle
         resb 4
-PlayerStatsShapes:
+PlayerStatsShapes:                              ; player stats screen shape file; used by PlayerStatsScreen,
+                                                ; ShowPlayerStatsTitle
         resb 4
-RatingsPlayerId:
+RatingsPlayerId:                                ; player shown on the ratings screen; used by
+                                                ; PlayerRatingsScreen, PlayerStatsScreen, RunEditLines ...
         resb 4
-PlayerStatsRowCount:
+PlayerStatsRowCount:                            ; number of player stats rows; used by PlayerStatsScreen,
+                                                ; RunStatsMenu
         resb 4
-PlayerStatColFlags:
+PlayerStatColFlags:                             ; player stats column flags; used by BuildPlayerStatRows
         resb 2
         resb 2
         resb 2
@@ -190,66 +213,97 @@ PlayerStatColFlags:
         resb 2
         resb 2
         resb 464
-PlayerStatRowsUsed:
+PlayerStatRowsUsed:                             ; player stats rows filled; used by CountPlayerStatRows,
+                                                ; FillSkaterStatRows, PlayerStatsScreen
         resb 4
-PlayerStatsMode:
+PlayerStatsMode:                                ; player stats screen mode; used by ComparePlayerStatRows,
+                                                ; DrawPlayerStatsTable, ExportPlayerStats ...
         resb 4
-TitleBlinkFrame:
+TitleBlinkFrame:                                ; current title frame; used by ShowPlayerCardTitle,
+                                                ; ShowPlayerStatsTitle
         resb 4
-PlayerCardArt:
+PlayerCardArt:                                  ; player card art file; used by PlayerCardScreen,
+                                                ; PlayerStatsScreen, ShowPlayerCardTitle ...
         resb 4
-EditLinesBuffer:
+EditLinesBuffer:                                ; line editor work buffer; used by EditLinesScreen,
+                                                ; FillGoalieStatRows, FillSkaterStatRows ...
         resb 4
-RosterFirstNamePtrs:
+RosterFirstNamePtrs:                            ; pointers to each roster player's first name; used by
+                                                ; BuildPlayerStatRows, ComparePlayerStatRows,
+                                                ; DrawPlayerCardName ...
         resb 4
-RosterJerseyPtrs:
+RosterJerseyPtrs:                               ; pointers to each roster player's jersey field; used by
+                                                ; ComparePlayerStatRows, DrawPlayerCardName,
+                                                ; DrawPlayerStatsTable ...
         resb 4
-StatColumnPtrs:
-        resb 4
-        resb 4
-        resb 4
-        resb 4
-        resb 4
-        resb 4
-        resb 4
-        resb 4
-        resb 4
-        resb 4
+StatColumnPtrs:                                 ; pointer arrays for each player stats column; used by
+                                                ; BuildPlayerStatRows, ComparePlayerStatRows,
+                                                ; DrawPlayerStatsTable ...
         resb 4
         resb 4
-RosterPlayerPtrs:
         resb 4
-RosterProfilePtrs:
         resb 4
-RosterLastNamePtrs:
         resb 4
-PlayerStatsCompare:
+        resb 4
+        resb 4
+        resb 4
+        resb 4
+        resb 4
+        resb 4
+        resb 4
+RosterPlayerPtrs:                               ; pointers to each roster player's entry; used by
+                                                ; DrawPlayerCardName, DrawPlayerCardStats, DrawRatingBars ...
+        resb 4
+RosterProfilePtrs:                              ; pointers to each roster player's profile; used by
+                                                ; BuildPlayerStatRows, ComparePlayerNames, DrawPlayerCardName
+                                                ; ...
+        resb 4
+RosterLastNamePtrs:                             ; pointers to each roster player's last name; used by
+                                                ; BuildPlayerStatRows, ComparePlayerNames, DrawPlayerCardName
+                                                ; ...
+        resb 4
+PlayerStatsCompare:                             ; player stats compare button is shown; used by
+                                                ; PlayerStatsScreen, ShowPlayerStatsTitle
         resb 1
-StatsFromGame:
+StatsFromGame:                                  ; stats screens opened from a game; used by InGameMenu,
+                                                ; PlayerStatsScreen, PostGameScreens
         resb 3
-CardRemapTable:
+CardRemapTable:                                 ; player card colour remap table; used by PlayerCardScreen,
+                                                ; SwitchPlayerCard
         resb 4
-CardPhotoBmp:
+CardPhotoBmp:                                   ; player card photo bitmap; used by LoadPlayerCardArt,
+                                                ; PlayerCardScreen
         resb 4
-CardRemapPlain:
+CardRemapPlain:                                 ; player card plain colour remap; used by PlayerCardScreen,
+                                                ; SwitchPlayerCard
         resb 4
-CardSlideFrom:
+CardSlideFrom:                                  ; player card slide start; used by PlayerCardScreen,
+                                                ; SwitchPlayerCard
         resb 4
-CardSlideTo:
+CardSlideTo:                                    ; player card slide end; used by PlayerCardScreen,
+                                                ; SwitchPlayerCard
         resb 4
-CardJerseyNumber:
+CardJerseyNumber:                               ; jersey number of the player on the card; used by
+                                                ; LoadPlayerCardArt
         resb 4
-BackgroundShapes:
+BackgroundShapes:                               ; background shape file; used by DrawLeagueLogo,
+                                                ; DrawPlayoffSlotLogo, DrawPlayoffTeamList ...
         resb 4
-CardSlideBmp:
+CardSlideBmp:                                   ; player card slide bitmap; used by LoadPlayerCardArt,
+                                                ; PlayerCardScreen, SwitchPlayerCard
         resb 4
-CardRemapIndex:
+CardRemapIndex:                                 ; player card remap index; used by PlayerCardScreen,
+                                                ; SwitchPlayerCard
         resb 4
-CardTitleTime:
+CardTitleTime:                                  ; tick count for the next card title frame; used by
+                                                ; ShowPlayerCardTitle
         resb 4
-CardXlatTable:
+CardXlatTable:                                  ; player card colour translation table; used by
+                                                ; LoadPlayerCardArt, PlayerCardScreen
         resb 4
-CardSlideStep:
+CardSlideStep:                                  ; player card slide step; used by PlayerCardScreen,
+                                                ; SwitchPlayerCard
         resb 4
-CardTitleShown:
+CardTitleShown:                                 ; player card title has been shown; used by
+                                                ; DrawPlayerCardName, PlayerCardScreen, ShowPlayerCardTitle
         resb 4

@@ -23,55 +23,71 @@ global speechq, SpeechBankHandle, SpeechBanksOpen, speechinit, SfxMask, ArenaCli
 global TgvFpsSetting, TgvFlags, TgvStartTick, TgvPauseTick, DirPathTable, TeamDivisions, TeamConferenceIds, SeasonTeamOrder
 global LogoNames, TeamCityNames, TeamFullNames, TeamNicknames, CdSpeedTested, SpeechStarting, CdSpeed, TeamPairClips
 global SpeechQueueHead, SpeechQueueTail, SpeechOpen, SpeechChannelCount, lastsfx, CrowdHeld, CdSpeedChecked, TeamJerseyStyle
-SoundCardPort:
+SoundCardPort:                                  ; sound card I/O port; used by StartSoundCard
         db 00h,00h,00h,00h
-SoundCardIrq:
+SoundCardIrq:                                   ; sound card IRQ; used by StartSoundCard
         db 00h,00h,00h,00h
-CdSpeedTested:
+CdSpeedTested:                                  ; set once the CD speed test has run; used by PlayIntroMovies,
+                                                ; PlayTeamMovie, RunStatsMenu ...
         db 00h,00h
-MusicStream:
+MusicStream:                                    ; music stream handle; used by CloseMusic, EndGameSound,
+                                                ; FeedMusicStream ...
         db 00h,00h,00h,00h
-ArenaClipStream:
+ArenaClipStream:                                ; arena clip stream handle; used by ArenaClipService,
+                                                ; EndGameSound, PlayArenaClip ...
         db 00h,00h,00h,00h
-sndcard:
+sndcard:                                        ; the sound driver StartSoundCard started (-1: none); used by
+                                                ; CloseMusic, CrowdFadeOut, CrowdNoiseReset ...
         db 0FFh,0FFh,0FFh,0FFh
-MusicFlags:
+MusicFlags:                                     ; music playback flags; used by CloseMusic, EndGameSound,
+                                                ; FadeOutMusic ...
         db 00h,00h,00h,00h
-SpeechStreamFile:
+SpeechStreamFile:                               ; speech stream file; used by ShutdownSound, StartSoundCard,
+                                                ; StopAllSfx
         db 0FFh,0FFh,0FFh,0FFh
-SpeechStreamTimer:
+SpeechStreamTimer:                              ; speech stream timer handle (-1 none); used by EndGameSound,
+                                                ; ShutdownSound, StartGameSound ...
         db 0FFh,0FFh,0FFh,0FFh
-CrowdSfxHandle:
+CrowdSfxHandle:                                 ; crowd sound effect handle; used by EndGameSound,
+                                                ; StartGameSound, StopAllSfx
         db 0FFh,0FFh,0FFh,0FFh
-AmbientSfxHandle:
+AmbientSfxHandle:                               ; ambient sound effect handle; used by EndGameSound,
+                                                ; StartGameSound, StopAllSfx
         db 0FFh,0FFh,0FFh,0FFh
-LastSfxHandle:
+LastSfxHandle:                                  ; handle of the last sound effect started; used by
+                                                ; EndGameSound, PlaySfx, PlaySfxOr ...
         db 0FFh,0FFh,0FFh,0FFh
-CrowdFading:
+CrowdFading:                                    ; set while the crowd sound fades; used by CrowdFadeOut,
+                                                ; CrowdNoiseReset, EndGameSound ...
         db 00h,00h,00h,00h
-CrowdActive:
+CrowdActive:                                    ; crowd sound is playing; used by CrowdFadeOut,
+                                                ; CrowdNoiseReset, CrowdPause ...
         db 00h,00h,00h,00h
-CrowdLevel:
+CrowdLevel:                                     ; current crowd volume level; used by CrowdFadeOut,
+                                                ; CrowdNoiseReset, CrowdPause ...
         db 00h,00h,00h,00h
-CrowdTarget:
+CrowdTarget:                                    ; crowd volume the fade is heading to; used by
+                                                ; CrowdNoiseReset, Crowd_Noise, GetCrowdTarget ...
         db 00h,00h,00h,00h
-GameSoundOn:
+GameSoundOn:                                    ; in-game sound enabled; used by EndGameSound, StartGameSound
         db 00h,00h,00h,00h
-MusicFileName:
+MusicFileName:                                  ; music file name buffer; used by QueueMusic
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h
-CurrentMusicTrack:
+CurrentMusicTrack:                              ; music track that is playing; used by QueueCurrentMusic,
+                                                ; QueueMusic
         db 0FFh,0FFh,0FFh,0FFh
-SoundCardOn:
+SoundCardOn:                                    ; used by EndGameSound, FillMusicStream, SoundIdle ...
         db 00h,00h,00h,00h
-SpeechStarting:
+SpeechStarting:                                 ; set while speech is being started; used by SpeechService,
+                                                ; StopSpeech
         db 00h,00h
-CdSpeed:
+CdSpeed:                                        ; measured CD speed; used by TestCdSpeed
         db 00h,00h
-SpeechBankPaths:
+SpeechBankPaths:                                ; data path of the speech banks; used by OpenSpeechBanks
         db 05Ah,00h,00h,00h
-ClipIndexTable:
+ClipIndexTable:                                 ; index of sound clips by id; used by FindClipIndex
         db 00h,00h,00h,00h,03Ch,00h,00h,00h,054h,06h,00h,00h,090h,06h,00h,00h
         db 0CCh,06h,00h,00h,0E4h,0Ch,00h,00h,020h,0Dh,00h,00h,038h,013h,00h,00h
         db 074h,013h,00h,00h,0B0h,013h,00h,00h,0C8h,019h,00h,00h,04h,01Ah,00h,00h
@@ -90,55 +106,70 @@ ClipIndexTable:
         db 0C0h,099h,00h,00h,0D8h,09Fh,00h,00h,014h,0A0h,00h,00h,0F0h,0A5h,00h,00h
         db 02Ch,0A6h,00h,00h,068h,0A6h,00h,00h,0CCh,0ABh,00h,00h,08h,0ACh,00h,00h
         db 044h,0ACh,00h,00h
-TeamPairClips:
+TeamPairClips:                                  ; used by FindTeamPairClip
         db 09h,01h,0Bh,01h,017h,03h,06h,04h,013h,04h,016h,06h,03h,07h,00h,0Ah
         db 012h,0Bh,016h,0Bh,0Ch,0Eh,0Dh,0Eh,010h,011h,08h,015h,0Eh,016h,0Eh,017h
-SpeechBankAltPaths:
+SpeechBankAltPaths:                             ; data path of the speech banks when the alternate set is
+                                                ; used; used by OpenSpeechBanks
         db 05Bh,00h,00h,00h
-speechq:
+speechq:                                        ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 00h,00h,00h,00h
-SpeechBankHandle:
+SpeechBankHandle:                               ; speech bank file handle; used by FreeSpeechBuffer,
+                                                ; InitSpeech, OpenSpeechBanks ...
         db 0FFh,0FFh,0FFh,0FFh
-SpeechQueueHead:
+SpeechQueueHead:                                ; speech queue read index; used by InitSpeech,
+                                                ; OpenSpeechBanks, QueueSpeechClip ...
         db 00h,00h
-SpeechQueueTail:
+SpeechQueueTail:                                ; speech queue write index; used by InitSpeech,
+                                                ; OpenSpeechBanks, QueueSpeechClip ...
         db 00h,00h
-SpeechOpen:
+SpeechOpen:                                     ; speech system is open; used by InitSpeech, OpenSpeechBanks,
+                                                ; PlayArenaClip ...
         db 00h,00h
-SpeechChannelCount:
+SpeechChannelCount:                             ; number of speech channels; used by ResetSpeechChannels,
+                                                ; StopSpeech
         db 00h,00h
-SpeechBanksOpen:
+SpeechBanksOpen:                                ; number of open speech banks; used by OpenSpeechBanks
         db 00h,00h,00h,00h
-speechinit:
+speechinit:                                     ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 00h,00h,00h,00h
-SfxChannelBusy:
+SfxChannelBusy:                                 ; busy flag per sound effect channel; used by StopAllSfx
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-lastsfx:
+lastsfx:                                        ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 0FFh,0FFh
-CrowdHeld:
+CrowdHeld:                                      ; crowd sound is held; used by CrowdPause, CrowdResume
         db 00h,00h
-SfxMask:
+SfxMask:                                        ; mask of sound effects allowed; used by InGameMenu,
+                                                ; RunSimFrames, StartPer ...
         db 00h,00h,00h,00h
-ArenaClipState:
+ArenaClipState:                                 ; arena clip playback state; used by ArenaClipReady,
+                                                ; ArenaClipService, PlayArenaClip ...
         db 00h,00h,00h,00h
-ArenaClipTime:
+ArenaClipTime:                                  ; time the arena clip started; used by ArenaClipService,
+                                                ; StopArenaClip
         db 00h,00h,00h,00h
-ArenaClipId:
+ArenaClipId:                                    ; id of the arena clip; used by PlayArenaClip
         db 00h,00h,00h,00h
-CdSpeedChecked:
+CdSpeedChecked:                                 ; used by TestCdSpeed
         db 00h,00h
-TgvFpsSetting:
+TgvFpsSetting:                                  ; movie frame rate; used by TgvClock, TgvNextFrame
         db 0Fh,00h,00h,00h
-TgvFlags:
+TgvFlags:                                       ; movie player flags; used by PlayMovie, PlayTGV, TgvNextFrame
+                                                ; ...
         db 00h,00h,00h,00h
-TgvStartTick:
+TgvStartTick:                                   ; tick count when the movie started; used by TgvClock
         db 00h,00h,00h,00h
-TgvPauseTick:
+TgvPauseTick:                                   ; tick count when the movie paused; used by TgvClock
         db 00h,00h,00h,00h
-DirPathTable:
+DirPathTable:                                   ; directory path table; used by MakeDataPath,
+                                                ; MakeDataPathArchiveJumpTable, MakeDirPath ...
         db 00h,00h,00h,00h,019h,01h,00h,00h,01Ah,01h,00h,00h,01Bh,01h,00h,00h
         db 01Ch,01h,00h,00h
-LogoNames:
+LogoNames:                                      ; team logo names; used by DrawPlayerStatsTable,
+                                                ; DrawUserRecords, ExportPlayerStats ...
         dd str_ANA2
         dd str_BOS2
         dd str_BUF4
@@ -167,7 +198,8 @@ LogoNames:
         dd str_WPG2
         dd str_ASW2
         dd str_ASE2
-TeamCityNames:
+TeamCityNames:                                  ; pointers to team city names; used by DrawOverlayPanels,
+                                                ; EditPlayoffName, PickPlayoffTeam ...
         dd str_Anaheim
         dd str_Boston
         dd str_Buffalo
@@ -196,7 +228,7 @@ TeamCityNames:
         dd str_Winnipeg
         dd str_Western
         dd str_Eastern
-TeamFullNames:
+TeamFullNames:                                  ; pointers to full team names; used by DrawOverlayPanels
         dd str_AnaheimCalifornia
         dd str_BostonMassachusetts
         dd str_BuffaloNewYork
@@ -225,7 +257,8 @@ TeamFullNames:
         dd str_WinnipegManitoba
         dd str_SanJoseCalifornia
         dd str_SanJoseCalifornia
-TeamNicknames:
+TeamNicknames:                                  ; pointers to team nicknames; used by DrawOverlayPanels,
+                                                ; PreGameMatchupScreen, PreGameScoutingCards
         dd str_MightyDucks2
         dd str_Bruins
         dd str_Sabres
@@ -254,7 +287,8 @@ TeamNicknames:
         dd str_Jets
         dd str_AllStars
         dd str_AllStars
-TeamDivisions:
+TeamDivisions:                                  ; division of each team; used by CopyTeamStatName,
+                                                ; CreateSeason, NextUnusedPlayoffTeam ...
         db 01h,00h,00h,00h,04h,00h,00h,00h,04h,00h,00h,00h,01h,00h,00h,00h
         db 02h,00h,00h,00h,02h,00h,00h,00h,02h,00h,00h,00h,01h,00h,00h,00h
         db 08h,00h,00h,00h,04h,00h,00h,00h,01h,00h,00h,00h,04h,00h,00h,00h
@@ -262,7 +296,8 @@ TeamDivisions:
         db 08h,00h,00h,00h,04h,00h,00h,00h,04h,00h,00h,00h,02h,00h,00h,00h
         db 01h,00h,00h,00h,08h,00h,00h,00h,02h,00h,00h,00h,01h,00h,00h,00h
         db 08h,00h,00h,00h,02h,00h,00h,00h
-TeamJerseyStyle:
+TeamJerseyStyle:                                ; jersey style of each team; used by DrawOverlayPanels,
+                                                ; RunPreGameSkate
         db 01h,00h,00h,00h,01h,00h,00h,00h,01h,00h,00h,00h,00h,00h,00h,00h
         db 01h,00h,00h,00h,01h,00h,00h,00h,01h,00h,00h,00h,00h,00h,00h,00h
         db 01h,00h,00h,00h,01h,00h,00h,00h,01h,00h,00h,00h,00h,00h,00h,00h
@@ -270,7 +305,8 @@ TeamJerseyStyle:
         db 01h,00h,00h,00h,01h,00h,00h,00h,00h,00h,00h,00h,01h,00h,00h,00h
         db 01h,00h,00h,00h,01h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 01h,00h,00h,00h,00h,00h,00h,00h,01h,00h,00h,00h,01h,00h,00h,00h
-TeamConferenceIds:
+TeamConferenceIds:                              ; conference of each team; used by CopyTeamStatName,
+                                                ; DrawStandings, Goal ...
         db 03h,00h,00h,00h,0Ch,00h,00h,00h,0Ch,00h,00h,00h,03h,00h,00h,00h
         db 03h,00h,00h,00h,03h,00h,00h,00h,03h,00h,00h,00h,03h,00h,00h,00h
         db 0Ch,00h,00h,00h,0Ch,00h,00h,00h,03h,00h,00h,00h,0Ch,00h,00h,00h
@@ -284,6 +320,7 @@ TeamConferenceIds:
         db 09h,00h,00h,00h,0Bh,00h,00h,00h,0Fh,00h,00h,00h,011h,00h,00h,00h
         db 012h,00h,00h,00h,08h,00h,00h,00h,0Ch,00h,00h,00h,0Dh,00h,00h,00h
         db 0Eh,00h,00h,00h,010h,00h,00h,00h,015h,00h,00h,00h,018h,00h,00h,00h
-SeasonTeamOrder:
+SeasonTeamOrder:                                ; teams in each division for the season screens; used by
+                                                ; DrawSeasonTeams, NewSeasonScreen, SeasonMenuScreen
         db 06h,00h,00h,00h,06h,00h,00h
         db 00h,07h,00h,00h

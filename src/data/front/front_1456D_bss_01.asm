@@ -7,42 +7,59 @@ global StarsCardBmps, StarsPanelBmp, StarsNameBmps, StarsTitleBmp, StarsAnimStep
 global StarsSlideY, StarsSlideStep, GameFrameCount, LinkRxSlots
 global LinkTxSlots, LinkAbortCheck, fadeinpending, LinkRxMsgs
 global LinkTxTimers, LinkPortName, LinkModemString
-StarsBgBmp:
+StarsBgBmp:                                     ; Three stars screen: background bitmap; used by
+                                                ; AnimateStarsScreen
         resb 4
-StarsSaveBmp:
+StarsSaveBmp:                                   ; Three stars screen: saved background under the cards; used
+                                                ; by AnimateStarsScreen
         resb 4
-StarsFaceBmps:
+StarsFaceBmps:                                  ; Three stars screen: player face bitmaps; used by
+                                                ; AnimateStarsScreen, ThreeStarsScreen
         resb 28
-StarsCardBmps:
+StarsCardBmps:                                  ; Three stars screen: card bitmaps; used by ThreeStarsScreen
         resb 68
-StarsPanelBmp:
+StarsPanelBmp:                                  ; Three stars screen: panel bitmap; used by
+                                                ; AnimateStarsScreen, ThreeStarsScreen
         resb 4
-StarsNameBmps:
+StarsNameBmps:                                  ; Three stars screen: name bitmaps; used by AnimateStarsScreen
         resb 20
-StarsTitleBmp:
+StarsTitleBmp:                                  ; Three stars screen: title bitmap; used by
+                                                ; AnimateStarsScreen, ThreeStarsScreen
         resb 4
-StarsAnimStep:
+StarsAnimStep:                                  ; Three stars screen: animation step; used by
+                                                ; AnimateStarsScreen, ThreeStarsScreen
         resb 4
-StarsCardBmp:
+StarsCardBmp:                                   ; Three stars screen: card being animated; used by
+                                                ; AnimateStarsScreen, ThreeStarsScreen
         resb 4
-StarsShapeFile:
+StarsShapeFile:                                 ; Three stars screen: shape file; used by AnimateStarsScreen,
+                                                ; ThreeStarsScreen
         resb 4
-StarsSlideX:
+StarsSlideX:                                    ; Three stars screen: slide x; used by AnimateStarsScreen,
+                                                ; ThreeStarsScreen
         resb 4
-StarsSlideY:
+StarsSlideY:                                    ; Three stars screen: slide y; used by AnimateStarsScreen
         resb 4
-StarsSlideStep:
+StarsSlideStep:                                 ; Three stars screen: slide step; used by AnimateStarsScreen
         resb 4
-fadeinpending:
+fadeinpending:                                  ; used by BlankForFadeIn, GameLoop_hotkeyscall,
+                                                ; GameLoop_inputcheck ...
         resb 4
-GameFrameCount:
+GameFrameCount:                                 ; Game frames run (saved with the game state); used by
+                                                ; GameLoop_inputcheck, GameLoop_nextperiodcall, LoadGameState
+                                                ; ...
         resb 3
-LinkRxPayload:
+LinkRxPayload:                                  ; Link: payload bytes of LinkRxMsgs, indexed from 1; used by
+                                                ; LinkStoreRxMessage
         resb 1
-LinkRxMsgs:
+LinkRxMsgs:                                     ; Link: received messages, 7 bytes each (6 payload bytes, then
+                                                ; a full flag); used by LinkClearRxSlot, LinkDeliverMessages,
+                                                ; LinkRequestResend ...
         resb 6
         resb 442
-LinkRxSlots:
+LinkRxSlots:                                    ; Link: receive slots, 16 bytes each (state, length, sequence,
+                                                ; time); used by LinkCheckTimeouts, LinkClearRxSlot,
+                                                ; LinkFirstMissingRx ...
         resb 4
         resb 4
         resb 4
@@ -50,19 +67,26 @@ LinkRxSlots:
         resb 4
         resb 4
         resb 16
-LinkTxSlots:
+LinkTxSlots:                                    ; Link: transmit slots, 24 bytes each (state, length,
+                                                ; sequence, then the packet); used by LinkAckThrough,
+                                                ; LinkCheckTimeouts, LinkClearRxSlot ...
         resb 4
         resb 4
         resb 7
         resb 1521
-LinkTxTimers:
+LinkTxTimers:                                   ; Link: transmit retry timers; used by LinkCheckTimeouts,
+                                                ; LinkOpen
         resb 80
-LinkPortName:
+LinkPortName:                                   ; Link: serial port settings string; used by LinkConnect,
+                                                ; LinkOpen, LinkReceive
         resb 40
-LinkModemString:
+LinkModemString:                                ; Link: modem command string; used by LinkConnect, LinkOpen,
+                                                ; LinkReceive
         resb 79
         resb 1
-LinkRxRing:
+LinkRxRing:                                     ; Link: serial receive ring buffer; used by LinkParsePacket,
+                                                ; LinkRxCopy, LinkRxPut
         resb 268
-LinkAbortCheck:
+LinkAbortCheck:                                 ; Link: callback that aborts a link wait; used by LinkConnect,
+                                                ; LinkSyncPoint, SetLinkAbortCheck
         resb 4

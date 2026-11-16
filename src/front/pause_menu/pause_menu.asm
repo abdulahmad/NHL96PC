@@ -1029,7 +1029,7 @@ RunPausedFrame:
 .4:
         mov edi, ebx
         jmp short .3
-SaveGameFileJumpTable:
+SaveGameFileJumpTable:                          ; jump table for the switch cases of SaveGameFile
         dd SaveGameFile_59
         dd SaveGameFile_60
         dd SaveGameFile_6C
@@ -1320,7 +1320,7 @@ SaveGameFile_81:
         sete al
         movzx eax, al
         jmp near DrawPauseFrame_9C2
-PauseMenuChoiceJumpTable:
+PauseMenuChoiceJumpTable:                       ; jump table for the switch cases of PauseMenu
         dd PauseMenu_66B
         dd PauseMenu_6F1
         dd PauseMenu_6FD
@@ -2222,7 +2222,7 @@ PauseBackToGame:
         pop ebx
 PauseBackToGame_28A:
         ret
-LoadModeStatsJumpTable:
+LoadModeStatsJumpTable:                         ; jump table for the switch cases of LoadModeStats
         dd LoadExhibitionStats
         dd LoadCurrentSeasonStats
         dd LoadPlayoffOrSeasonStats
@@ -2254,7 +2254,7 @@ LoadPlayoffOrSeasonStats:
         jne short LoadCurrentSeasonStats
         mov eax, dword [RosterFileHandle]
         jmp near LoadPlayoffStats
-PauseGameChoiceJumpTable:
+PauseGameChoiceJumpTable:                       ; jump table for the switch cases of PauseGame
         dd PauseGame_375
         dd PauseGame_3A3
         dd PauseGame_47F

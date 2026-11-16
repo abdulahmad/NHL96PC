@@ -5,7 +5,7 @@ section s_11EE94 progbits alloc noexec write align=1
 global PlayoffBracketOrder
 global PlayoffTreeColumnsX, PlayoffSeriesLayout, FinalGameNum, PlayoffSparkleSoundOn, PlayoffTreeNavLinks, PlayoffTreeTemplate, TreeShapeLeft, TreeShapeRight
 global TreeShapeCentre, TreeShapeFinal
-PlayoffTreeColumnsX:
+PlayoffTreeColumnsX:                            ; playoff tree column positions; used by DrawPlayoffTree
         db 0Dh,00h,00h,00h,02Fh,00h,00h,00h,05Bh,00h,00h,00h,07Bh,00h,00h,00h
         db 0A8h,00h,00h,00h,0C8h,00h,00h,00h,0F6h,00h,00h,00h,016h,01h,00h,00h
         db 0Dh,00h,00h,00h,02Fh,00h,00h,00h,05Bh,00h,00h,00h,07Bh,00h,00h,00h
@@ -14,7 +14,8 @@ PlayoffTreeColumnsX:
         db 078h,00h,00h,00h,098h,00h,00h,00h,0C4h,00h,00h,00h,0E8h,00h,00h,00h
         db 0AEh,00h,00h,00h,0D1h,00h,00h,00h,0AEh,00h,00h,00h,0D1h,00h,00h,00h
         db 040h,00h,00h,00h,081h,00h,00h,00h,0EDh,00h,00h,00h
-PlayoffSeriesLayout:
+PlayoffSeriesLayout:                            ; playoff series layout; used by ClearPlayoffTree,
+                                                ; DrawPlayoffTree, PlayoffRound1 ...
         db 00h,00h,00h,00h,00h,00h,00h,00h,01h,00h,00h,00h,01h,00h,00h,00h
         db 02h,00h,00h,00h,02h,00h,00h,00h,03h,00h,00h,00h,03h,00h,00h,00h
         db 07h,00h,00h,00h,07h,00h,00h,00h,08h,00h,00h,00h,08h,00h,00h,00h
@@ -22,17 +23,18 @@ PlayoffSeriesLayout:
         db 04h,00h,00h,00h,04h,00h,00h,00h,05h,00h,00h,00h,05h,00h,00h,00h
         db 0Bh,00h,00h,00h,0Bh,00h,00h,00h,0Ch,00h,00h,00h,0Ch,00h,00h,00h
         db 06h,00h,00h,00h,06h,00h,00h,00h,0Dh,00h,00h,00h,0Dh,00h,00h,00h
-FinalGameNum:
+FinalGameNum:                                   ; final game number; used by PlayoffFinal
         db 0Eh,00h,00h,00h,0Eh,00h,00h,00h,063h,00h,00h,00h
-PlayoffSparkleSoundOn:
+PlayoffSparkleSoundOn:                          ; set once the playoff sparkle sound plays; used by
+                                                ; DrawPlayoffTree, DrawTreeLine, PlayoffTreeScreen
         db 00h,00h,00h,00h
-PlayoffTreeNavLinks:
+PlayoffTreeNavLinks:                            ; playoff tree button neighbours; used by PlayoffTreeScreen
         db 09h,00h,07h,02h,0Fh,01h,03h,0Eh,08h,02h,00h,013h,011h,03h,013h,01h
         db 04h,05h,04h,08h,04h,06h,05h,08h,05h,07h,06h,09h,06h,00h,07h,09h
         db 08h,00h,05h,0Ah,08h,00h,06h,0Ah,012h,02h,06h,011h,0Bh,0Ch,0Fh,0Bh
         db 0Bh,0Dh,0Fh,0Ch,0Ch,0Eh,010h,0Dh,0Dh,01h,010h,0Eh,0Fh,010h,011h,0Ch
         db 0Fh,01h,011h,0Dh,012h,03h,0Ah,0Dh,012h,03h,05h,0Ch
-PlayoffTreeTemplate:
+PlayoffTreeTemplate:                            ; playoff tree line template; used by PlayoffTreeScreen
         db 062h,0FFh,0FFh,0FFh,076h,00h,00h,00h,0CDh,0FFh,0FFh,0FFh,076h,00h,00h,00h
         db 0D3h,0FFh,0FFh,0FFh,0ADh,00h,00h,00h,069h,0FFh,0FFh,0FFh,0ACh,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -93,27 +95,28 @@ PlayoffTreeTemplate:
         db 079h,01h,00h,00h,0FFh,00h,00h,00h,08h,01h,00h,00h,0FEh,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-TreeShapeLeft:
+TreeShapeLeft:                                  ; tree shape table, left side; used by PlayoffTreeScreen
         db 03h,01h,00h,00h,0C1h,01h,00h,00h,0Ah,01h,00h,00h,0B6h,01h,00h,00h
         db 084h,01h,00h,00h,0B6h,01h,00h,00h,08Ch,01h,00h,00h,0C3h,01h,00h,00h
         db 082h,01h,00h,00h,0CFh,01h,00h,00h,0Bh,01h,00h,00h,0CEh,01h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-TreeShapeRight:
+TreeShapeRight:                                 ; tree shape table, right side; used by PlayoffTreeScreen
         db 060h,00h,00h,00h,0C0h,01h,00h,00h,067h,00h,00h,00h,0B4h,01h,00h,00h
         db 0E5h,00h,00h,00h,0B5h,01h,00h,00h,0EAh,00h,00h,00h,0C2h,01h,00h,00h
         db 0E1h,00h,00h,00h,0CBh,01h,00h,00h,06Bh,00h,00h,00h,0CBh,01h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-TreeShapeCentre:
+TreeShapeCentre:                                ; tree shape table, centre; used by PlayoffTreeScreen
         db 09Ah,01h,00h,00h,0BFh,01h,00h,00h,0A3h,01h,00h,00h,0B3h,01h,00h,00h
         db 01Ah,02h,00h,00h,0B4h,01h,00h,00h,022h,02h,00h,00h,0C2h,01h,00h,00h
         db 01Bh,02h,00h,00h,0CBh,01h,00h,00h,0A3h,01h,00h,00h,0CCh,01h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-TreeShapeFinal:
+TreeShapeFinal:                                 ; tree shape table, final; used by PlayoffTreeScreen
         db 03h,01h,00h,00h,0C1h,01h,00h,00h,0Ah,01h,00h,00h,0B6h,01h,00h,00h
         db 084h,01h,00h,00h,0B6h,01h,00h,00h,08Ch,01h,00h,00h,0C3h,01h,00h,00h
         db 082h,01h,00h,00h,0CFh,01h,00h,00h,0Bh,01h,00h,00h,0CEh,01h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-PlayoffBracketOrder:
+PlayoffBracketOrder:                            ; playoff bracket order; used by PlayoffRound1, PlayoffRound2,
+                                                ; PlayoffRound3
         db 00h,02h,04h,06h,07h,05h,03h,01h
         db 08h,0Ah,0Ch,0Eh,0Fh,0Dh,0Bh,09h
         db 010h,012h,013h,011h

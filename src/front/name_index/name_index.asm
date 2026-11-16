@@ -6,7 +6,7 @@ extern TextStringWidth, str_backslash3, str_NAMEINDEX, strcat_, strcmp_, strcpy_
 extern FreeMemBlock, OpenArtArchive, SaveDataFile
 global TwoSpaces, NameIndexNew, NameIndexLoad, NameIndexLoad_ret, NameIndexSave, NameIndexFree, NameIndexAdd, NameIndexRemove
 global NameIndexId, NameIndexPath, NameIndexFirstId
-TwoSpaces:
+TwoSpaces:                                      ; used by EditText
         db 020h,020h
 ;-----------------------------------------------------------------------------
 ; NameIndexNew                                                    19384  96 PC

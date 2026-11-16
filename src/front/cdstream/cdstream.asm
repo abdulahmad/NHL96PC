@@ -492,7 +492,7 @@ CdStreamOpenSecondary:
         push eax
         call CdStreamInitSecondary
         jmp near CdStreamOpen_2B
-CdStreamServiceJumpTable:
+CdStreamServiceJumpTable:                       ; jump table for the switch cases of CdStreamService
         dd CdStreamService_3C
         dd CdStreamService_129
         dd CdStreamService_34E

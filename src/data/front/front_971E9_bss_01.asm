@@ -4,18 +4,24 @@ bits 32
 section s_182294 nobits alloc noexec write align=1
 global CreatePlayerShapes, TeamRatingScore, LineForwardCount, RosterBackFile, LineDefenceCount
 global RosterRecords
-RosterRecords:
+RosterRecords:                                  ; roster screen player records (3Ch bytes each); used by
+                                                ; RosterScreen
         resb 2
         resb 34
         resb 4
         resb 3320
-CreatePlayerShapes:
+CreatePlayerShapes:                             ; create player screen shape file; used by CreatePlayerScreen,
+                                                ; CycleLoadingArt, DrawCreatePlayerRow
         resb 4
-TeamRatingScore:
+TeamRatingScore:                                ; rating score per team for the team rankings; used by
+                                                ; CompareTeamRating, SortTeamRatings, TeamRankDefence ...
         resb 100
-LineForwardCount:
+LineForwardCount:                               ; number of forwards sorted for automatic lines; used by
+                                                ; ResetTeamLines
         resb 4
-RosterBackFile:
+RosterBackFile:                                 ; roster back art file; used by CreatePlayerScreen,
+                                                ; FormatRosterLine, ListRosterPlayers ...
         resb 4
-LineDefenceCount:
+LineDefenceCount:                               ; number of defencemen sorted for automatic lines; used by
+                                                ; ResetTeamLines
         resb 4

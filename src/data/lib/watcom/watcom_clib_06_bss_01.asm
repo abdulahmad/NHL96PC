@@ -6,66 +6,97 @@ global ReciprocalTable, ShadeTableWidth, ShadeRowPtr, ShadeLeftX, ShadeLeftXStep
 global ShadeLeftFrac, ShadeLeftTopY, ShadeLeftRows, ShadeLeftShade, ShadeLeftShadeV, ShadeLeftShadeStep, ShadeLeftShadeVStep, ShadeTexture
 global ShadeRightX, ShadeRightXStep, ShadeRightFracStep, ShadeRightFracLimit, ShadeRightFrac, ShadeRightRows, ShadeRightShade, ShadeRightShadeV
 global ShadeRightShadeStep, ShadeRightShadeVStep, PolyScreenPoints, PolyProjPoints, PolyColour, ScreenWidthPtr, ShadeEdgeList, SortBufferData
-ShadeEdgeList:
+ShadeEdgeList:                                  ; edges of the shaded polygon; used by FillShadedPoly,
+                                                ; FillShadedTriLeft, FillShadedTriLeftClipped ...
         resb 700
         resb 4
-ReciprocalTable:
+ReciprocalTable:                                ; used by FillShadedPoly, InitReciprocalTable,
+                                                ; ShadedPolyStepEdge ...
         resb 8000
-ShadeTableWidth:
+ShadeTableWidth:                                ; width of the shade table; used by FillShadedPoly,
+                                                ; ShadedSpansLeft, ShadedSpansLeftClipped ...
         resb 4
-ShadeRowPtr:
+ShadeRowPtr:                                    ; screen row being filled; used by FillShadedTriLeft,
+                                                ; FillShadedTriLeftClipped, FillShadedTriRight ...
         resb 4
-ShadeLeftX:
+ShadeLeftX:                                     ; left edge X; used by FillShadedPoly, FillShadedTriLeft,
+                                                ; FillShadedTriLeftClipped ...
         resb 4
-ShadeLeftXStep:
+ShadeLeftXStep:                                 ; left edge X step per row; used by FillShadedTriLeft,
+                                                ; FillShadedTriLeftClipped, FillShadedTriRight ...
         resb 4
-ShadeLeftFracStep:
+ShadeLeftFracStep:                              ; left edge X fraction step; used by FillShadedTriLeft,
+                                                ; FillShadedTriLeftClipped, FillShadedTriRight ...
         resb 4
-ShadeLeftFracLimit:
+ShadeLeftFracLimit:                             ; left edge X fraction limit; used by FillShadedTriLeft,
+                                                ; FillShadedTriLeftClipped, FillShadedTriRight ...
         resb 4
-ShadeLeftFrac:
+ShadeLeftFrac:                                  ; left edge X fraction; used by FillShadedTriLeft,
+                                                ; FillShadedTriLeftClipped, FillShadedTriRight ...
         resb 4
-ShadeLeftTopY:
+ShadeLeftTopY:                                  ; left edge top row; used by FillShadedTriLeft,
+                                                ; FillShadedTriLeftClipped, FillShadedTriRight ...
         resb 4
-ShadeLeftRows:
+ShadeLeftRows:                                  ; left edge rows left; used by FillShadedTriLeft,
+                                                ; FillShadedTriLeftClipped, FillShadedTriRight ...
         resb 4
-ShadeLeftShade:
+ShadeLeftShade:                                 ; left edge shade; used by FillShadedTriLeft,
+                                                ; FillShadedTriLeftClipped, FillShadedTriRight ...
         resb 4
-ShadeLeftShadeV:
+ShadeLeftShadeV:                                ; left edge second shade value; used by FillShadedTriLeft,
+                                                ; FillShadedTriLeftClipped, FillShadedTriRight ...
         resb 4
-ShadeLeftShadeStep:
+ShadeLeftShadeStep:                             ; left edge shade step; used by FillShadedTriLeft,
+                                                ; FillShadedTriLeftClipped, FillShadedTriRight ...
         resb 4
-ShadeLeftShadeVStep:
+ShadeLeftShadeVStep:                            ; left edge second shade step; used by FillShadedTriLeft,
+                                                ; FillShadedTriLeftClipped, FillShadedTriRight ...
         resb 4
-ShadeTexture:
+ShadeTexture:                                   ; shade texture art; used by FillShadedPoly, ShadedSpansLeft,
+                                                ; ShadedSpansLeftClipped ...
         resb 4
-ShadeRightX:
+ShadeRightX:                                    ; right edge X; used by FillShadedPoly, FillShadedTriLeft,
+                                                ; FillShadedTriLeftClipped ...
         resb 4
-ShadeRightXStep:
+ShadeRightXStep:                                ; right edge X step per row; used by FillShadedTriLeft,
+                                                ; FillShadedTriLeftClipped, FillShadedTriRight ...
         resb 4
-ShadeRightFracStep:
+ShadeRightFracStep:                             ; right edge X fraction step; used by FillShadedTriLeft,
+                                                ; FillShadedTriLeftClipped, FillShadedTriRight ...
         resb 4
-ShadeRightFracLimit:
+ShadeRightFracLimit:                            ; right edge X fraction limit; used by FillShadedTriLeft,
+                                                ; FillShadedTriLeftClipped, FillShadedTriRight ...
         resb 4
-ShadeRightFrac:
+ShadeRightFrac:                                 ; right edge X fraction; used by FillShadedTriLeft,
+                                                ; FillShadedTriLeftClipped, FillShadedTriRight ...
         resb 8
-ShadeRightRows:
+ShadeRightRows:                                 ; right edge rows left; used by FillShadedTriLeft,
+                                                ; FillShadedTriLeftClipped, FillShadedTriRight ...
         resb 4
-ShadeRightShade:
+ShadeRightShade:                                ; right edge shade; used by FillShadedTriLeft,
+                                                ; FillShadedTriLeftClipped, FillShadedTriRight ...
         resb 4
-ShadeRightShadeV:
+ShadeRightShadeV:                               ; right edge second shade value; used by FillShadedTriLeft,
+                                                ; FillShadedTriLeftClipped, FillShadedTriRight ...
         resb 4
-ShadeRightShadeStep:
+ShadeRightShadeStep:                            ; right edge shade step; used by FillShadedTriLeft,
+                                                ; FillShadedTriLeftClipped, FillShadedTriRight ...
         resb 4
-ShadeRightShadeVStep:
+ShadeRightShadeVStep:                           ; right edge second shade step; used by FillShadedTriLeft,
+                                                ; FillShadedTriLeftClipped, FillShadedTriRight ...
         resb 4
-PolyScreenPoints:
+PolyScreenPoints:                               ; screen points of the polygons being drawn; used by
+                                                ; DrawMarkingPolys, DrawTexturedPolyCore, SetPolyVertexArrays
+                                                ; ...
         resb 4
-PolyProjPoints:
+PolyProjPoints:                                 ; projected points of the polygons being drawn; used by
+                                                ; DrawMarkingPolys, DrawTexturedPolyCore, SetPolyVertexArrays
+                                                ; ...
         resb 4
-PolyColour:
+PolyColour:                                     ; colour of the polygons being drawn; used by
+                                                ; DrawMarkingPolys, DrawTexturedPolyCore, SetPolyVertexArrays
         resb 4
-SortBufferData:
+SortBufferData:                                 ; depth sort buffer
         resb 4096
-ScreenWidthPtr:
+ScreenWidthPtr:                                 ; pointer to the screen width; used by initgraphics
         resb 4

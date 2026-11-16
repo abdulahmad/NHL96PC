@@ -11,38 +11,53 @@ global SeasonType, SeasonPlayoffs, SeasonOver, SeasonDay, SeasonGamePending, GsP
 global SeasonUserRecords, SeasonUserName, GsComPort, GsBaudIndex, GsDirectLink, GsWaitForCall, GsLinkOption, GsDialMode
 global GsPlayerFlags
         resb 2
-GsComPort:
+GsComPort:                                      ; GLOBAL.SET: serial port number (default 1); used by
+                                                ; ModemDialScreen, ModemGameOpen, ModemSettingsScreen ...
         resb 2
-GsBaudIndex:
+GsBaudIndex:                                    ; GLOBAL.SET: baud rate index into BaudRateTable (default 1);
+                                                ; used by ModemDialScreen, ModemSettingsScreen, ReadGlobalSet
         resb 2
-GsDirectLink:
+GsDirectLink:                                   ; GLOBAL.SET: nonzero for a direct (null-modem) link instead
+                                                ; of a modem; used by ModemDialScreen, ModemGameConnect,
+                                                ; ModemGameOpen ...
         resb 2
-GsWaitForCall:
+GsWaitForCall:                                  ; GLOBAL.SET: nonzero to wait for the other side to call; used
+                                                ; by ModemDialScreen, ModemGameOpen, ReadGlobalSet
         resb 2
-GsLinkOption:
+GsLinkOption:                                   ; GLOBAL.SET: link option passed to the link set-up (default
+                                                ; 1); used by ModemSettingsScreen, ReadGlobalSet
         resb 2
-GsDialMode:
+GsDialMode:                                     ; GLOBAL.SET: dial mode (default 0); used by
+                                                ; ModemSettingsScreen, ReadGlobalSet
         resb 2
-GsPhoneNumber:
+GsPhoneNumber:                                  ; GLOBAL.SET: phone number to dial (20 bytes); used by
+                                                ; DrawPhoneNumber, ModemDialScreen, ModemGameOpen ...
         resb 20
-GsModemInit:
+GsModemInit:                                    ; GLOBAL.SET: modem init string (40 bytes, default ATF...);
+                                                ; used by ModemGameOpen, ModemSettingsScreen, ReadGlobalSet
         resb 40
-GsModemDial:
+GsModemDial:                                    ; GLOBAL.SET: modem dial prefix (40 bytes, default ATD); used
+                                                ; by ModemGameOpen, ModemSettingsScreen, ReadGlobalSet
         resb 40
-globalset:
+globalset:                                      ; GLOBAL.SET options (bits 0-2 the sound card); used by
+                                                ; ControlSetupScreen, CrowdNoiseReset, InitSpeech ...
         resb 1
         resb 1
         resb 1
         resb 1
-optblock:
+optblock:                                       ; start of the option block the port sends to the guest; used
+                                                ; by ControlSetupScreen, CrowdNoiseReset, InitSlotTable ...
         resb 1
         resb 1
         resb 2
-GsJoy1Calib:
+GsJoy1Calib:                                    ; GLOBAL.SET: saved joystick 1 calibration (Joy1State block);
+                                                ; used by GripSetupScreen, JoystickTestScreen, ReadGlobalSet
         resb 24
-GsJoy2Calib:
+GsJoy2Calib:                                    ; GLOBAL.SET: saved joystick 2 calibration (Joy2State block);
+                                                ; used by GripSetupScreen, JoystickTestScreen, ReadGlobalSet
         resb 24
-GsGripButtons:
+GsGripButtons:                                  ; GLOBAL.SET: GrIP shoot/pass button pair per slot (defaults
+                                                ; 1, 2); used by GripSetupScreen, ReadGlobalSet
         resb 1
         resb 1
         resb 1
@@ -51,56 +66,83 @@ GsGripButtons:
         resb 1
         resb 1
         resb 1
-GsOptions:
+GsOptions:                                      ; GLOBAL.SET: option bits (hotkeys, name display and more);
+                                                ; used by CloseTextOverlay, DrawControlMarker, DrawGameFrame
+                                                ; ...
         resb 1
         resb 1
         resb 1
         resb 1
-GlobalSetName:
+GlobalSetName:                                  ; name stored in GLOBAL.SET; used by ReadGlobalSet,
+                                                ; WriteGlobalSet
         resb 19
         resb 2
-optblock_end:
+optblock_end:                                   ; end of the option block; used by ModemGameConnect,
+                                                ; NewSeasonScreen, PlayMenuGame ...
         resb 1
-GsTeamSelect:
+GsTeamSelect:                                   ; GLOBAL.SET: packed team selection bits of the team select
+                                                ; screen; used by DrawAwayTeamPanel, DrawHomeTeamPanel,
+                                                ; ReadGlobalSet ...
         resb 2
         resb 2
-GsPlayerPads:
+GsPlayerPads:                                   ; GLOBAL.SET: controller per player (cleared on defaults);
+                                                ; used by ReadGlobalSet
         resb 2
-GsPlayerFlags:
+GsPlayerFlags:                                  ; GLOBAL.SET: per-player flag words (1 on defaults); used by
+                                                ; ReadGlobalSet
         resb 10
-GsPanelSlots:
+GsPanelSlots:                                   ; GLOBAL.SET: team panel slot bytes for the home and away
+                                                ; panels; used by DrawAwayTeamPanel, DrawHomeTeamPanel
         resb 168
-SeasonUserRecords:
+SeasonUserRecords:                              ; season user records (28 bytes each, name first); used by
+                                                ; CalendarScreen, CreateSeason, NewSeasonScreen ...
         resb 1
-SeasonGameOpts:
+SeasonGameOpts:                                 ; Season file: game options of the season (packed teams and
+                                                ; settings); used by ApplyDayResults, DeleteSeasonFiles,
+                                                ; InGameMenu ...
         resb 184
-PlayoffTreeData:
+PlayoffTreeData:                                ; playoff tree data; used by ApplyDayResults,
+                                                ; ApplyPlayoffDayResults, CalendarScreen ...
         resb 4
-SeasonUserTeam:
+SeasonUserTeam:                                 ; user team in the season; used by CreateSeason,
+                                                ; ExportPlayerCard, NewSeasonScreen ...
         resb 40
-SeasonType:
+SeasonType:                                     ; Season file: season type (1, 2); used by
+                                                ; BuildPlayoffLeaders, CalendarScreen, CompareTeamPoints ...
         resb 4
-SeasonPlayoffs:
+SeasonPlayoffs:                                 ; Season file: set once the playoffs start; used by
+                                                ; CalendarScreen, InGameMenu, PauseMenu ...
         resb 4
-SeasonOver:
+SeasonOver:                                     ; Season file: set when the season is finished; used by
+                                                ; CalendarScreen, NewSeasonScreen, SeasonMenuScreen ...
         resb 2
-SeasonUsers:
+SeasonUsers:                                    ; Season file: user records, 1Ah bytes each (+0 team, -1 for
+                                                ; none); used by CalendarScreen, DeleteSeasonDb,
+                                                ; DeleteSeasonFiles ...
         resb 1
-SeasonUserSim:
+SeasonUserSim:                                  ; Season file: user record +1: simulate this user's games;
+                                                ; used by SimSeasonGames, SimulateRestOfSeason
         resb 1
-SeasonUserName:
+SeasonUserName:                                 ; Season file: user record +2: name (22 bytes); used by
+                                                ; DrawSeasonTeams, EditSeasonName, SimSeasonGames ...
         resb 22
-SeasonUserFlag:
+SeasonUserFlag:                                 ; Season file: user record +18h: user flag; used by
+                                                ; DrawSeasonTeams, SeasonMenuScreen, SimulateRestOfSeason
         resb 1
-SeasonUserSlot:
+SeasonUserSlot:                                 ; Season file: user record +19h: controller slot; used by
+                                                ; CalendarScreen, CompareTeamPoints, CreateSeason ...
         resb 1
         resb 1
         resb 651
-SeasonDay:
+SeasonDay:                                      ; Season: current calendar day; used by CalendarScreen,
+                                                ; DeleteSeasonFiles, DrawCalendar ...
         resb 4
-SeasonGamePending:
+SeasonGamePending:                              ; Season: a scheduled game is ready to play; used by
+                                                ; CalendarScreen, PreGameTeamsScreen, RunSeasonMenus
         resb 4
-SeasonGameHome:
+SeasonGameHome:                                 ; Season: home team of the game to play; used by
+                                                ; CalendarScreen, PlayMenuGame, RunSeasonMenus
         resb 1
-SeasonGameAway:
+SeasonGameAway:                                 ; Season: away team of the game to play; used by PlayMenuGame,
+                                                ; RunSeasonMenus
         resb 1

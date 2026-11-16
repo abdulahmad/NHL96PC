@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_124020 progbits alloc noexec write align=1
 global FindFilePtr, PaletteHookFn, DosErrnoTable, SopenMask, FindFileDta, FindFileName, FindFilePattern
-FindFileDta:
+FindFileDta:                                    ; find file data block; used by FindFirstFile
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -11,12 +11,12 @@ FindFileDta:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h
-FindFilePtr:
+FindFilePtr:                                    ; find file pointer; used by FindFirstFile
         db 00h,00h,00h,00h
-FindFileName:
+FindFileName:                                   ; find file name; used by FindFirstFile
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-FindFilePattern:
+FindFilePattern:                                ; find file pattern; used by FindFirstFile
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -24,10 +24,10 @@ FindFilePattern:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h
-PaletteHookFn:
+PaletteHookFn:                                  ; palette hook routine; used by GetPalette
         db 00h
-DosErrnoTable:
+DosErrnoTable:                                  ; DOS error to errno table; used by __set_errno_dos_
         db 00h,00h,00h,00h,09h,01h,01h,0Bh,06h,04h,05h,05h,05h,02h,03h,0FFh
         db 0FFh,07h,08h,06h,08h,01h,0FFh
-SopenMask:
+SopenMask:                                      ; file open mask; used by sopen_
         db 00h,00h,00h,00h

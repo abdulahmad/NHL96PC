@@ -420,7 +420,7 @@ LinkGameMessage:
         sub esp, 8
         mov dword [byte ebp-04h], eax
         jmp short LinkGameMessage_18
-LinkGameMessageJumpTable:
+LinkGameMessageJumpTable:                       ; jump table for the switch cases
         dd LinkGameMessage_18.4
         dd LinkGameMessage_18.2
         dd LinkGameMessage_18.6
@@ -2881,16 +2881,16 @@ ModemChat:
         pop edi
         pop esi
         ret 4
-ThreeStarsRowY:
+ThreeStarsRowY:                                 ; used by ThreeStarsScreen
         db 09Eh,00h,086h,00h,071h,00h
-ThreeStarsNameY:
+ThreeStarsNameY:                                ; used by ThreeStarsScreen
         db 0AEh,00h,095h,00h,07Bh,00h
-ThreeStarsScales:
+ThreeStarsScales:                               ; used by ThreeStarsScreen
         db 070h,0FDh,00h,00h,0Ah,0D7h,00h,00h,0C2h,0B5h,00h,00h
-str_N:
+str_N:                                          ; string "N"; used by ThreeStarsScreen
         db 04Eh,00h,00h,00h,08h,01h,00h,00h,074h,01h,00h,00h,04Fh,00h,00h,00h
         db 0B0h,01h,00h,00h,048h,01h,00h,00h
-ThreeStarsHotspots:
+ThreeStarsHotspots:                             ; used by ThreeStarsScreen
         db 0Fh,01h,00h,00h,062h,01h,00h,00h,019h,01h,00h,00h,05Bh,01h,00h,00h
         db 089h,01h,00h,00h,05Bh,01h,00h,00h,095h,01h,00h,00h,062h,01h,00h,00h
         db 095h,01h,00h,00h,06Bh,01h,00h,00h,087h,01h,00h,00h,071h,01h,00h,00h

@@ -21,9 +21,9 @@ SbIsrAutoInit:
         pop edx
         pop eax
         iret
-SbProIsrPicPort:
+SbProIsrPicPort:                                ; used by SbProIsr, SbProOpen
         db 00h,00h
-SbProIsrAckPort:
+SbProIsrAckPort:                                ; used by SbProIsr, SbProOpen
         db 00h,00h
 ;-----------------------------------------------------------------------------
 ; SbProIsr                                     D79E7  96 PC, medium confidence
@@ -42,9 +42,9 @@ SbProIsr:
         pop edx
         pop eax
         iret
-Sb16IsrPicPort:
+Sb16IsrPicPort:                                 ; used by Sb16Isr, Sb16Open
         db 00h,00h
-Sb16IsrAckPort:
+Sb16IsrAckPort:                                 ; used by Sb16Isr, Sb16Open
         db 00h,00h
 ;-----------------------------------------------------------------------------
 ; Sb16Isr                                      D7A04  96 PC, medium confidence

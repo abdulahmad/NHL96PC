@@ -4,13 +4,14 @@ bits 32
 section s_1149B4 progbits alloc noexec write align=1
 global _IsTable, str_Inf, str_Nan, DblMaxLow, DblMaxHigh, DblMinusMaxLow, DblMinusMaxHigh, HugeValLo
 global HugeValHi, F64_neg1_floor_, F64_Scale10Max, F64_Scale10Min, Pow10Table, Scale10Count
-str_Inf:
+str_Inf:                                        ; string "inf"; used by __Nan_Inf_
         db 069h,06Eh,066h,00h
-str_Nan:
+str_Nan:                                        ; string "nan"; used by __Nan_Inf_
         db 06Eh,061h,06Eh,00h
-F64_neg1_floor_:
+F64_neg1_floor_:                                ; double constant -1; used by floor_
         db 00h,00h,00h,00h,00h,00h,0F0h,0BFh
-_IsTable:
+_IsTable:                                       ; IDA FLIRT library signature; used by CdDirSearch, StrToLong,
+                                                ; atoi_
         db 00h,01h,01h,01h,01h,01h,01h,01h,01h,01h,03h,03h,03h,03h,03h,01h
         db 01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h
         db 01h,0Ah,0Ch,0Ch,0Ch,0Ch,0Ch,0Ch,0Ch,0Ch,0Ch,0Ch,0Ch,0Ch,0Ch,0Ch
@@ -28,25 +29,27 @@ _IsTable:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h
-F64_Scale10Max:
+F64_Scale10Max:                                 ; largest power of ten scale for _Scale10V_; used by
+                                                ; _Scale10V_
         db 00h,00h,00h,00h,00h,00h,0F0h,07Fh
-F64_Scale10Min:
+F64_Scale10Min:                                 ; smallest power of ten scale for _Scale10V_; used by
+                                                ; _Scale10V_
         db 00h,00h,00h,00h,00h,00h,0F0h,0FFh
-DblMaxLow:
+DblMaxLow:                                      ; DBL_MAX low dword; used by _Scale10V_
         db 0FFh,0FFh,0FFh,0FFh
-DblMaxHigh:
+DblMaxHigh:                                     ; DBL_MAX high dword; used by _Scale10V_
         db 0FFh,0FFh,0EFh,07Fh
-DblMinusMaxLow:
+DblMinusMaxLow:                                 ; -DBL_MAX low dword; used by _Scale10V_
         db 0FFh,0FFh,0FFh,0FFh
-DblMinusMaxHigh:
+DblMinusMaxHigh:                                ; -DBL_MAX high dword; used by _Scale10V_
         db 0FFh,0FFh,0EFh,0FFh
-HugeValLo:
+HugeValLo:                                      ; low half of HUGE_VAL; used by strtod_
         db 00h,00h,00h,00h
-HugeValHi:
+HugeValHi:                                      ; high half of HUGE_VAL; used by strtod_
         db 00h,00h,0F0h,07Fh
-Scale10Count:
+Scale10Count:                                   ; power of ten table length; used by _Scale10V_
         db 0D8h,00h
-Pow10Table:
+Pow10Table:                                     ; powers of ten; used by _Scale10V_
         db 0C6h,0F9h,0C6h,040h,0E9h,034h,0C7h,06Ch,06Ch,00h,012h,04Eh,083h,0CCh,03Dh,040h
         db 05Bh,056h,036h,00h,0CEh,0C9h,014h,088h,087h,0E1h,024h,04Bh,01Bh,00h,02h,084h
         db 0FEh,0E4h,071h,0D9h,089h,045h,0Eh,00h,00h,00h,090h,01Eh,0C4h,0BCh,0D6h,042h

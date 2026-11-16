@@ -412,13 +412,13 @@ SbSetTimeConstant:
 .3:
         pop ebx
         ret
-WssProbePorts:
+WssProbePorts:                                  ; used by WssSetupCard
         db 030h,05h,00h,00h,04h,06h,00h,00h,080h,0Eh,00h,00h,040h,0Fh,00h,00h
-WssDmaConfigBits:
+WssDmaConfigBits:                               ; used by WssSetupCard
         db 011h,00h,00h,00h,012h,00h,00h,00h,0FFh,0FFh,0FFh,0FFh,013h,00h,00h,00h
-WssRateOffsets:
+WssRateOffsets:                                 ; used by WssOpen
         db 0C8h,096h,084h,067h,0A6h,040h,04h,029h,095h,015h,0C4h,09h,00h,00h
-WssOpenJumpTable:
+WssOpenJumpTable:                               ; jump table for the switch cases of WssOpen
         dd WssOpen_BD
         dd WssOpen_57
         dd WssOpen_68

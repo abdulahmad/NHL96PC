@@ -104,7 +104,7 @@ global DrawRinkFront, DrawWholeRink, DrawZamboniScene, SetRinkClipWindow, LoadSh
 global OptionButtonJumpTable, DrawOptionButton, DrawOptionButton_27, DrawOptionButton_3F, DrawOptionButton_5A, DrawOptionButton_75, DrawOptionButton_90, DrawOptionButton_AB
 global DrawOptionButton_C3, DrawOptionButton_DB, DrawOptionButton_F3, DrawOptionButton_10B, GameOptionsJumpTable, GameOptionsScreen, GameOptionsScreen_64F, GameOptionsScreen_66F
 global GameOptionsScreen_68C, GameOptionsScreen_6AA, GameOptionsScreen_6C8, GameOptionsScreen_6FD, GameOptionsScreen_71E, GameOptionsScreen_73F, GameOptionsScreen_761, GameOptionsScreen_799
-ZamboniZeroVec:
+ZamboniZeroVec:                                 ; used by MoveZamboni
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
 ; DrawIceCrud                                     21990  96 PC, low confidence
@@ -6228,7 +6228,7 @@ FreeStandsArt_21:
         pop ecx
         pop ebx
         ret
-LoadStandsArtJumpTable:
+LoadStandsArtJumpTable:                         ; jump table for the switch cases of LoadStandsArt
         dd LoadStandsArt_3F
         dd LoadStandsArt_25
         dd LoadStandsArt_32
@@ -10361,7 +10361,7 @@ DrawShadowSpriteAt:
         call DrawShadowSprite
         pop esi
         ret
-OptionButtonJumpTable:
+OptionButtonJumpTable:                          ; jump table for the switch cases of DrawOptionButton
         dd DrawOptionButton_27
         dd DrawOptionButton_3F
         dd DrawOptionButton_5A
@@ -10512,7 +10512,7 @@ DrawOptionButton_10B:
         pop ecx
         pop ebx
         ret
-GameOptionsJumpTable:
+GameOptionsJumpTable:                           ; jump table for the switch cases of GameOptionsScreen
         dd GameOptionsScreen_64F
         dd GameOptionsScreen_66F
         dd GameOptionsScreen_68C

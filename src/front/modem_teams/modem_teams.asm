@@ -20,7 +20,7 @@ extern ModemPanelY
 global str_B, DrawModemHomePanel, DrawModemHomePanel_151, DrawModemHomePanel_15D, DrawModemAwayPanel, ModemTeamSelectJumpTable, ModemTeamSelectScreen, ModemTeamSelectScreen_7F1
 global ModemTeamSelectScreen_8AC, ModemTeamSelectScreen_94E, ModemTeamSelectScreen_9F4, ModemTeamSelectScreen_A8A, ModemTeamSelectScreen_B38, ModemTeamSelectScreen_B5C, ModemTeamSelectScreen_B6A, ModemTeamSelectScreen_B78
 global RunModemGameSetup, PlayoffSetupKeyTable, str_Z, PlayoffSeriesLabels, PlayoffSetupOptionRows, PlayoffSeedPairs, PlayoffMenuCommands, PlayoffMenuJumpTable
-str_B:
+str_B:                                          ; string "b"; used by ModemTeamSelectScreen
         db 062h,00h,00h,00h,0E4h,00h,00h,00h,077h,00h,00h,00h,0CFh,00h,00h,00h
         db 077h,00h,00h,00h,0F9h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -273,7 +273,7 @@ DrawModemAwayPanel:
         push eax
         mov eax, dword [ModemAwayName]
         jmp near DrawModemHomePanel_151
-ModemTeamSelectJumpTable:
+ModemTeamSelectJumpTable:                       ; jump table for the switch cases of ModemTeamSelectScreen
         dd ModemTeamSelectScreen_7F1
         dd ModemTeamSelectScreen_8AC
         dd ModemTeamSelectScreen_94E
@@ -1064,7 +1064,7 @@ RunModemGameSetup:
         mov eax, edx
         pop edx
         ret
-PlayoffSetupKeyTable:
+PlayoffSetupKeyTable:                           ; used by PlayoffSetupScreen
         db 01Ch,00h,00h,013h,024h,01h,014h,01h,02h,03h,015h,012h,02h,04h,016h,012h
         db 03h,05h,017h,012h,04h,06h,018h,012h,05h,07h,019h,012h,06h,08h,01Ah,012h
         db 07h,09h,01Bh,012h,08h,013h,01Ch,012h,0Ah,0Bh,012h,01Dh,0Ah,0Ch,012h,01Eh
@@ -1075,7 +1075,7 @@ PlayoffSetupKeyTable:
         db 01Bh,00h,00h,09h,01Dh,01Eh,0Ah,01Dh,01Dh,01Fh,0Bh,01Eh,01Eh,020h,0Ch,01Fh
         db 01Fh,021h,0Dh,020h,020h,022h,0Eh,021h,021h,023h,0Fh,022h,022h,024h,010h,023h
         db 023h,01h,011h,024h,025h,012h,02h,0Ah
-str_Z:
+str_Z:                                          ; string "Z"; used by PlayoffSetupScreen
         db 05Ah,00h,00h,00h,08Ah,00h,00h,00h,0C6h,00h,00h,00h,08Ah,00h,00h,00h
         db 0CAh,00h,00h,00h,0A2h,00h,00h,00h,05Ch,00h,00h,00h,0A2h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -1156,19 +1156,19 @@ str_Z:
         db 08Bh,01h,00h,00h,06Ch,00h,00h,00h,093h,01h,00h,00h,073h,00h,00h,00h
         db 093h,01h,00h,00h,084h,00h,00h,00h,08Bh,01h,00h,00h,08Bh,00h,00h,00h
         db 0F8h,00h,00h,00h,08Ah,00h,00h,00h,0F0h,00h,00h,00h,082h,00h,00h,00h
-PlayoffSeriesLabels:
+PlayoffSeriesLabels:                            ; used by PlayoffSetupScreen
         dd str_7GM
         dd str_5GM
         dd str_3GM
         dd str_1GM
-PlayoffSetupOptionRows:
+PlayoffSetupOptionRows:                         ; used by PlayoffSetupScreen
         db 06h,05h,03h,014h,013h,017h,04h,016h,012h,0Eh,010h,02h,011h,018h,0Ch,01h
-PlayoffSeedPairs:
+PlayoffSeedPairs:                               ; used by DrawPlayoffTeamList
         db 01h,00h,00h,00h,08h,00h,00h,00h,02h,00h,00h,00h,07h,00h,00h,00h
         db 03h,00h,00h,00h,06h,00h,00h,00h,04h,00h,00h,00h,05h,00h,00h,00h
-PlayoffMenuCommands:
+PlayoffMenuCommands:                            ; used by RunPlayoffMenus
         db 0A4h,0A5h,0A3h,0A5h,0A2h,0A5h,0A1h,0A5h,0A0h,0A5h,09Fh,0A5h,00h,00h
-PlayoffMenuJumpTable:
+PlayoffMenuJumpTable:                           ; jump table for the switch cases of RunPlayoffMenus
         dd RunPlayoffMenus_A6
         dd RunPlayoffMenus_115
         dd RunPlayoffMenus_CD

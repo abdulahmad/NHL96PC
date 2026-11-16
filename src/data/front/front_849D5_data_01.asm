@@ -8,94 +8,105 @@ global str_CS3, str_AALIAS, str_Menupicks, str_Bkgd15, str_Pal20, str_SD2, str_S
 global str_WES0, str_PRN0, str_PRN1, str_PRN2, str_LGR0, str_LGR1, str_LGR2, str_dbgSpace
 global str_PreGameBlank, str_000, str_SEA2, str_PLY2, str_LEA, str_DIV, str_CON, str_WES
 global str_EAS, str_PAC, str_NOR, str_CEN, str_ATL
-str_dbgSpace:
+str_dbgSpace:                                   ; string ' '; used by PreGameMatchupScreen
         db 020h,00h
-str_Bkgd13:
+str_Bkgd13:                                     ; string 'bkgd'; used by PreGameTeamsScreen
         db 062h,06Bh,067h,064h,00h
-str_04d2:
+str_04d2:                                       ; string '%04d'; used by PreGameTeamsScreen
         db 025h,030h,034h,064h,00h
-str_SCHEDULE2:
+str_SCHEDULE2:                                  ; string 'SCHEDULE'; used by PreGameTeamsScreen
         db 053h,043h,048h,045h,044h,055h,04Ch,045h,00h
-str_BKGD14:
+str_BKGD14:                                     ; string 'BKGD'; used by PreGameDefenceCards,
+                                                ; PreGameForwardCards, PreGameScoutingCards
         db 042h,04Bh,047h,044h,00h
-str_Xlate:
+str_Xlate:                                      ; string 'Xlate'; used by PreGameScoutingCards
         db 058h,06Ch,061h,074h,065h,00h
-str_FSH3:
+str_FSH3:                                       ; string '****.FSH'; used by PreGameDefenceCards,
+                                                ; PreGameForwardCards, PreGameScoutingCards
         db 02Ah,02Ah,02Ah,02Ah,02Eh,046h,053h,048h,00h
-str_ProfileFsh:
+str_ProfileFsh:                                 ; string 'profile.fsh'; used by PreGameDefenceCards,
+                                                ; PreGameForwardCards, PreGameScoutingCards
         db 070h,072h,06Fh,066h,069h,06Ch,065h,02Eh,066h,073h,068h,00h
-str_Ard:
+str_Ard:                                        ; string '!ard'; used by PreGameDefenceCards,
+                                                ; PreGameForwardCards, PreGameScoutingCards
         db 021h,061h,072h,064h,00h
-str_Card:
+str_Card:                                       ; string 'card'; used by PreGameDefenceCards,
+                                                ; PreGameForwardCards, PreGameScoutingCards
         db 063h,061h,072h,064h,00h
-str_Plyr:
+str_Plyr:                                       ; string 'plyr'; used by PreGameDefenceCards,
+                                                ; PreGameForwardCards, PreGameScoutingCards
         db 070h,06Ch,079h,072h,00h
-str_LG02d:
+str_LG02d:                                      ; string 'LG%02d'; used by PreGameScoutingCards
         db 04Ch,047h,025h,030h,032h,064h,00h
-str_SS3:
+str_SS3:                                        ; string '%s %s'; used by PreGameScoutingCards
         db 025h,073h,020h,025h,073h,00h
-str_MightyDucksOfAnaheim:
+str_MightyDucksOfAnaheim:                       ; string 'Mighty Ducks of Anaheim'; used by
+                                                ; PreGameScoutingCards
         db 04Dh,069h,067h,068h,074h,079h,020h,044h,075h,063h,06Bh,073h,020h,06Fh,066h,020h
         db 041h,06Eh,061h,068h,065h,069h,06Dh,00h
-str_DSS:
+str_DSS:                                        ; string '#%d %s %s'; used by PreGameScoutingCards
         db 023h,025h,064h,020h,025h,073h,020h,025h,073h,00h
-str_PreGameBlank:
+str_PreGameBlank:                               ; empty caption on the player cards screen; used by
+                                                ; PreGameScoutingCards
         db 00h
-str_PALS:
+str_PALS:                                       ; string 'PALS'; used by PreGameDefenceCards,
+                                                ; PreGameForwardCards
         db 050h,041h,04Ch,053h,00h
-str_D2:
+str_D2:                                         ; string '#%d'; used by PreGameDefenceCards,
+                                                ; PreGameForwardCards
         db 023h,025h,064h,00h
-str_CS3:
+str_CS3:                                        ; string '%c %s'; used by PreGameDefenceCards,
+                                                ; PreGameForwardCards
         db 025h,063h,020h,025h,073h,00h,00h
-str_AALIAS:
+str_AALIAS:                                     ; string 'AALIAS'; used by BuildAntiAliasTable
         db 041h,041h,04Ch,049h,041h,053h,00h,00h
-str_000:
+str_000:                                        ; string '000'; used by TeamStatsColumnLabels
         db 030h,030h,030h,00h
-str_SEA2:
+str_SEA2:                                       ; string 'SEA'; used by TeamStatsColumnLabels
         db 053h,045h,041h,00h
-str_PLY2:
+str_PLY2:                                       ; string 'PLY'; used by TeamStatsColumnLabels
         db 050h,04Ch,059h,00h
-str_LEA:
+str_LEA:                                        ; string 'LEA'; used by TeamStatsColumnLabels
         db 04Ch,045h,041h,00h
-str_DIV:
+str_DIV:                                        ; string 'DIV'; used by TeamStatsColumnLabels
         db 044h,049h,056h,00h
-str_CON:
+str_CON:                                        ; string 'CON'; used by TeamStatsColumnLabels
         db 043h,04Fh,04Eh,00h
-str_WES:
+str_WES:                                        ; string 'WES'; used by TeamStatsColumnLabels
         db 057h,045h,053h,00h
-str_EAS:
+str_EAS:                                        ; string 'EAS'; used by TeamStatsColumnLabels
         db 045h,041h,053h,00h
-str_PAC:
+str_PAC:                                        ; string 'PAC'; used by TeamStatsColumnLabels
         db 050h,041h,043h,00h
-str_NOR:
+str_NOR:                                        ; string 'NOR'; used by TeamStatsColumnLabels
         db 04Eh,04Fh,052h,00h
-str_CEN:
+str_CEN:                                        ; string 'CEN'; used by TeamStatsColumnLabels
         db 043h,045h,04Eh,00h
-str_ATL:
+str_ATL:                                        ; string 'ATL'; used by TeamStatsColumnLabels
         db 041h,054h,04Ch,00h
-str_Menupicks:
+str_Menupicks:                                  ; string 'Menupicks'; used by TeamStatsScreen
         db 04Dh,065h,06Eh,075h,070h,069h,063h,06Bh,073h,00h
-str_Bkgd15:
+str_Bkgd15:                                     ; string 'bkgd'; used by DrawTeamStatsTable, TeamStatsScreen
         db 062h,06Bh,067h,064h,00h
-str_Pal20:
+str_Pal20:                                      ; string '!pal'; used by TeamStatsScreen
         db 021h,070h,061h,06Ch,00h
-str_SD2:
+str_SD2:                                        ; string '%s%d'; used by TeamStatsScreen
         db 025h,073h,025h,064h,00h
-str_SEA0:
+str_SEA0:                                       ; string 'SEA0'; used by TeamStatsScreen
         db 053h,045h,041h,030h,00h
-str_CON0:
+str_CON0:                                       ; string 'CON0'; used by TeamStatsScreen
         db 043h,04Fh,04Eh,030h,00h
-str_WES0:
+str_WES0:                                       ; string 'WES0'; used by TeamStatsScreen
         db 057h,045h,053h,030h,00h
-str_PRN0:
+str_PRN0:                                       ; string 'PRN0'; used by TeamStatsScreen
         db 050h,052h,04Eh,030h,00h
-str_PRN1:
+str_PRN1:                                       ; string 'PRN1'; used by TeamStatsScreen
         db 050h,052h,04Eh,031h,00h
-str_PRN2:
+str_PRN2:                                       ; string 'PRN2'; used by TeamStatsScreen
         db 050h,052h,04Eh,032h,00h
-str_LGR0:
+str_LGR0:                                       ; string 'LGR0'; used by TeamStatsScreen
         db 04Ch,047h,052h,030h,00h
-str_LGR1:
+str_LGR1:                                       ; string 'LGR1'; used by TeamStatsScreen
         db 04Ch,047h,052h,031h,00h
-str_LGR2:
+str_LGR2:                                       ; string 'LGR2'; used by TeamStatsScreen
         db 04Ch,047h,052h,032h,00h

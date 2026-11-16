@@ -5,45 +5,66 @@ section s_176CA8 nobits alloc noexec write align=1
 global defsort_d, dressflags, dressflags_aw, offsort_fwd, AttractOptTeamsHi, AttractOptPads, AttractOptTeams
 global SpriteSortDelay, offsort_c, defsort_r, offsort_d, defsort_c, offsort_l, defsort_l, offsort_r
 global defsort_fwd, AttractGameOpts, dressedfwds, dresseddefs, dressedskaters, AttractOptPadFlags
-offsort_c:
+offsort_c:                                      ; Centres sorted by offensive rating (25 per team); used by
+                                                ; BuildDefaultLines, PickForLineSlot
         resb 50
-defsort_r:
+defsort_r:                                      ; Right wings sorted by defensive rating (25 per team); used
+                                                ; by BuildDefaultLines, PickForLineSlot
         resb 50
-offsort_d:
+offsort_d:                                      ; Defencemen sorted by offensive rating (25 per team); used by
+                                                ; BuildDefaultLines, PickForLineSlot, SetPlList
         resb 50
-defsort_c:
+defsort_c:                                      ; Centres sorted by defensive rating (25 per team); used by
+                                                ; BuildDefaultLines, PickForLineSlot
         resb 50
-defsort_d:
+defsort_d:                                      ; used by BuildDefaultLines, CanRemovePlayer, PickForLineSlot
+                                                ; ...
         resb 50
-offsort_l:
+offsort_l:                                      ; Left wings sorted by offensive rating (25 per team); used by
+                                                ; BuildDefaultLines, PickForLineSlot
         resb 50
-dressflags:
+dressflags:                                     ; used by BuildDefaultLines, CanFillLineSlot, FillDressedSlots
+                                                ; ...
         resb 25
-dressflags_aw:
+dressflags_aw:                                  ; Away dressed flags, one byte per roster player; used by
+                                                ; NormalizeDressFlags
         resb 25
-offsort_fwd:
+offsort_fwd:                                    ; used by BuildDefaultLines, CanRemovePlayer, PickExtraSkater
+                                                ; ...
         resb 50
-defsort_l:
+defsort_l:                                      ; Left wings sorted by defensive rating (25 per team); used by
+                                                ; BuildDefaultLines, PickForLineSlot
         resb 50
-offsort_r:
+offsort_r:                                      ; Right wings sorted by offensive rating (25 per team); used
+                                                ; by BuildDefaultLines, PickForLineSlot
         resb 50
-defsort_fwd:
+defsort_fwd:                                    ; Forwards for the defence pairs, sorted by defensive rating
+                                                ; (25 per team); used by BuildDefaultLines, PickForLineSlot,
+                                                ; SetPlList
         resb 50
-dressedfwds:
+dressedfwds:                                    ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 2
-dresseddefs:
+dresseddefs:                                    ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 2
-dressedskaters:
+dressedskaters:                                 ; used by FillDressedSlots, SetupTeamLines
         resb 2
-AttractGameOpts:
+AttractGameOpts:                                ; Game options block used by the attract mode game (gameopts
+                                                ; points here)
         resb 1
-AttractOptTeams:
+AttractOptTeams:                                ; Attract mode options: home and away team bits; used by
+                                                ; RunAttractMode
         resb 2
-AttractOptTeamsHi:
+AttractOptTeamsHi:                              ; Attract mode options: high byte of the team bits; used by
+                                                ; RunAttractMode
         resb 2
-AttractOptPads:
+AttractOptPads:                                 ; Attract mode options: controller per player (cleared); used
+                                                ; by RunAttractMode
         resb 2
-AttractOptPadFlags:
+AttractOptPadFlags:                             ; Attract mode options: per-player flags (set to 1); used by
+                                                ; RunAttractMode
         resb 181
-SpriteSortDelay:
+SpriteSortDelay:                                ; Frames before the next full sprite sort (ResetPeriodState
+                                                ; sets 2); used by ResetPeriodState, SortSpritesForDraw
         resb 4

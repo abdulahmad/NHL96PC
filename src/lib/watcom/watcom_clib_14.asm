@@ -432,7 +432,7 @@ ResetMixChannel:
         pop ds
         ret
         db 00h,00h
-MixerStepTable:
+MixerStepTable:                                 ; used by BendSampleRate, MixerCalcStep
         db 00h,00h,01h,00h,025h,00h,01h,00h,04Bh,00h,01h,00h,071h,00h,01h,00h
         db 097h,00h,01h,00h,0BDh,00h,01h,00h,0E3h,00h,01h,00h,09h,01h,01h,00h
         db 02Fh,01h,01h,00h,055h,01h,01h,00h,07Bh,01h,01h,00h,0A1h,01h,01h,00h

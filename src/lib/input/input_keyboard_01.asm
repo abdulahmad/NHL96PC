@@ -144,7 +144,7 @@ RemoveKeyboardHandler_6F:
         cmp dword [DebugKeysEnabled], byte 0
         je near .3
         call dword [bailout_vec]
-IretStub:
+IretStub:                                       ; used by InstallKeyboardHandler
         db 0CFh
 ;-----------------------------------------------------------------------------
 ; Int16Handler                                    DFDDE  96 PC, low confidence

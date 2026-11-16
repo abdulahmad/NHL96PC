@@ -8,48 +8,62 @@ global BackBufferWidth, ModeSetCount, ScreenClipLeft, ScreenClipTop, ScreenClipR
 global ScreenBanked, ScreenRowTable, ScreenWidthFractions, PutBlockScaleSteps, BlendTablePtr, BlitColumnOffsets
 global BlitSourcePtr
         db 00h,00h
-DrawClipLeft:
+DrawClipLeft:                                   ; left edge of the draw target's clip rectangle; x below it is
+                                                ; not drawn; used by AaDrawScaledArt, BlitArtScaled, BlitBlock
+                                                ; ...
         db 00h,00h
         db 00h,00h
-DrawClipTop:
+DrawClipTop:                                    ; top edge of the draw target's clip rectangle; y above it is
+                                                ; not drawn; used by AaDrawScaledArt, BlitArtScaled, BlitBlock
+                                                ; ...
         db 00h,00h
         db 00h,00h
-DrawClipRight:
+DrawClipRight:                                  ; right edge of the draw target's clip rectangle (exclusive);
+                                                ; used by AaDrawScaledArt, BlitArtScaled, BlitBlock ...
         db 080h,02h
         db 00h,00h
-DrawClipBottom:
+DrawClipBottom:                                 ; bottom edge of the draw target's clip rectangle (exclusive);
+                                                ; used by AaDrawScaledArt, BlitArtScaled, BlitBlock ...
         db 0E0h,01h,00h,00h
-DrawBitsPerPixel:
+DrawBitsPerPixel:                               ; bits per pixel of the draw target; used by CopyMappedSpan,
+                                                ; CopyScaledSpan, PixelToRgb ...
         db 08h,00h,00h,00h,00h,00h,00h,00h
-DrawRowBytes:
+DrawRowBytes:                                   ; bytes per row of the draw target; used by BlitArtOpaque,
+                                                ; BlitBlock, BlitBlockAnd ...
         db 080h,02h,00h,00h
-KeyedDraw:
+KeyedDraw:                                      ; set to skip colour 0FFh when drawing art; used by AndPixel,
+                                                ; CopyRowShadow, CopyRowXor ...
         db 00h,00h,00h,00h
-DrawDestBuffer:
+DrawDestBuffer:                                 ; buffer drawing routines write to; used by AaDrawScaledArt,
+                                                ; AndPixel, BlitArtOpaque ...
         dd ScreenRowTable
-DrawVideoBase:
+DrawVideoBase:                                  ; address of the draw target pixels; used by AaDrawScaledArt,
+                                                ; AndPixel, BlitArtOpaque ...
         db 00h,00h,0Ah,00h
-BackBufferWidth:
+BackBufferWidth:                                ; back buffer width; used by InitPointer, SetGraphicsMode,
+                                                ; SetScreenTarget ...
         db 080h,02h,00h,00h
-ModeSetCount:
+ModeSetCount:                                   ; graphics mode set count; used by SetGraphicsMode,
+                                                ; initgraphics
         db 0E0h,01h,00h,00h
-ScreenClipLeft:
+ScreenClipLeft:                                 ; screen clip left; used by initgraphics
         db 00h,00h,00h,00h
-ScreenClipTop:
+ScreenClipTop:                                  ; screen clip top; used by initgraphics
         db 00h,00h,00h,00h
-ScreenClipRight:
+ScreenClipRight:                                ; screen clip right; used by initgraphics
         db 080h,02h,00h,00h
-ScreenClipBottom:
+ScreenClipBottom:                               ; screen clip bottom; used by initgraphics
         db 0E0h,01h,00h,00h
-ScreenBitsPerPixel:
+ScreenBitsPerPixel:                             ; screen bits per pixel; used by initgraphics
         db 00h,00h,00h,00h,08h,00h,00h,00h
-ScreenRowBytes:
+ScreenRowBytes:                                 ; screen bytes per row; used by initgraphics
         db 00h,00h,00h,00h
-ScreenBanked:
+ScreenBanked:                                   ; screen uses VESA banks; used by initgraphics
         db 00h,00h,00h,00h
         dd ScreenRowTable
         db 00h,00h,0Ah,00h
-ScreenRowTable:
+ScreenRowTable:                                 ; byte offset of each screen row; used by AndPixel,
+                                                ; DrawArtFast, DrawArtOpaque ...
         db 00h,00h,00h,00h,080h,02h,00h,00h,00h,05h,00h,00h,080h,07h,00h,00h
         db 00h,0Ah,00h,00h,080h,0Ch,00h,00h,00h,0Fh,00h,00h,080h,011h,00h,00h
         db 00h,014h,00h,00h,080h,016h,00h,00h,00h,019h,00h,00h,080h,01Bh,00h,00h
@@ -306,19 +320,22 @@ ScreenRowTable:
         db 00h,0E2h,09h,00h,080h,0E4h,09h,00h,00h,0E7h,09h,00h,080h,0E9h,09h,00h
         db 00h,0ECh,09h,00h,080h,0EEh,09h,00h,00h,0F1h,09h,00h,080h,0F3h,09h,00h
         db 00h,0F6h,09h,00h,080h,0F8h,09h,00h,00h,0FBh,09h,00h,080h,0FDh,09h,00h
-ScreenWidthFractions:
+ScreenWidthFractions:                           ; used by initgraphics
         db 00h,00h,0Ah,00h
-PutBlockScaleSteps:
+PutBlockScaleSteps:                             ; block scale steps; used by FillRect, PutBlock
         db 066h,00h,00h,00h,0CCh,00h,00h,00h,033h,01h,00h,00h,099h,01h,00h,00h
         db 00h,02h,00h,00h,00h,04h,00h,00h,00h,04h,00h,00h,00h,04h,00h,00h
         db 00h,04h,00h,00h,00h,04h,00h,00h,00h,04h,00h,00h,00h,04h,00h,00h
         db 00h,04h,00h,00h,00h,04h,00h,00h,00h,04h,00h,00h,00h,04h,00h,00h
         db 00h,04h,00h,00h,00h,04h,00h,00h,00h,04h,00h,00h,00h,04h,00h,00h
-__8087:
+__8087:                                         ; same code as in the next game; used by InitFpuFlags,
+                                                ; __chk8087_
         db 00h
-FpuType:
+FpuType:                                        ; FPU type found at start up; used by __chk8087_,
+                                                ; __init_8087_, _fpreset_
         db 00h,00h,00h
-ColourRemap:
+ColourRemap:                                    ; colour remap table, 256 entries; used by
+                                                ; BlitBlockRemapKeyed, CopyRowKeyedRemap, GetColourRemap ...
         db 00h,01h,02h,03h,04h,05h,06h,07h,08h,09h,0Ah,0Bh,0Ch,0Dh,0Eh,0Fh
         db 010h,011h,012h,013h,014h,015h,016h,017h,018h,019h,01Ah,01Bh,01Ch,01Dh,01Eh,01Fh
         db 020h,021h,022h,023h,024h,025h,026h,027h,028h,029h,02Ah,02Bh,02Ch,02Dh,02Eh,02Fh
@@ -335,9 +352,11 @@ ColourRemap:
         db 0D0h,0D1h,0D2h,0D3h,0D4h,0D5h,0D6h,0D7h,0D8h,0D9h,0DAh,0DBh,0DCh,0DDh,0DEh,0DFh
         db 0E0h,0E1h,0E2h,0E3h,0E4h,0E5h,0E6h,0E7h,0E8h,0E9h,0EAh,0EBh,0ECh,0EDh,0EEh,0EFh
         db 0F0h,0F1h,0F2h,0F3h,0F4h,0F5h,0F6h,0F7h,0F8h,0F9h,0FAh,0FBh,0FCh,0FDh,0FEh,0FFh
-BlendTablePtr:
+BlendTablePtr:                                  ; blend table in use; used by ScaleRowBlend, SetBlendTables
         db 00h,00h,00h,00h
-BlitColumnOffsets:
+BlitColumnOffsets:                              ; column offset table of the span copy; used by
+                                                ; CopyMappedSpan, CopyScaledSpan, CopyScaledSpanShadow ...
         db 00h,00h,00h,00h
-BlitSourcePtr:
+BlitSourcePtr:                                  ; source pointer of the span copy; used by CopyMappedSpan,
+                                                ; CopyScaledSpan, CopyScaledSpanShadow ...
         db 00h,00h,00h,00h

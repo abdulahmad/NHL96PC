@@ -5,7 +5,8 @@ section s_11DFC8 progbits alloc noexec write align=1
 global str_GenericHayesCompatible, str_LFERROR, DialAborted, LinkSetupSlots, AwayPanelX, HomePanelX, HomePanelBmp, AwayPanelBmp
 global HomePanelLogo, AwayPanelLogo, TeamSelectDrawn, AwayPanelName, PanelTeamNameShift, AwayPanelText, LangTextHandle, LangTextLoaded
 global BaudChoices, TeamSelectY
-str_GenericHayesCompatible:
+str_GenericHayesCompatible:                     ; string "Generic Hayes-Compatible"; used by
+                                                ; ModemSettingsScreen
         db 047h,065h,06Eh,065h,072h,069h,063h,020h,048h,061h,079h,065h,073h,02Dh,043h,06Fh
         db 06Dh,070h,061h,074h,069h,062h,06Ch,065h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,041h,054h,020h,026h,046h,026h,04Bh,04Eh,030h,053h
@@ -49,38 +50,52 @@ str_GenericHayesCompatible:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,041h,054h,020h,026h,046h,025h
         db 043h,030h,026h,04Bh,030h,04Eh,030h,053h,033h,037h,03Dh,039h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h
-BaudChoices:
+BaudChoices:                                    ; baud rate choices; used by ModemDialScreen,
+                                                ; ModemSettingsScreen
         db 02h,00h,01h,00h,02h,00h,01h,00h
-DialAborted:
+DialAborted:                                    ; used by LinkSetupScreen, ModemDialScreen
         db 00h,00h,00h,00h
-LinkSetupSlots:
+LinkSetupSlots:                                 ; link setup slot records; used by LinkSetupScreen,
+                                                ; ModemDialScreen
         db 00h,00h,00h,00h
-TeamSelectY:
+TeamSelectY:                                    ; team select panel y position; used by TeamSelectScreen
         db 081h,00h,00h,00h
-AwayPanelX:
+AwayPanelX:                                     ; away team panel x position; used by DrawAwayTeamPanel,
+                                                ; TeamSelectScreen
         db 04h,02h,00h,00h
-HomePanelX:
+HomePanelX:                                     ; home team panel x position; used by DrawAwayTeamPanel,
+                                                ; DrawHomeTeamPanel, TeamSelectScreen
         db 038h,01h,00h,00h,04Eh,01h,00h,00h,064h,01h,00h,00h,07Ah,01h,00h,00h
         db 090h,01h,00h,00h,0A6h,01h,00h,00h
-HomePanelBmp:
+HomePanelBmp:                                   ; home team panel bitmap; used by DrawHomeTeamPanel,
+                                                ; TeamSelectScreen
         db 00h,00h,00h,00h
-AwayPanelBmp:
+AwayPanelBmp:                                   ; away team panel bitmap; used by DrawAwayTeamPanel,
+                                                ; TeamSelectScreen
         db 00h,00h,00h,00h
-HomePanelLogo:
+HomePanelLogo:                                  ; home team panel logo; used by DrawHomeTeamPanel,
+                                                ; TeamSelectScreen
         db 00h,00h,00h,00h
-AwayPanelLogo:
+AwayPanelLogo:                                  ; away team panel logo; used by DrawAwayTeamPanel,
+                                                ; TeamSelectScreen
         db 00h,00h,00h,00h
-TeamSelectDrawn:
+TeamSelectDrawn:                                ; set once the team select screen is drawn; used by
+                                                ; DrawHomeTeamPanel, TeamSelectScreen
         db 00h,00h,00h,00h
-AwayPanelName:
+AwayPanelName:                                  ; away team panel name; used by DrawAwayTeamPanel,
+                                                ; TeamSelectScreen
         db 00h,00h,00h,00h
-PanelTeamNameShift:
+PanelTeamNameShift:                             ; team name shift on the team panels; used by
+                                                ; DrawHomeTeamPanel, TeamSelectScreen
         db 00h,00h,00h,00h
-AwayPanelText:
+AwayPanelText:                                  ; away team panel text; used by DrawAwayTeamPanel,
+                                                ; TeamSelectScreen
         db 00h,00h,00h,00h
-LangTextHandle:
+LangTextHandle:                                 ; language text data handle; used by FreeLangText,
+                                                ; GetLangText, LoadLangText
         db 00h,00h,00h,00h
-LangTextLoaded:
+LangTextLoaded:                                 ; set once language text is loaded; used by FreeLangText,
+                                                ; LoadLangText
         db 00h,00h,00h,00h
-str_LFERROR:
+str_LFERROR:                                    ; string 'LFERROR!!!'; used by GetLangText
         db 04Ch,046h,045h,052h,052h,04Fh,052h,021h,021h,021h,00h,00h

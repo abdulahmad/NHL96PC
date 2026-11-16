@@ -9,108 +9,111 @@ global str_SavetimeOut, str_D42, str_spDDDD, str_TXT, F64_0p1, str_D7, str_Wt2, 
 global str_Space2, str_Punct_ExportTeamStats, str_DashExport, str_Punct_DumpSaveTimes, str_FLM0, str_FLM1, str_FLM2, str_FLM3
 global str_FLM4, str_FLM5, str_FLM6, str_FLM7, str_DEF, str_ALL, str_FOR, str_GOL
 global str_PLR, str_PLY3, str_ROK, str_SEA3
-str_TEA0:
+str_TEA0:                                       ; string 'TEA0'; used by TeamStatsScreen
         db 054h,045h,041h,030h,00h
-str_TEA1:
+str_TEA1:                                       ; string 'TEA1'; used by TeamStatsScreen
         db 054h,045h,041h,031h,00h
-str_TEA2:
+str_TEA2:                                       ; string 'TEA2'; used by TeamStatsScreen
         db 054h,045h,041h,032h,00h
-str_AR30:
+str_AR30:                                       ; string 'AR30'; used by TeamStatsScreen
         db 041h,052h,033h,030h,00h
-str_AR31:
+str_AR31:                                       ; string 'AR31'; used by TeamStatsScreen
         db 041h,052h,033h,031h,00h
-str_AR20:
+str_AR20:                                       ; string 'AR20'; used by TeamStatsScreen
         db 041h,052h,032h,030h,00h
-str_AR21:
+str_AR21:                                       ; string 'AR21'; used by TeamStatsScreen
         db 041h,052h,032h,031h,00h
-str_AR002:
+str_AR002:                                      ; string 'AR00'; used by TeamStatsScreen
         db 041h,052h,030h,030h,00h
-str_AR012:
+str_AR012:                                      ; string 'AR01'; used by TeamStatsScreen
         db 041h,052h,030h,031h,00h
-str_AR102:
+str_AR102:                                      ; string 'AR10'; used by TeamStatsScreen
         db 041h,052h,031h,030h,00h
-str_AR112:
+str_AR112:                                      ; string 'AR11'; used by TeamStatsScreen
         db 041h,052h,031h,031h,00h
-str_HED2:
+str_HED2:                                       ; string 'HED2'; used by TeamStatsScreen
         db 048h,045h,044h,032h,00h
-str_HED1:
+str_HED1:                                       ; string 'HED1'; used by TeamStatsScreen
         db 048h,045h,044h,031h,00h
-str_VERT:
+str_VERT:                                       ; string 'VERT'; used by TeamStatsScreen
         db 056h,045h,052h,054h,00h
-str_VBAL:
+str_VBAL:                                       ; string 'VBAL'; used by TeamStatsScreen
         db 056h,042h,041h,04Ch,00h
-str_HORZ:
+str_HORZ:                                       ; string 'HORZ'; used by TeamStatsScreen
         db 048h,04Fh,052h,05Ah,00h
-str_HBAL:
+str_HBAL:                                       ; string 'HBAL'; used by TeamStatsScreen
         db 048h,042h,041h,04Ch,00h
-str_D5:
+str_D5:                                         ; string '%d.'; used by DrawTeamStatsTable, ExportTeamStats
         db 025h,064h,02Eh,00h
-str_D7:
+str_D7:                                         ; string '%d'; used by DrawTeamStatsTable
         db 025h,064h,00h
-str_10002:
+str_10002:                                      ; string '1.000'; used by DrawTeamStatsTable
         db 031h,02Eh,030h,030h,030h,00h
-str_03d:
+str_03d:                                        ; string '.%03d'; used by DrawTeamStatsTable
         db 02Eh,025h,030h,033h,064h,00h
-str_DDD4:
+str_DDD4:                                       ; string '%d-%d-%d'; used by DrawTeamStatsTable,
+                                                ; ExportTeamStats
         db 025h,064h,02Dh,025h,064h,02Dh,025h,064h,00h
-str_DD2:
+str_DD2:                                        ; string '%d.%d%%'; used by DrawTeamStatsTable,
+                                                ; ExportTeamStats
         db 025h,064h,02Eh,025h,064h,025h,025h,00h
-str_Wt2:
+str_Wt2:                                        ; string 'wt'; used by DumpSaveTimes, ExportTeamStats
         db 077h,074h,00h
-str_S2:
+str_S2:                                         ; string '%s'; used by ExportTeamStats
         db 025h,073h,00h
-str_Space2:
+str_Space2:                                     ; string ' '; used by ExportTeamStats
         db 020h,00h
-str_Punct_ExportTeamStats:
+str_Punct_ExportTeamStats:                      ; string "\n"; used by ExportTeamStats
         db 0Ah,00h
-str_dbgD:
+str_dbgD:                                       ; string '%d '; used by ExportTeamStats
         db 025h,064h,020h,00h
-str_D8:
+str_D8:                                         ; string '.%d '; used by ExportTeamStats
         db 02Eh,025h,064h,020h,00h
-str_DashExport:
+str_DashExport:                                 ; dash shown for a missing stat in the export; used by
+                                                ; ExportTeamStats
         db 02Dh,00h
-str_SavetimeOut:
+str_SavetimeOut:                                ; string 'savetime.out'; used by DumpSaveTimes
         db 073h,061h,076h,065h,074h,069h,06Dh,065h,02Eh,06Fh,075h,074h,00h
-str_D42:
+str_D42:                                        ; string '[%d][4] = {'; used by DumpSaveTimes
         db 05Bh,025h,064h,05Dh,05Bh,034h,05Dh,020h,03Dh,020h,07Bh,00h
-str_spDDDD:
+str_spDDDD:                                     ; string ' {%d,%d,%d,%d}, '; used by DumpSaveTimes
         db 09h,09h,07Bh,025h,064h,02Ch,025h,064h,02Ch,025h,064h,02Ch,025h,064h,07Dh,02Ch
         db 0Ah,00h
-str_Punct_DumpSaveTimes:
+str_Punct_DumpSaveTimes:                        ; string "};"; used by DumpSaveTimes
         db 07Dh,03Bh,00h
-F64_0p1:
+F64_0p1:                                        ; double constant 0.1; used by DumpSaveTimes
         db 09Ah,099h,099h,099h,099h,099h,0B9h,03Fh
-str_TXT:
+str_TXT:                                        ; string '.TXT'; used by CheckExportName
         db 02Eh,054h,058h,054h,00h,00h
-str_FLM0:
+str_FLM0:                                       ; string 'FLM0'
         db 046h,04Ch,04Dh,030h,00h
-str_FLM1:
+str_FLM1:                                       ; string 'FLM1'
         db 046h,04Ch,04Dh,031h,00h
-str_FLM2:
+str_FLM2:                                       ; string 'FLM2'
         db 046h,04Ch,04Dh,032h,00h
-str_FLM3:
+str_FLM3:                                       ; string 'FLM3'
         db 046h,04Ch,04Dh,033h,00h
-str_FLM4:
+str_FLM4:                                       ; string 'FLM4'
         db 046h,04Ch,04Dh,034h,00h
-str_FLM5:
+str_FLM5:                                       ; string 'FLM5'
         db 046h,04Ch,04Dh,035h,00h
-str_FLM6:
+str_FLM6:                                       ; string 'FLM6'
         db 046h,04Ch,04Dh,036h,00h
-str_FLM7:
+str_FLM7:                                       ; string 'FLM7'
         db 046h,04Ch,04Dh,037h,00h
-str_DEF:
+str_DEF:                                        ; string 'DEF'; used by PlayerStatsColumnLabels
         db 044h,045h,046h,00h
-str_ALL:
+str_ALL:                                        ; string 'ALL'; used by PlayerStatsColumnLabels
         db 041h,04Ch,04Ch,00h
-str_FOR:
+str_FOR:                                        ; string 'FOR'; used by PlayerStatsColumnLabels
         db 046h,04Fh,052h,00h
-str_GOL:
+str_GOL:                                        ; string 'GOL'; used by PlayerStatsColumnLabels
         db 047h,04Fh,04Ch,00h
-str_PLR:
+str_PLR:                                        ; string 'PLR'; used by PlayerStatsColumnLabels
         db 050h,04Ch,052h,00h
-str_PLY3:
+str_PLY3:                                       ; string 'PLY'; used by PlayerStatsColumnLabels
         db 050h,04Ch,059h,00h
-str_ROK:
+str_ROK:                                        ; string 'ROK'; used by PlayerStatsColumnLabels
         db 052h,04Fh,04Bh,00h
-str_SEA3:
+str_SEA3:                                       ; string 'SEA'; used by PlayerStatsColumnLabels
         db 053h,045h,041h,00h

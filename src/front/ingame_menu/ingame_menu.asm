@@ -994,7 +994,7 @@ InGameReturnMenu:
         lea esp, [dword ebp+082h]
         pop ebp
         jmp near RedrawInGameMenu_7D
-InGameMenuChoiceJumpTable:
+InGameMenuChoiceJumpTable:                      ; jump table for the switch cases of InGameMenu
         dd InGameMenu_ABD
         dd InGameMenu_A9C
         dd InGameMenu_D17

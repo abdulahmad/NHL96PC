@@ -7,15 +7,17 @@ global MemDescriptorTop, MemLockHandle, MemFreeStart, MemFreeBytes, timercallbac
 
 
 
-LeaderCardIndex:
+LeaderCardIndex:                                ; playoff leader card index; used by BuildPlayoffLeaders,
+                                                ; ShowPlayoffLeaderCard
         resb 4
-LeaderTable:
+LeaderTable:                                    ; playoff leader table; used by BuildPlayoffLeaders,
+                                                ; ShowPlayoffLeaderCard
         resb 1
-LeaderTableCount:
+LeaderTableCount:                               ; playoff leader table count; used by ShowPlayoffLeaderCard
         resb 1
-LeaderTableRows:
+LeaderTableRows:                                ; playoff leader table rows; used by ShowPlayoffLeaderCard
         resb 58
-PlayoffLeaderLists:
+PlayoffLeaderLists:                             ; playoff leader lists; used by BuildPlayoffLeaders
         resb 60
         resb 60
         resb 60
@@ -37,19 +39,26 @@ PlayoffLeaderLists:
         resb 47
         resb 47
         resb 50
-timercallbacks:
+timercallbacks:                                 ; used by InstallTimer, RemoveTimerCallback, TimerISR_tick ...
         resb 32
-memlist1:
+memlist1:                                       ; same code as in the next game; used by AddHighMemRegion,
+                                                ; AddMemRegion, AddMemRegions ...
         resb 4
-MemBlockGuards:
+MemBlockGuards:                                 ; memory block guards; used by MemListEnd, MemViewerListHead,
+                                                ; findmemblock
         resb 156
-RowTableSize:
+RowTableSize:                                   ; number of rows in the screen row address table; used by
+                                                ; FillRowTable, InitMemoryPool, removewindow
         resb 4
-MemDescriptorTop:
+MemDescriptorTop:                               ; memory descriptor top; used by AddHighMemRegion, DrawArtOr,
+                                                ; InitMemDescriptors ...
         resb 4
-MemLockHandle:
+MemLockHandle:                                  ; memory lock handle; used by AllocMemBlock,
+                                                ; AllocMemBlockLocked, AllocMemBlockLockedAt ...
         resb 4
-MemFreeStart:
+MemFreeStart:                                   ; memory free start; used by AllocMemBlockEx,
+                                                ; CompactMemListUp, InitMemoryPool ...
         resb 4
-MemFreeBytes:
+MemFreeBytes:                                   ; memory free size; used by AllocMemBlockEx, CompactMemListUp,
+                                                ; DrawArtOr ...
         resb 4

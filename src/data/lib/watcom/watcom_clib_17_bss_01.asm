@@ -7,65 +7,89 @@ global PointerShapeIndex, PointerScreen, PointerCellY, PointerCellX, PointerFile
 global PointerClipLeft, PointerClipTop, PointerDrawBitmap, PointerX, PointerY, PointerClipBottom, PointerClipRight, WssCodecDmaSize
 global WssCodecDmaHalf, WssCodecPort, WssCodecDma, GusEnvConfig, Hook387Save, WssCodecDmaAddress, WssCodecDmaCount, GusDramSize
         resb 4
-PointerHotX:
+PointerHotX:                                    ; mouse pointer hot spot X for each state; used by
+                                                ; PointerLoadShapes, PointerService, UpdatePointerPos
         resb 12
-PointerLastButtons:
+PointerLastButtons:                             ; used by PointerService, UpdatePointerPos
         resb 4
-PointerSaveBitmap:
+PointerSaveBitmap:                              ; bitmap holding the screen under the pointer; used by
+                                                ; DrawPointer, HidePointer, InitPointer ...
         resb 4
-PointerShapeIndex:
+PointerShapeIndex:                              ; pointer shape in use; used by DrawPointer, PointerService,
+                                                ; UpdatePointerPos
         resb 4
-PointerScreen:
+PointerScreen:                                  ; bitmap the pointer is drawn on; used by DrawPointer,
+                                                ; HidePointer, HidePointerKeep ...
         resb 4
-PointerCellY:
+PointerCellY:                                   ; pointer Y rounded down to 8 pixels; used by DrawPointer,
+                                                ; HidePointer, PointerService ...
         resb 4
-PointerCellX:
+PointerCellX:                                   ; pointer X rounded down to 8 pixels; used by DrawPointer,
+                                                ; HidePointer, InitPointer ...
         resb 4
-PointerFileData:
+PointerFileData:                                ; loaded mouse pointer shape file; used by InitPointer
         resb 4
-PointerSpareBitmap:
+PointerSpareBitmap:                             ; spare save bitmap swapped with the save bitmap; used by
+                                                ; InitPointer, PointerService, PointerSetupBitmaps
         resb 4
-PointerBitmapHeight:
+PointerBitmapHeight:                            ; pointer bitmap height; used by PointerService,
+                                                ; PointerSetupBitmaps
         resb 4
-PointerBitmapWidth:
+PointerBitmapWidth:                             ; pointer bitmap width; used by PointerService,
+                                                ; PointerSetupBitmaps
         resb 4
-PointerClipLeft:
+PointerClipLeft:                                ; clip left kept while the pointer is hidden; used by
+                                                ; HidePointer, HidePointerKeep, InitPointer ...
         resb 4
-PointerClipTop:
+PointerClipTop:                                 ; clip top kept while the pointer is hidden; used by
+                                                ; HidePointer, HidePointerKeep, InitPointer ...
         resb 4
-PointerDrawBitmap:
+PointerDrawBitmap:                              ; bitmap the pointer is composed in; used by DrawPointer,
+                                                ; InitPointer, PointerSetupBitmaps
         resb 4
-PointerX:
+PointerX:                                       ; pointer X less the hot spot; used by DrawPointer,
+                                                ; PointerService, UpdatePointerPos
         resb 4
-PointerY:
+PointerY:                                       ; pointer Y less the hot spot; used by DrawPointer,
+                                                ; PointerService, UpdatePointerPos
         resb 4
-PointerClipBottom:
+PointerClipBottom:                              ; clip bottom kept while the pointer is hidden; used by
+                                                ; HidePointer, HidePointerKeep, InitPointer ...
         resb 4
-PointerClipRight:
+PointerClipRight:                               ; clip right kept while the pointer is hidden; used by
+                                                ; HidePointer, HidePointerKeep, InitPointer ...
         resb 4
-Hook387Save:
+Hook387Save:                                    ; FPU state saved by __hook387; used by __hook387
         resb 128
-WssCodecDmaAddress:
+WssCodecDmaAddress:                             ; low word of the codec DMA buffer address; used by
+                                                ; WssCodecSetup
         resb 2
-WssCodecDmaCount:
+WssCodecDmaCount:                               ; DMA transfer count for the codec buffer; used by
+                                                ; WssCodecSetup
         resb 2
-WssCodecDmaSize:
+WssCodecDmaSize:                                ; codec DMA buffer size in bytes; used by WssCodecSetup
         resb 4
-WssCodecDmaHalf:
+WssCodecDmaHalf:                                ; half the codec DMA buffer size; used by WssCodecSetup
         resb 4
-WssCodecDmaPage:
+WssCodecDmaPage:                                ; DMA page of the codec buffer; used by WssCodecSetup
         resb 1
-WssCodecDmaRunning:
+WssCodecDmaRunning:                             ; set while the codec DMA channel runs; used by WssCodecSetup,
+                                                ; WssStopDma
         resb 1
-WssIndexBits:
+WssIndexBits:                                   ; mode bits ORed into every codec register index; used by
+                                                ; WssReadReg, WssSetModeChange, WssWriteReg
         resb 1
-WssCodecRunning:
+WssCodecRunning:                                ; set while the Windows Sound System codec plays; used by
+                                                ; WssCodecSetup, WssCodecStop
         resb 1
-WssCodecPort:
+WssCodecPort:                                   ; Windows Sound System codec base port; used by WssCodecSetup,
+                                                ; WssReadReg, WssSetModeChange ...
         resb 4
-WssCodecDma:
+WssCodecDma:                                    ; DMA channel the codec uses; used by WssCodecSetup,
+                                                ; WssStopDma
         resb 4
-GusEnvConfig:
+GusEnvConfig:                                   ; ULTRASND environment settings; used by GusGetEnvConfig
         resb 28
-GusDramSize:
+GusDramSize:                                    ; Gravis on-board memory size; used by GusMemAlloc,
+                                                ; GusSizeDram
         resb 4

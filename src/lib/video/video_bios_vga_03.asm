@@ -190,7 +190,7 @@ SetupRectFill_164:
         mov ebx, dword [byte ebp-04h]
         je short RectFillClipTopCase
         jmp dword [nosplit cs:ebx*4+SetupRectFillJumpTable]
-SetupRectFillJumpTable:
+SetupRectFillJumpTable:                         ; jump table for the switch cases of SetupRectFill
         dd RectFillClipTopCase
         dd RectFillStep
         dd RectFillClipRight
@@ -224,7 +224,7 @@ RectFillClipTopCase:
         LD sub, ecx, eax
         mov bl, byte [byte esi+034h]
         jmp dword [nosplit cs:ebx*4+RectFillClipLeftJumpTable]
-RectFillClipLeftJumpTable:
+RectFillClipLeftJumpTable:                      ; jump table for the switch cases of RectFillClipTopCase
         db 00h,00h,00h,00h,00h,00h,00h,00h
         dd .1
         dd .2
@@ -309,7 +309,7 @@ RectFillClipBottom:
         LD sub, ecx, edx
         mov bl, byte [byte esi+034h]
         jmp dword [nosplit cs:ebx*4+RectFillClipBottomJumpTable]
-RectFillClipBottomJumpTable:
+RectFillClipBottomJumpTable:                    ; jump table for the switch cases of RectFillClipBottom
         db 00h,00h,00h,00h,00h,00h,00h,00h
         dd .1
         dd .2
@@ -400,7 +400,7 @@ RectFillClipBottomJumpTable:
 RectFillClipRight:
         mov bl, byte [byte esi+034h]
         jmp dword [nosplit cs:ebx*4+RectFillClipRightJumpTable]
-RectFillClipRightJumpTable:
+RectFillClipRightJumpTable:                     ; jump table for the switch cases of RectFillClipRight
         db 00h,00h,00h,00h,00h,00h,00h,00h
         dd .10
         dd .1
@@ -576,7 +576,7 @@ RectFillClassify:
 RectFillStep:
         movzx ebx, byte [byte esi+034h]
         jmp dword [nosplit cs:ebx*4+RectFillStepJumpTable]
-RectFillStepJumpTable:
+RectFillStepJumpTable:                          ; jump table for the switch cases of RectFillStep
         db 00h,00h,00h,00h,00h,00h,00h,00h
         dd .1
         dd .2
@@ -1195,7 +1195,7 @@ AngleFromDelta:
 .4:
         mov eax, 80h
         jmp dword [dword cs:ebx+AngleFromDeltaJumpTable]
-AngleFromDeltaJumpTable:
+AngleFromDeltaJumpTable:                        ; jump table for the switch cases of AngleFromDelta
         dd .2
         dd .1
         dd .3

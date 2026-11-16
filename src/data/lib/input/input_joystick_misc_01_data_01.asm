@@ -17,133 +17,172 @@ global DebugLogOn, TextColour, TextBgColour, TextOriginX, TextOriginY, TextShado
 global TextCursorX, TextCursorY, TextLeft, TextTop, TextRight, TextBottom, TextColourTable, joycalactive
 global TextFont, oldint8off, oldint8sel, tickcount, tickdeadline, JoyRawX1, JoyRawY1, JoyRawX2
 global JoyRawY2
-tickdeadline:
+tickdeadline:                                   ; used by SetTickDeadline, TickDeadlinePassed,
+                                                ; WaitTickDeadline
         db 00h,00h,00h,00h
-LastTickCount:
+LastTickCount:                                  ; tick count at the last TicksSinceLast call; used by
+                                                ; TicksSinceLast
         db 00h,00h,00h,00h
-KbdIdleHook:
+KbdIdleHook:                                    ; routine called while waiting for a key (default
+                                                ; PollHotkeys); used by CallKbdIdleHook, FlushKeys,
+                                                ; SetKbdIdleHook ...
         dd PollHotkeys
-HeapList:
+HeapList:                                       ; near heap list; used by __ExpandDGROUP_, __FreeDPMIBlocks_,
+                                                ; __HeapManager_expand_ ...
         db 00h,00h,00h,00h
-HeapRover:
+HeapRover:                                      ; near heap rover; used by __unlink_, _nfree_, _nmalloc_
         db 00h,00h,00h,00h
-HeapLargestFree:
+HeapLargestFree:                                ; largest free near heap block; used by _nfree_, _nmalloc_
         db 00h,00h,00h,00h
-JoyTimeX:
+JoyTimeX:                                       ; joystick x timing; used by CalibrateJoystick
         db 00h,00h,00h,00h
-TimerCalibration:
+TimerCalibration:                               ; timer loop count for calibration; used by CalibrateJoystick
         db 09Ch,02Eh,00h,00h
-JoyTimeY:
+JoyTimeY:                                       ; joystick y timing; used by CalibrateJoystick
         db 00h,00h,00h,00h
-JoyTimeSecondX:
+JoyTimeSecondX:                                 ; second joystick x timing; used by CalibrateJoystick
         db 00h,00h,00h,00h
-JoyTimeSecondY:
+JoyTimeSecondY:                                 ; second joystick y timing; used by CalibrateJoystick
         db 00h,00h,00h,00h
-JoyCalibrateTicks:
+JoyCalibrateTicks:                              ; timer ticks counted during joystick calibration; used by
+                                                ; CalibrateJoystick
         db 00h,00h,00h,00h
-JoyCalibrating:
+JoyCalibrating:                                 ; set while the joystick is being calibrated; used by
+                                                ; CalibrateJoystick
         db 00h,00h,00h,00h
-JoyRawX1:
+JoyRawX1:                                       ; raw first joystick X axis count; used by CalibrateJoystick,
+                                                ; FlushKeys, ReadAnalogJoysticks
         db 00h,00h,00h,00h
-JoyRawY1:
+JoyRawY1:                                       ; raw first joystick Y axis count; used by FlushKeys,
+                                                ; ReadAnalogJoysticks
         db 00h,00h,00h,00h
-JoyRawX2:
+JoyRawX2:                                       ; raw second joystick X axis count; used by FlushKeys,
+                                                ; ReadAnalogJoysticks
         db 00h,00h,00h,00h
-JoyRawY2:
+JoyRawY2:                                       ; raw second joystick Y axis count; used by FlushKeys,
+                                                ; ReadAnalogJoysticks
         db 00h,00h,00h,00h
-JoyButtonBits:
+JoyButtonBits:                                  ; joystick button bits; used by CalibrateJoystick, FlushKeys
         db 00h,00h,00h,00h
-JoyPortMask:
+JoyPortMask:                                    ; joystick port mask; used by CalibrateJoystick, FlushKeys,
+                                                ; ReadAnalogJoysticks
         db 0Fh,00h,00h,00h
-JoyReadTimeout:
+JoyReadTimeout:                                 ; loop count before a joystick axis read times out; used by
+                                                ; ReadJoystickPorts
         db 09Ch,02Eh,00h,00h
-JoyAxisX1:
+JoyAxisX1:                                      ; joystick 1 X axis reading; used by ReadJoystickPorts
         db 00h,00h,00h,00h
-JoyAxisY1:
+JoyAxisY1:                                      ; joystick 1 Y axis reading; used by ReadJoystickPorts
         db 00h,00h,00h,00h
-JoyAxisX2:
+JoyAxisX2:                                      ; joystick 2 X axis reading; used by ReadJoystickPorts
         db 00h,00h,00h,00h
-JoyAxisY2:
+JoyAxisY2:                                      ; joystick 2 Y axis reading; used by JoyButtonMap,
+                                                ; ReadJoystickPorts
         db 00h,00h,00h,00h
-JoyAxisMask:
+JoyAxisMask:                                    ; axes still being timed in the read loop; used by
+                                                ; JoyButtonMap, ReadJoystickPorts
         db 00h,00h,00h,00h
-JoyButtons:
+JoyButtons:                                     ; last joystick button byte; used by ReadJoystickPorts
         db 00h
-JoyButtonsPrev:
+JoyButtonsPrev:                                 ; previous joystick button byte; used by ReadJoystickPorts
         db 00h
-JoyDirection:
+JoyDirection:                                   ; joystick direction bits built from the axes; used by
+                                                ; ReadJoystickPorts
         db 00h
-JoyX1Threshold:
+JoyX1Threshold:                                 ; first joystick X threshold; used by JoyButtonMap,
+                                                ; JoyResetCentres, ReadJoystickPorts
         db 050h,00h,00h,00h
-JoyX1Min:
+JoyX1Min:                                       ; joystick 1 X axis minimum seen; used by ReadJoystickPorts
         db 00h,00h,00h,00h
-JoyX1Center:
+JoyX1Center:                                    ; joystick 1 X axis center; used by JoyResetCentres,
+                                                ; ReadJoystickPorts
         db 00h,00h,00h,00h
-JoyX1Max:
+JoyX1Max:                                       ; joystick 1 X axis maximum seen; used by ReadJoystickPorts
         db 00h,00h,00h,00h
-JoyX1Settle:
+JoyX1Settle:                                    ; reads left before the joystick 1 X range is trusted; used by
+                                                ; ReadJoystickPorts
         db 014h,00h,00h,00h
-JoyY1Min:
+JoyY1Min:                                       ; joystick 1 Y axis minimum seen; used by ReadJoystickPorts
         db 00h,00h,00h,00h
-JoyY1Max:
+JoyY1Max:                                       ; joystick 1 Y axis maximum seen; used by ReadJoystickPorts
         db 00h,00h,00h,00h
-JoyY1Threshold:
+JoyY1Threshold:                                 ; first joystick Y threshold; used by JoyButtonMap,
+                                                ; JoyResetCentres, ReadJoystickPorts
         db 050h,00h,00h,00h
-JoyY1MinSeen:
+JoyY1MinSeen:                                   ; joystick 1 Y axis lowest reading this pass; used by
+                                                ; ReadJoystickPorts
         db 00h,00h,00h,00h
-JoyY1Center:
+JoyY1Center:                                    ; joystick 1 Y axis center; used by JoyResetCentres,
+                                                ; ReadJoystickPorts
         db 00h,00h,00h,00h
-JoyY1MaxSeen:
+JoyY1MaxSeen:                                   ; joystick 1 Y axis highest reading this pass; used by
+                                                ; ReadJoystickPorts
         db 00h,00h,00h,00h
-JoyY1Settle:
+JoyY1Settle:                                    ; reads left before the joystick 1 Y range is trusted; used by
+                                                ; ReadJoystickPorts
         db 014h,00h,00h,00h
-JoyX2Min:
+JoyX2Min:                                       ; joystick 2 X axis minimum seen; used by ReadJoystickPorts
         db 00h,00h,00h,00h
-JoyX2Max:
+JoyX2Max:                                       ; joystick 2 X axis maximum seen; used by ReadJoystickPorts
         db 00h,00h,00h,00h
-JoyXScale:
+JoyXScale:                                      ; joystick X scale from the calibrated range; used by
+                                                ; JoyButtonMap, ReadJoystickPorts
         db 00h,00h,00h,00h
-JoyYScale:
+JoyYScale:                                      ; joystick Y scale from the calibrated range; used by
+                                                ; JoyButtonMap, ReadJoystickPorts
         db 00h,00h,00h,00h
-JoyButtonTable:
+JoyButtonTable:                                 ; joystick button table; used by JoyButtonMap
         db 00h,01h,05h,00h,03h,02h,04h,03h,07h,08h,06h,07h,00h,01h,05h,00h
         db 00h
-bailout_vec:
+bailout_vec:                                    ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         dd ExitProgram
         db 00h,00h,00h,00h,00h,00h,00h,00h
-joycalactive:
+joycalactive:                                   ; used by JoystickCalibrateScreen, ShowMessageBox,
+                                                ; ShowPromptBox
         db 00h,00h,00h,00h
-tickcount:
+tickcount:                                      ; used by GetTicks, SetTickDeadline, TickDeadlinePassed ...
         db 00h,00h,00h,00h
-TimerTickStep:
+TimerTickStep:                                  ; ticks added per timer interrupt; used by CosLookup,
+                                                ; DebugLineCount, TimerISR_tick
         db 00h,00h,00h,00h
-oldint8off:
+oldint8off:                                     ; used by InstallTimer, RestoreTimer, TimerISR_tick
         db 00h,00h,00h,00h
-oldint8sel:
+oldint8sel:                                     ; used by InstallTimer, RestoreTimer
         db 00h,00h,00h,00h
-FileCacheList:
+FileCacheList:                                  ; file cache list; used by CompactDownLocked, CompactUpLocked,
+                                                ; FindCachedFile ...
         dd memlist1
-RowTableCount:
+RowTableCount:                                  ; number of entries in the row table; used by InitMemoryPool,
+                                                ; MemListEnd
         db 00h,0Eh,00h,00h
-RowTable:
+RowTable:                                       ; screen row address table; used by FillRowTable,
+                                                ; InitMemoryPool, MemListEnd ...
         db 00h,00h,00h,00h
-FreeSpaceList:
+FreeSpaceList:                                  ; free space list; used by AllocMemBlockEx, FindFreeSpace,
+                                                ; MergeFreeSpace
         db 00h,00h,00h,00h
-MemLockOn:
+MemLockOn:                                      ; memory lock enabled; used by AllocMemBlockEx, MemLargestFree
         db 00h,00h,00h,00h
-DebugMode:
+DebugMode:                                      ; debug display mode (2 = status lines); used by
+                                                ; DebugClearScreen, DebugLog, DebugPrintf ...
         db 02h,00h,00h,00h,00h,00h,00h,00h
-DebugScreenBase:
+DebugScreenBase:                                ; address of the monochrome text screen used by the debug
+                                                ; output
         db 00h,00h,0Bh,00h
-DebugLineWidth:
+DebugLineWidth:                                 ; width of the debug line area; used by DebugScrollUp,
+                                                ; DebugSetLine, DebugShowLines
         db 080h,07h,00h,00h
-DebugRow:
+DebugRow:                                       ; debug screen row; used by DebugScrollUp, DebugSetRow,
+                                                ; DebugShowLines ...
         db 00h
-DebugBackColor:
+DebugBackColor:                                 ; debug background colour; used by DebugSetAttr,
+                                                ; DebugShowLines
         db 07h
-DebugAttr:
+DebugAttr:                                      ; debug screen attribute; used by DebugSetAttr, DebugShowLines
         db 08h,063h
-DebugLogOn:
+DebugLogOn:                                     ; debug log is on; used by DebugLog, DebugSetAttr,
+                                                ; FormatDateStamp
         db 00h,00h,00h,00h
         dd str_Jan
         dd str_Feb2
@@ -157,50 +196,61 @@ DebugLogOn:
         dd str_Oct
         dd str_Nov
         dd str_Dec
-TextFont:
+TextFont:                                       ; current text font; used by SaveTextState, SetDrawTarget,
+                                                ; TextPrint ...
         dd DefaultFont
-TextColour:
+TextColour:                                     ; text colour; used by DrawColorText, DrawColorTextCentred,
+                                                ; DrawColorTextRight ...
         db 0Fh,00h,00h,00h
-TextBgColour:
+TextBgColour:                                   ; text background colour; used by DrawColorText,
+                                                ; DrawColorTextCentred, DrawColorTextRight ...
         db 00h,00h,00h,00h
-TextOriginX:
+TextOriginX:                                    ; x of the text drawing position; used by DrawTextBoxedAt,
+                                                ; InstallDebugHotkeys, SetTextOrigin ...
         db 00h,00h,00h,00h
-TextOriginY:
+TextOriginY:                                    ; y of the text drawing position; used by DrawTextBoxedAt,
+                                                ; InstallDebugHotkeys, SetTextOrigin ...
         db 00h,00h,00h,00h
-TextShadowOn:
+TextShadowOn:                                   ; text shadow is on; used by TextPrint, TextSetColor,
+                                                ; TextSetFont
         db 00h,00h,00h,00h
-TextFontTag:
+TextFontTag:                                    ; text font tag; used by TextPrint, TextSetColor, TextSetFont
         db 031h,044h,033h,046h
-TextFirstChar:
+TextFirstChar:                                  ; first character in the font; used by TextPrint, TextSetFont,
+                                                ; TextWidthN
         db 020h
-TextLastChar:
+TextLastChar:                                   ; last character in the font; used by TextPrint, TextSetFont,
+                                                ; TextWidthN
         db 08Eh
-TextCharW:
+TextCharW:                                      ; font character width; used by GripSetupScreen, TextPrint,
+                                                ; TextSetFont ...
         db 08h
-TextCharH:
+TextCharH:                                      ; font character height; used by ControllerScreen,
+                                                ; DrawBoxButton, DrawControllerColumns ...
         db 08h
-TextSpacing:
+TextSpacing:                                    ; font spacing; used by TextPrint, TextSetFont, TextWidthN
         db 00h
-TextFontH:
+TextFontH:                                      ; font height; used by TextSetFont
         db 08h
-TextFontAscent:
+TextFontAscent:                                 ; font ascent of the current font; used by TextSetFont
         db 07h,00h
-TextWidthTable:
+TextWidthTable:                                 ; font width table; used by TextPrint, TextSetFont, TextWidthN
         dd DefaultFontWidths
-TextCursorX:
+TextCursorX:                                    ; text cursor x; used by TextPrint, TextSetFont
         db 00h,00h,00h,00h
-TextCursorY:
+TextCursorY:                                    ; text cursor y; used by TextPrint, TextSetFont, TextWidthN
         db 00h,00h,00h,00h
-TextLeft:
+TextLeft:                                       ; text window left; used by TextPrint, TextSetFont
         db 00h,00h,00h,00h
-TextTop:
+TextTop:                                        ; text window top; used by TextPrint, TextSetFont
         db 00h,00h,00h,00h
-TextRight:
+TextRight:                                      ; text window right; used by TextPrint, TextSetColor,
+                                                ; TextSetFont
         db 00h,00h,00h,00h
 TextBottom:
 TintByte equ $+3
         dd DefaultFontInfo
-TintTable:
+TintTable:                                      ; tint colour table; used by TintRows
         db 01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h
         db 01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h
         db 01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h
@@ -217,7 +267,7 @@ TintTable:
         db 01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h
         db 01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h
         db 01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h
-LzhPosCode:
+LzhPosCode:                                     ; LZH position code table; used by LzhDecodePosition
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h
@@ -234,7 +284,7 @@ LzhPosCode:
         db 020h,020h,021h,021h,022h,022h,023h,023h,024h,024h,025h,025h,026h,026h,027h,027h
         db 028h,028h,029h,029h,02Ah,02Ah,02Bh,02Bh,02Ch,02Ch,02Dh,02Dh,02Eh,02Eh,02Fh,02Fh
         db 030h,031h,032h,033h,034h,035h,036h,037h,038h,039h,03Ah,03Bh,03Ch,03Dh,03Eh,03Fh
-LzhPosLen:
+LzhPosLen:                                      ; LZH position length table; used by LzhDecodePosition
         db 03h,03h,03h,03h,03h,03h,03h,03h,03h,03h,03h,03h,03h,03h,03h,03h
         db 03h,03h,03h,03h,03h,03h,03h,03h,03h,03h,03h,03h,03h,03h,03h,03h
         db 04h,04h,04h,04h,04h,04h,04h,04h,04h,04h,04h,04h,04h,04h,04h,04h
@@ -251,5 +301,6 @@ LzhPosLen:
         db 07h,07h,07h,07h,07h,07h,07h,07h,07h,07h,07h,07h,07h,07h,07h,07h
         db 07h,07h,07h,07h,07h,07h,07h,07h,07h,07h,07h,07h,07h,07h,07h,07h
         db 08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h,08h
-TextColourTable:
+TextColourTable:                                ; text colour table; used by BlitFontNibbles,
+                                                ; BuildTextColourTable
         db 00h,00h,00h,00h

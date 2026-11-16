@@ -35,7 +35,7 @@ extern hmscore, awscore
 global EditLinesHotspots, CompareRosterOrder, ComparePlayerPos, PositionOrder, EditLinesHoverPanel, RunEditLines, EditLinesScreen, LinesValid
 global CountLineSlots, CountLineSlots_4DD, HasDuplicateInLine, HasDuplicateInLine_45, DrawLinesPanel, DrawLineJersey, DrawLineJersey_104, DrawLinesPlayerList
 global SortTeamPlayers, AutoSetLines, FindUnusedLinePlayer
-EditLinesHotspots:
+EditLinesHotspots:                              ; used by EditLinesScreen
         db 08Fh,00h,00h,00h,055h,00h,00h,00h,035h,01h,00h,00h,055h,00h,00h,00h
         db 035h,01h,00h,00h,073h,00h,00h,00h,090h,00h,00h,00h,073h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h

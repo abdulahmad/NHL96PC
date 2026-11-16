@@ -4,47 +4,55 @@ bits 32
 section s_1136C4 progbits alloc noexec write align=1
 global str_InitmemmanDOSSUBMEMORYNOTALL, str_InitmemmanDOSSUBMEMORYNO, str_AAPLUT, str_OpenblockhandleSNOHANDLESLEF, str_OpenblockhandleSPATHNAME, str_CDROMDATA, str_CDROMBUFFER, str_CdromcheckCDROMSTATUSNOTRETU
 global str_CdromreadREADGREATERTHANMAXR, str_CdromreadREADSTATUSERRORX, str_CdromseekSEEKSTATUSX, str_CdromdirectoryentryERROR
-str_InitmemmanDOSSUBMEMORYNOTALL:
+str_InitmemmanDOSSUBMEMORYNOTALL:               ; string "initmemman - DOS SUB MEMORY NOT ALLOCATED %x
+                                                ; REQUESTED %x AVAILABLE\n"; used by InitMemoryPool
         db 069h,06Eh,069h,074h,06Dh,065h,06Dh,06Dh,061h,06Eh,020h,02Dh,020h,044h,04Fh,053h
         db 020h,053h,055h,042h,020h,04Dh,045h,04Dh,04Fh,052h,059h,020h,04Eh,04Fh,054h,020h
         db 041h,04Ch,04Ch,04Fh,043h,041h,054h,045h,044h,020h,025h,078h,020h,052h,045h,051h
         db 055h,045h,053h,054h,045h,044h,020h,025h,078h,020h,041h,056h,041h,049h,04Ch,041h
         db 042h,04Ch,045h,0Ah,00h,045h,0Ah,00h
-str_InitmemmanDOSSUBMEMORYNO:
+str_InitmemmanDOSSUBMEMORYNO:                   ; string 'initmemman - DOS SUB MEMORY NOT RELEASED '; used by
+                                                ; InitMemoryPool
         db 069h,06Eh,069h,074h,06Dh,065h,06Dh,06Dh,061h,06Eh,020h,02Dh,020h,044h,04Fh,053h
         db 020h,053h,055h,042h,020h,04Dh,045h,04Dh,04Fh,052h,059h,020h,04Eh,04Fh,054h,020h
         db 052h,045h,04Ch,045h,041h,053h,045h,044h,0Ah,00h,00h,00h
-str_AAPLUT:
+str_AAPLUT:                                     ; string 'AAPLUT'; used by CreateAaPalLut
         db 041h,041h,050h,04Ch,055h,054h,00h,00h
-str_OpenblockhandleSNOHANDLESLEF:
+str_OpenblockhandleSNOHANDLESLEF:               ; string "openblockhandle - %s NO HANDLES LEFT\n"; used by
+                                                ; CdOpenFile
         db 06Fh,070h,065h,06Eh,062h,06Ch,06Fh,063h,06Bh,068h,061h,06Eh,064h,06Ch,065h,020h
         db 02Dh,020h,025h,073h,020h,04Eh,04Fh,020h,048h,041h,04Eh,044h,04Ch,045h,053h,020h
         db 04Ch,045h,046h,054h,0Ah,00h,069h,06Eh
-str_OpenblockhandleSPATHNAME:
+str_OpenblockhandleSPATHNAME:                   ; string 'openblockhandle - %s PATH NAME NOT FOUND '; used by
+                                                ; CdOpenFile
         db 06Fh,070h,065h,06Eh,062h,06Ch,06Fh,063h,06Bh,068h,061h,06Eh,064h,06Ch,065h,020h
         db 02Dh,020h,025h,073h,020h,050h,041h,054h,048h,020h,04Eh,041h,04Dh,045h,020h,04Eh
         db 04Fh,054h,020h,046h,04Fh,055h,04Eh,044h,0Ah,00h,00h,00h
-str_CDROMDATA:
+str_CDROMDATA:                                  ; string "CDROM DATA"; used by AllocCdBuffer
         db 043h,044h,052h,04Fh,04Dh,020h,044h,041h,054h,041h,00h,04Fh
-str_CDROMBUFFER:
+str_CDROMBUFFER:                                ; string "CDROM BUFFER"; used by AllocCdBuffer
         db 043h,044h,052h,04Fh,04Dh,020h,042h,055h,046h,046h,045h,052h,00h,076h,06Fh,069h
-str_CdromcheckCDROMSTATUSNOTRETU:
+str_CdromcheckCDROMSTATUSNOTRETU:               ; string "cdromcheck - CDROM STATUS NOT RETURNED \n"; used by
+                                                ; DetectMscdex
         db 063h,064h,072h,06Fh,06Dh,063h,068h,065h,063h,06Bh,020h,02Dh,020h,043h,044h,052h
         db 04Fh,04Dh,020h,053h,054h,041h,054h,055h,053h,020h,04Eh,04Fh,054h,020h,052h,045h
         db 054h,055h,052h,04Eh,045h,044h,020h,0Ah,00h,069h,06Eh,074h
-str_CdromreadREADGREATERTHANMAXR:
+str_CdromreadREADGREATERTHANMAXR:               ; string "cdromread - READ GREATER THAN MAXREADSECTORS %d\n";
+                                                ; used by CdReadRequest
         db 063h,064h,072h,06Fh,06Dh,072h,065h,061h,064h,020h,02Dh,020h,052h,045h,041h,044h
         db 020h,047h,052h,045h,041h,054h,045h,052h,020h,054h,048h,041h,04Eh,020h,04Dh,041h
         db 058h,052h,045h,041h,044h,053h,045h,043h,054h,04Fh,052h,053h,020h,025h,064h,0Ah
         db 00h,02Ah,06Dh,061h
-str_CdromreadREADSTATUSERRORX:
+str_CdromreadREADSTATUSERRORX:                  ; string "cdromread - READ STATUS ERROR=%x\n"; used by
+                                                ; CdReadRequest
         db 063h,064h,072h,06Fh,06Dh,072h,065h,061h,064h,020h,02Dh,020h,052h,045h,041h,044h
         db 020h,053h,054h,041h,054h,055h,053h,020h,045h,052h,052h,04Fh,052h,03Dh,025h,078h
         db 0Ah,00h,063h,064h
-str_CdromseekSEEKSTATUSX:
+str_CdromseekSEEKSTATUSX:                       ; string "cdromseek - SEEK STATUS =%x\n"; used by CdSeekCmd
         db 063h,064h,072h,06Fh,06Dh,073h,065h,065h,06Bh,020h,02Dh,020h,053h,045h,045h,04Bh
         db 020h,053h,054h,041h,054h,055h,053h,020h,03Dh,025h,078h,0Ah,00h,052h,04Fh,04Dh
-str_CdromdirectoryentryERROR:
+str_CdromdirectoryentryERROR:                   ; string 'cdromdirectoryentry - ERROR %x READING DIRECTORY %s
+                                                ; '; used by CdDirEntry
         db 063h,064h,072h,06Fh,06Dh,064h,069h,072h,065h,063h,074h,06Fh,072h,079h,065h,06Eh
         db 074h,072h,079h,020h,02Dh,020h,045h,052h,052h,04Fh,052h,020h,025h,078h,020h,052h
         db 045h,041h,044h,049h,04Eh,047h,020h,044h,049h,052h,045h,043h,054h,04Fh,052h,059h

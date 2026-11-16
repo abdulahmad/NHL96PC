@@ -10,70 +10,93 @@ global PerTimeTab, energywarn_aw, lcblink_aw, lcblinktime, lcblinktime_aw, lcsel
 global lctimer, lctimer_aw, lcboxon_aw, ObjInitFrame, ObjInitAttr, FaceoffDotX, puckfaceoff2_ptab, PenShotStartX
 global PenShotStartY, ovltimer, refhitcount, injurystop, bannermsg, bannertimer, Pencntdwn2, ControlMarkerFrames
 global ControlMarkerAltFrames, GoalNetFrames, lldispodd, ltack
-priolist:
+priolist:                                       ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 00h,01h,02h,04h,03h,05h,06h
-PreGameSkateOn:
+PreGameSkateOn:                                 ; Set while the pre-game skate runs; cleared by the three
+                                                ; stars setup and saved with the game state; used by
+                                                ; DrawReplayObjects, LoadGameState, PlaceGoalNets ...
         db 00h,00h,00h,00h,00h,00h
-SortPending:
+SortPending:                                    ; Set when the sprite sort order must be rebuilt at the next
+                                                ; faceoff; puckfaceoff re-sorts and clears it; used by
+                                                ; AddPenalty2, InProgress, LoadGameState ...
         db 00h,00h
-exitgame:
+exitgame:                                       ; set once by SetExitGame; used by GameLoop,
+                                                ; GameLoop_hotkeyscall, GameLoop_nextperiodcall ...
         db 01h,00h
-gameover:
+gameover:                                       ; set once by GameOver; used by GameLoop,
+                                                ; GameLoop_nextperiodcall, GameOver ...
         db 01h,00h
-PerTimeTab:
+PerTimeTab:                                     ; Period length in seconds for each period length option (300,
+                                                ; 600, 1200, 1200); used by GetPeriodTime, ResetClock
         db 02Ch,01h,058h,02h,0B0h,04h,0B0h,04h
-energywarn:
+energywarn:                                     ; used by LoadGameState, PeriodOver, ResetGameVars ...
         db 00h,00h
-energywarn_aw:
+energywarn_aw:                                  ; Away counterpart of energywarn; used by LoadGameState,
+                                                ; PeriodOver, ResetGameVars ...
         db 00h,00h
-lcblink:
+lcblink:                                        ; used by LoadGameState, PeriodOver, RequestLineChange ...
         db 00h,00h
-lcblink_aw:
+lcblink_aw:                                     ; Away counterpart of lcblink; used by LoadGameState,
+                                                ; PeriodOver, ResetGameVars ...
         db 00h,00h
-lcblinktime:
+lcblinktime:                                    ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 00h,00h
-lcblinktime_aw:
+lcblinktime_aw:                                 ; Away counterpart of lcblinktime; used by LoadGameState,
+                                                ; ResetGameVars, SaveGameState
         db 00h,00h
-lcsel:
+lcsel:                                          ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 00h,00h
-lcsel_aw:
+lcsel_aw:                                       ; Away counterpart of lcsel; used by LoadGameState,
+                                                ; ResetGameVars, SaveGameState
         db 00h,00h
-lcline:
+lcline:                                         ; used by DrawLineChangeBox, LoadGameState, PeriodOver ...
         db 00h,00h
-lcline_aw:
+lcline_aw:                                      ; Away counterpart of lcline; used by LoadGameState,
+                                                ; PeriodOver, ResetGameVars ...
         db 00h,00h
-lctimer:
+lctimer:                                        ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 00h,00h
-lctimer_aw:
+lctimer_aw:                                     ; Away counterpart of lctimer; used by LoadGameState,
+                                                ; ResetGameVars, SaveGameState
         db 00h,00h
-lcboxon:
+lcboxon:                                        ; used by DrawLineChangeBox, LoadGameState, PeriodOver ...
         db 00h,00h
-lcboxon_aw:
+lcboxon_aw:                                     ; Away counterpart of lcboxon; used by LoadGameState,
+                                                ; PeriodOver, ResetGameVars ...
         db 00h,00h
-CoachRotateFour:
+CoachRotateFour:                                ; coachlinetab row set: next-line choices for a four-line
+                                                ; rotation
         db 02h,01h,00h,03h,00h,03h,02h,01h,03h,02h,01h,00h,01h,00h,03h,02h
-CoachRotateThree:
+CoachRotateThree:                               ; coachlinetab row set: next-line choices for a three-line
+                                                ; rotation, with the power-play rows after it
         db 01h,02h,03h,0FFh,02h,00h,03h,0FFh,00h,01h,03h,0FFh,00h,01h,02h,0FFh
         db 01h,02h,03h,0FFh,02h,00h,03h,0FFh,03h,00h,01h,0FFh,00h,01h,02h,0FFh
-CoachRotateThreeTop:
+CoachRotateThreeTop:                            ; coachlinetab row set: three lines, top line first
         db 02h,01h,00h,0FFh,00h,02h,01h,0FFh,01h,02h,00h,0FFh,01h,00h,02h,0FFh
-CoachRotateFourEven:
+CoachRotateFourEven:                            ; coachlinetab row set: four lines, even rotation
         db 02h,01h,00h,03h,00h,01h,02h,03h,03h,02h,01h,00h,01h,00h,03h,02h
-CoachRotateFourMixed:
+CoachRotateFourMixed:                           ; coachlinetab row set: four lines, mixed rotation
         db 02h,01h,00h,03h,00h,01h,03h,02h,03h,02h,01h,00h,01h,00h,03h,02h
-CoachRotateThreeEven:
+CoachRotateThreeEven:                           ; coachlinetab row set: three lines, even rotation
         db 02h,01h,00h,0FFh,00h,01h,02h,0FFh,02h,01h,00h,0FFh,01h,00h,02h,0FFh
-CoachSpecialUnits:
+CoachSpecialUnits:                              ; coachlinetab row set: special team units only (lines 4 and
+                                                ; 5)
         db 05h,04h,0FFh,0FFh,04h,05h,0FFh,0FFh,04h,05h,0FFh,0FFh,04h,05h,0FFh,0FFh
-CoachRotateTwo:
+CoachRotateTwo:                                 ; coachlinetab row set: two lines only
         db 01h,00h,0FFh,0FFh,00h,01h,0FFh,0FFh,00h,01h,0FFh,0FFh,00h,01h,0FFh,0FFh
-CoachRotateTwoDeep:
+CoachRotateTwoDeep:                             ; coachlinetab row set: two lines with the third line as
+                                                ; backup
         db 01h,02h,0FFh,0FFh,02h,00h,0FFh,0FFh,00h,01h,0FFh,0FFh,00h,01h,02h,0FFh
-CoachRotateFourShort:
+CoachRotateFourShort:                           ; coachlinetab row set: four lines, short shifts
         db 01h,02h,03h,0FFh,02h,03h,00h,0FFh,03h,00h,01h,0FFh,00h,01h,02h,0FFh
-CoachRotateThreeShort:
+CoachRotateThreeShort:                          ; coachlinetab row set: three lines, short shifts
         db 01h,02h,0FFh,0FFh,00h,02h,0FFh,0FFh,00h,01h,0FFh,0FFh,00h,01h,02h,0FFh
-coachlinetab:
+coachlinetab:                                   ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         dd CoachRotateFour
         dd CoachRotateThree
         dd CoachRotateThreeTop
@@ -85,11 +108,15 @@ coachlinetab:
         dd CoachRotateTwoDeep
         dd CoachRotateFourShort
         dd CoachRotateThreeShort
-ds2list:
+ds2list:                                        ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 056h,0FFh,0F1h,0FFh,00h,00h,0FFh,0FFh,00h,00h
-ObjInitFrame:
+ObjInitFrame:                                   ; Object start table (16 bytes per object, after ds2list):
+                                                ; frame word copied to object +82h by LoadGameState; used by
+                                                ; LoadGameState
         db 08h,00h
-ObjInitAttr:
+ObjInitAttr:                                    ; Object start table: attribute word copied to object +84h by
+                                                ; LoadGameState; used by LoadGameState
         db 04h,00h,029h,00h,080h,00h,056h,0FFh,0E2h,0FFh,00h,00h,0FFh,0FFh,00h,00h
         db 08h,00h,04h,00h,029h,00h,080h,00h,056h,0FFh,0D3h,0FFh,00h,00h,0FFh,0FFh
         db 00h,00h,08h,00h,04h,00h,029h,00h,080h,00h,056h,0FFh,0C4h,0FFh,00h,00h
@@ -109,58 +136,79 @@ ObjInitAttr:
         db 01h,00h,00h,00h,00h,00h,00h,00h,0FFh,0FFh,00h,00h,03h,00h,03h,00h
         db 019h,00h,04h,00h,0F1h,0FFh,00h,00h,00h,00h,0FFh,0FFh,00h,00h,08h,00h
         db 04h,00h,01Eh,00h,00h,00h
-FaceoffDotX:
+FaceoffDotX:                                    ; Faceoff dot positions: x of each (x, y) pair;
+                                                ; puckfaceoff2_ptab is the y column; used by FaceoffPositions,
+                                                ; PlacePlayersAtStart
         db 00h,00h
-puckfaceoff2_ptab:
+puckfaceoff2_ptab:                              ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 0A8h,0FEh,0D9h,0FFh,0CFh,0FFh,027h,00h,0CFh,0FFh,0C2h,0FFh,0F7h,0FFh
-PenShotStartX:
+PenShotStartX:                                  ; Penalty shot start x of the shooter; used by
+                                                ; SetupPenaltyShot
         db 00h,00h
-PenShotStartY:
+PenShotStartY:                                  ; Penalty shot start y of the shooter, then the goalie spot;
+                                                ; used by SetupPenaltyShot
         db 0F8h,0FFh,03Eh,00h,0F7h,0FFh,00h,00h,0C0h,0FFh
-apl:
+apl:                                            ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 00h,01h,02h,03h,04h,05h,06h,00h,00h,01h,05h,03h,04h,02h,00h,00h
         db 00h,03h,05h,01h,04h,00h,00h,00h
-ovltimer:
+ovltimer:                                       ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 0FFh,0FFh
-refhitcount:
+refhitcount:                                    ; used by LoadGameState, ResetGameVars, SaveGameState ...
         db 00h,00h
-injurystop:
+injurystop:                                     ; Play stopped for an injury (setInjuryType sets it; the
+                                                ; faceoff code clears it); used by LoadGameState,
+                                                ; ResetGameVars, SaveGameState ...
         db 00h,00h
-bannermsg:
+bannermsg:                                      ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 0FFh,0FFh
-bannertimer:
+bannertimer:                                    ; Frames left to show the banner message (50h when set); used
+                                                ; by AddPenalty2, InProgress, LoadGameState ...
         db 00h,00h
-Pencntdwn2:
+Pencntdwn2:                                     ; used by InProgress, LoadGameState, ResetGameVars ...
         db 0FFh,0FFh
-ControlMarkerFrames:
+ControlMarkerFrames:                            ; Shape ids of the controlled-player marker animation; used by
+                                                ; DrawControlMarker
         db 0EDh,0Eh,0EEh,0Eh,0EFh,0Eh,0F0h,0Eh
-ControlMarkerAltFrames:
+ControlMarkerAltFrames:                         ; Shape ids of the second controlled-player marker animation;
+                                                ; used by DrawControlMarker
         db 0F1h,0Eh,0F2h,0Eh,0F3h,0Eh,0F4h,0Eh
-GoalNetFrames:
+GoalNetFrames:                                  ; Shape ids of the goal net views, by camera angle; used by
+                                                ; DrawControlMarker, DrawReplayObjects, PlaceGoalNets
         db 0F5h,0Eh,0DBh,0Eh,0DCh,0Eh,0DDh,0Eh,0DAh,0Eh,0D9h,0Eh,0DAh,0Eh,0DDh,0Eh
         db 0DCh,0Eh,0E0h,0Eh,0E1h,0Eh,0E2h,0Eh,0DFh,0Eh,0DEh,0Eh,0DFh,0Eh,0E2h,0Eh
         db 0E1h,0Eh,0E5h,0Eh,0E6h,0Eh,0E7h,0Eh,0E4h,0Eh,0E3h,0Eh,0E4h,0Eh,0E7h,0Eh
         db 0E6h,0Eh,0EAh,0Eh,0EBh,0Eh,0ECh,0Eh,0E9h,0Eh,0E8h,0Eh,0E9h,0Eh,0ECh,0Eh
         db 0EBh,0Eh
-lldispodd:
+lldispodd:                                      ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 00h
-lldisp:
+lldisp:                                         ; Line display countdown (periodicevents reloads it with 18h);
+                                                ; used by periodicevents
         db 00h
-ltack:
+ltack:                                          ; Last touch acknowledged (shot and pass code), saved with the
+                                                ; game state; used by LoadGameState, SaveGameState, checkcx
+                                                ; ...
         db 00h,00h
-crowdlevel:
+crowdlevel:                                     ; used by AddPenalty2, ChkShotStat, CountShotOnGoal ...
         db 00h,00h
-introskipped:
+introskipped:                                   ; used by SetupDemoGame, SetupGame, doinput ...
         db 00h,00h,00h,00h
-onetimerflag:
+onetimerflag:                                   ; Set while the current shot is a one-timer (pass straight to
+                                                ; a shot); used by CompPass, Goal, LoadGameState ...
         db 00h,00h,00h,00h
-shotongoal:
+shotongoal:                                     ; used by CountShotOnGoal, Goal, LoadGameState ...
         db 00h,00h,00h,00h
-penshotplayer:
+penshotplayer:                                  ; used by Bcheck, EndPenaltyShot, FallDown ...
         db 00h,00h,00h,00h
-penshotfox:
+penshotfox:                                     ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 00h,00h,00h,00h
-penshotteam:
+penshotteam:                                    ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 00h,00h,00h,00h
-penshotctl:
+penshotctl:                                     ; used by Bcheck, LoadGameState, SaveGameState ...
         db 00h,00h,00h,00h

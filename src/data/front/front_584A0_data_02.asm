@@ -8,27 +8,34 @@ global GoalNetShapeIds, GoalReplayPending, PanelOpenTime, PanelCloseTime, TimedP
 global ScorePanelTimer, PlayerNamePanelTimer, LineBoxStates, LastEventPlayer, ViewTop, ViewWidth, ViewHeight, ViewLeft
 global GameFrameTop, ViewBitmap, ViewPixels, ViewSizeStep, CameraShotOn, RosterNumberShapes, OverlayPanelQueue, SavedViewMode
 global ovlstep
-ClockPanelState:
+ClockPanelState:                                ; Clock panel state, -1 when closed; used by DrawClockPanel,
+                                                ; DrawEventPanel, DrawGoalEventPanel ...
         db 0FFh,0FFh,0FFh,0FFh
-ScorePanelState:
+ScorePanelState:                                ; Score panel state (1F40h after a goal); used by
+                                                ; DrawClockPanel, DrawEventPanel, DrawGoalEventPanel ...
         db 0FFh,0FFh,0FFh,0FFh
-TimeLeftPanelState:
+TimeLeftPanelState:                             ; Time left panel state; used by DrawTimeLeftPanel,
+                                                ; ResetGameOverlays
         db 0FFh,0FFh,0FFh,0FFh
-TimedPanelState:
+TimedPanelState:                                ; Timed panel state; used by DrawTimedPanel, ReadHotKeys,
+                                                ; UpdateCamera
         db 0FFh,0FFh,0FFh,0FFh
-RinkSpriteMode:
+RinkSpriteMode:                                 ; Rink sprite drawing mode; used by DrawRinkSprite,
+                                                ; InitGameView
         db 00h,00h,00h,00h
-GameFrameShapes:
+GameFrameShapes:                                ; Game frame shape ids; used by DrawGameFrame
         db 0F7h,0Eh,00h,00h,0F8h,0Eh,00h,00h,0F9h,0Eh,00h,00h,0FAh,0Eh,00h,00h
         db 0FBh,0Eh,00h,00h,0FAh,0Eh,00h,00h,0F9h,0Eh,00h,00h,0F8h,0Eh,00h,00h
         db 0F6h,0Eh,00h,00h
-ViewDimmed:
+ViewDimmed:                                     ; Game view dimmed; used by DimGameView
         db 00h,00h,00h,00h
-SavedViewMode:
+SavedViewMode:                                  ; Game view mode saved with the game state; used by
+                                                ; InitGameView, LoadGameState
         db 0FFh,0FFh
-ovlstep:
+ovlstep:                                        ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 0FFh,0FFh
-RosterNumberShapes:
+RosterNumberShapes:                             ; Roster number shape names; used by DrawRosterNumber
         dd str_G5
         dd str_feD
         dd str_feD
@@ -36,52 +43,65 @@ RosterNumberShapes:
         dd str_C6
         dd str_R5
         dd str_X2
-SpinPuckFrame:
+SpinPuckFrame:                                  ; Spinning puck frame; used by EndReplay, SortSpritesForDraw,
+                                                ; SpinPuckModel
         db 00h,00h,00h,00h
-GoalNetShapeIds:
+GoalNetShapeIds:                                ; Goal net shape ids; used by PlaceGoalNets
         db 061h,0Bh,00h,00h,062h,0Bh,00h,00h,05Fh,0Bh,00h,00h,060h,0Bh,00h,00h
-GoalReplayPending:
+GoalReplayPending:                              ; Goal replay pending; used by DrawGameFrame, puckfaceoff2
         db 00h,00h,00h,00h
-OverlayPanelQueue:
+OverlayPanelQueue:                              ; queued overlay panels; used by DrawGameOverlays,
+                                                ; QueueOverlayPanel, ResetGameOverlays
         db 0FFh,0FFh,0FFh,0FFh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,0FFh,0FFh,0FFh,0FFh,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,0FFh,0FFh,0FFh,0FFh,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-PanelOpenTime:
+PanelOpenTime:                                  ; Overlay panel open time; used by DrawClockPanel,
+                                                ; DrawEventPanel, DrawGoalEventPanel ...
         db 00h,00h,00h,00h
-PanelCloseTime:
+PanelCloseTime:                                 ; Overlay panel close time; used by OpenOverlayPanel
         db 0FFh,0FFh,0FFh,0FFh
-TimedPanelTimer:
+TimedPanelTimer:                                ; Timed panel timer; used by DrawTimedPanel
         db 0FFh,0FFh,0FFh,0FFh
-PlayerPctPanelTimer:
+PlayerPctPanelTimer:                            ; Player percentage panel timer; used by DrawPlayerPctPanel
         db 0FFh,0FFh,0FFh,0FFh
-ClockPanelTimer:
+ClockPanelTimer:                                ; Clock panel timer; used by DrawClockPanel
         db 0FFh,0FFh,0FFh,0FFh
-TimeLeftPanelTimer:
+TimeLeftPanelTimer:                             ; Time left panel timer; used by DrawTimeLeftPanel
         db 0FFh,0FFh,0FFh,0FFh
-ScorePanelTimer:
+ScorePanelTimer:                                ; Score panel timer; used by DrawScorePanel
         db 0FFh,0FFh,0FFh,0FFh
-PlayerNamePanelTimer:
+PlayerNamePanelTimer:                           ; Player name panel timer; used by DrawPlayerNamePanel
         db 0FFh,0FFh,0FFh,0FFh
-LineBoxStates:
+LineBoxStates:                                  ; Line change box states; used by DrawLineChangeBox
         db 00h,00h,00h,00h,00h,00h,00h,00h
-LastEventPlayer:
+LastEventPlayer:                                ; Last event player, -1 for none; used by BuildEventLines,
+                                                ; DrawPenaltyEventPanel, InProgress ...
         db 0FFh,0FFh,0FFh,0FFh
-ViewTop:
+ViewTop:                                        ; Game view top; used by ReadHotKeys, SetCameraShot,
+                                                ; SetGameViewSize ...
         db 018h,00h,00h,00h
-ViewWidth:
+ViewWidth:                                      ; Game view width; used by DrawControlMarker, DrawGameFrame,
+                                                ; DrawReplayView ...
         db 040h,01h,00h,00h
-ViewHeight:
+ViewHeight:                                     ; Game view height; used by DrawControlMarker, DrawGameFrame,
+                                                ; DrawReplayView ...
         db 0C8h,00h,00h,00h
-ViewLeft:
+ViewLeft:                                       ; Game view left; used by DrawControlMarker, DrawEventPanel,
+                                                ; DrawGameFrame ...
         db 0A0h,00h,00h,00h
-GameFrameTop:
+GameFrameTop:                                   ; top of the game frame; used by DrawGameFrame, InitGameView,
+                                                ; PauseGame ...
         db 064h,00h,00h,00h
-ViewBitmap:
+ViewBitmap:                                     ; Game view bitmap; used by DrawControlMarker, DrawGameFrame,
+                                                ; DrawReplayView ...
         db 00h,00h,00h,00h
-ViewPixels:
+ViewPixels:                                     ; Game view pixels; used by DrawControlMarker, DrawGameFrame,
+                                                ; DrawReplayView ...
         db 00h,00h,00h,00h
-ViewSizeStep:
+ViewSizeStep:                                   ; Game view size step (8 full); used by DrawDirtyZones,
+                                                ; EndReplay, InGameMenu ...
         db 08h,00h,00h,00h
-CameraShotOn:
+CameraShotOn:                                   ; Camera shot running; used by CamShotDimPath, CamShotOrbitTo,
+                                                ; EndCameraShot ...
         db 00h,00h,00h,00h

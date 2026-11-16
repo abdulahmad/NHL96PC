@@ -7,69 +7,101 @@ global LogoSpinFrame, LogoSpinTime, LineClipRight, LineClipBottom, LineSteep, Li
 global LineErrStepY, LineErrStepX, LineDeltaX, LineDeltaY, LineX, LineSpanRight, LineSpanBottom, LineSpanTop
 global LineSpanLeft, LineStepY, LineErrY, LineColor, LineEndX, LineEndY, LineUserClipBottom, LineUserClipTop
 global StatsButtonArt
-RightLogoFrames:
+RightLogoFrames:                                ; frames of the right team logo animation on the pre-game
+                                                ; screen; used by CycleScreenPalettes, PreGameTeamsScreen
         resb 68
         resb 4
-LeftLogoFrames:
+LeftLogoFrames:                                 ; frames of the left team logo animation on the pre-game
+                                                ; screen; used by CycleScreenPalettes, PreGameTeamsScreen
         resb 72
-LogoSpinFrame:
+LogoSpinFrame:                                  ; current spinning logo frame; used by CycleScreenPalettes,
+                                                ; PreGameTeamsScreen
         resb 4
-LogoSpinTime:
+LogoSpinTime:                                   ; tick count for the next spinning logo frame; used by
+                                                ; CycleScreenPalettes, PreGameTeamsScreen
         resb 4
-CardsSpeechPending:
+CardsSpeechPending:                             ; announcer line due on the home player cards screen; used by
+                                                ; PreGameScoutingCards, PreGameScreens
         resb 1
-TeamsSpeechPending:
+TeamsSpeechPending:                             ; announcer line due on the teams screen; used by
+                                                ; PreGameScreens, PreGameTeamsScreen
         resb 1
-AwayCardsSpeechPending:
+AwayCardsSpeechPending:                         ; announcer line due on the away player cards screen; used by
+                                                ; PreGameForwardCards, PreGameScreens
         resb 1
-MatchupSpeechPending:
+MatchupSpeechPending:                           ; used by PreGameMatchupScreen, PreGameScreens
         resb 1
-LineClipRight:
+LineClipRight:                                  ; line clip right edge (16.16); used by ClipLineX, ClipLineY,
+                                                ; DrawLineY ...
         resb 4
-LineClipBottom:
+LineClipBottom:                                 ; line clip bottom edge (16.16); used by ClipLineX, ClipLineY,
+                                                ; DrawFixedLineClip ...
         resb 4
-LineSteep:
+LineSteep:                                      ; set when the line is steeper than 45 degrees; used by
+                                                ; ClipLineX, ClipLineY, DrawFixedLine ...
         resb 4
-LineClipTop:
+LineClipTop:                                    ; line clip top edge (16.16); used by ClipLineX, ClipLineY,
+                                                ; DrawFixedLineClip ...
         resb 4
-LineClipLeft:
+LineClipLeft:                                   ; line clip left edge (16.16); used by ClipLineX, ClipLineY,
+                                                ; DrawLineY ...
         resb 4
-LineErrX:
+LineErrX:                                       ; error term of a shallow line; used by ClipLineX,
+                                                ; DrawFixedLine, DrawFixedLineClip ...
         resb 4
-LineErrStepY:
+LineErrStepY:                                   ; error step of a steep line; used by ClipLineY,
+                                                ; DrawFixedLine, DrawFixedLineClip ...
         resb 4
-LineErrStepX:
+LineErrStepX:                                   ; error step of a shallow line; used by ClipLineX,
+                                                ; DrawFixedLine, DrawFixedLineClip ...
         resb 4
-LineDeltaX:
+LineDeltaX:                                     ; line x distance (16.16); used by DrawFixedLine,
+                                                ; DrawFixedLineClip, DrawLineX ...
         resb 4
-LineDeltaY:
+LineDeltaY:                                     ; line y distance (16.16); used by DrawFixedLine,
+                                                ; DrawFixedLineClip, DrawLineY ...
         resb 4
-LineX:
+LineX:                                          ; current x of the line being drawn; used by ClipLineX,
+                                                ; DrawFixedLine, DrawFixedLineClip ...
         resb 4
-LineSpanRight:
+LineSpanRight:                                  ; right edge of a steep line's span (16.16); used by
+                                                ; ClipLineY, DrawFixedLine, DrawFixedLineClip ...
         resb 4
-LineSpanBottom:
+LineSpanBottom:                                 ; bottom edge of a flat line's span (16.16); used by
+                                                ; ClipLineX, DrawFixedLine, DrawFixedLineClip ...
         resb 4
-LineSpanTop:
+LineSpanTop:                                    ; top edge of a flat line's span (16.16); used by ClipLineX,
+                                                ; DrawFixedLine, DrawFixedLineClip ...
         resb 4
-LineSpanLeft:
+LineSpanLeft:                                   ; left edge of a steep line's span (16.16); used by ClipLineY,
+                                                ; DrawFixedLine, DrawFixedLineClip ...
         resb 4
-LineStepY:
+LineStepY:                                      ; y step of the line being drawn; used by ClipLineY,
+                                                ; DrawFixedLine, DrawFixedLineClip ...
         resb 4
-LineErrY:
+LineErrY:                                       ; error term of a steep line; used by ClipLineY,
+                                                ; DrawFixedLine, DrawFixedLineClip ...
         resb 4
-LineColor:
+LineColor:                                      ; colour of the line being drawn; used by DrawFixedLine,
+                                                ; DrawFixedLineClip, DrawLineX ...
         resb 4
-LineEndX:
+LineEndX:                                       ; line end x (16.16); used by ClipLineX, DrawFixedLine,
+                                                ; DrawFixedLineClip ...
         resb 4
-LineEndY:
+LineEndY:                                       ; line end y (16.16); used by ClipLineY, DrawFixedLine,
+                                                ; DrawFixedLineClip ...
         resb 4
-LineUserClipBottom:
+LineUserClipBottom:                             ; caller line clip bottom (0 for the view); used by
+                                                ; DrawFixedLineClip
         resb 4
-LineUserClipTop:
+LineUserClipTop:                                ; caller line clip top (0 for the view); used by
+                                                ; DrawFixedLineClip
         resb 4
-LinePattern:
+LinePattern:                                    ; dot pattern of the line being drawn; used by DrawFixedLine,
+                                                ; DrawFixedLineClip, DrawLineX ...
         resb 4
-StatsButtonArt:
+StatsButtonArt:                                 ; team stats screen button bitmaps, released and pressed; used
+                                                ; by AnimateTeamStatsButton, AnimateTeamStatsButtons,
+                                                ; TeamStatsScreen
         resb 4
         resb 4

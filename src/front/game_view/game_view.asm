@@ -1440,7 +1440,7 @@ DrawSpriteShadow:
         pop edi
         pop esi
         ret 4
-DrawControlMarkerJumpTable:
+DrawControlMarkerJumpTable:                     ; jump table for the switch cases of DrawControlMarker
         dd DrawControlMarker_26
         dd DrawControlMarker_2F
         dd DrawControlMarker_38
@@ -4464,7 +4464,7 @@ DrawTimeLeftPanel:
         call DrawColorTextRight
         mov eax, 1
         jmp near InitGameView_709
-GetPeriodTextJumpTable:
+GetPeriodTextJumpTable:                         ; jump table for the switch cases of GetPeriodText
         dd GetPeriodText_1F
         dd GetPeriodText_3C
         dd GetPeriodText_59
@@ -4536,7 +4536,7 @@ GetPeriodText_86:
         pop edx
         pop ebx
         ret
-ScorePanelPeriodJumpTable:
+ScorePanelPeriodJumpTable:                      ; jump table for the switch cases of DrawScorePanel
         dd DrawScorePanel_689
         dd DrawScorePanel_690
         dd DrawScorePanel_697
@@ -6349,19 +6349,19 @@ DrawLineChangeBoxes:
         pop ecx
         pop ebx
         ret
-NearNetZeroVec:
+NearNetZeroVec:                                 ; used by CameraNearNet
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-CamAimZeroVec:
+CamAimZeroVec:                                  ; used by CameraAim
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-ShotFromZeroVec:
+ShotFromZeroVec:                                ; used by CamShotOrbitFrom
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-ShotToZeroVec:
+ShotToZeroVec:                                  ; used by CamShotOrbitTo
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-ShotNearZeroVec:
+ShotNearZeroVec:                                ; used by CamShotOrbitNear
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-CamTargetZeroVec:
+CamTargetZeroVec:                               ; used by CamShotTargetTurn
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-CamShotPositions:
+CamShotPositions:                               ; used by CamShotNetShake
         db 0B0h,0FAh,0FFh,0FFh,0F0h,0Ah,00h,00h,030h,0F8h,0FFh,0FFh,0C0h,0F9h,0FFh,0FFh
         db 028h,0Ah,00h,00h,00h,00h,00h,00h,0B0h,0FAh,0FFh,0FFh,060h,09h,00h,00h
         db 0D0h,07h,00h,00h,00h,00h,00h,00h,098h,08h,00h,00h,0A0h,0Fh,00h,00h
@@ -6384,15 +6384,15 @@ LowResViewWidths:
 ; ViewSizeScales                                  5D639  96 PC, low confidence
 ; Game view scale for each view size
 ;-----------------------------------------------------------------------------
-ViewSizeScales:
+ViewSizeScales:                                 ; game view scale for each view size; used by SetGameViewSize
         db 064h,00h,00h,00h,071h,00h,00h,00h,07Dh,00h,00h,00h,08Ah,00h,00h,00h
         db 096h,00h,00h,00h,0A3h,00h,00h,00h,0AFh,00h,00h,00h,0BCh,00h,00h,00h
         db 0C8h,00h,00h,00h
-ViewSizeWidths:
+ViewSizeWidths:                                 ; used by SetGameViewSize
         db 040h,01h,00h,00h,068h,01h,00h,00h,090h,01h,00h,00h,0B8h,01h,00h,00h
         db 0E0h,01h,00h,00h,08h,02h,00h,00h,030h,02h,00h,00h,058h,02h,00h,00h
         db 080h,02h,00h,00h
-ViewSizeHeights:
+ViewSizeHeights:                                ; used by SetGameViewSize
         db 0F0h,00h,00h,00h,0Eh,01h,00h,00h,02Ch,01h,00h,00h,04Ah,01h,00h,00h
         db 068h,01h,00h,00h,086h,01h,00h,00h,0A4h,01h,00h,00h,0C2h,01h,00h,00h
         db 0E0h,01h,00h,00h,053h,051h,056h,0C8h,048h,00h,00h

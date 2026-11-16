@@ -12,67 +12,89 @@ global AttributeDb, PlayerAttrFile, LeagueRecordsFile, SeasonDbSize, CareerDbSiz
 global AttributeDbSize, PlayerAttrFileSize, LeagueRecordsSize, JoyTestTime, gsumheader, gsumtail, DataDirPath, ArtArchivePaths
 global ArtSetTable, str_KEY3, str_CAREER2, str_ATT, str_CARTEAMS, str_TEAMS3, str_SEASON4, str_SCHEDULE
 global str_Punct_PlayerDbRecord, GameStarted, DataLibIds, JoyTestButtonMap
-LinkPollState:
+LinkPollState:                                  ; link poll state; used by LinkPoll
         db 00h,00h,00h,00h
-str_0123456789abcdefghijklmn:
+str_0123456789abcdefghijklmn:                   ; string '0123456789abcdefghijklmnopqrstuvwxyz '; used by
+                                                ; LinkRequestMissing
         db 030h,031h,032h,033h,034h,035h,036h,037h,038h,039h,061h,062h,063h,064h,065h,066h
         db 067h,068h,069h,06Ah,06Bh,06Ch,06Dh,06Eh,06Fh,070h,071h,072h,073h,074h,075h,076h
         db 077h,078h,079h,07Ah,0Ah,00h,00h,00h
-MessageShown:
+MessageShown:                                   ; message box is shown; used by HideMessage, ShowMessage
         db 00h,00h,00h,00h
-ProgressBoxBmp:
+ProgressBoxBmp:                                 ; progress box bitmap; used by HideProgressBox,
+                                                ; ShowProgressBox, UpdateProgressBox
         db 00h,00h,00h,00h
-ProgressBoxTotal:
+ProgressBoxTotal:                               ; progress box total; used by ShowProgressBox,
+                                                ; UpdateProgressBox
         db 01h,00h,00h,00h
-ProgressBoxStep:
+ProgressBoxStep:                                ; progress box step; used by ShowProgressBox,
+                                                ; UpdateProgressBox
         db 00h,00h,00h,00h
-FrontShapesFile:
+FrontShapesFile:                                ; front end shape file; used by OpenFrontEndFromGame,
+                                                ; PauseBackToGame, PauseToFrontEnd ...
         db 00h,00h,00h,00h
-SaveFileHandle:
+SaveFileHandle:                                 ; save file handle (-1 when closed); used by ControllerScreen,
+                                                ; HighlightsMenu, LoadGameRosters ...
         db 0FFh,0FFh,0FFh,0FFh
-CpuTestPattern:
+CpuTestPattern:                                 ; CPU test pattern pointer; used by StartUp
         dd str_KWKJSKxxxxxx
-AsyncTicks:
+AsyncTicks:                                     ; ticks counted during an async read; used by AsyncTimerTick,
+                                                ; asyncreader
         db 00h,00h,00h,00h
-AsyncQueueTail:
+AsyncQueueTail:                                 ; last request in the async queue; used by AsyncInit,
+                                                ; AsyncRequestDone, AsyncTimerTick ...
         db 00h,00h,00h,00h
-StreamBlockSize:
+StreamBlockSize:                                ; stream block size; used by CdStreamInit, CdStreamService,
+                                                ; setstreamspeed
         db 0DAh,00h,00h,00h
-StreamTimeout:
+StreamTimeout:                                  ; stream timeout; used by CdStreamService, CdStreamSyncTime,
+                                                ; setstreamspeed
         db 02Ch,01h,00h,00h
-CdStreamReadTime:
+CdStreamReadTime:                               ; time spent on CD stream reads; used by CdStreamService
         db 00h,00h,00h,00h
-CdStreamFilled:
+CdStreamFilled:                                 ; CD stream bytes read; used by CdStreamService
         db 00h,00h,00h,00h
-CdStreamTicks:
+CdStreamTicks:                                  ; ticks counted during a CD stream read; used by
+                                                ; CdStreamService, CdStreamTimerTick
         db 00h,00h,00h,00h
-gameresult:
+gameresult:                                     ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 00h,00h,00h,00h,0FFh,0FFh,0FFh,0FFh,0FEh,0FFh,0FFh,0FFh
-gsumheader:
+gsumheader:                                     ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 00h
-GamePad1Dev:
+GamePad1Dev:                                    ; controller device for pad 1 at game start; used by
+                                                ; InitGameTeams
         db 00h
-GamePad2Dev:
+GamePad2Dev:                                    ; controller device for pad 2 at game start; used by
+                                                ; InitGameTeams
         db 00h
-GameUserTeam:
+GameUserTeam:                                   ; user team at game start; used by InitGameTeams
         db 00h
-GameModeFlags:
+GameModeFlags:                                  ; game mode flags at game start; used by InitGameTeams
         db 00h
-GameStarted:
+GameStarted:                                    ; game has started; used by InitGameTeams
         db 00h,00h,00h,00h,00h,00h
-gsumtail:
+gsumtail:                                       ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 04h
-HomeGoalCount:
+HomeGoalCount:                                  ; goals counted for the home team; used by InitGameTeams,
+                                                ; PostGoalEvent
         db 00h
-HomeShotCount:
+HomeShotCount:                                  ; shots counted for the home team; used by ChkShotStat,
+                                                ; InitGameTeams
         db 00h
-AwayGoalCount:
+AwayGoalCount:                                  ; goals counted for the away team; used by InitGameTeams,
+                                                ; PostGoalEvent
         db 00h
-AwayShotCount:
+AwayShotCount:                                  ; shots counted for the away team; used by ChkShotStat,
+                                                ; InitGameTeams
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h
-DataDirPath:
+DataDirPath:                                    ; data directory path; used by CheckGameDirs, MakeDataPath,
+                                                ; MakeDataPathArchiveJumpTable ...
         db 02Eh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-DataLibIds:
+DataLibIds:                                     ; data library table; used by MakeDataPath,
+                                                ; MakeDataPathArchiveJumpTable, SelectDataLibrary
         db 00h,00h,047h,045h,052h,04Dh,041h,04Eh,00h,00h,00h,00h,00h,00h,00h,01h
         db 00h,044h,041h,054h,041h,00h,00h,00h,00h,00h,00h,00h,00h,00h,01h,00h
         db 055h,053h,045h,052h,00h,00h,00h,00h,00h,00h,00h,00h,00h,03h,00h,053h
@@ -81,7 +103,8 @@ DataLibIds:
         db 059h,04Fh,046h,046h,00h,00h,00h,00h,00h,00h,06h,00h,048h,049h,04Ch,049h
         db 054h,045h,053h,00h,00h,00h,00h,00h,00h,07h,00h,049h,04Eh,053h,054h,041h
         db 04Ch,04Ch,00h,00h,00h,00h,00h,00h,08h,00h
-ArtArchivePaths:
+ArtArchivePaths:                                ; art archive paths; used by MakeDataPath,
+                                                ; MakeDataPathArchiveJumpTable, SelectDataLibrary
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,047h,041h,04Dh,045h,041h,052h,054h,02Eh,056h
         db 049h,056h,00h,00h,02h,00h,00h,00h,07h,00h,00h,00h,00h,049h,043h,045h
@@ -107,7 +130,7 @@ ArtArchivePaths:
         db 01h,042h,041h,053h,045h,046h,049h,04Ch,045h,02Eh,056h,049h,056h,00h,02h,00h
         db 00h,00h,00h,00h,00h,00h,00h,043h,04Dh,04Eh,042h,041h,053h,045h,02Eh,056h
         db 049h,056h,00h,00h,02h,00h,00h,00h,00h,00h,00h,00h
-ArtSetTable:
+ArtSetTable:                                    ; art set table; used by MakeDataPath
         db 00h,078h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,047h,04Ch,04Fh,042h,041h,04Ch,02Eh,053h,045h
         db 054h,00h,00h,00h,00h,00h,00h,00h,07h,00h,00h,00h,00h,052h,049h,04Eh
@@ -641,19 +664,19 @@ ArtSetTable:
         db 073h,068h,00h,00h,0F0h,0FFh,0FFh,0FFh,00h,00h,00h,00h,00h,063h,072h,064h
         db 074h,02Eh,066h,073h,068h,00h,00h,00h,00h,00h,0F0h,0FFh,0FFh,0FFh,00h,00h
         db 00h,00h,00h,00h,00h
-str_KEY3:
+str_KEY3:                                       ; string 'KEY'
         db 04Bh,045h,059h,00h
-str_CAREER2:
+str_CAREER2:                                    ; string 'CAREER'
         db 043h,041h,052h,045h,045h,052h,00h
-str_ATT:
+str_ATT:                                        ; string 'ATT'
         db 041h,054h,054h,00h
-str_CARTEAMS:
+str_CARTEAMS:                                   ; string 'CARTEAMS'
         db 043h,041h,052h,054h,045h,041h,04Dh,053h,00h
-str_TEAMS3:
+str_TEAMS3:                                     ; string 'TEAMS'
         db 054h,045h,041h,04Dh,053h,00h
-str_SEASON4:
+str_SEASON4:                                    ; string 'SEASON'
         db 053h,045h,041h,053h,04Fh,04Eh,00h
-str_SCHEDULE:
+str_SCHEDULE:                                   ; string "SCHEDULE"
         db 053h,043h,048h,045h,044h,055h,04Ch,045h,00h
         dd str_KEY3
         dd str_CAREER2
@@ -664,68 +687,93 @@ str_SCHEDULE:
         dd str_SCHEDULE
         db 050h,049h,04Eh,046h,04Fh,00h,050h,04Ch,041h,059h,045h,052h,00h,04Ch,053h,053h
         db 043h,048h,045h,044h,00h,050h,047h,053h,00h,047h,041h,04Dh,045h,00h
-seasondb:
+seasondb:                                       ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 00h,00h,00h,00h
-CareerDb:
+CareerDb:                                       ; career stats database; used by CareerDbRecord,
+                                                ; CreatePlayerScreen, FreeStatsTables ...
         db 00h,00h,00h,00h
-statsfromleague:
+statsfromleague:                                ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 00h,00h,00h,00h
-TeamDb:
+TeamDb:                                         ; team stats database; used by ApplyDayResults,
+                                                ; ApplyPlayoffDayResults, BuildPlayerStatRows ...
         db 00h,00h,00h,00h
-statsplayoffs:
+statsplayoffs:                                  ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         db 00h,00h,00h,00h
-AttributeDb:
+AttributeDb:                                    ; attribute database; used by AttributeDbRecord,
+                                                ; CreatePlayerScreen, FreeStatsTables ...
         db 00h,00h,00h,00h
-PlayerAttrFile:
+PlayerAttrFile:                                 ; player attribute data file; used by FreeStatsTables,
+                                                ; LoadExhibitionStats, LoadSeasonStats ...
         db 00h,00h,00h,00h
-LeagueRecordsFile:
+LeagueRecordsFile:                              ; league records data file; used by FreeStatsTables,
+                                                ; LeagueRecordsRecord, LoadExhibitionStats ...
         db 00h,00h,00h,00h
-SeasonDbSize:
+SeasonDbSize:                                   ; season database size; used by ApplyDayResults,
+                                                ; ApplyPlayoffDayResults, FreeStatsTables ...
         db 00h,00h,00h,00h
-CareerDbSize:
+CareerDbSize:                                   ; career database size; used by CreatePlayerScreen,
+                                                ; FreeStatsTables, LoadExhibitionStats ...
         db 00h,00h,00h,00h
-LeagueStatsSize:
+LeagueStatsSize:                                ; league stats size; used by FreeStatsTables,
+                                                ; LoadExhibitionStats, LoadModemStats ...
         db 00h,00h,00h,00h
-TeamDbSize:
+TeamDbSize:                                     ; team database size; used by CreatePlayerScreen,
+                                                ; FreeStatsTables, LoadExhibitionStats ...
         db 00h,00h,00h,00h
-PlayoffStatsSize:
+PlayoffStatsSize:                               ; playoff stats size; used by ApplyPlayoffDayResults,
+                                                ; FreeStatsTables, LoadExhibitionStats ...
         db 00h,00h,00h,00h
-AttributeDbSize:
+AttributeDbSize:                                ; attribute database size; used by CreatePlayerScreen,
+                                                ; FreeStatsTables, LoadExhibitionStats ...
         db 00h,00h,00h,00h
-PlayerAttrFileSize:
+PlayerAttrFileSize:                             ; player attribute file size; used by FreeStatsTables,
+                                                ; LoadExhibitionStats, LoadSeasonStats ...
         db 00h,00h,00h,00h
-LeagueRecordsSize:
+LeagueRecordsSize:                              ; league records file size; used by FreeStatsTables,
+                                                ; LoadExhibitionStats, LoadModemStats ...
         db 00h,00h,00h,00h,02Eh,00h
-str_Punct_PlayerDbRecord:
+str_Punct_PlayerDbRecord:                       ; string " "; used by PlayerDbRecord
         db 020h,00h,0Ch,015h,00h,00h,025h,073h,02Eh,064h,062h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,025h,073h,02Eh,064h,062h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h
-RosterSlotOrder:
+RosterSlotOrder:                                ; roster slot order; used by FillTeamRoster
         db 07h,00h,04h,00h,03h,00h,06h,00h,01h,00h,08h,00h,02h,00h,00h,00h
         db 00h,00h,00h
-JoyTestTime:
+JoyTestTime:                                    ; joystick test time; used by UpdateJoystickTest
         db 00h,00h,00h,00h
-JoyTestButtonMap:
+JoyTestButtonMap:                               ; joystick test button map; used by UpdateJoystickTest
         db 00h,00h,01h,00h,05h,00h,00h,00h,03h,00h,02h,00h,04h,00h,00h,00h
         db 07h,00h,08h,00h,06h,00h,00h,00h
-RinkFloorOn:
+RinkFloorOn:                                    ; draw the rink floor; used by DrawRinkFloor, InGameMenu,
+                                                ; InitGameView ...
         db 01h
-IceTextureOn:
+IceTextureOn:                                   ; draw the ice texture; used by DrawIceMarkings, InGameMenu,
+                                                ; InitGameView ...
         db 01h
-IceLogosOn:
+IceLogosOn:                                     ; draw the ice logos; used by DrawIceMarkings, InGameMenu,
+                                                ; InitGameView ...
         db 01h
-GlassOn:
+GlassOn:                                        ; draw and collide with the glass; used by DrawBenchArea,
+                                                ; DrawRinkBack, DrawRinkFrontParts ...
         db 01h
-PlayerDetailOn:
+PlayerDetailOn:                                 ; draw detailed players; used by DrawGameFrame,
+                                                ; DrawIceMarkings, DrawPlayers ...
         db 01h
-StandsOn:
+StandsOn:                                       ; draw the stands; used by CamShotFollowPath, CamShotNetShake,
+                                                ; CameraNearNet ...
         db 01h
-RinkBoardsOn:
+RinkBoardsOn:                                   ; draw the boards; used by CamShotFollowPath, CamShotNetShake,
+                                                ; CameraNearNet ...
         db 01h
-BenchPlayersOn:
+BenchPlayersOn:                                 ; draw the bench players; used by DrawBenchPlayers,
+                                                ; InitGameView, ReadHotKeys
         db 01h
-ScoreClockOn:
+ScoreClockOn:                                   ; draw the score clock; used by CamShotFollowPath,
+                                                ; CamShotNetShake, CameraNearNet ...
         db 01h

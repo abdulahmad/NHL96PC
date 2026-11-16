@@ -46,20 +46,20 @@ global UserRecordsScreen, UserRecordsScreen_A1A, UserRecordsScreen_A2B, UserReco
 global UserRecordsScreen_AA8, UserRecordsScreen_AB1, UserRecordsScreen_ABA, UserRecordsScreen_AC3, UserRecordsScreen_ACC, UserRecordsScreen_AD5, UserRecordsScreen_B4F, UserRecordsScreen_B73
 global UserRecordsScreen_B93, UserRecordsScreen_C6C, UserRecordsScreen_C75, UserRecordsScreen_C7E, UserRecordsScreen_C87, UserRecordsScreen_C90, UserRecordsScreen_C99, UserRecordsScreen_CA2
 global UserRecordsScreen_CAB, UserRecordsScreen_CB4, UserRecordsScreen_CBD, UserRecordsScreen_CC6
-UserRatingScaleTwoToFour:
+UserRatingScaleTwoToFour:                       ; used by UpdateUserRecords
         db 00h,00h,02h,00h,00h,00h,03h,00h,00h,00h,04h,00h
-UserRatingScaleOneToOneHalf:
+UserRatingScaleOneToOneHalf:                    ; used by UpdateUserRecords
         db 00h,00h,01h,00h,00h,080h,01h,00h,00h,00h,00h,00h
-UserRatingScalePair:
+UserRatingScalePair:                            ; used by UpdateUserRecords
         db 00h,00h,01h,00h,00h,080h,01h,00h
-UserRatingScaleQuarterSteps:
+UserRatingScaleQuarterSteps:                    ; used by UpdateUserRecords
         db 00h,00h,01h,00h,00h,040h,01h,00h,00h,080h,01h,00h
-UserRecordsLeftButton:
+UserRecordsLeftButton:                          ; used by UserRecordsScreen
         db 095h,00h,00h,00h,0BDh,01h,00h,00h,01Ah,01h,00h,00h,0BDh,01h,00h,00h
         db 01Ah,01h,00h,00h,0D2h,01h,00h,00h,095h,00h,00h,00h,0D2h,01h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-UserRecordsRightButton:
+UserRecordsRightButton:                         ; used by UserRecordsScreen
         db 064h,01h,00h,00h,0BDh,01h,00h,00h,0E9h,01h,00h,00h,0BDh,01h,00h,00h
         db 0E9h,01h,00h,00h,0D2h,01h,00h,00h,064h,01h,00h,00h,0D2h,01h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -68,7 +68,7 @@ UserRecordsRightButton:
 ; UserRecordsHotspots                             2A482  96 PC, low confidence
 ; User records screen click areas
 ;-----------------------------------------------------------------------------
-UserRecordsHotspots:
+UserRecordsHotspots:                            ; user records screen click areas; used by UserRecordsScreen
         db 033h,00h,00h,00h,037h,00h,00h,00h,045h,00h,00h,00h,037h,00h,00h,00h
         db 045h,00h,00h,00h,049h,00h,00h,00h,033h,00h,00h,00h,049h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -2172,7 +2172,7 @@ CompareUsersByStreak:
         pop ecx
         pop ebx
         ret
-DrawUserRecordsJumpTable:
+DrawUserRecordsJumpTable:                       ; jump table for the switch cases of DrawUserRecords
         dd DrawUserRecords_23B
         dd DrawUserRecords_267
         dd DrawUserRecords_27F
@@ -3274,13 +3274,13 @@ ExportUserRecords:
         mov eax, esi
         call fclose_
         jmp near NewUser_159
-UserRecordsChoiceJumpTable:
+UserRecordsChoiceJumpTable:                     ; jump table for the switch cases of UserRecordsScreen
         dd UserRecordsScreen_A1A
         dd UserRecordsScreen_A2B
         dd UserRecordsScreen_B4F
         dd UserRecordsScreen_B73
         dd UserRecordsScreen_B93
-UserRecordsScrollUpJumpTable:
+UserRecordsScrollUpJumpTable:                   ; jump table for the switch cases of UserRecordsScreen
         dd UserRecordsScreen_A7B
         dd UserRecordsScreen_A84
         dd UserRecordsScreen_A8D
@@ -3295,7 +3295,7 @@ UserRecordsScrollUpJumpTable:
         dd UserRecordsScreen_AC3
         dd UserRecordsScreen_ACC
         dd UserRecordsScreen_AD5
-UserRecordsScrollDownJumpTable:
+UserRecordsScrollDownJumpTable:                 ; jump table for the switch cases of UserRecordsScreen
         dd UserRecordsScreen_C6C
         dd UserRecordsScreen_C75
         dd UserRecordsScreen_C7E

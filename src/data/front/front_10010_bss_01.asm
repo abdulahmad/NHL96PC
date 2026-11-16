@@ -15,17 +15,25 @@ global LinkRemoteQueue, LinkAckReply, SlotDevice, GripAxisMin, GripAxisMax
 global Joy1MaxY, Joy1Present, Joy1CentreY, Joy1Buttons, Joy2MaxY, Joy2Present, Joy2CentreY, Joy2Buttons
 global Joy1RepeatState, Joy2RepeatState, GripSlotIds, GripLinkStatus, GripDriverSeg, GripLibSeg, GripDataSeg
 global GripResult, GripAxesRaw, ChatLocalLen, ChatRemoteLen
-SlotPollState:
+SlotPollState:                                  ; Controller slot poll state, cleared by InitSlotTable; used
+                                                ; by InitSlotTable
         resb 12
-SlotWords:
+SlotWords:                                      ; 8 words: high byte device (bits 0-2) and team (bit 7), low
+                                                ; byte buttons; used by PollControllers
         resb 8
-LastKeyPollTick:
+LastKeyPollTick:                                ; Tick of the last keyboard pad read; used by InitSlotTable,
+                                                ; ReadKeyboardPad, ResetSlotButtons
         resb 4
-SlotTable:
+SlotTable:                                      ; 4 entries x 7 bytes: on byte, device word, buttons dword;
+                                                ; used by InitSlotTable, PollControllers, ResetInputSlots
         resb 1
-SlotDevice:
+SlotDevice:                                     ; SlotTable record +1: controller device of the slot (7-byte
+                                                ; records); used by DrawGameFrame, InitSlotTable,
+                                                ; PollControllers
         resb 2
-SlotInput:
+SlotInput:                                      ; SlotTable record +3: the slot's input bits for this frame
+                                                ; (sent over the link); used by InputRecordTimer,
+                                                ; LinkExchangeInput, PollControllers
         resb 4
         resb 3
         resb 4
@@ -33,163 +41,222 @@ SlotInput:
         resb 4
         resb 3
         resb 4
-KeyBindingSet:
+KeyBindingSet:                                  ; Active keyboard binding set (KeyBindingsAlt with the
+                                                ; alternate option, else KeyBindings); used by InitSlotTable,
+                                                ; TestKeyBinding
         resb 4
-InputRecordRing:
+InputRecordRing:                                ; ring of 5 records x 0x12 bytes; used by GameLoop_inputcheck,
+                                                ; InitSlotTable, InputRecordTimer ...
         resb 4
         resb 4
         resb 4
         resb 4
         resb 76
-GripPadBits:
+GripPadBits:                                    ; GrIP: direction and button bits per pad; used by
+                                                ; GripReadPadBits, GripReadSlots
         resb 4
-GripAxisMin:
+GripAxisMin:                                    ; GrIP: axis range low word per slot (4 bytes per slot); used
+                                                ; by GripReadSlots, GripScanSlots
         resb 2
-GripAxisMax:
+GripAxisMax:                                    ; GrIP: axis range high word per slot; used by GripReadSlots,
+                                                ; GripScanSlots
         resb 2
         resb 2
         resb 14
-GripSlotNames:
+GripSlotNames:                                  ; GrIP: slot name strings, shown on the pad setup screen; used
+                                                ; by GripScanSlots, GripSetupScreen
         resb 76
-GripShootMap:
+GripShootMap:                                   ; GrIP: shoot button map per slot; used by GetGripButtonMap,
+                                                ; GripReadSlots, GripScanSlots ...
         resb 4
         resb 12
-GripPassMap:
+GripPassMap:                                    ; GrIP: pass button map per slot; used by GetGripButtonMap,
+                                                ; GripReadSlots, GripScanSlots ...
         resb 4
         resb 16
-GripSlotTypes:
+GripSlotTypes:                                  ; GrIP: slot type strings, shown on the pad setup screen; used
+                                                ; by GripScanSlots, GripSetupScreen
         resb 80
-Joy1State:
+Joy1State:                                      ; Joystick 1 state block (18h bytes); used by GripSetupScreen,
+                                                ; JoystickTestScreen
         resb 2
         resb 2
-Joy1MinX:
+Joy1MinX:                                       ; Joystick 1 calibration: minimum x; used by
+                                                ; ReadAnalogJoysticks, ReadJoystickBits
         resb 2
-Joy1MinY:
+Joy1MinY:                                       ; Joystick 1 calibration: minimum y; used by
+                                                ; ReadAnalogJoysticks, ReadJoystickBits
         resb 2
-Joy1MaxX:
+Joy1MaxX:                                       ; Joystick 1 calibration: maximum x; used by
+                                                ; ReadAnalogJoysticks, ReadJoystickBits
         resb 2
-Joy1MaxY:
+Joy1MaxY:                                       ; Joystick 1 calibration: maximum y; used by
+                                                ; ReadAnalogJoysticks
         resb 2
-Joy1Present:
+Joy1Present:                                    ; Joystick 1 connected; used by GripScanSlots, InitGrip,
+                                                ; PollControllers ...
         resb 2
-Joy1X:
+Joy1X:                                          ; Joystick 1 x reading; used by ReadAnalogJoysticks,
+                                                ; ReadJoystickBits
         resb 2
-Joy1Y:
+Joy1Y:                                          ; Joystick 1 y reading; used by ReadAnalogJoysticks,
+                                                ; ReadJoystickBits
         resb 2
-Joy1CentreX:
+Joy1CentreX:                                    ; Joystick 1 calibration: centre x; used by
+                                                ; ReadAnalogJoysticks, ReadJoystickBits
         resb 2
-Joy1CentreY:
+Joy1CentreY:                                    ; Joystick 1 calibration: centre y; used by
+                                                ; ReadAnalogJoysticks, ReadJoystickBits
         resb 2
-Joy1Buttons:
+Joy1Buttons:                                    ; Joystick 1 buttons; used by ReadAnalogJoysticks
         resb 2
-Joy2State:
+Joy2State:                                      ; Joystick 2 state block (18h bytes); used by GripSetupScreen
         resb 2
         resb 2
-Joy2MinX:
+Joy2MinX:                                       ; Joystick 2 calibration: minimum x; used by
+                                                ; ReadAnalogJoysticks, ReadJoystickBits
         resb 2
-Joy2MinY:
+Joy2MinY:                                       ; Joystick 2 calibration: minimum y; used by
+                                                ; ReadAnalogJoysticks, ReadJoystickBits
         resb 2
-Joy2MaxX:
+Joy2MaxX:                                       ; Joystick 2 calibration: maximum x; used by
+                                                ; ReadAnalogJoysticks, ReadJoystickBits
         resb 2
-Joy2MaxY:
+Joy2MaxY:                                       ; Joystick 2 calibration: maximum y; used by
+                                                ; ReadAnalogJoysticks
         resb 2
-Joy2Present:
+Joy2Present:                                    ; Joystick 2 connected; used by InitGrip, PollControllers,
+                                                ; ReadAnalogJoysticks ...
         resb 2
-Joy2X:
+Joy2X:                                          ; Joystick 2 x reading; used by ReadAnalogJoysticks,
+                                                ; ReadJoystickBits
         resb 2
-Joy2Y:
+Joy2Y:                                          ; Joystick 2 y reading; used by ReadAnalogJoysticks,
+                                                ; ReadJoystickBits
         resb 2
-Joy2CentreX:
+Joy2CentreX:                                    ; Joystick 2 calibration: centre x; used by
+                                                ; ReadAnalogJoysticks, ReadJoystickBits
         resb 2
-Joy2CentreY:
+Joy2CentreY:                                    ; Joystick 2 calibration: centre y; used by
+                                                ; ReadAnalogJoysticks, ReadJoystickBits
         resb 2
-Joy2Buttons:
+Joy2Buttons:                                    ; Joystick 2 buttons; used by ReadAnalogJoysticks
         resb 14
-Joy1RepeatState:
+Joy1RepeatState:                                ; Joystick 1 button repeat state, cleared on calibration; used
+                                                ; by InitGrip, PollControllers, ReadAnalogJoysticks
         resb 24
-Joy2RepeatState:
+Joy2RepeatState:                                ; Joystick 2 button repeat state, cleared on calibration; used
+                                                ; by InitGrip, PollControllers, ReadAnalogJoysticks
         resb 10
-GripSlotIds:
+GripSlotIds:                                    ; GrIP: device id word per slot; used by GripScanSlots,
+                                                ; GripSetupScreen
         resb 2
         resb 8
-GripSlotMask:
+GripSlotMask:                                   ; GrIP: connected slots mask (84B0h); used by GripScanSlots
         resb 3
         resb 1
-GripSlotPresent:
+GripSlotPresent:                                ; GrIP: slot present byte per slot; used by DrawGripPads,
+                                                ; GripReadSlots, GripScanSlots ...
         resb 4
-JoyPadBits:
+JoyPadBits:                                     ; Combined pad bits of the joystick and GrIP pads; used by
+                                                ; DrawGripPads, GetPressedDevice, GripReadPadBits ...
         resb 1
         resb 3
-GripLinkByte:
+GripLinkByte:                                   ; Gravis GrIP link scratch byte; used by GripLinkLibrary
         resb 2
-GripLinkStatus:
+GripLinkStatus:                                 ; GrIP: library link status; used by GripLinkLibrary
         resb 4
-GripDriverSeg:
+GripDriverSeg:                                  ; Gravis GrIP driver segment; used by GripLinkLibrary
         resb 2
-GripFarCall:
+GripFarCall:                                    ; Gravis GrIP far call pointer; used by GripLinkLibrary,
+                                                ; GripReadSlots, GripScanSlots ...
         resb 4
-GripLibSeg:
+GripLibSeg:                                     ; GrIP: library segment; used by GripLinkLibrary
         resb 2
-GripDataSeg:
+GripDataSeg:                                    ; Gravis GrIP data segment; used by GripLinkLibrary,
+                                                ; GripUnlinkLibrary
         resb 2
-GripResult:
+GripResult:                                     ; Gravis GrIP call result; used by GripLinkLibrary,
+                                                ; GripUnlinkLibrary
         resb 2
-GripButtonsRaw:
+GripButtonsRaw:                                 ; GrIP: raw button bits of the slot being read (84C1h); used
+                                                ; by GripReadSlots
         resb 4
-GripAxesRaw:
+GripAxesRaw:                                    ; GrIP: raw axis bits of the slot being read (84C0h); used by
+                                                ; GripReadSlots
         resb 2
-GripPadState:
+GripPadState:                                   ; GrIP: pad state bits of the slot being read; used by
+                                                ; GripReadSlots
         resb 4
-GripCurSlot:
+GripCurSlot:                                    ; GrIP: slot being read; used by GripReadSlots
         resb 4
-LinkBlockBuffer:
+LinkBlockBuffer:                                ; Link: 512-byte block transfer buffer; used by
+                                                ; LinkBlockStart, LinkReceiveBlock, LinkSendBlock
         resb 512
-ChatActive:
+ChatActive:                                     ; Modem chat running; used by ModemChat
         resb 4
-ChatLine:
+ChatLine:                                       ; Modem chat line being typed; used by ModemChat
         resb 20
-LinkSyncValue:
+LinkSyncValue:                                  ; Link: last sync value received; used by LinkSyncMessage
         resb 4
-LinkBlockLen:
+LinkBlockLen:                                   ; Link: length of the block being sent or received; used by
+                                                ; LinkBlockStart
         resb 4
-LinkBlockPos:
+LinkBlockPos:                                   ; Link: position in the block; used by LinkBlockData
         resb 4
-LinkMsgQueue:
+LinkMsgQueue:                                   ; Link: message queue, 10 entries of 6 bytes; used by
+                                                ; LinkGameMessageJumpTable, ModemChat, ModemGameConnect ...
         resb 60
-LinkInputHead:
+LinkInputHead:                                  ; Link: input queue head; used by LinkExchangeInput,
+                                                ; LinkResyncInput, ModemGameConnect ...
         resb 4
-LinkInputTail:
+LinkInputTail:                                  ; Link: input queue tail; used by LinkExchangeInput,
+                                                ; LinkResyncInput, ModemGameConnect ...
         resb 4
-LinkValueQueue:
+LinkValueQueue:                                 ; Link: value queue, 10 entries of 6 bytes; used by
+                                                ; LinkExchangeValues, LinkGameMessageJumpTable,
+                                                ; ModemGameConnect ...
         resb 60
-LinkMsgHead:
+LinkMsgHead:                                    ; Link: message queue head; used by LinkGameMessageJumpTable,
+                                                ; ModemChat, ModemGameConnect ...
         resb 4
-LinkInputQueue:
+LinkInputQueue:                                 ; Link: input queue, 10 entries of 6 bytes; used by
+                                                ; LinkExchangeInput, ModemGameConnect, ModemGameOpen
         resb 60
-LinkValueHead:
+LinkValueHead:                                  ; Link: value queue head; used by LinkExchangeValues,
+                                                ; LinkGameMessageJumpTable, ModemGameConnect ...
         resb 4
-LinkMsgTail:
+LinkMsgTail:                                    ; Link: message queue tail; used by LinkGameMessageJumpTable,
+                                                ; ModemChat, ModemGameConnect ...
         resb 4
-LinkRemoteHead:
+LinkRemoteHead:                                 ; Link: remote queue head; used by LinkExchangeInput,
+                                                ; LinkGameMessageJumpTable, LinkResyncInput ...
         resb 4
-LinkValueTail:
+LinkValueTail:                                  ; Link: value queue tail; used by LinkExchangeValues,
+                                                ; LinkGameMessageJumpTable, ModemGameConnect ...
         resb 4
-LinkRemoteTail:
+LinkRemoteTail:                                 ; Link: remote queue tail; used by LinkExchangeInput,
+                                                ; LinkGameMessageJumpTable, LinkResyncInput ...
         resb 4
-LinkRemoteQueue:
+LinkRemoteQueue:                                ; Link: remote queue, 10 entries of 6 bytes; used by
+                                                ; LinkExchangeInput, LinkGameMessageJumpTable,
+                                                ; ModemGameConnect ...
         resb 60
-LinkWaitBoxBmp:
+LinkWaitBoxBmp:                                 ; Link: saved screen under the wait box; used by
+                                                ; HideLinkWaitBox, ShowLinkWaitBox
         resb 4
-LinkBlockHeader:
+LinkBlockHeader:                                ; Link: block header packet (type 3, then the length); used by
+                                                ; LinkSendBlock
         resb 1
         resb 5
-LinkBlockAck:
+LinkBlockAck:                                   ; Link: block acknowledge packet (type 4, then the status);
+                                                ; used by LinkSendBlock
         resb 1
         resb 1
-LinkAckReply:
+LinkAckReply:                                   ; Link: reply to the block acknowledge; used by LinkSendBlock
         resb 2
         resb 2
-ChatLocalLen:
+ChatLocalLen:                                   ; Modem chat: length of the local line; used by ModemChat
         resb 2
-ChatRemoteLen:
+ChatRemoteLen:                                  ; Modem chat: length of the remote line; used by ModemChat
         resb 2

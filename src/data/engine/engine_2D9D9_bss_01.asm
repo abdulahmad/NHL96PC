@@ -5,41 +5,62 @@ section s_165366 nobits alloc noexec write align=1
 global LineChangeLine, LineChangeReq, textline1, textline2, textline3, textline4, textline5, SumCwdExciteLvl
 global hmtmstruct, CupLeaveSlot, CupLeaveSlotNext, CupGoalieSlot, CupGoalieSlotNext, CupHomeGoalieSlot, CupHomeGoalieSlotNext, PeriodEventCount
 global GameEventFlags, hmtmPwrGoals, hmtmPwrPlays
-CupLeaveSlot:
+CupLeaveSlot:                                   ; cup celebration: per team (126h) and player (2Ah) record;
+                                                ; set to -1 when the player leaves; used by asscupleave
         resb 6
-CupLeaveSlotNext:
+CupLeaveSlotNext:                               ; cup celebration: second word of each player record, set to
+                                                ; -1 when the player leaves; used by asscupleave
         resb 246
-CupGoalieSlot:
+CupGoalieSlot:                                  ; cup celebration: away goalie's record word, set to -1 when
+                                                ; he leaves; used by asscupleave
         resb 6
-CupGoalieSlotNext:
+CupGoalieSlotNext:                              ; cup celebration: away goalie's second record word, set to -1
+                                                ; when he leaves; used by asscupleave
         resb 36
-CupHomeGoalieSlot:
+CupHomeGoalieSlot:                              ; cup celebration: home goalie's record word, set to -1 when
+                                                ; he leaves; used by asscupleave
         resb 6
-CupHomeGoalieSlotNext:
+CupHomeGoalieSlotNext:                          ; cup celebration: home goalie's second record word, set to -1
+                                                ; when he leaves; used by asscupleave
         resb 270
-SumCwdExciteLvl:
+SumCwdExciteLvl:                                ; sum of crowd excitement samples; used by ResetGameVars,
+                                                ; RestoreBenchEnergy, periodicevents
         resb 4
-textline1:
+textline1:                                      ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 60
-textline2:
+textline2:                                      ; second event caption line (scorer and assists); used by
+                                                ; BuildEventLines, DrawEventPanel, DrawGoalEventPanel ...
         resb 60
-textline3:
+textline3:                                      ; third event caption line; used by BuildEventLines,
+                                                ; DrawEventPanel, DrawGoalEventPanel ...
         resb 60
-textline4:
+textline4:                                      ; fourth event caption line; used by BuildEventLines,
+                                                ; DrawGoalEventPanel, DrawPenaltyEventPanel ...
         resb 60
-textline5:
+textline5:                                      ; fifth event caption line; used by BuildEventLines,
+                                                ; DrawGoalEventPanel, DrawPenaltyEventPanel ...
         resb 60
-LineChangeReq:
+LineChangeReq:                                  ; per team (2 words): line change requested; used by
+                                                ; GameLoop_nextperiodcall, HandleSlotButtons, LoadGameState
+                                                ; ...
         resb 2
-PeriodEventCount:
+PeriodEventCount:                               ; count cleared at the start of each period and kept in the
+                                                ; saved game; used by GameLoop_nextperiodcall,
+                                                ; HandleSlotButtons, LoadGameState ...
         resb 2
-LineChangeLine:
+LineChangeLine:                                 ; per team (2 words): which line (0-3); used by
+                                                ; HandleSlotButtons, LoadGameState, ResetGameVars ...
         resb 2
-GameEventFlags:
+GameEventFlags:                                 ; game word kept in the saved game and cleared with the game
+                                                ; variables; used by HandleSlotButtons, LoadGameState,
+                                                ; ResetGameVars ...
         resb 2
-hmtmstruct:
+hmtmstruct:                                     ; used by AutoSwitchPlayer, BuildEventLines, ChkGoalies ...
         resb 2
-hmtmPwrGoals:
+hmtmPwrGoals:                                   ; home team: power play goals; used by DrawGameStats,
+                                                ; DrawPlayerPctPanel, UpdateUserRecords
         resb 2
-hmtmPwrPlays:
+hmtmPwrPlays:                                   ; home team: power plays (cleared per team by SimulateGame);
+                                                ; used by DrawGameStats, DrawPlayerPctPanel, SimulateGame ...
         resb 2

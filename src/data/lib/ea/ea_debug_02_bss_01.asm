@@ -6,62 +6,89 @@ global GusPlayDmaChannel, GusIrqLatch, GusRecordDmaChannel, GusMidiIrq, GusWaveI
 global MemViewCount, MemViewSel, MemViewTitle, MemViewRow, MemViewList, MemViewKey, MemViewFlags, MemViewMode
 global MemViewPrevSel, GusVoiceIrqBits, GusDmaLeft, GusDmaChunkSize, GusDmaDone, GusDmaChannels, StartupStack, GusDosResult
 global GusIrqFlags, GusActiveVoices, GusCriticalDepth, GusDmaChunkLo, GusDmaChunkHi, GusDmaFlags
-MemViewTop:
+MemViewTop:                                     ; memory viewer first row shown; used by HexDumpRow,
+                                                ; MemViewerDrawList, MemViewerSelectRow
         resb 4
-MemViewCount:
+MemViewCount:                                   ; memory viewer row count; used by DumpShapesList,
+                                                ; MemViewerDrawList, MemViewerLoop
         resb 4
-MemViewSel:
+MemViewSel:                                     ; memory viewer selected row; used by MemViewerLoop,
+                                                ; MemViewerSelectRow
         resb 4
-MemViewTitle:
+MemViewTitle:                                   ; memory viewer title; used by MemViewerDrawList,
+                                                ; MemViewerDrawTitle
         resb 4
-MemViewRow:
+MemViewRow:                                     ; memory viewer current row; used by MemViewerDrawList,
+                                                ; MemViewerSelectRow
         resb 4
-MemViewList:
+MemViewList:                                    ; memory viewer list; used by DumpMemoryMap, DumpShapesList,
+                                                ; MemViewerDrawList ...
         resb 4
-MemViewKey:
+MemViewKey:                                     ; memory viewer last key; used by MemViewerLoop,
+                                                ; MemViewerSelectRow
         resb 4
-MemViewFlags:
+MemViewFlags:                                   ; memory viewer flags; used by MemViewerLoop,
+                                                ; MemViewerSelectRow
         resb 1
         resb 3
-MemViewMode:
+MemViewMode:                                    ; memory viewer mode; used by MemViewerDrawList,
+                                                ; MemViewerLoop, MemViewerShowArt
         resb 4
-MemViewPrevSel:
+MemViewPrevSel:                                 ; memory viewer previous selection; used by MemViewerLoop,
+                                                ; MemViewerSelectRow
         resb 4
-GusDosResult:
+GusDosResult:                                   ; result of the last DOS file call of the toolkit; used by
+                                                ; GusMaskDma
         resb 2
-GusIrqFlags:
+GusIrqFlags:                                    ; interrupt state flags of the card driver; used by GusClose,
+                                                ; GusDownload, GusDramDmaDone ...
         resb 2
-GusActiveVoices:
+GusActiveVoices:                                ; number of active voices on the card; used by GusResetVoices,
+                                                ; GusStopAllVoices
         resb 2
-GusCriticalDepth:
+GusCriticalDepth:                               ; critical-section depth that defers card interrupts; used by
+                                                ; GusClearIrqState, GusEnterCritical, GusLeaveCritical ...
         resb 2
-GusPlayDmaChannel:
+GusPlayDmaChannel:                              ; DMA channel used for playback; used by GusDownload,
+                                                ; GusInitDma, GusOpenCard ...
         resb 1
-GusIrqLatch:
+GusIrqLatch:                                    ; IRQ latch value written to the card; used by GusOpen,
+                                                ; GusSetIrqDmaLatches
         resb 1
-GusRecordDmaChannel:
+GusRecordDmaChannel:                            ; DMA channel used for recording; used by GusInitDma,
+                                                ; GusOpenCard, GusSetIrqDmaLatches ...
         resb 1
-GusMidiIrq:
+GusMidiIrq:                                     ; IRQ line of the card's MIDI port; used by GusClose,
+                                                ; GusMidiIrqHandler, GusOpenCard ...
         resb 1
-GusWaveIrq:
+GusWaveIrq:                                     ; IRQ line of the card's wave interrupts; used by GusClose,
+                                                ; GusOpenCard, GusReadIrqSource ...
         resb 8
-GusDmaChannels:
+GusDmaChannels:                                 ; port tables of the two ISA DMA channels the card uses; used
+                                                ; by GusMaskDma, GusProgramDma, GusSetupDmaChannel
         resb 48
-GusVoiceIrqBits:
+GusVoiceIrqBits:                                ; per-voice bits of pending wave and volume interrupts; used
+                                                ; by GusClearCallbacks, GusServiceIrq
         resb 16
-GusDmaChunkLo:
+GusDmaChunkLo:                                  ; low word of the current DMA chunk's card address; used by
+                                                ; GusDramDmaDone, GusStartDramDma
         resb 2
-GusDmaChunkHi:
+GusDmaChunkHi:                                  ; high word of the current DMA chunk's card address; used by
+                                                ; GusDramDmaDone, GusStartDramDma
         resb 2
-GusDmaLeft:
+GusDmaLeft:                                     ; bytes of the download still to transfer; used by
+                                                ; GusDramDmaDone, GusStartDramDma
         resb 4
-GusDmaChunkSize:
+GusDmaChunkSize:                                ; size of the current DMA chunk; used by GusDramDmaDone,
+                                                ; GusStartDramDma
         resb 4
-GusDmaDone:
+GusDmaDone:                                     ; bytes of the download transferred so far; used by
+                                                ; GusDramDmaDone, GusStartDramDma
         resb 4
-GusDmaControl:
+GusDmaControl:                                  ; DMA control register value for the download; used by
+                                                ; GusDramDmaDone, GusStartDramDma
         resb 1
-GusDmaFlags:
+GusDmaFlags:                                    ; flags of the current download; used by GusStartDramDma
         resb 15
-StartupStack:
+StartupStack:                                   ; stack the program starts on; used by start
         resb 32776

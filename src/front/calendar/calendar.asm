@@ -3113,5 +3113,5 @@ DrawCalendar:
         pop edi
         pop esi
         ret 0Ch
-SeasonPlayoffBracketOrder:
+SeasonPlayoffBracketOrder:                      ; used by SimSeasonGames
         db 00h,02h,04h,06h,07h,05h,03h,01h

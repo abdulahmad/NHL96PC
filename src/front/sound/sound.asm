@@ -646,7 +646,7 @@ StopArenaClip:
 GetSoundCard:
         mov eax, dword [sndcard]
         ret
-GetSoundCardJumpTable:
+GetSoundCardJumpTable:                          ; jump table for the switch cases
         dd .4
         dd .5
         dd .1
@@ -728,7 +728,7 @@ TestCdSpeed:
 .3:
         mov word [CdSpeedChecked], 1
         jmp near FindTeamPairClip_85
-StartSoundCardJumpTable:
+StartSoundCardJumpTable:                        ; jump table for the switch cases of StartSoundCard
         dd StartSoundCard_23
         dd StartSoundCard_2A
         dd StartSoundCard_31

@@ -5,37 +5,46 @@ section s_17D678 nobits alloc noexec write align=1
 global GreyColorOrder, DialCursor, DialLength, DialDigitsBmp, DialAbort, TeamSelectCursor, HomePanelArt, TeamPanelFont
 global LangBlockState, LangBlockText, LangBlockPtrs, LangBlockLastId, LangBlockIds, LangFileHandle, NewSeasonChoice, statsbgshapes
 global SeasonMenuActive
-DialCursor:
+DialCursor:                                     ; cursor in the dial number field; used by DrawPhoneNumber,
+                                                ; ModemDialScreen
         resb 4
-DialLength:
+DialLength:                                     ; length of the number typed; used by DrawPhoneNumber,
+                                                ; ModemDialScreen
         resb 4
-DialDigitsBmp:
+DialDigitsBmp:                                  ; dial digits bitmap; used by DrawPhoneNumber, ModemDialScreen
         resb 4
-DialAbort:
+DialAbort:                                      ; used by ModemDialScreen
         resb 4
-TeamSelectCursor:
+TeamSelectCursor:                               ; team select cursor; used by TeamSelectScreen
         resb 4
-HomePanelArt:
+HomePanelArt:                                   ; home team panel art; used by DrawAwayTeamPanel,
+                                                ; DrawHomeTeamPanel, TeamSelectScreen
         resb 4
-TeamPanelFont:
+TeamPanelFont:                                  ; team panel font; used by DrawAwayTeamPanel,
+                                                ; DrawHomeTeamPanel, LoadLangText ...
         resb 4
-LangBlockState:
+LangBlockState:                                 ; state of each language text block; used by GetLangText
         resb 12
-LangBlockText:
+LangBlockText:                                  ; language text for the current block; used by LoadLangText
         resb 4
-LangBlockPtrs:
+LangBlockPtrs:                                  ; pointers to the language text blocks; used by GetLangText,
+                                                ; LoadLangBlock
         resb 12
-LangBlockLastId:
+LangBlockLastId:                                ; last id loaded into each language block; used by
+                                                ; LoadLangText
         resb 4
-LangBlockIds:
+LangBlockIds:                                   ; id of each language text block; used by GetLangText,
+                                                ; LoadLangBlock
         resb 16
-LangFileHandle:
+LangFileHandle:                                 ; language text file handle; used by LoadLangBlock,
+                                                ; LoadLangText
         resb 4
-GreyColorOrder:
+GreyColorOrder:                                 ; grey colour order table; used by CompareGrey, SortGreyColors
         resb 256
-NewSeasonChoice:
+NewSeasonChoice:                                ; choice on the new season screen; used by NewSeasonScreen
         resb 4
-statsbgshapes:
+statsbgshapes:                                  ; same data as the like-named label used by the same routines
+                                                ; in the earlier PC version
         resb 4
-SeasonMenuActive:
+SeasonMenuActive:                               ; season menu is active; used by CreateSeason, RunSeasonMenus
         resb 4

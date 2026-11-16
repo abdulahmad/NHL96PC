@@ -49,7 +49,7 @@ ProjectPointList:
         pop esi
         ret
         db 00h,00h,00h,00h,00h
-AngleOfVectorJumpTable:
+AngleOfVectorJumpTable:                         ; jump table for the switch cases of AngleOfVector
         dd AngleOfVector_C0
         dd AngleOfVector_90
         dd AngleOfVector_9C

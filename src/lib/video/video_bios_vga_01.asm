@@ -1171,6 +1171,6 @@ SetModeX:
         pop edi
         pop esi
         ret
-ModeXCrtcTable:
+ModeXCrtcTable:                                 ; used by SetModeX
         db 06h,0Dh,07h,03Eh,09h,041h,010h,0EAh,011h,0ACh,012h,0DFh,014h,00h,015h,0E7h
         db 016h,06h,017h,0E3h,00h,00h,00h

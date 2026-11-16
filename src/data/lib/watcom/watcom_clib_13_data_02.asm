@@ -3,25 +3,29 @@ bits 32
 %include "hockey.inc"
 section s_124124 progbits alloc noexec write align=1
 global HotkeyScanTable, __NHandles, __io_mode, JoyCalibArrowX, JoyCalibArrowY, __init_mode
-__NHandles:
+__NHandles:                                     ; number of file handles; used by __IOMode_
         db 014h,00h,00h,00h
-__init_mode:
+__init_mode:                                    ; initial file handle modes
         db 01h,00h,00h,00h,02h,00h,00h,00h,02h,00h,00h,00h,03h,00h,00h,00h
         db 02h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-__io_mode:
+__io_mode:                                      ; file handle mode table pointer; used by __IOMode_,
+                                                ; __SetIOMode_
         dd __init_mode
-JoyCalibArrowX:
+JoyCalibArrowX:                                 ; joystick calibration arrow X positions; used by
+                                                ; JoystickCalibrateScreen
         db 086h,00h,00h,00h,086h,00h,00h,00h,0AEh,00h,00h,00h,0AEh,00h,00h,00h
         db 0AEh,00h,00h,00h,086h,00h,00h,00h,05Eh,00h,00h,00h,05Eh,00h,00h,00h
         db 05Eh,00h,00h,00h
-JoyCalibArrowY:
+JoyCalibArrowY:                                 ; joystick calibration arrow Y positions; used by
+                                                ; JoystickCalibrateScreen
         db 067h,00h,00h,00h,049h,00h,00h,00h,049h,00h,00h,00h,067h,00h,00h,00h
         db 085h,00h,00h,00h,085h,00h,00h,00h,085h,00h,00h,00h,067h,00h,00h,00h
         db 049h,00h,00h,00h
-HotkeyScanTable:
+HotkeyScanTable:                                ; scan code per registered hotkey; used by DispatchHotkey,
+                                                ; SetHotkey
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h

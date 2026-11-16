@@ -27,10 +27,10 @@ global NewSeasonScreen_768, NewSeasonScreen_798, NewSeasonScreen_7C5, NewSeasonS
 global NewSeasonScreen_9A9, NewSeasonScreen_9AA, SetGreyPalette, DrawSeasonTeams, CreateSeason, EditSeasonName, EditSeasonName_D3, EditSeasonName_E0
 global WriteSeasonBlock, WriteSeasonHeader, MakeSeasonDbPath, MakeSeasonDbPath_51, MakePlayoffDbPath, MakePlayoffDbPath_15F, ResetSeasonFiles, str_Punct
 global SeasonMenuHotspots, StandingsHotspots, SimPlayoffBracketOrder, SeasonMenuChoiceJumpTable, SeasonMenuLastJumpTable
-NewSeasonDefaultOptions:
+NewSeasonDefaultOptions:                        ; used by NewSeasonScreen
         db 05h,00h,00h,00h,00h,00h,00h,00h,01h,00h,00h,00h,03h,00h,00h,00h
         db 04h,00h,00h,00h,00h,00h,00h,00h
-NewSeasonHotspots:
+NewSeasonHotspots:                              ; used by NewSeasonScreen
         db 0DBh,00h,00h,00h,069h,00h,00h,00h,0E4h,00h,00h,00h,060h,00h,00h,00h
         db 092h,01h,00h,00h,061h,00h,00h,00h,09Dh,01h,00h,00h,068h,00h,00h,00h
         db 09Ch,01h,00h,00h,07Ah,00h,00h,00h,091h,01h,00h,00h,07Fh,00h,00h,00h
@@ -144,13 +144,13 @@ SortGreyColors:
         pop ecx
         pop ebx
         ret
-NewSeasonChoiceJumpTable:
+NewSeasonChoiceJumpTable:                       ; jump table for the switch cases of NewSeasonScreen
         dd NewSeasonScreen_5FB
         dd NewSeasonScreen_8AF
         dd NewSeasonScreen_8BB
         dd NewSeasonScreen_8CB
         dd NewSeasonScreen_8E0
-NewSeasonOptionJumpTable:
+NewSeasonOptionJumpTable:                       ; jump table for the switch cases of NewSeasonScreen
         dd NewSeasonScreen_768
         dd NewSeasonScreen_798
         dd NewSeasonScreen_7C5
@@ -2365,10 +2365,10 @@ ResetSeasonFiles:
         pop ecx
         pop ebx
         ret
-str_Punct:
+str_Punct:                                      ; string; used by SeasonMenuScreen
         db 09h,00h,00h,00h,03h,00h,00h,00h,05h,00h,00h,00h,00h,00h,00h,00h
         db 01h,00h,00h,00h,00h,00h,00h,00h
-SeasonMenuHotspots:
+SeasonMenuHotspots:                             ; used by SeasonMenuScreen
         db 0DBh,00h,00h,00h,069h,00h,00h,00h,0E4h,00h,00h,00h,060h,00h,00h,00h
         db 092h,01h,00h,00h,061h,00h,00h,00h,09Dh,01h,00h,00h,068h,00h,00h,00h
         db 09Ch,01h,00h,00h,07Ah,00h,00h,00h,091h,01h,00h,00h,07Fh,00h,00h,00h
@@ -2393,14 +2393,14 @@ SeasonMenuHotspots:
         db 07Bh,01h,00h,00h,0C1h,01h,00h,00h,0EFh,01h,00h,00h,0C1h,01h,00h,00h
         db 0F8h,01h,00h,00h,0C8h,01h,00h,00h,0F7h,01h,00h,00h,0D1h,01h,00h,00h
         db 0EFh,01h,00h,00h,0D6h,01h,00h,00h,079h,01h,00h,00h,0D7h,01h,00h,00h
-StandingsHotspots:
+StandingsHotspots:                              ; used by StandingsScreen
         db 0DAh,00h,00h,00h,066h,00h,00h,00h,0E3h,00h,00h,00h,05Fh,00h,00h,00h
         db 091h,01h,00h,00h,05Eh,00h,00h,00h,09Dh,01h,00h,00h,065h,00h,00h,00h
         db 09Dh,01h,00h,00h,076h,00h,00h,00h,092h,01h,00h,00h,07Fh,00h,00h,00h
         db 0E6h,00h,00h,00h,07Fh,00h,00h,00h,0DAh,00h,00h,00h,078h,00h,00h,00h
-SimPlayoffBracketOrder:
+SimPlayoffBracketOrder:                         ; used by SimulateRestOfSeason
         db 00h,02h,04h,06h,07h,05h,03h,01h
-SeasonMenuChoiceJumpTable:
+SeasonMenuChoiceJumpTable:                      ; jump table for the switch cases of SeasonMenuScreen
         dd SeasonMenuScreen_794
         dd SeasonMenuScreen_7AC
         dd SeasonMenuScreen_C68
@@ -2410,7 +2410,7 @@ SeasonMenuChoiceJumpTable:
         dd SeasonMenuScreen_AF7
         dd SeasonMenuScreen_B7E
         dd SeasonMenuScreen_C05
-SeasonMenuLastJumpTable:
+SeasonMenuLastJumpTable:                        ; jump table for the switch cases of SeasonMenuScreen
         dd SeasonMenuScreen_9D7
         dd SeasonMenuScreen_A07
         dd SeasonMenuScreen_A34

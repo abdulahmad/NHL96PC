@@ -11,12 +11,12 @@ global MakeDataPathArtJumpTable, MakeDataPathCopyJumpTable, MakeDataPath, MakeDa
 global MakeDataPath_E8, MakeDataPath_EE, MakeDataPath_101, MakeDataPathArchiveJumpTable, MakeDirPath, SelectDataLibraryJumpTable, SelectDataLibrary, SelectDataLibrary_32
 global SelectDataLibrary_3A, SelectDataLibrary_40, SelectDataLibrary_54, LoadDataFile, LoadDataFile_1B, LoadArtArchiveFile, LoadDataFileHandle, LoadPackedFile
 global LoadDataFileLib, MakeDatabasePath
-MakeDataPathArtJumpTable:
+MakeDataPathArtJumpTable:                       ; jump table for the switch cases of MakeDataPath
         dd MakeDataPath_63
         dd MakeDataPath_42
         dd MakeDataPath_4A
         dd MakeDataPath_50
-MakeDataPathCopyJumpTable:
+MakeDataPathCopyJumpTable:                      ; jump table for the switch cases of MakeDataPath
         dd MakeDataPath_101
         dd MakeDataPath_E0
         dd MakeDataPath_E8
@@ -159,7 +159,7 @@ MakeDataPath_101:
         pop ecx
         pop ebx
         ret
-MakeDataPathArchiveJumpTable:
+MakeDataPathArchiveJumpTable:                   ; jump table for the switch cases
         dd .6
         dd .1
         dd .3
@@ -250,7 +250,7 @@ MakeDirPath:
         pop esi
         pop ecx
         ret
-SelectDataLibraryJumpTable:
+SelectDataLibraryJumpTable:                     ; jump table for the switch cases of SelectDataLibrary
         dd SelectDataLibrary_54
         dd SelectDataLibrary_32
         dd SelectDataLibrary_3A

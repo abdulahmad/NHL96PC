@@ -11,106 +11,150 @@ global GusStreamQuarterSize, GusRefillSrc, GusRefillDest, GusRefillLength, GusSt
 global MemViewBlack, MemViewWhite, MemViewYellow, MemViewGreen, MemViewRed, MemViewShowDetail, MemViewLastMode, MemViewCursor
 global MemViewSavedTop, MemViewSavedRow, PaletteCursorColours, MonthNameTable, MemMapRulePtr, GusStreamLoopLo, GusStreamLoopHi, GusStreamStartHi
 global GusStreamEndLo, GusStreamEndHi, GusBasePort, GusIrqStatusPort, GusIrqLatchPort, GusDmaLatchPort
-DmaPagePorts:
+DmaPagePorts:                                   ; DMA page register port for each channel; used by DmaProgram
         db 087h,083h,081h,082h,08Fh,08Bh,089h,08Ah
-DmaMaskPorts:
+DmaMaskPorts:                                   ; DMA mask register port for each channel; used by
+                                                ; DmaMaskChannel, DmaProgram
         db 0Ah,0Ah,0Ah,0Ah,0D4h,0D4h,0D4h,0D4h
-DmaModePorts:
+DmaModePorts:                                   ; DMA mode register port for each channel; used by DmaProgram
         db 0Bh,0Bh,0Bh,0Bh,0D6h,0D6h,0D6h,0D6h
-DmaClearPorts:
+DmaClearPorts:                                  ; DMA flip-flop clear port for each channel; used by
+                                                ; DmaProgram
         db 0Ch,0Ch,0Ch,0Ch,0D8h,0D8h,0D8h,0D8h
-DmaAddressPorts:
+DmaAddressPorts:                                ; DMA address port for each channel; used by DmaProgram
         db 00h,02h,04h,06h,0C0h,0C4h,0C8h,0CCh
-DmaCountPorts:
+DmaCountPorts:                                  ; DMA count port for each channel; used by DmaProgram,
+                                                ; DmaReadCount
         db 01h,03h,05h,07h,0C2h,0C6h,0CAh,0CEh
-DmaLastHalf:
+DmaLastHalf:                                    ; DMA buffer half reported last time; used by DmaPlayedHalf
         db 0FFh,0FFh,0FFh,0FFh
-GusEnvVarName:
+GusEnvVarName:                                  ; points to the name of the environment variable that holds
+                                                ; the card settings; used by GusGetEnvConfig
         dd str_ULTRASND
-GusOpenCount:
+GusOpenCount:                                   ; number of times the card has been opened without a matching
+                                                ; close; used by GusClose, GusOpen
         db 00h,00h,00h,00h
-GusIrqLatchBits:
+GusIrqLatchBits:                                ; latch register bits for each IRQ line the card can use; used
+                                                ; by GusOpenCard, GusSetIrqDmaLatches
         db 00h,00h,01h,03h,00h,02h,00h,04h,00h,00h,00h,05h,06h,00h,00h,07h
-GusStreamRefillLeft:
+GusStreamRefillLeft:                            ; left stream voice needs a refill; used by GusServiceStream,
+                                                ; GusStreamVoiceIrq
         db 00h,00h,00h,00h
-GusStreamRefillRight:
+GusStreamRefillRight:                           ; right stream voice needs a refill; used by GusDriverUpdate,
+                                                ; GusServiceStream, GusStreamVoiceIrq
         db 00h,00h,00h,00h
-GusStreamSrcLeft:
+GusStreamSrcLeft:                               ; source buffer of the left stream voice; used by
+                                                ; GusRefillStreamChannel, GusStartStream
         db 00h,00h,00h,00h
-GusStreamHalfLeft:
+GusStreamHalfLeft:                              ; half of the left stream buffer to refill; used by
+                                                ; GusRefillStreamChannel, GusStartStream
         db 00h,00h,00h,00h
-GusStreamBusyLeft:
+GusStreamBusyLeft:                              ; left stream voice still playing; used by GusServiceStream,
+                                                ; GusStreamBusy, GusStreamVoiceIrq
         db 00h,00h,00h,00h
-GusStreamSrcRight:
+GusStreamSrcRight:                              ; source buffer of the right stream voice; used by
+                                                ; GusRefillStreamChannel, GusStartStream
         db 00h,00h,00h,00h
-GusStreamHalfRight:
+GusStreamHalfRight:                             ; half of the right stream buffer to refill; used by
+                                                ; GusRefillStreamChannel, GusStartStream
         db 00h,00h,00h,00h
-GusStreamBusyRight:
+GusStreamBusyRight:                             ; right stream voice still playing; used by GusServiceStream,
+                                                ; GusStreamBusy, GusStreamVoiceIrq
         db 00h,00h,00h,00h
-GusStreamActive:
+GusStreamActive:                                ; set while the stream voices are running; used by
+                                                ; GusStartStream, GusStopStreamVoices, GusStreamVoiceIrq
         db 00h,00h,00h,00h
-GusStreamVoiceLeft:
+GusStreamVoiceLeft:                             ; left stream voice number; used by GusStartStream,
+                                                ; GusStopStreamVoices, GusStreamVoiceIrq
         db 00h,00h,00h,00h
-GusStreamVoiceStereo:
+GusStreamVoiceStereo:                           ; set when the stream uses a second (stereo) voice; used by
+                                                ; GusStartStream, GusStopStreamVoices
         db 00h,00h,00h,00h
-GusStreamVoiceRight:
+GusStreamVoiceRight:                            ; right stream voice number; used by GusStartStream,
+                                                ; GusStopStreamVoices, GusStreamVoiceIrq
         db 00h,00h,00h,00h
-GusStreamBufSize:
+GusStreamBufSize:                               ; size of the stream buffer in card memory; used by
+                                                ; GusStartStream
         db 00h,00h,00h,00h
-GusStreamHalfSize:
+GusStreamHalfSize:                              ; size of one half of the stream buffer; used by
+                                                ; GusRefillStreamChannel, GusStartStream
         db 00h,00h,00h,00h
-GusStreamQuarterSize:
+GusStreamQuarterSize:                           ; quarter of the stream buffer size; used by GusStartStream
         db 00h,00h,00h,00h
-GusRefillSrc:
+GusRefillSrc:                                   ; source pointer of the half buffer being copied; used by
+                                                ; GusRefillStreamChannel
         db 00h,00h,00h,00h
-GusRefillDest:
+GusRefillDest:                                  ; card address the half buffer is copied to; used by
+                                                ; GusRefillStreamChannel
         db 00h,00h,00h,00h
-GusRefillLength:
+GusRefillLength:                                ; length of the half buffer being copied; used by
+                                                ; GusRefillStreamChannel
         db 00h,00h,00h,00h
-GusStreamCardLeft:
+GusStreamCardLeft:                              ; card memory of the left stream voice; used by
+                                                ; GusRefillStreamChannel, GusStartStream
         db 00h,00h,00h,00h
-GusStreamCardRight:
+GusStreamCardRight:                             ; card memory of the right stream voice; used by
+                                                ; GusRefillStreamChannel, GusStartStream
         db 00h,00h,00h,00h
-GusStreamCardEnd:
+GusStreamCardEnd:                               ; end of the stream buffers in card memory; used by
+                                                ; GusRefillStreamChannel, GusStartStream
         db 00h,00h,00h,00h
-GusStreamLoopLo:
+GusStreamLoopLo:                                ; low word of the stream voices' loop point; used by
+                                                ; GusStartStream, GusStreamVoiceIrq
         db 00h,00h
-GusStreamLoopHi:
+GusStreamLoopHi:                                ; high word of the stream voices' loop point; used by
+                                                ; GusStartStream, GusStreamVoiceIrq
         db 00h,00h
-GusStreamStartLo:
+GusStreamStartLo:                               ; low word of the stream voices' start address; used by
+                                                ; GusStartStream
         db 00h,00h
-GusStreamStartHi:
+GusStreamStartHi:                               ; high word of the stream voices' start address; used by
+                                                ; GusStartStream
         db 00h,00h
-GusStreamEndLo:
+GusStreamEndLo:                                 ; low word of the stream voices' end address; used by
+                                                ; GusStartStream
         db 00h,00h
-GusStreamEndHi:
+GusStreamEndHi:                                 ; high word of the stream voices' end address; used by
+                                                ; GusStartStream
         db 00h,00h
-MemViewBlack:
+MemViewBlack:                                   ; memory viewer black colour index; used by MemViewer,
+                                                ; MemViewerBlockInfo, MemViewerDrawList ...
         db 00h,00h,00h,00h
-MemViewWhite:
+MemViewWhite:                                   ; memory viewer white colour index; used by MemViewer,
+                                                ; MemViewerBlockInfo, MemViewerSelectRow ...
         db 03h,00h,00h,00h
-MemViewYellow:
+MemViewYellow:                                  ; memory viewer yellow colour index; used by MemViewer,
+                                                ; MemViewerBlockInfo, MemViewerDrawList ...
         db 03h,00h,00h,00h
-MemViewGreen:
+MemViewGreen:                                   ; memory viewer green colour index; used by MemViewer,
+                                                ; MemViewerDrawList
         db 01h,00h,00h,00h
-MemViewRed:
+MemViewRed:                                     ; memory viewer red colour index; used by MemViewer,
+                                                ; MemViewerBlockInfo, MemViewerDrawList
         db 02h,00h,00h,00h
-MemMapRulePtr:
+MemMapRulePtr:                                  ; pointer to the line of stars written in the memory map file;
+                                                ; used by DumpShapesList, WriteMemMap
         dd str_StarRule
         dd str_Fs
-MemViewShowDetail:
+MemViewShowDetail:                              ; memory viewer shows block details (toggled by D); used by
+                                                ; MemViewerDrawList, MemViewerLoop, WriteMemMap
         db 00h,00h,00h,00h
-MemViewLastMode:
+MemViewLastMode:                                ; memory viewer mode from the last call; used by MemViewer,
+                                                ; MemViewerKeys, MemViewerOpenAlt
         db 00h,00h,00h,00h
-MemViewCursor:
+MemViewCursor:                                  ; memory viewer cursor; used by MemPoolTotals, MemViewer,
+                                                ; MemViewerDrawTitle ...
         db 00h,00h,00h,00h
-MemViewSavedTop:
+MemViewSavedTop:                                ; memory viewer list top kept between calls; used by
+                                                ; MemViewer, MemViewerKeys, MemViewerLoop
         db 00h,00h,00h,00h
-MemViewSavedRow:
+MemViewSavedRow:                                ; memory viewer selected row kept between calls; used by
+                                                ; MemViewer, MemViewerKeys, MemViewerLoop
         db 00h,00h,00h,00h
-PaletteCursorColours:
+PaletteCursorColours:                           ; palette viewer cursor xor colours; used by PaletteViewer
         db 0FFh,0FFh,00h,00h,0AAh,0AAh,00h,00h
-MonthNameTable:
+MonthNameTable:                                 ; pointer to each month name, by month number; used by
+                                                ; FormatDateTime
         db 055h,055h,00h,00h
         dd str_Jan2
         dd str_Feb3
@@ -125,11 +169,15 @@ MonthNameTable:
         dd str_Nov2
         dd str_Dec2
         db 00h,00h,00h,00h
-GusBasePort:
+GusBasePort:                                    ; base port of the card; the other port words follow; used by
+                                                ; GusSetBasePort, GusSetIrqDmaLatches
         db 020h,02h
-GusIrqStatusPort:
+GusIrqStatusPort:                               ; card port of the IRQ status register; used by
+                                                ; GusDramDmaDone, GusMidiIrqService, GusReadIrqSource ...
         db 026h,02h,028h,02h,029h,02h
-GusIrqLatchPort:
+GusIrqLatchPort:                                ; card port of the IRQ latch register; used by
+                                                ; GusSetIrqDmaLatches
         db 02Bh,02h
-GusDmaLatchPort:
+GusDmaLatchPort:                                ; card port of the DMA latch register; used by
+                                                ; GusSetIrqDmaLatches
         db 02Fh,02h

@@ -15,84 +15,108 @@ global FractionRowsSmall, __EFG_printf, __EFG_scanf, FractionRows
 
 
 
-WssDmaAlloc:
+WssDmaAlloc:                                    ; Windows Sound System DMA buffer allocation; used by
+                                                ; WssClose, WssOpen
         db 00h,00h,00h,00h
-WssRunning:
+WssRunning:                                     ; set while Windows Sound System output runs; used by
+                                                ; WssClose, WssOpen, WssService
         db 00h,00h,00h,00h
-WssFormatBits:
+WssFormatBits:                                  ; Windows Sound System format bits for each channel mode (3
+                                                ; byte rows); used by WssOpen
         db 00h
-WssMixFormat:
+WssMixFormat:                                   ; mixer format for each channel mode; used by WssOpen
         db 010h
-WssBytesPerFrame:
+WssBytesPerFrame:                               ; bytes per sample frame for each channel mode; used by
+                                                ; WssOpen
         db 04h,010h,014h,02h,050h,0Ch,01h,00h,00h,00h
-GusDriverIsOpen:
+GusDriverIsOpen:                                ; set while the Gravis driver is open; used by GusDriverClose,
+                                                ; GusDriverUpdate, GusStart
         db 00h,00h,00h,00h
-GusDmaAlloc:
+GusDmaAlloc:                                    ; Gravis DMA buffer allocation; used by GusDriverClose,
+                                                ; GusStart
         db 00h,00h,00h,00h
-GusEnvRead:
+GusEnvRead:                                     ; set once the Gravis settings have been read; used by
+                                                ; GusDetect, GusDriverClose, GusDriverOpen ...
         db 00h,00h,00h,00h
-GusCardFound:
+GusCardFound:                                   ; set once the Gravis card has been found; used by GusDetect,
+                                                ; GusDriverClose, GusDriverOpen ...
         db 00h,00h,00h,00h
-SbRunning:
+SbRunning:                                      ; set while Sound Blaster output runs; used by SbClose,
+                                                ; SbOpen, SbService
         db 00h,00h,00h,00h
-SbDmaAlloc:
+SbDmaAlloc:                                     ; Sound Blaster DMA buffer allocation; used by SbClose, SbOpen
         db 00h,00h,00h,00h
-SbProRunning:
+SbProRunning:                                   ; set while Sound Blaster Pro output runs; used by SbProClose,
+                                                ; SbProOpen, SbProService
         db 00h,00h,00h,00h
-SbProDmaAlloc:
+SbProDmaAlloc:                                  ; Sound Blaster Pro DMA buffer allocation; used by SbProClose,
+                                                ; SbProOpen
         db 00h,00h,00h,00h
-SbProChannels:
+SbProChannels:                                  ; Sound Blaster Pro channel count: 1 mono, 2 stereo; used by
+                                                ; SbProOpen, SbProStartDma, SbProStopDma
         db 01h,00h,00h,00h
-SbProMixFormat:
+SbProMixFormat:                                 ; mixer format for each channel count; used by SbProOpen
         db 010h
-SbProFrameBytes:
+SbProFrameBytes:                                ; bytes per sample frame for each channel count; used by
+                                                ; SbProOpen
         db 02h,014h,01h
-Sb16Running:
+Sb16Running:                                    ; set while Sound Blaster 16 output runs; used by Sb16Close,
+                                                ; Sb16Open, Sb16Service
         db 00h,00h,00h,00h
-Sb16DmaAlloc:
+Sb16DmaAlloc:                                   ; Sound Blaster 16 DMA buffer allocation; used by Sb16Close,
+                                                ; Sb16Open
         db 00h,00h,00h,00h
-Sb16Mode:
+Sb16Mode:                                       ; Sound Blaster 16 output mode: 1 8-bit, 2 16-bit; used by
+                                                ; Sb16Open, Sb16StartDma
         db 02h,00h,00h,00h
-Sb16DspCommand:
+Sb16DspCommand:                                 ; DSP output command for each mode (4 byte rows); used by
+                                                ; Sb16StartDma
         db 0C6h
-Sb16DspModeByte:
+Sb16DspModeByte:                                ; DSP mode byte for each mode; used by Sb16StartDma
         db 00h
-Sb16MixFormat:
+Sb16MixFormat:                                  ; mixer format for each mode; used by Sb16Open
         db 010h
-Sb16FrameBytes:
+Sb16FrameBytes:                                 ; bytes per sample frame for each mode; used by Sb16Open
         db 04h,0C6h,020h,014h,02h,0B6h,030h,0Ch,01h
-SndTickBusy:
+SndTickBusy:                                    ; set while the sound tick runs; used by SndTimerCallback
         db 00h,00h,00h,00h
-ModalBeginHook:
+ModalBeginHook:                                 ; called before a modal box opens; used by
+                                                ; JoystickCalibrateScreen, ShowPromptBox
         dd ReturnZero
-ModalEndHook:
+ModalEndHook:                                   ; called after a modal box closes; used by
+                                                ; JoystickCalibrateScreen, ShowPromptBox
         dd ReturnZero
-SoundOnHook:
+SoundOnHook:                                    ; turns sound effects on; used by SetHotkey
         dd ReturnZero
-SoundOffHook:
+SoundOffHook:                                   ; turns sound effects off; used by SetHotkey
         dd ReturnZero
-SoundToggleHook:
+SoundToggleHook:                                ; toggles sound effects and returns the new state; used by
+                                                ; SetHotkey
         dd ReturnZero
-MusicOnHook:
+MusicOnHook:                                    ; turns music on; used by SetHotkey
         dd ReturnZero
-MusicOffHook:
+MusicOffHook:                                   ; turns music off; used by SetHotkey
         dd ReturnZero
-MusicToggleHook:
+MusicToggleHook:                                ; toggles music and returns the new state; used by SetHotkey
         dd ReturnZero
         db 00h,00h,00h,00h
-TickWaitTarget:
+TickWaitTarget:                                 ; tick count a timed wait runs until; used by CosLookup
         db 00h,00h,00h,00h
-_environ:
+_environ:                                       ; Watcom: the environment pointer table __setenvp_ builds;
+                                                ; used by __setenvp_, getenv_
         db 00h,00h,00h,00h
-___env_mask:
+___env_mask:                                    ; Watcom: one flag byte per environ entry; used by __setenvp_
         db 00h,00h,00h,00h
-__nheapbeg:
+__nheapbeg:                                     ; near heap start; used by __CreateNewNHeap_, __ExpandDGROUP_,
+                                                ; __qwrite_
         db 01h,00h,00h,00h
-__amblksiz:
+__amblksiz:                                     ; heap growth amount; used by __AdjustAmount_, __CommonInit_
         db 010h,00h,00h,00h
-FractionRowCount:
+FractionRowCount:                               ; number of rows in the fraction row table; used by
+                                                ; SetupRectFill
         db 032h,00h,00h,00h
-FractionRowTable:
+FractionRowTable:                               ; pointer to the fraction row for each divisor; used by
+                                                ; SetupRectFill
         dd FractionRowsSmall
         dd FractionRowsSmall
         dd FractionRowsSmall
@@ -144,7 +168,7 @@ FractionRowTable:
         dd FractionRows+870h
 FractionRowsSmall equ $+2
         dd FractionRows+8CEh
-FractionRows:
+FractionRows:                                   ; rows of 16-bit fractions k/n for each divisor n
         db 00h,080h,055h,055h
         db 0AAh,0AAh,00h,040h,00h,080h
         db 00h,0C0h,033h,033h,066h,066h,099h,099h
@@ -313,9 +337,10 @@ FractionRows:
         db 02Fh,0A7h,068h,0ACh,0A1h,0B1h,0DBh,0B6h,014h,0BCh,04Eh,0C1h,087h,0C6h,0C1h,0CBh
         db 0FAh,0D0h,034h,0D6h,06Dh,0DBh,0A7h,0E0h,0E0h,0E5h,01Ah,0EBh,053h,0F0h,08Dh,0F5h
         db 0C6h,0FAh
-__EFG_printf:
+__EFG_printf:                                   ; float formatting routine for printf; used by __setEFGfmt_,
+                                                ; float_format_
         dd NoFloatSupport
-__EFG_scanf:
+__EFG_scanf:                                    ; float parsing routine for scanf; used by __setEFGfmt_
         dd NoFloatSupport
-str_SHPI2:
+str_SHPI2:                                      ; string "SHPI"; used by ConvertShapeBank
         db 053h,048h,050h,049h,00h,00h,00h,00h,00h,00h,00h,00h,053h,050h,049h,054h

@@ -5,7 +5,7 @@ section s_14FBF4 progbits alloc noexec write align=1
 extern EmuNoOp
 global Hook387Flag, Hook387Saved, AdpcmDeltaTable, AdpcmIndexAdjust, AdpcmLeftSample, AdpcmRightSample, AdpcmLeftIndex, AdpcmRightIndex
 global EmuInitHook, EmuFiniHook, EmuTrapFrame, DefaultControlWord
-EmuTrapFrame:
+EmuTrapFrame:                                   ; x87 emulator trap frame; used by EmuTrapExit
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -14,17 +14,19 @@ EmuTrapFrame:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-Hook387Flag:
+Hook387Flag:                                    ; x87 emulator hooked; used by __hook387, __unhook387
         db 00h
-Hook387Saved:
+Hook387Saved:                                   ; x87 emulator saved state; used by __hook387, __unhook387
         db 00h,00h,00h
-DefaultControlWord:
+DefaultControlWord:                             ; default FPU control word; used by __init_8087_,
+                                                ; __sys_init_387_emulator
         db 07Fh,012h,00h,00h
-EmuInitHook:
+EmuInitHook:                                    ; x87 emulator init routine; used by __init_8087_
         dd EmuNoOp
-EmuFiniHook:
+EmuFiniHook:                                    ; x87 emulator shutdown routine; used by __init_8087_
         dd EmuNoOp
-AdpcmDeltaTable:
+AdpcmDeltaTable:                                ; ADPCM sample change for each step and code; used by
+                                                ; AdpcmDecodeMono, AdpcmDecodeStereo
         db 00h,00h,00h,00h,01h,00h,00h,00h,03h,00h,00h,00h,04h,00h,00h,00h
         db 07h,00h,00h,00h,08h,00h,00h,00h,0Ah,00h,00h,00h,0Bh,00h,00h,00h
         db 00h,00h,00h,00h,0FFh,0FFh,0FFh,0FFh,0FDh,0FFh,0FFh,0FFh,0FCh,0FFh,0FFh,0FFh
@@ -381,14 +383,17 @@ AdpcmDeltaTable:
         db 0FEh,08Fh,00h,00h,0FDh,0AFh,00h,00h,0FDh,0CFh,00h,00h,0FCh,0EFh,00h,00h
         db 01h,0F0h,0FFh,0FFh,02h,0D0h,0FFh,0FFh,02h,0B0h,0FFh,0FFh,03h,090h,0FFh,0FFh
         db 02h,070h,0FFh,0FFh,03h,050h,0FFh,0FFh,03h,030h,0FFh,0FFh,04h,010h,0FFh,0FFh
-AdpcmIndexAdjust:
+AdpcmIndexAdjust:                               ; ADPCM step index change for each code; used by
+                                                ; AdpcmDecodeMono, AdpcmDecodeStereo
         db 0C0h,0FFh,0FFh,0FFh,0C0h,0FFh,0FFh,0FFh,0C0h,0FFh,0FFh,0FFh,0C0h,0FFh,0FFh,0FFh
         db 080h,00h,00h,00h,00h,01h,00h,00h,080h,01h,00h,00h,00h,02h,00h,00h
-AdpcmLeftSample:
+AdpcmLeftSample:                                ; last decoded sample, first channel; used by
+                                                ; AdpcmDecodeStereo
         db 00h,00h,00h,00h
-AdpcmRightSample:
+AdpcmRightSample:                               ; last decoded sample, second channel; used by
+                                                ; AdpcmDecodeStereo
         db 00h,00h,00h,00h
-AdpcmLeftIndex:
+AdpcmLeftIndex:                                 ; ADPCM step index, first channel; used by AdpcmDecodeStereo
         db 00h,00h,00h,00h
-AdpcmRightIndex:
+AdpcmRightIndex:                                ; ADPCM step index, second channel; used by AdpcmDecodeStereo
         db 00h,00h,00h,00h

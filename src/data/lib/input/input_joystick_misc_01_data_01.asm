@@ -7,7 +7,7 @@ extern str_Jun, str_Jul, str_Aug, str_Sep, str_Oct, str_Nov, str_Dec, unk_1213DC
 extern unk_1213FC, unk_1215B8
 global JoyCalibrating, JoyButtonBits, JoyPortMask, JoyButtons, JoyButtonsPrev, JoyDirection, byte_11F983, byte_11F9D8
 global byte_11F9D9, byte_11F9DA, byte_11FA2C, byte_11FA2D, byte_11FA2E, byte_11FA2F, byte_11FA30, byte_11FA31
-global str_ctl07, byte_11FA4F, TintTable, byte_11FB50, byte_11FC50, dword_11F8E0, KbdIdleHook, HeapList
+global str_ctl07, byte_11FA4F, TintTable, byte_11FB50, byte_11FC50, LastTickCount, KbdIdleHook, HeapList
 global HeapRover, HeapLargestFree, JoyTimeX, TimerCalibration, JoyTimeY, JoyTimeSecondX, JoyTimeSecondY, JoyCalibrateTicks
 global JoyReadTimeout, JoyAxisX1, JoyAxisY1, JoyAxisX2, JoyAxisY2, JoyAxisMask, str_P, JoyX1Min
 global JoyX1Center, JoyX1Max, JoyX1Settle, JoyY1Min, JoyY1Max, str_P2, JoyY1MinSeen, JoyY1Center
@@ -19,7 +19,7 @@ global off_11FA10, oldint8off, oldint8sel, tickcount, tickdeadline, JoyAxisValue
 global word_11F91C
 tickdeadline:
         db 00h,00h,00h,00h
-dword_11F8E0:
+LastTickCount:
         db 00h,00h,00h,00h
 KbdIdleHook:
         dd PollHotkeys

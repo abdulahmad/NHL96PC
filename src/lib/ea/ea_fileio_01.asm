@@ -2,9 +2,9 @@
 bits 32
 %include "hockey.inc"
 section s_E0658 progbits alloc exec nowrite align=1
-extern FatalError, str_OpenhandleSFILEERROR, byte_121AFC, dword_121B24, dword_121B28, dword_121B2C, dword_121B30
-global openhandle_14, sub_E07CC_2, DosCallSplitDx, sub_E0671, DosOpenReadOnly, sub_E069C, openhandle, DosCloseFile
-global DosWriteFile, sub_E07CC, sub_E081C
+extern FatalError, str_OpenhandleSFILEERROR, ResourceArchiveName, dword_121B24, dword_121B28, dword_121B2C, ResourceArchive
+global openhandle_14, sub_E07CC_2, DosCallSplitDx, DosOpenFile, DosOpenReadOnly, sub_E069C, openhandle, DosCloseFile
+global DosWriteFile, sub_E07CC, DosSeekFile
 ;-----------------------------------------------------------------------------
 ; DosCallSplitDx                                  E0658  96 PC, low confidence
 ; Calls DOS with a 32-bit value split into CX:DX and joins DX:AX back into
@@ -26,9 +26,10 @@ DosCallSplitDx:
         pop ecx
         ret
 ;-----------------------------------------------------------------------------
-; sub_E0671                                                            E0671  
+; DosOpenFile                                  E0671  96 PC, medium confidence
+; Opens a file through DOS with the given mode
 ;-----------------------------------------------------------------------------
-sub_E0671:
+DosOpenFile:
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFF8h
@@ -95,9 +96,9 @@ openhandle_14:
         leave
         ret
 .1:
-        cmp byte [byte_121AFC], 0
+        cmp byte [ResourceArchiveName], 0
         je short .3
-        mov edx, byte_121AFC
+        mov edx, ResourceArchiveName
         mov eax, dword [byte ebp-08h]
         LD xor, ecx, ecx
         int 21h
@@ -108,7 +109,7 @@ openhandle_14:
         mov edx, dword [dword_121B24]
         cmp byte [edx], 0
         jne short .2
-        mov ecx, dword [dword_121B30]
+        mov ecx, dword [ResourceArchive]
         mov ah, 3Fh
         int 21h
         jb short .3
@@ -212,9 +213,10 @@ sub_E07CC_2:
         leave
         ret
 ;-----------------------------------------------------------------------------
-; sub_E081C                                                            E081C  
+; DosSeekFile                                  E081C  96 PC, medium confidence
+; Moves a DOS file pointer to an absolute position
 ;-----------------------------------------------------------------------------
-sub_E081C:
+DosSeekFile:
         push ebp
         LD mov, ebp, esp
         mov ebx, dword [byte ebp+08h]

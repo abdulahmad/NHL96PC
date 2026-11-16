@@ -14,7 +14,7 @@ extern dword_1A0FF4, dword_1A0FF8, dword_1A0FFC, dword_1A1004, dword_1A100A, dwo
 extern dword_1A101C, dword_1A1020, dword_1A1024, dword_1A1028, dword_1A1030, dword_1A1034, dword_1A1038, dword_1A103C
 extern dword_1A1040, dword_1A1044, dword_1A1048, dword_1A104C, dword_1A1052, dword_1A1058, dword_1A105C, dword_1A1060
 extern dword_1A1064, dword_1A1068, dword_1A106C, dword_1A1070, dword_1A1074, dword_1A1078, dword_1A107C, dword_1A1084
-extern dword_1A108A, getenv_, unk_D79E5_2, unk_D7A02_2, sub_AB798, FreeMemBlock, sub_B178B, DrawArtOpaque
+extern dword_1A108A, getenv_, unk_D79E5_2, unk_D7A02_2, sub_AB798, FreeMemBlock, atoi_, DrawArtOpaque
 extern sub_BF950, sub_BFC91, sub_BFE4C, sub_C03F8, sub_C0BCD, sub_C1322, sub_C1811, sub_CBEB7
 extern MixerFillBuffer, MixerStopChannel, ReturnArg, TimerCalibrate, TimerRestore, sub_D5BB1, sub_D5E50, sub_D5E7D
 extern IrqAck, IrqVector, IrqUnmask, IrqMask, IrqSetHandler, sub_D6027, sub_D60D2, GusGetEnvConfig
@@ -700,7 +700,7 @@ sub_CE672:
         call getenv_
         test eax, eax
         je short .5
-        call sub_B178B
+        call atoi_
         mov ebx, eax
 .5:
         test ebx, ebx

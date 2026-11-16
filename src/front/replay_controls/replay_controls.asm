@@ -63,7 +63,7 @@ extern GetLangText, PickIndexEntryScreen, DrawShapeAtOwnPos, sub_AAA40, sub_AAA8
 extern FreeMemBlock, sub_AD35C, FillRect, sub_ADBEC, sub_AFFD0, SaveTextState, SetDrawTarget, TextSetFont
 extern sub_B0CA8, sub_B2B0C, sub_B58D8, sub_B6140, sub_BA3D0, DrawFlatPoly, DrawPolyOutline, sub_BB924
 extern sub_BB9C4, MultiplyMatrix, sub_BC3A0, sub_BC610, sub_BC674, sub_BC6D8, SortIndices, sub_BEAE4
-extern SetScreenTarget, SetClipWindow, MouseRead, SetViewRect, sub_DFEC6, sub_E04E0, sub_E0584, SetViewScreenOrigin
+extern SetScreenTarget, SetClipWindow, MouseRead, SetViewRect, TicksSinceLast, sub_E04E0, sub_E0584, SetViewScreenOrigin
 extern SetCameraAngles, TransposeMatrix, str_D19, str_dot4, unk_11A430, unk_11A770, unk_11A9B0, unk_11AB30
 extern unk_11AE70, unk_11B0B0, unk_11B230, unk_122344, unk_16443C, unk_1774C4, unk_177510, unk_1778C4
 extern unk_177908, unk_1781E4, unk_1781FE, unk_179980, unk_179AC0, unk_179E02, optblock_end, unk_17D32C
@@ -2432,7 +2432,7 @@ ReplayFrame:
         mov eax, dword_178243
         call SetCameraShot
 .10:
-        call sub_DFEC6
+        call TicksSinceLast
         mov dword [dword_1781F8], 0
         push dword [dword_11B234]
         mov dword [dword_11A428], eax

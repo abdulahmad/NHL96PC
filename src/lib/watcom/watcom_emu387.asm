@@ -8,7 +8,7 @@ extern Hook387Save, EmuZeroTbyte, unk_D2444, unk_D2448, EmuRegRing, unk_D244C, u
 extern unk_D249C, unk_D24A0, unk_D24A2, EmuCompareCcBits, EmuFpremCcBits, EmuEaModRmTable, EmuEaSibTable
 global __hook387, __init_80x87, __unhook387, EmuDispatchD9RegJumpTable, EmuFtstFxamJumpTable, EmuSignOpsJumpTable, EmuLogOpsJumpTable, EmuRemOpsJumpTable
 global jpt_D398A, EmuDispatchDBRegJumpTable, jpt_D3C1C, jpt_D3DD1, RoundToDouble_32, RoundToDouble_49, RoundToDouble_84, jpt_D3A13_2C
-global jpt_D3DD1_20, jpt_D3DD1_69, jpt_D3DD1_CE, jpt_D3DD1_F8, jpt_D3DD1_110, sub_D3F70_7, sub_D4524_3, sub_D459F_8
+global jpt_D3DD1_20, jpt_D3DD1_69, jpt_D3DD1_CE, jpt_D3DD1_F8, jpt_D3DD1_110, EmuAdd_7, sub_D4524_3, sub_D459F_8
 global EmuTan_E, EmuTrapExit, RoundToSingle, RoundToDouble, RaiseFpuError, EaEax, EaEcx, EaEdx
 global EaEbx, EaEsp, EaDisp32, EaEsi, EaEdi, EaEaxDisp8, EaEcxDisp8, EaEdxDisp8
 global EaEbxDisp8, EaEspDisp8, EaEbpDisp8, EaEsiDisp8, EaEdiDisp8, EaEaxDisp32, EaEcxDisp32, EaEdxDisp32
@@ -24,7 +24,7 @@ global EmuReservedOp, EmuDispatchD9Reg, EmuFaddSt, EmuFmulSt, EmuFcomSt, EmuFcom
 global EmuFdivSt, EmuFdivrSt, EmuFldSt, EmuFxch, EmuFtstFxam, EmuSignOps, EmuLogOps, EmuRemOps
 global EmuFucompp, EmuDispatchDBReg, EmuFaddToSt, EmuFmulToSt, EmuFsubrToSt, EmuFsubToSt, EmuFdivrToSt, EmuFdivToSt
 global EmuFfree, EmuFstSt, EmuFucom, EmuFucomp, EmuFstpSt, EmuFaddp, EmuFmulp, EmuFcompp
-global EmuFsubrp, EmuFsubp, EmuFdivrp, EmuFdivp, EmuDispatchDFReg, EmuSub, sub_D3F70, AddExtRaw
+global EmuFsubrp, EmuFsubp, EmuFdivrp, EmuFdivp, EmuDispatchDFReg, EmuSub, EmuAdd, AddExtRaw
 global AddMantissas, EmuCompare, EmuDiv, DivideMantissas, EmuMul, MultiplyMantissas, StoreM32Int, sub_D4524
 global LoadM32Int, sub_D459F, LoadM64Real, StoreM32Real, StoreM64Real, LoadM32Real, ExtToInt, EmuRemainder
 global RemainderStep, EmuRoundInt, RoundMantissa, EmuExamine, AddOne, EmuLog2, Log2Core, SinCosCore
@@ -524,7 +524,7 @@ EmuFaddM32:
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte ebp+06Ch]
         lea ebx, [byte edi+ebp+01Ch]
-        call sub_D3F70
+        call EmuAdd
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
 ; EmuFmulM32                                   D2BC8  96 PC, medium confidence
@@ -720,7 +720,7 @@ EmuFiaddM32:
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte ebp+06Ch]
         lea ebx, [byte edi+ebp+01Ch]
-        call sub_D3F70
+        call EmuAdd
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
 ; EmuFimulM32                                  D2D96  96 PC, medium confidence
@@ -872,7 +872,7 @@ EmuFaddM64:
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte ebp+06Ch]
         lea ebx, [byte edi+ebp+01Ch]
-        call sub_D3F70
+        call EmuAdd
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
 ; EmuFmulM64                                   D2F26  96 PC, medium confidence
@@ -1106,7 +1106,7 @@ EmuFiaddM16:
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte ebp+06Ch]
         lea ebx, [byte edi+ebp+01Ch]
-        call sub_D3F70
+        call EmuAdd
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
 ; EmuFimulM16                                  D3183  96 PC, medium confidence
@@ -1337,7 +1337,7 @@ EmuFaddSt:
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte esi+ebp+01Ch]
         lea ebx, [byte edi+ebp+01Ch]
-        call sub_D3F70
+        call EmuAdd
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
 ; EmuFmulSt                                    D33C7  96 PC, medium confidence
@@ -1785,7 +1785,7 @@ EmuFaddToSt:
         lea eax, [byte esi+ebp+01Ch]
         lea edx, [byte edi+ebp+01Ch]
         lea ebx, [byte esi+ebp+01Ch]
-        call sub_D3F70
+        call EmuAdd
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
 ; EmuFmulToSt                                  D3A7A  96 PC, medium confidence
@@ -1901,7 +1901,7 @@ EmuFaddp:
         lea eax, [byte esi+ebp+01Ch]
         lea edx, [byte edi+ebp+01Ch]
         lea ebx, [byte esi+ebp+01Ch]
-        call sub_D3F70
+        call EmuAdd
         mov bx, word [dword cs:edi+EmuRegTagMasks]
         and word [byte ds:ebp+08h], bx
         mov bx, word [dword cs:edi+unk_D24A2]
@@ -2175,16 +2175,17 @@ EmuSub:
         push ebx
         mov si, word [byte edx+08h]
         xor si, 8000h
-        jmp short sub_D3F70_7
+        jmp short EmuAdd_7
 ;-----------------------------------------------------------------------------
-; sub_D3F70                                                            D3F70  
+; EmuAdd                                          D3F70  96 PC, low confidence
+; X87 emulator: adds two extended values
 ;-----------------------------------------------------------------------------
-sub_D3F70:
+EmuAdd:
         push esi
         push ecx
         push ebx
         mov si, word [byte edx+08h]
-sub_D3F70_7:
+EmuAdd_7:
         mov ecx, dword [byte edx+04h]
         mov ebx, dword [edx]
         shl esi, 10h

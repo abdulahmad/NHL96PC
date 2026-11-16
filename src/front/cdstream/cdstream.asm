@@ -4,8 +4,8 @@ bits 32
 section s_1C627 progbits alloc exec nowrite align=1
 extern addtimer, dword_1150E8, dword_1150EC, dword_1150F0, dword_1150F4, dword_1150F8, dword_152FD8, dword_152FDC
 extern dword_152FE0, dword_152FE4, FatalError, str_CDSTREAM, str_DelstreamSTREAMNOTFOUND, str_SECCDSTREAM, str_SetstreamspeedSFILEISTOO, str_STREAM
-extern str_StreamreaderILLEGALCHUNK, strcmp_, strncpy_, RemoveTimerCallback, AllocMemBlock, FreeMemBlock, sub_B67BC, CdCloseFile
-extern sub_B68C8, sub_B6964, sub_B69EC, sub_B6A14, sub_B6B10, sub_DFEC6, bcopy
+extern str_StreamreaderILLEGALCHUNK, strcmp_, strncpy_, RemoveTimerCallback, AllocMemBlock, FreeMemBlock, CdOpenStream, CdCloseFile
+extern CdRead, CdSeek, DriveLetterIndex, IsCdDrive, DetectMscdex, TicksSinceLast, bcopy
 global CdStreamInit, CdStreamOpen, CdStreamOpen_2B, CdStreamOpenDefault, setstreamspeed, delstream, CdStreamStart, CdStreamQueue
 global CdStreamSeek, CdStreamSyncTime, CdStreamInitSecondary, CdStreamOpenSecondary, jpt_1CB20, CdStreamService, CdStreamService_18, CdStreamService_2E
 global CdStreamService_3C, CdStreamService_95, CdStreamService_EC, CdStreamService_129, CdStreamService_34E, CdStreamService_456, CdStreamService_5F4, CdStreamService_6BE
@@ -135,7 +135,7 @@ setstreamspeed:
         lea eax, [byte ebp-0Ch]
         push eax
         push dword [byte ebp+010h]
-        call sub_B67BC
+        call CdOpenStream
         add esp, byte 14h
         test esi, esi
         je short .1
@@ -148,7 +148,7 @@ setstreamspeed:
         lea eax, [byte ebp-010h]
         push eax
         push dword [byte ebp+014h]
-        call sub_B67BC
+        call CdOpenStream
         add esp, byte 14h
         jmp short .2
 .1:
@@ -185,9 +185,9 @@ setstreamspeed:
         push eax
         push dword [byte ebp-0Ch]
         mov edi, eax
-        call sub_B68C8
+        call CdRead
         add esp, byte 0Ch
-        call sub_DFEC6
+        call TicksSinceLast
         mov esi, dword [byte ebp-014h]
 .5:
         test esi, esi
@@ -196,18 +196,18 @@ setstreamspeed:
         push edi
         push dword [byte ebp-0Ch]
         sub esi, 2000h
-        call sub_B68C8
+        call CdRead
         add esp, byte 0Ch
         jmp short .5
 .6:
-        call sub_DFEC6
+        call TicksSinceLast
         push byte 1
         push edi
         push dword [byte ebp-010h]
         mov dword [byte ebp-04h], eax
-        call sub_B68C8
+        call CdRead
         add esp, byte 0Ch
-        call sub_DFEC6
+        call TicksSinceLast
         push dword [byte ebp-0Ch]
         mov esi, eax
         call CdCloseFile
@@ -247,14 +247,14 @@ setstreamspeed:
         mov dword [dword_1150E8], 1
 .10:
         push dword [byte ebp+010h]
-        call sub_B69EC
+        call DriveLetterIndex
         add esp, byte 4
         push eax
-        call sub_B6A14
+        call IsCdDrive
         add esp, byte 4
         test eax, eax
         je short .11
-        call sub_B6B10
+        call DetectMscdex
         test eax, eax
         jne short .11
         mov dword [dword_1150E8], 1
@@ -414,7 +414,7 @@ CdStreamSeek:
         jmp short .1
 ;-----------------------------------------------------------------------------
 ; CdStreamSyncTime                                1CA52  96 PC, low confidence
-; Stores the current stream's play position (sub_B6964) in the stream
+; Stores the current stream's play position (CdSeek) in the stream
 ;-----------------------------------------------------------------------------
 CdStreamSyncTime:
         push ebp
@@ -422,7 +422,7 @@ CdStreamSyncTime:
         mov eax, dword [dword_152FE4]
         push dword [byte eax+048h]
         push dword [byte eax+018h]
-        call sub_B6964
+        call CdSeek
         mov edx, dword [byte ebp+08h]
         mov eax, dword [dword_1150EC]
         add esp, byte 8
@@ -549,7 +549,7 @@ CdStreamService_3C:
         push edx
         add eax, byte 60h
         push eax
-        call sub_B67BC
+        call CdOpenStream
         mov eax, dword [dword_152FE4]
         mov edx, dword [byte eax+03Ch]
         add edx, dword [byte eax+044h]
@@ -579,7 +579,7 @@ CdStreamService_95:
         push edx
         add eax, byte 60h
         push eax
-        call sub_B67BC
+        call CdOpenStream
         mov eax, dword [dword_152FE4]
         mov edx, dword [byte eax+03Ch]
         add edx, dword [byte eax+044h]
@@ -673,7 +673,7 @@ CdStreamService_129:
         mov eax, dword [dword_152FE4]
         push dword [byte eax+048h]
         push dword [byte eax+018h]
-        call sub_B6964
+        call CdSeek
         mov edx, eax
         mov eax, dword [dword_152FE4]
         mov dword [byte eax+050h], edx
@@ -744,7 +744,7 @@ CdStreamService_129:
         mov dword [dword_1150F8], 0
         push dword [byte eax+08h]
         push dword [byte eax+018h]
-        call sub_B68C8
+        call CdRead
         mov eax, dword [dword_1150F8]
         add dword [dword_1150F0], eax
         mov eax, dword [dword_152FE4]
@@ -1066,7 +1066,7 @@ CdStreamService_6BE:
         mov dword [dword_1150F8], 0
         push dword [byte edx+08h]
         push dword [byte eax+018h]
-        call sub_B68C8
+        call CdRead
         mov eax, dword [dword_1150F8]
         add dword [dword_1150F0], eax
         mov eax, dword [dword_152FE4]

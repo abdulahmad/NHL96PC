@@ -7,7 +7,7 @@ extern dword_11F5A0, dword_11F5C0, dword_11F5C4, dword_11FA14, dword_11FA18, dwo
 extern dword_122904, FatalError, fputchar, GetTicks, initgraphics, SetViewRect, SoundIdle, str_COPY
 extern str_CouldNotAllocateLibraryB, str_LIBBUGFIX, str_NHLinitgraphicsfixNotCal, str_USETABLE, AllocMemBlock, sub_AB798, FreeMemBlock, sub_ADA50
 extern sub_ADA80, sub_AFFD0, sub_B0CA8, sub_B0F7C, sub_B2B0C, sub_B3360, sub_B3420, sub_B3458
-extern sub_B58D8, sub_B6140, sub_BF8A8, SetScreenTarget, GetPaletteRange, sub_DD7B8, sub_DDF4F, sub_DE01A
+extern sub_B58D8, sub_B6140, TranslatePixels, SetScreenTarget, GetPaletteRange, sub_DD7B8, sub_DDF4F, sub_DE01A
 extern sub_DE084, bcopy, sub_E1824, unk_121FC8, IntroPalette, unk_17C0E0, WaitRetrace, WaitRetraceEdges
 global BlackPalette, FadePalette, FadeOut, CopyBitmapRows, CopyBitmapRows_76, CopyBitmap, InitGraphicsFix, SetGraphicsMode
 global SetGraphicsMode_204, SetScreenMode, DrawText, DrawTextRight, DrawTextRight_17, DrawTextCentred, FindTextColors, SetTextColors
@@ -873,7 +873,7 @@ FillBox:
         push eax
         push dword [byte ebp-010h]
         push edx
-        call sub_BF8A8
+        call TranslatePixels
         add esp, byte 0Ch
         jmp short .7
 .5:
@@ -890,7 +890,7 @@ FillBox:
         push dword [byte ebp-08h]
         push dword [byte ebp-010h]
         push edi
-        call sub_BF8A8
+        call TranslatePixels
         add esp, byte 0Ch
         add edi, dword [byte ebp-0Ch]
         jmp short .6
@@ -1406,7 +1406,7 @@ RemapScreenColors:
         push eax
         inc dword [byte ebp+062h]
         add esi, byte 8
-        call sub_BF8A8
+        call TranslatePixels
         add esp, byte 0Ch
 .19:
         mov eax, dword [byte ebp+062h]

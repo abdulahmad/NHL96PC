@@ -7,7 +7,7 @@ extern dword_11F5CC, dword_11F5D0, dword_11F5D4, dword_11F5D8, dword_1210CC, Scr
 extern dword_122908, dword_12290C, dword_122910, dword_122914, dword_122918, dword_122920, dword_122924, dword_122930
 extern dword_123930, dword_123ACC, dword_123AD0, VesaBank, VesaBankFunc, dword_19B650, dword_1A0B1C, sub_ADBEC
 extern sub_BF300, sub_BF42C, SetScreenTarget, VesaSetBank, sub_DE44E, sub_DE45F, SaveTextMode
-global initgraphics, sub_BF8A8, SumRingRange
+global initgraphics, TranslatePixels, SumRingRange
 ;-----------------------------------------------------------------------------
 ; initgraphics                                 BF534  95 PC, medium confidence
 ;-----------------------------------------------------------------------------
@@ -270,9 +270,10 @@ initgraphics:
         ret
         db 00h,00h
 ;-----------------------------------------------------------------------------
-; sub_BF8A8                                                            BF8A8  
+; TranslatePixels                                 BF8A8  96 PC, low confidence
+; Translates a run of 8-bit pixels through a table
 ;-----------------------------------------------------------------------------
-sub_BF8A8:
+TranslatePixels:
         push ebp
         LD mov, ebp, esp
         push edi

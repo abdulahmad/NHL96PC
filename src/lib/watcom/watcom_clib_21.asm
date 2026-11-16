@@ -4,7 +4,7 @@ bits 32
 section s_DCC25 progbits alloc exec nowrite align=1
 extern __CHP, RemapTable, byte_123988, str_Inf, str_Nan, DblMaxLow, DblMaxHigh, DblMinusMaxLow
 extern DblMinusMaxHigh, dword_1210C0, dword_1228F4, F64_neg1_floor_, F64_Scale10Max, F64_Scale10Min, Pow10Table, PutBlock
-extern DrawArtOpaque, sub_BF02C, sub_BF034, sub_BF04B, sub_BF8A8, sub_DF6A7, sub_DF810, bcopy
+extern DrawArtOpaque, sub_BF02C, sub_BF034, sub_BF04B, TranslatePixels, sub_DF6A7, sub_DF810, bcopy
 extern Scale10Count
 global _Scale10V_, _Scale_, __Bin2String, __CmpBigInt, __Nan_Inf_, __Rnd2Int, __cvt_, floor_
 global frexp_, modf_, ModfCore, DecimalToInt64, NormalizeDouble, sub_DD120, sub_DD220, sub_DD2A0
@@ -768,7 +768,7 @@ sub_DD2A0:
         push byte_123988
         lea eax, [byte ebx+010h]
         push eax
-        call sub_BF8A8
+        call TranslatePixels
         add esp, byte 0Ch
         ret
         db 08Bh,0C0h
@@ -802,7 +802,7 @@ sub_DD2A0:
         push byte_123988
         add eax, byte 10h
         push eax
-        call sub_BF8A8
+        call TranslatePixels
         add esp, byte 0Ch
 .2:
         inc esi

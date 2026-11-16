@@ -14,7 +14,7 @@ extern str_NumberOfShapesD, str_44s66ld, str_Bytes3dRows3d2, str_XY3d3d, str_033
 extern asc_114968, str_SCREEN2, asc_11497C, asc_114984, str_2d02d02d, byte_11F9D8, byte_1A11D9, dword_11F5A0
 extern dword_11F5C0, dword_11F5C4, dword_1210CC, dword_15139C, dword_1513A0, dword_1513A4, dword_1513A8, dword_1513AC
 extern dword_1513B8, dword_1513BC, dword_1513C0, dword_1513C4, dword_1513C8, dword_1513CC, dword_1513D4, memlist1
-extern dword_185690, dword_185738, dword_18573C, dword_185848, dword_1A11BC, dword_1A11C0, dword_1A11C4, dword_1A11C8
+extern MemBlockGuards, dword_185738, dword_18573C, dword_185848, dword_1A11BC, dword_1A11C0, dword_1A11C4, dword_1A11C8
 extern dword_1A11CC, dword_1A11D0, dword_1A11D4, dword_1A11D8, dword_1A11DC, dword_1A11E0, fclose_, fopen_
 extern fprintf_, min_, off_1513B0, sprintf_, strncpy_, PutBlock, sub_AADA4, sub_ABF88
 extern sub_AC194, CompactDownLocked, CompactUpLocked, DebugSetLine, sub_ACCF8, sub_ACD24, sub_ACD38, FillRect
@@ -220,7 +220,7 @@ sub_D7FFC:
         pop ebx
         ret
 .1:
-        mov eax, dword [dword eax+dword_185690]
+        mov eax, dword [dword eax+MemBlockGuards]
         pop edx
         pop ebx
         ret

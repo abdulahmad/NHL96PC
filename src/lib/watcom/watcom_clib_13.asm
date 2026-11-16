@@ -17,7 +17,7 @@ extern sub_B7810, AddVec3, sub_B9C70, sub_BD86C, sub_BEAE4, initgraphics, sub_C2
 extern sub_C4D80, InitFpuFlags, sub_D0650, CMainHook, __CommonInit_, sub_D06FC, sub_D077C, sub_D1080
 extern sub_D1280, DrawTextBoxedAt, sub_D1860, sub_D1920, sub_D19BC, sub_D1A88, sub_D1B3C, sub_D1BEC
 extern sub_D1CE0, SetScreenTarget, SetClipWindow, sub_DD830, sub_DD87C, SetBlitSource, CopyMappedSpan, sub_DDB22
-extern sub_DDC2A, PlotPixel, sub_DE18C, VesaSetBank, sub_DF22C, sub_DF2CC, sub_DF38C, sub_DF44C
+extern sub_DDC2A, PlotPixel, PlotPixelClipped, VesaSetBank, sub_DF22C, sub_DF2CC, sub_DF38C, sub_DF44C
 extern sub_DF50C, sub_DFB84, sub_DFB88, KbdGetKey, SetKbdIdleHook, sub_DFF7C, ReadJoystickPorts, sub_E0456
 extern sub_E0486, AddExitHandler, sub_E0584, InstallBreakHandler, vecdist, SetViewScreenOrigin, SetCameraAngles, sub_E193C
 extern sub_E1956, RestoreTextMode, sub_E272C, SinCosLookup, tolower_, unk_1210DC, unk_1213DC, InitRtnsEntry
@@ -26,9 +26,9 @@ global __CMain, __FiniRtns, __HeapManager_expand_, __IOMode_, __InitRtns, __SetI
 global __set_errno_dos_, __sys_init_387_emulator, _dosret0_, _nexpand_, _nmsize_, file_putc_, int386_, int386x_
 global isatty_, _nexpand__10, __HeapManager_expand__18F, __HeapManager_expand__1EA, sub_C60EC_168, min__10, BuildSpanOffsets_6C, min_
 global segread_, strnicmp_, sub_C4FA0, sub_C50E0, sub_C5410, sub_C59E0, sub_C5AE2, sub_C5AF0
-global sub_C5B18, PrintBoxedText, sub_C5D56, sub_C6000, sub_C6090, sub_C60EC, sub_C626C, sub_C62E0
-global sub_C63DC, sub_C65A0, sub_C65F8, sub_C6FA4, sub_C70A8, sub_C7A54, RasterShapeTriangle, DrawShapeTriangleMapped
-global sub_C85F0, sub_C8D50, sub_C955C, sub_C972C, sub_C98FC, sub_C9A20, sub_C9A80, sub_C9AD8
+global sub_C5B18, PrintBoxedText, CdDirSearch, sub_C6000, sub_C6090, sub_C60EC, sub_C626C, sub_C62E0
+global sub_C63DC, PolyCrossProduct, sub_C65F8, sub_C6FA4, sub_C70A8, sub_C7A54, RasterShapeTriangle, DrawShapeTriangleMapped
+global DrawClippedPoly, sub_C8D50, sub_C955C, sub_C972C, sub_C98FC, sub_C9A20, sub_C9A80, sub_C9AD8
 global sub_C9D50, sub_C9D80, sub_C9E68, Div64By32, sub_C9F3A, Shl64, BuildSpanOffsets, sub_CA288
 global sub_CA584, FixedSinCos, unlink_
 ;-----------------------------------------------------------------------------
@@ -268,7 +268,7 @@ sub_C4FA0:
         mov esi, dword [byte esp+020h]
         push esi
 .2:
-        call sub_DE18C
+        call PlotPixelClipped
         add esp, byte 0Ch
 .3:
         add esp, byte 8
@@ -1428,9 +1428,10 @@ PrintBoxedText:
         add esp, 204h
         ret
 ;-----------------------------------------------------------------------------
-; sub_C5D56                                                            C5D56  
+; CdDirSearch                                  C5D56  96 PC, medium confidence
+; Searches the CD directory for a file name and fills a find record
 ;-----------------------------------------------------------------------------
-sub_C5D56:
+CdDirSearch:
         push dword 0ACh
         call __CHK
         push ecx
@@ -2362,9 +2363,10 @@ sub_C63DC:
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_C65A0                                                            C65A0  
+; PolyCrossProduct                             C65A0  96 PC, medium confidence
+; Returns the 2D cross product of three indexed polygon points (its winding)
 ;-----------------------------------------------------------------------------
-sub_C65A0:
+PolyCrossProduct:
         push esi
         mov eax, dword [byte esp+08h]
         mov edx, dword [byte esp+0Ch]
@@ -5096,9 +5098,10 @@ DrawShapeTriangleMapped:
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_C85F0                                                            C85F0  
+; DrawClippedPoly                              C85F0  96 PC, medium confidence
+; Clips and draws a polygon
 ;-----------------------------------------------------------------------------
-sub_C85F0:
+DrawClippedPoly:
         push esi
         push edi
         push ebp

@@ -64,11 +64,11 @@ extern str_Wedge, str_WHD0, str_Zamboni, str_Zambpath, strcat_, strcpy_, SelectD
 extern sub_4B38C, sub_4B4F3, DrawRinkSprite, SpriteScale, InitMenuItems, RunMenu, SetMenuMouse, FillMusicStream
 extern SoundSecondsToBytes, SoundIdle, BuildAntiAliasTable, DrawFixedLine, DrawFixedLineClip, DrawShapeAtOwnPos, sub_AAA40, sub_AADA4
 extern AllocMemBlock, FreeMemBlock, sub_AC868, sub_AD35C, sub_AD620, sub_AD824, sub_ADBEC, sub_AFD00
-extern LoadResourceDataShared, sub_B049E, OpenArtArchiveErr, sub_B31C0, LoadFileToBlockShared, sub_B7810, SetRinkView, sub_B78DC
-extern sub_B79C8, sub_B79E0, sub_B7A70, sub_B81D0, sub_B82F0, sub_B9870, sub_B98E0, sub_B9928
-extern sub_B9A18, sub_B9B34, sub_B9B70, sub_B9BB0, sub_B9BD0, AddVec3, SubVec3, sub_B9C70
+extern LoadResourceDataShared, sub_B049E, OpenArtArchiveErr, sub_B31C0, LoadFileToBlockShared, sub_B7810, SetRinkView, TransformRinkPoints
+extern ProjectRinkObject, sub_B79E0, sub_B7A70, sub_B81D0, sub_B82F0, sub_B9870, sub_B98E0, sub_B9928
+extern sub_B9A18, sub_B9B34, sub_B9B70, FixedLerp, sub_B9BD0, AddVec3, SubVec3, sub_B9C70
 extern sub_BA2F0, sub_BA344, sub_BA3D0, AngleOfVector, SinInterp, CosInterp, sub_BA5D0, sub_BB384
-extern DrawFlatPoly, DrawPolyOutline, sub_BB924, sub_BB9C4, sub_BBAA0, sub_BBB70, SetRinkMatrix, SetRinkTranslation
+extern DrawFlatPoly, DrawPolyOutline, sub_BB924, sub_BB9C4, sub_BBAA0, DrawPolyList, SetRinkMatrix, SetRinkTranslation
 extern SetScreenScale, sub_BBC14, sub_BBC80, sub_BBE50, sub_BC040, sub_BC0C4, sub_BC150, sub_BC3A0
 extern sub_BC3F4, sub_BC5C0, sub_BC674, sub_BC760, sub_BC7F0, sub_BC838, sub_BD86C, sub_BD9AC
 extern sub_BE6E0, sub_BE8AC, sub_BE926, SetScreenTarget, SetRemapTable, GetRemapTable, sub_DD908, SetBlitSource
@@ -85,7 +85,7 @@ extern word_17706E
 global unk_21984, DrawIceCrud, sub_21B35, sub_21BC9, sub_21BC9_19, AddIceCrud, LoadFshFile, LoadFshFile_E1
 global LoadIceTexture, sub_21E3E, ClipEdgeToNear, ClipLineToNear, DrawFaceEdge, DrawFaceEdge_4F, sub_221AE, sub_22268
 global DrawFatLine, DrawFatLine_AC, sub_2234B, sub_223BA, DrawRubberEdge, sub_22494, RubberSideFace, RubberSideFace_8
-global RubberFace, sub_224DB, sub_22522, TopBoardsFace, TopBoardsFace_E, BotBoardsFace, FatRedLineFace, FatRedLineFace_8
+global RubberFace, sub_224DB, DrawStandsSide, TopBoardsFace, TopBoardsFace_E, BotBoardsFace, FatRedLineFace, FatRedLineFace_8
 global FatRedLineFace_17, FatBlueLineFace, ThinRedLineFace, GlassLineFace, GlassLineFace_17, GlassFace, sub_22734, GoalPipeFace
 global BuildCircleTable, DrawIceSurface, sub_22AF0, sub_22B3C, sub_22B3C_1DF, sub_22D27, sub_22DD7, FindNearestGlass
 global RandomTrianglePoint, AddGlassShard, SplitGlassShards, ShatterGlass, BreakGlass, ClearGlassHoles, ResetBrokenGlass, ResetBrokenGlass_1A8
@@ -1300,9 +1300,10 @@ sub_224DB:
         mov edx, dword [dword_15E86C]
         jmp short .1
 ;-----------------------------------------------------------------------------
-; sub_22522                                                       22522  96 PC
+; DrawStandsSide                                  22522  96 PC, low confidence
+; Draws the stands at one side
 ;-----------------------------------------------------------------------------
-sub_22522:
+DrawStandsSide:
         push ebx
         push ecx
         push edx
@@ -1577,7 +1578,7 @@ sub_22734:
         mov esi, edx
         push dword [byte edx+04h]
         push byte 4
-        call sub_B78DC
+        call TransformRinkPoints
         add esp, byte 8
         test eax, eax
         jne short .5
@@ -3663,7 +3664,7 @@ UpdateGoalLight:
         push eax
         push dword 0FFh
         push dword 0C8h
-        call sub_B9BB0
+        call FixedLerp
         add esp, byte 0Ch
         test esi, esi
         jge short .3
@@ -3859,7 +3860,7 @@ DrawGoalLight:
         lea eax, [byte ebp-030h]
         push eax
         push dword [dword_15E47C]
-        call sub_BBB70
+        call DrawPolyList
 DrawGoalLight_A4:
         add esp, byte 8
         jmp near sub_24D8C_1A3
@@ -3916,7 +3917,7 @@ TransformRink:
         mov eax, dword [eax]
         push dword [byte eax+04h]
         push byte 4
-        call sub_B78DC
+        call TransformRinkPoints
         add esp, byte 8
         test eax, eax
         sete al
@@ -3946,7 +3947,7 @@ TransformRink:
         push dword [byte eax+04h]
         push byte 4
         mov dword [byte ebp-0Ch], eax
-        call sub_B78DC
+        call TransformRinkPoints
         add esp, byte 8
         test eax, eax
         sete al
@@ -3956,7 +3957,7 @@ TransformRink:
         je short .6
         mov eax, dword [byte ebp-0Ch]
         push dword [byte eax+04h]
-        call sub_B79C8
+        call ProjectRinkObject
         add esp, byte 4
         test eax, eax
         setl al
@@ -4500,7 +4501,7 @@ DrawStandsSides:
         cmp esi, byte 4
         jge short .7
         mov eax, dword [edx]
-        call sub_22522
+        call DrawStandsSide
         jmp short .8
 .7:
         mov eax, dword [edx]
@@ -4540,7 +4541,7 @@ DrawStandsSides:
         jmp short .15
 .14:
         mov eax, dword [ecx]
-        call sub_22522
+        call DrawStandsSide
         inc ebx
         add ecx, byte 4
 .15:
@@ -4585,7 +4586,7 @@ sub_249E8:
         mov eax, dword [edi]
         push dword [byte eax+04h]
         push byte 4
-        call sub_B78DC
+        call TransformRinkPoints
         add esp, byte 8
         test eax, eax
         jne short .5
@@ -4657,7 +4658,7 @@ sub_24AA4:
         mov eax, dword [byte ebp-04h]
         push dword [byte eax+04h]
         push byte 4
-        call sub_B78DC
+        call TransformRinkPoints
         add esp, byte 8
         test eax, eax
         jne short .4
@@ -4675,7 +4676,7 @@ sub_24AA4:
         mov eax, dword [edi]
         push dword [byte eax+04h]
         push byte 4
-        call sub_B78DC
+        call TransformRinkPoints
         add esp, byte 8
         test eax, eax
         jne short .4
@@ -4820,7 +4821,7 @@ DrawSideGlass:
         mov eax, dword [edi]
         push dword [byte eax+04h]
         push byte 4
-        call sub_B78DC
+        call TransformRinkPoints
         add esp, byte 8
         test eax, eax
         jne short .4
@@ -4923,7 +4924,7 @@ sub_24D8C:
         mov eax, dword [edi]
         push dword [byte eax+04h]
         push byte 4
-        call sub_B78DC
+        call TransformRinkPoints
         add esp, byte 8
         test eax, eax
         jne short .3
@@ -4958,7 +4959,7 @@ sub_24D8C:
         mov edi, dword [esi]
         push dword [byte edi+04h]
         push byte 4
-        call sub_B78DC
+        call TransformRinkPoints
         add esp, byte 8
         test eax, eax
         jne short .7
@@ -4990,7 +4991,7 @@ sub_24D8C:
         mov eax, dword [esi]
         push dword [byte eax+04h]
         push byte 4
-        call sub_B78DC
+        call TransformRinkPoints
         add esp, byte 8
         test eax, eax
         jne short .11
@@ -8120,7 +8121,7 @@ DrawIceMarkings:
         mov eax, dword [eax]
         push dword [byte eax+04h]
         push byte 4
-        call sub_B78DC
+        call TransformRinkPoints
         add esp, byte 8
         test eax, eax
         jne near .16
@@ -8905,7 +8906,7 @@ sub_2849A:
         mov eax, dword [edi]
         push dword [byte eax+04h]
         push byte 4
-        call sub_B78DC
+        call TransformRinkPoints
         add esp, byte 8
         test eax, eax
         jne short .4
@@ -8935,7 +8936,7 @@ sub_2849A:
         mov eax, dword [edi]
         push dword [byte eax+04h]
         push byte 4
-        call sub_B78DC
+        call TransformRinkPoints
         add esp, byte 8
         test eax, eax
         jne short .6

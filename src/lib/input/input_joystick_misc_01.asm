@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_DFEB4 progbits alloc exec nowrite align=1
 extern FatalError, atexit_, JoyCalibrating, JoyButtonBits, JoyPortMask, JoyButtons, JoyButtonsPrev, JoyDirection
-extern byte_11F983, dword_11F8E0, KbdIdleHook, JoyTimeX, TimerCalibration, JoyTimeY, JoyTimeSecondX, JoyTimeSecondY
+extern byte_11F983, LastTickCount, KbdIdleHook, JoyTimeX, TimerCalibration, JoyTimeY, JoyTimeSecondX, JoyTimeSecondY
 extern JoyCalibrateTicks, JoyReadTimeout, JoyAxisX1, JoyAxisY1, JoyAxisX2, JoyAxisY2, JoyAxisMask, str_P
 extern JoyX1Min, JoyX1Center, JoyX1Max, JoyX1Settle, JoyY1Min, JoyY1Max, str_P2, JoyY1MinSeen
 extern JoyY1Center, JoyY1MaxSeen, JoyY1Settle, JoyX2Min, JoyX2Max, JoyXScale, JoyYScale, SavedBreakOffset
@@ -11,7 +11,7 @@ extern BreakCallFunc, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, exit_, j
 extern FillRect, RestoreDS, DosGetVector, DosSetVector, Random32, tickcount, tickdeadline, unk_AA7B0
 extern JoyAxisValues, word_11F914, word_11F918, word_11F91C, SavedBreakSelector, BreakDataSelector
 global GetTicks, SetTickDeadline, TickDeadlinePassed, TicksSince, WaitKey, WaitTickDeadline, sub_E04E7_2, sub_E0584_30
-global sub_DFEC6, WaitTicks, KbdGetKey, sub_DFF45, KbdPeekKey, SetKbdIdleHook, sub_DFF7C, CalibrateJoystick
+global TicksSinceLast, WaitTicks, KbdGetKey, sub_DFF45, KbdPeekKey, SetKbdIdleHook, sub_DFF7C, CalibrateJoystick
 global ReadJoystickPorts, sub_E0456, sub_E0486, AddExitHandler, sub_E04D9, sub_E04E0, sub_E04E7, bcopy
 global sub_E0584, InstallBreakHandler, RemoveBreakHandler
 ;-----------------------------------------------------------------------------
@@ -29,12 +29,13 @@ TicksSince:
         LD sub, eax, ecx
         ret
 ;-----------------------------------------------------------------------------
-; sub_DFEC6                                                            DFEC6  
+; TicksSinceLast                                  DFEC6  96 PC, low confidence
+; Returns the timer ticks since the last call; followed by the tick reset
 ;-----------------------------------------------------------------------------
-sub_DFEC6:
-        mov ebx, dword [dword_11F8E0]
+TicksSinceLast:
+        mov ebx, dword [LastTickCount]
         mov eax, dword [tickcount]
-        mov dword [dword_11F8E0], eax
+        mov dword [LastTickCount], eax
         LD sub, eax, ebx
         ret
         LD xor, eax, eax

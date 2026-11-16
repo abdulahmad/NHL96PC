@@ -10,17 +10,17 @@ extern dword_190EA8, dword_190EAC, dword_190EB0, dword_190EB4, dword_190EB8, dwo
 extern dword_190ECC, dword_190ED0, dword_190ED4, dword_1912DC, dword_1912E0, dword_1912E4, dword_1912E8, dword_1912EC
 extern dword_1912F4, dword_1912F8, dword_1912FC, dword_191304, dword_191308, dword_19130C, dword_191310, dword_191314
 extern dword_19131C, dword_191320, dword_191A9C, dword_191AA0, dword_191AA4, strnicmp_, sub_AB834, sub_ABD64
-extern FindCachedFile, unpack, sub_AFD00, sub_B31C0, MultiplyMatrix, sub_BBB70, sub_BD594, sub_BD92C
-extern sub_BDC74, sub_C4C6C, sub_C65A0, sub_C6FA4, sub_C7A54, DrawShapeTriangleMapped, sub_C85F0, sub_C8D50
+extern FindCachedFile, unpack, sub_AFD00, sub_B31C0, MultiplyMatrix, DrawPolyList, sub_BD594, sub_BD92C
+extern sub_BDC74, sub_C4C6C, PolyCrossProduct, sub_C6FA4, sub_C7A54, DrawShapeTriangleMapped, DrawClippedPoly, sub_C8D50
 extern sub_C955C, sub_C972C, sub_C98FC, sub_C9A20, sub_C9A80, sub_C9AD8, sub_C9D50, sub_C9D80
-extern FillRectColor, sub_E04E7, bcopy, sub_E0671, DosCloseFile, sub_E07CC, sub_E081C, sub_E0959
+extern FillRectColor, sub_E04E7, bcopy, DosOpenFile, DosCloseFile, sub_E07CC, DosSeekFile, sub_E0959
 extern sub_E1575, TransposeMatrix, unk_122320, unk_190EDC
 global sub_B8AB0_2C8, sub_B75A0, sub_B7638, sub_B7654, sub_B7690, sub_B76A8, sub_B76C0, sub_B7810
-global SetRinkView, sub_B78DC, TransformRinkObject, sub_B79C8, sub_B79E0, sub_B7A70, sub_B7AC4, sub_B7B50
+global SetRinkView, TransformRinkPoints, TransformRinkObject, ProjectRinkObject, sub_B79E0, sub_B7A70, sub_B7AC4, sub_B7B50
 global sub_B7BDC, sub_B7C68, sub_B7D38, sub_B7E08, sub_B7ED8, sub_B7FBC, sub_B809C, sub_B817C
 global sub_B8198, sub_B81B4, sub_B81D0, sub_B8230, sub_B8290, sub_B82F0, sub_B848C, sub_B8740
 global sub_B8840, sub_B88F8, sub_B89F8, sub_B8AB0, sub_B8D80, sub_B9060, sub_B9328, sub_B960C
-global sub_B9870, sub_B98E0, sub_B9928, sub_B9A18, sub_B9B34, sub_B9B70, sub_B9BB0, sub_B9BD0
+global sub_B9870, sub_B98E0, sub_B9928, sub_B9A18, sub_B9B34, sub_B9B70, FixedLerp, sub_B9BD0
 global AddVec3, SubVec3, sub_B9C70, sub_B9D04, sub_B9EE0, sub_B9F14, sub_BA2F0, sub_BA344
 ;-----------------------------------------------------------------------------
 ; sub_B75A0                                                            B75A0  
@@ -36,7 +36,7 @@ sub_B75A0:
         push edx
         push ebp
         xor esi, esi
-        call sub_E081C
+        call DosSeekFile
         lea eax, [byte edi-08h]
         add esp, byte 8
         cmp eax, 100h
@@ -73,7 +73,7 @@ sub_B75A0:
         mov ebx, dword [dword esp+0114h]
         push ebx
         push ebp
-        call sub_E081C
+        call DosSeekFile
         add esp, byte 8
         mov eax, esi
         add esp, 100h
@@ -179,7 +179,7 @@ sub_B76C0:
         lea eax, [byte esp+0Ch]
         push eax
         push esi
-        call sub_E0671
+        call DosOpenFile
         add esp, byte 14h
         mov edx, dword [byte esp+08h]
         test edx, edx
@@ -312,7 +312,7 @@ sub_B7810:
         push eax
         mov edx, dword [byte esp+020h]
         push edx
-        call sub_E0671
+        call DosOpenFile
         add esp, byte 14h
         mov ebx, dword [byte esp+08h]
         push ebx
@@ -332,7 +332,7 @@ sub_B7810:
         push eax
         mov edx, dword [byte esp+020h]
         push edx
-        call sub_E0671
+        call DosOpenFile
         add esp, byte 14h
         mov ebx, dword [byte esp+08h]
         push ebx
@@ -353,7 +353,7 @@ sub_B7810:
         push eax
         mov ebx, dword [byte esp+020h]
         push ebx
-        call sub_E0671
+        call DosOpenFile
         add esp, byte 14h
         mov ecx, dword [byte esp+08h]
         push ecx
@@ -376,9 +376,10 @@ SetRinkView:
         mov dword [TexturePageBase], eax
         ret
 ;-----------------------------------------------------------------------------
-; sub_B78DC                                                            B78DC  
+; TransformRinkPoints                             B78DC  96 PC, low confidence
+; Transforms rink points
 ;-----------------------------------------------------------------------------
-sub_B78DC:
+TransformRinkPoints:
         push esi
         push edi
         mov esi, dword [TextureDetail]
@@ -480,14 +481,15 @@ TransformRinkObject:
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_B79C8                                                            B79C8  
+; ProjectRinkObject                               B79C8  96 PC, low confidence
+; Projects a rink object
 ;-----------------------------------------------------------------------------
-sub_B79C8:
+ProjectRinkObject:
         mov edx, dword [byte esp+04h]
         push edx
         mov ebx, dword [TexturePageBase]
         push ebx
-        call sub_C65A0
+        call PolyCrossProduct
         add esp, byte 8
         ret
         db 08Dh,040h,00h
@@ -1215,7 +1217,7 @@ sub_B7FBC:
         push eax
         mov edx, dword [byte esp+054h]
         push edx
-        call sub_C85F0
+        call DrawClippedPoly
         add esp, byte 0Ch
         add esp, byte 40h
         pop edi
@@ -1478,7 +1480,7 @@ sub_B8290:
         push edx
         movsd
         movsd
-        call sub_BBB70
+        call DrawPolyList
         add esp, byte 8
         add esp, byte 20h
         pop edi
@@ -3632,9 +3634,10 @@ sub_B9B70:
         ret
         db 00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_B9BB0                                                            B9BB0  
+; FixedLerp                                       B9BB0  96 PC, low confidence
+; Interpolates two fixed-point values
 ;-----------------------------------------------------------------------------
-sub_B9BB0:
+FixedLerp:
         mov ebx, dword [byte esp+04h]
         mov edx, dword [byte esp+0Ch]
         mov eax, dword [byte esp+08h]

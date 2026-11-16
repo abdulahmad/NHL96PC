@@ -19,7 +19,7 @@ global strncmp_, strstr_, GetRandState, DosFileInfo, LoadResourceBlockShared, Lo
 global InverseTableSlice, InverseTablePass, InverseTableScan, InverseTableFill, sub_B0CA8, sub_B0CCC, sub_B0D98, sub_B0E68
 global sub_B0F7C, SerialConfigure, sub_B1121, SerialClose, SerialCloseAll, SerialSetBaud, SerialRaiseDtr, sub_B1294
 global sub_B12AF, SerialWrite, sub_B13BB, SerialFlushTx, SerialWaitTxEmpty, sub_B1451, sub_B147A, sub_B151E
-global sub_B153D, sub_B178B, sub_B1830, sub_B1C0E, OpenArtArchiveErr, OpenArtArchive, LoadDataFileErr, LoadFileAllocQuiet
+global sub_B153D, atoi_, sub_B1830, sub_B1C0E, OpenArtArchiveErr, OpenArtArchive, LoadDataFileErr, LoadFileAllocQuiet
 global unk_B15DE
 ;-----------------------------------------------------------------------------
 ; GetRandState                                                    B03F2  96 PC
@@ -2059,9 +2059,9 @@ strstr_:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_B178B                                                            B178B  
+; atoi_                                                         B178B  library
 ;-----------------------------------------------------------------------------
-sub_B178B:
+atoi_:
         push ebx
         push ecx
         push edx

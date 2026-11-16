@@ -4,13 +4,13 @@ bits 32
 section s_AA988 progbits alloc exec nowrite align=1
 extern FatalError, asc_113110, str_LOWMEM, str_HIGHMEM, str_GAP, asc_11316C, dword_11F9B8, RowTable
 extern dword_1210C0, dword_1210C8, dword_1210CC, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight
-extern dword_1228F4, dword_1228FC, dword_122930, dword_123934, memlist1, dword_185690, dword_185730, MemLockHandle
+extern dword_1228F4, dword_1228FC, dword_122930, dword_123934, memlist1, MemBlockGuards, MemDescriptorTop, MemLockHandle
 extern dword_18573C, strncpy_, DrawShapeCore, AllocMemBlockEx, getmemblock, sub_C24D0, sub_C3A48, ResetMemLock
 extern MemLock, MemUnlock, SetScreenTarget, SetClipWindow, VesaSetBank, sub_DE4C7, sub_DE643, sub_DE7DB
 extern sub_DE97C, sub_DE9F3, sub_DEB94, bcopy, sub_E193C, sub_E1956
 global PutBlock_25F, sub_AAF28_132, DrawShapeAtOwnPos, sub_AA9CC, sub_AAA40, sub_AAA8C, sub_AAADC, PutBlock
-global sub_AADA4, BlitShapeAt, sub_AADE8, sub_AAF28, sub_AB0A8, sub_AB2EC, sub_AB3B4, sub_AB440
-global sub_AB5BC, sub_AB660, sub_AB6D8, sub_AB718, AllocMemBlock, sub_AB798
+global sub_AADA4, BlitShapeAt, sub_AADE8, sub_AAF28, sub_AB0A8, AddMemRegion, AddMemRegions, AddHighMemRegion
+global TrimMemList, MemListEnd, sub_AB6D8, sub_AB718, AllocMemBlock, sub_AB798
 ;-----------------------------------------------------------------------------
 ; DrawShapeAtOwnPos                               AA988  96 PC, low confidence
 ; Draws a shape at the position stored in its header; followed by the draw at
@@ -905,7 +905,7 @@ sub_AB0A8:
         mov edx, dword [dword_1210CC]
         mov ebx, dword [byte esp+0Ch]
         mov eax, edx
-        mov dword [dword_185730], edx
+        mov dword [MemDescriptorTop], edx
         dec ebx
         xor edx, edx
         test ebx, ebx
@@ -931,7 +931,7 @@ sub_AB0A8:
         add eax, esi
         push eax
         push byte 0
-        call sub_AB2EC
+        call AddMemRegion
         mov eax, dword [dword_1210C8]
         mov esi, dword [dword_1210CC]
         add esp, byte 18h
@@ -945,9 +945,10 @@ sub_AB0A8:
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_AB2EC                                                            AB2EC  
+; AddMemRegion                                    AB2EC  96 PC, low confidence
+; Adds a region of memory to a memory list as a named LOW block range
 ;-----------------------------------------------------------------------------
-sub_AB2EC:
+AddMemRegion:
         push esi
         push edi
         mov edi, dword [byte esp+0Ch]
@@ -1008,9 +1009,10 @@ sub_AB2EC:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_AB3B4                                                            AB3B4  
+; AddMemRegions                                   AB3B4  96 PC, low confidence
+; Adds each region of a list of memory areas to the memory lists
 ;-----------------------------------------------------------------------------
-sub_AB3B4:
+AddMemRegions:
         push esi
         push edi
         push ebp
@@ -1034,7 +1036,7 @@ sub_AB3B4:
         add esi, eax
         mov eax, dword [byte esp+028h]
         push eax
-        call sub_AB2EC
+        call AddMemRegion
         mov ebx, dword [esi]
         mov edx, dword [byte esi+04h]
         add esp, byte 18h
@@ -1070,9 +1072,11 @@ sub_AB3B4:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_AB440                                                            AB440  
+; AddHighMemRegion                                AB440  96 PC, low confidence
+; Adds the HIGHMEM region to a memory list with a GAP block for the hole
+; below it
 ;-----------------------------------------------------------------------------
-sub_AB440:
+AddHighMemRegion:
         push esi
         mov eax, dword [byte esp+08h]
         and eax, 700h
@@ -1172,9 +1176,9 @@ sub_AB440:
         mov dword [byte esi+020h], ebx
         mov dword [byte eax+024h], esi
 .5:
-        mov ebx, dword [dword_185730]
+        mov ebx, dword [MemDescriptorTop]
         mov dword [byte eax+020h], ebx
-        mov dword [dword_185730], eax
+        mov dword [MemDescriptorTop], eax
         mov eax, dword [edi]
         cmp esi, eax
         jne short .6
@@ -1186,10 +1190,10 @@ sub_AB440:
         cmp eax, dword [byte edi+04h]
         jne short .7
         mov eax, dword [edi]
-        mov ebx, dword [dword_185730]
+        mov ebx, dword [MemDescriptorTop]
         mov dword [byte eax+020h], ebx
         mov dword [byte edi+04h], 0
-        mov dword [dword_185730], eax
+        mov dword [MemDescriptorTop], eax
         mov eax, dword [byte edi+04h]
         mov dword [edi], eax
 .7:
@@ -1200,9 +1204,11 @@ sub_AB440:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_AB5BC                                                            AB5BC  
+; TrimMemList                                     AB5BC  96 PC, low confidence
+; Releases the last block of a memory list and returns how much space it
+; freed
 ;-----------------------------------------------------------------------------
-sub_AB5BC:
+TrimMemList:
         push esi
         push edi
         push ebp
@@ -1233,18 +1239,18 @@ sub_AB5BC:
         mov esi, ecx
         mov ecx, dword [byte eax+010h]
         mov dword [byte eax+014h], ecx
-        mov ecx, dword [dword_185730]
+        mov ecx, dword [MemDescriptorTop]
         mov dword [byte edx+04h], eax
         mov dword [byte ebx+020h], ecx
         sub esi, edi
         mov ebp, dword [edx]
-        mov dword [dword_185730], ebx
+        mov dword [MemDescriptorTop], ebx
         cmp eax, ebp
         jne short .2
         mov dword [byte ebp+020h], ebx
         mov dword [byte edx+04h], 0
         mov eax, dword [byte edx+04h]
-        mov dword [dword_185730], ebp
+        mov dword [MemDescriptorTop], ebp
         mov dword [edx], eax
 .2:
         mov eax, esi
@@ -1257,7 +1263,7 @@ sub_AB5BC:
         mov esi, dword [byte esp+08h]
 .3:
         push esi
-        call sub_AB5BC
+        call TrimMemList
         add esp, byte 4
         cmp eax, byte 0FFFFFFFFh
         jne short .3
@@ -1265,9 +1271,11 @@ sub_AB5BC:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_AB660                                                            AB660  
+; MemListEnd                                      AB660  96 PC, low confidence
+; Returns the end address of the last block of a memory list; followed by the
+; free slot search
 ;-----------------------------------------------------------------------------
-sub_AB660:
+MemListEnd:
         mov edx, dword [byte esp+04h]
         and edx, 700h
         sar edx, 8
@@ -1287,7 +1295,7 @@ sub_AB660:
         add eax, edx
         ret
         db 090h
-        mov ebx, dword [dword_185690]
+        mov ebx, dword [MemBlockGuards]
         xor edx, edx
         xor eax, eax
         test ebx, ebx
@@ -1301,7 +1309,7 @@ sub_AB660:
         inc edx
         cmp eax, 0A0h
         jge short .4
-        cmp dword [dword eax+dword_185690], byte 0
+        cmp dword [dword eax+MemBlockGuards], byte 0
         je short .2
         jmp short .3
 .4:

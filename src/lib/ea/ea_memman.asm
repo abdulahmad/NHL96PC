@@ -4,11 +4,11 @@ bits 32
 section s_AB834 progbits alloc exec nowrite align=1
 extern FatalError, str_ReservememMEMORYMANAGERN, str_ReservememINVALIDSIZE, str_ReservememMEMORYMANAGERB, asc_113270, asc_1132AC, str_ReservememINVALIDTYPEFLAGS, str_ResizememINVALIDSIZE
 extern str_ResizememblockNOROOMTO, str_FindmemblockBLOCKNOTFOUND, asc_1133C0, str_GetmemblockNOMEMORYBLOCKS, FileCacheList, FreeSpaceList, dword_11F9C4, dword_1210CC
-extern memlist1, dword_185690, dword_185730, MemLockHandle, dword_185738, dword_18573C, strncmp_, strncpy_
+extern memlist1, MemBlockGuards, MemDescriptorTop, MemLockHandle, dword_185738, dword_18573C, strncmp_, strncpy_
 extern PathBaseName, MemLock, MemUnlock, bcopy
 global findmemblock, sub_AB834, AllocMemBlockEx, sub_ABD64, FreeMemBlock, sub_ABF88, PushMemDescriptor, MergeFreeSpace
 global sub_AC194, FindNamedBlock, FindMemBlockNamed, FindFreeSpace, FindCachedFileData, FindCachedFile, CompactDownLocked, CompactMemListDown
-global CompactUpLocked, CompactMemListUp, sub_AC838, sub_AC868, sub_AC89C, sub_AC950, getmemblock, MemPtrSize
+global CompactUpLocked, CompactMemListUp, sub_AC838, sub_AC868, sub_AC89C, InitMemDescriptors, getmemblock, MemPtrSize
 global MemDescPtr, MemDescSize, type_info__raw_name
 ;-----------------------------------------------------------------------------
 ; sub_AB834                                                            AB834  
@@ -658,10 +658,10 @@ findmemblock:
         xor ecx, ecx
         mov esi, 8000h
 .1:
-        cmp dword [dword ecx+dword_185690], byte 0
+        cmp dword [dword ecx+MemBlockGuards], byte 0
         je short .4
         mov eax, dword [dword ecx+memlist1]
-        mov edi, dword [dword ecx+dword_185690]
+        mov edi, dword [dword ecx+MemBlockGuards]
         mov eax, dword [byte eax+020h]
         mov edx, ecx
         cmp eax, edi
@@ -673,7 +673,7 @@ findmemblock:
         je short .5
 .3:
         mov eax, dword [byte eax+020h]
-        cmp eax, dword [dword edx+dword_185690]
+        cmp eax, dword [dword edx+MemBlockGuards]
         jne short .2
 .4:
         add ecx, byte 14h
@@ -752,8 +752,8 @@ PushMemDescriptor:
         mov edx, eax
         mov eax, dword [byte esi+024h]
         mov dword [byte edx+024h], eax
-        mov eax, dword [dword_185730]
-        mov dword [dword_185730], esi
+        mov eax, dword [MemDescriptorTop]
+        mov dword [MemDescriptorTop], esi
         mov dword [byte esi+020h], eax
 .2:
         pop esi
@@ -1791,12 +1791,13 @@ sub_AC89C:
         mov eax, edx
         ret
 ;-----------------------------------------------------------------------------
-; sub_AC950                                                            AC950  
+; InitMemDescriptors                              AC950  96 PC, low confidence
+; Chains the block descriptor array into the free descriptor list
 ;-----------------------------------------------------------------------------
-sub_AC950:
+InitMemDescriptors:
         mov eax, dword [byte esp+04h]
         mov ebx, dword [byte esp+08h]
-        mov dword [dword_185730], eax
+        mov dword [MemDescriptorTop], eax
         dec ebx
         xor edx, edx
         test ebx, ebx
@@ -1813,8 +1814,8 @@ sub_AC950:
         ret
         db 08Dh,040h,00h
         mov edx, dword [byte esp+04h]
-        mov eax, dword [dword_185730]
-        mov dword [dword_185730], edx
+        mov eax, dword [MemDescriptorTop]
+        mov dword [MemDescriptorTop], edx
         mov dword [byte edx+020h], eax
         ret
         db 090h
@@ -1822,15 +1823,15 @@ sub_AC950:
 ; getmemblock                                  AC990  95 PC, medium confidence
 ;-----------------------------------------------------------------------------
 getmemblock:
-        cmp dword [dword_185730], byte 0
+        cmp dword [MemDescriptorTop], byte 0
         jne short .1
         push str_GetmemblockNOMEMORYBLOCKS
         call FatalError
         add esp, byte 4
 .1:
-        mov eax, dword [dword_185730]
+        mov eax, dword [MemDescriptorTop]
         mov edx, dword [byte eax+020h]
-        mov dword [dword_185730], edx
+        mov dword [MemDescriptorTop], edx
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------

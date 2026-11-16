@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_C3E38 progbits alloc exec nowrite align=1
-extern dword_1228F4, FillRect, sub_DE18C, sub_DF058, unk_C3E10
+extern dword_1228F4, FillRect, PlotPixelClipped, sub_DF058, unk_C3E10
 global FillRectSpans_AC, FillRectSpans_CD, FillRectSpans_F1, FillRectSpans_111, FillRectSpans_131, FillRectSpans_182, FillRectSpans_1D3, FillRectSpans_21D
 global FillRectSpans_263, FillRectSpans
 ;-----------------------------------------------------------------------------
@@ -101,7 +101,7 @@ FillRectSpans_F1:
         push ebp
         push edi
         inc ebp
-        call sub_DE18C
+        call PlotPixelClipped
         dec edi
         add esp, byte 0Ch
         jmp short .2
@@ -116,7 +116,7 @@ FillRectSpans_111:
         push ebp
         push edi
         inc ebp
-        call sub_DE18C
+        call PlotPixelClipped
         inc edi
         add esp, byte 0Ch
         jmp short .3
@@ -139,7 +139,7 @@ FillRectSpans_131:
         lea eax, [byte ecx+01h]
         push edi
         mov dword [byte esp+024h], eax
-        call sub_DE18C
+        call PlotPixelClipped
         add esp, byte 0Ch
         add ebp, dword [byte esp+014h]
         test ebp, 0FFFF0000h
@@ -166,7 +166,7 @@ FillRectSpans_182:
         lea eax, [byte ecx+01h]
         push edi
         mov dword [byte esp+028h], eax
-        call sub_DE18C
+        call PlotPixelClipped
         add esp, byte 0Ch
         add ebp, dword [byte esp+08h]
         test ebp, 0FFFF0000h
@@ -188,7 +188,7 @@ FillRectSpans_1D3:
         push ecx
         push ebp
         push edi
-        call sub_DE18C
+        call PlotPixelClipped
         add esp, byte 0Ch
         mov eax, dword [byte esp+010h]
         add dword [byte esp+020h], eax
@@ -214,7 +214,7 @@ FillRectSpans_21D:
         push edx
         push ebp
         push edi
-        call sub_DE18C
+        call PlotPixelClipped
         add esp, byte 0Ch
         mov eax, dword [byte esp+0Ch]
         add dword [byte esp+024h], eax
@@ -231,7 +231,7 @@ FillRectSpans_263:
         push ebx
         push ebp
         push edi
-        call sub_DE18C
+        call PlotPixelClipped
         add esp, byte 0Ch
 .8:
         add esp, byte 2Ch

@@ -41,7 +41,7 @@ global ClearSortCords, CompLine, DoGameFrame, InitCoachModes, SetPlList, SetupTe
 global TryAddPlayerToList, UpdateCoachModes, clearteams, findpc, forceteams, changeplayer_316, CompLine_351, CompLine_3D1
 global getlinee_19, Goal_1F6, Goal_1FB, Goal_1FC, reenergizeteam, resetplstuff, setpersonel, setupice
 global SprSort, changeplayer, restorepl, AvgCline, AvgLinePair, getlinee, sub_46FA3, GetHot
-global GetHotStick, GetHotOrStick, SetCoachMode, PenTeamScored, sub_47813, Goal, GiveControl, Setplass
+global GetHotStick, GetHotOrStick, SetCoachMode, PenTeamScored, ChkTeamPlayerFlag, Goal, GiveControl, Setplass
 global setplayer, restoreteams, GetPeriodTime, ResetClock, sub_489CF, sub_48A4D, defaultsprites_0, sub_49300
 global sub_493D4, sub_494F7, checkwindow, RestoreBenchEnergy, periodicevents, sub_497A7, updateplayers, updateanim
 global cleargamevars, clockcont_0, ClockTick, GameOver, SetExitGame, Intermission, PeriodOver, ResetBench
@@ -1610,9 +1610,11 @@ PenTeamScored:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_47813                                                       47813  96 PC
+; ChkTeamPlayerFlag                               47813  96 PC, low confidence
+; On a goal: whether the given team has a player on the ice with the
+; goal-check flag set; returns 1 if so
 ;-----------------------------------------------------------------------------
-sub_47813:
+ChkTeamPlayerFlag:
         push edx
         mov edx, eax
         mov eax, dword [gameopts]
@@ -1735,7 +1737,7 @@ Goal:
         jne short .8
         movsx eax, di
         mov dword [byte ebp-018h], eax
-        call sub_47813
+        call ChkTeamPlayerFlag
         mov dword [byte ebp-020h], eax
         mov eax, dword [byte ebp-020h]
         mov dword [byte ebp-0Ch], eax

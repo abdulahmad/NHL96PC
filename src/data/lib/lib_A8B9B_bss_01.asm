@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_184B38 nobits alloc noexec write align=1
-global byte_184B3C, byte_184B3D, byte_184B3E, byte_1852C2, dword_184B38, memlist1, dword_185690, RowTableSize
-global dword_185730, MemLockHandle, dword_185738, dword_18573C, timercallbacks, unk_184B78, unk_184BB4, unk_184BF0
+global byte_184B3C, byte_184B3D, byte_184B3E, byte_1852C2, dword_184B38, memlist1, MemBlockGuards, RowTableSize
+global MemDescriptorTop, MemLockHandle, dword_185738, dword_18573C, timercallbacks, unk_184B78, unk_184BB4, unk_184BF0
 global unk_184C2C, unk_184C68, unk_184CA4, unk_184D1C, unk_184D58, unk_184E48, unk_184E7E, unk_184EB4
 global unk_184EEA, unk_184F19, unk_184F48, unk_184F77, unk_185292, unk_1855AD, unk_1855DC, unk_18560B
 global unk_18563A
@@ -61,11 +61,11 @@ timercallbacks:
         resb 32
 memlist1:
         resb 4
-dword_185690:
+MemBlockGuards:
         resb 156
 RowTableSize:
         resb 4
-dword_185730:
+MemDescriptorTop:
         resb 4
 MemLockHandle:
         resb 4

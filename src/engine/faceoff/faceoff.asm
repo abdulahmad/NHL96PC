@@ -25,7 +25,7 @@ extern word_16583C, word_165950, word_165952, word_165954, word_165956, word_165
 extern regd0, regd1, word_176B7A, word_176B80, LastTouchTeam, PassDistY, StoppageFlag, LastPlayerTouch
 global AdjustFacingDirection, AllInPlace, GoalieToPuckVec, PenShotAssign, PullGoalie, SetTeamGoalie, assbenchwait, assrefpenshot
 global asstakeposition, check4bench, sub_3A7A4_7E, goalieposition_648, puckfaceoff, sub_3A7A4, TakePlayerFromBox, sub_3A8BC
-global PenShotStart, assleavebox, sub_3AE48, sub_3B3C7, puckfaceoff2, asspsclear, goaliechasepuck, assgoalietopuck
+global PenShotStart, assleavebox, AssignControlSlots, sub_3B3C7, puckfaceoff2, asspsclear, goaliechasepuck, assgoalietopuck
 global ClampYPosition, goalieskateto, goaliesave, goaliehome, goalieposition, assgoalie, sub_3E665, sub_3E6D4
 ;-----------------------------------------------------------------------------
 ; sub_3A7A4                                                       3A7A4  96 PC
@@ -621,9 +621,10 @@ assleavebox:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_3AE48                                                       3AE48  96 PC
+; AssignControlSlots                              3AE48  96 PC, low confidence
+; Same code as in the next game
 ;-----------------------------------------------------------------------------
-sub_3AE48:
+AssignControlSlots:
         push ebx
         push ecx
         push edx
@@ -781,7 +782,7 @@ puckfaceoff:
 .9:
         cmp dword [penshotstart], byte 0
         je short .10
-        call sub_3AE48
+        call AssignControlSlots
 .10:
         call ReturnGoalies
         mov eax, dword [gameopts]

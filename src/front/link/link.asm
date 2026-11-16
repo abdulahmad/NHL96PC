@@ -14,7 +14,7 @@ extern str_ATA, str_ATD, str_ATE1, str_ATF1, str_ATH0, str_ATM0, str_ATQ0, str_A
 extern str_ATX3, str_ATX4, str_ATZS760S1155, str_ctl06, str_feP, str_newline, str_T, strcat_
 extern strcpy_, strlen_, strncmp_, strstr_, RemoveTimerCallback, SerialConfigure, sub_B1121, SerialClose
 extern SerialSetBaud, SerialRaiseDtr, sub_B1294, sub_B12AF, SerialWrite, sub_B13BB, SerialFlushTx, SerialWaitTxEmpty
-extern sub_B1451, sub_B147A, sub_B151E, sub_B178B, sub_B1830, str_Punct_ModemSendCommand, str_AT, unk_151B88
+extern sub_B1451, sub_B147A, sub_B151E, atoi_, sub_B1830, str_Punct_ModemSendCommand, str_AT, unk_151B88
 extern unk_152748, unk_152798, unk_1527C0, unk_152938, unk_152944, WaitTicks
 global ModemInitDefault, ModemInit, ModemHangup, ModemHangup_30, ModemHangup_54, ModemDial, ModemAutoAnswer, ModemWaitConnect
 global ModemReadResult, ModemSendCommand, ModemAttention, LinkCopyBytes, LinkRxPut, LinkRxPeek_none, LinkRxCopy, LinkCheckPacket
@@ -383,7 +383,7 @@ ModemReadResult:
         or dword [dword_115004], eax
         mov eax, dword [byte ebp-0Ch]
         mov eax, dword [dword eax+off_114F24]
-        call sub_B178B
+        call atoi_
         mov edi, eax
         jmp short .12
 .8:
@@ -403,7 +403,7 @@ ModemReadResult:
         cmp dword [dword_115004], byte 0
         je near .1
         mov eax, edi
-        call sub_B178B
+        call atoi_
         mov edi, eax
         cmp eax, byte 0Ah
         jl short .10

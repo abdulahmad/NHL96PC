@@ -8,7 +8,7 @@ extern dword_11D38E, dword_17C4A0, dword_17C4A4, dword_17C5BC, dword_17C5C0, dwo
 extern dword_17C5D0, dword_17C5FC, dword_17C600, GetTicks, globalset, MakeDataPath, optflags, rand_
 extern setasyncspeed, sndcard, srand_, str_SPEECHBUF, AllocMemBlock, FreeMemBlock, sub_BFA45, sub_BFA45_90
 extern sub_BFAF5, sub_BFB53, sub_BFB74, sub_BFB7C, sub_BFBE3, DosOpenReadOnly, DosCloseFile, sub_E07CC
-extern sub_E081C, word_11D23A, word_11D356, word_11D382, word_11D384, word_11D386, word_11D388, word_17C49C
+extern DosSeekFile, word_11D23A, word_11D356, word_11D382, word_11D384, word_11D386, word_11D388, word_17C49C
 extern word_17C49E, word_17C63E, word_17C640
 global FindClipIndex, FindClipIndex_55, FindClipIndex_56, FindTeamPairClip, FindTeamPairClip_85, ResetSpeechChannels, OpenSpeechBanks, InitSpeech
 global ShutdownSpeech, FreeSpeechBuffer, RestoreSpeechBuffer, RestoreSpeechBuffer_32, SetSpeechVolume, SpeechBusy, QueueSpeechClip, CountRecordGame
@@ -259,7 +259,7 @@ OpenSpeechBanks:
 .8:
         push byte 0
         push dword [byte ebp-0Ch]
-        call sub_E081C
+        call DosSeekFile
         add esp, byte 8
         push byte 4
         push dword [byte ebp-08h]

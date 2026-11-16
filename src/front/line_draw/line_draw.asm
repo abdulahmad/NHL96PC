@@ -6,7 +6,7 @@ extern byte_17DC70, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeigh
 extern dword_17DC18, dword_17DC1C, dword_17DC20, dword_17DC24, dword_17DC28, dword_17DC2C, dword_17DC30, dword_17DC34
 extern dword_17DC38, dword_17DC3C, dword_17DC40, dword_17DC44, dword_17DC48, dword_17DC4C, dword_17DC50, dword_17DC54
 extern dword_17DC58, dword_17DC5C, dword_17DC60, dword_17DC64, dword_17DC68, dword_17DC6C, PlotPixel, SetClipWindow
-extern str_AALIAS, AllocMemBlock, sub_AD824, sub_B31C0, sub_B9BB0, sub_DE18C
+extern str_AALIAS, AllocMemBlock, sub_AD824, sub_B31C0, FixedLerp, PlotPixelClipped
 global BuildAntiAliasTable, ClipLineY, ClipLineX, DrawLineYPlot, DrawLineYPlot_186, DrawLineYPlot_187, DrawLineY, DrawLineXPlot
 global DrawLineX, DrawFixedLine, DrawFixedLineClip
 ;-----------------------------------------------------------------------------
@@ -68,7 +68,7 @@ BuildAntiAliasTable:
         push dword [byte ebp-01Ch]
         shl eax, 2
         push eax
-        call sub_B9BB0
+        call FixedLerp
         add esp, byte 0Ch
         shl eax, 10h
         push dword [byte ebp-018h]
@@ -77,7 +77,7 @@ BuildAntiAliasTable:
         push dword [byte ebp-020h]
         shl eax, 2
         push eax
-        call sub_B9BB0
+        call FixedLerp
         mov edx, dword [byte ebp-014h]
         add esp, byte 0Ch
         shl eax, 8
@@ -88,7 +88,7 @@ BuildAntiAliasTable:
         shl eax, 2
         push eax
         mov dword [byte ebp-014h], edx
-        call sub_B9BB0
+        call FixedLerp
         add esp, byte 0Ch
         or eax, dword [byte ebp-014h]
         push eax
@@ -461,7 +461,7 @@ DrawLineYPlot:
         push eax
         push dword [byte ebp-04h]
         push esi
-        call sub_DE18C
+        call PlotPixelClipped
         add esp, byte 0Ch
 .6:
         inc esi
@@ -496,7 +496,7 @@ DrawLineYPlot:
         push eax
         push dword [byte ebp-04h]
         push edi
-        call sub_DE18C
+        call PlotPixelClipped
         add esp, byte 0Ch
 .9:
         mov eax, dword [dword_17DC58]
@@ -684,7 +684,7 @@ DrawLineXPlot:
         push eax
         push esi
         push edi
-        call sub_DE18C
+        call PlotPixelClipped
         add esp, byte 0Ch
 .6:
         inc esi
@@ -719,7 +719,7 @@ DrawLineXPlot:
         push dword [byte ebp-04h]
 .8:
         push edi
-        call sub_DE18C
+        call PlotPixelClipped
         add esp, byte 0Ch
 .9:
         mov eax, dword [dword_17DC34]

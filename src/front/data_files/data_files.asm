@@ -5,7 +5,7 @@ section s_1E3C8 progbits alloc exec nowrite align=1
 extern DirPathTable, optflags, sprintf_, str_02d, str_07d, str_backslash2, str_D15, str_DB2
 extern str_dot3, strcat_, stricmp_, SyncMusicStream, AllocMemBlock, FreeMemBlock, sub_AC838, sub_AFD00
 extern LoadResourceBlockShared, LoadResourceData, LoadResourceDataShared, sub_B049E, OpenArtArchiveErr, OpenArtArchive, LoadDataFileErr, LoadFileAllocQuiet
-extern sub_B7310, sub_B73C4, LoadFileInto, LoadFileToBlockShared, LoadFileToBlockPlain, sub_B7638, sub_B7654, sub_B7690
+extern OpenResourceArchive, sub_B73C4, LoadFileInto, LoadFileToBlockShared, LoadFileToBlockPlain, sub_B7638, sub_B7654, sub_B7690
 extern sub_B76A8, DataDirPath, unk_1151A7, unk_115333, DataFilePath, unpack, word_11512D
 global jpt_1E3C8, jpt_1E3D8, MakeDataPath, MakeDataPath_42, MakeDataPath_4A, MakeDataPath_50, MakeDataPath_63, MakeDataPath_E0
 global MakeDataPath_E8, MakeDataPath_EE, MakeDataPath_101, jpt_1E54A, MakeDirPath, jpt_1E633, SelectDataLibrary, SelectDataLibrary_32
@@ -94,7 +94,7 @@ MakeDataPath_63:
         test eax, eax
         je short .5
         push esi
-        call sub_B7310
+        call OpenResourceArchive
         add esp, byte 4
 .5:
         lea edx, [byte edi+01h]
@@ -258,7 +258,7 @@ jpt_1E633:
 ;-----------------------------------------------------------------------------
 ; SelectDataLibrary                               1E643  96 PC, low confidence
 ; (index): builds the library path of a 16h-byte entry at unk_1151A7 (subdir
-; by the optflags bits, then its name) and opens it (sub_B7310) unless it is
+; by the optflags bits, then its name) and opens it (OpenResourceArchive) unless it is
 ; the current one
 ;-----------------------------------------------------------------------------
 SelectDataLibrary:
@@ -330,7 +330,7 @@ SelectDataLibrary_54:
         lea eax, [byte ebp-028h]
 .6:
         push eax
-        call sub_B7310
+        call OpenResourceArchive
         add esp, byte 4
 .7:
         leave

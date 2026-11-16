@@ -4,8 +4,8 @@ bits 32
 section s_689D1 progbits alloc exec nowrite align=1
 extern byte_11D1DE, byte_11D20A, CdStreamNextPacket, CdStreamOpenDefault, CdStreamQueue, CdStreamSyncTime, delstream, dword_11D1D2
 extern dword_11D232, dword_11D236, dword_17C604, FindClipIndex_56, globalset, MakeDataPath, SetTickDeadline, sndcard
-extern sub_BFC16, sub_BFC91, sub_BFE4C, sub_BFF8F, sub_C0252, sub_C02D6, sub_C032E, sub_C0423
-extern sub_DFEC6, TickDeadlinePassed
+extern sub_BFC16, sub_BFC91, sub_BFE4C, sub_BFF8F, sub_C0252, sub_C02D6, FeedAudioStream, sub_C0423
+extern TicksSinceLast, TickDeadlinePassed
 global StopMusic, QueueCurrentMusic, QueueMusic, FillMusicStream, CloseMusic, OpenMusicStream, SetMusicVolume, PlayMusic
 global FadeOutMusic, MusicDone, FeedMusicStream, SyncMusicStream
 ;-----------------------------------------------------------------------------
@@ -99,7 +99,7 @@ FillMusicStream:
         jl short .7
         test byte [byte_11D1DE], 1
         je short .7
-        call sub_DFEC6
+        call TicksSinceLast
         xor esi, esi
 .2:
         xor eax, eax
@@ -118,10 +118,10 @@ FillMusicStream:
         jle short .4
 .3:
         mov eax, edx
-        call sub_C032E
+        call FeedAudioStream
         xor esi, esi
 .4:
-        call sub_DFEC6
+        call TicksSinceLast
         add esi, eax
         jmp short .2
 .5:
@@ -309,7 +309,7 @@ FeedMusicStream:
         jle short .2
 .1:
         mov eax, edx
-        call sub_C032E
+        call FeedAudioStream
 .2:
         pop edx
         pop ecx

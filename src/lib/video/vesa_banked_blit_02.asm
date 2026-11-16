@@ -4,10 +4,10 @@ bits 32
 section s_DE084 progbits alloc exec nowrite align=1
 extern RemapTable, VesaBankShift, dword_11FD50, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, dword_1228F0
 extern dword_1228F4, DrawDestBuffer, dword_1228FC, dword_122930, VesaBank, VesaBankFunc
-global VesaSetBankJumpTable, jpt_DEC90, jpt_DEDBC, jpt_DF09B, PlotPixel_8, sub_DE18C_C, sub_DE247_3A, jpt_DE3F8_27
+global VesaSetBankJumpTable, jpt_DEC90, jpt_DEDBC, jpt_DF09B, PlotPixel_8, PlotPixelClipped_C, sub_DE247_3A, jpt_DE3F8_27
 global sub_DE4C7_32, sub_DE643_32, sub_DE7DB_32, sub_DE97C_C, sub_DE9F3_32, sub_DEB94_C, sub_DEB94_AA, sub_DEC41_4
 global jpt_DEC90_DA, sub_DED6D_4, sub_DEEE3_32, sub_DEFD7_3A, sub_DF6A7_32, sub_DF810_34, sub_DE084, PlotPixel
-global sub_DE15C, sub_DE18C, sub_DE247, VesaSetBank, sub_DE44E, sub_DE45F, sub_DE4C7, sub_DE643
+global sub_DE15C, PlotPixelClipped, sub_DE247, VesaSetBank, sub_DE44E, sub_DE45F, sub_DE4C7, sub_DE643
 global sub_DE7DB, sub_DE97C, sub_DE9F3, sub_DEB94, sub_DEC41, sub_DED6D, sub_DEE68, sub_DEEE3
 global sub_DEF74, sub_DEFD7, sub_DF058, sub_DF22C, sub_DF2CC, sub_DF38C, sub_DF44C, sub_DF50C
 global SaveVideoState, RestoreVideoState, sub_DF5C0, sub_DF6A7, sub_DF810
@@ -106,18 +106,19 @@ sub_DE15C:
         cmp edx, dword [ClipLeftCol]
         jl short .1
         cmp edx, dword [ScreenHeight]
-        jl short sub_DE18C_C
+        jl short PlotPixelClipped_C
 .1:
         ret
         db 02Eh,08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_DE18C                                                            DE18C  
+; PlotPixelClipped                                DE18C  96 PC, low confidence
+; Plots one pixel when it lies inside the clip window
 ;-----------------------------------------------------------------------------
-sub_DE18C:
+PlotPixelClipped:
         mov eax, dword [byte esp+04h]
         mov edx, dword [byte esp+08h]
         mov ebx, dword [byte esp+0Ch]
-sub_DE18C_C:
+PlotPixelClipped_C:
         cmp dword [dword_1228F4], byte 0
         jne short .2
         mov ecx, dword [DrawDestBuffer]

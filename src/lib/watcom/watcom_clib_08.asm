@@ -29,7 +29,7 @@ extern AddExitHandler, bcopy, Random32, unk_19B6A4, unk_19B720, unk_1A0B20, Mixe
 global _Alphabet, abs_, fini_void_, getcwd_, itoa_, jpt_C1490, sub_BFA45_90, sub_C0944_18C
 global memcmp_, sub_BF950, sub_BF9FE, sub_BFA05, sub_BFA45, sub_BFAF5, sub_BFB53, sub_BFB74
 global sub_BFB7C, sub_BFBE3, sub_BFC16, sub_BFC91, sub_BFDB8, sub_BFE4C, sub_BFF52, sub_BFF8F
-global sub_BFFCE, sub_C011D, sub_C01C9, sub_C0252, sub_C02D6, sub_C032E, sub_C03EA, sub_C03F8
+global sub_BFFCE, sub_C011D, sub_C01C9, sub_C0252, sub_C02D6, FeedAudioStream, sub_C03EA, sub_C03F8
 global sub_C0423, sub_C04AE, sub_C04C3, sub_C0578, sub_C0603, sub_C061E, sub_C0641, sub_C0727
 global sub_C08DA, sub_C08F5, sub_C0902, sub_C0944, sub_C0AD7, sub_C0BCD, sub_C0D7E, sub_C0E2D
 global sub_C0E3C, sub_C0E49, sub_C0F09, sub_C0F30, sub_C1008, sub_C1051, sub_C1104, sub_C1183
@@ -1013,9 +1013,10 @@ sub_C02D6:
         mov eax, dword [dword_123BD0]
         ret
 ;-----------------------------------------------------------------------------
-; sub_C032E                                                            C032E  
+; FeedAudioStream                                 C032E  96 PC, low confidence
+; Feeds a packet to an audio stream
 ;-----------------------------------------------------------------------------
-sub_C032E:
+FeedAudioStream:
         push ebx
         push ecx
         push edx

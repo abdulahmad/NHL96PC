@@ -9,10 +9,10 @@ extern dword_11D1FE, dword_11D202, dword_11D206, dword_11D236, dword_11D37E, dwo
 extern dword_11D3B2, dword_17C604, dword_17C608, FadeOutMusic, FeedMusicStream, FindClipIndex_55, FindTeamPairClip_85, GetTicks
 extern globalset, InitSpeech, MakeDataPath, OpenSpeechBanks, optblock, setstreamspeed, SetTickDeadline, ShutdownSpeech
 extern sndcard, SndSetDriver, StopSpeech, StopSpeech_1FA, StopSpeech_207, LoadDataFileFlag0, LoadDataFileHandle, FreeMemBlock
-extern sub_AC838, sub_AC868, sub_B69EC, sub_B6A14, AllocCdBuffer, sub_BFB53, sub_BFC16, sub_BFC91
-extern sub_BFE4C, sub_C0252, sub_C02D6, sub_C032E, sub_C0423, sub_C04C3, sub_C0578, sub_C061E
+extern sub_AC838, sub_AC868, DriveLetterIndex, IsCdDrive, AllocCdBuffer, sub_BFB53, sub_BFC16, sub_BFC91
+extern sub_BFE4C, sub_C0252, sub_C02D6, FeedAudioStream, sub_C0423, sub_C04C3, sub_C0578, sub_C061E
 extern sub_C08F5, sub_C0902, sub_C0D7E, sub_C0E2D, sub_C0E3C, sub_C0E49, sub_C0F09, sub_C0F30
-extern sub_C1008, sub_C144B, sub_C17C6, sub_C181F, sub_DFEC6, unk_17C474, WaitTickDeadline, word_11D1D0
+extern sub_C1008, sub_C144B, sub_C17C6, sub_C181F, TicksSinceLast, unk_17C474, WaitTickDeadline, word_11D1D0
 extern word_11D23A, word_11D23C, word_11D386, word_11D3A2, word_11D3A4, word_11D3B6, word_17C640
 global StopAllSfx, StopAllSfx_8D, StopAllSfx_BA, StopAllSfx_BF, StopAllSfx_F7, PlaySfxOr, PlaySfx, Crowd_Noise
 global CrowdNoiseReset, GetCrowdTarget, SetCrowdTarget, CrowdPause, CrowdResume, CrowdFadeOut, sfx, sfx_3B
@@ -331,12 +331,12 @@ CrowdFadeOut:
         je near FindClipIndex_55
         test eax, eax
         je short .4
-        call sub_DFEC6
+        call TicksSinceLast
         mov eax, dword [dword_11D1FE]
         xor edi, edi
         mov dword [byte ebp-04h], eax
 .1:
-        call sub_DFEC6
+        call TicksSinceLast
         add edi, eax
         mov eax, dword [byte ebp-04h]
         imul eax, edi
@@ -511,7 +511,7 @@ ArenaClipService:
         jle short .2
 .1:
         mov eax, esi
-        call sub_C032E
+        call FeedAudioStream
         pop esi
         pop edx
         pop ecx
@@ -699,11 +699,11 @@ TestCdSpeed:
         cmp word [word_11D3B6], byte 0
         jne near FindTeamPairClip_85
         push eax
-        call sub_B69EC
+        call DriveLetterIndex
         add esp, byte 4
         push eax
         mov esi, eax
-        call sub_B6A14
+        call IsCdDrive
         mov word [word_11D1D0], 0
         add esp, byte 4
         mov word [word_11D23C], ax

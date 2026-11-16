@@ -4,9 +4,9 @@ bits 32
 section s_185C4C nobits alloc noexec write align=1
 global byte_18B0D0, dword_185C4C, dword_18664C, dword_18B04C, dword_18B050, dword_18B054, dword_18B058, dword_18B05C
 global dword_18B060, dword_18B064, dword_18B068, dword_18B06C, dword_18B070, dword_18B074, CdBufferSelector, CdBufferAllocated
-global CdDriveLetter, dword_18B088, CdRequestSegment, CdBufferAddr, dword_18B094, dword_18B09C, dword_18B0A0, dword_18B0AC
-global dword_18B0B0, dword_18B0B4, dword_18B0B8, unk_18704C, CdBufferSegment, CdRequestSelector, word_18B0BC, word_18B0BE
-global word_18B0C0
+global CdDriveLetter, dword_18B088, CdRequestSegment, CdBufferAddr, dword_18B094, CdRegs, CdDirEntryBuf, CdRegEbx
+global CdRegEdi, CdRegEax, CdRegEdx, unk_18704C, CdBufferSegment, CdRequestSelector, word_18B0BC, CdRegEs
+global CdRegSegs
 dword_185C4C:
         resb 2560
 dword_18664C:
@@ -53,23 +53,23 @@ dword_18B094:
         resb 4
 CdRequestSelector:
         resb 4
-dword_18B09C:
+CdRegs:
         resb 4
-dword_18B0A0:
+CdDirEntryBuf:
         resb 12
-dword_18B0AC:
+CdRegEbx:
         resb 4
-dword_18B0B0:
+CdRegEdi:
         resb 4
-dword_18B0B4:
+CdRegEax:
         resb 4
-dword_18B0B8:
+CdRegEdx:
         resb 4
 word_18B0BC:
         resb 2
-word_18B0BE:
+CdRegEs:
         resb 2
-word_18B0C0:
+CdRegSegs:
         resb 16
 byte_18B0D0:
         resb 24000

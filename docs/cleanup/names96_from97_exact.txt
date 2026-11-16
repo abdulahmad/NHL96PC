@@ -852,3 +852,57 @@ byte_11F6A8 KbdNumLock {confidence=medium,source=new} num lock toggle
 byte_11F6C3 KbdScrollLock {confidence=medium,source=new} scroll lock toggle
 dword_14EFA8 Mixer16Bit {confidence=medium,source=new} mixer output is 16-bit
 dword_14EFC8 MixerLoopLimit {confidence=medium,source=new} mixer loop limit
+sub_22522 DrawStandsSide {confidence=low,source=new} draws the stands at one side
+sub_3AE48 AssignControlSlots {confidence=low,source=new} same code as in the next game
+sub_47813 ChkTeamPlayerFlag {confidence=low,source=new} on a goal: whether the given team has a player on the ice with the goal-check flag set; returns 1 if so
+sub_AB2EC AddMemRegion {confidence=low,source=new} adds a region of memory to a memory list as a named LOW block range
+sub_AB3B4 AddMemRegions {confidence=low,source=new} adds each region of a list of memory areas to the memory lists
+sub_AB440 AddHighMemRegion {confidence=low,source=new} adds the HIGHMEM region to a memory list with a GAP block for the hole below it
+sub_AB5BC TrimMemList {confidence=low,source=new} releases the last block of a memory list and returns how much space it freed
+sub_AB660 MemListEnd {confidence=low,source=new} returns the end address of the last block of a memory list; followed by the free slot search
+sub_AC950 InitMemDescriptors {confidence=low,source=new} chains the block descriptor array into the free descriptor list
+sub_B178B atoi_ {confidence=low,source=WATCOM} IDA FLIRT library signature (wa32rtd/wa32rt_)
+sub_B67BC CdOpenStream {confidence=low,source=new} opens a stream on the CD
+sub_B68C8 CdRead {confidence=low,source=new} reads from a CD file
+sub_B6964 CdSeek {confidence=low,source=new} seeks in a CD file and waits
+sub_B69EC DriveLetterIndex {confidence=low,source=new} returns the drive number of a path's drive letter
+sub_B6A14 IsCdDrive {confidence=low,source=new} returns whether a drive is a CD drive (MSCDEX)
+sub_B6B10 DetectMscdex {confidence=low,source=new} finds MSCDEX and the CD drives
+sub_B7310 OpenResourceArchive {confidence=low,source=new} frees the old archive and loads the named resource archive for later lookups
+sub_B78DC TransformRinkPoints {confidence=low,source=new} transforms rink points
+sub_B79C8 ProjectRinkObject {confidence=low,source=new} projects a rink object
+sub_B9BB0 FixedLerp {confidence=low,source=new} interpolates two fixed-point values
+sub_BBB70 DrawPolyList {confidence=low,source=new} draws a list of polygons
+sub_BF8A8 TranslatePixels {confidence=low,source=new} translates a run of 8-bit pixels through a table
+sub_C032E FeedAudioStream {confidence=low,source=new} feeds a packet to an audio stream
+sub_D3F70 EmuAdd {confidence=low,source=new} x87 emulator: adds two extended values
+sub_DE18C PlotPixelClipped {confidence=low,source=new} plots one pixel when it lies inside the clip window
+sub_DFEC6 TicksSinceLast {confidence=low,source=new} returns the timer ticks since the last call; followed by the tick reset
+byte_121AFC ResourceArchiveName {confidence=medium,source=new} name of the open resource archive
+dword_11F8E0 LastTickCount {confidence=medium,source=new} tick count at the last TicksSinceLast call
+dword_121B30 ResourceArchive {confidence=medium,source=new} memory block of the open resource archive
+dword_121FBC CdStreamSpeed {confidence=medium,source=new} CD stream speed
+dword_185690 MemBlockGuards {confidence=medium,source=new} memory block guards
+dword_185730 MemDescriptorTop {confidence=medium,source=new} memory descriptor top
+dword_18B09C CdRegs {confidence=medium,source=new} real mode registers for MSCDEX calls
+dword_18B0AC CdRegEbx {confidence=medium,source=new} MSCDEX call EBX
+dword_18B0B0 CdRegEdi {confidence=medium,source=new} MSCDEX call EDI
+dword_18B0B4 CdRegEax {confidence=medium,source=new} MSCDEX call EAX
+dword_18B0B8 CdRegEdx {confidence=medium,source=new} MSCDEX call EDX
+sub_B65E0 CdOpenFile {confidence=medium,source=new} opens a file on the CD
+sub_B6864 CdReadSectors {confidence=medium,source=new} reads sectors of a CD file
+sub_B6900 CdSeekSectors {confidence=medium,source=new} seeks in a CD file
+sub_C65A0 PolyCrossProduct {confidence=medium,source=new} returns the 2D cross product of three indexed polygon points (its winding)
+sub_C85F0 DrawClippedPoly {confidence=medium,source=new} clips and draws a polygon
+word_18B0BE CdRegEs {confidence=medium,source=new} MSCDEX call ES
+word_18B0C0 CdRegSegs {confidence=medium,source=new} MSCDEX call segment registers
+dword_121B38 CdSectorSize {confidence=medium,source=new} CD sector size (800h)
+dword_121B6C CdDriveCount {confidence=medium,source=new} number of CD drives
+sub_B69C0 CdFindFile {confidence=medium,source=new} finds a file on the CD
+sub_B6FA0 CdSeekCmd {confidence=medium,source=new} sends a seek to the CD driver
+sub_B7094 CdDirEntry {confidence=medium,source=new} reads the directory entry of a CD file
+sub_E0671 DosOpenFile {confidence=medium,source=new} opens a file through DOS with the given mode
+sub_E081C DosSeekFile {confidence=medium,source=new} moves a DOS file pointer to an absolute position
+dword_18B0A0 CdDirEntryBuf {confidence=medium,source=new} CD directory entry
+sub_C5D56 CdDirSearch {confidence=medium,source=new} searches the CD directory for a file name and fills a find record
+

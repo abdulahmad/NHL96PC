@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_B7410 progbits alloc exec nowrite align=1
 extern _os_handle_0, _os_handle_1, FreeMemBlock, FindCachedFileData, MemPtrSize, unpack, sub_B75A0, bcopy
-extern sub_E0671, DosCloseFile, sub_E07CC
+extern DosOpenFile, DosCloseFile, sub_E07CC
 global sub_B7410, LoadFileInto, LoadFileToBlockShared, LoadFileToBlockPlain
 ;-----------------------------------------------------------------------------
 ; sub_B7410                                                            B7410  
@@ -42,7 +42,7 @@ sub_B7410:
         push eax
         mov ecx, dword [byte esp+028h]
         push ecx
-        call sub_E0671
+        call DosOpenFile
         add esp, byte 14h
         mov esi, dword [byte esp+08h]
         test esi, esi
@@ -112,7 +112,7 @@ LoadFileToBlockPlain:
         push eax
         mov edx, dword [byte esp+02Ch]
         push edx
-        call sub_E0671
+        call DosOpenFile
         add esp, byte 14h
         mov ebx, dword [byte esp+08h]
         test ebx, ebx

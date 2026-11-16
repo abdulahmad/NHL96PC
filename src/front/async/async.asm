@@ -8,8 +8,8 @@ extern dword_152F98, dword_152F9C, dword_152FA0, dword_152FA4, dword_152FAC, dwo
 extern dword_152FBC, dword_152FC4, dword_152FC8, dword_152FCC, dword_152FD0, dword_152FD4, FatalError, openhandle
 extern SetTickDeadline, str_ASYNC, str_ASYNCFILE, str_AsyncreaderNOFILESPECIFI, str_AsyncreaderNOFILESPECIFI2, str_AsyncreaderNOFILESPECIFI3, str_GetasyncblockDNOASYNCBLO, str_SetasyncspeedSFILEISTOOS
 extern str_SetasyncspeedSFILEISTOOS2, strcmp_, strncpy_, RemoveTimerCallback, sub_AB6D8, AllocMemBlock, FreeMemBlock, sub_ABF88
-extern sub_B67BC, CdHandleEntry, CdCloseFile, sub_B68C8, sub_B6964, sub_DFEC6, DosCloseFile, sub_E07CC
-extern sub_E081C, unk_152FA8, WaitTickDeadline
+extern CdOpenStream, CdHandleEntry, CdCloseFile, CdRead, CdSeek, TicksSinceLast, DosCloseFile, sub_E07CC
+extern DosSeekFile, unk_152FA8, WaitTickDeadline
 global setasyncspeed, setasyncspeed_ret, AsyncInit, AsyncClose, AsyncRequestOpen, AsyncRequestSection, AsyncCancelRequest, jpt_1BE62
 global asyncreader, asyncreader_B, asyncreader_34D, asyncreader_3EF, asyncreader_614, AsyncTimerTick, AsyncTimerTick_45, AsyncRequestDone
 global getasyncblock
@@ -71,7 +71,7 @@ setasyncspeed:
         dec eax
         push eax
         push dword [byte ebp-010h]
-        call sub_E081C
+        call DosSeekFile
         add esp, byte 8
         push byte 1
         push esi
@@ -82,13 +82,13 @@ setasyncspeed:
         call SetTickDeadline
         add esp, byte 4
         call WaitTickDeadline
-        call sub_DFEC6
+        call TicksSinceLast
         push byte 1
         push esi
         push dword [byte ebp-0Ch]
         call sub_E07CC
         add esp, byte 0Ch
-        call sub_DFEC6
+        call TicksSinceLast
         mov esi, dword [byte ebp-014h]
         mov edi, eax
         dec esi
@@ -110,7 +110,7 @@ setasyncspeed:
         add esp, byte 0Ch
         jmp short .4
 .7:
-        call sub_DFEC6
+        call TicksSinceLast
         imul eax, byte 0Ah
         shl eax, 10h
         mov esi, 493E0h
@@ -137,19 +137,19 @@ setasyncspeed:
         call SetTickDeadline
         add esp, byte 4
         call WaitTickDeadline
-        call sub_DFEC6
+        call TicksSinceLast
         mov eax, dword [byte ebp-018h]
         dec eax
         push eax
         push dword [byte ebp-010h]
-        call sub_E081C
+        call DosSeekFile
         add esp, byte 8
         push byte 1
         push dword [byte ebp-04h]
         push dword [byte ebp-010h]
         call sub_E07CC
         add esp, byte 0Ch
-        call sub_DFEC6
+        call TicksSinceLast
         cmp eax, edi
         jle short .10
         mov edi, eax
@@ -545,7 +545,7 @@ asyncreader_B:
         push dword_152F90
         push dword_152F74
         push esi
-        call sub_B67BC
+        call CdOpenStream
         add esp, byte 14h
 .5:
         mov eax, dword [dword_152F74]
@@ -561,13 +561,13 @@ asyncreader_B:
         push dword_152F90
         push dword_152F74
         push esi
-        call sub_B67BC
+        call CdOpenStream
         add esp, byte 14h
         cmp dword [dword_152F90], byte 0
         je short .7
         push dword [dword_152F90]
         push dword [dword_152F74]
-        call sub_B6964
+        call CdSeek
         add esp, byte 8
         mov dword [dword_152FA0], eax
         jmp short .8
@@ -599,7 +599,7 @@ asyncreader_B:
         add eax, dword [dword_152F90]
         push eax
         push dword [dword_152F78]
-        call sub_B6964
+        call CdSeek
         mov dword [dword_152FA0], eax
         mov eax, dword [dword_152F78]
         mov dword [dword_152F74], eax
@@ -620,13 +620,13 @@ asyncreader_B:
         push dword_152F90
         push dword_152F74
         push esi
-        call sub_B67BC
+        call CdOpenStream
         add esp, byte 14h
         cmp dword [dword_152F90], byte 0
         je short .13
         push dword [dword_152F90]
         push dword [dword_152F74]
-        call sub_B6964
+        call CdSeek
         add esp, byte 8
         mov dword [dword_152FA0], eax
         jmp short .14
@@ -655,7 +655,7 @@ asyncreader_B:
         add eax, dword [dword_152F90]
         push eax
         push dword [dword_152F78]
-        call sub_B6964
+        call CdSeek
         mov dword [dword_152FA0], eax
         mov eax, dword [dword esi+09Fh]
         mov dword [dword_152F9C], eax
@@ -710,7 +710,7 @@ asyncreader_34D:
         push unk_152FA8
         push dword [dword_152F78]
         mov dword [dword_1150E0], 0
-        call sub_B68C8
+        call CdRead
         mov eax, dword [dword_1150E0]
         add esp, byte 0Ch
         mov dword [dword_152FC4], eax
@@ -769,7 +769,7 @@ asyncreader_3EF:
         mov dword [dword_152FA0], 0
         push dword [dword_152F74]
         mov dword [dword_1150E0], 0
-        call sub_B68C8
+        call CdRead
         mov eax, dword [dword_1150E0]
         add esp, byte 0Ch
         mov dword [dword_152FB0], edi
@@ -828,7 +828,7 @@ asyncreader_3EF:
         push edx
         push dword [dword_152F74]
         mov dword [dword_1150E0], 0
-        call sub_B68C8
+        call CdRead
         mov eax, dword [dword_1150E0]
         add esp, byte 0Ch
         mov dword [dword_152FB0], edi

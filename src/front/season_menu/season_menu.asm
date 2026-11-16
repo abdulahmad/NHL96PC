@@ -25,7 +25,7 @@ extern str_Stn2, str_Stn3, str_Tra1, str_Tra2, str_Tra3, strcpy_, strlen_, LoadD
 extern sub_29B9F, sub_4F08B, sub_4F159, sub_4F2A8, sub_4F385, CalendarScreen, UpdateTeamDbs, SimSeasonGames
 extern SaveSeasonTeams, SimulateGame, RunStatsMenu, RunRosterScreens, PlayoffTreeScreen, SeedPlayoffs, PlayoffRound1, PlayoffRound2
 extern PlayoffRound3, PlayoffFinal, ClearPlayoffTree, sub_A8B9B, sub_AAA40, sub_AAA8C, sub_AADA4, FreeMemBlock
-extern sub_AD35C, TintRows, sub_ADA80, sub_ADBEC, DosFileInfo, sub_B178B, OpenArtArchiveErr, OpenArtArchive
+extern sub_AD35C, TintRows, sub_ADA80, sub_ADBEC, DosFileInfo, atoi_, OpenArtArchiveErr, OpenArtArchive
 extern sub_B22B0, sub_B2C54, UnlinkJump, sub_B7810, SetScreenTarget, sub_DD7B8, sub_E04E0, sub_E0584
 extern TextSetFont, TickDeadlinePassed, unk_152C44, unk_17CB2E, unk_17CC1F, unk_17CED5, unk_17CF9A, unk_792EB
 extern unk_79303, unk_79483, unk_794C3, UpdateProgressBox
@@ -3502,7 +3502,7 @@ PickIndexEntryScreen:
         inc eax
         cmp edx, byte 5Ch
         jne short .27
-        call sub_B178B
+        call atoi_
         mov ebx, 7
         mov dword [byte ebp+062h], eax
         mov edx, eax
@@ -3566,7 +3566,7 @@ PickIndexEntryScreen:
         inc eax
         cmp edx, byte 5Ch
         jne short .30
-        call sub_B178B
+        call atoi_
         mov ebx, 7
         mov edx, eax
         lea eax, [byte ebp+026h]
@@ -3680,7 +3680,7 @@ PickIndexEntryScreen:
         inc eax
         cmp edx, byte 5Ch
         jne short .39
-        call sub_B178B
+        call atoi_
         call ResetSeasonFiles
         jmp near .45
 .40:
@@ -3700,7 +3700,7 @@ PickIndexEntryScreen:
         inc eax
         cmp edx, byte 5Ch
         jne short .41
-        call sub_B178B
+        call atoi_
         mov ecx, eax
         mov edi, eax
         mov edx, eax

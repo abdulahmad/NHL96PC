@@ -5,23 +5,23 @@ section s_B2C98 progbits alloc exec nowrite align=1
 extern FatalError, __CMain, __FiniRtns, __InitRtns, ___begtext, __doserror_, __fprtf_, __set_EINVAL_
 extern __set_errno_dos_, _nexpand_, _nfree_, _nmalloc_, _nmsize_, str_InitmemmanINSUFFICIENTROW, asc_113658, asc_113680
 extern asc_1136C4, str_InitmemmanDOSSUBMEMORYNO, str_AAPLUT, asc_113740, str_OpenblockhandleSPATHNAME, str_CDROMDATA, str_CDROMBUFFER, asc_1137B0
-extern asc_1137DC, asc_113810, asc_113834, str_CdromdirectoryentryERROR, str_Viv, QuantizeTable, byte_121AFC, _Extender
+extern asc_1137DC, asc_113810, asc_113834, str_CdromdirectoryentryERROR, str_Viv, QuantizeTable, ResourceArchiveName, _Extender
 extern _ExtenderSubtype, _osmajor, _osminor, byte_18B0D0, CpuIs386, CpuIs486, CpuType, CpuHasCpuid
 extern CpuFeatures, dword_11F9B8, RowTable, dword_1210C8, dword_1210CC, dword_1219A0, dword_1219A4, dword_121AA8
-extern FpuFlags, dword_121B24, dword_121B28, dword_121B2C, dword_121B30, dword_121B38, CdFileMode, CdFileHandle
-extern dword_121B50, dword_121B54, dword_121B58, dword_121B5C, dword_121B6C, dword_121FBC, ScreenWidth, dword_1228D6
+extern FpuFlags, dword_121B24, dword_121B28, dword_121B2C, ResourceArchive, CdSectorSize, CdFileMode, CdFileHandle
+extern dword_121B50, dword_121B54, dword_121B58, dword_121B5C, CdDriveCount, CdStreamSpeed, ScreenWidth, dword_1228D6
 extern dword_1228DA, dword_1228DE, dword_1228E2, DrawDestBuffer, dword_1228FC, _dynend, _curbrk, _LpCmdLine
 extern StackLow, _STACKLOW, _STACKTOP, _Envptr, RowTableSize, MemLockHandle, dword_185738, dword_18573C
 extern dword_185848, dword_185C4C, dword_18664C, dword_18B04C, dword_18B050, dword_18B054, dword_18B058, dword_18B05C
 extern dword_18B060, dword_18B064, dword_18B068, dword_18B06C, dword_18B070, dword_18B074, CdBufferSelector, CdBufferAllocated
-extern CdDriveLetter, dword_18B088, CdRequestSegment, CdBufferAddr, dword_18B094, dword_18B09C, dword_18B0A0, dword_18B0AC
-extern dword_18B0B0, dword_18B0B4, dword_18B0B8, dword_19F2D4, int386_, int386x_, kaufmfont, sub_C60EC_168
-extern sub_E2335_5B, sub_E2335_81, segread_, sub_AB2EC, sub_AB3B4, sub_AB440, sub_AB5BC, sub_AB660
-extern AllocMemBlock, FreeMemBlock, sub_AC950, sub_BE926, sub_C2AC4, sub_C2C5C, ResetMemLock, MemLock
-extern MemUnlock, sub_C4C6C, sub_C5410, sub_C59E0, sub_C5D56, sub_C6000, KbdPeekKey, bcopy
-extern sub_E0671, DosCloseFile, sub_E07CC, sub_E081C, sub_E2335, CdFileTable, __stdout_buf, unk_18704C
+extern CdDriveLetter, dword_18B088, CdRequestSegment, CdBufferAddr, dword_18B094, CdRegs, CdDirEntryBuf, CdRegEbx
+extern CdRegEdi, CdRegEax, CdRegEdx, dword_19F2D4, int386_, int386x_, kaufmfont, sub_C60EC_168
+extern sub_E2335_5B, sub_E2335_81, segread_, AddMemRegion, AddMemRegions, AddHighMemRegion, TrimMemList, MemListEnd
+extern AllocMemBlock, FreeMemBlock, InitMemDescriptors, sub_BE926, sub_C2AC4, sub_C2C5C, ResetMemLock, MemLock
+extern MemUnlock, sub_C4C6C, sub_C5410, sub_C59E0, CdDirSearch, sub_C6000, KbdPeekKey, bcopy
+extern DosOpenFile, DosCloseFile, sub_E07CC, DosSeekFile, sub_E2335, CdFileTable, __stdout_buf, unk_18704C
 extern unk_19BAD0, StartupStack, unlink_, str_Punct_InitFpuFlags, _psp, __no87, _Envptr_w4, CdBufferSegment
-extern CdRequestSelector, word_18B0BC, word_18B0BE, word_18B0C0
+extern CdRequestSelector, word_18B0BC, CdRegEs, CdRegSegs
 global _dos_close_, _dos_commit_, _dos_creat_, _dos_creatnew_, _dos_getdiskfree_, _dos_open_, _dos_read_, _dos_write_
 global chdir_, sub_B35E4_46, sub_B35E4_53, sub_B35E4_6B, sub_B35E4_95, sub_B35E4_C7, sub_B35E4_105, sub_B35E4_106
 global sub_B35E4_107, sub_B35E4_108, sub_B35E4_109, sub_B35E4_10A, sub_B35E4_10B, sub_B35E4_10C, sub_B35E4_10D, sub_B35E4_10E
@@ -77,10 +77,10 @@ global start_28F, WriteConsoleMessage_23, _dos_read__5, printf_, rmdir_, start, 
 global GrabLargestBlock, InitMemoryPool, InitMemoryPoolDefault, sub_B3100, sub_B3145, sub_B3160, sub_B31C0, DetectCPU
 global sub_B3360, sub_B3420, sub_B3458, sub_B35E4, sub_B39C8, sub_B3DA0, sub_B41A8, sub_B4580
 global sub_B4988, sub_B4D60, sub_B5168, sub_B5540, sub_B583C, sub_B58D8, sub_B59E8, sub_B6140
-global sub_B6148, sub_B621C, WriteConsoleMessage, RestoreDS, sub_B65E0, sub_B67BC, CdHandleEntry, CdCloseFile
-global sub_B6864, sub_B68C8, sub_B6900, sub_B6964, sub_B69C0, sub_B69EC, sub_B6A14, AllocCdBuffer
-global sub_B6B10, sub_B6D2C, sub_B6DFC, sub_B6FA0, sub_B7094, sub_B71D4, sub_B71F1, sub_B7210
-global sub_B7233, UnlinkJump, sub_B7310, sub_B73C4, unk_B34D8, unk_B38BC, unk_B3C94, unk_B409C
+global sub_B6148, sub_B621C, WriteConsoleMessage, RestoreDS, CdOpenFile, CdOpenStream, CdHandleEntry, CdCloseFile
+global CdReadSectors, CdRead, CdSeekSectors, CdSeek, CdFindFile, DriveLetterIndex, IsCdDrive, AllocCdBuffer
+global DetectMscdex, sub_B6D2C, sub_B6DFC, CdSeekCmd, CdDirEntry, sub_B71D4, sub_B71F1, sub_B7210
+global sub_B7233, UnlinkJump, OpenResourceArchive, sub_B73C4, unk_B34D8, unk_B38BC, unk_B3C94, unk_B409C
 global unk_B4474, unk_B487C, unk_B4C54, unk_B505C, unk_B5434, unk_B58E0, unk_B5964, __saved_DS
 ;-----------------------------------------------------------------------------
 ; printf_                                                       B2C98  library
@@ -224,7 +224,7 @@ InitMemoryPool:
         push edx
         mov dword [byte eax+04h], 0
         mov dword [RowTableSize], ebx
-        call sub_AC950
+        call InitMemDescriptors
         add esp, byte 8
         push byte 0
         add edi, ebp
@@ -237,7 +237,7 @@ InitMemoryPool:
         add eax, edi
         push eax
         push byte 0
-        call sub_AB2EC
+        call AddMemRegion
         mov ebp, dword [dword_1210C8]
         mov ecx, dword [dword_1210CC]
         add esp, byte 18h
@@ -371,7 +371,7 @@ InitMemoryPool:
         push byte 0
         inc edi
         mov dword [byte esp+04Ch], ebx
-        call sub_AB440
+        call AddHighMemRegion
         add esp, byte 0Ch
         cmp edi, byte 10h
         jl short .14
@@ -393,13 +393,13 @@ InitMemoryPool:
         xor edi, edi
 .17:
         push edi
-        call sub_AB660
+        call MemListEnd
         add esp, byte 4
         test eax, eax
         je short .18
         call _nfree_
         push edi
-        call sub_AB5BC
+        call TrimMemList
         sub esi, eax
         add esp, byte 4
         test esi, esi
@@ -414,7 +414,7 @@ InitMemoryPool:
         push esi
         push eax
         push byte 0
-        call sub_AB440
+        call AddHighMemRegion
         add esp, byte 0Ch
 .19:
         mov ebx, dword [dword_185848]
@@ -431,7 +431,7 @@ InitMemoryPool:
         push dword 200h
         push byte 0
         add ebp, ebx
-        call sub_AB3B4
+        call AddMemRegions
         add esp, byte 1Ch
 .20:
         cmp dword [byte esp+064h], byte 0
@@ -5119,9 +5119,10 @@ RestoreDS:
 __saved_DS:
         db 00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_B65E0                                                            B65E0  
+; CdOpenFile                                   B65E0  96 PC, medium confidence
+; Opens a file on the CD
 ;-----------------------------------------------------------------------------
-sub_B65E0:
+CdOpenFile:
         push esi
         push edi
         push ebp
@@ -5133,7 +5134,7 @@ sub_B65E0:
         mov eax, dword [dword esp+0B0h]
         mov dword [eax], 0
         mov esi, 1
-        mov edx, dword [dword_121B6C]
+        mov edx, dword [CdDriveCount]
         mov eax, 24h
         test edx, edx
         je short .2
@@ -5158,7 +5159,7 @@ sub_B65E0:
         push edi
         lea eax, [byte esp+08h]
         push eax
-        call sub_B69C0
+        call CdFindFile
         add esp, byte 0Ch
         test eax, eax
         jne short .4
@@ -5170,13 +5171,13 @@ sub_B65E0:
         mov eax, esp
         push eax
         lea edi, [nosplit esi*8+00h]
-        call sub_B69EC
+        call DriveLetterIndex
         add esp, byte 4
         add edi, esi
         mov ebp, eax
         push eax
         shl edi, 2
-        call sub_B6A14
+        call IsCdDrive
         mov edx, CdFileTable
         add esp, byte 4
         add edx, edi
@@ -5194,11 +5195,11 @@ sub_B65E0:
         push eax
         lea eax, [byte esp+08h]
         push eax
-        call sub_B7094
+        call CdDirEntry
         xor edx, edx
         mov ecx, 1
         mov dword [dword edi+dword_121B54], edx
-        mov eax, dword [dword_121B38]
+        mov eax, dword [CdSectorSize]
         mov dword [dword edi+dword_121B58], edx
         add esp, byte 0Ch
         mov dword [dword edi+CdFileMode], ecx
@@ -5243,7 +5244,7 @@ sub_B65E0:
         push eax
         mov ecx, dword [dword esp+0B4h]
         push ecx
-        call sub_E0671
+        call DosOpenFile
         add esp, byte 14h
         mov eax, dword [dword esp+0ACh]
         mov eax, dword [eax]
@@ -5262,9 +5263,10 @@ sub_B65E0:
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_B67BC                                                            B67BC  
+; CdOpenStream                                    B67BC  96 PC, low confidence
+; Opens a stream on the CD
 ;-----------------------------------------------------------------------------
-sub_B67BC:
+CdOpenStream:
         push esi
         push edi
         push byte 1
@@ -5278,7 +5280,7 @@ sub_B67BC:
         push esi
         mov edi, dword [byte esp+020h]
         push edi
-        call sub_B65E0
+        call CdOpenFile
         add esp, byte 18h
         pop edi
         pop esi
@@ -5296,7 +5298,7 @@ sub_B67BC:
         push esi
         mov edi, dword [byte esp+020h]
         push edi
-        call sub_B65E0
+        call CdOpenFile
         add esp, byte 18h
         pop edi
         pop esi
@@ -5337,9 +5339,10 @@ CdCloseFile:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_B6864                                                            B6864  
+; CdReadSectors                                B6864  96 PC, medium confidence
+; Reads sectors of a CD file
 ;-----------------------------------------------------------------------------
-sub_B6864:
+CdReadSectors:
         push esi
         push edi
         push ebp
@@ -5378,9 +5381,10 @@ sub_B6864:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_B68C8                                                            B68C8  
+; CdRead                                          B68C8  96 PC, low confidence
+; Reads from a CD file
 ;-----------------------------------------------------------------------------
-sub_B68C8:
+CdRead:
         push byte 1
         mov edx, dword [byte esp+010h]
         push edx
@@ -5388,7 +5392,7 @@ sub_B68C8:
         push ebx
         mov ecx, dword [byte esp+010h]
         push ecx
-        call sub_B6864
+        call CdReadSectors
         add esp, byte 10h
         ret
         db 08Bh,0C0h
@@ -5399,14 +5403,15 @@ sub_B68C8:
         push ebx
         mov ecx, dword [byte esp+010h]
         push ecx
-        call sub_B6864
+        call CdReadSectors
         add esp, byte 10h
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_B6900                                                            B6900  
+; CdSeekSectors                                B6900  96 PC, medium confidence
+; Seeks in a CD file
 ;-----------------------------------------------------------------------------
-sub_B6900:
+CdSeekSectors:
         push esi
         push edi
         push ebp
@@ -5420,7 +5425,7 @@ sub_B6900:
         push edx
         mov ebp, dword [dword esi+CdFileHandle]
         push ebp
-        call sub_E081C
+        call DosSeekFile
         add esp, byte 8
         xor eax, eax
         pop ebp
@@ -5434,7 +5439,7 @@ sub_B6900:
         mov edi, dword [dword esi+dword_121B5C]
         push edi
         mov dword [dword esi+dword_121B58], eax
-        call sub_B6FA0
+        call CdSeekCmd
         mov eax, dword [dword esi+dword_121B58]
         add esp, byte 8
         and eax, 7FFh
@@ -5444,15 +5449,16 @@ sub_B6900:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_B6964                                                            B6964  
+; CdSeek                                          B6964  96 PC, low confidence
+; Seeks in a CD file and waits
 ;-----------------------------------------------------------------------------
-sub_B6964:
+CdSeek:
         push byte 1
         mov edx, dword [byte esp+0Ch]
         push edx
         mov ebx, dword [byte esp+0Ch]
         push ebx
-        call sub_B6900
+        call CdSeekSectors
         add esp, byte 0Ch
         ret
         db 08Dh,040h,00h
@@ -5461,7 +5467,7 @@ sub_B6964:
         push edx
         mov ebx, dword [byte esp+0Ch]
         push ebx
-        call sub_B6900
+        call CdSeekSectors
         add esp, byte 0Ch
         ret
 ;-----------------------------------------------------------------------------
@@ -5497,14 +5503,15 @@ strncpy_:
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_B69C0                                                            B69C0  
+; CdFindFile                                   B69C0  96 PC, medium confidence
+; Finds a file on the CD
 ;-----------------------------------------------------------------------------
-sub_B69C0:
+CdFindFile:
         mov ecx, dword [byte esp+04h]
         mov edx, dword [byte esp+08h]
         mov ebx, dword [byte esp+0Ch]
         mov eax, ecx
-        call sub_C5D56
+        call CdDirSearch
         mov edx, eax
         test eax, eax
         je short .1
@@ -5518,9 +5525,10 @@ sub_B69C0:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_B69EC                                                            B69EC  
+; DriveLetterIndex                                B69EC  96 PC, low confidence
+; Returns the drive number of a path's drive letter
 ;-----------------------------------------------------------------------------
-sub_B69EC:
+DriveLetterIndex:
         mov edx, dword [byte esp+04h]
         xor eax, eax
         mov al, byte [byte edx+01h]
@@ -5538,11 +5546,12 @@ sub_B69EC:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_B6A14                                                            B6A14  
+; IsCdDrive                                       B6A14  96 PC, low confidence
+; Returns whether a drive is a CD drive (MSCDEX)
 ;-----------------------------------------------------------------------------
-sub_B6A14:
+IsCdDrive:
         sub esp, byte 38h
-        cmp dword [dword_121FBC], byte 0
+        cmp dword [CdStreamSpeed], byte 0
         jne short .1
         mov edx, 150Bh
         mov eax, dword [byte esp+03Ch]
@@ -5617,9 +5626,10 @@ AllocCdBuffer:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_B6B10                                                            B6B10  
+; DetectMscdex                                    B6B10  96 PC, low confidence
+; Finds MSCDEX and the CD drives
 ;-----------------------------------------------------------------------------
-sub_B6B10:
+DetectMscdex:
         push esi
         push edi
         push ebp
@@ -5628,18 +5638,18 @@ sub_B6B10:
         mov ax, word [CdBufferSegment]
         xor ebx, ebx
         xor ecx, ecx
-        mov dword [dword_18B0B8], edx
-        mov dword [dword_18B0AC], ebx
-        mov word [word_18B0BE], ax
+        mov dword [CdRegEdx], edx
+        mov dword [CdRegEbx], ebx
+        mov word [CdRegEs], ax
         lea eax, [byte esp+038h]
         mov edx, 300h
         mov ebx, 2Fh
         call segread_
-        mov eax, dword_18B09C
+        mov eax, CdRegs
         mov word [esp], dx
         mov word [byte esp+04h], bx
         mov word [byte esp+08h], cx
-        mov ecx, dword_18B09C
+        mov ecx, CdRegs
         mov edx, ds
         lea ebx, [byte esp+01Ch]
         mov eax, 31h
@@ -5671,25 +5681,25 @@ sub_B6B10:
         jl short .1
 .2:
         mov esi, 3D02h
-        mov ebp, dword_18B09C
+        mov ebp, CdRegs
         lea ecx, [byte esp+038h]
         mov edx, dword [CdDriveLetter]
         lea ebx, [byte esp+01Ch]
         xor edi, edi
         mov byte [edx+eax], 0
         mov ax, word [CdRequestSelector]
-        mov dword [dword_18B0B8], esi
-        mov dword [dword_18B0B0], edi
+        mov dword [CdRegEdx], esi
+        mov dword [CdRegEdi], edi
         mov edx, ds
         mov esi, 300h
-        mov word [word_18B0C0], ax
+        mov word [CdRegSegs], ax
         lea eax, [byte esp+038h]
         mov edi, 21h
         call segread_
         xor eax, eax
         mov word [esp], si
         mov word [byte esp+08h], ax
-        mov eax, dword_18B09C
+        mov eax, CdRegs
         mov word [byte esp+04h], di
         mov eax, 31h
         mov word [byte esp+038h], dx
@@ -5708,21 +5718,21 @@ sub_B6B10:
         mov ecx, 32h
         mov edx, 5
         mov eax, dword [CdDriveLetter]
-        mov esi, dword [dword_18B0B8]
+        mov esi, dword [CdRegEdx]
         mov edi, ebp
         mov byte [eax], 6
         xor eax, eax
         xor ebx, ebx
         rep stosb
         mov eax, 4402h
-        mov dword [dword_18B0AC], esi
-        mov dword [dword_18B0B4], edx
-        mov dword [dword_18B0B0], ebx
+        mov dword [CdRegEbx], esi
+        mov dword [CdRegEax], edx
+        mov dword [CdRegEdi], ebx
         xor ecx, ecx
-        mov dword [dword_18B0B8], eax
+        mov dword [CdRegEdx], eax
         mov ax, word [CdRequestSelector]
         mov edx, 300h
-        mov word [word_18B0C0], ax
+        mov word [CdRegSegs], ax
         lea eax, [byte esp+038h]
         mov ebx, 21h
         call segread_
@@ -5787,7 +5797,7 @@ sub_B6D2C:
         mov byte [byte eax+01Ah], 0
         mov ecx, 32h
         mov word [byte eax+03h], 0
-        mov edi, dword_18B09C
+        mov edi, CdRegs
         mov dword [byte eax+014h], edx
         mov edx, dword [byte esp+050h]
         xor ebx, ebx
@@ -5796,21 +5806,21 @@ sub_B6D2C:
         mov edx, 1510h
         rep stosb
         mov eax, dword [CdBufferSelector]
-        mov dword [dword_18B0B8], edx
-        mov dword [dword_18B0AC], ebx
+        mov dword [CdRegEdx], edx
+        mov dword [CdRegEbx], ebx
         xor ecx, ecx
-        mov dword [dword_18B0B4], eax
+        mov dword [CdRegEax], eax
         mov ax, word [CdRequestSelector]
         mov edx, 300h
-        mov word [word_18B0BE], ax
+        mov word [CdRegEs], ax
         lea eax, [byte esp+038h]
         mov ebx, 2Fh
         call segread_
-        mov eax, dword_18B09C
+        mov eax, CdRegs
         mov word [byte esp+01Ch], dx
         mov word [byte esp+020h], bx
         mov word [byte esp+024h], cx
-        mov ecx, dword_18B09C
+        mov ecx, CdRegs
         mov edx, ds
         mov ebx, esp
         mov eax, 31h
@@ -5873,7 +5883,7 @@ sub_B6DFC:
 .2:
         mov ecx, 32h
         mov byte [byte esi+018h], 0
-        mov edi, dword_18B09C
+        mov edi, CdRegs
         mov byte [byte esi+019h], 0
         mov ebx, 300h
         mov byte [byte esi+01Ah], 0
@@ -5884,20 +5894,20 @@ sub_B6DFC:
         mov ecx, 1510h
         mov eax, dword [CdBufferSelector]
         xor edi, edi
-        mov dword [dword_18B0B8], ecx
-        mov dword [dword_18B0AC], edi
-        mov dword [dword_18B0B4], eax
+        mov dword [CdRegEdx], ecx
+        mov dword [CdRegEbx], edi
+        mov dword [CdRegEax], eax
         mov ax, word [CdRequestSelector]
         mov ecx, 2Fh
-        mov word [word_18B0BE], ax
+        mov word [CdRegEs], ax
         lea eax, [byte esp+038h]
         xor edi, edi
         call segread_
-        mov eax, dword_18B09C
+        mov eax, CdRegs
         mov word [byte esp+01Ch], bx
         mov word [byte esp+020h], cx
         mov word [byte esp+024h], di
-        mov eax, dword_18B09C
+        mov eax, CdRegs
         lea ecx, [byte esp+038h]
         mov ebx, esp
         mov word [byte esp+038h], dx
@@ -5948,9 +5958,10 @@ sub_B6DFC:
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_B6FA0                                                            B6FA0  
+; CdSeekCmd                                    B6FA0  96 PC, medium confidence
+; Sends a seek to the CD driver
 ;-----------------------------------------------------------------------------
-sub_B6FA0:
+CdSeekCmd:
         push esi
         push edi
         sub esp, byte 44h
@@ -5966,7 +5977,7 @@ sub_B6FA0:
         mov word [byte esi+012h], 0
         mov ecx, 32h
         mov byte [byte esi+018h], 0
-        mov edi, dword_18B09C
+        mov edi, CdRegs
         mov byte [byte esi+019h], 0
         xor ebx, ebx
         mov byte [byte esi+01Ah], 0
@@ -5978,21 +5989,21 @@ sub_B6FA0:
         rep stosb
         mov edx, 1510h
         mov eax, dword [CdBufferSelector]
-        mov dword [dword_18B0AC], ebx
+        mov dword [CdRegEbx], ebx
         xor ecx, ecx
         mov ebx, 2Fh
-        mov dword [dword_18B0B4], eax
+        mov dword [CdRegEax], eax
         mov ax, word [CdRequestSelector]
-        mov dword [dword_18B0B8], edx
-        mov word [word_18B0BE], ax
+        mov dword [CdRegEdx], edx
+        mov word [CdRegEs], ax
         lea eax, [byte esp+038h]
         mov edx, 300h
         call segread_
-        mov eax, dword_18B09C
+        mov eax, CdRegs
         mov word [byte esp+01Ch], dx
         mov word [byte esp+020h], bx
         mov word [byte esp+024h], cx
-        mov ecx, dword_18B09C
+        mov ecx, CdRegs
         mov edx, ds
         mov ebx, esp
         mov eax, 31h
@@ -6016,9 +6027,10 @@ sub_B6FA0:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_B7094                                                            B7094  
+; CdDirEntry                                   B7094  96 PC, medium confidence
+; Reads the directory entry of a CD file
 ;-----------------------------------------------------------------------------
-sub_B7094:
+CdDirEntry:
         push esi
         push edi
         push ebp
@@ -6048,25 +6060,25 @@ sub_B7094:
 .3:
         pop edi
         xor ebx, ebx
-        mov edi, dword_18B09C
+        mov edi, CdRegs
         xor eax, eax
-        mov esi, dword_18B09C
+        mov esi, CdRegs
         rep stosb
         mov eax, dword [CdBufferSelector]
-        mov dword [dword_18B0B8], edx
-        mov dword [dword_18B0AC], ebx
-        mov dword [dword_18B09C], ebx
-        mov dword [dword_18B0B4], eax
+        mov dword [CdRegEdx], edx
+        mov dword [CdRegEbx], ebx
+        mov dword [CdRegs], ebx
+        mov dword [CdRegEax], eax
         mov ax, word [CdBufferSegment]
         xor ecx, ecx
-        mov word [word_18B0BE], ax
+        mov word [CdRegEs], ax
         mov eax, dword [CdRequestSelector]
         mov edx, 300h
-        mov dword [dword_18B0A0], eax
+        mov dword [CdDirEntryBuf], eax
         lea eax, [byte esp+038h]
         mov ebx, 2Fh
         call segread_
-        mov eax, dword_18B09C
+        mov eax, CdRegs
         mov word [esp], dx
         mov word [byte esp+04h], bx
         mov word [byte esp+08h], cx
@@ -6086,7 +6098,7 @@ sub_B7094:
         je short .4
         mov edi, dword [CdRequestSegment]
         push edi
-        mov ebp, dword [dword_18B0B8]
+        mov ebp, dword [CdRegEdx]
         push ebp
         push str_CdromdirectoryentryERROR
         call FatalError
@@ -6337,9 +6349,11 @@ _dos_getdiskfree_:
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_B7310                                                            B7310  
+; OpenResourceArchive                             B7310  96 PC, low confidence
+; Frees the old archive and loads the named resource archive for later
+; lookups
 ;-----------------------------------------------------------------------------
-sub_B7310:
+OpenResourceArchive:
         push esi
         push edi
         mov esi, dword [byte esp+0Ch]
@@ -6351,12 +6365,12 @@ sub_B7310:
         mov dword [dword_121B28], edx
         mov dword [dword_121B24], ebx
         mov dword [dword_121B2C], ecx
-        mov dword [dword_121B30], edi
+        mov dword [ResourceArchive], edi
         mov byte [byte_18B0D0], ah
-        mov byte [byte_121AFC], ah
+        mov byte [ResourceArchiveName], ah
         test esi, esi
         je short .8
-        mov edi, byte_121AFC
+        mov edi, ResourceArchiveName
         mov dl, 2Eh
         push edi
 .1:
@@ -6412,7 +6426,7 @@ sub_B7310:
 .7:
         pop edi
 .8:
-        mov eax, byte_121AFC
+        mov eax, ResourceArchiveName
         pop edi
         pop esi
         ret
@@ -6421,7 +6435,7 @@ sub_B7310:
 ; sub_B73C4                                                            B73C4  
 ;-----------------------------------------------------------------------------
 sub_B73C4:
-        mov eax, byte_121AFC
+        mov eax, ResourceArchiveName
         ret
 ;-----------------------------------------------------------------------------
 ; stricmp_                                                      B73CA  library

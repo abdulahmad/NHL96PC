@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_B2158 progbits alloc exec nowrite align=1
-extern sub_AB834, FindCachedFile, sub_E0671, DosCloseFile, sub_E07CC
+extern sub_AB834, FindCachedFile, DosOpenFile, DosCloseFile, sub_E07CC
 global LoadDataFileExt
 ;-----------------------------------------------------------------------------
 ; LoadDataFileExt                              B2158  96 PC, medium confidence
@@ -27,7 +27,7 @@ LoadDataFileExt:
         lea eax, [byte esp+0Ch]
         push eax
         push esi
-        call sub_E0671
+        call DosOpenFile
         add esp, byte 14h
         mov ebx, dword [byte esp+08h]
         test ebx, ebx

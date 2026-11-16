@@ -9,15 +9,15 @@ extern dword_123AC0, AtanTable, str_Punct_AngleOfVector, dword_17DC18, dword_17D
 extern dword_1956B4, dword_1956B8, dword_1956BC, dword_1956C0, dword_1956C4, dword_1956C8, dword_1956CC, dword_198388
 extern dword_19838C, dword_198390, dword_198394, dword_198398, dword_19839C, dword_1983A0, dword_1983A4, RinkViewChanged
 extern dword_1983B4, ScaledRowBuffer, min_, off_1222E0, off_1222EC, off_1222F8, off_122304, off_122310
-extern strncpy_, AllocMemBlock, FreeMemBlock, OpenArtArchive, SetRinkView, sub_B78DC, TransformRinkObject, sub_B79C8
-extern sub_B79E0, sub_B9A18, SubVec3, sub_BA344, sub_BD594, SortIndices, sub_C85F0, Div64By32
+extern strncpy_, AllocMemBlock, FreeMemBlock, OpenArtArchive, SetRinkView, TransformRinkPoints, TransformRinkObject, ProjectRinkObject
+extern sub_B79E0, sub_B9A18, SubVec3, sub_BA344, sub_BD594, SortIndices, DrawClippedPoly, Div64By32
 extern Shl64, BuildSpanOffsets, sub_CA288, sub_CA584, FixedSinCos, FillRectColor, SetBlitSource, CopyMappedSpan
 extern sub_E1824, unk_122320, unk_122344, RinkMatrix, RinkTranslation, unk_191AB0, unk_1938B0, unk_196380
 extern unk_196388, unk_196390, unk_196398, unk_197050, unk_19705C, unk_197068, unk_197074, unk_1983B8
 global AngleOfVectorJumpTable, AngleOfVector_90, AngleOfVector_92, AngleOfVector_9C, AngleOfVector_A8, AngleOfVector_AF, AngleOfVector_B9, AngleOfVector_BB
 global AngleOfVector_C0, sub_BBC80_93, DrawSortedModelPolys_B3, sub_BBEC8_174, sub_BA3D0, AngleOfVector, SinInterp, CosInterp
 global sub_BA5D0, sub_BACC0, sub_BAD58, sub_BB384, DrawFlatPoly, DrawPolyOutline, sub_BB610, sub_BB8E0
-global sub_BB924, sub_BB9C4, MultiplyMatrix, sub_BBAA0, sub_BBB70, SetRinkMatrix, SetRinkTranslation, SetScreenScale
+global sub_BB924, sub_BB9C4, MultiplyMatrix, sub_BBAA0, DrawPolyList, SetRinkMatrix, SetRinkTranslation, SetScreenScale
 global sub_BBC14, sub_BBC80, SetModelFrame, DrawSortedModelPolys, sub_BBE50, sub_BBEC8, sub_BC040, sub_BC0C4
 global sub_BC150, sub_BC3A0, sub_BC3F4, sub_BC424, sub_BC4F0, sub_BC5C0, sub_BC610, sub_BC674
 global sub_BC6D8
@@ -2230,9 +2230,10 @@ sub_BBAA0:
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_BBB70                                                            BBB70  
+; DrawPolyList                                    BBB70  96 PC, low confidence
+; Draws a list of polygons
 ;-----------------------------------------------------------------------------
-sub_BBB70:
+DrawPolyList:
         push ebp
         sub esp, byte 20h
         mov edx, dword [byte esp+028h]
@@ -2258,7 +2259,7 @@ sub_BBB70:
         lea eax, [byte esp+04h]
         push eax
         push edx
-        call sub_C85F0
+        call DrawClippedPoly
         add esp, byte 0Ch
         add esp, byte 20h
         pop ebp
@@ -2617,7 +2618,7 @@ sub_BBEC8:
         je short .2
         push edi
         push eax
-        call sub_B78DC
+        call TransformRinkPoints
         add esp, byte 8
         test eax, eax
         jne near .14
@@ -2627,7 +2628,7 @@ sub_BBEC8:
         test si, 400h
         jne short .3
         push edi
-        call sub_B79C8
+        call ProjectRinkObject
         add esp, byte 4
         xor ebx, ebx
         test eax, eax

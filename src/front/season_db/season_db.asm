@@ -9,7 +9,7 @@ extern dword_17CBE7, dword_17CC13, dword_17CC17, dword_17CEC3, dword_17CED1, dwo
 extern dword_17D202, dword_17D267, dword_17D26B, FillMusicStream, gameopts, GetLangText, HideMessage, HideProgressBox
 extern LoadSeasonStats, MakeDirPath, MakePlayoffDbPath, MakeSeasonDbPath, qsort_, ShowMessage, ShowProgressBox, SimulateGame
 extern SoundIdle, SoundSecondsToBytes, sprintf_, srand_, str_05dCNZDB, str_S05dCNZDB, strcat_, strlen_
-extern sub_A7B4B, sub_A7CC4, sub_A7E6D, sub_A800A, sub_A8AC5, sub_ABF4C, sub_B20D0, sub_B22B0
+extern PlayoffRound1, PlayoffRound2, PlayoffRound3, PlayoffFinal, ClearPlayoffTree, sub_ABF4C, sub_B20D0, sub_B22B0
 extern sub_B7810, unk_17CB2E, unk_17CC1F, unk_17CED5, unk_17CF9A, unk_7FF77, UpdateProgressBox, word_1656DC
 extern word_1656E8, word_16581E
 global UpdateTeamDbs, UpdateTeamDbs_86F, ApplyDayResults, SimSeasonGames, ApplyPlayoffDayResults, SaveSeasonTeams, unk_81ED1
@@ -1901,11 +1901,11 @@ SimSeasonGames:
         jl short .46
         cmp dword [byte ebp+052h], byte 0
         jne short .49
-        call sub_A8AC5
-        call sub_A7B4B
-        call sub_A7CC4
-        call sub_A7E6D
-        call sub_A800A
+        call ClearPlayoffTree
+        call PlayoffRound1
+        call PlayoffRound2
+        call PlayoffRound3
+        call PlayoffFinal
 .49:
         mov ebx, 7
         lea eax, [byte ebp-062h]

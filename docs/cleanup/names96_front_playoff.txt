@@ -1,0 +1,32 @@
+# NHL 96 PC play-offs: the play-off menus and set-up, the play-off tree screen, simulating play-off games. PC-only, source new.
+sub_A4FD7 RunPlayoffMenus {confidence=medium} from the main menu: loads PLAYOFF.NDX and runs the play-off screens
+sub_A524B PickPlayoffTeam {confidence=low} picks a team for a play-off slot (both New York teams get their full names)
+sub_A540A PlayoffSetupScreen {confidence=medium} the new play-offs screen (1GM0, BT00-BT0x): the teams in the tree, name, series length
+sub_A6561 DrawPlayoffSlotLogo {confidence=low} draws a team logo in a play-off slot
+sub_A675F DrawPlayoffTeamList {confidence=low} draws the numbered team list ("%d.")
+sub_A68CD EditPlayoffName {confidence=medium} edits the play-offs' name (EditText)
+sub_A699C DrawTreeLine {confidence=low} draws a line of the play-off tree (DrawArtOpaque)
+sub_A6B94 PlayoffTreeScreen {confidence=medium} the play-off tree screen (PTOP / PBOT halves, AWD0 awards, choices): series results, play or simulate the next games
+sub_A7A09 SeedPlayoffs {confidence=low} fills the first round of the tree from the standings
+sub_A7B4B PlayoffRound1 {confidence=low} plays out (simulates) the due games of round 1
+sub_A7CC4 PlayoffRound2 {confidence=low} the same for round 2
+sub_A7E6D PlayoffRound3 {confidence=low} the same for round 3
+sub_A800A PlayoffFinal {confidence=low} the same for the final
+sub_A80FC SimPlayoffGame {confidence=medium} simulates one play-off game (SimulateGame) and saves the series (%s%05d%cSG.DB)
+sub_A8351 DrawPlayoffTree {confidence=low} draws the tree: team logos, series wins (NUM%d), the awards (AWD0)
+sub_A8AC5 ClearPlayoffTree {confidence=low} clears the tree's results
+sub_A4FD7_102 RunPlayoffMenus_102 {no_record}
+sub_A4FD7_115 RunPlayoffMenus_115 {no_record}
+sub_A4FD7_73 RunPlayoffMenus_73 {no_record}
+sub_A4FD7_89 RunPlayoffMenus_89 {no_record}
+sub_A4FD7_A6 RunPlayoffMenus_A6 {no_record}
+sub_A4FD7_CD RunPlayoffMenus_CD {no_record}
+sub_A4FD7_D6 RunPlayoffMenus_D6 {no_record}
+sub_A4FD7_E1 RunPlayoffMenus_E1 {no_record}
+sub_A524B_1B9 PickPlayoffTeam_1B9 {no_record}
+sub_A540A_114B PlayoffSetupScreen_114B {no_record}
+sub_A6561_ED DrawPlayoffSlotLogo_ED {no_record}
+sub_A7B4B_162 PlayoffRound1_162 {no_record}
+sub_A7B4B_16C PlayoffRound1_16C {no_record}
+sub_A7B4B_172 PlayoffRound1_172 {no_record}
+sub_A7B4B_173 PlayoffRound1_173 {no_record}

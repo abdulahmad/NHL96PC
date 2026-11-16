@@ -12,8 +12,8 @@ extern SlideInBottomBar, SlideInSideBar, SlideInTitleBar, SoundIdle, SoundSecond
 extern str_5GM, str_7GM, str_Aal0, str_Aal1, str_Aal2, str_Aar0, str_Aar1, str_Aar2
 extern str_Ahl0, str_Ahl1, str_Ahl2, str_Ahr0, str_Ahr1, str_Ahr2, str_Bkgd21, str_HaBck02
 extern str_HaBck12, str_Pal29, str_Rk02d, str_Rk222, str_Rul13, str_Rul23, str_Rul33, str_Swt0
-extern str_Swt12, str_SwtD2, sub_29B9F, sub_A4FD7_102, sub_A4FD7_115, sub_A4FD7_73, sub_A4FD7_89, sub_A4FD7_A6
-extern sub_A4FD7_CD, sub_A4FD7_D6, sub_A4FD7_E1, sub_AA988, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C
+extern str_Swt12, str_SwtD2, sub_29B9F, RunPlayoffMenus_102, RunPlayoffMenus_115, RunPlayoffMenus_73, RunPlayoffMenus_89, RunPlayoffMenus_A6
+extern RunPlayoffMenus_CD, RunPlayoffMenus_D6, RunPlayoffMenus_E1, sub_AA988, sub_AADA4, sub_AB758, sub_ABF4C, sub_AD35C
 extern sub_ADA50, sub_ADBEC, sub_DD6C4, sub_E04E0, TextSetFont, unk_152C44, unk_17D272, word_114CE0
 extern word_11ED38
 global unk_A3851, DrawModemHomePanel, DrawModemHomePanel_151, DrawModemHomePanel_15D, DrawModemAwayPanel, jpt_A3CD4, ModemTeamSelectScreen, ModemTeamSelectScreen_7F1
@@ -1168,11 +1168,11 @@ unk_A4F89:
 unk_A4FA9:
         db 0A4h,0A5h,0A3h,0A5h,0A2h,0A5h,0A1h,0A5h,0A0h,0A5h,09Fh,0A5h,00h,00h
 jpt_A4FB7:
-        dd sub_A4FD7_A6
-        dd sub_A4FD7_115
-        dd sub_A4FD7_CD
-        dd sub_A4FD7_D6
-        dd sub_A4FD7_E1
-        dd sub_A4FD7_89
-        dd sub_A4FD7_73
-        dd sub_A4FD7_102
+        dd RunPlayoffMenus_A6
+        dd RunPlayoffMenus_115
+        dd RunPlayoffMenus_CD
+        dd RunPlayoffMenus_D6
+        dd RunPlayoffMenus_E1
+        dd RunPlayoffMenus_89
+        dd RunPlayoffMenus_73
+        dd RunPlayoffMenus_102

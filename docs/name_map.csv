@@ -905,6 +905,22 @@ A3A11,DrawModemHomePanel,sub_A3A11,new,medium,"the home team's panel on the mode
 A3B74,DrawModemAwayPanel,sub_A3B74,new,medium,the same for the away team,src/front/modem_teams/modem_teams.asm
 A3CF8,ModemTeamSelectScreen,sub_A3CF8,new,medium,the team select screen of a modem or link game (ahl / ahr / aal arrows),src/front/modem_teams/modem_teams.asm
 A4961,RunModemGameSetup,sub_A4961,new,medium,"from the main menu: the modem set-up (or a serial link), the modem game stats and team ranks, team select, the controller screen, until a game starts",src/front/modem_teams/modem_teams.asm
+A4FD7,RunPlayoffMenus,sub_A4FD7,new,medium,from the main menu: loads PLAYOFF.NDX and runs the play-off screens,src/front/playoff/playoff.asm
+A524B,PickPlayoffTeam,sub_A524B,new,low,picks a team for a play-off slot (both New York teams get their full names),src/front/playoff/playoff.asm
+A540A,PlayoffSetupScreen,sub_A540A,new,medium,"the new play-offs screen (1GM0, BT00-BT0x): the teams in the tree, name, series length",src/front/playoff/playoff.asm
+A6561,DrawPlayoffSlotLogo,sub_A6561,new,low,draws a team logo in a play-off slot,src/front/playoff/playoff.asm
+A675F,DrawPlayoffTeamList,sub_A675F,new,low,"draws the numbered team list (""%d."")",src/front/playoff/playoff.asm
+A68CD,EditPlayoffName,sub_A68CD,new,medium,edits the play-offs' name (EditText),src/front/playoff/playoff.asm
+A699C,DrawTreeLine,sub_A699C,new,low,draws a line of the play-off tree (DrawArtOpaque),src/front/playoff/playoff.asm
+A6B94,PlayoffTreeScreen,sub_A6B94,new,medium,"the play-off tree screen (PTOP / PBOT halves, AWD0 awards, choices): series results, play or simulate the next games",src/front/playoff/playoff.asm
+A7A09,SeedPlayoffs,sub_A7A09,new,low,fills the first round of the tree from the standings,src/front/playoff/playoff.asm
+A7B4B,PlayoffRound1,sub_A7B4B,new,low,plays out (simulates) the due games of round 1,src/front/playoff/playoff.asm
+A7CC4,PlayoffRound2,sub_A7CC4,new,low,the same for round 2,src/front/playoff/playoff.asm
+A7E6D,PlayoffRound3,sub_A7E6D,new,low,the same for round 3,src/front/playoff/playoff.asm
+A800A,PlayoffFinal,sub_A800A,new,low,the same for the final,src/front/playoff/playoff.asm
+A80FC,SimPlayoffGame,sub_A80FC,new,medium,simulates one play-off game (SimulateGame) and saves the series (%s%05d%cSG.DB),src/front/playoff/playoff.asm
+A8351,DrawPlayoffTree,sub_A8351,new,low,"draws the tree: team logos, series wins (NUM%d), the awards (AWD0)",src/front/playoff/playoff.asm
+A8AC5,ClearPlayoffTree,sub_A8AC5,new,low,clears the tree's results,src/front/playoff/playoff.asm
 A9BCC,_searchenv_,,WATCOM,high,IDA FLIRT library signature,
 A9CB3,strcpy_,,WATCOM,high,IDA FLIRT library signature,
 A9CD2,strcat_,,WATCOM,high,IDA FLIRT library signature,

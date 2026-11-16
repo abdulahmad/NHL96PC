@@ -23,8 +23,8 @@ extern str_Mod2, str_Mod3, str_Pal15, str_Pal16, str_S, str_S05dCnzDb4, str_S05d
 extern str_S05dCsgDb3, str_SEASONNDX2, str_SLDR, str_Sta12, str_Sta22, str_Sta32, str_star, str_Stn1
 extern str_Stn2, str_Stn3, str_Tra1, str_Tra2, str_Tra3, strcpy_, strlen_, sub_1E8E9
 extern sub_29B9F, sub_4F08B, sub_4F159, sub_4F2A8, sub_4F385, sub_7D580, UpdateTeamDbs, SimSeasonGames
-extern SaveSeasonTeams, SimulateGame, RunStatsMenu, RunRosterScreens, sub_A6B94, sub_A7A09, sub_A7B4B, sub_A7CC4
-extern sub_A7E6D, sub_A800A, sub_A8AC5, sub_A8B9B, sub_AAA40, sub_AAA8C, sub_AADA4, sub_ABF4C
+extern SaveSeasonTeams, SimulateGame, RunStatsMenu, RunRosterScreens, PlayoffTreeScreen, SeedPlayoffs, PlayoffRound1, PlayoffRound2
+extern PlayoffRound3, PlayoffFinal, ClearPlayoffTree, sub_A8B9B, sub_AAA40, sub_AAA8C, sub_AADA4, sub_ABF4C
 extern sub_AD35C, sub_AD5C8, sub_ADA80, sub_ADBEC, sub_B0430, sub_B178B, sub_B20D0, sub_B20EC
 extern sub_B22B0, sub_B2C54, sub_B7256, sub_B7810, sub_DD6C4, sub_DD7B8, sub_E04E0, sub_E0584
 extern TextSetFont, TickDeadlinePassed, unk_152C44, unk_17CB2E, unk_17CC1F, unk_17CED5, unk_17CF9A, unk_792EB
@@ -2620,10 +2620,10 @@ sub_7B15A:
         jl short .48
         cmp dword [byte ebp+042h], byte 0
         jne short .51
-        call sub_A7B4B
-        call sub_A7CC4
-        call sub_A7E6D
-        call sub_A800A
+        call PlayoffRound1
+        call PlayoffRound2
+        call PlayoffRound3
+        call PlayoffFinal
 .51:
         mov ebx, 7
         lea eax, [byte ebp-052h]
@@ -2831,7 +2831,7 @@ RunSeasonMenus_189:
         jmp short RunSeasonMenus_138.5
 .7:
         mov eax, 1
-        call sub_A6B94
+        call PlayoffTreeScreen
         cmp eax, 2714h
         je short RunSeasonMenus_138.5
         cmp eax, 0A5B6h
@@ -2911,28 +2911,28 @@ RunSeasonMenus_25A:
 .11:
         call SaveSeasonTeams
         xor eax, eax
-        call sub_A7A09
+        call SeedPlayoffs
         cmp byte [byte_17D262], 0
         jne short .12
-        call sub_A7B4B
+        call PlayoffRound1
         jmp short .15
 .12:
         movsx eax, byte [byte_17D262]
         cmp eax, byte 1
         jne short .13
-        call sub_A7CC4
+        call PlayoffRound2
         jmp short .15
 .13:
         cmp eax, byte 2
         jne short .14
-        call sub_A7E6D
+        call PlayoffRound3
         jmp short .15
 .14:
         cmp eax, byte 3
         jne short .15
-        call sub_A800A
+        call PlayoffFinal
 .15:
-        call sub_A8AC5
+        call ClearPlayoffTree
         mov edx, dword [byte_184B28]
         xor edi, edi
         xor eax, eax
@@ -2948,22 +2948,22 @@ RunSeasonMenus_25A:
         jne short .21
         cmp byte [byte_17D262], 0
         jne short .18
-        call sub_A7B4B
+        call PlayoffRound1
 .18:
         movsx eax, byte [byte_17D262]
         cmp eax, byte 1
         jne short .19
-        call sub_A7CC4
+        call PlayoffRound2
 .19:
         movsx eax, byte [byte_17D262]
         cmp eax, byte 2
         jne short .20
-        call sub_A7E6D
+        call PlayoffRound3
 .20:
         movsx eax, byte [byte_17D262]
         cmp eax, byte 3
         jne short .21
-        call sub_A800A
+        call PlayoffFinal
 .21:
         mov eax, 1
         call sub_A8B9B

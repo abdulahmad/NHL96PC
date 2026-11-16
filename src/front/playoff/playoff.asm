@@ -32,15 +32,16 @@ extern sub_B7810, sub_C2500, sub_DD6C4, MouseRead, sub_E04E0, sub_E0584, str_S6,
 extern unk_11EF90, unk_11EFDC, unk_11F39C, unk_11F3DC, unk_11F41C, unk_11F45C, unk_152C44, optblock_end
 extern unk_17CED5, unk_17CF9A, unk_A49D1, unk_A4A69, unk_A4F69, unk_A4F79, unk_A4F89, unk_A4FA9
 extern word_1656E8, word_16581E
-global sub_A4FD7_73, sub_A4FD7_89, sub_A4FD7_A6, sub_A4FD7_CD, sub_A4FD7_D6, sub_A4FD7_E1, sub_A4FD7_102, sub_A4FD7_115
-global sub_A524B_1B9, sub_A540A_114B, sub_A6561_ED, sub_A7B4B_162, sub_A7B4B_16C, sub_A7B4B_172, sub_A7B4B_173, sub_A4FD7
-global sub_A522F, sub_A524B, sub_A540A, sub_A6561, sub_A6653, sub_A675F, sub_A68CD, sub_A699C
-global sub_A6B94, sub_A7A09, sub_A7B4B, sub_A7CC4, sub_A7E6D, sub_A800A, sub_A80FC, sub_A8351
-global sub_A8AC5
+global RunPlayoffMenus_73, RunPlayoffMenus_89, RunPlayoffMenus_A6, RunPlayoffMenus_CD, RunPlayoffMenus_D6, RunPlayoffMenus_E1, RunPlayoffMenus_102, RunPlayoffMenus_115
+global PickPlayoffTeam_1B9, PlayoffSetupScreen_114B, DrawPlayoffSlotLogo_ED, PlayoffRound1_162, PlayoffRound1_16C, PlayoffRound1_172, PlayoffRound1_173, RunPlayoffMenus
+global sub_A522F, PickPlayoffTeam, PlayoffSetupScreen, DrawPlayoffSlotLogo, sub_A6653, DrawPlayoffTeamList, EditPlayoffName, DrawTreeLine
+global PlayoffTreeScreen, SeedPlayoffs, PlayoffRound1, PlayoffRound2, PlayoffRound3, PlayoffFinal, SimPlayoffGame, DrawPlayoffTree
+global ClearPlayoffTree
 ;-----------------------------------------------------------------------------
-; sub_A4FD7                                                       A4FD7  96 PC
+; RunPlayoffMenus                              A4FD7  96 PC, medium confidence
+; From the main menu: loads PLAYOFF.NDX and runs the play-off screens
 ;-----------------------------------------------------------------------------
-sub_A4FD7:
+RunPlayoffMenus:
         push ebx
         push ecx
         push edx
@@ -71,17 +72,17 @@ sub_A4FD7:
         jne short .3
 .2:
         mov ebx, 0A5B4h
-        jmp short sub_A4FD7_A6
+        jmp short RunPlayoffMenus_A6
 .3:
         mov ebx, 0A5B7h
-        jmp short sub_A4FD7_A6
-sub_A4FD7_73:
+        jmp short RunPlayoffMenus_A6
+RunPlayoffMenus_73:
         mov eax, dword [dword_17D162]
         add eax, 2710h
         mov ebx, 0A5B5h
         call RunStatsMenu
-        jmp short sub_A4FD7_A6
-sub_A4FD7_89:
+        jmp short RunPlayoffMenus_A6
+RunPlayoffMenus_89:
         push byte 0
         mov ecx, 0A5B4h
         mov ebx, 0A5B5h
@@ -90,26 +91,26 @@ sub_A4FD7_89:
         call PickIndexEntryScreen
 .4:
         mov ebx, eax
-sub_A4FD7_A6:
+RunPlayoffMenus_A6:
         test ebx, ebx
-        je near sub_A4FD7_115.17
+        je near RunPlayoffMenus_115.17
         lea eax, [byte ebx-015h]
         cmp eax, 0A5A4h
-        ja short sub_A4FD7_A6
+        ja short RunPlayoffMenus_A6
         mov ecx, 8
         mov edi, unk_A4FA9
         repne scasw
         jmp dword [nosplit cs:ecx*4+jpt_A4FB7]
-sub_A4FD7_CD:
+RunPlayoffMenus_CD:
         mov eax, esi
-        call sub_A540A
-        jmp short sub_A4FD7_89.4
-sub_A4FD7_D6:
+        call PlayoffSetupScreen
+        jmp short RunPlayoffMenus_89.4
+RunPlayoffMenus_D6:
         xor eax, eax
-        call sub_A6B94
+        call PlayoffTreeScreen
         xor esi, esi
-        jmp short sub_A4FD7_89.4
-sub_A4FD7_E1:
+        jmp short RunPlayoffMenus_89.4
+RunPlayoffMenus_E1:
         mov eax, dword [dword_17CED6]
         shl eax, 0Fh
         shr eax, 1Bh
@@ -117,14 +118,14 @@ sub_A4FD7_E1:
         mov dword [dword_1150D8], eax
         mov eax, 0A5B5h
         call RunControllerScreen
-        jmp short sub_A4FD7_89.4
-sub_A4FD7_102:
+        jmp short RunPlayoffMenus_89.4
+RunPlayoffMenus_102:
         mov ebx, 0A5B4h
         xor eax, eax
         mov esi, 1
         call RunRosterScreens
-        jmp short sub_A4FD7_A6
-sub_A4FD7_115:
+        jmp short RunPlayoffMenus_A6
+RunPlayoffMenus_115:
         mov eax, dword [dword_1150D8]
         mov ebx, 0A5B5h
         call PlayMenuGame
@@ -155,28 +156,28 @@ sub_A4FD7_115:
 .6:
         call SaveSeasonTeams
         xor eax, eax
-        call sub_A7A09
+        call SeedPlayoffs
         cmp byte [byte_17D262], 0
         jne short .7
-        call sub_A7B4B
+        call PlayoffRound1
         jmp short .10
 .7:
         movsx eax, byte [byte_17D262]
         cmp eax, byte 1
         jne short .8
-        call sub_A7CC4
+        call PlayoffRound2
         jmp short .10
 .8:
         cmp eax, byte 2
         jne short .9
-        call sub_A7E6D
+        call PlayoffRound3
         jmp short .10
 .9:
         cmp eax, byte 3
         jne short .10
-        call sub_A800A
+        call PlayoffFinal
 .10:
-        call sub_A8AC5
+        call ClearPlayoffTree
         xor edx, edx
         xor eax, eax
 .11:
@@ -191,32 +192,32 @@ sub_A4FD7_115:
         jne short .16
         cmp byte [byte_17D262], 0
         jne short .13
-        call sub_A7B4B
+        call PlayoffRound1
 .13:
         movsx eax, byte [byte_17D262]
         cmp eax, byte 1
         jne short .14
-        call sub_A7CC4
+        call PlayoffRound2
 .14:
         movsx eax, byte [byte_17D262]
         cmp eax, byte 2
         jne short .15
-        call sub_A7E6D
+        call PlayoffRound3
 .15:
         movsx eax, byte [byte_17D262]
         cmp eax, byte 3
         jne short .16
-        call sub_A800A
+        call PlayoffFinal
 .16:
         xor eax, eax
         call sub_A8B9B
-        jmp near sub_A4FD7_A6
+        jmp near RunPlayoffMenus_A6
 .17:
         mov eax, 1
         mov edx, dword [dword_11ED78]
         call NameIndexFree
         mov eax, ebx
-        jmp near sub_A7B4B_172
+        jmp near PlayoffRound1_172
 ;-----------------------------------------------------------------------------
 ; sub_A522F                                                       A522F  96 PC
 ;-----------------------------------------------------------------------------
@@ -231,9 +232,10 @@ sub_A522F:
         pop edx
         ret
 ;-----------------------------------------------------------------------------
-; sub_A524B                                                       A524B  96 PC
+; PickPlayoffTeam                                 A524B  96 PC, low confidence
+; Picks a team for a play-off slot (both New York teams get their full names)
 ;-----------------------------------------------------------------------------
-sub_A524B:
+PickPlayoffTeam:
         push ebx
         push ecx
         push esi
@@ -321,7 +323,7 @@ sub_A524B:
         mov edx, eax
         mov dword [dword ecx+dword_17D1E2], eax
         mov eax, dword [dword ecx+dword_184ABC]
-        call sub_A6561
+        call DrawPlayoffSlotLogo
         cmp byte [dword esi+byte_17CFB1], 0
         jne short .11
         cmp dword [dword ecx+dword_17D1E2], byte 0Eh
@@ -354,7 +356,7 @@ sub_A524B:
 .11:
         mov edx, dword [byte ebp-04h]
         mov eax, dword [byte ebp-08h]
-        call sub_A675F
+        call DrawPlayoffTeamList
         add ecx, byte 4
         inc dword [byte ebp-04h]
         add dword [byte ebp-08h], byte 1Ah
@@ -362,7 +364,7 @@ sub_A524B:
         jl near .8
 .12:
         call sub_DD6C4
-sub_A524B_1B9:
+PickPlayoffTeam_1B9:
         leave
         pop edi
         pop esi
@@ -370,9 +372,11 @@ sub_A524B_1B9:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_A540A                                                       A540A  96 PC
+; PlayoffSetupScreen                           A540A  96 PC, medium confidence
+; The new play-offs screen (1GM0, BT00-BT0x): the teams in the tree, name,
+; series length
 ;-----------------------------------------------------------------------------
-sub_A540A:
+PlayoffSetupScreen:
         push ebx
         push ecx
         push edx
@@ -695,7 +699,7 @@ sub_A540A:
         add esi, byte 28h
         mov dword [dword eax+ebp-01A30h], sub_A522F
         mov dword [dword ebx+ebp-045Eh], esi
-        mov dword [dword eax+ebp-01A28h], sub_A524B
+        mov dword [dword eax+ebp-01A28h], PickPlayoffTeam
         mov dword [dword ebx+ebp-0456h], esi
         mov esi, dword [dword edx+dword_11EDBC]
         mov dword [dword eax+ebp-0174Ah], 4
@@ -707,7 +711,7 @@ sub_A540A:
         add eax, byte 66h
         mov ebx, dword [byte ebx+02Ch]
         mov dword [dword eax+ebp-01766h], sub_A522F
-        mov dword [dword eax+ebp-0175Eh], sub_A524B
+        mov dword [dword eax+ebp-0175Eh], PickPlayoffTeam
         mov dword [dword eax+ebp-017A6h], ebx
         mov dword [dword eax+ebp-0179Ah], esi
         add edx, byte 4
@@ -845,7 +849,7 @@ sub_A540A:
 .17:
         mov edx, ebx
         mov eax, ecx
-        call sub_A675F
+        call DrawPlayoffTeamList
         inc ebx
         add ecx, byte 1Ah
         cmp ebx, byte 10h
@@ -885,7 +889,7 @@ sub_A540A:
         mov ebx, esi
         mov edx, dword [dword ecx+dword_17D1E2]
         mov eax, dword [dword ecx+dword_184ABC]
-        call sub_A6561
+        call DrawPlayoffSlotLogo
         inc esi
         add ecx, byte 4
         cmp esi, byte 10h
@@ -1216,7 +1220,7 @@ sub_A540A:
         dec edx
         imul eax, edx, byte 1Ah
         add eax, unk_17CF9A
-        call sub_A68CD
+        call EditPlayoffName
         jmp near .33
 .42:
         push dword [dword_18210C]
@@ -1485,22 +1489,23 @@ sub_A540A:
         cmp dword [byte ebp+04Ah], byte 1
         jne short .58
         mov eax, 0A5B5h
-        jmp short sub_A540A_114B
+        jmp short PlayoffSetupScreen_114B
 .58:
         cmp dword [byte ebp+04Ah], byte 14h
         jne short .59
         mov eax, 0A5B9h
-        jmp short sub_A540A_114B
+        jmp short PlayoffSetupScreen_114B
 .59:
         xor eax, eax
-sub_A540A_114B:
+PlayoffSetupScreen_114B:
         lea esp, [dword ebp+082h]
         pop ebp
-        jmp near sub_A7B4B_173
+        jmp near PlayoffRound1_173
 ;-----------------------------------------------------------------------------
-; sub_A6561                                                       A6561  96 PC
+; DrawPlayoffSlotLogo                             A6561  96 PC, low confidence
+; Draws a team logo in a play-off slot
 ;-----------------------------------------------------------------------------
-sub_A6561:
+DrawPlayoffSlotLogo:
         push ecx
         push esi
         push edi
@@ -1578,7 +1583,7 @@ sub_A6561:
         push esi
         call sub_ADBEC
         add esp, byte 4
-sub_A6561_ED:
+DrawPlayoffSlotLogo_ED:
         leave
         pop edi
         pop esi
@@ -1596,7 +1601,7 @@ sub_A6653:
         xor edx, edx
 .1:
         test edx, edx
-        jne short sub_A6561_ED
+        jne short DrawPlayoffSlotLogo_ED
         inc eax
         cmp eax, byte 1Ah
         jne short .2
@@ -1677,9 +1682,10 @@ sub_A6653:
         mov dword [byte ebx+020h], esi
         jmp near .1
 ;-----------------------------------------------------------------------------
-; sub_A675F                                                       A675F  96 PC
+; DrawPlayoffTeamList                             A675F  96 PC, low confidence
+; Draws the numbered team list ("%d.")
 ;-----------------------------------------------------------------------------
-sub_A675F:
+DrawPlayoffTeamList:
         push ebx
         push ecx
         push esi
@@ -1795,11 +1801,12 @@ sub_A675F:
         mov eax, 0FCh
         xor edx, edx
         call SetTextColors
-        jmp near sub_A524B_1B9
+        jmp near PickPlayoffTeam_1B9
 ;-----------------------------------------------------------------------------
-; sub_A68CD                                                       A68CD  96 PC
+; EditPlayoffName                              A68CD  96 PC, medium confidence
+; Edits the play-offs' name (EditText)
 ;-----------------------------------------------------------------------------
-sub_A68CD:
+EditPlayoffName:
         push ebx
         push ecx
         push esi
@@ -1869,12 +1876,13 @@ sub_A68CD:
 .7:
         mov edx, dword [byte ebp-08h]
         mov eax, dword [byte ebp-04h]
-        call sub_A675F
-        jmp near sub_A524B_1B9
+        call DrawPlayoffTeamList
+        jmp near PickPlayoffTeam_1B9
 ;-----------------------------------------------------------------------------
-; sub_A699C                                                       A699C  96 PC
+; DrawTreeLine                                    A699C  96 PC, low confidence
+; Draws a line of the play-off tree (DrawArtOpaque)
 ;-----------------------------------------------------------------------------
-sub_A699C:
+DrawTreeLine:
         push ebx
         push ecx
         push edx
@@ -1946,7 +1954,7 @@ sub_A699C:
         cmp eax, dword [dword_184B0C]
         jne short .12
         cmp dword [dword_11EF8C], byte 0
-        je near sub_A7B4B_172
+        je near PlayoffRound1_172
 .12:
         push dword [dword_184B04]
         call SetDrawBitmap
@@ -2000,11 +2008,13 @@ sub_A699C:
         jl short .13
         mov eax, dword [dword_184B0C]
         mov dword [dword_184B10], eax
-        jmp near sub_A7B4B_172
+        jmp near PlayoffRound1_172
 ;-----------------------------------------------------------------------------
-; sub_A6B94                                                       A6B94  96 PC
+; PlayoffTreeScreen                            A6B94  96 PC, medium confidence
+; The play-off tree screen (PTOP / PBOT halves, AWD0 awards, choices): series
+; results, play or simulate the next games
 ;-----------------------------------------------------------------------------
-sub_A6B94:
+PlayoffTreeScreen:
         push ebx
         push ecx
         push edx
@@ -2190,7 +2200,7 @@ sub_A6B94:
         push eax
         mov edx, dword [byte ebp+06Ah]
         mov eax, edi
-        call sub_A8351
+        call DrawPlayoffTree
         mov ecx, 66h
         mov eax, dword [byte esi+02Ch]
         mov edi, dword [byte ebp+07Eh]
@@ -2443,7 +2453,7 @@ sub_A6B94:
         cmp edx, byte 0Fh
         jl short .12
         mov dword [dword_11EF8C], 1
-        call sub_A699C
+        call DrawTreeLine
         mov dword [dword_11EF8C], 0
         call MusicDone
         test eax, eax
@@ -2529,7 +2539,7 @@ sub_A6B94:
 .22:
         push byte 3
         lea eax, [byte ebp+05Ah]
-        mov ecx, sub_A699C
+        mov ecx, DrawTreeLine
         push byte 0
         mov ebx, 0FFFFFFFFh
         mov edx, dword [byte ebp+07Eh]
@@ -2587,30 +2597,30 @@ sub_A6B94:
         cmp dword [dword_17D25A], byte 63h
         jne near .39
         mov eax, dword [byte ebp+056h]
-        call sub_A80FC
+        call SimPlayoffGame
         mov eax, 1
-        call sub_A7A09
+        call SeedPlayoffs
         cmp byte [byte_17D262], 0
         jne short .29
-        call sub_A7B4B
+        call PlayoffRound1
         jmp short .32
 .29:
         movsx eax, byte [byte_17D262]
         cmp eax, byte 1
         jne short .30
-        call sub_A7CC4
+        call PlayoffRound2
         jmp short .32
 .30:
         cmp eax, byte 2
         jne short .31
-        call sub_A7E6D
+        call PlayoffRound3
         jmp short .32
 .31:
         cmp eax, byte 3
         jne short .32
-        call sub_A800A
+        call PlayoffFinal
 .32:
-        call sub_A8AC5
+        call ClearPlayoffTree
         xor eax, eax
         xor edx, edx
 .33:
@@ -2625,22 +2635,22 @@ sub_A6B94:
         jne short .38
         cmp byte [byte_17D262], 0
         jne short .35
-        call sub_A7B4B
+        call PlayoffRound1
 .35:
         movsx eax, byte [byte_17D262]
         cmp eax, byte 1
         jne short .36
-        call sub_A7CC4
+        call PlayoffRound2
 .36:
         movsx eax, byte [byte_17D262]
         cmp eax, byte 2
         jne short .37
-        call sub_A7E6D
+        call PlayoffRound3
 .37:
         movsx eax, byte [byte_17D262]
         cmp eax, byte 3
         jne short .38
-        call sub_A800A
+        call PlayoffFinal
 .38:
         mov eax, dword [byte ebp+02h]
         mov ecx, dword [byte ebp+072h]
@@ -2651,10 +2661,10 @@ sub_A6B94:
         push eax
         mov edx, dword [byte ebp+066h]
         mov eax, dword [byte ebp+076h]
-        call sub_A8351
+        call DrawPlayoffTree
         mov dword [dword_11EF8C], 1
         call sub_DD6C4
-        call sub_A699C
+        call DrawTreeLine
         mov dword [dword_11EF8C], 0
         mov dword [byte ebp+05Ah], 0FFFFFFFFh
 .39:
@@ -2677,7 +2687,7 @@ sub_A6B94:
         cmp ebx, dword [dword eax+dword_17D1E2]
         jne near .55
 .41:
-        call sub_A699C
+        call DrawTreeLine
         mov eax, dword [byte ebp+05Ah]
         sub eax, byte 4
         mov dword [byte ebp+056h], eax
@@ -2735,7 +2745,7 @@ sub_A6B94:
 .42:
         call sub_DD6C4
         mov dword [dword_11EF8C], 1
-        call sub_A699C
+        call DrawTreeLine
         mov eax, dword [gameopts]
         mov dword [dword_11EF8C], 0
         and dword [byte eax+01h], 0FFFE0FFFh
@@ -2939,19 +2949,19 @@ sub_A6B94:
         cmp dword [byte ebp+05Ah], byte 1
         jne short .57
         mov eax, 0A5B6h
-        jmp near sub_A540A_114B
+        jmp near PlayoffSetupScreen_114B
 .57:
         cmp dword [byte ebp+05Ah], byte 0
         jne short .58
         cmp dword [byte ebp+02h], byte 0
         jne short .58
         mov eax, 0A5B7h
-        jmp near sub_A540A_114B
+        jmp near PlayoffSetupScreen_114B
 .58:
         cmp dword [byte ebp+02h], byte 0
         jne short .59
         mov eax, 0A5B8h
-        jmp near sub_A540A_114B
+        jmp near PlayoffSetupScreen_114B
 .59:
         cmp dword [byte ebp+05Ah], byte 3
         jne short .60
@@ -2964,16 +2974,17 @@ sub_A6B94:
         call SetTextColors
         call sub_A9BAC
         mov eax, 2714h
-        jmp near sub_A540A_114B
+        jmp near PlayoffSetupScreen_114B
 .60:
         and byte [optflags], 8Fh
         mov eax, 2712h
         or byte [optflags], 10h
-        jmp near sub_A540A_114B
+        jmp near PlayoffSetupScreen_114B
 ;-----------------------------------------------------------------------------
-; sub_A7A09                                                       A7A09  96 PC
+; SeedPlayoffs                                    A7A09  96 PC, low confidence
+; Fills the first round of the tree from the standings
 ;-----------------------------------------------------------------------------
-sub_A7A09:
+SeedPlayoffs:
         push ebx
         push ecx
         push edx
@@ -3066,11 +3077,12 @@ sub_A7A09:
         inc ebx
         cmp ebx, byte 1Fh
         jl near .1
-        jmp near sub_A7B4B_172
+        jmp near PlayoffRound1_172
 ;-----------------------------------------------------------------------------
-; sub_A7B4B                                                       A7B4B  96 PC
+; PlayoffRound1                                   A7B4B  96 PC, low confidence
+; Plays out (simulates) the due games of round 1
 ;-----------------------------------------------------------------------------
-sub_A7B4B:
+PlayoffRound1:
         push ebx
         push ecx
         push edx
@@ -3121,7 +3133,7 @@ sub_A7B4B:
         cmp byte [dword edi+byte_17CFB1], 0
         jne short .5
         mov eax, dword [dword edx+dword_11EF10]
-        call sub_A80FC
+        call SimPlayoffGame
         jmp short .4
 .5:
         add edx, byte 8
@@ -3147,7 +3159,7 @@ sub_A7B4B:
         cmp edx, byte 8
         jl short .6
         cmp esi, byte 8
-        jne near sub_A7B4B_172
+        jne near PlayoffRound1_172
         xor edx, edx
 .9:
         movsx ebx, byte [dword edx+byte_11F49C]
@@ -3179,13 +3191,13 @@ sub_A7B4B:
         inc edx
         cmp edx, byte 8
         jl short .11
-sub_A7B4B_162:
+PlayoffRound1_162:
         mov dword [dword_17D25E], 0
-sub_A7B4B_16C:
+PlayoffRound1_16C:
         inc byte [byte_17D262]
-sub_A7B4B_172:
+PlayoffRound1_172:
         leave
-sub_A7B4B_173:
+PlayoffRound1_173:
         pop edi
         pop esi
         pop edx
@@ -3193,9 +3205,10 @@ sub_A7B4B_173:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_A7CC4                                                       A7CC4  96 PC
+; PlayoffRound2                                   A7CC4  96 PC, low confidence
+; The same for round 2
 ;-----------------------------------------------------------------------------
-sub_A7CC4:
+PlayoffRound2:
         push ebx
         push ecx
         push edx
@@ -3263,7 +3276,7 @@ sub_A7CC4:
         cmp dword [byte ebp-04h], byte 0
         je short .9
         mov eax, dword [dword edx+dword_11EF10]
-        call sub_A80FC
+        call SimPlayoffGame
         jmp short .8
 .9:
         add edi, byte 8
@@ -3287,7 +3300,7 @@ sub_A7CC4:
         cmp edx, byte 4
         jl short .10
         cmp dword [byte ebp-0Ch], byte 4
-        jne near sub_A7B4B_172
+        jne near PlayoffRound1_172
         xor edx, edx
 .13:
         movsx ebx, byte [dword edx+byte_11F4AC]
@@ -3319,11 +3332,12 @@ sub_A7CC4:
         inc edx
         cmp edx, byte 4
         jl short .15
-        jmp near sub_A7B4B_162
+        jmp near PlayoffRound1_162
 ;-----------------------------------------------------------------------------
-; sub_A7E6D                                                       A7E6D  96 PC
+; PlayoffRound3                                   A7E6D  96 PC, low confidence
+; The same for round 3
 ;-----------------------------------------------------------------------------
-sub_A7E6D:
+PlayoffRound3:
         push ebx
         push ecx
         push edx
@@ -3390,7 +3404,7 @@ sub_A7E6D:
         cmp dword [byte ebp-08h], byte 0
         je short .9
         mov eax, dword [dword edx+dword_11EF10]
-        call sub_A80FC
+        call SimPlayoffGame
         jmp short .8
 .9:
         add edi, byte 8
@@ -3414,7 +3428,7 @@ sub_A7E6D:
         cmp edx, byte 2
         jl short .10
         cmp esi, byte 2
-        jne near sub_A7B4B_172
+        jne near PlayoffRound1_172
         xor edx, edx
 .13:
         movsx ebx, byte [dword edx+byte_11F4B4]
@@ -3443,11 +3457,12 @@ sub_A7E6D:
         inc edx
         cmp edx, byte 2
         jl short .15
-        jmp near sub_A7B4B_16C
+        jmp near PlayoffRound1_16C
 ;-----------------------------------------------------------------------------
-; sub_A800A                                                       A800A  96 PC
+; PlayoffFinal                                    A800A  96 PC, low confidence
+; The same for the final
 ;-----------------------------------------------------------------------------
-sub_A800A:
+PlayoffFinal:
         push ebx
         push ecx
         push edx
@@ -3493,7 +3508,7 @@ sub_A800A:
         test esi, esi
         je short .5
         mov eax, dword [dword_11EF80]
-        call sub_A80FC
+        call SimPlayoffGame
         jmp short .4
 .5:
         mov eax, dword [dword_17CF8E]
@@ -3513,7 +3528,7 @@ sub_A800A:
         inc ebx
 .7:
         test ebx, ebx
-        je near sub_A7B4B_173
+        je near PlayoffRound1_173
         mov eax, dword [dword_17CF8E]
         and eax, byte 7
         shr eax, 1
@@ -3527,11 +3542,13 @@ sub_A800A:
 .9:
         mov dword [dword_17D25A], eax
         inc byte [byte_17D262]
-        jmp near sub_A7B4B_173
+        jmp near PlayoffRound1_173
 ;-----------------------------------------------------------------------------
-; sub_A80FC                                                       A80FC  96 PC
+; SimPlayoffGame                               A80FC  96 PC, medium confidence
+; Simulates one play-off game (SimulateGame) and saves the series
+; (%s%05d%cSG.DB)
 ;-----------------------------------------------------------------------------
-sub_A80FC:
+SimPlayoffGame:
         push ebx
         push ecx
         push edx
@@ -3552,7 +3569,7 @@ sub_A80FC:
         mov dword [byte ebp-0Ch], 0
         call srand_
         cmp dword [byte ebp-078h], byte 0FFFFFFFFh
-        jle near sub_A7B4B_172
+        jle near PlayoffRound1_172
         mov dword [byte ebp-04h], 0
 .1:
         mov dword [byte ebp-010h], 0
@@ -3714,11 +3731,12 @@ sub_A80FC:
         inc dword [byte ebp-04h]
         cmp dword [byte ebp-04h], byte 1Fh
         jl near .1
-        jmp near sub_A7B4B_172
+        jmp near PlayoffRound1_172
 ;-----------------------------------------------------------------------------
-; sub_A8351                                                       A8351  96 PC
+; DrawPlayoffTree                                 A8351  96 PC, low confidence
+; Draws the tree: team logos, series wins (NUM%d), the awards (AWD0)
 ;-----------------------------------------------------------------------------
-sub_A8351:
+DrawPlayoffTree:
         push esi
         push edi
         enter 34h, 0
@@ -3936,7 +3954,7 @@ sub_A8351:
         inc dword [byte ebp-04h]
         cmp dword [byte ebp-04h], byte 1Fh
         jl near .1
-        call sub_A8AC5
+        call ClearPlayoffTree
         xor eax, eax
         mov dword [byte ebp-04h], eax
 .18:
@@ -4197,7 +4215,7 @@ sub_A8351:
         push dword [byte ebp-0Ch]
         call sub_ADBEC
         add esp, byte 4
-        call sub_A699C
+        call DrawTreeLine
         mov eax, dword [byte ebp+010h]
         cmp dword [eax], byte 0FFFFFFFFh
         je near .42
@@ -4255,7 +4273,7 @@ sub_A8351:
 .42:
         call sub_DD6C4
         mov dword [dword_11EF8C], 1
-        call sub_A699C
+        call DrawTreeLine
         mov dword [dword_11EF8C], 0
         cmp dword [byte ebp+014h], byte 0
         je short .43
@@ -4274,9 +4292,10 @@ sub_A8351:
         pop esi
         ret 8
 ;-----------------------------------------------------------------------------
-; sub_A8AC5                                                       A8AC5  96 PC
+; ClearPlayoffTree                                A8AC5  96 PC, low confidence
+; Clears the tree's results
 ;-----------------------------------------------------------------------------
-sub_A8AC5:
+ClearPlayoffTree:
         push ebx
         push ecx
         push edx
@@ -4338,4 +4357,4 @@ sub_A8AC5:
         inc eax
         cmp eax, byte 0Fh
         jl short .6
-        jmp near sub_A7B4B_173
+        jmp near PlayoffRound1_173

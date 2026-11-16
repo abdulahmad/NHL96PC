@@ -2,9 +2,9 @@
 bits 32
 %include "hockey.inc"
 section s_11B338 progbits alloc noexec write align=1
-extern CameraAim_AB, CameraAim_229, CamView236_20D, CamShot240_56, CamShot242_126, CamView232, CamView233, CamView234
-extern CamView235, CamView236, CamView238, CamView239, CamView23A, CamShot23E, CamShot23F, CamShot240
-extern CamShot242, CamShot245, CamShot246, CamShot247, CamShot244, CamShot23D, CamShot23B, CamShot23C
+extern NhlCamOneView, NhlCamTwoView, PressCamTwoView, CamShotOnTarget, CamShotOrbitTo, SkyCamOneView, SkyCamTwoView, EaCamView
+extern HeadCamView, PressCamOneView, PressCamThreeView, PressCamFourView, ZoneCamView, CamShotPuckChase, CamShotPuckMid, CamShotPuckNear
+extern CamShotOrbitFrom, CamShotReferee, CamShotOrbitNear, CamShotTargetTurn, CamShotNetShake, CamShotOverlayPanel, CamShotFollowPath, CamShotDimPath
 extern DrawArt, DrawShape, str_Anh, str_Ana, str_Bsh, str_Bsa, str_Bfh, str_Bfa
 extern str_Cgh, str_Cga, str_Chh, str_Cha, str_Dlh, str_Dla, str_Dth, str_Dta
 extern str_Edh, str_Eda, str_Flh, str_Fla, str_Hrh, str_Hra, str_Lah, str_Laa
@@ -61,137 +61,137 @@ CamViewBits:
 CameraViewTable:
         db 030h,02h,00h,00h
         db 01h
-        dd CameraAim_AB
+        dd NhlCamOneView
         db 00h,00h,00h,00h,0ABh,0EAh,0FFh,0FFh,00h,00h,00h,00h,0F4h,01h,00h,00h
         db 0DCh,0FBh,0FFh,0FFh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 031h,02h,00h,00h
         db 01h
-        dd CameraAim_229
+        dd NhlCamTwoView
         db 00h,00h,00h,00h,0ABh,0EAh,0FFh,0FFh,00h,00h,00h,00h,0F4h,01h,00h,00h
         db 0DCh,0FBh,0FFh,0FFh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 032h,02h,00h,00h
         db 02h
-        dd CamView232
+        dd SkyCamOneView
         db 00h,00h,00h,00h,0ABh,0EAh,0FFh,0FFh,00h,00h,00h,00h,0D0h,02h,00h,00h
         db 0DCh,0FBh,0FFh,0FFh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 033h,02h,00h,00h
         db 02h
-        dd CamView233
+        dd SkyCamTwoView
         db 00h,00h,00h,00h,0ABh,0EAh,0FFh,0FFh,00h,00h,00h,00h,0D0h,02h,00h,00h
         db 0DCh,0FBh,0FFh,0FFh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 034h,02h,00h,00h
         db 03h
-        dd CamView234
+        dd EaCamView
         db 00h,00h,00h,00h,0C8h,0F1h,0FFh,0FFh,00h,00h,00h,00h,0CCh,01h,00h,00h
         db 0DCh,0FBh,0FFh,0FFh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 035h,02h,00h,00h
         db 04h
-        dd CamView235
+        dd HeadCamView
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,08Ch,00h,00h,00h
         db 0DCh,0FBh,0FFh,0FFh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 036h,02h,00h,00h
         db 05h
-        dd CamView236
+        dd PressCamOneView
         db 00h,0C0h,0FFh,0FFh,0ABh,0EAh,0FFh,0FFh,0B0h,0FAh,0FFh,0FFh,020h,03h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 037h,02h,00h,00h
         db 05h
-        dd CamView236_20D
+        dd PressCamTwoView
         db 00h,0C0h,0FFh,0FFh,0ABh,0EAh,0FFh,0FFh,0B0h,0FAh,0FFh,0FFh,020h,03h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 038h,02h,00h,00h
         db 05h
-        dd CamView238
+        dd PressCamThreeView
         db 00h,0C0h,0FFh,0FFh,0ABh,0EAh,0FFh,0FFh,0B0h,0FAh,0FFh,0FFh,020h,03h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 039h,02h,00h,00h
         db 05h
-        dd CamView239
+        dd PressCamFourView
         db 00h,0C0h,0FFh,0FFh,0ABh,0EAh,0FFh,0FFh,0B0h,0FAh,0FFh,0FFh,020h,03h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 03Ah,02h,00h,00h
         db 06h
-        dd CamView23A
+        dd ZoneCamView
         db 00h,0C0h,0FFh,0FFh,0ABh,0EAh,0FFh,0FFh,0B0h,0FAh,0FFh,0FFh,020h,03h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 03Bh,02h,00h,00h,0Bh
-        dd CamShot23B
+        dd CamShotFollowPath
         db 00h,0C0h,0FFh,0FFh,08Fh,0E3h,0FFh,0FFh,0C0h,0F9h,0FFh,0FFh,028h,0Ah,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 03Ch,02h,00h,00h,013h
-        dd CamShot23C
+        dd CamShotDimPath
         db 00h,0C0h,0FFh,0FFh,08Fh,0E3h,0FFh,0FFh,0A8h,02h,00h,00h,0DCh,00h,00h,00h
         db 0F8h,0F8h,0FFh,0FFh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 03Dh,02h,00h,00h,09h
-        dd CamShot23D
+        dd CamShotOverlayPanel
         db 00h,0C0h,0FFh,0FFh,0C8h,0F1h,0FFh,0FFh,0C0h,0FEh,0FFh,0FFh,090h,01h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 03Eh,02h,00h,00h,0Ah
-        dd CamShot23E
+        dd CamShotPuckChase
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,0F4h,01h,00h,00h
         db 0DCh,0FBh,0FFh,0FFh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 03Fh,02h,00h,00h,07h
-        dd CamShot23F
+        dd CamShotPuckMid
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,08Ch,00h,00h,00h
         db 0F8h,0F8h,0FFh,0FFh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 040h,02h,00h,00h,08h
-        dd CamShot240
+        dd CamShotPuckNear
         db 00h,00h,00h,00h,00h,00h,00h,00h,01Ch,00h,00h,00h,050h,00h,00h,00h
         db 070h,0FAh,0FFh,0FFh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 041h,02h,00h,00h,0Ch
-        dd CamShot240_56
+        dd CamShotOnTarget
         db 00h,00h,00h,00h,0C8h,00h,00h,00h,00h,00h,00h,00h,0F4h,01h,00h,00h
         db 0FCh,0FEh,0FFh,0FFh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 042h,02h,00h,00h,0Dh
-        dd CamShot242
+        dd CamShotOrbitFrom
         db 00h,00h,00h,00h,00h,00h,00h,00h,0C0h,0FDh,0FFh,0FFh,0D8h,02h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 043h,02h,00h,00h,0Eh
-        dd CamShot242_126
+        dd CamShotOrbitTo
         db 00h,0C0h,0FFh,0FFh,0EFh,0EEh,0FFh,0FFh,0C0h,0FDh,0FFh,0FFh,0D8h,02h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 044h,02h,00h,00h,0Fh
-        dd CamShot244
+        dd CamShotNetShake
         db 00h,00h,00h,00h
         db 017h,0ECh,0FFh,0FFh
         db 00h,00h,00h,00h
@@ -200,19 +200,19 @@ CameraViewTable:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 045h,02h,00h,00h,010h
-        dd CamShot245
+        dd CamShotReferee
         db 00h,00h,00h,00h,0ABh,0EAh,0FFh,0FFh,00h,00h,00h,00h,0F4h,01h,00h,00h
         db 0DCh,0FBh,0FFh,0FFh,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 046h,02h,00h,00h,011h
-        dd CamShot246
+        dd CamShotOrbitNear
         db 00h,00h,00h,00h,00h,00h,00h,00h,0C0h,0FDh,0FFh,0FFh,0D8h,02h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 047h,02h,00h,00h,012h
-        dd CamShot247
+        dd CamShotTargetTurn
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,090h,01h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h

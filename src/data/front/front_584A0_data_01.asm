@@ -4,8 +4,8 @@ bits 32
 section s_111008 progbits alloc noexec write align=1
 global str_LUT, str_Logo, str_Priority, str_B001, str_B000, str_DS, str_Goal0, str_Goal1
 global str_2d02d2, str_2d01d, str_DDD2, str_DDD3, str_3s, str_2d, str_12s, str_SS2
-global str_Priority2, F64_0p00277778, F64_65536_CamView236, F64_0p00277778_CamView236, CamViewScale, F64_0p00277778_CamView238, F64_65536_CamView238, F64_0p00277778_CamView239
-global F64_65536_CamView239, str_Empty, str_12, str_24, str_32, str_42, str_Anh, str_Ana
+global str_Priority2, F64_0p00277778, F64_65536_PressCamOneView, F64_0p00277778_PressCamOneView, CamViewScale, F64_0p00277778_PressCamThreeView, F64_65536_PressCamThreeView, F64_0p00277778_PressCamFourView
+global F64_65536_PressCamFourView, str_Empty, str_12, str_24, str_32, str_42, str_Anh, str_Ana
 global str_Bsh, str_Bsa, str_Bfh, str_Bfa, str_Cgh, str_Cga, str_Chh, str_Cha
 global str_Dlh, str_Dla, str_Dth, str_Dta, str_Edh, str_Eda, str_Flh, str_Fla
 global str_Hrh, str_Hra, str_Lah, str_Laa, str_Mth, str_Mta, str_Njh, str_Nja
@@ -57,19 +57,19 @@ str_42:
         db 034h,00h,00h,00h,00h
 F64_0p00277778:
         db 016h,06Ch,0C1h,016h,06Ch,0C1h,066h,03Fh
-F64_65536_CamView236:
+F64_65536_PressCamOneView:
         db 00h,00h,00h,00h,00h,00h,0F0h,040h
-F64_0p00277778_CamView236:
+F64_0p00277778_PressCamOneView:
         db 016h,06Ch,0C1h,016h,06Ch,0C1h,066h,03Fh
 CamViewScale:
         db 00h,00h,00h,00h,00h,00h,0F0h,040h
-F64_0p00277778_CamView238:
+F64_0p00277778_PressCamThreeView:
         db 016h,06Ch,0C1h,016h,06Ch,0C1h,066h,03Fh
-F64_65536_CamView238:
+F64_65536_PressCamThreeView:
         db 00h,00h,00h,00h,00h,00h,0F0h,040h
-F64_0p00277778_CamView239:
+F64_0p00277778_PressCamFourView:
         db 016h,06Ch,0C1h,016h,06Ch,0C1h,066h,03Fh
-F64_65536_CamView239:
+F64_65536_PressCamFourView:
         db 00h,00h,00h,00h,00h,00h,0F0h,040h
 str_Priority2:
         db 070h,072h,069h,06Fh,072h,069h,074h,079h,00h,00h,00h,00h

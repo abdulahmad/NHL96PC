@@ -1,0 +1,39 @@
+CamView232 SkyCamOneView {confidence=medium} Sky Cam I camera (view kind 2, hot key 2)
+CamView233 SkyCamTwoView {confidence=medium} Sky Cam II camera (view kind 2, hot key 2)
+CamView234 EaCamView {confidence=medium} EA Cam camera (view kind 3, hot key 3)
+CamView235 HeadCamView {confidence=medium} Head Cam camera (view kind 4, hot key 4)
+CamView236 PressCamOneView {confidence=medium} Press Cam I camera (view kind 5, hot key 5)
+CamView236_20D PressCamTwoView {confidence=medium} Press Cam II camera (view kind 5, hot key 5)
+CamView238 PressCamThreeView {confidence=medium} Press Cam III camera (view kind 5, hot key 5)
+CamView239 PressCamFourView {confidence=medium} Press Cam IV camera (view kind 5, hot key 5)
+CamView23A ZoneCamView {confidence=medium} Zone Cam camera (view kind 6, hot key 6)
+CameraAim_AB NhlCamOneView {confidence=medium} NHL Cam I camera (view kind 1, hot key 1)
+CameraAim_229 NhlCamTwoView {confidence=medium} NHL Cam II camera (view kind 1, hot key 1)
+CamView234_2D0 EaCamView_2D0 {no_record}
+CamView236_1E7 PressCamOneView_1E7 {no_record}
+CamView236_403 PressCamOneView_403 {no_record}
+CamShot23B CamShotFollowPath {confidence=low} cut-scene shot that follows the camera path
+CamShot23B_B3 CamShotFollowPath_B3 {no_record}
+CamShot23C CamShotDimPath {confidence=low} cut-scene shot that follows the camera path and dims the view
+CamShot23D CamShotOverlayPanel {confidence=low} cut-scene shot that queues an overlay panel
+CamShot23E CamShotPuckChase {confidence=low} cut-scene shot that chases the puck
+CamShot23F CamShotPuckMid {confidence=low} cut-scene shot on the puck from mid range
+CamShot23F_44 CamShotPuckMid_44 {no_record}
+CamShot240 CamShotPuckNear {confidence=low} cut-scene shot on the puck from close range
+CamShot240_56 CamShotOnTarget {confidence=low} cut-scene shot on the target object
+CamShot242 CamShotOrbitFrom {confidence=low} cut-scene shot that turns around the shot's start object
+CamShot242_126 CamShotOrbitTo {confidence=low} cut-scene shot that turns around the shot's end object
+CamShot242_209 CamShotOrbitFrom_209 {no_record}
+CamShot242_269 CamShotOrbitFrom_269 {no_record}
+CamShot242_278 CamShotOrbitFrom_278 {no_record}
+CamShot242_279 CamShotOrbitFrom_279 {no_record}
+CamShot244 CamShotNetShake {confidence=low} cut-scene shot at the net with camera shake
+CamShot245 CamShotReferee {confidence=low} cut-scene shot on the referee
+CamShot246 CamShotOrbitNear {confidence=low} cut-scene shot that turns around the nearest object
+CamShot247 CamShotTargetTurn {confidence=low} cut-scene shot that turns around the target object
+F64_65536_CamView236 F64_65536_PressCamOneView {no_record}
+F64_0p00277778_CamView236 F64_0p00277778_PressCamOneView {no_record}
+F64_65536_CamView238 F64_65536_PressCamThreeView {no_record}
+F64_0p00277778_CamView238 F64_0p00277778_PressCamThreeView {no_record}
+F64_65536_CamView239 F64_65536_PressCamFourView {no_record}
+F64_0p00277778_CamView239 F64_0p00277778_PressCamFourView {no_record}

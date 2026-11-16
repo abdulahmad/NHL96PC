@@ -26,8 +26,8 @@ extern CamPitch, CamPathState, CamZoom, CamPathActive, CamPathDerivs
 extern GsOptions, fox
 extern foy, FullViewClip, gameclock, GameLoopActive, GetTicks, gmode, puckvy, PtrRefObject
 extern PtrPuckObject, passplayer, penshotlive, penshotmode, penshotstart, puckc, puckvx, puckvz
-extern QueueOverlayPanel, F64_0p00277778, F64_65536_CamView236, F64_0p00277778_CamView236, CamViewScale, F64_0p00277778_CamView238, F64_65536_CamView238, F64_0p00277778_CamView239
-extern F64_65536_CamView239, rand_, seed, seed_w2, SetClipWindow, SetDrawBitmap, sflags, SortCords
+extern QueueOverlayPanel, F64_0p00277778, F64_65536_PressCamOneView, F64_0p00277778_PressCamOneView, CamViewScale, F64_0p00277778_PressCamThreeView, F64_65536_PressCamThreeView, F64_0p00277778_PressCamFourView
+extern F64_65536_PressCamFourView, rand_, seed, seed_w2, SetClipWindow, SetDrawBitmap, sflags, SortCords
 extern str_Priority2, AddIceCrud, SetRinkClipWindow, AllocMemBlock, FreeMemBlock, AngleOfVector, TransformVector, MakeRotYMatrix
 extern BuildPerspTable, KeyIsDown, KbdGetKey, ClearClipRect, SetViewScreenOrigin, SetViewFov
 
@@ -37,11 +37,11 @@ extern ViewSizeScales, ViewSizeWidths, ViewSizeHeights, vecdist, PerTimeTotal, R
 
 global CameraPathCoeffs, CameraPathEval, CameraPathEval_70, CameraPathSlope, CameraPathCurve, CameraPathPoint, CameraPathDerivs, SetCameraShot
 global AngleXZ, AnglePitch, CameraTrackPuck, CameraLeadOffset, CameraNearNet, CameraNearNet_12E, ResetCameraShake, CameraAim
-global CameraAim_AB, CameraAim_229, CamView232, CamView233, CamView234, CamView234_2D0, CamView235, CamView236
-global CamView236_1E7, CamView236_20D, CamView236_403, CamView238, CamView239, CamView23A, CamShot23E, CamShot23F
-global CamShot23F_44, CamShot240, CamShot240_56, CamShot242, CamShot242_126, CamShot242_209, CamShot242_269, CamShot242_278
-global CamShot242_279, CamShot245, CamShot246, CamShot247, CamShot244, CamShot23D, CamShot23B, CamShot23B_B3
-global CamShot23C, CloseTextOverlay, EndCameraShot, SetGameViewSize, MarkerToggleJumpTable, ReadHotKeys, ReadHotKeys_6FB, ReadHotKeys_748
+global NhlCamOneView, NhlCamTwoView, SkyCamOneView, SkyCamTwoView, EaCamView, EaCamView_2D0, HeadCamView, PressCamOneView
+global PressCamOneView_1E7, PressCamTwoView, PressCamOneView_403, PressCamThreeView, PressCamFourView, ZoneCamView, CamShotPuckChase, CamShotPuckMid
+global CamShotPuckMid_44, CamShotPuckNear, CamShotOnTarget, CamShotOrbitFrom, CamShotOrbitTo, CamShotOrbitFrom_209, CamShotOrbitFrom_269, CamShotOrbitFrom_278
+global CamShotOrbitFrom_279, CamShotReferee, CamShotOrbitNear, CamShotTargetTurn, CamShotNetShake, CamShotOverlayPanel, CamShotFollowPath, CamShotFollowPath_B3
+global CamShotDimPath, CloseTextOverlay, EndCameraShot, SetGameViewSize, MarkerToggleJumpTable, ReadHotKeys, ReadHotKeys_6FB, ReadHotKeys_748
 global ReadHotKeys_78C, ReadHotKeys_7CF, UpdateCameraModeJumpTable, UpdateCamera, UpdateCamera_174, UpdateCamera_2CE, UpdateCamera_35B, UpdateCamera_3BE
 global UpdateCamera_41F, UpdateCamera_480, UpdateCamera_4E1, UpdateCamera_544, UpdateCamera_5A7, UpdateCamera_604, UpdateCamera_667, CameraFacing
 global randomd0, vtoa
@@ -430,7 +430,7 @@ CameraPathDerivs:
         mov edx, dword [byte edi+0Dh]
         mov eax, dword [byte esi+0Dh]
         call CameraPathCoeffs
-        jmp near CamShot242_278
+        jmp near CamShotOrbitFrom_278
 ;-----------------------------------------------------------------------------
 ; SetCameraShot                                                   5DBC0  96 PC
 ; (shot record): copies the 45h-byte camera shot record to the current shot
@@ -462,12 +462,12 @@ SetCameraShot:
         call CameraPathDerivs
         mov dword [CamPathPos], 0
         cmp dword [InReplay], byte 0
-        je near CamShot242_279
+        je near CamShotOrbitFrom_279
         mov ecx, 45h
         mov edi, ReplayCamShot
         mov esi, CamPathTarget
         rep movsb
-        jmp near CamShot242_279
+        jmp near CamShotOrbitFrom_279
         push edx
         mov edx, dword [CamShotSaved]
         cmp edx, dword [byte eax+05h]
@@ -1009,11 +1009,15 @@ CameraAim:
         add esp, byte 0Ch
         mov dword [CamMatrix], eax
         mov eax, 1
-        jmp near CamShot242_278
+        jmp near CamShotOrbitFrom_278
 .1:
         xor eax, eax
-        jmp near CamShot242_278
-CameraAim_AB:
+        jmp near CamShotOrbitFrom_278
+;-----------------------------------------------------------------------------
+; NhlCamOneView                                5E2E9  96 PC, medium confidence
+; NHL Cam I camera (view kind 1, hot key 1)
+;-----------------------------------------------------------------------------
+NhlCamOneView:
         call CameraTrackPuck
         call CameraLeadOffset
         mov eax, dword [CamAimDist]
@@ -1100,7 +1104,11 @@ CameraAim_AB:
         call CameraAim
         mov dword [CamPosY], 0FFFFEAABh
         ret
-CameraAim_229:
+;-----------------------------------------------------------------------------
+; NhlCamTwoView                                5E467  96 PC, medium confidence
+; NHL Cam II camera (view kind 1, hot key 1)
+;-----------------------------------------------------------------------------
+NhlCamTwoView:
         push ebx
         push ecx
         push edx
@@ -1287,10 +1295,10 @@ CameraAim_229:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; CamView232                                   5E78F  96 PC, medium confidence
-; Camera shot handler, record text 232h (view kind 2)
+; SkyCamOneView                                   5E78F  96 PC, medium confidence
+; Sky Cam I camera (view kind 2, hot key 2)
 ;-----------------------------------------------------------------------------
-CamView232:
+SkyCamOneView:
         push ebx
         push ecx
         push edx
@@ -1375,10 +1383,10 @@ CamView232:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; CamView233                                   5E8D2  96 PC, medium confidence
-; Camera shot handler, record text 233h (view kind 2)
+; SkyCamTwoView                                   5E8D2  96 PC, medium confidence
+; Sky Cam II camera (view kind 2, hot key 2)
 ;-----------------------------------------------------------------------------
-CamView233:
+SkyCamTwoView:
         push ebx
         push ecx
         push edx
@@ -1495,10 +1503,10 @@ CamView233:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; CamView234                                   5EA75  96 PC, medium confidence
-; Camera shot handler, record text 234h (view kind 3)
+; EaCamView                                   5EA75  96 PC, medium confidence
+; EA Cam camera (view kind 3, hot key 3)
 ;-----------------------------------------------------------------------------
-CamView234:
+EaCamView:
         push ebx
         push ecx
         push edx
@@ -1606,7 +1614,7 @@ CamView234:
         neg eax
         add esp, byte 8
         mov dword [CamPosY], eax
-        jmp near CamView234_2D0
+        jmp near EaCamView_2D0
 .15:
         mov dword [byte ebp-0Ch], eax
         mov dword [byte ebp-08h], eax
@@ -1677,12 +1685,12 @@ CamView234:
         cmp eax, 0FFFFEE39h
         jge short .24
         mov dword [CamPosY], 0FFFFEE39h
-        jmp short CamView234_2D0
+        jmp short EaCamView_2D0
 .24:
         cmp eax, 0FFFFF1C8h
-        jle short CamView234_2D0
+        jle short EaCamView_2D0
         mov dword [CamPosY], 0FFFFF1C8h
-CamView234_2D0:
+EaCamView_2D0:
         leave
         pop esi
         pop edx
@@ -1690,10 +1698,10 @@ CamView234_2D0:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; CamView235                                   5ED4B  96 PC, medium confidence
-; Camera shot handler, record text 235h (view kind 4)
+; HeadCamView                                   5ED4B  96 PC, medium confidence
+; Head Cam camera (view kind 4, hot key 4)
 ;-----------------------------------------------------------------------------
-CamView235:
+HeadCamView:
         push ebx
         push ecx
         push edx
@@ -1784,7 +1792,7 @@ CamView235:
         neg eax
         add esp, byte 8
         mov dword [CamPosY], eax
-        jmp near CamView234_2D0
+        jmp near EaCamView_2D0
 .13:
         mov dword [byte ebp-0Ch], eax
         mov dword [byte ebp-08h], eax
@@ -1862,18 +1870,17 @@ CamView235:
         cmp eax, 0FFFFF27Eh
         jge short .24
         mov dword [CamPosY], 0FFFFF27Eh
-        jmp near CamView234_2D0
+        jmp near EaCamView_2D0
 .24:
         cmp eax, 0FFFFFC72h
-        jle near CamView234_2D0
+        jle near EaCamView_2D0
         mov dword [CamPosY], 0FFFFFC72h
-        jmp near CamView234_2D0
+        jmp near EaCamView_2D0
 ;-----------------------------------------------------------------------------
-; CamView236                                   5EFC8  96 PC, medium confidence
-; Camera shot handler, record text 236h (view kind 5); its tail
-; CamView236_20D is text 237h's
+; PressCamOneView                                   5EFC8  96 PC, medium confidence
+; Press Cam I camera (view kind 5, hot key 5)
 ;-----------------------------------------------------------------------------
-CamView236:
+PressCamOneView:
         push ebx
         push ecx
         push edx
@@ -1936,7 +1943,7 @@ CamView236:
         fild dword [byte ebp-04h]
 .7:
         fmul qword [F64_0p00277778]
-        fmul qword [F64_65536_CamView236]
+        fmul qword [F64_65536_PressCamOneView]
         call __CHP
         fistp dword [CamPosX]
         jmp near .24
@@ -2012,16 +2019,20 @@ CamView236:
         sub eax, dword [CamMatrix]
         mov edx, dword [CamAimX]
         push eax
-CamView236_1E7:
+PressCamOneView_1E7:
         sub edx, dword [CamPosZ]
         push edx
-        jmp near CamView236_403.50
+        jmp near PressCamOneView_403.50
 .25:
         cmp eax, 0FFFFEAABh
-        jle near CamShot242_278
+        jle near CamShotOrbitFrom_278
         mov dword [CamPosY], 0FFFFEAABh
-        jmp near CamShot242_278
-CamView236_20D:
+        jmp near CamShotOrbitFrom_278
+;-----------------------------------------------------------------------------
+; PressCamTwoView                              5F1D5  96 PC, medium confidence
+; Press Cam II camera (view kind 5, hot key 5)
+;-----------------------------------------------------------------------------
+PressCamTwoView:
         push ebx
         push ecx
         push edx
@@ -2086,7 +2097,7 @@ CamView236_20D:
 .31:
         fild dword [byte ebp-04h]
 .32:
-        fmul qword [F64_0p00277778_CamView236]
+        fmul qword [F64_0p00277778_PressCamOneView]
         fmul qword [CamViewScale]
         call __CHP
         fistp dword [CamPosX]
@@ -2163,7 +2174,7 @@ CamView236_20D:
         sub eax, dword [CamMatrix]
         mov ebx, dword [CamAimX]
         push eax
-CamView236_403:
+PressCamOneView_403:
         sub ebx, dword [CamPosZ]
         push ebx
 .50:
@@ -2176,14 +2187,14 @@ CamView236_403:
         add esp, byte 8
         mov dword [CamPosY], eax
         cmp eax, 0FFFFE7D3h
-        jge near CamView236_1E7.25
+        jge near PressCamOneView_1E7.25
         mov dword [CamPosY], 0FFFFE7D3h
-        jmp near CamShot242_278
+        jmp near CamShotOrbitFrom_278
 ;-----------------------------------------------------------------------------
-; CamView238                                   5F40A  96 PC, medium confidence
-; Camera shot handler, record text 238h (view kind 5)
+; PressCamThreeView                                   5F40A  96 PC, medium confidence
+; Press Cam III camera (view kind 5, hot key 5)
 ;-----------------------------------------------------------------------------
-CamView238:
+PressCamThreeView:
         push ebx
         push ecx
         push edx
@@ -2235,8 +2246,8 @@ CamView238:
 .4:
         fild dword [byte ebp-04h]
 .5:
-        fmul qword [F64_0p00277778_CamView238]
-        fmul qword [F64_65536_CamView238]
+        fmul qword [F64_0p00277778_PressCamThreeView]
+        fmul qword [F64_65536_PressCamThreeView]
         call __CHP
         fistp dword [CamPosX]
         jmp near .22
@@ -2312,12 +2323,12 @@ CamView238:
         sub edx, dword [CamMatrix]
         push edx
         mov edx, dword [CamAimX]
-        jmp near CamView236_1E7
+        jmp near PressCamOneView_1E7
 ;-----------------------------------------------------------------------------
-; CamView239                                   5F5D3  96 PC, medium confidence
-; Camera shot handler, record text 239h (view kind 5)
+; PressCamFourView                                   5F5D3  96 PC, medium confidence
+; Press Cam IV camera (view kind 5, hot key 5)
 ;-----------------------------------------------------------------------------
-CamView239:
+PressCamFourView:
         push ebx
         push ecx
         push edx
@@ -2372,8 +2383,8 @@ CamView239:
 .4:
         fild dword [byte ebp-04h]
 .5:
-        fmul qword [F64_0p00277778_CamView239]
-        fmul qword [F64_65536_CamView239]
+        fmul qword [F64_0p00277778_PressCamFourView]
+        fmul qword [F64_65536_PressCamFourView]
         call __CHP
         fistp dword [CamPosX]
         jmp near .22
@@ -2449,12 +2460,12 @@ CamView239:
         sub ebx, dword [CamMatrix]
         push ebx
         mov ebx, dword [CamAimX]
-        jmp near CamView236_403
+        jmp near PressCamOneView_403
 ;-----------------------------------------------------------------------------
-; CamView23A                                   5F7AB  96 PC, medium confidence
-; Camera shot handler, record text 23Ah (view kind 6)
+; ZoneCamView                                   5F7AB  96 PC, medium confidence
+; Zone Cam camera (view kind 6, hot key 6)
 ;-----------------------------------------------------------------------------
-CamView23A:
+ZoneCamView:
         push ebx
         push ecx
         push edx
@@ -2664,21 +2675,21 @@ CamView23A:
         add esp, byte 8
         mov dword [CamPosY], eax
         test esi, esi
-        je near CamShot242_279
+        je near CamShotOrbitFrom_279
         cmp eax, esi
         jge short .34
         mov dword [CamPosY], esi
-        jmp near CamShot242_279
+        jmp near CamShotOrbitFrom_279
 .34:
         cmp eax, edi
-        jle near CamShot242_279
+        jle near CamShotOrbitFrom_279
         mov dword [CamPosY], edi
-        jmp near CamShot242_279
+        jmp near CamShotOrbitFrom_279
 ;-----------------------------------------------------------------------------
-; CamShot23E                                   5FB02  96 PC, medium confidence
-; Cut-scene shot handler, record text 23Eh (view kind 0Ah)
+; CamShotPuckChase                                   5FB02  96 PC, medium confidence
+; Cut-scene shot that chases the puck
 ;-----------------------------------------------------------------------------
-CamShot23E:
+CamShotPuckChase:
         push ebx
         push ecx
         push edx
@@ -2724,10 +2735,10 @@ CamShot23E:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; CamShot23F                                      5FB98  96 PC, low confidence
-; Cut-scene shot handler of record CameraViewTable+40Bh
+; CamShotPuckMid                                      5FB98  96 PC, low confidence
+; Cut-scene shot on the puck from mid range
 ;-----------------------------------------------------------------------------
-CamShot23F:
+CamShotPuckMid:
         push ebx
         push ecx
         push edx
@@ -2739,10 +2750,10 @@ CamShot23F:
         or eax, dword [CamViewBits]
         je short .1
         mov dword [CamMatrix], 708h
-        jmp short CamShot23F_44
+        jmp short CamShotPuckMid_44
 .1:
         mov dword [CamMatrix], 0FFFFF8F8h
-CamShot23F_44:
+CamShotPuckMid_44:
         mov eax, dword [CamAimY]
         sub eax, dword [CamMatrix]
         push eax
@@ -2772,11 +2783,10 @@ CamShot23F_44:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; CamShot240                                      5FC3D  96 PC, low confidence
-; Cut-scene shot handler of record CameraViewTable+450h; its tail CamShot240_56 is text
-; 241h's (view kind 0Ch)
+; CamShotPuckNear                                      5FC3D  96 PC, low confidence
+; Cut-scene shot on the puck from close range
 ;-----------------------------------------------------------------------------
-CamShot240:
+CamShotPuckNear:
         push ebx
         push ecx
         push edx
@@ -2788,12 +2798,16 @@ CamShot240:
         je short .1
         mov dword [CamPosZ], 0FFFFFFE4h
         mov dword [CamMatrix], 590h
-        jmp near CamShot23F_44
+        jmp near CamShotPuckMid_44
 .1:
         mov dword [CamPosZ], 1Ch
         mov dword [CamMatrix], 0FFFFFA70h
-        jmp near CamShot23F_44
-CamShot240_56:
+        jmp near CamShotPuckMid_44
+;-----------------------------------------------------------------------------
+; CamShotOnTarget                                 5FC93  96 PC, low confidence
+; Cut-scene shot on the target object
+;-----------------------------------------------------------------------------
+CamShotOnTarget:
         push edx
         cmp dword [penshotlive], byte 0
         jne short .2
@@ -2835,11 +2849,10 @@ CamShot240_56:
         pop edx
         ret
 ;-----------------------------------------------------------------------------
-; CamShot242                                   5FD46  96 PC, medium confidence
-; Cut-scene shot handler, record text 242h (view kind 0Dh); its tail
-; CamShot242_126 is text 243h's
+; CamShotOrbitFrom                                   5FD46  96 PC, medium confidence
+; Cut-scene shot that turns around the shot's start object
 ;-----------------------------------------------------------------------------
-CamShot242:
+CamShotOrbitFrom:
         push ebx
         push ecx
         push edx
@@ -2917,8 +2930,12 @@ CamShot242:
         sub eax, dword [CamPosZ]
         push eax
         mov dword [CamDistance], 190h
-        jmp near CamShot242_209.8
-CamShot242_126:
+        jmp near CamShotOrbitFrom_209.8
+;-----------------------------------------------------------------------------
+; CamShotOrbitTo                                  5FE6C  96 PC, low confidence
+; Cut-scene shot that turns around the shot's end object
+;-----------------------------------------------------------------------------
+CamShotOrbitTo:
         push ebx
         push ecx
         push edx
@@ -2981,7 +2998,7 @@ CamShot242_126:
         mov dword [CamPosZ], eax
         mov eax, dword [CamAimY]
         sub eax, dword [byte ebp-04h]
-CamShot242_209:
+CamShotOrbitFrom_209:
         mov dword [CamMatrix], eax
         mov eax, dword [CamAimY]
         add esp, byte 0Ch
@@ -3006,14 +3023,14 @@ CamShot242_209:
         mov eax, dword [CamAimX]
         sub eax, dword [CamPosZ]
         push eax
-CamShot242_269:
+CamShotOrbitFrom_269:
         call AngleOfVector
         neg eax
         add esp, byte 8
         mov dword [CamPosX], eax
-CamShot242_278:
+CamShotOrbitFrom_278:
         leave
-CamShot242_279:
+CamShotOrbitFrom_279:
         pop edi
         pop esi
         pop edx
@@ -3021,10 +3038,10 @@ CamShot242_279:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; CamShot245                                   5FFC5  96 PC, medium confidence
-; Cut-scene shot handler, record text 245h (view kind 10h)
+; CamShotReferee                                   5FFC5  96 PC, medium confidence
+; Cut-scene shot on the referee
 ;-----------------------------------------------------------------------------
-CamShot245:
+CamShotReferee:
         push edx
         mov al, byte [gmode]
         and al, 80h
@@ -3079,10 +3096,10 @@ CamShot245:
         pop edx
         ret
 ;-----------------------------------------------------------------------------
-; CamShot246                                   60096  96 PC, medium confidence
-; Cut-scene shot handler, record text 246h (view kind 11h)
+; CamShotOrbitNear                                   60096  96 PC, medium confidence
+; Cut-scene shot that turns around the nearest object
 ;-----------------------------------------------------------------------------
-CamShot246:
+CamShotOrbitNear:
         push ebx
         push ecx
         push edx
@@ -3140,12 +3157,12 @@ CamShot246:
         mov dword [CamPosZ], eax
         mov eax, dword [CamAimY]
         sub eax, dword [byte ebp-010h]
-        jmp near CamShot242_209
+        jmp near CamShotOrbitFrom_209
 ;-----------------------------------------------------------------------------
-; CamShot247                                   60159  96 PC, medium confidence
-; Cut-scene shot handler, record text 247h (view kind 12h)
+; CamShotTargetTurn                                   60159  96 PC, medium confidence
+; Cut-scene shot that turns around the target object
 ;-----------------------------------------------------------------------------
-CamShot247:
+CamShotTargetTurn:
         push ebx
         push ecx
         push edx
@@ -3253,12 +3270,12 @@ CamShot247:
         sub eax, dword [CamPosZ]
         push eax
         mov dword [byte ebp-08h], 0
-        jmp near CamShot242_269
+        jmp near CamShotOrbitFrom_269
 ;-----------------------------------------------------------------------------
-; CamShot244                                   602B9  96 PC, medium confidence
-; Cut-scene shot handler, record text 244h (view kind 0Fh)
+; CamShotNetShake                                   602B9  96 PC, medium confidence
+; Cut-scene shot at the net with camera shake
 ;-----------------------------------------------------------------------------
-CamShot244:
+CamShotNetShake:
         push ebx
         push ecx
         push edx
@@ -3326,7 +3343,7 @@ CamShot244:
         add esp, byte 8
         mov dword [CamPosX], eax
         cmp dword [DemoMode], byte 0
-        je near CamShot242_278
+        je near CamShotOrbitFrom_278
         mov dword [CamShakeStart], 0FFFFFFFFh
         mov esi, 5
         call rand_
@@ -3334,13 +3351,12 @@ CamShot244:
         idiv esi
         inc edx
         mov dword [CamShakeCount], edx
-        jmp near CamShot242_278
+        jmp near CamShotOrbitFrom_278
 ;-----------------------------------------------------------------------------
-; CamShot23D                                   603FF  96 PC, medium confidence
-; Cut-scene shot handler, record text 23Dh (view kind 9): queues an overlay
-; panel
+; CamShotOverlayPanel                                   603FF  96 PC, medium confidence
+; Cut-scene shot that queues an overlay panel
 ;-----------------------------------------------------------------------------
-CamShot23D:
+CamShotOverlayPanel:
         push ebx
         push ecx
         push edx
@@ -3359,15 +3375,15 @@ CamShot23D:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; CamShot23B                                   6042C  96 PC, medium confidence
-; Cut-scene shot handler, record text 23Bh (view kind 0Bh)
+; CamShotFollowPath                                   6042C  96 PC, medium confidence
+; Cut-scene shot that follows the camera path
 ;-----------------------------------------------------------------------------
-CamShot23B:
+CamShotFollowPath:
         push ebx
         push ecx
         push edx
         cmp dword [CamDistance], 0B40h
-        je near CamShot23B_B3.6
+        je near CamShotFollowPath_B3.6
         mov dword [CamPosZ], 0AA0h
         mov dword [CamDistance], 0B40h
         mov dword [CamMatrix], 0C80h
@@ -3399,7 +3415,7 @@ CamShot23B:
         sub eax, dword [CamPosZ]
         push eax
         mov dword [CamAimShift], 4B0h
-CamShot23B_B3:
+CamShotFollowPath_B3:
         call vecdist
         add esp, byte 8
         push eax
@@ -3428,11 +3444,10 @@ CamShot23B_B3:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; CamShot23C                                   60543  96 PC, medium confidence
-; Cut-scene shot handler, record text 23Ch (view kind 13h): dims the view
-; (BuildShadeLut)
+; CamShotDimPath                                   60543  96 PC, medium confidence
+; Cut-scene shot that follows the camera path and dims the view
 ;-----------------------------------------------------------------------------
-CamShot23C:
+CamShotDimPath:
         push ebx
         push ecx
         push edx
@@ -3463,7 +3478,7 @@ CamShot23C:
         sub eax, dword [CamPosZ]
         push eax
         mov dword [CamAimShift], 0
-        jmp near CamShot23B_B3
+        jmp near CamShotFollowPath_B3
         push ebx
         push ecx
         push esi
@@ -3606,7 +3621,7 @@ EndCameraShot:
         mov eax, dword [CamFollowObj]
 .1:
         cmp dword [byte eax+0Dh], byte 0
-        je near CamShot242_278
+        je near CamShotOrbitFrom_278
         mov edx, dword [byte eax+0Dh]
         mov ebx, dword [edx]
         cmp ebx, dword [byte ebp-04h]
@@ -3637,10 +3652,10 @@ EndCameraShot:
         call dword [CamShotSaved]
 .2:
         cmp dword [byte ebp-04h], byte 8
-        jne near CamShot242_278
+        jne near CamShotOrbitFrom_278
         mov dword [CamShotId], 0FFFFFFFFh
         mov byte [RinkBoardsOn], 0
-        jmp near CamShot242_278
+        jmp near CamShotOrbitFrom_278
 .3:
         mov eax, edx
         jmp near .1
@@ -3744,7 +3759,7 @@ SetGameViewSize:
         and dword [GsOptions], 0FFFC3FFFh
         shl eax, 0Eh
         or dword [GsOptions], eax
-        jmp near CamShot242_278
+        jmp near CamShotOrbitFrom_278
 MarkerToggleJumpTable:
         dd ReadHotKeys_6FB
         dd ReadHotKeys_748
@@ -3969,7 +3984,7 @@ ReadHotKeys:
         and dl, 80h
         movsx edx, dl
         test edx, edx
-        jne near CamShot242_279
+        jne near CamShotOrbitFrom_279
         cmp ax, 33h
         jb short .10
         jbe near .28
@@ -3980,7 +3995,7 @@ ReadHotKeys:
         jbe near ReadHotKeys_7CF.39
         cmp ax, 3Dh
         je near .16
-        jmp near CamShot242_279
+        jmp near CamShotOrbitFrom_279
 .10:
         cmp ax, 30h
         jb short .11
@@ -3991,11 +4006,11 @@ ReadHotKeys:
 .11:
         cmp ax, 2Dh
         je near .14
-        jmp near CamShot242_279
+        jmp near CamShotOrbitFrom_279
 .12:
         call GetTicks
         cmp eax, dword [HotKeyStates+28h]
-        jle near CamShot242_279
+        jle near CamShotOrbitFrom_279
         push dword [ViewHeight]
         push dword [ViewWidth]
         push byte 0
@@ -4022,17 +4037,17 @@ ReadHotKeys:
         call GetTicks
         add eax, byte 19h
         mov dword [HotKeyStates+28h], eax
-        jmp near CamShot242_279
+        jmp near CamShotOrbitFrom_279
 .14:
         cmp dword [ViewSizeStep], byte 0
-        jle near CamShot242_279
+        jle near CamShotOrbitFrom_279
         dec dword [ViewSizeStep]
 .15:
         call SetGameViewSize
-        jmp near CamShot242_279
+        jmp near CamShotOrbitFrom_279
 .16:
         cmp dword [ViewSizeStep], byte 8
-        jge near CamShot242_279
+        jge near CamShotOrbitFrom_279
         inc dword [ViewSizeStep]
         jmp short .15
 .17:
@@ -4084,7 +4099,7 @@ ReadHotKeys:
         mov eax, dword [ShadowToggle]
 .22:
         mov dword [TimedPanelState], eax
-        jmp near CamShot242_279
+        jmp near CamShotOrbitFrom_279
 .23:
         inc dword [NameToggle]
         cmp dword [NameToggle], byte 1
@@ -4290,7 +4305,7 @@ ReadHotKeys_7CF:
         mov byte [byte eax+0Ch], 6
 .42:
         mov dword [TimedPanelState], 0
-        jmp near CamShot242_279
+        jmp near CamShotOrbitFrom_279
 UpdateCameraModeJumpTable:
         dd UpdateCamera_174
         dd UpdateCamera_480
@@ -4729,10 +4744,10 @@ UpdateCamera_667:
 .33:
         call CameraPathDerivs
         mov dword [CamPathPos], 0
-        jmp near CamShot242_278
+        jmp near CamShotOrbitFrom_278
 .34:
         call CameraPathPoint
-        jmp near CamShot242_278
+        jmp near CamShotOrbitFrom_278
 ;-----------------------------------------------------------------------------
 ; CameraFacing                                 619E2  96 PC, medium confidence
 ; The camera heading as one of 8 directions, so the pads steer relative to

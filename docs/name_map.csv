@@ -787,25 +787,30 @@ address,name,auto_name,source,confidence,evidence,file
 5E0CC,CameraNearNet,sub_5E0CC,new,low,"1 when the tracked player (dword_11BAD4) is near a net, for the close camera shots",src/front/camera/camera.asm
 5E21C,ResetCameraShake,sub_5E21C,new,low,"in a game, clears byte_1175AC / 1175AA and dword_179D74",src/front/camera/camera.asm
 5E23E,CameraAim,sub_5E23E,new,low,turns and moves the camera toward its target (shared by the camera shots),src/front/camera/camera.asm
-5E78F,CamView232,sub_5E78F,new,medium,"camera shot handler, record text 232h (view kind 2)",src/front/camera/camera.asm
-5E8D2,CamView233,sub_5E8D2,new,medium,"camera shot handler, record text 233h (view kind 2)",src/front/camera/camera.asm
-5EA75,CamView234,sub_5EA75,new,medium,"camera shot handler, record text 234h (view kind 3)",src/front/camera/camera.asm
-5ED4B,CamView235,sub_5ED4B,new,medium,"camera shot handler, record text 235h (view kind 4)",src/front/camera/camera.asm
-5EFC8,CamView236,sub_5EFC8,new,medium,"camera shot handler, record text 236h (view kind 5); its tail CamView236_20D is text 237h's",src/front/camera/camera.asm
-5F40A,CamView238,sub_5F40A,new,medium,"camera shot handler, record text 238h (view kind 5)",src/front/camera/camera.asm
-5F5D3,CamView239,sub_5F5D3,new,medium,"camera shot handler, record text 239h (view kind 5)",src/front/camera/camera.asm
-5F7AB,CamView23A,sub_5F7AB,new,medium,"camera shot handler, record text 23Ah (view kind 6)",src/front/camera/camera.asm
-5FB02,CamShot23E,sub_5FB02,new,medium,"cut-scene shot handler, record text 23Eh (view kind 0Ah)",src/front/camera/camera.asm
-5FB98,CamShot23F,sub_5FB98,new,low,cut-scene shot handler of record unk_11B787,src/front/camera/camera.asm
-5FC3D,CamShot240,sub_5FC3D,new,low,cut-scene shot handler of record unk_11B7CC; its tail CamShot240_56 is text 241h's (view kind 0Ch),src/front/camera/camera.asm
-5FD46,CamShot242,sub_5FD46,new,medium,"cut-scene shot handler, record text 242h (view kind 0Dh); its tail CamShot242_126 is text 243h's",src/front/camera/camera.asm
-5FFC5,CamShot245,sub_5FFC5,new,medium,"cut-scene shot handler, record text 245h (view kind 10h)",src/front/camera/camera.asm
-60096,CamShot246,sub_60096,new,medium,"cut-scene shot handler, record text 246h (view kind 11h)",src/front/camera/camera.asm
-60159,CamShot247,sub_60159,new,medium,"cut-scene shot handler, record text 247h (view kind 12h)",src/front/camera/camera.asm
-602B9,CamShot244,sub_602B9,new,medium,"cut-scene shot handler, record text 244h (view kind 0Fh)",src/front/camera/camera.asm
-603FF,CamShot23D,sub_603FF,new,medium,"cut-scene shot handler, record text 23Dh (view kind 9): queues an overlay panel",src/front/camera/camera.asm
-6042C,CamShot23B,sub_6042C,new,medium,"cut-scene shot handler, record text 23Bh (view kind 0Bh)",src/front/camera/camera.asm
-60543,CamShot23C,sub_60543,new,medium,"cut-scene shot handler, record text 23Ch (view kind 13h): dims the view (BuildShadeLut)",src/front/camera/camera.asm
+5E2E9,NhlCamOneView,,new,medium,"NHL Cam I camera (view kind 1, hot key 1)",src/front/camera/camera.asm
+5E467,NhlCamTwoView,,new,medium,"NHL Cam II camera (view kind 1, hot key 1)",src/front/camera/camera.asm
+5E78F,SkyCamOneView,sub_5E78F,new,medium,"Sky Cam I camera (view kind 2, hot key 2)",src/front/camera/camera.asm
+5E8D2,SkyCamTwoView,sub_5E8D2,new,medium,"Sky Cam II camera (view kind 2, hot key 2)",src/front/camera/camera.asm
+5EA75,EaCamView,sub_5EA75,new,medium,"EA Cam camera (view kind 3, hot key 3)",src/front/camera/camera.asm
+5ED4B,HeadCamView,sub_5ED4B,new,medium,"Head Cam camera (view kind 4, hot key 4)",src/front/camera/camera.asm
+5EFC8,PressCamOneView,sub_5EFC8,new,medium,"Press Cam I camera (view kind 5, hot key 5)",src/front/camera/camera.asm
+5F1D5,PressCamTwoView,,new,medium,"Press Cam II camera (view kind 5, hot key 5)",src/front/camera/camera.asm
+5F40A,PressCamThreeView,sub_5F40A,new,medium,"Press Cam III camera (view kind 5, hot key 5)",src/front/camera/camera.asm
+5F5D3,PressCamFourView,sub_5F5D3,new,medium,"Press Cam IV camera (view kind 5, hot key 5)",src/front/camera/camera.asm
+5F7AB,ZoneCamView,sub_5F7AB,new,medium,"Zone Cam camera (view kind 6, hot key 6)",src/front/camera/camera.asm
+5FB02,CamShotPuckChase,sub_5FB02,new,low,cut-scene shot that chases the puck,src/front/camera/camera.asm
+5FB98,CamShotPuckMid,sub_5FB98,new,low,cut-scene shot on the puck from mid range,src/front/camera/camera.asm
+5FC3D,CamShotPuckNear,sub_5FC3D,new,low,cut-scene shot on the puck from close range,src/front/camera/camera.asm
+5FC93,CamShotOnTarget,,new,low,cut-scene shot on the target object,src/front/camera/camera.asm
+5FD46,CamShotOrbitFrom,sub_5FD46,new,low,cut-scene shot that turns around the shot's start object,src/front/camera/camera.asm
+5FE6C,CamShotOrbitTo,,new,low,cut-scene shot that turns around the shot's end object,src/front/camera/camera.asm
+5FFC5,CamShotReferee,sub_5FFC5,new,low,cut-scene shot on the referee,src/front/camera/camera.asm
+60096,CamShotOrbitNear,sub_60096,new,low,cut-scene shot that turns around the nearest object,src/front/camera/camera.asm
+60159,CamShotTargetTurn,sub_60159,new,low,cut-scene shot that turns around the target object,src/front/camera/camera.asm
+602B9,CamShotNetShake,sub_602B9,new,low,cut-scene shot at the net with camera shake,src/front/camera/camera.asm
+603FF,CamShotOverlayPanel,sub_603FF,new,low,cut-scene shot that queues an overlay panel,src/front/camera/camera.asm
+6042C,CamShotFollowPath,sub_6042C,new,low,cut-scene shot that follows the camera path,src/front/camera/camera.asm
+60543,CamShotDimPath,sub_60543,new,low,cut-scene shot that follows the camera path and dims the view,src/front/camera/camera.asm
 606B9,CloseTextOverlay,sub_606B9,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: PostInjuryEvent,src/front/camera/camera.asm
 60777,EndCameraShot,sub_60777,new,medium,(shot): takes a cut-scene shot off the shot list (dword_11B364) and returns to the saved camera,src/front/camera/camera.asm
 60823,SetGameViewSize,sub_60823,new,medium,"sets the game view rectangle (dword_11B314-11B31C) for the view size option (dword_11B330) and resolution, clears the screen",src/front/camera/camera.asm

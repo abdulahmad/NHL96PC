@@ -56,7 +56,7 @@ extern EndGameCleanup, ShatterGlass, ClearGlassHoles, ReplayBrokenGlass, StopGla
 extern PlaceGoalNet, SetViewCamera, DrawRinkModels, OpenPenaltyBoxDoor, ClosePenaltyBoxDoor, DrawRinkBack, DrawRinkFront, SetRinkClipWindow
 extern BeginShadowDraw, PlayerSpriteFrame, LoadGamePalette, ReplayBufferStart, InitGameView, FreeGameView, DrawRosterName, DrawRosterNumber
 extern DrawRinkSprite, DrawPlayerSprite, DrawSpriteShadow, DrawControlMarker, DrawPuckSprite, SetCameraShot, AngleXZ, AnglePitch
-extern CamShot23E, SetGameViewSize, UpdateCamera, FreeFightSprites, LoadFightSprites, LoadCupSprites, FreeSpriteCache, SpriteScale
+extern CamShotPuckChase, SetGameViewSize, UpdateCamera, FreeFightSprites, LoadFightSprites, LoadCupSprites, FreeSpriteCache, SpriteScale
 extern LoadFrontEndArt, FreeFrontEndArt, FadePalette, FadeOut, CopyBitmap, SetScreenMode, DrawText, DrawTextRight
 extern InitMenuItems, SetGameBackdrop, GetSavedViewSize, RunMenu, SetMenuMouse, FreeSpeechBuffer, RestoreSpeechBuffer, StopSpeech
 extern StopMusic, QueueMusic, FillMusicStream, PlayMusic, FadeOutMusic, MusicDone, PlaySfx, Crowd_Noise
@@ -1736,7 +1736,7 @@ SetReplayCamera:
         jne short .1
         mov dword [ReplayCamShot], 22Fh
         mov byte [ReplayCamMode], 0Ah
-        mov dword [ReplayCamRoutine], CamShot23E
+        mov dword [ReplayCamRoutine], CamShotPuckChase
         jmp short .4
 .1:
         cmp eax, byte 9

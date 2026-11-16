@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_123BB0 progbits alloc noexec write align=1
 extern sub_C187A, sub_C187C, sub_C187D, sub_C1882, sub_CE3B6, sub_CE5D5, sub_CE60C, sub_CE647
-extern sub_CE65F, sub_CE90E, sub_CE980, sub_CE9D9, sub_CEA10, sub_CEA28, sub_CEA3B, sub_CEB8D
+extern sub_CE65F, sub_CE90E, sub_CE980, GusDriverUpdate, sub_CEA10, sub_CEA28, sub_CEA3B, sub_CEB8D
 extern sub_CEC0A, sub_CEC45, sub_CEC5D, sub_CEDDE, sub_CEFEE, sub_CF025, sub_CF060, sub_CF078
 extern sub_CF2D8, sub_CF4CD, sub_CF534, sub_CF56F, sub_CF587, str_spEACSNDFLIB32BitSoundLibr, str_NoCardInstalled, str_SoundBlaster10
 extern str_SoundBlaster15, str_SoundBlaster20, str_SoundBlasterPro10, str_SoundBlasterPro20, str_SoundBlaster16, str_GravisUltraSound, str_WindowsSoundSystem
@@ -102,7 +102,7 @@ off_123CEC:
         dd sub_C1882
         dd sub_CE90E
         dd sub_CE980
-        dd sub_CE9D9
+        dd GusDriverUpdate
         dd sub_CEA10
         dd sub_CEA28
         dd sub_CE3B6

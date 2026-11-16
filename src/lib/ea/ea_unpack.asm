@@ -7,7 +7,7 @@ extern byte_11FA2F, byte_11FA30, byte_11FA31, str_ctl07, byte_11FB50, byte_11FC5
 extern TextOriginX, TextOriginY, dword_11FA24, dword_11FA28, dword_11FA34, dword_11FA38, dword_11FA3C, dword_11FA40
 extern dword_11FA44, dword_11FA48, dword_11FA4C, dword_11FD50, UnpackSrcPtr, UnpackDestPtr, dword_185768, UnpackStackPtr
 extern UnpackPairTable, memmove_, off_11FA10, strncmp_, sub_AB758, FreeMemBlock, sub_ADC50, sub_B31C0
-extern sub_C4AFC, sub_C4C6C, sub_C4CCC, sub_C4D80, sub_E0520
+extern RefPackSize, sub_C4C6C, sub_C4CCC, sub_C4D80, bcopy
 global ExpandBytePair, sub_AEE84, sub_AF08C, sub_AF104, sub_AF1C0, sub_AF240, sub_AF2C0, sub_AF354
 global sub_AF4F8, sub_AF5D0, sub_AF610, sub_AF654, sub_AF85C, sub_AF890, unpack, sub_AFCD0
 global sub_AFD00, sub_AFD40, sub_AFF44, sub_AFFD0, SetTextOrigin, SaveTextState, SetDrawTarget, TextSetFont
@@ -1400,7 +1400,7 @@ unpack:
         push byte 1
         push edx
         push ebx
-        call sub_C4AFC
+        call RefPackSize
         mov esi, eax
         add esp, byte 0Ch
         jmp short .14
@@ -1431,7 +1431,7 @@ unpack:
         add edi, byte 5
         push edi
         mov esi, ebp
-        call sub_E0520
+        call bcopy
         add esp, byte 0Ch
         jmp short .14
 .12:

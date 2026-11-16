@@ -532,3 +532,81 @@ word_1A11EA GusCriticalDepth {confidence=low,source=new} critical-section depth 
 word_1A1238 GusDmaChunkLo {confidence=low,source=new} low word of the current DMA chunk's card address
 word_1A123A GusDmaChunkHi {confidence=low,source=new} high word of the current DMA chunk's card address
 word_1A1249 GusDmaFlags {confidence=low,source=new} flags of the current download
+byte_11F69A KbdCtrlDown {confidence=medium,source=new} control held
+byte_11F6A6 KbdAltDown {confidence=medium,source=new} alt held
+byte_14FAF0 AngleOctantTable {confidence=medium,source=new} octant per delta slope for AngleFromDelta
+dword_121B48 CdFileMode {confidence=medium,source=new} CD file: open mode
+dword_121B4C CdFileHandle {confidence=medium,source=new} CD file: handle
+dword_14EFC4 MixerLoopLength {confidence=medium,source=new} mixer loop length
+dword_14EFCC MixerLoopStart {confidence=medium,source=new} mixer loop start
+dword_18582C InvTabFillPtr {confidence=medium,source=new} inverse colour table fill: pointer
+dword_185830 InvTabFillCount {confidence=medium,source=new} inverse colour table fill: count
+dword_185834 InvTabFillStep {confidence=medium,source=new} inverse colour table fill: step
+dword_185838 InvTabFillDist {confidence=medium,source=new} inverse colour table fill: distance
+jpt_D25B8 EmuOpcodeJumpTable {confidence=medium,source=new} same code as in the next game
+jpt_D26B8 EmuModRmJumpTable {confidence=medium,source=new} same code as in the next game
+off_11FD58 SerialPortTable {confidence=medium,source=new} serial port record per COM port
+sub_B2158 LoadDataFileExt {confidence=medium,source=new} loads a data file, trying its extension
+sub_C3E38 FillRectSpans {confidence=medium,source=new} fills the rows of a set-up rectangle
+sub_CE1F3 SbWaitRead {confidence=medium,source=new} waits for the Sound Blaster DSP to have data
+sub_E19FE SetupRectFill {confidence=medium,source=new} clips a rectangle and fills in its fill description
+unk_14FBF4 EmuTrapFrame {confidence=medium,source=new} x87 emulator trap frame
+unk_D24F8 EmuEaModRmTable {confidence=medium,source=new} same code as in the next game
+unk_E262C AngleFromDeltaJumpTable {confidence=medium,source=new} same code as in the next game
+sub_22A3A DrawIceSurface {confidence=low,source=new} draws the ice surface
+sub_AD420 TintRowPixels {confidence=low,source=new} tints one row of pixels by the current colour multipliers
+sub_AD5C8 TintRows {confidence=low,source=new} tints each row of a rectangle
+sub_ACA3C DebugSetLine {confidence=low,source=new} formats a debug message into one of the on-screen debug lines
+sub_AA988 DrawShapeAtOwnPos {confidence=low,source=new} draws a shape at the position stored in its header; followed by the draw at a given position
+sub_AADC0 BlitShapeAt {confidence=low,source=new} graphics library: draws a shape with transparency at x, y less its hot spot
+sub_BA420 AngleOfVector {confidence=low,source=new} returns the angle of a 2D vector in 1024ths of a turn, by octant
+sub_BA4F0 SinInterp {confidence=low,source=new} returns the sine of a fine angle, interpolating between table entries
+sub_BA55C CosInterp {confidence=low,source=new} returns the cosine of a fine angle, interpolating between table entries
+sub_BB570 DrawPolyOutline {confidence=low,source=new} draws a polygon outline
+sub_BBA41 MultiplyMatrix {confidence=low,source=new} multiplies two 3x3 fixed-point matrices
+sub_BBD18 SetModelFrame {confidence=low,source=new} selects an animation frame of a model instance
+sub_BBD98 DrawSortedModelPolys {confidence=low,source=new} sorts a model's faces by depth and draws them back to front
+sub_AC244 FindNamedBlock {confidence=low,source=new} returns the first block in a memory list whose name matches
+sub_AC2B4 FindMemBlockNamed {confidence=low,source=new} returns the block in a memory list whose name matches the file name of a path
+sub_AC574 CompactDownLocked {confidence=low,source=new} under the memory lock, slides the movable blocks of the main list down to close gaps
+sub_AC6D4 CompactUpLocked {confidence=low,source=new} under the memory lock, slides the movable blocks of the main list up to close gaps
+sub_B7924 TransformRinkObject {confidence=low,source=new} transforms a rink object
+sub_B9C08 AddVec3 {confidence=low,source=new} adds two 3-component vectors
+sub_B9C3C SubVec3 {confidence=low,source=new} subtracts one 3-component vector from another
+sub_BF8D0 SumRingRange {confidence=low,source=new} sums a range of entries of a circular table
+sub_DFF28 KbdGetKey {confidence=low,source=new} reads a key from the keyboard, or 0 when none is waiting
+sub_E0051 CalibrateJoystick {confidence=low,source=new} times the joystick port with the timer chip to calibrate its range
+sub_E0158 ReadJoystickPorts {confidence=low,source=new} reads the joystick buttons and axes by timing the port
+sub_E0520 bcopy {confidence=low,source=new} (src, dst, n): copies n bytes, backwards when they overlap (BSD order)
+sub_E05DA InstallBreakHandler {confidence=low,source=new} installs a Ctrl-Break handler through a real-mode callback in DOS memory and registers its removal at exit
+sub_E062F RemoveBreakHandler {confidence=low,source=new} frees the DOS memory of the Ctrl-Break callback and clears its selector
+sub_E1638 SetViewScreenOrigin {confidence=low,source=new} sets the view's screen origin and works out its far corner from the view size
+sub_E167A SetCameraAngles {confidence=low,source=new} converts the camera angles from degrees to 1024ths of a turn and builds the camera rotation
+sub_E17B8 TransposeMatrix {confidence=low,source=new} transposes a 3x3 matrix, in place or into another matrix
+sub_DFC33 RemoveKeyboardHandler {confidence=low,source=new} keyboard: restores the original keyboard interrupt
+sub_D788C GusStopStreamVoices {confidence=low,source=new} stops both streaming voices and clears the stream state
+sub_D5F5A IrqAck {confidence=low,source=new} acknowledges a sound interrupt
+sub_D5F84 IrqVector {confidence=low,source=new} returns the interrupt vector of an IRQ
+sub_D5F95 IrqUnmask {confidence=low,source=new} unmasks an IRQ
+sub_D5FD4 IrqMask {confidence=low,source=new} masks an IRQ
+sub_D6005 IrqSetHandler {confidence=low,source=new} sets an interrupt handler
+sub_CE9D9 GusDriverUpdate {confidence=low,source=new} mixes the next half buffer and copies it to the card while the stream runs
+sub_CF7C0 TgvCopyBlock {confidence=low,source=new} movie decoder: copies a block
+sub_CF864 TgvFillBlock {confidence=low,source=new} movie decoder: fills a block
+sub_DF596 RestoreVideoState {confidence=low,source=new} restores the saved BIOS video state
+sub_DD8C8 GetRemapTable {confidence=low,source=new} copies the current 256-entry colour remap table out
+sub_E1927 PollHotkeys {confidence=low,source=new} reads a key and dispatches its hotkey handler
+sub_E2824 SinCosLookup {confidence=low,source=new} returns the sine and cosine of an angle from the quarter-wave tables
+sub_B0430 DosFileInfo {confidence=low,source=new} opens a file to learn whether it exists and its size, then closes it
+sub_B103C SerialConfigure {confidence=low,source=new} serial port: sets the port's address, interrupt and buffers
+sub_B1255 SerialSetBaud {confidence=low,source=new} serial port: sets the baud rate
+sub_B2CE0 GrabLargestBlock {confidence=low,source=new} allocates the largest block the memory manager gives, trying smaller sizes
+sub_B6A68 AllocCdBuffer {confidence=low,source=new} allocates the CD transfer buffer
+sub_BD964 PolySideTest {confidence=low,source=new} tells whether a polygon's points are all in front, all behind or across a depth plane
+sub_C1920 DecodeHuffRuns {confidence=low,source=new} TGV video: decodes Huffman coded runs
+sub_C4AFC RefPackSize {confidence=low,source=new} returns the unpacked size from a RefPack header
+sub_C5D00 PrintBoxedText {confidence=low,source=new} formats text like printf and draws it on a box at x, y
+sub_C8504 DrawShapeTriangleMapped {confidence=low,source=new} converts a source and a destination triangle to 16.16 fixed point and draws the mapped shape triangle
+sub_C9F8A Shl64 {confidence=low,source=new} shifts a 64-bit value left
+sub_CA650 FixedSinCos {confidence=low,source=new} graphics library: sine and cosine of a fixed-point angle from the table
+sub_CC7A1 MixerBuildVolumeTables {confidence=low,source=new} builds the 128 volume tables that scale each 8-bit sample value

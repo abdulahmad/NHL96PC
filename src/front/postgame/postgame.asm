@@ -16,8 +16,8 @@ extern str_STRD, str_STRK, MessageBox, SelectDataLibrary, LoadPackedFile, Player
 extern SlideInBottomBar, SetScreenColors, BlackPalette, FadePalette, FadeOut, CopyBitmap, SetTextColors, DrawColorTextRight
 extern DrawColorTextCentred, SetScreenPalette, DrawFrameAt, RemapScreenColors, InitMenuItems, RunMenu, SetMenuMouse, PaEvent
 extern StopSpeech, StopMusic, FillMusicStream, PlayMusic, FadeOutMusic, MusicDone, SoundSecondsToBytes, SoundIdle
-extern GetLangText, PlayerStatsScreen, sub_AA988, sub_AAA40, sub_AADA4, sub_AB758, FreeMemBlock, sub_AD35C
-extern sub_ADA50, sub_ADBEC, sub_AFCD0, sub_B0430, LoadResourceDataShared, SetScreenTarget, sub_E04E0, sub_E0520
+extern GetLangText, PlayerStatsScreen, DrawShapeAtOwnPos, sub_AAA40, sub_AADA4, sub_AB758, FreeMemBlock, sub_AD35C
+extern sub_ADA50, sub_ADBEC, sub_AFCD0, DosFileInfo, LoadResourceDataShared, SetScreenTarget, sub_E04E0, bcopy
 extern sub_E0584, TextSetFont, unk_144BD, unk_144C3, unk_144C9, unk_144D5, unk_144ED, word_114CE0
 extern word_114DD2, word_114DD4, word_114DD6, word_114DD8, word_114DDC, word_114DE4, word_114DE6, word_114EA8
 extern word_114EAC, word_114EF8, word_114EFA, word_114EFC, word_114EFE, word_114F00, word_1656DA, word_1656DC
@@ -987,7 +987,7 @@ GameStatsScreen:
         push byte 10h
         push dword [byte ebp+07Eh]
         push eax
-        call sub_E0520
+        call bcopy
         mov eax, dword [byte ebp+07Eh]
         add esp, byte 0Ch
         add eax, byte 10h
@@ -1037,7 +1037,7 @@ GameStatsScreen:
         push dword [byte ebp+07Eh]
         push eax
         mov esi, eax
-        call sub_E0520
+        call bcopy
         add esp, byte 0Ch
         push dword [byte ebp+066h]
         add esi, byte 10h
@@ -1125,7 +1125,7 @@ GameStatsScreen:
         mov word [byte edx+06h], ax
         call SetScreenTarget
         push dword [byte ebp+06Ah]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         mov word [word_114DE6], 0
         add esp, byte 4
         mov eax, dword [byte ebp+06Ah]
@@ -1544,7 +1544,7 @@ AnimateStarsScreen_121:
         mov word [byte eax+0Eh], dx
         mov eax, dword [dword_151B4C]
         push dword [byte eax+02Ch]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         add esp, byte 4
         push dword [dword_151B64]
         call FreeMemBlock
@@ -1590,7 +1590,7 @@ AnimateStarsScreen_121:
         mov dword [dword_151B68], eax
         call SetScreenTarget
         push dword [dword_151B68]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         add esp, byte 4
         push dword [nosplit esi*4+dword_151B50]
         call sub_AADA4
@@ -1635,7 +1635,7 @@ AnimateStarsScreen_121:
         mov word [byte eax+0Eh], dx
         call SetScreenTarget
         push dword [dword_151B70]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         add esp, byte 4
         push dword [dword esi+word_114EAC]
         push dword [dword esi+word_114EA8]
@@ -1772,7 +1772,7 @@ ThreeStarsScreen:
         rep movsb
         lea eax, [byte ebp-04Ah]
         push eax
-        call sub_B0430
+        call DosFileInfo
         add esp, byte 4
         test eax, eax
         jne short .3
@@ -1985,7 +1985,7 @@ ThreeStarsScreen:
         call SetScreenTarget
         mov eax, dword [byte ebp+042h]
         push dword [byte eax+02Ch]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         mov eax, dword [byte ebp+042h]
         add esp, byte 4
         mov edx, 20h

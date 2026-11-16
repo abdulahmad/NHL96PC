@@ -40,10 +40,10 @@ extern sub_54237, sub_54391, sub_5439F, sub_54427, SetCameraShot, ResetCameraSha
 extern SetPlayerSpriteColors, SetRinkSpriteColors, LoadGameSprites, GetSpriteFrame, SpriteScale, DrawText, DrawTextCentred, SetTextColors
 extern DrawColorText, DrawColorTextRight, DrawColorTextCentred, FillBox, DrawPauseFrame, GetLangText, BuildAntiAliasTable, sub_AAA40
 extern sub_AAADC, sub_AB758, FreeMemBlock, sub_AD35C, sub_AD620, sub_AFFD0, sub_B0CA8, sub_B0F7C
-extern sub_B58D8, sub_B6140, sub_B6148, sub_BA3D0, sub_BB470, sub_BB570, sub_BB924, sub_BBA41
+extern sub_B58D8, sub_B6140, sub_B6148, sub_BA3D0, sub_BB470, DrawPolyOutline, sub_BB924, MultiplyMatrix
 extern SetScreenScale, sub_BC3A0, sub_BC3F4, sub_BC610, sub_BC674, sub_BC6D8, sub_BC760, sub_BD86C
 extern sub_BE926, sub_BE960, sub_BEF44, sub_BEFF0, SetScreenTarget, SetRemapTable, sub_DD908, sub_DD960
-extern sub_DD975, sub_DDBB4, sub_E0486, sub_E04E0, sub_E0584, sub_E162A, sub_E1638, TeamLineEnergy
+extern sub_DD975, sub_DDBB4, sub_E0486, sub_E04E0, sub_E0584, sub_E162A, SetViewScreenOrigin, TeamLineEnergy
 extern TextSetFont, unk_111024, unk_11B2AC, unk_122320, unk_157FDA, unk_157FF8, unk_1582F5, unk_158313
 extern unk_16443C, unk_1782AC, unk_1786AC, unk_178AAC, unk_1798C0, unk_179980, unk_179AC0, unk_179BBC
 extern unk_17B248, unk_17B518, unk_17B830, unk_17B930, unk_17D3E8, unk_58468, unk_5848C, vtoa
@@ -768,7 +768,7 @@ InitGameView:
         movsd
         movsd
         movsd
-        call sub_E1638
+        call SetViewScreenOrigin
         add esp, byte 8
         mov edx, unk_122320
         mov eax, dword_179E13
@@ -1742,7 +1742,7 @@ SpinPuckModel:
         push eax
         lea eax, [byte ebp-048h]
         push eax
-        call sub_BBA41
+        call MultiplyMatrix
         add esp, byte 0Ch
         push unk_1798C0
         push dword [dword_15E8E0]
@@ -2585,7 +2585,7 @@ DrawRinkView:
         push edx
         lea edx, [byte ebp-048h]
         push edx
-        call sub_BBA41
+        call MultiplyMatrix
         add esp, byte 0Ch
         push dword [dword_11F5C4]
         push byte 0
@@ -2636,7 +2636,7 @@ DrawGameFrame:
         push eax
         mov dword [byte ebp+07Ah], 0FFFFFFF4h
         xor esi, esi
-        call sub_BBA41
+        call MultiplyMatrix
         mov ecx, unk_179BBC
         add esp, byte 0Ch
         xor ebx, ebx
@@ -2761,7 +2761,7 @@ DrawGameFrame:
         push eax
         push unk_179BBC
         push esi
-        call sub_BB570
+        call DrawPolyOutline
         add esp, byte 10h
         push unk_179AC0
         lea eax, [byte ebp+03Ah]
@@ -6410,7 +6410,7 @@ unk_5D681:
         push eax
         lea eax, [byte ebp-048h]
         push eax
-        call sub_BBA41
+        call MultiplyMatrix
         add esp, byte 0Ch
         leave
         pop esi

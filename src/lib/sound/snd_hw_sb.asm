@@ -9,7 +9,7 @@ extern TimerOldHandler, TimerOldRealHandler, TimerDivisor, TimerChainCount, int3
 extern TimerOldOffsetLo, TimerOldSelector
 global sub_D59DB_13C, sub_D59DB, ReturnArg, sub_D5B26, TimerCalibrate, TimerRestore, sub_D5BB1, TimerWritePit
 global TimerReadCount, TimerTicksForRate, TimerMeasure, TimerSetDivisor, TimerReset, TimerInstall, TimerChainOld, sub_D5E50
-global sub_D5E7D, sub_D5F29, sub_D5F5A, sub_D5F84, sub_D5F95, sub_D5FD4, sub_D6005, sub_D6027
+global sub_D5E7D, sub_D5F29, IrqAck, IrqVector, IrqUnmask, IrqMask, IrqSetHandler, sub_D6027
 global sub_D60D2
 ;-----------------------------------------------------------------------------
 ; sub_D59DB                                                            D59DB  
@@ -696,9 +696,10 @@ sub_D5F29:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_D5F5A                                                            D5F5A  
+; IrqAck                                          D5F5A  96 PC, low confidence
+; Acknowledges a sound interrupt
 ;-----------------------------------------------------------------------------
-sub_D5F5A:
+IrqAck:
         push ebx
         mov ebx, eax
         mov eax, edx
@@ -720,9 +721,10 @@ sub_D5F5A:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_D5F84                                                            D5F84  
+; IrqVector                                       D5F84  96 PC, low confidence
+; Returns the interrupt vector of an IRQ
 ;-----------------------------------------------------------------------------
-sub_D5F84:
+IrqVector:
         push edx
         mov al, 20h
         mov edx, 20h
@@ -732,9 +734,10 @@ sub_D5F84:
         pop edx
         ret
 ;-----------------------------------------------------------------------------
-; sub_D5F95                                                            D5F95  
+; IrqUnmask                                       D5F95  96 PC, low confidence
+; Unmasks an IRQ
 ;-----------------------------------------------------------------------------
-sub_D5F95:
+IrqUnmask:
         push ebx
         push ecx
         push edx
@@ -764,9 +767,10 @@ sub_D5F95:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_D5FD4                                                            D5FD4  
+; IrqMask                                         D5FD4  96 PC, low confidence
+; Masks an IRQ
 ;-----------------------------------------------------------------------------
-sub_D5FD4:
+IrqMask:
         push ebx
         push ecx
         push edx
@@ -792,9 +796,10 @@ sub_D5FD4:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_D6005                                                            D6005  
+; IrqSetHandler                                   D6005  96 PC, low confidence
+; Sets an interrupt handler
 ;-----------------------------------------------------------------------------
-sub_D6005:
+IrqSetHandler:
         push esi
         push edi
         lea esi, [byte eax+08h]

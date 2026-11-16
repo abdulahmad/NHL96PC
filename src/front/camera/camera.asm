@@ -26,8 +26,8 @@ extern foy, FullViewClip, gameclock, GameLoopActive, GetTicks, gmode, off_11787C
 extern PtrPuckObject, passplayer, penshotlive, penshotmode, penshotstart, puckc, puckvx, puckvz
 extern QueueOverlayPanel, qword_111084, qword_11108C, qword_111094, qword_11109C, qword_1110A4, qword_1110AC, qword_1110B4
 extern qword_1110BC, rand_, seed, seed_w2, SetClipWindow, SetDrawBitmap, sflags, SortCords
-extern str_Priority2, AddIceCrud, SetRinkClipWindow, sub_AB758, FreeMemBlock, sub_BA420, sub_BB9C4, sub_BC674
-extern sub_BEAE4, sub_DFE9C, sub_DFF28, sub_E0584, sub_E1638, sub_E167A, unk_11B673, unk_11B6B8
+extern str_Priority2, AddIceCrud, SetRinkClipWindow, sub_AB758, FreeMemBlock, AngleOfVector, sub_BB9C4, sub_BC674
+extern sub_BEAE4, sub_DFE9C, KbdGetKey, sub_E0584, SetViewScreenOrigin, SetCameraAngles, unk_11B673, unk_11B6B8
 extern unk_11B6FD, unk_11B811, unk_11B856, unk_11B89B, unk_11B8E0, unk_11B925, unk_11B96A, unk_11B9AF
 extern unk_16443C, unk_1781E4, unk_179CCC, unk_179CE4, unk_179CFC, unk_179D14, unk_179D2C, unk_179E02
 extern unk_5D549, unk_5D555, unk_5D561, unk_5D56D, unk_5D579, unk_5D585, unk_5D591, unk_5D591_84
@@ -445,7 +445,7 @@ SetCameraShot:
         push dword [dword_11B318]
         push byte 0
         push dword [dword_11B314]
-        call sub_E167A
+        call SetCameraAngles
         add esp, byte 10h
         mov edi, dword_179DBD
         call sub_BEAE4
@@ -529,7 +529,7 @@ AngleXZ:
         push ebx
         sub eax, dword [edx]
         push eax
-        call sub_BA420
+        call AngleOfVector
         add esp, byte 8
         neg eax
         pop ecx
@@ -554,7 +554,7 @@ AnglePitch:
         add esp, byte 8
         push eax
         push dword [byte esi+04h]
-        call sub_BA420
+        call AngleOfVector
         add esp, byte 8
         neg eax
         pop esi
@@ -579,7 +579,7 @@ AnglePitch:
         mov eax, dword [byte edi+04h]
         sub eax, dword [byte esi+04h]
         push eax
-        call sub_BA420
+        call AngleOfVector
         add esp, byte 8
         neg eax
         pop edi
@@ -904,7 +904,7 @@ CameraNearNet:
         mov eax, dword [byte ebp-01Ch]
         sub eax, dword [dword_179DCE]
         push eax
-        call sub_BA420
+        call AngleOfVector
         neg eax
         add esp, byte 8
         neg eax
@@ -981,7 +981,7 @@ CameraAim:
         mov eax, dword [dword_179D50]
         sub eax, dword [dword_179DCE]
         push eax
-        call sub_BA420
+        call AngleOfVector
         neg eax
         add esp, byte 8
         neg eax
@@ -1173,7 +1173,7 @@ CameraAim_229:
         mov eax, dword [dword_179DCE]
         sub eax, dword [dword_179D50]
         push eax
-        call sub_BA420
+        call AngleOfVector
         neg eax
         sar eax, 1
         mov dword [dword_179DC6], eax
@@ -1242,7 +1242,7 @@ CameraAim_229:
         mov eax, dword [dword_179D50]
         sub eax, dword [dword_179DCE]
         push eax
-        call sub_BA420
+        call AngleOfVector
         neg eax
         sar eax, 1
         mov dword [dword_179DC6], eax
@@ -1352,7 +1352,7 @@ CamView232:
         add esp, byte 8
         push eax
         push dword [dword_179DD2]
-        call sub_BA420
+        call AngleOfVector
         neg eax
         add esp, byte 8
         mov dword [dword_179DCA], eax
@@ -1446,7 +1446,7 @@ CamView233:
         add esp, byte 8
         push eax
         push dword [dword_179DD2]
-        call sub_BA420
+        call AngleOfVector
         neg eax
         add esp, byte 8
         mov dword [dword_179DCA], eax
@@ -1472,7 +1472,7 @@ CamView233:
         add esp, byte 8
         push eax
         push dword [dword_179DD2]
-        call sub_BA420
+        call AngleOfVector
         neg eax
         add esp, byte 8
         mov dword [dword_179DCA], eax
@@ -1600,7 +1600,7 @@ CamView234:
         add esp, byte 8
         push eax
         push dword [dword_179DD2]
-        call sub_BA420
+        call AngleOfVector
         neg eax
         add esp, byte 8
         mov dword [dword_179DCA], eax
@@ -1621,7 +1621,7 @@ CamView234:
         mov eax, dword [byte ebp-0Ch]
         sub eax, dword [dword_179DCE]
         push eax
-        call sub_BA420
+        call AngleOfVector
         neg eax
         add esp, byte 8
         mov dword [dword_179DC6], eax
@@ -1668,7 +1668,7 @@ CamView234:
         add esp, byte 8
         push eax
         push dword [dword_179DD2]
-        call sub_BA420
+        call AngleOfVector
         neg eax
         add esp, byte 8
         mov dword [dword_179DCA], eax
@@ -1778,7 +1778,7 @@ CamView235:
         add esp, byte 8
         push eax
         push dword [dword_179DD2]
-        call sub_BA420
+        call AngleOfVector
         neg eax
         add esp, byte 8
         mov dword [dword_179DCA], eax
@@ -1806,7 +1806,7 @@ CamView235:
         mov eax, dword [byte ebp-0Ch]
         sub eax, dword [dword_179DCE]
         push eax
-        call sub_BA420
+        call AngleOfVector
         neg eax
         add esp, byte 8
         mov dword [dword_179DC6], eax
@@ -1853,7 +1853,7 @@ CamView235:
         add esp, byte 8
         push eax
         push dword [dword_179DD2]
-        call sub_BA420
+        call AngleOfVector
         neg eax
         add esp, byte 8
         mov dword [dword_179DCA], eax
@@ -1999,7 +1999,7 @@ CamView236:
 .23:
         push eax
         push ebx
-        call sub_BA420
+        call AngleOfVector
         neg eax
         add esp, byte 8
         mov dword [dword_179DC6], eax
@@ -2150,7 +2150,7 @@ CamView236_20D:
 .48:
         push eax
         push edx
-        call sub_BA420
+        call AngleOfVector
         neg eax
         add esp, byte 8
         mov dword [dword_179DC6], eax
@@ -2169,7 +2169,7 @@ CamView236_403:
         add esp, byte 8
         push eax
         push dword [dword_179DD2]
-        call sub_BA420
+        call AngleOfVector
         neg eax
         add esp, byte 8
         mov dword [dword_179DCA], eax
@@ -2299,7 +2299,7 @@ CamView238:
 .21:
         push eax
         push ebx
-        call sub_BA420
+        call AngleOfVector
         neg eax
         add esp, byte 8
         mov dword [dword_179DC6], eax
@@ -2436,7 +2436,7 @@ CamView239:
 .21:
         push eax
         push edx
-        call sub_BA420
+        call AngleOfVector
         neg eax
         add esp, byte 8
         mov dword [dword_179DC6], eax
@@ -2643,7 +2643,7 @@ CamView23A:
         mov eax, dword [dword_179D50]
         sub eax, dword [dword_179DCE]
         push eax
-        call sub_BA420
+        call AngleOfVector
         neg eax
         mov dword [dword_179DC6], eax
         mov eax, dword [dword_179D58]
@@ -2657,7 +2657,7 @@ CamView23A:
         add esp, byte 8
         push eax
         push dword [dword_179DD2]
-        call sub_BA420
+        call AngleOfVector
         neg eax
         add esp, byte 8
         mov dword [dword_179DCA], eax
@@ -2691,7 +2691,7 @@ CamShot23E:
         add esp, byte 8
         push eax
         push dword [dword_179DD2]
-        call sub_BA420
+        call AngleOfVector
         neg eax
         mov dword [dword_179DCA], eax
         mov eax, dword [dword_179D58]
@@ -2701,7 +2701,7 @@ CamShot23E:
         mov eax, dword [dword_179D50]
         sub eax, dword [dword_179DCE]
         push eax
-        call sub_BA420
+        call AngleOfVector
         neg eax
         add esp, byte 8
         mov dword [dword_179DC6], eax
@@ -2751,7 +2751,7 @@ CamShot23F_44:
         add esp, byte 8
         push eax
         push dword [dword_179DD2]
-        call sub_BA420
+        call AngleOfVector
         neg eax
         mov dword [dword_179DCA], eax
         mov eax, dword [dword_179D58]
@@ -2761,7 +2761,7 @@ CamShot23F_44:
         mov eax, dword [dword_179D50]
         sub eax, dword [dword_179DCE]
         push eax
-        call sub_BA420
+        call AngleOfVector
         neg eax
         add esp, byte 8
         mov dword [dword_179DC6], eax
@@ -2879,7 +2879,7 @@ CamShot242:
         mov eax, dword [dword_179D50]
         sub eax, dword [dword_179DCE]
         push eax
-        call sub_BA420
+        call AngleOfVector
         neg eax
         sub eax, 71Ch
         add esp, byte 8
@@ -2952,7 +2952,7 @@ CamShot242_126:
         sub eax, dword [dword_179DCE]
         push eax
         mov dword [dword_179D54], 0
-        call sub_BA420
+        call AngleOfVector
         neg eax
         sub eax, 71Ch
         add esp, byte 8
@@ -2994,7 +2994,7 @@ CamShot242_209:
         add esp, byte 8
         push eax
         push dword [dword_179DD2]
-        call sub_BA420
+        call AngleOfVector
         neg eax
         mov dword [dword_179DCA], eax
         mov eax, dword [dword_179D58]
@@ -3005,7 +3005,7 @@ CamShot242_209:
         sub eax, dword [dword_179DCE]
         push eax
 CamShot242_269:
-        call sub_BA420
+        call AngleOfVector
         neg eax
         add esp, byte 8
         mov dword [dword_179DC6], eax
@@ -3116,7 +3116,7 @@ CamShot246:
         mov eax, dword [dword_179D50]
         sub eax, dword [dword_179E13]
         push eax
-        call sub_BA420
+        call AngleOfVector
         neg eax
         add esp, byte 8
         neg eax
@@ -3177,7 +3177,7 @@ CamShot247:
         push eax
         mov dword [byte ebp-024h], ebx
         mov dword [byte ebp-018h], edx
-        call sub_BA420
+        call AngleOfVector
         neg eax
         add esp, byte 8
         mov edx, eax
@@ -3240,7 +3240,7 @@ CamShot247:
         add esp, byte 8
         push eax
         push dword [dword_179DD2]
-        call sub_BA420
+        call AngleOfVector
         neg eax
         mov dword [dword_179DCA], eax
         mov eax, dword [byte ebp-04h]
@@ -3309,7 +3309,7 @@ CamShot244:
         mov eax, dword [dword_179DD2]
         sub eax, dword [dword_179D54]
         push eax
-        call sub_BA420
+        call AngleOfVector
         neg eax
         mov dword [dword_179DCA], eax
         mov eax, dword [dword_179D58]
@@ -3319,7 +3319,7 @@ CamShot244:
         mov eax, dword [dword_179D50]
         sub eax, dword [dword_179DCE]
         push eax
-        call sub_BA420
+        call AngleOfVector
         neg eax
         add esp, byte 8
         mov dword [dword_179DC6], eax
@@ -3402,7 +3402,7 @@ CamShot23B_B3:
         add esp, byte 8
         push eax
         push dword [dword_179DD2]
-        call sub_BA420
+        call AngleOfVector
         neg eax
         mov dword [dword_179DCA], eax
         mov eax, dword [dword_179D58]
@@ -3412,7 +3412,7 @@ CamShot23B_B3:
         mov eax, dword [dword_179D50]
         sub eax, dword [dword_179DCE]
         push eax
-        call sub_BA420
+        call AngleOfVector
         mov byte [byte_1175AC], 1
         neg eax
         mov dword [dword_179D74], 1
@@ -3712,12 +3712,12 @@ SetGameViewSize:
         push dword [dword_11B318]
         push byte 0
         push dword [dword_11B314]
-        call sub_E167A
+        call SetCameraAngles
         add esp, byte 10h
         call sub_BEAE4
         push dword [dword_11B32C]
         push dword [dword_11B328]
-        call sub_E1638
+        call SetViewScreenOrigin
         add esp, byte 8
         push dword [dword_11B234]
         call SetDrawBitmap
@@ -3962,7 +3962,7 @@ ReadHotKeys:
         add eax, byte 19h
         mov dword [dword_11BB0C], eax
 .9:
-        call sub_DFF28
+        call KbdGetKey
         mov dl, byte [gmode]
         and dl, 80h
         movsx edx, dl
@@ -3999,7 +3999,7 @@ ReadHotKeys:
         push byte 0
         push dword [dword_11B314]
         xor byte [dword_11B374], 1
-        call sub_E167A
+        call SetCameraAngles
         add esp, byte 10h
         mov edi, unk_179E02
         mov esi, dword_179DBD

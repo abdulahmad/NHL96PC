@@ -4,7 +4,7 @@ bits 32
 section s_14FAC0 progbits alloc noexec write align=1
 extern sub_CFCF8, unk_11418C
 global str_StackOverflow, byte_14FAC0, byte_14FAC1, byte_14FAC2, byte_14FAC3, byte_14FAC5, byte_14FAC6, byte_14FAC8
-global byte_14FAC9, byte_14FACB, byte_14FACC, byte_14FAF0, dword_14FAD8, off_14FAD0, off_14FAD4, SavedStackSegment
+global byte_14FAC9, byte_14FACB, byte_14FACC, AngleOctantTable, dword_14FAD8, off_14FAD0, off_14FAD4, SavedStackSegment
 byte_14FAC0:
         db 039h
 byte_14FAC1:
@@ -36,7 +36,7 @@ SavedStackSegment:
 str_StackOverflow:
         db 053h,074h,061h,063h,06Bh,020h,04Fh,076h,065h,072h,066h,06Ch,06Fh,077h,021h,0Dh
         db 0Ah,00h
-byte_14FAF0:
+AngleOctantTable:
         db 00h,01h,01h,02h,03h,03h,04h,04h,05h,06h,06h,07h,08h,08h,09h,0Ah
         db 0Ah,0Bh,0Bh,0Ch,0Dh,0Dh,0Eh,0Fh,0Fh,010h,010h,011h,012h,012h,013h,014h
         db 014h,015h,016h,016h,017h,017h,018h,019h,019h,01Ah,01Bh,01Bh,01Ch,01Ch,01Dh,01Eh

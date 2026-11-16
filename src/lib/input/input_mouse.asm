@@ -4,8 +4,8 @@ bits 32
 section s_DF8AC progbits alloc exec nowrite align=1
 extern mouseminx, mouseminy, mousemaxx, mousemaxy, MouseDeltaX, MouseButtonState, dword_11F598, MousePresent
 extern mousex, mousey, MouseMoved, dword_11F5B4, dword_11F5B8, dword_11F5C0, dword_11F5C4, dword_11F6F0
-extern dword_11F6F6, dword_11F6FC, sub_DFC33_6F, mousepollfn, off_11F5F4, off_11F5F8, off_11F5FC, BiosKeyFunc
-extern DosGetVector, DosSetVector, sub_DFC33, Int16Handler, Int16Service, AddExitHandler, unk_DFDDD, word_11F580
+extern dword_11F6F6, dword_11F6FC, RemoveKeyboardHandler_6F, mousepollfn, off_11F5F4, off_11F5F8, off_11F5FC, BiosKeyFunc
+extern DosGetVector, DosSetVector, RemoveKeyboardHandler, Int16Handler, Int16Service, AddExitHandler, unk_DFDDD, word_11F580
 extern word_11F582, word_11F584, word_11F6F4, word_11F6FA, word_11F700, word_11F702
 global MouseReadButtons, sub_DF8E8, MouseRead, SetViewRect, MouseReadMotion, sub_DFA6C, sub_DFA73, sub_DFA7A
 global sub_DFA98, sub_DFB84, sub_DFB88
@@ -283,7 +283,7 @@ sub_DFB88:
         mov word [word_11F700], dx
         mov dx, cs
         mov ebx, 9
-        mov eax, sub_DFC33_6F
+        mov eax, RemoveKeyboardHandler_6F
         call DosSetVector
         mov dx, cs
         mov ebx, 16h
@@ -296,7 +296,7 @@ sub_DFB88:
         out 21h, al
         mov ebx, Int16Service
         mov dword [BiosKeyFunc], ebx
-        push sub_DFC33
+        push RemoveKeyboardHandler
         call AddExitHandler
         add esp, byte 4
 .1:

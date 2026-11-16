@@ -10,7 +10,7 @@ extern dword_17C994, dword_17C998, dword_17C99C, FadeOutMusic, FillMusicStream, 
 extern globalset, MakeDataPath, OpenMusicStream, PlayMusic, QueueCurrentMusic, SetClipWindow, SetCrtcStart, setstreamspeed
 extern SoundSecondsToBytes, StopMusic, str_TEMP, FadeOut, SetGraphicsMode, SetScreenMode, sub_AB758, FreeMemBlock
 extern sub_BFE4C, sub_C0252, sub_C02D6, sub_C032E, sub_C03EA, sub_C0423, sub_C04AE, sub_C1FC0
-extern sub_C1FEC, sub_C204C, sub_C2268, sub_C2290, sub_C2440, sub_C2442, sub_DD830, sub_E0520
+extern sub_C1FEC, sub_C204C, sub_C2268, sub_C2290, sub_C2440, sub_C2442, sub_DD830, bcopy
 extern tgvpalpending, unk_17C644, WaitRetrace, WaitTicks
 global TgvClock, TgvOpen, TgvOpen_F9, PlayTGV, TgvNextFrame, TgvPlayFrames, PlayMovie, PlayMovieFile
 ;-----------------------------------------------------------------------------
@@ -254,7 +254,7 @@ TgvNextFrame:
         push unk_17C644
         add eax, byte 44h
         push eax
-        call sub_E0520
+        call bcopy
         add esp, byte 0Ch
 .6:
         push dword [dword_17C98C]

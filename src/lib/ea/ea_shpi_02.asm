@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_D0360 progbits alloc exec nowrite align=1
-extern str_SHPI2, ClipTopRow, ClipRight, fputchar, strncpy_, sub_B0430, sub_D1368, sub_D7D44
-extern sub_E0520
+extern str_SHPI2, ClipTopRow, ClipRight, fputchar, strncpy_, DosFileInfo, sub_D1368, sub_D7D44
+extern bcopy
 global sub_D0360, sub_D0440, sub_D0640, sub_D0650
 ;-----------------------------------------------------------------------------
 ; sub_D0360                                                            D0360  
@@ -107,7 +107,7 @@ sub_D0360:
         mov eax, edi
         call strncpy_
         push ebp
-        call sub_B0430
+        call DosFileInfo
         add esp, byte 4
         test eax, eax
         je short .13
@@ -161,7 +161,7 @@ sub_D0440:
         push byte 10h
         push edx
         push str_SHPI2
-        call sub_E0520
+        call bcopy
         add esp, byte 0Ch
         push byte 4
         mov ecx, dword [byte esp+024h]
@@ -191,7 +191,7 @@ sub_D0440:
         mov dword [byte esp+02Ch], eax
         add eax, edi
         push eax
-        call sub_E0520
+        call bcopy
         add esp, byte 0Ch
         xor eax, eax
         mov dword [byte esp+018h], eax
@@ -239,7 +239,7 @@ sub_D0440:
         push eax
         add esi, ecx
         push esi
-        call sub_E0520
+        call bcopy
         add esp, byte 0Ch
         mov al, byte [byte esp+0Ch]
         mov byte [esi], al

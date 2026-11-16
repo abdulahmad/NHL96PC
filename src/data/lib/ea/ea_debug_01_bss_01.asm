@@ -7,7 +7,7 @@ global UnpackSrcPtr, UnpackDestPtr, dword_185768, UnpackStackPtr, UnpackPairTabl
 global InvTabGStep, InvTabBStep, InvTabRMin, InvTabOut, InvTabDistBuf, InvTabGMin, InvTabGCenter, InvTabBCenter
 global InvTabCell, InvTabRCenter, InvTabR, InvTabG, InvTabB, InvTabColor, InvTabRMax, InvTabGMax
 global InvTabBMin, InvTabBMax, InvTabRow, InvTabPass, InvTabGLo, InvTabGHi, InvTabBLo, InvTabBHi
-global InvTabGInc, InvTabBInc, InvTabDistInc, InvTabDistStart, dword_18582C, dword_185830, dword_185834, dword_185838
+global InvTabGInc, InvTabBInc, InvTabDistInc, InvTabDistStart, InvTabFillPtr, InvTabFillCount, InvTabFillStep, InvTabFillDist
 global dword_185848, unk_18584C
 dword_185740:
         resb 4
@@ -97,13 +97,13 @@ InvTabDistInc:
         resb 4
 InvTabDistStart:
         resb 4
-dword_18582C:
+InvTabFillPtr:
         resb 4
-dword_185830:
+InvTabFillCount:
         resb 4
-dword_185834:
+InvTabFillStep:
         resb 4
-dword_185838:
+InvTabFillDist:
         resb 16
 dword_185848:
         resb 4

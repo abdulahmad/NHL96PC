@@ -15,7 +15,7 @@ extern SlideInTitleBar, SoundIdle, SoundSecondsToBytes, sprintf_, str_Bkgd6, str
 extern str_Jy2D, str_Jy3D, str_Jy4D, str_Key1, str_KeyD2, str_Log7, str_Logx, str_MCONTROL
 extern str_MdmD, str_MseD2, str_P11, str_P12, str_P13, str_P1G, str_P21, str_P22
 extern str_P23, str_P2G, str_Pal12, str_PlyD, str_Usrh, str_Usri, str_Utext, sub_AA7E0
-extern sub_AA988, sub_AAA40, sub_AADA4, sub_AB758, FreeMemBlock, sub_AD35C, sub_ADA50, sub_ADBEC
+extern DrawShapeAtOwnPos, sub_AAA40, sub_AADA4, sub_AB758, FreeMemBlock, sub_AD35C, sub_ADA50, sub_ADBEC
 extern sub_B2C54, SetScreenTarget, sub_E04E0, TextSetFont, unk_11DE50, unk_11DE90, unk_152C44, word_114CE0
 extern word_114CE4, word_11D92C, word_11D92E, word_11D96C, word_11D9A8, word_11D9AC, word_11DA10, word_11DA14
 extern word_160ACC, word_17D560, word_17D562, word_17D568, word_17D570, word_17D578, word_17D58C, word_17D58E
@@ -1903,7 +1903,7 @@ DrawControllerColumns:
         mov dx, word [byte edi+02Ah]
         mov word [byte eax+0Eh], dx
         push dword [nosplit esi*8+dword_17D564]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         mov eax, dword [byte ebp-028h]
         dec eax
         imul edx, eax, byte 66h
@@ -2018,7 +2018,7 @@ DrawControllerColumns:
         sub edx, byte 5
         mov word [byte eax+0Eh], dx
         push dword [dword esi+dword_11D940]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         imul eax, dword [byte ebp-020h], byte 21h
         add esp, byte 4
         mov ebx, dword [dword edi+word_11D96C]
@@ -2061,7 +2061,7 @@ DrawControllerColumns:
         mov dx, word [byte esi+ebx+02Ah]
         mov word [byte edi+0Eh], dx
         push dword [nosplit eax*4+dword_11D930]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         mov eax, dword [dword_17D580]
         add esp, byte 4
         push dword [byte esi+eax+02Ah]
@@ -2240,7 +2240,7 @@ DrawControllerColumns:
         mov dx, word [byte ebx+02Ah]
         mov word [byte eax+0Eh], dx
         push dword [nosplit esi*8+dword_17D564]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         add esp, byte 4
         mov word [nosplit esi*8+word_17D560], 1
         jmp near .49
@@ -2358,7 +2358,7 @@ DrawControllerColumns:
         mov ax, word [byte edx+eax+02Ah]
         mov word [byte ebx+0Eh], ax
         push dword [nosplit esi*8+dword_17D564]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         mov eax, dword [byte ebp-028h]
         inc eax
         imul eax, byte 66h
@@ -2474,7 +2474,7 @@ DrawControllerColumns:
         sub edx, byte 5
         mov word [byte eax+0Eh], dx
         push dword [dword esi+dword_11D940]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         imul eax, dword [byte ebp-018h], byte 21h
         add esp, byte 4
         mov ebx, dword [dword edi+dword_11D954]
@@ -2517,7 +2517,7 @@ DrawControllerColumns:
         mov dx, word [byte edi+esi+02Ah]
         mov word [byte ebx+0Eh], dx
         push dword [nosplit eax*4+dword_11D930]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         mov eax, dword [dword_17D580]
         add esp, byte 4
         push dword [byte edi+eax+02Ah]
@@ -2668,7 +2668,7 @@ ControllerScreen:
         mov edx, edi
         mov word [byte eax+0Eh], dx
         push dword [byte esi+02Ch]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         add esp, byte 4
         push esi
         call SetDrawBitmap
@@ -2699,7 +2699,7 @@ ControllerScreen:
         add esp, byte 0Ch
         mov word [byte eax+0Eh], dx
         push dword [byte esi+02Ch]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         add esp, byte 4
         push esi
         call SetDrawBitmap
@@ -2746,7 +2746,7 @@ ControllerScreen:
         add esp, byte 0Ch
         mov word [byte eax+0Eh], 0D6h
         push dword [byte esi+02Ch]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         add esp, byte 4
         push esi
         call SetDrawBitmap
@@ -2771,7 +2771,7 @@ ControllerScreen:
         mov eax, dword [byte esi+02Ch]
         mov word [byte eax+0Eh], 0D6h
         push dword [byte esi+02Ch]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         add esp, byte 4
         push esi
         call SetDrawBitmap
@@ -2855,7 +2855,7 @@ ControllerScreen:
         inc edi
         push dword [dword esi+dword_17D564]
         add esi, byte 8
-        call sub_AA988
+        call DrawShapeAtOwnPos
         mov edx, dword [byte ebp-08h]
         add esp, byte 4
         cmp edx, byte 4
@@ -2996,7 +2996,7 @@ ControllerScreen:
         mov word [byte eax+0Eh], dx
         mov eax, dword [byte ebp-018h]
         push dword [dword eax+dword_11D940]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         mov eax, dword [byte ebp-014h]
         add esp, byte 4
         mov ebx, dword [dword esi+word_11D9AC]
@@ -3025,7 +3025,7 @@ ControllerScreen:
         mov word [byte edx+0Eh], ax
         mov eax, dword [byte ebp-018h]
         push dword [dword eax+dword_11D930]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         mov eax, dword [dword_17D580]
         add esp, byte 4
         add eax, dword [byte ebp-08h]
@@ -3278,7 +3278,7 @@ ControllerScreen:
         mov word [byte eax+0Eh], dx
         mov eax, dword [byte ebp-018h]
         push dword [dword eax+dword_11D940]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         mov eax, dword [byte ebp-014h]
         add esp, byte 4
         mov ebx, dword [dword esi+dword_11D914]
@@ -3306,7 +3306,7 @@ ControllerScreen:
         mov word [byte eax+0Eh], dx
         mov eax, dword [byte ebp-018h]
         push dword [dword eax+dword_11D930]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         mov eax, dword [dword_17D580]
         add esp, byte 4
         add eax, dword [byte ebp-08h]
@@ -3840,7 +3840,7 @@ ControllerScreen_11AB:
         mov word [byte eax+0Eh], dx
         mov eax, dword [byte ebp-048h]
         push dword [nosplit eax*4+dword_11D940]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         mov edx, dword [byte ebp-048h]
         imul esi, edx, byte 21h
         add esp, byte 4

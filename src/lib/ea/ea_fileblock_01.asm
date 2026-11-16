@@ -4,9 +4,12 @@ bits 32
 section s_AC9F0 progbits alloc exec nowrite align=1
 extern str_DBUGTXT, str_FILES, str_DATES, str_TIMES, str_CLOSED, str_TIMES2, byte_11F9D8, byte_11F9D9
 extern byte_11F9DA, dword_11F9C8, dword_11F9D0, dword_11F9D4, dword_11F9DC, fclose_, fopen_, sub_ACED8
-extern sub_ACF68, sub_AD00C, sub_E0520, sub_E1836, unk_113444, vsprintf_
-global DebugPrintf, sub_ACAD0_D5, sub_ACAD0_E6, sub_ACAD0_124, sub_ACAD0_140, sub_ACAD0_149, sub_ACA3C, sub_ACAD0
+extern sub_ACF68, sub_AD00C, bcopy, sub_E1836, unk_113444, vsprintf_
+global DebugPrintf, sub_ACAD0_D5, sub_ACAD0_E6, sub_ACAD0_124, sub_ACAD0_140, sub_ACAD0_149, DebugSetLine, sub_ACAD0
 global sub_ACC74, sub_ACCF8, sub_ACD24, sub_ACD38, unk_ACABC
+;-----------------------------------------------------------------------------
+; DebugPrintf                                  AC9F0  95 PC, medium confidence
+;-----------------------------------------------------------------------------
 DebugPrintf:
         sub esp, 104h
         cmp dword [dword_11F9C8], byte 2
@@ -25,7 +28,11 @@ DebugPrintf:
         add esp, 104h
         ret
         db 08Dh,040h,00h
-sub_ACA3C:
+;-----------------------------------------------------------------------------
+; DebugSetLine                                    ACA3C  96 PC, low confidence
+; Formats a debug message into one of the on-screen debug lines
+;-----------------------------------------------------------------------------
+DebugSetLine:
         push esi
         sub esp, 104h
         mov ebx, dword [dword esp+010Ch]
@@ -67,6 +74,9 @@ unk_ACABC:
         dd sub_ACAD0_124
         dd sub_ACAD0_140
         dd sub_ACAD0_149
+;-----------------------------------------------------------------------------
+; sub_ACAD0                                                            ACAD0  
+;-----------------------------------------------------------------------------
 sub_ACAD0:
         push ebx
         push ecx
@@ -207,6 +217,9 @@ sub_ACAD0_149:
         pop ebx
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_ACC74                                                            ACC74  
+;-----------------------------------------------------------------------------
 sub_ACC74:
         push ebx
         push ecx
@@ -235,7 +248,7 @@ sub_ACC74:
         shl eax, 5
         add eax, ebx
         push eax
-        call sub_E0520
+        call bcopy
         add esp, byte 0Ch
         mov eax, dword [dword_11F9D0]
         push dword 0A0h
@@ -251,6 +264,9 @@ sub_ACC74:
         pop ecx
         pop ebx
         ret
+;-----------------------------------------------------------------------------
+; sub_ACCF8                                                            ACCF8  
+;-----------------------------------------------------------------------------
 sub_ACCF8:
         mov ebx, dword [dword_11F9D0]
         cmp dword [dword_11F9C8], byte 2
@@ -265,6 +281,9 @@ sub_ACCF8:
         mov dword [dword_11F9D0], ebx
         ret
         db 08Dh,040h,00h
+;-----------------------------------------------------------------------------
+; sub_ACD24                                                            ACD24  
+;-----------------------------------------------------------------------------
 sub_ACD24:
         mov eax, dword [byte esp+04h]
         test eax, eax
@@ -275,6 +294,9 @@ sub_ACD24:
 .1:
         ret
         db 090h
+;-----------------------------------------------------------------------------
+; sub_ACD38                                                            ACD38  
+;-----------------------------------------------------------------------------
 sub_ACD38:
         mov al, byte [byte esp+04h]
         mov byte [byte_11F9D9], al

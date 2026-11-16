@@ -17,7 +17,7 @@ extern str_HD023, str_NAV, str_Pal24, str_Plyr3, str_PROFILEFSH3, str_RAT02, str
 extern str_S1dw, str_S1ug, str_S1up, str_S22, str_S2dg, str_S2dw, str_S2ug, str_S2up
 extern str_S32, str_S3dg, str_S3dw, str_S3ug, str_S3up, str_SD5, str_TR00, str_TR01
 extern str_TR02, str_TR0D, str_XTbl2, SelectDataLibrary, StatsDb5Record, StatsDb1Record, StatsDataBBRecord, StatsData4Record
-extern StatsDb2Record, sub_AAA40, sub_AB758, FreeMemBlock, sub_AD35C, sub_ADBEC, sub_B0430, LoadResourceDataShared
+extern StatsDb2Record, sub_AAA40, sub_AB758, FreeMemBlock, sub_AD35C, sub_ADBEC, DosFileInfo, LoadResourceDataShared
 extern sub_B2C54, SetScreenTarget, sub_DD7B8, sub_DD908, sub_E04E0, TickDeadlinePassed, unk_93BE6, unk_93CA6
 extern unk_93D26
 global PlayerRatingsScreen, PlayerRatingsScreen_E11, PlayerRatingsScreen_E3B, PlayerRatingsScreen_E44, PlayerRatingsScreen_E4D, PlayerRatingsScreen_E56, PlayerRatingsScreen_E5F, PlayerRatingsScreen_E68
@@ -2510,7 +2510,7 @@ LoadRatingsPicture:
         jne near .9
         lea eax, [byte ebp-018h]
         push eax
-        call sub_B0430
+        call DosFileInfo
         add esp, byte 4
         test eax, eax
         je short .7
@@ -2557,7 +2557,7 @@ LoadRatingsPicture:
 .9:
         lea eax, [byte ebp-018h]
         push eax
-        call sub_B0430
+        call DosFileInfo
         add esp, byte 4
         test eax, eax
         je short .13

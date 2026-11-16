@@ -9,7 +9,7 @@ extern dword_11D1FE, dword_11D202, dword_11D206, dword_11D236, dword_11D37E, dwo
 extern dword_11D3B2, dword_17C604, dword_17C608, FadeOutMusic, FeedMusicStream, FindClipIndex_55, FindTeamPairClip_85, GetTicks
 extern globalset, InitSpeech, MakeDataPath, OpenSpeechBanks, optblock, setstreamspeed, SetTickDeadline, ShutdownSpeech
 extern sndcard, SndSetDriver, StopSpeech, StopSpeech_1FA, StopSpeech_207, LoadDataFileFlag0, LoadDataFileHandle, FreeMemBlock
-extern sub_AC838, sub_AC868, sub_B69EC, sub_B6A14, sub_B6A68, sub_BFB53, sub_BFC16, sub_BFC91
+extern sub_AC838, sub_AC868, sub_B69EC, sub_B6A14, AllocCdBuffer, sub_BFB53, sub_BFC16, sub_BFC91
 extern sub_BFE4C, sub_C0252, sub_C02D6, sub_C032E, sub_C0423, sub_C04C3, sub_C0578, sub_C061E
 extern sub_C08F5, sub_C0902, sub_C0D7E, sub_C0E2D, sub_C0E3C, sub_C0E49, sub_C0F09, sub_C0F30
 extern sub_C1008, sub_C144B, sub_C17C6, sub_C181F, sub_DFEC6, unk_17C474, WaitTickDeadline, word_11D1D0
@@ -711,7 +711,7 @@ TestCdSpeed:
         je short .1
         push byte 0
         push esi
-        call sub_B6A68
+        call AllocCdBuffer
         add esp, byte 8
         jmp short .2
 .1:

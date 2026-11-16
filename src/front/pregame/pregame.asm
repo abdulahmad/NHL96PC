@@ -15,8 +15,8 @@ extern SlideInSideBar, SlideInTitleBar, SoundIdle, SoundSecondsToBytes, sprintf_
 extern str_Ard, str_Bkgd13, str_BKGD14, str_Card, str_CS3, str_D2, str_dbgSpace, str_Down
 extern str_DSS, str_FSH, str_FSH3, str_H07d, str_Home, str_LG02d, str_MightyDucksOfAnaheim, str_Pal3
 extern str_PalFsh, str_PALS, str_Plyr, str_ProfileFsh, str_SCHEDULE2, str_SS3, str_Xlate, strcat_
-extern WriteDbRecord6, SelectDataLibrary, PlayerDbRecord, ComputeTeamRanks, sub_AA988, sub_AAA8C, sub_AADA4, sub_AB758
-extern FreeMemBlock, sub_AD35C, sub_ADA50, sub_ADBEC, SaveTextState, SetDrawTarget, sub_B0430, LoadResourceDataShared
+extern WriteDbRecord6, SelectDataLibrary, PlayerDbRecord, ComputeTeamRanks, DrawShapeAtOwnPos, sub_AAA8C, sub_AADA4, sub_AB758
+extern FreeMemBlock, sub_AD35C, sub_ADA50, sub_ADBEC, SaveTextState, SetDrawTarget, DosFileInfo, LoadResourceDataShared
 extern sub_B7638, sub_C2600, SetScreenTarget, sub_DD908, sub_DD920, sub_E04E0, sub_E0584, TextSetFont
 extern unk_112523, unk_152C44, unk_849C1, unk_849C7, unk_849CB, unk_849D1, word_114CE0
 global PreGameMatchupScreen, PreGameMatchupScreen_4E6, CycleScreenPalettes, PreGameTeamsScreen, PreGameCardsA, PreGameCardsB, PreGameCardsC, jpt_87328
@@ -518,7 +518,7 @@ PreGameTeamsScreen:
         add esp, byte 0Ch
         mov word [byte eax+0Eh], dx
         push dword [byte esi+02Ch]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         add esp, byte 4
         push esi
         call SetDrawBitmap
@@ -570,7 +570,7 @@ PreGameTeamsScreen:
         add esp, byte 0Ch
         mov word [byte eax+0Eh], dx
         push dword [byte esi+02Ch]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         add esp, byte 4
         push esi
         call SetDrawBitmap
@@ -642,7 +642,7 @@ PreGameTeamsScreen:
         mov word [byte eax+0Eh], 0EBh
         call SetScreenTarget
         push dword [byte edi+02Ch]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         add esp, byte 4
         push edi
         mov dword [byte ebp+07Ah], 0
@@ -706,7 +706,7 @@ PreGameTeamsScreen:
         mov word [byte eax+0Eh], 0EBh
         call SetScreenTarget
         push dword [byte edi+02Ch]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         add esp, byte 4
         push edi
         mov dword [byte ebp+072h], 0
@@ -1285,7 +1285,7 @@ PreGameCardsA:
         lea eax, [byte ebp+0Eh]
         push eax
         mov edi, dword [byte ebp+06Ah]
-        call sub_B0430
+        call DosFileInfo
         add edi, byte 5Ah
         add esp, byte 4
         test eax, eax
@@ -1469,7 +1469,7 @@ PreGameCardsA:
         lea eax, [byte ebp+0Eh]
         push eax
         mov edi, dword [byte ebp+06Ah]
-        call sub_B0430
+        call DosFileInfo
         add edi, 186h
         add esp, byte 4
         test eax, eax
@@ -2175,7 +2175,7 @@ PreGameCardsB:
         rep movsb
         lea eax, [byte ebp+0Eh]
         push eax
-        call sub_B0430
+        call DosFileInfo
         add esp, byte 4
         test eax, eax
         jne short .2
@@ -2367,7 +2367,7 @@ PreGameCardsB:
         add esp, byte 0Ch
         mov word [byte eax+0Eh], dx
         push dword [byte esi+02Ch]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         add esp, byte 4
         push esi
         call SetDrawBitmap
@@ -2411,7 +2411,7 @@ PreGameCardsB:
         mov eax, dword [byte esi+02Ch]
         mov word [byte eax+0Eh], dx
         push dword [byte esi+02Ch]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         add esp, byte 4
         push esi
         call SetDrawBitmap
@@ -2718,7 +2718,7 @@ PreGameCardsC:
         rep movsb
         lea eax, [byte ebp-0Ah]
         push eax
-        call sub_B0430
+        call DosFileInfo
         add esp, byte 4
         test eax, eax
         jne short .2
@@ -2901,7 +2901,7 @@ PreGameCardsC:
         add esp, byte 0Ch
         mov word [byte eax+0Eh], dx
         push dword [byte esi+02Ch]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         add esp, byte 4
         push esi
         call SetDrawBitmap
@@ -2944,7 +2944,7 @@ PreGameCardsC:
         mov eax, dword [byte esi+02Ch]
         mov word [byte eax+0Eh], dx
         push dword [byte esi+02Ch]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         add esp, byte 4
         push esi
         call SetDrawBitmap

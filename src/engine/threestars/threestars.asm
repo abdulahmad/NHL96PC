@@ -18,7 +18,7 @@ extern sub_493D4, sub_4B59F, sub_5439F, DrawGameFrame, GetPeriodText, SetCameraS
 extern FreeSpriteCache, FadePalette, FadeOut, SetTextColors, DrawColorText, DrawColorTextRight, DrawColorTextCentred, DrawBox
 extern Crowd_Noise, CrowdFadeOut, CrowdReaction, PlayArenaClip, ArenaClipReady, StartArenaClip, StopArenaClip, SoundIdle
 extern GetLangText, sub_ADA80, sub_AFFD0, sub_B58D8, sub_B6140, FillRectColor, sub_DD7B8, SetRemapTable
-extern sub_DFEC6, sub_E0520, sub_E0992, sub_E15AC, TextSetFont, unk_119D0A, unk_119D22, unk_119D36
+extern sub_DFEC6, bcopy, sub_E0992, sub_E15AC, TextSetFont, unk_119D0A, unk_119D22, unk_119D36
 extern unk_119D4E, unk_156E6C, unk_157B82, unk_16443C, unk_164B5C, unk_164E7C, unk_165354, unk_17D3E8
 extern updateanim, vtoa, word_1178A0, word_1178A2, word_1178B4, word_1178CA, word_1178F8, word_118E9F
 extern word_118EA3, word_119D08, word_119D62, word_11D604, word_1515E4, word_156E6E, word_157AFA, word_157AFC
@@ -602,13 +602,13 @@ sub_2E1BE:
         lea eax, [byte ebp-030h]
         push eax
         push esi
-        call sub_E0520
+        call bcopy
         add esp, byte 0Ch
         push byte 14h
         lea eax, [byte ebp-018h]
         push eax
         push dword [byte ebp-04h]
-        call sub_E0520
+        call bcopy
         add esp, byte 0Ch
         cmp edi, 8Ch
         jge near .6

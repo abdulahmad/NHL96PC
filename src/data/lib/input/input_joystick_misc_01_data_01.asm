@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_11F8DC progbits alloc noexec write align=1
-extern dword_18568C, sub_E04D9, sub_E1927, str_Jan, str_Feb2, str_Mar, str_Apr, str_May
+extern dword_18568C, sub_E04D9, PollHotkeys, str_Jan, str_Feb2, str_Mar, str_Apr, str_May
 extern str_Jun, str_Jul, str_Aug, str_Sep, str_Oct, str_Nov, str_Dec, unk_1213DC
 extern unk_1213FC, unk_1215B8
 global byte_11F90C, byte_11F920, byte_11F924, byte_11F940, byte_11F941, byte_11F942, byte_11F983, byte_11F9D8
@@ -22,7 +22,7 @@ tickdeadline:
 dword_11F8E0:
         db 00h,00h,00h,00h
 KbdIdleHook:
-        dd sub_E1927
+        dd PollHotkeys
 HeapList:
         db 00h,00h,00h,00h
 HeapRover:

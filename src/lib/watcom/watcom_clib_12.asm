@@ -5,7 +5,7 @@ section s_C40B4 progbits alloc exec nowrite align=1
 extern dword_1228E8, dword_124108, itoa_, ltoa_, __EFG_printf, toupper_, ultoa_, unk_18584C
 global FixedPoint_Format_, __prtf_, evalflags_, far_other_strlen_, far_strlen_, float_format_, fmt4hex_, formstring_
 global getprintspecs_, jpt_C4CB0, far_strlen__1F, sub_C4CCC_19, sub_C4CCC_1F, sub_C4CCC_25, sub_C4CCC_2B, sub_C4CCC_31
-global sub_C4CCC_37, sub_C4CCC_3D, memmove_, sub_C4AFC, sub_C4C6C, sub_C4CCC, sub_C4D80, zupstr_
+global sub_C4CCC_37, sub_C4CCC_3D, memmove_, RefPackSize, sub_C4C6C, sub_C4CCC, sub_C4D80, zupstr_
 ;-----------------------------------------------------------------------------
 ; __prtf_                                                       C40B4  library
 ;-----------------------------------------------------------------------------
@@ -1197,9 +1197,10 @@ memmove_:
         ret
         db 00h,00h
 ;-----------------------------------------------------------------------------
-; sub_C4AFC                                                            C4AFC  
+; RefPackSize                                     C4AFC  96 PC, low confidence
+; Returns the unpacked size from a RefPack header
 ;-----------------------------------------------------------------------------
-sub_C4AFC:
+RefPackSize:
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFFCh

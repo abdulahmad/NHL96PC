@@ -17,22 +17,22 @@ extern dword_1A1064, dword_1A1068, dword_1A106C, dword_1A1070, dword_1A1074, dwo
 extern dword_1A108A, getenv_, unk_D79E5_2, unk_D7A02_2, sub_AB798, FreeMemBlock, sub_B178B, DrawArtOpaque
 extern sub_BF950, sub_BFC91, sub_BFE4C, sub_C03F8, sub_C0BCD, sub_C1322, sub_C1811, sub_CBEB7
 extern sub_CBFC2, MixerStopChannel, ReturnArg, TimerCalibrate, TimerRestore, sub_D5BB1, sub_D5E50, sub_D5E7D
-extern sub_D5F5A, sub_D5F84, sub_D5F95, sub_D5FD4, sub_D6005, sub_D6027, sub_D60D2, GusGetEnvConfig
+extern IrqAck, IrqVector, IrqUnmask, IrqMask, IrqSetHandler, sub_D6027, sub_D60D2, GusGetEnvConfig
 extern GusProbePort, GusOpen, GusClose, GusMemAlloc, sub_D703C, sub_D7042, GusServiceStream, GusStartStream
-extern sub_D7970, sub_D79CC, sub_D7A44, sub_E0520, unk_1A0B20, unk_1A0FEC, unk_1A102C, unk_D796A
+extern sub_D7970, sub_D79CC, sub_D7A44, bcopy, unk_1A0B20, unk_1A0FEC, unk_1A102C, unk_D796A
 extern unk_D796C, unk_D796E, unk_D79E3, unk_D79E5, unk_D7A00, unk_D7A02, unk_F0000, unk_F000D
 extern unk_F001A, unk_F0027, word_1A0FA0, SbMixerAddrPort, word_1A0FA4, word_1A0FA6, word_1A0FA8, SbReadPort
 extern SbWritePort, word_1A0FD0, word_1A0FD2, word_1A1000, word_1A1008, word_1A1050, word_1A1080, word_1A1088
 global jpt_CE396, sub_CE3B6_57, sub_CE3B6_68, sub_CE3B6_79, sub_CE3B6_85, sub_CE3B6_96, sub_CE3B6_A2, sub_CE3B6_AE
 global sub_CE3B6_BD, sub_CE3B6_218, sub_CE65F_1, sub_CE65F_7, sub_CE65F_D, sub_CEA28_1, sub_CEA28_7, sub_CEA28_D
 global sub_CEC5D_1, sub_CEC5D_7, sub_CEC5D_A, sub_CF078_1, sub_CF078_7, sub_CF078_D, sub_CF587_1, sub_CF587_7
-global sub_CF587_D, sub_CFA64_34, sub_CFB14_34, ParseHexValue, ParseBlasterEnv, sub_CE1DA, sub_CE1F3, sub_CE220
+global sub_CF587_D, sub_CFA64_34, sub_CFB14_34, ParseHexValue, ParseBlasterEnv, sub_CE1DA, SbWaitRead, sub_CE220
 global sub_CE254, sub_CE285, SbResetDsp, sub_CE2E8, sub_CE31C, sub_CE3B6, sub_CE5D5, sub_CE60C
 global sub_CE647, sub_CE65F, sub_CE672, sub_CE709, sub_CE780, sub_CE7C4, sub_CE90E, sub_CE980
-global sub_CE9D9, sub_CEA10, sub_CEA28, sub_CEA3B, sub_CEB8D, sub_CEC0A, sub_CEC45, sub_CEC5D
+global GusDriverUpdate, sub_CEA10, sub_CEA28, sub_CEA3B, sub_CEB8D, sub_CEC0A, sub_CEC45, sub_CEC5D
 global sub_CEC6D, sub_CEDDE, sub_CEFEE, sub_CF025, sub_CF060, sub_CF078, sub_CF08B, sub_CF255
 global sub_CF2D8, sub_CF4CD, sub_CF534, sub_CF56F, sub_CF587, sub_CF59A, sub_CF68D, sub_CF6C9
-global sub_CF6ED, sub_CF7C0, sub_CF864, sub_CF918, sub_CFA64, sub_CFB14, sub_CFCC0, sub_CFCF8
+global sub_CF6ED, TgvCopyBlock, TgvFillBlock, sub_CF918, sub_CFA64, sub_CFB14, sub_CFCC0, sub_CFCF8
 global unk_CE368, unk_CE378, unk_CE388
 ;-----------------------------------------------------------------------------
 ; ParseHexValue                                   CE06B  96 PC, low confidence
@@ -211,9 +211,10 @@ sub_CE1DA:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_CE1F3                                                            CE1F3  
+; SbWaitRead                                   CE1F3  96 PC, medium confidence
+; Waits for the Sound Blaster DSP to have data
 ;-----------------------------------------------------------------------------
-sub_CE1F3:
+SbWaitRead:
         push ebx
         push edx
         mov ebx, 30D40h
@@ -339,7 +340,7 @@ SbResetDsp:
         movzx edx, word [word_1A0FA8]
         xor al, al
         out dx, al
-        call sub_CE1F3
+        call SbWaitRead
         pop edx
         pop ebx
         ret
@@ -352,9 +353,9 @@ sub_CE2E8:
         call sub_CE220
         cmp eax, byte 0FFFFFFFFh
         je short .3
-        call sub_CE1F3
+        call SbWaitRead
         mov edx, eax
-        call sub_CE1F3
+        call SbWaitRead
         cmp edx, byte 0FFFFFFFFh
         je short .1
         cmp eax, byte 0FFFFFFFFh
@@ -603,7 +604,7 @@ sub_CE60C:
         push edx
         mov edx, dword [dword_1A0FBC]
         mov eax, dword [dword_1A0FB4]
-        call sub_D5F5A
+        call IrqAck
         mov dword [dword_1A0FCC], eax
         cmp eax, byte 0FFFFFFFFh
         je short .1
@@ -986,9 +987,10 @@ sub_CE980:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_CE9D9                                                            CE9D9  
+; GusDriverUpdate                                 CE9D9  96 PC, low confidence
+; Mixes the next half buffer and copies it to the card while the stream runs
 ;-----------------------------------------------------------------------------
-sub_CE9D9:
+GusDriverUpdate:
         push ebx
         push ecx
         push edx
@@ -1161,11 +1163,11 @@ sub_CEB8D:
         mov eax, 0D3h
         call sub_CE220
         mov eax, dword [dword_1A0FF4]
-        call sub_D5FD4
+        call IrqMask
         mov cx, word [word_1A1008]
         mov ebx, dword [dword_1A1004]
         mov eax, dword [dword_1A0FF4]
-        call sub_D6005
+        call IrqSetHandler
         push dword [dword_14F044]
         call FreeMemBlock
         mov dword [dword_14F044], 0
@@ -1185,7 +1187,7 @@ sub_CEC0A:
         push edx
         mov edx, dword [dword_1A0FF0]
         mov eax, dword [dword_1A0FE0]
-        call sub_D5F5A
+        call IrqAck
         mov dword [dword_1A100A], eax
         cmp eax, byte 0FFFFFFFFh
         je short .1
@@ -1264,7 +1266,7 @@ sub_CEC6D:
         cmp eax, dword [dword_1A0FE4]
         jb short .1
         mov eax, dword [dword_1A0FF4]
-        call sub_D5FD4
+        call IrqMask
         cmp dword [dword_1A0FFC], 200h
         jge short .3
         mov ebx, sub_D7970
@@ -1274,13 +1276,13 @@ sub_CEC6D:
 .4:
         mov eax, dword [dword_1A0FF4]
         mov ecx, cs
-        call sub_D6005
+        call IrqSetHandler
         mov word [word_1A1008], dx
         mov dword [dword_1A1004], eax
-        call sub_D5F84
+        call IrqVector
         mov eax, dword [dword_1A0FF4]
         mov ecx, 58h
-        call sub_D5F95
+        call IrqUnmask
         mov ebx, dword [dword_1A0FE4]
         mov edx, dword [dword_1A0FF8]
         mov eax, dword [dword_1A0FF0]
@@ -1333,11 +1335,11 @@ sub_CEC6D:
         mov eax, 0D3h
         call sub_CE220
         mov eax, dword [dword_1A0FF4]
-        call sub_D5FD4
+        call IrqMask
         mov cx, word [word_1A1008]
         mov ebx, dword [dword_1A1004]
         mov eax, dword [dword_1A0FF4]
-        call sub_D6005
+        call IrqSetHandler
         pop edx
         pop ecx
         pop ebx
@@ -1531,7 +1533,7 @@ sub_CF025:
         push edx
         mov edx, dword [dword_1A1030]
         mov eax, dword [dword_1A1020]
-        call sub_D5F5A
+        call IrqAck
         mov dword [dword_1A1052], eax
         cmp eax, byte 0FFFFFFFFh
         je short .1
@@ -1598,10 +1600,10 @@ sub_CF08B:
         add esp, byte 4
         mov eax, dword [dword_1A1038]
         mov ebx, unk_D79E5_2
-        call sub_D5FD4
+        call IrqMask
         mov ecx, cs
         mov eax, dword [dword_1A1038]
-        call sub_D6005
+        call IrqSetHandler
         mov word [word_1A1050], dx
         mov dword [dword_1A104C], eax
         cmp dword [dword_1A1038], byte 8
@@ -1634,9 +1636,9 @@ sub_CF08B:
         mov ecx, cs
         call sub_D6027
         mov dword [dword_1A1018], eax
-        call sub_D5F84
+        call IrqVector
         mov eax, dword [dword_1A1038]
-        call sub_D5F95
+        call IrqUnmask
         mov eax, 0D1h
         call sub_CE220
         cmp eax, byte 0FFFFFFFFh
@@ -1727,7 +1729,7 @@ sub_CF255:
         mov cx, word [word_1A1050]
         mov ebx, dword [dword_1A104C]
         mov eax, dword [dword_1A1038]
-        call sub_D6005
+        call IrqSetHandler
         cmp dword [dword_1A1018], byte 0
         je short .2
         mov ecx, dword [dword_1A1018]
@@ -1737,7 +1739,7 @@ sub_CF255:
         call sub_D60D2
 .2:
         mov eax, dword [dword_1A1038]
-        call sub_D5FD4
+        call IrqMask
         pop edx
         pop ecx
         pop ebx
@@ -1898,11 +1900,11 @@ sub_CF4CD:
         mov eax, dword [dword_1A106C]
         call sub_D5E50
         mov eax, dword [dword_1A1074]
-        call sub_D5FD4
+        call IrqMask
         mov cx, word [word_1A1088]
         mov ebx, dword [dword_1A1084]
         mov eax, dword [dword_1A1074]
-        call sub_D6005
+        call IrqSetHandler
         mov eax, 0D9h
         call sub_CE220
         push dword [dword_14F05C]
@@ -1924,7 +1926,7 @@ sub_CF534:
         push edx
         mov edx, dword [dword_1A106C]
         mov eax, dword [dword_1A1060]
-        call sub_D5F5A
+        call IrqAck
         mov dword [dword_1A108A], eax
         cmp eax, byte 0FFFFFFFFh
         je short .1
@@ -1991,16 +1993,16 @@ sub_CF59A:
         add esp, byte 4
         mov eax, dword [dword_1A1074]
         mov ebx, unk_D7A02_2
-        call sub_D5FD4
+        call IrqMask
         mov ecx, cs
         mov eax, dword [dword_1A1074]
-        call sub_D6005
+        call IrqSetHandler
         mov word [word_1A1088], dx
         mov dword [dword_1A1084], eax
-        call sub_D5F84
+        call IrqVector
         mov eax, dword [dword_1A1074]
         mov ecx, 18h
-        call sub_D5F95
+        call IrqUnmask
         mov ebx, dword [dword_1A105C]
         mov edx, dword [dword_1A1078]
         mov eax, dword [dword_1A106C]
@@ -2049,11 +2051,11 @@ sub_CF68D:
         mov eax, dword [dword_1A106C]
         call sub_D5E50
         mov eax, dword [dword_1A1074]
-        call sub_D5FD4
+        call IrqMask
         mov cx, word [word_1A1088]
         mov ebx, dword [dword_1A1084]
         mov eax, dword [dword_1A1074]
-        call sub_D6005
+        call IrqSetHandler
         mov eax, 0D9h
         call sub_CE220
         pop edx
@@ -2154,9 +2156,10 @@ sub_CF6ED:
         ret
         db 00h
 ;-----------------------------------------------------------------------------
-; sub_CF7C0                                                            CF7C0  
+; TgvCopyBlock                                    CF7C0  96 PC, low confidence
+; Movie decoder: copies a block
 ;-----------------------------------------------------------------------------
-sub_CF7C0:
+TgvCopyBlock:
         push esi
         push edi
         push ebp
@@ -2226,9 +2229,10 @@ sub_CF7C0:
         ret
         db 00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_CF864                                                            CF864  
+; TgvFillBlock                                    CF864  96 PC, low confidence
+; Movie decoder: fills a block
 ;-----------------------------------------------------------------------------
-sub_CF864:
+TgvFillBlock:
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFF4h
@@ -2774,7 +2778,7 @@ sub_CFCF8:
         push ebx
         mov esi, sub_CFCC0
         push edx
-        mov edi, sub_E0520
+        mov edi, bcopy
         mov dword [dword_1210C0], esi
         call DrawArtOpaque
         add esp, byte 0Ch
@@ -2806,7 +2810,7 @@ sub_CFCF8:
         push edx
         mov esi, sub_CFCC0
         push ebx
-        mov edi, sub_E0520
+        mov edi, bcopy
         mov dword [dword_1210C0], esi
         call DrawArtOpaque
         add esp, byte 0Ch
@@ -2843,7 +2847,7 @@ sub_CFCF8:
         push ebx
         mov esi, sub_CFCC0
         push eax
-        mov edi, sub_E0520
+        mov edi, bcopy
         mov dword [dword_1210C0], esi
         call DrawArtOpaque
         add esp, byte 0Ch

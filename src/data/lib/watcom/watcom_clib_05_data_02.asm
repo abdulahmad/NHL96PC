@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_11F5DC progbits alloc noexec write align=1
 extern sub_DFB84, sub_DFEAB
-global byte_11F668, byte_11F670, byte_11F68D, byte_11F69A, byte_11F6A6, byte_11F6A8, byte_11F6C3, CpuIs386
+global byte_11F668, byte_11F670, byte_11F68D, KbdCtrlDown, KbdAltDown, byte_11F6A8, byte_11F6C3, CpuIs386
 global CpuIs486, CpuType, CpuHasCpuid, CpuFeatures, str_Punct_DrawRinkSurface, dword_11F61C, dword_11F620, dword_11F660
 global dword_11F664, dword_11F66C, dword_11F6F0, dword_11F6F6, dword_11F6FC, mousepollfn, off_11F5F4, off_11F5F8
 global off_11F5FC, BiosKeyFunc, word_11F6F4, word_11F6FA, word_11F700, word_11F702
@@ -54,9 +54,9 @@ byte_11F670:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 byte_11F68D:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-byte_11F69A:
+KbdCtrlDown:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-byte_11F6A6:
+KbdAltDown:
         db 00h,00h
 byte_11F6A8:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h

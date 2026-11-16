@@ -40,8 +40,8 @@ extern str_FName, str_GlobalSort, str_HBAL2, str_HD01, str_HD02, str_HD03, str_H
 extern str_LocalSort, str_Pal21, str_Player, str_PLR0, str_PlusMinus, str_Profiles, str_S3, str_SD3
 extern str_SEA02, str_Shot, str_SLDH, str_SLDV, str_Space, str_StatDBPTRs, str_Stats, str_VBAL2
 extern str_Wt3, strcat_, strcmp_, strcpy_, strlen_, LoadDataFileLib, PlayerDbRecord, StatsDb5Record
-extern StatsDb1Record, sub_AAA40, sub_AB758, FreeMemBlock, sub_AD35C, sub_AD5C8, sub_AD620, sub_ADBEC
-extern sub_B0430, sub_B2C54, sub_B2C70, sub_C2500, SetScreenTarget, sub_E04E0, TextSetFont, TickDeadlinePassed
+extern StatsDb1Record, sub_AAA40, sub_AB758, FreeMemBlock, sub_AD35C, TintRows, sub_AD620, sub_ADBEC
+extern DosFileInfo, sub_B2C54, sub_B2C70, sub_C2500, SetScreenTarget, sub_E04E0, TextSetFont, TickDeadlinePassed
 extern unk_11282F, unk_11E71A, unk_17FDF8, unk_17FE5E, unk_17FEC4, unk_17FF2A, unk_17FF90, unk_180128
 extern unk_1802C0, unk_8B87F, unk_8BD9F, unk_8BF1F, UpdateProgressBox, word_114CE0, word_1656E8, word_181EB4
 extern word_181EB6, word_181EB8, word_181EBA, word_181EBC, word_181EBE, word_181EC0, word_181EC2, word_181EC4
@@ -838,7 +838,7 @@ PlayerStatsScreen:
         push dword 8000h
         push dword 8000h
         xor esi, esi
-        call sub_AD5C8
+        call TintRows
         add esp, byte 14h
 .14:
         push byte 0
@@ -4586,7 +4586,7 @@ ExportPlayerStats_17F:
         mov dword [byte ebp-028h], eax
         lea eax, [byte ebp-050h]
         push eax
-        call sub_B0430
+        call DosFileInfo
         add esp, byte 4
         test eax, eax
         jne short .64

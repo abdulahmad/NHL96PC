@@ -3,9 +3,13 @@ bits 32
 %include "hockey.inc"
 section s_C3E38 progbits alloc exec nowrite align=1
 extern dword_1228F4, FillRect, sub_DE18C, sub_DF058, unk_C3E10
-global sub_C3E38_AC, sub_C3E38_CD, sub_C3E38_F1, sub_C3E38_111, sub_C3E38_131, sub_C3E38_182, sub_C3E38_1D3, sub_C3E38_21D
-global sub_C3E38_263, sub_C3E38
-sub_C3E38:
+global FillRectSpans_AC, FillRectSpans_CD, FillRectSpans_F1, FillRectSpans_111, FillRectSpans_131, FillRectSpans_182, FillRectSpans_1D3, FillRectSpans_21D
+global FillRectSpans_263, FillRectSpans
+;-----------------------------------------------------------------------------
+; FillRectSpans                                C3E38  96 PC, medium confidence
+; Fills the rows of a set-up rectangle
+;-----------------------------------------------------------------------------
+FillRectSpans:
         push esi
         push edi
         push ebp
@@ -16,7 +20,7 @@ sub_C3E38:
         push eax
         call sub_DF058
         add esp, byte 4
-        jmp near sub_C3E38_263.8
+        jmp near FillRectSpans_263.8
 .1:
         mov ebx, dword [eax]
         mov edx, dword [byte eax+04h]
@@ -44,7 +48,7 @@ sub_C3E38:
         mov dl, byte [byte eax+034h]
         and ebp, 0FFFFh
         cmp dl, 9
-        ja near sub_C3E38_263.8
+        ja near FillRectSpans_263.8
         and edx, 0FFh
         shl edx, 2
         mov dword [esp], edx
@@ -53,9 +57,9 @@ sub_C3E38:
         and ebx, 0FFFFh
         and edx, 0FFFFh
         jmp dword [dword cs:ecx+unk_C3E10]
-sub_C3E38_AC:
+FillRectSpans_AC:
         test esi, esi
-        je near sub_C3E38_263.8
+        je near FillRectSpans_263.8
         mov eax, dword [byte esp+028h]
         push eax
         push byte 1
@@ -69,10 +73,10 @@ sub_C3E38_AC:
         pop edi
         pop esi
         ret
-sub_C3E38_CD:
+FillRectSpans_CD:
         mov eax, dword [byte eax+0Ch]
         test esi, esi
-        je near sub_C3E38_263.8
+        je near FillRectSpans_263.8
         mov ecx, dword [byte esp+028h]
         push ecx
         push esi
@@ -86,12 +90,12 @@ sub_C3E38_CD:
         pop edi
         pop esi
         ret
-sub_C3E38_F1:
+FillRectSpans_F1:
         mov ebp, dword [byte eax+0Ch]
 .2:
         dec esi
         cmp esi, byte 0FFFFFFFFh
-        je near sub_C3E38_263.8
+        je near FillRectSpans_263.8
         mov ecx, dword [byte esp+028h]
         push ecx
         push ebp
@@ -101,12 +105,12 @@ sub_C3E38_F1:
         dec edi
         add esp, byte 0Ch
         jmp short .2
-sub_C3E38_111:
+FillRectSpans_111:
         mov ebp, dword [byte eax+0Ch]
 .3:
         dec esi
         cmp esi, byte 0FFFFFFFFh
-        je near sub_C3E38_263.8
+        je near FillRectSpans_263.8
         mov ebx, dword [byte esp+028h]
         push ebx
         push ebp
@@ -116,7 +120,7 @@ sub_C3E38_111:
         inc edi
         add esp, byte 0Ch
         jmp short .3
-sub_C3E38_131:
+FillRectSpans_131:
         mov ebx, dword [byte eax+0Ch]
         mov eax, dword [byte eax+030h]
         shr eax, 10h
@@ -127,7 +131,7 @@ sub_C3E38_131:
 .4:
         dec esi
         cmp esi, byte 0FFFFFFFFh
-        je near sub_C3E38_263.8
+        je near FillRectSpans_263.8
         mov ebx, dword [byte esp+028h]
         push ebx
         mov ecx, dword [byte esp+01Ch]
@@ -143,7 +147,7 @@ sub_C3E38_131:
         and ebp, 0FFFFh
         dec edi
         jmp short .4
-sub_C3E38_182:
+FillRectSpans_182:
         mov ebx, dword [byte eax+0Ch]
         mov eax, dword [byte eax+030h]
         shr eax, 10h
@@ -154,7 +158,7 @@ sub_C3E38_182:
 .5:
         dec esi
         cmp esi, byte 0FFFFFFFFh
-        je near sub_C3E38_263.8
+        je near FillRectSpans_263.8
         mov ebx, dword [byte esp+028h]
         push ebx
         mov ecx, dword [byte esp+020h]
@@ -170,7 +174,7 @@ sub_C3E38_182:
         and ebp, 0FFFFh
         inc edi
         jmp short .5
-sub_C3E38_1D3:
+FillRectSpans_1D3:
         mov eax, dword [byte eax+030h]
         shr eax, 10h
         and eax, 0FFFFh
@@ -179,7 +183,7 @@ sub_C3E38_1D3:
 .6:
         dec esi
         cmp esi, byte 0FFFFFFFFh
-        je near sub_C3E38_263.8
+        je near FillRectSpans_263.8
         mov ecx, dword [byte esp+028h]
         push ecx
         push ebp
@@ -196,7 +200,7 @@ sub_C3E38_1D3:
         inc ebp
         mov word [byte esp+022h], ax
         jmp short .6
-sub_C3E38_21D:
+FillRectSpans_21D:
         mov eax, dword [byte eax+030h]
         shr eax, 10h
         and eax, 0FFFFh
@@ -205,7 +209,7 @@ sub_C3E38_21D:
 .7:
         dec esi
         cmp esi, byte 0FFFFFFFFh
-        je short sub_C3E38_263.8
+        je short FillRectSpans_263.8
         mov edx, dword [byte esp+028h]
         push edx
         push ebp
@@ -222,7 +226,7 @@ sub_C3E38_21D:
         inc ebp
         mov word [byte esp+026h], bx
         jmp short .7
-sub_C3E38_263:
+FillRectSpans_263:
         mov ebx, dword [byte esp+028h]
         push ebx
         push ebp

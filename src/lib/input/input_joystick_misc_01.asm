@@ -11,9 +11,9 @@ extern BreakCallFunc, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, exit_, j
 extern FillRect, RestoreDS, DosGetVector, DosSetVector, sub_E0898, tickcount, tickdeadline, unk_AA7B0
 extern word_11F910, word_11F914, word_11F918, word_11F91C, word_1210D4, word_1210DA
 global GetTicks, SetTickDeadline, TickDeadlinePassed, TicksSince, WaitKey, WaitTickDeadline, sub_E04E7_2, sub_E0584_30
-global sub_DFEC6, WaitTicks, sub_DFF28, sub_DFF45, KbdPeekKey, SetKbdIdleHook, sub_DFF7C, sub_E0051
-global sub_E0158, sub_E0456, sub_E0486, AddExitHandler, sub_E04D9, sub_E04E0, sub_E04E7, sub_E0520
-global sub_E0584, sub_E05DA, sub_E062F
+global sub_DFEC6, WaitTicks, KbdGetKey, sub_DFF45, KbdPeekKey, SetKbdIdleHook, sub_DFF7C, CalibrateJoystick
+global ReadJoystickPorts, sub_E0456, sub_E0486, AddExitHandler, sub_E04D9, sub_E04E0, sub_E04E7, bcopy
+global sub_E0584, InstallBreakHandler, RemoveBreakHandler
 ;-----------------------------------------------------------------------------
 ; GetTicks                                     DFEB4  95 PC, medium confidence
 ;-----------------------------------------------------------------------------
@@ -79,9 +79,10 @@ WaitTicks:
         ret
         db 00h,00h
 ;-----------------------------------------------------------------------------
-; sub_DFF28                                                            DFF28  
+; KbdGetKey                                       DFF28  96 PC, low confidence
+; Reads a key from the keyboard, or 0 when none is waiting
 ;-----------------------------------------------------------------------------
-sub_DFF28:
+KbdGetKey:
         mov ah, 1
         call dword [BiosKeyFunc]
         db 075h, .1-($+2)
@@ -138,7 +139,7 @@ WaitKey:
 ; sub_DFF7C                                                            DFF7C  
 ;-----------------------------------------------------------------------------
 sub_DFF7C:
-        call sub_DFF28
+        call KbdGetKey
         LD or, ax, ax
         jne short sub_DFF7C
         ret
@@ -237,9 +238,10 @@ sub_DFF7C:
         mov byte [byte_11F924], ah
         jmp short .7
 ;-----------------------------------------------------------------------------
-; sub_E0051                                                            E0051  
+; CalibrateJoystick                               E0051  96 PC, low confidence
+; Times the joystick port with the timer chip to calibrate its range
 ;-----------------------------------------------------------------------------
-sub_E0051:
+CalibrateJoystick:
         call sub_E0898
         LD mov, bh, al
         LD xor, eax, eax
@@ -307,7 +309,7 @@ sub_E0051:
         shr ah, 4
         mov byte [byte_11F920], ah
         cmp byte [byte_11F90C], 0
-        jne near sub_E0051
+        jne near CalibrateJoystick
         mov ebx, 0Ch
 .9:
         mov eax, dword [dword_11F8F4]
@@ -342,9 +344,10 @@ sub_E0051:
         jmp short .7
         db 00h
 ;-----------------------------------------------------------------------------
-; sub_E0158                                                            E0158  
+; ReadJoystickPorts                               E0158  96 PC, low confidence
+; Reads the joystick buttons and axes by timing the port
 ;-----------------------------------------------------------------------------
-sub_E0158:
+ReadJoystickPorts:
         mov byte [byte_11F942], 0
         test byte [joyenablemask], 1
         je near .30
@@ -660,9 +663,10 @@ sub_E04E7_2:
         LD xor, eax, eax
         ret
 ;-----------------------------------------------------------------------------
-; sub_E0520                                                            E0520  
+; bcopy                                           E0520  96 PC, low confidence
+; (src, dst, n): copies n bytes, backwards when they overlap (BSD order)
 ;-----------------------------------------------------------------------------
-sub_E0520:
+bcopy:
         push ebp
         LD mov, ebp, esp
         push esi
@@ -761,9 +765,11 @@ sub_E0584_30:
         pop ebx
         iret
 ;-----------------------------------------------------------------------------
-; sub_E05DA                                                            E05DA  
+; InstallBreakHandler                             E05DA  96 PC, low confidence
+; Installs a Ctrl-Break handler through a real-mode callback in DOS memory
+; and registers its removal at exit
 ;-----------------------------------------------------------------------------
-sub_E05DA:
+InstallBreakHandler:
         push ebp
         LD mov, ebp, esp
         mov eax, dword [byte ebp+08h]
@@ -780,16 +786,17 @@ sub_E05DA:
         mov dx, cs
         mov eax, sub_E0584_30
         call DosSetVector
-        push sub_E062F
+        push RemoveBreakHandler
         call AddExitHandler
         add esp, byte 4
 .1:
         leave
         ret
 ;-----------------------------------------------------------------------------
-; sub_E062F                                                            E062F  
+; RemoveBreakHandler                              E062F  96 PC, low confidence
+; Frees the DOS memory of the Ctrl-Break callback and clears its selector
 ;-----------------------------------------------------------------------------
-sub_E062F:
+RemoveBreakHandler:
         pusha
         mov ebx, 24h
         mov dx, word [word_1210D4]

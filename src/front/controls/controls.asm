@@ -13,7 +13,7 @@ extern dword_15172E, dword_151730, dword_151732, dword_151770, dword_15178E, dwo
 extern fread_, fseek_, ftell_, GameLoopActive, gameopts, GetTicks, InputRecordCount, InputRecordHead
 extern InputRecordRing, kaufmfont, LinkResyncInput, mousepollfn, MouseRead, mousex, mousey, SetViewRect
 extern SlotButtons, SlotTable, slotteam, str_CGRIP, str_GRIP, str_GRIPGLL, str_PATH, str_Rb2
-extern strcat_, strcpy_, CameraFacing, sub_DFA98, sub_DFE9C, sub_DFF28, sub_E0051, sub_E0456
+extern strcat_, strcpy_, CameraFacing, sub_DFA98, sub_DFE9C, KbdGetKey, CalibrateJoystick, sub_E0456
 extern AddExitHandler, unk_114BA8, unk_114C00, unk_151648, unk_1516B8, unk_151784, word_114B40, word_114B42
 extern word_114B44, word_114CDB, word_114CE0, word_114CE4, word_11F910, word_11F914, word_11F918, word_11F91C
 extern word_1515B5, word_151634, word_151636, word_151638, word_15163A, word_151712, word_151714, word_15171C
@@ -1149,7 +1149,7 @@ GetPressedDevice:
         add eax, byte 8
         cmp eax, byte 20h
         jl short .2
-        call sub_DFF28
+        call KbdGetKey
         test eax, eax
         je short .4
         mov eax, 3
@@ -2078,7 +2078,7 @@ GripReadPadBits:
         ret
 ;-----------------------------------------------------------------------------
 ; ReadAnalogJoysticks                          117C7  96 PC, medium confidence
-; Reads the game-port joysticks (sub_E0051), marks joystick 1/2 present
+; Reads the game-port joysticks (CalibrateJoystick), marks joystick 1/2 present
 ; (word_151714 / word_15172C), keeps calibration min/max/centre per axis on
 ; first use and while reading
 ;-----------------------------------------------------------------------------
@@ -2091,7 +2091,7 @@ ReadAnalogJoysticks:
         push ebp
         mov ebp, esp
         sub esp, 8
-        call sub_E0051
+        call CalibrateJoystick
         mov dword [byte ebp-04h], eax
         cmp dword [dword_114CB0], byte 0
         jne short .1

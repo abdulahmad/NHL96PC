@@ -8,7 +8,7 @@ extern dword_17BA3C, dword_17BA40, dword_17BA44, dword_17BA48, dword_17BA4C, dwo
 extern off_11BB4C, str_CupRef, str_FightRef, str_NewpalQfs, str_OldshpQfs, str_OLDSHPQFS2, str_Pal6, str_RinkpalQfs
 extern str_TeampalQda, str_TotalRef, str_UNPACK, str_Unpacked, SelectDataLibrary, sub_297A8, sub_AB758, FreeMemBlock
 extern sub_AC838, sub_AFCD0, sub_AFD00, OpenArtArchiveErr, sub_B3420, sub_B3458, sub_B7638, sub_BEFF0
-extern sub_BF02C, sub_BF034, sub_E04E0, sub_E0520, sub_E1824, unk_16443C, unk_164688, unk_179E48
+extern sub_BF02C, sub_BF034, sub_E04E0, bcopy, sub_E1824, unk_16443C, unk_164688, unk_179E48
 extern unk_17B248, unk_17B488, unk_17B518, unk_17B830, unk_17B930, unk_17BA58, unpack
 global PutJerseyDigit, MakeJerseyNumber, SetTeamJerseyColors, SetTeamJerseyColors_A3, SaveTeamPalette, SetPlayerSpriteColors, SetRinkSpriteColors, IndexSpriteFrames
 global LoadTeamPalette, LoadPlayerSprites, LoadPlayerSprites_131, LoadGameSprites, FreeGameSprites, FreeFightSprites, LoadFightSprites, LoadFightSprites_3F
@@ -933,7 +933,7 @@ GetSpriteFrame:
         push byte 10h
         push dword [dword_17BA44]
         push edi
-        call sub_E0520
+        call bcopy
         mov eax, dword [dword_17BA44]
         add esp, byte 0Ch
         add eax, byte 10h
@@ -1036,7 +1036,7 @@ GetSpriteFrame:
         mov dword [esi], edi
         push edi
         mov dword [byte esi+010h], eax
-        call sub_E0520
+        call bcopy
         mov eax, dword [byte esi+04h]
         add esp, byte 0Ch
         add eax, byte 10h

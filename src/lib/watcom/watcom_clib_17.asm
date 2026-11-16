@@ -12,8 +12,8 @@ extern dword_1A10F4, dword_1A10F8, dword_1A10FC, dword_1A1100, fputchar, sub_D7D
 extern sub_E2335_81, mousepollfn, off_11F5F4, off_11F5F8, off_11F5FC, off_14FAD0, off_14FAD4, sprintf_
 extern sub_AA7E0, PutBlock, sub_AB6D8, FreeMemBlock, sub_ABF88, MemDescPtr, sub_AD2B4, sub_AD824
 extern sub_ADBEC, SetTextOrigin, sub_B049E, sub_B2400, DrawArtOpaque, sub_BF290, sub_C2AC4, sub_C2C5C
-extern sub_C5410, sub_C59E0, sub_CFE8C, sub_DA338, SetScreenTarget, SetClipWindow, SaveVideoState, sub_DF596
-extern MouseReadMotion, sub_DFA98, sub_E0520, sub_E193C, sub_E1956, sub_E2335, IntrStubs, SavedStackSegment
+extern sub_C5410, sub_C59E0, sub_CFE8C, sub_DA338, SetScreenTarget, SetClipWindow, SaveVideoState, RestoreVideoState
+extern MouseReadMotion, sub_DFA98, bcopy, sub_E193C, sub_E1956, sub_E2335, IntrStubs, SavedStackSegment
 global __CHK, __GRO, __STK, __int386x_, sub_D09FC_A8, sub_D0B78_A0, __CommonInit_, IsTextModeWidth
 global sub_D06FC, sub_D077C, sub_D0800, sub_D0848, sub_D0918, sub_D0984, sub_D09FC, sub_D0B78
 global sub_D0E90, sub_D0FB8, sub_D1080, sub_D1280, sub_D1368, sub_D142C, IntrLoadSegRegs
@@ -103,13 +103,13 @@ sub_D06FC:
         mov dword [byte eax-04h], edi
         lea eax, [byte esp+08h]
         push eax
-        call sub_E0520
+        call bcopy
         add esp, byte 0Ch
         push edi
         add esi, byte 18h
         push esi
         push dword 0B8000h
-        call sub_E0520
+        call bcopy
         add esp, byte 0Ch
 .1:
         mov eax, ebp
@@ -147,7 +147,7 @@ sub_D077C:
         mov ebp, eax
         add eax, byte 8
         push eax
-        call sub_E0520
+        call bcopy
         add esp, byte 0Ch
         mov eax, esp
         call SaveVideoState
@@ -159,13 +159,13 @@ sub_D077C:
 .1:
         lea eax, [byte esp+010h]
         mov ebx, dword [byte esp+020h]
-        call sub_DF596
+        call RestoreVideoState
         push ebx
         add ebp, byte 8
         push dword 0B8000h
         add edi, ebp
         push edi
-        call sub_E0520
+        call bcopy
         add esp, byte 0Ch
         push esi
         call sub_ABF88

@@ -13,24 +13,24 @@ extern CMainResult, dword_12443C, dword_124440, dword_19F2D0, dword_19F2D4, dwor
 extern exit_, fputc_, getcwd_, joycalactive, joyenablemask, sub_E1836_29, main_, off_14F074
 extern off_14F078, sprintf_, stricmp_, sub_AA9CC, sub_AC838, sub_AD35C, FillRect, sub_ADBEC
 extern sub_AFFD0, SaveTextState, SetDrawTarget, TextSetFont, sub_B2C54, InitMemoryPoolDefault, sub_B3145, sub_B31C0
-extern sub_B7810, sub_B9C08, sub_B9C70, sub_BD86C, sub_BEAE4, initgraphics, sub_C2AEC, sub_C4CCC
+extern sub_B7810, AddVec3, sub_B9C70, sub_BD86C, sub_BEAE4, initgraphics, sub_C2AEC, sub_C4CCC
 extern sub_C4D80, InitFpuFlags, sub_D0650, CMainHook, __CommonInit_, sub_D06FC, sub_D077C, sub_D1080
 extern sub_D1280, sub_D1368, sub_D1860, sub_D1920, sub_D19BC, sub_D1A88, sub_D1B3C, sub_D1BEC
 extern sub_D1CE0, SetScreenTarget, SetClipWindow, sub_DD830, sub_DD87C, sub_DD960, sub_DD982, sub_DDB22
 extern sub_DDC2A, PlotPixel, sub_DE18C, VesaSetBank, sub_DF22C, sub_DF2CC, sub_DF38C, sub_DF44C
-extern sub_DF50C, sub_DFB84, sub_DFB88, sub_DFF28, SetKbdIdleHook, sub_DFF7C, sub_E0158, sub_E0456
-extern sub_E0486, AddExitHandler, sub_E0584, sub_E05DA, vecdist, sub_E1638, sub_E167A, sub_E193C
-extern sub_E1956, RestoreTextMode, sub_E272C, sub_E2824, tolower_, unk_1210DC, unk_1213DC, InitRtnsEntry
+extern sub_DF50C, sub_DFB84, sub_DFB88, KbdGetKey, SetKbdIdleHook, sub_DFF7C, ReadJoystickPorts, sub_E0456
+extern sub_E0486, AddExitHandler, sub_E0584, InstallBreakHandler, vecdist, SetViewScreenOrigin, SetCameraAngles, sub_E193C
+extern sub_E1956, RestoreTextMode, sub_E272C, SinCosLookup, tolower_, unk_1210DC, unk_1213DC, InitRtnsEntry
 extern FiniRtnsEntry, unk_15158C, unk_18584C, vsprintf_, DefaultControlWord
 global __CMain, __FiniRtns, __HeapManager_expand_, __IOMode_, __InitRtns, __SetIOMode_, __doserror_, __fprtf_
 global __set_errno_dos_, __sys_init_387_emulator, _dosret0_, _nexpand_, _nmsize_, file_putc_, int386_, int386x_
 global isatty_, _nexpand__10, __HeapManager_expand__18F, __HeapManager_expand__1EA, sub_C60EC_168, min__10, sub_CA0B0_6C, min_
 global segread_, strnicmp_, sub_C4FA0, sub_C50E0, sub_C5410, sub_C59E0, sub_C5AE2, sub_C5AF0
-global sub_C5B18, sub_C5D00, sub_C5D56, sub_C6000, sub_C6090, sub_C60EC, sub_C626C, sub_C62E0
-global sub_C63DC, sub_C65A0, sub_C65F8, sub_C6FA4, sub_C70A8, sub_C7A54, sub_C7B58, sub_C8504
+global sub_C5B18, PrintBoxedText, sub_C5D56, sub_C6000, sub_C6090, sub_C60EC, sub_C626C, sub_C62E0
+global sub_C63DC, sub_C65A0, sub_C65F8, sub_C6FA4, sub_C70A8, sub_C7A54, sub_C7B58, DrawShapeTriangleMapped
 global sub_C85F0, sub_C8D50, sub_C955C, sub_C972C, sub_C98FC, sub_C9A20, sub_C9A80, sub_C9AD8
-global sub_C9D50, sub_C9D80, sub_C9E68, sub_C9E70, sub_C9F3A, sub_C9F8A, sub_CA0B0, sub_CA288
-global sub_CA584, sub_CA650, unlink_
+global sub_C9D50, sub_C9D80, sub_C9E68, sub_C9E70, sub_C9F3A, Shl64, sub_CA0B0, sub_CA288
+global sub_CA584, FixedSinCos, unlink_
 ;-----------------------------------------------------------------------------
 ; isatty_                                                       C4EA1  library
 ;-----------------------------------------------------------------------------
@@ -970,10 +970,10 @@ sub_C5410:
         call sub_E0456
         add esp, byte 4
 .1:
-        call sub_DFF28
+        call KbdGetKey
         test eax, eax
         jne near .3
-        call sub_E0158
+        call ReadJoystickPorts
         test al, 30h
         jne near .3
         push eax
@@ -1373,7 +1373,7 @@ sub_C5B18:
         call sub_B3145
         call sub_DFB88
         push sub_DFB84
-        call sub_E05DA
+        call InstallBreakHandler
         add esp, byte 4
         push sub_E1836_29
         call SetKbdIdleHook
@@ -1385,11 +1385,11 @@ sub_C5B18:
         push ebx
         push byte 14h
         push byte 1Eh
-        call sub_E167A
+        call SetCameraAngles
         add esp, byte 10h
         push byte 0
         push byte 0
-        call sub_E1638
+        call SetViewScreenOrigin
         add esp, byte 8
         call sub_BEAE4
         call sub_BD86C
@@ -1404,9 +1404,10 @@ sub_C5B18:
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_C5D00                                                            C5D00  
+; PrintBoxedText                                  C5D00  96 PC, low confidence
+; Formats text like printf and draws it on a box at x, y
 ;-----------------------------------------------------------------------------
-sub_C5D00:
+PrintBoxedText:
         sub esp, 204h
         lea eax, [dword esp+0214h]
         lea ebx, [dword esp+0200h]
@@ -5025,9 +5026,11 @@ sub_C7B58:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_C8504                                                            C8504  
+; DrawShapeTriangleMapped                         C8504  96 PC, low confidence
+; Converts a source and a destination triangle to 16.16 fixed point and draws
+; the mapped shape triangle
 ;-----------------------------------------------------------------------------
-sub_C8504:
+DrawShapeTriangleMapped:
         sub esp, byte 30h
         mov edx, dword [byte esp+038h]
         mov eax, dword [byte esp+03Ch]
@@ -6456,7 +6459,7 @@ sub_C972C:
         push eax
         mov dword [byte esp+018h], edx
         mov dword [byte esp+020h], esi
-        call sub_C8504
+        call DrawShapeTriangleMapped
         add esp, byte 0Ch
         mov edx, 1
         mov dword [esp], edi
@@ -6483,7 +6486,7 @@ sub_C972C:
         push eax
         mov esi, dword [byte esp+048h]
         push esi
-        call sub_C8504
+        call DrawShapeTriangleMapped
         add esp, byte 0Ch
         add esp, byte 30h
         pop ebp
@@ -6541,7 +6544,7 @@ sub_C98FC:
         push eax
         mov eax, dword [byte esp+04Ch]
         push eax
-        call sub_C8504
+        call DrawShapeTriangleMapped
         add esp, byte 0Ch
         mov edx, 1
         mov eax, dword [byte esp+030h]
@@ -6575,7 +6578,7 @@ sub_C98FC:
         push eax
         mov esi, dword [byte esp+04Ch]
         push esi
-        call sub_C8504
+        call DrawShapeTriangleMapped
         add esp, byte 0Ch
         add esp, byte 34h
         pop ebp
@@ -7164,9 +7167,10 @@ sub_C9F3A:
         pop edx
         ret 8
 ;-----------------------------------------------------------------------------
-; sub_C9F8A                                                            C9F8A  
+; Shl64                                           C9F8A  96 PC, low confidence
+; Shifts a 64-bit value left
 ;-----------------------------------------------------------------------------
-sub_C9F8A:
+Shl64:
         push ecx
         LD mov, ecx, edx
         cmp ecx, byte 20h
@@ -7590,7 +7594,7 @@ sub_CA288:
         push eax
         add esi, byte 4
         add ebp, byte 0Ch
-        call sub_B9C08
+        call AddVec3
         add esp, byte 0Ch
         jmp short .3
 .4:
@@ -7620,7 +7624,7 @@ sub_CA288:
         push eax
         add esi, byte 4
         add ebp, byte 0Ch
-        call sub_B9C08
+        call AddVec3
         add esp, byte 0Ch
         jmp short .4
 .5:
@@ -7713,7 +7717,7 @@ sub_CA288:
         push eax
         mov dword [byte esp+01Ch], edx
         add esi, byte 0Ch
-        call sub_B9C08
+        call AddVec3
         add esp, byte 0Ch
         jmp short .9
 .10:
@@ -7742,7 +7746,7 @@ sub_CA288:
         add edi, ecx
         push edi
         add esi, byte 0Ch
-        call sub_B9C08
+        call AddVec3
         add esp, byte 0Ch
         jmp short .10
         db 00h,00h,00h,00h
@@ -7755,7 +7759,7 @@ sub_CA288:
         push eax
         mov edx, dword [byte esp+01Ch]
         push edx
-        call sub_E2824
+        call SinCosLookup
         mov dword [esi], 10000h
         mov dword [byte esi+04h], 0
         mov dword [byte esi+08h], 0
@@ -7788,7 +7792,7 @@ sub_CA584:
         push eax
         mov edx, dword [byte esp+01Ch]
         push edx
-        call sub_E2824
+        call SinCosLookup
         add esp, byte 0Ch
         mov eax, dword [byte esp+04h]
         mov dword [byte esi+04h], 0
@@ -7817,7 +7821,7 @@ sub_CA584:
         push eax
         mov edx, dword [byte esp+01Ch]
         push edx
-        call sub_E2824
+        call SinCosLookup
         add esp, byte 0Ch
         mov eax, dword [byte esp+04h]
         mov dword [esi], eax
@@ -7839,9 +7843,10 @@ sub_CA584:
         ret
         db 00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_CA650                                                            CA650  
+; FixedSinCos                                     CA650  96 PC, low confidence
+; Graphics library: sine and cosine of a fixed-point angle from the table
 ;-----------------------------------------------------------------------------
-sub_CA650:
+FixedSinCos:
         sub esp, byte 8
         mov eax, esp
         push eax
@@ -7850,7 +7855,7 @@ sub_CA650:
         mov eax, dword [byte esp+014h]
         sar eax, 6
         push eax
-        call sub_E2824
+        call SinCosLookup
         add esp, byte 0Ch
         mov edx, dword [byte esp+0Ch]
         and edx, byte 3Fh

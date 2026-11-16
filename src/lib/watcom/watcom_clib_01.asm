@@ -5,7 +5,7 @@ section s_A9CB3 progbits alloc exec nowrite align=1
 extern __ExpandDGROUP_, __MemAllocator, __MemFree, __allocfp_, __chktty_, __close_, __fill_buffer_, __flush_
 extern __freefp_, __ioalloc_, __qread_, __set_errno_, __nheap_clean, HeapList, HeapRover, HeapLargestFree
 extern _fmode, __OpenStreams, __ClosedStreams, lseek_, sopen_, strncmp_, strncpy_, UnlinkJump
-extern GetPsp, McgaNoWindow, sub_E0520, tell_, tolower_
+extern GetPsp, McgaNoWindow, bcopy, tell_, tolower_
 global __MkTmpFile_, __doclose_, __doopen_, __hex_, __open_flags_, __shutdown_stream_, __update_buffer_, _fsopen_
 global _nfree_, _nmalloc_, _os_handle, _os_handle_0, _os_handle_1, close_file_, fclose_, fopen_
 global fread_, freopen_, fseek_, ftell_, strcat_, strcpy_, sub_AA500, sub_AA564
@@ -1054,7 +1054,7 @@ _os_handle_1:
         push ebx
         mov ecx, dword [byte esp+010h]
         push ecx
-        call sub_E0520
+        call bcopy
         add esp, byte 0Ch
         ret
 ;-----------------------------------------------------------------------------

@@ -14,8 +14,8 @@ extern CopyBitmap, InitGraphicsFix, SetScreenMode, SetMenuMoveSfx, SetMenuSelect
 extern TestCdSpeed, ShutdownSound, WriteGlobalSet, RunExhibitionMenus, RunControlSetup, LoadLangText, FreeLangText, GetLangText
 extern RunSeasonMenus, RunStatsMenu, RunModemGameSetup, RunPlayoffMenus, sub_AB758, FreeMemBlock, sub_AC868, sub_ADA50
 extern sub_AFCD0, sub_AFFD0, sub_B3100, sub_B3145, sub_B3160, sub_B31C0, sub_B3420, SetScreenTarget
-extern sub_DD800, sub_DD830, sub_DD87C, sub_DFA98, sub_DFB88, sub_DFF28, AddExitHandler, sub_E04E0
-extern sub_E0520, sub_E05DA, TextSetFont, unk_110351, unk_110355, unk_11041A, unk_11048D, DataDirPath
+extern sub_DD800, sub_DD830, sub_DD87C, sub_DFA98, sub_DFB88, KbdGetKey, AddExitHandler, sub_E04E0
+extern bcopy, InstallBreakHandler, TextSetFont, unk_110351, unk_110355, unk_11041A, unk_11048D, DataDirPath
 extern unk_1210DC, unk_1213DC, unk_152C44, unk_18584C
 global jpt_1B046, LoadTeamLogo, LoadTeamLogo_3B, LoadTeamLogo_45, LoadTeamLogo_4F, LoadTeamLogo_59, LoadTeamLogo_63, LoadTeamLogo_6D
 global LoadTeamLogo_ret, RunFrontEnd, ReturnTrue, CheckFreeMemory, CheckGameDirs, InitHardware, StartUp, ShutDown
@@ -99,7 +99,7 @@ LoadTeamLogo_6D:
         push dword [dword_152F44]
         push eax
         mov esi, eax
-        call sub_E0520
+        call bcopy
         mov eax, dword [dword_152F44]
         add esp, byte 0Ch
         add eax, byte 10h
@@ -258,7 +258,7 @@ CheckFreeMemory:
         call printf_
         add esp, byte 4
 .1:
-        call sub_DFF28
+        call KbdGetKey
         cmp eax, byte 1Bh
         jne short .1
         jmp short .4
@@ -282,7 +282,7 @@ CheckFreeMemory:
         call printf_
         add esp, byte 4
 .3:
-        call sub_DFF28
+        call KbdGetKey
         cmp eax, byte 1Bh
         jne short .3
 .4:
@@ -345,7 +345,7 @@ CheckGameDirs:
         call printf_
         add esp, byte 4
 .5:
-        call sub_DFF28
+        call KbdGetKey
         cmp eax, byte 1Bh
         jne short .5
         jmp near ShutDown_51
@@ -406,7 +406,7 @@ InitHardware:
         call sub_B3145
         call sub_DFB88
         push ReturnTrue
-        call sub_E05DA
+        call InstallBreakHandler
         add esp, byte 4
         call sub_B3160
         call InitGraphicsFix
@@ -497,7 +497,7 @@ StartUp:
         call printf_
         add esp, byte 4
 .1:
-        call sub_DFF28
+        call KbdGetKey
         cmp eax, byte 1Bh
         jne short .1
         call dword [dword_11F994]
@@ -522,7 +522,7 @@ StartUp:
         call printf_
         add esp, byte 4
 .3:
-        call sub_DFF28
+        call KbdGetKey
         cmp eax, byte 1Bh
         jne short .3
         call dword [dword_11F994]

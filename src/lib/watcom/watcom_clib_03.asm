@@ -7,17 +7,17 @@ extern asc_1135E8, str_Inversetmp, QuantizeTable, dword_1219A4, _fmode, dword_12
 extern InvTabGStep, InvTabBStep, InvTabRMin, InvTabOut, InvTabDistBuf, InvTabGMin, InvTabGCenter, InvTabBCenter
 extern InvTabCell, InvTabRCenter, InvTabR, InvTabG, InvTabB, InvTabColor, InvTabRMax, InvTabGMax
 extern InvTabBMin, InvTabBMax, InvTabRow, InvTabPass, InvTabGLo, InvTabGHi, InvTabBLo, InvTabBHi
-extern InvTabGInc, InvTabBInc, InvTabDistInc, InvTabDistStart, dword_18582C, dword_185830, dword_185834, dword_185838
-extern isatty_, off_11FD58, off_11FD5C, off_11FD60, sub_AB798, FreeMemBlock, sub_B2158, DosGetVector
+extern InvTabGInc, InvTabBInc, InvTabDistInc, InvTabDistStart, InvTabFillPtr, InvTabFillCount, InvTabFillStep, InvTabFillDist
+extern isatty_, SerialPortTable, off_11FD5C, off_11FD60, sub_AB798, FreeMemBlock, LoadDataFileExt, DosGetVector
 extern DosSetVector, sub_C4DE0, sub_DD87C, AddExitHandler, sub_E0686, DosCloseFile, unk_11FD54, unk_11FD6A
 extern unk_11FD74, unk_1201B6, unk_1201C0, unk_120602, unk_12060C, unk_120A4E, unk_120A58, word_11FD68
 extern word_120E9A, word_120EC0
 global __set_binary_, _dos_getdate_, _dos_gettime_, byteswap_, LoadResourceData_8, sub_B049E_D, sub_B12AF_75, SerialWrite_5
 global sub_B147A_1A, sub_B153D_9, sub_B153D_12, sub_B153D_1B, sub_B153D_85, unk_B15DE_10, med3__4F, lseek_
 global med3_, open_, qsort_, rand_, read_, sopen_, srand_, strlen_
-global strncmp_, strstr_, GetRandState, sub_B0430, LoadResourceBlockShared, LoadResourceData, LoadResourceDataShared, sub_B049E
+global strncmp_, strstr_, GetRandState, DosFileInfo, LoadResourceBlockShared, LoadResourceData, LoadResourceDataShared, sub_B049E
 global InverseTableSlice, InverseTablePass, InverseTableScan, InverseTableFill, sub_B0CA8, sub_B0CCC, sub_B0D98, sub_B0E68
-global sub_B0F7C, sub_B103C, sub_B1121, SerialClose, SerialCloseAll, sub_B1255, SerialRaiseDtr, sub_B1294
+global sub_B0F7C, SerialConfigure, sub_B1121, SerialClose, SerialCloseAll, SerialSetBaud, SerialRaiseDtr, sub_B1294
 global sub_B12AF, SerialWrite, sub_B13BB, SerialFlushTx, SerialWaitTxEmpty, sub_B1451, sub_B147A, sub_B151E
 global sub_B153D, sub_B178B, sub_B1830, sub_B1C0E, OpenArtArchiveErr, OpenArtArchive, LoadDataFileErr, LoadFileAllocQuiet
 global unk_B15DE
@@ -60,9 +60,10 @@ srand_:
         ret
         db 00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_B0430                                                            B0430  
+; DosFileInfo                                     B0430  96 PC, low confidence
+; Opens a file to learn whether it exists and its size, then closes it
 ;-----------------------------------------------------------------------------
-sub_B0430:
+DosFileInfo:
         sub esp, byte 0Ch
         mov eax, esp
         push eax
@@ -627,22 +628,22 @@ InverseTableFill:
         test eax, eax
         je short .1
         mov eax, dword [InvTabRMax]
-        mov dword [dword_185838], eax
+        mov dword [InvTabFillDist], eax
         mov eax, dword [InvTabOut]
         dec eax
         xor ebx, ebx
-        mov dword [dword_185830], eax
+        mov dword [InvTabFillCount], eax
         mov eax, dword [InvTabG]
-        mov dword [dword_185834], ebx
-        mov dword [dword_18582C], eax
+        mov dword [InvTabFillStep], ebx
+        mov dword [InvTabFillPtr], eax
 .1:
-        mov ebx, dword [dword_185838]
+        mov ebx, dword [InvTabFillDist]
         mov eax, dword [InvTabRow]
-        mov esi, dword [dword_18582C]
+        mov esi, dword [InvTabFillPtr]
         xor ecx, ecx
         mov edx, dword [InvTabGMin]
         mov dword [esp], ecx
-        mov ecx, dword [dword_185830]
+        mov ecx, dword [InvTabFillCount]
         mov edi, dword [InvTabBCenter]
         mov dword [byte esp+0Ch], ecx
         cmp ebx, ecx
@@ -650,13 +651,13 @@ InverseTableFill:
 .2:
         cmp eax, dword [edx]
         jae short .4
-        cmp ebx, dword [dword_185838]
+        cmp ebx, dword [InvTabFillDist]
         jle short .3
-        mov dword [dword_185838], ebx
+        mov dword [InvTabFillDist], ebx
         mov dword [InvTabGMin], edx
         mov dword [InvTabBCenter], edi
         mov dword [InvTabRow], eax
-        mov dword [dword_18582C], esi
+        mov dword [InvTabFillPtr], esi
 .3:
         mov dword [esp], 1
         jmp short .6
@@ -686,9 +687,9 @@ InverseTableFill:
         jle short .5
 .7:
         mov ecx, dword [esp]
-        mov eax, dword [dword_185834]
-        mov esi, dword [dword_185838]
-        mov ebx, dword [dword_18582C]
+        mov eax, dword [InvTabFillStep]
+        mov esi, dword [InvTabFillDist]
+        mov ebx, dword [InvTabFillPtr]
         mov edx, dword [InvTabRow]
         mov edi, dword [InvTabBCenter]
         mov dword [byte esp+08h], eax
@@ -705,11 +706,11 @@ InverseTableFill:
         cmp edx, dword [eax]
         jae short .9
         mov ecx, 1
-        mov dword [dword_185838], esi
+        mov dword [InvTabFillDist], esi
         mov dword [InvTabGMin], eax
         mov dword [InvTabBCenter], edi
         mov dword [InvTabRow], edx
-        mov dword [dword_18582C], ebx
+        mov dword [InvTabFillPtr], ebx
         mov dword [esp], ecx
         jmp short .12
 .9:
@@ -1165,13 +1166,14 @@ _dos_gettime_:
         ret
         db 00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_B103C                                                            B103C  
+; SerialConfigure                                 B103C  96 PC, low confidence
+; Serial port: sets the port's address, interrupt and buffers
 ;-----------------------------------------------------------------------------
-sub_B103C:
+SerialConfigure:
         push ebp
         LD mov, ebp, esp
         mov ebx, dword [byte ebp+08h]
-        mov ebx, dword [nosplit ebx*4+off_11FD58]
+        mov ebx, dword [nosplit ebx*4+SerialPortTable]
         mov eax, dword [byte ebp+0Ch]
         mov byte [ebx], al
         mov eax, dword [byte ebp+010h]
@@ -1233,7 +1235,7 @@ sub_B103C:
         push ebp
         LD mov, ebp, esp
         mov eax, dword [byte ebp+08h]
-        mov ebx, dword [nosplit eax*4+off_11FD58]
+        mov ebx, dword [nosplit eax*4+SerialPortTable]
         mov dx, word [byte ebx+08h]
         or dx, byte 2
         mov al, 87h
@@ -1248,7 +1250,7 @@ sub_B103C:
         push ebp
         LD mov, ebp, esp
         mov eax, dword [byte ebp+08h]
-        mov ebx, dword [nosplit eax*4+off_11FD58]
+        mov ebx, dword [nosplit eax*4+SerialPortTable]
         mov eax, dword [byte ebx+044h]
         leave
         ret
@@ -1263,7 +1265,7 @@ sub_B1121:
         mov ax, ds
         mov word [word_11FD68], ax
         mov eax, dword [byte ebp+08h]
-        mov ebx, dword [nosplit eax*4+off_11FD58]
+        mov ebx, dword [nosplit eax*4+SerialPortTable]
         mov dword [byte ebp-04h], ebx
         LD xor, eax, eax
         mov al, byte [byte ebx+03h]
@@ -1275,7 +1277,7 @@ sub_B1121:
         mov al, byte [ebx]
         push eax
         push dword [byte ebp+08h]
-        call sub_B103C
+        call SerialConfigure
         add esp, byte 14h
         mov ebx, dword [byte ebp-04h]
         mov eax, dword [byte ebx+010h]
@@ -1339,7 +1341,7 @@ SerialClose:
         push ebp
         LD mov, ebp, esp
         mov eax, dword [byte ebp+08h]
-        mov ebx, dword [nosplit eax*4+off_11FD58]
+        mov ebx, dword [nosplit eax*4+SerialPortTable]
         mov eax, dword [byte ebx+010h]
         LD or, eax, eax
         je short .1
@@ -1354,7 +1356,7 @@ SerialClose:
         LD mov, ebx, ecx
         call DosSetVector
         mov eax, dword [byte ebp+08h]
-        mov ebx, dword [nosplit eax*4+off_11FD58]
+        mov ebx, dword [nosplit eax*4+SerialPortTable]
         push dword [byte ebx+018h]
         add esp, byte 4
 .1:
@@ -1374,13 +1376,14 @@ SerialCloseAll:
         popa
         ret
 ;-----------------------------------------------------------------------------
-; sub_B1255                                                            B1255  
+; SerialSetBaud                                   B1255  96 PC, low confidence
+; Serial port: sets the baud rate
 ;-----------------------------------------------------------------------------
-sub_B1255:
+SerialSetBaud:
         push ebp
         LD mov, ebp, esp
         mov eax, dword [byte ebp+08h]
-        mov ebx, dword [nosplit eax*4+off_11FD58]
+        mov ebx, dword [nosplit eax*4+SerialPortTable]
         mov eax, dword [byte ebp+0Ch]
         mov word [byte ebx+06h], ax
         mov edx, 7
@@ -1399,7 +1402,7 @@ SerialRaiseDtr:
         push ebp
         LD mov, ebp, esp
         mov eax, dword [byte ebp+08h]
-        mov ebx, dword [nosplit eax*4+off_11FD58]
+        mov ebx, dword [nosplit eax*4+SerialPortTable]
         mov dx, word [byte ebx+08h]
         or dx, byte 4
         in al, dx
@@ -1414,7 +1417,7 @@ sub_B1294:
         push ebp
         LD mov, ebp, esp
         mov eax, dword [byte ebp+08h]
-        mov ebx, dword [nosplit eax*4+off_11FD58]
+        mov ebx, dword [nosplit eax*4+SerialPortTable]
         mov dx, word [byte ebx+08h]
         or dx, byte 4
         in al, dx
@@ -1429,7 +1432,7 @@ sub_B12AF:
         push ebp
         LD mov, ebp, esp
         mov eax, dword [byte ebp+08h]
-        mov ebx, dword [nosplit eax*4+off_11FD58]
+        mov ebx, dword [nosplit eax*4+SerialPortTable]
         mov dx, word [byte ebx+08h]
         or dx, byte 6
         LD xor, eax, eax
@@ -1448,7 +1451,7 @@ sub_B12AF:
         LD mov, esi, eax
 .1:
         mov eax, dword [byte ebp+08h]
-        mov ebx, dword [nosplit eax*4+off_11FD58]
+        mov ebx, dword [nosplit eax*4+SerialPortTable]
         mov eax, 200h
         sub eax, dword [byte ebx+028h]
         cmp eax, dword [byte ebp+0Ch]
@@ -1468,7 +1471,7 @@ sub_B12AF:
         push esi
         push edi
         mov eax, dword [byte ebp+08h]
-        mov ebx, dword [nosplit eax*4+off_11FD58]
+        mov ebx, dword [nosplit eax*4+SerialPortTable]
         mov eax, 200h
         sub eax, dword [byte ebx+028h]
         cmp eax, dword [byte ebp+0Ch]
@@ -1490,7 +1493,7 @@ SerialWrite:
         push edi
 SerialWrite_5:
         mov eax, dword [byte ebp+08h]
-        mov ebx, dword [nosplit eax*4+off_11FD58]
+        mov ebx, dword [nosplit eax*4+SerialPortTable]
         pushf
         mov ecx, dword [byte ebp+0Ch]
         LD or, ecx, ecx
@@ -1552,7 +1555,7 @@ SerialWrite_5:
         push ebp
         LD mov, ebp, esp
         mov eax, dword [byte ebp+08h]
-        mov ebx, dword [nosplit eax*4+off_11FD58]
+        mov ebx, dword [nosplit eax*4+SerialPortTable]
         mov eax, dword [byte ebx+028h]
         leave
         ret
@@ -1563,7 +1566,7 @@ sub_B13BB:
         push ebp
         LD mov, ebp, esp
         mov eax, dword [byte ebp+08h]
-        mov ebx, dword [nosplit eax*4+off_11FD58]
+        mov ebx, dword [nosplit eax*4+SerialPortTable]
         mov eax, 200h
         sub eax, dword [byte ebx+028h]
         leave
@@ -1576,7 +1579,7 @@ SerialFlushTx:
         push ebp
         LD mov, ebp, esp
         mov eax, dword [byte ebp+08h]
-        mov ebx, dword [nosplit eax*4+off_11FD58]
+        mov ebx, dword [nosplit eax*4+SerialPortTable]
         pushf
         cli
         mov eax, dword [byte ebx+020h]
@@ -1598,7 +1601,7 @@ SerialWaitTxEmpty:
         call GetTicks
         LD mov, esi, eax
         mov eax, dword [byte ebp+08h]
-        mov ebx, dword [nosplit eax*4+off_11FD58]
+        mov ebx, dword [nosplit eax*4+SerialPortTable]
         mov dword [byte ebp-04h], ebx
 .1:
         mov ebx, dword [byte ebp-04h]
@@ -1621,7 +1624,7 @@ SerialWaitTxEmpty:
         push edi
         push esi
         mov eax, dword [byte ebp+08h]
-        mov ebx, dword [nosplit eax*4+off_11FD58]
+        mov ebx, dword [nosplit eax*4+SerialPortTable]
         mov ecx, dword [byte ebp+0Ch]
         cmp ecx, dword [byte ebx+03Ch]
         jle short sub_B147A_1A
@@ -1640,7 +1643,7 @@ sub_B1451:
         push edi
         push esi
         mov eax, dword [byte ebp+08h]
-        mov ebx, dword [nosplit eax*4+off_11FD58]
+        mov ebx, dword [nosplit eax*4+SerialPortTable]
         mov ecx, dword [byte ebx+03Ch]
         LD or, ecx, ecx
         jne short .1
@@ -1664,7 +1667,7 @@ sub_B147A:
         push edi
         push esi
         mov eax, dword [byte ebp+08h]
-        mov ebx, dword [nosplit eax*4+off_11FD58]
+        mov ebx, dword [nosplit eax*4+SerialPortTable]
         mov ecx, dword [byte ebp+0Ch]
 .1:
         cmp ecx, dword [byte ebx+03Ch]
@@ -1712,7 +1715,7 @@ sub_B147A_1A:
         push edi
         push esi
         mov eax, dword [byte ebp+08h]
-        mov ebx, dword [nosplit eax*4+off_11FD58]
+        mov ebx, dword [nosplit eax*4+SerialPortTable]
         mov eax, dword [byte ebx+03Ch]
         LD or, eax, eax
         je short .9
@@ -1751,7 +1754,7 @@ sub_B151E:
         push ebp
         LD mov, ebp, esp
         mov eax, dword [byte ebp+08h]
-        mov ebx, dword [nosplit eax*4+off_11FD58]
+        mov ebx, dword [nosplit eax*4+SerialPortTable]
         pushf
         cli
         mov eax, dword [byte ebx+034h]
@@ -1798,7 +1801,7 @@ sub_B153D_1B:
         je short sub_B153D_85.2
         jmp short unk_B15DE_10
         db 01Fh,05Fh,05Eh,05Ah,059h,058h,03Bh,01Dh
-        dd off_11FD58
+        dd SerialPortTable
         db 075h,08h,05Bh,0EAh
         dd unk_11FD74 wrt ..gotoff
         db 00h,00h,03Bh,01Dh
@@ -3079,7 +3082,7 @@ OpenArtArchiveErr:
         push edx
         mov ebx, dword [byte esp+0Ch]
         push ebx
-        call sub_B2158
+        call LoadDataFileExt
         add esp, byte 0Ch
         test eax, eax
         je short .1
@@ -3097,7 +3100,7 @@ OpenArtArchive:
         push edx
         mov ebx, dword [byte esp+0Ch]
         push ebx
-        call sub_B2158
+        call LoadDataFileExt
         add esp, byte 0Ch
         test eax, eax
         je short .1
@@ -3111,7 +3114,7 @@ OpenArtArchive:
         push ebx
         mov ecx, dword [byte esp+0Ch]
         push ecx
-        call sub_B2158
+        call LoadDataFileExt
         add esp, byte 0Ch
         test eax, eax
         je short .2
@@ -3129,7 +3132,7 @@ LoadDataFileErr:
         push edx
         mov ebx, dword [byte esp+0Ch]
         push ebx
-        call sub_B2158
+        call LoadDataFileExt
         add esp, byte 0Ch
         ret
         db 08Dh,040h,00h
@@ -3143,7 +3146,7 @@ LoadFileAllocQuiet:
         push edx
         mov ebx, dword [byte esp+0Ch]
         push ebx
-        call sub_B2158
+        call LoadDataFileExt
         add esp, byte 0Ch
         ret
         db 08Dh,040h,00h

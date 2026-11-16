@@ -7,7 +7,7 @@ extern str_CreatewindowblockBADBLOC, str_CreatewindowblockOUTOFRO, byte_11FA4F, 
 extern dword_11F9DC, dword_185740, dword_185744, dword_185748, dword_18574C, dword_185750, dword_185754, dword_185758
 extern dword_18575C, fputs_, sprintf_, sub_AB718, sub_AC838, sub_ACAD0, sub_C3C37, FillRowTable
 extern sub_E1836, sub_E1970, vsprintf_
-global sub_ACED8, sub_ACF68, sub_AD00C, sub_AD090, sub_AD2B4, sub_AD35C, sub_AD420, sub_AD5C8
+global sub_ACED8, sub_ACF68, sub_AD00C, sub_AD090, sub_AD2B4, sub_AD35C, TintRowPixels, TintRows
 global sub_AD620
 ;-----------------------------------------------------------------------------
 ; sub_ACED8                                                            ACED8  
@@ -586,9 +586,10 @@ sub_AD35C:
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_AD420                                                            AD420  
+; TintRowPixels                                   AD420  96 PC, low confidence
+; Tints one row of pixels by the current colour multipliers
 ;-----------------------------------------------------------------------------
-sub_AD420:
+TintRowPixels:
         push ebx
         push ecx
         push esi
@@ -729,9 +730,10 @@ sub_AD420:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_AD5C8                                                            AD5C8  
+; TintRows                                        AD5C8  96 PC, low confidence
+; Tints each row of a rectangle
 ;-----------------------------------------------------------------------------
-sub_AD5C8:
+TintRows:
         push esi
         push edi
         mov esi, dword [byte esp+018h]
@@ -751,7 +753,7 @@ sub_AD5C8:
         je short .2
         mov edx, esi
         mov eax, ebx
-        call sub_AD420
+        call TintRowPixels
         mov byte [ecx], al
 .2:
         inc ebx
@@ -775,7 +777,7 @@ sub_AD620:
         push eax
         push eax
         push eax
-        call sub_AD5C8
+        call TintRows
         add esp, byte 14h
         ret
         db 08Bh,0C0h

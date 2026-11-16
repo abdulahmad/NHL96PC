@@ -3,11 +3,12 @@ bits 32
 %include "hockey.inc"
 section s_B2158 progbits alloc exec nowrite align=1
 extern sub_AB834, FindCachedFile, sub_E0671, DosCloseFile, sub_E07CC
-global sub_B2158
+global LoadDataFileExt
 ;-----------------------------------------------------------------------------
-; sub_B2158                                                            B2158  
+; LoadDataFileExt                              B2158  96 PC, medium confidence
+; Loads a data file, trying its extension
 ;-----------------------------------------------------------------------------
-sub_B2158:
+LoadDataFileExt:
         push esi
         push edi
         sub esp, byte 0Ch

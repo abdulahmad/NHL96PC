@@ -5,12 +5,12 @@ section s_E0898 progbits alloc exec nowrite align=1
 extern str_Punct_DrawRinkSurface, dword_1222C8, dword_1222CC, dword_1222D0, dword_1222D4, dword_1222D8, dword_1222DC, ClipTopRow
 extern ClipLeftCol, ClipRight, ScreenHeight, dword_123A94, dword_123A98, dword_123A9C, dword_123AA0, dword_123AA4
 extern dword_123AA8, dword_123AAC, dword_123AB0, dword_123AB4, dword_123AB8, dword_123ABC, ShadowFillFunc, TitleBandFunc
-extern min__10, sub_CA0B0_6C, sub_C3E38, FillRectColor, sub_E19F0, sub_E19FE, AngleFromDelta, SinLookup
+extern min__10, sub_CA0B0_6C, FillRectSpans, FillRectColor, sub_E19F0, SetupRectFill, AngleFromDelta, SinLookup
 extern CosLookup
 global FillBandRowsJumpTable, FillBandRowsBlendJumpTable, FillBandRowsPlainJumpTable, sub_E0959_F, sub_E0992_F, sub_E0992_26, jpt_E0C7A_38, jpt_E0DBA_3B
-global jpt_E0F93_22F, sub_E15D7_B, sub_E167A_2D, sub_E0898, sub_E0959, sub_E0992, FillBandEdges, FillBandRows
-global FillBandRowsBlend, vecdist, sub_E1530, sub_E1575, sub_E15AC, sub_E15D7, sub_E162A, sub_E1638
-global sub_E167A, sub_E17B8
+global jpt_E0F93_22F, sub_E15D7_B, SetCameraAngles_2D, sub_E0898, sub_E0959, sub_E0992, FillBandEdges, FillBandRows
+global FillBandRowsBlend, vecdist, sub_E1530, sub_E1575, sub_E15AC, sub_E15D7, sub_E162A, SetViewScreenOrigin
+global SetCameraAngles, TransposeMatrix
 ;-----------------------------------------------------------------------------
 ; sub_E0898                                                            E0898  
 ;-----------------------------------------------------------------------------
@@ -231,7 +231,7 @@ sub_E0992_26:
         push ecx
         cmp byte [byte ebp-012h], 0
         je short .13
-        call sub_E19FE
+        call SetupRectFill
         mov dword [byte ebp-028h], edi
         call FillBandEdges
         jmp short .14
@@ -264,7 +264,7 @@ sub_E0992_26:
         push ecx
         cmp byte [byte ebp-012h], 0
         je short .18
-        call sub_E19FE
+        call SetupRectFill
         jmp short .19
 .18:
         call sub_E19F0
@@ -1064,7 +1064,7 @@ jpt_E0F93_22F:
         mov byte [byte ebp-011h], 1
         mov eax, min__10
         mov dword [ShadowFillFunc], eax
-        mov eax, sub_C3E38
+        mov eax, FillRectSpans
         mov dword [TitleBandFunc], eax
         jmp short .51
         push ebp
@@ -1075,7 +1075,7 @@ jpt_E0F93_22F:
         mov byte [byte ebp-011h], 0
         mov eax, min__10
         mov dword [ShadowFillFunc], eax
-        mov eax, sub_C3E38
+        mov eax, FillRectSpans
         mov dword [TitleBandFunc], eax
 .51:
         lea esi, [byte ebp+010h]
@@ -1481,9 +1481,11 @@ sub_E162A:
         ret
         db 00h
 ;-----------------------------------------------------------------------------
-; sub_E1638                                                            E1638  
+; SetViewScreenOrigin                             E1638  96 PC, low confidence
+; Sets the view's screen origin and works out its far corner from the view
+; size
 ;-----------------------------------------------------------------------------
-sub_E1638:
+SetViewScreenOrigin:
         push ebp
         LD mov, ebp, esp
         mov eax, dword [byte ebp+08h]
@@ -1504,11 +1506,13 @@ sub_E1638:
         mov dword [dword_123AB4], eax
         mov eax, dword [byte ebp+0Ch]
         mov dword [dword_123AB8], eax
-        jmp short sub_E167A_2D
+        jmp short SetCameraAngles_2D
 ;-----------------------------------------------------------------------------
-; sub_E167A                                                            E167A  
+; SetCameraAngles                                 E167A  96 PC, low confidence
+; Converts the camera angles from degrees to 1024ths of a turn and builds the
+; camera rotation
 ;-----------------------------------------------------------------------------
-sub_E167A:
+SetCameraAngles:
         push ebp
         LD mov, ebp, esp
         push esi
@@ -1525,7 +1529,7 @@ sub_E167A:
         mov ecx, 168h
         div ecx
         mov dword [dword_123AB8], eax
-sub_E167A_2D:
+SetCameraAngles_2D:
         mov eax, dword [byte ebp+010h]
         shr eax, 1
         mov dword [dword_123A94], eax
@@ -1608,9 +1612,10 @@ sub_E167A_2D:
         ret
         db 00h
 ;-----------------------------------------------------------------------------
-; sub_E17B8                                                            E17B8  
+; TransposeMatrix                                 E17B8  96 PC, low confidence
+; Transposes a 3x3 matrix, in place or into another matrix
 ;-----------------------------------------------------------------------------
-sub_E17B8:
+TransposeMatrix:
         push ebp
         LD mov, ebp, esp
         push esi

@@ -17,11 +17,11 @@ extern dword_1513B8, dword_1513BC, dword_1513C0, dword_1513C4, dword_1513C8, dwo
 extern dword_185690, dword_185738, dword_18573C, dword_185848, dword_1A11BC, dword_1A11C0, dword_1A11C4, dword_1A11C8
 extern dword_1A11CC, dword_1A11D0, dword_1A11D4, dword_1A11D8, dword_1A11DC, dword_1A11E0, fclose_, fopen_
 extern fprintf_, min_, off_1513B0, sprintf_, strncpy_, PutBlock, sub_AADA4, sub_ABF88
-extern sub_AC194, sub_AC574, sub_AC6D4, sub_ACA3C, sub_ACCF8, sub_ACD24, sub_ACD38, FillRect
+extern sub_AC194, CompactDownLocked, CompactUpLocked, DebugSetLine, sub_ACCF8, sub_ACD24, sub_ACD38, FillRect
 extern sub_ADA80, sub_AFFD0, SaveTextState, SetDrawTarget, TextSetFont, sub_B31C0, sub_BF02C, sub_BF034
-extern sub_BF04B, initgraphics, sub_C2AEC, sub_C5D00, sub_C6000, sub_CFE0C, sub_CFE8C, sub_D0650
+extern sub_BF04B, initgraphics, sub_C2AEC, PrintBoxedText, sub_C6000, sub_CFE0C, sub_CFE8C, sub_D0650
 extern sub_D1368, sub_DC158, sub_DC17C, sub_DC780, sub_DC830, sub_DCB90, SetScreenTarget, GetPaletteRange
-extern FillRectColor, SetClipWindow, sub_DD7B8, sub_DFF28, sub_DFF7C, sub_E04E0, sub_E0584, sub_E1927
+extern FillRectColor, SetClipWindow, sub_DD7B8, KbdGetKey, sub_DFF7C, sub_E04E0, sub_E0584, PollHotkeys
 extern sub_E193C, sub_E1956, sub_E1970, unk_114440, unk_11444C, unk_114570, unk_114594, unk_11466C
 extern unk_114670, unk_1146A0, unk_1146A4, unk_1146CC, str_Un, unk_114930, unk_1213DC
 global sub_D7DB0_30, sub_D7DB0_147, sub_D7DB0_238, sub_D7FFC_2D, sub_D7FFC_4A, sub_D7DB0, sub_D7FFC, sub_D83B8
@@ -35,7 +35,7 @@ sub_D7DB0:
         push ebx
         push ecx
         push edx
-        call sub_E1927
+        call PollHotkeys
         push eax
         call sub_C6000
         add esp, byte 4
@@ -168,7 +168,7 @@ sub_D7DB0_147:
         jge short .7
         mov dword [dword esp+0C4h], eax
 .7:
-        call sub_E1927
+        call PollHotkeys
         push eax
         call sub_C6000
         add esp, byte 4
@@ -318,11 +318,11 @@ sub_D7FFC_4A:
 .13:
         cmp edi, byte 3Eh
         jne short .14
-        call sub_AC574
+        call CompactDownLocked
 .14:
         cmp edi, byte 3Ch
         jne short .15
-        call sub_AC6D4
+        call CompactUpLocked
 .15:
         cmp edi, byte 4Dh
         jne short .16
@@ -749,27 +749,27 @@ sub_D84AC:
         push asc_114444
         push byte 0
         push byte 0
-        call sub_ACA3C
+        call DebugSetLine
         add esp, byte 10h
         lea eax, [dword ebp-082h]
         push eax
         push asc_114444
         push byte 1
         push byte 0
-        call sub_ACA3C
+        call DebugSetLine
         add esp, byte 10h
         lea eax, [dword ebp-0D6h]
         push eax
         push asc_114444
         push byte 2
         push byte 0
-        call sub_ACA3C
+        call DebugSetLine
         add esp, byte 10h
         push unk_11444C
         push asc_114444
         push byte 3
         push byte 0
-        call sub_ACA3C
+        call DebugSetLine
         add esp, byte 10h
         jmp short .7
 .6:
@@ -916,7 +916,7 @@ sub_D84AC:
         add eax, byte 4
         push eax
         push byte 0
-        call sub_ACA3C
+        call DebugSetLine
         add esp, byte 10h
         jmp short .15
 .14:
@@ -1044,7 +1044,7 @@ sub_D84AC:
         add eax, byte 4
         push eax
         push byte 0
-        call sub_ACA3C
+        call DebugSetLine
         add esp, byte 10h
         push byte 7
         call sub_ACD38
@@ -1125,7 +1125,7 @@ sub_D84AC:
         push asc_114444
         push edi
         push byte 0
-        call sub_ACA3C
+        call DebugSetLine
         inc edi
         mov eax, dword [byte ebp+06Eh]
         add esp, byte 10h
@@ -1323,7 +1323,7 @@ sub_D8BFC:
         push str_044X00000000
         push byte 3Dh
         push byte 38h
-        call sub_C5D00
+        call PrintBoxedText
         add esp, byte 10h
         xor esi, esi
         mov edi, 0F8h
@@ -1468,7 +1468,7 @@ sub_D8BFC:
         push str_PRIORITY1d
         push esi
         push edi
-        call sub_C5D00
+        call PrintBoxedText
         add esp, byte 10h
         add esi, byte 0Ah
         call sub_CFE0C
@@ -1478,7 +1478,7 @@ sub_D8BFC:
         push str_SequenceD
         push esi
         push edi
-        call sub_C5D00
+        call PrintBoxedText
         add esp, byte 10h
         call sub_CFE0C
         mov al, byte [byte esp+08h]
@@ -1577,7 +1577,7 @@ sub_D8E98:
         call sub_D9170
         call sub_CFE0C
 .6:
-        call sub_DFF28
+        call KbdGetKey
         push eax
         mov dword [byte esp+034h], eax
         call sub_C6000
@@ -2282,7 +2282,7 @@ sub_D94C0:
         push str_44s05x
         push dword 0C0h
         push byte 0
-        call sub_C5D00
+        call PrintBoxedText
         add esp, byte 14h
         call sub_CFE0C
         xor eax, eax
@@ -2383,7 +2383,7 @@ sub_D94C0:
         je near .13
         call sub_CFE0C
 .25:
-        call sub_E1927
+        call PollHotkeys
         push eax
         call sub_C6000
         add esp, byte 4
@@ -2572,7 +2572,7 @@ sub_D98F4:
         push asc_114814
         push dword 0C0h
         push byte 70h
-        call sub_C5D00
+        call PrintBoxedText
         add esp, byte 20h
         call sub_CFE0C
         mov eax, dword [esi]
@@ -2584,7 +2584,7 @@ sub_D98F4:
         push asc_11482C
         push dword 0C8h
         push byte 40h
-        call sub_C5D00
+        call PrintBoxedText
         add esp, byte 14h
         call sub_CFE0C
         cmp word [byte esi+04h], byte 0
@@ -2974,7 +2974,7 @@ sub_D9D5C:
         mov dword [dword esp+0304h], eax
         xor eax, eax
         mov dword [dword esp+0320h], eax
-        call sub_DFF28
+        call KbdGetKey
         mov ebp, eax
         cmp eax, byte 30h
         jne short .4
@@ -3237,7 +3237,7 @@ sub_D9D5C:
         push str_033d022X
         push dword 0C0h
         push byte 44h
-        call sub_C5D00
+        call PrintBoxedText
         add esp, byte 14h
         call sub_CFE0C
         mov edx, dword [dword_15139C]
@@ -3250,7 +3250,7 @@ sub_D9D5C:
         push str_R022d
         push dword 0C0h
         push dword 8Ch
-        call sub_C5D00
+        call PrintBoxedText
         add esp, byte 10h
         call sub_CFE0C
         mov ecx, dword [dword_15139C]
@@ -3263,7 +3263,7 @@ sub_D9D5C:
         push str_G022d
         push dword 0C0h
         push dword 0B4h
-        call sub_C5D00
+        call PrintBoxedText
         add esp, byte 10h
         call sub_CFE0C
         mov edx, dword [dword_15139C]
@@ -3276,7 +3276,7 @@ sub_D9D5C:
         push str_B022d
         push dword 0C0h
         push dword 0DCh
-        call sub_C5D00
+        call PrintBoxedText
         add esp, byte 10h
         call sub_CFE0C
         call WaitTickDeadline
@@ -3315,14 +3315,14 @@ sub_DA2D4:
         push asc_114968
         push byte 0Dh
         push esi
-        call sub_C5D00
+        call PrintBoxedText
         add esp, byte 10h
         push edi
         push asc_114968
         push ebp
         push byte 7
         add esi, byte 12h
-        call sub_C5D00
+        call PrintBoxedText
         add esp, byte 10h
         inc edi
         add ebp, byte 0Ah
@@ -3595,7 +3595,7 @@ sub_DA508:
         call sub_CFE0C
         call sub_DFF7C
 .6:
-        call sub_E1927
+        call PollHotkeys
         push eax
         call sub_C6000
         add esp, byte 4

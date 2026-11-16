@@ -5,7 +5,7 @@ section s_C27F8 progbits alloc exec nowrite align=1
 extern SetDrawBitmap, str_EXITTODOSY, str_PAUSEPRESSANYKEY, dword_11F994, BackBufferWidth, joycalactive, mousepollfn, off_11F5F4
 extern off_11F5F8, off_11F5FC, off_14F074, off_14F078, sub_AD35C, FillRect, sub_ADA80, sub_ADBEC
 extern sub_AFFD0, SaveTextState, SetDrawTarget, TextSetFont, DrawArtOpaque, sub_B31C0, sub_BF120, sub_CFE0C
-extern sub_CFE20, sub_CFE70, SetScreenTarget, sub_DE084, sub_DFF28, sub_E193C, sub_E1956, DebugLineCount
+extern sub_CFE20, sub_CFE70, SetScreenTarget, sub_DE084, KbdGetKey, sub_E193C, sub_E1956, DebugLineCount
 extern unk_1213DC
 global sub_C27F8, sub_C2AC4, sub_C2AEC, sub_C2C5C, DosGetVector, DosSetVector
 ;-----------------------------------------------------------------------------
@@ -133,7 +133,7 @@ sub_C27F8:
         test eax, ebp
         jne short .1
 .2:
-        call sub_DFF28
+        call KbdGetKey
         mov esi, eax
         mov dword [dword esp+0BCh], eax
         call dword [mousepollfn]

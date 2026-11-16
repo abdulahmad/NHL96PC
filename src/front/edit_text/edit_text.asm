@@ -6,7 +6,7 @@ extern byte_11FA2F, byte_152C3B, dword_11F5C0, FillRect, fputchar, PutBlock, Set
 extern str_space4, str_Temp3, str_W, str_X, strcat_, strcpy_, strlen_, CopyBitmap
 extern SetTextColors, DrawColorTextCentred, DrawBox, SoundIdle, sub_AA7E0, sub_AB798, FreeMemBlock, sub_AD35C
 extern sub_AD620, sub_ADA80, sub_ADBEC, sub_AFFD0, sub_B2B0C, SetScreenTarget, GetPaletteRange, sub_DFE9C
-extern sub_DFF28, unk_152B3C, unk_19382
+extern KbdGetKey, unk_152B3C, unk_19382
 global EditText
 ;-----------------------------------------------------------------------------
 ; EditText                                                        197ED  96 PC
@@ -24,7 +24,7 @@ EditText:
         mov ax, word [unk_19382]
         mov word [byte ebp+066h], ax
 .1:
-        call sub_DFF28
+        call KbdGetKey
         test eax, eax
         jne short .2
         push byte 1Ch
@@ -484,7 +484,7 @@ EditText:
         call sub_AFFD0
         add esp, byte 8
 .29:
-        call sub_DFF28
+        call KbdGetKey
         mov dword [byte ebp+046h], eax
         mov dword [byte ebp+03Ah], eax
         test eax, eax
@@ -693,7 +693,7 @@ EditText:
         mov edx, edi
         call strcpy_
 .51:
-        call sub_DFF28
+        call KbdGetKey
         test eax, eax
         jne short .52
         push byte 1Ch

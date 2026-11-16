@@ -13,7 +13,7 @@ extern dword_17BD66, dword_17BD6E, dword_17BD72, dword_17BD7A, dword_17BD82, dwo
 extern LoadPackedFile, PutBlock, SetDrawBitmap, SetScreenPalette, SoundIdle, sprintf_, str_CHECK, str_M03d
 extern str_Mhil, str_MODEM, str_Pal7, str_TN02d, str_X03d, str_XBUT, str_Xhil, str_Y03d
 extern str_Yhil, sub_AA7E0, sub_AB758, FreeMemBlock, sub_AD35C, sub_AD620, sub_ADBEC, SaveTextState
-extern SetDrawTarget, SetScreenTarget, sub_DFF28, sub_E04E0, TextSetFont, unk_11BCE8, unk_11BD28, unk_11BD68
+extern SetDrawTarget, SetScreenTarget, KbdGetKey, sub_E04E0, TextSetFont, unk_11BCE8, unk_11BD28, unk_11BD68
 extern unk_17BB24
 global LoadFrontEndArt, LoadFrontEndArt_412, GetTeamNameArt, CopyArtRows, OpenScreen, SlideInTitleBar, SlideInTitleBar_62, SlideInTitleBar_6A
 global SlideInTitleBar_6D, SlideInSideBar, SlideInBottomBar, FreeFrontEndArt, SetScreenColors
@@ -714,7 +714,7 @@ SetScreenColors:
         push ebx
         push ecx
         push edx
-        call sub_DFF28
+        call KbdGetKey
         pop edx
         pop ecx
         pop ebx

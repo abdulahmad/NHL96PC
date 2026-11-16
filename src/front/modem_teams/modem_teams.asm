@@ -13,7 +13,7 @@ extern str_5GM, str_7GM, str_Aal0, str_Aal1, str_Aal2, str_Aar0, str_Aar1, str_A
 extern str_Ahl0, str_Ahl1, str_Ahl2, str_Ahr0, str_Ahr1, str_Ahr2, str_Bkgd21, str_HaBck02
 extern str_HaBck12, str_Pal29, str_Rk02d, str_Rk222, str_Rul13, str_Rul23, str_Rul33, str_Swt0
 extern str_Swt12, str_SwtD2, sub_29B9F, RunPlayoffMenus_102, RunPlayoffMenus_115, RunPlayoffMenus_73, RunPlayoffMenus_89, RunPlayoffMenus_A6
-extern RunPlayoffMenus_CD, RunPlayoffMenus_D6, RunPlayoffMenus_E1, sub_AA988, sub_AADA4, sub_AB758, FreeMemBlock, sub_AD35C
+extern RunPlayoffMenus_CD, RunPlayoffMenus_D6, RunPlayoffMenus_E1, DrawShapeAtOwnPos, sub_AADA4, sub_AB758, FreeMemBlock, sub_AD35C
 extern sub_ADA50, sub_ADBEC, SetScreenTarget, sub_E04E0, TextSetFont, unk_152C44, unk_17D272, word_114CE0
 extern word_11ED38
 global unk_A3851, DrawModemHomePanel, DrawModemHomePanel_151, DrawModemHomePanel_15D, DrawModemAwayPanel, jpt_A3CD4, ModemTeamSelectScreen, ModemTeamSelectScreen_7F1
@@ -586,7 +586,7 @@ ModemTeamSelectScreen:
         add esp, byte 0Ch
         mov word [byte eax+0Eh], dx
         push dword [dword_11ED60]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         add esp, byte 4
         push byte 0
         push dword [dword_1846F4]
@@ -623,7 +623,7 @@ ModemTeamSelectScreen:
         mov eax, dword [dword_11ED64]
         mov word [byte eax+0Eh], dx
         push dword [dword_11ED64]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         add esp, byte 4
         push byte 0
         push dword 0A0h
@@ -648,7 +648,7 @@ ModemTeamSelectScreen:
         mov dx, word [dword_11ED40]
         mov word [byte eax+0Eh], dx
         push dword [dword_11ED70]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         add esp, byte 4
         push byte 0
         push dword 0A0h
@@ -676,7 +676,7 @@ ModemTeamSelectScreen:
         mov dx, word [dword_11ED40]
         mov word [byte eax+0Eh], dx
         push dword [dword_11ED74]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         add esp, byte 4
         mov eax, dword [byte ebp+076h]
         call DrawModemHomePanel

@@ -2,15 +2,16 @@
 bits 32
 %include "hockey.inc"
 section s_DFC33 progbits alloc exec nowrite align=1
-extern byte_11F668, byte_11F670, byte_11F68D, byte_11F69A, byte_11F6A6, byte_11F6A8, byte_11F6C3, byte_11F708
+extern byte_11F668, byte_11F670, byte_11F68D, KbdCtrlDown, KbdAltDown, byte_11F6A8, byte_11F6C3, byte_11F708
 extern byte_11F714, byte_11F76F, byte_11F7CA, byte_11F825, byte_11F880, str_Punct_DrawRinkSurface, dword_11F61C, dword_11F620
 extern dword_11F660, dword_11F664, dword_11F66C, dword_11F6F0, dword_11F6F6, dword_11F6FC, dword_11F994, BiosKeyFunc
 extern RestoreDS, sub_C27A4, DosSetVector, word_11F6F4, word_11F6FA, word_11F700, word_11F702
-global sub_DFC33_6F, sub_DFC33, Int16Handler, Int16Service, sub_DFE9C, sub_DFEAB, unk_DFDDD
+global RemoveKeyboardHandler_6F, RemoveKeyboardHandler, Int16Handler, Int16Service, sub_DFE9C, sub_DFEAB, unk_DFDDD
 ;-----------------------------------------------------------------------------
-; sub_DFC33                                                            DFC33  
+; RemoveKeyboardHandler                           DFC33  96 PC, low confidence
+; Keyboard: restores the original keyboard interrupt
 ;-----------------------------------------------------------------------------
-sub_DFC33:
+RemoveKeyboardHandler:
         cmp word [word_11F702], byte 0
         je short .1
         mov word [word_11F702], 0
@@ -38,7 +39,7 @@ sub_DFC33:
         popa
 .1:
         ret
-sub_DFC33_6F:
+RemoveKeyboardHandler_6F:
         push eax
         push ebx
         push ds
@@ -75,9 +76,9 @@ sub_DFC33_6F:
         jne near .10
         test byte [byte_11F68D], 1
         jne near .9
-        test byte [byte_11F69A], 1
+        test byte [KbdCtrlDown], 1
         jne short .8
-        test byte [byte_11F6A6], 1
+        test byte [KbdAltDown], 1
         jne short .8
         test byte [byte_11F668], 1
         jne near .12
@@ -237,8 +238,8 @@ Int16Service:
         ret
 .4:
         LD xor, eax, eax
-        mov al, byte [byte_11F69A]
-        or al, byte [byte_11F6A6]
+        mov al, byte [KbdCtrlDown]
+        or al, byte [KbdAltDown]
         and al, 1
         LD or, eax, eax
         ret

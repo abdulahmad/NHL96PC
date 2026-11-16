@@ -21,11 +21,11 @@ extern dword_19B778, dword_19B77C, dword_19B784, dword_19B788, dword_19B8F0, dwo
 extern dword_19B900, dword_19BA30, dword_1A0B2C, dword_1A0DA0, dword_1A0DA4, off_123CE0, off_123CE4, off_123CE8
 extern off_123CEC, off_123D68, off_123D6C, off_123D70, off_123D74, off_123D78, off_123D7C, off_123D80
 extern off_123D84, off_123D88, strncpy_, CdStreamSeek, CdStreamFreePacket, RemoveTimerCallback, PutBlock, sub_AB758
-extern FreeMemBlock, MemDescPtr, sub_ACA3C, sub_AFCD0, DrawArtOpaque, RestoreDS, sub_BF120, sub_C5D00
+extern FreeMemBlock, MemDescPtr, DebugSetLine, sub_AFCD0, DrawArtOpaque, RestoreDS, sub_BF120, PrintBoxedText
 extern sub_CAA80, sub_CAB58, sub_CAB78, sub_CABA9, sub_CBEA8, sub_CC048, MixerStopChannel, sub_CC17B
-extern sub_CC1B5, MixerSamplesLeft, ParseBlasterEnv, sub_CE2E8, sub_CE709, sub_CE780, sub_CF6C9, sub_CF7C0
-extern sub_CF864, sub_CF918, sub_CFA64, sub_CFB14, sub_CFCC0, SetScreenTarget, sub_DDF4F, sub_DFB84
-extern AddExitHandler, sub_E0520, sub_E0898, unk_19B6A4, unk_19B720, unk_1A0B20, MixerStepTable
+extern sub_CC1B5, MixerSamplesLeft, ParseBlasterEnv, sub_CE2E8, sub_CE709, sub_CE780, sub_CF6C9, TgvCopyBlock
+extern TgvFillBlock, sub_CF918, sub_CFA64, sub_CFB14, sub_CFCC0, SetScreenTarget, sub_DDF4F, sub_DFB84
+extern AddExitHandler, bcopy, sub_E0898, unk_19B6A4, unk_19B720, unk_1A0B20, MixerStepTable
 global _Alphabet, abs_, fini_void_, getcwd_, itoa_, jpt_C1490, sub_BFA45_90, sub_C0944_18C
 global memcmp_, sub_BF950, sub_BF9FE, sub_BFA05, sub_BFA45, sub_BFAF5, sub_BFB53, sub_BFB74
 global sub_BFB7C, sub_BFBE3, sub_BFC16, sub_BFC91, sub_BFDB8, sub_BFE4C, sub_BFF52, sub_BFF8F
@@ -35,7 +35,7 @@ global sub_C08DA, sub_C08F5, sub_C0902, sub_C0944, sub_C0AD7, sub_C0BCD, sub_C0D
 global sub_C0E3C, sub_C0E49, sub_C0F09, sub_C0F30, sub_C1008, sub_C1051, sub_C1104, sub_C1183
 global sub_C11EF, sub_C12C8, sub_C1322, sub_C13B1, sub_C1410, sub_C144B, SndSetDriver, sub_C1614
 global sub_C17C6, sub_C1811, sub_C181F, sub_C187A, sub_C187C, sub_C187D, sub_C1882, BuildHuffTable
-global sub_C1920, sub_C1A2C, sub_C1D48, sub_C1FC0, sub_C1FEC, sub_C204C, sub_C20E0, sub_C2268
+global DecodeHuffRuns, sub_C1A2C, sub_C1D48, sub_C1FC0, sub_C1FEC, sub_C204C, sub_C20E0, sub_C2268
 global sub_C2290, sub_C2440, sub_C2442, sub_C24D0, sub_C2500, sub_C254C, sub_C2600, sub_C27A4
 global unk_C1041, utoa_
 ;-----------------------------------------------------------------------------
@@ -3236,9 +3236,10 @@ BuildHuffTable:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_C1920                                                            C1920  
+; DecodeHuffRuns                                  C1920  96 PC, low confidence
+; TGV video: decodes Huffman coded runs
 ;-----------------------------------------------------------------------------
-sub_C1920:
+DecodeHuffRuns:
         push esi
         push edi
         push ebp
@@ -3558,7 +3559,7 @@ sub_C1A2C:
         push eax
         mov esi, dword [byte esp+028h]
         push esi
-        call sub_C1920
+        call DecodeHuffRuns
         add esp, byte 0Ch
 .13:
         mov eax, dword [byte esp+01Ch]
@@ -3583,7 +3584,7 @@ sub_C1A2C:
         push edi
         mov edi, dword [byte ebp+030h]
         push edi
-        call sub_CF7C0
+        call TgvCopyBlock
         add esp, byte 10h
 .14:
         mov eax, dword [byte ebp+04h]
@@ -3608,7 +3609,7 @@ sub_C1A2C:
         push eax
         mov esi, dword [byte ebp+030h]
         push esi
-        call sub_CF864
+        call TgvFillBlock
         add esp, byte 24h
 .15:
         mov eax, dword [byte esp+014h]
@@ -4073,7 +4074,7 @@ sub_C20E0:
         jmp short .5
 .4:
         push dword 190h
-        push sub_ACA3C
+        push DebugSetLine
 .5:
         call sub_C20E0
         add esp, byte 8
@@ -4088,7 +4089,7 @@ fini_void_:
         add esp, byte 8
         ret
         push byte 1
-        push sub_C5D00
+        push PrintBoxedText
         call sub_C20E0
         add esp, byte 8
         ret
@@ -4399,7 +4400,7 @@ sub_C2500:
         push ebx
         mov esi, sub_C24D0
         push edx
-        mov edi, sub_E0520
+        mov edi, bcopy
         mov dword [dword_1210C0], esi
         call DrawArtOpaque
         add esp, byte 0Ch
@@ -4435,7 +4436,7 @@ sub_C254C:
         push edx
         mov esi, sub_C24D0
         push ebx
-        mov edi, sub_E0520
+        mov edi, bcopy
         mov dword [dword_1210C0], esi
         call DrawArtOpaque
         add esp, byte 0Ch
@@ -4472,7 +4473,7 @@ sub_C254C:
         push ebx
         mov esi, sub_C24D0
         push eax
-        mov edi, sub_E0520
+        mov edi, bcopy
         mov dword [dword_1210C0], esi
         call DrawArtOpaque
         add esp, byte 0Ch
@@ -4505,7 +4506,7 @@ sub_C2600:
         push ebx
         mov esi, sub_CFCC0
         push edx
-        mov edi, sub_E0520
+        mov edi, bcopy
         mov dword [dword_1210C0], esi
         call PutBlock
         add esp, byte 0Ch
@@ -4537,7 +4538,7 @@ sub_C2600:
         push edx
         mov esi, sub_CFCC0
         push ebx
-        mov edi, sub_E0520
+        mov edi, bcopy
         mov dword [dword_1210C0], esi
         call PutBlock
         add esp, byte 0Ch
@@ -4574,7 +4575,7 @@ sub_C2600:
         push ebx
         mov esi, sub_CFCC0
         push eax
-        mov edi, sub_E0520
+        mov edi, bcopy
         mov dword [dword_1210C0], esi
         call PutBlock
         add esp, byte 0Ch

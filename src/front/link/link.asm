@@ -12,8 +12,8 @@ extern dword_115098, dword_151D48, dword_151D4C, dword_151D50, dword_151D54, dwo
 extern dword_152148, dword_15214C, dword_152150, dword_15291C, off_114F1C, off_114F24, str_0123456789abcdefghijklmn, str_22
 extern str_ATA, str_ATD, str_ATE1, str_ATF1, str_ATH0, str_ATM0, str_ATQ0, str_ATS01
 extern str_ATX3, str_ATX4, str_ATZS760S1155, str_ctl06, str_feP, str_newline, str_T, strcat_
-extern strcpy_, strlen_, strncmp_, strstr_, RemoveTimerCallback, sub_B103C, sub_B1121, SerialClose
-extern sub_B1255, SerialRaiseDtr, sub_B1294, sub_B12AF, SerialWrite, sub_B13BB, SerialFlushTx, SerialWaitTxEmpty
+extern strcpy_, strlen_, strncmp_, strstr_, RemoveTimerCallback, SerialConfigure, sub_B1121, SerialClose
+extern SerialSetBaud, SerialRaiseDtr, sub_B1294, sub_B12AF, SerialWrite, sub_B13BB, SerialFlushTx, SerialWaitTxEmpty
 extern sub_B1451, sub_B147A, sub_B151E, sub_B178B, sub_B1830, str_Punct_ModemSendCommand, str_AT, unk_151B88
 extern unk_152748, unk_152798, unk_1527C0, unk_152938, unk_152944, WaitTicks
 global ModemInitDefault, ModemInit, ModemHangup, ModemHangup_30, ModemHangup_54, ModemDial, ModemAutoAnswer, ModemWaitConnect
@@ -1452,7 +1452,7 @@ LinkOpen:
         shl eax, cl
         push eax
         push dword [dword_11500C]
-        call sub_B1255
+        call SerialSetBaud
         add esp, byte 8
 .2:
         push dword [dword_11500C]
@@ -1463,7 +1463,7 @@ LinkOpen:
         push byte 0
         push dword [dword_115010]
         push dword [dword_11500C]
-        call sub_B103C
+        call SerialConfigure
         add esp, byte 14h
         cmp dword [dword_11501C], byte 0
         jne short .3

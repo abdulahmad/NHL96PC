@@ -20,8 +20,8 @@ extern str_KeyD, str_LOW0, str_LOW1, str_LOWD, str_MAK0, str_MAK1, str_MAK2, str
 extern str_Mse1, str_Mse2, str_MseD, str_NMD0, str_NMD1, str_NOO0, str_NOO1, str_NUMD
 extern str_Off0, str_Off1, str_Onn0, str_Onn1, str_Pal13, str_PICKS, str_PICKS2, str_PULS
 extern str_SET02, str_SET13, str_SET23, str_SldD, str_TONE, str_WFC0, str_WFC1, str_WFC2
-extern str_YES0, str_YES1, strcpy_, strlen_, sub_AA988, sub_AAA40, sub_AAA8C, sub_AADA4
-extern sub_AB758, FreeMemBlock, sub_AD35C, sub_ADA50, sub_ADBEC, SetScreenTarget, sub_DFE9C, sub_DFF28
+extern str_YES0, str_YES1, strcpy_, strlen_, DrawShapeAtOwnPos, sub_AAA40, sub_AAA8C, sub_AADA4
+extern sub_AB758, FreeMemBlock, sub_AD35C, sub_ADA50, sub_ADBEC, SetScreenTarget, sub_DFE9C, KbdGetKey
 extern sub_E04E0, TextSetFont, unk_17C9B8, unk_17C9CC, unk_17D598, unk_708A9, unk_70901, unk_70BC1
 extern unk_70BCB, unk_70BD5, unk_70C4D, unk_70CED, word_114CE0, word_11E270, word_17C9AC, word_17C9AE
 extern word_17C9B0, word_17C9B2, word_17C9B4, word_17C9B6, WriteGlobalSet
@@ -1363,7 +1363,7 @@ ControlSetupScreen:
         call SetScreenTarget
         mov eax, dword [byte ebp+04Eh]
         push dword [byte eax+ebp-026h]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         mov eax, dword [byte ebp+04Eh]
         mov eax, dword [byte eax+ebp-026h]
         add esp, byte 4
@@ -2131,7 +2131,7 @@ ControlSetupScreen:
         mov word [byte eax+0Eh], dx
         call SetScreenTarget
         push dword [byte ebp-026h]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         mov eax, dword [byte ebp-026h]
         add esp, byte 4
         movsx eax, word [byte eax+0Eh]
@@ -2273,7 +2273,7 @@ ControlSetupScreen:
         mov word [byte eax+0Eh], dx
         call SetScreenTarget
         push dword [byte ebp-022h]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         mov eax, dword [byte ebp-022h]
         add esp, byte 4
         movsx eax, word [byte eax+0Eh]
@@ -2410,7 +2410,7 @@ ControlSetupScreen:
         mov word [byte eax+0Eh], dx
         call SetScreenTarget
         push dword [byte ebp-01Eh]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         mov eax, dword [byte ebp-01Eh]
         add esp, byte 4
         movsx eax, word [byte eax+0Eh]
@@ -2548,7 +2548,7 @@ ControlSetupScreen:
         mov word [byte eax+0Eh], dx
         call SetScreenTarget
         push dword [byte ebp-01Ah]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         mov eax, dword [byte ebp-01Ah]
         add esp, byte 4
         movsx eax, word [byte eax+0Eh]
@@ -2699,7 +2699,7 @@ ControlSetupScreen:
         mov word [byte eax+0Eh], dx
         call SetScreenTarget
         push dword [byte ebp-016h]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         mov eax, dword [byte ebp-016h]
         add esp, byte 4
         movsx eax, word [byte eax+0Eh]
@@ -3357,7 +3357,7 @@ ModemSettingsScreen:
         mov word [byte eax+0Eh], 0FBh
         call SetScreenTarget
         push dword [byte esi+02Ch]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         add esp, byte 4
         mov eax, dword [byte esi+02Ch]
         xor edx, edx
@@ -3399,7 +3399,7 @@ ModemSettingsScreen:
         mov word [byte eax+0Eh], 127h
         call SetScreenTarget
         push dword [byte esi+02Ch]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         add esp, byte 4
         mov eax, dword [byte esi+02Ch]
         xor edx, edx
@@ -3439,7 +3439,7 @@ ModemSettingsScreen:
         mov word [byte eax+0Eh], 152h
         call SetScreenTarget
         push dword [byte esi+02Ch]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         add esp, byte 4
         mov eax, dword [byte esi+02Ch]
         xor edx, edx
@@ -3744,7 +3744,7 @@ ModemSettingsScreen:
         mov word [byte eax+0Eh], 0FBh
         call SetScreenTarget
         push dword [byte esi+02Ch]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         add esp, byte 4
         mov eax, dword [byte esi+02Ch]
         xor edx, edx
@@ -3800,7 +3800,7 @@ ModemSettingsScreen:
         mov word [byte eax+0Eh], 152h
         call SetScreenTarget
         push dword [byte esi+02Ch]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         add esp, byte 4
         mov eax, dword [byte esi+02Ch]
         xor edx, edx
@@ -3871,7 +3871,7 @@ ModemSettingsScreen:
         mov word [byte eax+0Eh], 127h
         call SetScreenTarget
         push dword [byte esi+02Ch]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         add esp, byte 4
         mov eax, dword [byte esi+02Ch]
         xor edx, edx
@@ -4064,7 +4064,7 @@ DrawPhoneNumber:
         call SetScreenTarget
         mov eax, dword [byte ebp-01Ch]
         push dword [byte eax+02Ch]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         add esp, byte 4
         push dword [byte ebp-01Ch]
         call SetDrawBitmap
@@ -4917,7 +4917,7 @@ ModemDialScreen_BD2:
 .32:
         call ModemGameClose
 .33:
-        call sub_DFF28
+        call KbdGetKey
         cmp eax, byte 1Bh
         je short .34
         push byte 1

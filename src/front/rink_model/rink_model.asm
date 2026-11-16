@@ -62,17 +62,17 @@ extern str_Saveback, str_Score, str_SideD, str_SideNotFoundInRink, str_SideNotFo
 extern str_Stands2, str_STANDSFSH, str_Strobe, str_TEMP2, str_ThinRedLines, str_Top, str_Topboards, str_WALL
 extern str_Wedge, str_WHD0, str_Zamboni, str_Zambpath, strcat_, strcpy_, SelectDataLibrary, sub_49300
 extern sub_4B38C, sub_4B4F3, DrawRinkSprite, SpriteScale, InitMenuItems, RunMenu, SetMenuMouse, FillMusicStream
-extern SoundSecondsToBytes, SoundIdle, BuildAntiAliasTable, DrawFixedLine, DrawFixedLineClip, sub_AA988, sub_AAA40, sub_AADA4
+extern SoundSecondsToBytes, SoundIdle, BuildAntiAliasTable, DrawFixedLine, DrawFixedLineClip, DrawShapeAtOwnPos, sub_AAA40, sub_AADA4
 extern sub_AB758, FreeMemBlock, sub_AC868, sub_AD35C, sub_AD620, sub_AD824, sub_ADBEC, sub_AFD00
 extern LoadResourceDataShared, sub_B049E, OpenArtArchiveErr, sub_B31C0, LoadFileToBlockShared, sub_B7810, SetRinkView, sub_B78DC
 extern sub_B79C8, sub_B79E0, sub_B7A70, sub_B81D0, sub_B82F0, sub_B9870, sub_B98E0, sub_B9928
-extern sub_B9A18, sub_B9B34, sub_B9B70, sub_B9BB0, sub_B9BD0, sub_B9C08, sub_B9C3C, sub_B9C70
-extern sub_BA2F0, sub_BA344, sub_BA3D0, sub_BA420, sub_BA4F0, sub_BA55C, sub_BA5D0, sub_BB384
-extern sub_BB470, sub_BB570, sub_BB924, sub_BB9C4, sub_BBAA0, sub_BBB70, SetRinkMatrix, SetRinkTranslation
+extern sub_B9A18, sub_B9B34, sub_B9B70, sub_B9BB0, sub_B9BD0, AddVec3, SubVec3, sub_B9C70
+extern sub_BA2F0, sub_BA344, sub_BA3D0, AngleOfVector, SinInterp, CosInterp, sub_BA5D0, sub_BB384
+extern sub_BB470, DrawPolyOutline, sub_BB924, sub_BB9C4, sub_BBAA0, sub_BBB70, SetRinkMatrix, SetRinkTranslation
 extern SetScreenScale, sub_BBC14, sub_BBC80, sub_BBE50, sub_BC040, sub_BC0C4, sub_BC150, sub_BC3A0
 extern sub_BC3F4, sub_BC5C0, sub_BC674, sub_BC760, sub_BC7F0, sub_BC838, sub_BD86C, sub_BD9AC
-extern sub_BE6E0, sub_BE8AC, sub_BE926, SetScreenTarget, SetRemapTable, sub_DD8C8, sub_DD908, sub_DD960
-extern sub_DDB68, sub_E04E0, sub_E0520, sub_E0898, sub_E0959, sub_E1575, sub_E162A, unk_1175BD
+extern sub_BE6E0, sub_BE8AC, sub_BE926, SetScreenTarget, SetRemapTable, GetRemapTable, sub_DD908, sub_DD960
+extern sub_DDB68, sub_E04E0, bcopy, sub_E0898, sub_E0959, sub_E1575, sub_E162A, unk_1175BD
 extern unk_117605, unk_11764D, unk_1176AD, unk_1176CD, unk_1176EC, unk_158DA8, unk_158F28, unk_158F48
 extern unk_158F50, unk_158F68, unk_158F70, unk_158F88, unk_158FF4, unk_159000, unk_159018, unk_159024
 extern unk_15903C, unk_159108, unk_159148, unk_159190, unk_1591D8, unk_159238, unk_159338, unk_159368
@@ -87,7 +87,7 @@ global LoadIceTexture, sub_21E3E, ClipEdgeToNear, ClipLineToNear, DrawFaceEdge, 
 global DrawFatLine, DrawFatLine_AC, sub_2234B, sub_223BA, DrawRubberEdge, sub_22494, RubberSideFace, RubberSideFace_8
 global RubberFace, sub_224DB, sub_22522, TopBoardsFace, TopBoardsFace_E, BotBoardsFace, FatRedLineFace, FatRedLineFace_8
 global FatRedLineFace_17, FatBlueLineFace, ThinRedLineFace, GlassLineFace, GlassLineFace_17, GlassFace, sub_22734, GoalPipeFace
-global BuildCircleTable, sub_22A3A, sub_22AF0, sub_22B3C, sub_22B3C_1DF, sub_22D27, sub_22DD7, FindNearestGlass
+global BuildCircleTable, DrawIceSurface, sub_22AF0, sub_22B3C, sub_22B3C_1DF, sub_22D27, sub_22DD7, FindNearestGlass
 global RandomTrianglePoint, AddGlassShard, SplitGlassShards, ShatterGlass, BreakGlass, ClearGlassHoles, ResetBrokenGlass, ResetBrokenGlass_1A8
 global StepGlassShards, ReplayBrokenGlass, ReplayBrokenGlass_79, FindNearestGlassVertex, ShakeGlass, ShakeGlass_129, ShakeGlass_167, StopGlassShake
 global ResetGlassShake, ResetGlassShake_C, ApplyGlassShake, ReplayGlassShake, RinkEdgeKind, NearestGlassPoint, StartGoalLight, UpdateGoalLight
@@ -429,7 +429,7 @@ LoadFshFile:
         push eax
         push esi
         mov dword [byte ebp-04h], eax
-        call sub_E0520
+        call bcopy
 .6:
         add esp, byte 0Ch
         push dword [byte ebp-0Ch]
@@ -938,22 +938,22 @@ sub_221AE:
         push eax
         sub edx, dword [byte edi+04h]
         push edx
-        call sub_BA420
+        call AngleOfVector
         add esp, byte 8
         push eax
         mov edi, eax
-        call sub_BA4F0
+        call SinInterp
         add esp, byte 4
         test eax, eax
         jl short .3
         push edi
-        call sub_BA4F0
+        call SinInterp
         add esp, byte 4
         mov edx, eax
         jmp short .4
 .3:
         push edi
-        call sub_BA4F0
+        call SinInterp
         mov edx, eax
         add esp, byte 4
         neg edx
@@ -1324,7 +1324,7 @@ sub_22522:
         push edx
         push edi
         mov dword [byte ebp-04h], edx
-        call sub_B9C3C
+        call SubVec3
         mov edx, dword [byte ebp-04h]
         mov eax, dword [edi]
         add eax, dword [edx]
@@ -1341,12 +1341,12 @@ sub_22522:
         sar eax, 1
         push dword [byte ebp-08h]
         mov dword [byte ebp-014h], eax
-        call sub_BA420
+        call AngleOfVector
         add esp, byte 8
         push dword [byte ebp-01Ch]
         push dword [byte ebp-014h]
         mov edi, eax
-        call sub_BA420
+        call AngleOfVector
         sub edi, eax
         lea eax, [dword edi+04000h]
         add esp, byte 8
@@ -1643,7 +1643,7 @@ BuildCircleTable:
         mov dword [byte ebp-04h], edi
 .1:
         push dword [byte ebp-04h]
-        call sub_BA4F0
+        call SinInterp
         mov ebx, dword [dword_15E860]
         add esp, byte 4
         mov edx, eax
@@ -1655,7 +1655,7 @@ BuildCircleTable:
         mov dword [dword esi+dword_1595CC], 0
         push dword [byte ebp-04h]
         mov dword [dword esi+dword_1595C8], eax
-        call sub_BA55C
+        call CosInterp
         mov ebx, dword [dword_15E860]
         add esp, byte 4
         mov edx, eax
@@ -1682,7 +1682,7 @@ BuildCircleTable:
         mov dword [byte ebp-0Ch], edi
 .2:
         push dword [byte ebp-0Ch]
-        call sub_BA4F0
+        call SinInterp
         add esi, byte 0Ch
         mov ebx, dword [dword_15E8B4]
         add esp, byte 4
@@ -1696,7 +1696,7 @@ BuildCircleTable:
         mov dword [dword esi+dword_1591D0], 0
         push dword [byte ebp-0Ch]
         mov dword [dword esi+dword_1591CC], eax
-        call sub_BA55C
+        call CosInterp
         mov ebx, dword [dword_15E8B4]
         add esp, byte 4
         mov edx, eax
@@ -1716,7 +1716,7 @@ BuildCircleTable:
         xor esi, esi
 .3:
         push edi
-        call sub_BA4F0
+        call SinInterp
         mov ebx, dword [dword_15E878]
         add esp, byte 4
         mov edx, eax
@@ -1729,7 +1729,7 @@ BuildCircleTable:
         mov dword [dword esi+dword_15E610], 0
         push edi
         mov dword [dword esi+dword_15E60C], eax
-        call sub_BA55C
+        call CosInterp
         mov ebx, dword [dword_15E878]
         add esp, byte 4
         mov edx, eax
@@ -1761,7 +1761,7 @@ BuildCircleTable:
         xor esi, esi
 .6:
         push edi
-        call sub_BA4F0
+        call SinInterp
         mov ebx, dword [dword_15E870]
         add esp, byte 4
         mov edx, eax
@@ -1774,7 +1774,7 @@ BuildCircleTable:
         mov dword [dword esi+dword_15E4C0], 0
         push edi
         mov dword [dword esi+dword_15E4C4], eax
-        call sub_BA55C
+        call CosInterp
         mov ebx, dword [dword_15E870]
         add esp, byte 4
         mov edx, eax
@@ -1789,9 +1789,10 @@ BuildCircleTable:
         jne short .6
         jmp near sub_24D8C_1A3
 ;-----------------------------------------------------------------------------
-; sub_22A3A                                                       22A3A  96 PC
+; DrawIceSurface                                  22A3A  96 PC, low confidence
+; Draws the ice surface
 ;-----------------------------------------------------------------------------
-sub_22A3A:
+DrawIceSurface:
         push ebx
         push ecx
         push edx
@@ -1853,7 +1854,7 @@ sub_22AF0:
         push eax
         push unk_1593F8
         push byte 8
-        call sub_BB570
+        call DrawPolyOutline
         add esp, byte 10h
         push unk_159108
         push unk_159398
@@ -1889,7 +1890,7 @@ sub_22B3C:
         push edi
         push unk_158DA8
         push byte 20h
-        call sub_BB570
+        call DrawPolyOutline
         add esp, byte 10h
         push dword_1594B8
         push unk_158F88
@@ -1941,7 +1942,7 @@ sub_22B3C:
         push edi
         push unk_159458
         push byte 8
-        call sub_BB570
+        call DrawPolyOutline
         add esp, byte 10h
         push unk_158F48
         push unk_159338
@@ -2033,7 +2034,7 @@ sub_22D27:
         push eax
         push unk_15E5A0
         push byte 9
-        call sub_BB570
+        call DrawPolyOutline
         add esp, byte 10h
         push dword_1594B8
         push unk_158F88
@@ -2096,7 +2097,7 @@ sub_22DD7:
         push edi
         add esi, byte 0Ch
         add dword [byte ebp+076h], byte 0Ch
-        call sub_B9C3C
+        call SubVec3
         add esp, byte 0Ch
         cmp dword [byte ebp+066h], byte 9
         jl short .1
@@ -2109,7 +2110,7 @@ sub_22DD7:
         push edi
         add esi, byte 0Ch
         add dword [byte ebp+06Eh], byte 0Ch
-        call sub_B9C3C
+        call SubVec3
         add esp, byte 0Ch
         cmp dword [byte ebp+07Ah], byte 6
         jl short .2
@@ -2122,7 +2123,7 @@ sub_22DD7:
         push edi
         add esi, byte 0Ch
         add dword [byte ebp+06Ah], byte 0Ch
-        call sub_B9C3C
+        call SubVec3
         add esp, byte 0Ch
         cmp dword [byte ebp+072h], byte 6
         jge short .5
@@ -2132,19 +2133,19 @@ sub_22DD7:
         push eax
         push unk_15E534
         push byte 9
-        call sub_BB570
+        call DrawPolyOutline
         add esp, byte 10h
         push unk_158FF4
         push edi
         push unk_159148
         push byte 6
-        call sub_BB570
+        call DrawPolyOutline
         add esp, byte 10h
         push unk_15903C
         push edi
         push unk_159190
         push byte 6
-        call sub_BB570
+        call DrawPolyOutline
         add esp, byte 10h
 .5:
         push dword_1594B8
@@ -3652,7 +3653,7 @@ UpdateGoalLight:
 .1:
         imul edi, eax, dword 0C4h
         push edi
-        call sub_BA4F0
+        call SinInterp
         add esp, byte 4
         mov esi, eax
         test eax, eax
@@ -3683,17 +3684,17 @@ UpdateGoalLight:
         lea eax, [dword edi+01999h]
         push eax
         mov dword [byte ebp-04h], eax
-        call sub_BA4F0
+        call SinInterp
         add esp, byte 4
         mov dword [byte ebp-08h], eax
         test eax, eax
         je near sub_24D8C_1A3
         push edi
-        call sub_BA55C
+        call CosInterp
         add esp, byte 4
         push dword [byte ebp-04h]
         mov edi, eax
-        call sub_BA55C
+        call CosInterp
         add esp, byte 4
         mov dword [byte ebp-0Ch], eax
         test esi, esi
@@ -3838,7 +3839,7 @@ DrawGoalLight:
         lea eax, [byte ebp-010h]
         push eax
         push esi
-        call sub_B9C3C
+        call SubVec3
         mov eax, dword [byte ebp-04h]
         add esp, byte 0Ch
         cmp dword [byte eax+ebp-058h], byte 50h
@@ -4710,7 +4711,7 @@ DrawGlassShards:
         enter 124h, 0
         lea eax, [dword ebp-0124h]
         push eax
-        call sub_DD8C8
+        call GetRemapTable
         add esp, byte 4
         lea eax, [byte ebp-0Ch]
         push eax
@@ -4734,7 +4735,7 @@ DrawGlassShards:
         push eax
         push esi
         inc edi
-        call sub_B9C3C
+        call SubVec3
         add esp, byte 0Ch
         add esi, byte 0Ch
 .2:
@@ -4901,7 +4902,7 @@ sub_24D8C:
         add esp, byte 0Ch
         lea eax, [dword ebp-0114h]
         push eax
-        call sub_DD8C8
+        call GetRemapTable
         add esp, byte 4
         push unk_15E130
         mov dword [byte ebp-010h], 0
@@ -5232,7 +5233,7 @@ LoadZamboni:
         mov eax, dword [dword_15E430]
         sub eax, dword [dword_15E43C]
         push eax
-        call sub_BA420
+        call AngleOfVector
         mov dword [dword_15E448], eax
         neg dword [dword_15E448]
         add esp, byte 8
@@ -5332,7 +5333,7 @@ MoveZamboni:
         push eax
         mov dword [dword_15E440], 0
         mov dword [dword_15E434], 0
-        call sub_BA420
+        call AngleOfVector
         mov dword [dword_15E470], eax
         neg dword [dword_15E470]
         add esp, byte 8
@@ -5397,7 +5398,7 @@ MoveZamboni:
         lea eax, [byte ebp-01Ch]
         push eax
         push dword_15E430
-        call sub_B9C08
+        call AddVec3
         mov eax, dword [dword_15E430]
         mov edx, dword [dword_15E43C]
         add esp, byte 0Ch
@@ -8004,7 +8005,7 @@ DrawIceMarkings:
         mov eax, dword [dword_1175AD]
         call sub_BE6E0
 .3:
-        call sub_22A3A
+        call DrawIceSurface
         mov eax, dword [dword_15E60C]
         cmp dword [byte eax+08h], byte 50h
         jle short .6
@@ -8460,7 +8461,7 @@ DrawBenchSide:
         enter 100h, 0
         lea ebx, [dword ebp-0100h]
         push ebx
-        call sub_DD8C8
+        call GetRemapTable
         add esp, byte 4
         push unk_15DF20
         call SetRemapTable
@@ -8892,7 +8893,7 @@ sub_2849A:
         mov dword [byte ebp-04h], eax
         lea eax, [dword ebp-0114h]
         push eax
-        call sub_DD8C8
+        call GetRemapTable
         add esp, byte 4
         cmp dword [esi], byte 0
         je near sub_24D8C_194
@@ -9645,7 +9646,7 @@ DrawWholeRink:
         jl near .19
         lea eax, [dword ebp-0108h]
         push eax
-        call sub_DD8C8
+        call GetRemapTable
         add esp, byte 4
         push unk_15DF20
         call SetRemapTable
@@ -9948,7 +9949,7 @@ DrawZamboniScene:
         jge near .20
         lea eax, [dword ebp-0100h]
         push eax
-        call sub_DD8C8
+        call GetRemapTable
         add esp, byte 4
         push unk_15DF20
         call SetRemapTable
@@ -10574,7 +10575,7 @@ sub_29B9F:
         movsd
         movsd
         movsb
-        call sub_AA988
+        call DrawShapeAtOwnPos
         add esp, byte 4
         lea edx, [dword ebp-0772h]
         mov eax, 0Ch

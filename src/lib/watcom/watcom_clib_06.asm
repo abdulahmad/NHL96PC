@@ -11,7 +11,7 @@ extern dword_19A640, dword_19A644, dword_19A648, dword_19A64C, strnicmp_, sub_B9
 extern sub_C9AD8, FillRectColor, sub_DE15C, sub_E0959, sub_E15D7, unk_1983E0
 global __CHP, sub_BC890_19F, sub_BCE10_1C9, sub_BC760, sub_BC7F0, sub_BC838, sub_BC890, sub_BCA38
 global sub_BCB58, sub_BCC24, sub_BCD44, sub_BCE10, sub_BCFE0, sub_BD1D4, sub_BD3A0, sub_BD594
-global sub_BD86C, sub_BD8B0, sub_BD92C, sub_BD964, sub_BD9AC, sub_BDBE8, sub_BDC74, sub_BE47C
+global sub_BD86C, sub_BD8B0, sub_BD92C, PolySideTest, sub_BD9AC, sub_BDBE8, sub_BDC74, sub_BE47C
 global sub_BE6E0, sub_BE8AC, sub_BE8C0
 ;-----------------------------------------------------------------------------
 ; __CHP                                                         BC73C  library
@@ -1617,9 +1617,11 @@ sub_BD92C:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_BD964                                                            BD964  
+; PolySideTest                                    BD964  96 PC, low confidence
+; Tells whether a polygon's points are all in front, all behind or across a
+; depth plane
 ;-----------------------------------------------------------------------------
-sub_BD964:
+PolySideTest:
         push ecx
         push esi
         push edi
@@ -1671,7 +1673,7 @@ sub_BD9AC:
         mov ebx, dword [dword esp+01BCh]
         mov edx, ebp
         mov dword [dword esp+0190h], eax
-        call sub_BD964
+        call PolySideTest
         cmp eax, byte 1
         jne short .1
         xor eax, eax
@@ -1892,7 +1894,7 @@ sub_BDC74:
         mov ebx, dword [dword esp+0264h]
         mov edx, ebp
         mov dword [dword esp+0230h], eax
-        call sub_BD964
+        call PolySideTest
         cmp eax, byte 1
         jne short .1
         xor eax, eax

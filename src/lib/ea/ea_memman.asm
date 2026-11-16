@@ -5,10 +5,10 @@ section s_AB834 progbits alloc exec nowrite align=1
 extern FatalError, str_ReservememMEMORYMANAGERN, str_ReservememINVALIDSIZE, str_ReservememMEMORYMANAGERB, asc_113270, asc_1132AC, str_ReservememINVALIDTYPEFLAGS, str_ResizememINVALIDSIZE
 extern str_ResizememblockNOROOMTO, str_FindmemblockBLOCKNOTFOUND, asc_1133C0, str_GetmemblockNOMEMORYBLOCKS, dword_11F9B4, dword_11F9C0, dword_11F9C4, dword_1210CC
 extern dword_18568C, dword_185690, dword_185730, dword_185734, dword_185738, dword_18573C, strncmp_, strncpy_
-extern sub_AA564, MemLock, sub_C3C04, sub_E0520
+extern sub_AA564, MemLock, sub_C3C04, bcopy
 global findmemblock, sub_AB834, sub_AB87C, sub_ABD64, FreeMemBlock, sub_ABF88, sub_ABFB4, sub_AC0C4
-global sub_AC194, sub_AC244, sub_AC2B4, sub_AC360, FindCachedFileData, FindCachedFile, sub_AC574, sub_AC5AC
-global sub_AC6D4, sub_AC70C, sub_AC838, sub_AC868, sub_AC89C, sub_AC950, getmemblock, MemPtrSize
+global sub_AC194, FindNamedBlock, FindMemBlockNamed, sub_AC360, FindCachedFileData, FindCachedFile, CompactDownLocked, sub_AC5AC
+global CompactUpLocked, sub_AC70C, sub_AC838, sub_AC868, sub_AC89C, sub_AC950, getmemblock, MemPtrSize
 global MemDescPtr, MemDescSize, type_info__raw_name
 ;-----------------------------------------------------------------------------
 ; sub_AB834                                                            AB834  
@@ -982,9 +982,10 @@ sub_AC194:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_AC244                                                            AC244  
+; FindNamedBlock                                  AC244  96 PC, low confidence
+; Returns the first block in a memory list whose name matches
 ;-----------------------------------------------------------------------------
-sub_AC244:
+FindNamedBlock:
         push esi
         push edi
         mov edx, dword [byte esp+010h]
@@ -1028,13 +1029,15 @@ sub_AC244:
         push byte 0
         mov edx, dword [byte esp+08h]
         push edx
-        call sub_AC244
+        call FindNamedBlock
         add esp, byte 8
         ret
 ;-----------------------------------------------------------------------------
-; sub_AC2B4                                                            AC2B4  
+; FindMemBlockNamed                               AC2B4  96 PC, low confidence
+; Returns the block in a memory list whose name matches the file name of a
+; path
 ;-----------------------------------------------------------------------------
-sub_AC2B4:
+FindMemBlockNamed:
         push esi
         push edi
         mov edx, dword [byte esp+010h]
@@ -1080,7 +1083,7 @@ sub_AC2B4:
         push byte 0
         mov edx, dword [byte esp+08h]
         push edx
-        call sub_AC2B4
+        call FindMemBlockNamed
         add esp, byte 8
         ret
         push esi
@@ -1198,7 +1201,7 @@ sub_AC360:
         push esi
         mov edi, dword [byte ebp+00h]
         push edi
-        call sub_E0520
+        call bcopy
         add esp, byte 0Ch
         push ebp
         call sub_ABFB4
@@ -1243,7 +1246,7 @@ FindCachedFile:
         mov ebp, dword [byte esp+010h]
         push byte 0
         push ebp
-        call sub_AC2B4
+        call FindMemBlockNamed
         mov esi, eax
         add esp, byte 8
         test eax, eax
@@ -1270,7 +1273,7 @@ FindCachedFile:
         push ebp
         mov eax, dword [esi]
         push eax
-        call sub_E0520
+        call bcopy
         add esp, byte 0Ch
         mov edx, dword [dword_185734]
         push edx
@@ -1291,7 +1294,7 @@ FindCachedFile:
 .2:
         push esi
         push ebp
-        call sub_AC2B4
+        call FindMemBlockNamed
         mov edi, eax
         add esp, byte 8
         test eax, eax
@@ -1312,7 +1315,7 @@ FindCachedFile:
         push eax
         mov edx, dword [edi]
         push edx
-        call sub_E0520
+        call bcopy
         add esp, byte 0Ch
         mov eax, esi
         pop ebp
@@ -1335,9 +1338,11 @@ FindCachedFile:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_AC574                                                            AC574  
+; CompactDownLocked                               AC574  96 PC, low confidence
+; Under the memory lock, slides the movable blocks of the main list down to
+; close gaps
 ;-----------------------------------------------------------------------------
-sub_AC574:
+CompactDownLocked:
         push esi
         mov edx, dword [dword_185734]
         push edx
@@ -1423,7 +1428,7 @@ sub_AC5AC:
         push edx
         push eax
         mov dword [byte esp+0Ch], edx
-        call sub_E0520
+        call bcopy
         add esp, byte 0Ch
         mov ecx, 1
         mov eax, dword [esp]
@@ -1441,7 +1446,7 @@ sub_AC5AC:
         push edx
         push eax
         mov dword [byte esp+0Ch], edx
-        call sub_E0520
+        call bcopy
         add esp, byte 0Ch
         mov eax, dword [esp]
         mov dword [edi], eax
@@ -1485,9 +1490,11 @@ sub_AC5AC:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_AC6D4                                                            AC6D4  
+; CompactUpLocked                                 AC6D4  96 PC, low confidence
+; Under the memory lock, slides the movable blocks of the main list up to
+; close gaps
 ;-----------------------------------------------------------------------------
-sub_AC6D4:
+CompactUpLocked:
         push esi
         mov edx, dword [dword_185734]
         push edx
@@ -1570,7 +1577,7 @@ sub_AC70C:
         push ebp
         mov eax, dword [esi]
         push eax
-        call sub_E0520
+        call bcopy
         mov edx, 1
         add esp, byte 0Ch
         mov ebx, dword [byte esi+010h]
@@ -1584,7 +1591,7 @@ sub_AC70C:
         push ebp
         mov eax, dword [edi]
         push eax
-        call sub_E0520
+        call bcopy
         mov edx, dword [byte edi+024h]
         mov eax, dword [byte edi+020h]
         mov dword [edi], ebp

@@ -59,12 +59,12 @@ extern LoadFrontEndArt, FreeFrontEndArt, FadePalette, FadeOut, CopyBitmap, SetSc
 extern InitMenuItems, sub_64E74, sub_64F47, RunMenu, SetMenuMouse, FreeSpeechBuffer, RestoreSpeechBuffer, StopSpeech
 extern StopMusic, QueueMusic, FillMusicStream, PlayMusic, FadeOutMusic, MusicDone, PlaySfx, Crowd_Noise
 extern CrowdNoiseReset, CrowdPause, CrowdResume, StopArenaClip, StartGameSound, EndGameSound, SoundSecondsToBytes, SoundIdle
-extern GetLangText, PickIndexEntryScreen, sub_AA988, sub_AAA40, sub_AAA8C, PutBlock, sub_AADA4, sub_AB758
+extern GetLangText, PickIndexEntryScreen, DrawShapeAtOwnPos, sub_AAA40, sub_AAA8C, PutBlock, sub_AADA4, sub_AB758
 extern FreeMemBlock, sub_AD35C, FillRect, sub_ADBEC, sub_AFFD0, SaveTextState, SetDrawTarget, TextSetFont
-extern sub_B0CA8, sub_B2B0C, sub_B58D8, sub_B6140, sub_BA3D0, sub_BB470, sub_BB570, sub_BB924
-extern sub_BB9C4, sub_BBA41, sub_BC3A0, sub_BC610, sub_BC674, sub_BC6D8, SortIndices, sub_BEAE4
-extern SetScreenTarget, SetClipWindow, MouseRead, SetViewRect, sub_DFEC6, sub_E04E0, sub_E0584, sub_E1638
-extern sub_E167A, sub_E17B8, str_D19, str_dot4, unk_11A430, unk_11A770, unk_11A9B0, unk_11AB30
+extern sub_B0CA8, sub_B2B0C, sub_B58D8, sub_B6140, sub_BA3D0, sub_BB470, DrawPolyOutline, sub_BB924
+extern sub_BB9C4, MultiplyMatrix, sub_BC3A0, sub_BC610, sub_BC674, sub_BC6D8, SortIndices, sub_BEAE4
+extern SetScreenTarget, SetClipWindow, MouseRead, SetViewRect, sub_DFEC6, sub_E04E0, sub_E0584, SetViewScreenOrigin
+extern SetCameraAngles, TransposeMatrix, str_D19, str_dot4, unk_11A430, unk_11A770, unk_11A9B0, unk_11AB30
 extern unk_11AE70, unk_11B0B0, unk_11B230, unk_122344, unk_16443C, unk_1774C4, unk_177510, unk_1778C4
 extern unk_177908, unk_1781E4, unk_1781FE, unk_179980, unk_179AC0, unk_179E02, optblock_end, unk_17D32C
 extern word_114CE0, word_114CE4, word_119127, word_11A40C, word_11A410, word_11A414, regd0, regd1
@@ -176,12 +176,12 @@ StartReplay:
         add eax, edx
         push dword [dword_11B314]
         mov dword [dword_11B324], eax
-        call sub_E167A
+        call SetCameraAngles
         add esp, byte 10h
         call sub_BEAE4
         push dword [dword_11B32C]
         push dword [dword_11B328]
-        call sub_E1638
+        call SetViewScreenOrigin
         add esp, byte 8
         push dword [dword_11B234]
         call SetDrawBitmap
@@ -281,7 +281,7 @@ EndReplay:
         push eax
         lea eax, [byte ebp-054h]
         push eax
-        call sub_BBA41
+        call MultiplyMatrix
         add esp, byte 0Ch
         lea eax, [byte ebp-078h]
         push eax
@@ -834,7 +834,7 @@ ReplayCameraMatrix:
         push eax
         lea eax, [byte ebp-06Ch]
         push eax
-        call sub_BBA41
+        call MultiplyMatrix
         add esp, byte 0Ch
         lea eax, [byte ebp-024h]
         push eax
@@ -1569,7 +1569,7 @@ DrawReplayView:
         push eax
         mov edi, 0FFFFFFF4h
         xor esi, esi
-        call sub_BBA41
+        call MultiplyMatrix
         mov ebx, unk_177510
         add esp, byte 0Ch
         xor ecx, ecx
@@ -1623,7 +1623,7 @@ DrawReplayView:
         push byte 11h
         neg dword [byte ebp-08h]
         neg dword [byte ebp-04h]
-        call sub_BB570
+        call DrawPolyOutline
         add esp, byte 10h
         push unk_179AC0
         push unk_1778C4
@@ -1843,7 +1843,7 @@ ReplayFreeCamera:
         push eax
         push unk_1778C4
         mov dword [byte ebp-04h], 16Dh
-        call sub_E17B8
+        call TransposeMatrix
         add esp, byte 8
         lea eax, [byte ebp-030h]
         push eax
@@ -2198,7 +2198,7 @@ sub_55EBA_17B:
         push eax
         lea eax, [byte ebp+036h]
         push eax
-        call sub_BBA41
+        call MultiplyMatrix
         add esp, byte 0Ch
         lea eax, [byte ebp+05Ah]
         push eax
@@ -3821,7 +3821,7 @@ RunReplay:
         mov word [byte edx+0Eh], 0
         push dword [byte eax+02Ch]
         mov esi, eax
-        call sub_AA988
+        call DrawShapeAtOwnPos
         add esp, byte 4
 .1:
         call ReplayScreen

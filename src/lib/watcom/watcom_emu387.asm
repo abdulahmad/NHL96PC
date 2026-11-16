@@ -3,9 +3,9 @@ bits 32
 %include "hockey.inc"
 section s_D284C progbits alloc exec nowrite align=1
 extern __int7, _dos_setvect_, str_RATIONALDOS4G, Hook387Flag, Hook387Saved, FpuInitHook, FloatPow10Table, FloatPow10Exponents
-extern FloatFormatDigits, FloatFormatExponent, FloatFormatMantissaLo, FloatFormatMantissaHi, jpt_D25B8, jpt_D26B8, RestoreDS, unk_14FBF4
+extern FloatFormatDigits, FloatFormatExponent, FloatFormatMantissaLo, FloatFormatMantissaHi, EmuOpcodeJumpTable, EmuModRmJumpTable, RestoreDS, EmuTrapFrame
 extern Hook387Save, EmuZeroTbyte, unk_D2444, unk_D2448, EmuRegRing, unk_D244C, unk_D244E, EmuRegTagMasks
-extern unk_D249C, unk_D24A0, unk_D24A2, EmuCompareCcBits, EmuFpremCcBits, unk_D24F8, EmuEaSibTable
+extern unk_D249C, unk_D24A0, unk_D24A2, EmuCompareCcBits, EmuFpremCcBits, EmuEaModRmTable, EmuEaSibTable
 global __hook387, __init_80x87, __unhook387, EmuDispatchD9RegJumpTable, EmuFtstFxamJumpTable, EmuSignOpsJumpTable, EmuLogOpsJumpTable, EmuRemOpsJumpTable
 global jpt_D398A, EmuDispatchDBRegJumpTable, jpt_D3C1C, jpt_D3DD1, RoundToDouble_32, RoundToDouble_49, RoundToDouble_84, jpt_D3A13_2C
 global jpt_D3DD1_20, jpt_D3DD1_69, jpt_D3DD1_CE, jpt_D3DD1_F8, jpt_D3DD1_110, sub_D3F70_7, sub_D4524_3, sub_D459F_8
@@ -60,7 +60,7 @@ EmuTrapExit:
         and ebx, 1807h
         LD or, bl, bh
         mov bh, 0
-        call dword [nosplit cs:ebx*4+unk_D24F8]
+        call dword [nosplit cs:ebx*4+EmuEaModRmTable]
         mov es, cx
         mov dword [byte ebp+038h], esi
         LD mov, esi, ebx
@@ -68,13 +68,13 @@ EmuTrapExit:
         and ebx, byte 38h
         LD or, bl, al
         call RestoreDS
-        lea ebp, [unk_14FBF4]
+        lea ebp, [EmuTrapFrame]
         mov edi, dword [byte ds:ebp+04h]
         and edi, 3800h
         shr edi, 0Bh
         lea edi, [edi+edi*4]
         LD add, edi, edi
-        jmp dword [nosplit cs:ebx*4+jpt_D25B8]
+        jmp dword [nosplit cs:ebx*4+EmuOpcodeJumpTable]
 .2:
         mov al, byte [esi]
         cmp al, 9Bh
@@ -133,7 +133,7 @@ EmuTrapExit:
 .11:
         mov dword [byte ebp+038h], esi
         call RestoreDS
-        lea ebp, [unk_14FBF4]
+        lea ebp, [EmuTrapFrame]
         LD mov, dl, ah
         and edx, byte 38h
         LD or, dl, al
@@ -153,7 +153,7 @@ EmuTrapExit:
         LD add, edi, edi
         lea esi, [esi+esi*4]
         LD add, esi, esi
-        jmp dword [nosplit cs:edx*4+jpt_D26B8]
+        jmp dword [nosplit cs:edx*4+EmuModRmJumpTable]
 .13:
         ret
 ;-----------------------------------------------------------------------------

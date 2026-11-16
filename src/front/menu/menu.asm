@@ -17,7 +17,7 @@ extern str_Bb02d, str_Bb10, str_Bb11, str_Bb19, str_Bb20, str_Bkgd5, str_Bt013, 
 extern str_Bt02d, str_Bt102, str_Bt112, str_Bt19, str_Bt20, str_Bt28, str_Bt29, str_Hig1
 extern str_Hig2, str_Hig3, str_HILITESNDX, str_LOCALNDX2, str_Opt1, str_Opt2, str_Opt3, str_Pal11
 extern str_Sta1, str_Sta2, str_Sta3, str_Use1, str_Use2, str_Use3, GetLangText, sub_AA7E0
-extern sub_AAA40, sub_AADA4, FreeMemBlock, sub_AD35C, sub_ADA50, sub_ADBEC, sub_BF8D0, SetScreenTarget
+extern sub_AAA40, sub_AADA4, FreeMemBlock, sub_AD35C, sub_ADA50, sub_ADBEC, SumRingRange, SetScreenTarget
 extern sub_DFE9C, sub_E04E0, sub_E0584, vecdist, WaitRetrace, WaitRetraceEdges, word_114CE0, word_114CE4
 extern word_11D1B4, word_11D1B6, word_11D1B8, word_11D1BA, word_11D1C4, word_17C464, word_17C466, word_17C468
 extern word_17C46A, word_17C46C, word_17C46E, word_17C470
@@ -342,7 +342,7 @@ PollMenuInput:
         push dword [byte edi+010h]
         push dword [dword_11D1AC]
         push dword [dword_11D1A8]
-        call sub_BF8D0
+        call SumRingRange
         add esp, byte 10h
         test eax, eax
         je short .39
@@ -1300,7 +1300,7 @@ RunMenu:
         push dword [byte esi+010h]
         push dword [dword_11D1AC]
         push dword [dword_11D1A8]
-        call sub_BF8D0
+        call SumRingRange
         add esp, byte 10h
         test eax, eax
         je near .93
@@ -1571,7 +1571,7 @@ RunMenu:
         push dword [byte esi+010h]
         push dword [dword_11D1AC]
         push dword [dword_11D1A8]
-        call sub_BF8D0
+        call SumRingRange
         add esp, byte 10h
         test eax, eax
         je short .99
@@ -1626,7 +1626,7 @@ RunMenu:
         push dword [byte esi+010h]
         push dword [byte ebp-012h]
         push dword [byte ebp-0Eh]
-        call sub_BF8D0
+        call SumRingRange
         add esp, byte 10h
         test eax, eax
         je near .123
@@ -1842,7 +1842,7 @@ RunMenu:
         push dword [byte esi+010h]
         push dword [byte ebp-012h]
         push dword [byte ebp-0Eh]
-        call sub_BF8D0
+        call SumRingRange
         add esp, byte 10h
         test eax, eax
         je short .127

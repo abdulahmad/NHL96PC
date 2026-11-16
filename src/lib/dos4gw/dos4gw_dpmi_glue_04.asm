@@ -19,10 +19,10 @@ extern sub_D3415, sub_D342A, sub_D343F, EmuFldSt, EmuFxch, sub_D34C4, sub_D3545,
 extern sub_D386A, sub_D3982, sub_D3A0B, sub_D3A65, sub_D3A7A, sub_D3A8F, sub_D3AA4, sub_D3AB9
 extern sub_D3ACE, EmuFfree, sub_D3B02, sub_D3B2E, sub_D3B40, sub_D3B52, sub_D3B7E, sub_D3BC9
 extern sub_D3C14, sub_D3C9D, sub_D3CE8, sub_D3D33, sub_D3D7E, sub_D3DC9
-global _DoINTR_, __int7, __int7_X32VM, __int7_pl3, jpt_D25B8, jpt_D26B8, IntrLoadRegs, sub_D1860
+global _DoINTR_, __int7, __int7_X32VM, __int7_pl3, EmuOpcodeJumpTable, EmuModRmJumpTable, IntrLoadRegs, sub_D1860
 global sub_D1920, sub_D19BC, sub_D1A88, sub_D1B3C, sub_D1BEC, sub_D1CE0, IntrStubs, EmuZeroTbyte
 global unk_D2444, unk_D2448, EmuRegRing, unk_D244C, unk_D244E, EmuRegTagMasks, unk_D249C, unk_D24A0
-global unk_D24A2, EmuCompareCcBits, EmuFpremCcBits, unk_D24F8, EmuEaSibTable
+global unk_D24A2, EmuCompareCcBits, EmuFpremCcBits, EmuEaModRmTable, EmuEaSibTable
 ;-----------------------------------------------------------------------------
 ; _DoINTR_                                                      D14D1  library
 ;-----------------------------------------------------------------------------
@@ -1184,7 +1184,7 @@ EmuCompareCcBits:
         db 01h,040h,00h,045h
 EmuFpremCcBits:
         db 00h,02h,040h,042h,01h,03h,041h,043h,087h,0DBh
-unk_D24F8:
+EmuEaModRmTable:
         dd sub_D2AAA
         dd sub_D2AB0
         dd sub_D2AB6
@@ -1234,7 +1234,7 @@ EmuEaSibTable:
         dd sub_D2B4F
         dd sub_D2B5A
         dd sub_D2B63
-jpt_D25B8:
+EmuOpcodeJumpTable:
         dd sub_D2BA9
         dd sub_D2C9B
         dd sub_D2D77
@@ -1299,7 +1299,7 @@ jpt_D25B8:
         dd sub_D3154
         dd sub_D3243
         dd sub_D335C
-jpt_D26B8:
+EmuModRmJumpTable:
         dd sub_D33B2
         dd EmuFldSt
         dd EmuReservedOp

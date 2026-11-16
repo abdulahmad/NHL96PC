@@ -11,8 +11,8 @@ extern mousex, mousey, ReadJoystickBits, SetGripButtonMap, sprintf_, str_A, str_
 extern str_BT01, str_BT02, str_D3, str_feB, str_GRIPCON, str_LTD0, str_Pal4, str_RGRIPCON
 extern strcpy_, strlen_, OpenScreen, SlideInTitleBar, SlideInSideBar, SetScreenColors, BlackPalette, FadePalette
 extern FadeOut, CopyBitmap, SetTextColors, DrawColorText, DrawColorTextRight, DrawColorTextCentred, InitMenuItems, RunMenu
-extern SetMenuMouse, FillMusicStream, SoundSecondsToBytes, SoundIdle, GetLangText, sub_AA988, sub_AADA4, sub_AB758
-extern FreeMemBlock, sub_ADA50, sub_ADA80, SetScreenTarget, FillRectColor, sub_DFF28, sub_E04E0, TextSetFont
+extern SetMenuMouse, FillMusicStream, SoundSecondsToBytes, SoundIdle, GetLangText, DrawShapeAtOwnPos, sub_AADA4, sub_AB758
+extern FreeMemBlock, sub_ADA50, sub_ADA80, SetScreenTarget, FillRectColor, KbdGetKey, sub_E04E0, TextSetFont
 extern unk_121FC8, unk_151648, unk_1516B8, unk_151720, unk_2018D, word_11758C, word_151768, word_158CBA
 extern word_158CBC, word_158D34, word_158D3C, word_158D44, word_158D46, word_158D74, word_158D76
 global DrawGripPads, DrawGripPads_73B, DrawGripPads_73C, GripSetupScreen, UpdateJoystickTest, JoystickTestScreen
@@ -1470,15 +1470,15 @@ GripSetupScreen:
         call GetLangText
         call DrawColorTextCentred
 .32:
-        call sub_DFF28
+        call KbdGetKey
         cmp eax, byte 1Bh
         je short .32
 .33:
-        call sub_DFF28
+        call KbdGetKey
         cmp eax, byte 1Bh
         jne short .33
 .34:
-        call sub_DFF28
+        call KbdGetKey
         cmp eax, byte 1Bh
         je short .34
         mov dword [dword_114CB0], 1
@@ -1660,7 +1660,7 @@ JoystickTestScreen:
         push eax
         inc dword [byte ebp+066h]
         mov dword [dword esi+dword_158CC0], eax
-        call sub_AA988
+        call DrawShapeAtOwnPos
         add esp, byte 4
         mov word [dword edi+word_158CBA], 0
         cmp dword [byte ebp+066h], byte 8

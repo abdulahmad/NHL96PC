@@ -14,9 +14,9 @@ extern LinkOpen, LinkSendMessage, LinkTimerTick, optblock_end, optflags, SetClip
 extern SetLinkMessageHandler, SetLinkSpareHook, SlotButtons, str_ABORT, str_HFwt, str_HGwt, str_LGwt, str_PAL22
 extern str_SHAD, str_X3, strcpy_, MessageBox, HideMessage, ShowMessage, CopyBitmap, SetTextColors
 extern DrawColorText, DrawColorTextCentred, DrawBox, StopMusic, QueueCurrentMusic, FillMusicStream, PlayMusic, FadeOutMusic
-extern SoundSecondsToBytes, SoundIdle, GetLangText, RemoveTimerCallback, sub_AA988, sub_AAA8C, sub_AADA4, sub_AB758
+extern SoundSecondsToBytes, SoundIdle, GetLangText, RemoveTimerCallback, DrawShapeAtOwnPos, sub_AAA8C, sub_AADA4, sub_AB758
 extern FreeMemBlock, sub_AD35C, sub_AD620, sub_ADA80, sub_ADBEC, SetScreenTarget, GetPaletteRange, FillRectColor
-extern sub_DFE9C, sub_DFF28, sub_E04E0, unk_114CE6, unk_114D46, unk_114D6E, unk_15179C, unk_1519C0
+extern sub_DFE9C, KbdGetKey, sub_E04E0, unk_114CE6, unk_114D46, unk_114D6E, unk_15179C, unk_1519C0
 extern unk_151A04, unk_151A44, unk_151A94, unk_151ADC, unk_17C9B8, unk_17C9CC, unk_17D272, word_114CE0
 extern word_114CE4, word_114DBE, word_114DC0, word_151AE0, word_151AE2, word_17C9AC, word_17C9B0, word_17C9B2
 global ModemGameOpen, LinkBlockStart, LinkBlockData, LinkSendBlock, LinkReceiveBlock, LinkSyncMessage, LinkGameMessage, jpt_1278E
@@ -962,7 +962,7 @@ ShowLinkWaitBox:
         call CopyBitmap
         mov dword [dword_151AD0], eax
         push dword [dword_151AD0]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         add esp, byte 4
         mov eax, dword [byte ebp-04h]
         push eax
@@ -1824,7 +1824,7 @@ ModemChat:
         call SetScreenTarget
         mov eax, dword [byte ebp-02Ch]
         push dword [byte eax+02Ch]
-        call sub_AA988
+        call DrawShapeAtOwnPos
         add esp, byte 4
         xor edx, edx
         mov eax, dword [byte ebp-02Ch]
@@ -2032,13 +2032,13 @@ ModemChat:
 .4:
         jmp short .6
 .5:
-        call sub_DFF28
+        call KbdGetKey
         cmp eax, byte 1Bh
         jne short .7
 .6:
         jmp short .8
 .7:
-        call sub_DFF28
+        call KbdGetKey
         cmp eax, byte 0Dh
         jne short .9
 .8:
@@ -2102,7 +2102,7 @@ ModemChat:
         call GetTicks
         mov dword [byte ebp-058h], eax
 .10:
-        call sub_DFF28
+        call KbdGetKey
         mov dword [byte ebp-020h], eax
         cmp word [byte ebp-020h], byte 0
         je short .11

@@ -4,17 +4,17 @@ bits 32
 section s_E19F0 progbits alloc exec nowrite align=1
 extern str_MUSICON, str_MUSICOFF, str_SOUNDON, str_SOUNDOFF, byte_11F670, byte_1241C4, byte_124244, SavedTextMode
 extern SavedTextPage, SavedTextRows, byte_14FAC0, byte_14FAC1, byte_14FAC2, byte_14FAC3, byte_14FAC5, byte_14FAC6
-extern byte_14FAC8, byte_14FAC9, byte_14FACB, byte_14FACC, byte_14FAF0, TimerTickStep, dword_121F90, SinTable
+extern byte_14FAC8, byte_14FAC9, byte_14FACB, byte_14FACC, AngleOctantTable, TimerTickStep, dword_121F90, SinTable
 extern dword_122790, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, dword_122B90, dword_123390, dword_1242CA
 extern dword_1242CE, dword_124444, dword_124448, dword_12444C, dword_124450, dword_124454, dword_124458, dword_1248C8
 extern dword_14F098, str_28, joyenablemask, off_14F07C, off_14F080, off_14F084, off_14F088, off_14F08C
-extern off_14F090, off_14F0B0, printf_, sprintf_, sub_ADA50, sub_C2AEC, sub_E0158, AddExitHandler
+extern off_14F090, off_14F0B0, printf_, sprintf_, sub_ADA50, sub_C2AEC, ReadJoystickPorts, AddExitHandler
 extern SavedTextColumns
-global jpt_E1B6F, RectFillClipLeftJumpTable, RectFillClipBottomJumpTable, RectFillClipRightJumpTable, RectFillStepJumpTable, sub_E19FE_C, sub_E19FE_5A, sub_E19FE_164
+global jpt_E1B6F, RectFillClipLeftJumpTable, RectFillClipBottomJumpTable, RectFillClipRightJumpTable, RectFillStepJumpTable, SetupRectFill_C, SetupRectFill_5A, SetupRectFill_164
 global jpt_E1B6F_40, jpt_E1BCE_D2, jpt_E1CBA_DF, jpt_E1DA4_14A, jpt_E1DA4_1DA, jpt_E1F8A_145, jpt_E1F8A_153, jpt_E1F8A_1AC
-global jpt_E1F8A_1BF, jpt_E1F8A_27E, sub_E2335_5B, sub_E2335_81, sub_E19F0, sub_E19FE, sub_E22DC, sub_E2335
+global jpt_E1F8A_1BF, jpt_E1F8A_27E, sub_E2335_5B, sub_E2335_81, sub_E19F0, SetupRectFill, sub_E22DC, sub_E2335
 global sub_E2436, SaveTextMode, RestoreTextMode, AngleFromDelta, SinLookup, CosLookup, DebugLineCount, sub_E272C
-global sub_E2824, unk_E262C
+global SinCosLookup, AngleFromDeltaJumpTable
 ;-----------------------------------------------------------------------------
 ; sub_E19F0                                                            E19F0  
 ;-----------------------------------------------------------------------------
@@ -25,18 +25,19 @@ sub_E19F0:
         push esi
         push edi
         mov byte [byte ebp-05h], 1
-        jmp short sub_E19FE_C
+        jmp short SetupRectFill_C
 ;-----------------------------------------------------------------------------
-; sub_E19FE                                                            E19FE  
+; SetupRectFill                                E19FE  96 PC, medium confidence
+; Clips a rectangle and fills in its fill description
 ;-----------------------------------------------------------------------------
-sub_E19FE:
+SetupRectFill:
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFF8h
         push esi
         push edi
         mov byte [byte ebp-05h], 0
-sub_E19FE_C:
+SetupRectFill_C:
         mov esi, dword [byte ebp+018h]
         mov dword [byte esi+034h], 0FFh
         LD xor, eax, eax
@@ -63,9 +64,9 @@ sub_E19FE_C:
         mov dword [byte esi+010h], ecx
         mov dword [byte esi+014h], eax
 .2:
-        jne short sub_E19FE_5A
+        jne short SetupRectFill_5A
         jmp near jpt_E1F8A_1BF
-sub_E19FE_5A:
+SetupRectFill_5A:
         LD xor, edx, edx
         cmp byte [byte ebp-05h], 0
         jne short .11
@@ -132,7 +133,7 @@ sub_E19FE_5A:
         inc ecx
         mov dword [byte esi+018h], ecx
         mov byte [byte esi+034h], 2
-        jmp short sub_E19FE_164
+        jmp short SetupRectFill_164
 .14:
         jl short .21
         LD cmp, edx, ecx
@@ -161,7 +162,7 @@ sub_E19FE_5A:
         inc ecx
         jo short .12
         mov dword [byte esi+018h], ecx
-        jmp short sub_E19FE_164
+        jmp short SetupRectFill_164
 .19:
         mov byte [byte esi+034h], 6
         jmp short .16
@@ -184,7 +185,7 @@ sub_E19FE_5A:
 .24:
         inc ecx
         mov dword [byte esi+018h], ecx
-sub_E19FE_164:
+SetupRectFill_164:
         mov ebx, dword [byte ebp-04h]
         je short jpt_E1B6F_40
         jmp dword [nosplit cs:ebx*4+jpt_E1B6F]
@@ -719,7 +720,7 @@ jpt_E1F8A_153:
         je short jpt_E1F8A_1AC.13
         movzx edx, dl
         mov dword [byte ebp-04h], edx
-        jmp near sub_E19FE_164
+        jmp near SetupRectFill_164
 ;-----------------------------------------------------------------------------
 ; jpt_E1F8A_1AC                                                        E2136  
 ;-----------------------------------------------------------------------------
@@ -864,7 +865,7 @@ jpt_E1F8A_27E:
         jle short .31
         cmp dword [byte esi+010h], 3E80h
         jge short .31
-        jmp near sub_E19FE_5A
+        jmp near SetupRectFill_5A
 .31:
         mov eax, dword [byte esi+014h]
         LD sub, eax, ecx
@@ -1171,12 +1172,12 @@ AngleFromDelta:
         div ecx
         shr eax, 18h
         adc eax, byte 0
-        movzx eax, byte [dword eax+byte_14FAF0]
-        jmp dword [dword cs:ebx+unk_E262C]
+        movzx eax, byte [dword eax+AngleOctantTable]
+        jmp dword [dword cs:ebx+AngleFromDeltaJumpTable]
 .4:
         mov eax, 80h
-        jmp dword [dword cs:ebx+unk_E262C]
-unk_E262C:
+        jmp dword [dword cs:ebx+AngleFromDeltaJumpTable]
+AngleFromDeltaJumpTable:
         dd .2
         dd .1
         dd .3
@@ -1348,7 +1349,7 @@ sub_E272C:
 .10:
         LD or, eax, eax
         jne short .11
-        call sub_E0158
+        call ReadJoystickPorts
 .11:
         ret
         LD xor, ecx, ecx
@@ -1375,9 +1376,10 @@ sub_E272C:
         ret
         db 00h
 ;-----------------------------------------------------------------------------
-; sub_E2824                                                            E2824  
+; SinCosLookup                                    E2824  96 PC, low confidence
+; Returns the sine and cosine of an angle from the quarter-wave tables
 ;-----------------------------------------------------------------------------
-sub_E2824:
+SinCosLookup:
         mov eax, dword [byte esp+04h]
         mov ebx, dword [byte esp+08h]
         mov ecx, dword [byte esp+0Ch]

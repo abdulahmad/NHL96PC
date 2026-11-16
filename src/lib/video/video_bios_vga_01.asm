@@ -4,9 +4,9 @@ bits 32
 section s_DD6C4 progbits alloc exec nowrite align=1
 extern RemapTable, byte_123988, dword_11F5A0, ScreenWidth, ClipBottom, ClipTopRow, ClipLeftCol, ClipRight
 extern ScreenHeight, dword_1228E8, dword_1228FC, BackBufferWidth, dword_123A88, dword_123A8C, dword_123A90, RetraceTimeout
-extern dword_1248C8, sub_ADA50, sub_C3E38, sub_E19FE, unk_18584C
+extern dword_1248C8, sub_ADA50, FillRectSpans, SetupRectFill, unk_18584C
 global SetDrawBitmap, WaitRetrace_36, SetScreenTarget, GetPaletteRange, FillRectColor, SetClipWindow, sub_DD7B8, sub_DD800
-global sub_DD830, sub_DD87C, SetRemapTable, sub_DD8C8, sub_DD908, sub_DD920, sub_DD960, sub_DD975
+global sub_DD830, sub_DD87C, SetRemapTable, GetRemapTable, sub_DD908, sub_DD920, sub_DD960, sub_DD975
 global sub_DD982, sub_DDA44, sub_DDB22, sub_DDB68, sub_DDBB4, sub_DDC2A, ReadPortStable, WaitRetrace
 global WaitRetraceEdges, SetCrtcStart, sub_DDF4F, ClearChain4, sub_DE01A, unk_DE06D, WaitDisplayRetrace
 ;-----------------------------------------------------------------------------
@@ -78,7 +78,7 @@ FillRectColor:
         db 0FFh,075h,010h                       ; insn: push dword [ebp+10h]
         db 0FFh,075h,0Ch                        ; insn: push dword [ebp+0Ch]
         push dword [byte ebp+08h]
-        call sub_E19FE
+        call SetupRectFill
         add esp, byte 14h
         LD or, eax, eax
         jne short .1
@@ -88,7 +88,7 @@ FillRectColor:
         mov eax, dword [byte ebp+018h]
         mov dword [byte ebx+01Ch], eax
         push ebx
-        call sub_C3E38
+        call FillRectSpans
         add esp, byte 4
 .1:
         leave
@@ -251,9 +251,10 @@ SetRemapTable:
         leave
         ret
 ;-----------------------------------------------------------------------------
-; sub_DD8C8                                                            DD8C8  
+; GetRemapTable                                   DD8C8  96 PC, low confidence
+; Copies the current 256-entry colour remap table out
 ;-----------------------------------------------------------------------------
-sub_DD8C8:
+GetRemapTable:
         push ebp
         LD mov, ebp, esp
         push esi

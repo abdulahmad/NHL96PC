@@ -2,9 +2,12 @@
 bits 32
 %include "hockey.inc"
 section s_E1824 progbits alloc exec nowrite align=1
-extern GetTicks, TicksSince, byte_123DE8, dword_123DA4, dword_123DEB, mousepollfn, sub_DFF28, sub_E0158
+extern GetTicks, TicksSince, byte_123DE8, dword_123DA4, dword_123DEB, mousepollfn, KbdGetKey, ReadJoystickPorts
 extern sub_E22DC, word_123DE4, word_123DE6, word_123DE9
-global sub_E1836_6, sub_E1836_29, sub_E1824, sub_E1836, sub_E1927
+global sub_E1836_6, sub_E1836_29, sub_E1824, sub_E1836, PollHotkeys
+;-----------------------------------------------------------------------------
+; sub_E1824                                                            E1824  
+;-----------------------------------------------------------------------------
 sub_E1824:
         push ebp
         LD mov, ebp, esp
@@ -14,6 +17,9 @@ sub_E1824:
         shrd eax, edx, 10h
         LD mov, ax, dx
         jmp short sub_E1836_6
+;-----------------------------------------------------------------------------
+; sub_E1836                                                            E1836  
+;-----------------------------------------------------------------------------
 sub_E1836:
         push ebp
         LD mov, ebp, esp
@@ -32,19 +38,19 @@ sub_E1836_6:
         leave
         ret
         db 00h
-        call sub_DFF28
+        call KbdGetKey
         LD or, ax, ax
         je short sub_E1836_29.2
         ret
 sub_E1836_29:
-        call sub_DFF28
+        call KbdGetKey
         LD or, ax, ax
         je short .2
         push eax
         call sub_E22DC
         add esp, byte 4
         ret
-        call sub_DFF28
+        call KbdGetKey
         LD or, ax, ax
         je short .1
         push eax
@@ -56,7 +62,7 @@ sub_E1836_29:
         shl ax, 4
         jne short .3
 .2:
-        call sub_E0158
+        call ReadJoystickPorts
 .3:
         LD mov, bx, ax
         test ax, 30h
@@ -101,8 +107,12 @@ sub_E1836_29:
         mov byte [byte_123DE8], 3
         mov word [word_123DE6], ax
         jmp short .6
-sub_E1927:
-        call sub_DFF28
+;-----------------------------------------------------------------------------
+; PollHotkeys                                     E1927  96 PC, low confidence
+; Reads a key and dispatches its hotkey handler
+;-----------------------------------------------------------------------------
+PollHotkeys:
+        call KbdGetKey
         LD or, eax, eax
         je short .1
         push eax

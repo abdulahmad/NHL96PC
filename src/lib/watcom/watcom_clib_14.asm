@@ -9,16 +9,16 @@ extern dword_144FB8, dword_144FBC, dword_144FC0, dword_144FC4, dword_144FC8, dwo
 extern dword_144FD8, dword_144FDC, dword_144FE0, dword_144FE4, dword_144FE8, dword_144FEC, dword_144FF0, dword_144FF4
 extern dword_144FF8, dword_144FFC, dword_145000, dword_145004, dword_145008, dword_14500C, dword_145010, dword_145014
 extern dword_145018, MixerReady, dword_14EFA0, MixerOutputRate, dword_14EFA8, dword_14EFAC, MixerChunkSamples, MixerChunkLeft
-extern dword_14EFB8, dword_14EFBC, dword_14EFC4, dword_14EFC8, dword_14EFCC, dword_14EFD0, dword_14EFD4, dword_14EFD8
+extern dword_14EFB8, dword_14EFBC, MixerLoopLength, dword_14EFC8, MixerLoopStart, dword_14EFD0, dword_14EFD4, dword_14EFD8
 extern dword_1A0B1C, MixerChannelTable, EmuInitHook, EmuFiniHook, sub_AADA4, FreeMemBlock, sub_ABF88, sub_AD2B4
-extern RestoreDS, sub_C01C9, sub_C1051, sub_C1183, sub_CE1DA, sub_CE1F3, InitFloatFormat, FormatFloat
+extern RestoreDS, sub_C01C9, sub_C1051, sub_C1183, sub_CE1DA, SbWaitRead, InitFloatFormat, FormatFloat
 extern SetScreenTarget, unk_146F9C, unk_1A0B20, str_Punct_InitFpuFlags, __no87, OldFpuVectorSelector, FpuCr0Bits, DefaultControlWord
 extern word_1A0FA0, SbMixerAddrPort, word_1A0FA4, word_1A0FA6, word_1A0FA8, SbReadPort, SbWritePort
 global __chk8087_, __init_8087_, __rest_8087_, __save_8087_, __sys_fini_387_emulator, _fpreset_, MixerChunkLength_4A, MixerChunkLength_8F
 global MixerChunkLength_10E, MixerChunkLength_21B, MixerChunkLength_32D, sub_CCB41_3AE, sub_CCB41_7BC, sub_CCB41_BC7, sub_CCB41_F65, sub_CCB41_1372
 global sub_CCB41_13D3, sub_CCB41_1430, EmuRestoreFpuVector, EmuRestoreRealVector, sub_CAA80, sub_CAB58, sub_CAB78, sub_CABA9
 global sub_CBEA8, sub_CBEB7, sub_CBFC2, sub_CC048, MixerStopChannel, sub_CC17B, sub_CC1B5, MixerSamplesLeft
-global sub_CC250, MixerChunkLength, MixerCalcStep, sub_CC7A1, sub_CC7FD, sub_CCB41, sub_CDFDD, sub_CDFDE
+global sub_CC250, MixerChunkLength, MixerCalcStep, MixerBuildVolumeTables, sub_CC7FD, sub_CCB41, sub_CDFDD, sub_CDFDE
 global sub_CDFDF, sub_CDFE0, sub_CDFE1, sub_CDFE2, MixerStepTable
 ;-----------------------------------------------------------------------------
 ; __sys_fini_387_emulator                                       CA835  library
@@ -747,7 +747,7 @@ sub_CBEB7:
         push ebp
         LD mov, ebp, esp
         push esi
-        call sub_CC7A1
+        call MixerBuildVolumeTables
         cmp dword [byte ebp+010h], 400h
         jle short .1
         mov eax, 0FFFFFFFFh
@@ -1282,7 +1282,7 @@ MixerChunkLength_8F:
         shrd eax, edx, 8
         shr edx, 8
         div dword [byte esi+02Ch]
-        mov dword [dword_14EFC4], eax
+        mov dword [MixerLoopLength], eax
         cmp eax, byte 0
         jne short .8
         lea eax, [byte esi+010h]
@@ -1300,7 +1300,7 @@ MixerChunkLength_8F:
         add dword [byte esi+010h], eax
         jmp short MixerChunkLength_8F
 .8:
-        cmp dword [dword_14EFC4], byte 0
+        cmp dword [MixerLoopLength], byte 0
         jne short .9
         push dword [MixerChunkSamples]
         call MixerStopChannel
@@ -1379,8 +1379,8 @@ MixerChunkLength_10E:
         je short .17
         add edx, byte 1
 .17:
-        mov dword [dword_14EFCC], edx
-        push dword [dword_14EFCC]
+        mov dword [MixerLoopStart], edx
+        push dword [MixerLoopStart]
         mov ebx, unk_146F9C
         push ebx
         mov ebx, dword [byte esi+038h]
@@ -1395,7 +1395,7 @@ MixerChunkLength_10E:
         push edx
         call dword [byte esi+058h]
         add esp, byte 18h
-        mov eax, dword [dword_14EFCC]
+        mov eax, dword [MixerLoopStart]
         add dword [byte esi+038h], eax
         mov ebx, unk_146F9C
         mov ecx, dword [byte esi+08h]
@@ -1414,7 +1414,7 @@ MixerChunkLength_21B:
         shrd eax, edx, 8
         shr edx, 8
         div dword [byte esi+02Ch]
-        mov dword [dword_14EFC4], eax
+        mov dword [MixerLoopLength], eax
         cmp eax, byte 0
         jne short .22
 .20:
@@ -1452,10 +1452,10 @@ MixerChunkLength_21B:
         pop edi
         jmp near MixerChunkLength_21B
 .21:
-        cmp dword [dword_14EFC4], byte 0
+        cmp dword [MixerLoopLength], byte 0
         jne short .22
 .22:
-        mov eax, dword [dword_14EFC4]
+        mov eax, dword [MixerLoopLength]
         cmp eax, dword [MixerChunkLeft]
         jl short .23
         mov eax, dword [MixerChunkLeft]
@@ -1475,8 +1475,8 @@ MixerChunkLength_21B:
         je short .24
         add edx, byte 1
 .24:
-        mov dword [dword_14EFCC], edx
-        push dword [dword_14EFCC]
+        mov dword [MixerLoopStart], edx
+        push dword [MixerLoopStart]
         mov ebx, unk_146F9C
         push ebx
         mov ebx, dword [byte esi+038h]
@@ -1491,7 +1491,7 @@ MixerChunkLength_21B:
         push edx
         call dword [byte esi+058h]
         add esp, byte 18h
-        mov eax, dword [dword_14EFCC]
+        mov eax, dword [MixerLoopStart]
         add dword [byte esi+038h], eax
         mov ebx, unk_146F9C
         mov ecx, dword [byte esi+08h]
@@ -1510,7 +1510,7 @@ MixerChunkLength_32D:
         shrd eax, edx, 8
         shr edx, 8
         div dword [byte esi+02Ch]
-        mov dword [dword_14EFC4], eax
+        mov dword [MixerLoopLength], eax
         cmp eax, byte 0
         jne short .27
         push dword [MixerChunkSamples]
@@ -1538,8 +1538,8 @@ MixerChunkLength_32D:
         je short .29
         add edx, byte 1
 .29:
-        mov dword [dword_14EFCC], edx
-        push dword [dword_14EFCC]
+        mov dword [MixerLoopStart], edx
+        push dword [MixerLoopStart]
         mov ebx, unk_146F9C
         push ebx
         mov ebx, dword [byte esi+038h]
@@ -1554,7 +1554,7 @@ MixerChunkLength_32D:
         push edx
         call dword [byte esi+058h]
         add esp, byte 18h
-        mov eax, dword [dword_14EFCC]
+        mov eax, dword [MixerLoopStart]
         add dword [byte esi+038h], eax
         mov ebx, unk_146F9C
         mov ecx, dword [byte esi+08h]
@@ -1606,9 +1606,10 @@ MixerCalcStep:
         popa
         ret
 ;-----------------------------------------------------------------------------
-; sub_CC7A1                                                            CC7A1  
+; MixerBuildVolumeTables                          CC7A1  96 PC, low confidence
+; Builds the 128 volume tables that scale each 8-bit sample value
 ;-----------------------------------------------------------------------------
-sub_CC7A1:
+MixerBuildVolumeTables:
         push eax
         push ecx
         push edx
@@ -2907,6 +2908,6 @@ sub_CDFE2:
         movzx edx, word [word_1A0FA8]
         xor al, al
         out dx, al
-        call sub_CE1F3
+        call SbWaitRead
         pop edx
         ret

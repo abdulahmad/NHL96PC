@@ -7,14 +7,16 @@ extern dword_1210C0, dword_1210C8, dword_1210CC, ScreenWidth, ClipTopRow, ClipLe
 extern dword_1228F4, dword_1228FC, dword_122930, dword_123934, dword_18568C, dword_185690, dword_185730, dword_185734
 extern dword_18573C, strncpy_, sub_AA7E0, sub_AB87C, getmemblock, sub_C24D0, sub_C3A48, ResetMemLock
 extern MemLock, sub_C3C04, SetScreenTarget, SetClipWindow, VesaSetBank, sub_DE4C7, sub_DE643, sub_DE7DB
-extern sub_DE97C, sub_DE9F3, sub_DEB94, sub_E0520, sub_E193C, sub_E1956
-global PutBlock_25F, sub_AAF28_132, sub_AA988, sub_AA9CC, sub_AAA40, sub_AAA8C, sub_AAADC, PutBlock
-global sub_AADA4, sub_AADC0, sub_AADE8, sub_AAF28, sub_AB0A8, sub_AB2EC, sub_AB3B4, sub_AB440
+extern sub_DE97C, sub_DE9F3, sub_DEB94, bcopy, sub_E193C, sub_E1956
+global PutBlock_25F, sub_AAF28_132, DrawShapeAtOwnPos, sub_AA9CC, sub_AAA40, sub_AAA8C, sub_AAADC, PutBlock
+global sub_AADA4, BlitShapeAt, sub_AADE8, sub_AAF28, sub_AB0A8, sub_AB2EC, sub_AB3B4, sub_AB440
 global sub_AB5BC, sub_AB660, sub_AB6D8, sub_AB718, sub_AB758, sub_AB798
 ;-----------------------------------------------------------------------------
-; sub_AA988                                                            AA988  
+; DrawShapeAtOwnPos                               AA988  96 PC, low confidence
+; Draws a shape at the position stored in its header; followed by the draw at
+; a given position
 ;-----------------------------------------------------------------------------
-sub_AA988:
+DrawShapeAtOwnPos:
         mov edx, dword [byte esp+04h]
         mov eax, dword [byte edx+0Ch]
         sar eax, 10h
@@ -111,7 +113,7 @@ sub_AAA40:
         push ebx
         mov esi, sub_C24D0
         push edx
-        mov edi, sub_E0520
+        mov edi, bcopy
         mov dword [dword_1210C0], esi
         call PutBlock
         add esp, byte 0Ch
@@ -147,7 +149,7 @@ sub_AAA8C:
         push edx
         mov esi, sub_C24D0
         push ebx
-        mov edi, sub_E0520
+        mov edi, bcopy
         mov dword [dword_1210C0], esi
         call PutBlock
         add esp, byte 0Ch
@@ -188,7 +190,7 @@ sub_AAADC:
         push ebx
         mov esi, sub_C24D0
         push eax
-        mov edi, sub_E0520
+        mov edi, bcopy
         mov dword [dword_1210C0], esi
         call PutBlock
         add esp, byte 0Ch
@@ -428,9 +430,10 @@ sub_AADA4:
         add esp, byte 0Ch
         ret
 ;-----------------------------------------------------------------------------
-; sub_AADC0                                                            AADC0  
+; BlitShapeAt                                     AADC0  96 PC, low confidence
+; Graphics library: draws a shape with transparency at x, y less its hot spot
 ;-----------------------------------------------------------------------------
-sub_AADC0:
+BlitShapeAt:
         mov edx, dword [byte esp+04h]
         mov eax, dword [byte edx+08h]
         mov ebx, dword [byte esp+0Ch]
@@ -501,7 +504,7 @@ sub_AADE8:
         push ebx
         mov esi, sub_AADE8
         push edx
-        mov edi, sub_E0520
+        mov edi, bcopy
         mov dword [dword_1210C0], esi
         call PutBlock
         add esp, byte 0Ch
@@ -533,7 +536,7 @@ sub_AADE8:
         push edx
         mov esi, sub_AADE8
         push ebx
-        mov edi, sub_E0520
+        mov edi, bcopy
         mov dword [dword_1210C0], esi
         call PutBlock
         add esp, byte 0Ch
@@ -570,7 +573,7 @@ sub_AADE8:
         push ebx
         mov esi, sub_AADE8
         push eax
-        mov edi, sub_E0520
+        mov edi, bcopy
         mov dword [dword_1210C0], esi
         call PutBlock
         add esp, byte 0Ch

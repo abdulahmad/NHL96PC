@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_C3CC0 progbits alloc exec nowrite align=1
-extern FatalError, str_RemovewindowROWSPACE, RowTable, RowTableSize, sub_C3E38_AC, sub_C3E38_CD, sub_C3E38_F1, sub_C3E38_111
-extern sub_C3E38_131, sub_C3E38_182, sub_C3E38_1D3, sub_C3E38_21D, sub_C3E38_263
+extern FatalError, str_RemovewindowROWSPACE, RowTable, RowTableSize, FillRectSpans_AC, FillRectSpans_CD, FillRectSpans_F1, FillRectSpans_111
+extern FillRectSpans_131, FillRectSpans_182, FillRectSpans_1D3, FillRectSpans_21D, FillRectSpans_263
 global FillRowTable, removewindow, unk_C3E10
 ;-----------------------------------------------------------------------------
 ; FillRowTable                                    C3CC0  96 PC, low confidence
@@ -169,13 +169,13 @@ removewindow:
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 unk_C3E10:
-        dd sub_C3E38_AC
-        dd sub_C3E38_AC
-        dd sub_C3E38_CD
-        dd sub_C3E38_F1
-        dd sub_C3E38_111
-        dd sub_C3E38_131
-        dd sub_C3E38_182
-        dd sub_C3E38_1D3
-        dd sub_C3E38_21D
-        dd sub_C3E38_263
+        dd FillRectSpans_AC
+        dd FillRectSpans_AC
+        dd FillRectSpans_CD
+        dd FillRectSpans_F1
+        dd FillRectSpans_111
+        dd FillRectSpans_131
+        dd FillRectSpans_182
+        dd FillRectSpans_1D3
+        dd FillRectSpans_21D
+        dd FillRectSpans_263

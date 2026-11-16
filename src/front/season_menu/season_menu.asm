@@ -25,7 +25,7 @@ extern str_Stn2, str_Stn3, str_Tra1, str_Tra2, str_Tra3, strcpy_, strlen_, LoadD
 extern sub_29B9F, sub_4F08B, sub_4F159, sub_4F2A8, sub_4F385, CalendarScreen, UpdateTeamDbs, SimSeasonGames
 extern SaveSeasonTeams, SimulateGame, RunStatsMenu, RunRosterScreens, PlayoffTreeScreen, SeedPlayoffs, PlayoffRound1, PlayoffRound2
 extern PlayoffRound3, PlayoffFinal, ClearPlayoffTree, sub_A8B9B, sub_AAA40, sub_AAA8C, sub_AADA4, FreeMemBlock
-extern sub_AD35C, sub_AD5C8, sub_ADA80, sub_ADBEC, sub_B0430, sub_B178B, OpenArtArchiveErr, OpenArtArchive
+extern sub_AD35C, TintRows, sub_ADA80, sub_ADBEC, DosFileInfo, sub_B178B, OpenArtArchiveErr, OpenArtArchive
 extern sub_B22B0, sub_B2C54, UnlinkJump, sub_B7810, SetScreenTarget, sub_DD7B8, sub_E04E0, sub_E0584
 extern TextSetFont, TickDeadlinePassed, unk_152C44, unk_17CB2E, unk_17CC1F, unk_17CED5, unk_17CF9A, unk_792EB
 extern unk_79303, unk_79483, unk_794C3, UpdateProgressBox
@@ -1697,7 +1697,7 @@ DrawStandings:
         push byte 0
         push dword 10000h
         push byte 0
-        call sub_AD5C8
+        call TintRows
         add esp, byte 14h
         lea eax, [dword ebp-022Ah]
         push eax
@@ -1705,7 +1705,7 @@ DrawStandings:
         push byte 0
         push byte 0
         push dword 10000h
-        call sub_AD5C8
+        call TintRows
         mov eax, dword [dword_17CC13]
         add esp, byte 14h
         cmp eax, byte 1
@@ -3762,7 +3762,7 @@ PickIndexEntryScreen:
         add esp, byte 14h
         lea eax, [byte ebp+026h]
         push eax
-        call sub_B0430
+        call DosFileInfo
         add esp, byte 4
         test eax, eax
         je short .43
@@ -3780,7 +3780,7 @@ PickIndexEntryScreen:
         add esp, byte 14h
         lea eax, [byte ebp+026h]
         push eax
-        call sub_B0430
+        call DosFileInfo
         add esp, byte 4
         test eax, eax
         je short .44

@@ -8,7 +8,7 @@ extern asc_1136C4, str_InitmemmanDOSSUBMEMORYNO, str_AAPLUT, asc_113740, str_Ope
 extern asc_1137DC, asc_113810, asc_113834, str_CdromdirectoryentryERROR, str_Viv, QuantizeTable, byte_121AFC, _Extender
 extern _ExtenderSubtype, _osmajor, _osminor, byte_18B0D0, CpuIs386, CpuIs486, CpuType, CpuHasCpuid
 extern CpuFeatures, dword_11F9B8, RowTable, dword_1210C8, dword_1210CC, dword_1219A0, dword_1219A4, dword_121AA8
-extern FpuFlags, dword_121B24, dword_121B28, dword_121B2C, dword_121B30, dword_121B38, dword_121B48, dword_121B4C
+extern FpuFlags, dword_121B24, dword_121B28, dword_121B2C, dword_121B30, dword_121B38, CdFileMode, CdFileHandle
 extern dword_121B50, dword_121B54, dword_121B58, dword_121B5C, dword_121B6C, dword_121FBC, ScreenWidth, dword_1228D6
 extern dword_1228DA, dword_1228DE, dword_1228E2, dword_1228F8, dword_1228FC, _dynend, _curbrk, _LpCmdLine
 extern StackLow, _STACKLOW, _STACKTOP, _Envptr, RowTableSize, dword_185734, dword_185738, dword_18573C
@@ -18,7 +18,7 @@ extern dword_18B084, dword_18B088, dword_18B08C, dword_18B090, dword_18B094, dwo
 extern dword_18B0B0, dword_18B0B4, dword_18B0B8, dword_19F2D4, int386_, int386x_, kaufmfont, sub_C60EC_168
 extern sub_E2335_5B, sub_E2335_81, segread_, sub_AB2EC, sub_AB3B4, sub_AB440, sub_AB5BC, sub_AB660
 extern sub_AB758, FreeMemBlock, sub_AC950, sub_BE926, sub_C2AC4, sub_C2C5C, ResetMemLock, MemLock
-extern sub_C3C04, sub_C4C6C, sub_C5410, sub_C59E0, sub_C5D56, sub_C6000, KbdPeekKey, sub_E0520
+extern sub_C3C04, sub_C4C6C, sub_C5410, sub_C59E0, sub_C5D56, sub_C6000, KbdPeekKey, bcopy
 extern sub_E0671, DosCloseFile, sub_E07CC, sub_E081C, sub_E2335, CdFileTable, __stdout_buf, unk_18704C
 extern unk_19BAD0, StartupStack, unlink_, str_Punct_InitFpuFlags, _psp, __no87, _Envptr_w4, word_18B078
 extern word_18B098, word_18B0BC, word_18B0BE, word_18B0C0
@@ -74,11 +74,11 @@ global sub_B59E8_52C, sub_B59E8_537, sub_B59E8_542, sub_B59E8_54D, sub_B59E8_558
 global sub_B59E8_584, sub_B59E8_58F, sub_B59E8_5D5, sub_B59E8_5DA, sub_B59E8_5E5, sub_B59E8_5F0, sub_B59E8_5FB, sub_B59E8_606
 global sub_B59E8_611, sub_B59E8_61C, sub_B59E8_627, sub_B59E8_632, sub_B59E8_63D, sub_B59E8_648, sub_B59E8_653, start_74
 global start_28F, WriteConsoleMessage_23, _dos_read__5, printf_, rmdir_, start, stricmp_, strncpy_
-global sub_B2CE0, InitMemoryPool, InitMemoryPoolDefault, sub_B3100, sub_B3145, sub_B3160, sub_B31C0, DetectCPU
+global GrabLargestBlock, InitMemoryPool, InitMemoryPoolDefault, sub_B3100, sub_B3145, sub_B3160, sub_B31C0, DetectCPU
 global sub_B3360, sub_B3420, sub_B3458, sub_B35E4, sub_B39C8, sub_B3DA0, sub_B41A8, sub_B4580
 global sub_B4988, sub_B4D60, sub_B5168, sub_B5540, sub_B583C, sub_B58D8, sub_B59E8, sub_B6140
 global sub_B6148, sub_B621C, WriteConsoleMessage, RestoreDS, sub_B65E0, sub_B67BC, CdHandleEntry, CdCloseFile
-global sub_B6864, sub_B68C8, sub_B6900, sub_B6964, sub_B69C0, sub_B69EC, sub_B6A14, sub_B6A68
+global sub_B6864, sub_B68C8, sub_B6900, sub_B6964, sub_B69C0, sub_B69EC, sub_B6A14, AllocCdBuffer
 global sub_B6B10, sub_B6D2C, sub_B6DFC, sub_B6FA0, sub_B7094, sub_B71D4, sub_B71F1, sub_B7210
 global sub_B7233, UnlinkJump, sub_B7310, sub_B73C4, unk_B34D8, unk_B38BC, unk_B3C94, unk_B409C
 global unk_B4474, unk_B487C, unk_B4C54, unk_B505C, unk_B5434, unk_B58E0, unk_B5964, __saved_DS
@@ -121,9 +121,10 @@ chdir_:
         ret
         db 00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_B2CE0                                                            B2CE0  
+; GrabLargestBlock                                B2CE0  96 PC, low confidence
+; Allocates the largest block the memory manager gives, trying smaller sizes
 ;-----------------------------------------------------------------------------
-sub_B2CE0:
+GrabLargestBlock:
         mov edx, dword [byte esp+04h]
         test edx, edx
         jne short .1
@@ -175,7 +176,7 @@ InitMemoryPool:
         je short .2
         lea eax, [edx+esi]
         push eax
-        call sub_B2CE0
+        call GrabLargestBlock
         add esp, byte 4
         mov edx, eax
         mov ebx, dword [byte esp+058h]
@@ -188,7 +189,7 @@ InitMemoryPool:
         jmp short .3
 .2:
         push edx
-        call sub_B2CE0
+        call GrabLargestBlock
         sub eax, esi
         add esp, byte 4
         mov edx, eax
@@ -354,7 +355,7 @@ InitMemoryPool:
 .14:
         mov eax, dword [byte esp+058h]
         push eax
-        call sub_B2CE0
+        call GrabLargestBlock
         and al, 0F0h
         add esp, byte 4
         mov edx, eax
@@ -5141,7 +5142,7 @@ sub_B65E0:
         inc esi
         cmp eax, 480h
         jge short .2
-        cmp dword [dword eax+dword_121B48], byte 0
+        cmp dword [dword eax+CdFileMode], byte 0
         jne short .1
 .2:
         cmp esi, byte 20h
@@ -5184,7 +5185,7 @@ sub_B65E0:
         je near .8
         push byte 0
         push ebp
-        call sub_B6A68
+        call AllocCdBuffer
         add esp, byte 8
         mov eax, dword [dword esp+0B0h]
         push eax
@@ -5200,7 +5201,7 @@ sub_B65E0:
         mov eax, dword [dword_121B38]
         mov dword [dword edi+dword_121B58], edx
         add esp, byte 0Ch
-        mov dword [dword edi+dword_121B48], ecx
+        mov dword [dword edi+CdFileMode], ecx
         mov edx, dword [dword esp+0B4h]
         mov dword [dword edi+dword_121B50], eax
         mov ecx, esp
@@ -5249,7 +5250,7 @@ sub_B65E0:
         mov ebp, 2
         mov dword [dword edi+dword_121B54], eax
         mov eax, dword [dword esp+0B4h]
-        mov dword [dword edi+dword_121B48], ebp
+        mov dword [dword edi+CdFileMode], ebp
         mov dword [eax], 1
 .9:
         mov eax, dword [dword esp+0A8h]
@@ -5321,9 +5322,9 @@ CdCloseFile:
         lea eax, [nosplit edx*8+00h]
         add eax, edx
         shl eax, 2
-        cmp dword [dword eax+dword_121B48], byte 2
+        cmp dword [dword eax+CdFileMode], byte 2
         jne short .1
-        mov ebx, dword [dword eax+dword_121B4C]
+        mov ebx, dword [dword eax+CdFileHandle]
         push ebx
         call DosCloseFile
         add esp, byte 4
@@ -5332,7 +5333,7 @@ CdCloseFile:
         lea eax, [nosplit edx*8+00h]
         add eax, edx
         xor ecx, ecx
-        mov dword [nosplit eax*4+dword_121B48], ecx
+        mov dword [nosplit eax*4+CdFileMode], ecx
         ret
         db 090h
 ;-----------------------------------------------------------------------------
@@ -5348,11 +5349,11 @@ sub_B6864:
         lea eax, [nosplit esi*8+00h]
         add esi, eax
         shl esi, 2
-        cmp dword [dword esi+dword_121B48], byte 2
+        cmp dword [dword esi+CdFileMode], byte 2
         jne short .1
         push edi
         push edx
-        mov edx, dword [dword esi+dword_121B4C]
+        mov edx, dword [dword esi+CdFileHandle]
         push edx
         call sub_E07CC
         add esp, byte 0Ch
@@ -5414,10 +5415,10 @@ sub_B6900:
         lea esi, [nosplit eax*8+00h]
         add esi, eax
         shl esi, 2
-        cmp dword [dword esi+dword_121B48], byte 2
+        cmp dword [dword esi+CdFileMode], byte 2
         jne short .1
         push edx
-        mov ebp, dword [dword esi+dword_121B4C]
+        mov ebp, dword [dword esi+CdFileHandle]
         push ebp
         call sub_E081C
         add esp, byte 8
@@ -5566,9 +5567,10 @@ sub_B6A14:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_B6A68                                                            B6A68  
+; AllocCdBuffer                                   B6A68  96 PC, low confidence
+; Allocates the CD transfer buffer
 ;-----------------------------------------------------------------------------
-sub_B6A68:
+AllocCdBuffer:
         cmp dword [dword_18B080], byte 0
         jne short .1
         push dword 220h
@@ -5926,7 +5928,7 @@ sub_B6DFC:
         push ebx
         add eax, edx
         push eax
-        call sub_E0520
+        call bcopy
         mov ecx, dword [dword_18B090]
         add esp, byte 0Ch
         test ecx, ecx

@@ -10,18 +10,18 @@ extern dword_190EA8, dword_190EAC, dword_190EB0, dword_190EB4, dword_190EB8, dwo
 extern dword_190ECC, dword_190ED0, dword_190ED4, dword_1912DC, dword_1912E0, dword_1912E4, dword_1912E8, dword_1912EC
 extern dword_1912F4, dword_1912F8, dword_1912FC, dword_191304, dword_191308, dword_19130C, dword_191310, dword_191314
 extern dword_19131C, dword_191320, dword_191A9C, dword_191AA0, dword_191AA4, strnicmp_, sub_AB834, sub_ABD64
-extern FindCachedFile, unpack, sub_AFD00, sub_B31C0, sub_BBA41, sub_BBB70, sub_BD594, sub_BD92C
-extern sub_BDC74, sub_C4C6C, sub_C65A0, sub_C6FA4, sub_C7A54, sub_C8504, sub_C85F0, sub_C8D50
+extern FindCachedFile, unpack, sub_AFD00, sub_B31C0, MultiplyMatrix, sub_BBB70, sub_BD594, sub_BD92C
+extern sub_BDC74, sub_C4C6C, sub_C65A0, sub_C6FA4, sub_C7A54, DrawShapeTriangleMapped, sub_C85F0, sub_C8D50
 extern sub_C955C, sub_C972C, sub_C98FC, sub_C9A20, sub_C9A80, sub_C9AD8, sub_C9D50, sub_C9D80
-extern FillRectColor, sub_E04E7, sub_E0520, sub_E0671, DosCloseFile, sub_E07CC, sub_E081C, sub_E0959
-extern sub_E1575, sub_E17B8, unk_122320, unk_190EDC
+extern FillRectColor, sub_E04E7, bcopy, sub_E0671, DosCloseFile, sub_E07CC, sub_E081C, sub_E0959
+extern sub_E1575, TransposeMatrix, unk_122320, unk_190EDC
 global sub_B8AB0_2C8, sub_B75A0, sub_B7638, sub_B7654, sub_B7690, sub_B76A8, sub_B76C0, sub_B7810
-global SetRinkView, sub_B78DC, sub_B7924, sub_B79C8, sub_B79E0, sub_B7A70, sub_B7AC4, sub_B7B50
+global SetRinkView, sub_B78DC, TransformRinkObject, sub_B79C8, sub_B79E0, sub_B7A70, sub_B7AC4, sub_B7B50
 global sub_B7BDC, sub_B7C68, sub_B7D38, sub_B7E08, sub_B7ED8, sub_B7FBC, sub_B809C, sub_B817C
 global sub_B8198, sub_B81B4, sub_B81D0, sub_B8230, sub_B8290, sub_B82F0, sub_B848C, sub_B8740
 global sub_B8840, sub_B88F8, sub_B89F8, sub_B8AB0, sub_B8D80, sub_B9060, sub_B9328, sub_B960C
 global sub_B9870, sub_B98E0, sub_B9928, sub_B9A18, sub_B9B34, sub_B9B70, sub_B9BB0, sub_B9BD0
-global sub_B9C08, sub_B9C3C, sub_B9C70, sub_B9D04, sub_B9EE0, sub_B9F14, sub_BA2F0, sub_BA344
+global AddVec3, SubVec3, sub_B9C70, sub_B9D04, sub_B9EE0, sub_B9F14, sub_BA2F0, sub_BA344
 ;-----------------------------------------------------------------------------
 ; sub_B75A0                                                            B75A0  
 ;-----------------------------------------------------------------------------
@@ -276,7 +276,7 @@ sub_B76C0:
         mov ebx, dword [esi]
         push ebx
         push edi
-        call sub_E0520
+        call bcopy
 .6:
         add esp, byte 0Ch
         push ebp
@@ -408,9 +408,10 @@ sub_B78DC:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_B7924                                                            B7924  
+; TransformRinkObject                             B7924  96 PC, low confidence
+; Transforms a rink object
 ;-----------------------------------------------------------------------------
-sub_B7924:
+TransformRinkObject:
         push esi
         push edi
         push ebp
@@ -776,7 +777,7 @@ sub_B7BDC:
         push edx
         movsd
         movsd
-        call sub_C8504
+        call DrawShapeTriangleMapped
         add esp, byte 0Ch
         add esp, byte 30h
         pop edi
@@ -948,7 +949,7 @@ sub_B7D38:
         push edx
         movsd
         movsd
-        call sub_C8504
+        call DrawShapeTriangleMapped
         add esp, byte 0Ch
         lea eax, [byte esp+010h]
         push eax
@@ -956,7 +957,7 @@ sub_B7D38:
         push eax
         mov ebx, dword [byte esp+064h]
         push ebx
-        call sub_C8504
+        call DrawShapeTriangleMapped
         add esp, byte 0Ch
         add esp, byte 50h
         pop edi
@@ -3676,9 +3677,10 @@ sub_B9BD0:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_B9C08                                                            B9C08  
+; AddVec3                                         B9C08  96 PC, low confidence
+; Adds two 3-component vectors
 ;-----------------------------------------------------------------------------
-sub_B9C08:
+AddVec3:
         push esi
         push edi
         push ebp
@@ -3704,9 +3706,10 @@ sub_B9C08:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_B9C3C                                                            B9C3C  
+; SubVec3                                         B9C3C  96 PC, low confidence
+; Subtracts one 3-component vector from another
 ;-----------------------------------------------------------------------------
-sub_B9C3C:
+SubVec3:
         push esi
         push edi
         push ebp
@@ -4077,7 +4080,7 @@ sub_B9F14:
         push eax
         mov ebx, dword [dword esp+0D0h]
         push ebx
-        call sub_E17B8
+        call TransposeMatrix
         add esp, byte 8
         lea eax, [byte esp+024h]
         push eax
@@ -4085,7 +4088,7 @@ sub_B9F14:
         push ecx
         lea eax, [byte esp+08h]
         push eax
-        call sub_BBA41
+        call MultiplyMatrix
         add esp, byte 0Ch
         lea eax, [dword esp+090h]
         push eax
@@ -4112,7 +4115,7 @@ sub_B9F14:
         push eax
         lea edi, [byte esp+078h]
         lea esi, [byte esp+0Ch]
-        call sub_BBA41
+        call MultiplyMatrix
         mov ecx, 9
         add esp, byte 0Ch
         rep movsd
@@ -4153,7 +4156,7 @@ sub_B9F14:
         push eax
         lea eax, [byte esp+08h]
         push eax
-        call sub_BBA41
+        call MultiplyMatrix
         add esp, byte 0Ch
         mov edi, dword [dword esp+0B4h]
         inc edi

@@ -13,7 +13,7 @@ extern GusStreamLoopHi, GusStreamStartHi, GusStreamEndLo, GusStreamEndHi, GusBas
 extern GusVoiceSelectPort, GusRegSelectPort, GusDataLowPort, GusDataHighPort, GusDramPort, GusDramSize, GusIrqFlags, GusActiveVoices
 global GusGetEnvConfig, GusProbePort, GusStopDmaAndTimers, GusUnhookIrqs, GusHookIrqs, GusOpenCard, GusStopAllVoices, GusOpen
 global GusClose, GusSetIrqDmaLatches, GusResetVoices, GusPokeBlock, GusPeekBlock, GusSizeDram, GusMemAlloc, sub_D703C
-global sub_D7042, GusRefillStreamChannel, GusStreamVoiceIrq, GusServiceStream, GusStartStream, sub_D788C, sub_D7970, unk_D796A
+global sub_D7042, GusRefillStreamChannel, GusStreamVoiceIrq, GusServiceStream, GusStartStream, GusStopStreamVoices, sub_D7970, unk_D796A
 global unk_D796C, unk_D796E
 ;-----------------------------------------------------------------------------
 ; GusGetEnvConfig                                 D6120  96 PC, low confidence
@@ -1384,7 +1384,7 @@ GusMemAlloc:
 ; sub_D703C                                                            D703C  
 ;-----------------------------------------------------------------------------
 sub_D703C:
-        call sub_D788C
+        call GusStopStreamVoices
         ret
 ;-----------------------------------------------------------------------------
 ; sub_D7042                                                            D7042  
@@ -2066,9 +2066,10 @@ GusStartStream:
         leave
         ret
 ;-----------------------------------------------------------------------------
-; sub_D788C                                                            D788C  
+; GusStopStreamVoices                             D788C  96 PC, low confidence
+; Stops both streaming voices and clears the stream state
 ;-----------------------------------------------------------------------------
-sub_D788C:
+GusStopStreamVoices:
         pushf
         cli
         cmp dword [GusStreamActive], byte 0

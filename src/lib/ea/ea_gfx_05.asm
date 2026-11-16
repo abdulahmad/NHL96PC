@@ -9,16 +9,16 @@ extern dword_123AC0, dword_124464, dword_124468, dword_17DC18, dword_17DC1C, dwo
 extern dword_1956B4, dword_1956B8, dword_1956BC, dword_1956C0, dword_1956C4, dword_1956C8, dword_1956CC, dword_198388
 extern dword_19838C, dword_198390, dword_198394, dword_198398, dword_19839C, dword_1983A0, dword_1983A4, RinkViewChanged
 extern dword_1983B4, dword_19F2D8, min_, off_1222E0, off_1222EC, off_1222F8, off_122304, off_122310
-extern strncpy_, sub_AB758, FreeMemBlock, OpenArtArchive, SetRinkView, sub_B78DC, sub_B7924, sub_B79C8
-extern sub_B79E0, sub_B9A18, sub_B9C3C, sub_BA344, sub_BD594, SortIndices, sub_C85F0, sub_C9E70
-extern sub_C9F8A, sub_CA0B0, sub_CA288, sub_CA584, sub_CA650, FillRectColor, sub_DD960, sub_DD982
+extern strncpy_, sub_AB758, FreeMemBlock, OpenArtArchive, SetRinkView, sub_B78DC, TransformRinkObject, sub_B79C8
+extern sub_B79E0, sub_B9A18, SubVec3, sub_BA344, sub_BD594, SortIndices, sub_C85F0, sub_C9E70
+extern Shl64, sub_CA0B0, sub_CA288, sub_CA584, FixedSinCos, FillRectColor, sub_DD960, sub_DD982
 extern sub_E1824, unk_122320, unk_122344, RinkMatrix, RinkTranslation, unk_191AB0, unk_1938B0, unk_196380
 extern unk_196388, unk_196390, unk_196398, unk_197050, unk_19705C, unk_197068, unk_197074, unk_1983B8
-global jpt_BA400, sub_BA420_90, sub_BA420_92, sub_BA420_9C, sub_BA420_A8, sub_BA420_AF, sub_BA420_B9, sub_BA420_BB
-global sub_BA420_C0, sub_BBC80_93, sub_BBD98_B3, sub_BBEC8_174, sub_BA3D0, sub_BA420, sub_BA4F0, sub_BA55C
-global sub_BA5D0, sub_BACC0, sub_BAD58, sub_BB384, sub_BB470, sub_BB570, sub_BB610, sub_BB8E0
-global sub_BB924, sub_BB9C4, sub_BBA41, sub_BBAA0, sub_BBB70, SetRinkMatrix, SetRinkTranslation, SetScreenScale
-global sub_BBC14, sub_BBC80, sub_BBD18, sub_BBD98, sub_BBE50, sub_BBEC8, sub_BC040, sub_BC0C4
+global jpt_BA400, AngleOfVector_90, AngleOfVector_92, AngleOfVector_9C, AngleOfVector_A8, AngleOfVector_AF, AngleOfVector_B9, AngleOfVector_BB
+global AngleOfVector_C0, sub_BBC80_93, DrawSortedModelPolys_B3, sub_BBEC8_174, sub_BA3D0, AngleOfVector, SinInterp, CosInterp
+global sub_BA5D0, sub_BACC0, sub_BAD58, sub_BB384, sub_BB470, DrawPolyOutline, sub_BB610, sub_BB8E0
+global sub_BB924, sub_BB9C4, MultiplyMatrix, sub_BBAA0, sub_BBB70, SetRinkMatrix, SetRinkTranslation, SetScreenScale
+global sub_BBC14, sub_BBC80, SetModelFrame, DrawSortedModelPolys, sub_BBE50, sub_BBEC8, sub_BC040, sub_BC0C4
 global sub_BC150, sub_BC3A0, sub_BC3F4, sub_BC424, sub_BC4F0, sub_BC5C0, sub_BC610, sub_BC674
 global sub_BC6D8
 ;-----------------------------------------------------------------------------
@@ -49,18 +49,19 @@ sub_BA3D0:
         ret
         db 00h,00h,00h,00h,00h
 jpt_BA400:
-        dd sub_BA420_C0
-        dd sub_BA420_90
-        dd sub_BA420_9C
-        dd sub_BA420_92
-        dd sub_BA420_A8
-        dd sub_BA420_BB
-        dd sub_BA420_AF
-        dd sub_BA420_B9
+        dd AngleOfVector_C0
+        dd AngleOfVector_90
+        dd AngleOfVector_9C
+        dd AngleOfVector_92
+        dd AngleOfVector_A8
+        dd AngleOfVector_BB
+        dd AngleOfVector_AF
+        dd AngleOfVector_B9
 ;-----------------------------------------------------------------------------
-; sub_BA420                                                            BA420  
+; AngleOfVector                                   BA420  96 PC, low confidence
+; Returns the angle of a 2D vector in 1024ths of a turn, by octant
 ;-----------------------------------------------------------------------------
-sub_BA420:
+AngleOfVector:
         push esi
         sub esp, byte 8
         mov eax, dword [byte esp+010h]
@@ -91,7 +92,7 @@ sub_BA420:
         push edx
         lea esi, [byte esp+04h]
         mov edx, 20h
-        call sub_C9F8A
+        call Shl64
         mov edx, dword [byte esp+08h]
         push edx
         mov ecx, dword [byte esp+08h]
@@ -110,44 +111,45 @@ sub_BA420:
         add eax, edx
 .5:
         cmp ebx, byte 7
-        ja short sub_BA420_C0
+        ja short AngleOfVector_C0
         jmp dword [nosplit cs:ebx*4+jpt_BA400]
-sub_BA420_90:
+AngleOfVector_90:
         neg eax
-sub_BA420_92:
+AngleOfVector_92:
         add eax, 4000h
         add esp, byte 8
         pop esi
         ret
-sub_BA420_9C:
+AngleOfVector_9C:
         neg eax
         add eax, 8000h
         add esp, byte 8
         pop esi
         ret
-sub_BA420_A8:
+AngleOfVector_A8:
         neg eax
         add esp, byte 8
         pop esi
         ret
-sub_BA420_AF:
+AngleOfVector_AF:
         add eax, 0FFFF8000h
         add esp, byte 8
         pop esi
         ret
-sub_BA420_B9:
+AngleOfVector_B9:
         neg eax
-sub_BA420_BB:
+AngleOfVector_BB:
         sub eax, 4000h
-sub_BA420_C0:
+AngleOfVector_C0:
         add esp, byte 8
         pop esi
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_BA4F0                                                            BA4F0  
+; SinInterp                                       BA4F0  96 PC, low confidence
+; Returns the sine of a fine angle, interpolating between table entries
 ;-----------------------------------------------------------------------------
-sub_BA4F0:
+SinInterp:
         push esi
         mov ebx, dword [byte esp+08h]
         sar ebx, 6
@@ -187,9 +189,10 @@ sub_BA4F0:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_BA55C                                                            BA55C  
+; CosInterp                                       BA55C  96 PC, low confidence
+; Returns the cosine of a fine angle, interpolating between table entries
 ;-----------------------------------------------------------------------------
-sub_BA55C:
+CosInterp:
         push esi
         mov ebx, dword [byte esp+08h]
         sar ebx, 6
@@ -1594,9 +1597,10 @@ sub_BB470:
         jmp short .7
         db 00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_BB570                                                            BB570  
+; DrawPolyOutline                                 BB570  96 PC, low confidence
+; Draws a polygon outline
 ;-----------------------------------------------------------------------------
-sub_BB570:
+DrawPolyOutline:
         push esi
         push edi
         push ebp
@@ -2101,9 +2105,10 @@ sub_BB9C4:
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_BBA41                                                            BBA41  
+; MultiplyMatrix                                  BBA41  96 PC, low confidence
+; Multiplies two 3x3 fixed-point matrices
 ;-----------------------------------------------------------------------------
-sub_BBA41:
+MultiplyMatrix:
         push ebp
         LD mov, ebp, esp
         push esi
@@ -2369,7 +2374,7 @@ sub_BBC80:
         push RinkMatrix
         lea eax, [byte esi+028h]
         push eax
-        call sub_BBA41
+        call MultiplyMatrix
         mov dl, byte [byte esi+010h]
         and dl, 0FBh
         add esp, byte 0Ch
@@ -2380,7 +2385,7 @@ sub_BBC80:
         push RinkTranslation
         lea eax, [byte esi+01Ch]
         push eax
-        call sub_B9C3C
+        call SubVec3
         add esp, byte 0Ch
         lea eax, [byte esp+0Ch]
         push eax
@@ -2406,7 +2411,7 @@ sub_BBC80:
         push ebp
         mov edx, dword [byte esi+04h]
         push edx
-        call sub_BB570
+        call DrawPolyOutline
         add esp, byte 10h
         add esp, byte 18h
 sub_BBC80_93:
@@ -2416,9 +2421,10 @@ sub_BBC80_93:
         ret
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_BBD18                                                            BBD18  
+; SetModelFrame                                   BBD18  96 PC, low confidence
+; Selects an animation frame of a model instance
 ;-----------------------------------------------------------------------------
-sub_BBD18:
+SetModelFrame:
         push esi
         push edi
         push ebp
@@ -2474,9 +2480,10 @@ sub_BBD18:
         jmp short .5
         db 090h
 ;-----------------------------------------------------------------------------
-; sub_BBD98                                                            BBD98  
+; DrawSortedModelPolys                            BBD98  96 PC, low confidence
+; Sorts a model's faces by depth and draws them back to front
 ;-----------------------------------------------------------------------------
-sub_BBD98:
+DrawSortedModelPolys:
         push esi
         push edi
         push ebp
@@ -2527,7 +2534,7 @@ sub_BBD98:
         call SortIndices
         add esp, byte 0Ch
         add esp, 0FA8h
-sub_BBD98_B3:
+DrawSortedModelPolys_B3:
         pop ebp
         pop edi
         pop esi
@@ -2543,7 +2550,7 @@ sub_BBE50:
         mov ebx, dword [byte eax+08h]
         push ebx
         push eax
-        call sub_BBD98
+        call DrawSortedModelPolys
         add esp, byte 0Ch
         ret
         db 08Dh,040h,00h
@@ -2564,7 +2571,7 @@ sub_BBE50:
 .1:
         dec edi
         cmp edi, byte 0FFFFFFFFh
-        je short sub_BBD98_B3
+        je short DrawSortedModelPolys_B3
         mov eax, dword [esi]
         and eax, byte 7
         cmp eax, byte 4
@@ -2573,7 +2580,7 @@ sub_BBE50:
         je short .2
         mov ecx, dword [byte esi+04h]
         push ecx
-        call sub_B7924
+        call TransformRinkObject
         mov dl, byte [byte esi+01h]
         and dl, 0DFh
         and eax, byte 1
@@ -2994,7 +3001,7 @@ sub_BC150:
         or cl, 1
         push ebp
         mov byte [byte ebp+010h], cl
-        call sub_BBD18
+        call SetModelFrame
         mov ch, byte [byte ebp+010h]
         add esp, byte 8
         test ch, 10h
@@ -3352,7 +3359,7 @@ sub_BC610:
         push eax
         mov edx, dword [byte esp+01Ch]
         push edx
-        call sub_CA650
+        call FixedSinCos
         mov dword [esi], 10000h
         mov dword [byte esi+04h], 0
         mov dword [byte esi+08h], 0
@@ -3385,7 +3392,7 @@ sub_BC674:
         push eax
         mov edx, dword [byte esp+01Ch]
         push edx
-        call sub_CA650
+        call FixedSinCos
         add esp, byte 0Ch
         mov eax, dword [byte esp+04h]
         mov dword [byte esi+04h], 0
@@ -3418,7 +3425,7 @@ sub_BC6D8:
         push eax
         mov edx, dword [byte esp+01Ch]
         push edx
-        call sub_CA650
+        call FixedSinCos
         add esp, byte 0Ch
         mov eax, dword [byte esp+04h]
         mov dword [esi], eax

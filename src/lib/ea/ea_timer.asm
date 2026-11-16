@@ -4,7 +4,7 @@ bits 32
 section s_AA5C4 progbits alloc exec nowrite align=1
 extern FatalError, __STOSD, _dos_getvect_, _dos_setvect_, str_AddtimerLISTFULL, TimerTickStep, ScreenWidth, ClipTopRow
 extern ClipLeftCol, ClipRight, ScreenHeight, dword_1228F4, dword_1228FC, dword_122930, oldint8off, oldint8sel
-extern RestoreDS, sub_DE247, VesaSetBank, AddExitHandler, sub_E0520, tickcount, timercallbacks
+extern RestoreDS, sub_DE247, VesaSetBank, AddExitHandler, bcopy, tickcount, timercallbacks
 global InstallTimer, RestoreTimer, TimerISR, addtimer, RemoveTimerCallback, sub_AA7E0, unk_AA7B0, TimerISR_tick
 ;-----------------------------------------------------------------------------
 ; TimerISR                                     AA5C4  95 PC, medium confidence
@@ -328,7 +328,7 @@ sub_AA7E0:
         push esi
         push eax
         inc edi
-        call sub_E0520
+        call bcopy
         add esp, byte 0Ch
         add esi, ebp
         mov ebp, dword [byte esp+014h]
@@ -339,7 +339,7 @@ sub_AA7E0:
         push esi
         mov ecx, dword [byte esp+010h]
         push ecx
-        call sub_E0520
+        call bcopy
         add esi, ebp
         add esp, byte 0Ch
         mov edx, ebp
@@ -349,7 +349,7 @@ sub_AA7E0:
         push edx
         push esi
         push eax
-        call sub_E0520
+        call bcopy
         add esp, byte 0Ch
         mov ebx, dword [byte esp+010h]
         mov edx, dword [byte esp+014h]

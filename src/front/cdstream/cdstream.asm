@@ -5,7 +5,7 @@ section s_1C627 progbits alloc exec nowrite align=1
 extern addtimer, dword_1150E8, dword_1150EC, dword_1150F0, dword_1150F4, dword_1150F8, dword_152FD8, dword_152FDC
 extern dword_152FE0, dword_152FE4, FatalError, str_CDSTREAM, str_DelstreamSTREAMNOTFOUND, str_SECCDSTREAM, str_SetstreamspeedSFILEISTOO, str_STREAM
 extern str_StreamreaderILLEGALCHUNK, strcmp_, strncpy_, RemoveTimerCallback, sub_AB758, FreeMemBlock, sub_B67BC, CdCloseFile
-extern sub_B68C8, sub_B6964, sub_B69EC, sub_B6A14, sub_B6B10, sub_DFEC6, sub_E0520
+extern sub_B68C8, sub_B6964, sub_B69EC, sub_B6A14, sub_B6B10, sub_DFEC6, bcopy
 global CdStreamInit, CdStreamOpen, CdStreamOpen_2B, CdStreamOpenDefault, setstreamspeed, delstream, CdStreamStart, CdStreamQueue
 global CdStreamSeek, CdStreamSyncTime, CdStreamInitSecondary, CdStreamOpenSecondary, jpt_1CB20, CdStreamService, CdStreamService_18, CdStreamService_2E
 global CdStreamService_3C, CdStreamService_95, CdStreamService_EC, CdStreamService_129, CdStreamService_34E, CdStreamService_456, CdStreamService_5F4, CdStreamService_6BE
@@ -696,7 +696,7 @@ CdStreamService_129:
         push dword [byte eax+038h]
         push dword [eax]
         push dword [byte eax+0Ch]
-        call sub_E0520
+        call bcopy
         mov eax, dword [dword_152FE4]
         mov eax, dword [byte eax+0Ch]
         mov dword [eax], 0FFFFFFFFh
@@ -927,7 +927,7 @@ CdStreamService_456:
         push dword [byte eax+038h]
         push dword [byte edx+0Ch]
         push dword [byte eax+0Ch]
-        call sub_E0520
+        call bcopy
         mov eax, dword [dword_152FE0]
         mov edx, dword [dword_152FE4]
         mov ebx, dword [byte eax+0Ch]
@@ -945,7 +945,7 @@ CdStreamService_456:
         push dword [byte eax+034h]
         push dword [byte edx+0Ch]
         push dword [byte eax+0Ch]
-        call sub_E0520
+        call bcopy
         mov eax, dword [dword_152FE0]
         mov edx, dword [dword_152FE4]
         mov ebx, dword [byte eax+0Ch]
@@ -963,7 +963,7 @@ CdStreamService_456:
         push dword [byte eax+0Ch]
         add edx, dword [byte eax+034h]
         push edx
-        call sub_E0520
+        call bcopy
         mov eax, dword [dword_152FE4]
         mov edx, dword [byte eax+034h]
         add esp, byte 0Ch
@@ -1010,7 +1010,7 @@ CdStreamService_5F4:
         mov eax, dword [dword_152FE0]
         push dword [eax]
         push dword [byte eax+0Ch]
-        call sub_E0520
+        call bcopy
         mov eax, dword [dword_152FE0]
         mov eax, dword [byte eax+0Ch]
         mov dword [eax], 0FFFFFFFFh
@@ -1180,7 +1180,7 @@ CdStreamService_7C1:
         push dword [byte eax+0Ch]
         mov eax, dword [dword_152FE0]
         push dword [byte eax+0Ch]
-        call sub_E0520
+        call bcopy
         mov eax, dword [dword_152FE0]
         mov edx, dword [byte eax+0Ch]
         mov dword [byte eax+08h], edx

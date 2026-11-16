@@ -26,7 +26,7 @@ extern str_RosterSort, str_S12, str_S1dg2, str_S1dw2, str_S1ug2, str_S1up2, str_
 extern str_S2dw2, str_S2ug2, str_S2up2, str_S33, str_S3dg2, str_S3dw2, str_S3ug2, str_S3up2
 extern str_S4, str_S4dg, str_S4dw, str_S4ug, str_S4up, str_SD6, str_SGID, str_SS4
 extern str_StatDBPTRs2, str_Tra12, str_Tra22, str_Tra32, str_TraD, strcat_, strcpy_, sub_AAA40
-extern sub_AB758, FreeMemBlock, sub_AD35C, sub_AD5C8, sub_ADBEC, sub_B0430, sub_B178B, OpenArtArchiveErr
+extern sub_AB758, FreeMemBlock, sub_AD35C, TintRows, sub_ADBEC, DosFileInfo, sub_B178B, OpenArtArchiveErr
 extern sub_B22B0, sub_B2C54, SetScreenTarget, sub_E04E0, TickDeadlinePassed, unk_152E36, unk_1821B4, unk_182224
 extern unk_182294, unk_96949, unk_96B89, unk_96C49, unk_96D09, unk_96DC9, unk_96FD9
 global RunRosterScreens, RunRosterScreens_230, RunRosterScreens_231, RosterScreen, DrawRosterTeams, DrawRosterTeams_17B, FormatRosterLine, FormatRosterLine_26D
@@ -336,7 +336,7 @@ RosterScreen:
         call strcat_
         lea eax, [byte ebp-052h]
         push eax
-        call sub_B0430
+        call DosFileInfo
         add esp, byte 4
         test eax, eax
         je short .11
@@ -390,7 +390,7 @@ RosterScreen:
         push byte 0
         push dword 10000h
         mov dword [byte ebp+042h], edx
-        call sub_AD5C8
+        call TintRows
         add esp, byte 14h
         push str_Bkgd19
         push dword [byte ebp+046h]
@@ -1638,7 +1638,7 @@ RosterScreen:
         call strcat_
         lea eax, [byte ebp-052h]
         push eax
-        call sub_B0430
+        call DosFileInfo
         add esp, byte 4
         test eax, eax
         je short .78

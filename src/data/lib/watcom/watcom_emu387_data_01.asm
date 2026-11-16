@@ -4,8 +4,8 @@ bits 32
 section s_14FBF4 progbits alloc noexec write align=1
 extern sub_D5789
 global Hook387Flag, Hook387Saved, FloatPow10Table, FloatPow10Exponents, FloatFormatDigits, FloatFormatExponent, FloatFormatMantissaLo, FloatFormatMantissaHi
-global EmuInitHook, EmuFiniHook, unk_14FBF4, DefaultControlWord
-unk_14FBF4:
+global EmuInitHook, EmuFiniHook, EmuTrapFrame, DefaultControlWord
+EmuTrapFrame:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h

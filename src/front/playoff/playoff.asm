@@ -27,7 +27,7 @@ extern SetScreenColors, FadePalette, FadeOut, SetTextColors, DrawColorText, Draw
 extern InitMenuItems, RunMenu, FillMusicStream, PlayMusic, MusicDone, SoundSecondsToBytes, RunControllerScreen, GetLangText
 extern MakeSeasonDbPath, MakePlayoffDbPath, PickIndexEntryScreen, UpdateTeamDbs, SaveSeasonTeams, SimulateGame, RunStatsMenu, RunRosterScreens
 extern sub_A8B9B, sub_A8C75, sub_A9BAC, sub_AAA40, PutBlock, sub_AB758, FreeMemBlock, sub_AD35C
-extern sub_ADA80, sub_ADBEC, TextSetFont, sub_B0430, OpenArtArchiveErr, sub_B22B0, DrawArtOpaque, sub_B2C54
+extern sub_ADA80, sub_ADBEC, TextSetFont, DosFileInfo, OpenArtArchiveErr, sub_B22B0, DrawArtOpaque, sub_B2C54
 extern sub_B7810, sub_C2500, SetScreenTarget, MouseRead, sub_E04E0, sub_E0584, str_S6, str_D17
 extern unk_11EF90, unk_11EFDC, unk_11F39C, unk_11F3DC, unk_11F41C, unk_11F45C, unk_152C44, optblock_end
 extern unk_17CED5, unk_17CF9A, unk_A49D1, unk_A4A69, unk_A4F69, unk_A4F79, unk_A4F89, unk_A4FA9
@@ -3635,7 +3635,7 @@ SimPlayoffGame:
         add esp, byte 14h
         lea eax, [byte ebp-074h]
         push eax
-        call sub_B0430
+        call DosFileInfo
         add esp, byte 4
         test eax, eax
         je short .7

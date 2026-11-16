@@ -8,7 +8,7 @@ extern dword_122904, FatalError, fputchar, GetTicks, initgraphics, SetViewRect, 
 extern str_CouldNotAllocateLibraryB, str_LIBBUGFIX, str_NHLinitgraphicsfixNotCal, str_USETABLE, sub_AB758, sub_AB798, FreeMemBlock, sub_ADA50
 extern sub_ADA80, sub_AFFD0, sub_B0CA8, sub_B0F7C, sub_B2B0C, sub_B3360, sub_B3420, sub_B3458
 extern sub_B58D8, sub_B6140, sub_BF8A8, SetScreenTarget, GetPaletteRange, sub_DD7B8, sub_DDF4F, sub_DE01A
-extern sub_DE084, sub_E0520, sub_E1824, unk_121FC8, IntroPalette, unk_17C0E0, WaitRetrace, WaitRetraceEdges
+extern sub_DE084, bcopy, sub_E1824, unk_121FC8, IntroPalette, unk_17C0E0, WaitRetrace, WaitRetraceEdges
 global BlackPalette, FadePalette, FadeOut, CopyBitmapRows, CopyBitmapRows_76, CopyBitmap, InitGraphicsFix, SetGraphicsMode
 global SetGraphicsMode_204, SetScreenMode, DrawText, DrawTextRight, DrawTextRight_17, DrawTextCentred, FindTextColors, SetTextColors
 global SetTextColorsRgb, DrawColorText, DrawColorTextRight, DrawColorTextRight_29, DrawColorTextRight_72, DrawColorTextCentred, FillBox, DrawBox
@@ -245,7 +245,7 @@ CopyBitmap:
         push edx
         push edi
         push esi
-        call sub_E0520
+        call bcopy
         add esp, byte 0Ch
         mov eax, edi
         pop edi

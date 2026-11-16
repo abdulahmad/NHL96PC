@@ -4,7 +4,7 @@ bits 32
 section s_4F453 progbits alloc exec nowrite align=1
 extern GameLoopActive, str_SSS, str_CSS, str_SS, str_CS, str_CSCS, str_CS2, str_spCS
 extern str_D, str_2d02d, awtmstruct, byte_115114, byte_115116, byte_157191, byte_157193, byte_1647E3
-extern textline1, textline2, textline3, textline4, textline5, byte_16580B, byte_16580C, byte_165941
+extern textline1, textline2, textline3, textline4, textline5, HmStarterGoalieMarks, HmBackupGoalieMarks, AwStarterGoalieMarks
 extern curevent, byte_176B91, byte_176B92, curevent_b2, curevent_b5, byte_176B95, curevent_b6, curevent_b7
 extern curevent_b8, byte_176B99, curevent_b9, goalevent, byte_179DC1, byte_17CA5D, crowdlevel, curperiod
 extern penshotfox, penshotteam, dword_11A1BC, dword_11B310, dword_1571B3, plseasongoals, hmtmlines, dword_1798AC
@@ -12,7 +12,7 @@ extern dword_179918, dword_179920, optflags, TextStringWidth, gameclock, gameopt
 extern hmtmgoalie, hmtmstruct, penshotplayer, sprintf_, str_FmtNumFirstLast, str_FmtNumInitialLast, str_FmtNumName, str_FmtNumNameSuffix
 extern str_FmtParenD, strcat_, strcpy_, strlen_, QueueOverlayPanel, CloseTextOverlay, EndCameraShot, PaEvent
 extern GetLangText, TextSetFont, str_GoneForTheGame, str_S8, hmplstats, gsp, word_11A236, hmscore
-extern awscore, word_165942, joysampling, word_176B7A, PerTimeTotal
+extern awscore, AwBackupGoalieMarks, joysampling, word_176B7A, PerTimeTotal
 global FormatPlayerName, FormatScorerName, FormatAssistNames, BuildEventLines, PostGoalEvent, PostPenaltyEvent, PostInjuryEvent
 ;-----------------------------------------------------------------------------
 ; FormatPlayerName                             4F453  95 PC, medium confidence
@@ -602,10 +602,10 @@ PostGoalEvent:
         jne short .1
         cmp word [awscore], byte 0
         jne short .1
-        mov byte [word_165942], 0
-        mov byte [byte_165941], 0
-        mov byte [byte_16580C], 0
-        mov byte [byte_16580B], 0
+        mov byte [AwBackupGoalieMarks], 0
+        mov byte [AwStarterGoalieMarks], 0
+        mov byte [HmBackupGoalieMarks], 0
+        mov byte [HmStarterGoalieMarks], 0
 .1:
         mov al, byte [byte_176B95]
         and al, 8
@@ -624,7 +624,7 @@ PostGoalEvent:
         sete dl
         movzx edx, dl
         imul edx, dword 136h
-        inc byte [dword edx+eax+byte_16580B]
+        inc byte [dword edx+eax+HmStarterGoalieMarks]
 .2:
         mov al, byte [gmode]
         and al, 10h

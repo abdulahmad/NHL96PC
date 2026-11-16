@@ -2,12 +2,12 @@
 bits 32
 %include "hockey.inc"
 section s_4DED8 progbits alloc exec nowrite align=1
-extern awtmstruct, byte_1178C8, byte_157640, byte_15864E, byte_15864F, byte_158650, pad2dev, pad1dev
+extern awtmstruct, byte_1178C8, awroster, byte_15864E, byte_15864F, byte_158650, pad2dev, pad1dev
 extern PenBuf, iflags, curevent, byte_17CC37, collflag, curperiod, dword_114F16, dword_1150D8
 extern dword_118E89, dword_119173, penshotfox, penshotteam, AwayGoalsPeriod, HomeGoalsPeriod, sopathx, sopathy
 extern sopathend, sopathpoint, pspathside, pspathdir, dword_11B364, dword_151B84, hmtmlines, hmtmplattr
-extern dword_1657F2, dword_1657F6, dword_1657FA, dword_1657FE, dword_165802, hmtmsort, dword_165920, dword_165924
-extern dword_165928, dword_16592C, dword_165930, dword_165934, dword_165938, hmtmroster, ReplayBufferTop, dword_17CB2F
+extern hmtmglattr, hmtmplstats, hmtmglstats, hmtmroster, hmtmteamrec, hmtmsort, awtmlines, awtmplattr
+extern awtmglattr, awtmplstats, awtmglstats, awtmroster, awtmteamrec, awtmsort, ReplayBufferTop, dword_17CB2F
 extern PlayoffTreeData, dword_17CC17, dword_17CEC3, dword_17D162, dword_17D267, energywarn, exitgame, fadeinpending
 extern FileReadAt, fodir1, fodir2, fox, foy, gameclock, gameopts, gameover
 extern GetPeriodTime, gmode, gmode2, goalevent, gsp, hmroster, hmtmstruct, lastplayer
@@ -17,14 +17,14 @@ extern penshotplayer, penshotstart, penshottimer, PlList, psendcount, refhitcoun
 extern shotongoal, shotontarget, SortCords, sprintf_, SprSort, str_05d, str_05dCsg, str_CsgDb
 extern str_DB, strcat_, FileMissing, DeleteFiles, FileOpenRead, FileClose, FileWriteAt, MakeDirPath
 extern LoadGameRosters, InitBenchSprites, ResetPeriodState, UnlinkJump, threat, gsumheader, gsumtail, hmplstats
-extern unk_156FFC, unk_157AF8, unk_157B0A, unk_157B1C, unk_157B4F, hmplattr, unk_157D8F, awlinetab
-extern unk_157FDA, unk_1582F5, hmlinetab, unk_164B5C, SeasonUserRecords, unk_17CED5, VisTeam, word_1178AC
+extern awplstats, hmglstats, awglstats, hmglattr, awglattr, hmplattr, awplattr, awlinetab
+extern hmteamrec, awteamrec, hmlinetab, AwSortCords, SeasonUserRecords, unk_17CED5, VisTeam, word_1178AC
 extern word_1178AE, word_1178B4, ltx, HomeControlSlot, word_1178CC, word_1178CE, word_1178D0, word_1178F4
 extern refsignal, RefStep, word_1178FA, Penaltytimer, clockticks, word_118E8F, word_118E9F, word_118EA3
 extern lcblinktime, word_118EA7, lcsel, word_118EAB, word_118EAF, lctimer, word_118EB3, word_118EB7
 extern word_118FAF, word_118FB1, ovltimer, word_11910F, bannermsg, word_119113, lldispodd, word_11916B
 extern SavedGameMode, word_11B274, ovlstep, lastsfx, word_16474C, word_16474E, word_164792, puckcross
-extern PeriodEventCount, GameEventFlags, word_165942, word_16594E, fofdata2, SavedPlayerWords, word_176B7C, PerTimeTotal
+extern PeriodEventCount, GameEventFlags, AwBackupGoalieMarks, fofdata2, SavedPlayerWords, word_176B7C, PerTimeTotal
 extern LastTouchTeam, PassDistY, StoppageFlag, LastPlayerTouch, yc1
 global SaveGameState, SaveGameState_7DD, LoadGameState, ReadSeasonDbHeader, ReadSeasonDbHeader_C2, ReadSeasonDbHeader_C4, ReadSeasonDbHeader_C8, ReadPlayoffDbHeader
 global DeleteSeasonFiles, DeleteSeasonDb, GameEventStub
@@ -696,7 +696,7 @@ SaveGameState:
         imul edx, byte 6
         add dword [byte ebp+07Eh], byte 6
         mov edi, ecx
-        lea esi, [dword edx+esi+unk_157AF8]
+        lea esi, [dword edx+esi+hmglstats]
         inc dword [byte ebp+07Ah]
         add ecx, byte 6
         movsd
@@ -806,7 +806,7 @@ LoadGameState:
         mov cx, word [eax]
         inc eax
         inc eax
-        mov word [dword edx+word_16594E], cx
+        mov word [dword edx+fofdata2-2], cx
         cmp edx, byte 0Ch
         jne short .7
         mov dx, word [eax]
@@ -1044,7 +1044,7 @@ LoadGameState:
         mov cx, word [eax]
         inc eax
         inc eax
-        mov word [dword edx+word_165942], cx
+        mov word [dword edx+AwBackupGoalieMarks], cx
         cmp edx, byte 0Ch
         jne short .10
         mov dl, byte [eax]
@@ -1358,7 +1358,7 @@ LoadGameState:
         idiv edi
         imul edx, byte 6
         mov dword [byte ebp+072h], ecx
-        lea edi, [dword edx+esi+unk_157AF8]
+        lea edi, [dword edx+esi+hmglstats]
         mov esi, dword [byte ebp+072h]
         add ecx, byte 6
         inc dword [byte ebp+07Eh]
@@ -1385,20 +1385,20 @@ LoadGameState:
         mov dword [fadeinpending], 1
         mov dword [hmtmsort], SortCords
         mov dword [hmtmplattr], hmplattr
-        mov dword [dword_1657F2], unk_157B1C
+        mov dword [hmtmglattr], hmglattr
         mov dword [hmtmlines], hmlinetab
-        mov dword [dword_1657F6], hmplstats
-        mov dword [dword_1657FA], unk_157AF8
-        mov dword [dword_1657FE], hmroster
-        mov dword [dword_165802], unk_157FDA
-        mov dword [hmtmroster], unk_164B5C
-        mov dword [dword_165924], unk_157D8F
-        mov dword [dword_165928], unk_157B4F
-        mov dword [dword_165920], awlinetab
-        mov dword [dword_16592C], unk_156FFC
-        mov dword [dword_165930], unk_157B0A
-        mov dword [dword_165934], byte_157640
-        mov dword [dword_165938], unk_1582F5
+        mov dword [hmtmplstats], hmplstats
+        mov dword [hmtmglstats], hmglstats
+        mov dword [hmtmroster], hmroster
+        mov dword [hmtmteamrec], hmteamrec
+        mov dword [awtmsort], AwSortCords
+        mov dword [awtmplattr], awplattr
+        mov dword [awtmglattr], awglattr
+        mov dword [awtmlines], awlinetab
+        mov dword [awtmplstats], awplstats
+        mov dword [awtmglstats], awglstats
+        mov dword [awtmroster], awroster
+        mov dword [awtmteamrec], awteamrec
         mov eax, SortCords
         and byte [sflags], 0EFh
 .24:

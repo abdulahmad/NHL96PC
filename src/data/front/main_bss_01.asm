@@ -4,7 +4,7 @@ bits 32
 section s_152920 nobits alloc noexec write align=1
 global byte_152920, byte_152921, byte_152922, byte_152923, byte_15292C, byte_15292D, byte_15292E, byte_15292F
 global byte_15293A, byte_152A44, byte_152C3B, byte_152C40, byte_152C41, byte_152C42, byte_157166, byte_157191
-global hmrosterpos, byte_157193, byte_157640, byte_157B95, byte_157DA2, byte_157FD2, byte_158646, byte_15864E
+global hmrosterpos, byte_157193, awroster, byte_157B95, byte_157DA2, byte_157FD2, byte_158646, byte_15864E
 global byte_15864F, byte_158650, pad2dev, pad1dev, curperiod, dword_152A6C, dword_152AD4, dword_152C3C
 global dword_152F44, dword_152F48, dword_152F4C, MenuRemoteCursorArt, MenuCursorPixels, dword_152F58, MenuBitmapPixels, AsyncRequests
 global AsyncCurFile, AsyncCurOffset, AsyncFreeList, dword_152F70, dword_152F74, dword_152F78, dword_152F7C, dword_152F80
@@ -12,9 +12,9 @@ global AsyncFileHandle, dword_152F8C, dword_152F90, dword_152F94, dword_152F98, 
 global dword_152FAC, dword_152FB0, AsyncStreamFile, AsyncWaitTimer, dword_152FBC, dword_152FC4, dword_152FC8, dword_152FCC
 global dword_152FD0, dword_152FD4, dword_152FD8, dword_152FDC, dword_152FE0, StreamHandle, dword_152FEC, dword_1531D0
 global dword_1571B3, dword_157AF4, dword_15803D, dword_1580A1, dword_158654, hmroster, unk_152938, unk_152944
-global unk_152B3C, str_WesternConference2, unk_152E36, unk_152FA8, hmplstats, unk_156FFC, unk_157AF8, unk_157B0A
-global unk_157B1C, unk_157B4F, hmplattr, unk_157D8F, awlinetab, unk_157FDA, unk_157FF8, unk_1580AD
-global unk_1582F5, unk_158313, unk_1583C8, hmlinetab, DataFilePath, word_156E6E, word_156E70, word_156E72
+global unk_152B3C, str_WesternConference2, unk_152E36, unk_152FA8, hmplstats, awplstats, hmglstats, awglstats
+global hmglattr, awglattr, hmplattr, awplattr, awlinetab, hmteamrec, unk_157FF8, unk_1580AD
+global awteamrec, unk_158313, unk_1583C8, hmlinetab, DataFilePath, word_156E6E, word_156E70, word_156E72
 global word_156E74, word_156E76, word_156E78, word_156E7A, hmglstats_w2, word_157AFC, hmglstats_w8, hmglstats_w14
 byte_152920:
         resb 1
@@ -160,7 +160,7 @@ word_156E78:
         resb 2
 word_156E7A:
         resb 386
-unk_156FFC:
+awplstats:
         resb 362
 byte_157166:
         resb 38
@@ -174,11 +174,11 @@ byte_157193:
         resb 32
 dword_1571B3:
         resb 1165
-byte_157640:
+awroster:
         resb 1204
 dword_157AF4:
         resb 4
-unk_157AF8:
+hmglstats:
         resb 2
 hmglstats_w2:
         resb 2
@@ -188,17 +188,17 @@ hmglstats_w8:
         resb 6
 hmglstats_w14:
         resb 4
-unk_157B0A:
+awglstats:
         resb 18
-unk_157B1C:
+hmglattr:
         resb 51
-unk_157B4F:
+awglattr:
         resb 51
 hmplattr:
         resb 19
 byte_157B95:
         resb 506
-unk_157D8F:
+awplattr:
         resb 19
 byte_157DA2:
         resb 506
@@ -206,7 +206,7 @@ awlinetab:
         resb 54
 byte_157FD2:
         resb 8
-unk_157FDA:
+hmteamrec:
         resb 30
 unk_157FF8:
         resb 69
@@ -216,7 +216,7 @@ dword_1580A1:
         resb 12
 unk_1580AD:
         resb 584
-unk_1582F5:
+awteamrec:
         resb 30
 unk_158313:
         resb 181

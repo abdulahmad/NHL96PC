@@ -19,10 +19,10 @@ extern FreeSpriteCache, FadePalette, FadeOut, SetTextColors, DrawColorText, Draw
 extern Crowd_Noise, CrowdFadeOut, CrowdReaction, PlayArenaClip, ArenaClipReady, StartArenaClip, StopArenaClip, SoundIdle
 extern GetLangText, DrawRectOutline, TextSetColor, SetAaPalLut, DrawArtAaScaledInt, FillRectColor, SetPaletteEntries, SetRemapTable
 extern TicksSinceLast, bcopy, FillPolygonArgs, RemapPolygonArgs, TextSetFont, str_C_DrawOverlayPanels, str_Punct_DrawOverlayPanels, StarPanelOffsets
-extern str_V_DrawOverlayPanels, hmplstats, hmplattr, exhstate, unk_164B5C, unk_164E7C, unk_165354, unk_17D3E8
+extern str_V_DrawOverlayPanels, hmplstats, hmplattr, exhstate, AwSortCords, unk_164E7C, unk_165354, unk_17D3E8
 extern updateanim, vtoa, word_1178A0, word_1178A2, word_1178B4, HomeControlSlot, RefStep, word_118E9F
 extern word_118EA3, CupShown, IntroStandSpots, word_11D604, word_1515E4, word_156E6E, hmglstats_w2, word_157AFC
-extern hmglstats_w8, hmglstats_w14, word_1647CA, hmscore, word_16570A, hmtmpdst, awscore, word_176BB8
+extern hmglstats_w8, hmglstats_w14, word_1647CA, hmscore, hmtmtouch1, hmtmpdst, awscore, word_176BB8
 extern starpl, yc1
 global RunPreGameSkate, RunPreGameSkate_450, RunPreGameSkate_451, RunLineupLoop, LineupLoopFrame, FillPanelEdge, FillPanelEdge_5C, DrawPanelBorder
 global DrawPanelShade, DrawOverlayPanels, StartPreGame, assintrostand, assintroline, AddStar, StarEligible, StarCompare
@@ -1591,7 +1591,7 @@ StarEligible:
 .2:
         test ebx, ebx
         je short .3
-        mov eax, unk_164B5C
+        mov eax, AwSortCords
         jmp short .4
 .3:
         mov eax, SortCords
@@ -1858,7 +1858,7 @@ PickThreeStars:
         je short .3
         mov dword [gwgteam], ecx
         imul eax, ecx, dword 136h
-        movsx eax, word [dword eax+word_16570A]
+        movsx eax, word [dword eax+hmtmtouch1]
         movsx edx, word [awscore]
         mov dword [gwgplayer], eax
         movsx eax, word [hmscore]

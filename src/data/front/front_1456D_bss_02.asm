@@ -2,74 +2,74 @@
 bits 32
 %include "hockey.inc"
 section s_1656DE nobits alloc noexec write align=1
-global awtmstruct, byte_165713, HmPlayerFlags, byte_165790, hmtmcoach_d2, hmtmcoach_d3, HmCoachGoalie, hmtmcoachmode
-global HmRosterMap, byte_16580A, byte_16580B, byte_16580C, dword_165718, hmtmcoachenergy, hmtmlines, hmtmplattr
-global dword_1657F2, dword_1657F6, dword_1657FA, dword_1657FE, dword_165802, hmtmsort, hmtmgoalie, unk_1657BC
-global word_1656DE, word_1656E0, word_1656E2, word_1656E4, word_1656E6, hmscore, word_1656EA, word_1656EC
-global word_1656F2, word_1656F4, word_1656F6, word_1656F8, word_1656FA, word_1656FC, word_1656FE, word_165700
-global word_165702, word_165704, word_165706, word_165708, word_16570A, hmtmap, word_16571C, hmtmpdst
-global word_16578A, word_1657D8, word_165810, word_165812, word_165814, word_165816, word_165818, word_16581A
-global word_16581C, awscore, word_165820, word_165822, word_165828, word_16582A, word_16582C, word_16582E
-global word_165830, word_165832, word_165834, word_165836, word_165838, awtmline, word_16583C
-word_1656DE:
+global awtmstruct, hmtmgoaliehi, HmPlayerFlags, hmtmpbox, hmtmcoach_d2, hmtmcoach_d3, HmCoachGoalie, hmtmcoachmode
+global HmRosterMap, HmGoalieSwapped, HmStarterGoalieMarks, HmBackupGoalieMarks, hmtmnear, hmtmcoachenergy, hmtmlines, hmtmplattr
+global hmtmglattr, hmtmplstats, hmtmglstats, hmtmroster, hmtmteamrec, hmtmsort, hmtmgoalie, HmFightFlags
+global hmtmPPShots, hmtmPwrPlayTime, hmtmPenalties, hmtmPenMin, hmtmATOP, hmscore, hmtmSHGoals, hmtmFaceoffsWon
+global hmtmOneTimers, hmtmOneTimerGoals, hmtmBreakaways, hmtmBreakawayGoals, hmtmPenShots, hmtmPenShotGoals, hmtmChecks, hmpassatt
+global hmpasscmp, hmtmline, hmtmlcnt, hmtmextra, hmtmtouch1, hmtmap, hmtmnearpl, hmtmpdst
+global hmtmglpdst, HmChaserList, awtmPwrGoals, awtmPwrPlays, awtmPPShots, awtmPwrPlayTime, awtmPenalties, awtmPenMin
+global awtmATOP, awscore, awtmSHGoals, awtmFaceoffsWon, awtmOneTimers, awtmOneTimerGoals, awtmBreakaways, awtmBreakawayGoals
+global awtmPenShots, awtmPenShotGoals, awtmChecks, awpassatt, awpasscmp, awtmline, awtmlcnt
+hmtmPPShots:
         resb 2
-word_1656E0:
+hmtmPwrPlayTime:
         resb 2
-word_1656E2:
+hmtmPenalties:
         resb 2
-word_1656E4:
+hmtmPenMin:
         resb 2
-word_1656E6:
+hmtmATOP:
         resb 2
 hmscore:
         resb 2
-word_1656EA:
+hmtmSHGoals:
         resb 2
-word_1656EC:
+hmtmFaceoffsWon:
         resb 6
-word_1656F2:
+hmtmOneTimers:
         resb 2
-word_1656F4:
+hmtmOneTimerGoals:
         resb 2
-word_1656F6:
+hmtmBreakaways:
         resb 2
-word_1656F8:
+hmtmBreakawayGoals:
         resb 2
-word_1656FA:
+hmtmPenShots:
         resb 2
-word_1656FC:
+hmtmPenShotGoals:
         resb 2
-word_1656FE:
+hmtmChecks:
         resb 2
-word_165700:
+hmpassatt:
         resb 2
-word_165702:
+hmpasscmp:
         resb 2
-word_165704:
+hmtmline:
         resb 2
-word_165706:
+hmtmlcnt:
         resb 2
-word_165708:
+hmtmextra:
         resb 2
-word_16570A:
+hmtmtouch1:
         resb 6
 hmtmap:
         resb 2
 hmtmgoalie:
         resb 1
-byte_165713:
+hmtmgoaliehi:
         resb 5
-dword_165718:
+hmtmnear:
         resb 4
-word_16571C:
+hmtmnearpl:
         resb 2
 HmPlayerFlags:
         resb 58
 hmtmpdst:
         resb 50
-word_16578A:
+hmtmglpdst:
         resb 6
-byte_165790:
+hmtmpbox:
         resb 28
 hmtmcoach_d2:
         resb 1
@@ -83,73 +83,73 @@ hmtmcoachenergy:
         resb 4
 HmRosterMap:
         resb 8
-unk_1657BC:
+HmFightFlags:
         resb 28
-word_1657D8:
+HmChaserList:
         resb 18
 hmtmlines:
         resb 4
 hmtmplattr:
         resb 4
-dword_1657F2:
+hmtmglattr:
         resb 4
-dword_1657F6:
+hmtmplstats:
         resb 4
-dword_1657FA:
+hmtmglstats:
         resb 4
-dword_1657FE:
+hmtmroster:
         resb 4
-dword_165802:
+hmtmteamrec:
         resb 4
 hmtmsort:
         resb 4
-byte_16580A:
+HmGoalieSwapped:
         resb 1
-byte_16580B:
+HmStarterGoalieMarks:
         resb 1
-byte_16580C:
+HmBackupGoalieMarks:
         resb 2
 awtmstruct:
         resb 2
-word_165810:
+awtmPwrGoals:
         resb 2
-word_165812:
+awtmPwrPlays:
         resb 2
-word_165814:
+awtmPPShots:
         resb 2
-word_165816:
+awtmPwrPlayTime:
         resb 2
-word_165818:
+awtmPenalties:
         resb 2
-word_16581A:
+awtmPenMin:
         resb 2
-word_16581C:
+awtmATOP:
         resb 2
 awscore:
         resb 2
-word_165820:
+awtmSHGoals:
         resb 2
-word_165822:
+awtmFaceoffsWon:
         resb 6
-word_165828:
+awtmOneTimers:
         resb 2
-word_16582A:
+awtmOneTimerGoals:
         resb 2
-word_16582C:
+awtmBreakaways:
         resb 2
-word_16582E:
+awtmBreakawayGoals:
         resb 2
-word_165830:
+awtmPenShots:
         resb 2
-word_165832:
+awtmPenShotGoals:
         resb 2
-word_165834:
+awtmChecks:
         resb 2
-word_165836:
+awpassatt:
         resb 2
-word_165838:
+awpasscmp:
         resb 2
 awtmline:
         resb 2
-word_16583C:
+awtmlcnt:
         resb 2

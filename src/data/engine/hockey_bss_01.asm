@@ -2,23 +2,23 @@
 bits 32
 %include "hockey.inc"
 section s_16583E nobits alloc noexec write align=1
-global PlList, awtmgoalie, AwPlayerFlags, byte_1658C6, awtmcoach_d2, awtmcoach_d3, AwCoachGoalie, awtmcoachmode
-global AwRosterMap, byte_165940, byte_165941, LinePlayersAway, dword_16584E, awtmcoachenergy, dword_165920, dword_165924
-global dword_165928, dword_16592C, dword_165930, dword_165934, dword_165938, hmtmroster, unk_1658F2, word_16583E
-global awtmap, word_165852, word_16590E, word_165942, word_16594E, fofdata2, PlayFlags
-word_16583E:
+global PlList, awtmgoalie, AwPlayerFlags, awtmpbox, awtmcoach_d2, awtmcoach_d3, AwCoachGoalie, awtmcoachmode
+global AwRosterMap, AwGoalieSwapped, AwStarterGoalieMarks, LinePlayersAway, awtmnear, awtmcoachenergy, awtmlines, awtmplattr
+global awtmglattr, awtmplstats, awtmglstats, awtmroster, awtmteamrec, awtmsort, AwFightFlags, awtmextra
+global awtmap, awtmnearpl, AwChaserList, AwBackupGoalieMarks, fofdata2, PlayFlags
+awtmextra:
         resb 8
 awtmap:
         resb 2
 awtmgoalie:
         resb 6
-dword_16584E:
+awtmnear:
         resb 4
-word_165852:
+awtmnearpl:
         resb 2
 AwPlayerFlags:
         resb 114
-byte_1658C6:
+awtmpbox:
         resb 28
 awtmcoach_d2:
         resb 1
@@ -32,38 +32,36 @@ awtmcoachenergy:
         resb 4
 AwRosterMap:
         resb 8
-unk_1658F2:
+AwFightFlags:
         resb 28
-word_16590E:
+AwChaserList:
         resb 18
-dword_165920:
+awtmlines:
         resb 4
-dword_165924:
+awtmplattr:
         resb 4
-dword_165928:
+awtmglattr:
         resb 4
-dword_16592C:
+awtmplstats:
         resb 4
-dword_165930:
+awtmglstats:
         resb 4
-dword_165934:
+awtmroster:
         resb 4
-dword_165938:
+awtmteamrec:
         resb 4
-hmtmroster:
+awtmsort:
         resb 4
-byte_165940:
+AwGoalieSwapped:
         resb 1
-byte_165941:
+AwStarterGoalieMarks:
         resb 1
-word_165942:
+AwBackupGoalieMarks:
         resb 2
 PlList:
         resb 6
 LinePlayersAway:
-        resb 4
-word_16594E:
-        resb 2
+        resb 6
 fofdata2:
         resb 2
 PlayFlags:

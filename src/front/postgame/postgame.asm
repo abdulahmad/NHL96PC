@@ -21,11 +21,11 @@ extern ClearScreenColour, FreeBitmap, UnpackTo, DosFileInfo, LoadResourceDataSha
 extern ClearClipRect, TextSetFont, unk_144BD, unk_144C3, unk_144C9, str_N, unk_144ED, word_114CE0
 extern word_114DD2, word_114DD4, word_114DD6, word_114DD8, str_Punct_DrawGameStats, word_114DE4, word_114DE6, word_114EA8
 extern word_114EAC, word_114EF8, word_114EFA, word_114EFC, word_114EFE, word_114F00, hmtmPwrGoals, hmtmPwrPlays
-extern word_1656DE, word_1656E0, word_1656E2, word_1656E4, word_1656E6, hmscore, word_1656EA, word_1656EC
-extern word_1656F2, word_1656F4, word_1656F6, word_1656F8, word_1656FA, word_1656FC, word_1656FE, word_165700
-extern word_165702, word_165810, word_165812, word_165814, word_165816, word_165818, word_16581A, word_16581C
-extern awscore, word_165820, word_165822, word_165828, word_16582A, word_16582C, word_16582E, word_165830
-extern word_165832, word_165834, word_165836, word_165838, word_176BB8, starpl
+extern hmtmPPShots, hmtmPwrPlayTime, hmtmPenalties, hmtmPenMin, hmtmATOP, hmscore, hmtmSHGoals, hmtmFaceoffsWon
+extern hmtmOneTimers, hmtmOneTimerGoals, hmtmBreakaways, hmtmBreakawayGoals, hmtmPenShots, hmtmPenShotGoals, hmtmChecks, hmpassatt
+extern hmpasscmp, awtmPwrGoals, awtmPwrPlays, awtmPPShots, awtmPwrPlayTime, awtmPenalties, awtmPenMin, awtmATOP
+extern awscore, awtmSHGoals, awtmFaceoffsWon, awtmOneTimers, awtmOneTimerGoals, awtmBreakaways, awtmBreakawayGoals, awtmPenShots
+extern awtmPenShotGoals, awtmChecks, awpassatt, awpasscmp, word_176BB8, starpl
 global DrawGameStats, DrawGameStats_DD0, DrawGameStats_DD1, GameStatsScreen, GameStatsScreen_722, jpt_15A72, AnimateStarsScreen, AnimateStarsScreen_D3
 global AnimateStarsScreen_E7, AnimateStarsScreen_114, AnimateStarsScreen_121, jpt_15E83, ThreeStarsScreen, ThreeStarsScreen_8CF, ThreeStarsScreen_91F, ThreeStarsScreen_928
 global ThreeStarsScreen_936, PostGameScreens
@@ -237,9 +237,9 @@ DrawGameStats:
         movsx edx, word [word_114DD2]
         call GetLangText
         call DrawColorTextCentred
-        movsx eax, word [word_1656F2]
+        movsx eax, word [hmtmOneTimers]
         push eax
-        movsx eax, word [word_1656F4]
+        movsx eax, word [hmtmOneTimerGoals]
         push eax
         push str_DD
         lea eax, [byte ebp-020h]
@@ -256,9 +256,9 @@ DrawGameStats:
         movsx edx, word [word_114DD4]
         lea eax, [byte ebp-020h]
         call DrawColorTextCentred
-        movsx eax, word [word_165828]
+        movsx eax, word [awtmOneTimers]
         push eax
-        movsx eax, word [word_16582A]
+        movsx eax, word [awtmOneTimerGoals]
         push eax
         push str_DD
         lea eax, [byte ebp-020h]
@@ -289,9 +289,9 @@ DrawGameStats:
         inc ebx
         call GetLangText
         call DrawColorTextCentred
-        movsx eax, word [word_1656F6]
+        movsx eax, word [hmtmBreakaways]
         push eax
-        movsx eax, word [word_1656F8]
+        movsx eax, word [hmtmBreakawayGoals]
         push eax
         push str_DD
         lea eax, [byte ebp-020h]
@@ -308,9 +308,9 @@ DrawGameStats:
         movsx edx, word [word_114DD4]
         lea eax, [byte ebp-020h]
         call DrawColorTextCentred
-        movsx eax, word [word_16582C]
+        movsx eax, word [awtmBreakaways]
         push eax
-        movsx eax, word [word_16582E]
+        movsx eax, word [awtmBreakawayGoals]
         push eax
         push str_DD
         lea eax, [byte ebp-020h]
@@ -362,9 +362,9 @@ DrawGameStats:
         movsx edx, word [word_114DD4]
         lea eax, [byte ebp-020h]
         call DrawColorTextCentred
-        movsx eax, word [word_165812]
+        movsx eax, word [awtmPwrPlays]
         push eax
-        movsx eax, word [word_165810]
+        movsx eax, word [awtmPwrGoals]
         push eax
         push str_DD
         lea eax, [byte ebp-020h]
@@ -397,7 +397,7 @@ DrawGameStats:
         inc ebx
         call GetLangText
         call DrawColorTextCentred
-        movsx esi, word [word_1656E0]
+        movsx esi, word [hmtmPwrPlayTime]
         mov eax, esi
         mov ebx, 3Ch
         cdq
@@ -422,7 +422,7 @@ DrawGameStats:
         lea eax, [byte ebp-020h]
         movsx edx, word [word_114DD4]
         call DrawColorTextCentred
-        movsx esi, word [word_165816]
+        movsx esi, word [awtmPwrPlayTime]
         mov eax, esi
         mov ebx, 3Ch
         cdq
@@ -463,7 +463,7 @@ DrawGameStats:
         movsx edx, word [word_114DD2]
         call GetLangText
         call DrawColorTextCentred
-        movsx eax, word [word_1656DE]
+        movsx eax, word [hmtmPPShots]
         push eax
         push str_D20
         lea eax, [byte ebp-020h]
@@ -480,7 +480,7 @@ DrawGameStats:
         lea eax, [byte ebp-020h]
         inc ebx
         call DrawColorTextCentred
-        movsx eax, word [word_165814]
+        movsx eax, word [awtmPPShots]
         push eax
         push str_D20
         lea eax, [byte ebp-020h]
@@ -513,9 +513,9 @@ DrawGameStats:
         inc ebx
         call GetLangText
         call DrawColorTextCentred
-        movsx eax, word [word_1656E4]
+        movsx eax, word [hmtmPenMin]
         push eax
-        movsx eax, word [word_1656E2]
+        movsx eax, word [hmtmPenalties]
         push eax
         push str_DD
         lea eax, [byte ebp-020h]
@@ -532,9 +532,9 @@ DrawGameStats:
         movsx edx, word [word_114DD4]
         lea eax, [byte ebp-020h]
         call DrawColorTextCentred
-        movsx eax, word [word_16581A]
+        movsx eax, word [awtmPenMin]
         push eax
-        movsx eax, word [word_165818]
+        movsx eax, word [awtmPenalties]
         push eax
         push str_DD
         lea eax, [byte ebp-020h]
@@ -567,7 +567,7 @@ DrawGameStats:
         movsx edx, word [word_114DD2]
         call GetLangText
         call DrawColorTextCentred
-        movsx eax, word [word_1656EA]
+        movsx eax, word [hmtmSHGoals]
         push eax
         push str_D20
         lea eax, [byte ebp-020h]
@@ -584,7 +584,7 @@ DrawGameStats:
         lea eax, [byte ebp-020h]
         movsx edx, word [word_114DD4]
         call DrawColorTextCentred
-        movsx eax, word [word_165820]
+        movsx eax, word [awtmSHGoals]
         push eax
         push str_D20
         lea eax, [byte ebp-020h]
@@ -615,9 +615,9 @@ DrawGameStats:
         movsx edx, word [word_114DD2]
         call GetLangText
         call DrawColorTextCentred
-        movsx eax, word [word_1656FA]
+        movsx eax, word [hmtmPenShots]
         push eax
-        movsx eax, word [word_1656FC]
+        movsx eax, word [hmtmPenShotGoals]
         push eax
         push str_DD
         lea eax, [byte ebp-020h]
@@ -634,9 +634,9 @@ DrawGameStats:
         lea eax, [byte ebp-020h]
         movsx edx, word [word_114DD4]
         call DrawColorTextCentred
-        movsx eax, word [word_165830]
+        movsx eax, word [awtmPenShots]
         push eax
-        movsx eax, word [word_165832]
+        movsx eax, word [awtmPenShotGoals]
         push eax
         push str_DD
         lea eax, [byte ebp-020h]
@@ -666,8 +666,8 @@ DrawGameStats:
         movsx edx, word [word_114DD2]
         call GetLangText
         call DrawColorTextCentred
-        movsx eax, word [word_1656EC]
-        movsx esi, word [word_165822]
+        movsx eax, word [hmtmFaceoffsWon]
+        movsx esi, word [awtmFaceoffsWon]
         add esi, eax
         push esi
         push eax
@@ -687,7 +687,7 @@ DrawGameStats:
         movsx edx, word [word_114DD4]
         call DrawColorTextCentred
         push esi
-        movsx eax, word [word_165822]
+        movsx eax, word [awtmFaceoffsWon]
         push eax
         push str_DD
         lea eax, [byte ebp-020h]
@@ -717,7 +717,7 @@ DrawGameStats:
         inc ebx
         call GetLangText
         call DrawColorTextCentred
-        movsx eax, word [word_1656FE]
+        movsx eax, word [hmtmChecks]
         push eax
         push str_D20
         lea eax, [byte ebp-020h]
@@ -734,7 +734,7 @@ DrawGameStats:
         lea eax, [byte ebp-020h]
         movsx edx, word [word_114DD4]
         call DrawColorTextCentred
-        movsx eax, word [word_165834]
+        movsx eax, word [awtmChecks]
         push eax
         push str_D20
         lea eax, [byte ebp-020h]
@@ -764,7 +764,7 @@ DrawGameStats:
         movsx edx, word [word_114DD2]
         call GetLangText
         call DrawColorTextCentred
-        movsx esi, word [word_1656E6]
+        movsx esi, word [hmtmATOP]
         mov eax, esi
         mov ebx, 3Ch
         cdq
@@ -789,7 +789,7 @@ DrawGameStats:
         movsx edx, word [word_114DD4]
         lea eax, [byte ebp-020h]
         call DrawColorTextCentred
-        movsx esi, word [word_16581C]
+        movsx esi, word [awtmATOP]
         mov eax, esi
         mov ebx, 3Ch
         cdq
@@ -827,8 +827,8 @@ DrawGameStats:
         movsx edx, word [word_114DD2]
         call GetLangText
         call DrawColorTextCentred
-        movsx esi, word [word_165700]
-        movsx ebx, word [word_165702]
+        movsx esi, word [hmpassatt]
+        movsx ebx, word [hmpasscmp]
         test esi, esi
         jle short .15
         imul eax, ebx, byte 64h
@@ -856,8 +856,8 @@ DrawGameStats:
         lea eax, [byte ebp-020h]
         movsx edx, word [word_114DD4]
         call DrawColorTextCentred
-        movsx esi, word [word_165836]
-        movsx ebx, word [word_165838]
+        movsx esi, word [awpassatt]
+        movsx ebx, word [awpasscmp]
         test esi, esi
         jle short .17
         imul eax, ebx, byte 64h

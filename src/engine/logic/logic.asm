@@ -9,7 +9,7 @@ extern PenBuf, PenBuf_pl, byte_176B83, iflags, icingPlayer, goalevent, byte_176B
 extern check4bench, chk4lc, chk4pass, crowdlevel, hmslotcount, awslotcount, HomeEbenPlayer, AwayEbenPlayer
 extern dword_119173, penshotteam, sopathx, sopathy, sopathend, sopathpoint, pspathside, pspathdir
 extern OneTimerPasser, PuckChasers, PuckChaserPlayer, ScoreCelebrating, str_wildcard, dword_119E8E, ShootoutPathData_y, dword_16523C
-extern dword_165240, dword_165244, dword_165248, dword_16524C, dword_165718, dword_16584E, findpc, fox
+extern dword_165240, dword_165244, dword_165248, dword_16524C, hmtmnear, awtmnear, findpc, fox
 extern foy, gameclock, gameopts, getlchoice, gmode, hmtmstruct, lasttouch, lcblink
 extern lcboxon, lcline, puckvy, puckc, PtrPuckFlags, off_117890, PtrPuckObject, passplayer
 extern penshotlive, penshotmode, penshotplayer, penshotstart, psendcount, puckvx, puckvz, puckx
@@ -4485,9 +4485,9 @@ pucknorm_body:
 .16:
         cmp eax, 10Eh
         jge short .17
-        cmp dword [dword_165718], byte 14h
+        cmp dword [hmtmnear], byte 14h
         jle short .17
-        cmp dword [dword_16584E], byte 14h
+        cmp dword [awtmnear], byte 14h
         jg near .7
 .17:
         dec word [byte ebx+028h]

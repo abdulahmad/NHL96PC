@@ -44,12 +44,12 @@ extern SetAaPalLut, DrawArtAaScaledInt, DrawArtAaScaled, ProjectPointList, DrawF
 extern SetScreenScale, OriSetObjectMatrix, OriSetObjectPosition, MakeRotXMatrix, MakeRotYMatrix, MakeRotZMatrix, OriFindGroup, InitReciprocalTable
 extern FixedInverse, IntSqrt, DrawArtScaledRemap, FlipArtHorizontal, SetScreenTarget, SetRemapTable, SetColourRemap, SetBlitSource
 extern SetBlendTables, ScaleRowBlend, JoyButtonMap, FindShape, ClearClipRect, SetNearClipZ, SetViewScreenOrigin, TeamLineEnergy
-extern TextSetFont, unk_111024, OverlayPanelQueue, unk_122320, unk_157FDA, unk_157FF8, unk_1582F5, unk_158313
+extern TextSetFont, unk_111024, OverlayPanelQueue, unk_122320, hmteamrec, unk_157FF8, awteamrec, unk_158313
 extern exhstate, unk_1782AC, unk_1786AC, unk_178AAC, unk_1798C0, unk_179980, unk_179AC0, unk_179BBC
 extern unk_17B248, unk_17B518, unk_17B830, unk_17B930, unk_17D3E8, str_T_DrawOverlayCaption, unk_5848C, vtoa
 extern HomeControlSlot, clockticks, bannermsg, word_119117, word_11911F, word_119127, word_11B274, ovlstep
 extern word_1515B5, word_1647A8, word_1647AA, word_1650A6, word_165144, word_165146, word_165148, word_16514A
-extern word_16514C, hmtmPwrGoals, hmtmPwrPlays, hmscore, word_165704, hmtmap, awscore, awtmline
+extern word_16514C, hmtmPwrGoals, hmtmPwrPlays, hmscore, hmtmline, hmtmap, awscore, awtmline
 extern awtmap, word_17709C
 global DrawScaledSprite, DrawScaledSprite_1E2, BuildShadeMatch, BuildShadeLut, AllocShadeLut, AllocShadeLut_5A, LoadIceLogo, FullViewClip
 global DimGameView, InitGameView, InitGameView_709, InitGameView_70A, FreeGameView, DrawRosterName, DrawRosterNumber, DrawRinkSprite
@@ -3995,14 +3995,14 @@ DrawPlayerPctPanel:
         mov eax, edi
         xor al, 1
         imul eax, dword 31Bh
-        add eax, unk_157FDA
+        add eax, hmteamrec
         add eax, byte 1Eh
         push eax
         mov eax, 81h
         jmp short .17
 .16:
         imul eax, edi, dword 31Bh
-        add eax, unk_157FDA
+        add eax, hmteamrec
         add eax, byte 1Eh
         push eax
         mov eax, 82h
@@ -4376,13 +4376,13 @@ DrawTimeLeftPanel:
         mov edx, 6
         mov eax, 0ADh
         call SetTextColors
-        push unk_1582F5
+        push awteamrec
         push str_3s
         lea eax, [byte ebp-060h]
         push eax
         call sprintf_
         add esp, byte 0Ch
-        push unk_157FDA
+        push hmteamrec
         push str_3s
         lea eax, [byte ebp-038h]
         push eax
@@ -4903,13 +4903,13 @@ DrawScorePanel:
         mov edx, 6
         mov eax, 0ADh
         call SetTextColors
-        push unk_1582F5
+        push awteamrec
         push str_3s
         lea eax, [byte ebp-060h]
         push eax
         call sprintf_
         add esp, byte 0Ch
-        push unk_157FDA
+        push hmteamrec
         push str_3s
         lea eax, [byte ebp-038h]
         push eax
@@ -6303,7 +6303,7 @@ DrawLineChangeBoxes:
         ret
 .1:
         mov ebx, dword_1797BC
-        movsx eax, word [word_165704]
+        movsx eax, word [hmtmline]
         xor esi, esi
         mov dword [dword_17990C], eax
         movsx eax, word [awtmline]

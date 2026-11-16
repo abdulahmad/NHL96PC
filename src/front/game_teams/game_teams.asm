@@ -3,14 +3,14 @@ bits 32
 %include "hockey.inc"
 section s_1F300 progbits alloc exec nowrite align=1
 extern byte_115109, byte_11510A, byte_11510B, byte_11510C, byte_115114, byte_115115, byte_115116, byte_115117
-extern byte_117575, byte_157191, byte_157640, byte_157FD2, byte_158646, pad2dev, pad1dev, curperiod
+extern byte_117575, byte_157191, awroster, byte_157FD2, byte_158646, pad2dev, pad1dev, curperiod
 extern dword_1150D8, dword_1571B3, dword_15803D, dword_1580A1, dword_158654, dword_16411C, dword_164120, plseasongoals
 extern dword_164128, dword_164798, PlayoffTreeData, dword_17D162, dword_17D267, FatalError, FileClose, FileOpenRead
 extern FileReadAt, GameLoopActive, gameopts, GameOver, gmode, hmroster, hmrosterpos, lseek_
 extern MakeDataPath, optflags, strcpy_, FreeGameSprites, SetCrowdTarget, GetLangText, MakeSeasonDbPath, MakePlayoffDbPath
-extern FreeMemBlock, DosFindFirst, hmplstats, unk_157AF8, unk_157B1C, hmplattr, awlinetab, unk_157FDA
-extern unk_1580AD, unk_1582F5, unk_1583C8, hmlinetab, word_11510D, word_156E6E, word_156E70, word_156E72
-extern word_156E74, word_156E76, word_156E78, word_156E7A, hmglstats_w2, word_157AFC, hmtmpdst, word_16578A
+extern FreeMemBlock, DosFindFirst, hmplstats, hmglstats, hmglattr, hmplattr, awlinetab, hmteamrec
+extern unk_1580AD, awteamrec, unk_1583C8, hmlinetab, word_11510D, word_156E6E, word_156E70, word_156E72
+extern word_156E74, word_156E76, word_156E78, word_156E7A, hmglstats_w2, word_157AFC, hmtmpdst, hmtmglpdst
 global EndGameCleanup, LoadGameRosters, InitGameTeams, ReadPlayerRecord, OpenRosterDb, FillTeamRoster, unk_2018D
 ;-----------------------------------------------------------------------------
 ; EndGameCleanup                               1F300  96 PC, medium confidence
@@ -155,7 +155,7 @@ LoadGameRosters:
 .11:
         mov ecx, 31Bh
         mov ebx, 0FFFFFFFFh
-        mov edx, unk_157FDA
+        mov edx, hmteamrec
         mov eax, dword [byte ebp-04h]
         call FileReadAt
         test eax, eax
@@ -172,7 +172,7 @@ LoadGameRosters:
 .13:
         mov ecx, 31Bh
         mov ebx, 0FFFFFFFFh
-        mov edx, unk_157FDA
+        mov edx, hmteamrec
         mov eax, dword [dword_1150D8]
         call FileReadAt
 .14:
@@ -274,7 +274,7 @@ LoadGameRosters:
 .25:
         mov ecx, 31Bh
         mov ebx, 0FFFFFFFFh
-        mov edx, unk_1582F5
+        mov edx, awteamrec
         mov eax, dword [byte ebp-04h]
         call FileReadAt
         test eax, eax
@@ -291,7 +291,7 @@ LoadGameRosters:
 .27:
         mov ecx, 31Bh
         mov ebx, 0FFFFFFFFh
-        mov edx, unk_1582F5
+        mov edx, awteamrec
         mov eax, dword [dword_1150D8]
         call FileReadAt
 .28:
@@ -377,7 +377,7 @@ LoadGameRosters:
         cmp edx, byte 64h
         je short .35
         imul edx, byte 2Bh
-        mov byte [dword edx+byte_157640], 2
+        mov byte [dword edx+awroster], 2
 .35:
         inc eax
         cmp eax, byte 8
@@ -449,15 +449,15 @@ InitGameTeams:
         jl short .1
         mov word [word_157AFC], 0
         mov word [hmglstats_w2], 0
-        mov word [unk_157AF8], 0
+        mov word [hmglstats], 0
         mov ebx, 12h
         xor edx, edx
 .3:
         mov ecx, ebx
         imul eax, edx, byte 12h
 .4:
-        mov esi, unk_157AF8
-        lea edi, [dword eax+unk_157AF8]
+        mov esi, hmglstats
+        lea edi, [dword eax+hmglstats]
         add eax, byte 6
         movsd
         movsw
@@ -1162,7 +1162,7 @@ FillTeamRoster:
         jmp short .18
 .20:
         mov eax, dword [byte ebp+062h]
-        movsx eax, word [dword eax+word_16578A]
+        movsx eax, word [dword eax+hmtmglpdst]
         test eax, eax
         jle short .21
         mov byte [dword edx+hmroster], 5
@@ -1174,7 +1174,7 @@ FillTeamRoster:
 .22:
         mov edi, dword [byte ebp+046h]
         lea esi, [byte ebp+02Ah]
-        lea edi, [dword edi+unk_157B1C]
+        lea edi, [dword edi+hmglattr]
         movsd
         movsd
         movsd

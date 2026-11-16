@@ -2,14 +2,14 @@
 bits 32
 %include "hockey.inc"
 section s_9CB19 progbits alloc exec nowrite align=1
-extern byte_157191, byte_16580A, byte_17BDAE, byte_17EBF0, byte_183098, byte_183099, byte_18309A, byte_183D0A
+extern byte_157191, HmGoalieSwapped, byte_17BDAE, byte_17EBF0, byte_183098, byte_183099, byte_18309A, byte_183D0A
 extern byte_1843B8, byte_1843B9, byte_1843BA, byte_1843C4, byte_1843C5, byte_1843CA, byte_1843CB, byte_1843CC
 extern byte_1843CD, byte_1843CE, byte_1843D4, byte_1843D5, byte_1843D6, byte_1843D7, byte_1843DC, byte_1843DD
 extern byte_1843DE, byte_1843DF, byte_1843E0, byte_1843E1, byte_1843E6, byte_1843E7, byte_1843E8, byte_1843EC
 extern byte_1843ED, byte_1843EE, DrawArtOpaque, DrawColorText, DrawFrameAt, DrawScrollBar, dword_1174EC, statsplayoffs
 extern dword_11D1A8, dword_11D1AC, dword_11E670, dword_11E678, dword_11E91C, dword_11E948, str_B_DrawLinesPanel, dword_11E9C0
 extern dword_11EA10, str_V_DrawLinesPanel, dword_11EAB0, dword_11EAFC, str_T_DrawLinesPanel, dword_11EB88, dword_11EBC0, dword_11EBF8
-extern dword_11ECE8, dword_11ECEC, dword_11ED2C, MenuCursorPixels, dword_152F58, hmtmlines, dword_1657FE, TeamStatsBitmap
+extern dword_11ECE8, dword_11ECEC, dword_11ED2C, MenuCursorPixels, dword_152F58, hmtmlines, hmtmroster, TeamStatsBitmap
 extern dword_17BC96, dword_17BCA2, dword_17BCA6, str_Standings, dword_17EEF0, dword_17FDEC, dword_17FDF0, dword_17FDF4
 extern dword_181EAC, dword_1820A8, dword_1820AC, dword_1820B0, dword_1820E4, dword_1820E8, dword_1820EC, dword_183028
 extern dword_1836E8, dword_1836EC, dword_1836F0, dword_1836F4, dword_1836F8, dword_1836FC, dword_183700, dword_183704
@@ -28,7 +28,7 @@ extern str_LName3, str_Nhl1, str_Nhl2, str_Nhl3, str_Pal28, str_Player3, str_Pro
 extern str_Scr22, str_Scr3, str_Sld12, str_Sldw, str_Slid2, str_Slu12, str_Slup, str_Sta13
 extern str_Sta23, str_Sta33, str_StatDBPTRs3, strcmp_, strcpy_, LoadDataFileLib, PlayerDbRecord, StatsDb2Record
 extern DrawArt, DrawShape, AllocMemBlock, FreeMemBlock, CreateBitmap, FreeBitmap, DrawArtOpaqueAtOwnPos, SetScreenTarget
-extern FindShape, ClearClipRect, TickDeadlinePassed, unk_157B1C, hmplattr, unk_157FDA, unk_183D08, word_11D1B4
+extern FindShape, ClearClipRect, TickDeadlinePassed, hmglattr, hmplattr, hmteamrec, unk_183D08, word_11D1B4
 extern hmscore, awscore
 global unk_9CB19, CompareRosterOrder, ComparePlayerPos, PositionOrder, EditLinesHoverPanel, RunEditLines, EditLinesScreen, LinesValid
 global CountLineSlots, CountLineSlots_4DD, HasDuplicateInLine, HasDuplicateInLine_45, DrawLinesPanel, DrawLineJersey, DrawLineJersey_104, DrawLinesPlayerList
@@ -608,7 +608,7 @@ EditLinesScreen:
         cmp dword [dword_1843B0], byte 3
         jne near .19
         imul eax, dword [dword_1843AC], dword 31Bh
-        mov edx, unk_157FDA
+        mov edx, hmteamrec
         add edx, eax
         mov eax, byte_183098
         mov dword [byte ebp+03Eh], 0
@@ -2229,9 +2229,9 @@ EditLinesScreen:
         mov dx, word [hmscore]
         cmp dx, word [awscore]
         jne short .94
-        cmp byte [dword eax+byte_16580A], 0
+        cmp byte [dword eax+HmGoalieSwapped], 0
         sete dl
-        mov byte [dword eax+byte_16580A], dl
+        mov byte [dword eax+HmGoalieSwapped], dl
 .94:
         imul eax, dword [dword_1843AC], dword 136h
         mov ecx, 3Eh
@@ -4353,7 +4353,7 @@ SortTeamPlayers:
         jl short .5
 .7:
         imul edi, dword [dword_1843AC], dword 136h
-        mov edi, dword [dword edi+dword_1657FE]
+        mov edi, dword [dword edi+hmtmroster]
         add edi, dword [byte ebp-018h]
         movzx edi, byte [edi]
         cmp edi, byte 1
@@ -4438,7 +4438,7 @@ AutoSetLines:
         jne short .6
         imul eax, dword [dword_1843AC], byte 33h
         mov ebx, dword [byte ebp+056h]
-        add eax, unk_157B1C
+        add eax, hmglattr
         add ebx, eax
         mov dword [byte ebp+03Eh], ebx
         jmp short .7

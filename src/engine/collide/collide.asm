@@ -15,7 +15,7 @@ extern regd3, setpersonel, sflags, shotongoal, shotontarget, BreakGlass, ShakeGl
 extern NearestGlassPoint, assextra2, assexitjump, puckflip, CanBlockShot, PassCompleted, changeplayer, restorepl
 extern AvgCline, GetHot, GetHotStick, GetHotOrStick, Goal, GiveControl, doplayeracc, burst
 extern GameEventStub, PostInjuryEvent, AddPenalty2, Stop4Pen, EndPenaltyShot, CanRemovePlayer, CloseTextOverlay, PlaySfx
-extern sfx, CrowdReaction, IntSqrt, vecdist, threat, unk_164B5C, unk_1657BC, unk_1658F2
+extern sfx, CrowdReaction, IntSqrt, vecdist, threat, AwSortCords, HmFightFlags, AwFightFlags
 extern vtoa, wcradiusx, word_1178A0, word_1178A6, VisTeam, word_1178AC, word_1178AE, word_1178B4
 extern yc1, gmode2, HomeControlSlot, gsp, clockticks, dirtab, dirtab_y, refhitcount
 extern word_11910F, bannermsg, word_119113, word_11916B, blockspd, blockspd_y, word_119FB8, shotsets
@@ -4558,12 +4558,12 @@ MarkTwoLinePlayers:
         movsx eax, al
         test eax, eax
         je short .1
-        mov eax, unk_164B5C
+        mov eax, AwSortCords
         mov edx, SortCords
         jmp short .2
 .1:
         mov eax, SortCords
-        mov edx, unk_164B5C
+        mov edx, AwSortCords
 .2:
         cmp word [byte ebx+06h], byte 0
         jl short .6
@@ -9823,8 +9823,8 @@ checkfight:
         test eax, eax
         je near .21
         mov dword [GameHitCount], 0
-        mov edi, unk_1657BC
-        mov eax, unk_1658F2
+        mov edi, HmFightFlags
+        mov eax, AwFightFlags
         dec dword [FightingOn]
         xor edx, edx
 .2:

@@ -2,9 +2,9 @@
 bits 32
 %include "hockey.inc"
 section s_7FF7F progbits alloc exec nowrite align=1
-extern BlackPalette, byte_16580A, byte_16580B, byte_165940, byte_17BDAE, byte_17CC1E, byte_17CC36, byte_17CFB1
+extern BlackPalette, HmGoalieSwapped, HmStarterGoalieMarks, AwGoalieSwapped, byte_17BDAE, byte_17CC1E, byte_17CC36, byte_17CFB1
 extern byte_17D262, byte_17D26F, byte_17D270, byte_17D271, CompareTeamPoints, seasondb, dword_1174EC, statsplayoffs
-extern dword_117500, dword_117510, dword_11E4B8, hmtmlines, dword_1657F6, dword_1657FA, dword_1657FE, dword_17CB2F
+extern dword_117500, dword_117510, dword_11E4B8, hmtmlines, hmtmplstats, hmtmglstats, hmtmroster, dword_17CB2F
 extern PlayoffTreeData, dword_17CC13, dword_17CC17, dword_17CEC3, SeasonRandomSeed, dword_17CED6, dword_17D162, dword_17D1E2
 extern dword_17D202, dword_17D267, dword_17D26B, FillMusicStream, gameopts, GetLangText, HideMessage, HideProgressBox
 extern LoadSeasonStats, MakeDirPath, MakePlayoffDbPath, MakeSeasonDbPath, qsort_, ShowMessage, ShowProgressBox, SimulateGame
@@ -150,12 +150,12 @@ UpdateTeamDbs:
         lea ebx, [eax+ecx]
         add eax, edx
         mov dword [byte ebp-06h], eax
-        movsx eax, byte [byte_16580A]
+        movsx eax, byte [HmGoalieSwapped]
         movzx eax, byte [dword ebx+eax+0107h]
         imul ebx, edi, dword 3E8h
         sub eax, byte 19h
         mov dword [byte ebp-03Eh], eax
-        movsx eax, byte [byte_165940]
+        movsx eax, byte [AwGoalieSwapped]
         add eax, dword [byte ebp-06h]
         movzx eax, byte [dword eax+0107h]
         sub eax, byte 19h
@@ -295,7 +295,7 @@ UpdateTeamDbs:
         inc ecx
         mov byte [edx+edi], al
 .28:
-        mov edx, dword [dword esi+dword_1657F6]
+        mov edx, dword [dword esi+hmtmplstats]
         add edx, dword [byte ebp+026h]
         movsx edx, word [edx]
         mov dword [byte ebp+04Eh], edx
@@ -324,7 +324,7 @@ UpdateTeamDbs:
         mov ebx, edi
         mov byte [ecx], al
 .31:
-        mov ecx, dword [dword esi+dword_1657F6]
+        mov ecx, dword [dword esi+hmtmplstats]
         add ecx, dword [byte ebp+02Eh]
         movsx ecx, word [byte ecx+0Eh]
         mov dword [byte ebp+04Eh], ecx
@@ -344,7 +344,7 @@ UpdateTeamDbs:
         xor edi, edi
         xor eax, eax
 .32:
-        mov ecx, dword [dword esi+dword_1657FE]
+        mov ecx, dword [dword esi+hmtmroster]
         add ecx, edi
         movzx edx, byte [ecx]
         cmp edx, byte 2
@@ -378,7 +378,7 @@ UpdateTeamDbs:
         inc dword [byte ebp+06Eh]
         mov byte [edx+edi], al
 .36:
-        mov edx, dword [dword esi+dword_1657F6]
+        mov edx, dword [dword esi+hmtmplstats]
         add edx, dword [byte ebp+032h]
         movsx edx, word [byte edx+02h]
         mov edi, dword [byte ebp+06Eh]
@@ -409,7 +409,7 @@ UpdateTeamDbs:
         mov ebx, edi
         mov byte [ecx], al
 .39:
-        mov ecx, dword [dword esi+dword_1657F6]
+        mov ecx, dword [dword esi+hmtmplstats]
         add ecx, dword [byte ebp+036h]
         movsx ecx, word [byte ecx+04h]
         lea edi, [byte ebx+01h]
@@ -426,7 +426,7 @@ UpdateTeamDbs:
         mov byte [eax], 0FAh
         xor eax, eax
 .40:
-        mov esi, dword [dword edx+dword_1657F6]
+        mov esi, dword [dword edx+hmtmplstats]
         mov cl, byte [byte esi+eax+06h]
         mov esi, ebx
         add eax, byte 10h
@@ -456,7 +456,7 @@ UpdateTeamDbs:
         mov byte [edx+edi], al
 .43:
         mov edx, dword [byte ebp+03Ah]
-        mov edx, dword [dword edx+dword_1657F6]
+        mov edx, dword [dword edx+hmtmplstats]
         add edx, dword [byte ebp+03Eh]
         movsx edx, word [byte edx+08h]
         mov dword [byte ebp+04Eh], edx
@@ -485,7 +485,7 @@ UpdateTeamDbs:
         inc dword [byte ebp+052h]
         mov byte [edi+esi], al
 .46:
-        mov esi, dword [dword ecx+dword_1657F6]
+        mov esi, dword [dword ecx+hmtmplstats]
         add esi, dword [byte ebp+042h]
         movsx esi, word [byte esi+0Ah]
         mov edi, dword [byte ebp+052h]
@@ -510,7 +510,7 @@ UpdateTeamDbs:
         mov byte [eax], 0F6h
         xor eax, eax
 .47:
-        mov ecx, dword [dword esi+dword_1657FA]
+        mov ecx, dword [dword esi+hmtmglstats]
         cmp word [ecx+edx], byte 0
         jle short .48
         mov ecx, ebx
@@ -534,7 +534,7 @@ UpdateTeamDbs:
         mov dword [byte ebp+06Ah], eax
 .49:
         mov ecx, dword [byte ebp+046h]
-        mov ecx, dword [dword ecx+dword_1657FA]
+        mov ecx, dword [dword ecx+hmtmglstats]
         add ecx, dword [byte ebp-01Eh]
         movsx eax, word [ecx]
         mov esi, 3Ch
@@ -548,7 +548,7 @@ UpdateTeamDbs:
         idiv si
         mov word [ecx], ax
         mov eax, dword [byte ebp+046h]
-        mov eax, dword [dword eax+dword_1657FA]
+        mov eax, dword [dword eax+hmtmglstats]
         add eax, dword [byte ebp-01Eh]
         inc word [eax]
         jmp short .51
@@ -564,7 +564,7 @@ UpdateTeamDbs:
         mov edi, dword [byte ebp+06Ah]
         inc ebx
         inc ebx
-        mov esi, dword [dword esi+dword_1657FA]
+        mov esi, dword [dword esi+hmtmglstats]
         add dword [byte ebp+06Ah], byte 2
         add esi, dword [byte ebp-01Eh]
         add dword [byte ebp-01Eh], byte 6
@@ -666,7 +666,7 @@ UpdateTeamDbs:
         inc edx
 .63:
         mov ecx, dword [byte ebp+02Ah]
-        mov ecx, dword [dword ecx+dword_1657FA]
+        mov ecx, dword [dword ecx+hmtmglstats]
         add ecx, dword [byte ebp-036h]
         movsx edi, word [byte ecx+04h]
         mov dword [byte ebp+04Eh], edi
@@ -699,7 +699,7 @@ UpdateTeamDbs:
         mov byte [esi], cl
 .66:
         lea esi, [byte ebx+01h]
-        movsx ecx, byte [dword edx+byte_16580B]
+        movsx ecx, byte [dword edx+HmStarterGoalieMarks]
         mov dword [byte ebp-012h], esi
         cmp edi, ecx
         jl short .65
@@ -730,7 +730,7 @@ UpdateTeamDbs:
         inc edx
 .70:
         mov ecx, dword [byte ebp+05Eh]
-        mov ecx, dword [dword ecx+dword_1657FA]
+        mov ecx, dword [dword ecx+hmtmglstats]
         add ecx, dword [byte ebp-032h]
         movsx edi, word [byte ecx+02h]
         cmp edx, edi

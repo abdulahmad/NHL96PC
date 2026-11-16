@@ -4,7 +4,7 @@ bits 32
 section s_3A7A4 progbits alloc exec nowrite align=1
 extern CompLine, Endfaceoff, PBnum, SetupPenaltyShot, ShotLaneOpen, SortCords, assinsert, assreplace
 extern awtmstruct, byte_1178C8, apl, byte_164797, byte_16479B, byte_1647E0, byte_1647E1, InputState
-extern byte_165713, HmPlayerFlags, AwPlayerFlags, fofdata2_b3, fofdata2_b7, iflags, chk4pass, crowdlevel
+extern hmtmgoaliehi, HmPlayerFlags, AwPlayerFlags, fofdata2_b3, fofdata2_b7, iflags, chk4pass, crowdlevel
 extern curperiod, hmslotcount, awslotcount, hmfirstslot, awfirstslot, dword_119173, penshotteam, pspathdir
 extern PassTargetLocked, OneTimerPasser, PuckChasers, FaceoffPuckDropped, dword_119F6C, dword_11B2A8, dword_15E4C4, PtrPuckZone
 extern dword_176BD0, optflags, energywarn, fadeinpending, fox, foy, gameclock, gameopts
@@ -16,12 +16,12 @@ extern ResetBrokenGlass, SetPenaltyBoxDoor, StartFaceoffLineChange, assexitjump,
 extern SetSPA, SetControlledPlayer, SprSort, changeplayer, GetHot, Setplass, setplayer, updateanim
 extern clockcont_0, SetExitGame, ResetBench, forcepldata, doplayeracc, EvadePC, skateto, playeracc
 extern avdgoal, stopna, AddPenalty2, Stop4Pen, PlaceGoalNets, PlaySfx, StopArenaClip, vecdist
-extern threat, unk_164B5C, vtoa, word_1178A0, word_1178A2, word_1178B4, yc1, ltx
+extern threat, AwSortCords, vtoa, word_1178A0, word_1178A2, word_1178B4, yc1, ltx
 extern fodir1, fodir2, gmode2, HomeControlSlot, slotteam, refsignal, RefStep, word_1178FA
 extern Penaltytimer, gsp, clockticks, word_118E8F, word_118E9F, word_118EA3, word_118EB7, word_1190D7
 extern puckfaceoff2_ptab, ovltimer, word_11910F, bannermsg, word_119113, word_119F78, word_164716, word_16472A
-extern puckcross, word_165144, hmscore, word_165704, word_165706, hmtmpdst, awscore, awtmline
-extern word_16583C, fofdata2, PlayFlags, fofdata2_w4, fofdata2_w6, fofdata, FaceoffDropTimer, regd4
+extern puckcross, word_165144, hmscore, hmtmline, hmtmlcnt, hmtmpdst, awscore, awtmline
+extern awtmlcnt, fofdata2, PlayFlags, fofdata2_w4, fofdata2_w6, fofdata, FaceoffDropTimer, regd4
 extern regd0, regd1, word_176B7A, PerTimeTotal, LastTouchTeam, PassDistY, StoppageFlag, LastPlayerTouch
 global AdjustFacingDirection, AllInPlace, GoalieToPuckVec, PenShotAssign, PullGoalie, SetTeamGoalie, assbenchwait, assrefpenshot
 global asstakeposition, check4bench, SetupPenaltyBoxSeats_7E, goalieposition_648, puckfaceoff, SetupPenaltyBoxSeats, TakePlayerFromBox, FreeBoxedPlayers
@@ -644,7 +644,7 @@ AssignControlSlots:
         mov eax, SortCords
         jmp short .3
 .2:
-        mov eax, unk_164B5C
+        mov eax, AwSortCords
 .3:
         xor esi, esi
 .4:
@@ -1002,10 +1002,10 @@ puckfaceoff:
         mov eax, dword [gameopts]
         test byte [byte eax+01h], 30h
         jne short .30
-        mov word [word_16583C], 0
+        mov word [awtmlcnt], 0
         mov word [awtmline], 0
-        mov word [word_165706], 0
-        mov word [word_165704], 0
+        mov word [hmtmlcnt], 0
+        mov word [hmtmline], 0
 .30:
         mov edx, 1Ch
         mov eax, ebx
@@ -1845,7 +1845,7 @@ puckfaceoff2:
         movsx edx, si
         cmp eax, byte 2
         jne short .50
-        mov eax, unk_164B5C
+        mov eax, AwSortCords
         jmp short .51
 .50:
         mov eax, SortCords
@@ -2814,7 +2814,7 @@ PullGoalie:
         jge short .5
         movsx edx, ax
         imul edx, dword 136h
-        mov byte [dword edx+byte_165713], 0
+        mov byte [dword edx+hmtmgoaliehi], 0
         and byte [dword edx+hmtmgoalie], 0Fh
         jmp short .6
 .5:
@@ -2885,7 +2885,7 @@ SetTeamGoalie:
         xor ebx, edx
         je short .4
         imul edx, dword 136h
-        or byte [dword edx+byte_165713], 0FFh
+        or byte [dword edx+hmtmgoaliehi], 0FFh
 .4:
         movsx edx, ax
         imul edx, dword 136h

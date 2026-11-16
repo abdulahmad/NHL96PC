@@ -5,17 +5,17 @@ section s_465BA progbits alloc exec nowrite align=1
 extern AddPenalty, ChkGoalies, ClearPenaltyBuffer, CwdExciteLvl, InGameMenuRequest, LineChangeReq, OOlist, OOlistpos
 extern PBnum, Pencntdwn, PlList, ReadJoy1, SortCords, assinsert, assreplace, awtmgoalie
 extern awtmstruct, byte_1178C8, priolist, byte_11916A, HotList, HotList_y, HotStickList, HotStickList_y
-extern byte_119FF0, byte_119FF7, byte_11A028, byte_157640, byte_164797, byte_16479B, byte_1647E0, byte_164920
-extern byte_164CE0, byte_165790, hmtmcoach_d2, hmtmcoach_d3, HmCoachGoalie, hmtmcoachmode, HmRosterMap, byte_1658C6
+extern byte_119FF0, byte_119FF7, byte_11A028, awroster, byte_164797, byte_16479B, byte_1647E0, byte_164920
+extern byte_164CE0, hmtmpbox, hmtmcoach_d2, hmtmcoach_d3, HmCoachGoalie, hmtmcoachmode, HmRosterMap, awtmpbox
 extern awtmcoach_d2, awtmcoach_d3, AwCoachGoalie, awtmcoachmode, AwRosterMap, LinePlayersAway, PenBuf, PenBuf_pl
 extern goalevent, defsort_d, offsort_fwd, chkprogress, collflag, crowdlevel, curperiod, hmslotcount
 extern awslotcount, hmfirstslot, awfirstslot, HomeEbenPlayer, AwayEbenPlayer, dword_119173, penshotteam, AwayGoalsPeriod
 extern HomeGoalsPeriod, PassTargetLocked, PuckChasers, PuckChaserPlayer, GameHitCount, FightingOn, playsuspended, dword_11A004
 extern dword_11A3F8, dword_11B23C, dword_11D3A6, dword_11D674, dword_164806, dword_164816, dword_164956, dword_164D16
-extern dword_165166, dword_16516A, dword_165240, dword_165244, CrowdExciteTotal, dword_165718, hmtmcoachenergy, hmtmlines
-extern hmtmplattr, dword_1657F2, dword_1657F6, dword_1657FA, dword_1657FE, dword_165802, hmtmsort, dword_16584E
-extern awtmcoachenergy, dword_165920, dword_165924, dword_165928, dword_16592C, dword_165930, dword_165934, dword_165938
-extern hmtmroster, ReplayBufferTop, GameVarsClear, dword_176BD8, dword_1797B4, dword_179910, dword_179D6C, dword_179E0B
+extern dword_165166, dword_16516A, dword_165240, dword_165244, CrowdExciteTotal, hmtmnear, hmtmcoachenergy, hmtmlines
+extern hmtmplattr, hmtmglattr, hmtmplstats, hmtmglstats, hmtmroster, hmtmteamrec, hmtmsort, awtmnear
+extern awtmcoachenergy, awtmlines, awtmplattr, awtmglattr, awtmplstats, awtmglstats, awtmroster, awtmteamrec
+extern awtmsort, ReplayBufferTop, GameVarsClear, dword_176BD8, dword_1797B4, dword_179910, dword_179D6C, dword_179E0B
 extern optflags, energywarn, fadeinpending, fox, foy, gameclock, gameopts, gmode
 extern hmroster, hmtmgoalie, hmtmstruct, lastplayer, lasttouch, lcblink, lcboxon, lcline
 extern replaystart, puckvy, puckc, PtrPuckFlags, off_117890, PtrPuckObject, off_117898, off_11789C
@@ -25,16 +25,16 @@ extern shotontarget, IsCupClinched, StartGoalLight, SwapPosition, assextra6, doi
 extern SetupPenaltyBoxSeats, asspsclear, SetCarryAnim, ChkShotStat, checkcoll, SetSPA, GameEventStub, AddPenalty2
 extern PenGoalStuff, EndPenaltyShot, ResetPeriodState, SortSpritesForDraw, CloseTextOverlay, LoadCupSprites, PaEvent, StopAllSfx
 extern PlaySfx, sfx, CrowdReaction, PlayArenaClip, StopArenaClip, vecdist, threat, unk_117A9C
-extern ds2list, hmplstats, unk_156FFC, unk_157AF8, unk_157B0A, unk_157B1C, unk_157B4F, hmplattr
-extern unk_157D8F, awlinetab, unk_157FDA, unk_1582F5, hmlinetab, unk_164B5C, unk_165258, unk_165354
+extern ds2list, hmplstats, awplstats, hmglstats, awglstats, hmglattr, awglattr, hmplattr
+extern awplattr, awlinetab, hmteamrec, awteamrec, hmlinetab, AwSortCords, unk_165258, unk_165354
 extern unk_176D0C, unk_176E9C, vtoa, word_1178A0, word_1178A2, VisTeam, word_1178B4, yc1
 extern ltx, fodir1, fodir2, gmode2, HomeControlSlot, slotteam, word_1178F4, RefStep
 extern gsp, clockticks, dirtab, dirtab_y, word_118E8F, exitgame, gameover, word_118E95
 extern word_118E9F, word_118EA3, word_118EAF, word_118EB7, ovltimer, bannermsg, word_119113, lldispodd
 extern word_11916B, word_119FF8, word_11A008, word_11A01A, word_11A0D9, lastsfx, puckcross, word_16479E
-extern word_1647B6, word_1647E4, word_165144, word_165146, word_165148, PeriodEventCount, hmscore, word_165704
-extern word_165706, word_165708, hmtmap, word_16571C, word_1657D8, awscore, awtmline, word_16583C
-extern word_16583E, word_165852, word_16590E, regd4, regd5, LastShooterTeam, regd0, regd1
+extern word_1647B6, word_1647E4, word_165144, word_165146, word_165148, PeriodEventCount, hmscore, hmtmline
+extern hmtmlcnt, hmtmextra, hmtmap, hmtmnearpl, HmChaserList, awscore, awtmline, awtmlcnt
+extern awtmextra, awtmnearpl, AwChaserList, regd4, regd5, LastShooterTeam, regd0, regd1
 extern Ylist, SpeechPatchNext, word_176B70, word_176B72, word_176B78, word_176B7C, PerTimeTotal, LastTouchTeam
 extern PassDistY, StoppageFlag, LastPlayerTouch
 global ClearSortCords, CompLine, DoGameFrame, InitCoachModes, SetPlList, SetupTeamForIntermission, StartPer, TeamLineEnergy
@@ -203,7 +203,7 @@ changeplayer:
         movsx eax, word [nosplit esi*2+slotteam]
         cmp eax, byte 2
         jne short .9
-        mov eax, unk_164B5C
+        mov eax, AwSortCords
         jmp short .10
 .9:
         mov eax, SortCords
@@ -266,7 +266,7 @@ changeplayer:
         mov dword [byte ebp-014h], 0FFFFFFFFh
         cmp eax, byte 2
         jne short .17
-        mov eax, unk_164B5C
+        mov eax, AwSortCords
         jmp short .18
 .17:
         mov eax, SortCords
@@ -1316,11 +1316,11 @@ InitCoachModes:
         mov byte [AwCoachGoalie], 81h
         mov byte [awtmcoachmode], 1
 .3:
-        mov word [word_16583C], 0
+        mov word [awtmlcnt], 0
         mov word [awtmline], 0
         mov eax, dword [gameopts]
-        mov word [word_165706], 0
-        mov word [word_165704], 0
+        mov word [hmtmlcnt], 0
+        mov word [hmtmline], 0
         test byte [byte eax+01h], 30h
         je short .5
         cmp word [gsp], byte 0
@@ -1582,7 +1582,7 @@ PenTeamScored:
         je short .5
         test eax, eax
         je short .1
-        mov eax, unk_164B5C
+        mov eax, AwSortCords
         jmp short .2
 .1:
         mov eax, SortCords
@@ -1630,7 +1630,7 @@ ChkTeamPlayerFlag:
         je short .5
         test edx, edx
         je short .1
-        mov eax, unk_164B5C
+        mov eax, AwSortCords
         jmp short .2
 .1:
         mov eax, SortCords
@@ -2942,27 +2942,27 @@ clearteams:
         cmp ebx, 26Ch
         jb short .3
         mov word [hmtmgoalie], 0
-        mov word [word_165708], 0FFFFh
+        mov word [hmtmextra], 0FFFFh
         mov word [awtmgoalie], 0
-        mov word [word_16583E], 0FFFFh
-        mov byte [byte_165790], 0FFh
-        mov byte [byte_1658C6], 0FFh
+        mov word [awtmextra], 0FFFFh
+        mov byte [hmtmpbox], 0FFh
+        mov byte [awtmpbox], 0FFh
         mov dword [hmtmsort], SortCords
         mov dword [hmtmplattr], hmplattr
-        mov dword [dword_1657F2], unk_157B1C
+        mov dword [hmtmglattr], hmglattr
         mov dword [hmtmlines], hmlinetab
-        mov dword [dword_1657F6], hmplstats
-        mov dword [dword_1657FA], unk_157AF8
-        mov dword [dword_1657FE], hmroster
-        mov dword [dword_165802], unk_157FDA
-        mov dword [hmtmroster], unk_164B5C
-        mov dword [dword_165924], unk_157D8F
-        mov dword [dword_165928], unk_157B4F
-        mov dword [dword_165920], awlinetab
-        mov dword [dword_16592C], unk_156FFC
-        mov dword [dword_165930], unk_157B0A
-        mov dword [dword_165934], byte_157640
-        mov dword [dword_165938], unk_1582F5
+        mov dword [hmtmplstats], hmplstats
+        mov dword [hmtmglstats], hmglstats
+        mov dword [hmtmroster], hmroster
+        mov dword [hmtmteamrec], hmteamrec
+        mov dword [awtmsort], AwSortCords
+        mov dword [awtmplattr], awplattr
+        mov dword [awtmglattr], awglattr
+        mov dword [awtmlines], awlinetab
+        mov dword [awtmplstats], awplstats
+        mov dword [awtmglstats], awglstats
+        mov dword [awtmroster], awroster
+        mov dword [awtmteamrec], awteamrec
         xor edx, edx
         jmp short .6
 .5:
@@ -4410,12 +4410,12 @@ updateplayers:
 .2:
         xor eax, eax
 .3:
-        mov word [word_1657D8], 0FFFFh
-        mov dword [dword_165718], 0FFFFh
-        mov word [word_16571C], 0FFFFh
-        mov word [word_16590E], 0FFFFh
-        mov dword [dword_16584E], 0FFFFh
-        mov word [word_165852], 0FFFFh
+        mov word [HmChaserList], 0FFFFh
+        mov dword [hmtmnear], 0FFFFh
+        mov word [hmtmnearpl], 0FFFFh
+        mov word [AwChaserList], 0FFFFh
+        mov dword [awtmnear], 0FFFFh
+        mov word [awtmnearpl], 0FFFFh
         mov edi, dword [pucky]
         mov dword [dword_176BD8], 0FFFFFFFFh
         mov dword [playsuspended], eax
@@ -5768,7 +5768,7 @@ clockcont_0:
         jl short .13
         test edi, edi
         jge short .15
-        mov ebx, unk_164B5C
+        mov ebx, AwSortCords
         jmp short .16
 .15:
         mov ebx, SortCords
@@ -5784,7 +5784,7 @@ clockcont_0:
         mov ecx, SortCords
         jmp short .18
 .17:
-        mov ecx, unk_164B5C
+        mov ecx, AwSortCords
 .18:
         call LoadCupSprites
         mov edx, 21h
@@ -5872,7 +5872,7 @@ clockcont_0:
 .28:
         test edi, edi
         jge short .29
-        mov ebx, unk_164B5C
+        mov ebx, AwSortCords
         jmp short .30
 .29:
         mov ebx, SortCords

@@ -5138,13 +5138,22 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 152FE4,StreamHandle,dword_152FE4,new,low,CD stream handle,src/data/front/main_bss_01.asm
 152FE8,curperiod,,95PC,medium,NHL95PC D8C84 (refset): referenced by the same 2 matched functions,
 156E6C,hmplstats,unk_156E6C,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_01.asm
+156FFC,awplstats,unk_156FFC,new,low,Away skater game stats,src/data/front/main_bss_01.asm
 15718C,hmroster,,95PC,medium,NHL95PC DB3A8 (refset): referenced by the same 3 matched functions,
 157192,hmrosterpos,,95PC,medium,NHL95PC DB3AE (refset): referenced by the same 3 matched functions,
+157640,awroster,byte_157640,new,low,Away roster,src/data/front/main_bss_01.asm
+157AF8,hmglstats,unk_157AF8,new,low,Home goalie game stats (clearteams: hmtmglstats),src/data/front/main_bss_01.asm
 157AFA,hmglstats_w2,word_157AFA,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_01.asm
 157B00,hmglstats_w8,word_157B00,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_01.asm
 157B06,hmglstats_w14,word_157B06,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_01.asm
+157B0A,awglstats,unk_157B0A,new,low,Away goalie game stats,src/data/front/main_bss_01.asm
+157B1C,hmglattr,unk_157B1C,new,low,Home goalie attributes (clearteams: hmtmglattr),src/data/front/main_bss_01.asm
+157B4F,awglattr,unk_157B4F,new,low,Away goalie attributes,src/data/front/main_bss_01.asm
 157B82,hmplattr,unk_157B82,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_01.asm
+157D8F,awplattr,unk_157D8F,new,low,Away skater attributes (clearteams: awtmplattr),src/data/front/main_bss_01.asm
 157F9C,awlinetab,unk_157F9C,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_01.asm
+157FDA,hmteamrec,unk_157FDA,new,low,Home team record (clearteams: hmtmteamrec),src/data/front/main_bss_01.asm
+1582F5,awteamrec,unk_1582F5,new,low,Away team record,src/data/front/main_bss_01.asm
 158610,hmlinetab,unk_158610,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_01.asm
 158651,pad2dev,byte_158651,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_01.asm
 158652,pad1dev,byte_158652,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_01.asm
@@ -5209,6 +5218,7 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 164796,puckcross2,word_164796,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_2A692_bss_01.asm
 16479A,puckcross6,word_16479A,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_2A692_bss_01.asm
 16479C,SortCords,,95PC,medium,NHL95PC DF81C (refset): referenced by the same 10 matched functions,
+164B5C,AwSortCords,unk_164B5C,new,low,Away team's sort coordinate entries (awtmsort),src/data/front/front_2A692_bss_01.asm
 16505C,ViewScreenHeight,dword_16505C,new,low,full screen height the game view is sized against (compared with 300),src/data/front/replay_controls_bss_01.asm
 165250,InputState,byte_165250,new,low,input state,src/data/front/replay_controls_bss_01.asm
 165254,PtrPuckZone,dword_165254,new,low,pointer to the puck zone record,src/data/front/replay_controls_bss_01.asm
@@ -5231,33 +5241,103 @@ F0027,SbProRealIsrHigh240,unk_F0027,new,low,"real mode interrupt stub (other por
 1656D8,hmtmstruct,,95PC,medium,NHL95PC DF614 (refset): referenced by the same 21 matched functions,
 1656DA,hmtmPwrGoals,word_1656DA,new,low,home team: power play goals,src/data/engine/engine_2D9D9_bss_01.asm
 1656DC,hmtmPwrPlays,word_1656DC,new,low,home team: power plays (cleared per team by SimulateGame),src/data/engine/engine_2D9D9_bss_01.asm
+1656DE,hmtmPPShots,word_1656DE,new,low,Home team struct +06h: power-play shots (game stats page),src/data/front/front_1456D_bss_02.asm
+1656E0,hmtmPwrPlayTime,word_1656E0,new,low,"Home team struct +08h: power-play time in seconds (game stats page, m:ss)",src/data/front/front_1456D_bss_02.asm
+1656E2,hmtmPenalties,word_1656E2,new,low,Home team struct +0Ah: penalties,src/data/front/front_1456D_bss_02.asm
+1656E4,hmtmPenMin,word_1656E4,new,low,Home team struct +0Ch: penalty minutes,src/data/front/front_1456D_bss_02.asm
+1656E6,hmtmATOP,word_1656E6,new,low,Home team struct +0Eh: attack zone time of possession in seconds,src/data/front/front_1456D_bss_02.asm
 1656E8,hmscore,word_1656E8,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_1456D_bss_02.asm
+1656EA,hmtmSHGoals,word_1656EA,new,low,Home team struct +12h: shorthanded goals (Goal with fewer skaters on the ice),src/data/front/front_1456D_bss_02.asm
+1656EC,hmtmFaceoffsWon,word_1656EC,new,low,Home team struct +14h: faceoffs won,src/data/front/front_1456D_bss_02.asm
+1656F2,hmtmOneTimers,word_1656F2,new,low,Home team struct +1Ah: one-timer attempts,src/data/front/front_1456D_bss_02.asm
+1656F4,hmtmOneTimerGoals,word_1656F4,new,low,Home team struct +1Ch: one-timer goals,src/data/front/front_1456D_bss_02.asm
+1656F6,hmtmBreakaways,word_1656F6,new,low,Home team struct +1Eh: breakaways,src/data/front/front_1456D_bss_02.asm
+1656F8,hmtmBreakawayGoals,word_1656F8,new,low,Home team struct +20h: breakaway goals,src/data/front/front_1456D_bss_02.asm
+1656FA,hmtmPenShots,word_1656FA,new,low,Home team struct +22h: penalty shots,src/data/front/front_1456D_bss_02.asm
+1656FC,hmtmPenShotGoals,word_1656FC,new,low,Home team struct +24h: penalty shot goals,src/data/front/front_1456D_bss_02.asm
+1656FE,hmtmChecks,word_1656FE,new,low,Home team struct +26h: body checks,src/data/front/front_1456D_bss_02.asm
+165700,hmpassatt,word_165700,new,low,Home team struct +28h: passes attempted,src/data/front/front_1456D_bss_02.asm
+165702,hmpasscmp,word_165702,new,low,Home team struct +2Ah: passes completed,src/data/front/front_1456D_bss_02.asm
+165704,hmtmline,word_165704,new,low,Home team struct +2Ch: current line,src/data/front/front_1456D_bss_02.asm
+165706,hmtmlcnt,word_165706,new,low,Home team struct +2Eh: even-strength line rotation count,src/data/front/front_1456D_bss_02.asm
+165708,hmtmextra,word_165708,new,low,"Home team struct +30h: extra attacker pnum, -1 with the goalie in",src/data/front/front_1456D_bss_02.asm
+16570A,hmtmtouch1,word_16570A,new,low,"Home team struct +32h: last three touches (scorer, first and second assist), words",src/data/front/front_1456D_bss_02.asm
 165710,hmtmap,word_165710,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_1456D_bss_02.asm
 165712,hmtmgoalie,,95PC,medium,NHL95PC DF64C (refset): referenced by the same 3 matched functions,
+165713,hmtmgoaliehi,byte_165713,new,low,Home team struct +3Bh: high byte of tmgoalie (set to -1 when the goalie is pulled),src/data/front/front_1456D_bss_02.asm
+165718,hmtmnear,dword_165718,new,low,Home team struct +40h: nearest skater's distance to the puck,src/data/front/front_1456D_bss_02.asm
+16571C,hmtmnearpl,word_16571C,new,low,"Home team struct +44h: nearest skater to the puck, -1 for none",src/data/front/front_1456D_bss_02.asm
 16571E,HmPlayerFlags,byte_16571E,new,low,home team: flags per roster player,src/data/front/front_1456D_bss_02.asm
 165758,hmtmpdst,word_165758,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_1456D_bss_02.asm
+16578A,hmtmglpdst,word_16578A,new,low,Home team struct +B2h: tmpdst entries of the three goalies,src/data/front/front_1456D_bss_02.asm
+165790,hmtmpbox,byte_165790,new,low,"Home team struct +B8h: penalty box list of roster indexes, ends with a negative byte",src/data/front/front_1456D_bss_02.asm
 1657AC,hmtmcoach_d2,byte_1657AC,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_1456D_bss_02.asm
 1657AD,hmtmcoach_d3,byte_1657AD,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_1456D_bss_02.asm
 1657AE,HmCoachGoalie,byte_1657AE,new,low,home team: coach goalie mode,src/data/front/front_1456D_bss_02.asm
 1657AF,hmtmcoachmode,byte_1657AF,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_1456D_bss_02.asm
 1657B0,hmtmcoachenergy,dword_1657B0,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_1456D_bss_02.asm
 1657B4,HmRosterMap,byte_1657B4,new,low,home team: roster index per slot,src/data/front/front_1456D_bss_02.asm
+1657BC,HmFightFlags,unk_1657BC,new,low,"Home team struct +E4h: fight state byte per roster player, cleared when a fight ends",src/data/front/front_1456D_bss_02.asm
+1657D8,HmChaserList,word_1657D8,new,low,"Home team struct +100h: puck chaser slots, reset to -1 each frame by updateplayers",src/data/front/front_1456D_bss_02.asm
 1657EA,hmtmlines,dword_1657EA,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_1456D_bss_02.asm
 1657EE,hmtmplattr,dword_1657EE,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_1456D_bss_02.asm
+1657F2,hmtmglattr,dword_1657F2,new,low,Home team struct +11Ah: pointer to the home goalie attributes,src/data/front/front_1456D_bss_02.asm
+1657F6,hmtmplstats,dword_1657F6,new,low,Home team struct +11Eh: pointer to the home skater game stats,src/data/front/front_1456D_bss_02.asm
+1657FA,hmtmglstats,dword_1657FA,new,low,Home team struct +122h: pointer to the home goalie game stats,src/data/front/front_1456D_bss_02.asm
+1657FE,hmtmroster,dword_1657FE,new,medium,Home team struct +126h: pointer to the home roster (clearteams: hmroster),src/data/front/front_1456D_bss_02.asm
+165802,hmtmteamrec,dword_165802,new,low,Home team struct +12Ah: pointer to the home team record,src/data/front/front_1456D_bss_02.asm
 165806,hmtmsort,dword_165806,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_1456D_bss_02.asm
+16580A,HmGoalieSwapped,byte_16580A,new,low,Home team struct +132h: toggled when the goalie is changed in a tied game,src/data/front/front_1456D_bss_02.asm
+16580B,HmStarterGoalieMarks,byte_16580B,new,low,Home team struct +133h: game marks for the starting goalie (reset at 0-0),src/data/front/front_1456D_bss_02.asm
+16580C,HmBackupGoalieMarks,byte_16580C,new,low,Home team struct +134h: game marks for the backup goalie (reset at 0-0),src/data/front/front_1456D_bss_02.asm
 16580E,awtmstruct,,95PC,medium,NHL95PC DF714 (refset): referenced by the same 19 matched functions,
+165810,awtmPwrGoals,word_165810,new,low,Away team struct +02h: power-play goals,src/data/front/front_1456D_bss_02.asm
+165812,awtmPwrPlays,word_165812,new,low,Away team struct +04h: power plays,src/data/front/front_1456D_bss_02.asm
+165814,awtmPPShots,word_165814,new,low,Away team struct +06h: power-play shots,src/data/front/front_1456D_bss_02.asm
+165816,awtmPwrPlayTime,word_165816,new,low,Away team struct +08h: power-play time in seconds,src/data/front/front_1456D_bss_02.asm
+165818,awtmPenalties,word_165818,new,low,Away team struct +0Ah: penalties,src/data/front/front_1456D_bss_02.asm
+16581A,awtmPenMin,word_16581A,new,low,Away team struct +0Ch: penalty minutes,src/data/front/front_1456D_bss_02.asm
+16581C,awtmATOP,word_16581C,new,low,Away team struct +0Eh: attack zone time of possession in seconds,src/data/front/front_1456D_bss_02.asm
 16581E,awscore,word_16581E,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_1456D_bss_02.asm
+165820,awtmSHGoals,word_165820,new,low,Away team struct +12h: shorthanded goals,src/data/front/front_1456D_bss_02.asm
+165822,awtmFaceoffsWon,word_165822,new,low,Away team struct +14h: faceoffs won,src/data/front/front_1456D_bss_02.asm
+165828,awtmOneTimers,word_165828,new,low,Away team struct +1Ah: one-timer attempts,src/data/front/front_1456D_bss_02.asm
+16582A,awtmOneTimerGoals,word_16582A,new,low,Away team struct +1Ch: one-timer goals,src/data/front/front_1456D_bss_02.asm
+16582C,awtmBreakaways,word_16582C,new,low,Away team struct +1Eh: breakaways,src/data/front/front_1456D_bss_02.asm
+16582E,awtmBreakawayGoals,word_16582E,new,low,Away team struct +20h: breakaway goals,src/data/front/front_1456D_bss_02.asm
+165830,awtmPenShots,word_165830,new,low,Away team struct +22h: penalty shots,src/data/front/front_1456D_bss_02.asm
+165832,awtmPenShotGoals,word_165832,new,low,Away team struct +24h: penalty shot goals,src/data/front/front_1456D_bss_02.asm
+165834,awtmChecks,word_165834,new,low,Away team struct +26h: body checks,src/data/front/front_1456D_bss_02.asm
+165836,awpassatt,word_165836,new,low,Away team struct +28h: passes attempted,src/data/front/front_1456D_bss_02.asm
+165838,awpasscmp,word_165838,new,low,Away team struct +2Ah: passes completed,src/data/front/front_1456D_bss_02.asm
 16583A,awtmline,word_16583A,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_1456D_bss_02.asm
+16583C,awtmlcnt,word_16583C,new,low,Away team struct +2Eh: even-strength line rotation count,src/data/front/front_1456D_bss_02.asm
+16583E,awtmextra,word_16583E,new,low,Away team struct +30h: extra attacker pnum and the last three touches,src/data/engine/hockey_bss_01.asm
 165846,awtmap,word_165846,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_bss_01.asm
 165848,awtmgoalie,,95PC,medium,NHL95PC DF74C (refset): referenced by the same 2 matched functions,
+16584E,awtmnear,dword_16584E,new,low,Away team struct +40h: nearest skater's distance to the puck,src/data/engine/hockey_bss_01.asm
+165852,awtmnearpl,word_165852,new,low,"Away team struct +44h: nearest skater to the puck, -1 for none",src/data/engine/hockey_bss_01.asm
 165854,AwPlayerFlags,byte_165854,new,low,away team: flags per roster player,src/data/engine/hockey_bss_01.asm
+1658C6,awtmpbox,byte_1658C6,new,low,Away team struct +B8h: penalty box list of roster indexes,src/data/engine/hockey_bss_01.asm
 1658E2,awtmcoach_d2,byte_1658E2,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_bss_01.asm
 1658E3,awtmcoach_d3,byte_1658E3,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_bss_01.asm
 1658E4,AwCoachGoalie,byte_1658E4,new,low,away team: coach goalie mode,src/data/engine/hockey_bss_01.asm
 1658E5,awtmcoachmode,byte_1658E5,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_bss_01.asm
 1658E6,awtmcoachenergy,dword_1658E6,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_bss_01.asm
 1658EA,AwRosterMap,byte_1658EA,new,low,away team: roster index per slot,src/data/engine/hockey_bss_01.asm
-16593C,hmtmroster,dword_16593C,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_bss_01.asm
+1658F2,AwFightFlags,unk_1658F2,new,low,Away team struct +E4h: fight state byte per roster player,src/data/engine/hockey_bss_01.asm
+16590E,AwChaserList,word_16590E,new,low,"Away team struct +100h: puck chaser slots, reset to -1 each frame",src/data/engine/hockey_bss_01.asm
+165920,awtmlines,dword_165920,new,low,Away team struct +112h: pointer to the away line table,src/data/engine/hockey_bss_01.asm
+165924,awtmplattr,dword_165924,new,low,Away team struct +116h: pointer to the away skater attributes,src/data/engine/hockey_bss_01.asm
+165928,awtmglattr,dword_165928,new,low,Away team struct +11Ah: pointer to the away goalie attributes,src/data/engine/hockey_bss_01.asm
+16592C,awtmplstats,dword_16592C,new,low,Away team struct +11Eh: pointer to the away skater game stats,src/data/engine/hockey_bss_01.asm
+165930,awtmglstats,dword_165930,new,low,Away team struct +122h: pointer to the away goalie game stats,src/data/engine/hockey_bss_01.asm
+165934,awtmroster,dword_165934,new,low,Away team struct +126h: pointer to the away roster,src/data/engine/hockey_bss_01.asm
+165938,awtmteamrec,dword_165938,new,low,Away team struct +12Ah: pointer to the away team record,src/data/engine/hockey_bss_01.asm
+16593C,awtmsort,dword_16593C,new,medium,Away team struct +12Eh: pointer to the away team's first sort entry (clearteams: AwSortCords),src/data/engine/hockey_bss_01.asm
+165940,AwGoalieSwapped,byte_165940,new,low,Away team struct +132h: toggled when the goalie is changed in a tied game,src/data/engine/hockey_bss_01.asm
+165941,AwStarterGoalieMarks,byte_165941,new,low,Away team struct +133h: game marks for the starting goalie,src/data/engine/hockey_bss_01.asm
+165942,AwBackupGoalieMarks,word_165942,new,low,Away team struct +134h: game marks for the backup goalie,src/data/engine/hockey_bss_01.asm
 165944,PlList,,95PC,medium,NHL95PC E0384 (refset): referenced by the same 2 matched functions,
 16594A,LinePlayersAway,byte_16594A,new,low,away line players,src/data/engine/hockey_bss_01.asm
 165950,fofdata2,word_165950,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_bss_01.asm

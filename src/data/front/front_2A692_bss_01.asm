@@ -16,7 +16,7 @@ global dword_160C9C, dword_160CA0, dword_160CA4, dword_160CA8, dword_160CAC, dwo
 global dword_160CFC, dword_160D02, dword_160D06, dword_160D0A, dword_160D0E, dword_160D12, dword_160D22, dword_160D26
 global dword_16411C, dword_164120, plseasongoals, dword_164128, dword_164744, dword_164748, dword_164750, dword_164798
 global dword_1647A0, dword_1647A4, dword_164806, dword_164816, dword_164838, dword_164956, dword_164D16, unk_160B50
-global exhstate, unk_164688, JoyStateTable, unk_164B5C, unk_164E7C, word_160ACC, word_164716, word_16472A
+global exhstate, unk_164688, JoyStateTable, AwSortCords, unk_164E7C, word_160ACC, word_164716, word_16472A
 global word_16474C, word_16474E, word_164792, puckcross, puckcross2, puckcross6, word_16479E, word_1647A2
 global word_1647A8, word_1647AA, word_1647B6, word_1647CA, word_1647DA, word_1647E4
 dword_15EA0C:
@@ -279,7 +279,7 @@ byte_164920:
         resb 54
 dword_164956:
         resb 518
-unk_164B5C:
+AwSortCords:
         resb 388
 byte_164CE0:
         resb 54

@@ -13,9 +13,9 @@ extern randomd0, regd2, regd3, setpersonel, sflags, skatetopuck, donothing, SetL
 extern assexitjump, AutoSwitchPlayer, BlockShotDive, checkob, dopass, passmode, setpassmode, SetPassDirection
 extern ShootOrAim, SetShotMode, ShotMode, Findhittype, doshot, SetSPA, SetControlledPlayer, changeplayer
 extern updateanim, doplayeracc, playeracc, BurstDrainEnergy, burst, PlaySfx, sfx, MouseRead
-extern vecdist, JoyStateTable, unk_164B5C, vtoa, VisTeam, word_1178AC, word_1178AE, word_1178B4
+extern vecdist, JoyStateTable, AwSortCords, vtoa, VisTeam, word_1178AC, word_1178AE, word_1178B4
 extern fodir1, fodir2, gmode2, HomeControlSlot, slotteam, gsp, lcblinktime, lcsel
-extern lctimer, word_119EDA, word_16474C, puckcross, word_165078, word_165082, hmscore, word_165704
+extern lctimer, word_119EDA, word_16474C, puckcross, word_165078, word_165082, hmscore, hmtmline
 extern hmtmap, regd0, regd1
 global Acheck, CtlSwapScoreFix, CtlSwapTeamFlag, OppInReach, ReadJoy1, ReassignCtlPlayer, asspassrec, getlchoice
 global lcfound, lcselect, lineinput, fightinput_287, CanBlockShot_31D, CanBlockShot_31F, CanBlockShot_320, faceoffinput
@@ -3248,7 +3248,7 @@ ReassignCtlPlayer:
         mov eax, SortCords
         jmp short .5
 .4:
-        mov eax, unk_164B5C
+        mov eax, AwSortCords
 .5:
         mov dword [byte ebp-0Ch], 6
 .6:
@@ -3355,12 +3355,12 @@ UpdateLineChangeState:
         movsx edx, word [dword edx+hmtmap]
         sub edx, ecx
         mov ecx, edx
-        movsx edx, word [dword eax+word_165704]
+        movsx edx, word [dword eax+hmtmline]
         test ecx, ecx
         jle short .7
         cmp edx, byte 6
         jge short .7
-        mov word [dword eax+word_165704], 6
+        mov word [dword eax+hmtmline], 6
 .7:
         test ecx, ecx
         jge short .9
@@ -3369,13 +3369,13 @@ UpdateLineChangeState:
         cmp edx, byte 4
         jge short .9
 .8:
-        mov word [dword eax+word_165704], 4
+        mov word [dword eax+hmtmline], 4
 .9:
         test ecx, ecx
         jne short .10
         cmp edx, byte 3
         jl short .10
-        mov word [dword eax+word_165704], 0
+        mov word [dword eax+hmtmline], 0
 .10:
         inc ebx
         inc ebx

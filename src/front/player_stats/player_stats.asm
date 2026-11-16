@@ -2,11 +2,11 @@
 bits 32
 %include "hockey.inc"
 section s_8BF56 progbits alloc exec nowrite align=1
-extern __CHP, asc_112831, asc_112837, byte_11E700, byte_16580A, byte_16580B, byte_17BDAE, SeasonUserTeam
+extern __CHP, asc_112831, asc_112837, byte_11E700, HmGoalieSwapped, HmStarterGoalieMarks, byte_17BDAE, SeasonUserTeam
 extern byte_17D13A, byte_17EBF0, byte_17FAEF, byte_17FAF0, byte_17FFD5, byte_180302, byte_1820F0, byte_1820F1
 extern CheckExportName, DrawColorText, DrawColorTextCentred, DrawScrollBar, statsfromleague, dword_1174EC, statsplayoffs, dword_11E4B8
-extern dword_11E670, dword_11E674, dword_11E678, dword_11E67C, dword_11E6AC, dword_11E75A, dword_11E75E, dword_1657F6
-extern dword_1657FA, dword_1657FE, MatchupLayer, TeamStatsBitmap, dword_17BCE2, PlayoffTreeData, dword_17D162, dword_17D267
+extern dword_11E670, dword_11E674, dword_11E678, dword_11E67C, dword_11E6AC, dword_11E75A, dword_11E75E, hmtmplstats
+extern hmtmglstats, hmtmroster, MatchupLayer, TeamStatsBitmap, dword_17BCE2, PlayoffTreeData, dword_17D162, dword_17D267
 extern dword_17E9D0, dword_17E9D4, dword_17E9D8, dword_17E9DC, dword_17EA50, dword_17EA54, dword_17EA58, dword_17EA5C
 extern dword_17EA60, dword_17EA64, dword_17EA68, dword_17EA6C, dword_17EA70, dword_17EA74, dword_17EA78, dword_17EA7C
 extern dword_17EA80, dword_17EA84, dword_17EA88, dword_17EA8C, dword_17EA90, dword_17EA94, dword_17EA98, dword_17EA9C
@@ -4628,7 +4628,7 @@ BuildPlayerStatRows:
         mov dword [byte ebp-020h], esi
         imul ebx, dword 136h
 .1:
-        mov eax, dword [dword ebx+dword_1657FE]
+        mov eax, dword [dword ebx+hmtmroster]
         add eax, dword [byte ebp-034h]
         movzx edx, byte [eax]
         cmp edx, byte 2
@@ -4644,12 +4644,12 @@ BuildPlayerStatRows:
         add eax, byte 7
         mov dword [ecx+edi], eax
         mov edx, dword [byte ebp-034h]
-        mov eax, dword [dword ebx+dword_1657FE]
+        mov eax, dword [dword ebx+hmtmroster]
         add edx, eax
         mov eax, dword [dword_1820E8]
         add edx, byte 17h
         mov dword [ecx+eax], edx
-        mov eax, dword [dword ebx+dword_1657FE]
+        mov eax, dword [dword ebx+hmtmroster]
         add eax, dword [byte ebp-034h]
         mov edi, dword [dword_1820AC]
         mov dl, byte [byte eax+06h]
@@ -4666,7 +4666,7 @@ BuildPlayerStatRows:
         add edx, byte 39h
         mov dword [ecx+eax], edx
         mov edx, dword [byte ebp-020h]
-        mov eax, dword [dword ebx+dword_1657F6]
+        mov eax, dword [dword ebx+hmtmplstats]
         add edx, eax
         mov eax, dword [dword_1820B4]
         add edx, byte 6
@@ -4675,12 +4675,12 @@ BuildPlayerStatRows:
         mov edx, dword [byte ebp-044h]
         mov dword [ecx+eax], edx
         mov edx, dword [byte ebp-020h]
-        mov eax, dword [dword ebx+dword_1657F6]
+        mov eax, dword [dword ebx+hmtmplstats]
         add edx, eax
         mov eax, dword [dword_1820BC]
         mov dword [ecx+eax], edx
         mov edx, dword [byte ebp-020h]
-        mov eax, dword [dword ebx+dword_1657F6]
+        mov eax, dword [dword ebx+hmtmplstats]
         add edx, eax
         mov eax, dword [dword_1820C0]
         inc edx
@@ -4692,25 +4692,25 @@ BuildPlayerStatRows:
         inc edx
         mov dword [ecx+eax], edx
         mov edx, dword [byte ebp-020h]
-        mov eax, dword [dword ebx+dword_1657F6]
+        mov eax, dword [dword ebx+hmtmplstats]
         add edx, eax
         mov eax, dword [dword_1820C8]
         add edx, byte 8
         mov dword [ecx+eax], edx
         mov edx, dword [byte ebp-020h]
-        mov eax, dword [dword ebx+dword_1657F6]
+        mov eax, dword [dword ebx+hmtmplstats]
         add edx, eax
         mov eax, dword [dword_1820CC]
         add edx, byte 0Ah
         mov dword [ecx+eax], edx
         mov edx, dword [byte ebp-020h]
-        mov eax, dword [dword ebx+dword_1657F6]
+        mov eax, dword [dword ebx+hmtmplstats]
         add edx, eax
         mov eax, dword [dword_1820D0]
         add edx, byte 4
         mov dword [ecx+eax], edx
         mov edx, dword [byte ebp-020h]
-        mov eax, dword [dword ebx+dword_1657F6]
+        mov eax, dword [dword ebx+hmtmplstats]
         add edx, eax
         mov eax, dword [dword_1820D4]
         add edx, byte 0Eh
@@ -4722,7 +4722,7 @@ BuildPlayerStatRows:
         mov dword [ecx+eax], 0
         mov eax, dword [dword_1820E0]
         mov dword [ecx+eax], 0
-        mov eax, dword [dword ebx+dword_1657F6]
+        mov eax, dword [dword ebx+hmtmplstats]
         add eax, dword [byte ebp-020h]
         mov word [dword edi+word_181EB4], 1
         mov dx, word [eax]
@@ -4786,7 +4786,7 @@ BuildPlayerStatRows:
         mov dword [byte ebp-064h], eax
 .6:
         mov edx, dword [byte ebp-030h]
-        mov eax, dword [dword ecx+dword_1657FE]
+        mov eax, dword [dword ecx+hmtmroster]
         add edx, eax
         movzx eax, byte [edx]
         mov dword [byte ebp-05Ch], edx
@@ -4806,13 +4806,13 @@ BuildPlayerStatRows:
         add edx, byte 7
         mov dword [edi+eax], edx
         mov edx, dword [byte ebp-030h]
-        mov eax, dword [dword ecx+dword_1657FE]
+        mov eax, dword [dword ecx+hmtmroster]
         add edx, eax
         mov eax, dword [dword_1820E8]
         add edx, byte 17h
         mov dword [edi+eax], edx
         mov edx, dword [byte ebp-030h]
-        mov eax, dword [dword ecx+dword_1657FE]
+        mov eax, dword [dword ecx+hmtmroster]
         add edx, eax
         mov al, byte [byte edx+06h]
         mov byte [dword esi+byte_17EBF0], al
@@ -4843,7 +4843,7 @@ BuildPlayerStatRows:
         mov dword [eax], edx
         cmp dword [byte ebp-058h], byte 2Ch
         jne short .7
-        mov eax, dword [dword ecx+dword_1657FA]
+        mov eax, dword [dword ecx+hmtmglstats]
         add eax, dword [byte ebp-02Ch]
         cmp word [eax], byte 0
         setg byte [byte ebp-04h]
@@ -4865,7 +4865,7 @@ BuildPlayerStatRows:
 .8:
         mov word [dword ebx+word_181EB6], ax
         mov edx, dword [byte ebp-02Ch]
-        mov eax, dword [dword ecx+dword_1657FA]
+        mov eax, dword [dword ecx+hmtmglstats]
         add edx, eax
         mov dword [byte ebp-04Ch], edx
         cmp word [edx], byte 0
@@ -4911,7 +4911,7 @@ BuildPlayerStatRows:
         mov dx, word [dword ecx+hmscore]
         cmp dx, word [dword eax+hmscore]
         jle short .13
-        movsx eax, byte [dword ecx+byte_16580A]
+        movsx eax, byte [dword ecx+HmGoalieSwapped]
         add eax, dword [byte ebp-038h]
         movzx eax, byte [dword eax+0107h]
         sub eax, byte 19h
@@ -4927,7 +4927,7 @@ BuildPlayerStatRows:
         mov dx, word [dword ecx+hmscore]
         cmp dx, word [dword eax+hmscore]
         jge short .15
-        movsx eax, byte [dword ecx+byte_16580A]
+        movsx eax, byte [dword ecx+HmGoalieSwapped]
         add eax, dword [byte ebp-038h]
         movzx eax, byte [dword eax+0107h]
         sub eax, byte 19h
@@ -4944,7 +4944,7 @@ BuildPlayerStatRows:
         mov word [dword ebx+word_181EBE], 0
         cmp dx, word [dword eax+hmscore]
         jne short .17
-        movsx eax, byte [dword ecx+byte_16580A]
+        movsx eax, byte [dword ecx+HmGoalieSwapped]
         add eax, dword [byte ebp-038h]
         movzx eax, byte [dword eax+0107h]
         sub eax, byte 19h
@@ -4952,7 +4952,7 @@ BuildPlayerStatRows:
         jne short .17
         mov word [dword ebx+word_181EBE], 1
 .17:
-        mov eax, dword [dword ecx+dword_1657FA]
+        mov eax, dword [dword ecx+hmtmglstats]
         add eax, dword [byte ebp-02Ch]
         cmp word [eax], byte 0
         jne short .18
@@ -4960,7 +4960,7 @@ BuildPlayerStatRows:
         jmp short .19
 .18:
         mov eax, dword [byte ebp-068h]
-        movsx ax, byte [dword eax+byte_16580B]
+        movsx ax, byte [dword eax+HmStarterGoalieMarks]
         mov word [dword ebx+word_181EC0], ax
 .19:
         movzx eax, byte [byte ebp-08h]
@@ -4968,7 +4968,7 @@ BuildPlayerStatRows:
         mov word [dword ebx+word_181EC2], 0
         cmp word [dword eax+hmscore], byte 0
         jne short .20
-        movsx eax, byte [dword ecx+byte_16580A]
+        movsx eax, byte [dword ecx+HmGoalieSwapped]
         add eax, dword [byte ebp-038h]
         movzx eax, byte [dword eax+0107h]
         sub eax, byte 19h
@@ -4976,7 +4976,7 @@ BuildPlayerStatRows:
         jne short .20
         mov word [dword ebx+word_181EC2], 1
 .20:
-        mov eax, dword [dword ecx+dword_1657FA]
+        mov eax, dword [dword ecx+hmtmglstats]
         add eax, dword [byte ebp-02Ch]
         mov dx, word [byte eax+04h]
         mov word [dword ebx+word_181EC4], dx

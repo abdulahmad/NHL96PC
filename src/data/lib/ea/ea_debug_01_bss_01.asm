@@ -2,28 +2,28 @@
 bits 32
 %include "hockey.inc"
 section s_185740 nobits alloc noexec write align=1
-global dword_185740, dword_185744, dword_185748, dword_18574C, dword_185750, dword_185754, dword_185758, dword_18575C
+global TintMulGreen, TintMulBlue, TintRowCount, TintPixelGreen, TintPixelBlue, TintMulRed, TintRemapTable, TintPixelRed
 global UnpackSrcPtr, UnpackDestPtr, dword_185768, UnpackStackPtr, UnpackPairTable, dword_185774, InvTabDist, InvTabRStep
 global InvTabGStep, InvTabBStep, InvTabRMin, InvTabOut, InvTabDistBuf, InvTabGMin, InvTabGCenter, InvTabBCenter
 global InvTabCell, InvTabRCenter, InvTabR, InvTabG, InvTabB, InvTabColor, InvTabRMax, InvTabGMax
 global InvTabBMin, InvTabBMax, InvTabRow, InvTabPass, InvTabGLo, InvTabGHi, InvTabBLo, InvTabBHi
 global InvTabGInc, InvTabBInc, InvTabDistInc, InvTabDistStart, InvTabFillPtr, InvTabFillCount, InvTabFillStep, InvTabFillDist
 global dword_185848, unk_18584C
-dword_185740:
+TintMulGreen:
         resb 4
-dword_185744:
+TintMulBlue:
         resb 4
-dword_185748:
+TintRowCount:
         resb 4
-dword_18574C:
+TintPixelGreen:
         resb 4
-dword_185750:
+TintPixelBlue:
         resb 4
-dword_185754:
+TintMulRed:
         resb 4
-dword_185758:
+TintRemapTable:
         resb 4
-dword_18575C:
+TintPixelRed:
         resb 4
 UnpackSrcPtr:
         resb 4

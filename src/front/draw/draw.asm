@@ -5,7 +5,7 @@ section s_63968 progbits alloc exec nowrite align=1
 extern ClearChain4, dword_11D18C, dword_11D190, dword_11D194, dword_11D198, dword_11D19C, dword_11D1A0, dword_11D1A4
 extern dword_11F5A0, dword_11F5C0, dword_11F5C4, dword_11FA14, dword_11FA18, dword_1219A4, dword_1228FC, BackBufferWidth
 extern dword_122904, FatalError, fputchar, GetTicks, initgraphics, SetViewRect, SoundIdle, str_COPY
-extern str_CouldNotAllocateLibraryB, str_LIBBUGFIX, str_NHLinitgraphicsfixNotCal, str_USETABLE, sub_AB758, sub_AB798, FreeMemBlock, sub_ADA50
+extern str_CouldNotAllocateLibraryB, str_LIBBUGFIX, str_NHLinitgraphicsfixNotCal, str_USETABLE, AllocMemBlock, sub_AB798, FreeMemBlock, sub_ADA50
 extern sub_ADA80, sub_AFFD0, sub_B0CA8, sub_B0F7C, sub_B2B0C, sub_B3360, sub_B3420, sub_B3458
 extern sub_B58D8, sub_B6140, sub_BF8A8, SetScreenTarget, GetPaletteRange, sub_DD7B8, sub_DDF4F, sub_DE01A
 extern sub_DE084, bcopy, sub_E1824, unk_121FC8, IntroPalette, unk_17C0E0, WaitRetrace, WaitRetraceEdges
@@ -235,7 +235,7 @@ CopyBitmap:
         add edx, byte 10h
         push edx
         push str_COPY
-        call sub_AB758
+        call AllocMemBlock
         mov edi, eax
         movsx edx, word [byte esi+06h]
         movsx eax, word [byte esi+04h]
@@ -1260,7 +1260,7 @@ RemapScreenColors:
         push byte 20h
         push dword 1800h
         push str_USETABLE
-        call sub_AB758
+        call AllocMemBlock
         mov ecx, 1800h
         mov edi, eax
         add esp, byte 0Ch

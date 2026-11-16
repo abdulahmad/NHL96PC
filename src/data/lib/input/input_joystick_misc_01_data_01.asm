@@ -2,20 +2,20 @@
 bits 32
 %include "hockey.inc"
 section s_11F8DC progbits alloc noexec write align=1
-extern dword_18568C, sub_E04D9, PollHotkeys, str_Jan, str_Feb2, str_Mar, str_Apr, str_May
+extern memlist1, sub_E04D9, PollHotkeys, str_Jan, str_Feb2, str_Mar, str_Apr, str_May
 extern str_Jun, str_Jul, str_Aug, str_Sep, str_Oct, str_Nov, str_Dec, unk_1213DC
 extern unk_1213FC, unk_1215B8
-global byte_11F90C, byte_11F920, byte_11F924, byte_11F940, byte_11F941, byte_11F942, byte_11F983, byte_11F9D8
+global JoyCalibrating, JoyButtonBits, JoyPortMask, JoyButtons, JoyButtonsPrev, JoyDirection, byte_11F983, byte_11F9D8
 global byte_11F9D9, byte_11F9DA, byte_11FA2C, byte_11FA2D, byte_11FA2E, byte_11FA2F, byte_11FA30, byte_11FA31
-global str_ctl07, byte_11FA4F, byte_11FA50, byte_11FB50, byte_11FC50, dword_11F8E0, KbdIdleHook, HeapList
-global HeapRover, HeapLargestFree, dword_11F8F4, dword_11F8F8, dword_11F8FC, dword_11F900, dword_11F904, dword_11F908
-global dword_11F928, dword_11F92C, dword_11F930, dword_11F934, dword_11F938, dword_11F93C, str_P, dword_11F947
-global dword_11F94B, dword_11F94F, dword_11F953, dword_11F957, dword_11F95B, str_P2, dword_11F963, dword_11F967
-global dword_11F96B, dword_11F96F, dword_11F973, dword_11F977, dword_11F97B, dword_11F97F, dword_11F994, TimerTickStep
-global dword_11F9B4, dword_11F9B8, RowTable, dword_11F9C0, dword_11F9C4, dword_11F9C8, dword_11F9D0, dword_11F9D4
+global str_ctl07, byte_11FA4F, TintTable, byte_11FB50, byte_11FC50, dword_11F8E0, KbdIdleHook, HeapList
+global HeapRover, HeapLargestFree, JoyTimeX, TimerCalibration, JoyTimeY, JoyTimeSecondX, JoyTimeSecondY, JoyCalibrateTicks
+global JoyReadTimeout, JoyAxisX1, JoyAxisY1, JoyAxisX2, JoyAxisY2, JoyAxisMask, str_P, JoyX1Min
+global JoyX1Center, JoyX1Max, JoyX1Settle, JoyY1Min, JoyY1Max, str_P2, JoyY1MinSeen, JoyY1Center
+global JoyY1MaxSeen, JoyY1Settle, JoyX2Min, JoyX2Max, JoyXScale, JoyYScale, dword_11F994, TimerTickStep
+global FileCacheList, dword_11F9B8, RowTable, FreeSpaceList, dword_11F9C4, DebugMode, dword_11F9D0, DebugLineWidth
 global dword_11F9DC, dword_11FA14, dword_11FA18, TextOriginX, TextOriginY, dword_11FA24, dword_11FA28, dword_11FA34
 global dword_11FA38, dword_11FA3C, dword_11FA40, dword_11FA44, dword_11FA48, dword_11FA4C, dword_11FD50, joycalactive
-global off_11FA10, oldint8off, oldint8sel, tickcount, tickdeadline, word_11F910, word_11F914, word_11F918
+global off_11FA10, oldint8off, oldint8sel, tickcount, tickdeadline, JoyAxisValues, word_11F914, word_11F918
 global word_11F91C
 tickdeadline:
         db 00h,00h,00h,00h
@@ -29,21 +29,21 @@ HeapRover:
         db 00h,00h,00h,00h
 HeapLargestFree:
         db 00h,00h,00h,00h
-dword_11F8F4:
+JoyTimeX:
         db 00h,00h,00h,00h
-dword_11F8F8:
+TimerCalibration:
         db 09Ch,02Eh,00h,00h
-dword_11F8FC:
+JoyTimeY:
         db 00h,00h,00h,00h
-dword_11F900:
+JoyTimeSecondX:
         db 00h,00h,00h,00h
-dword_11F904:
+JoyTimeSecondY:
         db 00h,00h,00h,00h
-dword_11F908:
+JoyCalibrateTicks:
         db 00h,00h,00h,00h
-byte_11F90C:
+JoyCalibrating:
         db 00h,00h,00h,00h
-word_11F910:
+JoyAxisValues:
         db 00h,00h,00h,00h
 word_11F914:
         db 00h,00h,00h,00h
@@ -51,59 +51,59 @@ word_11F918:
         db 00h,00h,00h,00h
 word_11F91C:
         db 00h,00h,00h,00h
-byte_11F920:
+JoyButtonBits:
         db 00h,00h,00h,00h
-byte_11F924:
+JoyPortMask:
         db 0Fh,00h,00h,00h
-dword_11F928:
+JoyReadTimeout:
         db 09Ch,02Eh,00h,00h
-dword_11F92C:
+JoyAxisX1:
         db 00h,00h,00h,00h
-dword_11F930:
+JoyAxisY1:
         db 00h,00h,00h,00h
-dword_11F934:
+JoyAxisX2:
         db 00h,00h,00h,00h
-dword_11F938:
+JoyAxisY2:
         db 00h,00h,00h,00h
-dword_11F93C:
+JoyAxisMask:
         db 00h,00h,00h,00h
-byte_11F940:
+JoyButtons:
         db 00h
-byte_11F941:
+JoyButtonsPrev:
         db 00h
-byte_11F942:
+JoyDirection:
         db 00h
 str_P:
         db 050h,00h,00h,00h
-dword_11F947:
+JoyX1Min:
         db 00h,00h,00h,00h
-dword_11F94B:
+JoyX1Center:
         db 00h,00h,00h,00h
-dword_11F94F:
+JoyX1Max:
         db 00h,00h,00h,00h
-dword_11F953:
+JoyX1Settle:
         db 014h,00h,00h,00h
-dword_11F957:
+JoyY1Min:
         db 00h,00h,00h,00h
-dword_11F95B:
+JoyY1Max:
         db 00h,00h,00h,00h
 str_P2:
         db 050h,00h,00h,00h
-dword_11F963:
+JoyY1MinSeen:
         db 00h,00h,00h,00h
-dword_11F967:
+JoyY1Center:
         db 00h,00h,00h,00h
-dword_11F96B:
+JoyY1MaxSeen:
         db 00h,00h,00h,00h
-dword_11F96F:
+JoyY1Settle:
         db 014h,00h,00h,00h
-dword_11F973:
+JoyX2Min:
         db 00h,00h,00h,00h
-dword_11F977:
+JoyX2Max:
         db 00h,00h,00h,00h
-dword_11F97B:
+JoyXScale:
         db 00h,00h,00h,00h
-dword_11F97F:
+JoyYScale:
         db 00h,00h,00h,00h
 byte_11F983:
         db 00h,01h,05h,00h,03h,02h,04h,03h,07h,08h,06h,07h,00h,01h,05h,00h
@@ -121,21 +121,21 @@ oldint8off:
         db 00h,00h,00h,00h
 oldint8sel:
         db 00h,00h,00h,00h
-dword_11F9B4:
-        dd dword_18568C
+FileCacheList:
+        dd memlist1
 dword_11F9B8:
         db 00h,0Eh,00h,00h
 RowTable:
         db 00h,00h,00h,00h
-dword_11F9C0:
+FreeSpaceList:
         db 00h,00h,00h,00h
 dword_11F9C4:
         db 00h,00h,00h,00h
-dword_11F9C8:
+DebugMode:
         db 02h,00h,00h,00h,00h,00h,00h,00h
 dword_11F9D0:
         db 00h,00h,0Bh,00h
-dword_11F9D4:
+DebugLineWidth:
         db 080h,07h,00h,00h
 byte_11F9D8:
         db 00h
@@ -200,7 +200,7 @@ dword_11FA48:
 dword_11FA4C:
 byte_11FA4F equ $+3
         dd unk_1213FC
-byte_11FA50:
+TintTable:
         db 01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h
         db 01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h
         db 01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h,01h

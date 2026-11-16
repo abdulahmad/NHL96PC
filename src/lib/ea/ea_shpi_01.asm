@@ -4,8 +4,8 @@ bits 32
 section s_B75A0 progbits alloc exec nowrite align=1
 extern DebugPrintf, FatalError, __STOSD, _os_handle_0, _os_handle_1, str_UpsideDown, asc_11389C, str_OrisetmaterialcolorInval
 extern asc_1138F4, str_OrisetmaterialdrawfnInva, byte_190EC0, byte_191300, str_Punct_DrawRinkSurface, dword_12231C, dword_122350, SinTable
-extern str_Punct_SetScreenScale, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, dword_1228FC, dword_123AA4
-extern dword_123AA8, dword_123AC0, TextureTileSize, TexturePageBase, TextureDetail, dword_190E9C, dword_190EA0, dword_190EA4
+extern str_Punct_SetScreenScale, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, dword_1228FC, ViewCenterY
+extern str_D_ProjectPointsPersp, dword_123AC0, TextureTileSize, TexturePageBase, TextureDetail, dword_190E9C, dword_190EA0, dword_190EA4
 extern dword_190EA8, dword_190EAC, dword_190EB0, dword_190EB4, dword_190EB8, dword_190EBC, dword_190EC4, dword_190EC8
 extern dword_190ECC, dword_190ED0, dword_190ED4, dword_1912DC, dword_1912E0, dword_1912E4, dword_1912E8, dword_1912EC
 extern dword_1912F4, dword_1912F8, dword_1912FC, dword_191304, dword_191308, dword_19130C, dword_191310, dword_191314
@@ -4421,14 +4421,14 @@ sub_BA344:
         imul esi, eax
         mov cl, dl
         sar esi, cl
-        mov ecx, dword [dword_123AA4]
+        mov ecx, dword [ViewCenterY]
         shl ecx, 10h
         add ecx, esi
         mov dword [ebx], ecx
         imul eax, dword [byte edi+04h]
         mov cl, dl
         mov edx, eax
-        mov eax, dword [dword_123AA8]
+        mov eax, dword [str_D_ProjectPointsPersp]
         sar edx, cl
         shl eax, 10h
         sub eax, edx

@@ -11,7 +11,7 @@ extern mousex, mousey, ReadJoystickBits, SetGripButtonMap, sprintf_, str_A, str_
 extern str_BT01, str_BT02, str_D3, str_feB, str_GRIPCON, str_LTD0, str_Pal4, str_RGRIPCON
 extern strcpy_, strlen_, OpenScreen, SlideInTitleBar, SlideInSideBar, SetScreenColors, BlackPalette, FadePalette
 extern FadeOut, CopyBitmap, SetTextColors, DrawColorText, DrawColorTextRight, DrawColorTextCentred, InitMenuItems, RunMenu
-extern SetMenuMouse, FillMusicStream, SoundSecondsToBytes, SoundIdle, GetLangText, DrawShapeAtOwnPos, sub_AADA4, sub_AB758
+extern SetMenuMouse, FillMusicStream, SoundSecondsToBytes, SoundIdle, GetLangText, DrawShapeAtOwnPos, sub_AADA4, AllocMemBlock
 extern FreeMemBlock, sub_ADA50, sub_ADA80, SetScreenTarget, FillRectColor, KbdGetKey, sub_E04E0, TextSetFont
 extern unk_121FC8, unk_151648, unk_1516B8, unk_151720, unk_2018D, word_11758C, word_151768, word_158CBA
 extern word_158CBC, word_158D34, word_158D3C, word_158D44, word_158D46, word_158D74, word_158D76
@@ -712,7 +712,7 @@ GripSetupScreen:
         push byte 0
         push dword 1056h
         push str_GRIPCON
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push dword 0A00h
@@ -720,7 +720,7 @@ GripSetupScreen:
         push str_RGRIPCON
         lea edi, [dword ebp-0360h]
         mov dword [dword_158D70], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         mov ecx, 300h
         mov dword [dword_158D6C], eax

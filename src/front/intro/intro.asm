@@ -7,7 +7,7 @@ extern FadeOutMusic, FadePalette, FillMusicStream, FillRect, fputchar, GetPresse
 extern MakeDataPath, off_11BDA8, OpenMusicStream, PaEvent, PlayMovie, PlayMusic, PutBlock, QueueMusic
 extern rand_, SetScreenColors, SetScreenMode, SetTextColors, SetTickDeadline, SoundIdle, SoundSecondsToBytes, StopMusic
 extern str_Bkgd3, str_Nhll, str_Nhlp, str_Pal2, str_Pal8, str_Pal9, str_Pl0, str_Pl1
-extern str_Scr1, str_Scr2, sub_53260, GetLangText, sub_AADA4, sub_AB758, FreeMemBlock, sub_AD35C
+extern str_Scr1, str_Scr2, sub_53260, GetLangText, sub_AADA4, AllocMemBlock, FreeMemBlock, sub_AD35C
 extern sub_ADBEC, SaveTextState, SetDrawTarget, sub_BF120, sub_BF2C4, SetScreenTarget, sub_DD7B8, KbdGetKey
 extern sub_E04E0, sub_E0584, TextSetFont, TickDeadlinePassed, unk_11BFA4, word_11D1D0
 global PlayIntroMovies, RunIntro, WaitOrSkip, LoadSlideImage, RunSlideEvents, jpt_634F9, RunSlideShow, RunSlideShow_78
@@ -98,21 +98,21 @@ RunIntro:
         push str_Scr1
         mov dword [byte ebp-04h], eax
         mov dword [byte ebp-020h], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 20h
         push dword 300h
         push str_Scr2
         mov dword [byte ebp-08h], eax
         mov dword [byte ebp-0Ch], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 20h
         push dword 300h
         push str_Pal2
         mov dword [byte ebp-014h], eax
         mov dword [byte ebp-01Ch], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push str_Pl0
         mov edi, dword [byte ebp-08h]

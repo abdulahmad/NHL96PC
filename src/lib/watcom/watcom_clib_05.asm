@@ -4,24 +4,24 @@ bits 32
 section s_B2C98 progbits alloc exec nowrite align=1
 extern FatalError, __CMain, __FiniRtns, __InitRtns, ___begtext, __doserror_, __fprtf_, __set_EINVAL_
 extern __set_errno_dos_, _nexpand_, _nfree_, _nmalloc_, _nmsize_, str_InitmemmanINSUFFICIENTROW, asc_113658, asc_113680
-extern asc_1136C4, str_InitmemmanDOSSUBMEMORYNO, str_AAPLUT, asc_113740, str_OpenblockhandleSPATHNAME, asc_113794, asc_1137A0, asc_1137B0
+extern asc_1136C4, str_InitmemmanDOSSUBMEMORYNO, str_AAPLUT, asc_113740, str_OpenblockhandleSPATHNAME, str_CDROMDATA, str_CDROMBUFFER, asc_1137B0
 extern asc_1137DC, asc_113810, asc_113834, str_CdromdirectoryentryERROR, str_Viv, QuantizeTable, byte_121AFC, _Extender
 extern _ExtenderSubtype, _osmajor, _osminor, byte_18B0D0, CpuIs386, CpuIs486, CpuType, CpuHasCpuid
 extern CpuFeatures, dword_11F9B8, RowTable, dword_1210C8, dword_1210CC, dword_1219A0, dword_1219A4, dword_121AA8
 extern FpuFlags, dword_121B24, dword_121B28, dword_121B2C, dword_121B30, dword_121B38, CdFileMode, CdFileHandle
 extern dword_121B50, dword_121B54, dword_121B58, dword_121B5C, dword_121B6C, dword_121FBC, ScreenWidth, dword_1228D6
-extern dword_1228DA, dword_1228DE, dword_1228E2, dword_1228F8, dword_1228FC, _dynend, _curbrk, _LpCmdLine
-extern StackLow, _STACKLOW, _STACKTOP, _Envptr, RowTableSize, dword_185734, dword_185738, dword_18573C
+extern dword_1228DA, dword_1228DE, dword_1228E2, DrawDestBuffer, dword_1228FC, _dynend, _curbrk, _LpCmdLine
+extern StackLow, _STACKLOW, _STACKTOP, _Envptr, RowTableSize, MemLockHandle, dword_185738, dword_18573C
 extern dword_185848, dword_185C4C, dword_18664C, dword_18B04C, dword_18B050, dword_18B054, dword_18B058, dword_18B05C
-extern dword_18B060, dword_18B064, dword_18B068, dword_18B06C, dword_18B070, dword_18B074, dword_18B07C, dword_18B080
-extern dword_18B084, dword_18B088, dword_18B08C, dword_18B090, dword_18B094, dword_18B09C, dword_18B0A0, dword_18B0AC
+extern dword_18B060, dword_18B064, dword_18B068, dword_18B06C, dword_18B070, dword_18B074, CdBufferSelector, CdBufferAllocated
+extern CdDriveLetter, dword_18B088, CdRequestSegment, CdBufferAddr, dword_18B094, dword_18B09C, dword_18B0A0, dword_18B0AC
 extern dword_18B0B0, dword_18B0B4, dword_18B0B8, dword_19F2D4, int386_, int386x_, kaufmfont, sub_C60EC_168
 extern sub_E2335_5B, sub_E2335_81, segread_, sub_AB2EC, sub_AB3B4, sub_AB440, sub_AB5BC, sub_AB660
-extern sub_AB758, FreeMemBlock, sub_AC950, sub_BE926, sub_C2AC4, sub_C2C5C, ResetMemLock, MemLock
-extern sub_C3C04, sub_C4C6C, sub_C5410, sub_C59E0, sub_C5D56, sub_C6000, KbdPeekKey, bcopy
+extern AllocMemBlock, FreeMemBlock, sub_AC950, sub_BE926, sub_C2AC4, sub_C2C5C, ResetMemLock, MemLock
+extern MemUnlock, sub_C4C6C, sub_C5410, sub_C59E0, sub_C5D56, sub_C6000, KbdPeekKey, bcopy
 extern sub_E0671, DosCloseFile, sub_E07CC, sub_E081C, sub_E2335, CdFileTable, __stdout_buf, unk_18704C
-extern unk_19BAD0, StartupStack, unlink_, str_Punct_InitFpuFlags, _psp, __no87, _Envptr_w4, word_18B078
-extern word_18B098, word_18B0BC, word_18B0BE, word_18B0C0
+extern unk_19BAD0, StartupStack, unlink_, str_Punct_InitFpuFlags, _psp, __no87, _Envptr_w4, CdBufferSegment
+extern CdRequestSelector, word_18B0BC, word_18B0BE, word_18B0C0
 global _dos_close_, _dos_commit_, _dos_creat_, _dos_creatnew_, _dos_getdiskfree_, _dos_open_, _dos_read_, _dos_write_
 global chdir_, sub_B35E4_46, sub_B35E4_53, sub_B35E4_6B, sub_B35E4_95, sub_B35E4_C7, sub_B35E4_105, sub_B35E4_106
 global sub_B35E4_107, sub_B35E4_108, sub_B35E4_109, sub_B35E4_10A, sub_B35E4_10B, sub_B35E4_10C, sub_B35E4_10D, sub_B35E4_10E
@@ -168,7 +168,7 @@ InitMemoryPool:
         mov esi, dword [byte esp+05Ch]
         call ResetMemLock
         push eax
-        mov dword [dword_185734], eax
+        mov dword [MemLockHandle], eax
         call MemLock
         add esp, byte 4
         mov edx, dword [byte esp+058h]
@@ -450,12 +450,12 @@ InitMemoryPool:
         call FatalError
         add esp, byte 4
 .21:
-        mov ecx, dword [dword_185734]
+        mov ecx, dword [MemLockHandle]
         mov ebx, 0A0000h
         push ecx
         mov dword [dword_18573C], ebp
         mov dword [dword_185738], ebx
-        call sub_C3C04
+        call MemUnlock
         add esp, byte 4
         mov eax, ebp
         add esp, byte 44h
@@ -775,7 +775,7 @@ sub_B3420:
         push ebx
         push dword 3400h
         push str_AAPLUT
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         mov edx, eax
         mov dword [edi], eax
@@ -4245,7 +4245,7 @@ sub_B59E8:
         mov dword [esp], edx
         mov dword [byte esp+08h], edx
         mov edx, dword [dword_18B058]
-        mov eax, dword [dword_1228F8]
+        mov eax, dword [DrawDestBuffer]
         shl edx, 2
         add eax, edx
         mov edx, dword [dword_1228FC]
@@ -5571,44 +5571,44 @@ sub_B6A14:
 ; Allocates the CD transfer buffer
 ;-----------------------------------------------------------------------------
 AllocCdBuffer:
-        cmp dword [dword_18B080], byte 0
+        cmp dword [CdBufferAllocated], byte 0
         jne short .1
         push dword 220h
         push dword 200h
         mov ebx, 1
-        push asc_113794
-        mov dword [dword_18B080], ebx
-        call sub_AB758
+        push str_CDROMDATA
+        mov dword [CdBufferAllocated], ebx
+        call AllocMemBlock
         add esp, byte 0Ch
         push dword 220h
-        mov dword [dword_18B084], eax
+        mov dword [CdDriveLetter], eax
         push dword 10000h
         shr eax, 4
-        push asc_1137A0
-        mov dword [word_18B098], eax
-        call sub_AB758
-        mov dword [dword_18B08C], eax
+        push str_CDROMBUFFER
+        mov dword [CdRequestSelector], eax
+        call AllocMemBlock
+        mov dword [CdRequestSegment], eax
         shr eax, 4
         add esp, byte 0Ch
-        mov dword [word_18B078], eax
+        mov dword [CdBufferSegment], eax
 .1:
         mov eax, dword [byte esp+04h]
-        mov dword [dword_18B07C], eax
+        mov dword [CdBufferSelector], eax
         mov eax, dword [byte esp+08h]
         sar eax, 0Bh
-        mov dword [dword_18B090], eax
+        mov dword [CdBufferAddr], eax
         ret
         db 08Bh,0C0h
         push esi
-        cmp dword [dword_18B080], byte 0
+        cmp dword [CdBufferAllocated], byte 0
         je short .2
-        mov ecx, dword [dword_18B084]
+        mov ecx, dword [CdDriveLetter]
         xor ebx, ebx
         push ecx
-        mov dword [dword_18B080], ebx
+        mov dword [CdBufferAllocated], ebx
         call FreeMemBlock
         add esp, byte 4
-        mov esi, dword [dword_18B08C]
+        mov esi, dword [CdRequestSegment]
         push esi
         call FreeMemBlock
         add esp, byte 4
@@ -5625,7 +5625,7 @@ sub_B6B10:
         push ebp
         sub esp, byte 44h
         mov edx, 1501h
-        mov ax, word [word_18B078]
+        mov ax, word [CdBufferSegment]
         xor ebx, ebx
         xor ecx, ecx
         mov dword [dword_18B0B8], edx
@@ -5648,7 +5648,7 @@ sub_B6B10:
         lea ecx, [byte esp+038h]
         mov edx, esp
         call int386x_
-        mov eax, dword [dword_18B08C]
+        mov eax, dword [CdRequestSegment]
         xor edx, edx
         mov dx, word [byte eax+03h]
         shl edx, 4
@@ -5662,7 +5662,7 @@ sub_B6B10:
         mov bl, byte [edx]
         cmp ebx, byte 20h
         je short .2
-        mov ebx, dword [dword_18B084]
+        mov ebx, dword [CdDriveLetter]
         inc eax
         mov cl, byte [edx]
         inc edx
@@ -5673,11 +5673,11 @@ sub_B6B10:
         mov esi, 3D02h
         mov ebp, dword_18B09C
         lea ecx, [byte esp+038h]
-        mov edx, dword [dword_18B084]
+        mov edx, dword [CdDriveLetter]
         lea ebx, [byte esp+01Ch]
         xor edi, edi
         mov byte [edx+eax], 0
-        mov ax, word [word_18B098]
+        mov ax, word [CdRequestSelector]
         mov dword [dword_18B0B8], esi
         mov dword [dword_18B0B0], edi
         mov edx, ds
@@ -5707,7 +5707,7 @@ sub_B6B10:
 .3:
         mov ecx, 32h
         mov edx, 5
-        mov eax, dword [dword_18B084]
+        mov eax, dword [CdDriveLetter]
         mov esi, dword [dword_18B0B8]
         mov edi, ebp
         mov byte [eax], 6
@@ -5720,7 +5720,7 @@ sub_B6B10:
         mov dword [dword_18B0B0], ebx
         xor ecx, ecx
         mov dword [dword_18B0B8], eax
-        mov ax, word [word_18B098]
+        mov ax, word [CdRequestSelector]
         mov edx, 300h
         mov word [word_18B0C0], ax
         lea eax, [byte esp+038h]
@@ -5749,7 +5749,7 @@ sub_B6B10:
         add esp, byte 4
 .4:
         mov edi, 3E00h
-        mov ecx, dword [dword_18B084]
+        mov ecx, dword [CdDriveLetter]
         lea ebx, [byte esp+01Ch]
         mov edx, esp
         mov ecx, dword [byte ecx+01h]
@@ -5774,7 +5774,7 @@ sub_B6B10:
 sub_B6D2C:
         push edi
         sub esp, byte 44h
-        mov eax, dword [dword_18B084]
+        mov eax, dword [CdDriveLetter]
         mov byte [eax], 1Bh
         mov byte [byte eax+01h], 0
         mov byte [byte eax+02h], 82h
@@ -5795,12 +5795,12 @@ sub_B6D2C:
         xor eax, eax
         mov edx, 1510h
         rep stosb
-        mov eax, dword [dword_18B07C]
+        mov eax, dword [CdBufferSelector]
         mov dword [dword_18B0B8], edx
         mov dword [dword_18B0AC], ebx
         xor ecx, ecx
         mov dword [dword_18B0B4], eax
-        mov ax, word [word_18B098]
+        mov ax, word [CdRequestSelector]
         mov edx, 300h
         mov word [word_18B0BE], ax
         lea eax, [byte esp+038h]
@@ -5843,9 +5843,9 @@ sub_B6DFC:
         mov ebp, 3
         mov dword [byte esp+044h], eax
 .1:
-        mov esi, dword [dword_18B084]
+        mov esi, dword [CdDriveLetter]
         mov byte [esi], 1Bh
-        mov ax, word [word_18B078]
+        mov ax, word [CdBufferSegment]
         mov byte [byte esi+01h], 0
         mov ebx, dword [byte esp+048h]
         mov word [byte esi+010h], ax
@@ -5882,12 +5882,12 @@ sub_B6DFC:
         rep stosb
         mov edx, ds
         mov ecx, 1510h
-        mov eax, dword [dword_18B07C]
+        mov eax, dword [CdBufferSelector]
         xor edi, edi
         mov dword [dword_18B0B8], ecx
         mov dword [dword_18B0AC], edi
         mov dword [dword_18B0B4], eax
-        mov ax, word [word_18B098]
+        mov ax, word [CdRequestSelector]
         mov ecx, 2Fh
         mov word [word_18B0BE], ax
         lea eax, [byte esp+038h]
@@ -5924,12 +5924,12 @@ sub_B6DFC:
         mov eax, dword [byte esp+064h]
         push edx
         and eax, 7FFh
-        mov edx, dword [dword_18B08C]
+        mov edx, dword [CdRequestSegment]
         push ebx
         add eax, edx
         push eax
         call bcopy
-        mov ecx, dword [dword_18B090]
+        mov ecx, dword [CdBufferAddr]
         add esp, byte 0Ch
         test ecx, ecx
         je short .4
@@ -5954,7 +5954,7 @@ sub_B6FA0:
         push esi
         push edi
         sub esp, byte 44h
-        mov esi, dword [dword_18B084]
+        mov esi, dword [CdDriveLetter]
         mov byte [esi], 1Bh
         mov byte [byte esi+01h], 0
         mov byte [byte esi+02h], 83h
@@ -5977,12 +5977,12 @@ sub_B6FA0:
         mov dword [byte esi+014h], edx
         rep stosb
         mov edx, 1510h
-        mov eax, dword [dword_18B07C]
+        mov eax, dword [CdBufferSelector]
         mov dword [dword_18B0AC], ebx
         xor ecx, ecx
         mov ebx, 2Fh
         mov dword [dword_18B0B4], eax
-        mov ax, word [word_18B098]
+        mov ax, word [CdRequestSelector]
         mov dword [dword_18B0B8], edx
         mov word [word_18B0BE], ax
         lea eax, [byte esp+038h]
@@ -6031,7 +6031,7 @@ sub_B7094:
         add esi, byte 2
 .1:
         mov ecx, 32h
-        mov edi, dword [dword_18B08C]
+        mov edi, dword [CdRequestSegment]
         mov edx, 150Fh
         push edi
 .2:
@@ -6052,15 +6052,15 @@ sub_B7094:
         xor eax, eax
         mov esi, dword_18B09C
         rep stosb
-        mov eax, dword [dword_18B07C]
+        mov eax, dword [CdBufferSelector]
         mov dword [dword_18B0B8], edx
         mov dword [dword_18B0AC], ebx
         mov dword [dword_18B09C], ebx
         mov dword [dword_18B0B4], eax
-        mov ax, word [word_18B078]
+        mov ax, word [CdBufferSegment]
         xor ecx, ecx
         mov word [word_18B0BE], ax
-        mov eax, dword [word_18B098]
+        mov eax, dword [CdRequestSelector]
         mov edx, 300h
         mov dword [dword_18B0A0], eax
         lea eax, [byte esp+038h]
@@ -6084,7 +6084,7 @@ sub_B7094:
         cwde
         test eax, eax
         je short .4
-        mov edi, dword [dword_18B08C]
+        mov edi, dword [CdRequestSegment]
         push edi
         mov ebp, dword [dword_18B0B8]
         push ebp
@@ -6092,7 +6092,7 @@ sub_B7094:
         call FatalError
         add esp, byte 0Ch
 .4:
-        mov eax, dword [dword_18B084]
+        mov eax, dword [CdDriveLetter]
         mov ebx, dword [byte esp+058h]
         mov edx, dword [byte eax+02h]
         mov dword [ebx], edx

@@ -5,7 +5,7 @@ section s_19B760 nobits alloc noexec write align=1
 global byte_19BA44, __nheap_clean, byte_1A0B2B, byte_1A0B31, byte_1A0B36, byte_1A0B37, byte_1A0B44, byte_1A0B46
 global byte_1A0B47, dword_19B760, dword_19B770, dword_19B774, dword_19B778, dword_19B77C, dword_19B784, dword_19B788
 global dword_19B8F0, dword_19B8F4, dword_19B8F8, dword_19B8FC, dword_19B900, dword_19BA30, __OpenStreams, __ClosedStreams
-global AtexitTable, SpeechBankCount, MemLockState, dword_19F2D0, dword_19F2D4, dword_19F2D8, dword_1A0B1C, dword_1A0B2C
+global AtexitTable, SpeechBankCount, MemLockState, dword_19F2D0, dword_19F2D4, ScaledRowBuffer, dword_1A0B1C, dword_1A0B2C
 global dword_1A0DA0, dword_1A0DA4, unk_19BA34, unk_19BA38, unk_19BAD0, unk_1A0B20, word_1A0FA0, SbMixerAddrPort
 global word_1A0FA4, word_1A0FA6, word_1A0FA8, SbReadPort, SbWritePort
 dword_19B760:
@@ -58,7 +58,7 @@ dword_19F2D0:
         resb 4
 dword_19F2D4:
         resb 4
-dword_19F2D8:
+ScaledRowBuffer:
         resb 6212
 dword_1A0B1C:
         resb 4

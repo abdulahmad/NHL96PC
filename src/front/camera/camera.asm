@@ -26,7 +26,7 @@ extern foy, FullViewClip, gameclock, GameLoopActive, GetTicks, gmode, off_11787C
 extern PtrPuckObject, passplayer, penshotlive, penshotmode, penshotstart, puckc, puckvx, puckvz
 extern QueueOverlayPanel, qword_111084, qword_11108C, qword_111094, qword_11109C, qword_1110A4, qword_1110AC, qword_1110B4
 extern qword_1110BC, rand_, seed, seed_w2, SetClipWindow, SetDrawBitmap, sflags, SortCords
-extern str_Priority2, AddIceCrud, SetRinkClipWindow, sub_AB758, FreeMemBlock, AngleOfVector, sub_BB9C4, sub_BC674
+extern str_Priority2, AddIceCrud, SetRinkClipWindow, AllocMemBlock, FreeMemBlock, AngleOfVector, sub_BB9C4, sub_BC674
 extern sub_BEAE4, sub_DFE9C, KbdGetKey, sub_E0584, SetViewScreenOrigin, SetCameraAngles, unk_11B673, unk_11B6B8
 extern unk_11B6FD, unk_11B811, unk_11B856, unk_11B89B, unk_11B8E0, unk_11B925, unk_11B96A, unk_11B9AF
 extern unk_16443C, unk_1781E4, unk_179CCC, unk_179CE4, unk_179CFC, unk_179D14, unk_179D2C, unk_179E02
@@ -3563,7 +3563,7 @@ CloseTextOverlay:
         mov eax, dword [byte esi+0Dh]
         push str_Priority2
         mov dword [byte ebp-0Ch], eax
-        call sub_AB758
+        call AllocMemBlock
         mov dword [byte esi+0Dh], eax
         mov esi, eax
         mov dword [eax], edi

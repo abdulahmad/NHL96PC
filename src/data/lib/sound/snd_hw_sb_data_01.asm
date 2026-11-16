@@ -5,7 +5,7 @@ section s_1512F0 progbits alloc noexec write align=1
 extern str_ULTRASND, unk_1142D0, str_Fs, str_Jan2, str_Feb3, str_Mar2, str_Apr2, str_May2
 extern str_Jun2, str_Jul2, str_Aug2, str_Sep2, str_Oct2, str_Nov2, str_Dec2
 global byte_1512F0, byte_1512F8, byte_151300, byte_151308, byte_151310, byte_151318, GusIrqLatchBits, GusStreamVoiceA
-global GusStreamVoiceStereo, GusStreamVoiceB, dword_151320, GusEnvVarName, GusOpenCount, GusStreamRefillA, GusStreamRefillB, GusStreamSrcA
+global GusStreamVoiceStereo, GusStreamVoiceB, IrqAckLast, GusEnvVarName, GusOpenCount, GusStreamRefillA, GusStreamRefillB, GusStreamSrcA
 global GusStreamHalfA, GusStreamBusyA, GusStreamSrcB, GusStreamHalfB, GusStreamBusyB, GusStreamActive, GusStreamBufSize, GusStreamHalfSize
 global GusStreamQuarterSize, GusRefillSrc, GusRefillDest, GusRefillLength, GusStreamCardA, GusStreamCardB, GusStreamCardEnd, GusStreamStartLo
 global dword_15139C, dword_1513A0, dword_1513A4, dword_1513A8, dword_1513AC, dword_1513B8, dword_1513BC, dword_1513C0
@@ -23,7 +23,7 @@ byte_151310:
         db 00h,02h,04h,06h,0C0h,0C4h,0C8h,0CCh
 byte_151318:
         db 01h,03h,05h,07h,0C2h,0C6h,0CAh,0CEh
-dword_151320:
+IrqAckLast:
         db 0FFh,0FFh,0FFh,0FFh
 GusEnvVarName:
         dd str_ULTRASND

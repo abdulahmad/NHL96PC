@@ -7,7 +7,7 @@ extern str_InvalidDriver, str_CardNotDetected, str_ErrorAllocatingMemory, str_Er
 extern str_ErrorInvalidVolume, str_ErrorInvalidHandle, str_ErrorInvalidPan, str_ErrorUnsupportedAudioTyp, str_ErrorInvalidBend, str_ErrorCouldNotResolveSfxB, str_ErrorInvalidBankNumber, str_ErrorInvalidSfxNumber
 extern str_NoFreeChannelToPlayOn, asc_113E28, str_TgvdecodeInvalidChunkTyp, str_RateDDAvgDD, byte_123BB8, byte_123C04, byte_123C05, byte_123C22
 extern byte_1248D0, byte_1248D1, byte_1248DA, byte_19B734, byte_19B739, byte_1A0B2B, byte_1A0B31, byte_1A0B36
-extern byte_1A0B37, byte_1A0B44, byte_1A0B46, byte_1A0B47, dword_11F5CC, dword_11F5D0, dword_11F9C8, dword_1210C0
+extern byte_1A0B37, byte_1A0B44, byte_1A0B46, byte_1A0B47, dword_11F5CC, dword_11F5D0, DebugMode, dword_1210C0
 extern ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, dword_1228F4, dword_123B10, dword_123B14, dword_123BB0
 extern dword_123BB4, dword_123BB9, dword_123BBD, dword_123BC1, dword_123BC5, dword_123BCC, dword_123BD0, dword_123BD4
 extern dword_123BD8, dword_123BDC, dword_123BE0, dword_123BE4, dword_123BE8, dword_123BEC, dword_123BF0, dword_123C06
@@ -20,12 +20,12 @@ extern dword_19B6D8, dword_19B6DC, dword_19B6E0, dword_19B6E4, dword_19B724, dwo
 extern dword_19B778, dword_19B77C, dword_19B784, dword_19B788, dword_19B8F0, dword_19B8F4, dword_19B8F8, dword_19B8FC
 extern dword_19B900, dword_19BA30, dword_1A0B2C, dword_1A0DA0, dword_1A0DA4, off_123CE0, off_123CE4, off_123CE8
 extern off_123CEC, off_123D68, off_123D6C, off_123D70, off_123D74, off_123D78, off_123D7C, off_123D80
-extern off_123D84, off_123D88, strncpy_, CdStreamSeek, CdStreamFreePacket, RemoveTimerCallback, PutBlock, sub_AB758
+extern off_123D84, off_123D88, strncpy_, CdStreamSeek, CdStreamFreePacket, RemoveTimerCallback, PutBlock, AllocMemBlock
 extern FreeMemBlock, MemDescPtr, DebugSetLine, sub_AFCD0, DrawArtOpaque, RestoreDS, sub_BF120, PrintBoxedText
 extern sub_CAA80, sub_CAB58, sub_CAB78, sub_CABA9, sub_CBEA8, sub_CC048, MixerStopChannel, sub_CC17B
 extern sub_CC1B5, MixerSamplesLeft, ParseBlasterEnv, sub_CE2E8, sub_CE709, sub_CE780, sub_CF6C9, TgvCopyBlock
 extern TgvFillBlock, sub_CF918, sub_CFA64, sub_CFB14, sub_CFCC0, SetScreenTarget, sub_DDF4F, sub_DFB84
-extern AddExitHandler, bcopy, sub_E0898, unk_19B6A4, unk_19B720, unk_1A0B20, MixerStepTable
+extern AddExitHandler, bcopy, Random32, unk_19B6A4, unk_19B720, unk_1A0B20, MixerStepTable
 global _Alphabet, abs_, fini_void_, getcwd_, itoa_, jpt_C1490, sub_BFA45_90, sub_C0944_18C
 global memcmp_, sub_BF950, sub_BF9FE, sub_BFA05, sub_BFA45, sub_BFAF5, sub_BFB53, sub_BFB74
 global sub_BFB7C, sub_BFBE3, sub_BFC16, sub_BFC91, sub_BFDB8, sub_BFE4C, sub_BFF52, sub_BFF8F
@@ -1529,7 +1529,7 @@ sub_C0727:
 .5:
         mov eax, dword [byte esi+0Ch]
         mov dword [byte ebp-014h], eax
-        call sub_E0898
+        call Random32
         mov edx, eax
         shr edx, 10h
         imul edx, dword [byte ebp-014h]
@@ -1546,7 +1546,7 @@ sub_C0727:
         je short .10
         movsx eax, byte [byte esi+01Ah]
         mov dword [byte ebp-014h], eax
-        call sub_E0898
+        call Random32
         shr eax, 10h
         imul eax, dword [byte ebp-014h]
         shr eax, 0Fh
@@ -1579,7 +1579,7 @@ sub_C0727:
         je short .13
         movzx eax, byte [byte esi+01Dh]
         mov dword [byte ebp-014h], eax
-        call sub_E0898
+        call Random32
         shr eax, 10h
         imul eax, dword [byte ebp-014h]
         shr eax, 0Fh
@@ -1638,7 +1638,7 @@ sub_C08DA:
         push edx
         push esi
         mov esi, eax
-        call sub_E0898
+        call Random32
         shr eax, 10h
         imul eax, esi
         shr eax, 0Fh
@@ -1732,7 +1732,7 @@ sub_C0944:
         mov edx, dword [dword esi+dword_19B784]
         add edx, eax
         mov dword [byte ebp-04h], edx
-        call sub_E0898
+        call Random32
         mov eax, dword [byte ebp-04h]
         mov dword [byte ebp-08h], eax
         test eax, eax
@@ -1839,7 +1839,7 @@ sub_C0AD7:
         sub eax, edx
         jmp near .9
 .4:
-        call sub_E0898
+        call Random32
         mov ebx, dword [dword_19B6D0]
         and eax, 0FFFFh
         imul eax, ebx
@@ -1849,7 +1849,7 @@ sub_C0AD7:
         imul ebx, dword [nosplit eax*8+dword_19B6E4], byte 64h
         jmp short .2
 .5:
-        call sub_E0898
+        call Random32
         mov ebx, eax
         mov eax, dword [dword_19B6D0]
         and ebx, 0FFFFh
@@ -3422,7 +3422,7 @@ sub_C1A2C:
         shl eax, 3
         push eax
         push asc_113E28
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         mov dword [byte ebp+03Ch], eax
         mov eax, dword [byte esp+018h]
@@ -3436,7 +3436,7 @@ sub_C1A2C:
         shl eax, 2
         push eax
         push asc_113E28
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         mov dword [byte ebp+040h], eax
         mov eax, dword [byte esp+018h]
@@ -3473,7 +3473,7 @@ sub_C1A2C:
         shl eax, 4
         push eax
         push asc_113E28
-        call sub_AB758
+        call AllocMemBlock
         mov dword [byte ebp+038h], eax
         add esp, byte 0Ch
         mov dword [byte ebp+024h], edi
@@ -3724,14 +3724,14 @@ sub_C1D48:
         push eax
         push asc_113E28
         mov dword [byte esp+0Ch], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         mov dword [byte esi+028h], eax
         mov eax, dword [byte esp+04h]
         push eax
         push asc_113E28
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         mov dword [byte esi+02Ch], eax
         mov eax, dword [byte esp+0Ch]
@@ -3740,7 +3740,7 @@ sub_C1D48:
         push eax
         push asc_113E28
         mov dword [byte esp+014h], eax
-        call sub_AB758
+        call AllocMemBlock
         mov edx, edi
         mov dword [byte esi+034h], eax
         mov eax, edi
@@ -3753,7 +3753,7 @@ sub_C1D48:
         shl eax, 2
         push eax
         push asc_113E28
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         mov ebx, dword [byte esi+028h]
         mov dword [byte esi+030h], eax
@@ -3837,7 +3837,7 @@ sub_C1FC0:
         push byte 0
         push dword 344h
         push asc_113E28
-        call sub_AB758
+        call AllocMemBlock
         mov edi, eax
         add esp, byte 0Ch
         mov edx, eax
@@ -4067,7 +4067,7 @@ sub_C20E0:
         pop esi
         ret
         db 08Dh,040h,00h
-        cmp dword [dword_11F9C8], byte 3
+        cmp dword [DebugMode], byte 3
         jge short .4
         push dword 3E8h
         push sub_DFB84

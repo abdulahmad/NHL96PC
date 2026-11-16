@@ -26,7 +26,7 @@ extern LoadSeasonStats, LoadPlayoffStats, sub_29B9F, sub_4F159, sub_4F385, OpenS
 extern SetScreenColors, FadePalette, FadeOut, SetTextColors, DrawColorText, DrawColorTextRight, DrawColorTextCentred, DrawFrameAt
 extern InitMenuItems, RunMenu, FillMusicStream, PlayMusic, MusicDone, SoundSecondsToBytes, RunControllerScreen, GetLangText
 extern MakeSeasonDbPath, MakePlayoffDbPath, PickIndexEntryScreen, UpdateTeamDbs, SaveSeasonTeams, SimulateGame, RunStatsMenu, RunRosterScreens
-extern sub_A8B9B, sub_A8C75, sub_A9BAC, sub_AAA40, PutBlock, sub_AB758, FreeMemBlock, sub_AD35C
+extern sub_A8B9B, sub_A8C75, sub_A9BAC, sub_AAA40, PutBlock, AllocMemBlock, FreeMemBlock, sub_AD35C
 extern sub_ADA80, sub_ADBEC, TextSetFont, DosFileInfo, OpenArtArchiveErr, sub_B22B0, DrawArtOpaque, sub_B2C54
 extern sub_B7810, sub_C2500, SetScreenTarget, MouseRead, sub_E04E0, sub_E0584, str_S6, str_D17
 extern unk_11EF90, unk_11EFDC, unk_11F39C, unk_11F3DC, unk_11F41C, unk_11F45C, unk_152C44, optblock_end
@@ -1370,7 +1370,7 @@ PlayoffSetupScreen:
         push byte 0
         push dword 6D60h
         push str_Nothing2
-        call sub_AB758
+        call AllocMemBlock
         mov ecx, 6D60h
         mov edi, eax
         add esp, byte 0Ch
@@ -2028,7 +2028,7 @@ PlayoffTreeScreen:
         push dword 85Eh
         push str_Choices
         mov dword [byte ebp+056h], 0FFFFFFFFh
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         mov dword [byte ebp+07Eh], eax
         xor eax, eax

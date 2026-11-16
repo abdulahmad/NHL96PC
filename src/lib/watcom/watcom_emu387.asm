@@ -9,26 +9,26 @@ extern unk_D249C, unk_D24A0, unk_D24A2, EmuCompareCcBits, EmuFpremCcBits, EmuEaM
 global __hook387, __init_80x87, __unhook387, EmuDispatchD9RegJumpTable, EmuFtstFxamJumpTable, EmuSignOpsJumpTable, EmuLogOpsJumpTable, EmuRemOpsJumpTable
 global jpt_D398A, EmuDispatchDBRegJumpTable, jpt_D3C1C, jpt_D3DD1, RoundToDouble_32, RoundToDouble_49, RoundToDouble_84, jpt_D3A13_2C
 global jpt_D3DD1_20, jpt_D3DD1_69, jpt_D3DD1_CE, jpt_D3DD1_F8, jpt_D3DD1_110, sub_D3F70_7, sub_D4524_3, sub_D459F_8
-global EmuTan_E, EmuTrapExit, RoundToSingle, RoundToDouble, RaiseFpuError, sub_D2AAA, sub_D2AB0, sub_D2AB6
-global sub_D2ABC, sub_D2AC2, sub_D2ACA, sub_D2AD0, sub_D2AD6, sub_D2ADC, sub_D2AE4, sub_D2AEC
-global sub_D2AF4, sub_D2AFC, sub_D2B06, sub_D2B10, sub_D2B18, sub_D2B20, sub_D2B29, sub_D2B32
-global sub_D2B3B, sub_D2B44, sub_D2B4F, sub_D2B5A, sub_D2B63, EaSib, sub_D2BA4, sub_D2BA9
-global sub_D2BC8, sub_D2BE7, sub_D2C03, sub_D2C1F, sub_D2C3E, sub_D2C5D, sub_D2C7C, sub_D2C9B
-global sub_D2CD5, sub_D2CE6, EmuFldenv, EmuFldcw, EmuFstenv, sub_D2D69, sub_D2D77, sub_D2D96
-global sub_D2DB5, sub_D2DD1, sub_D2DED, sub_D2E0C, sub_D2E2B, sub_D2E4A, sub_D2E69, EmuFistM32
-global sub_D2EDF, sub_D2F03, sub_D2F26, sub_D2F49, sub_D2F69, sub_D2F89, sub_D2FAC, sub_D2FCF
-global sub_D2FF2, EmuFldM80, EmuFldM64, sub_D309A, EmuFstpM80, sub_D30CD, EmuFrstor, EmuFsave
-global sub_D3154, sub_D3162, sub_D3183, sub_D31A4, sub_D31C2, sub_D31E0, sub_D3201, sub_D3222
-global sub_D3243, EmuFildM16, EmuFistM16, EmuFistpM16, sub_D3318, sub_D331D, sub_D3357, sub_D335C
-global EmuReservedOp, sub_D3385, sub_D33B2, sub_D33C7, sub_D33DC, sub_D33EE, sub_D3400, sub_D3415
-global sub_D342A, sub_D343F, EmuFldSt, EmuFxch, sub_D34C4, sub_D3545, sub_D3760, sub_D386A
-global sub_D3982, sub_D3A0B, sub_D3A65, sub_D3A7A, sub_D3A8F, sub_D3AA4, sub_D3AB9, sub_D3ACE
-global EmuFfree, sub_D3B02, sub_D3B2E, sub_D3B40, sub_D3B52, sub_D3B7E, sub_D3BC9, sub_D3C14
-global sub_D3C9D, sub_D3CE8, sub_D3D33, sub_D3D7E, sub_D3DC9, EmuSub, sub_D3F70, AddExtRaw
+global EmuTan_E, EmuTrapExit, RoundToSingle, RoundToDouble, RaiseFpuError, EaEax, EaEcx, EaEdx
+global EaEbx, EaEsp, EaDisp32, EaEsi, EaEdi, EaEaxDisp8, EaEcxDisp8, EaEdxDisp8
+global EaEbxDisp8, EaEspDisp8, EaEbpDisp8, EaEsiDisp8, EaEdiDisp8, EaEaxDisp32, EaEcxDisp32, EaEdxDisp32
+global EaEbxDisp32, EaEspDisp32, EaEbpDisp32, EaEsiDisp32, EaEdiDisp32, EaSib, EmuUnsupported, EmuFaddM32
+global EmuFmulM32, EmuFcomM32, EmuFcompM32, EmuFsubM32, EmuFsubrM32, EmuFdivM32, EmuFdivrM32, EmuFldM32
+global EmuFstM32, EmuFstpM32, EmuFldenv, EmuFldcw, EmuFstenv, EmuFstcw, EmuFiaddM32, EmuFimulM32
+global EmuFicomM32, EmuFicompM32, EmuFisubM32, EmuFisubrM32, EmuFidivM32, EmuFidivrM32, EmuFildM32, EmuFistM32
+global EmuFistpM32, EmuFaddM64, EmuFmulM64, EmuFcomM64, EmuFcompM64, EmuFsubM64, EmuFsubrM64, EmuFdivM64
+global EmuFdivrM64, EmuFldM80, EmuFldM64, EmuFstM64, EmuFstpM80, EmuFstpM64, EmuFrstor, EmuFsave
+global EmuFstswM16, EmuFiaddM16, EmuFimulM16, EmuFicomM16, EmuFicompM16, EmuFisubM16, EmuFisubrM16, EmuFidivM16
+global EmuFidivrM16, EmuFildM16, EmuFistM16, EmuFistpM16, EmuFbld, EmuFildM64, EmuFbstp, EmuFistpM64
+global EmuReservedOp, EmuDispatchD9Reg, EmuFaddSt, EmuFmulSt, EmuFcomSt, EmuFcompSt, EmuFsubSt, EmuFsubrSt
+global EmuFdivSt, EmuFdivrSt, EmuFldSt, EmuFxch, EmuFtstFxam, EmuSignOps, EmuLogOps, EmuRemOps
+global EmuFucompp, EmuDispatchDBReg, EmuFaddToSt, EmuFmulToSt, EmuFsubrToSt, EmuFsubToSt, EmuFdivrToSt, EmuFdivToSt
+global EmuFfree, EmuFstSt, EmuFucom, EmuFucomp, EmuFstpSt, EmuFaddp, EmuFmulp, EmuFcompp
+global EmuFsubrp, EmuFsubp, EmuFdivrp, EmuFdivp, EmuDispatchDFReg, EmuSub, sub_D3F70, AddExtRaw
 global AddMantissas, EmuCompare, EmuDiv, DivideMantissas, EmuMul, MultiplyMantissas, StoreM32Int, sub_D4524
 global LoadM32Int, sub_D459F, LoadM64Real, StoreM32Real, StoreM64Real, LoadM32Real, ExtToInt, EmuRemainder
 global RemainderStep, EmuRoundInt, RoundMantissa, EmuExamine, AddOne, EmuLog2, Log2Core, SinCosCore
-global EmuSin, EmuCos, EmuTan, EmuAtan, EmuExp2, PolyEval, PolyEvalOdd, sub_D5789
+global EmuSin, EmuCos, EmuTan, EmuAtan, EmuExp2, PolyEval, PolyEvalOdd, EmuNoOp
 global InitFloatFormat, FormatFloat, EmuMantissaMasks, EmuRemPolyCoefs, EmuLog2PolyNum, EmuLog2PolyDen, EmuSinPolyCoefs, EmuCosPolyCoefs
 global EmuSinCosTermCounts
 ;-----------------------------------------------------------------------------
@@ -265,190 +265,214 @@ RaiseFpuError:
 .1:
         ret
 ;-----------------------------------------------------------------------------
-; sub_D2AAA                                                            D2AAA  
+; EaEax                                        D2AAA  96 PC, medium confidence
+; X87 emulator operand address: [eax]
 ;-----------------------------------------------------------------------------
-sub_D2AAA:
+EaEax:
         LD xor, ebx, ebx
         add ebx, dword [byte ebp+028h]
         ret
 ;-----------------------------------------------------------------------------
-; sub_D2AB0                                                            D2AB0  
+; EaEcx                                        D2AB0  96 PC, medium confidence
+; X87 emulator operand address: [ecx]
 ;-----------------------------------------------------------------------------
-sub_D2AB0:
+EaEcx:
         LD xor, ebx, ebx
         add ebx, dword [byte ebp+024h]
         ret
 ;-----------------------------------------------------------------------------
-; sub_D2AB6                                                            D2AB6  
+; EaEdx                                        D2AB6  96 PC, medium confidence
+; X87 emulator operand address: [edx]
 ;-----------------------------------------------------------------------------
-sub_D2AB6:
+EaEdx:
         LD xor, ebx, ebx
         add ebx, dword [byte ebp+020h]
         ret
 ;-----------------------------------------------------------------------------
-; sub_D2ABC                                                            D2ABC  
+; EaEbx                                        D2ABC  96 PC, medium confidence
+; X87 emulator operand address: [ebx]
 ;-----------------------------------------------------------------------------
-sub_D2ABC:
+EaEbx:
         LD xor, ebx, ebx
         add ebx, dword [byte ebp+01Ch]
         ret
 ;-----------------------------------------------------------------------------
-; sub_D2AC2                                                            D2AC2  
+; EaEsp                                        D2AC2  96 PC, medium confidence
+; X87 emulator operand address: [esp] (stack segment)
 ;-----------------------------------------------------------------------------
-sub_D2AC2:
+EaEsp:
         LD xor, ebx, ebx
         add ebx, dword [byte ebp+018h]
         LD mov, ecx, edx
         ret
 ;-----------------------------------------------------------------------------
-; sub_D2ACA                                                            D2ACA  
+; EaDisp32                                     D2ACA  96 PC, medium confidence
+; X87 emulator operand address: [disp32]
 ;-----------------------------------------------------------------------------
-sub_D2ACA:
+EaDisp32:
         mov ebx, dword [esi]
         add esi, byte 4
         ret
 ;-----------------------------------------------------------------------------
-; sub_D2AD0                                                            D2AD0  
+; EaEsi                                        D2AD0  96 PC, medium confidence
+; X87 emulator operand address: [esi]
 ;-----------------------------------------------------------------------------
-sub_D2AD0:
+EaEsi:
         LD xor, ebx, ebx
         add ebx, dword [byte ebp+010h]
         ret
 ;-----------------------------------------------------------------------------
-; sub_D2AD6                                                            D2AD6  
+; EaEdi                                        D2AD6  96 PC, medium confidence
+; X87 emulator operand address: [edi]
 ;-----------------------------------------------------------------------------
-sub_D2AD6:
+EaEdi:
         LD xor, ebx, ebx
         add ebx, dword [byte ebp+0Ch]
         ret
 ;-----------------------------------------------------------------------------
-; sub_D2ADC                                                            D2ADC  
+; EaEaxDisp8                                   D2ADC  96 PC, medium confidence
+; X87 emulator operand address: [eax+disp8]
 ;-----------------------------------------------------------------------------
-sub_D2ADC:
+EaEaxDisp8:
         movsx ebx, byte [esi]
         inc esi
         add ebx, dword [byte ebp+028h]
         ret
 ;-----------------------------------------------------------------------------
-; sub_D2AE4                                                            D2AE4  
+; EaEcxDisp8                                   D2AE4  96 PC, medium confidence
+; X87 emulator operand address: [ecx+disp8]
 ;-----------------------------------------------------------------------------
-sub_D2AE4:
+EaEcxDisp8:
         movsx ebx, byte [esi]
         inc esi
         add ebx, dword [byte ebp+024h]
         ret
 ;-----------------------------------------------------------------------------
-; sub_D2AEC                                                            D2AEC  
+; EaEdxDisp8                                   D2AEC  96 PC, medium confidence
+; X87 emulator operand address: [edx+disp8]
 ;-----------------------------------------------------------------------------
-sub_D2AEC:
+EaEdxDisp8:
         movsx ebx, byte [esi]
         inc esi
         add ebx, dword [byte ebp+020h]
         ret
 ;-----------------------------------------------------------------------------
-; sub_D2AF4                                                            D2AF4  
+; EaEbxDisp8                                   D2AF4  96 PC, medium confidence
+; X87 emulator operand address: [ebx+disp8]
 ;-----------------------------------------------------------------------------
-sub_D2AF4:
+EaEbxDisp8:
         movsx ebx, byte [esi]
         inc esi
         add ebx, dword [byte ebp+01Ch]
         ret
 ;-----------------------------------------------------------------------------
-; sub_D2AFC                                                            D2AFC  
+; EaEspDisp8                                   D2AFC  96 PC, medium confidence
+; X87 emulator operand address: [esp+disp8]
 ;-----------------------------------------------------------------------------
-sub_D2AFC:
+EaEspDisp8:
         movsx ebx, byte [esi]
         inc esi
         add ebx, dword [byte ebp+018h]
         LD mov, ecx, edx
         ret
 ;-----------------------------------------------------------------------------
-; sub_D2B06                                                            D2B06  
+; EaEbpDisp8                                   D2B06  96 PC, medium confidence
+; X87 emulator operand address: [ebp+disp8]
 ;-----------------------------------------------------------------------------
-sub_D2B06:
+EaEbpDisp8:
         movsx ebx, byte [esi]
         inc esi
         add ebx, dword [byte ebp+014h]
         LD mov, ecx, edx
         ret
 ;-----------------------------------------------------------------------------
-; sub_D2B10                                                            D2B10  
+; EaEsiDisp8                                   D2B10  96 PC, medium confidence
+; X87 emulator operand address: [esi+disp8]
 ;-----------------------------------------------------------------------------
-sub_D2B10:
+EaEsiDisp8:
         movsx ebx, byte [esi]
         inc esi
         add ebx, dword [byte ebp+010h]
         ret
 ;-----------------------------------------------------------------------------
-; sub_D2B18                                                            D2B18  
+; EaEdiDisp8                                   D2B18  96 PC, medium confidence
+; X87 emulator operand address: [edi+disp8]
 ;-----------------------------------------------------------------------------
-sub_D2B18:
+EaEdiDisp8:
         movsx ebx, byte [esi]
         inc esi
         add ebx, dword [byte ebp+0Ch]
         ret
 ;-----------------------------------------------------------------------------
-; sub_D2B20                                                            D2B20  
+; EaEaxDisp32                                  D2B20  96 PC, medium confidence
+; X87 emulator operand address: [eax+disp32]
 ;-----------------------------------------------------------------------------
-sub_D2B20:
+EaEaxDisp32:
         mov ebx, dword [esi]
         add esi, byte 4
         add ebx, dword [byte ebp+028h]
         ret
 ;-----------------------------------------------------------------------------
-; sub_D2B29                                                            D2B29  
+; EaEcxDisp32                                  D2B29  96 PC, medium confidence
+; X87 emulator operand address: [ecx+disp32]
 ;-----------------------------------------------------------------------------
-sub_D2B29:
+EaEcxDisp32:
         mov ebx, dword [esi]
         add esi, byte 4
         add ebx, dword [byte ebp+024h]
         ret
 ;-----------------------------------------------------------------------------
-; sub_D2B32                                                            D2B32  
+; EaEdxDisp32                                  D2B32  96 PC, medium confidence
+; X87 emulator operand address: [edx+disp32]
 ;-----------------------------------------------------------------------------
-sub_D2B32:
+EaEdxDisp32:
         mov ebx, dword [esi]
         add esi, byte 4
         add ebx, dword [byte ebp+020h]
         ret
 ;-----------------------------------------------------------------------------
-; sub_D2B3B                                                            D2B3B  
+; EaEbxDisp32                                  D2B3B  96 PC, medium confidence
+; X87 emulator operand address: [ebx+disp32]
 ;-----------------------------------------------------------------------------
-sub_D2B3B:
+EaEbxDisp32:
         mov ebx, dword [esi]
         add esi, byte 4
         add ebx, dword [byte ebp+01Ch]
         ret
 ;-----------------------------------------------------------------------------
-; sub_D2B44                                                            D2B44  
+; EaEspDisp32                                  D2B44  96 PC, medium confidence
+; X87 emulator operand address: [esp+disp32]
 ;-----------------------------------------------------------------------------
-sub_D2B44:
+EaEspDisp32:
         mov ebx, dword [esi]
         add esi, byte 4
         add ebx, dword [byte ebp+018h]
         LD mov, ecx, edx
         ret
 ;-----------------------------------------------------------------------------
-; sub_D2B4F                                                            D2B4F  
+; EaEbpDisp32                                  D2B4F  96 PC, medium confidence
+; X87 emulator operand address: [ebp+disp32]
 ;-----------------------------------------------------------------------------
-sub_D2B4F:
+EaEbpDisp32:
         mov ebx, dword [esi]
         add esi, byte 4
         add ebx, dword [byte ebp+014h]
         LD mov, ecx, edx
         ret
 ;-----------------------------------------------------------------------------
-; sub_D2B5A                                                            D2B5A  
+; EaEsiDisp32                                  D2B5A  96 PC, medium confidence
+; X87 emulator operand address: [esi+disp32]
 ;-----------------------------------------------------------------------------
-sub_D2B5A:
+EaEsiDisp32:
         mov ebx, dword [esi]
         add esi, byte 4
         add ebx, dword [byte ebp+010h]
         ret
 ;-----------------------------------------------------------------------------
-; sub_D2B63                                                            D2B63  
+; EaEdiDisp32                                  D2B63  96 PC, medium confidence
+; X87 emulator operand address: [edi+disp32]
 ;-----------------------------------------------------------------------------
-sub_D2B63:
+EaEdiDisp32:
         mov ebx, dword [esi]
         add esi, byte 4
         add ebx, dword [byte ebp+0Ch]
@@ -484,14 +508,16 @@ EaSib:
         pop ecx
         ret
 ;-----------------------------------------------------------------------------
-; sub_D2BA4                                                            D2BA4  
+; EmuUnsupported                               D2BA4  96 PC, medium confidence
+; X87 emulator: unsupported instruction, returns from the trap
 ;-----------------------------------------------------------------------------
-sub_D2BA4:
+EmuUnsupported:
         jmp near EmuTrapExit
 ;-----------------------------------------------------------------------------
-; sub_D2BA9                                                            D2BA9  
+; EmuFaddM32                                   D2BA9  96 PC, medium confidence
+; X87 emulator: FADD m32real
 ;-----------------------------------------------------------------------------
-sub_D2BA9:
+EmuFaddM32:
         mov eax, dword [es:esi]
         lea edx, [byte ebp+06Ch]
         call LoadM32Real
@@ -501,9 +527,10 @@ sub_D2BA9:
         call sub_D3F70
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
-; sub_D2BC8                                                            D2BC8  
+; EmuFmulM32                                   D2BC8  96 PC, medium confidence
+; X87 emulator: FMUL m32real
 ;-----------------------------------------------------------------------------
-sub_D2BC8:
+EmuFmulM32:
         mov eax, dword [es:esi]
         lea edx, [byte ebp+06Ch]
         call LoadM32Real
@@ -513,9 +540,10 @@ sub_D2BC8:
         call EmuMul
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
-; sub_D2BE7                                                            D2BE7  
+; EmuFcomM32                                   D2BE7  96 PC, medium confidence
+; X87 emulator: FCOM m32real
 ;-----------------------------------------------------------------------------
-sub_D2BE7:
+EmuFcomM32:
         mov eax, dword [es:esi]
         lea edx, [byte ebp+06Ch]
         call LoadM32Real
@@ -524,9 +552,10 @@ sub_D2BE7:
         call EmuCompare
         jmp near RoundToDouble_84
 ;-----------------------------------------------------------------------------
-; sub_D2C03                                                            D2C03  
+; EmuFcompM32                                  D2C03  96 PC, medium confidence
+; X87 emulator: FCOMP m32real
 ;-----------------------------------------------------------------------------
-sub_D2C03:
+EmuFcompM32:
         mov eax, dword [es:esi]
         lea edx, [byte ebp+06Ch]
         call LoadM32Real
@@ -535,9 +564,10 @@ sub_D2C03:
         call EmuCompare
         jmp near RoundToDouble_32
 ;-----------------------------------------------------------------------------
-; sub_D2C1F                                                            D2C1F  
+; EmuFsubM32                                   D2C1F  96 PC, medium confidence
+; X87 emulator: FSUB m32real
 ;-----------------------------------------------------------------------------
-sub_D2C1F:
+EmuFsubM32:
         mov eax, dword [es:esi]
         lea edx, [byte ebp+06Ch]
         call LoadM32Real
@@ -547,9 +577,10 @@ sub_D2C1F:
         call EmuSub
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
-; sub_D2C3E                                                            D2C3E  
+; EmuFsubrM32                                  D2C3E  96 PC, medium confidence
+; X87 emulator: FSUBR m32real
 ;-----------------------------------------------------------------------------
-sub_D2C3E:
+EmuFsubrM32:
         mov eax, dword [es:esi]
         lea edx, [byte ebp+06Ch]
         call LoadM32Real
@@ -559,9 +590,10 @@ sub_D2C3E:
         call EmuSub
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
-; sub_D2C5D                                                            D2C5D  
+; EmuFdivM32                                   D2C5D  96 PC, medium confidence
+; X87 emulator: FDIV m32real
 ;-----------------------------------------------------------------------------
-sub_D2C5D:
+EmuFdivM32:
         mov eax, dword [es:esi]
         lea edx, [byte ebp+06Ch]
         call LoadM32Real
@@ -571,9 +603,10 @@ sub_D2C5D:
         call EmuDiv
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
-; sub_D2C7C                                                            D2C7C  
+; EmuFdivrM32                                  D2C7C  96 PC, medium confidence
+; X87 emulator: FDIVR m32real
 ;-----------------------------------------------------------------------------
-sub_D2C7C:
+EmuFdivrM32:
         mov eax, dword [es:esi]
         lea edx, [byte ebp+06Ch]
         call LoadM32Real
@@ -583,9 +616,10 @@ sub_D2C7C:
         call EmuDiv
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
-; sub_D2C9B                                                            D2C9B  
+; EmuFldM32                                    D2C9B  96 PC, medium confidence
+; X87 emulator: FLD m32real
 ;-----------------------------------------------------------------------------
-sub_D2C9B:
+EmuFldM32:
         movzx edi, word [dword cs:edi+unk_D244C]
         mov bx, word [dword cs:edi+unk_D244E]
         and word [byte ds:ebp+04h], 0C7FFh
@@ -597,17 +631,19 @@ sub_D2C9B:
         call LoadM32Real
         jmp near EmuTrapExit
 ;-----------------------------------------------------------------------------
-; sub_D2CD5                                                            D2CD5  
+; EmuFstM32                                    D2CD5  96 PC, medium confidence
+; X87 emulator: FST m32real
 ;-----------------------------------------------------------------------------
-sub_D2CD5:
+EmuFstM32:
         lea eax, [byte edi+ebp+01Ch]
         call StoreM32Real
         mov dword [es:esi], eax
         jmp near EmuTrapExit
 ;-----------------------------------------------------------------------------
-; sub_D2CE6                                                            D2CE6  
+; EmuFstpM32                                   D2CE6  96 PC, medium confidence
+; X87 emulator: FSTP m32real
 ;-----------------------------------------------------------------------------
-sub_D2CE6:
+EmuFstpM32:
         lea eax, [byte edi+ebp+01Ch]
         call StoreM32Real
         mov dword [es:esi], eax
@@ -666,16 +702,18 @@ EmuFstenv:
         LD mov, edi, ebx
         jmp near EmuTrapExit
 ;-----------------------------------------------------------------------------
-; sub_D2D69                                                            D2D69  
+; EmuFstcw                                     D2D69  96 PC, medium confidence
+; X87 emulator: FSTCW
 ;-----------------------------------------------------------------------------
-sub_D2D69:
+EmuFstcw:
         mov ax, word [byte ds:ebp+00h]
         mov word [es:esi], ax
         jmp near EmuTrapExit
 ;-----------------------------------------------------------------------------
-; sub_D2D77                                                            D2D77  
+; EmuFiaddM32                                  D2D77  96 PC, medium confidence
+; X87 emulator: FIADD m32int
 ;-----------------------------------------------------------------------------
-sub_D2D77:
+EmuFiaddM32:
         mov eax, dword [es:esi]
         lea edx, [byte ebp+06Ch]
         call LoadM32Int
@@ -685,9 +723,10 @@ sub_D2D77:
         call sub_D3F70
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
-; sub_D2D96                                                            D2D96  
+; EmuFimulM32                                  D2D96  96 PC, medium confidence
+; X87 emulator: FIMUL m32int
 ;-----------------------------------------------------------------------------
-sub_D2D96:
+EmuFimulM32:
         mov eax, dword [es:esi]
         lea edx, [byte ebp+06Ch]
         call LoadM32Int
@@ -697,9 +736,10 @@ sub_D2D96:
         call EmuMul
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
-; sub_D2DB5                                                            D2DB5  
+; EmuFicomM32                                  D2DB5  96 PC, medium confidence
+; X87 emulator: FICOM m32int
 ;-----------------------------------------------------------------------------
-sub_D2DB5:
+EmuFicomM32:
         mov eax, dword [es:esi]
         lea edx, [byte ebp+06Ch]
         call LoadM32Int
@@ -708,9 +748,10 @@ sub_D2DB5:
         call EmuCompare
         jmp near RoundToDouble_84
 ;-----------------------------------------------------------------------------
-; sub_D2DD1                                                            D2DD1  
+; EmuFicompM32                                 D2DD1  96 PC, medium confidence
+; X87 emulator: FICOMP m32int
 ;-----------------------------------------------------------------------------
-sub_D2DD1:
+EmuFicompM32:
         mov eax, dword [es:esi]
         lea edx, [byte ebp+06Ch]
         call LoadM32Int
@@ -719,9 +760,10 @@ sub_D2DD1:
         call EmuCompare
         jmp near RoundToDouble_32
 ;-----------------------------------------------------------------------------
-; sub_D2DED                                                            D2DED  
+; EmuFisubM32                                  D2DED  96 PC, medium confidence
+; X87 emulator: FISUB m32int
 ;-----------------------------------------------------------------------------
-sub_D2DED:
+EmuFisubM32:
         mov eax, dword [es:esi]
         lea edx, [byte ebp+06Ch]
         call LoadM32Int
@@ -731,9 +773,10 @@ sub_D2DED:
         call EmuSub
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
-; sub_D2E0C                                                            D2E0C  
+; EmuFisubrM32                                 D2E0C  96 PC, medium confidence
+; X87 emulator: FISUBR m32int
 ;-----------------------------------------------------------------------------
-sub_D2E0C:
+EmuFisubrM32:
         mov eax, dword [es:esi]
         lea edx, [byte ebp+06Ch]
         call LoadM32Int
@@ -743,9 +786,10 @@ sub_D2E0C:
         call EmuSub
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
-; sub_D2E2B                                                            D2E2B  
+; EmuFidivM32                                  D2E2B  96 PC, medium confidence
+; X87 emulator: FIDIV m32int
 ;-----------------------------------------------------------------------------
-sub_D2E2B:
+EmuFidivM32:
         mov eax, dword [es:esi]
         lea edx, [byte ebp+06Ch]
         call LoadM32Int
@@ -755,9 +799,10 @@ sub_D2E2B:
         call EmuDiv
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
-; sub_D2E4A                                                            D2E4A  
+; EmuFidivrM32                                 D2E4A  96 PC, medium confidence
+; X87 emulator: FIDIVR m32int
 ;-----------------------------------------------------------------------------
-sub_D2E4A:
+EmuFidivrM32:
         mov eax, dword [es:esi]
         lea edx, [byte ebp+06Ch]
         call LoadM32Int
@@ -767,9 +812,10 @@ sub_D2E4A:
         call EmuDiv
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
-; sub_D2E69                                                            D2E69  
+; EmuFildM32                                   D2E69  96 PC, medium confidence
+; X87 emulator: FILD m32int
 ;-----------------------------------------------------------------------------
-sub_D2E69:
+EmuFildM32:
         movzx edi, word [dword cs:edi+unk_D244C]
         mov bx, word [dword cs:edi+unk_D244E]
         and word [byte ds:ebp+04h], 0C7FFh
@@ -802,9 +848,10 @@ EmuFistM32:
         pop dword [ebx]
         jmp near EmuTrapExit
 ;-----------------------------------------------------------------------------
-; sub_D2EDF                                                            D2EDF  
+; EmuFistpM32                                  D2EDF  96 PC, medium confidence
+; X87 emulator: FISTP m32int
 ;-----------------------------------------------------------------------------
-sub_D2EDF:
+EmuFistpM32:
         lea eax, [byte edi+ebp+01Ch]
         mov dx, word [byte ds:ebp+00h]
         and dx, 0C00h
@@ -814,9 +861,10 @@ sub_D2EDF:
         mov dword [es:esi], eax
         jmp near RoundToDouble_49
 ;-----------------------------------------------------------------------------
-; sub_D2F03                                                            D2F03  
+; EmuFaddM64                                   D2F03  96 PC, medium confidence
+; X87 emulator: FADD m64real
 ;-----------------------------------------------------------------------------
-sub_D2F03:
+EmuFaddM64:
         mov eax, dword [es:esi]
         mov edx, dword [byte es:esi+04h]
         lea ebx, [byte ebp+06Ch]
@@ -827,9 +875,10 @@ sub_D2F03:
         call sub_D3F70
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
-; sub_D2F26                                                            D2F26  
+; EmuFmulM64                                   D2F26  96 PC, medium confidence
+; X87 emulator: FMUL m64real
 ;-----------------------------------------------------------------------------
-sub_D2F26:
+EmuFmulM64:
         mov eax, dword [es:esi]
         mov edx, dword [byte es:esi+04h]
         lea ebx, [byte ebp+06Ch]
@@ -840,9 +889,10 @@ sub_D2F26:
         call EmuMul
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
-; sub_D2F49                                                            D2F49  
+; EmuFcomM64                                   D2F49  96 PC, medium confidence
+; X87 emulator: FCOM m64real
 ;-----------------------------------------------------------------------------
-sub_D2F49:
+EmuFcomM64:
         mov eax, dword [es:esi]
         mov edx, dword [byte es:esi+04h]
         lea ebx, [byte ebp+06Ch]
@@ -852,9 +902,10 @@ sub_D2F49:
         call EmuCompare
         jmp near RoundToDouble_84
 ;-----------------------------------------------------------------------------
-; sub_D2F69                                                            D2F69  
+; EmuFcompM64                                  D2F69  96 PC, medium confidence
+; X87 emulator: FCOMP m64real
 ;-----------------------------------------------------------------------------
-sub_D2F69:
+EmuFcompM64:
         mov eax, dword [es:esi]
         mov edx, dword [byte es:esi+04h]
         lea ebx, [byte ebp+06Ch]
@@ -864,9 +915,10 @@ sub_D2F69:
         call EmuCompare
         jmp near RoundToDouble_32
 ;-----------------------------------------------------------------------------
-; sub_D2F89                                                            D2F89  
+; EmuFsubM64                                   D2F89  96 PC, medium confidence
+; X87 emulator: FSUB m64real
 ;-----------------------------------------------------------------------------
-sub_D2F89:
+EmuFsubM64:
         mov eax, dword [es:esi]
         mov edx, dword [byte es:esi+04h]
         lea ebx, [byte ebp+06Ch]
@@ -877,9 +929,10 @@ sub_D2F89:
         call EmuSub
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
-; sub_D2FAC                                                            D2FAC  
+; EmuFsubrM64                                  D2FAC  96 PC, medium confidence
+; X87 emulator: FSUBR m64real
 ;-----------------------------------------------------------------------------
-sub_D2FAC:
+EmuFsubrM64:
         mov eax, dword [es:esi]
         mov edx, dword [byte es:esi+04h]
         lea ebx, [byte ebp+06Ch]
@@ -890,9 +943,10 @@ sub_D2FAC:
         call EmuSub
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
-; sub_D2FCF                                                            D2FCF  
+; EmuFdivM64                                   D2FCF  96 PC, medium confidence
+; X87 emulator: FDIV m64real
 ;-----------------------------------------------------------------------------
-sub_D2FCF:
+EmuFdivM64:
         mov eax, dword [es:esi]
         mov edx, dword [byte es:esi+04h]
         lea ebx, [byte ebp+06Ch]
@@ -903,9 +957,10 @@ sub_D2FCF:
         call EmuDiv
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
-; sub_D2FF2                                                            D2FF2  
+; EmuFdivrM64                                  D2FF2  96 PC, medium confidence
+; X87 emulator: FDIVR m64real
 ;-----------------------------------------------------------------------------
-sub_D2FF2:
+EmuFdivrM64:
         mov eax, dword [es:esi]
         mov edx, dword [byte es:esi+04h]
         lea ebx, [byte ebp+06Ch]
@@ -950,9 +1005,10 @@ EmuFldM64:
         call LoadM64Real
         jmp near EmuTrapExit
 ;-----------------------------------------------------------------------------
-; sub_D309A                                                            D309A  
+; EmuFstM64                                    D309A  96 PC, medium confidence
+; X87 emulator: FST m64real
 ;-----------------------------------------------------------------------------
-sub_D309A:
+EmuFstM64:
         lea eax, [byte edi+ebp+01Ch]
         call StoreM64Real
         mov dword [es:esi], eax
@@ -971,9 +1027,10 @@ EmuFstpM80:
         mov word [byte es:esi+08h], ax
         jmp near RoundToDouble_49
 ;-----------------------------------------------------------------------------
-; sub_D30CD                                                            D30CD  
+; EmuFstpM64                                   D30CD  96 PC, medium confidence
+; X87 emulator: FSTP m64real
 ;-----------------------------------------------------------------------------
-sub_D30CD:
+EmuFstpM64:
         lea eax, [byte edi+ebp+01Ch]
         call StoreM64Real
         mov dword [es:esi], eax
@@ -1030,16 +1087,18 @@ EmuFsave:
         LD mov, edi, ebx
         jmp near jpt_D3A13_2C
 ;-----------------------------------------------------------------------------
-; sub_D3154                                                            D3154  
+; EmuFstswM16                                  D3154  96 PC, medium confidence
+; X87 emulator: FSTSW m16
 ;-----------------------------------------------------------------------------
-sub_D3154:
+EmuFstswM16:
         mov ax, word [byte ds:ebp+04h]
         mov word [es:esi], ax
         jmp near EmuTrapExit
 ;-----------------------------------------------------------------------------
-; sub_D3162                                                            D3162  
+; EmuFiaddM16                                  D3162  96 PC, medium confidence
+; X87 emulator: FIADD m16int
 ;-----------------------------------------------------------------------------
-sub_D3162:
+EmuFiaddM16:
         mov ax, word [es:esi]
         cwde
         lea edx, [byte ebp+06Ch]
@@ -1050,9 +1109,10 @@ sub_D3162:
         call sub_D3F70
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
-; sub_D3183                                                            D3183  
+; EmuFimulM16                                  D3183  96 PC, medium confidence
+; X87 emulator: FIMUL m16int
 ;-----------------------------------------------------------------------------
-sub_D3183:
+EmuFimulM16:
         mov ax, word [es:esi]
         cwde
         lea edx, [byte ebp+06Ch]
@@ -1063,9 +1123,10 @@ sub_D3183:
         call EmuMul
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
-; sub_D31A4                                                            D31A4  
+; EmuFicomM16                                  D31A4  96 PC, medium confidence
+; X87 emulator: FICOM m16int
 ;-----------------------------------------------------------------------------
-sub_D31A4:
+EmuFicomM16:
         mov ax, word [es:esi]
         cwde
         lea edx, [byte ebp+06Ch]
@@ -1075,9 +1136,10 @@ sub_D31A4:
         call EmuCompare
         jmp near RoundToDouble_84
 ;-----------------------------------------------------------------------------
-; sub_D31C2                                                            D31C2  
+; EmuFicompM16                                 D31C2  96 PC, medium confidence
+; X87 emulator: FICOMP m16int
 ;-----------------------------------------------------------------------------
-sub_D31C2:
+EmuFicompM16:
         mov ax, word [es:esi]
         cwde
         lea edx, [byte ebp+06Ch]
@@ -1087,9 +1149,10 @@ sub_D31C2:
         call EmuCompare
         jmp near RoundToDouble_32
 ;-----------------------------------------------------------------------------
-; sub_D31E0                                                            D31E0  
+; EmuFisubM16                                  D31E0  96 PC, medium confidence
+; X87 emulator: FISUB m16int
 ;-----------------------------------------------------------------------------
-sub_D31E0:
+EmuFisubM16:
         mov ax, word [es:esi]
         cwde
         lea edx, [byte ebp+06Ch]
@@ -1100,9 +1163,10 @@ sub_D31E0:
         call EmuSub
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
-; sub_D3201                                                            D3201  
+; EmuFisubrM16                                 D3201  96 PC, medium confidence
+; X87 emulator: FISUBR m16int
 ;-----------------------------------------------------------------------------
-sub_D3201:
+EmuFisubrM16:
         mov ax, word [es:esi]
         cwde
         lea edx, [byte ebp+06Ch]
@@ -1113,9 +1177,10 @@ sub_D3201:
         call EmuSub
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
-; sub_D3222                                                            D3222  
+; EmuFidivM16                                  D3222  96 PC, medium confidence
+; X87 emulator: FIDIV m16int
 ;-----------------------------------------------------------------------------
-sub_D3222:
+EmuFidivM16:
         mov ax, word [es:esi]
         cwde
         lea edx, [byte ebp+06Ch]
@@ -1126,9 +1191,10 @@ sub_D3222:
         call EmuDiv
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
-; sub_D3243                                                            D3243  
+; EmuFidivrM16                                 D3243  96 PC, medium confidence
+; X87 emulator: FIDIVR m16int
 ;-----------------------------------------------------------------------------
-sub_D3243:
+EmuFidivrM16:
         mov ax, word [es:esi]
         cwde
         lea edx, [byte ebp+06Ch]
@@ -1201,14 +1267,16 @@ EmuFistpM16:
         mov word [es:esi], ax
         jmp near RoundToDouble_49
 ;-----------------------------------------------------------------------------
-; sub_D3318                                                            D3318  
+; EmuFbld                                      D3318  96 PC, medium confidence
+; X87 emulator: FBLD (unsupported)
 ;-----------------------------------------------------------------------------
-sub_D3318:
+EmuFbld:
         jmp near EmuTrapExit
 ;-----------------------------------------------------------------------------
-; sub_D331D                                                            D331D  
+; EmuFildM64                                   D331D  96 PC, medium confidence
+; X87 emulator: FILD m64int
 ;-----------------------------------------------------------------------------
-sub_D331D:
+EmuFildM64:
         movzx edi, word [dword cs:edi+unk_D244C]
         mov bx, word [dword cs:edi+unk_D244E]
         and word [byte ds:ebp+04h], 0C7FFh
@@ -1220,14 +1288,16 @@ sub_D331D:
         call sub_D459F
         jmp near EmuTrapExit
 ;-----------------------------------------------------------------------------
-; sub_D3357                                                            D3357  
+; EmuFbstp                                     D3357  96 PC, medium confidence
+; X87 emulator: FBSTP
 ;-----------------------------------------------------------------------------
-sub_D3357:
+EmuFbstp:
         jmp near RoundToDouble_49
 ;-----------------------------------------------------------------------------
-; sub_D335C                                                            D335C  
+; EmuFistpM64                                  D335C  96 PC, medium confidence
+; X87 emulator: FISTP m64int
 ;-----------------------------------------------------------------------------
-sub_D335C:
+EmuFistpM64:
         lea eax, [byte edi+ebp+01Ch]
         mov dx, word [byte ds:ebp+00h]
         and dx, 0C00h
@@ -1243,9 +1313,10 @@ sub_D335C:
 EmuReservedOp:
         jmp near EmuTrapExit
 ;-----------------------------------------------------------------------------
-; sub_D3385                                                            D3385  
+; EmuDispatchD9Reg                             D3385  96 PC, medium confidence
+; X87 emulator: dispatches the register forms of the D9 group
 ;-----------------------------------------------------------------------------
-sub_D3385:
+EmuDispatchD9Reg:
         jmp dword [nosplit cs:ebx*4+EmuDispatchD9RegJumpTable]
 EmuDispatchD9RegJumpTable:
         dd .1
@@ -1259,70 +1330,78 @@ EmuDispatchD9RegJumpTable:
 .1:
         jmp near EmuTrapExit
 ;-----------------------------------------------------------------------------
-; sub_D33B2                                                            D33B2  
+; EmuFaddSt                                    D33B2  96 PC, medium confidence
+; X87 emulator: FADD st,st(i)
 ;-----------------------------------------------------------------------------
-sub_D33B2:
+EmuFaddSt:
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte esi+ebp+01Ch]
         lea ebx, [byte edi+ebp+01Ch]
         call sub_D3F70
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
-; sub_D33C7                                                            D33C7  
+; EmuFmulSt                                    D33C7  96 PC, medium confidence
+; X87 emulator: FMUL st,st(i)
 ;-----------------------------------------------------------------------------
-sub_D33C7:
+EmuFmulSt:
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte esi+ebp+01Ch]
         lea ebx, [byte edi+ebp+01Ch]
         call EmuMul
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
-; sub_D33DC                                                            D33DC  
+; EmuFcomSt                                    D33DC  96 PC, medium confidence
+; X87 emulator: FCOM st(i)
 ;-----------------------------------------------------------------------------
-sub_D33DC:
+EmuFcomSt:
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte esi+ebp+01Ch]
         call EmuCompare
         jmp near RoundToDouble_84
 ;-----------------------------------------------------------------------------
-; sub_D33EE                                                            D33EE  
+; EmuFcompSt                                   D33EE  96 PC, medium confidence
+; X87 emulator: FCOMP st(i)
 ;-----------------------------------------------------------------------------
-sub_D33EE:
+EmuFcompSt:
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte esi+ebp+01Ch]
         call EmuCompare
         jmp near RoundToDouble_32
 ;-----------------------------------------------------------------------------
-; sub_D3400                                                            D3400  
+; EmuFsubSt                                    D3400  96 PC, medium confidence
+; X87 emulator: FSUB st,st(i)
 ;-----------------------------------------------------------------------------
-sub_D3400:
+EmuFsubSt:
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte esi+ebp+01Ch]
         lea ebx, [byte edi+ebp+01Ch]
         call EmuSub
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
-; sub_D3415                                                            D3415  
+; EmuFsubrSt                                   D3415  96 PC, medium confidence
+; X87 emulator: FSUBR st,st(i)
 ;-----------------------------------------------------------------------------
-sub_D3415:
+EmuFsubrSt:
         lea eax, [byte esi+ebp+01Ch]
         lea edx, [byte edi+ebp+01Ch]
         lea ebx, [byte edi+ebp+01Ch]
         call EmuSub
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
-; sub_D342A                                                            D342A  
+; EmuFdivSt                                    D342A  96 PC, medium confidence
+; X87 emulator: FDIV st,st(i)
 ;-----------------------------------------------------------------------------
-sub_D342A:
+EmuFdivSt:
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte esi+ebp+01Ch]
         lea ebx, [byte edi+ebp+01Ch]
         call EmuDiv
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
-; sub_D343F                                                            D343F  
+; EmuFdivrSt                                   D343F  96 PC, medium confidence
+; X87 emulator: FDIVR st,st(i)
 ;-----------------------------------------------------------------------------
-sub_D343F:
+EmuFdivrSt:
         lea eax, [byte esi+ebp+01Ch]
         lea edx, [byte edi+ebp+01Ch]
         lea ebx, [byte edi+ebp+01Ch]
@@ -1364,9 +1443,10 @@ EmuFxch:
         mov word [byte esi+08h], ax
         jmp near EmuTrapExit
 ;-----------------------------------------------------------------------------
-; sub_D34C4                                                            D34C4  
+; EmuFtstFxam                                  D34C4  96 PC, medium confidence
+; X87 emulator: FTST and FXAM
 ;-----------------------------------------------------------------------------
-sub_D34C4:
+EmuFtstFxam:
         jmp dword [nosplit cs:ebx*4+EmuFtstFxamJumpTable]
 EmuFtstFxamJumpTable:
         dd .1
@@ -1401,9 +1481,10 @@ EmuFtstFxamJumpTable:
         call EmuExamine
         jmp near EmuTrapExit
 ;-----------------------------------------------------------------------------
-; sub_D3545                                                            D3545  
+; EmuSignOps                                   D3545  96 PC, medium confidence
+; X87 emulator: FCHS, FABS and the load-constant group
 ;-----------------------------------------------------------------------------
-sub_D3545:
+EmuSignOps:
         jmp dword [nosplit cs:ebx*4+EmuSignOpsJumpTable]
 EmuSignOpsJumpTable:
         dd .1
@@ -1505,9 +1586,10 @@ EmuSignOpsJumpTable:
         or word [byte ds:ebp+08h], bx
         jmp near EmuTrapExit
 ;-----------------------------------------------------------------------------
-; sub_D3760                                                            D3760  
+; EmuLogOps                                    D3760  96 PC, medium confidence
+; X87 emulator: F2XM1, FYL2X, FPTAN, FPATAN group
 ;-----------------------------------------------------------------------------
-sub_D3760:
+EmuLogOps:
         jmp dword [nosplit cs:ebx*4+EmuLogOpsJumpTable]
 EmuLogOpsJumpTable:
         dd .1
@@ -1563,9 +1645,10 @@ EmuLogOpsJumpTable:
         or word [byte ds:ebp+04h], bx
         jmp near EmuTrapExit
 ;-----------------------------------------------------------------------------
-; sub_D386A                                                            D386A  
+; EmuRemOps                                    D386A  96 PC, medium confidence
+; X87 emulator: FPREM, FSQRT, FRNDINT, FSCALE, FSIN, FCOS group
 ;-----------------------------------------------------------------------------
-sub_D386A:
+EmuRemOps:
         jmp dword [nosplit cs:ebx*4+EmuRemOpsJumpTable]
 EmuRemOpsJumpTable:
         dd .1
@@ -1632,9 +1715,10 @@ EmuRemOpsJumpTable:
         call EmuCos
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
-; sub_D3982                                                            D3982  
+; EmuFucompp                                   D3982  96 PC, medium confidence
+; X87 emulator: FUCOMPP
 ;-----------------------------------------------------------------------------
-sub_D3982:
+EmuFucompp:
         jmp dword [nosplit cs:ebx*4+jpt_D398A]
 jpt_D398A:
         dd EmuReservedOp
@@ -1665,9 +1749,10 @@ jpt_D398A:
         call EmuCompare
         jmp near RoundToDouble_32
 ;-----------------------------------------------------------------------------
-; sub_D3A0B                                                            D3A0B  
+; EmuDispatchDBReg                             D3A0B  96 PC, medium confidence
+; X87 emulator: dispatches FCLEX, FINIT and the DB register group
 ;-----------------------------------------------------------------------------
-sub_D3A0B:
+EmuDispatchDBReg:
         jmp dword [nosplit cs:ebx*4+EmuDispatchDBRegJumpTable]
 EmuDispatchDBRegJumpTable:
         dd EmuReservedOp
@@ -1693,54 +1778,60 @@ jpt_D3A13_2C:
         LD sub, edi, edi
         jmp near EmuTrapExit
 ;-----------------------------------------------------------------------------
-; sub_D3A65                                                            D3A65  
+; EmuFaddToSt                                  D3A65  96 PC, medium confidence
+; X87 emulator: FADD st(i),st
 ;-----------------------------------------------------------------------------
-sub_D3A65:
+EmuFaddToSt:
         lea eax, [byte esi+ebp+01Ch]
         lea edx, [byte edi+ebp+01Ch]
         lea ebx, [byte esi+ebp+01Ch]
         call sub_D3F70
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
-; sub_D3A7A                                                            D3A7A  
+; EmuFmulToSt                                  D3A7A  96 PC, medium confidence
+; X87 emulator: FMUL st(i),st
 ;-----------------------------------------------------------------------------
-sub_D3A7A:
+EmuFmulToSt:
         lea eax, [byte esi+ebp+01Ch]
         lea edx, [byte edi+ebp+01Ch]
         lea ebx, [byte esi+ebp+01Ch]
         call EmuMul
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
-; sub_D3A8F                                                            D3A8F  
+; EmuFsubrToSt                                 D3A8F  96 PC, medium confidence
+; X87 emulator: FSUBR st(i),st
 ;-----------------------------------------------------------------------------
-sub_D3A8F:
+EmuFsubrToSt:
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte esi+ebp+01Ch]
         lea ebx, [byte esi+ebp+01Ch]
         call EmuSub
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
-; sub_D3AA4                                                            D3AA4  
+; EmuFsubToSt                                  D3AA4  96 PC, medium confidence
+; X87 emulator: FSUB st(i),st
 ;-----------------------------------------------------------------------------
-sub_D3AA4:
+EmuFsubToSt:
         lea eax, [byte esi+ebp+01Ch]
         lea edx, [byte edi+ebp+01Ch]
         lea ebx, [byte esi+ebp+01Ch]
         call EmuSub
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
-; sub_D3AB9                                                            D3AB9  
+; EmuFdivrToSt                                 D3AB9  96 PC, medium confidence
+; X87 emulator: FDIVR st(i),st
 ;-----------------------------------------------------------------------------
-sub_D3AB9:
+EmuFdivrToSt:
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte esi+ebp+01Ch]
         lea ebx, [byte esi+ebp+01Ch]
         call EmuDiv
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
-; sub_D3ACE                                                            D3ACE  
+; EmuFdivToSt                                  D3ACE  96 PC, medium confidence
+; X87 emulator: FDIV st(i),st
 ;-----------------------------------------------------------------------------
-sub_D3ACE:
+EmuFdivToSt:
         lea eax, [byte esi+ebp+01Ch]
         lea edx, [byte edi+ebp+01Ch]
         lea ebx, [byte esi+ebp+01Ch]
@@ -1757,9 +1848,10 @@ EmuFfree:
         or word [byte ds:ebp+08h], bx
         jmp near EmuTrapExit
 ;-----------------------------------------------------------------------------
-; sub_D3B02                                                            D3B02  
+; EmuFstSt                                     D3B02  96 PC, medium confidence
+; X87 emulator: FST st(i)
 ;-----------------------------------------------------------------------------
-sub_D3B02:
+EmuFstSt:
         mov eax, dword [byte edi+ebp+01Ch]
         mov dword [byte esi+ebp+01Ch], eax
         mov eax, dword [byte edi+ebp+020h]
@@ -1770,25 +1862,28 @@ sub_D3B02:
         and word [byte ds:ebp+08h], bx
         jmp near EmuTrapExit
 ;-----------------------------------------------------------------------------
-; sub_D3B2E                                                            D3B2E  
+; EmuFucom                                     D3B2E  96 PC, medium confidence
+; X87 emulator: FUCOM st(i)
 ;-----------------------------------------------------------------------------
-sub_D3B2E:
+EmuFucom:
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte esi+ebp+01Ch]
         call EmuCompare
         jmp near RoundToDouble_84
 ;-----------------------------------------------------------------------------
-; sub_D3B40                                                            D3B40  
+; EmuFucomp                                    D3B40  96 PC, medium confidence
+; X87 emulator: FUCOMP st(i)
 ;-----------------------------------------------------------------------------
-sub_D3B40:
+EmuFucomp:
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte esi+ebp+01Ch]
         call EmuCompare
         jmp near RoundToDouble_32
 ;-----------------------------------------------------------------------------
-; sub_D3B52                                                            D3B52  
+; EmuFstpSt                                    D3B52  96 PC, medium confidence
+; X87 emulator: FSTP st(i)
 ;-----------------------------------------------------------------------------
-sub_D3B52:
+EmuFstpSt:
         mov eax, dword [byte edi+ebp+01Ch]
         mov dword [byte esi+ebp+01Ch], eax
         mov eax, dword [byte edi+ebp+020h]
@@ -1799,9 +1894,10 @@ sub_D3B52:
         and word [byte ds:ebp+08h], bx
         jmp near RoundToDouble_49
 ;-----------------------------------------------------------------------------
-; sub_D3B7E                                                            D3B7E  
+; EmuFaddp                                     D3B7E  96 PC, medium confidence
+; X87 emulator: FADDP st(i),st
 ;-----------------------------------------------------------------------------
-sub_D3B7E:
+EmuFaddp:
         lea eax, [byte esi+ebp+01Ch]
         lea edx, [byte edi+ebp+01Ch]
         lea ebx, [byte esi+ebp+01Ch]
@@ -1816,9 +1912,10 @@ sub_D3B7E:
         or word [byte ds:ebp+04h], bx
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
-; sub_D3BC9                                                            D3BC9  
+; EmuFmulp                                     D3BC9  96 PC, medium confidence
+; X87 emulator: FMULP st(i),st
 ;-----------------------------------------------------------------------------
-sub_D3BC9:
+EmuFmulp:
         lea eax, [byte esi+ebp+01Ch]
         lea edx, [byte edi+ebp+01Ch]
         lea ebx, [byte esi+ebp+01Ch]
@@ -1833,9 +1930,10 @@ sub_D3BC9:
         or word [byte ds:ebp+04h], bx
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
-; sub_D3C14                                                            D3C14  
+; EmuFcompp                                    D3C14  96 PC, medium confidence
+; X87 emulator: FCOMPP
 ;-----------------------------------------------------------------------------
-sub_D3C14:
+EmuFcompp:
         jmp dword [nosplit cs:ebx*4+jpt_D3C1C]
 jpt_D3C1C:
         dd EmuReservedOp
@@ -1866,9 +1964,10 @@ jpt_D3C1C:
         call EmuCompare
         jmp near RoundToDouble_32
 ;-----------------------------------------------------------------------------
-; sub_D3C9D                                                            D3C9D  
+; EmuFsubrp                                    D3C9D  96 PC, medium confidence
+; X87 emulator: FSUBRP st(i),st
 ;-----------------------------------------------------------------------------
-sub_D3C9D:
+EmuFsubrp:
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte esi+ebp+01Ch]
         lea ebx, [byte esi+ebp+01Ch]
@@ -1883,9 +1982,10 @@ sub_D3C9D:
         or word [byte ds:ebp+04h], bx
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
-; sub_D3CE8                                                            D3CE8  
+; EmuFsubp                                     D3CE8  96 PC, medium confidence
+; X87 emulator: FSUBP st(i),st
 ;-----------------------------------------------------------------------------
-sub_D3CE8:
+EmuFsubp:
         lea eax, [byte esi+ebp+01Ch]
         lea edx, [byte edi+ebp+01Ch]
         lea ebx, [byte esi+ebp+01Ch]
@@ -1900,9 +2000,10 @@ sub_D3CE8:
         or word [byte ds:ebp+04h], bx
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
-; sub_D3D33                                                            D3D33  
+; EmuFdivrp                                    D3D33  96 PC, medium confidence
+; X87 emulator: FDIVRP st(i),st
 ;-----------------------------------------------------------------------------
-sub_D3D33:
+EmuFdivrp:
         lea eax, [byte edi+ebp+01Ch]
         lea edx, [byte esi+ebp+01Ch]
         lea ebx, [byte esi+ebp+01Ch]
@@ -1917,9 +2018,10 @@ sub_D3D33:
         or word [byte ds:ebp+04h], bx
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
-; sub_D3D7E                                                            D3D7E  
+; EmuFdivp                                     D3D7E  96 PC, medium confidence
+; X87 emulator: FDIVP st(i),st
 ;-----------------------------------------------------------------------------
-sub_D3D7E:
+EmuFdivp:
         lea eax, [byte esi+ebp+01Ch]
         lea edx, [byte edi+ebp+01Ch]
         lea ebx, [byte esi+ebp+01Ch]
@@ -1934,9 +2036,10 @@ sub_D3D7E:
         or word [byte ds:ebp+04h], bx
         jmp dword [byte ds:ebp+076h]
 ;-----------------------------------------------------------------------------
-; sub_D3DC9                                                            D3DC9  
+; EmuDispatchDFReg                             D3DC9  96 PC, medium confidence
+; X87 emulator: dispatches the DF register group (FSTSW AX)
 ;-----------------------------------------------------------------------------
-sub_D3DC9:
+EmuDispatchDFReg:
         jmp dword [nosplit cs:ebx*4+jpt_D3DD1]
 jpt_D3DD1:
         dd jpt_D3DD1_110.6
@@ -4652,9 +4755,10 @@ __unhook387:
         pop ebx
         ret
 ;-----------------------------------------------------------------------------
-; sub_D5789                                                            D5789  
+; EmuNoOp                                      D5789  96 PC, medium confidence
+; X87 emulator: returns at once
 ;-----------------------------------------------------------------------------
-sub_D5789:
+EmuNoOp:
         ret
 ;-----------------------------------------------------------------------------
 ; __init_80x87                                                  D578A  library

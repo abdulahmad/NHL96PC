@@ -4,12 +4,12 @@ bits 32
 section s_D59DB progbits alloc exec nowrite align=1
 extern _IsTable, __set_errno_, _dos_getvect_, _dos_setvect_, str_RMHandler, SbDmaPagePorts, SbDmaMaskPorts, SbDmaModePorts
 extern SbDmaFlipFlopPorts, SbDmaAddressPorts, SbDmaCountPorts, byte_1512F0, byte_1512F8, byte_151300, byte_151308, byte_151310
-extern byte_151318, TimerIrqMask, TimerChainFlag, TimerPitMode, TimerInstalled, dword_151320, DacTimerRate, DacTimerDivisor
+extern byte_151318, TimerIrqMask, TimerChainFlag, TimerPitMode, TimerInstalled, IrqAckLast, DacTimerRate, DacTimerDivisor
 extern TimerOldHandler, TimerOldRealHandler, TimerDivisor, TimerChainCount, int386_, sub_AB798, FreeMemBlock, tolower_
 extern TimerOldOffsetLo, TimerOldSelector
 global sub_D59DB_13C, sub_D59DB, ReturnArg, sub_D5B26, TimerCalibrate, TimerRestore, sub_D5BB1, TimerWritePit
 global TimerReadCount, TimerTicksForRate, TimerMeasure, TimerSetDivisor, TimerReset, TimerInstall, TimerChainOld, sub_D5E50
-global sub_D5E7D, sub_D5F29, IrqAck, IrqVector, IrqUnmask, IrqMask, IrqSetHandler, sub_D6027
+global sub_D5E7D, IrqEoi, IrqAck, IrqVector, IrqUnmask, IrqMask, IrqSetHandler, sub_D6027
 global sub_D60D2
 ;-----------------------------------------------------------------------------
 ; sub_D59DB                                                            D59DB  
@@ -667,9 +667,10 @@ sub_D5E7D:
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_D5F29                                                            D5F29  
+; IrqEoi                                       D5F29  96 PC, medium confidence
+; Sends end of interrupt to the interrupt controller
 ;-----------------------------------------------------------------------------
-sub_D5F29:
+IrqEoi:
         push ebx
         push ecx
         push edx
@@ -703,7 +704,7 @@ IrqAck:
         push ebx
         mov ebx, eax
         mov eax, edx
-        call sub_D5F29
+        call IrqEoi
         cmp eax, ebx
         jge short .1
         xor eax, eax
@@ -711,9 +712,9 @@ IrqAck:
 .1:
         mov eax, ebx
 .2:
-        cmp eax, dword [dword_151320]
+        cmp eax, dword [IrqAckLast]
         je short .3
-        mov dword [dword_151320], eax
+        mov dword [IrqAckLast], eax
         pop ebx
         ret
 .3:

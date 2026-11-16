@@ -2,11 +2,11 @@
 bits 32
 %include "hockey.inc"
 section s_873AE progbits alloc exec nowrite align=1
-extern byte_17DC70, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, dword_1228F8, dword_1228FC
+extern byte_17DC70, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, DrawDestBuffer, dword_1228FC
 extern dword_17DC18, dword_17DC1C, dword_17DC20, dword_17DC24, dword_17DC28, dword_17DC2C, dword_17DC30, dword_17DC34
 extern dword_17DC38, dword_17DC3C, dword_17DC40, dword_17DC44, dword_17DC48, dword_17DC4C, dword_17DC50, dword_17DC54
 extern dword_17DC58, dword_17DC5C, dword_17DC60, dword_17DC64, dword_17DC68, dword_17DC6C, PlotPixel, SetClipWindow
-extern str_AALIAS, sub_AB758, sub_AD824, sub_B31C0, sub_B9BB0, sub_DE18C
+extern str_AALIAS, AllocMemBlock, sub_AD824, sub_B31C0, sub_B9BB0, sub_DE18C
 global BuildAntiAliasTable, ClipLineY, ClipLineX, DrawLineYPlot, DrawLineYPlot_186, DrawLineYPlot_187, DrawLineY, DrawLineXPlot
 global DrawLineX, DrawFixedLine, DrawFixedLineClip
 ;-----------------------------------------------------------------------------
@@ -25,7 +25,7 @@ BuildAntiAliasTable:
         push dword 1004h
         push str_AALIAS
         mov edi, dword [byte ebp-01Ch]
-        call sub_AB758
+        call AllocMemBlock
         mov esi, eax
         mov dword [byte ebp-0Ch], eax
         mov eax, dword [byte ebp-020h]
@@ -549,7 +549,7 @@ DrawLineY:
         and eax, 0FFFFh
         mov ecx, dword [dword_1228FC]
         sub esi, eax
-        mov eax, dword [dword_1228F8]
+        mov eax, dword [DrawDestBuffer]
         add ecx, dword [edi+eax]
         mov eax, ecx
         sar esi, 0Ch
@@ -760,7 +760,7 @@ DrawLineX:
         sub ecx, edx
         sub ebx, eax
         mov edx, ecx
-        mov ecx, dword [dword_1228F8]
+        mov ecx, dword [DrawDestBuffer]
         shl eax, 2
         add eax, ecx
         mov ecx, dword [dword_1228FC]

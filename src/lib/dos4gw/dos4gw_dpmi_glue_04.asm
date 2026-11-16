@@ -3,22 +3,22 @@ bits 32
 %include "hockey.inc"
 section s_D14D1 progbits alloc exec nowrite align=1
 extern FatalError, asc_1141B4, str_BuildfixedtableminLinear, str_BuildtableminLinearmapfE, str_BuildtableminLinearmapfE2, RemapTable, ClipTopRow, ClipLeftCol
-extern ClipRight, ScreenHeight, dword_1228F8, dword_1228FC, sub_C9AD8, EmuTrapExit, sub_D2AAA, sub_D2AB0
-extern sub_D2AB6, sub_D2ABC, sub_D2AC2, sub_D2ACA, sub_D2AD0, sub_D2AD6, sub_D2ADC, sub_D2AE4
-extern sub_D2AEC, sub_D2AF4, sub_D2AFC, sub_D2B06, sub_D2B10, sub_D2B18, sub_D2B20, sub_D2B29
-extern sub_D2B32, sub_D2B3B, sub_D2B44, sub_D2B4F, sub_D2B5A, sub_D2B63, EaSib, sub_D2BA4
-extern sub_D2BA9, sub_D2BC8, sub_D2BE7, sub_D2C03, sub_D2C1F, sub_D2C3E, sub_D2C5D, sub_D2C7C
-extern sub_D2C9B, sub_D2CD5, sub_D2CE6, EmuFldenv, EmuFldcw, EmuFstenv, sub_D2D69, sub_D2D77
-extern sub_D2D96, sub_D2DB5, sub_D2DD1, sub_D2DED, sub_D2E0C, sub_D2E2B, sub_D2E4A, sub_D2E69
-extern EmuFistM32, sub_D2EDF, sub_D2F03, sub_D2F26, sub_D2F49, sub_D2F69, sub_D2F89, sub_D2FAC
-extern sub_D2FCF, sub_D2FF2, EmuFldM80, EmuFldM64, sub_D309A, EmuFstpM80, sub_D30CD, EmuFrstor
-extern EmuFsave, sub_D3154, sub_D3162, sub_D3183, sub_D31A4, sub_D31C2, sub_D31E0, sub_D3201
-extern sub_D3222, sub_D3243, EmuFildM16, EmuFistM16, EmuFistpM16, sub_D3318, sub_D331D, sub_D3357
-extern sub_D335C, EmuReservedOp, sub_D3385, sub_D33B2, sub_D33C7, sub_D33DC, sub_D33EE, sub_D3400
-extern sub_D3415, sub_D342A, sub_D343F, EmuFldSt, EmuFxch, sub_D34C4, sub_D3545, sub_D3760
-extern sub_D386A, sub_D3982, sub_D3A0B, sub_D3A65, sub_D3A7A, sub_D3A8F, sub_D3AA4, sub_D3AB9
-extern sub_D3ACE, EmuFfree, sub_D3B02, sub_D3B2E, sub_D3B40, sub_D3B52, sub_D3B7E, sub_D3BC9
-extern sub_D3C14, sub_D3C9D, sub_D3CE8, sub_D3D33, sub_D3D7E, sub_D3DC9
+extern ClipRight, ScreenHeight, DrawDestBuffer, dword_1228FC, sub_C9AD8, EmuTrapExit, EaEax, EaEcx
+extern EaEdx, EaEbx, EaEsp, EaDisp32, EaEsi, EaEdi, EaEaxDisp8, EaEcxDisp8
+extern EaEdxDisp8, EaEbxDisp8, EaEspDisp8, EaEbpDisp8, EaEsiDisp8, EaEdiDisp8, EaEaxDisp32, EaEcxDisp32
+extern EaEdxDisp32, EaEbxDisp32, EaEspDisp32, EaEbpDisp32, EaEsiDisp32, EaEdiDisp32, EaSib, EmuUnsupported
+extern EmuFaddM32, EmuFmulM32, EmuFcomM32, EmuFcompM32, EmuFsubM32, EmuFsubrM32, EmuFdivM32, EmuFdivrM32
+extern EmuFldM32, EmuFstM32, EmuFstpM32, EmuFldenv, EmuFldcw, EmuFstenv, EmuFstcw, EmuFiaddM32
+extern EmuFimulM32, EmuFicomM32, EmuFicompM32, EmuFisubM32, EmuFisubrM32, EmuFidivM32, EmuFidivrM32, EmuFildM32
+extern EmuFistM32, EmuFistpM32, EmuFaddM64, EmuFmulM64, EmuFcomM64, EmuFcompM64, EmuFsubM64, EmuFsubrM64
+extern EmuFdivM64, EmuFdivrM64, EmuFldM80, EmuFldM64, EmuFstM64, EmuFstpM80, EmuFstpM64, EmuFrstor
+extern EmuFsave, EmuFstswM16, EmuFiaddM16, EmuFimulM16, EmuFicomM16, EmuFicompM16, EmuFisubM16, EmuFisubrM16
+extern EmuFidivM16, EmuFidivrM16, EmuFildM16, EmuFistM16, EmuFistpM16, EmuFbld, EmuFildM64, EmuFbstp
+extern EmuFistpM64, EmuReservedOp, EmuDispatchD9Reg, EmuFaddSt, EmuFmulSt, EmuFcomSt, EmuFcompSt, EmuFsubSt
+extern EmuFsubrSt, EmuFdivSt, EmuFdivrSt, EmuFldSt, EmuFxch, EmuFtstFxam, EmuSignOps, EmuLogOps
+extern EmuRemOps, EmuFucompp, EmuDispatchDBReg, EmuFaddToSt, EmuFmulToSt, EmuFsubrToSt, EmuFsubToSt, EmuFdivrToSt
+extern EmuFdivToSt, EmuFfree, EmuFstSt, EmuFucom, EmuFucomp, EmuFstpSt, EmuFaddp, EmuFmulp
+extern EmuFcompp, EmuFsubrp, EmuFsubp, EmuFdivrp, EmuFdivp, EmuDispatchDFReg
 global _DoINTR_, __int7, __int7_X32VM, __int7_pl3, EmuOpcodeJumpTable, EmuModRmJumpTable, IntrLoadRegs, sub_D1860
 global sub_D1920, sub_D19BC, sub_D1A88, sub_D1B3C, sub_D1BEC, sub_D1CE0, IntrStubs, EmuZeroTbyte
 global unk_D2444, unk_D2448, EmuRegRing, unk_D244C, unk_D244E, EmuRegTagMasks, unk_D249C, unk_D24A0
@@ -951,7 +951,7 @@ sub_D1CE0:
         sub ebx, edx
 .16:
         mov ebp, dword [dword_1228FC]
-        mov edx, dword [dword_1228F8]
+        mov edx, dword [DrawDestBuffer]
         add ebp, dword [edx+esi]
         mov edx, ebp
         mov ebp, dword [esp+esi]
@@ -1185,184 +1185,184 @@ EmuCompareCcBits:
 EmuFpremCcBits:
         db 00h,02h,040h,042h,01h,03h,041h,043h,087h,0DBh
 EmuEaModRmTable:
-        dd sub_D2AAA
-        dd sub_D2AB0
-        dd sub_D2AB6
-        dd sub_D2ABC
+        dd EaEax
+        dd EaEcx
+        dd EaEdx
+        dd EaEbx
         dd EaSib
-        dd sub_D2ACA
-        dd sub_D2AD0
-        dd sub_D2AD6
-        dd sub_D2ADC
-        dd sub_D2AE4
-        dd sub_D2AEC
-        dd sub_D2AF4
+        dd EaDisp32
+        dd EaEsi
+        dd EaEdi
+        dd EaEaxDisp8
+        dd EaEcxDisp8
+        dd EaEdxDisp8
+        dd EaEbxDisp8
         dd EaSib
-        dd sub_D2B06
-        dd sub_D2B10
-        dd sub_D2B18
-        dd sub_D2B20
-        dd sub_D2B29
-        dd sub_D2B32
-        dd sub_D2B3B
+        dd EaEbpDisp8
+        dd EaEsiDisp8
+        dd EaEdiDisp8
+        dd EaEaxDisp32
+        dd EaEcxDisp32
+        dd EaEdxDisp32
+        dd EaEbxDisp32
         dd EaSib
-        dd sub_D2B4F
-        dd sub_D2B5A
-        dd sub_D2B63
+        dd EaEbpDisp32
+        dd EaEsiDisp32
+        dd EaEdiDisp32
 EmuEaSibTable:
-        dd sub_D2AAA
-        dd sub_D2AB0
-        dd sub_D2AB6
-        dd sub_D2ABC
-        dd sub_D2AC2
-        dd sub_D2ACA
-        dd sub_D2AD0
-        dd sub_D2AD6
-        dd sub_D2ADC
-        dd sub_D2AE4
-        dd sub_D2AEC
-        dd sub_D2AF4
-        dd sub_D2AFC
-        dd sub_D2B06
-        dd sub_D2B10
-        dd sub_D2B18
-        dd sub_D2B20
-        dd sub_D2B29
-        dd sub_D2B32
-        dd sub_D2B3B
-        dd sub_D2B44
-        dd sub_D2B4F
-        dd sub_D2B5A
-        dd sub_D2B63
+        dd EaEax
+        dd EaEcx
+        dd EaEdx
+        dd EaEbx
+        dd EaEsp
+        dd EaDisp32
+        dd EaEsi
+        dd EaEdi
+        dd EaEaxDisp8
+        dd EaEcxDisp8
+        dd EaEdxDisp8
+        dd EaEbxDisp8
+        dd EaEspDisp8
+        dd EaEbpDisp8
+        dd EaEsiDisp8
+        dd EaEdiDisp8
+        dd EaEaxDisp32
+        dd EaEcxDisp32
+        dd EaEdxDisp32
+        dd EaEbxDisp32
+        dd EaEspDisp32
+        dd EaEbpDisp32
+        dd EaEsiDisp32
+        dd EaEdiDisp32
 EmuOpcodeJumpTable:
-        dd sub_D2BA9
-        dd sub_D2C9B
-        dd sub_D2D77
-        dd sub_D2E69
-        dd sub_D2F03
+        dd EmuFaddM32
+        dd EmuFldM32
+        dd EmuFiaddM32
+        dd EmuFildM32
+        dd EmuFaddM64
         dd EmuFldM64
-        dd sub_D3162
+        dd EmuFiaddM16
         dd EmuFildM16
-        dd sub_D2BC8
-        dd sub_D2BA4
-        dd sub_D2D96
-        dd sub_D2BA4
-        dd sub_D2F26
-        dd sub_D2BA4
-        dd sub_D3183
-        dd sub_D2BA4
-        dd sub_D2BE7
-        dd sub_D2CD5
-        dd sub_D2DB5
+        dd EmuFmulM32
+        dd EmuUnsupported
+        dd EmuFimulM32
+        dd EmuUnsupported
+        dd EmuFmulM64
+        dd EmuUnsupported
+        dd EmuFimulM16
+        dd EmuUnsupported
+        dd EmuFcomM32
+        dd EmuFstM32
+        dd EmuFicomM32
         dd EmuFistM32
-        dd sub_D2F49
-        dd sub_D309A
-        dd sub_D31A4
+        dd EmuFcomM64
+        dd EmuFstM64
+        dd EmuFicomM16
         dd EmuFistM16
-        dd sub_D2C03
-        dd sub_D2CE6
-        dd sub_D2DD1
-        dd sub_D2EDF
-        dd sub_D2F69
-        dd sub_D30CD
-        dd sub_D31C2
+        dd EmuFcompM32
+        dd EmuFstpM32
+        dd EmuFicompM32
+        dd EmuFistpM32
+        dd EmuFcompM64
+        dd EmuFstpM64
+        dd EmuFicompM16
         dd EmuFistpM16
-        dd sub_D2C1F
+        dd EmuFsubM32
         dd EmuFldenv
-        dd sub_D2DED
-        dd sub_D2BA4
-        dd sub_D2F89
+        dd EmuFisubM32
+        dd EmuUnsupported
+        dd EmuFsubM64
         dd EmuFrstor
-        dd sub_D31E0
-        dd sub_D3318
-        dd sub_D2C3E
+        dd EmuFisubM16
+        dd EmuFbld
+        dd EmuFsubrM32
         dd EmuFldcw
-        dd sub_D2E0C
+        dd EmuFisubrM32
         dd EmuFldM80
-        dd sub_D2FAC
-        dd sub_D2BA4
-        dd sub_D3201
-        dd sub_D331D
-        dd sub_D2C5D
+        dd EmuFsubrM64
+        dd EmuUnsupported
+        dd EmuFisubrM16
+        dd EmuFildM64
+        dd EmuFdivM32
         dd EmuFstenv
-        dd sub_D2E2B
-        dd sub_D2BA4
-        dd sub_D2FCF
+        dd EmuFidivM32
+        dd EmuUnsupported
+        dd EmuFdivM64
         dd EmuFsave
-        dd sub_D3222
-        dd sub_D3357
-        dd sub_D2C7C
-        dd sub_D2D69
-        dd sub_D2E4A
+        dd EmuFidivM16
+        dd EmuFbstp
+        dd EmuFdivrM32
+        dd EmuFstcw
+        dd EmuFidivrM32
         dd EmuFstpM80
-        dd sub_D2FF2
-        dd sub_D3154
-        dd sub_D3243
-        dd sub_D335C
+        dd EmuFdivrM64
+        dd EmuFstswM16
+        dd EmuFidivrM16
+        dd EmuFistpM64
 EmuModRmJumpTable:
-        dd sub_D33B2
+        dd EmuFaddSt
         dd EmuFldSt
         dd EmuReservedOp
         dd EmuReservedOp
-        dd sub_D3A65
+        dd EmuFaddToSt
         dd EmuFfree
-        dd sub_D3B7E
+        dd EmuFaddp
         dd EmuFfree
-        dd sub_D33C7
+        dd EmuFmulSt
         dd EmuFxch
         dd EmuReservedOp
         dd EmuReservedOp
-        dd sub_D3A7A
+        dd EmuFmulToSt
         dd EmuFxch
-        dd sub_D3BC9
+        dd EmuFmulp
         dd EmuFxch
-        dd sub_D33DC
-        dd sub_D3385
+        dd EmuFcomSt
+        dd EmuDispatchD9Reg
         dd EmuReservedOp
         dd EmuReservedOp
-        dd sub_D33DC
-        dd sub_D3B02
+        dd EmuFcomSt
+        dd EmuFstSt
         dd EmuReservedOp
-        dd sub_D3B02
-        dd sub_D33EE
-        dd sub_D3B52
-        dd EmuReservedOp
-        dd EmuReservedOp
-        dd sub_D33EE
-        dd sub_D3B52
-        dd sub_D3C14
-        dd sub_D3B52
-        dd sub_D3400
-        dd sub_D34C4
-        dd EmuReservedOp
-        dd sub_D3A0B
-        dd sub_D3A8F
-        dd sub_D3B2E
-        dd sub_D3C9D
-        dd sub_D3DC9
-        dd sub_D3415
-        dd sub_D3545
-        dd sub_D3982
-        dd EmuReservedOp
-        dd sub_D3AA4
-        dd sub_D3B40
-        dd sub_D3CE8
-        dd EmuReservedOp
-        dd sub_D342A
-        dd sub_D3760
+        dd EmuFstSt
+        dd EmuFcompSt
+        dd EmuFstpSt
         dd EmuReservedOp
         dd EmuReservedOp
-        dd sub_D3AB9
+        dd EmuFcompSt
+        dd EmuFstpSt
+        dd EmuFcompp
+        dd EmuFstpSt
+        dd EmuFsubSt
+        dd EmuFtstFxam
         dd EmuReservedOp
-        dd sub_D3D33
+        dd EmuDispatchDBReg
+        dd EmuFsubrToSt
+        dd EmuFucom
+        dd EmuFsubrp
+        dd EmuDispatchDFReg
+        dd EmuFsubrSt
+        dd EmuSignOps
+        dd EmuFucompp
         dd EmuReservedOp
-        dd sub_D343F
-        dd sub_D386A
+        dd EmuFsubToSt
+        dd EmuFucomp
+        dd EmuFsubp
+        dd EmuReservedOp
+        dd EmuFdivSt
+        dd EmuLogOps
         dd EmuReservedOp
         dd EmuReservedOp
-        dd sub_D3ACE
+        dd EmuFdivrToSt
         dd EmuReservedOp
-        dd sub_D3D7E
+        dd EmuFdivrp
+        dd EmuReservedOp
+        dd EmuFdivrSt
+        dd EmuRemOps
+        dd EmuReservedOp
+        dd EmuReservedOp
+        dd EmuFdivToSt
+        dd EmuReservedOp
+        dd EmuFdivp
         dd EmuReservedOp
 ;-----------------------------------------------------------------------------
 ; __int7_pl3                                                    D27B8  library

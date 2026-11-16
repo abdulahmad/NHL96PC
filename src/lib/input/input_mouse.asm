@@ -3,10 +3,10 @@ bits 32
 %include "hockey.inc"
 section s_DF8AC progbits alloc exec nowrite align=1
 extern mouseminx, mouseminy, mousemaxx, mousemaxy, MouseDeltaX, MouseButtonState, dword_11F598, MousePresent
-extern mousex, mousey, MouseMoved, dword_11F5B4, dword_11F5B8, dword_11F5C0, dword_11F5C4, dword_11F6F0
-extern dword_11F6F6, dword_11F6FC, RemoveKeyboardHandler_6F, mousepollfn, off_11F5F4, off_11F5F8, off_11F5FC, BiosKeyFunc
+extern mousex, mousey, MouseMoved, dword_11F5B4, dword_11F5B8, dword_11F5C0, dword_11F5C4, SavedKbdVecOffset
+extern SavedInt16Offset, SavedRealKbdOffset, RemoveKeyboardHandler_6F, mousepollfn, off_11F5F4, off_11F5F8, off_11F5FC, BiosKeyFunc
 extern DosGetVector, DosSetVector, RemoveKeyboardHandler, Int16Handler, Int16Service, AddExitHandler, unk_DFDDD, word_11F580
-extern word_11F582, word_11F584, word_11F6F4, word_11F6FA, word_11F700, word_11F702
+extern word_11F582, word_11F584, SavedKbdVecSelector, SavedInt16Selector, SavedRealKbdSegment, KbdDataSelector
 global MouseReadButtons, sub_DF8E8, MouseRead, SetViewRect, MouseReadMotion, sub_DFA6C, sub_DFA73, sub_DFA7A
 global sub_DFA98, sub_DFB84, sub_DFB88
 ;-----------------------------------------------------------------------------
@@ -262,25 +262,25 @@ sub_DFB84:
 ; sub_DFB88                                                            DFB88  
 ;-----------------------------------------------------------------------------
 sub_DFB88:
-        cmp word [word_11F702], byte 0
+        cmp word [KbdDataSelector], byte 0
         jne near .1
-        o16 mov word [word_11F702], ds
+        o16 mov word [KbdDataSelector], ds
         in al, 21h
         push eax
         or al, 3
         out 21h, al
         mov ebx, 9
         call DosGetVector
-        mov dword [dword_11F6F0], eax
-        mov word [word_11F6F4], dx
+        mov dword [SavedKbdVecOffset], eax
+        mov word [SavedKbdVecSelector], dx
         mov ebx, 16h
         call DosGetVector
-        mov dword [dword_11F6F6], eax
-        mov word [word_11F6FA], dx
+        mov dword [SavedInt16Offset], eax
+        mov word [SavedInt16Selector], dx
         mov ebx, 23h
         call DosGetVector
-        mov dword [dword_11F6FC], eax
-        mov word [word_11F700], dx
+        mov dword [SavedRealKbdOffset], eax
+        mov word [SavedRealKbdSegment], dx
         mov dx, cs
         mov ebx, 9
         mov eax, RemoveKeyboardHandler_6F

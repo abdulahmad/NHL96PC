@@ -19,7 +19,7 @@ extern UpdateUserRecords, sub_3A6F3, sub_4B59F, sub_5358E, InitGameView, FreeGam
 extern UpdateCamera, FreeSpriteCache, LoadFrontEndArt, FreeFrontEndArt, SetScreenColors, FadeOut, CopyBitmap, SetScreenMode
 extern StopMusic, QueueMusic, FadeOutMusic, PlaySfx, Crowd_Noise, SetCrowdTarget, CrowdFadeOut, ArenaClipReady
 extern StartArenaClip, StopArenaClip, StartGameSound, EndGameSound, SoundIdle, WriteGlobalSet, GetLangText, RemoveTimerCallback
-extern sub_AB758, FreeMemBlock, sub_ADA50, sub_B0CA8, SetScreenTarget, GetPaletteRange, sub_DD7B8, sub_DFEC6
+extern AllocMemBlock, FreeMemBlock, sub_ADA50, sub_B0CA8, SetScreenTarget, GetPaletteRange, sub_DD7B8, sub_DFEC6
 extern sub_E04E0, unk_16443C, unk_17CB2E, unk_17CED5, unk_17D272, unk_17D32C, word_114CE0, word_114F14
 extern word_119111, word_119113, word_1515E4, word_1656D2, word_1656D6
 global jpt_168DA, jpt_168EA, PlayMenuGame, PlayMenuGame_75, PlayMenuGame_85, PlayMenuGame_9F, PlayMenuGame_AF, PlayMenuGame_243
@@ -217,7 +217,7 @@ PlayMenuGame_280:
         push byte 20h
         push dword 300h
         push str_PAL
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push eax
         push dword 100h

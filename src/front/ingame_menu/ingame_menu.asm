@@ -31,7 +31,7 @@ extern str_GhiR2, str_GloL2, str_GloR2, str_INTERREG, str_Intr, str_Ply02, str_P
 extern str_Qui1, str_Qui2, str_Ret0, str_Ret1, str_Ret2, str_Sav0, str_Sav1, str_Sid1
 extern str_Sid2, str_Sts0, str_Sts1, strcat_, strcpy_, AddIceCrud, LoadZamboni, FreeZamboni
 extern LoadStandsArt, SetPenaltyBoxDoor, DrawZamboniScene, sub_2E1BE, sub_3A6F3, sub_64E74, SaveGameFile, sub_6C64B
-extern sub_AAA40, sub_AB758, FreeMemBlock, sub_AD35C, sub_ADBEC, sub_B0CA8, sub_B58D8, SetScreenTarget
+extern sub_AAA40, AllocMemBlock, FreeMemBlock, sub_AD35C, sub_ADBEC, sub_B0CA8, sub_B58D8, SetScreenTarget
 extern sub_E04E0, sub_E0584, TextSetFont, unk_11D7A4, unk_11D7BC, unk_11D7D4, unk_11D7EC, unk_11D804
 extern unk_11D80A, unk_11D810, unk_11D816, unk_11D81C, unk_11D89C, unk_16443C, unk_17D3E8, unk_18440C
 extern unk_184688, unk_184692, UpdateCamera, word_114CE0, word_114F14, word_11ED34, word_1656E8, word_16581E
@@ -1093,7 +1093,7 @@ InGameMenu:
         push byte 20h
         push dword 180h
         push str_INTERREG
-        call sub_AB758
+        call AllocMemBlock
         mov dword [dword_184408], eax
         mov eax, dword [dword_11B234]
         add esp, byte 0Ch

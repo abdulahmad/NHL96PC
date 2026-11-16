@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_D01B5 progbits alloc exec nowrite align=1
 extern __fatal_runtime_error_, __flush_, __ioalloc_, __set_errno_, str_FloatingPointSupportNot, UngetChar, __ClosedStreams
-global __flushall_, fputc_, getche_, ltoa_, sub_D02A8, toupper_, ultoa_, str_0123456789abcdefghijklmnopqr_ultoa_
+global __flushall_, fputc_, getche_, ltoa_, NoFloatSupport, toupper_, ultoa_, str_0123456789abcdefghijklmnopqr_ultoa_
 ;-----------------------------------------------------------------------------
 ; __flushall_                                                   D01B5  library
 ;-----------------------------------------------------------------------------
@@ -128,9 +128,10 @@ fputc_:
         ret
         db 00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_D02A8                                                            D02A8  
+; NoFloatSupport                               D02A8  96 PC, medium confidence
+; Reports that floating-point support is not loaded and exits
 ;-----------------------------------------------------------------------------
-sub_D02A8:
+NoFloatSupport:
         push edx
         mov eax, str_FloatingPointSupportNot
         mov edx, 1

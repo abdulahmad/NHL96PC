@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_14FBF4 progbits alloc noexec write align=1
-extern sub_D5789
+extern EmuNoOp
 global Hook387Flag, Hook387Saved, FloatPow10Table, FloatPow10Exponents, FloatFormatDigits, FloatFormatExponent, FloatFormatMantissaLo, FloatFormatMantissaHi
 global EmuInitHook, EmuFiniHook, EmuTrapFrame, DefaultControlWord
 EmuTrapFrame:
@@ -21,9 +21,9 @@ Hook387Saved:
 DefaultControlWord:
         db 07Fh,012h,00h,00h
 EmuInitHook:
-        dd sub_D5789
+        dd EmuNoOp
 EmuFiniHook:
-        dd sub_D5789
+        dd EmuNoOp
 FloatPow10Table:
         db 00h,00h,00h,00h,01h,00h,00h,00h,03h,00h,00h,00h,04h,00h,00h,00h
         db 07h,00h,00h,00h,08h,00h,00h,00h,0Ah,00h,00h,00h,0Bh,00h,00h,00h

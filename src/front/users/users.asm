@@ -30,7 +30,7 @@ extern str_Uopp, str_Upk, str_Upp, str_Upts, str_Urate, str_Uso, str_Usort, str_
 extern str_Uteam, str_wt, strcat_, strcmp_, strcpy_, strlen_, OpenScreen, SlideInSideBar
 extern SetScreenColors, FadePalette, FadeOut, DrawText, DrawTextCentred, SetTextColors, DrawColorText, FillBox
 extern InitMenuItems, RunMenu, PlaySfx, SoundIdle, GetLangText, InitVScrollBar, ScrollBarUp, ScrollBarDown
-extern FreeScrollBar, SetScrollBarPos, DrawScrollBar, CheckExportName, sub_AA7E0, sub_AADA4, sub_AB758, FreeMemBlock
+extern FreeScrollBar, SetScrollBarPos, DrawScrollBar, CheckExportName, DrawShapeCore, sub_AADA4, AllocMemBlock, FreeMemBlock
 extern sub_AD35C, sub_AD620, sub_ADBEC, sub_AFFD0, SaveTextState, SetDrawTarget, SetScreenTarget, SetRemapTable
 extern sub_E04E0, sub_E15AC, TextSetFont, unk_160B50, WaitTicks, word_160ACC, word_1656DA, word_1656DC
 extern word_1656E8, word_165810, word_165812, word_16581E
@@ -737,7 +737,7 @@ PickUsersScreen:
         push byte 0
         push dword [byte eax+02Ch]
         mov edi, eax
-        call sub_AA7E0
+        call DrawShapeCore
         add esp, byte 0Ch
         push byte 0
         push dword 8Ah
@@ -3350,91 +3350,91 @@ UserRecordsScreen:
         push byte 20h
         push byte 64h
         push str_Uname
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 20h
         push byte 64h
         push str_Urate
         mov dword [dword_160AAC], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 20h
         push dword 190h
         push str_Upts
         mov dword [dword_160AB0], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 20h
         push byte 32h
         push str_Ugf
         mov dword [dword_160AC0], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 20h
         push byte 32h
         push str_Uga
         mov dword [dword_160AA8], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 20h
         push byte 64h
         push str_Upp
         mov dword [dword_160AA0], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 20h
         push byte 64h
         push str_Upk
         mov dword [dword_160A98], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 20h
         push byte 32h
         push str_Uso
         mov dword [dword_160A94], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 20h
         push byte 32h
         push str_Ustreak
         mov dword [dword_160A9C], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 20h
         push byte 32h
         push str_Ulstreak
         mov dword [dword_160AA4], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 20h
         push byte 32h
         push str_Uteam
         mov dword [dword_160A90], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 20h
         push byte 32h
         push str_Uopp
         mov dword [dword_160AC8], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 20h
         push byte 64h
         push str_Usort
         mov dword [dword_160AC4], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 20h
         push dword 3E8h
         push str_Logname
         mov dword [dword_160ABC], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 20h
         push dword 1BBCh
         push str_Logbook
         mov dword [dword_160AB8], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         mov dword [dword_160A8C], eax
         call LoadUserRecords
@@ -3482,7 +3482,7 @@ UserRecordsScreen:
         push byte 20h
         push dword 100h
         push str_Shadtbl
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push eax
         push dword [byte ebp+036h]

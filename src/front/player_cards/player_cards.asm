@@ -22,7 +22,7 @@ extern str_PLY4, str_Plyr2, str_PRN02, str_PRN12, str_PRN22, str_PROFILEFSH2, st
 extern str_S5, str_SD4, str_SEA4, str_SLDH2, str_Wt4, str_XTbl, strcat_, strlen_
 extern SelectDataLibrary, StatsDb5Record, StatsDb1Record, StatsDataBBRecord, StatsData4Record, StatsDb2Record, PlayerRatingsScreen_E11, PlayerRatingsScreen_E3B
 extern PlayerRatingsScreen_E44, PlayerRatingsScreen_E4D, PlayerRatingsScreen_E56, PlayerRatingsScreen_E5F, PlayerRatingsScreen_E68, PlayerRatingsScreen_E71, RatingBar, sub_AAA40
-extern sub_AADA4, BlitShapeAt, sub_AB758, FreeMemBlock, sub_AD35C, sub_ADBEC, DosFileInfo, LoadResourceDataShared
+extern sub_AADA4, BlitShapeAt, AllocMemBlock, FreeMemBlock, sub_AD35C, sub_ADBEC, DosFileInfo, LoadResourceDataShared
 extern sub_B2C54, sub_B2C70, sub_C2600, SetScreenTarget, sub_DD7B8, sub_DD908, sub_E04E0, TickDeadlinePassed
 extern unk_1129C2, unk_1129E4, unk_1129F7, unk_152C44, UpdateProgressBox
 global unk_903B5, unk_903F5, unk_90401, unk_90501, ShowPlayerCardTitle, SwitchPlayerCard, DrawLeagueLogo, DrawLeagueLogo_7D
@@ -593,7 +593,7 @@ PlayerCardScreen:
         push dword 100h
         push str_XTbl
         mov dword [dword_18211C], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push dword 100h
@@ -601,7 +601,7 @@ PlayerCardScreen:
         push str_XTbl
         mov dword [byte ebp-020h], 0
         mov dword [dword_1820F4], eax
-        call sub_AB758
+        call AllocMemBlock
         lea edx, [dword ebp-0850h]
         mov dword [dword_1820FC], eax
         mov eax, dword [dword ebp-0860h]

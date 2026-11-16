@@ -3,18 +3,19 @@ bits 32
 %include "hockey.inc"
 section s_E0898 progbits alloc exec nowrite align=1
 extern str_Punct_DrawRinkSurface, dword_1222C8, dword_1222CC, dword_1222D0, dword_1222D4, dword_1222D8, dword_1222DC, ClipTopRow
-extern ClipLeftCol, ClipRight, ScreenHeight, dword_123A94, dword_123A98, dword_123A9C, dword_123AA0, dword_123AA4
-extern dword_123AA8, dword_123AAC, dword_123AB0, dword_123AB4, dword_123AB8, dword_123ABC, ShadowFillFunc, TitleBandFunc
-extern min__10, sub_CA0B0_6C, FillRectSpans, FillRectColor, sub_E19F0, SetupRectFill, AngleFromDelta, SinLookup
+extern ClipLeftCol, ClipRight, ScreenHeight, ViewCenterX, str_D_SetCameraAngles, CameraYaw, CameraPitch, ViewCenterY
+extern str_D_ProjectPointsPersp, dword_123AAC, dword_123AB0, CameraOriginX, CameraOriginY, dword_123ABC, ShadowFillFunc, TitleBandFunc
+extern min__10, BuildSpanOffsets_6C, FillRectSpans, FillRectColor, sub_E19F0, SetupRectFill, AngleFromDelta, SinLookup
 extern CosLookup
 global FillBandRowsJumpTable, FillBandRowsBlendJumpTable, FillBandRowsPlainJumpTable, sub_E0959_F, sub_E0992_F, sub_E0992_26, jpt_E0C7A_38, jpt_E0DBA_3B
-global jpt_E0F93_22F, sub_E15D7_B, SetCameraAngles_2D, sub_E0898, sub_E0959, sub_E0992, FillBandEdges, FillBandRows
+global jpt_E0F93_22F, sub_E15D7_B, SetCameraAngles_2D, Random32, sub_E0959, sub_E0992, FillBandEdges, FillBandRows
 global FillBandRowsBlend, vecdist, sub_E1530, sub_E1575, sub_E15AC, sub_E15D7, sub_E162A, SetViewScreenOrigin
 global SetCameraAngles, TransposeMatrix
 ;-----------------------------------------------------------------------------
-; sub_E0898                                                            E0898  
+; Random32                                     E0898  96 PC, medium confidence
+; Same code as in the next game
 ;-----------------------------------------------------------------------------
-sub_E0898:
+Random32:
         mov eax, dword [dword_1222DC]
         add eax, dword [dword_1222D8]
         mov dword [dword_1222D8], eax
@@ -1350,7 +1351,7 @@ sub_E1530:
         push edi
         mov esi, dword [byte ebp+010h]
         mov byte [byte ebp-011h], al
-        mov eax, sub_CA0B0_6C
+        mov eax, BuildSpanOffsets_6C
         mov dword [ShadowFillFunc], eax
         mov eax, FillRectColor
         mov dword [TitleBandFunc], eax
@@ -1489,13 +1490,13 @@ SetViewScreenOrigin:
         push ebp
         LD mov, ebp, esp
         mov eax, dword [byte ebp+08h]
-        mov dword [dword_123A9C], eax
-        add eax, dword [dword_123A94]
-        mov dword [dword_123AA4], eax
+        mov dword [CameraYaw], eax
+        add eax, dword [ViewCenterX]
+        mov dword [ViewCenterY], eax
         mov eax, dword [byte ebp+0Ch]
-        mov dword [dword_123AA0], eax
-        add eax, dword [dword_123A98]
-        mov dword [dword_123AA8], eax
+        mov dword [CameraPitch], eax
+        add eax, dword [str_D_SetCameraAngles]
+        mov dword [str_D_ProjectPointsPersp], eax
         leave
         ret
         push ebp
@@ -1503,9 +1504,9 @@ SetViewScreenOrigin:
         push esi
         push edi
         mov eax, dword [byte ebp+08h]
-        mov dword [dword_123AB4], eax
+        mov dword [CameraOriginX], eax
         mov eax, dword [byte ebp+0Ch]
-        mov dword [dword_123AB8], eax
+        mov dword [CameraOriginY], eax
         jmp short SetCameraAngles_2D
 ;-----------------------------------------------------------------------------
 ; SetCameraAngles                                 E167A  96 PC, low confidence
@@ -1522,45 +1523,45 @@ SetCameraAngles:
         LD xor, edx, edx
         mov ecx, 168h
         div ecx
-        mov dword [dword_123AB4], eax
+        mov dword [CameraOriginX], eax
         mov eax, dword [byte ebp+0Ch]
         shl eax, 0Ah
         LD xor, edx, edx
         mov ecx, 168h
         div ecx
-        mov dword [dword_123AB8], eax
+        mov dword [CameraOriginY], eax
 SetCameraAngles_2D:
         mov eax, dword [byte ebp+010h]
         shr eax, 1
-        mov dword [dword_123A94], eax
-        add eax, dword [dword_123A9C]
-        mov dword [dword_123AA4], eax
+        mov dword [ViewCenterX], eax
+        add eax, dword [CameraYaw]
+        mov dword [ViewCenterY], eax
         mov eax, dword [byte ebp+014h]
         shr eax, 1
-        mov dword [dword_123A98], eax
-        add eax, dword [dword_123AA0]
-        mov dword [dword_123AA8], eax
-        push dword [dword_123AB4]
+        mov dword [str_D_SetCameraAngles], eax
+        add eax, dword [CameraPitch]
+        mov dword [str_D_ProjectPointsPersp], eax
+        push dword [CameraOriginX]
         call CosLookup
         add esp, byte 4
-        mul dword [dword_123A94]
+        mul dword [ViewCenterX]
         LD mov, esi, eax
-        push dword [dword_123AB4]
+        push dword [CameraOriginX]
         call SinLookup
         add esp, byte 4
         LD mov, ecx, eax
         LD mov, eax, esi
         div ecx
         mov dword [dword_123AAC], eax
-        mov ebx, dword [dword_123AB8]
+        mov ebx, dword [CameraOriginY]
         LD or, ebx, ebx
         je short .1
-        push dword [dword_123AB8]
+        push dword [CameraOriginY]
         call CosLookup
         add esp, byte 4
-        mul dword [dword_123A98]
+        mul dword [str_D_SetCameraAngles]
         LD mov, esi, eax
-        push dword [dword_123AB8]
+        push dword [CameraOriginY]
         call SinLookup
         add esp, byte 4
         LD mov, ecx, eax
@@ -1581,11 +1582,11 @@ SetCameraAngles_2D:
         neg eax
         mov dword [dword_123AB0], eax
         neg eax
-        push dword [dword_123A98]
+        push dword [str_D_SetCameraAngles]
         push eax
         call AngleFromDelta
         add esp, byte 8
-        mov dword [dword_123AB8], eax
+        mov dword [CameraOriginY], eax
         pop edi
         pop esi
         leave
@@ -1597,12 +1598,12 @@ SetCameraAngles_2D:
         mov eax, dword [ebx]
         imul dword [dword_123AAC]
         idiv dword [byte ebx+08h]
-        add eax, dword [dword_123AA4]
+        add eax, dword [ViewCenterY]
         mov dword [ecx], eax
         mov eax, dword [byte ebx+04h]
         imul dword [dword_123AB0]
         idiv dword [byte ebx+08h]
-        add eax, dword [dword_123AA8]
+        add eax, dword [str_D_ProjectPointsPersp]
         mov dword [byte ecx+04h], eax
         ret
 .2:

@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_E0658 progbits alloc exec nowrite align=1
 extern FatalError, str_OpenhandleSFILEERROR, byte_121AFC, dword_121B24, dword_121B28, dword_121B2C, dword_121B30
-global openhandle_14, sub_E07CC_2, DosCallSplitDx, sub_E0671, sub_E0686, sub_E069C, openhandle, DosCloseFile
+global openhandle_14, sub_E07CC_2, DosCallSplitDx, sub_E0671, DosOpenReadOnly, sub_E069C, openhandle, DosCloseFile
 global DosWriteFile, sub_E07CC, sub_E081C
 ;-----------------------------------------------------------------------------
 ; DosCallSplitDx                                  E0658  96 PC, low confidence
@@ -37,9 +37,10 @@ sub_E0671:
         mov dword [byte ebp-08h], 3D00h
         jmp short openhandle_14
 ;-----------------------------------------------------------------------------
-; sub_E0686                                                            E0686  
+; DosOpenReadOnly                              E0686  96 PC, medium confidence
+; Opens a file read-only through DOS
 ;-----------------------------------------------------------------------------
-sub_E0686:
+DosOpenReadOnly:
         push ebp
         LD mov, ebp, esp
         add esp, byte 0FFFFFFF8h

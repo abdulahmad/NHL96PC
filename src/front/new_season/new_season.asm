@@ -17,7 +17,7 @@ extern str_Bt282, str_Bt292, str_Nothing, str_Pal14, str_Rul12, str_Rul22, str_R
 extern str_S05dCnzDb3, str_S05dCsgDb, str_Sched, str_SDB, str_SEASONNDX, str_Set12, str_Set22, str_Set3
 extern str_Teams, strcat_, strcpy_, strlen_, WriteDbRecord6, ReadSeasonHeader, sub_29B9F, SeasonMenuScreen_794
 extern SeasonMenuScreen_7AC, SeasonMenuScreen_858, SeasonMenuScreen_9D7, SeasonMenuScreen_A07, SeasonMenuScreen_A34, SeasonMenuScreen_A61, SeasonMenuScreen_ADF, SeasonMenuScreen_AEB
-extern SeasonMenuScreen_AF7, SeasonMenuScreen_B7E, SeasonMenuScreen_C05, SeasonMenuScreen_C68, sub_AAA8C, sub_AB758, FreeMemBlock, sub_AD35C
+extern SeasonMenuScreen_AF7, SeasonMenuScreen_B7E, SeasonMenuScreen_C05, SeasonMenuScreen_C68, sub_AAA8C, AllocMemBlock, FreeMemBlock, sub_AD35C
 extern sub_AD620, sub_ADBEC, OpenArtArchiveErr, sub_B22B0, sub_B2C54, UnlinkJump, sub_B7810, sub_C254C
 extern sub_C2600, SetScreenTarget, sub_DD908, sub_E04E0, sub_E0584, TextSetFont, TickDeadlinePassed, unk_11E33C
 extern unk_11E354, unk_152C44, unk_17CB2E, unk_17CC1F, unk_17CED5, UpdateProgressBox
@@ -1447,13 +1447,13 @@ CreateSeason:
         push byte 0
         push dword 50BEh
         push str_Teams
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push dword 1998h
         push str_Sched
         mov dword [byte ebp+07Ah], eax
-        call sub_AB758
+        call AllocMemBlock
         mov ebx, 6
         mov edx, dword [byte ebp+06Eh]
         add esp, byte 0Ch
@@ -1678,7 +1678,7 @@ CreateSeason:
         push byte 0
         push esi
         push str_Nothing
-        call sub_AB758
+        call AllocMemBlock
         mov edi, eax
         add esp, byte 0Ch
         mov dword [byte ebp+072h], eax

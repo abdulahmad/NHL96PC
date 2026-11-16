@@ -8,15 +8,15 @@ extern str_CalibrateYourJoystickByU, str_ToMoveTheJoystickPositio, asc_113F2C, s
 extern str_CheckextenderINCORRECTEX, str_LocatebigNOBIGFILESETNUL, asc_114030, str_LocatebigsFILENOTFOUNDS, asc_11407C, asc_1140A0, str_OriapplymorphObjectCanno, RemapTable
 extern _Extender, _ExtenderSubtype, _osmajor, byte_19BA44, dword_11F5A0, MousePresent, dword_11F5C0, dword_11F5C4
 extern dword_11F5C8, HeapList, dword_1210CC, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, dword_1228F4
-extern dword_1228F8, dword_1228FC, dword_124109, __NHandles, __io_mode, dword_12417C, dword_1241A0, CMainEnv
-extern CMainResult, dword_12443C, dword_124440, dword_19F2D0, dword_19F2D4, dword_19F2D8, CMainArgc, CMainArgv
+extern DrawDestBuffer, dword_1228FC, dword_124109, __NHandles, __io_mode, dword_12417C, dword_1241A0, CMainEnv
+extern CMainResult, dword_12443C, dword_124440, dword_19F2D0, dword_19F2D4, ScaledRowBuffer, CMainArgc, CMainArgv
 extern exit_, fputc_, getcwd_, joycalactive, joyenablemask, sub_E1836_29, main_, off_14F074
 extern off_14F078, sprintf_, stricmp_, sub_AA9CC, sub_AC838, sub_AD35C, FillRect, sub_ADBEC
 extern sub_AFFD0, SaveTextState, SetDrawTarget, TextSetFont, sub_B2C54, InitMemoryPoolDefault, sub_B3145, sub_B31C0
 extern sub_B7810, AddVec3, sub_B9C70, sub_BD86C, sub_BEAE4, initgraphics, sub_C2AEC, sub_C4CCC
 extern sub_C4D80, InitFpuFlags, sub_D0650, CMainHook, __CommonInit_, sub_D06FC, sub_D077C, sub_D1080
-extern sub_D1280, sub_D1368, sub_D1860, sub_D1920, sub_D19BC, sub_D1A88, sub_D1B3C, sub_D1BEC
-extern sub_D1CE0, SetScreenTarget, SetClipWindow, sub_DD830, sub_DD87C, sub_DD960, sub_DD982, sub_DDB22
+extern sub_D1280, DrawTextBoxedAt, sub_D1860, sub_D1920, sub_D19BC, sub_D1A88, sub_D1B3C, sub_D1BEC
+extern sub_D1CE0, SetScreenTarget, SetClipWindow, sub_DD830, sub_DD87C, SetBlitSource, CopyMappedSpan, sub_DDB22
 extern sub_DDC2A, PlotPixel, sub_DE18C, VesaSetBank, sub_DF22C, sub_DF2CC, sub_DF38C, sub_DF44C
 extern sub_DF50C, sub_DFB84, sub_DFB88, KbdGetKey, SetKbdIdleHook, sub_DFF7C, ReadJoystickPorts, sub_E0456
 extern sub_E0486, AddExitHandler, sub_E0584, InstallBreakHandler, vecdist, SetViewScreenOrigin, SetCameraAngles, sub_E193C
@@ -24,12 +24,12 @@ extern sub_E1956, RestoreTextMode, sub_E272C, SinCosLookup, tolower_, unk_1210DC
 extern FiniRtnsEntry, unk_15158C, unk_18584C, vsprintf_, DefaultControlWord
 global __CMain, __FiniRtns, __HeapManager_expand_, __IOMode_, __InitRtns, __SetIOMode_, __doserror_, __fprtf_
 global __set_errno_dos_, __sys_init_387_emulator, _dosret0_, _nexpand_, _nmsize_, file_putc_, int386_, int386x_
-global isatty_, _nexpand__10, __HeapManager_expand__18F, __HeapManager_expand__1EA, sub_C60EC_168, min__10, sub_CA0B0_6C, min_
+global isatty_, _nexpand__10, __HeapManager_expand__18F, __HeapManager_expand__1EA, sub_C60EC_168, min__10, BuildSpanOffsets_6C, min_
 global segread_, strnicmp_, sub_C4FA0, sub_C50E0, sub_C5410, sub_C59E0, sub_C5AE2, sub_C5AF0
 global sub_C5B18, PrintBoxedText, sub_C5D56, sub_C6000, sub_C6090, sub_C60EC, sub_C626C, sub_C62E0
-global sub_C63DC, sub_C65A0, sub_C65F8, sub_C6FA4, sub_C70A8, sub_C7A54, sub_C7B58, DrawShapeTriangleMapped
+global sub_C63DC, sub_C65A0, sub_C65F8, sub_C6FA4, sub_C70A8, sub_C7A54, RasterShapeTriangle, DrawShapeTriangleMapped
 global sub_C85F0, sub_C8D50, sub_C955C, sub_C972C, sub_C98FC, sub_C9A20, sub_C9A80, sub_C9AD8
-global sub_C9D50, sub_C9D80, sub_C9E68, sub_C9E70, sub_C9F3A, Shl64, sub_CA0B0, sub_CA288
+global sub_C9D50, sub_C9D80, sub_C9E68, Div64By32, sub_C9F3A, Shl64, BuildSpanOffsets, sub_CA288
 global sub_CA584, FixedSinCos, unlink_
 ;-----------------------------------------------------------------------------
 ; isatty_                                                       C4EA1  library
@@ -1421,7 +1421,7 @@ PrintBoxedText:
         push ebx
         lea eax, [byte esp+08h]
         push eax
-        call sub_D1368
+        call DrawTextBoxedAt
         add esp, byte 0Ch
         xor ecx, ecx
         mov dword [dword esp+0200h], ecx
@@ -2416,11 +2416,11 @@ sub_C65F8:
         mov esi, dword [dword esp+08Ch]
         mov eax, dword [byte esi+02h]
         sar eax, 10h
-        push dword_19F2D8
+        push ScaledRowBuffer
         mov dword [byte esp+068h], eax
         lea eax, [byte esi+010h]
         push eax
-        call sub_DD960
+        call SetBlitSource
         add esp, byte 8
         xor edx, edx
         push esi
@@ -2607,8 +2607,8 @@ sub_C65F8:
         push ebp
         push dword 8000h
         push dword 8000h
-        push dword_19F2D8
-        call sub_CA0B0
+        push ScaledRowBuffer
+        call BuildSpanOffsets
         add esp, byte 1Ch
         mov edx, dword [byte esp+02Ch]
         mov eax, dword [dword esp+094h]
@@ -2846,7 +2846,7 @@ sub_C65F8:
         shl edx, cl
         mov ebx, dword [byte esp+060h]
         push edx
-        mov edx, dword [dword_1228F8]
+        mov edx, dword [DrawDestBuffer]
         add edx, ebx
         add eax, dword [edx]
         push eax
@@ -2910,12 +2910,12 @@ sub_C65F8:
         mov eax, edi
         sar eax, 10h
         add eax, ecx
-        add eax, dword [nosplit ebx*4+dword_19F2D8]
+        add eax, dword [nosplit ebx*4+ScaledRowBuffer]
         mov cl, byte [byte esp+06Ch]
         shl eax, cl
         mov ebx, dword [byte esp+05Ch]
         push eax
-        mov eax, dword [dword_1228F8]
+        mov eax, dword [DrawDestBuffer]
         add eax, ebx
         add edx, dword [eax]
         push edx
@@ -3126,7 +3126,7 @@ sub_C65F8:
         shl edx, cl
         mov ebx, dword [byte esp+064h]
         push edx
-        mov edx, dword [dword_1228F8]
+        mov edx, dword [DrawDestBuffer]
         add edx, ebx
         add eax, dword [edx]
         push eax
@@ -3190,12 +3190,12 @@ sub_C65F8:
         mov eax, edi
         sar eax, 10h
         add eax, ecx
-        add eax, dword [nosplit ebx*4+dword_19F2D8]
+        add eax, dword [nosplit ebx*4+ScaledRowBuffer]
         mov cl, byte [byte esp+06Ch]
         shl eax, cl
         mov ebx, dword [byte esp+058h]
         push eax
-        mov eax, dword [dword_1228F8]
+        mov eax, dword [DrawDestBuffer]
         add eax, ebx
         add edx, dword [eax]
         push edx
@@ -3316,11 +3316,11 @@ sub_C70A8:
         mov esi, dword [dword esp+08Ch]
         mov eax, dword [byte esi+02h]
         sar eax, 10h
-        push dword_19F2D8
+        push ScaledRowBuffer
         mov dword [byte esp+068h], eax
         lea eax, [byte esi+010h]
         push eax
-        call sub_DD960
+        call SetBlitSource
         add esp, byte 8
         xor edx, edx
         push esi
@@ -3507,8 +3507,8 @@ sub_C70A8:
         push ebp
         push dword 8000h
         push dword 8000h
-        push dword_19F2D8
-        call sub_CA0B0
+        push ScaledRowBuffer
+        call BuildSpanOffsets
         add esp, byte 1Ch
         mov edx, dword [byte esp+02Ch]
         mov eax, dword [dword esp+094h]
@@ -3746,7 +3746,7 @@ sub_C70A8:
         shl edx, cl
         mov ebx, dword [byte esp+060h]
         push edx
-        mov edx, dword [dword_1228F8]
+        mov edx, dword [DrawDestBuffer]
         add edx, ebx
         add eax, dword [edx]
         push eax
@@ -3810,12 +3810,12 @@ sub_C70A8:
         mov eax, edi
         sar eax, 10h
         add eax, ecx
-        add eax, dword [nosplit ebx*4+dword_19F2D8]
+        add eax, dword [nosplit ebx*4+ScaledRowBuffer]
         mov cl, byte [byte esp+06Ch]
         shl eax, cl
         mov ebx, dword [byte esp+05Ch]
         push eax
-        mov eax, dword [dword_1228F8]
+        mov eax, dword [DrawDestBuffer]
         add eax, ebx
         add edx, dword [eax]
         push edx
@@ -4026,7 +4026,7 @@ sub_C70A8:
         shl edx, cl
         mov ebx, dword [byte esp+064h]
         push edx
-        mov edx, dword [dword_1228F8]
+        mov edx, dword [DrawDestBuffer]
         add edx, ebx
         add eax, dword [edx]
         push eax
@@ -4090,12 +4090,12 @@ sub_C70A8:
         mov eax, edi
         sar eax, 10h
         add eax, ecx
-        add eax, dword [nosplit ebx*4+dword_19F2D8]
+        add eax, dword [nosplit ebx*4+ScaledRowBuffer]
         mov cl, byte [byte esp+06Ch]
         shl eax, cl
         mov ebx, dword [byte esp+058h]
         push eax
-        mov eax, dword [dword_1228F8]
+        mov eax, dword [DrawDestBuffer]
         add eax, ebx
         add edx, dword [eax]
         push edx
@@ -4206,9 +4206,11 @@ sub_C7A54:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_C7B58                                                            C7B58  
+; RasterShapeTriangle                          C7B58  96 PC, medium confidence
+; Draws one triangle of a shape mapped onto screen coordinates, stepping
+; source and destination edges in fixed point
 ;-----------------------------------------------------------------------------
-sub_C7B58:
+RasterShapeTriangle:
         push esi
         push edi
         push ebp
@@ -4216,11 +4218,11 @@ sub_C7B58:
         mov esi, dword [dword esp+08Ch]
         mov eax, dword [byte esi+02h]
         sar eax, 10h
-        push dword_19F2D8
+        push ScaledRowBuffer
         mov dword [byte esp+068h], eax
         lea eax, [byte esi+010h]
         push eax
-        call sub_DD960
+        call SetBlitSource
         add esp, byte 8
         xor edx, edx
         push esi
@@ -4407,8 +4409,8 @@ sub_C7B58:
         push ebp
         push dword 8000h
         push dword 8000h
-        push dword_19F2D8
-        call sub_CA0B0
+        push ScaledRowBuffer
+        call BuildSpanOffsets
         add esp, byte 1Ch
         mov edx, dword [byte esp+02Ch]
         mov eax, dword [dword esp+094h]
@@ -4646,11 +4648,11 @@ sub_C7B58:
         shl edx, cl
         mov ebx, dword [byte esp+060h]
         push edx
-        mov edx, dword [dword_1228F8]
+        mov edx, dword [DrawDestBuffer]
         add edx, ebx
         add eax, dword [edx]
         push eax
-        call sub_DD982
+        call CopyMappedSpan
         add esp, byte 0Ch
 .29:
         mov eax, dword [byte esp+070h]
@@ -4710,16 +4712,16 @@ sub_C7B58:
         mov eax, edi
         sar eax, 10h
         add eax, ecx
-        add eax, dword [nosplit ebx*4+dword_19F2D8]
+        add eax, dword [nosplit ebx*4+ScaledRowBuffer]
         mov cl, byte [byte esp+06Ch]
         shl eax, cl
         mov ebx, dword [byte esp+05Ch]
         push eax
-        mov eax, dword [dword_1228F8]
+        mov eax, dword [DrawDestBuffer]
         add eax, ebx
         add edx, dword [eax]
         push edx
-        call sub_DD982
+        call CopyMappedSpan
         add esp, byte 0Ch
 .35:
         mov eax, dword [byte esp+070h]
@@ -4926,11 +4928,11 @@ sub_C7B58:
         shl edx, cl
         mov ebx, dword [byte esp+064h]
         push edx
-        mov edx, dword [dword_1228F8]
+        mov edx, dword [DrawDestBuffer]
         add edx, ebx
         add eax, dword [edx]
         push eax
-        call sub_DD982
+        call CopyMappedSpan
         add esp, byte 0Ch
 .51:
         mov eax, dword [byte esp+070h]
@@ -4990,16 +4992,16 @@ sub_C7B58:
         mov eax, edi
         sar eax, 10h
         add eax, ecx
-        add eax, dword [nosplit ebx*4+dword_19F2D8]
+        add eax, dword [nosplit ebx*4+ScaledRowBuffer]
         mov cl, byte [byte esp+06Ch]
         shl eax, cl
         mov ebx, dword [byte esp+058h]
         push eax
-        mov eax, dword [dword_1228F8]
+        mov eax, dword [DrawDestBuffer]
         add eax, ebx
         add edx, dword [eax]
         push edx
-        call sub_DD982
+        call CopyMappedSpan
         add esp, byte 0Ch
 .57:
         mov eax, dword [byte esp+070h]
@@ -5088,7 +5090,7 @@ DrawShapeTriangleMapped:
         push eax
         mov edx, dword [byte esp+03Ch]
         push edx
-        call sub_C7B58
+        call RasterShapeTriangle
         add esp, byte 0Ch
         add esp, byte 30h
         ret
@@ -5409,7 +5411,7 @@ sub_C85F0:
         sub ebx, edx
 .16:
         mov ebp, dword [dword_1228FC]
-        mov edx, dword [dword_1228F8]
+        mov edx, dword [DrawDestBuffer]
         add ebp, dword [edx+esi]
         mov edx, ebp
         mov ebp, dword [esp+esi]
@@ -5926,7 +5928,7 @@ sub_C8D50:
         sub ebx, edx
 .16:
         mov ebp, dword [dword_1228FC]
-        mov edx, dword [dword_1228F8]
+        mov edx, dword [DrawDestBuffer]
         add ebp, dword [edx+esi]
         mov edx, ebp
         mov ebp, dword [esp+esi]
@@ -7043,9 +7045,11 @@ sub_C9E68:
         mov dword [byte esi+04h], edx
         ret
 ;-----------------------------------------------------------------------------
-; sub_C9E70                                                            C9E70  
+; Div64By32                                    C9E70  96 PC, medium confidence
+; Divides a 64-bit value by a 32-bit one; followed by the signed and
+; remainder variants
 ;-----------------------------------------------------------------------------
-sub_C9E70:
+Div64By32:
         push edx
         mov eax, dword [byte esp+08h]
         mov edx, dword [byte esp+0Ch]
@@ -7313,9 +7317,11 @@ min__10:
         ret
         db 00h,00h
 ;-----------------------------------------------------------------------------
-; sub_CA0B0                                                            CA0B0  
+; BuildSpanOffsets                             CA0B0  96 PC, medium confidence
+; Fills the column offset table by stepping source coordinates in 16.16 fixed
+; point
 ;-----------------------------------------------------------------------------
-sub_CA0B0:
+BuildSpanOffsets:
         push esi
         push edi
         push ebp
@@ -7362,7 +7368,7 @@ sub_CA0B0:
         pop ebx
         ret
         db 08Dh,040h,00h
-sub_CA0B0_6C:
+BuildSpanOffsets_6C:
         push esi
         push edi
         push ebp
@@ -7405,7 +7411,7 @@ sub_CA0B0_6C:
         jle near .12
         mov eax, dword [dword_1228FC]
         mov dword [esp], eax
-        mov eax, dword [dword_1228F8]
+        mov eax, dword [DrawDestBuffer]
         mov edx, dword [eax+ebp]
         add ecx, edx
         mov esi, ecx

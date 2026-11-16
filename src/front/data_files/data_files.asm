@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_1E3C8 progbits alloc exec nowrite align=1
 extern DirPathTable, optflags, sprintf_, str_02d, str_07d, str_backslash2, str_D15, str_DB2
-extern str_dot3, strcat_, stricmp_, SyncMusicStream, sub_AB758, FreeMemBlock, sub_AC838, sub_AFD00
+extern str_dot3, strcat_, stricmp_, SyncMusicStream, AllocMemBlock, FreeMemBlock, sub_AC838, sub_AFD00
 extern LoadResourceBlockShared, LoadResourceData, LoadResourceDataShared, sub_B049E, OpenArtArchiveErr, OpenArtArchive, LoadDataFileErr, LoadFileAllocQuiet
 extern sub_B7310, sub_B73C4, LoadFileInto, LoadFileToBlockShared, LoadFileToBlockPlain, sub_B7638, sub_B7654, sub_B7690
 extern sub_B76A8, DataDirPath, unk_1151A7, unk_115333, DataFilePath, unpack, word_11512D
@@ -465,7 +465,7 @@ LoadPackedFile:
         push byte 20h
         push dword [byte ebp-04h]
         push DataFilePath
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push eax

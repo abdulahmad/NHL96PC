@@ -31,8 +31,8 @@ global dword_15E8B4, dword_15E8B8, dword_15E8BC, dword_15E8C0, dword_15E8C4, dwo
 global dword_15E8D4, dword_15E8D8, dword_15E8DC, dword_15E8E0, dword_15E8E4, dword_15E8E8, dword_15E8EC, dword_15E8F0
 global dword_15E8F4, dword_15E8F8, dword_15E8FC, dword_15E900, dword_15EA04, dword_15EA08, unk_159F58, unk_15AE88
 global unk_15BF20, unk_15D0E0, unk_15D1D0, unk_15D340, unk_15D450, unk_15DB38, unk_15DF20, unk_15E020
-global unk_15E130, unk_15E230, unk_15E330, unk_15E44C, unk_15E4C8, unk_15E534, unk_15E5A0, unk_15E618
-global unk_15E88C, unk_15E904, word_15E472
+global unk_15E130, unk_15E230, unk_15E330, unk_15E44C, unk_15E4C8, IceLinePolys, unk_15E5A0, IceCenterPoly
+global FlashPolys, unk_15E904, word_15E472
 unk_159F58:
         resb 3888
 unk_15AE88:
@@ -209,7 +209,7 @@ dword_15E4C4:
         resb 4
 unk_15E4C8:
         resb 108
-unk_15E534:
+IceLinePolys:
         resb 108
 unk_15E5A0:
         resb 108
@@ -219,7 +219,7 @@ dword_15E610:
         resb 4
 dword_15E614:
         resb 4
-unk_15E618:
+IceCenterPoly:
         resb 108
 dword_15E684:
         resb 4
@@ -467,7 +467,7 @@ dword_15E884:
         resb 4
 dword_15E888:
         resb 4
-unk_15E88C:
+FlashPolys:
         resb 36
 dword_15E8B0:
         resb 4

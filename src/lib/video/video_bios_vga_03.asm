@@ -4,15 +4,15 @@ bits 32
 section s_E19F0 progbits alloc exec nowrite align=1
 extern str_MUSICON, str_MUSICOFF, str_SOUNDON, str_SOUNDOFF, byte_11F670, byte_1241C4, byte_124244, SavedTextMode
 extern SavedTextPage, SavedTextRows, byte_14FAC0, byte_14FAC1, byte_14FAC2, byte_14FAC3, byte_14FAC5, byte_14FAC6
-extern byte_14FAC8, byte_14FAC9, byte_14FACB, byte_14FACC, AngleOctantTable, TimerTickStep, dword_121F90, SinTable
-extern dword_122790, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, dword_122B90, dword_123390, dword_1242CA
+extern byte_14FAC8, byte_14FAC9, byte_14FACB, byte_14FACC, AngleOctantTable, TimerTickStep, SinCosTable, SinTable
+extern CosTable, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, str_BK, dword_123390, HotkeyNesting
 extern dword_1242CE, dword_124444, dword_124448, dword_12444C, dword_124450, dword_124454, dword_124458, dword_1248C8
 extern dword_14F098, str_28, joyenablemask, off_14F07C, off_14F080, off_14F084, off_14F088, off_14F08C
 extern off_14F090, off_14F0B0, printf_, sprintf_, sub_ADA50, sub_C2AEC, ReadJoystickPorts, AddExitHandler
 extern SavedTextColumns
 global jpt_E1B6F, RectFillClipLeftJumpTable, RectFillClipBottomJumpTable, RectFillClipRightJumpTable, RectFillStepJumpTable, SetupRectFill_C, SetupRectFill_5A, SetupRectFill_164
 global jpt_E1B6F_40, jpt_E1BCE_D2, jpt_E1CBA_DF, jpt_E1DA4_14A, jpt_E1DA4_1DA, jpt_E1F8A_145, jpt_E1F8A_153, jpt_E1F8A_1AC
-global jpt_E1F8A_1BF, jpt_E1F8A_27E, sub_E2335_5B, sub_E2335_81, sub_E19F0, SetupRectFill, sub_E22DC, sub_E2335
+global jpt_E1F8A_1BF, jpt_E1F8A_27E, sub_E2335_5B, sub_E2335_81, sub_E19F0, SetupRectFill, DispatchHotkey, sub_E2335
 global sub_E2436, SaveTextMode, RestoreTextMode, AngleFromDelta, SinLookup, CosLookup, DebugLineCount, sub_E272C
 global SinCosLookup, AngleFromDeltaJumpTable
 ;-----------------------------------------------------------------------------
@@ -897,12 +897,14 @@ jpt_E1F8A_27E:
         jmp short .30
         db 00h
 ;-----------------------------------------------------------------------------
-; sub_E22DC                                                            E22DC  
+; DispatchHotkey                               E22DC  96 PC, medium confidence
+; Looks up the handler registered for a key (ASCII or extended scan code) and
+; calls it
 ;-----------------------------------------------------------------------------
-sub_E22DC:
+DispatchHotkey:
         push ebp
         LD mov, ebp, esp
-        dec dword [dword_1242CA]
+        dec dword [HotkeyNesting]
         jne short .4
         mov ebx, dword [byte ebp+08h]
         LD or, bl, bl
@@ -919,7 +921,7 @@ sub_E22DC:
         pop esi
         pop edi
         LD xor, eax, eax
-        inc dword [dword_1242CA]
+        inc dword [HotkeyNesting]
         leave
         ret
 .2:
@@ -932,7 +934,7 @@ sub_E22DC:
         jmp short .1
 .4:
         mov eax, dword [byte ebp+08h]
-        inc dword [dword_1242CA]
+        inc dword [HotkeyNesting]
         leave
         ret
 ;-----------------------------------------------------------------------------
@@ -1390,14 +1392,14 @@ SinCosLookup:
         mov edx, dword [nosplit eax*4+SinTable]
         mov dword [ebx], edx
         neg eax
-        mov edx, dword [nosplit eax*4+dword_122790]
+        mov edx, dword [nosplit eax*4+CosTable]
         mov dword [ecx], edx
         ret
 .1:
         dec ah
         jne short .2
         neg eax
-        mov edx, dword [nosplit eax*4+dword_122790]
+        mov edx, dword [nosplit eax*4+CosTable]
         mov dword [ebx], edx
         neg eax
         mov edx, dword [nosplit eax*4+SinTable]
@@ -1405,11 +1407,11 @@ SinCosLookup:
         mov dword [ecx], edx
         ret
 .2:
-        mov edx, dword [nosplit eax*4+dword_121F90]
+        mov edx, dword [nosplit eax*4+SinCosTable]
         neg edx
         mov dword [ebx], edx
         neg eax
-        mov edx, dword [nosplit eax*4+dword_122B90]
+        mov edx, dword [nosplit eax*4+str_BK]
         neg edx
         mov dword [ecx], edx
         ret

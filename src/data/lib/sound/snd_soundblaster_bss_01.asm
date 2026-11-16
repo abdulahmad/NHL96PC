@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_1A0FB0 nobits alloc noexec write align=1
 global byte_1A0FD4, byte_1A0FD5, dword_1A0FB0, dword_1A0FB4, DacTimerRate, dword_1A0FBC, DacTimerDivisor, dword_1A0FC4
-global dword_1A0FC8, dword_1A0FCC, dword_1A0FD8, dword_1A0FDC, dword_1A0FE0, dword_1A0FE4, dword_1A0FE8, dword_1A0FF0
+global dword_1A0FC8, dword_1A0FCC, dword_1A0FD8, GusDriverDmaBuf, dword_1A0FE0, dword_1A0FE4, dword_1A0FE8, dword_1A0FF0
 global dword_1A0FF4, dword_1A0FF8, dword_1A0FFC, dword_1A1004, dword_1A100A, dword_1A1010, dword_1A1014, dword_1A1018
 global dword_1A101C, dword_1A1020, dword_1A1024, dword_1A1028, dword_1A1030, dword_1A1034, dword_1A1038, dword_1A103C
 global dword_1A1040, dword_1A1044, dword_1A1048, dword_1A104C, dword_1A1052, dword_1A1058, dword_1A105C, dword_1A1060
@@ -37,7 +37,7 @@ byte_1A0FD5:
         resb 3
 dword_1A0FD8:
         resb 4
-dword_1A0FDC:
+GusDriverDmaBuf:
         resb 4
 dword_1A0FE0:
         resb 4

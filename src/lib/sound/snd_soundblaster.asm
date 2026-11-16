@@ -5,20 +5,20 @@ section s_CE06B progbits alloc exec nowrite align=1
 extern str_BLASTER, str_DMABUFFER, str_WSSDMA, str_DMABUFFER2, str_DMABUFFER3, str_DMABUF, str_DMABUF2, byte_123988
 extern byte_1248D0, byte_1248D1, byte_14F024, byte_14F025, byte_14F026, byte_14F054, byte_14F055, byte_14F064
 extern byte_14F065, byte_14F066, byte_14F067, byte_14F070, byte_1A0FD4, byte_1A0FD5, CpuType, dword_1210C0
-extern ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, dword_1228F0, dword_1228F4, dword_1228F8, dword_1228FC
-extern dword_123BCC, dword_123BD0, dword_1248D2, dword_14F01C, dword_14F020, dword_14F030, dword_14F034, dword_14F038
+extern ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, dword_1228F0, dword_1228F4, DrawDestBuffer, dword_1228FC
+extern dword_123BCC, dword_123BD0, dword_1248D2, dword_14F01C, dword_14F020, GusDriverIsOpen, dword_14F034, dword_14F038
 extern dword_14F03C, dword_14F040, dword_14F044, dword_14F048, dword_14F04C, dword_14F050, dword_14F058, dword_14F05C
 extern dword_14F060, GusStreamRefillB, dword_1A0FB0, dword_1A0FB4, DacTimerRate, dword_1A0FBC, DacTimerDivisor, dword_1A0FC4
-extern dword_1A0FC8, dword_1A0FCC, dword_1A0FD8, dword_1A0FDC, dword_1A0FE0, dword_1A0FE4, dword_1A0FE8, dword_1A0FF0
+extern dword_1A0FC8, dword_1A0FCC, dword_1A0FD8, GusDriverDmaBuf, dword_1A0FE0, dword_1A0FE4, dword_1A0FE8, dword_1A0FF0
 extern dword_1A0FF4, dword_1A0FF8, dword_1A0FFC, dword_1A1004, dword_1A100A, dword_1A1010, dword_1A1014, dword_1A1018
 extern dword_1A101C, dword_1A1020, dword_1A1024, dword_1A1028, dword_1A1030, dword_1A1034, dword_1A1038, dword_1A103C
 extern dword_1A1040, dword_1A1044, dword_1A1048, dword_1A104C, dword_1A1052, dword_1A1058, dword_1A105C, dword_1A1060
 extern dword_1A1064, dword_1A1068, dword_1A106C, dword_1A1070, dword_1A1074, dword_1A1078, dword_1A107C, dword_1A1084
 extern dword_1A108A, getenv_, unk_D79E5_2, unk_D7A02_2, sub_AB798, FreeMemBlock, sub_B178B, DrawArtOpaque
 extern sub_BF950, sub_BFC91, sub_BFE4C, sub_C03F8, sub_C0BCD, sub_C1322, sub_C1811, sub_CBEB7
-extern sub_CBFC2, MixerStopChannel, ReturnArg, TimerCalibrate, TimerRestore, sub_D5BB1, sub_D5E50, sub_D5E7D
+extern MixerFillBuffer, MixerStopChannel, ReturnArg, TimerCalibrate, TimerRestore, sub_D5BB1, sub_D5E50, sub_D5E7D
 extern IrqAck, IrqVector, IrqUnmask, IrqMask, IrqSetHandler, sub_D6027, sub_D60D2, GusGetEnvConfig
-extern GusProbePort, GusOpen, GusClose, GusMemAlloc, sub_D703C, sub_D7042, GusServiceStream, GusStartStream
+extern GusProbePort, GusOpen, GusClose, GusMemAlloc, sub_D703C, GusStreamBusy, GusServiceStream, GusStartStream
 extern sub_D7970, sub_D79CC, sub_D7A44, bcopy, unk_1A0B20, unk_1A0FEC, unk_1A102C, unk_D796A
 extern unk_D796C, unk_D796E, unk_D79E3, unk_D79E5, unk_D7A00, unk_D7A02, unk_F0000, unk_F000D
 extern unk_F001A, unk_F0027, word_1A0FA0, SbMixerAddrPort, word_1A0FA4, word_1A0FA6, word_1A0FA8, SbReadPort
@@ -539,12 +539,12 @@ sub_CE3B6_BD:
         add esp, byte 0Ch
         push dword [dword_1A0FC4]
         mov dword [byte ebp-04h], eax
-        call sub_CBFC2
+        call MixerFillBuffer
         mov eax, dword [dword_1A0FC4]
         add esp, byte 4
         add eax, dword [dword_1A0FB4]
         push eax
-        call sub_CBFC2
+        call MixerFillBuffer
         add esp, byte 4
         push dword [dword_1A0FC4]
         push edi
@@ -613,7 +613,7 @@ sub_CE60C:
         mov edx, dword [dword_1A0FC4]
         add eax, edx
         push eax
-        call sub_CBFC2
+        call MixerFillBuffer
         add esp, byte 4
 .1:
         pop edx
@@ -828,7 +828,7 @@ sub_CE7C4:
         push str_DMABUFFER2
         call sub_AB798
         add esp, byte 0Ch
-        mov dword [dword_1A0FDC], eax
+        mov dword [GusDriverDmaBuf], eax
         test eax, eax
         jne short .1
         mov dword [dword_14F034], eax
@@ -845,9 +845,9 @@ sub_CE7C4:
         jle short .2
         and eax, 0F0000h
         add eax, 10000h
-        mov dword [dword_1A0FDC], eax
+        mov dword [GusDriverDmaBuf], eax
 .2:
-        cmp dword [dword_14F030], byte 0
+        cmp dword [GusDriverIsOpen], byte 0
         jne near .10
         cmp dword [dword_14F03C], byte 0
         jne short .6
@@ -903,11 +903,11 @@ sub_CE7C4:
         ret
 .9:
         mov eax, 1004h
-        mov dword [dword_14F030], 1
+        mov dword [GusDriverIsOpen], 1
         call GusMemAlloc
         push dword 1000h
         push eax
-        push dword [dword_1A0FDC]
+        push dword [GusDriverDmaBuf]
         mov dword [dword_1A0FD8], eax
         call GusStartStream
         add esp, byte 0Ch
@@ -967,12 +967,12 @@ sub_CE980:
         push ebx
         push ecx
         push edx
-        cmp dword [dword_14F030], byte 0
+        cmp dword [GusDriverIsOpen], byte 0
         je short .1
         call GusClose
         mov dword [dword_14F038], 0
         mov dword [dword_14F03C], 0
-        mov dword [dword_14F030], 0
+        mov dword [GusDriverIsOpen], 0
 .1:
         cmp dword [dword_14F034], byte 0
         je short .2
@@ -994,17 +994,17 @@ GusDriverUpdate:
         push ebx
         push ecx
         push edx
-        cmp dword [dword_14F030], byte 0
+        cmp dword [GusDriverIsOpen], byte 0
         je short .1
-        call sub_D7042
+        call GusStreamBusy
         test eax, eax
         je short .1
         mov edx, dword [GusStreamRefillB]
-        mov eax, dword [dword_1A0FDC]
+        mov eax, dword [GusDriverDmaBuf]
         shl edx, 0Bh
         add eax, edx
         push eax
-        call sub_CBFC2
+        call MixerFillBuffer
         add esp, byte 4
         call GusServiceStream
 .1:
@@ -1196,7 +1196,7 @@ sub_CEC0A:
         mov edx, dword [dword_1A0FF8]
         add eax, edx
         push eax
-        call sub_CBFC2
+        call MixerFillBuffer
         add esp, byte 4
 .1:
         pop edx
@@ -1542,7 +1542,7 @@ sub_CF025:
         mov edx, dword [dword_1A103C]
         add eax, edx
         push eax
-        call sub_CBFC2
+        call MixerFillBuffer
         add esp, byte 4
 .1:
         pop edx
@@ -1591,12 +1591,12 @@ sub_CF08B:
         push ecx
         push edx
         push dword [dword_1A103C]
-        call sub_CBFC2
+        call MixerFillBuffer
         mov eax, dword [dword_1A103C]
         add esp, byte 4
         add eax, dword [dword_1A1020]
         push eax
-        call sub_CBFC2
+        call MixerFillBuffer
         add esp, byte 4
         mov eax, dword [dword_1A1038]
         mov ebx, unk_D79E5_2
@@ -1935,7 +1935,7 @@ sub_CF534:
         mov edx, dword [dword_1A1078]
         add eax, edx
         push eax
-        call sub_CBFC2
+        call MixerFillBuffer
         add esp, byte 4
 .1:
         pop edx
@@ -1984,12 +1984,12 @@ sub_CF59A:
         push ecx
         push edx
         push dword [dword_1A1078]
-        call sub_CBFC2
+        call MixerFillBuffer
         mov eax, dword [dword_1A1078]
         add esp, byte 4
         add eax, dword [dword_1A1060]
         push eax
-        call sub_CBFC2
+        call MixerFillBuffer
         add esp, byte 4
         mov eax, dword [dword_1A1074]
         mov ebx, unk_D7A02_2
@@ -2480,7 +2480,7 @@ sub_CFA64:
 sub_CFA64_34:
         mov ebx, dword [byte ebp-08h]
         shl ebx, 2
-        add ebx, dword [dword_1228F8]
+        add ebx, dword [DrawDestBuffer]
         mov edi, dword [ebx]
         add edi, dword [byte ebp-04h]
         add edi, dword [dword_1228FC]
@@ -2642,7 +2642,7 @@ sub_CFB14_34:
         mov dword [byte ebp-04h], ebx
         cld
         mov ebx, dword [byte ebp-08h]
-        mov edi, dword [dword_1228F8]
+        mov edi, dword [DrawDestBuffer]
         mov edi, dword [edi+ebx*4]
         add edi, dword [byte ebp-04h]
         add edi, dword [dword_1228FC]

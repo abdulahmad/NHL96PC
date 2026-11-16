@@ -14,7 +14,7 @@ extern LinkOpen, LinkSendMessage, LinkTimerTick, optblock_end, optflags, SetClip
 extern SetLinkMessageHandler, SetLinkSpareHook, SlotButtons, str_ABORT, str_HFwt, str_HGwt, str_LGwt, str_PAL22
 extern str_SHAD, str_X3, strcpy_, MessageBox, HideMessage, ShowMessage, CopyBitmap, SetTextColors
 extern DrawColorText, DrawColorTextCentred, DrawBox, StopMusic, QueueCurrentMusic, FillMusicStream, PlayMusic, FadeOutMusic
-extern SoundSecondsToBytes, SoundIdle, GetLangText, RemoveTimerCallback, DrawShapeAtOwnPos, sub_AAA8C, sub_AADA4, sub_AB758
+extern SoundSecondsToBytes, SoundIdle, GetLangText, RemoveTimerCallback, DrawShapeAtOwnPos, sub_AAA8C, sub_AADA4, AllocMemBlock
 extern FreeMemBlock, sub_AD35C, sub_AD620, sub_ADA80, sub_ADBEC, SetScreenTarget, GetPaletteRange, FillRectColor
 extern sub_DFE9C, KbdGetKey, sub_E04E0, unk_114CE6, unk_114D46, unk_114D6E, unk_15179C, unk_1519C0
 extern unk_151A04, unk_151A44, unk_151A94, unk_151ADC, unk_17C9B8, unk_17C9CC, unk_17D272, word_114CE0
@@ -1835,14 +1835,14 @@ ModemChat:
         push dword 100h
         mov eax, str_SHAD
         push eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         mov dword [byte ebp-038h], eax
         push byte 20h
         push dword 300h
         mov eax, str_PAL22
         push eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         mov dword [byte ebp-028h], eax
         mov eax, dword [byte ebp-028h]

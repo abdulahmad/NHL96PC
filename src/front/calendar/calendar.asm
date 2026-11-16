@@ -15,7 +15,7 @@ extern dword_17D90C, dword_17D910, dword_17D914, dword_17D918, dword_17D91C, dwo
 extern jpt_7D568, sprintf_, MessageBox, LoadTeamLogo, LoadPackedFile, LoadDataFileLib, LoadSeasonStats, OpenScreen
 extern SlideInTitleBar, SlideInSideBar, SetScreenColors, FadePalette, FadeOut, SetTextColors, FillBox, DrawFrameAt
 extern InitMenuItems, RunMenu, GetLangText, MakeSeasonDbPath, SimSeasonGames, SimulateGame, sub_AAA40, sub_AAA8C
-extern PutBlock, sub_AB758, FreeMemBlock, sub_AD35C, sub_AD620, FillRect, sub_ADA80, sub_ADBEC
+extern PutBlock, AllocMemBlock, FreeMemBlock, sub_AD35C, sub_AD620, FillRect, sub_ADA80, sub_ADBEC
 extern OpenArtArchiveErr, sub_B2C54, sub_BF120, sub_C2600, SetScreenTarget, sub_DD908, sub_E04E0, sub_E0584
 extern unk_11E3B6, unk_11E3F6, unk_11E436, unk_11E476, unk_152C44, unk_17CB2E, unk_7D4F4, unk_7D500
 global CalendarScreen_13D3, CalendarScreen_13E4, CalendarScreen_153A, CalendarScreen_1AC2, CalendarScreen_1B49, CalendarScreen_1B6C, CalendarScreen, DrawCalendar
@@ -36,19 +36,19 @@ CalendarScreen:
         push byte 0
         push dword 4C8h
         push str_MonthChoice
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push dword 1056h
         push str_CalendarChoices
         mov dword [byte ebp-02h], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push dword 8C0h
         push str_Regions
         mov dword [byte ebp-0Eh], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push dword 300h
@@ -56,7 +56,7 @@ CalendarScreen:
         push str_Monthregions
         mov dword [byte ebp+02Eh], 0
         mov dword [byte ebp+06h], eax
-        call sub_AB758
+        call AllocMemBlock
         mov dword [dword_17D90C], 0FFFFFFFFh
         add esp, byte 0Ch
         mov dword [byte ebp+02h], eax

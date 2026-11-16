@@ -15,7 +15,7 @@ extern dword_1770F0, dword_1770F4, dword_1770F8, dword_1770FC, dword_177100, dwo
 extern optflags, dword_17CA5C, gameclock, gameopts, gmode, hmroster, off_11786C, off_11787C
 extern puckc, PtrPuckFlags, puckvx, puckvz, puckz, rand_, sflags, RunDemoGame
 extern LoadPackedFile, InitGameTeams, sub_4B4F3, sub_51CBA, sub_51D44, sub_51DD2, LoadFrontEndArt, FreeFrontEndArt
-extern CopyBitmap, StartGameSound, EndGameSound, sub_AADA4, sub_AB758, FreeMemBlock, SetScreenTarget, SetClipWindow
+extern CopyBitmap, StartGameSound, EndGameSound, sub_AADA4, AllocMemBlock, FreeMemBlock, SetScreenTarget, SetClipWindow
 extern sub_E04E0, sub_E0584, unk_157B82, unk_157F9C, unk_158610, unk_176CA8, unk_176CDA, unk_176D0C
 extern unk_176D3E, unk_176DA2, unk_176E38, unk_176E6A, unk_176E9C, unk_176ED4, optblock_end, gmode2
 extern word_1178CA, word_1178CC, word_1178CE, word_1178D0, word_117902, word_11A3EE, word_11A3F0, word_11D3A2
@@ -2495,7 +2495,7 @@ sub_53BD7:
         push byte 20h
         push eax
         push str_ZONEMGR
-        call sub_AB758
+        call AllocMemBlock
         mov edx, esi
         mov dword [dword_177104], eax
         shl edx, 4

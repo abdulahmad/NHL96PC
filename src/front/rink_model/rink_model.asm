@@ -7,7 +7,7 @@ extern byte_1175AB, byte_1175AC, byte_159C57, byte_159C58, byte_159C59, byte_159
 extern byte_159E61, byte_15EA03, byte_176F96, byte_17701E, byte_17703B, byte_1770A7, byte_1770B2, byte_1770B3
 extern byte_1770B4, byte_1770B5, byte_1770B6, byte_1770D7, dword_1175AD, dword_1175B1, dword_1175B5, dword_1175B9
 extern dword_1176DD, dword_1176E1, dword_1176E5, dword_1177EC, dword_1177F0, dword_11A3F8, dword_11F5C0, dword_11F5C4
-extern str_Punct_DrawRinkSurface, SinTable, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, dword_1228F8, dword_152FEC
+extern str_Punct_DrawRinkSurface, SinTable, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, DrawDestBuffer, dword_152FEC
 extern dword_158D78, dword_158D7C, dword_158D84, dword_158D88, dword_158D90, dword_158D94, dword_158D9C, dword_158DA0
 extern dword_158F24, dword_158F90, dword_159008, dword_159014, dword_15902C, dword_159038, dword_1591CC, dword_1591D0
 extern dword_1591D4, dword_159230, dword_159234, dword_159334, dword_159340, dword_15934C, dword_159370, dword_15937C
@@ -63,23 +63,23 @@ extern str_Stands2, str_STANDSFSH, str_Strobe, str_TEMP2, str_ThinRedLines, str_
 extern str_Wedge, str_WHD0, str_Zamboni, str_Zambpath, strcat_, strcpy_, SelectDataLibrary, sub_49300
 extern sub_4B38C, sub_4B4F3, DrawRinkSprite, SpriteScale, InitMenuItems, RunMenu, SetMenuMouse, FillMusicStream
 extern SoundSecondsToBytes, SoundIdle, BuildAntiAliasTable, DrawFixedLine, DrawFixedLineClip, DrawShapeAtOwnPos, sub_AAA40, sub_AADA4
-extern sub_AB758, FreeMemBlock, sub_AC868, sub_AD35C, sub_AD620, sub_AD824, sub_ADBEC, sub_AFD00
+extern AllocMemBlock, FreeMemBlock, sub_AC868, sub_AD35C, sub_AD620, sub_AD824, sub_ADBEC, sub_AFD00
 extern LoadResourceDataShared, sub_B049E, OpenArtArchiveErr, sub_B31C0, LoadFileToBlockShared, sub_B7810, SetRinkView, sub_B78DC
 extern sub_B79C8, sub_B79E0, sub_B7A70, sub_B81D0, sub_B82F0, sub_B9870, sub_B98E0, sub_B9928
 extern sub_B9A18, sub_B9B34, sub_B9B70, sub_B9BB0, sub_B9BD0, AddVec3, SubVec3, sub_B9C70
 extern sub_BA2F0, sub_BA344, sub_BA3D0, AngleOfVector, SinInterp, CosInterp, sub_BA5D0, sub_BB384
-extern sub_BB470, DrawPolyOutline, sub_BB924, sub_BB9C4, sub_BBAA0, sub_BBB70, SetRinkMatrix, SetRinkTranslation
+extern DrawFlatPoly, DrawPolyOutline, sub_BB924, sub_BB9C4, sub_BBAA0, sub_BBB70, SetRinkMatrix, SetRinkTranslation
 extern SetScreenScale, sub_BBC14, sub_BBC80, sub_BBE50, sub_BC040, sub_BC0C4, sub_BC150, sub_BC3A0
 extern sub_BC3F4, sub_BC5C0, sub_BC674, sub_BC760, sub_BC7F0, sub_BC838, sub_BD86C, sub_BD9AC
-extern sub_BE6E0, sub_BE8AC, sub_BE926, SetScreenTarget, SetRemapTable, GetRemapTable, sub_DD908, sub_DD960
-extern sub_DDB68, sub_E04E0, bcopy, sub_E0898, sub_E0959, sub_E1575, sub_E162A, unk_1175BD
-extern unk_117605, unk_11764D, unk_1176AD, unk_1176CD, unk_1176EC, unk_158DA8, unk_158F28, unk_158F48
+extern sub_BE6E0, sub_BE8AC, sub_BE926, SetScreenTarget, SetRemapTable, GetRemapTable, sub_DD908, SetBlitSource
+extern sub_DDB68, sub_E04E0, bcopy, Random32, sub_E0959, sub_E1575, sub_E162A, unk_1175BD
+extern IceSurfaceDef, IceGeometryDef, unk_1176AD, unk_1176CD, unk_1176EC, unk_158DA8, unk_158F28, unk_158F48
 extern unk_158F50, unk_158F68, unk_158F70, unk_158F88, unk_158FF4, unk_159000, unk_159018, unk_159024
-extern unk_15903C, unk_159108, unk_159148, unk_159190, unk_1591D8, unk_159238, unk_159338, unk_159368
-extern unk_159398, unk_1593F8, unk_159458, unk_159500, unk_159508, unk_159510, unk_159518, unk_159520
+extern unk_15903C, unk_159108, unk_159148, unk_159190, IceSurfacePolys, unk_159238, unk_159338, unk_159368
+extern unk_159398, BoardLinePolys, unk_159458, unk_159500, unk_159508, unk_159510, unk_159518, unk_159520
 extern unk_159528, unk_159F58, unk_15AE88, unk_15BF20, unk_15D0E0, unk_15D1D0, unk_15D340, unk_15D450
 extern unk_15DB38, unk_15DF20, unk_15E020, unk_15E130, unk_15E230, unk_15E330, unk_15E44C, unk_15E4C8
-extern unk_15E534, unk_15E5A0, unk_15E618, unk_15E88C, unk_15E904, unk_165258, unk_165354, unpack
+extern IceLinePolys, unk_15E5A0, IceCenterPoly, FlashPolys, unk_15E904, unk_165258, unk_165354, unpack
 extern vecdist, word_114CE0, word_158D74, word_15E472, word_176FB8, word_176FDA, word_176FFC, word_17704C
 extern word_17706E
 global unk_21984, DrawIceCrud, sub_21B35, sub_21BC9, sub_21BC9_19, AddIceCrud, LoadFshFile, LoadFshFile_E1
@@ -127,7 +127,7 @@ DrawIceCrud:
         mov dword [byte ebp-08h], edi
         mov dword [byte ebp-04h], eax
 .1:
-        call sub_E0898
+        call Random32
         mov ebx, 1F40h
         xor edx, edx
         div ebx
@@ -410,7 +410,7 @@ LoadFshFile:
         push eax
         lea eax, [byte ebp-040h]
         push eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push eax
@@ -423,7 +423,7 @@ LoadFshFile:
         push edi
         lea eax, [byte ebp-040h]
         push eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push edi
         push eax
@@ -1744,7 +1744,7 @@ BuildCircleTable:
         jne short .3
         cmp dword [dword_1176DD], byte 0
         jne short .5
-        mov esi, unk_11764D
+        mov esi, IceGeometryDef
         lea edi, [byte esi+060h]
 .4:
         push esi
@@ -1797,46 +1797,46 @@ DrawIceSurface:
         push ecx
         push edx
         push unk_158DA8
-        push unk_15E88C
+        push FlashPolys
         push dword_1595C8
         push byte 20h
-        call sub_BB470
+        call DrawFlatPoly
         add esp, byte 10h
         push unk_159458
-        push unk_15E88C
-        push unk_11764D
+        push FlashPolys
+        push IceGeometryDef
         push byte 8
-        call sub_BB470
+        call DrawFlatPoly
         add esp, byte 10h
-        push unk_15E534
-        push unk_15E88C
-        push unk_15E618
+        push IceLinePolys
+        push FlashPolys
+        push IceCenterPoly
         push byte 9
-        call sub_BB470
+        call DrawFlatPoly
         add esp, byte 10h
         push unk_159148
-        push unk_15E88C
-        push unk_117605
+        push FlashPolys
+        push IceSurfaceDef
         push byte 6
-        call sub_BB470
+        call DrawFlatPoly
         add esp, byte 10h
         push unk_159190
-        push unk_15E88C
+        push FlashPolys
         push unk_1175BD
         push byte 6
-        call sub_BB470
+        call DrawFlatPoly
         add esp, byte 10h
-        push unk_1593F8
-        push unk_15E88C
-        push unk_1591D8
+        push BoardLinePolys
+        push FlashPolys
+        push IceSurfacePolys
         push byte 8
-        call sub_BB470
+        call DrawFlatPoly
         add esp, byte 10h
         push unk_15E5A0
-        push unk_15E88C
+        push FlashPolys
         push unk_15E4C8
         push byte 9
-        call sub_BB470
+        call DrawFlatPoly
         add esp, byte 10h
         pop edx
         pop ecx
@@ -1852,7 +1852,7 @@ sub_22AF0:
         mov esi, edx
         push unk_159398
         push eax
-        push unk_1593F8
+        push BoardLinePolys
         push byte 8
         call DrawPolyOutline
         add esp, byte 10h
@@ -2087,7 +2087,7 @@ sub_22DD7:
         mov edi, eax
         test edx, edx
         je near .4
-        mov dword [byte ebp+076h], unk_15E534
+        mov dword [byte ebp+076h], IceLinePolys
         mov esi, unk_158F88
         mov dword [byte ebp+066h], 0
 .1:
@@ -2131,7 +2131,7 @@ sub_22DD7:
 .4:
         push unk_158F88
         push eax
-        push unk_15E534
+        push IceLinePolys
         push byte 9
         call DrawPolyOutline
         add esp, byte 10h
@@ -2441,7 +2441,7 @@ RandomTrianglePoint:
         mov dword [byte ebp-08h], edx
         mov dword [byte ebp-0Ch], ebx
         mov esi, ecx
-        call sub_E0898
+        call Random32
         mov ebx, 0Bh
         xor edx, edx
         div ebx
@@ -2459,7 +2459,7 @@ RandomTrianglePoint:
         add eax, ecx
         mov dword [byte ebp-010h], eax
         mov dword [byte ebp-04h], eax
-        call sub_E0898
+        call Random32
         mov ebx, 0Bh
         xor edx, edx
         div ebx
@@ -3819,18 +3819,18 @@ DrawGoalLight:
         jne near sub_24D8C_1A3
         lea eax, [byte ebp-010h]
         push eax
-        push unk_15E88C
+        push FlashPolys
         push dword_15E87C
         call sub_BB9C4
         add esp, byte 0Ch
         lea eax, [byte ebp-060h]
         push eax
-        push unk_15E88C
+        push FlashPolys
         push dword_158D78
         push byte 4
         lea esi, [byte ebp-060h]
         xor edi, edi
-        call sub_BB470
+        call DrawFlatPoly
         add esp, byte 10h
 .1:
         imul eax, edi, byte 0Ch
@@ -4715,18 +4715,18 @@ DrawGlassShards:
         add esp, byte 4
         lea eax, [byte ebp-0Ch]
         push eax
-        push unk_15E88C
+        push FlashPolys
         push dword_15E87C
         call sub_BB9C4
         imul eax, dword [dword_15E6C8], byte 3
         add esp, byte 0Ch
         push unk_15BF20
-        push unk_15E88C
+        push FlashPolys
         push unk_15AE88
         push eax
         mov esi, unk_15BF20
         xor edi, edi
-        call sub_BB470
+        call DrawFlatPoly
         add esp, byte 10h
         jmp short .2
 .1:
@@ -6236,7 +6236,7 @@ LoadStandsArt_3F:
         add esp, byte 4
         push eax
         push str_STANDS
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         mov dword [dword_1175B1], eax
 LoadStandsArt_61:
@@ -7747,7 +7747,7 @@ SetViewCamera:
         movsd
         movsd
         mov ecx, 9
-        mov edi, unk_15E88C
+        mov edi, FlashPolys
         mov esi, edx
         push eax
         rep movsd
@@ -10235,7 +10235,7 @@ sub_297EA:
         push eax
         lea eax, [byte esi+010h]
         push eax
-        call sub_DD960
+        call SetBlitSource
         mov eax, edi
         shl eax, 2
         add esp, byte 8
@@ -10284,7 +10284,7 @@ sub_297EA:
         sar ecx, 10h
         movsx edx, word [byte esi+04h]
         imul ecx, edx
-        mov edx, dword [dword_1228F8]
+        mov edx, dword [DrawDestBuffer]
         add ecx, dword [dword ebp+ebx*4-081Ch]
         add edx, dword [byte ebp-014h]
         push ecx
@@ -10500,7 +10500,7 @@ sub_29B9F:
         push byte 0
         push dword 0B9h
         push str_TEMP2
-        call sub_AB758
+        call AllocMemBlock
         mov ecx, 0B9h
         mov esi, dword [gameopts]
         add esp, byte 0Ch
@@ -10564,7 +10564,7 @@ sub_29B9F:
         push eax
         push str_Saveback
         mov esi, dword [byte ebp+06Ah]
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         mov edi, eax
         mov esi, dword [byte esi+02Ch]

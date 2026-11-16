@@ -6,7 +6,7 @@ extern byte_11BC28, dword_11BB38, dword_11BB3C, dword_11BB40, dword_11BB44, dwor
 extern str_Punct_DrawRinkSurface, dword_123AC0, dword_152FEC, dword_179E4C, dword_179E50, dword_17BA30, dword_17BA34, dword_17BA38
 extern dword_17BA3C, dword_17BA40, dword_17BA44, dword_17BA48, dword_17BA4C, dword_17BA50, dword_17BA54, gameopts
 extern off_11BB4C, str_CupRef, str_FightRef, str_NewpalQfs, str_OldshpQfs, str_OLDSHPQFS2, str_Pal6, str_RinkpalQfs
-extern str_TeampalQda, str_TotalRef, str_UNPACK, str_Unpacked, SelectDataLibrary, sub_297A8, sub_AB758, FreeMemBlock
+extern str_TeampalQda, str_TotalRef, str_UNPACK, str_Unpacked, SelectDataLibrary, sub_297A8, AllocMemBlock, FreeMemBlock
 extern sub_AC838, sub_AFCD0, sub_AFD00, OpenArtArchiveErr, sub_B3420, sub_B3458, sub_B7638, sub_BEFF0
 extern sub_BF02C, sub_BF034, sub_E04E0, bcopy, sub_E1824, unk_16443C, unk_164688, unk_179E48
 extern unk_17B248, unk_17B488, unk_17B518, unk_17B830, unk_17B930, unk_17BA58, unpack
@@ -545,7 +545,7 @@ LoadPlayerSprites:
         add esp, byte 4
         push eax
         push str_OLDSHPQFS2
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push eax
@@ -571,7 +571,7 @@ LoadPlayerSprites:
         push byte 20h
         push dword [dword_17BA48]
         push str_Unpacked
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push str_RinkpalQfs
@@ -895,7 +895,7 @@ GetSpriteFrame:
         push eax
         push str_UNPACK
         xor esi, esi
-        call sub_AB758
+        call AllocMemBlock
         mov ebx, unk_179E48
         add esp, byte 0Ch
         mov dword [dword_11BCD9], eax

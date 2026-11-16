@@ -2,9 +2,9 @@
 bits 32
 %include "hockey.inc"
 section s_14F01C progbits alloc noexec write align=1
-extern sub_D02A8, sub_DFB84
+extern NoFloatSupport, sub_DFB84
 global str_SHPI2, byte_14F024, byte_14F025, byte_14F026, byte_14F054, byte_14F055, byte_14F064, byte_14F065
-global byte_14F066, byte_14F067, byte_14F070, dword_14F01C, dword_14F020, dword_14F030, dword_14F034, dword_14F038
+global byte_14F066, byte_14F067, byte_14F070, dword_14F01C, dword_14F020, GusDriverIsOpen, dword_14F034, dword_14F038
 global dword_14F03C, dword_14F040, dword_14F044, dword_14F048, dword_14F04C, dword_14F050, dword_14F058, dword_14F05C
 global dword_14F060, dword_14F098, _environ, ___env_mask, __nheapbeg, __amblksiz, str_28, off_14F074
 global off_14F078, off_14F07C, off_14F080, off_14F084, off_14F088, off_14F08C, off_14F090, off_14F0B0
@@ -25,7 +25,7 @@ byte_14F025:
         db 010h
 byte_14F026:
         db 04h,010h,014h,02h,050h,0Ch,01h,00h,00h,00h
-dword_14F030:
+GusDriverIsOpen:
         db 00h,00h,00h,00h
 dword_14F034:
         db 00h,00h,00h,00h
@@ -360,8 +360,8 @@ unk_14FA46:
         db 0FAh,0D0h,034h,0D6h,06Dh,0DBh,0A7h,0E0h,0E0h,0E5h,01Ah,0EBh,053h,0F0h,08Dh,0F5h
         db 0C6h,0FAh
 __EFG_printf:
-        dd sub_D02A8
+        dd NoFloatSupport
 __EFG_scanf:
-        dd sub_D02A8
+        dd NoFloatSupport
 str_SHPI2:
         db 053h,048h,050h,049h,00h,00h,00h,00h,00h,00h,00h,00h,053h,050h,049h,054h

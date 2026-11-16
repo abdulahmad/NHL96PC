@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_1136C4 progbits alloc noexec write align=1
-global asc_1136C4, str_InitmemmanDOSSUBMEMORYNO, str_AAPLUT, asc_113740, str_OpenblockhandleSPATHNAME, asc_113794, asc_1137A0, asc_1137B0
+global asc_1136C4, str_InitmemmanDOSSUBMEMORYNO, str_AAPLUT, asc_113740, str_OpenblockhandleSPATHNAME, str_CDROMDATA, str_CDROMBUFFER, asc_1137B0
 global asc_1137DC, asc_113810, asc_113834, str_CdromdirectoryentryERROR
 asc_1136C4:
         db 069h,06Eh,069h,074h,06Dh,065h,06Dh,06Dh,061h,06Eh,020h,02Dh,020h,044h,04Fh,053h
@@ -24,9 +24,9 @@ str_OpenblockhandleSPATHNAME:
         db 06Fh,070h,065h,06Eh,062h,06Ch,06Fh,063h,06Bh,068h,061h,06Eh,064h,06Ch,065h,020h
         db 02Dh,020h,025h,073h,020h,050h,041h,054h,048h,020h,04Eh,041h,04Dh,045h,020h,04Eh
         db 04Fh,054h,020h,046h,04Fh,055h,04Eh,044h,0Ah,00h,00h,00h
-asc_113794:
+str_CDROMDATA:
         db 043h,044h,052h,04Fh,04Dh,020h,044h,041h,054h,041h,00h,04Fh
-asc_1137A0:
+str_CDROMBUFFER:
         db 043h,044h,052h,04Fh,04Dh,020h,042h,055h,046h,046h,045h,052h,00h,076h,06Fh,069h
 asc_1137B0:
         db 063h,064h,072h,06Fh,06Dh,063h,068h,065h,063h,06Bh,020h,02Dh,020h,043h,044h,052h

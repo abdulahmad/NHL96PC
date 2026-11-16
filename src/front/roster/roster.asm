@@ -26,7 +26,7 @@ extern str_RosterSort, str_S12, str_S1dg2, str_S1dw2, str_S1ug2, str_S1up2, str_
 extern str_S2dw2, str_S2ug2, str_S2up2, str_S33, str_S3dg2, str_S3dw2, str_S3ug2, str_S3up2
 extern str_S4, str_S4dg, str_S4dw, str_S4ug, str_S4up, str_SD6, str_SGID, str_SS4
 extern str_StatDBPTRs2, str_Tra12, str_Tra22, str_Tra32, str_TraD, strcat_, strcpy_, sub_AAA40
-extern sub_AB758, FreeMemBlock, sub_AD35C, TintRows, sub_ADBEC, DosFileInfo, sub_B178B, OpenArtArchiveErr
+extern AllocMemBlock, FreeMemBlock, sub_AD35C, TintRows, sub_ADBEC, DosFileInfo, sub_B178B, OpenArtArchiveErr
 extern sub_B22B0, sub_B2C54, SetScreenTarget, sub_E04E0, TickDeadlinePassed, unk_152E36, unk_1821B4, unk_182224
 extern unk_182294, unk_96949, unk_96B89, unk_96C49, unk_96D09, unk_96DC9, unk_96FD9
 global RunRosterScreens, RunRosterScreens_230, RunRosterScreens_231, RosterScreen, DrawRosterTeams, DrawRosterTeams_17B, FormatRosterLine, FormatRosterLine_26D
@@ -52,31 +52,31 @@ RunRosterScreens:
         push byte 0
         push dword 0E0h
         push str_StatDBPTRs2
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push dword 0E0h
         push str_DBPTRs2
         mov dword [dword_11E670], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push dword 0E0h
         push str_Player2
         mov dword [dword_1820E4], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push dword 0E0h
         push str_FName2
         mov dword [dword_1820AC], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push dword 0E0h
         push str_LName2
         mov dword [dword_1820EC], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push dword 0E0h
@@ -85,14 +85,14 @@ RunRosterScreens:
         push str_Profiles2
         mov dword [byte ebp-08h], 0
         mov dword [dword_1820E8], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         mov dword [dword_1820B0], eax
 .1:
         push byte 0
         push dword 0C00h
         push str_HeightNWeight2
-        call sub_AB758
+        call AllocMemBlock
         mov edx, dword [byte ebp-08h]
         add esp, byte 0Ch
         add dword [byte ebp-08h], byte 4
@@ -351,7 +351,7 @@ RosterScreen:
         push eax
         push byte 70h
         push str_FreeAgents
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         mov dword [dword_183020], eax
         xor eax, eax
@@ -2652,7 +2652,7 @@ RosterScreen:
         push dword 0E0h
         mov eax, str_RosterSort
         push eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         mov dword [dword_11E678], eax
 .157:

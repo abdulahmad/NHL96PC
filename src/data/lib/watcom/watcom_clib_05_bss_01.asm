@@ -3,9 +3,9 @@ bits 32
 %include "hockey.inc"
 section s_185C4C nobits alloc noexec write align=1
 global byte_18B0D0, dword_185C4C, dword_18664C, dword_18B04C, dword_18B050, dword_18B054, dword_18B058, dword_18B05C
-global dword_18B060, dword_18B064, dword_18B068, dword_18B06C, dword_18B070, dword_18B074, dword_18B07C, dword_18B080
-global dword_18B084, dword_18B088, dword_18B08C, dword_18B090, dword_18B094, dword_18B09C, dword_18B0A0, dword_18B0AC
-global dword_18B0B0, dword_18B0B4, dword_18B0B8, unk_18704C, word_18B078, word_18B098, word_18B0BC, word_18B0BE
+global dword_18B060, dword_18B064, dword_18B068, dword_18B06C, dword_18B070, dword_18B074, CdBufferSelector, CdBufferAllocated
+global CdDriveLetter, dword_18B088, CdRequestSegment, CdBufferAddr, dword_18B094, dword_18B09C, dword_18B0A0, dword_18B0AC
+global dword_18B0B0, dword_18B0B4, dword_18B0B8, unk_18704C, CdBufferSegment, CdRequestSelector, word_18B0BC, word_18B0BE
 global word_18B0C0
 dword_185C4C:
         resb 2560
@@ -35,23 +35,23 @@ dword_18B070:
         resb 4
 dword_18B074:
         resb 4
-word_18B078:
+CdBufferSegment:
         resb 4
-dword_18B07C:
+CdBufferSelector:
         resb 4
-dword_18B080:
+CdBufferAllocated:
         resb 4
-dword_18B084:
+CdDriveLetter:
         resb 4
 dword_18B088:
         resb 4
-dword_18B08C:
+CdRequestSegment:
         resb 4
-dword_18B090:
+CdBufferAddr:
         resb 4
 dword_18B094:
         resb 4
-word_18B098:
+CdRequestSelector:
         resb 4
 dword_18B09C:
         resb 4

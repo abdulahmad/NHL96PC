@@ -2,16 +2,16 @@
 bits 32
 %include "hockey.inc"
 section s_1248DC progbits alloc noexec write align=1
-global dword_1248DC, dword_144F9C, dword_144FA0, dword_144FA4, dword_144FA8, dword_144FAC, dword_144FB0, dword_144FB4
+global MixerVolumeLookup, dword_144F9C, dword_144FA0, dword_144FA4, dword_144FA8, dword_144FAC, dword_144FB0, dword_144FB4
 global dword_144FB8, dword_144FBC, dword_144FC0, dword_144FC4, dword_144FC8, dword_144FCC, dword_144FD0, dword_144FD4
 global dword_144FD8, dword_144FDC, dword_144FE0, dword_144FE4, dword_144FE8, dword_144FEC, dword_144FF0, dword_144FF4
 global dword_144FF8, dword_144FFC, dword_145000, dword_145004, dword_145008, dword_14500C, dword_145010, dword_145014
 global dword_145018, MixerReady, dword_14EFA0, MixerOutputRate, dword_14EFA8, dword_14EFAC, MixerChunkSamples, MixerChunkLeft
 global dword_14EFB8, dword_14EFBC, MixerLoopLength, dword_14EFC8, MixerLoopStart, dword_14EFD0, dword_14EFD4, dword_14EFD8
-global MixerChannelTable, unk_1448DC, unk_144948, unk_1449B4, unk_144A20, unk_144A8C, unk_144AF8, unk_144B64
+global MixerChannelTable, MixerChannels, unk_144948, unk_1449B4, unk_144A20, unk_144A8C, unk_144AF8, unk_144B64
 global unk_144BD0, unk_144C3C, unk_144CA8, unk_144D14, unk_144D80, unk_144DEC, unk_144E58, unk_144EC4
 global unk_144F30, unk_146F9C
-dword_1248DC:
+MixerVolumeLookup:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -8204,7 +8204,7 @@ dword_1248DC:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-unk_1448DC:
+MixerChannels:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -10980,7 +10980,7 @@ dword_14EFD4:
 dword_14EFD8:
         db 00h,00h,00h,00h
 MixerChannelTable:
-        dd unk_1448DC
+        dd MixerChannels
         dd unk_144948
         dd unk_1449B4
         dd unk_144A20

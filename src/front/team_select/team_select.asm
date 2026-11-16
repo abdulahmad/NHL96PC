@@ -11,7 +11,7 @@ extern SlideInTitleBar, SoundIdle, SoundSecondsToBytes, sprintf_, str_Aal02, str
 extern str_Aar12, str_Aar22, str_Ahl02, str_Ahl12, str_Ahl22, str_Ahr02, str_Ahr12, str_Ahr22
 extern str_Bkgd24, str_HaBck0, str_HaBck1, str_Ldat, str_Pal10, str_Rk02d2, str_Rk22, str_Rul1
 extern str_Rul2, str_Rul3, str_Set0, str_Set1, str_Set2, str_Swt02, str_Swt1, str_SwtD
-extern sub_29B9F, DrawShapeAtOwnPos, sub_AADA4, sub_AB758, FreeMemBlock, sub_AD35C, sub_ADA50, sub_ADBEC
+extern sub_29B9F, DrawShapeAtOwnPos, sub_AADA4, AllocMemBlock, FreeMemBlock, sub_AD35C, sub_ADA50, sub_ADBEC
 extern SetScreenTarget, sub_E04E0, unk_152C44, word_11E280
 global unk_76071, DrawHomeTeamPanel, DrawHomeTeamPanel_151, DrawHomeTeamPanel_15D, DrawAwayTeamPanel, jpt_764F4, TeamSelectScreen, TeamSelectScreen_863
 global TeamSelectScreen_91E, TeamSelectScreen_9C0, TeamSelectScreen_A66, TeamSelectScreen_AFC, TeamSelectScreen_BAA, TeamSelectScreen_BB3, TeamSelectScreen_BD7, TeamSelectScreen_BE5
@@ -579,7 +579,7 @@ TeamSelectScreen:
         add eax, byte 10h
         push eax
         push str_HaBck0
-        call sub_AB758
+        call AllocMemBlock
         mov esi, dword [dword_11E2A0]
         mov dword [dword_11E2A8], eax
         mov edi, eax
@@ -616,7 +616,7 @@ TeamSelectScreen:
         add eax, byte 10h
         push eax
         push str_HaBck1
-        call sub_AB758
+        call AllocMemBlock
         mov esi, dword [dword_11E2A4]
         mov dword [dword_11E2AC], eax
         mov edi, eax
@@ -1025,7 +1025,7 @@ TeamSelectScreen_BE5:
         push byte 20h
         push eax
         push str_Ldat
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         pop edx
         pop ecx

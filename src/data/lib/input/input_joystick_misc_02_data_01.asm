@@ -5,7 +5,7 @@ section s_1222C8 progbits alloc noexec write align=1
 extern sub_B7AC4, sub_B7B50, sub_B7BDC, sub_B7C68, sub_B7D38, sub_B7E08, sub_B7ED8, sub_B7FBC
 extern sub_B809C, sub_B817C, sub_B8198, sub_B81B4, sub_B81D0, sub_B8230, sub_B8290
 global RemapTable, dword_1222C8, dword_1222CC, dword_1222D0, dword_1222D4, dword_1222D8, dword_1222DC, dword_12231C
-global dword_122350, dword_122378, dword_122384, dword_122388, dword_12238C, SinTable, dword_122790, str_Punct_SetScreenScale
+global dword_122350, dword_122378, dword_122384, dword_122388, dword_12238C, SinTable, CosTable, str_Punct_SetScreenScale
 global ScreenWidth, ClipBottom, off_1222E0, off_1222EC, off_1222F8, off_122304, off_122310, unk_122320
 global unk_122344, RinkMatrix, RinkTranslation
 dword_1222C8:
@@ -125,7 +125,7 @@ SinTable:
         db 04Eh,0FFh,00h,00h,06Ah,0FFh,00h,00h,084h,0FFh,00h,00h,09Ch,0FFh,00h,00h
         db 0B1h,0FFh,00h,00h,0C3h,0FFh,00h,00h,0D3h,0FFh,00h,00h,0E1h,0FFh,00h,00h
         db 0ECh,0FFh,00h,00h,0F4h,0FFh,00h,00h,0FBh,0FFh,00h,00h,0FEh,0FFh,00h,00h
-dword_122790:
+CosTable:
         db 00h,00h,01h,00h
 RemapTable:
         db 00h,09Eh,06Eh,07Eh,02Eh,0BEh,03Eh,08h,01Eh,08Dh,06Ah,07Ch,0DFh,0BCh,04Ch,018h

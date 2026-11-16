@@ -14,7 +14,7 @@ extern dword_17DAC0, dword_17DAC4, dword_17DAC8, dword_17DACC, dword_17DAD0, dwo
 extern gameopts, hmtmgoalie, optflags, qword_11244E, qword_112456, qword_11245E, qword_112466, qword_11246E
 extern qword_112476, qword_11247E, rand_, str_Aps, str_GSUMMARYDB, str_Pblank, str_Pgblank, str_Pk
 extern str_Ps, str_Tmdata, str_Tmgstats, str_Tmstats, str_Tset, PlayerDbRecord, StatsDb5Record, StatsDb1Record
-extern sub_AB758, FreeMemBlock, UnlinkJump, tag_agset, tag_apset, tag_gset, tag_pset, unk_112428
+extern AllocMemBlock, FreeMemBlock, UnlinkJump, tag_agset, tag_apset, tag_gset, tag_pset, unk_112428
 extern unk_11242B, unk_81ED1, UpdateTeamDbs, word_1656DC, word_1656E2, word_1656E8, word_165812, word_16581E
 extern word_17DB76
 global SimulateGame, unk_849C1, unk_849C7, unk_849CB, unk_849D1
@@ -84,19 +84,19 @@ SimulateGame:
         push byte 0
         push byte 64h
         push str_Pk
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push byte 64h
         push str_Ps
         mov dword [dword esi+dword_17DA90], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push byte 64h
         push tag_pset
         mov dword [dword esi+dword_17D930], eax
-        call sub_AB758
+        call AllocMemBlock
         mov dword [dword esi+dword_17DA48], eax
         imul eax, dword [byte ebp-062h], byte 64h
         mov dword [dword ebp+08Ah], eax
@@ -107,7 +107,7 @@ SimulateGame:
         push byte 0
         push byte 2Fh
         push str_Pblank
-        call sub_AB758
+        call AllocMemBlock
         mov edx, dword [dword ebp+08Ah]
         mov ecx, 2Fh
         add esp, byte 0Ch
@@ -127,7 +127,7 @@ SimulateGame:
         push byte 0
         push byte 36h
         push str_Pgblank
-        call sub_AB758
+        call AllocMemBlock
         mov edx, dword [dword ebp+092h]
         mov ecx, 36h
         add esp, byte 0Ch
@@ -142,19 +142,19 @@ SimulateGame:
         push byte 0
         push dword 190h
         push str_Tmstats
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push byte 12h
         push str_Tmgstats
         mov dword [dword esi+dword_17DA18], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push dword 433h
         push str_Tmdata
         mov dword [dword esi+dword_17D928], eax
-        call sub_AB758
+        call AllocMemBlock
         mov ecx, 190h
         add esp, byte 0Ch
         mov edi, dword [dword esi+dword_17DA18]
@@ -186,43 +186,43 @@ SimulateGame:
         mov eax, dword [dword esi+dword_17DA38]
         push str_Aps
         mov dword [dword edx+dword_1657FE], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push byte 64h
         push tag_apset
         mov dword [dword esi+dword_17DA28], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push byte 0Ch
         push unk_112428
         mov dword [dword esi+dword_17DA40], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push byte 0Ch
         push unk_11242B
         mov dword [dword esi+dword_17DA88], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push byte 0Ch
         push tag_gset
         mov dword [dword esi+dword_17DA20], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push byte 0Ch
         push asc_112433
         mov dword [dword esi+dword_17DA58], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push byte 0Ch
         push tag_agset
         mov dword [dword esi+dword_17DA78], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         mov dword [dword esi+dword_17DA60], eax
         cmp dword [dword ebp-012Eh], byte 0
@@ -230,7 +230,7 @@ SimulateGame:
         push byte 0
         push byte 12h
         push str_Tset
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         mov dword [dword esi+dword_17DA50], eax
 .8:

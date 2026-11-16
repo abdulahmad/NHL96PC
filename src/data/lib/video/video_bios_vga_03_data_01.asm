@@ -5,9 +5,9 @@ section s_124244 progbits alloc noexec write align=1
 extern sub_C5AE2
 global str_MUSICON, str_MUSICOFF, str_SOUNDON, str_SOUNDOFF, byte_124244, _Extender, _ExtenderSubtype, Is8087
 global _osmajor, _osminor, SavedTextMode, SavedTextPage, SavedTextRows, __real87, byte_1248D0, byte_1248D1
-global byte_1248DA, dword_1242CA, dword_1242CE, _dynend, _curbrk, _LpCmdLine, StackLow, _STACKLOW
+global byte_1248DA, HotkeyNesting, dword_1242CE, _dynend, _curbrk, _LpCmdLine, StackLow, _STACKLOW
 global _STACKTOP, CMainEnv, CMainResult, UngetChar, _Envptr, FpuInitHook, dword_12443C, dword_124440
-global dword_124444, dword_124448, dword_12444C, dword_124450, dword_124454, dword_124458, dword_124464, dword_124468
+global dword_124444, dword_124448, dword_12444C, dword_124450, dword_124454, dword_124458, AtanTable, str_Punct_AngleOfVector
 global ShadowFillFunc, TitleBandFunc, FpuSystemFlags, OldFpuVectorOffset, dword_1248C8, snddriver, dword_1248D2, dword_1248D6
 global _psp, __no87, _Envptr_w4, SavedTextColumns, OldFpuVectorSelector, FpuCr0Bits
 byte_124244:
@@ -20,7 +20,7 @@ byte_124244:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h
-dword_1242CA:
+HotkeyNesting:
         db 01h,00h,00h,00h
 dword_1242CE:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -111,9 +111,9 @@ SavedTextColumns:
         db 00h,00h
 SavedTextRows:
         db 00h,00h,00h,00h
-dword_124464:
+AtanTable:
         db 00h,00h,00h,00h
-dword_124468:
+str_Punct_AngleOfVector:
         db 029h,00h,00h,00h,051h,00h,00h,00h,07Ah,00h,00h,00h,0A3h,00h,00h,00h
         db 0CCh,00h,00h,00h,0F4h,00h,00h,00h,01Dh,01h,00h,00h,046h,01h,00h,00h
         db 06Fh,01h,00h,00h,097h,01h,00h,00h,0C0h,01h,00h,00h,0E9h,01h,00h,00h

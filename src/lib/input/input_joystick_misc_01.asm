@@ -2,14 +2,14 @@
 bits 32
 %include "hockey.inc"
 section s_DFEB4 progbits alloc exec nowrite align=1
-extern FatalError, atexit_, byte_11F90C, byte_11F920, byte_11F924, byte_11F940, byte_11F941, byte_11F942
-extern byte_11F983, dword_11F8E0, KbdIdleHook, dword_11F8F4, dword_11F8F8, dword_11F8FC, dword_11F900, dword_11F904
-extern dword_11F908, dword_11F928, dword_11F92C, dword_11F930, dword_11F934, dword_11F938, dword_11F93C, str_P
-extern dword_11F947, dword_11F94B, dword_11F94F, dword_11F953, dword_11F957, dword_11F95B, str_P2, dword_11F963
-extern dword_11F967, dword_11F96B, dword_11F96F, dword_11F973, dword_11F977, dword_11F97B, dword_11F97F, dword_1210D0
+extern FatalError, atexit_, JoyCalibrating, JoyButtonBits, JoyPortMask, JoyButtons, JoyButtonsPrev, JoyDirection
+extern byte_11F983, dword_11F8E0, KbdIdleHook, JoyTimeX, TimerCalibration, JoyTimeY, JoyTimeSecondX, JoyTimeSecondY
+extern JoyCalibrateTicks, JoyReadTimeout, JoyAxisX1, JoyAxisY1, JoyAxisX2, JoyAxisY2, JoyAxisMask, str_P
+extern JoyX1Min, JoyX1Center, JoyX1Max, JoyX1Settle, JoyY1Min, JoyY1Max, str_P2, JoyY1MinSeen
+extern JoyY1Center, JoyY1MaxSeen, JoyY1Settle, JoyX2Min, JoyX2Max, JoyXScale, JoyYScale, SavedBreakOffset
 extern BreakCallFunc, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, exit_, joyenablemask, BiosKeyFunc
-extern FillRect, RestoreDS, DosGetVector, DosSetVector, sub_E0898, tickcount, tickdeadline, unk_AA7B0
-extern word_11F910, word_11F914, word_11F918, word_11F91C, word_1210D4, word_1210DA
+extern FillRect, RestoreDS, DosGetVector, DosSetVector, Random32, tickcount, tickdeadline, unk_AA7B0
+extern JoyAxisValues, word_11F914, word_11F918, word_11F91C, SavedBreakSelector, BreakDataSelector
 global GetTicks, SetTickDeadline, TickDeadlinePassed, TicksSince, WaitKey, WaitTickDeadline, sub_E04E7_2, sub_E0584_30
 global sub_DFEC6, WaitTicks, KbdGetKey, sub_DFF45, KbdPeekKey, SetKbdIdleHook, sub_DFF7C, CalibrateJoystick
 global ReadJoystickPorts, sub_E0456, sub_E0486, AddExitHandler, sub_E04D9, sub_E04E0, sub_E04E7, bcopy
@@ -195,7 +195,7 @@ sub_DFF7C:
         push esi
         push edi
         LD xor, eax, eax
-        mov ah, byte [byte_11F924]
+        mov ah, byte [JoyPortMask]
         mov ecx, 2710h
         mov edx, 201h
         LD xor, ebx, ebx
@@ -222,8 +222,8 @@ sub_DFF7C:
         jcxz .8
 .7:
         shr al, 4
-        mov byte [byte_11F920], al
-        mov dword [word_11F910], ebp
+        mov byte [JoyButtonBits], al
+        mov dword [JoyAxisValues], ebp
         mov dword [word_11F914], esi
         mov dword [word_11F918], edi
         mov dword [word_11F91C], ebx
@@ -235,14 +235,14 @@ sub_DFF7C:
         LD mov, ah, al
         not ah
         and ah, 0Fh
-        mov byte [byte_11F924], ah
+        mov byte [JoyPortMask], ah
         jmp short .7
 ;-----------------------------------------------------------------------------
 ; CalibrateJoystick                               E0051  96 PC, low confidence
 ; Times the joystick port with the timer chip to calibrate its range
 ;-----------------------------------------------------------------------------
 CalibrateJoystick:
-        call sub_E0898
+        call Random32
         LD mov, bh, al
         LD xor, eax, eax
         mov ecx, 2710h
@@ -256,13 +256,13 @@ CalibrateJoystick:
         LD mov, ah, al
         in al, 40h
         xchg al, ah
-        mov dword [dword_11F8F4], eax
-        mov dword [dword_11F8FC], eax
-        mov dword [dword_11F900], eax
-        mov dword [dword_11F904], eax
-        mov dword [dword_11F908], eax
-        mov byte [byte_11F90C], 0
-        mov bl, byte [byte_11F924]
+        mov dword [JoyTimeX], eax
+        mov dword [JoyTimeY], eax
+        mov dword [JoyTimeSecondX], eax
+        mov dword [JoyTimeSecondY], eax
+        mov dword [JoyCalibrateTicks], eax
+        mov byte [JoyCalibrating], 0
+        mov bl, byte [JoyPortMask]
 .1:
         in al, dx
         LD mov, ah, al
@@ -279,19 +279,19 @@ CalibrateJoystick:
         xchg al, ah
         shr dl, 1
         jae short .2
-        mov dword [dword_11F8FC], eax
+        mov dword [JoyTimeY], eax
 .2:
         shr dl, 1
         jae short .3
-        mov dword [dword_11F900], eax
+        mov dword [JoyTimeSecondX], eax
 .3:
         shr dl, 1
         jae short .4
-        mov dword [dword_11F904], eax
+        mov dword [JoyTimeSecondY], eax
 .4:
         shr dl, 1
         jae short .5
-        mov dword [dword_11F908], eax
+        mov dword [JoyCalibrateTicks], eax
 .5:
         LD mov, eax, edx
         mov edx, 201h
@@ -307,30 +307,30 @@ CalibrateJoystick:
 .8:
         popf
         shr ah, 4
-        mov byte [byte_11F920], ah
-        cmp byte [byte_11F90C], 0
+        mov byte [JoyButtonBits], ah
+        cmp byte [JoyCalibrating], 0
         jne near CalibrateJoystick
         mov ebx, 0Ch
 .9:
-        mov eax, dword [dword_11F8F4]
-        sub eax, dword [dword ebx+dword_11F8FC]
+        mov eax, dword [JoyTimeX]
+        sub eax, dword [dword ebx+JoyTimeY]
         jge short .10
-        add eax, dword [dword_11F8F8]
+        add eax, dword [TimerCalibration]
         jl short .11
 .10:
-        mov dword [dword ebx+word_11F910], eax
+        mov dword [dword ebx+JoyAxisValues], eax
 .11:
         sub ebx, byte 4
         jge short .9
         LD xor, eax, eax
-        mov al, byte [byte_11F920]
-        mov ah, byte [byte_11F924]
+        mov al, byte [JoyButtonBits]
+        mov ah, byte [JoyPortMask]
         ret
 .12:
         LD mov, bl, ah
         not bl
         and bl, 0Fh
-        mov byte [byte_11F924], bl
+        mov byte [JoyPortMask], bl
         jmp short .8
 .13:
         popf
@@ -340,7 +340,7 @@ CalibrateJoystick:
         in al, dx
         LD xor, al, ah
         LD and, al, bl
-        or byte [byte_11F90C], al
+        or byte [JoyCalibrating], al
         jmp short .7
         db 00h
 ;-----------------------------------------------------------------------------
@@ -348,13 +348,13 @@ CalibrateJoystick:
 ; Reads the joystick buttons and axes by timing the port
 ;-----------------------------------------------------------------------------
 ReadJoystickPorts:
-        mov byte [byte_11F942], 0
+        mov byte [JoyDirection], 0
         test byte [joyenablemask], 1
         je near .30
         mov dx, 201h
         in al, dx
         and al, 30h
-        mov byte [byte_11F941], al
+        mov byte [JoyButtonsPrev], al
         mov bl, 3
         cli
         out dx, al
@@ -365,10 +365,10 @@ ReadJoystickPorts:
         LD mov, ah, al
         in al, 40h
         xchg al, ah
-        mov dword [dword_11F92C], eax
+        mov dword [JoyAxisX1], eax
         add eax, byte 50h
-        mov dword [dword_11F930], eax
-        mov dword [dword_11F934], eax
+        mov dword [JoyAxisY1], eax
+        mov dword [JoyAxisX2], eax
         mov ecx, 14h
 .1:
         dec ecx
@@ -398,7 +398,7 @@ ReadJoystickPorts:
         LD mov, ah, al
         in al, 40h
         xchg al, ah
-        mov dword [dword_11F934], eax
+        mov dword [JoyAxisX2], eax
         and bl, 1
         jne short .2
         jmp short .6
@@ -410,54 +410,54 @@ ReadJoystickPorts:
         LD mov, ah, al
         in al, 40h
         xchg al, ah
-        mov dword [dword_11F930], eax
+        mov dword [JoyAxisY1], eax
         and bl, 2
         jne short .4
 .6:
-        mov eax, dword [dword_11F92C]
-        cmp eax, dword [dword_11F930]
+        mov eax, dword [JoyAxisX1]
+        cmp eax, dword [JoyAxisY1]
         jl short .7
-        sub eax, dword [dword_11F930]
-        mov dword [dword_11F938], eax
+        sub eax, dword [JoyAxisY1]
+        mov dword [JoyAxisY2], eax
         jmp short .8
 .7:
-        mov dword [dword_11F938], eax
-        mov eax, dword [dword_11F928]
-        sub eax, dword [dword_11F930]
-        add dword [dword_11F938], eax
+        mov dword [JoyAxisY2], eax
+        mov eax, dword [JoyReadTimeout]
+        sub eax, dword [JoyAxisY1]
+        add dword [JoyAxisY2], eax
 .8:
-        mov eax, dword [dword_11F92C]
-        cmp eax, dword [dword_11F934]
+        mov eax, dword [JoyAxisX1]
+        cmp eax, dword [JoyAxisX2]
         jl short .9
-        sub eax, dword [dword_11F934]
-        mov dword [dword_11F93C], eax
+        sub eax, dword [JoyAxisX2]
+        mov dword [JoyAxisMask], eax
         jmp short .10
 .9:
-        mov dword [dword_11F93C], eax
-        mov eax, dword [dword_11F928]
-        sub eax, dword [dword_11F934]
-        add dword [dword_11F93C], eax
+        mov dword [JoyAxisMask], eax
+        mov eax, dword [JoyReadTimeout]
+        sub eax, dword [JoyAxisX2]
+        add dword [JoyAxisMask], eax
 .10:
-        mov eax, dword [dword_11F938]
+        mov eax, dword [JoyAxisY2]
         cmp eax, dword [str_P]
         jge short .14
-        dec dword [dword_11F953]
+        dec dword [JoyX1Settle]
         jle short .11
-        cmp eax, dword [dword_11F947]
+        cmp eax, dword [JoyX1Min]
         jl near .17
-        mov dword [dword_11F947], eax
+        mov dword [JoyX1Min], eax
         jmp near .17
 .11:
-        mov ebx, dword [dword_11F947]
+        mov ebx, dword [JoyX1Min]
         mov dword [str_P], ebx
-        mov ebx, dword [dword_11F94B]
+        mov ebx, dword [JoyX1Center]
 .12:
         sub ebx, dword [str_P]
         jle short .13
         LD xor, edx, edx
         mov eax, 4000h
         div ebx
-        mov dword [dword_11F97B], eax
+        mov dword [JoyXScale], eax
 .13:
         LD mov, eax, ebx
         mov dx, 201h
@@ -466,56 +466,56 @@ ReadJoystickPorts:
         shr ebx, 1
         add eax, dword [str_P]
         LD add, eax, ebx
-        mov dword [dword_11F95B], eax
+        mov dword [JoyY1Max], eax
         LD sub, eax, ebx
         LD sub, eax, ebx
-        mov dword [dword_11F957], eax
-        mov eax, dword [dword_11F938]
+        mov dword [JoyY1Min], eax
+        mov eax, dword [JoyAxisY2]
         jmp short .16
 .14:
-        cmp eax, dword [dword_11F94B]
+        cmp eax, dword [JoyX1Center]
         jle short .16
-        dec dword [dword_11F953]
+        dec dword [JoyX1Settle]
         jle short .15
-        cmp eax, dword [dword_11F94F]
+        cmp eax, dword [JoyX1Max]
         jge short .17
-        mov dword [dword_11F94F], eax
+        mov dword [JoyX1Max], eax
         jmp short .17
 .15:
-        mov ebx, dword [dword_11F94F]
-        mov dword [dword_11F94B], ebx
+        mov ebx, dword [JoyX1Max]
+        mov dword [JoyX1Center], ebx
         jmp short .12
 .16:
-        mov dword [dword_11F953], 14h
-        mov dword [dword_11F94F], 4E20h
-        mov dword [dword_11F947], 0
+        mov dword [JoyX1Settle], 14h
+        mov dword [JoyX1Max], 4E20h
+        mov dword [JoyX1Min], 0
 .17:
-        cmp eax, dword [dword_11F957]
+        cmp eax, dword [JoyY1Min]
         jl near .22
-        cmp eax, dword [dword_11F95B]
+        cmp eax, dword [JoyY1Max]
         jl short .18
-        or byte [byte_11F942], 4
+        or byte [JoyDirection], 4
 .18:
-        mov eax, dword [dword_11F93C]
+        mov eax, dword [JoyAxisMask]
         cmp eax, dword [str_P2]
         jae short .23
-        dec dword [dword_11F96F]
+        dec dword [JoyY1Settle]
         jle short .19
-        cmp eax, dword [dword_11F963]
+        cmp eax, dword [JoyY1MinSeen]
         jl near .26
-        mov dword [dword_11F963], eax
+        mov dword [JoyY1MinSeen], eax
         jmp near .26
 .19:
-        mov ebx, dword [dword_11F963]
+        mov ebx, dword [JoyY1MinSeen]
         mov dword [str_P2], ebx
-        mov ebx, dword [dword_11F967]
+        mov ebx, dword [JoyY1Center]
 .20:
         sub ebx, dword [str_P2]
         jle short .21
         LD xor, edx, edx
         mov eax, 4000h
         div ebx
-        mov dword [dword_11F97F], eax
+        mov dword [JoyYScale], eax
 .21:
         LD mov, eax, ebx
         mov dx, 201h
@@ -524,57 +524,57 @@ ReadJoystickPorts:
         shr ebx, 1
         add eax, dword [str_P2]
         LD add, eax, ebx
-        mov dword [dword_11F977], eax
+        mov dword [JoyX2Max], eax
         LD sub, eax, ebx
         LD sub, eax, ebx
-        mov dword [dword_11F973], eax
-        mov eax, dword [dword_11F93C]
+        mov dword [JoyX2Min], eax
+        mov eax, dword [JoyAxisMask]
         jmp short .25
 .22:
-        or byte [byte_11F942], 8
+        or byte [JoyDirection], 8
         jmp near .18
 .23:
-        cmp eax, dword [dword_11F967]
+        cmp eax, dword [JoyY1Center]
         jle short .25
-        dec dword [dword_11F96F]
+        dec dword [JoyY1Settle]
         je short .24
-        cmp eax, dword [dword_11F96B]
+        cmp eax, dword [JoyY1MaxSeen]
         jge short .26
-        mov dword [dword_11F96B], eax
+        mov dword [JoyY1MaxSeen], eax
         jmp short .26
 .24:
-        mov ebx, dword [dword_11F96B]
-        mov dword [dword_11F967], ebx
+        mov ebx, dword [JoyY1MaxSeen]
+        mov dword [JoyY1Center], ebx
         jmp short .20
 .25:
-        mov dword [dword_11F96F], 14h
-        mov dword [dword_11F96B], 4E20h
-        mov dword [dword_11F963], 0
+        mov dword [JoyY1Settle], 14h
+        mov dword [JoyY1MaxSeen], 4E20h
+        mov dword [JoyY1MinSeen], 0
 .26:
-        cmp eax, dword [dword_11F973]
+        cmp eax, dword [JoyX2Min]
         jb short .31
-        cmp eax, dword [dword_11F977]
+        cmp eax, dword [JoyX2Max]
         jb short .27
-        or byte [byte_11F942], 2
+        or byte [JoyDirection], 2
 .27:
         in al, dx
         and al, 30h
-        cmp al, byte [byte_11F941]
+        cmp al, byte [JoyButtonsPrev]
         je short .28
-        mov al, byte [byte_11F940]
+        mov al, byte [JoyButtons]
         jmp short .29
 .28:
         xor al, 30h
-        mov byte [byte_11F940], al
+        mov byte [JoyButtons], al
 .29:
-        or byte [byte_11F942], al
+        or byte [JoyDirection], al
 .30:
-        mov al, byte [byte_11F942]
+        mov al, byte [JoyDirection]
         LD xor, ah, ah
         movzx eax, ax
         ret
 .31:
-        or byte [byte_11F942], 1
+        or byte [JoyDirection], 1
         jmp short .27
 ;-----------------------------------------------------------------------------
 ; sub_E0456                                                            E0456  
@@ -582,9 +582,9 @@ ReadJoystickPorts:
 sub_E0456:
         mov byte [joyenablemask], 1
         mov dword [str_P], 50h
-        mov dword [dword_11F94B], 0
+        mov dword [JoyX1Center], 0
         mov dword [str_P2], 50h
-        mov dword [dword_11F967], 0
+        mov dword [JoyY1Center], 0
         ret
 ;-----------------------------------------------------------------------------
 ; sub_E0486                                                            E0486  
@@ -599,20 +599,20 @@ sub_E0486:
         movzx eax, ax
         leave
         ret
-        mov eax, dword [dword_11F938]
+        mov eax, dword [JoyAxisY2]
         sub eax, dword [str_P]
         jge short .1
         LD xor, eax, eax
 .1:
-        mul dword [dword_11F97B]
+        mul dword [JoyXScale]
         sub eax, byte 1Fh
         ret
-        mov eax, dword [dword_11F93C]
+        mov eax, dword [JoyAxisMask]
         sub eax, dword [str_P2]
         jge short .2
         LD xor, eax, eax
 .2:
-        mul dword [dword_11F97F]
+        mul dword [JoyYScale]
         sub eax, byte 1Fh
         ret
         db 00h,00h
@@ -775,13 +775,13 @@ InstallBreakHandler:
         mov eax, dword [byte ebp+08h]
         mov dword [BreakCallFunc], eax
         mov ax, cs
-        mov word [word_1210DA], ax
-        cmp word [word_1210D4], byte 0
+        mov word [BreakDataSelector], ax
+        cmp word [SavedBreakSelector], byte 0
         jne short .1
         mov ebx, 24h
         call DosGetVector
-        mov dword [dword_1210D0], eax
-        mov word [word_1210D4], dx
+        mov dword [SavedBreakOffset], eax
+        mov word [SavedBreakSelector], dx
         mov ebx, 24h
         mov dx, cs
         mov eax, sub_E0584_30
@@ -799,12 +799,12 @@ InstallBreakHandler:
 RemoveBreakHandler:
         pusha
         mov ebx, 24h
-        mov dx, word [word_1210D4]
-        mov eax, dword [dword_1210D0]
+        mov dx, word [SavedBreakSelector]
+        mov eax, dword [SavedBreakOffset]
         LD or, dx, dx
         je short .1
         call DosSetVector
-        mov word [word_1210D4], 0
+        mov word [SavedBreakSelector], 0
 .1:
         popa
         ret

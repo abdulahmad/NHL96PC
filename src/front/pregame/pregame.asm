@@ -15,7 +15,7 @@ extern SlideInSideBar, SlideInTitleBar, SoundIdle, SoundSecondsToBytes, sprintf_
 extern str_Ard, str_Bkgd13, str_BKGD14, str_Card, str_CS3, str_D2, str_dbgSpace, str_Down
 extern str_DSS, str_FSH, str_FSH3, str_H07d, str_Home, str_LG02d, str_MightyDucksOfAnaheim, str_Pal3
 extern str_PalFsh, str_PALS, str_Plyr, str_ProfileFsh, str_SCHEDULE2, str_SS3, str_Xlate, strcat_
-extern WriteDbRecord6, SelectDataLibrary, PlayerDbRecord, ComputeTeamRanks, DrawShapeAtOwnPos, sub_AAA8C, sub_AADA4, sub_AB758
+extern WriteDbRecord6, SelectDataLibrary, PlayerDbRecord, ComputeTeamRanks, DrawShapeAtOwnPos, sub_AAA8C, sub_AADA4, AllocMemBlock
 extern FreeMemBlock, sub_AD35C, sub_ADA50, sub_ADBEC, SaveTextState, SetDrawTarget, DosFileInfo, LoadResourceDataShared
 extern sub_B7638, sub_C2600, SetScreenTarget, sub_DD908, sub_DD920, sub_E04E0, sub_E0584, TextSetFont
 extern unk_112523, unk_152C44, unk_849C1, unk_849C7, unk_849CB, unk_849D1, word_114CE0
@@ -877,7 +877,7 @@ PreGameTeamsScreen:
         inc eax
         push eax
         push str_SCHEDULE2
-        call sub_AB758
+        call AllocMemBlock
         mov ebx, dword [byte ebp+04Ah]
         add esp, byte 0Ch
         mov edi, eax
@@ -1241,7 +1241,7 @@ PreGameCardsA:
         push byte 20h
         push dword 200h
         push str_Xlate
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push dword 0AEh
@@ -2151,7 +2151,7 @@ PreGameCardsB:
         push dword 1200h
         push str_PALS
         mov dword [byte ebp+076h], 0
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         mov dword [byte ebp-01Eh], eax
         mov dword [byte ebp+072h], 0
@@ -2697,7 +2697,7 @@ PreGameCardsC:
         push str_PALS
         mov dword [byte ebp+07Ah], 0
         mov dword [byte ebp+066h], 0
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         mov dword [byte ebp+022h], eax
 .1:

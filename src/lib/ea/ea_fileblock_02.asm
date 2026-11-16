@@ -5,7 +5,7 @@ section s_B22E0 progbits alloc exec nowrite align=1
 extern FatalError, str_SavefileblockaOPENFAILEDFOR, byte_11FA2C, byte_11FA2D, byte_11FA2E, byte_11FA2F, byte_11FA30, dword_11FA14
 extern TextOriginX, TextOriginY, dword_11FA24, dword_11FA28, dword_11FA34, dword_11FA38, dword_11FA3C, dword_11FA40
 extern dword_11FA44, dword_11FA48, dword_11FA4C, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight
-extern dword_1228E8, dword_1228F4, dword_1228F8, dword_1228FC, dword_185774, off_11FA10, MemDescPtr, MemDescSize
+extern dword_1228E8, dword_1228F4, DrawDestBuffer, dword_1228FC, dword_185774, off_11FA10, MemDescPtr, MemDescSize
 extern SetTextOrigin, sub_C4CCC, sub_C4D80, sub_C50E0, sub_DE15C, sub_DEE68, sub_E069C, DosCloseFile
 extern DosWriteFile
 global SaveDataFile, savefileblocka, sub_B2400, sub_B2B0C
@@ -536,7 +536,7 @@ sub_B2400:
         push edx
         push edi
         push eax
-        mov eax, dword [dword_1228F8]
+        mov eax, dword [DrawDestBuffer]
         mov edx, dword [dword_1228FC]
         mov ecx, dword [eax+esi*4]
         mov esi, dword [byte esp+054h]

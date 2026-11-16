@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_121B38 progbits alloc noexec write align=1
 global str_Viv, dword_121B38, CdFileMode, CdFileHandle, dword_121B50, dword_121B54, dword_121B58, dword_121B5C
-global dword_121B6C, dword_121F90, dword_121FBC, CdFileTable, unk_121FC8
+global dword_121B6C, SinCosTable, dword_121FBC, CdFileTable, unk_121FC8
 dword_121B38:
         db 00h,08h,00h,00h
 CdFileTable:
@@ -88,7 +88,7 @@ dword_121B6C:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h
-dword_121F90:
+SinCosTable:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h

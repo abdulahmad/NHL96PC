@@ -40,7 +40,7 @@ extern str_FName, str_GlobalSort, str_HBAL2, str_HD01, str_HD02, str_HD03, str_H
 extern str_LocalSort, str_Pal21, str_Player, str_PLR0, str_PlusMinus, str_Profiles, str_S3, str_SD3
 extern str_SEA02, str_Shot, str_SLDH, str_SLDV, str_Space, str_StatDBPTRs, str_Stats, str_VBAL2
 extern str_Wt3, strcat_, strcmp_, strcpy_, strlen_, LoadDataFileLib, PlayerDbRecord, StatsDb5Record
-extern StatsDb1Record, sub_AAA40, sub_AB758, FreeMemBlock, sub_AD35C, TintRows, sub_AD620, sub_ADBEC
+extern StatsDb1Record, sub_AAA40, AllocMemBlock, FreeMemBlock, sub_AD35C, TintRows, sub_AD620, sub_ADBEC
 extern DosFileInfo, sub_B2C54, sub_B2C70, sub_C2500, SetScreenTarget, sub_E04E0, TextSetFont, TickDeadlinePassed
 extern unk_11282F, unk_11E71A, unk_17FDF8, unk_17FE5E, unk_17FEC4, unk_17FF2A, unk_17FF90, unk_180128
 extern unk_1802C0, unk_8B87F, unk_8BD9F, unk_8BF1F, UpdateProgressBox, word_114CE0, word_1656E8, word_181EB4
@@ -593,50 +593,50 @@ PlayerStatsScreen:
         push byte 0
         push dword 0C00h
         push str_StatDBPTRs
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push dword 0C00h
         push str_DBPTRs
         mov dword [dword_11E670], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push dword 0C00h
         push str_Player
         mov dword [dword_1820E4], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push dword 0C00h
         push str_PlusMinus
         mov dword [dword_1820AC], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push dword 0C00h
         push str_FName
         mov dword [dword_1820B4], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push dword 0C00h
         push str_LName
         mov dword [dword_1820EC], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push dword 0C00h
         push str_DonRuss
         mov dword [dword_1820E8], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push dword 0C00h
         push str_Profiles
         xor esi, esi
         mov dword [dword_1820A8], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         mov dword [dword_1820B0], eax
 .1:
@@ -644,7 +644,7 @@ PlayerStatsScreen:
         push dword 0C00h
         push str_Stats
         add esi, byte 4
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         mov dword [dword esi+dword_1820B4], eax
         cmp esi, byte 2Ch
@@ -655,7 +655,7 @@ PlayerStatsScreen:
         push dword 0C00h
         push str_HeightNWeight
         add esi, byte 4
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         mov dword [dword esi+dword_17FDEC], eax
         cmp esi, byte 8
@@ -666,14 +666,14 @@ PlayerStatsScreen:
         push byte 0
         push dword 0C00h
         push str_LocalSort
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         mov dword [dword_11E678], eax
 .4:
         push byte 0
         push dword 0C00h
         push str_GlobalSort
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 0
         push dword 600h
@@ -681,7 +681,7 @@ PlayerStatsScreen:
         push str_Shot
         mov dword [byte ebp+04Eh], 8Ch
         mov dword [byte ebp+07Ah], eax
-        call sub_AB758
+        call AllocMemBlock
         mov dword [dword_181EAC], 3E7h
         mov dword [dword_18209C], 5
         mov edx, unk_17FDF8

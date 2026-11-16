@@ -12,7 +12,7 @@ extern dword_17BD0C, dword_17BD14, dword_17BD1C, dword_17BD20, dword_17BD48, dwo
 extern dword_17BD66, dword_17BD6E, dword_17BD72, dword_17BD7A, dword_17BD82, dword_17BD86, GetTicks, InitMenuItems
 extern LoadPackedFile, PutBlock, SetDrawBitmap, SetScreenPalette, SoundIdle, sprintf_, str_CHECK, str_M03d
 extern str_Mhil, str_MODEM, str_Pal7, str_TN02d, str_X03d, str_XBUT, str_Xhil, str_Y03d
-extern str_Yhil, sub_AA7E0, sub_AB758, FreeMemBlock, sub_AD35C, sub_AD620, sub_ADBEC, SaveTextState
+extern str_Yhil, DrawShapeCore, AllocMemBlock, FreeMemBlock, sub_AD35C, sub_AD620, sub_ADBEC, SaveTextState
 extern SetDrawTarget, SetScreenTarget, KbdGetKey, sub_E04E0, TextSetFont, unk_11BCE8, unk_11BD28, unk_11BD68
 extern unk_17BB24
 global LoadFrontEndArt, LoadFrontEndArt_412, GetTeamNameArt, CopyArtRows, OpenScreen, SlideInTitleBar, SlideInTitleBar_62, SlideInTitleBar_6A
@@ -57,13 +57,13 @@ LoadFrontEndArt:
         push str_CHECK
         mov byte [byte_17BDB0], 0FDh
         mov dword [dword_17BC6C], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 20h
         push dword 842Eh
         push str_XBUT
         mov dword [dword_17BC70], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push byte 20h
         push dword 842Eh
@@ -72,7 +72,7 @@ LoadFrontEndArt:
         push str_MODEM
         mov dword [byte ebp-014h], 0
         mov dword [dword_17BC64], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         mov dword [dword_17BC68], eax
 .1:
@@ -366,7 +366,7 @@ OpenScreen:
         push dword [dword_17BD6E]
         push eax
         mov dword [byte ebp-010h], eax
-        call sub_AA7E0
+        call DrawShapeCore
         add esp, byte 0Ch
         mov edx, 20h
         mov eax, dword [dword_17BA7C]
@@ -375,7 +375,7 @@ OpenScreen:
         push dword [dword_17BCA2]
         push eax
         mov dword [byte ebp-018h], eax
-        call sub_AA7E0
+        call DrawShapeCore
         add esp, byte 0Ch
         mov edx, 20h
         mov eax, dword [dword_17BAB4]
@@ -384,7 +384,7 @@ OpenScreen:
         push dword [dword_17BD08]
         push eax
         mov dword [byte ebp-014h], eax
-        call sub_AA7E0
+        call DrawShapeCore
         add esp, byte 0Ch
         push byte 0
         push byte 31h

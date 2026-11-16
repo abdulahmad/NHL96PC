@@ -3,13 +3,13 @@ bits 32
 %include "hockey.inc"
 section s_11FD54 progbits alloc noexec write align=1
 extern sub_B153D_9, sub_B153D_12, sub_B153D_1B, sub_B153D, bcopy
-global dword_1210C0, dword_1210C8, dword_1210CC, SerialPortTable, off_11FD5C, off_11FD60, unk_11FD54, unk_11FD6A
+global dword_1210C0, dword_1210C8, dword_1210CC, SerialPortTable, off_11FD5C, off_11FD60, unk_11FD54, SerialPorts
 global unk_11FD74, unk_1201B6, unk_1201C0, unk_120602, unk_12060C, unk_120A4E, unk_120A58, word_11FD68
-global word_120E9A, word_120EC0
+global SerialBaudDivisors, word_120EC0
 unk_11FD54:
         db 01h,00h,00h,00h
 SerialPortTable:
-        dd unk_11FD6A
+        dd SerialPorts
 off_11FD5C:
         dd unk_1201B6
 off_11FD60:
@@ -17,7 +17,7 @@ off_11FD60:
         dd unk_120A4E
 word_11FD68:
         db 00h,00h
-unk_11FD6A:
+SerialPorts:
         db 02h,00h,00h,03h,0Ch,00h,010h,00h,0F8h,03h
 unk_11FD74:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -309,7 +309,7 @@ unk_120A58:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h
-word_120E9A:
+SerialBaudDivisors:
         db 080h,01h,0C0h,00h,060h,00h,040h,00h,03Ah,00h,030h,00h,020h,00h,018h,00h
         db 010h,00h,0Ch,00h,08h,00h,06h,00h,04h,00h,02h,00h,01h,00h,043h,04Fh
         db 04Dh,04Dh,00h,00h,00h,00h

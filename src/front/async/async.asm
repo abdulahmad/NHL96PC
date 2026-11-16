@@ -7,7 +7,7 @@ extern dword_152F74, dword_152F78, dword_152F7C, dword_152F80, dword_152F88, dwo
 extern dword_152F98, dword_152F9C, dword_152FA0, dword_152FA4, dword_152FAC, dword_152FB0, dword_152FB4, dword_152FB8
 extern dword_152FBC, dword_152FC4, dword_152FC8, dword_152FCC, dword_152FD0, dword_152FD4, FatalError, openhandle
 extern SetTickDeadline, str_ASYNC, str_ASYNCFILE, str_AsyncreaderNOFILESPECIFI, str_AsyncreaderNOFILESPECIFI2, str_AsyncreaderNOFILESPECIFI3, str_GetasyncblockDNOASYNCBLO, str_SetasyncspeedSFILEISTOOS
-extern str_SetasyncspeedSFILEISTOOS2, strcmp_, strncpy_, RemoveTimerCallback, sub_AB6D8, sub_AB758, FreeMemBlock, sub_ABF88
+extern str_SetasyncspeedSFILEISTOOS2, strcmp_, strncpy_, RemoveTimerCallback, sub_AB6D8, AllocMemBlock, FreeMemBlock, sub_ABF88
 extern sub_B67BC, CdHandleEntry, CdCloseFile, sub_B68C8, sub_B6964, sub_DFEC6, DosCloseFile, sub_E07CC
 extern sub_E081C, unk_152FA8, WaitTickDeadline
 global setasyncspeed, setasyncspeed_ret, AsyncInit, AsyncClose, AsyncRequestOpen, AsyncRequestSection, AsyncCancelRequest, jpt_1BE62
@@ -63,7 +63,7 @@ setasyncspeed:
         push byte 0
         push dword [byte ebp-014h]
         push str_ASYNC
-        call sub_AB758
+        call AllocMemBlock
         mov esi, eax
         mov dword [byte ebp-04h], eax
         mov eax, dword [byte ebp-018h]
@@ -212,7 +212,7 @@ AsyncInit:
         push dword [byte ebp+014h]
         push eax
         push str_ASYNCFILE
-        call sub_AB758
+        call AllocMemBlock
         mov ecx, dword [byte ebp+0Ch]
         mov edx, eax
         add esp, byte 0Ch

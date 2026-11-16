@@ -610,3 +610,234 @@ sub_C8504 DrawShapeTriangleMapped {confidence=low,source=new} converts a source 
 sub_C9F8A Shl64 {confidence=low,source=new} shifts a 64-bit value left
 sub_CA650 FixedSinCos {confidence=low,source=new} graphics library: sine and cosine of a fixed-point angle from the table
 sub_CC7A1 MixerBuildVolumeTables {confidence=low,source=new} builds the 128 volume tables that scale each 8-bit sample value
+sub_D02A8 NoFloatSupport {confidence=medium,source=new} reports that floating-point support is not loaded and exits
+sub_D2AAA EaEax {confidence=medium,source=new} x87 emulator operand address: [eax]
+sub_D2AB0 EaEcx {confidence=medium,source=new} x87 emulator operand address: [ecx]
+sub_D2AB6 EaEdx {confidence=medium,source=new} x87 emulator operand address: [edx]
+sub_D2ABC EaEbx {confidence=medium,source=new} x87 emulator operand address: [ebx]
+sub_D2AC2 EaEsp {confidence=medium,source=new} x87 emulator operand address: [esp] (stack segment)
+sub_D2ACA EaDisp32 {confidence=medium,source=new} x87 emulator operand address: [disp32]
+sub_D2AD0 EaEsi {confidence=medium,source=new} x87 emulator operand address: [esi]
+sub_D2AD6 EaEdi {confidence=medium,source=new} x87 emulator operand address: [edi]
+sub_D2ADC EaEaxDisp8 {confidence=medium,source=new} x87 emulator operand address: [eax+disp8]
+sub_D2AE4 EaEcxDisp8 {confidence=medium,source=new} x87 emulator operand address: [ecx+disp8]
+sub_D2AEC EaEdxDisp8 {confidence=medium,source=new} x87 emulator operand address: [edx+disp8]
+sub_D2AF4 EaEbxDisp8 {confidence=medium,source=new} x87 emulator operand address: [ebx+disp8]
+sub_D2AFC EaEspDisp8 {confidence=medium,source=new} x87 emulator operand address: [esp+disp8]
+sub_D2B06 EaEbpDisp8 {confidence=medium,source=new} x87 emulator operand address: [ebp+disp8]
+sub_D2B10 EaEsiDisp8 {confidence=medium,source=new} x87 emulator operand address: [esi+disp8]
+sub_D2B18 EaEdiDisp8 {confidence=medium,source=new} x87 emulator operand address: [edi+disp8]
+sub_D2B20 EaEaxDisp32 {confidence=medium,source=new} x87 emulator operand address: [eax+disp32]
+sub_D2B29 EaEcxDisp32 {confidence=medium,source=new} x87 emulator operand address: [ecx+disp32]
+sub_D2B32 EaEdxDisp32 {confidence=medium,source=new} x87 emulator operand address: [edx+disp32]
+sub_D2B3B EaEbxDisp32 {confidence=medium,source=new} x87 emulator operand address: [ebx+disp32]
+sub_D2B44 EaEspDisp32 {confidence=medium,source=new} x87 emulator operand address: [esp+disp32]
+sub_D2B4F EaEbpDisp32 {confidence=medium,source=new} x87 emulator operand address: [ebp+disp32]
+sub_D2B5A EaEsiDisp32 {confidence=medium,source=new} x87 emulator operand address: [esi+disp32]
+sub_D2B63 EaEdiDisp32 {confidence=medium,source=new} x87 emulator operand address: [edi+disp32]
+sub_D2BA4 EmuUnsupported {confidence=medium,source=new} x87 emulator: unsupported instruction, returns from the trap
+sub_D2BA9 EmuFaddM32 {confidence=medium,source=new} x87 emulator: FADD m32real
+sub_D2BC8 EmuFmulM32 {confidence=medium,source=new} x87 emulator: FMUL m32real
+sub_D2BE7 EmuFcomM32 {confidence=medium,source=new} x87 emulator: FCOM m32real
+sub_D2C03 EmuFcompM32 {confidence=medium,source=new} x87 emulator: FCOMP m32real
+sub_D2C1F EmuFsubM32 {confidence=medium,source=new} x87 emulator: FSUB m32real
+sub_D2C3E EmuFsubrM32 {confidence=medium,source=new} x87 emulator: FSUBR m32real
+sub_D2C5D EmuFdivM32 {confidence=medium,source=new} x87 emulator: FDIV m32real
+sub_D2C7C EmuFdivrM32 {confidence=medium,source=new} x87 emulator: FDIVR m32real
+sub_D2C9B EmuFldM32 {confidence=medium,source=new} x87 emulator: FLD m32real
+sub_D2CD5 EmuFstM32 {confidence=medium,source=new} x87 emulator: FST m32real
+sub_D2CE6 EmuFstpM32 {confidence=medium,source=new} x87 emulator: FSTP m32real
+sub_D2D69 EmuFstcw {confidence=medium,source=new} x87 emulator: FSTCW
+sub_D2D77 EmuFiaddM32 {confidence=medium,source=new} x87 emulator: FIADD m32int
+sub_D2D96 EmuFimulM32 {confidence=medium,source=new} x87 emulator: FIMUL m32int
+sub_D2DB5 EmuFicomM32 {confidence=medium,source=new} x87 emulator: FICOM m32int
+sub_D2DD1 EmuFicompM32 {confidence=medium,source=new} x87 emulator: FICOMP m32int
+sub_D2DED EmuFisubM32 {confidence=medium,source=new} x87 emulator: FISUB m32int
+sub_D2E0C EmuFisubrM32 {confidence=medium,source=new} x87 emulator: FISUBR m32int
+sub_D2E2B EmuFidivM32 {confidence=medium,source=new} x87 emulator: FIDIV m32int
+sub_D2E4A EmuFidivrM32 {confidence=medium,source=new} x87 emulator: FIDIVR m32int
+sub_D2E69 EmuFildM32 {confidence=medium,source=new} x87 emulator: FILD m32int
+sub_D2EDF EmuFistpM32 {confidence=medium,source=new} x87 emulator: FISTP m32int
+sub_D2F03 EmuFaddM64 {confidence=medium,source=new} x87 emulator: FADD m64real
+sub_D2F26 EmuFmulM64 {confidence=medium,source=new} x87 emulator: FMUL m64real
+sub_D2F49 EmuFcomM64 {confidence=medium,source=new} x87 emulator: FCOM m64real
+sub_D2F69 EmuFcompM64 {confidence=medium,source=new} x87 emulator: FCOMP m64real
+sub_D2F89 EmuFsubM64 {confidence=medium,source=new} x87 emulator: FSUB m64real
+sub_D2FAC EmuFsubrM64 {confidence=medium,source=new} x87 emulator: FSUBR m64real
+sub_D2FCF EmuFdivM64 {confidence=medium,source=new} x87 emulator: FDIV m64real
+sub_D2FF2 EmuFdivrM64 {confidence=medium,source=new} x87 emulator: FDIVR m64real
+sub_D309A EmuFstM64 {confidence=medium,source=new} x87 emulator: FST m64real
+sub_D30CD EmuFstpM64 {confidence=medium,source=new} x87 emulator: FSTP m64real
+sub_D3154 EmuFstswM16 {confidence=medium,source=new} x87 emulator: FSTSW m16
+sub_D3162 EmuFiaddM16 {confidence=medium,source=new} x87 emulator: FIADD m16int
+sub_D3183 EmuFimulM16 {confidence=medium,source=new} x87 emulator: FIMUL m16int
+sub_D31A4 EmuFicomM16 {confidence=medium,source=new} x87 emulator: FICOM m16int
+sub_D31C2 EmuFicompM16 {confidence=medium,source=new} x87 emulator: FICOMP m16int
+sub_D31E0 EmuFisubM16 {confidence=medium,source=new} x87 emulator: FISUB m16int
+sub_D3201 EmuFisubrM16 {confidence=medium,source=new} x87 emulator: FISUBR m16int
+sub_D3222 EmuFidivM16 {confidence=medium,source=new} x87 emulator: FIDIV m16int
+sub_D3243 EmuFidivrM16 {confidence=medium,source=new} x87 emulator: FIDIVR m16int
+sub_D3318 EmuFbld {confidence=medium,source=new} x87 emulator: FBLD (unsupported)
+sub_D331D EmuFildM64 {confidence=medium,source=new} x87 emulator: FILD m64int
+sub_D3357 EmuFbstp {confidence=medium,source=new} x87 emulator: FBSTP
+sub_D335C EmuFistpM64 {confidence=medium,source=new} x87 emulator: FISTP m64int
+sub_D3385 EmuDispatchD9Reg {confidence=medium,source=new} x87 emulator: dispatches the register forms of the D9 group
+sub_D33B2 EmuFaddSt {confidence=medium,source=new} x87 emulator: FADD st,st(i)
+sub_D33C7 EmuFmulSt {confidence=medium,source=new} x87 emulator: FMUL st,st(i)
+sub_D33DC EmuFcomSt {confidence=medium,source=new} x87 emulator: FCOM st(i)
+sub_D33EE EmuFcompSt {confidence=medium,source=new} x87 emulator: FCOMP st(i)
+sub_D3400 EmuFsubSt {confidence=medium,source=new} x87 emulator: FSUB st,st(i)
+sub_D3415 EmuFsubrSt {confidence=medium,source=new} x87 emulator: FSUBR st,st(i)
+sub_D342A EmuFdivSt {confidence=medium,source=new} x87 emulator: FDIV st,st(i)
+sub_D343F EmuFdivrSt {confidence=medium,source=new} x87 emulator: FDIVR st,st(i)
+sub_D34C4 EmuFtstFxam {confidence=medium,source=new} x87 emulator: FTST and FXAM
+sub_D3545 EmuSignOps {confidence=medium,source=new} x87 emulator: FCHS, FABS and the load-constant group
+sub_D3760 EmuLogOps {confidence=medium,source=new} x87 emulator: F2XM1, FYL2X, FPTAN, FPATAN group
+sub_D386A EmuRemOps {confidence=medium,source=new} x87 emulator: FPREM, FSQRT, FRNDINT, FSCALE, FSIN, FCOS group
+sub_D3982 EmuFucompp {confidence=medium,source=new} x87 emulator: FUCOMPP
+sub_D3A0B EmuDispatchDBReg {confidence=medium,source=new} x87 emulator: dispatches FCLEX, FINIT and the DB register group
+sub_D3A65 EmuFaddToSt {confidence=medium,source=new} x87 emulator: FADD st(i),st
+sub_D3A7A EmuFmulToSt {confidence=medium,source=new} x87 emulator: FMUL st(i),st
+sub_D3A8F EmuFsubrToSt {confidence=medium,source=new} x87 emulator: FSUBR st(i),st
+sub_D3AA4 EmuFsubToSt {confidence=medium,source=new} x87 emulator: FSUB st(i),st
+sub_D3AB9 EmuFdivrToSt {confidence=medium,source=new} x87 emulator: FDIVR st(i),st
+sub_D3ACE EmuFdivToSt {confidence=medium,source=new} x87 emulator: FDIV st(i),st
+sub_D3B02 EmuFstSt {confidence=medium,source=new} x87 emulator: FST st(i)
+sub_D3B2E EmuFucom {confidence=medium,source=new} x87 emulator: FUCOM st(i)
+sub_D3B40 EmuFucomp {confidence=medium,source=new} x87 emulator: FUCOMP st(i)
+sub_D3B52 EmuFstpSt {confidence=medium,source=new} x87 emulator: FSTP st(i)
+sub_D3B7E EmuFaddp {confidence=medium,source=new} x87 emulator: FADDP st(i),st
+sub_D3BC9 EmuFmulp {confidence=medium,source=new} x87 emulator: FMULP st(i),st
+sub_D3C14 EmuFcompp {confidence=medium,source=new} x87 emulator: FCOMPP
+sub_D3C9D EmuFsubrp {confidence=medium,source=new} x87 emulator: FSUBRP st(i),st
+sub_D3CE8 EmuFsubp {confidence=medium,source=new} x87 emulator: FSUBP st(i),st
+sub_D3D33 EmuFdivrp {confidence=medium,source=new} x87 emulator: FDIVRP st(i),st
+sub_D3D7E EmuFdivp {confidence=medium,source=new} x87 emulator: FDIVP st(i),st
+sub_D3DC9 EmuDispatchDFReg {confidence=medium,source=new} x87 emulator: dispatches the DF register group (FSTSW AX)
+sub_D5789 EmuNoOp {confidence=medium,source=new} x87 emulator: returns at once
+sub_DFEAB BiosKeyCall {confidence=medium,source=new} keyboard: calls the BIOS keyboard service
+unk_11FD6A SerialPorts {confidence=medium,source=new} serial port records, one per COM port (44Ch bytes each)
+unk_124128 __init_mode {confidence=medium,source=new} initial file handle modes
+unk_1448DC MixerChannels {confidence=medium,source=new} mixer channel records (74h bytes each)
+asc_113794 str_CDROMDATA {confidence=medium,source=new} string "CDROM DATA"
+asc_1137A0 str_CDROMBUFFER {confidence=medium,source=new} string "CDROM BUFFER"
+byte_11F90C JoyCalibrating {confidence=medium,source=new} set while the joystick is being calibrated
+byte_11F920 JoyButtonBits {confidence=medium,source=new} joystick button bits
+byte_11F924 JoyPortMask {confidence=medium,source=new} joystick port mask
+byte_11F940 JoyButtons {confidence=medium,source=new} last joystick button byte
+byte_11F941 JoyButtonsPrev {confidence=medium,source=new} previous joystick button byte
+byte_11F942 JoyDirection {confidence=medium,source=new} joystick direction bits built from the axes
+byte_11FA50 TintTable {confidence=medium,source=new} tint colour table
+dword_11F6F0 SavedKbdVecOffset {confidence=medium,source=new} previous keyboard interrupt offset
+dword_11F6F6 SavedInt16Offset {confidence=medium,source=new} previous INT 16h offset
+dword_11F6FC SavedRealKbdOffset {confidence=medium,source=new} previous real mode keyboard handler offset
+dword_11F8F4 JoyTimeX {confidence=medium,source=new} joystick x timing
+dword_11F8F8 TimerCalibration {confidence=medium,source=new} timer loop count for calibration
+dword_11F8FC JoyTimeY {confidence=medium,source=new} joystick y timing
+dword_11F900 JoyTimeSecondX {confidence=medium,source=new} second joystick x timing
+dword_11F904 JoyTimeSecondY {confidence=medium,source=new} second joystick y timing
+dword_11F908 JoyCalibrateTicks {confidence=medium,source=new} timer ticks counted during joystick calibration
+dword_11F928 JoyReadTimeout {confidence=medium,source=new} loop count before a joystick axis read times out
+dword_11F92C JoyAxisX1 {confidence=medium,source=new} joystick 1 X axis reading
+dword_11F930 JoyAxisY1 {confidence=medium,source=new} joystick 1 Y axis reading
+dword_11F934 JoyAxisX2 {confidence=medium,source=new} joystick 2 X axis reading
+dword_11F938 JoyAxisY2 {confidence=medium,source=new} joystick 2 Y axis reading
+dword_11F93C JoyAxisMask {confidence=medium,source=new} axes still being timed in the read loop
+dword_11F947 JoyX1Min {confidence=medium,source=new} joystick 1 X axis minimum seen
+dword_11F94B JoyX1Center {confidence=medium,source=new} joystick 1 X axis center
+dword_11F94F JoyX1Max {confidence=medium,source=new} joystick 1 X axis maximum seen
+dword_11F953 JoyX1Settle {confidence=medium,source=new} reads left before the joystick 1 X range is trusted
+dword_11F957 JoyY1Min {confidence=medium,source=new} joystick 1 Y axis minimum seen
+dword_11F95B JoyY1Max {confidence=medium,source=new} joystick 1 Y axis maximum seen
+dword_11F963 JoyY1MinSeen {confidence=medium,source=new} joystick 1 Y axis lowest reading this pass
+dword_11F967 JoyY1Center {confidence=medium,source=new} joystick 1 Y axis center
+dword_11F96B JoyY1MaxSeen {confidence=medium,source=new} joystick 1 Y axis highest reading this pass
+dword_11F96F JoyY1Settle {confidence=medium,source=new} reads left before the joystick 1 Y range is trusted
+dword_11F973 JoyX2Min {confidence=medium,source=new} joystick 2 X axis minimum seen
+dword_11F977 JoyX2Max {confidence=medium,source=new} joystick 2 X axis maximum seen
+dword_11F97B JoyXScale {confidence=medium,source=new} joystick X scale from the calibrated range
+dword_11F97F JoyYScale {confidence=medium,source=new} joystick Y scale from the calibrated range
+dword_11F9B4 FileCacheList {confidence=medium,source=new} file cache list
+dword_11F9C8 DebugMode {confidence=medium,source=new} debug display mode (2 = status lines)
+dword_11F9D4 DebugLineWidth {confidence=medium,source=new} width of the debug line area
+dword_1210D0 SavedBreakOffset {confidence=medium,source=new} previous ctrl-break handler offset
+dword_121F90 SinCosTable {confidence=medium,source=new} sine/cosine lookup table
+dword_122790 CosTable {confidence=medium,source=new} quarter-wave cosine table in 16.16 fixed point
+dword_122B90 str_BK {confidence=medium,source=new} string "BK"
+dword_123A94 ViewCenterX {confidence=medium,source=new} view center X
+dword_123A98 str_D_SetCameraAngles {confidence=medium,source=new} string "d"
+dword_123A9C CameraYaw {confidence=medium,source=new} camera yaw angle
+dword_123AA0 CameraPitch {confidence=medium,source=new} camera pitch angle
+dword_123AA4 ViewCenterY {confidence=medium,source=new} view center Y
+dword_123AA8 str_D_ProjectPointsPersp {confidence=medium,source=new} string "d"
+dword_123AB4 CameraOriginX {confidence=medium,source=new} view origin X used by the camera
+dword_123AB8 CameraOriginY {confidence=medium,source=new} view origin Y used by the camera
+dword_124464 AtanTable {confidence=medium,source=new} arctangent table of the angle routine
+dword_124468 str_Punct_AngleOfVector {confidence=medium,source=new} string ")"
+dword_1248DC MixerVolumeLookup {confidence=medium,source=new} mixer volume lookup table
+dword_14F030 GusDriverIsOpen {confidence=medium,source=new} set while the Gravis driver is open
+dword_151320 IrqAckLast {confidence=medium,source=new} last IRQ status read by the interrupt acknowledge
+dword_18568C memlist1 {confidence=medium,source=95PC} same code as in the next game
+dword_185734 MemLockHandle {confidence=medium,source=new} memory lock handle
+dword_185740 TintMulGreen {confidence=medium,source=new} green multiplier of the screen tint
+dword_185744 TintMulBlue {confidence=medium,source=new} blue multiplier of the screen tint
+dword_185748 TintRowCount {confidence=medium,source=new} rows of the tint rectangle left to do
+dword_18574C TintPixelGreen {confidence=medium,source=new} green component of the pixel being tinted
+dword_185750 TintPixelBlue {confidence=medium,source=new} blue component of the pixel being tinted
+dword_185754 TintMulRed {confidence=medium,source=new} red multiplier of the screen tint
+dword_185758 TintRemapTable {confidence=medium,source=new} colour table the tinted pixels are matched against
+dword_18575C TintPixelRed {confidence=medium,source=new} red component of the pixel being tinted
+dword_18B07C CdBufferSelector {confidence=medium,source=new} selector of the CD buffer
+dword_18B080 CdBufferAllocated {confidence=medium,source=new} CD buffer allocated
+dword_18B084 CdDriveLetter {confidence=medium,source=new} CD drive number
+dword_18B08C CdRequestSegment {confidence=medium,source=new} real mode segment of the CD request header
+dword_18B090 CdBufferAddr {confidence=medium,source=new} linear address of the CD buffer
+dword_1A0FDC GusDriverDmaBuf {confidence=medium,source=new} DMA buffer of the Gravis driver
+jpt_BA400 AngleOfVectorJumpTable {confidence=medium,source=new} same code as in the next game
+sub_AA564 PathBaseName {confidence=medium,source=new} returns the file name part of a path
+sub_AA7E0 DrawShapeCore {confidence=medium,source=new} draws a shape: sets up its palette and blits it through the blit engine
+sub_AB758 AllocMemBlock {confidence=medium,source=95PC} memory manager: allocate a named block (name, size, flags), e.g. "DMAN", "HIST"; under the memory lock
+sub_AC360 FindFreeSpace {confidence=medium,source=new} finds room for a block in a memory list, from the bottom or the top
+sub_AC5AC CompactMemListDown {confidence=medium,source=new} slides movable blocks toward the start of a memory list to close gaps between them
+sub_AC70C CompactMemListUp {confidence=medium,source=new} slides movable blocks toward the end of a memory list to close gaps between them
+sub_ACAD0 DebugShowLines {confidence=medium,source=new} draws the on-screen debug lines when debug output is on
+sub_BB470 DrawFlatPoly {confidence=medium,source=new} draws a flat polygon
+sub_C3C04 MemUnlock {confidence=medium,source=new} clears the memory lock
+sub_C7B58 RasterShapeTriangle {confidence=medium,source=new} draws one triangle of a shape mapped onto screen coordinates, stepping source and destination edges in fixed point
+sub_C9E70 Div64By32 {confidence=medium,source=new} divides a 64-bit value by a 32-bit one; followed by the signed and remainder variants
+sub_CBFC2 MixerFillBuffer {confidence=medium,source=new} mixes all channels into an output buffer, 512 samples at a time
+sub_D1368 DrawTextBoxedAt {confidence=medium,source=new} font library: (x, y, string) moves the text position and draws the string on its box
+sub_D5F29 IrqEoi {confidence=medium,source=new} sends end of interrupt to the interrupt controller
+sub_D7042 GusStreamBusy {confidence=medium,source=new} returns non-zero while either streaming channel is still playing
+sub_E0686 DosOpenReadOnly {confidence=medium,source=new} opens a file read-only through DOS
+sub_E0898 Random32 {confidence=medium,source=new} same code as in the next game
+sub_E22DC DispatchHotkey {confidence=medium,source=new} looks up the handler registered for a key (ASCII or extended scan code) and calls it
+unk_117605 IceSurfaceDef {confidence=medium,source=new} ice surface definition
+unk_11764D IceGeometryDef {confidence=medium,source=new} ice geometry definition
+unk_1591D8 IceSurfacePolys {confidence=medium,source=new} ice surface polygons
+unk_1593F8 BoardLinePolys {confidence=medium,source=new} board line polygons
+unk_15E534 IceLinePolys {confidence=medium,source=new} ice line polygons
+unk_15E618 IceCenterPoly {confidence=medium,source=new} ice center polygon
+unk_15E88C FlashPolys {confidence=medium,source=new} camera flash polygons
+word_11F6F4 SavedKbdVecSelector {confidence=medium,source=new} previous keyboard interrupt selector
+word_11F6FA SavedInt16Selector {confidence=medium,source=new} previous INT 16h selector
+word_11F700 SavedRealKbdSegment {confidence=medium,source=new} previous real mode keyboard handler segment
+word_11F702 KbdDataSelector {confidence=medium,source=new} data selector used by the keyboard handler
+word_11F910 JoyAxisValues {confidence=medium,source=new} joystick axis values
+word_120E9A SerialBaudDivisors {confidence=medium,source=new} baud rate divisor table
+word_1210D4 SavedBreakSelector {confidence=medium,source=new} previous ctrl-break handler selector
+word_1210DA BreakDataSelector {confidence=medium,source=new} data selector for the ctrl-break handler
+word_18B078 CdBufferSegment {confidence=medium,source=new} real mode segment of the CD buffer
+word_18B098 CdRequestSelector {confidence=medium,source=new} selector of the CD request header
+dword_1228F8 DrawDestBuffer {confidence=medium,source=new} buffer drawing routines write to
+dword_1242CA HotkeyNesting {confidence=medium,source=new} hotkey dispatch nesting count
+dword_19F2D8 ScaledRowBuffer {confidence=medium,source=new} scaled shape row buffer
+sub_AB87C AllocMemBlockEx {confidence=medium,source=new} the allocator under AllocMemBlock: finds room in the block's memory list (compacting if needed) and links a named block
+sub_AC0C4 MergeFreeSpace {confidence=medium,source=new} walks a memory list and works out the free space around movable blocks for the requested placement
+sub_CA0B0 BuildSpanOffsets {confidence=medium,source=new} fills the column offset table by stepping source coordinates in 16.16 fixed point
+sub_DD960 SetBlitSource {confidence=medium,source=new} sets the source pointer and the column offset table used by the span copiers
+sub_DD982 CopyMappedSpan {confidence=medium,source=new} copies a span of pixels from the source through the column offset table, by pixel depth
+dword_11F9C0 FreeSpaceList {confidence=medium,source=new} free space list
+dword_123A8C BlitColumnOffsets {confidence=medium,source=new} column offset table of the span copy
+dword_123A90 BlitSourcePtr {confidence=medium,source=new} source pointer of the span copy
+sub_ABFB4 PushMemDescriptor {confidence=medium,source=new} returns a block descriptor to the free list; followed by the pop

@@ -10,13 +10,13 @@ extern dword_1A10A8, dword_1A10B0, dword_1A10B4, dword_1A10C0, dword_1A10C4, dwo
 extern dword_1A10D4, dword_1A10D8, dword_1A10DC, dword_1A10E0, dword_1A10E4, dword_1A10E8, dword_1A10EC, dword_1A10F0
 extern dword_1A10F4, dword_1A10F8, dword_1A10FC, dword_1A1100, fputchar, sub_D7DB0_30, sub_D7DB0_238, sub_E2335_5B
 extern sub_E2335_81, mousepollfn, off_11F5F4, off_11F5F8, off_11F5FC, off_14FAD0, off_14FAD4, sprintf_
-extern sub_AA7E0, PutBlock, sub_AB6D8, FreeMemBlock, sub_ABF88, MemDescPtr, sub_AD2B4, sub_AD824
+extern DrawShapeCore, PutBlock, sub_AB6D8, FreeMemBlock, sub_ABF88, MemDescPtr, sub_AD2B4, sub_AD824
 extern sub_ADBEC, SetTextOrigin, sub_B049E, sub_B2400, DrawArtOpaque, sub_BF290, sub_C2AC4, sub_C2C5C
 extern sub_C5410, sub_C59E0, sub_CFE8C, sub_DA338, SetScreenTarget, SetClipWindow, SaveVideoState, RestoreVideoState
 extern MouseReadMotion, sub_DFA98, bcopy, sub_E193C, sub_E1956, sub_E2335, IntrStubs, SavedStackSegment
 global __CHK, __GRO, __STK, __int386x_, sub_D09FC_A8, sub_D0B78_A0, __CommonInit_, IsTextModeWidth
 global sub_D06FC, sub_D077C, sub_D0800, sub_D0848, sub_D0918, sub_D0984, sub_D09FC, sub_D0B78
-global sub_D0E90, sub_D0FB8, sub_D1080, sub_D1280, sub_D1368, sub_D142C, IntrLoadSegRegs
+global sub_D0E90, sub_D0FB8, sub_D1080, sub_D1280, DrawTextBoxedAt, sub_D142C, IntrLoadSegRegs
 ;-----------------------------------------------------------------------------
 ; __CommonInit_                                                 D069B  library
 ;-----------------------------------------------------------------------------
@@ -474,7 +474,7 @@ sub_D09FC_A8:
         push edi
         mov edx, dword [byte ecx+02Ch]
         push edx
-        call sub_AA7E0
+        call DrawShapeCore
         add esp, byte 0Ch
 .9:
         call sub_D0848
@@ -616,7 +616,7 @@ sub_D0B78_A0:
         mov eax, dword [dword_1A10DC]
         mov edx, dword [byte eax+02Ch]
         push edx
-        call sub_AA7E0
+        call DrawShapeCore
         add esp, byte 0Ch
         mov ebx, dword [dword_1A10DC]
         push ebx
@@ -1143,9 +1143,11 @@ sub_D1280:
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_D1368                                                            D1368  
+; DrawTextBoxedAt                              D1368  96 PC, medium confidence
+; Font library: (x, y, string) moves the text position and draws the string
+; on its box
 ;-----------------------------------------------------------------------------
-sub_D1368:
+DrawTextBoxedAt:
         push esi
         push edi
         push ebp

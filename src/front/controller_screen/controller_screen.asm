@@ -14,8 +14,8 @@ extern RunEditLines, RunMenu, SetDrawBitmap, SetMenuMouse, SetScreenColors, SetT
 extern SlideInTitleBar, SoundIdle, SoundSecondsToBytes, sprintf_, str_Bkgd6, str_dbgO, str_feO, str_Jy1D
 extern str_Jy2D, str_Jy3D, str_Jy4D, str_Key1, str_KeyD2, str_Log7, str_Logx, str_MCONTROL
 extern str_MdmD, str_MseD2, str_P11, str_P12, str_P13, str_P1G, str_P21, str_P22
-extern str_P23, str_P2G, str_Pal12, str_PlyD, str_Usrh, str_Usri, str_Utext, sub_AA7E0
-extern DrawShapeAtOwnPos, sub_AAA40, sub_AADA4, sub_AB758, FreeMemBlock, sub_AD35C, sub_ADA50, sub_ADBEC
+extern str_P23, str_P2G, str_Pal12, str_PlyD, str_Usrh, str_Usri, str_Utext, DrawShapeCore
+extern DrawShapeAtOwnPos, sub_AAA40, sub_AADA4, AllocMemBlock, FreeMemBlock, sub_AD35C, sub_ADA50, sub_ADBEC
 extern sub_B2C54, SetScreenTarget, sub_E04E0, TextSetFont, unk_11DE50, unk_11DE90, unk_152C44, word_114CE0
 extern word_114CE4, word_11D92C, word_11D92E, word_11D96C, word_11D9A8, word_11D9AC, word_11DA10, word_11DA14
 extern word_160ACC, word_17D560, word_17D562, word_17D568, word_17D570, word_17D578, word_17D58C, word_17D58E
@@ -63,7 +63,7 @@ ControllerUsersPanel:
         mov esi, eax
         push dword [byte eax+02Ch]
         mov dword [byte ebp-030h], eax
-        call sub_AA7E0
+        call DrawShapeCore
         add esp, byte 0Ch
         push esi
         call SetDrawBitmap
@@ -1978,7 +1978,7 @@ DrawControllerColumns:
         add eax, byte 10h
         push eax
         push str_Utext
-        call sub_AB758
+        call AllocMemBlock
         mov edx, dword [byte ebp-014h]
         mov dword [dword edx+dword_11D940], eax
         mov eax, dword [dword_17D580]
@@ -2433,7 +2433,7 @@ DrawControllerColumns:
         add eax, byte 10h
         push eax
         push str_Utext
-        call sub_AB758
+        call AllocMemBlock
         mov edx, dword [byte ebp-010h]
         mov dword [dword edx+dword_11D940], eax
         mov eax, dword [dword_17D580]
@@ -2593,7 +2593,7 @@ ControllerScreen:
         push str_MCONTROL
         movsd
         movsd
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         mov dword [dword_17D580], eax
         mov eax, 6
@@ -2957,7 +2957,7 @@ ControllerScreen:
         add eax, byte 10h
         push eax
         push str_Utext
-        call sub_AB758
+        call AllocMemBlock
         mov edx, dword [byte ebp-018h]
         mov dword [dword edx+dword_11D940], eax
         mov eax, dword [dword_17D580]
@@ -3238,7 +3238,7 @@ ControllerScreen:
         add eax, byte 10h
         push eax
         push str_Utext
-        call sub_AB758
+        call AllocMemBlock
         mov edx, dword [byte ebp-018h]
         mov dword [dword edx+dword_11D940], eax
         mov eax, dword [dword_17D580]
@@ -3783,7 +3783,7 @@ ControllerScreen_11AB:
         add eax, byte 10h
         push eax
         push str_Utext
-        call sub_AB758
+        call AllocMemBlock
         mov edx, dword [byte ebp-048h]
         shl edx, 2
         mov dword [dword edx+dword_11D940], eax

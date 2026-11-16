@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_E1824 progbits alloc exec nowrite align=1
 extern GetTicks, TicksSince, byte_123DE8, dword_123DA4, dword_123DEB, mousepollfn, KbdGetKey, ReadJoystickPorts
-extern sub_E22DC, word_123DE4, word_123DE6, word_123DE9
+extern DispatchHotkey, word_123DE4, word_123DE6, word_123DE9
 global sub_E1836_6, sub_E1836_29, sub_E1824, sub_E1836, PollHotkeys
 ;-----------------------------------------------------------------------------
 ; sub_E1824                                                            E1824  
@@ -47,14 +47,14 @@ sub_E1836_29:
         LD or, ax, ax
         je short .2
         push eax
-        call sub_E22DC
+        call DispatchHotkey
         add esp, byte 4
         ret
         call KbdGetKey
         LD or, ax, ax
         je short .1
         push eax
-        call sub_E22DC
+        call DispatchHotkey
         add esp, byte 4
         ret
 .1:
@@ -116,7 +116,7 @@ PollHotkeys:
         LD or, eax, eax
         je short .1
         push eax
-        call sub_E22DC
+        call DispatchHotkey
         add esp, byte 4
 .1:
         ret

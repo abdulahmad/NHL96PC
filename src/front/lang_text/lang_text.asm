@@ -4,7 +4,7 @@ bits 32
 section s_771F0 progbits alloc exec nowrite align=1
 extern dword_11E2C0, dword_11E2C4, dword_17D690, dword_17D694, dword_17D6A0, dword_17D6A4, dword_17D6B0, dword_17D6B4
 extern dword_17D6C4, fclose_, fopen_, fread_, fseek_, LoadDataFile, MakeDataPath, str_LFERROR
-extern str_Localize, str_Rb, sub_AB758, FreeMemBlock
+extern str_Localize, str_Rb, AllocMemBlock, FreeMemBlock
 global LoadLangText, FreeLangText, LoadLangBlock, GetLangText
 ;-----------------------------------------------------------------------------
 ; LoadLangText                                                    771F0  96 PC
@@ -37,7 +37,7 @@ LoadLangText:
         push byte 20h
         push dword 800h
         push str_Localize
-        call sub_AB758
+        call AllocMemBlock
         mov edx, 3
         add esp, byte 0Ch
         mov dword [dword_11E2C4], eax

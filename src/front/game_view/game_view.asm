@@ -15,7 +15,7 @@ extern dword_11B2A8, dword_11B2E8, dword_11B2EC, dword_11B2F0, dword_11B2F4, dwo
 extern dword_11B304, dword_11B308, dword_11B310, dword_11B318, dword_11B31C, dword_11B320, dword_11B324, dword_11B328
 extern dword_11B32C, dword_11B330, dword_11B364, dword_11B374, dword_11B9F4, dword_11BB14, dword_11BB18, dword_11BB1C
 extern dword_11BC24, dword_11D91F, dword_11F5C0, dword_11F5C4, dword_1219A4, ClipTopRow, ClipLeftCol, ClipRight
-extern ScreenHeight, dword_1228F8, dword_152F4C, dword_152FEC, dword_1531D0, dword_15E4BC, dword_15E4C0, dword_15E8D8
+extern ScreenHeight, DrawDestBuffer, dword_152F4C, dword_152FEC, dword_1531D0, dword_15E4BC, dword_15E4C0, dword_15E8D8
 extern dword_15E8E0, dword_15E8E4, dword_15E8F8, dword_15E8FC, dword_1647A0, dword_1647A4, dword_164816, dword_164838
 extern dword_16505C, dword_165060, dword_165064, dword_165166, dword_16516A, dword_16516E, dword_165172, dword_177108
 extern dword_17828C, dword_178290, dword_178294, dword_178298, dword_17829C, dword_1782A0, dword_1782A4, dword_1782A8
@@ -39,10 +39,10 @@ extern DrawWholeRink, sub_297C9, sub_299CF, sub_2E1BE, sub_4B38C, sub_4B4F3, sub
 extern sub_54237, sub_54391, sub_5439F, sub_54427, SetCameraShot, ResetCameraShake, SetGameViewSize, SaveTeamPalette
 extern SetPlayerSpriteColors, SetRinkSpriteColors, LoadGameSprites, GetSpriteFrame, SpriteScale, DrawText, DrawTextCentred, SetTextColors
 extern DrawColorText, DrawColorTextRight, DrawColorTextCentred, FillBox, DrawPauseFrame, GetLangText, BuildAntiAliasTable, sub_AAA40
-extern sub_AAADC, sub_AB758, FreeMemBlock, sub_AD35C, sub_AD620, sub_AFFD0, sub_B0CA8, sub_B0F7C
-extern sub_B58D8, sub_B6140, sub_B6148, sub_BA3D0, sub_BB470, DrawPolyOutline, sub_BB924, MultiplyMatrix
+extern sub_AAADC, AllocMemBlock, FreeMemBlock, sub_AD35C, sub_AD620, sub_AFFD0, sub_B0CA8, sub_B0F7C
+extern sub_B58D8, sub_B6140, sub_B6148, sub_BA3D0, DrawFlatPoly, DrawPolyOutline, sub_BB924, MultiplyMatrix
 extern SetScreenScale, sub_BC3A0, sub_BC3F4, sub_BC610, sub_BC674, sub_BC6D8, sub_BC760, sub_BD86C
-extern sub_BE926, sub_BE960, sub_BEF44, sub_BEFF0, SetScreenTarget, SetRemapTable, sub_DD908, sub_DD960
+extern sub_BE926, sub_BE960, sub_BEF44, sub_BEFF0, SetScreenTarget, SetRemapTable, sub_DD908, SetBlitSource
 extern sub_DD975, sub_DDBB4, sub_E0486, sub_E04E0, sub_E0584, sub_E162A, SetViewScreenOrigin, TeamLineEnergy
 extern TextSetFont, unk_111024, unk_11B2AC, unk_122320, unk_157FDA, unk_157FF8, unk_1582F5, unk_158313
 extern unk_16443C, unk_1782AC, unk_1786AC, unk_178AAC, unk_1798C0, unk_179980, unk_179AC0, unk_179BBC
@@ -156,7 +156,7 @@ DrawScaledSprite:
         push eax
         lea eax, [byte esi+010h]
         push eax
-        call sub_DD960
+        call SetBlitSource
         add esp, byte 8
         push dword [byte ebp-018h]
         call sub_DD975
@@ -211,7 +211,7 @@ DrawScaledSprite:
         mov edx, ebx
         mov ebx, ecx
         add ebx, dword [dword ebp+edx*4-081Ch]
-        mov edx, dword [dword_1228F8]
+        mov edx, dword [DrawDestBuffer]
         add edx, dword [byte ebp-014h]
         push ebx
         add eax, dword [edx]
@@ -455,7 +455,7 @@ AllocShadeLut:
         shl eax, 8
         push eax
         push asc_111008
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         mov dword [dword_1798F8], eax
         pop edx
@@ -831,7 +831,7 @@ InitGameView:
         shr eax, 1Fh
         mov byte [byte_1175AC], 0
         mov dword [dword_17997C], eax
-        call sub_AB758
+        call AllocMemBlock
         mov dword [dword_11B364], eax
         mov dword [eax], 0
         mov eax, dword [dword_11B364]
@@ -2768,7 +2768,7 @@ DrawGameFrame:
         push eax
         push unk_179980
         push esi
-        call sub_BB470
+        call DrawFlatPoly
         add esp, byte 10h
         push dword_1797FC
         push unk_179AC0

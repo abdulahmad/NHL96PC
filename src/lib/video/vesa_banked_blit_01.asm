@@ -2,9 +2,12 @@
 bits 32
 %include "hockey.inc"
 section s_D79CC progbits alloc exec nowrite align=1
-extern _FtoS_, byte_123988, dword_1228F0, dword_1228F8, dword_1228FC, forcedecpt_, unk_D796A, unk_D796C
+extern _FtoS_, byte_123988, dword_1228F0, DrawDestBuffer, dword_1228FC, forcedecpt_, unk_D796A, unk_D796C
 global _EFG_Format_, unk_D79E5_2, unk_D7A02_2, sub_D7A44_34, sub_D79CC, sub_D7A44, unk_D79E3, unk_D79E5
 global unk_D7A00, unk_D7A02
+;-----------------------------------------------------------------------------
+; sub_D79CC                                                            D79CC  
+;-----------------------------------------------------------------------------
 sub_D79CC:
         push eax
         push edx
@@ -21,6 +24,9 @@ unk_D79E3:
         db 00h,00h
 unk_D79E5:
         db 00h,00h
+;-----------------------------------------------------------------------------
+; unk_D79E5_2                                                          D79E7  
+;-----------------------------------------------------------------------------
 unk_D79E5_2:
         push eax
         push edx
@@ -38,6 +44,9 @@ unk_D7A00:
         db 00h,00h
 unk_D7A02:
         db 00h,00h
+;-----------------------------------------------------------------------------
+; unk_D7A02_2                                                          D7A04  
+;-----------------------------------------------------------------------------
 unk_D7A02_2:
         push eax
         push edx
@@ -68,6 +77,9 @@ unk_D7A02_2:
         cwde
         db 089h,045h,0F8h                       ; insn: mov [ebp-8],eax
         db 0EBh, sub_D7A44_34-($+2)
+;-----------------------------------------------------------------------------
+; sub_D7A44                                                            D7A44  
+;-----------------------------------------------------------------------------
 sub_D7A44:
         push ebp
         LD mov, ebp, esp
@@ -95,7 +107,7 @@ sub_D7A44:
 sub_D7A44_34:
         mov ebx, dword [byte ebp-08h]
         shl ebx, 2
-        add ebx, dword [dword_1228F8]
+        add ebx, dword [DrawDestBuffer]
         mov edi, dword [ebx]
         add edi, dword [byte ebp-04h]
         add edi, dword [dword_1228FC]
@@ -135,6 +147,9 @@ sub_D7A44_34:
         pop ds
         leave
         ret
+;-----------------------------------------------------------------------------
+; _EFG_Format_                                                  D7AD5  library
+;-----------------------------------------------------------------------------
 _EFG_Format_:
         push ecx
         push esi

@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_DE084 progbits alloc exec nowrite align=1
 extern RemapTable, VesaBankShift, dword_11FD50, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, dword_1228F0
-extern dword_1228F4, dword_1228F8, dword_1228FC, dword_122930, VesaBank, VesaBankFunc
+extern dword_1228F4, DrawDestBuffer, dword_1228FC, dword_122930, VesaBank, VesaBankFunc
 global VesaSetBankJumpTable, jpt_DEC90, jpt_DEDBC, jpt_DF09B, PlotPixel_8, sub_DE18C_C, sub_DE247_3A, jpt_DE3F8_27
 global sub_DE4C7_32, sub_DE643_32, sub_DE7DB_32, sub_DE97C_C, sub_DE9F3_32, sub_DEB94_C, sub_DEB94_AA, sub_DEC41_4
 global jpt_DEC90_DA, sub_DED6D_4, sub_DEEE3_32, sub_DEFD7_3A, sub_DF6A7_32, sub_DF810_34, sub_DE084, PlotPixel
@@ -73,7 +73,7 @@ PlotPixel:
 PlotPixel_8:
         cmp dword [dword_1228F4], byte 0
         jne short .2
-        mov ecx, dword [dword_1228F8]
+        mov ecx, dword [DrawDestBuffer]
         add eax, dword [ecx+edx*4]
         add eax, dword [dword_1228FC]
         movzx eax, byte [eax]
@@ -120,7 +120,7 @@ sub_DE18C:
 sub_DE18C_C:
         cmp dword [dword_1228F4], byte 0
         jne short .2
-        mov ecx, dword [dword_1228F8]
+        mov ecx, dword [DrawDestBuffer]
         add eax, dword [ecx+edx*4]
         add eax, dword [dword_1228FC]
         mov byte [eax], bl
@@ -142,7 +142,7 @@ sub_DE18C_C:
         cmp dword [dword_1228F4], byte 0
         jne short .4
         push ecx
-        mov ecx, dword [dword_1228F8]
+        mov ecx, dword [DrawDestBuffer]
         add eax, dword [ecx+edx*4]
         add eax, dword [dword_1228FC]
         mov byte [eax], bl
@@ -284,7 +284,7 @@ sub_DE247_3A:
         cld
         mov ebx, dword [byte ebp-08h]
         shl ebx, 2
-        add ebx, dword [dword_1228F8]
+        add ebx, dword [DrawDestBuffer]
         mov esi, dword [ebx]
         add esi, dword [dword_1228FC]
         add esi, dword [byte ebp-04h]
@@ -585,7 +585,7 @@ sub_DE4C7_32:
         mov dword [byte ebp-04h], ebx
         cld
         mov ebx, dword [byte ebp-08h]
-        mov edi, dword [dword_1228F8]
+        mov edi, dword [DrawDestBuffer]
         mov edi, dword [edi+ebx*4]
         add edi, dword [byte ebp-04h]
         add edi, dword [dword_1228FC]
@@ -757,7 +757,7 @@ sub_DE643_32:
         mov dword [byte ebp-04h], ebx
         cld
         mov ebx, dword [byte ebp-08h]
-        mov edi, dword [dword_1228F8]
+        mov edi, dword [DrawDestBuffer]
         mov edi, dword [edi+ebx*4]
         add edi, dword [byte ebp-04h]
         add edi, dword [dword_1228FC]
@@ -943,7 +943,7 @@ sub_DE7DB_32:
         mov dword [byte ebp-04h], ebx
         cld
         mov ebx, dword [byte ebp-08h]
-        mov edi, dword [dword_1228F8]
+        mov edi, dword [DrawDestBuffer]
         mov edi, dword [edi+ebx*4]
         add edi, dword [byte ebp-04h]
         add edi, dword [dword_1228FC]
@@ -1035,7 +1035,7 @@ sub_DE97C:
 sub_DE97C_C:
         cmp dword [dword_1228F4], byte 0
         jne short .2
-        mov ecx, dword [dword_1228F8]
+        mov ecx, dword [DrawDestBuffer]
         add eax, dword [ecx+edx*4]
         add eax, dword [dword_1228FC]
         and byte [eax], bl
@@ -1173,7 +1173,7 @@ sub_DE9F3_32:
         mov dword [byte ebp-04h], ebx
         cld
         mov ebx, dword [byte ebp-08h]
-        mov edi, dword [dword_1228F8]
+        mov edi, dword [DrawDestBuffer]
         mov edi, dword [edi+ebx*4]
         add edi, dword [byte ebp-04h]
         add edi, dword [dword_1228FC]
@@ -1265,7 +1265,7 @@ sub_DEB94:
 sub_DEB94_C:
         cmp dword [dword_1228F4], byte 0
         jne short .2
-        mov ecx, dword [dword_1228F8]
+        mov ecx, dword [DrawDestBuffer]
         add eax, dword [ecx+edx*4]
         add eax, dword [dword_1228FC]
         or byte [eax], bl
@@ -1344,7 +1344,7 @@ sub_DEC41_4:
         bswap eax
         LD mov, ax, dx
         mov edx, dword [byte ebp+0Ch]
-        mov edi, dword [dword_1228F8]
+        mov edi, dword [DrawDestBuffer]
         mov edi, dword [edi+edx*4]
         add edi, dword [dword_1228FC]
         add edi, dword [byte ebp+08h]
@@ -1490,7 +1490,7 @@ sub_DED6D_4:
         bswap eax
         LD mov, ax, dx
         mov edx, dword [byte ebp+0Ch]
-        mov edi, dword [dword_1228F8]
+        mov edi, dword [DrawDestBuffer]
         mov edi, dword [edi+edx*4]
         add edi, dword [dword_1228FC]
         add edi, dword [byte ebp+08h]
@@ -1689,7 +1689,7 @@ sub_DEEE3:
 sub_DEEE3_32:
         mov ebx, dword [byte ebp-08h]
         shl ebx, 2
-        add ebx, dword [dword_1228F8]
+        add ebx, dword [DrawDestBuffer]
         mov edi, dword [ebx]
         add edi, dword [dword_1228FC]
         add edi, dword [byte ebp-04h]
@@ -1822,7 +1822,7 @@ sub_DEFD7_3A:
         movsx edx, word [byte edi+06h]
         mov ebx, dword [byte ebp-08h]
         shl ebx, 2
-        add ebx, dword [dword_1228F8]
+        add ebx, dword [DrawDestBuffer]
         add edi, byte 10h
         cld
 .1:
@@ -1885,7 +1885,7 @@ jpt_DF09B:
         dd .15
         dd .1
 .1:
-        mov edi, dword [dword_1228F8]
+        mov edi, dword [DrawDestBuffer]
         mov edi, dword [edi+edx*4]
         add edi, dword [dword_1228FC]
         add edi, dword [byte ebp-08h]
@@ -1895,7 +1895,7 @@ jpt_DF09B:
         leave
         ret
 .2:
-        mov edi, dword [dword_1228F8]
+        mov edi, dword [DrawDestBuffer]
         mov edi, dword [edi+edx*4]
         add edi, dword [dword_1228FC]
         add edi, dword [byte ebp-08h]
@@ -1925,7 +1925,7 @@ jpt_DF09B:
         mov ebx, dword [dword_1228F0]
 .5:
         mov edx, dword [byte esi+0Ch]
-        mov edi, dword [dword_1228F8]
+        mov edi, dword [DrawDestBuffer]
         mov edi, dword [edi+edx*4]
         add edi, dword [dword_1228FC]
         add edi, dword [byte ebp-08h]
@@ -1958,7 +1958,7 @@ jpt_DF09B:
         jmp short .5
 .11:
         mov edx, dword [byte esi+0Ch]
-        mov edi, dword [dword_1228F8]
+        mov edi, dword [DrawDestBuffer]
         mov edi, dword [edi+edx*4]
         add edi, dword [dword_1228FC]
         add edi, dword [byte ebp-08h]
@@ -1977,7 +1977,7 @@ jpt_DF09B:
         ret
 .13:
         mov edx, dword [byte esi+0Ch]
-        mov edi, dword [dword_1228F8]
+        mov edi, dword [DrawDestBuffer]
         mov edi, dword [edi+edx*4]
         add edi, dword [dword_1228FC]
         add edi, dword [byte ebp-08h]
@@ -1996,7 +1996,7 @@ jpt_DF09B:
         leave
         ret
 .15:
-        mov edi, dword [dword_1228F8]
+        mov edi, dword [DrawDestBuffer]
         mov edi, dword [edi+edx*4]
         add edi, dword [dword_1228FC]
         add edi, dword [byte ebp-08h]
@@ -2021,7 +2021,7 @@ jpt_DF09B:
         jne short .16
         jmp short .17
 .19:
-        mov edi, dword [dword_1228F8]
+        mov edi, dword [DrawDestBuffer]
         mov edi, dword [edi+edx*4]
         add edi, dword [dword_1228FC]
         add edi, dword [byte ebp-08h]
@@ -2057,7 +2057,7 @@ sub_DF22C:
         cld
         mov esi, dword [byte ebp+010h]
         lea esi, [nosplit esi*4+00h]
-        add esi, dword [dword_1228F8]
+        add esi, dword [DrawDestBuffer]
         mov edx, dword [byte ebp+018h]
         LD mov, dh, dl
         shrd eax, edx, 10h
@@ -2134,7 +2134,7 @@ sub_DF2CC:
         cld
         mov esi, dword [byte ebp+010h]
         lea esi, [nosplit esi*4+00h]
-        add esi, dword [dword_1228F8]
+        add esi, dword [DrawDestBuffer]
         mov edx, dword [byte ebp+018h]
         LD mov, dh, dl
         shrd eax, edx, 10h
@@ -2230,7 +2230,7 @@ sub_DF38C:
         cld
         mov esi, dword [byte ebp+010h]
         lea esi, [nosplit esi*4+00h]
-        add esi, dword [dword_1228F8]
+        add esi, dword [DrawDestBuffer]
         mov edx, dword [byte ebp+018h]
         LD mov, dh, dl
         shrd eax, edx, 10h
@@ -2326,7 +2326,7 @@ sub_DF44C:
         cld
         mov esi, dword [byte ebp+010h]
         lea esi, [nosplit esi*4+00h]
-        add esi, dword [dword_1228F8]
+        add esi, dword [DrawDestBuffer]
         mov edx, dword [byte ebp+018h]
         LD mov, dh, dl
         shrd eax, edx, 10h
@@ -2422,7 +2422,7 @@ sub_DF50C:
         cld
         mov ebx, dword [byte ebp+010h]
         shl ebx, 2
-        add ebx, dword [dword_1228F8]
+        add ebx, dword [DrawDestBuffer]
         LD xor, eax, eax
 .1:
         mov esi, dword [byte ebp+0Ch]
@@ -2739,7 +2739,7 @@ sub_DF6A7_32:
         mov dword [byte ebp-04h], ebx
         cld
         mov ebx, dword [byte ebp-08h]
-        mov edi, dword [dword_1228F8]
+        mov edi, dword [DrawDestBuffer]
         mov edi, dword [edi+ebx*4]
         add edi, dword [dword_1228FC]
         add edi, dword [byte ebp-04h]
@@ -2829,7 +2829,7 @@ sub_DF810:
 sub_DF810_34:
         mov ebx, dword [byte ebp-08h]
         shl ebx, 2
-        add ebx, dword [dword_1228F8]
+        add ebx, dword [DrawDestBuffer]
         mov edi, dword [ebx]
         add edi, dword [byte ebp-04h]
         add edi, dword [dword_1228FC]

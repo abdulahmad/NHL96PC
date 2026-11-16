@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_10010 progbits alloc exec nowrite align=1
-extern _nfree_, _nmalloc_, _searchenv_, byte_114B48, byte_114C58, byte_11F924, byte_1515BB, byte_1515C2
+extern _nfree_, _nmalloc_, _searchenv_, byte_114B48, byte_114C58, JoyPortMask, byte_1515BB, byte_1515C2
 extern byte_1515C9, byte_151773, byte_151774, byte_151778, byte_151779, byte_15177C, byte_151794, byte_17CA21
 extern byte_17CA22, byte_17CA5D, dword_114B5C, dword_114B60, dword_114B64, dword_114B68, dword_114B78, dword_114B7C
 extern dword_114B80, dword_114B9C, dword_114CB0, dword_114CB4, dword_114CCF, dword_114CD3, dword_114CD7, dword_114CD9
@@ -15,7 +15,7 @@ extern InputRecordRing, kaufmfont, LinkResyncInput, mousepollfn, MouseRead, mous
 extern SlotButtons, SlotTable, slotteam, str_CGRIP, str_GRIP, str_GRIPGLL, str_PATH, str_Rb2
 extern strcat_, strcpy_, CameraFacing, sub_DFA98, sub_DFE9C, KbdGetKey, CalibrateJoystick, sub_E0456
 extern AddExitHandler, unk_114BA8, unk_114C00, unk_151648, unk_1516B8, unk_151784, word_114B40, word_114B42
-extern word_114B44, word_114CDB, word_114CE0, word_114CE4, word_11F910, word_11F914, word_11F918, word_11F91C
+extern word_114B44, word_114CDB, word_114CE0, word_114CE4, JoyAxisValues, word_11F914, word_11F918, word_11F91C
 extern word_1515B5, word_151634, word_151636, word_151638, word_15163A, word_151712, word_151714, word_15171C
 extern word_15171E, word_15172A, word_15172C, word_151734, word_151736, word_151744, word_15175C, word_151766
 extern word_15177E, word_151782, word_151788, word_15178A, word_15178C, word_151792
@@ -2098,7 +2098,7 @@ ReadAnalogJoysticks:
         cmp dword [dword_114CB4], byte 0
         je near .14
 .1:
-        mov eax, dword [byte_11F924]
+        mov eax, dword [JoyPortMask]
         and eax, byte 0Fh
         cmp eax, byte 0Fh
         jne short .2
@@ -2110,9 +2110,9 @@ ReadAnalogJoysticks:
         push dword [byte ebp-08h]
         call sub_E0456
         add esp, byte 4
-        test byte [byte_11F924], 3
+        test byte [JoyPortMask], 3
         je short .5
-        cmp dword [word_11F910], byte 0
+        cmp dword [JoyAxisValues], byte 0
         jne short .4
         cmp dword [word_11F914], byte 0
         je short .5
@@ -2126,7 +2126,7 @@ ReadAnalogJoysticks:
 .7:
         mov word [word_151714], 0
 .8:
-        test byte [byte_11F924], 0Ch
+        test byte [JoyPortMask], 0Ch
         je short .10
         cmp dword [word_11F918], byte 0
         jne short .9
@@ -2147,15 +2147,15 @@ ReadAnalogJoysticks:
 .14:
         cmp dword [dword_114CB0], byte 0
         je short .15
-        mov ax, word [word_11F910]
+        mov ax, word [JoyAxisValues]
         mov word [dword_15170C], ax
         mov ax, word [word_11F914]
         mov word [dword_15170E], ax
-        mov ax, word [word_11F910]
+        mov ax, word [JoyAxisValues]
         mov word [dword_151710], ax
         mov ax, word [word_11F914]
         mov word [word_151712], ax
-        mov ax, word [word_11F910]
+        mov ax, word [JoyAxisValues]
         mov word [dword_15171A], ax
         mov ax, word [word_11F914]
         mov word [word_15171C], ax
@@ -2179,16 +2179,16 @@ ReadAnalogJoysticks:
 .16:
         mov eax, dword [dword_15170A]
         sar eax, 10h
-        cmp eax, dword [word_11F910]
+        cmp eax, dword [JoyAxisValues]
         jle short .17
-        mov ax, word [word_11F910]
+        mov ax, word [JoyAxisValues]
         mov word [dword_15170C], ax
 .17:
         mov eax, dword [dword_15170E]
         sar eax, 10h
-        cmp eax, dword [word_11F910]
+        cmp eax, dword [JoyAxisValues]
         jge short .18
-        mov ax, word [word_11F910]
+        mov ax, word [JoyAxisValues]
         mov word [dword_151710], ax
 .18:
         mov eax, dword [dword_15170C]
@@ -2205,7 +2205,7 @@ ReadAnalogJoysticks:
         mov ax, word [word_11F914]
         mov word [word_151712], ax
 .20:
-        mov ax, word [word_11F910]
+        mov ax, word [JoyAxisValues]
         mov word [dword_151716], ax
         mov ax, word [word_11F914]
         mov word [dword_151718], ax

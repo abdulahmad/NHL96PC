@@ -4,19 +4,19 @@ bits 32
 section s_BA3D0 progbits alloc exec nowrite align=1
 extern FatalError, str_ORIINST, asc_113960, asc_11396C, str_OriloadCouldNotLoadORIGA, dword_11F5C0, dword_11F5C4, str_Punct_DrawRinkSurface
 extern dword_122378, dword_122384, dword_122388, dword_12238C, SinTable, str_Punct_SetScreenScale, ScreenWidth, ClipTopRow
-extern ClipLeftCol, ClipRight, ScreenHeight, dword_1228F8, dword_1228FC, dword_123AA4, dword_123AA8, dword_123ABC
-extern dword_123AC0, dword_124464, dword_124468, dword_17DC18, dword_17DC1C, dword_17DC24, dword_17DC28, dword_1956B0
+extern ClipLeftCol, ClipRight, ScreenHeight, DrawDestBuffer, dword_1228FC, ViewCenterY, str_D_ProjectPointsPersp, dword_123ABC
+extern dword_123AC0, AtanTable, str_Punct_AngleOfVector, dword_17DC18, dword_17DC1C, dword_17DC24, dword_17DC28, dword_1956B0
 extern dword_1956B4, dword_1956B8, dword_1956BC, dword_1956C0, dword_1956C4, dword_1956C8, dword_1956CC, dword_198388
 extern dword_19838C, dword_198390, dword_198394, dword_198398, dword_19839C, dword_1983A0, dword_1983A4, RinkViewChanged
-extern dword_1983B4, dword_19F2D8, min_, off_1222E0, off_1222EC, off_1222F8, off_122304, off_122310
-extern strncpy_, sub_AB758, FreeMemBlock, OpenArtArchive, SetRinkView, sub_B78DC, TransformRinkObject, sub_B79C8
-extern sub_B79E0, sub_B9A18, SubVec3, sub_BA344, sub_BD594, SortIndices, sub_C85F0, sub_C9E70
-extern Shl64, sub_CA0B0, sub_CA288, sub_CA584, FixedSinCos, FillRectColor, sub_DD960, sub_DD982
+extern dword_1983B4, ScaledRowBuffer, min_, off_1222E0, off_1222EC, off_1222F8, off_122304, off_122310
+extern strncpy_, AllocMemBlock, FreeMemBlock, OpenArtArchive, SetRinkView, sub_B78DC, TransformRinkObject, sub_B79C8
+extern sub_B79E0, sub_B9A18, SubVec3, sub_BA344, sub_BD594, SortIndices, sub_C85F0, Div64By32
+extern Shl64, BuildSpanOffsets, sub_CA288, sub_CA584, FixedSinCos, FillRectColor, SetBlitSource, CopyMappedSpan
 extern sub_E1824, unk_122320, unk_122344, RinkMatrix, RinkTranslation, unk_191AB0, unk_1938B0, unk_196380
 extern unk_196388, unk_196390, unk_196398, unk_197050, unk_19705C, unk_197068, unk_197074, unk_1983B8
-global jpt_BA400, AngleOfVector_90, AngleOfVector_92, AngleOfVector_9C, AngleOfVector_A8, AngleOfVector_AF, AngleOfVector_B9, AngleOfVector_BB
+global AngleOfVectorJumpTable, AngleOfVector_90, AngleOfVector_92, AngleOfVector_9C, AngleOfVector_A8, AngleOfVector_AF, AngleOfVector_B9, AngleOfVector_BB
 global AngleOfVector_C0, sub_BBC80_93, DrawSortedModelPolys_B3, sub_BBEC8_174, sub_BA3D0, AngleOfVector, SinInterp, CosInterp
-global sub_BA5D0, sub_BACC0, sub_BAD58, sub_BB384, sub_BB470, DrawPolyOutline, sub_BB610, sub_BB8E0
+global sub_BA5D0, sub_BACC0, sub_BAD58, sub_BB384, DrawFlatPoly, DrawPolyOutline, sub_BB610, sub_BB8E0
 global sub_BB924, sub_BB9C4, MultiplyMatrix, sub_BBAA0, sub_BBB70, SetRinkMatrix, SetRinkTranslation, SetScreenScale
 global sub_BBC14, sub_BBC80, SetModelFrame, DrawSortedModelPolys, sub_BBE50, sub_BBEC8, sub_BC040, sub_BC0C4
 global sub_BC150, sub_BC3A0, sub_BC3F4, sub_BC424, sub_BC4F0, sub_BC5C0, sub_BC610, sub_BC674
@@ -48,7 +48,7 @@ sub_BA3D0:
         pop esi
         ret
         db 00h,00h,00h,00h,00h
-jpt_BA400:
+AngleOfVectorJumpTable:
         dd AngleOfVector_C0
         dd AngleOfVector_90
         dd AngleOfVector_9C
@@ -97,13 +97,13 @@ AngleOfVector:
         push edx
         mov ecx, dword [byte esp+08h]
         push ecx
-        call sub_C9E70
+        call Div64By32
         mov esi, eax
         shr eax, 18h
         lea edx, [nosplit eax*4+00h]
         shr esi, 8
-        mov eax, dword [dword edx+dword_124464]
-        mov edx, dword [dword edx+dword_124468]
+        mov eax, dword [dword edx+AtanTable]
+        mov edx, dword [dword edx+str_Punct_AngleOfVector]
         and esi, 0FFFFh
         sub edx, eax
         imul edx, esi
@@ -112,7 +112,7 @@ AngleOfVector:
 .5:
         cmp ebx, byte 7
         ja short AngleOfVector_C0
-        jmp dword [nosplit cs:ebx*4+jpt_BA400]
+        jmp dword [nosplit cs:ebx*4+AngleOfVectorJumpTable]
 AngleOfVector_90:
         neg eax
 AngleOfVector_92:
@@ -617,7 +617,7 @@ sub_BA5D0:
         cmp ebp, dword [byte esp+068h]
         je near .55
         mov edx, dword [byte esp+020h]
-        mov eax, dword [dword_1228F8]
+        mov eax, dword [DrawDestBuffer]
         add edx, eax
         mov eax, dword [dword_1228FC]
         mov ecx, dword [edx]
@@ -1488,9 +1488,10 @@ sub_BB384:
         ret
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_BB470                                                            BB470  
+; DrawFlatPoly                                 BB470  96 PC, medium confidence
+; Draws a flat polygon
 ;-----------------------------------------------------------------------------
-sub_BB470:
+DrawFlatPoly:
         push esi
         push edi
         push ebp
@@ -1795,7 +1796,7 @@ sub_BB610:
         sub edx, ecx
         mov dword [byte esp+018h], edx
 .11:
-        mov edx, dword [dword_1228F8]
+        mov edx, dword [DrawDestBuffer]
         shl ebp, 2
         add ebp, edx
         mov ebp, dword [byte ebp+00h]
@@ -1809,14 +1810,14 @@ sub_BB610:
         push ebx
         push byte 0
         push eax
-        push dword_19F2D8
-        call sub_CA0B0
+        push ScaledRowBuffer
+        call BuildSpanOffsets
         add esp, byte 1Ch
         mov eax, dword [byte esp+020h]
-        push dword_19F2D8
+        push ScaledRowBuffer
         add eax, byte 10h
         push eax
-        call sub_DD960
+        call SetBlitSource
         add esp, byte 8
 .12:
         dec esi
@@ -1830,7 +1831,7 @@ sub_BB610:
         push ecx
         push eax
         push ebp
-        call sub_DD982
+        call CopyMappedSpan
         add esp, byte 0Ch
         mov eax, dword [ScreenWidth]
         mov edx, dword [esp]
@@ -2208,12 +2209,12 @@ sub_BBAA0:
         sar eax, cl
         mov dword [esp], eax
         mov ecx, dword [esp]
-        mov eax, dword [dword_123AA4]
+        mov eax, dword [ViewCenterY]
         add eax, ecx
         mov dword [ebx], eax
         imul edi, dword [byte esi+04h]
         mov cl, dl
-        mov eax, dword [dword_123AA8]
+        mov eax, dword [str_D_ProjectPointsPersp]
         sar edi, cl
         sub eax, edi
         mov dword [byte ebx+04h], eax
@@ -2402,7 +2403,7 @@ sub_BBC80:
         push ecx
         mov edi, dword [byte esi+04h]
         push edi
-        call sub_BB470
+        call DrawFlatPoly
         add esp, byte 10h
         mov ebp, dword [byte esi+078h]
         push ebp
@@ -2902,7 +2903,7 @@ sub_BC150:
         add eax, edx
         push eax
         push str_ORIINST
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         mov ebp, eax
         mov bh, byte [byte eax+010h]
@@ -3128,7 +3129,7 @@ sub_BC424:
         shl eax, 2
         push eax
         push asc_113960
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         mov dword [byte esi+06Ch], eax
         jmp short .2

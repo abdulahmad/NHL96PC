@@ -3,11 +3,11 @@ bits 32
 %include "hockey.inc"
 section s_DD6C4 progbits alloc exec nowrite align=1
 extern RemapTable, byte_123988, dword_11F5A0, ScreenWidth, ClipBottom, ClipTopRow, ClipLeftCol, ClipRight
-extern ScreenHeight, dword_1228E8, dword_1228FC, BackBufferWidth, dword_123A88, dword_123A8C, dword_123A90, RetraceTimeout
+extern ScreenHeight, dword_1228E8, dword_1228FC, BackBufferWidth, dword_123A88, BlitColumnOffsets, BlitSourcePtr, RetraceTimeout
 extern dword_1248C8, sub_ADA50, FillRectSpans, SetupRectFill, unk_18584C
 global SetDrawBitmap, WaitRetrace_36, SetScreenTarget, GetPaletteRange, FillRectColor, SetClipWindow, sub_DD7B8, sub_DD800
-global sub_DD830, sub_DD87C, SetRemapTable, GetRemapTable, sub_DD908, sub_DD920, sub_DD960, sub_DD975
-global sub_DD982, sub_DDA44, sub_DDB22, sub_DDB68, sub_DDBB4, sub_DDC2A, ReadPortStable, WaitRetrace
+global sub_DD830, sub_DD87C, SetRemapTable, GetRemapTable, sub_DD908, sub_DD920, SetBlitSource, sub_DD975
+global CopyMappedSpan, sub_DDA44, sub_DDB22, sub_DDB68, sub_DDBB4, sub_DDC2A, ReadPortStable, WaitRetrace
 global WaitRetraceEdges, SetCrtcStart, sub_DDF4F, ClearChain4, sub_DE01A, unk_DE06D, WaitDisplayRetrace
 ;-----------------------------------------------------------------------------
 ; SetScreenTarget                                 DD6C4  96 PC, low confidence
@@ -340,15 +340,17 @@ sub_DD920:
         leave
         ret
 ;-----------------------------------------------------------------------------
-; sub_DD960                                                            DD960  
+; SetBlitSource                                DD960  96 PC, medium confidence
+; Sets the source pointer and the column offset table used by the span
+; copiers
 ;-----------------------------------------------------------------------------
-sub_DD960:
+SetBlitSource:
         push ebp
         LD mov, ebp, esp
         mov eax, dword [byte ebp+08h]
-        mov dword [dword_123A90], eax
+        mov dword [BlitSourcePtr], eax
         mov eax, dword [byte ebp+0Ch]
-        mov dword [dword_123A8C], eax
+        mov dword [BlitColumnOffsets], eax
         leave
         ret
 ;-----------------------------------------------------------------------------
@@ -362,17 +364,19 @@ sub_DD975:
         leave
         ret
 ;-----------------------------------------------------------------------------
-; sub_DD982                                                            DD982  
+; CopyMappedSpan                               DD982  96 PC, medium confidence
+; Copies a span of pixels from the source through the column offset table, by
+; pixel depth
 ;-----------------------------------------------------------------------------
-sub_DD982:
+CopyMappedSpan:
         push esi
         push edi
         mov esi, dword [byte esp+010h]
         mov edi, dword [byte esp+0Ch]
         mov ecx, dword [byte esp+014h]
-        add esi, dword [dword_123A90]
+        add esi, dword [BlitSourcePtr]
         add edi, dword [dword_1228FC]
-        mov edx, dword [dword_123A8C]
+        mov edx, dword [BlitColumnOffsets]
         LD xor, eax, eax
         sub ecx, byte 4
         js short .6
@@ -459,9 +463,9 @@ sub_DDA44:
         mov esi, dword [byte esp+010h]
         mov edi, dword [byte esp+0Ch]
         mov ecx, dword [byte esp+014h]
-        add esi, dword [dword_123A90]
+        add esi, dword [BlitSourcePtr]
         add edi, dword [dword_1228FC]
-        mov edx, dword [dword_123A8C]
+        mov edx, dword [BlitColumnOffsets]
         LD xor, eax, eax
         sub ecx, byte 4
         js short .6
@@ -524,9 +528,9 @@ sub_DDA44:
         mov esi, dword [byte ebp+0Ch]
         mov edi, dword [byte ebp+08h]
         mov ecx, dword [byte ebp+010h]
-        add esi, dword [dword_123A90]
+        add esi, dword [BlitSourcePtr]
         add edi, dword [dword_1228FC]
-        mov edx, dword [dword_123A8C]
+        mov edx, dword [BlitColumnOffsets]
         LD xor, eax, eax
 .10:
         mov ebx, dword [edx]
@@ -552,9 +556,9 @@ sub_DDB22:
         mov esi, dword [byte ebp+0Ch]
         mov edi, dword [byte ebp+08h]
         mov ecx, dword [byte ebp+010h]
-        add esi, dword [dword_123A90]
+        add esi, dword [BlitSourcePtr]
         add edi, dword [dword_1228FC]
-        mov edx, dword [dword_123A8C]
+        mov edx, dword [BlitColumnOffsets]
         LD xor, eax, eax
 .1:
         mov ebx, dword [edx]
@@ -586,9 +590,9 @@ sub_DDB68:
         mov esi, dword [byte ebp+0Ch]
         mov edi, dword [byte ebp+08h]
         mov ecx, dword [byte ebp+010h]
-        add esi, dword [dword_123A90]
+        add esi, dword [BlitSourcePtr]
         add edi, dword [dword_1228FC]
-        mov edx, dword [dword_123A8C]
+        mov edx, dword [BlitColumnOffsets]
         LD xor, eax, eax
 .1:
         mov ebx, dword [edx]
@@ -620,9 +624,9 @@ sub_DDBB4:
         mov esi, dword [byte esp+014h]
         mov ebp, dword [byte esp+010h]
         mov ecx, dword [byte esp+018h]
-        add esi, dword [dword_123A90]
+        add esi, dword [BlitSourcePtr]
         add ebp, dword [dword_1228FC]
-        mov edx, dword [dword_123A8C]
+        mov edx, dword [BlitColumnOffsets]
         mov edi, dword [dword_123A88]
         LD xor, eax, eax
         sub ecx, byte 2
@@ -668,8 +672,8 @@ sub_DDC2A:
         mov esi, dword [byte esp+014h]
         mov edi, dword [byte esp+010h]
         mov ecx, dword [byte esp+018h]
-        mov edx, dword [dword_123A8C]
-        add esi, dword [dword_123A90]
+        mov edx, dword [BlitColumnOffsets]
+        add esi, dword [BlitSourcePtr]
         add edi, dword [dword_1228FC]
         mov ebx, dword [byte edx+0Ch]
         sub ecx, byte 10h
@@ -799,7 +803,7 @@ sub_DDC2A:
         mov esi, dword [byte esp+014h]
         mov edi, dword [byte esp+010h]
         mov ebp, dword [byte esp+018h]
-        add esi, dword [dword_123A90]
+        add esi, dword [BlitSourcePtr]
         add edi, dword [dword_1228FC]
         sub ebp, byte 10h
         js short .12
@@ -873,7 +877,7 @@ sub_DDC2A:
         mov esi, dword [byte esp+08h]
         mov eax, dword [byte esp+0Ch]
         add edi, dword [dword_1228FC]
-        add esi, dword [dword_123A90]
+        add esi, dword [BlitSourcePtr]
         cmp eax, byte 0Ch
         jl short .17
         LD mov, ecx, edi

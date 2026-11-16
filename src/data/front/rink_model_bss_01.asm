@@ -7,8 +7,8 @@ global dword_1591D4, dword_159230, dword_159234, dword_159334, dword_159340, dwo
 global dword_1594B8, dword_1594BC, dword_159530, dword_159534, dword_1595B8, dword_1595BC, dword_1595C0, dword_1595C4
 global dword_1595C8, dword_1595CC, dword_1595D0, dword_159748, dword_15974C, dword_159750, unk_158F28, unk_158F48
 global unk_158F50, unk_158F68, unk_158F70, unk_158F88, unk_158FF4, unk_159000, unk_159018, unk_159024
-global unk_15903C, unk_159108, unk_159148, unk_159190, unk_1591D8, unk_159238, unk_159338, unk_159368
-global unk_159398, unk_1593F8, unk_159458, unk_159500, unk_159508, unk_159510, unk_159518, unk_159520
+global unk_15903C, unk_159108, unk_159148, unk_159190, IceSurfacePolys, unk_159238, unk_159338, unk_159368
+global unk_159398, BoardLinePolys, unk_159458, unk_159500, unk_159508, unk_159510, unk_159518, unk_159520
 global unk_159528
 dword_158F24:
         resb 4
@@ -56,7 +56,7 @@ dword_1591D0:
         resb 4
 dword_1591D4:
         resb 4
-unk_1591D8:
+IceSurfacePolys:
         resb 88
 dword_159230:
         resb 4
@@ -80,7 +80,7 @@ dword_15937C:
         resb 28
 unk_159398:
         resb 96
-unk_1593F8:
+BoardLinePolys:
         resb 96
 unk_159458:
         resb 96

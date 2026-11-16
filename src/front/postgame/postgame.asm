@@ -16,7 +16,7 @@ extern str_STRD, str_STRK, MessageBox, SelectDataLibrary, LoadPackedFile, Player
 extern SlideInBottomBar, SetScreenColors, BlackPalette, FadePalette, FadeOut, CopyBitmap, SetTextColors, DrawColorTextRight
 extern DrawColorTextCentred, SetScreenPalette, DrawFrameAt, RemapScreenColors, InitMenuItems, RunMenu, SetMenuMouse, PaEvent
 extern StopSpeech, StopMusic, FillMusicStream, PlayMusic, FadeOutMusic, MusicDone, SoundSecondsToBytes, SoundIdle
-extern GetLangText, PlayerStatsScreen, DrawShapeAtOwnPos, sub_AAA40, sub_AADA4, sub_AB758, FreeMemBlock, sub_AD35C
+extern GetLangText, PlayerStatsScreen, DrawShapeAtOwnPos, sub_AAA40, sub_AADA4, AllocMemBlock, FreeMemBlock, sub_AD35C
 extern sub_ADA50, sub_ADBEC, sub_AFCD0, DosFileInfo, LoadResourceDataShared, SetScreenTarget, sub_E04E0, bcopy
 extern sub_E0584, TextSetFont, unk_144BD, unk_144C3, unk_144C9, unk_144D5, unk_144ED, word_114CE0
 extern word_114DD2, word_114DD4, word_114DD6, word_114DD8, word_114DDC, word_114DE4, word_114DE6, word_114EA8
@@ -944,7 +944,7 @@ GameStatsScreen:
         push byte 0
         push dword 0FE50h
         push str_BANNER
-        call sub_AB758
+        call AllocMemBlock
         mov esi, dword [dword_152F58]
         mov edi, eax
         movsd
@@ -1097,7 +1097,7 @@ GameStatsScreen:
         add eax, byte 10h
         push eax
         push str_SBACK
-        call sub_AB758
+        call AllocMemBlock
         mov esi, dword [dword_152F58]
         mov edi, eax
         movsd
@@ -1751,7 +1751,7 @@ ThreeStarsScreen:
         push str_PALS2
         mov dword [byte ebp+07Ah], 0
         mov dword [byte ebp+056h], 0
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         mov dword [byte ebp-01Eh], eax
 .2:

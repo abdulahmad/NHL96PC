@@ -27,7 +27,7 @@ extern str_Drs1, str_Drs2, str_Drs3, str_FName3, str_HeightNWeight3, str_Jers, s
 extern str_LName3, str_Nhl1, str_Nhl2, str_Nhl3, str_Pal28, str_Player3, str_Profiles3, str_Scr12
 extern str_Scr22, str_Scr3, str_Sld12, str_Sldw, str_Slid2, str_Slu12, str_Slup, str_Sta13
 extern str_Sta23, str_Sta33, str_StatDBPTRs3, strcmp_, strcpy_, LoadDataFileLib, PlayerDbRecord, StatsDb2Record
-extern sub_AAA40, sub_AAA8C, sub_AB758, FreeMemBlock, sub_AD35C, sub_ADBEC, sub_B2C54, SetScreenTarget
+extern sub_AAA40, sub_AAA8C, AllocMemBlock, FreeMemBlock, sub_AD35C, sub_ADBEC, sub_B2C54, SetScreenTarget
 extern sub_E04E0, sub_E0584, TickDeadlinePassed, unk_157B1C, unk_157B82, unk_157FDA, unk_183D08, word_11D1B4
 extern word_1656E8, word_16581E
 global unk_9CB19, CompareRosterOrder, ComparePlayerPos, PositionOrder, sub_9CD61, RunEditLines, EditLinesScreen, LinesValid
@@ -262,37 +262,37 @@ RunEditLines:
         push esi
         push dword 0E0h
         push str_StatDBPTRs3
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push esi
         push dword 0E0h
         push str_DBPTRs3
         mov dword [dword_11E670], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push esi
         push dword 0E0h
         push str_Player3
         mov dword [dword_1820E4], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push esi
         push dword 0E0h
         push str_FName3
         mov dword [dword_1820AC], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push esi
         push dword 0E0h
         push str_LName3
         mov dword [dword_1820EC], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push esi
         push dword 0E0h
         push str_Profiles3
         mov dword [dword_1820E8], eax
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         mov dword [dword_1820B0], eax
 .1:
@@ -300,7 +300,7 @@ RunEditLines:
         push dword 0C00h
         push str_HeightNWeight3
         add esi, byte 4
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         mov dword [dword esi+dword_17FDEC], eax
         cmp esi, byte 8
@@ -310,7 +310,7 @@ RunEditLines:
         push byte 0
         push dword 0E0h
         push str_DonrussCards
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         mov dword [dword_1820A8], eax
 .3:
@@ -2285,7 +2285,7 @@ EditLinesScreen:
         push byte 70h
         push str_LinesSort
         mov dword [byte ebp+03Eh], 0
-        call sub_AB758
+        call AllocMemBlock
         mov ebx, unk_183D08
         add esp, byte 0Ch
         mov dword [dword_11E678], eax

@@ -4,7 +4,7 @@ bits 32
 section s_1DC65 progbits alloc exec nowrite align=1
 extern _dos_close_, _dos_creat_, _dos_getdiskfree_, _dos_open_, _dos_read_, _dos_write_, FatalError, lseek_
 extern rmdir_, str_backslash4, str_COPYBUFFER, str_dot2, str_ErrDiskFree2, strcat_, strcpy_, FillMusicStream
-extern SoundSecondsToBytes, sub_AB758, FreeMemBlock, sub_B71D4, sub_B71F1, UnlinkJump, unk_1106EC
+extern SoundSecondsToBytes, AllocMemBlock, FreeMemBlock, sub_B71D4, sub_B71F1, UnlinkJump, unk_1106EC
 global FileMissing, DeleteFiles, FileOpenRead, FileOpenRead_1A, FileOpenWrite, FileOpenReadWrite, FileCreate, FileClose
 global FileReadAt, FileReadAt_5B, FileReadAt_5D, FileWriteAt, FileWriteAt_6B, FileWriteAt_77, FileCopy, FileCopy_ret
 global WriteDbRecord6, ReadSeasonHeader
@@ -423,7 +423,7 @@ FileCopy:
         push str_COPYBUFFER
         mov dword [byte ebp-08h], 0FFFFFFFFh
         mov dword [byte ebp-0Ch], 0FFFFFFFFh
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         mov dword [byte ebp-04h], eax
         mov eax, 2

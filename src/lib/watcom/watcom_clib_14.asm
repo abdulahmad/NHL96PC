@@ -4,7 +4,7 @@ bits 32
 section s_CA835 progbits alloc exec nowrite align=1
 extern SetDrawBitmap, __init_80x87, __unhook387, __8087, FpuType, _Extender, Is8087, __real87
 extern byte_1248DA, dword_11F5C0, dword_11F5C4, dword_11F5C8, FpuFlags, FpuSystemFlags, OldFpuVectorOffset, snddriver
-extern dword_1248DC, dword_144F9C, dword_144FA0, dword_144FA4, dword_144FA8, dword_144FAC, dword_144FB0, dword_144FB4
+extern MixerVolumeLookup, dword_144F9C, dword_144FA0, dword_144FA4, dword_144FA8, dword_144FAC, dword_144FB0, dword_144FB4
 extern dword_144FB8, dword_144FBC, dword_144FC0, dword_144FC4, dword_144FC8, dword_144FCC, dword_144FD0, dword_144FD4
 extern dword_144FD8, dword_144FDC, dword_144FE0, dword_144FE4, dword_144FE8, dword_144FEC, dword_144FF0, dword_144FF4
 extern dword_144FF8, dword_144FFC, dword_145000, dword_145004, dword_145008, dword_14500C, dword_145010, dword_145014
@@ -17,7 +17,7 @@ extern word_1A0FA0, SbMixerAddrPort, word_1A0FA4, word_1A0FA6, word_1A0FA8, SbRe
 global __chk8087_, __init_8087_, __rest_8087_, __save_8087_, __sys_fini_387_emulator, _fpreset_, MixerChunkLength_4A, MixerChunkLength_8F
 global MixerChunkLength_10E, MixerChunkLength_21B, MixerChunkLength_32D, sub_CCB41_3AE, sub_CCB41_7BC, sub_CCB41_BC7, sub_CCB41_F65, sub_CCB41_1372
 global sub_CCB41_13D3, sub_CCB41_1430, EmuRestoreFpuVector, EmuRestoreRealVector, sub_CAA80, sub_CAB58, sub_CAB78, sub_CABA9
-global sub_CBEA8, sub_CBEB7, sub_CBFC2, sub_CC048, MixerStopChannel, sub_CC17B, sub_CC1B5, MixerSamplesLeft
+global sub_CBEA8, sub_CBEB7, MixerFillBuffer, sub_CC048, MixerStopChannel, sub_CC17B, sub_CC1B5, MixerSamplesLeft
 global sub_CC250, MixerChunkLength, MixerCalcStep, MixerBuildVolumeTables, sub_CC7FD, sub_CCB41, sub_CDFDD, sub_CDFDE
 global sub_CDFDF, sub_CDFE0, sub_CDFE1, sub_CDFE2, MixerStepTable
 ;-----------------------------------------------------------------------------
@@ -842,9 +842,10 @@ sub_CBEB7:
         leave
         ret
 ;-----------------------------------------------------------------------------
-; sub_CBFC2                                                            CBFC2  
+; MixerFillBuffer                              CBFC2  96 PC, medium confidence
+; Mixes all channels into an output buffer, 512 samples at a time
 ;-----------------------------------------------------------------------------
-sub_CBFC2:
+MixerFillBuffer:
         push ebp
         LD mov, ebp, esp
         pusha
@@ -1619,7 +1620,7 @@ MixerBuildVolumeTables:
 .1:
         LD mov, esi, ecx
         shl esi, 0Ah
-        add esi, dword_1248DC
+        add esi, MixerVolumeLookup
         mov edx, 0
 .2:
         LD mov, eax, edx
@@ -1669,114 +1670,114 @@ sub_CC7FD:
         push ecx
         LD xor, ecx, ecx
         mov cl, byte [edi]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144F9C], eax
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FA0], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [edi]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FA4], eax
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FA8], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [edi]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FAC], eax
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FB0], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [edi]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FB4], eax
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FB8], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [edi]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FBC], eax
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FC0], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [edi]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FC4], eax
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FC8], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [edi]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FCC], eax
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FD0], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [edi]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FD4], eax
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FD8], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [edi]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FDC], eax
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FE0], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [edi]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FE4], eax
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FE8], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [edi]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FEC], eax
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FF0], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [edi]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FF4], eax
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FF8], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [edi]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FFC], eax
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_145000], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [edi]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_145004], eax
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_145008], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [edi]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_14500C], eax
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_145010], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [edi]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_145014], eax
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_145018], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
@@ -1790,11 +1791,11 @@ sub_CC7FD:
 .2:
         LD xor, eax, eax
         mov al, byte [edi]
-        mov eax, dword [dword edx+eax*4+dword_1248DC]
+        mov eax, dword [dword edx+eax*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144F9C], eax
         LD xor, eax, eax
         mov al, byte [edi]
-        mov eax, dword [dword esi+eax*4+dword_1248DC]
+        mov eax, dword [dword esi+eax*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FA0], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
@@ -2035,130 +2036,130 @@ sub_CCB41_3AE:
         push ecx
         LD xor, ecx, ecx
         mov cl, byte [nosplit edi*2+00h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144F9C], eax
         mov cl, byte [nosplit edi*2+01h]
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FA0], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*2+00h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FA4], eax
         mov cl, byte [nosplit edi*2+01h]
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FA8], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*2+00h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FAC], eax
         mov cl, byte [nosplit edi*2+01h]
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FB0], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*2+00h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FB4], eax
         mov cl, byte [nosplit edi*2+01h]
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FB8], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*2+00h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FBC], eax
         mov cl, byte [nosplit edi*2+01h]
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FC0], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*2+00h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FC4], eax
         mov cl, byte [nosplit edi*2+01h]
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FC8], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*2+00h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FCC], eax
         mov cl, byte [nosplit edi*2+01h]
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FD0], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*2+00h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FD4], eax
         mov cl, byte [nosplit edi*2+01h]
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FD8], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*2+00h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FDC], eax
         mov cl, byte [nosplit edi*2+01h]
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FE0], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*2+00h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FE4], eax
         mov cl, byte [nosplit edi*2+01h]
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FE8], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*2+00h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FEC], eax
         mov cl, byte [nosplit edi*2+01h]
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FF0], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*2+00h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FF4], eax
         mov cl, byte [nosplit edi*2+01h]
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FF8], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*2+00h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FFC], eax
         mov cl, byte [nosplit edi*2+01h]
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_145000], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*2+00h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_145004], eax
         mov cl, byte [nosplit edi*2+01h]
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_145008], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*2+00h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_14500C], eax
         mov cl, byte [nosplit edi*2+01h]
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_145010], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*2+00h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_145014], eax
         mov cl, byte [nosplit edi*2+01h]
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_145018], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
@@ -2172,11 +2173,11 @@ sub_CCB41_3AE:
 .5:
         LD xor, eax, eax
         mov al, byte [nosplit edi*2+00h]
-        mov eax, dword [dword edx+eax*4+dword_1248DC]
+        mov eax, dword [dword edx+eax*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144F9C], eax
         LD xor, eax, eax
         mov al, byte [nosplit edi*2+01h]
-        mov eax, dword [dword esi+eax*4+dword_1248DC]
+        mov eax, dword [dword esi+eax*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FA0], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
@@ -2412,114 +2413,114 @@ sub_CCB41_BC7:
         push ecx
         LD xor, ecx, ecx
         mov cl, byte [nosplit edi*2+01h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144F9C], eax
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FA0], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*2+01h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FA4], eax
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FA8], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*2+01h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FAC], eax
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FB0], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*2+01h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FB4], eax
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FB8], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*2+01h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FBC], eax
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FC0], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*2+01h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FC4], eax
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FC8], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*2+01h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FCC], eax
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FD0], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*2+01h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FD4], eax
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FD8], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*2+01h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FDC], eax
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FE0], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*2+01h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FE4], eax
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FE8], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*2+01h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FEC], eax
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FF0], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*2+01h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FF4], eax
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FF8], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*2+01h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FFC], eax
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_145000], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*2+01h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_145004], eax
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_145008], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*2+01h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_14500C], eax
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_145010], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*2+01h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_145014], eax
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_145018], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
@@ -2533,11 +2534,11 @@ sub_CCB41_BC7:
 .11:
         LD xor, eax, eax
         mov al, byte [nosplit edi*2+01h]
-        mov eax, dword [dword edx+eax*4+dword_1248DC]
+        mov eax, dword [dword edx+eax*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144F9C], eax
         LD xor, eax, eax
         mov al, byte [nosplit edi*2+01h]
-        mov eax, dword [dword esi+eax*4+dword_1248DC]
+        mov eax, dword [dword esi+eax*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FA0], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
@@ -2569,130 +2570,130 @@ sub_CCB41_F65:
         push ecx
         LD xor, ecx, ecx
         mov cl, byte [nosplit edi*4+01h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144F9C], eax
         mov cl, byte [nosplit edi*4+03h]
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FA0], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*4+01h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FA4], eax
         mov cl, byte [nosplit edi*4+03h]
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FA8], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*4+01h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FAC], eax
         mov cl, byte [nosplit edi*4+03h]
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FB0], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*4+01h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FB4], eax
         mov cl, byte [nosplit edi*4+03h]
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FB8], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*4+01h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FBC], eax
         mov cl, byte [nosplit edi*4+03h]
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FC0], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*4+01h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FC4], eax
         mov cl, byte [nosplit edi*4+03h]
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FC8], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*4+01h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FCC], eax
         mov cl, byte [nosplit edi*4+03h]
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FD0], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*4+01h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FD4], eax
         mov cl, byte [nosplit edi*4+03h]
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FD8], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*4+01h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FDC], eax
         mov cl, byte [nosplit edi*4+03h]
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FE0], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*4+01h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FE4], eax
         mov cl, byte [nosplit edi*4+03h]
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FE8], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*4+01h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FEC], eax
         mov cl, byte [nosplit edi*4+03h]
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FF0], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*4+01h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FF4], eax
         mov cl, byte [nosplit edi*4+03h]
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FF8], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*4+01h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FFC], eax
         mov cl, byte [nosplit edi*4+03h]
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_145000], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*4+01h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_145004], eax
         mov cl, byte [nosplit edi*4+03h]
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_145008], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*4+01h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_14500C], eax
         mov cl, byte [nosplit edi*4+03h]
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_145010], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
         mov cl, byte [nosplit edi*4+01h]
-        mov eax, dword [dword edx+ecx*4+dword_1248DC]
+        mov eax, dword [dword edx+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_145014], eax
         mov cl, byte [nosplit edi*4+03h]
-        mov eax, dword [dword esi+ecx*4+dword_1248DC]
+        mov eax, dword [dword esi+ecx*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_145018], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]
@@ -2706,11 +2707,11 @@ sub_CCB41_F65:
 .14:
         LD xor, eax, eax
         mov al, byte [nosplit edi*4+01h]
-        mov eax, dword [dword edx+eax*4+dword_1248DC]
+        mov eax, dword [dword edx+eax*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144F9C], eax
         LD xor, eax, eax
         mov al, byte [nosplit edi*4+03h]
-        mov eax, dword [dword esi+eax*4+dword_1248DC]
+        mov eax, dword [dword esi+eax*4+MixerVolumeLookup]
         add dword [dword ds:ebp+dword_144FA0], eax
         add ebx, dword [dword_14EFD0]
         adc edi, dword [dword_14EFD4]

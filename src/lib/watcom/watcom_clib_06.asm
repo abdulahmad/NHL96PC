@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_BC73C progbits alloc exec nowrite align=1
 extern FatalError, __sys_init_387_emulator, str_OrigetpartitionDIsAnInva, str_Punct_SetScreenScale, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight
-extern ScreenHeight, dword_1228FC, dword_123AA4, dword_123AA8, dword_123AAC, dword_123AB0, dword_123ABC, dword_19869C
+extern ScreenHeight, dword_1228FC, ViewCenterY, str_D_ProjectPointsPersp, dword_123AAC, dword_123AB0, dword_123ABC, dword_19869C
 extern dword_1986A0, dword_19A5E0, dword_19A5E4, dword_19A5E8, dword_19A5EC, dword_19A5F0, dword_19A5F4, dword_19A5F8
 extern dword_19A5FC, dword_19A600, dword_19A604, dword_19A608, dword_19A60C, dword_19A610, dword_19A614, dword_19A618
 extern dword_19A61C, dword_19A620, dword_19A624, dword_19A628, dword_19A630, dword_19A634, dword_19A638, dword_19A63C
@@ -2438,12 +2438,12 @@ sub_BDC74:
         mov eax, dword [esi]
         imul dword [dword_123AAC]
         idiv dword [byte esi+08h]
-        add eax, dword [dword_123AA4]
+        add eax, dword [ViewCenterY]
         mov dword [edi], eax
         mov eax, dword [byte esi+04h]
         imul dword [dword_123AB0]
         idiv dword [byte esi+08h]
-        add eax, dword [dword_123AA8]
+        add eax, dword [str_D_ProjectPointsPersp]
         mov dword [byte edi+04h], eax
         jmp short .19
 .18:
@@ -2593,12 +2593,12 @@ sub_BE47C:
         mov eax, dword [esi]
         imul dword [dword_123AAC]
         idiv dword [byte esi+08h]
-        add eax, dword [dword_123AA4]
+        add eax, dword [ViewCenterY]
         mov dword [edi], eax
         mov eax, dword [byte esi+04h]
         imul dword [dword_123AB0]
         idiv dword [byte esi+08h]
-        add eax, dword [dword_123AA8]
+        add eax, dword [str_D_ProjectPointsPersp]
         mov dword [byte edi+04h], eax
         jmp short .3
 .2:
@@ -2636,12 +2636,12 @@ sub_BE47C:
         mov eax, dword [esi]
         imul dword [dword_123AAC]
         idiv dword [byte esi+08h]
-        add eax, dword [dword_123AA4]
+        add eax, dword [ViewCenterY]
         mov dword [edi], eax
         mov eax, dword [byte esi+04h]
         imul dword [dword_123AB0]
         idiv dword [byte esi+08h]
-        add eax, dword [dword_123AA8]
+        add eax, dword [str_D_ProjectPointsPersp]
         mov dword [byte edi+04h], eax
         jmp short .6
 .5:

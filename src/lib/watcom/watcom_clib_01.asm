@@ -8,7 +8,7 @@ extern _fmode, __OpenStreams, __ClosedStreams, lseek_, sopen_, strncmp_, strncpy
 extern GetPsp, McgaNoWindow, bcopy, tell_, tolower_
 global __MkTmpFile_, __doclose_, __doopen_, __hex_, __open_flags_, __shutdown_stream_, __update_buffer_, _fsopen_
 global _nfree_, _nmalloc_, _os_handle, _os_handle_0, _os_handle_1, close_file_, fclose_, fopen_
-global fread_, freopen_, fseek_, ftell_, strcat_, strcpy_, sub_AA500, sub_AA564
+global fread_, freopen_, fseek_, ftell_, strcat_, strcpy_, sub_AA500, PathBaseName
 ;-----------------------------------------------------------------------------
 ; strcpy_                                                       A9CB3  library
 ;-----------------------------------------------------------------------------
@@ -1058,9 +1058,10 @@ _os_handle_1:
         add esp, byte 0Ch
         ret
 ;-----------------------------------------------------------------------------
-; sub_AA564                                                            AA564  
+; PathBaseName                                 AA564  96 PC, medium confidence
+; Returns the file name part of a path
 ;-----------------------------------------------------------------------------
-sub_AA564:
+PathBaseName:
         mov eax, dword [byte esp+04h]
         mov dl, byte [eax]
         mov ebx, eax

@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_D0360 progbits alloc exec nowrite align=1
-extern str_SHPI2, ClipTopRow, ClipRight, fputchar, strncpy_, DosFileInfo, sub_D1368, sub_D7D44
+extern str_SHPI2, ClipTopRow, ClipRight, fputchar, strncpy_, DosFileInfo, DrawTextBoxedAt, sub_D7D44
 extern bcopy
 global sub_D0360, sub_D0440, sub_D0640, sub_D0650
 ;-----------------------------------------------------------------------------
@@ -329,7 +329,7 @@ sub_D0650:
         push eax
         mov edi, dword [byte esp+014h]
         push edi
-        call sub_D1368
+        call DrawTextBoxedAt
         add esp, byte 0Ch
         pop edi
         pop esi

@@ -4,13 +4,13 @@ bits 32
 section s_AA988 progbits alloc exec nowrite align=1
 extern FatalError, asc_113110, str_LOWMEM, str_HIGHMEM, str_GAP, asc_11316C, dword_11F9B8, RowTable
 extern dword_1210C0, dword_1210C8, dword_1210CC, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight
-extern dword_1228F4, dword_1228FC, dword_122930, dword_123934, dword_18568C, dword_185690, dword_185730, dword_185734
-extern dword_18573C, strncpy_, sub_AA7E0, sub_AB87C, getmemblock, sub_C24D0, sub_C3A48, ResetMemLock
-extern MemLock, sub_C3C04, SetScreenTarget, SetClipWindow, VesaSetBank, sub_DE4C7, sub_DE643, sub_DE7DB
+extern dword_1228F4, dword_1228FC, dword_122930, dword_123934, memlist1, dword_185690, dword_185730, MemLockHandle
+extern dword_18573C, strncpy_, DrawShapeCore, AllocMemBlockEx, getmemblock, sub_C24D0, sub_C3A48, ResetMemLock
+extern MemLock, MemUnlock, SetScreenTarget, SetClipWindow, VesaSetBank, sub_DE4C7, sub_DE643, sub_DE7DB
 extern sub_DE97C, sub_DE9F3, sub_DEB94, bcopy, sub_E193C, sub_E1956
 global PutBlock_25F, sub_AAF28_132, DrawShapeAtOwnPos, sub_AA9CC, sub_AAA40, sub_AAA8C, sub_AAADC, PutBlock
 global sub_AADA4, BlitShapeAt, sub_AADE8, sub_AAF28, sub_AB0A8, sub_AB2EC, sub_AB3B4, sub_AB440
-global sub_AB5BC, sub_AB660, sub_AB6D8, sub_AB718, sub_AB758, sub_AB798
+global sub_AB5BC, sub_AB660, sub_AB6D8, sub_AB718, AllocMemBlock, sub_AB798
 ;-----------------------------------------------------------------------------
 ; DrawShapeAtOwnPos                               AA988  96 PC, low confidence
 ; Draws a shape at the position stored in its header; followed by the draw at
@@ -25,7 +25,7 @@ DrawShapeAtOwnPos:
         sar eax, 10h
         push eax
         push edx
-        call sub_AA7E0
+        call DrawShapeCore
         add esp, byte 0Ch
         ret
         mov edx, dword [byte esp+04h]
@@ -40,7 +40,7 @@ DrawShapeAtOwnPos:
         sub ebx, eax
         push ebx
         push edx
-        call sub_AA7E0
+        call DrawShapeCore
         add esp, byte 0Ch
         ret
 ;-----------------------------------------------------------------------------
@@ -77,7 +77,7 @@ sub_AA9CC:
         sub eax, ebx
         push eax
         push esi
-        call sub_AA7E0
+        call DrawShapeCore
         add esp, byte 0Ch
         mov eax, esp
         push eax
@@ -886,7 +886,7 @@ sub_AB0A8:
         push edi
         call ResetMemLock
         push eax
-        mov dword [dword_185734], eax
+        mov dword [MemLockHandle], eax
         call MemLock
         add esp, byte 4
         mov edx, dword [byte esp+0Ch]
@@ -935,11 +935,11 @@ sub_AB0A8:
         mov eax, dword [dword_1210C8]
         mov esi, dword [dword_1210CC]
         add esp, byte 18h
-        mov edi, dword [dword_185734]
+        mov edi, dword [MemLockHandle]
         sub eax, esi
         push edi
         mov dword [dword_18573C], eax
-        call sub_C3C04
+        call MemUnlock
         add esp, byte 4
         pop edi
         pop esi
@@ -956,7 +956,7 @@ sub_AB2EC:
         sar esi, 8
         lea ecx, [nosplit esi*4+00h]
         add ecx, esi
-        mov esi, dword_18568C
+        mov esi, memlist1
         shl ecx, 2
         mov eax, dword [byte esp+018h]
         add esi, ecx
@@ -1024,7 +1024,7 @@ sub_AB3B4:
         mov ebx, dword [byte esp+028h]
         push ebx
         mov ecx, dword [byte esp+028h]
-        mov esi, dword_18568C
+        mov esi, memlist1
         push ecx
         mov edi, dword [byte esp+028h]
         mov ebp, dword [byte esp+024h]
@@ -1079,7 +1079,7 @@ sub_AB440:
         sar eax, 8
         lea ecx, [nosplit eax*4+00h]
         add ecx, eax
-        mov esi, dword_18568C
+        mov esi, memlist1
         shl ecx, 2
         add esi, ecx
         call getmemblock
@@ -1124,7 +1124,7 @@ sub_AB440:
         sar esi, 8
         lea eax, [nosplit esi*4+00h]
         add eax, esi
-        mov edi, dword_18568C
+        mov edi, memlist1
         shl eax, 2
         add edi, eax
         mov esi, dword [edi]
@@ -1211,7 +1211,7 @@ sub_AB5BC:
         sar edx, 8
         lea eax, [nosplit edx*4+00h]
         add eax, edx
-        mov edx, dword_18568C
+        mov edx, memlist1
         shl eax, 2
         add edx, eax
         mov ebx, dword [byte edx+04h]
@@ -1274,7 +1274,7 @@ sub_AB660:
         lea eax, [nosplit edx*4+00h]
         add eax, edx
         shl eax, 2
-        add eax, dword_18568C
+        add eax, memlist1
         mov edx, dword [byte eax+04h]
         test edx, edx
         jne short .1
@@ -1320,7 +1320,7 @@ sub_AB660:
 sub_AB6D8:
         push esi
         push edi
-        mov edx, dword [dword_185734]
+        mov edx, dword [MemLockHandle]
         push edx
         call MemLock
         add esp, byte 4
@@ -1331,12 +1331,12 @@ sub_AB6D8:
         push ecx
         mov esi, dword [byte esp+018h]
         push esi
-        call sub_AB87C
+        call AllocMemBlockEx
         add esp, byte 10h
-        mov edi, dword [dword_185734]
+        mov edi, dword [MemLockHandle]
         push edi
         mov esi, eax
-        call sub_C3C04
+        call MemUnlock
         add esp, byte 4
         mov eax, esi
         pop edi
@@ -1348,7 +1348,7 @@ sub_AB6D8:
 sub_AB718:
         push esi
         push edi
-        mov edx, dword [dword_185734]
+        mov edx, dword [MemLockHandle]
         push edx
         call MemLock
         add esp, byte 4
@@ -1359,24 +1359,24 @@ sub_AB718:
         push ecx
         mov esi, dword [byte esp+018h]
         push esi
-        call sub_AB87C
+        call AllocMemBlockEx
         add esp, byte 10h
-        mov edi, dword [dword_185734]
+        mov edi, dword [MemLockHandle]
         push edi
         mov esi, eax
-        call sub_C3C04
+        call MemUnlock
         add esp, byte 4
         mov eax, esi
         pop edi
         pop esi
         ret
 ;-----------------------------------------------------------------------------
-; sub_AB758                                                            AB758  
+; AllocMemBlock                                AB758  95 PC, medium confidence
 ;-----------------------------------------------------------------------------
-sub_AB758:
+AllocMemBlock:
         push esi
         push edi
-        mov edx, dword [dword_185734]
+        mov edx, dword [MemLockHandle]
         push edx
         call MemLock
         add esp, byte 4
@@ -1387,12 +1387,12 @@ sub_AB758:
         push ecx
         mov esi, dword [byte esp+018h]
         push esi
-        call sub_AB87C
+        call AllocMemBlockEx
         add esp, byte 10h
-        mov edi, dword [dword_185734]
+        mov edi, dword [MemLockHandle]
         push edi
         mov esi, eax
-        call sub_C3C04
+        call MemUnlock
         add esp, byte 4
         mov eax, dword [esi]
         pop edi
@@ -1404,7 +1404,7 @@ sub_AB758:
 sub_AB798:
         push esi
         push edi
-        mov edx, dword [dword_185734]
+        mov edx, dword [MemLockHandle]
         push edx
         call MemLock
         add esp, byte 4
@@ -1415,12 +1415,12 @@ sub_AB798:
         push ecx
         mov esi, dword [byte esp+018h]
         push esi
-        call sub_AB87C
+        call AllocMemBlockEx
         add esp, byte 10h
-        mov edi, dword [dword_185734]
+        mov edi, dword [MemLockHandle]
         push edi
         mov esi, eax
-        call sub_C3C04
+        call MemUnlock
         add esp, byte 4
         test esi, esi
         je short .1
@@ -1437,7 +1437,7 @@ sub_AB798:
         push esi
         push edi
         push ebp
-        mov edx, dword [dword_185734]
+        mov edx, dword [MemLockHandle]
         push edx
         call MemLock
         add esp, byte 4
@@ -1449,12 +1449,12 @@ sub_AB798:
         push esi
         mov edi, dword [byte esp+01Ch]
         push edi
-        call sub_AB87C
+        call AllocMemBlockEx
         add esp, byte 10h
-        mov ebp, dword [dword_185734]
+        mov ebp, dword [MemLockHandle]
         push ebp
         mov esi, eax
-        call sub_C3C04
+        call MemUnlock
         add esp, byte 4
         test esi, esi
         je short .2

@@ -6,7 +6,7 @@ extern byte_11FA2F, byte_152C3B, byte_152C40, byte_152C41, byte_152C42, DrawArtO
 extern dword_1150CC, dword_1150D0, dword_11F5C0, dword_152C3C, FillRect, fputchar, mousex, mousey
 extern PutBlock, SetDrawBitmap, sprintf_, str_02, str_BDMEN, str_BDREG, str_BUT, str_D14
 extern str_X, CopyBitmap, DrawTextCentred, SetTextColors, DrawColorTextCentred, DrawBox, InitMenuItems, RunMenu
-extern SetMenuMouse, SoundIdle, sub_AA7E0, sub_AADA4, sub_AB758, FreeMemBlock, sub_AD35C, sub_AD620
+extern SetMenuMouse, SoundIdle, DrawShapeCore, sub_AADA4, AllocMemBlock, FreeMemBlock, sub_AD35C, sub_AD620
 extern sub_ADA80, sub_ADBEC, sub_AFFD0, SetScreenTarget, GetPaletteRange, sub_DFE9C, unk_152B3C
 global DrawBoxButton, DrawBoxButton_ret, MessageBox, HideMessage, ShowMessage, ShowProgressBox, UpdateProgressBox, HideProgressBox
 ;-----------------------------------------------------------------------------
@@ -100,7 +100,7 @@ MessageBox:
         push byte 20h
         push byte 30h
         push str_BUT
-        call sub_AB758
+        call AllocMemBlock
         mov edx, dword [dword ebp-0348h]
         mov dword [dword_152C3C], eax
         mov dword [byte eax+028h], edx
@@ -344,7 +344,7 @@ MessageBox:
         mov eax, dword [edi]
         push dword [byte edi+08h]
         push dword [byte eax+02Ch]
-        call sub_AA7E0
+        call DrawShapeCore
         mov eax, dword [dword_152C3C]
         add esp, byte 0Ch
         push dword [byte eax+04h]
@@ -480,7 +480,7 @@ MessageBox:
         shl edi, 6
         push edi
         push str_BDREG
-        call sub_AB758
+        call AllocMemBlock
         mov dword [byte ebp-038h], eax
         add esp, byte 0Ch
         mov ecx, edi
@@ -491,7 +491,7 @@ MessageBox:
         push byte 0
         push eax
         push str_BDMEN
-        call sub_AB758
+        call AllocMemBlock
         mov edi, eax
         add esp, byte 0Ch
         mov edx, eax
@@ -901,7 +901,7 @@ ShowMessage:
         push eax
         push dword [byte edi+02Ch]
         mov dword [byte ebp-08h], eax
-        call sub_AA7E0
+        call DrawShapeCore
         add esp, byte 0Ch
         mov eax, dword [byte edi+02Ch]
         xor edx, edx
@@ -1044,7 +1044,7 @@ ShowProgressBox:
         push eax
         push dword [byte esi+02Ch]
         mov dword [dword ebp+037Eh], eax
-        call sub_AA7E0
+        call DrawShapeCore
         add esp, byte 0Ch
         mov eax, dword [byte esi+02Ch]
         xor edx, edx

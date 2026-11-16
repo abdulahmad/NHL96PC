@@ -4,37 +4,37 @@ bits 32
 section s_DFC33 progbits alloc exec nowrite align=1
 extern byte_11F668, byte_11F670, byte_11F68D, KbdCtrlDown, KbdAltDown, byte_11F6A8, byte_11F6C3, byte_11F708
 extern byte_11F714, byte_11F76F, byte_11F7CA, byte_11F825, byte_11F880, str_Punct_DrawRinkSurface, dword_11F61C, dword_11F620
-extern dword_11F660, dword_11F664, dword_11F66C, dword_11F6F0, dword_11F6F6, dword_11F6FC, dword_11F994, BiosKeyFunc
-extern RestoreDS, sub_C27A4, DosSetVector, word_11F6F4, word_11F6FA, word_11F700, word_11F702
-global RemoveKeyboardHandler_6F, RemoveKeyboardHandler, Int16Handler, Int16Service, sub_DFE9C, sub_DFEAB, unk_DFDDD
+extern dword_11F660, dword_11F664, dword_11F66C, SavedKbdVecOffset, SavedInt16Offset, SavedRealKbdOffset, dword_11F994, BiosKeyFunc
+extern RestoreDS, sub_C27A4, DosSetVector, SavedKbdVecSelector, SavedInt16Selector, SavedRealKbdSegment, KbdDataSelector
+global RemoveKeyboardHandler_6F, RemoveKeyboardHandler, Int16Handler, Int16Service, sub_DFE9C, BiosKeyCall, unk_DFDDD
 ;-----------------------------------------------------------------------------
 ; RemoveKeyboardHandler                           DFC33  96 PC, low confidence
 ; Keyboard: restores the original keyboard interrupt
 ;-----------------------------------------------------------------------------
 RemoveKeyboardHandler:
-        cmp word [word_11F702], byte 0
+        cmp word [KbdDataSelector], byte 0
         je short .1
-        mov word [word_11F702], 0
+        mov word [KbdDataSelector], 0
         pusha
         in al, 21h
         push eax
         or al, 3
         out 21h, al
         mov ebx, 9
-        mov eax, dword [dword_11F6F0]
-        mov dx, word [word_11F6F4]
+        mov eax, dword [SavedKbdVecOffset]
+        mov dx, word [SavedKbdVecSelector]
         call DosSetVector
         mov ebx, 16h
-        mov eax, dword [dword_11F6F6]
-        mov dx, word [word_11F6FA]
+        mov eax, dword [SavedInt16Offset]
+        mov dx, word [SavedInt16Selector]
         mov ebx, 23h
-        mov eax, dword [dword_11F6FC]
-        mov dx, word [word_11F700]
+        mov eax, dword [SavedRealKbdOffset]
+        mov dx, word [SavedRealKbdSegment]
         call DosSetVector
         and byte [0417h], 0F0h
         pop eax
         out 21h, al
-        mov ebx, sub_DFEAB
+        mov ebx, BiosKeyCall
         mov dword [BiosKeyFunc], ebx
         popa
 .1:
@@ -53,7 +53,7 @@ RemoveKeyboardHandler_6F:
         in al, 60h
         LD mov, ebx, eax
         db 066h,02Eh,08Eh,01Dh                  ; insn: o16 mov ds,[cs:0F702h]
-        dd word_11F702
+        dd KbdDataSelector
         mov byte [byte_11F708], al
         LD or, bl, bl
         jns short .2
@@ -254,9 +254,10 @@ sub_DFE9C:
         leave
         ret
 ;-----------------------------------------------------------------------------
-; sub_DFEAB                                                            DFEAB  
+; BiosKeyCall                                  DFEAB  96 PC, medium confidence
+; Keyboard: calls the BIOS keyboard service
 ;-----------------------------------------------------------------------------
-sub_DFEAB:
+BiosKeyCall:
         movzx eax, ax
         int 16h
         movzx eax, ax

@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_C39C2 progbits alloc exec nowrite align=1
-extern _Extender, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, dword_1228F0, dword_1228F8, dword_1228FC
+extern _Extender, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, dword_1228F0, DrawDestBuffer, dword_1228FC
 extern MemLockState
 global _dos_getvect_, _dos_setvect_, sub_C3A48_34, sub_C3A48, ResetMemLock
 ;-----------------------------------------------------------------------------
@@ -185,7 +185,7 @@ sub_C3A48_34:
         mov dword [byte ebp-04h], ebx
         cld
         mov ebx, dword [byte ebp-08h]
-        mov edi, dword [dword_1228F8]
+        mov edi, dword [DrawDestBuffer]
         mov edi, dword [edi+ebx*4]
         add edi, dword [byte ebp-04h]
         add edi, dword [dword_1228FC]

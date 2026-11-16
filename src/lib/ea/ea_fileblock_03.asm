@@ -3,8 +3,8 @@ bits 32
 %include "hockey.inc"
 section s_BE8C5 progbits alloc exec nowrite align=1
 extern __fprtf_, __sys_fini_387_emulator, str_Punct_DrawRinkSurface, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight
-extern dword_1228F8, dword_123AA4, dword_123AA8, dword_123AAC, dword_123ABC, dword_123AC0, dword_19F2D8, sub_C9E68
-extern sub_C9F3A, sub_CA0B0, sub_DD960, sub_DDA44, sub_DEF74
+extern DrawDestBuffer, ViewCenterY, str_D_ProjectPointsPersp, dword_123AAC, dword_123ABC, dword_123AC0, ScaledRowBuffer, sub_C9E68
+extern sub_C9F3A, BuildSpanOffsets, SetBlitSource, sub_DDA44, sub_DEF74
 global fprintf_, imul32, sub_BE926, sub_BE960, SortIndices, sub_BEAE4, sub_BEB48, sub_BEC30
 global sub_BEF44, sub_BEFF0
 ;-----------------------------------------------------------------------------
@@ -343,7 +343,7 @@ sub_BEB48:
         lea esi, [byte esp+014h]
         call sub_C9F3A
         mov edx, dword [byte esp+08h]
-        mov eax, dword [dword_123AA4]
+        mov eax, dword [ViewCenterY]
         lea esi, [byte esp+010h]
         add eax, edx
         push ebx
@@ -358,7 +358,7 @@ sub_BEB48:
         lea esi, [byte esp+0Ch]
         call sub_C9F3A
         mov esi, dword [esp]
-        mov eax, dword [dword_123AA8]
+        mov eax, dword [str_D_ProjectPointsPersp]
         sub eax, esi
         mov dword [byte edi+04h], eax
 .6:
@@ -496,7 +496,7 @@ sub_BEC30:
         sub edx, ecx
         mov dword [byte esp+018h], edx
 .11:
-        mov edx, dword [dword_1228F8]
+        mov edx, dword [DrawDestBuffer]
         shl ebp, 2
         add ebp, edx
         mov ebp, dword [byte ebp+00h]
@@ -510,14 +510,14 @@ sub_BEC30:
         push ebx
         push byte 0
         push eax
-        push dword_19F2D8
-        call sub_CA0B0
+        push ScaledRowBuffer
+        call BuildSpanOffsets
         add esp, byte 1Ch
         mov eax, dword [byte esp+020h]
-        push dword_19F2D8
+        push ScaledRowBuffer
         add eax, byte 10h
         push eax
-        call sub_DD960
+        call SetBlitSource
         add esp, byte 8
 .12:
         dec esi

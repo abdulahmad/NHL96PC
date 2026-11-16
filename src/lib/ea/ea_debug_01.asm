@@ -3,9 +3,9 @@ bits 32
 %include "hockey.inc"
 section s_ACED8 progbits alloc exec nowrite align=1
 extern FatalError, _dos_getdate_, _dos_gettime_, asc_113484, str_2d02d02d2, asc_1134A4, asc_1134F4, asc_1134FC
-extern str_CreatewindowblockBADBLOC, str_CreatewindowblockOUTOFRO, byte_11FA4F, byte_11FA50, byte_1219A7, QuantizeTable, dword_11F5C8, dword_11F9C8
-extern dword_11F9DC, dword_185740, dword_185744, dword_185748, dword_18574C, dword_185750, dword_185754, dword_185758
-extern dword_18575C, fputs_, sprintf_, sub_AB718, sub_AC838, sub_ACAD0, sub_C3C37, FillRowTable
+extern str_CreatewindowblockBADBLOC, str_CreatewindowblockOUTOFRO, byte_11FA4F, TintTable, byte_1219A7, QuantizeTable, dword_11F5C8, DebugMode
+extern dword_11F9DC, TintMulGreen, TintMulBlue, TintRowCount, TintPixelGreen, TintPixelBlue, TintMulRed, TintRemapTable
+extern TintPixelRed, fputs_, sprintf_, sub_AB718, sub_AC838, DebugShowLines, sub_C3C37, FillRowTable
 extern sub_E1836, sub_E1970, vsprintf_
 global sub_ACED8, sub_ACF68, sub_AD00C, sub_AD090, sub_AD2B4, sub_AD35C, TintRowPixels, TintRows
 global sub_AD620
@@ -14,7 +14,7 @@ global sub_AD620
 ;-----------------------------------------------------------------------------
 sub_ACED8:
         sub esp, byte 4
-        cmp dword [dword_11F9C8], byte 2
+        cmp dword [DebugMode], byte 2
         jl short .1
         mov ebx, dword [dword_11F9DC]
         test ebx, ebx
@@ -32,7 +32,7 @@ sub_ACED8:
         ret
         db 090h
         sub esp, 104h
-        cmp dword [dword_11F9C8], byte 2
+        cmp dword [DebugMode], byte 2
         jl short .3
         lea eax, [dword esp+010Ch]
         lea ebx, [dword esp+0100h]
@@ -50,7 +50,7 @@ sub_ACED8:
         call fputs_
 .2:
         mov eax, esp
-        call sub_ACAD0
+        call DebugShowLines
 .3:
         add esp, 104h
         ret
@@ -596,79 +596,79 @@ TintRowPixels:
         push edi
         push ebp
         sub esp, byte 4
-        mov ebx, dword [dword_185758]
+        mov ebx, dword [TintRemapTable]
         mov esi, edx
         mov edx, eax
         shl eax, 2
         sub eax, edx
         lea ebx, [esi+eax]
         xor eax, eax
-        mov edx, dword [dword_185754]
+        mov edx, dword [TintMulRed]
         mov al, byte [ebx]
         imul edx
         add eax, 8000h
         adc edx, byte 0
         shrd eax, edx, 10h
-        mov dword [dword_18575C], eax
+        mov dword [TintPixelRed], eax
         xor eax, eax
-        mov edx, dword [dword_185744]
+        mov edx, dword [TintMulBlue]
         mov al, byte [byte ebx+01h]
         inc ebx
         imul edx
         add eax, 8000h
         adc edx, byte 0
         shrd eax, edx, 10h
-        mov dword [dword_185750], eax
+        mov dword [TintPixelBlue], eax
         xor eax, eax
-        mov edx, dword [dword_185740]
+        mov edx, dword [TintMulGreen]
         mov al, byte [byte ebx+01h]
         inc ebx
         imul edx
         add eax, 8000h
         adc edx, byte 0
         shrd eax, edx, 10h
-        mov ebx, dword [dword_185748]
+        mov ebx, dword [TintRowCount]
         mov edx, eax
-        mov dword [dword_18574C], eax
+        mov dword [TintPixelGreen], eax
         test ebx, ebx
         je short .1
-        mov eax, dword [dword_18575C]
-        add eax, dword [dword_185750]
+        mov eax, dword [TintPixelRed]
+        add eax, dword [TintPixelBlue]
         add edx, eax
         mov ebx, 3
         mov eax, edx
         sar edx, 1Fh
         idiv ebx
-        mov dword [dword_18574C], eax
-        mov dword [dword_185750], eax
-        mov dword [dword_18575C], eax
+        mov dword [TintPixelGreen], eax
+        mov dword [TintPixelBlue], eax
+        mov dword [TintPixelRed], eax
 .1:
-        cmp dword [dword_185750], byte 3Fh
+        cmp dword [TintPixelBlue], byte 3Fh
         jle short .2
-        mov dword [dword_185750], 3Fh
+        mov dword [TintPixelBlue], 3Fh
 .2:
-        cmp dword [dword_18575C], byte 3Fh
+        cmp dword [TintPixelRed], byte 3Fh
         jle short .3
-        mov dword [dword_18575C], 3Fh
+        mov dword [TintPixelRed], 3Fh
 .3:
-        cmp dword [dword_18574C], byte 3Fh
+        cmp dword [TintPixelGreen], byte 3Fh
         jle short .4
-        mov dword [dword_18574C], 3Fh
+        mov dword [TintPixelGreen], 3Fh
 .4:
-        cmp dword [dword_185748], byte 0
+        cmp dword [TintRowCount], byte 0
         je short .5
-        mov eax, dword [dword_18575C]
-        mov ebp, dword [dword_185750]
-        mov edx, dword [dword_18574C]
+        mov eax, dword [TintPixelRed]
+        mov ebp, dword [TintPixelBlue]
+        mov edx, dword [TintPixelGreen]
         add eax, ebp
         add edx, eax
         mov ebx, 3
         mov eax, edx
         sar edx, 1Fh
         idiv ebx
-        mov dword [dword_18574C], eax
-        mov dword [dword_185750], eax
-        mov dword [dword_18575C], eax
+        mov dword [TintPixelGreen], eax
+        mov dword [TintPixelBlue], eax
+        mov dword [TintPixelRed], eax
 .5:
         mov ecx, 270Fh
         mov ebx, esi
@@ -680,7 +680,7 @@ TintRowPixels:
         jmp short .10
 .7:
         xor eax, eax
-        mov esi, dword [dword_18575C]
+        mov esi, dword [TintPixelRed]
         mov al, byte [ebx]
         sub esi, eax
         mov eax, esi
@@ -692,7 +692,7 @@ TintRowPixels:
         add ebx, byte 2
         jmp short .10
 .8:
-        mov edi, dword [dword_185750]
+        mov edi, dword [TintPixelBlue]
         movzx esi, byte [ebx]
         sub edi, esi
         mov esi, edi
@@ -705,7 +705,7 @@ TintRowPixels:
         inc ebx
         jmp short .10
 .9:
-        mov edi, dword [dword_18574C]
+        mov edi, dword [TintPixelGreen]
         movzx esi, byte [ebx]
         sub edi, esi
         mov esi, edi
@@ -721,7 +721,7 @@ TintRowPixels:
         cmp edx, 100h
         jl short .6
         mov al, byte [esp]
-        mov dword [dword_185758], ebx
+        mov dword [TintRemapTable], ebx
         add esp, byte 4
         pop ebp
         pop edi
@@ -740,16 +740,16 @@ TintRows:
         mov edi, dword [byte esp+01Ch]
         mov ebx, dword [byte esp+0Ch]
         mov ecx, edi
-        mov dword [dword_185754], ebx
+        mov dword [TintMulRed], ebx
         mov ebx, dword [byte esp+010h]
         xor edx, edx
-        mov dword [dword_185744], ebx
+        mov dword [TintMulBlue], ebx
         mov ebx, dword [byte esp+014h]
-        mov dword [dword_185748], edx
-        mov dword [dword_185740], ebx
+        mov dword [TintRowCount], edx
+        mov dword [TintMulGreen], ebx
         xor ebx, ebx
 .1:
-        cmp byte [dword ebx+byte_11FA50], 0
+        cmp byte [dword ebx+TintTable], 0
         je short .2
         mov edx, esi
         mov eax, ebx

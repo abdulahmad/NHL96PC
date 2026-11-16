@@ -13,7 +13,7 @@ extern GusStreamLoopHi, GusStreamStartHi, GusStreamEndLo, GusStreamEndHi, GusBas
 extern GusVoiceSelectPort, GusRegSelectPort, GusDataLowPort, GusDataHighPort, GusDramPort, GusDramSize, GusIrqFlags, GusActiveVoices
 global GusGetEnvConfig, GusProbePort, GusStopDmaAndTimers, GusUnhookIrqs, GusHookIrqs, GusOpenCard, GusStopAllVoices, GusOpen
 global GusClose, GusSetIrqDmaLatches, GusResetVoices, GusPokeBlock, GusPeekBlock, GusSizeDram, GusMemAlloc, sub_D703C
-global sub_D7042, GusRefillStreamChannel, GusStreamVoiceIrq, GusServiceStream, GusStartStream, GusStopStreamVoices, sub_D7970, unk_D796A
+global GusStreamBusy, GusRefillStreamChannel, GusStreamVoiceIrq, GusServiceStream, GusStartStream, GusStopStreamVoices, sub_D7970, unk_D796A
 global unk_D796C, unk_D796E
 ;-----------------------------------------------------------------------------
 ; GusGetEnvConfig                                 D6120  96 PC, low confidence
@@ -1387,9 +1387,10 @@ sub_D703C:
         call GusStopStreamVoices
         ret
 ;-----------------------------------------------------------------------------
-; sub_D7042                                                            D7042  
+; GusStreamBusy                                D7042  96 PC, medium confidence
+; Returns non-zero while either streaming channel is still playing
 ;-----------------------------------------------------------------------------
-sub_D7042:
+GusStreamBusy:
         mov eax, dword [GusStreamBusyA]
         or eax, dword [GusStreamBusyB]
         ret

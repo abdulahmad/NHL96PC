@@ -59,9 +59,9 @@ extern LoadFrontEndArt, FreeFrontEndArt, FadePalette, FadeOut, CopyBitmap, SetSc
 extern InitMenuItems, sub_64E74, sub_64F47, RunMenu, SetMenuMouse, FreeSpeechBuffer, RestoreSpeechBuffer, StopSpeech
 extern StopMusic, QueueMusic, FillMusicStream, PlayMusic, FadeOutMusic, MusicDone, PlaySfx, Crowd_Noise
 extern CrowdNoiseReset, CrowdPause, CrowdResume, StopArenaClip, StartGameSound, EndGameSound, SoundSecondsToBytes, SoundIdle
-extern GetLangText, PickIndexEntryScreen, DrawShapeAtOwnPos, sub_AAA40, sub_AAA8C, PutBlock, sub_AADA4, sub_AB758
+extern GetLangText, PickIndexEntryScreen, DrawShapeAtOwnPos, sub_AAA40, sub_AAA8C, PutBlock, sub_AADA4, AllocMemBlock
 extern FreeMemBlock, sub_AD35C, FillRect, sub_ADBEC, sub_AFFD0, SaveTextState, SetDrawTarget, TextSetFont
-extern sub_B0CA8, sub_B2B0C, sub_B58D8, sub_B6140, sub_BA3D0, sub_BB470, DrawPolyOutline, sub_BB924
+extern sub_B0CA8, sub_B2B0C, sub_B58D8, sub_B6140, sub_BA3D0, DrawFlatPoly, DrawPolyOutline, sub_BB924
 extern sub_BB9C4, MultiplyMatrix, sub_BC3A0, sub_BC610, sub_BC674, sub_BC6D8, SortIndices, sub_BEAE4
 extern SetScreenTarget, SetClipWindow, MouseRead, SetViewRect, sub_DFEC6, sub_E04E0, sub_E0584, SetViewScreenOrigin
 extern SetCameraAngles, TransposeMatrix, str_D19, str_dot4, unk_11A430, unk_11A770, unk_11A9B0, unk_11AB30
@@ -1629,7 +1629,7 @@ DrawReplayView:
         push unk_1778C4
         push unk_179980
         push byte 11h
-        call sub_BB470
+        call DrawFlatPoly
         add esp, byte 10h
         push dword_1797FC
         push unk_179AC0
@@ -2528,7 +2528,7 @@ ReplayScreen:
         push byte 20h
         push dword 12Ch
         push str_TRANSIT
-        call sub_AB758
+        call AllocMemBlock
         mov esi, dword [off_11786C]
         movsx edx, word [word_114CE4]
         add esp, byte 0Ch

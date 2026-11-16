@@ -9,9 +9,9 @@ extern InvTabCell, InvTabRCenter, InvTabR, InvTabG, InvTabB, InvTabColor, InvTab
 extern InvTabBMin, InvTabBMax, InvTabRow, InvTabPass, InvTabGLo, InvTabGHi, InvTabBLo, InvTabBHi
 extern InvTabGInc, InvTabBInc, InvTabDistInc, InvTabDistStart, InvTabFillPtr, InvTabFillCount, InvTabFillStep, InvTabFillDist
 extern isatty_, SerialPortTable, off_11FD5C, off_11FD60, sub_AB798, FreeMemBlock, LoadDataFileExt, DosGetVector
-extern DosSetVector, sub_C4DE0, sub_DD87C, AddExitHandler, sub_E0686, DosCloseFile, unk_11FD54, unk_11FD6A
+extern DosSetVector, sub_C4DE0, sub_DD87C, AddExitHandler, DosOpenReadOnly, DosCloseFile, unk_11FD54, SerialPorts
 extern unk_11FD74, unk_1201B6, unk_1201C0, unk_120602, unk_12060C, unk_120A4E, unk_120A58, word_11FD68
-extern word_120E9A, word_120EC0
+extern SerialBaudDivisors, word_120EC0
 global __set_binary_, _dos_getdate_, _dos_gettime_, byteswap_, LoadResourceData_8, sub_B049E_D, sub_B12AF_75, SerialWrite_5
 global sub_B147A_1A, sub_B153D_9, sub_B153D_12, sub_B153D_1B, sub_B153D_85, unk_B15DE_10, med3__4F, lseek_
 global med3_, open_, qsort_, rand_, read_, sopen_, srand_, strlen_
@@ -73,7 +73,7 @@ DosFileInfo:
         push eax
         mov edx, dword [byte esp+01Ch]
         push edx
-        call sub_E0686
+        call DosOpenReadOnly
         add esp, byte 10h
         mov ebx, dword [byte esp+08h]
         push ebx
@@ -1209,7 +1209,7 @@ SerialConfigure:
         or dx, byte 0
         mov ebx, dword [byte ebp+0Ch]
         LD add, ebx, ebx
-        mov ax, word [dword ebx+word_120E9A]
+        mov ax, word [dword ebx+SerialBaudDivisors]
         out dx, ax
         and dx, byte 0FFF8h
         or dx, byte 3
@@ -1768,7 +1768,7 @@ sub_B151E:
 ;-----------------------------------------------------------------------------
 sub_B153D:
         push ebx
-        lea ebx, [unk_11FD6A]
+        lea ebx, [SerialPorts]
         jmp short sub_B153D_1B.1
 sub_B153D_9:
         push ebx

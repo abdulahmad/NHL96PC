@@ -13,7 +13,7 @@ extern str_5GM, str_7GM, str_Aal0, str_Aal1, str_Aal2, str_Aar0, str_Aar1, str_A
 extern str_Ahl0, str_Ahl1, str_Ahl2, str_Ahr0, str_Ahr1, str_Ahr2, str_Bkgd21, str_HaBck02
 extern str_HaBck12, str_Pal29, str_Rk02d, str_Rk222, str_Rul13, str_Rul23, str_Rul33, str_Swt0
 extern str_Swt12, str_SwtD2, sub_29B9F, RunPlayoffMenus_102, RunPlayoffMenus_115, RunPlayoffMenus_73, RunPlayoffMenus_89, RunPlayoffMenus_A6
-extern RunPlayoffMenus_CD, RunPlayoffMenus_D6, RunPlayoffMenus_E1, DrawShapeAtOwnPos, sub_AADA4, sub_AB758, FreeMemBlock, sub_AD35C
+extern RunPlayoffMenus_CD, RunPlayoffMenus_D6, RunPlayoffMenus_E1, DrawShapeAtOwnPos, sub_AADA4, AllocMemBlock, FreeMemBlock, sub_AD35C
 extern sub_ADA50, sub_ADBEC, SetScreenTarget, sub_E04E0, TextSetFont, unk_152C44, unk_17D272, word_114CE0
 extern word_11ED38
 global unk_A3851, DrawModemHomePanel, DrawModemHomePanel_151, DrawModemHomePanel_15D, DrawModemAwayPanel, jpt_A3CD4, ModemTeamSelectScreen, ModemTeamSelectScreen_7F1
@@ -562,7 +562,7 @@ ModemTeamSelectScreen:
         add eax, byte 10h
         push eax
         push str_HaBck02
-        call sub_AB758
+        call AllocMemBlock
         mov edx, dword [dword_11ED58]
         mov dword [dword_11ED60], eax
         mov edi, eax
@@ -599,7 +599,7 @@ ModemTeamSelectScreen:
         add eax, byte 10h
         push eax
         push str_HaBck12
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         mov dword [dword_11ED64], eax
         mov edx, dword [dword_11ED5C]

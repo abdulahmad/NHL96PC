@@ -13,14 +13,14 @@ extern asc_114808, asc_114814, asc_11482C, str_ShapeIsInvalidDraw, str_MEMSHPTXT
 extern str_NumberOfShapesD, str_44s66ld, str_Bytes3dRows3d2, str_XY3d3d, str_033d022X, str_R022d, str_G022d, str_B022d
 extern asc_114968, str_SCREEN2, asc_11497C, asc_114984, str_2d02d02d, byte_11F9D8, byte_1A11D9, dword_11F5A0
 extern dword_11F5C0, dword_11F5C4, dword_1210CC, dword_15139C, dword_1513A0, dword_1513A4, dword_1513A8, dword_1513AC
-extern dword_1513B8, dword_1513BC, dword_1513C0, dword_1513C4, dword_1513C8, dword_1513CC, dword_1513D4, dword_18568C
+extern dword_1513B8, dword_1513BC, dword_1513C0, dword_1513C4, dword_1513C8, dword_1513CC, dword_1513D4, memlist1
 extern dword_185690, dword_185738, dword_18573C, dword_185848, dword_1A11BC, dword_1A11C0, dword_1A11C4, dword_1A11C8
 extern dword_1A11CC, dword_1A11D0, dword_1A11D4, dword_1A11D8, dword_1A11DC, dword_1A11E0, fclose_, fopen_
 extern fprintf_, min_, off_1513B0, sprintf_, strncpy_, PutBlock, sub_AADA4, sub_ABF88
 extern sub_AC194, CompactDownLocked, CompactUpLocked, DebugSetLine, sub_ACCF8, sub_ACD24, sub_ACD38, FillRect
 extern sub_ADA80, sub_AFFD0, SaveTextState, SetDrawTarget, TextSetFont, sub_B31C0, sub_BF02C, sub_BF034
 extern sub_BF04B, initgraphics, sub_C2AEC, PrintBoxedText, sub_C6000, sub_CFE0C, sub_CFE8C, sub_D0650
-extern sub_D1368, sub_DC158, sub_DC17C, sub_DC780, sub_DC830, sub_DCB90, SetScreenTarget, GetPaletteRange
+extern DrawTextBoxedAt, sub_DC158, sub_DC17C, sub_DC780, sub_DC830, sub_DCB90, SetScreenTarget, GetPaletteRange
 extern FillRectColor, SetClipWindow, sub_DD7B8, KbdGetKey, sub_DFF7C, sub_E04E0, sub_E0584, PollHotkeys
 extern sub_E193C, sub_E1956, sub_E1970, unk_114440, unk_11444C, unk_114570, unk_114594, unk_11466C
 extern unk_114670, unk_1146A0, unk_1146A4, unk_1146CC, str_Un, unk_114930, unk_1213DC
@@ -215,7 +215,7 @@ sub_D7FFC:
         shl eax, 2
         cmp ebx, byte 1
         jne short .1
-        mov eax, dword [dword eax+dword_18568C]
+        mov eax, dword [dword eax+memlist1]
         pop edx
         pop ebx
         ret
@@ -360,7 +360,7 @@ sub_D7FFC_4A:
         inc esi
         and esi, byte 7
         imul eax, esi, byte 14h
-        cmp dword [dword eax+dword_18568C], byte 0
+        cmp dword [dword eax+memlist1], byte 0
         je short .21
         mov dword [dword_1513C0], esi
         xor ecx, ecx
@@ -482,7 +482,7 @@ sub_D7FFC_4A:
         mov ebx, dword [dword_1513C0]
         lea eax, [nosplit ebx*4+00h]
         add eax, ebx
-        mov ebx, dword [nosplit eax*4+dword_18568C]
+        mov ebx, dword [nosplit eax*4+memlist1]
         xor edx, edx
         mov eax, ebx
         test ebx, ebx
@@ -684,7 +684,7 @@ sub_D84AC:
         push byte 0
         lea eax, [byte ebp-02Eh]
         push eax
-        call sub_D1368
+        call DrawTextBoxedAt
         add esp, byte 0Ch
         call sub_CFE0C
         mov ecx, dword [dword_15139C]
@@ -700,7 +700,7 @@ sub_D84AC:
         push byte 0
         lea eax, [dword ebp-082h]
         push eax
-        call sub_D1368
+        call DrawTextBoxedAt
         add esp, byte 0Ch
         call sub_CFE0C
         mov edi, dword [dword_15139C]
@@ -716,7 +716,7 @@ sub_D84AC:
         push byte 0
         lea eax, [dword ebp-0D6h]
         push eax
-        call sub_D1368
+        call DrawTextBoxedAt
         add esp, byte 0Ch
         call sub_CFE0C
         mov edx, dword [dword_15139C]
@@ -877,7 +877,7 @@ sub_D84AC:
         push byte 0
         lea eax, [byte ebp-02Eh]
         push eax
-        call sub_D1368
+        call DrawTextBoxedAt
         add esp, byte 0Ch
         call sub_CFE0C
         jmp near .15
@@ -999,7 +999,7 @@ sub_D84AC:
         push byte 0
         lea eax, [dword ebp-082h]
         push eax
-        call sub_D1368
+        call DrawTextBoxedAt
         add esp, byte 0Ch
         call sub_CFE0C
         jmp near .24
@@ -1152,7 +1152,7 @@ sub_D8AC4:
         mov edx, dword [dword_1513C0]
         lea eax, [nosplit edx*4+00h]
         add eax, edx
-        mov eax, dword [nosplit eax*4+dword_18568C]
+        mov eax, dword [nosplit eax*4+memlist1]
         mov ebx, eax
         mov eax, dword [byte eax+020h]
         mov dword [ecx], 0
@@ -1211,7 +1211,7 @@ sub_D8B2C:
         mov dword [edx], str_MEMMANAGER
         mov edx, dword [dword_1210CC]
         mov dword [ebx], edx
-        mov eax, dword [dword eax+dword_18568C]
+        mov eax, dword [dword eax+memlist1]
         mov eax, dword [eax]
         sub eax, edx
         mov edx, dword [byte esp+014h]
@@ -1229,7 +1229,7 @@ sub_D8B2C:
         mov esi, dword [byte esi+020h]
         jmp short .3
 .2:
-        mov esi, dword [dword eax+dword_18568C]
+        mov esi, dword [dword eax+memlist1]
 .3:
         mov eax, esi
         lea ebp, [byte esi+04h]
@@ -1334,7 +1334,7 @@ sub_D8BFC:
         push byte 3Dh
         push edi
         push unk_114594
-        call sub_D1368
+        call DrawTextBoxedAt
         add esp, byte 0Ch
         call sub_CFE0C
 .2:
@@ -1374,7 +1374,7 @@ sub_D8BFC:
         push esi
         push edi
         push str_SYSTEM
-        call sub_D1368
+        call DrawTextBoxedAt
         add esp, byte 0Ch
         mov esi, 55h
         call sub_CFE0C
@@ -1394,7 +1394,7 @@ sub_D8BFC:
         push esi
         push edi
         push str_SPACE3
-        call sub_D1368
+        call DrawTextBoxedAt
         add esp, byte 0Ch
         add esi, byte 8
         call sub_CFE0C
@@ -1422,14 +1422,14 @@ sub_D8BFC:
         push edi
         push str_LOWMemoryBlock
 .8:
-        call sub_D1368
+        call DrawTextBoxedAt
         add esp, byte 0Ch
         mov esi, ebp
         call sub_CFE0C
         push esi
         push edi
         push str_ConventionalMemory
-        call sub_D1368
+        call DrawTextBoxedAt
         add esp, byte 0Ch
         lea ebp, [byte esi+014h]
         call sub_CFE0C
@@ -1446,7 +1446,7 @@ sub_D8BFC:
         push edi
         push str_NonRelocatableBlock
 .10:
-        call sub_D1368
+        call DrawTextBoxedAt
         add esp, byte 0Ch
         mov esi, ebp
         call sub_CFE0C
@@ -1455,7 +1455,7 @@ sub_D8BFC:
         push esi
         push edi
         push str_ALIGNFlagIsSet
-        call sub_D1368
+        call DrawTextBoxedAt
         add esp, byte 0Ch
         add esi, byte 0Ah
         call sub_CFE0C
@@ -1488,7 +1488,7 @@ sub_D8BFC:
         push esi
         push edi
         push str_BlockIsPURGABLE
-        call sub_D1368
+        call DrawTextBoxedAt
         add esp, byte 0Ch
         call sub_CFE0C
 .13:

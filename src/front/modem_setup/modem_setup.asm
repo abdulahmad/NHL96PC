@@ -21,7 +21,7 @@ extern str_Mse1, str_Mse2, str_MseD, str_NMD0, str_NMD1, str_NOO0, str_NOO1, str
 extern str_Off0, str_Off1, str_Onn0, str_Onn1, str_Pal13, str_PICKS, str_PICKS2, str_PULS
 extern str_SET02, str_SET13, str_SET23, str_SldD, str_TONE, str_WFC0, str_WFC1, str_WFC2
 extern str_YES0, str_YES1, strcpy_, strlen_, DrawShapeAtOwnPos, sub_AAA40, sub_AAA8C, sub_AADA4
-extern sub_AB758, FreeMemBlock, sub_AD35C, sub_ADA50, sub_ADBEC, SetScreenTarget, sub_DFE9C, KbdGetKey
+extern AllocMemBlock, FreeMemBlock, sub_AD35C, sub_ADA50, sub_ADBEC, SetScreenTarget, sub_DFE9C, KbdGetKey
 extern sub_E04E0, TextSetFont, unk_17C9B8, unk_17C9CC, unk_17D598, unk_708A9, unk_70901, unk_70BC1
 extern unk_70BCB, unk_70BD5, unk_70C4D, unk_70CED, word_114CE0, word_11E270, word_17C9AC, word_17C9AE
 extern word_17C9B0, word_17C9B2, word_17C9B4, word_17C9B6, WriteGlobalSet
@@ -372,7 +372,7 @@ ControlPicksScreen:
         mov esi, unk_70901
         push str_PICKS
         rep movsd
-        call sub_AB758
+        call AllocMemBlock
         mov ecx, 0BCh
         mov esi, GlobalSetData
         add esp, byte 0Ch
@@ -3011,7 +3011,7 @@ ModemSettingsScreen:
         push byte 20h
         push dword 52Eh
         push str_PICKS2
-        call sub_AB758
+        call AllocMemBlock
         mov esi, eax
         add esp, byte 0Ch
         mov dword [byte ebp+062h], eax

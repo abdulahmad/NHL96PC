@@ -4,7 +4,7 @@ bits 32
 section s_197ED progbits alloc exec nowrite align=1
 extern byte_11FA2F, byte_152C3B, dword_11F5C0, FillRect, fputchar, PutBlock, SetDrawBitmap, str_Disp
 extern str_space4, str_Temp3, str_W, str_X, strcat_, strcpy_, strlen_, CopyBitmap
-extern SetTextColors, DrawColorTextCentred, DrawBox, SoundIdle, sub_AA7E0, sub_AB798, FreeMemBlock, sub_AD35C
+extern SetTextColors, DrawColorTextCentred, DrawBox, SoundIdle, DrawShapeCore, sub_AB798, FreeMemBlock, sub_AD35C
 extern sub_AD620, sub_ADA80, sub_ADBEC, sub_AFFD0, sub_B2B0C, SetScreenTarget, GetPaletteRange, sub_DFE9C
 extern KbdGetKey, unk_152B3C, unk_19382
 global EditText
@@ -210,7 +210,7 @@ EditText:
         mov dword [byte ebp+02h], eax
         push dword [byte eax+02Ch]
         mov dword [byte ebp+022h], eax
-        call sub_AA7E0
+        call DrawShapeCore
         mov eax, dword [byte ebp+02h]
         add esp, byte 0Ch
         xor edx, edx

@@ -3,16 +3,16 @@ bits 32
 %include "hockey.inc"
 section s_AC9F0 progbits alloc exec nowrite align=1
 extern str_DBUGTXT, str_FILES, str_DATES, str_TIMES, str_CLOSED, str_TIMES2, byte_11F9D8, byte_11F9D9
-extern byte_11F9DA, dword_11F9C8, dword_11F9D0, dword_11F9D4, dword_11F9DC, fclose_, fopen_, sub_ACED8
+extern byte_11F9DA, DebugMode, dword_11F9D0, DebugLineWidth, dword_11F9DC, fclose_, fopen_, sub_ACED8
 extern sub_ACF68, sub_AD00C, bcopy, sub_E1836, unk_113444, vsprintf_
-global DebugPrintf, sub_ACAD0_D5, sub_ACAD0_E6, sub_ACAD0_124, sub_ACAD0_140, sub_ACAD0_149, DebugSetLine, sub_ACAD0
+global DebugPrintf, DebugShowLines_D5, DebugShowLines_E6, DebugShowLines_124, DebugShowLines_140, DebugShowLines_149, DebugSetLine, DebugShowLines
 global sub_ACC74, sub_ACCF8, sub_ACD24, sub_ACD38, unk_ACABC
 ;-----------------------------------------------------------------------------
 ; DebugPrintf                                  AC9F0  95 PC, medium confidence
 ;-----------------------------------------------------------------------------
 DebugPrintf:
         sub esp, 104h
-        cmp dword [dword_11F9C8], byte 2
+        cmp dword [DebugMode], byte 2
         jl short .1
         lea eax, [dword esp+010Ch]
         lea ebx, [dword esp+0100h]
@@ -23,7 +23,7 @@ DebugPrintf:
         xor ebx, ebx
         mov eax, esp
         mov dword [dword esp+0100h], ebx
-        call sub_ACAD0
+        call DebugShowLines
 .1:
         add esp, 104h
         ret
@@ -37,7 +37,7 @@ DebugSetLine:
         sub esp, 104h
         mov ebx, dword [dword esp+010Ch]
         mov edx, dword [dword esp+0110h]
-        cmp dword [dword_11F9C8], byte 2
+        cmp dword [DebugMode], byte 2
         jl short .2
         test ebx, ebx
         jl short .1
@@ -52,7 +52,7 @@ DebugSetLine:
         shl eax, 4
         add eax, ebx
         add eax, eax
-        mov dword [dword_11F9D4], eax
+        mov dword [DebugLineWidth], eax
 .1:
         lea eax, [dword esp+0118h]
         lea ebx, [dword esp+0100h]
@@ -63,21 +63,22 @@ DebugSetLine:
         call vsprintf_
         mov eax, esp
         mov dword [dword esp+0100h], esi
-        call sub_ACAD0
+        call DebugShowLines
 .2:
         add esp, 104h
         pop esi
         ret
 unk_ACABC:
-        dd sub_ACAD0_D5
-        dd sub_ACAD0_E6
-        dd sub_ACAD0_124
-        dd sub_ACAD0_140
-        dd sub_ACAD0_149
+        dd DebugShowLines_D5
+        dd DebugShowLines_E6
+        dd DebugShowLines_124
+        dd DebugShowLines_140
+        dd DebugShowLines_149
 ;-----------------------------------------------------------------------------
-; sub_ACAD0                                                            ACAD0  
+; DebugShowLines                               ACAD0  96 PC, medium confidence
+; Draws the on-screen debug lines when debug output is on
 ;-----------------------------------------------------------------------------
-sub_ACAD0:
+DebugShowLines:
         push ebx
         push ecx
         push edx
@@ -86,10 +87,10 @@ sub_ACAD0:
         push ebp
         sub esp, byte 0Ch
         mov ebx, dword [dword_11F9D0]
-        mov esi, dword [dword_11F9D4]
+        mov esi, dword [DebugLineWidth]
         mov edx, eax
-        cmp dword [dword_11F9C8], byte 2
-        jl near sub_ACAD0_149.8
+        cmp dword [DebugMode], byte 2
+        jl near DebugShowLines_149.8
         mov edi, eax
         sub ecx, ecx
         dec ecx
@@ -103,11 +104,11 @@ sub_ACAD0:
         mov dword [byte esp+08h], edi
         xor cl, cl
         test eax, eax
-        jle near sub_ACAD0_149.8
+        jle near DebugShowLines_149.8
         mov edi, edx
 .1:
         xor eax, eax
-        mov esi, dword [dword_11F9D4]
+        mov esi, dword [DebugLineWidth]
         mov al, cl
         mov ebx, dword [dword_11F9D0]
         cmp eax, byte 0Eh
@@ -115,7 +116,7 @@ sub_ACAD0:
         mov al, byte [edi]
         xor cl, cl
         mov byte [byte_11F9D9], al
-        jmp near sub_ACAD0_149.7
+        jmp near DebugShowLines_149.7
 .2:
         mov cl, byte [edi]
         xor eax, eax
@@ -123,7 +124,7 @@ sub_ACAD0:
         cmp eax, byte 20h
         jl short .3
         call sub_ACC74
-        mov esi, dword [dword_11F9D4]
+        mov esi, dword [DebugLineWidth]
         mov ebx, dword [dword_11F9D0]
         xor ah, ah
         xor dh, dh
@@ -134,11 +135,11 @@ sub_ACAD0:
         add edx, eax
         mov eax, ebx
         mov word [byte esi+eax-02h], dx
-        jmp near sub_ACAD0_149.7
+        jmp near DebugShowLines_149.7
 .3:
         sub al, 8
         cmp al, 4
-        ja near sub_ACAD0_149.7
+        ja near DebugShowLines_149.7
         mov dword [byte esp+04h], 0A0h
         and eax, 0FFh
         mov edx, esi
@@ -147,15 +148,15 @@ sub_ACAD0:
         mov eax, esi
         idiv dword [byte esp+04h]
         jmp dword [dword cs:ebp+unk_ACABC]
-sub_ACAD0_D5:
+DebugShowLines_D5:
         cmp esi, byte 2
-        jl near sub_ACAD0_149.7
+        jl near DebugShowLines_149.7
         sub esi, byte 2
-        jmp near sub_ACAD0_149.7
-sub_ACAD0_E6:
+        jmp near DebugShowLines_149.7
+DebugShowLines_E6:
         movzx ebp, byte [byte_11F9DA]
         cmp ebp, byte 1
-        jle near sub_ACAD0_149.7
+        jle near DebugShowLines_149.7
         imul eax, dword 0A0h
         mov edx, esi
         sub edx, eax
@@ -172,19 +173,19 @@ sub_ACAD0_E6:
         mov edx, dword [byte esp+04h]
         add esi, esi
         add esi, edx
-        jmp short sub_ACAD0_149.7
-sub_ACAD0_124:
+        jmp short DebugShowLines_149.7
+DebugShowLines_124:
         lea esi, [byte eax+01h]
         imul esi, dword 0A0h
-        mov dword [dword_11F9D4], esi
+        mov dword [DebugLineWidth], esi
         call sub_ACC74
-        mov esi, dword [dword_11F9D4]
-        jmp short sub_ACAD0_149.7
-sub_ACAD0_140:
+        mov esi, dword [DebugLineWidth]
+        jmp short DebugShowLines_149.7
+DebugShowLines_140:
         movzx esi, byte [byte_11F9D8]
-        jmp short sub_ACAD0_149.6
-sub_ACAD0_149:
-        cmp dword [dword_11F9C8], byte 2
+        jmp short DebugShowLines_149.6
+DebugShowLines_149:
+        cmp dword [DebugMode], byte 2
         jl short .5
         xor eax, eax
 .4:
@@ -202,10 +203,10 @@ sub_ACAD0_149:
         mov edx, dword [esp]
         inc edi
         inc ebp
-        mov dword [dword_11F9D4], esi
+        mov dword [DebugLineWidth], esi
         mov dword [byte esp+08h], ebp
         cmp ebp, edx
-        jl near sub_ACAD0.1
+        jl near DebugShowLines.1
 .8:
         mov ebx, dword [dword_11F9D0]
         add esp, byte 0Ch
@@ -225,7 +226,7 @@ sub_ACC74:
         push ecx
         push edx
         push esi
-        cmp dword [dword_11F9D4], 0FA0h
+        cmp dword [DebugLineWidth], 0FA0h
         jl short .1
         xor edx, edx
         mov eax, 19h
@@ -257,7 +258,7 @@ sub_ACC74:
         mov esi, 0F00h
         call sub_E1836
         add esp, byte 8
-        mov dword [dword_11F9D4], esi
+        mov dword [DebugLineWidth], esi
 .1:
         pop esi
         pop edx
@@ -269,7 +270,7 @@ sub_ACC74:
 ;-----------------------------------------------------------------------------
 sub_ACCF8:
         mov ebx, dword [dword_11F9D0]
-        cmp dword [dword_11F9C8], byte 2
+        cmp dword [DebugMode], byte 2
         jl short .2
         xor eax, eax
 .1:

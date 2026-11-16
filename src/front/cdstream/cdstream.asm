@@ -4,7 +4,7 @@ bits 32
 section s_1C627 progbits alloc exec nowrite align=1
 extern addtimer, dword_1150E8, dword_1150EC, dword_1150F0, dword_1150F4, dword_1150F8, dword_152FD8, dword_152FDC
 extern dword_152FE0, dword_152FE4, FatalError, str_CDSTREAM, str_DelstreamSTREAMNOTFOUND, str_SECCDSTREAM, str_SetstreamspeedSFILEISTOO, str_STREAM
-extern str_StreamreaderILLEGALCHUNK, strcmp_, strncpy_, RemoveTimerCallback, sub_AB758, FreeMemBlock, sub_B67BC, CdCloseFile
+extern str_StreamreaderILLEGALCHUNK, strcmp_, strncpy_, RemoveTimerCallback, AllocMemBlock, FreeMemBlock, sub_B67BC, CdCloseFile
 extern sub_B68C8, sub_B6964, sub_B69EC, sub_B6A14, sub_B6B10, sub_DFEC6, bcopy
 global CdStreamInit, CdStreamOpen, CdStreamOpen_2B, CdStreamOpenDefault, setstreamspeed, delstream, CdStreamStart, CdStreamQueue
 global CdStreamSeek, CdStreamSyncTime, CdStreamInitSecondary, CdStreamOpenSecondary, jpt_1CB20, CdStreamService, CdStreamService_18, CdStreamService_2E
@@ -85,7 +85,7 @@ CdStreamOpen:
         add esi, 100h
         push esi
         push str_CDSTREAM
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push dword [byte ebp+018h]
         push dword [byte ebp+010h]
@@ -179,7 +179,7 @@ setstreamspeed:
         push byte 0
         push dword 2000h
         push str_STREAM
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push dword 2000h
         push eax
@@ -484,7 +484,7 @@ CdStreamOpenSecondary:
         add esi, 100h
         push esi
         push str_SECCDSTREAM
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         push esi
         push dword [byte ebp+010h]

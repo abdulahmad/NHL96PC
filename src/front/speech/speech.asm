@@ -6,8 +6,8 @@ extern _dos_gettime_, AsyncCancelRequest, AsyncClose, AsyncInit, asyncreader, As
 extern byte_17C60C, byte_17CA1D, dword_11D23E, dword_11D242, dword_11D376, dword_11D37A, dword_11D37E, dword_11D38A
 extern dword_11D38E, dword_17C4A0, dword_17C4A4, dword_17C5BC, dword_17C5C0, dword_17C5C4, dword_17C5C8, dword_17C5CC
 extern dword_17C5D0, dword_17C5FC, dword_17C600, GetTicks, globalset, MakeDataPath, optflags, rand_
-extern setasyncspeed, sndcard, srand_, str_SPEECHBUF, sub_AB758, FreeMemBlock, sub_BFA45, sub_BFA45_90
-extern sub_BFAF5, sub_BFB53, sub_BFB74, sub_BFB7C, sub_BFBE3, sub_E0686, DosCloseFile, sub_E07CC
+extern setasyncspeed, sndcard, srand_, str_SPEECHBUF, AllocMemBlock, FreeMemBlock, sub_BFA45, sub_BFA45_90
+extern sub_BFAF5, sub_BFB53, sub_BFB74, sub_BFB7C, sub_BFBE3, DosOpenReadOnly, DosCloseFile, sub_E07CC
 extern sub_E081C, word_11D23A, word_11D356, word_11D382, word_11D384, word_11D386, word_11D388, word_17C49C
 extern word_17C49E, word_17C63E, word_17C640
 global FindClipIndex, FindClipIndex_55, FindClipIndex_56, FindTeamPairClip, FindTeamPairClip_85, ResetSpeechChannels, OpenSpeechBanks, InitSpeech
@@ -248,7 +248,7 @@ OpenSpeechBanks:
         lea eax, [byte ebp-0Ch]
         push eax
         push edi
-        call sub_E0686
+        call DosOpenReadOnly
         add esp, byte 10h
         cmp dword [byte ebp-0Ch], byte 0
         jne short .8
@@ -272,7 +272,7 @@ OpenSpeechBanks:
         shl eax, 2
         push eax
         push edi
-        call sub_AB758
+        call AllocMemBlock
         mov dword [nosplit esi*4+dword_17C600], eax
         mov eax, dword [nosplit esi*4+dword_17C5BC]
         add esp, byte 0Ch
@@ -354,7 +354,7 @@ InitSpeech:
         push byte 0
         push dword 56AEAh
         push str_SPEECHBUF
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         mov dword [dword_11D37A], eax
         xor eax, eax
@@ -464,7 +464,7 @@ RestoreSpeechBuffer:
         push byte 0
         push dword 56AEAh
         push str_SPEECHBUF
-        call sub_AB758
+        call AllocMemBlock
         mov dword [dword_11D37E], 1
         add esp, byte 0Ch
         mov dword [dword_11D37A], eax

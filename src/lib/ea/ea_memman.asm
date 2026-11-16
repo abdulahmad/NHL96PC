@@ -3,12 +3,12 @@ bits 32
 %include "hockey.inc"
 section s_AB834 progbits alloc exec nowrite align=1
 extern FatalError, str_ReservememMEMORYMANAGERN, str_ReservememINVALIDSIZE, str_ReservememMEMORYMANAGERB, asc_113270, asc_1132AC, str_ReservememINVALIDTYPEFLAGS, str_ResizememINVALIDSIZE
-extern str_ResizememblockNOROOMTO, str_FindmemblockBLOCKNOTFOUND, asc_1133C0, str_GetmemblockNOMEMORYBLOCKS, dword_11F9B4, dword_11F9C0, dword_11F9C4, dword_1210CC
-extern dword_18568C, dword_185690, dword_185730, dword_185734, dword_185738, dword_18573C, strncmp_, strncpy_
-extern sub_AA564, MemLock, sub_C3C04, bcopy
-global findmemblock, sub_AB834, sub_AB87C, sub_ABD64, FreeMemBlock, sub_ABF88, sub_ABFB4, sub_AC0C4
-global sub_AC194, FindNamedBlock, FindMemBlockNamed, sub_AC360, FindCachedFileData, FindCachedFile, CompactDownLocked, sub_AC5AC
-global CompactUpLocked, sub_AC70C, sub_AC838, sub_AC868, sub_AC89C, sub_AC950, getmemblock, MemPtrSize
+extern str_ResizememblockNOROOMTO, str_FindmemblockBLOCKNOTFOUND, asc_1133C0, str_GetmemblockNOMEMORYBLOCKS, FileCacheList, FreeSpaceList, dword_11F9C4, dword_1210CC
+extern memlist1, dword_185690, dword_185730, MemLockHandle, dword_185738, dword_18573C, strncmp_, strncpy_
+extern PathBaseName, MemLock, MemUnlock, bcopy
+global findmemblock, sub_AB834, AllocMemBlockEx, sub_ABD64, FreeMemBlock, sub_ABF88, PushMemDescriptor, MergeFreeSpace
+global sub_AC194, FindNamedBlock, FindMemBlockNamed, FindFreeSpace, FindCachedFileData, FindCachedFile, CompactDownLocked, CompactMemListDown
+global CompactUpLocked, CompactMemListUp, sub_AC838, sub_AC868, sub_AC89C, sub_AC950, getmemblock, MemPtrSize
 global MemDescPtr, MemDescSize, type_info__raw_name
 ;-----------------------------------------------------------------------------
 ; sub_AB834                                                            AB834  
@@ -17,7 +17,7 @@ sub_AB834:
         push esi
         push edi
         push ebp
-        mov edx, dword [dword_185734]
+        mov edx, dword [MemLockHandle]
         push edx
         call MemLock
         add esp, byte 4
@@ -29,12 +29,12 @@ sub_AB834:
         push esi
         mov edi, dword [byte esp+01Ch]
         push edi
-        call sub_AB87C
+        call AllocMemBlockEx
         add esp, byte 10h
-        mov ebp, dword [dword_185734]
+        mov ebp, dword [MemLockHandle]
         push ebp
         mov esi, eax
-        call sub_C3C04
+        call MemUnlock
         add esp, byte 4
         mov eax, esi
         pop ebp
@@ -43,9 +43,11 @@ sub_AB834:
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_AB87C                                                            AB87C  
+; AllocMemBlockEx                              AB87C  96 PC, medium confidence
+; The allocator under AllocMemBlock: finds room in the block's memory list
+; (compacting if needed) and links a named block
 ;-----------------------------------------------------------------------------
-sub_AB87C:
+AllocMemBlockEx:
         push esi
         push edi
         push ebp
@@ -85,13 +87,13 @@ sub_AB87C:
         and edx, 700h
         sar edx, 8
         lea eax, [nosplit edx*4+00h]
-        mov esi, dword_18568C
+        mov esi, memlist1
         add eax, edx
         mov ecx, dword [byte esp+01Ch]
         shl eax, 2
         push ecx
         add esi, eax
-        call sub_AA564
+        call PathBaseName
         add esp, byte 4
         mov dword [byte esp+01Ch], eax
         test byte [byte esp+024h], 40h
@@ -143,7 +145,7 @@ sub_AB87C:
         push eax
         mov edi, dword [byte esi+04h]
         push edi
-        call sub_AC5AC
+        call CompactMemListDown
         add esp, byte 8
 .6:
         mov ebp, dword [esi]
@@ -198,13 +200,13 @@ sub_AB87C:
         mov dword [byte esi+014h], edx
         mov edx, dword [byte esp+08h]
         mov dword [byte esi+018h], eax
-        mov eax, dword [dword_11F9C0]
+        mov eax, dword [FreeSpaceList]
         mov dword [byte esi+010h], edx
         mov ebx, 0Ch
         mov dword [byte esi+01Ch], eax
         inc eax
         mov edx, dword [byte esp+01Ch]
-        mov dword [dword_11F9C0], eax
+        mov dword [FreeSpaceList], eax
         lea eax, [byte esi+04h]
         call strncpy_
         mov dword [esi], ebp
@@ -259,7 +261,7 @@ sub_AB87C:
 .17:
         mov ebx, dword [byte esp+024h]
         push ebx
-        call sub_AC360
+        call FindFreeSpace
         add esp, byte 4
         test eax, eax
         jne near .6
@@ -267,7 +269,7 @@ sub_AB87C:
         push ecx
         mov edi, dword [byte esi+04h]
         push edi
-        call sub_AC5AC
+        call CompactMemListDown
         add esp, byte 8
         test eax, eax
         jne near .6
@@ -289,7 +291,7 @@ sub_AB87C:
         mov ebx, dword [byte esi+04h]
         push ebx
         push eax
-        call sub_AC70C
+        call CompactMemListUp
         add esp, byte 8
 .19:
         mov ebp, dword [byte esi+04h]
@@ -344,13 +346,13 @@ sub_AB87C:
         mov dword [byte esi+014h], edx
         mov edx, dword [byte esp+08h]
         mov dword [byte esi+018h], eax
-        mov eax, dword [dword_11F9C0]
+        mov eax, dword [FreeSpaceList]
         mov dword [byte esi+010h], edx
         mov ebx, 0Ch
         mov dword [byte esi+01Ch], eax
         inc eax
         mov edx, dword [byte esp+01Ch]
-        mov dword [dword_11F9C0], eax
+        mov dword [FreeSpaceList], eax
         lea eax, [byte esi+04h]
         call strncpy_
         mov ebx, dword [byte esp+08h]
@@ -402,7 +404,7 @@ sub_AB87C:
 .31:
         mov ecx, dword [byte esp+024h]
         push ecx
-        call sub_AC360
+        call FindFreeSpace
         add esp, byte 4
         test eax, eax
         jne near .19
@@ -410,7 +412,7 @@ sub_AB87C:
         push edi
         mov ebp, dword [esi]
         push ebp
-        call sub_AC70C
+        call CompactMemListUp
         add esp, byte 8
         test eax, eax
         jne near .19
@@ -509,11 +511,11 @@ sub_ABD64:
         mov edi, dword [byte ebp+018h]
         and edi, 700h
         shr edi, 8
-        mov edx, dword [dword_185734]
+        mov edx, dword [MemLockHandle]
         lea eax, [nosplit edi*4+00h]
         push edx
         add eax, edi
-        mov edi, dword_18568C
+        mov edi, memlist1
         shl eax, 2
         mov esi, ebp
         add edi, eax
@@ -537,9 +539,9 @@ sub_ABD64:
         mov ebp, eax
         cmp eax, byte 0FFFFFFFFh
         je short .1
-        mov ebx, dword [dword_185734]
+        mov ebx, dword [MemLockHandle]
         push ebx
-        call sub_C3C04
+        call MemUnlock
         add esp, byte 4
         cmp dword [byte esp+01Ch], byte 0
         je near .6
@@ -559,11 +561,11 @@ sub_ABD64:
         test ebp, ebp
         jl short .2
         mov eax, dword [byte esp+018h]
-        mov ebx, dword [dword_185734]
+        mov ebx, dword [MemLockHandle]
         mov dword [byte esi+010h], ebp
         push ebx
         mov dword [byte esi+014h], eax
-        call sub_C3C04
+        call MemUnlock
         add esp, byte 4
         mov eax, dword [byte esp+018h]
         jmp near .7
@@ -574,7 +576,7 @@ sub_ABD64:
         push eax
         mov eax, dword [byte edi+04h]
         push eax
-        call sub_AC5AC
+        call CompactMemListDown
         add esp, byte 8
         test eax, eax
         je short .4
@@ -598,7 +600,7 @@ sub_ABD64:
         push esi
         mov edx, dword [edi]
         push edx
-        call sub_AC70C
+        call CompactMemListUp
         add esp, byte 8
         test eax, eax
         je short .4
@@ -616,9 +618,9 @@ sub_ABD64:
         and ebp, eax
         jmp near .1
 .4:
-        mov edx, dword [dword_185734]
+        mov edx, dword [MemLockHandle]
         push edx
-        call sub_C3C04
+        call MemUnlock
         add esp, byte 4
         cmp dword [byte esp+018h], byte 0
         jge short .5
@@ -658,7 +660,7 @@ findmemblock:
 .1:
         cmp dword [dword ecx+dword_185690], byte 0
         je short .4
-        mov eax, dword [dword ecx+dword_18568C]
+        mov eax, dword [dword ecx+memlist1]
         mov edi, dword [dword ecx+dword_185690]
         mov eax, dword [byte eax+020h]
         mov edx, ecx
@@ -696,17 +698,17 @@ FreeMemBlock:
         push edx
         call findmemblock
         add esp, byte 4
-        mov ebx, dword [dword_185734]
+        mov ebx, dword [MemLockHandle]
         push ebx
         mov esi, eax
         call MemLock
         add esp, byte 4
         push esi
-        call sub_ABFB4
+        call PushMemDescriptor
         add esp, byte 4
-        mov ecx, dword [dword_185734]
+        mov ecx, dword [MemLockHandle]
         push ecx
-        call sub_C3C04
+        call MemUnlock
         add esp, byte 4
         pop esi
         ret
@@ -715,23 +717,24 @@ FreeMemBlock:
 ; sub_ABF88                                                            ABF88  
 ;-----------------------------------------------------------------------------
 sub_ABF88:
-        mov edx, dword [dword_185734]
+        mov edx, dword [MemLockHandle]
         push edx
         call MemLock
         add esp, byte 4
         mov ebx, dword [byte esp+04h]
         push ebx
-        call sub_ABFB4
+        call PushMemDescriptor
         add esp, byte 4
-        mov ecx, dword [dword_185734]
+        mov ecx, dword [MemLockHandle]
         push ecx
-        call sub_C3C04
+        call MemUnlock
         add esp, byte 4
         ret
 ;-----------------------------------------------------------------------------
-; sub_ABFB4                                                            ABFB4  
+; PushMemDescriptor                            ABFB4  96 PC, medium confidence
+; Returns a block descriptor to the free list; followed by the pop
 ;-----------------------------------------------------------------------------
-sub_ABFB4:
+PushMemDescriptor:
         push esi
         mov eax, dword [byte esp+08h]
         mov esi, eax
@@ -761,7 +764,7 @@ sub_ABFB4:
         push edx
         call findmemblock
         add esp, byte 4
-        mov ebx, dword [dword_185734]
+        mov ebx, dword [MemLockHandle]
         push ebx
         mov esi, eax
         call MemLock
@@ -774,21 +777,21 @@ sub_ABFB4:
         mov esi, dword [byte esi+020h]
         mov ecx, dword [byte esi+024h]
         push ecx
-        call sub_ABFB4
+        call PushMemDescriptor
         mov dl, byte [byte esi+018h]
         add esp, byte 4
         test dl, 20h
         je short .3
 .4:
-        mov esi, dword [dword_185734]
+        mov esi, dword [MemLockHandle]
         push esi
-        call sub_C3C04
+        call MemUnlock
         add esp, byte 4
         pop esi
         ret
         db 08Bh,0C0h
         push esi
-        mov edx, dword [dword_185734]
+        mov edx, dword [MemLockHandle]
         push edx
         call MemLock
         add esp, byte 4
@@ -800,52 +803,54 @@ sub_ABFB4:
         mov esi, dword [byte esi+020h]
         mov ebx, dword [byte esi+024h]
         push ebx
-        call sub_ABFB4
+        call PushMemDescriptor
         mov dl, byte [byte esi+018h]
         add esp, byte 4
         test dl, 20h
         je short .5
 .6:
-        mov ecx, dword [dword_185734]
+        mov ecx, dword [MemLockHandle]
         push ecx
-        call sub_C3C04
+        call MemUnlock
         add esp, byte 4
         pop esi
         ret
         db 08Dh,040h,00h
         push esi
-        mov edx, dword [dword_185734]
+        mov edx, dword [MemLockHandle]
         push edx
         call MemLock
         add esp, byte 4
         mov ebx, dword [byte esp+08h]
         push ebx
-        call sub_AC0C4
+        call MergeFreeSpace
         add esp, byte 4
-        mov ecx, dword [dword_185734]
+        mov ecx, dword [MemLockHandle]
         push ecx
         mov esi, eax
-        call sub_C3C04
+        call MemUnlock
         add esp, byte 4
         mov eax, esi
         pop esi
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_AC0C4                                                            AC0C4  
+; MergeFreeSpace                               AC0C4  96 PC, medium confidence
+; Walks a memory list and works out the free space around movable blocks for
+; the requested placement
 ;-----------------------------------------------------------------------------
-sub_AC0C4:
+MergeFreeSpace:
         push esi
         push edi
         push ebp
-        mov esi, dword [dword_11F9C0]
+        mov esi, dword [FreeSpaceList]
         mov ebx, dword [byte esp+010h]
         mov edx, ebx
         and edx, 700h
         sar edx, 8
         lea eax, [nosplit edx*4+00h]
         add eax, edx
-        mov ebp, dword_18568C
+        mov ebp, memlist1
         shl eax, 2
         add ebp, eax
         xor edi, edi
@@ -878,18 +883,18 @@ sub_AC0C4:
         mov edx, dword [byte ebp+04h]
         cmp eax, edx
         jne short .1
-        mov dword [dword_11F9C0], esi
+        mov dword [FreeSpaceList], esi
         test edi, edi
         je short .4
         push edi
-        call sub_ABFB4
+        call PushMemDescriptor
         mov eax, 1
         add esp, byte 4
         jmp short .5
 .4:
         xor eax, edx
 .5:
-        mov esi, dword [dword_11F9C0]
+        mov esi, dword [FreeSpaceList]
         pop ebp
         pop edi
         pop esi
@@ -899,18 +904,18 @@ sub_AC0C4:
         push edx
         call findmemblock
         add esp, byte 4
-        mov ebx, dword [dword_185734]
+        mov ebx, dword [MemLockHandle]
         push ebx
         mov esi, eax
         call MemLock
         mov eax, dword [byte esi+018h]
         add esp, byte 4
         and al, 0F0h
-        mov ecx, dword [dword_185734]
+        mov ecx, dword [MemLockHandle]
         or al, 9
         push ecx
         mov dword [byte esi+018h], eax
-        call sub_C3C04
+        call MemUnlock
         add esp, byte 4
         mov eax, esi
         pop esi
@@ -921,17 +926,17 @@ sub_AC0C4:
 sub_AC194:
         push esi
         mov esi, dword [byte esp+08h]
-        mov edx, dword [dword_185734]
+        mov edx, dword [MemLockHandle]
         push edx
         call MemLock
         mov eax, dword [byte esi+018h]
         add esp, byte 4
         and al, 0F0h
-        mov ebx, dword [dword_185734]
+        mov ebx, dword [MemLockHandle]
         or al, 9
         push ebx
         mov dword [byte esi+018h], eax
-        call sub_C3C04
+        call MemUnlock
         add esp, byte 4
         mov eax, esi
         pop esi
@@ -942,7 +947,7 @@ sub_AC194:
         push edx
         call findmemblock
         add esp, byte 4
-        mov ebx, dword [dword_185734]
+        mov ebx, dword [MemLockHandle]
         push ebx
         mov esi, eax
         call MemLock
@@ -951,11 +956,11 @@ sub_AC194:
         and al, 0F0h
         mov edx, dword [byte esp+0Ch]
         or al, 8
-        mov ecx, dword [dword_185734]
+        mov ecx, dword [MemLockHandle]
         or edx, eax
         push ecx
         mov dword [byte esi+018h], edx
-        call sub_C3C04
+        call MemUnlock
         add esp, byte 4
         mov eax, esi
         pop esi
@@ -963,7 +968,7 @@ sub_AC194:
         db 08Bh,0C0h
         push esi
         mov esi, dword [byte esp+08h]
-        mov edx, dword [dword_185734]
+        mov edx, dword [MemLockHandle]
         push edx
         call MemLock
         mov eax, dword [byte esi+018h]
@@ -971,11 +976,11 @@ sub_AC194:
         and al, 0F0h
         mov edx, dword [byte esp+0Ch]
         or al, 8
-        mov ebx, dword [dword_185734]
+        mov ebx, dword [MemLockHandle]
         or edx, eax
         push ebx
         mov dword [byte esi+018h], edx
-        call sub_C3C04
+        call MemUnlock
         add esp, byte 4
         mov eax, esi
         pop esi
@@ -992,13 +997,13 @@ FindNamedBlock:
         and edx, 700h
         sar edx, 8
         lea eax, [nosplit edx*4+00h]
-        mov edi, dword_18568C
+        mov edi, memlist1
         add eax, edx
         mov edx, dword [byte esp+0Ch]
         shl eax, 2
         push edx
         add edi, eax
-        call sub_AA564
+        call PathBaseName
         add esp, byte 4
         mov ecx, dword [edi]
         mov ebx, dword [byte edi+04h]
@@ -1044,13 +1049,13 @@ FindMemBlockNamed:
         and edx, 700h
         sar edx, 8
         lea eax, [nosplit edx*4+00h]
-        mov edi, dword_18568C
+        mov edi, memlist1
         add eax, edx
         mov edx, dword [byte esp+0Ch]
         shl eax, 2
         push edx
         add edi, eax
-        call sub_AA564
+        call PathBaseName
         add esp, byte 4
         mov ecx, dword [edi]
         mov ebx, dword [byte edi+04h]
@@ -1087,27 +1092,28 @@ FindMemBlockNamed:
         add esp, byte 8
         ret
         push esi
-        mov edx, dword [dword_185734]
+        mov edx, dword [MemLockHandle]
         push edx
         call MemLock
         add esp, byte 4
         mov ebx, dword [byte esp+08h]
         push ebx
-        call sub_AC360
+        call FindFreeSpace
         add esp, byte 4
-        mov ecx, dword [dword_185734]
+        mov ecx, dword [MemLockHandle]
         push ecx
         mov esi, eax
-        call sub_C3C04
+        call MemUnlock
         add esp, byte 4
         mov eax, esi
         pop esi
         ret
         db 08Bh,0C0h
 ;-----------------------------------------------------------------------------
-; sub_AC360                                                            AC360  
+; FindFreeSpace                                AC360  96 PC, medium confidence
+; Finds room for a block in a memory list, from the bottom or the top
 ;-----------------------------------------------------------------------------
-sub_AC360:
+FindFreeSpace:
         push esi
         push edi
         push ebp
@@ -1118,13 +1124,13 @@ sub_AC360:
         sar edx, 8
         lea eax, [nosplit edx*4+00h]
         add eax, edx
-        mov ebx, dword_18568C
+        mov ebx, memlist1
         shl eax, 2
         add ebx, eax
         cmp dword [byte ebx+010h], byte 0
         jne short .1
         push esi
-        call sub_AC0C4
+        call MergeFreeSpace
         add esp, byte 4
         jmp near .9
 .1:
@@ -1143,12 +1149,12 @@ sub_AC360:
         cmp eax, edi
         ja short .3
         jne short .4
-        mov eax, dword [dword_11F9C0]
+        mov eax, dword [FreeSpaceList]
         sub eax, dword [byte esi+01Ch]
         cmp eax, edx
         jl short .4
 .3:
-        mov eax, dword [dword_11F9C0]
+        mov eax, dword [FreeSpaceList]
         mov ebp, esi
         mov edx, dword [byte esi+01Ch]
         mov edi, dword [byte esi+018h]
@@ -1181,13 +1187,13 @@ sub_AC360:
         push edx
         lea eax, [byte esp+0Ch]
         push eax
-        call sub_AB87C
+        call AllocMemBlockEx
         add esp, byte 10h
         mov dword [byte esp+010h], eax
         test eax, eax
         jne short .7
         push edi
-        call sub_AC360
+        call FindFreeSpace
         add esp, byte 4
         test eax, eax
         jne short .6
@@ -1204,7 +1210,7 @@ sub_AC360:
         call bcopy
         add esp, byte 0Ch
         push ebp
-        call sub_ABFB4
+        call PushMemDescriptor
         mov eax, 1
         add esp, byte 4
         add esp, byte 14h
@@ -1262,7 +1268,7 @@ FindCachedFile:
         mov ebx, dword [byte esi+014h]
         push ebx
         push ebp
-        call sub_AB87C
+        call AllocMemBlockEx
         mov edi, eax
         add esp, byte 10h
         test eax, eax
@@ -1275,21 +1281,21 @@ FindCachedFile:
         push eax
         call bcopy
         add esp, byte 0Ch
-        mov edx, dword [dword_185734]
+        mov edx, dword [MemLockHandle]
         push edx
         call MemLock
         add esp, byte 4
         push esi
-        call sub_ABFB4
+        call PushMemDescriptor
         add esp, byte 4
-        mov ebx, dword [dword_185734]
+        mov ebx, dword [MemLockHandle]
         push ebx
         mov esi, edi
-        call sub_C3C04
+        call MemUnlock
         add esp, byte 4
         jmp short .4
 .1:
-        mov esi, dword [dword_11F9B4]
+        mov esi, dword [FileCacheList]
         mov esi, dword [byte esi+010h]
 .2:
         push esi
@@ -1306,7 +1312,7 @@ FindCachedFile:
         mov esi, dword [byte eax+014h]
         push esi
         push ebp
-        call sub_AB87C
+        call AllocMemBlockEx
         add esp, byte 10h
         mov ebp, dword [byte edi+014h]
         push ebp
@@ -1326,7 +1332,7 @@ FindCachedFile:
         and esi, 700h
         sar esi, 8
         imul esi, byte 14h
-        add esi, dword_18568C
+        add esi, memlist1
         mov esi, dword [byte esi+010h]
         test esi, esi
         jne short .2
@@ -1344,28 +1350,30 @@ FindCachedFile:
 ;-----------------------------------------------------------------------------
 CompactDownLocked:
         push esi
-        mov edx, dword [dword_185734]
+        mov edx, dword [MemLockHandle]
         push edx
         call MemLock
-        mov eax, dword [dword_11F9B4]
+        mov eax, dword [FileCacheList]
         add esp, byte 4
         mov ebx, dword [eax]
         push ebx
         mov ecx, dword [byte eax+04h]
         push ecx
-        call sub_AC5AC
+        call CompactMemListDown
         add esp, byte 8
-        mov esi, dword [dword_185734]
+        mov esi, dword [MemLockHandle]
         push esi
-        call sub_C3C04
+        call MemUnlock
         add esp, byte 4
         pop esi
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_AC5AC                                                            AC5AC  
+; CompactMemListDown                           AC5AC  96 PC, medium confidence
+; Slides movable blocks toward the start of a memory list to close gaps
+; between them
 ;-----------------------------------------------------------------------------
-sub_AC5AC:
+CompactMemListDown:
         push esi
         push edi
         push ebp
@@ -1496,28 +1504,30 @@ sub_AC5AC:
 ;-----------------------------------------------------------------------------
 CompactUpLocked:
         push esi
-        mov edx, dword [dword_185734]
+        mov edx, dword [MemLockHandle]
         push edx
         call MemLock
-        mov eax, dword [dword_11F9B4]
+        mov eax, dword [FileCacheList]
         add esp, byte 4
         mov ebx, dword [byte eax+04h]
         push ebx
         mov ecx, dword [eax]
         push ecx
-        call sub_AC70C
+        call CompactMemListUp
         add esp, byte 8
-        mov esi, dword [dword_185734]
+        mov esi, dword [MemLockHandle]
         push esi
-        call sub_C3C04
+        call MemUnlock
         add esp, byte 4
         pop esi
         ret
         db 08Dh,040h,00h
 ;-----------------------------------------------------------------------------
-; sub_AC70C                                                            AC70C  
+; CompactMemListUp                             AC70C  96 PC, medium confidence
+; Slides movable blocks toward the end of a memory list to close gaps between
+; them
 ;-----------------------------------------------------------------------------
-sub_AC70C:
+CompactMemListUp:
         push esi
         push edi
         push ebp
@@ -1658,17 +1668,17 @@ sub_AC70C:
 ;-----------------------------------------------------------------------------
 sub_AC838:
         push esi
-        mov edx, dword [dword_185734]
+        mov edx, dword [MemLockHandle]
         push edx
         call MemLock
         add esp, byte 4
         push byte 0
         call sub_AC89C
         add esp, byte 4
-        mov ebx, dword [dword_185734]
+        mov ebx, dword [MemLockHandle]
         push ebx
         mov esi, eax
-        call sub_C3C04
+        call MemUnlock
         add esp, byte 4
         mov eax, esi
         pop esi
@@ -1679,7 +1689,7 @@ sub_AC838:
 ;-----------------------------------------------------------------------------
 sub_AC868:
         push esi
-        mov edx, dword [dword_185734]
+        mov edx, dword [MemLockHandle]
         push edx
         call MemLock
         add esp, byte 4
@@ -1687,10 +1697,10 @@ sub_AC868:
         push ebx
         call sub_AC89C
         add esp, byte 4
-        mov ecx, dword [dword_185734]
+        mov ecx, dword [MemLockHandle]
         push ecx
         mov esi, eax
-        call sub_C3C04
+        call MemUnlock
         add esp, byte 4
         mov eax, esi
         pop esi
@@ -1707,7 +1717,7 @@ sub_AC89C:
         sar edx, 8
         lea eax, [nosplit edx*4+00h]
         add eax, edx
-        mov esi, dword_18568C
+        mov esi, memlist1
         shl eax, 2
         mov edx, dword [dword_11F9C4]
         add esi, eax
@@ -1717,7 +1727,7 @@ sub_AC89C:
         push ebx
         mov ecx, dword [byte esi+04h]
         push ecx
-        call sub_AC5AC
+        call CompactMemListDown
         add esp, byte 8
 .1:
         mov ebx, dword [esi]
@@ -1748,7 +1758,7 @@ sub_AC89C:
         sar eax, 4
         ret
         db 08Bh,0C0h
-        mov eax, dword [dword_11F9B4]
+        mov eax, dword [FileCacheList]
         mov eax, dword [eax]
         xor edx, edx
         test eax, eax
@@ -1764,7 +1774,7 @@ sub_AC89C:
 .6:
         mov eax, edx
         ret
-        mov eax, dword [dword_11F9B4]
+        mov eax, dword [FileCacheList]
         mov eax, dword [eax]
         xor edx, edx
         test eax, eax

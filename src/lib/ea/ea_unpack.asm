@@ -6,7 +6,7 @@ extern FatalError, asc_1135A8, str_Copyright, str_UnpackINVALIDPACKCODE, str_Tex
 extern byte_11FA2F, byte_11FA30, byte_11FA31, str_ctl07, byte_11FB50, byte_11FC50, dword_11FA14, dword_11FA18
 extern TextOriginX, TextOriginY, dword_11FA24, dword_11FA28, dword_11FA34, dword_11FA38, dword_11FA3C, dword_11FA40
 extern dword_11FA44, dword_11FA48, dword_11FA4C, dword_11FD50, UnpackSrcPtr, UnpackDestPtr, dword_185768, UnpackStackPtr
-extern UnpackPairTable, memmove_, off_11FA10, strncmp_, sub_AB758, FreeMemBlock, sub_ADC50, sub_B31C0
+extern UnpackPairTable, memmove_, off_11FA10, strncmp_, AllocMemBlock, FreeMemBlock, sub_ADC50, sub_B31C0
 extern RefPackSize, sub_C4C6C, sub_C4CCC, sub_C4D80, bcopy
 global ExpandBytePair, sub_AEE84, sub_AF08C, sub_AF104, sub_AF1C0, sub_AF240, sub_AF2C0, sub_AF354
 global sub_AF4F8, sub_AF5D0, sub_AF610, sub_AF654, sub_AF85C, sub_AF890, unpack, sub_AFCD0
@@ -787,7 +787,7 @@ sub_AF654:
         push byte 0
         push dword 0F6C1h
         push asc_1135A8
-        call sub_AB758
+        call AllocMemBlock
         mov edx, eax
         add esp, byte 0Ch
         mov ebx, eax
@@ -1525,7 +1525,7 @@ sub_AFD40:
         push byte 20h
         push dword 1000h
         push str_TextTable
-        call sub_AB758
+        call AllocMemBlock
         add esp, byte 0Ch
         mov dword [dword_11FD50], eax
 .1:

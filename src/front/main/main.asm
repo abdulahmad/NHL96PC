@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_1B046 progbits alloc exec nowrite align=1
 extern _dos_gettime_, asc_1103D8, chdir_, DetectCPU, dword_114CD3, dword_1150D4, dword_1150D8, dword_1150DC
-extern dword_11D19C, CpuType, dword_11F61C, dword_11F994, dword_11F9C8, dword_152F44, dword_152F48, dword_152F4C
+extern dword_11D19C, CpuType, dword_11F61C, dword_11F994, DebugMode, dword_152F44, dword_152F48, dword_152F4C
 extern dword_152F50, dword_152F54, dword_152F58, dword_152F5C, globalset, InitInputDevices, InstallTimer, LoadDataFile
 extern LoadGripLibrary, LoadPackedFile, MakeDataPath, ModemGameClose, off_11D3DC, optflags, PlayMenuGame, printf_
 extern ReadGlobalSet, srand_, StartSoundCard, str_CLEARER, str_dbgL, str_Dot, str_FhiL4, str_FhiR4
@@ -12,7 +12,7 @@ extern str_LOGOPACK, str_LSTA, str_spPressESCToReturnToDOS, str_YouMustFirstUseT
 extern ClearSlotUsers, UserRecordsScreen, WatchHighlight, HighlightsMenu, LoadFrontEndArt, FreeFrontEndArt, RunIntro, RunCredits
 extern CopyBitmap, InitGraphicsFix, SetScreenMode, SetMenuMoveSfx, SetMenuSelectSfx, MainMenuScreen, StopMusic, FadeOutMusic
 extern TestCdSpeed, ShutdownSound, WriteGlobalSet, RunExhibitionMenus, RunControlSetup, LoadLangText, FreeLangText, GetLangText
-extern RunSeasonMenus, RunStatsMenu, RunModemGameSetup, RunPlayoffMenus, sub_AB758, FreeMemBlock, sub_AC868, sub_ADA50
+extern RunSeasonMenus, RunStatsMenu, RunModemGameSetup, RunPlayoffMenus, AllocMemBlock, FreeMemBlock, sub_AC868, sub_ADA50
 extern sub_AFCD0, sub_AFFD0, sub_B3100, sub_B3145, sub_B3160, sub_B31C0, sub_B3420, SetScreenTarget
 extern sub_DD800, sub_DD830, sub_DD87C, sub_DFA98, sub_DFB88, KbdGetKey, AddExitHandler, sub_E04E0
 extern bcopy, InstallBreakHandler, TextSetFont, unk_110351, unk_110355, unk_11041A, unk_11048D, DataDirPath
@@ -373,7 +373,7 @@ InitHardware:
         lea edi, [byte eax-0Ah]
         push edi
         push str_CLEARER
-        call sub_AB758
+        call AllocMemBlock
         mov edx, eax
         add esp, byte 0Ch
         mov ecx, edi
@@ -390,7 +390,7 @@ InitHardware:
         lea edi, [byte eax-0Ah]
         push edi
         push str_CLEARER
-        call sub_AB758
+        call AllocMemBlock
         mov edx, eax
         add esp, byte 0Ch
         mov ecx, edi
@@ -466,7 +466,7 @@ StartUp:
         inc dword [dword_1150DC]
         call InitHardware
         push byte 0
-        mov dword [dword_11F9C8], 0
+        mov dword [DebugMode], 0
         mov dword [dword_11F61C], 0
         call sub_ADA50
         add esp, byte 4
@@ -558,7 +558,7 @@ StartUp:
         push dword 6910h
         push str_LOGOPACK
         mov dword [dword_152F48], eax
-        call sub_AB758
+        call AllocMemBlock
         mov esi, dword [dword_152F58]
         mov edi, eax
         mov dword [dword_152F44], eax

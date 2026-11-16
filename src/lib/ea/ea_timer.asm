@@ -5,7 +5,7 @@ section s_AA5C4 progbits alloc exec nowrite align=1
 extern FatalError, __STOSD, _dos_getvect_, _dos_setvect_, str_AddtimerLISTFULL, TimerTickStep, ScreenWidth, ClipTopRow
 extern ClipLeftCol, ClipRight, ScreenHeight, dword_1228F4, dword_1228FC, dword_122930, oldint8off, oldint8sel
 extern RestoreDS, sub_DE247, VesaSetBank, AddExitHandler, bcopy, tickcount, timercallbacks
-global InstallTimer, RestoreTimer, TimerISR, addtimer, RemoveTimerCallback, sub_AA7E0, unk_AA7B0, TimerISR_tick
+global InstallTimer, RestoreTimer, TimerISR, addtimer, RemoveTimerCallback, DrawShapeCore, unk_AA7B0, TimerISR_tick
 ;-----------------------------------------------------------------------------
 ; TimerISR                                     AA5C4  95 PC, medium confidence
 ;-----------------------------------------------------------------------------
@@ -223,9 +223,10 @@ unk_AA7B0:
         db 02Dh,034h,02Eh,034h,073h,027h,020h,053h,048h,041h,050h,045h,020h,04Eh,04Fh,054h
         db 020h,046h,04Fh,055h,04Eh,044h,0Dh,0Ah,00h,00h,00h,00h,00h,00h,00h,00h
 ;-----------------------------------------------------------------------------
-; sub_AA7E0                                                            AA7E0  
+; DrawShapeCore                                AA7E0  96 PC, medium confidence
+; Draws a shape: sets up its palette and blits it through the blit engine
 ;-----------------------------------------------------------------------------
-sub_AA7E0:
+DrawShapeCore:
         push esi
         push edi
         push ebp

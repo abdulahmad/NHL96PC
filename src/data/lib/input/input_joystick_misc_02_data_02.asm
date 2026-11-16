@@ -3,28 +3,28 @@ bits 32
 %include "hockey.inc"
 section s_123A94 progbits alloc noexec write align=1
 extern unk_19A650
-global dword_123A94, dword_123A98, dword_123A9C, dword_123AA0, dword_123AA4, dword_123AA8, dword_123AAC, dword_123AB0
-global dword_123AB4, dword_123AB8, dword_123ABC, dword_123AC0, RetraceTimeout, dword_123AC8, dword_123ACC, dword_123AD0
+global ViewCenterX, str_D_SetCameraAngles, CameraYaw, CameraPitch, ViewCenterY, str_D_ProjectPointsPersp, dword_123AAC, dword_123AB0
+global CameraOriginX, CameraOriginY, dword_123ABC, dword_123AC0, RetraceTimeout, dword_123AC8, dword_123ACC, dword_123AD0
 global dword_123B0C, dword_123B10, dword_123B14
-dword_123A94:
+ViewCenterX:
         db 0A0h,00h,00h,00h
-dword_123A98:
+str_D_SetCameraAngles:
         db 064h,00h,00h,00h
-dword_123A9C:
+CameraYaw:
         db 00h,00h,00h,00h
-dword_123AA0:
+CameraPitch:
         db 00h,00h,00h,00h
-dword_123AA4:
+ViewCenterY:
         db 0A0h,00h,00h,00h
-dword_123AA8:
+str_D_ProjectPointsPersp:
         db 064h,00h,00h,00h
 dword_123AAC:
         db 00h,00h,00h,00h
 dword_123AB0:
         db 00h,00h,00h,00h
-dword_123AB4:
+CameraOriginX:
         db 00h,00h,00h,00h
-dword_123AB8:
+CameraOriginY:
         db 00h,00h,00h,00h
 dword_123ABC:
         db 00h,00h,00h,00h

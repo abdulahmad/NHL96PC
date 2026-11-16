@@ -5,8 +5,8 @@ section s_122A6 progbits alloc exec nowrite align=1
 extern addtimer, byte_114D96, byte_11FA2F, byte_1519A0, byte_151AD4, byte_151ADA, byte_151ADB, byte_17BDAE
 extern DebugPrintf, dword_114B9C, dword_114CE2, dword_114D0E, dword_114D12, dword_114D1A, dword_114D1E, dword_114D36
 extern dword_114D3A, dword_114D9A, dword_114D9E, dword_114DA2, dword_114DA6, dword_114DAA, dword_114DAE, dword_114DB2
-extern dword_114DB6, dword_114DBA, dword_114DCA, dword_115008, dword_1150D4, dword_11BCE4, dword_11F5C0, dword_11F5C4
-extern dword_1515B7, dword_1515BE, dword_1515C5, dword_1515CC, dword_15199C, dword_1519B4, dword_1519B8, dword_1519BC
+extern str_Punct_ModemSettingsScreen, dword_114DBA, dword_114DCA, dword_115008, dword_1150D4, dword_11BCE4, dword_11F5C0, dword_11F5C4
+extern InputPlaybackOn, dword_1515BE, dword_1515C5, dword_1515CC, dword_15199C, dword_1519B4, dword_1519B8, dword_1519BC
 extern dword_1519FC, dword_151A00, dword_151A40, dword_151A80, dword_151A84, dword_151A88, dword_151A8C, dword_151A90
 extern dword_151AD0, dword_151AD5, dword_151ADE, dword_15291C, dword_17C9AA, dword_17C9F4, FillRect, TextStringWidth
 extern GameLoopActive, GetTicks, InputRecordCount, InputRecordHead, InputRecordRing, LinkClose, LinkConnect, LinkCopyBytes
@@ -120,7 +120,7 @@ ModemGameOpen:
         mov dword [dword_114DA6], 0
         mov dword [dword_114DAE], 0
         mov dword [dword_114DB2], 0
-        mov dword [dword_114DB6], 0
+        mov dword [str_Punct_ModemSettingsScreen], 0
         mov dword [dword_114DBA], 0
         mov word [word_114DBE], 0
         mov eax, dword [byte ebp-0Ch]
@@ -202,7 +202,7 @@ LinkBlockStart:
         mov dword [dword_114DBA], unk_15179C
         mov eax, dword [dword_1519B8]
         mov eax, dword [byte eax+01h]
-        mov dword [dword_114DB6], eax
+        mov dword [str_Punct_ModemSettingsScreen], eax
         mov esp, ebp
         pop ebp
         pop edi
@@ -230,7 +230,7 @@ LinkBlockData:
         mov dword [dword_1519BC], eax
         cmp dword [dword_114DBA], byte 0
         je short .1
-        cmp dword [dword_114DB6], byte 0
+        cmp dword [str_Punct_ModemSettingsScreen], byte 0
         jg short .2
 .1:
         jmp short .3
@@ -243,11 +243,11 @@ LinkBlockData:
         call LinkCopyBytes
         mov eax, dword [dword_1519BC]
         movsx eax, byte [byte eax+01h]
-        sub dword [dword_114DB6], eax
+        sub dword [str_Punct_ModemSettingsScreen], eax
         mov eax, dword [dword_1519BC]
         movsx eax, byte [byte eax+01h]
         add dword [dword_114DBA], eax
-        cmp dword [dword_114DB6], byte 0
+        cmp dword [str_Punct_ModemSettingsScreen], byte 0
         jne short .3
         inc dword [dword_114DAE]
         mov dword [dword_114DBA], 0
@@ -294,15 +294,15 @@ LinkSendBlock:
         mov eax, dword [dword_114DBA]
         call LinkCopyBytes
         mov eax, dword [byte ebp-010h]
-        mov dword [dword_114DB6], eax
+        mov dword [str_Punct_ModemSettingsScreen], eax
         mov byte [byte_151ADA], 4
 .3:
-        cmp dword [dword_114DB6], byte 4
+        cmp dword [str_Punct_ModemSettingsScreen], byte 4
         jle short .4
         mov dword [byte ebp-08h], 4
         jmp short .5
 .4:
-        mov eax, dword [dword_114DB6]
+        mov eax, dword [str_Punct_ModemSettingsScreen]
         mov dword [byte ebp-08h], eax
 .5:
         mov al, byte [byte ebp-08h]
@@ -319,12 +319,12 @@ LinkSendBlock:
         mov eax, dword [byte ebp-08h]
         add dword [dword_114DBA], eax
         mov eax, dword [byte ebp-08h]
-        sub dword [dword_114DB6], eax
+        sub dword [str_Punct_ModemSettingsScreen], eax
         jmp short .7
 .6:
         call SoundIdle
 .7:
-        cmp dword [dword_114DB6], byte 0
+        cmp dword [str_Punct_ModemSettingsScreen], byte 0
         jg short .3
         mov dword [dword_114DBA], 0
         mov esp, ebp
@@ -712,7 +712,7 @@ ModemGameConnect:
         mov dword [dword_151A84], eax
         mov dword [dword_114DAE], 0
         mov dword [dword_114DB2], 0
-        mov dword [dword_114DB6], 0
+        mov dword [str_Punct_ModemSettingsScreen], 0
         mov dword [dword_114DBA], 0
         mov eax, LinkGameMessage
         call SetLinkMessageHandler
@@ -1493,7 +1493,7 @@ LinkExchangeInput:
         sar eax, 10h
         cmp eax, byte 1
         jne short .5
-        mov eax, dword [dword_1515B7]
+        mov eax, dword [InputPlaybackOn]
         mov dword [byte ebp-0Ch], eax
         mov eax, dword [dword_1515BE]
         mov dword [byte ebp-08h], eax

@@ -4,7 +4,7 @@ bits 32
 section s_17D166 nobits alloc noexec write align=1
 global byte_17D262, byte_17D26F, byte_17D270, byte_17D271, byte_17D275, byte_17D283, dword_17D166, dword_17D16A
 global PlayoffFormatTeams, dword_17D1D6, dword_17D1DA, dword_17D1DE, dword_17D1E2, dword_17D1E6, dword_17D1EA, dword_17D202
-global dword_17D20A, dword_17D252, dword_17D256, dword_17D25A, dword_17D25E, dword_17D263, dword_17D267, dword_17D26B
+global dword_17D20A, dword_17D252, dword_17D256, dword_17D25A, dword_17D25E, cupseries, dword_17D267, dword_17D26B
 global dword_17D273, unk_17D272, unk_17D32C, unk_17D3E8
 dword_17D166:
         resb 4
@@ -38,7 +38,7 @@ dword_17D25E:
         resb 4
 byte_17D262:
         resb 1
-dword_17D263:
+cupseries:
         resb 4
 dword_17D267:
         resb 4

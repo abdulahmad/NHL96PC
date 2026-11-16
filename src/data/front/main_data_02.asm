@@ -6,11 +6,11 @@ extern str_KWKJSKxxxxxx
 global str_0123456789abcdefghijklmn, byte_115109, byte_11510A, byte_11510B, byte_11510C, byte_115114, byte_115115, byte_115116
 global byte_115117, byte_117575, byte_1175A4, byte_1175A5, byte_1175A6, byte_1175A7, byte_1175A8, byte_1175A9
 global byte_1175AA, byte_1175AB, byte_1175AC, dword_115098, dword_1150C4, dword_1150C8, dword_1150CC, dword_1150D0
-global dword_1150D4, dword_1150D8, dword_1150DC, dword_1150E0, dword_1150E4, dword_1150E8, dword_1150EC, dword_1150F0
-global dword_1150F4, dword_1150F8, dword_1150FC, dword_1174E0, dword_1174E4, dword_1174E8, dword_1174EC, dword_1174F0
+global dword_1150D4, dword_1150D8, dword_1150DC, dword_1150E0, AsyncQueueTail, StreamBlockSize, StreamTimeout, dword_1150F0
+global dword_1150F4, dword_1150F8, gameresult, seasondb, dword_1174E4, statsfromleague, dword_1174EC, statsplayoffs
 global dword_1174F4, dword_1174F8, dword_1174FC, dword_117500, dword_117504, dword_117508, dword_11750C, dword_117510
-global dword_117514, dword_117518, dword_11751C, dword_117588, unk_115108, unk_115113, DataDirPath, unk_1151A7
-global unk_115333, str_KEY3, str_CAREER2, str_ATT, str_CARTEAMS, str_TEAMS3, str_SEASON4, unk_11749D
+global dword_117514, dword_117518, dword_11751C, dword_117588, gsumheader, gsumtail, DataDirPath, ArtArchivePaths
+global str_X_SetArtArchive, str_KEY3, str_CAREER2, str_ATT, str_CARTEAMS, str_TEAMS3, str_SEASON4, unk_11749D
 global unk_117522, word_11510D, word_11512D, word_11758C
 dword_115098:
         db 00h,00h,00h,00h
@@ -34,11 +34,11 @@ dword_1150DC:
         dd str_KWKJSKxxxxxx
 dword_1150E0:
         db 00h,00h,00h,00h
-dword_1150E4:
+AsyncQueueTail:
         db 00h,00h,00h,00h
-dword_1150E8:
+StreamBlockSize:
         db 0DAh,00h,00h,00h
-dword_1150EC:
+StreamTimeout:
         db 02Ch,01h,00h,00h
 dword_1150F0:
         db 00h,00h,00h,00h
@@ -46,9 +46,9 @@ dword_1150F4:
         db 00h,00h,00h,00h
 dword_1150F8:
         db 00h,00h,00h,00h
-dword_1150FC:
+gameresult:
         db 00h,00h,00h,00h,0FFh,0FFh,0FFh,0FFh,0FEh,0FFh,0FFh,0FFh
-unk_115108:
+gsumheader:
         db 00h
 byte_115109:
         db 00h
@@ -60,7 +60,7 @@ byte_11510C:
         db 00h
 word_11510D:
         db 00h,00h,00h,00h,00h,00h
-unk_115113:
+gsumtail:
         db 04h
 byte_115114:
         db 00h
@@ -81,7 +81,7 @@ word_11512D:
         db 059h,04Fh,046h,046h,00h,00h,00h,00h,00h,00h,06h,00h,048h,049h,04Ch,049h
         db 054h,045h,053h,00h,00h,00h,00h,00h,00h,07h,00h,049h,04Eh,053h,054h,041h
         db 04Ch,04Ch,00h,00h,00h,00h,00h,00h,08h,00h
-unk_1151A7:
+ArtArchivePaths:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,047h,041h,04Dh,045h,041h,052h,054h,02Eh,056h
         db 049h,056h,00h,00h,02h,00h,00h,00h,07h,00h,00h,00h,00h,049h,043h,045h
@@ -107,7 +107,7 @@ unk_1151A7:
         db 01h,042h,041h,053h,045h,046h,049h,04Ch,045h,02Eh,056h,049h,056h,00h,02h,00h
         db 00h,00h,00h,00h,00h,00h,00h,043h,04Dh,04Eh,042h,041h,053h,045h,02Eh,056h
         db 049h,056h,00h,00h,02h,00h,00h,00h,00h,00h,00h,00h
-unk_115333:
+str_X_SetArtArchive:
         db 00h,078h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,047h,04Ch,04Fh,042h,041h,04Ch,02Eh,053h,045h
         db 054h,00h,00h,00h,00h,00h,00h,00h,07h,00h,00h,00h,00h,052h,049h,04Eh
@@ -664,15 +664,15 @@ unk_11749D:
         dd unk_11749D
         db 050h,049h,04Eh,046h,04Fh,00h,050h,04Ch,041h,059h,045h,052h,00h,04Ch,053h,053h
         db 043h,048h,045h,044h,00h,050h,047h,053h,00h,047h,041h,04Dh,045h,00h
-dword_1174E0:
+seasondb:
         db 00h,00h,00h,00h
 dword_1174E4:
         db 00h,00h,00h,00h
-dword_1174E8:
+statsfromleague:
         db 00h,00h,00h,00h
 dword_1174EC:
         db 00h,00h,00h,00h
-dword_1174F0:
+statsplayoffs:
         db 00h,00h,00h,00h
 dword_1174F4:
         db 00h,00h,00h,00h

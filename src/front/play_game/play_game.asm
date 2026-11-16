@@ -2,12 +2,12 @@
 bits 32
 %include "hockey.inc"
 section s_168DA progbits alloc exec nowrite align=1
-extern _dos_gettime_, addtimer, BuildDefaultLines, byte_1655A4, byte_1655E0, byte_16561C, byte_165658, byte_165694
+extern _dos_gettime_, addtimer, BuildDefaultLines, textline1, byte_1655E0, byte_16561C, byte_165658, byte_165694
 extern byte_17BDAE, byte_17CA5D, byte_17CECB, byte_17CECC, ClockTick, CrowdNoiseReset, DemoMode, DoGameFrame
 extern DrawGameStats_DD0, dword_114B88, dword_114B90, dword_114B94, dword_114B98, dword_114B9C, dword_114F16, dword_1150D4
-extern dword_1150FC, dword_11B310, dword_11D3A6, dword_11D91F, dword_11F5C0, dword_11F5C4, dword_1515B7, dword_1515BE
-extern dword_1515C5, dword_1515CC, dword_1515D8, dword_1515DC, dword_1515E0, dword_151B84, dword_152F50, dword_152F54
-extern dword_152F58, dword_152F5C, dword_157AF4, dword_17CBE7, dword_17D162, dword_17D267, exitgame, fadeinpending
+extern gameresult, dword_11B310, dword_11D3A6, dword_11D91F, dword_11F5C0, dword_11F5C4, InputPlaybackOn, dword_1515BE
+extern dword_1515C5, dword_1515CC, dword_1515D8, dword_1515DC, dword_1515E0, dword_151B84, MenuRemoteCursorArt, MenuCursorPixels
+extern dword_152F58, MenuBitmapPixels, dword_157AF4, PlayoffTreeData, dword_17D162, dword_17D267, exitgame, fadeinpending
 extern GameLoopActive, gameopts, gameover, GetTicks, gmode, InGameMenuRequest, InitSlotTable, InputRecordBusy
 extern InputRecordCount, InputRecordHead, InputRecordPhase, InputRecordRing, InputRecordTicks, LineChangeLine, LineChangeReq, LinkExchangeInput
 extern LinkResyncInput, LoadGameState, NormalizeDressFlags, optblock, optblock_end, optflags, PauseReplayPending, penshotlive
@@ -20,8 +20,8 @@ extern UpdateCamera, FreeSpriteCache, LoadFrontEndArt, FreeFrontEndArt, SetScree
 extern StopMusic, QueueMusic, FadeOutMusic, PlaySfx, Crowd_Noise, SetCrowdTarget, CrowdFadeOut, ArenaClipReady
 extern StartArenaClip, StopArenaClip, StartGameSound, EndGameSound, SoundIdle, WriteGlobalSet, GetLangText, RemoveTimerCallback
 extern AllocMemBlock, FreeMemBlock, ClearScreenColour, FreeColourLookup, SetScreenTarget, GetPaletteRange, SetPaletteEntries, TicksSinceLast
-extern FindShape, unk_16443C, unk_17CB2E, unk_17CED5, unk_17D272, unk_17D32C, word_114CE0, word_114F14
-extern word_119111, word_119113, word_1515E4, word_1656D2, word_1656D6
+extern FindShape, exhstate, SeasonUserRecords, unk_17CED5, unk_17D272, unk_17D32C, word_114CE0, word_114F14
+extern bannermsg, word_119113, word_1515E4, word_1656D2, word_1656D6
 global jpt_168DA, jpt_168EA, PlayMenuGame, PlayMenuGame_75, PlayMenuGame_85, PlayMenuGame_9F, PlayMenuGame_AF, PlayMenuGame_243
 global PlayMenuGame_25F, PlayMenuGame_26B, PlayMenuGame_280, InputRecordTimer, HandleSlotButtons, HandleSlotButtons_18D, RunSimFrames, GameLoop
 global GameLoop_E, GameLoop_18, GameLoop_38, GameLoop_inputcheck, GameLoop_hotkeyscall, GameLoop_hotkeyscall_5, GameLoop_menucall, GameLoop_menucall_A
@@ -84,7 +84,7 @@ PlayMenuGame_75:
 PlayMenuGame_85:
         movzx edx, byte [byte_17CECC]
         movzx eax, byte [byte_17CECB]
-        mov dword [gameopts], unk_17CB2E
+        mov dword [gameopts], SeasonUserRecords
         jmp short PlayMenuGame_AF.1
 PlayMenuGame_9F:
         xor edx, edx
@@ -100,10 +100,10 @@ PlayMenuGame_AF:
 .2:
         test byte [byte_17CA5D], 20h
         jne short .3
-        push dword [dword_152F54]
+        push dword [MenuCursorPixels]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_152F5C]
+        push dword [MenuBitmapPixels]
         call FreeMemBlock
         add esp, byte 4
 .3:
@@ -120,14 +120,14 @@ PlayMenuGame_AF:
         call FindShape
         mov edx, 20h
         add esp, byte 8
-        mov dword [dword_152F50], eax
+        mov dword [MenuRemoteCursorArt], eax
         mov eax, dword [dword_152F58]
         call CopyBitmap
         mov edx, 20h
-        mov dword [dword_152F54], eax
-        mov eax, dword [dword_152F50]
+        mov dword [MenuCursorPixels], eax
+        mov eax, dword [MenuRemoteCursorArt]
         call CopyBitmap
-        mov dword [dword_152F5C], eax
+        mov dword [MenuBitmapPixels], eax
         jmp short .5
 .4:
         push str_GhiL
@@ -139,7 +139,7 @@ PlayMenuGame_AF:
         mov dword [dword_152F58], eax
         call FindShape
         add esp, byte 8
-        mov dword [dword_152F50], eax
+        mov dword [MenuRemoteCursorArt], eax
 .5:
         mov eax, dword [optflags]
         and eax, byte 70h
@@ -159,13 +159,13 @@ PlayMenuGame_AF:
         mov dword [dword_152F58], eax
         call FindShape
         add esp, byte 8
-        mov dword [dword_152F50], eax
+        mov dword [MenuRemoteCursorArt], eax
         test byte [byte_17CA5D], 20h
         jne short .7
-        push dword [dword_152F54]
+        push dword [MenuCursorPixels]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_152F5C]
+        push dword [MenuBitmapPixels]
         call FreeMemBlock
         add esp, byte 4
 .7:
@@ -176,10 +176,10 @@ PlayMenuGame_AF:
         mov eax, dword [dword_152F58]
         call CopyBitmap
         mov edx, 20h
-        mov dword [dword_152F54], eax
-        mov eax, dword [dword_152F50]
+        mov dword [MenuCursorPixels], eax
+        mov eax, dword [MenuRemoteCursorArt]
         call CopyBitmap
-        mov dword [dword_152F5C], eax
+        mov dword [MenuBitmapPixels], eax
 .8:
         call LoadFrontEndArt
         mov eax, dword [optflags]
@@ -199,7 +199,7 @@ PlayMenuGame_243:
         call LoadExhibitionStats
         jmp short PlayMenuGame_280.10
 PlayMenuGame_25F:
-        mov eax, dword [dword_17CBE7]
+        mov eax, dword [PlayoffTreeData]
         call LoadSeasonStats
         jmp short PlayMenuGame_280.10
 PlayMenuGame_26B:
@@ -255,7 +255,7 @@ PlayMenuGame_280:
         call MessageBox
         jmp short .12
 .11:
-        cmp dword [dword_1150FC], byte 1
+        cmp dword [gameresult], byte 1
         jne short .12
         call PostGameScreens
 .12:
@@ -328,7 +328,7 @@ InputRecordTimer:
         idiv ebx
         mov dword [InputRecordHead], edx
         inc dword [InputRecordCount]
-        mov ebx, dword [dword_1515B7]
+        mov ebx, dword [InputPlaybackOn]
         mov edx, dword [byte ebp-04h]
         mov dword [edx], ebx
         mov ebx, dword [dword_1515BE]
@@ -383,7 +383,7 @@ HandleSlotButtons:
         test edx, edx
         je short .2
         mov dword [InGameMenuRequest], 1
-        mov dword [dword_1150FC], 2
+        mov dword [gameresult], 2
         jmp near HandleSlotButtons_18D
 .2:
         test dl, 1
@@ -530,7 +530,7 @@ RunSimFrames:
         and dword [dword eax+dword_114B88], 0FFEFFFFCh
         cmp eax, byte 10h
         jne short .5
-        movsx eax, word [word_119111]
+        movsx eax, word [bannermsg]
         cmp eax, byte 0FFFFFFFFh
         je short .6
         cmp word [word_119113], byte 0
@@ -539,7 +539,7 @@ RunSimFrames:
         cmp word [word_119113], byte 0
         jg short .6
         mov word [word_119113], 0
-        mov word [word_119111], 0FFFFh
+        mov word [bannermsg], 0FFFFh
 .6:
         cmp dword [dword_11B310], byte 0FFFFFFFFh
         je short .7
@@ -550,7 +550,7 @@ RunSimFrames:
         mov byte [byte_165694], 0
         mov byte [byte_165658], 0
         mov byte [byte_1655E0], 0
-        mov byte [byte_1655A4], 0
+        mov byte [textline1], 0
         mov byte [byte_16561C], 0
 .7:
         cmp dword [InGameMenuRequest], byte 0
@@ -593,13 +593,13 @@ GameLoop_E:
 GameLoop_18:
         cmp word [gameover], byte 0
         jne near GameLoop_gameovercall
-        cmp dword [dword_1150FC], byte 0
+        cmp dword [gameresult], byte 0
         jne near GameLoop_gameovercall
         call ResetGameOverlays
 GameLoop_38:
         cmp word [exitgame], byte 0
         jne near GameLoop_menucall_A
-        cmp dword [dword_1150FC], byte 0
+        cmp dword [gameresult], byte 0
         jne near GameLoop_menucall_A
         mov ebx, dword [GameLoopActive]
         mov dword [GameLoopActive], 0
@@ -689,7 +689,7 @@ GameLoop_hotkeyscall:
 GameLoop_hotkeyscall_5:
         cmp dword [fadeinpending], byte 0
         je short .1
-        push unk_16443C
+        push exhstate
         push dword 100h
         push byte 0
         call SetPaletteEntries
@@ -707,7 +707,7 @@ GameLoop_menucall:
         jmp near GameLoop_38
 GameLoop_menucall_A:
         mov dword [GameLoopActive], 0
-        cmp dword [dword_1150FC], byte 0
+        cmp dword [gameresult], byte 0
         jne near GameLoop_nextperiodcall_6C
         mov eax, dword [optflags]
         and eax, byte 70h
@@ -725,7 +725,7 @@ GameLoop_nextperiodcall:
         mov dword [InGameMenuRequest], 3
         jmp short .2
 .1:
-        mov dword [dword_1150FC], 1
+        mov dword [gameresult], 1
 .2:
         mov word [word_1656D2], 0
         mov word [LineChangeReq], 0
@@ -739,16 +739,16 @@ GameLoop_nextperiodcall_6C:
         and eax, byte 70h
         cmp eax, byte 40h
         jne near GameLoop_18
-        cmp dword [dword_1150FC], byte 2
+        cmp dword [gameresult], byte 2
         je near GameLoop_18
-        mov dword [dword_1150FC], 1
+        mov dword [gameresult], 1
         jmp near GameLoop_18
 GameLoop_gameovercall:
         call FreeSpriteCache
         mov eax, 50h
         mov dword [GameLoopActive], 0
         call StopArenaClip
-        cmp dword [dword_1150FC], byte 1
+        cmp dword [gameresult], byte 1
         jne short .1
         cmp dword [DemoMode], byte 0
         jne short .1
@@ -796,7 +796,7 @@ RunDemoGame:
         mov dword [seed], edx
         call InitSlotTable
         call BlankForFadeIn
-        mov eax, unk_16443C
+        mov eax, exhstate
         call LoadGamePalette
         xor eax, eax
         call SetScreenMode
@@ -812,11 +812,11 @@ RunDemoGame:
         test eax, eax
         jl short .1
         mov dword [InGameMenuRequest], 0
-        mov dword [dword_1150FC], 0
+        mov dword [gameresult], 0
         call GameLoop
         jmp short .2
 .1:
-        mov dword [dword_1150FC], 2
+        mov dword [gameresult], 2
 .2:
         push InputRecordTimer
         call RemoveTimerCallback
@@ -831,7 +831,7 @@ RunDemoGame:
         push byte 0
         call SetViewRect
         add esp, byte 10h
-        cmp dword [dword_1150FC], byte 2
+        cmp dword [gameresult], byte 2
         sete al
         movzx eax, al
         leave
@@ -892,7 +892,7 @@ PlayGame:
 PlayGame_initslotscall:
         call InitSlotTable
         call BlankForFadeIn
-        mov eax, unk_16443C
+        mov eax, exhstate
         call LoadGamePalette
         test byte [byte_17CA5D], 20h
         setne al
@@ -928,12 +928,12 @@ PlayGame_initslotscall:
 .1:
         mov dword [InGameMenuRequest], 1
 .2:
-        mov dword [dword_1150FC], 0
+        mov dword [gameresult], 0
         mov word [word_114F14], 1
         call ResetGameOverlays
 PlayGame_menucall:
         call RunInGameMenu
-        cmp dword [dword_1150FC], byte 0
+        cmp dword [gameresult], byte 0
         jne short .2
         mov eax, dword [optblock]
         and eax, byte 7Fh
@@ -954,10 +954,10 @@ PlayGame_menucall_42:
         test eax, eax
         jl short .3
         mov dword [InGameMenuRequest], 0
-        mov dword [dword_1150FC], 0
+        mov dword [gameresult], 0
         jmp short PlayGame_menucall.1
 .3:
-        mov dword [dword_1150FC], 2
+        mov dword [gameresult], 2
 .4:
         call FreeGameView
         push InputRecordTimer

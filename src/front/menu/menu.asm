@@ -3,12 +3,12 @@ bits 32
 %include "hockey.inc"
 section s_64721 progbits alloc exec nowrite align=1
 extern abs_, BlackPalette, byte_17BDAE, byte_17CA1E, CopyBitmap, dword_11D1A8, dword_11D1AC, dword_11D1B0
-extern dword_11D1BC, dword_11D1C0, dword_11F5C0, dword_11F5C4, dword_152F50, dword_152F54, dword_152F58, dword_152F5C
-extern TeamStatsBitmap, dword_17BD48, dword_17C3E4, dword_17C3E8, dword_17C3EC, dword_17C3F0, dword_17C3F4, dword_17C3F8
-extern dword_17C3FC, dword_17C400, dword_17C404, dword_17C408, dword_17C40C, dword_17C410, dword_17C414, dword_17C418
-extern dword_17C41C, dword_17C420, dword_17C424, dword_17C428, dword_17C42C, dword_17C430, dword_17C434, dword_17C438
+extern dword_11D1BC, dword_11D1C0, dword_11F5C0, dword_11F5C4, MenuRemoteCursorArt, MenuCursorPixels, dword_152F58, MenuBitmapPixels
+extern TeamStatsBitmap, str_Standings, dword_17C3E4, dword_17C3E8, dword_17C3EC, dword_17C3F0, dword_17C3F4, dword_17C3F8
+extern dword_17C3FC, dword_17C400, MenuRemoteItem, MenuRemoteLayer, MenuLocalCursorY, MenuLocalCursorX, MenuItemLeaveFunc, MenuLocalLayer
+extern dword_17C41C, MenuSavedRemoteArt, MenuLocalItem, MenuRemoteCursorY, MenuRemoteCursorX, dword_17C430, dword_17C434, MenuItemEnterFunc
 extern dword_17C43C, dword_17C440, dword_17C444, dword_17C448, dword_17C44C, dword_17C450, dword_17C454, dword_17C458
-extern dword_17C45C, dword_17C460, FadeOut, FadeOutMusic, FadePalette, FillMusicStream, GetInputDevices, GetTicks
+extern MenuCursorArt, dword_17C460, FadeOut, FadeOutMusic, FadePalette, FillMusicStream, GetInputDevices, GetTicks
 extern GripReadSlots, LinkExchangeValues, LoadPackedFile, MakeDirPath, MessageBox, mousemaxx, mousemaxy, mouseminx
 extern mouseminy, mousepollfn, MouseRead, mousex, mousey, MusicDone, NameIndexFree, NameIndexLoad
 extern OpenScreen, optflags, PlayMusic, PlaySfx, PutBlock, ReadJoystickBits, SetDrawBitmap, SetScreenColors
@@ -19,7 +19,7 @@ extern str_Hig2, str_Hig3, str_HILITESNDX, str_LOCALNDX2, str_Opt1, str_Opt2, st
 extern str_Sta1, str_Sta2, str_Sta3, str_Use1, str_Use2, str_Use3, GetLangText, DrawShapeCore
 extern DrawArt, PutBlockAtOwnPos, FreeMemBlock, CreateBitmap, ClearScreenColour, FreeBitmap, SumRingRange, SetScreenTarget
 extern KeyIsDown, FindShape, ClearClipRect, vecdist, WaitRetrace, WaitRetraceEdges, word_114CE0, word_114CE4
-extern word_11D1B4, word_11D1B6, word_11D1B8, word_11D1BA, word_11D1C4, word_17C464, word_17C466, word_17C468
+extern word_11D1B4, word_11D1B6, word_11D1B8, word_11D1BA, word_11D1C4, word_17C464, MenuViewSaved, word_17C468
 extern word_17C46A, word_17C46C, word_17C46E, word_17C470
 global InitMenuItems, PollMenuInput, SetMenuMoveSfx, SetMenuSelectSfx, SetGameBackdrop, GetSavedViewSize, RunMenu, SetMenuMouse
 global unk_663B9, jpt_66539, jpt_66549, jpt_66569, jpt_66579, MainMenuScreen, MainMenuScreen_B4, MainMenuScreen_C9
@@ -658,7 +658,7 @@ SetGameBackdrop:
         call FreeMemBlock
         add esp, byte 4
 .1:
-        cmp dword [dword_17C45C], byte 0
+        cmp dword [MenuCursorArt], byte 0
         je short .2
         push dword [dword_17C448]
         call FreeMemBlock
@@ -679,13 +679,13 @@ SetGameBackdrop:
         test eax, eax
         je short .4
         mov edx, 20h
-        mov dword [dword_17C45C], eax
+        mov dword [MenuCursorArt], eax
         call CopyBitmap
         mov word [word_11D1BA], 1
         mov dword [dword_17C448], eax
         jmp short .5
 .4:
-        mov dword [dword_17C45C], eax
+        mov dword [MenuCursorArt], eax
 .5:
         cmp dword [byte ebp+030h], byte 0
         je short .6
@@ -833,11 +833,11 @@ RunMenu:
 .11:
         mov dword [byte esi+0Ch], 0
         mov eax, dword [byte esi+036h]
-        mov dword [dword_17C438], eax
+        mov dword [MenuItemEnterFunc], eax
         test eax, eax
         je short .12
         mov eax, esi
-        call dword [dword_17C438]
+        call dword [MenuItemEnterFunc]
 .12:
         mov eax, dword [byte esi+04h]
         cmp eax, byte 1
@@ -1058,7 +1058,7 @@ RunMenu:
         je short .42
         test byte [dword ebp+08Eh], 1
         je short .42
-        cmp word [word_17C466], byte 0
+        cmp word [MenuViewSaved], byte 0
         je short .40
         push dword [byte ebp+052h]
         push dword [byte ebp+04Eh]
@@ -1067,7 +1067,7 @@ RunMenu:
 .40:
         push dword [byte ebp+052h]
         push dword [byte ebp+04Eh]
-        push dword [dword_152F5C]
+        push dword [MenuBitmapPixels]
 .41:
         call PutBlock
         add esp, byte 0Ch
@@ -1093,7 +1093,7 @@ RunMenu:
 .44:
         push dword [byte ebp+062h]
         push dword [byte ebp+05Eh]
-        push dword [dword_152F54]
+        push dword [MenuCursorPixels]
 .45:
         call PutBlock
         add esp, byte 0Ch
@@ -1214,7 +1214,7 @@ RunMenu:
         je short .62
         test byte [dword ebp+08Eh], 1
         je short .62
-        cmp word [word_17C466], byte 0
+        cmp word [MenuViewSaved], byte 0
         je short .60
         push dword [byte ebp+052h]
         push dword [byte ebp+04Eh]
@@ -1223,7 +1223,7 @@ RunMenu:
 .60:
         push dword [byte ebp+052h]
         push dword [byte ebp+04Eh]
-        push dword [dword_152F5C]
+        push dword [MenuBitmapPixels]
 .61:
         call PutBlock
         add esp, byte 0Ch
@@ -1249,7 +1249,7 @@ RunMenu:
 .64:
         push dword [byte ebp+062h]
         push dword [byte ebp+05Eh]
-        push dword [dword_152F54]
+        push dword [MenuCursorPixels]
 .65:
         call PutBlock
         add esp, byte 0Ch
@@ -1367,33 +1367,33 @@ RunMenu:
 .81:
         mov eax, dword [byte edi+022h]
 .82:
-        mov dword [dword_17C424], eax
+        mov dword [MenuLocalItem], eax
 .83:
         mov eax, dword [dword_152F58]
         mov edx, dword [dword_11D1A8]
         movsx eax, word [byte eax+04h]
         sub edx, dword [byte edi+026h]
         add edx, eax
-        mov eax, dword [dword_17C424]
-        mov dword [dword_17C410], edx
+        mov eax, dword [MenuLocalItem]
+        mov dword [MenuLocalCursorX], edx
         movsx eax, word [byte eax+04h]
         cmp eax, edx
         jle short .84
-        mov dword [dword_17C410], eax
+        mov dword [MenuLocalCursorX], eax
 .84:
         mov eax, dword [dword_152F58]
         mov edx, dword [dword_11D1AC]
         movsx eax, word [byte eax+06h]
         sub edx, dword [byte edi+02Ah]
         add edx, eax
-        mov eax, dword [dword_17C424]
-        mov dword [dword_17C40C], edx
+        mov eax, dword [MenuLocalItem]
+        mov dword [MenuLocalCursorY], edx
         movsx eax, word [byte eax+06h]
         cmp eax, edx
         jle short .85
-        mov dword [dword_17C40C], eax
+        mov dword [MenuLocalCursorY], eax
 .85:
-        mov eax, dword [dword_17C424]
+        mov eax, dword [MenuLocalItem]
         mov ebx, dword [byte edi+056h]
         movsx edx, word [byte eax+06h]
         sub ebx, edx
@@ -1409,12 +1409,12 @@ RunMenu:
         call SetViewRect
         add esp, byte 10h
         push byte 0
-        push dword [dword_17C40C]
-        push dword [dword_17C410]
+        push dword [MenuLocalCursorY]
+        push dword [MenuLocalCursorX]
         call CreateBitmap
         add esp, byte 0Ch
         push eax
-        mov dword [dword_17C418], eax
+        mov dword [MenuLocalLayer], eax
         call SetDrawBitmap
         add esp, byte 4
         push dword 0FFh
@@ -1422,7 +1422,7 @@ RunMenu:
         add esp, byte 4
         push byte 0
         push byte 0
-        push dword [dword_17C424]
+        push dword [MenuLocalItem]
         call DrawArt
         mov eax, dword [dword_11D1AC]
         add esp, byte 0Ch
@@ -1436,22 +1436,22 @@ RunMenu:
         add esp, byte 0Ch
         call SetScreenTarget
         mov eax, dword [dword_152F58]
-        mov dword [dword_17C424], eax
-        mov eax, dword [dword_17C418]
+        mov dword [MenuLocalItem], eax
+        mov eax, dword [MenuLocalLayer]
         mov eax, dword [byte eax+02Ch]
         mov dword [dword_152F58], eax
-        mov eax, dword [dword_152F54]
+        mov eax, dword [MenuCursorPixels]
         mov edx, 20h
         mov dword [dword_17C430], eax
         mov eax, dword [dword_152F58]
         call CopyBitmap
-        mov dword [dword_152F54], eax
+        mov dword [MenuCursorPixels], eax
         mov eax, dword [dword_11D1A8]
         sub eax, dword [byte edi+026h]
-        mov dword [dword_17C410], eax
+        mov dword [MenuLocalCursorX], eax
         mov eax, dword [dword_11D1AC]
         sub eax, dword [byte edi+02Ah]
-        mov dword [dword_17C40C], eax
+        mov dword [MenuLocalCursorY], eax
         mov eax, dword [byte edi+02Ah]
         mov dword [dword_11D1AC], eax
         push eax
@@ -1508,19 +1508,19 @@ RunMenu:
 .95:
         cmp dword [byte ebp+042h], byte 0
         jne near .104
-        push dword [dword_17C418]
+        push dword [MenuLocalLayer]
         call FreeBitmap
         add esp, byte 4
-        mov eax, dword [dword_17C424]
-        push dword [dword_152F54]
+        mov eax, dword [MenuLocalItem]
+        push dword [MenuCursorPixels]
         mov dword [dword_152F58], eax
         call FreeMemBlock
         mov eax, dword [dword_17C430]
-        mov dword [dword_152F54], eax
-        mov eax, dword [dword_17C40C]
+        mov dword [MenuCursorPixels], eax
+        mov eax, dword [MenuLocalCursorY]
         add esp, byte 4
         add dword [dword_11D1AC], eax
-        mov eax, dword [dword_17C410]
+        mov eax, dword [MenuLocalCursorX]
         push dword [dword_11D1AC]
         add dword [dword_11D1A8], eax
         push dword [dword_11D1A8]
@@ -1585,7 +1585,7 @@ RunMenu:
         jmp short .98
 .100:
         mov eax, dword [byte edi+062h]
-        mov dword [dword_17C414], eax
+        mov dword [MenuItemLeaveFunc], eax
         test eax, eax
         je short .103
         cmp dword [byte ebp+0Ah], byte 0
@@ -1598,7 +1598,7 @@ RunMenu:
         mov edx, 0FFFFFFFFh
 .102:
         mov eax, edi
-        call dword [dword_17C414]
+        call dword [MenuItemLeaveFunc]
 .103:
         xor edi, edi
         jmp short .105
@@ -1687,41 +1687,41 @@ RunMenu:
 .113:
         mov eax, dword [byte eax+022h]
 .114:
-        mov dword [dword_17C404], eax
+        mov dword [MenuRemoteItem], eax
 .115:
         mov eax, dword [byte ebp+072h]
         mov edx, dword [byte ebp-0Eh]
         sub edx, dword [byte eax+026h]
-        mov eax, dword [dword_152F50]
+        mov eax, dword [MenuRemoteCursorArt]
         movsx eax, word [byte eax+04h]
         add edx, eax
-        mov eax, dword [dword_17C404]
-        mov dword [dword_17C42C], edx
+        mov eax, dword [MenuRemoteItem]
+        mov dword [MenuRemoteCursorX], edx
         movsx eax, word [byte eax+04h]
         cmp eax, edx
         jle short .116
-        mov dword [dword_17C42C], eax
+        mov dword [MenuRemoteCursorX], eax
 .116:
         mov eax, dword [byte ebp+072h]
         mov edx, dword [byte ebp-012h]
         sub edx, dword [byte eax+02Ah]
-        mov eax, dword [dword_152F50]
+        mov eax, dword [MenuRemoteCursorArt]
         movsx eax, word [byte eax+06h]
         add edx, eax
-        mov eax, dword [dword_17C404]
-        mov dword [dword_17C428], edx
+        mov eax, dword [MenuRemoteItem]
+        mov dword [MenuRemoteCursorY], edx
         movsx eax, word [byte eax+06h]
         cmp eax, edx
         jle short .117
-        mov dword [dword_17C428], eax
+        mov dword [MenuRemoteCursorY], eax
 .117:
         push byte 0
-        push dword [dword_17C428]
-        push dword [dword_17C42C]
+        push dword [MenuRemoteCursorY]
+        push dword [MenuRemoteCursorX]
         call CreateBitmap
         add esp, byte 0Ch
         push eax
-        mov dword [dword_17C408], eax
+        mov dword [MenuRemoteLayer], eax
         call SetDrawBitmap
         add esp, byte 4
         push dword 0FFh
@@ -1729,7 +1729,7 @@ RunMenu:
         add esp, byte 4
         push byte 0
         push byte 0
-        push dword [dword_17C404]
+        push dword [MenuRemoteItem]
         call DrawArt
         mov edx, dword [byte ebp+072h]
         mov eax, dword [byte ebp-012h]
@@ -1739,32 +1739,32 @@ RunMenu:
         mov eax, dword [byte ebp-0Eh]
         sub eax, dword [byte edx+026h]
         push eax
-        push dword [dword_152F50]
+        push dword [MenuRemoteCursorArt]
         call DrawArt
         add esp, byte 0Ch
         call SetScreenTarget
-        mov eax, dword [dword_152F50]
-        mov dword [dword_17C404], eax
-        mov eax, dword [dword_17C408]
+        mov eax, dword [MenuRemoteCursorArt]
+        mov dword [MenuRemoteItem], eax
+        mov eax, dword [MenuRemoteLayer]
         mov eax, dword [byte eax+02Ch]
-        mov dword [dword_152F50], eax
-        mov eax, dword [dword_152F5C]
+        mov dword [MenuRemoteCursorArt], eax
+        mov eax, dword [MenuBitmapPixels]
         mov edx, 20h
-        mov dword [dword_17C420], eax
-        mov eax, dword [dword_152F50]
+        mov dword [MenuSavedRemoteArt], eax
+        mov eax, dword [MenuRemoteCursorArt]
         call CopyBitmap
-        mov dword [dword_152F5C], eax
+        mov dword [MenuBitmapPixels], eax
         mov eax, dword [byte ebp+072h]
         mov edx, dword [byte ebp-0Eh]
         mov eax, dword [byte eax+026h]
         sub edx, eax
         mov eax, dword [byte ebp+072h]
-        mov dword [dword_17C42C], edx
+        mov dword [MenuRemoteCursorX], edx
         mov edx, dword [byte ebp-012h]
         mov eax, dword [byte eax+02Ah]
         sub edx, eax
         mov eax, dword [byte ebp+072h]
-        mov dword [dword_17C428], edx
+        mov dword [MenuRemoteCursorY], edx
         mov eax, dword [byte eax+026h]
         mov dword [byte ebp-0Eh], eax
         mov eax, dword [byte ebp+072h]
@@ -1814,21 +1814,21 @@ RunMenu:
 .125:
         cmp dword [byte ebp-016h], byte 0
         jne near .132
-        push dword [dword_17C408]
+        push dword [MenuRemoteLayer]
         call FreeBitmap
         add esp, byte 4
         mov esi, dword [byte ebp-01Eh]
-        mov eax, dword [dword_17C404]
-        push dword [dword_152F5C]
-        mov dword [dword_152F50], eax
+        mov eax, dword [MenuRemoteItem]
+        push dword [MenuBitmapPixels]
+        mov dword [MenuRemoteCursorArt], eax
         call FreeMemBlock
-        mov eax, dword [dword_17C420]
+        mov eax, dword [MenuSavedRemoteArt]
         mov dword [byte ebp+022h], 0
-        mov dword [dword_152F5C], eax
-        mov eax, dword [dword_17C42C]
+        mov dword [MenuBitmapPixels], eax
+        mov eax, dword [MenuRemoteCursorX]
         mov dword [byte ebp+06h], 0FFFFFFFFh
         add dword [byte ebp-0Eh], eax
-        mov eax, dword [dword_17C428]
+        mov eax, dword [MenuRemoteCursorY]
         add esp, byte 4
         add dword [byte ebp-012h], eax
 .126:
@@ -1857,7 +1857,7 @@ RunMenu:
 .128:
         mov eax, dword [byte ebp+072h]
         mov eax, dword [byte eax+062h]
-        mov dword [dword_17C414], eax
+        mov dword [MenuItemLeaveFunc], eax
         test eax, eax
         je short .131
         cmp dword [byte ebp+06h], byte 0
@@ -1868,7 +1868,7 @@ RunMenu:
         mov edx, 0FFFFFFFFh
 .130:
         mov eax, dword [byte ebp+072h]
-        call dword [dword_17C414]
+        call dword [MenuItemLeaveFunc]
 .131:
         mov dword [byte ebp+072h], 0
         jmp short .133
@@ -1921,11 +1921,11 @@ RunMenu:
         je near .151
         mov dword [byte esi+0Ch], 0
         mov eax, dword [byte esi+036h]
-        mov dword [dword_17C438], eax
+        mov dword [MenuItemEnterFunc], eax
         test eax, eax
         je short .140
         mov eax, esi
-        call dword [dword_17C438]
+        call dword [MenuItemEnterFunc]
 .140:
         mov eax, dword [byte ebp+03Eh]
         cmp eax, dword [byte ebp+06Eh]
@@ -2088,7 +2088,7 @@ RunMenu:
         jl short .165
         cmp eax, dword [dword_17C3F8]
         jg short .165
-        mov eax, dword [dword_17C45C]
+        mov eax, dword [MenuCursorArt]
         mov ebx, dword [dword_11D1A8]
         movsx edx, word [byte eax+08h]
         movsx eax, word [byte eax+0Ah]
@@ -2104,7 +2104,7 @@ RunMenu:
         add esp, byte 0Ch
         push dword [byte ebp+062h]
         push dword [byte ebp+05Eh]
-        push dword [dword_17C45C]
+        push dword [MenuCursorArt]
         mov dword [byte ebp+05Ah], 1
         call DrawArt
         mov word [word_17C464], 1
@@ -2130,7 +2130,7 @@ RunMenu:
 .167:
         push dword [byte ebp+062h]
         push dword [byte ebp+05Eh]
-        push dword [dword_152F54]
+        push dword [MenuCursorPixels]
         call DrawShapeCore
         add esp, byte 0Ch
         push dword [byte ebp+062h]
@@ -2181,7 +2181,7 @@ RunMenu:
         push dword [dword_17C460]
         mov dword [byte ebp+056h], 1
         call DrawArt
-        mov word [word_17C466], 1
+        mov word [MenuViewSaved], 1
         jmp short .171
 .170:
         mov eax, dword [byte ebp-0Eh]
@@ -2189,16 +2189,16 @@ RunMenu:
         mov eax, dword [byte ebp-012h]
         push eax
         push dword [byte ebp-0Eh]
-        push dword [dword_152F5C]
+        push dword [MenuBitmapPixels]
         mov dword [byte ebp+052h], eax
         call DrawShapeCore
         add esp, byte 0Ch
         push dword [byte ebp-012h]
         push dword [byte ebp-0Eh]
-        push dword [dword_152F50]
+        push dword [MenuRemoteCursorArt]
         mov dword [byte ebp+056h], 1
         call DrawArt
-        mov word [word_17C466], 0
+        mov word [MenuViewSaved], 0
 .171:
         add esp, byte 0Ch
 .172:
@@ -2224,7 +2224,7 @@ RunMenu:
         je short .177
         test byte [dword ebp+08Eh], 1
         je short .177
-        cmp word [word_17C466], byte 0
+        cmp word [MenuViewSaved], byte 0
         je short .175
         push dword [byte ebp+052h]
         push dword [byte ebp+04Eh]
@@ -2233,7 +2233,7 @@ RunMenu:
 .175:
         push dword [byte ebp+052h]
         push dword [byte ebp+04Eh]
-        push dword [dword_152F5C]
+        push dword [MenuBitmapPixels]
 .176:
         call PutBlock
         add esp, byte 0Ch
@@ -2258,7 +2258,7 @@ RunMenu:
 .179:
         push dword [byte ebp+062h]
         push dword [byte ebp+05Eh]
-        push dword [dword_152F54]
+        push dword [MenuCursorPixels]
 .180:
         call PutBlock
         add esp, byte 0Ch
@@ -2653,7 +2653,7 @@ MainMenuScreen_F3:
         mov byte [dword ebp-01E2h], 6
         mov ecx, 66h
         lea edi, [dword ebp-01C0h]
-        mov esi, dword_17BD48
+        mov esi, str_Standings
         mov byte [dword ebp-01E1h], 7
         mov byte [dword ebp-01E3h], 6
         rep movsb

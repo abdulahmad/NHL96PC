@@ -5,10 +5,10 @@ section s_625F7 progbits alloc exec nowrite align=1
 extern byte_17BB64, byte_17BCBE, byte_17BCBF, byte_17BCC0, byte_17BCC1, byte_17BD24, byte_17BD25, byte_17BD26
 extern byte_17BD27, byte_17BD8A, byte_17BD8B, byte_17BD8C, byte_17BD8D, byte_17BDAE, byte_17BDAF, byte_17BDB0
 extern CopyBitmap, DrawFrameAt, dword_11BCE0, dword_11BCE4, dword_17BA7C, dword_17BAB0, dword_17BAB4, dword_17BAE8
-extern dword_17BAEC, dword_17BB20, dword_17BC64, dword_17BC68, dword_17BC6C, dword_17BC70, dword_17BC74, dword_17BC78
+extern dword_17BAEC, dword_17BB20, dword_17BC64, dword_17BC68, dword_17BC6C, dword_17BC70, dword_17BC74, MatchupLayer
 extern TeamStatsBitmap, dword_17BC8C, dword_17BC90, dword_17BC96, dword_17BC9A, dword_17BCA2, dword_17BCA6, dword_17BCAE
 extern dword_17BCB6, dword_17BCBA, dword_17BCE2, dword_17BCF2, dword_17BCF6, dword_17BCFC, dword_17BD00, dword_17BD08
-extern dword_17BD0C, dword_17BD14, dword_17BD1C, dword_17BD20, dword_17BD48, dword_17BD58, dword_17BD5C, dword_17BD62
+extern dword_17BD0C, dword_17BD14, dword_17BD1C, dword_17BD20, str_Standings, dword_17BD58, dword_17BD5C, dword_17BD62
 extern dword_17BD66, dword_17BD6E, dword_17BD72, dword_17BD7A, dword_17BD82, dword_17BD86, GetTicks, InitMenuItems
 extern LoadPackedFile, PutBlock, SetDrawBitmap, SetScreenPalette, SoundIdle, sprintf_, str_CHECK, str_M03d
 extern str_Mhil, str_MODEM, str_Pal7, str_TN02d, str_X03d, str_XBUT, str_Xhil, str_Y03d
@@ -33,7 +33,7 @@ LoadFrontEndArt:
         mov eax, 0Ah
         call LoadPackedFile
         mov edx, 20h
-        mov dword [dword_17BC78], eax
+        mov dword [MatchupLayer], eax
         mov eax, 0Bh
         call LoadPackedFile
         mov edx, 20h
@@ -177,7 +177,7 @@ LoadFrontEndArt:
         push dword [dword_11BCE4]
         call FindShape
         mov ecx, 971h
-        mov edx, dword_17BD48
+        mov edx, str_Standings
         mov edi, dword [dword_17BC68]
         add esp, byte 8
         mov esi, eax
@@ -186,7 +186,7 @@ LoadFrontEndArt:
         rep movsb
         mov eax, 1
         call InitMenuItems
-        mov dword [dword_17BD48], 0FFFFFFFFh
+        mov dword [str_Standings], 0FFFFFFFFh
         mov dword [dword_17BD58], 8
         mov dword [dword_17BD5C], unk_11BD28
         mov dword [dword_17BD6E], 23Dh
@@ -231,7 +231,7 @@ LoadFrontEndArt:
         mov dword [dword_17BD00], eax
         call SaveTextState
         add esp, byte 4
-        push dword [dword_17BC78]
+        push dword [MatchupLayer]
         call TextSetFont
         add esp, byte 4
         mov eax, dword [dword_17BC6C]
@@ -649,7 +649,7 @@ FreeFrontEndArt:
         push ebx
         push ecx
         push edx
-        mov edx, dword_17BD48
+        mov edx, str_Standings
         mov eax, 1
         call InitMenuItems
         mov edx, TeamStatsBitmap
@@ -675,7 +675,7 @@ FreeFrontEndArt:
         push dword [dword_17BC68]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_17BC78]
+        push dword [MatchupLayer]
         call FreeMemBlock
         add esp, byte 4
         push dword [dword_17BC74]

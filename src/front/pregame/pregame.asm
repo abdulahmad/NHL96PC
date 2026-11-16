@@ -3,9 +3,9 @@ bits 32
 %include "hockey.inc"
 section s_849D5 progbits alloc exec nowrite align=1
 extern BlackPalette, byte_11FA2F, byte_17CFB1, byte_17D262, byte_17DB78, byte_17DC14, byte_17DC15, byte_17DC16
-extern byte_17DC17, CopyBitmap, DrawColorTextCentred, DrawColorTextRight, DrawFrameAt, dword_1174E0, dword_1174E4, dword_1174F0
-extern dword_1174F8, dword_117518, dword_11D674, dword_17BC74, dword_17BC78, TeamStatsBitmap, dword_17BCE2, dword_17BD48
-extern dword_17CBE7, dword_17CC13, dword_17CEC3, dword_17CEC7, dword_17CED6, dword_17CF8E, dword_17CF92, dword_17CF96
+extern byte_17DC17, CopyBitmap, DrawColorTextCentred, DrawColorTextRight, DrawFrameAt, seasondb, dword_1174E4, statsplayoffs
+extern dword_1174F8, dword_117518, dword_11D674, dword_17BC74, MatchupLayer, TeamStatsBitmap, dword_17BCE2, str_Standings
+extern PlayoffTreeData, dword_17CC13, dword_17CEC3, dword_17CEC7, dword_17CED6, cddriveptr, dword_17CF92, dword_17CF96
 extern dword_17D1E2, dword_17D26B, dword_17DB7C, dword_17DBC0, dword_17DBC4, dword_17DC0C, dword_17DC10, FadeOut
 extern FadePalette, FileClose, FileOpenRead, FillMusicStream, gameopts, GetLangText, GetTeamNameArt, GetTicks
 extern InitMenuItems, LinkSync, LoadPackedFile, LoadTeamLogo, MakeSeasonDbPath, ModemChat, MouseRead, mousex
@@ -18,7 +18,7 @@ extern str_PalFsh, str_PALS, str_Plyr, str_ProfileFsh, str_SCHEDULE2, str_SS3, s
 extern WriteDbRecord6, SelectDataLibrary, PlayerDbRecord, ComputeTeamRanks, DrawShapeAtOwnPos, DrawShape, PutBlockAtOwnPos, AllocMemBlock
 extern FreeMemBlock, CreateBitmap, ClearScreenColour, FreeBitmap, SaveTextState, SetDrawTarget, DosFileInfo, LoadResourceDataShared
 extern LoadPackedAlloc, PutBlockKeyed, SetScreenTarget, SetColourRemap, GetColourRemap, FindShape, ClearClipRect, TextSetFont
-extern unk_112523, unk_152C44, unk_849C1, unk_849C7, unk_849CB, unk_849D1, word_114CE0
+extern unk_112523, str_WesternConference2, unk_849C1, unk_849C7, unk_849CB, unk_849D1, word_114CE0
 global PreGameMatchupScreen, PreGameMatchupScreen_4E6, CycleScreenPalettes, PreGameTeamsScreen, PreGameCardsA, PreGameCardsB, PreGameCardsC, jpt_87328
 global PreGameScreens, PreGameScreens_24, PreGameScreens_44, PreGameScreens_4B, PreGameScreens_52, PreGameScreens_59
 ;-----------------------------------------------------------------------------
@@ -182,7 +182,7 @@ PreGameMatchupScreen:
         mov edx, 0B9h
         lea eax, [byte ebp+042h]
         call DrawColorTextCentred
-        push dword [dword_17BC78]
+        push dword [MatchupLayer]
         call TextSetFont
         add esp, byte 4
         push esi
@@ -205,7 +205,7 @@ PreGameMatchupScreen:
         mov byte [dword ebp-0AEh], 0
         mov ecx, 66h
         lea edi, [dword ebp-08Ch]
-        mov esi, dword_17BD48
+        mov esi, str_Standings
         mov byte [dword ebp-0ADh], 1
         mov byte [dword ebp-0AFh], 0
         rep movsb
@@ -364,7 +364,7 @@ PreGameMatchupScreen:
         jmp short .19
 .18:
         call SlideInBottomBar
-        push dword [dword_17BC78]
+        push dword [MatchupLayer]
         call TextSetFont
         add esp, byte 4
         mov ecx, 0FCh
@@ -449,7 +449,7 @@ PreGameTeamsScreen:
         add esp, byte 4
         call BlackPalette
         push str_Pal3
-        mov esi, unk_152C44
+        mov esi, str_WesternConference2
         push dword [byte ebp+056h]
         add esi, 1F2h
         call FindShape
@@ -793,7 +793,7 @@ PreGameTeamsScreen:
         mov byte [dword ebp-010Eh], 0
         mov ecx, 66h
         lea edi, [dword ebp-0ECh]
-        mov esi, dword_17BD48
+        mov esi, str_Standings
         mov byte [dword ebp-010Dh], 1
         mov byte [dword ebp-010Fh], 0
         rep movsb
@@ -841,7 +841,7 @@ PreGameTeamsScreen:
         cmp dword [dword_17CEC7], byte 0
         jle near .31
         imul eax, dword [dword_17CEC3], dword 31Bh
-        mov edx, dword [dword_1174F0]
+        mov edx, dword [statsplayoffs]
         add edx, eax
         mov eax, dword [dword_17CC13]
         mov dword [byte ebp+062h], edx
@@ -864,7 +864,7 @@ PreGameTeamsScreen:
 .19:
         mov ebx, 6
         lea eax, [byte ebp-01Eh]
-        mov edx, dword [dword_17CBE7]
+        mov edx, dword [PlayoffTreeData]
         call MakeSeasonDbPath
         lea edx, [byte ebp+042h]
         lea eax, [byte ebp-01Eh]
@@ -999,7 +999,7 @@ PreGameTeamsScreen:
         add eax, byte 4
         jmp short .32
 .36:
-        mov edi, dword [dword_17CF8E]
+        mov edi, dword [cddriveptr]
         mov edx, dword [dword_17D26B]
         mov eax, dword [dword_17D26B]
         and edi, byte 7
@@ -1168,7 +1168,7 @@ PreGameTeamsScreen:
         jmp short .62
 .61:
         call SlideInBottomBar
-        push dword [dword_17BC78]
+        push dword [MatchupLayer]
         call TextSetFont
         add esp, byte 4
         mov ecx, 0FCh
@@ -1264,7 +1264,7 @@ PreGameCardsA:
         shl eax, 0Fh
         shr eax, 1Bh
         imul eax, dword 31Bh
-        mov edx, dword [dword_1174F0]
+        mov edx, dword [statsplayoffs]
         add eax, edx
         movzx edx, byte [dword eax+0107h]
         mov eax, dword [byte eax+edx*4+063h]
@@ -1449,7 +1449,7 @@ PreGameCardsA:
         shl eax, 0Ah
         shr eax, 1Bh
         imul eax, dword 31Bh
-        mov edx, dword [dword_1174F0]
+        mov edx, dword [statsplayoffs]
         add eax, edx
         movzx edx, byte [dword eax+0107h]
         mov eax, dword [byte eax+edx*4+063h]
@@ -1742,7 +1742,7 @@ PreGameCardsA:
         jne near .23
 .19:
         mov edx, dword [byte ebp+076h]
-        mov eax, dword [dword_1174E0]
+        mov eax, dword [seasondb]
         add eax, dword [byte edx+02Ch]
         cmp word [byte eax+016h], byte 0
         je short .21
@@ -1851,7 +1851,7 @@ PreGameCardsA:
         jne near .30
 .26:
         mov edx, dword [byte ebp+072h]
-        mov eax, dword [dword_1174E0]
+        mov eax, dword [seasondb]
         add eax, dword [byte edx+02Ch]
         cmp word [byte eax+016h], byte 0
         je short .28
@@ -1966,7 +1966,7 @@ PreGameCardsA:
         mov byte [dword ebp-0E2h], 0
         mov ecx, 66h
         lea edi, [dword ebp-0C0h]
-        mov esi, dword_17BD48
+        mov esi, str_Standings
         mov byte [dword ebp-0E1h], 1
         mov byte [dword ebp-0E3h], 0
         rep movsb
@@ -2066,7 +2066,7 @@ PreGameCardsA:
         jmp short .40
 .39:
         call SlideInBottomBar
-        push dword [dword_17BC78]
+        push dword [MatchupLayer]
         call TextSetFont
         add esp, byte 4
         mov ecx, 0FCh
@@ -2112,7 +2112,7 @@ PreGameCardsB:
         shl eax, 0Fh
         shr eax, 1Bh
         imul eax, dword 31Bh
-        mov esi, dword [dword_1174F0]
+        mov esi, dword [statsplayoffs]
         add esi, eax
         movzx eax, byte [dword esi+0D3h]
         mov eax, dword [byte esi+eax*4+063h]
@@ -2131,7 +2131,7 @@ PreGameCardsB:
         shl eax, 0Ah
         shr eax, 1Bh
         imul eax, dword 31Bh
-        mov esi, dword [dword_1174F0]
+        mov esi, dword [statsplayoffs]
         add esi, eax
         movzx eax, byte [dword esi+0D3h]
         mov eax, dword [byte esi+eax*4+063h]
@@ -2251,7 +2251,7 @@ PreGameCardsB:
         add esp, byte 4
         call BlackPalette
         push str_Pal3
-        mov esi, unk_152C44
+        mov esi, str_WesternConference2
         push dword [byte ebp+07Eh]
         add esi, 1F2h
         call FindShape
@@ -2519,7 +2519,7 @@ PreGameCardsB:
         mov byte [dword ebp-0152h], 0
         mov ecx, 66h
         lea edi, [dword ebp-0130h]
-        mov esi, dword_17BD48
+        mov esi, str_Standings
         mov byte [dword ebp-0151h], 1
         mov byte [dword ebp-0153h], 0
         rep movsb
@@ -2617,7 +2617,7 @@ PreGameCardsB:
         jmp short .13
 .12:
         call SlideInBottomBar
-        push dword [dword_17BC78]
+        push dword [MatchupLayer]
         call TextSetFont
         add esp, byte 4
         mov ecx, 0FCh
@@ -2663,7 +2663,7 @@ PreGameCardsC:
         shl eax, 0Fh
         shr eax, 1Bh
         imul eax, dword 31Bh
-        mov esi, dword [dword_1174F0]
+        mov esi, dword [statsplayoffs]
         add esi, eax
         movzx eax, byte [dword esi+0DFh]
         mov eax, dword [byte esi+eax*4+063h]
@@ -2678,7 +2678,7 @@ PreGameCardsC:
         shl eax, 0Ah
         shr eax, 1Bh
         imul eax, dword 31Bh
-        mov esi, dword [dword_1174F0]
+        mov esi, dword [statsplayoffs]
         add esi, eax
         movzx eax, byte [dword esi+0DFh]
         mov eax, dword [byte esi+eax*4+063h]
@@ -2788,7 +2788,7 @@ PreGameCardsC:
         add esp, byte 4
         call BlackPalette
         push str_Pal3
-        mov esi, unk_152C44
+        mov esi, str_WesternConference2
         push dword [byte ebp+07Eh]
         add esi, 1F2h
         call FindShape
@@ -3053,7 +3053,7 @@ PreGameCardsC:
         mov byte [dword ebp-013Ah], 0
         mov ecx, 66h
         lea edi, [dword ebp-0118h]
-        mov esi, dword_17BD48
+        mov esi, str_Standings
         mov byte [dword ebp-0139h], 1
         mov byte [dword ebp-013Bh], 0
         rep movsb
@@ -3145,7 +3145,7 @@ PreGameCardsC:
         jmp short .13
 .12:
         call SlideInBottomBar
-        push dword [dword_17BC78]
+        push dword [MatchupLayer]
         call TextSetFont
         add esp, byte 4
         mov ecx, 0FCh

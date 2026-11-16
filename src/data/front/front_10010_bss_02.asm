@@ -4,11 +4,11 @@ bits 32
 section s_17C9AA nobits alloc noexec write align=1
 global byte_17CA1D, byte_17CA1E, byte_17CA1F, byte_17CA21, byte_17CA22, byte_17CA24, byte_17CA3C, byte_17CA54
 global byte_17CA55, byte_17CA56, byte_17CA57, byte_17CA58, byte_17CA59, byte_17CA5A, byte_17CA5B, byte_17CA5D
-global byte_17CA5E, byte_17CA5F, GlobalSetName, byte_17CA73, byte_17CA78, byte_17CA7A, byte_17CA86, byte_17CBEB
+global byte_17CA5E, byte_17CA5F, GlobalSetName, byte_17CA73, byte_17CA78, byte_17CA7A, byte_17CA86, SeasonUserTeam
 global byte_17CC1D, byte_17CC1E, byte_17CC35, byte_17CC36, byte_17CC37, byte_17CC38, byte_17CECB, byte_17CECC
-global dword_17C9AA, dword_17C9F4, globalset, optblock, dword_17CA5C, dword_17CA76, dword_17CB2F, dword_17CBE7
+global dword_17C9AA, dword_17C9F4, globalset, optblock, dword_17CA5C, dword_17CA76, dword_17CB2F, PlayoffTreeData
 global dword_17CC13, dword_17CC17, dword_17CC1B, dword_17CEC3, dword_17CEC7, unk_17C9B8, unk_17C9CC, optblock_end
-global unk_17CB2E, unk_17CC1F, word_17C9AC, word_17C9AE, word_17C9B0, word_17C9B2, word_17C9B4, word_17C9B6
+global SeasonUserRecords, unk_17CC1F, word_17C9AC, word_17C9AE, word_17C9B0, word_17C9B2, word_17C9B4, word_17C9B6
 global word_17CA7C
 dword_17C9AA:
         resb 2
@@ -88,13 +88,13 @@ word_17CA7C:
         resb 10
 byte_17CA86:
         resb 168
-unk_17CB2E:
+SeasonUserRecords:
         resb 1
 dword_17CB2F:
         resb 184
-dword_17CBE7:
+PlayoffTreeData:
         resb 4
-byte_17CBEB:
+SeasonUserTeam:
         resb 40
 dword_17CC13:
         resb 4

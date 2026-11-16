@@ -2,9 +2,9 @@
 bits 32
 %include "hockey.inc"
 section s_164F1C nobits alloc noexec write align=1
-global byte_16507A, byte_16514E, byte_16514F, byte_165250, dword_164F1C, dword_164F20, dword_164F24, dword_164FBC
-global dword_164FC0, dword_164FC4, dword_16505C, dword_165060, dword_165064, dword_165166, dword_16516A, dword_16516E
-global dword_165172, dword_16523C, dword_165240, dword_165244, dword_165248, dword_16524C, dword_165254, unk_16505E
+global byte_16507A, byte_16514E, byte_16514F, InputState, dword_164F1C, dword_164F20, dword_164F24, dword_164FBC
+global dword_164FC0, dword_164FC4, ViewScreenHeight, dword_165060, dword_165064, dword_165166, dword_16516A, dword_16516E
+global dword_165172, dword_16523C, dword_165240, dword_165244, dword_165248, dword_16524C, PtrPuckZone, unk_16505E
 global unk_165062, unk_165066, unk_165068, unk_16506A, unk_16506C, unk_16509E, unk_1650FC, unk_16519C
 global unk_165258, unk_165354, word_165078, word_165082, word_1650A6, word_165144, word_165146, word_165148
 global word_16514A, word_16514C
@@ -20,7 +20,7 @@ dword_164FC0:
         resb 4
 dword_164FC4:
         resb 152
-dword_16505C:
+ViewScreenHeight:
         resb 2
 unk_16505E:
         resb 2
@@ -84,9 +84,9 @@ dword_165248:
         resb 4
 dword_16524C:
         resb 4
-byte_165250:
+InputState:
         resb 4
-dword_165254:
+PtrPuckZone:
         resb 4
 unk_165258:
         resb 252

@@ -2,15 +2,15 @@
 bits 32
 %include "hockey.inc"
 section s_1656DE nobits alloc noexec write align=1
-global awtmstruct, byte_165713, HmPlayerFlags, byte_165790, byte_1657AC, byte_1657AD, HmCoachGoalie, byte_1657AF
-global byte_1657B4, byte_16580A, byte_16580B, byte_16580C, dword_165718, dword_1657B0, dword_1657EA, dword_1657EE
-global dword_1657F2, dword_1657F6, dword_1657FA, dword_1657FE, dword_165802, dword_165806, hmtmgoalie, unk_1657BC
-global word_1656DE, word_1656E0, word_1656E2, word_1656E4, word_1656E6, word_1656E8, word_1656EA, word_1656EC
+global awtmstruct, byte_165713, HmPlayerFlags, byte_165790, hmtmcoach_d2, hmtmcoach_d3, HmCoachGoalie, hmtmcoachmode
+global HmRosterMap, byte_16580A, byte_16580B, byte_16580C, dword_165718, hmtmcoachenergy, hmtmlines, hmtmplattr
+global dword_1657F2, dword_1657F6, dword_1657FA, dword_1657FE, dword_165802, hmtmsort, hmtmgoalie, unk_1657BC
+global word_1656DE, word_1656E0, word_1656E2, word_1656E4, word_1656E6, hmscore, word_1656EA, word_1656EC
 global word_1656F2, word_1656F4, word_1656F6, word_1656F8, word_1656FA, word_1656FC, word_1656FE, word_165700
-global word_165702, word_165704, word_165706, word_165708, word_16570A, word_165710, word_16571C, word_165758
+global word_165702, word_165704, word_165706, word_165708, word_16570A, hmtmap, word_16571C, hmtmpdst
 global word_16578A, word_1657D8, word_165810, word_165812, word_165814, word_165816, word_165818, word_16581A
-global word_16581C, word_16581E, word_165820, word_165822, word_165828, word_16582A, word_16582C, word_16582E
-global word_165830, word_165832, word_165834, word_165836, word_165838, word_16583A, word_16583C
+global word_16581C, awscore, word_165820, word_165822, word_165828, word_16582A, word_16582C, word_16582E
+global word_165830, word_165832, word_165834, word_165836, word_165838, awtmline, word_16583C
 word_1656DE:
         resb 2
 word_1656E0:
@@ -21,7 +21,7 @@ word_1656E4:
         resb 2
 word_1656E6:
         resb 2
-word_1656E8:
+hmscore:
         resb 2
 word_1656EA:
         resb 2
@@ -53,7 +53,7 @@ word_165708:
         resb 2
 word_16570A:
         resb 6
-word_165710:
+hmtmap:
         resb 2
 hmtmgoalie:
         resb 1
@@ -65,31 +65,31 @@ word_16571C:
         resb 2
 HmPlayerFlags:
         resb 58
-word_165758:
+hmtmpdst:
         resb 50
 word_16578A:
         resb 6
 byte_165790:
         resb 28
-byte_1657AC:
+hmtmcoach_d2:
         resb 1
-byte_1657AD:
+hmtmcoach_d3:
         resb 1
 HmCoachGoalie:
         resb 1
-byte_1657AF:
+hmtmcoachmode:
         resb 1
-dword_1657B0:
+hmtmcoachenergy:
         resb 4
-byte_1657B4:
+HmRosterMap:
         resb 8
 unk_1657BC:
         resb 28
 word_1657D8:
         resb 18
-dword_1657EA:
+hmtmlines:
         resb 4
-dword_1657EE:
+hmtmplattr:
         resb 4
 dword_1657F2:
         resb 4
@@ -101,7 +101,7 @@ dword_1657FE:
         resb 4
 dword_165802:
         resb 4
-dword_165806:
+hmtmsort:
         resb 4
 byte_16580A:
         resb 1
@@ -125,7 +125,7 @@ word_16581A:
         resb 2
 word_16581C:
         resb 2
-word_16581E:
+awscore:
         resb 2
 word_165820:
         resb 2
@@ -149,7 +149,7 @@ word_165836:
         resb 2
 word_165838:
         resb 2
-word_16583A:
+awtmline:
         resb 2
 word_16583C:
         resb 2

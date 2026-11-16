@@ -6,18 +6,18 @@ global SortCords, byte_160B2D, byte_160B92, byte_160B93, byte_160B94, byte_160B9
 global byte_160BFB, byte_160C5E, byte_160C60, byte_160C61, byte_160CC5, byte_160CC6, byte_160CC7, byte_160D2B
 global byte_160D2C, byte_160D2D, byte_164741, byte_164797, byte_16479B, byte_1647E0, byte_1647E1, byte_1647E3
 global byte_1647FA, byte_164920, byte_164CE0, dword_15EA0C, dword_15EA10, dword_15EA14, dword_15EA18, dword_15EA1C
-global dword_15EA20, dword_15EA24, dword_15EA28, dword_160A8C, dword_160A90, dword_160A94, dword_160A98, dword_160A9C
-global dword_160AA0, dword_160AA4, dword_160AA8, dword_160AAC, dword_160AB0, dword_160AB4, dword_160AB8, dword_160ABC
-global dword_160AC0, dword_160AC4, dword_160AC8, dword_160AFA, dword_160B24, dword_160B28, dword_160B60, dword_160B64
+global dword_15EA20, dword_15EA24, dword_15EA28, UserRecordList, dword_160A90, UserOpponentColumn, dword_160A98, dword_160A9C
+global dword_160AA0, dword_160AA4, dword_160AA8, UserRatingColumn, UserShutoutColumn, UserNameIndex, UserStreakColumn, dword_160ABC
+global UserLongStreakColumn, UserPowerPlayColumn, dword_160AC8, dword_160AFA, dword_160B24, dword_160B28, dword_160B60, dword_160B64
 global dword_160B76, dword_160B7A, dword_160B8A, dword_160B8E, dword_160BC6, dword_160BCA, dword_160BD0, dword_160BD4
 global dword_160BD8, dword_160BDC, dword_160BE0, dword_160BF0, dword_160BF4, dword_160C2C, dword_160C30, dword_160C36
 global dword_160C3A, dword_160C3E, dword_160C42, dword_160C46, dword_160C56, dword_160C5A, dword_160C92, dword_160C96
 global dword_160C9C, dword_160CA0, dword_160CA4, dword_160CA8, dword_160CAC, dword_160CBC, dword_160CC0, dword_160CF8
 global dword_160CFC, dword_160D02, dword_160D06, dword_160D0A, dword_160D0E, dword_160D12, dword_160D22, dword_160D26
-global dword_16411C, dword_164120, dword_164124, dword_164128, dword_164744, dword_164748, dword_164750, dword_164798
+global dword_16411C, dword_164120, plseasongoals, dword_164128, dword_164744, dword_164748, dword_164750, dword_164798
 global dword_1647A0, dword_1647A4, dword_164806, dword_164816, dword_164838, dword_164956, dword_164D16, unk_160B50
-global unk_16443C, unk_164688, unk_164754, unk_164B5C, unk_164E7C, word_160ACC, word_164716, word_16472A
-global word_16474C, word_16474E, word_164792, word_164794, word_164796, word_16479A, word_16479E, word_1647A2
+global exhstate, unk_164688, JoyStateTable, unk_164B5C, unk_164E7C, word_160ACC, word_164716, word_16472A
+global word_16474C, word_16474E, word_164792, puckcross, puckcross2, puckcross6, word_16479E, word_1647A2
 global word_1647A8, word_1647AA, word_1647B6, word_1647CA, word_1647DA, word_1647E4
 dword_15EA0C:
         resb 4
@@ -35,11 +35,11 @@ dword_15EA24:
         resb 4
 dword_15EA28:
         resb 8292
-dword_160A8C:
+UserRecordList:
         resb 4
 dword_160A90:
         resb 4
-dword_160A94:
+UserOpponentColumn:
         resb 4
 dword_160A98:
         resb 4
@@ -51,19 +51,19 @@ dword_160AA4:
         resb 4
 dword_160AA8:
         resb 4
-dword_160AAC:
+UserRatingColumn:
         resb 4
-dword_160AB0:
+UserShutoutColumn:
         resb 4
-dword_160AB4:
+UserNameIndex:
         resb 4
-dword_160AB8:
+UserStreakColumn:
         resb 4
 dword_160ABC:
         resb 4
-dword_160AC0:
+UserLongStreakColumn:
         resb 4
-dword_160AC4:
+UserPowerPlayColumn:
         resb 4
 dword_160AC8:
         resb 4
@@ -199,11 +199,11 @@ dword_16411C:
         resb 4
 dword_164120:
         resb 4
-dword_164124:
+plseasongoals:
         resb 4
 dword_164128:
         resb 788
-unk_16443C:
+exhstate:
         resb 588
 unk_164688:
         resb 142
@@ -223,19 +223,19 @@ word_16474E:
         resb 2
 dword_164750:
         resb 4
-unk_164754:
+JoyStateTable:
         resb 62
 word_164792:
         resb 2
-word_164794:
+puckcross:
         resb 2
-word_164796:
+puckcross2:
         resb 1
 byte_164797:
         resb 1
 dword_164798:
         resb 2
-word_16479A:
+puckcross6:
         resb 1
 byte_16479B:
         resb 1

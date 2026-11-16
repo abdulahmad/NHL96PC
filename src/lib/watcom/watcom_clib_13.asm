@@ -6,9 +6,9 @@ extern FatalError, InstallTimer, SetDrawBitmap, _IsTable, __CHK, __ExpandDGROUP_
 extern __ioalloc_, __prtf_, __set_doserrno_, __set_errno_, _nfree_, _nmalloc_, _searchenv_, abs_
 extern str_CalibrateYourJoystickByU, str_ToMoveTheJoystickPositio, asc_113F2C, str_PressJoystickButtonWhenC, str_KEYBOARDON, asc_113F74, asc_113F7C, asc_113F88
 extern str_CheckextenderINCORRECTEX, str_LocatebigNOBIGFILESETNUL, asc_114030, str_LocatebigsFILENOTFOUNDS, asc_11407C, asc_1140A0, str_OriapplymorphObjectCanno, RemapTable
-extern _Extender, _ExtenderSubtype, _osmajor, byte_19BA44, dword_11F5A0, MousePresent, dword_11F5C0, dword_11F5C4
-extern dword_11F5C8, HeapList, dword_1210CC, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, KeyedDraw
-extern DrawDestBuffer, dword_1228FC, dword_124109, __NHandles, __io_mode, dword_12417C, dword_1241A0, CMainEnv
+extern _Extender, _ExtenderSubtype, _osmajor, __HeapFlags, dword_11F5A0, MousePresent, dword_11F5C0, dword_11F5C4
+extern dword_11F5C8, HeapList, MemPoolBase, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, KeyedDraw
+extern DrawDestBuffer, dword_1228FC, DosErrnoTable, __NHandles, __io_mode, dword_12417C, dword_1241A0, CMainEnv
 extern CMainResult, dword_12443C, dword_124440, dword_19F2D0, dword_19F2D4, ScaledRowBuffer, CMainArgc, CMainArgv
 extern exit_, fputc_, getcwd_, joycalactive, joyenablemask, ZeroMem_29, main_, off_14F074
 extern off_14F078, sprintf_, stricmp_, BlitToScreenWindow, MemLargestFreeLocked, CreateBitmap, FillRect, FreeBitmap
@@ -21,7 +21,7 @@ extern CopyScaledSpan, PlotPixel, PlotPixelClipped, VesaSetBank, FillSpansSet, F
 extern RemapSpans, ReturnZero, InstallKeyboardHandler, KbdGetKey, SetKbdIdleHook, FlushKeys, ReadJoystickPorts, JoyResetCentres
 extern JoyButtonMap, AddExitHandler, ClearClipRect, InstallBreakHandler, vecdist, SetViewScreenOrigin, SetCameraAngles, SaveDrawState
 extern RestoreDrawState, RestoreTextMode, ReadKeyPadBits, SinCosLookup, tolower_, unk_1210DC, unk_1213DC, InitRtnsEntry
-extern FiniRtnsEntry, unk_15158C, unk_18584C, vsprintf_, DefaultControlWord
+extern FiniRtnsEntry, GusInitTable, unk_18584C, vsprintf_, DefaultControlWord
 global __CMain, __FiniRtns, __HeapManager_expand_, __IOMode_, __InitRtns, __SetIOMode_, __doserror_, __fprtf_
 global __set_errno_dos_, __sys_init_387_emulator, _dosret0_, _nexpand_, _nmsize_, file_putc_, int386_, int386x_
 global isatty_, _nexpand__10, __HeapManager_expand__18F, __HeapManager_expand__1EA, LocateBigEntry_168, FillSpanList, RemapSpanList, min_
@@ -98,7 +98,7 @@ __set_errno_dos_:
 .4:
         xor edx, edx
         mov dl, bl
-        mov eax, dword [dword edx+dword_124109]
+        mov eax, dword [dword edx+DosErrnoTable]
         sar eax, 18h
         jmp short .6
 .5:
@@ -488,7 +488,7 @@ __HeapManager_expand_:
         dec eax
         xor dl, dl
         mov dword [byte esi+01Ch], eax
-        mov byte [byte_19BA44], dl
+        mov byte [__HeapFlags], dl
         mov edx, dword [ecx]
         cmp ebp, edx
         jb short .12
@@ -511,7 +511,7 @@ __HeapManager_expand_:
         add edi, eax
         xor ah, ah
         mov dword [edx], edi
-        mov byte [byte_19BA44], ah
+        mov byte [__HeapFlags], ah
         jmp near .20
 .12:
         mov eax, edx
@@ -1194,7 +1194,7 @@ __FiniRtns:
         db 03Eh,0BEh                            ; insn: mov esi,41580h
         dd FiniRtnsEntry
         db 03Eh,0BFh                            ; insn: mov edi,4158Ch
-        dd unk_15158C
+        dd GusInitTable
         mov ebx, edi
         mov al, dl
 .2:
@@ -1328,7 +1328,7 @@ InitSystem:
         call InitSystem
         add esp, byte 4
 .4:
-        cmp dword [dword_1210CC], byte 0
+        cmp dword [MemPoolBase], byte 0
         jne short .5
         push dword 0C8h
         call InitMemoryPoolDefault

@@ -8,7 +8,7 @@ global InvTabGStep, InvTabBStep, InvTabRMin, InvTabOut, InvTabDistBuf, InvTabGMi
 global InvTabCell, InvTabRCenter, InvTabR, InvTabG, InvTabB, InvTabColor, InvTabRMax, InvTabGMax
 global InvTabBMin, InvTabBMax, InvTabRow, InvTabPass, InvTabGLo, InvTabGHi, InvTabBLo, InvTabBHi
 global InvTabGInc, InvTabBInc, InvTabDistInc, InvTabDistStart, InvTabFillPtr, InvTabFillCount, InvTabFillStep, InvTabFillDist
-global dword_185848, unk_18584C
+global MemPoolSize, unk_18584C
 TintMulGreen:
         resb 4
 TintMulBlue:
@@ -105,7 +105,7 @@ InvTabFillStep:
         resb 4
 InvTabFillDist:
         resb 16
-dword_185848:
+MemPoolSize:
         resb 4
 unk_18584C:
         resb 1024

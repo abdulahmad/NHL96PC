@@ -2,10 +2,10 @@
 bits 32
 %include "hockey.inc"
 section s_77442 progbits alloc exec nowrite align=1
-extern __CHP, __STOSB, __STOSD, byte_11D74F, byte_11D754, byte_17BDAE, byte_17CBEB, byte_17CC1D
+extern __CHP, __STOSB, __STOSD, byte_11D74F, byte_11D754, byte_17BDAE, SeasonUserTeam, byte_17CC1D
 extern byte_17CC35, byte_17CC36, byte_17D13A, byte_17D6C8, DrawArtOpaque, DrawColorTextCentred, DrawFrameAt, dword_11D59C
-extern dword_11D744, dword_11E2D4, dword_11E2EC, dword_11E304, dword_11E320, dword_17BC78, TeamStatsBitmap, dword_17BD48
-extern dword_17CBE7, dword_17CC13, dword_17CC1B, dword_17CED1, dword_17CF8E, dword_17D1E2, dword_17D267, dword_17D7C8
+extern dword_11D744, dword_11E2D4, dword_11E2EC, dword_11E304, dword_11E320, MatchupLayer, TeamStatsBitmap, str_Standings
+extern PlayoffTreeData, dword_17CC13, dword_17CC1B, SeasonRandomSeed, cddriveptr, dword_17D1E2, dword_17D267, dword_17D7C8
 extern dword_17D7D0, EditText, FadeOut, FadePalette, FileClose, FileCopy, FileOpenRead, FileOpenReadWrite
 extern FileReadAt, FileWriteAt, FillMusicStream, FreeStatsTables, gameopts, GetLangText, GetTicks, HideProgressBox
 extern InitMenuItems, itoa_, LoadPackedFile, LoadTeamLogo, MakeDatabasePath, MakeDataPath, MakeDirPath, MessageBox
@@ -20,7 +20,7 @@ extern SeasonMenuScreen_7AC, SeasonMenuScreen_858, SeasonMenuScreen_9D7, SeasonM
 extern SeasonMenuScreen_AF7, SeasonMenuScreen_B7E, SeasonMenuScreen_C05, SeasonMenuScreen_C68, DrawShape, AllocMemBlock, FreeMemBlock, CreateBitmap
 extern TintRect, FreeBitmap, OpenArtArchiveErr, SaveFileBlock, DrawArtOpaqueAtOwnPos, UnlinkJump, FileSizeByName, DrawArtKeyedAtOrigin
 extern PutBlockKeyed, SetScreenTarget, SetColourRemap, FindShape, ClearClipRect, TextSetFont, TickDeadlinePassed, unk_11E33C
-extern unk_11E354, unk_152C44, unk_17CB2E, unk_17CC1F, unk_17CED5, UpdateProgressBox
+extern unk_11E354, str_WesternConference2, SeasonUserRecords, unk_17CC1F, unk_17CED5, UpdateProgressBox
 global unk_77442, unk_7745A, CompareGrey, SortGreyColors, jpt_7761E, jpt_77632, NewSeasonScreen, NewSeasonScreen_5FB
 global NewSeasonScreen_768, NewSeasonScreen_798, NewSeasonScreen_7C5, NewSeasonScreen_7F2, NewSeasonScreen_8AF, NewSeasonScreen_8BB, NewSeasonScreen_8CB, NewSeasonScreen_8E0
 global NewSeasonScreen_9A9, NewSeasonScreen_9AA, SetGreyPalette, DrawSeasonTeams, CreateSeason, EditSeasonName, EditSeasonName_D3, EditSeasonName_E0
@@ -199,14 +199,14 @@ NewSeasonScreen:
         cmp dword [dword ebp-0B0Ah], byte 0
         jne short .3
         mov ecx, 3A7h
-        mov edi, unk_17CB2E
+        mov edi, SeasonUserRecords
         xor eax, eax
         mov esi, optblock_end
         rep stosb
         mov ecx, 0B9h
-        mov edi, unk_17CB2E
+        mov edi, SeasonUserRecords
         rep movsb
-        mov dword [gameopts], unk_17CB2E
+        mov dword [gameopts], SeasonUserRecords
         xor eax, eax
         xor esi, esi
 .2:
@@ -230,7 +230,7 @@ NewSeasonScreen:
         xor edx, edx
         mov dword [byte ebp+01Ah], eax
         mov eax, 5Dh
-        mov esi, unk_152C44
+        mov esi, str_WesternConference2
         call LoadPackedFile
         push str_Pal14
         add esi, 1F2h
@@ -407,7 +407,7 @@ NewSeasonScreen:
         mov byte [dword ebp-0992h], 3
         mov ecx, 66h
         lea edi, [dword ebp-096Eh]
-        mov esi, dword_17BD48
+        mov esi, str_Standings
         mov byte [dword ebp-0991h], 3
         add esp, byte 8
         rep movsb
@@ -446,11 +446,11 @@ NewSeasonScreen:
         call FadePalette
         cmp dword [dword ebp-0B0Ah], byte 0
         jne near NewSeasonScreen_7F2.18
-        mov byte [byte_17CBEB], 0
+        mov byte [SeasonUserTeam], 0
 .6:
-        cmp byte [byte_17CBEB], 0
+        cmp byte [SeasonUserTeam], 0
         jne near NewSeasonScreen_7F2.18
-        push byte_17CBEB
+        push SeasonUserTeam
         push dword 0F0h
         mov eax, 48h
         push dword 140h
@@ -463,9 +463,9 @@ NewSeasonScreen:
         mov edx, eax
         test eax, eax
         je near .7
-        cmp byte [byte_17CBEB], 0
+        cmp byte [SeasonUserTeam], 0
         je near .7
-        push byte_17CBEB
+        push SeasonUserTeam
         mov eax, 49h
         call GetLangText
         push eax
@@ -510,7 +510,7 @@ NewSeasonScreen:
         test edx, edx
         jne near .6
         mov dword [byte ebp+06Eh], 2710h
-        mov byte [byte_17CBEB], 20h
+        mov byte [SeasonUserTeam], 20h
         mov dword [byte ebp+07Eh], edx
         jmp near .6
 .8:
@@ -1323,7 +1323,7 @@ CreateSeason:
         call GetTicks
         mov edx, eax
         call srand_
-        mov dword [dword_17CED1], edx
+        mov dword [SeasonRandomSeed], edx
         cmp dword [dword_17D7D0], byte 0
         jne short .1
         mov edx, 4
@@ -1347,7 +1347,7 @@ CreateSeason:
         mov eax, 4Dh
         mov ebx, 140h
         mov edx, byte_17BDAE
-        mov dword [dword_17CBE7], esi
+        mov dword [PlayoffTreeData], esi
         call GetLangText
         call ShowProgressBox
         lea eax, [byte ebp-07Eh]
@@ -1744,7 +1744,7 @@ CreateSeason:
         cmp dword [byte ebp+07Eh], byte 0
         jne short .28
         push dword 3A7h
-        push unk_17CB2E
+        push SeasonUserRecords
         lea eax, [byte ebp-07Eh]
         push eax
         call SaveFileBlock
@@ -1761,7 +1761,7 @@ CreateSeason:
         mov ecx, 39Dh
         mov edi, unk_17CED5
         xor eax, eax
-        mov esi, unk_17CB2E
+        mov esi, SeasonUserRecords
         rep stosb
         mov ecx, 0B9h
         mov edi, unk_17CED5
@@ -1773,13 +1773,13 @@ CreateSeason:
         mov eax, dword [dword ebp-082h]
         mov ebx, 0Ah
         add eax, eax
-        mov esi, byte_17CBEB
+        mov esi, SeasonUserTeam
         inc eax
-        and byte [dword_17CF8E], 0F8h
+        and byte [cddriveptr], 0F8h
         and eax, byte 7
         mov edi, byte_17D13A
-        or dword [dword_17CF8E], eax
-        mov eax, byte_17CBEB
+        or dword [cddriveptr], eax
+        mov eax, SeasonUserTeam
         mov dword [dword_17D267], 1
         call strlen_
         mov ecx, eax
@@ -1821,7 +1821,7 @@ CreateSeason:
         call MessageBox
         jmp short .31
 .30:
-        mov ebx, byte_17CBEB
+        mov ebx, SeasonUserTeam
         lea edx, [byte ebp-02Eh]
         mov eax, dword [dword_17D7D0]
         call NameIndexAdd
@@ -1844,7 +1844,7 @@ EditSeasonName:
         enter 0Ch, 0
         push eax
         imul esi, dword [byte ebp-010h], byte 1Ah
-        push dword [dword_17BC78]
+        push dword [MatchupLayer]
         mov edi, unk_17CC1F
         call TextSetFont
         add esp, byte 4

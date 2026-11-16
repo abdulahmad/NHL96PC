@@ -2,11 +2,11 @@
 bits 32
 %include "hockey.inc"
 section s_2D9D9 progbits alloc exec nowrite align=1
-extern assinsert, assreplace, awfirstslot, awslotcount, awtmstruct, byte_119D76, byte_119D79, byte_164920
-extern byte_164CE0, byte_1655A4, byte_1655E0, byte_16561C, byte_165658, byte_165694, byte_17CA5D, CloseTextOverlay
+extern assinsert, assreplace, awfirstslot, awslotcount, awtmstruct, starskatermin, stargoaliemin, byte_164920
+extern byte_164CE0, textline1, byte_1655E0, byte_16561C, byte_165658, byte_165694, byte_17CA5D, CloseTextOverlay
 extern crowdlevel, CrowdNoiseReset, curperiod, DoGameFrame, dword_114B90, dword_114B94, dword_114B98, dword_114B9C
-extern dword_114F16, dword_1150FC, dword_118E89, dword_119D04, dword_11B310, dword_11F5C0, dword_11F5C4, dword_1515D8
-extern dword_1515DC, dword_1515E0, dword_152F4C, dword_164956, dword_164D16, dword_176BC4, dword_176BCC, dword_177108
+extern dword_114F16, gameresult, dword_118E89, dword_119D04, dword_11B310, dword_11F5C0, dword_11F5C4, dword_1515D8
+extern dword_1515DC, dword_1515E0, dword_152F4C, dword_164956, dword_164D16, gwgteam, gwgplayer, dword_177108
 extern dword_179918, dword_179920, dword_179924, dword_179DBD, energywarn, exitgame, fadeinpending, forcepldata
 extern fox, foy, GameLoopActive, gameopts, GetTicks, hmfirstslot, hmroster, hmslotcount
 extern hmtmstruct, InGameMenuRequest, InputRecordCount, InputRecordRing, IsCupClinched, lasttouch, lcblink, lineuptime
@@ -19,11 +19,11 @@ extern FreeSpriteCache, FadePalette, FadeOut, SetTextColors, DrawColorText, Draw
 extern Crowd_Noise, CrowdFadeOut, CrowdReaction, PlayArenaClip, ArenaClipReady, StartArenaClip, StopArenaClip, SoundIdle
 extern GetLangText, DrawRectOutline, TextSetColor, SetAaPalLut, DrawArtAaScaledInt, FillRectColor, SetPaletteEntries, SetRemapTable
 extern TicksSinceLast, bcopy, FillPolygonArgs, RemapPolygonArgs, TextSetFont, unk_119D0A, unk_119D22, unk_119D36
-extern unk_119D4E, unk_156E6C, unk_157B82, unk_16443C, unk_164B5C, unk_164E7C, unk_165354, unk_17D3E8
-extern updateanim, vtoa, word_1178A0, word_1178A2, word_1178B4, HomeControlSlot, word_1178F8, word_118E9F
-extern word_118EA3, word_119D08, word_119D62, word_11D604, word_1515E4, word_156E6E, word_157AFA, word_157AFC
-extern word_157B00, word_157B06, word_1647CA, word_1656E8, word_16570A, word_165758, word_16581E, word_176BB8
-extern word_176BBA, yc1
+extern unk_119D4E, hmplstats, hmplattr, exhstate, unk_164B5C, unk_164E7C, unk_165354, unk_17D3E8
+extern updateanim, vtoa, word_1178A0, word_1178A2, word_1178B4, HomeControlSlot, RefStep, word_118E9F
+extern word_118EA3, word_119D08, word_119D62, word_11D604, word_1515E4, word_156E6E, hmglstats_w2, word_157AFC
+extern hmglstats_w8, hmglstats_w14, word_1647CA, hmscore, word_16570A, hmtmpdst, awscore, word_176BB8
+extern starpl, yc1
 global RunPreGameSkate, RunPreGameSkate_450, RunPreGameSkate_451, RunLineupLoop, LineupLoopFrame, FillPanelEdge, FillPanelEdge_5C, DrawPanelBorder
 global DrawPanelShade, DrawOverlayPanels, StartPreGame, assintrostand, assintroline, AddStar, StarEligible, StarCompare
 global assextra1, PickThreeStars
@@ -45,7 +45,7 @@ RunPreGameSkate:
         mov byte [byte_165694], 0
         mov byte [byte_165658], 0
         mov byte [byte_1655E0], 0
-        mov byte [byte_1655A4], 0
+        mov byte [textline1], 0
         mov byte [byte_16561C], 0
         mov dword [curperiod], 0FFFFFFFFh
         mov word [fox], 0
@@ -260,7 +260,7 @@ RunPreGameSkate:
         mov eax, dword [PtrPuckObject]
         mov ebx, unk_165354
         call assreplace
-        mov word [word_1178F8], 0
+        mov word [RefStep], 0
         jmp short .22
 .19:
         xor ecx, ecx
@@ -331,7 +331,7 @@ RunLineupLoop:
 .1:
         cmp dword [lineuptime], byte 0
         je near LineupLoopFrame.8
-        cmp dword [dword_1150FC], byte 0
+        cmp dword [gameresult], byte 0
         jne near LineupLoopFrame.8
         mov ebx, dword [GameLoopActive]
         mov dword [GameLoopActive], 0
@@ -353,7 +353,7 @@ LineupLoopFrame:
         je near .4
         cmp dword [lineuptime], byte 0
         je near .4
-        cmp dword [dword_1150FC], byte 0
+        cmp dword [gameresult], byte 0
         jne near .4
         cmp dword [InGameMenuRequest], byte 0
         jne near .4
@@ -421,7 +421,7 @@ LineupLoopFrame:
         cmp dword [fadeinpending], byte 0
         je short .7
         mov ebx, 1
-        mov edx, unk_16443C
+        mov edx, exhstate
         mov ecx, dword [GameLoopActive]
         xor eax, eax
         mov dword [GameLoopActive], 0
@@ -973,7 +973,7 @@ DrawOverlayPanels:
         mov eax, dword [nosplit eax*4+off_11D44C]
 .35:
         call DrawColorText
-        movsx eax, word [word_1656E8]
+        movsx eax, word [hmscore]
         push eax
         push str_fmt2d
         lea eax, [byte ebp-058h]
@@ -992,7 +992,7 @@ DrawOverlayPanels:
         add ebx, eax
         lea eax, [byte ebp-058h]
         call DrawColorTextRight
-        movsx eax, word [word_16581E]
+        movsx eax, word [awscore]
         push eax
         push str_fmt2d
         lea eax, [byte ebp-058h]
@@ -1212,7 +1212,7 @@ StartPreGame:
         mov eax, dword [gameopts]
         test byte [byte eax+02h], 8
         je short .1
-        push unk_16443C
+        push exhstate
         push dword 100h
         push byte 0
         call SetPaletteEntries
@@ -1416,7 +1416,7 @@ assintroline:
         or byte [byte ebx+045h], 20h
         call SetSPA
         mov word [yc1], 0
-        mov word [word_1178F8], 1
+        mov word [RefStep], 1
         mov word [crowdlevel], 320h
 .6:
         movsx edx, word [byte ebx+02h]
@@ -1548,7 +1548,7 @@ AddStar:
 .1:
         cmp cx, word [dword eax+word_176BB8]
         jne short .2
-        cmp bx, word [dword eax+word_176BBA]
+        cmp bx, word [dword eax+starpl]
         jne short .2
         xor eax, eax
         pop edi
@@ -1563,7 +1563,7 @@ AddStar:
         jl short .1
         mov word [nosplit edi*4+word_176BB8], cx
         mov eax, 1
-        mov word [nosplit edi*4+word_176BBA], bx
+        mov word [nosplit edi*4+starpl], bx
         pop edi
         pop esi
         pop ecx
@@ -1580,7 +1580,7 @@ StarEligible:
         mov ebx, eax
         imul ecx, eax, dword 136h
         mov eax, edx
-        movsx eax, word [dword ecx+eax*2+word_165758]
+        movsx eax, word [dword ecx+eax*2+hmtmpdst]
         cmp eax, byte 0FFFFFFFFh
         jge short .2
 .1:
@@ -1649,10 +1649,10 @@ StarCompare:
         mov dword [byte ebp-018h], edx
         mov edx, dword [byte ebp-014h]
         shl edx, 4
-        add eax, unk_156E6C
+        add eax, hmplstats
         add edx, eax
         imul eax, ebx, dword 190h
-        mov esi, unk_156E6C
+        mov esi, hmplstats
         add esi, eax
         mov eax, dword [byte ebp-018h]
         shl eax, 4
@@ -1661,10 +1661,10 @@ StarCompare:
         movsx esi, word [byte edx+02h]
         add edi, esi
         mov dword [byte ebp-0Ch], edi
-        cmp ecx, dword [dword_176BC4]
+        cmp ecx, dword [gwgteam]
         jne short .1
         mov esi, dword [byte ebp-014h]
-        cmp esi, dword [dword_176BCC]
+        cmp esi, dword [gwgplayer]
         jne short .1
         add dword [byte ebp-0Ch], byte 2
 .1:
@@ -1674,10 +1674,10 @@ StarCompare:
         movsx esi, word [eax]
         add edi, esi
         mov dword [byte ebp-010h], edi
-        cmp ebx, dword [dword_176BC4]
+        cmp ebx, dword [gwgteam]
         jne short .2
         mov esi, dword [byte ebp-018h]
-        cmp esi, dword [dword_176BCC]
+        cmp esi, dword [gwgplayer]
         jne short .2
         add dword [byte ebp-010h], byte 2
 .2:
@@ -1703,11 +1703,11 @@ StarCompare:
         cmp ecx, ebx
         je short .6
         imul esi, ebx, dword 136h
-        movsx esi, word [dword esi+word_1656E8]
+        movsx esi, word [dword esi+hmscore]
         mov dword [byte ebp-08h], esi
         imul esi, ecx, dword 136h
         mov edi, dword [byte ebp-08h]
-        movsx esi, word [dword esi+word_1656E8]
+        movsx esi, word [dword esi+hmscore]
         sub edi, esi
         mov esi, edi
         je short .6
@@ -1755,12 +1755,12 @@ StarCompare:
 .11:
         imul edx, dword [byte ebp-014h], byte 15h
         imul ecx, dword 20Dh
-        mov eax, unk_157B82
+        mov eax, hmplattr
         add eax, ecx
         add eax, edx
         imul edx, ebx, dword 20Dh
         imul ebx, dword [byte ebp-018h], byte 15h
-        add edx, unk_157B82
+        add edx, hmplattr
         add edx, ebx
         movzx ecx, byte [byte edx+01h]
         movzx ebx, byte [byte edx+02h]
@@ -1831,20 +1831,20 @@ PickThreeStars:
         xor edx, edx
         jmp short .2
 .1:
-        mov word [nosplit eax*4+word_176BBA], 0FFFFh
-        mov bx, word [nosplit eax*4+word_176BBA]
+        mov word [nosplit eax*4+starpl], 0FFFFh
+        mov bx, word [nosplit eax*4+starpl]
         inc edx
         mov word [nosplit eax*4+word_176BB8], bx
 .2:
         movsx eax, dx
         cmp eax, byte 3
         jl short .1
-        mov dword [dword_176BCC], 0FFFFFFFFh
-        mov dword [dword_176BC4], 0FFFFFFFFh
+        mov dword [gwgplayer], 0FFFFFFFFh
+        mov dword [gwgteam], 0FFFFFFFFh
         cmp dword [curperiod], byte 3
         jle near .3
-        mov ax, word [word_16581E]
-        sub ax, word [word_1656E8]
+        mov ax, word [awscore]
+        sub ax, word [hmscore]
         je short .3
         test ax, ax
         setg al
@@ -1856,16 +1856,16 @@ PickThreeStars:
         movzx eax, al
         xor eax, ecx
         je short .3
-        mov dword [dword_176BC4], ecx
+        mov dword [gwgteam], ecx
         imul eax, ecx, dword 136h
         movsx eax, word [dword eax+word_16570A]
-        movsx edx, word [word_16581E]
-        mov dword [dword_176BCC], eax
-        movsx eax, word [word_1656E8]
+        movsx edx, word [awscore]
+        mov dword [gwgplayer], eax
+        movsx eax, word [hmscore]
         call IsCupClinched
         test eax, eax
         je short .3
-        movsx ebx, word [dword_176BCC]
+        movsx ebx, word [gwgplayer]
         movsx eax, si
         mov edx, ecx
         call AddStar
@@ -1878,21 +1878,21 @@ PickThreeStars:
         sete al
         movzx eax, al
         imul eax, dword 136h
-        cmp word [dword eax+word_1656E8], byte 0
+        cmp word [dword eax+hmscore], byte 0
         jne near .7
         imul eax, edx, byte 12h
-        mov dx, word [dword eax+word_157B00]
+        mov dx, word [dword eax+hmglstats_w8]
         xor ebx, ebx
-        cmp dx, word [dword eax+word_157AFA]
+        cmp dx, word [dword eax+hmglstats_w2]
         jle short .5
         mov ebx, 1
 .5:
         movsx eax, di
         imul eax, byte 12h
-        mov dx, word [dword eax+word_157B06]
-        cmp dx, word [dword eax+word_157AFA]
+        mov dx, word [dword eax+hmglstats_w14]
+        cmp dx, word [dword eax+hmglstats_w2]
         jle short .6
-        cmp dx, word [dword eax+word_157B00]
+        cmp dx, word [dword eax+hmglstats_w8]
         jle short .6
         mov ebx, 2
 .6:
@@ -1906,8 +1906,8 @@ PickThreeStars:
         mov edx, dword [byte edx+01h]
         shl edx, 15h
         shr edx, 1Eh
-        movsx dx, byte [dword edx+byte_119D76]
-        cmp dx, word [dword eax+word_157AFA]
+        movsx dx, byte [dword edx+starskatermin]
+        cmp dx, word [dword eax+hmglstats_w2]
         jge short .7
         mov edx, dword [byte ebp+076h]
         add ebx, byte 19h
@@ -1946,7 +1946,7 @@ PickThreeStars:
         je short .11
         imul eax, dword [byte ebp+072h], dword 190h
         mov dword [byte ebp+07Ah], eax
-        mov eax, unk_156E6C
+        mov eax, hmplstats
         add eax, dword [byte ebp+07Ah]
         shl edx, 4
         add eax, edx
@@ -1999,7 +1999,7 @@ PickThreeStars:
         shl eax, 4
         add eax, dword [byte ebp+07Ah]
         movsx ebx, word [dword eax+word_156E6E]
-        movsx eax, word [dword eax+unk_156E6C]
+        movsx eax, word [dword eax+hmplstats]
         add eax, ebx
         cmp eax, byte 1
         jle short .14
@@ -2035,12 +2035,12 @@ PickThreeStars:
         shl edx, 15h
         shr edx, 1Eh
         add eax, dword [byte ebp+062h]
-        movsx dx, byte [dword edx+byte_119D79]
-        cmp dx, word [dword eax+word_157AFA]
+        movsx dx, byte [dword edx+stargoaliemin]
+        cmp dx, word [dword eax+hmglstats_w2]
         jg short .16
         movsx edx, word [dword eax+word_157AFC]
         imul edx, dword 3E8h
-        movsx ebx, word [dword eax+word_157AFA]
+        movsx ebx, word [dword eax+hmglstats_w2]
         mov eax, ebx
         mov dword [byte ebp+07Ah], edx
         cdq

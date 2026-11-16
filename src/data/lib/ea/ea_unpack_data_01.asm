@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_1135A8 progbits alloc noexec write align=1
-global asc_1135A8, str_Copyright, str_UnpackINVALIDPACKCODE, str_TextTable, asc_1135E8, str_Inversetmp, str_SavefileblockaOPENFAILEDFOR, str_InitmemmanINSUFFICIENTROW
+global asc_1135A8, str_Copyright, str_UnpackINVALIDPACKCODE, str_TextTable, str_Inversetbl, str_Inversetmp, str_SavefileblockaOPENFAILEDFOR, str_InitmemmanINSUFFICIENTROW
 global asc_113658, asc_113680
 asc_1135A8:
         db 06Ch,07Ah,068h,00h
@@ -14,7 +14,7 @@ str_UnpackINVALIDPACKCODE:
         db 00h,00h,00h,00h
 str_TextTable:
         db 054h,065h,078h,074h,020h,054h,061h,062h,06Ch,065h,00h,00h
-asc_1135E8:
+str_Inversetbl:
         db 069h,06Eh,076h,065h,072h,073h,065h,074h,062h,06Ch,00h,0Dh
 str_Inversetmp:
         db 069h,06Eh,076h,065h,072h,073h,065h,074h,06Dh,070h,00h,00h

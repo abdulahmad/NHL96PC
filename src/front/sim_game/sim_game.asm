@@ -3,11 +3,11 @@ bits 32
 %include "hockey.inc"
 section s_81EEA progbits alloc exec nowrite align=1
 extern __CHP, asc_112433, awtmgoalie, byte_16580A, byte_16580B, byte_16580C, byte_165940, byte_17CC36
-extern byte_17CFB1, byte_17D26F, byte_17DADF, byte_17DAE0, byte_17DB12, byte_17DB44, byte_17DB78, dword_1174E0
-extern dword_1174E8, dword_1174F0, dword_11E4B8, dword_11E4C4, dword_11E514, dword_1657EA, dword_1657F6, dword_1657FA
+extern byte_17CFB1, byte_17D26F, byte_17DADF, byte_17DAE0, byte_17DB12, byte_17DB44, byte_17DB78, seasondb
+extern statsfromleague, statsplayoffs, dword_11E4B8, dword_11E4C4, dword_11E514, hmtmlines, dword_1657F6, dword_1657FA
 extern dword_1657FE, dword_17CB2F, dword_17CEC3, dword_17CED6, dword_17D1E2, dword_17D928, dword_17D930, dword_17D938
 extern dword_17D950, dword_17DA18, dword_17DA20, dword_17DA28, dword_17DA30, dword_17DA38, dword_17DA40, dword_17DA48
-extern dword_17DA50, dword_17DA54, dword_17DA58, dword_17DA5C, dword_17DA60, dword_17DA68, dword_17DA6C, dword_17DA70
+extern AwayShotTotals, dword_17DA54, dword_17DA58, dword_17DA5C, dword_17DA60, dword_17DA68, dword_17DA6C, dword_17DA70
 extern dword_17DA74, dword_17DA78, dword_17DA80, dword_17DA84, dword_17DA88, dword_17DA90, dword_17DA98, dword_17DA9C
 extern dword_17DAA0, dword_17DAA4, dword_17DAA8, dword_17DAAC, dword_17DAB0, dword_17DAB4, dword_17DAB8, dword_17DABC
 extern dword_17DAC0, dword_17DAC4, dword_17DAC8, dword_17DACC, dword_17DAD0, dword_17DAD4, dword_17DAD8, dword_17DADC
@@ -15,7 +15,7 @@ extern gameopts, hmtmgoalie, optflags, qword_11244E, qword_112456, qword_11245E,
 extern qword_112476, qword_11247E, rand_, str_Aps, str_GSUMMARYDB, str_Pblank, str_Pgblank, str_Pk
 extern str_Ps, str_Tmdata, str_Tmgstats, str_Tmstats, str_Tset, PlayerDbRecord, StatsDb5Record, StatsDb1Record
 extern AllocMemBlock, FreeMemBlock, UnlinkJump, tag_agset, tag_apset, tag_gset, tag_pset, unk_112428
-extern unk_11242B, unk_81ED1, UpdateTeamDbs, word_1656DC, word_1656E2, word_1656E8, word_165812, word_16581E
+extern unk_11242B, unk_81ED1, UpdateTeamDbs, word_1656DC, word_1656E2, hmscore, word_165812, awscore
 extern word_17DB76
 global SimulateGame, unk_849C1, unk_849C7, unk_849CB, unk_849D1
 ;-----------------------------------------------------------------------------
@@ -171,7 +171,7 @@ SimulateGame:
         mov eax, dword [dword esi+dword_17D928]
         mov dword [dword edx+dword_1657FA], eax
         imul eax, dword [dword esi+dword_17DAA8], dword 31Bh
-        mov edx, dword [dword_1174F0]
+        mov edx, dword [statsplayoffs]
         add eax, edx
         mov edx, dword [dword ebp-0A6h]
         mov word [dword edx+word_1656E2], 0
@@ -182,7 +182,7 @@ SimulateGame:
         add eax, 0D3h
         mov byte [dword edx+byte_16580C], 0
         push dword 497h
-        mov dword [dword edx+dword_1657EA], eax
+        mov dword [dword edx+hmtmlines], eax
         mov eax, dword [dword esi+dword_17DA38]
         push str_Aps
         mov dword [dword edx+dword_1657FE], eax
@@ -232,7 +232,7 @@ SimulateGame:
         push str_Tset
         call AllocMemBlock
         add esp, byte 0Ch
-        mov dword [dword esi+dword_17DA50], eax
+        mov dword [dword esi+AwayShotTotals], eax
 .8:
         add dword [dword ebp+09Ah], byte 64h
         add dword [dword ebp+09Eh], byte 0Ch
@@ -248,7 +248,7 @@ SimulateGame:
         mov eax, dword [byte ebp-062h]
         mov byte [dword eax+ebp+0E6h], 0
         imul eax, dword [dword ebx+dword_17DAA8], dword 31Bh
-        mov edx, dword [dword_1174F0]
+        mov edx, dword [statsplayoffs]
         add eax, edx
         mov dword [dword ebx+dword_17DA80], eax
         cmp dword [dword ebp-0126h], byte 0
@@ -262,12 +262,12 @@ SimulateGame:
         jne short .12
         add eax, byte 2Fh
 .11:
-        mov dword [dword ebx+dword_17DA50], eax
+        mov dword [dword ebx+AwayShotTotals], eax
 .12:
         mov eax, dword [byte ebp-062h]
         mov byte [dword eax+ebp+0DAh], 0B4h
         imul eax, dword [dword ebx+dword_17DAA8], byte 63h
-        mov edx, dword [dword_1174E8]
+        mov edx, dword [statsfromleague]
         add eax, edx
         mov dword [dword ebx+dword_17DA68], 0
         mov dword [dword ebx+dword_17DA30], eax
@@ -674,7 +674,7 @@ SimulateGame:
         mov dword [dword ebx+ebp-0B6h], 1
 .42:
         mov byte [dword edx+ebp+0CEh], al
-        mov eax, dword [dword ebx+dword_17DA50]
+        mov eax, dword [dword ebx+AwayShotTotals]
         mov edx, dword [byte ebp-062h]
         inc byte [eax]
         movzx edx, byte [dword edx+ebp+0CEh]
@@ -960,7 +960,7 @@ SimulateGame:
         mov al, byte [dword ebp+0DEh]
         cmp al, byte [dword ebp+0DFh]
         ja short .79
-        mov eax, dword [dword_17DA50]
+        mov eax, dword [AwayShotTotals]
         inc word [byte eax+0Ah]
         mov eax, dword [dword_17DA54]
         inc word [word_1656DC]
@@ -974,7 +974,7 @@ SimulateGame:
         ja short .81
         mov eax, dword [dword_17DA54]
         inc word [byte eax+0Ah]
-        mov eax, dword [dword_17DA50]
+        mov eax, dword [AwayShotTotals]
         inc word [word_165812]
 .80:
         inc word [byte eax+0Eh]
@@ -1188,7 +1188,7 @@ SimulateGame:
         movzx edx, byte [dword ebp+010Ah]
         add word [byte eax+0Ch], cx
         add edx, edi
-        mov eax, dword [dword ebx+dword_17DA50]
+        mov eax, dword [dword ebx+AwayShotTotals]
         inc byte [dword edx+ebp-0122h]
         add word [byte eax+010h], cx
         mov eax, dword [byte ebp+03Ah]
@@ -1674,7 +1674,7 @@ SimulateGame:
         inc byte [dword eax+byte_17DAE0]
         mov eax, dword [edx+ecx*4]
         inc word [byte eax+0Eh]
-        mov eax, dword [dword ebx+dword_17DA50]
+        mov eax, dword [dword ebx+AwayShotTotals]
         inc word [byte eax+04h]
         mov eax, dword [byte ebp-076h]
         cmp eax, dword [byte ebp+076h]
@@ -1721,13 +1721,13 @@ SimulateGame:
         inc byte [dword eax+ebp+0E6h]
         cmp dword [dword ebx+dword_17DA70], byte 0
         jle short .122
-        mov eax, dword [dword ebx+dword_17DA50]
+        mov eax, dword [dword ebx+AwayShotTotals]
         inc word [byte eax+08h]
         mov edx, dword [byte ebp-062h]
         mov eax, dword [dword_17DAC4]
         xor dl, 1
         inc word [byte eax+08h]
-        mov eax, dword [nosplit edx*4+dword_17DA50]
+        mov eax, dword [nosplit edx*4+AwayShotTotals]
         mov edx, dword [dword ebp-09Ah]
         inc word [byte eax+0Ch]
         mov eax, dword [dword ebp-096h]
@@ -1742,7 +1742,7 @@ SimulateGame:
 .122:
         mov eax, dword [byte ebp-062h]
         xor al, 1
-        mov eax, dword [nosplit eax*4+dword_17DA50]
+        mov eax, dword [nosplit eax*4+AwayShotTotals]
         inc word [byte eax+06h]
         cmp dword [dword ebx+dword_17DA70], byte 0
         jge short .123
@@ -2055,7 +2055,7 @@ SimulateGame:
         mov eax, dword [dword ebp-0BAh]
         cmp dl, byte [eax]
         jne short .142
-        mov eax, dword [dword_17DA50]
+        mov eax, dword [AwayShotTotals]
         inc byte [byte eax+03h]
         mov eax, dword [dword_17DA54]
         inc byte [byte eax+03h]
@@ -2080,7 +2080,7 @@ SimulateGame:
         mov eax, dword [dword ebp-0BAh]
         cmp dl, byte [eax]
         jbe near .144
-        mov eax, dword [dword_17DA50]
+        mov eax, dword [AwayShotTotals]
         inc byte [byte eax+01h]
         mov eax, dword [dword_17DA54]
         inc byte [byte eax+02h]
@@ -2111,7 +2111,7 @@ SimulateGame:
 .144:
         mov eax, dword [dword_17DA54]
         inc byte [byte eax+01h]
-        mov eax, dword [dword_17DA50]
+        mov eax, dword [AwayShotTotals]
         inc byte [byte eax+02h]
         movzx edx, byte [dword ebp+0CFh]
         mov eax, dword [dword_17DA5C]
@@ -2491,7 +2491,7 @@ SimulateGame:
         mov edi, dword [byte eax+02Ch]
         mov eax, dword [dword ebx+dword_17D930]
         mov esi, dword [edx+eax]
-        mov eax, dword [dword_1174E0]
+        mov eax, dword [seasondb]
         mov ecx, 2Fh
         add edi, eax
         rep movsb
@@ -2520,7 +2520,7 @@ SimulateGame:
         mov edi, dword [byte eax+02Ch]
         mov eax, dword [dword ebx+dword_17DA20]
         mov esi, dword [edx+eax]
-        mov eax, dword [dword_1174E0]
+        mov eax, dword [seasondb]
         mov ecx, 2Fh
         add edi, eax
         rep movsb
@@ -2700,10 +2700,10 @@ SimulateGame:
         mov byte [byte_165940], al
         mov eax, dword [dword ebp-0BEh]
         movzx ax, byte [eax]
-        mov word [word_1656E8], ax
+        mov word [hmscore], ax
         mov eax, dword [dword ebp-0BAh]
         movzx ax, byte [eax]
-        mov word [word_16581E], ax
+        mov word [awscore], ax
         movzx ax, byte [dword ebp+0CEh]
         mov word [hmtmgoalie], ax
         movzx ax, byte [dword ebp+0CFh]
@@ -2842,7 +2842,7 @@ SimulateGame:
         jne short .224
         cmp dword [dword ebp-012Eh], byte 0
         je short .225
-        push dword [dword esi+dword_17DA50]
+        push dword [dword esi+AwayShotTotals]
         call FreeMemBlock
         add esp, byte 4
 .225:

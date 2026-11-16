@@ -10,7 +10,7 @@ global byte_177DAC, byte_177DAD, byte_177DAF, byte_177E12, byte_178247, byte_178
 global dword_1778EC, dword_1778F0, dword_1778F4, dword_1778F8, dword_1778FC, dword_177900, dword_177904, dword_17790C
 global dword_177914, dword_177918, dword_17791C, dword_177922, dword_177926, dword_17792A, dword_17792E, dword_177932
 global dword_177942, dword_177946, dword_17797E, dword_177982, dword_177988, dword_17798C, dword_177990, dword_177994
-global dword_177998, dword_1779A8, dword_1779AC, dword_1779E4, dword_1779E8, dword_1779EE, dword_1779F2, dword_1779F6
+global ReplayMenuItems, dword_1779A8, dword_1779AC, dword_1779E4, dword_1779E8, dword_1779EE, dword_1779F2, dword_1779F6
 global dword_1779FA, dword_1779FE, dword_177A0E, dword_177A12, dword_177A3E, dword_177A46, dword_177A4A, dword_177A4E
 global dword_177A54, dword_177A58, dword_177A5C, dword_177A60, dword_177A64, dword_177A74, dword_177A78, dword_177AAC
 global dword_177AB0, dword_177AB4, dword_177ABA, dword_177ABE, dword_177AC2, dword_177AC6, dword_177ACA, dword_177ADA
@@ -21,7 +21,7 @@ global dword_177BF8, dword_177BFC, dword_177C0C, dword_177C10, dword_177C48, dwo
 global dword_177C5A, dword_177C5E, dword_177C62, dword_177C72, dword_177C76, dword_177D7A, dword_177D7E, dword_177D84
 global dword_177D88, dword_177D8C, dword_177D90, dword_177D94, dword_177DA4, dword_177DA8, dword_177DDC, dword_177DE0
 global dword_177DE4, dword_177DEA, dword_177DEE, dword_177DF2, dword_177DF6, dword_177DFA, dword_177E0A, dword_177E0E
-global dword_1781CC, dword_1781D0, dword_1781D4, dword_1781D8, dword_1781DC, dword_1781E0, dword_1781F0, dword_1781F4
+global dword_1781CC, dword_1781D0, dword_1781D4, dword_1781D8, dword_1781DC, dword_1781E0, dword_1781F0, ReplayMenuResult
 global dword_1781F8, dword_178243, dword_178248, dword_17824C, dword_178250, dword_178254, unk_1774C4, unk_177510
 global unk_1778C4, unk_177908, unk_1781E4, unk_1781FE, word_177508, word_17750A, word_177CB6, word_177D1C
 global word_1781FC
@@ -107,7 +107,7 @@ dword_177990:
         resb 4
 dword_177994:
         resb 4
-dword_177998:
+ReplayMenuItems:
         resb 16
 dword_1779A8:
         resb 4
@@ -357,7 +357,7 @@ unk_1781E4:
         resb 12
 dword_1781F0:
         resb 4
-dword_1781F4:
+ReplayMenuResult:
         resb 4
 dword_1781F8:
         resb 4

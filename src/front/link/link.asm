@@ -4,12 +4,12 @@ bits 32
 section s_17675 progbits alloc exec nowrite align=1
 extern addtimer, str_Punct2, byte_115084, byte_151B87, byte_151B8E, byte_152157, byte_15280F, byte_152810
 extern byte_152920, byte_152921, byte_152922, byte_152923, byte_15292C, byte_15292D, byte_15292E, byte_15292F
-extern byte_15293A, byte_152A44, dword_115000, dword_115004, dword_115008, dword_11500C, dword_115010, dword_115014
+extern byte_15293A, byte_152A44, ModemResultCount, ModemLastResult, dword_115008, dword_11500C, dword_115010, dword_115014
 extern dword_115018, dword_11501C, dword_115020, dword_115024, dword_115028, dword_11502C, dword_115030, dword_115034
 extern dword_115038, dword_11503C, dword_115040, dword_115044, dword_115048, dword_11504C, dword_115050, dword_115054
 extern dword_115058, dword_11505C, dword_115060, dword_115064, dword_115068, dword_115074, dword_11507C, dword_115080
 extern dword_115098, dword_151D48, dword_151D4C, dword_151D50, dword_151D54, dword_152130, dword_152134, dword_152138
-extern dword_152148, dword_15214C, dword_152150, dword_15291C, off_114F1C, off_114F24, str_0123456789abcdefghijklmn, str_22
+extern dword_152148, dword_15214C, dword_152150, dword_15291C, ModemResultTextTable, ModemResultCodeTable, str_0123456789abcdefghijklmn, str_22
 extern str_ATA, str_ATD, str_ATE1, str_ATF1, str_ATH0, str_ATM0, str_ATQ0, str_ATS01
 extern str_ATX3, str_ATX4, str_ATZS760S1155, str_ctl06, str_feP, str_newline, str_T, strcat_
 extern strcpy_, strlen_, strncmp_, strstr_, RemoveTimerCallback, SerialConfigure, SerialOpen, SerialClose
@@ -311,7 +311,7 @@ ModemWaitConnect:
 ;-----------------------------------------------------------------------------
 ; ModemReadResult                                                 17906  96 PC
 ; (port, timeout): reads a line from the modem (at most 41 characters) and
-; matches it against the result string table off_114F1C; returns its code, -1
+; matches it against the result string table ModemResultTextTable; returns its code, -1
 ; for none
 ;-----------------------------------------------------------------------------
 ModemReadResult:
@@ -364,14 +364,14 @@ ModemReadResult:
         mov dword [byte ebp-04h], 0
         mov byte [byte esi+ebp-040h], 0
 .6:
-        mov ebx, dword [dword_115000]
+        mov ebx, dword [ModemResultCount]
         dec ebx
         imul ecx, ebx, byte 0Ch
         add ecx, dword [byte ebp-04h]
         jmp short .9
 .7:
         imul eax, ebx, byte 0Ch
-        mov edx, dword [dword ecx+off_114F1C]
+        mov edx, dword [dword ecx+ModemResultTextTable]
         mov dword [byte ebp-0Ch], eax
         lea eax, [byte ebp-040h]
         call strstr_
@@ -380,9 +380,9 @@ ModemReadResult:
         cmp dword [byte ebp-014h], byte 0
         setg al
         movzx eax, al
-        or dword [dword_115004], eax
+        or dword [ModemLastResult], eax
         mov eax, dword [byte ebp-0Ch]
-        mov eax, dword [dword eax+off_114F24]
+        mov eax, dword [dword eax+ModemResultCodeTable]
         call atoi_
         mov edi, eax
         jmp short .12
@@ -400,7 +400,7 @@ ModemReadResult:
         je near .1
         cmp dword [byte ebp-010h], byte 0
         jne near .1
-        cmp dword [dword_115004], byte 0
+        cmp dword [ModemLastResult], byte 0
         je near .1
         mov eax, edi
         call atoi_

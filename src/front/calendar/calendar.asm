@@ -7,8 +7,8 @@ extern str_DK00, str_Bkgd12, str_Pal17, str_DK02d, str_LFDK, str_RTDK, str_LT02d
 extern str_RTLT, str_Sim1, str_Sim2, str_Sim3, str_Hmaw, str_WhtD, str_Rd, str_Bl
 extern str_Disk, str_SD, str_Octo, str_Aprl, str_Junn, str_Bar, str_Tttt, str_Llll
 extern str_Wwww, asc_1123BB, str_DarD, asc_1123C6, byte_11E3A0, byte_11E3A1, byte_11E3A8, byte_11E3A9
-extern byte_17BDAE, byte_17CC36, byte_17CC37, byte_17CC38, byte_17CECB, dword_1123CB, dword_1174E8, dword_1174F0
-extern TeamStatsBitmap, dword_17BD48, optflags, dword_17CBE7, dword_17CC13, dword_17CC17, dword_17CC1B, dword_17CEC3
+extern byte_17BDAE, byte_17CC36, byte_17CC37, byte_17CC38, byte_17CECB, dword_1123CB, statsfromleague, statsplayoffs
+extern TeamStatsBitmap, str_Standings, optflags, PlayoffTreeData, dword_17CC13, dword_17CC17, dword_17CC1B, dword_17CEC3
 extern dword_17CEC7, dword_17D7D4, dword_17D804, dword_17D830, dword_17D834, dword_17D860, dword_17D864, dword_17D894
 extern dword_17D8C0, dword_17D8C4, dword_17D8F4, dword_17D8F8, dword_17D8FC, dword_17D900, dword_17D904, dword_17D908
 extern dword_17D90C, dword_17D910, dword_17D914, dword_17D918, dword_17D91C, dword_17D920, dword_17D924, gameopts
@@ -17,7 +17,7 @@ extern SlideInTitleBar, SlideInSideBar, SetScreenColors, FadePalette, FadeOut, S
 extern InitMenuItems, RunMenu, GetLangText, MakeSeasonDbPath, SimSeasonGames, SimulateGame, DrawArt, DrawShape
 extern PutBlock, AllocMemBlock, FreeMemBlock, CreateBitmap, TintRect, FillRect, DrawRectOutline, FreeBitmap
 extern OpenArtArchiveErr, DrawArtOpaqueAtOwnPos, DrawArtFast, PutBlockKeyed, SetScreenTarget, SetColourRemap, FindShape, ClearClipRect
-extern unk_11E3B6, unk_11E3F6, unk_11E436, unk_11E476, unk_152C44, unk_17CB2E, unk_7D4F4, unk_7D500
+extern unk_11E3B6, unk_11E3F6, unk_11E436, unk_11E476, str_WesternConference2, SeasonUserRecords, unk_7D4F4, unk_7D500
 global CalendarScreen_13D3, CalendarScreen_13E4, CalendarScreen_153A, CalendarScreen_1AC2, CalendarScreen_1B49, CalendarScreen_1B6C, CalendarScreen, DrawCalendar
 global unk_7FF77
 ;-----------------------------------------------------------------------------
@@ -94,7 +94,7 @@ CalendarScreen:
         push str_Pal17
         push esi
         call FindShape
-        mov esi, unk_152C44
+        mov esi, str_WesternConference2
         mov ecx, 0C0h
         mov edx, eax
         add esp, byte 8
@@ -128,20 +128,20 @@ CalendarScreen:
         mov eax, 6
         mov dword [byte ebp-01Ah], 3
         call OpenScreen
-        cmp dword [dword_1174E8], byte 0
+        cmp dword [statsfromleague], byte 0
         jne short .3
-        mov eax, dword [dword_17CBE7]
+        mov eax, dword [PlayoffTreeData]
         call LoadSeasonStats
 .3:
         mov ebx, 6
         lea eax, [byte ebp-05Ah]
-        mov edx, dword [dword_17CBE7]
+        mov edx, dword [PlayoffTreeData]
         call MakeSeasonDbPath
         push byte 20h
         lea eax, [byte ebp-05Ah]
         push eax
         call OpenArtArchiveErr
-        mov edx, dword [dword_1174F0]
+        mov edx, dword [statsplayoffs]
         mov dword [byte ebp+012h], edx
         imul edx, dword [dword_17CEC3], dword 31Bh
         add dword [byte ebp+012h], edx
@@ -1150,7 +1150,7 @@ CalendarScreen:
         mov ecx, 66h
         mov edi, eax
         mov byte [byte eax+045h], 5
-        mov esi, dword_17BD48
+        mov esi, str_Standings
         lea edi, [byte edi+066h]
         rep movsb
         mov byte [dword eax+0ABh], 1
@@ -1526,10 +1526,10 @@ CalendarScreen_13E4:
 .24:
         test edx, edx
         je near CalendarScreen_1B6C.47
-        mov eax, dword [dword_1174F0]
+        mov eax, dword [statsplayoffs]
         mov dword [byte ebp+012h], eax
         imul eax, dword [dword_17CEC3], dword 31Bh
-        mov dword [gameopts], unk_17CB2E
+        mov dword [gameopts], SeasonUserRecords
         mov ecx, 6
         mov esi, dword [byte ebp+066h]
         mov edi, byte_17CECB
@@ -2493,7 +2493,7 @@ DrawCalendar:
         imul eax, dword [dword_17CEC3], dword 31Bh
         push byte 0
         push byte 44h
-        mov edi, dword [dword_1174F0]
+        mov edi, dword [statsplayoffs]
         push byte 44h
         add edi, eax
         call CreateBitmap

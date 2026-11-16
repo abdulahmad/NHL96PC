@@ -4,12 +4,12 @@ bits 32
 section s_6A7D3 progbits alloc exec nowrite align=1
 extern awtmstruct, byte_11D91C, byte_11FA2F, byte_17CA5D, byte_17CC37, CloseTextOverlay, ControllerScreen, CopyBitmap
 extern Crowd_Noise, CrowdNoiseReset, CrowdPause, CrowdResume, curperiod, DrawBox, DrawColorTextCentred, DrawFrameAt
-extern DrawGameClock, DrawGameFrame, dword_1150D4, dword_1150FC, dword_1174EC, dword_1174F0, dword_1174F4, dword_11B234
+extern DrawGameClock, DrawGameFrame, dword_1150D4, gameresult, dword_1174EC, statsplayoffs, dword_1174F4, ReplayRemoteShape
 extern dword_11B320, dword_11B324, dword_11BC24, dword_11D91F, dword_11D923, dword_11F5C0, dword_11F5C4, dword_152F4C
-extern dword_152F50, dword_152F54, dword_152F58, dword_152F5C, dword_16596C, dword_177108, dword_179918, dword_179920
-extern dword_17CB2F, dword_17CBE7, dword_17CC17, dword_17CED6, dword_17D162, dword_17D267, dword_17D4E8, dword_17D4EC
+extern MenuRemoteCursorArt, MenuCursorPixels, dword_152F58, MenuBitmapPixels, dword_16596C, dword_177108, dword_179918, dword_179920
+extern dword_17CB2F, PlayoffTreeData, dword_17CC17, dword_17CED6, dword_17D162, dword_17D267, dword_17D4E8, dword_17D4EC
 extern dword_17D4F0, dword_17D4F4, dword_17D4F8, dword_17D4FC, dword_17D500, dword_17D504, dword_17D508, dword_17D50C
-extern dword_17D510, dword_17D514, dword_17D518, dword_17D51C, dword_17D520, dword_17D524, dword_17D528, dword_1843AC
+extern dword_17D510, dword_17D514, PauseClockArea, dword_17D51C, dword_17D520, dword_17D524, FrontShapeFile, dword_1843AC
 extern dword_1843B0, dword_1843B4, EditText, EndCameraShot, EndGameSound, FadeOut, FadeOutMusic, FadePalette
 extern FileClose, FileCreate, FileWriteAt, FillBox, FreeFightSprites, FreeFrontEndArt, FreeSpeechBuffer, FreeSpriteCache
 extern FreeStatsTables, FreeTotalSprites, gameclock, GameLoopActive, gameopts, GameStatsScreen, GetCrowdTarget, GetLangText
@@ -28,8 +28,8 @@ extern str_Sid12, str_Sid22, str_Sts02, str_Sts12, strcat_, strcpy_, RefreshCont
 extern AddZone, ReplayScreen, RunReplay, DrawShapeAtOwnPos, DrawArt, AllocMemBlock, FreeMemBlock, CreateBitmap
 extern FreeBitmap, FreeColourLookup, SaveDataFile, SetAaPalLut, DrawArtScaled, SetScreenTarget, FindShape, ClearClipRect
 extern TextSetFont, unk_11D7A4, unk_11D7BC, unk_11D7D4, unk_11D7EC, unk_11D804, unk_11D80A, unk_11D810
-extern unk_11D816, unk_11D81C, unk_11D89C, unk_16443C, unk_17CB2E, unk_17CED5, unk_17D3E8, unk_17D52C
-extern UpdateCamera, word_114CE0, word_114F14, word_117902, word_11D927, word_11D929, word_1656E8, word_16581E
+extern unk_11D816, unk_11D81C, unk_11D89C, exhstate, SeasonUserRecords, unk_17CED5, unk_17D3E8, unk_17D52C
+extern UpdateCamera, word_114CE0, word_114F14, clockticks, word_11D927, word_11D929, hmscore, awscore
 global RunInGameMenu, DrawPauseButtons, DrawPauseFrame, DrawPauseFrame_9C2, DrawPauseFrame_9C3, RunPausedFrame, jpt_6B476, SaveGameFile
 global SaveGameFile_59, SaveGameFile_60, SaveGameFile_6C, SaveGameFile_81, jpt_6B878, PauseMenu, PauseMenu_66B, PauseMenu_6F1
 global PauseMenu_6FD, PauseMenu_724, PauseMenu_730, PauseMenu_73C, PauseMenu_748, PauseToFrontEnd, PauseBackToGame, PauseBackToGame_28A
@@ -62,7 +62,7 @@ RunInGameMenu:
         movsx eax, al
         test eax, eax
         je short .2
-        mov dword [dword_1150FC], edx
+        mov dword [gameresult], edx
         jmp short .5
 .2:
         call PauseGame
@@ -86,7 +86,7 @@ RunInGameMenu:
         call InGameMenu
         test eax, eax
         jne short .5
-        mov dword [dword_1150FC], 2
+        mov dword [gameresult], 2
 .5:
         call ResetSlotButtons
         call LinkResyncInput
@@ -119,7 +119,7 @@ DrawPauseButtons:
         movsx esi, word [byte esi+0Eh]
 .2:
         push str_Qui02
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         movsx edx, word [byte eax+0Eh]
         add esp, byte 8
@@ -132,7 +132,7 @@ DrawPauseButtons:
         call DrawArt
         add esp, byte 0Ch
         push str_Ret02
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         movsx edx, word [byte eax+0Eh]
         add esp, byte 8
@@ -153,7 +153,7 @@ DrawPauseButtons:
         sub eax, edi
         push eax
         push str_Rep0
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         add esp, byte 8
         push eax
@@ -168,7 +168,7 @@ DrawPauseButtons:
         sub eax, edi
         push eax
         push str_Ctr02
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         add esp, byte 8
         push eax
@@ -183,7 +183,7 @@ DrawPauseButtons:
         sub eax, edi
         push eax
         push str_Sts02
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         add esp, byte 8
         push eax
@@ -204,7 +204,7 @@ DrawPauseButtons:
         sub eax, edi
         push eax
         push str_Edt02
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         add esp, byte 8
         push eax
@@ -231,7 +231,7 @@ DrawPauseButtons:
         push eax
         push str_Cht02
 .4:
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         add esp, byte 8
         push eax
@@ -259,7 +259,7 @@ DrawPauseFrame:
         mov eax, esi
         cdq
         idiv ebx
-        movsx eax, word [word_117902]
+        movsx eax, word [clockticks]
         imul eax, byte 0Ah
         mov ebx, 18h
         mov dword [byte ebp-014h], edx
@@ -375,7 +375,7 @@ DrawPauseFrame:
         mov eax, unk_17D3E8
         mov edx, esi
         call DrawBox
-        movsx eax, word [word_1656E8]
+        movsx eax, word [hmscore]
         push eax
         push str_D16
         push unk_17D52C
@@ -540,7 +540,7 @@ DrawPauseFrame:
         mov eax, unk_17D3E8
         mov edx, esi
         call DrawBox
-        movsx eax, word [word_16581E]
+        movsx eax, word [awscore]
         push eax
         push str_D16
         push unk_17D52C
@@ -714,8 +714,8 @@ DrawPauseFrame:
 .20:
         test eax, eax
         je short .22
-        mov ax, word [word_1656E8]
-        cmp ax, word [word_16581E]
+        mov ax, word [hmscore]
+        cmp ax, word [awscore]
         je short .21
         mov eax, 89h
         jmp short .23
@@ -825,7 +825,7 @@ DrawPauseFrame:
         jmp near DrawPauseFrame_9C2
 .28:
         push str_Paus
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         mov esi, eax
         mov eax, dword [dword_17D520]
@@ -839,7 +839,7 @@ DrawPauseFrame:
         call DrawArt
         add esp, byte 0Ch
         push str_Sid12
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         movsx ebx, word [byte eax+0Eh]
         movsx edx, word [byte esi+0Eh]
@@ -860,7 +860,7 @@ DrawPauseFrame:
         call DrawArt
         add esp, byte 0Ch
         push str_Sid22
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         movsx ebx, word [byte eax+0Eh]
         movsx edx, word [byte esi+0Eh]
@@ -882,7 +882,7 @@ DrawPauseFrame:
         call DrawArt
         add esp, byte 0Ch
         push str_Bot12
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         movsx ebx, word [byte eax+0Eh]
         movsx edx, word [byte esi+0Eh]
@@ -905,7 +905,7 @@ DrawPauseFrame:
         call DrawArt
         add esp, byte 0Ch
         push str_Bot22
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         movsx edx, word [byte eax+0Eh]
         movsx ebx, word [byte esi+0Eh]
@@ -927,7 +927,7 @@ DrawPauseFrame:
         call DrawArt
         add esp, byte 0Ch
         push str_Bot32
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         movsx edx, word [byte eax+0Eh]
         movsx ebx, word [byte esi+0Eh]
@@ -956,14 +956,14 @@ DrawPauseFrame:
         push dword [dword_11F5C4]
         push dword [dword_11F5C0]
         call CreateBitmap
-        mov dword [dword_17D518], eax
+        mov dword [PauseClockArea], eax
         mov eax, dword [byte eax+02Ch]
         mov word [byte eax+0Ch], 0
-        mov eax, dword [dword_17D518]
+        mov eax, dword [PauseClockArea]
         mov eax, dword [byte eax+02Ch]
         mov word [byte eax+0Eh], 0
         add esp, byte 0Ch
-        mov eax, dword [dword_17D518]
+        mov eax, dword [PauseClockArea]
         push dword [byte eax+02Ch]
         call DrawShapeAtOwnPos
         add esp, byte 4
@@ -1067,7 +1067,7 @@ SaveGameFile_59:
         call LoadExhibitionStats
         jmp short SaveGameFile_81.2
 SaveGameFile_60:
-        mov eax, dword [dword_17CBE7]
+        mov eax, dword [PlayoffTreeData]
         call LoadSeasonStats
         jmp short SaveGameFile_81.2
 SaveGameFile_6C:
@@ -1091,7 +1091,7 @@ SaveGameFile_81:
         shr edx, 1Bh
         imul edx, dword 31Bh
         mov ecx, 31Bh
-        mov eax, dword [dword_1174F0]
+        mov eax, dword [statsplayoffs]
         mov ebx, 0FFFFFFFFh
         add edx, eax
         mov eax, dword [byte ebp-018h]
@@ -1102,7 +1102,7 @@ SaveGameFile_81:
         shr eax, 1Bh
         imul eax, dword 31Bh
         mov ecx, 31Bh
-        mov edx, dword [dword_1174F0]
+        mov edx, dword [statsplayoffs]
         mov ebx, 0FFFFFFFFh
         add edx, eax
         mov eax, dword [byte ebp-018h]
@@ -1112,7 +1112,7 @@ SaveGameFile_81:
         shl eax, 0Fh
         shr eax, 1Bh
         imul eax, dword 31Bh
-        mov esi, dword [dword_1174F0]
+        mov esi, dword [statsplayoffs]
         add esi, eax
         mov edi, esi
         lea eax, [byte esi+064h]
@@ -1167,7 +1167,7 @@ SaveGameFile_81:
         shl edi, 0Ah
         shr edi, 1Bh
         imul edi, dword 31Bh
-        mov eax, dword [dword_1174F0]
+        mov eax, dword [statsplayoffs]
         add edi, eax
         mov esi, edi
         lea eax, [byte edi+064h]
@@ -1237,17 +1237,17 @@ SaveGameFile_81:
         mov ebx, 7
         mov byte [dword eax+byte_17CC37], dl
         lea eax, [byte ebp-044h]
-        mov edx, dword [dword_17CBE7]
+        mov edx, dword [PlayoffTreeData]
         call MakeSeasonDbPath
         push dword 3A7h
-        push unk_17CB2E
+        push SeasonUserRecords
         lea eax, [byte ebp-044h]
         push eax
         call SaveDataFile
         mov ecx, 3A7h
         mov ebx, 0FFFFFFFFh
         add esp, byte 0Ch
-        mov edx, unk_17CB2E
+        mov edx, SeasonUserRecords
         mov eax, dword [byte ebp-018h]
         call FileWriteAt
         mov dword [byte ebp-04h], eax
@@ -1273,17 +1273,17 @@ SaveGameFile_81:
         mov ebx, 7
         mov byte [dword eax+byte_17CC37], dl
         lea eax, [byte ebp-044h]
-        mov edx, dword [dword_17CBE7]
+        mov edx, dword [PlayoffTreeData]
         call MakeSeasonDbPath
         push dword 3A7h
-        push unk_17CB2E
+        push SeasonUserRecords
         lea eax, [byte ebp-044h]
         push eax
         call SaveDataFile
         mov ecx, 3A7h
         mov ebx, 0FFFFFFFFh
         add esp, byte 0Ch
-        mov edx, unk_17CB2E
+        mov edx, SeasonUserRecords
         mov eax, dword [byte ebp-018h]
         call FileWriteAt
 .13:
@@ -1341,11 +1341,11 @@ PauseMenu:
         mov dword [byte ebp+07Eh], 0FFFFFFFFh
         cmp word [word_11D927], byte 0
         je short .1
-        push dword [dword_11B234]
+        push dword [ReplayRemoteShape]
         call SetDrawBitmap
         add esp, byte 4
         push byte 0
-        mov eax, dword [dword_17D518]
+        mov eax, dword [PauseClockArea]
         push byte 0
         push dword [byte eax+02Ch]
         call PutBlock
@@ -1354,7 +1354,7 @@ PauseMenu:
         call DrawPauseButtons
         call SetScreenTarget
         push byte 0
-        mov eax, dword [dword_11B234]
+        mov eax, dword [ReplayRemoteShape]
         push byte 0
         push dword [byte eax+02Ch]
         call PutBlock
@@ -1382,16 +1382,16 @@ PauseMenu:
         mov eax, 7
         call InitMenuItems
         push str_Qui02
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         add esp, byte 8
         push str_Qui12
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         mov dword [dword ebp-0270h], eax
         call FindShape
         add esp, byte 8
         push str_Qui22
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         mov dword [dword ebp-026Ch], eax
         call FindShape
         mov dword [dword ebp-0268h], eax
@@ -1413,7 +1413,7 @@ PauseMenu:
         add edx, eax
         mov eax, dword [dword ebp-0270h]
         mov dword [dword ebp-0250h], edx
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         movsx eax, word [byte eax+06h]
         mov edx, dword [dword ebp-0260h]
         sar eax, 1
@@ -1424,12 +1424,12 @@ PauseMenu:
         call FindShape
         add esp, byte 8
         push str_Ret12
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         mov dword [dword ebp-020Ah], eax
         call FindShape
         add esp, byte 8
         push str_Ret22
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         mov dword [dword ebp-0206h], eax
         call FindShape
         mov dword [dword ebp-0202h], eax
@@ -1466,19 +1466,19 @@ PauseMenu:
         test eax, eax
         je short .4
         push str_Cht02
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         add esp, byte 8
         push str_Cht12
         jmp short .5
 .4:
         push str_Edt02
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         add esp, byte 8
         push str_Edt12
 .5:
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         mov dword [dword ebp-01A4h], eax
         call FindShape
         add esp, byte 8
@@ -1493,12 +1493,12 @@ PauseMenu:
         mov dword [dword eax+084h], edx
         push str_Rep0
         mov byte [dword ebp-0179h], 3
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         mov byte [dword ebp-017Bh], 4
         call FindShape
         add esp, byte 8
         push str_Rep1
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         mov dword [dword ebp-013Eh], eax
         call FindShape
         mov dword [dword ebp-013Ah], eax
@@ -1513,12 +1513,12 @@ PauseMenu:
         mov dword [dword eax+0C4h], edx
         push str_Ctr02
         mov byte [dword ebp-0114h], 2
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         mov byte [dword ebp-0115h], 5
         call FindShape
         add esp, byte 8
         push str_Ctr12
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         mov dword [dword ebp-0D8h], eax
         call FindShape
         mov dword [dword ebp-0D4h], eax
@@ -1534,12 +1534,12 @@ PauseMenu:
         push str_Sts02
         mov byte [dword ebp-0ADh], 5
         mov byte [dword ebp-0B0h], 2
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         mov byte [dword ebp-0AFh], 0
         call FindShape
         add esp, byte 8
         push str_Sts12
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         mov dword [byte ebp-072h], eax
         call FindShape
         add esp, byte 8
@@ -1562,11 +1562,11 @@ PauseMenu:
         test eax, eax
         jne short .6
         push str_Sav02
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         add esp, byte 8
         push str_Sav12
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         mov dword [byte ebp-0Ch], eax
         call FindShape
         mov dword [byte ebp-08h], eax
@@ -1730,7 +1730,7 @@ PauseMenu_66B:
         call MessageBox
         test eax, eax
         jne near PauseMenu_748.25
-        mov dword [dword_1150FC], 2
+        mov dword [gameresult], 2
         mov eax, 3
         mov dword [byte ebp+07Eh], 0FFFFFFFEh
         call FadeOut
@@ -1792,7 +1792,7 @@ PauseMenu_748:
         mov eax, unk_17D52C
         xor ebx, ebx
         call MakeDirPath
-        push dword [dword_17CBE7]
+        push dword [PlayoffTreeData]
         push str_05d4
         lea eax, [byte ebp+06Eh]
         push eax
@@ -1817,7 +1817,7 @@ PauseMenu_748:
         mov eax, unk_17D52C
         xor ebx, ebx
         call MakeDirPath
-        push dword [dword_17CBE7]
+        push dword [PlayoffTreeData]
         jmp short .17
 .16:
         mov edx, 6
@@ -1943,7 +1943,7 @@ PauseMenu_748:
         call MessageBox
         test byte [optflags], 70h
         je short .23
-        mov dword [dword_1150FC], 2
+        mov dword [gameresult], 2
         mov dword [byte ebp+07Eh], 0FFFFFFFEh
 .23:
         mov word [word_11D927], 1
@@ -1978,7 +1978,7 @@ PauseToFrontEnd:
         call FreeColourLookup
         call FreeTotalSprites
         push byte 20h
-        mov eax, dword [dword_17D518]
+        mov eax, dword [PauseClockArea]
         push dword [byte eax+04h]
         push dword [eax]
         call CreateBitmap
@@ -1988,15 +1988,15 @@ PauseToFrontEnd:
         call SetDrawBitmap
         add esp, byte 4
         push byte 0
-        mov eax, dword [dword_17D518]
+        mov eax, dword [PauseClockArea]
         push byte 0
         push dword [byte eax+02Ch]
         call PutBlock
         add esp, byte 0Ch
-        push dword [dword_17D518]
+        push dword [PauseClockArea]
         call FreeBitmap
         add esp, byte 4
-        mov dword [dword_17D518], esi
+        mov dword [PauseClockArea], esi
         call RestoreSpeechBuffer
         call FreeFightSprites
         call StopAllSfx
@@ -2011,23 +2011,23 @@ PauseToFrontEnd:
         mov dword [dword_152F58], eax
         call FindShape
         add esp, byte 8
-        mov dword [dword_152F50], eax
+        mov dword [MenuRemoteCursorArt], eax
         test byte [byte_17CA5D], 20h
         jne short .1
-        push dword [dword_152F54]
+        push dword [MenuCursorPixels]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_152F5C]
+        push dword [MenuBitmapPixels]
         call FreeMemBlock
         add esp, byte 4
         mov edx, 20h
         mov eax, dword [dword_152F58]
         call CopyBitmap
         mov edx, 20h
-        mov dword [dword_152F54], eax
-        mov eax, dword [dword_152F50]
+        mov dword [MenuCursorPixels], eax
+        mov eax, dword [MenuRemoteCursorArt]
         call CopyBitmap
-        mov dword [dword_152F5C], eax
+        mov dword [MenuBitmapPixels], eax
 .1:
         call LoadFrontEndArt
         test byte [byte_17CA5D], 20h
@@ -2061,10 +2061,10 @@ PauseBackToGame:
         call FreeFrontEndArt
         test byte [byte_17CA5D], 20h
         jne short .1
-        push dword [dword_152F54]
+        push dword [MenuCursorPixels]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_152F5C]
+        push dword [MenuBitmapPixels]
         call FreeMemBlock
         add esp, byte 4
         push str_GloL3
@@ -2077,14 +2077,14 @@ PauseBackToGame:
         call FindShape
         mov edx, 20h
         add esp, byte 8
-        mov dword [dword_152F50], eax
+        mov dword [MenuRemoteCursorArt], eax
         mov eax, dword [dword_152F58]
         call CopyBitmap
         mov edx, 20h
-        mov dword [dword_152F54], eax
-        mov eax, dword [dword_152F50]
+        mov dword [MenuCursorPixels], eax
+        mov eax, dword [MenuRemoteCursorArt]
         call CopyBitmap
-        mov dword [dword_152F5C], eax
+        mov dword [MenuBitmapPixels], eax
         jmp short .2
 .1:
         push str_GhiL3
@@ -2096,7 +2096,7 @@ PauseBackToGame:
         mov dword [dword_152F58], eax
         call FindShape
         add esp, byte 8
-        mov dword [dword_152F50], eax
+        mov dword [MenuRemoteCursorArt], eax
 .2:
         call InitSlotTable
         call RefreshControlSlots
@@ -2108,7 +2108,7 @@ PauseBackToGame:
         call StopAllSfx
         call FreeColourLookup
         push byte 20h
-        mov eax, dword [dword_17D518]
+        mov eax, dword [PauseClockArea]
         push dword [byte eax+04h]
         push dword [eax]
         call CreateBitmap
@@ -2118,19 +2118,19 @@ PauseBackToGame:
         call SetDrawBitmap
         add esp, byte 4
         push byte 0
-        mov eax, dword [dword_17D518]
+        mov eax, dword [PauseClockArea]
         push byte 0
         push dword [byte eax+02Ch]
         call PutBlock
         add esp, byte 0Ch
-        push dword [dword_17D518]
+        push dword [PauseClockArea]
         call FreeBitmap
         add esp, byte 4
-        mov dword [dword_17D518], esi
+        mov dword [PauseClockArea], esi
         call StartGameSound
         call FreeSpeechBuffer
         push byte 0
-        mov eax, dword [dword_17D518]
+        mov eax, dword [PauseClockArea]
         push dword [byte eax+04h]
         push dword [eax]
         call CreateBitmap
@@ -2140,18 +2140,18 @@ PauseBackToGame:
         call SetDrawBitmap
         add esp, byte 4
         push byte 0
-        mov eax, dword [dword_17D518]
+        mov eax, dword [PauseClockArea]
         push byte 0
         push dword [byte eax+02Ch]
         call PutBlock
         add esp, byte 0Ch
-        push dword [dword_17D518]
+        push dword [PauseClockArea]
         call FreeBitmap
         add esp, byte 4
-        mov dword [dword_17D518], esi
+        mov dword [PauseClockArea], esi
         call LoadFightSprites
         push byte 20h
-        mov eax, dword [dword_17D518]
+        mov eax, dword [PauseClockArea]
         push dword [byte eax+04h]
         push dword [eax]
         call CreateBitmap
@@ -2161,21 +2161,21 @@ PauseBackToGame:
         call SetDrawBitmap
         add esp, byte 4
         push byte 0
-        mov eax, dword [dword_17D518]
+        mov eax, dword [PauseClockArea]
         push byte 0
         push dword [byte eax+02Ch]
         call PutBlock
         add esp, byte 0Ch
-        push dword [dword_17D518]
+        push dword [PauseClockArea]
         call FreeBitmap
         add esp, byte 4
-        mov dword [dword_17D518], esi
+        mov dword [PauseClockArea], esi
         call RestoreSpeechBuffer
-        mov eax, unk_16443C
+        mov eax, exhstate
         call SetScreenPalette
         call FreeSpeechBuffer
         push byte 0
-        mov eax, dword [dword_17D518]
+        mov eax, dword [PauseClockArea]
         push dword [byte eax+04h]
         push dword [eax]
         call CreateBitmap
@@ -2185,28 +2185,28 @@ PauseBackToGame:
         call SetDrawBitmap
         add esp, byte 4
         push byte 0
-        mov eax, dword [dword_17D518]
+        mov eax, dword [PauseClockArea]
         push byte 0
         push dword [byte eax+02Ch]
         call PutBlock
         add esp, byte 0Ch
-        push dword [dword_17D518]
+        push dword [PauseClockArea]
         call FreeBitmap
         add esp, byte 4
-        mov dword [dword_17D518], esi
+        mov dword [PauseClockArea], esi
         call LoadTotalSprites
         xor eax, eax
         call CrowdNoiseReset
         call SetScreenTarget
         push byte 0
-        mov eax, dword [dword_17D518]
+        mov eax, dword [PauseClockArea]
         push byte 0
         push dword [byte eax+02Ch]
         call PutBlock
         mov ebx, 2
         add esp, byte 0Ch
         xor eax, eax
-        mov edx, unk_16443C
+        mov edx, exhstate
         call DrawPauseButtons
         xor eax, eax
         mov word [word_11D927], 0
@@ -2240,7 +2240,7 @@ LoadModeStats:
 ; Loads the current season's stats
 ;-----------------------------------------------------------------------------
 LoadCurrentSeasonStats:
-        mov eax, dword [dword_17CBE7]
+        mov eax, dword [PlayoffTreeData]
         jmp near LoadSeasonStats
 ;-----------------------------------------------------------------------------
 ; LoadPlayoffOrSeasonStats                        6C66D  96 PC, low confidence
@@ -2313,7 +2313,7 @@ PauseGame:
         sub edx, eax
         push str_Paus
         inc edx
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         mov dword [dword_17D4F4], edx
         call FindShape
         add esp, byte 8
@@ -2321,13 +2321,13 @@ PauseGame:
         push str_Sid12
         movsx eax, word [byte eax+04h]
         movsx edi, word [byte esi+06h]
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         mov dword [byte ebp-0Ch], eax
         call FindShape
         add esp, byte 8
         push str_Bot12
         movsx eax, word [byte eax+06h]
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         add edi, eax
         call FindShape
         add esp, byte 8
@@ -2351,7 +2351,7 @@ PauseGame:
         call PutBlock
         add esp, byte 0Ch
         push str_Sid12
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         movsx edx, word [byte eax+0Eh]
         movsx ebx, word [byte esi+0Eh]
@@ -2366,7 +2366,7 @@ PauseGame:
         call PutBlock
         add esp, byte 0Ch
         push str_Sid22
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         add esp, byte 8
         movsx ebx, word [byte eax+0Eh]
@@ -2381,7 +2381,7 @@ PauseGame:
         call PutBlock
         add esp, byte 0Ch
         push str_Bot12
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         movsx ebx, word [byte eax+0Eh]
         movsx edx, word [byte esi+0Eh]
@@ -2396,7 +2396,7 @@ PauseGame:
         call PutBlock
         add esp, byte 0Ch
         push str_Bot22
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         movsx ebx, word [byte eax+0Eh]
         movsx edx, word [byte esi+0Eh]
@@ -2411,7 +2411,7 @@ PauseGame:
         call PutBlock
         add esp, byte 0Ch
         push str_Bot32
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         movsx ebx, word [byte eax+0Eh]
         movsx edx, word [byte esi+0Eh]
@@ -2427,7 +2427,7 @@ PauseGame:
         add esp, byte 0Ch
         mov eax, 1
         call DrawPauseButtons
-        push dword [dword_11B234]
+        push dword [ReplayRemoteShape]
         call SetDrawBitmap
         add esp, byte 4
         cmp word [word_114F14], byte 0
@@ -2478,7 +2478,7 @@ PauseGame:
         cmp word [word_114F14], byte 0
         je short .10
         mov ebx, 2
-        mov edx, unk_16443C
+        mov edx, exhstate
         xor eax, eax
         call FadePalette
         mov word [word_114F14], 0
@@ -2698,24 +2698,24 @@ PauseGame_620:
         jge near PauseGame.11
         mov eax, 1
         call LinkSync
-        push dword [dword_17D518]
+        push dword [PauseClockArea]
         call FreeBitmap
         add esp, byte 4
         push str_Paus
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         add esp, byte 8
         mov esi, eax
         push str_Sid12
         movsx eax, word [byte eax+04h]
         movsx edi, word [byte esi+06h]
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         mov dword [byte ebp-014h], eax
         call FindShape
         add esp, byte 8
         push str_Bot12
         movsx eax, word [byte eax+06h]
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         add edi, eax
         call FindShape
         add esp, byte 8
@@ -2739,7 +2739,7 @@ PauseGame_620:
         call PutBlock
         add esp, byte 0Ch
         push str_Sid12
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         movsx ebx, word [byte eax+0Eh]
         movsx edx, word [byte esi+0Eh]
@@ -2754,7 +2754,7 @@ PauseGame_620:
         call PutBlock
         add esp, byte 0Ch
         push str_Sid22
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         movsx ebx, word [byte eax+0Eh]
         movsx edx, word [byte esi+0Eh]
@@ -2769,7 +2769,7 @@ PauseGame_620:
         call PutBlock
         add esp, byte 0Ch
         push str_Bot12
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         movsx edx, word [byte eax+0Eh]
         movsx ebx, word [byte esi+0Eh]
@@ -2784,7 +2784,7 @@ PauseGame_620:
         call PutBlock
         add esp, byte 0Ch
         push str_Bot22
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         movsx edx, word [byte eax+0Eh]
         movsx ebx, word [byte esi+0Eh]
@@ -2799,7 +2799,7 @@ PauseGame_620:
         call PutBlock
         add esp, byte 0Ch
         push str_Bot32
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         movsx ebx, word [byte eax+0Eh]
         movsx edx, word [byte esi+0Eh]
@@ -2815,10 +2815,10 @@ PauseGame_620:
         add esp, byte 0Ch
         mov eax, 1
         call DrawPauseButtons
-        push dword [dword_11B234]
+        push dword [ReplayRemoteShape]
         call SetDrawBitmap
         add esp, byte 4
-        cmp dword [dword_1150FC], byte 0
+        cmp dword [gameresult], byte 0
         jne short .31
         push dword [dword_11F5C4]
         push dword [dword_11F5C0]

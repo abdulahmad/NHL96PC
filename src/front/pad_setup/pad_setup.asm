@@ -5,7 +5,7 @@ section s_201CD progbits alloc exec nowrite align=1
 extern byte_11FA2E, byte_11FA2F, byte_151708, byte_151774, byte_151778, byte_158D2A, byte_158D2B, byte_158D2C
 extern byte_158D2D, byte_17BDAE, byte_17CA24, byte_17CA3C, byte_17CA54, dword_114CB0, dword_114CB4, dword_117588
 extern dword_11F5C0, dword_151698, dword_1516A8, dword_158CC0, dword_158CCC, dword_158CD0, dword_158CD4, dword_158D54
-extern dword_158D64, dword_158D68, dword_158D6C, dword_158D70, dword_17BC78, TeamStatsBitmap, dword_17BD48, FillRect
+extern dword_158D64, dword_158D68, dword_158D6C, dword_158D70, MatchupLayer, TeamStatsBitmap, str_Standings, FillRect
 extern TextStringWidth, GetGripButtonMap, GetInputDevices, GetTicks, InitInputDevices, LoadPackedFile, MessageBox, MouseRead
 extern mousex, mousey, ReadJoystickBits, SetGripButtonMap, sprintf_, str_A, str_BKGD, str_BT00
 extern str_BT01, str_BT02, str_D3, str_feB, str_GRIPCON, str_LTD0, str_Pal4, str_RGRIPCON
@@ -731,7 +731,7 @@ GripSetupScreen:
         push byte 1
         call ClearScreenColour
         add esp, byte 4
-        push dword [dword_17BC78]
+        push dword [MatchupLayer]
         call TextSetFont
         add esp, byte 4
         movzx eax, byte [byte_11FA2F]
@@ -1332,7 +1332,7 @@ GripSetupScreen:
         mov esi, dword [dword_158D70]
         mov ecx, 66h
         lea edi, [dword esi+0FF0h]
-        mov esi, dword_17BD48
+        mov esi, str_Standings
         rep movsb
         cmp dword [byte ebp-024h], byte 0
         jge short .20
@@ -1441,7 +1441,7 @@ GripSetupScreen:
         push edx
         push esi
         push edi
-        push dword [dword_17BC78]
+        push dword [MatchupLayer]
         call TextSetFont
         add esp, byte 4
         call GetInputDevices
@@ -1709,7 +1709,7 @@ JoystickTestScreen:
         mov byte [dword ebp-0A0h], 1
         mov ecx, 66h
         lea edi, [byte ebp-07Eh]
-        mov esi, dword_17BD48
+        mov esi, str_Standings
         mov byte [dword ebp-09Fh], 0
         mov byte [dword ebp-0A1h], 1
         rep movsb

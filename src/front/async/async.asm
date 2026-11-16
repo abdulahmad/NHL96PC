@@ -2,9 +2,9 @@
 bits 32
 %include "hockey.inc"
 section s_1B807 progbits alloc exec nowrite align=1
-extern addtimer, dword_1150E0, dword_1150E4, dword_152F60, AsyncCurFile, AsyncCurOffset, dword_152F6C, dword_152F70
-extern dword_152F74, dword_152F78, dword_152F7C, dword_152F80, dword_152F88, dword_152F8C, dword_152F90, dword_152F94
-extern dword_152F98, dword_152F9C, dword_152FA0, dword_152FA4, dword_152FAC, dword_152FB0, dword_152FB4, dword_152FB8
+extern addtimer, dword_1150E0, AsyncQueueTail, AsyncRequests, AsyncCurFile, AsyncCurOffset, AsyncFreeList, dword_152F70
+extern dword_152F74, dword_152F78, dword_152F7C, dword_152F80, AsyncFileHandle, dword_152F8C, dword_152F90, dword_152F94
+extern dword_152F98, dword_152F9C, dword_152FA0, dword_152FA4, dword_152FAC, dword_152FB0, AsyncStreamFile, AsyncWaitTimer
 extern dword_152FBC, dword_152FC4, dword_152FC8, dword_152FCC, dword_152FD0, dword_152FD4, FatalError, openhandle
 extern SetTickDeadline, str_ASYNC, str_ASYNCFILE, str_AsyncreaderNOFILESPECIFI, str_AsyncreaderNOFILESPECIFI2, str_AsyncreaderNOFILESPECIFI3, str_GetasyncblockDNOASYNCBLO, str_SetasyncspeedSFILEISTOOS
 extern str_SetasyncspeedSFILEISTOOS2, strcmp_, strncpy_, RemoveTimerCallback, AllocMemBlockLockedChecked, AllocMemBlock, FreeMemBlock, PushMemDescriptorLocked
@@ -51,7 +51,7 @@ setasyncspeed:
         call FatalError
         add esp, byte 8
 .2:
-        mov eax, dword [dword_152F88]
+        mov eax, dword [AsyncFileHandle]
         inc eax
         cmp eax, dword [byte ebp-018h]
         jle short .3
@@ -116,24 +116,24 @@ setasyncspeed:
         mov esi, 493E0h
         cdq
         idiv esi
-        mov dword [dword_152FB4], eax
+        mov dword [AsyncStreamFile], eax
         mov dword [dword_152FC8], eax
         cmp eax, 0DAh
         jle short .8
-        mov dword [dword_152FB4], 0DAh
+        mov dword [AsyncStreamFile], 0DAh
 .8:
-        cmp dword [dword_152FB4], byte 0
+        cmp dword [AsyncStreamFile], byte 0
         jg short .9
-        mov dword [dword_152FB4], 1
+        mov dword [AsyncStreamFile], 1
 .9:
-        mov edx, dword [dword_152FB4]
-        mov eax, dword [dword_152F88]
+        mov edx, dword [AsyncStreamFile]
+        mov eax, dword [AsyncFileHandle]
         imul edx
         add eax, 8000h
         adc edx, byte 0
         shrd eax, edx, 10h
         push byte 32h
-        mov dword [dword_152FB8], eax
+        mov dword [AsyncWaitTimer], eax
         call SetTickDeadline
         add esp, byte 4
         call WaitTickDeadline
@@ -168,7 +168,7 @@ setasyncspeed:
         mov eax, 3E80000h
         cdq
         add esp, byte 4
-        idiv dword [dword_152FB4]
+        idiv dword [AsyncStreamFile]
 setasyncspeed_ret:
         leave
         pop edi
@@ -178,26 +178,26 @@ setasyncspeed_ret:
         mov ebp, esp
         mov eax, dword [byte ebp+08h]
         mov edx, dword [byte ebp+08h]
-        mov dword [dword_152FB4], eax
-        mov eax, dword [dword_152F88]
+        mov dword [AsyncStreamFile], eax
+        mov eax, dword [AsyncFileHandle]
         imul edx
         add eax, 8000h
         adc edx, byte 0
         shrd eax, edx, 10h
-        mov dword [dword_152FB8], eax
+        mov dword [AsyncWaitTimer], eax
         mov eax, dword [byte ebp+0Ch]
         mov dword [dword_152FBC], eax
         pop ebp
         ret
         mov edx, 0DAh
-        mov eax, dword [dword_152F88]
-        mov dword [dword_152FB4], 0DAh
+        mov eax, dword [AsyncFileHandle]
+        mov dword [AsyncStreamFile], 0DAh
         imul edx
         add eax, 8000h
         adc edx, byte 0
         shrd eax, edx, 10h
         mov dword [dword_152FBC], 12Ch
-        mov dword [dword_152FB8], eax
+        mov dword [AsyncWaitTimer], eax
         ret
 ;-----------------------------------------------------------------------------
 ; AsyncInit                                    1BA4D  96 PC, medium confidence
@@ -216,8 +216,8 @@ AsyncInit:
         mov ecx, dword [byte ebp+0Ch]
         mov edx, eax
         add esp, byte 0Ch
-        mov dword [dword_152F60], eax
-        mov dword [dword_152F6C], eax
+        mov dword [AsyncRequests], eax
+        mov dword [AsyncFreeList], eax
         lea ebx, [byte ecx-01h]
         xor edx, eax
         jmp short .2
@@ -235,22 +235,22 @@ AsyncInit:
         mov dword [dword_152F74], 0FFFFFFFFh
         mov dword [dword_152F78], 0FFFFFFFFh
         and eax, 0FFFF800h
-        mov dword [dword_1150E4], ecx
-        mov dword [dword_152F88], eax
-        cmp dword [dword_152FB4], byte 0
+        mov dword [AsyncQueueTail], ecx
+        mov dword [AsyncFileHandle], eax
+        cmp dword [AsyncStreamFile], byte 0
         jne short .3
-        mov dword [dword_152FB4], 0DAh
+        mov dword [AsyncStreamFile], 0DAh
         mov dword [dword_152FBC], 12Ch
 .3:
         mov eax, dword [byte ebp+010h]
-        mov edx, dword [dword_152FB4]
+        mov edx, dword [AsyncStreamFile]
         imul edx
         add eax, 8000h
         adc edx, byte 0
         shrd eax, edx, 10h
         push AsyncTimerTick
         mov dword [dword_152FB0], 0
-        mov dword [dword_152FB8], eax
+        mov dword [AsyncWaitTimer], eax
         call addtimer
         add esp, byte 4
         pop ebp
@@ -278,8 +278,8 @@ AsyncClose:
         call CdCloseFile
         add esp, byte 4
 .2:
-        push dword [dword_152F60]
-        mov edi, dword_152F60
+        push dword [AsyncRequests]
+        mov edi, AsyncRequests
         call FreeMemBlock
         add esp, byte 4
         mov ecx, 54h
@@ -511,11 +511,11 @@ asyncreader_B:
 .1:
         cmp dword [dword esi+097h], byte 0FFFFFFFFh
         jne short .3
-        inc dword [dword_1150E4]
+        inc dword [AsyncQueueTail]
 .2:
-        mov eax, dword [dword_152F6C]
+        mov eax, dword [AsyncFreeList]
         mov dword [dword esi+0A7h], eax
-        mov dword [dword_152F6C], esi
+        mov dword [AsyncFreeList], esi
         jmp near asyncreader_3EF.29
 .3:
         cmp dword [dword esi+093h], byte 3
@@ -549,7 +549,7 @@ asyncreader_B:
         add esp, byte 14h
 .5:
         mov eax, dword [dword_152F74]
-        inc dword [dword_1150E4]
+        inc dword [AsyncQueueTail]
         mov dword [dword_152F78], eax
         jmp near .2
 .6:
@@ -699,11 +699,11 @@ asyncreader_34D:
         cmp dword [dword eax+097h], byte 0FFFFFFFFh
         jne short .21
         mov dword [dword_152F74], 0FFFFFFFFh
-        inc dword [dword_1150E4]
-        mov esi, dword [dword_152F6C]
+        inc dword [AsyncQueueTail]
+        mov esi, dword [AsyncFreeList]
         mov dword [dword eax+0A7h], esi
         mov dword [dword_152F80], 1
-        mov dword [dword_152F6C], eax
+        mov dword [AsyncFreeList], eax
         jmp near asyncreader_3EF.29
 .21:
         push byte 8
@@ -741,12 +741,12 @@ asyncreader_3EF:
         mov dword [dword_152F74], 0FFFFFFFFh
         call PushMemDescriptorLocked
         mov eax, dword [dword_152F70]
-        inc dword [dword_1150E4]
-        mov esi, dword [dword_152F6C]
+        inc dword [AsyncQueueTail]
+        mov esi, dword [AsyncFreeList]
         mov dword [dword eax+0A7h], esi
         add esp, byte 4
         mov dword [dword_152F80], 1
-        mov dword [dword_152F6C], eax
+        mov dword [AsyncFreeList], eax
         jmp near .26
 .23:
         mov eax, dword [dword_152F98]
@@ -756,9 +756,9 @@ asyncreader_3EF:
         mov eax, dword [dword_152F8C]
         add eax, dword [dword_152FA0]
         mov edi, dword [dword_152FB0]
-        cmp eax, dword [dword_152F88]
+        cmp eax, dword [AsyncFileHandle]
         jle short .24
-        mov esi, dword [dword_152F88]
+        mov esi, dword [AsyncFileHandle]
         sub esi, dword [dword_152FA0]
         jmp short .25
 .24:
@@ -775,7 +775,7 @@ asyncreader_3EF:
         mov dword [dword_152FB0], edi
         add dword [dword_152FD0], esi
         add dword [dword_152FCC], eax
-        mov eax, dword [dword_152FB8]
+        mov eax, dword [AsyncWaitTimer]
         add dword [dword_152FA4], esi
         add edi, eax
         sub dword [dword_152F8C], esi
@@ -814,9 +814,9 @@ asyncreader_3EF:
         mov eax, dword [dword_152F8C]
         add eax, dword [dword_152FA0]
         mov edi, dword [dword_152FB0]
-        cmp eax, dword [dword_152F88]
+        cmp eax, dword [AsyncFileHandle]
         jl short .31
-        mov esi, dword [dword_152F88]
+        mov esi, dword [AsyncFileHandle]
         sub esi, dword [dword_152FA0]
         mov dword [dword_152FA0], 0
         jmp short .32
@@ -834,7 +834,7 @@ asyncreader_3EF:
         mov dword [dword_152FB0], edi
         add dword [dword_152FD0], esi
         add dword [dword_152FCC], eax
-        mov eax, dword [dword_152FB8]
+        mov eax, dword [AsyncWaitTimer]
         add dword [dword_152FA4], esi
         add edi, eax
         sub dword [dword_152F8C], esi
@@ -857,11 +857,11 @@ asyncreader_614:
 .33:
         mov dword [dword_152F74], 0FFFFFFFFh
         mov eax, dword [dword_152F70]
-        inc dword [dword_1150E4]
-        mov esi, dword [dword_152F6C]
+        inc dword [AsyncQueueTail]
+        mov esi, dword [AsyncFreeList]
         mov dword [dword eax+0A7h], esi
         mov dword [dword_152F80], 1
-        mov dword [dword_152F6C], eax
+        mov dword [AsyncFreeList], eax
 .34:
         mov eax, dword [dword_152F70]
         cmp dword [dword eax+093h], byte 4
@@ -895,11 +895,11 @@ AsyncTimerTick:
         mov eax, dword [dword edx+0A3h]
         test eax, eax
         je short AsyncTimerTick_45.3
-        inc dword [dword_1150E4]
-        mov ebx, dword [dword_152F6C]
+        inc dword [AsyncQueueTail]
+        mov ebx, dword [AsyncFreeList]
         mov dword [dword edx+0A7h], ebx
 AsyncTimerTick_45:
-        mov dword [dword_152F6C], edx
+        mov dword [AsyncFreeList], edx
 .3:
         pop ebp
         ret
@@ -915,10 +915,10 @@ AsyncRequestDone:
         mov edx, dword [dword eax+0A3h]
         test edx, edx
         je short .1
-        inc dword [dword_1150E4]
-        mov edx, dword [dword_152F6C]
+        inc dword [AsyncQueueTail]
+        mov edx, dword [AsyncFreeList]
         mov dword [dword eax+0A7h], edx
-        mov dword [dword_152F6C], eax
+        mov dword [AsyncFreeList], eax
         mov eax, 1
         pop ebp
         ret
@@ -930,7 +930,7 @@ AsyncRequestDone:
         mov ebp, esp
         mov eax, dword [byte ebp+08h]
         mov ebx, dword [byte ebp+0Ch]
-        mov dword [dword_152F6C], eax
+        mov dword [AsyncFreeList], eax
         xor edx, edx
         dec ebx
         jmp short .3
@@ -944,14 +944,14 @@ AsyncRequestDone:
         jl short .2
         mov dword [dword eax+0A7h], 0
         mov eax, dword [byte ebp+0Ch]
-        mov dword [dword_1150E4], eax
+        mov dword [AsyncQueueTail], eax
         pop ebp
         ret
         push ebp
         mov ebp, esp
         mov edx, dword [byte ebp+08h]
-        inc dword [dword_1150E4]
-        mov eax, dword [dword_152F6C]
+        inc dword [AsyncQueueTail]
+        mov eax, dword [AsyncFreeList]
         mov dword [dword edx+0A7h], eax
         jmp near AsyncTimerTick_45
 ;-----------------------------------------------------------------------------
@@ -960,15 +960,15 @@ AsyncRequestDone:
 ; LEFT" when none); name from its debug message
 ;-----------------------------------------------------------------------------
 getasyncblock:
-        cmp dword [dword_152F6C], byte 0
+        cmp dword [AsyncFreeList], byte 0
         jne short .1
-        push dword [dword_1150E4]
+        push dword [AsyncQueueTail]
         push str_GetasyncblockDNOASYNCBLO
         call FatalError
         add esp, byte 8
 .1:
-        mov eax, dword [dword_152F6C]
+        mov eax, dword [AsyncFreeList]
         mov edx, dword [dword eax+0A7h]
-        dec dword [dword_1150E4]
-        mov dword [dword_152F6C], edx
+        dec dword [AsyncQueueTail]
+        mov dword [AsyncFreeList], edx
         ret

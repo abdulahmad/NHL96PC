@@ -6,16 +6,16 @@ extern byte_157191, byte_16580A, byte_17BDAE, byte_17EBF0, byte_183098, byte_183
 extern byte_1843B8, byte_1843B9, byte_1843BA, byte_1843C4, byte_1843C5, byte_1843CA, byte_1843CB, byte_1843CC
 extern byte_1843CD, byte_1843CE, byte_1843D4, byte_1843D5, byte_1843D6, byte_1843D7, byte_1843DC, byte_1843DD
 extern byte_1843DE, byte_1843DF, byte_1843E0, byte_1843E1, byte_1843E6, byte_1843E7, byte_1843E8, byte_1843EC
-extern byte_1843ED, byte_1843EE, DrawArtOpaque, DrawColorText, DrawFrameAt, DrawScrollBar, dword_1174EC, dword_1174F0
+extern byte_1843ED, byte_1843EE, DrawArtOpaque, DrawColorText, DrawFrameAt, DrawScrollBar, dword_1174EC, statsplayoffs
 extern dword_11D1A8, dword_11D1AC, dword_11E670, dword_11E678, dword_11E91C, dword_11E948, dword_11E970, dword_11E9C0
 extern dword_11EA10, dword_11EA60, dword_11EAB0, dword_11EAFC, dword_11EB50, dword_11EB88, dword_11EBC0, dword_11EBF8
-extern dword_11ECE8, dword_11ECEC, dword_11ED2C, dword_152F54, dword_152F58, dword_1657EA, dword_1657FE, TeamStatsBitmap
-extern dword_17BC96, dword_17BCA2, dword_17BCA6, dword_17BD48, dword_17EEF0, dword_17FDEC, dword_17FDF0, dword_17FDF4
+extern dword_11ECE8, dword_11ECEC, dword_11ED2C, MenuCursorPixels, dword_152F58, hmtmlines, dword_1657FE, TeamStatsBitmap
+extern dword_17BC96, dword_17BCA2, dword_17BCA6, str_Standings, dword_17EEF0, dword_17FDEC, dword_17FDF0, dword_17FDF4
 extern dword_181EAC, dword_1820A8, dword_1820AC, dword_1820B0, dword_1820E4, dword_1820E8, dword_1820EC, dword_183028
 extern dword_1836E8, dword_1836EC, dword_1836F0, dword_1836F4, dword_1836F8, dword_1836FC, dword_183700, dword_183704
 extern dword_183728, dword_18372C, dword_183730, dword_183734, dword_183738, dword_18373C, dword_183740, dword_183744
-extern dword_183BC4, dword_183C28, dword_183C98, dword_183D2C, dword_183D30, dword_183D34, dword_184398, dword_18439C
-extern dword_1843A0, dword_1843A4, dword_1843A8, dword_1843AC, dword_1843B0, dword_1843B4, FadeOut, FadePalette
+extern dword_183BC4, dword_183C28, dword_183C98, dword_183D2C, dword_183D30, dword_183D34, LinesTeamText, dword_18439C
+extern dword_1843A0, LinesIntroTeam, dword_1843A8, dword_1843AC, dword_1843B0, dword_1843B4, FadeOut, FadePalette
 extern FileClose, FileOpenWrite, FileWriteAt, FillMusicStream, FreeScrollBar, gameopts, GetLangText, hmroster
 extern hmrosterpos, InitMenuItems, InitVScrollBar, LoadExhibitionStats, LoadPackedFile, LoadPlayoffStats, LoadSeasonStats, MakeDataPath
 extern MakePlayoffDbPath, MakeSeasonDbPath, MessageBox, MusicDone, OpenScreen, optflags, PlayerCardScreen, PlayMusic
@@ -28,8 +28,8 @@ extern str_LName3, str_Nhl1, str_Nhl2, str_Nhl3, str_Pal28, str_Player3, str_Pro
 extern str_Scr22, str_Scr3, str_Sld12, str_Sldw, str_Slid2, str_Slu12, str_Slup, str_Sta13
 extern str_Sta23, str_Sta33, str_StatDBPTRs3, strcmp_, strcpy_, LoadDataFileLib, PlayerDbRecord, StatsDb2Record
 extern DrawArt, DrawShape, AllocMemBlock, FreeMemBlock, CreateBitmap, FreeBitmap, DrawArtOpaqueAtOwnPos, SetScreenTarget
-extern FindShape, ClearClipRect, TickDeadlinePassed, unk_157B1C, unk_157B82, unk_157FDA, unk_183D08, word_11D1B4
-extern word_1656E8, word_16581E
+extern FindShape, ClearClipRect, TickDeadlinePassed, unk_157B1C, hmplattr, unk_157FDA, unk_183D08, word_11D1B4
+extern hmscore, awscore
 global unk_9CB19, CompareRosterOrder, ComparePlayerPos, PositionOrder, EditLinesHoverPanel, RunEditLines, EditLinesScreen, LinesValid
 global CountLineSlots, CountLineSlots_4DD, HasDuplicateInLine, HasDuplicateInLine_45, DrawLinesPanel, DrawLineJersey, DrawLineJersey_104, DrawLinesPlayerList
 global SortTeamPlayers, AutoSetLines, FindUnusedLinePlayer
@@ -223,7 +223,7 @@ EditLinesHoverPanel:
         jge short .1
         cmp dword [dword_11ED2C], byte 0
         je short .1
-        mov eax, dword [dword_1843A4]
+        mov eax, dword [LinesIntroTeam]
         mov word [word_11D1B4], 1
         mov eax, dword [byte eax+02Ch]
         mov dword [dword_152F58], eax
@@ -236,10 +236,10 @@ EditLinesHoverPanel:
 .1:
         mov eax, dword [dword_18439C]
         mov dword [dword_152F58], eax
-        mov eax, dword [dword_184398]
+        mov eax, dword [LinesTeamText]
         mov word [word_11D1B4], 0
 .2:
-        mov dword [dword_152F54], eax
+        mov dword [MenuCursorPixels], eax
         ret
 ;-----------------------------------------------------------------------------
 ; RunEditLines                                 9CDDA  96 PC, medium confidence
@@ -444,7 +444,7 @@ EditLinesScreen:
         push eax
         call CreateBitmap
         add esp, byte 0Ch
-        mov dword [dword_1843A4], eax
+        mov dword [LinesIntroTeam], eax
         push byte 20h
         cmp dword [byte ebp+03Eh], byte 32h
         jle short .5
@@ -463,9 +463,9 @@ EditLinesScreen:
         mov dword [dword_1843A0], eax
         mov eax, dword [dword_152F58]
         mov dword [dword_18439C], eax
-        mov eax, dword [dword_152F54]
+        mov eax, dword [MenuCursorPixels]
         add esp, byte 0Ch
-        mov dword [dword_184398], eax
+        mov dword [LinesTeamText], eax
         mov eax, 4
         xor edx, edx
         call SoundSecondsToBytes
@@ -673,7 +673,7 @@ EditLinesScreen:
         jmp near .15
 .19:
         imul eax, dword [dword_1843B4], dword 31Bh
-        mov edx, dword [dword_1174F0]
+        mov edx, dword [statsplayoffs]
         add edx, eax
         mov dword [byte ebp+032h], edx
 .20:
@@ -684,7 +684,7 @@ EditLinesScreen:
         imul eax, dword [dword_1843AC], dword 136h
         mov ecx, 3Eh
         mov edi, byte_1843B8
-        mov esi, dword [dword eax+dword_1657EA]
+        mov esi, dword [dword eax+hmtmlines]
         jmp short .22
 .21:
         mov esi, dword [byte ebp+032h]
@@ -1190,7 +1190,7 @@ EditLinesScreen:
         mov byte [dword ebp-0F4Dh], 15h
         mov ecx, 66h
         lea edi, [dword ebp-0F2Ah]
-        mov esi, dword_17BD48
+        mov esi, str_Standings
         mov byte [dword ebp-0F4Ch], 15h
         mov byte [dword ebp-0F4Bh], 1
         rep movsb
@@ -1351,7 +1351,7 @@ EditLinesScreen:
         mov edx, dword [byte ebp+05Ah]
         xor eax, eax
         call FadePalette
-        push dword [dword_1843A4]
+        push dword [LinesIntroTeam]
         mov dword [byte ebp+056h], 0FFFFFFFFh
         call SetDrawBitmap
         add esp, byte 4
@@ -1928,7 +1928,7 @@ EditLinesScreen:
         cmp dword [dword esi+dword_183028], byte 0
         jne short .72
 .71:
-        push dword [dword_1843A4]
+        push dword [LinesIntroTeam]
         call SetDrawBitmap
         add esp, byte 4
         push dword 0FFh
@@ -2222,12 +2222,12 @@ EditLinesScreen:
         xor edx, edx
         call SetTeamGoalie
         imul eax, dword [dword_1843AC], dword 136h
-        mov edx, dword [dword eax+dword_1657EA]
+        mov edx, dword [dword eax+hmtmlines]
         mov dl, byte [byte edx+034h]
         cmp dl, byte [byte_1843EC]
         je short .94
-        mov dx, word [word_1656E8]
-        cmp dx, word [word_16581E]
+        mov dx, word [hmscore]
+        cmp dx, word [awscore]
         jne short .94
         cmp byte [dword eax+byte_16580A], 0
         sete dl
@@ -2236,7 +2236,7 @@ EditLinesScreen:
         imul eax, dword [dword_1843AC], dword 136h
         mov ecx, 3Eh
         mov esi, byte_1843B8
-        mov edi, dword [dword eax+dword_1657EA]
+        mov edi, dword [dword eax+hmtmlines]
         rep movsb
         jmp near .99
 .95:
@@ -2495,9 +2495,9 @@ EditLinesScreen:
         jne short .117
         mov eax, dword [dword_18439C]
         mov dword [dword_152F58], eax
-        mov eax, dword [dword_184398]
-        push dword [dword_1843A4]
-        mov dword [dword_152F54], eax
+        mov eax, dword [LinesTeamText]
+        push dword [LinesIntroTeam]
+        mov dword [MenuCursorPixels], eax
         call SetDrawBitmap
         add esp, byte 4
         push dword 0FFh
@@ -2558,9 +2558,9 @@ EditLinesScreen:
 .122:
         mov eax, dword [dword_18439C]
         mov dword [dword_152F58], eax
-        mov eax, dword [dword_184398]
+        mov eax, dword [LinesTeamText]
         mov word [word_11D1B4], 0
-        mov dword [dword_152F54], eax
+        mov dword [MenuCursorPixels], eax
 .123:
         push byte 3
         lea eax, [byte ebp+056h]
@@ -2575,8 +2575,8 @@ EditLinesScreen:
         jne short .121
         mov eax, dword [dword_18439C]
         mov dword [dword_152F58], eax
-        mov eax, dword [dword_184398]
-        mov dword [dword_152F54], eax
+        mov eax, dword [LinesTeamText]
+        mov dword [MenuCursorPixels], eax
         jmp near .121
 .124:
         mov eax, dword [byte ebp-01Ah]
@@ -2610,7 +2610,7 @@ EditLinesScreen:
         jne short .126
         lea eax, [dword ebp-037Eh]
         call FreeScrollBar
-        push dword [dword_1843A4]
+        push dword [LinesIntroTeam]
         call FreeBitmap
         add esp, byte 4
         push dword [dword_1843A0]
@@ -2621,8 +2621,8 @@ EditLinesScreen:
         call FadeOut
         mov eax, dword [dword_18439C]
         mov dword [dword_152F58], eax
-        mov eax, dword [dword_184398]
-        mov dword [dword_152F54], eax
+        mov eax, dword [LinesTeamText]
+        mov dword [MenuCursorPixels], eax
         cmp dword [byte ebp+056h], byte 3
         je short .127
         mov eax, 2
@@ -4413,7 +4413,7 @@ AutoSetLines:
         jne short .2
         imul eax, dword [dword_1843AC], dword 20Dh
         mov ebx, dword [byte ebp+05Ah]
-        add eax, unk_157B82
+        add eax, hmplattr
         add ebx, eax
         mov dword [byte ebp+052h], ebx
         jmp short .3

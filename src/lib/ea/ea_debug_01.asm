@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_ACED8 progbits alloc exec nowrite align=1
 extern FatalError, _dos_getdate_, _dos_gettime_, asc_113484, str_2d02d02d2, asc_1134A4, asc_1134F4, asc_1134FC
-extern str_CreatewindowblockBADBLOC, str_CreatewindowblockOUTOFRO, byte_11FA4F, TintTable, byte_1219A7, QuantizeTable, dword_11F5C8, DebugMode
+extern str_CreatewindowblockBADBLOC, str_CreatewindowblockOUTOFRO, byte_11FA4F, TintTable, QuantizeByte, QuantizeTable, dword_11F5C8, DebugMode
 extern dword_11F9DC, TintMulGreen, TintMulBlue, TintRowCount, TintPixelGreen, TintPixelBlue, TintMulRed, TintRemapTable
 extern TintPixelRed, fputs_, sprintf_, AllocMemBlockLocked, MemLargestFreeLocked, DebugShowLines, VfprintfThunk, FillRowTable
 extern ZeroMem, FindFirstFile, vsprintf_
@@ -811,7 +811,7 @@ TintRect:
         inc eax
         mov bl, byte [edx]
         inc edx
-        mov byte [dword eax+byte_1219A7], bl
+        mov byte [dword eax+QuantizeByte], bl
         cmp eax, 100h
         jl short .3
 .4:

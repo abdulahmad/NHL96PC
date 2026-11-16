@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_DB9FA progbits alloc exec nowrite align=1
-extern _Scale10V_, __CHP, __Nan_Inf_, __cvt_, __set_ERANGE_, WVideoActive, dword_114AE8, dword_114AEC
+extern _Scale10V_, __CHP, __Nan_Inf_, __cvt_, __set_ERANGE_, WVideoActive, HugeValLo, HugeValHi
 extern floor_, memset_, DecimalToInt64
 global AdjField_, DoEFormat_, DoFFormat_, _FtoS_, __EnterWVIDEO_, DoEFormat__A5, strtod_
 ;-----------------------------------------------------------------------------
@@ -625,14 +625,14 @@ strtod_:
         call __set_ERANGE_
         test bl, 1
         je short .25
-        fld qword [dword_114AE8]
+        fld qword [HugeValLo]
         fchs
         fstp qword [byte ebp-028h]
         jmp short .29
 .25:
-        mov eax, dword [dword_114AE8]
+        mov eax, dword [HugeValLo]
         mov dword [byte ebp-028h], eax
-        mov eax, dword [dword_114AEC]
+        mov eax, dword [HugeValHi]
         mov dword [byte ebp-024h], eax
         jmp short .29
 .26:

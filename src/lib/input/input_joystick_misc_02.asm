@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_E0898 progbits alloc exec nowrite align=1
-extern str_Punct_DrawRinkSurface, dword_1222C8, dword_1222CC, dword_1222D0, dword_1222D4, dword_1222D8, dword_1222DC, ClipTopRow
+extern str_Punct_DrawRinkSurface, dword_1222C8, dword_1222CC, dword_1222D0, RandState, dword_1222D8, RandIndex, ClipTopRow
 extern ClipLeftCol, ClipRight, ScreenHeight, ViewCenterX, str_D_SetCameraAngles, CameraYaw, CameraPitch, ViewCenterY
 extern str_D_ProjectPointsPersp, dword_123AAC, dword_123AB0, CameraOriginX, CameraOriginY, dword_123ABC, ShadowFillFunc, TitleBandFunc
 extern FillSpanList, RemapSpanList, FillRectSpans, FillRectColor, SetupRectFillBlend, SetupRectFill, AngleFromDelta, SinLookup
@@ -16,22 +16,22 @@ global SetCameraAngles, TransposeMatrix
 ; Same code as in the next game
 ;-----------------------------------------------------------------------------
 Random32:
-        mov eax, dword [dword_1222DC]
+        mov eax, dword [RandIndex]
         add eax, dword [dword_1222D8]
         mov dword [dword_1222D8], eax
-        adc eax, dword [dword_1222D4]
-        mov dword [dword_1222D4], eax
+        adc eax, dword [RandState]
+        mov dword [RandState], eax
         adc eax, dword [dword_1222D0]
         mov dword [dword_1222D0], eax
         adc eax, dword [dword_1222CC]
         mov dword [dword_1222CC], eax
         adc eax, dword [dword_1222C8]
         mov dword [dword_1222C8], eax
-        inc dword [dword_1222DC]
+        inc dword [RandIndex]
         jne short .1
         inc dword [dword_1222D8]
         jne short .1
-        inc dword [dword_1222D4]
+        inc dword [RandState]
         jne short .1
         inc dword [dword_1222D0]
         jne short .1
@@ -51,12 +51,12 @@ Random32:
         add eax, 3DF3B646h
         mov dword [dword_1222D0], eax
         add eax, 40DDE76Dh
-        mov dword [dword_1222D4], eax
+        mov dword [RandState], eax
         db 05h,0E1h,07Ah,032h,097h              ; insn: add eax,97327AE1h
         db 0A3h                                 ; insn: mov [122D8h],eax
         dd dword_1222D8
         add eax, 0D1A9FBE7h
-        mov dword [dword_1222DC], eax
+        mov dword [RandIndex], eax
         leave
         ret
         push ebp

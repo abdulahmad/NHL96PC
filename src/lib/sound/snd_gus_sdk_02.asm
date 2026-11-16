@@ -5,10 +5,10 @@ section s_DA5D0 progbits alloc exec nowrite align=1
 extern _dos_close_, _dos_getvect_, _dos_open_, _dos_read_, _dos_setvect_, GusDmaLatchBits, GusDmaPageTable, GusDmaReady
 extern GusPlayDmaChannel, GusRecordDmaChannel, GusMidiIrq, GusWaveIrq, GusDmaControl, GusIrqOldHandler, GusMidiPending, GusMidiIrqCount
 extern GusTimerCallback, GusDmaDoneCallback, GusRecordDoneCallback, GusWaveCallback, GusVolumeCallback, GusTimer1Callback, GusTimer2Callback, GusWaveIrqCallback
-extern GusVolumeIrqCallback, GusMidiXmitCallback, GusMidiRecvCallback, GusDmaBusy, dword_15151C, GusVoiceIrqBits, GusDmaLeft, GusDmaChunkSize
-extern GusDmaDone, inp_, kaufmfont, lseek_, outp_, RestoreDS, GusConvertAddr16, unk_15158C
+extern GusVolumeIrqCallback, GusMidiXmitCallback, GusMidiRecvCallback, GusDmaBusy, MaxPrecision, GusVoiceIrqBits, GusDmaLeft, GusDmaChunkSize
+extern GusDmaDone, inp_, kaufmfont, lseek_, outp_, RestoreDS, GusConvertAddr16, GusInitTable
 extern GusDmaChannels, GusBasePort, GusIrqStatusPort, GusMidiControlPort, GusMidiDataPort, GusRegSelectPort, GusDataLowPort, GusDataHighPort
-extern GusDramPort, GusIrqVectorTable, GusIrqOldSelector, word_1514CC, GusDosResult, GusIrqFlags, GusCriticalDepth, GusDmaChunkLo
+extern GusDramPort, GusIrqVectorTable, GusIrqOldSelector, GusIrqPending, GusDosResult, GusIrqFlags, GusCriticalDepth, GusDmaChunkLo
 extern GusDmaChunkHi, GusDmaFlags
 global _SetMaxPrec_, inpw_, outpw_, GusSetupDmaChannel, GusProgramDma, GusMaskDma, GusSetVect, GusGetVect
 global GusHookIrq, GusUnhookIrq, GusSendEoi, GusWaveIrqHandler, GusMidiIrqHandler, GusDelay, GusSetBasePort, GusClearIrqState
@@ -623,7 +623,7 @@ GusSetBasePort:
 ; Clears the pending IRQ flags and the critical-section depth
 ;-----------------------------------------------------------------------------
 GusClearIrqState:
-        mov word [word_1514CC], 0
+        mov word [GusIrqPending], 0
         mov word [GusCriticalDepth], 0
         ret
 ;-----------------------------------------------------------------------------
@@ -1243,7 +1243,7 @@ GusRunInitTable:
         push edx
         push esi
         push edi
-        mov esi, unk_15158C
+        mov esi, GusInitTable
         mov edi, kaufmfont
         LD mov, ebx, esi
 .1:
@@ -2146,5 +2146,5 @@ GusDramDmaDone:
 ; _SetMaxPrec_                                                  DB9F4  library
 ;-----------------------------------------------------------------------------
 _SetMaxPrec_:
-        mov dword [dword_15151C], eax
+        mov dword [MaxPrecision], eax
         ret

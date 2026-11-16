@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_771F0 progbits alloc exec nowrite align=1
-extern dword_11E2C0, dword_11E2C4, dword_17D690, dword_17D694, dword_17D6A0, dword_17D6A4, dword_17D6B0, dword_17D6B4
+extern LangTextHandle, LangTextLoaded, dword_17D690, dword_17D694, dword_17D6A0, dword_17D6A4, dword_17D6B0, dword_17D6B4
 extern dword_17D6C4, fclose_, fopen_, fread_, fseek_, LoadDataFile, MakeDataPath, str_LFERROR
 extern str_Localize, str_Rb, AllocMemBlock, FreeMemBlock
 global LoadLangText, FreeLangText, LoadLangBlock, GetLangText
@@ -18,19 +18,19 @@ LoadLangText:
         push esi
         mov esi, eax
         mov dword [dword_17D6C4], eax
-        cmp dword [dword_11E2C0], byte 0
+        cmp dword [LangTextHandle], byte 0
         je short .1
-        push dword [dword_11E2C0]
+        push dword [LangTextHandle]
         call FreeMemBlock
         add esp, byte 4
 .1:
         mov edx, 20h
         lea eax, [dword esi+0136h]
         call LoadDataFile
-        mov dword [dword_11E2C0], eax
-        cmp dword [dword_11E2C4], byte 0
+        mov dword [LangTextHandle], eax
+        cmp dword [LangTextLoaded], byte 0
         je short .2
-        push dword [dword_11E2C4]
+        push dword [LangTextLoaded]
         call FreeMemBlock
         add esp, byte 4
 .2:
@@ -40,12 +40,12 @@ LoadLangText:
         call AllocMemBlock
         mov edx, 3
         add esp, byte 0Ch
-        mov dword [dword_11E2C4], eax
+        mov dword [LangTextLoaded], eax
         xor ebx, ebx
         xor eax, eax
 .3:
         add eax, byte 4
-        mov esi, dword [dword_11E2C4]
+        mov esi, dword [LangTextLoaded]
         mov dword [dword eax+dword_17D690], edx
         mov dword [dword eax+dword_17D6B0], 0FFFFFFFFh
         dec edx
@@ -67,18 +67,18 @@ FreeLangText:
         push ebx
         push ecx
         push edx
-        cmp dword [dword_11E2C0], byte 0
+        cmp dword [LangTextHandle], byte 0
         je short .1
-        push dword [dword_11E2C0]
+        push dword [LangTextHandle]
         call FreeMemBlock
-        mov dword [dword_11E2C0], 0
+        mov dword [LangTextHandle], 0
         add esp, byte 4
 .1:
-        cmp dword [dword_11E2C4], byte 0
+        cmp dword [LangTextLoaded], byte 0
         je short .2
-        push dword [dword_11E2C4]
+        push dword [LangTextLoaded]
         call FreeMemBlock
-        mov dword [dword_11E2C4], 0
+        mov dword [LangTextLoaded], 0
         add esp, byte 4
 .2:
         pop edx
@@ -145,7 +145,7 @@ GetLangText:
         push edi
         enter 4, 0
         mov edx, eax
-        mov eax, dword [dword_11E2C0]
+        mov eax, dword [LangTextHandle]
         shl edx, 2
         mov eax, dword [edx+eax]
         mov dword [byte ebp-04h], eax

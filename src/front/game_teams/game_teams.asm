@@ -3,14 +3,14 @@ bits 32
 %include "hockey.inc"
 section s_1F300 progbits alloc exec nowrite align=1
 extern byte_115109, byte_11510A, byte_11510B, byte_11510C, byte_115114, byte_115115, byte_115116, byte_115117
-extern byte_117575, byte_157191, byte_157640, byte_157FD2, byte_158646, byte_158651, byte_158652, curperiod
-extern dword_1150D8, dword_1571B3, dword_15803D, dword_1580A1, dword_158654, dword_16411C, dword_164120, dword_164124
-extern dword_164128, dword_164798, dword_17CBE7, dword_17D162, dword_17D267, FatalError, FileClose, FileOpenRead
+extern byte_117575, byte_157191, byte_157640, byte_157FD2, byte_158646, pad2dev, pad1dev, curperiod
+extern dword_1150D8, dword_1571B3, dword_15803D, dword_1580A1, dword_158654, dword_16411C, dword_164120, plseasongoals
+extern dword_164128, dword_164798, PlayoffTreeData, dword_17D162, dword_17D267, FatalError, FileClose, FileOpenRead
 extern FileReadAt, GameLoopActive, gameopts, GameOver, gmode, hmroster, hmrosterpos, lseek_
 extern MakeDataPath, optflags, strcpy_, FreeGameSprites, SetCrowdTarget, GetLangText, MakeSeasonDbPath, MakePlayoffDbPath
-extern FreeMemBlock, DosFindFirst, unk_156E6C, unk_157AF8, unk_157B1C, unk_157B82, unk_157F9C, unk_157FDA
-extern unk_1580AD, unk_1582F5, unk_1583C8, unk_158610, word_11510D, word_156E6E, word_156E70, word_156E72
-extern word_156E74, word_156E76, word_156E78, word_156E7A, word_157AFA, word_157AFC, word_165758, word_16578A
+extern FreeMemBlock, DosFindFirst, hmplstats, unk_157AF8, unk_157B1C, hmplattr, awlinetab, unk_157FDA
+extern unk_1580AD, unk_1582F5, unk_1583C8, hmlinetab, word_11510D, word_156E6E, word_156E70, word_156E72
+extern word_156E74, word_156E76, word_156E78, word_156E7A, hmglstats_w2, word_157AFC, hmtmpdst, word_16578A
 global EndGameCleanup, LoadGameRosters, InitGameTeams, ReadPlayerRecord, OpenRosterDb, FillTeamRoster, unk_2018D
 ;-----------------------------------------------------------------------------
 ; EndGameCleanup                               1F300  96 PC, medium confidence
@@ -76,7 +76,7 @@ LoadGameRosters:
 .2:
         mov ebx, 4
         lea eax, [byte ebp-03Ch]
-        mov edx, dword [dword_17CBE7]
+        mov edx, dword [PlayoffTreeData]
         call MakeSeasonDbPath
         jmp short .6
 .3:
@@ -195,7 +195,7 @@ LoadGameRosters:
 .16:
         mov ebx, 4
         lea eax, [byte ebp-03Ch]
-        mov edx, dword [dword_17CBE7]
+        mov edx, dword [PlayoffTreeData]
         call MakeSeasonDbPath
         jmp short .20
 .17:
@@ -357,11 +357,11 @@ LoadGameRosters:
         jne short .32
 .31:
         mov ecx, 3Eh
-        mov edi, unk_158610
+        mov edi, hmlinetab
         mov esi, unk_1580AD
         rep movsb
         mov ecx, 3Eh
-        mov edi, unk_157F9C
+        mov edi, awlinetab
         mov esi, unk_1583C8
         rep movsb
 .32:
@@ -400,10 +400,10 @@ InitGameTeams:
         push esi
         push edi
         mov dword [curperiod], 0FFFFFFFFh
-        mov byte [byte_158652], al
+        mov byte [pad1dev], al
         mov byte [byte_115109], al
         mov eax, dword [gameopts]
-        mov byte [byte_158651], dl
+        mov byte [pad2dev], dl
         mov byte [byte_11510A], dl
         mov edx, dword [byte eax+01h]
         shl edx, 0Fh
@@ -429,13 +429,13 @@ InitGameTeams:
         mov word [word_156E72], 0
         mov word [word_156E70], 0
         mov word [word_156E6E], 0
-        mov word [unk_156E6C], 0
+        mov word [hmplstats], 0
 .1:
         mov ecx, ebx
         imul eax, edx, dword 190h
 .2:
-        mov esi, unk_156E6C
-        lea edi, [dword eax+unk_156E6C]
+        mov esi, hmplstats
+        lea edi, [dword eax+hmplstats]
         add eax, byte 10h
         movsd
         movsd
@@ -448,7 +448,7 @@ InitGameTeams:
         cmp edx, byte 2
         jl short .1
         mov word [word_157AFC], 0
-        mov word [word_157AFA], 0
+        mov word [hmglstats_w2], 0
         mov word [unk_157AF8], 0
         mov ebx, 12h
         xor edx, edx
@@ -688,7 +688,7 @@ OpenRosterDb:
         jmp short .5
 .2:
         lea eax, [byte ebp-02Ch]
-        mov edx, dword [dword_17CBE7]
+        mov edx, dword [PlayoffTreeData]
         xor ebx, ebx
         call MakeSeasonDbPath
         jmp short .6
@@ -748,7 +748,7 @@ OpenRosterDb:
 .10:
         mov ebx, 2
         lea eax, [byte ebp-02Ch]
-        mov edx, dword [dword_17CBE7]
+        mov edx, dword [PlayoffTreeData]
         call MakeSeasonDbPath
         jmp short .14
 .11:
@@ -807,7 +807,7 @@ OpenRosterDb:
 .18:
         mov ebx, 5
         lea eax, [byte ebp-02Ch]
-        mov edx, dword [dword_17CBE7]
+        mov edx, dword [PlayoffTreeData]
         call MakeSeasonDbPath
         jmp short .22
 .19:
@@ -872,7 +872,7 @@ OpenRosterDb:
 .27:
         mov ebx, 1
         lea eax, [byte ebp-02Ch]
-        mov edx, dword [dword_17CBE7]
+        mov edx, dword [PlayoffTreeData]
         call MakeSeasonDbPath
         jmp short .31
 .28:
@@ -995,7 +995,7 @@ FillTeamRoster:
         cmp dword [dword ebp-0BEh], byte 2
         jne short .7
 .2:
-        mov al, byte [byte_158652]
+        mov al, byte [pad1dev]
         cmp al, byte [byte ebp-020h]
         jae short .4
 .3:
@@ -1009,13 +1009,13 @@ FillTeamRoster:
         mov byte [dword eax+hmroster], 3
         jmp short .9
 .6:
-        mov al, byte [byte_158651]
+        mov al, byte [pad2dev]
         cmp al, byte [byte ebp-01Fh]
         jb short .3
         jmp short .5
 .7:
         mov eax, dword [byte ebp+04Ah]
-        movsx eax, word [dword eax+word_165758]
+        movsx eax, word [dword eax+hmtmpdst]
         test eax, eax
         jle short .8
         mov byte [dword edx+hmroster], 5
@@ -1027,7 +1027,7 @@ FillTeamRoster:
 .9:
         mov edi, dword [byte ebp+042h]
         lea esi, [byte ebp+012h]
-        lea edi, [dword edi+unk_157B82]
+        lea edi, [dword edi+hmplattr]
         movsd
         movsd
         movsd
@@ -1049,7 +1049,7 @@ FillTeamRoster:
         mov edx, dword [byte ebp+072h]
         mov dword [dword edx+dword_164120], eax
         movzx eax, word [byte ebp-044h]
-        mov dword [dword edx+dword_164124], eax
+        mov dword [dword edx+plseasongoals], eax
         mov edx, eax
         movzx eax, word [byte ebp-042h]
 .10:
@@ -1064,7 +1064,7 @@ FillTeamRoster:
         mov eax, dword [dword eax+dword_16411C]
         mov dword [dword edx+dword_164120], eax
         movzx eax, word [byte ebp-032h]
-        mov dword [dword edx+dword_164124], eax
+        mov dword [dword edx+plseasongoals], eax
         mov edx, eax
         movzx eax, word [byte ebp-030h]
         jmp short .10
@@ -1142,7 +1142,7 @@ FillTeamRoster:
         cmp dword [dword ebp-0BEh], byte 2
         jne short .20
 .15:
-        mov al, byte [byte_158652]
+        mov al, byte [pad1dev]
         cmp al, byte [byte ebp-050h]
         jae short .17
 .16:
@@ -1156,7 +1156,7 @@ FillTeamRoster:
         mov byte [dword eax+hmroster], 3
         jmp short .22
 .19:
-        mov al, byte [byte_158651]
+        mov al, byte [pad2dev]
         cmp al, byte [byte ebp-04Fh]
         jb short .16
         jmp short .18

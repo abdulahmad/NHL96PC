@@ -12,9 +12,9 @@ extern str_ThereAreNoShapes, str_44s05x, str_Bad, str_CxCy3d3d, str_NotDrawn, st
 extern asc_114808, asc_114814, asc_11482C, str_ShapeIsInvalidDraw, str_MEMSHPTXT, str_ErrorDumpingShapesList, str_ShapeFileName0, str_ShapeFileSizeLd
 extern str_NumberOfShapesD, str_44s66ld, str_Bytes3dRows3d2, str_XY3d3d, str_033d022X, str_R022d, str_G022d, str_B022d
 extern asc_114968, str_SCREEN2, asc_11497C, asc_114984, str_2d02d02d, byte_11F9D8, byte_1A11D9, dword_11F5A0
-extern dword_11F5C0, dword_11F5C4, dword_1210CC, dword_15139C, dword_1513A0, dword_1513A4, dword_1513A8, dword_1513AC
+extern dword_11F5C0, dword_11F5C4, MemPoolBase, dword_15139C, dword_1513A0, dword_1513A4, dword_1513A8, dword_1513AC
 extern dword_1513B8, dword_1513BC, dword_1513C0, dword_1513C4, dword_1513C8, dword_1513CC, dword_1513D4, memlist1
-extern MemBlockGuards, dword_185738, dword_18573C, dword_185848, dword_1A11BC, dword_1A11C0, dword_1A11C4, dword_1A11C8
+extern MemBlockGuards, MemFreeStart, MemFreeBytes, MemPoolSize, dword_1A11BC, dword_1A11C0, dword_1A11C4, dword_1A11C8
 extern dword_1A11CC, dword_1A11D0, dword_1A11D4, dword_1A11D8, dword_1A11DC, dword_1A11E0, fclose_, fopen_
 extern fprintf_, min_, off_1513B0, sprintf_, strncpy_, PutBlock, PutBlockAtOwnPos, PushMemDescriptorLocked
 extern MarkBlockPurgeable, CompactDownLocked, CompactUpLocked, DebugSetLine, DebugClearScreen, DebugSetRow, DebugSetAttr, FillRect
@@ -326,7 +326,7 @@ MemViewerLoop:
         cmp edi, byte 46h
         jne short .11
         xor edx, edx
-        mov dword [dword_18573C], edx
+        mov dword [MemFreeBytes], edx
 .11:
         cmp edi, byte 44h
         jne short .12
@@ -641,11 +641,11 @@ MemViewerDrawList:
         lea edx, [byte ebp+066h]
         lea eax, [byte ebp+05Eh]
         call MemPoolTotals
-        mov edx, dword [dword_185848]
+        mov edx, dword [MemPoolSize]
         mov eax, dword [byte ebp+05Eh]
         push edx
-        mov ebx, dword [dword_185738]
-        mov ecx, dword [dword_18573C]
+        mov ebx, dword [MemFreeStart]
+        mov ecx, dword [MemFreeBytes]
         push ebx
         sub eax, ecx
         push eax
@@ -1239,7 +1239,7 @@ MemViewerDrawTitle:
         test edi, edi
         jne short .1
         mov dword [edx], str_MEMMANAGER
-        mov edx, dword [dword_1210CC]
+        mov edx, dword [MemPoolBase]
         mov dword [ebx], edx
         mov eax, dword [dword eax+memlist1]
         mov eax, dword [eax]
@@ -2088,7 +2088,7 @@ DumpMemoryMap:
         mov byte [byte esp+01h], dl
         call NextFreeFileName
         mov edx, dword [dword_11F5A0]
-        mov esi, dword [dword_18573C]
+        mov esi, dword [MemFreeBytes]
         test edx, edx
         je short .1
         push byte 14h
@@ -2110,10 +2110,10 @@ DumpMemoryMap:
         call ShowMessageBox
         add esp, byte 8
 .2:
-        mov dword [dword_18573C], esi
+        mov dword [MemFreeBytes], esi
         jmp short .4
 .3:
-        mov dword [dword_18573C], esi
+        mov dword [MemFreeBytes], esi
         mov esi, esp
         push esi
         push eax
@@ -2741,7 +2741,7 @@ DumpShapesList:
         push byte 14h
         lea eax, [byte esp+04h]
         push eax
-        mov esi, dword [dword_18573C]
+        mov esi, dword [MemFreeBytes]
         call ShowMessageBox
         add esp, byte 8
         call ReturnFalse
@@ -2756,12 +2756,12 @@ DumpShapesList:
         call ShowMessageBox
         add esp, byte 8
         call ReturnFalse
-        mov dword [dword_18573C], esi
+        mov dword [MemFreeBytes], esi
         jmp near .7
 .1:
         lea edx, [byte esp+054h]
         lea eax, [byte esp+040h]
-        mov dword [dword_18573C], esi
+        mov dword [MemFreeBytes], esi
         call FormatDateTime
         mov edx, dword [off_1513B0]
         push edx
@@ -3393,7 +3393,7 @@ SaveScreenshot:
         lea edi, [byte esp+060h]
         mov esi, str_SCREEN2
         lea eax, [byte esp+060h]
-        mov ebp, dword [dword_18573C]
+        mov ebp, dword [MemFreeBytes]
         movsd
         movsd
         movsw
@@ -3430,7 +3430,7 @@ SaveScreenshot:
         push eax
         call RestoreDrawState
         add esp, byte 4
-        mov dword [dword_18573C], ebp
+        mov dword [MemFreeBytes], ebp
         add esp, 0A0h
         pop ebp
         pop edi

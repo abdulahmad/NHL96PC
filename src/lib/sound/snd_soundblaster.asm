@@ -21,7 +21,7 @@ extern DmaPlayedHalf, PicSendEoi, IrqUnmask, IrqMask, IrqSetHandler, InstallReal
 extern GusProbePort, GusOpen, GusClose, GusMemAlloc, GusStopStream, GusStreamBusy, GusServiceStream, GusStartStream
 extern SbIsrSingle, SbIsrAutoInit, BlitBlockRemapKeyed, bcopy, SndChannels, SbHighDma, SbProHighDma, SbIsrPicPort
 extern SbIsrAckPort, SbIsrWritePort, SbProIsrPicPort, SbProIsrAckPort, Sb16IsrPicPort, Sb16IsrAckPort, unk_F0000, unk_F000D
-extern unk_F001A, unk_F0027, word_1A0FA0, SbMixerAddrPort, word_1A0FA4, word_1A0FA6, word_1A0FA8, SbReadPort
+extern unk_F001A, unk_F0027, SbBasePort, SbMixerAddrPort, word_1A0FA4, SbMixerDataPort, SbResetPort, SbReadPort
 extern SbWritePort, GusConfig, GusConfigPort, SbPort, SbOldIrqSelector, SbProOldIrqSelector, Sb16Port, Sb16OldIrqSelector
 global WssOpenJumpTable, WssOpen_57, WssOpen_68, WssOpen_79, WssOpen_85, WssOpen_96, WssOpen_A2, WssOpen_AE
 global WssOpen_BD, WssOpen_218, WssQueryRate, WssQueryFormat, WssQueryNone, GusQueryRate, GusQueryFormat, GusQueryNone
@@ -167,13 +167,13 @@ ParseBlasterEnv:
         mov word [word_1A0FA4], ax
         mov eax, ecx
         add eax, 5
-        mov word [word_1A0FA6], ax
+        mov word [SbMixerDataPort], ax
         mov eax, ecx
         add eax, 6
-        mov word [word_1A0FA8], ax
+        mov word [SbResetPort], ax
         mov eax, ecx
         add eax, 0Ah
-        mov word [word_1A0FA0], ax
+        mov word [SbBasePort], ax
         mov eax, ecx
         mov word [SbMixerAddrPort], cx
         add eax, 0Ch
@@ -227,7 +227,7 @@ SbWaitRead:
         in al, dx
         test al, 80h
         je short .1
-        movzx edx, word [word_1A0FA0]
+        movzx edx, word [SbBasePort]
         sub eax, eax
         in al, dx
         pop edx
@@ -283,12 +283,12 @@ SbProSetStereo:
         mov al, 0Eh
         movzx edx, word [word_1A0FA4]
         out dx, al
-        movzx edx, word [word_1A0FA6]
+        movzx edx, word [SbMixerDataPort]
         sub eax, eax
         in al, dx
         mov ebx, eax
         and eax, byte 20h
-        movzx edx, word [word_1A0FA6]
+        movzx edx, word [SbMixerDataPort]
         or eax, ecx
         out dx, al
         mov eax, ebx
@@ -310,12 +310,12 @@ SbProSetFilter:
         mov al, 0Eh
         movzx edx, word [word_1A0FA4]
         out dx, al
-        movzx edx, word [word_1A0FA6]
+        movzx edx, word [SbMixerDataPort]
         sub eax, eax
         in al, dx
         mov ebx, eax
         and eax, byte 2
-        movzx edx, word [word_1A0FA6]
+        movzx edx, word [SbMixerDataPort]
         or eax, ecx
         out dx, al
         mov eax, ebx
@@ -332,7 +332,7 @@ SbResetDsp:
         push ebx
         push edx
         mov al, 1
-        movzx edx, word [word_1A0FA8]
+        movzx edx, word [SbResetPort]
         mov ebx, 64h
         out dx, al
 .1:
@@ -343,7 +343,7 @@ SbResetDsp:
         in al, dx
         jmp short .1
 .2:
-        movzx edx, word [word_1A0FA8]
+        movzx edx, word [SbResetPort]
         xor al, al
         out dx, al
         call SbWaitRead

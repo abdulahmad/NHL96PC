@@ -5,7 +5,7 @@ section s_110DA4 progbits alloc noexec write align=1
 global str_05d, str_CsgDb, str_05dCsg, str_SSS, str_CSS, str_SS, str_CS, str_CSCS
 global str_CS2, str_spCS, str_D, str_2d02d, str_GloL, str_GloR, str_FhiL, str_FhiR
 global str_Pal30, str_ZONEMGR, str_ZM1ContactLance, str_ZM2ContactLance, str_ZMOverflowContactLance, str_FmtNumFirstLast, str_FmtNumInitialLast, str_FmtNumName
-global str_FmtNumNameSuffix, str_FmtParenD, str_DB, unk_110E2D, str_S8
+global str_FmtNumNameSuffix, str_FmtParenD, str_DB, str_GoneForTheGame, str_S8
 str_05d:
         db 025h,030h,035h,064h,00h
 str_CsgDb:
@@ -36,7 +36,7 @@ str_CS2:
         db 028h,025h,063h,02Eh,025h,073h,00h
 str_spCS:
         db 020h,025h,063h,02Eh,025h,073h,029h,00h
-unk_110E2D:
+str_GoneForTheGame:
         db 00h
 str_S8:
         db 025h,073h,00h

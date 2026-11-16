@@ -7,10 +7,10 @@ extern byte_11D91C, byte_11D91D, byte_11FA2F, byte_17CA5D, byte_1820F1, byte_184
 extern byte_1844B4, byte_1844B6, byte_18451B, byte_184580, byte_184581, byte_184583, byte_1845E6, byte_1845E7
 extern byte_1845E8, byte_18464C, byte_18464E, byte_18464F, byte_1846C4, CloseTextOverlay, ControllerScreen, CopyBitmap
 extern Crowd_Noise, CrowdFadeOut, CrowdNoiseReset, CrowdReaction, curperiod, DrawArtOpaque, DrawBox, DrawColorTextCentred
-extern DrawFrameAt, DrawGameFrame, DrawRinkView, dword_1150D4, dword_1150FC, dword_11B234, dword_11B330, dword_11BC24
-extern dword_11D3A6, dword_11D91F, dword_11ED30, dword_11F5C0, dword_11F5C4, dword_152F4C, dword_152F50, dword_152F54
-extern dword_152F58, dword_152F5C, dword_179918, dword_179920, dword_17CA5C, dword_17CB2F, dword_17CBE7, dword_17CC17
-extern dword_17CED6, dword_17CF92, dword_17D162, dword_17D528, dword_1843AC, dword_1843B0, dword_1843B4, dword_1843C0
+extern DrawFrameAt, DrawGameFrame, DrawRinkView, dword_1150D4, gameresult, ReplayRemoteShape, dword_11B330, dword_11BC24
+extern dword_11D3A6, dword_11D91F, dword_11ED30, dword_11F5C0, dword_11F5C4, dword_152F4C, MenuRemoteCursorArt, MenuCursorPixels
+extern dword_152F58, MenuBitmapPixels, dword_179918, dword_179920, dword_17CA5C, dword_17CB2F, PlayoffTreeData, dword_17CC17
+extern dword_17CED6, dword_17CF92, dword_17D162, FrontShapeFile, dword_1843AC, dword_1843B0, dword_1843B4, dword_1843C0
 extern dword_1843D0, dword_1843E4, dword_1843F8, dword_1843FC, dword_184400, dword_184404, dword_184408, dword_18441C
 extern dword_184420, dword_184426, dword_18442A, dword_18442E, dword_184432, dword_184436, dword_184446, dword_18444A
 extern dword_184482, dword_184486, dword_18448C, dword_184490, dword_184494, dword_184498, dword_18449C, dword_1844AC
@@ -33,8 +33,8 @@ extern str_Sid2, str_Sts0, str_Sts1, strcat_, strcpy_, AddIceCrud, LoadZamboni, 
 extern LoadStandsArt, SetPenaltyBoxDoor, DrawZamboniScene, DrawOverlayPanels, RefreshControlSlots, SetGameBackdrop, SaveGameFile, LoadModeStats
 extern DrawArt, AllocMemBlock, FreeMemBlock, CreateBitmap, FreeBitmap, FreeColourLookup, SetAaPalLut, SetScreenTarget
 extern FindShape, ClearClipRect, TextSetFont, unk_11D7A4, unk_11D7BC, unk_11D7D4, unk_11D7EC, unk_11D804
-extern unk_11D80A, unk_11D810, unk_11D816, unk_11D81C, unk_11D89C, unk_16443C, unk_17D3E8, unk_18440C
-extern unk_184688, unk_184692, UpdateCamera, word_114CE0, word_114F14, word_11ED34, word_1656E8, word_16581E
+extern unk_11D80A, unk_11D810, unk_11D816, unk_11D81C, unk_11D89C, exhstate, unk_17D3E8, unk_18440C
+extern unk_184688, unk_184692, UpdateCamera, word_114CE0, word_114F14, word_11ED34, hmscore, awscore
 global DrawInGameMenuFrame, RedrawInGameMenu, RedrawInGameMenu_7C, RedrawInGameMenu_7D, OpenFrontEndFromGame, ReturnToGameView, InGameReturnMenu, jpt_A25B5
 global InGameMenu, InGameMenu_A9C, InGameMenu_ABD, InGameMenu_D17, InGameMenu_F31, InGameMenu_F42, InGameMenu_FA8
 ;-----------------------------------------------------------------------------
@@ -62,7 +62,7 @@ DrawInGameMenuFrame:
         cmp edx, byte 4
         jl short .1
         call GetTicks
-        push dword [dword_11B234]
+        push dword [ReplayRemoteShape]
         mov dword [dword_11ED30], eax
         call SetDrawBitmap
         add esp, byte 4
@@ -74,7 +74,7 @@ DrawInGameMenuFrame:
         add esp, byte 0Ch
         mov eax, esi
         call DrawZamboniScene
-        cmp dword [dword_1150FC], byte 1
+        cmp dword [gameresult], byte 1
         je near .15
         mov eax, dword [dword_152F4C]
         call SetAaPalLut
@@ -139,7 +139,7 @@ DrawInGameMenuFrame:
         push edx
         movsx edx, word [esi]
         call DrawBox
-        movsx eax, word [word_1656E8]
+        movsx eax, word [hmscore]
         push eax
         push str_D13
         push unk_184692
@@ -268,7 +268,7 @@ DrawInGameMenuFrame:
         push edx
         movsx edx, word [byte esi+0Ah]
         call DrawBox
-        movsx eax, word [word_16581E]
+        movsx eax, word [awscore]
         push eax
         push str_D13
         push unk_184692
@@ -406,7 +406,7 @@ DrawInGameMenuFrame:
         mov eax, unk_17D3E8
         call FillBox
         push str_Intr
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         mov esi, eax
         mov eax, dword [dword_184680]
@@ -420,7 +420,7 @@ DrawInGameMenuFrame:
         call DrawArt
         add esp, byte 0Ch
         push str_Sid1
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         movsx edx, word [byte eax+0Eh]
         movsx ebx, word [byte esi+0Eh]
@@ -442,7 +442,7 @@ DrawInGameMenuFrame:
         call DrawArt
         add esp, byte 0Ch
         push str_Sid2
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         movsx ebx, word [byte eax+0Eh]
         movsx edx, word [byte esi+0Eh]
@@ -464,7 +464,7 @@ DrawInGameMenuFrame:
         call DrawArt
         add esp, byte 0Ch
         push str_Bot1
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         movsx edx, word [byte eax+0Eh]
         movsx ebx, word [byte esi+0Eh]
@@ -486,7 +486,7 @@ DrawInGameMenuFrame:
         call DrawArt
         add esp, byte 0Ch
         push str_Bot2
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         movsx edx, word [byte eax+0Eh]
         movsx ebx, word [byte esi+0Eh]
@@ -509,7 +509,7 @@ DrawInGameMenuFrame:
         call DrawArt
         add esp, byte 0Ch
         push str_Bot3
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         movsx ebx, word [byte eax+0Eh]
         movsx edx, word [byte esi+0Eh]
@@ -533,7 +533,7 @@ DrawInGameMenuFrame:
         cmp word [word_11ED34], byte 0
         je short .16
         push str_Gam0
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         mov ebx, 11h
         mov ecx, dword [dword_17CA5C]
@@ -559,7 +559,7 @@ DrawInGameMenuFrame:
         mov dword [lineuptime], 1D6h
         call DrawOverlayPanels
 .16:
-        mov eax, dword [dword_11B234]
+        mov eax, dword [ReplayRemoteShape]
         mov dword [edi], eax
         jmp near RedrawInGameMenu_7D
 .17:
@@ -581,7 +581,7 @@ RedrawInGameMenu:
         mov dword [dword_11ED30], eax
         lea eax, [byte ebp-04h]
         call DrawInGameMenuFrame
-        cmp dword [dword_1150FC], byte 1
+        cmp dword [gameresult], byte 1
         je short .3
         xor edi, edi
         xor esi, esi
@@ -655,23 +655,23 @@ OpenFrontEndFromGame:
         mov dword [dword_152F58], eax
         call FindShape
         add esp, byte 8
-        mov dword [dword_152F50], eax
+        mov dword [MenuRemoteCursorArt], eax
         test byte [byte_17CA5D], 20h
         jne short .1
-        push dword [dword_152F54]
+        push dword [MenuCursorPixels]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_152F5C]
+        push dword [MenuBitmapPixels]
         call FreeMemBlock
         add esp, byte 4
         mov edx, 20h
         mov eax, dword [dword_152F58]
         call CopyBitmap
         mov edx, 20h
-        mov dword [dword_152F54], eax
-        mov eax, dword [dword_152F50]
+        mov dword [MenuCursorPixels], eax
+        mov eax, dword [MenuRemoteCursorArt]
         call CopyBitmap
-        mov dword [dword_152F5C], eax
+        mov dword [MenuBitmapPixels], eax
 .1:
         call LoadFrontEndArt
         test byte [byte_17CA5D], 20h
@@ -699,10 +699,10 @@ ReturnToGameView:
         call RestoreSpeechBuffer
         test byte [byte_17CA5D], 20h
         jne short .1
-        push dword [dword_152F54]
+        push dword [MenuCursorPixels]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_152F5C]
+        push dword [MenuBitmapPixels]
         call FreeMemBlock
         add esp, byte 4
         push str_GloL2
@@ -715,14 +715,14 @@ ReturnToGameView:
         call FindShape
         mov edx, 20h
         add esp, byte 8
-        mov dword [dword_152F50], eax
+        mov dword [MenuRemoteCursorArt], eax
         mov eax, dword [dword_152F58]
         call CopyBitmap
         mov edx, 20h
-        mov dword [dword_152F54], eax
-        mov eax, dword [dword_152F50]
+        mov dword [MenuCursorPixels], eax
+        mov eax, dword [MenuRemoteCursorArt]
         call CopyBitmap
-        mov dword [dword_152F5C], eax
+        mov dword [MenuBitmapPixels], eax
         jmp short .2
 .1:
         push str_GhiL2
@@ -734,9 +734,9 @@ ReturnToGameView:
         mov dword [dword_152F58], eax
         call FindShape
         add esp, byte 8
-        mov dword [dword_152F50], eax
+        mov dword [MenuRemoteCursorArt], eax
 .2:
-        mov eax, unk_16443C
+        mov eax, exhstate
         call SetScreenPalette
         call InitSlotTable
         call RefreshControlSlots
@@ -753,7 +753,7 @@ ReturnToGameView:
         push dword [dword_184404]
         mov ebx, 2
         push dword [dword_184400]
-        mov edx, unk_16443C
+        mov edx, exhstate
         call SetGameBackdrop
         call RedrawInGameMenu
         xor eax, eax
@@ -785,16 +785,16 @@ InGameReturnMenu:
         mov eax, 3
         call InitMenuItems
         push str_Ret0
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         add esp, byte 8
         push str_Ret1
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         mov dword [dword ebp-0128h], eax
         call FindShape
         add esp, byte 8
         push str_Ret2
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         mov dword [dword ebp-0124h], eax
         call FindShape
         mov dword [dword ebp-0120h], eax
@@ -829,11 +829,11 @@ InGameReturnMenu:
         call DrawArt
         add esp, byte 0Ch
         push str_Gam0
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         add esp, byte 8
         push str_Gam1
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         mov dword [dword ebp-0C2h], eax
         call FindShape
         mov dword [dword ebp-0BEh], eax
@@ -844,7 +844,7 @@ InGameReturnMenu:
         push str_Ply02
         mov dword [byte ebp-0Eh], eax
         mov eax, dword [dword_184674]
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         movsx eax, word [eax]
         mov byte [dword ebp-099h], 2
         mov byte [dword ebp-097h], 0
@@ -853,7 +853,7 @@ InGameReturnMenu:
         add esp, byte 8
         mov dword [byte ebp-05Ch], eax
         push str_Ply1
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         mov dword [byte ebp-058h], eax
         mov eax, dword [dword_184670]
@@ -1043,7 +1043,7 @@ InGameMenu:
         call FreeFightSprites
         call FreeColourLookup
         call EndGameSound
-        cmp dword [dword_1150FC], byte 1
+        cmp dword [gameresult], byte 1
         setne al
         movzx eax, al
         xor edx, edx
@@ -1053,7 +1053,7 @@ InGameMenu:
         mov eax, 1
         xor edx, edx
         call SetPenaltyBoxDoor
-        mov eax, unk_16443C
+        mov eax, exhstate
         mov edx, 0FFFFFFFFh
         call SetScreenPalette
         mov eax, 9
@@ -1095,7 +1095,7 @@ InGameMenu:
         push str_INTERREG
         call AllocMemBlock
         mov dword [dword_184408], eax
-        mov eax, dword [dword_11B234]
+        mov eax, dword [ReplayRemoteShape]
         add esp, byte 0Ch
         mov eax, dword [byte eax+02Ch]
         push byte 0
@@ -1143,10 +1143,10 @@ InGameMenu:
         push byte 0
         call SetClipWindow
         add esp, byte 10h
-        cmp dword [dword_1150FC], byte 1
+        cmp dword [gameresult], byte 1
         jne near .13
-        mov ax, word [word_1656E8]
-        cmp ax, word [word_16581E]
+        mov ax, word [hmscore]
+        cmp ax, word [awscore]
         jle short .7
         mov ecx, 1
         jmp short .9
@@ -1204,7 +1204,7 @@ InGameMenu:
         mov dword [dword_1843FC], eax
         mov eax, 6
         call InitMenuItems
-        cmp dword [dword_1150FC], byte 1
+        cmp dword [gameresult], byte 1
         jne near .15
         mov eax, dword [dword_184408]
         mov dword [dword_18441C], 4
@@ -1244,16 +1244,16 @@ InGameMenu:
         jmp near .21
 .15:
         push str_Qui0
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         add esp, byte 8
         push str_Qui1
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         mov dword [dword_184426], eax
         call FindShape
         add esp, byte 8
         push str_Qui2
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         mov dword [dword_18442A], eax
         call FindShape
         mov dword [dword_18442E], eax
@@ -1272,7 +1272,7 @@ InGameMenu:
         add edx, ebx
         push str_Ret0
         mov dword [dword_184446], edx
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         movsx eax, word [byte eax+06h]
         mov edx, dword [dword_184436]
         sar eax, 1
@@ -1283,12 +1283,12 @@ InGameMenu:
         call FindShape
         add esp, byte 8
         push str_Ret1
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         mov dword [dword_18448C], eax
         call FindShape
         add esp, byte 8
         push str_Ret2
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         mov dword [dword_184490], eax
         call FindShape
         mov dword [dword_184494], eax
@@ -1322,19 +1322,19 @@ InGameMenu:
         test eax, eax
         je short .16
         push str_Cht0
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         add esp, byte 8
         push str_Cht1
         jmp short .17
 .16:
         push str_Edt0
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         add esp, byte 8
         push str_Edt1
 .17:
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         mov dword [dword_1844F2], eax
         call FindShape
         add esp, byte 8
@@ -1348,12 +1348,12 @@ InGameMenu:
         mov eax, dword [dword_184408]
         push str_Ctr0
         mov dword [dword eax+084h], edx
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         mov byte [byte_18451B], 4
         call FindShape
         add esp, byte 8
         push str_Ctr1
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         mov dword [dword_184558], eax
         call FindShape
         mov dword [dword_18455C], eax
@@ -1369,12 +1369,12 @@ InGameMenu:
         push str_Sts0
         mov byte [byte_184583], 4
         mov byte [byte_184580], 2
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         mov byte [byte_184581], 0
         call FindShape
         add esp, byte 8
         push str_Sts1
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         mov dword [dword_1845BE], eax
         call FindShape
         mov dword [dword_1845C2], eax
@@ -1397,11 +1397,11 @@ InGameMenu:
         test eax, eax
         jne short .18
         push str_Sav0
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FindShape
         add esp, byte 8
         push str_Sav1
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         mov dword [dword_184624], eax
         call FindShape
         mov dword [dword_184628], eax
@@ -1498,7 +1498,7 @@ InGameMenu:
         push dword [dword_184404]
         mov ebx, 2
         push dword [dword_184400]
-        mov edx, unk_16443C
+        mov edx, exhstate
         call SetGameBackdrop
         call PlayMusic
         call RedrawInGameMenu
@@ -1511,7 +1511,7 @@ InGameMenu:
         call LinkSync
         cmp word [word_114F14], byte 0
         jne short .24
-        movsx eax, word [word_16581E]
+        movsx eax, word [awscore]
         push eax
         mov eax, dword [gameopts]
         mov edx, dword [byte eax+01h]
@@ -1519,12 +1519,12 @@ InGameMenu:
         shr edx, 1Bh
         mov eax, dword [byte eax+01h]
         push edx
-        movsx edx, word [word_1656E8]
+        movsx edx, word [hmscore]
         shl eax, 0Fh
         push edx
         shr eax, 1Bh
         push eax
-        cmp dword [dword_1150FC], byte 1
+        cmp dword [gameresult], byte 1
         jne short .22
         mov eax, 0FFFFFFFFh
         jmp short .23
@@ -1540,7 +1540,7 @@ InGameMenu:
 .24:
         mov word [word_114F14], 0
 .25:
-        cmp dword [dword_1150FC], byte 1
+        cmp dword [gameresult], byte 1
         jne near .39
         mov eax, dword [optflags]
         and eax, byte 70h
@@ -1641,7 +1641,7 @@ InGameMenu:
         lea eax, [byte ebp-018h]
         xor ecx, ecx
         push eax
-        cmp dword [dword_1150FC], byte 1
+        cmp dword [gameresult], byte 1
         jne short .42
         mov eax, 5DCh
         jmp short .43
@@ -1675,7 +1675,7 @@ InGameMenu_A9C:
         mov eax, dword [byte ebp-018h]
         jmp dword [nosplit cs:eax*4+jpt_A25B5]
 InGameMenu_ABD:
-        cmp dword [dword_1150FC], byte 1
+        cmp dword [gameresult], byte 1
         je short InGameMenu_A9C
         call RedrawInGameMenu
         push byte 0
@@ -1738,7 +1738,7 @@ InGameMenu_ABD:
         push dword [dword_184400]
         xor eax, eax
         call SetGameBackdrop
-        push dword [dword_11B234]
+        push dword [ReplayRemoteShape]
         call SetDrawBitmap
         add esp, byte 4
         push dword [dword_184684]
@@ -1757,7 +1757,7 @@ InGameMenu_ABD:
         push byte 0
         call ClearClipRect
         add esp, byte 4
-        cmp dword [dword_1150FC], byte 1
+        cmp dword [gameresult], byte 1
         je short .51
         mov eax, 64h
         xor edx, edx
@@ -1783,7 +1783,7 @@ InGameMenu_ABD:
         call SetGameViewSize
         cmp dword [byte ebp-08h], byte 0
         je near .53
-        cmp dword [dword_1150FC], byte 1
+        cmp dword [gameresult], byte 1
         je near .53
         call FreeSpriteCache
         call StartGameSound
@@ -1793,7 +1793,7 @@ InGameMenu_ABD:
         call LoadStandsArt
         xor eax, eax
         call AddIceCrud
-        mov eax, unk_16443C
+        mov eax, exhstate
         call SetScreenPalette
         mov eax, 1
         call LinkSync
@@ -2060,7 +2060,7 @@ InGameMenu_FA8:
         mov eax, unk_184692
         xor ebx, ebx
         call MakeDirPath
-        push dword [dword_17CBE7]
+        push dword [PlayoffTreeData]
         push str_05d3
         push unk_184688
         call sprintf_
@@ -2084,7 +2084,7 @@ InGameMenu_FA8:
         mov eax, unk_184692
         xor ebx, ebx
         call MakeDirPath
-        push dword [dword_17CBE7]
+        push dword [PlayoffTreeData]
 .76:
         push str_05d3
         push unk_184688
@@ -2219,7 +2219,7 @@ InGameMenu_FA8:
         call MessageBox
         test byte [optflags], 70h
         je short .87
-        mov dword [dword_1150FC], 2
+        mov dword [gameresult], 2
         mov dword [byte ebp-08h], 0
 .87:
         test esi, esi

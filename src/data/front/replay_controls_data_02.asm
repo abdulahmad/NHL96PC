@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_11A410 progbits alloc noexec write align=1
-global dword_11A418, dword_11A41C, dword_11A420, dword_11A424, dword_11A428, dword_11A42C, dword_11B234, unk_11A430
+global dword_11A418, dword_11A41C, dword_11A420, dword_11A424, dword_11A428, dword_11A42C, ReplayRemoteShape, unk_11A430
 global unk_11A770, unk_11A9B0, unk_11AB30, unk_11AE70, unk_11B0B0, unk_11B230, word_11A410, word_11A414
 word_11A410:
         db 0BBh,00h,077h,01h
@@ -252,5 +252,5 @@ unk_11B0B0:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 unk_11B230:
         db 030h,00h,041h,00h
-dword_11B234:
+ReplayRemoteShape:
         db 00h,00h,00h,00h

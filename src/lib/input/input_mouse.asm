@@ -5,8 +5,8 @@ section s_DF8AC progbits alloc exec nowrite align=1
 extern mouseminx, mouseminy, mousemaxx, mousemaxy, MouseDeltaX, MouseButtonState, dword_11F598, MousePresent
 extern mousex, mousey, MouseMoved, dword_11F5B4, dword_11F5B8, dword_11F5C0, dword_11F5C4, SavedKbdVecOffset
 extern SavedInt16Offset, SavedRealKbdOffset, RemoveKeyboardHandler_6F, mousepollfn, off_11F5F4, off_11F5F8, off_11F5FC, BiosKeyFunc
-extern DosGetVector, DosSetVector, RemoveKeyboardHandler, Int16Handler, Int16Service, AddExitHandler, unk_DFDDD, word_11F580
-extern word_11F582, word_11F584, SavedKbdVecSelector, SavedInt16Selector, SavedRealKbdSegment, KbdDataSelector
+extern DosGetVector, DosSetVector, RemoveKeyboardHandler, Int16Handler, Int16Service, AddExitHandler, unk_DFDDD, MouseSavedSensX
+extern MouseSavedSensY, MouseSavedThreshold, SavedKbdVecSelector, SavedInt16Selector, SavedRealKbdSegment, KbdDataSelector
 global MouseReadButtons, MouseSetSensitivity, MouseRead, SetViewRect, MouseReadMotion, PointerCountUp, PointerCountDown, MouseRestoreSensitivity
 global InitMouse, ReturnZero, InstallKeyboardHandler
 ;-----------------------------------------------------------------------------
@@ -196,9 +196,9 @@ PointerCountDown:
 MouseRestoreSensitivity:
         pusha
         mov ax, 1Ah
-        mov bx, word [word_11F580]
-        mov cx, word [word_11F582]
-        mov dx, word [word_11F584]
+        mov bx, word [MouseSavedSensX]
+        mov cx, word [MouseSavedSensY]
+        mov dx, word [MouseSavedThreshold]
         int 33h
         popa
         ret
@@ -239,9 +239,9 @@ InitMouse:
         mov dword [mousey], eax
         mov ax, 1Bh
         int 33h
-        mov word [word_11F580], bx
-        mov word [word_11F582], cx
-        mov word [word_11F584], dx
+        mov word [MouseSavedSensX], bx
+        mov word [MouseSavedSensY], cx
+        mov word [MouseSavedThreshold], dx
         push byte 40h
         push byte 20h
         push byte 20h

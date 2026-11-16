@@ -6,13 +6,13 @@ extern memlist1, ExitProgram, PollHotkeys, str_Jan, str_Feb2, str_Mar, str_Apr, 
 extern str_Jun, str_Jul, str_Aug, str_Sep, str_Oct, str_Nov, str_Dec, unk_1213DC
 extern unk_1213FC, unk_1215B8
 global JoyCalibrating, JoyButtonBits, JoyPortMask, JoyButtons, JoyButtonsPrev, JoyDirection, byte_11F983, byte_11F9D8
-global byte_11F9D9, byte_11F9DA, byte_11FA2C, byte_11FA2D, byte_11FA2E, byte_11FA2F, byte_11FA30, byte_11FA31
+global DebugBackColor, byte_11F9DA, byte_11FA2C, byte_11FA2D, byte_11FA2E, byte_11FA2F, byte_11FA30, byte_11FA31
 global str_ctl07, byte_11FA4F, TintTable, byte_11FB50, byte_11FC50, LastTickCount, KbdIdleHook, HeapList
 global HeapRover, HeapLargestFree, JoyTimeX, TimerCalibration, JoyTimeY, JoyTimeSecondX, JoyTimeSecondY, JoyCalibrateTicks
 global JoyReadTimeout, JoyAxisX1, JoyAxisY1, JoyAxisX2, JoyAxisY2, JoyAxisMask, str_P, JoyX1Min
 global JoyX1Center, JoyX1Max, JoyX1Settle, JoyY1Min, JoyY1Max, str_P2, JoyY1MinSeen, JoyY1Center
-global JoyY1MaxSeen, JoyY1Settle, JoyX2Min, JoyX2Max, JoyXScale, JoyYScale, dword_11F994, TimerTickStep
-global FileCacheList, dword_11F9B8, RowTable, FreeSpaceList, dword_11F9C4, DebugMode, dword_11F9D0, DebugLineWidth
+global JoyY1MaxSeen, JoyY1Settle, JoyX2Min, JoyX2Max, JoyXScale, JoyYScale, bailout_vec, TimerTickStep
+global FileCacheList, dword_11F9B8, RowTable, FreeSpaceList, MemLockOn, DebugMode, dword_11F9D0, DebugLineWidth
 global dword_11F9DC, dword_11FA14, dword_11FA18, TextOriginX, TextOriginY, dword_11FA24, dword_11FA28, dword_11FA34
 global dword_11FA38, dword_11FA3C, dword_11FA40, dword_11FA44, dword_11FA48, dword_11FA4C, dword_11FD50, joycalactive
 global off_11FA10, oldint8off, oldint8sel, tickcount, tickdeadline, JoyAxisValues, word_11F914, word_11F918
@@ -108,7 +108,7 @@ JoyYScale:
 byte_11F983:
         db 00h,01h,05h,00h,03h,02h,04h,03h,07h,08h,06h,07h,00h,01h,05h,00h
         db 00h
-dword_11F994:
+bailout_vec:
         dd ExitProgram
         db 00h,00h,00h,00h,00h,00h,00h,00h
 joycalactive:
@@ -129,7 +129,7 @@ RowTable:
         db 00h,00h,00h,00h
 FreeSpaceList:
         db 00h,00h,00h,00h
-dword_11F9C4:
+MemLockOn:
         db 00h,00h,00h,00h
 DebugMode:
         db 02h,00h,00h,00h,00h,00h,00h,00h
@@ -139,7 +139,7 @@ DebugLineWidth:
         db 080h,07h,00h,00h
 byte_11F9D8:
         db 00h
-byte_11F9D9:
+DebugBackColor:
         db 07h
 byte_11F9DA:
         db 08h,063h

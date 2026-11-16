@@ -6,7 +6,7 @@ extern str_FLM0, str_FLM1, str_FLM2, str_FLM3, str_FLM4, str_FLM5, str_FLM6, str
 extern str_0410, str_0707, str_0177, str_1230, str_2314, str_2309, str_0427, str_2293
 extern str_1931, str_0109, str_1688, str_1404, str_2316, str_1033, str_0509, str_0844
 extern str_1227, str_2409, str_1720, str_0009, str_0834
-global byte_11E700, byte_11E844, byte_11E852, dword_11E624, dword_11E664, dword_11E668, dword_11E66C, dword_11E670
+global byte_11E700, byte_11E844, byte_11E852, dword_11E624, dword_11E664, StatsMenuItems, dword_11E66C, dword_11E670
 global dword_11E674, dword_11E678, dword_11E67C, dword_11E684, dword_11E6AC, dword_11E6B4, dword_11E75A, dword_11E75E
 global dword_11E7E0, dword_11E85B, dword_11E87F, dword_11E883, dword_11E887, dword_11E88B, off_11E6E0, off_11E764
 global unk_11E71A
@@ -17,7 +17,7 @@ dword_11E624:
         db 0Dh,01h,00h,00h,0Eh,01h,00h,00h,0Fh,01h,00h,00h,010h,01h,00h,00h
 dword_11E664:
         db 00h,00h,00h,00h
-dword_11E668:
+StatsMenuItems:
         db 04h,00h,00h,00h
 dword_11E66C:
         db 00h,00h,00h,00h

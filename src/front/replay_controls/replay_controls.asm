@@ -21,16 +21,16 @@ extern byte_177AE5, byte_177AE6, byte_177B4A, byte_177B4B, byte_177B4C, byte_177
 extern byte_177C15, byte_177C16, byte_177C7A, byte_177C7C, byte_177DAC, byte_177DAD, byte_177DAF, byte_177E12
 extern byte_178247, byte_178288, byte_17CA5D, crowdlevel, curperiod, dword_1150D4, dword_1150D8, dword_1175B5
 extern dword_1175B9, dword_1176E1, dword_118E89, dword_11A3F8, dword_11A3FC, dword_11A400, dword_11A404, dword_11A408
-extern dword_11A418, dword_11A41C, dword_11A420, dword_11A424, dword_11A428, dword_11A42C, dword_11B234, dword_11B294
+extern dword_11A418, dword_11A41C, dword_11A420, dword_11A424, dword_11A428, dword_11A42C, ReplayRemoteShape, dword_11B294
 extern dword_11B314, dword_11B318, dword_11B31C, dword_11B320, dword_11B324, dword_11B328, dword_11B32C, dword_11B330
-extern dword_11B374, dword_11B9F4, dword_11BC24, dword_11D194, dword_11D1A8, dword_11D1AC, dword_11F5C0, dword_11F5C4
-extern dword_152F50, dword_152F54, dword_152F58, dword_152F5C, dword_152FEC, dword_15E4B0, dword_15E4B4, dword_15E4B8
+extern dword_11B374, dword_11B9F4, dword_11BC24, ModeLinear, dword_11D1A8, dword_11D1AC, dword_11F5C0, dword_11F5C4
+extern MenuRemoteCursorArt, MenuCursorPixels, dword_152F58, MenuBitmapPixels, dword_152FEC, dword_15E4B0, dword_15E4B4, dword_15E4B8
 extern dword_15E4BC, dword_15E4C4, dword_15E8D8, dword_15E8E0, dword_164F1C, dword_164F20, dword_164F24, dword_164FBC
 extern dword_164FC0, dword_164FC4, dword_16596C, dword_165974, dword_17709E, dword_1770B7, dword_1770BB, dword_1770BF
 extern dword_1770C3, dword_1770C7, dword_1770CB, dword_1770CF, dword_17750C, dword_1778E8, dword_1778EC, dword_1778F0
 extern dword_1778F4, dword_1778F8, dword_1778FC, dword_177900, dword_177904, dword_17790C, dword_177914, dword_177918
 extern dword_17791C, dword_177922, dword_177926, dword_17792A, dword_17792E, dword_177932, dword_177942, dword_177946
-extern dword_17797E, dword_177982, dword_177988, dword_17798C, dword_177990, dword_177994, dword_177998, dword_1779A8
+extern dword_17797E, dword_177982, dword_177988, dword_17798C, dword_177990, dword_177994, ReplayMenuItems, dword_1779A8
 extern dword_1779AC, dword_1779E4, dword_1779E8, dword_1779EE, dword_1779F2, dword_1779F6, dword_1779FA, dword_1779FE
 extern dword_177A0E, dword_177A12, dword_177A3E, dword_177A46, dword_177A4A, dword_177A4E, dword_177A54, dword_177A58
 extern dword_177A5C, dword_177A60, dword_177A64, dword_177A74, dword_177A78, dword_177AAC, dword_177AB0, dword_177AB4
@@ -42,11 +42,11 @@ extern dword_177C0C, dword_177C10, dword_177C48, dword_177C4C, dword_177C52, dwo
 extern dword_177C62, dword_177C72, dword_177C76, dword_177D7A, dword_177D7E, dword_177D84, dword_177D88, dword_177D8C
 extern dword_177D90, dword_177D94, dword_177DA4, dword_177DA8, dword_177DDC, dword_177DE0, dword_177DE4, dword_177DEA
 extern dword_177DEE, dword_177DF2, dword_177DF6, dword_177DFA, dword_177E0A, dword_177E0E, dword_1781CC, dword_1781D0
-extern dword_1781D4, dword_1781D8, dword_1781DC, dword_1781E0, dword_1781F0, dword_1781F4, dword_1781F8, dword_178243
+extern dword_1781D4, dword_1781D8, dword_1781DC, dword_1781E0, dword_1781F0, ReplayMenuResult, dword_1781F8, dword_178243
 extern dword_178248, dword_17824C, dword_178250, dword_178254, dword_1797F4, dword_1797F8, dword_1797FC, dword_179800
 extern dword_179908, dword_179914, dword_179918, dword_179934, dword_179978, dword_17997C, dword_179A7C, dword_179AC8
 extern dword_179DBD, dword_179E0B, dword_179E0F, dword_179E13, dword_179E17, dword_179E1B, dword_17BA54, optflags
-extern optblock, dword_17CA5C, gameclock, gameopts, gmode, hmroster, off_11786C, off_11BA08
+extern optblock, dword_17CA5C, gameclock, gameopts, gmode, hmroster, replaystart, off_11BA08
 extern rand_, sflags, sprintf_, strcat_, strcpy_, strlen_, LinkSendBlock, LinkReceiveBlock
 extern LinkSync, ModemChat, NameIndexNew, NameIndexLoad, NameIndexFree, NameIndexAdd, NameIndexFirstId, EditText
 extern MessageBox, BlankForFadeIn, FileCreate, FileClose, FileWriteAt, MakeDirPath, LoadPackedFile, FreeStatsTables
@@ -65,7 +65,7 @@ extern FreeColourLookup, TextPrintAt, SetAaPalLut, DrawArtAaScaledInt, ProjectPo
 extern TransformVector, MultiplyMatrix, OriSetObjectMatrix, MakeRotXMatrix, MakeRotYMatrix, MakeRotZMatrix, SortIndices, BuildPerspTable
 extern SetScreenTarget, SetClipWindow, MouseRead, SetViewRect, TicksSinceLast, FindShape, ClearClipRect, SetViewScreenOrigin
 extern SetCameraAngles, TransposeMatrix, str_D19, str_dot4, unk_11A430, unk_11A770, unk_11A9B0, unk_11AB30
-extern unk_11AE70, unk_11B0B0, unk_11B230, unk_122344, unk_16443C, unk_1774C4, unk_177510, unk_1778C4
+extern unk_11AE70, unk_11B0B0, unk_11B230, unk_122344, exhstate, unk_1774C4, unk_177510, unk_1778C4
 extern unk_177908, unk_1781E4, unk_1781FE, unk_179980, unk_179AC0, unk_179E02, optblock_end, unk_17D32C
 extern word_114CE0, word_114CE4, word_119127, word_11A40C, word_11A410, word_11A414, regd0, regd1
 extern word_176FB8, word_176FD4, word_176FDA, word_176FF6, word_176FFA, word_176FFC, word_17704A, word_17704C
@@ -132,7 +132,7 @@ StartReplay:
         je short .3
         mov dword [dword_11A3F8], 80000204h
 .3:
-        mov dword [dword_1781F4], 0FFFFFFFFh
+        mov dword [ReplayMenuResult], 0FFFFFFFFh
         mov word [word_1781FC], 0
         mov ecx, 45h
         mov eax, dword [dword_11B374]
@@ -183,7 +183,7 @@ StartReplay:
         push dword [dword_11B328]
         call SetViewScreenOrigin
         add esp, byte 8
-        push dword [dword_11B234]
+        push dword [ReplayRemoteShape]
         call SetDrawBitmap
         mov eax, dword [dword_11B32C]
         add esp, byte 4
@@ -361,7 +361,7 @@ StepReplay:
 .1:
         cmp ebx, byte 1
         jl near .4
-        mov eax, dword [off_11786C]
+        mov eax, dword [replaystart]
         add dword [dword_165974], 0E9h
         lea ecx, [dword eax+01110Ch]
         dec ebx
@@ -453,7 +453,7 @@ StepReplay:
         jge near .4
         mov eax, dword [dword_165974]
         inc ebx
-        cmp eax, dword [off_11786C]
+        cmp eax, dword [replaystart]
         jne short .14
         movsx eax, cx
         test eax, eax
@@ -462,7 +462,7 @@ StepReplay:
         mov ebx, 0FFFFFFFFh
         jmp near .4
 .13:
-        mov eax, dword [off_11786C]
+        mov eax, dword [replaystart]
         add eax, 1110Ch
         mov dword [dword_165974], eax
 .14:
@@ -950,7 +950,7 @@ DrawReplayObjects:
         movsx eax, byte [byte_1770A5]
         cmp esi, eax
         je short .7
-        cmp esi, dword [dword_1781F4]
+        cmp esi, dword [ReplayMenuResult]
         jne short .10
 .7:
         cmp dword [dword_179978], byte 0
@@ -1285,13 +1285,13 @@ DrawReplayCounter:
         jmp short .4
 .3:
         mov eax, dword [dword_165974]
-        sub eax, dword [off_11786C]
+        sub eax, dword [replaystart]
         mov ebx, 0E9h
         cdq
         idiv ebx
         mov esi, eax
         mov eax, dword [dword_16596C]
-        sub eax, dword [off_11786C]
+        sub eax, dword [replaystart]
         cdq
         idiv ebx
         lea edi, [byte eax-01h]
@@ -2440,7 +2440,7 @@ ReplayFrame:
 .10:
         call TicksSinceLast
         mov dword [dword_1781F8], 0
-        push dword [dword_11B234]
+        push dword [ReplayRemoteShape]
         mov dword [dword_11A428], eax
         call SetDrawBitmap
         add esp, byte 4
@@ -2469,7 +2469,7 @@ ReplayFrame:
         add esp, byte 4
         call DrawReplayCounter
         call DrawReplayView
-        mov eax, dword [dword_11B234]
+        mov eax, dword [ReplayRemoteShape]
         mov dword [esi], eax
         pop esi
         pop edx
@@ -2486,7 +2486,7 @@ PickReplayPlayer:
         mov edx, dword [dword_11D1AC]
         mov eax, dword [dword_11D1A8]
         call FindPlayerAtMouse
-        mov dword [dword_1781F4], eax
+        mov dword [ReplayMenuResult], eax
         cmp eax, byte 0FFFFFFFFh
         je short .1
         mov edx, dword [nosplit eax*8+dword_179800]
@@ -2535,7 +2535,7 @@ ReplayScreen:
         push dword 12Ch
         push str_TRANSIT
         call AllocMemBlock
-        mov esi, dword [off_11786C]
+        mov esi, dword [replaystart]
         movsx edx, word [word_114CE4]
         add esp, byte 0Ch
         mov edi, eax
@@ -2543,7 +2543,7 @@ ReplayScreen:
         cmp edx, byte 1
         jne short .3
 .1:
-        mov eax, dword [off_11786C]
+        mov eax, dword [replaystart]
         add eax, 1110Ch
         cmp esi, eax
         je short .2
@@ -2561,7 +2561,7 @@ ReplayScreen:
         mov edx, 12Ch
         call LinkReceiveBlock
 .4:
-        mov eax, dword [off_11786C]
+        mov eax, dword [replaystart]
         add eax, 1110Ch
         cmp esi, eax
         je short .5
@@ -2650,7 +2650,7 @@ ReplayScreen:
         movsx edx, word [byte eax+0Ch]
         mov dword [dword_177994], edx
         movsx edx, word [byte eax+0Eh]
-        mov dword [dword_177998], edx
+        mov dword [ReplayMenuItems], edx
         movsx ebx, word [byte eax+04h]
         mov edx, dword [dword_177994]
         sar ebx, 1
@@ -2658,7 +2658,7 @@ ReplayScreen:
         add esp, byte 8
         mov dword [dword_1779A8], edx
         push str_Bak1
-        mov edx, dword [dword_177998]
+        mov edx, dword [ReplayMenuItems]
         movsx eax, word [byte eax+06h]
         mov byte [byte_1779B2], 0
         mov byte [byte_1779B3], 2
@@ -3133,7 +3133,7 @@ ReplayScreen:
         call StepReplay
         mov eax, dword_178243
         call SetCameraShot
-        push dword [dword_11B234]
+        push dword [ReplayRemoteShape]
         call SetDrawBitmap
         mov eax, dword [dword_11B31C]
         add esp, byte 4
@@ -3191,7 +3191,7 @@ ReplayScreen:
         call PutBlock
         mov ebx, 2
         add esp, byte 0Ch
-        mov edx, unk_16443C
+        mov edx, exhstate
         xor eax, eax
         call FadePalette
 .18:
@@ -3216,7 +3216,7 @@ ReplayScreen:
         mov edx, eax
         mov eax, dword [dword_1781D8]
         call FindPlayerAtMouse
-        mov dword [dword_1781F4], eax
+        mov dword [ReplayMenuResult], eax
         cmp eax, byte 0FFFFFFFFh
         jne short .21
         mov eax, unk_1781E4
@@ -3833,7 +3833,7 @@ RunReplay:
         call ReplayScreen
         cmp dword [dword_11B330], byte 8
         jge short .2
-        push dword [dword_11B234]
+        push dword [ReplayRemoteShape]
         call SetDrawBitmap
         add esp, byte 4
         push dword [dword_11F5C4]
@@ -3855,7 +3855,7 @@ RunReplay:
         call SetClipWindow
         add esp, byte 10h
         push byte 0
-        mov eax, dword [dword_11B234]
+        mov eax, dword [ReplayRemoteShape]
         push byte 0
         push dword [byte eax+02Ch]
         call PutBlock
@@ -3902,7 +3902,7 @@ SaveHighlight:
         mov ax, word [sflags]
         mov word [word_17750A], ax
         mov eax, dword [dword_16596C]
-        sub eax, dword [off_11786C]
+        sub eax, dword [replaystart]
         push unk_1774C4
         mov dword [dword_17750C], eax
         call SaveTextState
@@ -3954,7 +3954,7 @@ SaveHighlight:
         mov ecx, 1110Ch
         mov ebx, 0FFFFFFFFh
         mov eax, dword [byte ebp+066h]
-        mov edx, dword [off_11786C]
+        mov edx, dword [replaystart]
         call FileWriteAt
         mov edi, eax
 .2:
@@ -4091,7 +4091,7 @@ ReadHighlight:
         jne short .1
         mov ecx, 1110Ch
         mov ebx, 0FFFFFFFFh
-        mov edx, dword [off_11786C]
+        mov edx, dword [replaystart]
         mov eax, dword [dword_1150D8]
         call FileReadAt
 .1:
@@ -4129,10 +4129,10 @@ WatchHighlight:
         call FreeColourLookup
         test byte [byte_17CA5D], 20h
         jne short .1
-        push dword [dword_152F54]
+        push dword [MenuCursorPixels]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_152F5C]
+        push dword [MenuBitmapPixels]
         call FreeMemBlock
         add esp, byte 4
 .1:
@@ -4195,7 +4195,7 @@ WatchHighlight:
         add dword [byte ebp-04h], 1DCh
         cmp ecx, byte 2
         jl short .2
-        mov eax, dword [off_11786C]
+        mov eax, dword [replaystart]
         add eax, dword [dword_17750C]
         mov dword [dword_16596C], eax
         test byte [byte_17CA5D], 20h
@@ -4210,14 +4210,14 @@ WatchHighlight:
         call FindShape
         mov edx, 20h
         add esp, byte 8
-        mov dword [dword_152F50], eax
+        mov dword [MenuRemoteCursorArt], eax
         mov eax, dword [dword_152F58]
         call CopyBitmap
         mov edx, 20h
-        mov dword [dword_152F54], eax
-        mov eax, dword [dword_152F50]
+        mov dword [MenuCursorPixels], eax
+        mov eax, dword [MenuRemoteCursorArt]
         call CopyBitmap
-        mov dword [dword_152F5C], eax
+        mov dword [MenuBitmapPixels], eax
         jmp short .5
 .4:
         push str_GhiL4
@@ -4229,10 +4229,10 @@ WatchHighlight:
         mov dword [dword_152F58], eax
         call FindShape
         add esp, byte 8
-        mov dword [dword_152F50], eax
+        mov dword [MenuRemoteCursorArt], eax
 .5:
         call BlankForFadeIn
-        mov eax, unk_16443C
+        mov eax, exhstate
         call LoadGamePalette
         test byte [byte_17CA5D], 20h
         setne al
@@ -4264,13 +4264,13 @@ WatchHighlight:
         mov dword [dword_152F58], eax
         call FindShape
         add esp, byte 8
-        mov dword [dword_152F50], eax
+        mov dword [MenuRemoteCursorArt], eax
         test byte [byte_17CA5D], 20h
         jne short .6
-        push dword [dword_152F54]
+        push dword [MenuCursorPixels]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_152F5C]
+        push dword [MenuBitmapPixels]
         call FreeMemBlock
         add esp, byte 4
 .6:
@@ -4288,12 +4288,12 @@ WatchHighlight:
         mov eax, dword [dword_152F58]
         call CopyBitmap
         mov edx, 20h
-        mov dword [dword_152F54], eax
-        mov eax, dword [dword_152F50]
+        mov dword [MenuCursorPixels], eax
+        mov eax, dword [MenuRemoteCursorArt]
         call CopyBitmap
-        mov dword [dword_152F5C], eax
+        mov dword [MenuBitmapPixels], eax
 .7:
-        mov dword [dword_11D194], 0
+        mov dword [ModeLinear], 0
         mov eax, 1
         mov ebx, 32h
         call SetScreenMode

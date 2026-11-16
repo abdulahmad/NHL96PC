@@ -2,19 +2,19 @@
 bits 32
 %include "hockey.inc"
 section s_165953 nobits alloc noexec write align=1
-global OOlistpos, byte_165953, byte_165957, byte_16597D, byte_16597E, byte_165981, byte_176AE0, byte_176AE2
-global byte_176AE3, dword_16596C, dword_165974, dword_165978, regd2, regd3, unk_1659D6, word_165954
-global word_165956, word_165958, word_16595A, word_165964, regd5, word_165970, regd0, regd1
-global word_176B24, word_176B44
-byte_165953:
+global OOlistpos, fofdata2_b3, fofdata2_b7, byte_16597D, byte_16597E, byte_165981, byte_176AE0, PenBuf
+global PenBuf_pl, dword_16596C, dword_165974, dword_165978, regd2, regd3, unk_1659D6, fofdata2_w4
+global fofdata2_w6, fofdata, word_16595A, regd4, regd5, word_165970, regd0, regd1
+global Ylist, word_176B44
+fofdata2_b3:
         resb 1
-word_165954:
+fofdata2_w4:
         resb 2
-word_165956:
+fofdata2_w6:
         resb 1
-byte_165957:
+fofdata2_b7:
         resb 1
-word_165958:
+fofdata:
         resb 2
 word_16595A:
         resb 2
@@ -22,7 +22,7 @@ regd2:
         resb 4
 regd3:
         resb 4
-word_165964:
+regd4:
         resb 4
 regd5:
         resb 4
@@ -48,11 +48,11 @@ unk_1659D6:
         resb 69898
 byte_176AE0:
         resb 2
-byte_176AE2:
+PenBuf:
         resb 1
-byte_176AE3:
+PenBuf_pl:
         resb 65
-word_176B24:
+Ylist:
         resb 32
 word_176B44:
         resb 2

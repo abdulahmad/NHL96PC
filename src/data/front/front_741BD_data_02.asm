@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_11DFC8 progbits alloc noexec write align=1
-global asc_11DFC8, str_LFERROR, dword_11E278, dword_11E27C, dword_11E284, dword_11E288, dword_11E2A0, dword_11E2A4
-global dword_11E2A8, dword_11E2AC, dword_11E2B0, dword_11E2B4, dword_11E2B8, dword_11E2BC, dword_11E2C0, dword_11E2C4
+global asc_11DFC8, str_LFERROR, dword_11E278, LinkSetupSlots, dword_11E284, dword_11E288, dword_11E2A0, dword_11E2A4
+global dword_11E2A8, dword_11E2AC, TeamSelectDrawn, dword_11E2B4, PanelTeamNameShift, dword_11E2BC, LangTextHandle, LangTextLoaded
 global word_11E270, word_11E280
 asc_11DFC8:
         db 047h,065h,06Eh,065h,072h,069h,063h,020h,048h,061h,079h,065h,073h,02Dh,043h,06Fh
@@ -53,7 +53,7 @@ word_11E270:
         db 02h,00h,01h,00h,02h,00h,01h,00h
 dword_11E278:
         db 00h,00h,00h,00h
-dword_11E27C:
+LinkSetupSlots:
         db 00h,00h,00h,00h
 word_11E280:
         db 081h,00h,00h,00h
@@ -70,17 +70,17 @@ dword_11E2A8:
         db 00h,00h,00h,00h
 dword_11E2AC:
         db 00h,00h,00h,00h
-dword_11E2B0:
+TeamSelectDrawn:
         db 00h,00h,00h,00h
 dword_11E2B4:
         db 00h,00h,00h,00h
-dword_11E2B8:
+PanelTeamNameShift:
         db 00h,00h,00h,00h
 dword_11E2BC:
         db 00h,00h,00h,00h
-dword_11E2C0:
+LangTextHandle:
         db 00h,00h,00h,00h
-dword_11E2C4:
+LangTextLoaded:
         db 00h,00h,00h,00h
 str_LFERROR:
         db 04Ch,046h,045h,052h,052h,04Fh,052h,021h,021h,021h,00h,00h

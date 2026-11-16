@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_2F3DF progbits alloc exec nowrite align=1
 extern assextra4, assextra6, assinsert, assreplace, byte_176B83, check4bench, check4check, donothing
-extern dword_16523C, dword_165240, dword_165244, dword_165248, EvadePC, gmode, gmode2, off_11787C
+extern dword_16523C, dword_165240, dword_165244, dword_165248, EvadePC, gmode, gmode2, puckvy
 extern off_117890, PBnum, Pencntdwn, playeracc, puckc, puckx, pucky, randomd0
 extern ReadJoy1, regd0, regd1, regd2, regd3, SetExitGame, SetSPA, skateto
 extern SkateToSpot, slotteam, SortCords, RunPreGameSkate_450, RunPreGameSkate_451, assexitjump, GameEventStub, PlayArenaClip
@@ -1997,7 +1997,7 @@ assdefd:
         mov dword [byte ebx+072h], eax
         mov ecx, dword [pucky]
         mov ax, word [ecx]
-        mov ecx, dword [off_11787C]
+        mov ecx, dword [puckvy]
         mov word [regd1], ax
         movsx eax, word [ecx]
         sar eax, 6

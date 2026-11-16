@@ -3,20 +3,20 @@ bits 32
 %include "hockey.inc"
 section s_38070 progbits alloc exec nowrite align=1
 extern LineChangeLine, LineChangeReq, Pencntdwn, RequestLineChange, SlotButtons, SortCords, a2touchpuck, byte_114B4C
-extern byte_119EEA, byte_119F4A, byte_119F4B, byte_119F5A, byte_119F5B, byte_164741, byte_16507A, byte_165250
-extern HmPlayerFlags, crowdlevel, hmslotcount, awslotcount, hmfirstslot, awfirstslot, dword_1178EA, dword_1178EE
-extern dword_119173, dword_1191C7, dword_1191D7, dword_1191E7, dword_1191EB, dword_119FEC, dword_11F5C0, dword_11F5C4
-extern dword_164744, dword_164748, dword_164750, dword_165254, dword_1797B4, gameclock, gameopts, gmode
-extern hmtmstruct, introskipped, lcblink, lcboxon, lcline, off_11787C, puckc, PtrPuckFlags
+extern lchoicetab, assonetimer_blade_y, byte_119F4B, byte_119F5A, byte_119F5B, byte_164741, byte_16507A, InputState
+extern HmPlayerFlags, crowdlevel, hmslotcount, awslotcount, hmfirstslot, awfirstslot, HomeEbenPlayer, AwayEbenPlayer
+extern dword_119173, dword_1191C7, dword_1191D7, OneTimerPasser, PuckChasers, playsuspended, dword_11F5C0, dword_11F5C4
+extern dword_164744, dword_164748, dword_164750, PtrPuckZone, dword_1797B4, gameclock, gameopts, gmode
+extern hmtmstruct, introskipped, lcblink, lcboxon, lcline, puckvy, puckc, PtrPuckFlags
 extern off_117898, off_11789C, passplayer, penshotlive, penshotmode, puckvx, puckx, pucky
 extern randomd0, regd2, regd3, setpersonel, sflags, skatetopuck, donothing, SetLCmode
 extern assexitjump, AutoSwitchPlayer, BlockShotDive, checkob, dopass, passmode, setpassmode, SetPassDirection
 extern ShootOrAim, SetShotMode, ShotMode, Findhittype, doshot, SetSPA, SetControlledPlayer, changeplayer
 extern updateanim, doplayeracc, playeracc, BurstDrainEnergy, burst, PlaySfx, sfx, MouseRead
-extern vecdist, unk_164754, unk_164B5C, vtoa, word_1178A8, word_1178AC, word_1178AE, word_1178B4
-extern fodir1, fodir2, gmode2, HomeControlSlot, slotteam, gsp, word_118EA5, word_118EA9
-extern word_118EB1, word_119EDA, word_16474C, word_164794, word_165078, word_165082, word_1656E8, word_165704
-extern word_165710, regd0, regd1
+extern vecdist, JoyStateTable, unk_164B5C, vtoa, VisTeam, word_1178AC, word_1178AE, word_1178B4
+extern fodir1, fodir2, gmode2, HomeControlSlot, slotteam, gsp, lcblinktime, lcsel
+extern lctimer, word_119EDA, word_16474C, puckcross, word_165078, word_165082, hmscore, word_165704
+extern hmtmap, regd0, regd1
 global Acheck, CtlSwapScoreFix, CtlSwapTeamFlag, OppInReach, ReadJoy1, ReassignCtlPlayer, asspassrec, getlchoice
 global lcfound, lcselect, lineinput, fightinput_287, CanBlockShot_31D, CanBlockShot_31F, CanBlockShot_320, faceoffinput
 global fightinput, CanBlockShot, Holdplayer, FindCheckTarget, DoCheckInput, doinput, ResetInputRepeat, SlotToJoy
@@ -59,7 +59,7 @@ lineinput:
         test edx, edx
         je short .2
         movsx ebx, ax
-        mov ax, word [nosplit ebx*2+word_118EA9]
+        mov ax, word [nosplit ebx*2+lcsel]
         mov word [regd2], ax
         mov eax, ecx
         call lcfound
@@ -69,44 +69,44 @@ lineinput:
 .2:
         movsx ebx, ax
         add ebx, ebx
-        mov ax, word [dword ebx+word_118EB1]
+        mov ax, word [dword ebx+lctimer]
         mov edx, eax
         dec edx
-        mov word [dword ebx+word_118EB1], dx
+        mov word [dword ebx+lctimer], dx
         test ax, ax
         jne short .5
         movsx eax, word [dword ebx+lcline]
-        add word [dword ebx+word_118EB1], byte 3Ch
+        add word [dword ebx+lctimer], byte 3Ch
         cmp eax, byte 3
         jle short .3
-        movsx eax, word [dword ebx+word_118EA9]
+        movsx eax, word [dword ebx+lcsel]
         inc eax
         mov edi, 2
         jmp short .4
 .3:
-        movsx eax, word [dword ebx+word_118EA9]
+        movsx eax, word [dword ebx+lcsel]
         inc eax
         mov edi, 4
 .4:
         cdq
         idiv edi
-        mov word [dword ebx+word_118EA9], dx
+        mov word [dword ebx+lcsel], dx
         movsx eax, si
         movsx ebx, word [nosplit eax*2+lcline]
         mov word [nosplit eax*2+lcblink], 1
         mov dx, word [nosplit ebx*2+word_119EDA]
-        mov word [nosplit eax*2+word_118EA5], 0Ch
+        mov word [nosplit eax*2+lcblinktime], 0Ch
         mov word [nosplit eax*2+lcline], dx
 .5:
         movsx eax, si
         add eax, eax
-        mov dx, word [dword eax+word_118EA5]
+        mov dx, word [dword eax+lcblinktime]
         mov ebx, edx
         dec ebx
-        mov word [dword eax+word_118EA5], bx
+        mov word [dword eax+lcblinktime], bx
         test dx, dx
         jne short .6
-        add word [dword eax+word_118EA5], byte 0Ch
+        add word [dword eax+lcblinktime], byte 0Ch
         cmp word [dword eax+lcblink], byte 0
         sete al
         movzx ax, al
@@ -119,7 +119,7 @@ lineinput:
         movzx eax, al
         test eax, eax
         je near CanBlockShot_320
-        cmp dword [dword_119FEC], byte 0
+        cmp dword [playsuspended], byte 0
         jne near CanBlockShot_320
         mov al, byte [byte ecx+044h]
         and al, 20h
@@ -257,7 +257,7 @@ fightinput:
         mov ebx, eax
         movsx eax, word [byte eax+014h]
         imul eax, dword 0A0h
-        mov esi, unk_164754
+        mov esi, JoyStateTable
         shl edx, 4
         mov ecx, SortCords
         add esi, edx
@@ -572,7 +572,7 @@ CanBlockShot:
 .6:
         mov eax, 1
 .7:
-        movsx eax, word [nosplit eax*2+word_164794]
+        movsx eax, word [nosplit eax*2+puckcross]
         cmp eax, byte 0Ah
         jl near CanBlockShot_31D
         mov eax, dword [puckc]
@@ -583,17 +583,17 @@ CanBlockShot:
 .8:
         cmp dword [byte ebp-010h], byte 0
         je short .9
-        mov eax, dword [off_11787C]
+        mov eax, dword [puckvy]
         cmp word [eax], byte 0
         jg near CanBlockShot_31D
 .9:
         cmp dword [byte ebp-010h], byte 0
         jne short .10
-        mov eax, dword [off_11787C]
+        mov eax, dword [puckvy]
         cmp word [eax], byte 0
         jl near CanBlockShot_31D
 .10:
-        cmp word [word_1178A8], byte 0
+        cmp word [VisTeam], byte 0
         jl near CanBlockShot_31D
         mov eax, dword [PtrPuckFlags]
         movsx eax, word [byte eax+048h]
@@ -604,13 +604,13 @@ CanBlockShot:
         setl al
         movzx eax, al
         mov edx, eax
-        movsx eax, word [word_1178A8]
+        movsx eax, word [VisTeam]
         cmp eax, byte 6
         setl al
         movzx eax, al
         xor eax, edx
         je near CanBlockShot_31D
-        movsx eax, word [word_1178A8]
+        movsx eax, word [VisTeam]
 .11:
         imul eax, dword 0A0h
         add eax, SortCords
@@ -1089,7 +1089,7 @@ DoCheckInput:
         push edi
         enter 4, 0
         mov esi, eax
-        mov edi, unk_164754
+        mov edi, JoyStateTable
         shl edx, 4
         add edi, edx
         cmp dword [byte edi+0Ch], byte 4
@@ -1420,12 +1420,12 @@ doinput:
         movzx eax, al
         mov edi, eax
         movsx eax, word [regd1]
-        mov dword [byte_165250], eax
+        mov dword [InputState], eax
         mov ax, word [regd0]
         xor ah, ah
         and al, 0Fh
         cwde
-        mov dword [dword_165254], eax
+        mov dword [PtrPuckZone], eax
         cmp dword [penshotmode], byte 0
         jne short .1
         cmp dword [penshotlive], byte 0
@@ -1600,13 +1600,13 @@ doinput:
         jne short .19
         inc dword [dword eax+dword_1191D7]
 .19:
-        cmp dword [dword_119FEC], byte 0
+        cmp dword [playsuspended], byte 0
         jne short .20
         mov eax, dword [puckc]
         movsx ax, byte [eax]
         cmp ax, word [dword ebx+086h]
         je short .20
-        cmp dword [nosplit edi*4+dword_1191EB], byte 0
+        cmp dword [nosplit edi*4+PuckChasers], byte 0
         jne short .20
         movsx edx, cx
         mov esi, edx
@@ -1626,7 +1626,7 @@ doinput:
         movsx ax, byte [edx]
         cmp ax, word [dword ebx+086h]
         je near .54
-        cmp dword [dword_119FEC], byte 0
+        cmp dword [playsuspended], byte 0
         jne near .54
         mov ax, word [regd2]
         xor ah, ah
@@ -1665,7 +1665,7 @@ doinput:
 .23:
         test eax, eax
         je short .25
-        cmp dword [nosplit edi*4+dword_1191EB], byte 0
+        cmp dword [nosplit edi*4+PuckChasers], byte 0
         jne short .25
         cmp word [passplayer], byte 0
         jl short .25
@@ -1682,9 +1682,9 @@ doinput:
         jne short .25
 .24:
         mov ax, word [regd0]
-        mov dword [dword_1191E7], 1
+        mov dword [OneTimerPasser], 1
         xor ah, ah
-        or byte [dword_165254], 8
+        or byte [PtrPuckZone], 8
         and al, 7
         or byte [regd0], 8
         jmp short .29
@@ -1718,7 +1718,7 @@ doinput:
         cmp dword [dword_119173], byte 0
         je near .54
 .28:
-        mov ax, word [dword_165254]
+        mov ax, word [PtrPuckZone]
 .29:
         mov word [word_1178AC], ax
         pop edi
@@ -1895,7 +1895,7 @@ doinput:
         pop ebx
         ret
 .41:
-        cmp dword [dword_119FEC], byte 0
+        cmp dword [playsuspended], byte 0
         jne near .54
         cmp word [byte ebx+01Ah], byte 0
         je short .42
@@ -1951,7 +1951,7 @@ doinput:
 .45:
         test eax, eax
         je near .25
-        cmp dword [nosplit edi*4+dword_1191EB], byte 0
+        cmp dword [nosplit edi*4+PuckChasers], byte 0
         jne near .25
         cmp word [passplayer], byte 0
         jl near .25
@@ -2004,7 +2004,7 @@ doinput:
         cmp dword [dword_119173], byte 0
         jne near .28
 .49:
-        cmp dword [dword_119FEC], byte 0
+        cmp dword [playsuspended], byte 0
         jne near .54
         jmp near .39
 .50:
@@ -2065,7 +2065,7 @@ doinput:
         test eax, eax
         jne short .54
 .53:
-        movsx edx, word [dword_165254]
+        movsx edx, word [PtrPuckZone]
         mov eax, ebx
         call doplayeracc
 .54:
@@ -2096,7 +2096,7 @@ getlchoice:
         shl eax, 2
         add word [regd0], ax
         movsx eax, word [regd0]
-        movsx ax, byte [dword eax+byte_119EEA]
+        movsx ax, byte [dword eax+lchoicetab]
         mov word [regd0], ax
         pop edx
         ret
@@ -2174,7 +2174,7 @@ SlotToJoy:
         sar eax, 2
         shl edx, 4
         and eax, byte 0Fh
-        add edx, unk_164754
+        add edx, JoyStateTable
         movsx eax, byte [dword eax+byte_114B4C]
         test ebx, 100000h
         je short .1
@@ -2347,7 +2347,7 @@ assonetimer:
         mov eax, ebx
         call assexitjump
 .6:
-        mov dword [dword_1191E7], 0
+        mov dword [OneTimerPasser], 0
         mov dword [dword_119173], 0
         pop esi
         pop edx
@@ -2389,7 +2389,7 @@ assonetimer:
 .10:
         mov word [byte ebx+038h], 129h
 .11:
-        mov dword [dword_1191E7], 0
+        mov dword [OneTimerPasser], 0
         mov dword [dword_119173], 0
 .12:
         mov ax, word [byte ebx+036h]
@@ -2411,7 +2411,7 @@ assonetimer:
 .13:
         movsx eax, word [regd0]
         movsx dx, byte [nosplit eax*2+byte_119F4B]
-        movsx ax, byte [nosplit eax*2+byte_119F4A]
+        movsx ax, byte [nosplit eax*2+assonetimer_blade_y]
         mov word [regd1], dx
         mov word [regd0], ax
         mov ax, word [byte ebx+054h]
@@ -2550,7 +2550,7 @@ assonetimer:
         imul edx, eax
         sar edx, 10h
         mov esi, edx
-        mov edx, dword [off_11787C]
+        mov edx, dword [puckvy]
         movsx edx, word [edx]
         imul eax, edx
         mov ecx, dword [puckx]
@@ -2689,7 +2689,7 @@ ReceivePass:
         push ecx
         push edx
         mov edx, eax
-        cmp dword [dword_1191E7], byte 0
+        cmp dword [OneTimerPasser], byte 0
         je near .11
         mov eax, dword [puckc]
         cmp byte [eax], 0
@@ -2742,7 +2742,7 @@ ReceivePass:
         call assexitjump
         jmp near .10
 .5:
-        cmp dword [dword_1191E7], byte 0
+        cmp dword [OneTimerPasser], byte 0
         je near .11
         mov ax, word [byte edx+036h]
         xor ah, ah
@@ -2833,7 +2833,7 @@ ReceivePass:
         mov eax, edx
         call assexitjump
 .10:
-        mov dword [dword_1191E7], 0
+        mov dword [OneTimerPasser], 0
         mov dword [dword_119173], 0
 .11:
         pop edx
@@ -2861,7 +2861,7 @@ asspassrec:
         movsx eax, al
         test eax, eax
         je short .1
-        mov dword [dword_1191E7], 0
+        mov dword [OneTimerPasser], 0
         mov dword [dword_119173], 0
         mov eax, esi
         and byte [byte esi+044h], 0FEh
@@ -2927,7 +2927,7 @@ asspassrec:
         mov word [regd1], ax
         jmp short .2
 .7:
-        cmp dword [dword_1191E7], byte 0
+        cmp dword [OneTimerPasser], byte 0
         je short .8
         mov word [regd1], ax
         mov eax, esi
@@ -2952,7 +2952,7 @@ asspassrec:
 .10:
         cmp eax, 168h
         jge short .13
-        mov eax, dword [off_11787C]
+        mov eax, dword [puckvy]
         cmp word [eax], byte 0
         jge short .11
         movsx eax, word [eax]
@@ -2998,7 +2998,7 @@ asspassrec:
         and byte [byte esi+044h], 0FEh
         call assexitjump
         mov eax, dword [puckc]
-        mov dword [dword_1191E7], 0
+        mov dword [OneTimerPasser], 0
         mov dword [dword_119173], 0
         movsx dx, byte [eax]
         cmp dx, word [dword esi+086h]
@@ -3046,8 +3046,8 @@ CountTeamSlots:
         mov dword [hmslotcount], 0
         mov dword [awfirstslot], 0FFFFFFFFh
         mov dword [hmfirstslot], 0FFFFFFFFh
-        mov dword [dword_1178EE], 0FFFFFFFFh
-        mov dword [dword_1178EA], 0FFFFFFFFh
+        mov dword [AwayEbenPlayer], 0FFFFFFFFh
+        mov dword [HomeEbenPlayer], 0FFFFFFFFh
         xor eax, eax
         xor edx, edx
 .1:
@@ -3101,7 +3101,7 @@ CtlSwapScoreFix:
         sete dl
         movzx edx, dl
         imul edx, dword 136h
-        movsx ecx, word [dword edx+word_1656E8]
+        movsx ecx, word [dword edx+hmscore]
         movsx edx, word [byte eax+010h]
         sub ecx, edx
         mov edx, ecx
@@ -3234,7 +3234,7 @@ ReassignCtlPlayer:
         sar esi, 8
         add edx, esi
         mov dword [byte ebp-08h], edx
-        mov edx, dword [off_11787C]
+        mov edx, dword [puckvy]
         movsx esi, word [edx]
         mov edx, dword [pucky]
         sar esi, 8
@@ -3351,8 +3351,8 @@ UpdateLineChangeState:
         sete dl
         movzx edx, dl
         imul edx, dword 136h
-        movsx ecx, word [dword eax+word_165710]
-        movsx edx, word [dword edx+word_165710]
+        movsx ecx, word [dword eax+hmtmap]
+        movsx edx, word [dword edx+hmtmap]
         sub edx, ecx
         mov ecx, edx
         movsx edx, word [dword eax+word_165704]

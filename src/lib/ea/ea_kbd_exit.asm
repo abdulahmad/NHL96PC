@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_C27F8 progbits alloc exec nowrite align=1
-extern SetDrawBitmap, str_EXITTODOSY, str_PAUSEPRESSANYKEY, dword_11F994, BackBufferWidth, joycalactive, mousepollfn, off_11F5F4
+extern SetDrawBitmap, str_EXITTODOSY, str_PAUSEPRESSANYKEY, bailout_vec, BackBufferWidth, joycalactive, mousepollfn, off_11F5F4
 extern off_11F5F8, off_11F5FC, off_14F074, off_14F078, CreateBitmap, FillRect, DrawRectOutline, FreeBitmap
 extern TextSetColor, SaveTextState, SetDrawTarget, TextSetFont, DrawArtOpaque, NearestColour, DrawArtFast, ReturnFalse
 extern PrintCentredBoxed, ResetClipRect, SetScreenTarget, SetClipRect, KbdGetKey, SaveDrawState, RestoreDrawState, DebugLineCount
@@ -217,7 +217,7 @@ AskExitToDos:
         call ShowPromptBox
         test eax, eax
         je short .1
-        call dword [dword_11F994]
+        call dword [bailout_vec]
 .1:
         ret
 ;-----------------------------------------------------------------------------

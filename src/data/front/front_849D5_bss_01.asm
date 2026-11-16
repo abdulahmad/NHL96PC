@@ -2,10 +2,10 @@
 bits 32
 %include "hockey.inc"
 section s_17DB7C nobits alloc noexec write align=1
-global byte_17DC14, byte_17DC15, byte_17DC16, byte_17DC17, byte_17DC70, dword_17DB7C, dword_17DBC0, dword_17DBC4
-global dword_17DC0C, dword_17DC10, dword_17DC18, dword_17DC1C, dword_17DC20, dword_17DC24, dword_17DC28, dword_17DC2C
-global dword_17DC30, dword_17DC34, dword_17DC38, dword_17DC3C, dword_17DC40, dword_17DC44, dword_17DC48, dword_17DC4C
-global dword_17DC50, dword_17DC54, dword_17DC58, dword_17DC5C, dword_17DC60, dword_17DC64, dword_17DC68, dword_17DC6C
+global byte_17DC14, byte_17DC15, byte_17DC16, byte_17DC17, LinePattern, dword_17DB7C, dword_17DBC0, dword_17DBC4
+global dword_17DC0C, dword_17DC10, dword_17DC18, dword_17DC1C, LineSteep, dword_17DC24, dword_17DC28, LineErrX
+global LineErrStepY, LineErrStepX, dword_17DC38, dword_17DC3C, LineX, dword_17DC44, dword_17DC48, dword_17DC4C
+global dword_17DC50, LineStepY, LineErrY, LineColor, dword_17DC60, dword_17DC64, dword_17DC68, dword_17DC6C
 global dword_17DC74, dword_17DC78
 dword_17DB7C:
         resb 68
@@ -29,23 +29,23 @@ dword_17DC18:
         resb 4
 dword_17DC1C:
         resb 4
-dword_17DC20:
+LineSteep:
         resb 4
 dword_17DC24:
         resb 4
 dword_17DC28:
         resb 4
-dword_17DC2C:
+LineErrX:
         resb 4
-dword_17DC30:
+LineErrStepY:
         resb 4
-dword_17DC34:
+LineErrStepX:
         resb 4
 dword_17DC38:
         resb 4
 dword_17DC3C:
         resb 4
-dword_17DC40:
+LineX:
         resb 4
 dword_17DC44:
         resb 4
@@ -55,11 +55,11 @@ dword_17DC4C:
         resb 4
 dword_17DC50:
         resb 4
-dword_17DC54:
+LineStepY:
         resb 4
-dword_17DC58:
+LineErrY:
         resb 4
-dword_17DC5C:
+LineColor:
         resb 4
 dword_17DC60:
         resb 4
@@ -69,7 +69,7 @@ dword_17DC68:
         resb 4
 dword_17DC6C:
         resb 4
-byte_17DC70:
+LinePattern:
         resb 4
 dword_17DC74:
         resb 4

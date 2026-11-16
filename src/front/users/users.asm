@@ -5,10 +5,10 @@ section s_2A3D6 progbits alloc exec nowrite align=1
 extern asc_110BCE, asc_110C09, asc_110C57, asc_110CAC, byte_110B48, byte_160B2D, byte_160B92, byte_160B93
 extern byte_160B94, byte_160B95, byte_160BF8, byte_160BFA, byte_160BFB, byte_160C5E, byte_160C60, byte_160C61
 extern byte_160CC5, byte_160CC6, byte_160CC7, byte_160D2B, byte_160D2C, byte_160D2D, byte_17BDAE, DeleteFiles
-extern dword_1177F4, dword_1177F8, dword_1177FC, dword_117800, dword_117804, dword_11F5C0, dword_11F5C4, dword_15EA0C
-extern dword_15EA10, dword_15EA14, dword_15EA18, dword_15EA1C, dword_15EA20, dword_15EA24, dword_15EA28, dword_160A8C
-extern dword_160A90, dword_160A94, dword_160A98, dword_160A9C, dword_160AA0, dword_160AA4, dword_160AA8, dword_160AAC
-extern dword_160AB0, dword_160AB4, dword_160AB8, dword_160ABC, dword_160AC0, dword_160AC4, dword_160AC8, dword_160AFA
+extern UserRecordsTop, UserRecordsFirst, UserRecordsRow, dword_117800, dword_117804, dword_11F5C0, dword_11F5C4, dword_15EA0C
+extern dword_15EA10, dword_15EA14, dword_15EA18, dword_15EA1C, dword_15EA20, dword_15EA24, dword_15EA28, UserRecordList
+extern dword_160A90, UserOpponentColumn, dword_160A98, dword_160A9C, dword_160AA0, dword_160AA4, dword_160AA8, UserRatingColumn
+extern UserShutoutColumn, UserNameIndex, UserStreakColumn, dword_160ABC, UserLongStreakColumn, UserPowerPlayColumn, dword_160AC8, dword_160AFA
 extern dword_160B24, dword_160B28, dword_160B60, dword_160B64, dword_160B76, dword_160B7A, dword_160B8A, dword_160B8E
 extern dword_160BC6, dword_160BCA, dword_160BD0, dword_160BD4, dword_160BD8, dword_160BDC, dword_160BE0, dword_160BF0
 extern dword_160BF4, dword_160C2C, dword_160C30, dword_160C36, dword_160C3A, dword_160C3E, dword_160C42, dword_160C46
@@ -18,7 +18,7 @@ extern dword_160D0E, dword_160D12, dword_160D22, dword_160D26, dword_17BC74, Tea
 extern dword_17BCA6, EditText, fclose_, FileClose, FileCreate, FileOpenRead, FileOpenReadWrite, FileReadAt
 extern FileWriteAt, fopen_, fprintf_, TextStringWidth, gameopts, GetPressedDevice, HideMessage, LoadPackedFile
 extern MakeDirPath, MessageBox, MouseRead, NameIndexAdd, NameIndexFirstId, NameIndexFree, NameIndexId, NameIndexLoad
-extern NameIndexNew, NameIndexPath, NameIndexRemove, NameIndexSave, off_11D3DC, optflags, PutBlock, qsort_
+extern NameIndexNew, NameIndexPath, NameIndexRemove, NameIndexSave, LogoNames, optflags, PutBlock, qsort_
 extern SetDrawBitmap, ShowMessage, sprintf_, str_00, str_08d, str_1000, str_20s, str_3d3d
 extern str_3d3d3d, str_Ball, str_BKGD2, str_BT002, str_BT012, str_BT022, str_BT10, str_BT11
 extern str_BT12, str_D4, str_dbgS, str_FL00, str_FL01, str_fmtTenths, str_LOCALNDX, str_Logbook
@@ -33,7 +33,7 @@ extern InitMenuItems, RunMenu, PlaySfx, SoundIdle, GetLangText, InitVScrollBar, 
 extern FreeScrollBar, SetScrollBarPos, DrawScrollBar, CheckExportName, DrawShapeCore, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock
 extern CreateBitmap, TintRect, FreeBitmap, TextSetColor, SaveTextState, SetDrawTarget, SetScreenTarget, SetRemapTable
 extern FindShape, RemapPolygonArgs, TextSetFont, unk_160B50, WaitTicks, word_160ACC, word_1656DA, word_1656DC
-extern word_1656E8, word_165810, word_165812, word_16581E
+extern hmscore, word_165810, word_165812, awscore
 global unk_2A3D6, unk_2A3E2, unk_2A3EE, unk_2A3F6, unk_2A402, unk_2A442, unk_2A482, ClearSlotUser
 global ClearSlotUsers, UserRecordRating, CreateUserRecord, DeleteUser, NewUser, NewUser_159, DrawUserList, GetUserName
 global LoadUserIndex, ScrollUserList, PickUsersScreen, UpdateUserRecords, UpdateUserRecords_47F, UpdateUserRecords_ret, CompareUsersByName, CompareUsersByRating
@@ -1374,7 +1374,7 @@ UpdateUserRecords:
         add eax, dword [byte ebp+07Ah]
         cmp byte [byte eax+05h], 0
         je near .6
-        movsx eax, word [word_1656E8]
+        movsx eax, word [hmscore]
         mov dword [byte ebp+07Eh], eax
         movsx eax, word [word_1656DC]
         mov dword [byte ebp+05Eh], eax
@@ -1383,7 +1383,7 @@ UpdateUserRecords:
         movsx eax, word [word_165812]
         mov dword [byte ebp+06Ah], eax
         movsx eax, word [word_165810]
-        movsx ecx, word [word_16581E]
+        movsx ecx, word [awscore]
         mov dword [byte ebp+056h], eax
         xor eax, eax
         mov edx, dword [gameopts]
@@ -1408,7 +1408,7 @@ UpdateUserRecords:
         jl short .3
         jmp short .9
 .6:
-        movsx eax, word [word_16581E]
+        movsx eax, word [awscore]
         mov dword [byte ebp+07Eh], eax
         movsx eax, word [word_165812]
         mov dword [byte ebp+05Eh], eax
@@ -1417,7 +1417,7 @@ UpdateUserRecords:
         movsx eax, word [word_1656DC]
         mov dword [byte ebp+06Ah], eax
         movsx eax, word [word_1656DA]
-        movsx ecx, word [word_1656E8]
+        movsx ecx, word [hmscore]
         mov dword [byte ebp+056h], eax
         xor eax, eax
         mov edx, dword [gameopts]
@@ -1639,7 +1639,7 @@ UpdateUserRecords_ret:
 ;-----------------------------------------------------------------------------
 CompareUsersByName:
         push ebx
-        mov ebx, dword [dword_160AAC]
+        mov ebx, dword [UserRatingColumn]
         mov edx, dword [edx]
         mov eax, dword [eax]
         mov edx, dword [ebx+edx*4]
@@ -1655,7 +1655,7 @@ CompareUsersByRating:
         push ebx
         push ecx
         push esi
-        mov ebx, dword [dword_160AB0]
+        mov ebx, dword [UserShutoutColumn]
         mov ecx, dword [edx]
         mov esi, dword [eax]
         shl ecx, 2
@@ -1673,7 +1673,7 @@ CompareUsersByRating:
         pop ebx
         ret
 .1:
-        mov ebx, dword [dword_160AAC]
+        mov ebx, dword [UserRatingColumn]
         mov edx, dword [ecx+ebx]
         mov eax, dword [esi+ebx]
         call strcmp_
@@ -1694,12 +1694,12 @@ CompareUsersByRecord:
         enter 14h, 0
         mov esi, eax
         mov edi, edx
-        imul edx, dword [dword_1177F4], byte 3
-        cmp dword [dword_1177F4], byte 2
+        imul edx, dword [UserRecordsTop], byte 3
+        cmp dword [UserRecordsTop], byte 2
         jne short .1
         mov eax, dword [eax]
         shl eax, 3
-        mov ecx, dword [dword_160AC0]
+        mov ecx, dword [UserLongStreakColumn]
         add eax, edx
         movsx ebx, word [ecx+eax*2]
         movsx eax, word [byte ecx+eax*2+02h]
@@ -1722,7 +1722,7 @@ CompareUsersByRecord:
         mov eax, dword [eax]
         shl eax, 3
         add eax, edx
-        mov ebx, dword [dword_160AC0]
+        mov ebx, dword [UserLongStreakColumn]
         add eax, eax
         add eax, ebx
         mov dword [byte ebp-014h], ebx
@@ -1800,7 +1800,7 @@ CompareUsersByRecord:
         sub eax, dword [byte ebp-08h]
         jmp short CompareUsersByRecord_ret
 .8:
-        mov edx, dword [dword_160AAC]
+        mov edx, dword [UserRatingColumn]
         mov eax, dword [edi]
         mov ebx, dword [edx+eax*4]
         mov eax, dword [esi]
@@ -1842,7 +1842,7 @@ CompareUsersByGoalsFor:
         pop ebx
         ret
 .1:
-        mov ebx, dword [dword_160AAC]
+        mov ebx, dword [UserRatingColumn]
         mov edx, dword [edx]
         mov eax, dword [eax]
         mov edx, dword [ebx+edx*4]
@@ -1878,7 +1878,7 @@ CompareUsersByGoalsAgainst:
         pop ebx
         ret
 .1:
-        mov ebx, dword [dword_160AAC]
+        mov ebx, dword [UserRatingColumn]
         mov edx, dword [edx]
         mov eax, dword [eax]
         mov edx, dword [ebx+edx*4]
@@ -1956,7 +1956,7 @@ CompareUsersByPowerPlay:
         sub eax, dword [byte ebp-0Ch]
         jmp near CompareUsersByRecord_ret
 .6:
-        mov ebx, dword [dword_160AAC]
+        mov ebx, dword [UserRatingColumn]
         mov eax, dword [edi]
         mov edx, dword [ebx+eax*4]
         mov eax, dword [esi]
@@ -1975,7 +1975,7 @@ CompareUsersByPenaltyKill:
         mov edi, eax
         mov esi, edx
         mov edx, dword [eax]
-        mov eax, dword [dword_160A94]
+        mov eax, dword [UserOpponentColumn]
         shl edx, 2
         add eax, edx
         movsx edx, word [eax]
@@ -2003,7 +2003,7 @@ CompareUsersByPenaltyKill:
         mov dword [byte ebp-0Ch], edx
 .2:
         mov eax, dword [esi]
-        mov edx, dword [dword_160A94]
+        mov edx, dword [UserOpponentColumn]
         shl eax, 2
         add eax, edx
         movsx edx, word [eax]
@@ -2041,7 +2041,7 @@ CompareUsersByPenaltyKill:
         sub eax, dword [byte ebp-08h]
         jmp near CompareUsersByRecord_ret
 .6:
-        mov edx, dword [dword_160AAC]
+        mov edx, dword [UserRatingColumn]
         mov eax, dword [esi]
         mov ebx, dword [edx+eax*4]
         mov eax, dword [edi]
@@ -2071,7 +2071,7 @@ CompareUsersByTeam_8:
 CompareUsersByOpponent:
         push ebx
         push ecx
-        mov ebx, dword [dword_160AC4]
+        mov ebx, dword [UserPowerPlayColumn]
         jmp short CompareUsersByTeam_8
 ;-----------------------------------------------------------------------------
 ; CompareUsersByShutouts                       2BCED  96 PC, medium confidence
@@ -2099,7 +2099,7 @@ CompareUsersByShutouts:
         pop ebx
         ret
 .1:
-        mov ebx, dword [dword_160AAC]
+        mov ebx, dword [UserRatingColumn]
         mov edx, dword [edx]
         mov eax, dword [eax]
         mov edx, dword [ebx+edx*4]
@@ -2118,7 +2118,7 @@ CompareUsersByStreak:
         push ebx
         push ecx
         push esi
-        cmp dword [dword_1177F4], byte 6
+        cmp dword [UserRecordsTop], byte 6
         jne short .1
         mov ebx, dword [dword_160AA4]
         mov ecx, dword [edx]
@@ -2157,7 +2157,7 @@ CompareUsersByStreak:
         pop ebx
         ret
 .2:
-        mov ebx, dword [dword_160AAC]
+        mov ebx, dword [UserRatingColumn]
         mov edx, dword [edx]
         mov eax, dword [eax]
         mov edx, dword [ebx+edx*4]
@@ -2201,7 +2201,7 @@ DrawUserRecords:
         jmp short .2
 .1:
         jle short .2
-        inc dword [dword_1177FC]
+        inc dword [UserRecordsRow]
         xor edi, edi
 .2:
         push byte 0
@@ -2223,25 +2223,25 @@ DrawUserRecords:
         call PutBlockAtOwnPos
         add esp, byte 4
 .4:
-        mov ebx, dword [dword_160AB4]
+        mov ebx, dword [UserNameIndex]
         cmp dword [byte ebx+066h], byte 2
         jl short .5
-        mov eax, dword [dword_1177F4]
+        mov eax, dword [UserRecordsTop]
         mov ecx, 3
         cdq
         idiv ecx
         cmp edx, esi
         jne short .5
-        mov eax, dword [dword_1177F4]
+        mov eax, dword [UserRecordsTop]
         cdq
         idiv ecx
-        cmp eax, dword [dword_1177FC]
+        cmp eax, dword [UserRecordsRow]
         jne short .5
         mov ecx, dword [byte ebp-024h]
         mov eax, dword [byte ebx+066h]
         mov edx, dword [byte ebp-028h]
         mov ebx, dword [dword_117800]
-        push dword [nosplit eax*4+dword_1177F8]
+        push dword [nosplit eax*4+UserRecordsFirst]
         mov eax, dword [byte ebp-074h]
         call FillBox
 .5:
@@ -2250,7 +2250,7 @@ DrawUserRecords:
         add dword [byte ebp-024h], byte 51h
         cmp esi, byte 3
         jl short .4
-        push dword [dword_1177FC]
+        push dword [UserRecordsRow]
         push str_TXTD
         lea eax, [byte ebp-064h]
         push eax
@@ -2277,7 +2277,7 @@ DrawUserRecords:
         add eax, dword [byte ebp-014h]
         mov esi, dword [byte ebp-030h]
         mov eax, dword [eax]
-        mov esi, dword [dword esi+dword_1177FC]
+        mov esi, dword [dword esi+UserRecordsRow]
         mov dword [byte ebp-08h], eax
         mov eax, dword [byte ebp-030h]
         inc dword [byte ebp-010h]
@@ -2287,7 +2287,7 @@ DrawUserRecords:
         sub eax, esi
         mov edx, dword [byte ebp-08h]
         inc eax
-        cmp edx, dword [dword_1177F8]
+        cmp edx, dword [UserRecordsFirst]
         jne short .7
         add eax, esi
         mov ecx, 240h
@@ -2312,7 +2312,7 @@ DrawUserRecords:
         lea eax, [byte ebp-064h]
         call DrawText
         mov eax, dword [byte ebp-08h]
-        mov edx, dword [dword_160AAC]
+        mov edx, dword [UserRatingColumn]
         push dword [edx+eax*4]
         push str_dbgS
         lea eax, [byte ebp-064h]
@@ -2330,7 +2330,7 @@ DrawUserRecords:
         cmp word [eax], byte 0
         jl short .8
         movsx eax, word [eax]
-        push dword [nosplit eax*4+off_11D3DC]
+        push dword [nosplit eax*4+LogoNames]
         push str_dbgS
         lea eax, [byte ebp-064h]
         push eax
@@ -2352,13 +2352,13 @@ DrawUserRecords:
         mov dword [byte ebp-0Ch], 0
         mov dword [byte ebp-020h], eax
 .9:
-        imul eax, dword [dword_1177FC], byte 3
+        imul eax, dword [UserRecordsRow], byte 3
         add eax, dword [byte ebp-0Ch]
         cmp eax, byte 0Bh
         ja near DrawUserRecords_3F0.23
         jmp dword [nosplit cs:eax*4+jpt_2BDA2]
 DrawUserRecords_23B:
-        mov eax, dword [dword_160AC0]
+        mov eax, dword [UserLongStreakColumn]
         add eax, dword [byte ebp-01Ch]
         movsx edx, word [byte eax+04h]
         push edx
@@ -2374,7 +2374,7 @@ DrawUserRecords_23B:
         add esp, byte 14h
         jmp near DrawUserRecords_3F0.24
 DrawUserRecords_267:
-        mov eax, dword [dword_160AC0]
+        mov eax, dword [UserLongStreakColumn]
         add eax, dword [byte ebp-01Ch]
         movsx edx, word [byte eax+0Ah]
         push edx
@@ -2383,7 +2383,7 @@ DrawUserRecords_267:
         movsx eax, word [byte eax+06h]
         jmp short DrawUserRecords_23B.10
 DrawUserRecords_27F:
-        mov eax, dword [dword_160AC0]
+        mov eax, dword [UserLongStreakColumn]
         add eax, dword [byte ebp-01Ch]
         movsx edx, word [byte eax+0Eh]
         push edx
@@ -2418,12 +2418,12 @@ DrawUserRecords_2D2:
         mov eax, dword [dword_160A90]
         jmp short DrawUserRecords_29B.11
 DrawUserRecords_2D9:
-        mov eax, dword [dword_160AC4]
+        mov eax, dword [UserPowerPlayColumn]
         add eax, dword [byte ebp-04h]
         cmp word [eax], byte 0
         jl near DrawUserRecords_3F0.23
         movsx eax, word [eax]
-        push dword [nosplit eax*4+off_11D3DC]
+        push dword [nosplit eax*4+LogoNames]
         push str_dbgS
         jmp short DrawUserRecords_29B.13
 DrawUserRecords_2FC:
@@ -2485,7 +2485,7 @@ DrawUserRecords_2FC:
         add esp, byte 10h
         jmp near DrawUserRecords_3F0.24
 DrawUserRecords_395:
-        mov eax, dword [dword_160A94]
+        mov eax, dword [UserOpponentColumn]
         add eax, dword [byte ebp-020h]
         cmp word [eax], byte 0
         jne short .20
@@ -2519,7 +2519,7 @@ DrawUserRecords_395:
         je near DrawUserRecords_2FC.16
         jmp near DrawUserRecords_2FC.18
 DrawUserRecords_3F0:
-        mov eax, dword [dword_160AB0]
+        mov eax, dword [UserShutoutColumn]
         add eax, dword [byte ebp-020h]
         mov eax, dword [eax]
         sar eax, 10h
@@ -2540,7 +2540,7 @@ DrawUserRecords_3F0:
         add dword [byte ebp-014h], byte 4
         inc dword [byte ebp-02Ch]
 .26:
-        mov eax, dword [dword_160AB4]
+        mov eax, dword [UserNameIndex]
         mov eax, dword [byte eax+066h]
         dec eax
         dec eax
@@ -2608,7 +2608,7 @@ DrawUserRecords_3F0:
         dec edi
         cmp edi, byte 0FFFFFFFFh
         jne short .30
-        dec dword [dword_1177FC]
+        dec dword [UserRecordsRow]
 .30:
         push byte 7
         jmp short .32
@@ -2650,7 +2650,7 @@ LoadUserRecords:
 .1:
         call NameIndexId
         lea ebx, [byte ebp-070h]
-        mov ecx, dword [dword_160AB4]
+        mov ecx, dword [UserNameIndex]
         mov edx, eax
         mov eax, ecx
         call NameIndexPath
@@ -2665,7 +2665,7 @@ LoadUserRecords:
         mov eax, dword [byte ebp-08h]
         mov ecx, 11Ch
         mov ebx, 0FFFFFFFFh
-        mov edx, dword [dword_160A8C]
+        mov edx, dword [UserRecordList]
         dec eax
         dec eax
         add edx, esi
@@ -2677,24 +2677,24 @@ LoadUserRecords:
         jne near .9
         imul ecx, dword [byte ebp-034h], byte 28h
         mov edx, dword [byte ebp-08h]
-        mov eax, dword [dword_160AB4]
-        mov ebx, dword [dword_160AB8]
+        mov eax, dword [UserNameIndex]
+        mov ebx, dword [UserStreakColumn]
         call NameIndexId
-        mov edx, dword [dword_160AB4]
+        mov edx, dword [UserNameIndex]
         mov dword [byte ebp-038h], edx
         mov edx, eax
         mov eax, dword [byte ebp-038h]
         add ebx, ecx
         call GetUserName
-        mov eax, dword [dword_160AB8]
+        mov eax, dword [UserStreakColumn]
         add ecx, eax
-        mov eax, dword [dword_160AAC]
+        mov eax, dword [UserRatingColumn]
         add eax, dword [byte ebp-04h]
         mov dword [byte eax-08h], ecx
-        mov eax, dword [dword_160AB0]
+        mov eax, dword [UserShutoutColumn]
         add eax, dword [byte ebp-04h]
         mov dword [byte eax-08h], 0
-        mov eax, dword [dword_160A8C]
+        mov eax, dword [UserRecordList]
         add eax, esi
         cmp dword [byte eax+04h], byte 0
         je short .2
@@ -2715,7 +2715,7 @@ LoadUserRecords:
         adc edx, byte 0
         shrd eax, edx, 10h
         mov edx, eax
-        mov eax, dword [dword_160AB0]
+        mov eax, dword [UserShutoutColumn]
         add eax, dword [byte ebp-04h]
         mov dword [byte eax-08h], edx
 .2:
@@ -2724,22 +2724,22 @@ LoadUserRecords:
         mov dword [byte ebp-01Ch], esi
         xor eax, eax
 .3:
-        mov ebx, dword [dword_160A8C]
-        mov ecx, dword [dword_160AC0]
+        mov ebx, dword [UserRecordList]
+        mov ecx, dword [UserLongStreakColumn]
         add ebx, dword [byte ebp-01Ch]
         add ecx, edx
         mov bx, word [byte ebx+eax+08h]
         mov word [byte ecx-020h], bx
-        mov ebx, dword [dword_160A8C]
-        mov ecx, dword [dword_160AC0]
+        mov ebx, dword [UserRecordList]
+        mov ecx, dword [UserLongStreakColumn]
         add ebx, dword [byte ebp-01Ch]
         add ecx, edx
         mov bx, word [byte ebx+eax+0Eh]
         mov word [byte ecx-01Eh], bx
         cmp dword [byte ebp-0Ch], byte 2
         jge short .4
-        mov ebx, dword [dword_160A8C]
-        mov ecx, dword [dword_160AC0]
+        mov ebx, dword [UserRecordList]
+        mov ecx, dword [UserLongStreakColumn]
         add ebx, dword [byte ebp-01Ch]
         add ecx, edx
         mov bx, word [byte ebx+eax+014h]
@@ -2751,51 +2751,51 @@ LoadUserRecords:
         inc eax
         cmp dword [byte ebp-0Ch], byte 3
         jl short .3
-        mov eax, dword [dword_160A8C]
+        mov eax, dword [UserRecordList]
         mov dx, word [byte esi+eax+01Ah]
         add dx, word [byte esi+eax+01Ch]
         add dx, word [byte esi+eax+01Eh]
         mov eax, dword [dword_160AA8]
         mov word [byte edi+eax-04h], dx
-        mov eax, dword [dword_160A8C]
+        mov eax, dword [UserRecordList]
         mov dx, word [byte esi+eax+020h]
         add dx, word [byte esi+eax+022h]
         add dx, word [byte esi+eax+024h]
         mov eax, dword [dword_160AA0]
         mov word [byte edi+eax-04h], dx
         mov eax, dword [dword_160A98]
-        mov edx, dword [dword_160A8C]
+        mov edx, dword [UserRecordList]
         add eax, dword [byte ebp-04h]
         mov dx, word [dword edx+esi+0110h]
         mov word [byte eax-08h], dx
         mov eax, dword [dword_160A98]
-        mov edx, dword [dword_160A8C]
+        mov edx, dword [UserRecordList]
         add eax, dword [byte ebp-04h]
         mov dx, word [dword edx+esi+0112h]
         mov word [byte eax-06h], dx
-        mov edx, dword [dword_160A94]
-        mov eax, dword [dword_160A8C]
+        mov edx, dword [UserOpponentColumn]
+        mov eax, dword [UserRecordList]
         add edx, dword [byte ebp-04h]
         mov ax, word [dword esi+eax+0114h]
         mov word [byte edx-08h], ax
-        mov eax, dword [dword_160A94]
-        mov edx, dword [dword_160A8C]
+        mov eax, dword [UserOpponentColumn]
+        mov edx, dword [UserRecordList]
         add eax, dword [byte ebp-04h]
         mov dx, word [dword edx+esi+0116h]
         mov word [byte eax-06h], dx
-        mov eax, dword [dword_160A8C]
+        mov eax, dword [UserRecordList]
         mov dx, word [byte esi+eax+026h]
         add dx, word [byte esi+eax+028h]
         add dx, word [byte esi+eax+02Ah]
         mov eax, dword [dword_160A9C]
         mov word [byte edi+eax-04h], dx
-        mov edx, dword [dword_160A8C]
+        mov edx, dword [UserRecordList]
         mov eax, dword [dword_160AA4]
         mov dx, word [byte edx+esi+02Ch]
         mov dword [byte ebp-024h], 0
         mov word [byte edi+eax-04h], dx
         mov dword [byte ebp-028h], esi
-        mov eax, dword [dword_160A8C]
+        mov eax, dword [UserRecordList]
         xor ebx, ebx
         mov edx, dword [dword_160A90]
         mov ax, word [byte esi+eax+02Eh]
@@ -2803,7 +2803,7 @@ LoadUserRecords:
         mov word [byte edx+edi-04h], ax
         mov edx, 0FFFFFFFFh
 .5:
-        mov eax, dword [dword_160A8C]
+        mov eax, dword [UserRecordList]
         add eax, dword [byte ebp-028h]
         add eax, dword [byte ebp-010h]
         mov ecx, dword [byte eax+030h]
@@ -2824,7 +2824,7 @@ LoadUserRecords:
         mov word [byte edi+eax-04h], dx
         mov edx, 0FFFFFFFFh
 .7:
-        mov eax, dword [dword_160A8C]
+        mov eax, dword [UserRecordList]
         add eax, dword [byte ebp-02Ch]
         add eax, dword [byte ebp-014h]
         mov ecx, dword [dword eax+0A0h]
@@ -2837,7 +2837,7 @@ LoadUserRecords:
         add dword [byte ebp-014h], byte 4
         cmp ebx, byte 1Ch
         jl short .7
-        mov eax, dword [dword_160AC4]
+        mov eax, dword [UserPowerPlayColumn]
         mov word [byte edi+eax-04h], dx
 .9:
         lea eax, [byte ebp-03Ch]
@@ -2850,7 +2850,7 @@ LoadUserRecords:
         inc edi
         inc edi
 .11:
-        mov eax, dword [dword_160AB4]
+        mov eax, dword [UserNameIndex]
         mov edx, dword [byte ebp-08h]
         cmp edx, dword [byte eax+066h]
         jge near NewUser_159
@@ -3000,7 +3000,7 @@ ExportUserRecords:
         mov edi, dword [dword_160ABC]
         add edi, dword [byte ebp-04h]
         mov edi, dword [edi]
-        mov edx, dword [dword_160AAC]
+        mov edx, dword [UserRatingColumn]
         mov eax, edi
         push dword [edx+eax*4]
         push str_20s
@@ -3019,7 +3019,7 @@ ExportUserRecords:
         cmp word [eax], byte 0
         jl short .5
         movsx eax, word [eax]
-        push dword [nosplit eax*4+off_11D3DC]
+        push dword [nosplit eax*4+LogoNames]
         push str_sp3s
         lea eax, [byte ebp-064h]
         push eax
@@ -3038,7 +3038,7 @@ ExportUserRecords:
         push esi
         call fprintf_
         mov eax, edi
-        mov edx, dword [dword_160AC0]
+        mov edx, dword [UserLongStreakColumn]
         shl eax, 4
         add eax, edx
         add esp, byte 8
@@ -3093,13 +3093,13 @@ ExportUserRecords:
         push eax
         push esi
         call fprintf_
-        mov eax, dword [dword_160AC4]
+        mov eax, dword [UserPowerPlayColumn]
         add eax, edx
         add esp, byte 8
         cmp word [eax], byte 0
         jl short .7
         movsx eax, word [eax]
-        push dword [nosplit eax*4+off_11D3DC]
+        push dword [nosplit eax*4+LogoNames]
         push str_sp3s2
         lea eax, [byte ebp-064h]
         push eax
@@ -3178,7 +3178,7 @@ ExportUserRecords:
         push esi
         shl edx, 2
         call fprintf_
-        mov eax, dword [dword_160A94]
+        mov eax, dword [UserOpponentColumn]
         add eax, edx
         add esp, byte 8
         cmp word [eax], byte 0
@@ -3241,7 +3241,7 @@ ExportUserRecords:
         push eax
         push esi
         call fprintf_
-        mov edx, dword [dword_160AB0]
+        mov edx, dword [UserShutoutColumn]
         mov eax, edi
         mov eax, dword [edx+eax*4]
         add esp, byte 8
@@ -3260,7 +3260,7 @@ ExportUserRecords:
 .18:
         call fprintf_
         add esp, byte 8
-        mov eax, dword [dword_160AB4]
+        mov eax, dword [UserNameIndex]
         mov eax, dword [byte eax+066h]
         dec eax
         dec eax
@@ -3331,10 +3331,10 @@ UserRecordsScreen:
         mov ecx, 20h
         lea edi, [dword ebp-0116h]
         mov esi, unk_2A482
-        mov eax, dword_160AB4
+        mov eax, UserNameIndex
         rep movsd
         call LoadUserIndex
-        mov eax, dword [dword_160AB4]
+        mov eax, dword [UserNameIndex]
         mov edx, dword [byte eax+066h]
         dec edx
         dec edx
@@ -3355,19 +3355,19 @@ UserRecordsScreen:
         push byte 20h
         push byte 64h
         push str_Urate
-        mov dword [dword_160AAC], eax
+        mov dword [UserRatingColumn], eax
         call AllocMemBlock
         add esp, byte 0Ch
         push byte 20h
         push dword 190h
         push str_Upts
-        mov dword [dword_160AB0], eax
+        mov dword [UserShutoutColumn], eax
         call AllocMemBlock
         add esp, byte 0Ch
         push byte 20h
         push byte 32h
         push str_Ugf
-        mov dword [dword_160AC0], eax
+        mov dword [UserLongStreakColumn], eax
         call AllocMemBlock
         add esp, byte 0Ch
         push byte 20h
@@ -3391,7 +3391,7 @@ UserRecordsScreen:
         push byte 20h
         push byte 32h
         push str_Uso
-        mov dword [dword_160A94], eax
+        mov dword [UserOpponentColumn], eax
         call AllocMemBlock
         add esp, byte 0Ch
         push byte 20h
@@ -3421,7 +3421,7 @@ UserRecordsScreen:
         push byte 20h
         push byte 64h
         push str_Usort
-        mov dword [dword_160AC4], eax
+        mov dword [UserPowerPlayColumn], eax
         call AllocMemBlock
         add esp, byte 0Ch
         push byte 20h
@@ -3433,10 +3433,10 @@ UserRecordsScreen:
         push byte 20h
         push dword 1BBCh
         push str_Logbook
-        mov dword [dword_160AB8], eax
+        mov dword [UserStreakColumn], eax
         call AllocMemBlock
         add esp, byte 0Ch
-        mov dword [dword_160A8C], eax
+        mov dword [UserRecordList], eax
         call LoadUserRecords
         xor edx, edx
         xor eax, eax
@@ -3447,7 +3447,7 @@ UserRecordsScreen:
         add edx, byte 4
         cmp eax, byte 19h
         jl short .2
-        mov eax, dword [dword_160AB4]
+        mov eax, dword [UserNameIndex]
         mov ecx, CompareUsersByRecord
         mov ebx, 4
         mov edx, dword [byte eax+066h]
@@ -3456,10 +3456,10 @@ UserRecordsScreen:
         dec edx
         call qsort_
         mov eax, dword [dword_160ABC]
-        mov dword [dword_1177F4], 0
-        mov dword [dword_1177FC], 0
+        mov dword [UserRecordsTop], 0
+        mov dword [UserRecordsRow], 0
         mov eax, dword [eax]
-        mov dword [dword_1177F8], eax
+        mov dword [UserRecordsFirst], eax
         lea eax, [byte ebp-016h]
         push eax
         call SaveTextState
@@ -3937,21 +3937,21 @@ UserRecordsScreen_A1A:
         mov dword [byte ebp+02Eh], 0
         jmp near UserRecordsScreen_CC6.42
 UserRecordsScreen_A2B:
-        cmp dword [dword_1177F8], byte 0
+        cmp dword [UserRecordsFirst], byte 0
         jl near UserRecordsScreen_CC6.42
         lea eax, [byte ebp-016h]
         push eax
         call SetDrawTarget
-        mov edx, dword [dword_1177F8]
+        mov edx, dword [UserRecordsFirst]
         add esp, byte 4
-        mov eax, dword_160AB4
+        mov eax, UserNameIndex
         inc edx
         inc edx
         call DeleteUser
         test eax, eax
         je near UserRecordsScreen_B4F.29
         call LoadUserRecords
-        mov eax, dword [dword_1177F4]
+        mov eax, dword [UserRecordsTop]
         inc eax
         inc eax
         cmp eax, byte 0Dh
@@ -3999,7 +3999,7 @@ UserRecordsScreen_AD5:
         add ebx, byte 4
         cmp eax, byte 19h
         jl short .26
-        mov eax, dword [dword_160AB4]
+        mov eax, dword [UserNameIndex]
         mov ecx, dword [byte ebp+052h]
         mov ebx, 4
         mov edx, dword [byte eax+066h]
@@ -4007,7 +4007,7 @@ UserRecordsScreen_AD5:
         dec edx
         dec edx
         call qsort_
-        mov eax, dword [dword_160AB4]
+        mov eax, dword [UserNameIndex]
         mov eax, dword [byte eax+066h]
         dec eax
         dec eax
@@ -4015,7 +4015,7 @@ UserRecordsScreen_AD5:
         jle short .27
         mov eax, dword [dword_160ABC]
         mov eax, dword [eax]
-        mov dword [dword_1177F8], eax
+        mov dword [UserRecordsFirst], eax
         jmp short .28
 .27:
         mov dword [byte ebp+02Eh], 0
@@ -4040,7 +4040,7 @@ UserRecordsScreen_B4F:
         add esp, byte 4
         jmp near UserRecordsScreen_CC6.42
 UserRecordsScreen_B73:
-        cmp dword [dword_1177FC], byte 0
+        cmp dword [UserRecordsRow], byte 0
         jle near UserRecordsScreen_CC6.42
         mov ecx, dword [byte ebp+03Eh]
         mov ebx, 0FFFFFFFFh
@@ -4049,7 +4049,7 @@ UserRecordsScreen_B73:
         mov eax, dword [byte ebp+032h]
         jmp near UserRecordsScreen_CC6.41
 UserRecordsScreen_B93:
-        cmp dword [dword_1177FC], byte 3
+        cmp dword [UserRecordsRow], byte 3
         jge near UserRecordsScreen_CC6.42
         mov ecx, dword [byte ebp+03Eh]
         mov ebx, 1
@@ -4066,7 +4066,7 @@ UserRecordsScreen_B93:
         jne short .33
         cmp ebx, dword [byte ebp+02Ah]
         jne short .32
-        mov dword [dword_1177F4], 0FFFFFFFEh
+        mov dword [UserRecordsTop], 0FFFFFFFEh
         jmp short .37
 .32:
         mov eax, dword [byte ebp+02Ah]
@@ -4082,13 +4082,13 @@ UserRecordsScreen_B93:
         jg short .37
         test eax, eax
         jne short .34
-        mov dword [dword_1177F4], 0FFFFFFFFh
+        mov dword [UserRecordsTop], 0FFFFFFFFh
         jmp short .35
 .34:
-        imul edx, dword [dword_1177FC], byte 3
+        imul edx, dword [UserRecordsRow], byte 3
         add eax, edx
         dec eax
-        mov dword [dword_1177F4], eax
+        mov dword [UserRecordsTop], eax
 .35:
         cmp dword [byte ebp+02Ah], byte 0Ah
         jl short .37
@@ -4102,17 +4102,17 @@ UserRecordsScreen_B93:
         shl edx, 2
         mov eax, dword [edx+eax]
 .36:
-        mov dword [dword_1177F8], eax
+        mov dword [UserRecordsFirst], eax
 .37:
-        mov eax, dword [dword_160AB4]
+        mov eax, dword [UserNameIndex]
         mov eax, dword [byte eax+066h]
         dec eax
         dec eax
-        cmp eax, dword [dword_1177F8]
+        cmp eax, dword [UserRecordsFirst]
         jg short .38
-        mov dword [dword_1177F8], 0FFFFFFFFh
+        mov dword [UserRecordsFirst], 0FFFFFFFFh
 .38:
-        mov eax, dword [dword_1177F4]
+        mov eax, dword [UserRecordsTop]
         inc eax
         inc eax
         cmp eax, byte 0Dh
@@ -4160,7 +4160,7 @@ UserRecordsScreen_CC6:
         add edx, byte 4
         cmp eax, byte 19h
         jl short .40
-        mov eax, dword [dword_160AB4]
+        mov eax, dword [UserNameIndex]
         mov ecx, dword [byte ebp+056h]
         mov ebx, 4
         mov edx, dword [byte eax+066h]
@@ -4177,16 +4177,16 @@ UserRecordsScreen_CC6:
 .42:
         cmp dword [byte ebp+02Eh], byte 0FFFFFFFFh
         je near UserRecordsScreen.22
-        push dword [dword_160A8C]
+        push dword [UserRecordList]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_160AB8]
+        push dword [UserStreakColumn]
         call FreeMemBlock
         add esp, byte 4
         push dword [dword_160ABC]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_160AC4]
+        push dword [UserPowerPlayColumn]
         call FreeMemBlock
         add esp, byte 4
         push dword [dword_160AC8]
@@ -4204,7 +4204,7 @@ UserRecordsScreen_CC6:
         push dword [dword_160A98]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_160A94]
+        push dword [UserOpponentColumn]
         call FreeMemBlock
         add esp, byte 4
         push dword [dword_160AA0]
@@ -4213,13 +4213,13 @@ UserRecordsScreen_CC6:
         push dword [dword_160AA8]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_160AC0]
+        push dword [UserLongStreakColumn]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_160AB0]
+        push dword [UserShutoutColumn]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_160AAC]
+        push dword [UserRatingColumn]
         call FreeMemBlock
         add esp, byte 4
         push dword [byte ebp+032h]
@@ -4236,7 +4236,7 @@ UserRecordsScreen_CC6:
         call SetDrawTarget
         add esp, byte 4
         mov eax, 1
-        mov edx, dword [dword_160AB4]
+        mov edx, dword [UserNameIndex]
         call NameIndexFree
         mov eax, 3
         mov edx, dword [byte ebp+02Eh]

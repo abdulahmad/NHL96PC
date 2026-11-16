@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_119D08 progbits alloc noexec write align=1
-global byte_119D76, byte_119D79, byte_119DF7, dword_119DE4, unk_119D0A, unk_119D22, unk_119D36, unk_119D4E
-global unk_119D7C, unk_119D9C, word_119D08, word_119D62, word_119DBC, word_119DBE, word_119DE8, word_119DFE
+global starskatermin, stargoaliemin, Endfaceoff_ftab_m1, dword_119DE4, unk_119D0A, unk_119D22, unk_119D36, unk_119D4E
+global unk_119D7C, unk_119D9C, word_119D08, word_119D62, word_119DBC, word_119DBE, word_119DE8, refsigdir
 word_119D08:
         db 00h,00h
 unk_119D0A:
@@ -21,9 +21,9 @@ unk_119D4E:
 word_119D62:
         db 05h,00h,00h,00h,05h,00h,00h,00h,05h,00h,00h,00h,05h,00h,00h,00h
         db 05h,00h,00h,00h
-byte_119D76:
+starskatermin:
         db 0Ah,0Fh,014h
-byte_119D79:
+stargoaliemin:
         db 0Ah,014h,028h
 unk_119D7C:
         db 00h,00h,055h,00h,0A0h,0FFh,0Ah,00h,00h,00h,055h,00h,056h,00h,0Ah,00h
@@ -41,9 +41,9 @@ dword_119DE4:
         db 00h,00h,00h,00h
 word_119DE8:
         db 0D9h,03h,00h,00h,0E3h,03h,00h,00h,0F1h,03h,00h,00h,0F9h,03h,00h
-byte_119DF7:
+Endfaceoff_ftab_m1:
         db 00h,00h,08h,010h,00h,08h,010h
-word_119DFE:
+refsigdir:
         db 0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh
         db 0FFh,0FFh,06h,00h,0FFh,0FFh,06h,00h,05h,00h,06h,00h,05h,00h,05h,00h
         db 06h,00h,05h,00h,05h,00h,05h,00h,06h,00h,05h,00h,06h,00h,06h,00h

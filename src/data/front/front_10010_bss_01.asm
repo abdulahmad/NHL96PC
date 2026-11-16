@@ -3,21 +3,21 @@ bits 32
 %include "hockey.inc"
 section s_15159C nobits alloc noexec write align=1
 global InputRecordRing, SlotTable, byte_1515BB, byte_1515C2, byte_1515C9, byte_151708, byte_151773, byte_151774
-global byte_151778, byte_151779, byte_15177C, byte_151794, byte_1519A0, byte_151AD4, byte_151ADA, byte_151ADB
-global dword_15159C, dword_1515A8, dword_1515B0, dword_1515B7, dword_1515BE, dword_1515C5, dword_1515CC, dword_1515D0
+global byte_151778, byte_151779, GripLinkByte, byte_151794, byte_1519A0, byte_151AD4, byte_151ADA, byte_151ADB
+global dword_15159C, SlotWords, dword_1515B0, InputPlaybackOn, dword_1515BE, dword_1515C5, dword_1515CC, dword_1515D0
 global dword_1515D8, dword_1515DC, dword_1515E0, dword_151630, dword_151694, dword_151698, dword_1516A4, dword_1516A8
 global dword_15170A, dword_15170C, dword_15170E, dword_151710, dword_151716, dword_151718, dword_15171A, dword_151722
 global dword_151724, dword_151726, dword_151728, dword_15172E, dword_151730, dword_151732, dword_151770, dword_15178E
 global dword_151798, dword_15199C, dword_1519B4, dword_1519B8, dword_1519BC, dword_1519FC, dword_151A00, dword_151A40
 global dword_151A80, dword_151A84, dword_151A88, dword_151A8C, dword_151A90, dword_151AD0, dword_151AD5, dword_151ADE
-global unk_151648, unk_1516B8, unk_151720, unk_151784, unk_15179C, unk_1519C0, unk_151A04, unk_151A44
+global unk_151648, unk_1516B8, unk_151720, GripFarCall, unk_15179C, unk_1519C0, unk_151A04, unk_151A44
 global unk_151A94, unk_151ADC, word_1515B5, word_1515E4, word_151634, word_151636, word_151638, word_15163A
 global word_151712, word_151714, word_15171C, word_15171E, word_15172A, word_15172C, word_151734, word_151736
-global word_151744, word_15175C, word_151766, word_151768, word_15177E, word_151782, word_151788, word_15178A
-global word_15178C, word_151792, word_151AE0, word_151AE2
+global word_151744, word_15175C, word_151766, word_151768, word_15177E, GripDriverSeg, word_151788, GripDataSeg
+global GripResult, word_151792, word_151AE0, word_151AE2
 dword_15159C:
         resb 12
-dword_1515A8:
+SlotWords:
         resb 8
 dword_1515B0:
         resb 4
@@ -25,7 +25,7 @@ SlotTable:
         resb 1
 word_1515B5:
         resb 2
-dword_1515B7:
+InputPlaybackOn:
         resb 4
 byte_1515BB:
         resb 3
@@ -139,19 +139,19 @@ byte_151778:
         resb 1
 byte_151779:
         resb 3
-byte_15177C:
+GripLinkByte:
         resb 2
 word_15177E:
         resb 4
-word_151782:
+GripDriverSeg:
         resb 2
-unk_151784:
+GripFarCall:
         resb 4
 word_151788:
         resb 2
-word_15178A:
+GripDataSeg:
         resb 2
-word_15178C:
+GripResult:
         resb 2
 dword_15178E:
         resb 4

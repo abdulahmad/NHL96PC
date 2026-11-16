@@ -2,13 +2,13 @@
 bits 32
 %include "hockey.inc"
 section s_794FF progbits alloc exec nowrite align=1
-extern __STOSB, BlackPalette, byte_11D74B, byte_17BDAE, byte_17CBEB, byte_17CC1E, byte_17CC35, byte_17CC36
+extern __STOSB, BlackPalette, byte_11D74B, byte_17BDAE, SeasonUserTeam, byte_17CC1E, byte_17CC35, byte_17CC36
 extern byte_17CC37, byte_17CC38, byte_17CECB, byte_17CECC, byte_17CECD, byte_17CECE, byte_17CFB1, byte_17D262
 extern byte_17D26F, byte_17D270, byte_17D271, byte_184B28, DrawArtOpaque, DrawColorText, DrawColorTextCentred, DrawScrollBar
-extern DrawSeasonTeams, dword_1150D8, dword_1150FC, dword_1174E0, dword_1174E8, dword_1174F0, dword_117500, dword_117510
-extern dword_11D59C, dword_11D674, dword_11D744, dword_11E39C, dword_17BC78, TeamStatsBitmap, dword_17BD48, dword_17CB2F
-extern dword_17CBE7, dword_17CC13, dword_17CC17, dword_17CC1B, dword_17CEC3, dword_17CEC7, dword_17CED1, dword_17CED6
-extern dword_17D1E2, dword_17D202, dword_17D7CC, dword_17D7D0, FadeOut, FadePalette, FileClose, FileOpenRead
+extern DrawSeasonTeams, dword_1150D8, gameresult, seasondb, statsfromleague, statsplayoffs, dword_117500, dword_117510
+extern dword_11D59C, dword_11D674, dword_11D744, dword_11E39C, MatchupLayer, TeamStatsBitmap, str_Standings, dword_17CB2F
+extern PlayoffTreeData, dword_17CC13, dword_17CC17, dword_17CC1B, dword_17CEC3, dword_17CEC7, SeasonRandomSeed, dword_17CED6
+extern dword_17D1E2, dword_17D202, statsbgshapes, dword_17D7D0, FadeOut, FadePalette, FileClose, FileOpenRead
 extern FillBox, FillMusicStream, FreeScrollBar, FreeStatsTables, gameopts, GetLangText, HideMessage, HideProgressBox
 extern InitMenuItems, InitVScrollBar, jpt_794CB, jpt_794EF, LoadPackedFile, LoadSeasonStats, MakeDirPath, MakePlayoffDbPath
 extern MakeSeasonDbPath, MessageBox, MusicDone, NameIndexFree, NameIndexId, NameIndexLoad, NameIndexPath, NameIndexRemove
@@ -27,7 +27,7 @@ extern SaveSeasonTeams, SimulateGame, RunStatsMenu, RunRosterScreens, PlayoffTre
 extern PlayoffRound3, PlayoffFinal, ClearPlayoffTree, SaveLeagueDb, DrawArt, DrawShape, PutBlockAtOwnPos, FreeMemBlock
 extern CreateBitmap, TintRows, DrawRectOutline, FreeBitmap, DosFileInfo, atoi_, OpenArtArchiveErr, OpenArtArchive
 extern SaveFileBlock, DrawArtOpaqueAtOwnPos, UnlinkJump, FileSizeByName, SetScreenTarget, SetPaletteEntries, FindShape, ClearClipRect
-extern TextSetFont, TickDeadlinePassed, unk_152C44, unk_17CB2E, unk_17CC1F, unk_17CED5, unk_17CF9A, unk_792EB
+extern TextSetFont, TickDeadlinePassed, str_WesternConference2, SeasonUserRecords, unk_17CC1F, unk_17CED5, unk_17CF9A, unk_792EB
 extern unk_79303, unk_79483, unk_794C3, UpdateProgressBox
 global SeasonMenuScreen, SeasonMenuScreen_794, SeasonMenuScreen_7AC, SeasonMenuScreen_858, SeasonMenuScreen_9D7, SeasonMenuScreen_A07, SeasonMenuScreen_A34, SeasonMenuScreen_A61
 global SeasonMenuScreen_ADF, SeasonMenuScreen_AEB, SeasonMenuScreen_AF7, SeasonMenuScreen_B7E, SeasonMenuScreen_C05, SeasonMenuScreen_C68, SeasonMenuScreen_D9C, StandingsScreen
@@ -67,7 +67,7 @@ SeasonMenuScreen:
         call SetScreenTarget
         mov eax, 5Fh
         xor edx, edx
-        mov esi, unk_152C44
+        mov esi, str_WesternConference2
         call LoadDataFileLib
         push str_Pal15
         add esi, 1F2h
@@ -91,7 +91,7 @@ SeasonMenuScreen:
         mov eax, 0FCh
         xor edx, edx
         call SetTextColors
-        push byte_17CBEB
+        push SeasonUserTeam
         mov eax, 1D7h
         call GetLangText
         push eax
@@ -117,7 +117,7 @@ SeasonMenuScreen:
         rep movsb
         mov ecx, 66h
         lea edi, [dword ebp-0B5Ch]
-        mov esi, dword_17BD48
+        mov esi, str_Standings
         mov byte [dword ebp-0B7Dh], 4
         rep movsb
         mov dword [byte ebp+07Eh], 0FFFFFFFFh
@@ -832,7 +832,7 @@ SeasonMenuScreen_B7E:
         mov dword [byte ebp+07Eh], 0FFFFFFFFh
         jmp near SeasonMenuScreen_A61.31
 SeasonMenuScreen_C05:
-        mov dword [gameopts], unk_17CB2E
+        mov dword [gameopts], SeasonUserRecords
         mov ecx, 0B9h
         xor eax, eax
         mov edi, unk_17CED5
@@ -840,12 +840,12 @@ SeasonMenuScreen_C05:
         mov esi, dword [gameopts]
         rep movsb
         mov ecx, 0B9h
-        mov edi, unk_17CB2E
+        mov edi, SeasonUserRecords
         mov esi, dword [gameopts]
         mov ebx, 0Ah
         rep movsb
         lea eax, [byte ebp+012h]
-        mov edx, dword [dword_17CBE7]
+        mov edx, dword [PlayoffTreeData]
         call MakeSeasonDbPath
         push dword 39Dh
         push unk_17CED5
@@ -917,10 +917,10 @@ SeasonMenuScreen_C68:
 .40:
         mov ebx, 7
         lea eax, [byte ebp+012h]
-        mov edx, dword [dword_17CBE7]
+        mov edx, dword [PlayoffTreeData]
         call MakeSeasonDbPath
         push dword 3A7h
-        push unk_17CB2E
+        push SeasonUserRecords
         lea eax, [byte ebp+012h]
         push eax
         call SaveFileBlock
@@ -966,14 +966,14 @@ StandingsScreen:
         xor edx, edx
         rep movsd
         call SetTextColors
-        cmp dword [dword_1174E8], byte 0
+        cmp dword [statsfromleague], byte 0
         jne short .1
-        mov eax, dword [dword_17CBE7]
+        mov eax, dword [PlayoffTreeData]
         call LoadSeasonStats
 .1:
         mov ebx, 6
         lea eax, [byte ebp+03Ah]
-        mov edx, dword [dword_17CBE7]
+        mov edx, dword [PlayoffTreeData]
         call MakeSeasonDbPath
         push byte 0
         lea eax, [byte ebp+03Ah]
@@ -981,7 +981,7 @@ StandingsScreen:
         call OpenArtArchiveErr
         lea edx, [dword ebp-0106h]
         add esp, byte 8
-        mov dword [dword_17D7CC], eax
+        mov dword [statsbgshapes], eax
         mov eax, 2
         call InitMenuItems
         mov eax, 60h
@@ -1002,7 +1002,7 @@ StandingsScreen:
         push eax
         call DrawArtOpaqueAtOwnPos
         add esp, byte 4
-        push byte_17CBEB
+        push SeasonUserTeam
         mov eax, 1D7h
         call GetLangText
         push eax
@@ -1025,11 +1025,11 @@ StandingsScreen:
         mov dword [byte ebp+06Ah], eax
         add esp, byte 0Ch
         mov dword [byte ebp+066h], eax
-        push dword [dword_17BC78]
+        push dword [MatchupLayer]
         lea edi, [dword ebp-0106h]
         call TextSetFont
         add esp, byte 4
-        mov esi, dword_17BD48
+        mov esi, str_Standings
         mov ecx, 66h
         push str_1WST
         rep movsb
@@ -1296,12 +1296,12 @@ StandingsScreen:
         push dword [byte ebp+066h]
         call FreeBitmap
         add esp, byte 4
-        push dword [dword_17BC78]
+        push dword [MatchupLayer]
         call TextSetFont
         add esp, byte 4
         mov eax, 3
         call FadeOut
-        push dword [dword_17D7CC]
+        push dword [statsbgshapes]
         call FreeMemBlock
         jmp near SeasonMenuScreen_D9C
 ;-----------------------------------------------------------------------------
@@ -1318,7 +1318,7 @@ CompareTeamPoints:
         mov ebx, eax
         movsx eax, byte [eax]
         imul eax, dword 31Bh
-        mov esi, dword [dword_1174F0]
+        mov esi, dword [statsplayoffs]
         movzx ecx, byte [byte esi+eax+030h]
         movzx eax, byte [byte esi+eax+032h]
         add ecx, ecx
@@ -1405,7 +1405,7 @@ CompareTeamPoints:
         movsx eax, byte [ebx]
         imul eax, dword 31Bh
         add eax, esi
-        mov ecx, dword [dword_17D7CC]
+        mov ecx, dword [statsbgshapes]
         add eax, dword [byte ebp-08h]
         add ecx, dword [dword eax+014Fh]
         mov eax, ecx
@@ -1515,7 +1515,7 @@ DrawStandings:
         mov dword [byte ebp+05Eh], 0
         mov dword [byte ebp+046h], 0
         call PutBlock
-        mov edi, dword [dword_1174F0]
+        mov edi, dword [statsplayoffs]
         add esp, byte 0Ch
 .1:
         mov eax, dword [byte ebp+046h]
@@ -1659,7 +1659,7 @@ DrawStandings:
         jl short .15
         mov eax, 0FCh
         xor edx, edx
-        mov edi, dword [dword_1174F0]
+        mov edi, dword [statsplayoffs]
         call SetTextColors
         xor ebx, ebx
         mov eax, 2Bh
@@ -2120,7 +2120,7 @@ SimulateRestOfSeason:
         mov eax, 0FCh
         xor edx, edx
         call SetTextColors
-        cmp dword [dword_1174E8], byte 0
+        cmp dword [statsfromleague], byte 0
         jne short .4
         mov eax, 34h
         mov ecx, 0F0h
@@ -2128,7 +2128,7 @@ SimulateRestOfSeason:
         mov edx, byte_17BDAE
         call GetLangText
         call ShowMessage
-        mov eax, dword [dword_17CBE7]
+        mov eax, dword [PlayoffTreeData]
         call LoadSeasonStats
         call HideMessage
 .4:
@@ -2208,7 +2208,7 @@ SimulateRestOfSeason:
         jne near .52
         mov ebx, 6
         lea eax, [byte ebp-052h]
-        mov edx, dword [dword_17CBE7]
+        mov edx, dword [PlayoffTreeData]
         mov dword [byte ebp+06Ah], 1
         call MakeSeasonDbPath
         push esi
@@ -2221,7 +2221,7 @@ SimulateRestOfSeason:
         mov ecx, 0F0h
         mov ebx, 140h
         add esp, byte 8
-        mov dword [dword_17D7CC], eax
+        mov dword [statsbgshapes], eax
         mov edi, eax
         push dword [byte ebp+04Eh]
         mov eax, 39h
@@ -2247,7 +2247,7 @@ SimulateRestOfSeason:
         movsx eax, byte [dword esi+byte_17CC37]
         add eax, byte 41h
         push eax
-        push dword [dword_17CBE7]
+        push dword [PlayoffTreeData]
         lea eax, [byte ebp-052h]
         push eax
         push str_S05dCsgDb2
@@ -2273,7 +2273,7 @@ SimulateRestOfSeason:
         dec dword [dword_17CC1B]
         call UpdateProgressBox
         push dword [byte ebp+05Ah]
-        push dword [dword_17CBE7]
+        push dword [PlayoffTreeData]
         lea eax, [byte ebp-052h]
         push eax
         push str_S05dCnzDb4
@@ -2286,10 +2286,10 @@ SimulateRestOfSeason:
         call UnlinkJump
         mov byte [dword esi+byte_17CC36], 0
         lea eax, [byte ebp-032h]
-        mov edx, dword [dword_17CBE7]
+        mov edx, dword [PlayoffTreeData]
         call MakeSeasonDbPath
         push dword 3A7h
-        push unk_17CB2E
+        push SeasonUserRecords
         lea eax, [byte ebp-032h]
         push eax
         mov dword [byte ebp+06Eh], 2
@@ -2297,7 +2297,7 @@ SimulateRestOfSeason:
         add esp, byte 0Ch
         jmp short .20
 .16:
-        mov edx, dword [dword_17D7CC]
+        mov edx, dword [statsbgshapes]
         add edx, dword [byte ebp+06Eh]
         movzx eax, byte [byte edx+02h]
         cmp eax, dword [byte ebp+056h]
@@ -2335,7 +2335,7 @@ SimulateRestOfSeason:
         movsx eax, byte [dword esi+byte_17CC36]
         cmp eax, byte 1
         jne short .23
-        mov eax, dword [dword_1174F0]
+        mov eax, dword [statsplayoffs]
         add eax, dword [byte ebp+046h]
         movzx eax, byte [byte eax+02Fh]
         cmp eax, dword [byte ebp+066h]
@@ -2365,7 +2365,7 @@ SimulateRestOfSeason:
         movzx esi, word [edi]
         cmp esi, dword [byte ebp+052h]
         jge short .26
-        mov edx, dword [dword_17D7CC]
+        mov edx, dword [statsbgshapes]
         add edx, esi
         movzx eax, byte [byte edx+02h]
         imul eax, byte 1Ah
@@ -2375,7 +2375,7 @@ SimulateRestOfSeason:
         imul eax, byte 1Ah
         cmp byte [dword eax+byte_17CC36], 0
         jne short .25
-        mov eax, dword [dword_17CED1]
+        mov eax, dword [SeasonRandomSeed]
         add eax, esi
         mov ecx, 0FFFFFFFFh
         call srand_
@@ -2396,7 +2396,7 @@ SimulateRestOfSeason:
         movsd
         movsd
         mov byte [byte ebp+07Eh], 0FFh
-        mov eax, dword [dword_1174F0]
+        mov eax, dword [statsplayoffs]
         mov dword [byte ebp+062h], 0
         mov dword [byte ebp+05Eh], eax
         xor eax, eax
@@ -2629,17 +2629,17 @@ SimulateRestOfSeason:
 .51:
         mov ebx, 7
         lea eax, [byte ebp-052h]
-        mov edx, dword [dword_17CBE7]
+        mov edx, dword [PlayoffTreeData]
         call MakeSeasonDbPath
         push dword 3A7h
-        push unk_17CB2E
+        push SeasonUserRecords
         lea eax, [byte ebp-052h]
         push eax
         call SaveFileBlock
         mov ebx, 0Ah
         add esp, byte 0Ch
         lea eax, [byte ebp-052h]
-        mov edx, dword [dword_17CBE7]
+        mov edx, dword [PlayoffTreeData]
         call MakeSeasonDbPath
         push dword 39Dh
         push unk_17CED5
@@ -2649,39 +2649,39 @@ SimulateRestOfSeason:
         mov ebx, 5
         add esp, byte 0Ch
         lea eax, [byte ebp-052h]
-        mov edx, dword [dword_17CBE7]
+        mov edx, dword [PlayoffTreeData]
         call MakeSeasonDbPath
         push dword [dword_117500]
-        push dword [dword_1174E0]
+        push dword [seasondb]
         lea eax, [byte ebp-052h]
         push eax
         call SaveFileBlock
         mov ebx, 6
         add esp, byte 0Ch
         lea eax, [byte ebp-052h]
-        mov edx, dword [dword_17CBE7]
+        mov edx, dword [PlayoffTreeData]
         call MakeSeasonDbPath
         lea eax, [byte ebp-052h]
         push eax
         call FileSizeByName
         add esp, byte 4
         push eax
-        push dword [dword_17D7CC]
+        push dword [statsbgshapes]
         lea eax, [byte ebp-052h]
         push eax
         call SaveFileBlock
         mov ebx, 4
         add esp, byte 0Ch
         lea eax, [byte ebp-052h]
-        mov edx, dword [dword_17CBE7]
+        mov edx, dword [PlayoffTreeData]
         call MakeSeasonDbPath
         push dword [dword_117510]
-        push dword [dword_1174F0]
+        push dword [statsplayoffs]
         lea eax, [byte ebp-052h]
         push eax
         call SaveFileBlock
         add esp, byte 0Ch
-        push dword [dword_17D7CC]
+        push dword [statsbgshapes]
         call FreeMemBlock
         add esp, byte 4
         call HideProgressBox
@@ -2799,7 +2799,7 @@ RunSeasonMenus_D2:
         or dword [dword_17CB2F], eax
         call ReadSeasonDbHeader
         mov dword [dword_1150D8], eax
-        mov eax, dword [dword_17CBE7]
+        mov eax, dword [PlayoffTreeData]
         mov ecx, 2715h
         call LoadSeasonStats
         jmp short RunSeasonMenus_138.6
@@ -2859,13 +2859,13 @@ RunSeasonMenus_1E1:
         je near RunSeasonMenus_138.6
         mov eax, dword_1150D8
         call FileClose
-        cmp dword [dword_1174E8], byte 0
+        cmp dword [statsfromleague], byte 0
         jne short RunSeasonMenus_189.8
-        mov eax, dword [dword_17CBE7]
+        mov eax, dword [PlayoffTreeData]
         call LoadSeasonStats
         jmp short RunSeasonMenus_189.8
 RunSeasonMenus_224:
-        mov eax, dword [dword_17CBE7]
+        mov eax, dword [PlayoffTreeData]
         mov ecx, 2712h
         call RunStatsMenu
         jmp near RunSeasonMenus_138.6
@@ -2886,7 +2886,7 @@ RunSeasonMenus_25A:
         mov eax, dword [dword_1150D8]
         mov ecx, 2714h
         call PlayMenuGame
-        cmp dword [dword_1150FC], byte 1
+        cmp dword [gameresult], byte 1
         jne near .21
         call DeleteSeasonDb
         movsx eax, byte [byte_17D270]
@@ -2979,9 +2979,9 @@ RunSeasonMenus_25A:
         jmp near RunSeasonMenus_138.6
 .22:
         mov eax, dword [dword_1150D8]
-        mov dword [gameopts], unk_17CB2E
+        mov dword [gameopts], SeasonUserRecords
         call PlayMenuGame
-        mov eax, dword [dword_1174F0]
+        mov eax, dword [statsplayoffs]
         mov dword [byte ebp-08h], eax
         mov eax, 2
         call SoundSecondsToBytes
@@ -2991,7 +2991,7 @@ RunSeasonMenus_25A:
         jne short .23
         call PlayMusic
 .23:
-        cmp dword [dword_1150FC], byte 1
+        cmp dword [gameresult], byte 1
         jne near RunSeasonMenus_189.8
         call SetScreenTarget
         push byte 0
@@ -3170,7 +3170,7 @@ PickIndexEntryScreen:
         mov byte [dword ebp-0B73h], 0
         mov ecx, 66h
         lea edi, [dword ebp-0B50h]
-        mov esi, dword_17BD48
+        mov esi, str_Standings
         mov byte [dword ebp-0B74h], 0
         push str_BT003
         rep movsb
@@ -3519,7 +3519,7 @@ PickIndexEntryScreen:
         test eax, eax
         je near .21
         mov ecx, 3A7h
-        mov edi, unk_17CB2E
+        mov edi, SeasonUserRecords
         mov esi, eax
         rep movsb
         push edx

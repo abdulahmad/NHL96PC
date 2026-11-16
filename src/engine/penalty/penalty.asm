@@ -3,18 +3,18 @@ bits 32
 %include "hockey.inc"
 section s_50154 progbits alloc exec nowrite align=1
 extern CwdExciteLvl, PBnum, Pencntdwn, SortCords, assinsert, assreplace, awtmstruct, byte_1178C8
-extern byte_1178F9, byte_117938, byte_117945, byte_11795B, byte_117968, byte_1179A1, byte_1179A5, LinePickOrderFrom1
+extern byte_1178F9, byte_117938, byte_117945, byte_11795B, byte_117968, pendelaytab, byte_1179A5, LinePickOrderFrom1
 extern hmrosterpos, byte_1647E1, byte_1647E3, byte_165694, HmPlayerFlags, HmCoachGoalie, AwPlayerFlags, AwCoachGoalie
-extern byte_176AE0, byte_176AE2, byte_176AE3, crowdlevel, dword_1178EA, dword_1178EE, dword_11917F, dword_119183
-extern AwayGoalsPeriod, HomeGoalsPeriod, dword_11A2F8, dword_11B310, dword_176BE0, dword_176C44, fox, foy
-extern gameclock, gameopts, gmode, hmtmstruct, off_11787C, puckc, PtrPuckFlags, PtrPuckObject
+extern byte_176AE0, PenBuf, PenBuf_pl, crowdlevel, HomeEbenPlayer, AwayEbenPlayer, penshotfox, penshotteam
+extern AwayGoalsPeriod, HomeGoalsPeriod, PenaltyTypes, dword_11B310, lineslotmark, dword_176C44, fox, foy
+extern gameclock, gameopts, gmode, hmtmstruct, puckvy, puckc, PtrPuckFlags, PtrPuckObject
 extern penmintab, penshotlive, penshotmode, penshotplayer, penshotstart, penshottimer, puckvx, puckvz
 extern puckx, pucky, puckz, randomd0, regd2, regd3, shotongoal, shotontarget
 extern sprintf_, SetSPA, Setplass, setplayer, PostPenaltyEvent, CanRemovePlayer, PlaySfxOr, PlaySfx
-extern sfx, CrowdReaction, GetLangText, SortIndices, vecdist, unk_157F9C, unk_158610, gmode2
-extern word_1178F4, word_1178F6, word_1178F8, word_1178FA, word_1178FC, gsp, word_117902, word_118E8F
-extern word_1190E7, word_1190E9, word_11910B, word_11910F, word_119111, word_119113, Pencntdwn2, word_11A224
-extern word_11A26C, word_1656E8, word_165710, word_16581E, word_165846, regd1, word_176B80, LastTouchTeam
+extern sfx, CrowdReaction, GetLangText, SortIndices, vecdist, awlinetab, hmlinetab, gmode2
+extern word_1178F4, refsignal, RefStep, word_1178FA, Penaltytimer, gsp, clockticks, word_118E8F
+extern word_1190E7, word_1190E9, ovltimer, word_11910F, bannermsg, word_119113, Pencntdwn2, word_11A224
+extern penbannertab, hmscore, hmtmap, awscore, awtmap, regd1, PerTimeTotal, LastTouchTeam
 extern PassDistY, StoppageFlag, LastPlayerTouch
 global AddPenalty, ClearPenaltyBuffer, CountShotOnGoal, QuickShotChk, SetupPenaltyShot, ShotLaneOpen, chkatop, chkprogress
 global SortPlayersByDistance_E0, InProgress_71B, InProgress_7EE, ReleaseFromBox_111, releasepl, AddPenalty2, SortPlayersByDistance, InProgress
@@ -102,11 +102,11 @@ AddPenalty2:
         jne short .1
         movsx eax, dx
         shl eax, 2
-        movsx edx, word [word_119111]
-        cmp edx, dword [dword eax+word_11A26C]
+        movsx edx, word [bannermsg]
+        cmp edx, dword [dword eax+penbannertab]
         jge short .1
-        mov ax, word [dword eax+word_11A26C]
-        mov word [word_119111], ax
+        mov ax, word [dword eax+penbannertab]
+        mov word [bannermsg], ax
         cwde
         cmp eax, byte 0FFFFFFFFh
         je short .1
@@ -151,7 +151,7 @@ AddPenalty2:
         cwde
         cmp eax, byte 6
         jl short .5
-        movsx edx, word [word_165710]
+        movsx edx, word [hmtmap]
         cmp edx, byte 6
         jge short .5
         mov eax, 43h
@@ -160,7 +160,7 @@ AddPenalty2:
         mov esi, 6
         cdq
         idiv esi
-        mov eax, dword [nosplit edx*4+dword_11A2F8]
+        mov eax, dword [nosplit edx*4+PenaltyTypes]
 .6:
         cmp eax, byte 40h
         jle short .7
@@ -196,11 +196,11 @@ AddPenalty2:
         jmp short .14
 .11:
         add eax, eax
-        cmp byte [dword eax+byte_176AE2], 0
+        cmp byte [dword eax+PenBuf], 0
         jne short .13
-        mov byte [dword eax+byte_176AE2], cl
+        mov byte [dword eax+PenBuf], cl
         mov dl, byte [dword ebx+086h]
-        mov byte [dword eax+byte_176AE3], dl
+        mov byte [dword eax+PenBuf_pl], dl
         movsx edx, cx
         cmp byte [dword edx+penmintab], 0
         je short .15
@@ -215,9 +215,9 @@ AddPenalty2:
         pop ebx
         ret
 .12:
-        mov byte [dword eax+byte_176AE3], 0
-        mov dl, byte [dword eax+byte_176AE3]
-        mov byte [dword eax+byte_176AE2], dl
+        mov byte [dword eax+PenBuf_pl], 0
+        mov dl, byte [dword eax+PenBuf_pl]
+        mov byte [dword eax+PenBuf], dl
         pop esi
         pop ecx
         pop ebx
@@ -239,7 +239,7 @@ AddPenalty2:
         je short .18
         cmp edx, byte 1Ch
         je short .18
-        mov word [word_1178F8], 0
+        mov word [RefStep], 0
         mov word [word_1178FA], ax
         cmp edx, byte 7
         jne short .16
@@ -353,16 +353,16 @@ InProgress:
         push esi
         push edi
         enter 18h, 0
-        cmp word [word_1178F8], byte 0
+        cmp word [RefStep], byte 0
         je short SortPlayersByDistance_E0
 .1:
-        cmp byte [byte_176AE2], 0
+        cmp byte [PenBuf], 0
         jne near .7
-        movsx eax, word [word_11910B]
+        movsx eax, word [ovltimer]
         cmp eax, byte 0FFFFFFFFh
         jge short .2
-        inc word [word_11910B]
-        movsx eax, word [word_11910B]
+        inc word [ovltimer]
+        movsx eax, word [ovltimer]
         cmp eax, byte 0FFFFFFFFh
         jl short SortPlayersByDistance_E0
 .2:
@@ -425,49 +425,49 @@ InProgress:
         inc dword [byte ebp-0Ch]
 .9:
         movsx eax, word [byte ebp-0Ch]
-        cmp byte [nosplit eax*2+byte_176AE2], 0
+        cmp byte [nosplit eax*2+PenBuf], 0
         jne short .8
         dec dword [byte ebp-0Ch]
         movsx eax, word [byte ebp-0Ch]
         add eax, eax
-        mov dl, byte [dword eax+byte_176AE3]
+        mov dl, byte [dword eax+PenBuf_pl]
         and dl, 80h
         movsx edx, dl
         test edx, edx
         jne short .10
-        movsx edx, byte [dword eax+byte_176AE3]
+        movsx edx, byte [dword eax+PenBuf_pl]
         imul edx, dword 0A0h
         add edx, SortCords
         cmp word [byte edx+01Ah], byte 0
         jge near SortPlayersByDistance_E0
-        mov byte [dword eax+byte_176AE3], 0
-        mov dl, byte [dword eax+byte_176AE3]
-        mov byte [dword eax+byte_176AE2], dl
+        mov byte [dword eax+PenBuf_pl], 0
+        mov dl, byte [dword eax+PenBuf_pl]
+        mov byte [dword eax+PenBuf], dl
         jmp near SortPlayersByDistance_E0
 .10:
         cmp dword [dword_11B310], byte 0FFFFFFFFh
         jne near SortPlayersByDistance_E0
-        movsx dx, byte [dword eax+byte_176AE2]
+        movsx dx, byte [dword eax+PenBuf]
         mov dword [byte ebp-010h], edx
-        movsx edx, byte [dword eax+byte_176AE2]
-        and byte [dword eax+byte_176AE3], 7Fh
+        movsx edx, byte [dword eax+PenBuf]
+        and byte [dword eax+PenBuf_pl], 7Fh
         cmp edx, byte 1Ah
         jne near .15
         call StartPenaltyShot
-        mov dx, word [word_176B80]
+        mov dx, word [PerTimeTotal]
         movsx eax, word [gameclock]
         sub dx, word [gameclock]
         cmp eax, byte 3Ch
         jge short .11
-        cmp word [word_117902], byte 0
+        cmp word [clockticks], byte 0
         je short .11
         dec edx
 .11:
         movsx eax, word [byte ebp-0Ch]
-        movsx esi, byte [nosplit eax*2+byte_176AE3]
-        mov byte [nosplit eax*2+byte_176AE3], 0
-        mov bl, byte [nosplit eax*2+byte_176AE3]
-        mov byte [nosplit eax*2+byte_176AE2], bl
+        movsx esi, byte [nosplit eax*2+PenBuf_pl]
+        mov byte [nosplit eax*2+PenBuf_pl], 0
+        mov bl, byte [nosplit eax*2+PenBuf_pl]
+        mov byte [nosplit eax*2+PenBuf], bl
         movsx ebx, dx
         mov eax, ebx
         mov ecx, 3Ch
@@ -497,9 +497,9 @@ InProgress:
         je short .12
         cmp word [gameclock], byte 0
         jne short .12
-        cmp word [word_117902], byte 0
+        cmp word [clockticks], byte 0
         jne short .12
-        mov word [word_11910B], 0FED4h
+        mov word [ovltimer], 0FED4h
 .12:
         movsx eax, word [byte ebp-010h]
         cmp eax, byte 5
@@ -507,7 +507,7 @@ InProgress:
         cmp eax, byte 1Ch
         je near SortPlayersByDistance_E0
         mov edx, dword [byte ebp-010h]
-        mov word [word_1178F8], 0
+        mov word [RefStep], 0
         mov word [word_1178FA], dx
         cmp eax, byte 7
         jne short .14
@@ -526,7 +526,7 @@ InProgress:
         test bx, bx
         jg near .21
         jge near .20
-        movsx eax, byte [dword eax+byte_176AE3]
+        movsx eax, byte [dword eax+PenBuf_pl]
         imul eax, dword 0A0h
         mov esi, SortCords
         add esi, eax
@@ -550,20 +550,20 @@ InProgress:
         test eax, eax
         je short .16
         mov eax, dword [byte esi+07Ah]
-        mov dword [dword_1178EE], eax
+        mov dword [AwayEbenPlayer], eax
         jmp short .17
 .16:
         mov eax, dword [byte esi+07Ah]
-        mov dword [dword_1178EA], eax
+        mov dword [HomeEbenPlayer], eax
 .17:
         movsx eax, byte [byte esi+047h]
         mov word [dword edi+eax*2+080h], 0FFFBh
-        mov ax, word [word_176B80]
+        mov ax, word [PerTimeTotal]
         movsx edx, word [gameclock]
         sub ax, word [gameclock]
         cmp edx, byte 3Ch
         jge short .18
-        cmp word [word_117902], byte 0
+        cmp word [clockticks], byte 0
         je short .18
         dec eax
 .18:
@@ -595,30 +595,30 @@ InProgress:
         je short .19
         cmp word [gameclock], byte 0
         jne short .19
-        cmp word [word_117902], byte 0
+        cmp word [clockticks], byte 0
         jne short .19
-        mov word [word_11910B], 0FED4h
+        mov word [ovltimer], 0FED4h
 .19:
         movsx eax, word [byte ebp-0Ch]
-        movsx dx, byte [nosplit eax*2+byte_176AE3]
-        mov byte [nosplit eax*2+byte_176AE3], 0
-        mov word [word_1178FC], dx
-        mov dl, byte [nosplit eax*2+byte_176AE3]
-        mov byte [nosplit eax*2+byte_176AE2], dl
+        movsx dx, byte [nosplit eax*2+PenBuf_pl]
+        mov byte [nosplit eax*2+PenBuf_pl], 0
+        mov word [Penaltytimer], dx
+        mov dl, byte [nosplit eax*2+PenBuf_pl]
+        mov byte [nosplit eax*2+PenBuf], dl
         jmp near .12
 .20:
-        movsx bx, byte [dword eax+byte_176AE3]
-        mov byte [dword eax+byte_176AE3], 0
-        mov word [word_1178FC], bx
-        mov bl, byte [dword eax+byte_176AE3]
-        mov byte [dword eax+byte_176AE2], bl
+        movsx bx, byte [dword eax+PenBuf_pl]
+        mov byte [dword eax+PenBuf_pl], 0
+        mov word [Penaltytimer], bx
+        mov bl, byte [dword eax+PenBuf_pl]
+        mov byte [dword eax+PenBuf], bl
         cmp word [word_118E8F], byte 0
         je near .12
         cmp edx, byte 7
         jne near .1
         jmp near .12
 .21:
-        movsx eax, byte [dword eax+byte_176AE3]
+        movsx eax, byte [dword eax+PenBuf_pl]
         imul eax, dword 0A0h
         mov esi, SortCords
         add esi, eax
@@ -636,12 +636,12 @@ InProgress:
         add eax, edx
         add word [byte eax+04h], bx
 .22:
-        mov ax, word [word_176B80]
+        mov ax, word [PerTimeTotal]
         movsx edx, word [gameclock]
         sub ax, word [gameclock]
         cmp edx, byte 3Ch
         jge short .23
-        cmp word [word_117902], byte 0
+        cmp word [clockticks], byte 0
         je short .23
         dec eax
 .23:
@@ -675,9 +675,9 @@ InProgress:
         je short .24
         cmp word [gameclock], byte 0
         jne short .24
-        cmp word [word_117902], byte 0
+        cmp word [clockticks], byte 0
         jne short .24
-        mov word [word_11910B], 0FED4h
+        mov word [ovltimer], 0FED4h
 .24:
         imul eax, dword [byte ebp-04h], byte 3Ch
         mov word [byte ebp-04h], ax
@@ -695,11 +695,11 @@ InProgress:
         test eax, eax
         je short .26
         mov eax, dword [byte esi+07Ah]
-        mov dword [dword_1178EE], eax
+        mov dword [AwayEbenPlayer], eax
         jmp short .27
 .26:
         mov eax, dword [byte esi+07Ah]
-        mov dword [dword_1178EA], eax
+        mov dword [HomeEbenPlayer], eax
 .27:
         movsx eax, word [byte ebp-08h]
         movsx eax, word [dword edi+eax*2+080h]
@@ -718,10 +718,10 @@ InProgress:
         movsx dx, byte [byte eax+047h]
         mov word [byte ebp-08h], dx
         movsx edx, word [byte ebp-0Ch]
-        mov bl, byte [nosplit edx*2+byte_176AE3]
+        mov bl, byte [nosplit edx*2+PenBuf_pl]
         and bl, 80h
         or bl, byte [dword eax+086h]
-        mov byte [nosplit edx*2+byte_176AE3], bl
+        mov byte [nosplit edx*2+PenBuf_pl], bl
         movzx eax, byte [byte eax+05Eh]
         push eax
         mov eax, 0Ah
@@ -774,7 +774,7 @@ InProgress:
         jmp short .33
 .32:
         movsx ebx, ax
-        movsx ebx, byte [nosplit ebx*2+byte_176AE2]
+        movsx ebx, byte [nosplit ebx*2+PenBuf]
         cmp byte [dword ebx+penmintab], 0
         jg short .34
         inc eax
@@ -826,14 +826,14 @@ InProgress:
         mov byte [dword edi+0B9h], 0FFh
         call assreplace
         mov ax, word [dword esi+086h]
-        mov word [word_1178FC], ax
+        mov word [Penaltytimer], ax
         movsx eax, word [byte ebp-010h]
         cmp eax, byte 5
         je near SortPlayersByDistance_E0
         cmp eax, byte 1Ch
         je near SortPlayersByDistance_E0
         mov edx, dword [byte ebp-010h]
-        mov word [word_1178F8], 0
+        mov word [RefStep], 0
         mov word [word_1178FA], dx
         cmp eax, byte 7
         jne short .42
@@ -848,21 +848,21 @@ InProgress:
         call assreplace
         jmp near SortPlayersByDistance_E0
 InProgress_71B:
-        dec word [word_1178F6]
-        cmp word [word_1178F6], byte 0
+        dec word [refsignal]
+        cmp word [refsignal], byte 0
         jge short .45
-        mov word [word_1178F6], 0
+        mov word [refsignal], 0
 .45:
         dec word [Pencntdwn]
         cmp word [Pencntdwn], byte 0
         jge near InProgress_7EE
-        mov word [word_1178F6], 0
+        mov word [refsignal], 0
         and byte [gmode], 0F7h
         xor eax, eax
 .46:
         movsx edx, ax
         inc eax
-        cmp byte [nosplit edx*2+byte_176AE2], 0
+        cmp byte [nosplit edx*2+PenBuf], 0
         je near InProgress_7EE
         movsx edx, ax
         movsx edx, byte [nosplit edx*2+byte_176AE0]
@@ -884,10 +884,10 @@ InProgress_71B:
         mov eax, dword [PtrPuckFlags]
         mov word [byte eax+026h], 1C20h
         mov byte [byte_1178F9], 0FFh
-        mov word [word_1178F6], 0
+        mov word [refsignal], 0
         cmp word [word_119113], byte 0
         jne short InProgress_7EE
-        mov word [word_119111], 0FFFFh
+        mov word [bannermsg], 0FFFFh
 InProgress_7EE:
         pop edx
         ret
@@ -907,8 +907,8 @@ Stop4Pen:
         push ebx
         push edx
         cwde
-        mov bl, byte [nosplit eax*2+byte_176AE2]
-        mov bh, byte [nosplit eax*2+byte_176AE3]
+        mov bl, byte [nosplit eax*2+PenBuf]
+        mov bh, byte [nosplit eax*2+PenBuf_pl]
         mov al, byte [gmode]
         and al, 1
         movsx eax, al
@@ -1017,7 +1017,7 @@ Stop4Pen:
         xor eax, eax
 .18:
         movsx edx, ax
-        mov dl, byte [nosplit edx*2+byte_176AE3]
+        mov dl, byte [nosplit edx*2+PenBuf_pl]
         and dl, 7Fh
         movsx edx, dl
         imul edx, dword 0A0h
@@ -1054,7 +1054,7 @@ Stop4Pen:
 .23:
         inc eax
         movsx edx, ax
-        cmp byte [nosplit edx*2+byte_176AE2], 0
+        cmp byte [nosplit edx*2+PenBuf], 0
         jne near .18
 .24:
         mov word [Pencntdwn], 0
@@ -1067,7 +1067,7 @@ Stop4Pen:
         mov eax, 2Ah
         call PlaySfx
 .25:
-        cmp word [word_1178F6], byte 0
+        cmp word [refsignal], byte 0
         jne short .27
         mov al, byte [gmode]
         and al, 1
@@ -1124,8 +1124,8 @@ checkfornewpen:
         xor edx, edx
         jmp near .15
 .1:
-        mov bl, byte [dword eax+byte_176AE2]
-        mov bh, byte [dword eax+byte_176AE3]
+        mov bl, byte [dword eax+PenBuf]
+        mov bh, byte [dword eax+PenBuf_pl]
         mov al, byte [gmode]
         and al, 4
         movsx eax, al
@@ -1158,8 +1158,8 @@ checkfornewpen:
         or byte [gmode], 8
         jmp near .14
 .3:
-        movsx eax, word [word_119111]
-        mov word [word_1178F6], 28h
+        movsx eax, word [bannermsg]
+        mov word [refsignal], 28h
         cmp eax, byte 0FFFFFFFFh
         je short .4
         mov word [word_119113], 0C8h
@@ -1169,12 +1169,12 @@ checkfornewpen:
 .5:
         movsx eax, dx
         add eax, eax
-        mov bh, byte [dword eax+byte_176AE3]
+        mov bh, byte [dword eax+PenBuf_pl]
         and bh, 80h
         movsx ecx, bh
         test ecx, ecx
         jne near .14
-        or byte [dword eax+byte_176AE3], 80h
+        or byte [dword eax+PenBuf_pl], 80h
         mov eax, dword [gameopts]
         test byte [byte eax+02h], 8
         je short .6
@@ -1214,7 +1214,7 @@ checkfornewpen:
         jmp short .10
 .12:
         movsx eax, bl
-        movsx ax, byte [dword eax+byte_1179A1]
+        movsx ax, byte [dword eax+pendelaytab]
         shl eax, 5
 .13:
         cmp ax, word [Pencntdwn2]
@@ -1225,7 +1225,7 @@ checkfornewpen:
 .15:
         movsx eax, dx
         add eax, eax
-        cmp byte [dword eax+byte_176AE2], 0
+        cmp byte [dword eax+PenBuf], 0
         jne near .1
 .16:
         pop edx
@@ -1556,9 +1556,9 @@ UpdatePowerPlayFlags:
         push ebx
         push ecx
         push edx
-        mov cx, word [word_165710]
+        mov cx, word [hmtmap]
         mov eax, awtmstruct
-        sub cx, word [word_165846]
+        sub cx, word [awtmap]
         jne short .1
         and byte [gmode2], 0DFh
         pop edx
@@ -1611,10 +1611,10 @@ ClearPenaltyBuffer:
         xor edx, edx
         jmp short .2
 .1:
-        mov byte [nosplit eax*2+byte_176AE3], 0
-        mov bl, byte [nosplit eax*2+byte_176AE3]
+        mov byte [nosplit eax*2+PenBuf_pl], 0
+        mov bl, byte [nosplit eax*2+PenBuf_pl]
         inc edx
-        mov byte [nosplit eax*2+byte_176AE2], bl
+        mov byte [nosplit eax*2+PenBuf], bl
 .2:
         movsx eax, dx
         cmp eax, byte 20h
@@ -1704,8 +1704,8 @@ PenGoalStuff:
         movsx eax, word [gsp]
         cmp eax, byte 3
         jne short .11
-        mov ax, word [word_1656E8]
-        cmp ax, word [word_16581E]
+        mov ax, word [hmscore]
+        cmp ax, word [awscore]
         jne short .12
 .11:
         mov eax, 1
@@ -1717,7 +1717,7 @@ PenGoalStuff:
         je near .15
         movsx eax, si
         add eax, eax
-        movsx edx, byte [dword eax+byte_176AE2]
+        movsx edx, byte [dword eax+PenBuf]
         movsx edx, byte [dword edx+penmintab]
         cmp edx, byte 0FFFFFFFFh
         je short .14
@@ -1725,7 +1725,7 @@ PenGoalStuff:
         je short .14
         cmp edx, byte 2
         jne short .15
-        movsx eax, byte [dword eax+byte_176AE3]
+        movsx eax, byte [dword eax+PenBuf_pl]
         cmp eax, byte 6
         setl al
         movzx edx, al
@@ -1739,18 +1739,18 @@ PenGoalStuff:
         je short .17
         movsx edi, si
         movsx eax, word [byte ebp-04h]
-        mov dl, byte [nosplit edi*2+byte_176AE2]
-        mov byte [nosplit eax*2+byte_176AE2], dl
-        mov dl, byte [nosplit edi*2+byte_176AE3]
+        mov dl, byte [nosplit edi*2+PenBuf]
+        mov byte [nosplit eax*2+PenBuf], dl
+        mov dl, byte [nosplit edi*2+PenBuf_pl]
         inc dword [byte ebp-04h]
-        mov byte [nosplit eax*2+byte_176AE3], dl
+        mov byte [nosplit eax*2+PenBuf_pl], dl
         jmp short .17
 .15:
         movsx eax, si
         add eax, eax
-        cmp byte [dword eax+byte_176AE3], 0
+        cmp byte [dword eax+PenBuf_pl], 0
         jl short .16
-        movsx eax, byte [dword eax+byte_176AE3]
+        movsx eax, byte [dword eax+PenBuf_pl]
         cmp eax, byte 0Ch
         jge short .16
         imul eax, dword 0A0h
@@ -1758,21 +1758,21 @@ PenGoalStuff:
         and byte [dword eax+byte_1647E1], 0EFh
 .16:
         movsx eax, si
-        mov byte [nosplit eax*2+byte_176AE3], 0
-        mov dl, byte [nosplit eax*2+byte_176AE3]
-        mov byte [nosplit eax*2+byte_176AE2], dl
+        mov byte [nosplit eax*2+PenBuf_pl], 0
+        mov dl, byte [nosplit eax*2+PenBuf_pl]
+        mov byte [nosplit eax*2+PenBuf], dl
 .17:
         inc esi
 .18:
         movsx eax, si
-        cmp byte [nosplit eax*2+byte_176AE2], 0
+        cmp byte [nosplit eax*2+PenBuf], 0
         jne near .10
-        cmp byte [byte_176AE2], 0
+        cmp byte [PenBuf], 0
         jne short .19
-        movsx eax, word [word_119111]
+        movsx eax, word [bannermsg]
         cmp eax, byte 7
         jne short .19
-        mov word [word_119111], 0FFFFh
+        mov word [bannermsg], 0FFFFh
 .19:
         mov ax, word [byte ebx+038h]
         cmp ax, word [byte ecx+038h]
@@ -1816,7 +1816,7 @@ SetupPenaltyShot:
         mov ebx, dword [puckvz]
         mov word [ebx], 0
         mov ax, word [ebx]
-        mov ebx, dword [off_11787C]
+        mov ebx, dword [puckvy]
         mov word [ebx], ax
         mov ebx, dword [puckvx]
         mov word [ebx], ax
@@ -1907,10 +1907,10 @@ SetupPenaltyShot:
         xor eax, eax
         jmp short .7
 .6:
-        mov byte [nosplit ebx*2+byte_176AE3], 0
-        mov dl, byte [nosplit ebx*2+byte_176AE3]
+        mov byte [nosplit ebx*2+PenBuf_pl], 0
+        mov dl, byte [nosplit ebx*2+PenBuf_pl]
         inc eax
-        mov byte [nosplit ebx*2+byte_176AE2], dl
+        mov byte [nosplit ebx*2+PenBuf], dl
 .7:
         movsx ebx, ax
         cmp ebx, byte 20h
@@ -2177,7 +2177,7 @@ StartPenaltyShot:
         cmp dword [penshotplayer], byte 5
         setg al
         movzx eax, al
-        mov dword [dword_119183], eax
+        mov dword [penshotteam], eax
         test eax, eax
         jle short .1
         mov eax, awtmstruct
@@ -2187,11 +2187,11 @@ StartPenaltyShot:
 .2:
         inc word [byte eax+022h]
         imul eax, dword [penshotplayer], dword 0A0h
-        mov word [word_165710], 1
-        mov word [word_165846], 1
+        mov word [hmtmap], 1
+        mov word [awtmap], 1
         movsx eax, byte [dword eax+byte_1647E3]
         mov dword [penshotmode], 1
-        mov dword [dword_11917F], eax
+        mov dword [penshotfox], eax
         movsx eax, word [foy]
         mov word [foy], 0
         mov dword [AwayGoalsPeriod], eax
@@ -2250,11 +2250,11 @@ PickForwardLines:
         mov dword [dword eax+dword_176C44], ebx
         cmp cl, byte [dword edi+esi+hmrosterpos]
         je short .2
-        mov dword [dword eax+dword_176BE0], 0FFFFFFFFh
+        mov dword [dword eax+lineslotmark], 0FFFFFFFFh
         jmp short .3
 .2:
         movsx esi, word [edx]
-        mov dword [dword eax+dword_176BE0], esi
+        mov dword [dword eax+lineslotmark], esi
 .3:
         add edi, byte 2Bh
         add eax, byte 4
@@ -2264,14 +2264,14 @@ PickForwardLines:
         cmp ebx, byte 19h
         jl short .1
         push dword_176C44
-        push dword_176BE0
+        push lineslotmark
         push byte 19h
         call SortIndices
         mov edx, dword [byte ebp-08h]
         add esp, byte 0Ch
         xor eax, eax
 .4:
-        cmp dword [dword eax+dword_176BE0], byte 0
+        cmp dword [dword eax+lineslotmark], byte 0
         jge short .5
         mov ebx, 0FFFFFFFFh
         jmp short .6
@@ -2309,11 +2309,11 @@ PickDefencePairs:
         mov dword [dword eax+dword_176C44], ebx
         cmp esi, byte 44h
         jne short .2
-        mov dword [dword eax+dword_176BE0], 0FFFFFFFFh
+        mov dword [dword eax+lineslotmark], 0FFFFFFFFh
         jmp short .3
 .2:
         movsx esi, word [edx]
-        mov dword [dword eax+dword_176BE0], esi
+        mov dword [dword eax+lineslotmark], esi
 .3:
         add ecx, byte 2Bh
         add eax, byte 4
@@ -2323,14 +2323,14 @@ PickDefencePairs:
         cmp ebx, byte 19h
         jl short .1
         push dword_176C44
-        push dword_176BE0
+        push lineslotmark
         push byte 19h
         call SortIndices
         mov edx, dword [byte ebp-08h]
         add esp, byte 0Ch
         xor eax, eax
 .4:
-        cmp dword [dword eax+dword_176BE0], byte 0
+        cmp dword [dword eax+lineslotmark], byte 0
         jge short .5
         mov ebx, 0FFFFFFFFh
         jmp short .6
@@ -2361,10 +2361,10 @@ PickSpecialLines:
         add esi, hmtmstruct
         test eax, eax
         je short .1
-        mov edx, unk_157F9C
+        mov edx, awlinetab
         jmp short .2
 .1:
-        mov edx, unk_158610
+        mov edx, hmlinetab
 .2:
         mov dword [byte ebp-0Ch], 0FFFFFFECh
         mov dword [byte ebp-028h], edx

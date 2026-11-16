@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_BF070 progbits alloc exec nowrite align=1
 extern FatalError, asc_1139D8, asc_1139E4, str_VESA, asc_113A14, ScreenWidth, KeyedDraw, dword_1228FC
-extern dword_122930, dword_123B0C, dword_19B654, dword_19B66C, dword_19B670, int386x_, segread_, strncmp_
+extern dword_122930, VesaModeInfo, dword_19B654, dword_19B66C, dword_19B670, int386x_, segread_, strncmp_
 extern AllocMemBlock, FreeMemBlock, VesaSetBank, BlitShapeFast, FindShape, FindShapeQuiet, bcopy, word_19B676
 global __STOSB, __STOSD, DrawArtFast, FindShapeListQuiet, FindShapeList, VesaGetInfo, VesaGetModeInfo
 ;-----------------------------------------------------------------------------
@@ -317,7 +317,7 @@ VesaGetInfo:
         mov esi, eax
         add esp, byte 0Ch
         shr esi, 4
-        mov dword [dword_123B0C], eax
+        mov dword [VesaModeInfo], eax
         cmp esi, 0A000h
         jg short .1
         cmp esi, 7C0h
@@ -358,7 +358,7 @@ VesaGetInfo:
         call int386x_
         mov ecx, 100h
         mov ebx, 4
-        mov esi, dword [dword_123B0C]
+        mov esi, dword [VesaModeInfo]
         mov edx, str_VESA
         rep movsb
         mov eax, ebp
@@ -375,7 +375,7 @@ VesaGetInfo:
         jne short .4
         mov dword [byte esp+044h], 1
 .4:
-        mov ebp, dword [dword_123B0C]
+        mov ebp, dword [VesaModeInfo]
         push ebp
         call FreeMemBlock
         add esp, byte 4
@@ -412,7 +412,7 @@ VesaGetModeInfo:
         mov ecx, 32h
         mov ebx, 4F01h
         add esp, byte 0Ch
-        mov dword [dword_123B0C], eax
+        mov dword [VesaModeInfo], eax
         mov edx, eax
         xor eax, eax
         shr edx, 4
@@ -442,7 +442,7 @@ VesaGetModeInfo:
         mov dword [byte esp+014h], esi
         call int386x_
         mov ecx, 100h
-        mov esi, dword [dword_123B0C]
+        mov esi, dword [VesaModeInfo]
         rep movsb
         mov eax, dword [dword_19B670]
         and eax, 0FFFFh
@@ -450,7 +450,7 @@ VesaGetModeInfo:
         jne short .1
         mov dword [byte esp+044h], 1
 .1:
-        mov ebp, dword [dword_123B0C]
+        mov ebp, dword [VesaModeInfo]
         push ebp
         call FreeMemBlock
         add esp, byte 4

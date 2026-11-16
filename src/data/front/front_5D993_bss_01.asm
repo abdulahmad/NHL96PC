@@ -12,14 +12,14 @@ global dword_179E17, dword_179E1B, dword_179E1F, dword_179E23, dword_179E27, dwo
 global dword_179E37, dword_179E3B, dword_179E3F, dword_179E43, dword_179E4C, dword_179E50, dword_17BA30, dword_17BA34
 global dword_17BA38, dword_17BA3C, dword_17BA40, dword_17BA44, dword_17BA48, dword_17BA4C, dword_17BA50, dword_17BA54
 global dword_17BA7C, dword_17BAB0, dword_17BAB4, dword_17BAE8, dword_17BAEC, dword_17BB20, dword_17BC64, dword_17BC68
-global dword_17BC6C, dword_17BC70, dword_17BC74, dword_17BC78, TeamStatsBitmap, dword_17BC8C, dword_17BC90, dword_17BC96
+global dword_17BC6C, dword_17BC70, dword_17BC74, MatchupLayer, TeamStatsBitmap, dword_17BC8C, dword_17BC90, dword_17BC96
 global dword_17BC9A, dword_17BCA2, dword_17BCA6, dword_17BCAE, dword_17BCB6, dword_17BCBA, dword_17BCE2, dword_17BCF2
 global dword_17BCF6, dword_17BCFC, dword_17BD00, dword_17BD08, dword_17BD0C, dword_17BD14, dword_17BD1C, dword_17BD20
-global dword_17BD48, dword_17BD58, dword_17BD5C, dword_17BD62, dword_17BD66, dword_17BD6E, dword_17BD72, dword_17BD7A
+global str_Standings, dword_17BD58, dword_17BD5C, dword_17BD62, dword_17BD66, dword_17BD6E, dword_17BD72, dword_17BD7A
 global dword_17BD82, dword_17BD86, dword_17BDD4, dword_17BDD8, dword_17BDDC, dword_17C3E4, dword_17C3E8, dword_17C3EC
 global dword_17C3F0, dword_17C3F4, unk_179CCC, unk_179CE4, unk_179CFC, unk_179D14, unk_179D2C, unk_179E02
 global unk_179E48, unk_17B248, unk_17B488, unk_17B518, unk_17B830, unk_17B930, unk_17BA58, unk_17BB24
-global unk_17BDB4, IntroPalette, unk_17C0E0, word_179DC8, word_179DCC, word_179E0D, word_179E11
+global unk_17BDB4, IntroPalette, fadepalbuf, word_179DC8, word_179DCC, word_179E0D, word_179E11
 dword_179CBC:
         resb 4
 dword_179CC0:
@@ -192,7 +192,7 @@ dword_17BC70:
         resb 4
 dword_17BC74:
         resb 4
-dword_17BC78:
+MatchupLayer:
         resb 4
 TeamStatsBitmap:
         resb 16
@@ -250,7 +250,7 @@ byte_17BD26:
         resb 1
 byte_17BD27:
         resb 33
-dword_17BD48:
+str_Standings:
         resb 16
 dword_17BD58:
         resb 4
@@ -294,7 +294,7 @@ dword_17BDDC:
         resb 4
 IntroPalette:
         resb 768
-unk_17C0E0:
+fadepalbuf:
         resb 772
 dword_17C3E4:
         resb 4

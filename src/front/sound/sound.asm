@@ -4,7 +4,7 @@ bits 32
 section s_68D25 progbits alloc exec nowrite align=1
 extern AsyncClose, AsyncInit, asyncreader, byte_11D1DE, byte_11D392, byte_17CA1D, byte_17CA1E, byte_17CA1F
 extern byte_17CA5D, CdStreamNextPacket, CdStreamOpenDefault, CdStreamQueue, delstream, dword_11D1C8, dword_11D1CC, dword_11D1D2
-extern dword_11D1D6, dword_11D1E2, dword_11D1E6, dword_11D1EA, dword_11D1EE, dword_11D1F2, dword_11D1F6, dword_11D1FA
+extern dword_11D1D6, SpeechStreamFile, SpeechStreamTimer, dword_11D1EA, dword_11D1EE, dword_11D1F2, dword_11D1F6, dword_11D1FA
 extern dword_11D1FE, dword_11D202, dword_11D206, dword_11D236, dword_11D37E, dword_11D3A6, dword_11D3AA, dword_11D3AE
 extern dword_11D3B2, dword_17C604, dword_17C608, FadeOutMusic, FeedMusicStream, FindClipIndex_55, FindTeamPairClip_85, GetTicks
 extern globalset, InitSpeech, MakeDataPath, OpenSpeechBanks, optblock, setstreamspeed, SetTickDeadline, ShutdownSpeech
@@ -13,7 +13,7 @@ extern MemLargestFreeLocked, MemLargestFreeOfList, DriveLetterIndex, IsCdDrive, 
 extern StopSoundChannel, InitAudioStream, StartAudioStream, FeedAudioStream, AudioStreamPosition, RegisterSfxBank, UnregisterSfxBank, PlaySfxVolume
 extern PauseCrowdChannels, ResumeCrowdChannels, TriggerCrowdEvent, SetCrowdIntensity, CloseCrowdSound, LoadCrowdBank, SetCrowdVolume, StartCrowdSound
 extern StopCrowdChannels, DetectSoundDriver, SetSoundMixMode, SndCloseDriver, TicksSinceLast, unk_17C474, WaitTickDeadline, word_11D1D0
-extern word_11D23A, word_11D23C, word_11D386, word_11D3A2, word_11D3A4, word_11D3B6, word_17C640
+extern word_11D23A, word_11D23C, word_11D386, lastsfx, word_11D3A4, word_11D3B6, word_17C640
 global StopAllSfx, StopAllSfx_8D, StopAllSfx_BA, StopAllSfx_BF, StopAllSfx_F7, PlaySfxOr, PlaySfx, Crowd_Noise
 global CrowdNoiseReset, GetCrowdTarget, SetCrowdTarget, CrowdPause, CrowdResume, CrowdFadeOut, sfx, sfx_3B
 global CrowdReaction, PlayArenaClip, ArenaClipService, ArenaClipReady, StartArenaClip, StopArenaClip, GetSoundCard, jpt_693BF
@@ -28,9 +28,9 @@ StopAllSfx:
         push edx
         cmp dword [sndcard], byte 0
         jl short .4
-        cmp dword [dword_11D1E2], byte 0
+        cmp dword [SpeechStreamFile], byte 0
         jge short .1
-        cmp dword [dword_11D1E6], byte 0
+        cmp dword [SpeechStreamTimer], byte 0
         jge short .1
         cmp dword [dword_11D1EA], byte 0
         jge short .1
@@ -54,9 +54,9 @@ StopAllSfx:
         ret
         cmp dword [sndcard], byte 0
         jl short .5
-        cmp dword [dword_11D1E2], byte 0
+        cmp dword [SpeechStreamFile], byte 0
         jge near StopSoundChannel
-        cmp dword [dword_11D1E6], byte 0
+        cmp dword [SpeechStreamTimer], byte 0
         jge near StopSoundChannel
         cmp dword [dword_11D1EA], byte 0
         jge near StopSoundChannel
@@ -64,9 +64,9 @@ StopAllSfx:
         jl short .5
         jmp near StopSoundChannel
 StopAllSfx_8D:
-        cmp dword [dword_11D1E2], byte 0
+        cmp dword [SpeechStreamFile], byte 0
         jge short .6
-        cmp dword [dword_11D1E6], byte 0
+        cmp dword [SpeechStreamTimer], byte 0
         jge short .6
         cmp dword [dword_11D1EA], byte 0
         jge short .6
@@ -94,7 +94,7 @@ StopAllSfx_BF:
         mov byte [dword eax+byte_11D392], 1
         cmp ebx, byte 2Eh
         jge short StopAllSfx_F7
-        mov word [word_11D3A2], bx
+        mov word [lastsfx], bx
 StopAllSfx_F7:
         mov eax, edx
         pop edx
@@ -785,7 +785,7 @@ StartSoundCard_3F:
         add esp, byte 0Ch
         mov dword [sndcard], esi
         mov dword [dword_11D1C8], edi
-        cmp dword [dword_11D1E2], byte 0
+        cmp dword [SpeechStreamFile], byte 0
         jge short .3
         mov edx, 20h
         mov eax, 30h
@@ -793,7 +793,7 @@ StartSoundCard_3F:
         test eax, eax
         je short .3
         call RegisterSfxBank
-        mov dword [dword_11D1E2], eax
+        mov dword [SpeechStreamFile], eax
 .3:
         call InitSpeech
         push byte 20h
@@ -803,7 +803,7 @@ StartSoundCard_3F:
         mov dword [byte_11D1DE], 0
         add esp, byte 0Ch
         mov dword [dword_11D1D2], eax
-        cmp dword [dword_11D1E6], byte 0
+        cmp dword [SpeechStreamTimer], byte 0
         jge short .4
         mov eax, 31h
         xor edx, edx
@@ -811,7 +811,7 @@ StartSoundCard_3F:
         test eax, eax
         je short .4
         call RegisterSfxBank
-        mov dword [dword_11D1E6], eax
+        mov dword [SpeechStreamTimer], eax
 .4:
         mov dword [dword_11D236], 0
         jmp short .6
@@ -839,12 +839,12 @@ StartGameSound:
         jl near .22
         cmp dword [dword_11D236], byte 0
         jne near .22
-        cmp dword [dword_11D1E6], byte 0
+        cmp dword [SpeechStreamTimer], byte 0
         jl short .1
         call StopAllSfx
-        mov eax, dword [dword_11D1E6]
+        mov eax, dword [SpeechStreamTimer]
         call UnregisterSfxBank
-        mov dword [dword_11D1E6], 0FFFFFFFFh
+        mov dword [SpeechStreamTimer], 0FFFFFFFFh
 .1:
         mov eax, 50h
         xor edx, edx
@@ -1083,17 +1083,17 @@ EndGameSound:
         call CdStreamOpenDefault
         add esp, byte 0Ch
         mov dword [dword_11D1D2], eax
-        cmp dword [dword_11D1E6], byte 0
+        cmp dword [SpeechStreamTimer], byte 0
         jge short .8
         mov eax, 31h
         xor edx, edx
         call LoadDataFileHandle
         test eax, eax
         je short .8
-        cmp dword [dword_11D1E6], byte 0FFFFFFFFh
+        cmp dword [SpeechStreamTimer], byte 0FFFFFFFFh
         jne short .8
         call RegisterSfxBank
-        mov dword [dword_11D1E6], eax
+        mov dword [SpeechStreamTimer], eax
 .8:
         pop edx
         pop ecx
@@ -1111,19 +1111,19 @@ ShutdownSound:
         cmp dword [sndcard], byte 0
         jl near .4
         call ShutdownSpeech
-        cmp dword [dword_11D1E6], byte 0
+        cmp dword [SpeechStreamTimer], byte 0
         jl short .1
         call StopAllSfx
-        mov eax, dword [dword_11D1E6]
+        mov eax, dword [SpeechStreamTimer]
         call UnregisterSfxBank
-        mov dword [dword_11D1E6], 0FFFFFFFFh
+        mov dword [SpeechStreamTimer], 0FFFFFFFFh
 .1:
-        cmp dword [dword_11D1E2], byte 0
+        cmp dword [SpeechStreamFile], byte 0
         jl short .2
         call StopAllSfx
-        mov eax, dword [dword_11D1E2]
+        mov eax, dword [SpeechStreamFile]
         call UnregisterSfxBank
-        mov dword [dword_11D1E2], 0FFFFFFFFh
+        mov dword [SpeechStreamFile], 0FFFFFFFFh
 .2:
         mov eax, 50h
         xor edx, edx

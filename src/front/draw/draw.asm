@@ -2,13 +2,13 @@
 bits 32
 %include "hockey.inc"
 section s_63968 progbits alloc exec nowrite align=1
-extern ClearChain4, dword_11D18C, dword_11D190, dword_11D194, dword_11D198, dword_11D19C, dword_11D1A0, dword_11D1A4
+extern ClearChain4, textcolor, textshadow, ModeLinear, dword_11D198, dword_11D19C, dword_11D1A0, dword_11D1A4
 extern dword_11F5A0, dword_11F5C0, dword_11F5C4, dword_11FA14, dword_11FA18, dword_1219A4, dword_1228FC, BackBufferWidth
-extern dword_122904, FatalError, TextStringWidth, GetTicks, initgraphics, SetViewRect, SoundIdle, str_COPY
+extern ModeSetCount, FatalError, TextStringWidth, GetTicks, initgraphics, SetViewRect, SoundIdle, str_COPY
 extern str_CouldNotAllocateLibraryB, str_LIBBUGFIX, str_NHLinitgraphicsfixNotCal, str_USETABLE, AllocMemBlock, AllocMemLocked, FreeMemBlock, ClearScreenColour
 extern DrawRectOutline, TextSetColor, FreeColourLookup, CreateColourLookup, TextPrintAt, BuildAaPalLut, CreateAaPalLut, BuildPaletteShadeTable
 extern SetAaPalLut, DrawArtAaScaledInt, TranslatePixels, SetScreenTarget, GetPaletteRange, SetPaletteEntries, WriteSequencerReg, SetModeX
-extern SetClipRect, bcopy, FillMem, unk_121FC8, IntroPalette, unk_17C0E0, WaitRetrace, WaitRetraceEdges
+extern SetClipRect, bcopy, FillMem, unk_121FC8, IntroPalette, fadepalbuf, WaitRetrace, WaitRetraceEdges
 global BlackPalette, FadePalette, FadeOut, CopyBitmapRows, CopyBitmapRows_76, CopyBitmap, InitGraphicsFix, SetGraphicsMode
 global SetGraphicsMode_204, SetScreenMode, DrawText, DrawTextRight, DrawTextRight_17, DrawTextCentred, FindTextColors, SetTextColors
 global SetTextColorsRgb, DrawColorText, DrawColorTextRight, DrawColorTextRight_29, DrawColorTextRight_72, DrawColorTextCentred, FillBox, DrawBox
@@ -23,11 +23,11 @@ BlackPalette:
         push edx
         push edi
         mov ecx, 300h
-        mov edi, unk_17C0E0
+        mov edi, fadepalbuf
         xor eax, eax
         rep stosb
         call WaitRetraceEdges
-        push unk_17C0E0
+        push fadepalbuf
         push dword 100h
         push byte 0
         call SetPaletteEntries
@@ -57,7 +57,7 @@ FadePalette:
         jne short .2
         mov ecx, 300h
         mov esi, dword [byte ebp-04h]
-        mov edi, unk_17C0E0
+        mov edi, fadepalbuf
         rep movsb
         push dword [byte ebp-04h]
         push dword 100h
@@ -67,12 +67,12 @@ FadePalette:
         jmp short .3
 .2:
         mov ecx, 300h
-        mov edi, unk_17C0E0
+        mov edi, fadepalbuf
         xor eax, eax
         rep stosb
 .3:
         mov eax, dword [byte ebp-04h]
-        mov edx, unk_17C0E0
+        mov edx, fadepalbuf
         xor esi, esi
         xor ebx, ebx
 .4:
@@ -330,11 +330,11 @@ SetGraphicsMode:
 .2:
         add esp, byte 4
         mov ecx, 300h
-        mov edi, unk_17C0E0
+        mov edi, fadepalbuf
         xor eax, eax
         rep stosb
         call WaitRetraceEdges
-        push unk_17C0E0
+        push fadepalbuf
         push dword 100h
         push byte 0
         call SetPaletteEntries
@@ -355,7 +355,7 @@ SetGraphicsMode:
         push dword 280h
         call initgraphics
         add esp, byte 0Ch
-        mov dword [dword_11D194], esi
+        mov dword [ModeLinear], esi
         jmp near .5
 .3:
         cmp esi, byte 2
@@ -364,15 +364,15 @@ SetGraphicsMode:
         push byte 8
         push dword 0C8h
         push dword 140h
-        mov edi, unk_17C0E0
+        mov edi, fadepalbuf
         call initgraphics
         mov ecx, 300h
         add esp, byte 0Ch
         xor eax, eax
-        mov dword [dword_11D194], 0
+        mov dword [ModeLinear], 0
         rep stosb
         call WaitRetraceEdges
-        push unk_17C0E0
+        push fadepalbuf
         push dword 100h
         push byte 0
         call SetPaletteEntries
@@ -391,7 +391,7 @@ SetGraphicsMode:
         mov eax, dword [dword_11F5C4]
         add eax, eax
         add esp, byte 14h
-        mov dword [dword_122904], eax
+        mov dword [ModeSetCount], eax
         call SetScreenTarget
         mov dword [dword_11F5A0], 9
         call WaitRetrace
@@ -400,16 +400,16 @@ SetGraphicsMode:
         push byte 0
         push dword 0C8h
         push dword 140h
-        mov dword [dword_11D194], 0
+        mov dword [ModeLinear], 0
         call initgraphics
         add esp, byte 0Ch
 .5:
         mov ecx, 300h
-        mov edi, unk_17C0E0
+        mov edi, fadepalbuf
         xor eax, eax
         rep stosb
         call WaitRetraceEdges
-        push unk_17C0E0
+        push fadepalbuf
         push dword 100h
         push byte 0
         call SetPaletteEntries
@@ -461,11 +461,11 @@ SetScreenMode:
         push edi
         mov esi, eax
         mov ecx, 300h
-        mov edi, unk_17C0E0
+        mov edi, fadepalbuf
         xor eax, eax
         rep stosb
         call WaitRetraceEdges
-        push unk_17C0E0
+        push fadepalbuf
         push dword 100h
         push byte 0
         call SetPaletteEntries
@@ -474,7 +474,7 @@ SetScreenMode:
         push byte 0
         call ClearScreenColour
         add esp, byte 4
-        cmp esi, dword [dword_11D194]
+        cmp esi, dword [ModeLinear]
         je short SetGraphicsMode_204
         cmp esi, byte 1
         jne short .1
@@ -485,11 +485,11 @@ SetScreenMode:
 .2:
         call SetGraphicsMode
         mov ecx, 300h
-        mov edi, unk_17C0E0
+        mov edi, fadepalbuf
         xor eax, eax
         rep stosb
         call WaitRetraceEdges
-        push unk_17C0E0
+        push fadepalbuf
         push dword 100h
         push byte 0
         call SetPaletteEntries
@@ -510,7 +510,7 @@ SetScreenMode:
         push byte 0
         call SetViewRect
         add esp, byte 10h
-        mov dword [dword_11D194], esi
+        mov dword [ModeLinear], esi
         jmp near SetGraphicsMode_204
 ;-----------------------------------------------------------------------------
 ; DrawText                                     63E7C  96 PC, medium confidence
@@ -645,11 +645,11 @@ FindTextColors:
         jmp near CopyBitmapRows_76
 ;-----------------------------------------------------------------------------
 ; SetTextColors                                                   63F79  96 PC
-; (fg, bg): the text colours (dword_11D18C, dword_11D190)
+; (fg, bg): the text colours (textcolor, textshadow)
 ;-----------------------------------------------------------------------------
 SetTextColors:
-        mov dword [dword_11D18C], eax
-        mov dword [dword_11D190], edx
+        mov dword [textcolor], eax
+        mov dword [textshadow], edx
         ret
         push ebx
         push ecx
@@ -666,9 +666,9 @@ SetTextColors:
         lea eax, [byte ebp-04h]
         call FindTextColors
         mov eax, dword [byte ebp-04h]
-        mov dword [dword_11D18C], eax
+        mov dword [textcolor], eax
         mov eax, dword [byte ebp-08h]
-        mov dword [dword_11D190], eax
+        mov dword [textshadow], eax
         leave
         pop edx
         pop ecx
@@ -687,9 +687,9 @@ SetTextColorsRgb:
         lea eax, [byte ebp-04h]
         call FindTextColors
         mov eax, dword [byte ebp-04h]
-        mov dword [dword_11D18C], eax
+        mov dword [textcolor], eax
         mov eax, dword [byte ebp-08h]
-        mov dword [dword_11D190], eax
+        mov dword [textshadow], eax
         leave
         pop edx
         pop ebx
@@ -710,7 +710,7 @@ DrawColorText:
         mov dword [byte ebp-08h], eax
         mov eax, dword [dword_11FA18]
         push eax
-        push dword [dword_11D190]
+        push dword [textshadow]
         mov dword [byte ebp-0Ch], eax
         call TextSetColor
         mov eax, dword [byte ebp-04h]
@@ -723,7 +723,7 @@ DrawColorText:
         call TextPrintAt
         add esp, byte 0Ch
         push dword [byte ebp-0Ch]
-        push dword [dword_11D18C]
+        push dword [textcolor]
         call TextSetColor
         add esp, byte 8
         push dword [byte ebp-04h]
@@ -756,7 +756,7 @@ DrawColorTextRight:
 DrawColorTextRight_29:
         push edi
         sub edx, eax
-        push dword [dword_11D190]
+        push dword [textshadow]
         mov dword [byte ebp-010h], edx
         call TextSetColor
         mov eax, dword [byte ebp-04h]
@@ -770,7 +770,7 @@ DrawColorTextRight_29:
         call TextPrintAt
         add esp, byte 0Ch
         push edi
-        push dword [dword_11D18C]
+        push dword [textcolor]
         call TextSetColor
         add esp, byte 8
         push dword [byte ebp-04h]

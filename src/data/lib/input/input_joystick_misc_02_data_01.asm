@@ -4,7 +4,7 @@ bits 32
 section s_1222C8 progbits alloc noexec write align=1
 extern OriTriOpaque, OriTriShadow, OriTriMapped, OriQuadOpaque, OriQuadMapped, OriQuadShadow, OriPolyShaded, OriPolyClipped
 extern OriPolyMapped, OriStripOpaque, OriStripShadow, OriStripMapped, OriFlatPoly, OriFlatPolyMapped, OriFlatPolyList
-global RemapTable, dword_1222C8, dword_1222CC, dword_1222D0, dword_1222D4, dword_1222D8, dword_1222DC, dword_12231C
+global RemapTable, dword_1222C8, dword_1222CC, dword_1222D0, RandState, dword_1222D8, RandIndex, dword_12231C
 global dword_122350, dword_122378, dword_122384, dword_122388, dword_12238C, SinTable, CosTable, str_Punct_SetScreenScale
 global ScreenWidth, ClipBottom, OriTriDrawFuncs, OriPolyDrawFuncs, OriQuadDrawFuncs, OriFlatDrawFuncs, OriStripDrawFuncs, unk_122320
 global unk_122344, RinkMatrix, RinkTranslation
@@ -14,11 +14,11 @@ dword_1222CC:
         db 0E9h,026h,031h,088h
 dword_1222D0:
         db 02Fh,0DDh,024h,0C6h
-dword_1222D4:
+RandState:
         db 09Ch,0C4h,02h,07h
 dword_1222D8:
         db 07Dh,03Fh,035h,09Eh
-dword_1222DC:
+RandIndex:
         db 064h,03Bh,0DFh,06Fh
 OriTriDrawFuncs:
         dd OriTriOpaque

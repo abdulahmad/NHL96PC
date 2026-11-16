@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_11918B progbits alloc noexec write align=1
-global byte_119203, byte_119204, byte_119CC3, byte_119CC4, AwayGoalsPeriod, HomeGoalsPeriod, dword_1191AF, dword_1191B3
-global dword_1191B7, dword_1191BB, dword_1191BF, dword_1191C3, dword_1191C7, dword_1191D7, dword_1191E7, dword_1191EB
+global HotList, HotList_y, HotStickList, HotStickList_y, AwayGoalsPeriod, HomeGoalsPeriod, sopathx, sopathy
+global sopathend, sopathpoint, pspathside, pspathdir, dword_1191C7, dword_1191D7, OneTimerPasser, PuckChasers
 global dword_1191EF, dword_1191F3, dword_1191FB, dword_1191FF, dword_119D04, penshotlive, penshotmode, penshotstart
 global penshottimer, psendcount, shotontarget, word_11918B
 word_11918B:
@@ -24,25 +24,25 @@ penshotlive:
         db 00h,00h,00h,00h
 psendcount:
         db 00h,00h,00h,00h
-dword_1191AF:
+sopathx:
         db 00h,00h,00h,00h
-dword_1191B3:
+sopathy:
         db 00h,00h,00h,00h
-dword_1191B7:
+sopathend:
         db 00h,00h,00h,00h
-dword_1191BB:
+sopathpoint:
         db 00h,00h,00h,00h
-dword_1191BF:
+pspathside:
         db 00h,00h,00h,00h
-dword_1191C3:
+pspathdir:
         db 00h,00h,00h,00h
 dword_1191C7:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 dword_1191D7:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
-dword_1191E7:
+OneTimerPasser:
         db 00h,00h,00h,00h
-dword_1191EB:
+PuckChasers:
         db 00h,00h,00h,00h
 dword_1191EF:
         db 00h,00h,00h,00h
@@ -52,9 +52,9 @@ dword_1191FB:
         db 00h,00h,00h,00h
 dword_1191FF:
         db 00h,00h,00h,00h
-byte_119203:
+HotList:
         db 0FDh
-byte_119204:
+HotList_y:
         db 0Eh,07h,0Ch,0Eh,03h,0Ch,0F8h,03h,0F2h,0F8h,0F3h,0F2h,0FDh,0F3h,07h,02h
         db 0Fh,0Ch,09h,0Fh,0FEh,09h,0F3h,0FEh,0F1h,0F3h,0F6h,0F1h,02h,0F6h,0Ch,00h
         db 010h,0Bh,0Bh,010h,00h,0Bh,0F4h,00h,0F0h,0F4h,0F4h,0F0h,00h,0F4h,0Bh,01h
@@ -227,9 +227,9 @@ byte_119204:
         db 0Ah,09h,04h,0Ah,0FDh,04h,0F6h,0FDh,0F6h,0F6h,0FBh,0F6h,03h,0FBh,09h,04h
         db 09h,09h,03h,09h,0FCh,03h,0F6h,0FCh,0F7h,0F6h,0FCh,0F7h,04h,0FCh,09h,01h
         db 08h,06h,04h,08h,0FFh,04h,0F9h,0FFh,0F8h,0F9h,0FBh,0F8h,01h,0FBh,06h
-byte_119CC3:
+HotStickList:
         db 07h
-byte_119CC4:
+HotStickList_y:
         db 0FDh,02h,0F8h,0FDh,0F9h,0F8h,0FDh,0F9h,03h,0FDh,07h,03h,07h,07h,02h,0Dh
         db 02h,0Ah,0F8h,02h,0F3h,0F8h,0F5h,0F3h,0FEh,0F5h,07h,0FEh,0Dh,07h,0Ah,0F6h
         db 00h,0F8h,07h,00h,0Ah,07h,07h,0Ah,00h,07h,0F8h,00h,0F6h,0F8h,0F8h,0F5h

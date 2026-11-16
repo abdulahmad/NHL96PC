@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_884BD progbits alloc exec nowrite align=1
-extern abs_, byte_17BDAE, byte_17CBEB, byte_17D13A, DrawColorText, DrawColorTextCentred, DrawScrollBar, dword_1174E8
-extern dword_1174F0, dword_11D59C, dword_11D674, dword_11E624, dword_11E664, dword_11E668, dword_11E66C, dword_11E670
+extern abs_, byte_17BDAE, SeasonUserTeam, byte_17D13A, DrawColorText, DrawColorTextCentred, DrawScrollBar, statsfromleague
+extern statsplayoffs, dword_11D59C, dword_11D674, dword_11E624, dword_11E664, StatsMenuItems, dword_11E66C, dword_11E670
 extern dword_11E678, TeamStatsBitmap, dword_17DC74, dword_17DC78, dword_17DC7C, dword_17DC80, dword_17DD34, dword_17DD38
 extern dword_17DD3C, dword_17DD40, dword_17DD44, dword_17DD48, dword_17DD4C, dword_17DD50, dword_17DD54, dword_17DD58
 extern dword_17DD5C, dword_17DD60, dword_17DD64, dword_17DD68, dword_17DD6C, dword_17DD70, dword_17DD74, dword_17DD78
@@ -326,7 +326,7 @@ unk_88917:
         db 05Fh,069h,063h,065h,060h,06Ah,064h,0Bh,061h,07h,01Eh,067h,062h,07h,066h,068h
         db 063h,08h,067h,069h,064h,010h,068h,06Ah,065h,010h,069h,0Bh,053h,0Fh,0BEh,00h
         db 06Bh,0D8h,063h,0Fh,0BEh,012h,06Bh,0D2h,063h
-        mov eax, dword [dword_1174E8]
+        mov eax, dword [statsfromleague]
         add edx, eax
         add ebx, eax
         add edx, byte 5
@@ -1003,7 +1003,7 @@ TeamStatsScreen:
         call LoadModemStats
         jmp short .10
 .8:
-        cmp dword [dword_1174F0], byte 0
+        cmp dword [statsplayoffs], byte 0
         jne short .9
         cmp dword [dword ebp-01EDEh], 2AF8h
         jge short .9
@@ -1011,7 +1011,7 @@ TeamStatsScreen:
         call LoadSeasonStats
         jmp short .10
 .9:
-        cmp dword [dword_1174F0], byte 0
+        cmp dword [statsplayoffs], byte 0
         jne short .10
         mov eax, dword [dword ebp-01EDEh]
         sub eax, 2710h
@@ -1044,7 +1044,7 @@ TeamStatsScreen:
         call qsort_
         lea edx, [byte ebp-036h]
         lea eax, [byte ebp-052h]
-        mov ecx, dword [dword_11E668]
+        mov ecx, dword [StatsMenuItems]
         mov ebx, dword [dword_11E66C]
         call CopyTeamStatName
         mov eax, dword [byte ebp-012h]
@@ -1149,7 +1149,7 @@ TeamStatsScreen:
         mov dword [dword edx+01D6h], eax
         lea eax, [dword ebp-05AEh]
         mov dword [dword edx+0212h], eax
-        mov edx, dword [dword_11E668]
+        mov edx, dword [StatsMenuItems]
         add esp, byte 8
         cmp edx, byte 5
         ja near TeamStatsScreen_96F.23
@@ -1468,7 +1468,7 @@ TeamStatsScreen_96F:
         push eax
         call DrawArtOpaqueAtOwnPos
         add esp, byte 4
-        push byte_17CBEB
+        push SeasonUserTeam
         mov eax, 1D7h
         jmp short .26
 .25:
@@ -1686,7 +1686,7 @@ TeamStatsScreen_96F:
 .38:
         lea edx, [byte ebp-036h]
         lea eax, [byte ebp-052h]
-        mov ecx, dword [dword_11E668]
+        mov ecx, dword [StatsMenuItems]
         mov ebx, dword [dword_11E66C]
         call CopyTeamStatName
 .39:
@@ -1724,7 +1724,7 @@ TeamStatsScreen_96F:
         mov eax, 4
         mov dword [byte ebp+01Ah], 6
         call AnimateTeamStatsButtons
-        mov dword [dword_11E668], 0
+        mov dword [StatsMenuItems], 0
         jmp short .45
 .43:
         push byte 0
@@ -1755,11 +1755,11 @@ TeamStatsScreen_96F:
         mov eax, 5
         mov dword [byte ebp+01Ah], 0Ch
         call AnimateTeamStatsButtons
-        mov dword [dword_11E668], 4
+        mov dword [StatsMenuItems], 4
 .45:
         lea edx, [byte ebp-036h]
         lea eax, [byte ebp-052h]
-        mov ecx, dword [dword_11E668]
+        mov ecx, dword [StatsMenuItems]
         mov ebx, dword [dword_11E66C]
         call CopyTeamStatName
         lea eax, [dword ebp-032Eh]
@@ -1792,12 +1792,12 @@ TeamStatsScreen_96F:
         cmp dword [dword_11E66C], byte 1
         jne short .48
         mov dword [byte ebp+01Eh], 63h
-        cmp dword [dword_11E668], byte 4
+        cmp dword [StatsMenuItems], byte 4
         sete al
         movzx eax, al
         add eax, byte 4
         mov ebx, esi
-        mov dword [dword_11E668], eax
+        mov dword [StatsMenuItems], eax
         cmp eax, byte 4
         jne short .47
         lea edx, [byte ebp+0Eh]
@@ -1812,13 +1812,13 @@ TeamStatsScreen_96F:
 .48:
         cmp dword [dword_11E66C], byte 2
         jne near .45
-        mov eax, dword [dword_11E668]
+        mov eax, dword [StatsMenuItems]
         mov dword [byte ebp+01Eh], 63h
         cmp eax, byte 3
         ja near .45
         jmp dword [nosplit cs:eax*4+jpt_88DF9]
 TeamStatsScreen_132A:
-        mov dword [dword_11E668], 1
+        mov dword [StatsMenuItems], 1
         lea edx, [byte ebp+0Eh]
         mov eax, 0Ah
 .49:
@@ -1828,7 +1828,7 @@ TeamStatsScreen_132A:
         call AnimateTeamStatsButton
         jmp near TeamStatsScreen_96F.45
 TeamStatsScreen_134F:
-        mov dword [dword_11E668], 3
+        mov dword [StatsMenuItems], 3
         lea edx, [byte ebp+0Eh]
         mov eax, 9
 .51:
@@ -1836,12 +1836,12 @@ TeamStatsScreen_134F:
         mov dword [byte ebp+01Ah], 7
         jmp short TeamStatsScreen_132A.50
 TeamStatsScreen_136C:
-        mov dword [dword_11E668], 2
+        mov dword [StatsMenuItems], 2
         lea edx, [byte ebp+0Eh]
         mov eax, 0Bh
         jmp short TeamStatsScreen_134F.51
 TeamStatsScreen_1380:
-        mov dword [dword_11E668], 0
+        mov dword [StatsMenuItems], 0
         lea edx, [byte ebp+0Eh]
         mov eax, 8
         jmp short TeamStatsScreen_132A.49
@@ -1849,7 +1849,7 @@ TeamStatsScreen_1380:
         mov edx, dword [byte ebp+01Ah]
         lea eax, [byte ebp-036h]
         push dword [dword_11E664]
-        mov ecx, dword [dword_11E668]
+        mov ecx, dword [StatsMenuItems]
         mov ebx, dword [dword_11E66C]
         call ExportTeamStats
         jmp near .74
@@ -1946,7 +1946,7 @@ TeamStatsScreen_1380:
         jl short .71
         lea edx, [byte ebp-036h]
         lea eax, [byte ebp-052h]
-        mov ecx, dword [dword_11E668]
+        mov ecx, dword [StatsMenuItems]
         mov ebx, dword [dword_11E66C]
         mov dword [byte ebp+01Eh], 63h
         call CopyTeamStatName
@@ -2013,7 +2013,7 @@ TeamStatsScreen_1380:
         call qsort_
         lea edx, [byte ebp-036h]
         lea eax, [byte ebp-052h]
-        mov ecx, dword [dword_11E668]
+        mov ecx, dword [StatsMenuItems]
         mov ebx, dword [dword_11E66C]
         call CopyTeamStatName
         lea ecx, [dword ebp-032Eh]
@@ -2194,7 +2194,7 @@ DrawTeamStatsTable:
         mov dword [byte ebp-018h], eax
         imul eax, byte 63h
         inc dword [byte ebp-038h]
-        mov edx, dword [dword_1174E8]
+        mov edx, dword [statsfromleague]
         add dword [byte ebp-01Ch], byte 12h
         add eax, edx
         add dword [byte ebp-03Ch], byte 12h
@@ -2742,7 +2742,7 @@ ExportTeamStats_12C:
         mov eax, dword [byte ebp-03Ch]
         movsx eax, byte [ecx+eax]
         imul edx, eax, byte 63h
-        mov eax, dword [dword_1174E8]
+        mov eax, dword [statsfromleague]
         add eax, edx
         lea ebx, [byte eax+05h]
         lea eax, [byte ecx+01h]
@@ -3015,11 +3015,11 @@ BuildTeamStatTables:
 .1:
         cmp dword [byte ebp-02Ch], 3E8h
         jge short .2
-        mov ebx, dword [dword_1174E8]
+        mov ebx, dword [statsfromleague]
         add ebx, dword [byte ebp-028h]
         jmp short .3
 .2:
-        mov ebx, dword [dword_1174F0]
+        mov ebx, dword [statsplayoffs]
         add ebx, dword [byte ebp-08h]
 .3:
         lea eax, [byte ebx+02Fh]
@@ -3184,11 +3184,11 @@ DumpSaveTimes:
 .1:
         cmp dword [byte ebp-02Ch], 3E8h
         jge short .2
-        mov ebx, dword [dword_1174E8]
+        mov ebx, dword [statsfromleague]
         add ebx, dword [byte ebp-08h]
         jmp short .3
 .2:
-        mov ebx, dword [dword_1174F0]
+        mov ebx, dword [statsplayoffs]
         add ebx, dword [byte ebp-024h]
 .3:
         lea eax, [byte ebx+041h]

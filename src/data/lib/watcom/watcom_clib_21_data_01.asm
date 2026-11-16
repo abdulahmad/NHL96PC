@@ -2,8 +2,8 @@
 bits 32
 %include "hockey.inc"
 section s_1149B4 progbits alloc noexec write align=1
-global _IsTable, str_Inf, str_Nan, DblMaxLow, DblMaxHigh, DblMinusMaxLow, DblMinusMaxHigh, dword_114AE8
-global dword_114AEC, F64_neg1_floor_, F64_Scale10Max, F64_Scale10Min, Pow10Table, Scale10Count
+global _IsTable, str_Inf, str_Nan, DblMaxLow, DblMaxHigh, DblMinusMaxLow, DblMinusMaxHigh, HugeValLo
+global HugeValHi, F64_neg1_floor_, F64_Scale10Max, F64_Scale10Min, Pow10Table, Scale10Count
 str_Inf:
         db 069h,06Eh,066h,00h
 str_Nan:
@@ -40,9 +40,9 @@ DblMinusMaxLow:
         db 0FFh,0FFh,0FFh,0FFh
 DblMinusMaxHigh:
         db 0FFh,0FFh,0EFh,0FFh
-dword_114AE8:
+HugeValLo:
         db 00h,00h,00h,00h
-dword_114AEC:
+HugeValHi:
         db 00h,00h,0F0h,07Fh
 Scale10Count:
         db 0D8h,00h

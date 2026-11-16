@@ -5,8 +5,8 @@ section s_93E6A progbits alloc exec nowrite align=1
 extern __CHP, byte_11E844, byte_11E852, byte_17EBF0, byte_17EC0C, DrawColorText, DrawColorTextCentred, DrawColorTextRight
 extern DrawLeagueLogo, DrawScrollBar, dword_11E670, dword_11E678, dword_11E684, dword_11E6B4, dword_11E7E0, dword_11E85B
 extern dword_11E890, dword_11E894, dword_11E898, dword_11E89C, dword_11E8A0, dword_11E8A4, dword_11E8A8, dword_11E8AC
-extern dword_11E8FC, dword_11E900, TeamStatsBitmap, dword_17EEF0, dword_17FDF0, dword_17FDF4, dword_181EAC, dword_1820AC
-extern dword_1820B0, dword_1820E4, dword_1820E8, dword_1820EC, dword_18210C, dword_182128, dword_18212C, dword_182130
+extern RatingsGoalieShown, RatingsSkaterShown, TeamStatsBitmap, dword_17EEF0, dword_17FDF0, dword_17FDF4, dword_181EAC, dword_1820AC
+extern dword_1820B0, dword_1820E4, dword_1820E8, dword_1820EC, dword_18210C, dword_182128, RatingsGoalieOrder, dword_182130
 extern dword_182134, dword_182138, dword_18213C, dword_182140, FadeOut, FadePalette, FillMusicStream, FillRect
 extern FreeScrollBar, GetLangText, GetTicks, InitMenuItems, InitVScrollBar, jpt_93E46, LoadPackedFile, off_11E8B0
 extern OpenScreen, optflags, PutBlock, qword_112B02, qword_112B0A, RatingBar, RunMenu, ScrollBarDown
@@ -53,8 +53,8 @@ PlayerRatingsScreen:
         lea edi, [dword ebp-0396h]
         mov esi, unk_93D26
         rep movsd
-        mov dword [dword_11E8FC], 0FFFFFFFFh
-        mov dword [dword_11E900], 0FFFFFFFFh
+        mov dword [RatingsGoalieShown], 0FFFFFFFFh
+        mov dword [RatingsSkaterShown], 0FFFFFFFFh
         test ebx, ebx
         je short .1
         mov dword [dword_181EAC], 0
@@ -164,7 +164,7 @@ PlayerRatingsScreen:
         push byte 0
         push byte 3Ch
         push dword 0C8h
-        mov dword [dword_18212C], eax
+        mov dword [RatingsGoalieOrder], eax
         call CreateBitmap
         add esp, byte 0Ch
         mov dword [byte ebp+04Ah], eax
@@ -399,7 +399,7 @@ PlayerRatingsScreen:
         mov dword [dword_181EAC], eax
 .22:
         mov edx, 0Ah
-        mov ebx, dword [dword_18212C]
+        mov ebx, dword [RatingsGoalieOrder]
         mov eax, dword [dword_11E8A4]
         xor ecx, ecx
         call SlideCardRight
@@ -414,7 +414,7 @@ PlayerRatingsScreen:
         call PutBlock
         add esp, byte 0Ch
         push byte 68h
-        mov eax, dword [dword_18212C]
+        mov eax, dword [RatingsGoalieOrder]
         push dword 190h
         push dword [byte eax+02Ch]
         call PutBlock
@@ -1385,10 +1385,10 @@ PlayerRatingsScreen_E71:
         jl short .99
         mov eax, dword [dword ebp-04AAh]
         mov dword [dword_11E890], 1
-        mov dword [dword_11E8FC], eax
+        mov dword [RatingsGoalieShown], eax
         mov eax, dword [dword ebp-071Ah]
         mov dword [dword_11E894], 1
-        mov dword [dword_11E900], eax
+        mov dword [RatingsSkaterShown], eax
         call GetTicks
         mov edx, dword [dword_11E678]
         mov dword [dword_11E89C], eax
@@ -1501,7 +1501,7 @@ PlayerRatingsScreen_E71:
         push dword [dword_182128]
         call FreeBitmap
         add esp, byte 4
-        push dword [dword_18212C]
+        push dword [RatingsGoalieOrder]
         call FreeBitmap
         add esp, byte 4
         mov dword [byte ebp+042h], 0
@@ -2788,7 +2788,7 @@ SwitchRatingsCard:
         cmp esi, ebx
         jle short .10
         mov edx, 0Ah
-        mov ebx, dword [dword_18212C]
+        mov ebx, dword [RatingsGoalieOrder]
         mov eax, dword [dword_11E8A4]
         xor ecx, ecx
         call SlideCardLeft
@@ -2801,7 +2801,7 @@ SwitchRatingsCard:
         mov edi, 3
         cdq
         idiv edi
-        mov ebx, dword [dword_18212C]
+        mov ebx, dword [RatingsGoalieOrder]
         xor ecx, ecx
         mov edi, dword [dword_11E8A4]
         mov edx, eax
@@ -2810,7 +2810,7 @@ SwitchRatingsCard:
 .11:
         call SetScreenTarget
         push byte 68h
-        mov eax, dword [dword_18212C]
+        mov eax, dword [RatingsGoalieOrder]
         push dword 190h
         push dword [byte eax+02Ch]
         call PutBlock
@@ -2832,7 +2832,7 @@ SwitchRatingsCard:
         cmp esi, ebx
         jle short .14
         mov edx, 0Ah
-        mov ebx, dword [dword_18212C]
+        mov ebx, dword [RatingsGoalieOrder]
         mov eax, dword [dword_11E8A4]
         xor ecx, ecx
         call SlideCardRight
@@ -2841,14 +2841,14 @@ SwitchRatingsCard:
         jmp short .15
 .14:
         mov edx, 0Ah
-        mov ebx, dword [dword_18212C]
+        mov ebx, dword [RatingsGoalieOrder]
         mov eax, dword [dword_11E8A4]
         xor ecx, ecx
         call SlideCardRight
 .15:
         call SetScreenTarget
         push byte 68h
-        mov eax, dword [dword_18212C]
+        mov eax, dword [RatingsGoalieOrder]
         push dword 190h
         push dword [byte eax+02Ch]
         call PutBlock
@@ -2878,12 +2878,12 @@ SwitchRatingsCard:
         cmp dword [dword_11E894], byte 2
         jne short .18
         mov eax, dword [nosplit eax*4+dword_17EEF0]
-        mov edx, dword [dword_18212C]
+        mov edx, dword [RatingsGoalieOrder]
         movsx eax, byte [eax]
         call DrawLeagueLogo
         call SetScreenTarget
         push byte 68h
-        mov eax, dword [dword_18212C]
+        mov eax, dword [RatingsGoalieOrder]
         push dword 190h
         push dword [byte eax+02Ch]
         call PutBlock

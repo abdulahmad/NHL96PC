@@ -5,9 +5,9 @@ section s_114B40 progbits alloc noexec write align=1
 global InputRecordCount, InputRecordHead, SlotButtons, str_GRIPGLL, str_GRIP, str_CGRIP, byte_114B48, byte_114B4C
 global byte_114C58, byte_114D96, dword_114B5C, dword_114B60, dword_114B64, dword_114B68, dword_114B78, dword_114B7C
 global dword_114B80, dword_114B88, dword_114B90, dword_114B94, dword_114B98, dword_114B9C, dword_114CB0, dword_114CB4
-global dword_114CCF, dword_114CD3, dword_114CD7, dword_114CD9, dword_114CE2, dword_114D0E, dword_114D12, dword_114D1A
+global GripLinked, dword_114CD3, dword_114CD7, dword_114CD9, dword_114CE2, dword_114D0E, dword_114D12, dword_114D1A
 global dword_114D1E, dword_114D36, dword_114D3A, dword_114D9A, dword_114D9E, dword_114DA2, dword_114DA6, dword_114DAA
-global dword_114DAE, dword_114DB2, dword_114DB6, dword_114DBA, dword_114DCA, unk_114BA8, unk_114C00, unk_114CE6
+global dword_114DAE, dword_114DB2, str_Punct_ModemSettingsScreen, dword_114DBA, dword_114DCA, unk_114BA8, unk_114C00, unk_114CE6
 global unk_114D46, unk_114D6E, word_114B40, word_114B42, word_114B44, word_114CDB, word_114CE0, word_114CE4
 global word_114DBE, word_114DC0
 word_114B40:
@@ -81,7 +81,7 @@ str_GRIP:
         db 047h,052h,049h,050h,00h
 str_CGRIP:
         db 043h,03Ah,05Ch,047h,052h,049h,050h,05Ch,00h
-dword_114CCF:
+GripLinked:
         db 00h,00h,00h,00h
 dword_114CD3:
         db 0FFh,0FFh,0FFh,0FFh
@@ -138,7 +138,7 @@ dword_114DAE:
         db 00h,00h,00h,00h
 dword_114DB2:
         db 00h,00h,00h,00h
-dword_114DB6:
+str_Punct_ModemSettingsScreen:
         db 00h,00h,00h,00h
 dword_114DBA:
         db 00h,00h,00h,00h

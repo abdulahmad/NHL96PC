@@ -3,19 +3,19 @@ bits 32
 %include "hockey.inc"
 section s_159F58 nobits alloc noexec write align=1
 global byte_15EA03, dword_15BDB8, dword_15BE80, dword_15CE50, dword_15D0A8, dword_15D0C4, dword_15D0DC, dword_15D1A8
-global dword_15D1CC, dword_15D238, dword_15D254, dword_15D298, dword_15D2A4, dword_15D2A8, dword_15D2B4, dword_15D2B8
+global dword_15D1CC, dword_15D238, dword_15D254, dword_15D298, RinkModelTexInfo, dword_15D2A8, RinkModelBounds, dword_15D2B8
 global dword_15D2BC, dword_15D2C0, dword_15D31C, dword_15D338, dword_15D33C, dword_15D344, dword_15D348, dword_15D3C0
 global dword_15D3C4, dword_15D3C8, dword_15D3CC, dword_15D3D0, dword_15D42C, dword_15D448, dword_15D44C, dword_15D454
-global dword_15D458, dword_15D4D0, dword_15D4D4, dword_15DC48, dword_15DD10, dword_15DEA0, dword_15DEDC, dword_15DEE0
-global dword_15E120, dword_15E124, dword_15E128, dword_15E12C, dword_15E430, dword_15E434, dword_15E438, dword_15E43C
-global dword_15E440, dword_15E444, dword_15E448, dword_15E470, dword_15E474, dword_15E478, dword_15E47C, dword_15E480
-global dword_15E484, dword_15E488, dword_15E48C, dword_15E490, dword_15E494, dword_15E498, dword_15E49C, dword_15E4A0
+global dword_15D458, dword_15D4D0, dword_15D4D4, dword_15DC48, dword_15DD10, dword_15DEA0, dword_15DEDC, StandsArt
+global dword_15E120, dword_15E124, dword_15E128, RinkModelNormals, dword_15E430, dword_15E434, dword_15E438, dword_15E43C
+global dword_15E440, dword_15E444, dword_15E448, dword_15E470, dword_15E474, dword_15E478, FarSideData, GoalLightModel
+global GoalCheerTeam, GoalLightState, dword_15E48C, dword_15E490, dword_15E494, dword_15E498, dword_15E49C, dword_15E4A0
 global dword_15E4A4, dword_15E4A8, dword_15E4AC, dword_15E4B0, dword_15E4B4, dword_15E4B8, dword_15E4BC, dword_15E4C0
-global dword_15E4C4, dword_15E60C, dword_15E610, dword_15E614, dword_15E684, dword_15E688, dword_15E68C, dword_15E690
-global dword_15E694, dword_15E698, dword_15E69C, dword_15E6A0, dword_15E6A4, dword_15E6A8, dword_15E6AC, dword_15E6B0
-global dword_15E6B4, dword_15E6B8, dword_15E6BC, dword_15E6C0, dword_15E6C4, dword_15E6C8, dword_15E6CC, dword_15E6D0
+global dword_15E4C4, dword_15E60C, dword_15E610, dword_15E614, RinkLength, RinkWidth, RinkCorner, dword_15E690
+global dword_15E694, dword_15E698, dword_15E69C, RinkModelSize, RinkModelFlags, RinkModelHeader, BenchDoorArt, dword_15E6B0
+global RinkModelVerts, RinkModelPolys, dword_15E6BC, dword_15E6C0, dword_15E6C4, dword_15E6C8, dword_15E6CC, dword_15E6D0
 global dword_15E6D4, dword_15E6D8, dword_15E6DC, dword_15E6E0, dword_15E6E4, dword_15E6E8, dword_15E6EC, dword_15E6F0
-global dword_15E6F4, dword_15E6F8, dword_15E6FC, dword_15E700, dword_15E704, dword_15E708, dword_15E70C, dword_15E710
+global dword_15E6F4, dword_15E6F8, dword_15E6FC, dword_15E700, dword_15E704, dword_15E708, dword_15E70C, str_C2
 global dword_15E714, dword_15E718, dword_15E71C, dword_15E720, dword_15E724, dword_15E728, dword_15E734, dword_15E738
 global dword_15E73C, dword_15E748, dword_15E74C, dword_15E750, dword_15E754, dword_15E758, dword_15E75C, dword_15E760
 global dword_15E764, dword_15E768, dword_15E76C, dword_15E770, dword_15E774, dword_15E778, dword_15E780, dword_15E784
@@ -23,14 +23,14 @@ global dword_15E788, dword_15E78C, dword_15E790, dword_15E794, dword_15E79C, dwo
 global dword_15E7AC, dword_15E7B0, dword_15E7B4, dword_15E7B8, dword_15E7BC, dword_15E7C0, dword_15E7C4, dword_15E7C8
 global dword_15E7CC, dword_15E7D0, dword_15E7D4, dword_15E7D8, dword_15E7DC, dword_15E7E0, dword_15E7E4, dword_15E7E8
 global dword_15E7EC, dword_15E7F0, dword_15E7F4, dword_15E7F8, dword_15E7FC, dword_15E800, dword_15E804, dword_15E808
-global dword_15E80C, dword_15E810, dword_15E814, dword_15E818, dword_15E81C, dword_15E820, dword_15E824, dword_15E828
-global dword_15E82C, dword_15E830, dword_15E834, dword_15E838, dword_15E83C, dword_15E840, dword_15E844, dword_15E848
-global dword_15E84C, dword_15E854, dword_15E858, dword_15E85C, dword_15E860, dword_15E864, dword_15E868, dword_15E86C
-global dword_15E870, dword_15E874, dword_15E878, dword_15E87C, dword_15E880, dword_15E884, dword_15E888, dword_15E8B0
-global dword_15E8B4, dword_15E8B8, dword_15E8BC, dword_15E8C0, dword_15E8C4, dword_15E8C8, dword_15E8CC, dword_15E8D0
-global dword_15E8D4, dword_15E8D8, dword_15E8DC, dword_15E8E0, dword_15E8E4, dword_15E8E8, dword_15E8EC, dword_15E8F0
+global dword_15E80C, dword_15E810, dword_15E814, dword_15E818, dword_15E81C, dword_15E820, dword_15E824, BenchSideModel
+global dword_15E82C, dword_15E830, dword_15E834, dword_15E838, dword_15E83C, RinkMarkingModel, dword_15E844, CreaseModel
+global dword_15E84C, dword_15E854, dword_15E858, dword_15E85C, RinkGeometryModel, BoxModelData, dword_15E868, dword_15E86C
+global RinkGeometryParts, dword_15E874, RinkGeometryData, CameraFlashOn, dword_15E880, BenchSideIndex, NeutralSpotModel, CenterSpotModel
+global CreasePolyModel, BoardsTopModel, CenterCircleModel, BenchLineModel, dword_15E8C4, dword_15E8C8, dword_15E8CC, dword_15E8D0
+global dword_15E8D4, dword_15E8D8, dword_15E8DC, dword_15E8E0, dword_15E8E4, RinkSidesModel, dword_15E8EC, dword_15E8F0
 global dword_15E8F4, dword_15E8F8, dword_15E8FC, dword_15E900, dword_15EA04, dword_15EA08, unk_159F58, unk_15AE88
-global unk_15BF20, unk_15D0E0, unk_15D1D0, unk_15D340, unk_15D450, unk_15DB38, unk_15DF20, unk_15E020
+global unk_15BF20, unk_15D0E0, unk_15D1D0, unk_15D340, unk_15D450, unk_15DB38, GlassRemap, BenchRemap
 global unk_15E130, unk_15E230, unk_15E330, unk_15E44C, unk_15E4C8, IceLinePolys, unk_15E5A0, IceCenterPoly
 global FlashPolys, unk_15E904, word_15E472
 unk_159F58:
@@ -65,11 +65,11 @@ dword_15D254:
         resb 68
 dword_15D298:
         resb 12
-dword_15D2A4:
+RinkModelTexInfo:
         resb 4
 dword_15D2A8:
         resb 12
-dword_15D2B4:
+RinkModelBounds:
         resb 4
 dword_15D2B8:
         resb 4
@@ -125,11 +125,11 @@ dword_15DEA0:
         resb 60
 dword_15DEDC:
         resb 4
-dword_15DEE0:
+StandsArt:
         resb 64
-unk_15DF20:
+GlassRemap:
         resb 256
-unk_15E020:
+BenchRemap:
         resb 256
 dword_15E120:
         resb 4
@@ -137,7 +137,7 @@ dword_15E124:
         resb 4
 dword_15E128:
         resb 4
-dword_15E12C:
+RinkModelNormals:
         resb 4
 unk_15E130:
         resb 256
@@ -169,13 +169,13 @@ dword_15E474:
         resb 4
 dword_15E478:
         resb 4
-dword_15E47C:
+FarSideData:
         resb 4
-dword_15E480:
+GoalLightModel:
         resb 4
-dword_15E484:
+GoalCheerTeam:
         resb 4
-dword_15E488:
+GoalLightState:
         resb 4
 dword_15E48C:
         resb 4
@@ -221,11 +221,11 @@ dword_15E614:
         resb 4
 IceCenterPoly:
         resb 108
-dword_15E684:
+RinkLength:
         resb 4
-dword_15E688:
+RinkWidth:
         resb 4
-dword_15E68C:
+RinkCorner:
         resb 4
 dword_15E690:
         resb 4
@@ -235,19 +235,19 @@ dword_15E698:
         resb 4
 dword_15E69C:
         resb 4
-dword_15E6A0:
+RinkModelSize:
         resb 4
-dword_15E6A4:
+RinkModelFlags:
         resb 4
-dword_15E6A8:
+RinkModelHeader:
         resb 4
-dword_15E6AC:
+BenchDoorArt:
         resb 4
 dword_15E6B0:
         resb 4
-dword_15E6B4:
+RinkModelVerts:
         resb 4
-dword_15E6B8:
+RinkModelPolys:
         resb 4
 dword_15E6BC:
         resb 4
@@ -291,7 +291,7 @@ dword_15E708:
         resb 4
 dword_15E70C:
         resb 4
-dword_15E710:
+str_C2:
         resb 4
 dword_15E714:
         resb 4
@@ -419,7 +419,7 @@ dword_15E820:
         resb 4
 dword_15E824:
         resb 4
-dword_15E828:
+BenchSideModel:
         resb 4
 dword_15E82C:
         resb 4
@@ -431,11 +431,11 @@ dword_15E838:
         resb 4
 dword_15E83C:
         resb 4
-dword_15E840:
+RinkMarkingModel:
         resb 4
 dword_15E844:
         resb 4
-dword_15E848:
+CreaseModel:
         resb 4
 dword_15E84C:
         resb 8
@@ -445,39 +445,39 @@ dword_15E858:
         resb 4
 dword_15E85C:
         resb 4
-dword_15E860:
+RinkGeometryModel:
         resb 4
-dword_15E864:
+BoxModelData:
         resb 4
 dword_15E868:
         resb 4
 dword_15E86C:
         resb 4
-dword_15E870:
+RinkGeometryParts:
         resb 4
 dword_15E874:
         resb 4
-dword_15E878:
+RinkGeometryData:
         resb 4
-dword_15E87C:
+CameraFlashOn:
         resb 4
 dword_15E880:
         resb 4
-dword_15E884:
+BenchSideIndex:
         resb 4
-dword_15E888:
+NeutralSpotModel:
         resb 4
 FlashPolys:
         resb 36
-dword_15E8B0:
+CenterSpotModel:
         resb 4
-dword_15E8B4:
+CreasePolyModel:
         resb 4
-dword_15E8B8:
+BoardsTopModel:
         resb 4
-dword_15E8BC:
+CenterCircleModel:
         resb 4
-dword_15E8C0:
+BenchLineModel:
         resb 4
 dword_15E8C4:
         resb 4
@@ -497,7 +497,7 @@ dword_15E8E0:
         resb 4
 dword_15E8E4:
         resb 4
-dword_15E8E8:
+RinkSidesModel:
         resb 4
 dword_15E8EC:
         resb 4

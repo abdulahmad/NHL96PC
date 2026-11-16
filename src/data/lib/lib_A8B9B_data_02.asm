@@ -8,7 +8,7 @@ global byte_11F524, byte_11F52D, dword_11F4BC, dword_11F4F0, mouseminx, mousemin
 global MouseDeltaX, MouseButtonState, dword_11F598, dword_11F5A0, MousePresent, mousex, mousey, MouseMoved
 global dword_11F5B4, dword_11F5B8, dword_11F5C0, dword_11F5C4, dword_11F5C8, dword_11F5CC, dword_11F5D0, dword_11F5D4
 global dword_11F5D8, joyenablemask, off_11F531, off_11F535, off_11F539, off_11F53D, off_11F541, off_11F545
-global off_11F549, off_11F551, off_11F555, word_11F580, word_11F582, word_11F584
+global off_11F549, off_11F551, off_11F555, MouseSavedSensX, MouseSavedSensY, MouseSavedThreshold
 dword_11F4BC:
         db 040h,01h,00h,00h,043h,01h,00h,00h,042h,01h,00h,00h,044h,01h,00h,00h
         db 046h,01h,00h,00h,041h,01h,00h,00h,03Eh,01h,00h,00h,048h,01h,00h,00h
@@ -55,11 +55,11 @@ MouseDeltaX:
         db 00h,00h,00h,00h
 MouseButtonState:
         db 01h,00h,00h,00h
-word_11F580:
+MouseSavedSensX:
         db 00h,00h
-word_11F582:
+MouseSavedSensY:
         db 00h,00h
-word_11F584:
+MouseSavedThreshold:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h
 dword_11F598:

@@ -2,29 +2,29 @@
 bits 32
 %include "hockey.inc"
 section s_4DED8 progbits alloc exec nowrite align=1
-extern awtmstruct, byte_1178C8, byte_157640, byte_15864E, byte_15864F, byte_158650, byte_158651, byte_158652
-extern byte_176AE2, byte_176B84, byte_176B90, byte_17CC37, collflag, curperiod, dword_114F16, dword_1150D8
-extern dword_118E89, dword_119173, dword_11917F, dword_119183, AwayGoalsPeriod, HomeGoalsPeriod, dword_1191AF, dword_1191B3
-extern dword_1191B7, dword_1191BB, dword_1191BF, dword_1191C3, dword_11B364, dword_151B84, dword_1657EA, dword_1657EE
-extern dword_1657F2, dword_1657F6, dword_1657FA, dword_1657FE, dword_165802, dword_165806, dword_165920, dword_165924
-extern dword_165928, dword_16592C, dword_165930, dword_165934, dword_165938, dword_16593C, dword_16596C, dword_17CB2F
-extern dword_17CBE7, dword_17CC17, dword_17CEC3, dword_17D162, dword_17D267, energywarn, exitgame, fadeinpending
+extern awtmstruct, byte_1178C8, byte_157640, byte_15864E, byte_15864F, byte_158650, pad2dev, pad1dev
+extern PenBuf, iflags, curevent, byte_17CC37, collflag, curperiod, dword_114F16, dword_1150D8
+extern dword_118E89, dword_119173, penshotfox, penshotteam, AwayGoalsPeriod, HomeGoalsPeriod, sopathx, sopathy
+extern sopathend, sopathpoint, pspathside, pspathdir, dword_11B364, dword_151B84, hmtmlines, hmtmplattr
+extern dword_1657F2, dword_1657F6, dword_1657FA, dword_1657FE, dword_165802, hmtmsort, dword_165920, dword_165924
+extern dword_165928, dword_16592C, dword_165930, dword_165934, dword_165938, hmtmroster, dword_16596C, dword_17CB2F
+extern PlayoffTreeData, dword_17CC17, dword_17CEC3, dword_17D162, dword_17D267, energywarn, exitgame, fadeinpending
 extern FileReadAt, fodir1, fodir2, fox, foy, gameclock, gameopts, gameover
 extern GetPeriodTime, gmode, gmode2, goalevent, gsp, hmroster, hmtmstruct, lastplayer
-extern lasttouch, lcblink, lcboxon, lcline, LineChangeLine, LineChangeReq, off_11786C, OOlist
+extern lasttouch, lcblink, lcboxon, lcline, LineChangeLine, LineChangeReq, replaystart, OOlist
 extern optflags, passplayer, PBnum, Pencntdwn, Pencntdwn2, penshotctl, penshotlive, penshotmode
 extern penshotplayer, penshotstart, penshottimer, PlList, psendcount, refhitcount, seed, sflags
 extern shotongoal, shotontarget, SortCords, sprintf_, SprSort, str_05d, str_05dCsg, str_CsgDb
 extern str_DB, strcat_, FileMissing, DeleteFiles, FileOpenRead, FileClose, FileWriteAt, MakeDirPath
-extern LoadGameRosters, InitBenchSprites, ResetPeriodState, UnlinkJump, threat, unk_115108, unk_115113, unk_156E6C
-extern unk_156FFC, unk_157AF8, unk_157B0A, unk_157B1C, unk_157B4F, unk_157B82, unk_157D8F, unk_157F9C
-extern unk_157FDA, unk_1582F5, unk_158610, unk_164B5C, unk_17CB2E, unk_17CED5, word_1178A8, word_1178AC
-extern word_1178AE, word_1178B4, word_1178B8, HomeControlSlot, word_1178CC, word_1178CE, word_1178D0, word_1178F4
-extern word_1178F6, word_1178F8, word_1178FA, word_1178FC, word_117902, word_118E8F, word_118E9F, word_118EA3
-extern word_118EA5, word_118EA7, word_118EA9, word_118EAB, word_118EAF, word_118EB1, word_118EB3, word_118EB7
-extern word_118FAF, word_118FB1, word_11910B, word_11910F, word_119111, word_119113, word_119169, word_11916B
-extern word_11918B, word_11B274, word_11B276, word_11D3A2, word_16474C, word_16474E, word_164792, word_164794
-extern word_1656D2, word_1656D6, word_165942, word_16594E, word_165950, word_176B44, word_176B7C, word_176B80
+extern LoadGameRosters, InitBenchSprites, ResetPeriodState, UnlinkJump, threat, gsumheader, gsumtail, hmplstats
+extern unk_156FFC, unk_157AF8, unk_157B0A, unk_157B1C, unk_157B4F, hmplattr, unk_157D8F, awlinetab
+extern unk_157FDA, unk_1582F5, hmlinetab, unk_164B5C, SeasonUserRecords, unk_17CED5, VisTeam, word_1178AC
+extern word_1178AE, word_1178B4, ltx, HomeControlSlot, word_1178CC, word_1178CE, word_1178D0, word_1178F4
+extern refsignal, RefStep, word_1178FA, Penaltytimer, clockticks, word_118E8F, word_118E9F, word_118EA3
+extern lcblinktime, word_118EA7, lcsel, word_118EAB, word_118EAF, lctimer, word_118EB3, word_118EB7
+extern word_118FAF, word_118FB1, ovltimer, word_11910F, bannermsg, word_119113, lldispodd, word_11916B
+extern word_11918B, word_11B274, ovlstep, lastsfx, word_16474C, word_16474E, word_164792, puckcross
+extern word_1656D2, word_1656D6, word_165942, word_16594E, fofdata2, word_176B44, word_176B7C, PerTimeTotal
 extern LastTouchTeam, PassDistY, StoppageFlag, LastPlayerTouch, yc1
 global SaveGameState, SaveGameState_7DD, LoadGameState, ReadSeasonDbHeader, ReadSeasonDbHeader_C2, ReadSeasonDbHeader_C4, ReadSeasonDbHeader_C8, ReadPlayoffDbHeader
 global DeleteSeasonFiles, DeleteSeasonDb, GameEventStub
@@ -85,7 +85,7 @@ SaveGameState:
         jne short .5
         mov ecx, 3Eh
         mov ebx, 0FFFFFFFFh
-        mov edx, unk_158610
+        mov edx, hmlinetab
         mov eax, dword [byte ebp-01Eh]
         call FileWriteAt
         mov ebx, eax
@@ -94,7 +94,7 @@ SaveGameState:
         jne short .6
         mov ecx, 3Eh
         mov ebx, 0FFFFFFFFh
-        mov edx, unk_157F9C
+        mov edx, awlinetab
         mov eax, dword [byte ebp-01Eh]
         call FileWriteAt
         mov ebx, eax
@@ -103,7 +103,7 @@ SaveGameState:
         jne near .9
         lea eax, [byte ebp-01Ah]
 .7:
-        mov dx, word [dword ebx+word_165950]
+        mov dx, word [dword ebx+fofdata2]
         inc ebx
         inc ebx
         mov word [eax], dx
@@ -111,7 +111,7 @@ SaveGameState:
         inc eax
         cmp ebx, byte 0Ch
         jne short .7
-        mov dx, word [word_1178A8]
+        mov dx, word [VisTeam]
         mov word [eax], dx
         inc eax
         inc eax
@@ -137,7 +137,7 @@ SaveGameState:
         inc eax
         inc eax
 .8:
-        mov dx, word [dword ebx+word_164794]
+        mov dx, word [dword ebx+puckcross]
         inc ebx
         inc ebx
         mov word [eax], dx
@@ -173,7 +173,7 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [word_1178B8]
+        mov dx, word [ltx]
         mov word [eax], dx
         inc eax
         inc eax
@@ -229,11 +229,11 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [word_1178F6]
+        mov dx, word [refsignal]
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [word_1178F8]
+        mov dx, word [RefStep]
         mov word [eax], dx
         inc eax
         inc eax
@@ -241,7 +241,7 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [word_1178FC]
+        mov dx, word [Penaltytimer]
         mov word [eax], dx
         inc eax
         inc eax
@@ -253,7 +253,7 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [word_117902]
+        mov dx, word [clockticks]
         mov word [eax], dx
         inc eax
         inc eax
@@ -273,7 +273,7 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [word_11910B]
+        mov dx, word [ovltimer]
         mov word [eax], dx
         inc eax
         inc eax
@@ -289,7 +289,7 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [word_119111]
+        mov dx, word [bannermsg]
         mov word [eax], dx
         inc eax
         inc eax
@@ -304,7 +304,7 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [byte_176B84]
+        mov dx, word [iflags]
         mov word [eax], dx
         mov edx, dword [optflags]
         shl edx, 19h
@@ -314,9 +314,9 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dl, byte [byte_158652]
+        mov dl, byte [pad1dev]
         mov byte [eax], dl
-        mov dl, byte [byte_158651]
+        mov dl, byte [pad2dev]
         mov byte [byte eax+01h], dl
         inc eax
         inc eax
@@ -379,7 +379,7 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [word_118EA5]
+        mov dx, word [lcblinktime]
         mov word [eax], dx
         inc eax
         inc eax
@@ -387,7 +387,7 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [word_118EA9]
+        mov dx, word [lcsel]
         mov word [eax], dx
         inc eax
         inc eax
@@ -403,7 +403,7 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [word_118EB1]
+        mov dx, word [lctimer]
         mov word [eax], dx
         inc eax
         inc eax
@@ -439,7 +439,7 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [word_119169]
+        mov dx, word [lldispodd]
         mov word [eax], dx
         inc eax
         inc eax
@@ -447,7 +447,7 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [word_11D3A2]
+        mov dx, word [lastsfx]
         mov word [eax], dx
         inc eax
         inc eax
@@ -471,11 +471,11 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [dword_11917F]
+        mov dx, word [penshotfox]
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [dword_119183]
+        mov dx, word [penshotteam]
         mov word [eax], dx
         inc eax
         inc eax
@@ -519,27 +519,27 @@ SaveGameState:
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [dword_1191AF]
+        mov dx, word [sopathx]
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [dword_1191B3]
+        mov dx, word [sopathy]
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [dword_1191B7]
+        mov dx, word [sopathend]
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [dword_1191BB]
+        mov dx, word [sopathpoint]
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [dword_1191BF]
+        mov dx, word [pspathside]
         mov word [eax], dx
         inc eax
         inc eax
-        mov dx, word [dword_1191C3]
+        mov dx, word [pspathdir]
         mov word [eax], dx
         mov ebx, dword [dword_11B364]
         inc eax
@@ -576,7 +576,7 @@ SaveGameState:
         jne short .16
         mov ecx, 42h
         mov ebx, 0FFFFFFFFh
-        mov edx, byte_176AE2
+        mov edx, PenBuf
         mov eax, dword [byte ebp-01Eh]
         call FileWriteAt
         mov ebx, eax
@@ -585,7 +585,7 @@ SaveGameState:
         jne short .17
         mov ecx, 0Bh
         mov ebx, 0FFFFFFFFh
-        mov edx, byte_176B90
+        mov edx, curevent
         mov eax, dword [byte ebp-01Eh]
         call FileWriteAt
         mov ebx, eax
@@ -603,7 +603,7 @@ SaveGameState:
         jne short .19
         mov ecx, 0Bh
         mov ebx, 0FFFFFFFFh
-        mov edx, unk_115108
+        mov edx, gsumheader
         mov eax, dword [byte ebp-01Eh]
         call FileWriteAt
         mov ebx, eax
@@ -612,7 +612,7 @@ SaveGameState:
         jne short .20
         mov ecx, 0Bh
         mov ebx, 0FFFFFFFFh
-        mov edx, unk_115113
+        mov edx, gsumtail
         mov eax, dword [byte ebp-01Eh]
         call FileWriteAt
         mov ebx, eax
@@ -653,7 +653,7 @@ SaveGameState:
         mov edi, dword [byte ebp+072h]
         shl edx, 4
         add dword [byte ebp+07Eh], byte 10h
-        lea esi, [dword edx+esi+unk_156E6C]
+        lea esi, [dword edx+esi+hmplstats]
         add dword [byte ebp+072h], byte 10h
         inc dword [byte ebp+076h]
         movsd
@@ -774,7 +774,7 @@ LoadGameState:
         jne short .5
         mov ecx, 3Eh
         mov ebx, 0FFFFFFFFh
-        mov edx, unk_158610
+        mov edx, hmlinetab
         mov eax, dword [byte ebp-01Eh]
         call FileReadAt
         mov ebx, eax
@@ -783,7 +783,7 @@ LoadGameState:
         jne short .6
         mov ecx, 3Eh
         mov ebx, 0FFFFFFFFh
-        mov edx, unk_157F9C
+        mov edx, awlinetab
         mov eax, dword [byte ebp-01Eh]
         call FileReadAt
         mov ebx, eax
@@ -812,7 +812,7 @@ LoadGameState:
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_1178A8], dx
+        mov word [VisTeam], dx
         mov dx, word [eax]
         inc eax
         inc eax
@@ -874,7 +874,7 @@ LoadGameState:
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_1178B8], dx
+        mov word [ltx], dx
         mov dx, word [eax]
         inc eax
         inc eax
@@ -930,11 +930,11 @@ LoadGameState:
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_1178F6], dx
+        mov word [refsignal], dx
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_1178F8], dx
+        mov word [RefStep], dx
         mov dx, word [eax]
         inc eax
         inc eax
@@ -942,7 +942,7 @@ LoadGameState:
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_1178FC], dx
+        mov word [Penaltytimer], dx
         mov dx, word [eax]
         mov word [gsp], dx
         inc eax
@@ -954,7 +954,7 @@ LoadGameState:
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_117902], dx
+        mov word [clockticks], dx
         movsx edx, word [eax]
         inc eax
         inc eax
@@ -974,7 +974,7 @@ LoadGameState:
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_11910B], dx
+        mov word [ovltimer], dx
         mov dx, word [eax]
         inc eax
         inc eax
@@ -990,7 +990,7 @@ LoadGameState:
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_119111], dx
+        mov word [bannermsg], dx
         mov dx, word [eax]
         inc eax
         inc eax
@@ -1005,7 +1005,7 @@ LoadGameState:
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [byte_176B84], dx
+        mov word [iflags], dx
         movsx edx, word [eax]
         and edx, byte 7
         and byte [optflags], 8Fh
@@ -1014,11 +1014,11 @@ LoadGameState:
         inc eax
         or dword [optflags], edx
         mov dl, byte [eax]
-        mov byte [byte_158652], dl
+        mov byte [pad1dev], dl
         mov dl, byte [byte eax+01h]
         inc eax
         inc eax
-        mov byte [byte_158651], dl
+        mov byte [pad2dev], dl
         mov dx, word [eax]
         inc eax
         inc eax
@@ -1084,7 +1084,7 @@ LoadGameState:
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_118EA5], dx
+        mov word [lcblinktime], dx
         mov dx, word [eax]
         inc eax
         inc eax
@@ -1092,7 +1092,7 @@ LoadGameState:
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_118EA9], dx
+        mov word [lcsel], dx
         mov dx, word [eax]
         inc eax
         inc eax
@@ -1108,7 +1108,7 @@ LoadGameState:
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_118EB1], dx
+        mov word [lctimer], dx
         mov dx, word [eax]
         inc eax
         inc eax
@@ -1144,13 +1144,13 @@ LoadGameState:
         mov dx, word [eax]
         inc eax
         inc eax
-        mov word [word_119169], dx
+        mov word [lldispodd], dx
         mov dx, word [eax]
         inc eax
         inc eax
         mov word [word_11916B], dx
         mov dx, word [eax]
-        mov word [word_11D3A2], dx
+        mov word [lastsfx], dx
         inc eax
         inc eax
         mov dx, word [eax]
@@ -1176,11 +1176,11 @@ LoadGameState:
         movsx edx, word [eax]
         inc eax
         inc eax
-        mov dword [dword_11917F], edx
+        mov dword [penshotfox], edx
         movsx edx, word [eax]
         inc eax
         inc eax
-        mov dword [dword_119183], edx
+        mov dword [penshotteam], edx
         movsx edx, word [eax]
         inc eax
         inc eax
@@ -1224,39 +1224,39 @@ LoadGameState:
         movsx edx, word [eax]
         inc eax
         inc eax
-        mov dword [dword_1191AF], edx
+        mov dword [sopathx], edx
         movsx edx, word [eax]
         inc eax
         inc eax
-        mov dword [dword_1191B3], edx
+        mov dword [sopathy], edx
         movsx edx, word [eax]
         inc eax
         inc eax
-        mov dword [dword_1191B7], edx
+        mov dword [sopathend], edx
         movsx edx, word [eax]
         inc eax
         inc eax
-        mov dword [dword_1191BB], edx
+        mov dword [sopathpoint], edx
         movsx edx, word [eax]
         inc eax
         inc eax
-        mov dword [dword_1191BF], edx
+        mov dword [pspathside], edx
         movsx edx, word [eax]
         inc eax
         inc eax
-        mov dword [dword_1191C3], edx
+        mov dword [pspathdir], edx
         mov dx, word [eax]
         inc eax
         inc eax
         mov word [word_11B274], dx
         mov ax, word [eax]
-        mov word [word_11B276], ax
+        mov word [ovlstep], ax
 .11:
         test ebx, ebx
         jne short .12
         mov ecx, 42h
         mov ebx, 0FFFFFFFFh
-        mov edx, byte_176AE2
+        mov edx, PenBuf
         mov eax, dword [byte ebp-01Eh]
         call FileReadAt
         mov ebx, eax
@@ -1265,7 +1265,7 @@ LoadGameState:
         jne short .13
         mov ecx, 0Bh
         mov ebx, 0FFFFFFFFh
-        mov edx, byte_176B90
+        mov edx, curevent
         mov eax, dword [byte ebp-01Eh]
         call FileReadAt
         mov ebx, eax
@@ -1283,7 +1283,7 @@ LoadGameState:
         jne short .15
         mov ecx, 0Bh
         mov ebx, 0FFFFFFFFh
-        mov edx, unk_115108
+        mov edx, gsumheader
         mov eax, dword [byte ebp-01Eh]
         call FileReadAt
         mov ebx, eax
@@ -1292,7 +1292,7 @@ LoadGameState:
         jne short .16
         mov ecx, 0Bh
         mov ebx, 0FFFFFFFFh
-        mov edx, unk_115113
+        mov edx, gsumtail
         mov eax, dword [byte ebp-01Eh]
         call FileReadAt
         mov ebx, eax
@@ -1334,7 +1334,7 @@ LoadGameState:
         mov ecx, dword [byte ebp+076h]
         shl edx, 4
         sub dword [byte ebp+07Ah], byte 10h
-        lea edi, [dword edx+esi+unk_156E6C]
+        lea edi, [dword edx+esi+hmplstats]
         mov esi, ecx
         add dword [byte ebp+076h], byte 10h
         inc dword [byte ebp+07Eh]
@@ -1370,31 +1370,31 @@ LoadGameState:
         test ebx, ebx
         jne near .37
         call GetPeriodTime
-        mov word [word_176B80], ax
+        mov word [PerTimeTotal], ax
         test byte [optflags], 70h
         je short .23
         mov eax, 1
         call LoadGameRosters
 .23:
         mov dword [byte ebp+07Eh], 0
-        mov eax, dword [off_11786C]
+        mov eax, dword [replaystart]
         xor edx, edx
         xor esi, esi
         mov dword [dword_16596C], eax
         call ResetPeriodState
         mov dword [fadeinpending], 1
-        mov dword [dword_165806], SortCords
-        mov dword [dword_1657EE], unk_157B82
+        mov dword [hmtmsort], SortCords
+        mov dword [hmtmplattr], hmplattr
         mov dword [dword_1657F2], unk_157B1C
-        mov dword [dword_1657EA], unk_158610
-        mov dword [dword_1657F6], unk_156E6C
+        mov dword [hmtmlines], hmlinetab
+        mov dword [dword_1657F6], hmplstats
         mov dword [dword_1657FA], unk_157AF8
         mov dword [dword_1657FE], hmroster
         mov dword [dword_165802], unk_157FDA
-        mov dword [dword_16593C], unk_164B5C
+        mov dword [hmtmroster], unk_164B5C
         mov dword [dword_165924], unk_157D8F
         mov dword [dword_165928], unk_157B4F
-        mov dword [dword_165920], unk_157F9C
+        mov dword [dword_165920], awlinetab
         mov dword [dword_16592C], unk_156FFC
         mov dword [dword_165930], unk_157B0A
         mov dword [dword_165934], byte_157640
@@ -1512,9 +1512,9 @@ ReadSeasonDbHeader:
         mov edx, 4
         lea eax, [byte ebp-044h]
         xor ebx, ebx
-        mov dword [gameopts], unk_17CB2E
+        mov dword [gameopts], SeasonUserRecords
         call MakeDirPath
-        push dword [dword_17CBE7]
+        push dword [PlayoffTreeData]
         push str_05d
         lea eax, [byte ebp-010h]
         push eax
@@ -1555,7 +1555,7 @@ ReadSeasonDbHeader:
 .1:
         mov ecx, 0B9h
         lea esi, [dword ebp-03ECh]
-        mov edi, unk_17CB2E
+        mov edi, SeasonUserRecords
 ReadSeasonDbHeader_C2:
         rep movsb
 ReadSeasonDbHeader_C4:
@@ -1588,7 +1588,7 @@ ReadPlayoffDbHeader:
         lea eax, [byte ebp-044h]
         xor ebx, ebx
         call MakeDirPath
-        push dword [dword_17CBE7]
+        push dword [PlayoffTreeData]
         jmp short .2
 .1:
         mov edx, 6
@@ -1636,7 +1636,7 @@ ReadPlayoffDbHeader:
 .3:
         mov ecx, 0B9h
         lea esi, [dword ebp-078Ch]
-        mov edi, unk_17CB2E
+        mov edi, SeasonUserRecords
         rep movsb
 .4:
         cmp dword [byte ebp-04h], byte 0FFFFFFFFh
@@ -1677,7 +1677,7 @@ DeleteSeasonFiles:
         lea eax, [byte ebp-040h]
         xor ebx, ebx
         call MakeDirPath
-        push dword [dword_17CBE7]
+        push dword [PlayoffTreeData]
         push str_05d
         lea eax, [byte ebp-0Ch]
         push eax
@@ -1710,7 +1710,7 @@ DeleteSeasonFiles:
         mov eax, dword [dword_17CEC3]
         add eax, byte 41h
         push eax
-        push dword [dword_17CBE7]
+        push dword [PlayoffTreeData]
         push str_05dCsg
         lea eax, [byte ebp-0Ch]
         push eax
@@ -1750,7 +1750,7 @@ DeleteSeasonDb:
         lea eax, [byte ebp-040h]
         xor ebx, ebx
         call MakeDirPath
-        push dword [dword_17CBE7]
+        push dword [PlayoffTreeData]
         push str_05d
         lea eax, [byte ebp-0Ch]
         push eax

@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_AC9F0 progbits alloc exec nowrite align=1
-extern str_DBUGTXT, str_FILES, str_DATES, str_TIMES, str_CLOSED, str_TIMES2, byte_11F9D8, byte_11F9D9
+extern str_DBUGTXT, str_FILES, str_DATES, str_TIMES, str_CLOSED, str_TIMES2, byte_11F9D8, DebugBackColor
 extern byte_11F9DA, DebugMode, dword_11F9D0, DebugLineWidth, dword_11F9DC, fclose_, fopen_, DebugLog
 extern FindWildcardDigits, FormatDateStamp, bcopy, ZeroMem, unk_113444, vsprintf_
 global DebugPrintf, DebugShowLines_D5, DebugShowLines_E6, DebugShowLines_124, DebugShowLines_140, DebugShowLines_149, DebugSetLine, DebugShowLines
@@ -115,7 +115,7 @@ DebugShowLines:
         jne short .2
         mov al, byte [edi]
         xor cl, cl
-        mov byte [byte_11F9D9], al
+        mov byte [DebugBackColor], al
         jmp near DebugShowLines_149.7
 .2:
         mov cl, byte [edi]
@@ -128,7 +128,7 @@ DebugShowLines:
         mov ebx, dword [dword_11F9D0]
         xor ah, ah
         xor dh, dh
-        mov al, byte [byte_11F9D9]
+        mov al, byte [DebugBackColor]
         mov dl, cl
         add esi, byte 2
         shl eax, 8
@@ -304,7 +304,7 @@ DebugSetRow:
 ;-----------------------------------------------------------------------------
 DebugSetAttr:
         mov al, byte [byte esp+04h]
-        mov byte [byte_11F9D9], al
+        mov byte [DebugBackColor], al
         ret
         db 08Bh,0C0h
         mov eax, dword [byte esp+04h]

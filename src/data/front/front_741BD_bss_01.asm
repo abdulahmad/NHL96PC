@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_17D678 nobits alloc noexec write align=1
 global byte_17D6C8, dword_17D678, dword_17D67C, dword_17D680, dword_17D684, dword_17D688, dword_17D68C, dword_17D690
-global dword_17D694, dword_17D6A0, dword_17D6A4, dword_17D6B0, dword_17D6B4, dword_17D6C4, dword_17D7C8, dword_17D7CC
+global dword_17D694, dword_17D6A0, dword_17D6A4, dword_17D6B0, dword_17D6B4, dword_17D6C4, dword_17D7C8, statsbgshapes
 global dword_17D7D0
 dword_17D678:
         resb 4
@@ -35,7 +35,7 @@ byte_17D6C8:
         resb 256
 dword_17D7C8:
         resb 4
-dword_17D7CC:
+statsbgshapes:
         resb 4
 dword_17D7D0:
         resb 4

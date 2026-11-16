@@ -11,11 +11,11 @@ extern str_CONNECT9600ARQHST, str_27, str_272, str_CONNECT14400, str_25, str_252
 extern str_262, str_CONNECT14400HST, str_35, str_352, str_CONNECT14400ARQHST, str_36, str_362
 global GameLoopActive, InputRecordBusy, InputRecordPhase, InputRecordTicks, PauseReplayPending, byte_115084, dword_114DE8, dword_114DF0
 global dword_114DF4, dword_114DFC, dword_114EB0, dword_114EB4, dword_114ED0, dword_114ED4, dword_114EE8, dword_114EEC
-global dword_114EF0, dword_114EF4, dword_114F16, dword_115000, dword_115004, dword_115008, dword_11500C, dword_115010
+global dword_114EF0, dword_114EF4, dword_114F16, ModemResultCount, ModemLastResult, dword_115008, dword_11500C, dword_115010
 global dword_115014, dword_115018, dword_11501C, dword_115020, dword_115024, dword_115028, dword_11502C, dword_115030
 global dword_115034, dword_115038, dword_11503C, dword_115040, dword_115044, dword_115048, dword_11504C, dword_115050
 global dword_115054, dword_115058, dword_11505C, dword_115060, dword_115064, dword_115068, str_ctl06, str_22
-global dword_115074, str_newline, dword_11507C, dword_115080, off_114F1C, off_114F24, word_114DD2, word_114DD4
+global dword_115074, str_newline, dword_11507C, dword_115080, ModemResultTextTable, ModemResultCodeTable, word_114DD2, word_114DD4
 global word_114DD6, word_114DD8, word_114DDC, word_114DE4, word_114DE6, word_114EA8, word_114EAC, word_114EF8
 global word_114EFA, word_114EFC, word_114EFE, word_114F00, word_114F14
 word_114DD2:
@@ -96,10 +96,10 @@ dword_114F16:
         db 00h,00h,00h,00h
 PauseReplayPending:
         db 00h,00h
-off_114F1C:
+ModemResultTextTable:
         dd str_OK
         dd str_0
-off_114F24:
+ModemResultCodeTable:
         dd unk_110124
         dd str_CONNECT
         dd str_1
@@ -155,9 +155,9 @@ off_114F24:
         dd str_CONNECT14400ARQHST
         dd str_36
         dd str_362
-dword_115000:
+ModemResultCount:
         db 013h,00h,00h,00h
-dword_115004:
+ModemLastResult:
         db 00h,00h,00h,00h
 dword_115008:
         db 00h,00h,00h,00h

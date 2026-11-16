@@ -3,15 +3,15 @@ bits 32
 %include "hockey.inc"
 section s_7FF7F progbits alloc exec nowrite align=1
 extern BlackPalette, byte_16580A, byte_16580B, byte_165940, byte_17BDAE, byte_17CC1E, byte_17CC36, byte_17CFB1
-extern byte_17D262, byte_17D26F, byte_17D270, byte_17D271, CompareTeamPoints, dword_1174E0, dword_1174EC, dword_1174F0
-extern dword_117500, dword_117510, dword_11E4B8, dword_1657EA, dword_1657F6, dword_1657FA, dword_1657FE, dword_17CB2F
-extern dword_17CBE7, dword_17CC13, dword_17CC17, dword_17CEC3, dword_17CED1, dword_17CED6, dword_17D162, dword_17D1E2
+extern byte_17D262, byte_17D26F, byte_17D270, byte_17D271, CompareTeamPoints, seasondb, dword_1174EC, statsplayoffs
+extern dword_117500, dword_117510, dword_11E4B8, hmtmlines, dword_1657F6, dword_1657FA, dword_1657FE, dword_17CB2F
+extern PlayoffTreeData, dword_17CC13, dword_17CC17, dword_17CEC3, SeasonRandomSeed, dword_17CED6, dword_17D162, dword_17D1E2
 extern dword_17D202, dword_17D267, dword_17D26B, FillMusicStream, gameopts, GetLangText, HideMessage, HideProgressBox
 extern LoadSeasonStats, MakeDirPath, MakePlayoffDbPath, MakeSeasonDbPath, qsort_, ShowMessage, ShowProgressBox, SimulateGame
 extern SoundIdle, SoundSecondsToBytes, sprintf_, srand_, str_05dCNZDB, str_S05dCNZDB, strcat_, strlen_
 extern PlayoffRound1, PlayoffRound2, PlayoffRound3, PlayoffFinal, ClearPlayoffTree, FreeMemBlock, OpenArtArchiveErr, SaveFileBlock
-extern FileSizeByName, unk_17CB2E, unk_17CC1F, unk_17CED5, unk_17CF9A, unk_7FF77, UpdateProgressBox, word_1656DC
-extern word_1656E8, word_16581E
+extern FileSizeByName, SeasonUserRecords, unk_17CC1F, unk_17CED5, unk_17CF9A, unk_7FF77, UpdateProgressBox, word_1656DC
+extern hmscore, awscore
 global UpdateTeamDbs, UpdateTeamDbs_86F, ApplyDayResults, SimSeasonGames, ApplyPlayoffDayResults, SaveSeasonTeams, unk_81ED1
 ;-----------------------------------------------------------------------------
 ; UpdateTeamDbs                                   7FF7F  96 PC, low confidence
@@ -46,7 +46,7 @@ UpdateTeamDbs:
 .1:
         add eax, byte 41h
         push eax
-        push dword [dword_17CBE7]
+        push dword [PlayoffTreeData]
         jmp short .4
 .2:
         cmp dword [dword_17D267], byte 0
@@ -98,7 +98,7 @@ UpdateTeamDbs:
         mov dword [byte ebp-02h], 54h
 .7:
         imul eax, dword [dword_17CEC3], dword 31Bh
-        mov edx, dword [dword_1174F0]
+        mov edx, dword [statsplayoffs]
         mov dword [byte ebp+012h], 0
         add eax, edx
         jmp short .10
@@ -146,7 +146,7 @@ UpdateTeamDbs:
 .16:
         imul ecx, dword [byte ebp+0Eh], dword 31Bh
         imul edx, dword [byte ebp+0Ah], dword 31Bh
-        mov eax, dword [dword_1174F0]
+        mov eax, dword [statsplayoffs]
         lea ebx, [eax+ecx]
         add eax, edx
         mov dword [byte ebp-06h], eax
@@ -232,7 +232,7 @@ UpdateTeamDbs:
 .22:
         mov edx, dword [byte ebp+022h]
 .23:
-        mov eax, dword [dword_1174F0]
+        mov eax, dword [statsplayoffs]
         add edx, eax
         mov dword [byte ebp-0Eh], edx
         mov eax, ebx
@@ -585,8 +585,8 @@ UpdateTeamDbs:
         jne short .55
         movzx edx, byte [byte ebp+076h]
         imul edx, dword 136h
-        mov di, word [dword ecx+word_1656E8]
-        cmp di, word [dword edx+word_1656E8]
+        mov di, word [dword ecx+hmscore]
+        cmp di, word [dword edx+hmscore]
         jne short .53
         mov edx, ebx
         mov ebx, esi
@@ -596,7 +596,7 @@ UpdateTeamDbs:
 .53:
         movzx edx, byte [byte ebp+07Ah]
         imul edx, dword 136h
-        cmp di, word [dword edx+word_1656E8]
+        cmp di, word [dword edx+hmscore]
         jle short .54
         mov edx, ebx
         mov ebx, esi
@@ -627,7 +627,7 @@ UpdateTeamDbs:
         jne short .58
         movzx ecx, byte [byte ebp+07Eh]
         imul ecx, dword 136h
-        cmp word [dword ecx+word_1656E8], byte 0
+        cmp word [dword ecx+hmscore], byte 0
         jne short .58
         mov esi, ebx
         add esi, dword [byte ebp+06h]
@@ -689,7 +689,7 @@ UpdateTeamDbs:
         jmp short .66
 .65:
         mov esi, dword [byte ebp+05Ah]
-        mov esi, dword [dword esi+dword_1657EA]
+        mov esi, dword [dword esi+hmtmlines]
         inc edi
         mov cl, byte [byte esi+eax+034h]
         mov esi, ebx
@@ -787,7 +787,7 @@ ApplyDayResults:
         push ecx
         sub ebp, 82h
         imul edx, dword 3E8h
-        mov eax, dword [dword_1174F0]
+        mov eax, dword [statsplayoffs]
         mov dword [byte ebp+062h], edx
         mov dword [byte ebp+05Eh], eax
         inc dword [byte ebp+062h]
@@ -818,7 +818,7 @@ ApplyDayResults:
         cmp eax, 0FFh
         jne short .3
         mov edx, dword [byte ebp-02Eh]
-        mov al, byte [word_1656E8]
+        mov al, byte [hmscore]
         mov byte [byte edx+04h], al
         jmp short .3
 .2:
@@ -842,7 +842,7 @@ ApplyDayResults:
         cmp eax, 0FFh
         jne short .3
         mov edx, dword [byte ebp-02Eh]
-        mov al, byte [word_16581E]
+        mov al, byte [awscore]
         mov byte [byte edx+05h], al
 .3:
         inc dword [byte ebp+062h]
@@ -899,7 +899,7 @@ ApplyDayResults:
         mov ecx, dword [dword_1174EC]
         mov eax, dword [byte ebp+eax*4-02Ah]
         add eax, ecx
-        mov ecx, dword [dword_1174E0]
+        mov ecx, dword [seasondb]
         mov eax, dword [byte eax+02Ch]
         inc word [byte ecx+eax+02h]
         inc word [byte ecx+eax+06h]
@@ -921,7 +921,7 @@ ApplyDayResults:
         mov ecx, dword [dword_1174EC]
         mov edx, dword [byte ebp+edx*4-02Ah]
         add edx, ecx
-        mov ecx, dword [dword_1174E0]
+        mov ecx, dword [seasondb]
         mov edx, dword [byte edx+02Ch]
         inc eax
         inc word [byte ecx+edx+0Eh]
@@ -939,7 +939,7 @@ ApplyDayResults:
         mov ecx, dword [dword_1174EC]
         mov edx, dword [byte ebp+edx*4-02Ah]
         add edx, ecx
-        mov ecx, dword [dword_1174E0]
+        mov ecx, dword [seasondb]
         mov edx, dword [byte edx+02Ch]
         inc eax
         inc word [ecx+edx]
@@ -957,7 +957,7 @@ ApplyDayResults:
         mov ecx, dword [dword_1174EC]
         mov eax, dword [byte ebp+eax*4-02Ah]
         add eax, ecx
-        mov ecx, dword [dword_1174E0]
+        mov ecx, dword [seasondb]
         mov eax, dword [byte eax+02Ch]
         inc word [byte ecx+eax+04h]
         inc edx
@@ -976,7 +976,7 @@ ApplyDayResults:
         mov ebx, dword [dword_1174EC]
         mov edx, dword [byte ebp+edx*4-02Ah]
         add edx, ebx
-        mov ebx, dword [dword_1174E0]
+        mov ebx, dword [seasondb]
         mov edx, dword [byte edx+02Ch]
         inc word [byte edx+ebx+0Ch]
         mov edx, dword [byte ebp+06Ah]
@@ -996,7 +996,7 @@ ApplyDayResults:
         je short .19
         mov ecx, dword [dword_1174EC]
         add ecx, dword [byte eax+ebp-02Ah]
-        mov esi, dword [dword_1174E0]
+        mov esi, dword [seasondb]
         mov ecx, dword [byte ecx+02Ch]
         add ecx, esi
         movzx si, byte [edx]
@@ -1018,7 +1018,7 @@ ApplyDayResults:
         mov ecx, dword [dword_1174EC]
         mov edx, dword [byte ebp+edx*4-02Ah]
         add edx, ecx
-        mov ecx, dword [dword_1174E0]
+        mov ecx, dword [seasondb]
         mov edx, dword [byte edx+02Ch]
         inc word [byte ecx+edx+08h]
         mov edx, dword [byte ebp+06Ah]
@@ -1039,7 +1039,7 @@ ApplyDayResults:
         mov ecx, dword [dword_1174EC]
         mov edx, dword [byte ebp+edx*4-02Ah]
         add edx, ecx
-        mov ecx, dword [dword_1174E0]
+        mov ecx, dword [seasondb]
         mov edx, dword [byte edx+02Ch]
         inc eax
         inc word [byte ecx+edx+0Ah]
@@ -1065,7 +1065,7 @@ ApplyDayResults:
         mov ebx, dword [dword_1174EC]
         mov eax, dword [byte ebp+eax*4+03Ah]
         add eax, ebx
-        mov ebx, dword [dword_1174E0]
+        mov ebx, dword [seasondb]
         mov eax, dword [byte eax+02Ch]
         inc edx
         inc word [ebx+eax]
@@ -1082,7 +1082,7 @@ ApplyDayResults:
         cmp dword [byte edx+ebp+03Ah], byte 0FFFFFFFFh
         je short .28
         mov esi, dword [byte ebp+076h]
-        mov ecx, dword [dword_1174E0]
+        mov ecx, dword [seasondb]
         mov eax, dword [byte eax+02Ch]
         lea edi, [byte ebp+07Ah]
         add eax, ecx
@@ -1107,7 +1107,7 @@ ApplyDayResults:
         add eax, dword [byte ecx+ebp+03Ah]
         cmp dword [byte ecx+ebp+03Ah], byte 0FFFFFFFFh
         je short .32
-        mov esi, dword [dword_1174E0]
+        mov esi, dword [seasondb]
         mov eax, dword [byte eax+02Ch]
         add eax, esi
         movzx esi, byte [edx]
@@ -1138,7 +1138,7 @@ ApplyDayResults:
         add edx, dword [byte eax+ebp+03Ah]
         cmp dword [byte eax+ebp+03Ah], byte 0FFFFFFFFh
         je short .34
-        mov esi, dword [dword_1174E0]
+        mov esi, dword [seasondb]
         mov edx, dword [byte edx+02Ch]
         add edx, esi
         movzx esi, byte [ecx]
@@ -1162,7 +1162,7 @@ ApplyDayResults:
         mov ecx, dword [dword_1174EC]
         mov edx, dword [byte ebp+edx*4+03Ah]
         add edx, ecx
-        mov ecx, dword [dword_1174E0]
+        mov ecx, dword [seasondb]
         mov edx, dword [byte edx+02Ch]
         inc eax
         inc word [byte ecx+edx+0Eh]
@@ -1178,7 +1178,7 @@ ApplyDayResults:
         mov edx, dword [dword_1174EC]
         mov eax, dword [byte ebp+eax*4+03Ah]
         add eax, edx
-        mov edx, dword [dword_1174E0]
+        mov edx, dword [seasondb]
         mov eax, dword [byte eax+02Ch]
         inc ebx
         inc word [byte edx+eax+0Ah]
@@ -1197,7 +1197,7 @@ ApplyDayResults:
         mov edx, dword [dword_1174EC]
         mov eax, dword [byte ebp+eax*4+03Ah]
         add eax, edx
-        mov edx, dword [dword_1174E0]
+        mov edx, dword [seasondb]
         mov eax, dword [byte eax+02Ch]
         inc dword [byte ebp+062h]
         inc ecx
@@ -1210,7 +1210,7 @@ ApplyDayResults:
         je near .46
         mov eax, dword [dword_1174EC]
         add eax, dword [byte ecx+ebp+03Ah]
-        mov ebx, dword [dword_1174E0]
+        mov ebx, dword [seasondb]
         add ebx, dword [byte eax+02Ch]
         mov ax, word [byte ebx+0Eh]
         cmp ax, word [byte ebx+012h]
@@ -1326,10 +1326,10 @@ ApplyDayResults:
 .53:
         mov ebx, 5
         lea eax, [byte ebp+046h]
-        mov edx, dword [dword_17CBE7]
+        mov edx, dword [PlayoffTreeData]
         call MakeSeasonDbPath
         push dword [dword_117500]
-        push dword [dword_1174E0]
+        push dword [seasondb]
         lea eax, [byte ebp+046h]
         push eax
         call SaveFileBlock
@@ -1360,8 +1360,8 @@ SimSeasonGames:
         mov ebx, 6
         call SoundSecondsToBytes
         call FillMusicStream
-        mov eax, dword [dword_1174F0]
-        mov edx, dword [dword_17CBE7]
+        mov eax, dword [statsplayoffs]
+        mov edx, dword [PlayoffTreeData]
         mov dword [byte ebp+042h], eax
         lea eax, [byte ebp-062h]
         mov dword [byte ebp+05Eh], 1
@@ -1415,7 +1415,7 @@ SimSeasonGames:
         imul eax, byte 1Ah
         cmp byte [dword eax+byte_17CC36], 0
         jne short .5
-        mov eax, dword [dword_17CED1]
+        mov eax, dword [SeasonRandomSeed]
         mov ecx, 0FFFFFFFFh
         add eax, edx
         xor ebx, ebx
@@ -1458,7 +1458,7 @@ SimSeasonGames:
         movzx eax, byte [edi]
         cmp eax, dword [byte ebp+046h]
         jne short .8
-        mov eax, dword [dword_17CED1]
+        mov eax, dword [SeasonRandomSeed]
         mov ecx, 0FFFFFFFFh
         add eax, edx
         xor ebx, ebx
@@ -1474,7 +1474,7 @@ SimSeasonGames:
         mov ebx, 6
         sub word [esi], byte 6
         lea eax, [byte ebp-062h]
-        mov edx, dword [dword_17CBE7]
+        mov edx, dword [PlayoffTreeData]
         call MakeSeasonDbPath
         lea eax, [byte ebp-062h]
         push eax
@@ -1488,17 +1488,17 @@ SimSeasonGames:
         mov ebx, 5
         add esp, byte 0Ch
         lea eax, [byte ebp-062h]
-        mov edx, dword [dword_17CBE7]
+        mov edx, dword [PlayoffTreeData]
         call MakeSeasonDbPath
         push dword [dword_117500]
-        push dword [dword_1174E0]
+        push dword [seasondb]
         lea eax, [byte ebp-062h]
         push eax
         call SaveFileBlock
         mov ebx, 6
         add esp, byte 0Ch
         lea eax, [byte ebp-062h]
-        mov edx, dword [dword_17CBE7]
+        mov edx, dword [PlayoffTreeData]
         call MakeSeasonDbPath
         lea eax, [byte ebp-062h]
         push eax
@@ -1512,10 +1512,10 @@ SimSeasonGames:
         mov ebx, 4
         add esp, byte 0Ch
         lea eax, [byte ebp-062h]
-        mov edx, dword [dword_17CBE7]
+        mov edx, dword [PlayoffTreeData]
         call MakeSeasonDbPath
         push dword [dword_117510]
-        push dword [dword_1174F0]
+        push dword [statsplayoffs]
         lea eax, [byte ebp-062h]
         push eax
         call SaveFileBlock
@@ -1558,7 +1558,7 @@ SimSeasonGames:
         xor ebx, ebx
         call MakeDirPath
         push dword [byte ebp+036h]
-        push dword [dword_17CBE7]
+        push dword [PlayoffTreeData]
         lea eax, [byte ebp-062h]
         push eax
         push str_S05dCNZDB
@@ -1655,7 +1655,7 @@ SimSeasonGames:
         imul ebx, byte 1Ah
         cmp byte [dword ebx+byte_17CC36], 0
         jne short .23
-        add eax, dword [dword_17CED1]
+        add eax, dword [SeasonRandomSeed]
         mov ecx, 0FFFFFFFFh
         call srand_
         push byte 0
@@ -1675,7 +1675,7 @@ SimSeasonGames:
         movsd
         movsd
         mov byte [byte ebp+076h], 0FFh
-        mov eax, dword [dword_1174F0]
+        mov eax, dword [statsplayoffs]
         mov dword [byte ebp+022h], 0
         mov dword [byte ebp+06Eh], eax
         xor eax, eax
@@ -1909,17 +1909,17 @@ SimSeasonGames:
 .49:
         mov ebx, 7
         lea eax, [byte ebp-062h]
-        mov edx, dword [dword_17CBE7]
+        mov edx, dword [PlayoffTreeData]
         call MakeSeasonDbPath
         push dword 3A7h
-        push unk_17CB2E
+        push SeasonUserRecords
         lea eax, [byte ebp-062h]
         push eax
         call SaveFileBlock
         mov ebx, 0Ah
         add esp, byte 0Ch
         lea eax, [byte ebp-062h]
-        mov edx, dword [dword_17CBE7]
+        mov edx, dword [PlayoffTreeData]
         call MakeSeasonDbPath
         push dword 39Dh
         push unk_17CED5
@@ -1929,7 +1929,7 @@ SimSeasonGames:
         mov ebx, 6
         add esp, byte 0Ch
         lea eax, [byte ebp-062h]
-        mov edx, dword [dword_17CBE7]
+        mov edx, dword [PlayoffTreeData]
         call MakeSeasonDbPath
         lea eax, [byte ebp-062h]
         push eax
@@ -1943,17 +1943,17 @@ SimSeasonGames:
         mov ebx, 5
         add esp, byte 0Ch
         lea eax, [byte ebp-062h]
-        mov edx, dword [dword_17CBE7]
+        mov edx, dword [PlayoffTreeData]
         call MakeSeasonDbPath
         push dword [dword_117500]
-        push dword [dword_1174E0]
+        push dword [seasondb]
         lea eax, [byte ebp-062h]
         push eax
         call SaveFileBlock
         mov ebx, 6
         add esp, byte 0Ch
         lea eax, [byte ebp-062h]
-        mov edx, dword [dword_17CBE7]
+        mov edx, dword [PlayoffTreeData]
         call MakeSeasonDbPath
         lea eax, [byte ebp-062h]
         push eax
@@ -1967,10 +1967,10 @@ SimSeasonGames:
         mov ebx, 4
         add esp, byte 0Ch
         lea eax, [byte ebp-062h]
-        mov edx, dword [dword_17CBE7]
+        mov edx, dword [PlayoffTreeData]
         call MakeSeasonDbPath
         push dword [dword_117510]
-        push dword [dword_1174F0]
+        push dword [statsplayoffs]
         lea eax, [byte ebp-062h]
         push eax
         call SaveFileBlock
@@ -1978,7 +1978,7 @@ SimSeasonGames:
 .50:
         mov ebx, 6
         lea eax, [byte ebp-062h]
-        mov edx, dword [dword_17CBE7]
+        mov edx, dword [PlayoffTreeData]
         call MakeSeasonDbPath
         lea eax, [byte ebp-062h]
         push eax
@@ -1998,10 +1998,10 @@ SimSeasonGames:
 .51:
         mov ebx, 4
         lea eax, [byte ebp-062h]
-        mov edx, dword [dword_17CBE7]
+        mov edx, dword [PlayoffTreeData]
         call MakeSeasonDbPath
         push dword [dword_117510]
-        push dword [dword_1174F0]
+        push dword [statsplayoffs]
         lea eax, [byte ebp-062h]
         push eax
         call SaveFileBlock
@@ -2011,7 +2011,7 @@ SimSeasonGames:
         jne short .52
         call BlackPalette
 .52:
-        mov eax, dword [dword_17CBE7]
+        mov eax, dword [PlayoffTreeData]
         call LoadSeasonStats
         jmp near UpdateTeamDbs_86F
 ;-----------------------------------------------------------------------------
@@ -2028,7 +2028,7 @@ ApplyPlayoffDayResults:
         imul edx, dword 3E8h
         mov byte [byte ebp+076h], 0FFh
         mov byte [byte ebp+07Eh], 0FFh
-        mov eax, dword [dword_1174F0]
+        mov eax, dword [statsplayoffs]
         mov dword [byte ebp+056h], edx
         mov dword [byte ebp+052h], eax
         inc dword [byte ebp+056h]
@@ -2055,7 +2055,7 @@ ApplyPlayoffDayResults:
         inc byte [byte edx+041h]
         cmp eax, 0FFh
         jne short .3
-        mov al, byte [word_1656E8]
+        mov al, byte [hmscore]
         mov byte [byte ebp+07Eh], al
         jmp short .3
 .2:
@@ -2074,7 +2074,7 @@ ApplyPlayoffDayResults:
         inc byte [byte edx+041h]
         cmp eax, 0FFh
         jne short .3
-        mov al, byte [word_16581E]
+        mov al, byte [awscore]
         mov byte [byte ebp+076h], al
 .3:
         inc dword [byte ebp+056h]
@@ -2131,7 +2131,7 @@ ApplyPlayoffDayResults:
         mov ecx, dword [dword_1174EC]
         mov eax, dword [byte ebp+eax*4-032h]
         add eax, ecx
-        mov ecx, dword [dword_1174E0]
+        mov ecx, dword [seasondb]
         mov eax, dword [byte eax+02Ch]
         inc word [byte ecx+eax+014h]
         inc word [byte ecx+eax+018h]
@@ -2153,7 +2153,7 @@ ApplyPlayoffDayResults:
         mov ecx, dword [dword_1174EC]
         mov edx, dword [byte ebp+edx*4-032h]
         add edx, ecx
-        mov ecx, dword [dword_1174E0]
+        mov ecx, dword [seasondb]
         mov edx, dword [byte edx+02Ch]
         inc eax
         inc word [byte ecx+edx+020h]
@@ -2171,7 +2171,7 @@ ApplyPlayoffDayResults:
         mov ecx, dword [dword_1174EC]
         mov edx, dword [byte ebp+edx*4-032h]
         add edx, ecx
-        mov ecx, dword [dword_1174E0]
+        mov ecx, dword [seasondb]
         mov edx, dword [byte edx+02Ch]
         inc eax
         inc word [byte ecx+edx+012h]
@@ -2189,7 +2189,7 @@ ApplyPlayoffDayResults:
         mov ecx, dword [dword_1174EC]
         mov eax, dword [byte ebp+eax*4-032h]
         add eax, ecx
-        mov ecx, dword [dword_1174E0]
+        mov ecx, dword [seasondb]
         mov eax, dword [byte eax+02Ch]
         inc word [byte ecx+eax+016h]
         inc edx
@@ -2208,7 +2208,7 @@ ApplyPlayoffDayResults:
         mov ebx, dword [dword_1174EC]
         mov edx, dword [byte ebp+edx*4-032h]
         add edx, ebx
-        mov ebx, dword [dword_1174E0]
+        mov ebx, dword [seasondb]
         mov edx, dword [byte edx+02Ch]
         inc word [byte edx+ebx+01Eh]
         mov edx, dword [byte ebp+05Eh]
@@ -2228,7 +2228,7 @@ ApplyPlayoffDayResults:
         je short .19
         mov ecx, dword [dword_1174EC]
         add ecx, dword [byte edx+ebp-032h]
-        mov esi, dword [dword_1174E0]
+        mov esi, dword [seasondb]
         mov ecx, dword [byte ecx+02Ch]
         add ecx, esi
         movzx si, byte [eax]
@@ -2250,7 +2250,7 @@ ApplyPlayoffDayResults:
         mov ecx, dword [dword_1174EC]
         mov edx, dword [byte ebp+edx*4-032h]
         add edx, ecx
-        mov ecx, dword [dword_1174E0]
+        mov ecx, dword [seasondb]
         mov edx, dword [byte edx+02Ch]
         inc word [byte ecx+edx+01Ah]
         mov edx, dword [byte ebp+05Eh]
@@ -2271,7 +2271,7 @@ ApplyPlayoffDayResults:
         mov ecx, dword [dword_1174EC]
         mov eax, dword [byte ebp+eax*4-032h]
         add eax, ecx
-        mov ecx, dword [dword_1174E0]
+        mov ecx, dword [seasondb]
         mov eax, dword [byte eax+02Ch]
         inc edx
         inc word [byte ecx+eax+01Ch]
@@ -2297,7 +2297,7 @@ ApplyPlayoffDayResults:
         mov ebx, dword [dword_1174EC]
         mov eax, dword [byte ebp+eax*4+032h]
         add eax, ebx
-        mov ebx, dword [dword_1174E0]
+        mov ebx, dword [seasondb]
         mov eax, dword [byte eax+02Ch]
         inc edx
         inc word [byte ebx+eax+016h]
@@ -2314,7 +2314,7 @@ ApplyPlayoffDayResults:
         cmp dword [byte edx+ebp+032h], byte 0FFFFFFFFh
         je short .28
         mov esi, dword [byte ebp+06Ah]
-        mov ecx, dword [dword_1174E0]
+        mov ecx, dword [seasondb]
         mov eax, dword [byte eax+02Ch]
         lea edi, [byte ebp+072h]
         add eax, ecx
@@ -2339,7 +2339,7 @@ ApplyPlayoffDayResults:
         add eax, dword [byte edx+ebp+032h]
         cmp dword [byte edx+ebp+032h], byte 0FFFFFFFFh
         je short .31
-        mov esi, dword [dword_1174E0]
+        mov esi, dword [seasondb]
         mov eax, dword [byte eax+02Ch]
         add eax, esi
         movzx esi, byte [ecx]
@@ -2365,7 +2365,7 @@ ApplyPlayoffDayResults:
         add edx, dword [byte eax+ebp+032h]
         cmp dword [byte eax+ebp+032h], byte 0FFFFFFFFh
         je short .33
-        mov esi, dword [dword_1174E0]
+        mov esi, dword [seasondb]
         mov edx, dword [byte edx+02Ch]
         add edx, esi
         movzx esi, byte [ecx]
@@ -2389,7 +2389,7 @@ ApplyPlayoffDayResults:
         mov ecx, dword [dword_1174EC]
         mov edx, dword [byte ebp+edx*4+032h]
         add edx, ecx
-        mov ecx, dword [dword_1174E0]
+        mov ecx, dword [seasondb]
         mov edx, dword [byte edx+02Ch]
         inc eax
         inc word [byte ecx+edx+024h]
@@ -2405,7 +2405,7 @@ ApplyPlayoffDayResults:
         mov edx, dword [dword_1174EC]
         mov eax, dword [byte ebp+eax*4+032h]
         add eax, edx
-        mov edx, dword [dword_1174E0]
+        mov edx, dword [seasondb]
         mov eax, dword [byte eax+02Ch]
         inc ebx
         inc word [byte edx+eax+020h]
@@ -2424,7 +2424,7 @@ ApplyPlayoffDayResults:
         mov edx, dword [dword_1174EC]
         mov eax, dword [byte ebp+eax*4+032h]
         add eax, edx
-        mov edx, dword [dword_1174E0]
+        mov edx, dword [seasondb]
         mov eax, dword [byte eax+02Ch]
         inc dword [byte ebp+056h]
         inc ecx
@@ -2437,7 +2437,7 @@ ApplyPlayoffDayResults:
         je near .44
         mov eax, dword [dword_1174EC]
         add eax, dword [byte ecx+ebp+032h]
-        mov ebx, dword [dword_1174E0]
+        mov ebx, dword [seasondb]
         add ebx, dword [byte eax+02Ch]
         cmp word [byte ebx+028h], byte 0
         jbe short .41
@@ -2522,7 +2522,7 @@ ApplyPlayoffDayResults:
         je short .50
         mov ebx, 5
         lea eax, [byte ebp+03Eh]
-        mov edx, dword [dword_17CBE7]
+        mov edx, dword [PlayoffTreeData]
         call MakeSeasonDbPath
         jmp short .51
 .50:
@@ -2532,7 +2532,7 @@ ApplyPlayoffDayResults:
         call MakePlayoffDbPath
 .51:
         push dword [dword_117500]
-        push dword [dword_1174E0]
+        push dword [seasondb]
         lea eax, [byte ebp+03Eh]
         push eax
         call SaveFileBlock
@@ -2541,7 +2541,7 @@ ApplyPlayoffDayResults:
         je short .52
         mov ebx, 4
         lea eax, [byte ebp+03Eh]
-        mov edx, dword [dword_17CBE7]
+        mov edx, dword [PlayoffTreeData]
         call MakeSeasonDbPath
         jmp short .53
 .52:
@@ -2551,7 +2551,7 @@ ApplyPlayoffDayResults:
         call MakePlayoffDbPath
 .53:
         push dword [dword_117510]
-        push dword [dword_1174F0]
+        push dword [statsplayoffs]
         lea eax, [byte ebp+03Eh]
         push eax
         call SaveFileBlock
@@ -2591,7 +2591,7 @@ SaveSeasonTeams:
         mov eax, dword [dword esi+dword_17D1E2]
         add eax, byte 41h
         push eax
-        push dword [dword_17CBE7]
+        push dword [PlayoffTreeData]
         lea eax, [byte ebp-05Ch]
         push eax
         push str_S05dCNZDB

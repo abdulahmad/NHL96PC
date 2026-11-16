@@ -2,15 +2,15 @@
 bits 32
 %include "hockey.inc"
 section s_118E82 progbits alloc noexec write align=1
-global byte_118E82, byte_1190F3, byte_11916A, crowdlevel, dword_118E89, dword_119173, dword_11917F, dword_119183
-global energywarn, introskipped, lcblink, lcboxon, lcline, off_118F79, penshotctl, penshotplayer
+global priolist, apl, byte_11916A, crowdlevel, dword_118E89, dword_119173, penshotfox, penshotteam
+global energywarn, introskipped, lcblink, lcboxon, lcline, coachlinetab, penshotctl, penshotplayer
 global shotongoal, unk_118EB9, unk_118EC9, unk_118EE9, unk_118EF9, unk_118F09, unk_118F19, unk_118F29
-global unk_118F39, unk_118F49, unk_118F59, unk_118F69, unk_118FA5, word_118E8F, exitgame, gameover
-global word_118E95, word_118E9F, word_118EA3, word_118EA5, word_118EA7, word_118EA9, word_118EAB, word_118EAF
-global word_118EB1, word_118EB3, word_118EB7, word_118FAF, word_118FB1, word_1190D7, word_1190D9, word_1190E7
-global word_1190E9, word_11910B, refhitcount, word_11910F, word_119111, word_119113, Pencntdwn2, word_119117
-global word_11911F, word_119127, word_119169, word_11916B
-byte_118E82:
+global unk_118F39, unk_118F49, unk_118F59, unk_118F69, ds2list, word_118E8F, exitgame, gameover
+global word_118E95, word_118E9F, word_118EA3, lcblinktime, word_118EA7, lcsel, word_118EAB, word_118EAF
+global lctimer, word_118EB3, word_118EB7, word_118FAF, word_118FB1, word_1190D7, puckfaceoff2_ptab, word_1190E7
+global word_1190E9, ovltimer, refhitcount, word_11910F, bannermsg, word_119113, Pencntdwn2, word_119117
+global word_11911F, word_119127, lldispodd, word_11916B
+priolist:
         db 00h,01h,02h,04h,03h,05h,06h
 dword_118E89:
         db 00h,00h,00h,00h,00h,00h
@@ -30,11 +30,11 @@ lcblink:
         db 00h,00h
 word_118EA3:
         db 00h,00h
-word_118EA5:
+lcblinktime:
         db 00h,00h
 word_118EA7:
         db 00h,00h
-word_118EA9:
+lcsel:
         db 00h,00h
 word_118EAB:
         db 00h,00h
@@ -42,7 +42,7 @@ lcline:
         db 00h,00h
 word_118EAF:
         db 00h,00h
-word_118EB1:
+lctimer:
         db 00h,00h
 word_118EB3:
         db 00h,00h
@@ -73,7 +73,7 @@ unk_118F59:
         db 01h,02h,03h,0FFh,02h,03h,00h,0FFh,03h,00h,01h,0FFh,00h,01h,02h,0FFh
 unk_118F69:
         db 01h,02h,0FFh,0FFh,00h,02h,0FFh,0FFh,00h,01h,0FFh,0FFh,00h,01h,02h,0FFh
-off_118F79:
+coachlinetab:
         dd unk_118EB9
         dd unk_118EC9
         dd unk_118EE9
@@ -85,7 +85,7 @@ off_118F79:
         dd unk_118F49
         dd unk_118F59
         dd unk_118F69
-unk_118FA5:
+ds2list:
         db 056h,0FFh,0F1h,0FFh,00h,00h,0FFh,0FFh,00h,00h
 word_118FAF:
         db 08h,00h
@@ -111,22 +111,22 @@ word_118FB1:
         db 04h,00h,01Eh,00h,00h,00h
 word_1190D7:
         db 00h,00h
-word_1190D9:
+puckfaceoff2_ptab:
         db 0A8h,0FEh,0D9h,0FFh,0CFh,0FFh,027h,00h,0CFh,0FFh,0C2h,0FFh,0F7h,0FFh
 word_1190E7:
         db 00h,00h
 word_1190E9:
         db 0F8h,0FFh,03Eh,00h,0F7h,0FFh,00h,00h,0C0h,0FFh
-byte_1190F3:
+apl:
         db 00h,01h,02h,03h,04h,05h,06h,00h,00h,01h,05h,03h,04h,02h,00h,00h
         db 00h,03h,05h,01h,04h,00h,00h,00h
-word_11910B:
+ovltimer:
         db 0FFh,0FFh
 refhitcount:
         db 00h,00h
 word_11910F:
         db 00h,00h
-word_119111:
+bannermsg:
         db 0FFh,0FFh
 word_119113:
         db 00h,00h
@@ -142,7 +142,7 @@ word_119127:
         db 0E1h,0Eh,0E5h,0Eh,0E6h,0Eh,0E7h,0Eh,0E4h,0Eh,0E3h,0Eh,0E4h,0Eh,0E7h,0Eh
         db 0E6h,0Eh,0EAh,0Eh,0EBh,0Eh,0ECh,0Eh,0E9h,0Eh,0E8h,0Eh,0E9h,0Eh,0ECh,0Eh
         db 0EBh,0Eh
-word_119169:
+lldispodd:
         db 00h
 byte_11916A:
         db 00h
@@ -158,9 +158,9 @@ shotongoal:
         db 00h,00h,00h,00h
 penshotplayer:
         db 00h,00h,00h,00h
-dword_11917F:
+penshotfox:
         db 00h,00h,00h,00h
-dword_119183:
+penshotteam:
         db 00h,00h,00h,00h
 penshotctl:
         db 00h,00h,00h,00h

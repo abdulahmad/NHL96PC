@@ -3,9 +3,9 @@ bits 32
 %include "hockey.inc"
 section s_AA988 progbits alloc exec nowrite align=1
 extern FatalError, asc_113110, str_LOWMEM, str_HIGHMEM, str_GAP, asc_11316C, dword_11F9B8, RowTable
-extern RowCopyFunc, dword_1210C8, dword_1210CC, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight
+extern RowCopyFunc, dword_1210C8, MemPoolBase, ScreenWidth, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight
 extern KeyedDraw, dword_1228FC, dword_122930, dword_123934, memlist1, MemBlockGuards, MemDescriptorTop, MemLockHandle
-extern dword_18573C, strncpy_, DrawShapeCore, AllocMemBlockEx, getmemblock, CopyRowKeyed, DrawShapeOpaque, ResetMemLock
+extern MemFreeBytes, strncpy_, DrawShapeCore, AllocMemBlockEx, getmemblock, CopyRowKeyed, DrawShapeOpaque, ResetMemLock
 extern MemLock, MemUnlock, SetScreenTarget, SetClipWindow, VesaSetBank, BlitBlock, BlitBlockXor, BlitBlockAnd
 extern AndPixel, BlitBlockOr, OrPixel, bcopy, SaveDrawState, RestoreDrawState
 global PutBlock_25F, DrawArtAnd_132, DrawShapeAtOwnPos, BlitToScreenWindow, DrawArt, DrawShape, DrawArtHotspot, PutBlock
@@ -907,14 +907,14 @@ DrawArtOr:
         add esi, edx
         mov edx, dword [byte esp+014h]
         shl esi, 3
-        mov dword [dword_1210CC], eax
+        mov dword [MemPoolBase], eax
         cmp esi, edx
         jle short .9
         push asc_113110
         call FatalError
         add esp, byte 4
 .9:
-        mov edx, dword [dword_1210CC]
+        mov edx, dword [MemPoolBase]
         mov ebx, dword [byte esp+0Ch]
         mov eax, edx
         mov dword [MemDescriptorTop], edx
@@ -939,18 +939,18 @@ DrawArtOr:
         push byte 10h
         mov dword [dword_1210C8], eax
         push eax
-        mov eax, dword [dword_1210CC]
+        mov eax, dword [MemPoolBase]
         add eax, esi
         push eax
         push byte 0
         call AddMemRegion
         mov eax, dword [dword_1210C8]
-        mov esi, dword [dword_1210CC]
+        mov esi, dword [MemPoolBase]
         add esp, byte 18h
         mov edi, dword [MemLockHandle]
         sub eax, esi
         push edi
-        mov dword [dword_18573C], eax
+        mov dword [MemFreeBytes], eax
         call MemUnlock
         add esp, byte 4
         pop edi

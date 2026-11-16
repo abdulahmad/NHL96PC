@@ -2,11 +2,11 @@
 bits 32
 %include "hockey.inc"
 section s_182128 nobits alloc noexec write align=1
-global dword_182128, dword_18212C, dword_182130, dword_182134, dword_182138, dword_18213C, dword_182140, dword_182144
+global dword_182128, RatingsGoalieOrder, dword_182130, dword_182134, dword_182138, dword_18213C, dword_182140, dword_182144
 global unk_1821B4, unk_182224
 dword_182128:
         resb 4
-dword_18212C:
+RatingsGoalieOrder:
         resb 4
 dword_182130:
         resb 4

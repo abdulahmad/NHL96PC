@@ -3,10 +3,10 @@ bits 32
 %include "hockey.inc"
 section s_11FD54 progbits alloc noexec write align=1
 extern SerialIsrCom2, SerialIsrCom3, SerialIsrCom4, SerialIsrCom1, bcopy
-global RowCopyFunc, dword_1210C8, dword_1210CC, SerialPortTable, off_11FD5C, off_11FD60, unk_11FD54, SerialPorts
-global unk_11FD74, unk_1201B6, unk_1201C0, unk_120602, unk_12060C, unk_120A4E, unk_120A58, word_11FD68
+global RowCopyFunc, dword_1210C8, MemPoolBase, SerialPortTable, off_11FD5C, off_11FD60, RandSeed, SerialPorts
+global unk_11FD74, unk_1201B6, unk_1201C0, unk_120602, unk_12060C, unk_120A4E, unk_120A58, SerialIrqMask
 global SerialBaudDivisors, word_120EC0
-unk_11FD54:
+RandSeed:
         db 01h,00h,00h,00h
 SerialPortTable:
         dd SerialPorts
@@ -15,7 +15,7 @@ off_11FD5C:
 off_11FD60:
         dd unk_120602
         dd unk_120A4E
-word_11FD68:
+SerialIrqMask:
         db 00h,00h
 SerialPorts:
         db 02h,00h,00h,03h,0Ch,00h,010h,00h,0F8h,03h
@@ -351,5 +351,5 @@ RowCopyFunc:
         db 00h,00h,00h,00h
 dword_1210C8:
         db 00h,00h,00h,00h
-dword_1210CC:
+MemPoolBase:
         db 00h,00h,00h,00h

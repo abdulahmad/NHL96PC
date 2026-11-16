@@ -2,11 +2,11 @@
 bits 32
 %include "hockey.inc"
 section s_8BF56 progbits alloc exec nowrite align=1
-extern __CHP, asc_112831, asc_112837, byte_11E700, byte_16580A, byte_16580B, byte_17BDAE, byte_17CBEB
+extern __CHP, asc_112831, asc_112837, byte_11E700, byte_16580A, byte_16580B, byte_17BDAE, SeasonUserTeam
 extern byte_17D13A, byte_17EBF0, byte_17FAEF, byte_17FAF0, byte_17FFD5, byte_180302, byte_1820F0, byte_1820F1
-extern CheckExportName, DrawColorText, DrawColorTextCentred, DrawScrollBar, dword_1174E8, dword_1174EC, dword_1174F0, dword_11E4B8
+extern CheckExportName, DrawColorText, DrawColorTextCentred, DrawScrollBar, statsfromleague, dword_1174EC, statsplayoffs, dword_11E4B8
 extern dword_11E670, dword_11E674, dword_11E678, dword_11E67C, dword_11E6AC, dword_11E75A, dword_11E75E, dword_1657F6
-extern dword_1657FA, dword_1657FE, dword_17BC78, TeamStatsBitmap, dword_17BCE2, dword_17CBE7, dword_17D162, dword_17D267
+extern dword_1657FA, dword_1657FE, MatchupLayer, TeamStatsBitmap, dword_17BCE2, PlayoffTreeData, dword_17D162, dword_17D267
 extern dword_17E9D0, dword_17E9D4, dword_17E9D8, dword_17E9DC, dword_17EA50, dword_17EA54, dword_17EA58, dword_17EA5C
 extern dword_17EA60, dword_17EA64, dword_17EA68, dword_17EA6C, dword_17EA70, dword_17EA74, dword_17EA78, dword_17EA7C
 extern dword_17EA80, dword_17EA84, dword_17EA88, dword_17EA8C, dword_17EA90, dword_17EA94, dword_17EA98, dword_17EA9C
@@ -28,7 +28,7 @@ extern dword_1820D0, dword_1820D4, dword_1820D8, dword_1820DC, dword_1820E0, dwo
 extern dword_18210C, EditText, FadeOut, FadePalette, fclose_, FillBox, FillMusicStream, fopen_
 extern fprintf_, FreeScrollBar, gameopts, GetLangText, GetTicks, HideProgressBox, InitHScrollBar, InitMenuItems
 extern InitVScrollBar, LinkSync, LinkSyncWithMessage, LoadExhibitionStats, LoadModemStats, LoadPlayoffStats, LoadSeasonStats, MessageBox
-extern ModemChat, MusicDone, off_11D3DC, off_11E6E0, OpenScreen, optflags, PlayMusic, PutBlock
+extern ModemChat, MusicDone, LogoNames, off_11E6E0, OpenScreen, optflags, PlayMusic, PutBlock
 extern qsort_, qword_11281C, qword_112824, qword_11283C, qword_112844, RunMenu, ScrollBarDown, ScrollBarPageDown
 extern ScrollBarPageUp, ScrollBarToMouse, ScrollBarUp, SetDrawBitmap, SetScreenColors, SetScrollBarPos, SetTextColors, SetTickDeadline
 extern ShowProgressBox, SlideInBottomBar, SlideInSideBar, SoundIdle, SoundSecondsToBytes, sprintf_, str_03d2, str_10003
@@ -43,7 +43,7 @@ extern str_Wt3, strcat_, strcmp_, strcpy_, strlen_, LoadDataFileLib, PlayerDbRec
 extern StatsDb1Record, DrawArt, AllocMemBlock, FreeMemBlock, CreateBitmap, TintRows, TintRect, FreeBitmap
 extern DosFileInfo, DrawArtOpaqueAtOwnPos, DrawArtOpaqueHotspot, DrawArtKeyed, SetScreenTarget, FindShape, TextSetFont, TickDeadlinePassed
 extern unk_11282F, unk_11E71A, unk_17FDF8, unk_17FE5E, unk_17FEC4, unk_17FF2A, unk_17FF90, unk_180128
-extern unk_1802C0, unk_8B87F, unk_8BD9F, unk_8BF1F, UpdateProgressBox, word_114CE0, word_1656E8, word_181EB4
+extern unk_1802C0, unk_8B87F, unk_8BD9F, unk_8BF1F, UpdateProgressBox, word_114CE0, hmscore, word_181EB4
 extern word_181EB6, word_181EB8, word_181EBA, word_181EBC, word_181EBE, word_181EC0, word_181EC2, word_181EC4
 extern word_181EC6, word_181EC8
 global AnimatePlayerStatsButton, AnimatePlayerStatsButtons, ComparePlayerNames, ComparePlayerStatRows, ShowPlayerStatsTitle, jpt_8C4AB, jpt_8C4BB, jpt_8C4CB
@@ -1414,7 +1414,7 @@ PlayerStatsScreen:
         jl short .42
         cmp dword [dword ebp-01BD6h], 2AF8h
         jge short .42
-        push byte_17CBEB
+        push SeasonUserTeam
         mov eax, 1D7h
         jmp short .43
 .42:
@@ -1828,7 +1828,7 @@ PlayerStatsScreen_13BC:
         call LoadPlayoffStats
         jmp short PlayerStatsScreen_13DD.58
 PlayerStatsScreen_13D1:
-        mov eax, dword [dword_17CBE7]
+        mov eax, dword [PlayoffTreeData]
         call LoadSeasonStats
         jmp short PlayerStatsScreen_13DD.58
 PlayerStatsScreen_13DD:
@@ -1993,7 +1993,7 @@ PlayerStatsScreen_1641:
         test eax, eax
         je short .69
         call SlideInBottomBar
-        push dword [dword_17BC78]
+        push dword [MatchupLayer]
         call TextSetFont
         mov eax, 0FEh
         add esp, byte 4
@@ -2768,7 +2768,7 @@ FillSkaterStatRows:
 .1:
         mov edx, dword [byte ebp-04h]
         mov ebx, esi
-        mov eax, dword [dword_1174F0]
+        mov eax, dword [statsplayoffs]
         shl ebx, 2
         add edx, eax
         lea ecx, [esi+esi]
@@ -3043,7 +3043,7 @@ FillGoalieStatRows:
 .1:
         mov edx, dword [byte ebp-08h]
         lea ecx, [esi+esi]
-        mov eax, dword [dword_1174F0]
+        mov eax, dword [statsplayoffs]
         add ecx, dword [byte ebp-028h]
         add edx, eax
         mov ebx, esi
@@ -3464,7 +3464,7 @@ DrawPlayerStatsTable:
         call DrawColorText
         mov eax, dword [dword ecx+dword_17EEF0]
         movsx eax, byte [eax]
-        push dword [nosplit eax*4+off_11D3DC]
+        push dword [nosplit eax*4+LogoNames]
         push str_S3
         lea eax, [byte ebp-012h]
         push eax
@@ -3999,7 +3999,7 @@ ExportPlayerStats:
         jmp short .5
 .4:
         imul eax, dword [byte ebp-05Ch], byte 63h
-        mov edx, dword [dword_1174E8]
+        mov edx, dword [statsfromleague]
         add eax, edx
         add eax, byte 5
         push eax
@@ -4186,14 +4186,14 @@ ExportPlayerStats_17F:
         mov eax, dword [ebx]
         mov eax, dword [nosplit eax*4+dword_17EEF0]
         movsx eax, byte [eax]
-        push dword [nosplit eax*4+off_11D3DC]
+        push dword [nosplit eax*4+LogoNames]
         push ecx
         call fprintf_
         mov eax, dword [ebx]
         mov eax, dword [nosplit eax*4+dword_17EEF0]
         movsx eax, byte [eax]
         add esp, byte 8
-        mov eax, dword [nosplit eax*4+off_11D3DC]
+        mov eax, dword [nosplit eax*4+LogoNames]
         call strlen_
         cmp eax, byte 2
         jne short .25
@@ -4903,13 +4903,13 @@ BuildPlayerStatRows:
 .12:
         shr eax, 1Bh
         imul eax, dword 31Bh
-        mov edx, dword [dword_1174F0]
+        mov edx, dword [statsplayoffs]
         add edx, eax
         mov dword [byte ebp-038h], edx
         movzx eax, byte [byte ebp-014h]
         imul eax, dword 136h
-        mov dx, word [dword ecx+word_1656E8]
-        cmp dx, word [dword eax+word_1656E8]
+        mov dx, word [dword ecx+hmscore]
+        cmp dx, word [dword eax+hmscore]
         jle short .13
         movsx eax, byte [dword ecx+byte_16580A]
         add eax, dword [byte ebp-038h]
@@ -4924,8 +4924,8 @@ BuildPlayerStatRows:
 .14:
         movzx eax, byte [byte ebp-0Ch]
         imul eax, dword 136h
-        mov dx, word [dword ecx+word_1656E8]
-        cmp dx, word [dword eax+word_1656E8]
+        mov dx, word [dword ecx+hmscore]
+        cmp dx, word [dword eax+hmscore]
         jge short .15
         movsx eax, byte [dword ecx+byte_16580A]
         add eax, dword [byte ebp-038h]
@@ -4940,9 +4940,9 @@ BuildPlayerStatRows:
 .16:
         movzx eax, byte [byte ebp-010h]
         imul eax, dword 136h
-        mov dx, word [dword ecx+word_1656E8]
+        mov dx, word [dword ecx+hmscore]
         mov word [dword ebx+word_181EBE], 0
-        cmp dx, word [dword eax+word_1656E8]
+        cmp dx, word [dword eax+hmscore]
         jne short .17
         movsx eax, byte [dword ecx+byte_16580A]
         add eax, dword [byte ebp-038h]
@@ -4966,7 +4966,7 @@ BuildPlayerStatRows:
         movzx eax, byte [byte ebp-08h]
         imul eax, dword 136h
         mov word [dword ebx+word_181EC2], 0
-        cmp word [dword eax+word_1656E8], byte 0
+        cmp word [dword eax+hmscore], byte 0
         jne short .20
         movsx eax, byte [dword ecx+byte_16580A]
         add eax, dword [byte ebp-038h]

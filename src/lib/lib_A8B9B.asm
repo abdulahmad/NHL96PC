@@ -4,9 +4,9 @@ bits 32
 section s_A8B9B progbits alloc exec nowrite align=1
 extern __STOSB, __set_errno_, access_, str_Pal19, str_Bkgd27, str_FSH6, str_Plyr4, str_PROFILEFSH4
 extern str_Card4, str_Ard4, str_DSS5, str_SD8, str_SDD, str_S0, str_SDD2, str_0000
-extern byte_11F524, byte_11F52D, byte_184B3C, byte_184B3D, byte_184B3E, byte_1852C2, dword_1174E0, dword_1174EC
-extern dword_1174F0, dword_117500, dword_117510, dword_11F4BC, dword_11F4F0, TeamStatsBitmap, dword_17BD48, dword_17CBE7
-extern dword_17CC13, dword_17CF8E, dword_17D162, dword_17D252, dword_17D256, dword_17D25A, dword_184B38, getcwd_
+extern byte_11F524, byte_11F52D, byte_184B3C, byte_184B3D, byte_184B3E, byte_1852C2, seasondb, dword_1174EC
+extern statsplayoffs, dword_117500, dword_117510, dword_11F4BC, dword_11F4F0, TeamStatsBitmap, str_Standings, PlayoffTreeData
+extern dword_17CC13, cddriveptr, dword_17D162, dword_17D252, dword_17D256, dword_17D25A, dword_184B38, getcwd_
 extern getenv_, off_11F531, off_11F535, off_11F539, off_11F53D, off_11F541, off_11F545, off_11F549
 extern off_11F551, off_11F555, sprintf_, strcat_, strcpy_, strlen_, SelectDataLibrary, LoadDataFileLib
 extern OpenScreen, SlideInTitleBar, SlideInSideBar, SetScreenColors, FadePalette, FadeOut, DrawColorText, DrawColorTextCentred
@@ -30,7 +30,7 @@ SaveLeagueDb:
         je short .1
         mov ebx, 0Ah
         lea eax, [byte ebp-020h]
-        mov edx, dword [dword_17CBE7]
+        mov edx, dword [PlayoffTreeData]
         call MakeSeasonDbPath
         jmp short .2
 .1:
@@ -49,7 +49,7 @@ SaveLeagueDb:
         je short .3
         mov ebx, 5
         lea eax, [byte ebp-020h]
-        mov edx, dword [dword_17CBE7]
+        mov edx, dword [PlayoffTreeData]
         call MakeSeasonDbPath
         jmp short .4
 .3:
@@ -59,7 +59,7 @@ SaveLeagueDb:
         call MakePlayoffDbPath
 .4:
         push dword [dword_117500]
-        push dword [dword_1174E0]
+        push dword [seasondb]
         lea eax, [byte ebp-020h]
         push eax
         call SaveFileBlock
@@ -68,7 +68,7 @@ SaveLeagueDb:
         je short .5
         mov ebx, 4
         lea eax, [byte ebp-020h]
-        mov edx, dword [dword_17CBE7]
+        mov edx, dword [PlayoffTreeData]
         call MakeSeasonDbPath
         jmp short .6
 .5:
@@ -78,7 +78,7 @@ SaveLeagueDb:
         call MakePlayoffDbPath
 .6:
         push dword [dword_117510]
-        push dword [dword_1174F0]
+        push dword [statsplayoffs]
         lea eax, [byte ebp-020h]
         push eax
         call SaveFileBlock
@@ -94,7 +94,7 @@ SaveLeagueDb:
 ; Returns the wins a playoff series needs from the series length option
 ;-----------------------------------------------------------------------------
 PlayoffWinsNeeded:
-        mov eax, dword [dword_17CF8E]
+        mov eax, dword [cddriveptr]
         and eax, byte 7
         shr eax, 1
         inc eax
@@ -120,7 +120,7 @@ BuildPlayoffLeaders:
         call __STOSB
 .1:
         mov ecx, 31Bh
-        mov esi, dword [dword_1174F0]
+        mov esi, dword [statsplayoffs]
         lea edi, [dword ebp-039Ah]
         add esi, dword [byte ebp+07Eh]
         rep movsb
@@ -194,7 +194,7 @@ BuildPlayoffLeaders:
         add esi, eax
         rep movsb
         mov ecx, 2Fh
-        mov esi, dword [dword_1174E0]
+        mov esi, dword [seasondb]
         lea edi, [byte ebp+032h]
         add esi, dword [byte ebp-052h]
         rep movsb
@@ -403,7 +403,7 @@ BuildPlayoffLeaders:
         add esi, eax
         rep movsb
         mov ecx, 36h
-        mov esi, dword [dword_1174E0]
+        mov esi, dword [seasondb]
         lea edi, [byte ebp-06h]
         add esi, dword [byte ebp-016h]
         rep movsb
@@ -1113,7 +1113,7 @@ ShowPlayoffLeaderCard:
         imul eax, dword [dword ebp-0196h], byte 3Ch
         movzx eax, byte [dword eax+byte_184B3C]
         imul eax, dword 31Bh
-        mov edx, dword [dword_1174F0]
+        mov edx, dword [statsplayoffs]
         mov ebx, 10Eh
         add eax, edx
         mov edx, 1E0h
@@ -1181,7 +1181,7 @@ ShowPlayoffLeaderCard:
         lea edi, [byte ebp-02Ch]
         call SetScreenColors
         mov eax, 6
-        mov esi, dword_17BD48
+        mov esi, str_Standings
         call OpenScreen
         rep movsb
         mov ebx, 3

@@ -4,7 +4,7 @@ bits 32
 section s_C2CB0 progbits alloc exec nowrite align=1
 extern __SetIOMode_, __qwrite_, _dosret0_, _nfree_, _nmalloc_, HeapList, HeapRover, FpuInitHook
 extern _environ, __OpenStreams, __ClosedStreams, isatty_, lseek_, memset_, strnicmp_, __iob
-extern __NFiles, unk_19BA34, unk_19BA38, _psp
+extern __NFiles, unk_19BA34, errno, _psp
 global __FPE_exception_, __MemAllocator, __MemFree, __allocfp_, __chktty_, __close_, __flush_, __freefp_
 global __set_EDOM_, __set_EINVAL_, __set_ERANGE_, __set_doserrno_, __set_errno_, __unlink_, access_, getenv_
 global __freefp__39, __MemAllocator_A3, __MemFree_106, ErrnoPtr, __get_doserrno_ptr_, GetPsp, tell_, tolower_
@@ -13,7 +13,7 @@ global __freefp__39, __MemAllocator_A3, __MemFree_106, ErrnoPtr, __get_doserrno_
 ; Returns the address of errno
 ;-----------------------------------------------------------------------------
 ErrnoPtr:
-        mov eax, unk_19BA38
+        mov eax, errno
         ret
 ;-----------------------------------------------------------------------------
 ; __get_doserrno_ptr_                          C2CB6  96 PC, medium confidence

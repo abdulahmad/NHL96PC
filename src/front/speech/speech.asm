@@ -3,8 +3,8 @@ bits 32
 %include "hockey.inc"
 section s_67000 progbits alloc exec nowrite align=1
 extern _dos_gettime_, AsyncCancelRequest, AsyncClose, AsyncInit, asyncreader, AsyncRequestDone, AsyncRequestOpen, AsyncRequestSection
-extern byte_17C60C, byte_17CA1D, dword_11D23E, dword_11D242, dword_11D376, dword_11D37A, dword_11D37E, dword_11D38A
-extern dword_11D38E, dword_17C4A0, dword_17C4A4, dword_17C5BC, dword_17C5C0, dword_17C5C4, dword_17C5C8, dword_17C5CC
+extern byte_17C60C, byte_17CA1D, dword_11D23E, dword_11D242, dword_11D376, speechq, dword_11D37E, dword_11D38A
+extern speechinit, dword_17C4A0, dword_17C4A4, dword_17C5BC, dword_17C5C0, dword_17C5C4, dword_17C5C8, dword_17C5CC
 extern dword_17C5D0, dword_17C5FC, dword_17C600, GetTicks, globalset, MakeDataPath, optflags, rand_
 extern setasyncspeed, sndcard, srand_, str_SPEECHBUF, AllocMemBlock, FreeMemBlock, OpenSpeechQueue, SetSpeechQueueVolume
 extern AddSpeechQueueClip, SpeechQueueBusy, StartSpeechQueue, FlushSpeechQueue, CloseSpeechQueue, DosOpenReadOnly, DosCloseFile, DosReadFile
@@ -356,10 +356,10 @@ InitSpeech:
         push str_SPEECHBUF
         call AllocMemBlock
         add esp, byte 0Ch
-        mov dword [dword_11D37A], eax
+        mov dword [speechq], eax
         xor eax, eax
         call OpenSpeechBanks
-        cmp dword [dword_11D38E], byte 0
+        cmp dword [speechinit], byte 0
         jne short .1
         mov edx, 5Bh
         lea eax, [byte ebp-038h]
@@ -372,7 +372,7 @@ InitSpeech:
         lea eax, [byte ebp-038h]
         push eax
         call setasyncspeed
-        mov dword [dword_11D38E], 1
+        mov dword [speechinit], 1
         add esp, byte 8
 .1:
         leave
@@ -418,11 +418,11 @@ ShutdownSpeech:
         add esp, byte 4
 .4:
         call CloseSpeechQueue
-        cmp dword [dword_11D37A], byte 0
+        cmp dword [speechq], byte 0
         je short .5
-        push dword [dword_11D37A]
+        push dword [speechq]
         call FreeMemBlock
-        mov dword [dword_11D37A], 0
+        mov dword [speechq], 0
         add esp, byte 4
 .5:
         pop edx
@@ -441,9 +441,9 @@ FreeSpeechBuffer:
         cmp dword [dword_11D37E], byte 1
         jne short .1
         call StopSpeech
-        push dword [dword_11D37A]
+        push dword [speechq]
         call FreeMemBlock
-        mov dword [dword_11D37A], 0
+        mov dword [speechq], 0
         mov dword [dword_11D37E], 0FFFFFFFEh
         add esp, byte 4
 .1:
@@ -467,7 +467,7 @@ RestoreSpeechBuffer:
         call AllocMemBlock
         mov dword [dword_11D37E], 1
         add esp, byte 0Ch
-        mov dword [dword_11D37A], eax
+        mov dword [speechq], eax
 .1:
         pop edx
         pop ecx
@@ -2251,7 +2251,7 @@ StopSpeech_207:
         movsx edi, word [dword eax+word_17C49C]
         mov dword [dword esi+dword_17C5C0], edi
         imul edi, edx, dword 1CE4Eh
-        mov edx, dword [dword_11D37A]
+        mov edx, dword [speechq]
         add edx, edi
         mov dword [dword esi+dword_17C5C8], edx
         mov edx, dword [dword eax+dword_17C4A4]

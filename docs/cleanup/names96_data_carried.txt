@@ -1,0 +1,313 @@
+asc_1135E8 str_Inversetbl {confidence=low,source=new} string "inversetbl"
+byte_1179A1 pendelaytab {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+byte_118E82 priolist {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+byte_1190F3 apl {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+byte_119203 HotList {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+byte_119204 HotList_y {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+byte_119CC3 HotStickList {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+byte_119CC4 HotStickList_y {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+byte_119D76 starskatermin {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+byte_119D79 stargoaliemin {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+byte_119DF7 Endfaceoff_ftab_m1 {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+byte_119EEA lchoicetab {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+byte_119F4A assonetimer_blade_y {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+byte_11A319 lineslotgroups {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+byte_11A3B4 lineslotgroupstart {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+byte_11F9D9 DebugBackColor {confidence=low,source=new} debug background colour
+byte_1219A7 QuantizeByte {confidence=low,source=new} quantise scratch byte
+byte_1241C4 HotkeyScanTable {confidence=low,source=new} scan code per registered hotkey
+byte_124244 HotkeyModTable {confidence=low,source=new} shift state per registered hotkey
+byte_15177C GripLinkByte {confidence=low,source=new} Gravis GrIP link scratch byte
+byte_158651 pad2dev {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+byte_158652 pad1dev {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+byte_165250 InputState {confidence=low,source=new} input state
+byte_1655A4 textline1 {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+byte_1657AC hmtmcoach_d2 {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+byte_1657AD hmtmcoach_d3 {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+byte_1657AF hmtmcoachmode {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+byte_1657B4 HmRosterMap {confidence=low,source=new} home team: roster index per slot
+byte_1658E2 awtmcoach_d2 {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+byte_1658E3 awtmcoach_d3 {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+byte_1658E5 awtmcoachmode {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+byte_1658EA AwRosterMap {confidence=low,source=new} away team: roster index per slot
+byte_16594A LinePlayersAway {confidence=low,source=new} away line players
+byte_165953 fofdata2_b3 {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+byte_165957 fofdata2_b7 {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+byte_176AE2 PenBuf {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+byte_176AE3 PenBuf_pl {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+byte_176B84 iflags {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+byte_176B85 icingPlayer {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+byte_176B90 curevent {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+byte_176B93 curevent_b2 {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+byte_176B94 curevent_b5 {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+byte_176B96 curevent_b6 {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+byte_176B97 curevent_b7 {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+byte_176B98 curevent_b8 {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+byte_176B9A curevent_b9 {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+byte_176DEC dressflags_aw {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+byte_17CBEB SeasonUserTeam {confidence=low,source=new} user team in the season
+byte_17DC70 LinePattern {confidence=low,source=new} dot pattern of the line being drawn
+byte_18B0D0 ResourceArchiveData {confidence=low,source=new} data of the open resource archive
+byte_19BA44 __HeapFlags {confidence=low,source=new} heap manager flags
+dword_112300 F32_14_InitScrollTable {confidence=low,source=new} float constant 14
+dword_114AE8 HugeValLo {confidence=low,source=new} low half of HUGE_VAL
+dword_114AEC HugeValHi {confidence=low,source=new} high half of HUGE_VAL
+dword_114CCF GripLinked {confidence=low,source=new} Gravis GrIP library linked
+dword_114DB6 str_Punct_ModemSettingsScreen {confidence=low,source=new} string " "
+dword_115000 ModemResultCount {confidence=low,source=new} number of modem result codes
+dword_115004 ModemLastResult {confidence=low,source=new} last modem result code
+dword_1150E4 AsyncQueueTail {confidence=low,source=new} last request in the async queue
+dword_1150E8 StreamBlockSize {confidence=low,source=new} stream block size
+dword_1150EC StreamTimeout {confidence=low,source=new} stream timeout
+dword_1150FC gameresult {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+dword_1174E0 seasondb {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+dword_1174E8 statsfromleague {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+dword_1174F0 statsplayoffs {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+dword_1177F4 UserRecordsTop {confidence=low,source=new} user records list top
+dword_1177F8 UserRecordsFirst {confidence=low,source=new} first user record shown
+dword_1177FC UserRecordsRow {confidence=low,source=new} user records row
+dword_1178EA HomeEbenPlayer {confidence=low,source=new} home extra bench player (-1 none)
+dword_1178EE AwayEbenPlayer {confidence=low,source=new} away extra bench player (-1 none)
+dword_11917F penshotfox {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+dword_119183 penshotteam {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+dword_1191AF sopathx {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+dword_1191B3 sopathy {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+dword_1191B7 sopathend {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+dword_1191BB sopathpoint {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+dword_1191BF pspathside {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+dword_1191C3 pspathdir {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+dword_1191E7 OneTimerPasser {confidence=low,source=new} one-timer passer
+dword_1191EB PuckChasers {confidence=low,source=new} puck chaser per team
+dword_119E92 ShootoutPathData_y {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+dword_119FEC playsuspended {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+dword_11A15C MaxSpeed {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+dword_11A19C doplayeracc_ftab {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+dword_11A2F8 PenaltyTypes {confidence=low,source=new} penalty type records
+dword_11B234 ReplayRemoteShape {confidence=low,source=new} replay remote shape
+dword_11D18C textcolor {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+dword_11D190 textshadow {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+dword_11D194 ModeLinear {confidence=low,source=new} set when the graphics mode has a linear frame buffer
+dword_11D1E2 SpeechStreamFile {confidence=low,source=new} speech stream file
+dword_11D1E6 SpeechStreamTimer {confidence=low,source=new} speech stream timer handle (-1 none)
+dword_11D37A speechq {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+dword_11D38E speechinit {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+dword_11E27C LinkSetupSlots {confidence=low,source=new} link setup slot records
+dword_11E2B0 TeamSelectDrawn {confidence=low,source=new} set once the team select screen is drawn
+dword_11E2B8 PanelTeamNameShift {confidence=low,source=new} team name shift on the team panels
+dword_11E2C0 LangTextHandle {confidence=low,source=new} language text data handle
+dword_11E2C4 LangTextLoaded {confidence=low,source=new} set once language text is loaded
+dword_11E668 StatsMenuItems {confidence=low,source=new} stats menu items
+dword_11E8FC RatingsGoalieShown {confidence=low,source=new} goalie shown on the ratings page
+dword_11E900 RatingsSkaterShown {confidence=low,source=new} skater shown on the ratings page
+dword_11EF8C PlayoffSparkleSoundOn {confidence=low,source=new} set once the playoff sparkle sound plays
+dword_11F994 bailout_vec {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+dword_11F9C4 MemLockOn {confidence=low,source=new} memory lock enabled
+dword_1210CC MemPoolBase {confidence=low,source=new} memory pool base
+dword_121B50 CdFileStart {confidence=low,source=new} CD file: first sector
+dword_121B54 CdFileSize {confidence=low,source=new} CD file: size
+dword_121B58 CdFilePos {confidence=low,source=new} CD file: position
+dword_121B5C CdFileBuffer {confidence=low,source=new} CD file: buffer
+dword_1222D4 RandState {confidence=low,source=new} random generator state (5 dwords)
+dword_1222DC RandIndex {confidence=low,source=new} random generator step counter
+dword_122904 ModeSetCount {confidence=low,source=new} graphics mode set count
+dword_123B0C VesaModeInfo {confidence=low,source=new} VESA mode information block pointer
+dword_124109 DosErrnoTable {confidence=low,source=new} DOS error to errno table
+dword_1242CE HotkeyFuncTable {confidence=low,source=new} routine per registered hotkey
+dword_15151C MaxPrecision {confidence=low,source=new} maximum number of digits printed for a floating-point number
+dword_1515A8 SlotWords {confidence=low,source=new} 8 words: high byte device (bits 0-2) and team (bit 7), low byte buttons
+dword_1515B7 InputPlaybackOn {confidence=low,source=new} set while recorded input plays back
+dword_152F50 MenuRemoteCursorArt {confidence=low,source=new} remote cursor art
+dword_152F54 MenuCursorPixels {confidence=low,source=new} local cursor pixels
+dword_152F5C MenuBitmapPixels {confidence=low,source=new} menu bitmap pixels
+dword_152F60 AsyncRequests {confidence=low,source=new} pool of async file requests
+dword_152F6C AsyncFreeList {confidence=low,source=new} free list of async file requests
+dword_152F88 AsyncFileHandle {confidence=low,source=new} DOS handle of the file being streamed
+dword_152FB4 AsyncStreamFile {confidence=low,source=new} file the speech stream reads from
+dword_152FB8 AsyncWaitTimer {confidence=low,source=new} countdown before the next async step
+dword_152FE4 StreamHandle {confidence=low,source=new} CD stream handle
+dword_158D84 GoalLightTimerFar {confidence=low,source=new} goal light timer, far net
+dword_158D90 GoalLightFrame {confidence=low,source=new} goal light frame
+dword_158D94 FarSideModel {confidence=low,source=new} far side model
+dword_158D9C GoalLightOn {confidence=low,source=new} goal light on
+dword_15D2A4 RinkModelTexInfo {confidence=low,source=new} rink model texture info
+dword_15D2B4 RinkModelBounds {confidence=low,source=new} rink model bounds
+dword_15DEE0 StandsArt {confidence=low,source=new} stands art
+dword_15E12C RinkModelNormals {confidence=low,source=new} rink model normals
+dword_15E47C FarSideData {confidence=low,source=new} far side data
+dword_15E480 GoalLightModel {confidence=low,source=new} goal light model
+dword_15E484 GoalCheerTeam {confidence=low,source=new} team cheering a goal
+dword_15E488 GoalLightState {confidence=low,source=new} goal light state
+dword_15E684 RinkLength {confidence=low,source=new} rink length
+dword_15E688 RinkWidth {confidence=low,source=new} rink width
+dword_15E68C RinkCorner {confidence=low,source=new} rink corner radius
+dword_15E6A0 RinkModelSize {confidence=low,source=new} rink model size
+dword_15E6A4 RinkModelFlags {confidence=low,source=new} rink model flags
+dword_15E6A8 RinkModelHeader {confidence=low,source=new} rink model header
+dword_15E6AC BenchDoorArt {confidence=low,source=new} bench door art
+dword_15E6B4 RinkModelVerts {confidence=low,source=new} rink model vertices
+dword_15E6B8 RinkModelPolys {confidence=low,source=new} rink model polygons
+dword_15E710 str_C2 {confidence=low,source=new} string "c2"
+dword_15E828 BenchSideModel {confidence=low,source=new} bench side model
+dword_15E840 RinkMarkingModel {confidence=low,source=new} rink marking model
+dword_15E848 CreaseModel {confidence=low,source=new} crease model
+dword_15E860 RinkGeometryModel {confidence=low,source=new} rink geometry model
+dword_15E864 BoxModelData {confidence=low,source=new} penalty box model data
+dword_15E870 RinkGeometryParts {confidence=low,source=new} rink geometry parts
+dword_15E878 RinkGeometryData {confidence=low,source=new} rink geometry data
+dword_15E87C CameraFlashOn {confidence=low,source=new} camera flashes on
+dword_15E884 BenchSideIndex {confidence=low,source=new} bench side index
+dword_15E888 NeutralSpotModel {confidence=low,source=new} neutral zone spot model
+dword_15E8B0 CenterSpotModel {confidence=low,source=new} center spot model
+dword_15E8B4 CreasePolyModel {confidence=low,source=new} crease polygon model
+dword_15E8B8 BoardsTopModel {confidence=low,source=new} boards top model
+dword_15E8BC CenterCircleModel {confidence=low,source=new} center circle model
+dword_15E8C0 BenchLineModel {confidence=low,source=new} bench line model
+dword_15E8E8 RinkSidesModel {confidence=low,source=new} rink sides model
+dword_160A8C UserRecordList {confidence=low,source=new} user record list (374 bytes each)
+dword_160A94 UserOpponentColumn {confidence=low,source=new} user records opponent column
+dword_160AAC UserRatingColumn {confidence=low,source=new} user records rating column
+dword_160AB0 UserShutoutColumn {confidence=low,source=new} user records shutout column
+dword_160AB4 UserNameIndex {confidence=low,source=new} user name index
+dword_160AB8 UserStreakColumn {confidence=low,source=new} user records streak column
+dword_160AC0 UserLongStreakColumn {confidence=low,source=new} user records longest streak column
+dword_160AC4 UserPowerPlayColumn {confidence=low,source=new} user records power play column
+dword_164124 plseasongoals {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+dword_16505C ViewScreenHeight {confidence=low,source=new} full screen height the game view is sized against (compared with 300)
+dword_165254 PtrPuckZone {confidence=low,source=new} pointer to the puck zone record
+dword_1657B0 hmtmcoachenergy {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+dword_1657EA hmtmlines {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+dword_1657EE hmtmplattr {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+dword_165806 hmtmsort {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+dword_1658E6 awtmcoachenergy {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+dword_16593C hmtmroster {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+dword_176BC4 gwgteam {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+dword_176BCC gwgplayer {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+dword_176BE0 lineslotmark {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+dword_177998 ReplayMenuItems {confidence=low,source=new} replay menu items
+dword_1781F4 ReplayMenuResult {confidence=low,source=new} replay menu result
+dword_17BC78 MatchupLayer {confidence=low,source=new} matchup draw layer
+dword_17BD48 str_Standings {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+dword_17C404 MenuRemoteItem {confidence=low,source=new} menu item under the remote cursor
+dword_17C408 MenuRemoteLayer {confidence=low,source=new} remote cursor draw layer
+dword_17C40C MenuLocalCursorY {confidence=low,source=new} local cursor y
+dword_17C410 MenuLocalCursorX {confidence=low,source=new} local cursor x
+dword_17C414 MenuItemLeaveFunc {confidence=low,source=new} menu item leave routine
+dword_17C418 MenuLocalLayer {confidence=low,source=new} local cursor draw layer
+dword_17C420 MenuSavedRemoteArt {confidence=low,source=new} saved remote cursor art
+dword_17C424 MenuLocalItem {confidence=low,source=new} menu item under the local cursor
+dword_17C428 MenuRemoteCursorY {confidence=low,source=new} remote cursor y
+dword_17C42C MenuRemoteCursorX {confidence=low,source=new} remote cursor x
+dword_17C438 MenuItemEnterFunc {confidence=low,source=new} menu item enter routine
+dword_17C45C MenuCursorArt {confidence=low,source=new} local cursor art
+dword_17CBE7 PlayoffTreeData {confidence=low,source=new} playoff tree data
+dword_17CED1 SeasonRandomSeed {confidence=low,source=new} season random seed
+dword_17CF8E cddriveptr {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+dword_17D263 cupseries {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+dword_17D518 PauseClockArea {confidence=low,source=new} pause clock area
+dword_17D528 FrontShapeFile {confidence=low,source=new} front end shape file
+dword_17D7CC statsbgshapes {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+dword_17DA50 AwayShotTotals {confidence=low,source=new} away shot totals
+dword_17DC20 LineSteep {confidence=low,source=new} set when the line is steeper than 45 degrees
+dword_17DC2C LineErrX {confidence=low,source=new} error term of a shallow line
+dword_17DC30 LineErrStepY {confidence=low,source=new} error step of a steep line
+dword_17DC34 LineErrStepX {confidence=low,source=new} error step of a shallow line
+dword_17DC40 LineX {confidence=low,source=new} current x of the line being drawn
+dword_17DC54 LineStepY {confidence=low,source=new} y step of the line being drawn
+dword_17DC58 LineErrY {confidence=low,source=new} error term of a steep line
+dword_17DC5C LineColor {confidence=low,source=new} colour of the line being drawn
+dword_18212C RatingsGoalieOrder {confidence=low,source=new} goalie order on the ratings page
+dword_183020 RosterBackFile {confidence=low,source=new} roster back art file
+dword_184398 LinesTeamText {confidence=low,source=new} lines team text
+dword_1843A4 LinesIntroTeam {confidence=low,source=new} team shown in the lines intro
+dword_185738 MemFreeStart {confidence=low,source=new} memory free start
+dword_18573C MemFreeBytes {confidence=low,source=new} memory free size
+dword_185848 MemPoolSize {confidence=low,source=new} memory pool size
+off_114F1C ModemResultTextTable {confidence=low,source=new} modem result text string table
+off_114F24 ModemResultCodeTable {confidence=low,source=new} modem result code string table
+off_11786C replaystart {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+off_11787C puckvy {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+off_118F79 coachlinetab {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+off_11D3DC LogoNames {confidence=low,source=new} team logo names
+unk_110E2D str_GoneForTheGame {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+unk_115108 gsumheader {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+unk_115113 gsumtail {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+unk_1151A7 ArtArchivePaths {confidence=low,source=new} art archive paths
+unk_115333 str_X_SetArtArchive {confidence=low,source=new} string "x"
+unk_118FA5 ds2list {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+unk_11B2AC OverlayPanelQueue {confidence=low,source=new} queued overlay panels
+unk_11FD54 RandSeed {confidence=low,source=new} random number generator seed
+unk_15158C GusInitTable {confidence=low,source=new} Gravis register initialisation table
+unk_151784 GripFarCall {confidence=low,source=new} Gravis GrIP far call pointer
+unk_152C44 str_WesternConference2 {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+unk_156E6C hmplstats {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+unk_157B82 hmplattr {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+unk_157F9C awlinetab {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+unk_158610 hmlinetab {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+unk_15DF20 GlassRemap {confidence=low,source=new} glass colour remap
+unk_15E020 BenchRemap {confidence=low,source=new} bench colour remap
+unk_16443C exhstate {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+unk_164754 JoyStateTable {confidence=low,source=new} joystick state per slot
+unk_176CA8 defsort_c {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+unk_176DA2 defsort_l {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+unk_17C0E0 fadepalbuf {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+unk_17CB2E SeasonUserRecords {confidence=low,source=new} season user records (28 bytes each, name first)
+unk_19BA38 errno {confidence=low,source=new} C library errno
+word_1178A8 VisTeam {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_1178B8 ltx {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_1178F6 refsignal {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_1178F8 RefStep {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_1178FC Penaltytimer {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_117902 clockticks {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_117914 dirtab {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_117916 dirtab_y {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_118EA5 lcblinktime {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_118EA9 lcsel {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_118EB1 lctimer {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_1190D9 puckfaceoff2_ptab {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_11910B ovltimer {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_119111 bannermsg {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_119169 lldispodd {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_119DFE refsigdir {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_119F98 blockspd {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_119F9A blockspd_y {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_119FC8 shotsets {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_11A26C penbannertab {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_11B276 ovlstep {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_11D3A2 lastsfx {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_11F580 MouseSavedSensX {confidence=low,source=new} mouse X sensitivity saved at start up
+word_11F582 MouseSavedSensY {confidence=low,source=new} mouse Y sensitivity saved at start up
+word_11F584 MouseSavedThreshold {confidence=low,source=new} mouse double speed threshold saved at start up
+word_11FD68 SerialIrqMask {confidence=low,source=new} serial IRQ mask
+word_1514CC GusIrqPending {confidence=low,source=new} pending interrupt flags of the card
+word_151782 GripDriverSeg {confidence=low,source=new} Gravis GrIP driver segment
+word_15178A GripDataSeg {confidence=low,source=new} Gravis GrIP data segment
+word_15178C GripResult {confidence=low,source=new} Gravis GrIP call result
+word_157AFA hmglstats_w2 {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_157B00 hmglstats_w8 {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_157B06 hmglstats_w14 {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_164794 puckcross {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_164796 puckcross2 {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_16479A puckcross6 {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_1656E8 hmscore {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_165710 hmtmap {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_165758 hmtmpdst {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_16581E awscore {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_16583A awtmline {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_165846 awtmap {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_165950 fofdata2 {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_165952 PlayFlags {confidence=low,source=new} play state flags
+word_165954 fofdata2_w4 {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_165956 fofdata2_w6 {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_165958 fofdata {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_165964 regd4 {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_176B24 Ylist {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_176B6A SpeechPatchNext {confidence=low,source=new} speech patch header: next (set to 0 at start up)
+word_176B6C joysampling {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_176B80 PerTimeTotal {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_176BBA starpl {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_176ECE dressedfwds {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_176ED0 dresseddefs {confidence=low,source=new} same data as the like-named label used by the same routines in the earlier PC version
+word_17C466 MenuViewSaved {confidence=low,source=new} set while the menu view is saved
+word_1A0FA0 SbBasePort {confidence=low,source=new} base port of the Sound Blaster
+word_1A0FA6 SbMixerDataPort {confidence=low,source=new} Sound Blaster mixer data port
+word_1A0FA8 SbResetPort {confidence=low,source=new} Sound Blaster DSP reset port

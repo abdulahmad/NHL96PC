@@ -8,8 +8,8 @@ global byte_1843D6, byte_1843D7, byte_1843DC, byte_1843DD, byte_1843DE, byte_184
 global byte_1843E6, byte_1843E7, byte_1843E8, byte_1843EC, byte_1843ED, byte_1843EE, dword_183028, dword_1836E8
 global dword_1836EC, dword_1836F0, dword_1836F4, dword_1836F8, dword_1836FC, dword_183700, dword_183704, dword_183728
 global dword_18372C, dword_183730, dword_183734, dword_183738, dword_18373C, dword_183740, dword_183744, dword_183BC4
-global dword_183C28, dword_183C98, dword_183D2C, dword_183D30, dword_183D34, dword_184398, dword_18439C, dword_1843A0
-global dword_1843A4, dword_1843A8, dword_1843AC, dword_1843B0, dword_1843B4, dword_1843C0, dword_1843D0, dword_1843E4
+global dword_183C28, dword_183C98, dword_183D2C, dword_183D30, dword_183D34, LinesTeamText, dword_18439C, dword_1843A0
+global LinesIntroTeam, dword_1843A8, dword_1843AC, dword_1843B0, dword_1843B4, dword_1843C0, dword_1843D0, dword_1843E4
 global unk_183D08
 dword_183028:
         resb 112
@@ -67,13 +67,13 @@ dword_183D30:
         resb 4
 dword_183D34:
         resb 1636
-dword_184398:
+LinesTeamText:
         resb 4
 dword_18439C:
         resb 4
 dword_1843A0:
         resb 4
-dword_1843A4:
+LinesIntroTeam:
         resb 4
 dword_1843A8:
         resb 4

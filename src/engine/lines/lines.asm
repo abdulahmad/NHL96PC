@@ -4,22 +4,22 @@ bits 32
 section s_51F18 progbits alloc exec nowrite align=1
 extern DemoMode, FatalError, PBnum, SetDrawBitmap, SortCords, _dos_gettime_, str_GloL, str_GloR
 extern str_FhiL, str_FhiR, str_Pal30, str_ZONEMGR, str_ZM1ContactLance, str_ZM2ContactLance, str_ZMOverflowContactLance, dressbystatus
-extern byte_11A319, byte_11A3B4, byte_11BB20, hmrosterpos, byte_1647E0, byte_176B83, defsort_d, dressflags
-extern byte_176DEC, byte_176DED, offsort_fwd, byte_176ED7, byte_176ED9, byte_17CA5D, crowdlevel, dword_1150D4
-extern dword_1175B5, dword_1175B9, dword_1176E1, seed, dword_119D04, dword_11A3F2, dword_11B234, dword_11B294
-extern dword_11B330, dword_11B364, dword_11D91F, dword_11F5C0, dword_11F5C4, dword_152F50, dword_152F54, dword_152F58
-extern dword_152F5C, dword_157AF4, dword_15E494, dword_15E498, dword_15E49C, dword_15E4A0, dword_15E4A4, dword_15E4A8
-extern dword_15E4AC, dword_15E4B0, dword_15E4B4, dword_15E4B8, dword_15E4BC, dword_15E4C0, dword_16596C, dword_176BE0
+extern lineslotgroups, lineslotgroupstart, byte_11BB20, hmrosterpos, byte_1647E0, byte_176B83, defsort_d, dressflags
+extern dressflags_aw, byte_176DED, offsort_fwd, byte_176ED7, byte_176ED9, byte_17CA5D, crowdlevel, dword_1150D4
+extern dword_1175B5, dword_1175B9, dword_1176E1, seed, dword_119D04, dword_11A3F2, ReplayRemoteShape, dword_11B294
+extern dword_11B330, dword_11B364, dword_11D91F, dword_11F5C0, dword_11F5C4, MenuRemoteCursorArt, MenuCursorPixels, dword_152F58
+extern MenuBitmapPixels, dword_157AF4, dword_15E494, dword_15E498, dword_15E49C, dword_15E4A0, dword_15E4A4, dword_15E4A8
+extern dword_15E4AC, dword_15E4B0, dword_15E4B4, dword_15E4B8, dword_15E4BC, dword_15E4C0, dword_16596C, lineslotmark
 extern dword_176ED5, dword_176F90, dword_1770D8, dword_1770DC, dword_1770E0, dword_1770E4, dword_1770E8, dword_1770EC
 extern dword_1770F0, dword_1770F4, dword_1770F8, dword_1770FC, dword_177100, dword_177104, dword_177108, dword_1798BC
-extern optflags, dword_17CA5C, gameclock, gameopts, gmode, hmroster, off_11786C, off_11787C
+extern optflags, dword_17CA5C, gameclock, gameopts, gmode, hmroster, replaystart, puckvy
 extern puckc, PtrPuckFlags, puckvx, puckvz, puckz, rand_, sflags, RunDemoGame
 extern LoadPackedFile, InitGameTeams, PuckInNet, PickForwardLines, PickDefencePairs, PickSpecialLines, LoadFrontEndArt, FreeFrontEndArt
 extern CopyBitmap, StartGameSound, EndGameSound, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, SetScreenTarget, SetClipWindow
-extern FindShape, ClearClipRect, unk_157B82, unk_157F9C, unk_158610, unk_176CA8, unk_176CDA, unk_176D0C
-extern unk_176D3E, unk_176DA2, unk_176E38, unk_176E6A, unk_176E9C, unk_176ED4, optblock_end, gmode2
-extern HomeControlSlot, word_1178CC, word_1178CE, word_1178D0, word_117902, word_11A3EE, word_11A3F0, word_11D3A2
-extern regd0, word_176ECE, word_176ED0, dressedskaters, word_176EDB
+extern FindShape, ClearClipRect, hmplattr, awlinetab, hmlinetab, defsort_c, unk_176CDA, unk_176D0C
+extern unk_176D3E, defsort_l, unk_176E38, unk_176E6A, unk_176E9C, unk_176ED4, optblock_end, gmode2
+extern HomeControlSlot, word_1178CC, word_1178CE, word_1178D0, clockticks, word_11A3EE, word_11A3F0, lastsfx
+extern regd0, dressedfwds, dresseddefs, dressedskaters, word_176EDB
 global FillDressedSlots, NormalizeDressFlags, PickExtraSkater, PickForLineSlot, RemoveFromLines, SetupTeamLines, PickForLineSlot_3E3, SetupTeamLines_1CC
 global SetupTeamLines_1CD, ResolveZones_16C, ResolveZones_16D, BuildDefaultLines, CanFillLineSlot, PickGoalie, RefillLineSlots, CanRemovePlayer
 global RunAttractMode, LoadGamePalette, ResetPeriodState, ReplayBufferStart, ReplayBufferEnd, SortSpritesForDraw, InitZoneManager, FreeZoneManager
@@ -69,7 +69,7 @@ BuildDefaultLines:
         imul edi, esi, dword 20Dh
         imul eax, edx, byte 15h
         imul esi, byte 32h
-        add edi, unk_157B82
+        add edi, hmplattr
         add eax, edi
         movzx cx, byte [byte eax+01h]
         mov dword [byte ebp+07Ah], ecx
@@ -138,13 +138,13 @@ BuildDefaultLines:
         mov eax, esi
         add edx, edi
         call PickForwardLines
-        mov edx, unk_176DA2
+        mov edx, defsort_l
         mov ecx, 4Ch
         mov ebx, dword [byte ebp+072h]
         mov eax, esi
         add edx, edi
         call PickForwardLines
-        mov edx, unk_176CA8
+        mov edx, defsort_c
         mov ecx, 43h
         mov ebx, dword [byte ebp+072h]
         mov eax, esi
@@ -205,10 +205,10 @@ BuildDefaultLines:
         jl short .7
         cmp word [byte ebp+07Eh], byte 0
         je short .9
-        mov eax, unk_157F9C
+        mov eax, awlinetab
         jmp short .10
 .9:
-        mov eax, unk_158610
+        mov eax, hmlinetab
 .10:
         xor edx, edx
         jmp short .12
@@ -254,10 +254,10 @@ CanFillLineSlot:
         mov esi, edx
         test ax, ax
         je short .1
-        mov eax, unk_157F9C
+        mov eax, awlinetab
         jmp short .2
 .1:
-        mov eax, unk_158610
+        mov eax, hmlinetab
 .2:
         mov dword [byte ebp-0Ch], eax
         movsx eax, word [byte ebp-01Ch]
@@ -331,7 +331,7 @@ CanFillLineSlot:
         movsx eax, di
         cmp eax, byte 2
         jl short .9
-        movsx eax, word [word_176ECE]
+        movsx eax, word [dressedfwds]
         cmp eax, byte 6
         jg near .3
 .9:
@@ -349,7 +349,7 @@ CanFillLineSlot:
 .11:
         cmp eax, byte 12h
         jge near .17
-        movsx eax, word [word_176ED0]
+        movsx eax, word [dresseddefs]
         cmp eax, byte 3
         jl short .16
         mov ecx, 0Ch
@@ -396,14 +396,14 @@ CanFillLineSlot:
         movsx eax, word [byte ebp-04h]
         cmp eax, byte 44h
         jne short .18
-        movsx eax, word [word_176ED0]
+        movsx eax, word [dresseddefs]
         cmp eax, byte 4
         jl short .19
 .18:
         movsx eax, word [byte ebp-04h]
         cmp eax, byte 44h
         je short .22
-        movsx eax, word [word_176ECE]
+        movsx eax, word [dressedfwds]
         cmp eax, byte 6
         jge short .22
 .19:
@@ -428,7 +428,7 @@ CanFillLineSlot:
         movsx edx, word [byte ebp-04h]
         cmp edx, byte 44h
         jne short .26
-        movsx edx, word [word_176ED0]
+        movsx edx, word [dresseddefs]
         cmp edx, byte 4
         jge short .26
         cmp eax, byte 20h
@@ -451,7 +451,7 @@ CanFillLineSlot:
         movsx edx, word [byte ebp-04h]
         cmp edx, byte 44h
         jne short .29
-        movsx edx, word [word_176ED0]
+        movsx edx, word [dresseddefs]
         cmp edx, byte 4
         jge short .29
         cmp eax, byte 2Ah
@@ -471,7 +471,7 @@ CanFillLineSlot:
         movsx edx, word [byte ebp-04h]
         cmp edx, byte 44h
         jne short .33
-        movsx edx, word [word_176ED0]
+        movsx edx, word [dresseddefs]
         cmp edx, byte 4
         jge short .33
         cmp eax, byte 31h
@@ -575,7 +575,7 @@ FillDressedSlots:
         movzx eax, byte [dword edx+eax+hmrosterpos]
         cmp eax, byte 44h
         je short .2
-        movsx eax, word [word_176ECE]
+        movsx eax, word [dressedfwds]
         cmp eax, byte 0Ch
         jge near .10
 .2:
@@ -586,10 +586,10 @@ FillDressedSlots:
         mov byte [dword edx+eax+hmroster], 3
         test di, di
         je short .3
-        mov eax, unk_157F9C
+        mov eax, awlinetab
         jmp short .4
 .3:
-        mov eax, unk_158610
+        mov eax, hmlinetab
 .4:
         mov ecx, 28h
         mov ebx, eax
@@ -616,10 +616,10 @@ FillDressedSlots:
         inc word [dressedskaters]
         cmp eax, byte 44h
         jne short .8
-        inc word [word_176ED0]
+        inc word [dresseddefs]
         jmp short .9
 .8:
-        inc word [word_176ECE]
+        inc word [dressedfwds]
 .9:
         mov eax, esi
         leave
@@ -660,19 +660,19 @@ PickForLineSlot:
         mov esi, edx
         test ax, ax
         je short .1
-        mov eax, unk_157F9C
+        mov eax, awlinetab
         jmp short .2
 .1:
-        mov eax, unk_158610
+        mov eax, hmlinetab
 .2:
         mov dword [byte ebp-01Ch], eax
         movsx eax, si
-        movsx ax, byte [dword eax+byte_11A3B4]
+        movsx ax, byte [dword eax+lineslotgroupstart]
         mov dword [byte ebp-014h], eax
         mov edi, eax
 .3:
         movsx eax, di
-        movsx ax, byte [dword eax+byte_11A319]
+        movsx ax, byte [dword eax+lineslotgroups]
         cmp ax, si
         je short .4
         inc edi
@@ -680,9 +680,9 @@ PickForLineSlot:
 .4:
         inc edi
         movsx eax, di
-        cmp byte [dword eax+byte_11A319], 0
+        cmp byte [dword eax+lineslotgroups], 0
         jl short .5
-        movsx eax, byte [dword eax+byte_11A319]
+        movsx eax, byte [dword eax+lineslotgroups]
         add eax, dword [byte ebp-01Ch]
         movsx dx, byte [eax]
         movsx ebx, byte [eax]
@@ -737,7 +737,7 @@ PickForLineSlot:
         mov edi, ebx
         cmp eax, byte 26h
         jge short .9
-        mov eax, unk_176CA8
+        mov eax, defsort_c
         jmp short .10
 .9:
         mov eax, unk_176D3E
@@ -753,7 +753,7 @@ PickForLineSlot:
         movsx ebx, si
         cmp ebx, byte 26h
         jge short .11
-        add eax, unk_176DA2
+        add eax, defsort_l
         jmp short .12
 .11:
         add eax, unk_176E38
@@ -798,7 +798,7 @@ PickForLineSlot:
         movsx ebx, si
         cmp ebx, byte 26h
         jge short .18
-        add eax, unk_176DA2
+        add eax, defsort_l
         jmp short .19
 .18:
         add eax, unk_176E38
@@ -811,7 +811,7 @@ PickForLineSlot:
         movsx ebx, si
         cmp ebx, byte 26h
         jge short .20
-        add eax, unk_176CA8
+        add eax, defsort_c
         jmp short .21
 .20:
         add eax, unk_176D3E
@@ -827,7 +827,7 @@ PickForLineSlot:
         mov dword [byte ebp-02Ch], ebx
         cmp eax, byte 26h
         jge short .23
-        mov eax, unk_176DA2
+        mov eax, defsort_l
         jmp short .24
 .23:
         mov eax, unk_176E38
@@ -856,7 +856,7 @@ PickForLineSlot:
         movsx ebx, si
         cmp ebx, byte 26h
         jge short .27
-        add eax, unk_176CA8
+        add eax, defsort_c
         jmp short .28
 .27:
         add eax, unk_176D3E
@@ -868,10 +868,10 @@ PickForLineSlot:
         mov edi, dword [byte ebp-014h]
 .30:
         movsx eax, di
-        movsx dx, byte [dword eax+byte_11A319]
+        movsx dx, byte [dword eax+lineslotgroups]
         cmp dx, si
         je short .32
-        movsx eax, byte [dword eax+byte_11A319]
+        movsx eax, byte [dword eax+lineslotgroups]
         add eax, dword [byte ebp-01Ch]
         movsx dx, byte [eax]
         movsx ebx, byte [eax]
@@ -1015,10 +1015,10 @@ PickGoalie:
         mov dword [byte ebp-04h], ebx
         test ax, ax
         je short .1
-        mov edx, unk_157F9C
+        mov edx, awlinetab
         jmp short .2
 .1:
-        mov edx, unk_158610
+        mov edx, hmlinetab
 .2:
         movsx esi, si
         mov eax, edx
@@ -1100,10 +1100,10 @@ PickExtraSkater:
         mov ecx, eax
         test ax, ax
         je short .1
-        mov eax, unk_157F9C
+        mov eax, awlinetab
         jmp short .2
 .1:
-        mov eax, unk_158610
+        mov eax, hmlinetab
 .2:
         movsx esi, cx
         imul edi, esi, byte 19h
@@ -1204,10 +1204,10 @@ RefillLineSlots:
         mov dword [byte ebp-08h], ecx
         test ax, ax
         je short .1
-        mov eax, unk_157F9C
+        mov eax, awlinetab
         jmp short .2
 .1:
-        mov eax, unk_158610
+        mov eax, hmlinetab
 .2:
         movsx ebx, si
         mov dword [byte ebp-010h], eax
@@ -1260,10 +1260,10 @@ RemoveFromLines:
         push edx
         test ax, ax
         je short .1
-        mov esi, unk_157F9C
+        mov esi, awlinetab
         jmp short .2
 .1:
-        mov esi, unk_158610
+        mov esi, hmlinetab
 .2:
         movsx eax, word [byte ebp-034h]
         imul eax, dword 4B4h
@@ -1272,7 +1272,7 @@ RemoveFromLines:
         movzx eax, byte [dword edx+eax+hmrosterpos]
         cmp eax, byte 44h
         jne short .6
-        mov word [word_176ED0], 0
+        mov word [dresseddefs], 0
         xor ecx, ecx
         jmp short .5
 .3:
@@ -1288,7 +1288,7 @@ RemoveFromLines:
         movsx eax, byte [dword eax+dressbystatus]
         cmp eax, byte 1
         jne short .4
-        inc word [word_176ED0]
+        inc word [dresseddefs]
 .4:
         inc ecx
 .5:
@@ -1299,7 +1299,7 @@ RemoveFromLines:
 .6:
         cmp eax, byte 47h
         je short .10
-        mov word [word_176ECE], 0
+        mov word [dressedfwds], 0
         xor ecx, ecx
         jmp short .9
 .7:
@@ -1315,7 +1315,7 @@ RemoveFromLines:
         movsx eax, byte [dword eax+dressbystatus]
         cmp eax, byte 1
         jne short .8
-        inc word [word_176ECE]
+        inc word [dressedfwds]
 .8:
         inc ecx
 .9:
@@ -1545,12 +1545,12 @@ SetupTeamLines:
         mov ecx, eax
         test ax, ax
         je short .1
-        mov eax, unk_157F9C
+        mov eax, awlinetab
         jmp short .2
 .1:
-        mov eax, unk_158610
+        mov eax, hmlinetab
 .2:
-        mov word [word_176ED0], 0
+        mov word [dresseddefs], 0
         mov edi, eax
         xor eax, eax
         jmp short .5
@@ -1568,7 +1568,7 @@ SetupTeamLines:
         movsx edx, byte [dword edx+dressbystatus]
         cmp edx, byte 1
         jne short .4
-        inc word [word_176ED0]
+        inc word [dresseddefs]
 .4:
         inc eax
 .5:
@@ -1576,7 +1576,7 @@ SetupTeamLines:
         cmp edx, byte 19h
         jl short .3
 .6:
-        mov word [word_176ECE], 0
+        mov word [dressedfwds], 0
         xor eax, eax
         jmp short .9
 .7:
@@ -1593,7 +1593,7 @@ SetupTeamLines:
         movsx edx, byte [dword edx+dressbystatus]
         cmp edx, byte 1
         jne short .8
-        inc word [word_176ECE]
+        inc word [dressedfwds]
 .8:
         inc eax
 .9:
@@ -1601,14 +1601,14 @@ SetupTeamLines:
         cmp edx, byte 19h
         jl short .7
 .10:
-        mov ax, word [word_176ECE]
-        add ax, word [word_176ED0]
+        mov ax, word [dressedfwds]
+        add ax, word [dresseddefs]
         mov word [dressedskaters], ax
         xor eax, eax
         jmp short .12
 .11:
         inc eax
-        mov dword [nosplit edx*4+dword_176BE0], 0
+        mov dword [nosplit edx*4+lineslotmark], 0
 .12:
         movsx edx, ax
         cmp edx, byte 19h
@@ -1618,7 +1618,7 @@ SetupTeamLines:
 .13:
         movsx edx, byte [edx+edi]
         inc esi
-        mov dword [nosplit edx*4+dword_176BE0], 1
+        mov dword [nosplit edx*4+lineslotmark], 1
 .14:
         movsx edx, si
         cmp edx, byte 26h
@@ -1632,7 +1632,7 @@ SetupTeamLines:
         imul eax, edx, byte 2Bh
         add eax, dword [byte ebp-08h]
         movzx ax, byte [dword eax+hmroster]
-        cmp dword [nosplit edx*4+dword_176BE0], byte 0
+        cmp dword [nosplit edx*4+lineslotmark], byte 0
         je short .17
         test ax, ax
         je short .16
@@ -1719,7 +1719,7 @@ NormalizeDressFlags:
         inc eax
         cmp edx, byte 1
         sete dl
-        mov byte [dword eax+byte_176DEC], dl
+        mov byte [dword eax+dressflags_aw], dl
         cmp eax, byte 19h
         jl short .1
         pop edx
@@ -1903,10 +1903,10 @@ RunAttractMode:
         call FreeFrontEndArt
         test byte [byte_17CA5D], 20h
         jne short .5
-        push dword [dword_152F54]
+        push dword [MenuCursorPixels]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_152F5C]
+        push dword [MenuBitmapPixels]
         call FreeMemBlock
         add esp, byte 4
 .5:
@@ -1954,17 +1954,17 @@ RunAttractMode:
         call FindShape
         mov edx, 20h
         add esp, byte 8
-        mov dword [dword_152F50], eax
+        mov dword [MenuRemoteCursorArt], eax
         mov eax, dword [dword_152F58]
         and edi, byte 3
         call CopyBitmap
         mov edx, 20h
-        mov dword [dword_152F54], eax
-        mov eax, dword [dword_152F50]
+        mov dword [MenuCursorPixels], eax
+        mov eax, dword [MenuRemoteCursorArt]
         shl edi, 7
         call CopyBitmap
         mov dword [DemoMode], 1
-        mov dword [dword_152F5C], eax
+        mov dword [MenuBitmapPixels], eax
         call RunDemoGame
         mov dword [DemoMode], 0
         and word [optflags], 0FE7Fh
@@ -1995,11 +1995,11 @@ RunAttractMode:
         mov dword [dword_152F58], eax
         call FindShape
         add esp, byte 8
-        push dword [dword_152F54]
-        mov dword [dword_152F50], eax
+        push dword [MenuCursorPixels]
+        mov dword [MenuRemoteCursorArt], eax
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_152F5C]
+        push dword [MenuBitmapPixels]
         call FreeMemBlock
         add esp, byte 4
         mov edx, 20h
@@ -2007,10 +2007,10 @@ RunAttractMode:
         mov eax, dword [dword_152F58]
         call CopyBitmap
         mov edx, 20h
-        mov dword [dword_152F54], eax
-        mov eax, dword [dword_152F50]
+        mov dword [MenuCursorPixels], eax
+        mov eax, dword [MenuRemoteCursorArt]
         call CopyBitmap
-        mov dword [dword_152F5C], eax
+        mov dword [MenuBitmapPixels], eax
         call LoadFrontEndArt
         mov dword [gameopts], optblock_end
         mov eax, esi
@@ -2077,7 +2077,7 @@ ReplayBufferStart:
         mov eax, dword [dword_16596C]
         ret
 .1:
-        mov eax, dword [off_11786C]
+        mov eax, dword [replaystart]
         ret
 ;-----------------------------------------------------------------------------
 ; ReplayBufferEnd                                 5360D  96 PC, low confidence
@@ -2085,7 +2085,7 @@ ReplayBufferStart:
 ;-----------------------------------------------------------------------------
 ReplayBufferEnd:
         mov eax, dword [dword_16596C]
-        cmp eax, dword [off_11786C]
+        cmp eax, dword [replaystart]
         jne short .2
         mov ax, word [sflags]
         xor ah, ah
@@ -2093,11 +2093,11 @@ ReplayBufferEnd:
         cwde
         test eax, eax
         je short .1
-        mov eax, dword [off_11786C]
+        mov eax, dword [replaystart]
         add eax, 11023h
         ret
 .1:
-        mov eax, dword [off_11786C]
+        mov eax, dword [replaystart]
         ret
 .2:
         sub eax, 0E9h
@@ -2133,8 +2133,8 @@ SortSpritesForDraw:
         movsx eax, word [word_11A3EE]
         cmp eax, byte 2
         jge short .1
-        mov ax, word [word_11D3A2]
-        mov word [word_11D3A2], 0FFFFh
+        mov ax, word [lastsfx]
+        mov word [lastsfx], 0FFFFh
         mov word [word_11A3F0], ax
         pop edx
         pop ecx
@@ -2311,7 +2311,7 @@ SortSpritesForDraw:
         mov eax, dword [dword_16596C]
         lea edx, [byte eax+01h]
         mov dword [dword_16596C], edx
-        mov dl, byte [word_11D3A2]
+        mov dl, byte [lastsfx]
         mov byte [eax], dl
         mov dl, byte [word_1178CC]
         mov al, byte [HomeControlSlot]
@@ -2320,7 +2320,7 @@ SortSpritesForDraw:
         shl dl, 4
         or dl, al
         mov eax, dword [dword_16596C]
-        mov word [word_11D3A2], 0FFFFh
+        mov word [lastsfx], 0FFFFh
         lea ebx, [byte eax+01h]
         mov word [word_11A3F0], 0FFFFh
         mov dword [dword_16596C], ebx
@@ -2373,7 +2373,7 @@ SortSpritesForDraw:
         lea ebx, [byte eax+01h]
         mov dword [dword_16596C], ebx
         mov byte [eax], dl
-        mov eax, dword [off_11787C]
+        mov eax, dword [puckvy]
         movsx eax, word [eax]
         sar eax, 8
         mov dl, al
@@ -2467,7 +2467,7 @@ SortSpritesForDraw:
         mov word [eax], dx
         add dword [dword_16596C], byte 2
         mov eax, dword [dword_16596C]
-        mov dx, word [word_117902]
+        mov dx, word [clockticks]
         mov word [eax], dx
         add dword [dword_16596C], byte 2
         call PuckInNet
@@ -2476,7 +2476,7 @@ SortSpritesForDraw:
         lea ebx, [byte eax+01h]
         mov dword [dword_16596C], ebx
         mov byte [eax], dl
-        mov eax, dword [off_11786C]
+        mov eax, dword [replaystart]
         lea edx, [dword eax+01110Ch]
         cmp edx, dword [dword_16596C]
         ja short .23
@@ -3248,7 +3248,7 @@ DrawDirtyZones:
         push dword [byte esi+04h]
         push dword [esi]
         call SetClipWindow
-        mov eax, dword [dword_11B234]
+        mov eax, dword [ReplayRemoteShape]
         add esp, byte 10h
         push dword [byte eax+02Ch]
         call PutBlockAtOwnPos
@@ -3257,7 +3257,7 @@ DrawDirtyZones:
 .2:
         test byte [eax], 1
         je short .3
-        push dword [dword_11B234]
+        push dword [ReplayRemoteShape]
         call SetDrawBitmap
         add esp, byte 4
         push dword [byte esi+0Ch]
@@ -3312,7 +3312,7 @@ DrawDirtyZones:
         push dword [esi]
 .8:
         call SetClipWindow
-        mov eax, dword [dword_11B234]
+        mov eax, dword [ReplayRemoteShape]
         add esp, byte 10h
         push dword [byte eax+02Ch]
         call PutBlockAtOwnPos
@@ -3393,7 +3393,7 @@ CopyZonesToScreen:
         push ebx
         push ecx
         push edx
-        push dword [dword_11B234]
+        push dword [ReplayRemoteShape]
         call SetDrawBitmap
         add esp, byte 4
         cmp dword [dword_11D91F], byte 0

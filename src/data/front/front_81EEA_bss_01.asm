@@ -4,7 +4,7 @@ bits 32
 section s_17D928 nobits alloc noexec write align=1
 global byte_17DADF, byte_17DAE0, byte_17DB12, byte_17DB44, byte_17DB78, dword_17D928, dword_17D930, dword_17D938
 global dword_17D950, dword_17DA18, dword_17DA20, dword_17DA28, dword_17DA30, dword_17DA38, dword_17DA40, dword_17DA48
-global dword_17DA50, dword_17DA54, dword_17DA58, dword_17DA5C, dword_17DA60, dword_17DA68, dword_17DA6C, dword_17DA70
+global AwayShotTotals, dword_17DA54, dword_17DA58, dword_17DA5C, dword_17DA60, dword_17DA68, dword_17DA6C, dword_17DA70
 global dword_17DA74, dword_17DA78, dword_17DA80, dword_17DA84, dword_17DA88, dword_17DA90, dword_17DA98, dword_17DA9C
 global dword_17DAA0, dword_17DAA4, dword_17DAA8, dword_17DAAC, dword_17DAB0, dword_17DAB4, dword_17DAB8, dword_17DABC
 global dword_17DAC0, dword_17DAC4, dword_17DAC8, dword_17DACC, dword_17DAD0, dword_17DAD4, dword_17DAD8, dword_17DADC
@@ -31,7 +31,7 @@ dword_17DA40:
         resb 8
 dword_17DA48:
         resb 8
-dword_17DA50:
+AwayShotTotals:
         resb 4
 dword_17DA54:
         resb 4

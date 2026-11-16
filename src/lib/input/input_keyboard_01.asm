@@ -4,7 +4,7 @@ bits 32
 section s_DFC33 progbits alloc exec nowrite align=1
 extern byte_11F668, KeyStateTable, byte_11F68D, KbdCtrlDown, KbdAltDown, KbdNumLock, KbdScrollLock, byte_11F708
 extern byte_11F714, byte_11F76F, byte_11F7CA, byte_11F825, byte_11F880, str_Punct_DrawRinkSurface, dword_11F61C, KeyBuffer
-extern KeyBufferHead, KeyBufferTail, KeyBufferMask, SavedKbdVecOffset, SavedInt16Offset, SavedRealKbdOffset, dword_11F994, BiosKeyFunc
+extern KeyBufferHead, KeyBufferTail, KeyBufferMask, SavedKbdVecOffset, SavedInt16Offset, SavedRealKbdOffset, bailout_vec, BiosKeyFunc
 extern RestoreDS, PrintScreenInt, DosSetVector, SavedKbdVecSelector, SavedInt16Selector, SavedRealKbdSegment, KbdDataSelector
 global RemoveKeyboardHandler_6F, RemoveKeyboardHandler, Int16Handler, Int16Service, KeyIsDown, BiosKeyCall, unk_DFDDD
 ;-----------------------------------------------------------------------------
@@ -143,7 +143,7 @@ RemoveKeyboardHandler_6F:
 .14:
         cmp dword [dword_11F61C], byte 0
         je near .3
-        call dword [dword_11F994]
+        call dword [bailout_vec]
 unk_DFDDD:
         db 0CFh
 ;-----------------------------------------------------------------------------

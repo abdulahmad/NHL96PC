@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_165366 nobits alloc noexec write align=1
-global LineChangeLine, LineChangeReq, byte_1655A4, byte_1655E0, byte_16561C, byte_165658, byte_165694, dword_1655A0
+global LineChangeLine, LineChangeReq, textline1, byte_1655E0, byte_16561C, byte_165658, byte_165694, dword_1655A0
 global hmtmstruct, word_165366, word_16536C, word_165462, word_165468, word_16548C, word_165492, word_1656D2
 global word_1656D6, word_1656DA, word_1656DC
 word_165366:
@@ -19,7 +19,7 @@ word_165492:
         resb 270
 dword_1655A0:
         resb 4
-byte_1655A4:
+textline1:
         resb 60
 byte_1655E0:
         resb 60

@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_7CCB8 progbits alloc exec nowrite align=1
-extern __CHP, dword_1122F8, dword_1122FC, dword_112300, dword_112304, dword_11D1A8, dword_11D1AC, PutBlock
+extern __CHP, dword_1122F8, dword_1122FC, F32_14_InitScrollTable, dword_112304, dword_11D1A8, dword_11D1AC, PutBlock
 extern SetDrawBitmap, CalendarScreen_13D3, CalendarScreen_13E4, CalendarScreen_153A, CalendarScreen_1AC2, CalendarScreen_1B49, CalendarScreen_1B6C, DrawArt
 extern DrawArtHotspot, CreateBitmap, FreeBitmap, DrawArtOpaqueHotspot, SetScreenTarget
 global InitVScrollBar, InitVScrollBar_217, InitHScrollBar, InitHScrollBar_207, InitHScrollBar_337, ScrollBarRet, ScrollBarUp, ScrollBarDown
@@ -396,7 +396,7 @@ InitHScrollBar_207:
         fild dword [byte esi+024h]
         fmul dword [byte esi+01Ch]
         add esp, byte 0Ch
-        fadd dword [dword_112300]
+        fadd dword [F32_14_InitScrollTable]
         push byte 0
         call __CHP
         fistp dword [byte ebp-04h]
@@ -596,7 +596,7 @@ DrawScrollBar:
         call DrawArtOpaqueHotspot
         fild dword [byte esi+024h]
         fmul dword [byte esi+01Ch]
-        fadd dword [dword_112300]
+        fadd dword [F32_14_InitScrollTable]
         add esp, byte 0Ch
         call __CHP
         fistp dword [byte ebp-04h]

@@ -6,7 +6,7 @@ extern DirPathTable, optflags, sprintf_, str_02d, str_07d, str_backslash2, str_D
 extern str_dot3, strcat_, stricmp_, SyncMusicStream, AllocMemBlock, FreeMemBlock, MemLargestFreeLocked, UnpackedSize
 extern LoadResourceBlockShared, LoadResourceData, LoadResourceDataShared, LoadFileData, OpenArtArchiveErr, OpenArtArchive, LoadDataFileErr, LoadFileAllocQuiet
 extern OpenResourceArchive, GetResourceArchiveName, LoadFileInto, LoadFileToBlockShared, LoadFileToBlockPlain, LoadPackedAlloc, LoadPackedAllocQuiet, LoadPackedHandle
-extern LoadPackedHandleQuiet, DataDirPath, unk_1151A7, unk_115333, DataFilePath, unpack, word_11512D
+extern LoadPackedHandleQuiet, DataDirPath, ArtArchivePaths, str_X_SetArtArchive, DataFilePath, unpack, word_11512D
 global jpt_1E3C8, jpt_1E3D8, MakeDataPath, MakeDataPath_42, MakeDataPath_4A, MakeDataPath_50, MakeDataPath_63, MakeDataPath_E0
 global MakeDataPath_E8, MakeDataPath_EE, MakeDataPath_101, jpt_1E54A, MakeDirPath, jpt_1E633, SelectDataLibrary, SelectDataLibrary_32
 global SelectDataLibrary_3A, SelectDataLibrary_40, SelectDataLibrary_54, LoadDataFile, LoadDataFile_1B, LoadDataFileFlag0, LoadDataFileHandle, LoadPackedFile
@@ -25,7 +25,7 @@ jpt_1E3D8:
 ; MakeDataPath                                                    1E3E8  96 PC
 ; (out, file id): the path of a game data file: the language prefix (optflags
 ; & 3) where the file has one, its directory (table DataDirPath) and name
-; (table unk_115333, 16h-byte entries)
+; (table str_X_SetArtArchive, 16h-byte entries)
 ;-----------------------------------------------------------------------------
 MakeDataPath:
         push ebx
@@ -39,12 +39,12 @@ MakeDataPath:
         mov edx, dword [optflags]
         and edx, byte 3
         mov eax, edx
-        add edi, unk_115333
+        add edi, str_X_SetArtArchive
         shl eax, 2
         cmp dword [byte edi+0Eh], byte 0
         jge near MakeDataPath_63.6
         imul ebx, dword [byte edi+0Eh], byte 0FFFFFFEAh
-        add ebx, unk_1151A7
+        add ebx, ArtArchivePaths
         cmp edx, byte 3
         ja short MakeDataPath_63
         jmp dword [dword cs:eax+jpt_1E3C8]
@@ -170,7 +170,7 @@ jpt_1E54A:
         imul edx, byte 16h
         mov byte [eax], 0
         mov eax, dword [optflags]
-        mov ecx, unk_1151A7
+        mov ecx, ArtArchivePaths
         and eax, byte 3
         add ecx, edx
         cmp eax, byte 3
@@ -257,7 +257,7 @@ jpt_1E633:
         dd SelectDataLibrary_40
 ;-----------------------------------------------------------------------------
 ; SelectDataLibrary                               1E643  96 PC, low confidence
-; (index): builds the library path of a 16h-byte entry at unk_1151A7 (subdir
+; (index): builds the library path of a 16h-byte entry at ArtArchivePaths (subdir
 ; by the optflags bits, then its name) and opens it (OpenResourceArchive) unless it is
 ; the current one
 ;-----------------------------------------------------------------------------
@@ -270,7 +270,7 @@ SelectDataLibrary:
         test eax, eax
         je near SelectDataLibrary_54.6
         imul eax, byte 0FFFFFFEAh
-        mov ebx, unk_1151A7
+        mov ebx, ArtArchivePaths
         add ebx, eax
         mov eax, dword [optflags]
         and eax, byte 3

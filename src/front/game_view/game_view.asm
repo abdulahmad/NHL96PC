@@ -3,13 +3,13 @@ bits 32
 %include "hockey.inc"
 section s_584A0 progbits alloc exec nowrite align=1
 extern asc_111008, awtmstruct, byte_1175A4, byte_1175A5, byte_1175A6, byte_1175A7, byte_1175A8, byte_1175A9
-extern byte_1175AA, byte_1175AB, byte_1175AC, byte_157191, byte_1647E0, byte_1647FA, byte_1655A4, byte_1655E0
+extern byte_1175AA, byte_1175AB, byte_1175AC, byte_157191, byte_1647E0, byte_1647FA, textline1, byte_1655E0
 extern byte_16561C, byte_165658, byte_165694, byte_176F96, byte_1770A2, byte_1770A3, byte_1770A4, byte_1770A5
 extern byte_1770D7, byte_1796AC, byte_1796BF, byte_1796C0, byte_1796DC, byte_179700, byte_179701, byte_17970A
 extern byte_17970B, byte_17970D, byte_179712, byte_179713, byte_179715, byte_17971B, byte_17971C, byte_179722
 extern byte_179723, byte_17972D, byte_179733, byte_179743, byte_17974B, byte_179759, byte_17975A, byte_179763
 extern byte_179764, byte_1798A4, byte_179CB8, byte_179CB9, byte_179DC1, byte_179E06, byte_17CA5D, CloseTextOverlay
-extern curperiod, dword_1176E5, dword_118E89, dword_119D04, dword_119FEC, dword_11A3F8, dword_11B234, dword_11B238
+extern curperiod, dword_1176E5, dword_118E89, dword_119D04, playsuspended, dword_11A3F8, ReplayRemoteShape, dword_11B238
 extern dword_11B23C, dword_11B240, dword_11B244, dword_11B248, dword_11B24C, dword_11B270, dword_11B294, dword_11B298
 extern dword_11B2A8, dword_11B2E8, dword_11B2EC, dword_11B2F0, dword_11B2F4, dword_11B2F8, dword_11B2FC, dword_11B300
 extern dword_11B304, dword_11B308, dword_11B310, dword_11B318, dword_11B31C, dword_11B320, dword_11B324, dword_11B328
@@ -17,7 +17,7 @@ extern dword_11B32C, dword_11B330, dword_11B364, dword_11B374, dword_11B9F4, dwo
 extern dword_11BC24, dword_11D91F, dword_11F5C0, dword_11F5C4, dword_1219A4, ClipTopRow, ClipLeftCol, ClipRight
 extern ScreenHeight, DrawDestBuffer, dword_152F4C, dword_152FEC, dword_1531D0, dword_15E4BC, dword_15E4C0, dword_15E8D8
 extern dword_15E8E0, dword_15E8E4, dword_15E8F8, dword_15E8FC, dword_1647A0, dword_1647A4, dword_164816, dword_164838
-extern dword_16505C, dword_165060, dword_165064, dword_165166, dword_16516A, dword_16516E, dword_165172, dword_177108
+extern ViewScreenHeight, dword_165060, dword_165064, dword_165166, dword_16516A, dword_16516E, dword_165172, dword_177108
 extern dword_17828C, dword_178290, dword_178294, dword_178298, dword_17829C, dword_1782A0, dword_1782A4, dword_1782A8
 extern dword_178EA8, dword_178EAC, dword_1792AC, dword_1797AC, dword_1797B0, dword_1797B4, dword_1797B8, dword_1797BC
 extern dword_1797DC, dword_1797F4, dword_1797F8, dword_1797FC, dword_179800, dword_1798A8, dword_1798AC, dword_1798B0
@@ -26,7 +26,7 @@ extern dword_1798F8, dword_1798FC, dword_179900, dword_179904, dword_179908, dwo
 extern dword_179918, dword_179920, dword_179924, dword_179928, dword_17992C, dword_179930, dword_179934, dword_179978
 extern dword_17997C, dword_179A7C, dword_179AC8, dword_179C88, dword_179C8C, dword_179C90, dword_179DCE, dword_179E0B
 extern dword_179E0F, dword_179E13, dword_179E17, dword_179E1B, dword_17BA4C, dword_17BA50, dword_17BA54, dword_17CA5C
-extern dword_17D528, FillRect, FormatPlayerName, TextStringWidth, gameclock, gameopts, GetLowestPen, GetSpecialTeamsRanks
+extern FrontShapeFile, FillRect, FormatPlayerName, TextStringWidth, gameclock, gameopts, GetLowestPen, GetSpecialTeamsRanks
 extern gmode, gmode2, gsp, hmroster, hmtmstruct, lcboxon, lcline, lineuptime
 extern LoadPackedFile, LoadTeamLogo, MouseRead, mousex, mousey, PtrPuckFlags, off_11B278, optflags
 extern puckc, puckz, rand_, SetClipWindow, SetViewRect, SortCords, SortIndices, sprintf_
@@ -44,13 +44,13 @@ extern SetAaPalLut, DrawArtAaScaledInt, DrawArtAaScaled, ProjectPointList, DrawF
 extern SetScreenScale, OriSetObjectMatrix, OriSetObjectPosition, MakeRotXMatrix, MakeRotYMatrix, MakeRotZMatrix, OriFindGroup, InitReciprocalTable
 extern FixedInverse, IntSqrt, DrawArtScaledRemap, FlipArtHorizontal, SetScreenTarget, SetRemapTable, SetColourRemap, SetBlitSource
 extern SetBlendTables, ScaleRowBlend, JoyButtonMap, FindShape, ClearClipRect, SetNearClipZ, SetViewScreenOrigin, TeamLineEnergy
-extern TextSetFont, unk_111024, unk_11B2AC, unk_122320, unk_157FDA, unk_157FF8, unk_1582F5, unk_158313
-extern unk_16443C, unk_1782AC, unk_1786AC, unk_178AAC, unk_1798C0, unk_179980, unk_179AC0, unk_179BBC
+extern TextSetFont, unk_111024, OverlayPanelQueue, unk_122320, unk_157FDA, unk_157FF8, unk_1582F5, unk_158313
+extern exhstate, unk_1782AC, unk_1786AC, unk_178AAC, unk_1798C0, unk_179980, unk_179AC0, unk_179BBC
 extern unk_17B248, unk_17B518, unk_17B830, unk_17B930, unk_17D3E8, unk_58468, unk_5848C, vtoa
-extern HomeControlSlot, word_117902, word_119111, word_119117, word_11911F, word_119127, word_11B274, word_11B276
+extern HomeControlSlot, clockticks, bannermsg, word_119117, word_11911F, word_119127, word_11B274, ovlstep
 extern word_1515B5, word_1647A8, word_1647AA, word_1650A6, word_165144, word_165146, word_165148, word_16514A
-extern word_16514C, word_1656DA, word_1656DC, word_1656E8, word_165704, word_165710, word_16581E, word_16583A
-extern word_165846, word_17709C
+extern word_16514C, word_1656DA, word_1656DC, hmscore, word_165704, hmtmap, awscore, awtmline
+extern awtmap, word_17709C
 global DrawScaledSprite, DrawScaledSprite_1E2, BuildShadeMatch, BuildShadeLut, AllocShadeLut, AllocShadeLut_5A, LoadIceLogo, FullViewClip
 global DimGameView, InitGameView, InitGameView_709, InitGameView_70A, FreeGameView, DrawRosterName, DrawRosterNumber, DrawRinkSprite
 global DrawPlayerSprite, DrawSpriteShadow, jpt_5960F, DrawControlMarker, DrawControlMarker_26, DrawControlMarker_2F, DrawControlMarker_38, DrawControlMarker_41
@@ -590,7 +590,7 @@ DimGameView:
         cmp dword [dword_11B270], byte 1
         jne short .2
         sub dword [dword_1798EC], 28Fh
-        mov edx, unk_16443C
+        mov edx, exhstate
         mov eax, dword [dword_1798EC]
         call BuildShadeLut
         mov dword [dword_11B270], 0
@@ -616,9 +616,9 @@ InitGameView:
         enter 100h, 0
         call LoadGameSprites
         call FreeColourLookup
-        push unk_16443C
+        push exhstate
         call CreateColourLookup
-        mov edx, unk_16443C
+        mov edx, exhstate
         add esp, byte 4
         mov dword [dword_1219A4], eax
         mov eax, 64h
@@ -652,7 +652,7 @@ InitGameView:
         movzx eax, al
         mov dword [dword_11B248], eax
         mov eax, 20h
-        mov edx, unk_16443C
+        mov edx, exhstate
         call AllocShadeLut
         mov eax, 4000h
         mov dword [dword_1798EC], 4000h
@@ -724,7 +724,7 @@ InitGameView:
 .6:
         call CreateBitmap
         add esp, byte 0Ch
-        mov dword [dword_11B234], eax
+        mov dword [ReplayRemoteShape], eax
         call SetScreenTarget
         push dword [dword_11F5C4]
         push byte 0
@@ -773,8 +773,8 @@ InitGameView:
         mov edx, unk_122320
         mov eax, dword_179E13
         call SetViewCamera
-        mov eax, unk_16443C
-        mov ecx, unk_16443C
+        mov eax, exhstate
+        mov ecx, exhstate
         call LoadRinkModel
         mov eax, 0FFFFFFFFh
         mov ebx, 28h
@@ -784,7 +784,7 @@ InitGameView:
         mov eax, ebx
         call BuildAntiAliasTable
         push byte 20h
-        mov ecx, unk_16443C
+        mov ecx, exhstate
         mov ebx, 50h
         mov dword [dword_1798E8], eax
         mov edx, ebx
@@ -846,10 +846,10 @@ InitGameView:
         add esp, byte 0Ch
         cmp word [word_11B274], byte 0
         jl short .7
-        movsx edx, word [word_11B276]
+        movsx edx, word [ovlstep]
         movsx eax, word [word_11B274]
         call CloseTextOverlay
-        mov word [word_11B276], 0FFFFh
+        mov word [ovlstep], 0FFFFh
         mov word [word_11B274], 0FFFFh
 .7:
         call ResetCameraShake
@@ -861,7 +861,7 @@ InitGameView:
         mov byte [byte_165658], 0
         mov byte [byte_1655E0], 0
         push byte 0
-        mov byte [byte_1655A4], 0
+        mov byte [textline1], 0
         mov byte [byte_16561C], 0
         call SetViewRect
         add esp, byte 10h
@@ -963,7 +963,7 @@ InitGameView:
         mov dword [dword_179908], eax
         call LoadIceLogo
         push unk_17D3E8
-        push unk_16443C
+        push exhstate
         push dword 0A666h
         call TintRect
         add esp, byte 0Ch
@@ -977,7 +977,7 @@ InitGameView:
         mov eax, 61h
 .13:
         call LoadPackedFile
-        mov dword [dword_17D528], eax
+        mov dword [FrontShapeFile], eax
         mov dword [dword_1797B8], 0
         mov dword [dword_1797B4], 0
         mov dword [dword_1797B0], 0FFFFFFFFh
@@ -1057,14 +1057,14 @@ FreeGameView:
         push dword [dword_1798E4]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_11B234]
+        push dword [ReplayRemoteShape]
         call FreeMemBlock
         add esp, byte 4
         push dword [dword_1798F8]
         call FreeMemBlock
         add esp, byte 4
         call FreeZoneManager
-        push dword [dword_17D528]
+        push dword [FrontShapeFile]
         call FreeMemBlock
         add esp, byte 4
         pop esi
@@ -2672,7 +2672,7 @@ DrawGameFrame:
         cmp esi, byte 11h
         jl short .1
         call SpinPuckModel
-        mov eax, dword [dword_16505C]
+        mov eax, dword [ViewScreenHeight]
         sar eax, 0Eh
         mov dword [byte ebp+06Ah], eax
         mov eax, dword [dword_165064]
@@ -2818,7 +2818,7 @@ DrawGameFrame:
         mov eax, ebx
         cdq
         idiv ecx
-        movsx eax, word [word_117902]
+        movsx eax, word [clockticks]
         imul eax, byte 0Ah
         mov ebx, 18h
         mov dword [dword_1798B0], edx
@@ -2917,7 +2917,7 @@ DrawGameFrame:
 .23:
         test ebx, ebx
         jl near .31
-        cmp dword [dword_119FEC], byte 0
+        cmp dword [playsuspended], byte 0
         jne near .31
         cmp dword [curperiod], byte 0FFFFFFFFh
         je near .31
@@ -3284,7 +3284,7 @@ OpenOverlayPanel:
         ret
 ;-----------------------------------------------------------------------------
 ; DrawOverlayCaption                              5AE47  96 PC, low confidence
-; With word_119111 set, draws its caption text (table unk_58468, text 0ADh)
+; With bannermsg set, draws its caption text (table unk_58468, text 0ADh)
 ;-----------------------------------------------------------------------------
 DrawOverlayCaption:
         push ebx
@@ -3372,7 +3372,7 @@ DrawOverlayCaption_E1:
 ;-----------------------------------------------------------------------------
 ; ResetGameOverlays                            5AF42  96 PC, medium confidence
 ; Resets the overlay timers (clock 1770h, 1F40h), the panel queue (3 x 14h at
-; unk_11B2AC) and the hi-res flag
+; OverlayPanelQueue) and the hi-res flag
 ;-----------------------------------------------------------------------------
 ResetGameOverlays:
         push edx
@@ -3389,7 +3389,7 @@ ResetGameOverlays:
         movzx eax, al
         xor edx, edx
         mov dword [byte_1798A4], eax
-        mov eax, unk_11B2AC
+        mov eax, OverlayPanelQueue
 .1:
         inc edx
         mov dword [eax], 0FFFFFFFFh
@@ -3833,8 +3833,8 @@ DrawPlayerPctPanel:
         push edi
         enter 54h, 0
         mov esi, eax
-        movsx ebx, word [word_165710]
-        movsx eax, word [word_165846]
+        movsx ebx, word [hmtmap]
+        movsx eax, word [awtmap]
         sub ebx, eax
         mov eax, ebx
         test ebx, ebx
@@ -4498,8 +4498,8 @@ GetPeriodText_3C:
 GetPeriodText_59:
         cmp dword [dword_1798BC], byte 0
         je short .5
-        mov ax, word [word_1656E8]
-        cmp ax, word [word_16581E]
+        mov ax, word [hmscore]
+        cmp ax, word [awscore]
         jne short .4
 .3:
         mov eax, 88h
@@ -4511,8 +4511,8 @@ GetPeriodText_59:
         mov eax, 8Ah
         jmp short GetPeriodText_86.8
 GetPeriodText_86:
-        mov ax, word [word_1656E8]
-        cmp ax, word [word_16581E]
+        mov ax, word [hmscore]
+        cmp ax, word [awscore]
         jne short .6
         cmp dword [dword_1798BC], byte 0
         je short GetPeriodText_59.3
@@ -4654,14 +4654,14 @@ DrawScorePanel:
         mov ebx, eax
         lea eax, [byte ebp-038h]
         call DrawColorText
-        movsx eax, word [word_16581E]
+        movsx eax, word [awscore]
         push eax
         push str_2d
         lea eax, [byte ebp-060h]
         push eax
         call sprintf_
         add esp, byte 0Ch
-        movsx eax, word [word_1656E8]
+        movsx eax, word [hmscore]
         push eax
         push str_2d
         lea eax, [byte ebp-038h]
@@ -4946,14 +4946,14 @@ DrawScorePanel:
         add edx, eax
         lea eax, [byte ebp-038h]
         call DrawColorText
-        movsx eax, word [word_16581E]
+        movsx eax, word [awscore]
         push eax
         push str_2d
         lea eax, [byte ebp-060h]
         push eax
         call sprintf_
         add esp, byte 0Ch
-        movsx eax, word [word_1656E8]
+        movsx eax, word [hmscore]
         push eax
         push str_2d
         lea eax, [byte ebp-038h]
@@ -5099,7 +5099,7 @@ DrawEventPanel:
         mov cl, byte [byte_1798A4]
         sub esi, dword [dword_1798FC]
         sar ebx, cl
-        mov eax, byte_1655A4
+        mov eax, textline1
         sub esi, ebx
         mov edx, dword [dword_11B320]
         mov ebx, esi
@@ -5221,7 +5221,7 @@ DrawPenaltyEventPanel:
         push ecx
         push edx
         push esi
-        cmp byte [byte_1655A4], 0
+        cmp byte [textline1], 0
         je near .9
         mov eax, 20h
         call GetLangText
@@ -5289,7 +5289,7 @@ DrawPenaltyEventPanel:
         sub eax, ebx
         add edx, dword [esi]
         mov ebx, eax
-        mov eax, byte_1655A4
+        mov eax, textline1
         call DrawColorText
         jmp near .8
 .5:
@@ -5326,7 +5326,7 @@ DrawPenaltyEventPanel:
         mov eax, dword [byte esi+04h]
         sub eax, edx
         mov edx, eax
-        mov eax, byte_1655A4
+        mov eax, textline1
         call DrawColorTextRight
         push dword [dword_179918]
         call TextSetFont
@@ -5419,7 +5419,7 @@ DrawGoalEventPanel:
         mov edx, 70h
         mov eax, 7Ah
         call SetTextColors
-        push byte_1655A4
+        push textline1
         push byte_16561C
         push str_SS2
         lea eax, [byte ebp-050h]
@@ -5519,7 +5519,7 @@ QueueOverlayPanel:
         enter 4, 0
         mov esi, eax
         mov dword [byte ebp-04h], edx
-        mov eax, unk_11B2AC
+        mov eax, OverlayPanelQueue
         xor edx, edx
         jmp short .5
 .1:
@@ -5565,7 +5565,7 @@ DrawGameOverlays:
         movzx eax, byte [byte_179DC1]
         cmp eax, byte 12h
         je near .12
-        movsx eax, word [word_119111]
+        movsx eax, word [bannermsg]
         cmp eax, byte 0FFFFFFFFh
         je short .1
         call DrawOverlayCaption
@@ -5603,7 +5603,7 @@ DrawGameOverlays:
         pop ebx
         ret
 .6:
-        mov eax, unk_11B2AC
+        mov eax, OverlayPanelQueue
         xor ecx, ecx
         jmp short .11
 .7:
@@ -6306,7 +6306,7 @@ DrawLineChangeBoxes:
         movsx eax, word [word_165704]
         xor esi, esi
         mov dword [dword_17990C], eax
-        movsx eax, word [word_16583A]
+        movsx eax, word [awtmline]
         xor ecx, ecx
         mov dword [dword_179928], eax
 .2:

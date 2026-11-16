@@ -2,19 +2,19 @@
 bits 32
 %include "hockey.inc"
 section s_17CECD nobits alloc noexec write align=1
-global byte_17CECD, byte_17CECE, byte_17CFB1, byte_17D13A, dword_17CED1, dword_17CED6, dword_17CF8E, dword_17CF92
+global byte_17CECD, byte_17CECE, byte_17CFB1, byte_17D13A, SeasonRandomSeed, dword_17CED6, cddriveptr, dword_17CF92
 global dword_17CF96, dword_17D162, unk_17CED5, unk_17CF9A
 byte_17CECD:
         resb 1
 byte_17CECE:
         resb 3
-dword_17CED1:
+SeasonRandomSeed:
         resb 4
 unk_17CED5:
         resb 1
 dword_17CED6:
         resb 184
-dword_17CF8E:
+cddriveptr:
         resb 4
 dword_17CF92:
         resb 4

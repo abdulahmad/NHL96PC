@@ -4,9 +4,9 @@ bits 32
 section s_1456D progbits alloc exec nowrite align=1
 extern awtmstruct, byte_11FA2F, byte_17BDAE, byte_1820F1, dword_114DE8, dword_114DF0, dword_114DF4, dword_114DFC
 extern dword_114EB0, dword_114EB4, dword_114ED0, dword_114ED4, dword_114EE8, dword_114EEC, dword_114EF0, dword_114EF4
-extern dword_1174E0, dword_11F5C0, dword_151AE4, dword_151AE8, dword_151AEC, dword_151B08, dword_151B4C, dword_151B50
+extern seasondb, dword_11F5C0, dword_151AE4, dword_151AE8, dword_151AEC, dword_151B08, dword_151B4C, dword_151B50
 extern dword_151B64, dword_151B68, dword_151B6C, dword_151B70, dword_151B74, dword_151B78, dword_151B7C, dword_152F58
-extern dword_1571B3, dword_17BC74, dword_17BC78, dword_17BCE2, dword_17BD48, gameopts, GetTicks, hmtmstruct
+extern dword_1571B3, dword_17BC74, MatchupLayer, dword_17BCE2, str_Standings, gameopts, GetTicks, hmtmstruct
 extern LinkSync, ModemChat, mousex, mousey, PutBlock, rand_, SetDrawBitmap, sprintf_
 extern str_004, str_04d, str_AR005, str_AR015, str_AR105, str_AR115, str_Ard5, str_BALL7
 extern str_BANNER, str_BKGD28, str_BT006, str_BT0110, str_BT028, str_BT108, str_BT118, str_BT124
@@ -21,11 +21,11 @@ extern ClearScreenColour, FreeBitmap, UnpackTo, DosFileInfo, LoadResourceDataSha
 extern ClearClipRect, TextSetFont, unk_144BD, unk_144C3, unk_144C9, unk_144D5, unk_144ED, word_114CE0
 extern word_114DD2, word_114DD4, word_114DD6, word_114DD8, word_114DDC, word_114DE4, word_114DE6, word_114EA8
 extern word_114EAC, word_114EF8, word_114EFA, word_114EFC, word_114EFE, word_114F00, word_1656DA, word_1656DC
-extern word_1656DE, word_1656E0, word_1656E2, word_1656E4, word_1656E6, word_1656E8, word_1656EA, word_1656EC
+extern word_1656DE, word_1656E0, word_1656E2, word_1656E4, word_1656E6, hmscore, word_1656EA, word_1656EC
 extern word_1656F2, word_1656F4, word_1656F6, word_1656F8, word_1656FA, word_1656FC, word_1656FE, word_165700
 extern word_165702, word_165810, word_165812, word_165814, word_165816, word_165818, word_16581A, word_16581C
-extern word_16581E, word_165820, word_165822, word_165828, word_16582A, word_16582C, word_16582E, word_165830
-extern word_165832, word_165834, word_165836, word_165838, word_176BB8, word_176BBA
+extern awscore, word_165820, word_165822, word_165828, word_16582A, word_16582C, word_16582E, word_165830
+extern word_165832, word_165834, word_165836, word_165838, word_176BB8, starpl
 global DrawGameStats, DrawGameStats_DD0, DrawGameStats_DD1, GameStatsScreen, GameStatsScreen_722, jpt_15A72, AnimateStarsScreen, AnimateStarsScreen_D3
 global AnimateStarsScreen_E7, AnimateStarsScreen_114, AnimateStarsScreen_121, jpt_15E83, ThreeStarsScreen, ThreeStarsScreen_8CF, ThreeStarsScreen_91F, ThreeStarsScreen_928
 global ThreeStarsScreen_936, PostGameScreens
@@ -69,7 +69,7 @@ DrawGameStats:
         movsx edx, word [word_114DD2]
         call GetLangText
         call DrawColorTextCentred
-        movsx eax, word [word_1656E8]
+        movsx eax, word [hmscore]
         push eax
         push str_D20
         lea eax, [byte ebp-020h]
@@ -80,7 +80,7 @@ DrawGameStats:
         add esp, byte 0Ch
         movsx edx, word [word_114DD4]
         call DrawColorTextCentred
-        movsx eax, word [word_16581E]
+        movsx eax, word [awscore]
         push eax
         push str_D20
         lea eax, [byte ebp-020h]
@@ -154,7 +154,7 @@ DrawGameStats:
         call GetLangText
         call DrawColorTextCentred
         movsx esi, word [hmtmstruct]
-        movsx ebx, word [word_1656E8]
+        movsx ebx, word [hmscore]
         test esi, esi
         jle short .3
         imul eax, ebx, dword 3E8h
@@ -189,7 +189,7 @@ DrawGameStats:
         movsx edx, word [word_114DD4]
         call DrawColorTextCentred
         movsx esi, word [awtmstruct]
-        movsx ebx, word [word_16581E]
+        movsx ebx, word [awscore]
         test esi, esi
         jle short .5
         imul eax, ebx, dword 3E8h
@@ -1232,7 +1232,7 @@ GameStatsScreen:
         movsx eax, word [byte eax+04h]
         mov edx, dword [dword ebp-0136h]
         sar eax, 1
-        mov esi, dword_17BD48
+        mov esi, str_Standings
         add edx, eax
         mov eax, dword [dword ebp-0142h]
         mov dword [dword ebp-0122h], edx
@@ -1375,7 +1375,7 @@ GameStatsScreen:
         jmp short .11
 .10:
         call SlideInBottomBar
-        push dword [dword_17BC78]
+        push dword [MatchupLayer]
         call TextSetFont
         add esp, byte 4
         mov ecx, 0FCh
@@ -1729,12 +1729,12 @@ ThreeStarsScreen:
 .1:
         movsx edx, word [dword esi+word_176BB8]
         imul edx, dword 4B4h
-        movsx eax, word [dword esi+word_176BBA]
+        movsx eax, word [dword esi+starpl]
         imul eax, byte 2Bh
         mov eax, dword [dword edx+eax+dword_1571B3]
         call PlayerDbRecord
         mov dword [byte esi+ebp+0Eh], eax
-        mov edx, dword [dword_1174E0]
+        mov edx, dword [seasondb]
         mov eax, dword [byte eax+02Ch]
         inc edi
         inc edi
@@ -2193,7 +2193,7 @@ ThreeStarsScreen:
         mov dword [dword ebp-01D6h], eax
         mov eax, dword [dword ebp-01E2h]
         lea edi, [dword ebp-0196h]
-        mov esi, dword_17BD48
+        mov esi, str_Standings
         movsx eax, word [byte eax+0Eh]
         mov ecx, 66h
         mov dword [dword ebp-01D2h], eax
@@ -2319,7 +2319,7 @@ ThreeStarsScreen_928:
         jmp short ThreeStarsScreen_936.15
 ThreeStarsScreen_936:
         call SlideInBottomBar
-        push dword [dword_17BC78]
+        push dword [MatchupLayer]
         call TextSetFont
         add esp, byte 4
         mov ecx, 0FCh
@@ -2352,7 +2352,7 @@ ThreeStarsScreen_936:
         mov eax, 3
         call FadeOut
         call StopSpeech
-        push dword [dword_17BC78]
+        push dword [MatchupLayer]
         call TextSetFont
         mov eax, dword [byte ebp+076h]
         add esp, byte 4

@@ -2,11 +2,11 @@
 bits 32
 %include "hockey.inc"
 section s_E19F0 progbits alloc exec nowrite align=1
-extern str_MUSICON, str_MUSICOFF, str_SOUNDON, str_SOUNDOFF, KeyStateTable, byte_1241C4, byte_124244, SavedTextMode
+extern str_MUSICON, str_MUSICOFF, str_SOUNDON, str_SOUNDOFF, KeyStateTable, HotkeyScanTable, HotkeyModTable, SavedTextMode
 extern SavedTextPage, SavedTextRows, byte_14FAC0, byte_14FAC1, byte_14FAC2, byte_14FAC3, byte_14FAC5, byte_14FAC6
 extern byte_14FAC8, byte_14FAC9, byte_14FACB, byte_14FACC, AngleOctantTable, TimerTickStep, SinCosTable, SinTable
 extern CosTable, ClipTopRow, ClipLeftCol, ClipRight, ScreenHeight, str_BK, dword_123390, HotkeyNesting
-extern dword_1242CE, dword_124444, dword_124448, dword_12444C, dword_124450, dword_124454, dword_124458, dword_1248C8
+extern HotkeyFuncTable, dword_124444, dword_124448, dword_12444C, dword_124450, dword_124454, dword_124458, dword_1248C8
 extern dword_14F098, str_28, joyenablemask, off_14F07C, off_14F080, off_14F084, off_14F088, off_14F08C
 extern off_14F090, off_14F0B0, printf_, sprintf_, ClearScreenColour, ShowMessageBox, ReadJoystickPorts, AddExitHandler
 extern SavedTextColumns
@@ -912,13 +912,13 @@ DispatchHotkey:
         je short .2
         and ebx, byte 7Fh
         mov dword [byte ebp+08h], ebx
-        mov bl, byte [dword ebx+byte_1241C4]
+        mov bl, byte [dword ebx+HotkeyScanTable]
 .1:
         dec ebx
         jl short .4
         push edi
         push esi
-        call dword [nosplit ebx*4+dword_1242CE]
+        call dword [nosplit ebx*4+HotkeyFuncTable]
         pop esi
         pop edi
         LD xor, eax, eax
@@ -931,7 +931,7 @@ DispatchHotkey:
         jl short .3
         mov ebx, 84h
 .3:
-        mov bl, byte [dword ebx+byte_124244]
+        mov bl, byte [dword ebx+HotkeyModTable]
         jmp short .1
 .4:
         mov eax, dword [byte ebp+08h]
@@ -947,7 +947,7 @@ SetHotkey:
         LD mov, ebp, esp
         mov eax, dword [byte ebp+0Ch]
         mov ecx, 40h
-        mov ebx, dword_1242CE
+        mov ebx, HotkeyFuncTable
 .1:
         cmp dword [ebx], eax
         je short .3
@@ -969,7 +969,7 @@ SetHotkey:
         je short .6
         cmp ebx, byte 7Fh
         jg short .5
-        mov byte [dword ebx+byte_1241C4], al
+        mov byte [dword ebx+HotkeyScanTable], al
 .5:
         leave
         ret
@@ -977,7 +977,7 @@ SetHotkey:
         movzx ebx, bh
         cmp ebx, 84h
         jg short .5
-        mov byte [dword ebx+byte_124244], al
+        mov byte [dword ebx+HotkeyModTable], al
         leave
         ret
         push ebp

@@ -5,7 +5,7 @@ section s_11E890 progbits alloc noexec write align=1
 extern unk_112A08, unk_112A0C, unk_112A10, unk_112A14, unk_112A18, unk_112A1C, unk_112A20, unk_112A24
 extern unk_112A28, unk_112B14, unk_112B18, unk_112B1C, unk_112B20, unk_112B24
 global dword_11E890, dword_11E894, dword_11E898, dword_11E89C, dword_11E8A0, dword_11E8A4, dword_11E8A8, dword_11E8AC
-global dword_11E8D4, dword_11E8F8, dword_11E8FC, dword_11E900, dword_11E904, dword_11E91C, dword_11E948, dword_11E970
+global dword_11E8D4, dword_11E8F8, RatingsGoalieShown, RatingsSkaterShown, dword_11E904, dword_11E91C, dword_11E948, dword_11E970
 global off_11E8B0, off_11E908
 dword_11E890:
         db 00h,00h,00h,00h
@@ -39,9 +39,9 @@ dword_11E8D4:
         db 02Bh,02h,00h,00h
 dword_11E8F8:
         db 01h,00h,00h,00h
-dword_11E8FC:
+RatingsGoalieShown:
         db 0FFh,0FFh,0FFh,0FFh
-dword_11E900:
+RatingsSkaterShown:
         db 0FFh,0FFh,0FFh,0FFh
 dword_11E904:
         db 01h,00h,00h,00h

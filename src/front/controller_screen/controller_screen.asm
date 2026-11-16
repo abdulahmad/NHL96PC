@@ -4,8 +4,8 @@ bits 32
 section s_6CF0D progbits alloc exec nowrite align=1
 extern BlackPalette, byte_11FA2F, ClearSlotUser, CopyBitmap, DrawColorText, DrawColorTextRight, DrawFrameAt, dword_1150D8
 extern dword_11D910, dword_11D914, dword_11D930, dword_11D940, dword_11D954, dword_11DED0, dword_11DED4, dword_11DF70
-extern dword_11DF74, dword_11DF78, dword_11DF7C, dword_11F5C0, dword_11F5C4, dword_17BC74, dword_17BC78, TeamStatsBitmap
-extern dword_17BCE2, dword_17BD48, dword_17CBE7, dword_17D162, dword_17D267, dword_17D564, dword_17D56C, dword_17D574
+extern dword_11DF74, dword_11DF78, dword_11DF7C, dword_11F5C0, dword_11F5C4, dword_17BC74, MatchupLayer, TeamStatsBitmap
+extern dword_17BCE2, str_Standings, PlayoffTreeData, dword_17D162, dword_17D267, dword_17D564, dword_17D56C, dword_17D574
 extern dword_17D57C, dword_17D580, dword_17D584, dword_17D588, dword_1843AC, dword_1843B0, dword_1843B4, FadeOut
 extern FadePalette, FillMusicStream, TextStringWidth, gameopts, GetInputDevices, GetLangText, GetTeamNameArt, GetTicks
 extern InitMenuItems, LinkSync, LinkSyncWithMessage, LoadPackedFile, LoadTeamLogo, ModemChat, mousex, mousey
@@ -16,7 +16,7 @@ extern str_Jy2D, str_Jy3D, str_Jy4D, str_Key1, str_KeyD2, str_Log7, str_Logx, st
 extern str_MdmD, str_MseD2, str_P11, str_P12, str_P13, str_P1G, str_P21, str_P22
 extern str_P23, str_P2G, str_Pal12, str_PlyD, str_Usrh, str_Usri, str_Utext, DrawShapeCore
 extern DrawShapeAtOwnPos, DrawArt, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, CreateBitmap, ClearScreenColour, FreeBitmap
-extern DrawArtOpaqueAtOwnPos, SetScreenTarget, FindShape, TextSetFont, unk_11DE50, unk_11DE90, unk_152C44, word_114CE0
+extern DrawArtOpaqueAtOwnPos, SetScreenTarget, FindShape, TextSetFont, unk_11DE50, unk_11DE90, str_WesternConference2, word_114CE0
 extern word_114CE4, word_11D92C, word_11D92E, word_11D96C, word_11D9A8, word_11D9AC, word_11DA10, word_11DA14
 extern word_160ACC, word_17D560, word_17D562, word_17D568, word_17D570, word_17D578, word_17D58C, word_17D58E
 global ControllerSlotDefaults, ControllerColumnDefaults, ControllerUsersPanel, NextControllerDeviceMasks, NextControllerDeviceJumpTable, NextControllerDevice, NextControllerDevice_2C, NextControllerDevice_F2
@@ -2040,7 +2040,7 @@ DrawControllerColumns:
         inc eax
         inc eax
         call DrawColorText
-        push dword [dword_17BC78]
+        push dword [MatchupLayer]
         call TextSetFont
         add esp, byte 4
         cmp dword [dword esi+dword_11D930], byte 0
@@ -2080,7 +2080,7 @@ DrawControllerColumns:
         push dword [byte esi+eax+01Ah]
         call DrawArt
         add esp, byte 0Ch
-        push dword [dword_17BC78]
+        push dword [MatchupLayer]
         call TextSetFont
         add esp, byte 4
         mov edx, 1
@@ -2496,7 +2496,7 @@ DrawControllerColumns:
         inc eax
         inc eax
         call DrawColorTextRight
-        push dword [dword_17BC78]
+        push dword [MatchupLayer]
         call TextSetFont
         add esp, byte 4
         cmp dword [dword esi+dword_11D930], byte 0
@@ -2536,7 +2536,7 @@ DrawControllerColumns:
         push dword [byte edi+eax+01Ah]
         call DrawArt
         add esp, byte 0Ch
-        push dword [dword_17BC78]
+        push dword [MatchupLayer]
         call TextSetFont
         mov edx, 1
         add esp, byte 4
@@ -2619,7 +2619,7 @@ ControllerScreen:
         add esp, byte 4
         call BlackPalette
         push str_Pal12
-        mov esi, unk_152C44
+        mov esi, str_WesternConference2
         push dword [dword_17D588]
         add esi, 1F2h
         call FindShape
@@ -3045,7 +3045,7 @@ ControllerScreen:
         push dword [byte eax+01Ah]
         call DrawArt
         add esp, byte 0Ch
-        push dword [dword_17BC78]
+        push dword [MatchupLayer]
         call TextSetFont
         add esp, byte 4
 .10:
@@ -3326,7 +3326,7 @@ ControllerScreen:
         push dword [byte eax+01Ah]
         call DrawArt
         add esp, byte 0Ch
-        push dword [dword_17BC78]
+        push dword [MatchupLayer]
         call TextSetFont
         add esp, byte 4
 .23:
@@ -3504,7 +3504,7 @@ ControllerScreen:
         mov esi, dword [dword_17D580]
         mov ecx, 66h
         lea edi, [dword esi+092Ah]
-        mov esi, dword_17BD48
+        mov esi, str_Standings
         rep movsb
         mov eax, dword [optflags]
         and eax, byte 70h
@@ -3877,7 +3877,7 @@ ControllerScreen_11AB:
         mov eax, esi
         call DrawColorTextRight
 .53:
-        push dword [dword_17BC78]
+        push dword [MatchupLayer]
         call TextSetFont
         mov eax, dword [byte ebp-048h]
         add esp, byte 4
@@ -4010,7 +4010,7 @@ ControllerScreen_1548:
         mov dword [dword_1843B0], ebx
         jmp short .71
 .70:
-        mov eax, dword [dword_17CBE7]
+        mov eax, dword [PlayoffTreeData]
         mov dword [dword_1843B0], eax
 .71:
         mov dword [byte ebp-040h], 0Fh
@@ -4041,7 +4041,7 @@ ControllerScreen_15D1:
         mov dword [dword_1843B0], ebx
         jmp short .74
 .73:
-        mov eax, dword [dword_17CBE7]
+        mov eax, dword [PlayoffTreeData]
         mov dword [dword_1843B0], eax
 .74:
         xor edx, edx

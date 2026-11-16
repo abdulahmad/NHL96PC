@@ -6,11 +6,11 @@ extern __CHP, __STOSD, AutoSetLines, byte_11E844, byte_11E852, byte_17BDAE, byte
 extern byte_17CC38, byte_17EBF0, byte_182296, byte_1843B8, DrawColorText, DrawColorTextRight, DrawFrameAt, DrawScrollBar
 extern dword_112CDA, dword_112CDE, dword_112CE2, dword_112CE6, dword_112CEA, dword_112CEE, dword_112CF2, dword_112CF6
 extern dword_112CFA, dword_112CFE, dword_112D02, dword_112D06, dword_112D0A, dword_112D0E, dword_112D12, dword_112D26
-extern dword_1174E4, dword_1174EC, dword_1174F0, dword_1174F4, dword_117504, dword_11750C, dword_117510, dword_117514
-extern dword_11E670, dword_11E678, dword_11E7E0, dword_11E85B, dword_11E8D4, dword_11E8F8, dword_11E8FC, dword_11E900
-extern dword_11E904, TeamStatsBitmap, dword_17BD48, dword_17CBE7, dword_17D162, dword_17EEF0, dword_17FDF0, dword_17FDF4
+extern dword_1174E4, dword_1174EC, statsplayoffs, dword_1174F4, dword_117504, dword_11750C, dword_117510, dword_117514
+extern dword_11E670, dword_11E678, dword_11E7E0, dword_11E85B, dword_11E8D4, dword_11E8F8, RatingsGoalieShown, RatingsSkaterShown
+extern dword_11E904, TeamStatsBitmap, str_Standings, PlayoffTreeData, dword_17D162, dword_17EEF0, dword_17FDF0, dword_17FDF4
 extern dword_1820AC, dword_1820B0, dword_1820E4, dword_1820E8, dword_1820EC, dword_182140, dword_182144, dword_1822B8
-extern dword_1822BC, dword_182FB4, dword_182FB8, dword_18301C, dword_183020, dword_183024, dword_1843B0, dword_1843B4
+extern dword_1822BC, dword_182FB4, dword_182FB8, dword_18301C, RosterBackFile, dword_183024, dword_1843B0, dword_1843B4
 extern EditText, FadeOut, FadePalette, FillBox, FillRect, FreeScrollBar, gameopts, GetLangText
 extern GetTeamNameArt, InitMenuItems, InitVScrollBar, LoadExhibitionStats, LoadModemStats, LoadPackedFile, LoadSeasonStats, LoadTeamLogo
 extern MakeDataPath, MakeDirPath, MakeSeasonDbPath, MessageBox, off_11E908, OpenScreen, optflags, PlayerRatingsScreen
@@ -109,7 +109,7 @@ RunRosterScreens:
         jne short .4
         mov ebx, dword [byte ebp-04h]
         mov eax, 63h
-        mov edx, dword [dword_17CBE7]
+        mov edx, dword [PlayoffTreeData]
 .3:
         mov ecx, edi
         jmp short .6
@@ -345,7 +345,7 @@ RosterScreen:
         push eax
         call OpenArtArchiveErr
         add esp, byte 8
-        mov dword [dword_183020], eax
+        mov dword [RosterBackFile], eax
         jmp short .13
 .11:
         push eax
@@ -353,10 +353,10 @@ RosterScreen:
         push str_FreeAgents
         call AllocMemBlock
         add esp, byte 0Ch
-        mov dword [dword_183020], eax
+        mov dword [RosterBackFile], eax
         xor eax, eax
 .12:
-        mov edx, dword [dword_183020]
+        mov edx, dword [RosterBackFile]
         mov dword [edx+eax], 0FFFFFFFFh
         add eax, byte 4
         cmp eax, byte 70h
@@ -570,7 +570,7 @@ RosterScreen:
         rep movsb
         mov ecx, 66h
         lea edi, [dword ebp-03654h]
-        mov esi, dword_17BD48
+        mov esi, str_Standings
         rep movsb
         cmp dword [dword ebp-036CAh], byte 0
         jne near .23
@@ -1186,15 +1186,15 @@ RosterScreen:
         mov edx, dword [byte ebp+042h]
         xor eax, eax
         call FadePalette
-        cmp dword [dword_11E8FC], byte 0FFFFFFFFh
+        cmp dword [RatingsGoalieShown], byte 0FFFFFFFFh
         je near .64
         xor edx, edx
         xor eax, eax
 .41:
-        cmp edx, dword [dword_11E8FC]
+        cmp edx, dword [RatingsGoalieShown]
         sete bl
         mov byte [dword eax+ebp-0E46h], bl
-        cmp edx, dword [dword_11E900]
+        cmp edx, dword [RatingsSkaterShown]
         sete bl
         add eax, byte 25h
         inc edx
@@ -1509,8 +1509,8 @@ RosterScreen:
         mov eax, 1
         call DrawRosterPlayerInfo
 .63:
-        mov dword [dword_11E8FC], 0FFFFFFFFh
-        mov dword [dword_11E900], 0FFFFFFFFh
+        mov dword [RatingsGoalieShown], 0FFFFFFFFh
+        mov dword [RatingsSkaterShown], 0FFFFFFFFh
 .64:
         lea eax, [dword ebp-036BAh]
         lea edx, [dword ebp-023Eh]
@@ -1575,7 +1575,7 @@ RosterScreen:
 .70:
         call SlideInSideBar
         mov eax, dword [dword ebp-036BEh]
-        push dword [dword_183020]
+        push dword [RosterBackFile]
         mov dword [byte ebp+03Ah], eax
         call FreeMemBlock
         add esp, byte 4
@@ -1584,7 +1584,7 @@ RosterScreen:
         xor edx, edx
         imul edx, dword 31Bh
 .72:
-        mov eax, dword [dword_1174F0]
+        mov eax, dword [statsplayoffs]
         add eax, edx
         lea esi, [dword eax+0D3h]
         mov ecx, 30h
@@ -1601,7 +1601,7 @@ RosterScreen:
         jmp short .74
 .73:
         lea eax, [byte ebp-052h]
-        mov edx, dword [dword_17CBE7]
+        mov edx, dword [PlayoffTreeData]
         xor ebx, ebx
         call MakeSeasonDbPath
 .74:
@@ -1620,11 +1620,11 @@ RosterScreen:
 .75:
         mov ebx, 4
         lea eax, [byte ebp-052h]
-        mov edx, dword [dword_17CBE7]
+        mov edx, dword [PlayoffTreeData]
         call MakeSeasonDbPath
 .76:
         push dword [dword_117510]
-        push dword [dword_1174F0]
+        push dword [statsplayoffs]
         lea eax, [byte ebp-052h]
         push eax
         call SaveFileBlock
@@ -1646,7 +1646,7 @@ RosterScreen:
         jne short .78
 .77:
         push byte 70h
-        push dword [dword_183020]
+        push dword [RosterBackFile]
         lea eax, [byte ebp-052h]
         push eax
         call SaveFileBlock
@@ -1656,7 +1656,7 @@ RosterScreen:
         cmp dword [dword ebp-036CAh], byte 0
         je short .77
 .79:
-        push dword [dword_183020]
+        push dword [RosterBackFile]
         call FreeMemBlock
         add esp, byte 4
         mov eax, dword [dword ebp-036BEh]
@@ -2845,7 +2845,7 @@ RosterScreen:
         xor eax, eax
         shl eax, 2
 .169:
-        mov edx, dword [dword_183020]
+        mov edx, dword [RosterBackFile]
         mov dword [edx+eax], 0FFFFFFFFh
         add eax, byte 4
         cmp eax, byte 70h
@@ -3328,7 +3328,7 @@ FormatRosterLine:
         mov ecx, dword [byte ebp-04h]
         xor esi, esi
 .3:
-        mov edx, dword [dword_183020]
+        mov edx, dword [RosterBackFile]
         add edx, esi
         cmp dword [edx], byte 0FFFFFFFFh
         je near .11
@@ -3391,7 +3391,7 @@ FormatRosterLine:
         cmp edx, byte 47h
         sete al
         mov byte [byte ecx+01Fh], al
-        mov edx, dword [dword_183020]
+        mov edx, dword [RosterBackFile]
         mov edx, dword [edx+esi]
         mov dword [byte ecx+020h], edx
 .11:
@@ -3402,7 +3402,7 @@ FormatRosterLine:
         jmp near .3
 .12:
         imul esi, dword 31Bh
-        mov edx, dword [dword_1174F0]
+        mov edx, dword [statsplayoffs]
         mov ecx, dword [byte ebp-04h]
         add edx, esi
         xor edi, edi
@@ -3837,7 +3837,7 @@ ListRosterPlayers:
         mov dword [byte ebp-014h], ebx
         mov dword [byte ebp-04h], ecx
         imul eax, dword [byte ebp+014h], dword 31Bh
-        mov edx, dword [dword_1174F0]
+        mov edx, dword [statsplayoffs]
         mov dword [byte ebp-08h], 0
         add edx, eax
         mov eax, dword [byte ebp+010h]
@@ -3878,7 +3878,7 @@ ListRosterPlayers:
         xor edi, edi
 .4:
         mov eax, edi
-        mov esi, dword [dword_183020]
+        mov esi, dword [RosterBackFile]
         shl eax, 2
         add eax, esi
         cmp dword [eax], byte 0FFFFFFFFh
@@ -3928,7 +3928,7 @@ ValidateRoster:
         mov ebx, eax
         imul ecx, edx, dword 31Bh
         mov dword [byte ebp-0Ch], 0
-        mov esi, dword [dword_1174F0]
+        mov esi, dword [statsplayoffs]
         mov dword [byte ebp-018h], 0
         add esi, ecx
         mov dword [byte ebp-010h], 0
@@ -3947,7 +3947,7 @@ ValidateRoster:
         shl edi, 2
         jmp short .3
 .2:
-        mov edx, dword [dword_183020]
+        mov edx, dword [RosterBackFile]
         mov ecx, dword [edx+edi]
         add edi, byte 4
         inc esi
@@ -3959,7 +3959,7 @@ ValidateRoster:
         mov ecx, 1Bh
         sub ecx, dword [byte ebp-04h]
         imul ecx, byte 25h
-        mov edx, dword [dword_183020]
+        mov edx, dword [RosterBackFile]
         mov dword [byte edx+06Ch], 0FFFFFFFFh
         mov edx, dword [byte ebp-04h]
         inc edx
@@ -4204,7 +4204,7 @@ ConfirmTrade:
         xor eax, eax
         call GetLangText
         mov dword [byte ebp-04h], eax
-        mov eax, dword [dword_1174F0]
+        mov eax, dword [statsplayoffs]
         add eax, edx
         add eax, byte 1Eh
         push eax
@@ -4248,7 +4248,7 @@ ResetTeamLines:
         push byte 1
         mov ecx, dword_18301C
         mov ebx, unk_1821B4
-        mov eax, dword [dword_1174F0]
+        mov eax, dword [statsplayoffs]
         push dword_183024
         add eax, edx
         mov edx, unk_182224
@@ -4535,7 +4535,7 @@ CreatePlayerScreen:
         add esp, byte 0Ch
         mov ecx, 66h
         lea edi, [dword ebp-01ECCh]
-        mov esi, dword_17BD48
+        mov esi, str_Standings
         mov dword [byte ebp+03Eh], eax
         push str_NME0
         rep movsb
@@ -4962,7 +4962,7 @@ CreatePlayerScreen_8F5:
         imul ebx, eax, byte 3Ch
         mov edx, 1Ch
         sub edx, dword [byte ebp+02Ah]
-        mov eax, dword [dword_183020]
+        mov eax, dword [RosterBackFile]
         shl edx, 2
         add ebx, 0C350h
         mov dword [edx+eax], ebx
@@ -6215,7 +6215,7 @@ TeamRankScoring:
         push esi
         push edi
         imul eax, dword 31Bh
-        mov ebx, dword [dword_1174F0]
+        mov ebx, dword [statsplayoffs]
         xor edx, edx
         add eax, ebx
         xor ebx, ebx
@@ -6252,7 +6252,7 @@ TeamRankSkating:
         push esi
         push edi
         imul eax, dword 31Bh
-        mov ebx, dword [dword_1174F0]
+        mov ebx, dword [statsplayoffs]
         xor edx, edx
         add eax, ebx
         xor ebx, ebx
@@ -6285,7 +6285,7 @@ TeamRankOffence:
         push esi
         push edi
         imul eax, dword 31Bh
-        mov ebx, dword [dword_1174F0]
+        mov ebx, dword [statsplayoffs]
         xor esi, esi
         xor ecx, ecx
         add ebx, eax
@@ -6325,7 +6325,7 @@ TeamRankDefence:
         push edi
         imul edx, eax, dword 31Bh
         xor ecx, ecx
-        mov eax, dword [dword_1174F0]
+        mov eax, dword [statsplayoffs]
         xor esi, esi
         lea ebx, [eax+edx]
 .1:
@@ -6367,7 +6367,7 @@ TeamRankGoalie:
         enter 4, 0
         mov ebx, eax
         imul edx, eax, dword 31Bh
-        mov eax, dword [dword_1174F0]
+        mov eax, dword [statsplayoffs]
         add edx, eax
         xor ecx, ecx
         mov eax, edx

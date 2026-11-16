@@ -2,18 +2,18 @@
 bits 32
 %include "hockey.inc"
 section s_176B68 nobits alloc noexec write align=1
-global CwdExciteLvl, OOlist, PBnum, byte_176B83, byte_176B84, byte_176B85, byte_176B90, byte_176B91
-global byte_176B92, byte_176B93, byte_176B94, byte_176B95, byte_176B96, byte_176B97, byte_176B98, byte_176B99
-global byte_176B9A, goalevent, byte_176B9E, byte_176B9F, byte_176BA5, byte_176BA7, dword_176BC4, lineuptime
-global dword_176BCC, dword_176BD0, dword_176BD8, dword_176BDC, dword_176BE0, dword_176C44, lasttouch, word_176B68
-global word_176B6A, word_176B6C, word_176B6E, word_176B70, word_176B72, word_176B76, word_176B78, word_176B7A
-global word_176B7C, word_176B7E, word_176B80, LastTouchTeam, PassDistY, StoppageFlag, LastPlayerTouch, word_176BB8
-global word_176BBA, lastimpact
+global CwdExciteLvl, OOlist, PBnum, byte_176B83, iflags, icingPlayer, curevent, byte_176B91
+global byte_176B92, curevent_b2, curevent_b5, byte_176B95, curevent_b6, curevent_b7, curevent_b8, byte_176B99
+global curevent_b9, goalevent, byte_176B9E, byte_176B9F, byte_176BA5, byte_176BA7, gwgteam, lineuptime
+global gwgplayer, dword_176BD0, dword_176BD8, dword_176BDC, lineslotmark, dword_176C44, lasttouch, word_176B68
+global SpeechPatchNext, joysampling, word_176B6E, word_176B70, word_176B72, word_176B76, word_176B78, word_176B7A
+global word_176B7C, word_176B7E, PerTimeTotal, LastTouchTeam, PassDistY, StoppageFlag, LastPlayerTouch, word_176BB8
+global starpl, lastimpact
 word_176B68:
         resb 2
-word_176B6A:
+SpeechPatchNext:
         resb 2
-word_176B6C:
+joysampling:
         resb 2
 word_176B6E:
         resb 2
@@ -33,15 +33,15 @@ word_176B7C:
         resb 2
 word_176B7E:
         resb 2
-word_176B80:
+PerTimeTotal:
         resb 2
 PBnum:
         resb 1
 byte_176B83:
         resb 1
-byte_176B84:
+iflags:
         resb 1
-byte_176B85:
+icingPlayer:
         resb 1
 lasttouch:
         resb 2
@@ -53,27 +53,27 @@ StoppageFlag:
         resb 2
 LastPlayerTouch:
         resb 2
-byte_176B90:
+curevent:
         resb 1
 byte_176B91:
         resb 1
 byte_176B92:
         resb 1
-byte_176B93:
+curevent_b2:
         resb 1
-byte_176B94:
+curevent_b5:
         resb 1
 byte_176B95:
         resb 1
-byte_176B96:
+curevent_b6:
         resb 1
-byte_176B97:
+curevent_b7:
         resb 1
-byte_176B98:
+curevent_b8:
         resb 1
 byte_176B99:
         resb 1
-byte_176B9A:
+curevent_b9:
         resb 1
 goalevent:
         resb 3
@@ -89,13 +89,13 @@ byte_176BA7:
         resb 17
 word_176BB8:
         resb 2
-word_176BBA:
+starpl:
         resb 10
-dword_176BC4:
+gwgteam:
         resb 4
 lineuptime:
         resb 4
-dword_176BCC:
+gwgplayer:
         resb 4
 dword_176BD0:
         resb 4
@@ -105,7 +105,7 @@ dword_176BD8:
         resb 4
 dword_176BDC:
         resb 4
-dword_176BE0:
+lineslotmark:
         resb 100
 dword_176C44:
         resb 100

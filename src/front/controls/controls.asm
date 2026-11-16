@@ -3,10 +3,10 @@ bits 32
 %include "hockey.inc"
 section s_10010 progbits alloc exec nowrite align=1
 extern _nfree_, _nmalloc_, _searchenv_, byte_114B48, byte_114C58, JoyPortMask, byte_1515BB, byte_1515C2
-extern byte_1515C9, byte_151773, byte_151774, byte_151778, byte_151779, byte_15177C, byte_151794, byte_17CA21
+extern byte_1515C9, byte_151773, byte_151774, byte_151778, byte_151779, GripLinkByte, byte_151794, byte_17CA21
 extern byte_17CA22, byte_17CA5D, dword_114B5C, dword_114B60, dword_114B64, dword_114B68, dword_114B78, dword_114B7C
-extern dword_114B80, dword_114B9C, dword_114CB0, dword_114CB4, dword_114CCF, dword_114CD3, dword_114CD7, dword_114CD9
-extern dword_11D91F, dword_11F5C0, dword_11F5C4, dword_15159C, dword_1515A8, dword_1515B0, dword_1515B7, dword_1515D0
+extern dword_114B80, dword_114B9C, dword_114CB0, dword_114CB4, GripLinked, dword_114CD3, dword_114CD7, dword_114CD9
+extern dword_11D91F, dword_11F5C0, dword_11F5C4, dword_15159C, SlotWords, dword_1515B0, InputPlaybackOn, dword_1515D0
 extern dword_151630, dword_151694, dword_151698, dword_1516A4, dword_1516A8, dword_15170A, dword_15170C, dword_15170E
 extern dword_151710, dword_151716, dword_151718, dword_15171A, dword_151722, dword_151724, dword_151726, dword_151728
 extern dword_15172E, dword_151730, dword_151732, dword_151770, dword_15178E, dword_151798, fclose_, fopen_
@@ -14,11 +14,11 @@ extern fread_, fseek_, ftell_, GameLoopActive, gameopts, GetTicks, InputRecordCo
 extern InputRecordRing, kaufmfont, LinkResyncInput, mousepollfn, MouseRead, mousex, mousey, SetViewRect
 extern SlotButtons, SlotTable, slotteam, str_CGRIP, str_GRIP, str_GRIPGLL, str_PATH, str_Rb2
 extern strcat_, strcpy_, CameraFacing, InitMouse, KeyIsDown, KbdGetKey, CalibrateJoystick, JoyResetCentres
-extern AddExitHandler, unk_114BA8, unk_114C00, unk_151648, unk_1516B8, unk_151784, word_114B40, word_114B42
+extern AddExitHandler, unk_114BA8, unk_114C00, unk_151648, unk_1516B8, GripFarCall, word_114B40, word_114B42
 extern word_114B44, word_114CDB, word_114CE0, word_114CE4, JoyAxisValues, word_11F914, word_11F918, word_11F91C
 extern word_1515B5, word_151634, word_151636, word_151638, word_15163A, word_151712, word_151714, word_15171C
 extern word_15171E, word_15172A, word_15172C, word_151734, word_151736, word_151744, word_15175C, word_151766
-extern word_15177E, word_151782, word_151788, word_15178A, word_15178C, word_151792
+extern word_15177E, GripDriverSeg, word_151788, GripDataSeg, GripResult, word_151792
 global GetInputDevices, InitInputDevices, TestKeyBinding, ReadEscReplayKeys, ReadEscReplayKeys_52, ReadKeyboardPad, ReadKeyboardPad_2D7, ReadMousePad
 global ReadJoyPad, InitSlotTable, ResetInputSlots, PollControllers, ResetSlotButtons, GetPressedDevice, GripLinkLibrary, GripUnlinkLibrary
 global GripUnlinkLibrary_5, SetGripButtonMap, GetGripButtonMap, LoadGripLibrary, GripScanSlots, GripReadSlots, GripReadPadBits, ReadAnalogJoysticks
@@ -961,27 +961,27 @@ PollControllers:
 .1:
         call ReadJoystickBits
 .2:
-        mov eax, dword_1515A8
+        mov eax, SlotWords
         call ReadEscReplayKeys
         cmp dword [dword_11D91F], byte 0
         je short .3
         mov edx, 1
-        mov eax, dword_1515A8
+        mov eax, SlotWords
         call ReadKeyboardPad
         push byte 1Ch
         call KeyIsDown
         add esp, byte 4
         test eax, eax
         je short .3
-        or byte [dword_1515A8], 80h
+        or byte [SlotWords], 80h
 .3:
-        mov eax, dword [dword_1515A8]
+        mov eax, dword [SlotWords]
         xor esi, esi
         xor ecx, ecx
         mov dword [byte ebp-04h], eax
 .4:
         mov eax, dword [byte ebp-04h]
-        mov dword [dword_1515A8], eax
+        mov dword [SlotWords], eax
         movsx eax, byte [dword ecx+SlotTable]
         cmp eax, byte 1
         jne near .17
@@ -1008,7 +1008,7 @@ PollControllers:
         jmp short .14
 .7:
         mov edx, dword [gameopts]
-        mov eax, dword_1515A8
+        mov eax, SlotWords
         movsx edx, byte [byte edx+esi+05h]
         call ReadMousePad
         jmp short .14
@@ -1017,7 +1017,7 @@ PollControllers:
         xor eax, eax
 .9:
         movsx ebx, byte [byte edx+esi+05h]
-        mov edx, dword_1515A8
+        mov edx, SlotWords
         call ReadJoyPad
         jmp short .14
 .10:
@@ -1034,17 +1034,17 @@ PollControllers:
         jmp short .9
 .13:
         mov edx, dword [gameopts]
-        mov eax, dword_1515A8
+        mov eax, SlotWords
         movsx edx, byte [byte edx+esi+05h]
         call ReadKeyboardPad
 .14:
         cmp dword [dword_11D91F], byte 0
         jne short .16
-        mov ebx, dword [dword_1515A8]
+        mov ebx, dword [SlotWords]
         sar ebx, 2
-        mov edx, dword_1515A8
+        mov edx, SlotWords
         and ebx, byte 0Fh
-        and byte [dword_1515A8], 0C3h
+        and byte [SlotWords], 0C3h
         cmp ebx, byte 0Ah
         jle short .15
         xor ebx, ebx
@@ -1057,8 +1057,8 @@ PollControllers:
         shl ebx, 2
         or dword [edx], ebx
 .16:
-        mov eax, dword [dword_1515A8]
-        mov dword [dword ecx+dword_1515B7], eax
+        mov eax, dword [SlotWords]
+        mov dword [dword ecx+InputPlaybackOn], eax
 .17:
         inc esi
         add ecx, byte 7
@@ -1174,7 +1174,7 @@ GripLinkLibrary:
         sub esp, 28h
         mov dword [byte ebp-028h], eax
         mov dword [byte ebp-010h], edx
-        cmp dword [dword_114CCF], byte 0
+        cmp dword [GripLinked], byte 0
         je short .1
         mov dword [byte ebp-014h], 0
         jmp near .32
@@ -1306,7 +1306,7 @@ GripLinkLibrary:
         mov dword [byte ebp-014h], 0
         jmp near .32
 .11:
-        mov ecx, word_15178A
+        mov ecx, GripDataSeg
         mov ebx, dword [byte ebp-08h]
         mov eax, 100h
         int 31h
@@ -1351,10 +1351,10 @@ GripLinkLibrary:
         jae short .18
         xor eax, eax
 .18:
-        mov word [word_15178C], ax
-        cmp word [word_15178C], byte 0
+        mov word [GripResult], ax
+        cmp word [GripResult], byte 0
         jne short .20
-        mov dx, word [word_15178A]
+        mov dx, word [GripDataSeg]
         mov eax, 101h
         int 31h
         jb short .19
@@ -1366,7 +1366,7 @@ GripLinkLibrary:
         mov esi, dword [byte ebp-08h]
         shl esi, 4
         mov edx, dword [byte ebp-020h]
-        mov bx, word [word_15178C]
+        mov bx, word [GripResult]
         mov ecx, edx
         shr ecx, 10h
         mov eax, 7
@@ -1382,11 +1382,11 @@ GripLinkLibrary:
 .21:
         test al, al
         je short .23
-        mov bx, word [word_15178C]
+        mov bx, word [GripResult]
         mov eax, 1
         int 31h
         setb al
-        mov dx, word [word_15178A]
+        mov dx, word [GripDataSeg]
         mov eax, 101h
         int 31h
         jb short .22
@@ -1395,7 +1395,7 @@ GripLinkLibrary:
         mov dword [byte ebp-014h], 0
         jmp near .32
 .23:
-        mov bx, word [word_15178C]
+        mov bx, word [GripResult]
         mov cx, cs
         lar ecx, ecx
         shr cx, 8
@@ -1404,11 +1404,11 @@ GripLinkLibrary:
         setb al
         test al, al
         je short .25
-        mov bx, word [word_15178C]
+        mov bx, word [GripResult]
         mov eax, 1
         int 31h
         setb al
-        mov dx, word [word_15178A]
+        mov dx, word [GripDataSeg]
         mov eax, 101h
         int 31h
         jb short .24
@@ -1431,13 +1431,13 @@ GripLinkLibrary:
         add eax, dword [byte ebp-01Ch]
         mov dl, byte [eax]
         mov eax, dword [byte ebp-01Ch]
-        mov byte [dword eax+byte_15177C], dl
+        mov byte [dword eax+GripLinkByte], dl
         jmp short .27
 .29:
         mov word [word_15177E], 0
-        mov ax, word [word_15178C]
-        mov word [word_151782], ax
-        mov ax, word [word_15178C]
+        mov ax, word [GripResult]
+        mov word [GripDriverSeg], ax
+        mov ax, word [GripResult]
         mov word [word_151788], ax
         mov eax, dword [byte ebp-020h]
         mov word [byte eax+012h], 0
@@ -1445,18 +1445,18 @@ GripLinkLibrary:
         mov word [byte eax+016h], 0
         mov eax, dword [byte ebp-020h]
         mov word [byte eax+010h], 0
-        mov dx, word [word_15178A]
+        mov dx, word [GripDataSeg]
         mov eax, dword [byte ebp-020h]
         mov word [byte eax+014h], dx
         mov ax, 8490h
-        call far [unk_151784]
+        call far [GripFarCall]
         test ax, ax
         jne short .31
-        mov bx, word [word_15178C]
+        mov bx, word [GripResult]
         mov eax, 1
         int 31h
         setb al
-        mov dx, word [word_15178A]
+        mov dx, word [GripDataSeg]
         mov eax, 101h
         int 31h
         jb short .30
@@ -1465,7 +1465,7 @@ GripLinkLibrary:
         mov dword [byte ebp-014h], 0
         jmp short .32
 .31:
-        mov dword [dword_114CCF], 1
+        mov dword [GripLinked], 1
         mov dword [byte ebp-014h], 1
 .32:
         mov eax, dword [byte ebp-014h]
@@ -1491,14 +1491,14 @@ GripUnlinkLibrary_5:
         push ebp
         mov ebp, esp
         sub esp, 4
-        cmp dword [dword_114CCF], byte 0
+        cmp dword [GripLinked], byte 0
         jne short .1
         mov dword [byte ebp-04h], 0
         jmp short .5
 .1:
         mov ax, 8491h
-        call far [unk_151784]
-        mov bx, word [word_15178C]
+        call far [GripFarCall]
+        mov bx, word [GripResult]
         mov eax, 1
         int 31h
         setb al
@@ -1507,7 +1507,7 @@ GripUnlinkLibrary_5:
         mov dword [byte ebp-04h], 0
         jmp short .5
 .2:
-        mov dx, word [word_15178A]
+        mov dx, word [GripDataSeg]
         mov eax, 101h
         int 31h
         jb short .3
@@ -1518,7 +1518,7 @@ GripUnlinkLibrary_5:
         mov dword [byte ebp-04h], 0
         jmp short .5
 .4:
-        mov dword [dword_114CCF], 0
+        mov dword [GripLinked], 0
         mov dword [byte ebp-04h], 1
 .5:
         mov eax, dword [byte ebp-04h]
@@ -1749,12 +1749,12 @@ GripScanSlots:
 .3:
         xor edx, edx
         mov ax, 84A0h
-        call far [unk_151784]
+        call far [GripFarCall]
         jmp short .2
 .4:
         mov dword [dword_114CD7], 0
         mov ax, 84B0h
-        call far [unk_151784]
+        call far [GripFarCall]
         mov dword [dword_151770], eax
         mov dword [byte ebp-08h], 1
 .5:
@@ -1778,7 +1778,7 @@ GripScanSlots:
         add edi, eax
         mov bh, byte [byte ebp-08h]
         mov ax, 84D0h
-        call far [unk_151784]
+        call far [GripFarCall]
         mov dword [edi], ebx
         mov dword [byte edi+04h], ecx
         mov dword [byte edi+08h], edx
@@ -1790,7 +1790,7 @@ GripScanSlots:
         add edi, eax
         mov bh, byte [byte ebp-08h]
         mov ax, 84D1h
-        call far [unk_151784]
+        call far [GripFarCall]
         mov dword [edi], ebx
         mov dword [byte edi+04h], ecx
         mov dword [byte edi+08h], edx
@@ -1801,13 +1801,13 @@ GripScanSlots:
         mov dword [byte ebp-0Ch], 1
         mov bh, byte [byte ebp-08h]
         mov ax, 84B1h
-        call far [unk_151784]
+        call far [GripFarCall]
         test al, 2
         je short .10
         mov bl, 1
         mov bh, byte [byte ebp-08h]
         mov ax, 84B3h
-        call far [unk_151784]
+        call far [GripFarCall]
         mov bl, al
         mov eax, dword [byte ebp-08h]
         inc bl
@@ -1837,7 +1837,7 @@ GripScanSlots:
         je short .12
         mov bh, byte [byte ebp-08h]
         mov ax, 84B1h
-        call far [unk_151784]
+        call far [GripFarCall]
         test al, 4
         jne short .13
 .12:
@@ -1846,7 +1846,7 @@ GripScanSlots:
         mov bl, 2
         mov bh, byte [byte ebp-08h]
         mov ax, 84B3h
-        call far [unk_151784]
+        call far [GripFarCall]
         mov byte [byte ebp-04h], al
         xor eax, eax
         mov al, byte [byte ebp-04h]
@@ -1860,7 +1860,7 @@ GripScanSlots:
         mov bl, 2
         mov bh, byte [byte ebp-08h]
         mov ax, 84B4h
-        call far [unk_151784]
+        call far [GripFarCall]
         mov edx, dword [byte ebp-08h]
         shl edx, 2
         mov word [dword edx+word_151634], ax
@@ -1868,7 +1868,7 @@ GripScanSlots:
         mov bl, 2
         mov bh, byte [byte ebp-08h]
         mov ax, 84B4h
-        call far [unk_151784]
+        call far [GripFarCall]
         mov edx, dword [byte ebp-08h]
         shl edx, 2
         mov word [dword edx+word_151636], ax
@@ -1933,7 +1933,7 @@ GripReadSlots:
 .3:
         mov edx, 1
         mov ax, 84A0h
-        call far [unk_151784]
+        call far [GripFarCall]
         mov dword [byte_151794], 0
         mov cl, byte [dword_151798]
         mov edx, 1
@@ -1948,7 +1948,7 @@ GripReadSlots:
         mov bh, byte [dword_151798]
         inc bh
         mov ax, 84C1h
-        call far [unk_151784]
+        call far [GripFarCall]
         mov dword [dword_15178E], eax
         mov eax, dword [dword_151798]
         shl eax, 2
@@ -1969,7 +1969,7 @@ GripReadSlots:
         mov bh, byte [dword_151798]
         inc bh
         mov ax, 84C0h
-        call far [unk_151784]
+        call far [GripFarCall]
         mov word [word_151792], ax
         mov edx, dword [dword_151798]
         shl edx, 2
@@ -1998,7 +1998,7 @@ GripReadSlots:
         mov bh, byte [dword_151798]
         inc bh
         mov ax, 84C0h
-        call far [unk_151784]
+        call far [GripFarCall]
         mov word [word_151792], ax
         mov edx, dword [dword_151798]
         shl edx, 2
@@ -2793,7 +2793,7 @@ GripShutdown:
         cmp dword [dword_114CD3], byte 0
         jle short .1
         mov ax, 84A2h
-        call far [unk_151784]
+        call far [GripFarCall]
         mov dword [dword_114CD3], 0
 .1:
         cmp dword [dword_114CD3], byte 0
@@ -2842,13 +2842,13 @@ InitGrip:
         cmp dword [dword_114CD3], byte 0
         jle short .3
         mov ax, 84A2h
-        call far [unk_151784]
+        call far [GripFarCall]
         mov dword [dword_114CD3], 0
 .3:
         cmp dword [dword_114CD3], byte 0
         jl short .4
         mov ax, 84A1h
-        call far [unk_151784]
+        call far [GripFarCall]
         and eax, 0FFFFh
         mov dword [dword_114CD3], eax
 .4:

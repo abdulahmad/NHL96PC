@@ -3,26 +3,26 @@ bits 32
 %include "hockey.inc"
 section s_3A7A4 progbits alloc exec nowrite align=1
 extern CompLine, Endfaceoff, PBnum, SetupPenaltyShot, ShotLaneOpen, SortCords, assinsert, assreplace
-extern awtmstruct, byte_1178C8, byte_1190F3, byte_164797, byte_16479B, byte_1647E0, byte_1647E1, byte_165250
-extern byte_165713, HmPlayerFlags, AwPlayerFlags, byte_165953, byte_165957, byte_176B84, chk4pass, crowdlevel
-extern curperiod, hmslotcount, awslotcount, hmfirstslot, awfirstslot, dword_119173, dword_119183, dword_1191C3
-extern dword_1191C7, dword_1191E7, dword_1191EB, dword_1191EF, dword_119F6C, dword_11B2A8, dword_15E4C4, dword_165254
+extern awtmstruct, byte_1178C8, apl, byte_164797, byte_16479B, byte_1647E0, byte_1647E1, InputState
+extern byte_165713, HmPlayerFlags, AwPlayerFlags, fofdata2_b3, fofdata2_b7, iflags, chk4pass, crowdlevel
+extern curperiod, hmslotcount, awslotcount, hmfirstslot, awfirstslot, dword_119173, penshotteam, pspathdir
+extern dword_1191C7, OneTimerPasser, PuckChasers, dword_1191EF, dword_119F6C, dword_11B2A8, dword_15E4C4, PtrPuckZone
 extern dword_176BD0, optflags, energywarn, fadeinpending, fox, foy, gameclock, gameopts
 extern gmode, hmroster, hmtmgoalie, hmtmstruct, introskipped, lcblink, lcboxon, lcfound
-extern off_11787C, puckc, PtrPuckFlags, off_117890, PtrPuckObject, off_117898, off_11789C, passplayer
+extern puckvy, puckc, PtrPuckFlags, off_117890, PtrPuckObject, off_117898, off_11789C, passplayer
 extern penshotmode, penshotplayer, penshotstart, puckvx, puckvz, puckx, pucky, puckz
 extern randomd0, regd2, regd3, resetplstuff, setpersonel, sflags, shotongoal, shotontarget
 extern ResetBrokenGlass, SetPenaltyBoxDoor, StartFaceoffLineChange, assexitjump, ResetFaceoffSkater, SkateToSpot, CenterMouse, ReturnGoalies
 extern SetSPA, SetControlledPlayer, SprSort, changeplayer, GetHot, Setplass, setplayer, updateanim
 extern clockcont_0, SetExitGame, ResetBench, forcepldata, doplayeracc, EvadePC, skateto, playeracc
 extern avdgoal, stopna, AddPenalty2, Stop4Pen, PlaceGoalNets, PlaySfx, StopArenaClip, vecdist
-extern threat, unk_164B5C, vtoa, word_1178A0, word_1178A2, word_1178B4, yc1, word_1178B8
-extern fodir1, fodir2, gmode2, HomeControlSlot, slotteam, word_1178F6, word_1178F8, word_1178FA
-extern word_1178FC, gsp, word_117902, word_118E8F, word_118E9F, word_118EA3, word_118EB7, word_1190D7
-extern word_1190D9, word_11910B, word_11910F, word_119111, word_119113, word_119F78, word_164716, word_16472A
-extern word_164794, word_165144, word_1656E8, word_165704, word_165706, word_165758, word_16581E, word_16583A
-extern word_16583C, word_165950, word_165952, word_165954, word_165956, word_165958, word_16595A, word_165964
-extern regd0, regd1, word_176B7A, word_176B80, LastTouchTeam, PassDistY, StoppageFlag, LastPlayerTouch
+extern threat, unk_164B5C, vtoa, word_1178A0, word_1178A2, word_1178B4, yc1, ltx
+extern fodir1, fodir2, gmode2, HomeControlSlot, slotteam, refsignal, RefStep, word_1178FA
+extern Penaltytimer, gsp, clockticks, word_118E8F, word_118E9F, word_118EA3, word_118EB7, word_1190D7
+extern puckfaceoff2_ptab, ovltimer, word_11910F, bannermsg, word_119113, word_119F78, word_164716, word_16472A
+extern puckcross, word_165144, hmscore, word_165704, word_165706, hmtmpdst, awscore, awtmline
+extern word_16583C, fofdata2, PlayFlags, fofdata2_w4, fofdata2_w6, fofdata, word_16595A, regd4
+extern regd0, regd1, word_176B7A, PerTimeTotal, LastTouchTeam, PassDistY, StoppageFlag, LastPlayerTouch
 global AdjustFacingDirection, AllInPlace, GoalieToPuckVec, PenShotAssign, PullGoalie, SetTeamGoalie, assbenchwait, assrefpenshot
 global asstakeposition, check4bench, SetupPenaltyBoxSeats_7E, goalieposition_648, puckfaceoff, SetupPenaltyBoxSeats, TakePlayerFromBox, FreeBoxedPlayers
 global PenShotStart, assleavebox, AssignControlSlots, FaceoffPositions, puckfaceoff2, asspsclear, goaliechasepuck, assgoalietopuck
@@ -119,7 +119,7 @@ TakePlayerFromBox:
         or byte [byte ebx+044h], 20h
         imul ebx, dword [byte ebp-08h], dword 136h
         mov byte [dword ecx+hmroster], 3
-        mov word [dword ebx+edi*2+word_165758], 0FFFEh
+        mov word [dword ebx+edi*2+hmtmpdst], 0FFFEh
         jmp near SetupPenaltyBoxSeats_7E
 .2:
         inc esi
@@ -151,7 +151,7 @@ FreeBoxedPlayers:
         cmp ecx, byte 7
         jne short .3
         mov byte [dword edx+hmroster], 3
-        mov word [dword ebx+word_165758], 0FFFEh
+        mov word [dword ebx+hmtmpdst], 0FFFEh
         cmp byte [dword eax+PBnum], 0
         jle short .3
         dec byte [dword eax+PBnum]
@@ -233,9 +233,9 @@ PenShotStart:
         cmp word [gsp], byte 0
         jne short .5
         mov ax, word [gameclock]
-        cmp ax, word [word_176B80]
+        cmp ax, word [PerTimeTotal]
         jne short .5
-        cmp word [word_117902], byte 0
+        cmp word [clockticks], byte 0
         jne short .5
         movsx eax, dx
         imul eax, dword 136h
@@ -298,7 +298,7 @@ PenShotAssign:
         test edx, edx
         setne dl
         movzx edx, dl
-        xor edx, dword [dword_119183]
+        xor edx, dword [penshotteam]
         je short .6
         mov edx, 27h
         mov byte [byte ebx+043h], 0FFh
@@ -712,7 +712,7 @@ puckfaceoff:
         cmp word [byte edx+01Ah], byte 0
         jne short .1
         mov word [byte edx+03Eh], 78h
-        mov eax, dword [off_11787C]
+        mov eax, dword [puckvy]
         mov word [eax], 0
         mov dx, word [eax]
         mov eax, dword [puckvx]
@@ -730,7 +730,7 @@ puckfaceoff:
         and byte [byte ebx+044h], 0FDh
         cmp word [gameclock], byte 0
         jne short .4
-        cmp word [word_117902], byte 0
+        cmp word [clockticks], byte 0
         je short .5
 .4:
         mov al, byte [gmode]
@@ -745,8 +745,8 @@ puckfaceoff:
         movsx eax, word [gsp]
         cmp eax, byte 3
         jne short .7
-        mov ax, word [word_1656E8]
-        cmp ax, word [word_16581E]
+        mov ax, word [hmscore]
+        cmp ax, word [awscore]
         je short .7
         call clockcont_0
         jmp near SetupPenaltyBoxSeats_7E
@@ -924,9 +924,9 @@ puckfaceoff:
         cmp word [gsp], byte 0
         jne near .27
         mov ax, word [gameclock]
-        cmp ax, word [word_176B80]
+        cmp ax, word [PerTimeTotal]
         jne near .27
-        cmp word [word_117902], byte 0
+        cmp word [clockticks], byte 0
         jne near .27
         imul eax, dword [byte ebp-04h], dword 136h
         jmp near .26
@@ -961,9 +961,9 @@ puckfaceoff:
         cmp word [gsp], byte 0
         jne short .27
         mov ax, word [gameclock]
-        cmp ax, word [word_176B80]
+        cmp ax, word [PerTimeTotal]
         jne short .27
-        cmp word [word_117902], byte 0
+        cmp word [clockticks], byte 0
         jne short .27
         imul eax, dword [byte ebp-08h], dword 136h
 .26:
@@ -1003,7 +1003,7 @@ puckfaceoff:
         test byte [byte eax+01h], 30h
         jne short .30
         mov word [word_16583C], 0
-        mov word [word_16583A], 0
+        mov word [awtmline], 0
         mov word [word_165706], 0
         mov word [word_165704], 0
 .30:
@@ -1025,28 +1025,28 @@ FaceoffPositions:
         mov edx, dword [dword eax+088h]
         mov word [regd1], bx
         mov bx, word [byte edx+038h]
-        mov word [word_165964], bx
-        neg word [word_165964]
-        movsx ebx, word [word_165964]
+        mov word [regd4], bx
+        neg word [regd4]
+        movsx ebx, word [regd4]
         cmp ebx, byte 0FFFFFFFAh
         jle short .1
         cmp word [byte edx+03Ah], byte 0
         jge short .1
-        dec word [word_165964]
+        dec word [regd4]
 .1:
-        mov bx, word [word_165964]
+        mov bx, word [regd4]
         add ebx, byte 6
         shl ebx, 3
-        mov word [word_165964], bx
+        mov word [regd4], bx
         movsx ecx, bx
         movsx ebx, word [regd1]
-        movsx bx, byte [dword ecx+ebx+byte_1190F3]
-        mov word [word_165964], bx
+        movsx bx, byte [dword ecx+ebx+apl]
+        mov word [regd4], bx
         add ebx, ebx
-        mov word [word_165964], bx
+        mov word [regd4], bx
         movsx ebx, bx
         mov cx, word [nosplit ebx*2+word_1190D7]
-        mov bx, word [nosplit ebx*2+word_1190D9]
+        mov bx, word [nosplit ebx*2+puckfaceoff2_ptab]
         mov word [regd0], cx
         mov word [regd1], bx
         mov bl, byte [byte eax+044h]
@@ -1079,7 +1079,7 @@ FaceoffPositions:
 .6:
         cmp ebx, 114h
         jne near .32
-        movsx ebx, word [word_165964]
+        movsx ebx, word [regd4]
         cmp ebx, byte 6
         je short .7
         cmp ebx, byte 0Ah
@@ -1254,7 +1254,7 @@ FaceoffPositions:
         mov eax, 0FFFFFF7Eh
         jmp near .19
 .32:
-        movsx eax, word [word_165964]
+        movsx eax, word [regd4]
         cmp eax, byte 4
         jg short .35
         movsx edx, word [foy]
@@ -1370,15 +1370,15 @@ puckfaceoff2:
         jne short .3
         cmp word [gsp], byte 0
         jne short .2
-        cmp word [word_117902], byte 0
+        cmp word [clockticks], byte 0
         jne short .2
         mov ax, word [gameclock]
-        cmp ax, word [word_176B80]
+        cmp ax, word [PerTimeTotal]
         je short .3
 .2:
-        cmp word [word_1178F8], byte 0
+        cmp word [RefStep], byte 0
         jge near SetupPenaltyBoxSeats_7E
-        cmp word [word_11910B], byte 0
+        cmp word [ovltimer], byte 0
         jge near SetupPenaltyBoxSeats_7E
         call AllInPlace
         test eax, eax
@@ -1391,11 +1391,11 @@ puckfaceoff2:
         call ResetFaceoffSkater
         mov dword [shotontarget], 0
         mov dword [shotongoal], 0
-        mov dword [dword_1191E7], 0
+        mov dword [OneTimerPasser], 0
         mov dword [dword_119173], 0
         mov dword [dword_1191EF], 0
-        mov dword [dword_1191EB], 0
-        mov word [word_119111], 0FFFFh
+        mov dword [PuckChasers], 0
+        mov word [bannermsg], 0FFFFh
         mov word [word_119113], 0
         mov word [word_165144], 0
         and byte [sflags], 0F3h
@@ -1412,9 +1412,9 @@ puckfaceoff2:
         cmp word [gsp], byte 0
         jne short .4
         mov ax, word [gameclock]
-        cmp ax, word [word_176B80]
+        cmp ax, word [PerTimeTotal]
         jne short .4
-        cmp word [word_117902], byte 0
+        cmp word [clockticks], byte 0
         jne short .4
         cmp dword [introskipped], byte 0
         je short .8
@@ -1440,11 +1440,11 @@ puckfaceoff2:
 .8:
         mov dword [fadeinpending], 0
 .9:
-        mov word [word_1178F8], 0FFFFh
+        mov word [RefStep], 0FFFFh
         mov dword [introskipped], 0
         mov word [word_11910F], 0
-        mov byte [byte_176B84], 0
-        mov word [word_1178F6], 0
+        mov byte [iflags], 0
+        mov word [refsignal], 0
         mov byte [byte_164797], 0FFh
         mov byte [byte_16479B], 0FFh
         and byte [gmode2], 7Ah
@@ -1492,7 +1492,7 @@ puckfaceoff2:
         mov ax, word [yc1]
         mov word [word_1178A2], ax
         mov eax, dword [puckx]
-        mov word [word_1178B8], 0
+        mov word [ltx], 0
         mov dx, word [foy]
         mov word [eax], dx
         mov eax, dword [pucky]
@@ -1509,7 +1509,7 @@ puckfaceoff2:
 .18:
         mov eax, dword [puckvx]
         mov word [eax], 0
-        mov eax, dword [off_11787C]
+        mov eax, dword [puckvy]
         mov word [eax], 0
         mov eax, dword [puckvz]
         mov word [eax], 0
@@ -1545,7 +1545,7 @@ puckfaceoff2:
         mov word [StoppageFlag], ax
         mov word [PassDistY], ax
         mov eax, dword [off_117890]
-        mov word [word_1178FC], 0FFFFh
+        mov word [Penaltytimer], 0FFFFh
         mov word [word_176B7A], 0FFFFh
         mov word [byte eax+012h], 0ED9h
         mov eax, dword [off_117890]
@@ -1574,7 +1574,7 @@ puckfaceoff2:
 .21:
         cmp esi, byte 4
         jl short .24
-        mov edx, dword [dword_119183]
+        mov edx, dword [penshotteam]
         xor esi, esi
         xor eax, eax
         inc edx
@@ -1605,7 +1605,7 @@ puckfaceoff2:
         test eax, eax
         setne al
         movzx eax, al
-        xor eax, dword [dword_119183]
+        xor eax, dword [penshotteam]
         jne short .28
 .26:
         inc edi
@@ -1626,7 +1626,7 @@ puckfaceoff2:
         xor ebx, ebx
 .29:
         movsx eax, word [dword ebx+slotteam]
-        cmp dword [dword_119183], byte 0
+        cmp dword [penshotteam], byte 0
         sete byte [byte ebp-04h]
         movzx edx, byte [byte ebp-04h]
         inc edx
@@ -1832,7 +1832,7 @@ puckfaceoff2:
         add eax, byte 4
         inc ebx
         inc ebx
-        mov dword [dword eax+dword_1191C3], 0
+        mov dword [dword eax+pspathdir], 0
         mov word [dword ebx+byte_1178C8], 0FFFFh
         cmp ebx, byte 8
         jne short .48
@@ -1862,19 +1862,19 @@ puckfaceoff2:
         call randomd0
         add eax, 0B4h
         mov word [byte ecx+026h], ax
-        mov word [word_165950], 1
-        mov word [word_165952], 8000h
-        mov word [word_165954], 4
+        mov word [fofdata2], 1
+        mov word [PlayFlags], 8000h
+        mov word [fofdata2_w4], 4
         mov al, byte [gmode]
-        mov word [word_165956], 0A800h
+        mov word [fofdata2_w6], 0A800h
         and al, 2
-        mov word [word_165958], 7
+        mov word [fofdata], 7
         movsx eax, al
         mov word [word_16595A], 8000h
         test eax, eax
         jne short .53
-        xor byte [byte_165953], 8
-        xor byte [byte_165957], 8
+        xor byte [fofdata2_b3], 8
+        xor byte [fofdata2_b7], 8
 .53:
         mov word [fodir2], 0FFFFh
         mov word [fodir1], 0FFFFh
@@ -1902,7 +1902,7 @@ puckfaceoff2:
         mov edx, 0Ah
         mov ax, word [regd0]
         sub edx, eax
-        mov word [word_165958], dx
+        mov word [fofdata], dx
         jmp near SetupPenaltyBoxSeats_7E
 .56:
         mov eax, ecx
@@ -2232,9 +2232,9 @@ check4bench:
         jl short .2
 .5:
         mov ax, word [gameclock]
-        cmp ax, word [word_176B80]
+        cmp ax, word [PerTimeTotal]
         jne short .7
-        cmp word [word_117902], byte 0
+        cmp word [clockticks], byte 0
         jne short .7
         movsx ax, byte [byte ebx+042h]
         cmp ax, word [byte ebx+01Ah]
@@ -2320,9 +2320,9 @@ check4bench:
         test eax, eax
         je short .17
         mov ax, word [gameclock]
-        cmp ax, word [word_176B80]
+        cmp ax, word [PerTimeTotal]
         jne short .12
-        cmp word [word_117902], byte 0
+        cmp word [clockticks], byte 0
         je short .13
 .12:
         mov eax, 1
@@ -2582,7 +2582,7 @@ assrefpenshot:
         mov byte [eax], 10h
         mov eax, dword [puckvx]
         mov word [eax], 0
-        mov eax, dword [off_11787C]
+        mov eax, dword [puckvy]
         mov word [eax], 0
         mov eax, dword [puckvz]
         mov word [eax], 0
@@ -2624,7 +2624,7 @@ assrefpenshot:
         mov eax, dword [puckvz]
         mov word [eax], 0
         mov dx, word [eax]
-        mov eax, dword [off_11787C]
+        mov eax, dword [puckvy]
         mov word [eax], dx
         mov eax, dword [puckvx]
         mov word [eax], dx
@@ -2728,7 +2728,7 @@ assrefpenshot:
         test eax, eax
         sete al
         movzx eax, al
-        xor eax, dword [dword_119183]
+        xor eax, dword [penshotteam]
         je short .14
         mov eax, 0FFFFFFF6h
         jmp short .15
@@ -2737,7 +2737,7 @@ assrefpenshot:
 .15:
         mov word [byte ebx+02Ch], ax
         inc word [byte ebx+02Eh]
-        mov word [word_1178F8], 0
+        mov word [RefStep], 0
         and byte [sflags], 0BFh
         pop edx
         pop ecx
@@ -2747,7 +2747,7 @@ assrefpenshot:
         call AllInPlace
         test eax, eax
         je short .18
-        mov word [word_1178F8], 0FFFFh
+        mov word [RefStep], 0FFFFh
         mov eax, 2Ah
         mov edx, 7E5h
         call PlaySfx
@@ -2801,14 +2801,14 @@ PullGoalie:
         test dx, dx
         setge bl
         movzx ebx, bl
-        cmp bx, word [word_119111]
+        cmp bx, word [bannermsg]
         jg short .3
-        movsx ecx, word [word_119111]
+        movsx ecx, word [bannermsg]
         cmp ecx, byte 2
         jge short .4
 .3:
         mov word [word_119113], 50h
-        mov word [word_119111], bx
+        mov word [bannermsg], bx
 .4:
         test dx, dx
         jge short .5
@@ -2967,7 +2967,7 @@ goaliechasepuck:
         mov ax, word [eax]
         add eax, edx
         mov word [regd0], ax
-        mov eax, dword [off_11787C]
+        mov eax, dword [puckvy]
         movsx dx, byte [byte eax+01h]
         mov eax, dword [pucky]
         mov ax, word [eax]
@@ -3192,13 +3192,13 @@ assgoalietopuck:
         setne al
         movzx eax, al
         mov edx, eax
-        mov eax, dword [off_11787C]
+        mov eax, dword [puckvy]
         cmp word [eax], byte 0
         setl al
         movzx eax, al
         xor eax, edx
         je short .10
-        mov eax, dword [off_11787C]
+        mov eax, dword [puckvy]
         cmp word [eax], byte 0
         jge short .8
         movsx eax, word [eax]
@@ -3533,7 +3533,7 @@ goaliesave:
         je short .1
         mov eax, 2
 .1:
-        mov ecx, word_164794
+        mov ecx, puckcross
         sar word [byte ebx+0Ch], 1
         add eax, eax
         sar word [byte ebx+0Eh], 1
@@ -3547,7 +3547,7 @@ goaliesave:
         movsx eax, word [byte ebx+02h]
         sub edx, eax
         mov word [regd0], dx
-        mov edx, dword [off_11787C]
+        mov edx, dword [puckvy]
         mov eax, dword [pucky]
         movsx edx, word [edx]
         movsx eax, word [eax]
@@ -3581,7 +3581,7 @@ goaliesave:
         movsx eax, word [regd3]
         cmp eax, byte 4
         jne short .9
-        mov eax, dword [off_11787C]
+        mov eax, dword [puckvy]
         cmp word [eax], byte 0
         jge short .5
         movsx edx, word [eax]
@@ -3833,7 +3833,7 @@ goaliehome:
         mov eax, 2
 .1:
         add eax, eax
-        add eax, word_164794
+        add eax, puckcross
         mov ax, word [eax]
         mov word [regd0], ax
         mov eax, dword [pucky]
@@ -3881,15 +3881,15 @@ goalieposition:
         push edi
         mov esi, eax
         mov word [regd3], 160h
-        mov word [word_165964], 164h
+        mov word [regd4], 164h
         mov al, byte [byte eax+044h]
         and al, 80h
         movzx eax, al
-        mov edi, word_164794
+        mov edi, puckcross
         test eax, eax
         je short .1
         mov word [regd3], 0FEA0h
-        mov word [word_165964], 0FE9Ch
+        mov word [regd4], 0FE9Ch
         add edi, byte 4
 .1:
         mov eax, dword [puckc]
@@ -3977,7 +3977,7 @@ goalieposition:
 .14:
         cmp eax, byte 2Eh
         jle near .23
-        mov eax, dword [off_11787C]
+        mov eax, dword [puckvy]
         movsx eax, word [eax]
         sar eax, 9
         mov word [regd1], ax
@@ -4084,7 +4084,7 @@ goalieposition:
         shl eax, 2
         mov dx, word [dword eax+dword_119F6C]
         sub edx, byte 4
-        mov word [word_165964], dx
+        mov word [regd4], dx
         mov dx, word [sflags]
         xor dh, dh
         and dl, 8
@@ -4101,7 +4101,7 @@ goalieposition:
         shl eax, 2
         mov dx, word [dword eax+dword_119F6C]
         sub edx, byte 6
-        mov word [word_165964], dx
+        mov word [regd4], dx
         mov dx, word [sflags]
         xor dh, dh
         and dl, 8
@@ -4112,18 +4112,18 @@ goalieposition:
         inc eax
         inc eax
 .27:
-        mov word [word_165964], ax
+        mov word [regd4], ax
 .28:
         movsx edx, word [regd1]
-        movsx eax, word [word_165964]
+        movsx eax, word [regd4]
         imul eax, edx
         movsx ecx, word [regd2]
         cdq
         idiv ecx
-        add word [word_165964], byte 8
+        add word [regd4], byte 8
         movsx edx, word [regd0]
         mov word [regd1], ax
-        movsx eax, word [word_165964]
+        movsx eax, word [regd4]
         imul eax, edx
         cdq
         idiv ecx
@@ -4142,7 +4142,7 @@ goalieposition:
         movsx ax, byte [eax]
         cmp ax, word [dword esi+086h]
         je short .31
-        test byte [byte_165250], 20h
+        test byte [InputState], 20h
         je short .31
 .30:
         mov eax, esi
@@ -4153,7 +4153,7 @@ goalieposition:
         call goaliehome
         jmp near goalieposition_648
 .32:
-        mov ebx, dword [off_11787C]
+        mov ebx, dword [puckvy]
         mov eax, dword [pucky]
         movsx ebx, word [ebx]
         movsx edx, word [eax]
@@ -4223,7 +4223,7 @@ goalieposition:
         mov eax, dword [puckc]
         cmp byte [eax], 0
         jge near .68
-        mov al, byte [byte_176B84]
+        mov al, byte [iflags]
         and al, 4
         movsx eax, al
         test eax, eax
@@ -4239,7 +4239,7 @@ goalieposition:
 .45:
         cmp eax, byte 44h
         jl near .68
-        mov eax, dword [off_11787C]
+        mov eax, dword [puckvy]
         cmp word [eax], byte 0
         jge short .46
         movsx eax, word [eax]
@@ -4266,12 +4266,12 @@ goalieposition:
         movzx eax, al
         test eax, eax
         je short .50
-        mov eax, dword [off_11787C]
+        mov eax, dword [puckvy]
         movsx eax, word [eax]
         neg eax
         jmp short .51
 .50:
-        mov eax, dword [off_11787C]
+        mov eax, dword [puckvy]
         movsx eax, word [eax]
 .51:
         cmp eax, 0FFFFFE70h
@@ -4569,7 +4569,7 @@ assgoalie:
         mov byte [byte esi+029h], 0
         jmp near .21
 .29:
-        cmp dword [dword_165254], byte 8
+        cmp dword [PtrPuckZone], byte 8
         jne short .30
         mov eax, esi
         call stopna
@@ -4784,16 +4784,16 @@ assgoalie:
         mov ax, word [eax]
         sub ax, word [byte esi+06h]
         mov word [regd1], ax
-        test byte [byte_165250], 40h
+        test byte [InputState], 40h
         je short .51
-        cmp dword [dword_165254], byte 8
+        cmp dword [PtrPuckZone], byte 8
         jne short .53
         movsx edx, ax
         movsx eax, word [regd0]
         call vtoa
         jmp short .54
 .53:
-        mov ax, word [dword_165254]
+        mov ax, word [PtrPuckZone]
         xor ah, ah
         and al, 7
 .54:
@@ -4848,7 +4848,7 @@ assgoalie:
         sar eax, 9
         sub edx, eax
         mov word [regd0], dx
-        mov edx, dword [off_11787C]
+        mov edx, dword [puckvy]
         mov eax, dword [pucky]
         movsx edx, word [edx]
         movsx eax, word [eax]

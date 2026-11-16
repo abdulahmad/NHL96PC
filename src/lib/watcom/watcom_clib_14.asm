@@ -13,7 +13,7 @@ extern MixerChunkPos, MixerChunkCount, MixerLoopLength, MixerLoopLimit, MixerLoo
 extern dword_1A0B1C, MixerChannelTable, EmuInitHook, EmuFiniHook, PutBlockAtOwnPos, FreeMemBlock, PushMemDescriptorLocked, CreateBitmapDepth
 extern RestoreDS, AudioStreamCallback, StartChannelSample, PanVolumes, SbDelay, SbWaitRead, AdpcmDecodeMono, AdpcmDecodeStereo
 extern SetScreenTarget, MixDecodeBuffer, SndChannels, str_Punct_InitFpuFlags, __no87, OldFpuVectorSelector, FpuCr0Bits, DefaultControlWord
-extern word_1A0FA0, SbMixerAddrPort, word_1A0FA4, word_1A0FA6, word_1A0FA8, SbReadPort, SbWritePort
+extern SbBasePort, SbMixerAddrPort, word_1A0FA4, SbMixerDataPort, SbResetPort, SbReadPort, SbWritePort
 global __chk8087_, __init_8087_, __rest_8087_, __save_8087_, __sys_fini_387_emulator, _fpreset_, MixerChunkLength_4A, MixerChunkLength_8F
 global MixerChunkLength_10E, MixerChunkLength_21B, MixerChunkLength_32D, MixStereo8, MixStereo16, MixMono16Lookup, MixStereo16Lookup, MixOutputStereo16
 global MixOutputStereo8, MixOutputMono8, EmuRestoreFpuVector, EmuRestoreRealVector, PlaySampleOnChannel, FreeBankMemory, UpdateChannelGain, ResetMixChannel
@@ -2938,13 +2938,13 @@ ClearMixBuffer:
         mov word [word_1A0FA4], dx
         mov edx, eax
         add edx, byte 5
-        mov word [word_1A0FA6], dx
+        mov word [SbMixerDataPort], dx
         mov edx, eax
         add edx, byte 6
-        mov word [word_1A0FA8], dx
+        mov word [SbResetPort], dx
         mov edx, eax
         add edx, byte 0Ah
-        mov word [word_1A0FA0], dx
+        mov word [SbBasePort], dx
         mov edx, eax
         mov word [SbMixerAddrPort], ax
         add edx, byte 0Ch
@@ -2952,10 +2952,10 @@ ClearMixBuffer:
         mov word [SbReadPort], dx
         mov word [SbWritePort], ax
         mov al, 1
-        movzx edx, word [word_1A0FA8]
+        movzx edx, word [SbResetPort]
         out dx, al
         call SbDelay
-        movzx edx, word [word_1A0FA8]
+        movzx edx, word [SbResetPort]
         xor al, al
         out dx, al
         call SbWaitRead

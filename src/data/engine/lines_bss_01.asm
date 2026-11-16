@@ -2,10 +2,10 @@
 bits 32
 %include "hockey.inc"
 section s_176CA8 nobits alloc noexec write align=1
-global defsort_d, dressflags, byte_176DEC, byte_176DED, offsort_fwd, byte_176ED7, byte_176ED9, dword_176ED5
-global dword_176F90, unk_176CA8, unk_176CDA, unk_176D0C, unk_176D3E, unk_176DA2, unk_176E38, unk_176E6A
-global unk_176E9C, unk_176ED4, word_176ECE, word_176ED0, dressedskaters, word_176EDB
-unk_176CA8:
+global defsort_d, dressflags, dressflags_aw, byte_176DED, offsort_fwd, byte_176ED7, byte_176ED9, dword_176ED5
+global dword_176F90, defsort_c, unk_176CDA, unk_176D0C, unk_176D3E, defsort_l, unk_176E38, unk_176E6A
+global unk_176E9C, unk_176ED4, dressedfwds, dresseddefs, dressedskaters, word_176EDB
+defsort_c:
         resb 50
 unk_176CDA:
         resb 50
@@ -15,11 +15,11 @@ unk_176D3E:
         resb 50
 defsort_d:
         resb 50
-unk_176DA2:
+defsort_l:
         resb 50
 dressflags:
         resb 24
-byte_176DEC:
+dressflags_aw:
         resb 1
 byte_176DED:
         resb 25
@@ -31,9 +31,9 @@ unk_176E6A:
         resb 50
 unk_176E9C:
         resb 50
-word_176ECE:
+dressedfwds:
         resb 2
-word_176ED0:
+dresseddefs:
         resb 2
 dressedskaters:
         resb 2

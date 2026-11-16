@@ -9,7 +9,7 @@ extern asscenterd, asscentero, asspuckc, assnearest, assscore, asseben, assleave
 extern assdopen, assepen, assbench, assfaceoff, assfaceoffpl, pucknothing, assrefatdot, assreffollow
 extern assrefwhistle, assrefsignal, rtss, assrefgoalline, asspenshooter, assfight, assfwatch, assleavebox
 extern puckfaceoff2, asspsclear, assgoalietopuck, assgoalie, puckshadow
-global byte_117938, byte_117945, byte_11795B, byte_117968, byte_1179A1, byte_1179A5, LinePickOrderFrom1, asstab
+global byte_117938, byte_117945, byte_11795B, byte_117968, pendelaytab, byte_1179A5, LinePickOrderFrom1, asstab
 global penmintab, unk_117A9C, word_117AA2
 byte_117938:
         db 00h,0Ah,0Ah,03h,01h,00h,01h,01h,01h,0Ah,0Ah,04h,04h
@@ -25,7 +25,7 @@ penmintab:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,02h,00h,02h,02h,02h,02h,02h
         db 02h,02h,02h,02h,02h,02h,0FFh,05h,05h,05h,00h,00h,00h,00h,00h,02h
         db 05h,05h,02h
-byte_1179A1:
+pendelaytab:
         db 00h,02h,02h,02h
 byte_1179A5:
         db 02h,00h,02h,04h,02h,06h,02h,02h,02h,02h,02h,02h,02h,02h,02h,02h

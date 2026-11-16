@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_1E33C progbits alloc exec nowrite align=1
-extern byte_17D262, dword_17D263, optflags, word_1656E8, word_16581E
+extern byte_17D262, cupseries, optflags, hmscore, awscore
 global IsCupClinched, HomeClinchesSeries, HomeClinchesSeries_21, AwayClinchesSeries
 ;-----------------------------------------------------------------------------
 ; IsCupClinched                                1E33C  95 PC, medium confidence
@@ -15,14 +15,14 @@ IsCupClinched:
         push ebx
         cmp eax, edx
         jle short .1
-        mov ebx, dword [dword_17D263]
+        mov ebx, dword [cupseries]
         and ebx, byte 3
         test bl, 2
         jne short .2
 .1:
         cmp edx, eax
         jle short .3
-        mov eax, dword [dword_17D263]
+        mov eax, dword [cupseries]
         and eax, byte 3
         test al, 1
         je short .3
@@ -44,13 +44,13 @@ IsCupClinched:
 ;-----------------------------------------------------------------------------
 ; HomeClinchesSeries                           1E383  96 PC, medium confidence
 ; 1 when the home team is ahead and one win from taking the series
-; (dword_17D263 bit 2)
+; (cupseries bit 2)
 ;-----------------------------------------------------------------------------
 HomeClinchesSeries:
-        mov ax, word [word_1656E8]
-        cmp ax, word [word_16581E]
+        mov ax, word [hmscore]
+        cmp ax, word [awscore]
         jle short HomeClinchesSeries_21
-        mov eax, dword [dword_17D263]
+        mov eax, dword [cupseries]
         and eax, byte 3
         test al, 2
         je short HomeClinchesSeries_21
@@ -62,13 +62,13 @@ HomeClinchesSeries_21:
 ;-----------------------------------------------------------------------------
 ; AwayClinchesSeries                           1E3A7  96 PC, medium confidence
 ; 1 when the away team is ahead and one win from taking the series
-; (dword_17D263 bit 1)
+; (cupseries bit 1)
 ;-----------------------------------------------------------------------------
 AwayClinchesSeries:
-        mov ax, word [word_16581E]
-        cmp ax, word [word_1656E8]
+        mov ax, word [awscore]
+        cmp ax, word [hmscore]
         jle short HomeClinchesSeries_21
-        mov eax, dword [dword_17D263]
+        mov eax, dword [cupseries]
         and eax, byte 3
         test al, 1
         je short HomeClinchesSeries_21

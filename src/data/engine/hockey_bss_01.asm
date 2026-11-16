@@ -2,13 +2,13 @@
 bits 32
 %include "hockey.inc"
 section s_16583E nobits alloc noexec write align=1
-global PlList, awtmgoalie, AwPlayerFlags, byte_1658C6, byte_1658E2, byte_1658E3, AwCoachGoalie, byte_1658E5
-global byte_1658EA, byte_165940, byte_165941, byte_16594A, dword_16584E, dword_1658E6, dword_165920, dword_165924
-global dword_165928, dword_16592C, dword_165930, dword_165934, dword_165938, dword_16593C, unk_1658F2, word_16583E
-global word_165846, word_165852, word_16590E, word_165942, word_16594E, word_165950, word_165952
+global PlList, awtmgoalie, AwPlayerFlags, byte_1658C6, awtmcoach_d2, awtmcoach_d3, AwCoachGoalie, awtmcoachmode
+global AwRosterMap, byte_165940, byte_165941, LinePlayersAway, dword_16584E, awtmcoachenergy, dword_165920, dword_165924
+global dword_165928, dword_16592C, dword_165930, dword_165934, dword_165938, hmtmroster, unk_1658F2, word_16583E
+global awtmap, word_165852, word_16590E, word_165942, word_16594E, fofdata2, PlayFlags
 word_16583E:
         resb 8
-word_165846:
+awtmap:
         resb 2
 awtmgoalie:
         resb 6
@@ -20,17 +20,17 @@ AwPlayerFlags:
         resb 114
 byte_1658C6:
         resb 28
-byte_1658E2:
+awtmcoach_d2:
         resb 1
-byte_1658E3:
+awtmcoach_d3:
         resb 1
 AwCoachGoalie:
         resb 1
-byte_1658E5:
+awtmcoachmode:
         resb 1
-dword_1658E6:
+awtmcoachenergy:
         resb 4
-byte_1658EA:
+AwRosterMap:
         resb 8
 unk_1658F2:
         resb 28
@@ -50,7 +50,7 @@ dword_165934:
         resb 4
 dword_165938:
         resb 4
-dword_16593C:
+hmtmroster:
         resb 4
 byte_165940:
         resb 1
@@ -60,11 +60,11 @@ word_165942:
         resb 2
 PlList:
         resb 6
-byte_16594A:
+LinePlayersAway:
         resb 4
 word_16594E:
         resb 2
-word_165950:
+fofdata2:
         resb 2
-word_165952:
+PlayFlags:
         resb 1

@@ -2,22 +2,22 @@
 bits 32
 %include "hockey.inc"
 section s_1177F4 progbits alloc noexec write align=1
-extern dword_164F1C, dword_164FBC, dword_16505C, unk_16505E, unk_165062, unk_165066, unk_165068, unk_16506A
+extern dword_164F1C, dword_164FBC, ViewScreenHeight, unk_16505E, unk_165062, unk_165066, unk_165068, unk_16506A
 extern unk_16506C, unk_16509E, unk_1650FC, unk_16519C, unk_1659D6
-global Pencntdwn, byte_1178C8, byte_1178F9, collflag, dword_1177F4, dword_1177F8, dword_1177FC, dword_117800
-global dword_117804, hmslotcount, awslotcount, hmfirstslot, awfirstslot, dword_1178EA, dword_1178EE, seed
-global fox, foy, gameclock, gmode, lastplayer, off_11786C, off_11787C, puckc
+global Pencntdwn, byte_1178C8, byte_1178F9, collflag, UserRecordsTop, UserRecordsFirst, UserRecordsRow, dword_117800
+global dword_117804, hmslotcount, awslotcount, hmfirstslot, awfirstslot, HomeEbenPlayer, AwayEbenPlayer, seed
+global fox, foy, gameclock, gmode, lastplayer, replaystart, puckvy, puckc
 global PtrPuckFlags, off_117890, PtrPuckObject, off_117898, off_11789C, passplayer, puckvx, puckvz
 global puckx, pucky, puckz, sflags, threat, wcradiusx, word_1178A0, word_1178A2
-global word_1178A6, word_1178A8, word_1178AC, word_1178AE, word_1178B4, yc1, word_1178B8, fodir1
+global word_1178A6, VisTeam, word_1178AC, word_1178AE, word_1178B4, yc1, ltx, fodir1
 global fodir2, gmode2, HomeControlSlot, word_1178CC, word_1178CE, word_1178D0, slotteam, word_1178F4
-global word_1178F6, word_1178F8, word_1178FA, word_1178FC, gsp, word_117902, word_117914, word_117916
+global refsignal, RefStep, word_1178FA, Penaltytimer, gsp, clockticks, dirtab, dirtab_y
 global seed_w2
-dword_1177F4:
+UserRecordsTop:
         db 00h,00h,00h,00h
-dword_1177F8:
+UserRecordsFirst:
         db 00h,00h,00h,00h
-dword_1177FC:
+UserRecordsRow:
         db 00h,00h,00h,00h
 dword_117800:
         db 06Ah,00h,00h,00h
@@ -29,7 +29,7 @@ dword_117804:
         db 039h,01h,00h,00h,046h,01h,00h,00h,052h,01h,00h,00h,05Eh,01h,00h,00h
         db 06Ah,01h,00h,00h,076h,01h,00h,00h,082h,01h,00h,00h,08Fh,01h,00h,00h
         db 09Bh,01h,00h,00h,0A7h,01h,00h,00h
-off_11786C:
+replaystart:
         dd unk_1659D6
 puckx:
         dd unk_16505E
@@ -37,7 +37,7 @@ puckvx:
         dd unk_165068
 pucky:
         dd unk_165062
-off_11787C:
+puckvy:
         dd unk_16506A
 puckz:
         dd unk_165066
@@ -46,7 +46,7 @@ puckvz:
 puckc:
         dd unk_16509E
 PtrPuckFlags:
-        dd dword_16505C
+        dd ViewScreenHeight
 off_117890:
         dd unk_1650FC
 PtrPuckObject:
@@ -63,7 +63,7 @@ wcradiusx:
         db 00h,00h
 word_1178A6:
         db 00h,00h
-word_1178A8:
+VisTeam:
         db 00h,00h
 lastplayer:
         db 00h,00h
@@ -79,7 +79,7 @@ word_1178B4:
         db 00h,00h
 yc1:
         db 00h,00h
-word_1178B8:
+ltx:
         db 00h,00h
 foy:
         db 00h,00h
@@ -117,34 +117,34 @@ hmfirstslot:
         db 0FFh,0FFh,0FFh,0FFh
 awfirstslot:
         db 0FFh,0FFh,0FFh,0FFh
-dword_1178EA:
+HomeEbenPlayer:
         db 0FFh,0FFh,0FFh,0FFh
-dword_1178EE:
+AwayEbenPlayer:
         db 0FFh,0FFh,0FFh,0FFh
 Pencntdwn:
         db 0FFh,0FFh
 word_1178F4:
         db 00h,00h
-word_1178F6:
+refsignal:
         db 00h,00h
-word_1178F8:
+RefStep:
         db 0FFh
 byte_1178F9:
         db 0FFh
 word_1178FA:
         db 00h,00h
-word_1178FC:
+Penaltytimer:
         db 0FFh,0FFh
 gsp:
         db 00h,00h
 gameclock:
         db 00h,00h
-word_117902:
+clockticks:
         db 00h,00h,040h,01h,00h,00h,0C8h,00h,00h,00h,0A0h,00h,00h,00h,064h,00h
         db 00h,00h
-word_117914:
+dirtab:
         db 00h,00h
-word_117916:
+dirtab_y:
         db 0C8h,00h,08Dh,00h,08Dh,00h,0C8h,00h,00h,00h,08Dh,00h,073h,0FFh,00h,00h
         db 038h,0FFh,073h,0FFh,073h,0FFh,038h,0FFh,00h,00h,073h,0FFh,08Dh,00h
 seed:

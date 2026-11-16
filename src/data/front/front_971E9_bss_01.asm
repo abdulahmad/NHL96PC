@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_182294 nobits alloc noexec write align=1
-global byte_182296, dword_1822B8, dword_1822BC, dword_182FB4, dword_182FB8, dword_18301C, dword_183020, dword_183024
+global byte_182296, dword_1822B8, dword_1822BC, dword_182FB4, dword_182FB8, dword_18301C, RosterBackFile, dword_183024
 global unk_182294
 unk_182294:
         resb 2
@@ -18,7 +18,7 @@ dword_182FB8:
         resb 100
 dword_18301C:
         resb 4
-dword_183020:
+RosterBackFile:
         resb 4
 dword_183024:
         resb 4

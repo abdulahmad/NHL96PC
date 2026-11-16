@@ -2,10 +2,10 @@
 bits 32
 %include "hockey.inc"
 section s_17C3F8 nobits alloc noexec write align=1
-global dword_17C3F8, dword_17C3FC, dword_17C400, dword_17C404, dword_17C408, dword_17C40C, dword_17C410, dword_17C414
-global dword_17C418, dword_17C41C, dword_17C420, dword_17C424, dword_17C428, dword_17C42C, dword_17C430, dword_17C434
-global dword_17C438, dword_17C43C, dword_17C440, dword_17C444, dword_17C448, dword_17C44C, dword_17C450, dword_17C454
-global dword_17C458, dword_17C45C, dword_17C460, dword_17C4A0, dword_17C4A4, unk_17C474, word_17C464, word_17C466
+global dword_17C3F8, dword_17C3FC, dword_17C400, MenuRemoteItem, MenuRemoteLayer, MenuLocalCursorY, MenuLocalCursorX, MenuItemLeaveFunc
+global MenuLocalLayer, dword_17C41C, MenuSavedRemoteArt, MenuLocalItem, MenuRemoteCursorY, MenuRemoteCursorX, dword_17C430, dword_17C434
+global MenuItemEnterFunc, dword_17C43C, dword_17C440, dword_17C444, dword_17C448, dword_17C44C, dword_17C450, dword_17C454
+global dword_17C458, MenuCursorArt, dword_17C460, dword_17C4A0, dword_17C4A4, unk_17C474, word_17C464, MenuViewSaved
 global word_17C468, word_17C46A, word_17C46C, word_17C46E, word_17C470, word_17C49C, word_17C49E
 dword_17C3F8:
         resb 4
@@ -13,33 +13,33 @@ dword_17C3FC:
         resb 4
 dword_17C400:
         resb 4
-dword_17C404:
+MenuRemoteItem:
         resb 4
-dword_17C408:
+MenuRemoteLayer:
         resb 4
-dword_17C40C:
+MenuLocalCursorY:
         resb 4
-dword_17C410:
+MenuLocalCursorX:
         resb 4
-dword_17C414:
+MenuItemLeaveFunc:
         resb 4
-dword_17C418:
+MenuLocalLayer:
         resb 4
 dword_17C41C:
         resb 4
-dword_17C420:
+MenuSavedRemoteArt:
         resb 4
-dword_17C424:
+MenuLocalItem:
         resb 4
-dword_17C428:
+MenuRemoteCursorY:
         resb 4
-dword_17C42C:
+MenuRemoteCursorX:
         resb 4
 dword_17C430:
         resb 4
 dword_17C434:
         resb 4
-dword_17C438:
+MenuItemEnterFunc:
         resb 4
 dword_17C43C:
         resb 4
@@ -57,13 +57,13 @@ dword_17C454:
         resb 4
 dword_17C458:
         resb 4
-dword_17C45C:
+MenuCursorArt:
         resb 4
 dword_17C460:
         resb 4
 word_17C464:
         resb 2
-word_17C466:
+MenuViewSaved:
         resb 2
 word_17C468:
         resb 2

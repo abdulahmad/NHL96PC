@@ -2,12 +2,12 @@
 bits 32
 %include "hockey.inc"
 section s_19B760 nobits alloc noexec write align=1
-global byte_19BA44, __nheap_clean, SndChannelType, SndChannelBendRange, SndChannelActive, SndChannelSfx, SndChannelVolume, SndChannelGain
+global __HeapFlags, __nheap_clean, SndChannelType, SndChannelBendRange, SndChannelActive, SndChannelSfx, SndChannelVolume, SndChannelGain
 global SndChannelPan, CrowdLayerData, CrowdLayerChannel, CrowdLayerCurVolume, CrowdLayerCurBend, CrowdLayerThreshold, CrowdLayerMinVolume, CrowdLayerMaxVolume
 global CrowdEvents, CrowdEventRaise, CrowdEventCap, CrowdEventCurve, CrowdEventSfx, CrowdRampRate, __OpenStreams, __ClosedStreams
 global AtexitTable, SpeechBankCount, MemLockState, dword_19F2D0, dword_19F2D4, ScaledRowBuffer, dword_1A0B1C, SndChannelRate
-global SfxTable, SfxTableNext, unk_19BA34, unk_19BA38, unk_19BAD0, SndChannels, word_1A0FA0, SbMixerAddrPort
-global word_1A0FA4, word_1A0FA6, word_1A0FA8, SbReadPort, SbWritePort
+global SfxTable, SfxTableNext, unk_19BA34, errno, unk_19BAD0, SndChannels, SbBasePort, SbMixerAddrPort
+global word_1A0FA4, SbMixerDataPort, SbResetPort, SbReadPort, SbWritePort
 CrowdLayerData:
         resb 16
 CrowdLayerChannel:
@@ -36,13 +36,13 @@ CrowdRampRate:
         resb 4
 unk_19BA34:
         resb 4
-unk_19BA38:
+errno:
         resb 4
 __OpenStreams:
         resb 4
 __ClosedStreams:
         resb 4
-byte_19BA44:
+__HeapFlags:
         resb 1
 __nheap_clean:
         resb 3
@@ -84,15 +84,15 @@ SfxTable:
         resb 4
 SfxTableNext:
         resb 508
-word_1A0FA0:
+SbBasePort:
         resb 2
 SbMixerAddrPort:
         resb 2
 word_1A0FA4:
         resb 2
-word_1A0FA6:
+SbMixerDataPort:
         resb 2
-word_1A0FA8:
+SbResetPort:
         resb 2
 SbReadPort:
         resb 2

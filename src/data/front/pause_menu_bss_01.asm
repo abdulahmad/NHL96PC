@@ -3,8 +3,8 @@ bits 32
 %include "hockey.inc"
 section s_17D4E8 nobits alloc noexec write align=1
 global byte_17D650, byte_17D651, dword_17D4E8, dword_17D4EC, dword_17D4F0, dword_17D4F4, dword_17D4F8, dword_17D4FC
-global dword_17D500, dword_17D504, dword_17D508, dword_17D50C, dword_17D510, dword_17D514, dword_17D518, dword_17D51C
-global dword_17D520, dword_17D524, dword_17D528, dword_17D564, dword_17D56C, dword_17D574, dword_17D57C, dword_17D580
+global dword_17D500, dword_17D504, dword_17D508, dword_17D50C, dword_17D510, dword_17D514, PauseClockArea, dword_17D51C
+global dword_17D520, dword_17D524, FrontShapeFile, dword_17D564, dword_17D56C, dword_17D574, dword_17D57C, dword_17D580
 global dword_17D584, dword_17D588, dword_17D590, dword_17D594, dword_17D654, unk_17D52C, unk_17D598, word_17D560
 global word_17D562, word_17D568, word_17D570, word_17D578, word_17D58C, word_17D58E
 dword_17D4E8:
@@ -31,7 +31,7 @@ dword_17D510:
         resb 4
 dword_17D514:
         resb 4
-dword_17D518:
+PauseClockArea:
         resb 4
 dword_17D51C:
         resb 4
@@ -39,7 +39,7 @@ dword_17D520:
         resb 4
 dword_17D524:
         resb 4
-dword_17D528:
+FrontShapeFile:
         resb 4
 unk_17D52C:
         resb 52

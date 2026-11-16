@@ -3,14 +3,14 @@ bits 32
 %include "hockey.inc"
 section s_B03F2 progbits alloc exec nowrite align=1
 extern GetTicks, TicksSince, _IsTable, __IOMode_, __SetIOMode_, __close_, __set_errno_, __set_errno_dos_
-extern asc_1135E8, str_Inversetmp, QuantizeTable, dword_1219A4, _fmode, dword_124120, InvTabDist, InvTabRStep
+extern str_Inversetbl, str_Inversetmp, QuantizeTable, dword_1219A4, _fmode, dword_124120, InvTabDist, InvTabRStep
 extern InvTabGStep, InvTabBStep, InvTabRMin, InvTabOut, InvTabDistBuf, InvTabGMin, InvTabGCenter, InvTabBCenter
 extern InvTabCell, InvTabRCenter, InvTabR, InvTabG, InvTabB, InvTabColor, InvTabRMax, InvTabGMax
 extern InvTabBMin, InvTabBMax, InvTabRow, InvTabPass, InvTabGLo, InvTabGHi, InvTabBLo, InvTabBHi
 extern InvTabGInc, InvTabBInc, InvTabDistInc, InvTabDistStart, InvTabFillPtr, InvTabFillCount, InvTabFillStep, InvTabFillDist
 extern isatty_, SerialPortTable, off_11FD5C, off_11FD60, AllocMemLocked, FreeMemBlock, LoadDataFileExt, DosGetVector
-extern DosSetVector, LoadFileCached, ReadPaletteEntries8, AddExitHandler, DosOpenReadOnly, DosCloseFile, unk_11FD54, SerialPorts
-extern unk_11FD74, unk_1201B6, unk_1201C0, unk_120602, unk_12060C, unk_120A4E, unk_120A58, word_11FD68
+extern DosSetVector, LoadFileCached, ReadPaletteEntries8, AddExitHandler, DosOpenReadOnly, DosCloseFile, RandSeed, SerialPorts
+extern unk_11FD74, unk_1201B6, unk_1201C0, unk_120602, unk_12060C, unk_120A4E, unk_120A58, SerialIrqMask
 extern SerialBaudDivisors, word_120EC0
 global __set_binary_, _dos_getdate_, _dos_gettime_, byteswap_, LoadResourceData_8, LoadFileDataFlags, SerialCarrier_75, SerialWrite_5
 global SerialReadWait_1A, SerialIsrCom2, SerialIsrCom3, SerialIsrCom4, SerialIsrCom1_85, unk_B15DE_10, med3__4F, lseek_
@@ -26,7 +26,7 @@ global unk_B15DE
 ; Returns the C library's rand state address
 ;-----------------------------------------------------------------------------
 GetRandState:
-        mov eax, unk_11FD54
+        mov eax, RandSeed
         ret
 ;-----------------------------------------------------------------------------
 ; rand_                                                         B03F8  library
@@ -802,7 +802,7 @@ BuildInverseTable:
         push ebp
         push byte 0
         push dword 8000h
-        push asc_1135E8
+        push str_Inversetbl
         call AllocMemLocked
         mov edi, eax
         add esp, byte 0Ch
@@ -1276,7 +1276,7 @@ SerialOpen:
         add esp, byte 0FFFFFFFCh
         push esi
         mov ax, ds
-        mov word [word_11FD68], ax
+        mov word [SerialIrqMask], ax
         mov eax, dword [byte ebp+08h]
         mov ebx, dword [nosplit eax*4+SerialPortTable]
         mov dword [byte ebp-04h], ebx
@@ -1822,7 +1822,7 @@ SerialIsrCom4:
         push edi
         push ds
         db 066h,02Eh,0A1h                       ; insn: mov ax,[cs:0FD68h]
-        dd word_11FD68
+        dd SerialIrqMask
         mov ds, ax
         inc dword [byte ebx+044h]
         cld

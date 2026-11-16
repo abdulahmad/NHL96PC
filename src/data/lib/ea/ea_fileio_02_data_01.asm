@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_124020 progbits alloc noexec write align=1
-global dword_124084, dword_124108, dword_124109, dword_124120, unk_124020, unk_124088, unk_1240A6
+global dword_124084, dword_124108, DosErrnoTable, dword_124120, unk_124020, unk_124088, unk_1240A6
 unk_124020:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -26,7 +26,7 @@ unk_1240A6:
         db 00h,00h
 dword_124108:
         db 00h
-dword_124109:
+DosErrnoTable:
         db 00h,00h,00h,00h,09h,01h,01h,0Bh,06h,04h,05h,05h,05h,02h,03h,0FFh
         db 0FFh,07h,08h,06h,08h,01h,0FFh
 dword_124120:

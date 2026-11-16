@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_C3727 progbits alloc exec nowrite align=1
-extern __chktty_, __flushall_, __set_errno_, __set_errno_dos_, _nmalloc_, byte_19BA44, AtexitTable, SpeechBankCount
+extern __chktty_, __flushall_, __set_errno_, __set_errno_dos_, _nmalloc_, __HeapFlags, AtexitTable, SpeechBankCount
 extern getche_, start_28F, ExitHook, Int23Hook, FpuExitHook
 global _Full_at_exit_rtn_, __filbuf_, __fill_buffer_, __ioalloc_, __null_int23_exit_, __qread_, _exit_, atexit_
 global exit_, fgetc_
@@ -253,7 +253,7 @@ _Full_at_exit_rtn_:
 .1:
         test edx, edx
         je short .2
-        mov eax, dword [dword edx+byte_19BA44]
+        mov eax, dword [dword edx+__HeapFlags]
         sub edx, byte 4
         mov dword [esp], eax
         dec ebx

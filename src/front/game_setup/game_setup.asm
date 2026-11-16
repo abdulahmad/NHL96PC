@@ -2,18 +2,18 @@
 bits 32
 %include "hockey.inc"
 section s_1D6C1 progbits alloc exec nowrite align=1
-extern assinsert, BuildDefaultLines, byte_1190F3, byte_176B90, crowdlevel, CrowdNoiseReset, curperiod, dword_114F16
-extern dword_1150FC, dword_151B84, dword_164744, dword_164748, dword_1655A0, energywarn, exitgame, fadeinpending
+extern assinsert, BuildDefaultLines, apl, curevent, crowdlevel, CrowdNoiseReset, curperiod, dword_114F16
+extern gameresult, dword_151B84, dword_164744, dword_164748, dword_1655A0, energywarn, exitgame, fadeinpending
 extern forceteams, fox, foy, GameLoopActive, gameopts, gameover, goalevent, gsp
 extern InGameMenuRequest, introskipped, lastplayer, lcblink, lcboxon, lcline, LineChangeLine, LineChangeReq
 extern optblock, passplayer, Pencntdwn, Pencntdwn2, penshotlive, penshotmode, penshotplayer, penshotstart
 extern puckx, pucky, refhitcount, regd0, regd1, regd2, ResetClock, SetSPA
 extern SetupTeamLines, shotongoal, shotontarget, SortCords, StartGame, StartPreGame, EmptyRoutine, TextSetColor
-extern SetScreenTarget, threat, vtoa, word_1178A8, word_1178AC, word_1178AE, word_1178F4, word_1178F6
-extern word_1178F8, word_1178FA, word_1178FC, word_118E8F, word_118E9F, word_118EA3, word_118EA5, word_118EA7
-extern word_118EA9, word_118EAB, word_118EAF, word_118EB1, word_118EB3, word_118EB7, word_1190D7, word_1190D9
-extern word_11910B, word_11910F, word_119113, word_1656D2, word_1656D6, word_165710, word_165846, word_165964
-extern word_176B68, word_176B6A, word_176B6C, word_176B6E, word_176B70, word_176B72, word_176B76, word_176B7A
+extern SetScreenTarget, threat, vtoa, VisTeam, word_1178AC, word_1178AE, word_1178F4, refsignal
+extern RefStep, word_1178FA, Penaltytimer, word_118E8F, word_118E9F, word_118EA3, lcblinktime, word_118EA7
+extern lcsel, word_118EAB, word_118EAF, lctimer, word_118EB3, word_118EB7, word_1190D7, puckfaceoff2_ptab
+extern ovltimer, word_11910F, word_119113, word_1656D2, word_1656D6, hmtmap, awtmap, regd4
+extern word_176B68, SpeechPatchNext, joysampling, word_176B6E, word_176B70, word_176B72, word_176B76, word_176B7A
 extern word_176B7E
 global BlankForFadeIn, PlacePlayersAtStart, SetupGame, SetupDemoGame, ResetGameVars
 ;-----------------------------------------------------------------------------
@@ -83,26 +83,26 @@ PlacePlayersAtStart:
         movzx eax, al
         test eax, eax
         je short .2
-        mov ax, word [word_165846]
+        mov ax, word [awtmap]
         jmp short .3
 .2:
-        mov ax, word [word_165710]
+        mov ax, word [hmtmap]
 .3:
-        mov word [word_165964], ax
-        neg word [word_165964]
-        mov ax, word [word_165964]
+        mov word [regd4], ax
+        neg word [regd4]
+        mov ax, word [regd4]
         add eax, 6
         shl eax, 3
-        mov word [word_165964], ax
+        mov word [regd4], ax
         movsx edx, ax
         movsx eax, word [regd1]
-        movsx ax, byte [dword edx+eax+byte_1190F3]
-        mov word [word_165964], ax
+        movsx ax, byte [dword edx+eax+apl]
+        mov word [regd4], ax
         add eax, eax
-        mov word [word_165964], ax
+        mov word [regd4], ax
         cwde
         mov dx, word [nosplit eax*2+word_1190D7]
-        mov ax, word [nosplit eax*2+word_1190D9]
+        mov ax, word [nosplit eax*2+puckfaceoff2_ptab]
         mov word [regd0], dx
         mov word [regd1], ax
         mov al, byte [byte ebx+044h]
@@ -262,11 +262,11 @@ SetupDemoGame:
 ; joyq_flush
 ;-----------------------------------------------------------------------------
 ResetGameVars:
-        mov byte [byte_176B90], 0FFh
+        mov byte [curevent], 0FFh
         mov byte [goalevent], 0FFh
-        mov word [word_11910B], 0FFFFh
-        mov word [word_1178FC], 0FFFFh
-        mov word [word_1178F8], 0FFFFh
+        mov word [ovltimer], 0FFFFh
+        mov word [Penaltytimer], 0FFFFh
+        mov word [RefStep], 0FFFFh
         mov word [Pencntdwn], 0FFFFh
         mov word [Pencntdwn2], 0FFFFh
         mov word [threat], 0
@@ -274,13 +274,13 @@ ResetGameVars:
         mov word [word_1178AE], 0
         mov word [word_1178AC], 0
         mov word [lastplayer], 0
-        mov word [word_1178A8], 0
+        mov word [VisTeam], 0
         mov word [word_118E8F], 0
         mov word [word_1178FA], 0
-        mov word [word_1178F6], 0
+        mov word [refsignal], 0
         mov word [word_1178F4], 0
         mov word [word_118EA7], 0
-        mov word [word_118EA5], 0
+        mov word [lcblinktime], 0
         mov word [word_118EA3], 0
         mov word [lcblink], 0
         mov word [word_118E9F], 0
@@ -292,11 +292,11 @@ ResetGameVars:
         mov word [word_118EB7], 0
         mov word [lcboxon], 0
         mov word [word_118EB3], 0
-        mov word [word_118EB1], 0
+        mov word [lctimer], 0
         mov word [word_118EAF], 0
         mov word [lcline], 0
         mov word [word_118EAB], 0
-        mov word [word_118EA9], 0
+        mov word [lcsel], 0
         mov dword [dword_164748], 0
         mov dword [dword_164744], 0
         mov word [word_119113], 0
@@ -308,7 +308,7 @@ ResetGameVars:
         mov dword [shotontarget], 0
         mov dword [shotongoal], 0
         mov dword [penshotplayer], 0FFFFFFFFh
-        mov word [word_176B6A], 0
+        mov word [SpeechPatchNext], 0
         mov word [word_176B7A], 0
         mov word [word_176B7E], 0
         mov word [word_176B72], 0
@@ -321,12 +321,12 @@ ResetGameVars:
         mov word [LineChangeLine], 0
         call StartGame
         mov dword [curperiod], 1
-        mov dword [dword_1150FC], 0
+        mov dword [gameresult], 0
         mov dword [InGameMenuRequest], 0
         mov word [exitgame], 0
         mov word [gameover], 0
         mov dword [dword_151B84], 0
         mov dword [dword_114F16], 0
         mov dword [GameLoopActive], 0
-        mov word [word_176B6C], 0
+        mov word [joysampling], 0
         ret

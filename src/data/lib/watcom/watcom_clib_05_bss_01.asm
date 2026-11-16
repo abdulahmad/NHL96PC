@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_185C4C nobits alloc noexec write align=1
-global byte_18B0D0, dword_185C4C, dword_18664C, dword_18B04C, dword_18B050, dword_18B054, dword_18B058, dword_18B05C
+global ResourceArchiveData, dword_185C4C, dword_18664C, dword_18B04C, dword_18B050, dword_18B054, dword_18B058, dword_18B05C
 global dword_18B060, dword_18B064, dword_18B068, dword_18B06C, dword_18B070, dword_18B074, CdBufferSelector, CdBufferAllocated
 global CdDriveLetter, dword_18B088, CdRequestSegment, CdBufferAddr, dword_18B094, CdRegs, CdDirEntryBuf, CdRegEbx
 global CdRegEdi, CdRegEax, CdRegEdx, unk_18704C, CdBufferSegment, CdRequestSelector, word_18B0BC, CdRegEs
@@ -71,5 +71,5 @@ CdRegEs:
         resb 2
 CdRegSegs:
         resb 16
-byte_18B0D0:
+ResourceArchiveData:
         resb 24000

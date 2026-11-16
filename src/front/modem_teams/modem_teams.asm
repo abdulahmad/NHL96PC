@@ -4,7 +4,7 @@ bits 32
 section s_A3851 progbits alloc exec nowrite align=1
 extern BlackPalette, byte_17D275, byte_17D283, ComputeTeamRanks, CopyBitmap, DrawFrameAt, dword_11ED3C, dword_11ED40
 extern dword_11ED58, dword_11ED5C, dword_11ED60, dword_11ED64, dword_11ED68, dword_11ED6C, dword_11ED70, dword_11ED74
-extern dword_17BC78, TeamStatsBitmap, dword_17BCE2, dword_17BD48, dword_17D273, dword_1846F0, dword_1846F4, dword_1846F8
+extern MatchupLayer, TeamStatsBitmap, dword_17BCE2, str_Standings, dword_17D273, dword_1846F0, dword_1846F4, dword_1846F8
 extern FadeOut, FadePalette, FillMusicStream, gameopts, GetTeamNameArt, GetTicks, InitMenuItems, LinkSetupScreen
 extern LoadModemStats, LoadPackedFile, LoadTeamLogo, ModemChat, mousex, mousey, MusicDone, OpenScreen
 extern PlayMusic, PutBlock, RunControllerScreen, RunMenu, RunModemSetup, SetDrawBitmap, SetMenuMouse, SetScreenColors
@@ -14,7 +14,7 @@ extern str_Ahl0, str_Ahl1, str_Ahl2, str_Ahr0, str_Ahr1, str_Ahr2, str_Bkgd21, s
 extern str_HaBck12, str_Pal29, str_Rk02d, str_Rk222, str_Rul13, str_Rul23, str_Rul33, str_Swt0
 extern str_Swt12, str_SwtD2, GameOptionsScreen, RunPlayoffMenus_102, RunPlayoffMenus_115, RunPlayoffMenus_73, RunPlayoffMenus_89, RunPlayoffMenus_A6
 extern RunPlayoffMenus_CD, RunPlayoffMenus_D6, RunPlayoffMenus_E1, DrawShapeAtOwnPos, PutBlockAtOwnPos, AllocMemBlock, FreeMemBlock, CreateBitmap
-extern ClearScreenColour, FreeBitmap, SetScreenTarget, FindShape, TextSetFont, unk_152C44, unk_17D272, word_114CE0
+extern ClearScreenColour, FreeBitmap, SetScreenTarget, FindShape, TextSetFont, str_WesternConference2, unk_17D272, word_114CE0
 extern word_11ED38
 global unk_A3851, DrawModemHomePanel, DrawModemHomePanel_151, DrawModemHomePanel_15D, DrawModemAwayPanel, jpt_A3CD4, ModemTeamSelectScreen, ModemTeamSelectScreen_7F1
 global ModemTeamSelectScreen_8AC, ModemTeamSelectScreen_94E, ModemTeamSelectScreen_9F4, ModemTeamSelectScreen_A8A, ModemTeamSelectScreen_B38, ModemTeamSelectScreen_B5C, ModemTeamSelectScreen_B6A, ModemTeamSelectScreen_B78
@@ -325,7 +325,7 @@ ModemTeamSelectScreen:
         mov dword [dword_1846F4], eax
         mov eax, dword [dword_1846F8]
         imul eax, dword [dword_1846F4]
-        mov esi, unk_152C44
+        mov esi, str_WesternConference2
         push str_Pal29
         add esi, 1F2h
         push dword [byte ebp+076h]
@@ -534,7 +534,7 @@ ModemTeamSelectScreen:
         mov byte [dword ebp-02AEh], 6
         mov ecx, 66h
         lea edi, [dword ebp-028Ch]
-        mov esi, dword_17BD48
+        mov esi, str_Standings
         mov byte [dword ebp-02ADh], 7
         mov byte [dword ebp-02AFh], 6
         rep movsb
@@ -962,7 +962,7 @@ ModemTeamSelectScreen_B6A:
         jmp short ModemTeamSelectScreen_B78.15
 ModemTeamSelectScreen_B78:
         call SlideInBottomBar
-        push dword [dword_17BC78]
+        push dword [MatchupLayer]
         call TextSetFont
         add esp, byte 4
         mov ecx, 0FCh

@@ -6,13 +6,13 @@ extern FatalError, __CMain, __FiniRtns, __InitRtns, ___begtext, __doserror_, __f
 extern __set_errno_dos_, _nexpand_, _nfree_, _nmalloc_, _nmsize_, str_InitmemmanINSUFFICIENTROW, asc_113658, asc_113680
 extern asc_1136C4, str_InitmemmanDOSSUBMEMORYNO, str_AAPLUT, asc_113740, str_OpenblockhandleSPATHNAME, str_CDROMDATA, str_CDROMBUFFER, asc_1137B0
 extern asc_1137DC, asc_113810, asc_113834, str_CdromdirectoryentryERROR, str_Viv, QuantizeTable, ResourceArchiveName, _Extender
-extern _ExtenderSubtype, _osmajor, _osminor, byte_18B0D0, CpuIs386, CpuIs486, CpuType, CpuHasCpuid
-extern CpuFeatures, dword_11F9B8, RowTable, dword_1210C8, dword_1210CC, dword_1219A0, dword_1219A4, AaWeights
+extern _ExtenderSubtype, _osmajor, _osminor, ResourceArchiveData, CpuIs386, CpuIs486, CpuType, CpuHasCpuid
+extern CpuFeatures, dword_11F9B8, RowTable, dword_1210C8, MemPoolBase, dword_1219A0, dword_1219A4, AaWeights
 extern FpuFlags, dword_121B24, dword_121B28, dword_121B2C, ResourceArchive, CdSectorSize, CdFileMode, CdFileHandle
-extern dword_121B50, dword_121B54, dword_121B58, dword_121B5C, CdDriveCount, CdStreamSpeed, ScreenWidth, dword_1228D6
+extern CdFileStart, CdFileSize, CdFilePos, CdFileBuffer, CdDriveCount, CdStreamSpeed, ScreenWidth, dword_1228D6
 extern dword_1228DA, dword_1228DE, dword_1228E2, DrawDestBuffer, dword_1228FC, _dynend, _curbrk, _LpCmdLine
-extern StackLow, _STACKLOW, _STACKTOP, _Envptr, RowTableSize, MemLockHandle, dword_185738, dword_18573C
-extern dword_185848, dword_185C4C, dword_18664C, dword_18B04C, dword_18B050, dword_18B054, dword_18B058, dword_18B05C
+extern StackLow, _STACKLOW, _STACKTOP, _Envptr, RowTableSize, MemLockHandle, MemFreeStart, MemFreeBytes
+extern MemPoolSize, dword_185C4C, dword_18664C, dword_18B04C, dword_18B050, dword_18B054, dword_18B058, dword_18B05C
 extern dword_18B060, dword_18B064, dword_18B068, dword_18B06C, dword_18B070, dword_18B074, CdBufferSelector, CdBufferAllocated
 extern CdDriveLetter, dword_18B088, CdRequestSegment, CdBufferAddr, dword_18B094, CdRegs, CdDirEntryBuf, CdRegEbx
 extern CdRegEdi, CdRegEax, CdRegEdx, dword_19F2D4, int386_, int386x_, kaufmfont, LocateBigEntry_168
@@ -196,8 +196,8 @@ InitMemoryPool:
 .3:
         and al, 0F0h
         call _nmalloc_
-        mov dword [dword_1210CC], eax
-        mov eax, dword [dword_1210CC]
+        mov dword [MemPoolBase], eax
+        mov eax, dword [MemPoolBase]
         add eax, edx
         mov ecx, dword [RowTable]
         mov dword [dword_1210C8], eax
@@ -220,7 +220,7 @@ InitMemoryPool:
         sub edx, byte 2
         push ebp
         mov dword [eax], edx
-        mov edx, dword [dword_1210CC]
+        mov edx, dword [MemPoolBase]
         push edx
         mov dword [byte eax+04h], 0
         mov dword [RowTableSize], ebx
@@ -232,14 +232,14 @@ InitMemoryPool:
         shl edi, 3
         push byte 10h
         mov ebx, dword [dword_1210C8]
-        mov eax, dword [dword_1210CC]
+        mov eax, dword [MemPoolBase]
         push ebx
         add eax, edi
         push eax
         push byte 0
         call AddMemRegion
         mov ebp, dword [dword_1210C8]
-        mov ecx, dword [dword_1210CC]
+        mov ecx, dword [MemPoolBase]
         add esp, byte 18h
         sub ebp, ecx
         mov edi, dword [byte esp+064h]
@@ -270,14 +270,14 @@ InitMemoryPool:
         mov word [esp], cx
         sub eax, ebx
         mov ecx, dword [byte esp+060h]
-        mov dword [dword_185848], eax
+        mov dword [MemPoolSize], eax
         test ecx, ecx
         je short .8
         cmp eax, ecx
         jle short .8
-        mov dword [dword_185848], ecx
+        mov dword [MemPoolSize], ecx
 .8:
-        mov eax, dword [dword_185848]
+        mov eax, dword [MemPoolSize]
         test eax, eax
         jg short .9
         xor eax, eax
@@ -298,7 +298,7 @@ InitMemoryPool:
         mov ax, word [byte esp+020h]
         shl eax, 4
         push eax
-        mov ebx, dword [dword_185848]
+        mov ebx, dword [MemPoolSize]
         push ebx
         push asc_113680
         call FatalError
@@ -311,7 +311,7 @@ InitMemoryPool:
         xor eax, eax
         mov ax, word [byte esp+020h]
         shl eax, 4
-        mov dword [dword_185848], eax
+        mov dword [MemPoolSize], eax
 .11:
         cmp dword [byte esp+064h], byte 0
         je near .13
@@ -417,7 +417,7 @@ InitMemoryPool:
         call AddHighMemRegion
         add esp, byte 0Ch
 .19:
-        mov ebx, dword [dword_185848]
+        mov ebx, dword [MemPoolSize]
         test ebx, ebx
         jle short .20
         push byte 0
@@ -453,8 +453,8 @@ InitMemoryPool:
         mov ecx, dword [MemLockHandle]
         mov ebx, 0A0000h
         push ecx
-        mov dword [dword_18573C], ebp
-        mov dword [dword_185738], ebx
+        mov dword [MemFreeBytes], ebp
+        mov dword [MemFreeStart], ebx
         call MemUnlock
         add esp, byte 4
         mov eax, ebp
@@ -5236,13 +5236,13 @@ CdOpenFile:
         call CdDirEntry
         xor edx, edx
         mov ecx, 1
-        mov dword [dword edi+dword_121B54], edx
+        mov dword [dword edi+CdFileSize], edx
         mov eax, dword [CdSectorSize]
-        mov dword [dword edi+dword_121B58], edx
+        mov dword [dword edi+CdFilePos], edx
         add esp, byte 0Ch
         mov dword [dword edi+CdFileMode], ecx
         mov edx, dword [dword esp+0B4h]
-        mov dword [dword edi+dword_121B50], eax
+        mov dword [dword edi+CdFileStart], eax
         mov ecx, esp
         mov dword [edx], eax
         mov eax, esp
@@ -5287,7 +5287,7 @@ CdOpenFile:
         mov eax, dword [dword esp+0ACh]
         mov eax, dword [eax]
         mov ebp, 2
-        mov dword [dword edi+dword_121B54], eax
+        mov dword [dword edi+CdFileSize], eax
         mov eax, dword [dword esp+0B4h]
         mov dword [dword edi+CdFileMode], ebp
         mov dword [eax], 1
@@ -5401,16 +5401,16 @@ CdReadSectors:
         jmp short .2
 .1:
         push edi
-        mov ecx, dword [dword esi+dword_121B58]
+        mov ecx, dword [dword esi+CdFilePos]
         push ecx
-        mov ebp, dword [dword esi+dword_121B5C]
+        mov ebp, dword [dword esi+CdFileBuffer]
         push ebp
         push edx
         call CdReadRequest
-        mov eax, dword [dword esi+dword_121B58]
+        mov eax, dword [dword esi+CdFilePos]
         add eax, edi
         add esp, byte 10h
-        mov dword [dword esi+dword_121B58], eax
+        mov dword [dword esi+CdFilePos], eax
 .2:
         mov eax, edi
         pop ebp
@@ -5471,14 +5471,14 @@ CdSeekSectors:
         pop esi
         ret
 .1:
-        mov eax, dword [dword esi+dword_121B54]
+        mov eax, dword [dword esi+CdFileSize]
         add eax, edx
         push eax
-        mov edi, dword [dword esi+dword_121B5C]
+        mov edi, dword [dword esi+CdFileBuffer]
         push edi
-        mov dword [dword esi+dword_121B58], eax
+        mov dword [dword esi+CdFilePos], eax
         call CdSeekCmd
-        mov eax, dword [dword esi+dword_121B58]
+        mov eax, dword [dword esi+CdFilePos]
         add esp, byte 8
         and eax, 7FFh
         pop ebp
@@ -6406,7 +6406,7 @@ OpenResourceArchive:
         push edi
         mov esi, dword [byte esp+0Ch]
         mov edx, LocateBigEntry_168
-        mov ebx, byte_18B0D0
+        mov ebx, ResourceArchiveData
         mov ecx, dword_19F2D4
         mov edi, 5DC0h
         xor ah, ah
@@ -6414,7 +6414,7 @@ OpenResourceArchive:
         mov dword [dword_121B24], ebx
         mov dword [dword_121B2C], ecx
         mov dword [ResourceArchive], edi
-        mov byte [byte_18B0D0], ah
+        mov byte [ResourceArchiveData], ah
         mov byte [ResourceArchiveName], ah
         test esi, esi
         je short .8

@@ -4,15 +4,15 @@ bits 32
 section s_4F453 progbits alloc exec nowrite align=1
 extern GameLoopActive, str_SSS, str_CSS, str_SS, str_CS, str_CSCS, str_CS2, str_spCS
 extern str_D, str_2d02d, awtmstruct, byte_115114, byte_115116, byte_157191, byte_157193, byte_1647E3
-extern byte_1655A4, byte_1655E0, byte_16561C, byte_165658, byte_165694, byte_16580B, byte_16580C, byte_165941
-extern byte_176B90, byte_176B91, byte_176B92, byte_176B93, byte_176B94, byte_176B95, byte_176B96, byte_176B97
-extern byte_176B98, byte_176B99, byte_176B9A, goalevent, byte_179DC1, byte_17CA5D, crowdlevel, curperiod
-extern dword_11917F, dword_119183, dword_11A1BC, dword_11B310, dword_1571B3, dword_164124, dword_1657EA, dword_1798AC
+extern textline1, byte_1655E0, byte_16561C, byte_165658, byte_165694, byte_16580B, byte_16580C, byte_165941
+extern curevent, byte_176B91, byte_176B92, curevent_b2, curevent_b5, byte_176B95, curevent_b6, curevent_b7
+extern curevent_b8, byte_176B99, curevent_b9, goalevent, byte_179DC1, byte_17CA5D, crowdlevel, curperiod
+extern penshotfox, penshotteam, dword_11A1BC, dword_11B310, dword_1571B3, plseasongoals, hmtmlines, dword_1798AC
 extern dword_179918, dword_179920, optflags, TextStringWidth, gameclock, gameopts, gmode, hmroster
 extern hmtmgoalie, hmtmstruct, penshotplayer, sprintf_, str_FmtNumFirstLast, str_FmtNumInitialLast, str_FmtNumName, str_FmtNumNameSuffix
 extern str_FmtParenD, strcat_, strcpy_, strlen_, QueueOverlayPanel, CloseTextOverlay, EndCameraShot, PaEvent
-extern GetLangText, TextSetFont, unk_110E2D, str_S8, unk_156E6C, gsp, word_11A236, word_1656E8
-extern word_16581E, word_165942, word_176B6C, word_176B7A, word_176B80
+extern GetLangText, TextSetFont, str_GoneForTheGame, str_S8, hmplstats, gsp, word_11A236, hmscore
+extern awscore, word_165942, joysampling, word_176B7A, PerTimeTotal
 global FormatPlayerName, FormatScorerName, FormatAssistNames, BuildEventLines, PostGoalEvent, PostPenaltyEvent, PostInjuryEvent
 ;-----------------------------------------------------------------------------
 ; FormatPlayerName                             4F453  95 PC, medium confidence
@@ -295,8 +295,8 @@ BuildEventLines:
         mov byte [byte_165694], 0
         mov byte [byte_165658], 0
         mov byte [byte_1655E0], 0
-        mov byte [byte_1655A4], 0
-        movsx eax, byte [byte_176B90]
+        mov byte [textline1], 0
+        movsx eax, byte [curevent]
         mov byte [byte_16561C], 0
         cmp eax, byte 1
         jne near .7
@@ -316,7 +316,7 @@ BuildEventLines:
         mov eax, 1Fh
         jmp short .1
 .3:
-        mov eax, unk_110E2D
+        mov eax, str_GoneForTheGame
 .4:
         push eax
         push str_S8
@@ -336,14 +336,14 @@ BuildEventLines:
         mov eax, edx
         shl eax, 4
         add eax, ebx
-        movsx ebx, word [dword eax+unk_156E6C]
+        movsx ebx, word [dword eax+hmplstats]
         test byte [optflags], 70h
         je short .5
         mov ecx, dword [optflags]
         and ecx, byte 70h
         cmp ecx, byte 30h
         je short .5
-        add ebx, dword [dword eax+dword_164124]
+        add ebx, dword [dword eax+plseasongoals]
 .5:
         push ebx
         lea eax, [byte ebp-010h]
@@ -367,15 +367,15 @@ BuildEventLines:
         add esp, byte 0Ch
         lea edx, [byte eax+07h]
         lea ecx, [byte ebp-010h]
-        mov eax, byte_1655A4
+        mov eax, textline1
         call FormatScorerName
-        movzx edx, byte [byte_176B94]
-        movzx eax, byte [byte_176B93]
+        movzx edx, byte [curevent_b5]
+        movzx eax, byte [curevent_b2]
         mov ebx, esi
         call FormatAssistNames
-        movzx eax, byte [byte_176B98]
+        movzx eax, byte [curevent_b8]
         push eax
-        movzx eax, byte [byte_176B97]
+        movzx eax, byte [curevent_b7]
         push eax
         push str_2d02d
         push byte_165658
@@ -386,13 +386,13 @@ BuildEventLines:
         cmp eax, byte 2
         jne near .13
         movzx esi, byte [byte_176B91]
-        movzx eax, byte [byte_176B93]
+        movzx eax, byte [curevent_b2]
         movzx ebx, byte [byte_176B92]
         cmp eax, byte 11h
         jne near .10
-        movzx eax, byte [byte_176B97]
+        movzx eax, byte [curevent_b7]
         push eax
-        movzx eax, byte [byte_176B96]
+        movzx eax, byte [curevent_b6]
         push eax
         push str_2d02d
         push byte_165694
@@ -403,18 +403,18 @@ BuildEventLines:
         mov edx, eax
         mov eax, byte_1655E0
         call strcpy_
-        imul edx, dword [dword_119183], dword 4B4h
-        imul eax, dword [dword_11917F], byte 2Bh
+        imul edx, dword [penshotteam], dword 4B4h
+        imul eax, dword [penshotfox], byte 2Bh
         mov ecx, hmroster
         add ecx, edx
         add ecx, eax
-        push unk_110E2D
+        push str_GoneForTheGame
         lea ebx, [byte ecx+017h]
         push ebx
         add ecx, byte 7
         movzx ebx, byte [dword edx+eax+byte_157191]
-        mov edx, unk_110E2D
-        mov eax, byte_1655A4
+        mov edx, str_GoneForTheGame
+        mov eax, textline1
         call FormatPlayerName
         test esi, esi
         jle short .8
@@ -431,7 +431,7 @@ BuildEventLines:
         mov edx, hmroster
         add edx, ebx
         add edx, eax
-        push unk_110E2D
+        push str_GoneForTheGame
         lea ecx, [byte edx+017h]
         movzx ebx, byte [dword ebx+eax+byte_157191]
         push ecx
@@ -447,9 +447,9 @@ BuildEventLines:
         mov dword [dword_1798AC], eax
         jmp near .14
 .10:
-        movzx eax, byte [byte_176B97]
+        movzx eax, byte [curevent_b7]
         push eax
-        movzx eax, byte [byte_176B96]
+        movzx eax, byte [curevent_b6]
         push eax
         push str_2d02d
         push byte_165694
@@ -465,15 +465,15 @@ BuildEventLines:
         mov ecx, hmroster
         add ecx, edx
         add ecx, eax
-        push unk_110E2D
+        push str_GoneForTheGame
         lea ebx, [byte ecx+017h]
         push ebx
         add ecx, byte 7
         movzx ebx, byte [dword edx+eax+byte_157191]
-        mov edx, unk_110E2D
-        mov eax, byte_1655A4
+        mov edx, str_GoneForTheGame
+        mov eax, textline1
         call FormatPlayerName
-        movzx eax, byte [byte_176B94]
+        movzx eax, byte [curevent_b5]
         cmp eax, 0FFh
         jne short .11
         mov eax, 23h
@@ -491,7 +491,7 @@ BuildEventLines:
         call sprintf_
         add esp, byte 0Ch
 .12:
-        movzx eax, byte [byte_176B93]
+        movzx eax, byte [curevent_b2]
         mov eax, dword [nosplit eax*4+dword_11A1BC]
         call GetLangText
         mov edx, eax
@@ -503,7 +503,7 @@ BuildEventLines:
         cmp eax, byte 3
         jne near .15
         movzx esi, byte [byte_176B91]
-        movsx eax, byte [byte_176B93]
+        movsx eax, byte [curevent_b2]
         movzx edi, byte [byte_176B92]
         mov dword [byte ebp-04h], eax
         mov eax, 25h
@@ -518,14 +518,14 @@ BuildEventLines:
         add ecx, edx
         add ecx, eax
         lea ebx, [byte ecx+017h]
-        push unk_110E2D
+        push str_GoneForTheGame
         push ebx
         add ecx, byte 7
         movzx ebx, byte [dword edx+eax+byte_157191]
-        mov edx, unk_110E2D
-        mov eax, byte_1655A4
+        mov edx, str_GoneForTheGame
+        mov eax, textline1
         call FormatPlayerName
-        movzx eax, byte [byte_176B96]
+        movzx eax, byte [curevent_b6]
         push eax
         movzx eax, byte [byte_176B95]
         push eax
@@ -567,20 +567,20 @@ PostGoalEvent:
         mov al, byte [byte ebp+010h]
         mov byte [byte_176B95], al
         mov al, byte [curperiod]
-        mov byte [byte_176B96], al
+        mov byte [curevent_b6], al
         mov al, byte [byte ebp+014h]
-        mov byte [byte_176B97], al
+        mov byte [curevent_b7], al
         mov al, byte [byte ebp+018h]
-        mov byte [byte_176B98], al
+        mov byte [curevent_b8], al
         imul eax, dword [byte ebp-04h], dword 136h
         mov dx, word [dword eax+hmtmgoalie]
-        mov byte [byte_176B90], 1
+        mov byte [curevent], 1
         xor dh, dh
-        mov byte [byte_176B93], bl
+        mov byte [curevent_b2], bl
         and dl, 1
-        mov eax, dword [dword eax+dword_1657EA]
+        mov eax, dword [dword eax+hmtmlines]
         movsx edx, dx
-        mov byte [byte_176B94], cl
+        mov byte [curevent_b5], cl
         mov al, byte [byte edx+eax+034h]
         mov byte [byte_176B99], al
         cmp dword [byte ebp-04h], byte 0
@@ -595,12 +595,12 @@ PostGoalEvent:
         sete al
         movzx eax, al
         imul eax, dword 136h
-        mov eax, dword [dword eax+dword_1657EA]
+        mov eax, dword [dword eax+hmtmlines]
         mov al, byte [byte edx+eax+034h]
-        mov byte [byte_176B9A], al
-        cmp word [word_1656E8], byte 0
+        mov byte [curevent_b9], al
+        cmp word [hmscore], byte 0
         jne short .1
-        cmp word [word_16581E], byte 0
+        cmp word [awscore], byte 0
         jne short .1
         mov byte [word_165942], 0
         mov byte [byte_165941], 0
@@ -728,9 +728,9 @@ PostGoalEvent:
         call BuildEventLines
         mov ax, word [GameLoopActive]
         mov edi, goalevent
-        mov esi, byte_176B90
+        mov esi, curevent
         mov dword [GameLoopActive], 0
-        mov word [word_176B6C], ax
+        mov word [joysampling], ax
         cwde
         movsd
         movsd
@@ -760,14 +760,14 @@ PostPenaltyEvent:
         mov al, byte [byte ebp-08h]
         mov byte [byte_176B92], al
         mov al, byte [curperiod]
-        mov byte [byte_176B90], 2
+        mov byte [curevent], 2
         mov byte [byte_176B95], al
         mov al, byte [byte ebp+08h]
-        mov byte [byte_176B93], bl
-        mov byte [byte_176B96], al
+        mov byte [curevent_b2], bl
+        mov byte [curevent_b6], al
         mov al, byte [byte ebp+0Ch]
-        mov byte [byte_176B94], cl
-        mov byte [byte_176B97], al
+        mov byte [curevent_b5], cl
+        mov byte [curevent_b7], al
         call BuildEventLines
         cmp ebx, byte 17h
         jne short .1
@@ -784,7 +784,7 @@ PostPenaltyEvent:
         call CloseTextOverlay
 .2:
         mov ax, word [GameLoopActive]
-        mov word [word_176B6C], ax
+        mov word [joysampling], ax
         movsx eax, word [crowdlevel]
         mov dword [GameLoopActive], 0
         cmp eax, 190h
@@ -793,44 +793,44 @@ PostPenaltyEvent:
 .3:
         cmp ebx, byte 11h
         jne near .10
-        cmp dword [dword_119183], byte 0
+        cmp dword [penshotteam], byte 0
         sete al
         movzx eax, al
         imul eax, dword 136h
         cmp word [dword eax+hmtmgoalie], byte 0
         jge near .6
-        cmp dword [dword_119183], byte 0
+        cmp dword [penshotteam], byte 0
         sete al
         movzx eax, al
         imul eax, dword 136h
-        mov eax, dword [dword eax+dword_1657EA]
+        mov eax, dword [dword eax+hmtmlines]
         movzx eax, byte [byte eax+034h]
         imul edx, eax, byte 2Bh
-        cmp dword [dword_119183], byte 0
+        cmp dword [penshotteam], byte 0
         sete al
         movzx eax, al
         imul eax, dword 4B4h
         push dword [dword edx+eax+dword_1571B3]
-        cmp dword [dword_119183], byte 0
+        cmp dword [penshotteam], byte 0
         sete al
         movzx eax, al
         imul eax, dword 136h
-        mov eax, dword [dword eax+dword_1657EA]
+        mov eax, dword [dword eax+hmtmlines]
         movzx eax, byte [byte eax+034h]
         imul edx, eax, byte 2Bh
-        cmp dword [dword_119183], byte 0
+        cmp dword [penshotteam], byte 0
         sete al
         movzx eax, al
         imul eax, dword 4B4h
         movzx eax, byte [dword edx+eax+byte_157191]
-        imul edx, dword [dword_11917F], byte 2Bh
+        imul edx, dword [penshotfox], byte 2Bh
         push eax
-        imul eax, dword [dword_119183], dword 4B4h
+        imul eax, dword [penshotteam], dword 4B4h
         push dword [dword edx+eax+dword_1571B3]
         movzx eax, byte [dword edx+eax+byte_157191]
         push eax
         push byte 0
-        cmp dword [dword_119183], byte 0
+        cmp dword [penshotteam], byte 0
         je short .4
         mov eax, dword [gameopts]
         mov eax, dword [byte eax+01h]
@@ -844,38 +844,38 @@ PostPenaltyEvent:
         shr eax, 1Bh
         jmp near .9
 .6:
-        cmp dword [dword_119183], byte 0
+        cmp dword [penshotteam], byte 0
         sete al
         movzx eax, al
         imul eax, dword 136h
-        mov eax, dword [dword eax+dword_1657EA]
+        mov eax, dword [dword eax+hmtmlines]
         movzx eax, byte [byte eax+034h]
         imul edx, eax, byte 2Bh
-        cmp dword [dword_119183], byte 0
+        cmp dword [penshotteam], byte 0
         sete al
         movzx eax, al
         imul eax, dword 4B4h
         push dword [dword edx+eax+dword_1571B3]
-        cmp dword [dword_119183], byte 0
+        cmp dword [penshotteam], byte 0
         sete al
         movzx eax, al
         imul eax, dword 136h
-        mov eax, dword [dword eax+dword_1657EA]
+        mov eax, dword [dword eax+hmtmlines]
         movzx edx, byte [byte eax+034h]
         imul edx, byte 2Bh
-        cmp dword [dword_119183], byte 0
+        cmp dword [penshotteam], byte 0
         sete al
         movzx eax, al
         imul eax, dword 4B4h
         movzx eax, byte [dword edx+eax+byte_157191]
-        imul edx, dword [dword_119183], dword 4B4h
+        imul edx, dword [penshotteam], dword 4B4h
         push eax
-        imul eax, dword [dword_11917F], byte 2Bh
+        imul eax, dword [penshotfox], byte 2Bh
         push dword [dword edx+eax+dword_1571B3]
         movzx eax, byte [dword edx+eax+byte_157191]
         push eax
         push byte 1
-        cmp dword [dword_119183], byte 0
+        cmp dword [penshotteam], byte 0
         je short .7
         mov eax, dword [gameopts]
         mov eax, dword [byte eax+01h]
@@ -936,7 +936,7 @@ PostPenaltyEvent:
         je short .14
         mov word [word_176B7A], 0FFFFh
 .14:
-        movsx eax, word [word_176B6C]
+        movsx eax, word [joysampling]
         mov dword [GameLoopActive], eax
 .15:
         xor eax, eax
@@ -955,17 +955,17 @@ PostInjuryEvent:
         movsx eax, al
         test eax, eax
         jne short .1
-        mov byte [byte_176B90], 3
+        mov byte [curevent], 3
         mov al, byte [byte ebp-04h]
         mov byte [byte_176B92], dl
-        mov byte [byte_176B93], bl
+        mov byte [curevent_b2], bl
         mov byte [byte_176B91], al
         mov al, byte [curperiod]
         mov byte [byte_176B95], cl
-        mov byte [byte_176B94], al
+        mov byte [curevent_b5], al
         mov al, byte [byte ebp+08h]
         mov edx, 0FFFFFFFFh
-        mov byte [byte_176B96], al
+        mov byte [curevent_b6], al
         call BuildEventLines
         mov eax, 6
         call CloseTextOverlay
@@ -980,6 +980,6 @@ PostInjuryEvent:
         ret 0Ch
         mov ax, word [gsp]
         shl eax, 0Eh
-        add ax, word [word_176B80]
+        add ax, word [PerTimeTotal]
         sub ax, word [gameclock]
         ret

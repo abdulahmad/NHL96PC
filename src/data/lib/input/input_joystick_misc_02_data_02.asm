@@ -5,7 +5,7 @@ section s_123A94 progbits alloc noexec write align=1
 extern unk_19A650
 global ViewCenterX, str_D_SetCameraAngles, CameraYaw, CameraPitch, ViewCenterY, str_D_ProjectPointsPersp, dword_123AAC, dword_123AB0
 global CameraOriginX, CameraOriginY, dword_123ABC, dword_123AC0, RetraceTimeout, dword_123AC8, dword_123ACC, dword_123AD0
-global dword_123B0C, SpeechQueue, SpeechQueueLead
+global VesaModeInfo, SpeechQueue, SpeechQueueLead
 ViewCenterX:
         db 0A0h,00h,00h,00h
 str_D_SetCameraAngles:
@@ -41,7 +41,7 @@ dword_123AD0:
         db 00h,00h,00h,00h,020h,03h,00h,00h,058h,02h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,04h,00h,00h,00h,03h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,05h,00h,00h,00h,04h,00h,00h
-dword_123B0C:
+VesaModeInfo:
         db 00h,00h,00h,00h
 SpeechQueue:
         db 00h,00h,00h,00h

@@ -3,9 +3,9 @@ bits 32
 %include "hockey.inc"
 section s_1B046 progbits alloc exec nowrite align=1
 extern _dos_gettime_, asc_1103D8, chdir_, DetectCPU, dword_114CD3, dword_1150D4, dword_1150D8, dword_1150DC
-extern dword_11D19C, CpuType, dword_11F61C, dword_11F994, DebugMode, dword_152F44, dword_152F48, dword_152F4C
-extern dword_152F50, dword_152F54, dword_152F58, dword_152F5C, globalset, InitInputDevices, InstallTimer, LoadDataFile
-extern LoadGripLibrary, LoadPackedFile, MakeDataPath, ModemGameClose, off_11D3DC, optflags, PlayMenuGame, printf_
+extern dword_11D19C, CpuType, dword_11F61C, bailout_vec, DebugMode, dword_152F44, dword_152F48, dword_152F4C
+extern MenuRemoteCursorArt, MenuCursorPixels, dword_152F58, MenuBitmapPixels, globalset, InitInputDevices, InstallTimer, LoadDataFile
+extern LoadGripLibrary, LoadPackedFile, MakeDataPath, ModemGameClose, LogoNames, optflags, PlayMenuGame, printf_
 extern ReadGlobalSet, srand_, StartSoundCard, str_CLEARER, str_dbgL, str_Dot, str_FhiL4, str_FhiR4
 extern str_HardwareBeforeRunningHOC, str_IhreHardwareZuKonfigurie, str_LDON, str_LEAS, str_Lgo, str_LNEW, str_LNHL, str_LNPA
 extern str_LOGOPACK, str_LSTA, str_spPressESCToReturnToDOS, str_YouMustFirstUseTheSETUPP, strcat_, strcmp_, strlen_, GripSetupScreen
@@ -16,7 +16,7 @@ extern RunSeasonMenus, RunStatsMenu, RunModemGameSetup, RunPlayoffMenus, AllocMe
 extern UnpackTo, TextSetColor, SetupMemoryPool, NumLockOff, InstallHotkeys, NearestColour, CreateAaPalLut, SetScreenTarget
 extern SetTextMode, SetPaletteEntries8, ReadPaletteEntries8, InitMouse, InstallKeyboardHandler, KbdGetKey, AddExitHandler, FindShape
 extern bcopy, InstallBreakHandler, TextSetFont, unk_110351, unk_110355, unk_11041A, unk_11048D, DataDirPath
-extern unk_1210DC, unk_1213DC, unk_152C44, unk_18584C
+extern unk_1210DC, unk_1213DC, str_WesternConference2, unk_18584C
 global jpt_1B046, LoadTeamLogo, LoadTeamLogo_3B, LoadTeamLogo_45, LoadTeamLogo_4F, LoadTeamLogo_59, LoadTeamLogo_63, LoadTeamLogo_6D
 global LoadTeamLogo_ret, RunFrontEnd, ReturnTrue, CheckFreeMemory, CheckGameDirs, InitHardware, StartUp, ShutDown
 global ShutDown_51, StartUp_ret, main_
@@ -29,7 +29,7 @@ jpt_1B046:
         dd LoadTeamLogo_63
 ;-----------------------------------------------------------------------------
 ; LoadTeamLogo                                 1B05E  96 PC, medium confidence
-; (team): loads the logo "L" + the team's three letters (off_11D3DC), or for
+; (team): loads the logo "L" + the team's three letters (LogoNames), or for
 ; 1Ch-21h the league logos LNPA, LNHL, LDON, LNEW, LSTA, LEAS, from the logo
 ; bank, with its palette
 ;-----------------------------------------------------------------------------
@@ -46,7 +46,7 @@ LoadTeamLogo:
         cmp esi, byte 1Ch
         jge short .2
         lea eax, [byte ebp-08h]
-        mov edx, dword [nosplit esi*4+off_11D3DC]
+        mov edx, dword [nosplit esi*4+LogoNames]
 .1:
         call strcat_
         jmp short LoadTeamLogo_6D.4
@@ -286,7 +286,7 @@ CheckFreeMemory:
         cmp eax, byte 1Bh
         jne short .3
 .4:
-        call dword [dword_11F994]
+        call dword [bailout_vec]
 .5:
         pop esi
         pop edx
@@ -500,7 +500,7 @@ StartUp:
         call KbdGetKey
         cmp eax, byte 1Bh
         jne short .1
-        call dword [dword_11F994]
+        call dword [bailout_vec]
 .2:
         call CheckGameDirs
         mov eax, dword [optflags]
@@ -525,7 +525,7 @@ StartUp:
         call KbdGetKey
         cmp eax, byte 1Bh
         jne short .3
-        call dword [dword_11F994]
+        call dword [bailout_vec]
 .4:
         call CheckFreeMemory
         mov edx, 5Bh
@@ -551,7 +551,7 @@ StartUp:
         call FindShape
         mov edx, 20h
         add esp, byte 8
-        mov dword [dword_152F50], eax
+        mov dword [MenuRemoteCursorArt], eax
         mov eax, 0Dh
         call LoadDataFile
         push byte 20h
@@ -574,7 +574,7 @@ StartUp:
         push str_Lgo
         mov word [byte eax+06h], 78h
         push dword [dword_1150D4]
-        mov edi, unk_152C44
+        mov edi, str_WesternConference2
         call FindShape
         add esp, byte 8
         mov ecx, 300h
@@ -582,11 +582,11 @@ StartUp:
         rep movsb
         mov ebx, 20h
         mov edx, dword_152F4C
-        mov eax, unk_152C44
+        mov eax, str_WesternConference2
         call CreateAaPalLut
         mov ebx, 20h
         mov edx, dword_11D19C
-        mov eax, unk_152C44
+        mov eax, str_WesternConference2
         call CreateAaPalLut
         mov edx, dword [globalset]
         mov eax, dword [globalset]
@@ -605,10 +605,10 @@ StartUp:
         mov eax, dword [dword_152F58]
         call CopyBitmap
         mov edx, 20h
-        mov dword [dword_152F54], eax
-        mov eax, dword [dword_152F50]
+        mov dword [MenuCursorPixels], eax
+        mov eax, dword [MenuRemoteCursorArt]
         call CopyBitmap
-        mov dword [dword_152F5C], eax
+        mov dword [MenuBitmapPixels], eax
         cmp dword [dword_114CD3], byte 0
         jle short .5
         call GripSetupScreen
@@ -635,17 +635,17 @@ ShutDown:
         push dword [dword_152F44]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_152F54]
+        push dword [MenuCursorPixels]
         call FreeMemBlock
         add esp, byte 4
-        push dword [dword_152F5C]
+        push dword [MenuBitmapPixels]
         call FreeMemBlock
         add esp, byte 4
         push dword [dword_1150D4]
         call FreeMemBlock
         add esp, byte 4
 ShutDown_51:
-        call dword [dword_11F994]
+        call dword [bailout_vec]
 StartUp_ret:
         pop edx
         pop ecx

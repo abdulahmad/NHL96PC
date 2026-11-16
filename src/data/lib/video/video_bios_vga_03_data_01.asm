@@ -3,14 +3,14 @@ bits 32
 %include "hockey.inc"
 section s_124244 progbits alloc noexec write align=1
 extern FpuHookStub
-global str_MUSICON, str_MUSICOFF, str_SOUNDON, str_SOUNDOFF, byte_124244, _Extender, _ExtenderSubtype, Is8087
+global str_MUSICON, str_MUSICOFF, str_SOUNDON, str_SOUNDOFF, HotkeyModTable, _Extender, _ExtenderSubtype, Is8087
 global _osmajor, _osminor, SavedTextMode, SavedTextPage, SavedTextRows, __real87, SpeechQueueOpen, CrowdPlaying
-global SndMasterVolume, HotkeyNesting, dword_1242CE, _dynend, _curbrk, _LpCmdLine, StackLow, _STACKLOW
+global SndMasterVolume, HotkeyNesting, HotkeyFuncTable, _dynend, _curbrk, _LpCmdLine, StackLow, _STACKLOW
 global _STACKTOP, CMainEnv, CMainResult, UngetChar, _Envptr, FpuInitHook, dword_12443C, dword_124440
 global dword_124444, dword_124448, dword_12444C, dword_124450, dword_124454, dword_124458, AtanTable, str_Punct_AngleOfVector
 global ShadowFillFunc, TitleBandFunc, FpuSystemFlags, OldFpuVectorOffset, dword_1248C8, snddriver, SndTickHold, SndMaxRate
 global _psp, __no87, _Envptr_w4, SavedTextColumns, OldFpuVectorSelector, FpuCr0Bits
-byte_124244:
+HotkeyModTable:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
@@ -22,7 +22,7 @@ byte_124244:
         db 00h,00h,00h,00h,00h,00h
 HotkeyNesting:
         db 01h,00h,00h,00h
-dword_1242CE:
+HotkeyFuncTable:
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h

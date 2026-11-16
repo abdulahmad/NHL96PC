@@ -4,8 +4,8 @@ bits 32
 section s_711ED progbits alloc exec nowrite align=1
 extern asc_11DFC8, BlackPalette, byte_11FA2F, byte_17BDAE, byte_17CA1D, byte_17CA1E, byte_17CA1F, byte_17CA21
 extern byte_17CA22, byte_17CA5D, byte_17CA5E, byte_17D650, byte_17D651, CopyBitmap, DrawColorText, DrawFrameAt
-extern dword_114CD3, dword_11D1A8, dword_11DF80, dword_11DF84, dword_11E278, dword_11E27C, dword_17BC78, TeamStatsBitmap
-extern dword_17BCE2, dword_17BD48, GlobalSetData, dword_17C9F4, dword_17CA5C, dword_17D590, dword_17D594, dword_17D654
+extern dword_114CD3, dword_11D1A8, dword_11DF80, dword_11DF84, dword_11E278, LinkSetupSlots, MatchupLayer, TeamStatsBitmap
+extern dword_17BCE2, str_Standings, GlobalSetData, dword_17C9F4, dword_17CA5C, dword_17D590, dword_17D594, dword_17D654
 extern dword_17D678, dword_17D67C, dword_17D680, dword_17D684, EditText, FadeOut, FadeOutMusic, FadePalette
 extern FillMusicStream, TextStringWidth, GetInputDevices, GetLangText, GetTicks, globalset, InitMenuItems, JoystickTestScreen
 extern LoadPackedFile, MessageBox, ModemChat, ModemGameClose, ModemGameConnect, ModemGameOpen, ModemGameQuit, MouseRead
@@ -682,7 +682,7 @@ ControlPicksScreen_177:
         mov esi, dword [dword_17D594]
         mov ecx, 66h
         lea edi, [dword esi+04C8h]
-        mov esi, dword_17BD48
+        mov esi, str_Standings
         rep movsb
         mov eax, dword [dword_17D594]
         mov byte [dword eax+050Ah], 0Ah
@@ -1959,7 +1959,7 @@ ControlSetupScreen:
         lea edi, [dword ebp-06A6h]
         mov dword [dword ebp-06E6h], eax
         mov eax, dword [dword ebp-06F2h]
-        mov esi, dword_17BD48
+        mov esi, str_Standings
         mov ecx, 66h
         movsx eax, word [byte eax+0Eh]
         add esp, byte 8
@@ -3328,7 +3328,7 @@ ModemSettingsScreen:
         add esp, byte 0Ch
         cmp dword [byte ebp+066h], byte 0Ch
         jl near .16
-        push dword [dword_17BC78]
+        push dword [MatchupLayer]
         call TextSetFont
         add esp, byte 4
         mov edx, 0FEh
@@ -3475,7 +3475,7 @@ ModemSettingsScreen:
         mov eax, 2
         mov ecx, 66h
         mov edi, dword [byte ebp+062h]
-        mov esi, dword_17BD48
+        mov esi, str_Standings
         call OpenScreen
         lea edi, [dword edi+04C8h]
         mov eax, dword [byte ebp+062h]
@@ -4563,7 +4563,7 @@ ModemDialScreen:
         mov byte [dword ebp-02DDh], 9
         mov ecx, 66h
         lea edi, [dword ebp-02BAh]
-        mov esi, dword_17BD48
+        mov esi, str_Standings
         mov byte [dword ebp-02DCh], 9
         mov byte [dword ebp-02DBh], 0Ah
         rep movsb
@@ -4680,7 +4680,7 @@ ModemDialScreen_81F:
         mov eax, dword [dword_17D684]
         jmp near ModemDialScreen_75A.20
 ModemDialScreen_8DB:
-        push dword [dword_17BC78]
+        push dword [MatchupLayer]
         call TextSetFont
         add esp, byte 4
         mov edx, unk_17C9B8
@@ -4912,7 +4912,7 @@ ModemDialScreen_BD2:
         and dword [dword_17CA5C], 0FFFC3FFFh
         shr eax, 1Ch
         or byte [byte_17CA5E], 2
-        mov dword [dword_11E27C], eax
+        mov dword [LinkSetupSlots], eax
         jmp short .36
 .32:
         call ModemGameClose
@@ -5035,7 +5035,7 @@ LinkSetupScreen:
         mov byte [byte ebp-07Fh], 0
         mov ecx, 66h
         lea edi, [byte ebp-05Ch]
-        mov esi, dword_17BD48
+        mov esi, str_Standings
         mov byte [byte ebp-07Eh], 0
         mov byte [byte ebp-07Dh], 1
         rep movsb
@@ -5102,7 +5102,7 @@ LinkSetupScreen:
         call ModemGameQuit
         cmp dword [dword_11E278], byte 0
         je short .6
-        mov eax, dword [dword_11E27C]
+        mov eax, dword [LinkSetupSlots]
         or byte [byte_17CA5D], 20h
         and eax, byte 0Fh
         and dword [dword_17CA5C], 0FFFC3FFFh
@@ -5113,7 +5113,7 @@ LinkSetupScreen:
         jmp short .8
 .7:
         call SlideInBottomBar
-        push dword [dword_17BC78]
+        push dword [MatchupLayer]
         call TextSetFont
         add esp, byte 4
         mov ecx, 0FCh

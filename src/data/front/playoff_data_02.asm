@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_11EE94 progbits alloc noexec write align=1
 global byte_11F49C, byte_11F4A4, byte_11F4AC, byte_11F4B0, byte_11F4B4, byte_11F4B6, byte_11F4B8, byte_11F4B9
-global dword_11EE94, dword_11EF10, dword_11EF80, dword_11EF8C, unk_11EF90, unk_11EFDC, unk_11F39C, unk_11F3DC
+global dword_11EE94, dword_11EF10, dword_11EF80, PlayoffSparkleSoundOn, unk_11EF90, unk_11EFDC, unk_11F39C, unk_11F3DC
 global unk_11F41C, unk_11F45C
 dword_11EE94:
         db 0Dh,00h,00h,00h,02Fh,00h,00h,00h,05Bh,00h,00h,00h,07Bh,00h,00h,00h
@@ -24,7 +24,7 @@ dword_11EF10:
         db 06h,00h,00h,00h,06h,00h,00h,00h,0Dh,00h,00h,00h,0Dh,00h,00h,00h
 dword_11EF80:
         db 0Eh,00h,00h,00h,0Eh,00h,00h,00h,063h,00h,00h,00h
-dword_11EF8C:
+PlayoffSparkleSoundOn:
         db 00h,00h,00h,00h
 unk_11EF90:
         db 09h,00h,07h,02h,0Fh,01h,03h,0Eh,08h,02h,00h,013h,011h,03h,013h,01h

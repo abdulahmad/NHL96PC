@@ -2840,6 +2840,7 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 110E10,str_CSCS,asc_110E10,new,high,"string '(%c.%s,%c.%s)'",src/data/engine/engine_4DED8_data_01.asm
 110E1E,str_CS2,asc_110E1E,new,high,string '(%c.%s',src/data/engine/engine_4DED8_data_01.asm
 110E25,str_spCS,asc_110E25,new,high,string ' %c.%s)',src/data/engine/engine_4DED8_data_01.asm
+110E2D,str_GoneForTheGame,unk_110E2D,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_4DED8_data_01.asm
 110E2E,str_S8,unk_110E2E,95PC,high,string '%s',src/data/engine/engine_4DED8_data_01.asm
 110E31,str_FmtParenD,,95PC,high,NHL95PC C1CB3 (string): ' (%d)',
 110E37,str_D,asc_110E37,new,high,string '#%d',src/data/engine/engine_4DED8_data_01.asm
@@ -3541,6 +3542,7 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 1122D5,str_S05dCsgDb3,asc_1122D5,new,high,string '%s%05d%csg.db',src/data/front/front_794FF_data_01.asm
 1122E3,str_S05dCnzDb5,asc_1122E3,new,high,string '%s%05d%cnz.db',src/data/front/front_794FF_data_01.asm
 1122F1,str_S,asc_1122F1,new,high,string '>%s',src/data/front/front_794FF_data_01.asm
+112300,F32_14_InitScrollTable,dword_112300,new,low,float constant 14,src/data/front/front_794FF_data_01.asm
 112308,str_MonthChoice,asc_112308,new,high,string 'Month Choice',src/data/front/front_794FF_data_01.asm
 112315,str_CalendarChoices,asc_112315,new,high,string 'Calendar Choices',src/data/front/front_794FF_data_01.asm
 112326,str_Regions,asc_112326,new,high,string 'regions',src/data/front/front_794FF_data_01.asm
@@ -4127,6 +4129,7 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 1135AC,str_Copyright,,95PC,high,NHL95PC C47B8 (string): 'Copyright',
 1135B8,str_UnpackINVALIDPACKCODE,,95PC,high,NHL95PC C47C4 (string): 'unpack - INVALID PACK CODE (%x)\n',
 1135DC,str_TextTable,asc_1135DC,new,high,string 'Text Table',src/data/lib/ea/ea_unpack_data_01.asm
+1135E8,str_Inversetbl,asc_1135E8,new,low,"string ""inversetbl""",src/data/lib/ea/ea_unpack_data_01.asm
 1135F4,str_Inversetmp,asc_1135F4,new,high,string 'inversetmp',src/data/lib/ea/ea_unpack_data_01.asm
 113600,str_SavefileblockaOPENFAILEDFOR,,95PC,high,NHL95PC C3FD8 (string): 'savefileblocka - OPEN FAILED FOR FILE <%s>\n',
 11362C,str_InitmemmanINSUFFICIENTROW,,95PC,high,NHL95PC C3D88 (string): 'initmemman - INSUFFICIENT ROW TABLE SPACE\n',
@@ -4286,6 +4289,8 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 114ADC,DblMaxHigh,dword_114ADC,new,low,DBL_MAX high dword,src/data/lib/watcom/watcom_clib_21_data_01.asm
 114AE0,DblMinusMaxLow,dword_114AE0,new,low,-DBL_MAX low dword,src/data/lib/watcom/watcom_clib_21_data_01.asm
 114AE4,DblMinusMaxHigh,dword_114AE4,new,low,-DBL_MAX high dword,src/data/lib/watcom/watcom_clib_21_data_01.asm
+114AE8,HugeValLo,dword_114AE8,new,low,low half of HUGE_VAL,src/data/lib/watcom/watcom_clib_21_data_01.asm
+114AEC,HugeValHi,dword_114AEC,new,low,high half of HUGE_VAL,src/data/lib/watcom/watcom_clib_21_data_01.asm
 114AF0,Scale10Count,unk_114AF0,new,low,power of ten table length,src/data/lib/watcom/watcom_clib_21_data_01.asm
 114AF2,Pow10Table,qword_114AF2,new,low,powers of ten,src/data/lib/watcom/watcom_clib_21_data_01.asm
 114B8C,SlotButtons,dword_114B8C,new,high,the 4 slot button dwords of the current frame,
@@ -4294,37 +4299,61 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 114CB8,str_GRIPGLL,asc_114CB8,new,high,string 'GRIP.GLL',src/data/front/front_10010_data_01.asm
 114CC1,str_GRIP,asc_114CC1,new,high,string 'GRIP',src/data/front/front_10010_data_01.asm
 114CC6,str_CGRIP,asc_114CC6,new,high,string 'C:\GRIP\',src/data/front/front_10010_data_01.asm
+114CCF,GripLinked,dword_114CCF,new,low,Gravis GrIP library linked,src/data/front/front_10010_data_01.asm
+114DB6,str_Punct_ModemSettingsScreen,dword_114DB6,new,low,"string "" """,src/data/front/front_10010_data_01.asm
 114F04,InputRecordTicks,dword_114F04,new,high,"ticks since last record, capped 0x3E8",
 114F08,GameLoopActive,dword_114F08,new,medium,1 while the in-game loop runs,
 114F0C,InputRecordBusy,word_114F0C,new,high,re-entry guard of the timer,
 114F0E,InputRecordPhase,dword_114F0E,new,high,3..0 down counter; record on 0,
 114F1A,PauseReplayPending,word_114F1A,new,medium,"bit0 pause, bit1 replay seen",
+114F1C,ModemResultTextTable,off_114F1C,new,low,modem result text string table,src/data/front/front_1456D_data_02.asm
+114F24,ModemResultCodeTable,off_114F24,new,low,modem result code string table,src/data/front/front_1456D_data_02.asm
+115000,ModemResultCount,dword_115000,new,low,number of modem result codes,src/data/front/front_1456D_data_02.asm
+115004,ModemLastResult,dword_115004,new,low,last modem result code,src/data/front/front_1456D_data_02.asm
 11506C,str_ctl06,dword_11506C,95PC,high,string ' ',src/data/front/front_1456D_data_02.asm
 115070,str_22,dword_115070,new,high,string '2',src/data/front/front_1456D_data_02.asm
 115078,str_newline,dword_115078,95PC,high,string ' ',src/data/front/front_1456D_data_02.asm
 11509C,str_0123456789abcdefghijklmn,asc_11509C,new,high,string '0123456789abcdefghijklmnopqrstuvwxyz ',src/data/front/main_data_02.asm
+1150E4,AsyncQueueTail,dword_1150E4,new,low,last request in the async queue,src/data/front/main_data_02.asm
+1150E8,StreamBlockSize,dword_1150E8,new,low,stream block size,src/data/front/main_data_02.asm
+1150EC,StreamTimeout,dword_1150EC,new,low,stream timeout,src/data/front/main_data_02.asm
+1150FC,gameresult,dword_1150FC,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_data_02.asm
+115108,gsumheader,unk_115108,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_data_02.asm
+115113,gsumtail,unk_115113,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_data_02.asm
 115120,DataDirPath,unk_115120,new,low,data directory path,src/data/front/main_data_02.asm
+1151A7,ArtArchivePaths,unk_1151A7,new,low,art archive paths,src/data/front/main_data_02.asm
+115333,str_X_SetArtArchive,unk_115333,new,low,"string ""x""",src/data/front/main_data_02.asm
 117478,str_KEY3,unk_117478,new,high,string 'KEY',src/data/front/main_data_02.asm
 11747C,str_CAREER2,unk_11747C,95PC,high,string 'CAREER',src/data/front/main_data_02.asm
 117483,str_ATT,unk_117483,new,high,string 'ATT',src/data/front/main_data_02.asm
 117487,str_CARTEAMS,unk_117487,95PC,high,string 'CARTEAMS',src/data/front/main_data_02.asm
 117490,str_TEAMS3,unk_117490,95PC,high,string 'TEAMS',src/data/front/main_data_02.asm
 117496,str_SEASON4,unk_117496,95PC,high,string 'SEASON',src/data/front/main_data_02.asm
+1174E0,seasondb,dword_1174E0,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_data_02.asm
+1174E8,statsfromleague,dword_1174E8,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_data_02.asm
+1174F0,statsplayoffs,dword_1174F0,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_data_02.asm
 117605,IceSurfaceDef,unk_117605,new,medium,ice surface definition,src/data/front/rink_model_data_02.asm
 11764D,IceGeometryDef,unk_11764D,new,medium,ice geometry definition,src/data/front/rink_model_data_02.asm
+1177F4,UserRecordsTop,dword_1177F4,new,low,user records list top,src/data/front/front_2A692_data_02.asm
+1177F8,UserRecordsFirst,dword_1177F8,new,low,first user record shown,src/data/front/front_2A692_data_02.asm
+1177FC,UserRecordsRow,dword_1177FC,new,low,user records row,src/data/front/front_2A692_data_02.asm
+11786C,replaystart,off_11786C,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_2A692_data_02.asm
 117870,puckx,,95PC,medium,NHL95PC C907C (refset): referenced by the same 6 matched functions,
 117874,puckvx,,95PC,medium,NHL95PC C9080 (refset): referenced by the same 9 matched functions,
 117878,pucky,,95PC,medium,NHL95PC C9084 (refset): referenced by the same 11 matched functions,
+11787C,puckvy,off_11787C,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_2A692_data_02.asm
 117880,puckz,,95PC,medium,NHL95PC C908C (refset): referenced by the same 2 matched functions,
 117884,puckvz,,95PC,medium,NHL95PC C9090 (refset): referenced by the same 2 matched functions,
 117888,puckc,off_117888,95PC,high,ClampYPosition reads the carrier through it as NHL95PC puckc,src/data/front/front_2A692_data_02.asm
 11788C,PtrPuckFlags,off_11788C,new,low,pointer to the puck flags,src/data/front/front_2A692_data_02.asm
 117894,PtrPuckObject,off_117894,new,low,pointer to the puck object,src/data/front/front_2A692_data_02.asm
 1178A4,wcradiusx,,95PC,medium,NHL95PC C909C (refset): referenced by the same 4 matched functions,
+1178A8,VisTeam,word_1178A8,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_2A692_data_02.asm
 1178AA,lastplayer,,95PC,medium,NHL95PC C90A2 (refset): referenced by the same 2 matched functions,
 1178B0,passplayer,,95PC,medium,NHL95PC C90A8 (refset): referenced by the same 5 matched functions,
 1178B2,threat,,95PC,medium,NHL95PC C90AA (refset): referenced by the same 2 matched functions,
 1178B6,yc1,word_1178B6,93G,medium,"checkfight sets it to the mean Ypos of the two fighters, clamped at the boards, as NHLPA93Genesis yc1",src/data/front/front_2A692_data_02.asm
+1178B8,ltx,word_1178B8,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_2A692_data_02.asm
 1178BA,foy,,95PC,medium,NHL95PC C90B4 (refset): referenced by the same 8 matched functions,
 1178BC,fox,,95PC,medium,NHL95PC C90B2 (refset): referenced by the same 9 matched functions,
 1178BE,fodir1,word_1178BE,95PC,high,faceoffinput stores regd0 for the home centre as NHL95PC fodir1,src/data/front/front_2A692_data_02.asm
@@ -4339,26 +4368,48 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 1178DE,awslotcount,dword_1178DE,new,medium,CountTeamSlots: slots with slotteam 2,src/data/front/front_2A692_data_02.asm
 1178E2,hmfirstslot,dword_1178E2,new,medium,"CountTeamSlots: first slot with slotteam 1, -1 none",src/data/front/front_2A692_data_02.asm
 1178E6,awfirstslot,dword_1178E6,new,medium,"CountTeamSlots: first slot with slotteam 2, -1 none",src/data/front/front_2A692_data_02.asm
+1178EA,HomeEbenPlayer,dword_1178EA,new,low,home extra bench player (-1 none),src/data/front/front_2A692_data_02.asm
+1178EE,AwayEbenPlayer,dword_1178EE,new,low,away extra bench player (-1 none),src/data/front/front_2A692_data_02.asm
 1178F2,Pencntdwn,,95PC,medium,NHL95PC C90CE (refset): referenced by the same 5 matched functions,
+1178F6,refsignal,word_1178F6,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_2A692_data_02.asm
+1178F8,RefStep,word_1178F8,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_2A692_data_02.asm
+1178FC,Penaltytimer,word_1178FC,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_2A692_data_02.asm
 1178FE,gsp,word_1178FE,95PC,medium,"the period number from 0 (the port reads it for the netplay log), as NHL95PC gsp",src/data/front/front_2A692_data_02.asm
 117900,gameclock,,95PC,medium,NHL95PC C90DC (refset): referenced by the same 4 matched functions,
+117902,clockticks,word_117902,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_2A692_data_02.asm
+117914,dirtab,word_117914,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_2A692_data_02.asm
+117916,dirtab_y,word_117916,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_2A692_data_02.asm
 117934,seed,dword_117934,95PC,high,"randomd0's random number state, as NHL95PC seed",src/data/front/front_2A692_data_02.asm
 117936,seed_w2,word_117936,95PC,high,seed+2: the high word randomd0 reads,src/data/front/front_2A692_data_02.asm
 11797E,penmintab,,95PC,medium,NHL95PC C9123 (refset): referenced by the same 3 matched functions,
+1179A1,pendelaytab,byte_1179A1,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/penalty_data_01.asm
 1179C4,asstab,off_1179C4,95PC,high,"the assignment routine table: the routines already named sit at the same 14 indices as in NHL95PC asstab (assshoot 18, asspassrec 19, pucknorm 24, puckfaceoff 27 ...)",src/data/engine/penalty_data_01.asm
 118E81,LinePickOrderFrom1,byte_118E81,new,medium,same code as in the next game,src/data/engine/penalty_data_01.asm
+118E82,priolist,byte_118E82,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_data_01.asm
 118E91,exitgame,word_118E91,95PC,high,set once by SetExitGame,src/data/engine/hockey_data_01.asm
 118E93,gameover,word_118E93,95PC,high,set once by GameOver,src/data/engine/hockey_data_01.asm
 118E9D,energywarn,,95PC,medium,NHL95PC CBC52 (refset): referenced by the same 3 matched functions,
 118EA1,lcblink,,95PC,medium,NHL95PC CBC56 (refset): referenced by the same 3 matched functions,
+118EA5,lcblinktime,word_118EA5,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_data_01.asm
+118EA9,lcsel,word_118EA9,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_data_01.asm
 118EAD,lcline,,95PC,medium,NHL95PC CBC62 (refset): referenced by the same 4 matched functions,
+118EB1,lctimer,word_118EB1,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_data_01.asm
 118EB5,lcboxon,,95PC,medium,NHL95PC CBC6A (refset): referenced by the same 2 matched functions,
+118F79,coachlinetab,off_118F79,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_data_01.asm
+118FA5,ds2list,unk_118FA5,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_data_01.asm
+1190D9,puckfaceoff2_ptab,word_1190D9,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_data_01.asm
+1190F3,apl,byte_1190F3,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_data_01.asm
+11910B,ovltimer,word_11910B,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_data_01.asm
 11910D,refhitcount,,95PC,medium,NHL95PC CBEC2 (refset): referenced by the same 2 matched functions,
+119111,bannermsg,word_119111,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_data_01.asm
 119115,Pencntdwn2,,95PC,medium,NHL95PC CC0B0 (refset): referenced by the same 3 matched functions,
+119169,lldispodd,word_119169,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_data_01.asm
 11916D,crowdlevel,,95PC,medium,NHL95PC CC0DE (refset): referenced by the same 3 matched functions,
 11916F,introskipped,,95PC,medium,NHL95PC CC0F0 (refset): referenced by the same 3 matched functions,
 119177,shotongoal,,95PC,medium,NHL95PC CC0F8 (refset): referenced by the same 5 matched functions,
 11917B,penshotplayer,,95PC,medium,NHL95PC CC0FC (refset): referenced by the same 10 matched functions,
+11917F,penshotfox,dword_11917F,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_data_01.asm
+119183,penshotteam,dword_119183,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_data_01.asm
 119187,penshotctl,,95PC,medium,NHL95PC CC108 (refset): referenced by the same 3 matched functions,
 11918F,AwayGoalsPeriod,dword_11918F,new,low,away goals this period,src/data/engine/engine_4DED8_data_02.asm
 119193,HomeGoalsPeriod,dword_119193,new,low,home goals this period,src/data/engine/engine_4DED8_data_02.asm
@@ -4368,23 +4419,76 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 1191A3,shotontarget,,95PC,medium,NHL95PC CC124 (refset): referenced by the same 4 matched functions,
 1191A7,penshotlive,,95PC,medium,NHL95PC CC128 (refset): referenced by the same 6 matched functions,
 1191AB,psendcount,,95PC,medium,NHL95PC CC12C (refset): referenced by the same 2 matched functions,
+1191AF,sopathx,dword_1191AF,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_4DED8_data_02.asm
+1191B3,sopathy,dword_1191B3,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_4DED8_data_02.asm
+1191B7,sopathend,dword_1191B7,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_4DED8_data_02.asm
+1191BB,sopathpoint,dword_1191BB,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_4DED8_data_02.asm
+1191BF,pspathside,dword_1191BF,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_4DED8_data_02.asm
+1191C3,pspathdir,dword_1191C3,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_4DED8_data_02.asm
+1191E7,OneTimerPasser,dword_1191E7,new,low,one-timer passer,src/data/engine/engine_4DED8_data_02.asm
+1191EB,PuckChasers,dword_1191EB,new,low,puck chaser per team,src/data/engine/engine_4DED8_data_02.asm
+119203,HotList,byte_119203,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_4DED8_data_02.asm
+119204,HotList_y,byte_119204,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_4DED8_data_02.asm
+119CC3,HotStickList,byte_119CC3,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_4DED8_data_02.asm
+119CC4,HotStickList_y,byte_119CC4,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_4DED8_data_02.asm
+119D76,starskatermin,byte_119D76,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_2D9D9_data_01.asm
+119D79,stargoaliemin,byte_119D79,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_2D9D9_data_01.asm
+119DF7,Endfaceoff_ftab_m1,byte_119DF7,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_2D9D9_data_01.asm
+119DFE,refsigdir,word_119DFE,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_2D9D9_data_01.asm
 119E8A,str_wildcard,dword_119E8A,95PC,high,string '*',src/data/engine/logic_data_01.asm
+119E92,ShootoutPathData_y,dword_119E92,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/logic_data_01.asm
+119EEA,lchoicetab,byte_119EEA,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/logic_data_01.asm
+119F4A,assonetimer_blade_y,byte_119F4A,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/input_data_01.asm
 119F94,nethit,,95PC,medium,NHL95PC CCC2C (refset): referenced by the same 3 matched functions,
+119F98,blockspd,word_119F98,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/input_data_01.asm
+119F9A,blockspd_y,word_119F9A,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/input_data_01.asm
+119FC8,shotsets,word_119FC8,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/input_data_01.asm
+119FEC,playsuspended,dword_119FEC,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/input_data_01.asm
+11A15C,MaxSpeed,dword_11A15C,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/input_data_01.asm
+11A19C,doplayeracc_ftab,dword_11A19C,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/input_data_01.asm
+11A26C,penbannertab,word_11A26C,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/input_data_01.asm
+11A2F8,PenaltyTypes,dword_11A2F8,new,low,penalty type records,src/data/engine/input_data_01.asm
 11A310,dressbystatus,,95PC,medium,NHL95PC CD418 (refset): referenced by the same 3 matched functions,
+11A319,lineslotgroups,byte_11A319,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/lines_data_01.asm
+11A3B4,lineslotgroupstart,byte_11A3B4,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/lines_data_01.asm
 11A3E8,DemoMode,dword_11A3E8,new,medium,1 during the attract demo,
+11B234,ReplayRemoteShape,dword_11B234,new,low,replay remote shape,src/data/front/replay_controls_data_02.asm
+11B276,ovlstep,word_11B276,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_584A0_data_02.asm
+11B2AC,OverlayPanelQueue,unk_11B2AC,new,low,queued overlay panels,src/data/front/front_584A0_data_02.asm
 11BB28,HexDigits,byte_11BB28,new,low,hex digit characters,src/data/front/front_5D993_data_02.asm
+11D18C,textcolor,dword_11D18C,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_5D993_data_02.asm
+11D190,textshadow,dword_11D190,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_5D993_data_02.asm
+11D194,ModeLinear,dword_11D194,new,low,set when the graphics mode has a linear frame buffer,src/data/front/front_5D993_data_02.asm
 11D1DA,sndcard,dword_11D1DA,new,medium,the sound driver StartSoundCard started (-1: none),src/data/front/front_67000_data_01.asm
+11D1E2,SpeechStreamFile,dword_11D1E2,new,low,speech stream file,src/data/front/front_67000_data_01.asm
+11D1E6,SpeechStreamTimer,dword_11D1E6,new,low,speech stream timer handle (-1 none),src/data/front/front_67000_data_01.asm
+11D37A,speechq,dword_11D37A,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_67000_data_01.asm
+11D38E,speechinit,dword_11D38E,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_67000_data_01.asm
+11D3A2,lastsfx,word_11D3A2,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_67000_data_01.asm
 11D3C8,DirPathTable,dword_11D3C8,new,low,directory path table,src/data/front/front_67000_data_01.asm
+11D3DC,LogoNames,off_11D3DC,new,low,team logo names,src/data/front/front_67000_data_01.asm
 11D7A0,InGameMenuRequest,dword_11D7A0,new,medium,"1 pause menu, 2 replay menu, 3 other",
 11D950,str_dbgO,dword_11D950,95PC,high,string 'O',src/data/front/front_6E233_data_02.asm
 11D968,str_feO,word_11D968,95PC,high,string 'O',src/data/front/front_6E233_data_02.asm
+11E27C,LinkSetupSlots,dword_11E27C,new,low,link setup slot records,src/data/front/front_741BD_data_02.asm
+11E2B0,TeamSelectDrawn,dword_11E2B0,new,low,set once the team select screen is drawn,src/data/front/front_741BD_data_02.asm
+11E2B8,PanelTeamNameShift,dword_11E2B8,new,low,team name shift on the team panels,src/data/front/front_741BD_data_02.asm
+11E2C0,LangTextHandle,dword_11E2C0,new,low,language text data handle,src/data/front/front_741BD_data_02.asm
+11E2C4,LangTextLoaded,dword_11E2C4,new,low,set once language text is loaded,src/data/front/front_741BD_data_02.asm
 11E2C8,str_LFERROR,asc_11E2C8,new,high,string 'LFERROR!!!',src/data/front/front_741BD_data_02.asm
+11E668,StatsMenuItems,dword_11E668,new,low,stats menu items,src/data/front/front_88E09_data_02.asm
+11E8FC,RatingsGoalieShown,dword_11E8FC,new,low,goalie shown on the ratings page,src/data/front/front_93E6A_data_02.asm
+11E900,RatingsSkaterShown,dword_11E900,new,low,skater shown on the ratings page,src/data/front/front_93E6A_data_02.asm
+11EF8C,PlayoffSparkleSoundOn,dword_11EF8C,new,low,set once the playoff sparkle sound plays,src/data/front/playoff_data_02.asm
 11F568,mouseminx,dword_11F568,95PC,high,"mouse library: pointer range, left; MouseReadMotion clamps to it (the same code as NHL95PC)",src/data/lib/lib_A8B9B_data_02.asm
 11F56C,mouseminy,dword_11F56C,95PC,high,"mouse library: pointer range, top",src/data/lib/lib_A8B9B_data_02.asm
 11F570,mousemaxx,dword_11F570,95PC,high,"mouse library: pointer range, right (exclusive)",src/data/lib/lib_A8B9B_data_02.asm
 11F574,mousemaxy,dword_11F574,95PC,high,"mouse library: pointer range, bottom (exclusive)",src/data/lib/lib_A8B9B_data_02.asm
 11F578,MouseDeltaX,dword_11F578,new,low,mouse motion X since the last read,src/data/lib/lib_A8B9B_data_02.asm
 11F57C,MouseButtonState,dword_11F57C,new,low,mouse button state,src/data/lib/lib_A8B9B_data_02.asm
+11F580,MouseSavedSensX,word_11F580,new,low,mouse X sensitivity saved at start up,src/data/lib/lib_A8B9B_data_02.asm
+11F582,MouseSavedSensY,word_11F582,new,low,mouse Y sensitivity saved at start up,src/data/lib/lib_A8B9B_data_02.asm
+11F584,MouseSavedThreshold,word_11F584,new,low,mouse double speed threshold saved at start up,src/data/lib/lib_A8B9B_data_02.asm
 11F5A4,MousePresent,dword_11F5A4,new,low,mouse driver found,src/data/lib/lib_A8B9B_data_02.asm
 11F5A8,mousex,dword_11F5A8,95PC,high,"mouse library: pointer x, as NHL95PC mousex",src/data/lib/lib_A8B9B_data_02.asm
 11F5AC,mousey,dword_11F5AC,95PC,high,"mouse library: pointer y, as NHL95PC mousey",src/data/lib/lib_A8B9B_data_02.asm
@@ -4455,6 +4559,7 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 11F977,JoyX2Max,dword_11F977,new,medium,joystick 2 X axis maximum seen,src/data/lib/input/input_joystick_misc_01_data_01.asm
 11F97B,JoyXScale,dword_11F97B,new,medium,joystick X scale from the calibrated range,src/data/lib/input/input_joystick_misc_01_data_01.asm
 11F97F,JoyYScale,dword_11F97F,new,medium,joystick Y scale from the calibrated range,src/data/lib/input/input_joystick_misc_01_data_01.asm
+11F994,bailout_vec,dword_11F994,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/lib/input/input_joystick_misc_01_data_01.asm
 11F9A0,joycalactive,,95PC,medium,NHL95PC D2FD8 (refset): referenced by the same 2 matched functions,
 11F9A4,tickcount,,95PC,high,NHL95PC D2FDC (position): same fixup of TicksSince,
 11F9A8,TimerTickStep,dword_11F9A8,new,low,ticks added per timer interrupt,src/data/lib/input/input_joystick_misc_01_data_01.asm
@@ -4463,20 +4568,26 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 11F9B4,FileCacheList,dword_11F9B4,new,medium,file cache list,src/data/lib/input/input_joystick_misc_01_data_01.asm
 11F9BC,RowTable,dword_11F9BC,new,low,screen row address table,src/data/lib/input/input_joystick_misc_01_data_01.asm
 11F9C0,FreeSpaceList,dword_11F9C0,new,medium,free space list,src/data/lib/input/input_joystick_misc_01_data_01.asm
+11F9C4,MemLockOn,dword_11F9C4,new,low,memory lock enabled,src/data/lib/input/input_joystick_misc_01_data_01.asm
 11F9C8,DebugMode,dword_11F9C8,new,medium,debug display mode (2 = status lines),src/data/lib/input/input_joystick_misc_01_data_01.asm
 11F9D4,DebugLineWidth,dword_11F9D4,new,medium,width of the debug line area,src/data/lib/input/input_joystick_misc_01_data_01.asm
+11F9D9,DebugBackColor,byte_11F9D9,new,low,debug background colour,src/data/lib/input/input_joystick_misc_01_data_01.asm
 11FA1C,TextOriginX,dword_11FA1C,new,low,x of the text drawing position,src/data/lib/input/input_joystick_misc_01_data_01.asm
 11FA20,TextOriginY,dword_11FA20,new,low,y of the text drawing position,src/data/lib/input/input_joystick_misc_01_data_01.asm
 11FA32,str_ctl07,byte_11FA32,95PC,high,string ' ',src/data/lib/input/input_joystick_misc_01_data_01.asm
 11FA50,TintTable,byte_11FA50,new,medium,tint colour table,src/data/lib/input/input_joystick_misc_01_data_01.asm
+11FD54,RandSeed,unk_11FD54,new,low,random number generator seed,src/data/lib/watcom/watcom_clib_03_data_01.asm
 11FD58,SerialPortTable,off_11FD58,new,medium,serial port record per COM port,src/data/lib/watcom/watcom_clib_03_data_01.asm
+11FD68,SerialIrqMask,word_11FD68,new,low,serial IRQ mask,src/data/lib/watcom/watcom_clib_03_data_01.asm
 11FD6A,SerialPorts,unk_11FD6A,new,medium,"serial port records, one per COM port (44Ch bytes each)",src/data/lib/watcom/watcom_clib_03_data_01.asm
 120E9A,SerialBaudDivisors,word_120E9A,new,medium,baud rate divisor table,src/data/lib/watcom/watcom_clib_03_data_01.asm
 1210C0,RowCopyFunc,dword_1210C0,new,medium,routine that copies one row when drawing art,src/data/lib/watcom/watcom_clib_03_data_01.asm
+1210CC,MemPoolBase,dword_1210CC,new,low,memory pool base,src/data/lib/watcom/watcom_clib_03_data_01.asm
 1210D0,SavedBreakOffset,dword_1210D0,new,medium,previous ctrl-break handler offset,src/data/lib/input/input_joystick_misc_01_data_02.asm
 1210D4,SavedBreakSelector,word_1210D4,new,medium,previous ctrl-break handler selector,src/data/lib/input/input_joystick_misc_01_data_02.asm
 1210D6,BreakCallFunc,dword_1210D6,new,low,ctrl-break chain routine,src/data/lib/input/input_joystick_misc_01_data_02.asm
 1210DA,BreakDataSelector,word_1210DA,new,medium,data selector for the ctrl-break handler,src/data/lib/input/input_joystick_misc_01_data_02.asm
+1219A7,QuantizeByte,byte_1219A7,new,low,quantise scratch byte,src/data/lib/input/input_joystick_misc_01_data_02.asm
 1219A8,QuantizeTable,byte_1219A8,new,low,colour quantise table,src/data/lib/input/input_joystick_misc_01_data_02.asm
 121AA8,AaWeights,dword_121AA8,new,medium,"the twelve 16.16 weights of the anti-aliasing colour table (1, 2/3, 1/2, 4/9, 1/3, 1/4, ... 1/16)",src/data/lib/input/input_joystick_misc_01_data_02.asm
 121AD8,FpuFlags,dword_121AD8,new,low,FPU flags set at start up,src/data/lib/input/input_joystick_misc_01_data_02.asm
@@ -4489,10 +4600,16 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 121B3C,CdFileTable,unk_121B3C,new,low,open CD file records,src/data/lib/watcom/watcom_clib_05_data_03.asm
 121B48,CdFileMode,dword_121B48,new,medium,CD file: open mode,src/data/lib/watcom/watcom_clib_05_data_03.asm
 121B4C,CdFileHandle,dword_121B4C,new,medium,CD file: handle,src/data/lib/watcom/watcom_clib_05_data_03.asm
+121B50,CdFileStart,dword_121B50,new,low,CD file: first sector,src/data/lib/watcom/watcom_clib_05_data_03.asm
+121B54,CdFileSize,dword_121B54,new,low,CD file: size,src/data/lib/watcom/watcom_clib_05_data_03.asm
+121B58,CdFilePos,dword_121B58,new,low,CD file: position,src/data/lib/watcom/watcom_clib_05_data_03.asm
+121B5C,CdFileBuffer,dword_121B5C,new,low,CD file: buffer,src/data/lib/watcom/watcom_clib_05_data_03.asm
 121B6C,CdDriveCount,dword_121B6C,new,medium,number of CD drives,src/data/lib/watcom/watcom_clib_05_data_03.asm
 121F90,SinCosTable,dword_121F90,new,medium,sine/cosine lookup table,src/data/lib/watcom/watcom_clib_05_data_03.asm
 121FBC,CdStreamSpeed,dword_121FBC,new,medium,CD stream speed,src/data/lib/watcom/watcom_clib_05_data_03.asm
 121FC0,str_Viv,asc_121FC0,new,high,string '.viv',src/data/lib/watcom/watcom_clib_05_data_03.asm
+1222D4,RandState,dword_1222D4,new,low,random generator state (5 dwords),src/data/lib/input/input_joystick_misc_02_data_01.asm
+1222DC,RandIndex,dword_1222DC,new,low,random generator step counter,src/data/lib/input/input_joystick_misc_02_data_01.asm
 1222E0,OriTriDrawFuncs,off_1222E0,new,low,material draw routines for triangles,src/data/lib/input/input_joystick_misc_02_data_01.asm
 1222EC,OriPolyDrawFuncs,off_1222EC,new,low,material draw routines for polygons,src/data/lib/input/input_joystick_misc_02_data_01.asm
 1222F8,OriQuadDrawFuncs,off_1222F8,new,low,material draw routines for quads,src/data/lib/input/input_joystick_misc_02_data_01.asm
@@ -4513,6 +4630,7 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 1228F4,KeyedDraw,dword_1228F4,new,medium,set to skip colour 0FFh when drawing art,src/data/lib/watcom/watcom_clib_05_data_04.asm
 1228F8,DrawDestBuffer,dword_1228F8,new,medium,buffer drawing routines write to,src/data/lib/watcom/watcom_clib_05_data_04.asm
 122900,BackBufferWidth,dword_122900,new,low,back buffer width,src/data/lib/watcom/watcom_clib_05_data_04.asm
+122904,ModeSetCount,dword_122904,new,low,graphics mode set count,src/data/lib/watcom/watcom_clib_05_data_04.asm
 122B90,str_BK,dword_122B90,new,medium,"string ""BK""",src/data/lib/watcom/watcom_clib_05_data_04.asm
 123984,__8087,byte_123984,95PC,medium,same code as in the next game,src/data/lib/watcom/watcom_clib_05_data_04.asm
 123985,FpuType,byte_123985,new,low,FPU type found at start up,src/data/lib/watcom/watcom_clib_05_data_04.asm
@@ -4528,6 +4646,7 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 123AB4,CameraOriginX,dword_123AB4,new,medium,view origin X used by the camera,src/data/lib/input/input_joystick_misc_02_data_02.asm
 123AB8,CameraOriginY,dword_123AB8,new,medium,view origin Y used by the camera,src/data/lib/input/input_joystick_misc_02_data_02.asm
 123AC4,RetraceTimeout,dword_123AC4,new,low,loop count before giving up on vertical retrace,src/data/lib/input/input_joystick_misc_02_data_02.asm
+123B0C,VesaModeInfo,dword_123B0C,new,low,VESA mode information block pointer,src/data/lib/input/input_joystick_misc_02_data_02.asm
 123B10,SpeechQueue,dword_123B10,new,medium,speech queue: 20 slots of clip and lead samples,src/data/lib/input/input_joystick_misc_02_data_02.asm
 123B14,SpeechQueueLead,dword_123B14,new,medium,"samples left when the next queued clip starts, per slot",src/data/lib/input/input_joystick_misc_02_data_02.asm
 123BB0,SpeechQueueWrite,dword_123BB0,new,medium,speech queue write index,src/data/lib/watcom/watcom_clib_08_data_02.asm
@@ -4598,10 +4717,14 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 124014,VesaBank,dword_124014,new,low,current VESA bank,src/data/lib/video/video_bios_vga_02_data_01.asm
 124018,VesaBankFunc,dword_124018,new,low,VESA bank switch routine,src/data/lib/video/video_bios_vga_02_data_01.asm
 12401C,VesaBankShift,byte_12401C,new,low,VESA bank granularity shift,src/data/lib/video/video_bios_vga_02_data_01.asm
+124109,DosErrnoTable,dword_124109,new,low,DOS error to errno table,src/data/lib/ea/ea_fileio_02_data_01.asm
 124124,__NHandles,dword_124124,new,low,number of file handles,src/data/lib/watcom/watcom_clib_13_data_02.asm
 124128,__init_mode,unk_124128,new,medium,initial file handle modes,src/data/lib/watcom/watcom_clib_13_data_02.asm
 124178,__io_mode,dword_124178,new,low,file handle mode table pointer,src/data/lib/watcom/watcom_clib_13_data_02.asm
+1241C4,HotkeyScanTable,byte_1241C4,new,low,scan code per registered hotkey,src/data/lib/watcom/watcom_clib_13_data_02.asm
+124244,HotkeyModTable,byte_124244,new,low,shift state per registered hotkey,src/data/lib/video/video_bios_vga_03_data_01.asm
 1242CA,HotkeyNesting,dword_1242CA,new,medium,hotkey dispatch nesting count,src/data/lib/video/video_bios_vga_03_data_01.asm
+1242CE,HotkeyFuncTable,dword_1242CE,new,low,routine per registered hotkey,src/data/lib/video/video_bios_vga_03_data_01.asm
 1243D0,str_MUSICON,asc_1243D0,new,high,string 'MUSIC ON',src/data/lib/video/video_bios_vga_03_data_01.asm
 1243D9,str_MUSICOFF,asc_1243D9,new,high,string 'MUSIC OFF',src/data/lib/video/video_bios_vga_03_data_01.asm
 1243E3,str_SOUNDON,asc_1243E3,new,high,string 'SOUND ON',src/data/lib/video/video_bios_vga_03_data_01.asm
@@ -4766,6 +4889,7 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 151444,GusIrqOldHandler,dword_151444,new,low,saved old handler offset in the IRQ table,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
 151448,GusIrqOldSelector,word_151448,new,low,saved old handler selector in the IRQ table,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
 1514C4,GusMidiPending,dword_1514C4,new,low,set when a MIDI interrupt arrived while the card was busy,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
+1514CC,GusIrqPending,word_1514CC,new,low,pending interrupt flags of the card,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
 1514E4,GusMidiIrqCount,dword_1514E4,new,low,number of MIDI interrupts serviced,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
 1514E8,GusTimerCallback,dword_1514E8,new,low,callback for the card timers,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
 1514EC,GusDmaDoneCallback,dword_1514EC,new,low,callback when a DMA transfer to card memory ends,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
@@ -4780,60 +4904,217 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 151510,GusMidiRecvCallback,dword_151510,new,low,callback when the MIDI port has received a byte,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
 151514,GusDramSized,byte_151514,new,low,set once the card memory size has been measured,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
 151518,GusDmaBusy,dword_151518,new,low,set while a DMA transfer to card memory runs,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
+15151C,MaxPrecision,dword_15151C,new,low,maximum number of digits printed for a floating-point number,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
 151520,WVideoActive,byte_151520,new,low,debugger video active,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
 15155A,GusDmaReady,byte_15155A,new,low,set once the DMA channels have been set up,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
 15155C,InitRtnsEntry,unk_15155C,new,low,start up routine entry,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
 151580,FiniRtnsEntry,unk_151580,new,low,shut down routine entry,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
+15158C,GusInitTable,unk_15158C,new,low,Gravis register initialisation table,src/data/lib/sound/snd_gus_sdk_02_data_01.asm
 151598,kaufmfont,,95PC,high,NHL95PC D8B68 (position): same fixup of sub_B195C,
+1515A8,SlotWords,dword_1515A8,new,low,"8 words: high byte device (bits 0-2) and team (bit 7), low byte buttons",src/data/front/front_10010_bss_01.asm
 1515B4,SlotTable,byte_1515B4,new,high,"4 entries x 7 bytes: on byte, device word, buttons dword",
+1515B7,InputPlaybackOn,dword_1515B7,new,low,set while recorded input plays back,src/data/front/front_10010_bss_01.asm
 1515D4,InputRecordRing,dword_1515D4,new,high,ring of 5 records x 0x12 bytes,
+15177C,GripLinkByte,byte_15177C,new,low,Gravis GrIP link scratch byte,src/data/front/front_10010_bss_01.asm
+151782,GripDriverSeg,word_151782,new,low,Gravis GrIP driver segment,src/data/front/front_10010_bss_01.asm
+151784,GripFarCall,unk_151784,new,low,Gravis GrIP far call pointer,src/data/front/front_10010_bss_01.asm
+15178A,GripDataSeg,word_15178A,new,low,Gravis GrIP data segment,src/data/front/front_10010_bss_01.asm
+15178C,GripResult,word_15178C,new,low,Gravis GrIP call result,src/data/front/front_10010_bss_01.asm
 151B80,fadeinpending,,95PC,medium,NHL95PC CBEC4 (refset): referenced by the same 2 matched functions,
+152C44,str_WesternConference2,unk_152C44,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_01.asm
+152F50,MenuRemoteCursorArt,dword_152F50,new,low,remote cursor art,src/data/front/main_bss_01.asm
+152F54,MenuCursorPixels,dword_152F54,new,low,local cursor pixels,src/data/front/main_bss_01.asm
+152F5C,MenuBitmapPixels,dword_152F5C,new,low,menu bitmap pixels,src/data/front/main_bss_01.asm
+152F60,AsyncRequests,dword_152F60,new,low,pool of async file requests,src/data/front/main_bss_01.asm
 152F64,AsyncCurFile,dword_152F64,new,low,file of the request being serviced,src/data/front/main_bss_01.asm
 152F68,AsyncCurOffset,dword_152F68,new,low,file offset of the request being serviced,src/data/front/main_bss_01.asm
+152F6C,AsyncFreeList,dword_152F6C,new,low,free list of async file requests,src/data/front/main_bss_01.asm
+152F88,AsyncFileHandle,dword_152F88,new,low,DOS handle of the file being streamed,src/data/front/main_bss_01.asm
+152FB4,AsyncStreamFile,dword_152FB4,new,low,file the speech stream reads from,src/data/front/main_bss_01.asm
+152FB8,AsyncWaitTimer,dword_152FB8,new,low,countdown before the next async step,src/data/front/main_bss_01.asm
+152FE4,StreamHandle,dword_152FE4,new,low,CD stream handle,src/data/front/main_bss_01.asm
 152FE8,curperiod,,95PC,medium,NHL95PC D8C84 (refset): referenced by the same 2 matched functions,
+156E6C,hmplstats,unk_156E6C,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_01.asm
 15718C,hmroster,,95PC,medium,NHL95PC DB3A8 (refset): referenced by the same 3 matched functions,
 157192,hmrosterpos,,95PC,medium,NHL95PC DB3AE (refset): referenced by the same 3 matched functions,
+157AFA,hmglstats_w2,word_157AFA,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_01.asm
+157B00,hmglstats_w8,word_157B00,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_01.asm
+157B06,hmglstats_w14,word_157B06,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_01.asm
+157B82,hmplattr,unk_157B82,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_01.asm
+157F9C,awlinetab,unk_157F9C,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_01.asm
+158610,hmlinetab,unk_158610,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_01.asm
+158651,pad2dev,byte_158651,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_01.asm
+158652,pad1dev,byte_158652,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_01.asm
 158658,DataFilePath,unk_158658,new,low,data file path buffer,src/data/front/main_bss_01.asm
+158D84,GoalLightTimerFar,dword_158D84,new,low,"goal light timer, far net",src/data/front/front_201CD_bss_01.asm
+158D90,GoalLightFrame,dword_158D90,new,low,goal light frame,src/data/front/front_201CD_bss_01.asm
+158D94,FarSideModel,dword_158D94,new,low,far side model,src/data/front/front_201CD_bss_01.asm
+158D9C,GoalLightOn,dword_158D9C,new,low,goal light on,src/data/front/front_201CD_bss_01.asm
 1591D8,IceSurfacePolys,unk_1591D8,new,medium,ice surface polygons,src/data/front/rink_model_bss_01.asm
 1593F8,BoardLinePolys,unk_1593F8,new,medium,board line polygons,src/data/front/rink_model_bss_01.asm
+15D2A4,RinkModelTexInfo,dword_15D2A4,new,low,rink model texture info,src/data/front/rink_model_bss_02.asm
+15D2B4,RinkModelBounds,dword_15D2B4,new,low,rink model bounds,src/data/front/rink_model_bss_02.asm
+15DEE0,StandsArt,dword_15DEE0,new,low,stands art,src/data/front/rink_model_bss_02.asm
+15DF20,GlassRemap,unk_15DF20,new,low,glass colour remap,src/data/front/rink_model_bss_02.asm
+15E020,BenchRemap,unk_15E020,new,low,bench colour remap,src/data/front/rink_model_bss_02.asm
+15E12C,RinkModelNormals,dword_15E12C,new,low,rink model normals,src/data/front/rink_model_bss_02.asm
+15E47C,FarSideData,dword_15E47C,new,low,far side data,src/data/front/rink_model_bss_02.asm
+15E480,GoalLightModel,dword_15E480,new,low,goal light model,src/data/front/rink_model_bss_02.asm
+15E484,GoalCheerTeam,dword_15E484,new,low,team cheering a goal,src/data/front/rink_model_bss_02.asm
+15E488,GoalLightState,dword_15E488,new,low,goal light state,src/data/front/rink_model_bss_02.asm
 15E534,IceLinePolys,unk_15E534,new,medium,ice line polygons,src/data/front/rink_model_bss_02.asm
 15E618,IceCenterPoly,unk_15E618,new,medium,ice center polygon,src/data/front/rink_model_bss_02.asm
+15E684,RinkLength,dword_15E684,new,low,rink length,src/data/front/rink_model_bss_02.asm
+15E688,RinkWidth,dword_15E688,new,low,rink width,src/data/front/rink_model_bss_02.asm
+15E68C,RinkCorner,dword_15E68C,new,low,rink corner radius,src/data/front/rink_model_bss_02.asm
+15E6A0,RinkModelSize,dword_15E6A0,new,low,rink model size,src/data/front/rink_model_bss_02.asm
+15E6A4,RinkModelFlags,dword_15E6A4,new,low,rink model flags,src/data/front/rink_model_bss_02.asm
+15E6A8,RinkModelHeader,dword_15E6A8,new,low,rink model header,src/data/front/rink_model_bss_02.asm
+15E6AC,BenchDoorArt,dword_15E6AC,new,low,bench door art,src/data/front/rink_model_bss_02.asm
+15E6B4,RinkModelVerts,dword_15E6B4,new,low,rink model vertices,src/data/front/rink_model_bss_02.asm
+15E6B8,RinkModelPolys,dword_15E6B8,new,low,rink model polygons,src/data/front/rink_model_bss_02.asm
+15E710,str_C2,dword_15E710,new,low,"string ""c2""",src/data/front/rink_model_bss_02.asm
+15E828,BenchSideModel,dword_15E828,new,low,bench side model,src/data/front/rink_model_bss_02.asm
+15E840,RinkMarkingModel,dword_15E840,new,low,rink marking model,src/data/front/rink_model_bss_02.asm
+15E848,CreaseModel,dword_15E848,new,low,crease model,src/data/front/rink_model_bss_02.asm
+15E860,RinkGeometryModel,dword_15E860,new,low,rink geometry model,src/data/front/rink_model_bss_02.asm
+15E864,BoxModelData,dword_15E864,new,low,penalty box model data,src/data/front/rink_model_bss_02.asm
+15E870,RinkGeometryParts,dword_15E870,new,low,rink geometry parts,src/data/front/rink_model_bss_02.asm
+15E878,RinkGeometryData,dword_15E878,new,low,rink geometry data,src/data/front/rink_model_bss_02.asm
+15E87C,CameraFlashOn,dword_15E87C,new,low,camera flashes on,src/data/front/rink_model_bss_02.asm
+15E884,BenchSideIndex,dword_15E884,new,low,bench side index,src/data/front/rink_model_bss_02.asm
+15E888,NeutralSpotModel,dword_15E888,new,low,neutral zone spot model,src/data/front/rink_model_bss_02.asm
 15E88C,FlashPolys,unk_15E88C,new,medium,camera flash polygons,src/data/front/rink_model_bss_02.asm
+15E8B0,CenterSpotModel,dword_15E8B0,new,low,center spot model,src/data/front/rink_model_bss_02.asm
+15E8B4,CreasePolyModel,dword_15E8B4,new,low,crease polygon model,src/data/front/rink_model_bss_02.asm
+15E8B8,BoardsTopModel,dword_15E8B8,new,low,boards top model,src/data/front/rink_model_bss_02.asm
+15E8BC,CenterCircleModel,dword_15E8BC,new,low,center circle model,src/data/front/rink_model_bss_02.asm
+15E8C0,BenchLineModel,dword_15E8C0,new,low,bench line model,src/data/front/rink_model_bss_02.asm
+15E8E8,RinkSidesModel,dword_15E8E8,new,low,rink sides model,src/data/front/rink_model_bss_02.asm
+160A8C,UserRecordList,dword_160A8C,new,low,user record list (374 bytes each),src/data/front/front_2A692_bss_01.asm
+160A94,UserOpponentColumn,dword_160A94,new,low,user records opponent column,src/data/front/front_2A692_bss_01.asm
+160AAC,UserRatingColumn,dword_160AAC,new,low,user records rating column,src/data/front/front_2A692_bss_01.asm
+160AB0,UserShutoutColumn,dword_160AB0,new,low,user records shutout column,src/data/front/front_2A692_bss_01.asm
+160AB4,UserNameIndex,dword_160AB4,new,low,user name index,src/data/front/front_2A692_bss_01.asm
+160AB8,UserStreakColumn,dword_160AB8,new,low,user records streak column,src/data/front/front_2A692_bss_01.asm
+160AC0,UserLongStreakColumn,dword_160AC0,new,low,user records longest streak column,src/data/front/front_2A692_bss_01.asm
+160AC4,UserPowerPlayColumn,dword_160AC4,new,low,user records power play column,src/data/front/front_2A692_bss_01.asm
+164124,plseasongoals,dword_164124,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_2A692_bss_01.asm
+16443C,exhstate,unk_16443C,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_2A692_bss_01.asm
+164754,JoyStateTable,unk_164754,new,low,joystick state per slot,src/data/front/front_2A692_bss_01.asm
+164794,puckcross,word_164794,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_2A692_bss_01.asm
+164796,puckcross2,word_164796,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_2A692_bss_01.asm
+16479A,puckcross6,word_16479A,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_2A692_bss_01.asm
 16479C,SortCords,,95PC,medium,NHL95PC DF81C (refset): referenced by the same 10 matched functions,
+16505C,ViewScreenHeight,dword_16505C,new,low,full screen height the game view is sized against (compared with 300),src/data/front/replay_controls_bss_01.asm
+165250,InputState,byte_165250,new,low,input state,src/data/front/replay_controls_bss_01.asm
+165254,PtrPuckZone,dword_165254,new,low,pointer to the puck zone record,src/data/front/replay_controls_bss_01.asm
+1655A4,textline1,byte_1655A4,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/engine_2D9D9_bss_01.asm
 1656D0,LineChangeReq,word_1656D0,new,medium,per team (2 words): line change requested,
 1656D4,LineChangeLine,word_1656D4,new,medium,per team (2 words): which line (0-3),
 1656D8,hmtmstruct,,95PC,medium,NHL95PC DF614 (refset): referenced by the same 21 matched functions,
+1656E8,hmscore,word_1656E8,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_1456D_bss_02.asm
+165710,hmtmap,word_165710,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_1456D_bss_02.asm
 165712,hmtmgoalie,,95PC,medium,NHL95PC DF64C (refset): referenced by the same 3 matched functions,
 16571E,HmPlayerFlags,byte_16571E,new,low,home team: flags per roster player,src/data/front/front_1456D_bss_02.asm
+165758,hmtmpdst,word_165758,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_1456D_bss_02.asm
+1657AC,hmtmcoach_d2,byte_1657AC,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_1456D_bss_02.asm
+1657AD,hmtmcoach_d3,byte_1657AD,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_1456D_bss_02.asm
 1657AE,HmCoachGoalie,byte_1657AE,new,low,home team: coach goalie mode,src/data/front/front_1456D_bss_02.asm
+1657AF,hmtmcoachmode,byte_1657AF,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_1456D_bss_02.asm
+1657B0,hmtmcoachenergy,dword_1657B0,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_1456D_bss_02.asm
+1657B4,HmRosterMap,byte_1657B4,new,low,home team: roster index per slot,src/data/front/front_1456D_bss_02.asm
+1657EA,hmtmlines,dword_1657EA,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_1456D_bss_02.asm
+1657EE,hmtmplattr,dword_1657EE,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_1456D_bss_02.asm
+165806,hmtmsort,dword_165806,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_1456D_bss_02.asm
 16580E,awtmstruct,,95PC,medium,NHL95PC DF714 (refset): referenced by the same 19 matched functions,
+16581E,awscore,word_16581E,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_1456D_bss_02.asm
+16583A,awtmline,word_16583A,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_1456D_bss_02.asm
+165846,awtmap,word_165846,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_bss_01.asm
 165848,awtmgoalie,,95PC,medium,NHL95PC DF74C (refset): referenced by the same 2 matched functions,
 165854,AwPlayerFlags,byte_165854,new,low,away team: flags per roster player,src/data/engine/hockey_bss_01.asm
+1658E2,awtmcoach_d2,byte_1658E2,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_bss_01.asm
+1658E3,awtmcoach_d3,byte_1658E3,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_bss_01.asm
 1658E4,AwCoachGoalie,byte_1658E4,new,low,away team: coach goalie mode,src/data/engine/hockey_bss_01.asm
+1658E5,awtmcoachmode,byte_1658E5,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_bss_01.asm
+1658E6,awtmcoachenergy,dword_1658E6,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_bss_01.asm
+1658EA,AwRosterMap,byte_1658EA,new,low,away team: roster index per slot,src/data/engine/hockey_bss_01.asm
+16593C,hmtmroster,dword_16593C,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_bss_01.asm
 165944,PlList,,95PC,medium,NHL95PC E0384 (refset): referenced by the same 2 matched functions,
+16594A,LinePlayersAway,byte_16594A,new,low,away line players,src/data/engine/hockey_bss_01.asm
+165950,fofdata2,word_165950,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/hockey_bss_01.asm
+165952,PlayFlags,word_165952,new,low,play state flags,src/data/engine/hockey_bss_01.asm
+165953,fofdata2_b3,byte_165953,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/faceoff_bss_01.asm
+165954,fofdata2_w4,word_165954,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/faceoff_bss_01.asm
+165956,fofdata2_w6,word_165956,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/faceoff_bss_01.asm
+165957,fofdata2_b7,byte_165957,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/faceoff_bss_01.asm
+165958,fofdata,word_165958,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/faceoff_bss_01.asm
 16595C,regd2,,95PC,medium,NHL95PC E03AC (refset): referenced by the same 5 matched functions,
 165960,regd3,,95PC,medium,NHL95PC E03B0 (refset): referenced by the same 6 matched functions,
+165964,regd4,word_165964,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/faceoff_bss_01.asm
 165968,regd5,,95PC,medium,NHL95PC E03B8 (refset): referenced by the same 4 matched functions,
 16597C,regd0,word_16597C,95PC,high,ClampYPosition clears it as NHL95PC regd0,src/data/engine/faceoff_bss_01.asm
 165980,regd1,word_165980,95PC,high,ClampYPosition clamps it as NHL95PC regd1,src/data/engine/faceoff_bss_01.asm
+176AE2,PenBuf,byte_176AE2,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/faceoff_bss_01.asm
+176AE3,PenBuf_pl,byte_176AE3,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/faceoff_bss_01.asm
+176B24,Ylist,word_176B24,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/faceoff_bss_01.asm
 176B46,OOlistpos,,95PC,medium,NHL95PC E9A7A (refset): referenced by the same 4 matched functions,
+176B6A,SpeechPatchNext,word_176B6A,new,low,speech patch header: next (set to 0 at start up),src/data/front/main_bss_02.asm
+176B6C,joysampling,word_176B6C,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_02.asm
 176B74,CwdExciteLvl,,95PC,medium,NHL95PC E9AA8 (refset): referenced by the same 2 matched functions,
+176B80,PerTimeTotal,word_176B80,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_02.asm
 176B82,PBnum,,95PC,medium,NHL95PC E9ABA (refset): referenced by the same 2 matched functions,
+176B84,iflags,byte_176B84,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_02.asm
+176B85,icingPlayer,byte_176B85,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_02.asm
 176B86,lasttouch,,95PC,medium,NHL95PC E9AC2 (refset): referenced by the same 3 matched functions,
 176B88,LastTouchTeam,word_176B88,new,low,team that last touched the puck,src/data/front/main_bss_02.asm
 176B8A,PassDistY,word_176B8A,new,low,pass distance Y,src/data/front/main_bss_02.asm
 176B8C,StoppageFlag,word_176B8C,new,low,play stopped,src/data/front/main_bss_02.asm
 176B8E,LastPlayerTouch,word_176B8E,new,low,last player to touch the puck,src/data/front/main_bss_02.asm
+176B90,curevent,byte_176B90,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_02.asm
+176B93,curevent_b2,byte_176B93,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_02.asm
+176B94,curevent_b5,byte_176B94,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_02.asm
+176B96,curevent_b6,byte_176B96,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_02.asm
+176B97,curevent_b7,byte_176B97,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_02.asm
+176B98,curevent_b8,byte_176B98,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_02.asm
+176B9A,curevent_b9,byte_176B9A,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_02.asm
 176B9B,goalevent,,95PC,medium,NHL95PC E9AD3 (refset): referenced by the same 3 matched functions,
 176BA6,OOlist,,95PC,medium,NHL95PC E9ADE (refset): referenced by the same 2 matched functions,
+176BBA,starpl,word_176BBA,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_02.asm
+176BC4,gwgteam,dword_176BC4,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_02.asm
 176BC8,lineuptime,dword_176BC8,new,medium,the set time the faceoff line-up loop (sub_2DE30) runs before play,src/data/front/main_bss_02.asm
+176BCC,gwgplayer,dword_176BCC,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_02.asm
 176BD4,lastimpact,,95PC,medium,NHL95PC E9B28 (refset): referenced by the same 2 matched functions,
+176BE0,lineslotmark,dword_176BE0,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/main_bss_02.asm
+176CA8,defsort_c,unk_176CA8,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/lines_bss_01.asm
 176D70,defsort_d,,95PC,medium,NHL95PC E9DB4 (refset): referenced by the same 5 matched functions,
+176DA2,defsort_l,unk_176DA2,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/lines_bss_01.asm
 176DD4,dressflags,,95PC,medium,NHL95PC E9E18 (refset): referenced by the same 2 matched functions,
+176DEC,dressflags_aw,byte_176DEC,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/lines_bss_01.asm
 176E06,offsort_fwd,,95PC,medium,NHL95PC E9E4A (refset): referenced by the same 6 matched functions,
+176ECE,dressedfwds,word_176ECE,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/lines_bss_01.asm
+176ED0,dresseddefs,word_176ED0,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/engine/lines_bss_01.asm
 176ED2,dressedskaters,,95PC,medium,NHL95PC E9F16 (refset): referenced by the same 2 matched functions,
+177998,ReplayMenuItems,dword_177998,new,low,replay menu items,src/data/front/replay_controls_bss_03.asm
+1781F4,ReplayMenuResult,dword_1781F4,new,low,replay menu result,src/data/front/replay_controls_bss_03.asm
+17BC78,MatchupLayer,dword_17BC78,new,low,matchup draw layer,src/data/front/front_5D993_bss_01.asm
 17BC7C,TeamStatsBitmap,dword_17BC7C,new,medium,team stats bitmap,src/data/front/front_5D993_bss_01.asm
+17BD48,str_Standings,dword_17BD48,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_5D993_bss_01.asm
 17BDE0,IntroPalette,unk_17BDE0,new,low,intro palette,src/data/front/front_5D993_bss_01.asm
+17C0E0,fadepalbuf,unk_17C0E0,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_5D993_bss_01.asm
+17C404,MenuRemoteItem,dword_17C404,new,low,menu item under the remote cursor,src/data/front/front_64F59_bss_01.asm
+17C408,MenuRemoteLayer,dword_17C408,new,low,remote cursor draw layer,src/data/front/front_64F59_bss_01.asm
+17C40C,MenuLocalCursorY,dword_17C40C,new,low,local cursor y,src/data/front/front_64F59_bss_01.asm
+17C410,MenuLocalCursorX,dword_17C410,new,low,local cursor x,src/data/front/front_64F59_bss_01.asm
+17C414,MenuItemLeaveFunc,dword_17C414,new,low,menu item leave routine,src/data/front/front_64F59_bss_01.asm
+17C418,MenuLocalLayer,dword_17C418,new,low,local cursor draw layer,src/data/front/front_64F59_bss_01.asm
+17C420,MenuSavedRemoteArt,dword_17C420,new,low,saved remote cursor art,src/data/front/front_64F59_bss_01.asm
+17C424,MenuLocalItem,dword_17C424,new,low,menu item under the local cursor,src/data/front/front_64F59_bss_01.asm
+17C428,MenuRemoteCursorY,dword_17C428,new,low,remote cursor y,src/data/front/front_64F59_bss_01.asm
+17C42C,MenuRemoteCursorX,dword_17C42C,new,low,remote cursor x,src/data/front/front_64F59_bss_01.asm
+17C438,MenuItemEnterFunc,dword_17C438,new,low,menu item enter routine,src/data/front/front_64F59_bss_01.asm
+17C45C,MenuCursorArt,dword_17C45C,new,low,local cursor art,src/data/front/front_64F59_bss_01.asm
+17C466,MenuViewSaved,word_17C466,new,low,set while the menu view is saved,src/data/front/front_64F59_bss_01.asm
 17C96C,tgvpalpending,dword_17C96C,new,medium,the TGV player has a palette chunk for this frame,src/data/front/front_67000_bss_01.asm
 17C9A0,gameopts,,95PC,medium,NHL95PC C53FF (refset): referenced by the same 7 matched functions,
 17C9A4,GlobalSetData,dword_17C9A4,new,low,GLOBAL.SET settings,src/data/front/front_67000_bss_01.asm
@@ -4842,7 +5123,30 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 17CA20,optblock,dword_17CA20,new,medium,start of the option block the port sends to the guest,src/data/front/front_10010_bss_02.asm
 17CA60,GlobalSetName,byte_17CA60,new,low,name stored in GLOBAL.SET,src/data/front/front_10010_bss_02.asm
 17CA75,optblock_end,unk_17CA75,new,medium,end of the option block,src/data/front/front_10010_bss_02.asm
+17CB2E,SeasonUserRecords,unk_17CB2E,new,low,"season user records (28 bytes each, name first)",src/data/front/front_10010_bss_02.asm
+17CBE7,PlayoffTreeData,dword_17CBE7,new,low,playoff tree data,src/data/front/front_10010_bss_02.asm
+17CBEB,SeasonUserTeam,byte_17CBEB,new,low,user team in the season,src/data/front/front_10010_bss_02.asm
+17CED1,SeasonRandomSeed,dword_17CED1,new,low,season random seed,src/data/front/front_794FF_bss_01.asm
+17CF8E,cddriveptr,dword_17CF8E,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_794FF_bss_01.asm
 17D18E,PlayoffFormatTeams,dword_17D18E,new,low,teams per playoff format,src/data/front/playoff_bss_01.asm
+17D263,cupseries,dword_17D263,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/playoff_bss_01.asm
+17D518,PauseClockArea,dword_17D518,new,low,pause clock area,src/data/front/pause_menu_bss_01.asm
+17D528,FrontShapeFile,dword_17D528,new,low,front end shape file,src/data/front/pause_menu_bss_01.asm
+17D7CC,statsbgshapes,dword_17D7CC,new,low,same data as the like-named label used by the same routines in the earlier PC version,src/data/front/front_741BD_bss_01.asm
+17DA50,AwayShotTotals,dword_17DA50,new,low,away shot totals,src/data/front/front_81EEA_bss_01.asm
+17DC20,LineSteep,dword_17DC20,new,low,set when the line is steeper than 45 degrees,src/data/front/front_849D5_bss_01.asm
+17DC2C,LineErrX,dword_17DC2C,new,low,error term of a shallow line,src/data/front/front_849D5_bss_01.asm
+17DC30,LineErrStepY,dword_17DC30,new,low,error step of a steep line,src/data/front/front_849D5_bss_01.asm
+17DC34,LineErrStepX,dword_17DC34,new,low,error step of a shallow line,src/data/front/front_849D5_bss_01.asm
+17DC40,LineX,dword_17DC40,new,low,current x of the line being drawn,src/data/front/front_849D5_bss_01.asm
+17DC54,LineStepY,dword_17DC54,new,low,y step of the line being drawn,src/data/front/front_849D5_bss_01.asm
+17DC58,LineErrY,dword_17DC58,new,low,error term of a steep line,src/data/front/front_849D5_bss_01.asm
+17DC5C,LineColor,dword_17DC5C,new,low,colour of the line being drawn,src/data/front/front_849D5_bss_01.asm
+17DC70,LinePattern,byte_17DC70,new,low,dot pattern of the line being drawn,src/data/front/front_849D5_bss_01.asm
+18212C,RatingsGoalieOrder,dword_18212C,new,low,goalie order on the ratings page,src/data/front/front_93E6A_bss_01.asm
+183020,RosterBackFile,dword_183020,new,low,roster back art file,src/data/front/front_971E9_bss_01.asm
+184398,LinesTeamText,dword_184398,new,low,lines team text,src/data/front/front_9CFE3_bss_01.asm
+1843A4,LinesIntroTeam,dword_1843A4,new,low,team shown in the lines intro,src/data/front/front_9CFE3_bss_01.asm
 184B1C,PlayoffTeamCount,dword_184B1C,new,low,teams in the chosen playoff format,src/data/front/playoff_bss_02.asm
 184B20,PlayoffFormat,dword_184B20,new,low,chosen playoff format,src/data/front/playoff_bss_02.asm
 18566C,timercallbacks,,95PC,medium,NHL95PC EDCDC (refset): referenced by the same 2 matched functions,
@@ -4851,6 +5155,8 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 18572C,RowTableSize,dword_18572C,new,low,number of rows in the screen row address table,src/data/lib/lib_A8B9B_bss_01.asm
 185730,MemDescriptorTop,dword_185730,new,medium,memory descriptor top,src/data/lib/lib_A8B9B_bss_01.asm
 185734,MemLockHandle,dword_185734,new,medium,memory lock handle,src/data/lib/lib_A8B9B_bss_01.asm
+185738,MemFreeStart,dword_185738,new,low,memory free start,src/data/lib/lib_A8B9B_bss_01.asm
+18573C,MemFreeBytes,dword_18573C,new,low,memory free size,src/data/lib/lib_A8B9B_bss_01.asm
 185740,TintMulGreen,dword_185740,new,medium,green multiplier of the screen tint,src/data/lib/ea/ea_debug_01_bss_01.asm
 185744,TintMulBlue,dword_185744,new,medium,blue multiplier of the screen tint,src/data/lib/ea/ea_debug_01_bss_01.asm
 185748,TintRowCount,dword_185748,new,medium,rows of the tint rectangle left to do,src/data/lib/ea/ea_debug_01_bss_01.asm
@@ -4897,6 +5203,7 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 185830,InvTabFillCount,dword_185830,new,medium,inverse colour table fill: count,src/data/lib/ea/ea_debug_01_bss_01.asm
 185834,InvTabFillStep,dword_185834,new,medium,inverse colour table fill: step,src/data/lib/ea/ea_debug_01_bss_01.asm
 185838,InvTabFillDist,dword_185838,new,medium,inverse colour table fill: distance,src/data/lib/ea/ea_debug_01_bss_01.asm
+185848,MemPoolSize,dword_185848,new,low,memory pool size,src/data/lib/ea/ea_debug_01_bss_01.asm
 18B078,CdBufferSegment,word_18B078,new,medium,real mode segment of the CD buffer,src/data/lib/watcom/watcom_clib_05_bss_01.asm
 18B07C,CdBufferSelector,dword_18B07C,new,medium,selector of the CD buffer,src/data/lib/watcom/watcom_clib_05_bss_01.asm
 18B080,CdBufferAllocated,dword_18B080,new,medium,CD buffer allocated,src/data/lib/watcom/watcom_clib_05_bss_01.asm
@@ -4912,6 +5219,7 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 18B0B8,CdRegEdx,dword_18B0B8,new,medium,MSCDEX call EDX,src/data/lib/watcom/watcom_clib_05_bss_01.asm
 18B0BE,CdRegEs,word_18B0BE,new,medium,MSCDEX call ES,src/data/lib/watcom/watcom_clib_05_bss_01.asm
 18B0C0,CdRegSegs,word_18B0C0,new,medium,MSCDEX call segment registers,src/data/lib/watcom/watcom_clib_05_bss_01.asm
+18B0D0,ResourceArchiveData,byte_18B0D0,new,low,data of the open resource archive,src/data/lib/watcom/watcom_clib_05_bss_01.asm
 190E90,TextureTileSize,dword_190E90,new,low,size of one rink texture tile,src/data/lib/ea/ea_shpi_01_bss_01.asm
 190E94,TexturePageBase,dword_190E94,new,low,base of the texture page being built,src/data/lib/ea/ea_shpi_01_bss_01.asm
 190E98,TextureDetail,dword_190E98,new,low,texture detail level,src/data/lib/ea/ea_shpi_01_bss_01.asm
@@ -4954,8 +5262,10 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 19B8FC,CrowdEventCurve,dword_19B8FC,new,medium,rise curve of a crowd event,src/data/lib/watcom/watcom_clib_08_bss_01.asm
 19B900,CrowdEventSfx,dword_19B900,new,medium,sound effect a crowd event plays,src/data/lib/watcom/watcom_clib_08_bss_01.asm
 19BA30,CrowdRampRate,dword_19BA30,new,medium,crowd excitement change per tick,src/data/lib/watcom/watcom_clib_08_bss_01.asm
+19BA38,errno,unk_19BA38,new,low,C library errno,src/data/lib/watcom/watcom_clib_08_bss_01.asm
 19BA3C,__OpenStreams,dword_19BA3C,new,low,list of open stdio streams,src/data/lib/watcom/watcom_clib_08_bss_01.asm
 19BA40,__ClosedStreams,dword_19BA40,new,low,list of closed stdio streams,src/data/lib/watcom/watcom_clib_08_bss_01.asm
+19BA44,__HeapFlags,byte_19BA44,new,low,heap manager flags,src/data/lib/watcom/watcom_clib_08_bss_01.asm
 19BA45,__nheap_clean,byte_19BA45,new,low,near heap clean flag,src/data/lib/watcom/watcom_clib_08_bss_01.asm
 19BA48,AtexitTable,dword_19BA48,new,low,atexit routines,src/data/lib/watcom/watcom_clib_08_bss_01.asm
 19BAC8,SpeechBankCount,dword_19BAC8,new,low,number of registered speech banks,src/data/lib/watcom/watcom_clib_08_bss_01.asm
@@ -4972,7 +5282,10 @@ E2824,SinCosLookup,sub_E2824,new,low,returns the sine and cosine of an angle fro
 1A0B47,SndChannelPan,byte_1A0B47,new,medium,sound channel pan,src/data/lib/watcom/watcom_clib_08_bss_01.asm
 1A0DA0,SfxTable,dword_1A0DA0,new,medium,sound effect records by number,src/data/lib/watcom/watcom_clib_08_bss_01.asm
 1A0DA4,SfxTableNext,dword_1A0DA4,new,medium,"sound effect table from the second entry, for stereo pairs",src/data/lib/watcom/watcom_clib_08_bss_01.asm
+1A0FA0,SbBasePort,word_1A0FA0,new,low,base port of the Sound Blaster,src/data/lib/watcom/watcom_clib_08_bss_01.asm
 1A0FA2,SbMixerAddrPort,word_1A0FA2,new,low,Sound Blaster mixer address port,src/data/lib/watcom/watcom_clib_08_bss_01.asm
+1A0FA6,SbMixerDataPort,word_1A0FA6,new,low,Sound Blaster mixer data port,src/data/lib/watcom/watcom_clib_08_bss_01.asm
+1A0FA8,SbResetPort,word_1A0FA8,new,low,Sound Blaster DSP reset port,src/data/lib/watcom/watcom_clib_08_bss_01.asm
 1A0FAA,SbReadPort,word_1A0FAA,new,low,Sound Blaster DSP read port,src/data/lib/watcom/watcom_clib_08_bss_01.asm
 1A0FAC,SbWritePort,word_1A0FAC,new,low,Sound Blaster DSP write port,src/data/lib/watcom/watcom_clib_08_bss_01.asm
 1A0FB0,WssBlockSamples,dword_1A0FB0,new,low,samples per Windows Sound System block,src/data/lib/sound/snd_soundblaster_bss_01.asm

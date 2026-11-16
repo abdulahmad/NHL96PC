@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_903B5 progbits alloc exec nowrite align=1
-extern __CHP, asc_1129CF, asc_1129E6, byte_11E844, byte_11E852, byte_17BDAE, byte_17CBEB, byte_17D13A
+extern __CHP, asc_1129CF, asc_1129E6, byte_11E844, byte_11E852, byte_17BDAE, SeasonUserTeam, byte_17D13A
 extern byte_17EBF0, byte_182124, CheckExportName, DrawColorText, DrawColorTextCentred, DrawFrameAt, DrawScrollBar, dword_1129FA
 extern dword_11E670, dword_11E684, dword_11E6B4, dword_11E7E0, dword_11E85B, dword_11E87F, dword_11E883, dword_11E887
 extern dword_11E88B, TeamStatsBitmap, dword_17EEF0, dword_17FDF0, dword_17FDF4, dword_181EAC, dword_1820A0, dword_1820A4
@@ -24,7 +24,7 @@ extern SelectDataLibrary, StatsDb5Record, StatsDb1Record, StatsDataBBRecord, Sta
 extern PlayerRatingsScreen_E44, PlayerRatingsScreen_E4D, PlayerRatingsScreen_E56, PlayerRatingsScreen_E5F, PlayerRatingsScreen_E68, PlayerRatingsScreen_E71, RatingBar, DrawArt
 extern PutBlockAtOwnPos, BlitShapeAt, AllocMemBlock, FreeMemBlock, CreateBitmap, FreeBitmap, DosFileInfo, LoadResourceDataShared
 extern DrawArtOpaqueAtOwnPos, DrawArtOpaqueHotspot, PutBlockKeyed, SetScreenTarget, SetPaletteEntries, SetColourRemap, FindShape, TickDeadlinePassed
-extern unk_1129C2, unk_1129E4, unk_1129F7, unk_152C44, UpdateProgressBox
+extern unk_1129C2, unk_1129E4, unk_1129F7, str_WesternConference2, UpdateProgressBox
 global unk_903B5, unk_903F5, unk_90401, unk_90501, ShowPlayerCardTitle, SwitchPlayerCard, DrawLeagueLogo, DrawLeagueLogo_7D
 global SlideCardLeft, SlideCardRight, PlayerCardScreen, unk_91F1C, unk_91F48, unk_91F70, unk_91F9C, DrawPlayerCardStats
 global DrawPlayerCardStats_1C4, DrawPlayerCardStats_1DE, DrawPlayerCardStats_1E4, DrawPlayerCardStats_217, DrawPlayerCardStats_21D, DrawPlayerCardStats_223, DrawPlayerCardStats_229, DrawPlayerCardStats_22F
@@ -811,7 +811,7 @@ PlayerCardScreen:
         cmp dword [byte ebp-020h], byte 8
         jl short .6
         lea eax, [dword esi+0C6h]
-        mov edi, unk_152C44
+        mov edi, str_WesternConference2
         lea edx, [dword esi+02B2h]
 .7:
         mov byte [eax], 0
@@ -2905,7 +2905,7 @@ LoadPlayerCardArt:
         jne short .8
         cmp dword [dword_11E883], byte 1
         jne near .13
-        mov eax, unk_152C44
+        mov eax, str_WesternConference2
         mov edx, dword [byte ebp-030h]
         lea esi, [dword eax+0C0h]
 .9:
@@ -3364,7 +3364,7 @@ ExportPlayerCard:
 .1:
         cmp dword [byte ebp-04Ch], 2AF8h
         jge short .2
-        push byte_17CBEB
+        push SeasonUserTeam
         mov eax, 49h
         call GetLangText
         push eax

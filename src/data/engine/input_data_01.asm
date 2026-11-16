@@ -2,11 +2,11 @@
 bits 32
 %include "hockey.inc"
 section s_119F4A progbits alloc noexec write align=1
-global byte_119F4A, byte_119F4B, byte_119F5A, byte_119F5B, byte_119FF0, byte_119FF7, byte_11A028, dword_119F6C
-global dword_119F90, nethit, dword_119FEC, dword_11A004, dword_11A11C, dword_11A15C, dword_11A19C, dword_11A1BC
-global dword_11A2F8, word_119F78, word_119F98, word_119F9A, word_119FB8, word_119FC8, word_119FCA, word_119FF8
-global word_11A008, word_11A01A, word_11A0D9, word_11A224, word_11A236, word_11A26C
-byte_119F4A:
+global assonetimer_blade_y, byte_119F4B, byte_119F5A, byte_119F5B, byte_119FF0, byte_119FF7, byte_11A028, dword_119F6C
+global dword_119F90, nethit, playsuspended, dword_11A004, dword_11A11C, MaxSpeed, doplayeracc_ftab, dword_11A1BC
+global PenaltyTypes, word_119F78, blockspd, blockspd_y, word_119FB8, shotsets, word_119FCA, word_119FF8
+global word_11A008, word_11A01A, word_11A0D9, word_11A224, word_11A236, penbannertab
+assonetimer_blade_y:
         db 03h
 byte_119F4B:
         db 0Eh,0Ch,07h,0Eh,0FDh,07h,0F3h,0FDh,0F2h,0F3h,0F8h,0F2h,03h,0F8h,0Ch
@@ -24,20 +24,20 @@ dword_119F90:
         db 00h,00h,00h,00h
 nethit:
         db 00h,00h,00h,00h
-word_119F98:
+blockspd:
         db 092h,010h
-word_119F9A:
+blockspd_y:
         db 00h,00h,0B8h,0Bh,048h,0F4h,00h,00h,06Eh,0EFh,048h,0F4h,048h,0F4h,06Eh,0EFh
         db 00h,00h,048h,0F4h,0B8h,0Bh,00h,00h,092h,010h,0B8h,0Bh,0B8h,0Bh
 word_119FB8:
         db 01h,03h,07h,03h,013h,03h,013h,03h,013h,03h,0Dh,03h,0Dh,03h,01h,03h
-word_119FC8:
+shotsets:
         db 00h,00h
 word_119FCA:
         db 0Ch,00h,0Ah,00h,0Ch,00h,0Ah,00h,06h,00h,0Ah,00h,00h,00h,00h,00h
         db 00h,00h,0F6h,0FFh,00h,00h,0F6h,0FFh,06h,00h,0F6h,0FFh,0Ch,00h,00h,00h
         db 06h,00h
-dword_119FEC:
+playsuspended:
         db 00h,00h,00h,00h
 byte_119FF0:
         db 0Eh,02h,02h,03h,05h,03h,05h
@@ -76,12 +76,12 @@ dword_11A11C:
         db 080h,019h,00h,00h,05Eh,01Ah,00h,00h,038h,01Bh,00h,00h,0Eh,01Ch,00h,00h
         db 0E0h,01Ch,00h,00h,0AEh,01Dh,00h,00h,078h,01Eh,00h,00h,03Eh,01Fh,00h,00h
         db 00h,020h,00h,00h,0BEh,020h,00h,00h,078h,021h,00h,00h,02Eh,022h,00h,00h
-dword_11A15C:
+MaxSpeed:
         db 00h,084h,0DEh,01h,0C4h,0Dh,08h,02h,040h,094h,032h,02h,084h,01h,05Eh,02h
         db 00h,040h,08Ah,02h,084h,03Ah,0B7h,02h,040h,0DCh,0E4h,02h,0C4h,010h,013h,03h
         db 00h,0C4h,041h,03h,044h,0E2h,070h,03h,040h,058h,0A0h,03h,04h,013h,0D0h,03h
         db 00h,00h,00h,04h,04h,0Dh,030h,04h,040h,028h,060h,04h,044h,040h,090h,04h
-dword_11A19C:
+doplayeracc_ftab:
         db 00h,00h,00h,00h,010h,00h,00h,00h,010h,00h,00h,00h,010h,00h,00h,00h
         db 00h,00h,00h,00h,0F0h,0FFh,0FFh,0FFh,0F0h,0FFh,0FFh,0FFh,0F0h,0FFh,0FFh,0FFh
 dword_11A1BC:
@@ -100,7 +100,7 @@ word_11A236:
         db 06h,00h,07h,00h,08h,00h,09h,00h,0Bh,00h,0FFh,0FFh,0FFh,0FFh,0Eh,00h
         db 0Fh,00h,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0Dh,00h,010h,00h
         db 010h,00h,0FFh,0FFh,00h,00h
-word_11A26C:
+penbannertab:
         db 0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,03h,00h,00h,00h
         db 03h,00h,00h,00h,03h,00h,00h,00h,06h,00h,00h,00h,0FFh,0FFh,0FFh,0FFh
         db 05h,00h,00h,00h,07h,00h,00h,00h,0FFh,0FFh,0FFh,0FFh,07h,00h,00h,00h
@@ -110,6 +110,6 @@ word_11A26C:
         db 07h,00h,00h,00h,07h,00h,00h,00h,08h,00h,00h,00h,0FFh,0FFh,0FFh,0FFh
         db 07h,00h,00h,00h,04h,00h,00h,00h,02h,00h,00h,00h,07h,00h,00h,00h
         db 0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh
-dword_11A2F8:
+PenaltyTypes:
         db 044h,00h,00h,00h,045h,00h,00h,00h,044h,00h,00h,00h,048h,00h,00h,00h
         db 02h,00h,00h,00h,01h,00h,00h,00h

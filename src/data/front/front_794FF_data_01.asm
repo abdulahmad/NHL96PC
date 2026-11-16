@@ -7,7 +7,7 @@ global str_AR11, str_S05dCsgDb3, str_S05dCnzDb5, str_S, str_MonthChoice, str_Cal
 global str_DK00, str_Bkgd12, str_Pal17, str_DK02d, str_LFDK, str_RTDK, str_LT02d, str_LFLT
 global str_RTLT, str_Sim1, str_Sim2, str_Sim3, str_Hmaw, str_WhtD, str_Rd, str_Bl
 global str_Disk, str_SD, str_Octo, str_Aprl, str_Junn, str_Bar, dword_1122F8, dword_1122FC
-global dword_112300, dword_112304
+global F32_14_InitScrollTable, dword_112304
 str_BT105:
         db 042h,054h,031h,030h,00h
 str_BT115:
@@ -36,7 +36,7 @@ dword_1122F8:
         db 00h,00h,00h,03Fh
 dword_1122FC:
         db 00h,00h,00h,03Fh
-dword_112300:
+F32_14_InitScrollTable:
         db 00h,00h,0F0h,041h
 dword_112304:
         db 00h,00h,00h,03Fh

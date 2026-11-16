@@ -38,7 +38,7 @@ global dword_11B96F, dword_11B9B4, dword_11B9F4, dword_11BAD4, dword_11BAD8, dwo
 global dword_11BAE8, dword_11BAEC, dword_11BAF0, dword_11BAF4, dword_11BAF8, dword_11BAFC, dword_11BB00, dword_11BB04
 global dword_11BB08, dword_11BB0C, dword_11BB10, dword_11BB14, dword_11BB18, dword_11BB1C, dword_11BB38, dword_11BB3C
 global dword_11BB40, dword_11BB44, dword_11BC24, dword_11BCD1, dword_11BCD5, dword_11BCD9, dword_11BCE0, dword_11BCE4
-global dword_11D18C, dword_11D190, dword_11D194, dword_11D198, dword_11D19C, dword_11D1A0, dword_11D1A4, dword_11D1A8
+global textcolor, textshadow, ModeLinear, dword_11D198, dword_11D19C, dword_11D1A0, dword_11D1A4, dword_11D1A8
 global dword_11D1AC, dword_11D1B0, dword_11D1BC, dword_11D1C0, off_11BA08, off_11BB4C, off_11BDA8, unk_11B673
 global unk_11B6B8, unk_11B6FD, unk_11B742, unk_11B787, unk_11B7CC, unk_11B811, unk_11B856, unk_11B89B
 global unk_11B8E0, unk_11B925, unk_11B96A, unk_11B9AF, unk_11BCE8, unk_11BD28, unk_11BD68, unk_11BDB0
@@ -1042,11 +1042,11 @@ unk_11BFA4:
         db 05h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,09h,00h,00h,00h
         db 047h,00h,00h,00h,00h,00h,00h,00h,013h,00h,00h,00h,00h,00h,00h,00h
         db 00h,00h,00h,00h
-dword_11D18C:
+textcolor:
         db 0Fh,00h,00h,00h
-dword_11D190:
+textshadow:
         db 00h,00h,00h,00h
-dword_11D194:
+ModeLinear:
         db 02h,00h,00h,00h
 dword_11D198:
         db 00h,00h,00h,00h

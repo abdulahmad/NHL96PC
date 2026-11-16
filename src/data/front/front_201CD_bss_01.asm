@@ -3,8 +3,8 @@ bits 32
 %include "hockey.inc"
 section s_158CBA nobits alloc noexec write align=1
 global byte_158D2A, byte_158D2B, byte_158D2C, byte_158D2D, dword_158CC0, dword_158CCC, dword_158CD0, dword_158CD4
-global dword_158D54, dword_158D64, dword_158D68, dword_158D6C, dword_158D70, dword_158D78, dword_158D7C, dword_158D84
-global dword_158D88, dword_158D90, dword_158D94, dword_158D9C, dword_158DA0, unk_158DA8, word_158CBA, word_158CBC
+global dword_158D54, dword_158D64, dword_158D68, dword_158D6C, dword_158D70, dword_158D78, dword_158D7C, GoalLightTimerFar
+global dword_158D88, GoalLightFrame, FarSideModel, GoalLightOn, dword_158DA0, unk_158DA8, word_158CBA, word_158CBC
 global word_158D34, word_158D3C, word_158D44, word_158D46, word_158D74, word_158D76
 word_158CBA:
         resb 2
@@ -52,15 +52,15 @@ dword_158D78:
         resb 4
 dword_158D7C:
         resb 8
-dword_158D84:
+GoalLightTimerFar:
         resb 4
 dword_158D88:
         resb 8
-dword_158D90:
+GoalLightFrame:
         resb 4
-dword_158D94:
+FarSideModel:
         resb 8
-dword_158D9C:
+GoalLightOn:
         resb 4
 dword_158DA0:
         resb 8

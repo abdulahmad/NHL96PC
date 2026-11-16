@@ -3,8 +3,8 @@ bits 32
 %include "hockey.inc"
 section s_AB834 progbits alloc exec nowrite align=1
 extern FatalError, str_ReservememMEMORYMANAGERN, str_ReservememINVALIDSIZE, str_ReservememMEMORYMANAGERB, asc_113270, asc_1132AC, str_ReservememINVALIDTYPEFLAGS, str_ResizememINVALIDSIZE
-extern str_ResizememblockNOROOMTO, str_FindmemblockBLOCKNOTFOUND, asc_1133C0, str_GetmemblockNOMEMORYBLOCKS, FileCacheList, FreeSpaceList, dword_11F9C4, dword_1210CC
-extern memlist1, MemBlockGuards, MemDescriptorTop, MemLockHandle, dword_185738, dword_18573C, strncmp_, strncpy_
+extern str_ResizememblockNOROOMTO, str_FindmemblockBLOCKNOTFOUND, asc_1133C0, str_GetmemblockNOMEMORYBLOCKS, FileCacheList, FreeSpaceList, MemLockOn, MemPoolBase
+extern memlist1, MemBlockGuards, MemDescriptorTop, MemLockHandle, MemFreeStart, MemFreeBytes, strncmp_, strncpy_
 extern PathBaseName, MemLock, MemUnlock, bcopy
 global findmemblock, AllocMemBlockLockedAt, AllocMemBlockEx, ResizeMemBlock, FreeMemBlock, PushMemDescriptorLocked, PushMemDescriptor, MergeFreeSpace
 global MarkBlockPurgeable, FindNamedBlock, FindMemBlockNamed, FindFreeSpace, FindCachedFileData, FindCachedFile, CompactDownLocked, CompactMemListDown
@@ -53,7 +53,7 @@ AllocMemBlockEx:
         push edi
         push ebp
         sub esp, byte 0Ch
-        cmp dword [dword_1210CC], byte 0
+        cmp dword [MemPoolBase], byte 0
         jne short .1
         cmp dword [byte esp+028h], byte 0
         je near .34
@@ -139,7 +139,7 @@ AllocMemBlockEx:
         mov dl, byte [byte esp+024h]
         test dl, 20h
         jne near .18
-        cmp dword [dword_11F9C4], byte 0
+        cmp dword [MemLockOn], byte 0
         je short .6
         test dl, 10h
         jne short .6
@@ -216,25 +216,25 @@ AllocMemBlockEx:
         mov dword [byte esi+020h], edi
         mov eax, dword [byte edi+024h]
         mov dword [byte eax+020h], esi
-        mov edx, dword [dword_11F9C4]
+        mov edx, dword [MemLockOn]
         mov dword [byte edi+024h], esi
         test edx, edx
         je short .14
         push dword 200h
         call MemLargestFree
-        mov ebx, dword [dword_185738]
+        mov ebx, dword [MemFreeStart]
         add esp, byte 4
         cmp eax, ebx
         jge short .13
-        mov dword [dword_185738], eax
+        mov dword [MemFreeStart], eax
 .13:
         push byte 0
         call MemLargestFree
-        mov ecx, dword [dword_18573C]
+        mov ecx, dword [MemFreeBytes]
         add esp, byte 4
         cmp eax, ecx
         jge short .14
-        mov dword [dword_18573C], eax
+        mov dword [MemFreeBytes], eax
 .14:
         mov eax, dword [esp]
         add esp, byte 0Ch
@@ -285,7 +285,7 @@ AllocMemBlockEx:
         push asc_113270
         jmp near .32
 .18:
-        cmp dword [dword_11F9C4], byte 0
+        cmp dword [MemLockOn], byte 0
         je short .19
         test byte [byte esp+024h], 10h
         jne short .19
@@ -363,25 +363,25 @@ AllocMemBlockEx:
         mov eax, dword [byte edi+020h]
         mov dword [byte esi+020h], eax
         mov dword [byte eax+024h], esi
-        mov ecx, dword [dword_11F9C4]
+        mov ecx, dword [MemLockOn]
         mov dword [byte edi+020h], esi
         test ecx, ecx
         je short .28
         push dword 200h
         call MemLargestFree
-        mov esi, dword [dword_185738]
+        mov esi, dword [MemFreeStart]
         add esp, byte 4
         cmp eax, esi
         jge short .27
-        mov dword [dword_185738], eax
+        mov dword [MemFreeStart], eax
 .27:
         push byte 0
         call MemLargestFree
-        mov edi, dword [dword_18573C]
+        mov edi, dword [MemFreeBytes]
         add esp, byte 4
         cmp eax, edi
         jge short .28
-        mov dword [dword_18573C], eax
+        mov dword [MemFreeBytes], eax
 .28:
         mov eax, dword [byte esp+04h]
         add esp, byte 0Ch
@@ -1647,21 +1647,21 @@ CompactMemListUp:
         push edx
         push dword 200h
         call MemLargestFree
-        mov edx, dword [dword_185738]
+        mov edx, dword [MemFreeStart]
         add esp, byte 4
         cmp eax, edx
         jge short .13
-        mov dword [dword_185738], eax
+        mov dword [MemFreeStart], eax
 .13:
         push byte 0
         call MemLargestFree
-        mov ebx, dword [dword_18573C]
+        mov ebx, dword [MemFreeBytes]
         add esp, byte 4
         cmp eax, ebx
         jge short .14
-        mov dword [dword_18573C], eax
+        mov dword [MemFreeBytes], eax
 .14:
-        mov eax, dword [dword_18573C]
+        mov eax, dword [MemFreeBytes]
         pop edx
         pop ecx
         pop ebx
@@ -1727,7 +1727,7 @@ MemLargestFree:
         add eax, edx
         mov esi, memlist1
         shl eax, 2
-        mov edx, dword [dword_11F9C4]
+        mov edx, dword [MemLockOn]
         add esi, eax
         test edx, edx
         je short .1

@@ -8,7 +8,7 @@ extern dword_17BA3C, dword_17BA40, dword_17BA44, dword_17BA48, dword_17BA4C, dwo
 extern off_11BB4C, str_CupRef, str_FightRef, str_NewpalQfs, str_OldshpQfs, str_OLDSHPQFS2, str_Pal6, str_RinkpalQfs
 extern str_TeampalQda, str_TotalRef, str_UNPACK, str_Unpacked, SelectDataLibrary, LoadShadowRemap, AllocMemBlock, FreeMemBlock
 extern MemLargestFreeLocked, UnpackTo, UnpackedSize, OpenArtArchiveErr, CreateAaPalLut, BuildPaletteShadeTable, LoadPackedAlloc, FlipArtHorizontal
-extern ShapeBankCount, ShapeBankEntry, FindShape, bcopy, FillMem, unk_16443C, unk_164688, unk_179E48
+extern ShapeBankCount, ShapeBankEntry, FindShape, bcopy, FillMem, exhstate, unk_164688, unk_179E48
 extern unk_17B248, unk_17B488, unk_17B518, unk_17B830, unk_17B930, unk_17BA58, unpack
 global PutJerseyDigit, MakeJerseyNumber, SetTeamJerseyColors, SetTeamJerseyColors_A3, SaveTeamPalette, SetPlayerSpriteColors, SetRinkSpriteColors, IndexSpriteFrames
 global LoadTeamPalette, LoadPlayerSprites, LoadPlayerSprites_131, LoadGameSprites, FreeGameSprites, FreeFightSprites, LoadFightSprites, LoadFightSprites_3F
@@ -679,9 +679,9 @@ LoadGameSprites:
         call SetTeamJerseyColors
         xor eax, eax
         call SelectDataLibrary
-        mov eax, unk_16443C
+        mov eax, exhstate
         call BuildPaletteShadeTable
-        mov eax, unk_16443C
+        mov eax, exhstate
         call LoadShadowRemap
         leave
         jmp near LoadPlayerSprites_131

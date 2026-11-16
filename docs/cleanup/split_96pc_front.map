@@ -1,0 +1,8 @@
+# Source cleanup phase 4 (front-end naming, 2026-11-16), NHL 96 PC: input of tools/build/split_modules.py, run in steps
+# as the files get named (one step per block). Only text moves; ./build.sh must print MATCH.
+# step 1: front_10010, the link library
+rename front/front_10010 front/controls Controls: keyboard, mouse and joystick pads, the key bindings and the Gravis GrIP library (96 PC).
+cut ModemGameOpen front/modem_game Modem game session: open, connect and close a modem game, sync points, blocks, pad input exchange and the chat box (96 PC).
+cut ModemInitDefault front/link Modem commands (AT) and the serial link protocol: packets, acks and resends, the link timer (96 PC).
+rename front/main front/link
+cut sub_18E80 front/main Front-end main: start-up, async and CD streaming, text edit fields and screen helpers (to be split as they get named).

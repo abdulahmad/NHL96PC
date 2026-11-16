@@ -16,8 +16,8 @@ extern dword_17CBE7, dword_17CC17, dword_17CED6, dword_17D162, dword_17D267, dwo
 extern dword_17D4F4, dword_17D4F8, dword_17D4FC, dword_17D500, dword_17D504, dword_17D508, dword_17D50C, dword_17D510
 extern dword_17D514, dword_17D518, dword_17D51C, dword_17D520, dword_17D524, dword_17D528, dword_17D564, dword_17D56C
 extern dword_17D574, dword_17D57C, dword_17D580, dword_1843AC, dword_1843B0, dword_1843B4, gameclock, gameopts
-extern hmtmstruct, sprintf_, strcat_, strcpy_, GetInputDevices, InitSlotTable, ResetInputSlots, sub_13146
-extern sub_1377E, sub_15344, sub_19384, sub_193E8, sub_19522, sub_1955B, sub_19799, EditText
+extern hmtmstruct, sprintf_, strcat_, strcpy_, GetInputDevices, InitSlotTable, ResetInputSlots, LinkSync
+extern ModemChat, sub_15344, sub_19384, sub_193E8, sub_19522, sub_1955B, sub_19799, EditText
 extern sub_1A109, sub_1B05E, sub_1DF34, sub_1DF55, sub_1DFEA, sub_1E5FC, sub_1EA14, sub_1EBBC
 extern sub_1ECDB, sub_1EE7C, sub_1EFFF, sub_2AB8F, sub_3A6F3, SaveGameState, sub_5360D, sub_5439F
 extern sub_564A4, sub_5A572, sub_5B0F9, CloseTextOverlay, sub_60777, sub_612BC, sub_621D9, sub_62201
@@ -1597,7 +1597,7 @@ sub_6B894:
         call sub_66373
         mov eax, 1
         mov dword [byte ebp+07Ah], 1
-        call sub_13146
+        call LinkSync
 .9:
         call sub_69A9B
         cmp dword [byte ebp+07Ah], byte 0
@@ -2144,7 +2144,7 @@ sub_6C3B0:
         mov word [word_11D927], 0
         call sub_63998
         mov eax, 1
-        call sub_13146
+        call LinkSync
         pop esi
         pop edx
         pop ecx
@@ -2612,7 +2612,7 @@ sub_6C698_5F4:
         mov ebx, 7Eh
         mov edx, 1Bh
         xor eax, eax
-        call sub_1377E
+        call ModemChat
         jmp near sub_6C698_3A3.14
 sub_6C698_611:
         call sub_6C294
@@ -2623,7 +2623,7 @@ sub_6C698_620:
         cmp dword [byte ebp-010h], byte 0
         jge near sub_6C698.11
         mov eax, 1
-        call sub_13146
+        call LinkSync
         push dword [dword_17D518]
         call sub_ADBEC
         add esp, byte 4

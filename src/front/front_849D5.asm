@@ -18,7 +18,7 @@ extern dword_17DC64, dword_17DC68, dword_17DC6C, dword_17DC74, dword_17DD34, dwo
 extern dword_17E3A4, dword_17E8FC, dword_17FDF0, dword_181EAC, dword_181EB0, dword_1820A8, dword_1820AC, dword_1820B0
 extern dword_1820B4, dword_1820B8, dword_1820E4, dword_1820E8, dword_1820EC, gameopts, sub_88E09_8FE, sub_88E09_916
 extern sub_88E09_92E, sub_88E09_946, sub_88E09_957, sub_88E09_96F, sub_88E09_132A, sub_88E09_134F, sub_88E09_136C, sub_88E09_1380
-extern off_11D44C, off_11D52C, sprintf_, strcat_, strcmp_, sub_13146, sub_1377E, sub_1B05E
+extern off_11D44C, off_11D52C, sprintf_, strcat_, strcmp_, LinkSync, ModemChat, sub_1B05E
 extern sub_1DED8, sub_1DF55, sub_1E222, sub_1E643, sub_1E7F6, sub_1F15E, sub_62A0F, sub_62AF7
 extern sub_62D9B, sub_62E0E, sub_62E72, sub_62F90, sub_63968, sub_63998, sub_63A5B, sub_63B0C
 extern sub_63F79, sub_63FC8, sub_64054, sub_640D3, sub_6423E, sub_64296, sub_6448D, sub_64721
@@ -255,7 +255,7 @@ sub_849D5:
         mov dword [byte ebp+072h], 1
         call sub_63998
         mov eax, 1
-        call sub_13146
+        call LinkSync
         mov eax, dword [gameopts]
         mov edx, dword [byte eax+01h]
         and edx, 1F000h
@@ -386,7 +386,7 @@ sub_849D5:
         push dword 0FEh
         mov edx, 0F7h
         mov eax, 1
-        call sub_1377E
+        call ModemChat
 .19:
         cmp dword [byte ebp+07Eh], byte 0
         je near .13
@@ -839,7 +839,7 @@ sub_84F20:
         mov dword [byte ebp+046h], 1
         call sub_63998
         mov eax, 1
-        call sub_13146
+        call LinkSync
         cmp byte [byte_17DC15], 0
         je near .56
         mov ecx, 0Bh
@@ -1188,7 +1188,7 @@ sub_84F20:
         push dword 0FEh
         mov edx, 0F7h
         mov eax, 1
-        call sub_1377E
+        call ModemChat
 .62:
         cmp dword [byte ebp+03Eh], byte 0
         je near .56
@@ -2011,7 +2011,7 @@ sub_85911:
         mov dword [byte ebp+036h], 1
         call sub_63998
         mov eax, 1
-        call sub_13146
+        call LinkSync
         cmp byte [byte_17DC14], 0
         je short .34
         push dword [byte ebp+03Eh]
@@ -2085,7 +2085,7 @@ sub_85911:
         push dword 0FEh
         mov edx, 0F7h
         mov eax, 1
-        call sub_1377E
+        call ModemChat
 .40:
         cmp dword [byte ebp+05Ah], byte 0
         je near .34
@@ -2563,7 +2563,7 @@ sub_86428:
         mov dword [byte ebp+05Ah], 1
         call sub_63998
         mov eax, 1
-        call sub_13146
+        call LinkSync
         cmp byte [byte_17DC16], 0
         je short .7
         push byte 1
@@ -2635,7 +2635,7 @@ sub_86428:
         push dword 0FEh
         mov edx, 0F7h
         mov eax, 1
-        call sub_1377E
+        call ModemChat
 .13:
         cmp dword [byte ebp+076h], byte 0
         je near .7
@@ -3096,7 +3096,7 @@ sub_86BE4:
         mov dword [byte ebp+05Ah], 1
         call sub_63998
         mov eax, 1
-        call sub_13146
+        call LinkSync
 .7:
         call sub_69A9B
         cmp dword [byte ebp+05Ah], byte 0
@@ -3162,7 +3162,7 @@ sub_86BE4:
         push dword 0FEh
         mov edx, 0F7h
         mov eax, 1
-        call sub_1377E
+        call ModemChat
 .13:
         cmp dword [byte ebp+06Eh], byte 0
         je near .7

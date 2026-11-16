@@ -2,9 +2,11 @@
 # Linked in this order by tools/build/link_src.py; the section s_<start> of each file is placed at <start>.
 # object start end initialised_bytes module source (relative to src/)
 1 10000 10010 16 watcom_begtext lib/watcom/watcom_begtext.asm
-1 10010 1456D 17757 front_10010 front/front_10010.asm
-1 1456D 186DC 16751 front_1456D front/front_1456D.asm
-1 186DC 201CD 31473 main front/main/main.asm
+1 10010 122A6 8854 front_10010 front/controls/controls.asm
+1 122A6 1456D 8903 front_modem_game front/modem_game/modem_game.asm
+1 1456D 17675 12552 front_1456D front/front_1456D.asm
+1 17675 18E80 6155 front_link front/link/link.asm
+1 18E80 201CD 29517 front_main front/main/main.asm
 1 201CD 22522 9045 front_201CD front/front_201CD.asm
 1 22522 2A692 33136 rink_model front/rink_model/rink_model.asm
 1 2A692 2D9D9 13127 front_2A692 front/front_2A692.asm

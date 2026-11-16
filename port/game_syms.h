@@ -4,8 +4,8 @@
 #ifndef GAME_SYMS_H
 #define GAME_SYMS_H
 
-#define SYM_InitSlotTable           0x108BBu   /* front/front_10010.asm */
-#define SYM_PollControllers         0x10AF1u   /* front/front_10010.asm */
+#define SYM_InitSlotTable           0x108BBu   /* front/controls/controls.asm */
+#define SYM_PollControllers         0x10AF1u   /* front/controls/controls.asm */
 #define SYM_InputRecordTimer        0x16C4Du   /* front/front_1456D.asm */
 #define SYM_GameLoop_inputcheck     0x170A5u   /* front/front_1456D.asm */
 #define SYM_GameLoop_hotkeyscall    0x17201u   /* front/front_1456D.asm */

@@ -35,7 +35,7 @@ extern dword_1820CC, dword_1820D0, dword_1820D4, dword_1820D8, dword_1820DC, dwo
 extern dword_1820EC, dword_1820F4, dword_1820FC, dword_182100, dword_182104, dword_18210C, dword_182110, dword_182114
 extern dword_182118, dword_182120, fclose_, fopen_, fprintf_, gameopts, off_11D3DC, off_11E6E0
 extern qsort_, qword_11281C, qword_112824, qword_11283C, qword_112844, sprintf_, str_D02d, strcat_
-extern strcpy_, strlen_, sub_13146, sub_131EC, sub_1377E, EditText, sub_1A109, sub_1AC0E
+extern strcpy_, strlen_, LinkSync, LinkSyncWithMessage, ModemChat, EditText, sub_1A109, sub_1AC0E
 extern sub_1AE8C, sub_1B00B, sub_1E8E9, sub_1EA14, sub_1EBBC, sub_1ECDB, sub_1EE7C, sub_1F15E
 extern sub_1F2C9, sub_1F2D4, sub_62AF7, sub_62E0E, sub_62E72, sub_62F90, sub_63998, sub_63A5B
 extern sub_63F79, sub_63FEF, sub_640D3, sub_64103, sub_64721, sub_64F59, sub_68AB1, sub_68BFA
@@ -1599,7 +1599,7 @@ sub_8C51B_1641:
         push eax
         mov edx, 0F7h
         mov eax, 1
-        call sub_1377E
+        call ModemChat
         jmp near sub_8C51B_1F1B.105
 .69:
         mov dword [byte ebp+036h], 0A414h
@@ -2069,12 +2069,12 @@ sub_8C51B_1E07:
         mov eax, dword [dword_11E678]
         call sub_8F5B3
         xor eax, eax
-        call sub_13146
+        call LinkSync
         jmp near sub_8C51B_1F1B.105
 .93:
         mov eax, 21Dh
         call sub_77355
-        call sub_131EC
+        call LinkSyncWithMessage
         jmp near sub_8C51B_1F1B.105
 sub_8C51B_1E55:
         cmp dword [dword ebp-01BD2h], byte 63h

@@ -17,8 +17,8 @@ extern dword_17BD48, dword_17C9F4, dword_17CA5C, dword_17CA76, dword_17D678, dwo
 extern dword_17D688, dword_17D68C, dword_17D690, dword_17D694, dword_17D6A0, dword_17D6A4, dword_17D6B0, dword_17D6B4
 extern dword_17D6C4, fclose_, fopen_, fputchar, fread_, fseek_, gameopts, sub_77642_5FB
 extern sub_77642_768, sub_77642_798, sub_77642_7C5, sub_77642_7F2, sub_77642_8AF, sub_77642_8BB, sub_77642_8CB, sub_77642_8E0
-extern qsort_, sprintf_, strcpy_, strlen_, sub_122A6, sub_12A24, sub_13288, sub_13304
-extern sub_1377E, EditText, sub_1A109, sub_1B05E, sub_1E3E8, sub_1E715, sub_1E7F6, sub_29B9F
+extern qsort_, sprintf_, strcpy_, strlen_, ModemGameOpen, ModemGameConnect, ModemGameClose, ModemGameQuit
+extern ModemChat, EditText, sub_1A109, sub_1B05E, sub_1E3E8, sub_1E715, sub_1E7F6, sub_29B9F
 extern sub_62A0F, sub_62AF7, sub_62D9B, sub_62E0E, sub_62E72, sub_62F90, sub_63968, sub_63998
 extern sub_63A5B, sub_63B0C, sub_63F79, sub_63FEF, sub_64296, sub_64721, sub_64F59, sub_66373
 extern sub_68AB1, sub_69A94, sub_69A9B, sub_AA988, sub_AAA40, sub_AAA8C, PutBlock, sub_AADA4
@@ -1933,11 +1933,11 @@ sub_7513A_BD2:
         setne al
         mov edx, sub_74F0C
         movzx eax, al
-        call sub_122A6
+        call ModemGameOpen
         test eax, eax
         je near .35
         mov eax, sub_74F0C
-        call sub_12A24
+        call ModemGameConnect
         test eax, eax
         je short .32
         mov eax, dword [dword_17CA5C]
@@ -1956,7 +1956,7 @@ sub_7513A_BD2:
         mov dword [dword_11E27C], eax
         jmp short .36
 .32:
-        call sub_13288
+        call ModemGameClose
 .33:
         call sub_DFF28
         cmp eax, byte 1Bh
@@ -1970,7 +1970,7 @@ sub_7513A_BD2:
         call sub_69A9B
         jmp short .33
 .35:
-        call sub_13288
+        call ModemGameClose
 .36:
         cmp dword [byte ebp+06Ah], byte 0
         jl near sub_7513A.17
@@ -2137,7 +2137,7 @@ sub_75E2C:
         jmp short .8
 .5:
         call sub_62D9B
-        call sub_13304
+        call ModemGameQuit
         cmp dword [dword_11E278], byte 0
         je short .6
         mov eax, dword [dword_11E27C]
@@ -2159,7 +2159,7 @@ sub_75E2C:
         push dword 0FEh
         mov edx, 0F7h
         mov eax, 1
-        call sub_1377E
+        call ModemChat
 .8:
         cmp dword [byte ebp+076h], byte 0
         jl near .1

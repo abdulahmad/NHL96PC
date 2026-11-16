@@ -1,0 +1,49 @@
+# NHL 96 PC modem and serial link library (front_1456D.asm 17675-18540, main.asm 186DC-18DB7). PC-only (95 PC has no modem play).
+putchar ModemInitDefault {source=new,confidence=medium} was a wrong FLIRT match: ModemInit(port, "ATZS7=60S11=55"); no caller (dead code)
+sub_1768A ModemInit {confidence=high} (port, init string): ModemAttention, then ATE1, ATQ0, ATX4, ATF1 and the user's init string, split at '~' (one second pause per '~'), each answered OK; 4 when the modem does not answer
+sub_1779C ModemHangup {confidence=high} (port): ModemAttention, then ATH0 and its answer; 4 when the modem does not answer
+sub_1779C_30 ModemHangup_30 {no_record} shared tail: read the answer
+sub_1779C_54 ModemHangup_54 {no_record} shared tail of the dial routines: append the number, send it
+sub_1780A ModemDial {confidence=high} (port, number, prefix, tone): hangs up, then sends ATD + prefix + T (tone) or P (pulse) + number
+sub_17887 ModemAutoAnswer {confidence=high} (port): hangs up, then ATS0=1 (answer on the first ring)
+sub_178C0 ModemWaitConnect {confidence=high} (port): reads one modem result: 0 for none / NO CARRIER-type results, 4 for an error, else the result code (1 / 5 / 10+ = CONNECT at some speed)
+sub_17906 ModemReadResult {confidence=high} (port, timeout): reads a line from the modem (at most 41 characters) and matches it against the result string table off_114F1C; returns its code, -1 for none
+sub_17A32 ModemSendCommand {confidence=high} (port, command, flush): sends command + CR (at most 79 characters) and checks the modem echoes it; 1 when it does
+sub_17AC7 ModemAttention {confidence=high} (port): flushes, waits, sends "+++" (escape to command mode), waits, sends AT and reads the answer; 1 when the modem answers
+sub_17B72 LinkCopyBytes {confidence=high} (dest, src, count): byte copy
+sub_17B9A LinkRxPut {confidence=high} (bytes, count): appends received bytes to the receive ring (10Ch bytes, byte_152810, head dword_11507C, length dword_115080)
+sub_17BFC LinkRxPeek_none {no_record} returns -1: no byte at that offset of the receive ring
+sub_17C02 LinkRxCopy {confidence=high} (offset, count, dest): copies count bytes from the receive ring at offset; 0 when not all have arrived
+sub_17C68 LinkCheckPacket {confidence=high} checks a received packet's sequence fields and its checksum (bytes 4-5, sub_B1830 over the packet); 1 when good
+sub_17CC8 LinkParsePacket {confidence=medium} parses the packet at the head of the receive ring: sync byte 0BDh, then 'd' (64h, 12-byte data packet) or 'C' (43h, 6-byte control packet: ack / resend request); the result goes to dword_11505C (0 good, 4 bad); returns the bytes used
+sub_17E8C LinkFirstMissingRx {confidence=medium} the first receive slot after the last acknowledged one that has not arrived (state != 1); -1 when none
+sub_17EE1 LinkRxAckSeq {confidence=medium} advances the acknowledged receive sequence (dword_115058) over the slots that have arrived, marking them acknowledged (state 4); returns it (0FFh none) for the packet's ack byte
+sub_17F4E LinkDefaults {confidence=high} resets the link settings and state to their defaults (port 0, 9600-type speed code 9, modem, answer, timer on, ...) and empties the receive ring
+sub_1802B SetLinkAbortCheck {confidence=high} sets the callback (dword_15291C) the connect loop polls to give up (e.g. Esc); returns the old one
+sub_1803B SetLinkSpareHook {confidence=low} swaps dword_11503C, a hook the library never calls; returns the old one
+sub_1804B SetLinkMessageHandler {confidence=high} sets the callback (dword_115040) each received message is handed to, in order; returns the old one
+sub_1807B SetLinkCheckPeriod {confidence=medium} sets the countdown (ticks) between carrier checks / the periodic hook (dword_115068 and its reload); returns the old count
+sub_1808F LinkDeliverMessages_ret {no_record} shared ret
+sub_18090 LinkDeliverMessages {confidence=high} hands the received messages that are next in sequence (64-entry ring of 7 bytes) to the message handler and frees their slots
+sub_180DC LinkStoreRxMessage {confidence=high} stores a data packet's 6-byte payload in its receive slot (by sequence byte); 0 when the slot already holds one
+sub_1812E LinkCarrierOK {confidence=high} 1 on a direct (null-modem) link, else the modem's carrier detect (sub_B12AF)
+sub_18165 LinkTxRoom {confidence=high} (count): 1 when the serial transmit buffer has room for count bytes
+sub_18186 LinkCheckTimeouts {confidence=medium} timer side of the protocol: resends data packets not acknowledged in time (str_22 ticks), asks again for receive slots still missing (dword_115074), sends an ack when one is due
+sub_18234 LinkTimerTick {confidence=high} the link's timer callback (addtimer): when connected, runs LinkCheckTimeouts, LinkReceive and LinkDeliverMessages, and every check period the periodic hook and the carrier check (a lost carrier drops the link)
+sub_1830D LinkClearTxSlot {confidence=high} (slot): empties one transmit slot (24-byte entries at dword_152148)
+sub_1832F LinkClearRxSlot {confidence=high} (slot): empties one receive slot (dword_151D48 state and the message ring entry)
+sub_183CD LinkOpen {confidence=high} (settings): LinkDefaults, copies the settings (port, speed, answer/dial, direct, timer, IRQ, tone, init string, number), clears all slots, opens the serial port; on a modem link ModemInit (fails -> port closed, 0); starts LinkTimerTick; 1 when open
+sub_18540 LinkConnect {confidence=high} direct link: connected at once; modem: ModemAutoAnswer (answer) or ModemDial (dial), then waits for the connect result until the abort check says stop; 1 when connected
+sub_186DC LinkClose {confidence=high} drops the link: ModemHangup on a modem link, closes the serial port, removes LinkTimerTick
+sub_186DC_53 LinkClose_53 {no_record} shared tail
+sub_18736 LinkBuildDataPacket {confidence=high} (data, length, seq, packet): 12-byte data packet: 0BDh, 'd', seq, ack (LinkRxAckSeq), checksum, 6 bytes of data (zero padded)
+sub_187A8 LinkSetChecksum {confidence=high} (packet, length): writes the packet checksum (sub_B1830) into bytes 4-5
+sub_187CF LinkRequestResend {confidence=medium} (slot, reason): asks the other side to send receive slot again with a 'C' control packet (unless asked recently), marks the slot requested (state 2) and calls the resend hook dword_115048
+sub_188AE LinkSendAck {confidence=high} sends a 6-byte 'C' control packet with no slot (0FFh) that only carries the ack sequence
+sub_1891A LinkSendMessage {confidence=high} (data, length): puts a message in the next transmit slot (state 3, waiting for its ack) and sends it as a data packet; 0 when the transmit buffer or the window (31 slots) is full
+sub_189CD LinkResendSlot {confidence=high} (slot): sends transmit slot again (fresh ack byte and checksum) when it still waits for its ack and there is room
+sub_189CD_60 LinkResendSlot_60 {no_record} shared ret
+sub_18A31 LinkAckThrough {confidence=high} (seq): frees the transmit slots up to the acknowledged sequence
+sub_18A81 LinkReceive {confidence=high} reads what the serial port has (up to 256 bytes) into the receive ring, parses every complete packet: data packets are stored and acknowledged, bad ones ask for a resend, acks free transmit slots
+sub_18C75 LinkPoll {confidence=medium} without the timer: every third call LinkReceive, LinkDeliverMessages, and when the check period runs out the periodic hook and the carrier check; 1 while connected
+sub_18DB7 LinkRequestMissing {confidence=medium} (upto): asks again for every receive slot from the last acknowledged one up to upto that has not arrived or was asked for too long ago

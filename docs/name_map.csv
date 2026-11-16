@@ -1,35 +1,96 @@
 address,name,auto_name,source,confidence,evidence,file
 10003,___begtext,,WATCOM,high,IDA FLIRT library signature,
-10010,GetInputDevices,sub_10010,new,high,"input device bitmask: 1 mouse present (word_114B42), 2/4/8/10h joystick or GrIP pad 1-4 (word_114B40 bits); InitSlotTable keeps it in byte_114B48",src/front/front_10010.asm
-10095,InitInputDevices,sub_10095,new,high,"one-time device init: detects the mouse (int 33h, sub_DFA98) and polls it once, then InitGrip; stores the joystick mask in word_114B40",src/front/front_10010.asm
-100F2,TestKeyBinding,sub_100F2,new,high,"(ctrl, alt, binding, bit, &out): binding table dword_1515D0 entries {need ctrl, need alt, scan code}; KeyDown on the scan code with the modifier state; ORs bit into *out",src/front/front_10010.asm
-1014B,ReadEscReplayKeys,sub_1014B,new,medium,"clears *out, then key bindings 0 (Esc) and 1 (R) -> bits 1 and 2; PollControllers calls it first for the shared key word",src/front/front_10010.asm
-101D9,ReadKeyboardPad,sub_101D9,new,high,"96 keyboard pad through the key binding table: Space/Alt (or ;/') buttons 80h/40h, arrows/keypad (or QWE/AD/ZXC) direction bits 4 up 8 down 10h right 20h left, F1-F10 bits 400h-80000h with an 18-tick repeat; same job as 95 PC ReadKeyboardPad",src/front/front_10010.asm
-104DC,ReadMousePad,sub_104DC,new,high,"mouse pad: function keys as the keyboard pad, then mousepollfn; direction from the mouse position against the screen edges/centre, mouse buttons -> pad buttons; same job as 95 PC ReadMousePad",src/front/front_10010.asm
-106CC,ReadJoyPad,sub_106CC,new,high,"joystick n (0-3) pad: function keys as the keyboard pad, then direction and buttons from the byte of joystick bits for pad n in byte_151778; same job as 95 PC ReadJoyPad",src/front/front_10010.asm
-108BB,InitSlotTable,sub_108BB,new,medium,builds the controller slot table (SlotTable) from the game set-up,src/front/front_10010.asm
-10A65,ResetInputSlots,sub_10A65,new,high,"clears SlotTable, re-centres the mouse on the screen when present, clears the input record ring and stops the game loop flag",src/front/front_10010.asm
+10010,GetInputDevices,sub_10010,new,high,"input device bitmask: 1 mouse present (word_114B42), 2/4/8/10h joystick or GrIP pad 1-4 (word_114B40 bits); InitSlotTable keeps it in byte_114B48",src/front/controls/controls.asm
+10095,InitInputDevices,sub_10095,new,high,"one-time device init: detects the mouse (int 33h, sub_DFA98) and polls it once, then InitGrip; stores the joystick mask in word_114B40",src/front/controls/controls.asm
+100F2,TestKeyBinding,sub_100F2,new,high,"(ctrl, alt, binding, bit, &out): binding table dword_1515D0 entries {need ctrl, need alt, scan code}; KeyDown on the scan code with the modifier state; ORs bit into *out",src/front/controls/controls.asm
+1014B,ReadEscReplayKeys,sub_1014B,new,medium,"clears *out, then key bindings 0 (Esc) and 1 (R) -> bits 1 and 2; PollControllers calls it first for the shared key word",src/front/controls/controls.asm
+101D9,ReadKeyboardPad,sub_101D9,new,high,"96 keyboard pad through the key binding table: Space/Alt (or ;/') buttons 80h/40h, arrows/keypad (or QWE/AD/ZXC) direction bits 4 up 8 down 10h right 20h left, F1-F10 bits 400h-80000h with an 18-tick repeat; same job as 95 PC ReadKeyboardPad",src/front/controls/controls.asm
+104DC,ReadMousePad,sub_104DC,new,high,"mouse pad: function keys as the keyboard pad, then mousepollfn; direction from the mouse position against the screen edges/centre, mouse buttons -> pad buttons; same job as 95 PC ReadMousePad",src/front/controls/controls.asm
+106CC,ReadJoyPad,sub_106CC,new,high,"joystick n (0-3) pad: function keys as the keyboard pad, then direction and buttons from the byte of joystick bits for pad n in byte_151778; same job as 95 PC ReadJoyPad",src/front/controls/controls.asm
+108BB,InitSlotTable,sub_108BB,new,medium,builds the controller slot table (SlotTable) from the game set-up,src/front/controls/controls.asm
+10A65,ResetInputSlots,sub_10A65,new,high,"clears SlotTable, re-centres the mouse on the screen when present, clears the input record ring and stops the game loop flag",src/front/controls/controls.asm
 10AF1,PollControllers,sub_10AF1,new,high,fills 4-entry slot table (7 bytes each) from keyboard/joystick by device word and setup slot team,
-10C9B,ResetSlotButtons,sub_10C9B,new,high,"clears SlotButtons and each slot's last direction; on a link game hands over to sub_13338, else clears the input record ring",src/front/front_10010.asm
-10D17,GetPressedDevice,sub_10D17,new,high,"which device has a button down: 1 mouse, 2 joystick (bits 30h of any pad in byte_151778), 3 keyboard (key waiting), 0 none",src/front/front_10010.asm
-10D66,GripLinkLibrary,sub_10D66,new,high,"(image, size): checks the GrIP GLL image (""DB"" header, sizes, xor checksum), copies it to DOS memory (DPMI 100h) and calls its init (8490h); 0 on failure",src/front/front_10010.asm
-11107,GripUnlinkLibrary,sub_11107,new,high,calls the GrIP library's unlink (8491h) and frees its DOS memory (DPMI 101h); 1 when done,src/front/front_10010.asm
-1118B,SetGripButtonMap,sub_1118B,new,medium,copies 4 pairs of button masks (bytes) into dword_151698 / dword_1516A8 (shoot / pass masks per GrIP pad),src/front/front_10010.asm
-111ED,GetGripButtonMap,sub_111ED,new,medium,copies the 4 pairs of GrIP button masks back out to a byte array (inverse of SetGripButtonMap),src/front/front_10010.asm
-1124D,LoadGripLibrary,sub_1124D,new,high,"finds GRIP.GLL on the GRIP and PATH environment variables or in C:\GRIP\, reads it (at most 32 KB) and links it with GripLinkLibrary; failure clears dword_114CD3",src/front/front_10010.asm
-11378,GripScanSlots,sub_11378,new,high,"after the GrIP library is up: reads the connected-slot mask (84B0h) and for each slot its class/info (84D0h/84D1h, 84B1h/84B3h/84B4h): button counts and axis ranges",src/front/front_10010.asm
-11589,GripReadSlots,sub_11589,new,high,"reads every connected GrIP slot's buttons (84C1h, against the shoot/pass masks) and axes (84C0h, scaled by the axis range) into a direction+button byte per pad in dword_151630 (double buffered by word_114CDB)",src/front/front_10010.asm
-11782,GripReadPadBits,sub_11782,new,high,"GripReadSlots, then copies the current buffer of GrIP pad bits to byte_151778 (0 when no GrIP pads)",src/front/front_10010.asm
-117C7,ReadAnalogJoysticks,sub_117C7,new,medium,"reads the game-port joysticks (sub_E0051), marks joystick 1/2 present (word_151714 / word_15172C), keeps calibration min/max/centre per axis on first use and while reading",src/front/front_10010.asm
-11A88,ReadJoystickBits,sub_11A88,new,high,"the joystick bits of every pad in byte_151778: from GrIP (GripReadPadBits) when the GrIP library is up, else from the analog joysticks against their centre (+-7Ch dead zone)",src/front/front_10010.asm
-1214A,GripShutdown,sub_1214A,new,high,"atexit handler: closes the GrIP library (84A2h), then GripUnlinkLibrary",src/front/front_10010.asm
-1218A,InitGrip,sub_1218A,new,high,"joystick init: opens the GrIP library (84A1h) and scans its slots when present (registering GripShutdown with atexit), else reads the analog joysticks; returns the present mask (1/2/4/8)",src/front/front_10010.asm
+10C9B,ResetSlotButtons,sub_10C9B,new,high,"clears SlotButtons and each slot's last direction; on a link game hands over to sub_13338, else clears the input record ring",src/front/controls/controls.asm
+10D17,GetPressedDevice,sub_10D17,new,high,"which device has a button down: 1 mouse, 2 joystick (bits 30h of any pad in byte_151778), 3 keyboard (key waiting), 0 none",src/front/controls/controls.asm
+10D66,GripLinkLibrary,sub_10D66,new,high,"(image, size): checks the GrIP GLL image (""DB"" header, sizes, xor checksum), copies it to DOS memory (DPMI 100h) and calls its init (8490h); 0 on failure",src/front/controls/controls.asm
+11107,GripUnlinkLibrary,sub_11107,new,high,calls the GrIP library's unlink (8491h) and frees its DOS memory (DPMI 101h); 1 when done,src/front/controls/controls.asm
+1118B,SetGripButtonMap,sub_1118B,new,medium,copies 4 pairs of button masks (bytes) into dword_151698 / dword_1516A8 (shoot / pass masks per GrIP pad),src/front/controls/controls.asm
+111ED,GetGripButtonMap,sub_111ED,new,medium,copies the 4 pairs of GrIP button masks back out to a byte array (inverse of SetGripButtonMap),src/front/controls/controls.asm
+1124D,LoadGripLibrary,sub_1124D,new,high,"finds GRIP.GLL on the GRIP and PATH environment variables or in C:\GRIP\, reads it (at most 32 KB) and links it with GripLinkLibrary; failure clears dword_114CD3",src/front/controls/controls.asm
+11378,GripScanSlots,sub_11378,new,high,"after the GrIP library is up: reads the connected-slot mask (84B0h) and for each slot its class/info (84D0h/84D1h, 84B1h/84B3h/84B4h): button counts and axis ranges",src/front/controls/controls.asm
+11589,GripReadSlots,sub_11589,new,high,"reads every connected GrIP slot's buttons (84C1h, against the shoot/pass masks) and axes (84C0h, scaled by the axis range) into a direction+button byte per pad in dword_151630 (double buffered by word_114CDB)",src/front/controls/controls.asm
+11782,GripReadPadBits,sub_11782,new,high,"GripReadSlots, then copies the current buffer of GrIP pad bits to byte_151778 (0 when no GrIP pads)",src/front/controls/controls.asm
+117C7,ReadAnalogJoysticks,sub_117C7,new,medium,"reads the game-port joysticks (sub_E0051), marks joystick 1/2 present (word_151714 / word_15172C), keeps calibration min/max/centre per axis on first use and while reading",src/front/controls/controls.asm
+11A88,ReadJoystickBits,sub_11A88,new,high,"the joystick bits of every pad in byte_151778: from GrIP (GripReadPadBits) when the GrIP library is up, else from the analog joysticks against their centre (+-7Ch dead zone)",src/front/controls/controls.asm
+1214A,GripShutdown,sub_1214A,new,high,"atexit handler: closes the GrIP library (84A2h), then GripUnlinkLibrary",src/front/controls/controls.asm
+1218A,InitGrip,sub_1218A,new,high,"joystick init: opens the GrIP library (84A1h) and scans its slots when present (registering GripShutdown with atexit), else reads the analog joysticks; returns the present mask (1/2/4/8)",src/front/controls/controls.asm
+122A6,ModemGameOpen,sub_122A6,new,high,"(answer, settings): copies the modem settings (port, speed, numbers, init string) and opens the link with LinkOpen, showing a message while the modem starts (unless word_17C9B0); clears the message queues; 1 when open (byte_114D96 bit 1), else shows the error",src/front/modem_game/modem_game.asm
+1253E,LinkBlockStart,sub_1253E,new,high,received message type 3: a block of the given length follows (into unk_15179C),src/front/modem_game/modem_game.asm
+12577,LinkBlockData,sub_12577,new,high,received message type 4: appends its bytes to the block being received; counts the block done when it is complete,src/front/modem_game/modem_game.asm
+125FF,LinkSendBlock,sub_125FF,new,high,"(data, length): sends a block to the other side as a type 3 header and type 4 messages of 4 bytes, idling while the link is busy",src/front/modem_game/modem_game.asm
+126E9,LinkReceiveBlock,sub_126E9,new,high,"(dest, length): waits (idling) for the next block from the other side and copies it out",src/front/modem_game/modem_game.asm
+1272E,LinkSyncMessage,sub_1272E,new,high,"received message type 5: the other side's sync point number (dword_114D9E); one from this side's own number means ""quit"" (word_114DBE)",src/front/modem_game/modem_game.asm
+1277B,LinkGameMessage,sub_1277B,new,high,"message handler of a modem game: by type 1 menu values, 2 pad input, 3/4 block, 5 sync point, 6 chat text, into their queues of 10",src/front/modem_game/modem_game.asm
+1290C,LinkExchangeValues,sub_1290C,new,medium,"(a, b, flag, &a2, &b2, &flag2): sends a type 1 message with three packed values and waits (wait box after 25 ticks) for the other side's; used by a front-end screen to keep both menus in step",src/front/modem_game/modem_game.asm
+12A24,ModemGameConnect,sub_12A24,new,high,"(abort check): connects (LinkConnect) with a message up; on success sets the side (word_114CE4: 1 dialler), syncs, and the answering side sends its game options (optblock, 0B9h bytes) and option bits to the dialler; 1 when connected (byte_114D96 bit 2, word_114CE0 bit 1)",src/front/modem_game/modem_game.asm
+12E50,ShowLinkWaitBox,sub_12E50,new,high,"puts up the ""waiting for the other player"" sprite (HGwt/HFwt in hi-res, LGwt in low-res) centred on the screen, once",src/front/modem_game/modem_game.asm
+12F33,HideLinkWaitBox,sub_12F33,new,high,takes the waiting sprite down again,src/front/modem_game/modem_game.asm
+12F77,LinkSyncTimedOut,sub_12F77,new,high,"abort check used while syncing: idles, 1 once the sync deadline (dword_114DA2) has passed",src/front/modem_game/modem_game.asm
+12FB3,LinkSyncPoint,sub_12FB3,new,high,"(number, abortable): sync point: sends a type 5 message with the number and side and waits for the other side's (the dialler sends first), idling; the abort check can stop the wait",src/front/modem_game/modem_game.asm
+13146,LinkSync,sub_13146,new,high,"(show wait box): syncs with the other side at the next sync point (100-second deadline per try, ""ABORT!"" to the debug log on a timeout, retried), with the wait box",src/front/modem_game/modem_game.asm
+131EC,LinkSyncWithMessage,sub_131EC,new,high,(message): LinkSync with a message box instead of the wait box,src/front/modem_game/modem_game.asm
+13288,ModemGameClose,sub_13288,new,high,"ends a modem game: puts the option bits back, clears the message handlers, stops the link timer and closes the link (LinkClose); clears the modem game flags",src/front/modem_game/modem_game.asm
+13304,ModemGameQuit,sub_13304,new,high,"on a modem game: wait box, ModemGameClose, box down",src/front/modem_game/modem_game.asm
+13338,LinkResyncInput,sub_13338,new,high,"on a modem game: syncs, empties the pad input queues, the input record ring and SlotButtons, syncs again",src/front/modem_game/modem_game.asm
+13407,LinkExchangeInput,sub_13407,new,high,"from InputRecordTimer on a modem game: sends this side's two pads as a type 2 message (packed) and, once both sides' pads for a frame are in, pushes the frame's input record into InputRecordRing",src/front/modem_game/modem_game.asm
+1377E,ModemChat,sub_1377E,new,medium,"the modem chat box over a front-end screen: typed characters (1Fh-7Eh), Enter sends the line as type 6 messages, lines from the other side show up; Esc leaves",src/front/modem_game/modem_game.asm
 16C4D,InputRecordTimer,sub_16C4D,new,high,timer callback; every 4th tick pushes 0x12-byte record (4 slot dwords + ticks) into ring of 5,
 16D76,HandleSlotButtons,sub_16D76,new,high,"reads the 4 slot dwords; bit0 pause, bit1 replay, bits10-13/14-17 line change per team, bits18/19 goalie pull",
 16F09,RunSimFrames,sub_16F09,new,medium,runs n sim frames after HandleSlotButtons; stops on menu request,
 17025,GameLoop,sub_17025,new,medium,"the game loop PlayGame runs: takes input records out of the ring, then draws",src/front/front_1456D.asm
 17494,PlayGame,sub_17494,95PC,medium,"play a game (eax < 0: a new one); calls the slot table set-up and the game loop, as NHL95PC PlayGame",src/front/front_1456D.asm
-17675,putchar,,WATCOM,high,IDA FLIRT library signature,
+17675,ModemInitDefault,,new,medium,"was a wrong FLIRT match: ModemInit(port, ""ATZS7=60S11=55""); no caller (dead code)",src/front/link/link.asm
+1768A,ModemInit,sub_1768A,new,high,"(port, init string): ModemAttention, then ATE1, ATQ0, ATX4, ATF1 and the user's init string, split at '~' (one second pause per '~'), each answered OK; 4 when the modem does not answer",src/front/link/link.asm
+1779C,ModemHangup,sub_1779C,new,high,"(port): ModemAttention, then ATH0 and its answer; 4 when the modem does not answer",src/front/link/link.asm
+1780A,ModemDial,sub_1780A,new,high,"(port, number, prefix, tone): hangs up, then sends ATD + prefix + T (tone) or P (pulse) + number",src/front/link/link.asm
+17887,ModemAutoAnswer,sub_17887,new,high,"(port): hangs up, then ATS0=1 (answer on the first ring)",src/front/link/link.asm
+178C0,ModemWaitConnect,sub_178C0,new,high,"(port): reads one modem result: 0 for none / NO CARRIER-type results, 4 for an error, else the result code (1 / 5 / 10+ = CONNECT at some speed)",src/front/link/link.asm
+17906,ModemReadResult,sub_17906,new,high,"(port, timeout): reads a line from the modem (at most 41 characters) and matches it against the result string table off_114F1C; returns its code, -1 for none",src/front/link/link.asm
+17A32,ModemSendCommand,sub_17A32,new,high,"(port, command, flush): sends command + CR (at most 79 characters) and checks the modem echoes it; 1 when it does",src/front/link/link.asm
+17AC7,ModemAttention,sub_17AC7,new,high,"(port): flushes, waits, sends ""+++"" (escape to command mode), waits, sends AT and reads the answer; 1 when the modem answers",src/front/link/link.asm
+17B72,LinkCopyBytes,sub_17B72,new,high,"(dest, src, count): byte copy",src/front/link/link.asm
+17B9A,LinkRxPut,sub_17B9A,new,high,"(bytes, count): appends received bytes to the receive ring (10Ch bytes, byte_152810, head dword_11507C, length dword_115080)",src/front/link/link.asm
+17C02,LinkRxCopy,sub_17C02,new,high,"(offset, count, dest): copies count bytes from the receive ring at offset; 0 when not all have arrived",src/front/link/link.asm
+17C68,LinkCheckPacket,sub_17C68,new,high,"checks a received packet's sequence fields and its checksum (bytes 4-5, sub_B1830 over the packet); 1 when good",src/front/link/link.asm
+17CC8,LinkParsePacket,sub_17CC8,new,medium,"parses the packet at the head of the receive ring: sync byte 0BDh, then 'd' (64h, 12-byte data packet) or 'C' (43h, 6-byte control packet: ack / resend request); the result goes to dword_11505C (0 good, 4 bad); returns the bytes used",src/front/link/link.asm
+17E8C,LinkFirstMissingRx,sub_17E8C,new,medium,the first receive slot after the last acknowledged one that has not arrived (state != 1); -1 when none,src/front/link/link.asm
+17EE1,LinkRxAckSeq,sub_17EE1,new,medium,"advances the acknowledged receive sequence (dword_115058) over the slots that have arrived, marking them acknowledged (state 4); returns it (0FFh none) for the packet's ack byte",src/front/link/link.asm
+17F4E,LinkDefaults,sub_17F4E,new,high,"resets the link settings and state to their defaults (port 0, 9600-type speed code 9, modem, answer, timer on, ...) and empties the receive ring",src/front/link/link.asm
+1802B,SetLinkAbortCheck,sub_1802B,new,high,sets the callback (dword_15291C) the connect loop polls to give up (e.g. Esc); returns the old one,src/front/link/link.asm
+1803B,SetLinkSpareHook,sub_1803B,new,low,"swaps dword_11503C, a hook the library never calls; returns the old one",src/front/link/link.asm
+1804B,SetLinkMessageHandler,sub_1804B,new,high,"sets the callback (dword_115040) each received message is handed to, in order; returns the old one",src/front/link/link.asm
+1807B,SetLinkCheckPeriod,sub_1807B,new,medium,sets the countdown (ticks) between carrier checks / the periodic hook (dword_115068 and its reload); returns the old count,src/front/link/link.asm
+18090,LinkDeliverMessages,sub_18090,new,high,hands the received messages that are next in sequence (64-entry ring of 7 bytes) to the message handler and frees their slots,src/front/link/link.asm
+180DC,LinkStoreRxMessage,sub_180DC,new,high,stores a data packet's 6-byte payload in its receive slot (by sequence byte); 0 when the slot already holds one,src/front/link/link.asm
+1812E,LinkCarrierOK,sub_1812E,new,high,"1 on a direct (null-modem) link, else the modem's carrier detect (sub_B12AF)",src/front/link/link.asm
+18165,LinkTxRoom,sub_18165,new,high,(count): 1 when the serial transmit buffer has room for count bytes,src/front/link/link.asm
+18186,LinkCheckTimeouts,sub_18186,new,medium,"timer side of the protocol: resends data packets not acknowledged in time (str_22 ticks), asks again for receive slots still missing (dword_115074), sends an ack when one is due",src/front/link/link.asm
+18234,LinkTimerTick,sub_18234,new,high,"the link's timer callback (addtimer): when connected, runs LinkCheckTimeouts, LinkReceive and LinkDeliverMessages, and every check period the periodic hook and the carrier check (a lost carrier drops the link)",src/front/link/link.asm
+1830D,LinkClearTxSlot,sub_1830D,new,high,(slot): empties one transmit slot (24-byte entries at dword_152148),src/front/link/link.asm
+1832F,LinkClearRxSlot,sub_1832F,new,high,(slot): empties one receive slot (dword_151D48 state and the message ring entry),src/front/link/link.asm
+183CD,LinkOpen,sub_183CD,new,high,"(settings): LinkDefaults, copies the settings (port, speed, answer/dial, direct, timer, IRQ, tone, init string, number), clears all slots, opens the serial port; on a modem link ModemInit (fails -> port closed, 0); starts LinkTimerTick; 1 when open",src/front/link/link.asm
+18540,LinkConnect,sub_18540,new,high,"direct link: connected at once; modem: ModemAutoAnswer (answer) or ModemDial (dial), then waits for the connect result until the abort check says stop; 1 when connected",src/front/link/link.asm
+186DC,LinkClose,sub_186DC,new,high,"drops the link: ModemHangup on a modem link, closes the serial port, removes LinkTimerTick",src/front/link/link.asm
+18736,LinkBuildDataPacket,sub_18736,new,high,"(data, length, seq, packet): 12-byte data packet: 0BDh, 'd', seq, ack (LinkRxAckSeq), checksum, 6 bytes of data (zero padded)",src/front/link/link.asm
+187A8,LinkSetChecksum,sub_187A8,new,high,"(packet, length): writes the packet checksum (sub_B1830) into bytes 4-5",src/front/link/link.asm
+187CF,LinkRequestResend,sub_187CF,new,medium,"(slot, reason): asks the other side to send receive slot again with a 'C' control packet (unless asked recently), marks the slot requested (state 2) and calls the resend hook dword_115048",src/front/link/link.asm
+188AE,LinkSendAck,sub_188AE,new,high,sends a 6-byte 'C' control packet with no slot (0FFh) that only carries the ack sequence,src/front/link/link.asm
+1891A,LinkSendMessage,sub_1891A,new,high,"(data, length): puts a message in the next transmit slot (state 3, waiting for its ack) and sends it as a data packet; 0 when the transmit buffer or the window (31 slots) is full",src/front/link/link.asm
+189CD,LinkResendSlot,sub_189CD,new,high,(slot): sends transmit slot again (fresh ack byte and checksum) when it still waits for its ack and there is room,src/front/link/link.asm
+18A31,LinkAckThrough,sub_18A31,new,high,(seq): frees the transmit slots up to the acknowledged sequence,src/front/link/link.asm
+18A81,LinkReceive,sub_18A81,new,high,"reads what the serial port has (up to 256 bytes) into the receive ring, parses every complete packet: data packets are stored and acknowledged, bad ones ask for a resend, acks free transmit slots",src/front/link/link.asm
+18C75,LinkPoll,sub_18C75,new,medium,"without the timer: every third call LinkReceive, LinkDeliverMessages, and when the check period runs out the periodic hook and the carrier check; 1 while connected",src/front/link/link.asm
+18DB7,LinkRequestMissing,sub_18DB7,new,medium,(upto): asks again for every receive slot from the last acknowledged one up to upto that has not arrived or was asked for too long ago,src/front/link/link.asm
 197ED,EditText,sub_197ED,new,high,the front end's text-edit routine every text entry goes through,src/front/main/main.asm
 1B7F8,main_,,WATCOM,high,IDA FLIRT library signature,
 1D6F0,PlacePlayersAtStart,,95PC,medium,NHL95PC 13C79 (sem): C:613; D:16595C; D:117870; C:810,
@@ -38,32 +99,32 @@ address,name,auto_name,source,confidence,evidence,file
 1DA02,ResetGameVars,,95PC,medium,NHL95PC 14056 (sem): D:1191A3; D:1178AA; D:11919B; D:11917B,
 1DF7D,FileReadAt,,95PC,medium,NHL95PC 145A2 (sem): C:1414; C:1334; R:201; R:199,
 1E33C,IsCupClinched,sub_1E33C,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: PickThreeStars,src/front/main/main.asm
-2E95C,StartPreGame,sub_2E95C,95PC,medium,"its call lines up with the NHL95PC call in SetupDemoGame, and its address keeps the NHL95PC module order",src/engine/engine_2D9D9.asm
+2E95C,StartPreGame,sub_2E95C,95PC,medium,"its call lines up with the NHL95PC call in SetupDemoGame, and its address keeps the NHL95PC module order",src/engine/threestars/threestars.asm
 2EA39,assintrostand,,95PC,medium,NHL95PC 4842A (sem): C:428; C:809,
-2EAEB,assintroline,sub_2EAEB,95PC,high,"asstab entry 38, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/engine_2D9D9.asm
+2EAEB,assintroline,sub_2EAEB,95PC,high,"asstab entry 38, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/threestars/threestars.asm
 2ED68,AddStar,,95PC,medium,NHL95PC 48789 (similar): mnemonic similarity 0.84 over 28 instructions,
-2EDB1,StarEligible,sub_2EDB1,95PC,medium,first after AddStar as in NHL95PC,src/engine/engine_2D9D9.asm
-2EE07,StarCompare,sub_2EE07,95PC,medium,"second after AddStar as in NHL95PC, before PickThreeStars",src/engine/engine_2D9D9.asm
-2F029,assextra1,sub_2F029,new,low,placeholder (Abdul 2026-11-15): empty routine in asstab slots 14h and 15h,src/engine/engine_2D9D9.asm
+2EDB1,StarEligible,sub_2EDB1,95PC,medium,first after AddStar as in NHL95PC,src/engine/threestars/threestars.asm
+2EE07,StarCompare,sub_2EE07,95PC,medium,"second after AddStar as in NHL95PC, before PickThreeStars",src/engine/threestars/threestars.asm
+2F029,assextra1,sub_2F029,new,low,placeholder (Abdul 2026-11-15): empty routine in asstab slots 14h and 15h,src/engine/threestars/threestars.asm
 2F02A,PickThreeStars,,95PC,medium,NHL95PC 48AC8 (sem): D:176B86; C:1339; D:152FE8; D:17C9A0,
-2F3DF,TurnToward,sub_2F3DF,new,medium,every 8 ticks turns the facing direction (+36h) one step toward direction edx,src/engine/engine_2D9D9.asm
-2F41D,SkateToTarget,sub_2F41D,new,medium,"direction to the target point (+2Ah, +2Ch) with vtoa, TurnToward, then playeracc",src/engine/engine_2D9D9.asm
-2F4E2,assboxenter,sub_2F4E2,95PC,high,"asstab entry 42, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/engine_2D9D9.asm
-2F763,assbenchside,sub_2F763,95PC,high,"asstab entry 43, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/engine_2D9D9.asm
-2F8BF,assstanley,sub_2F8BF,95PC,high,"asstab entry 8, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/engine_2D9D9.asm
-2FB3D,asscupfollow,sub_2FB3D,new,medium,"asstab entry 33h, given by clockcont on a cup win and to a player who handed the cup on: skates around near the cup holder and celebrates",src/engine/engine_2D9D9.asm
-2FDE3,asscuptake,sub_2FDE3,new,medium,"asstab entry 34h, set by assstanley: skates to the cup holder, turns to face him and takes the cup (he gets 33h, the taker assignment 8)",src/engine/engine_2D9D9.asm
-2FF84,asscupleave,sub_2FF84,new,medium,"asstab entry 35h, given by clockcont to the losing team on a cup win: skates to the bench door, then is put on the bench",src/engine/engine_2D9D9.asm
-30274,assextra2,sub_30274,new,low,placeholder (Abdul 2026-11-15): called from puckstick; tests the zone analysis of assextra6 for this player,src/engine/engine_2D9D9.asm
-30309,GetPartner,sub_30309,new,medium,"returns the SortCords entry of the other player of a pair (position 1 or 2) through the team position map, else 0",src/engine/engine_2D9D9.asm
-30340,defotarget,sub_30340,new,low,"called from assdefo and assnearest: defenceman's target on offence, same shape as defdtarget",src/engine/engine_2D9D9.asm
-30483,assdefo,sub_30483,95PC,high,"asstab entry 1, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/engine_2D9D9.asm
-305C2,asscoverdefo,sub_305C2,new,medium,"asstab entry 30h, given by SwapDefWithFwd to the forward who takes over a defence spot: holds the point (y 84h) while his team attacks, else switches to 2Fh; swaps back when the link (+6Ah) ends",src/engine/engine_2D9D9.asm
-30873,defdtarget,sub_30873,new,medium,"called from assdefd, assnearest, asscoverdefd: defenceman's target on defence: his side (x 55h) and a y behind the deepest opponent",src/engine/engine_2D9D9.asm
-30A9B,assdefd,sub_30A9B,95PC,high,"asstab entry 2, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/engine_2D9D9.asm
-30CDA,asscoverdefd,sub_30CDA,new,medium,"asstab entry 2Fh, the defending half of asscoverdefo: target from defdtarget, skateto, check4check; swaps positions back when the link ends",src/engine/engine_2D9D9.asm
-30E6B,assextra3,sub_30E6B,new,low,"placeholder (Abdul 2026-11-15): called from asscenterd, asswingd, assnearest; forwards' positioning on defence, not read yet",src/engine/engine_2D9D9.asm
-312D7,asswingd,sub_312D7,95PC,high,"asstab entry 3, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/engine_2D9D9.asm
+2F3DF,TurnToward,sub_2F3DF,new,medium,every 8 ticks turns the facing direction (+36h) one step toward direction edx,src/engine/assign/assign.asm
+2F41D,SkateToTarget,sub_2F41D,new,medium,"direction to the target point (+2Ah, +2Ch) with vtoa, TurnToward, then playeracc",src/engine/assign/assign.asm
+2F4E2,assboxenter,sub_2F4E2,95PC,high,"asstab entry 42, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/assign/assign.asm
+2F763,assbenchside,sub_2F763,95PC,high,"asstab entry 43, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/assign/assign.asm
+2F8BF,assstanley,sub_2F8BF,95PC,high,"asstab entry 8, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/assign/assign.asm
+2FB3D,asscupfollow,sub_2FB3D,new,medium,"asstab entry 33h, given by clockcont on a cup win and to a player who handed the cup on: skates around near the cup holder and celebrates",src/engine/assign/assign.asm
+2FDE3,asscuptake,sub_2FDE3,new,medium,"asstab entry 34h, set by assstanley: skates to the cup holder, turns to face him and takes the cup (he gets 33h, the taker assignment 8)",src/engine/assign/assign.asm
+2FF84,asscupleave,sub_2FF84,new,medium,"asstab entry 35h, given by clockcont to the losing team on a cup win: skates to the bench door, then is put on the bench",src/engine/assign/assign.asm
+30274,assextra2,sub_30274,new,low,placeholder (Abdul 2026-11-15): called from puckstick; tests the zone analysis of assextra6 for this player,src/engine/assign/assign.asm
+30309,GetPartner,sub_30309,new,medium,"returns the SortCords entry of the other player of a pair (position 1 or 2) through the team position map, else 0",src/engine/assign/assign.asm
+30340,defotarget,sub_30340,new,low,"called from assdefo and assnearest: defenceman's target on offence, same shape as defdtarget",src/engine/assign/assign.asm
+30483,assdefo,sub_30483,95PC,high,"asstab entry 1, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/assign/assign.asm
+305C2,asscoverdefo,sub_305C2,new,medium,"asstab entry 30h, given by SwapDefWithFwd to the forward who takes over a defence spot: holds the point (y 84h) while his team attacks, else switches to 2Fh; swaps back when the link (+6Ah) ends",src/engine/assign/assign.asm
+30873,defdtarget,sub_30873,new,medium,"called from assdefd, assnearest, asscoverdefd: defenceman's target on defence: his side (x 55h) and a y behind the deepest opponent",src/engine/assign/assign.asm
+30A9B,assdefd,sub_30A9B,95PC,high,"asstab entry 2, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/assign/assign.asm
+30CDA,asscoverdefd,sub_30CDA,new,medium,"asstab entry 2Fh, the defending half of asscoverdefo: target from defdtarget, skateto, check4check; swaps positions back when the link ends",src/engine/assign/assign.asm
+30E6B,assextra3,sub_30E6B,new,low,"placeholder (Abdul 2026-11-15): called from asscenterd, asswingd, assnearest; forwards' positioning on defence, not read yet",src/engine/assign/assign.asm
+312D7,asswingd,sub_312D7,95PC,high,"asstab entry 3, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/assign/assign.asm
 313D2,assextra4,sub_313D2,new,low,"placeholder (Abdul 2026-11-15): called from asscentero, asswingo, assdefo, assnearest; positioning on offence, not read yet",src/engine/logic/logic.asm
 31805,asswingo,sub_31805,95PC,high,"asstab entry 4, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
 31958,asscenterd,sub_31958,95PC,high,"asstab entry 5, as in NHL95PC asstab; the routines around it follow the NHL95PC logic.asm order",src/engine/logic/logic.asm
@@ -289,8 +350,8 @@ address,name,auto_name,source,confidence,evidence,file
 4D881,goalieacc,sub_4D881,95PC,medium,"its call lines up with the NHL95PC call in doplayeracc, and its address keeps the NHL95PC module order",src/engine/skate/skate.asm
 4DA09,noturn0,sub_4DA09,95PC,medium,"its call lines up with the NHL95PC call in doplayeracc, and its address keeps the NHL95PC module order",src/engine/skate/skate.asm
 4DE6E,burst,sub_4DE6E,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: check4check,src/engine/skate/skate.asm
-4DED8,SaveGameState,sub_4DED8,95PC,medium,"writes the same variable list LoadGameState reads, directly before it as NHL95PC SaveGameState",src/engine/engine_4DED8.asm
-4E6C3,LoadGameState,sub_4E6C3,95PC,medium,"called from PlayGame, reads the whole game state with FileReadAt as NHL95PC LoadGameState",src/engine/engine_4DED8.asm
+4DED8,SaveGameState,sub_4DED8,95PC,medium,"writes the same variable list LoadGameState reads, directly before it as NHL95PC SaveGameState",src/engine/savestate/savestate.asm
+4E6C3,LoadGameState,sub_4E6C3,95PC,medium,"called from PlayGame, reads the whole game state with FileReadAt as NHL95PC LoadGameState",src/engine/savestate/savestate.asm
 4F453,FormatPlayerName,,95PC,medium,NHL95PC 61D48 (sem): S:%s#%d %s %s%s; D:110DC0; S:%s#%d %c. %s%s; D:110DCE,
 4F735,BuildEventLines,sub_4F735,95PC,medium,called at the same position as in NHL95PC in 1 routine(s) named in both: PostInjuryEvent,src/engine/gamelog/gamelog.asm
 4FB38,PostGoalEvent,sub_4FB38,95PC,medium,"first after BuildEventLines as NHL95PC PostGoalEvent; goalevent, hmtmgoalie",src/engine/gamelog/gamelog.asm

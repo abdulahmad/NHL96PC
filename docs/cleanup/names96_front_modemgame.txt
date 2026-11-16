@@ -1,0 +1,23 @@
+# NHL 96 PC modem game session (front_10010.asm second half), on top of the link library. PC-only.
+sub_122A6 ModemGameOpen {confidence=high} (answer, settings): copies the modem settings (port, speed, numbers, init string) and opens the link with LinkOpen, showing a message while the modem starts (unless word_17C9B0); clears the message queues; 1 when open (byte_114D96 bit 1), else shows the error
+sub_1253E LinkBlockStart {confidence=high} received message type 3: a block of the given length follows (into unk_15179C)
+sub_12577 LinkBlockData {confidence=high} received message type 4: appends its bytes to the block being received; counts the block done when it is complete
+sub_125FF LinkSendBlock {confidence=high} (data, length): sends a block to the other side as a type 3 header and type 4 messages of 4 bytes, idling while the link is busy
+sub_126E9 LinkReceiveBlock {confidence=high} (dest, length): waits (idling) for the next block from the other side and copies it out
+sub_1272E LinkSyncMessage {confidence=high} received message type 5: the other side's sync point number (dword_114D9E); one from this side's own number means "quit" (word_114DBE)
+sub_1277B LinkGameMessage {confidence=high} message handler of a modem game: by type 1 menu values, 2 pad input, 3/4 block, 5 sync point, 6 chat text, into their queues of 10
+unk_1278E jpt_1278E {no_record} jump table of LinkGameMessage
+unk_1278E_18 LinkGameMessage_18 {no_record} body after the jump table
+sub_1290C LinkExchangeValues {confidence=medium} (a, b, flag, &a2, &b2, &flag2): sends a type 1 message with three packed values and waits (wait box after 25 ticks) for the other side's; used by a front-end screen to keep both menus in step
+sub_12A24 ModemGameConnect {confidence=high} (abort check): connects (LinkConnect) with a message up; on success sets the side (word_114CE4: 1 dialler), syncs, and the answering side sends its game options (optblock, 0B9h bytes) and option bits to the dialler; 1 when connected (byte_114D96 bit 2, word_114CE0 bit 1)
+sub_12E50 ShowLinkWaitBox {confidence=high} puts up the "waiting for the other player" sprite (HGwt/HFwt in hi-res, LGwt in low-res) centred on the screen, once
+sub_12F33 HideLinkWaitBox {confidence=high} takes the waiting sprite down again
+sub_12F77 LinkSyncTimedOut {confidence=high} abort check used while syncing: idles, 1 once the sync deadline (dword_114DA2) has passed
+sub_12FB3 LinkSyncPoint {confidence=high} (number, abortable): sync point: sends a type 5 message with the number and side and waits for the other side's (the dialler sends first), idling; the abort check can stop the wait
+sub_13146 LinkSync {confidence=high} (show wait box): syncs with the other side at the next sync point (100-second deadline per try, "ABORT!" to the debug log on a timeout, retried), with the wait box
+sub_131EC LinkSyncWithMessage {confidence=high} (message): LinkSync with a message box instead of the wait box
+sub_13288 ModemGameClose {confidence=high} ends a modem game: puts the option bits back, clears the message handlers, stops the link timer and closes the link (LinkClose); clears the modem game flags
+sub_13304 ModemGameQuit {confidence=high} on a modem game: wait box, ModemGameClose, box down
+sub_13338 LinkResyncInput {confidence=high} on a modem game: syncs, empties the pad input queues, the input record ring and SlotButtons, syncs again
+sub_13407 LinkExchangeInput {confidence=high} from InputRecordTimer on a modem game: sends this side's two pads as a type 2 message (packed) and, once both sides' pads for a frame are in, pushes the frame's input record into InputRecordRing
+sub_1377E ModemChat {confidence=medium} the modem chat box over a front-end screen: typed characters (1Fh-7Eh), Enter sends the line as type 6 messages, lines from the other side show up; Esc leaves

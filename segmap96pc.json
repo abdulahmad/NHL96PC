@@ -18,27 +18,49 @@
   },
   {
    "start": 65552,
-   "end": 83309,
+   "end": 74406,
    "module": "front_10010",
    "obj": 1,
-   "file": "front/front_10010.asm",
+   "file": "front/controls/controls.asm",
    "note": "placeholder"
   },
   {
+   "obj": 1,
+   "start": 74406,
+   "end": 83309,
+   "module": "front_modem_game",
+   "file": "front/modem_game/modem_game.asm",
+   "desc": "Modem game session: open, connect and close a modem game, sync points, blocks, pad input exchange and the chat box (96 PC).",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "front"
+  },
+  {
    "start": 83309,
-   "end": 100060,
+   "end": 95861,
    "module": "front_1456D",
    "obj": 1,
    "file": "front/front_1456D.asm",
    "note": "placeholder"
   },
   {
-   "start": 100060,
-   "end": 131533,
-   "module": "main",
    "obj": 1,
+   "start": 95861,
+   "end": 102016,
+   "module": "front_link",
+   "file": "front/link/link.asm",
+   "desc": "Modem commands (AT) and the serial link protocol: packets, acks and resends, the link timer (96 PC).",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "front"
+  },
+  {
+   "obj": 1,
+   "start": 102016,
+   "end": 131533,
+   "module": "front_main",
    "file": "front/main/main.asm",
-   "note": "holds main_ (FLIRT); startup, CDSTREAM, asset loading"
+   "desc": "Front-end main: start-up, async and CD streaming, text edit fields and screen helpers (to be split as they get named).",
+   "conf": "subject split (cleanup phase 2)",
+   "group": "front"
   },
   {
    "start": 131533,

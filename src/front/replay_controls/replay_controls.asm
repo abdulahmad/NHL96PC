@@ -47,8 +47,8 @@ extern dword_178248, dword_17824C, dword_178250, dword_178254, dword_1797F4, dwo
 extern dword_179908, dword_179914, dword_179918, dword_179934, dword_179978, dword_17997C, dword_179A7C, dword_179AC8
 extern dword_179DBD, dword_179E0B, dword_179E0F, dword_179E13, dword_179E17, dword_179E1B, dword_17BA54, optflags
 extern optblock, dword_17CA5C, gameclock, gameopts, gmode, hmroster, off_11786C, off_11BA08
-extern rand_, sflags, sprintf_, strcat_, strcpy_, strlen_, sub_125FF, sub_126E9
-extern sub_13146, sub_1377E, sub_19384, sub_193E8, sub_19522, sub_1955B, sub_19799, EditText
+extern rand_, sflags, sprintf_, strcat_, strcpy_, strlen_, LinkSendBlock, LinkReceiveBlock
+extern LinkSync, ModemChat, sub_19384, sub_193E8, sub_19522, sub_1955B, sub_19799, EditText
 extern sub_1A109, sub_1D6C1, sub_1DF34, sub_1DF55, sub_1DFEA, sub_1E5FC, sub_1E7F6, sub_1EFFF
 extern sub_1F300, sub_23476, sub_2363D, sub_23820, sub_23AE5, sub_23C91, sub_2500F, sub_25502
 extern sub_25820, sub_2767F, sub_27BF1, sub_28327, sub_283C1, sub_28A87, sub_28C50, sub_2976B
@@ -326,7 +326,7 @@ sub_54769:
         mov eax, 1
         call sub_25820
         mov eax, 1
-        call sub_13146
+        call LinkSync
         cmp dword [dword_11A3FC], byte 0
         jne short .8
         call sub_68FFE
@@ -2525,11 +2525,11 @@ sub_564A4:
 .2:
         mov edx, 12Ch
         mov eax, edi
-        call sub_125FF
+        call LinkSendBlock
         jmp short .5
 .3:
         mov edx, 12Ch
-        call sub_126E9
+        call LinkReceiveBlock
 .4:
         mov eax, dword [off_11786C]
         add eax, 1110Ch
@@ -2542,7 +2542,7 @@ sub_564A4:
         jmp short .4
 .5:
         mov eax, 1
-        call sub_13146
+        call LinkSync
         push edi
         call sub_ABF4C
         add esp, byte 4
@@ -3166,7 +3166,7 @@ sub_564A4:
         call sub_63998
 .18:
         mov eax, 1
-        call sub_13146
+        call LinkSync
         jmp near sub_564A4_E86
 .19:
         mov eax, 16h
@@ -3443,7 +3443,7 @@ sub_564A4_1110:
         push byte 0
         mov edx, 1Bh
         xor eax, eax
-        call sub_1377E
+        call ModemChat
         jmp near sub_564A4_E86
 .38:
         call sub_68FB5

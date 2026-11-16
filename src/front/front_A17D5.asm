@@ -27,7 +27,7 @@ extern dword_1844F6, dword_184558, dword_18455C, dword_1845BE, dword_1845C2, dwo
 extern dword_184674, dword_184678, dword_18467C, dword_184680, dword_184684, dword_1846F0, dword_1846F4, dword_1846F8
 extern fadeinpending, gameopts, hmtmstruct, sub_A4FD7_73, sub_A4FD7_89, sub_A4FD7_A6, sub_A4FD7_CD, sub_A4FD7_D6
 extern sub_A4FD7_E1, sub_A4FD7_102, sub_A4FD7_115, sprintf_, strcat_, strcpy_, InitSlotTable, ResetInputSlots
-extern sub_13146, sub_1377E, sub_15344, sub_19384, sub_193E8, sub_19522, sub_1955B, sub_19799
+extern LinkSync, ModemChat, sub_15344, sub_19384, sub_193E8, sub_19522, sub_1955B, sub_19799
 extern EditText, sub_1A109, sub_1B05E, sub_1E383, sub_1E3A7, sub_1E5FC, sub_1E7F6, sub_1EE7C
 extern sub_1EFFF, sub_21BE3, sub_25087, sub_251E6, sub_25EB3, sub_28459, sub_2929F, sub_29B9F
 extern sub_2E1BE, sub_3A6F3, sub_5A4FF, sub_5A572, CloseTextOverlay, sub_60777, sub_60823, sub_612BC
@@ -939,7 +939,7 @@ sub_A21FB:
         call sub_66373
         xor eax, eax
         mov dword [byte ebp+076h], 0
-        call sub_13146
+        call LinkSync
 .2:
         call sub_69A9B
         cmp dword [byte ebp+076h], byte 0
@@ -1508,7 +1508,7 @@ sub_A25CD:
         dec eax
         mov dword [dword_11ED30], eax
         mov eax, 1
-        call sub_13146
+        call LinkSync
         cmp word [word_114F14], byte 0
         jne short .24
         movsx eax, word [word_16581E]
@@ -1749,7 +1749,7 @@ sub_A25CD_ABD:
         add esp, byte 4
         call sub_251E6
         mov eax, 1
-        call sub_13146
+        call LinkSync
         mov eax, 3
         call sub_63A5B
         call sub_B0CA8
@@ -1796,7 +1796,7 @@ sub_A25CD_ABD:
         mov eax, unk_16443C
         call sub_6423E
         mov eax, 1
-        call sub_13146
+        call LinkSync
         mov eax, dword [byte ebp-014h]
         xor edx, edx
         call CrowdNoiseReset
@@ -1836,7 +1836,7 @@ sub_A25CD_D17:
         push byte 0
         mov edx, 1Bh
         xor eax, eax
-        call sub_1377E
+        call ModemChat
         jmp near sub_A25CD_ABD.49
 .54:
         xor edx, edx
@@ -3175,7 +3175,7 @@ sub_A3CF8_B78:
         push dword 0FEh
         mov edx, 0F7h
         mov eax, 1
-        call sub_1377E
+        call ModemChat
 .15:
         cmp dword [byte ebp+07Eh], byte 0
         jl near sub_A3CF8.2
